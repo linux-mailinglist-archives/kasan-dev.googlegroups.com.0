@@ -1,123 +1,126 @@
-Return-Path: <kasan-dev+bncBCJZXCHARQJRBZMGS6CQMGQE46MDSEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBOGTS6CQMGQE4FVRUGA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B758389B20
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 May 2021 04:03:19 +0200 (CEST)
-Received: by mail-pg1-x53e.google.com with SMTP id 139-20020a6304910000b029021636f6732asf9487638pge.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 May 2021 19:03:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621476198; cv=pass;
+Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
+	by mail.lfdr.de (Postfix) with ESMTPS id A83BB389CD0
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 May 2021 06:46:50 +0200 (CEST)
+Received: by mail-pj1-x103a.google.com with SMTP id bo19-20020a17090b0913b029015d14c17c54sf4341364pjb.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 May 2021 21:46:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621486009; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ECngDcYdapUzjkaaAdquqrMMfxwMDFDJM1Bb71ziMrReWisicd66/XNcn2ERndMIOo
-         /RWF1NxiTXHvn0fQbcS8ymYcA+J3CaVVdOWj3iUWVxqQ8MBWFUqIvE3LcNvKnh5O8Z1X
-         BLbNp0rusSXF4VaU6P/4MgOcxnkCgz1501Lod46sca2l9PauL31yLEYNw2bgyWuVYO5g
-         mYUnT31GepvgYwwFOjCqrxU39Grnl1AHISbHMgsysLSMcsUBbXlZOLnltUtNk4PXcM5F
-         etFgmwh4MBd1NwM+uUOGRVfuz9S6I2V4DUt/UtGEyILXNv/9dY0UR7CMQeJtVZzzkH60
-         WxuA==
+        b=IWSazt/6sUwwtqCMBgSVd/g3BBk/2ufz2aCns0AAp5dDhKpLIQkyy4Rx4zr/LTMHfm
+         jwXUDx8ISUWv64qNgVbMnMHty8dsUYpcTBwpn4fcYNAd6oNHdk4x70yXr1Ns+LVpkKNd
+         N5tNpm1rvHlsP1foMDtRpebKZ4XtbCD7xFaiBf/MG7dD1/MsAa+yXRd8G+4yy6N4Pd6+
+         pQwAjgPpOJGANIZ7ZVCrX7PNesonppMLndzr7wm/wb+ArOLCZF46KZaMNueZ8nnjWZ/+
+         jPnUl/afniAfLKMCRtBpjYbVBywfyAZXORxRXl+H60ssKYtF6bPeh7xiGJSRiCEpMJRS
+         tQgg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=6jzVRvfdn3Cqmp8UemGcH50yTQmtfFo46RNS34T5pSA=;
-        b=nNnz3yv9vhJ9C20/nF0DWuyqSfKq+6fXIvauJHKz3zwaHHW+lFmpGE2c8JeXRPj5iG
-         6Sdm9ga32iJ+0bloHzhChchLUCeeEivSIYZjJdCq7U71W5uzUtt6MpxZCW1F3/C9ggru
-         fJkwo6Cv0vLEbXKb7IL1uD5jJB4kguZaSFQ6vDQZWceNGRklxrYC7JiDVhzpNttY6N9e
-         vc3dIJgFgrSTU3Q2XrjP7RX6my0nnRVBdFMktOh8/hUQqIMbVDPpy5L1dNNFgpaKZzuD
-         JpLGYFQ0ed3oBXwPKdBWohex2BMj7Hz6asDoFFuJ48fD3t4tgZr4FlWrRg2wdTwUdvqv
-         Rn6w==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=za9q7ibJY6/FDFVy7YIoEJfS/0UjT35hAi4RCGRQ3k8=;
+        b=rIt7+wOq04bdx+1gFSbKz76A1yUfT/BJud8F2dCJUdqsIyQ2HqxDVqY42B7fcwkvJ0
+         TrvY7XC0mmBEL8qsfvBR0AuicHisjha2VUnZmp/cpPkdBPcAMNCnR11b5lmB0Djzyb6f
+         Xtw4kq0q6pS7ej/yxCKKv4ov4bSIzQza4VpZkMffIyue/jUvWl7ztp3y/BMyQqhUHnxn
+         BRoSyP/v8ZB/GXRoL0+AaqgTrtQSDkOdCI7YJGrZXUtAKQClEMTeI+xoPMQ9JtcWIrXL
+         +HRRsmWhOudQ2RGRds5FSAUibsCiUFocOEYAlKiY/oCdKahlJfeXHAvs8m3eJfRvL4yI
+         4ToA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Ffv4hWV7;
-       spf=pass (google.com: domain of 3zmolyackcy0vbxv4z9x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--eugenis.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3ZMOlYAcKCY0vBxv4z9x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--eugenis.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=i+jg8hta;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f33 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=6jzVRvfdn3Cqmp8UemGcH50yTQmtfFo46RNS34T5pSA=;
-        b=awcZuFdWzVcJaH4OH6xLbqDVZ9yW/+zW7SIqj4UGzVXma0pG10fpGrCvzD+EFf5GTP
-         Uwmy3sDAMK33rusIpa9TtdxC1bHC838VFtubl27jO7BzWK5JeIyjOer0Kga8WYXufxV5
-         jaymjYhmzontPmeEq2NRpb/RRBZoTbvT0sqUPzx+FjWcxJhzo6WEnPxuFMiC53NZX5yn
-         rMFT+7Os6dgBVKm9y6kMzoiC9HVMehfA4pdzLx5lGM5EfnbCdlAWYJ4pruOoFlWBQgQi
-         K8ig9u0KgzLb2W+LB2L5RSXzvyY08teq1XGL9n3CdeCL8C5cKyKDEutf/S2Sifc1VD3w
-         hj+g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=za9q7ibJY6/FDFVy7YIoEJfS/0UjT35hAi4RCGRQ3k8=;
+        b=q79Nl+HUw9iuTw3kjRGjxkzye2G4wngMbZC7Inn0bP1jIMYP+q9qADC4NPtzclV675
+         7gCYbm2qw6sDPG+zdzBtNFsSzgR4S0MMHif4YTDKs40LgYbNoSXxsLGvm95qFpj4XMW7
+         535J8GUyxxaLgZFZ2go0GsJCrB0qE6dOGHUswfozGNdXy33L6T2dl3yhklj2hvAFEosP
+         +bfPm6A9qx8ZnA1x4AsjIoYKX1283DtZmqHxtHs3Fhf2ZFmKuOlTlWMNeP4uzZbm2lTQ
+         yT4em3bXqahMPIevxrW0TjaD06W7z6Wp2i6OpKJnELEkMRYAIf+EEYsNC1hllUSZ9sVr
+         Ydhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=6jzVRvfdn3Cqmp8UemGcH50yTQmtfFo46RNS34T5pSA=;
-        b=hTHVmpH3AfhSpRPO6wHGCL90U8FPpTGmWd1zkvbX0Sx7LQzwlJxMjMxBlAFQKyPJGZ
-         I9Jzfm0mYHpOp9EETls7DsCF8PnV7hez9GiyBOyv8splsq2wULzhl9xNybRteFbfoPr7
-         b/yzPYajl2CKDnuj9D7hrJNuc0ViV0lEg0sFCZDts3mk6lEf4VvQaXkiOa8Iec5pLbez
-         2aU4wOBjAs/Kor5y1HJmLx10c4HUP4D9pKWuzZc7pCwajkTB+PtO2PxsysLirkEBfCdf
-         XE4unPU1aliSK48UdcdKPUMqlNTjLIKatpnRCAZW/WdHuWJW5BptQWz3v/oWRRDwKC4D
-         dfYw==
-X-Gm-Message-State: AOAM5318a/FLwf0dN+8pDZERPrfRsnj07z1+TsStFumh1k8swbPX8f9/
-	xCbsspy0msk36gVNH493LCc=
-X-Google-Smtp-Source: ABdhPJwjGwPc44MG7xyAvmPVUBMifYHO8leNIgF3h3MQ6nlkmfVFR/TE5tKf+ikhVUAltih+BM8dhQ==
-X-Received: by 2002:a17:902:ea06:b029:f1:9082:3ddc with SMTP id s6-20020a170902ea06b02900f190823ddcmr3029648plg.43.1621476197934;
-        Wed, 19 May 2021 19:03:17 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=za9q7ibJY6/FDFVy7YIoEJfS/0UjT35hAi4RCGRQ3k8=;
+        b=Nd/5KC4g7qGk7l7Qzc39yXRDnZziH3Eox7srB+aFTCeoINH5NMhBSgbZc/YYe76y5M
+         KKDSBo/f6hiMrCMxSuk1i+iHwr2vLkf0tAqrgdjU8VWREzN8Z06MyIIRO1bVzBAgjsx9
+         0XkUWmioIra2I9ZP8RyfCwt2o2c4b2g3/pDE4biJ3N5JA9sdVaYGf3ykKVYFysT0oZNa
+         bz10PwOLu1RnvtS7kQ6CbaKvGL3nPoAUD9NFVtqpZ/5+AbUvZf3YAzD+nYqgCpAVbtYm
+         N/AX+xCfQM9NZ9vWtQg21dm5ohf8vih6r+oOCxJCZDUdNpAMwHM5/TRhsCPFGxL1gGOz
+         PMqA==
+X-Gm-Message-State: AOAM533apwwHRrheClWNhiHUIcvEWRXrZwKtygS0xnH3iBXiLucU8H7X
+	yUVna06S65GPdS3AG4cm+YE=
+X-Google-Smtp-Source: ABdhPJx3N2dEuqOvwEEZx24cEQI0cH1GALyL4lQEPC+1nMfWXT2UajonIiJtG/btko4NJcdlsFNAMg==
+X-Received: by 2002:a62:3344:0:b029:25e:a0a8:1c51 with SMTP id z65-20020a6233440000b029025ea0a81c51mr2675617pfz.58.1621486009126;
+        Wed, 19 May 2021 21:46:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:8d95:: with SMTP id v21ls731478plo.8.gmail; Wed, 19
- May 2021 19:03:17 -0700 (PDT)
-X-Received: by 2002:a17:90b:180b:: with SMTP id lw11mr2137604pjb.141.1621476197243;
-        Wed, 19 May 2021 19:03:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621476197; cv=none;
+Received: by 2002:aa7:8184:: with SMTP id g4ls652815pfi.4.gmail; Wed, 19 May
+ 2021 21:46:48 -0700 (PDT)
+X-Received: by 2002:a62:4ecc:0:b029:2d7:d315:2579 with SMTP id c195-20020a624ecc0000b02902d7d3152579mr2550820pfb.21.1621486008492;
+        Wed, 19 May 2021 21:46:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621486008; cv=none;
         d=google.com; s=arc-20160816;
-        b=Yn1m9ZGG56dTlRMLmqQpwmc3GfDWgF77PTH0kWmnopmkXM4xdP2+6AIQlBl/ltkydm
-         wMfxCQqERX0FzN9jRXo5GTypeQDpw0j+4btxvNJlDeBc1GxFrW74r42zI6/1OUKvW/Xb
-         WlhvYGiaQ4Wquli8EalKYONXZJzp951h7c78LAtgdZT7fgjRFEA0jylfxtGt6peI/4Ql
-         oFI7OgEsCArmFtJ2/zoi10BBPVoV03LknXdWqDf0UcOJcz+4NI+h8Lz2AbgIeI/h+pkO
-         5XVIJFGDXOVBXm7TkJ8ptMHgpfM7Dbj6d49Uq3cZPRKAjwKUcn+U5o7m7Hm06SErZRSi
-         1v3Q==
+        b=kuvozHco0EH36M1okt0lt/1D/TtTG3bBcE9K65Etv9TXFibs8+/7HOmAWAptZPO0nr
+         0xoUE0JaKEEBP26SxKkwXPFGfIVOe8/8uqCFWEp+DFkUSwRcwU9oejd2Frh+de7v8cnV
+         4x6n+lfpHUIMDoplYbMfa/LeB+dv8CBXDt4SJHcjBthg6K29DXN86NMSCHdgwPZoUx34
+         hchc7NQxXxmNl2fEXsrQBwZe7wQzQqilGc0quiMJdYfqkmJjkJhLTHXmn23bXf9d4AXK
+         Zo/UmcnmlPE28ibTRqkREQVB36lGuhydfzcJQZjtpF8wxUevgTXx7yz44JK/d7m/1Gc7
+         6IfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=RWXPMPgEuCU/3b7hbbrURn9Chl/0n89KN/Wk7Q6xjkE=;
-        b=t86e+q7e9Pn0SM+Ykzqx5wCipyzEcGj95S6nQYmsKwIkG6T7JFt/jJusZYPPFtDGdP
-         i/RuCCjtO5J14ijEaKROMNzgvdvK2SEbVhWXpPq9LSx3kruTLwL20oPq8q7mC53CegHy
-         F65XKATeCoeLKYeCxvGcKJsTG0oJf8WEmV6jw111Gaei7NmYb/hFeT2lubsLOexDDcNN
-         tmozJPVUuJD4wFJXiW1Jx7dWB9VppoQ72vyorHQJPo0/NHPBmLpt5bv53QupgsNy+Cge
-         xgvFY16h/HCe1ZFKtSjmlTyCPcHwMmxLd4Za4ut8ek4doM+0b95csFH5C5QCy0Lj1jwQ
-         sEfQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=acWOWB79IB5wK5gqHZwES9UHk0FkmXJsAWxv92aElkw=;
+        b=L0oiKdI9r9wAomuhe8r9bmIZpMhGTpL7BDQSivWOGdWj23wrRZ5p32G9LCWAV9MYRl
+         YmymRttH632lDnjwTp0S8ZaoYL22bRIirG4+oa0nc8Oon+bgBlvL0sIXZWmPLtmVEC/V
+         yYLKuS+ZFjGENOH6VZX8BF3DQfL/9bnane9gzquT/j+jyPP+gg9FVzrJArD0+JqiPn4W
+         OqKruC+s0gXHFuDBhb6ODSv8xXhExZLvomxBbZr0qnGvJEuFc/9YzJSgfluxMY0lZl18
+         unDBZSOxEpLlAe90eHEhv0Aq2oDFY8bE1RkCAyte6MkV9oGTSAoS8gOpoWu35RqTn4dK
+         qeAw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=Ffv4hWV7;
-       spf=pass (google.com: domain of 3zmolyackcy0vbxv4z9x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--eugenis.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3ZMOlYAcKCY0vBxv4z9x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--eugenis.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=i+jg8hta;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f33 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
-        by gmr-mx.google.com with ESMTPS id b17si153223pgs.1.2021.05.19.19.03.17
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com. [2607:f8b0:4864:20::f33])
+        by gmr-mx.google.com with ESMTPS id f1si215452plt.3.2021.05.19.21.46.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 May 2021 19:03:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3zmolyackcy0vbxv4z9x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--eugenis.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
-Received: by mail-yb1-xb4a.google.com with SMTP id q6-20020a25bfc60000b02904f9715cd13cso20482789ybm.3
-        for <kasan-dev@googlegroups.com>; Wed, 19 May 2021 19:03:17 -0700 (PDT)
-X-Received: from eugenis.svl.corp.google.com ([2620:15c:2ce:200:b800:442e:78b7:3fac])
- (user=eugenis job=sendgmr) by 2002:a25:b701:: with SMTP id
- t1mr3595486ybj.348.1621476196428; Wed, 19 May 2021 19:03:16 -0700 (PDT)
-Date: Wed, 19 May 2021 19:03:05 -0700
-Message-Id: <20210520020305.2826694-1-eugenis@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
-Subject: [PATCH v4] kasan: speed up mte_set_mem_tag_range
-From: "'Evgenii Stepanov' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Steven Price <steven.price@arm.com>, Peter Collingbourne <pcc@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, kasan-dev@googlegroups.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+        Wed, 19 May 2021 21:46:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f33 as permitted sender) client-ip=2607:f8b0:4864:20::f33;
+Received: by mail-qv1-xf33.google.com with SMTP id ee9so8020738qvb.8
+        for <kasan-dev@googlegroups.com>; Wed, 19 May 2021 21:46:48 -0700 (PDT)
+X-Received: by 2002:a0c:f883:: with SMTP id u3mr3374112qvn.44.1621486007445;
+ Wed, 19 May 2021 21:46:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210512181836.GA3445257@paulmck-ThinkPad-P17-Gen-1>
+ <CACT4Y+Z+7qPaanHNQc4nZ-mCfbqm8B0uiG7OtsgdB34ER-vDYA@mail.gmail.com>
+ <20210517164411.GH4441@paulmck-ThinkPad-P17-Gen-1> <CANpmjNPbXmm9jQcquyrNGv4M4+KW_DgcrXHsgDtH=tYQ6=RU4Q@mail.gmail.com>
+ <20210518204226.GR4441@paulmck-ThinkPad-P17-Gen-1> <CANpmjNN+nS1CAz=0vVdJLAr_N+zZxqp3nm5cxCCiP-SAx3uSyA@mail.gmail.com>
+ <20210519185305.GC4441@paulmck-ThinkPad-P17-Gen-1> <CANpmjNMskihABCyNo=cK5c0vbNBP=fcUO5-ZqBJCiO4XGM47DA@mail.gmail.com>
+In-Reply-To: <CANpmjNMskihABCyNo=cK5c0vbNBP=fcUO5-ZqBJCiO4XGM47DA@mail.gmail.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 20 May 2021 06:46:35 +0200
+Message-ID: <CACT4Y+bNeErg4L5Tn=asK6ZNr+V6bnwwuD+Pg26x=pMO+pRXXw@mail.gmail.com>
+Subject: Re: "Learning-based Controlled Concurrency Testing"
+To: Marco Elver <elver@google.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, syzkaller <syzkaller@googlegroups.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: eugenis@google.com
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=Ffv4hWV7;       spf=pass
- (google.com: domain of 3zmolyackcy0vbxv4z9x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--eugenis.bounces.google.com
- designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3ZMOlYAcKCY0vBxv4z9x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--eugenis.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Evgenii Stepanov <eugenis@google.com>
-Reply-To: Evgenii Stepanov <eugenis@google.com>
+ header.i=@google.com header.s=20161025 header.b=i+jg8hta;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f33
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,150 +133,123 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Use DC GVA / DC GZVA to speed up KASan memory tagging in HW tags mode.
+On Wed, May 19, 2021 at 10:24 PM Marco Elver <elver@google.com> wrote:
+>
+> On Wed, 19 May 2021 at 20:53, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > On Wed, May 19, 2021 at 11:02:43AM +0200, Marco Elver wrote:
+> > > On Tue, 18 May 2021 at 22:42, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > [...]
+> > > > > All the above sound like "functional coverage" to me, and could be
+> > > > > implemented on top of a well-thought-out functional coverage API.
+> > > > > Functional coverage is common in the hardware verification space to
+> > > > > drive simulation and model checking; for example, functional coverage
+> > > > > could be "buffer is full" vs just structural (code) coverage which
+> > > > > cannot capture complex state properties like that easily.
+> > > > >
+> > > > > Similarly, you could then say things like "number of held locks" or
+> > > > > even alluding to your example (5) above, "observed race on address
+> > > > > range". In the end, with decent functional coverage abstractions,
+> > > > > anything should hopefully be possible.
+> > > >
+> > > > Those were in fact the lines along which I was thinking.
+> > > >
+> > > > > I've been wondering if this could be something useful for the Linux
+> > > > > kernel, but my guess has always been that it'd not be too-well
+> > > > > received because people don't like to see strange annotations in their
+> > > > > code. But maybe I'm wrong.
+> > > >
+> > > > I agree that it is much easier to get people to use a tool that does not
+> > > > require annotations.  In fact, it is best if it requires nothing at all
+> > > > from them...
+> > >
+> > > While I'd like to see something like that, because it'd be beneficial
+> > > to see properties of the code written down to document its behaviour
+> > > better and at the same time machine checkable, like you say, if it
+> > > requires additional effort, it's a difficult sell. (Although the same
+> > > is true for all other efforts to improve reliability that require a
+> > > departure from the "way it used to be done", be it data_race(), or
+> > > even efforts introducing whole new programming languages to the
+> > > kernel.)
+> >
+> > Fair point!  But what exactly did you have in mind?
+>
+> Good question, I'll try to be more concrete -- most of it are
+> half-baked ideas and questions ;-), but if any of it makes sense, I
+> should maybe write a doc to summarize.
+>
+> What I had in mind is a system to write properties for both functional
+> coverage, but also checking more general properties of the kernel. The
+> latter I'm not sure about how useful. But all this isn't really used
+> for anything other than in debug builds.
+>
+> Assume we start with macros such as "ASSERT_COVER(...)" (for
+> functional coverage) and "ASSERT(...)" (just plain-old assertions).
+> The former is a way to document potentially interesting states (useful
+> for fuzzers to reach them), and the latter just a way to just specify
+> properties of the system (useful for finding the actual bugs).
+> Implementation-wise the latter is trivial, the former requires some
+> thought on how to expose that information to fuzzers and how to use
+> (as Dmitry suggested it's not trivial). I'd also imagine we can have
+> module-level variants ("GLOBAL_ASSERT*(...)") that monitor some global
+> state, and also add support for some subset of temporal properties
+> like "GLOBAL_ASSERT_EVENTUALLY(precond, eventually_holds)" as
+> suggested below.
+>
+> I guess maybe I'd have to take a step back and just ask why we have no
+> way to write plain and simple assertions that are removed in non-debug
+> builds? Some subsystems seem to roll their own, which a 'git grep
+> "#define ASSERT"' tells me.
+>
+> Is there a fundamental reason why we shouldn't have them, perhaps
+> there was some past discussion? Today we have things like
+> lockdep_assert_held(), but nothing to even write a simple assert
+> otherwise. If I had to guess why something like ASSERT is bad, it is
+> because it gives people a way to check for unexpected conditions, but
+> if those checks disappear in non-debug builds, the kernel might be
+> unstable. Therefore every possible state must be handled and we must
+> always be able to recover. The argument in favor is, if the ASSERT()s
+> are proven invariants or conditions where we'd recover either way, and
+> are only there to catch accidental regressions during testing; and in
+> non-debug builds we don't suffer the performance overheads.
 
-The first cacheline is always tagged using STG/STZG even if the address is
-cacheline-aligned, as benchmarks show it is faster than a conditional
-branch.
+There are some (see below) and I am sure there are precedents in other
+subsystems as well.
+What's the rationale behind not having a common debug assert/config...
+maybe because nobody cared enough. The current approach is poorly
+suited for CIs/generic testing but fine for human-oriented workflows
+for testing a single subsystem only.
 
-Signed-off-by: Evgenii Stepanov <eugenis@google.com>
-Co-developed-by: Peter Collingbourne <pcc@google.com>
-Signed-off-by: Peter Collingbourne <pcc@google.com>
----
-Changelog since v1:
-- Added Co-developed-by.
-
-Changelog since v2:
-- Added Signed-off-by.
-
-Changelog since v3:
-- Move the implementation back to C with a bit of inline asm.
-
- arch/arm64/include/asm/mte-kasan.h | 98 +++++++++++++++++++++---------
- 1 file changed, 70 insertions(+), 28 deletions(-)
-
-diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
-index ddd4d17cf9a0..34e23886f346 100644
---- a/arch/arm64/include/asm/mte-kasan.h
-+++ b/arch/arm64/include/asm/mte-kasan.h
-@@ -48,43 +48,85 @@ static inline u8 mte_get_random_tag(void)
- 	return mte_get_ptr_tag(addr);
- }
- 
-+static inline u64 __stg_post(u64 p)
-+{
-+	asm volatile(__MTE_PREAMBLE "stg %0, [%0], #16"
-+		     : "+r"(p)
-+		     :
-+		     : "memory");
-+	return p;
-+}
-+
-+static inline u64 __stzg_post(u64 p)
-+{
-+	asm volatile(__MTE_PREAMBLE "stzg %0, [%0], #16"
-+		     : "+r"(p)
-+		     :
-+		     : "memory");
-+	return p;
-+}
-+
-+static inline void __dc_gva(u64 p)
-+{
-+	asm volatile(__MTE_PREAMBLE "dc gva, %0" : : "r"(p) : "memory");
-+}
-+
-+static inline void __dc_gzva(u64 p)
-+{
-+	asm volatile(__MTE_PREAMBLE "dc gzva, %0" : : "r"(p) : "memory");
-+}
-+
- /*
-  * Assign allocation tags for a region of memory based on the pointer tag.
-  * Note: The address must be non-NULL and MTE_GRANULE_SIZE aligned and
-- * size must be non-zero and MTE_GRANULE_SIZE aligned.
-+ * size must be MTE_GRANULE_SIZE aligned.
-  */
--static inline void mte_set_mem_tag_range(void *addr, size_t size,
--						u8 tag, bool init)
-+static inline void mte_set_mem_tag_range(void *addr, size_t size, u8 tag,
-+					 bool init)
- {
--	u64 curr, end;
-+	u64 curr, DCZID, mask, line_size, end1, end2, end3;
- 
--	if (!size)
--		return;
-+	/* Read DC G(Z)VA store size from the register. */
-+	__asm__ __volatile__(__MTE_PREAMBLE "mrs %0, dczid_el0"
-+			     : "=r"(DCZID)::);
-+	line_size = 4ul << (DCZID & 0xf);
- 
- 	curr = (u64)__tag_set(addr, tag);
--	end = curr + size;
--
--	/*
--	 * 'asm volatile' is required to prevent the compiler to move
--	 * the statement outside of the loop.
-+	mask = line_size - 1;
-+	/* STG/STZG up to the end of the first cache line. */
-+	end1 = curr | mask;
-+	end3 = curr + size;
-+	/* DC GVA / GZVA in [end1, end2) */
-+	end2 = end3 & ~mask;
-+
-+	/* The following code uses STG on the first cache line even if the start
-+	 * address is cache line aligned - it appears to be faster than an
-+	 * alignment check + conditional branch. Also, if the size is at least 2
-+	 * cache lines, the first two loops can use post-condition to save one
-+	 * branch each.
- 	 */
--	if (init) {
--		do {
--			asm volatile(__MTE_PREAMBLE "stzg %0, [%0]"
--				     :
--				     : "r" (curr)
--				     : "memory");
--			curr += MTE_GRANULE_SIZE;
--		} while (curr != end);
--	} else {
--		do {
--			asm volatile(__MTE_PREAMBLE "stg %0, [%0]"
--				     :
--				     : "r" (curr)
--				     : "memory");
--			curr += MTE_GRANULE_SIZE;
--		} while (curr != end);
--	}
-+#define SET_MEMTAG_RANGE(stg_post, dc_gva)		\
-+	do {						\
-+		if (size >= 2 * line_size) {		\
-+			do {				\
-+				curr = stg_post(curr);	\
-+			} while (curr < end1);		\
-+							\
-+			do {				\
-+				dc_gva(curr);		\
-+				curr += line_size;	\
-+			} while (curr < end2);		\
-+		}					\
-+							\
-+		while (curr < end3)			\
-+			curr = stg_post(curr);		\
-+	} while (0)
-+
-+	if (init)
-+		SET_MEMTAG_RANGE(__stzg_post, __dc_gzva);
-+	else
-+		SET_MEMTAG_RANGE(__stg_post, __dc_gva);
-+#undef SET_MEMTAG_RANGE
- }
- 
- void mte_enable_kernel_sync(void);
--- 
-2.31.1.751.gd2f1c929bd-goog
+$ grep DEBUG_VM mm/*.c
+mm/debug.c:#ifdef CONFIG_DEBUG_VM
+mm/debug.c:#endif /* CONFIG_DEBUG_VM */
+mm/filemap.c: if (!IS_ENABLED(CONFIG_DEBUG_VM) && unlikely(page_mapped(page))) {
+mm/huge_memory.c: if (IS_ENABLED(CONFIG_DEBUG_VM) && mapcount) {
+mm/interval_tree.c:#ifdef CONFIG_DEBUG_VM_RB
+mm/interval_tree.c:#ifdef CONFIG_DEBUG_VM_RB
+mm/ksm.c:#ifdef CONFIG_DEBUG_VM
+mm/ksm.c:#if defined (CONFIG_DEBUG_VM) && defined(CONFIG_NUMA)
+mm/memcontrol.c:#ifdef CONFIG_DEBUG_VM
+mm/memcontrol.c:#ifdef CONFIG_DEBUG_VM
+mm/mmap.c:#ifdef CONFIG_DEBUG_VM_RB
+mm/page_alloc.c:#ifdef CONFIG_DEBUG_VM
+mm/page_alloc.c: if (!IS_ENABLED(CONFIG_DEBUG_VM)) {
+mm/page_alloc.c:#ifdef CONFIG_DEBUG_VM
+mm/page_alloc.c: * With DEBUG_VM enabled, order-0 pages are checked
+immediately when being freed
+mm/page_alloc.c: * With DEBUG_VM disabled, order-0 pages being freed
+are checked only when
+mm/page_alloc.c:#endif /* CONFIG_DEBUG_VM */
+mm/page_alloc.c:#ifdef CONFIG_DEBUG_VM
+mm/page_alloc.c: * With DEBUG_VM enabled, order-0 pages are checked
+for expected state when
+mm/page_alloc.c: * With DEBUG_VM disabled, free order-0 pages are
+checked for expected state
+mm/page_alloc.c:#endif /* CONFIG_DEBUG_VM */
+mm/slab_common.c:#ifdef CONFIG_DEBUG_VM
+mm/vmacache.c:#ifdef CONFIG_DEBUG_VM_VMACACHE
+mm/vmstat.c:#ifdef CONFIG_DEBUG_VM_VMACACHE
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210520020305.2826694-1-eugenis%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbNeErg4L5Tn%3DasK6ZNr%2BV6bnwwuD%2BPg26x%3DpMO%2BpRXXw%40mail.gmail.com.
