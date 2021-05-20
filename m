@@ -1,131 +1,136 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBB4EYTKCQMGQEULEDIRI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXI5NHXRMCRBPP7TKCQMGQEAUXXFQY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5F238B426
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 May 2021 18:21:05 +0200 (CEST)
-Received: by mail-qt1-x839.google.com with SMTP id z14-20020ac8710e0000b029020e9ce69225sf1991343qto.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 May 2021 09:21:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621527664; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id C134738B7EC
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 May 2021 21:59:57 +0200 (CEST)
+Received: by mail-lj1-x23e.google.com with SMTP id x26-20020a2e9c9a0000b02900eaf62d380esf8049391lji.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 May 2021 12:59:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621540797; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hkDx53vljJwYMNPrcXLEeDWibUWew8QFc9uLKTvtXyjW6nn6WEqCCQaQD+Iuy3it7L
-         uIpFcQL1B2eQ163ZH0twUZIh0UhQbWbwch4AoGWrAcbxZgYeUag2ORMMP4o86wLHjeeO
-         8kKD0aARFAf7Chqv+KktAeAS4zjS/S8jieMsxwJQH/pvuhfuSu3K4j+9dmfbXuQeMwJE
-         qqXiowVbW2/LXH8WVEIQ+lSSI/Oic/m/Ric0XXGMJFjQNLHmRAULs2ikQ0iB0MsPlVz5
-         m7GLkp/Tfu2Pm3RsM15aGzHzIcHdjIK3MDPqbAxmcCsh6gzmiQkFlYbLrhyElj/dx4iB
-         i5cg==
+        b=RbYNYjnQg/3YbAkB7DBQWR6MOwDiDtsRIOZ24xqlzIFesm+jvO9ulg0izd3OUKkIoQ
+         2xJ3u9z/eaWcM7QgZEGcn4FHPvqHS66JK68sId2DCiRucd/lH+eWGXaPwuXP+UUTt7i/
+         TAwBZVarBZ/LNo1hZfYqkUuxpWw58+/UWOnGk54byBnPOpdpLvp1byaQorOc+antxsrh
+         uWQmXwxtpHDS7aM+0SJciA2xZnqy9TxtbVz1JJs2ePcmW0Ghyd81UnOJVmwNLBspq4Gb
+         i83EyU2VL2kKaRgg9C/Wg4Ysc+w74oGepLa2MtHBQrdGSKcbBJRYwbFwDXXXfBryGhIG
+         l2uw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=EgdHuUWD5kLua04GFfl0aTehDfPhZFI4aLXL6qloz+Q=;
-        b=O+drD5a0qchjUTTmWY5Dd90aGk2xL+Nvvfw4s/39fAOC8ESPAYZhJWvitQVZeg90no
-         OLALA5umzs3t/THOgw2fGF8wi3jhafFv9T+5J1hxkVdSkR0980JbGPpxs0Zc4UJdci2r
-         2r3evVQPVmpWpPeo+lHMPdpGWGZQ5YgqYtNypPCm7VltRvLY1fNnUzVNWA24ieLB3s9j
-         Mjc4zK2d1U3uzap8qPTmQFoI/AfnbUmMyaj4+D3p51LDRDPz6IfMNYeFnsH4FjC/UczA
-         ge11sCZbaPpZlVRxlSjNxTRY1fsTz70LU+hPjcP0BhNjjZAy2G0MTYraugQM4uTTwCG9
-         Tz1g==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:subject:from:references:cc
+         :to:sender:dkim-signature;
+        bh=ZbXks25NX/K0TrTAg07h5cHD8pO8Xmaxk92RCsneZFY=;
+        b=qJzvNnNTOnT9VGiT9fRpvUrH0e3sftV/wQCn9lPLewaX+Uto5jdXw/kYM0Il3yM0/q
+         0H71+8/9l7wym2HuBL+rz0TRQixbP2Jc1itUEnzkfpzjJEY7EVwbwbYLkSG5ZCe/2COS
+         X2hkbmwW+9HW01ySX9D/dJf9Ay1i4bUXnrur6olpCrNwbWRI//y7eEG0amiI/aaqAJZU
+         HObKkEoNCHY1BkFZv5c6lrOjFi9E9DTRRRKKBkzkAEx2vzFQfxmfJ5plWZUJB6Nc0kvS
+         juZ50hIL5p8V2fllVWLUcsLsPsIY2fD/BRyRV4PBH+smX9VExOAdHkYdi0nnOuecOSHw
+         CaMg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=r4HAri4T;
-       spf=pass (google.com: domain of srs0=jzu2=kp=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=jzU2=KP=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@albtraum.org header.s=mail header.b=ULsKJtGD;
+       dkim=pass header.i=@albtraum.org header.s=mail header.b=AxacfUiv;
+       spf=pass (google.com: domain of mathias.payer@nebelwelt.net designates 94.130.183.3 as permitted sender) smtp.mailfrom=mathias.payer@nebelwelt.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
+        h=sender:to:cc:references:from:subject:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=EgdHuUWD5kLua04GFfl0aTehDfPhZFI4aLXL6qloz+Q=;
-        b=eYHgKnOmZiXLB8sGLRJQ6XNq2dH4Z/UbZPNNovEBuHaRGoFWcWc13mR76BxZmFatm5
-         RfolaUBqi76rkJwKUI+riG+u/VkOMXzEP4g5Yd388ndvzsIO+YzcLAZIBvEKU9omOtYb
-         hI55tu70zFvRy8kbe/hgarnuqEhotRieZbywh/VAgeUSz5hoiI25/735AiL/vydPFNpb
-         GgVQbg/kA8u9apYCKkqMGcZwfja47u4GkaCWPsZM19WOmdTG9IF5Ze8SoDaMOhILJbnh
-         UvgkOduq/lyPTzDHhQjvo2VjqzRgZc54YRojmuTOdjr3A0eszKnHLOUa8uj68+neu17w
-         z64A==
+        bh=ZbXks25NX/K0TrTAg07h5cHD8pO8Xmaxk92RCsneZFY=;
+        b=RZVV77dCgo1HqlEWxsUrqgjHAluDo9oH1ifk6sdclxTxesZVkWm5BPbXZGds3IpsB+
+         wA/wYuJ/oBcjBn4DNb/G6/OJgmagY+RPew5fLXXWHpS1FUelMmB1fl+BBmTxX2HYbcqd
+         +8HP6osfDEMtVCH777ldnwd7+u9lhuXV1VrTP8WM80hN+356QkB0qE4d8EFb+XdNuu/I
+         WXJmof0YLtRl6SF+zoVgU+hDWrURu+J95fiTJt0YvP60rd11USndII/FeUhM6Bv6NJyO
+         6cwsvUKq2KW28nYkTNsBfq6d7G0lokVLvWgAG1cf4VWGMckDF0wFlAEDf9OplLdsiOIz
+         Taeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
+        h=sender:x-gm-message-state:to:cc:references:from:subject:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=EgdHuUWD5kLua04GFfl0aTehDfPhZFI4aLXL6qloz+Q=;
-        b=LQ+mr9Fhg5ZgGruQ5gEg2JFyYGAqCvrAUOUQkrZ+cImT5aeG4W5jw+j9VlSVILvxmn
-         VRY9Iu/7P1uh/iTFuBhDcf75xmehLpmw6th6CcUk88v+O54N8r/LL+RxKAf3lPHGvPT0
-         0/o5uK2uSJmXCE381YFTGALC9LGG8zOtjUZ6EGMgbuUy1a0QnK/8c+myqpFu54G+rWSE
-         wlSslLB0/xUw5Rlwvvi2U1CtvvZ4nzm6nnAWCLeQ/Y9Pm/7UpIYN9k+N4wvLgSC6En/I
-         YMrUtbArJ8LuEak5nvGdzz57BvcWywPEK/UuW7m9MyWFRw+ygn2c8trLnj/RdkvKShM8
-         GREQ==
+        bh=ZbXks25NX/K0TrTAg07h5cHD8pO8Xmaxk92RCsneZFY=;
+        b=J7N6w/qN1wtbgBmdBy19ear+5Cx+cocpmLdfp0f9baGw7y/MYcArYyEkGFXFZHlQJK
+         L9yIiPcfbA1GnsPoziKLG/aePK8w9KHD2WwOY55uKdyCENAm8oOLHXlk6OV9bneN0KIW
+         Ff7ZJc1epV938cufNOuupIZajNHl6hQbjL541kUqpe/oYjkcJoTNz3InQH9XTNCWfl08
+         olPAg+ZGgKBHJNBcgsbHn8gLCrjLQ0gC594EPkWsw9OSDxgPfZjf0QpviP2/fJUmiaiY
+         DXCWsziOb+scXl3DRJt8CdNx2RPwPuF2erGTfYaFgwu9InLEvR7ibzP2oK8qL0Pge1zH
+         UWyg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530J8ObEkMNVh3x15O+iqi57VuDGH7ktDr6uYORkwgxS1euQm8bH
-	vt5HuBWBiHj5aWsoTpoGPH0=
-X-Google-Smtp-Source: ABdhPJyaYH2FVYq2rrpyXF+/RhiLfAFLR+24wjPdSw9zZWm7ono49rWgaRb3qHIq7HxYOW5D+ZRCqw==
-X-Received: by 2002:ad4:5045:: with SMTP id m5mr6622270qvq.14.1621527664330;
-        Thu, 20 May 2021 09:21:04 -0700 (PDT)
+X-Gm-Message-State: AOAM5312/aMSazwvw1a6CnsK4yGNuLNgI5Jwo4I2p+Kn6niCqFOWrlk7
+	AQfrykzphFr9uZ7riNAwNSs=
+X-Google-Smtp-Source: ABdhPJziHEKphEpsCoQnJiweQfPLxRCLBXLCfQLEnufhnlR8eXIUk4mlmhizkC8glyI5/+t8oW1cOQ==
+X-Received: by 2002:a05:6512:ad2:: with SMTP id n18mr4433190lfu.608.1621540797216;
+        Thu, 20 May 2021 12:59:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:5f44:: with SMTP id t65ls2015892qkb.0.gmail; Thu, 20 May
- 2021 09:21:03 -0700 (PDT)
-X-Received: by 2002:a05:620a:21c5:: with SMTP id h5mr5783747qka.395.1621527663864;
-        Thu, 20 May 2021 09:21:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621527663; cv=none;
+Received: by 2002:ac2:5592:: with SMTP id v18ls744159lfg.0.gmail; Thu, 20 May
+ 2021 12:59:56 -0700 (PDT)
+X-Received: by 2002:a05:6512:3e26:: with SMTP id i38mr4311022lfv.283.1621540795977;
+        Thu, 20 May 2021 12:59:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621540795; cv=none;
         d=google.com; s=arc-20160816;
-        b=mdWcZYLe8gjtmtpa/yCI4/x6Xl+EFKtoc9pXoNiNJc15UqGViYazIt21mlbIRPg7nS
-         cikCOGQGYJlGafEkjvxDe44jCsXHCehfIZ3l8cHDq6WVyumKwWkHzAp7mtAWKnFXKsks
-         NXgJ3VlJAZr3sAxYB55Fg54qfE49IR0Vq1PZjZ7C//+k/CRGG2C/F86m9fwZWPVZXxJc
-         CIu3FbWnlcG3GG2oFYPfIVuyDTbYIAR/74X+fEro+ODgm6+nu6ewNv+rAd/Nt7ef91Xt
-         OgaFi+j9rwlN3HS4e7uKWxva/pYkqg0V7jysokwb7ZLddM6yxNSUi6IggiWeYul8hZYs
-         d6sQ==
+        b=l35WsmN4FOtbMPNYBKgoY4zUFbVd/syn93FnIulA5USuQ9+JMdnHmZEHxB1BcEZW3z
+         aT+J2eGtx5HNi+SZGH2FtHu6rzuRPMfgVQ4a9/R4+prxcHQhvafh3X9U8ahiBvYUvHWj
+         +UTuBOPKF1yaNgFTgDB3wG5Qnv/PwoHzaF/JePhEd73yN1QZy+kaIRIZJtg8sFmdZvMS
+         +NnMBYLF7DZt0PeryVGoMXJQWCAGtD5lPWxZCcGLzGAwh7urYPoxWrL9DS5/6t/W5Xjc
+         Ivo0A8pAoGlwoRVhDj4qPkxmzq/hw1osw0Scc4t8796U+JLJHEzTMu+Aqv6FmtKUE8xn
+         Hupg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=Ov/G5SPNp5+sKDgUY0QjqzKQRdGNs6bXWYfLlbqX3T0=;
-        b=neBu/psOlq6kFHl1JEc1rOHsANsRqMBuexTh4p5LE2VxD+WsL8tFF7Dls7RGVbYRfy
-         idjeWMnBDJDTbPoQ8aIC9uSsfO54nhMuLTfHODxO46clq0FKtFhK/D8T6tX1VV248nJ4
-         m4ojfOqw59qN+P0I76Ha5ppv9RIUI/JLfyBuvdLDy08nrhFmbBDTtiSaRrpD9YfEKGvu
-         7VLpcRp/Nzq7gUPdjTG2aoYRoy4Rsbcih8eX+/rm0FMgF3W+aAFsHImGLSIPKdt9iuvZ
-         lpB2wtW2jmbCzMX8p2kPKJBuCiOc8dNp7ok8VAIHukgknrNQP/GV98tF9U1gMBsCpjuY
-         9mKQ==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:subject:from:references:cc:to
+         :dkim-signature:dkim-signature;
+        bh=ExtMZCKx20ijYR5oBstRuyvNEqabS2ctRi4sPz7S/g4=;
+        b=QHZb8C9crCfT5ND10M1UOsbkLpGjN4aU2TieJ7lf3mwuN4cLbMT29sS6DNM0jZ/0xv
+         1b8C+z2xCKzMkGTl/I/8gQljcUJqigo1LdL3htK6o4jXVsmJPmhS3WZuX1sUR+xOBhkN
+         f1Qz9j2NlQlrXp9tmymeOhZLXuRNTxsfZwzIVhf+NEyIK9UJCnjMJ+hBSM4V7K5GISW+
+         2FHV5m4umugHECm99RcRtP/gZlzIYkdVvwq0mwJrh3X9EY18PFhzrCSwX4PPnts3lh4k
+         t3HUz0UZjRPB2FSSQIKIOzltimr9N9TP+/Qxdbh853IiWUA746aH08quphPobHym17ki
+         JKmg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=r4HAri4T;
-       spf=pass (google.com: domain of srs0=jzu2=kp=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=jzU2=KP=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id 8si227385qtp.5.2021.05.20.09.21.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 May 2021 09:21:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=jzu2=kp=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D8334611BD;
-	Thu, 20 May 2021 16:21:02 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 874845C00D8; Thu, 20 May 2021 09:21:02 -0700 (PDT)
-Date: Thu, 20 May 2021 09:21:02 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Marco Elver <elver@google.com>, syzkaller <syzkaller@googlegroups.com>,
-	kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: "Learning-based Controlled Concurrency Testing"
-Message-ID: <20210520162102.GL4441@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
+       dkim=pass header.i=@albtraum.org header.s=mail header.b=ULsKJtGD;
+       dkim=pass header.i=@albtraum.org header.s=mail header.b=AxacfUiv;
+       spf=pass (google.com: domain of mathias.payer@nebelwelt.net designates 94.130.183.3 as permitted sender) smtp.mailfrom=mathias.payer@nebelwelt.net
+Received: from mail.albtraum.org (mail.albtraum.org. [94.130.183.3])
+        by gmr-mx.google.com with ESMTP id c38si87106ljr.2.2021.05.20.12.59.55;
+        Thu, 20 May 2021 12:59:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mathias.payer@nebelwelt.net designates 94.130.183.3 as permitted sender) client-ip=94.130.183.3;
+Received: by mail.albtraum.org (Postfix, from userid 113)
+	id 3619425A8E; Thu, 20 May 2021 21:59:55 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ghul
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+	DKIM_SIGNED,DKIM_VALID,NICE_REPLY_A,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.2
+Received: from [192.168.178.31] (unknown [81.221.194.231])
+	by mail.albtraum.org (Postfix) with ESMTPSA id D4FD725A84;
+	Thu, 20 May 2021 21:59:52 +0200 (CEST)
+To: Dmitry Vyukov <dvyukov@google.com>,
+ Vegard Nossum <vegard.nossum@oracle.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+ syzkaller <syzkaller@googlegroups.com>, Marco Elver <elver@google.com>,
+ kasan-dev <kasan-dev@googlegroups.com>
 References: <20210512181836.GA3445257@paulmck-ThinkPad-P17-Gen-1>
  <CACT4Y+Z+7qPaanHNQc4nZ-mCfbqm8B0uiG7OtsgdB34ER-vDYA@mail.gmail.com>
  <20210517164411.GH4441@paulmck-ThinkPad-P17-Gen-1>
- <CANpmjNPbXmm9jQcquyrNGv4M4+KW_DgcrXHsgDtH=tYQ6=RU4Q@mail.gmail.com>
- <20210518204226.GR4441@paulmck-ThinkPad-P17-Gen-1>
- <CANpmjNN+nS1CAz=0vVdJLAr_N+zZxqp3nm5cxCCiP-SAx3uSyA@mail.gmail.com>
- <20210519185305.GC4441@paulmck-ThinkPad-P17-Gen-1>
- <CANpmjNMskihABCyNo=cK5c0vbNBP=fcUO5-ZqBJCiO4XGM47DA@mail.gmail.com>
- <CACT4Y+bNeErg4L5Tn=asK6ZNr+V6bnwwuD+Pg26x=pMO+pRXXw@mail.gmail.com>
+ <5650d220-9ca6-c456-ada3-f64a03007c26@oracle.com>
+ <CACT4Y+Z9DuS6aKQdTb1mD6sVbnz_KPFeRK01zmutM1bmG9zSVQ@mail.gmail.com>
+From: Mathias Payer <mathias.payer@nebelwelt.net>
+Subject: Re: "Learning-based Controlled Concurrency Testing"
+Message-ID: <e7654527-74fb-a5b5-885d-b9f8a26c1055@nebelwelt.net>
+Date: Thu, 20 May 2021 21:59:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+bNeErg4L5Tn=asK6ZNr+V6bnwwuD+Pg26x=pMO+pRXXw@mail.gmail.com>
-X-Original-Sender: paulmck@kernel.org
+In-Reply-To: <CACT4Y+Z9DuS6aKQdTb1mD6sVbnz_KPFeRK01zmutM1bmG9zSVQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Original-Sender: mathias.payer@nebelwelt.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=r4HAri4T;       spf=pass
- (google.com: domain of srs0=jzu2=kp=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=jzU2=KP=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@albtraum.org header.s=mail header.b=ULsKJtGD;       dkim=pass
+ header.i=@albtraum.org header.s=mail header.b=AxacfUiv;       spf=pass
+ (google.com: domain of mathias.payer@nebelwelt.net designates 94.130.183.3 as
+ permitted sender) smtp.mailfrom=mathias.payer@nebelwelt.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,155 +143,117 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, May 20, 2021 at 06:46:35AM +0200, Dmitry Vyukov wrote:
-> On Wed, May 19, 2021 at 10:24 PM Marco Elver <elver@google.com> wrote:
-> >
-> > On Wed, 19 May 2021 at 20:53, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > On Wed, May 19, 2021 at 11:02:43AM +0200, Marco Elver wrote:
-> > > > On Tue, 18 May 2021 at 22:42, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > [...]
-> > > > > > All the above sound like "functional coverage" to me, and could be
-> > > > > > implemented on top of a well-thought-out functional coverage API.
-> > > > > > Functional coverage is common in the hardware verification space to
-> > > > > > drive simulation and model checking; for example, functional coverage
-> > > > > > could be "buffer is full" vs just structural (code) coverage which
-> > > > > > cannot capture complex state properties like that easily.
-> > > > > >
-> > > > > > Similarly, you could then say things like "number of held locks" or
-> > > > > > even alluding to your example (5) above, "observed race on address
-> > > > > > range". In the end, with decent functional coverage abstractions,
-> > > > > > anything should hopefully be possible.
-> > > > >
-> > > > > Those were in fact the lines along which I was thinking.
-> > > > >
-> > > > > > I've been wondering if this could be something useful for the Linux
-> > > > > > kernel, but my guess has always been that it'd not be too-well
-> > > > > > received because people don't like to see strange annotations in their
-> > > > > > code. But maybe I'm wrong.
-> > > > >
-> > > > > I agree that it is much easier to get people to use a tool that does not
-> > > > > require annotations.  In fact, it is best if it requires nothing at all
-> > > > > from them...
-> > > >
-> > > > While I'd like to see something like that, because it'd be beneficial
-> > > > to see properties of the code written down to document its behaviour
-> > > > better and at the same time machine checkable, like you say, if it
-> > > > requires additional effort, it's a difficult sell. (Although the same
-> > > > is true for all other efforts to improve reliability that require a
-> > > > departure from the "way it used to be done", be it data_race(), or
-> > > > even efforts introducing whole new programming languages to the
-> > > > kernel.)
-> > >
-> > > Fair point!  But what exactly did you have in mind?
-> >
-> > Good question, I'll try to be more concrete -- most of it are
-> > half-baked ideas and questions ;-), but if any of it makes sense, I
-> > should maybe write a doc to summarize.
-> >
-> > What I had in mind is a system to write properties for both functional
-> > coverage, but also checking more general properties of the kernel. The
-> > latter I'm not sure about how useful. But all this isn't really used
-> > for anything other than in debug builds.
-> >
-> > Assume we start with macros such as "ASSERT_COVER(...)" (for
-> > functional coverage) and "ASSERT(...)" (just plain-old assertions).
-> > The former is a way to document potentially interesting states (useful
-> > for fuzzers to reach them), and the latter just a way to just specify
-> > properties of the system (useful for finding the actual bugs).
-> > Implementation-wise the latter is trivial, the former requires some
-> > thought on how to expose that information to fuzzers and how to use
-> > (as Dmitry suggested it's not trivial). I'd also imagine we can have
-> > module-level variants ("GLOBAL_ASSERT*(...)") that monitor some global
-> > state, and also add support for some subset of temporal properties
-> > like "GLOBAL_ASSERT_EVENTUALLY(precond, eventually_holds)" as
-> > suggested below.
-> >
-> > I guess maybe I'd have to take a step back and just ask why we have no
-> > way to write plain and simple assertions that are removed in non-debug
-> > builds? Some subsystems seem to roll their own, which a 'git grep
-> > "#define ASSERT"' tells me.
-> >
-> > Is there a fundamental reason why we shouldn't have them, perhaps
-> > there was some past discussion? Today we have things like
-> > lockdep_assert_held(), but nothing to even write a simple assert
-> > otherwise. If I had to guess why something like ASSERT is bad, it is
-> > because it gives people a way to check for unexpected conditions, but
-> > if those checks disappear in non-debug builds, the kernel might be
-> > unstable. Therefore every possible state must be handled and we must
-> > always be able to recover. The argument in favor is, if the ASSERT()s
-> > are proven invariants or conditions where we'd recover either way, and
-> > are only there to catch accidental regressions during testing; and in
-> > non-debug builds we don't suffer the performance overheads.
+
+
+On 5/19/21 9:19 AM, Dmitry Vyukov wrote:
+> On Mon, May 17, 2021 at 8:15 PM Vegard Nossum <vegard.nossum@oracle.com> wrote:
+>> On 2021-05-17 18:44, Paul E. McKenney wrote:
+>>> My hope is that some very clever notion of "state" would allow
+>>> coverage-guided fuzzing techniques to be applied across the full kernel.
+>>> Here are a few not-so-clever notions I have thought of, in the hope that
+>>> they inspire some notion that is within the realm of sanity:
+>>>
+>>> 1.    The current coverage state plus the number of locks held by the
+>>>        current CPU/task.  This is not so clever because the PC value
+>>>        normally implies the number of locks.
+>>>
+>>>        It might be possible to do a little bit better by using the
+>>>        lockdep hash instead of the number of locks, which could help
+>>>        with code that is protected by a lock selected by the caller.
+>>>
+>>> 2.    #1 above, but the number of locks held globally, not just by
+>>>        the current CPU/task.  This is not so clever because maintaining
+>>>        the global number of locks held is quite expensive.
+>>>
+>>> 3.    #2 above, but approximate the number of locks held.  The
+>>>        question is whether there is an approximation that is
+>>>        both efficient and useful to fuzzing.
+>>>
+>>> 4.    Run lockdep and periodically stop all the CPUs to gather the
+>>>        hashes of their current lock state plus PC.  The result is a set
+>>>        of states, one for each pair of CPUs, consisting of the first
+>>>        CPU's PC and both CPU's lockdep hash.  Combine this with the
+>>>        usual PC-only state.
+>>>
+>>>        I could probably talk myself into believing that this one is
+>>>        clever, but who knows?  One not-so-clever aspect is the size of
+>>>        the state space, but perhaps bloom-filter techniques can help.
+>>>
+>>> 5.    KCSAN-like techniques, but where marking accesses forgives
+>>>        nothing.  No splats, but instead hash the "conflicting" accesses,
+>>>        preferably abstracting with type information, and add this hash
+>>>        to the notion of state.  This might not be so clever given how
+>>>        huge the state space would be, but again, perhaps bloom-filter
+>>>        techniques can help.
+>>>
+>>> 6.    Your more-clever ideas here!
+>>
+>> Somewhat tangential in the context of the paper posted (and probably
+>> less clever), and not based on state... but how about a new gcc plugin
+>> that records which struct members are being accessed? You could for
+>> example hash struct name + member name into a single number that can be
+>> recorded AFL-style in a fixed-size bitmap or kcov-style...
+>>
+>> The fundamental idea is to just ignore everything about locking and
+>> concurrent accesses -- if you have the data above you'll know which
+>> independent test cases are likely to *try* accessing the same data (but
+>> from different code paths), so if there's a race somewhere it might be
+>> triggered more easily if they're run concurrently.
 > 
-> There are some (see below) and I am sure there are precedents in other
-> subsystems as well.
-> What's the rationale behind not having a common debug assert/config...
-> maybe because nobody cared enough. The current approach is poorly
-> suited for CIs/generic testing but fine for human-oriented workflows
-> for testing a single subsystem only.
+> Hi Vegard,
 > 
-> $ grep DEBUG_VM mm/*.c
-> mm/debug.c:#ifdef CONFIG_DEBUG_VM
-> mm/debug.c:#endif /* CONFIG_DEBUG_VM */
-> mm/filemap.c: if (!IS_ENABLED(CONFIG_DEBUG_VM) && unlikely(page_mapped(page))) {
-> mm/huge_memory.c: if (IS_ENABLED(CONFIG_DEBUG_VM) && mapcount) {
-> mm/interval_tree.c:#ifdef CONFIG_DEBUG_VM_RB
-> mm/interval_tree.c:#ifdef CONFIG_DEBUG_VM_RB
-> mm/ksm.c:#ifdef CONFIG_DEBUG_VM
-> mm/ksm.c:#if defined (CONFIG_DEBUG_VM) && defined(CONFIG_NUMA)
-> mm/memcontrol.c:#ifdef CONFIG_DEBUG_VM
-> mm/memcontrol.c:#ifdef CONFIG_DEBUG_VM
-> mm/mmap.c:#ifdef CONFIG_DEBUG_VM_RB
-> mm/page_alloc.c:#ifdef CONFIG_DEBUG_VM
-> mm/page_alloc.c: if (!IS_ENABLED(CONFIG_DEBUG_VM)) {
-> mm/page_alloc.c:#ifdef CONFIG_DEBUG_VM
-> mm/page_alloc.c: * With DEBUG_VM enabled, order-0 pages are checked
-> immediately when being freed
-> mm/page_alloc.c: * With DEBUG_VM disabled, order-0 pages being freed
-> are checked only when
-> mm/page_alloc.c:#endif /* CONFIG_DEBUG_VM */
-> mm/page_alloc.c:#ifdef CONFIG_DEBUG_VM
-> mm/page_alloc.c: * With DEBUG_VM enabled, order-0 pages are checked
-> for expected state when
-> mm/page_alloc.c: * With DEBUG_VM disabled, free order-0 pages are
-> checked for expected state
-> mm/page_alloc.c:#endif /* CONFIG_DEBUG_VM */
-> mm/slab_common.c:#ifdef CONFIG_DEBUG_VM
-> mm/vmacache.c:#ifdef CONFIG_DEBUG_VM_VMACACHE
-> mm/vmstat.c:#ifdef CONFIG_DEBUG_VM_VMACACHE
+> Interesting idea.
+> Also +Mathias who was interested in dependency analysis between syscalls.
 
-One possible work-around would be to create a CONFIG_DEBUG Kconfig
-option that selected all of these subsystem-specific CONFIG_DEBUG_*
-Kconfig options.  But I would not necessarily expect that the resulting
-kernel would be stable.
+Thanks for the include and hi everyone! I'm running the HexHive research 
+lab at EPFL, we develop techniques to find bugs and also target the 
+kernel. So far, we focused mostly on spatial/temporal memory safety and 
+type safety.
 
-Here are RCU's:
+As I'm late to the party, I may be missing some context. I assume the 
+goal is to develop fuzzers that explore more complex kernel state and 
+find unsynchronized concurrent access to the same state.
 
-CONFIG_DEBUG_OBJECTS_RCU_HEAD, which checks for things like double
-call_rcu()s.  It depends on CONFIG_DEBUG_OBJECTS.
 
-CONFIG_PROVE_RCU, which is equivalent to CONFIG_PROVE_LOCKING.
+> A similar analysis can be done statically as well... I can't make up
+> my mind which one would be better... both have pros and cons..
+> However, again, I think we are missing some lower hanging fruit here.
+> The current collide mode is super dumb and simple, I added it very
+> early to trigger at least some races. It turned out to be efficient
+> enough for now to never get back to it. The tracking issues for better
+> collider with some ideas is:
+> https://github.com/google/syzkaller/issues/612
+> I think we need to implement it before we do anything more fancy. Just
+> because we need an engine that could accept and act on the signal you
+> describe. That engine is indepent of the actual signal we use to
+> determine related syscalls, and it's useful on its own. And we have
+> some easy to extract dependency information already in syscall
+> descriptions in the form of /resources/. Namely, if we have 2 syscalls
+> operating on, say, SCTP sockets, that's a pretty good signal that they
+> are related and may operate on the same data.
+> Once we have it, we could plug in more elaborate dynamic analysis info
+> that will give a much higher quality signal regarding the relation of
+> 2 exact syscall invocations in the exact program.
 
-CONFIG_PROVE_RCU_LIST, which enables additional lockdep checking for
-RCU-protected linked lists, and which is supposed to be retired after a
-conversion process is completed, and one that I had completely forgotten
-about.
+There were a couple of static analyses that applied to the whole kernel. 
+K-Miner from NDSS'18 comes to mind:
+http://lib.21h.io/library/XHEQU6AX/download/SLDEJFQG/2018_K-Miner_-_Uncovering_Memory_Corruption_in_Linux_Internet_Society.pdf
 
-CONFIG_RCU_TRACE, which enables additional RCU event tracing.  Not sure
-that this is particularly relevant.
+Now, such researchy approaches may be a bit too brittle (and imprecise) 
+if we do it static only due to the potentially large amount of false 
+positives. IMO we can profit from a combination of static and dynamic 
+analyses: dynamic analysis to get an idea of how control flow connects 
+different parts of the kernel (due to the massive amount of indirect 
+control flow transfers which would make static analysis next to 
+impossible) along with a marking technique such as the one proposed by 
+Vegard. Then, based on "matches", follow up with a static analysis that 
+tracks state along this observed control flow state to see if the target 
+state is feasible. Not sure if this is already too complex though...
 
-CONFIG_RCU_EQS_DEBUG, which provides additional idle-entry checks that
-have proven valuable for hardware bringup.
-
-CONFIG_RCU_STRICT_GRACE_PERIOD, which shortens RCU grace periods, to
-the detriment of system performance.
-
-It is not clear to me that blanket-enabling of these guys would be all
-that helpful.
-
-							Thanx, Paul
+Best,
+Mathias
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210520162102.GL4441%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/e7654527-74fb-a5b5-885d-b9f8a26c1055%40nebelwelt.net.
