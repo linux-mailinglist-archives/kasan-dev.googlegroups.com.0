@@ -1,125 +1,128 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBGEATOCQMGQEYTBOO6A@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB4MGTSCQMGQEK2TWX6A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D4D38B7FA
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 May 2021 22:01:30 +0200 (CEST)
-Received: by mail-pf1-x439.google.com with SMTP id g21-20020aa787550000b02902db9841d2a1sf8461537pfo.15
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 May 2021 13:01:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621540889; cv=pass;
+Received: from mail-ua1-x93a.google.com (mail-ua1-x93a.google.com [IPv6:2607:f8b0:4864:20::93a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAB038BB04
+	for <lists+kasan-dev@lfdr.de>; Fri, 21 May 2021 02:48:50 +0200 (CEST)
+Received: by mail-ua1-x93a.google.com with SMTP id d30-20020ab007de0000b029020e2f98646dsf6616427uaf.5
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 May 2021 17:48:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621558129; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XPlV+J6GNbSmQRRatblS9xC89QncqShU63SnbcfUcFfwESnCv7FmRRG5lJsTTc5JG4
-         e75jdQPksk1q24TvZu+XzTgqztoCTkf6LQlXL/kjFqaep1B1+LxnmC+oU6G7B2o+JYt0
-         sjjWTIwr3TjEpxuAcWwkO7GZLtDMzLN30PW1P1ewHLPThuDkTO/h1+xF4X3dwF86jDJt
-         ua3dEVctBGFLS259pVuY6TCdXDoHNGiX8l3LZkyhHXRcEbKcVqEx3LT2afopc11broaS
-         DHGARoIpSN9Yd1PLzwAI8d7oduwB8umnmOC3el2vykybAIarytrI0GdrqRkEoKLLznwf
-         OdCQ==
+        b=S7Cu/P1NANkzqrJT/XfUC4RNYSI6c0P6UnxOu90vFUQ1TYbkkdjyOTbPzZ1Wyag6++
+         DWxqFALgq3UsYP8qznEAVwuluXdk0i7NaDGlSaS2NpvrESlf6BQzW92KlYvchTNX/TWp
+         XNOdY+nupae0REeQZ8y379CIs662vHvAD1k2/HXXK97LOyqS8AaxXBiutZH9Gg6bgXA3
+         iA/moO1i3JQrUI8zHy1tB379MUXu245pef25/fbJg9Jj3p5xlR/TnmxcOaw5DdmVGKSg
+         6tuaffeja8qlakROQ5vSUfFcFo3LtGzsMk516xEFdg75MLQMsuoeXD/7iRWwkhQpexYf
+         fzIg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-disposition:mime-version
-         :reply-to:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=9WisBKzI0akfs8wtZO0hvjAz6z+Tn2pCxuwUZlHDuok=;
-        b=oQhuVRMqnShbIMmtZYDtfDf+O1wrBtR0zzCY2kpiGji50LaDVgrjlCBD8nHtqjLQf6
-         7/wwXyP0CBaV+MWGkopXn+96Wq5gpeCGvMHTsA7VMiK/lCrQjAff9248rWKEMJxDLZ9y
-         5/5adLdAbnaf3MjgNw1hT36X6oZQFhdsbHtQgW9yee4zsafpHwPhGxcur8GAgSfJ1Dg4
-         ZZfJnne63MuG3OuECI8vU0hqc0jI4od2+YhRG4hDwwASP9nYRg67zXHJ0bUvQkytJd7x
-         evtx/6SqY+UwCTnywYWb6cBLNeMPh9tpd6FH2yQ6/AkYJca0neOPHyYIQ/4qimchKhKX
-         pVSA==
+         :list-id:mailing-list:precedence:cc:to:date:message-id:references
+         :in-reply-to:from:subject:mime-version:sender:dkim-signature;
+        bh=7f7sfW1R6oftapkgeI0EfDucdoGSSi2PrnO2gKOioUg=;
+        b=PwpQLca9zW9r50W6ayWxkORgnXFt662fAzUYPyS/5G8l8wSBryDJb3MkOe0Hcwgszd
+         iShLTKn+z0445chIEc9HIv3vsWMacdieGCIKrEPExw6zHffrMdHDGvz0h+1mo3tNfhZ9
+         f9+eAfo61LCjimdAPi6HAFcGrvbgpZkLBbCaTUHu3bCPrQmaOvXO8Wl9T4lqK/ZWVhFN
+         eAOSV3cD3wZI6Yn6OILLTaxwKjT9FcVZLoLB6c6G3SMo3hOzz9J1Yc0o5KVCT3pm9/Rs
+         uu1gjdGA/Hh9P20PuHnlPV8wdNHfiu94KBrvCF+BZiXvjSWec9pjvA9xAbH9vBNCblbp
+         y5jA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=sJlqMCiv;
-       spf=pass (google.com: domain of srs0=jzu2=kp=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=jzU2=KP=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=AxmoxEEc;
+       spf=pass (google.com: domain of pr-tracker-bot@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=pr-tracker-bot@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:mime-version
-         :content-disposition:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=9WisBKzI0akfs8wtZO0hvjAz6z+Tn2pCxuwUZlHDuok=;
-        b=ahmDQcs0dUSG7gMDMN9lSEFtlSlsAnpFmxTAC/7Ya00bR9kg1n1t7r30bMzYAtoMVD
-         dcjnw7VuNTTJRBdYquNdndMG3OEf2OwoSVBL/ZGoCT8Ox99w6V1jII49ZAbLn4I5AWms
-         sgL0aMsbOvk5JuykcrpIWtyJp17RUQWN1gec717oGXH7D3/4DOFCiR5TgUnzW9OVjXCN
-         xIIzkNrKS6TgBLZxTlZbgwhjqodnGjiSA+6B1nbqA/dOvvMyrjICZCie1txeHFOdBz8p
-         KAdCyPh11JiTWK8/DWaZDTKlKX7LfVaHVHI+ofcvyEaZNdzwUY6t/APNcGEthqqXX2SE
-         KDTw==
+        h=sender:mime-version:subject:from:in-reply-to:references:message-id
+         :date:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7f7sfW1R6oftapkgeI0EfDucdoGSSi2PrnO2gKOioUg=;
+        b=WJMP2byeaiaf/2c1odRMu3yi2ssbA6xzzFVWd18QJAeAF+sctF9CRxu1BGzGxh8gFP
+         EWKTXemFaa2zNE0FsceRzUtDAu2xoy1+v4veY6idhgJM2LBwBfm7aJvMZ3l6ZntOS1nW
+         BkbQC6aLN7tzWAZZwABbhx2AdTdDC97sO5PSQ2Bt5dWU602EkgeMOvmnpMvERKaWH50d
+         DUC4VkvNDM/R06QATg4CUZ9V/9MLXp0RsxKiUWg4maY3I3T0QMminHXa+jOYFzdEJQxC
+         DQ1FN2lf/5uQIzBSt2jLhSUa2UpWR2EDejkIvbAKlisfV9Nlvp+M5XgF9yzpFsGSXskQ
+         wT9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:mime-version:content-disposition:x-original-sender
+        h=sender:x-gm-message-state:mime-version:subject:from:in-reply-to
+         :references:message-id:date:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9WisBKzI0akfs8wtZO0hvjAz6z+Tn2pCxuwUZlHDuok=;
-        b=h7GHN1zceDdL5uiOAHiX9sfYIxTB3r3OytXVtg2O9+7XUv4mRtzs8xMjGaifBs2t62
-         2x24SFdB5KFgdxFsAevqcfc+1zDteqrtWvUAsCJHr9XLqU+pQheTDAReah7mp/OaAbhI
-         7m6R9WmXwZ1aG4SsA1BUgLBEyJXI6HNfzILKO21pTLEFmMqsm/oc/+3Po2F128QIghnQ
-         dsVUues6iyS4/FQXXMMNKscfzgTF+Mtg3B4uXX6LOXegXjqhGkaNqEU115OBweG9dpUB
-         nWLLU68/WMV9arvcO2aT51JuoJNGzD8p7Hd1Zrh0cA7MJk7hWRCkDB54+ymGxXMwqfxl
-         y3ow==
+        bh=7f7sfW1R6oftapkgeI0EfDucdoGSSi2PrnO2gKOioUg=;
+        b=kQECDTLeEjlHezDq9pj62SWzaTWoa8pib/CwChmG0xtGxZ81LAFlMmVxBfSXGU/YXH
+         n/XNDDRCh4vzS7ThcyUWTtfIl1Vbhxr+TDkViA56/jZGwqdFnN5E4Y0DodUsuYP1Ai1M
+         MatYGmvRvAhvQrbexu9W5bnOuA781pikNL0LTSWTeVxncSRHIUPM35pzoDU/jfHYGQgD
+         ELnw8Pf/9ArZVU3qk5SXm3qjG74/vlTyJW21gAEfL07/IMXd6AL2UxcY6csfM/nPUSSP
+         3yoU9jC11TluslqY5hm5tFRKayS1dWglKpp8kYiLXe8appT1Uqc0jB0EP1ZYGMyATxCn
+         rBUQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531lhmSRqdLlxJiGVPgoRNo0M9qfmHITx5JORHGNhrjETg+wMo7S
-	WVDS3VPHzzyejq6AiJsjPnY=
-X-Google-Smtp-Source: ABdhPJxbnmJpQ1AmnEN7PUImbxg2JCnaCyWFfmB3CnpQraAKeDWA0hf+HW/OKDSesXw/vM9rlxMAMw==
-X-Received: by 2002:a63:e952:: with SMTP id q18mr6127154pgj.430.1621540888956;
-        Thu, 20 May 2021 13:01:28 -0700 (PDT)
+X-Gm-Message-State: AOAM532XRBmsggun82OXcg9UFfO44+tO3hok1dTmD9GaiqvsUI6eyL/G
+	2Uoup+LMvfiWSLIIS0fVuQw=
+X-Google-Smtp-Source: ABdhPJzrchn3X2bba+5P7FRGdn4RND5O1/kJh/qVnBZ4zI60UkSX3Sfvin1rIyyxPYF8/e/83WkLHw==
+X-Received: by 2002:ab0:132a:: with SMTP id g39mr7406117uae.53.1621558129108;
+        Thu, 20 May 2021 17:48:49 -0700 (PDT)
+MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:aa8d:: with SMTP id d13ls2540717plr.5.gmail; Thu, 20
- May 2021 13:01:28 -0700 (PDT)
-X-Received: by 2002:a17:90a:6c97:: with SMTP id y23mr6783459pjj.174.1621540888411;
-        Thu, 20 May 2021 13:01:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621540888; cv=none;
+Received: by 2002:a67:f74d:: with SMTP id w13ls936606vso.11.gmail; Thu, 20 May
+ 2021 17:48:48 -0700 (PDT)
+X-Received: by 2002:a05:6102:c46:: with SMTP id y6mr7258916vss.22.1621558128630;
+        Thu, 20 May 2021 17:48:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621558128; cv=none;
         d=google.com; s=arc-20160816;
-        b=na5TqIkYQkcPde06771WI02oKDQ289HjThYT6jydHDB5FDK8GwncjQCu+ZsqCvLr32
-         tIaF+HweAjFzCt5yFDwO7oGK8jwuS5xl7H6ljK+ggy2NXOZHvQdCv8z+syqo/tBGB1Rx
-         rWb9BtO06uAad8Cb5wkfyHB/ISlHaMMItnIfBDRQavX/2Rlsjr2Sn8j3hYuv8zH7ewQ0
-         z238IxG2IRcwoT6o7xbl+m9iphbc5kVo/3GCRoYyCb2uQIXbFX+7dFlhtAggzg7wowbA
-         6RgBWKhbI6EHp9FqNZrA9I9pqLzYTTl05FarPplld0CbVeFwG2kERebiiIF5x1CbYucd
-         pbkg==
+        b=rwp+7RfyTY16E6GBDowphyUZQ/68NYLeV6creuNvSGF9VzMGC1Fn/xlaB8CSQWkqxE
+         EN4CNtDZBEcKNyT0fT9VNdgMZ5MA2xKCN9IMNm5Vw0W8Um49RQOPxITKCNqY6rlnVKwH
+         PvNIaKMAjYHMJas4m1WSGDgcMyQp8HNPlsnLgGxb9q0n/gXCpOyi70IhaPSNXhery9/+
+         CsJHhCgcZUlSCO9VFDbIA+6E3sgFQ6aql1eU0DZbBzUDkbADWSLByBOHac/+92Cs71Fc
+         luB7agVKVqx9fD+MGikUSZliwM/qggoJS0G6HcOhQlt9sPd15PqqU8zgBac7k9zSf+mL
+         U2JA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
-         :from:date:dkim-signature;
-        bh=74kEfEU0RWrz9pNXwPIZEzsW2p4mFxx4fjJsCNJM4gk=;
-        b=OzO4OMJf+qrSAsPqKXMxABGFYlKzk+Bmcfb3YzuIlsNBzJ+yspUbwO/0610knkXu8F
-         EIo9qmnUhwwbNg2y42htaqdEDGy8aebG5t3i0ovbtD27sO1BHnBTTAMqNbCYtIcTB15p
-         DCyASSf1D/igAjk/HmVmtcLZlqSwNuA0s4dH8052USZpCwF4o+8t84JOazkWLhHr74Gm
-         vZUcPrdWPudnqosDasyhZhxvxoZ5lQnLzjtLNWl6iIV+JEcsO16N6qkm/W2sNNK8qutC
-         qAQKtY9BZ7HoSfK5mWZG7OUEot4rh1aCFS5dJdNOrOSzIysgi1GxEvNfqfa3J5mbKZ90
-         SpnA==
+        h=cc:to:date:message-id:references:in-reply-to:from:subject
+         :dkim-signature;
+        bh=aaE2/HwwdBmDRW5FgMokZ5sUjw+1eHzCAAmub3Xp5bg=;
+        b=NJfWYd0/tDuUfoI5NloRnpngEB4epsyXk86yGvggy4k9bFwawtI2yjvSHLvl384L6O
+         lahKBWLtuEHgoHdOgDI4pbouqPZM/PY/0p0YYHLJdKS7wWS50MGNmuwq4b3dDwDMtzvq
+         i5AFHDu7IhsZUKMbM9EDx/d1xgRq9RK5aY9mPSNopX619zuPv+kYiMc5RSYYokBAQg36
+         n8HysxfE3IzfQZe7tUpDDMRjpIm7PzBa0Cd351haQjHlBaPGsFaNh8nkYs2ECiulirvI
+         23Lllwimx9rXcsLAuuFypYOngllTcx/iG2znt4dcXLVZQ3tsUknh2Q25BHiAT7EyQSP6
+         eCZw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=sJlqMCiv;
-       spf=pass (google.com: domain of srs0=jzu2=kp=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=jzU2=KP=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=AxmoxEEc;
+       spf=pass (google.com: domain of pr-tracker-bot@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=pr-tracker-bot@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id n2si358082pfv.6.2021.05.20.13.01.28
+        by gmr-mx.google.com with ESMTPS id a6si302702vkh.0.2021.05.20.17.48.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 May 2021 13:01:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=jzu2=kp=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 231E3611ED;
-	Thu, 20 May 2021 20:01:28 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id DDF5C5C0343; Thu, 20 May 2021 13:01:27 -0700 (PDT)
-Date: Thu, 20 May 2021 13:01:27 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	kernel-team@fb.com, mingo@kernel.org, tglx@linutronix.de,
-	elver@google.com, andreyknvl@google.com, glider@google.com,
-	dvyukov@google.com, cai@lca.pw, boqun.feng@gmail.com,
-	gregkh@linuxfoundation.org, nathan@kernel.org, ojeda@kernel.org,
-	arnd@arndb.de
-Subject: [GIT PULL] kcsan: Fix debugfs initcall return type
-Message-ID: <20210520200127.GA2227122@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-Original-Sender: paulmck@kernel.org
+        Thu, 20 May 2021 17:48:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of pr-tracker-bot@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7F2A46135B;
+	Fri, 21 May 2021 00:48:47 +0000 (UTC)
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 7691A60967;
+	Fri, 21 May 2021 00:48:47 +0000 (UTC)
+Subject: Re: [GIT PULL] kcsan: Fix debugfs initcall return type
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20210520200127.GA2227122@paulmck-ThinkPad-P17-Gen-1>
+References: <20210520200127.GA2227122@paulmck-ThinkPad-P17-Gen-1>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20210520200127.GA2227122@paulmck-ThinkPad-P17-Gen-1>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git urgent.2021.05.20a
+X-PR-Tracked-Commit-Id: 976aac5f882989e4f6c1b3a7224819bf0e801c6a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 921dd23597704b31fb3b51c7eae9cf3022846625
+Message-Id: <162155812747.12405.2567574231982570128.pr-tracker-bot@kernel.org>
+Date: Fri, 21 May 2021 00:48:47 +0000
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: torvalds@linux-foundation.org, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, kernel-team@fb.com, mingo@kernel.org, tglx@linutronix.de, elver@google.com, andreyknvl@google.com, glider@google.com, dvyukov@google.com, cai@lca.pw, boqun.feng@gmail.com, gregkh@linuxfoundation.org, nathan@kernel.org, ojeda@kernel.org, arnd@arndb.de
+X-Original-Sender: pr-tracker-bot@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=sJlqMCiv;       spf=pass
- (google.com: domain of srs0=jzu2=kp=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=jzU2=KP=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=AxmoxEEc;       spf=pass
+ (google.com: domain of pr-tracker-bot@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=pr-tracker-bot@kernel.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,40 +135,20 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello, Linus,
+The pull request you sent on Thu, 20 May 2021 13:01:27 -0700:
 
-This pull request provides a fix for a regression introduced in the v5.13
-merge window by commit e36299efe7d7 ("kcsan, debugfs: Move debugfs file
-creation out of early init").  The regression is not easy to trigger,
-requiring a KCSAN build using clang with CONFIG_LTO_CLANG=y.  The fix
-simply makes the kcsan_debugfs_init() function's type initcall-compatible.
-This fix has been posted to the relevant mailing lists:
+> git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git urgent.2021.05.20a
 
-https://lore.kernel.org/lkml/20210514140015.2944744-1-arnd@kernel.org/
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/921dd23597704b31fb3b51c7eae9cf3022846625
 
-It has also been exposed to -next testing and has been subject to more
-than the usual number of reviews.
+Thank you!
 
-The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
-
-  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git urgent.2021.05.20a
-
-for you to fetch changes up to 976aac5f882989e4f6c1b3a7224819bf0e801c6a:
-
-  kcsan: Fix debugfs initcall return type (2021-05-18 10:58:02 -0700)
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      kcsan: Fix debugfs initcall return type
-
- kernel/kcsan/debugfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210520200127.GA2227122%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/162155812747.12405.2567574231982570128.pr-tracker-bot%40kernel.org.
