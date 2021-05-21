@@ -1,126 +1,121 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB4GBTWCQMGQE54C2SUI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFHATWCQMGQE3DY2VEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E1738C0B9
-	for <lists+kasan-dev@lfdr.de>; Fri, 21 May 2021 09:27:45 +0200 (CEST)
-Received: by mail-ot1-x340.google.com with SMTP id f16-20020a0568301c30b0290332c8d61b47sf4749311ote.19
-        for <lists+kasan-dev@lfdr.de>; Fri, 21 May 2021 00:27:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621582064; cv=pass;
+Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id B66E638C1DF
+	for <lists+kasan-dev@lfdr.de>; Fri, 21 May 2021 10:32:21 +0200 (CEST)
+Received: by mail-oo1-xc3d.google.com with SMTP id g19-20020a4a6b130000b029020ebe83598fsf6327234ooc.15
+        for <lists+kasan-dev@lfdr.de>; Fri, 21 May 2021 01:32:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621585940; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TuXUiuDltaWCy5nDADp9jn0PxPl6zPgnlHJvThSxnLMyPiOIy8tIoJJ5TUwG6GjxR3
-         ss8DvSVSZWUCMGA3bDb3iVtHYVBrK3hnocUBO9gimgYU2yZGtihqcQYF/HtG+l8lHmgE
-         gHAC/r2JSklbMTpIdQEQUqCEjR23qBWlT1len0eYvb5rYGt2Y9ffCdn1e8iq6GRQW/CM
-         ZLm+/kmjPlVqG63Kk95N8GdzOXF4LzqUXZ4VuoWxqBi+aPMG8nIXX+KzKk6s6yZisYMu
-         s/g4nR8T5e5YumN2uNqqdb8AQ9n3U55YH7su4ZPXGc9Nbg+1EaquXZnZ/bnltgQfSAs+
-         YRfg==
+        b=PbQB4QR02Or3ahUy7lv50oADf+ODQS2eq/orocCTwHqmKJE2yrKggxUqeSCCvw9CoK
+         hyd4/Ux79qM0XgDPUQpeFmKF1SG4iTjO11bMEFv8X8HmeafdMsapqRDtEzpjipF9yV/k
+         wcaa+MnbPJD2t6z2W/BJnm0gfS04Gx4cVejj04SDUtVDNH/CEvAcm1sWMlHhz4flCyXv
+         Q0PB9xwGIuT+ash2PLoY03l6a9FRSLaDVXWqzghtyL+48iCcfQRm3pFKrzgduLhSKlTA
+         IYdz/wpdDhYvwZ+Bv4/F32DBoIcj8u5UhXEKLYj7gr/tIzoZuMtai4/6DMQrWu5wNz6/
+         u6BA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=BZdJWqdxi7sInsQzCvIZrwO2IFB0xUeo+jqghkzCYhU=;
-        b=q+HgOVlxV+mtTo1Y6FIZlfs9GHtk7bRB8L6ER/sWo/m+ShcH1T8DAFClMecOdBXzsf
-         mj/2xvx5YIB6kX9yQWmGz8GvhqLLxyQfvZtU3Dx0hMiGVgrK8Mcg5w+AY1s1I8/YJLFA
-         u9TljSXfK1/8AqU2qyNi7M9FwAH5W0kv1GanlP0x77WBlMRyPbBPCnu8LWfHIO9Me/Cy
-         8oAqc2CpzWi2Z98E52rmre4aDkOhwtYOCqNVGA26Zo/yhKdd4nVq4IIxy8TzZj6Gewb/
-         mXnwZGOi4E2iYybyfLVpObjTAsfNiLoXzlZjOSFi6fxXNCyi2bTer9ib1TVGNJLdcEon
-         CuYA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:dkim-signature;
+        bh=ZlMmA4uBL1O4eJsD4/bkioDWEVGFUWPE0PFUHsCMVX4=;
+        b=dar4sE2RNYbqYDq/4SVWdHCkjRJn7wKmixjIzfojalFJrU9KsuOdAchTl17c6gm87E
+         IQh4HKmowXz4xJbAtnv3yXL8L0pynfVJXvQukyL9BnBd/I5AYuP/edPkF3TvIfSaw7bE
+         G4zGJ2pDzCGNU1aEELARBWmGjvjTqftzOnfGSubzT7OOnY1kOG5lszBY9iG1ChsnBwer
+         WuPrKK92fexP5XdV+fvvzs4naFalN1mvORhtYP3VW4emKFI1GwM+cpu4emicB4jjWwK2
+         f4c72Tzdqnbv77V3PNfXPWE4N3y5yqTr1QZ79KYqKb0a0okEGgq8BdbKzuB0HRi4lPu+
+         LAWQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iC4OEtpJ;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::834 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XraWczXc;
+       spf=pass (google.com: domain of 3e3cnyaukczwahranckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3E3CnYAUKCZwAHRANCKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=BZdJWqdxi7sInsQzCvIZrwO2IFB0xUeo+jqghkzCYhU=;
-        b=IkFRmkfyrj/zBJ3RKAkfT2ybjx/sUs41u+lcitWHiEaVc1MyUHPVL4uLIT8EP2V3No
-         l6sDJyPcn8uG5zJnGaz6jO8ITMUJrXGq/89+1s77xI5t27Kpbk8nbiD6nPXK0+N6+WLB
-         SBFkyRalZGxUXClEJaeofctNg4y8N4lRxeVjMSZlOC51pg7CRuHbFpp3xPCRU/jTvbmW
-         H9rBSJoNg0cP6SSZi3ISvFcDCpjZiEmyWTQBMOGYLB2yppRyzdl+fJH2GBB214OENo1D
-         G3gNLM51EauOls/g5i/dtkYnhbxs81hUToF2Jt893iJ8ZECmzJCQ0FjkuriVFmo6DCvI
-         jP8Q==
+        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=ZlMmA4uBL1O4eJsD4/bkioDWEVGFUWPE0PFUHsCMVX4=;
+        b=SQdy5+MFPmF5Qugs6lp7+SsKpjgOmvXZBjROXAHtaar8vI2E2ZNI/oZSUy7qYHYYld
+         orvMFgj4OlybdToAJbo3/Yy/aNQj5xHe6COkOHWlkDHt1FO2NlV7UFaZckGih5/0nl7N
+         G2NovLfQLX0tTlESehUevR6yQ4lW3ORTSPklxOlBNVkOE3upBAWmEAvJLL9/OkpIJ7ic
+         fWlqye1e8enx0u4F6ybpZhb0q60fR0wcq38D/m02ikGfVtBJvlvjrdcTmpB1t3pJvG/0
+         WfEl+wDtgnmkNZxtT3ZKAs9+JoVDUGhapfnLN6cEExuF/5M1KviAM7XIuYeVpaVrEjgs
+         /MiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=BZdJWqdxi7sInsQzCvIZrwO2IFB0xUeo+jqghkzCYhU=;
-        b=qoU1nFb/AAUh8z5LOiG11LYMJl362jQF+U48qP/O60vT81pVIkJHVdEqnV7DZHx2pt
-         8YJtAXX7DscJGOZAZCjYjj+UjvjLrjE8E07oYM6caDdiL7ONWoyry8+s3bhxqoMS9akK
-         Fx8OtBaplm4X3/2cKc7ewkANiLxYbo51PSVK4OrDHJmquglqvhcg4CvXtZxlx8/gSPHn
-         gS7f3M5Vkp3JMQgj5Yc/SjgwPIYujo4UIZ1QItD7/PpM3SQ3V0HMw+x9/cifxV/Ko6Uq
-         DtBADJdqbRO91kWqbuCkGmptQrNQnoMRJUJm/xQxYoyNLbK4hruQvaC1Ukh9hv09lYP2
-         e+sQ==
-X-Gm-Message-State: AOAM533V6eadb7vdKP7rCil48M9EZOFsDxYV+tDyVNHJYxhBoLomNqw2
-	uzH2iQdwOX+r9+HW2Qn9CD0=
-X-Google-Smtp-Source: ABdhPJzVYZPAA3BsClk1BnUy4rqA+GiLanbbiprWfox4EZXIf5EY7Jj49T4uYl+QnpnNUAImrzBlKQ==
-X-Received: by 2002:a4a:9199:: with SMTP id d25mr6934339ooh.29.1621582064555;
-        Fri, 21 May 2021 00:27:44 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=ZlMmA4uBL1O4eJsD4/bkioDWEVGFUWPE0PFUHsCMVX4=;
+        b=MLxHwlW4hnnwaZ1VEAkqE/x14SRdIRFtYdxGEvY1sy91B9lLcZ5vA1gxUK6EBmuUK1
+         ZQSngQIOtu8xe5DcPhrddVVqY3g4zcVZ+4mgAOzSlqqwkYMjx44guo/WvIZnfMKOAvbU
+         B2ql3/aJsPFWxhg43SxI8IzJ3B8HnZvVNBmj6mo4MNStRh85mTQxL02wNeKz9IbS4SRh
+         BYmJ2DUYkf2fGV25drdBvjwTxiMuwmX8A7uTp+dbaKs0AqlEKrJJL2FulI81a2GjJWeI
+         09RGuFH5A97Fs4fYsziY4X/R5qmqWT13z9Hy6rFiGnw13RXCoHmYWK38Sp/3gcvhW4ZT
+         UJgA==
+X-Gm-Message-State: AOAM53256Ckro7d1uwk4QlDAtcLGxFB1TqYX6EC9DuASNMnKYqVo6Hfu
+	ixGMveQtaxZEgBSRXjmHjr4=
+X-Google-Smtp-Source: ABdhPJzq6gejGcLQ+FLnbhaihEDZdj7Vs+A+hZinKuI+TaML8ury4VhKEHcKQFqN605oB8ayyRSikQ==
+X-Received: by 2002:a9d:63d3:: with SMTP id e19mr7180307otl.64.1621585940723;
+        Fri, 21 May 2021 01:32:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:9c8e:: with SMTP id z14ls440692ooj.0.gmail; Fri, 21 May
- 2021 00:27:44 -0700 (PDT)
-X-Received: by 2002:a4a:b3c4:: with SMTP id q4mr7056126ooo.14.1621582064125;
-        Fri, 21 May 2021 00:27:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621582064; cv=none;
+Received: by 2002:a4a:83c2:: with SMTP id r2ls448926oog.7.gmail; Fri, 21 May
+ 2021 01:32:20 -0700 (PDT)
+X-Received: by 2002:a4a:250e:: with SMTP id g14mr7222703ooa.31.1621585940181;
+        Fri, 21 May 2021 01:32:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1621585940; cv=none;
         d=google.com; s=arc-20160816;
-        b=GF3hzQCkrS/pD+0e42hiMahMO7Zs3CLtTRQ4Vw4eCDb0fcuYnDplomOvpP21+xIMg7
-         GIzT4mHzbz5V0nzxFRiPZSrvRMAvLIAFa9IwinnT215H8ZkK5KO9FAn9+tBtAH+dU9oi
-         2RaIT/EGdNGpi9S+d01JLSeieG5nVsKadjgw3gnQt8KbN2yj0wZD2mfBvwPO8NoIDbHX
-         FsfJyMytX/WBUbkU2qxBQAhqXzWUhkLPFILfB61+qXESzdTMG3Xq7WuikJhNllTjihuG
-         fd9RS46tIy8fuSX1F9hIOcj/5NXbXbGvz5VO/maLEDNZ8dzj/Wr1YFM0FonVoZ6w0wMj
-         +UiA==
+        b=w9s9SeASU4QnNKQroFfwGe2Vzru3vEIHSv34P7LHxkYN7WdgxnhcTvIHEt1aXkgJnV
+         00PMnRL2SKH3iNNd5HW9bgu+e8dT+LTZXxJjmCh568bFA/oeSw3y63k8pFS3WuAwY6p7
+         xoJXmnT3818Ozksx5m3/U3ansyvVScLx/j4IlityzfpH2VPm7HsvJl63vI5j5g0OIdQH
+         mnH4/+nbRm2NDvpyr0szbWzIMLNgt/I89+bq38aHwRtI1cGDGMRLDl/+Bv+Krg+OFLpN
+         V7pW8yCIAkmRhlLblGqGVZTcan173OHtDpnCkVjCGfR9QeomIkpyg7fd8t1tc55/YyM6
+         HtiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qFNffcXQ47jOSjWfDsJYJH+Krl7opYR8Qi9wzliY4CE=;
-        b=GFfN04X2xOXNpKv97egdbJ7RbrPxKs+5rkpBhiVqMgdLaDVwdC0zfuqj99XYeLDPbU
-         ha676sV3Kjs0uhHaVhpzgLUoh85Op9reAGpebKKakIYDSdGaTl5UOcKZ0mO0S6Lrb1HG
-         D7dH38apvY8HbcYAl3Y8w5B0uTj60qMK4I94Ih8DyyCt+2zV2bqKPjfuEh9ahV5YNaLU
-         amyAMMZqymAyAPfAkkifD2y/t50sNDVu11/lKIyM4BCtTYo8DBYbw6OActrzTF0wqFMZ
-         e/W6LGr+x7DlEaeirT3LXm3G9Bne8qUjJIpyb50Oy/UKEKBiUUhQV3k2WBaVc704wmK/
-         wV1Q==
+        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
+        bh=eNYE7zpSOCj7plZZAyS+5aDrL5u+MfadoSDP0vm8/WQ=;
+        b=H/bCJk0n+Cy3vyt629E4tiaV5ZySa4Yo0fK90hSaheKhHp0fe2lYOKbqWP4UXawDps
+         d08lX1y+mkL2Q27YMoV6L249LhD8s97q4lgS3+AI0iKn6oBxpVf+ACz1s37hobS5m6Hw
+         LkjotGGBRmqeL+pJuH8XBUdk5K8Cvhtcg1Ls7xMNB6mYpKmDHh/VQ9W9AEwjrO20FOqM
+         UtinLX9KFGC0IiiWO0+oLstggc+oKQpuNG01XjxbmJ86oX0G24YnefhJwdy/1jb4Ln3u
+         Ng6NvUhjqW60PUWya5XTic6OC28uvql75L3Q7+39swFQrMI1Cfphls0dz9wi7iUGZSKy
+         z/ww==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=iC4OEtpJ;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::834 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=XraWczXc;
+       spf=pass (google.com: domain of 3e3cnyaukczwahranckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3E3CnYAUKCZwAHRANCKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com. [2607:f8b0:4864:20::834])
-        by gmr-mx.google.com with ESMTPS id c22si510784oiy.1.2021.05.21.00.27.44
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com. [2607:f8b0:4864:20::749])
+        by gmr-mx.google.com with ESMTPS id k4si630603oot.1.2021.05.21.01.32.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 May 2021 00:27:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::834 as permitted sender) client-ip=2607:f8b0:4864:20::834;
-Received: by mail-qt1-x834.google.com with SMTP id t20so14678842qtx.8
-        for <kasan-dev@googlegroups.com>; Fri, 21 May 2021 00:27:44 -0700 (PDT)
-X-Received: by 2002:ac8:5b8a:: with SMTP id a10mr9374277qta.43.1621582063190;
- Fri, 21 May 2021 00:27:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210512181836.GA3445257@paulmck-ThinkPad-P17-Gen-1>
- <CACT4Y+Z+7qPaanHNQc4nZ-mCfbqm8B0uiG7OtsgdB34ER-vDYA@mail.gmail.com>
- <20210517164411.GH4441@paulmck-ThinkPad-P17-Gen-1> <5650d220-9ca6-c456-ada3-f64a03007c26@oracle.com>
- <CACT4Y+Z9DuS6aKQdTb1mD6sVbnz_KPFeRK01zmutM1bmG9zSVQ@mail.gmail.com> <e7654527-74fb-a5b5-885d-b9f8a26c1055@nebelwelt.net>
-In-Reply-To: <e7654527-74fb-a5b5-885d-b9f8a26c1055@nebelwelt.net>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 21 May 2021 09:27:31 +0200
-Message-ID: <CACT4Y+byqpU1VFGyxMxweeY2Xh56xN-7p1TrNz4yvUNZO0T0BA@mail.gmail.com>
-Subject: Re: "Learning-based Controlled Concurrency Testing"
-To: Mathias Payer <mathias.payer@nebelwelt.net>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	syzkaller <syzkaller@googlegroups.com>, Marco Elver <elver@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>
+        Fri, 21 May 2021 01:32:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3e3cnyaukczwahranckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) client-ip=2607:f8b0:4864:20::749;
+Received: by mail-qk1-x749.google.com with SMTP id o14-20020a05620a0d4eb02903a5eee61155so5094426qkl.9
+        for <kasan-dev@googlegroups.com>; Fri, 21 May 2021 01:32:20 -0700 (PDT)
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:a932:cdd6:7230:17ba])
+ (user=elver job=sendgmr) by 2002:a0c:dc07:: with SMTP id s7mr11433864qvk.26.1621585939685;
+ Fri, 21 May 2021 01:32:19 -0700 (PDT)
+Date: Fri, 21 May 2021 10:32:09 +0200
+Message-Id: <20210521083209.3740269-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
+Subject: [PATCH] kfence: use TASK_IDLE when awaiting allocation
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, akpm@linux-foundation.org
+Cc: glider@google.com, dvyukov@google.com, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, kasan-dev@googlegroups.com, Mel Gorman <mgorman@suse.de>, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=iC4OEtpJ;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::834
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@google.com header.s=20161025 header.b=XraWczXc;       spf=pass
+ (google.com: domain of 3e3cnyaukczwahranckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3E3CnYAUKCZwAHRANCKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,142 +128,43 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, May 20, 2021 at 9:59 PM Mathias Payer
-<mathias.payer@nebelwelt.net> wrote:
-> On 5/19/21 9:19 AM, Dmitry Vyukov wrote:
-> > On Mon, May 17, 2021 at 8:15 PM Vegard Nossum <vegard.nossum@oracle.com> wrote:
-> >> On 2021-05-17 18:44, Paul E. McKenney wrote:
-> >>> My hope is that some very clever notion of "state" would allow
-> >>> coverage-guided fuzzing techniques to be applied across the full kernel.
-> >>> Here are a few not-so-clever notions I have thought of, in the hope that
-> >>> they inspire some notion that is within the realm of sanity:
-> >>>
-> >>> 1.    The current coverage state plus the number of locks held by the
-> >>>        current CPU/task.  This is not so clever because the PC value
-> >>>        normally implies the number of locks.
-> >>>
-> >>>        It might be possible to do a little bit better by using the
-> >>>        lockdep hash instead of the number of locks, which could help
-> >>>        with code that is protected by a lock selected by the caller.
-> >>>
-> >>> 2.    #1 above, but the number of locks held globally, not just by
-> >>>        the current CPU/task.  This is not so clever because maintaining
-> >>>        the global number of locks held is quite expensive.
-> >>>
-> >>> 3.    #2 above, but approximate the number of locks held.  The
-> >>>        question is whether there is an approximation that is
-> >>>        both efficient and useful to fuzzing.
-> >>>
-> >>> 4.    Run lockdep and periodically stop all the CPUs to gather the
-> >>>        hashes of their current lock state plus PC.  The result is a set
-> >>>        of states, one for each pair of CPUs, consisting of the first
-> >>>        CPU's PC and both CPU's lockdep hash.  Combine this with the
-> >>>        usual PC-only state.
-> >>>
-> >>>        I could probably talk myself into believing that this one is
-> >>>        clever, but who knows?  One not-so-clever aspect is the size of
-> >>>        the state space, but perhaps bloom-filter techniques can help.
-> >>>
-> >>> 5.    KCSAN-like techniques, but where marking accesses forgives
-> >>>        nothing.  No splats, but instead hash the "conflicting" accesses,
-> >>>        preferably abstracting with type information, and add this hash
-> >>>        to the notion of state.  This might not be so clever given how
-> >>>        huge the state space would be, but again, perhaps bloom-filter
-> >>>        techniques can help.
-> >>>
-> >>> 6.    Your more-clever ideas here!
-> >>
-> >> Somewhat tangential in the context of the paper posted (and probably
-> >> less clever), and not based on state... but how about a new gcc plugin
-> >> that records which struct members are being accessed? You could for
-> >> example hash struct name + member name into a single number that can be
-> >> recorded AFL-style in a fixed-size bitmap or kcov-style...
-> >>
-> >> The fundamental idea is to just ignore everything about locking and
-> >> concurrent accesses -- if you have the data above you'll know which
-> >> independent test cases are likely to *try* accessing the same data (but
-> >> from different code paths), so if there's a race somewhere it might be
-> >> triggered more easily if they're run concurrently.
-> >
-> > Hi Vegard,
-> >
-> > Interesting idea.
-> > Also +Mathias who was interested in dependency analysis between syscalls.
->
-> Thanks for the include and hi everyone! I'm running the HexHive research
-> lab at EPFL, we develop techniques to find bugs and also target the
-> kernel. So far, we focused mostly on spatial/temporal memory safety and
-> type safety.
->
-> As I'm late to the party, I may be missing some context. I assume the
-> goal is to develop fuzzers that explore more complex kernel state and
-> find unsynchronized concurrent access to the same state.
+Since wait_event() uses TASK_UNINTERRUPTIBLE by default, waiting for an
+allocation counts towards load. However, for KFENCE, this does not make
+any sense, since there is no busy work we're awaiting.
 
-Hi Mathias,
+Instead, use TASK_IDLE via wait_event_idle() to not count towards load.
 
-There are now actually several branches in this thread and some don't
-have you in CC (hard to synchronize now), but the whole thread is
-available here:
-https://groups.google.com/g/syzkaller/c/yFtW39rcWyQ
-It all started with Paul sending a link to the "Learning-based
-Controlled Concurrency Testing" paper.
+BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1185565
+Fixes: 407f1d8c1b5f ("kfence: await for allocation using wait_event")
+Signed-off-by: Marco Elver <elver@google.com>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: <stable@vger.kernel.org> # v5.12+
+---
+ mm/kfence/core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-
-
-> > A similar analysis can be done statically as well... I can't make up
-> > my mind which one would be better... both have pros and cons..
-> > However, again, I think we are missing some lower hanging fruit here.
-> > The current collide mode is super dumb and simple, I added it very
-> > early to trigger at least some races. It turned out to be efficient
-> > enough for now to never get back to it. The tracking issues for better
-> > collider with some ideas is:
-> > https://github.com/google/syzkaller/issues/612
-> > I think we need to implement it before we do anything more fancy. Just
-> > because we need an engine that could accept and act on the signal you
-> > describe. That engine is indepent of the actual signal we use to
-> > determine related syscalls, and it's useful on its own. And we have
-> > some easy to extract dependency information already in syscall
-> > descriptions in the form of /resources/. Namely, if we have 2 syscalls
-> > operating on, say, SCTP sockets, that's a pretty good signal that they
-> > are related and may operate on the same data.
-> > Once we have it, we could plug in more elaborate dynamic analysis info
-> > that will give a much higher quality signal regarding the relation of
-> > 2 exact syscall invocations in the exact program.
->
-> There were a couple of static analyses that applied to the whole kernel.
-> K-Miner from NDSS'18 comes to mind:
-> http://lib.21h.io/library/XHEQU6AX/download/SLDEJFQG/2018_K-Miner_-_Uncovering_Memory_Corruption_in_Linux_Internet_Society.pdf
->
-> Now, such researchy approaches may be a bit too brittle (and imprecise)
-> if we do it static only due to the potentially large amount of false
-> positives. IMO we can profit from a combination of static and dynamic
-> analyses: dynamic analysis to get an idea of how control flow connects
-> different parts of the kernel (due to the massive amount of indirect
-> control flow transfers which would make static analysis next to
-> impossible) along with a marking technique such as the one proposed by
-> Vegard. Then, based on "matches", follow up with a static analysis that
-> tracks state along this observed control flow state to see if the target
-> state is feasible. Not sure if this is already too complex though...
-
-We can tolerate some impreciseness because our end goal is triggering
-bugs at runtime, which is ultimate proof.
-
-For very targeted provocation of concurrency bugs dynamic analysis may
-work well, because we don't care about part of the code we can't
-trigger (so far), and for the parts we can trigger and plan to collide
-we can as well do precise dynamic tracing.
-And dynamically we could as well trace actual addresses rather than just fields.
-However, both addresses and struct fields will suffer from common
-background noise (accessing common shared facilities, kmalloc,
-lockdep, etc).
-
-But having some notion of relation statically may be useful when we
-generate/mutate programs and need to select syscalls for inclusion.
-Say, we have 5000 syscalls and want to generate a program with 10
-syscalls. Which ones do we choose? We have some analysis for this, but
-there is always room for improvement :)
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index e18fbbd5d9b4..4d21ac44d5d3 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -627,10 +627,10 @@ static void toggle_allocation_gate(struct work_struct *work)
+ 		 * During low activity with no allocations we might wait a
+ 		 * while; let's avoid the hung task warning.
+ 		 */
+-		wait_event_timeout(allocation_wait, atomic_read(&kfence_allocation_gate),
+-				   sysctl_hung_task_timeout_secs * HZ / 2);
++		wait_event_idle_timeout(allocation_wait, atomic_read(&kfence_allocation_gate),
++					sysctl_hung_task_timeout_secs * HZ / 2);
+ 	} else {
+-		wait_event(allocation_wait, atomic_read(&kfence_allocation_gate));
++		wait_event_idle(allocation_wait, atomic_read(&kfence_allocation_gate));
+ 	}
+ 
+ 	/* Disable static key and reset timer. */
+-- 
+2.31.1.818.g46aad6cb9e-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbyqpU1VFGyxMxweeY2Xh56xN-7p1TrNz4yvUNZO0T0BA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210521083209.3740269-1-elver%40google.com.
