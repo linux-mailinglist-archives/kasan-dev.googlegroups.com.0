@@ -1,135 +1,190 @@
-Return-Path: <kasan-dev+bncBAABBTMPVSCQMGQEWPJM56A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDD3TG4G74HRBTPCVWCQMGQENCG5CDY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x740.google.com (mail-qk1-x740.google.com [IPv6:2607:f8b0:4864:20::740])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA14E38DF03
-	for <lists+kasan-dev@lfdr.de>; Mon, 24 May 2021 03:56:30 +0200 (CEST)
-Received: by mail-qk1-x740.google.com with SMTP id r25-20020a05620a03d9b02903a58bfe037csf19168951qkm.15
-        for <lists+kasan-dev@lfdr.de>; Sun, 23 May 2021 18:56:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1621821390; cv=pass;
+Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id C030338E34D
+	for <lists+kasan-dev@lfdr.de>; Mon, 24 May 2021 11:26:38 +0200 (CEST)
+Received: by mail-pg1-x53e.google.com with SMTP id 30-20020a630a1e0000b029021a63d9d4cdsf18324481pgk.11
+        for <lists+kasan-dev@lfdr.de>; Mon, 24 May 2021 02:26:38 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1621848397; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mY5h5FrHFDgeDbOMyFBviYxiZgj1ErFlH7XdQqqjWYdGx/shHHPnqDjUcJtW3Dl3L5
-         8dAyMKxlaOF/J0aHfgTU7Pr19EYxinxwHobb8VPa2ybgE81tiexL1Ajp+pwjLR8ux27n
-         eWRkWTg2KFbsLsxTlwwwXITrK4PTgnFXNyb78Y2DhrDy7eUvlJory5fWDzp+W6cz6oPI
-         EctfuHRaSLcL+c4Vpi5GIiRMCsNtU8Cb04rhaknbHTlLVYK4cHrWbB46m7cqxcdyZuDm
-         4ohbg1UDmQM+kdjT5okGEQtpundc611qy5I+ARQUThGFRlZxkg19V7UD3knj7vKqvSYU
-         eYHg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=c8y9iUxRbxnIdZv0OxYSPFLVd4pV4wyw+qE5VwHknphNrk+FBccpFKD+Us+eEaDGrD
+         golACiP+JDvLlqWnG3QGDirn/MQgCYOLE6I0UEJDqOOxscBqtZx9wqwhPfG612ofI8f3
+         DgCCqiFDkZf3Gpux+AVRk8IwhEXIxVffyDvI/XKnobtAjV1rhvv2fETe+jwti+SjoKw7
+         2njauDSB/mVxMiTA4CpiHfo8FPdzyyw8OxtZFrJz6KwgiFkJxfq1JhThEJVgcN83UaFR
+         TG2zmzLS+mcIaNV7zX8EtHf/whNlaT9UtZMx6JLTrQiYOk6f612m7+EJTbk+oa1zaq/Q
+         e1gw==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:mime-version:user-agent:date:message-id:from:cc
-         :references:to:subject:sender:dkim-signature;
-        bh=LJRee5bKj7KbMIWQo/IXR1IOAF5fOlB2ZFdxRcTISBs=;
-        b=Tm/HJKlsR2bjtrHXDTDd/ebtn95Kaaf4fOTPF2ZJlyr/8yML3XWkwwdIWnOP7Ae1cS
-         LSomDr6ywpD+p8mRaQMavUlWUl5Je55x6TDSN2pT/NJOwS7PLZ+shCQNx/ewNZLknIy/
-         vHExB5QoJe71xhKdoDG6fx+aI/D2NpKflZ/0QTwHhsvSazEj/B8MukMMe3370/nUxE+n
-         CLDn7spvK42Xvgyy9Nx8ZlupT8dd+uKTQySZ/lgONR76JZWpQ9fwqepLcZJiVvORbylB
-         EQGSX0NM198gFe3ToZ2JYadpPya2uXRqoXFB+lmYxhOcDv65frlvgMe6pdNEnFMUNI+2
-         6ojw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.190 as permitted sender) smtp.mailfrom=liushixin2@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+         :list-id:mailing-list:precedence:mime-version:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=Z9A8NMxmJ0gEClxij1hJpqIDb03jtTM4SAGtCerc8fc=;
+        b=QQIXvmuUGE9dZoZ+uNxxX6vTBSg1jipwCZIdSM83+9zvStn8YoqPt9cEmtEkx2JPgE
+         VzJUkbsfoPJu2a/t3YXMpVo4hniBStGecuqOIZN5OUt+zDimc4Ehn19oENB2LbRvRV3/
+         6JKGhb4rT+8+g7HQ87YZ5pnbb1VzdM8iX3gps5RyVjBSLjIuOramU338KrxMyFiE5vFh
+         wcAVQOuQn0OfjwsxVt5YAyv7b3O+JJqEEZBgw9U+JG9NQN614uU2GQIIHpFc9QJ8XFGV
+         cgokvohsfo8vlR0z6bjkywc5brppSWu+kMuQLGaeyQ9XaW/oLjaNNWHXoKPaiR1yfkD/
+         VzDQ==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@Synaptics.onmicrosoft.com header.s=selector2-Synaptics-onmicrosoft-com header.b=FPiAYLO9;
+       arc=pass (i=1 spf=pass spfdomain=synaptics.com dkim=pass dkdomain=synaptics.com dmarc=pass fromdomain=synaptics.com);
+       spf=pass (google.com: domain of jisheng.zhang@synaptics.com designates 40.107.94.40 as permitted sender) smtp.mailfrom=Jisheng.Zhang@synaptics.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=synaptics.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:references:cc:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding
+        h=sender:date:from:to:cc:subject:message-id:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=LJRee5bKj7KbMIWQo/IXR1IOAF5fOlB2ZFdxRcTISBs=;
-        b=HWfow8kzRpZGlob3oGGo34CMtgwqGexeGMX0u/tDf0puD++OgZx7RwgNGmYHIvv0fR
-         aUuy5pJXFgkGVoy2SBj9uFZndTksUdpVF9Tc/tEKXUTgpUo0mQbixjU8zrvmbLubA6rd
-         BofMYx6LSklFCyOCPLx2CcGzeRCWU8fY0iHnGTLJpwwWSh9k7+xYpPUsn6siWcgvlJAS
-         OUnKXzc3IEUwnW8wEax1KM7PInFNwNPwbZhrW9MWyfRSfJe8GhdtyeDKiuOP471aLnma
-         Q0hhtjTb1w2gx2YCR542YhlAP19G/uyzjAlzJM6gwD3ka6qwJ4v6gnkMHAuAOd5uh8F4
-         8GKg==
+        bh=Z9A8NMxmJ0gEClxij1hJpqIDb03jtTM4SAGtCerc8fc=;
+        b=kSPFeDLVxYaQSha2T0vBexS6Nvy2uZfnQeqCSlex/sI8o8bJD0RgtTPcLs93b3XBdu
+         sL7BU3LFd1dOmmwM9pZYxecbVI/laA51sLFBPRkoDeWtiOUzBB+CoJKiAUwi9Xih6dR5
+         2NlR6w3dRPmRIrVnhWxOupvk1A0JxOkIGOC5vch713CWqPsu84AHqeVr88RCR5KYRFOm
+         +D5CMH4eB00Hk4EK73y/m1mQTi46zji2EMi0L5Gvh1T8rMNC2GJOJz7v/B+W+Ft4kFob
+         GSAAbapYEZKbABkYaF4xyOxYSjSSJGd030PY4OB9s1iBXmnzZKyqWSCKsD+SjpWIabxJ
+         U5/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:references:cc:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=LJRee5bKj7KbMIWQo/IXR1IOAF5fOlB2ZFdxRcTISBs=;
-        b=Aeuzfkg30M3gpyTgshGub8AgWnxBwbqwsP2oZnaUHTldRL5wj2TVeVaZopZ49uuEGN
-         svTquhemSmfOv7FRiU6uADbmuC/6+Xh290yk9rFAs/aVczXY6Xl+qvMLnlsi3NT1FwBc
-         8xwM1K6H6C2jbKQCD2Wg8web4WFGEYraIajP2JORDi1sg26QKWJDm3tvBJpZeK8vRR0K
-         g1xKgAwmeNoC9Fta11yRLS0Hd0GLVqCGHxCQg5Ql5eRMSVMXCMHizsssNx5HHbxtMPzn
-         VS+2bGsnlFWTCSR/BrdD6Bpq2mjyAi8c9LmyLo1HOPlUg63fstFuV/R4weoalxwEfsPF
-         4EUw==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Z9A8NMxmJ0gEClxij1hJpqIDb03jtTM4SAGtCerc8fc=;
+        b=QVxDwHrvMBe0XjGL5acxPM4S0hoTbvRjhGy8CvUNPuarDMbJMG+N1ue7T1Y2aqaG7j
+         SVfX/zeExizP5IvN7szUU6LlpqSVm7UcepjDJ+W/LXWggA8FHN6SjLC0k+G8qqtRN+eX
+         UfH484lcwSlrfGVLsmRYhvyq6UIQoyDWTRTcWzdf1110EvCbjywFZy7mC8oQOuhInPWy
+         yk8RiF10uejtVFSE44ggLrBNTiTKO7ThO+oDO23EpFIB/R2vowBzgToSr+f7djyXfzEO
+         BigzOTnxu+v2IaXg+vPbS55A9t6E7fr//D/YpabcOt0uZtuBOcgxyxN5osh/ZeyBwaMG
+         wjMw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530rfLwZQ94BpfpWk7OBETqLdeVnfJkYQ7e4S8+yqZXwwTQOmIc7
-	MhtdCzWcFLvFTjN3p/+MMPY=
-X-Google-Smtp-Source: ABdhPJxS7/ovJzPaf5QAKcz2gpCusIg7OQv7wlP/tGsJTMe4f/PIAS1JDuc4vk1EEqatf8/aoHNknw==
-X-Received: by 2002:a37:ae04:: with SMTP id x4mr25142732qke.315.1621821389889;
-        Sun, 23 May 2021 18:56:29 -0700 (PDT)
+X-Gm-Message-State: AOAM532fKBGVSpGKadP4fmAfCvwWwa27TjfxYgEuR7wKdGzAM92+3G6r
+	hyoz/Ca8ZgRbz+KoqM3mMVY=
+X-Google-Smtp-Source: ABdhPJySOK6Swh+HPe9Gh2aH+f3b0wJZLRr1/agkDuXCuXrZjbeUOulu/zWqBr77NPYJj/iLF1w0pg==
+X-Received: by 2002:a17:90a:4a92:: with SMTP id f18mr24613124pjh.49.1621848397336;
+        Mon, 24 May 2021 02:26:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:8cd:: with SMTP id da13ls3841196qvb.0.gmail; Sun,
- 23 May 2021 18:56:29 -0700 (PDT)
-X-Received: by 2002:ad4:4d4e:: with SMTP id m14mr27763793qvm.50.1621821389553;
-        Sun, 23 May 2021 18:56:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1621821389; cv=none;
+Received: by 2002:a17:902:b48a:: with SMTP id y10ls8091382plr.7.gmail; Mon, 24
+ May 2021 02:26:36 -0700 (PDT)
+X-Received: by 2002:a17:90a:2bc7:: with SMTP id n7mr23168716pje.5.1621848396879;
+        Mon, 24 May 2021 02:26:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1621848396; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vMe50ZvR/iTuDxzcHHCEFfHPZVrMjSw2qthNYMJV/E6+yRXmex5jrW9f3F3wOQXLdL
-         iCIxSOn/ObtBxvNdobJqVZLa2wd9FOmVVuxmfJ1zHuBBc8oggCFKfw0bgjSlE1z5uj4i
-         MIkQfZb3M8UocOcqjSuUh8lK7TO1sg1nmTs0p/n+8dI3+LqSnLf45Wt+PrwwyKhsHYP5
-         wIo72TuK4bh5hOaYxaw4oqNABq8Ezwwe2QlDyekquwEFr4vQmWZxxuYobTvrfTAos0FF
-         fUSoThyvCEIv0+AEHrzQHOhlUl6pLWhKcYzVC0aQl4/votfXSbgiNOBjMTly7UStxXoQ
-         xN1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:from:cc:references:to:subject;
-        bh=56qe0/kRnakHJ8F8HYYM4CTdtFKZseEcuy2AVnKEd/4=;
-        b=cMOB+SvXIxos5Wo6fb0+lAFPIFNs0OgdLUkhUi5fUn1e2+Xqv+CNAcWEyhvt+1scD9
-         uN6iufTSv0KdLZ9SXGFxP7lE9Ik6jVXD5pL85napAhqqsEhfLqkd8VPNV8PJB03lh8/0
-         VkCZD2BGOMj+Iy3295MxqUOFGU/hyAmep4DPnWbkFq4uBucfojABFy0gYnPOsy9s1fK/
-         /aIHSz3LvN5aTUKRn99QmvEthm3WkVKNmY93sXrx/wAnyjGtDKCUCE+duSRvuZMaUsJV
-         wG3Jag1e+rETkWQiZ2sqrHIZoWVdPz5iJXlRMAJ1VwKshcob8kFuJnkhDI4rBjZupspF
-         EimQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.190 as permitted sender) smtp.mailfrom=liushixin2@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com. [45.249.212.190])
-        by gmr-mx.google.com with ESMTPS id t11si1276818qto.3.2021.05.23.18.56.29
+        b=oqtF4BRvm9uSN8r1mpuoiilnEF1/tIBHJxwNuquQlq6LDYVl0urZsuHf9HosMn/7b9
+         EjON/PnXgdu1h3LvWnVnlv9BD5mzJOyJevY6MF3co7OnpgGCxb1r+sbyZgE4ptRZQCBx
+         sN+tTiilYB25uz5d20b2R3BPJbk+e5hEuacHH6ddEwnAB03gddJDEuVvjDs3cRWIiMJb
+         cZs60pnVMLUzsUiUS70rZmXu27+c2AwOg3hmnZUfPd831LtJ/zcTuiqCeHzHXQVZZWmC
+         4/qUHkTuqdIgM/EtfayEc9wUZwvY0FTavlDHtbThspGn3BAP4CtMDYpIYM+5OkWDaK7p
+         qH1w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding:message-id:subject:cc:to
+         :from:date:dkim-signature;
+        bh=hRNA0oHHAAfb7k0OVeGAn8OuIozWU2vJ7j619QPiPC8=;
+        b=Mc/pO+/XuCAPWiyuyCpbnMXZwKNyRyhw6zrWBjTZFxO+uA3TTMgrs35V2IfTDxHaD6
+         E/zngwOJrVytBIUszkyss3qnI6uC27PAQTHj0dyw7bAOzyYFEg3bsdgELGxBXcE4P0vQ
+         G1+bb+3EBxtkbLhw7t+WxiMEypspJBkZWl1cUEtkf1uQ/ssVvNy4DzXvJmqP4zhl8yNG
+         QTjM0P3I9asVNzCQlR40GhWk/toRC9UIkvmy5Sgzan52UoywZwIcPD/J+4iDq7x03MiR
+         KsvSnU+fSFCWg9r3LR8SYY8kMgXYPqO7z9vygYmsiMe193Qo3qXytHas/w7apUHwE1nv
+         c/MA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@Synaptics.onmicrosoft.com header.s=selector2-Synaptics-onmicrosoft-com header.b=FPiAYLO9;
+       arc=pass (i=1 spf=pass spfdomain=synaptics.com dkim=pass dkdomain=synaptics.com dmarc=pass fromdomain=synaptics.com);
+       spf=pass (google.com: domain of jisheng.zhang@synaptics.com designates 40.107.94.40 as permitted sender) smtp.mailfrom=Jisheng.Zhang@synaptics.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=synaptics.com
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2040.outbound.protection.outlook.com. [40.107.94.40])
+        by gmr-mx.google.com with ESMTPS id p50si1986256pfw.4.2021.05.24.02.26.36
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 May 2021 18:56:29 -0700 (PDT)
-Received-SPF: pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.190 as permitted sender) client-ip=45.249.212.190;
-Received: from dggems705-chm.china.huawei.com (unknown [172.30.72.59])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FpKwg3wLFzncSx;
-	Mon, 24 May 2021 09:52:51 +0800 (CST)
-Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
- dggems705-chm.china.huawei.com (10.3.19.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 24 May 2021 09:56:26 +0800
-Received: from [10.174.179.24] (10.174.179.24) by
- dggpemm500009.china.huawei.com (7.185.36.225) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 24 May 2021 09:56:25 +0800
-Subject: Re: [PATCH RFC v2] riscv: Enable KFENCE for riscv64
-To: Palmer Dabbelt <palmer@dabbelt.com>, <elver@google.com>
-References: <mhng-f2825fd1-15e0-403d-b972-d327494525e6@palmerdabbelt-glaptop>
-CC: Paul Walmsley <paul.walmsley@sifive.com>, <aou@eecs.berkeley.edu>,
-	<glider@google.com>, <dvyukov@google.com>, <linux-riscv@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>
-From: Liu Shixin <liushixin2@huawei.com>
-Message-ID: <0b584a85-79e2-fcdd-2adf-5b63f56cc591@huawei.com>
-Date: Mon, 24 May 2021 09:56:24 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
-MIME-Version: 1.0
-In-Reply-To: <mhng-f2825fd1-15e0-403d-b972-d327494525e6@palmerdabbelt-glaptop>
+        Mon, 24 May 2021 02:26:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jisheng.zhang@synaptics.com designates 40.107.94.40 as permitted sender) client-ip=40.107.94.40;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BFOYMr5Hktg3/Q6Fjqii8xfqxiFD9dIpudj2SI9DNvQoSmQDPnBHU9Gizdz8iF8U02BTZIZb1Gyk+OWLhK5ffjSsCrrciy/nevCWrgbX2oHcpv8GtyKlTnPxAvGFtZ9+q+idVSzsX5DUyAH9drMdL2bzz//osum2shbGwkB1h3WMenPs6kD2ejJItWoGtsqSmRNYrRFdBdHnLnNNxab42WSlr4n/4ksDgo67r6njvtDcOlM97+uHCjjsQ2m1gsUtDgJoWZeSqUvfusGtKDeAG1wmeJBRvepx+kjOW8BU/WVQorpleLyO8LAfcMPAPJ+vLYRZD3ohMiRVj7JkV0ywFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hRNA0oHHAAfb7k0OVeGAn8OuIozWU2vJ7j619QPiPC8=;
+ b=M3jrCVbpR9c9hSyuWXBXWgFNa6sJpndNPRchDivE7I20UfOhRtwBfZjKYjiMNo/IWHRuuVUDkQq7lV54Auronudbem7eEb5GfKCjbAfekZK5CVBAHJ4ygHPi/8yUMFw63B3xasggSa72BMp8yKQNfuLErLhQZfyfHddR9kanVNQYXCrvOqRD3dEjYR6r/Q67pnmMOP4/icCNfZpsAc4y26MhPIP2MBESZC8qQwigvuhDvxtTmVJR2lpl9puXLP4mb4J2efAFogwJSYFdPq+Wx53e951eEu2a+GwY9eqYvHJZmIKxZC2xfhgTi4ak6kmuI8CnvaBVd5kuWvOQbHNVuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+Received: from BN9PR03MB6058.namprd03.prod.outlook.com (2603:10b6:408:137::15)
+ by BN9PR03MB6188.namprd03.prod.outlook.com (2603:10b6:408:101::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Mon, 24 May
+ 2021 09:26:36 +0000
+Received: from BN9PR03MB6058.namprd03.prod.outlook.com
+ ([fe80::308b:9168:78:9791]) by BN9PR03MB6058.namprd03.prod.outlook.com
+ ([fe80::308b:9168:78:9791%4]) with mapi id 15.20.4150.027; Mon, 24 May 2021
+ 09:26:36 +0000
+Date: Mon, 24 May 2021 17:24:33 +0800
+From: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
+ <will@kernel.org>, Alexander Potapenko <glider@google.com>, Marco Elver
+ <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org
+Subject: [PATCH 0/2] arm64: remove page granularity limitation from KFENCE
+Message-ID: <20210524172433.015b3b6b@xhacker.debian>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.174.179.24]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500009.china.huawei.com (7.185.36.225)
-X-CFilter-Loop: Reflected
-X-Original-Sender: liushixin2@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of liushixin2@huawei.com designates 45.249.212.190 as
- permitted sender) smtp.mailfrom=liushixin2@huawei.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+X-Originating-IP: [192.147.44.204]
+X-ClientProxiedBy: BY5PR17CA0069.namprd17.prod.outlook.com
+ (2603:10b6:a03:167::46) To BN9PR03MB6058.namprd03.prod.outlook.com
+ (2603:10b6:408:137::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from xhacker.debian (192.147.44.204) by BY5PR17CA0069.namprd17.prod.outlook.com (2603:10b6:a03:167::46) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26 via Frontend Transport; Mon, 24 May 2021 09:26:32 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 72084e03-aefd-498e-c934-08d91e9606e0
+X-MS-TrafficTypeDiagnostic: BN9PR03MB6188:
+X-Microsoft-Antispam-PRVS: <BN9PR03MB61888511E6836EE8C9A424DDED269@BN9PR03MB6188.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HU0fb9/f0lnh5th+0oPMncZXGmB90NV5dWeU5cpWdnYbA7G1C6HnNaa0mvn+95CiZVz1KT6huJGHxrB6OGVxXT5LwBIlKb5aPcVid9G7ZcXYDcJwKajZwHnCFhiLRaoGlB6lGLpA9FX5QTB7q9kbjGqTPot8qw2lkql+bhm6aEkgzeKeWDFCPPSX5XiMGH4aqoqrIfHg2IObx22SVaA6rzmcV81o4MtxX2b8xBEBZ+8g5rOH0Ws007EEdABc0OzFsjUcHT7kcAQG7UUFGlT0EaGqfTHljaxazNsrAc/asmNN3f4Z0XlQWsxMCeVvW3DNIwXbRgpLxBDmwuo/khD7grnJ6Zrni2sJ7gcV1XiRCSflystUmOloJB7EID52kzRUKouPoW1hXcI+/PlsB6pOjefob8APEnxh52szLd1SlemOa3Zh/HF1pyyu7vY0LBd7QYh5RIRKQTxKEn1uDrrGb6WTOu/oubX6IL5DPpvMGCYjNhsCrRYSquVJDC4DfiXNon3XVSfjahBPBy+R9Ubu/2iAXPWGgjukRddTzvkMjEqCLCoTFy96/j9Eapk23QbvnGwBX9wHW/DqsuZmcVTiyRDnJ0SCJuFYC2e5QPlW+k0KtpVTs23yfdIq1FIAWNrDm5Ud2mWhnoMc7Led3psXow==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR03MB6058.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(39850400004)(346002)(376002)(396003)(136003)(366004)(66946007)(1076003)(316002)(66556008)(66476007)(5660300002)(478600001)(2906002)(4326008)(110136005)(4744005)(7416002)(16526019)(186003)(26005)(8676002)(52116002)(7696005)(956004)(55016002)(6506007)(86362001)(83380400001)(38350700002)(9686003)(38100700002)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?mYVev3WUnmp5ThBPekDsdnf7Ev9VcjKokVWKl7L9clFGs6rbu/gFoPn8UCme?=
+ =?us-ascii?Q?MlPj7XpDk5ucsDCpLP6zim5bDpslAGxmk6rXRr90NZ9bCqnIGrPiRfzX7g/9?=
+ =?us-ascii?Q?EC/zgVDBfzILHVsb/VbYhbfuAV2VxQNUolBgKmbcbKGxd673lgG4cJha+JB8?=
+ =?us-ascii?Q?X21jLkUYr4kTRBCzPOfsqWKelN9hYM/5M1afKE84pfN4lgYqsZw2r6wPhq1Y?=
+ =?us-ascii?Q?w6ptxI+ll4i5hOHh/4ss2M80vB/E9hdSpWfPd2lrLe9vKmLkOH3aIpkenIqC?=
+ =?us-ascii?Q?FajkW3gKevUEVlkNL5TFNbj1W2UGyCfMU/55l1qmT7/BHIy/0Jli5WzrWJla?=
+ =?us-ascii?Q?6Is8nQQ8vj9JSd0/Z2THy/CmtHxzzATVOd3qqRMSXWaFFES5FkQO0ZBSad32?=
+ =?us-ascii?Q?iWfHVJx6DTK9NNVZJpjNNrRBBOtmGkKr4SzdzzrJzJ19gIB6ceSWn28fwfat?=
+ =?us-ascii?Q?V8/JTH3OmeJYa69AaQATUh8rvJXdRals6Zb0SBijqmfntYPid6/b4Fggmn63?=
+ =?us-ascii?Q?uizVt93ar1LL3ZCzQmZbnWW7OWg8ErTHLdP09tAH24k0Q7l7jz0DXGUaNTeT?=
+ =?us-ascii?Q?Nql+t96bxWA6hF3nSONASKXcatM8DOF9CZ2rnCe4At39vywusdDjuSAm8wLj?=
+ =?us-ascii?Q?hHUdQY3r+pghI9h1FgDdgecCGJTcK0BWH3Vmw+ebza/paZQ1h80R1HQIf07g?=
+ =?us-ascii?Q?eP+Fih6olCc3wPhLSSPmfvd8deXeYqm2NxClKuBdKQ4eEUY9FJBPQ5emFqkR?=
+ =?us-ascii?Q?RbIfexCdXU5cRy93TiAautiCaWAhHQ7yxhzvsuKQ2bn2KSBJeUkuFhHr3XNR?=
+ =?us-ascii?Q?nZ25CSTWZ8Gk+rDSq6lhhPtQEKmOe3MqWcY69N4whvYmLvOrMP5cJk72ZH51?=
+ =?us-ascii?Q?aMWS56VcTZnVFRMN4bTLB/gQnxz1H4DcE2h0LfQtCY1ujN57CWsvMISgcu5P?=
+ =?us-ascii?Q?HvnEsVPJK4ofq+UAqM6S/ej6SZM2YbLeZ1CqB1zmwj8993TlJvdMSWO9IjqT?=
+ =?us-ascii?Q?DWJ1dIUpFxOpbXhoVeev0GjwYp1H6KCrdy3u47xB7lUBpRd23lDOB4uo137A?=
+ =?us-ascii?Q?hBWBMaMPorQe2MdGKRqhFjJahqWgwTlQU9ZMcDh8flXzgxOjeLdCvJNGaWmQ?=
+ =?us-ascii?Q?OMBmykIhlbuChK5zKbyV0UNzyW7plQHHZtfSVig7XK+UuOcaiQFk0biKv8Me?=
+ =?us-ascii?Q?WuHS+82ezIiuZwglZ2uAft7V8FiTlF/kFS7mb2o4L6NKR1LA7s8JVkwOuAbb?=
+ =?us-ascii?Q?nRgNsw1jzRt2NGXd2+3AY/ECoDWI00xCJ3vmNoRfdUiho8880BRUNkbip8gO?=
+ =?us-ascii?Q?Ae1LRjvhZEF3eyA4k7e5vC5O?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72084e03-aefd-498e-c934-08d91e9606e0
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR03MB6058.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 09:26:36.0312
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: msrkgwyR1nLD/gaTxpt0BWFFO4E5xv7kFCWGqMP9mQRQaGQKrhyyB+Db9HFGRYR+j8NdCZgoUu2iXXljKgwUdA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR03MB6188
+X-Original-Sender: Jisheng.Zhang@synaptics.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@Synaptics.onmicrosoft.com header.s=selector2-Synaptics-onmicrosoft-com
+ header.b=FPiAYLO9;       arc=pass (i=1 spf=pass spfdomain=synaptics.com
+ dkim=pass dkdomain=synaptics.com dmarc=pass fromdomain=synaptics.com);
+       spf=pass (google.com: domain of jisheng.zhang@synaptics.com designates
+ 40.107.94.40 as permitted sender) smtp.mailfrom=Jisheng.Zhang@synaptics.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=synaptics.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,176 +197,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+KFENCE requires linear map to be mapped at page granularity, so that
+it is possible to protect/unprotect single pages in the KFENCE pool.
+Currently if KFENCE is enabled, arm64 maps all pages at page
+granularity, it seems overkilled. We want both KFENCE feature and
+arm64's block level and contiguous mapping for non KEFENCE pool pages.
 
+We acchieve this goal by allocating KFENCE pool before paging_init()
+so we know the KFENCE pool address, then we take care to map the pool
+at page granularity during map_mem().
 
-On 2021/5/23 10:38, Palmer Dabbelt wrote:
-> On Fri, 14 May 2021 08:20:10 PDT (-0700), elver@google.com wrote:
->> On Fri, 14 May 2021 at 05:11, Liu Shixin <liushixin2@huawei.com> wrote:
->>> Add architecture specific implementation details for KFENCE and enable
->>> KFENCE for the riscv64 architecture. In particular, this implements the
->>> required interface in <asm/kfence.h>.
->>>
->>> KFENCE requires that attributes for pages from its memory pool can
->>> individually be set. Therefore, force the kfence pool to be mapped at
->>> page granularity.
->>>
->>> I tested this patch using the testcases in kfence_test.c and all passed=
-.
->>>
->>> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
->>
->> Acked-by: Marco Elver <elver@google.com>
->>
->>
->>> ---
->>> v1->v2: Change kmalloc() to pte_alloc_one_kernel() for allocating pte.
->>>
->>>  arch/riscv/Kconfig              |  1 +
->>>  arch/riscv/include/asm/kfence.h | 51 +++++++++++++++++++++++++++++++++
->>>  arch/riscv/mm/fault.c           | 11 ++++++-
->>>  3 files changed, 62 insertions(+), 1 deletion(-)
->>>  create mode 100644 arch/riscv/include/asm/kfence.h
->>>
->>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
->>> index c426e7d20907..000d8aba1030 100644
->>> --- a/arch/riscv/Kconfig
->>> +++ b/arch/riscv/Kconfig
->>> @@ -64,6 +64,7 @@ config RISCV
->>>         select HAVE_ARCH_JUMP_LABEL_RELATIVE
->>>         select HAVE_ARCH_KASAN if MMU && 64BIT
->>>         select HAVE_ARCH_KASAN_VMALLOC if MMU && 64BIT
->>> +       select HAVE_ARCH_KFENCE if MMU && 64BIT
->>>         select HAVE_ARCH_KGDB
->>>         select HAVE_ARCH_KGDB_QXFER_PKT
->>>         select HAVE_ARCH_MMAP_RND_BITS if MMU
->>> diff --git a/arch/riscv/include/asm/kfence.h b/arch/riscv/include/asm/k=
-fence.h
->>> new file mode 100644
->>> index 000000000000..c25d67e0b8ba
->>> --- /dev/null
->>> +++ b/arch/riscv/include/asm/kfence.h
->>> @@ -0,0 +1,51 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 */
->>> +
->>> +#ifndef _ASM_RISCV_KFENCE_H
->>> +#define _ASM_RISCV_KFENCE_H
->>> +
->>> +#include <linux/kfence.h>
->>> +#include <linux/pfn.h>
->>> +#include <asm-generic/pgalloc.h>
->>> +#include <asm/pgtable.h>
->>> +
->>> +static inline bool arch_kfence_init_pool(void)
->>> +{
->>> +       int i;
->>> +       unsigned long addr;
->>> +       pte_t *pte;
->>> +       pmd_t *pmd;
->>> +
->>> +       for (addr =3D (unsigned long)__kfence_pool; is_kfence_address((=
-void *)addr);
->>> +            addr +=3D PAGE_SIZE) {
->>> +               pte =3D virt_to_kpte(addr);
->>> +               pmd =3D pmd_off_k(addr);
->>> +
->>> +               if (!pmd_leaf(*pmd) && pte_present(*pte))
->>> +                       continue;
->>> +
->>> +               pte =3D pte_alloc_one_kernel(&init_mm);
->>> +               for (i =3D 0; i < PTRS_PER_PTE; i++)
->>> +                       set_pte(pte + i, pfn_pte(PFN_DOWN(__pa((addr & =
-PMD_MASK) + i * PAGE_SIZE)), PAGE_KERNEL));
->>> +
->>> +               set_pmd(pmd, pfn_pmd(PFN_DOWN(__pa(pte)), PAGE_TABLE));
->>> +               flush_tlb_kernel_range(addr, addr + PMD_SIZE);
->>> +       }
->>> +
->>> +       return true;
->>> +}
->
-> I'm not fundamentally opposed to this, but the arm64 approach where pages=
- are split at runtime when they have mis-matched permissions seems cleaner =
-to me.  I'm not sure why x86 is doing it during init, though, as IIUC set_m=
-emory_4k() will work for both.
->
-> Upgrading our __set_memory() with the ability to split pages (like arm64 =
-has) seems generally useful, and would let us trivially implement the dynam=
-ic version of this.  We'll probably end up with the ability to split pages =
-anyway, so that would be the least code in the long run.
->
-> If there's some reason to prefer statically allocating the pages I'm fine=
- with this, though.
->
-As I understand=EF=BC=8Cthe arm64 approach does not implement dynamic split=
-ting.
-If kfence is enabled in arch arm64, the linear map need to be forcibly mapp=
-ed
-at page granularity. But x86 does not have such constraints as it only spli=
-t pages
-in the kfence pool, so I think the x86 approach is better as it has less in=
-fluence
-on the whole.
->>> +
->>> +static inline bool kfence_protect_page(unsigned long addr, bool protec=
-t)
->>> +{
->>> +       pte_t *pte =3D virt_to_kpte(addr);
->>> +
->>> +       if (protect)
->>> +               set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
->>> +       else
->>> +               set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
->>> +
->>> +       flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
->>> +
->>> +       return true;
->>> +}
->>> +
->>> +#endif /* _ASM_RISCV_KFENCE_H */
->>> diff --git a/arch/riscv/mm/fault.c b/arch/riscv/mm/fault.c
->>> index 096463cc6fff..aa08dd2f8fae 100644
->>> --- a/arch/riscv/mm/fault.c
->>> +++ b/arch/riscv/mm/fault.c
->>> @@ -14,6 +14,7 @@
->>>  #include <linux/signal.h>
->>>  #include <linux/uaccess.h>
->>>  #include <linux/kprobes.h>
->>> +#include <linux/kfence.h>
->>>
->>>  #include <asm/ptrace.h>
->>>  #include <asm/tlbflush.h>
->>> @@ -45,7 +46,15 @@ static inline void no_context(struct pt_regs *regs, =
-unsigned long addr)
->>>          * Oops. The kernel tried to access some bad page. We'll have t=
-o
->>>          * terminate things with extreme prejudice.
->>>          */
->>> -       msg =3D (addr < PAGE_SIZE) ? "NULL pointer dereference" : "pagi=
-ng request";
->>> +       if (addr < PAGE_SIZE)
->>> +               msg =3D "NULL pointer dereference";
->>> +       else {
->>> +               if (kfence_handle_page_fault(addr, regs->cause =3D=3D E=
-XC_STORE_PAGE_FAULT, regs))
->>> +                       return;
->>> +
->>> +               msg =3D "paging request";
->>> +       }
->>> +
->>>         die_kernel_fault(msg, addr, regs);
->>>  }
->>>
->>> --=20
->>> 2.18.0.huawei.25
->>>
->
-> .
->
+patch1 is a preparation patch.
+patch2 removes the limitation.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/0b584a85-79e2-fcdd-2adf-5b63f56cc591%40huawei.com.
+Jisheng Zhang (2):
+  kfence: allow providing __kfence_pool in arch specific way
+  arm64: remove page granularity limitation from KFENCE
+
+ arch/arm64/kernel/setup.c |  3 +++
+ arch/arm64/mm/mmu.c       | 27 +++++++++++++++++++--------
+ mm/kfence/core.c          |  6 ++++--
+ 3 files changed, 26 insertions(+), 10 deletions(-)
+
+-- 
+2.31.0
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210524172433.015b3b6b%40xhacker.debian.
