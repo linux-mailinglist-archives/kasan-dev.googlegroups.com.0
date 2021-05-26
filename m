@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBXE5XCCQMGQEOECQW5Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBDV6XCCQMGQEJGBRZIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E9239134D
-	for <lists+kasan-dev@lfdr.de>; Wed, 26 May 2021 11:03:25 +0200 (CEST)
-Received: by mail-lj1-x23d.google.com with SMTP id o5-20020a05651c0505b02900e5a95dd51esf149129ljp.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 26 May 2021 02:03:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1622019804; cv=pass;
+Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D273391494
+	for <lists+kasan-dev@lfdr.de>; Wed, 26 May 2021 12:12:31 +0200 (CEST)
+Received: by mail-wr1-x440.google.com with SMTP id 7-20020adf95070000b02901104ad3ef04sf160439wrs.16
+        for <lists+kasan-dev@lfdr.de>; Wed, 26 May 2021 03:12:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1622023950; cv=pass;
         d=google.com; s=arc-20160816;
-        b=kejUHFJNJv/YIOb4qruO8bnSByhI1+rSJlXAxG+gsAQgrOvAo5uVzaUAQcWxDM7ZJb
-         PXjX1baA/U9rMfPOEOaYhJFY5J3R7JRyNlnZu8Cm3nX+SlG/5j9rE6N8uTF0icIqtgUo
-         JwezTvIQdJvdjO2/fA1BQy3FGbwwU/M0LyI7qQ2YtJzRFiE2Q1Xhc8SamEeVoum4uPzt
-         qQkpdQ8/xzTUNQWRFGW/gw9WXPuUVWjUhyOp+fELJKyJhGuUbUt/lt7yELKJJcwBaHQT
-         Mymd12Xo8tlwSXsFHa+0ehftBohYk03qU3/rnPO12oXZyqHr38fVLOWcMGkcU+rAzqaj
-         bdJQ==
+        b=KwQRDOmFF60tcL221X2P0RMlKhQmn+h8Ovf8shDPgrrl0SIggfoFy/YqyH6zVRCiZ7
+         YDH3niYYR+oHhbQeG3bN6+qvYFmaPLiLEqL7rvcLKX57SsoUtObIVB+nuHjmTsNvsR//
+         iA1h3+muvIkcllJGm+MErUSCimitNGW2Cf3A8ZPXEB8uPSlXQ/V2pFntxAlV9qip6Ahk
+         T6i2KuhzZPQ+iAI5MRYnRLpuhvUf9Z29AKQVDm5Lwp48SpcVwK8ANKOjT59nm0GKr/G9
+         agizp+qX4qfC4e3S5+7tdnpRPc8CK1PZqzzeneiGYyq3Ox29GZqEHJQdulPZoUE8dGSc
+         zSkQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=M4WqIZ/XBzaaHXzVIbwnyFpHPQZL1iHwtCDIA2tFFp8=;
-        b=rj6nl5zzol3dQwPFE8VcrJsK2EQbyoi2HIfNrH3S9sxnvuMyvm4cCBPIcQxJfmbSnh
-         IC1G1PHcXk94JlrVAsfOicyPhWpQYvZYMGwUa6Tv4DepBhGonc1Y8lsIqEx+ehfdZhl2
-         RCQlkrLK31sKHEW68d1cTN+HL8nW5xQaJJR3ydKwS9msX73TyEJTJX/91jSjxxzsjX42
-         CJAjWHd7aUfAqWmPK9kfXqn8uhusmr47bu24tOirIzdIAzew0A6DCdLMqnQv7+i12unG
-         kX3wi3Rrrl4Qp2Ufkp24uBn4iMH4DmXVhigVEjro3fpjOJcTsHbZD+MJmerHitZM6Hsp
-         eKuw==
+        bh=jDl8wrNYUGfdWPuAQe9csolgodZ1CzPXqXNQyP2L6iY=;
+        b=elQEbt/1QvSnznbnQT07mQEfnN+phLETYjXfPFLbOhfF0xu/6IDlRdevH2McqX4uy/
+         uuV5TZeTr3wAnrGzU4IcSsBXX5ivENh5yQHzmlqW4Oz2sn0Z+7/Whevhkur+A1uq1O6b
+         0XfAJ1dwbzbWXSFFAbMJm72QfV/M7KAYUfomolK8uqQTvnhM2SGek7hS+RcqF8yUQvpx
+         VyMCPyblkgM7pmTssPf8aBeipMAUG9yeXVpnJ+Cco9EyVbKKvrvIR/SLE9ccOFdOPsNu
+         55G7CAis200Uef4INplA5j/fAGZqICKmVMrvW8VsBZ9mBsxndbKBDLPR4/gUBQw2Xs9n
+         13XA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=IKLvO0Am;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=l6C2fhuJ;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=M4WqIZ/XBzaaHXzVIbwnyFpHPQZL1iHwtCDIA2tFFp8=;
-        b=LxLqqx8wxpvkQl5Zr6o+TBYl7tEH6v3858tQGv8cqUR+7TsGOstVTGt/mQZU6j5Zg5
-         4Y4jj0ICJ0wHsZwbnB9C89OatlDOoo8qJy9C6MexdyjU+B6UMsFh+78sLXpN8t5qrSjw
-         zxmxKIZ09LVkxwwKPzBbUqCazdae2RPO8SGBmglS3PSixFD26uMA4DU0wlKMTPojyPuD
-         BRzMlNnA5W1Td3d8PHk1w5nN6MXTMsVXfbFvWouLzrbqPwbe2J0ZHYvwffxj8Yt4g1dy
-         qx9QBpuBBExLRtr+7vtHAFKmynIIQTMI8ugpIUp1sbVb/HUk7uGpOjCissGJP4etGivH
-         apIg==
+        bh=jDl8wrNYUGfdWPuAQe9csolgodZ1CzPXqXNQyP2L6iY=;
+        b=gYJonldGnxOS0102MBGDY1o7XZMjVgJXjAy/+1HcIqEnxuNeC5p+o4nsdIDCzdosLF
+         mED/SFwEdHnXxL3LVO6YvRAIH5mK08hUu+Q5CHphIs5XkcruRNuHoQJJy1yFNBLN9eKh
+         jaZapLQsefQ80/xY5plkdluxziN9b9qQURmzjqmLDDfPbZsyJbOe0ZutuPCG6SAAtXN4
+         7l+udqsJISwQgxmqQFG/G2ilZsPteGuLR3Z/FvLxjHgfwPqpt+viwDXcLoGQCfyVedLs
+         H40orOpkMZm10duymHGA591lXVSQscojSVuIkwHsFGuI2Mw6ZydzAqcnM9KrsHjT244w
+         ndHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
@@ -51,81 +51,83 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=M4WqIZ/XBzaaHXzVIbwnyFpHPQZL1iHwtCDIA2tFFp8=;
-        b=ssMLB/to+oSl1uRuOhakQe78wIrYJnp3XI7SfVeUQt0BJhGGhL5HNVKFhwM5AfDNB1
-         SOSa7zXgJ1oJ8L1ztyhcin+j/E6e6F/3WTljrL6EkbzvPla1lS7pxwGqOB2Cje8rOKD8
-         ZiG1iDQnNnsabpF/3/DZCGjKc+s1NNqhxapM5FQIz5Mr0c9m2oQr4VX2787VsxzQBUxp
-         UWlAu+Qa85ccIcjn8PWjBOpPJjWhPYs40wWdB4IYg+cwi/Zr5/Apa8N9freZyauTAxsE
-         DRnxyeC2agWb2E8yEl2mlYTwzYcdhm2mnvr050WIjRD9h8CfwByaEDz+oitQRdDy0TMC
-         lFcw==
-X-Gm-Message-State: AOAM5331RlF8kpR6zRZG9ZSWEuYs7bm1LZfBxBAiQMaZTogimRNtt22Q
-	2Dvt53ngnoCSSifZkm7yWRc=
-X-Google-Smtp-Source: ABdhPJwH4wgHzcOyXW3DKyIvMpG0TFkyWgLWT1bk7rvbxBBefJ2D5tr5GltquBFG/Lq2GntSLwdQMg==
-X-Received: by 2002:ac2:44a8:: with SMTP id c8mr1488285lfm.232.1622019804562;
-        Wed, 26 May 2021 02:03:24 -0700 (PDT)
+        bh=jDl8wrNYUGfdWPuAQe9csolgodZ1CzPXqXNQyP2L6iY=;
+        b=XXMbCM+K7tqzXX2AO34NtydJqfBa/SKlTsWbIKnO2dNOOCtcddi+pEMvBhEE9gVMKn
+         Qj8nBnyog1E3B21hiOYmYY5KsrkJUiXtWbvH4YI5r3IgLsw+Gk3AmSh8jg+vQEqnx/7j
+         cOHIMfDGfJaPwg6ZjXFucXJiiIxw9hSxcydXTgBIzpkRV161WReWBNsMJOLdczSVX+UU
+         S6Czl29pV3zQD1qBO1t1kLnNSZd604aNFldGFWpAPX6mRIDdDLybiZBZunVyZMw2SNzx
+         XQp5N3+kEKs90QalVd/H6YlpynPLFrt9Waq/FDG/U8grBVQ+SDCIa8jLixDx7TYXy5ka
+         h8aA==
+X-Gm-Message-State: AOAM530gGQv7b4hRO7hJKww+CCK1akI9MizvoeZIgZk0pelD4rSQPL9m
+	gsDJ8t8k6EzHwm2Uw/R8i2M=
+X-Google-Smtp-Source: ABdhPJwCEUDuemQ2vlKMBBosHimRzCp1k++izlJQuCarjV3mXZPR2/mQ8mUbJU/3xo7EUSPZMeo/gA==
+X-Received: by 2002:a1c:bc07:: with SMTP id m7mr2624172wmf.179.1622023950760;
+        Wed, 26 May 2021 03:12:30 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:230f:: with SMTP id o15ls4534555lfu.1.gmail; Wed,
- 26 May 2021 02:03:23 -0700 (PDT)
-X-Received: by 2002:a05:6512:1150:: with SMTP id m16mr1448613lfg.486.1622019803326;
-        Wed, 26 May 2021 02:03:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1622019803; cv=none;
+Received: by 2002:a05:600c:4f52:: with SMTP id m18ls2996673wmq.0.canary-gmail;
+ Wed, 26 May 2021 03:12:29 -0700 (PDT)
+X-Received: by 2002:a05:600c:2e43:: with SMTP id q3mr11165879wmf.75.1622023949840;
+        Wed, 26 May 2021 03:12:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1622023949; cv=none;
         d=google.com; s=arc-20160816;
-        b=aqOwxnXgLp0czpOn8WijVtgAhjQYGv3hRO/vWMv5+j42RQuEx6ZqsAxwWmDJm/tsBV
-         iepIBcPcUjYQvez+a2MzAHTCGCwjWlne4NbjZbMl6FiohO2aLvLJhAczqKa3TIrWeAnd
-         TP/qCTfiWhzdyePT/BCA/JS5AnGjEksF57GOYbTpuTzTRycCYHIO8uRGpDFZCFey2Z30
-         VXNTOj099LSYy5sYYZ65zULP37K0wAwAoyX209BZIsWfe8PjBl0EZJBQqDzzzP/JnEsk
-         GORgMm0RpdqEptNtDljDZSfDWGwAskO1X+QoUEs+AWLXpTe4WkgDHzV9YkOhYTjYnItu
-         S0wQ==
+        b=UX0/DP6Tk0cpHk146/kIdHbzx/nLbwexBBPyXch/6m34Qnyrug9LPAJU8oJY53gCeD
+         UYW4zD5rUYQ3CW1evaGpOWKKrABOiQLGbCcQt4woLxhkindr2Bfnkqmvz0gJUQB+y7yS
+         5tpHlPUhc/eg94UjFm2rrAb7bbp7oaOPtSafL/g0TN2+ZiTClYgRHKE/SHD+LQMtJGOm
+         c5RaT1nw6G2NUMaMYNgZQaZnNYFVu1LEujasJraM7XYCigAWItMI/mTwRsLkzHvZWbbC
+         PGwmbPc0Xw71KMBjjXUb1+eg16QvX90e6uoYTmSzKoJ4LKgUKN1milBKVpHScazt5y5u
+         hFCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=/arfmioWBLl+bsHh1UkXgXV/45lpjUcVc8QQOrErq1I=;
-        b=yBeZMuaoqsG6K5ZaU+WKKH4CpDWZFmbQNpS9F8+TCK+rFe/IW9UO2XP7sxZOAVedZb
-         0eYxQihZdxDOj6weUiQe+pBOCMzIt2diTuQ6nG0DMQWHebwKTs92ePCUND+T8xaRfcCR
-         QH2gJhB0a04yBRt0TMFk6oC4utjfPFvgyY850EpqCTt8Gcqz2/9Bo/y6KpNaAZG4NSjZ
-         4GC471aw4W0KjZwkLrTK4Vp7dCCMtgJK9IfnfeZyfBc7peMvABheYhCs3ETTdhzsZJQA
-         myQ5gDgikRDbieytrwtUpGez3X6gs+4topkD12s1OebtTGIXqz+2zvCbMM0JIwemRU5+
-         KBvQ==
+        bh=ORUbrgb2hImgyzC/Ql6sac6MWYkFqD0t9FCM4LD49w4=;
+        b=pjGIAw/isn4IbizM2iTb+qMxD8tUrTanMkSNYOTvrEsyzqKf1nDElSBMEHsQwqWsqS
+         jbReIDV0YnHOS89JotQ+Mu9xAaL12mjVKkeqpyq/agA7TtM24Iy7hHm9xNRp7vjG5llA
+         IqCM0pEtgJP0Dw2BZyVPQe5GGKk7h4xDbzlKqtd/vBCNXdzhPfFdBHN4mbdvdvUMztxF
+         j22ZTQMkblhWkL84fsIi2KBUxyvg8ApxEnKyz9aaPd3eDBNhyMbDwzCfTkV5IOYGg5k6
+         6TCHwqtNHpBuUeXap6BCYujM3TkdCDmZYGxGnz3WMqLLMq7J0M7VeYQ5ai2+BrEZgVbF
+         4Jsg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=IKLvO0Am;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=l6C2fhuJ;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com. [2a00:1450:4864:20::432])
-        by gmr-mx.google.com with ESMTPS id o13si911763ljp.0.2021.05.26.02.03.23
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com. [2a00:1450:4864:20::32d])
+        by gmr-mx.google.com with ESMTPS id t1si791428wrn.4.2021.05.26.03.12.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 May 2021 02:03:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::432 as permitted sender) client-ip=2a00:1450:4864:20::432;
-Received: by mail-wr1-x432.google.com with SMTP id n2so320178wrm.0
-        for <kasan-dev@googlegroups.com>; Wed, 26 May 2021 02:03:23 -0700 (PDT)
-X-Received: by 2002:a5d:5688:: with SMTP id f8mr31819035wrv.237.1622019802699;
-        Wed, 26 May 2021 02:03:22 -0700 (PDT)
+        Wed, 26 May 2021 03:12:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as permitted sender) client-ip=2a00:1450:4864:20::32d;
+Received: by mail-wm1-x32d.google.com with SMTP id 16so378687wmj.5
+        for <kasan-dev@googlegroups.com>; Wed, 26 May 2021 03:12:29 -0700 (PDT)
+X-Received: by 2002:a7b:c446:: with SMTP id l6mr2541346wmi.75.1622023949427;
+        Wed, 26 May 2021 03:12:29 -0700 (PDT)
 Received: from elver.google.com ([2a00:79e0:15:13:cd98:de82:208c:cbdb])
-        by smtp.gmail.com with ESMTPSA id a17sm19021929wrt.53.2021.05.26.02.03.21
+        by smtp.gmail.com with ESMTPSA id u18sm6717455wmj.15.2021.05.26.03.12.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 02:03:22 -0700 (PDT)
-Date: Wed, 26 May 2021 11:03:16 +0200
+        Wed, 26 May 2021 03:12:28 -0700 (PDT)
+Date: Wed, 26 May 2021 12:12:22 +0200
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: David Gow <davidgow@google.com>
-Cc: Brendan Higgins <brendanhiggins@google.com>,
-	Alan Maguire <alan.maguire@oracle.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: Peter Collingbourne <pcc@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
-Subject: Re: [PATCH 1/3] kunit: Support skipped tests
-Message-ID: <YK4O1DkP1/DKzVU5@elver.google.com>
-References: <20210526081112.3652290-1-davidgow@google.com>
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Evgenii Stepanov <eugenis@google.com>, linux-mm@kvack.org,
+	linux-arm-kernel@lists.infradead.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v3 1/3] kasan: use separate (un)poison implementation for
+ integrated init
+Message-ID: <YK4fBogA/rzxEF1f@elver.google.com>
+References: <cover.1620849613.git.pcc@google.com>
+ <78af73393175c648b4eb10312825612f6e6889f6.1620849613.git.pcc@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20210526081112.3652290-1-davidgow@google.com>
+In-Reply-To: <78af73393175c648b4eb10312825612f6e6889f6.1620849613.git.pcc@google.com>
 User-Agent: Mutt/2.0.5 (2021-01-21)
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=IKLvO0Am;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::432 as
+ header.i=@google.com header.s=20161025 header.b=l6C2fhuJ;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -142,84 +144,134 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, May 26, 2021 at 01:11AM -0700, David Gow wrote:
-> The kunit_mark_skipped() macro marks the current test as "skipped", with
-> the provided reason. The kunit_skip() macro will mark the test as
-> skipped, and abort the test.
-> 
-> The TAP specification supports this "SKIP directive" as a comment after
-> the "ok" / "not ok" for a test. See the "Directives" section of the TAP
-> spec for details:
-> https://testanything.org/tap-specification.html#directives
-> 
-> The 'success' field for KUnit tests is replaced with a kunit_status
-> enum, which can be SUCCESS, FAILURE, or SKIPPED, combined with a
-> 'status_comment' containing information on why a test was skipped.
-> 
-> A new 'kunit_status' test suite is added to test this.
-> 
-> Signed-off-by: David Gow <davidgow@google.com>
+On Wed, May 12, 2021 at 01:09PM -0700, Peter Collingbourne wrote:
+[...] 
+> +void kasan_alloc_pages(struct page *page, unsigned int order, gfp_t flags);
+> +void kasan_free_pages(struct page *page, unsigned int order);
+> +
+>  #else /* CONFIG_KASAN_HW_TAGS */
+>  
+>  static inline bool kasan_enabled(void)
+>  {
+> +#ifdef CONFIG_KASAN
+>  	return true;
+> +#else
+> +	return false;
+> +#endif
+>  }
+
+Just
+
+	return IS_ENABLED(CONFIG_KASAN);
+
+>  static inline bool kasan_has_integrated_init(void)
+> @@ -113,8 +113,30 @@ static inline bool kasan_has_integrated_init(void)
+>  	return false;
+>  }
+>  
+> +static __always_inline void kasan_alloc_pages(struct page *page,
+> +					      unsigned int order, gfp_t flags)
+> +{
+> +	/* Only available for integrated init. */
+> +	BUILD_BUG();
+> +}
+> +
+> +static __always_inline void kasan_free_pages(struct page *page,
+> +					     unsigned int order)
+> +{
+> +	/* Only available for integrated init. */
+> +	BUILD_BUG();
+> +}
+
+This *should* always work, as long as the compiler optimizes everything
+like we expect.
+
+But: In this case, I think this is sign that the interface design can be
+improved. Can we just make kasan_{alloc,free}_pages() return a 'bool
+__must_check' to indicate if kasan takes care of init?
+
+The variants here would simply return kasan_has_integrated_init().
+
+That way, there'd be no need for the BUILD_BUG()s and the interface
+becomes harder to misuse by design.
+
+Also, given that kasan_{alloc,free}_pages() initializes memory, this is
+an opportunity to just give them a better name. Perhaps
+
+	/* Returns true if KASAN took care of initialization, false otherwise. */
+	bool __must_check kasan_alloc_pages_try_init(struct page *page, unsigned int order, gfp_t flags);
+	bool __must_check kasan_free_pages_try_init(struct page *page, unsigned int order);
+
 [...]
->  include/kunit/test.h   | 68 ++++++++++++++++++++++++++++++++++++++----
->  lib/kunit/kunit-test.c | 42 +++++++++++++++++++++++++-
->  lib/kunit/test.c       | 51 ++++++++++++++++++-------------
->  3 files changed, 134 insertions(+), 27 deletions(-)
+> -	init = want_init_on_free();
+> -	if (init && !kasan_has_integrated_init())
+> -		kernel_init_free_pages(page, 1 << order);
+> -	kasan_free_nondeferred_pages(page, order, init, fpi_flags);
+> +	if (kasan_has_integrated_init()) {
+> +		if (!skip_kasan_poison)
+> +			kasan_free_pages(page, order);
 
-Very nice, thank you.
+I think kasan_free_pages() could return a bool, and this would become
 
-	Tested-by: Marco Elver <elver@google.com>
+	if (skip_kasan_poison || !kasan_free_pages(...)) {
+		...
 
-, with the below changes to test_kasan.c. If you would like an immediate
-user of kunit_skip(), please feel free to add the below patch to your
-series.
+> +	} else {
+> +		bool init = want_init_on_free();
+> +
+> +		if (init)
+> +			kernel_init_free_pages(page, 1 << order);
+> +		if (!skip_kasan_poison)
+> +			kasan_poison_pages(page, order, init);
+> +	}
+>  
+>  	/*
+>  	 * arch_free_page() can make the page's contents inaccessible.  s390
+> @@ -2324,8 +2324,6 @@ static bool check_new_pages(struct page *page, unsigned int order)
+>  inline void post_alloc_hook(struct page *page, unsigned int order,
+>  				gfp_t gfp_flags)
+>  {
+> -	bool init;
+> -
+>  	set_page_private(page, 0);
+>  	set_page_refcounted(page);
+>  
+> @@ -2344,10 +2342,16 @@ inline void post_alloc_hook(struct page *page, unsigned int order,
+>  	 * kasan_alloc_pages and kernel_init_free_pages must be
+>  	 * kept together to avoid discrepancies in behavior.
+>  	 */
+> -	init = !want_init_on_free() && want_init_on_alloc(gfp_flags);
+> -	kasan_alloc_pages(page, order, init);
+> -	if (init && !kasan_has_integrated_init())
+> -		kernel_init_free_pages(page, 1 << order);
+> +	if (kasan_has_integrated_init()) {
+> +		kasan_alloc_pages(page, order, gfp_flags);
+
+It looks to me that kasan_alloc_pages() could return a bool, and this
+would become
+
+	if (!kasan_alloc_pages(...)) {
+		...
+
+> +	} else {
+> +		bool init =
+> +			!want_init_on_free() && want_init_on_alloc(gfp_flags);
+> +
+
+[ No need for line-break (for cases like this the kernel is fine with up
+to 100 cols if it improves readability). ]
+
+> +		kasan_unpoison_pages(page, order, init);
+> +		if (init)
+> +			kernel_init_free_pages(page, 1 << order);
+> +	}
+
+Thoughts?
 
 Thanks,
 -- Marco
 
------- >8 ------
-
-From: Marco Elver <elver@google.com>
-Date: Wed, 26 May 2021 10:43:12 +0200
-Subject: [PATCH] kasan: test: make use of kunit_skip()
-
-Make use of the recently added kunit_skip() to skip tests, as it permits
-TAP parsers to recognize if a test was deliberately skipped.
-
-Signed-off-by: Marco Elver <elver@google.com>
----
- lib/test_kasan.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-index cacbbbdef768..0a2029d14c91 100644
---- a/lib/test_kasan.c
-+++ b/lib/test_kasan.c
-@@ -111,17 +111,13 @@ static void kasan_test_exit(struct kunit *test)
- } while (0)
- 
- #define KASAN_TEST_NEEDS_CONFIG_ON(test, config) do {			\
--	if (!IS_ENABLED(config)) {					\
--		kunit_info((test), "skipping, " #config " required");	\
--		return;							\
--	}								\
-+	if (!IS_ENABLED(config))					\
-+		kunit_skip((test), "Test requires " #config "=y");	\
- } while (0)
- 
- #define KASAN_TEST_NEEDS_CONFIG_OFF(test, config) do {			\
--	if (IS_ENABLED(config)) {					\
--		kunit_info((test), "skipping, " #config " enabled");	\
--		return;							\
--	}								\
-+	if (IS_ENABLED(config))						\
-+		kunit_skip((test), "Test requires " #config "=n");	\
- } while (0)
- 
- static void kmalloc_oob_right(struct kunit *test)
--- 
-2.31.1.818.g46aad6cb9e-goog
-
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YK4O1DkP1/DKzVU5%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YK4fBogA/rzxEF1f%40elver.google.com.
