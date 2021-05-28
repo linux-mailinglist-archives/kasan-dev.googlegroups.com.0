@@ -1,128 +1,121 @@
-Return-Path: <kasan-dev+bncBD4NDKWHQYDRBF7SX6CQMGQEIV5U5CI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBPWAYKCQMGQEWA5XRQA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298DB3936B7
-	for <lists+kasan-dev@lfdr.de>; Thu, 27 May 2021 21:55:05 +0200 (CEST)
-Received: by mail-io1-xd39.google.com with SMTP id x8-20020a6bda080000b029048654ffbae7sf1128219iob.8
-        for <lists+kasan-dev@lfdr.de>; Thu, 27 May 2021 12:55:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1622145304; cv=pass;
+Received: from mail-pl1-x638.google.com (mail-pl1-x638.google.com [IPv6:2607:f8b0:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24910393E27
+	for <lists+kasan-dev@lfdr.de>; Fri, 28 May 2021 09:48:16 +0200 (CEST)
+Received: by mail-pl1-x638.google.com with SMTP id t10-20020a1709027fcab02900fd1eb0b2e8sf1033265plb.22
+        for <lists+kasan-dev@lfdr.de>; Fri, 28 May 2021 00:48:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1622188094; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SImumD3aa1qMjMUB3qkO6GCiwuStOBQWIe6wWGBYXoCl8sQfBffbYhAvao4Dlplqee
-         n041L6DGlmHzG9qfBCg5bPh+LqIWm7jgVcPfP0sjqDMBXDk1Zaxkyi3VHKvhYjFQgi4x
-         kcEX/bKYB3euirvjvKYBl0FLn1PVMOg83D7oHrH0NmXZSwYzT+yd8pgaKuRJTJUfluGM
-         MTAZ/jYmx8IxNTx8vyEd18gcpxSKKpOLbSBekm18KhRK3TQdZmWAP+GrLmUCCVVdamSF
-         WYjYlI2NJWQ4iuJq/ev6VUdiznWDZVAAJENu1tnjpUGmxjRVVqNca7TABQZJwAFIbOkK
-         dzyA==
+        b=MFgeP+OKvVwdHmnUNBtkDerj8RAbt3AK4EwLR1VBxUZdpUfU0ylm9LSdJdbdD/rwMM
+         LdMgxXIPaWP2eLdswOz44I+F77ItWUZQxG6qRtbFj4bWCs0ApQCI5YYK72j1l8HHLDi0
+         0Z2BNyoA4t/vQv8RK9eUddXdOawITg3U2FWjQACP2zwjWFBMwy1xb/Kz/uQheZ6yJgPa
+         IChiGzqFGO9TOwJ0fAP11W0laI8hINeIGnKHTswQxzoU/yKum+B9KaDmJFrin7+Kga4L
+         TMRzLzGEfUVuwZUdBEE/43vwJXRdN9mosWOZjB8BWjd1J2G3WtMCA0Aj3hFOYUazTUOm
+         EesQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=NRNteOyn0HxMMDLZVTSk/gVZyW/2+uPG78loRLaPfoU=;
-        b=DHzhommoMMoohrESafIU8X0JaFTxLqoSAOHEUqDGaHO8h5OuG8qHAL5tQ27EsGtVTQ
-         buT9RLodogw9gyqokO5yfs/fB8EVOj03GYdE6W+942GPTGERHsKBp2GYASHy8UQurf1L
-         ocnA+FyuvtApfE0InQoGUVjijMldrnoSMM/JAvlL7l6Y/2e2OkyEGBXIT8vyU46TAngn
-         WeChnIE8+luVK1ToYodsld3GbvRuz8uWL9VgDNjfaINwNeWMHzH6oZPQOfFtIhx/lFS4
-         TC2MVnPtC9zrOaozHxD4eRJgDbDqmK9TYeZMRqIg1BfPjnFwYrcHsp3ipLIiGNju+ZE1
-         lXxQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=AXL1jtKZ+f0pdD0bLZhEfF73iGS1pEQ6xqeTcN4TcUM=;
+        b=xcYIqBVnb5jigEsXrcvkrkflvSCFTmLlYWKtrH83ZMWv/vx7NxgCRFRvjdMuu68CJV
+         iQ+8jr0v+Ch/h7ONoVsc/eIRIlVoNFqkESxjL3e4Atq0peRW0t9T5zp2hr5FGhXd0uv9
+         2XPNR5wRIljh9hHOvLrsPMsRkPKSbjwErfp8eyZxPsFGUsvrZfl3msl2kVZaD8heL7Ck
+         IM5WymiVuD0MRO2otYJX5ANR28ax/JbLgBU+r68RGAA41mEgl6nxoTVuH3OlIR+IEWsg
+         62ex4Pzb48wk7QWHZnaaQvAwOCLhpwg2ENTuLyphOnsst0vMJYDckVqYA+XxEdi4x4u2
+         gFQA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Ai3g7nGL;
-       spf=pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=nathan@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@axtens.net header.s=google header.b=Ioy3+gdj;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::42d as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=NRNteOyn0HxMMDLZVTSk/gVZyW/2+uPG78loRLaPfoU=;
-        b=eXhBdEOafA71NE4yIB3b9qcCnEQwCuLgfC/TZidH0jefewppBdJLyb43LCjk5/Ehc3
-         e1lnsAaoAfMWH+mBPjzbNeNUPONMl9QJjifrC90GjjuaUoW8iLFnU40WEO3mPKHD1Jcz
-         If7D8qC7A+eZ60MOc0kzSFmujRv2ZbkYH4mtbzZcirqeFKlVil6AJrLvg9o+eab4CujC
-         gpIvHhG0BULonWK5X5FORUTEGbXjJaP3xF6FgXLADmimQqe+CNJPP/PNQh6lDIGyt1HR
-         VcAYSRK5ABkSNs5N5P6BEgl8dkhnnb6cO1tv457GH/vwcjAtjqElrbMOdQwutMnVcViw
-         AuGg==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=AXL1jtKZ+f0pdD0bLZhEfF73iGS1pEQ6xqeTcN4TcUM=;
+        b=Ocqog3EDrizFF7nB3IBQqF2SAWmW4hh5MD60Vhu8qaMYEYZXiLJVXSMV9TxKPkTHkB
+         hmIjP7EKlJornpV1wIAOlm3QQnhB+pImz4OorCY/y0qArstTmKSZW+7RcuOINVbL0EY5
+         LRX3L5oIFavx0On3g/QtZ8gmAmV5AXGO3tIQYu8UpFtC07IaovtfK+WPWwI6wVBLPuP5
+         IBwLR/uGgZky9xb5hD6nLZiRJ0gwxv311//yF/Gupn5vDjuKDj3gCAq++RwMr6he7w/P
+         RTOManXL0XD1RiNyD5/faBd6FtCzUMGOgm4/bs9Kx4AEEwRcvfJ12xncVYbGHfTe0x4l
+         jqMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=NRNteOyn0HxMMDLZVTSk/gVZyW/2+uPG78loRLaPfoU=;
-        b=MXp4xPFIL+5rsZoJOJefrwI7+d0jRk4zw7YlJBlhlnBwIWBagnN8BIf65rXwd1LgKx
-         siuvOqQ1V5l5faOkcpdWUwdQnT2BLdOkzCzeQlfo249yb0EstrgBfNaST4vSr/yNcDtn
-         k6ZzlmUOu6C18rUi0pAjIekXqsE1q/NxOIJZIqFzTMGBeK9ZvJyFHguziH0bEKDyZR5g
-         QGRa1sCavfFaAhcBbE4+b+nTISPwIALjmtCFUXKrS45t+kTIMGv+CNnF02CrmjjtAJk2
-         UzkDj4pePDpnyNYe8uHI1NwfmIqztLWWibS6kXw9toXt6l//CkhUdlERDcyPqzYmqnE3
-         lb0A==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=AXL1jtKZ+f0pdD0bLZhEfF73iGS1pEQ6xqeTcN4TcUM=;
+        b=GXA7SZOLbjh+z48Je18JGqFSSS1ZyfISeiVRcf04lkkP0heQzIWDRyB74N5q+pEvMq
+         j8/rIYAPNJPSpJetZr1IceVE5kMURuMo2CnTVQfzXRBNFSd/r7kAt15eR6iLiBA1+jNM
+         FsRG0UMmZdGcneCJ+snCpzg2UdQjEkFYQUZbPq9pGxKHDSEMhIwZTWmuJCYLXmCzk7/d
+         uDMyRmAfDDjd7G+1EqvjceiHCeFqJcOnFHF8SI7QP9FodYWAPbwrWYQZ1L8uqTVRmHav
+         mPVOQR2H3YjA9cnmEDlxni5X4KoQ/GW2afzCLRSG9LcRSygV6kY+wlDLUsnPoPTXzLOG
+         7Ssg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533FN32QSvBrEczkB1nF31U6rGc26gz04GMgsA1bXkLdHKcP/z27
-	dlGSh6ukdGSiSzYzcNayl2Q=
-X-Google-Smtp-Source: ABdhPJymPZ6sFozj81RqV87XbT2/GYxJ5PL7B2+A8d31owLE7ORljLS9iKsswEoO6GHUja1ot2MVeA==
-X-Received: by 2002:a92:c794:: with SMTP id c20mr4238335ilk.288.1622145303754;
-        Thu, 27 May 2021 12:55:03 -0700 (PDT)
+X-Gm-Message-State: AOAM533LAQp/mf2GMu9oQYTVLeFICQWlkpd97BE5pGk8XckIgnmrtIrR
+	Fm28/D8yCUo13hA+BBrI7FE=
+X-Google-Smtp-Source: ABdhPJwZuh42VkfVaXkR1h8URcpSeTMR/eWIU9lVJHHn1cYPX4mjSYa+OlolxdjgbfAhYPd+AcxQ5A==
+X-Received: by 2002:a63:ff22:: with SMTP id k34mr7666121pgi.336.1622188094764;
+        Fri, 28 May 2021 00:48:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6638:dc8:: with SMTP id m8ls622638jaj.3.gmail; Thu, 27
- May 2021 12:55:03 -0700 (PDT)
-X-Received: by 2002:a02:a409:: with SMTP id c9mr4986041jal.43.1622145303352;
-        Thu, 27 May 2021 12:55:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1622145303; cv=none;
+Received: by 2002:a17:902:aa8d:: with SMTP id d13ls3170061plr.5.gmail; Fri, 28
+ May 2021 00:48:14 -0700 (PDT)
+X-Received: by 2002:a17:902:db01:b029:f6:4a13:1764 with SMTP id m1-20020a170902db01b02900f64a131764mr6949040plx.25.1622188094153;
+        Fri, 28 May 2021 00:48:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1622188094; cv=none;
         d=google.com; s=arc-20160816;
-        b=etfU5uxm3DYPJwQZ8MaedSsEV2ALKY8AVx8b7ZJVx2xKz+IUDH+pC2JMvjao7yfDXx
-         3LwH3npUjOov23mx3XrsP2SQEjLa/mpL7t4xtNOtMYLC2cLoaZ1X/ILnKjkie4WoEtMA
-         Flr+xfYzPhSxE0zdCqXFrTRk1CQJdNyqHNTzU/hOf11Og+0RW31z+GYw8iqzJP2As7aJ
-         veZasF339gl1DUVB2zk7YrUgcIy+yScW0/GepuT8zNaunY+T78WSdcj95NmFf44+ln6C
-         DjBH9d5cvC2KNEbulbR91L5PIEEWerfTzPVSGp9fiVpzHa/kcIpPoImYODEGGObOQpuw
-         EN0g==
+        b=SrP8ZXaZ7Tey0tXjPeItbjyGfRgJkaiED7tDVkMED6ye3Fya2gYzHXZSXsJvAV8SI6
+         Wbo3zAmsVR7j5Xcxx3BVhXETueDVbtVcLuNnQXWFYw+kw/vZA2h2B4CB3XiqjVUGmAG8
+         kJScCBK2AMH1ZPm+dXzTH1bMTFn2VcfqPoZTK9sfR7V1Dl0GQK43b/4t2+jL5kBCh46u
+         IsYhmoL7QMvW0X7L4jrRSZ8ULwmG7dKgJc+MMqmIpnsRnOYGWFF9tzrCTKIcKdJIC5fx
+         hKGky534xeWMKG3RUnDljRQZ+4hRqjmIAJTuGllyrDj/EWqPoiShmCeasVpQLpc/6bhZ
+         2QYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=SIGMVnTBIspCPVoYI6kntLfi6ga7bBpq4sXkRqi5sY4=;
-        b=ND2AciakNBBsn+XGZ5wEvktITXNn5l3kLHudY8Uyiv8ZdV8tSO1FEOSX9Gzzk1BpSD
-         MISNUNRnB06aJO66+cvVnSo7RPjHBx9mcZ4UrElwnGZkYw4MausRiLL+hBwCGBBuNUS2
-         ksBQhk6dtFRYM1tYXM/31YX87PjEkYKCY92ORj3YuIf+qlE81n/DTAcRjvbP5We8yGJ9
-         QdZI87NUafKWnyz7GSbt6048eHFBvj5k5s2uD2C/RGFiVYKUW4fhyTyxGv/DLuWZZuq5
-         AE7S7hZvYWpNBN1ssR5vmtPVmETemctlUaFYM7KgN27eUkkQuvOM7ikhXMuhZMdw7Iqm
-         yH7Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=O0+UwnOWvhSyGbBwcAEHiHt/a9TX3pdq1WbWKHN5EuQ=;
+        b=l9AIR71BDAcTPC0a/d+JKe4nhy1S0qq01934j/h8aWdFzs4x7uMSSGwHCPJuyHnytn
+         rBh8v3OgJvV6M48CrerbGy1pzgN3jSf/IA3cI7J5++6bfI+SkQ18Se919Ts/wS26EHFy
+         /cbMgqdLWcqRyYGMKnywX2N2YxNFvEo6ZeDzjumarkBmCzeJJ6rOyWTSnvwu9Kw1wmX1
+         Oo4Cv2DDZr2TFRwXE24hCJifWXZYG5nbir/VXleuQsO4nUSMTkKS+WgzOykRq5e0mKR9
+         Ve8Z0DznrmoWIY5aEcCN7CGsnrQFyFFt4oBHfm+rm6YcQlTQVh2GIkEQ2K9P36gDNIyZ
+         AjVA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Ai3g7nGL;
-       spf=pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=nathan@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id x13si347007ilg.2.2021.05.27.12.55.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 27 May 2021 12:55:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 29C6D613BF;
-	Thu, 27 May 2021 19:55:01 +0000 (UTC)
-Subject: Re: [PATCH v3] kcov: add __no_sanitize_coverage to fix noinstr for
- all architectures
-To: Marco Elver <elver@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
- keescook@chromium.org, peterz@infradead.org, will@kernel.org,
- nivedita@alum.mit.edu, luc.vanoostenryck@gmail.com, masahiroy@kernel.org,
- samitolvanen@google.com, arnd@arndb.de, clang-built-linux@googlegroups.com,
- Dmitry Vyukov <dvyukov@google.com>, Mark Rutland <mark.rutland@arm.com>,
- kasan-dev@googlegroups.com
-References: <20210527194448.3470080-1-elver@google.com>
-From: Nathan Chancellor <nathan@kernel.org>
-Message-ID: <be3971b1-cf26-36c7-0f9c-d79c656ec855@kernel.org>
-Date: Thu, 27 May 2021 12:55:00 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+       dkim=pass header.i=@axtens.net header.s=google header.b=Ioy3+gdj;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::42d as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com. [2607:f8b0:4864:20::42d])
+        by gmr-mx.google.com with ESMTPS id b8si603378pjd.2.2021.05.28.00.48.14
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 May 2021 00:48:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::42d as permitted sender) client-ip=2607:f8b0:4864:20::42d;
+Received: by mail-pf1-x42d.google.com with SMTP id x188so2608347pfd.7
+        for <kasan-dev@googlegroups.com>; Fri, 28 May 2021 00:48:14 -0700 (PDT)
+X-Received: by 2002:a05:6a00:24d4:b029:2da:8e01:f07f with SMTP id d20-20020a056a0024d4b02902da8e01f07fmr2593270pfv.44.1622188093772;
+        Fri, 28 May 2021 00:48:13 -0700 (PDT)
+Received: from localhost ([101.178.215.23])
+        by smtp.gmail.com with ESMTPSA id d3sm3713492pfn.141.2021.05.28.00.48.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 May 2021 00:48:13 -0700 (PDT)
+From: Daniel Axtens <dja@axtens.net>
+To: linuxppc-dev@lists.ozlabs.org,
+	kasan-dev@googlegroups.com,
+	christophe.leroy@csgroup.eu
+Cc: Daniel Axtens <dja@axtens.net>
+Subject: [PATCH] powerpc: make show_stack's stack walking KASAN-safe
+Date: Fri, 28 May 2021 17:48:06 +1000
+Message-Id: <20210528074806.1311297-1-dja@axtens.net>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210527194448.3470080-1-elver@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-X-Original-Sender: nathan@kernel.org
+X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Ai3g7nGL;       spf=pass
- (google.com: domain of nathan@kernel.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@axtens.net header.s=google header.b=Ioy3+gdj;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::42d as
+ permitted sender) smtp.mailfrom=dja@axtens.net
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,120 +128,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 5/27/2021 12:44 PM, Marco Elver wrote:
-> Until now no compiler supported an attribute to disable coverage
-> instrumentation as used by KCOV.
-> 
-> To work around this limitation on x86, noinstr functions have their
-> coverage instrumentation turned into nops by objtool. However, this
-> solution doesn't scale automatically to other architectures, such as
-> arm64, which are migrating to use the generic entry code.
-> 
-> Clang [1] and GCC [2] have added support for the attribute recently.
-> [1] https://github.com/llvm/llvm-project/commit/280333021e9550d80f5c1152a34e33e81df1e178
-> [2] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=cec4d4a6782c9bd8d071839c50a239c49caca689
-> The changes will appear in Clang 13 and GCC 12.
-> 
-> Add __no_sanitize_coverage for both compilers, and add it to noinstr.
-> 
-> Note: In the Clang case, __has_feature(coverage_sanitizer) is only true
-> if the feature is enabled, and therefore we do not require an additional
-> defined(CONFIG_KCOV) (like in the GCC case where __has_attribute(..) is
-> always true) to avoid adding redundant attributes to functions if KCOV
-> is off. That being said, compilers that support the attribute will not
-> generate errors/warnings if the attribute is redundantly used; however,
-> where possible let's avoid it as it reduces preprocessed code size and
-> associated compile-time overheads.
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
-> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+Make our stack-walking code KASAN-safe by using READ_ONCE_NOCHECK -
+generic code, arm64, s390 and x86 all do this for similar sorts of
+reasons: when unwinding a stack, we might touch memory that KASAN has
+marked as being out-of-bounds. In ppc64 KASAN development, I hit this
+sometimes when checking for an exception frame - because we're checking
+an arbitrary offset into the stack frame.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+See commit 20955746320e ("s390/kasan: avoid false positives during stack
+unwind"), commit bcaf669b4bdb ("arm64: disable kasan when accessing
+frame->fp in unwind_frame"), commit 91e08ab0c851 ("x86/dumpstack:
+Prevent KASAN false positive warnings") and commit 6e22c8366416
+("tracing, kasan: Silence Kasan warning in check_stack of stack_tracer").
 
-> ---
-> v3:
-> * Add comment explaining __has_feature() in Clang.
-> * Add Miguel's Reviewed-by.
-> 
-> v2:
-> * Implement __has_feature(coverage_sanitizer) in Clang
->    (https://reviews.llvm.org/D103159) and use instead of version check.
-> * Add Peter's Ack.
-> ---
->   include/linux/compiler-clang.h | 17 +++++++++++++++++
->   include/linux/compiler-gcc.h   |  6 ++++++
->   include/linux/compiler_types.h |  2 +-
->   3 files changed, 24 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/compiler-clang.h b/include/linux/compiler-clang.h
-> index adbe76b203e2..49b0ac8b6fd3 100644
-> --- a/include/linux/compiler-clang.h
-> +++ b/include/linux/compiler-clang.h
-> @@ -13,6 +13,12 @@
->   /* all clang versions usable with the kernel support KASAN ABI version 5 */
->   #define KASAN_ABI_VERSION 5
->   
-> +/*
-> + * Note: Checking __has_feature(*_sanitizer) is only true if the feature is
-> + * enabled. Therefore it is not required to additionally check defined(CONFIG_*)
-> + * to avoid adding redundant attributes in other configurations.
-> + */
-> +
->   #if __has_feature(address_sanitizer) || __has_feature(hwaddress_sanitizer)
->   /* Emulate GCC's __SANITIZE_ADDRESS__ flag */
->   #define __SANITIZE_ADDRESS__
-> @@ -45,6 +51,17 @@
->   #define __no_sanitize_undefined
->   #endif
->   
-> +/*
-> + * Support for __has_feature(coverage_sanitizer) was added in Clang 13 together
-> + * with no_sanitize("coverage"). Prior versions of Clang support coverage
-> + * instrumentation, but cannot be queried for support by the preprocessor.
-> + */
-> +#if __has_feature(coverage_sanitizer)
-> +#define __no_sanitize_coverage __attribute__((no_sanitize("coverage")))
-> +#else
-> +#define __no_sanitize_coverage
-> +#endif
-> +
->   /*
->    * Not all versions of clang implement the type-generic versions
->    * of the builtin overflow checkers. Fortunately, clang implements
-> diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
-> index 5d97ef738a57..cb9217fc60af 100644
-> --- a/include/linux/compiler-gcc.h
-> +++ b/include/linux/compiler-gcc.h
-> @@ -122,6 +122,12 @@
->   #define __no_sanitize_undefined
->   #endif
->   
-> +#if defined(CONFIG_KCOV) && __has_attribute(__no_sanitize_coverage__)
-> +#define __no_sanitize_coverage __attribute__((no_sanitize_coverage))
-> +#else
-> +#define __no_sanitize_coverage
-> +#endif
-> +
->   #if GCC_VERSION >= 50100
->   #define COMPILER_HAS_GENERIC_BUILTIN_OVERFLOW 1
->   #endif
-> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-> index d29bda7f6ebd..cc2bee7f0977 100644
-> --- a/include/linux/compiler_types.h
-> +++ b/include/linux/compiler_types.h
-> @@ -210,7 +210,7 @@ struct ftrace_likely_data {
->   /* Section for code which can't be instrumented at all */
->   #define noinstr								\
->   	noinline notrace __attribute((__section__(".noinstr.text")))	\
-> -	__no_kcsan __no_sanitize_address
-> +	__no_kcsan __no_sanitize_address __no_sanitize_coverage
->   
->   #endif /* __KERNEL__ */
->   
-> 
+Signed-off-by: Daniel Axtens <dja@axtens.net>
+---
+ arch/powerpc/kernel/process.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/arch/powerpc/kernel/process.c b/arch/powerpc/kernel/process.c
+index 89e34aa273e2..430cf06f9406 100644
+--- a/arch/powerpc/kernel/process.c
++++ b/arch/powerpc/kernel/process.c
+@@ -2151,8 +2151,8 @@ void show_stack(struct task_struct *tsk, unsigned long *stack,
+ 			break;
+ 
+ 		stack = (unsigned long *) sp;
+-		newsp = stack[0];
+-		ip = stack[STACK_FRAME_LR_SAVE];
++		newsp = READ_ONCE_NOCHECK(stack[0]);
++		ip = READ_ONCE_NOCHECK(stack[STACK_FRAME_LR_SAVE]);
+ 		if (!firstframe || ip != lr) {
+ 			printk("%s["REG"] ["REG"] %pS",
+ 				loglvl, sp, ip, (void *)ip);
+@@ -2170,17 +2170,19 @@ void show_stack(struct task_struct *tsk, unsigned long *stack,
+ 		 * See if this is an exception frame.
+ 		 * We look for the "regshere" marker in the current frame.
+ 		 */
+-		if (validate_sp(sp, tsk, STACK_FRAME_WITH_PT_REGS)
+-		    && stack[STACK_FRAME_MARKER] == STACK_FRAME_REGS_MARKER) {
++		if (validate_sp(sp, tsk, STACK_FRAME_WITH_PT_REGS) &&
++		    (READ_ONCE_NOCHECK(stack[STACK_FRAME_MARKER]) ==
++		     STACK_FRAME_REGS_MARKER)) {
+ 			struct pt_regs *regs = (struct pt_regs *)
+ 				(sp + STACK_FRAME_OVERHEAD);
+ 
+-			lr = regs->link;
++			lr = READ_ONCE_NOCHECK(regs->link);
+ 			printk("%s--- interrupt: %lx at %pS\n",
+-			       loglvl, regs->trap, (void *)regs->nip);
++			       loglvl, READ_ONCE_NOCHECK(regs->trap),
++			       (void *)READ_ONCE_NOCHECK(regs->nip));
+ 			__show_regs(regs);
+ 			printk("%s--- interrupt: %lx\n",
+-			       loglvl, regs->trap);
++			       loglvl, READ_ONCE_NOCHECK(regs->trap));
+ 
+ 			firstframe = 1;
+ 		}
+-- 
+2.27.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/be3971b1-cf26-36c7-0f9c-d79c656ec855%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210528074806.1311297-1-dja%40axtens.net.
