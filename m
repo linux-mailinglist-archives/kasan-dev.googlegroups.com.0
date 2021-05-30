@@ -1,129 +1,141 @@
-Return-Path: <kasan-dev+bncBAABBRG3Y6CQMGQEMTDHNXI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD7JD3WYY4BBBUFRZSCQMGQEANMMMWY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFDA1394AE8
-	for <lists+kasan-dev@lfdr.de>; Sat, 29 May 2021 09:31:18 +0200 (CEST)
-Received: by mail-oi1-x23e.google.com with SMTP id s3-20020a0568080083b02901eee88a8f42sf2943594oic.11
-        for <lists+kasan-dev@lfdr.de>; Sat, 29 May 2021 00:31:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1622273477; cv=pass;
+Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB55D394F99
+	for <lists+kasan-dev@lfdr.de>; Sun, 30 May 2021 06:47:13 +0200 (CEST)
+Received: by mail-qk1-x73e.google.com with SMTP id x12-20020ae9f80c0000b02903a6a80ade45sf6655925qkh.22
+        for <lists+kasan-dev@lfdr.de>; Sat, 29 May 2021 21:47:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1622350032; cv=pass;
         d=google.com; s=arc-20160816;
-        b=F0WcQ5RGGvXf/8UA9iHgH/GRa996pQWuXLewGxY/egyhg556T8gltjbJcO87PB5Ek4
-         R0uI4AIKErppd+12tq4q2y1Crxk0jmjYYXk34wHs5rgEpm/qtpOWOn3QXV6KsvizIKf5
-         GwL5VgA9+sHDlGlrjU2PsmmuZWOV/HixU3G6TeAUG9yBtP7EHPouMgevoRpIf6J4bW3+
-         qUlww5+yUDF1pcFJQzr+3RD4d9owPCk1gfZCzyv1pai8lbArbcbQIPQZE+ALVqovyjIR
-         KoZfj9PFF0p6YwR9jJTrQGLj21zaZOedQYYGtKNv80JvJn/+gMmz79HE4z4KWdLovq3q
-         szoA==
+        b=fgiRUg86zwqHoJ9xrxlIXDihVO+iiXJ+KBXLk9RkXPBF+E4lbQDYuyGT1UWfb9M6Ze
+         5N6vlUesBeM99/cmwoSRAbEr75u8Z0ip9efJ2yGTFgkbOXQdcePrCAA6KNN2T1bozrv0
+         TiACmRQyeGC+tkBERNStJ3d0XTqpqWKh4h88ejen7an9QagoFEoeCM1PUnNcVBhlZsDr
+         SgjDddlgBSbndxQkAns9j3zKsLtMgB5ZhvKsaIeVz4iu97mhNAUWbtluOFmlGEFhvCEz
+         qSoUyLe+axFa3aNQvd7DqHaR5AMSPdlSqPdYCi6cu1eByAzf4QBqWhUAu7nozlnKRkq1
+         trMw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=/Mb7qVT/0xKar6543KNVheMSYi6qYuvLWj6w1YtahHY=;
-        b=qFOb0IbK0krDISSgMbMPZrRWCpRMG4DsRjKANoEDvnzdYKRj4+UcCqhLYyzaL8s/1r
-         2L/4Y9agDPH0z/B6Yc02lZqtN3nVG1A8WG1xu0YT1BJm1jk2ILIe1/ozwpx4pSVA6jTx
-         /wm0+L2qJt2uBG10h/YDK7cj2a4fRdgGyVX6+1U8ZHdvwLIk1ixIXz1s4VSp34n8uO8W
-         MBph81rbDFgkRl5Fs0r6dveMIFPaIdZteCJ/6y6G6BydGOeFiOCcI2Hn8yK0pK4UP5F+
-         pEl0ST4+pQP5HBoq+x9p8LDkh2zY+OxYavQUIT8xDYUpGGBXJsLrd62nwoESQpbrhnPg
-         TTXQ==
+         :list-id:mailing-list:precedence:message-id:date:subject:cc:to:from
+         :mime-version:sender:dkim-signature:dkim-signature;
+        bh=l2KyZarfUDOYZ70gvZEbFtp6Hmc4pwIoJHEVjsTwOzI=;
+        b=VuZZYDxf9U9bZqu/fERW5vz4lIhtUBsGdxATIE4Fa0yjA1O7h+8wJqwNRjuw2F1vOV
+         /dE3b8/+4Hp0CFRj8Y/2TjsI9gG3VzC6XvlhjHY5TpMSlb16k8cLAnBt18My06CnVfj6
+         rLlDkhqskQ5rIqpIPVZ2hsncXtLMLFBwPeW+1qRiM72JRdyTg7/7HQbVrdqTEu5iTpwI
+         AAo6BoDK822LwVKKy+i610beHmSpI5r5m6v6JFBXQAlTJD9t4OIj8GPrgmBzFBtHRP7n
+         YaE9R1o9W0yEH+mqiTtynBJH1uGkKHlZ5tUNHHcPoyp6WzhcQHom9I/lJDE6hNWzoGSz
+         vHww==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=liushixin2@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=SzdHbLf3;
+       spf=pass (google.com: domain of kylee0686026@gmail.com designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=kylee0686026@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
+        h=sender:mime-version:from:to:cc:subject:date:message-id
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=/Mb7qVT/0xKar6543KNVheMSYi6qYuvLWj6w1YtahHY=;
-        b=axEixxbMqyoIoRdgibCMfbJLu2vRipFZy9tzx0qM5NzaSq7QROKP5FEybymaPqSsXe
-         mHyqsyZhzWp8OJSnzis/gyFBqAMhQ1QmEFI5YRLdAt2e3IhtITUaPuVQXb4LhcsWrydy
-         dMvwQQdqp0SotYK43cJsu8GuLVRjB36jFOeh/EAORS+eH+vRFQexGu52PDgDXa2Ac76s
-         ptMVQyMKKYBeldOYODCI/67Fo3WT68N3DrBvtnrsbLSKpzpugr2hq7JaAsq5uEu0lnc+
-         t2KuGlbxLTt1Xs5evNQWghQnxsqxoZcl2eFbbgqUO2leQZ9BzvuFO9qWMYHfDOFoC4Mt
-         rhpQ==
+        bh=l2KyZarfUDOYZ70gvZEbFtp6Hmc4pwIoJHEVjsTwOzI=;
+        b=M9QP0bWCZYNja4nllJ4Olhjufl59YRGrF0f8ogAB8eBM67z1PtGizxY+lL8Prpgp7D
+         8ndLLTSxQ3mNT85mP06wmdLnOgNBygjz0keMWcTAWqnrK3TzgbXKHQnHM7PK2fOarsG+
+         6osLYtVvY7xVx+4NHij0fS2gNsvoZG+qtbrvY08ivjJOkSui7ANRHk7kXhF3R+KwIeRv
+         bUmCC7nCGXutvidde/Ihj+Dzi4fYz7ZtubjV/x0nSYPSdG10bbKLRugk1aEgcnGtM0uC
+         UVQclLiHC+XvG6N4kb6mQGn7JYUrW1eq8/mJ++JHPid/7sE6woHSAvPXEBjjkSa6dz/g
+         n+Ig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:to:cc:subject:date:message-id:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=l2KyZarfUDOYZ70gvZEbFtp6Hmc4pwIoJHEVjsTwOzI=;
+        b=Jk8Dpu0j8+R1qiwUmtt/CQAamTNW60eg78rexmJf7ciTjNX71RqBwTWyvB7jfHwuey
+         bMHyLsGqI+fMLE0ZdFvr/JWuOC/e9kTd0gWrRhjRgBH0YZdBLYNealXDMPYofftUxlL3
+         9P6t8EcWK/ypSt+QTPRXFP7D/EIXXa+fOnYWmFs+4+XfidfPm9pHGw8vsFszZBcWZRj8
+         BQg+3CEnwjV6r7SjBNpJ6E5BWMS21kPwh56XOvDSrxq61SZv/3Vyf15ygSmic3bQeI6F
+         zri9/UDZe+32ZlMO9buQvh1DcrkdQLQl3C5hX7x5HiiXijUkjiqXAd/jT+NHwLV0GH1R
+         o2gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
+         :message-id:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=/Mb7qVT/0xKar6543KNVheMSYi6qYuvLWj6w1YtahHY=;
-        b=jx4jRVS053t95xDbeNfJ0LzZBYW27jQTj4RQxOBDvbW7SmDuOPaFX0Th+ic7MxJ/cf
-         K25Ro9YcByNimiuHWpbcRetTT4m28sqGE3RBR2IGHN0S31uF2hl3FaLPPwoAw4TRkqj5
-         Ub/X6oqqwPYlzjQb/3yn58hhzSMAioRFr30awggRr1UcAEIEtLriBV+fdZNU6bAfhrK1
-         4T09vdoqmmNVud8Pvs7UA4cDHnF59ZiQOvHNg44KJTlqbsRnI791rbo2kQBVD67poMYa
-         yb3xMz/cuqD9Db8XOcsBzyZnFHEDkm/eVNHmVc6wsxt64qNHDCfsike5KlR0gv7dYKAr
-         oZnQ==
+        bh=l2KyZarfUDOYZ70gvZEbFtp6Hmc4pwIoJHEVjsTwOzI=;
+        b=TWCHaBU6+oijNjEwVcnddabm6ITeyCMOEM1acWv+YdxqT0uzSA/8fWcqnC2lSnphbu
+         4IeajmOeXoq414cQyEt1vRZ2FGaE6ZSPcupX+MDQExq8sjnejVqUd8u4i5ftFNxHsOL3
+         R6crUk2yJmlfgsYcje/axL3mO6CNFId6wwCtrTDaczpwK/2aXEH/FR6nlKwXGXTPnUQ8
+         yqSn+Kmc48vCGaLdOQNPHMG3kZPuEv1TbS3hTelOMTQimbNybfDeYB/76UzMyITxalNX
+         r1VKGmLuyLGLlTuF9shCfu3JImj57NLxE9Kh1HK8O2trSCp6VfSCpXF9RafyDT2SzBeF
+         D3Dw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533M2M8kwqwQLRLl8900MqDQv1eNEGSXi0C2tQk34covsZTEnQNP
-	IdAjI4njvV0WYVFcjkNbHAo=
-X-Google-Smtp-Source: ABdhPJwN2pT0Z4SpfwCvG8UOQmf+ehTQCkebOB6b+naR4+zwFtxsa2/WICdcooRYGv35Pls2w/CECQ==
-X-Received: by 2002:a05:6808:128a:: with SMTP id a10mr11693517oiw.161.1622273476374;
-        Sat, 29 May 2021 00:31:16 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:77d1:: with SMTP id w17ls2734840otl.5.gmail; Sat, 29 May
- 2021 00:31:16 -0700 (PDT)
-X-Received: by 2002:a9d:7410:: with SMTP id n16mr9916393otk.262.1622273476087;
-        Sat, 29 May 2021 00:31:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1622273476; cv=none;
-        d=google.com; s=arc-20160816;
-        b=W7eyCXuiEgsNsgmoKR/QrJ2AKwCODHexEfXFQdwbxS4RjgTgx1BZ5V/eGluVuz2JRy
-         6aaMjSa54ROmriGyioEckzKFKNSfN0hB1Yhn9Hf/M2zv2jE23gniyq4sPOI+YD+yoVd5
-         WY4ozhq0s3PA9Nsb5308uzu6L8GIJyCkKUEZq2tA0IVnpX1VwcavLrsjfXFO/jVpZSFC
-         FYFjqasm8WMzbzXSwnpA9Uy73G3A2lG/LjdOq3x9q4NhSe66PloNTMuezHO3g6gsGcKp
-         ETtKq47czFknL9TOHz3pTk802rTZQMr0aaDIu2vvbmHeWsLUIJxQTRjme/nrLw2IY10c
-         1mGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:cc:to:from;
-        bh=Gy5nwgidZDYOgpUym7Cj6gFsP13g8wiS0WTVsg1IKkk=;
-        b=my2c5a6xKKNaTNIR8bUNNyrd059+ZhJBgq7/jZGHWyfonxV4ZxFaMZDDBheUkSeuoA
-         VKyNx5kKgpRoxNeSAUXUu0Xt5+B6zERWHb9x1ps1r6uygVMhZ2aN5PIvd88DeGYNMK/u
-         sxlbkz2VC9hOomzr/Ao95RADg/LOBwGDNOdtEokHcVjio32Rpo/w/1enGt71iy5ZNbYn
-         ARmyKNYMVZC86vyZTn1XSSYbTa8wO8gR+oPCWOymPLP+Qg58rc0siZxYOTfbyxqU67gz
-         OoOh6aWeHyC/6oQNDUYuBCaOIO4VIBUbUHs4G3W7+J+LXQEw/u9Qup+iihhKEN1IYHZr
-         l6PA==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=liushixin2@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id c22si610527oiy.1.2021.05.29.00.31.15
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 29 May 2021 00:31:16 -0700 (PDT)
-Received-SPF: pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FsY7g50KqzYnXs;
-	Sat, 29 May 2021 15:28:31 +0800 (CST)
-Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 29 May 2021 15:31:12 +0800
-Received: from huawei.com (10.175.113.32) by dggpemm500009.china.huawei.com
- (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Sat, 29 May
- 2021 15:31:12 +0800
-From: Liu Shixin <liushixin2@huawei.com>
-To: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
-	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexander Potapenko
-	<glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov
-	<dvyukov@google.com>
-CC: <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<kasan-dev@googlegroups.com>, Liu Shixin <liushixin2@huawei.com>
-Subject: [PATCH -next] riscv: Enable KFENCE for riscv64
-Date: Sat, 29 May 2021 16:03:40 +0800
-Message-ID: <20210529080340.2987212-1-liushixin2@huawei.com>
-X-Mailer: git-send-email 2.18.0.huawei.25
+X-Gm-Message-State: AOAM531NscBPsmrGZN/+JS5KxQ+fU9AlNHJ9epRIintWsHoIXrGpltfC
+	Dm76LpsyEJHieskR+n6hahw=
+X-Google-Smtp-Source: ABdhPJweNqMBxk3kEdhyfaa3d/KHLH7CSVZ7y/gYXEZgrVwmjRoZ85pqMK96klCqOFiBYhKLOWwjtQ==
+X-Received: by 2002:ac8:41cc:: with SMTP id o12mr9780678qtm.225.1622350032538;
+        Sat, 29 May 2021 21:47:12 -0700 (PDT)
 MIME-Version: 1.0
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a37:5f44:: with SMTP id t65ls6954539qkb.0.gmail; Sat, 29 May
+ 2021 21:47:12 -0700 (PDT)
+X-Received: by 2002:ae9:ef4b:: with SMTP id d72mr11101147qkg.242.1622350032181;
+        Sat, 29 May 2021 21:47:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1622350032; cv=none;
+        d=google.com; s=arc-20160816;
+        b=jMYPsG4VUcysQpLueFHgEeD9IyFmZIwhzlOwtdSgjFRIppIFUGIYdPfh08GcmXKzQ1
+         Onzhw0kqijJd4lRygmwF6NNkv1rRGJbH7jNbkYEitfJwf7D+47M1d4f8NZjIWTeWp6T4
+         HoGYg/G/Cv7W9DbVKHf27+PM3gZPqHfzsAnt4rdQIfzy3lkS1oBfiFmh7VLHrbnX5Cas
+         rox7A+jKE/Hj8y0Gq1jZy3QO1becuaDLl5EH195x85ZHPd/MNiUHAXsRaNh0FvaU7E4l
+         UN0olu0lzAOw6KA4gKEuoCLHL+Nsu4FQjTVPlZzGWV5A7UXyJGNE3vIMS6pVpqAw5F6J
+         j25Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=message-id:date:subject:cc:to:from:dkim-signature;
+        bh=BcaEFmIjiTlfRXL6Zs6sX7KheP8a63KO4TggeivHn2w=;
+        b=En+aOIJMZgH58SpZd6WbrtwZNAe01KPJbmdAskiu6DCsMfNJUIY/DhsQoW3iOcS1tU
+         NmbyAKQZRD3vuO9sqBBD99ZDF6itoPxtA780DO7R0jGqI3OXTERA0qzDO/ONA7Qnx28T
+         fHCGJNYRU9p8sNvvKAg/Lp/s6KXO/8jLH0xc7TGgJNozyIWm22yv8zEFqvy0QQxNsygW
+         n06c0bkUgcl1zaIMsNXeRSzFkZYQHG7wEBHiJO0Uji2w0VJFubO6RjTd7OwXw66Ru8Jc
+         mc0lJT2RdCRztzu5xwsfr9m3LlNGZmUGOrr9KHr8OF5o1x/rIHR2qmDL8G0iYYn7eDoD
+         nd+w==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b=SzdHbLf3;
+       spf=pass (google.com: domain of kylee0686026@gmail.com designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=kylee0686026@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com. [2607:f8b0:4864:20::636])
+        by gmr-mx.google.com with ESMTPS id j15si319940qtj.2.2021.05.29.21.47.12
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 29 May 2021 21:47:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kylee0686026@gmail.com designates 2607:f8b0:4864:20::636 as permitted sender) client-ip=2607:f8b0:4864:20::636;
+Received: by mail-pl1-x636.google.com with SMTP id 11so60007plk.12
+        for <kasan-dev@googlegroups.com>; Sat, 29 May 2021 21:47:12 -0700 (PDT)
+X-Received: by 2002:a17:90a:e7c8:: with SMTP id kb8mr12092421pjb.60.1622350031432;
+        Sat, 29 May 2021 21:47:11 -0700 (PDT)
+Received: from localhost.localdomain (61-230-18-203.dynamic-ip.hinet.net. [61.230.18.203])
+        by smtp.gmail.com with ESMTPSA id t1sm7471108pjo.33.2021.05.29.21.47.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 May 2021 21:47:11 -0700 (PDT)
+From: Kuan-Ying Lee <kylee0686026@gmail.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Walter Wu <walter-zh.wu@mediatek.com>,
+	Kuan-Ying Lee <kylee0686026@gmail.com>
+Subject: [PATCH 0/1] kasan: add memory corruption identification for hardware tag-based
+Date: Sun, 30 May 2021 12:47:07 +0800
+Message-Id: <20210530044708.7155-1-kylee0686026@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Original-Sender: kylee0686026@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20161025 header.b=SzdHbLf3;       spf=pass
+ (google.com: domain of kylee0686026@gmail.com designates 2607:f8b0:4864:20::636
+ as permitted sender) smtp.mailfrom=kylee0686026@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500009.china.huawei.com (7.185.36.225)
-X-CFilter-Loop: Reflected
-X-Original-Sender: liushixin2@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of liushixin2@huawei.com designates 45.249.212.187 as
- permitted sender) smtp.mailfrom=liushixin2@huawei.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,141 +148,25 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add architecture specific implementation details for KFENCE and enable
-KFENCE for the riscv64 architecture. In particular, this implements the
-required interface in <asm/kfence.h>.
+This patch is for hardware tag-based kasan to make a good guess
+on the kasan bug. Report kasan bug is slab out-of-bound or
+use-after-free. Refer to software tag-based kasan detection
+mechanism.
 
-KFENCE requires that attributes for pages from its memory pool can
-individually be set. Therefore, force the kfence pool to be mapped at
-page granularity.
+Kuan-Ying Lee (1):
+  kasan: add memory corruption identification for hardware tag-based
+    mode
 
-Testing this patch using the testcases in kfence_test.c and all passed.
+ lib/Kconfig.kasan         |  8 ++++++++
+ mm/kasan/hw_tags.c        | 25 ++++++++++++++++++++++---
+ mm/kasan/kasan.h          |  4 ++--
+ mm/kasan/report_hw_tags.c | 28 ++++++++++++++++++++++++++++
+ 4 files changed, 60 insertions(+), 5 deletions(-)
 
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
----
-1. Add helper function split_pmd_page() which is used to split a pmd to ptes. 
-2. Add the judgment on the result of pte_alloc_one_kernel().
-
- arch/riscv/Kconfig              |  1 +
- arch/riscv/include/asm/kfence.h | 63 +++++++++++++++++++++++++++++++++
- arch/riscv/mm/fault.c           | 11 +++++-
- 3 files changed, 74 insertions(+), 1 deletion(-)
- create mode 100644 arch/riscv/include/asm/kfence.h
-
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 4982130064ef..2f4903a7730f 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -65,6 +65,7 @@ config RISCV
- 	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_ARCH_KASAN if MMU && 64BIT
- 	select HAVE_ARCH_KASAN_VMALLOC if MMU && 64BIT
-+	select HAVE_ARCH_KFENCE if MMU && 64BIT
- 	select HAVE_ARCH_KGDB
- 	select HAVE_ARCH_KGDB_QXFER_PKT
- 	select HAVE_ARCH_MMAP_RND_BITS if MMU
-diff --git a/arch/riscv/include/asm/kfence.h b/arch/riscv/include/asm/kfence.h
-new file mode 100644
-index 000000000000..d887a54042aa
---- /dev/null
-+++ b/arch/riscv/include/asm/kfence.h
-@@ -0,0 +1,63 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _ASM_RISCV_KFENCE_H
-+#define _ASM_RISCV_KFENCE_H
-+
-+#include <linux/kfence.h>
-+#include <linux/pfn.h>
-+#include <asm-generic/pgalloc.h>
-+#include <asm/pgtable.h>
-+
-+static inline int split_pmd_page(unsigned long addr)
-+{
-+	int i;
-+	unsigned long pfn = PFN_DOWN(__pa((addr & PMD_MASK)));
-+	pmd_t *pmd = pmd_off_k(addr);
-+	pte_t *pte = pte_alloc_one_kernel(&init_mm);
-+
-+	if (!pte)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < PTRS_PER_PTE; i++)
-+		set_pte(pte + i, pfn_pte(pfn + i, PAGE_KERNEL));
-+	set_pmd(pmd, pfn_pmd(PFN_DOWN(__pa(pte)), PAGE_TABLE));
-+
-+	flush_tlb_kernel_range(addr, addr + PMD_SIZE);
-+	return 0;
-+}
-+
-+static inline bool arch_kfence_init_pool(void)
-+{
-+	int ret;
-+	unsigned long addr;
-+	pmd_t *pmd;
-+
-+	for (addr = (unsigned long)__kfence_pool; is_kfence_address((void *)addr);
-+	     addr += PAGE_SIZE) {
-+		pmd = pmd_off_k(addr);
-+
-+		if (pmd_leaf(*pmd)) {
-+			ret = split_pmd_page(addr);
-+			if (ret)
-+				return false;
-+		}
-+	}
-+
-+	return true;
-+}
-+
-+static inline bool kfence_protect_page(unsigned long addr, bool protect)
-+{
-+	pte_t *pte = virt_to_kpte(addr);
-+
-+	if (protect)
-+		set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
-+	else
-+		set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
-+
-+	flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
-+
-+	return true;
-+}
-+
-+#endif /* _ASM_RISCV_KFENCE_H */
-diff --git a/arch/riscv/mm/fault.c b/arch/riscv/mm/fault.c
-index 096463cc6fff..aa08dd2f8fae 100644
---- a/arch/riscv/mm/fault.c
-+++ b/arch/riscv/mm/fault.c
-@@ -14,6 +14,7 @@
- #include <linux/signal.h>
- #include <linux/uaccess.h>
- #include <linux/kprobes.h>
-+#include <linux/kfence.h>
- 
- #include <asm/ptrace.h>
- #include <asm/tlbflush.h>
-@@ -45,7 +46,15 @@ static inline void no_context(struct pt_regs *regs, unsigned long addr)
- 	 * Oops. The kernel tried to access some bad page. We'll have to
- 	 * terminate things with extreme prejudice.
- 	 */
--	msg = (addr < PAGE_SIZE) ? "NULL pointer dereference" : "paging request";
-+	if (addr < PAGE_SIZE)
-+		msg = "NULL pointer dereference";
-+	else {
-+		if (kfence_handle_page_fault(addr, regs->cause == EXC_STORE_PAGE_FAULT, regs))
-+			return;
-+
-+		msg = "paging request";
-+	}
-+
- 	die_kernel_fault(msg, addr, regs);
- }
- 
 -- 
-2.18.0.huawei.25
+2.17.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210529080340.2987212-1-liushixin2%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210530044708.7155-1-kylee0686026%40gmail.com.
