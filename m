@@ -1,128 +1,123 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRW42KCQMGQEI63JU2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBKXT2KCQMGQE3ISS4SQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x63c.google.com (mail-ej1-x63c.google.com [IPv6:2a00:1450:4864:20::63c])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD1D395832
-	for <lists+kasan-dev@lfdr.de>; Mon, 31 May 2021 11:37:10 +0200 (CEST)
-Received: by mail-ej1-x63c.google.com with SMTP id q7-20020a1709063607b02903f57f85ac45sf336361ejb.15
-        for <lists+kasan-dev@lfdr.de>; Mon, 31 May 2021 02:37:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1622453830; cv=pass;
+Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB243958EB
+	for <lists+kasan-dev@lfdr.de>; Mon, 31 May 2021 12:25:47 +0200 (CEST)
+Received: by mail-oo1-xc38.google.com with SMTP id g26-20020a4adc9a0000b0290245ac709537sf307741oou.14
+        for <lists+kasan-dev@lfdr.de>; Mon, 31 May 2021 03:25:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1622456746; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gOX5VlzjbSbLB9dJidXhjNf5Z3msNKoMqHRPyBeOpdu9taQJ0Cp2zeaQCivUMOFU2m
-         HLoMqA+KC5akZ300YvfqefbL/ljIUbQDu3WwJ8gykVHWey9mjIBHEZVF08ahUO40m8cU
-         yQU2FUXzys11yXgnwnDEAmjbz6El6REOyQXFDmbEndmIKBNkzdUF1O/SPRUj2Md5Ncmj
-         8dsWCNwJx2opt3jKr+Z9Dufy+C5udcAqQCSvUKkw+McQHfDplJl/Y1PZieQT6C+H+qr0
-         wc4weRgn1PAiNbve2Pph0EEbkMxNUpGXp7xF33N0j3ClJT2G9Nt2oPbqEZglvw5mF3uP
-         wT2g==
+        b=DDAuyui0TFp0BZjGa1mfBn7c1Vo4miVEvuVyeGsK8Szf8nG1uz1jrjvl1hTA3A7V+u
+         svmqsLPC60CWctDtjUfkzcau1Q6SaUE+4SlEclLvUbpS6WxFgYLrRgkOqummMbDn1Zru
+         HWAeD3JLRplEiQ8TzxiJNjCPoAzfcLrc7yIWzBBv6rICDtTzaizDqV/wdPW7/lL1kXhG
+         ut+0fjCLARpXNSPfT4EW58VH7BBMmUSzDwmCh+YS2rgIfNTrm79XdFoZ4eEcP5YdVXe7
+         3JIeGzs7XqCNdDAt3acy80kkBuhGA0IUjYutKAOVmjS+X7h3rjW323SRID00vCqa4aX+
+         dSNQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent
-         :content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=7YQ8Qr6dxvojqk2GUfhw92OP0JMAi8NnaDr6DLjC9P8=;
-        b=x0rLAiVjum+QCXLqhIZCWE/yL4Q42IBmbs94zGP4AQ4d2bJNQUlUcAmCbZop42W0av
-         rHA1q0TRu057xXxkuT2meSrY6IezwLKffNeC7SZD2seXUkfnFfCuiyH+H4gWnvrOl87/
-         gM6Kpl/OJY0hsr2vXL9zBk46Y1Y8IP23tVv5fQO9ISREoXf+rZvIZuzNsLr6qV9td3K0
-         Us1DzwGfRcBVenexevDvkoUm7WcSDGhTFe9za7cNxG9OQVXcCCYnObpHLt8fxKF0p26A
-         vJSfgE0PC9rifcl8HYCjx1unub8UEZ6wMqAs+wkH51YhHYteen2OBePPBl4mzfhMc2JB
-         DnZQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=NXDCS3cTAzaTzB4/0x+qB8B2eBhIyayxT5t/oVwJK4w=;
+        b=o6yei52FE38RxaiOUhunipDteqnbCQb0ojH1ZiS6XT2LLAkVfvV1vqoUJx3lMtq9qz
+         WETMmWeMwbDqLMmD3x2uiqd4E/2kQAu/+0cWO0A8vCLGg8ScgIPDgS70Q3wEybteWpKc
+         DWyl812VoevWqWJb3Yjgab2HcWsfCBJLRoSZVoUX91GRIqTmlzF8OLSotMCF9vNs3ypd
+         nYKgWGy3U/eTnaSNcyGnZNIIUMQAwXJwP5jdoOVGi0uQthcXPVJd6JUD08nxzn4MZiIt
+         //R1QPU5qW4q0JncnwbjFqcFmL5i5VWF4uS5eBizM6wszHayi5QTZ0YsLBq34Lj2QV63
+         7jTA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nOza3uqY;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::336 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=VvX5faym;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=7YQ8Qr6dxvojqk2GUfhw92OP0JMAi8NnaDr6DLjC9P8=;
-        b=Kn/mQD4rV1k1L7I7x72oc2R1IYrlXrpcxKFAY7VDYmYuwqYaR3iSxy1RXU6e+M3EaJ
-         OaYcLy3Ro841a1NELaimSj2ZHDnFZo7bbWFd4qa0Na3+eCVDvy+hdOjwEa4wg3TmyRpY
-         +kPoanKmWdh80XTzEX6FMmh3Fi3HUnZ3Yzovqz7VqWiR/83Lg5oIeojla+9/+qejV6En
-         rrnsgIoYETS/vAE7JROQx6io/1glU5Ld7eLoN8NVp6JJzhnvivNIxp4tXGP++QGZ5sKV
-         mif1MtxRJ4CHGCriiGXcl5LsarJGljtqlB1yTlnrpMUVNsxVEHZnjPJMxQhM8vP8QBlP
-         RYFg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=NXDCS3cTAzaTzB4/0x+qB8B2eBhIyayxT5t/oVwJK4w=;
+        b=GsQqRsjOaA5m7PeFoJKBs12woHgDYz9AvH8fKwmrKOaoTEFeAj112vL6QgdtrsG/oT
+         f03rlMJgYGku0LNYGDb687mc+P96Ad3n210YYPQ74bEwPyO8BWV7IkeP+gEodT4pQZvl
+         8AEUlqZYPBNIfWGRP3z5ANNZFjvCKie7iRRCeyEDUtThA9TvC8SPP4ngQ8UbX1RhM/Pr
+         fONdAOX5/s5MCuChiPTP477mKi5wBj17rkBWgKEy91Py0N4qW0+rrWsxWQpU5NtYN7OR
+         GgBiV6LIz8IEN3C0NTNr425eolLTrdu73QnplA3WQBnFg7GWPrsQvfjPAE5QEbo8xGL3
+         9ZHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent:x-original-sender
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=7YQ8Qr6dxvojqk2GUfhw92OP0JMAi8NnaDr6DLjC9P8=;
-        b=lnrCX2l3DATyIdiSHifsRefvByLauYEwIwQYC/m43G/s0M2RAF0V/tN7kBuZI/rM3W
-         eAJ4Gzo2Qs64Ujvi8lx4NF7TQmwUajndZWEGoJ6673upgiKB67Fpe+FXOWDyAPPK9E3D
-         jRBJLu55ylBCvYxXA26GevjApMRCK/SvSFA0fXtwx0H0jfIY0ic8LnyZgBQpysJyptBH
-         XDxJNa74FXcKiNRQzBZf5FLLP0Ysbq0MZrL2s4MGo9mGQwcy9Qg5Orl+H7cKSLlV2Pxw
-         5QE82X76ObgP2EZDd+21JrH7Tr8zqhpt8cFy4HzviAqx2J86WMSFexfsSVtjW75fttpX
-         930w==
-X-Gm-Message-State: AOAM531X7s/mGCTtkQg/Q8MyK1Y6MAV17GetGDPTbcI5j+GUFgm/c2WZ
-	8832rG2mCTPuIlDaJAFWqbI=
-X-Google-Smtp-Source: ABdhPJyU/7vh6gQDHwICvNl4gndNDcv0Cn2wMUAPH7EOlqGrzUrugFxuSDubGf0T5rt66bNMQuckZA==
-X-Received: by 2002:a17:906:9512:: with SMTP id u18mr396142ejx.61.1622453830446;
-        Mon, 31 May 2021 02:37:10 -0700 (PDT)
+        bh=NXDCS3cTAzaTzB4/0x+qB8B2eBhIyayxT5t/oVwJK4w=;
+        b=an898R2NYqYQfnNJ/HMQ3iecZz4fZqTeW6G8h2FgQRw5gSmbX+J+HzVyPP5+CFkQwk
+         yH6sRisev8WiL18LxwFkhHH0C8rZahVRNNPOD7CEv7SA6cXLxjQitBnTnCMKwdR1ziLO
+         pwAC+JtQA9M1IrMdu7IXmq4sNgG6DljTeF5BeT3NeU/EeumyqDjtcmC5XW8IC3uk0S4K
+         zj/AE+v049MEMlWeuQdyMBLls+h/nCQm2ZorCb/8kbnKCLiNxnEX+ZKPWroSY3R5ShO8
+         6V1wq/uw20RskzrRiyVvrbt3hFl1U96vmFMndYj44rP8fPFSfUgTPKu0oO0K5oW/Cl5p
+         2xhA==
+X-Gm-Message-State: AOAM531h3Ww/qlu9ySkF1lArlWVjDSvqMmEfVl3IHzPSIT2cx/2JFY3W
+	7MgPCDZMbMHY9rx/Y9Xgcd4=
+X-Google-Smtp-Source: ABdhPJxWeQYjn5slPztQm952C90JNngE0KfGsRz1isfjur34aH4IakAPPw28tq9v0eR9NVOlg3iNjA==
+X-Received: by 2002:a4a:2b12:: with SMTP id i18mr6581378ooa.37.1622456746527;
+        Mon, 31 May 2021 03:25:46 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:1c97:: with SMTP id cy23ls6661084edb.0.gmail; Mon,
- 31 May 2021 02:37:09 -0700 (PDT)
-X-Received: by 2002:a50:fd9a:: with SMTP id o26mr24047655edt.76.1622453829415;
-        Mon, 31 May 2021 02:37:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1622453829; cv=none;
+Received: by 2002:a05:6808:bd6:: with SMTP id o22ls4030493oik.1.gmail; Mon, 31
+ May 2021 03:25:46 -0700 (PDT)
+X-Received: by 2002:a54:4385:: with SMTP id u5mr13411967oiv.30.1622456746167;
+        Mon, 31 May 2021 03:25:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1622456746; cv=none;
         d=google.com; s=arc-20160816;
-        b=xOFbxB4VH6LSjnFfvTzaXj3G66yrjH6KkP8lqAPHVBrPuUa0PwjCf1Qbpu/ff5g5p9
-         YIvXpMlIEgthIs5YnJXIMJSO9Nxdhe8qOQfGX1GxDGv5EQQiorOZNxMTPaxkVUjdCEHM
-         2UVDNbpbRD0HVS9y4x99JDLhvqZtTTC4EbowEJDRkR5sfecuc1QhHrZH7dFJpNEQ9uMX
-         UVO7YNTYDPzjmWWJ03/3/OWbasTzHXMiu1ehlN44Z0lhjdbRU7DQoBK5lhNwJQuK/m1p
-         mqMDhBvATb/T0CNb+OWKBj62GI+ToGN/gVHGuJrGVxeAhS8qfRO0pxG1yE44uEQKONWZ
-         ojAQ==
+        b=QHELsU6QdvOAG0opNKIA+K0QWAqH4oVfbRj9I2XZ132RbFHNaXWtc5JXlEtSgxy56S
+         gG2t3bMjaeYjOBgn5GQ4s6ezIsN4q7vNnaNNyLXj24yEzD10SUiOwI7M4LNV7VKfQWxd
+         Z5T6a+s2/g4xT8olRgzrCDHsI17lm0LxzaSnnCaL2B6nlA08hH9XRFb4tBgSeFA6xBOL
+         ydnf2k3wY22zXxxaXch98NMsRYLlMqbNrK0IMSsJ4x1bCV3eeuilnBG1MVB9zmuD8Vpo
+         6tmEbY2i8I70j7XDmsi+Uz0kswm2prh6gr+qG0U/RUazzQldCLGnUJSmZ9MBTRmnGgba
+         0dKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=AIJ9Ja9r+6K9+GoGmxQcokEE7PPi9N4DFkhPombSqvY=;
-        b=dlI91EnNrFGQLgBVq6g0N87nXaDIPhK0DOI8aTVT8ptVE5n1rP9X1mtDVDysbQ3FE2
-         QDnceTC1Yt35kSsLzlXTJj+XtlYySwSJj1dSk65fIO3DvL6hy0qYTj3V7A2Ezf2dm1eo
-         iUvdVqROKdFKbQX+wMA2D7uaBOzt/nZc212TnV6vhVD4EQwSK39OiQsejnWBk/0QGBo9
-         4KBjRslOWnR5yNAi+5K428vma392KMU+Gz6dPndcX0cYNDA3q8KwRfYA0Ijf5RIqc68i
-         hMUKlzNuehd/4Ww6OfRUvnFJUz+8GCK/xlHpKO64+SdOSRqBbtwmN6GNqjCZzksK3yVL
-         dXtg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aeSnmbdhJZEVCTECigp3a9Q6Gua/F/iMUMujatSb30w=;
+        b=PwHDOSC8XkSCSHltF46oF1kl7W9DRn0rQ4NlUX3aHu+SoN0QvknPv4+h9p9czDmyIW
+         Ql/OZ6Yud1XMcZS2t2a4+e0zaQZUf8+a2/iAnrZYTm42v3kM3GlwYhdDBcM9/PUZ4eW7
+         M0+0ceVRCAlRXzO9Yvz0QgnHA96fNgJXN84YHkN6JAz+DuayUCVkAEqMK92RiAFntGGO
+         1qh2nMkue//TjpxkEF9zq/i9oFpomeG55XSQApNppqvKMKWcQ8T/tyS9b5BbsJ2Dthwc
+         IJ2lWx3Tyus6uHLW6Vsjq7+I744zFZaOI1urCWWRFvmw5KbRp1lmKl5+ZxgjgX/8NaH3
+         ofGw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=nOza3uqY;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::336 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=VvX5faym;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com. [2a00:1450:4864:20::336])
-        by gmr-mx.google.com with ESMTPS id r20si288409edb.3.2021.05.31.02.37.09
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com. [2607:f8b0:4864:20::733])
+        by gmr-mx.google.com with ESMTPS id 12si1239237oin.2.2021.05.31.03.25.46
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 May 2021 02:37:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::336 as permitted sender) client-ip=2a00:1450:4864:20::336;
-Received: by mail-wm1-x336.google.com with SMTP id o2-20020a05600c4fc2b029019a0a8f959dso2894921wmq.1
-        for <kasan-dev@googlegroups.com>; Mon, 31 May 2021 02:37:09 -0700 (PDT)
-X-Received: by 2002:a1c:a550:: with SMTP id o77mr18965804wme.57.1622453828956;
-        Mon, 31 May 2021 02:37:08 -0700 (PDT)
-Received: from elver.google.com ([2a00:79e0:15:13:79b2:9d30:345a:1523])
-        by smtp.gmail.com with ESMTPSA id n2sm18011994wmb.32.2021.05.31.02.37.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 May 2021 02:37:08 -0700 (PDT)
-Date: Mon, 31 May 2021 11:37:03 +0200
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: paulmck@kernel.org, Boqun Feng <boqun.feng@gmail.com>,
-	Will Deacon <will@kernel.org>
-Cc: Dmitry Vyukov <dvyukov@google.com>, Mark Rutland <mark.rutland@arm.com>,
-	kasan-dev@googlegroups.com
-Subject: Plain bitop data races
-Message-ID: <YLSuP236Hg6tniOq@elver.google.com>
+        Mon, 31 May 2021 03:25:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733 as permitted sender) client-ip=2607:f8b0:4864:20::733;
+Received: by mail-qk1-x733.google.com with SMTP id j184so10746641qkd.6
+        for <kasan-dev@googlegroups.com>; Mon, 31 May 2021 03:25:46 -0700 (PDT)
+X-Received: by 2002:a05:620a:150c:: with SMTP id i12mr16042824qkk.231.1622456745339;
+ Mon, 31 May 2021 03:25:45 -0700 (PDT)
 MIME-Version: 1.0
+References: <YLSuP236Hg6tniOq@elver.google.com>
+In-Reply-To: <YLSuP236Hg6tniOq@elver.google.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 31 May 2021 12:25:33 +0200
+Message-ID: <CACT4Y+byVeY1qF3ba3vNrETiMk9x7ue6ezvYiP8hy2wWtk0L1g@mail.gmail.com>
+Subject: Re: Plain bitop data races
+To: Marco Elver <elver@google.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Original-Sender: elver@google.com
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=nOza3uqY;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::336 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@google.com header.s=20161025 header.b=VvX5faym;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::733
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,66 +130,79 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello,
+On Mon, May 31, 2021 at 11:37 AM Marco Elver <elver@google.com> wrote:
+>
+> Hello,
+>
+> In the context of LKMM discussions, did plain bitop data races ever come
+> up?
+>
+> For example things like:
+>
+>                  CPU0                                   CPU1
+>         if (flags & SOME_FLAG) {...}  |  flags |= SOME_OTHER_FLAG;
+>
+>         // Where the reader only reads 1 bit, and/or writer only writes 1 bit.
+>
+> This kind of idiom is all over the kernel.
+>
+> The first and primary question I have:
+>
+>         1. Is it realistic to see all such accesses be marked?
+>
+> Per LKMM and current KCSAN rules, yes they should of course be marked.
+> The second question would be:
+>
+>         2. What type of marking is appropriate?
+>
+> For many of them, it appears one can use data_race() since they're
+> intentionally data-racy. Once memory ordering requirements are involved, it's
+> no longer that simple of course.
+>
+> For example see all uses of current->flags, or also mm/sl[au]b.c (which
+> currently disables KCSAN for that reason).
+>
+> The 3rd and final question for now would be:
+>
+>         3. If the majority of such accesses receive a data_race() marking, would
+>            it be reasonable to teach KCSAN to not report 1-bit value
+>            change data races? This is under the assumption that we can't
+>            come up with ways the compiler can miscompile (including
+>            tearing) the accesses that will not result in the desired
+>            result.
+>
+> This would of course only kick in in KCSAN's "relaxed" (the default)
+> mode, similar to what is done for "assume writes atomic" or "only report
+> value changes".
+>
+> The reason I'm asking is that while investigating data races, these days
+> I immediately skip and ignore a report as "not interesting" if it
+> involves 1-bit value changes (usually from plain bit ops). The recent
+> changes to KCSAN showing the values changed in reports (thanks Mark!)
+> made this clear to me.
+>
+> Such a rule might miss genuine bugs, but I think we've already signed up
+> for that when we introduced the "assume plain writes atomic" rule, which
+> arguably misses far more interesting bugs. To see all data races, KCSAN
+> will always have a "strict" mode.
+>
+> Thoughts?
 
-In the context of LKMM discussions, did plain bitop data races ever come
-up?
+FWIW a C compiler is at least allowed to mis-compile it. On the store
+side a compiler is allowed to temporarily store random values into
+flags, on the reading side it's allowed to store the same value back
+into flags (thus overwriting any concurrent updates). I can imagine
+these code transformations can happen with profile-guided
+optimizations (e.g. when profile says a concrete value is likely to be
+stored, so compiler can speculatively store it and then rollback)
+and/or when there is more code working with flags around after
+inlining. At least it's very hard for me to be sure a compiler will
+never do these transformations under any circumstances...
 
-For example things like:
-
-		 CPU0					CPU1
-	if (flags & SOME_FLAG) {...}  |  flags |= SOME_OTHER_FLAG;
-
-	// Where the reader only reads 1 bit, and/or writer only writes 1 bit.
-
-This kind of idiom is all over the kernel.
-
-The first and primary question I have:
-
-	1. Is it realistic to see all such accesses be marked?
-
-Per LKMM and current KCSAN rules, yes they should of course be marked.
-The second question would be:
-
-	2. What type of marking is appropriate?
-
-For many of them, it appears one can use data_race() since they're
-intentionally data-racy. Once memory ordering requirements are involved, it's
-no longer that simple of course.
-
-For example see all uses of current->flags, or also mm/sl[au]b.c (which
-currently disables KCSAN for that reason).
-
-The 3rd and final question for now would be:
-
-	3. If the majority of such accesses receive a data_race() marking, would
-	   it be reasonable to teach KCSAN to not report 1-bit value
-	   change data races? This is under the assumption that we can't
-	   come up with ways the compiler can miscompile (including
-	   tearing) the accesses that will not result in the desired
-	   result.
-
-This would of course only kick in in KCSAN's "relaxed" (the default)
-mode, similar to what is done for "assume writes atomic" or "only report
-value changes".
-
-The reason I'm asking is that while investigating data races, these days
-I immediately skip and ignore a report as "not interesting" if it
-involves 1-bit value changes (usually from plain bit ops). The recent
-changes to KCSAN showing the values changed in reports (thanks Mark!)
-made this clear to me.
-
-Such a rule might miss genuine bugs, but I think we've already signed up
-for that when we introduced the "assume plain writes atomic" rule, which
-arguably misses far more interesting bugs. To see all data races, KCSAN
-will always have a "strict" mode.
-
-Thoughts?
-
-Thanks,
--- Marco
+But having said that, making KCSAN ignore these patterns for now may
+still be a reasonable next step.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YLSuP236Hg6tniOq%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbyVeY1qF3ba3vNrETiMk9x7ue6ezvYiP8hy2wWtk0L1g%40mail.gmail.com.
