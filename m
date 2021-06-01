@@ -1,137 +1,155 @@
-Return-Path: <kasan-dev+bncBDLKPY4HVQKBBSOA26CQMGQEQWP6O6A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDJJJ24Q5QBBBGEB3CCQMGQEWWKPGNQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F25396DE1
-	for <lists+kasan-dev@lfdr.de>; Tue,  1 Jun 2021 09:22:50 +0200 (CEST)
-Received: by mail-lf1-x13c.google.com with SMTP id 133-20020a19058b0000b02902a413577afbsf4714973lff.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 01 Jun 2021 00:22:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1622532170; cv=pass;
+Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF7639707D
+	for <lists+kasan-dev@lfdr.de>; Tue,  1 Jun 2021 11:40:41 +0200 (CEST)
+Received: by mail-io1-xd3a.google.com with SMTP id z14-20020a6be20e0000b029043a04a24070sf8699198ioc.16
+        for <lists+kasan-dev@lfdr.de>; Tue, 01 Jun 2021 02:40:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1622540440; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HA65sUNTpwyP00WzxLTDDVDzYXOxVi6C901Af7Verq7l1vxxaLFXoN0FNB5hsaEr2b
-         6IEhqnph2CbRhq7FuuvHDAKpFOyLx/AYMqq4Q9UkSrb4OydrpGgrI5ac1gn7WD92MJ3s
-         5Jt/UK33mRAcIaeXf01HR8IJ2504YCKeYjztFNDFWE0UMaNwBFO2cVCp3GiDnM3LIllV
-         WCeB969m5ohavIE7HXRfL/TAz4TcWM5tmdEYybUtaeZMdYyV40WB0M2Tb8JQMtxSU+6P
-         U2oLe59G7y1Hk6V+yeI6lQZg1H3KYhO3GOPW4YIQTUJSce773m0/iSOqFrFtf/7M5Fm4
-         wTAw==
+        b=RX+yK4jGl1zHu/t6uQ6nyeG/My0PVOYB0/nq4cDIRKue9yx4bFyUM0JjlRBLxLnnIi
+         lUoybfW0KfNDkkdmbRNF6n/0H7mVKuc5KPMYHTn1wJpsxuo20QVYohBGB7bZoAC1O3ul
+         eYa7CZ46KNG+mSJTE40FvCnjuW9Z4su6Br7JfKA/72ERLqr/TVD2kh3xUJwHnNlLx6PE
+         exMohyP4ToZLkS9SVGObqEHVcbUNe1my2+GpEzTeGWsChjEA8qTlsLNvcGQlWZT6EcLX
+         EhATqcig8ecjoqc+1n5ZBl6ar8jM4yhiakALoDcMesQW26cCtfrVzVgtvC+GaZzNjBj9
+         cPbw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:to:subject:sender:dkim-signature;
-        bh=0RK/vsFdmxRyj7haAmRp5Bg8RhYriSQERkX02/qnCic=;
-        b=My0Dity5VkHRjsB0w/npQu8QhphHbpky0tTgK8t/XNHIpVsIuZJ5QfB/0d3LWopVS3
-         Afm11WfRULYkKASlsfm/mRscSr4cU7AD+rW2WAjMlXL2VsXI8SKPH+GJQmrV08nCBejK
-         /Bw/vwUUjLQ3j3d6B4nRLnAjF5S0FcuokR6pKpgZMIdKh2sVMoDTxVFKfC4Ge3YrcKpL
-         jM7Vbpk0rby8EvFAm4sSL/nujeauNGOCbwweaInqoPMdPrPtSzEyy2wGC7x8kg/od2kL
-         pFe5aKlx2hWk1kA+iJiVocAeAciX7K0veDHPDwuocFuQwA0iRNiCpS8IFXPjIBBmeUb/
-         IL/w==
+         :list-id:mailing-list:precedence:message-id:user-agent:mime-version
+         :in-reply-to:references:to:subject:from:date:sender:dkim-signature;
+        bh=WFLaqWi41pI+pW+rHH7RfxvUE2rMknSyCnm7V880GCE=;
+        b=pMuQAEbjsIxQs4KxvfSQWsKP5KuSt40TujytLTLviLOCdxJjHP6Sm3oJAcyXKTBJKn
+         AdGLRbTGsHSwE51SX4OsL4EoPO/if+4iRJ0hv4uwGH2+3ZrJDsK/Nm4vB91nLFMa+fJ6
+         ho2WX3xWGNN1WBMuC4T7YoMGIT6sWE4wl7ulq7xLXt+I0VrQmM0cbhQTH/fv8EZ6Bm5B
+         Q3oFooytLcOK6VSJsgEJ2ipBVzgUs8A75IbX1hBrVFsBPZshgFLyux+uO85k+Wz1kN+r
+         A6WS/G3yc1OgqmIUMDGhaCLjqYn1tYldZAjUhh6H0VGIgVp79vgq0kglA91IWIXQpM5m
+         p6HQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=RptHl9sO;
+       spf=pass (google.com: domain of naveen.n.rao@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=naveen.n.rao@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=0RK/vsFdmxRyj7haAmRp5Bg8RhYriSQERkX02/qnCic=;
-        b=VRpyCpB5RYcU2Z4RRoL80Ul98D/uOAkO18fn0kGlCq5zCRKQHaySSkz6eCtL+KZd4V
-         y1LXVvMnd7hRNV6kq6aD2juSLckos43KvHutgjwuyGq+6jbnpe90wjIh7dnkz2EpsMUd
-         bM+lg10rZvofU/dP9vEHY/6k/Cy5z6Vc83XLn/uLN2sxjhSEJjZN8/EXmvNOWbDeyY4l
-         8mH3ZKzjFL5nVXuJ0rHWfAkzTSCglQP55CNtkAJmPFR2DAQNlSxg3ZhfM+OdEyilDWHI
-         aGnfOKeAk5v9erdrEoSzhoG3o1IH1MG+Z+mpq0hdNI0fXeoInytMNJ4i1GlXvT7OAzm5
-         6/Cg==
+        h=sender:date:from:subject:to:references:in-reply-to:mime-version
+         :user-agent:message-id:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=WFLaqWi41pI+pW+rHH7RfxvUE2rMknSyCnm7V880GCE=;
+        b=BQzvp7aK3YwdlrdB/b4U8qAcCHappx6IaX+I+RXDJwHgMNNzQ/mg/NsNSeK75LfdyS
+         I8ZO0hpXyW6MpxcdTwbGKFJz8fl2X+MKYiyeO+hFjjDHUbp8EgCb52awG8ELFdkoernW
+         6xdToouZ918gKTbr+KwjvPFEuYXFg0bLodaT9Ix+4D7ViH5oKsB7GIhtxexjiqslQLXa
+         1vuOCr36Q5nYNUBV9IE0oIY7B2PhwBc5qqosk6WctBHQAHo1hDkjJdFfq6YB9TnKxuAT
+         Qn1XRPdF875fpSs+a/NHYxn6BLrDCke5jEs7prS1g9geOW4RXYC0Uy7W0sbxOx0I9M1Q
+         k18w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
+        h=sender:x-gm-message-state:date:from:subject:to:references
+         :in-reply-to:mime-version:user-agent:message-id:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=0RK/vsFdmxRyj7haAmRp5Bg8RhYriSQERkX02/qnCic=;
-        b=PH/jmEy9BpwAqXUcvP8QKp1Rs+OU1+Ac9OW2YTnl+apjJ2pO/LEUlz0AtljIAO7RsH
-         aZfI+9yd9SQfmX9R2bR5mnvu05sOEGgjY6K7Oj+nkT2MqRsaBVPCwN4Eqwlty+e3BEB2
-         8LCRMyo/lh4sHHVoALvPJKDcupR+12WgPa9B7Ei4lJRijh5k4/3XbiOEj7ZuZclHhSFp
-         /VJ/x3iRf7T3Cj+g9+UibEgjQSUTwTLFHSu5g4t1rsF5wVIKKSEosjYr6k0YATguzgnj
-         xFENdUBznnDn7bLRLtYUF2D8tAKCxERmELM7tpsqCJ+L+aUoSJd3phqKoDajYKxqdM8I
-         oSAQ==
+        bh=WFLaqWi41pI+pW+rHH7RfxvUE2rMknSyCnm7V880GCE=;
+        b=JfeyP8VxD8OjP6qF7UbFBTREx1bJ3AEJZYTve7FPVKB9q4wxpEWTKjp3nqsAY+UdX3
+         eI8or7mbR2F0xdiReDzi9LH/bYQ6qvTeTyeeN7CWC5WA/ePcZmY228tRUeTUgdaAyp63
+         w2fcIjgfFLwSQbeSgwLuA0/IbrmYElECFQKVyM6ZvL7etSEcZaGtmp1Qd8v7RfHH+Uug
+         DOaeV1hdoh+iCJCyKPVp7ZbU/FeMU1f4Ylzo4RbDwqkIYWjSZ+xI5EBE/+0Z0ODO13fO
+         3cRINgqcqLMaTxuxtlirXe0wJiLR7cDQamTQn1oGa4hZXdYL9U4wnAqwa6dF5gf6NRDb
+         2SKw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530OsjlUHO35VmsADYsGf/ftBuKuiuqEGWCz05z4jsXrzEHfQ47K
-	V+z0+UsZa4xklm/1BUXkLgs=
-X-Google-Smtp-Source: ABdhPJzEvpFFqChibJTulDBj+zgfaaWoJ3Zs/lHUMCqhF6l5S89uVafVt0vrY8mMwuyV7TKK4uqS1g==
-X-Received: by 2002:a2e:9787:: with SMTP id y7mr19833983lji.65.1622532169849;
-        Tue, 01 Jun 2021 00:22:49 -0700 (PDT)
+X-Gm-Message-State: AOAM5304fOjxhIb6Nza9lY1iTQGFP6c2yZYAD4BvCoOdsr/6HsV/UA/D
+	HoAdBdjGWqcveToXgFYNMn0=
+X-Google-Smtp-Source: ABdhPJz6rxSYnt85cVUep0+yFm6+Stp5J4YSe/UEulwf687qmgrM7TSVnomiRrnDvpOvqKmJQvDLyA==
+X-Received: by 2002:a92:c24b:: with SMTP id k11mr20931216ilo.303.1622540440575;
+        Tue, 01 Jun 2021 02:40:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:7008:: with SMTP id l8ls2981925ljc.4.gmail; Tue, 01 Jun
- 2021 00:22:48 -0700 (PDT)
-X-Received: by 2002:a2e:7018:: with SMTP id l24mr1008833ljc.12.1622532168622;
-        Tue, 01 Jun 2021 00:22:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1622532168; cv=none;
+Received: by 2002:a02:c4c5:: with SMTP id h5ls303881jaj.1.gmail; Tue, 01 Jun
+ 2021 02:40:40 -0700 (PDT)
+X-Received: by 2002:a05:6638:118c:: with SMTP id f12mr24346395jas.143.1622540440204;
+        Tue, 01 Jun 2021 02:40:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1622540440; cv=none;
         d=google.com; s=arc-20160816;
-        b=ann0e48LKsx2D5TbWrvpgbmYPU7wakZFy1q88SnPCWA9g6OeAUkg4WiLjxvg8Mmc+y
-         EuMRZkR1XQkTa/Bu0I7IFCRcAuwudcxGCZeavcvxnr/KwLwOkNJvevUoSXYCkk3kimis
-         T5TDZspI58MvDMUmFPO5CDB5PnsGxMAyp2wvM2ps712qwSEYgxOEe6sl2qgYpEZ0+Znb
-         xseSBes+l0IkXhsZgpb2HRl1I2ESOVsCHWd8f2TxUsAceaGYU8WJmXk04JZIkinKQoYP
-         kIAM68WRXMe5vOBVTwhrMOy6E88rsAJr1DWs2YmZ6FCqyyjtyDVo8PQ9JP1ZdLJ0LLyG
-         BQBQ==
+        b=pffOEKGpcZIPZH7MXxHAE3nC8+HK0kOz2vV8Pk5ZITr9w/hQbPxeV699golnBNww4D
+         IyqWokFdHdtgZHNfdLAS1XR5eh9i67O/5KxXEMtn0xycV/B8D3N7VXRzTeUQGR2cBo+v
+         tUF7cutisBytD8/7MTsjyaAAIdwSFI8umFnULsBIqQNg4iYlK1BERAwTfUfMmO+jPO/z
+         Ljgp431EStL5VI7toU15E7LD/ezFwp24kUQjEANa1VjFDw9uIwjaQpWDqdr0Jwc7DyzB
+         IKxTB5tuPveo0/I0LLnrKoY4jmTNmRTjfKogp2n5diEa3TzsrsL8fPBKIA58/5M7islS
+         GDUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:to:subject;
-        bh=YGj3Ll2rv2K/rsDhsr9+gd8dOE6Jf41/4LgsXTpU6wc=;
-        b=NYs72FCm01vfBq75GqWG7sTw28Uq8hql2Xlduv47lzaRcOE3Ua9AGZllH3g5z10KEp
-         xLvTQNKus2QC3y8en0s1hXi0yAEReNWT9LE1jhCvgeitvHJ6L1ESJk6LQ2nraTmwINkR
-         Ai47E5FxAp/Ni0MTi3rlsc7H4kE53QafZX9Z1R51TQNLYna+bhRoUHwVnRDVMG75rSSe
-         zHMSenvg7QBEEmc4oDw/BTFPASM7kdjZusd4Bhsh+43FpSqWMn4D72qyXSFhrRGox20f
-         4Ho0QcphUxlzwajwXbKRdj5W7KJGcHa72zDuW/GU679emy450siEY19gWKrI0/bKnYpi
-         jkhg==
+        h=content-transfer-encoding:message-id:user-agent:mime-version
+         :in-reply-to:references:to:subject:from:date:dkim-signature;
+        bh=HS7GLo4YPRH9AQ/D6Y/8pCOpDeDKHLzs46UL2AE4h3g=;
+        b=SJ3kmQljM3epV1XcIaOSpC55WJbJqRT2BPThPxwX5gfQMrPKVbmTBhfh7q7flsWZrv
+         pgjgHgfXKdBfy9JR9cHevACYP9aBPvjdYm1G2sOb/qLyJOHZS2aeHiCFRFPKqqDT6fk3
+         bm2eUV+w+LvoFEQEL4oq3ZTFZo49/y+w/RHHH26W50yoTSCgOb0SVcQn1DVl6qsrbaX7
+         r/iNB7aSFcbFSISqQUpHVVzKMOaXx3zgbJSUs2H1AJXPc0Xa63+thZ/QaoKOTLJmm98J
+         eI1rK4VdXKlKpnaK7SVpDrNc4K7CFooZEOzmtGnFJvEtfUA1qUgyCzd40ib+TkQX5cfF
+         1eDA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
-Received: from pegase1.c-s.fr (pegase1.c-s.fr. [93.17.236.30])
-        by gmr-mx.google.com with ESMTPS id o13si584868ljp.0.2021.06.01.00.22.48
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=RptHl9sO;
+       spf=pass (google.com: domain of naveen.n.rao@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=naveen.n.rao@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
+        by gmr-mx.google.com with ESMTPS id l7si1282811ilg.1.2021.06.01.02.40.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 00:22:48 -0700 (PDT)
-Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as permitted sender) client-ip=93.17.236.30;
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-	by localhost (Postfix) with ESMTP id 4FvNsg5K2JzBDlZ;
-	Tue,  1 Jun 2021 09:22:47 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KCSf2hoQB7ao; Tue,  1 Jun 2021 09:22:47 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4FvNsg4QcCzBDlT;
-	Tue,  1 Jun 2021 09:22:47 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 82DAF8B765;
-	Tue,  1 Jun 2021 09:22:47 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id oR-q5SgmhKex; Tue,  1 Jun 2021 09:22:47 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 34D5D8B7AE;
-	Tue,  1 Jun 2021 09:22:47 +0200 (CEST)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 01 Jun 2021 02:40:40 -0700 (PDT)
+Received-SPF: pass (google.com: domain of naveen.n.rao@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1519WiXH170898;
+	Tue, 1 Jun 2021 05:40:30 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 38whnn1ddu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Jun 2021 05:40:29 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+	by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1519cSNJ011666;
+	Tue, 1 Jun 2021 09:40:28 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+	by ppma04fra.de.ibm.com with ESMTP id 38ud880v2v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Jun 2021 09:40:27 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+	by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1519dri133882440
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 1 Jun 2021 09:39:53 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8D4944C044;
+	Tue,  1 Jun 2021 09:40:25 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F332B4C04E;
+	Tue,  1 Jun 2021 09:40:24 +0000 (GMT)
+Received: from localhost (unknown [9.85.73.71])
+	by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Tue,  1 Jun 2021 09:40:24 +0000 (GMT)
+Date: Tue, 01 Jun 2021 15:10:23 +0530
+From: "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
 Subject: Re: [PATCH] powerpc: make show_stack's stack walking KASAN-safe
-To: Daniel Axtens <dja@axtens.net>, linuxppc-dev@lists.ozlabs.org,
- kasan-dev@googlegroups.com
+To: christophe.leroy@csgroup.eu, Daniel Axtens <dja@axtens.net>,
+        kasan-dev@googlegroups.com, linuxppc-dev@lists.ozlabs.org
 References: <20210528074806.1311297-1-dja@axtens.net>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <19442f8a-43b2-b51d-b1ad-3d27bb5fac49@csgroup.eu>
-Date: Tue, 1 Jun 2021 09:22:46 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-MIME-Version: 1.0
 In-Reply-To: <20210528074806.1311297-1-dja@axtens.net>
+MIME-Version: 1.0
+User-Agent: astroid/v0.15-23-gcdc62b30
+ (https://github.com/astroidmail/astroid)
+Message-Id: <1622539981.k2ctwb25pa.naveen@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: christophe.leroy@csgroup.eu
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.236.30 as
- permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: vaCDV2d8Q2KLE_33lWuk3O89PWR4ogFg
+X-Proofpoint-GUID: vaCDV2d8Q2KLE_33lWuk3O89PWR4ogFg
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-06-01_05:2021-05-31,2021-06-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 mlxscore=0 lowpriorityscore=0 mlxlogscore=999 suspectscore=0
+ clxscore=1011 phishscore=0 adultscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106010064
+X-Original-Sender: naveen.n.rao@linux.ibm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@ibm.com header.s=pp1 header.b=RptHl9sO;       spf=pass (google.com:
+ domain of naveen.n.rao@linux.ibm.com designates 148.163.158.5 as permitted
+ sender) smtp.mailfrom=naveen.n.rao@linux.ibm.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=ibm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,80 +162,50 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-Le 28/05/2021 =C3=A0 09:48, Daniel Axtens a =C3=A9crit=C2=A0:
+Daniel Axtens wrote:
 > Make our stack-walking code KASAN-safe by using READ_ONCE_NOCHECK -
 > generic code, arm64, s390 and x86 all do this for similar sorts of
 > reasons: when unwinding a stack, we might touch memory that KASAN has
 > marked as being out-of-bounds. In ppc64 KASAN development, I hit this
 > sometimes when checking for an exception frame - because we're checking
 > an arbitrary offset into the stack frame.
->=20
+> 
 > See commit 20955746320e ("s390/kasan: avoid false positives during stack
 > unwind"), commit bcaf669b4bdb ("arm64: disable kasan when accessing
 > frame->fp in unwind_frame"), commit 91e08ab0c851 ("x86/dumpstack:
 > Prevent KASAN false positive warnings") and commit 6e22c8366416
 > ("tracing, kasan: Silence Kasan warning in check_stack of stack_tracer").
->=20
+> 
 > Signed-off-by: Daniel Axtens <dja@axtens.net>
 > ---
->   arch/powerpc/kernel/process.c | 16 +++++++++-------
->   1 file changed, 9 insertions(+), 7 deletions(-)
->=20
-> diff --git a/arch/powerpc/kernel/process.c b/arch/powerpc/kernel/process.=
-c
+>  arch/powerpc/kernel/process.c | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/arch/powerpc/kernel/process.c b/arch/powerpc/kernel/process.c
 > index 89e34aa273e2..430cf06f9406 100644
 > --- a/arch/powerpc/kernel/process.c
 > +++ b/arch/powerpc/kernel/process.c
-> @@ -2151,8 +2151,8 @@ void show_stack(struct task_struct *tsk, unsigned l=
-ong *stack,
->   			break;
->  =20
->   		stack =3D (unsigned long *) sp;
-> -		newsp =3D stack[0];
-> -		ip =3D stack[STACK_FRAME_LR_SAVE];
-> +		newsp =3D READ_ONCE_NOCHECK(stack[0]);
-> +		ip =3D READ_ONCE_NOCHECK(stack[STACK_FRAME_LR_SAVE]);
->   		if (!firstframe || ip !=3D lr) {
->   			printk("%s["REG"] ["REG"] %pS",
->   				loglvl, sp, ip, (void *)ip);
-> @@ -2170,17 +2170,19 @@ void show_stack(struct task_struct *tsk, unsigned=
- long *stack,
->   		 * See if this is an exception frame.
->   		 * We look for the "regshere" marker in the current frame.
->   		 */
-> -		if (validate_sp(sp, tsk, STACK_FRAME_WITH_PT_REGS)
-> -		    && stack[STACK_FRAME_MARKER] =3D=3D STACK_FRAME_REGS_MARKER) {
-> +		if (validate_sp(sp, tsk, STACK_FRAME_WITH_PT_REGS) &&
-> +		    (READ_ONCE_NOCHECK(stack[STACK_FRAME_MARKER]) =3D=3D
-> +		     STACK_FRAME_REGS_MARKER)) {
->   			struct pt_regs *regs =3D (struct pt_regs *)
->   				(sp + STACK_FRAME_OVERHEAD);
->  =20
-> -			lr =3D regs->link;
-> +			lr =3D READ_ONCE_NOCHECK(regs->link);
->   			printk("%s--- interrupt: %lx at %pS\n",
-> -			       loglvl, regs->trap, (void *)regs->nip);
-> +			       loglvl, READ_ONCE_NOCHECK(regs->trap),
-> +			       (void *)READ_ONCE_NOCHECK(regs->nip));
->   			__show_regs(regs);
->   			printk("%s--- interrupt: %lx\n",
-> -			       loglvl, regs->trap);
-> +			       loglvl, READ_ONCE_NOCHECK(regs->trap));
+> @@ -2151,8 +2151,8 @@ void show_stack(struct task_struct *tsk, unsigned long *stack,
+>  			break;
+>  
+>  		stack = (unsigned long *) sp;
+> -		newsp = stack[0];
+> -		ip = stack[STACK_FRAME_LR_SAVE];
+> +		newsp = READ_ONCE_NOCHECK(stack[0]);
+> +		ip = READ_ONCE_NOCHECK(stack[STACK_FRAME_LR_SAVE]);
 
-Actually you read regs->trap twice now. Can you use a local var and really =
-read it only once ?
+Just curious:
+Given that we validate the stack pointer before these accesses, can we 
+annotate show_stack() with __no_sanitize_address instead?
 
->  =20
->   			firstframe =3D 1;
->   		}
->=20
+I ask because we have other places where we walk the stack: 
+arch_stack_walk(), as well as in perf callchain. Similar changes will be 
+needed there as well.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/19442f8a-43b2-b51d-b1ad-3d27bb5fac49%40csgroup.eu.
+
+- Naveen
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1622539981.k2ctwb25pa.naveen%40linux.ibm.com.
