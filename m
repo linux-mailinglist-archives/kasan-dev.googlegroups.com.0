@@ -1,128 +1,129 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBB5OU3GCQMGQE3VTN7EY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDYJPJO25UGBBHPD3GCQMGQEONRTZCQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAB33978D7
-	for <lists+kasan-dev@lfdr.de>; Tue,  1 Jun 2021 19:12:23 +0200 (CEST)
-Received: by mail-pl1-x637.google.com with SMTP id a6-20020a1709027d86b02901019f88b046sf3739005plm.21
-        for <lists+kasan-dev@lfdr.de>; Tue, 01 Jun 2021 10:12:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1622567542; cv=pass;
+Received: from mail-ej1-x63e.google.com (mail-ej1-x63e.google.com [IPv6:2a00:1450:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E548397961
+	for <lists+kasan-dev@lfdr.de>; Tue,  1 Jun 2021 19:42:54 +0200 (CEST)
+Received: by mail-ej1-x63e.google.com with SMTP id 16-20020a1709063010b029037417ca2d43sf3644160ejz.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 01 Jun 2021 10:42:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1622569374; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KKe/xPeZXWKqCSj+t9IufyozR3w5G4H5RzfqcNDyiD4rV/P1uCRIlUFjzGA+iT4Jv9
-         uJirXQBNW8grsSkO6EtzlngTRRIcQ6DEiWjo+jR4YLw5MISLC2ptwz6McqIQh9zq4Z5T
-         XiGqMxKd7CItIKP5/cQoGcotY2cTmNwHuqpmOkahN66qOS4eiRRlzGcIXhZa9Krjfxp2
-         VHui3UzB3sTVKj9a2rwk9KR/6ZycrlKiGQWhUHAzlylXb/1ye30cooAxBWwa75+S4QFa
-         C0u6R3gHF9kywRnqTaAi3OQVFuDt2Ma4ozmhFhs/kbxaXGssu/0GrPP9yw2e5MToud5L
-         R0fg==
+        b=zRW3P1V79k+V3yQkG+V6PzEXrQSG5LTJSLldVA4BKSTUUr8xht0EOedGh7/1tWksBq
+         V8QiccH67Ocujd/zG3x8n7juKrSC5MJa6Rs78NaMd9oKkVyOr1wO9mfgkdw70JVH5hVZ
+         qH9QbxH7NvAAjZBznCcmHlKJIeAyFS8JRfvBLxG++cFPKqWxSTP+V6CywgGr6c1o59/T
+         mokQaackQ6QIgXG2Pa4SWj3Sv44o9zr+6CcWIm1yZhDSITNo43BVAwho/doISrK4x9eE
+         BPV8+VAkiHGLJfgYf02+IFd0+YkTIQnv/ykJb3NGxcl2LnGsMzYGJY4ktR3hgFDcjnhp
+         80RQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=1rvBDoQ0YpEmUm02es7DPR1LV33mrm0PgHxxuIjaSao=;
-        b=aXZ2iKUwojzjjBGUrT9LEoUSbt3SkepvDYtlFoaZlWauVtta2JBMI8QBxNd98x5dG+
-         kshmCJ/ZB0p7TJyEJsKrnmh3rabZbjszjS8x59ptBZ1gTQSo5vLzNI+BlJhC6KcKsHWF
-         gtT4TwIT+iDp+n16XPih7ljsABklvw054rd14VH4C7Im4QcApLh9QrD98w+uyvIy7cBG
-         wtCAjANJCcWhAmTtAcqc0n09QSf9SB6cuHan/L0URqVXSkE1z98VaN5VyhAukLXWloeG
-         rNSUhv0V6OdYkag56d1NU5/Bz5BjrCDQsA40dxbVkgIRu1WIZZNocQHIUAfryqkwkywT
-         FW+g==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=N93eWNbBnMc56ZKdxvJs6sDJ3PyJ/GWdN3mOSvjWpCk=;
+        b=gYUmnOM1JSQs2CUEMUDuSbBS2ShyMqYhW/U9FukIDyX/ayZOD9h+lnWU6NKn4FTKLQ
+         KCBWJrbdPgdFZazmDUQbfW8++CrjKe8HLDKrj7jrRrgwBZFOprqBp28JpuUIGO931zXl
+         fbqj4U9Lbnv5n9hTXVicuFZX6+/1XuQl1oboMh808aPTCGbjZtvSaTMvJxHGR1Rl8K6a
+         6zyDGRmrJaU6OOxXNkGlRmO8lCrr1rgrfXzWnXTWghQ/8WGbil+P+OXutJTOKlQ7hMrn
+         b66KY7LgzDeSKZOkKdfmEEUH2HfqOCJqR1/y1RZ27a675tc5Q2Mh0HbovpCTV4PQUKOU
+         dk2w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ajWEceEs;
-       spf=pass (google.com: domain of srs0=z9fb=k3=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=z9fB=K3=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dwDHvH0o;
+       spf=pass (google.com: domain of ndesaulniers@google.com designates 2a00:1450:4864:20::22b as permitted sender) smtp.mailfrom=ndesaulniers@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=1rvBDoQ0YpEmUm02es7DPR1LV33mrm0PgHxxuIjaSao=;
-        b=jNcHFquUlLk1t7aUKGeb6d6VKY7S7z7nYR0fcmvhgm2BvCgEDsXmuwckjFbzvKM9cg
-         qGJN0/1m+VxOVP1ZRrXuw3yPEjBfpNLb1vqLeQSjjxB3wsjvVJLiXvvP+1SUpjaB51KV
-         Wo6REVE9s7Re3LPBG6hNUwJLWkfMhj4yPVE99cWwb+oMKlcXaDCGVSTly6PXxy7O29jw
-         GSjzXi9ZIAT0OOa6BpEebVVD90IA89EE3q4UoDr2UnsK+fAdQDDWAXFB2T1j7JBVtsNE
-         fPVsQz0bvo0YW9lPu0fsqZZJkKkzczuxMTMQ7oSNjpD/VOQLBYPhi5njpNvmfXFmXI6q
-         seRw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=N93eWNbBnMc56ZKdxvJs6sDJ3PyJ/GWdN3mOSvjWpCk=;
+        b=jfxBsLgW4cz9blkKay4tpujOZ5r/w7xu4osPVOwTi7q/gS2dsC/qBqT0R5BWxQlFkT
+         1y7mHktQEkyV/nkRZH+CCftqirOfa+whUf8Z6t5+AsTIW5Xc9DYc+p3aT8zFYomUKe+k
+         nwQg8j5Xf6LuiNGO0SgUjNrrv5TSmAUjBnItbZskTcvAkgLtenWk64UEU4VZKihtlAtR
+         Yr6ctRBqhO/d/TPFd7KKQEDlnm5qvKREIgyq1sOAW7Dtb1NorGEpNvbJwfxwoHw1sc/3
+         +FcOGVvR2O9zs0ISCVEcbWtTrPhoMLr90DU4LLC/S7pYWsgK4yjwjXBav7pt26WmYBrD
+         QJPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=1rvBDoQ0YpEmUm02es7DPR1LV33mrm0PgHxxuIjaSao=;
-        b=t8Wi8cvAtQ/8vLBibZOhUdiAsPyCPSe1Ya1lQysw+7h1cgfpuGl+LTr7om+5LcZXbi
-         AlZqpQ+5rA15pWBipUgLqkGNLkLQh61N29/3Vx4vFnh9yonI5P/6LEqtuxoLU2166BAp
-         eMuCwq5mV5BgyVchA4cbhTh8C9rsAH+XKtKsf0//mn9XJYhR481i8HF4T+2G5VrWBPgK
-         CVppc4SJ2zhrXs+BI5DNrdsyrktVTma/fbDkwZsFM8w9L38a5GsMNHG9CKd1ABChdDpk
-         mOUsya1jbecTDq6eiEgZFFYmYXadLW6pzIUiEQwkD5WK1Wm9S7BuTYFPWO/bkJm4rQo1
-         ksBQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530bvGf3GP31y5sJC6xtamgUM2jORh3B5H5RcVVkCQ+TE5rZU/0A
-	ixTRMnhoHRNNaPztmXhYbqo=
-X-Google-Smtp-Source: ABdhPJyqBF/5ekkRgjYMsviPyPZEtArTqK24XWqjX2ErmkVAt7E6tA6AJYFi7ekIF3qc6RVlTyXDhg==
-X-Received: by 2002:a17:902:eccb:b029:102:23ab:27a8 with SMTP id a11-20020a170902eccbb029010223ab27a8mr17024257plh.70.1622567541998;
-        Tue, 01 Jun 2021 10:12:21 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=N93eWNbBnMc56ZKdxvJs6sDJ3PyJ/GWdN3mOSvjWpCk=;
+        b=e4TGCaUY1+VSGA7ReNOFUpP61UP+OwAbnn5jP7J6qHfOhuQUt1GALSHEUUgi2pjybd
+         fgRiQbvWIfV8BnYyy2XZp8dGvnyl5BfCLW2pbd21kCgDOPyBkEKsKhsmRRwarqvHAPgD
+         bORULQEWL4aML3fwp0jXzCNfS0QTcbp+x49+XTINq2X46EVm+SQTnn/ZInbbZZWlMTiR
+         UKqdOAwykgNgcUm48B7m/rNvoC/HEvPtz393kcb6e0sa/4lU+RPuA2u5chBqJZLnGRPs
+         CjduKYWGpq08AoIyYEh6pWgrA3LFfis/nccBC8o2Hgoqx4aTb14l0VNBldIlo29zaYdc
+         dt9g==
+X-Gm-Message-State: AOAM531l6nIvCtgnB2HRIcx16U0oJaec6DbAY0iXEHIvswXLqYzog6UL
+	WIsfTVW+ZTtqqgx45yR90mE=
+X-Google-Smtp-Source: ABdhPJx6zy5mSviwQjrKY70tQz7JL7IwZdvRGKqow8qR071e2BSjbDCXX44maYpkzALRR9i7ImgSwQ==
+X-Received: by 2002:a17:906:2c4a:: with SMTP id f10mr22726136ejh.493.1622569374138;
+        Tue, 01 Jun 2021 10:42:54 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:b611:: with SMTP id b17ls820079pls.4.gmail; Tue, 01
- Jun 2021 10:12:21 -0700 (PDT)
-X-Received: by 2002:a17:90a:4d01:: with SMTP id c1mr864298pjg.143.1622567541446;
-        Tue, 01 Jun 2021 10:12:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1622567541; cv=none;
+Received: by 2002:a17:906:1f09:: with SMTP id w9ls6155893ejj.11.gmail; Tue, 01
+ Jun 2021 10:42:53 -0700 (PDT)
+X-Received: by 2002:a17:906:d1ce:: with SMTP id bs14mr31378800ejb.183.1622569373240;
+        Tue, 01 Jun 2021 10:42:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1622569373; cv=none;
         d=google.com; s=arc-20160816;
-        b=ng4YVWDQ46vYRxWQOyo/LvPTWNlB7ZkRA7qd1FXQWw9m4/GrFLai8rx8tr6OjWBjS1
-         kj8J+gV1TBfo0E8FkpVesvg12WgPLnjkV5e339V+l19xLsZhmhMnBr2LaaSRsgg/D7lg
-         8u6ZAvbQBjBLQGcJsoc0xfrjmyNMvksxZkcIG7bjC+j3Lm63JXmyG7GTJVtwNkAIagO/
-         qgbmnwZ4omwsAlh6atguyoN2QJoOJmBDCQ6qCx7kcnd35QIwCD/oBzR5V9pZ1JSdmCbX
-         gDepDjh6DU8nszUWqSRzl21Bm+dpO9yWeFdG8rtgeuKj86TUt+vCUiuRKh6qIq+NQ9TB
-         5RvQ==
+        b=Pg5t5nQVJ47RSjVAaFRcBe5xdBg8CNgqhFiuZ+hXcZcCFg9JU/RmHjsVLuHdmhpJ02
+         Genm8SB0P4iQqRuVPtuyHBqWi+6eMdz7pU37JwJA0I/EfB0eRUEjxzDaxRbjldo46Knj
+         40oDBZ7DfByvysmtjwlNbgMvliCJrqKHG1FHgWcIY5suKu2AN6TiKCclYdG7MDRzXUyQ
+         xD18+Omc0CNhQW4COD+iysK/EbhwKkRZnwdZAzsLJwmRflogwYrloGBp1mJA43ZQTKtL
+         nYRr23IUB/AQWhcp4Ow/VOljHeDw1PuYZV6It3B2Tzu30x53dJuxULgQc06Z4iIUjYoB
+         xiRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=3SNF1IDzO3RpbyEL6UFm9jv1re0yJRYDajCbErZdmgY=;
-        b=bFOwvRlbGyNBw7Az7UCf3glYsvDsiucs6gFEiOneOqSLkmTnUJQ/6A+rwzmhwjj4Fj
-         5yzwryPWuxBAN+vpVtUX1syqHxz39PKmTNjHcHoyUWTUxczirfsRUODa1DZmptgh7jvZ
-         eWC9jRhpgnfZPuQeCuxhJ73Dan8r4y08t6kzVqDt5DXCA+PPQ4lid/Vl8z7P7cN1LmdA
-         Bz+jS4mPdv1oSIhA1fbjCUmWQA0EUOKg8+u7lVRzc9Sb0yudVKbhOog7VxTJNKIGvTOx
-         J+wMx3f94AXcDc5aH4A/biTI6gVr5Ieh37FJkCnVrJBA2OlenLl4z54NzCy+dV8G9T6c
-         rIAg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=yD/RqJ6Lx/pv1RbRPxCIzqHlKJgJbvGhxmkXtiq11v4=;
+        b=NDpwcFdCxnxVFhozqzaPMzF+DIqfQ7VSj49F5klEHa8JHYy0iZ+YGepgtcNZRa7yZL
+         4rbEguqK0vatBc36Q/55FSlyxHjmPnUtqQPo2sWeoEHp893R6e7pYAkHrJg4mq9cBYpc
+         bSnC0OLTAgw27XAf7FwHSxWWyCDc3tOSZ5HnRpu5QCbNwDAT8tHA0A4vWrOttdD2XK4C
+         /PiUEdjGOfTBuIs+EpwWqqQTq5Ut9LnwrK13LYod/0cCIEjW7vMpAEHqRosgMoevuHYv
+         WADXSD0yoZbFZQl72Muq2WtIxPxmo3nG8IQanfrDaDuENOyZ7c6VQMUjtuuYymSpsuRO
+         wUtw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ajWEceEs;
-       spf=pass (google.com: domain of srs0=z9fb=k3=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=z9fB=K3=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id o15si1360766pgu.4.2021.06.01.10.12.21
+       dkim=pass header.i=@google.com header.s=20161025 header.b=dwDHvH0o;
+       spf=pass (google.com: domain of ndesaulniers@google.com designates 2a00:1450:4864:20::22b as permitted sender) smtp.mailfrom=ndesaulniers@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com. [2a00:1450:4864:20::22b])
+        by gmr-mx.google.com with ESMTPS id r20si566255edb.3.2021.06.01.10.42.53
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Jun 2021 10:12:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=z9fb=k3=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 274CA60FF1;
-	Tue,  1 Jun 2021 17:12:21 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id E5FE05C08EB; Tue,  1 Jun 2021 10:12:20 -0700 (PDT)
-Date: Tue, 1 Jun 2021 10:12:20 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Marco Elver <elver@google.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Will Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: Plain bitop data races
-Message-ID: <20210601171220.GO4397@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <YLSuP236Hg6tniOq@elver.google.com>
- <20210601154804.GB3326@C02TD0UTHF1T.local>
- <CANpmjNNOoVg5hcm0-omi-CB9zPVnKxBdCir1WmD0rMpoAQSOjw@mail.gmail.com>
- <20210601163209.GC3326@C02TD0UTHF1T.local>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jun 2021 10:42:53 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ndesaulniers@google.com designates 2a00:1450:4864:20::22b as permitted sender) client-ip=2a00:1450:4864:20::22b;
+Received: by mail-lj1-x22b.google.com with SMTP id e2so20401892ljk.4
+        for <kasan-dev@googlegroups.com>; Tue, 01 Jun 2021 10:42:53 -0700 (PDT)
+X-Received: by 2002:a05:651c:b1f:: with SMTP id b31mr22349478ljr.0.1622569372725;
+ Tue, 01 Jun 2021 10:42:52 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210527162655.3246381-1-elver@google.com>
+In-Reply-To: <20210527162655.3246381-1-elver@google.com>
+From: "'Nick Desaulniers' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 1 Jun 2021 10:42:41 -0700
+Message-ID: <CAKwvOdmgZXJB2dV7iG67qHgbDgVTJaH7b3dkpgZyea4ULgQjgA@mail.gmail.com>
+Subject: Re: [PATCH v2] kcov: add __no_sanitize_coverage to fix noinstr for
+ all architectures
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Kees Cook <keescook@chromium.org>, 
+	Arvind Sankar <nivedita@alum.mit.edu>, Will Deacon <will@kernel.org>, 
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Borislav Petkov <bp@suse.de>, Sami Tolvanen <samitolvanen@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	clang-built-linux <clang-built-linux@googlegroups.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Mark Rutland <mark.rutland@arm.com>, kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20210601163209.GC3326@C02TD0UTHF1T.local>
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: ndesaulniers@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=ajWEceEs;       spf=pass
- (google.com: domain of srs0=z9fb=k3=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=z9fB=K3=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20161025 header.b=dwDHvH0o;       spf=pass
+ (google.com: domain of ndesaulniers@google.com designates 2a00:1450:4864:20::22b
+ as permitted sender) smtp.mailfrom=ndesaulniers@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Nick Desaulniers <ndesaulniers@google.com>
+Reply-To: Nick Desaulniers <ndesaulniers@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,124 +136,114 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jun 01, 2021 at 05:32:09PM +0100, Mark Rutland wrote:
-> On Tue, Jun 01, 2021 at 06:18:44PM +0200, Marco Elver wrote:
-> > On Tue, 1 Jun 2021 at 17:48, Mark Rutland <mark.rutland@arm.com> wrote:
-> > > On Mon, May 31, 2021 at 11:37:03AM +0200, Marco Elver wrote:
-> > > > In the context of LKMM discussions, did plain bitop data races ever come
-> > > > up?
-> > > >
-> > > > For example things like:
-> > > >
-> > > >                CPU0                                   CPU1
-> > > >       if (flags & SOME_FLAG) {...}  |  flags |= SOME_OTHER_FLAG;
-> > > >
-> > > >       // Where the reader only reads 1 bit, and/or writer only writes 1 bit.
-> > > >
-> > > > This kind of idiom is all over the kernel.
-> > > >
-> > > > The first and primary question I have:
-> > > >
-> > > >       1. Is it realistic to see all such accesses be marked?
-> > > >
-> > > > Per LKMM and current KCSAN rules, yes they should of course be marked.
-> > > > The second question would be:
-> > > >
-> > > >       2. What type of marking is appropriate?
-> > > >
-> > > > For many of them, it appears one can use data_race() since they're
-> > > > intentionally data-racy. Once memory ordering requirements are involved, it's
-> > > > no longer that simple of course.
-> > > >
-> > > > For example see all uses of current->flags, or also mm/sl[au]b.c (which
-> > > > currently disables KCSAN for that reason).
-> > >
-> > > FWIW, I have some local patches adding read_ti_thread_flags() and
-> > > read_thread_flags() using READ_ONCE() that I was planning on sending out
-> > > for the next cycle. Given we already have {test_and_,}{set,clear}
-> > > helpers, and the common entry code tries to use READ_ONCE(), I'm hoping
-> > > that's not controversial.
-> > 
-> > Interesting, please do Cc me as I've been thinking about if we can add
-> > more bitop helpers to avoid having to READ_ONCE()/WRITE_ONCE() or
-> > data_race() the accesses, which thus far never looked too ergonomic.
-> 
-> Will do!
-> 
-> FWIW, I have an old version pushed out at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=treewide/thread-flags&id=971e3a9ace1d896ec8f0995037a25808ed6028e9
-> 
-> > > Are there many other offenders? ... and are those a few primitives used
-> > > everywhere, or lots of disparate piece of code doing this?
-> > 
-> > AFAIK it's all over the kernel. For example all current->flags
-> > accesses somehow suffer from this everywhere. Also various accesses in
-> > mm/ (KCSAN is disabled for parts there for that reason), and a bunch
-> > more in fs/ that I keep ignoring.
-> > 
-> > > > The 3rd and final question for now would be:
-> > > >
-> > > >       3. If the majority of such accesses receive a data_race() marking, would
-> > > >          it be reasonable to teach KCSAN to not report 1-bit value
-> > > >          change data races? This is under the assumption that we can't
-> > > >          come up with ways the compiler can miscompile (including
-> > > >          tearing) the accesses that will not result in the desired
-> > > >          result.
-> > > >
-> > > > This would of course only kick in in KCSAN's "relaxed" (the default)
-> > > > mode, similar to what is done for "assume writes atomic" or "only report
-> > > > value changes".
-> > > >
-> > > > The reason I'm asking is that while investigating data races, these days
-> > > > I immediately skip and ignore a report as "not interesting" if it
-> > > > involves 1-bit value changes (usually from plain bit ops). The recent
-> > > > changes to KCSAN showing the values changed in reports (thanks Mark!)
-> > > > made this clear to me.
-> > > >
-> > > > Such a rule might miss genuine bugs, but I think we've already signed up
-> > > > for that when we introduced the "assume plain writes atomic" rule, which
-> > > > arguably misses far more interesting bugs. To see all data races, KCSAN
-> > > > will always have a "strict" mode.
-> > >
-> > > My personal preference is always to do the most stringent checks we can,
-> > > but I appreciate that can be an uphill struggle. As above, if there are
-> > > a few offenders I reckon it'd be worth trying to wrap those with
-> > > helpers, but if that's too much fo a pain then I don't have strong
-> > > feeling, and weakening the default mode sounds fine.
-> > 
-> > Because I'd also prefer to avoid weakening the default, the new rules
-> > will not be enabled by default. But in the past year, I've found
-> > myself trying to keep on top of new CI systems, robots, or drive-by
-> > testers trying to use KCSAN, and every time there is significant
-> > negative feedback because of too many of these trivial data races that
-> > not many care about at this time.
-> > 
-> > One recent discussion in particular [1] prompted me to have a think,
-> > and I realized we need something simpler than writing long
-> > explanations to avoid discussions derailing. Having an even more
-> > permissive mode might be the simpler answer to those cases until those
-> > folks come around (gradually, or perhaps not so gradual by e.g. a data
-> > race crashing their system).
-> > [1] https://lkml.kernel.org/r/YHSPfiJ/h/f3ky5n@elver.google.com
-> > 
-> > On syzbot we have several stages of moderation (although initially
-> > I'll also enable this new mode on syzbot). But every time I suggest
-> > moderation to other CI systems that enable KCSAN, they just disable
-> > it. So I'm trying to bridge the gap from both directions: fixing data
-> > races, but also making KCSAN more permissive. Once we reach a point
-> > where KCSAN is mostly silent, we can then gradually make KCSAN
-> > stricter again by tweaking options.
-> 
-> Sure thing; if adding that more permissive mode makes the tool more
-> useful, that's clearly the right ting to do overall.
+On Thu, May 27, 2021 at 9:27 AM Marco Elver <elver@google.com> wrote:
+>
+> Until now no compiler supported an attribute to disable coverage
+> instrumentation as used by KCOV.
+>
+> To work around this limitation on x86, noinstr functions have their
+> coverage instrumentation turned into nops by objtool. However, this
+> solution doesn't scale automatically to other architectures, such as
+> arm64, which are migrating to use the generic entry code.
+>
+> Clang [1] and GCC [2] have added support for the attribute recently.
+> [1] https://github.com/llvm/llvm-project/commit/280333021e9550d80f5c1152a34e33e81df1e178
+> [2] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=cec4d4a6782c9bd8d071839c50a239c49caca689
+> The changes will appear in Clang 13 and GCC 12.
+>
+> Add __no_sanitize_coverage for both compilers, and add it to noinstr.
+>
+> Note: In the Clang case, __has_feature(coverage_sanitizer) is only true
+> if the feature is enabled, and therefore we do not require an additional
+> defined(CONFIG_KCOV) (like in the GCC case where __has_attribute(..) is
+> always true) to avoid adding redundant attributes to functions if KCOV
+> is off. That being said, compilers that support the attribute will not
+> generate errors/warnings if the attribute is redundantly used; however,
+> where possible let's avoid it as it reduces preprocessed code size and
+> associated compile-time overheads.
+>
+> Signed-off-by: Marco Elver <elver@google.com>
+> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> ---
+> v2:
+> * Implement __has_feature(coverage_sanitizer) in Clang
+>   (https://reviews.llvm.org/D103159) and use instead of version check.
+> * Add Peter's Ack.
+> ---
+>  include/linux/compiler-clang.h | 11 +++++++++++
+>  include/linux/compiler-gcc.h   |  6 ++++++
+>  include/linux/compiler_types.h |  2 +-
+>  3 files changed, 18 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/linux/compiler-clang.h b/include/linux/compiler-clang.h
+> index adbe76b203e2..e15eebfa8e5d 100644
+> --- a/include/linux/compiler-clang.h
+> +++ b/include/linux/compiler-clang.h
+> @@ -45,6 +45,17 @@
+>  #define __no_sanitize_undefined
+>  #endif
+>
+> +/*
+> + * Support for __has_feature(coverage_sanitizer) was added in Clang 13 together
+> + * with no_sanitize("coverage"). Prior versions of Clang support coverage
+> + * instrumentation, but cannot be queried for support by the preprocessor.
 
-I would put it another way:  A tool that is never used can never locate
-any bugs.
+I'm not against a version check for supporting older releases (in
+addition to the cleaner feature check, since the feature check was
+non-existent); we can clean it up someday when clang-13 is the
+minimally supported version.  Would having an additional version check
+help support existing/older releases here?
 
-							Thanx, Paul
+> + */
+> +#if __has_feature(coverage_sanitizer)
+> +#define __no_sanitize_coverage __attribute__((no_sanitize("coverage")))
+> +#else
+> +#define __no_sanitize_coverage
+> +#endif
+> +
+>  /*
+>   * Not all versions of clang implement the type-generic versions
+>   * of the builtin overflow checkers. Fortunately, clang implements
+> diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+> index 5d97ef738a57..cb9217fc60af 100644
+> --- a/include/linux/compiler-gcc.h
+> +++ b/include/linux/compiler-gcc.h
+> @@ -122,6 +122,12 @@
+>  #define __no_sanitize_undefined
+>  #endif
+>
+> +#if defined(CONFIG_KCOV) && __has_attribute(__no_sanitize_coverage__)
+> +#define __no_sanitize_coverage __attribute__((no_sanitize_coverage))
+> +#else
+> +#define __no_sanitize_coverage
+> +#endif
+> +
+>  #if GCC_VERSION >= 50100
+>  #define COMPILER_HAS_GENERIC_BUILTIN_OVERFLOW 1
+>  #endif
+> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+> index d29bda7f6ebd..cc2bee7f0977 100644
+> --- a/include/linux/compiler_types.h
+> +++ b/include/linux/compiler_types.h
+> @@ -210,7 +210,7 @@ struct ftrace_likely_data {
+>  /* Section for code which can't be instrumented at all */
+>  #define noinstr                                                                \
+>         noinline notrace __attribute((__section__(".noinstr.text")))    \
+> -       __no_kcsan __no_sanitize_address
+> +       __no_kcsan __no_sanitize_address __no_sanitize_coverage
+>
+>  #endif /* __KERNEL__ */
+>
+> --
+> 2.31.1.818.g46aad6cb9e-goog
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210601171220.GO4397%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAKwvOdmgZXJB2dV7iG67qHgbDgVTJaH7b3dkpgZyea4ULgQjgA%40mail.gmail.com.
