@@ -1,138 +1,136 @@
-Return-Path: <kasan-dev+bncBDIK5VOGT4GRBAVA62CQMGQEUXLU3PY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBEE266CQMGQEZQN4HMY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
-	by mail.lfdr.de (Postfix) with ESMTPS id A687C39D356
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jun 2021 05:18:28 +0200 (CEST)
-Received: by mail-pj1-x103d.google.com with SMTP id z3-20020a17090a4683b029015f6c19f126sf11617444pjf.1
-        for <lists+kasan-dev@lfdr.de>; Sun, 06 Jun 2021 20:18:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623035907; cv=pass;
+Received: from mail-io1-xd3e.google.com (mail-io1-xd3e.google.com [IPv6:2607:f8b0:4864:20::d3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DC839D629
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jun 2021 09:38:57 +0200 (CEST)
+Received: by mail-io1-xd3e.google.com with SMTP id z8-20020a5e92480000b02904ae394676efsf7925165iop.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jun 2021 00:38:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1623051536; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hdITsO2pR0f//P8bUcEuRjfIE71sP2pe6hYKxrhj8YkEgLGJQBxRrZut2YgfLbN6fe
-         Te5EPjogQprN0dIZvcmVkHMmrX/EJmLLG21iqQEPu6+H9PLohvJlXVMeReM0Kdb994SG
-         MKfldSdD0tZid9ZyCtlrFtluCQewwguGpVeVBfdeJG435DvIdVELXpOVJca7pYQV4nOE
-         fl2Xj34Ls/fOxrgyG4T/F+DP8FsQCnYdHxx6PDKFWvX0PxuA53v+1HfmpXSdfiArRLO3
-         hceFr5WpIt0Iy4C535r9FdMp02hSJTHeWnxbFuHpqK4XfmsA71LcP9zNZziEPudZVahv
-         GiRw==
+        b=rgX8kKtA5uE+xdymP1Xx22YN6W4Y1vIfZGIHLkAGbxu9gmNb4SfvoU4UC1WWRvs3U1
+         7GiAZ+ziIF05rwnqQAC30TZq5H8eP99nGIC0bN1aPdgLHa+Ni9medjIDWRwpV+sEel+J
+         UAvnZL4kjECtttci6zsvsjU60EBxbVqwdTb1nVQdk67wxYNawM21lcI6vigvsUG7OhJj
+         +CdAR3PFwBYHxBSuM30Q6c47cbLYAGb/v9CQ8MwM0hiTCwZGohU4afMEpSus0RpF4dYo
+         /bBonbL/665IJkAgTN6aGzmp/dZe2vj3Fh9rJC6tMDjyK+Izs/fGF4GAKGoR/jrcz/IY
+         TXZA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=skV1Habt4OtgdrPqOVzVquuMUET0CJ1DHzn2wpJdfSA=;
-        b=crBBjRW9c10FU+sdAOuD3V+9WLgkYXKUFE2Byv9eaZ8KnHZswFSO+kiX9D+3KJvgBu
-         7k+6SuBxrTeyT1l+i5Y+q0FbihQsSyMo3wISJ3281GxM/JlVIulaO4NcMF7B01qw9Opg
-         Uv2J5K/2ibC24OwbImSdBE7/5h1KvALrR/GYijqaAoB91ZzkICIqMQUj9WuHvYn5eZ8J
-         JXFeFglb+GsPIOoS0CZvTuksYGcb2up1AHHnlWV+SRNKqFAXQ8GAg+zYDawjl7iRD203
-         z2ctZC+UJ64aD4OrYgo5bNl/kODFC9bGSBXxfYPGsxRQL4PSOgmSlTg0hhiEmVECBOrt
-         gV/A==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=5l4isBzuGB87NRz6amxw4/vAf8WzuLUuq4giduhu4uc=;
+        b=FT5lm0+AxJj9Wz4bQLFqjG9VsTymp7akhE7ulN+YR1egNomLLts5gn3i+Qab/rXLYR
+         hjX4b+a25moCcigHbwXxhcCgjbwwlDcPPw0cVXP3Fp377MlxrqN2e/zXOdxD1hLC/nxe
+         IjseL85hw48gsj2orx0msaIROgn2wqlVFzeJGw8P/OJcdjZYdZ3K5EZgSefFwYRu5Umr
+         FaGufd6iRBm3t5fSJ6KSM+yLOQsUaxyT7yjHENdRI5tj970tHQaKIrZ4REtFUlLms0An
+         vNLm3NQRPRMzWwKCl594ubcBPn8zoaDbcJrn44tvAlXRnbRCKJa31hWDdC5lXV5x/I+M
+         1Uxw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of thunder.leizhen@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=thunder.leizhen@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=nHm4WK6c;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::832 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=skV1Habt4OtgdrPqOVzVquuMUET0CJ1DHzn2wpJdfSA=;
-        b=XNbcxzQpZzCH0Xw8m7h1UY2yBgnJMRu9MS8Qvx1pqDQtR2dm0taeY4RTuvIiWv/9C7
-         wIktZJTktwtBklAq4YhnngONspdHPcL8WOdzdZ1K7tkRBqneQMHPlT1ryV9kR7vw9N7v
-         zi93pNXiPTgcMdNFUvRuw4f+HanJ0H5RrXgncu1kpeQBdhvF25cx0VmG5kcCTpHAX1tK
-         W4yMG+1WJWgwasAN0JtVxcqoA04BJB03SFbwjFbbw8PPbps0RrWJe41YTf2+LLjGha44
-         aWX3wxh+ALvNNoAcLkKAhdJ3KwoksP8ulRtzURIebkhxxeuifsTFr2nCsCbJlbP5m0Gg
-         SdDQ==
+        bh=5l4isBzuGB87NRz6amxw4/vAf8WzuLUuq4giduhu4uc=;
+        b=LkPYxyzVU8ShNBtXzhuNefgldt/9ZUVNmRyk0yVb01Hqexglfe0aSb1ymWFuUisbgj
+         iRbYBSfgST7mJWY76mqkE7FCwwokK6S4jSucItwW+s564QScFRXNan2vGgVGBuSWyEyF
+         obGiDzCAJlMwB/SQJSOEWapYeiQpq4vWxlZcRwTytW+THq1Zf3GZ7Er7LY4ESvBlCwrM
+         J9kznitVQLAgBrSuCKxxgB7h8AGki5nFN23ZM0o70zm8gDFnd3K+fXb1XptCknpvEZRP
+         bHSt+SHcuc7KcwXeuLOcA1uM2gWptBTD98eUWi1ZWksx6VlhplqTRjQCvUStL0sGKIJH
+         zonw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=skV1Habt4OtgdrPqOVzVquuMUET0CJ1DHzn2wpJdfSA=;
-        b=IAdqlwz//NU4JwGerxJzhLj8ux1uQi7PB/5SgBzCZ+h9PCVgsQPfFCU/nygly1Aa7c
-         2gVvKftkIpRy96FA9hOm7BXyUD6C5qw+szngSnLMl4cK++Uwu695j+1O5HISdnNeJ9iy
-         Gtn9uWithPsqwGC1dyOkKZVx7eTekTxP+JyWlMaCCIflAZcXGa0Svdo+OOcCDIRGFPvu
-         zCpjkpcaLfCQvFh1nhjNwto2K6OhTpeus3QezF5If0spxqMBqu2WfowXvwXTbijygmi5
-         FXXkZonfNHy2hiBqmgkofs9lo+KlVdr8fnE3ksjTf6RDJ2x+VsVaBp8cdxfpJivYpWBW
-         R56A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532blar+PjnU5UYWeENoFUzrc0PDqhj2IhSdtcA2sm3R04OD8VQc
-	rESsyq3MJRnoziHzO95efCE=
-X-Google-Smtp-Source: ABdhPJxDe4IgtZL/y35kdlMsINi0PP4AMsfPCUhmbuhaOuU32Qr2ktFdeKAs8bS8dCGTI2npV2GrDQ==
-X-Received: by 2002:a17:90b:3142:: with SMTP id ip2mr12109255pjb.63.1623035907058;
-        Sun, 06 Jun 2021 20:18:27 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=5l4isBzuGB87NRz6amxw4/vAf8WzuLUuq4giduhu4uc=;
+        b=LCCc2pI21bH3AjlABzZpA4Jo9xLiJpJy4P85V5Uxe4ipuI9JjySomBlBOC9qxuMYjM
+         Zw2uPmNKEX3kSRoVKXG++7o2yVFMmqhyefd8/Suslo5wNf3X7RvFDvuPloUY1HgNVK7Q
+         iXsRH8ia9S8fZh9zSvldLIIvk7OnaGZtXC4VpJc9nM3xFQ0yYJKGgXrFUhR+PUwth51q
+         rupbei3tM/k7UDq2EtmbFyW/des9XIqWD5nwf5A2PB9oMI3nnntoXymzB5T9mLLSSyrY
+         GwSfb/KcjxnbS0hOhbiXpQaUWTTR7ykg8/TJ31AIbzyul48BEEm8IbanSC7mASbj0Tgn
+         tevQ==
+X-Gm-Message-State: AOAM531qxF3hs/T6q2n5VaOv0A4EFBoK1XWf81grHtgWWRIpNHpuQVbW
+	v/+5gKk/0oJTh5+9C5/biAE=
+X-Google-Smtp-Source: ABdhPJzkw05hAdGnVe5q2pjiFcNT6mAJYFGO1EM2+CU6mrO2kDN0N2NivbkhXpjEA5bAxvUF7AtGNA==
+X-Received: by 2002:a05:6e02:525:: with SMTP id h5mr5145035ils.212.1623051536178;
+        Mon, 07 Jun 2021 00:38:56 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:b48a:: with SMTP id y10ls7475897plr.7.gmail; Sun, 06
- Jun 2021 20:18:26 -0700 (PDT)
-X-Received: by 2002:a17:903:2309:b029:113:19d7:2da7 with SMTP id d9-20020a1709032309b029011319d72da7mr1020619plh.55.1623035906569;
-        Sun, 06 Jun 2021 20:18:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1623035906; cv=none;
+Received: by 2002:a92:ce87:: with SMTP id r7ls152087ilo.6.gmail; Mon, 07 Jun
+ 2021 00:38:55 -0700 (PDT)
+X-Received: by 2002:a92:7b0f:: with SMTP id w15mr14143513ilc.150.1623051535903;
+        Mon, 07 Jun 2021 00:38:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1623051535; cv=none;
         d=google.com; s=arc-20160816;
-        b=sB6AK9Gd1+nDeWLyBUBFZiIyxSy64rMJUX+p5irNFfhsV0CTSwilFNvWAbTCHJV5S/
-         UJuGfT60oyQGcnjRRgGg9yehkhzhxNT9pqPsyeiopeBj21+MSR65G/sfLObUIa6Axphz
-         CpmiACD304OTN9BK0X3w/KlnXgqrfuoc0CywqMgB/tF69WkFe5TI8+NAcUXjfUhRD/Af
-         GMb+vBLfcFIFQT/SPTXJng2f40LyK0ygVvCNKCqzwuyY0lM5qHSmAhQlgRrA/4yeqFP9
-         96OA/n553v48mdpPpv6Xyx06yHxRneFJDAspgbsvX0ROPJiZ4OufveDFcoTPb3C8PyxF
-         OL6g==
+        b=PAwYcMaFHXTMMF3IE+nRjAkhjdKqMgA2zubWpUyHw0a4pVyXN1m8vKyhUq57Y07CG6
+         0G+lf0adLdKjHJ3w7ylesSCc5y91H3OBj4a/mksCVrWHn4mqEAS3opfLLhblQb9bF6+L
+         7NQ42TICXif2qyxaA6076dVNMj1GgB4HXpZohB1iMDagetZx7N+PkOOiPzLnuYnXNQNo
+         8S7oa/AAEnYB/ktsqtZBdv/UgUdz+Zw6FUGgL/Yy1zZiJBl8/did6tQBG01mlPl1ipu4
+         QR4AKueN9DDfUPH3XVz5jR4WgkYkIhlB00yfPkC+Pbi9sDhkYl89aZ8NGwYCEODIYCJg
+         QU+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=4LXBEE/CFrOu8vvJsbV46BTqJap3ifJc62mHrbOTLt0=;
-        b=MD/Q/zZ6jm330S2fiuAwX1UOngmVPo5UiJwtx+Yuj1qHpwrle2/Uk/vVGqgUmyDkS3
-         h/qF7yp9vhVt2I27eqnEmSY/6SxTeYXQCwQp3Tf4bCk84f8sQx8j73yaRhylWMpCcIel
-         8e68M8JCQgk6u2q6xMK/Zv2p6VCdYxDD5pCA9iL7nhK/BR6LakavemITSxuJLW+TfX09
-         xKytyipQasAXjWybEBnegZDfdePeV0RF57qGIHWINRDk4XeqZvVyxBy3/xqhQciAyjP3
-         aFvQSdbrLcojy1emLz27Wxjvri7fsNns+hknZBwVtKqf4/A9L1Bgv2Lnoy65Tl+xdoKm
-         6rQQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FkDnZkLm7S26Fub+7GJQrbQgH8zlz9fkqHVVt8EUVII=;
+        b=NJ0WAKQjLT0Li12CQmNNXQxU1819ZiTpFSj3WUFpiDAgk2J+Izp/9W8UyOIu+CMqBW
+         wVerlJfC7vbTCw1Fu451PpF3sRfhWFci0VWCc3RLGTXRSHBsSPvwdRcvr9AajwLD4Q0A
+         5gZKnjWdrJq5i8MZYSbEDQVKFVvjDGnAIMSxZdB+9zMmYMKRvyso3BDU40bYF94vHE76
+         uO9n9g7qWjiK4u/nEFhGzoKTsL9jV5C7XD3tmjSUr2a5jEoLPJDlqi1pjcpDS4ue4eR4
+         i2uVl7vNyRkYr983CyfXCb7hcUqvEUmE8pOMWlc3EGAmEncjpIaCwK2e0xWw3JLF5zmy
+         zvGg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of thunder.leizhen@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=thunder.leizhen@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id ob5si312073pjb.3.2021.06.06.20.18.26
+       dkim=pass header.i=@google.com header.s=20161025 header.b=nHm4WK6c;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::832 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com. [2607:f8b0:4864:20::832])
+        by gmr-mx.google.com with ESMTPS id f9si1303718iop.1.2021.06.07.00.38.55
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Jun 2021 20:18:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of thunder.leizhen@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Fyz5g1QY7zYrcy;
-	Mon,  7 Jun 2021 11:15:35 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 7 Jun 2021 11:18:23 +0800
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 7 Jun 2021 11:18:22 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
-	<daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
-	<kafai@fb.com>, Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
-	<dvyukov@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Petr Mladek
-	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Sergey Senozhatsky
-	<senozhatsky@chromium.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Andrew Morton <akpm@linux-foundation.org>, netdev
-	<netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>, kasan-dev
-	<kasan-dev@googlegroups.com>, linux-kernel <linux-kernel@vger.kernel.org>
-CC: Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH 1/1] lib/test: Fix spelling mistakes
-Date: Mon, 7 Jun 2021 11:15:37 +0800
-Message-ID: <20210607031537.12366-1-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jun 2021 00:38:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::832 as permitted sender) client-ip=2607:f8b0:4864:20::832;
+Received: by mail-qt1-x832.google.com with SMTP id u20so3694752qtx.1
+        for <kasan-dev@googlegroups.com>; Mon, 07 Jun 2021 00:38:55 -0700 (PDT)
+X-Received: by 2002:ac8:7c4e:: with SMTP id o14mr14825948qtv.290.1623051534847;
+ Mon, 07 Jun 2021 00:38:54 -0700 (PDT)
 MIME-Version: 1.0
+References: <000000000000c2987605be907e41@google.com> <20210602212726.7-1-fuzzybritches0@gmail.com>
+ <YLhd8BL3HGItbXmx@kroah.com> <87609-531187-curtm@phaethon>
+ <6a392b66-6f26-4532-d25f-6b09770ce366@fb.com> <CAADnVQKexxZQw0yK_7rmFOdaYabaFpi2EmF6RGs5bXvFHtUQaA@mail.gmail.com>
+In-Reply-To: <CAADnVQKexxZQw0yK_7rmFOdaYabaFpi2EmF6RGs5bXvFHtUQaA@mail.gmail.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 7 Jun 2021 09:38:43 +0200
+Message-ID: <CACT4Y+b=si6NCx=nRHKm_pziXnVMmLo-eSuRajsxmx5+Hy_ycg@mail.gmail.com>
+Subject: Re: [PATCH v4] bpf: core: fix shift-out-of-bounds in ___bpf_prog_run
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Yonghong Song <yhs@fb.com>, Kurt Manucredo <fuzzybritches0@gmail.com>, 
+	syzbot+bed360704c521841c85d@syzkaller.appspotmail.com, 
+	Andrii Nakryiko <andrii@kernel.org>, Alexei Starovoitov <ast@kernel.org>, bpf <bpf@vger.kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller" <davem@davemloft.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, 
+	Martin KaFai Lau <kafai@fb.com>, KP Singh <kpsingh@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, 
+	Song Liu <songliubraving@fb.com>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>, 
+	nathan@kernel.org, Nick Desaulniers <ndesaulniers@google.com>, 
+	Clang-Built-Linux ML <clang-built-linux@googlegroups.com>, 
+	linux-kernel-mentees@lists.linuxfoundation.org, 
+	Shuah Khan <skhan@linuxfoundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Kernel Hardening <kernel-hardening@lists.openwall.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.174.177.72]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
-X-Original-Sender: thunder.leizhen@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of thunder.leizhen@huawei.com designates 45.249.212.187
- as permitted sender) smtp.mailfrom=thunder.leizhen@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=nHm4WK6c;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::832
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,111 +143,109 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Fix some spelling mistakes in comments:
-thats ==> that's
-unitialized ==> uninitialized
-panicing ==> panicking
-sucess ==> success
-possitive ==> positive
-intepreted ==> interpreted
+On Sat, Jun 5, 2021 at 9:10 PM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+> On Sat, Jun 5, 2021 at 10:55 AM Yonghong Song <yhs@fb.com> wrote:
+> > On 6/5/21 8:01 AM, Kurt Manucredo wrote:
+> > > Syzbot detects a shift-out-of-bounds in ___bpf_prog_run()
+> > > kernel/bpf/core.c:1414:2.
+> >
+> > This is not enough. We need more information on why this happens
+> > so we can judge whether the patch indeed fixed the issue.
+> >
+> > >
+> > > I propose: In adjust_scalar_min_max_vals() move boundary check up to avoid
+> > > missing them and return with error when detected.
+> > >
+> > > Reported-and-tested-by: syzbot+bed360704c521841c85d@syzkaller.appspotmail.com
+> > > Signed-off-by: Kurt Manucredo <fuzzybritches0@gmail.com>
+> > > ---
+> > >
+> > > https://syzkaller.appspot.com/bug?id=edb51be4c9a320186328893287bb30d5eed09231
+> > >
+> > > Changelog:
+> > > ----------
+> > > v4 - Fix shift-out-of-bounds in adjust_scalar_min_max_vals.
+> > >       Fix commit message.
+> > > v3 - Make it clearer what the fix is for.
+> > > v2 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+> > >       check in check_alu_op() in verifier.c.
+> > > v1 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+> > >       check in ___bpf_prog_run().
+> > >
+> > > thanks
+> > >
+> > > kind regards
+> > >
+> > > Kurt
+> > >
+> > >   kernel/bpf/verifier.c | 30 +++++++++---------------------
+> > >   1 file changed, 9 insertions(+), 21 deletions(-)
+> > >
+> > > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > > index 94ba5163d4c5..ed0eecf20de5 100644
+> > > --- a/kernel/bpf/verifier.c
+> > > +++ b/kernel/bpf/verifier.c
+> > > @@ -7510,6 +7510,15 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+> > >       u32_min_val = src_reg.u32_min_value;
+> > >       u32_max_val = src_reg.u32_max_value;
+> > >
+> > > +     if ((opcode == BPF_LSH || opcode == BPF_RSH || opcode == BPF_ARSH) &&
+> > > +                     umax_val >= insn_bitness) {
+> > > +             /* Shifts greater than 31 or 63 are undefined.
+> > > +              * This includes shifts by a negative number.
+> > > +              */
+> > > +             verbose(env, "invalid shift %lld\n", umax_val);
+> > > +             return -EINVAL;
+> > > +     }
+> >
+> > I think your fix is good. I would like to move after
+>
+> I suspect such change will break valid programs that do shift by register.
+>
+> > the following code though:
+> >
+> >          if (!src_known &&
+> >              opcode != BPF_ADD && opcode != BPF_SUB && opcode != BPF_AND) {
+> >                  __mark_reg_unknown(env, dst_reg);
+> >                  return 0;
+> >          }
+> >
+> > > +
+> > >       if (alu32) {
+> > >               src_known = tnum_subreg_is_const(src_reg.var_off);
+> > >               if ((src_known &&
+> > > @@ -7592,39 +7601,18 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+> > >               scalar_min_max_xor(dst_reg, &src_reg);
+> > >               break;
+> > >       case BPF_LSH:
+> > > -             if (umax_val >= insn_bitness) {
+> > > -                     /* Shifts greater than 31 or 63 are undefined.
+> > > -                      * This includes shifts by a negative number.
+> > > -                      */
+> > > -                     mark_reg_unknown(env, regs, insn->dst_reg);
+> > > -                     break;
+> > > -             }
+> >
+> > I think this is what happens. For the above case, we simply
+> > marks the dst reg as unknown and didn't fail verification.
+> > So later on at runtime, the shift optimization will have wrong
+> > shift value (> 31/64). Please correct me if this is not right
+> > analysis. As I mentioned in the early please write detailed
+> > analysis in commit log.
+>
+> The large shift is not wrong. It's just undefined.
+> syzbot has to ignore such cases.
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- lib/test_bitops.c | 2 +-
- lib/test_bpf.c    | 2 +-
- lib/test_kasan.c  | 2 +-
- lib/test_kmod.c   | 6 +++---
- lib/test_scanf.c  | 2 +-
- 5 files changed, 7 insertions(+), 7 deletions(-)
+Hi Alexei,
 
-diff --git a/lib/test_bitops.c b/lib/test_bitops.c
-index 471141ddd691..3b7bcbee84db 100644
---- a/lib/test_bitops.c
-+++ b/lib/test_bitops.c
-@@ -15,7 +15,7 @@
-  *   get_count_order/long
-  */
- 
--/* use an enum because thats the most common BITMAP usage */
-+/* use an enum because that's the most common BITMAP usage */
- enum bitops_fun {
- 	BITOPS_4 = 4,
- 	BITOPS_7 = 7,
-diff --git a/lib/test_bpf.c b/lib/test_bpf.c
-index 4dc4dcbecd12..d500320778c7 100644
---- a/lib/test_bpf.c
-+++ b/lib/test_bpf.c
-@@ -1095,7 +1095,7 @@ static struct bpf_test tests[] = {
- 	{
- 		"RET_A",
- 		.u.insns = {
--			/* check that unitialized X and A contain zeros */
-+			/* check that uninitialized X and A contain zeros */
- 			BPF_STMT(BPF_MISC | BPF_TXA, 0),
- 			BPF_STMT(BPF_RET | BPF_A, 0)
- 		},
-diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-index cacbbbdef768..72b8e808c39c 100644
---- a/lib/test_kasan.c
-+++ b/lib/test_kasan.c
-@@ -656,7 +656,7 @@ static void kasan_global_oob(struct kunit *test)
- {
- 	/*
- 	 * Deliberate out-of-bounds access. To prevent CONFIG_UBSAN_LOCAL_BOUNDS
--	 * from failing here and panicing the kernel, access the array via a
-+	 * from failing here and panicking the kernel, access the array via a
- 	 * volatile pointer, which will prevent the compiler from being able to
- 	 * determine the array bounds.
- 	 *
-diff --git a/lib/test_kmod.c b/lib/test_kmod.c
-index 38c250fbace3..ce1589391413 100644
---- a/lib/test_kmod.c
-+++ b/lib/test_kmod.c
-@@ -286,7 +286,7 @@ static int tally_work_test(struct kmod_test_device_info *info)
-  * If this ran it means *all* tasks were created fine and we
-  * are now just collecting results.
-  *
-- * Only propagate errors, do not override with a subsequent sucess case.
-+ * Only propagate errors, do not override with a subsequent success case.
-  */
- static void tally_up_work(struct kmod_test_device *test_dev)
- {
-@@ -543,7 +543,7 @@ static int trigger_config_run(struct kmod_test_device *test_dev)
- 	 * wrong with the setup of the test. If the test setup went fine
- 	 * then userspace must just check the result of config->test_result.
- 	 * One issue with relying on the return from a call in the kernel
--	 * is if the kernel returns a possitive value using this trigger
-+	 * is if the kernel returns a positive value using this trigger
- 	 * will not return the value to userspace, it would be lost.
- 	 *
- 	 * By not relying on capturing the return value of tests we are using
-@@ -585,7 +585,7 @@ trigger_config_store(struct device *dev,
- 	 * Note: any return > 0 will be treated as success
- 	 * and the error value will not be available to userspace.
- 	 * Do not rely on trying to send to userspace a test value
--	 * return value as possitive return errors will be lost.
-+	 * return value as positive return errors will be lost.
- 	 */
- 	if (WARN_ON(ret > 0))
- 		return -EINVAL;
-diff --git a/lib/test_scanf.c b/lib/test_scanf.c
-index 48ff5747a4da..84fe09eaf55e 100644
---- a/lib/test_scanf.c
-+++ b/lib/test_scanf.c
-@@ -600,7 +600,7 @@ static void __init numbers_prefix_overflow(void)
- 	/*
- 	 * 0x prefix in a field of width 2 using %i conversion: first field
- 	 * converts to 0. Next field scan starts at the character after "0x",
--	 * which will convert if can be intepreted as decimal but will fail
-+	 * which will convert if can be interpreted as decimal but will fail
- 	 * if it contains any hex digits (since no 0x prefix).
- 	 */
- 	test_number_prefix(long long,	"0x67", "%2lli%lli", 0, 67, 2, check_ll);
--- 
-2.25.1
-
+The report is produced by KUBSAN. I thought there was an agreement on
+cleaning up KUBSAN reports from the kernel (the subset enabled on
+syzbot at least).
+What exactly cases should KUBSAN ignore?
++linux-hardening/kasan-dev for KUBSAN false positive
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210607031537.12366-1-thunder.leizhen%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bb%3Dsi6NCx%3DnRHKm_pziXnVMmLo-eSuRajsxmx5%2BHy_ycg%40mail.gmail.com.
