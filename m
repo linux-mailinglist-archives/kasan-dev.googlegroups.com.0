@@ -1,141 +1,122 @@
-Return-Path: <kasan-dev+bncBDIK5VOGT4GRBEV77CCQMGQEGXCWO6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB46X7CCQMGQE5BBFHYY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5AF39DDA7
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jun 2021 15:30:59 +0200 (CEST)
-Received: by mail-pf1-x440.google.com with SMTP id w10-20020aa7954a0000b02902eac51f8aa5sf5712501pfq.20
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jun 2021 06:30:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623072658; cv=pass;
+Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 818E139DEA0
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jun 2021 16:23:48 +0200 (CEST)
+Received: by mail-oo1-xc3c.google.com with SMTP id t19-20020a4ae4130000b029023950cb8d35sf11176469oov.6
+        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jun 2021 07:23:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1623075827; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TSEDFH5LQsm+/RXZuE77A3nIVJLVdbLDXWyuBL3/oUQKF4Aizs7/onyzSyxbtg8NVT
-         FJa3gqCZosbrWk97CLUaGfh405JaLwci3cYUGM/mW4uepe+/6ygpzhiPkV7OoMMJ2slE
-         aUr4UpxsKNMJ1+aE7vvh0pxOSMB4S2xieWfdaehoZ73cvHbM6GMDNi9a2WCtCKtw/Dsa
-         lubbpapy2k73PWtZWh1FXKJPMwtdmLPfrUZR0aPe2lE6VsgMGO2GydVKO6A/oUK18EGV
-         rodaiE45xiKfggQgqk1RiukBnWb/6pHdBaoXyZn9LMgwDofsaCxrZ7jxpx3oZl8JQplc
-         cGxQ==
+        b=OV24/ODYuxin0Uu19Wmasj6DpmoZF2TD9kOAUd9qv53tZABa6YFdyNsOaCkyMpiIWd
+         dXdRIwjoEWuiJ6pEhjEFAve1ToPfWv3jGEo30EbbLNkgx+vdBJ8wpkPMMSzrAZMA+LMO
+         kBKPr90BH7W1wzNXpENVbZiY1aT7X5gqKkwBOSvarnjGUjjHZz5Zvbzptqvs5sOAl3z6
+         n1TBOqpL2PR4+rfJ4dl+0Wdbo8ILY0k3os8nb40UbjC/8yQ+CPH3KWw8M+eq9yn6h92N
+         jqMaVuSbLy/sXdRmFYWMudFN02CPSSUZYTWaPoQsyhr6hExvL6xL6+z9T/svlNKU2PIb
+         F5gw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=JWrCPC+MuRusZLjq6nWcsNBbHrMkRTm76+I0XUEzEbQ=;
-        b=DDG0O3TnlhDrTGdeA26VXeCDbhxhVp1W+sMa8FpQ+JSdX+B42+0LSvpDbIYDCUz7u+
-         2vxfhMV/9YPmWX+pfi98TiBytaivtiN6DNvKsdosIm6n3w2WUQhECUsUKZciGAZxaJW1
-         kgD9aIRGGmmrYuEN6VqVNbx2AzNAjDl42A4TblTBt+tKKQ9eoqfRWshS0it0im2JsH8c
-         f1yzrApANh6GdLhp6FZylVc34DnwKl7ErvYGRdm8svsYj08S5YgXItRXRr9qmaG8ngyZ
-         VMfoWWeO0yNLuajqjMje4REPTPzv/u2QrSBwmi+gczlRAWHLgZOmlqB84LQ5ToVw7Wg+
-         /ziA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=RgW/rrLdLBiBOz8LXv6Qwrq9ljtN97S1rDbURu0QdKU=;
+        b=qopjM8ld1JMegI8U3veU0JBtl45S7/imWbFuqV421QLhVV0KN+VOwa3dJyqJSY7M4O
+         T9Wa0BOlFxRruSFarm6Rx7rSDQIAh4KPIG4gJCNX2DyXnbZO1GJKtJZ6BtStbFKzmjwN
+         sa/0+lx9H9VW4rQDoLCawn+C9Y0dfUwVzAbht5UIQV8ofGO+bpcAm7PnAsJTDd+maA4J
+         ImYGxEaiOfgjeZSVadcjySEkd5sKrkw/ZNko8Lgi38jtR1WM5EwE6VjlvhS727oRWvA8
+         +ODEIZx9bK/LSKbS4xHQe8R3cU/gqwvmgYmKZNI3nyFpVM9vrF5N2Jicblw65pdrJsYb
+         G5MQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of thunder.leizhen@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=thunder.leizhen@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=cnyQchdM;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JWrCPC+MuRusZLjq6nWcsNBbHrMkRTm76+I0XUEzEbQ=;
-        b=NQ+gfZ680tvVS93ILqJ8eTT9J27SzxJe4YkdNkRWgA+1reBDNM+uwB6m2gvm2DDUd7
-         EeqWF1eFjriVEsOMJFlbv4BIAR2If5tolaUMYlZ4jg/GCFyu8YgJtpXQLRbhQKovOH37
-         sSfFmWlY0Uo2QVgvk4TMDMZkzUOzheZowU3kgLT0+qzOP9XCyJ3qcduoro7byWwBu7+c
-         jQetVleV8ZWFuQvFbQncvepdRKx+0GpqUpTGXYtDDsXCqa8NJDTtkVOB4qRvMC9jjBha
-         UMG+bDHLWZejOY06qwenzATqnfNSBnrbER/v+W1UP8afVlNGF/e/2omJtXqJ8Q78stnX
-         J+Rg==
+        bh=RgW/rrLdLBiBOz8LXv6Qwrq9ljtN97S1rDbURu0QdKU=;
+        b=EuEfr2pu0HguS4X/kAn5/deuVjRF20kAL60qMH0zAO1VqpgrP8Ipqdh5n5eZVFJztT
+         uqDUGZ4IKYdqrRYZl4YRiQxLFbpwkEg2+ENQsPpj6mZyoPTtJsmmi5HJ+EcIm60tVfVC
+         dj7Dmq6NgcXPXXuNvSB44GDNV8gUSgLapko2UUoc5EBsxDqqxT64InvUzTuuPynnZMoC
+         9XdmSDYpYM5lLrZvfN+ftO1AZZmEWGRK7bTJq4yE5SKkALjZ2gdreXV8hLe8hlYb8u6a
+         QqVq8DNnWaUy+QzNo6n3x0NrEoT8D6ZA3imxJJtdKk3HiAquQg67ykCn0O+UAi+1nUFq
+         BNoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JWrCPC+MuRusZLjq6nWcsNBbHrMkRTm76+I0XUEzEbQ=;
-        b=kcAG1gRy8ijUNLpartNgvjWIZE8Qkucyaajtp5yg37wbDAuO3znfyw7Cw3lucGE84A
-         DU26ifFB8EdKes1lNjZX4WH2W1lLTnwHPC7gHehucE4f6+udGkpK8MEHyqUkoobSDVGr
-         r3gAlmsHZP8P9CQNiyQhhcR0fIMAnRuafnu2V6FWgAazDNfpu5i7UlOL5gaQxTKviS7o
-         OuEGb7f+bJ3blvh7sXknwE7KUIEfkw73y9IzY54XlQvxNeETbPdHcEpM5ycHQKHQ18ew
-         wqpidK8iy7uqxPYujJqyEKHjgmR0KMoOSmYWmO/taYTYbyltbL4Apdw5d7iEnc3jcbnP
-         CY/g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530aTi8f5IQOFy1T44ub6L8BG8wx8zmUiKKX/1LgD2tMY9XPlrW6
-	eVMwry53yXpNxeXCEZ1MZL4=
-X-Google-Smtp-Source: ABdhPJwqGqY8ydMiNdpNlOJb1ldelLAjHlvEuB9b2BbZK3buV4VSiqaLl8Zfq7Kgw1VqtC0dWhsRnw==
-X-Received: by 2002:a17:902:ea02:b029:111:75b5:439f with SMTP id s2-20020a170902ea02b029011175b5439fmr8421966plg.85.1623072658510;
-        Mon, 07 Jun 2021 06:30:58 -0700 (PDT)
+        bh=RgW/rrLdLBiBOz8LXv6Qwrq9ljtN97S1rDbURu0QdKU=;
+        b=W2pkKaSdVZrmcpcoBgWP+koRVQnAevgU/DqBN29qILQupE2ZTTLQeU/lTPEpc2rpsc
+         1qDrNs9LycfzjORjgDo95jJkhtFnchm/bBV271ggnRlY7riGkdzBdjIXgOY+4TVG8WO9
+         WBs4RB9/HvVTHTb4XrkhCZUaEeVsFxKykYza6yHTBp+0XJG+n+3DmILh4/w9RyONdrDI
+         iMETujLyXAtLA6KzTHILsMCQeIvqeyU1LwXCk3xL8sbJXD/WbPY1iLIigivZkmvF4i2D
+         h73Of+8+h75g7PdNPoILybAWYGSlTtT8wkWXfbr4qx/FZxsjBSBpu54lstauEEKV/tFk
+         rtHg==
+X-Gm-Message-State: AOAM5331MSITBrtV6jxvyG7pz95WB5fGso/B8bAmCN90KvdVS5v38WJQ
+	bDH/m/jluT1kKkfSXtiptYI=
+X-Google-Smtp-Source: ABdhPJzSatXwBzQ0Q+mAPUXcjSDwWU+1/M77y/zh6xTmdiw5HtKrEp+0wp0W/XmA+EKErtEiaEtsUQ==
+X-Received: by 2002:a05:6830:19f4:: with SMTP id t20mr14468140ott.103.1623075827128;
+        Mon, 07 Jun 2021 07:23:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:b256:: with SMTP id t22ls304779pgo.8.gmail; Mon, 07 Jun
- 2021 06:30:58 -0700 (PDT)
-X-Received: by 2002:aa7:8e5a:0:b029:2e9:10d3:376f with SMTP id d26-20020aa78e5a0000b02902e910d3376fmr17205549pfr.19.1623072657906;
-        Mon, 07 Jun 2021 06:30:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1623072657; cv=none;
+Received: by 2002:a9d:5a18:: with SMTP id v24ls5009890oth.1.gmail; Mon, 07 Jun
+ 2021 07:23:46 -0700 (PDT)
+X-Received: by 2002:a9d:a13:: with SMTP id 19mr14181851otg.131.1623075826776;
+        Mon, 07 Jun 2021 07:23:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1623075826; cv=none;
         d=google.com; s=arc-20160816;
-        b=IPbh5OEKd6wb9cEsObf52K2wD6SNgWIYMp12c4qKW1jPGPslLgvhSweOIs3IQIiMvX
-         soYNyojbmIMCEzirsd9jQB+IpmJj5/rLUKRW6VH4JyAif/m1II7+CFXh6O//PD7YJ4WC
-         hkKb/86cGOP/oTz02ylO/YaSjpce4FTyyB84fwe5sQcDu+1KbisCc6MOCO9inuXB2U3/
-         eyVB0ZWqBNU1rXA6fhcuz7dWSWxu0LowEngUHYmZrIOnvpf8aTE64dXq/e8zcbqk9Jqm
-         BXl13/50a/HutzLX/6JG84Ig36ORMI+6tTk6J+2A7PWiUGZwHEOCiu9rJIJ/1WLyInBL
-         NprQ==
+        b=s0FyUE+JcdcFikeOzfZEzEA1bGH8/Dm4upO0vWpyHPh8xfeeh0vJK5Yp5paHgTUWgj
+         tBFNzCwq5Tk5X2B0YmIfM00OSrLVElc6hx+4Z6cazJEXtQsV1TSgWVSdJJM1HV4qB9pq
+         S0bPxiX4LhguYq/tfKl/UwrgsYh8FL68xtxYGIpjS9XrThV9JtORISEVkLPeq03ROd6o
+         xMJHcvly2jJbdh1q26meIPdt4WLysi6+dWMJ6KoQE9Q6Ez4bNGsVXJgBtFA07/mKf4Vl
+         Ys+ZKyGK8wvLGNFp/nl3NsN9nzJb8slIY8Ub+MHpb7qLijgaHi654P85f6i56BOo5J/i
+         GtcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=q9zou71Zr62E01YXL0PQ03EtQaCxMmruIKr4sDj3qIo=;
-        b=M/bZMGkC8QPQoRHzomJnJKc1sNT0RBH4JkBocovqRth75E7PTrFcp84WgcX+HHuc+A
-         poDDENwXBeWII3D0uIH22pORfbAwi5e2WJXSla0xeJjWP538n01PxVZsDtJuURUi834h
-         dDqRKrduwmgjp553EKZPeIa3e+fniV4Ph2ycnY2g1mhVORqnvvhtw76qqnxi68VsT6nz
-         cgXja5BK7erzLJDiBfTj44+Mz7U3vZ0j92y6hmi7Z2YSzYYQoIk6zFvqFipLn25aDL3x
-         KGo1cUJw9e42rYyP4YSzI+N1CC5OAPt8l3HZCAZp+OMIdUezUSuN7tdcNTotp17sut/M
-         iZ4g==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=4PwH1AXD3SllEEcEV6owIpVJRtalHEcUOPjpbDNsvcE=;
+        b=ubhRbXGgLMUPB/Ed/6LOdMFG9x3E0LFyPMd1Cl86iQ2KFdMyKfSoqtX9DU/uHiggGE
+         faKZs0iQKA+qE2HsJsjjUDoXnJm8I6FbsDa8KOuFhlj/CjV1FVJ2yTUoJz8eTDJmlT1N
+         /ZagnsT6yYnfwbLoQQzGktkuW88UGn3ksVXRKV6i5BtdbHdr8Bw1UJX8YfrmUw/1OTnK
+         wKwjXxWuYPnonZ1lWc4lhXoyn7iw7PnDJodfBtDkxDaxz2SKodepVsOm8QBtTGpOtNKU
+         wdtSpnqQ+vzKaioN42kYd+Pqpguw55YitRCYWyj8AbYOdyq7RQm+cTZprz8yUtLFb0f8
+         p25Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of thunder.leizhen@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=thunder.leizhen@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com. [45.249.212.255])
-        by gmr-mx.google.com with ESMTPS id t17si843322pfc.4.2021.06.07.06.30.57
+       dkim=pass header.i=@google.com header.s=20161025 header.b=cnyQchdM;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com. [2607:f8b0:4864:20::333])
+        by gmr-mx.google.com with ESMTPS id c9si1085635ots.4.2021.06.07.07.23.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 07 Jun 2021 06:30:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of thunder.leizhen@huawei.com designates 45.249.212.255 as permitted sender) client-ip=45.249.212.255;
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4FzDf55tkzz1BKP0;
-	Mon,  7 Jun 2021 21:26:05 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 7 Jun 2021 21:30:55 +0800
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 7 Jun 2021 21:30:54 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
-	<daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
-	<kafai@fb.com>, Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
-	<dvyukov@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Petr Mladek
-	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Sergey Senozhatsky
-	<senozhatsky@chromium.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Andrew Morton <akpm@linux-foundation.org>, netdev
-	<netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>, kasan-dev
-	<kasan-dev@googlegroups.com>, linux-kernel <linux-kernel@vger.kernel.org>
-CC: Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH v2 1/1] lib/test: Fix spelling mistakes
-Date: Mon, 7 Jun 2021 21:30:36 +0800
-Message-ID: <20210607133036.12525-2-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20210607133036.12525-1-thunder.leizhen@huawei.com>
-References: <20210607133036.12525-1-thunder.leizhen@huawei.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jun 2021 07:23:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as permitted sender) client-ip=2607:f8b0:4864:20::333;
+Received: by mail-ot1-x333.google.com with SMTP id i12-20020a05683033ecb02903346fa0f74dso16834636otu.10
+        for <kasan-dev@googlegroups.com>; Mon, 07 Jun 2021 07:23:46 -0700 (PDT)
+X-Received: by 2002:a9d:7a54:: with SMTP id z20mr14261136otm.17.1623075826297;
+ Mon, 07 Jun 2021 07:23:46 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210521083209.3740269-1-elver@google.com>
+In-Reply-To: <20210521083209.3740269-1-elver@google.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 7 Jun 2021 16:23:34 +0200
+Message-ID: <CANpmjNObVfB6AREacptbMTikzbFfGuuL49jZqPSOTUjAExyp+g@mail.gmail.com>
+Subject: [5.12.y] kfence: use TASK_IDLE when awaiting allocation
+To: stable <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sasha Levin <sashal@kernel.org>
+Cc: Alexander Potapenko <glider@google.com>, kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.174.177.72]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
-X-Original-Sender: thunder.leizhen@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of thunder.leizhen@huawei.com designates 45.249.212.255
- as permitted sender) smtp.mailfrom=thunder.leizhen@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=cnyQchdM;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::333 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,111 +129,48 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Fix some spelling mistakes in comments found by "codespell":
-thats ==> that's
-unitialized ==> uninitialized
-panicing ==> panicking
-sucess ==> success
-possitive ==> positive
-intepreted ==> interpreted
+Dear stable maintainers,
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+The patch "kfence: use TASK_IDLE when awaiting allocation" has landed
+in mainline as 8fd0e995cc7b, however, does not apply cleanly to 5.12.y
+due to a prerequisite patch missing.
+
+My recommendation is to cherry-pick the following 2 commits to 5.12.y
+(rather than rebase 8fd0e995cc7b on top of 5.12.y):
+
+  37c9284f6932 kfence: maximize allocation wait timeout duration
+  8fd0e995cc7b kfence: use TASK_IDLE when awaiting allocation
+
+Many thanks,
+-- Marco
+
+---------- Forwarded message ---------
+From: Marco Elver <elver@google.com>
+Date: Fri, 21 May 2021 at 10:32
+Subject: [PATCH] kfence: use TASK_IDLE when awaiting allocation
+To: <elver@google.com>, <akpm@linux-foundation.org>
+Cc: <glider@google.com>, <dvyukov@google.com>,
+<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+<kasan-dev@googlegroups.com>, Mel Gorman <mgorman@suse.de>,
+<stable@vger.kernel.org>
+
+
+Since wait_event() uses TASK_UNINTERRUPTIBLE by default, waiting for an
+allocation counts towards load. However, for KFENCE, this does not make
+any sense, since there is no busy work we're awaiting.
+
+Instead, use TASK_IDLE via wait_event_idle() to not count towards load.
+
+BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1185565
+Fixes: 407f1d8c1b5f ("kfence: await for allocation using wait_event")
+Signed-off-by: Marco Elver <elver@google.com>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: <stable@vger.kernel.org> # v5.12+
 ---
- lib/test_bitops.c | 2 +-
- lib/test_bpf.c    | 2 +-
- lib/test_kasan.c  | 2 +-
- lib/test_kmod.c   | 6 +++---
- lib/test_scanf.c  | 2 +-
- 5 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/lib/test_bitops.c b/lib/test_bitops.c
-index 471141ddd691..3b7bcbee84db 100644
---- a/lib/test_bitops.c
-+++ b/lib/test_bitops.c
-@@ -15,7 +15,7 @@
-  *   get_count_order/long
-  */
- 
--/* use an enum because thats the most common BITMAP usage */
-+/* use an enum because that's the most common BITMAP usage */
- enum bitops_fun {
- 	BITOPS_4 = 4,
- 	BITOPS_7 = 7,
-diff --git a/lib/test_bpf.c b/lib/test_bpf.c
-index 4dc4dcbecd12..d500320778c7 100644
---- a/lib/test_bpf.c
-+++ b/lib/test_bpf.c
-@@ -1095,7 +1095,7 @@ static struct bpf_test tests[] = {
- 	{
- 		"RET_A",
- 		.u.insns = {
--			/* check that unitialized X and A contain zeros */
-+			/* check that uninitialized X and A contain zeros */
- 			BPF_STMT(BPF_MISC | BPF_TXA, 0),
- 			BPF_STMT(BPF_RET | BPF_A, 0)
- 		},
-diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-index cacbbbdef768..72b8e808c39c 100644
---- a/lib/test_kasan.c
-+++ b/lib/test_kasan.c
-@@ -656,7 +656,7 @@ static void kasan_global_oob(struct kunit *test)
- {
- 	/*
- 	 * Deliberate out-of-bounds access. To prevent CONFIG_UBSAN_LOCAL_BOUNDS
--	 * from failing here and panicing the kernel, access the array via a
-+	 * from failing here and panicking the kernel, access the array via a
- 	 * volatile pointer, which will prevent the compiler from being able to
- 	 * determine the array bounds.
- 	 *
-diff --git a/lib/test_kmod.c b/lib/test_kmod.c
-index 38c250fbace3..ce1589391413 100644
---- a/lib/test_kmod.c
-+++ b/lib/test_kmod.c
-@@ -286,7 +286,7 @@ static int tally_work_test(struct kmod_test_device_info *info)
-  * If this ran it means *all* tasks were created fine and we
-  * are now just collecting results.
-  *
-- * Only propagate errors, do not override with a subsequent sucess case.
-+ * Only propagate errors, do not override with a subsequent success case.
-  */
- static void tally_up_work(struct kmod_test_device *test_dev)
- {
-@@ -543,7 +543,7 @@ static int trigger_config_run(struct kmod_test_device *test_dev)
- 	 * wrong with the setup of the test. If the test setup went fine
- 	 * then userspace must just check the result of config->test_result.
- 	 * One issue with relying on the return from a call in the kernel
--	 * is if the kernel returns a possitive value using this trigger
-+	 * is if the kernel returns a positive value using this trigger
- 	 * will not return the value to userspace, it would be lost.
- 	 *
- 	 * By not relying on capturing the return value of tests we are using
-@@ -585,7 +585,7 @@ trigger_config_store(struct device *dev,
- 	 * Note: any return > 0 will be treated as success
- 	 * and the error value will not be available to userspace.
- 	 * Do not rely on trying to send to userspace a test value
--	 * return value as possitive return errors will be lost.
-+	 * return value as positive return errors will be lost.
- 	 */
- 	if (WARN_ON(ret > 0))
- 		return -EINVAL;
-diff --git a/lib/test_scanf.c b/lib/test_scanf.c
-index 48ff5747a4da..84fe09eaf55e 100644
---- a/lib/test_scanf.c
-+++ b/lib/test_scanf.c
-@@ -600,7 +600,7 @@ static void __init numbers_prefix_overflow(void)
- 	/*
- 	 * 0x prefix in a field of width 2 using %i conversion: first field
- 	 * converts to 0. Next field scan starts at the character after "0x",
--	 * which will convert if can be intepreted as decimal but will fail
-+	 * which will convert if can be interpreted as decimal but will fail
- 	 * if it contains any hex digits (since no 0x prefix).
- 	 */
- 	test_number_prefix(long long,	"0x67", "%2lli%lli", 0, 67, 2, check_ll);
--- 
-2.25.1
-
+ mm/kfence/core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210607133036.12525-2-thunder.leizhen%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNObVfB6AREacptbMTikzbFfGuuL49jZqPSOTUjAExyp%2Bg%40mail.gmail.com.
