@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLNP7CCQMGQEXBR3FVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMFP7CCQMGQE5KHUFMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id D956F39DD1A
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jun 2021 14:57:18 +0200 (CEST)
-Received: by mail-pf1-x437.google.com with SMTP id o11-20020a62f90b0000b02902db3045f898sf7637432pfh.23
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jun 2021 05:57:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623070637; cv=pass;
+Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8510839DD1B
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Jun 2021 14:57:20 +0200 (CEST)
+Received: by mail-wr1-x43b.google.com with SMTP id u5-20020adf9e050000b029010df603f280sf7813802wre.18
+        for <lists+kasan-dev@lfdr.de>; Mon, 07 Jun 2021 05:57:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1623070640; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jVqecczrj7ZS+MMmfaWRDgcXQdww6Hhj90xhtdZ0AHIfTlvAQexG4OrpiTXIf+z5Zv
-         GYOyy2Zmg+QbHh8Oi7n/XAs/aTec9wUR7kIop8p6SX2daoyydLtNpL2PgdVoRek57jUh
-         V7LLHPyHnrplp0VwhI0ioPB63de5vfCDbra4cMZG43nzHuWXkb6xPZFlfittgoO5D0hQ
-         aQcPSaBT9KnsyY2OHH+h6MTxosbzk68wADteu4T0xT1BoCy3tnglBNtepNpp4MZya5nN
-         NzR8SNdcPjxTdMTP/XD/JhUhKMHIRk2ISWGln/J+nlsTSYPUx9MST7r1Ne5RhaAb8hzH
-         4iVQ==
+        b=RG2QyFFzyWZwljv2B8gcsDnj66zHSpfvSUs05fcdAyvodN6Ltny+TMIAWSNFKgrhiy
+         H54mqlf6FW+M3qmXzVnU+IbsWxa6Hb7VszV815vSinpKepmbOMjVF6R023zW7YxCEoqO
+         3DqV8rMLpLb/XX5efh5y39AdfJbzYPelPNlOuSCmA5z1zGGmUI09hGe6nI3S+dzj96ti
+         ECu1xWGrQOsVrVcgu21CaJl8ggoR8z6GsthPN5lS/4wF2lr5/itJyckqcRiQZBrGP+zf
+         BtVX6ZbkmKhAND+xkEp/akXlKK3TG9IdIIW09RmbQ/ADwjFyXO/6FGiAlHY7XF+xgjSv
+         8BcQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=SMHM3ZIBg+LOiWgtIAuC+D/arE34clfe33ryT0Z8TqE=;
-        b=Sykjk1tCTJecqXpZVbeRb9n3HkDHGY3LYXgPRAwAK8kSXDS1nZctT7xCXiJSr7AB2v
-         anpuvUhHL05UTZjRRe1+PJ9eElDqHtGvM+u9U3VsWy5oFtR9LE5Pzf2btfKLG7e7rvd9
-         SC6OoLI20lmd1Ekvyz9AgDxwP1MyMgPRKO9ayeHjadrIyrvHfW+gcoqORWGQGhCEFegs
-         E189qqWERLKjsKMUGq8n4ReGGq5cCxbLRXxVd2JofZCvJPM/ldiJDc9M8w5syFLsmuuF
-         wSWTP0B5YSNqE1UIVdPjidcZBGssrsckIGFMNLgU1wJYSawEhyhLo1zVsN/KPrynGeUL
-         cLYQ==
+        bh=zQ+7iMeiH5vYXlqBMZXU1wiaMd4t7msb8Gb+IFmhMVY=;
+        b=k1gpebuMqj0+QK647m0UJZq/uCHZN/Hf3lL4Fylm2OOREqRsgG21Tzw2nKtvyyUbmt
+         KrXVjKHxtUSO2t2dRCDBOfIE7mNxL9N/VVvsI6Dnwg4c1F6f7iZTl+zK5Wj93h2LgjJ/
+         XK4gLoMe4g5dGI4JBvBW5q1Bsb8UO4tdYrVcFZV4z0uIyw3fYUShqDsQKoGGtH5XXxHh
+         Zs9cfjAuUgRLkynnuveJ8MVqrLz/YA0Y+8VhE789xwxa+Yub29528jWCJSNnq+Swpgbo
+         D5qp5B2QkEXjhSzMlj6YKA6w9xQdW2OGxYHxkwYPT84W8yFRwehfA3GQryEIRZgkCZko
+         hNRQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=lyslfoE3;
-       spf=pass (google.com: domain of 3rbe-yaukcd8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3rBe-YAUKCd8FMWFSHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=svdhpRXg;
+       spf=pass (google.com: domain of 3rxe-yaukceiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3rxe-YAUKCeIIPZIVKSSKPI.GSQOEWER-HIZKSSKPIKVSYTW.GSQ@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=SMHM3ZIBg+LOiWgtIAuC+D/arE34clfe33ryT0Z8TqE=;
-        b=oXz9l6wusiS8yvBsKIRiPD8LP/iCv889OvQg99uZ7f1nByOGXTxvcAGBcKK/ld3vIz
-         B943eDu9q2WdwhikMfLny265J+6dMIJDt107ymC3yeiBzgvDcftNLk3C8S9wLUp/9FnP
-         PCOfJrKqp5D7ntegvptoHnC28QI6y1/vdjzzBpxYkBNapM4VgcA2W7bcPHUcIr9eTD3+
-         /SFsCfFtl/DQKLd/6fzMARMc2U/RuSAGeR46Skgu2UW/BQKN8WnnWAwO91fy81OK2gkA
-         O6tkfrX/6WWS7mAWn7TYLOgY5P2MhO0kPdt7puOd5lSZ7hu1KuIuSmF68UPMWBYGPepg
-         ljbw==
+        bh=zQ+7iMeiH5vYXlqBMZXU1wiaMd4t7msb8Gb+IFmhMVY=;
+        b=XmT01YunaQl5Uui/H11w9fDQP2j61EWkvdhNL5xhf2elfueLny+TNzWU6RWaHVwR4K
+         JfvMRx1hoDVKG9tv0kmK1sRai37GnyUZV7tzV16NXwjBDlnFldtNpqX7QqiArYzgG0Jh
+         byu0bn8s1uqjrE+BqdIyoFTPZX7958H501ll+6RR7OWAa1oe+GDhFovSweph6a2ilXv6
+         lh9KpvfLm4+jtw7I3Sy063IpY/9Wb2whDuvndkpaJZfLPumvzTxwQmZT+RRcDDczxhko
+         0K1p/cewgKMzNhFC3iOmBvf5QTuUN0JEQgyZrWmOnBWxv4c1xNe4KVFwX0NbjIykU4l6
+         rURg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,63 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=SMHM3ZIBg+LOiWgtIAuC+D/arE34clfe33ryT0Z8TqE=;
-        b=RFuHeu2FnsFplIR1p+sxtdnaHXCTUe/0vDKwtWSD8zYJQhR49Mfqj8TXOXFdb5Gghq
-         Rqi6CP9jyLFhloTkN6fWNScerZ5yP5HCElMVInOdhry/LB7fCqEBTdgA3X5NWS/8J7ZE
-         XVtmTTTlovy4ToXwh8cPE2RaCSNdRdWXdiyNHkd4spYw6xWJgYp8ztNpoVh5/fa9YSBz
-         tolSirJh5Myvy7/GXn5QAY2KNrXiYyzmTu5bhg7QMFm278sCj48vh/svLXc4ioBLQSTN
-         fFXsDnmw6P3ObQig6kMZZodW3gPxvU2TDfbP7rOlFWUq3Anz4JZ9sVkwUJmOoxtL+dP2
-         t34g==
-X-Gm-Message-State: AOAM530/uEvqRlzPJM+sn0An7DxN0UX/oAZ8YaOx46og7gVbqzMsttxW
-	Nvy0zw7ZxQL7cvEcygNrxV8=
-X-Google-Smtp-Source: ABdhPJwujJBVSgsSqY0zuZ+cbbQr/pKUDTvrP6TrXlefevC943R+1jVcgUS70eGmFB1uQQKqNKDYaw==
-X-Received: by 2002:a17:90a:6d82:: with SMTP id a2mr10597587pjk.150.1623070637594;
-        Mon, 07 Jun 2021 05:57:17 -0700 (PDT)
+        bh=zQ+7iMeiH5vYXlqBMZXU1wiaMd4t7msb8Gb+IFmhMVY=;
+        b=l4FySiivJ1LevSLb2Ih7xMFIavH2vtAbKmIMH95JfFaaVmqICa0pSXlZPqHwuCMG99
+         AAcWOucfzL27kQBCPlrcX6mRBaG7EP3eLlDmrX409vORcNOM7+XGrQBJv9qtFatkQlzS
+         cv4jvpYAteBQW1mv6jHPPb2YewNWGvJTdJNpdc2fE1kQqsbpC7d3PAL5ZcqU7XTH8ao7
+         lI2522XAnwBGTxrafog44qWBev+e5ZxAymY6466DAipDtDR81Pf9I6+UYyhw4nyjXJol
+         OSyjUVuHfXXtG+3lJ9X1k3qzmFc6bR3cc0MiqkQpz0NVPXySBVT/DesSHxeyuougggMg
+         Sidw==
+X-Gm-Message-State: AOAM531DDlkE8G6FqVId6p9TvsdO2VSyTAoD19OOB6rc/cyJjVt99M3a
+	NJXDS7riDhEjeXPKF5PFOMI=
+X-Google-Smtp-Source: ABdhPJznl0hfOn3edBu/VBKBD70Ei+Ad03KaOZ7qdjhCF/Y60RAUAe4G/5fQjjPoZ2mWx06ydYgTcA==
+X-Received: by 2002:a1c:dcc3:: with SMTP id t186mr17440679wmg.23.1623070640305;
+        Mon, 07 Jun 2021 05:57:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:aa8d:: with SMTP id d13ls8351352plr.5.gmail; Mon, 07
- Jun 2021 05:57:17 -0700 (PDT)
-X-Received: by 2002:a17:90a:a00f:: with SMTP id q15mr15160198pjp.193.1623070637060;
-        Mon, 07 Jun 2021 05:57:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1623070637; cv=none;
+Received: by 2002:adf:a141:: with SMTP id r1ls1604097wrr.3.gmail; Mon, 07 Jun
+ 2021 05:57:19 -0700 (PDT)
+X-Received: by 2002:a5d:488b:: with SMTP id g11mr16569105wrq.317.1623070639434;
+        Mon, 07 Jun 2021 05:57:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1623070639; cv=none;
         d=google.com; s=arc-20160816;
-        b=efV/Gvtr6V6tZUW8YY4sixXUXfTP/V+wvFFHSHnzAYbliXuvN8bLnCdu/B40PaaM7U
-         sIiZOEvqDUDharVBcTyQocBCJazrPFd3jw2KckSr9uOTDMN7Hltd6y2lGtRdPDT8DdS/
-         FdkK+vjqePcRY1rsBjJyQXJx7k0j02h7KKVsY1IueAQf3V+pLUhKeDCNd0c/KSfHEMpo
-         Mh5195AhfRrfuMg0Q1w/vJ0n/hx3pT1lwSZekGmOBw0nqFt2lyMtL80ZB9VSO7QEtTRQ
-         RZnfb4el+F9wVDGDS2uieEHAvi1kq1fYLx9UU5QpPrReQmTUojHuspA620ugc7FBIVov
-         ZE+g==
+        b=CzJEhReGkABSBYsAruemOQavfTrbjR3AdjedgFlWhKhBGrHMmuIJJFjKy4qkN2o9IT
+         d9ECPG+Cs16Z088U0xacbD5l2svaLn5a869oI0ewL1S428XwudIYMLzkSFZHQ9RC52ip
+         9Xyy7pt2fbbUBaeKn5IXX2H59DZepmWXyW0LjVgsD34KoPU28x2rZVmkV9g/RsyCbsRS
+         Rm7MU0J3MjzKmJ96OH+RAamua4yKDrq6Qy4L9OIvB+RhpJVvS7mQQK2rM7ai+RrwtHN2
+         X/kw/YdfGutJzJsNSDX1iT+y3ZHVeRMGeYkzP29Y+KeXraSU2jDvLKjAvcYZd1Y6yuty
+         X5UA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=LQ3tKh70kw7RBhOdaRUlWmTt0SET4qyIX4Ra2qoSZ0I=;
-        b=Mk+ZKVrethnhLMV5BhxCgu2nzzmCAuddOx7A3QUaLz0Z+l3nzMkaZKPLv5uvlc0v+r
-         2TvjmKXx0Z4YTaXvVgvT3xkYPEmbEf1Scp7HpccpD4MQO2z2PrQ6YRM26jubMEi2hgxk
-         QIwSPs4fNiHt6CoXN09As9/ujrwEsXufMT+7Bcg/X7caCZNg+oAVwe4LnllYr9bl5elE
-         Zaalgu+LmJXpyhvfkTwUKHIyPv6QJMGEzrGFYYuFXweJnTI+rR+NnKH/f4VZxh62M3Xh
-         q+0Gm3j3JdC0V94+w3wmL4Cd8RPpPsCOsF1evWRno0pYpPWjD8O1r75Ha5J8cAGV87KC
-         JxGA==
+        bh=sD69zNYhvDJZj4XAjsuMed8nmTBfm3+Rx7K2iXla7Fw=;
+        b=ZhtqrN7tybkULv0LC1ajNUR/8noslfFRW7yTsfca5nR4kPh9z1uwyhYqhRZ280cf92
+         r6g+YlrX2Co2nDofATD7sJVr0cS8bM37loQTaTKVNIrnlMhib7M53MdhG1/8wW6h2/se
+         snoNxoQKxfcR5bdFekWRdLsNV6oZbZlaEWZb5V+FujTqrggCpHHQpkA5evja33g1ZmCV
+         8Hc9x54391qRbR33FR1a6GNKm5Rn+qv6oFdcPDBzLbgdIYwOfAXY4bH1RQmLU4AEwrT9
+         an3h97tumU7HVlAgtvITqMV86pgE1dUfym24cUeGRXjzFLVSZG7uvFuB1OmkwuuimGjx
+         VH2w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=lyslfoE3;
-       spf=pass (google.com: domain of 3rbe-yaukcd8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3rBe-YAUKCd8FMWFSHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=svdhpRXg;
+       spf=pass (google.com: domain of 3rxe-yaukceiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3rxe-YAUKCeIIPZIVKSSKPI.GSQOEWER-HIZKSSKPIKVSYTW.GSQ@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com. [2607:f8b0:4864:20::f49])
-        by gmr-mx.google.com with ESMTPS id b3si59868pjz.1.2021.06.07.05.57.17
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
+        by gmr-mx.google.com with ESMTPS id r23si179718wra.1.2021.06.07.05.57.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jun 2021 05:57:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3rbe-yaukcd8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) client-ip=2607:f8b0:4864:20::f49;
-Received: by mail-qv1-xf49.google.com with SMTP id k12-20020a0cfd6c0000b029020df9543019so10748525qvs.14
-        for <kasan-dev@googlegroups.com>; Mon, 07 Jun 2021 05:57:17 -0700 (PDT)
+        Mon, 07 Jun 2021 05:57:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3rxe-yaukceiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id z13-20020adfec8d0000b0290114cc6b21c4so7771698wrn.22
+        for <kasan-dev@googlegroups.com>; Mon, 07 Jun 2021 05:57:19 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:2587:50:741c:6fde])
- (user=elver job=sendgmr) by 2002:a0c:ab52:: with SMTP id i18mr17507070qvb.23.1623070636590;
- Mon, 07 Jun 2021 05:57:16 -0700 (PDT)
-Date: Mon,  7 Jun 2021 14:56:51 +0200
+ (user=elver job=sendgmr) by 2002:a05:600c:2216:: with SMTP id
+ z22mr13925816wml.66.1623070639129; Mon, 07 Jun 2021 05:57:19 -0700 (PDT)
+Date: Mon,  7 Jun 2021 14:56:52 +0200
 In-Reply-To: <20210607125653.1388091-1-elver@google.com>
-Message-Id: <20210607125653.1388091-6-elver@google.com>
+Message-Id: <20210607125653.1388091-7-elver@google.com>
 Mime-Version: 1.0
 References: <20210607125653.1388091-1-elver@google.com>
 X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
-Subject: [PATCH 5/7] kcsan: Rework atomic.h into permissive.h
+Subject: [PATCH 6/7] kcsan: Print if strict or non-strict during init
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, paulmck@kernel.org
 Cc: boqun.feng@gmail.com, mark.rutland@arm.com, will@kernel.org, 
@@ -114,9 +114,9 @@ Cc: boqun.feng@gmail.com, mark.rutland@arm.com, will@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=lyslfoE3;       spf=pass
- (google.com: domain of 3rbe-yaukcd8fmwfshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3rBe-YAUKCd8FMWFSHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20161025 header.b=svdhpRXg;       spf=pass
+ (google.com: domain of 3rxe-yaukceiipzivksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3rxe-YAUKCeIIPZIVKSSKPI.GSQOEWER-HIZKSSKPIKVSYTW.GSQ@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -132,239 +132,41 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Rework atomic.h into permissive.h to better reflect its purpose, and
-introduce kcsan_ignore_address() and kcsan_ignore_data_race().
+Show a brief message if KCSAN is strict or non-strict, and if non-strict
+also say that CONFIG_KCSAN_STRICT=y can be used to see all data races.
 
-Introduce CONFIG_KCSAN_PERMISSIVE and update the stub functions in
-preparation for subsequent changes.
-
-As before, developers who choose to use KCSAN in "strict" mode will see
-all data races and are not affected. Furthermore, by relying on the
-value-change filter logic for kcsan_ignore_data_race(), even if the
-permissive rules are enabled, the opt-outs in report.c:skip_report()
-override them (such as for RCU-related functions by default).
-
-The option CONFIG_KCSAN_PERMISSIVE is disabled by default, so that the
-documented default behaviour of KCSAN does not change. Instead, like
-CONFIG_KCSAN_IGNORE_ATOMICS, the option needs to be explicitly opted in.
+This is to hint to users of KCSAN who blindly use the default config
+that their configuration might miss data races of interest.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- Documentation/dev-tools/kcsan.rst |  8 ++++++
- kernel/kcsan/atomic.h             | 23 ---------------
- kernel/kcsan/core.c               | 33 ++++++++++++++++------
- kernel/kcsan/permissive.h         | 47 +++++++++++++++++++++++++++++++
- lib/Kconfig.kcsan                 | 10 +++++++
- 5 files changed, 89 insertions(+), 32 deletions(-)
- delete mode 100644 kernel/kcsan/atomic.h
- create mode 100644 kernel/kcsan/permissive.h
+ kernel/kcsan/core.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
-index 17f974213b88..9df98a48e69d 100644
---- a/Documentation/dev-tools/kcsan.rst
-+++ b/Documentation/dev-tools/kcsan.rst
-@@ -124,6 +124,14 @@ Kconfig options:
-   causes KCSAN to not report data races due to conflicts where the only plain
-   accesses are aligned writes up to word size.
- 
-+* ``CONFIG_KCSAN_PERMISSIVE``: Enable additional permissive rules to ignore
-+  certain classes of common data races. Unlike the above, the rules are more
-+  complex involving value-change patterns, access type, and address. This
-+  option depends on ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=y``. For details
-+  please see the ``kernel/kcsan/permissive.h``. Testers and maintainers that
-+  only focus on reports from specific subsystems and not the whole kernel are
-+  recommended to disable this option.
-+
- To use the strictest possible rules, select ``CONFIG_KCSAN_STRICT=y``, which
- configures KCSAN to follow the Linux-kernel memory consistency model (LKMM) as
- closely as possible.
-diff --git a/kernel/kcsan/atomic.h b/kernel/kcsan/atomic.h
-deleted file mode 100644
-index 530ae1bda8e7..000000000000
---- a/kernel/kcsan/atomic.h
-+++ /dev/null
-@@ -1,23 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Rules for implicitly atomic memory accesses.
-- *
-- * Copyright (C) 2019, Google LLC.
-- */
--
--#ifndef _KERNEL_KCSAN_ATOMIC_H
--#define _KERNEL_KCSAN_ATOMIC_H
--
--#include <linux/types.h>
--
--/*
-- * Special rules for certain memory where concurrent conflicting accesses are
-- * common, however, the current convention is to not mark them; returns true if
-- * access to @ptr should be considered atomic. Called from slow-path.
-- */
--static bool kcsan_is_atomic_special(const volatile void *ptr)
--{
--	return false;
--}
--
--#endif /* _KERNEL_KCSAN_ATOMIC_H */
 diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 906100923b88..439edb9dcbb1 100644
+index 439edb9dcbb1..76e67d1e02d4 100644
 --- a/kernel/kcsan/core.c
 +++ b/kernel/kcsan/core.c
-@@ -20,9 +20,9 @@
- #include <linux/sched.h>
- #include <linux/uaccess.h>
- 
--#include "atomic.h"
- #include "encoding.h"
- #include "kcsan.h"
-+#include "permissive.h"
- 
- static bool kcsan_early_enable = IS_ENABLED(CONFIG_KCSAN_EARLY_ENABLE);
- unsigned int kcsan_udelay_task = CONFIG_KCSAN_UDELAY_TASK;
-@@ -353,6 +353,7 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
- 					    atomic_long_t *watchpoint,
- 					    long encoded_watchpoint)
- {
-+	const bool is_assert = (type & KCSAN_ACCESS_ASSERT) != 0;
- 	struct kcsan_ctx *ctx = get_ctx();
- 	unsigned long flags;
- 	bool consumed;
-@@ -374,6 +375,16 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
- 	if (ctx->access_mask)
- 		return;
- 
-+	/*
-+	 * If the other thread does not want to ignore the access, and there was
-+	 * a value change as a result of this thread's operation, we will still
-+	 * generate a report of unknown origin.
-+	 *
-+	 * Use CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=n to filter.
-+	 */
-+	if (!is_assert && kcsan_ignore_address(ptr))
-+		return;
-+
- 	/*
- 	 * Consuming the watchpoint must be guarded by kcsan_is_enabled() to
- 	 * avoid erroneously triggering reports if the context is disabled.
-@@ -396,7 +407,7 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
- 		atomic_long_inc(&kcsan_counters[KCSAN_COUNTER_REPORT_RACES]);
+@@ -656,6 +656,15 @@ void __init kcsan_init(void)
+ 		pr_info("enabled early\n");
+ 		WRITE_ONCE(kcsan_enabled, true);
  	}
++
++	if (IS_ENABLED(CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY) ||
++	    IS_ENABLED(CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC) ||
++	    IS_ENABLED(CONFIG_KCSAN_PERMISSIVE) ||
++	    IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {
++		pr_warn("non-strict mode configured - use CONFIG_KCSAN_STRICT=y to see all data races\n");
++	} else {
++		pr_info("strict mode configured\n");
++	}
+ }
  
--	if ((type & KCSAN_ACCESS_ASSERT) != 0)
-+	if (is_assert)
- 		atomic_long_inc(&kcsan_counters[KCSAN_COUNTER_ASSERT_FAILURES]);
- 	else
- 		atomic_long_inc(&kcsan_counters[KCSAN_COUNTER_DATA_RACES]);
-@@ -427,12 +438,10 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 		goto out;
- 
- 	/*
--	 * Special atomic rules: unlikely to be true, so we check them here in
--	 * the slow-path, and not in the fast-path in is_atomic(). Call after
--	 * kcsan_is_enabled(), as we may access memory that is not yet
--	 * initialized during early boot.
-+	 * Check to-ignore addresses after kcsan_is_enabled(), as we may access
-+	 * memory that is not yet initialized during early boot.
- 	 */
--	if (!is_assert && kcsan_is_atomic_special(ptr))
-+	if (!is_assert && kcsan_ignore_address(ptr))
- 		goto out;
- 
- 	if (!check_encodable((unsigned long)ptr, size)) {
-@@ -518,8 +527,14 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
- 	if (access_mask)
- 		diff &= access_mask;
- 
--	/* Were we able to observe a value-change? */
--	if (diff != 0)
-+	/*
-+	 * Check if we observed a value change.
-+	 *
-+	 * Also check if the data race should be ignored (the rules depend on
-+	 * non-zero diff); if it is to be ignored, the below rules for
-+	 * KCSAN_VALUE_CHANGE_MAYBE apply.
-+	 */
-+	if (diff && !kcsan_ignore_data_race(size, type, old, new, diff))
- 		value_change = KCSAN_VALUE_CHANGE_TRUE;
- 
- 	/* Check if this access raced with another. */
-diff --git a/kernel/kcsan/permissive.h b/kernel/kcsan/permissive.h
-new file mode 100644
-index 000000000000..f90e30800c11
---- /dev/null
-+++ b/kernel/kcsan/permissive.h
-@@ -0,0 +1,47 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Special rules for ignoring entire classes of data-racy memory accesses. None
-+ * of the rules here imply that such data races are generally safe!
-+ *
-+ * All rules in this file can be configured via CONFIG_KCSAN_PERMISSIVE. Keep
-+ * them separate from core code to make it easier to audit.
-+ *
-+ * Copyright (C) 2019, Google LLC.
-+ */
-+
-+#ifndef _KERNEL_KCSAN_PERMISSIVE_H
-+#define _KERNEL_KCSAN_PERMISSIVE_H
-+
-+#include <linux/types.h>
-+
-+/*
-+ * Access ignore rules based on address.
-+ */
-+static __always_inline bool kcsan_ignore_address(const volatile void *ptr)
-+{
-+	if (!IS_ENABLED(CONFIG_KCSAN_PERMISSIVE))
-+		return false;
-+
-+	return false;
-+}
-+
-+/*
-+ * Data race ignore rules based on access type and value change patterns.
-+ */
-+static bool
-+kcsan_ignore_data_race(size_t size, int type, u64 old, u64 new, u64 diff)
-+{
-+	if (!IS_ENABLED(CONFIG_KCSAN_PERMISSIVE))
-+		return false;
-+
-+	/*
-+	 * Rules here are only for plain read accesses, so that we still report
-+	 * data races between plain read-write accesses.
-+	 */
-+	if (type || size > sizeof(long))
-+		return false;
-+
-+	return false;
-+}
-+
-+#endif /* _KERNEL_KCSAN_PERMISSIVE_H */
-diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-index c76fbb3ee09e..26f03c754d39 100644
---- a/lib/Kconfig.kcsan
-+++ b/lib/Kconfig.kcsan
-@@ -231,4 +231,14 @@ config KCSAN_IGNORE_ATOMICS
- 	  due to two conflicting plain writes will be reported (aligned and
- 	  unaligned, if CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=n).
- 
-+config KCSAN_PERMISSIVE
-+	bool "Enable all additional permissive rules"
-+	depends on KCSAN_REPORT_VALUE_CHANGE_ONLY
-+	help
-+	  Enable additional permissive rules to ignore certain classes of data
-+	  races (also see kernel/kcsan/permissive.h). None of the permissive
-+	  rules imply that such data races are generally safe, but can be used
-+	  to further reduce reported data races due to data-racy patterns
-+	  common across the kernel.
-+
- endif # KCSAN
+ /* === Exported interface =================================================== */
 -- 
 2.32.0.rc1.229.g3e70b5a671-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210607125653.1388091-6-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210607125653.1388091-7-elver%40google.com.
