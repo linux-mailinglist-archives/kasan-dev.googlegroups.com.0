@@ -1,127 +1,213 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBV45QWDAMGQEJTJR5XY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSPFHXUVMKBBCNDQWDAMGQEMPVBJ2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x339.google.com (mail-ot1-x339.google.com [IPv6:2607:f8b0:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87A63A20C8
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jun 2021 01:29:28 +0200 (CEST)
-Received: by mail-ot1-x339.google.com with SMTP id w1-20020a0568304101b02902fc17224cf5sf17268142ott.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jun 2021 16:29:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623281367; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=r1k5DeM3tG3HVJN713xICITql1JbsnjnibUi5gqo1JY4vVElklroBhBMuqnoyKRsxE
-         iqXeEVBJqPE8pQ5wsTbqvl8Iwmv8/fO2cQgzdmSy3IlfF35ti7XYnH2VQN0uvKhJ4bvH
-         0NlLE1J3+jhlZ4lV2ujwIxb14llbYnj9JZ4fjyKzQXMZB920Lh3e18tzk88AmPburYTJ
-         gsxkrwMi5hwZxlYFfoptg4Kc3EGJNDFeQbp7RPcEgpSWdJJHFNDZTkpOwIrh+QGN80gz
-         WgjgUv36cwjPWrRE9CBkMzgsYd8H8u8zczO7g+yvnb9z0KpFatF7JghbGKZXdeiHYdOx
-         uMBQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-disposition:mime-version:reply-to:message-id:subject:cc:to
-         :from:date:sender:dkim-signature;
-        bh=jXjtmOWpkiz3oiqN7xQDoJ25L1uKQ2qzX5hlLu9zB14=;
-        b=ZJLX2rNe0ROSkdK+mQu69gQ5ke3f2tCONAHGp29aZuHy0+ZMZ6vcAZi+r4M3xZMbZo
-         hv2XxIABUo9Uvrult9cTYZoQhvmJMZOamEDeTksP3zxHhQGuxXBbdpH5y+iPpCtPN7jR
-         Q/XJXvVgjB1P1hxPWMiMg3ugXSBKVdMU0WMPTjQSgWuCqQVDkwBFsGvCtZf40iUU2f2K
-         kjyyQ3+j1buRBM6fiPrYpoy265lgxO83GRMpUPAi4BED4r9uKYLz2yrbyt6n7nlfy/nt
-         9OGMzms50Psy5WrmFadV24qf0C4haOaskwDaCvBfWig1T5XZ9kaYaOD8C/5XnznzGVo8
-         Mp8A==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=dPY8pUdo;
-       spf=pass (google.com: domain of srs0=dcq8=ld=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Dcq8=LD=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail-qk1-x73a.google.com (mail-qk1-x73a.google.com [IPv6:2607:f8b0:4864:20::73a])
+	by mail.lfdr.de (Postfix) with ESMTPS id C585C3A20DF
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jun 2021 01:40:58 +0200 (CEST)
+Received: by mail-qk1-x73a.google.com with SMTP id 2-20020a3709020000b02903aa9873df32sf8529918qkj.15
+        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jun 2021 16:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:mime-version
-         :content-disposition:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=jXjtmOWpkiz3oiqN7xQDoJ25L1uKQ2qzX5hlLu9zB14=;
-        b=dvvaIDXH8+335UR0R1FlMtfkEMpgq7m63JngFvFCSGddpAiQSX3ICcZ3oe1koTLD2r
-         S8wWPoK4OOlOC4r9wYliElb0C+dRS32Xxv4SAG1dEHtktD0V0HdQQrqT3ffx6Wj9ZHt2
-         CPoczdSzEemFVwOL2E8c1nrq9EvzRwNB0/7SPiTlbdzJt4abtMVPDpLyVCbvcjjgjKgg
-         3X0ka2hcRK5HZUoBNh2UV4cvplg+N7kpXSBFKcBNQHa5lIkUx/Lw0SYBPT7Lll48ygRQ
-         STAPrwcyPwWjZhYEZ9gfqa+ii53oTXymxpnjMTbZSRQ0SY7TRPw4gfP+KHzVk+/AcAws
-         STog==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :in-reply-to:content-language:mime-version:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=Wxs7b3fmj9c8nuKOC/lRvaD0ARRR2N72KTgEfEwglys=;
+        b=cmOWc8MD6JMC1DHZcQt6Y54YsSo7FMe/fL3r4b9sHv8Ml9owS0JYfHplBhhjaTk9nl
+         v0imArh0Sx9Se5bWkZenzPxrvrV9Y1fPhSoMQq5vVrbDCQnR2AHtXcw1MBODkt3WB/Is
+         /Or5+zGnrOnMBmmwCqUs7yHzEdlJ6ZWYRDZ2ZzBKICII4mNP4IPl8E8Bw1Z1PcecXARh
+         3gvSBCpQWkZsrvlibMv/5LpZIHKKaJTDUDIaoIkyBv6IAjuRqAEvhCBp/pyCKaBVmG7U
+         vskiGIyk5KLZdIiHsOf3f2QZKfxhDdv7x1TaafECaFqi1VStfy4nQVpLFQcVToL8Yvkp
+         VBEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:mime-version:content-disposition:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=jXjtmOWpkiz3oiqN7xQDoJ25L1uKQ2qzX5hlLu9zB14=;
-        b=MCsHaaAT5bLeEIGaMjsVTXbMF4lpNpwZoJOX9GnUxpmlqYm52kmVHUJ+jFZxyVUJpn
-         1+J5Rnzepa2A240WGIOvICJfvFfwxBikJ3LMB1Tvkzkr3kNiQxBpqAwFnJJXumcQRF7O
-         e1JgpQL9DDGvrPYrLyvMJTFB8DMV/GuliW82LvdC3hccKfohTTkvKsZk2j1nYa+h3GQ1
-         lyHEFQuNEBm1e/CIl9TjDnzFg3s5x3CLtuDsPYl4wboO3fqvMBLUkQY5fvYfMf/PR3tM
-         hmN9mUMHod4d2tkEviXtiOKUXwS75YEyJAGVbjaCYRlw0dMTlc7RzjWl1ND8qt7RqIgp
-         TU3A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5313mel3x9nwwAUYHdzmaMQ3uLTiXVcPfynojtGlF7maFbH1mlJz
-	a/lP46/eeem/cIf6KJE5HqU=
-X-Google-Smtp-Source: ABdhPJwvj7ExLlIXREwgkd8XKeIIgTYxMPc9cxxV5L1Ms6JBc37ZMosVWBj5ktweL/2BPOfNJE5DrA==
-X-Received: by 2002:a9d:c64:: with SMTP id 91mr52190otr.130.1623281367446;
-        Wed, 09 Jun 2021 16:29:27 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:in-reply-to:content-language:mime-version
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Wxs7b3fmj9c8nuKOC/lRvaD0ARRR2N72KTgEfEwglys=;
+        b=G9qaF0q7YsqjKq5cQsSu71jESmlT6net2zZcYAZHWef5Ib42wjjj+nhPHRe6fmhkGf
+         SmeaRKS2Zi97KVo73ZL89CDOPHtP6r89boiBMgsa6h5ZfofnlZaznw663G5ZuNa/fY0z
+         TAoqv4ZoP1+Jn51VVfpJNUrwnw57hta3X9NE5ZOCThCsxoZXlA/gH1rbMjMtVoomig7O
+         G9W+U0QZF6XfGRI0nl8BH2y5s28co5eMk76XbmwMpZHDkHWq9FTh24Etz+0jYC8yPyq8
+         8/THVuJd8QY2zaSZRzS+Naefo5yc4pqGQdwW3nZXLSY85khUZmVFkYxz7Na38ggXK1n4
+         gFpA==
+X-Gm-Message-State: AOAM531qqw/vRy18FIkVIdvjQV7+BhnIMqNhRT+2Z3506wFARTNEyor+
+	o+GYB9EPJaFLlBqdl23I9JY=
+X-Google-Smtp-Source: ABdhPJzfZajH8d4PU+sR7jMMIbv8MzEFUqYnsIUtOy7YtRfscfnxPPeuogIa846iadKMwd7K5P8mmQ==
+X-Received: by 2002:a05:620a:787:: with SMTP id 7mr2121903qka.397.1623282057690;
+        Wed, 09 Jun 2021 16:40:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:5754:: with SMTP id l81ls1237816oib.9.gmail; Wed, 09 Jun
- 2021 16:29:27 -0700 (PDT)
-X-Received: by 2002:a54:4e82:: with SMTP id c2mr8128373oiy.137.1623281367073;
-        Wed, 09 Jun 2021 16:29:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1623281367; cv=none;
-        d=google.com; s=arc-20160816;
-        b=SGBU6UQZUBhAjR6TLwYcr2PsX7RzSe/fK+YA1IYGKY0MCQYmOe0X1ZmXvwY6NaQ8kB
-         YGsdf7/IgzrAuhjvEkjGLboiJ7GuGZt1VFNOWWgQz7G3g3KFdZt9QAHQvEWAuC+rCQb+
-         43egeYL40SntHo31Ih5DxvVUIGb7QK9ARNYT1x3Uq5PdjWw9GQWi6327wvtVDR3YcPTQ
-         i7lmxit1S7qqMxk0MmZV/WYlLaa6sQXras+GIq2vEeqkEJ1h4J/1XCTnlWzBZRANrkki
-         yFV2qf8TbvmViPhDaGT/d9iQOCAdroa5Vg2s1djLJp3jt1XHpoUEztdJpYI666Bwa4+J
-         I8gQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-disposition:mime-version:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=E7TyMxzaY260vvVzo2xeuLX4dRLh7W6TWrujVjLJwa0=;
-        b=gkpPsAK64N0mD1UrPwUmr4QnXsI5uL3CZSSdeHyhD2+l0vSPgA28aJb9dU+qTGohXY
-         oQcudZw6b2vJkqWEEHg2Q9o4vdqbWZec2gKmZUU/9Cee0rCB/2EPqlNZ8RFKQkJF0ZRS
-         KX5WU9mxmJ8YXgdaQGyiFzFCITZxFeRhUwi3kcE6aXAq4cySjDwHOtSR2Mj98ABQBJSh
-         +2uqBNPeB/tT88B5jH9vKRktF2bhy9dPsKPQp4AknB8uuIPInBD1NzIwc/SOv/JYMDwS
-         psrcLZti/kBddUdFdJlLx47YRZj9b28AmGJCSLWt2xGgjyRQv2Bu3f633diP1VoYT0d4
-         9zdw==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=dPY8pUdo;
-       spf=pass (google.com: domain of srs0=dcq8=ld=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Dcq8=LD=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id a25si147718otp.1.2021.06.09.16.29.26
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Jun 2021 16:29:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=dcq8=ld=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A66E613EF;
-	Wed,  9 Jun 2021 23:29:26 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 0F8315C08D8; Wed,  9 Jun 2021 16:29:26 -0700 (PDT)
-Date: Wed, 9 Jun 2021 16:29:26 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: mingo@kernel.org
-Cc: eb@emlix.com, frederic@kernel.org, jbi.octave@gmail.com,
-	maninder1.s@samsung.com, qiang.zhang@windriver.com,
-	urezki@gmail.com, yury.norov@gmail.com, zhouzhouyi@gmail.com,
-	mark.rutland@arm.com, elver@google.com, bjorn.topel@intel.com,
-	akiyks@gmail.com, linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	kasan-dev@googlegroups.com, tglx@linutronix.de
-Subject: [GIT PULL tip/core/rcu] RCU, LKMM, and KCSAN commits for v5.14
-Message-ID: <20210609232926.GA1715440@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
+Received: by 2002:a37:80d:: with SMTP id 13ls2167702qki.4.gmail; Wed, 09 Jun
+ 2021 16:40:56 -0700 (PDT)
+X-Received: by 2002:a37:bf81:: with SMTP id p123mr2226369qkf.40.1623282056666;
+        Wed, 09 Jun 2021 16:40:56 -0700 (PDT)
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com. [67.231.153.30])
+        by gmr-mx.google.com with ESMTPS id d10si121661qtg.3.2021.06.09.16.40.56
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Jun 2021 16:40:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of prvs=5794ccfd3f=yhs@fb.com designates 67.231.153.30 as permitted sender) client-ip=67.231.153.30;
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 159NeR95000705;
+	Wed, 9 Jun 2021 16:40:52 -0700
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com with ESMTP id 392qx66003-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 09 Jun 2021 16:40:51 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.36.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 9 Jun 2021 16:40:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FVWS9CSEa9tqQptxbuLExNxBfe8n1tX118Kqy80E8dOtnwpXvqN/W4E0EqkkCAY7cW3HmEq55vf+gphYzL4vkDwyr4rsVg+uBYmPjcEPuo2jZAlCoEg9wyyag6XGhTdktB92hgUrirPPzcj3tHLO37uUL9Za0Vg75Obk3xqPFlUp2HgfyWzgiJFbhDx6aYxttOm1XlXt6lL7Bxx+hYHU4F7+q0jnvkQPrO++9LJSrocUkcsK9W0Bql6+iWXTsQFRltYemcxVXrYUMjCttOs16oA7P5if+xWSvU+zGDnQuMeCPzoZGQLw4JqsKBPkgmQMXhpYfP63rf+wt4/++t3GtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aLm8UJJcf/u86UsQdjfqIjRuDBg9IUXiPfmTBObf0II=;
+ b=EZe9CI0AD8yr6bqL2enilfiN6ody00kIj4GU4clJ7j84rQbCyaeU2vDm8NEBU2ryo6teAzJn7TmOjbAQAxfv+ECfdLKakCjsC8EtNUs7i9SvTWrBxefoPLENnvR1U3mlqFlQw2FJ4qufC3DDZNfCKVlFL9bwM4/71/AoryBYFCEGCCzzgOdtaKd1Txj/qcFaIcEMgomKzID+kUUnLBMqg/tRwn/s63I8ZmgpUVyGsY8jFatySY/NYL6yW0fcxi3V6RoJnznlbBYW5fMNtw7OqCAYXfCr2+kEm1LhBDh+fFMC83UZHhfWX1zo+E0JlWFIpW1DJ133EOftU5W1b8DnwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com (2603:10b6:805:d::27)
+ by SN6PR15MB2335.namprd15.prod.outlook.com (2603:10b6:805:24::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Wed, 9 Jun
+ 2021 23:40:50 +0000
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::d886:b658:e2eb:a906]) by SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::d886:b658:e2eb:a906%5]) with mapi id 15.20.4219.022; Wed, 9 Jun 2021
+ 23:40:50 +0000
+Subject: Re: [PATCH v4] bpf: core: fix shift-out-of-bounds in ___bpf_prog_run
+To: Kees Cook <keescook@chromium.org>, Dmitry Vyukov <dvyukov@google.com>
+CC: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Kurt Manucredo
+	<fuzzybritches0@gmail.com>,
+        <syzbot+bed360704c521841c85d@syzkaller.appspotmail.com>,
+        Andrii Nakryiko
+	<andrii@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>, bpf
+	<bpf@vger.kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S.
+ Miller" <davem@davemloft.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John
+ Fastabend <john.fastabend@gmail.com>,
+        Martin KaFai Lau <kafai@fb.com>, KP
+ Singh <kpsingh@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>, LKML
+	<linux-kernel@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        syzkaller-bugs
+	<syzkaller-bugs@googlegroups.com>, <nathan@kernel.org>,
+        Nick Desaulniers
+	<ndesaulniers@google.com>,
+        Clang-Built-Linux ML
+	<clang-built-linux@googlegroups.com>,
+        <linux-kernel-mentees@lists.linuxfoundation.org>,
+        Shuah Khan
+	<skhan@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        kasan-dev
+	<kasan-dev@googlegroups.com>
+References: <000000000000c2987605be907e41@google.com>
+ <20210602212726.7-1-fuzzybritches0@gmail.com> <YLhd8BL3HGItbXmx@kroah.com>
+ <87609-531187-curtm@phaethon> <6a392b66-6f26-4532-d25f-6b09770ce366@fb.com>
+ <CAADnVQKexxZQw0yK_7rmFOdaYabaFpi2EmF6RGs5bXvFHtUQaA@mail.gmail.com>
+ <CACT4Y+b=si6NCx=nRHKm_pziXnVMmLo-eSuRajsxmx5+Hy_ycg@mail.gmail.com>
+ <202106091119.84A88B6FE7@keescook>
+From: "'Yonghong Song' via kasan-dev" <kasan-dev@googlegroups.com>
+Message-ID: <752cb1ad-a0b1-92b7-4c49-bbb42fdecdbe@fb.com>
+Date: Wed, 9 Jun 2021 16:40:45 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
+In-Reply-To: <202106091119.84A88B6FE7@keescook>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Originating-IP: [2620:10d:c090:400::5:92ff]
+X-ClientProxiedBy: SJ0PR13CA0218.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c1::13) To SN6PR1501MB2064.namprd15.prod.outlook.com
+ (2603:10b6:805:d::27)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2620:10d:c085:21c8::11dd] (2620:10d:c090:400::5:92ff) by SJ0PR13CA0218.namprd13.prod.outlook.com (2603:10b6:a03:2c1::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.9 via Frontend Transport; Wed, 9 Jun 2021 23:40:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 46b54bda-eebc-4982-d77a-08d92ba00324
+X-MS-TrafficTypeDiagnostic: SN6PR15MB2335:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR15MB23354308084B233E35B8A367D3369@SN6PR15MB2335.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3dtUXY5I1KLPmhWRbz1tYU/sQO+1ugYnzL0Gkd6VPHszBac4SK3AwFr3RLQ5v8sJw/x86rjKkMzoTNMDSDwJ1cSXrarYJw/BMxSObWH718AFxDhKYU6Zz/vdf43TNO0B65UcLdzrig75BnwEsPw2JI/qGo4HOzs8Oep8ZadttE0EsY/zT9rb4CXaue8IxoclYxMEEl4DNkqdnegAZHSlrSdXBPQz1OHZOzjQt4b3+VLjwmtU30cMW2iouCh8f1a/9PkfNiYs4quIWaP3EQTA2yayaNEMiGsU8Kk00C5JNM6+wkf1sls8iljmyU38a0PHAcutW8YyDs9ZnwDnYv6t45IL2fK2Ai0t9LB5AFNJn0uoDeGX86Trys7F/xYx3Z6tjR9ayzFuuY/lZQ+IAjKfLJT0UnB//3es5nYNqwicx6z0RTuXoSXZyyRwN+RHDbnLwoI2Z0WYpFOOCEwUq1/Rx4n1uWYIAcfifLg7jJUGROo1DeMLujEaAf3Yx+T/co3Hw1+issd96A5YF+mnsteFn0a5k9esf/xjf3GR/j1LWkNDB9Rs37WORB3ieb8VtryCFO7+c4wTCwzB0So0UK0Bxm42kjiVUe9LjF5ZkrKg+tgYuu+a13lug+PAxOlNH8UUEHBOPZc/xp7VO1TVMSTRjCMAFrRtWt9Gi4xuZELwWQ0i/kmf5cMbqpQ2pIado1e8tI+xfPIZmNdyfAOKKtKs++VEL58IGftQeHiBsOQznDtHFRCoys5YNMWUG/LMyEioqXj2Q9C7vDh7j15inHvoHAm94vzfKMscVEClKtHIAzRksBpq5ZteMR6rQfIeCMQJaH8d4ttIURa0isnB/93uDZq+hGtinFMN11PWALmrstg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR1501MB2064.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(39860400002)(376002)(136003)(366004)(316002)(2906002)(2616005)(52116002)(6666004)(54906003)(110136005)(5660300002)(36756003)(86362001)(38100700002)(478600001)(966005)(31686004)(53546011)(7416002)(6486002)(8936002)(8676002)(186003)(16526019)(4326008)(66556008)(66476007)(83380400001)(31696002)(66946007)(101420200003)(99710200001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NnNKWWlCRkpQb0lBWk12M3YxR3I1SUNCUDd5ODh1cklNUDRlNUYrREhBWlV4?=
+ =?utf-8?B?eWtEWkQ2eUx4V2x3eGRpc1dKY3ZnQUJxMGg4VnlaQVYwZ2tkbGVwWDd3KzFS?=
+ =?utf-8?B?eTh2THlSdU9qczRJTERTek02a2szcXJ6M0MreGtkM3p4UFZTNjN4SUdvVW93?=
+ =?utf-8?B?WWc0b2NjZm9IeExjMURzZ3ltUXNmMFlpbzdORjZIbTRCbzZncjZRZEdsdndT?=
+ =?utf-8?B?Wm5GSSs1K2hDZnB5QWw5aVFRdk1sQ0ViZDROU2VaakJUZGZlYllrVFIrTFdK?=
+ =?utf-8?B?TDN0RWlrUVVCWURjY2kySW93THJzc0ZPT0Z3TVErMk5rREpESExIc0UvNGYz?=
+ =?utf-8?B?WER6akJYY3cvVWx0YXFIeEZzaTlVVDY0c1JQZXVWV1M4ek45d3RDcmM3SU9r?=
+ =?utf-8?B?VXFoTWs5MDFSdGRYNnZYY0NqOTQzZnNjc1hnb1RTL1c4ejhJQjZDV2VqcFM0?=
+ =?utf-8?B?ZldPeTBKdDg3SGI3K0hjd09SV2JGZVV4Y2lyZlR2dVVUMHJ0RWEwamhGK3Qw?=
+ =?utf-8?B?bnp6SzVhS1l3R1BWMW41anlKT0JVSGdSa2hRTTJuMjU1Uy9oZWlzN0RiRS80?=
+ =?utf-8?B?dGZQaVVDdCtmY1p2R00wdVlobDBzZDg0MHcxMGFTSXI2YmovV0RqcmZJR0ZM?=
+ =?utf-8?B?QmFKQWZKWHUrRHJZYjUzZmNQdVc5TmJubXlHQ05id0Q5bCt6NWZGdHplRUZq?=
+ =?utf-8?B?cjNodVU0TVBRdTlrdHFVL24wN0x0MzZFSXpCdDdsOUkwT0IzWTloUmttNmpi?=
+ =?utf-8?B?K05idTh6TFViTm54YTd5RTRDU1I5RGVPekphd2tFYXhOT2tJWTV0UVN3bFMx?=
+ =?utf-8?B?SFBqMFl3anhPalcwWWFVdkRqNklyNmVoWEpGVlduK084NVlHT25jZnVoc2Rp?=
+ =?utf-8?B?bFpKL3VWUzFLTlR2ZXNDVzhTbDJaQTVCSnFrRFN0WHNIREpOMmNpWGRPMTBB?=
+ =?utf-8?B?cERNeW95RjZQRlh0d1JsWFJKTlN3TkY3aGhTUWpoQU9LYitVT3NKTWFSd2lE?=
+ =?utf-8?B?SHhLSVRFazBCTzF4UjRXS09XeWpObCsyZlZPZFpYKzcrckx3YVRLTm11WktI?=
+ =?utf-8?B?d1lMSC8yTnlxMmdtQ201ZXRnMUVEQmlJTVpBdXVHYnlvNklWZzJlZzlRR054?=
+ =?utf-8?B?MHRaekdVRTVscE8rWFllbnRwaDNERUF0SG15cGdOWUdLNU02SjB3SXBlT3Nl?=
+ =?utf-8?B?ZFJlU215RHUwaC9pQngvTUtKSXRra2d2Mkd2My9IQ1NhRDl2UzNETW5JVVlm?=
+ =?utf-8?B?ZVdKSVZqaGI5dHZ1VDNoc0NPY1RZT0xtR0dnY0NvYmRxV3BqRjN1YXRTYWRs?=
+ =?utf-8?B?MmxlS3l1L1BoRzF1WHMyOFViSno4d09DMTRaZ3ZmTHdkbW9rMTcwczYwd3JW?=
+ =?utf-8?B?WjdjZXdRV0ZpbllpSWN5dWZ1Q3BndU9jeCtlRlpuanFEUHhZVXZmbitva0hN?=
+ =?utf-8?B?SFBGeitKZ3Y2b0pSdEpCRm9tRGxJUXRFenZ0UHBUM2FYa0E5dFI0OFVqOW15?=
+ =?utf-8?B?Wng1cXIyakJHMVZ4WEhNN0M2R0dsRmlad3FHR0VNcGFpYTViL2RvOFplelRP?=
+ =?utf-8?B?NGNsdU5CVHNVYjJEZXIrUGlhQUlwMTVwcnVBSXMycURyTzhXcmdxTXE5bE83?=
+ =?utf-8?B?a25XNmZyWVEwS0dQTEdKQllGc3hpYUpxNWNhZmRhMjJiWVpickhXNFNCZHNl?=
+ =?utf-8?B?cG1UdmRxdTh1ZCtHclZieXpiakFFTXJhcDhZSXEvOGEreDVxQm82TU11Rm1u?=
+ =?utf-8?B?aVIxZ1NpYllRZTZZQlpKVlVac3AvSFd2aTVET0xpay9xWG1kSmxsRkdtejRo?=
+ =?utf-8?B?STRkRzJadmtHKzJFMmxaUT09?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46b54bda-eebc-4982-d77a-08d92ba00324
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2064.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2021 23:40:49.8723
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vnoDSh0OwdjJ71c9WomxDCp+9Gj2RNfj1PPyapwN5OE93fB15+rxccyiUL4h55oJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR15MB2335
+X-OriginatorOrg: fb.com
+X-Proofpoint-ORIG-GUID: KGs3Q8Bz63QtT7jyWOzz7jUOq8zatVY8
+X-Proofpoint-GUID: KGs3Q8Bz63QtT7jyWOzz7jUOq8zatVY8
+X-Proofpoint-UnRewURL: 1 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: paulmck@kernel.org
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-06-09_07:2021-06-04,2021-06-09 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 impostorscore=0
+ bulkscore=0 adultscore=0 suspectscore=0 mlxscore=0 clxscore=1011
+ mlxlogscore=999 spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106090127
+X-FB-Internal: deliver
+X-Original-Sender: yhs@fb.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=dPY8pUdo;       spf=pass
- (google.com: domain of srs0=dcq8=ld=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Dcq8=LD=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@fb.com header.s=facebook header.b=btRwceTq;       arc=fail (body
+ hash mismatch);       spf=pass (google.com: domain of prvs=5794ccfd3f=yhs@fb.com
+ designates 67.231.153.30 as permitted sender) smtp.mailfrom="prvs=5794ccfd3f=yhs@fb.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=fb.com
+X-Original-From: Yonghong Song <yhs@fb.com>
+Reply-To: Yonghong Song <yhs@fb.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,288 +220,134 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello, Ingo!
 
-This pull request contains changes for RCU, KCSAN, and LKMM.  You can
-pull the entire group using branch for-mingo.  Or, if you prefer, you
-can pull them separately, using for-mingo-rcu to pull the RCU changes,
-for-mingo-kcsan to pull the KCSAN changes, and for-mingo-lkmm to pull
-the LKMM changes.
 
-The changes are as follows:
+On 6/9/21 11:20 AM, Kees Cook wrote:
+> On Mon, Jun 07, 2021 at 09:38:43AM +0200, 'Dmitry Vyukov' via Clang Built Linux wrote:
+>> On Sat, Jun 5, 2021 at 9:10 PM Alexei Starovoitov
+>> <alexei.starovoitov@gmail.com> wrote:
+>>> On Sat, Jun 5, 2021 at 10:55 AM Yonghong Song <yhs@fb.com> wrote:
+>>>> On 6/5/21 8:01 AM, Kurt Manucredo wrote:
+>>>>> Syzbot detects a shift-out-of-bounds in ___bpf_prog_run()
+>>>>> kernel/bpf/core.c:1414:2.
+>>>>
+>>>> This is not enough. We need more information on why this happens
+>>>> so we can judge whether the patch indeed fixed the issue.
+>>>>
+>>>>>
+>>>>> I propose: In adjust_scalar_min_max_vals() move boundary check up to avoid
+>>>>> missing them and return with error when detected.
+>>>>>
+>>>>> Reported-and-tested-by: syzbot+bed360704c521841c85d@syzkaller.appspotmail.com
+>>>>> Signed-off-by: Kurt Manucredo <fuzzybritches0@gmail.com>
+>>>>> ---
+>>>>>
+>>>>> https://syzkaller.appspot.com/bug?id=edb51be4c9a320186328893287bb30d5eed09231
+>>>>>
+>>>>> Changelog:
+>>>>> ----------
+>>>>> v4 - Fix shift-out-of-bounds in adjust_scalar_min_max_vals.
+>>>>>        Fix commit message.
+>>>>> v3 - Make it clearer what the fix is for.
+>>>>> v2 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+>>>>>        check in check_alu_op() in verifier.c.
+>>>>> v1 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+>>>>>        check in ___bpf_prog_run().
+>>>>>
+>>>>> thanks
+>>>>>
+>>>>> kind regards
+>>>>>
+>>>>> Kurt
+>>>>>
+>>>>>    kernel/bpf/verifier.c | 30 +++++++++---------------------
+>>>>>    1 file changed, 9 insertions(+), 21 deletions(-)
+>>>>>
+>>>>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+>>>>> index 94ba5163d4c5..ed0eecf20de5 100644
+>>>>> --- a/kernel/bpf/verifier.c
+>>>>> +++ b/kernel/bpf/verifier.c
+>>>>> @@ -7510,6 +7510,15 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+>>>>>        u32_min_val = src_reg.u32_min_value;
+>>>>>        u32_max_val = src_reg.u32_max_value;
+>>>>>
+>>>>> +     if ((opcode == BPF_LSH || opcode == BPF_RSH || opcode == BPF_ARSH) &&
+>>>>> +                     umax_val >= insn_bitness) {
+>>>>> +             /* Shifts greater than 31 or 63 are undefined.
+>>>>> +              * This includes shifts by a negative number.
+>>>>> +              */
+>>>>> +             verbose(env, "invalid shift %lld\n", umax_val);
+>>>>> +             return -EINVAL;
+>>>>> +     }
+>>>>
+>>>> I think your fix is good. I would like to move after
+>>>
+>>> I suspect such change will break valid programs that do shift by register.
+>>>
+>>>> the following code though:
+>>>>
+>>>>           if (!src_known &&
+>>>>               opcode != BPF_ADD && opcode != BPF_SUB && opcode != BPF_AND) {
+>>>>                   __mark_reg_unknown(env, dst_reg);
+>>>>                   return 0;
+>>>>           }
+>>>>
+>>>>> +
+>>>>>        if (alu32) {
+>>>>>                src_known = tnum_subreg_is_const(src_reg.var_off);
+>>>>>                if ((src_known &&
+>>>>> @@ -7592,39 +7601,18 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+>>>>>                scalar_min_max_xor(dst_reg, &src_reg);
+>>>>>                break;
+>>>>>        case BPF_LSH:
+>>>>> -             if (umax_val >= insn_bitness) {
+>>>>> -                     /* Shifts greater than 31 or 63 are undefined.
+>>>>> -                      * This includes shifts by a negative number.
+>>>>> -                      */
+>>>>> -                     mark_reg_unknown(env, regs, insn->dst_reg);
+>>>>> -                     break;
+>>>>> -             }
+>>>>
+>>>> I think this is what happens. For the above case, we simply
+>>>> marks the dst reg as unknown and didn't fail verification.
+>>>> So later on at runtime, the shift optimization will have wrong
+>>>> shift value (> 31/64). Please correct me if this is not right
+>>>> analysis. As I mentioned in the early please write detailed
+>>>> analysis in commit log.
+>>>
+>>> The large shift is not wrong. It's just undefined.
+>>> syzbot has to ignore such cases.
+>>
+>> Hi Alexei,
+>>
+>> The report is produced by KUBSAN. I thought there was an agreement on
+>> cleaning up KUBSAN reports from the kernel (the subset enabled on
+>> syzbot at least).
+>> What exactly cases should KUBSAN ignore?
+>> +linux-hardening/kasan-dev for KUBSAN false positive
+> 
+> Can check_shl_overflow() be used at all? Best to just make things
+> readable and compiler-happy, whatever the implementation. :)
 
-1.	RCU changes (for-mingo-rcu):
+This is not a compile issue. If the shift amount is a constant,
+compiler should have warned and user should fix the warning.
 
-	a.	Bitmap support for "all" as alias for all bits, and with
-		modifiers allowed, courtesy of Yury Norov.  This change
-		means that "rcu_nocbs=3Dall:1/2" would offload all the
-		even-numbered CPUs regardless of the number of CPUs on
-		the system.
-		https://lore.kernel.org/lkml/20210511224115.GA2892092@paulmck-ThinkPad-P1=
-7-Gen-1
+This is because user code has
+something like
+     a << s;
+where s is a unknown variable and
+verifier just marked the result of a << s as unknown value.
+Verifier may not reject the code depending on how a << s result
+is used.
 
-	b.	Documentation updates.
-		https://lore.kernel.org/lkml/20210511224402.GA2892361@paulmck-ThinkPad-P1=
-7-Gen-1
+If bpf program writer uses check_shl_overflow() or some kind
+of checking for shift value and won't do shifting if the
+shifting may cause an undefined result, there should not
+be any kubsan warning.
 
-	c.	Miscellaneous fixes.
-		https://lore.kernel.org/lkml/20210511225241.GA2893003@paulmck-ThinkPad-P1=
-7-Gen-1
+> 
 
-	d.	kvfree_rcu updates, courtesy of Uladzislau Rezki and Zhang Qiang.
-		https://lore.kernel.org/lkml/20210511225450.GA2893337@paulmck-ThinkPad-P1=
-7-Gen-1
-
-	e.	mm_dump_obj() updates, courtesy of Maninder Singh, acked
-		by Vlastimil Babka.
-		https://lore.kernel.org/lkml/20210511225744.GA2893615@paulmck-ThinkPad-P1=
-7-Gen-1
-
-	f.	RCU callback offloading updates, courtesy of Frederic
-		Weisbecker and Ingo Molnar.  ;-)
-		https://lore.kernel.org/lkml/20210511230244.GA2894061@paulmck-ThinkPad-P1=
-7-Gen-1
-
-	g.	SRCU updates, courtesy of Frederic Weisbecker.
-		https://lore.kernel.org/lkml/20210511230720.GA2894512@paulmck-ThinkPad-P1=
-7-Gen-1
-
-	h.	Tasks-RCU updates.
-		https://lore.kernel.org/lkml/20210511230924.GA2894768@paulmck-ThinkPad-P1=
-7-Gen-1
-
-	i.	Torture-test updates.
-		https://lore.kernel.org/lkml/20210511231149.GA2895263@paulmck-ThinkPad-P1=
-7-Gen-1
-
-2.	Kernel concurrency sanitizer (KCSAN) updates from Marco Elver
-	and Mark Rutland (for-mingo-kcsan).
-	https://lore.kernel.org/lkml/20210511232324.GA2896130@paulmck-ThinkPad-P17=
--Gen-1
-
-3.	Linux-kernel memory model (LKMM) updates courtesy of Bj=C3=B6rn T=C3=B6p=
-el
-	(for-mingo-lkmm).
-	https://lore.kernel.org/lkml/20210305102823.415900-1-bjorn.topel@gmail.com
-
-All of the commits in this pull request have been subjected to subjected
-to the kbuild test robot and -next testing, and are available in the
-git repository based on v5.13-rc1 at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git for-m=
-ingo
-
-for you to fetch changes up to 4b26c984195ecd203dd558226f2313b9582df851:
-
-  Merge branch 'lkmm.2021.05.10c' into HEAD (2021-05-18 10:59:54 -0700)
-
-----------------------------------------------------------------
-Akira Yokosawa (1):
-      kcsan: Use URL link for pointing access-marking.txt
-
-Arnd Bergmann (1):
-      kcsan: Fix debugfs initcall return type
-
-Bj=C3=B6rn T=C3=B6pel (1):
-      tools/memory-model: Fix smp_mb__after_spinlock() spelling
-
-Frederic Weisbecker (17):
-      doc: Fix diagram references in memory-ordering document
-      rcu/nocb: Use the rcuog CPU's ->nocb_timer
-      timer: Revert "timer: Add timer_curr_running()"
-      srcu: Remove superfluous sdp->srcu_lock_count zero filling
-      srcu: Remove superfluous ssp initialization for early callbacks
-      srcu: Unconditionally embed struct lockdep_map
-      srcu: Initialize SRCU after timers
-      srcu: Fix broken node geometry after early ssp init
-      torture: Correctly fetch number of CPUs for non-English languages
-      rcu/nocb: Directly call __wake_nocb_gp() from bypass timer
-      rcu/nocb: Allow de-offloading rdp leader
-      rcu/nocb: Cancel nocb_timer upon nocb_gp wakeup
-      rcu/nocb: Delete bypass_timer upon nocb_gp wakeup
-      rcu/nocb: Only cancel nocb timer if not polling
-      rcu/nocb: Prepare for fine-grained deferred wakeup
-      rcu/nocb: Unify timers
-      srcu: Early test SRCU polling start
-
-Ingo Molnar (1):
-      rcu: Fix various typos in comments
-
-Jules Irenge (1):
-      rcu: Add missing __releases() annotation
-
-Maninder Singh (2):
-      mm/slub: Fix backtrace of objects to handle redzone adjustment
-      mm/slub: Add Support for free path information of an object
-
-Marco Elver (1):
-      kcsan: Document "value changed" line
-
-Mark Rutland (8):
-      kcsan: Simplify value change detection
-      kcsan: Distinguish kcsan_report() calls
-      kcsan: Refactor passing watchpoint/other_info
-      kcsan: Fold panic() call into print_report()
-      kcsan: Refactor access_info initialization
-      kcsan: Remove reporting indirection
-      kcsan: Remove kcsan_report_type
-      kcsan: Report observed value changes
-
-Paul E. McKenney (50):
-      doc: Fix statement of RCU's memory-ordering requirements
-      tools/rcu: Add drgn script to dump number of RCU callbacks
-      rcu-tasks: Add block comment laying out RCU Tasks design
-      rcu-tasks: Add block comment laying out RCU Rude design
-      torture: Fix remaining erroneous torture.sh instance of $*
-      torture: Add "scenarios" option to kvm.sh --dryrun parameter
-      torture: Make kvm-again.sh use "scenarios" rather than "batches" file
-      refscale: Allow CPU hotplug to be enabled
-      rcuscale: Allow CPU hotplug to be enabled
-      torture: Add kvm-remote.sh script for distributed rcutorture test run=
-s
-      refscale: Add acqrel, lock, and lock-irq
-      rcutorture: Abstract read-lock-held checks
-      torture: Fix grace-period rate output
-      torture: Abstract end-of-run summary
-      torture: Make kvm.sh use abstracted kvm-end-run-stats.sh
-      torture:  Make the build machine control N in "make -jN"
-      torture: Make kvm-find-errors.sh account for kvm-remote.sh
-      rcutorture: Judge RCU priority boosting on grace periods, not callbac=
-ks
-      torture:  Set kvm.sh language to English
-      rcutorture: Delay-based false positives for RCU priority boosting tes=
-ts
-      rcutorture: Consolidate rcu_torture_boost() timing and statistics
-      rcutorture: Make rcu_torture_boost_failed() check for GP end
-      rcutorture: Add BUSTED-BOOST to test RCU priority boosting tests
-      rcutorture: Forgive RCU boost failures when CPUs don't pass through Q=
-S
-      rcutorture: Don't count CPU-stalled time against priority boosting
-      torture: Make kvm-remote.sh account for network failure in pathname c=
-hecks
-      torture: Don't cap remote runs by build-system number of CPUs
-      rcutorture: Move mem_dump_obj() tests into separate function
-      rcu: Remove the unused rcu_irq_exit_preempt() function
-      rcu: Invoke rcu_spawn_core_kthreads() from rcu_spawn_gp_kthread()
-      rcu: Add ->rt_priority and ->gp_start to show_rcu_gp_kthreads() outpu=
-t
-      rcu: Add ->gp_max to show_rcu_gp_kthreads() output
-      lockdep: Explicitly flag likely false-positive report
-      rcu: Reject RCU_LOCKDEP_WARN() false positives
-      rcu: Add quiescent states and boost states to show_rcu_gp_kthreads() =
-output
-      rcu: Make RCU priority boosting work on single-CPU rcu_node structure=
-s
-      rcu: Make show_rcu_gp_kthreads() dump rcu_node structures blocking GP
-      rcu: Restrict RCU_STRICT_GRACE_PERIOD to at most four CPUs
-      rcu: Make rcu_gp_cleanup() be noinline for tracing
-      rcu: Point to documentation of ordering guarantees
-      rcu: Don't penalize priority boosting when there is nothing to boost
-      rcu: Create an unrcu_pointer() to remove __rcu from a pointer
-      rcu: Improve comments describing RCU read-side critical sections
-      rcu: Remove obsolete rcu_read_unlock() deadlock commentary
-      rcu-tasks: Make ksoftirqd provide RCU Tasks quiescent states
-      tasks-rcu: Make show_rcu_tasks_gp_kthreads() be static inline
-      Merge branches 'bitmaprange.2021.05.10c', 'doc.2021.05.10c', 'fixes.2=
-021.05.13a', 'kvfree_rcu.2021.05.10c', 'mmdumpobj.2021.05.10c', 'nocb.2021.=
-05.12a', 'srcu.2021.05.12a', 'tasks.2021.05.18a' and 'torture.2021.05.10c' =
-into HEAD
-      kcsan: Add pointer to access-marking.txt to data_race() bullet
-      Merge branch 'kcsan.2021.05.18a' into HEAD
-      Merge branch 'lkmm.2021.05.10c' into HEAD
-
-Rolf Eike Beer (1):
-      rcu: Fix typo in comment: kthead -> kthread
-
-Uladzislau Rezki (Sony) (6):
-      kvfree_rcu: Use [READ/WRITE]_ONCE() macros to access to nr_bkv_objs
-      kvfree_rcu: Add a bulk-list check when a scheduler is run
-      kvfree_rcu: Update "monitor_todo" once a batch is started
-      kvfree_rcu: Use kfree_rcu_monitor() instead of open-coded variant
-      kvfree_rcu: Fix comments according to current code
-      kvfree_rcu: Refactor kfree_rcu_monitor()
-
-Yury Norov (2):
-      bitmap_parse: Support 'all' semantics
-      rcu/tree_plugin: Don't handle the case of 'all' CPU range
-
-Zhang Qiang (1):
-      kvfree_rcu: Release a page cache under memory pressure
-
-Zhouyi Zhou (1):
-      rcu: Improve tree.c comments and add code cleanups
-
- .../Memory-Ordering/Tree-RCU-Memory-Ordering.rst   |   6 +-
- Documentation/admin-guide/kernel-parameters.rst    |   5 +
- Documentation/admin-guide/kernel-parameters.txt    |   5 +
- Documentation/dev-tools/kcsan.rst                  |  93 +++---
- include/linux/rcupdate.h                           |  84 +++---
- include/linux/rcutiny.h                            |   1 -
- include/linux/rcutree.h                            |   1 -
- include/linux/srcu.h                               |   6 +
- include/linux/srcutree.h                           |   2 -
- include/linux/timer.h                              |   2 -
- include/trace/events/rcu.h                         |   1 +
- init/main.c                                        |   2 +
- kernel/kcsan/core.c                                |  53 ++--
- kernel/kcsan/debugfs.c                             |   3 +-
- kernel/kcsan/kcsan.h                               |  39 ++-
- kernel/kcsan/report.c                              | 169 +++++------
- kernel/locking/lockdep.c                           |   6 +-
- kernel/rcu/Kconfig.debug                           |   2 +-
- kernel/rcu/rcu.h                                   |  14 +-
- kernel/rcu/rcutorture.c                            | 315 +++++++++++------=
-----
- kernel/rcu/refscale.c                              | 109 ++++++-
- kernel/rcu/srcutree.c                              |  28 +-
- kernel/rcu/sync.c                                  |   4 +-
- kernel/rcu/tasks.h                                 |  58 +++-
- kernel/rcu/tiny.c                                  |   1 -
- kernel/rcu/tree.c                                  | 313 +++++++++++------=
----
- kernel/rcu/tree.h                                  |  14 +-
- kernel/rcu/tree_plugin.h                           | 239 ++++++++--------
- kernel/rcu/tree_stall.h                            |  84 +++++-
- kernel/rcu/update.c                                |   8 +-
- kernel/time/timer.c                                |  14 -
- lib/bitmap.c                                       |   9 +
- lib/test_bitmap.c                                  |   7 +
- mm/oom_kill.c                                      |   2 +-
- mm/slab.h                                          |   1 +
- mm/slab_common.c                                   |  12 +-
- mm/slub.c                                          |   8 +
- mm/util.c                                          |   2 +-
- tools/memory-model/Documentation/explanation.txt   |   2 +-
- tools/rcu/rcu-cbs.py                               |  46 +++
- .../testing/selftests/rcutorture/bin/kvm-again.sh  |  33 +--
- .../testing/selftests/rcutorture/bin/kvm-build.sh  |   6 +-
- .../selftests/rcutorture/bin/kvm-end-run-stats.sh  |  40 +++
- .../selftests/rcutorture/bin/kvm-find-errors.sh    |   2 +-
- .../selftests/rcutorture/bin/kvm-recheck-rcu.sh    |   2 +-
- .../testing/selftests/rcutorture/bin/kvm-remote.sh | 249 ++++++++++++++++
- tools/testing/selftests/rcutorture/bin/kvm.sh      |  61 ++--
- tools/testing/selftests/rcutorture/bin/torture.sh  |   2 +-
- .../selftests/rcutorture/configs/rcu/BUSTED-BOOST  |  17 ++
- .../rcutorture/configs/rcu/BUSTED-BOOST.boot       |   8 +
- .../selftests/rcutorture/configs/rcuscale/TREE     |   2 +-
- .../selftests/rcutorture/configs/rcuscale/TREE54   |   2 +-
- .../rcutorture/configs/refscale/NOPREEMPT          |   2 +-
- .../selftests/rcutorture/configs/refscale/PREEMPT  |   2 +-
- .../rcutorture/formal/srcu-cbmc/src/locks.h        |   2 +-
- 55 files changed, 1434 insertions(+), 766 deletions(-)
- create mode 100644 tools/rcu/rcu-cbs.py
- create mode 100755 tools/testing/selftests/rcutorture/bin/kvm-end-run-stat=
-s.sh
- create mode 100755 tools/testing/selftests/rcutorture/bin/kvm-remote.sh
- create mode 100644 tools/testing/selftests/rcutorture/configs/rcu/BUSTED-B=
-OOST
- create mode 100644 tools/testing/selftests/rcutorture/configs/rcu/BUSTED-B=
-OOST.boot
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20210609232926.GA1715440%40paulmck-ThinkPad-P17-Gen-1.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/752cb1ad-a0b1-92b7-4c49-bbb42fdecdbe%40fb.com.
