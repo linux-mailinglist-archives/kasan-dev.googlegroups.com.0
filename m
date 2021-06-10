@@ -1,139 +1,216 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB5OHQ2DAMGQE2FWKZBY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSPFHXUVMKBB5OXQ2DAMGQE57BIY3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92AF3A2404
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jun 2021 07:32:38 +0200 (CEST)
-Received: by mail-il1-x140.google.com with SMTP id j9-20020a056e020149b02901ece9afab6bsf568999ilr.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jun 2021 22:32:38 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623303157; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=owZfsTuK30rirssMOuvTqcj/Olkvbmeq+iMcfeAX+R5vbazGURBR5Qv+1ArCrFuzY3
-         mmV97sTBvh3TxskLGXxbiWlbv04e+O4mLeI5z1jCgyM/YJVg9x9Zl4zsffVGIIACrFjM
-         PL7R2uRkgxCM/bXXkY1vUHO2fH6cm9a+2cUBYnkaZNCVsohRCk3/rJkYJJtyZVCcwVCh
-         2XPPYy++un5uQbaZDS8RUZCl6obtdtSjPhhqXxw4xgCb7mG/9Z6XFaHjqhTD/3kNSuFp
-         uug91V1mNZmBgHW93NljVlmlMv5RQh8XCmNzWyJYoBJpiJuJAaRBREKo0mXE/nL701Es
-         GdIA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=5ecArVIE2kmx09rujF049kSamoF879A9UEiK+UE6T7U=;
-        b=DJQtpSg5fa7tLorBIACJjrNHGnHleX8R0Dl+yVs3GCIYCdh6/5I+8BNbX7Z6BiB+LH
-         SGwdFz+5/JEorUPw+BMUrtGZkZ3m4dVsDxtmflKdLjKidMqYHgW/ITI0rKP2LXkgO6aL
-         kC2qKYECMUac74uBKuK8GHTE4PvUlbiy527nvitsdeQTn4tTLp75BiLqx+8QPFI1dNcG
-         HBo991dAVVsfb3Rz/1GrIgGLHtw16WaKGwBuYF55jSOqv128c92jsK8ujKstrbJrJRSZ
-         lVPw5yz1pobHCLX+fz4J+BIvfFpZsf78DuON6SXcPtsuy5KFtFdC4iUL31p7yDvcdNwB
-         tWCA==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=LVuckSqO;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ua1-x93c.google.com (mail-ua1-x93c.google.com [IPv6:2607:f8b0:4864:20::93c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9813A243D
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jun 2021 08:06:46 +0200 (CEST)
+Received: by mail-ua1-x93c.google.com with SMTP id s14-20020ab0372e0000b02902532152c190sf831546uag.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jun 2021 23:06:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5ecArVIE2kmx09rujF049kSamoF879A9UEiK+UE6T7U=;
-        b=cGTT5T+Fp8Zobec7MoGHLXm5gyPDySgQIcgF9CezJnEP/8Qf/lADq/uDSVro3NVUsL
-         27wskUFDuiAdc/rl9IfBWWw9Sf0YNrRVWVakf1Gi4jEIgbbJ/m/dejGRqnRapoT985VV
-         Vy1r9bEjhdF53g3O4eQtexq7B+Hli+1kMMsgq6WdjDoia06GarAacgkJQsevsTvhZKWi
-         FkCGiep1cWUIa8eABUc0rAVw8TEWJXuKFBQgqe7Vxh0dbRw0LXlbHu9t1wxDoSkZb+t+
-         QfgaNV3RV+aXUoP3pIKaDqcWVyS3svuUyktE3V6xX0536wtU7RMaJEjSytU6iO+P60t7
-         tc7A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :in-reply-to:content-language:mime-version:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=LWpZDqDjXL+qfMIChm9R1Z3WIDjJXX/DUGeovd2hrWc=;
+        b=olszgJyNJ65vWMJ4/obIAd9JWCjg627IUMF3IqB64Vz2JamYdOT/zpMziEj1RDBHIu
+         0gIIBLi7T9KlM3hJpzgqsJ/RbPN8dVmwzJHMYzayIZq6POWLXtSljQ2rtQQJMU23TIkd
+         3Ux8Nx83tXOAMlA37W177kL+E5N6ciEkG0t5ALEz+/GSxRgwoulHIE6SA/cGTwQVPcY1
+         4VAr1GFgnRLDk1AbXA7PJArWkdPJMsqzWYCMsNxYwofpVhLUIGpg3n5yp73JC6FMvdQT
+         7NTl1t+jFfcES9nV4bRwjWoBecPPjBtRLEUC7Lta1JDUurZ4efC6FTHPhPPHk6xXST7J
+         XvEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5ecArVIE2kmx09rujF049kSamoF879A9UEiK+UE6T7U=;
-        b=hY7PyRDRxR27bo/eYxc18ZoJ8P0kmJDdp4H2Abyogs/sLCjJwDeAk/Ce+qiqkZtAVO
-         aR205m3gza0XOw9yvxs/inMtH6lGu4Kdl3hq8OpFAb81ukb9LE31bGxPbAfya8PXWxFD
-         k6LmiMXcjILogub8mJEY1f9tWNP8mN9LE8vrgCbtPRkveDdr5JLMcLWhbFvui/FJF3v7
-         C7EfUGbhrtiGtYcG/upNUCjt/N25mvItiSNkTVdpbCU0XGwxrO5GR+UZOQL1fpMIiib5
-         c6xXxX46UHDey5ID0/p4nozvob9jCZl9RPK6Z7vHwSDBMTVPTwl5AUkXr8iZ1iXkfQka
-         n/zQ==
-X-Gm-Message-State: AOAM533W9qSt2wfnZHyO3boPRKubSE7zMmx8ud0wl+GymcJfciwc7YbC
-	GjNGX02TnLIN90pM1wnytGI=
-X-Google-Smtp-Source: ABdhPJxDto3gPsgeZtLjJbhKepiqW2eJih1xIIujMMLP7cp8aMQfyiPLpe/VtinUQKuKw/LIwoSgBw==
-X-Received: by 2002:a92:364f:: with SMTP id d15mr2641796ilf.26.1623303157696;
-        Wed, 09 Jun 2021 22:32:37 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:in-reply-to:content-language:mime-version
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=LWpZDqDjXL+qfMIChm9R1Z3WIDjJXX/DUGeovd2hrWc=;
+        b=MQRWiU7aeRfFCjR6l1hZ1XTvCG+kPOUCcUQj9umnwD5qz6i0ewAdeUm1HAD4EdQt2N
+         37gzqjyWTgV6AAV9zNLd2BLQa7e9g3ZcZ0gN69YlhoT0A86cgh44tn/DMrnl0Bq0OEkH
+         +5eDbJFYbLewQgkdfbZfbc3q09BvdjXPQzVH0IdL4GtKLgwwpyWchO7nZHs+WLLEoani
+         sZutgLnqofz2CS7f/EFHOJ2p+igKmcbBqq1ofq0C+hquQmK+RR7yUR8e8KuJ+Sy8GQGD
+         PKt/O9i7KWCL1KparJflTsyhZhRtxx79H0YcwryKXaTquClOj8L0dp/KKsmuKkh++grd
+         UsfA==
+X-Gm-Message-State: AOAM532zQmD/wIZd63u3bmx7mOu5YQfpXwa8z301GpWXwcs4wVMI8l3x
+	ZuZ6cKf2kjLpfIf/HBLj5xQ=
+X-Google-Smtp-Source: ABdhPJwwInA7x4zlNEfBkahL8aaOcJu/tCe4g3bRQBUFNPFjCgM5+z8qNC+czslc5jDknAfyJGi7TQ==
+X-Received: by 2002:a1f:c704:: with SMTP id x4mr2880658vkf.9.1623305205184;
+        Wed, 09 Jun 2021 23:06:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:d902:: with SMTP id s2ls1368595iln.1.gmail; Wed, 09 Jun
- 2021 22:32:37 -0700 (PDT)
-X-Received: by 2002:a05:6e02:12af:: with SMTP id f15mr2662316ilr.266.1623303157389;
-        Wed, 09 Jun 2021 22:32:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1623303157; cv=none;
-        d=google.com; s=arc-20160816;
-        b=H32qOfjoN8uEkkoC/DXwwOe0pZfkoBH23MOBYvC/GiBxVl5vjrWAz/cGQeu1Ecr9Hq
-         L/DDeYqB/h9pQ29naRBEkvm8/UBPOsGmLXQGX0ce/mMsu8gILQvc7V6SlShnBVRTsjv/
-         uUb2NiEbNZao8FGF0aWGM1/fNMSW0QFdfiyByJ+13+5T+QF/2phh1Dkdbl8tJFQ15KW7
-         SssN38QPkkjI3cpbGHGpeMrcgV58jxjwVvOtSnoxksCv1cuzCNrs6zy/afA9P0RmTfgy
-         pvHMLwRjJ6C72UON8S7cNZkfGpnZceN6C9YxccVq0p2kitKHkGF25tjIP2IUdDZd/eSz
-         qwOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=OaVwnGtK9jh2uHt5Ipx2vrWPn+KDUOXrS2y79saIzrk=;
-        b=HstnVloujLb1ZIpqg1MmqgMxrX535+SLSRJO3CTcYkYKMzhEDXosfI1/xkyGfvCY27
-         SFxpSz6v9hYUiXQYMJeK7l/vCC1VG9fgN1KbtOMaSSQU5ZDoKc6mo7PNDAZDNqwQdro/
-         97RO1DdXbgdeSAM4xt5tkdGA2di1PlnvYHE4sOOZ/H7Cs60/h0LQvs+UcaFKedOLiVv5
-         er9nx5YqKvdoM9vxiiPSioKSiyyHMzhJms/i8zv3ITyZPE57U13Z0mbbhO+Z/e+f6TNe
-         O08WPr4temkQ0M9vmRGjgNJTXdugRUIojkpICmlCFH83JfJvFiWGPD+LZq2JNVAXtcTq
-         4oVw==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=LVuckSqO;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com. [2607:f8b0:4864:20::f30])
-        by gmr-mx.google.com with ESMTPS id v124si230692iof.2.2021.06.09.22.32.37
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Jun 2021 22:32:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) client-ip=2607:f8b0:4864:20::f30;
-Received: by mail-qv1-xf30.google.com with SMTP id l3so7068633qvl.0
-        for <kasan-dev@googlegroups.com>; Wed, 09 Jun 2021 22:32:37 -0700 (PDT)
-X-Received: by 2002:a0c:d610:: with SMTP id c16mr3488166qvj.13.1623303156474;
- Wed, 09 Jun 2021 22:32:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <000000000000c2987605be907e41@google.com> <20210602212726.7-1-fuzzybritches0@gmail.com>
- <YLhd8BL3HGItbXmx@kroah.com> <87609-531187-curtm@phaethon>
- <6a392b66-6f26-4532-d25f-6b09770ce366@fb.com> <CAADnVQKexxZQw0yK_7rmFOdaYabaFpi2EmF6RGs5bXvFHtUQaA@mail.gmail.com>
- <CACT4Y+b=si6NCx=nRHKm_pziXnVMmLo-eSuRajsxmx5+Hy_ycg@mail.gmail.com>
- <202106091119.84A88B6FE7@keescook> <752cb1ad-a0b1-92b7-4c49-bbb42fdecdbe@fb.com>
-In-Reply-To: <752cb1ad-a0b1-92b7-4c49-bbb42fdecdbe@fb.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 10 Jun 2021 07:32:24 +0200
-Message-ID: <CACT4Y+a592rxFmNgJgk2zwqBE8EqW1ey9SjF_-U3z6gt3Yc=oA@mail.gmail.com>
+Received: by 2002:a67:d99a:: with SMTP id u26ls1283693vsj.10.gmail; Wed, 09
+ Jun 2021 23:06:44 -0700 (PDT)
+X-Received: by 2002:a67:1485:: with SMTP id 127mr2812838vsu.14.1623305204713;
+        Wed, 09 Jun 2021 23:06:44 -0700 (PDT)
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com. [67.231.153.30])
+        by gmr-mx.google.com with ESMTPS id a1si206205uaq.0.2021.06.09.23.06.44
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Jun 2021 23:06:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of prvs=57954b2a20=yhs@fb.com designates 67.231.153.30 as permitted sender) client-ip=67.231.153.30;
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.16.0.43/8.16.0.43) with SMTP id 15A65K88022881;
+	Wed, 9 Jun 2021 23:06:40 -0700
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by m0089730.ppops.net with ESMTP id 392ta76ufj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 09 Jun 2021 23:06:40 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.198) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 9 Jun 2021 23:06:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k6UH73Eu0Fz8LGsKGegdoiAQay0wLTPNtmuF00eeXwNEb3ns04kA8lj9Bxv/Q8hQ1b5pev7+xkks63zsW+sYbF3xYz6l2PhW4heHSYtxfF/Wn5fjt+YRHCrj4Po3fjz3Jtx0LS4pgOykqxijIMm4RVVHk3KUgIq5mBoaQnW2U57ALu4lpHPI4bV6JWJWbX051tma0T9LkPbZ3jyJML75UfZZUYcnjcm7cjw7T1UNb80OQZjliu4GZbKziH2jhPygV1mUvdelEeeC2dYS3ueJ9ZuC8aMdiE5My0lGxc3mMI6S05Blgxfro+VCE9s1Nssle4l2X34xRL5WRzi46YJBuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JxHJPZyg/OOzCZ8Lx+wZvUE6Oqpasi6reYxz8sqv6vw=;
+ b=Us3hxxwnGdKbsMTdHklyIlRTwQL7xP840m4tCOiVZGG8IcSXc0ryN/eJMLa/or28bbpniZHZCh2WUigfWvmCJY5WH7pcQTZ+gCZN3Et4WJf28qJUdNeTFueF51nG1gJyfHUcmxr5XORG5Z4zzRRLcOjqmrKB2pbPJuvnHlY1SHA51XRfmKdJbnK67vBx61gbPPgQ5rfuZTu8Pdp4r0xstaKYO5IMJ84UuKBpa3L0HvXQZrxBp4vBZZp/pO24oqGTRgMf3hKxgF3yT7Z8BHWuaG9slP7ZIl5jqe29tXnMGtAfj3f8zUwS8dbwptXN+FF81oAI9SmzJsctQ9CuM/jcDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com (2603:10b6:805:d::27)
+ by SA1PR15MB4419.namprd15.prod.outlook.com (2603:10b6:806:196::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Thu, 10 Jun
+ 2021 06:06:35 +0000
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::d886:b658:e2eb:a906]) by SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::d886:b658:e2eb:a906%5]) with mapi id 15.20.4219.022; Thu, 10 Jun 2021
+ 06:06:35 +0000
 Subject: Re: [PATCH v4] bpf: core: fix shift-out-of-bounds in ___bpf_prog_run
-To: Yonghong Song <yhs@fb.com>
-Cc: Kees Cook <keescook@chromium.org>, 
-	Alexei Starovoitov <alexei.starovoitov@gmail.com>, Kurt Manucredo <fuzzybritches0@gmail.com>, 
-	syzbot+bed360704c521841c85d@syzkaller.appspotmail.com, 
-	Andrii Nakryiko <andrii@kernel.org>, Alexei Starovoitov <ast@kernel.org>, bpf <bpf@vger.kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller" <davem@davemloft.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, 
-	Martin KaFai Lau <kafai@fb.com>, KP Singh <kpsingh@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, 
-	Song Liu <songliubraving@fb.com>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>, 
-	nathan@kernel.org, Nick Desaulniers <ndesaulniers@google.com>, 
-	Clang-Built-Linux ML <clang-built-linux@googlegroups.com>, 
-	linux-kernel-mentees@lists.linuxfoundation.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Kernel Hardening <kernel-hardening@lists.openwall.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Kees Cook <keescook@chromium.org>,
+        Alexei Starovoitov
+	<alexei.starovoitov@gmail.com>,
+        Kurt Manucredo <fuzzybritches0@gmail.com>,
+        <syzbot+bed360704c521841c85d@syzkaller.appspotmail.com>,
+        Andrii Nakryiko
+	<andrii@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>, bpf
+	<bpf@vger.kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S.
+ Miller" <davem@davemloft.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John
+ Fastabend <john.fastabend@gmail.com>,
+        Martin KaFai Lau <kafai@fb.com>, KP
+ Singh <kpsingh@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>, LKML
+	<linux-kernel@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        syzkaller-bugs
+	<syzkaller-bugs@googlegroups.com>, <nathan@kernel.org>,
+        Nick Desaulniers
+	<ndesaulniers@google.com>,
+        Clang-Built-Linux ML
+	<clang-built-linux@googlegroups.com>,
+        <linux-kernel-mentees@lists.linuxfoundation.org>,
+        Shuah Khan
+	<skhan@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        kasan-dev
+	<kasan-dev@googlegroups.com>
+References: <000000000000c2987605be907e41@google.com>
+ <20210602212726.7-1-fuzzybritches0@gmail.com> <YLhd8BL3HGItbXmx@kroah.com>
+ <87609-531187-curtm@phaethon> <6a392b66-6f26-4532-d25f-6b09770ce366@fb.com>
+ <CAADnVQKexxZQw0yK_7rmFOdaYabaFpi2EmF6RGs5bXvFHtUQaA@mail.gmail.com>
+ <CACT4Y+b=si6NCx=nRHKm_pziXnVMmLo-eSuRajsxmx5+Hy_ycg@mail.gmail.com>
+ <202106091119.84A88B6FE7@keescook>
+ <752cb1ad-a0b1-92b7-4c49-bbb42fdecdbe@fb.com>
+ <CACT4Y+a592rxFmNgJgk2zwqBE8EqW1ey9SjF_-U3z6gt3Yc=oA@mail.gmail.com>
+From: "'Yonghong Song' via kasan-dev" <kasan-dev@googlegroups.com>
+Message-ID: <1aaa2408-94b9-a1e6-beff-7523b66fe73d@fb.com>
+Date: Wed, 9 Jun 2021 23:06:31 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
+In-Reply-To: <CACT4Y+a592rxFmNgJgk2zwqBE8EqW1ey9SjF_-U3z6gt3Yc=oA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Originating-IP: [2620:10d:c090:400::5:333]
+X-ClientProxiedBy: SJ0PR03CA0114.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::29) To SN6PR1501MB2064.namprd15.prod.outlook.com
+ (2603:10b6:805:d::27)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2620:10d:c085:21c8::11dd] (2620:10d:c090:400::5:333) by SJ0PR03CA0114.namprd03.prod.outlook.com (2603:10b6:a03:333::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20 via Frontend Transport; Thu, 10 Jun 2021 06:06:33 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: edb7a764-088c-4276-a457-08d92bd5e6ef
+X-MS-TrafficTypeDiagnostic: SA1PR15MB4419:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA1PR15MB4419C1ABA35CDB999F938D3CD3359@SA1PR15MB4419.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: y+Jxww8dSTYTSmSuliP4QO9wsUIXtZjQzVsk/nLc3ZYZSbO+n4eDmIqnke9PTmo4bw4lYmh3H9pLQtzEDW8WpGvIux4O+VIqvPlFukfY8epore8cNI/DNWVmcikCWS3426l7onVwY/0qebCkEz8/Q6B78ZHgvJTkg7/GzJbSoBloManyiZCurfPJLC1ur9q7WanjBCzUnh8YCYE68m/mlnfsXnW9kzQ4WbPhzDI0Jtmx5sjJ005K02q+emFeGGO+0JkaixXbPsd/pOzoLozKke7gB2N3t8sRu3Zqw1Y3qfisuvAU6enBC9Hzm2h//ioQ+od5z2WHivjVU5Wzl5cTQfmeBAIdD7VYBSctu1CcFJ7s3feQ3IJG79arM3ws09qbrgY7Yh+KPE9tK3pUY5LVSKnHDix/Hongqc3HA3abXjhbA7iWuV2bXFBLVZjDTgm6987HXO8PHFDtbo3Wnycg9t7D9XbBqsOrIvz3EsnU9Ip0p0pQCKN4Pbl8CTaJDZNAXF9b0bnNe/uK76yc5hupZ+n5n82ev8LvSRGi9BL+CESkw3aMIBjS7KCP+YaF417st6E3QrYPvxPGc8nW8H15c1Q6+qysYt1VJfOodtN1PgtxfMJQEhoWPJh1IeJ9ZwCcM8FL1OouuIuv3js0XkdvUw6O7e5fr88+0D0YmhJnKfA4SBZSCZy4uGR/dh2ZApXCOE1DFgu1jiIlfzTd+KCktZv5oMzMLCTDS4lgVtcsjyK5XxI5tLpDdWHprJNMakpRwG5gmvBJS0U2FdjKnapmk7i3c/bUk2tacXTUpwG0POszexDW2UMOV4mOoGRYhcBkqCwcDGSojVmZA7J2uOGGSo2a0ihbKlH+71TXDTsvSbk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR1501MB2064.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(396003)(376002)(366004)(346002)(136003)(66476007)(66556008)(966005)(38100700002)(478600001)(6916009)(66946007)(5660300002)(36756003)(83380400001)(8936002)(31696002)(4326008)(86362001)(8676002)(2906002)(54906003)(31686004)(6486002)(2616005)(16526019)(186003)(53546011)(7416002)(52116002)(316002)(99710200001)(101420200003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aTJhSGxic3hDcmk4TXREeU5QMnVocURScFIyMU1Cc1plRnBVTDhqTXlXV2hI?=
+ =?utf-8?B?R0VhR3hKbG5XUUx6eGFnUDl6V2dtT25kVTFhUitYZDBIb2prdEdiNlRzMHhR?=
+ =?utf-8?B?NGdTNGc0WHdwRE90MVlzTStRMHk5dlhhVk9uVnYzMUtoK3N5LzZPS25PWnRQ?=
+ =?utf-8?B?UkdFT1R6RWRHZVU5UzFnQWgrNG9DYnRHOVVJd0FVc1JlcHRidlVneDlWZjRK?=
+ =?utf-8?B?TVkzTXFuaEtlMCtKanFXNFBmeU5xTU92d0dwaEM5eU11dTdVWmFMK1RpdTJi?=
+ =?utf-8?B?VElib0todUdmbWppZWxDRjVwZmNoU3Vra3NuM3Bpd1lEUElRMGpiTHNLV3ZO?=
+ =?utf-8?B?bmNvVW5jRkRDMEdxWHdkWUJUcjBZM1JDZTUyVnVwcFRmc1pSRGN2WjhGQTlT?=
+ =?utf-8?B?bmxTQklSZEFqUkRPcUpsTytlRkVQZXR3NWZhT1dFYWFwR3VzUVROV2ZuZ01R?=
+ =?utf-8?B?cjc1TGdJQ2Z0M1h5cUxBY1NUMEtuN2NPTllVNHBFcVdDR1dtNUU5OUdSamlX?=
+ =?utf-8?B?dXZ0QW9ZZHYxUnZ2UU1OeE8xMTRZUjN6UnlJc0RIeFZNSkV2R3Rzd2VOdjJ2?=
+ =?utf-8?B?NEVvMStmUzF4SVVsSHFkSmlodFVpZ2tkTE1qdmNwYTRoczNsb2VZUzJGOTFt?=
+ =?utf-8?B?RVlQaG9jUnNaYkkySjJlZ2RMTDJ2MUQ3dmlnR0NLa3czUDBjaU9xMnZzKzRM?=
+ =?utf-8?B?SERWWVBkL0haQzZHNU1vRDBPSnl3dUx3YVhpQ3lmTkg2YVlETG5YcENYSnlm?=
+ =?utf-8?B?UUg3d1dVTjlCeWsraU5PdUY5MXRNU1d5UytpVmpOZXVZaldFYmRtUWRXMERp?=
+ =?utf-8?B?SzdrUVQ3L2lUUnNLVlArR1lNVXJPMmRlYWU5dDhBVFB2LzVEZHcwZEVEZFBm?=
+ =?utf-8?B?NitERDllQThJZWUvNFNZeVpocUp5eDZtWHZoc0p0SlNEblVjUlg3ZzlnbGNI?=
+ =?utf-8?B?OG1FbjBsczN1ZTJyZUZMYjFYVEFkNXM2L3kzaXViWUVjcWhDQmJOWjJKa2xk?=
+ =?utf-8?B?NUwrUEpQVzFtSTRkOVFXS2JsZnpSVS9pN21VcFJvbFAzckZZYmN0Nk5ROUU3?=
+ =?utf-8?B?b3NISmpacVZCN0ZPR2ZDTkJJUnJjdkFWdEJTZ1hpVjMxTHhPbjZHTnVNaHBI?=
+ =?utf-8?B?TnEzb05JaDhwUnpCL1JjeDA1OTQ5R281ZDlpb1hGRThpTEJqK01mZFA1YTlq?=
+ =?utf-8?B?aFd5RDNjaEVOUWtsYUFkLzgzOUd6ZlNhNWtrMmtuNjY1RFZDYUI3MVl3RkIx?=
+ =?utf-8?B?dWlnYVJxTHZwS2RqSXU5U2JpOG5SOFNiME9wYUZ3Rjd2b0xwTnhYZkJrZXZI?=
+ =?utf-8?B?NERrOEk0Q2p1QWl6YlVFUEttMk5SSnZIMEJUU1QxZzN5VG4wTklsWUxsOERj?=
+ =?utf-8?B?cW5acGJhSVlCSHlWWmNwelU5clhQSXZleFpheDM0SFJZb2R4T0Vhb3ExNENp?=
+ =?utf-8?B?dldYV0hVMzBtNTArcHdFL1lJUDNTamJuWlRWT3I4YThSKzJla1FWRFVmZWRJ?=
+ =?utf-8?B?R0NCWjI3V2cwK09lS0lTUkhZMXEwblFqV29aNDVZc1RwdjlOOXp4VFh3U3JS?=
+ =?utf-8?B?bkFTNUFzU0RVRnV5cmNhWVluMUZQd1l3N0E2RnlxVEx5aDlNRkUrMGlQc2xP?=
+ =?utf-8?B?alorVWVldmhTZ0Y3bXIvd01Bd25zYXBQeElHT3dRZnlEc0xLU0QyWXFndDZ5?=
+ =?utf-8?B?VEFYQjJCMzMxbDk2R05hZTZDckhSZlQyMDVJZ09ROEo0a1RFaFQ4UmhhV2hQ?=
+ =?utf-8?B?bnBndXN6R0ozWW1xNzdTemd5YTkwVHl0dHJ3aGU1eGo4OFpiZDhobDE1K0dJ?=
+ =?utf-8?B?VUxSdEQ3UVVlaFpQTGlUUT09?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: edb7a764-088c-4276-a457-08d92bd5e6ef
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2064.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 06:06:35.4397
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1j8LpAel0I4nhGf+lxbOGgl1WBs3nESX9YyfTwNbcu20XJbp32/YWPIdDkx0SGga
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR15MB4419
+X-OriginatorOrg: fb.com
+X-Proofpoint-GUID: BjpEQc7zHqEBLa20VDeWbNqJSV8yMR9t
+X-Proofpoint-ORIG-GUID: BjpEQc7zHqEBLa20VDeWbNqJSV8yMR9t
+X-Proofpoint-UnRewURL: 1 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-06-10_03:2021-06-10,2021-06-10 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ clxscore=1015 impostorscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106100039
+X-FB-Internal: deliver
+X-Original-Sender: yhs@fb.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=LVuckSqO;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f30
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@fb.com header.s=facebook header.b=SPRptoVy;       arc=fail (body
+ hash mismatch);       spf=pass (google.com: domain of prvs=57954b2a20=yhs@fb.com
+ designates 67.231.153.30 as permitted sender) smtp.mailfrom="prvs=57954b2a20=yhs@fb.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=fb.com
+X-Original-From: Yonghong Song <yhs@fb.com>
+Reply-To: Yonghong Song <yhs@fb.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,134 +223,145 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jun 10, 2021 at 1:40 AM Yonghong Song <yhs@fb.com> wrote:
-> On 6/9/21 11:20 AM, Kees Cook wrote:
-> > On Mon, Jun 07, 2021 at 09:38:43AM +0200, 'Dmitry Vyukov' via Clang Built Linux wrote:
-> >> On Sat, Jun 5, 2021 at 9:10 PM Alexei Starovoitov
-> >> <alexei.starovoitov@gmail.com> wrote:
-> >>> On Sat, Jun 5, 2021 at 10:55 AM Yonghong Song <yhs@fb.com> wrote:
-> >>>> On 6/5/21 8:01 AM, Kurt Manucredo wrote:
-> >>>>> Syzbot detects a shift-out-of-bounds in ___bpf_prog_run()
-> >>>>> kernel/bpf/core.c:1414:2.
-> >>>>
-> >>>> This is not enough. We need more information on why this happens
-> >>>> so we can judge whether the patch indeed fixed the issue.
-> >>>>
-> >>>>>
-> >>>>> I propose: In adjust_scalar_min_max_vals() move boundary check up to avoid
-> >>>>> missing them and return with error when detected.
-> >>>>>
-> >>>>> Reported-and-tested-by: syzbot+bed360704c521841c85d@syzkaller.appspotmail.com
-> >>>>> Signed-off-by: Kurt Manucredo <fuzzybritches0@gmail.com>
-> >>>>> ---
-> >>>>>
-> >>>>> https://syzkaller.appspot.com/bug?id=edb51be4c9a320186328893287bb30d5eed09231
-> >>>>>
-> >>>>> Changelog:
-> >>>>> ----------
-> >>>>> v4 - Fix shift-out-of-bounds in adjust_scalar_min_max_vals.
-> >>>>>        Fix commit message.
-> >>>>> v3 - Make it clearer what the fix is for.
-> >>>>> v2 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
-> >>>>>        check in check_alu_op() in verifier.c.
-> >>>>> v1 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
-> >>>>>        check in ___bpf_prog_run().
-> >>>>>
-> >>>>> thanks
-> >>>>>
-> >>>>> kind regards
-> >>>>>
-> >>>>> Kurt
-> >>>>>
-> >>>>>    kernel/bpf/verifier.c | 30 +++++++++---------------------
-> >>>>>    1 file changed, 9 insertions(+), 21 deletions(-)
-> >>>>>
-> >>>>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> >>>>> index 94ba5163d4c5..ed0eecf20de5 100644
-> >>>>> --- a/kernel/bpf/verifier.c
-> >>>>> +++ b/kernel/bpf/verifier.c
-> >>>>> @@ -7510,6 +7510,15 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
-> >>>>>        u32_min_val = src_reg.u32_min_value;
-> >>>>>        u32_max_val = src_reg.u32_max_value;
-> >>>>>
-> >>>>> +     if ((opcode == BPF_LSH || opcode == BPF_RSH || opcode == BPF_ARSH) &&
-> >>>>> +                     umax_val >= insn_bitness) {
-> >>>>> +             /* Shifts greater than 31 or 63 are undefined.
-> >>>>> +              * This includes shifts by a negative number.
-> >>>>> +              */
-> >>>>> +             verbose(env, "invalid shift %lld\n", umax_val);
-> >>>>> +             return -EINVAL;
-> >>>>> +     }
-> >>>>
-> >>>> I think your fix is good. I would like to move after
-> >>>
-> >>> I suspect such change will break valid programs that do shift by register.
-> >>>
-> >>>> the following code though:
-> >>>>
-> >>>>           if (!src_known &&
-> >>>>               opcode != BPF_ADD && opcode != BPF_SUB && opcode != BPF_AND) {
-> >>>>                   __mark_reg_unknown(env, dst_reg);
-> >>>>                   return 0;
-> >>>>           }
-> >>>>
-> >>>>> +
-> >>>>>        if (alu32) {
-> >>>>>                src_known = tnum_subreg_is_const(src_reg.var_off);
-> >>>>>                if ((src_known &&
-> >>>>> @@ -7592,39 +7601,18 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
-> >>>>>                scalar_min_max_xor(dst_reg, &src_reg);
-> >>>>>                break;
-> >>>>>        case BPF_LSH:
-> >>>>> -             if (umax_val >= insn_bitness) {
-> >>>>> -                     /* Shifts greater than 31 or 63 are undefined.
-> >>>>> -                      * This includes shifts by a negative number.
-> >>>>> -                      */
-> >>>>> -                     mark_reg_unknown(env, regs, insn->dst_reg);
-> >>>>> -                     break;
-> >>>>> -             }
-> >>>>
-> >>>> I think this is what happens. For the above case, we simply
-> >>>> marks the dst reg as unknown and didn't fail verification.
-> >>>> So later on at runtime, the shift optimization will have wrong
-> >>>> shift value (> 31/64). Please correct me if this is not right
-> >>>> analysis. As I mentioned in the early please write detailed
-> >>>> analysis in commit log.
-> >>>
-> >>> The large shift is not wrong. It's just undefined.
-> >>> syzbot has to ignore such cases.
-> >>
-> >> Hi Alexei,
-> >>
-> >> The report is produced by KUBSAN. I thought there was an agreement on
-> >> cleaning up KUBSAN reports from the kernel (the subset enabled on
-> >> syzbot at least).
-> >> What exactly cases should KUBSAN ignore?
-> >> +linux-hardening/kasan-dev for KUBSAN false positive
-> >
-> > Can check_shl_overflow() be used at all? Best to just make things
-> > readable and compiler-happy, whatever the implementation. :)
->
-> This is not a compile issue. If the shift amount is a constant,
-> compiler should have warned and user should fix the warning.
->
-> This is because user code has
-> something like
->      a << s;
-> where s is a unknown variable and
-> verifier just marked the result of a << s as unknown value.
-> Verifier may not reject the code depending on how a << s result
-> is used.
->
-> If bpf program writer uses check_shl_overflow() or some kind
-> of checking for shift value and won't do shifting if the
-> shifting may cause an undefined result, there should not
-> be any kubsan warning.
 
-I guess the main question: what should happen if a bpf program writer
-does _not_ use compiler nor check_shl_overflow()?
+
+On 6/9/21 10:32 PM, Dmitry Vyukov wrote:
+> On Thu, Jun 10, 2021 at 1:40 AM Yonghong Song <yhs@fb.com> wrote:
+>> On 6/9/21 11:20 AM, Kees Cook wrote:
+>>> On Mon, Jun 07, 2021 at 09:38:43AM +0200, 'Dmitry Vyukov' via Clang Built Linux wrote:
+>>>> On Sat, Jun 5, 2021 at 9:10 PM Alexei Starovoitov
+>>>> <alexei.starovoitov@gmail.com> wrote:
+>>>>> On Sat, Jun 5, 2021 at 10:55 AM Yonghong Song <yhs@fb.com> wrote:
+>>>>>> On 6/5/21 8:01 AM, Kurt Manucredo wrote:
+>>>>>>> Syzbot detects a shift-out-of-bounds in ___bpf_prog_run()
+>>>>>>> kernel/bpf/core.c:1414:2.
+>>>>>>
+>>>>>> This is not enough. We need more information on why this happens
+>>>>>> so we can judge whether the patch indeed fixed the issue.
+>>>>>>
+>>>>>>>
+>>>>>>> I propose: In adjust_scalar_min_max_vals() move boundary check up to avoid
+>>>>>>> missing them and return with error when detected.
+>>>>>>>
+>>>>>>> Reported-and-tested-by: syzbot+bed360704c521841c85d@syzkaller.appspotmail.com
+>>>>>>> Signed-off-by: Kurt Manucredo <fuzzybritches0@gmail.com>
+>>>>>>> ---
+>>>>>>>
+>>>>>>> https://syzkaller.appspot.com/bug?id=edb51be4c9a320186328893287bb30d5eed09231
+>>>>>>>
+>>>>>>> Changelog:
+>>>>>>> ----------
+>>>>>>> v4 - Fix shift-out-of-bounds in adjust_scalar_min_max_vals.
+>>>>>>>         Fix commit message.
+>>>>>>> v3 - Make it clearer what the fix is for.
+>>>>>>> v2 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+>>>>>>>         check in check_alu_op() in verifier.c.
+>>>>>>> v1 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+>>>>>>>         check in ___bpf_prog_run().
+>>>>>>>
+>>>>>>> thanks
+>>>>>>>
+>>>>>>> kind regards
+>>>>>>>
+>>>>>>> Kurt
+>>>>>>>
+>>>>>>>     kernel/bpf/verifier.c | 30 +++++++++---------------------
+>>>>>>>     1 file changed, 9 insertions(+), 21 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+>>>>>>> index 94ba5163d4c5..ed0eecf20de5 100644
+>>>>>>> --- a/kernel/bpf/verifier.c
+>>>>>>> +++ b/kernel/bpf/verifier.c
+>>>>>>> @@ -7510,6 +7510,15 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+>>>>>>>         u32_min_val = src_reg.u32_min_value;
+>>>>>>>         u32_max_val = src_reg.u32_max_value;
+>>>>>>>
+>>>>>>> +     if ((opcode == BPF_LSH || opcode == BPF_RSH || opcode == BPF_ARSH) &&
+>>>>>>> +                     umax_val >= insn_bitness) {
+>>>>>>> +             /* Shifts greater than 31 or 63 are undefined.
+>>>>>>> +              * This includes shifts by a negative number.
+>>>>>>> +              */
+>>>>>>> +             verbose(env, "invalid shift %lld\n", umax_val);
+>>>>>>> +             return -EINVAL;
+>>>>>>> +     }
+>>>>>>
+>>>>>> I think your fix is good. I would like to move after
+>>>>>
+>>>>> I suspect such change will break valid programs that do shift by register.
+>>>>>
+>>>>>> the following code though:
+>>>>>>
+>>>>>>            if (!src_known &&
+>>>>>>                opcode != BPF_ADD && opcode != BPF_SUB && opcode != BPF_AND) {
+>>>>>>                    __mark_reg_unknown(env, dst_reg);
+>>>>>>                    return 0;
+>>>>>>            }
+>>>>>>
+>>>>>>> +
+>>>>>>>         if (alu32) {
+>>>>>>>                 src_known = tnum_subreg_is_const(src_reg.var_off);
+>>>>>>>                 if ((src_known &&
+>>>>>>> @@ -7592,39 +7601,18 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+>>>>>>>                 scalar_min_max_xor(dst_reg, &src_reg);
+>>>>>>>                 break;
+>>>>>>>         case BPF_LSH:
+>>>>>>> -             if (umax_val >= insn_bitness) {
+>>>>>>> -                     /* Shifts greater than 31 or 63 are undefined.
+>>>>>>> -                      * This includes shifts by a negative number.
+>>>>>>> -                      */
+>>>>>>> -                     mark_reg_unknown(env, regs, insn->dst_reg);
+>>>>>>> -                     break;
+>>>>>>> -             }
+>>>>>>
+>>>>>> I think this is what happens. For the above case, we simply
+>>>>>> marks the dst reg as unknown and didn't fail verification.
+>>>>>> So later on at runtime, the shift optimization will have wrong
+>>>>>> shift value (> 31/64). Please correct me if this is not right
+>>>>>> analysis. As I mentioned in the early please write detailed
+>>>>>> analysis in commit log.
+>>>>>
+>>>>> The large shift is not wrong. It's just undefined.
+>>>>> syzbot has to ignore such cases.
+>>>>
+>>>> Hi Alexei,
+>>>>
+>>>> The report is produced by KUBSAN. I thought there was an agreement on
+>>>> cleaning up KUBSAN reports from the kernel (the subset enabled on
+>>>> syzbot at least).
+>>>> What exactly cases should KUBSAN ignore?
+>>>> +linux-hardening/kasan-dev for KUBSAN false positive
+>>>
+>>> Can check_shl_overflow() be used at all? Best to just make things
+>>> readable and compiler-happy, whatever the implementation. :)
+>>
+>> This is not a compile issue. If the shift amount is a constant,
+>> compiler should have warned and user should fix the warning.
+>>
+>> This is because user code has
+>> something like
+>>       a << s;
+>> where s is a unknown variable and
+>> verifier just marked the result of a << s as unknown value.
+>> Verifier may not reject the code depending on how a << s result
+>> is used.
+>>
+>> If bpf program writer uses check_shl_overflow() or some kind
+>> of checking for shift value and won't do shifting if the
+>> shifting may cause an undefined result, there should not
+>> be any kubsan warning.
+> 
+> I guess the main question: what should happen if a bpf program writer
+> does _not_ use compiler nor check_shl_overflow()?
+
+If kubsan is not enabled, everything should work as expected even with
+shl overflow may cause undefined result.
+
+if kubsan is enabled, the reported shift-out-of-bounds warning
+should be ignored. You could disasm the insn to ensure that
+there indeed exists a potential shl overflow.
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Ba592rxFmNgJgk2zwqBE8EqW1ey9SjF_-U3z6gt3Yc%3DoA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1aaa2408-94b9-a1e6-beff-7523b66fe73d%40fb.com.
