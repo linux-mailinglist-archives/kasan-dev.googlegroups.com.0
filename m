@@ -1,203 +1,139 @@
-Return-Path: <kasan-dev+bncBCP7BJMSVEBBBYP7QWDAMGQELCOGJFA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRB5OHQ2DAMGQE2FWKZBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D8D3A2279
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jun 2021 04:58:42 +0200 (CEST)
-Received: by mail-pg1-x53d.google.com with SMTP id a10-20020a65418a0000b029021b78388f57sf15410585pgq.15
-        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jun 2021 19:58:42 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1623293921; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id E92AF3A2404
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Jun 2021 07:32:38 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id j9-20020a056e020149b02901ece9afab6bsf568999ilr.10
+        for <lists+kasan-dev@lfdr.de>; Wed, 09 Jun 2021 22:32:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1623303157; cv=pass;
         d=google.com; s=arc-20160816;
-        b=d9xcNJakxWTMDPJsm5DfJmQkzahj86HkEDecVR/BJO6uFqV0tfAfK1D4D2g5fW/xR+
-         UNvuHXpOn2TpfTFV1iUDrW1tmFvdvg/4KBGoooLTDENV8UIjiHJDLqNwhqNkh6MT+ABP
-         G8K0/RsZD/h9EQO7EB8vj2+sSfjy97D9X/Op87heDvjCKtRI4vwZC/vcQCH+jkYogjI2
-         kefi9NLjhuhwITpG56o+N3As64doDOzl21h0+VWQGr0jgb7r0QP+mv/05ZpjqKxMffld
-         BPuIsyG+W/EDma7l7SdAPTrZ91BB3pPRTKHSO5Pq9pUfr441CQE0VFKHd5VorFJyfzO5
-         lmIw==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=owZfsTuK30rirssMOuvTqcj/Olkvbmeq+iMcfeAX+R5vbazGURBR5Qv+1ArCrFuzY3
+         mmV97sTBvh3TxskLGXxbiWlbv04e+O4mLeI5z1jCgyM/YJVg9x9Zl4zsffVGIIACrFjM
+         PL7R2uRkgxCM/bXXkY1vUHO2fH6cm9a+2cUBYnkaZNCVsohRCk3/rJkYJJtyZVCcwVCh
+         2XPPYy++un5uQbaZDS8RUZCl6obtdtSjPhhqXxw4xgCb7mG/9Z6XFaHjqhTD/3kNSuFp
+         uug91V1mNZmBgHW93NljVlmlMv5RQh8XCmNzWyJYoBJpiJuJAaRBREKo0mXE/nL701Es
+         GdIA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version
-         :content-transfer-encoding:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=psIwIOD8JpFFzkHA1GS7RBM/giieJlCrej9L+U3HemM=;
-        b=M88kWE3FEBQiPxMJ9mpX0vqph433fAok+GL6hYsx5jFZr+idpvwTjSg0hSl12hsor0
-         Ppf8325ubPT6QZkfK/x/xcoFR9virYTxsJhs2AMza9gNIGlNpgYiMfk7Yn6UkBcdEl2J
-         aS+LZ8nyo5IWlF/W5gMu0fXHLtQIP+qbtd9KuSaxW7dm1fPSvjez+TDqpBhZPs068je3
-         c6/avrakT5wqDNVcsLBYIZkEkQOLR4HFQPbaWgL2uW6Y1a3YRnBfmaWa+wm/drFf774q
-         8klUcFQg4djVQybBPwWI33vRLlFAeWj445IAcAra1uD2B3FihczJZBW3I4bWt0KstNZn
-         n60Q==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=PXbCiOJp;
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of soberl@nvidia.com designates 40.107.102.69 as permitted sender) smtp.mailfrom=soberl@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=5ecArVIE2kmx09rujF049kSamoF879A9UEiK+UE6T7U=;
+        b=DJQtpSg5fa7tLorBIACJjrNHGnHleX8R0Dl+yVs3GCIYCdh6/5I+8BNbX7Z6BiB+LH
+         SGwdFz+5/JEorUPw+BMUrtGZkZ3m4dVsDxtmflKdLjKidMqYHgW/ITI0rKP2LXkgO6aL
+         kC2qKYECMUac74uBKuK8GHTE4PvUlbiy527nvitsdeQTn4tTLp75BiLqx+8QPFI1dNcG
+         HBo991dAVVsfb3Rz/1GrIgGLHtw16WaKGwBuYF55jSOqv128c92jsK8ujKstrbJrJRSZ
+         lVPw5yz1pobHCLX+fz4J+BIvfFpZsf78DuON6SXcPtsuy5KFtFdC4iUL31p7yDvcdNwB
+         tWCA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=LVuckSqO;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
-         :references:in-reply-to:accept-language:content-language
-         :content-transfer-encoding:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=psIwIOD8JpFFzkHA1GS7RBM/giieJlCrej9L+U3HemM=;
-        b=Ub55PE76F5sb9EE6FC9sOp/VH0O2SgBdRc+uJUB7sF/aNkHLOZodf4xEdV2Pu6Gqsi
-         iQbqtrCMHL890w77fHLN7h4DShHk64RuA4c1+ooyTbRxy2tmNIDjXkP/LWKbHVK7/6nQ
-         4d091zxbIZvOJ6CZnjh25Lt6ZIfcf1yHfWFvGe5k13+ZA/c3U6kncF5WnNXoMhb9xyGp
-         NTk6V88N+IqktT8RjO//UUF3GY0LgcoU+kqFFfa0o4NydTKq40HKWlMdt6Hx8OuxpucF
-         dYdgBr2WzgSUW7ERC8bvzZ9njeCubr0rvXnZH/Mjy5ah6wxHPWAUIUhKEhiikAMn4MDB
-         nxiA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=5ecArVIE2kmx09rujF049kSamoF879A9UEiK+UE6T7U=;
+        b=cGTT5T+Fp8Zobec7MoGHLXm5gyPDySgQIcgF9CezJnEP/8Qf/lADq/uDSVro3NVUsL
+         27wskUFDuiAdc/rl9IfBWWw9Sf0YNrRVWVakf1Gi4jEIgbbJ/m/dejGRqnRapoT985VV
+         Vy1r9bEjhdF53g3O4eQtexq7B+Hli+1kMMsgq6WdjDoia06GarAacgkJQsevsTvhZKWi
+         FkCGiep1cWUIa8eABUc0rAVw8TEWJXuKFBQgqe7Vxh0dbRw0LXlbHu9t1wxDoSkZb+t+
+         QfgaNV3RV+aXUoP3pIKaDqcWVyS3svuUyktE3V6xX0536wtU7RMaJEjSytU6iO+P60t7
+         tc7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
-         :thread-index:date:message-id:references:in-reply-to:accept-language
-         :content-language:content-transfer-encoding:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=psIwIOD8JpFFzkHA1GS7RBM/giieJlCrej9L+U3HemM=;
-        b=kGL++duTGZESKbvgSPOW81z69Dox7zEBmgWy81uOt7eamW64kyTpObcwVT4SDB/ifh
-         HuL2oUkJmT04T6QBb3WDe49bZzZPnwCO0bM8icMIXlu44WStM9zx1E0t7WLgNciS+2XP
-         vp0B3pQNsuNhtERjFQ/5B1wIOBeE+MjFjHVZcuuBM11EvmjAAH+6Ej0eCh+PyGOnaE0x
-         t6AOK+HPVNZxOkmZeWjkapvm/Sa1kXJMlOBODkSVNKK1mwQnUTp8I9SzGf58j8m4F56w
-         2589135Rad3EMdASOY5gJ34Qlei26+qgtBJaN8FID+7QxPCCOkpJVpWo3RIvKfoPMKq1
-         8yBQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532XUkUgFm4cS0rbnzl0NFy9y2sHVZJAE/RpAB8C1XkbEqME0zVz
-	7GysJkUt550vCuinhwv2Tok=
-X-Google-Smtp-Source: ABdhPJzJZm1eSF88mAa65Ll1NoYQzD/hiNkY4htkN2zAWivoYPTu06Gf7Q/Ebn6Rs1LgJJpZY9Z5zw==
-X-Received: by 2002:a62:1d0e:0:b029:2d8:30a3:687f with SMTP id d14-20020a621d0e0000b02902d830a3687fmr820957pfd.17.1623293921419;
-        Wed, 09 Jun 2021 19:58:41 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=5ecArVIE2kmx09rujF049kSamoF879A9UEiK+UE6T7U=;
+        b=hY7PyRDRxR27bo/eYxc18ZoJ8P0kmJDdp4H2Abyogs/sLCjJwDeAk/Ce+qiqkZtAVO
+         aR205m3gza0XOw9yvxs/inMtH6lGu4Kdl3hq8OpFAb81ukb9LE31bGxPbAfya8PXWxFD
+         k6LmiMXcjILogub8mJEY1f9tWNP8mN9LE8vrgCbtPRkveDdr5JLMcLWhbFvui/FJF3v7
+         C7EfUGbhrtiGtYcG/upNUCjt/N25mvItiSNkTVdpbCU0XGwxrO5GR+UZOQL1fpMIiib5
+         c6xXxX46UHDey5ID0/p4nozvob9jCZl9RPK6Z7vHwSDBMTVPTwl5AUkXr8iZ1iXkfQka
+         n/zQ==
+X-Gm-Message-State: AOAM533W9qSt2wfnZHyO3boPRKubSE7zMmx8ud0wl+GymcJfciwc7YbC
+	GjNGX02TnLIN90pM1wnytGI=
+X-Google-Smtp-Source: ABdhPJxDto3gPsgeZtLjJbhKepiqW2eJih1xIIujMMLP7cp8aMQfyiPLpe/VtinUQKuKw/LIwoSgBw==
+X-Received: by 2002:a92:364f:: with SMTP id d15mr2641796ilf.26.1623303157696;
+        Wed, 09 Jun 2021 22:32:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:d4b:: with SMTP id 11ls2163899pgn.5.gmail; Wed, 09 Jun
- 2021 19:58:40 -0700 (PDT)
-X-Received: by 2002:a63:544e:: with SMTP id e14mr2837363pgm.256.1623293920846;
-        Wed, 09 Jun 2021 19:58:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623293920; cv=pass;
+Received: by 2002:a92:d902:: with SMTP id s2ls1368595iln.1.gmail; Wed, 09 Jun
+ 2021 22:32:37 -0700 (PDT)
+X-Received: by 2002:a05:6e02:12af:: with SMTP id f15mr2662316ilr.266.1623303157389;
+        Wed, 09 Jun 2021 22:32:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1623303157; cv=none;
         d=google.com; s=arc-20160816;
-        b=bIMAS4mSnNP/UWcbXLc5aaZL0ykE279+roAj62KkGbJXewdq61VXfUEROkggANuuJE
-         sJ/v0a9GdK0t/zu0Mu/zeyexY0e8eFtdn1GjoQLzKfem8j7jawCglUEUEpJGJNp9AdOA
-         of0Z8y41i46Ne9Fpgsggut71ifR8i41Agk9sZV4joDhY+LOKWxjII6KmX5bDKtISSMAg
-         VrJ3ZhCfan0Kz6+gzztgMJDnk+udHBEKj2jI3fZk3LVBxQZmIWQPs69sopVAZLv4F0CV
-         oPT8IdiiRSaW0lB+nl4dWckIc3WH6/x3T8xOZLiwXWP8/sQlhgGCeUxWxvT3UDdBs7+m
-         oicw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:content-language
-         :accept-language:in-reply-to:references:message-id:date:thread-index
-         :thread-topic:subject:cc:to:from:dkim-signature;
-        bh=jBkyVEv2yHzfDItHpOHH2GyUyj+faw0XFkjPKh4F7NY=;
-        b=Im6/eUl1sqZQmR2gwvd+3SSmDu+SS+0Fxoj4/KCXLtVWsUJCuynRgj52/m4l9aLuqI
-         B/tmU9u3toZ6HN7zz3i/URRbt4XB212fi38fF7TYQNNhaxcPxZLbtsdhrLoR9U7qrq/J
-         9F3GddsAt+sXNG63hZ62YkrJQPllyFqdYcOy+ZUcdWkW0HkYUxHpTZ73moHzLH00O75l
-         3uXwCH44fuIfV97mTjL2zFaNI9K06DXOZ0nkBel84PtN3I84SJAQzhjRcfy/AB5olHY4
-         tj/baaB6LYzAYr4H30JlDH8suK3WGCgQBzoImA8IfyhrC2a7gM9jzC3yiKs8VYeizzeS
-         YX7Q==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@Nvidia.com header.s=selector2 header.b=PXbCiOJp;
-       arc=pass (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass fromdomain=nvidia.com);
-       spf=pass (google.com: domain of soberl@nvidia.com designates 40.107.102.69 as permitted sender) smtp.mailfrom=soberl@nvidia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam08on2069.outbound.protection.outlook.com. [40.107.102.69])
-        by gmr-mx.google.com with ESMTPS id b3si1086557pjz.1.2021.06.09.19.58.40
+        b=H32qOfjoN8uEkkoC/DXwwOe0pZfkoBH23MOBYvC/GiBxVl5vjrWAz/cGQeu1Ecr9Hq
+         L/DDeYqB/h9pQ29naRBEkvm8/UBPOsGmLXQGX0ce/mMsu8gILQvc7V6SlShnBVRTsjv/
+         uUb2NiEbNZao8FGF0aWGM1/fNMSW0QFdfiyByJ+13+5T+QF/2phh1Dkdbl8tJFQ15KW7
+         SssN38QPkkjI3cpbGHGpeMrcgV58jxjwVvOtSnoxksCv1cuzCNrs6zy/afA9P0RmTfgy
+         pvHMLwRjJ6C72UON8S7cNZkfGpnZceN6C9YxccVq0p2kitKHkGF25tjIP2IUdDZd/eSz
+         qwOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=OaVwnGtK9jh2uHt5Ipx2vrWPn+KDUOXrS2y79saIzrk=;
+        b=HstnVloujLb1ZIpqg1MmqgMxrX535+SLSRJO3CTcYkYKMzhEDXosfI1/xkyGfvCY27
+         SFxpSz6v9hYUiXQYMJeK7l/vCC1VG9fgN1KbtOMaSSQU5ZDoKc6mo7PNDAZDNqwQdro/
+         97RO1DdXbgdeSAM4xt5tkdGA2di1PlnvYHE4sOOZ/H7Cs60/h0LQvs+UcaFKedOLiVv5
+         er9nx5YqKvdoM9vxiiPSioKSiyyHMzhJms/i8zv3ITyZPE57U13Z0mbbhO+Z/e+f6TNe
+         O08WPr4temkQ0M9vmRGjgNJTXdugRUIojkpICmlCFH83JfJvFiWGPD+LZq2JNVAXtcTq
+         4oVw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=LVuckSqO;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com. [2607:f8b0:4864:20::f30])
+        by gmr-mx.google.com with ESMTPS id v124si230692iof.2.2021.06.09.22.32.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Jun 2021 19:58:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of soberl@nvidia.com designates 40.107.102.69 as permitted sender) client-ip=40.107.102.69;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nWYRWWyoQuT8oQOCcMzrqvEgjR2ywq5eF/iypR39bJVp1EKVhbtIq8+3UBhXSW5YZWakAvjP2j37JFV8cyjqlQjVvj94ZRISouPIK+UpmGDeL1tTECsSW9qhTzR+1LhiDadJWazU4uTt6VzsSjOpg5GO0VZQbqb5s6W0Ty0rix4ml+imUu6tnNMfgdAZOzJOOHo8GVmf51DpAU62jVafVYr45KfnE5teTFgEaLgn+yQwjfJr+FyTCCjAF1Jww6LFBF9cIlgXqwIyvRnt5APyz0nWqvY/nUvz0Zhed1rT5Mx4CmPjtKeUltKv+77GvLrsdbsy8kJvTj15oiF/WDy04g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jBkyVEv2yHzfDItHpOHH2GyUyj+faw0XFkjPKh4F7NY=;
- b=XPOaLP1p2o7/Q6d0czGtXMFJw8ZwCh9g7fzO9zp/zf1GpiKypkTbUhzJGqHz7a23IeIhqbPKh0R/zBxEZQM2FwkPs9EJMGlB25YKKFaJhGgnNCD32r9XUWnbIHxy1gebDnh+Z6dH0Js5IBbClWUAC+1agI+Dd8vRX/Ph5IDkulg9RNExMHm6WYrAQjbLgw1kdfAY6g0cNPx9fClPzS/suz/fd/JwE//T6p8G0XfP7MuhSJ948nhdau+XmTb13QyEXk+PFnlsyvTezvRv1jJ+nS7WAWcrsoz32XJw5FL29FPExYKFW/7zI6IYwquVVp+1DASF8TRrFdPzdLGcgm/5mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM8PR12MB5416.namprd12.prod.outlook.com (2603:10b6:8:28::18) by
- DM4PR12MB5150.namprd12.prod.outlook.com (2603:10b6:5:391::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.22; Thu, 10 Jun 2021 02:58:39 +0000
-Received: from DM8PR12MB5416.namprd12.prod.outlook.com
- ([fe80::b1f4:1cc4:5634:3803]) by DM8PR12MB5416.namprd12.prod.outlook.com
- ([fe80::b1f4:1cc4:5634:3803%8]) with mapi id 15.20.4195.030; Thu, 10 Jun 2021
- 02:58:39 +0000
-From: Sober Liu <soberl@nvidia.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-CC: "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
-Subject: RE: Question about KHWASAN for global variables
-Thread-Topic: Question about KHWASAN for global variables
-Thread-Index: AdddORCE41vfWG3DRxWVahYduXzsrgABFPqAABk+GsA=
-Date: Thu, 10 Jun 2021 02:58:39 +0000
-Message-ID: <DM8PR12MB541628C0DE759463929B4442AD359@DM8PR12MB5416.namprd12.prod.outlook.com>
-References: <DM8PR12MB5416B119812D7B939F9AC9CBAD369@DM8PR12MB5416.namprd12.prod.outlook.com>
- <CA+fCnZesNpTSrdnig+fx5A2_ZpZQxpN6fJwuXi5kgTVnJLncmQ@mail.gmail.com>
-In-Reply-To: <CA+fCnZesNpTSrdnig+fx5A2_ZpZQxpN6fJwuXi5kgTVnJLncmQ@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.18.50.4]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3a7625e8-7a72-4172-da6f-08d92bbba618
-x-ms-traffictypediagnostic: DM4PR12MB5150:
-x-microsoft-antispam-prvs: <DM4PR12MB51504D7689D9E8658559658EAD359@DM4PR12MB5150.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LaMfhlc+81i+zVuUFkQ6CiwtWDo5JW4RAWA1q3xBBLwLu9+vo3pNQWOy7NQVdPQ9gTY1n8g8AfiJngo1ybc9Re1rAFmhtBw8mmxLcgam0MSlqcdWNH2Az+DZHOX9OmR4q6u0oxPbBY8lJZEgNDPCR4XwhBKR54RFpXdPgf3kRmyqtaIi8+3jqI6jx8POucrsziiBzBgfC6/g0hn0sKWO5NPSqFB3xfjlkBFVm5YzqCMt12R2M2CZlukMA2a8vFx1qtX5D5JiO79JmumeGIvZqdUi5/UamjHriRiBnKJIV0JyqwOfZVxiXdnJpEbrtKxy8xB1QDyAPKSf6kKGoMoPb4yz9o8wJveV5bqEPxBgNpUliCEGrXgMVwJe8yWQi2ET4ImdIrzVeZNVOWlsu7u5nXPgquPTZRnau3t7gPswPtnJ1sCHM8M5tsg+mmR2UjIa9Qona0IhxW7QTYJmyzSHovVNjfWw+cdNm7UJ7bBNue6iaGAeouV+EaEORBubogCSHVFSyQKFZlWVRkwH6fmg0iqvWwNAQ0D/7xgcGkFB8Zyfaqmj57ykuFsRMgrBKwUPe5ogFvpPEzqaPURq1ltiriKPNJrhmiZC/o6gCvKsYBw26XA6DsIHOFwObzcwjwnFQbgjUZ+6TidDCnEBRb1WBPuNtmXOH4fT33+3hrY/ruA/l+M0dO1xuC4NpUvd8GIF4N0fW+hYAVxe3kcJAbyngA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR12MB5416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(136003)(366004)(39860400002)(33656002)(53546011)(4326008)(83380400001)(5660300002)(7696005)(26005)(6506007)(52536014)(2906002)(55016002)(71200400001)(966005)(9686003)(8936002)(186003)(86362001)(45080400002)(66446008)(66556008)(122000001)(64756008)(76116006)(66476007)(316002)(66946007)(38100700002)(8676002)(6916009)(478600001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?gb2312?B?dHdhN213NTZmRnJxSXZwVVZ4bDIreEl3d0gyUUJGRjJKUU45SlNuTUJ4NExV?=
- =?gb2312?B?K3lMVUF0WnNUY3VmdnZUeG96ejJWREJZR2cyVlU5dEIvZ0N6aVVaajhUV2hU?=
- =?gb2312?B?Z3daOGxHOWdDMzVETDZmWlVmcERiVWwyRFpuelFnUTZoVGt4eEwwKy80MzJz?=
- =?gb2312?B?KzZ5SWxjZHB5dkEzMjZ2ZmFXRVkrWDVWTXRIeUdmaDBCVUgzYVJaSmNTeWxE?=
- =?gb2312?B?Y1kybGZBT0FiZEhBOEdwamhOdFhuNFBXTHUvL1ZhSllpQmRvSjJlSk1NakFq?=
- =?gb2312?B?b09CODlZY1l2Y0MwdHpCZXNESU45M1BuUWU4UjgwMEZYSlhiYjYwdld6ZVZx?=
- =?gb2312?B?WHorakRGVlBhWiswWlRhZlBwdXNUVVlDOEJVMHNtZzlHQzVORmtSVlFEMkpJ?=
- =?gb2312?B?SmlrWnIxOVEvamhpazhtZjBtMWZXMWswY01CVWxyVHUxbTJaSXMvcHRLZVEw?=
- =?gb2312?B?LzhmSU5ySnBIcDFac0tLNFlrQTdiQWxqZDY0WVdHRkxGbzk0TFhzYktpdm9I?=
- =?gb2312?B?OXZEMDltT1doeldyL0FTZVplN1lzMTY1ZHp1MjUwYWRnOFdvRTh1OWJZNE9K?=
- =?gb2312?B?akRzUmRBcWlNRnUrcDZrdmhiTlVvN3BOZGp3RHNiVCswMk5wSnduZDNpMzQr?=
- =?gb2312?B?VDdOVXpvTUFRamVwb2pxbHR6YUh4TWlCbnUvRHhDZm5ZZTlScWtkWW8yejI3?=
- =?gb2312?B?bUdtRDlUcGIxbjVFYWwxclFvRngzSU9QZklnYVgvcy9mV2JRSGtpVmVzQlBQ?=
- =?gb2312?B?bnJVWTlNTHVudmpKdW5zMElGR2ZWbmxya0xpMy95WkhJTFY0ZWhCTDVSNjkv?=
- =?gb2312?B?WVdOelZlc0s1MnhwZk05ZTBKNFBVd2svdnErYTc0cWVQRXQ0SHY5NHpJUkRC?=
- =?gb2312?B?SEpoU1J0VVhvMVpvMGdGT0hsQzNTSENZOU5QNkxRVWFWRzRVZllYenNXaVlB?=
- =?gb2312?B?Qmd1czdoUmIvSTdRU0tVUUxybGtwaHh4KzZaQzE2M0tob3VKaUd5cHY5SnJW?=
- =?gb2312?B?aFMwTGRNMTI1eVd2RE9td3FGTkZsY1k3aFA5MUFTU09hWnUyWHNaaDBJcWh6?=
- =?gb2312?B?V0p1TWlFZmFFQTF0UUN3YytseVRnd3BYK0hTa1hrR3pEL3Z3MWNVaEJEb29D?=
- =?gb2312?B?bm1CdWwrWTZ4MXZzNEduMGF5ZnMvQlpCN0hYT0lNZDE5RTEvbHB4K1dHYXdt?=
- =?gb2312?B?aWZFc29EbER2dmZwTVRlRi90L3QrOFdzSldiK1pOYTlTUzZ3MnJoUjJEaTRK?=
- =?gb2312?B?SmovNEE0eFY5b2h3U2hiUHN2MmRqdk9NMzZDaGMxdHNFTUw0VmJtZmxtdjZS?=
- =?gb2312?B?dXl6b1pZM29nT29oRFV2Wk1iSmJUdGlOL3VlVndwcXB4WDUvdkhDSWQxYjZM?=
- =?gb2312?B?amJxU3Rjd0lialNDWVdZRDN6WThMUmhGRWQrRXFLMnFHaXRiYWZyR1M2QXpn?=
- =?gb2312?B?ZTFKb2J1RU05eitkaDRFUVBRUUtRc1Q5QjlJd1FlMWZkM2paNlpYQlVjS0R5?=
- =?gb2312?B?TlpEQWJlZTBzTGFjc3p5amtLQkQ1bnB6cXJoNk5rMndCMnRPM29ERVBsQlhs?=
- =?gb2312?B?Z1VvRkh5RzBQM1pMeWVhMzZOTllITVJWNkd2QVhBSTJYVjJtM05KeXZyK2k3?=
- =?gb2312?B?eUZ3R1hrako4UEh0UkNyMytHZXM2OFY0OENJaURGREVkL0lXdXlYZWJzQWd4?=
- =?gb2312?B?b1NLQWZmZFBNU3FNRkliRFBWaWovK0xDMENMMGJFLzI4dVExVVdnK0lvdHg0?=
- =?gb2312?Q?mQH48bedDAuThKhC74=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Jun 2021 22:32:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f30 as permitted sender) client-ip=2607:f8b0:4864:20::f30;
+Received: by mail-qv1-xf30.google.com with SMTP id l3so7068633qvl.0
+        for <kasan-dev@googlegroups.com>; Wed, 09 Jun 2021 22:32:37 -0700 (PDT)
+X-Received: by 2002:a0c:d610:: with SMTP id c16mr3488166qvj.13.1623303156474;
+ Wed, 09 Jun 2021 22:32:36 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a7625e8-7a72-4172-da6f-08d92bbba618
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2021 02:58:39.4553
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nozyy1Ahnk1j1BhJV8K8iLKCzVQTfx0uNAxIJTxXqAY9OUT1//WiSS0jIg4pkTAUOTjW9rQkAaqtkHWKHjiPjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5150
-X-Original-Sender: soberl@nvidia.com
+References: <000000000000c2987605be907e41@google.com> <20210602212726.7-1-fuzzybritches0@gmail.com>
+ <YLhd8BL3HGItbXmx@kroah.com> <87609-531187-curtm@phaethon>
+ <6a392b66-6f26-4532-d25f-6b09770ce366@fb.com> <CAADnVQKexxZQw0yK_7rmFOdaYabaFpi2EmF6RGs5bXvFHtUQaA@mail.gmail.com>
+ <CACT4Y+b=si6NCx=nRHKm_pziXnVMmLo-eSuRajsxmx5+Hy_ycg@mail.gmail.com>
+ <202106091119.84A88B6FE7@keescook> <752cb1ad-a0b1-92b7-4c49-bbb42fdecdbe@fb.com>
+In-Reply-To: <752cb1ad-a0b1-92b7-4c49-bbb42fdecdbe@fb.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 10 Jun 2021 07:32:24 +0200
+Message-ID: <CACT4Y+a592rxFmNgJgk2zwqBE8EqW1ey9SjF_-U3z6gt3Yc=oA@mail.gmail.com>
+Subject: Re: [PATCH v4] bpf: core: fix shift-out-of-bounds in ___bpf_prog_run
+To: Yonghong Song <yhs@fb.com>
+Cc: Kees Cook <keescook@chromium.org>, 
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>, Kurt Manucredo <fuzzybritches0@gmail.com>, 
+	syzbot+bed360704c521841c85d@syzkaller.appspotmail.com, 
+	Andrii Nakryiko <andrii@kernel.org>, Alexei Starovoitov <ast@kernel.org>, bpf <bpf@vger.kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller" <davem@davemloft.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, 
+	Martin KaFai Lau <kafai@fb.com>, KP Singh <kpsingh@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, 
+	Song Liu <songliubraving@fb.com>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>, 
+	nathan@kernel.org, Nick Desaulniers <ndesaulniers@google.com>, 
+	Clang-Built-Linux ML <clang-built-linux@googlegroups.com>, 
+	linux-kernel-mentees@lists.linuxfoundation.org, 
+	Shuah Khan <skhan@linuxfoundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Kernel Hardening <kernel-hardening@lists.openwall.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@Nvidia.com header.s=selector2 header.b=PXbCiOJp;       arc=pass
- (i=1 spf=pass spfdomain=nvidia.com dkim=pass dkdomain=nvidia.com dmarc=pass
- fromdomain=nvidia.com);       spf=pass (google.com: domain of
- soberl@nvidia.com designates 40.107.102.69 as permitted sender)
- smtp.mailfrom=soberl@nvidia.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nvidia.com
+ header.i=@google.com header.s=20161025 header.b=LVuckSqO;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::f30
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -210,71 +146,134 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Andrey,
-Thanks for the info.
-
-For HWASAN, I think GCC supports global variables since __hwasan_init will =
-be called with all loaded symbols iterated.
-Looks like LLVM and GCC implement differently here. I have another try: htt=
-ps://godbolt.org/z/1fe87xxWc
-- For GCC, everything handled in __hwasan_init.=20
-- For LLVM, beside ctor, 2 symbols (.Lhwasan.dummy.global and .Lx.hwasan) a=
-re generated for "x" by compiler. This also describe in LLVM hwasan doc.
-
-Regards.
-
------Original Message-----
-From: Andrey Konovalov <andreyknvl@gmail.com>=20
-Sent: 2021=E5=B9=B46=E6=9C=889=E6=97=A5 22:40
-To: Sober Liu <soberl@nvidia.com>
-Cc: kasan-dev@googlegroups.com
-Subject: Re: Question about KHWASAN for global variables
-
-External email: Use caution opening links or attachments
-
-
-On Wed, Jun 9, 2021 at 5:23 PM Sober Liu <soberl@nvidia.com> wrote:
+On Thu, Jun 10, 2021 at 1:40 AM Yonghong Song <yhs@fb.com> wrote:
+> On 6/9/21 11:20 AM, Kees Cook wrote:
+> > On Mon, Jun 07, 2021 at 09:38:43AM +0200, 'Dmitry Vyukov' via Clang Built Linux wrote:
+> >> On Sat, Jun 5, 2021 at 9:10 PM Alexei Starovoitov
+> >> <alexei.starovoitov@gmail.com> wrote:
+> >>> On Sat, Jun 5, 2021 at 10:55 AM Yonghong Song <yhs@fb.com> wrote:
+> >>>> On 6/5/21 8:01 AM, Kurt Manucredo wrote:
+> >>>>> Syzbot detects a shift-out-of-bounds in ___bpf_prog_run()
+> >>>>> kernel/bpf/core.c:1414:2.
+> >>>>
+> >>>> This is not enough. We need more information on why this happens
+> >>>> so we can judge whether the patch indeed fixed the issue.
+> >>>>
+> >>>>>
+> >>>>> I propose: In adjust_scalar_min_max_vals() move boundary check up to avoid
+> >>>>> missing them and return with error when detected.
+> >>>>>
+> >>>>> Reported-and-tested-by: syzbot+bed360704c521841c85d@syzkaller.appspotmail.com
+> >>>>> Signed-off-by: Kurt Manucredo <fuzzybritches0@gmail.com>
+> >>>>> ---
+> >>>>>
+> >>>>> https://syzkaller.appspot.com/bug?id=edb51be4c9a320186328893287bb30d5eed09231
+> >>>>>
+> >>>>> Changelog:
+> >>>>> ----------
+> >>>>> v4 - Fix shift-out-of-bounds in adjust_scalar_min_max_vals.
+> >>>>>        Fix commit message.
+> >>>>> v3 - Make it clearer what the fix is for.
+> >>>>> v2 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+> >>>>>        check in check_alu_op() in verifier.c.
+> >>>>> v1 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+> >>>>>        check in ___bpf_prog_run().
+> >>>>>
+> >>>>> thanks
+> >>>>>
+> >>>>> kind regards
+> >>>>>
+> >>>>> Kurt
+> >>>>>
+> >>>>>    kernel/bpf/verifier.c | 30 +++++++++---------------------
+> >>>>>    1 file changed, 9 insertions(+), 21 deletions(-)
+> >>>>>
+> >>>>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> >>>>> index 94ba5163d4c5..ed0eecf20de5 100644
+> >>>>> --- a/kernel/bpf/verifier.c
+> >>>>> +++ b/kernel/bpf/verifier.c
+> >>>>> @@ -7510,6 +7510,15 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+> >>>>>        u32_min_val = src_reg.u32_min_value;
+> >>>>>        u32_max_val = src_reg.u32_max_value;
+> >>>>>
+> >>>>> +     if ((opcode == BPF_LSH || opcode == BPF_RSH || opcode == BPF_ARSH) &&
+> >>>>> +                     umax_val >= insn_bitness) {
+> >>>>> +             /* Shifts greater than 31 or 63 are undefined.
+> >>>>> +              * This includes shifts by a negative number.
+> >>>>> +              */
+> >>>>> +             verbose(env, "invalid shift %lld\n", umax_val);
+> >>>>> +             return -EINVAL;
+> >>>>> +     }
+> >>>>
+> >>>> I think your fix is good. I would like to move after
+> >>>
+> >>> I suspect such change will break valid programs that do shift by register.
+> >>>
+> >>>> the following code though:
+> >>>>
+> >>>>           if (!src_known &&
+> >>>>               opcode != BPF_ADD && opcode != BPF_SUB && opcode != BPF_AND) {
+> >>>>                   __mark_reg_unknown(env, dst_reg);
+> >>>>                   return 0;
+> >>>>           }
+> >>>>
+> >>>>> +
+> >>>>>        if (alu32) {
+> >>>>>                src_known = tnum_subreg_is_const(src_reg.var_off);
+> >>>>>                if ((src_known &&
+> >>>>> @@ -7592,39 +7601,18 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+> >>>>>                scalar_min_max_xor(dst_reg, &src_reg);
+> >>>>>                break;
+> >>>>>        case BPF_LSH:
+> >>>>> -             if (umax_val >= insn_bitness) {
+> >>>>> -                     /* Shifts greater than 31 or 63 are undefined.
+> >>>>> -                      * This includes shifts by a negative number.
+> >>>>> -                      */
+> >>>>> -                     mark_reg_unknown(env, regs, insn->dst_reg);
+> >>>>> -                     break;
+> >>>>> -             }
+> >>>>
+> >>>> I think this is what happens. For the above case, we simply
+> >>>> marks the dst reg as unknown and didn't fail verification.
+> >>>> So later on at runtime, the shift optimization will have wrong
+> >>>> shift value (> 31/64). Please correct me if this is not right
+> >>>> analysis. As I mentioned in the early please write detailed
+> >>>> analysis in commit log.
+> >>>
+> >>> The large shift is not wrong. It's just undefined.
+> >>> syzbot has to ignore such cases.
+> >>
+> >> Hi Alexei,
+> >>
+> >> The report is produced by KUBSAN. I thought there was an agreement on
+> >> cleaning up KUBSAN reports from the kernel (the subset enabled on
+> >> syzbot at least).
+> >> What exactly cases should KUBSAN ignore?
+> >> +linux-hardening/kasan-dev for KUBSAN false positive
+> >
+> > Can check_shl_overflow() be used at all? Best to just make things
+> > readable and compiler-happy, whatever the implementation. :)
 >
-> Hi,
+> This is not a compile issue. If the shift amount is a constant,
+> compiler should have warned and user should fix the warning.
 >
-> Sorry to interrupt. And hope this email group is suitable for this questi=
-on.
+> This is because user code has
+> something like
+>      a << s;
+> where s is a unknown variable and
+> verifier just marked the result of a << s as unknown value.
+> Verifier may not reject the code depending on how a << s result
+> is used.
 >
-> I am confused by whether global variables are supported by KHWASAN or not=
- in GCC.
->
-> From https://bugzilla.kernel.org/show_bug.cgi?id=3D203493 (for KASAN with=
- sw-tag), it tells LLVM doesn=E2=80=99t, and GCC does.
->
-> While for gcc/asan.c, both its GCC submit log and comments mention that  =
-=E2=80=9CHWASAN does not tag globals=E2=80=9D.
->
-> I also tried to make a comparison here: https://nam11.safelinks.protectio=
-n.outlook.com/?url=3Dhttps%3A%2F%2Fgodbolt.org%2Fz%2FPqvdaj3ao&amp;data=3D0=
-4%7C01%7Csoberl%40nvidia.com%7Cdf250e5b2859499fd04308d92b548ef3%7C43083d157=
-27340c1b7db39efd9ccc17a%7C0%7C0%7C637588465491910111%7CUnknown%7CTWFpbGZsb3=
-d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000=
-&amp;sdata=3DAui5S2%2BS%2BE4HPZLuDouyNg5iZdmyLXs%2FFnsbDCicj0I%3D&amp;reser=
-ved=3D0. Looks like GCC doesn=E2=80=99t generates tagging infra for global =
-registering.
->
-> Could anyone help to confirm that?
+> If bpf program writer uses check_shl_overflow() or some kind
+> of checking for shift value and won't do shifting if the
+> shifting may cause an undefined result, there should not
+> be any kubsan warning.
 
-Hi Sober,
+I guess the main question: what should happen if a bpf program writer
+does _not_ use compiler nor check_shl_overflow()?
 
-SW_TAGS KASAN does not support globals.
-
-I was under the impression that GCC has global tagging support for userspac=
-e HWASAN, but I might have been wrong. Clang support global tagging now, AF=
-AICS. But there's no support for global tagging on the kernel side.
-
-Thanks!
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/DM8PR12MB541628C0DE759463929B4442AD359%40DM8PR12MB5416.namprd12.p=
-rod.outlook.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Ba592rxFmNgJgk2zwqBE8EqW1ey9SjF_-U3z6gt3Yc%3DoA%40mail.gmail.com.
