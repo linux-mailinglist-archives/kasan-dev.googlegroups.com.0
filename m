@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDEZDPVRZMARBZVYUSDAMGQEJMSRSGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEZDPVRZMARBSV3USDAMGQEYAG33LQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502C33A8B1F
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Jun 2021 23:32:23 +0200 (CEST)
-Received: by mail-yb1-xb37.google.com with SMTP id 67-20020a2514460000b029053a9edba2a6sf21959955ybu.7
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Jun 2021 14:32:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623792742; cv=pass;
+Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1003A8B39
+	for <lists+kasan-dev@lfdr.de>; Tue, 15 Jun 2021 23:38:20 +0200 (CEST)
+Received: by mail-qt1-x83d.google.com with SMTP id h19-20020ac846d30000b029024baebaa003sf128033qto.12
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Jun 2021 14:38:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1623793099; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VHgCjFw6VTPFonLR2/GilpafJOn5yoJw3H5hgLJ3v57i41ZpE90X/zGXhNUDD2Vqc3
-         RSJJlIUXQ2gePuzO2Ft4A9xus7WHxb6NZifADqXGASZEbHVrHAhA2m6Fv7URMoXuKk2b
-         nNfLVxR78C+f+OPZblZO6lmFMt+XMOu65IV5rdAo38f3q1rLbFIPqym2TEvVPGdYZKcO
-         O0BcLOpb3SvSBk7F6fpmcnm8xcQh5nNSfJZaXHOI9IwukP8Pqkj25KPfLJldH8IRfFYN
-         iHYarhWAl1N1JEMGuWmWextEY2EI9qXTfqnSYHr9kQks8c5am5UyQvS4GGUfan5g15F4
-         oNDw==
+        b=mjtunY6xYl/M9Ula8z2XeW4hnShaVKZoiqqpa2S7SncbNXbjWkcagg0jo5R3v2CS0b
+         2G1wOmq8WookoViWeVEx5Pu4lgw3dmpN3TzrCnfFSsW+QrjN8PqC6b4R3WS9F2F5O6D3
+         Ao7uA3Xs4w+yViErVDzK+RahGcf16zoeuzcFL/ghZeleh3dhx7PH3U3GVv78uGuUrCtx
+         zqVrZPiyAXzTbwyc/CULntLJhEvTyy25jhtyFrFCh4tY3TE/4/lKDEk/iOVnLTvPLj/T
+         wzoTy8oTlupwV6XtKo7o8m4EiU1fSTGPYic6ez0A5QCDLgbaOmU3hz3Y2m460m/Xddyu
+         skdg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=0UjXpa04cbchzeR4eA3guJZwDcVfSXY13L0GoOnV0Og=;
-        b=v5fwPMablg9vH+IWmJHg1IKRE+i8QUOrQVz8tydCUHAjIOU6UNaWt9f5j59o+VwFc2
-         EPLwRmCQAm+TL3WzGFC3T4/CdvKv0whHAjU8CCzD/00TQhhSe84ycCox4LhG463MXrXM
-         ctels4HGKIs8/W2zdvaioguA+G80/i0K4G32sNRNeb/Tx9Nacinxyt9Lodx8jtvwInPK
-         TBUEcu+T8dkUi/UkXCvkl5w+SupYsdjbf23EOW1hLf6Z0iq22dVVz1nwnlw5egnNm0oK
-         3dePRFbnNOmFlr3akBaCMd3awAZ17+4phhPHJMhcmrtUZEXAqa/BzSjGLA2Y8wSONSvO
-         y3Rw==
+        bh=ySDqrGtSaY0vUIq2LV+vz9NOFCFGbxPt6SEWgQW+OtE=;
+        b=bYVUptd11dqd+D+CRaOiWxiQQcLj3Mn1Q/NdPDo+bhJwnE+w4oNU/cRh95iHqPae5v
+         WOuoGes9Df1LwXW3PJ0NoctWWvem2X+NGyLMmfGBo+nvvXXGO/hPRthmyeN5shMEdFSC
+         74Cd+ypCwd7C4sPpkyZFe49sYSH5qL9s5Ed2SzpK3YpGmLZUdojM7vc95ZgbqvjygWnk
+         vCFvjf1y2zgK6dgvD63M5RwaT+vnxHt+nY3PvbMUn/Av0qbu3QWIdbalGxnpOcmGjPwH
+         XnSIRy9bd5mXXoZHxZVIvTpnJmU04/VDraAsDR3SMxYb0JAB0UmtCb+dzGrOoWbRv+iK
+         XgTw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Dlg4FUfR;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=G54nkd1F;
        spf=pass (google.com: domain of ebiggers@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=ebiggers@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=0UjXpa04cbchzeR4eA3guJZwDcVfSXY13L0GoOnV0Og=;
-        b=iL6V/2WOteUq7iUIJ+WRd4TUSYzGL53ykpefTYo5fNiVHdW4lQ6ay6EwzlYpXM2vbA
-         cQQ629TFrzn0cAhZGMjP2HvLWtfeTAYCZi8d6NxBcTjw8jyWd9Jhp1I5wJF/zkjScWws
-         bfZscWcFUMQMrCEEdalsxWJVu6Xf2DsjgdAEdNGA401wVRUxgsoRPMNx7Z4GVCu3zXfq
-         O3CQxGezASC3KQrZPRSkW9gFdfx3MWFSVk9wL5H3GvEQk1nuw+J6pfRefkeeXeqxJoTn
-         SVxNlsuxIJRr8eDqWvPzimPHqiY/ZiVWGtIQkf6jxQ1+QpT71AyXaQrrHUc67aqCCcX9
-         Bbmg==
+        bh=ySDqrGtSaY0vUIq2LV+vz9NOFCFGbxPt6SEWgQW+OtE=;
+        b=F3VFdbnt+ONk1tCEhiNYrUbiw0Eq1AtWGKkUK3tmGdSQ1iuzzoTfUIVAnxQPG6DXgn
+         W2830nVQYANa/lpc/5S4UNF97e80pvjaezbDQH1+4J8Yr7DkW0UllcngASa2W6AMHl1a
+         VX7qM4hu7pSu5FgQ8aEDHunaNY3tQ+cD3D92HB9+wyBZ+y5gqbF1P7REI7e3gvyMm+Mi
+         BCdVVPa2XIglOThSxTFWhEoJ88wZ4ow1rQZQSGfE/JQJy5MQVodEArPoLSZ9dbLwg3Dd
+         3sdsuJignW3Q1p1XonL31di+NVZO+WnJEAUf8OyQKMNovBjLuhzauMDa9oScw2Wv2rew
+         3fJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,54 +50,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=0UjXpa04cbchzeR4eA3guJZwDcVfSXY13L0GoOnV0Og=;
-        b=Wq8EUoaDVRpxFlsA4zv1pPtoLKbYetTrprQ2tJ3Ms+BwUMlNJXdyY5bcxjej8nSRBe
-         Th2GQVxpfNBLUq8LYu/qlVcaAkhwzx8fsbfAsALtAlw8AsiowPBepjPsRXNk1Psj2nEF
-         4GGcGBCvSpUpbRxJJrHxVRGEwCr/LXdP+2e6FR5lPkk69X0GMemxy9JP4MCuTR4yK7pv
-         7+yyPtIb7T+UT+4VVCwl/jQ01v22kqZM2J0u5TU2L2ZRaw7lRmiEKqVpJ9UHLiFtVnTO
-         7xsOS8dPIzt8JD3m/VUX+oxiMC1zwkvNVuwSJOJxyXC9ebTr5mWXEITW4vXcyA8eB+mX
-         dxXg==
+        bh=ySDqrGtSaY0vUIq2LV+vz9NOFCFGbxPt6SEWgQW+OtE=;
+        b=r1BRVbV1CBtaMsnYAsXpaOfXfJ4VmHGSau8f0zb6l5p0g2yTqWW5k2h0H7VoHNJcfF
+         iBVrsHesJmJ5IK9QDhMK7CL7NgFYPzTTWl1ETjM2TrWhTiG6tVt1rYwYBncNKtm3bX7k
+         0fDU4/8J+qoQC4cdFju2/M1jd+BYMrqZSazjklnOUC6JclUDs+JZWzVBZi2SYn2WmynG
+         QuVcWET5mvaxHqSMD2cNJyoOcEpha9n82VlWxYqNQj4dn5NHDeIplWpvh422xMhceadS
+         c303x8c2pCVZTU5ExnI/1LHRZ6vskoTUtAEkwc5es+rYPt5x57QT9Od5DMDRxQ1JpzFX
+         X+kA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531eSCuOkmOUljn7lpG/LZyBN1zfTybVfShxVDVwocrmJca6o8eC
-	a6RTl2yfi30Y480Ufenazxo=
-X-Google-Smtp-Source: ABdhPJwTnFqOStXyJfoRnCs1M/RZrcJFv4HuVA4MJq6ZK0SFra+aR2ZPrTdMrhb40myrFp/ynhFiCA==
-X-Received: by 2002:a25:ad41:: with SMTP id l1mr1755462ybe.380.1623792742225;
-        Tue, 15 Jun 2021 14:32:22 -0700 (PDT)
+X-Gm-Message-State: AOAM533y9jcfm8OMWhvPoAXNYSUK6F8+dmnnYe2KGEy8CLUIAvEzXzqc
+	P2mP8cImRE7ue6flGNHAIFQ=
+X-Google-Smtp-Source: ABdhPJxVxVssmUzTrd2RnTNIjf4qDdIIArrUc6Ikw23Uel2jKgCGuqJysL8OeeY/FPddbJV4pBecAg==
+X-Received: by 2002:ac8:5949:: with SMTP id 9mr1711028qtz.67.1623793098913;
+        Tue, 15 Jun 2021 14:38:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:544:: with SMTP id z4ls220757ybs.3.gmail; Tue, 15
- Jun 2021 14:32:21 -0700 (PDT)
-X-Received: by 2002:a25:18c3:: with SMTP id 186mr1819367yby.0.1623792741812;
-        Tue, 15 Jun 2021 14:32:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1623792741; cv=none;
+Received: by 2002:ac8:7fcd:: with SMTP id b13ls156138qtk.9.gmail; Tue, 15 Jun
+ 2021 14:38:18 -0700 (PDT)
+X-Received: by 2002:ac8:7457:: with SMTP id h23mr1738776qtr.344.1623793098419;
+        Tue, 15 Jun 2021 14:38:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1623793098; cv=none;
         d=google.com; s=arc-20160816;
-        b=AKwnFXdQQLjH7qpfrws1OuTR1R4zFLD950xPdLQhJqPHS011u+3A80X67d2IgxHDUY
-         3yVT8XJ9NSSdT9lV6c7Z6fBrvMZTP5oFeJi6vvSnyW2c4fnRdxY8Ru+5ce/D+Z8M/4F9
-         CffQ7shVN080IRgo0uXULkQkRkcUcm1Sl2r3vvISJ1GbO33JEVCwDhlp3YqXfDZCONv6
-         /QgZ9+ot+l/gacslrOFxidpeehfQ983i59KIbfVjQfy5lnxCocVrExT2MEXYoG7ydkIW
-         Pl7df71O8J9sJoeyWwSz5yYrhtHz/0m+rvQ/IiRLTFR+KMAgDZWbQnFr2Jxyl8YkpjIT
-         acEA==
+        b=aVdMT9LFq+8bUE1i8f1wQhoY7BrfACR1JhCLx6MZqpvqSF4votH9pgnxFFJucBGQus
+         VDQ/q+UaLqDfbcd7zLkY3UHPj37HYudFxjEceUq5dVfbCMUlF+vDJUoTskMis04uovf3
+         vdIMSQ+IiyfuzoXzaO09BOhwB7mkQdXsLwotCdk3/OYaO38Omxc954f+FFAfspXTybT+
+         cdV3Bie6GmVKIBf/IA1vWdryewFw3vEXqJTMwq77eqw8zS5XniaxbTBkZpclcCpk4C8Z
+         9bCTWMKlSlWbCuiMUw0fNekzcT4Q58ilzF8HFUD/cyv6EyS9b8GlaqO1tbXVWRdQxaS2
+         8v3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=vBn1Kq8SJGcxfnaOZmYoqEOirrBNr6M7PkXW/RMINCM=;
-        b=jsleEjv/lKaryOdylkhhhpfyou2I9rLXfAkGIJmjuu0OjtQQ92nLcgTzI7+UBQA8yx
-         IUQQy8eRZlpkxsqAiWRy8mvI49bjj/oIey+iYXrMU/Q5LvevdjC1GokPzcGBFwoK6HJV
-         bxgJ1c/goRiao+v8JJ0RbzDPcBmx93lyL+fiuGv1pGxgtpwoW2TC19anAwzl9HlNM/KR
-         aRC99Tw/UxTwTjOXHE9zu4+zb6knBfDu1Yjxkj3/bIUs9PvlHkzlkC69eVvW3HLHWggU
-         yUabQwLeU68uZqlGAbP7gO5OjsHOr+4+zQaIkyvLUVj1QDsBUK3z8SrqJ5xzgfABXyej
-         EEuw==
+        bh=RcaYfXb2ff5BC3VTEE7pr64Sb7M9xdx7qUsl91GHjnc=;
+        b=CGtU61Um0dwxy6AHvWLCiCcPNP0yDzg8HHsMKlBujp9nt+ANPKxCH0B/iCB7ibMwPH
+         olbbA3L6vrl1fnKIxfAArgxqUuWxh+UnRSf4EYSsu2XzgUNYYqvZ1Z3RdtqABECJlTAo
+         mQp2RNoc/6DDAtpwxI9Yl66vcQH66p1FnDaxwlAqEeSF26j7H2tSRPeilX9YYmMN24Yr
+         Zyr5zpGLBjkWRmWA+TjOdJh7gAXe43DilAe6QOHvi9Gy87Z3wr3fXyAXgXDplolandjb
+         td4Ac/LNPLmZUG9w65OiDmApwRHhJm4XDQebSVXrZtK8OHXPIM+wL0buaHWRDdkpzGgm
+         X5Cg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Dlg4FUfR;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=G54nkd1F;
        spf=pass (google.com: domain of ebiggers@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=ebiggers@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id q62si10633ybc.4.2021.06.15.14.32.21
+        by gmr-mx.google.com with ESMTPS id g22si16585qkk.4.2021.06.15.14.38.18
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Jun 2021 14:32:21 -0700 (PDT)
+        Tue, 15 Jun 2021 14:38:18 -0700 (PDT)
 Received-SPF: pass (google.com: domain of ebiggers@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2820A610C8;
-	Tue, 15 Jun 2021 21:32:20 +0000 (UTC)
-Date: Tue, 15 Jun 2021 14:32:18 -0700
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 979D761159;
+	Tue, 15 Jun 2021 21:38:16 +0000 (UTC)
+Date: Tue, 15 Jun 2021 14:38:15 -0700
 From: Eric Biggers <ebiggers@kernel.org>
 To: Daniel Borkmann <daniel@iogearbox.net>
 Cc: Edward Cree <ecree.xilinx@gmail.com>,
@@ -113,9 +113,8 @@ Cc: Edward Cree <ecree.xilinx@gmail.com>,
 	clang-built-linux@googlegroups.com,
 	kernel-hardening@lists.openwall.com, kasan-dev@googlegroups.com
 Subject: Re: [PATCH v5] bpf: core: fix shift-out-of-bounds in ___bpf_prog_run
-Message-ID: <YMkcYn4dyZBY/ze+@gmail.com>
-References: <202106091119.84A88B6FE7@keescook>
- <752cb1ad-a0b1-92b7-4c49-bbb42fdecdbe@fb.com>
+Message-ID: <YMkdx1VB0i+fhjAY@gmail.com>
+References: <752cb1ad-a0b1-92b7-4c49-bbb42fdecdbe@fb.com>
  <CACT4Y+a592rxFmNgJgk2zwqBE8EqW1ey9SjF_-U3z6gt3Yc=oA@mail.gmail.com>
  <1aaa2408-94b9-a1e6-beff-7523b66fe73d@fb.com>
  <202106101002.DF8C7EF@keescook>
@@ -124,13 +123,14 @@ References: <202106091119.84A88B6FE7@keescook>
  <bac16d8d-c174-bdc4-91bd-bfa62b410190@gmail.com>
  <YMkAbNQiIBbhD7+P@gmail.com>
  <dbcfb2d3-0054-3ee6-6e76-5bd78023a4f2@iogearbox.net>
+ <YMkcYn4dyZBY/ze+@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <dbcfb2d3-0054-3ee6-6e76-5bd78023a4f2@iogearbox.net>
+In-Reply-To: <YMkcYn4dyZBY/ze+@gmail.com>
 X-Original-Sender: ebiggers@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Dlg4FUfR;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=G54nkd1F;       spf=pass
  (google.com: domain of ebiggers@kernel.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=ebiggers@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
@@ -146,88 +146,74 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jun 15, 2021 at 11:08:18PM +0200, Daniel Borkmann wrote:
-> On 6/15/21 9:33 PM, Eric Biggers wrote:
-> > On Tue, Jun 15, 2021 at 07:51:07PM +0100, Edward Cree wrote:
+On Tue, Jun 15, 2021 at 02:32:18PM -0700, Eric Biggers wrote:
+> On Tue, Jun 15, 2021 at 11:08:18PM +0200, Daniel Borkmann wrote:
+> > On 6/15/21 9:33 PM, Eric Biggers wrote:
+> > > On Tue, Jun 15, 2021 at 07:51:07PM +0100, Edward Cree wrote:
+> > > > 
+> > > > As I understand it, the UBSAN report is coming from the eBPF interpreter,
+> > > >   which is the *slow path* and indeed on many production systems is
+> > > >   compiled out for hardening reasons (CONFIG_BPF_JIT_ALWAYS_ON).
+> > > > Perhaps a better approach to the fix would be to change the interpreter
+> > > >   to compute "DST = DST << (SRC & 63);" (and similar for other shifts and
+> > > >   bitnesses), thus matching the behaviour of most chips' shift opcodes.
+> > > > This would shut up UBSAN, without affecting JIT code generation.
 > > > 
-> > > As I understand it, the UBSAN report is coming from the eBPF interpreter,
-> > >   which is the *slow path* and indeed on many production systems is
-> > >   compiled out for hardening reasons (CONFIG_BPF_JIT_ALWAYS_ON).
-> > > Perhaps a better approach to the fix would be to change the interpreter
-> > >   to compute "DST = DST << (SRC & 63);" (and similar for other shifts and
-> > >   bitnesses), thus matching the behaviour of most chips' shift opcodes.
-> > > This would shut up UBSAN, without affecting JIT code generation.
+> > > Yes, I suggested that last week
+> > > (https://lkml.kernel.org/netdev/YMJvbGEz0xu9JU9D@gmail.com).  The AND will even
+> > > get optimized out when compiling for most CPUs.
 > > 
-> > Yes, I suggested that last week
-> > (https://lkml.kernel.org/netdev/YMJvbGEz0xu9JU9D@gmail.com).  The AND will even
-> > get optimized out when compiling for most CPUs.
+> > Did you check if the generated interpreter code for e.g. x86 is the same
+> > before/after with that?
 > 
-> Did you check if the generated interpreter code for e.g. x86 is the same
-> before/after with that?
-
-Yes, on x86_64 with gcc 10.2.1, the disassembly of ___bpf_prog_run() is the same
-both before and after (with UBSAN disabled).  Here is the patch I used:
-
-diff --git a/kernel/bpf/core.c b/kernel/bpf/core.c
-index 5e31ee9f7512..996db8a1bbfb 100644
---- a/kernel/bpf/core.c
-+++ b/kernel/bpf/core.c
-@@ -1407,12 +1407,30 @@ static u64 ___bpf_prog_run(u64 *regs, const struct bpf_insn *insn)
- 		DST = (u32) DST OP (u32) IMM;	\
- 		CONT;
- 
-+	/*
-+	 * Explicitly mask the shift amounts with 63 or 31 to avoid undefined
-+	 * behavior.  Normally this won't affect the generated code.
-+	 */
-+#define ALU_SHIFT(OPCODE, OP)		\
-+	ALU64_##OPCODE##_X:		\
-+		DST = DST OP (SRC & 63);\
-+		CONT;			\
-+	ALU_##OPCODE##_X:		\
-+		DST = (u32) DST OP ((u32)SRC & 31);	\
-+		CONT;			\
-+	ALU64_##OPCODE##_K:		\
-+		DST = DST OP (IMM & 63);	\
-+		CONT;			\
-+	ALU_##OPCODE##_K:		\
-+		DST = (u32) DST OP ((u32)IMM & 31);	\
-+		CONT;
-+
- 	ALU(ADD,  +)
- 	ALU(SUB,  -)
- 	ALU(AND,  &)
- 	ALU(OR,   |)
--	ALU(LSH, <<)
--	ALU(RSH, >>)
-+	ALU_SHIFT(LSH, <<)
-+	ALU_SHIFT(RSH, >>)
- 	ALU(XOR,  ^)
- 	ALU(MUL,  *)
- #undef ALU
-
+> Yes, on x86_64 with gcc 10.2.1, the disassembly of ___bpf_prog_run() is the same
+> both before and after (with UBSAN disabled).  Here is the patch I used:
 > 
-> How does UBSAN detect this in general? I would assume generated code for
-> interpreter wrt DST = DST << SRC would not really change as otherwise all
-> valid cases would be broken as well, given compiler has not really room
-> to optimize or make any assumptions here, in other words, it's only
-> propagating potential quirks under such cases from underlying arch.
+> diff --git a/kernel/bpf/core.c b/kernel/bpf/core.c
+> index 5e31ee9f7512..996db8a1bbfb 100644
+> --- a/kernel/bpf/core.c
+> +++ b/kernel/bpf/core.c
+> @@ -1407,12 +1407,30 @@ static u64 ___bpf_prog_run(u64 *regs, const struct bpf_insn *insn)
+>  		DST = (u32) DST OP (u32) IMM;	\
+>  		CONT;
+>  
+> +	/*
+> +	 * Explicitly mask the shift amounts with 63 or 31 to avoid undefined
+> +	 * behavior.  Normally this won't affect the generated code.
+> +	 */
+> +#define ALU_SHIFT(OPCODE, OP)		\
+> +	ALU64_##OPCODE##_X:		\
+> +		DST = DST OP (SRC & 63);\
+> +		CONT;			\
+> +	ALU_##OPCODE##_X:		\
+> +		DST = (u32) DST OP ((u32)SRC & 31);	\
+> +		CONT;			\
+> +	ALU64_##OPCODE##_K:		\
+> +		DST = DST OP (IMM & 63);	\
+> +		CONT;			\
+> +	ALU_##OPCODE##_K:		\
+> +		DST = (u32) DST OP ((u32)IMM & 31);	\
+> +		CONT;
+> +
+>  	ALU(ADD,  +)
+>  	ALU(SUB,  -)
+>  	ALU(AND,  &)
+>  	ALU(OR,   |)
+> -	ALU(LSH, <<)
+> -	ALU(RSH, >>)
+> +	ALU_SHIFT(LSH, <<)
+> +	ALU_SHIFT(RSH, >>)
+>  	ALU(XOR,  ^)
+>  	ALU(MUL,  *)
+>  #undef ALU
+> 
 
-UBSAN inserts code that checks that shift amounts are in range.
-
-In theory there are cases where the undefined behavior of out-of-range shift
-amounts could cause problems.  For example, a compiler could make the following
-function always return true, as it can assume that 'b' is in the range [0, 31].
-
-	bool foo(int a, int b, int *c)
-	{
-		*c = a << b;
-		return b < 32;
-	}
+Note, I missed the arithmetic right shifts later on in the function.  Same
+result there, though.
 
 - Eric
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YMkcYn4dyZBY/ze%2B%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YMkdx1VB0i%2BfhjAY%40gmail.com.
