@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSHYUGDAMGQE3B6DAOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB4UCUKDAMGQEYEISGRY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0753A7B6C
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Jun 2021 12:09:13 +0200 (CEST)
-Received: by mail-oi1-x239.google.com with SMTP id w12-20020aca490c0000b02901f1fdc1435asf7300022oia.14
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Jun 2021 03:09:13 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623751752; cv=pass;
+Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id F323E3A7BEF
+	for <lists+kasan-dev@lfdr.de>; Tue, 15 Jun 2021 12:31:15 +0200 (CEST)
+Received: by mail-ot1-x33a.google.com with SMTP id l13-20020a9d734d0000b02903db3d2b53fasf9098858otk.6
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Jun 2021 03:31:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1623753074; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zNn5oi3F6EfZd9U4tKns4ZDEGh+J1QA13VTkdZjNL8JrhFqvbpGfYMxpw1XZ2XiAHX
-         bS+VcYuakbCh/tPXvZOeVhdJpmlk/toMOGmI5j3lIvAefT6eJ1AQFlkH/fvF6irS9t8w
-         TddV77nY4ggGKlr/9MJo0WuLUwh6bS2HCFTi75kSf0HPstehTa5p6i1hg73G5Jim46QQ
-         0EaSFXxJuT/SdaM1uRiACXKlsEMfDNuREWBQmEqU1FS0DpccMZlOnHYInsNUCs3Y/wMX
-         U+1B+n6PuBMli30mQuSL3U5BPjSKrgwXfgyHo5yXRXzGbTwC98SgAt5K+Zt5HMUd3LrE
-         daKg==
+        b=wY+VBt65MmdATMO7XLeXIFwLbdV3PBRc9OZJcq87V+MSi3DT6Jk9iTojAZo84a+5PR
+         dweuijmUmNMTEUdDttv5I2nMxvEM+FtNIL/WL88nHG0zGkGXTw6zcLGO3XQjlXVOuEUJ
+         CeEkijkFtA2zL7P2RQDbGXZdZ+W5VZXyt4R9+295Hzf29ExkbB4odwKTCar16673+Xio
+         3Wbul6r3Vfj4OiYOw1eESPfYhwF25BEnAQQGdgaZ8Ehcr8CzFXdwxe7NYkhs94n6MCCB
+         viM8URdb026xIhiD3exnZ7+9TYq2axqyOPnN3xVcz0jK7CruaHhlJ2n/rDToCvPwnGQ0
+         Cvog==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=xny432D1kDzZ38HxExC9V8+BkUe9HRfhkvAYsb8fZuY=;
-        b=vnFSa975q+kQHCjoSHfP4auuxL+yr5fTn7eMLZ/7xkMVcvh9hWq4uHAuvi3nnzRIyQ
-         +wxhV9yN2ulhx8eCiB2Am/zhvIVyjTOT4u+Rpd+PEyX1jrTDJfSV9yN3vjg6CV4R3RFI
-         h5/mpIDkwekHEdewa/4WriQKQU7HdWkjUBSmstPonYFTRvqgx0A6jptdf1JDbLiZSMyn
-         /Kim3ra+12h57RVBArwTRCGWY2os5GzchPuQ7AhbfrhU7zXsl7MYOgfcl18q2Xm8SRda
-         JfWFUWw2OunLKRCA8FbFFCdn8ZCZalGIs7zr75ngZxUrmd5WHZyF9Ki3Mt+x0LMZh1vL
-         DZfg==
+        bh=1pwdZyXbNsXjBjQDCfkfzYi9ysrZuWvgKOEshy81FTg=;
+        b=h+sWYLZfhA8Q+erfj5cTsrwU+9bN9dfL4xl6mYjA8H8XFqwraUPKrIwerd0LY3RgEV
+         2z/Cc4iEuaqUohya6QLV8Q4K5qyjMwHU1Seo4siBeyTPKoBdg0nliyy1TnBRYZjxaiA9
+         5AgMwFqnz06jtlMJ2YLmpVKpK3acriecWUI2bOHBgcPoFcUqgq1BEUOj51OTwU9el/r+
+         KbqEkxmjoKlN3nHRSFJDOxwqMXI/Q8SA7YlKVOBV7yodS6AuanF8IYLvceE2zLK/2qoS
+         lOufWzU3DpDOysHo4Ts0CnGVdtpGMxYBeMlmedEpRMLo0sd/8R20YaMFd7YfsS7C5rtP
+         8Y9w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="W/lfR0zL";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=YHM+AxYL;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::330 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=xny432D1kDzZ38HxExC9V8+BkUe9HRfhkvAYsb8fZuY=;
-        b=J2ah5K/U8UBsP3Qy3UXiOuxXYwasTYCstUgy2uraDl6U1uY+Mu3hsYh5BGzBRo5hc0
-         DDLhL+9L0TcHv6SmzLxXVyaGveNwZxjYu9NAW3vCZYQZGyzLSlGmXYKs+4h9sHQaoZZo
-         pce1R1n83WmW6cnh9fNEXWZMEQibwy+cVU5g3EQybm5Qm5+WxuFCg1+7SXrgJPPfwCZ8
-         FtrJVktK7YZydvTF1CyZjsXt2JwAbwaxB0Bf7H/Vvb1ZjwjYfluitcC/Nec1pOw78Mfj
-         VktjWpS0j4E8aAMZTLGhpJOkXEuMukQ32V7qhWjH0BAyruBJ94/chxEHfeTTt5dw0p/1
-         VM0g==
+        bh=1pwdZyXbNsXjBjQDCfkfzYi9ysrZuWvgKOEshy81FTg=;
+        b=Fa1kmWz7fJuCJCXVOOflwxogB1xkqqxGpQWqlvbFv4KbMbOu256MxRSpuLUqqafXvQ
+         oH4ZU6yBOMtuFs+Zq+n5szYelvVxNTPUu39PBM5wQuB5YB0QBhf02b5hoaMk+x9U5xKw
+         LBe3eQPiODrOC9F+btKsITSbqwcrwLDCIhzCT98Ny9LXbYamKfpbfh+6qD8MqOU/GPnt
+         sI0CJAqxwyaIZjonVFpMHhqhA4YGENy0ptwq34Cg9Yry4vNGzhDnyQ6+sO3ELLHdr5gM
+         fVFidxqtvGSR+cHDOuIvOJLBoBCYD9TnKuemMm4a3edOeTlpDYj4lXeAQEzd00WdZ6gW
+         FatA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,74 +49,73 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=xny432D1kDzZ38HxExC9V8+BkUe9HRfhkvAYsb8fZuY=;
-        b=qiHZsvzxYRbWJhU8H/M1NfEUb2rsbqimojTZwbNgMXWqGVgXpEP0fmuTDlQS9l+VSn
-         mcQyF0WGAzDybpq4bQg88k0wZZ52hfWyzY9e4/GkkMnocijHDRal6cic3jBIoNMjeK4l
-         pdiKOirn42IxG5UznRMM8k91ZDdIzU/NpIoAa6At6+gTXwLo2m79N3ohmfTEXbVgJAHB
-         rrMZL9utfSN6GEcdM1+MdX1uAuLYdIVWM3Wnt5eVdvz4i8w0tGoTzdbz60xAk6fpACjF
-         g6YNMk9Tb1ook9RLbdCtGre2d78Vl5YyffJusqaj9TzUukbURALLPu054O3Y+j2dxyHa
-         qp6Q==
-X-Gm-Message-State: AOAM530iEfj3bKf7IXsPDfZYCFSQHX38i6hcUb8nQVtJuMdjh7hv95LW
-	1vlq0Dl6JtgdS0XqvuluXN0=
-X-Google-Smtp-Source: ABdhPJx1Wa6nc54QWLEvLTa82E1CE6oWPuX39nxpjbX7l8ZZcXiy1gxT/0oFB1276k03Mg6oaBiC5w==
-X-Received: by 2002:aca:f482:: with SMTP id s124mr2594109oih.167.1623751752194;
-        Tue, 15 Jun 2021 03:09:12 -0700 (PDT)
+        bh=1pwdZyXbNsXjBjQDCfkfzYi9ysrZuWvgKOEshy81FTg=;
+        b=Z10N9Zj8hp9KilGbZbpVIBW/4j/UNV5JfG2NFne3zTwv87/w4wzq9t1ANQsLyIXgsm
+         S2reNd7OKodCvIVNG/sdi0HSOCc6Kabm8VtXgTltRlNQCgEWdGAb3LhJezbE0PCxiwdL
+         mEwpRk+cJHGNe27SJFzZUGTBmrT9pBkX5nwb6k8rgLGc97AHcaG2sIM52VFnwjyejfnQ
+         4Q6668aBGZdCKRB3DjBgxd/lRDWa4xDAXp37t3GjJ0dR5FtKu6ImleSlhp5GlJBVeCl0
+         ESfaTH3/u2MaB/cLM+jj/Caseq+udU7PWrCHAipzQBBhfe1KdP6MxC2/68dFGpWBJ4O+
+         R2Jw==
+X-Gm-Message-State: AOAM533Grpm0rKNoLA/g08bUJzAnlw1Pg5a2ooKYAH/+GL2q7/HZsDY4
+	FLg0a7dt3jX9AbdlFXPuSs4=
+X-Google-Smtp-Source: ABdhPJzG6YCs8Xo1CZibIBFPz7oqvtbVn3OF41FwjRfUXkiG63imKn488IoN/c3kU9fbk3wj4RnJaA==
+X-Received: by 2002:a05:6830:22ec:: with SMTP id t12mr17486003otc.243.1623753074549;
+        Tue, 15 Jun 2021 03:31:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:494d:: with SMTP id z74ls1759728ooa.9.gmail; Tue, 15 Jun
- 2021 03:09:11 -0700 (PDT)
-X-Received: by 2002:a4a:a744:: with SMTP id h4mr17048427oom.26.1623751751822;
-        Tue, 15 Jun 2021 03:09:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1623751751; cv=none;
+Received: by 2002:a9d:30c1:: with SMTP id r1ls7200162otg.5.gmail; Tue, 15 Jun
+ 2021 03:31:14 -0700 (PDT)
+X-Received: by 2002:a05:6830:154b:: with SMTP id l11mr17654394otp.66.1623753074214;
+        Tue, 15 Jun 2021 03:31:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1623753074; cv=none;
         d=google.com; s=arc-20160816;
-        b=d3Ey3hvyOspLFbU6WGwyxRwzxKvfyKZod2ERGiaCm33ixVF3WuUu/1I6R7yuAb2pwx
-         celYa82V/Cgcusu5eLgVjwQ2H/d3CAmF8DGzU/G5+i6Z/jDFR8isLSgdYuSBvpSuXTcS
-         O2trdUrMrNjmNdWZnsaaLXRVAVXMLY/pnzG6xxKk6GOfJHmdllS4ALPZoK2ez+QI85en
-         /5wwuP6WOA5N0QO/HxyRdQGmWB8sDdSfiomV7bGp9EFPu+aE2Q+Dcb6YSCyys2B+HAQB
-         Kw1UKcEGGLMACjeyPgcVK7oxVgPUKk/GHjpdZ2+IKVwgUM500R3bZ6kr7M90uX/tuTDv
-         e7Rg==
+        b=WyQawezCwDxIMRN/apiER9hZUBAU0AP29+ytK4DtqEoQ9eXTndFtMYVvKWtrlAPiWq
+         tITgi7pqF35naPR0UDbHLzkkVuLIebubHOu0SJVr+vfU68dtSUmMAkDg68udHIgpjm9p
+         b8/ZvlSut00S0YPMGigrHju3pmKjsiinGM6xkn3LxkQDEs+5ag82qfy3lp3kpP05XmhS
+         YOHrrcczHYcdBFoFApYIyV/dD7XNmcheeRCua5fLVH5F8ohbeNf0ExG8iQmZLI0bBFNe
+         T2tYX4mfSYcAIsC6xUhEsyficAuVAsX1AEvvFv02O6mktD05MeqbaP+T/9F7jmmTVxMx
+         WGnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=D/L9M46eaaH0QBqlJTDr9j5/a1oRGHp298rEoHobuSk=;
-        b=IMMK1NTu2FkAy68LNguViaF3nrnvteZt5EOx6hYNtdQwIsJLV0CE8vMvf75L2L2xMG
-         I+LsxB/ICUeQ+ShUOL3VYoI+33a9wvJ3gnDjjhciCgUn7pzB1Rq5NqspThjj+lyITJD3
-         QHawH2GRt8NzlRCF2Cz8UBejFbRUgnPpS73Qr111ma82dzm/hqSb+jPJlMuw4pq7Wcnr
-         i5i2MERPzkctEjSGbWWDBJM/qFvLR/d8VAxchu/SJzUh1siE0cTTYrmWhYdCubuwYRq9
-         Jf8Xf5iIZU3mJ/17bqP3jTIwsxvZgHttu5XWUeR0nZMN7UoTe1KCtLfmw23ScSq+W7ao
-         t2Yw==
+        bh=QY2/939t5WrgTBjBlWlTUN2kXiGUMSX5srdzV+Tkpzg=;
+        b=bNji4ktqrnkAnubnc4JiMZQqGVC59XQCEJyTnIuPDntoyt5wQYrHU9eDNgSpbXDVcC
+         YM0T/eJ/iRSU3pgUdPCz4STWpDRDQOjl3L8QaJfZ2LvDYZ1pGysvwrqJaieWr8n+UGJY
+         D/f7I0M+56BGuhH7sVKfmcOmoKbYS9B+emkT8CQ4en/mFbT5syjPmHTYIJSRjKzCkPwz
+         t6d7D97UQdLLQXyxgEaHLixGFjlWsfiu2zD9stK6XyvZxJkDSuq9Tm33qxz+ywdvwRba
+         tLvyRIl7yV1awN31B8CS3RAAvPFswE95KmtOilAxw13QbsgaNj6P2KqOAZivpKjJgly5
+         OiRw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b="W/lfR0zL";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20161025 header.b=YHM+AxYL;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::330 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com. [2607:f8b0:4864:20::336])
-        by gmr-mx.google.com with ESMTPS id k18si205243otj.1.2021.06.15.03.09.11
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com. [2607:f8b0:4864:20::330])
+        by gmr-mx.google.com with ESMTPS id c22si210706oiy.1.2021.06.15.03.31.14
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Jun 2021 03:09:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as permitted sender) client-ip=2607:f8b0:4864:20::336;
-Received: by mail-ot1-x336.google.com with SMTP id 66-20020a9d02c80000b02903615edf7c1aso13705798otl.13
-        for <kasan-dev@googlegroups.com>; Tue, 15 Jun 2021 03:09:11 -0700 (PDT)
-X-Received: by 2002:a05:6830:1c7b:: with SMTP id s27mr17651144otg.233.1623751751394;
- Tue, 15 Jun 2021 03:09:11 -0700 (PDT)
+        Tue, 15 Jun 2021 03:31:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::330 as permitted sender) client-ip=2607:f8b0:4864:20::330;
+Received: by mail-ot1-x330.google.com with SMTP id 7-20020a9d0d070000b0290439abcef697so8341477oti.2
+        for <kasan-dev@googlegroups.com>; Tue, 15 Jun 2021 03:31:14 -0700 (PDT)
+X-Received: by 2002:a05:6830:93:: with SMTP id a19mr17226203oto.17.1623753073778;
+ Tue, 15 Jun 2021 03:31:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210615014705.2234866-1-dja@axtens.net> <20210615014705.2234866-3-dja@axtens.net>
-In-Reply-To: <20210615014705.2234866-3-dja@axtens.net>
+References: <20210615014705.2234866-1-dja@axtens.net>
+In-Reply-To: <20210615014705.2234866-1-dja@axtens.net>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 15 Jun 2021 12:08:59 +0200
-Message-ID: <CANpmjNN2=gdDBPzYQYsmOtLQVVjSz2qFcwcTMEqB=s_ZWndJLg@mail.gmail.com>
-Subject: Re: [PATCH v12 2/6] kasan: allow architectures to provide an outline
- readiness check
+Date: Tue, 15 Jun 2021 12:31:02 +0200
+Message-ID: <CANpmjNO9EdwPEiNPu630a2kgsxMXYiNU_phKH2=7Z5YFRCSR1A@mail.gmail.com>
+Subject: Re: [PATCH v12 0/6] KASAN core changes for ppc64 radix KASAN
 To: Daniel Axtens <dja@axtens.net>
 Cc: LKML <linux-kernel@vger.kernel.org>, 
 	Linux Memory Management List <linux-mm@kvack.org>, linuxppc-dev@lists.ozlabs.org, 
 	kasan-dev <kasan-dev@googlegroups.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
 	aneesh.kumar@linux.ibm.com, Balbir Singh <bsingharora@gmail.com>, 
-	"Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>
+	Andrey Konovalov <andreyknvl@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b="W/lfR0zL";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as
+ header.i=@google.com header.s=20161025 header.b=YHM+AxYL;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::330 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -133,96 +132,56 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+[+Cc Andrey]
+
 On Tue, 15 Jun 2021 at 03:47, Daniel Axtens <dja@axtens.net> wrote:
 >
-> Allow architectures to define a kasan_arch_is_ready() hook that bails
-> out of any function that's about to touch the shadow unless the arch
-> says that it is ready for the memory to be accessed. This is fairly
-> uninvasive and should have a negligible performance penalty.
+> Building on the work of Christophe, Aneesh and Balbir, I've ported
+> KASAN to 64-bit Book3S kernels running on the Radix MMU.
 >
-> This will only work in outline mode, so an arch must specify
-> ARCH_DISABLE_KASAN_INLINE if it requires this.
->
-> Cc: Balbir Singh <bsingharora@gmail.com>
-> Cc: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
-> Suggested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> Signed-off-by: Daniel Axtens <dja@axtens.net>
->
-> --
->
-> I discuss the justfication for this later in the series. Also,
-> both previous RFCs for ppc64 - by 2 different people - have
-> needed this trick! See:
->  - https://lore.kernel.org/patchwork/patch/592820/ # ppc64 hash series
->  - https://patchwork.ozlabs.org/patch/795211/      # ppc radix series
-> ---
->  mm/kasan/common.c  | 4 ++++
->  mm/kasan/generic.c | 3 +++
->  mm/kasan/kasan.h   | 4 ++++
->  mm/kasan/shadow.c  | 4 ++++
->  4 files changed, 15 insertions(+)
->
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index 10177cc26d06..0ad615f3801d 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -331,6 +331,10 @@ static inline bool ____kasan_slab_free(struct kmem_cache *cache, void *object,
->         u8 tag;
->         void *tagged_object;
->
-> +       /* Bail if the arch isn't ready */
-> +       if (!kasan_arch_is_ready())
-> +               return false;
-> +
->         tag = get_tag(object);
->         tagged_object = object;
->         object = kasan_reset_tag(object);
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index 53cbf28859b5..c3f5ba7a294a 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -163,6 +163,9 @@ static __always_inline bool check_region_inline(unsigned long addr,
->                                                 size_t size, bool write,
->                                                 unsigned long ret_ip)
->  {
-> +       if (!kasan_arch_is_ready())
-> +               return true;
-> +
->         if (unlikely(size == 0))
->                 return true;
->
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 8f450bc28045..19323a3d5975 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -449,6 +449,10 @@ static inline void kasan_poison_last_granule(const void *address, size_t size) {
->
->  #endif /* CONFIG_KASAN_GENERIC */
->
-> +#ifndef kasan_arch_is_ready
-> +static inline bool kasan_arch_is_ready(void)   { return true; }
-> +#endif
-> +
->  /*
->   * Exported functions for interfaces called from assembly or from generated
->   * code. Declarations here to avoid warning about missing declarations.
-> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-> index 082ee5b6d9a1..74134b657d7d 100644
-> --- a/mm/kasan/shadow.c
-> +++ b/mm/kasan/shadow.c
-> @@ -73,6 +73,10 @@ void kasan_poison(const void *addr, size_t size, u8 value, bool init)
->  {
->         void *shadow_start, *shadow_end;
->
-> +       /* Don't touch the shadow memory if arch isn't ready */
-> +       if (!kasan_arch_is_ready())
-> +               return;
-> +
+> I've been trying this for a while, but we keep having collisions
+> between the kasan code in the mm tree and the code I want to put in to
+> the ppc tree. So my aim here is for patches 1 through 4 or 1 through 5
+> to go in via the mm tree.
 
-What about kasan_poison_last_granule()? kasan_unpoison() currently
-seems to potentially trip on that.
+I think this is reasonable. I'd suggest just sending non-ppc patches
+separately (i.e. split the series explicitly) to KASAN maintainers,
+and ensure to Cc Andrew, too. Just point at this series to illustrate
+how it'll be used.
+
+I think the patches are fine, but I'm not entirely sure about the
+current placements of kasan_arch_is_ready(), so hopefully Andrey can
+also have a look.
+
+
+> I will then propose the powerpc changes for
+> a later cycle. (I have attached them to this series as an RFC, and
+> there are still outstanding review comments I need to attend to.)
+>
+> v12 applies to next-20210611. There should be no noticable changes to
+> other platforms.
+>
+> Kind regards,
+> Daniel
+>
+> Daniel Axtens (6):
+>   kasan: allow an architecture to disable inline instrumentation
+>   kasan: allow architectures to provide an outline readiness check
+>   kasan: define and use MAX_PTRS_PER_* for early shadow tables
+
+^^ Up to here could be a separate series to go through -mm.
+
+>   kasan: Document support on 32-bit powerpc
+
+^^ The Documentation changes are minimal and not just confined to
+kasan.rst it seems. In fact your "powerpc: Book3S .." patch changes
+Documentation more. So you could just take "kasan: Document support on
+32-bit powerpc" through ppc tree as well.
+
+>   powerpc/mm/kasan: rename kasan_init_32.c to init_32.c
+>   [RFC] powerpc: Book3S 64-bit outline-only KASAN support
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN2%3DgdDBPzYQYsmOtLQVVjSz2qFcwcTMEqB%3Ds_ZWndJLg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO9EdwPEiNPu630a2kgsxMXYiNU_phKH2%3D7Z5YFRCSR1A%40mail.gmail.com.
