@@ -1,140 +1,142 @@
-Return-Path: <kasan-dev+bncBDN7FYMXXEORBJ5RVSDAMGQEEKT47IY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCTJ7DM3WQOBB256VSDAMGQEUYNWQOI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56ECD3AAFF3
-	for <lists+kasan-dev@lfdr.de>; Thu, 17 Jun 2021 11:40:57 +0200 (CEST)
-Received: by mail-pl1-x637.google.com with SMTP id a6-20020a1709027d86b02901019f88b046sf1534670plm.21
-        for <lists+kasan-dev@lfdr.de>; Thu, 17 Jun 2021 02:40:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623922856; cv=pass;
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 807863AB0FE
+	for <lists+kasan-dev@lfdr.de>; Thu, 17 Jun 2021 12:09:48 +0200 (CEST)
+Received: by mail-lj1-x23f.google.com with SMTP id m11-20020a2e580b0000b0290152246e1297sf2480754ljb.13
+        for <lists+kasan-dev@lfdr.de>; Thu, 17 Jun 2021 03:09:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1623924588; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mp+bXNimr6jt4b1Dd+q+jxAQPdzTjmd5481wZSCFST6wWECMsxmymhPu9Gp0i1QcDO
-         uQ2iXh3c+b2Xd5oTHnPhFIdmlfLQimI0jDjtgSVyTkY4nJNUAWuM0dxsPQX8cHWx1L+0
-         doBPm50HV3vB+0bBwIxWTG1KxnBQfOytaao/thMIvDVTBLslG1CNPabKsRQkQoWuuCTC
-         6ZLfoL1EEE2bBJdeqypS4AXF7kwHU08itVUSJXcGxHXbZ4LoscBt1uPBOBdEcdUm1nX1
-         75wLdtLroxng/XqJwTZbz4ZWsnJuSBDIiD7D7yOd1U6M0s3iBnLH5/Qj8+Ta0aCZoddE
-         MYlQ==
+        b=BLnWA19srGeGUNLCV6pQ7XNwAO7v+LpzptQ1hy4mQdSdWtrqMZMKDPuqp4eWng/ct5
+         HDt5kmMCO49Fboc+VxsdC3QayKZhAAmfDU6MNr7UbIlLgqXEv0hMqoNRwg9KtWuvxhre
+         umVhjAk4dwON3RyNEMfTjgpjLDbq57vublapZwHqbhiA2ns7j84OVypKVGmIqhAHlbLv
+         SYodPzs7EEcmHjdnw+qBYfdHJSf2SnN/tLdjKIXHEBg4Hrq/QhVzTb3tLWTnP+t18Srh
+         nxbUOrw0B7WU56Fs6hnW2KChSxZ26v3134WTULlN4EECKECNZsQngXnm1YAdfK7Eskp3
+         /5XA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:message-id:mime-version:in-reply-to
-         :references:cc:to:subject:from:date:sender:dkim-signature
-         :dkim-signature;
-        bh=XIaQS8u+HXVFYYsFn1YV2bbvzXLUIuG1ScyVOxYvi7w=;
-        b=y88Lq/4P9oOfrg2WGROrkxeEV3+vjLkHls1Ww29KPjYyclbgZty80aTCct7wRagc/w
-         3XFhF9z6/j9KdXLHt1AOD6tPBi1Jh5GW69vFYdxcQb3F/M6EKOtlhLeLyXXp1C8+H9pO
-         ZimPZyyPpVw01Vn1drWyORfLp19T2vp8rpSkUNC7Av8p8rBGxGGonGBUBRJJmrEahZmC
-         BrPGVC93nVXHHGO6HTUIw6OF26QcUEot1W5GOT/b7iS9dv4twZ0rlaDRx4TqGlfhi62O
-         1KdwrCUWYTtQXtfNzBOkTTvRwpJt1OD8W8itYbmcvVa0dSBNQrtVb/eCHrOVavjh0Vhe
-         5oWA==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=8iWJPSIjMwsWRGlirsK1sQmsyDQg2GZvaZohNuiPvkQ=;
+        b=nn9dDASRe0SmdqKJfUI+wGUF/P2e2Of31fWl+l03mh3yGmz98jl8iX4yV1Q9/Wmj8r
+         EIwhelcTzUCBueUGfsu5KP9w9tCnLbPkri/sRECM7b2PRW6jFAoZDhed3M1rwTbPBXO5
+         JQDc+em1DTpbH1UX1QLi34RrlPPdzCPWPm5w9WMsD2B8otYrktbKiBOHopTV7sV6MA/8
+         2+q4fNysXnYKWzqJhy6QIkIXrS3b8p2N2Zdb9oXOC8F++1TD2VWFjtjUrGNGBIKil7Ef
+         qTRgWgjgpdF/uG20cMkm54d/phXvhQnb9eO+x8dR4I0Y860CSwhCRqXTkzG5qP1iSbFc
+         qt8Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=BrhlGOFi;
-       spf=pass (google.com: domain of npiggin@gmail.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=npiggin@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of daniel@iogearbox.net designates 213.133.104.62 as permitted sender) smtp.mailfrom=daniel@iogearbox.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:subject:to:cc:references:in-reply-to:mime-version
-         :message-id:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=XIaQS8u+HXVFYYsFn1YV2bbvzXLUIuG1ScyVOxYvi7w=;
-        b=V/mXiT5kmM3IvqZLCzJavpaty6YNNru8pGQ450aQOn4Eoc8gGrsdeI1xW9qxSABd4u
-         pj458N+48WvGzer5EXUXgxRmv82ld5V3Mtwj7KLMpW91HwpIWH57Beb+X4YLyqdxNUh2
-         LZDEZbscHo0Uuytf1CStnKbmahiBOuailh+Kl/MX8jT7G64QDovFgkSVx83W4AT/XnVG
-         yeS9eP68dnF0Y+wFTXz2p5LXN34bAWJVWYNYCjcL9pAcTOucnE1BEKt/r4IgT0rM+WJK
-         1ziRMH1b+3g9oDtoWqiQkepW50Nv31ckp7bYsTuV+w4OxCU3cx7/4jpfiLhIcKP/gBpZ
-         6gHg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:subject:to:cc:references:in-reply-to:mime-version
-         :message-id:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=XIaQS8u+HXVFYYsFn1YV2bbvzXLUIuG1ScyVOxYvi7w=;
-        b=Zl+cqgAnmcXcQYbeDKz5iJ5xdVSHtmP10QxlLH67dUlVe3gP9WpE57RKhpXpZaLTyw
-         lLaHygTpspWj6cLly7+eTqJqzNqFFPhnapYVsVeOmhM2BXH96gMLwGTBzjuvh1s8A5jd
-         rkz65yDP46phVi79KtFm9/pKiBextH9Jw0DfX+KdfRvnOnpDvJeyXse3GCeSxqxC0rvD
-         1Td/ZmrCOLPWAI/SYV4CyRt1Ew8Hg9P/Lc4QnuQVyDyg9knuEA4E9PkYOWcrPP8LA8sC
-         p7XBZMrqIdLXJ/9qbESYuzFp34ALygsTQg00uZ0V7phw5A3H3g8K5/8vkldahupn9rnk
-         ySUw==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=8iWJPSIjMwsWRGlirsK1sQmsyDQg2GZvaZohNuiPvkQ=;
+        b=kDTFlioPkzIG+KsPeQyFxbgYR5/E5iEUqjeydcP2AAM15kynCEnqdOjs2+kHKqr+/B
+         x8SO3G5EFerxonZpTUYP5cgeQmfRoK6NQgv5bQHn457XeobpR8bR/aNE3dvB3cDSN77c
+         AROo1gKMgpZV2DCX7RubMCybFTUxSqlG+b2xGpmIH6Jq0JDEdAk7dTHL09KrOyycen+0
+         B2gOSssKHTbvdEt7UVbX7J8AIFeUy7mMsATPkNgwptrm3KAuSI+ZG96V0OnXiyhKiKIs
+         s/2tzKavA5OO5fpW4EydahXnACXO93RDWQiO88GgC5cMxjUB6FZzJh0ropTC5Kkupz4l
+         dKkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:subject:to:cc:references
-         :in-reply-to:mime-version:message-id:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=XIaQS8u+HXVFYYsFn1YV2bbvzXLUIuG1ScyVOxYvi7w=;
-        b=t0AXJBpNsKyDE2wD0XR6jgY2OPsfKGuThmPexqXxNlgjzQOCxcxgB7iQRfMwI1MgH7
-         Nmxk9zTpaxkn1/PooFEpF2cv7Cj7e30xU+SdZDPUHAUpsPL5Wm8tV0/mbFMyE+BDysxP
-         tFimH9CKv7nnf3WkPx/OVhnih52gfDbg3740W6I7ZOsX7gwXrDOiqFTFlT0RUTbEjJgx
-         tjwAQu7delsJPwezd19V7tsLWG88S1jIGcTHgmMe6zX8a8XS42z94KC7qpwDfKFgK5ai
-         SBnnlueyq69V3xSB0Pj/J7Y5vFkc297Bi/fYRehTEhJ5GlSYmjJ9I5euaiRb+4oMsCoT
-         SaJw==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=8iWJPSIjMwsWRGlirsK1sQmsyDQg2GZvaZohNuiPvkQ=;
+        b=kObTsjehBWsb57SAcphARTPuJZyfDVTboC+DCUaEM4Di9pH7i8aofQA2GThqMNrIQt
+         SR6NqvTlsuITXwuRwOkPKLf6I9uec/dz47VobiborDdmrKwcxFvbbyh/FNiP/mTUhZNv
+         VpADXSz81LzEHJQV2mBHSLPwnW03GXkCJ5QKepeEdEe4eoXLBHMUxzDXNP3gDTSK7Bov
+         cClkPjG/9TjRMaLVbS0EgpGejDAVOkTi/lrMaszytTfrzqMk9+yNVr3JBP5OA1aLisXI
+         TBl28ofMg6zeYZIX18PYav6mvDe+4hv3FvB98SFLscyeCG7c/Cd/rwUPA1WrKCKJO5nV
+         K7Zg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533DqdK/5q1E6XppOR/mEn3S8hjxc68K1h6tdQTMB3Av25e8een4
-	TKeSnQ1wRtSBID2ZrY1EY70=
-X-Google-Smtp-Source: ABdhPJzoGAaRn8/yVuYw93DLklfKw1283xLpQh3dQ8K0z7FrhwmXzHhFyb3+RqYRqC6CX1jIaxBsew==
-X-Received: by 2002:a17:903:188:b029:114:a132:1e9 with SMTP id z8-20020a1709030188b0290114a13201e9mr3743769plg.24.1623922856016;
-        Thu, 17 Jun 2021 02:40:56 -0700 (PDT)
+X-Gm-Message-State: AOAM531UorWJre58OZmFecI1P4x2Dv2grIOYmAmBUgDUM6APyFTHf84w
+	xSXjnDSX13lLI6Ls5w23n8E=
+X-Google-Smtp-Source: ABdhPJz0ufjNZSmRC7dXmj+kXlaBXIliu9ClrEnpz4d87fLyvAfqqh6Cy+k11UPHsKjSQq9R23MUIg==
+X-Received: by 2002:ac2:446a:: with SMTP id y10mr3485348lfl.298.1623924587992;
+        Thu, 17 Jun 2021 03:09:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:8609:: with SMTP id f9ls2711511plo.5.gmail; Thu, 17
- Jun 2021 02:40:55 -0700 (PDT)
-X-Received: by 2002:a17:902:a70e:b029:10d:3f69:dff4 with SMTP id w14-20020a170902a70eb029010d3f69dff4mr3727341plq.65.1623922855495;
-        Thu, 17 Jun 2021 02:40:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1623922855; cv=none;
+Received: by 2002:a2e:8155:: with SMTP id t21ls405094ljg.1.gmail; Thu, 17 Jun
+ 2021 03:09:47 -0700 (PDT)
+X-Received: by 2002:a2e:380b:: with SMTP id f11mr4005964lja.269.1623924586963;
+        Thu, 17 Jun 2021 03:09:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1623924586; cv=none;
         d=google.com; s=arc-20160816;
-        b=T10xsmlmFD+rJfQsXj/EfHM7Zw4BW8Ur0mFJz6SAGiHCLh2Vgv7Tb2qBQKdSBlisdK
-         a7r39x4znF7AYw0sfgbdG7Nb64nIE5Ca2m9iBlSzvlQBimTATiTtakGuV2PJo5C7RaUG
-         HxExP3HxRFa3AvbZW/29scFHGzgYR7ZMNR8xa49gAk9gEPnUxFQXArpxi3ivv6xD128m
-         Ogz5DXmPjwdmgx8Tk9wf3D0/SFRLRyOWoGYJTLNBNQIyS0DBp2aasIW8IOcFIRrHxcRz
-         mNAGJOdDopz7VXSJQlclyjdAPm49DUKFISKyyjvpW+/mfIV7rdibOj8klEjqVgLOci2u
-         CUJg==
+        b=yPIZpV2CD0rGXd/SDaPc1j93ow9XQ4adKvnucZVVWbERBw8FA9kLeDYrpVmBiRtDqh
+         2dOipHoVHMDoDHiRrxgQpnICahH9DJBASCX1wsH1BhUlPZLiVObytScxEbDF0IHbnw16
+         TJgMJfaH0AnLxRXFCPoYewKrrezR6DPBJHvdNLevBldCYhI64+vVXd9vDtpZVpXbJawe
+         GWFqGnqOvH8jLATBSKishv1WezryWANF+30YfufLKFwFtzQdxsOE2QIbR6LbL13J41du
+         ZhT7FwXdBu/l0enJyROedREf6Trzurcz2WWjUahRGsV8i61NpIkNVt7Rh9FGUF7X1cQU
+         CQVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:message-id:mime-version:in-reply-to
-         :references:cc:to:subject:from:date:dkim-signature;
-        bh=XjLNVS8FTx5mg1CNbMomnZVz+ZmOYcIpwKWpVxPSZ9w=;
-        b=nApXexUDCBvsXUyOtuIlSA1fSROlPzCocMb421Fq0Rnl2PxKYlxJMLHlpP5DeFdeQS
-         6R+opXpk+DYuHJGVvYR6gW575ktu78455QFVLIaeOC6Qp1FTq9lbeI5MP+6YZz91VqV2
-         6KuQeZx3IU0c60ZC7ltLKzGd0/G2kgBE00doiiCum2oSyMWYfvlWT58U4XjsYBwVmJzJ
-         b6C++b73BxmYVhPIg1oBtat6n+0IoVOhG4D8dCH57yL6D/0yK72MefqPJUPoMB+gIbpH
-         xZ1ZFmdHNzo7Jy2/Phz1G3Ky7Wn5v007tb5otPIv8JVPANSKCHsaJlRTYSlDd9yr8E4v
-         HEKw==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=naMT9usCXIV9LeHpCzOtsQq//B+jDDo5rOT1ZsTZ0OM=;
+        b=gAZM7EgWqaxFS5O3Yt72uvP9DOjGogHjNYTxoOUw6on4xskMP94vkJrgsTsOF26Vqh
+         wfgiEq/ukxPaNCnaSiCMfrUpgzXSAFlyEW/SrvRCM9LYlgFBawvioFIvQG9jtmeZ0zVM
+         ipZpTWtvLbplcUM3z1+j6NY+6eXq3v1LrAi/+vRztA3ZmBLPuRa7ukUrtFAaQRTOPkA0
+         2h6ybdEmd2FjHY+XjFFEqoh/e1/OObo9KkBKo0Lx/sHj7l8PLTxzXCws6U9Y0+j9vujU
+         73kzallltj15QJkwWQMoNMt54pQS9NxNB4tD7GMNjBzfYaoqjAcozOq4JhxtgxN26tfB
+         flGA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=BrhlGOFi;
-       spf=pass (google.com: domain of npiggin@gmail.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=npiggin@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com. [2607:f8b0:4864:20::629])
-        by gmr-mx.google.com with ESMTPS id 67si219484pla.4.2021.06.17.02.40.55
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jun 2021 02:40:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of npiggin@gmail.com designates 2607:f8b0:4864:20::629 as permitted sender) client-ip=2607:f8b0:4864:20::629;
-Received: by mail-pl1-x629.google.com with SMTP id 69so2632432plc.5
-        for <kasan-dev@googlegroups.com>; Thu, 17 Jun 2021 02:40:55 -0700 (PDT)
-X-Received: by 2002:a17:903:2310:b029:109:e746:89a2 with SMTP id d16-20020a1709032310b0290109e74689a2mr3775750plh.8.1623922855231;
-        Thu, 17 Jun 2021 02:40:55 -0700 (PDT)
-Received: from localhost (60-242-147-73.tpgi.com.au. [60.242.147.73])
-        by smtp.gmail.com with ESMTPSA id h8sm4506707pjf.7.2021.06.17.02.40.54
+       spf=pass (google.com: domain of daniel@iogearbox.net designates 213.133.104.62 as permitted sender) smtp.mailfrom=daniel@iogearbox.net
+Received: from www62.your-server.de (www62.your-server.de. [213.133.104.62])
+        by gmr-mx.google.com with ESMTPS id z4si68516lfs.0.2021.06.17.03.09.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 02:40:54 -0700 (PDT)
-Date: Thu, 17 Jun 2021 19:40:49 +1000
-From: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH] mm/vmalloc: unbreak kasan vmalloc support
-To: akpm@linux-foundation.org, Daniel Axtens <dja@axtens.net>,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, David Gow <davidgow@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Uladzislau Rezki <urezki@gmail.com>
-References: <20210617081330.98629-1-dja@axtens.net>
-In-Reply-To: <20210617081330.98629-1-dja@axtens.net>
+        Thu, 17 Jun 2021 03:09:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of daniel@iogearbox.net designates 213.133.104.62 as permitted sender) client-ip=213.133.104.62;
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+	by www62.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92.3)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1ltoxu-000BTK-0B; Thu, 17 Jun 2021 12:09:38 +0200
+Received: from [85.7.101.30] (helo=linux.home)
+	by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1ltoxt-000DB3-IW; Thu, 17 Jun 2021 12:09:37 +0200
+Subject: Re: [PATCH v5] bpf: core: fix shift-out-of-bounds in ___bpf_prog_run
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Edward Cree <ecree.xilinx@gmail.com>,
+ Kurt Manucredo <fuzzybritches0@gmail.com>,
+ syzbot+bed360704c521841c85d@syzkaller.appspotmail.com,
+ keescook@chromium.org, yhs@fb.com, dvyukov@google.com, andrii@kernel.org,
+ ast@kernel.org, bpf@vger.kernel.org, davem@davemloft.net, hawk@kernel.org,
+ john.fastabend@gmail.com, kafai@fb.com, kpsingh@kernel.org, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, songliubraving@fb.com,
+ syzkaller-bugs@googlegroups.com, nathan@kernel.org, ndesaulniers@google.com,
+ clang-built-linux@googlegroups.com, kernel-hardening@lists.openwall.com,
+ kasan-dev@googlegroups.com
+References: <1aaa2408-94b9-a1e6-beff-7523b66fe73d@fb.com>
+ <202106101002.DF8C7EF@keescook>
+ <CAADnVQKMwKYgthoQV4RmGpZm9Hm-=wH3DoaNqs=UZRmJKefwGw@mail.gmail.com>
+ <85536-177443-curtm@phaethon>
+ <bac16d8d-c174-bdc4-91bd-bfa62b410190@gmail.com> <YMkAbNQiIBbhD7+P@gmail.com>
+ <dbcfb2d3-0054-3ee6-6e76-5bd78023a4f2@iogearbox.net>
+ <YMkcYn4dyZBY/ze+@gmail.com> <YMkdx1VB0i+fhjAY@gmail.com>
+ <4713f6e9-2cfb-e2a6-c42d-b2a62f035bf2@iogearbox.net>
+ <YMkkr5G6E8lcFymG@gmail.com>
+From: Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <845ad31f-ca3f-0326-e64b-423a09ea4bea@iogearbox.net>
+Date: Thu, 17 Jun 2021 12:09:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Message-Id: <1623922742.sam09kpmhp.astroid@bobo.none>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: npiggin@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=BrhlGOFi;       spf=pass
- (google.com: domain of npiggin@gmail.com designates 2607:f8b0:4864:20::629 as
- permitted sender) smtp.mailfrom=npiggin@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com
+In-Reply-To: <YMkkr5G6E8lcFymG@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.103.2/26203/Wed Jun 16 13:07:58 2021)
+X-Original-Sender: daniel@iogearbox.net
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of daniel@iogearbox.net designates 213.133.104.62 as
+ permitted sender) smtp.mailfrom=daniel@iogearbox.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,122 +149,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Excerpts from Daniel Axtens's message of June 17, 2021 6:13 pm:
-> In commit 121e6f3258fe ("mm/vmalloc: hugepage vmalloc mappings"),
-> __vmalloc_node_range was changed such that __get_vm_area_node was no
-> longer called with the requested/real size of the vmalloc allocation, but
-> rather with a rounded-up size.
+On 6/16/21 12:07 AM, Eric Biggers wrote:
+> On Tue, Jun 15, 2021 at 11:54:41PM +0200, Daniel Borkmann wrote:
+>> On 6/15/21 11:38 PM, Eric Biggers wrote:
+>>> On Tue, Jun 15, 2021 at 02:32:18PM -0700, Eric Biggers wrote:
+>>>> On Tue, Jun 15, 2021 at 11:08:18PM +0200, Daniel Borkmann wrote:
+>>>>> On 6/15/21 9:33 PM, Eric Biggers wrote:
+>>>>>> On Tue, Jun 15, 2021 at 07:51:07PM +0100, Edward Cree wrote:
+>>>>>>>
+>>>>>>> As I understand it, the UBSAN report is coming from the eBPF interpreter,
+>>>>>>>     which is the *slow path* and indeed on many production systems is
+>>>>>>>     compiled out for hardening reasons (CONFIG_BPF_JIT_ALWAYS_ON).
+>>>>>>> Perhaps a better approach to the fix would be to change the interpreter
+>>>>>>>     to compute "DST = DST << (SRC & 63);" (and similar for other shifts and
+>>>>>>>     bitnesses), thus matching the behaviour of most chips' shift opcodes.
+>>>>>>> This would shut up UBSAN, without affecting JIT code generation.
+>>>>>>
+>>>>>> Yes, I suggested that last week
+>>>>>> (https://lkml.kernel.org/netdev/YMJvbGEz0xu9JU9D@gmail.com).  The AND will even
+>>>>>> get optimized out when compiling for most CPUs.
+>>>>>
+>>>>> Did you check if the generated interpreter code for e.g. x86 is the same
+>>>>> before/after with that?
+>>>>
+>>>> Yes, on x86_64 with gcc 10.2.1, the disassembly of ___bpf_prog_run() is the same
+>>>> both before and after (with UBSAN disabled).  Here is the patch I used:
+>>>>
+>>>> diff --git a/kernel/bpf/core.c b/kernel/bpf/core.c
+>>>> index 5e31ee9f7512..996db8a1bbfb 100644
+>>>> --- a/kernel/bpf/core.c
+>>>> +++ b/kernel/bpf/core.c
+>>>> @@ -1407,12 +1407,30 @@ static u64 ___bpf_prog_run(u64 *regs, const struct bpf_insn *insn)
+>>>>    		DST = (u32) DST OP (u32) IMM;	\
+>>>>    		CONT;
+>>>> +	/*
+>>>> +	 * Explicitly mask the shift amounts with 63 or 31 to avoid undefined
+>>>> +	 * behavior.  Normally this won't affect the generated code.
+>>
+>> The last one should probably be more specific in terms of 'normally', e.g. that
+>> it is expected that the compiler is optimizing this away for archs like x86. Is
+>> arm64 also covered by this ... do you happen to know on which archs this won't
+>> be the case?
+>>
+>> Additionally, I think such comment should probably be more clear in that it also
+>> needs to give proper guidance to JIT authors that look at the interpreter code to
+>> see what they need to implement, in other words, that they don't end up copying
+>> an explicit AND instruction emission if not needed there.
 > 
-> This means that __get_vm_area_node called kasan_unpoision_vmalloc() with
-> a rounded up size rather than the real size. This led to it allowing
-> access to too much memory and so missing vmalloc OOBs and failing the
-> kasan kunit tests.
+> Same result on arm64 with gcc 10.2.0.
 > 
-> Pass the real size and the desired shift into __get_vm_area_node. This
-> allows it to round up the size for the underlying allocators while
-> still unpoisioning the correct quantity of shadow memory.
+> On arm32 it is different, probably because the 64-bit shifts aren't native in
+> that case.  I don't know about other architectures.  But there aren't many ways
+> to implement shifts, and using just the low bits of the shift amount is the most
+> logical way.
 > 
-> Adjust the other call-sites to pass in PAGE_SHIFT for the shift value.
+> Please feel free to send out a patch with whatever comment you want.  The diff I
+> gave was just an example and I am not an expert in BPF.
 > 
-> Cc: Nicholas Piggin <npiggin@gmail.com>
-> Cc: David Gow <davidgow@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Uladzislau Rezki (Sony) <urezki@gmail.com>
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=213335
-> Fixes: 121e6f3258fe ("mm/vmalloc: hugepage vmalloc mappings")
+>>
+>>>> +	 */
+>>>> +#define ALU_SHIFT(OPCODE, OP)		\
+>>>> +	ALU64_##OPCODE##_X:		\
+>>>> +		DST = DST OP (SRC & 63);\
+>>>> +		CONT;			\
+>>>> +	ALU_##OPCODE##_X:		\
+>>>> +		DST = (u32) DST OP ((u32)SRC & 31);	\
+>>>> +		CONT;			\
+>>>> +	ALU64_##OPCODE##_K:		\
+>>>> +		DST = DST OP (IMM & 63);	\
+>>>> +		CONT;			\
+>>>> +	ALU_##OPCODE##_K:		\
+>>>> +		DST = (u32) DST OP ((u32)IMM & 31);	\
+>>>> +		CONT;
+>>
+>> For the *_K cases these are explicitly rejected by the verifier already. Is this
+>> required here nevertheless to suppress UBSAN false positive?
+> 
+> No, I just didn't know that these constants are never out of range.  Please feel
+> free to send out a patch that does this properly.
 
-Thanks Daniel, good debugging.
+Summarized and fixed via:
 
-Reviewed-by: Nicholas Piggin <npiggin@gmail.com>
+https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/commit/?id=28131e9d933339a92f78e7ab6429f4aaaa07061c
 
-> Signed-off-by: Daniel Axtens <dja@axtens.net>
-> ---
->  mm/vmalloc.c | 24 ++++++++++++++----------
->  1 file changed, 14 insertions(+), 10 deletions(-)
-> 
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index aaad569e8963..3471cbeb083c 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -2362,15 +2362,16 @@ static void clear_vm_uninitialized_flag(struct vm_struct *vm)
->  }
->  
->  static struct vm_struct *__get_vm_area_node(unsigned long size,
-> -		unsigned long align, unsigned long flags, unsigned long start,
-> -		unsigned long end, int node, gfp_t gfp_mask, const void *caller)
-> +		unsigned long align, unsigned long shift, unsigned long flags,
-> +		unsigned long start, unsigned long end, int node,
-> +		gfp_t gfp_mask, const void *caller)
->  {
->  	struct vmap_area *va;
->  	struct vm_struct *area;
->  	unsigned long requested_size = size;
->  
->  	BUG_ON(in_interrupt());
-> -	size = PAGE_ALIGN(size);
-> +	size = ALIGN(size, 1ul << shift);
->  	if (unlikely(!size))
->  		return NULL;
->  
-> @@ -2402,8 +2403,8 @@ struct vm_struct *__get_vm_area_caller(unsigned long size, unsigned long flags,
->  				       unsigned long start, unsigned long end,
->  				       const void *caller)
->  {
-> -	return __get_vm_area_node(size, 1, flags, start, end, NUMA_NO_NODE,
-> -				  GFP_KERNEL, caller);
-> +	return __get_vm_area_node(size, 1, PAGE_SHIFT, flags, start, end,
-> +				  NUMA_NO_NODE, GFP_KERNEL, caller);
->  }
->  
->  /**
-> @@ -2419,7 +2420,8 @@ struct vm_struct *__get_vm_area_caller(unsigned long size, unsigned long flags,
->   */
->  struct vm_struct *get_vm_area(unsigned long size, unsigned long flags)
->  {
-> -	return __get_vm_area_node(size, 1, flags, VMALLOC_START, VMALLOC_END,
-> +	return __get_vm_area_node(size, 1, PAGE_SHIFT, flags,
-> +				  VMALLOC_START, VMALLOC_END,
->  				  NUMA_NO_NODE, GFP_KERNEL,
->  				  __builtin_return_address(0));
->  }
-> @@ -2427,7 +2429,8 @@ struct vm_struct *get_vm_area(unsigned long size, unsigned long flags)
->  struct vm_struct *get_vm_area_caller(unsigned long size, unsigned long flags,
->  				const void *caller)
->  {
-> -	return __get_vm_area_node(size, 1, flags, VMALLOC_START, VMALLOC_END,
-> +	return __get_vm_area_node(size, 1, PAGE_SHIFT, flags,
-> +				  VMALLOC_START, VMALLOC_END,
->  				  NUMA_NO_NODE, GFP_KERNEL, caller);
->  }
->  
-> @@ -2949,9 +2952,9 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
->  	}
->  
->  again:
-> -	size = PAGE_ALIGN(size);
-> -	area = __get_vm_area_node(size, align, VM_ALLOC | VM_UNINITIALIZED |
-> -				vm_flags, start, end, node, gfp_mask, caller);
-> +	area = __get_vm_area_node(real_size, align, shift, VM_ALLOC |
-> +				  VM_UNINITIALIZED | vm_flags, start, end, node,
-> +				  gfp_mask, caller);
->  	if (!area) {
->  		warn_alloc(gfp_mask, NULL,
->  			"vmalloc error: size %lu, vm_struct allocation failed",
-> @@ -2970,6 +2973,7 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
->  	 */
->  	clear_vm_uninitialized_flag(area);
->  
-> +	size = PAGE_ALIGN(size);
->  	kmemleak_vmalloc(area, size, gfp_mask);
->  
->  	return addr;
-> -- 
-> 2.30.2
-> 
-> 
+Thanks everyone,
+Daniel
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1623922742.sam09kpmhp.astroid%40bobo.none.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/845ad31f-ca3f-0326-e64b-423a09ea4bea%40iogearbox.net.
