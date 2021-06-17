@@ -1,127 +1,127 @@
-Return-Path: <kasan-dev+bncBC447XVYUEMRBPUGVSDAMGQESQJ5G7Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBL4IVSDAMGQEJ4JUHRY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC363AAE77
-	for <lists+kasan-dev@lfdr.de>; Thu, 17 Jun 2021 10:09:35 +0200 (CEST)
-Received: by mail-lj1-x23b.google.com with SMTP id 1-20020a2e0d010000b029015d8fce4f1bsf2345460ljn.17
-        for <lists+kasan-dev@lfdr.de>; Thu, 17 Jun 2021 01:09:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1623917375; cv=pass;
+Received: from mail-io1-xd3e.google.com (mail-io1-xd3e.google.com [IPv6:2607:f8b0:4864:20::d3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD113AAE86
+	for <lists+kasan-dev@lfdr.de>; Thu, 17 Jun 2021 10:13:36 +0200 (CEST)
+Received: by mail-io1-xd3e.google.com with SMTP id s14-20020a5eaa0e0000b02904abce57cb24sf1295047ioe.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 17 Jun 2021 01:13:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1623917616; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ayYVu4dFjAgiwfb73OnuoKjn6gDzr1MypBz8M7BWp62V/iCfZRI8/lgUF7LkAXlLEL
-         KWHLn7lWl6ErSrpaHIHsjS8nvd0yDbxXwamfSn2QPTzbpPMbYwh2hX/A1jkUhAJPmp8q
-         Rbis5jJWqCopw+Y5XjuTAGu0/430i0dMV7uhGeEbffE5sCDExx8jZi3UvbB4lw/K3/yl
-         h9eLnDB7oONnQaeGi6OuihrVPR8M1XAToDpcnkSleZ+0b8CKafQg2oTAUOhjMl5ZluMd
-         lxCnIy4z+gk/YQ7mkRID2xUJRsArB2d7W8f+IL1a7O8ApGFl2MokSr1fXpA7o1A3Bg2p
-         rcCg==
+        b=HU+q9SYXZ1eVAtH2IhHH0trXlyTJk5LcG1RVQlf33qd5RUmcoForyxXbtxtnnAV+q4
+         apnx4JOp9QCeQiEJNNYJ0MysWsirZ85v4wbfu9IQJzlh11Ht72zsJF7HmQ4cgi3S9P3t
+         yN1mmUzNVbyiCegAayS6CdPct9RkBZtOQX2o11DhoAj2MMdC4culn3bHazsSmsN4OiiY
+         3bCGeBYHzkj1/Cb+PEQjn0o7uHVc1/NLfW5X15fLETTf9RPwUymC+d/fHCpakLxhG1fg
+         0fMB6vsAFoc49wH39iHsUdNVh45h+ILp+L9M3NKi6Po7NPBLZMr0ZFTqA+cD4afOL8Qq
+         RVJA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=C3qciequmK3o5MHcOZYGmKD35DQcWucyePMg+wEC7Lw=;
-        b=p/MTKFccTMQuhfdJq9w5NK+SNFWTvBRMx+sraNLAnBnX+zYvcti1HPKLUdnCIh62di
-         E6rk9CaAKPGnMnSwMT6awKefwF4/U40f4GLkTjTumPIH5HwwcDs0S+Q1JVkLPXPaY/Ox
-         eqUFTRfSPS1yYqzqR0PpHtvXbM2kd/sovS1lW+fkwajsE+Z43tnEdURG8Fxwd/QlpBLP
-         EAhXJVLMHMmMWBhqya9O+pE+NFlvxVs4ALi208iZC705l3+P/goPSj0jWhpksqct6oS2
-         WQfdcvpfUuZxUN895Hsp8AjX3D0U18nN83MJNfkouMBoKKrxnSGZCjo9i83je269k4ou
-         CU/Q==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=4wMuQ08fA+n0andF3k8AkuhuW1SA5ZecvDhDgyE8t90=;
+        b=I8igQmYmFvcVoE+MpLYmd+qgE4dwS6fpRXKlUp3aBPz3pCxOxQGChNSA3C7KjI4wAF
+         Y5i+sdCpiDwUJXiyfqMQRev5Py0cwh/DTqfTXO1X/7+ScgyUes361FiMdMcNZ5icMl4w
+         yp5JE+s4pt4Jm3APstWesyOSo8rV5REObXnSKEjJDejWAIDCKKDb0TDaEqcHu0Uv4cAw
+         48QEcb/0j5k12ag9lASVL1qEl0e3uDy872EGqSAOhMbTb2A6Iru3u6/hX4Aq23QMqJ2z
+         mgbb8PH5KPMBDATf+sGpH0BW5ZNAjHGQ/bkWZ2eNmZPebkhTTk2/O4ml5bMWQmSMRZRR
+         9hVg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.200 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+       dkim=pass header.i=@axtens.net header.s=google header.b="N15/0qJH";
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::635 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
+        h=sender:from:to:cc:subject:date:message-id:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=C3qciequmK3o5MHcOZYGmKD35DQcWucyePMg+wEC7Lw=;
-        b=Xvdy6VKRArECvWeeF2Z8Nw/GHk8kmoMZPAEZyCWJjWYOnksS6ib+O7tqGkZPUBWIuU
-         CGWeBwk7kqsYtnFPgUUjXrM0GU4f9MB1mtsGjXrLhlYX/dUyziR0FaiwYZOcJSyMjGxe
-         ZYtYMY46pMOQy1emeAHMCGuZ5mjqShEAUafqvK2ZvI0TF5SEj5ZCet83nkK1A8tYdBsq
-         nMV6tMNvXManff6Sqq2gfh7PuQPVn0Fomo3iKFrKdI/CWGcV3omcPHYaNt0p2pxS6LiF
-         2knm5AV5uaXP9GITbSMS2gCeRbZLuwS8bISxa6Hb50DQqBS6I0eefdlx/+oCq3X5+oe0
-         ypTw==
+        bh=4wMuQ08fA+n0andF3k8AkuhuW1SA5ZecvDhDgyE8t90=;
+        b=ov7g3lOY47GrO2uinvb7/yMQKcSrp/Eyc5eX08gY0W6NkhwydftGJcP8sUcUYpy5pg
+         PoOYKatsBLgHfVaheB+k9FXuc9PiHaR1tmACNb+oot+WigdAbuHQJD3/awRgGJEnrBNr
+         trdM85MXAsXMe3v6TO01lKUIyasEKs0olmjPj1cJtIZNt4tQyvpJmGZtav00XRypuQQp
+         4vLz4LXJ2DeHUwb0PhaxL5CZ72qgnbv/JLOzKMse3X+EH2mlsktNSbx4F+qQICazJBGP
+         M6O6UkdnUXQwTXLLVB+JofLT6CZws4bOtPIdte4hsCuBTk5a7yAd0kpcHB/KQGa7XW4/
+         YmaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=C3qciequmK3o5MHcOZYGmKD35DQcWucyePMg+wEC7Lw=;
-        b=jvbemRreG/7X90m7kuP9jKEYVm1g3leuEqhzIovjv0UWEhrYJ/fNNCIDUgP0W4tndl
-         OW7KhGCGNfARfTHgmv4et6Kz2msbFGwbiZ0jbqjQ7Y/lBK0AKPneTl2Ks7XsAJhydlbV
-         mMJHDLUHAo1cwEKzMs/Ro05xdDSHtBwTbyKIe0bJyrWNiN99KWRvkd4U+rLa8LGpT8PQ
-         HmA6NfSMBzWFQb3T3GUQA4E8R7f0ogQRBxVHYqhGFjmNrVujBJK77X8spnS9c/lVVLPE
-         NT9icIqjmHIiUwilL17FGR6hYoc1zZW3is9UfOzyS2ZQHInAuKHEG6Yi1MHuPFjtr0TZ
-         EUTA==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=4wMuQ08fA+n0andF3k8AkuhuW1SA5ZecvDhDgyE8t90=;
+        b=jIWhLNMQUBs7kNPGRUEpJvEIIJJf/RAEB0gZ5xsBPMO9p9+eapTU0yypl4EUDBBpwE
+         NDDr+QkCKslDLDruhCa3+yS5+Z6KhC1S4JBfYcl6i0wQ9TsgS6FY+NO2dLY6n7LgrmOW
+         cdkjHKTUidUDd1DgYcHmapsyInmME0hi/OBmIhGUR/puoBOAwWzURSDNRUEArXx656Kn
+         ww2tRt6B/5b69f4dGPidK8CWWz5aOlqiIaM/2OEc45NSC0mu8/s+EbYV+Z2MG0219zFp
+         LQMIF2xE/XEKgQLBkpPaoFA/gqmEvNQLt9cuTbZ16bG7Otb1pqcACmZk8PTQUAt+XyL4
+         +V0A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530MKQe68Sy9WzDMU2cWSEwt0+UzU4yJT19fCAsMyHmCdF7CmGdB
-	HD/RiijwJz5TaCQhfZ+pIaY=
-X-Google-Smtp-Source: ABdhPJzcsBXrC/dJNCRDYpOCYg28iY9ty1XFQ6zt7vR6IC9r3kaC69yDa8Qnop6XsKEX+ynEmSK3Hw==
-X-Received: by 2002:a05:6512:318d:: with SMTP id i13mr3164183lfe.407.1623917375169;
-        Thu, 17 Jun 2021 01:09:35 -0700 (PDT)
+X-Gm-Message-State: AOAM530JX7vjMQemFHex0yBcQPDd3w1vdGDV2WvN7U+DQ9d93LAWeaPm
+	pFrfnUqkrp9igNLtVgvvAfU=
+X-Google-Smtp-Source: ABdhPJysyDQDqr7rxGsaDllE/cVz/mnr7Wr1YqJ2cAT0nuC9kGuD5xUS2fpxNS0gk5DBH/H54Kn4OA==
+X-Received: by 2002:a05:6602:2049:: with SMTP id z9mr940505iod.72.1623917615901;
+        Thu, 17 Jun 2021 01:13:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:f515:: with SMTP id j21ls730769lfb.1.gmail; Thu, 17 Jun
- 2021 01:09:34 -0700 (PDT)
-X-Received: by 2002:a19:384f:: with SMTP id d15mr3104762lfj.410.1623917374115;
-        Thu, 17 Jun 2021 01:09:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1623917374; cv=none;
+Received: by 2002:a92:1302:: with SMTP id 2ls1115593ilt.8.gmail; Thu, 17 Jun
+ 2021 01:13:35 -0700 (PDT)
+X-Received: by 2002:a92:bd06:: with SMTP id c6mr2627489ile.110.1623917615490;
+        Thu, 17 Jun 2021 01:13:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1623917615; cv=none;
         d=google.com; s=arc-20160816;
-        b=1Ddjh94HJm9SNT7K45iZ4Fds84nKWcofH6ZSrV1AnIFRNcKAEY+6pAAtsfbr1+W6DA
-         gk6GSINKOgQccaW7QzKzq83EUvSrtKHpZzYVxuBcOV22bALddo89iDpGggJDt7pkOLcp
-         iaOOBQqFc5bxuoQdVEN9rDOvbGS++ze9tj6aWgfs1xtQPNJAjrwMqEBnhJ1hYK9V1m0G
-         vnKH8+EDikF0GCg6SQVwjAmFa1ZQSV/tLenlwRHQ/O49N3WcxVjgOAJpw9H9zb/5hZk5
-         4oe5aJkcfyFu3w9yjUARu+7FpCrHitHnSsHj4rbNL/1Iuv4kjgrKOxifRDCDQh0ecIet
-         +iuQ==
+        b=XSAPGzUbaAAdvjqauGQKBOfpb5GBxJyOE6EpkKIG4cIg4lcmEd0N/0Xw9dfi4Cbjaa
+         wiQIEY2gS+AjAPPBmIeA3wztGolmHkCw7HOa0Akkq4yVq3rZpZsU904BPdYxsc4EcxW/
+         98rueOYEery+x0IoXj7zPFLVUEDOiCcRp/wd/N76IQkbszSMlSaggZn1z03RjBszoUIJ
+         m1haYdUzc1yhuc4kvO9cfxwazTybEfKZ5sryeWgQwzWYZnmDsToctehuuNx2z1qc9PXT
+         GwF3oULVEJRB06GuarnP/pqaZfNaGu7IPC5TsIe+L0ilgafvi3+7XX7F2UapKSX1Z8aO
+         WHXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=r/Ie6FRKOKp89jn6KTmD2VT1ADq3AETGG5IMzkkGEpw=;
-        b=XvI5sBSQS/LGNxPQh5/ahOifMBHdp87Mgkg6rq2EFVXzFeCf2Kh1ZSVYiK/dSeQRt1
-         Wj3g7Dmo7tdW6z7CaRPH8832eZHts0cL+By6yTir3jXc5KK0i0E+pdLqYTWywebT2uHh
-         gTuD1+98PZdnNb08vvOEZBk3rX41mqcf1Shvr/PTdMGDq4pfwfHEpZmre9zKcWzuEeIQ
-         xN3U3G6lv4gT2dGSqz8/Ox7pckzIUgGnWXujZCSqOqqJZD/DhLqQxH0ZHEf4OdD9iyWx
-         d7O+Dra7Iypx/79ZyM7F7hgazttSqDMgDfwo1ZXoqwC+LUwWs8/2Bp51HdJV3G9Buvev
-         aqIQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=OTHwuB2mCohnRjYeuyJYonCC4hSvfxMb+kfGOcySdeA=;
+        b=DQTIBbO6qnwrXsbIbiwgpFv5if5bS/KW5VKNZgZKYbisUryUZ0CTHW8R26vBu3YEvu
+         PXAVvV6c1C6l0eX/6U+zymwe9DhGITYnr9qXhohsNs6xzvqAI/wQsfMz87ItF3Nf9wXc
+         +0wJFRaal+sTWFoNjuQebOooBEkKOi6HZ9kuhbpHvCIlA8lgoMO1zUGfo783jWQGcKme
+         CHSmYDzk59komnWliF8tErMnfpMzY4Agrf/nx8cbBwkXMgJeIDQeYeTOIxY4NY5bH7ih
+         8qOFV8ti+SHlHrhFj6lNn1KSYzZ82+z73Rf7/Ft2OmuxcQEPhXK/I0ROaY0SCqwn6W+v
+         oy3Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.183.200 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net. [217.70.183.200])
-        by gmr-mx.google.com with ESMTPS id d18si134300lfv.3.2021.06.17.01.09.33
+       dkim=pass header.i=@axtens.net header.s=google header.b="N15/0qJH";
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::635 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com. [2607:f8b0:4864:20::635])
+        by gmr-mx.google.com with ESMTPS id a2si395225ili.4.2021.06.17.01.13.35
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 17 Jun 2021 01:09:33 -0700 (PDT)
-Received-SPF: neutral (google.com: 217.70.183.200 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.200;
-Received: (Authenticated sender: alex@ghiti.fr)
-	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 4B98A20017;
-	Thu, 17 Jun 2021 08:09:23 +0000 (UTC)
-Subject: Re: [PATCH] riscv: Ensure BPF_JIT_REGION_START aligned with PMD size
-To: Palmer Dabbelt <palmer@dabbelt.com>, jszhang3@mail.ustc.edu.cn
-Cc: schwab@linux-m68k.org, Paul Walmsley <paul.walmsley@sifive.com>,
- aou@eecs.berkeley.edu, ryabinin.a.a@gmail.com, glider@google.com,
- andreyknvl@gmail.com, dvyukov@google.com, bjorn@kernel.org, ast@kernel.org,
- daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
- songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
- kpsingh@kernel.org, luke.r.nels@gmail.com, xi.wang@gmail.com,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, netdev@vger.kernel.org, bpf@vger.kernel.org
-References: <mhng-042979fe-75f0-4873-8afd-f8c07942f792@palmerdabbelt-glaptop>
-From: Alex Ghiti <alex@ghiti.fr>
-Message-ID: <ae256a5d-70ac-3a5f-ca55-5e4210a0624c@ghiti.fr>
-Date: Thu, 17 Jun 2021 10:09:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Jun 2021 01:13:35 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::635 as permitted sender) client-ip=2607:f8b0:4864:20::635;
+Received: by mail-pl1-x635.google.com with SMTP id c15so2432896pls.13
+        for <kasan-dev@googlegroups.com>; Thu, 17 Jun 2021 01:13:35 -0700 (PDT)
+X-Received: by 2002:a17:902:748c:b029:103:267f:a2b3 with SMTP id h12-20020a170902748cb0290103267fa2b3mr3483380pll.23.1623917615084;
+        Thu, 17 Jun 2021 01:13:35 -0700 (PDT)
+Received: from localhost ([203.206.29.204])
+        by smtp.gmail.com with ESMTPSA id z6sm4623868pgs.24.2021.06.17.01.13.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jun 2021 01:13:34 -0700 (PDT)
+From: Daniel Axtens <dja@axtens.net>
+To: linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	kasan-dev@googlegroups.com,
+	akpm@linux-foundation.org
+Cc: Daniel Axtens <dja@axtens.net>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	David Gow <davidgow@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>
+Subject: [PATCH] mm/vmalloc: unbreak kasan vmalloc support
+Date: Thu, 17 Jun 2021 18:13:30 +1000
+Message-Id: <20210617081330.98629-1-dja@axtens.net>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <mhng-042979fe-75f0-4873-8afd-f8c07942f792@palmerdabbelt-glaptop>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: alex@ghiti.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 217.70.183.200 is neither permitted nor denied by best guess
- record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+X-Original-Sender: dja@axtens.net
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@axtens.net header.s=google header.b="N15/0qJH";       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::635 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,219 +134,114 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Le 17/06/2021 =C3=A0 09:30, Palmer Dabbelt a =C3=A9crit=C2=A0:
-> On Tue, 15 Jun 2021 17:03:28 PDT (-0700), jszhang3@mail.ustc.edu.cn wrote=
-:
->> On Tue, 15 Jun 2021 20:54:19 +0200
->> Alex Ghiti <alex@ghiti.fr> wrote:
->>
->>> Hi Jisheng,
->>
->> Hi Alex,
->>
->>>
->>> Le 14/06/2021 =C3=A0 18:49, Jisheng Zhang a =C3=A9crit=C2=A0:
->>> > From: Jisheng Zhang <jszhang@kernel.org>
->>> > > Andreas reported commit fc8504765ec5 ("riscv: bpf: Avoid breaking=
-=20
->>> W^X")
->>> > breaks booting with one kind of config file, I reproduced a kernel=20
->>> panic
->>> > with the config:
->>> > > [=C2=A0=C2=A0=C2=A0 0.138553] Unable to handle kernel paging reques=
-t at virtual=20
->>> address ffffffff81201220
->>> > [=C2=A0=C2=A0=C2=A0 0.139159] Oops [#1]
->>> > [=C2=A0=C2=A0=C2=A0 0.139303] Modules linked in:
->>> > [=C2=A0=C2=A0=C2=A0 0.139601] CPU: 0 PID: 1 Comm: swapper/0 Not taint=
-ed=20
->>> 5.13.0-rc5-default+ #1
->>> > [=C2=A0=C2=A0=C2=A0 0.139934] Hardware name: riscv-virtio,qemu (DT)
->>> > [=C2=A0=C2=A0=C2=A0 0.140193] epc : __memset+0xc4/0xfc
->>> > [=C2=A0=C2=A0=C2=A0 0.140416]=C2=A0 ra : skb_flow_dissector_init+0x1e=
-/0x82
->>> > [=C2=A0=C2=A0=C2=A0 0.140609] epc : ffffffff8029806c ra : ffffffff803=
-3be78 sp :=20
->>> ffffffe001647da0
->>> > [=C2=A0=C2=A0=C2=A0 0.140878]=C2=A0 gp : ffffffff81134b08 tp : ffffff=
-e001654380 t0 :=20
->>> ffffffff81201158
->>> > [=C2=A0=C2=A0=C2=A0 0.141156]=C2=A0 t1 : 0000000000000002 t2 : 000000=
-0000000154 s0 :=20
->>> ffffffe001647dd0
->>> > [=C2=A0=C2=A0=C2=A0 0.141424]=C2=A0 s1 : ffffffff80a43250 a0 : ffffff=
-ff81201220 a1 :=20
->>> 0000000000000000
->>> > [=C2=A0=C2=A0=C2=A0 0.141654]=C2=A0 a2 : 000000000000003c a3 : ffffff=
-ff81201258 a4 :=20
->>> 0000000000000064
->>> > [=C2=A0=C2=A0=C2=A0 0.141893]=C2=A0 a5 : ffffffff8029806c a6 : 000000=
-0000000040 a7 :=20
->>> ffffffffffffffff
->>> > [=C2=A0=C2=A0=C2=A0 0.142126]=C2=A0 s2 : ffffffff81201220 s3 : 000000=
-0000000009 s4 :=20
->>> ffffffff81135088
->>> > [=C2=A0=C2=A0=C2=A0 0.142353]=C2=A0 s5 : ffffffff81135038 s6 : ffffff=
-ff8080ce80 s7 :=20
->>> ffffffff80800438
->>> > [=C2=A0=C2=A0=C2=A0 0.142584]=C2=A0 s8 : ffffffff80bc6578 s9 : 000000=
-0000000008 s10:=20
->>> ffffffff806000ac
->>> > [=C2=A0=C2=A0=C2=A0 0.142810]=C2=A0 s11: 0000000000000000 t3 : ffffff=
-fffffffffc t4 :=20
->>> 0000000000000000
->>> > [=C2=A0=C2=A0=C2=A0 0.143042]=C2=A0 t5 : 0000000000000155 t6 : 000000=
-00000003ff
->>> > [=C2=A0=C2=A0=C2=A0 0.143220] status: 0000000000000120 badaddr: fffff=
-fff81201220=20
->>> cause: 000000000000000f
->>> > [=C2=A0=C2=A0=C2=A0 0.143560] [<ffffffff8029806c>] __memset+0xc4/0xfc
->>> > [=C2=A0=C2=A0=C2=A0 0.143859] [<ffffffff8061e984>]=20
->>> init_default_flow_dissectors+0x22/0x60
->>> > [=C2=A0=C2=A0=C2=A0 0.144092] [<ffffffff800010fc>] do_one_initcall+0x=
-3e/0x168
->>> > [=C2=A0=C2=A0=C2=A0 0.144278] [<ffffffff80600df0>] kernel_init_freeab=
-le+0x1c8/0x224
->>> > [=C2=A0=C2=A0=C2=A0 0.144479] [<ffffffff804868a8>] kernel_init+0x12/0=
-x110
->>> > [=C2=A0=C2=A0=C2=A0 0.144658] [<ffffffff800022de>] ret_from_exception=
-+0x0/0xc
->>> > [=C2=A0=C2=A0=C2=A0 0.145124] ---[ end trace f1e9643daa46d591 ]---
->>> > > After some investigation, I think I found the root cause: commit
->>> > 2bfc6cd81bd ("move kernel mapping outside of linear mapping") moves
->>> > BPF JIT region after the kernel:
->>> > > The &_end is unlikely aligned with PMD size, so the front bpf jit
->>> > region sits with part of kernel .data section in one PMD size mapping=
-.
->>> > But kernel is mapped in PMD SIZE, when bpf_jit_binary_lock_ro() is
->>> > called to make the first bpf jit prog ROX, we will make part of kerne=
-l
->>> > .data section RO too, so when we write to, for example memset the
->>> > .data section, MMU will trigger a store page fault.
->>> Good catch, we make sure no physical allocation happens between _end=20
->>> and the next PMD aligned address, but I missed this one.
->>>
->>> > > To fix the issue, we need to ensure the BPF JIT region is PMD size
->>> > aligned. This patch acchieve this goal by restoring the BPF JIT regio=
-n
->>> > to original position, I.E the 128MB before kernel .text section.
->>> But I disagree with your solution: I made sure modules and BPF=20
->>> programs get their own virtual regions to avoid worst case scenario=20
->>> where one could allocate all the space and leave nothing to the other=
-=20
->>> (we are limited to +- 2GB offset). Why don't just align=20
->>> BPF_JIT_REGION_START to the next PMD aligned address?
->>
->> Originally, I planed to fix the issue by aligning=20
->> BPF_JIT_REGION_START, but
->> IIRC, BPF experts are adding (or have added) "Calling kernel functions=
-=20
->> from BPF"
->> feature, there's a risk that BPF JIT region is beyond the 2GB of=20
->> module region:
->>
->> ------
->> module
->> ------
->> kernel
->> ------
->> BPF_JIT
->>
->> So I made this patch finally. In this patch, we let BPF JIT region sit
->> between module and kernel.
->>
->> To address "make sure modules and BPF programs get their own virtual=20
->> regions",
->> what about something as below (applied against this patch)?
->>
->> diff --git a/arch/riscv/include/asm/pgtable.h=20
->> b/arch/riscv/include/asm/pgtable.h
->> index 380cd3a7e548..da1158f10b09 100644
->> --- a/arch/riscv/include/asm/pgtable.h
->> +++ b/arch/riscv/include/asm/pgtable.h
->> @@ -31,7 +31,7 @@
->> =C2=A0#define BPF_JIT_REGION_SIZE=C2=A0=C2=A0=C2=A0 (SZ_128M)
->> =C2=A0#ifdef CONFIG_64BIT
->> =C2=A0#define BPF_JIT_REGION_START=C2=A0=C2=A0=C2=A0 (BPF_JIT_REGION_END=
- -=20
->> BPF_JIT_REGION_SIZE)
->> -#define BPF_JIT_REGION_END=C2=A0=C2=A0=C2=A0 (MODULES_END)
->> +#define BPF_JIT_REGION_END=C2=A0=C2=A0=C2=A0 (PFN_ALIGN((unsigned long)=
-&_start))
->> =C2=A0#else
->> =C2=A0#define BPF_JIT_REGION_START=C2=A0=C2=A0=C2=A0 (PAGE_OFFSET - BPF_=
-JIT_REGION_SIZE)
->> =C2=A0#define BPF_JIT_REGION_END=C2=A0=C2=A0=C2=A0 (VMALLOC_END)
->> @@ -40,7 +40,7 @@
->> =C2=A0/* Modules always live before the kernel */
->> =C2=A0#ifdef CONFIG_64BIT
->> =C2=A0#define MODULES_VADDR=C2=A0=C2=A0=C2=A0 (PFN_ALIGN((unsigned long)=
-&_end) - SZ_2G)
->> -#define MODULES_END=C2=A0=C2=A0=C2=A0 (PFN_ALIGN((unsigned long)&_start=
-))
->> +#define MODULES_END=C2=A0=C2=A0=C2=A0 (BPF_JIT_REGION_END)
->> =C2=A0#endif
->>
->>
->>
->>>
->>> Again, good catch, thanks,
->>>
->>> Alex
->>>
->>> > > Reported-by: Andreas Schwab <schwab@linux-m68k.org>
->>> > Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
->>> > ---
->>> >=C2=A0=C2=A0 arch/riscv/include/asm/pgtable.h | 5 ++---
->>> >=C2=A0=C2=A0 1 file changed, 2 insertions(+), 3 deletions(-)
->>> > > diff --git a/arch/riscv/include/asm/pgtable.h=20
->>> b/arch/riscv/include/asm/pgtable.h
->>> > index 9469f464e71a..380cd3a7e548 100644
->>> > --- a/arch/riscv/include/asm/pgtable.h
->>> > +++ b/arch/riscv/include/asm/pgtable.h
->>> > @@ -30,9 +30,8 @@
->>> > >=C2=A0=C2=A0 #define BPF_JIT_REGION_SIZE=C2=A0=C2=A0=C2=A0 (SZ_128M)
->>> >=C2=A0=C2=A0 #ifdef CONFIG_64BIT
->>> > -/* KASLR should leave at least 128MB for BPF after the kernel */
->>> > -#define BPF_JIT_REGION_START=C2=A0=C2=A0=C2=A0 PFN_ALIGN((unsigned l=
-ong)&_end)
->>> > -#define BPF_JIT_REGION_END=C2=A0=C2=A0=C2=A0 (BPF_JIT_REGION_START +=
-=20
->>> BPF_JIT_REGION_SIZE)
->>> > +#define BPF_JIT_REGION_START=C2=A0=C2=A0=C2=A0 (BPF_JIT_REGION_END -=
-=20
->>> BPF_JIT_REGION_SIZE)
->>> > +#define BPF_JIT_REGION_END=C2=A0=C2=A0=C2=A0 (MODULES_END)
->>> >=C2=A0=C2=A0 #else
->>> >=C2=A0=C2=A0 #define BPF_JIT_REGION_START=C2=A0=C2=A0=C2=A0 (PAGE_OFFS=
-ET - BPF_JIT_REGION_SIZE)
->>> >=C2=A0=C2=A0 #define BPF_JIT_REGION_END=C2=A0=C2=A0=C2=A0 (VMALLOC_END=
-)
->>> >=20
->=20
-> This, when applied onto fixes, is breaking early boot on KASAN=20
-> configurations for me.
+In commit 121e6f3258fe ("mm/vmalloc: hugepage vmalloc mappings"),
+__vmalloc_node_range was changed such that __get_vm_area_node was no
+longer called with the requested/real size of the vmalloc allocation, but
+rather with a rounded-up size.
 
-Not surprising, I took a shortcut when initializing KASAN for modules,=20
-kernel and BPF:
+This means that __get_vm_area_node called kasan_unpoision_vmalloc() with
+a rounded up size rather than the real size. This led to it allowing
+access to too much memory and so missing vmalloc OOBs and failing the
+kasan kunit tests.
 
-         kasan_populate(kasan_mem_to_shadow((const void *)MODULES_VADDR),
-                        kasan_mem_to_shadow((const void=20
-*)BPF_JIT_REGION_END));
+Pass the real size and the desired shift into __get_vm_area_node. This
+allows it to round up the size for the underlying allocators while
+still unpoisioning the correct quantity of shadow memory.
 
-The kernel is then not covered, I'm taking a look at how to fix that=20
-properly.
+Adjust the other call-sites to pass in PAGE_SHIFT for the shift value.
 
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: David Gow <davidgow@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Uladzislau Rezki (Sony) <urezki@gmail.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=213335
+Fixes: 121e6f3258fe ("mm/vmalloc: hugepage vmalloc mappings")
+Signed-off-by: Daniel Axtens <dja@axtens.net>
+---
+ mm/vmalloc.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ae256a5d-70ac-3a5f-ca55-5e4210a0624c%40ghiti.fr.
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index aaad569e8963..3471cbeb083c 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -2362,15 +2362,16 @@ static void clear_vm_uninitialized_flag(struct vm_struct *vm)
+ }
+ 
+ static struct vm_struct *__get_vm_area_node(unsigned long size,
+-		unsigned long align, unsigned long flags, unsigned long start,
+-		unsigned long end, int node, gfp_t gfp_mask, const void *caller)
++		unsigned long align, unsigned long shift, unsigned long flags,
++		unsigned long start, unsigned long end, int node,
++		gfp_t gfp_mask, const void *caller)
+ {
+ 	struct vmap_area *va;
+ 	struct vm_struct *area;
+ 	unsigned long requested_size = size;
+ 
+ 	BUG_ON(in_interrupt());
+-	size = PAGE_ALIGN(size);
++	size = ALIGN(size, 1ul << shift);
+ 	if (unlikely(!size))
+ 		return NULL;
+ 
+@@ -2402,8 +2403,8 @@ struct vm_struct *__get_vm_area_caller(unsigned long size, unsigned long flags,
+ 				       unsigned long start, unsigned long end,
+ 				       const void *caller)
+ {
+-	return __get_vm_area_node(size, 1, flags, start, end, NUMA_NO_NODE,
+-				  GFP_KERNEL, caller);
++	return __get_vm_area_node(size, 1, PAGE_SHIFT, flags, start, end,
++				  NUMA_NO_NODE, GFP_KERNEL, caller);
+ }
+ 
+ /**
+@@ -2419,7 +2420,8 @@ struct vm_struct *__get_vm_area_caller(unsigned long size, unsigned long flags,
+  */
+ struct vm_struct *get_vm_area(unsigned long size, unsigned long flags)
+ {
+-	return __get_vm_area_node(size, 1, flags, VMALLOC_START, VMALLOC_END,
++	return __get_vm_area_node(size, 1, PAGE_SHIFT, flags,
++				  VMALLOC_START, VMALLOC_END,
+ 				  NUMA_NO_NODE, GFP_KERNEL,
+ 				  __builtin_return_address(0));
+ }
+@@ -2427,7 +2429,8 @@ struct vm_struct *get_vm_area(unsigned long size, unsigned long flags)
+ struct vm_struct *get_vm_area_caller(unsigned long size, unsigned long flags,
+ 				const void *caller)
+ {
+-	return __get_vm_area_node(size, 1, flags, VMALLOC_START, VMALLOC_END,
++	return __get_vm_area_node(size, 1, PAGE_SHIFT, flags,
++				  VMALLOC_START, VMALLOC_END,
+ 				  NUMA_NO_NODE, GFP_KERNEL, caller);
+ }
+ 
+@@ -2949,9 +2952,9 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
+ 	}
+ 
+ again:
+-	size = PAGE_ALIGN(size);
+-	area = __get_vm_area_node(size, align, VM_ALLOC | VM_UNINITIALIZED |
+-				vm_flags, start, end, node, gfp_mask, caller);
++	area = __get_vm_area_node(real_size, align, shift, VM_ALLOC |
++				  VM_UNINITIALIZED | vm_flags, start, end, node,
++				  gfp_mask, caller);
+ 	if (!area) {
+ 		warn_alloc(gfp_mask, NULL,
+ 			"vmalloc error: size %lu, vm_struct allocation failed",
+@@ -2970,6 +2973,7 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
+ 	 */
+ 	clear_vm_uninitialized_flag(area);
+ 
++	size = PAGE_ALIGN(size);
+ 	kmemleak_vmalloc(area, size, gfp_mask);
+ 
+ 	return addr;
+-- 
+2.30.2
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210617081330.98629-1-dja%40axtens.net.
