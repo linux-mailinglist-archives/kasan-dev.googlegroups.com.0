@@ -1,122 +1,120 @@
-Return-Path: <kasan-dev+bncBC3YFL76U4CRBSFEWGDAMGQEKVWOZEI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBA4GWKDAMGQEDJHHHVY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694E63AC58C
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Jun 2021 09:59:05 +0200 (CEST)
-Received: by mail-qt1-x837.google.com with SMTP id h24-20020ac856980000b0290243c83a3ddcsf2513970qta.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Jun 2021 00:59:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1624003144; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 745543AC9D1
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Jun 2021 13:27:00 +0200 (CEST)
+Received: by mail-lj1-x23d.google.com with SMTP id i8-20020a2e80880000b0290161f7012dd7sf3383493ljg.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 18 Jun 2021 04:27:00 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1624015620; cv=pass;
         d=google.com; s=arc-20160816;
-        b=W1fj2b2zi8EDIcn9aI4UONGOtoF2rIIWGMKwO6MXGSFTt3v3rFx5ilYTlgY7vfgR9P
-         hhwaToSKXu5bTxdTq3bobVnajtpuJQY1CnajXiUwokVeFB0aXHlYgj3+EQoPR9QvVDiY
-         AJI4Y1jYZRiiLTrx3v33JS3MjL1ZqdcQQcALrMOzSIy5OhdCWOLxkq8WBnsuUnjjmC9n
-         TtucuxWjYrAdxeam+GII0ePZOB9YS+po4oSHwIskb0bBeEhWmDvEWIChoI4Mx+AXxXyx
-         e7uEnuHKEozjdtFK3qHu0vq2+Bb9EE68m6BS4yVvd3t1KRNxLD2GJCht1t/ZR5gMx/45
-         g7nA==
+        b=yUukUWH+pTaXocgllHtliWn7jpq0IPC1kNc3tGG+B9lhWwU6cs3Ryz1Ujpi3hl+qND
+         zGokgPX8Ya6EphlDGZi99ufbzzD2kAi2REJjJKKbO/UNOSku8iG7N7WPJWhCA7u6vWHG
+         sncxP2DEdBCuNXYIWFW3fQtvuCjvkIT1pq8eyonbo84VGH+HFYSD/lXQMk5K8hlh1XRZ
+         Un97w5LfBzPqdVN2DvgfdpVAAh/OxHSTebbMeu2sB4eccKZSs6bRxMMdE5uKmkhZpuwJ
+         lMlNiYuufphKduxxk/UCJV7bmulQnj1McpW9d2GM+Pqgn6xH5DvTEODkT3dO797RH7jJ
+         sboQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=rkeORPZPlnDQcCJJMcKg+9YXm5W7LOiBJxYWX0kDIHo=;
-        b=sPHOcQ8+encYv44yv/zBwimAt7Rcr5yTRe3+F9FZDKXQm3e5TsfG6do4KV4z+OekCb
-         bXXQPDGMbniOCjQzA2A66PJ3rm4obElK9zJ8/RaiQFyZ5ovnyvxEVn7ylYAkspRrNO/8
-         1iV8vFq411ft4sroqYFoWBcGkikKGGNmWnaHTxDjYXzXnLDehyaIasohXsNKAGCaFpId
-         UqiqUfu8DTq5ddmkF4fh/eThNXZwcpfiQRTDBwlVchKB2QAi+oL667osJOaWZXv3Awi2
-         Yc+7z65tPeKt1sVcNjR+l6gtcR/fwT9DjCw7YUSeHn2sutUlvtGNMR5rdaN/cyNJw3Ew
-         VwZw==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=Vl1GFZGXfRb3tRnZ/zTt9uUHR2RmV0OIKUE6LxaKDzg=;
+        b=neQC6DQRNK4xlbBho09rgFbCb70yRITJxqo5x0RoSbewi6B/X3Gr43fl0I4TsYjemQ
+         WknJYHz6k8fyVfMXVYLvkFz+PZtlGIUkcOEtYThmTGLZ0nxUnRleigSUEIOkjUeJ9+gO
+         9cQmsGNINF/rGzkrIyegPphEwEA7UXj+Cl/M41ypD9Z9YnuvSuAN8RlNUKffMeW+Ftwt
+         iuzcTMf9HwHAJTzqUjkWd2tz/zIUq8Nswn5Ydla0peZEVDAxnPv4jEaNZGDMn5gMXRqz
+         hiDisYAZn2C8uNrFACKG/JL35CXEsotOEOcqvhcy/IiveKHV0MPgAlxr7Qo97yJEfB9j
+         XZtA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=HiwVAQbf;
-       spf=pass (google.com: domain of bristot@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bristot@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=KnMwd1AT;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=rkeORPZPlnDQcCJJMcKg+9YXm5W7LOiBJxYWX0kDIHo=;
-        b=Ie2SHUp9uCeYRG1hjRb5VdWGBdWQNnVJNOzCdEKWyR+KuVeOvsJWMm5S8uwrsxjRbA
-         IEm9OKKKb8ExEc314jsHe2XCsCaygoJX8Eedv0QoqXuLfXMyuufAmeYdoBisN4NabT2i
-         vD1lrkPGBQDiB3itxDj236SSoQwIgsHjGnS93Pe+mCcdeI0QlWnSYP2m8Z+t9LAlaByK
-         KaxNPpth9gtm6cMfCp0/fV+VCuxQKIW6Xc7nq1wvHg+lCLflfSIifn28XiNE04IyNGJD
-         ykXYVqIFDmIH/ZlA/b0i0+0kO7dFE6j+lRlpwJ36EYpD/Mt+H3nBjA+g4lEs8WH+7O2W
-         ywPg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=Vl1GFZGXfRb3tRnZ/zTt9uUHR2RmV0OIKUE6LxaKDzg=;
+        b=EUoTXeNDg0QWIhwEMQqly3rMwwBIQscaWowvoF9lxNZ5BRMgR50eqvLhK2li5YJnFB
+         CeoJ3J0zy3ZFfJ56Q3E0TutIoGr0kJ9cSeqTVnXFkwn1e+PJ2C5O1yMf0VNc0cY1TlDS
+         Zd8HuOoxD5NAkCdOoqKjQGaR1itC1JbeOE1tgn2Z2qKYA06yv7L2lPsgjEhzHBMxRCTB
+         +I1aO/k657B99k6mDnxM3fCdjlrsdc7mS0Q4L2AePwg/q8rMZV73N40o6z6Sy5b6T519
+         VJv32oAQ+TPZToJwX+fz0P05c8xoyqCtBh07eoq23Z75zWjwnn46DPhQfGk44VoM+RbF
+         t9Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=rkeORPZPlnDQcCJJMcKg+9YXm5W7LOiBJxYWX0kDIHo=;
-        b=PNmenLVvM5VslFvr5iYJ0XHofv8iImGSGBxAlUT+e/zFY4tE1gczU4zcpAXGLxTg/M
-         6wlmqq+hO4V+lsJLIqPntCxa2m5oc3F/GyH4sBjkx50bnIUfXb5TOLNczgsNjzERxlDd
-         kFiI1W+xKgEoRAJYHn/O7h3g0vQXHhP9YKASCbbvo8sLy2vKukM0lqrQlSyWKYkhLCmt
-         LgVUToJc2+My9rO8clvFJd/+oGdkICtOE/JkwvPHooCcRZrBXMLNRtME1d6TcU5H/sHe
-         BDUHPPtPdzeEOPJj39MbeI7nI+C9/e/tatXV1OMrXVLN8E7g0PNyNTjL4iD+eBvDDIss
-         Qo2g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531o7Css6Ra/zOuyVq2IKE6eew1Lj3uF/n1pzNKYFljaXErIFgS3
-	y/zztNOtc0wzsNSJb9UCVRQ=
-X-Google-Smtp-Source: ABdhPJyPTA9Fx0CAQ1A3YIk+Z86WKaAij5Lr1EWzz9CdS6mjCPexJY0nBSdYx+LlxfgTTyQlBRdZ0A==
-X-Received: by 2002:a37:a1cf:: with SMTP id k198mr7408873qke.409.1624003144291;
-        Fri, 18 Jun 2021 00:59:04 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Vl1GFZGXfRb3tRnZ/zTt9uUHR2RmV0OIKUE6LxaKDzg=;
+        b=tPF8A3lKrUDVNIkUOhJ11xCekT5fferh+8ncFaJot2PONIiTcqq7mbDi/ymqfn3sUi
+         O3tFhop1TYm8SOOZUwxdTAHbpdDj5NeCSExbYyYMq6uP4zMTwUf/vSuySOHth+VOrw5G
+         o7JA5rOFamRcYbdEtlI0GbicxLyxGYekNkPWBCI5mHRggQsWYvpH0YB0Jo53a9WBO1Up
+         8mP8hk7MJc7D5KFZz3wSPd12vxMbaxWK3MOLmvRxf6384Ve9guyEoUIzFwcyF6jVugo1
+         fARy52eB23aQhdA14qjBppxU5jT94g90Pg1i66PiidMoyJ8sCW9YcmCRPw/a9iWoNZk8
+         EiWw==
+X-Gm-Message-State: AOAM530fmbo+AuGyjOsSBlFyvx3kXCtXyQMzJSrUu4MKpNCbkeAZhDsv
+	PNIPkUpjhrzNRJx8jPBYqM4=
+X-Google-Smtp-Source: ABdhPJwHhvRs+brHGTu0qr0aZ+w4ooxuYNpuQVDx7K78aMcFDoEq9nEA586hdAFCo0PL1fyxQpo5Dg==
+X-Received: by 2002:a05:6512:3b2a:: with SMTP id f42mr2796609lfv.425.1624015620064;
+        Fri, 18 Jun 2021 04:27:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:1271:: with SMTP id r17ls957802qvv.4.gmail; Fri, 18
- Jun 2021 00:59:03 -0700 (PDT)
-X-Received: by 2002:ad4:51cf:: with SMTP id p15mr4359649qvq.5.1624003143810;
-        Fri, 18 Jun 2021 00:59:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1624003143; cv=none;
+Received: by 2002:a05:6512:3b99:: with SMTP id g25ls2567278lfv.2.gmail; Fri,
+ 18 Jun 2021 04:26:58 -0700 (PDT)
+X-Received: by 2002:a05:6512:11cd:: with SMTP id h13mr2857987lfr.162.1624015618890;
+        Fri, 18 Jun 2021 04:26:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1624015618; cv=none;
         d=google.com; s=arc-20160816;
-        b=coIphajNb2jHOARfZk0oPk4Qi/fFzDcOY5a5pUjCaVULE7e860L9qppLBYPHDL0IN9
-         y4MpMUl/yrnR9eUz7yBwjo74G2rwGj0jUYOLKJ2FcyqxHY0i+7tdHrRU5ByCBmMDsv/t
-         62dddmRl1Z5+vtlhXOPLMuVFtasXrGPCgG0wXypJpOq8cU2CsBYGfkT5WuaH6VzVn+si
-         uvjeTBotdK1n4r1AqufMTqwBo6B/aIvglIT90NLT2itZHpjaDYT3wdqDFdt5UWMlW7Ux
-         pUfW71bCmnVpjYadEntuKznvsIn19+kXbFGHlADHt3mAsUd+b1fWdCGSBbVX6cT8x4YQ
-         wR5w==
+        b=nSBv0pSM6ybBbOXlK05/POBfalK2UjB3tG+6z/5vZE3genVGmCJHYBqTrspUIZFfzl
+         bl2rFUVM7nA9kZTrHdx8aMjo0Pbu9CsWKAm38YjvPaTfXioUiE1Xz/EudZzN1/vI7m2T
+         PTm66gv9ZNqF2CfLLzsURIzh/6iGfN6SftNM+pi85X2acFChvwkMfEz67fpm+jz28xHV
+         cfJpJWt8/nWe5jtTwu+lKHlTNUH5BeIK5+f7c599/izm+7GZMJ41HCu0LvMio0id8UWI
+         k3RuwFX94UIYHLdMZt0VeWrZlLDWPe68SjoNq0CRm8566EqjLBNBP2qtjVlap8CceI6A
+         uIiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=QB7KMugTullHRvmV8LmfWYhXRlkrxyob1yW5wSk8lIc=;
-        b=aVrC3uMm3NxoSRwGBIdOQCZhkWAag3+JZAMMeDJCDHG5QbhGKptLPUbQWXUWD0bTUj
-         kcD+HGfjTtmVInLINwQCZ2bKZXfEp38Ez+2p4XomuF8Nes8HnyCcPqVzNiyTHGoxjtwd
-         aYjf2nQZ2pRp5nGVStn/x41u2Loy/irbr7Wrh8mGL+oQ+pqRmTGfLREA1HXOWm2BS0hY
-         nLjBsuv4jm30d1U1NMjauYrYfVQKbly9lZjt07Xa4uL7/JbE52A1TV1XXqIOobpZkqKl
-         xNCcVARf827RIuEVp8uFgNNjcH2rUWcf/sLQo4/cCyggFXcjjPiv/IhQQBR32qiUDqAU
-         Yc6w==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=FoipwiSu6RMmejDEuQLuWgfq8PcsSlF81vDlDxsZQGA=;
+        b=nSoy2tdHKgW2eXszk/bJQk5T/bbE/0m6FU56rgZOTlvP/g7TnKlllYB8StWWrR4Zx9
+         VY/apfkYEbIWV2qOTfzU59s3yDRR6+cTyXycG2o+0i+TQ1G826ilKa8IiUSGtPF7MxGc
+         +ruM0mxFxmbLo1hxuxB6hjxbhpprshvrFL4ZlveaYL9KZAnV5yNecZrQbR7WkbenTxJf
+         jOzNQvHSg3TsbCxw3nTZ2hDa59Jk1FNd3HlU6skC1xvl0IgaBHLrFTnzA3ftuP06cP+0
+         7vkkL9eJnbaRMngWU2OJ6PfXU+izFB1oYb24L+eiXHYVeU8yuy4ztTkbX89xH01yB3Y9
+         0sZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=HiwVAQbf;
-       spf=pass (google.com: domain of bristot@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bristot@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id j16si549592qko.3.2021.06.18.00.59.03
+       dkim=pass header.i=@google.com header.s=20161025 header.b=KnMwd1AT;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
+        by gmr-mx.google.com with ESMTPS id i12si274856lfc.10.2021.06.18.04.26.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 18 Jun 2021 00:59:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bristot@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-4Cs6-Z92O2yquTPyOxDVQQ-1; Fri, 18 Jun 2021 03:59:01 -0400
-X-MC-Unique: 4Cs6-Z92O2yquTPyOxDVQQ-1
-Received: by mail-ed1-f72.google.com with SMTP id q7-20020aa7cc070000b029038f59dab1c5so3090288edt.23
-        for <kasan-dev@googlegroups.com>; Fri, 18 Jun 2021 00:59:01 -0700 (PDT)
-X-Received: by 2002:a05:6402:1907:: with SMTP id e7mr2816194edz.186.1624003140221;
-        Fri, 18 Jun 2021 00:59:00 -0700 (PDT)
-X-Received: by 2002:a05:6402:1907:: with SMTP id e7mr2816173edz.186.1624003139926;
-        Fri, 18 Jun 2021 00:58:59 -0700 (PDT)
-Received: from x1.bristot.me (host-79-23-205-114.retail.telecomitalia.it. [79.23.205.114])
-        by smtp.gmail.com with ESMTPSA id c19sm5756050edw.10.2021.06.18.00.58.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jun 2021 00:58:59 -0700 (PDT)
+        Fri, 18 Jun 2021 04:26:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
+Received: by mail-wm1-x32f.google.com with SMTP id o39-20020a05600c5127b02901d23584fd9bso5670508wms.0
+        for <kasan-dev@googlegroups.com>; Fri, 18 Jun 2021 04:26:58 -0700 (PDT)
+X-Received: by 2002:a1c:4d0d:: with SMTP id o13mr11083791wmh.59.1624015618201;
+        Fri, 18 Jun 2021 04:26:58 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:15:13:f927:d21d:7ac:d122])
+        by smtp.gmail.com with ESMTPSA id k16sm7381882wmr.42.2021.06.18.04.26.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jun 2021 04:26:57 -0700 (PDT)
+Date: Fri, 18 Jun 2021 13:26:52 +0200
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	syzkaller <syzkaller@googlegroups.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>
 Subject: Re: Functional Coverage via RV? (was: "Learning-based Controlled
  Concurrency Testing")
-To: Marco Elver <elver@google.com>, "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Dmitry Vyukov <dvyukov@google.com>, syzkaller
- <syzkaller@googlegroups.com>, kasan-dev <kasan-dev@googlegroups.com>,
- LKML <linux-kernel@vger.kernel.org>
+Message-ID: <YMyC/Dy7XoxTeIWb@elver.google.com>
 References: <20210512181836.GA3445257@paulmck-ThinkPad-P17-Gen-1>
  <CACT4Y+Z+7qPaanHNQc4nZ-mCfbqm8B0uiG7OtsgdB34ER-vDYA@mail.gmail.com>
  <20210517164411.GH4441@paulmck-ThinkPad-P17-Gen-1>
@@ -126,23 +124,20 @@ References: <20210512181836.GA3445257@paulmck-ThinkPad-P17-Gen-1>
  <20210519185305.GC4441@paulmck-ThinkPad-P17-Gen-1>
  <CANpmjNMskihABCyNo=cK5c0vbNBP=fcUO5-ZqBJCiO4XGM47DA@mail.gmail.com>
  <CANpmjNMPvAucMQoZeLQAP_WiwiLT6XBoss=EZ4xAbrHnMwdt5g@mail.gmail.com>
-From: Daniel Bristot de Oliveira <bristot@redhat.com>
-Message-ID: <c179dc74-662d-567f-0285-fcfce6adf0a5@redhat.com>
-Date: Fri, 18 Jun 2021 09:58:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <c179dc74-662d-567f-0285-fcfce6adf0a5@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CANpmjNMPvAucMQoZeLQAP_WiwiLT6XBoss=EZ4xAbrHnMwdt5g@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-X-Original-Sender: bristot@redhat.com
+Content-Disposition: inline
+In-Reply-To: <c179dc74-662d-567f-0285-fcfce6adf0a5@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=HiwVAQbf;
-       spf=pass (google.com: domain of bristot@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=bristot@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@google.com header.s=20161025 header.b=KnMwd1AT;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,156 +150,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 6/17/21 1:20 PM, Marco Elver wrote:
-> [+Daniel, just FYI. We had a discussion about "functional coverage"
-> and fuzzing, and I've just seen your wonderful work on RV. If you have
-> thought about fuzzing with RV and how coverage of the model impacts
-> test generation, I'd be curious to hear.]
-
-One aspect of RV is that we verify the actual execution of the system instead of
-a complete model of the system, so we depend of the testing to cover all the
-aspects of the system <-> model.
-
-There is a natural relation with testing/fuzzing & friends with RV.
-
-> Looks like there is ongoing work on specifying models and running them
-> along with the kernel: https://lwn.net/Articles/857862/
+On Fri, Jun 18, 2021 at 09:58AM +0200, Daniel Bristot de Oliveira wrote:
+> On 6/17/21 1:20 PM, Marco Elver wrote:
+> > [+Daniel, just FYI. We had a discussion about "functional coverage"
+> > and fuzzing, and I've just seen your wonderful work on RV. If you have
+> > thought about fuzzing with RV and how coverage of the model impacts
+> > test generation, I'd be curious to hear.]
 > 
-> Those models that are run alongside the kernel would have their own
-> coverage, and since there's a mapping between real code and model, a
-> fuzzer trying to reach new code in one or the other will ultimately
-> improve coverage for both.
-
-Perfect!
-
-> Just wanted to document this here, because it seems quite relevant.
-> I'm guessing that "functional coverage" would indeed be a side-effect
-> of a good RV model?
-
-So, let me see if I understood the terms. Functional coverage is a way to check
-if all the desired aspects of a code/system/subsystem/functionality were covered
-by a set of tests?
-
-If that is correct, we could use RV to:
-
- - create an explicit model of the states we want to cover.
- - check if all the desired states were visited during testing.
-
-?
-
--- Daniel
-
-> Previous discussion below.
+> One aspect of RV is that we verify the actual execution of the system instead of
+> a complete model of the system, so we depend of the testing to cover all the
+> aspects of the system <-> model.
 > 
-> Thanks,
-> -- Marco
+> There is a natural relation with testing/fuzzing & friends with RV.
 > 
-> On Wed, 19 May 2021 at 22:24, Marco Elver <elver@google.com> wrote:
->> On Wed, 19 May 2021 at 20:53, Paul E. McKenney <paulmck@kernel.org> wrote:
->>> On Wed, May 19, 2021 at 11:02:43AM +0200, Marco Elver wrote:
->>>> On Tue, 18 May 2021 at 22:42, Paul E. McKenney <paulmck@kernel.org> wrote:
->>>> [...]
->>>>>> All the above sound like "functional coverage" to me, and could be
->>>>>> implemented on top of a well-thought-out functional coverage API.
->>>>>> Functional coverage is common in the hardware verification space to
->>>>>> drive simulation and model checking; for example, functional coverage
->>>>>> could be "buffer is full" vs just structural (code) coverage which
->>>>>> cannot capture complex state properties like that easily.
->>>>>>
->>>>>> Similarly, you could then say things like "number of held locks" or
->>>>>> even alluding to your example (5) above, "observed race on address
->>>>>> range". In the end, with decent functional coverage abstractions,
->>>>>> anything should hopefully be possible.
->>>>>
->>>>> Those were in fact the lines along which I was thinking.
->>>>>
->>>>>> I've been wondering if this could be something useful for the Linux
->>>>>> kernel, but my guess has always been that it'd not be too-well
->>>>>> received because people don't like to see strange annotations in their
->>>>>> code. But maybe I'm wrong.
->>>>>
->>>>> I agree that it is much easier to get people to use a tool that does not
->>>>> require annotations.  In fact, it is best if it requires nothing at all
->>>>> from them...
->>>>
->>>> While I'd like to see something like that, because it'd be beneficial
->>>> to see properties of the code written down to document its behaviour
->>>> better and at the same time machine checkable, like you say, if it
->>>> requires additional effort, it's a difficult sell. (Although the same
->>>> is true for all other efforts to improve reliability that require a
->>>> departure from the "way it used to be done", be it data_race(), or
->>>> even efforts introducing whole new programming languages to the
->>>> kernel.)
->>>
->>> Fair point!  But what exactly did you have in mind?
->>
->> Good question, I'll try to be more concrete -- most of it are
->> half-baked ideas and questions ;-), but if any of it makes sense, I
->> should maybe write a doc to summarize.
->>
->> What I had in mind is a system to write properties for both functional
->> coverage, but also checking more general properties of the kernel. The
->> latter I'm not sure about how useful. But all this isn't really used
->> for anything other than in debug builds.
->>
->> Assume we start with macros such as "ASSERT_COVER(...)" (for
->> functional coverage) and "ASSERT(...)" (just plain-old assertions).
->> The former is a way to document potentially interesting states (useful
->> for fuzzers to reach them), and the latter just a way to just specify
->> properties of the system (useful for finding the actual bugs).
->> Implementation-wise the latter is trivial, the former requires some
->> thought on how to expose that information to fuzzers and how to use
->> (as Dmitry suggested it's not trivial). I'd also imagine we can have
->> module-level variants ("GLOBAL_ASSERT*(...)") that monitor some global
->> state, and also add support for some subset of temporal properties
->> like "GLOBAL_ASSERT_EVENTUALLY(precond, eventually_holds)" as
->> suggested below.
->>
->> I guess maybe I'd have to take a step back and just ask why we have no
->> way to write plain and simple assertions that are removed in non-debug
->> builds? Some subsystems seem to roll their own, which a 'git grep
->> "#define ASSERT"' tells me.
->>
->> Is there a fundamental reason why we shouldn't have them, perhaps
->> there was some past discussion? Today we have things like
->> lockdep_assert_held(), but nothing to even write a simple assert
->> otherwise. If I had to guess why something like ASSERT is bad, it is
->> because it gives people a way to check for unexpected conditions, but
->> if those checks disappear in non-debug builds, the kernel might be
->> unstable. Therefore every possible state must be handled and we must
->> always be able to recover. The argument in favor is, if the ASSERT()s
->> are proven invariants or conditions where we'd recover either way, and
->> are only there to catch accidental regressions during testing; and in
->> non-debug builds we don't suffer the performance overheads.
-> ..
->>>>>> My ideal abstractions I've been thinking of isn't just for coverage,
->>>>>> but to also capture temporal properties (which should be inspired by
->>>>>> something like LTL or such), on top of which you can also build
->>>>>> coverage. Then we can specify things like "if I observe some state X,
->>>>>> then eventually we observe state Y", and such logic can also just be
->>>>>> used to define functional coverage of interest (again all this
->>>>>> inspired by what's already done in hardware verification).
->>>>>
->>>>> Promela/spin provides an LTL interface, but of course cannot handle
->>>>> much of RCU, let alone of the entire kernel.  And LTL can be quite
->>>>> useful.  But in a runtime system, how do you decide when "eventually"
->>>>> has arrived?  The lockdep system does so by tracking entry to idle
->>>>> and to userspace execution, along with exit from interrupt handlers.
->>>>> Or did you have something else in mind?
->>>>
->>>> For coverage, one could simply await the transition to the "eventually
->>>> state" indefinitely; once reached we have coverage.
->>>>
->>>> But for verification, because unlike explicit state model checkers
->>>> like Spin, we don't have the complete state and can't build an
->>>> exhaustive state-graph, we'd have to approximate. And without knowing
->>>> exactly what it is we're waiting for, the simplest option would be to
->>>> just rely on a timeout, either part of the property or implicit. What
->>>> the units of that timeout are I'm not sure, because a system might
->>>> e.g. be put to sleep.
+> > Looks like there is ongoing work on specifying models and running them
+> > along with the kernel: https://lwn.net/Articles/857862/
+> > 
+> > Those models that are run alongside the kernel would have their own
+> > coverage, and since there's a mapping between real code and model, a
+> > fuzzer trying to reach new code in one or the other will ultimately
+> > improve coverage for both.
 > 
+> Perfect!
+> 
+> > Just wanted to document this here, because it seems quite relevant.
+> > I'm guessing that "functional coverage" would indeed be a side-effect
+> > of a good RV model?
+> 
+> So, let me see if I understood the terms. Functional coverage is a way to check
+> if all the desired aspects of a code/system/subsystem/functionality were covered
+> by a set of tests?
+
+Yes, unlike code/structural coverage (which is what we have today via
+KCOV) functional coverage checks if some interesting states were reached
+(e.g. was buffer full/empty, did we observe transition a->b etc.).
+
+Functional coverage is common in hardware verification, but of course
+software verification would benefit just as much -- just haven't seen it
+used much in practice yet.
+[ Example for HW verification: https://www.chipverify.com/systemverilog/systemverilog-functional-coverage ]
+
+It still requires some creativity from the designer/developer to come up
+with suitable functional coverage. State explosion is a problem, too,
+and naturally it is impractical to capture all possible states ... after
+all, functional coverage is meant to direct the test generator/fuzzer
+into more interesting states -- we're not doing model checking after all.
+
+> If that is correct, we could use RV to:
+> 
+>  - create an explicit model of the states we want to cover.
+>  - check if all the desired states were visited during testing.
+> 
+> ?
+
+Yes, pretty much. On one hand there could be an interface to query if
+all states were covered, but I think this isn't useful out-of-the box.
+Instead, I was thinking we can simply get KCOV to help us out: my
+hypothesis is that most of this would happen automatically if dot2k's
+generated code has distinct code paths per transition.
+
+If KCOV covers the RV model (since it's executable kernel C code), then
+having distinct code paths for "state transitions" will effectively give
+us functional coverage indirectly through code coverage (via KCOV) of
+the RV model.
+
+From what I can tell this doesn't quite happen today, because
+automaton::function is a lookup table as an array. Could this just
+become a generated function with a switch statement? Because then I
+think we'd pretty much have all the ingredients we need.
+
+Then:
+
+1. Create RV models for states of interests not covered by normal code
+   coverage of code under test.
+
+2. Enable KCOV for everything.
+
+3. KCOV's coverage of the RV model will tell us if we reached the
+   desired "functional coverage" (and can be used by e.g. syzbot to
+   generate better tests without any additional changes because it
+   already talks to KCOV).
+
+Thoughts?
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c179dc74-662d-567f-0285-fcfce6adf0a5%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YMyC/Dy7XoxTeIWb%40elver.google.com.
