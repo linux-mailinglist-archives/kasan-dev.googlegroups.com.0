@@ -1,145 +1,153 @@
-Return-Path: <kasan-dev+bncBAABB76UWKDAMGQEWM3JWKI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD7JD3WYY4BBBONCW2DAMGQEOVDI7YI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AC83ACD49
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Jun 2021 16:15:28 +0200 (CEST)
-Received: by mail-qt1-x83c.google.com with SMTP id d12-20020ac8668c0000b0290246e35b30f8sf4780829qtp.21
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Jun 2021 07:15:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1624025727; cv=pass;
+Received: from mail-qv1-xf3c.google.com (mail-qv1-xf3c.google.com [IPv6:2607:f8b0:4864:20::f3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C52A3AD82B
+	for <lists+kasan-dev@lfdr.de>; Sat, 19 Jun 2021 08:39:54 +0200 (CEST)
+Received: by mail-qv1-xf3c.google.com with SMTP id g17-20020a0caad10000b029021886e075f0sf6423200qvb.15
+        for <lists+kasan-dev@lfdr.de>; Fri, 18 Jun 2021 23:39:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1624084793; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Sj3PDbXIj/Mo75XiU/X/gb6as4J8BFrjPJED72VW3o9FCMp0+bUz51b1tUhCazKD68
-         kNm6m8qCNLqKs3ey2wAc7iG30aBLw7W7pGoGaulx+x0tems228BtkKlOcL5H1Y6Wj0Va
-         zwq9Dxu+TvLcsWDdagODO5utuW9ccj3EpwjlveXzvCPSdHrCNsbiHcFtxk+8dkkGPy3R
-         6khiz8Q28LjDTkJAsnK3HTw+jvd4bBvLwTm6EuQ7z1BfZJKT+FgVOmI7cl8xn58DTQys
-         gRiMXvStPsuUL92yZCjdVo3Nbk5o3MqSSQloEMB0nZy+aspkjDVBeVa/jHwyTCpDMDaC
-         VCNQ==
+        b=ig5/z05+kzRAMqfSjFCMy2r2Xau4gD1Rvgs+bH1P4dNl64MMW7ajeFS4rGAmO9aVN4
+         eTdhKhXUWBiqac4ZQBVNeZ8WIoGeRJRZkdKbjmS7UPDdW63LOYZ/qAePjycxotZUVkB9
+         Rc7glzLg89U9l/YCk2w8xStqTmnC9hPLp93REGgSVflOnyoKko2Xjyab9Zp6cZf7Mvc0
+         Q/YUs8alwh+XhHXWz7YBHO6pIsogMaQXt89ueQyjgde7PUjr4avx5LdCmvta6Y4m+mgD
+         mm4Of5X1gE7Y3G1LyJtUmJmhO3zMaddKsMR5tXxlhKuWVOFfh6NsSxbsSQuHC4y8s03f
+         j1Zw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=I2QBleMm1hIdhDTt5Ek3Xb5/tVSi8SEeU3+u7ayEFvs=;
-        b=FqBJ5vh14ob3y7ljxdB3xPd+Rs+Uk2c0kC99PLbRgEFWglcotw8MaMzHaGpEjBGXoo
-         7OFIZSsgefYXsBBhv3RmlXXyalQQ/hN0L0V9jre9xCGKJ+llpgw+WVCAbbSvvTd6bS9/
-         Zfa98BR6wgpeYfRs5KBDtWL8Qf04C+C/s5GJbHWhRs2IOp+jrOvbPa3+XzIMpoRnsBc4
-         TGKMffiQoeKqPyEnB4CPz7W0fy1pg5bQBl1s9zl72lSolM3KG+Fq4t+jD+Qn5UK1xHPl
-         Wa8cVdzpvg+FUar3ARb24pvSC8rj/QHyDMdOGnLcRNEE+GoacTIR6JnhvbaUf7UPoxOx
-         CFAw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature:dkim-signature;
+        bh=WbisxdDrafHL8Z3tn/FC9DezyoYWehmMgqEKahXDoIw=;
+        b=xaJaLWcBAqs3EfxKdKVYUhtejGlmMyrxVmxJ4tjUeMZum67tKBYydsopE2/AhEcMrF
+         lch26AhIpTzXxq4XO7Xde2hWD7Km5CNgnWuquqw0gG6cF29nnN9Tvv5AADZ2lZ12HviB
+         IXQSfbDBwu3xfrdcPEU5TYbQaNySmTmaOXlDlrvJsrlb6I/njh5t6TK78nSZBgwpyaKG
+         JKyOvG86jr79L9ll7WwGlK0YCsJU1uw0+4OSpeego1R2SiiGvTxi+XLlm60GFfNM8/DK
+         9h/CUF1zOELHSRpJhcMvOep3jRdde/Qm+PZU6g9NZ/U8iFjDAHArVddtqO5zzo2pn+FL
+         1A5g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b=s7whCFqb;
-       spf=pass (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as permitted sender) smtp.mailfrom=jszhang3@mail.ustc.edu.cn;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mail.ustc.edu.cn
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b="Tq/B3Mqq";
+       spf=pass (google.com: domain of kylee0686026@gmail.com designates 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=kylee0686026@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=I2QBleMm1hIdhDTt5Ek3Xb5/tVSi8SEeU3+u7ayEFvs=;
-        b=BRtreNQUS9EaYfLS8RtfQ/66+dC2vbXkjpKZMuyIzOMYa+3gFaLaeQrD+U81LquUIA
-         /BM3Gz8CaU0XWtHN6mzv4wtx6tH3GpWw2Q578A1b1CJ6swS7kph5YVKdnpW0Rnez7h17
-         B2tP6x4x1xDmpsGO38vPZ6mDhGQ+wJnJHQs/9BlPQ2PejbIgk9nIxqDLq7gHo/DZCc5S
-         dGwQsb8wOqbQ+g2anbFm9L4xXCjD2lkp9WwfAoyRC/RkQaAeZCnu750x7QeF/LcnKB2R
-         Ej6MRgNUZD8yq76WdnIRMwN5JA6q0mmPefxw3F/4TJxeiEQgTpkP0KzKRcgxtP+0tZov
-         x4Wg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=WbisxdDrafHL8Z3tn/FC9DezyoYWehmMgqEKahXDoIw=;
+        b=YNyRLVZ8h/LJet7MKDGxQJAGirQPq8OtjsICmF1WN9rtqcI6OvWdpYAnhrqXp33zHH
+         79q6Lh5N9zfYZhL/RKLHaCz8xyqDys+EzPlBnx18lM+kkx77wVDd5OkuG25fKb89UrHQ
+         +r0TBpUaV3fHIpziUw8xOrTcXoN1Useyvie1c5/0pSf3NO5zD17qDMT+G6ylsH5j2Mu8
+         CoFPG8LwDNMlhJq3jrPpQfgBPYqLgEKUejq9UP87GSbHAbeEMvc0tOK7A0ajcA6fZroT
+         yzRjgRiQKSD1HO4F22Lwxr5rYd4fI4xQ2QFbSRFxnSf1GaMHasTYaW0d2d5epnoXmVXf
+         TCkw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=WbisxdDrafHL8Z3tn/FC9DezyoYWehmMgqEKahXDoIw=;
+        b=Uso4Vr3Bzz6OR6WcjC3Ey2Vrvm3Hkdeu/dI5QcuV17U4IXN5rQgKrHVQ20o9Zc9RRu
+         BHBmsIu1lEMeoUcZBhIWgGwRnJ2ClVbbc7E4YAzLynwimAZwf0BCp8D6YUJTUqfRZie8
+         ecLfVjs3fVX8nHv3M5jdwq/KFIstreB0SJssOq1U81wC1kmd9B6UzHtQRxWz5H0ai5A2
+         YKYzDvyB6E6+6ukm78wbywk3NaLQ0iNAYhwr0L4Fj9RGATFxCl0gHGE0yoNyI0FuiKG9
+         +gza3pagVdCL8OB/3V1Y8Q7dUkYlKNmuhYeXajRB703aEI2R6PzcnFmsFpA1zAYm0Svi
+         6JiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=I2QBleMm1hIdhDTt5Ek3Xb5/tVSi8SEeU3+u7ayEFvs=;
-        b=fKhtdd6upRgSr7F0WWqbsWTineId4noZAu2yXehyHXv0DtrMnN5wkod4TpDR1ljiuJ
-         8FjQM5EPGQtJHj289tFVZD+v4ESqcsrddsjKl2LkbEGXZBKMhe26vhRcH9V/KOlzd/+u
-         VvVAVVcSCBvTQO0hKEP8ZsyjDV3teFE/WBC6U8paQFbmAjR6UW6t729VtrhurzA/wW1C
-         hUz+DQ/fOGp9A2yP4kzkMYrXSUe6RQuRbpaf4YTYnAXAzgJc8vOSzlwaIedG+Yd8SHbM
-         ok1O3g699LRmGL9e9V7KQoN+YvkMe476KR0tQzFcUDtWlcdEZvcTHcTFXfUhUf00zLHJ
-         wdkg==
-X-Gm-Message-State: AOAM532sYt0KyYGDy1oAhEeMyISbJshpdNjsAV3IpdMUNAbv0KBkrS0b
-	IrwNPalzn2W8I17UAMgU3hI=
-X-Google-Smtp-Source: ABdhPJzmW3wdWURNXQYfB2x9AlU16l29FiT7zfXlFLZ/ZVzpR1sSsTeRRurCKBPGoakJiacRdUPpEw==
-X-Received: by 2002:a25:b701:: with SMTP id t1mr12959496ybj.517.1624025727675;
-        Fri, 18 Jun 2021 07:15:27 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=WbisxdDrafHL8Z3tn/FC9DezyoYWehmMgqEKahXDoIw=;
+        b=KYbUPZgnMZe3XWfK/wGtLLncv8+doWPDFWIoZAsXDpbhwQpvzIeDAGMUWudxO10bms
+         TB0g7NPAbuYU5X5vkeK8/8Pgn1pJ2dLosn0r+6PNfTNX7P/zfomlG0Nbgu9iR3EDBOj6
+         muh8lXS9pKANYDyv5l/L8IHR7b/AvzJGMZdCIiIF5T6uaQQcor8FOT5Ay6m7CTrUEdc4
+         GYIeumM1KT8vXnvRKTSxh23RAqyH6Eu9PHI/WO+ktzViTRlTRRFRgQomXnBadeubmimh
+         vv6Tz8+QzgMWheL6i/k2hWOL22lNstqYA4yVuA228LFGRSuOcgP+NRiaxSBrG8Ae/1by
+         gYLA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5316WBzO3on5/mtHV7fs4mjECmtqFrlWVcl+hr1GhKk6eCVJo3Mh
+	MZKfSf8IKWNj9FYmK6immX8=
+X-Google-Smtp-Source: ABdhPJxLwsiNCB87xF7ARI/WRFT8kkgUrDF6UypoZEUzvvfRL3YaqxqWpaOZv1LR/iwaDbkbs9Ks3g==
+X-Received: by 2002:ae9:ef10:: with SMTP id d16mr9080577qkg.200.1624084793205;
+        Fri, 18 Jun 2021 23:39:53 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:2b08:: with SMTP id r8ls5242877ybr.9.gmail; Fri, 18 Jun
- 2021 07:15:27 -0700 (PDT)
-X-Received: by 2002:a25:8093:: with SMTP id n19mr14428351ybk.414.1624025727173;
-        Fri, 18 Jun 2021 07:15:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1624025727; cv=none;
+Received: by 2002:ac8:4e96:: with SMTP id 22ls6232595qtp.1.gmail; Fri, 18 Jun
+ 2021 23:39:51 -0700 (PDT)
+X-Received: by 2002:ac8:5ec3:: with SMTP id s3mr14068086qtx.312.1624084791714;
+        Fri, 18 Jun 2021 23:39:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1624084791; cv=none;
         d=google.com; s=arc-20160816;
-        b=q9m760W5Mg30BxRUXGJUpSR6jdnYLwvunaoBJeGRZpp134m9GCsKMoURkzk9HN+vq/
-         sHSQGkGmfbVPeqai/P0/J6Pu2356eYPOysQoOKOophbVvDouZ0WTlIT8WehmD8/Ht/u/
-         b46aSve4ggQFfq3FxXay7a+uMC0zm+K5xKy73tDSX6yYYMNZJ/6x0EgaDF6HjMRglt2P
-         oZXFISJ27Hp16pbZixcVdZ/W75YCj2oxpSKKGFAgHW+1I9XZzyoT7HrM9hH9mFz5E+pl
-         kW0gWZ0OsJjzxFgHPDRc7L5OnDrEUDCnT+T1Us9w40S5htes+5wrA6M0etYNFP6UN2Vr
-         Ec4Q==
+        b=RQvcpgmDsKhHSIUQkelj9FL1vVcat3a92zUgS7RYBZpN7n+24wOQSqw9e0brZ2wU6k
+         kawNi9g5//MnWx4Rj4RjrHr0NGPMBPZxhI/f0B46tJ2wDiluIMZsusvkNmtxc8cTLxZn
+         P0RpzebxWlXydkl+a32PmHGhc0PVY14PLhHHrITPWOmdv2TogPlrK6jDVAVxutoymWJH
+         b6wNiUetoQMUTQMexyE/YXJLFjQon+bL/SSIO/HpHVVK2MMZ8WKyJHUff2XyEOQYPbKh
+         BRQDOUArabksgtibG79qOB82UAPGYB7nvlJRzoLiKBluIXi+j0bOYgoqpf9YuCL59zlV
+         KWag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
-         :from:date:dkim-signature;
-        bh=R5rGWfYjWzannEPfCFi17k2rcSwUm8SqL8TNYdn/BEM=;
-        b=TrfBBkHkHSUQcikpDIJdQeoNd9uurH9joRmdF9+q4hgBqrsCt9BKZENf4M/mFxwqle
-         l37nU094c4kxFXqB/GLTq5K1c4fkei3kxC+hWVfE3QYfnTFwHBh/UgQNJmtNuRbEJOBJ
-         QAP14sZbyAnI70+OtUfjIS6/gettgbsAhOulEWyrnl1eFeUNpTBFyixe0nmdQ9EPWX6M
-         oKRDXTXba4I64ZsKd+kIOS1FKal6Hw6IuYnJuv8x1DEwleiEQnoEZV4hiMIIzz5eAh0O
-         EuB/G5tWthbO/vVMlMtznAilHRjQboOMC0awUAZS8xSrAMvPlFtANuRREtpzrzbGwe5b
-         Dbww==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=7O6NiC7BTr3eVGuJkmQkcqtgkrwhWl7/Qlj0XvSRQpU=;
+        b=mtVKz9ZZ/dybKQrl9vaaEm1frOvmBNBIYCq3GSSn1GyTUtvNmiwK/XlkEhIwPncC9q
+         4pb+jstZ/x0cri1xSC3J5nQX1DJzfQRHd1a3rrlDEjBuVHY43GyMdSMuJxtDtNRQlAJO
+         9+wYdIx+OuiAVSvt20+wQydIC0LvXhgPXfSWD6zSvTEarQba3fZNbG+wrIw9Kq0Y5L42
+         ISf1Fj5hT62SHc7Kg4HICcaMst/M44eWVv8BETm/wCHSdQWmhl7ZN+WpvHl/fyBsTOwy
+         DFNk05vV1Xcfix8gBHKtRF7NwZncx06uLizjFq8W+EOIYNA8hlCsPzQ2gf8KIGifbnj+
+         RDrQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mail.ustc.edu.cn header.s=dkim header.b=s7whCFqb;
-       spf=pass (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as permitted sender) smtp.mailfrom=jszhang3@mail.ustc.edu.cn;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mail.ustc.edu.cn
-Received: from ustc.edu.cn (smtp2.ustc.edu.cn. [202.38.64.46])
-        by gmr-mx.google.com with ESMTP id c8si246768ybl.3.2021.06.18.07.15.25
-        for <kasan-dev@googlegroups.com>;
-        Fri, 18 Jun 2021 07:15:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as permitted sender) client-ip=202.38.64.46;
-Received: from xhacker (unknown [101.86.20.15])
-	by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygAHk6BXqsxgBAv_AA--.19232S2;
-	Fri, 18 Jun 2021 22:14:48 +0800 (CST)
-Date: Fri, 18 Jun 2021 22:09:13 +0800
-From: "'Jisheng Zhang' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>, Andrey Konovalov
- <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <kafai@fb.com>, Song
- Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Alexandre Ghiti
- <alex@ghiti.fr>, Andreas Schwab <schwab@linux-m68k.org>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH v3] riscv: Ensure BPF_JIT_REGION_START aligned with PMD size
-Message-ID: <20210618220913.6fde1957@xhacker>
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b="Tq/B3Mqq";
+       spf=pass (google.com: domain of kylee0686026@gmail.com designates 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=kylee0686026@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com. [2607:f8b0:4864:20::62c])
+        by gmr-mx.google.com with ESMTPS id o20si551070qtm.2.2021.06.18.23.39.51
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Jun 2021 23:39:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kylee0686026@gmail.com designates 2607:f8b0:4864:20::62c as permitted sender) client-ip=2607:f8b0:4864:20::62c;
+Received: by mail-pl1-x62c.google.com with SMTP id x22so4259252pll.11
+        for <kasan-dev@googlegroups.com>; Fri, 18 Jun 2021 23:39:51 -0700 (PDT)
+X-Received: by 2002:a17:902:9a8c:b029:113:d891:2eaf with SMTP id w12-20020a1709029a8cb0290113d8912eafmr8117146plp.61.1624084791379;
+        Fri, 18 Jun 2021 23:39:51 -0700 (PDT)
+Received: from DESKTOP-PJLD54P.localdomain (122-116-74-98.HINET-IP.hinet.net. [122.116.74.98])
+        by smtp.gmail.com with ESMTPSA id t13sm3566599pfq.173.2021.06.18.23.39.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 18 Jun 2021 23:39:50 -0700 (PDT)
+Date: Sat, 19 Jun 2021 14:39:42 +0800
+From: Kuan-Ying Lee <kylee0686026@gmail.com>
+To: Marco Elver <elver@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v2 2/3] kasan: integrate the common part of two KASAN
+ tag-based modes
+Message-ID: <20210619063942.GA67@DESKTOP-PJLD54P.localdomain>
+References: <20210612045156.44763-1-kylee0686026@gmail.com>
+ <20210612045156.44763-3-kylee0686026@gmail.com>
+ <CANpmjNMLzxMO0k_kvGaAvzyGoyKxBTtjx4PH=-MKKgDb1-dQaA@mail.gmail.com>
+ <20210612155108.GA68@DESKTOP-PJLD54P.localdomain>
+ <CANpmjNOf8i6HPxFb3gjTrUWMh_6c4zdsh29izrSrHDi9ud4+gw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-CM-TRANSID: LkAmygAHk6BXqsxgBAv_AA--.19232S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3AFy3GrWDWF1xCw4UAr4fKrg_yoW7Zw1xpr
-	45Jr1xGrW8JryUXw18Ary5Cr1UA3WUC3W3JrnxJr15XFyUGF1UAr1UtFW3Xr1DXF4rJ3W7
-	tr1DGrWUtr1UAw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkGb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
-	C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
-	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7
-	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
-	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
-	WxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07b0NVkUUU
-	UU=
-X-CM-SenderInfo: xmv2xttqjtqzxdloh3xvwfhvlgxou0/
-X-Original-Sender: jszhang3@mail.ustc.edu.cn
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOf8i6HPxFb3gjTrUWMh_6c4zdsh29izrSrHDi9ud4+gw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Original-Sender: kylee0686026@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mail.ustc.edu.cn header.s=dkim header.b=s7whCFqb;       spf=pass
- (google.com: domain of jszhang3@mail.ustc.edu.cn designates 202.38.64.46 as
- permitted sender) smtp.mailfrom=jszhang3@mail.ustc.edu.cn;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mail.ustc.edu.cn
-X-Original-From: Jisheng Zhang <jszhang3@mail.ustc.edu.cn>
-Reply-To: Jisheng Zhang <jszhang3@mail.ustc.edu.cn>
+ header.i=@gmail.com header.s=20161025 header.b="Tq/B3Mqq";       spf=pass
+ (google.com: domain of kylee0686026@gmail.com designates 2607:f8b0:4864:20::62c
+ as permitted sender) smtp.mailfrom=kylee0686026@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,122 +160,101 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Jisheng Zhang <jszhang@kernel.org>
+On Mon, Jun 14, 2021 at 10:48:27AM +0200, Marco Elver wrote:
+> On Sat, 12 Jun 2021 at 17:51, Kuan-Ying Lee <kylee0686026@gmail.com> wrote:
+> [...]
+> > > > diff --git a/mm/kasan/report_tags.h b/mm/kasan/report_tags.h
+> > > > new file mode 100644
+> > > > index 000000000000..4f740d4d99ee
+> > > > --- /dev/null
+> > > > +++ b/mm/kasan/report_tags.h
+> > > > @@ -0,0 +1,56 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > +#ifndef __MM_KASAN_REPORT_TAGS_H
+> > > > +#define __MM_KASAN_REPORT_TAGS_H
+> > > > +
+> > > > +#include "kasan.h"
+> > > > +#include "../slab.h"
+> > > > +
+> > > > +#ifdef CONFIG_KASAN_TAGS_IDENTIFY
+> > > > +const char *kasan_get_bug_type(struct kasan_access_info *info)
+> > > > +{
+> > > [...]
+> > > > +       /*
+> > > > +        * If access_size is a negative number, then it has reason to be
+> > > > +        * defined as out-of-bounds bug type.
+> > > > +        *
+> > > > +        * Casting negative numbers to size_t would indeed turn up as
+> > > > +        * a large size_t and its value will be larger than ULONG_MAX/2,
+> > > > +        * so that this can qualify as out-of-bounds.
+> > > > +        */
+> > > > +       if (info->access_addr + info->access_size < info->access_addr)
+> > > > +               return "out-of-bounds";
+> > >
+> > > This seems to change behaviour for SW_TAGS because it was there even
+> > > if !CONFIG_KASAN_TAGS_IDENTIFY. Does it still work as before?
+> > >
+> >
+> > You are right. It will change the behavior.
+> > However, I think that if !CONFIG_KASAN_TAG_IDENTIFY, it should be reported
+> > "invalid-access".
+> 
+> There's no reason that if !CONFIG_KASAN_TAG_IDENTIFY it should be
+> reported as "invalid-acces" if we can do better without the additional
+> state that the config option introduces.
+> 
+> It's trivial to give a slightly better report without additional
+> state, see the comment explaining why it's reasonable to infer
+> out-of-bounds here.
+> 
+> > Or is it better to keep it in both conditions?
+> 
+> We want to make this patch a non-functional change.
+>
 
-Andreas reported commit fc8504765ec5 ("riscv: bpf: Avoid breaking W^X")
-breaks booting with one kind of defconfig, I reproduced a kernel panic
-with the defconfig:
+Got it.
 
-[    0.138553] Unable to handle kernel paging request at virtual address ffffffff81201220
-[    0.139159] Oops [#1]
-[    0.139303] Modules linked in:
-[    0.139601] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.13.0-rc5-default+ #1
-[    0.139934] Hardware name: riscv-virtio,qemu (DT)
-[    0.140193] epc : __memset+0xc4/0xfc
-[    0.140416]  ra : skb_flow_dissector_init+0x1e/0x82
-[    0.140609] epc : ffffffff8029806c ra : ffffffff8033be78 sp : ffffffe001647da0
-[    0.140878]  gp : ffffffff81134b08 tp : ffffffe001654380 t0 : ffffffff81201158
-[    0.141156]  t1 : 0000000000000002 t2 : 0000000000000154 s0 : ffffffe001647dd0
-[    0.141424]  s1 : ffffffff80a43250 a0 : ffffffff81201220 a1 : 0000000000000000
-[    0.141654]  a2 : 000000000000003c a3 : ffffffff81201258 a4 : 0000000000000064
-[    0.141893]  a5 : ffffffff8029806c a6 : 0000000000000040 a7 : ffffffffffffffff
-[    0.142126]  s2 : ffffffff81201220 s3 : 0000000000000009 s4 : ffffffff81135088
-[    0.142353]  s5 : ffffffff81135038 s6 : ffffffff8080ce80 s7 : ffffffff80800438
-[    0.142584]  s8 : ffffffff80bc6578 s9 : 0000000000000008 s10: ffffffff806000ac
-[    0.142810]  s11: 0000000000000000 t3 : fffffffffffffffc t4 : 0000000000000000
-[    0.143042]  t5 : 0000000000000155 t6 : 00000000000003ff
-[    0.143220] status: 0000000000000120 badaddr: ffffffff81201220 cause: 000000000000000f
-[    0.143560] [<ffffffff8029806c>] __memset+0xc4/0xfc
-[    0.143859] [<ffffffff8061e984>] init_default_flow_dissectors+0x22/0x60
-[    0.144092] [<ffffffff800010fc>] do_one_initcall+0x3e/0x168
-[    0.144278] [<ffffffff80600df0>] kernel_init_freeable+0x1c8/0x224
-[    0.144479] [<ffffffff804868a8>] kernel_init+0x12/0x110
-[    0.144658] [<ffffffff800022de>] ret_from_exception+0x0/0xc
-[    0.145124] ---[ end trace f1e9643daa46d591 ]---
+> [...]
+> > > > diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
+> > > > new file mode 100644
+> > > > index 000000000000..9c33c0ebe1d1
+> > > > --- /dev/null
+> > > > +++ b/mm/kasan/tags.c
+> > > > @@ -0,0 +1,58 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > +/*
+> > > > + * This file contains common tag-based KASAN code.
+> > > > + *
+> > > > + * Author: Kuan-Ying Lee <kylee0686026@gmail.com>
+> > >
+> > > We appreciate your work on this, but this is misleading. Because you
+> > > merely copied/moved the code, have a look what sw_tags.c says -- that
+> > > should either be preserved, or we add nothing here.
+> > >
+> > > I prefer to add nothing or the bare minimum (e.g. if the company
+> > > requires a Copyright line) for non-substantial additions because this
+> > > stuff becomes out-of-date fast and just isn't useful at all. 'git log'
+> > > is the source of truth.
+> >
+> > This was my first time to upload a new file.
+> > Thanks for the suggestions. :)
+> > I will remove this author tag and wait for Greg's process advice.
+> >
+> > >
+> > > Cc'ing Greg for process advice. For moved code, does it have to
+> > > preserve the original Copyright line if there was one?
+> 
+> Greg responded, see his emails. Please preserve the original header
+> from the file the code was moved from (hw_tags.c/sw_tags.c).
 
-After some investigation, I think I found the root cause: commit
-2bfc6cd81bd ("move kernel mapping outside of linear mapping") moves
-BPF JIT region after the kernel:
+Ok. I will do it in v3.
+Thanks.
 
-| #define BPF_JIT_REGION_START	PFN_ALIGN((unsigned long)&_end)
-
-The &_end is unlikely aligned with PMD size, so the front bpf jit
-region sits with part of kernel .data section in one PMD size mapping.
-But kernel is mapped in PMD SIZE, when bpf_jit_binary_lock_ro() is
-called to make the first bpf jit prog ROX, we will make part of kernel
-.data section RO too, so when we write to, for example memset the
-.data section, MMU will trigger a store page fault.
-
-To fix the issue, we need to ensure the BPF JIT region is PMD size
-aligned. This patch acchieve this goal by restoring the BPF JIT region
-to original position, I.E the 128MB before kernel .text section. The
-modification to kasan_init.c is inspired by Alexandre.
-
-Fixes: fc8504765ec5 ("riscv: bpf: Avoid breaking W^X")
-Reported-by: Andreas Schwab <schwab@linux-m68k.org>
-Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
----
-Since v2:
- - Split the local vars rename modification into another patch per Alexandre
-   suggestion
- - Add Fixes tag
-
-Since v1:
- - Fix early boot hang when kasan is enabled
- - Update Documentation/riscv/vm-layout.rst
-
- Documentation/riscv/vm-layout.rst | 4 ++--
- arch/riscv/include/asm/pgtable.h  | 5 ++---
- arch/riscv/mm/kasan_init.c        | 2 +-
- 3 files changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
-index 329d32098af4..b7f98930d38d 100644
---- a/Documentation/riscv/vm-layout.rst
-+++ b/Documentation/riscv/vm-layout.rst
-@@ -58,6 +58,6 @@ RISC-V Linux Kernel SV39
-                                                               |
-   ____________________________________________________________|____________________________________________________________
-                     |            |                  |         |
--   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules
--   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel, BPF
-+   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
-+   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
-   __________________|____________|__________________|_________|____________________________________________________________
-diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index 9469f464e71a..380cd3a7e548 100644
---- a/arch/riscv/include/asm/pgtable.h
-+++ b/arch/riscv/include/asm/pgtable.h
-@@ -30,9 +30,8 @@
- 
- #define BPF_JIT_REGION_SIZE	(SZ_128M)
- #ifdef CONFIG_64BIT
--/* KASLR should leave at least 128MB for BPF after the kernel */
--#define BPF_JIT_REGION_START	PFN_ALIGN((unsigned long)&_end)
--#define BPF_JIT_REGION_END	(BPF_JIT_REGION_START + BPF_JIT_REGION_SIZE)
-+#define BPF_JIT_REGION_START	(BPF_JIT_REGION_END - BPF_JIT_REGION_SIZE)
-+#define BPF_JIT_REGION_END	(MODULES_END)
- #else
- #define BPF_JIT_REGION_START	(PAGE_OFFSET - BPF_JIT_REGION_SIZE)
- #define BPF_JIT_REGION_END	(VMALLOC_END)
-diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-index 9daacae93e33..55c113345460 100644
---- a/arch/riscv/mm/kasan_init.c
-+++ b/arch/riscv/mm/kasan_init.c
-@@ -201,7 +201,7 @@ void __init kasan_init(void)
- 
- 	/* Populate kernel, BPF, modules mapping */
- 	kasan_populate(kasan_mem_to_shadow((const void *)MODULES_VADDR),
--		       kasan_mem_to_shadow((const void *)BPF_JIT_REGION_END));
-+		       kasan_mem_to_shadow((const void *)MODULES_VADDR + SZ_2G));
- 
- 	for (i = 0; i < PTRS_PER_PTE; i++)
- 		set_pte(&kasan_early_shadow_pte[i],
--- 
-2.32.0
-
+> 
+> Thanks,
+> -- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210618220913.6fde1957%40xhacker.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210619063942.GA67%40DESKTOP-PJLD54P.localdomain.
