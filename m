@@ -1,136 +1,138 @@
-Return-Path: <kasan-dev+bncBC72VC6I3MMBBE4KZGDAMGQEDG55CVI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCII7JXRXUGBBHFAZGDAMGQEJV4VNSY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F973B0E71
-	for <lists+kasan-dev@lfdr.de>; Tue, 22 Jun 2021 22:16:21 +0200 (CEST)
-Received: by mail-pg1-x53c.google.com with SMTP id r5-20020a635d050000b0290220f78694c8sf14485941pgb.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 22 Jun 2021 13:16:20 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1624392979; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA853B0F2E
+	for <lists+kasan-dev@lfdr.de>; Tue, 22 Jun 2021 23:03:25 +0200 (CEST)
+Received: by mail-lf1-x139.google.com with SMTP id e17-20020ac254710000b029031b81f01389sf84989lfn.14
+        for <lists+kasan-dev@lfdr.de>; Tue, 22 Jun 2021 14:03:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1624395805; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tPt3KoX8aWGnf9f8cIT0Fc0hI3rk/hcKxtrJKM0tEeheoYLDGiv713xFNG6YykvGxU
-         5FACgWocQjjWouq4HtV3QFzt1xsDXHapnTSLmniJ7+ynlif1i/e0UcRGng7/xyNmSfj/
-         iv0mmyk3To62K3oLkQ1v9O4FHWCaMUu1SRKSAipaASNOwP96J98mRIUgadeLa8zT8xtz
-         LtK2PIIe4ol7F8XHp+vcnNDxhXflNeIv+Gg1oaOAjZ5pANfkM+5+y8y9ehGV1gV3Xlee
-         Kw0qmwi+zbaZogFisVstv9SoZkHVx7I31RzM9YVjFAOJQWMjhhzqR2bW2QewArLRgAwo
-         r9xA==
+        b=T89+IEF5eU85jP+hPnCNYERQnsmlR2Q6F00vwCntaGshlqT5lnM8rWQjFzhE3nWE7t
+         1bMupvwVFPBjdhYWkhbg8BarNxOyNnFy2afl5sIHudRE9ASglbzIezWFmVfjr1YsDold
+         9oCDKMXvCBKcPLAT+JAI2jxXXoKxVsWdR9+0PtkFzCU7ccmFYLiiJJfOFnvbNHDfHStA
+         hmBNYgiW/Sg+v8WSUZG5b+wCTVaFFFTUQOksY23ETEDe8krZPCfs1ULuAO5r0cpBLCta
+         1gLU1RI03OTglFbPBFLXx+A5orx2ELvgWSPBuc7OT2xQIlYhNuklvkPlI3uSlYb9o/nV
+         NIXQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=VvoPmF0UeWfMXoDI7y52pPhExwuAdek2suhiXjal5vQ=;
-        b=NDp/4FC8klnYMeBenojlCzPYPlriRqDB+c1zTjpnAFbbXuyqXl9b9xrcfZxE5dpkE9
-         N5dY3+pASXatDG0JewFb8c/j4+gD6fRCOJMeuDdxtu4Cl1lV6bkH3JnF0SmueoA9pK5U
-         /PJnWjh38CObjx5n9X7hYD6sbUzVCAFgtczrrprKVIrZ51FTabEO2WxnnqnRbeySy+3z
-         +JpQHzi/JbyF6wBUVL+HYChFiSJxihMOplM+UiwOdVf25Sd+LI4w1Shmk2uSVW9V0VeS
-         0iTuhfgpKQgzrZ2vIhiwLzRX3wpMoAnIPgLK/050UcHkj5SiuZCiYdLbQFJBtMB+v17e
-         MYVA==
+        bh=S6QqxH/F9ZRSU+yxbpm4RV8m3BKPEAgDaJTO7TzhweE=;
+        b=uTc+oXOksW2LYRRm3tNEdyRjCT6WYbkH+6R//n++fxy5kk2ByBPMhENnlVdk9RehZ3
+         +YA2sVG2cZ0qGlU2ktnE2rs5/OzCBe3ZnBI17NszPBP8aPWeqX4pthrRKDCo6WzM/1rf
+         lwYiqIcPCGQsVRZ2S1ZXr5Bwj9cSanbg/YQ277swiW8DDy4oHgW4TgA/FzX8RTnAT27P
+         OMQzFgkj6/Q9u70UzgVw/jl/fUxSRcBK0iHASpzOVr9gvEraH2nlkyfFb+28hluQTslk
+         rdFZuf0YxqXUzR8o5KUQVE8j8smvScXEsUHABH3miXeMdE5eZi6qkjsFyMYD3PZiApKj
+         6hIQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=brsp2b6G;
-       spf=pass (google.com: domain of jim.cromie@gmail.com designates 2607:f8b0:4864:20::e2b as permitted sender) smtp.mailfrom=jim.cromie@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=TXisU0e1;
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=TXisU0e1;
+       spf=pass (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as permitted sender) smtp.mailfrom=asmadeus@codewreck.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=codewreck.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=VvoPmF0UeWfMXoDI7y52pPhExwuAdek2suhiXjal5vQ=;
-        b=jnJoXRFpCLRUf/F0+3g6L95PPWqTk4C1qhsN8TrbrGJvKr2w1hhrFuZg+Tkh3JM0br
-         bDRonzCuabWu6T+UpVtu6ifigQxVN/ezoLFoCb+qlynLf+LhdiqH9rUIY3SkhuGnydZ7
-         LPSMyBda6DrjSOkbsNL2MRDe8WRaoHanXfne1uGHF4a2BUwTRwZdBfeDJVBFHS28edFx
-         LgZZLDi9fTwLI+GcXF4mm+auSdkt8OWEBHssGvoQXud2EvvZj8hWA4+FZ4AOL8ok9tuo
-         8xgwbf5YGwVmbjd+LeMP6enAWeI9lPpFTbosQGpAY3/phr8bmCCEPjEkBdVjwns65JXl
-         oK1A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=VvoPmF0UeWfMXoDI7y52pPhExwuAdek2suhiXjal5vQ=;
-        b=L2EIFVBd27cbVvXhWRzpU9C5s/1EqXYIkBV/bYuieufvzr/n87bN7BsyWWig2JSKKM
-         BR6BzM4dgrmSQ7KsW51ZBoHe674/v4rbZ9d3ihozRGC5/bEOo/86keehTSY2XGWoRzNE
-         xwqJ9wkRPISnhemV4y9KqKhLKnniRXYbJR0SeCGxfwrtha4XVBwvUV4esvt3XM0YsH3r
-         XWZXQok3AGlS40lV6w3Yh/4t6GHQT6zF2qkp/69Gu67EViu9WLSgQqmyTt1N05DMoihM
-         fD1wfnnJabIBY8wS0j2NESYBSuig62jZZ9mLELMfH/ZamI1qoSKa2Nv34/jvdduhhQu9
-         y5LA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=S6QqxH/F9ZRSU+yxbpm4RV8m3BKPEAgDaJTO7TzhweE=;
+        b=nJ5zp0KcZJv8bdip0dPlqdi6YstS+UBPQhdfqmm3qL93GivDmZTB2ZqrGkMt0F1+4n
+         mWnhR+E34tQTqQw8nB8kQ9J1HP4ILJiEpSTUHaDPSv8mGWXHu6kvEBAk9svdNukF9EPe
+         2XhC+bz04nh/rBtp5vuLdRcFoZXVLc59MhI4AsrFMaZiEETGBbN3Y1zQg5r3IxSei0t+
+         XrOOZx/lsyQG1F16I8H1l6IRl0ea9MuMzYLHKhAWqfu4N7PHGv6x/BFRQhtNR3P5T9NH
+         lZqWCItCqJyy/hrzSf68DmmcZ5vtwpOZlsUg+JcQYyO5WrtjQqVnW/q/1cdTglWi1jqg
+         rs/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=VvoPmF0UeWfMXoDI7y52pPhExwuAdek2suhiXjal5vQ=;
-        b=b3Gbjyivqs+ftVDUN4rsDIjGYLhdo3gSvc8BKTfTNG6pQ3ueV/QREP/jucELhX0QcZ
-         SDWy+u5lzn+Gsng/s7e/mkf2/I3iSduzZPaQfihpZhpID2Sh+qJy1ofyg/MShHl5UhtY
-         przb7e3dBmrN0EVhRtCz4yd6RrzW5ELCV0XQAn6Ikd5SkTAXcU8YTUurW0h6TONx+Ymb
-         fikGkHWbTPpynx4v5X7X64OXxYtcSM57CzcrYBhZBc6h3SjxUgrzBC8u/ys2aGqWboYn
-         A/Uvvj0dfds97TZD3F46OOrSmFNCDFMKDAQDmN1f4QNaa1lRkEtWCIg2xgZGPtCAZl3h
-         r2yQ==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=S6QqxH/F9ZRSU+yxbpm4RV8m3BKPEAgDaJTO7TzhweE=;
+        b=UE7eEySEPcu6hBqfjG+N1+zx/ExDxC0XzXof6YPIOlVE1GATKccWsIGE2HhCBMEM25
+         CFn+9trwOCcYHE8XxapCrkHajHt2nbfZAAyn9okFAFWoY8fgQ1IvaszXHkToNFI6cPQ9
+         uc8yln0qygL++7k5E3cvsuNpzjO0+21kiMnO1uvyMVtjBO5R35iwPTnC3dcRcq4uL1Zv
+         Sq7UnWsbqBFtqmqJOA2jremk484ixD38VJ6qU9/XQ2PYmeJqfy30az4VueyMN75JS21m
+         SaQYq7wOLqhcZmoxjXXTGeCXxtrrOcnEQTRtrgBQHEbWHOltJ8VmSHew5c5i+mYW+ocR
+         Wkdw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM53304zrn04NBXfgL446y3i9ZbrKviiinCpESTAZNzHndOKlcTxoW
-	iZo446lHO6M5UN482jGN8Q0=
-X-Google-Smtp-Source: ABdhPJwrqGxxfEv3eK4ZwHkwGgXpAb/niEJkVdHe27w6Hmb8dCrpPrlzQrOwh27pdIAOi5pBiodN8g==
-X-Received: by 2002:a05:6a00:ac9:b029:2de:a06d:a52f with SMTP id c9-20020a056a000ac9b02902dea06da52fmr5467994pfl.4.1624392979621;
-        Tue, 22 Jun 2021 13:16:19 -0700 (PDT)
+X-Gm-Message-State: AOAM530ATATObae5X0yFqmRW1lQnLQT27fePpVfKLOvi7gyx4K3kQ9dZ
+	hwRqGzDZe58v68rstqLIkjg=
+X-Google-Smtp-Source: ABdhPJzrpPZchLp5KvpPMnL32DmxTZvU+RYV30diJ5Z1h2Nnzje9BBqLB6fj6/eBM+Rwp5z98Kf0bw==
+X-Received: by 2002:ac2:4aca:: with SMTP id m10mr4335568lfp.56.1624395805069;
+        Tue, 22 Jun 2021 14:03:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:ed82:: with SMTP id e2ls11062955plj.2.gmail; Tue, 22
- Jun 2021 13:16:19 -0700 (PDT)
-X-Received: by 2002:a17:902:d701:b029:115:d3d8:94d2 with SMTP id w1-20020a170902d701b0290115d3d894d2mr24306676ply.23.1624392979137;
-        Tue, 22 Jun 2021 13:16:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1624392979; cv=none;
+Received: by 2002:a2e:9b09:: with SMTP id u9ls1436lji.9.gmail; Tue, 22 Jun
+ 2021 14:03:23 -0700 (PDT)
+X-Received: by 2002:a2e:9e41:: with SMTP id g1mr4852531ljk.471.1624395803637;
+        Tue, 22 Jun 2021 14:03:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1624395803; cv=none;
         d=google.com; s=arc-20160816;
-        b=dkC9aHUKdxe66RM/vRyMfQGOqkAtF9siu1VDpLobMCjZX9bTg1Rf5LVw3W1jxHSt+9
-         7WFhXsk55gVVVrNB5czgvc5Oz2oEGgZ4QRyEc3eDK3EHDu/+lgLCJaVSNAEnfy1G0D2/
-         dq2kOmH/VNhfM6DpkNRErnuoSSGnNTDOjB8GWgHD5dTu/GOPEW4wv0szyGi+YAtOK8iO
-         rsGy9XyqHUwR2uaFoPpqlPSBavhigNXLFaFYFOP5tufprU6pGOxg08TtvfEKR+2tf8J7
-         auEyH+6+1ZwK6zCkcHhdWrfNLHzJCIXc22g0nfflOysjwQRy58D82ki5ShEngZdOWZx1
-         cjFQ==
+        b=FTry6jsCWRYAZbZViLQcWo2xx+YVdlC42yu9H+LS3J/3rKLzPzrfVUlsKU2DXeqEh/
+         UzHYr0ZGfbY3Io00bqRmDDA7sMGSaBFQ+MK/EmmW0lfUq+2p/hV5dxoTb7MoogQFZbdd
+         RMBkEWq4OBIj4uJ5lxTzcbVZs1KKdmSPV4nV8O+H+0Ozmt3rsvt9bSmMY7Rqns1hmWl3
+         ifBCi7g5vWjVpjZpZIeF+txmg13HKN0c/B4Jba8alC1ACtvVmiEoYBfQDW84ZSyWtjJm
+         6agSwVMKphVAfAb2YlwsOJgUAVOMYIJmr5m0SlKJLhrsuNIxXQKlVA+flp2hC+vLuCbl
+         tVFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=C767tPdPdMoTyOta+1ttzfqbko9nfCsk2O/+WzaTSOc=;
-        b=r6cOGuUD8Gw5sXi124JUNXRpb4KQAdkJa5gCABDN5XJSBaDMkRXm0jucmqQzy9qK/W
-         oP+sDInyDgCbm6B9S+3C7TJj1D4DHRW3suy63WxhQzlEu+Zg0/jbnSnl2cI9HU4jHr6e
-         vdhszZ0vuogQ8h88lrE3Rwleq/oA1tq9XLOSBZodTC1SSczhtVJhpp8OT5CdMinFQ6BW
-         MsNr94+71eWOiKJibNhKitHLh5u3Yl0T4gYCVH3ZlDGpt7i4RiXNXWtQu8jFWldL7o1Q
-         289UNmFGY+szWTUd+QOS63dN5/FWAdWZtwOAgnjurtK32pLe89DzyAwzuQBkUlF+ejAF
-         DWpw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature:dkim-signature;
+        bh=HMR4unNIvosEkM7YP6TmchXmd0KH3uqdRi9sNvieci0=;
+        b=dJan6ccg0c7P4xbEy9sqsqlUcPW/paWEiiLwtNIhLhn2gx5G5PQmk2Ke+kYTYY2s1W
+         kSFts4QEmBOgO0ULAJJJd1njGIrpXQSg6WU6OvPQ9Vyg5Eab8bUTljfH0NUbgFv4E/7Y
+         g9HQFqjSZiS63Pl7LOyjER1oandFSM3s32Y729ZBvV1DHV3iMlrUsecg9un5eoOnvxlL
+         3F6ax6HwbNtD4T3bElsIgMvcjaAgPU620fOpg+a+7fJhLuxj+cy6eJ+jcpf8SoVkMHW1
+         7YSwPjfbjaOMI5pOj8AU3ZBQuWFoq646tcGz5gdxRpHI5Qk2OHjFbICof4aol+fyueAz
+         BsKQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=brsp2b6G;
-       spf=pass (google.com: domain of jim.cromie@gmail.com designates 2607:f8b0:4864:20::e2b as permitted sender) smtp.mailfrom=jim.cromie@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com. [2607:f8b0:4864:20::e2b])
-        by gmr-mx.google.com with ESMTPS id x14si29056pfq.0.2021.06.22.13.16.19
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=TXisU0e1;
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=TXisU0e1;
+       spf=pass (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as permitted sender) smtp.mailfrom=asmadeus@codewreck.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=codewreck.org
+Received: from nautica.notk.org (nautica.notk.org. [91.121.71.147])
+        by gmr-mx.google.com with ESMTPS id d7si148288lfn.7.2021.06.22.14.03.23
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jun 2021 13:16:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jim.cromie@gmail.com designates 2607:f8b0:4864:20::e2b as permitted sender) client-ip=2607:f8b0:4864:20::e2b;
-Received: by mail-vs1-xe2b.google.com with SMTP id u10so192277vsu.12
-        for <kasan-dev@googlegroups.com>; Tue, 22 Jun 2021 13:16:19 -0700 (PDT)
-X-Received: by 2002:a67:6948:: with SMTP id e69mr25073072vsc.26.1624392978322;
- Tue, 22 Jun 2021 13:16:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAJfuBxxH9KVgJ7k0P5LX3fTSa4Pumcmu2NMC4P=TrGDVXE2ktQ@mail.gmail.com>
- <YNIaFnfnZPGVd1t3@codewreck.org> <CAJfuBxywD3QrsoGszMnVbF2RYcCF7r3h7sCOg6hK7K60E+4qKA@mail.gmail.com>
-In-Reply-To: <CAJfuBxywD3QrsoGszMnVbF2RYcCF7r3h7sCOg6hK7K60E+4qKA@mail.gmail.com>
-From: jim.cromie@gmail.com
-Date: Tue, 22 Jun 2021 14:15:52 -0600
-Message-ID: <CAJfuBxw-JUpnENT9zNgTq2wdHqH-77pAjNuthoZYbtiCud4T=g@mail.gmail.com>
-Subject: Re: [V9fs-developer] KCSAN BUG report on p9_client_cb / p9_client_rpc
-To: Dominique Martinet <asmadeus@codewreck.org>
-Cc: kasan-dev@googlegroups.com, v9fs-developer@lists.sourceforge.net, 
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 22 Jun 2021 14:03:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as permitted sender) client-ip=91.121.71.147;
+Received: by nautica.notk.org (Postfix, from userid 108)
+	id BA736C01D; Tue, 22 Jun 2021 23:03:22 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on nautica.notk.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.0 required=5.0 tests=UNPARSEABLE_RELAY
+	autolearn=unavailable version=3.3.2
+Received: from odin.codewreck.org (localhost [127.0.0.1])
+	by nautica.notk.org (Postfix) with ESMTPS id C7643C009;
+	Tue, 22 Jun 2021 23:03:20 +0200 (CEST)
+Received: from localhost (odin.codewreck.org [local])
+	by odin.codewreck.org (OpenSMTPD) with ESMTPA id 963b3b99;
+	Tue, 22 Jun 2021 21:03:16 +0000 (UTC)
+Date: Wed, 23 Jun 2021 06:03:01 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: jim.cromie@gmail.com
+Cc: kasan-dev@googlegroups.com, v9fs-developer@lists.sourceforge.net,
 	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [V9fs-developer] KCSAN BUG report on p9_client_cb / p9_client_rpc
+Message-ID: <YNJQBc4dawzwMrhn@codewreck.org>
+References: <CAJfuBxxH9KVgJ7k0P5LX3fTSa4Pumcmu2NMC4P=TrGDVXE2ktQ@mail.gmail.com>
+ <YNIaFnfnZPGVd1t3@codewreck.org>
+ <CAJfuBxywD3QrsoGszMnVbF2RYcCF7r3h7sCOg6hK7K60E+4qKA@mail.gmail.com>
+ <CAJfuBxw-JUpnENT9zNgTq2wdHqH-77pAjNuthoZYbtiCud4T=g@mail.gmail.com>
+ <CAJfuBxxsye593-vWtXz5As0vBCYEMm_R9r+JL=YMuD6fg+QGNA@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: jim.cromie@gmail.com
+Content-Disposition: inline
+In-Reply-To: <CAJfuBxxsye593-vWtXz5As0vBCYEMm_R9r+JL=YMuD6fg+QGNA@mail.gmail.com>
+X-Original-Sender: asmadeus@codewreck.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=brsp2b6G;       spf=pass
- (google.com: domain of jim.cromie@gmail.com designates 2607:f8b0:4864:20::e2b
- as permitted sender) smtp.mailfrom=jim.cromie@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@codewreck.org header.s=2 header.b=TXisU0e1;       dkim=pass
+ header.i=@codewreck.org header.s=2 header.b=TXisU0e1;       spf=pass
+ (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as
+ permitted sender) smtp.mailfrom=asmadeus@codewreck.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=codewreck.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,79 +145,35 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
- >
-> > I had assumed the p9_req_put() in p9_client_cb would protect the tag,
-> > but that doesn't appear to be true -- could you try this patch if this
-> > is reproductible to you?
-> >
->
-> I applied your patch on top of my triggering case, it fixes the report  !
-> you have my tested-by
+Hi,
 
-I seem to have gotten ahead of my skis,
-Im seeing another now, similar to 1st, differing in 2nd block
+let's keep the lists in Cc :)
 
-[    8.730061] Run /bin/sh as init process
-[    9.027218] ==================================================================
-[    9.028237] BUG: KCSAN: data-race in p9_client_cb / p9_client_rpc
-[    9.029073]
-[    9.029282] write to 0xffff888005e45ea0 of 4 bytes by interrupt on cpu 0:
-[    9.030214]  p9_client_cb+0x1a/0x100
-[    9.030735]  req_done+0xd3/0x130
-[    9.031171]  vring_interrupt+0xac/0x130
-[    9.031752]  __handle_irq_event_percpu+0x64/0x260
-[    9.032381]  handle_irq_event+0x93/0x120
-[    9.032950]  handle_edge_irq+0x123/0x400
-[    9.033502]  __common_interrupt+0x3e/0xa0
-[    9.034051]  common_interrupt+0x7e/0xa0
-[    9.034608]  asm_common_interrupt+0x1e/0x40
-[    9.035173]  native_safe_halt+0xe/0x10
-[    9.035826]  default_idle+0xa/0x10
-[    9.036299]  default_idle_call+0x38/0xc0
-[    9.036845]  do_idle+0x1e7/0x270
-[    9.037294]  cpu_startup_entry+0x19/0x20
-[    9.037905]  rest_init+0xd0/0xd2
-[    9.038354]  arch_call_rest_init+0xa/0x11
-[    9.038922]  start_kernel+0xacb/0xadd
-[    9.039444]  secondary_startup_64_no_verify+0xc2/0xcb
-[    9.040140]
-[    9.040369] read to 0xffff888005e45ea0 of 4 bytes by task 1 on cpu 1:
-[    9.041283]  p9_client_rpc+0x185/0x860
-[    9.041837]  p9_client_getattr_dotl+0x71/0x160
-[    9.042645]  v9fs_inode_from_fid_dotl+0x21/0x160
-[    9.043418]  v9fs_vfs_lookup.part.0+0x139/0x180
-[    9.044059]  v9fs_vfs_lookup+0x32/0x40
-[    9.044584]  __lookup_slow+0xc3/0x190
-[    9.045095]  walk_component+0x1b8/0x270
-[    9.045626]  link_path_walk.part.0.constprop.0+0x336/0x550
-[    9.046425]  path_lookupat+0x59/0x340
-[    9.046935]  filename_lookup+0x134/0x2a0
-[    9.047484]  user_path_at_empty+0x6d/0x90
-[    9.048145]  vfs_statx+0x79/0x1a0
-[    9.048610]  __do_sys_newfstatat+0x1e/0x40
-[    9.049173]  __x64_sys_newfstatat+0x4e/0x60
-[    9.049755]  do_syscall_64+0x42/0x80
-[    9.050233]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[    9.050940]
-[    9.051148] Reported by Kernel Concurrency Sanitizer on:
-[    9.051893] CPU: 1 PID: 1 Comm: virtme-init Not tainted
-5.13.0-rc7-dd7i-00038-g4e27591489f1-dirty #126
-[    9.053185] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
-BIOS 1.14.0-3.fc34 04/01/2014
-[    9.054358] ==================================================================
+jim.cromie@gmail.com wrote on Tue, Jun 22, 2021 at 02:55:19PM -0600:
+> heres a fuller report - Im seeing some new stuff here.
 
+Thanks, the one two should be the same as p9_client_cb / p9_client_rpc
+and p9_client_cb / p9_virtio_zc_request are very similar, and also the
+same to the first you had, so the patch didn't really work.
 
+I thought after sending it that it probably needs to be tag =
+READ_ONCE(req->tc.tag) instead of just assigning it... Would you mind
+trying that?
 
+> Im running in a vm, using virtme, which uses 9p to share host filesystems
+> since 1st report to you, Ive added --smp 2 to my testing, it seems to
+> have increased reporting
 
->
-> > The tag is actually reclaimed in the woken up p9_client_rpc thread so
-> > that would be a good match (reset in the other thread vs. read here),
-> > caching the value is good enough but that is definitely not obvious...
-> >
-> > --
-> > Dominique
+I'm ashamed to say I've just never tried KCSAN... I can give it a try over
+the next few weeks* if that patch + READ_ONCE doesn't cut it
+
+(*sorry)
+
+Thanks,
+-- 
+Dominique
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAJfuBxw-JUpnENT9zNgTq2wdHqH-77pAjNuthoZYbtiCud4T%3Dg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YNJQBc4dawzwMrhn%40codewreck.org.
