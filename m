@@ -1,131 +1,131 @@
-Return-Path: <kasan-dev+bncBDQ27FVWWUFRBWX5Z6DAMGQEBNJDZDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBPH32CDAMGQER33E6LA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18433B2592
-	for <lists+kasan-dev@lfdr.de>; Thu, 24 Jun 2021 05:41:15 +0200 (CEST)
-Received: by mail-pj1-x103d.google.com with SMTP id o11-20020a17090a420bb029016eed2aa304sf2636192pjg.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 23 Jun 2021 20:41:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1624506074; cv=pass;
+Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
+	by mail.lfdr.de (Postfix) with ESMTPS id A530A3B2A04
+	for <lists+kasan-dev@lfdr.de>; Thu, 24 Jun 2021 10:09:33 +0200 (CEST)
+Received: by mail-pl1-x63d.google.com with SMTP id s23-20020a170902b197b029011aafb8fbadsf1930287plr.19
+        for <lists+kasan-dev@lfdr.de>; Thu, 24 Jun 2021 01:09:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1624522172; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BubGXqcGXEit6lZwle3GKd+F74Jc8MezdFRFmtNgwn2P7rZzlzx4ywY2p3LW9kGRS6
-         3EQwxSV0A4pjByiANPkXANj7ZgtsRSsGLH/ohDRzd3oyUmqUGdmOd1RAhQ/BUQtMRqEU
-         ZF08qpKjj7F2RKtBbtCoRi8sYKOrNwYToZUzYA3PztSm7zTvFXQLdkM4m8769coKBaEU
-         1gTUfOv/z4L0pswua+84zURXLCp+WEzaoAyEaRiiErV6pr9oBKEvbqwoVnqs/tuD55FK
-         rlzFZRDCziWhgHYae1gTFzLmqRZ4II8i6QvXe6FfPgJZ10Ari4vZC3RU/thPkP6OMU9M
-         iWqQ==
+        b=ygyj6x3bFOrNpWPyhw0pfafrxqPY3TLDUqE7M5kWoVp9LEBlNdATVWXG4o+k7NUEX/
+         1VXqUTb5SjQVHu9LuZV5ZAlnyxeV91PrDRod/R1s0WiJh19oUizfLcm2V4Y5siOkzMfh
+         rJp+7zYlvVGJcZC+JW1ejOxCOl+DnoGTkYhIbrZd98coYu70wPhHhz385Kh0MoVHZOWu
+         Vb2T8uFVGY3Gt9wL2iCJYMg5QdS6Yy4AzcX3r86VghU61yU/fZJP1a3ccxA/ZPrmLA6b
+         XZ3LjoSv19FWNqUZiN7cG7mBKd0EM99Rqq9McNL8egVcayq4l+YnqL2H1zn74FvxyynN
+         27NA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=ZNuXO57dqXJRfguZ7SxJ5JvXBZRKojWSu60fZwwQZRc=;
-        b=a6tfFAcjGvdDQltiZ8DZqGWBharikj5KZZ32uHcuH5V8tge/tnrbGQfwN0+ZYxd9ZP
-         Ey4tFebNOzSdG32nZ8EYs9cTZvP4M9YtI7PQWIjyYPFoYHjXZ1TKFJjXP3qjnnc0uV59
-         V6TJ6as2VRMA+kBlWNYIL6rI1hC1z92gi9ZEYY8kdXrOMe3TiE+CSoAIULtKZ34UhLZ4
-         I74zYqtx8OXZ4TBvtcVbvB1YUjGVEkGkqwE92emVKK1czYzVJTJa3a2IIfKxfLVHk2CK
-         Rg4YIhaIo2Nj1MrTGG9dhVPMHNX4+1sylK02k2HyOhL8tYBbr3q+HEiqHYuVMlb+Jo2Y
-         hPZw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=hU6jciXm/T/X3A8jYkuurpE1R4dUbFUunZ42/3bOb2k=;
+        b=XiqbvKBRupf4c3Ns8fYe4yBrLEUHY0XEPK0+eu3BArf1hRZMNj7hv7gmd+ijBCclFK
+         Txjq2LzF6qtPSbUD1MGBaIbB/4VysTS2W51fAacixDtRSQxMDPtaFr7f4M0FeIjvjM5v
+         7bq0qylk9Ycyyxptg0MCNk8UmskS1hLVr7fb+r0GfpdJ3BT30q+ZdsCQCX3lNtNTCpMI
+         fLwGutOh+Shf0SQtc7YJBS/E3vNItqoqgpg7a75YalK2suiaZLeIaAZ7SijkZsVaDhsg
+         pRV5u7+7l7iHS+TH01p2qMx3h3wvj9XYxA4Ef1vX3OPyI3eYgnFFn6RdvjnrGV8HNBW7
+         k1qg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=FooYSsrf;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=dja@axtens.net
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Kfrjwpeg;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ZNuXO57dqXJRfguZ7SxJ5JvXBZRKojWSu60fZwwQZRc=;
-        b=KhEOC8nczgpVBGuWLjJGEBgmpMNQvHmvHQzf+oaI7Jm9jA3AumIJqxt9KgkfkkJG3W
-         ZSup0WNkPcrFCYTAn9qxuc4PcJb8xhWnnMu+INTte+FZeAzZMLFwv3tnGePYn7yabw+q
-         uRM8TkzrigrNhayuAEMD9ay8Y3Cwc5jphVdOtw+O4TPsu5hkxfQskuc7EFI//T7xwf3J
-         1TFhnIT/kTg5k8RaZtMJKGZyjCzh6iQ98YMV6faFEysDPd/cGyLMG6REaOI7imO9xPv9
-         5khHv7gwDgURZzLyQ/ZnIRe44zooC9bh/xw/2/Mg6mKD2tD2995K+G9lDitx24Jxl/2W
-         YphQ==
+        bh=hU6jciXm/T/X3A8jYkuurpE1R4dUbFUunZ42/3bOb2k=;
+        b=UeKfOzqlFH7Ez2jMvKNQlCmiVT2vFtQ27oOAP2Q1GNa4GbaCDvaAAHxysQMCt1fZtr
+         RPhMuKNfq6CWltcL0aUtC5YpnVA2H31Fu1sksSE032BWL1gNEuLOOH9CkB9PdQoqfXKx
+         sZhQ4rcCCKLf6nFdMe9pssfVOMLXusVeJn2ZNY8uIDgHIJusGXweLKCrXEa4LxALr4Wa
+         tZpw9O30G4OUBN8czb91WVvdEiHyD3Qbnu7FlQFRIUiFhPD2vVaslOdIKbNfGXfPIsvq
+         UqUVd6/UFqsW2qVzQZTb0To46e/UXe/MAIYIfts18/imPF2ecuGgUZV+bkPCycvbjx9m
+         rEQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ZNuXO57dqXJRfguZ7SxJ5JvXBZRKojWSu60fZwwQZRc=;
-        b=JosdtprrVY4CZSIFD0tkxdSlwzFXWnhODKbQAexX/UkpLimHX302ogF8oAIzHqn7Kj
-         M7TMRfDMN1pF4duF9OWpKyeu9pEnMPzCszdbY10q+cBnzjzjO8/q7GQo3JXOR/fI6gtd
-         tBbNotczt88Wqff4Cnl1UgITbQGuEEoyV4+BAzaapK/9kBhKLIHyNOx76D07l3ytz7+b
-         07LY3Sz22V7lPE1n/0xHJJ/vDVgHBKx7rvcUqSifZg5m4C5Y61cNgB4vvYV3kgWxmSV2
-         tZJak1rZ/v5GH5O67pz5elda7ZpZSRh6SUlKd3OW0qx1D//IZWU6wGhcfFj+ZH+SHkbt
-         gnVw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530a6Sh8UjgrYPfWxuaR7DLOwMpFY1NjuW71Zzfjut67G9OrOwxT
-	0SwSRKxsVs48uu/hT7JKpwo=
-X-Google-Smtp-Source: ABdhPJyCYZ7HVo6jyu1XlAJ2pRtrq5f8wPdYeimbhJ9YZDpM6GM4KL4ry3kWrzlRTdtpgKmGsmd0qQ==
-X-Received: by 2002:a17:902:c18d:b029:127:9c3d:6e93 with SMTP id d13-20020a170902c18db02901279c3d6e93mr549217pld.73.1624506074387;
-        Wed, 23 Jun 2021 20:41:14 -0700 (PDT)
+        bh=hU6jciXm/T/X3A8jYkuurpE1R4dUbFUunZ42/3bOb2k=;
+        b=k3vtKlRA/FuJ5VvIKx5BhQe7UmQtc97GvY90gpqjq675uFfYPAd8ascsfAzuX6pYMj
+         15b4m8HNYBFRFF1HNZBvei0GFSeSEsUmGJ10zW1tSOpwZhNdV78u2Z8qgE26Tu4cNf6b
+         e2zGdOX5eejc5BoX7DqTRFzIJ89dKtW8vQSKpkILzU2al6xr3R9vJLVZtQ0gaxroopPp
+         PhS3gaySQiObekwebR1GFoouHW+SHEeKE6y+0PJlXIizGNsN2R4hdgzgLodGFVPzO2Ns
+         SVdEG5ra4AByTNHE+SXpAZLv2dJF8zPFviXYa2wY9oFvtMPUzmM/tLWog9wD8Ce4vv2u
+         nTMw==
+X-Gm-Message-State: AOAM533X+zwrdmCNrNsR54dB6Sf34Vt1QeBO3/pSN1ByIfB4ieo8EFhc
+	niegm+WmhAzxVi+ZZiSPr8c=
+X-Google-Smtp-Source: ABdhPJyBBqrHLk/D19+vrF4BO4yfLWaqmZupLKbGW3x1JFvf2M5blWy0Ck8mm3i4fJbA7HN2nnR6GA==
+X-Received: by 2002:a17:90a:928c:: with SMTP id n12mr4127535pjo.30.1624522172219;
+        Thu, 24 Jun 2021 01:09:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:1dd4:: with SMTP id d203ls2076662pfd.2.gmail; Wed, 23
- Jun 2021 20:41:14 -0700 (PDT)
-X-Received: by 2002:a65:618b:: with SMTP id c11mr2810970pgv.292.1624506073911;
-        Wed, 23 Jun 2021 20:41:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1624506073; cv=none;
+Received: by 2002:a65:4186:: with SMTP id a6ls2575251pgq.6.gmail; Thu, 24 Jun
+ 2021 01:09:31 -0700 (PDT)
+X-Received: by 2002:a63:5d66:: with SMTP id o38mr3712488pgm.444.1624522171615;
+        Thu, 24 Jun 2021 01:09:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1624522171; cv=none;
         d=google.com; s=arc-20160816;
-        b=qQYsx7O5wEqf6yhQ3mPhMzisBC601c9XLAYR6Cvy/hp1PqafuMNPWbQuhsNrajEKso
-         gDH1FcO+/3u/1E/62sltjEqDapY1WPnQ1flII96Qeyt6k7zPbcZt7lZ/XQJc1KMOxNA4
-         LtAmEr3iywUKB2OZnkLXdlyAi8Ktgh9zGL44HI3Hc2HQSFMUVUYJdmsICQ4y7lJ9SZ1T
-         5bYyR7ZWxkXAWmlxOX0/3Ku3V7ixdwyr7AZhky7WTfE6lHGGvJ1zCGsLWqP4S7O10Q+P
-         HDiXFPBTm8zn3rmMBPqV0WDN793y416pCokpZ+SfYTHiwPF0KRYs3O87aaTrGHQQS5i6
-         VthA==
+        b=ECC6vlbJPlUCnRdpPa2xVdEqFa9zmsJ+ksUsvPHOUTiRse9gE/KikgeOf5eALJxfG+
+         /XFI/Ql5JsFS08ec9mcjgYs5Rp2OT01VNv13t9b0xEB6+DO0jshuRBA34TpkCrOossgj
+         L7u6ahyY0sE4t2yC0D6p4/YA93QSi4lux1/nExAhjd3K9owDEdeMzWqLrIpqR1Go+BM5
+         hZpW/V/yzmHorS2C6NAXWpM4MvaKrGEv/CRGKwbkGala89QAg96mnrAoD3uzInYoW5DG
+         nMPxx6ZWcQWumx239Rr3UDf/iaYRA0Fepr96o42OP9Xfk6IiZvRagBfhXF0X7rkY9S9Z
+         aZIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=Ctu6eGIgdooF8iPxRHw2B5UaQhrklgx8o8kc13VGL+0=;
-        b=DaGKymWk+58oNS65fl7kxG6VeEYS4EEVOOP771Qpybo4wDIAVbDrg3Sp8lXZd4YtQO
-         EVsyECzAlaJx2MFbSPJoXmp8iDJ8NobgqiH/21FvxNE/AgMCo5JBh9EgF0EVZhttPl/8
-         K5vbK2DYhUK7gODkThFXKASCVIc6KBvrKBn7XwBeEXY7NUj/kT5v5kAlbQj9iDw8IHPg
-         eqnKIJ2bQEf9hgJJnhGKxOpIH8KqkqIX82ZKhUibhGWwRaSc22Po5871uYo5cGjgfcrk
-         Ww+8IeH1PQztgQgvfvahp5hNKlkRxjbGB8Dya20NuZvTL5F8NE2RDp2ytjOVjkiRBWQL
-         bMiw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=wrQrLGlWaZrBRPZ22+kfBbiExxWlcXw34p0FAskUQY0=;
+        b=0EJezP1/tTJqLu10CqRo6vztT+nopaldbifcgJMnXUrjJW/d7D1p4qDYXuSdJ6v3S+
+         GpoTDjVCRdiBrPg5/HBa1VBNEIm4jEFM074GNpEtHZW0igvzs/cUb0YHZw7N1UwoX9Q5
+         bMNUrYKSRzlImbOd4Dy6IT5P0tpv5jFjG8zca8RHs14Pt1Zcpjk/8pQYFYVCxu5nsJ1Q
+         ebHWuksgOqd7OrJuvVjJdwDzsVr386VFx9ry2+EpPIHsmLoiIOUOkim+kzQxKIQKPSUm
+         FiM4tBLB2ohnn6+EqlVk8ve6IN+OVuCrK/0CuWXvfjkmsrbzZjtrW0Ce9j/sMNFcOLPZ
+         sb1Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@axtens.net header.s=google header.b=FooYSsrf;
-       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=dja@axtens.net
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com. [2607:f8b0:4864:20::42f])
-        by gmr-mx.google.com with ESMTPS id m14si592122pjq.1.2021.06.23.20.41.13
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Kfrjwpeg;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com. [2607:f8b0:4864:20::32d])
+        by gmr-mx.google.com with ESMTPS id t15si79705plr.0.2021.06.24.01.09.31
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Jun 2021 20:41:13 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::42f as permitted sender) client-ip=2607:f8b0:4864:20::42f;
-Received: by mail-pf1-x42f.google.com with SMTP id a127so3997816pfa.10
-        for <kasan-dev@googlegroups.com>; Wed, 23 Jun 2021 20:41:13 -0700 (PDT)
-X-Received: by 2002:a62:1657:0:b029:301:af69:5ae3 with SMTP id 84-20020a6216570000b0290301af695ae3mr2929381pfw.57.1624506073704;
-        Wed, 23 Jun 2021 20:41:13 -0700 (PDT)
-Received: from localhost ([203.206.29.204])
-        by smtp.gmail.com with ESMTPSA id n69sm1160501pfd.132.2021.06.23.20.41.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jun 2021 20:41:13 -0700 (PDT)
-From: Daniel Axtens <dja@axtens.net>
-To: linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	kasan-dev@googlegroups.com,
-	elver@google.com,
-	akpm@linux-foundation.org,
-	andreyknvl@gmail.com
-Cc: linuxppc-dev@lists.ozlabs.org,
-	christophe.leroy@csgroup.eu,
-	aneesh.kumar@linux.ibm.com,
-	bsingharora@gmail.com,
-	Daniel Axtens <dja@axtens.net>
-Subject: [PATCH v16 4/4] kasan: use MAX_PTRS_PER_* for early shadow tables
-Date: Thu, 24 Jun 2021 13:40:50 +1000
-Message-Id: <20210624034050.511391-5-dja@axtens.net>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210624034050.511391-1-dja@axtens.net>
-References: <20210624034050.511391-1-dja@axtens.net>
+        Thu, 24 Jun 2021 01:09:31 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) client-ip=2607:f8b0:4864:20::32d;
+Received: by mail-ot1-x32d.google.com with SMTP id o17-20020a9d76510000b02903eabfc221a9so4782286otl.0
+        for <kasan-dev@googlegroups.com>; Thu, 24 Jun 2021 01:09:31 -0700 (PDT)
+X-Received: by 2002:a05:6830:93:: with SMTP id a19mr3658179oto.17.1624522171102;
+ Thu, 24 Jun 2021 01:09:31 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: dja@axtens.net
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@axtens.net header.s=google header.b=FooYSsrf;       spf=pass
- (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::42f as
- permitted sender) smtp.mailfrom=dja@axtens.net
+References: <20210518204226.GR4441@paulmck-ThinkPad-P17-Gen-1>
+ <CANpmjNN+nS1CAz=0vVdJLAr_N+zZxqp3nm5cxCCiP-SAx3uSyA@mail.gmail.com>
+ <20210519185305.GC4441@paulmck-ThinkPad-P17-Gen-1> <CANpmjNMskihABCyNo=cK5c0vbNBP=fcUO5-ZqBJCiO4XGM47DA@mail.gmail.com>
+ <CANpmjNMPvAucMQoZeLQAP_WiwiLT6XBoss=EZ4xAbrHnMwdt5g@mail.gmail.com>
+ <c179dc74-662d-567f-0285-fcfce6adf0a5@redhat.com> <YMyC/Dy7XoxTeIWb@elver.google.com>
+ <35852e24-9b19-a442-694c-42eb4b5a4387@redhat.com> <YNBqTVFpvpXUbG4z@elver.google.com>
+ <01a0161a-44d2-5a32-7b7a-fdb13debfe57@redhat.com> <YNG/8EcdPBfH/Taf@elver.google.com>
+ <93e7048a-209f-82f2-8d28-ff8347595695@redhat.com>
+In-Reply-To: <93e7048a-209f-82f2-8d28-ff8347595695@redhat.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 24 Jun 2021 10:09:19 +0200
+Message-ID: <CANpmjNNZ8rQ3W=3hMemrdS_V7fXf4a_mY785eo5XaPNeTngExg@mail.gmail.com>
+Subject: Re: Functional Coverage via RV? (was: "Learning-based Controlled
+ Concurrency Testing")
+To: Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	syzkaller <syzkaller@googlegroups.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=Kfrjwpeg;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,76 +138,177 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-powerpc has a variable number of PTRS_PER_*, set at runtime based
-on the MMU that the kernel is booted under.
+On Wed, 23 Jun 2021 at 11:10, Daniel Bristot de Oliveira
+<bristot@redhat.com> wrote:
+> On 6/22/21 12:48 PM, Marco Elver wrote:
+> > On Mon, Jun 21, 2021 at 09:25PM +0200, Daniel Bristot de Oliveira wrote:
+> >> On 6/21/21 12:30 PM, Marco Elver wrote:
+> >>> On Mon, Jun 21, 2021 at 10:23AM +0200, Daniel Bristot de Oliveira wrote:
+> >>> [...]
+> >>>>> Yes, unlike code/structural coverage (which is what we have today via
+> >>>>> KCOV) functional coverage checks if some interesting states were reached
+> >>>>> (e.g. was buffer full/empty, did we observe transition a->b etc.).
+> >>>>
+> >>>> So you want to observe a given a->b transition, not that B was visited?
+> >>>
+> >>> An a->b transition would imply that a and b were visited.
+> >>
+> >> HA! let's try again with a less abstract example...
+> >
+> > Terminology misunderstanding.
+> >
+> > I mean "state transition". Writing "a->b transition" led me to infer 'a'
+> > and 'b' are states, but from below I infer that you meant an "event
+> > trace" (viz. event sequence).  So it seems I was wrong.
+> >
+> > Let me be clearer: transition A -[a]-> B implies states A and B were
+> > visited.
+>
+> right
+>
+> Hence, knowing that event 'a' occurred is sufficient, and
+> > actually provides a little more information than just "A and B were
+> > visited".
+>
+> iff [a] happens only from A to B...
+>
+> >
+> >>
+> >>   |   +------------ on --+----------------+
+> >>   v   ^                  +--------v       v
+> >> +========+               |        +===========+>--- suspend ---->+===========+
+> >> |  OFF   |               +- on --<|     ON    |                  | SUSPENDED |
+> >> +========+ <------ shutdown -----<+===========+<----- on -------<+===========+
+> >>     ^                                    v                             v
+> >>     +--------------- off ----------------+-----------------------------+
+> >>
+> >> Do you care about:
+> >>
+> >> 1) states [OFF|ON|SUSPENDED] being visited a # of times; or
+> >> 2) the occurrence of the [on|suspend|off] events a # of times; or
+> >> 3) the language generated by the "state machine"; like:
+> >>
+> >>    the occurrence of *"on -> suspend -> on -> off"*
+> >>
+> >>          which is != of
+> >>
+> >>    the occurrence of *"on -> on -> suspend -> off"*
+> >>
+> >>          although the same events and states occurred the same # of times
+> >> ?
+> >
+> > They are all interesting, but unrealistic for a fuzzer to keep track of.
+> > We can't realistically keep track of all possible event traces. Nor that
+> > some state or event was visited # of times.
+>
+> We can track this easily via RV, and doing that is already on my todo list. But
+> now I got that we do not need all these information for the functional coverage.
+>
+> > What I did mean is as described above: the simple occurrence of an
+> > event, as it implies some previous and next state were visited.
+> >
+> > The fuzzer then builds up knowledge of which inputs cause some events to
+> > occur. Because it knows it has inputs for such events, it will then try
+> > to further combine these inputs hoping to reach new coverage. This leads
+> > to various distinct event traces using the events it has already
+> > observed. All of this is somewhat random of course, because fuzzers are
+> > not meant to be model checkers.
+> >
+> > If someone wants something more complex as you describe, it'd have to
+> > explicitly become part of the model (if possible?). The problem of
+> > coverage explosion applies, and we may not recommend such usage anyway.
+>
+> I did not mean to make GCOV/the fuzzer to keep track of these information. I was
+> trying to understand what are the best way to provide the information that you
+> all need.
+>
+> >> RV can give you all... but the way to inform this might be different.
+> >>
+> >>>> I still need to understand what you are aiming to verify, and what is the
+> >>>> approach that you would like to use to express the specifications of the systems...
+> >>>>
+> >>>> Can you give me a simple example?
+> >>>
+> >>> The older discussion started around a discussion how to get the fuzzer
+> >>> into more interesting states in complex concurrent algorithms. But
+> >>> otherwise I have no idea ... we were just brainstorming and got to the
+> >>> point where it looked like "functional coverage" would improve automated
+> >>> test generation in general. And then I found RV which pretty much can
+> >>> specify "functional coverage" and almost gets that information to KCOV
+> >>> "for free".
+> >>
+> >> I think we will end up having an almost for free solution, but worth the price.
+> >>
+> >>>> so, you want to have a different function for every transition so KCOV can
+> >>>> observe that?
+> >>>
+> >>> Not a different function, just distinct "basic blocks". KCOV uses
+> >>> compiler instrumentation, and a sequence of non-branching instructions
+> >>> denote one point of coverage; at the next branch (conditional or otherwise)
+> >>> it then records which branch was taken and therefore we know which code
+> >>> paths were covered.
+> >>
+> >> ah, got it. But can't KCOV be extended with another source of information?
+> >
+> > Not without changing KCOV. And I think we're weary of something like
+> > that due to the potential for coverage explosion. -fsanitize-coverage
+> > has various options to capture different types of coverage actually, not
+> > purely basic block based coverage. (KCOV already supports
+> > KCOV_ENABLE_COMPARISONS, perhaps that could help somehow. It captures
+> > arguments of comparisons.)
+> >
+> >>>>>
+> >>>>> From what I can tell this doesn't quite happen today, because
+> >>>>> automaton::function is a lookup table as an array.
+> >>>>
+> >>>> It is a the transition function of the formal automaton definition. Check this:
+> >>>>
+> >>>> https://bristot.me/wp-content/uploads/2020/01/JSA_preprint.pdf
+> >>>>
+> >>>> page 9.
+> >>>>
+> >>>> Could this just
+> >>>>> become a generated function with a switch statement? Because then I
+> >>>>> think we'd pretty much have all the ingredients we need.
+> >>>>
+> >>>> a switch statement that would.... call a different function for each transition?
+> >>>
+> >>> No, just a switch statement that returns the same thing as it does
+> >>> today. But KCOV wouldn't see different different coverage with the
+> >>> current version because it's all in one basic block because it looks up
+> >>> the next state given the current state out of the array. If it was a
+> >>> switch statement doing the same thing, the compiler will turn the thing
+> >>> into conditional branches and KCOV then knows which code path
+> >>> (effectively the transition) was covered.
+> >
+> > Per Dmitry's comment, yes we need to be careful that the compiler
+> > doesn't collapse the switch statement somehow. But this should be
+> > achievable with a bunch or 'barrier()' after every 'case ...:'.
+>
+> Changing the "function" will add some overhead for the runtime monitor use-case.
+> For example, for the safety-critical systems that will run with a monitor
+> enabled to detect a failure and react to it.
+>
+> But! I can extend the idea of the reactor to receive the successful state
+> transitions or create the "observer" abstraction, to which we can attach a
+> generic that will make the switch statements. This function can be
+> auto-generated by dot2k as well...
+>
+> This reactor/observer can be enabed/disabled so... we can add as much annotation
+> and barriers as we want.
+>
+> Thoughts?
 
-This means the PTRS_PER_* are no longer constants, and therefore
-breaks the build. Switch to using MAX_PTRS_PER_*, which are constant.
+That sounds reasonable. Simply having an option (Kconfig would be
+ideal) to enable the KCOV-friendly version of the transition function
+is good enough for the fuzzer usecase. The kernels built for fuzzing
+usually include lots of other debug options anyway, and aren't
+production kernels.
 
-Suggested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Suggested-by: Balbir Singh <bsingharora@gmail.com>
-Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Reviewed-by: Balbir Singh <bsingharora@gmail.com>
-Reviewed-by: Marco Elver <elver@google.com>
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-Signed-off-by: Daniel Axtens <dja@axtens.net>
----
- include/linux/kasan.h | 6 +++---
- mm/kasan/init.c       | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 768d7d342757..5310e217bd74 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -41,9 +41,9 @@ struct kunit_kasan_expectation {
- #endif
- 
- extern unsigned char kasan_early_shadow_page[PAGE_SIZE];
--extern pte_t kasan_early_shadow_pte[PTRS_PER_PTE + PTE_HWTABLE_PTRS];
--extern pmd_t kasan_early_shadow_pmd[PTRS_PER_PMD];
--extern pud_t kasan_early_shadow_pud[PTRS_PER_PUD];
-+extern pte_t kasan_early_shadow_pte[MAX_PTRS_PER_PTE + PTE_HWTABLE_PTRS];
-+extern pmd_t kasan_early_shadow_pmd[MAX_PTRS_PER_PMD];
-+extern pud_t kasan_early_shadow_pud[MAX_PTRS_PER_PUD];
- extern p4d_t kasan_early_shadow_p4d[MAX_PTRS_PER_P4D];
- 
- int kasan_populate_early_shadow(const void *shadow_start,
-diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-index 348f31d15a97..cc64ed6858c6 100644
---- a/mm/kasan/init.c
-+++ b/mm/kasan/init.c
-@@ -41,7 +41,7 @@ static inline bool kasan_p4d_table(pgd_t pgd)
- }
- #endif
- #if CONFIG_PGTABLE_LEVELS > 3
--pud_t kasan_early_shadow_pud[PTRS_PER_PUD] __page_aligned_bss;
-+pud_t kasan_early_shadow_pud[MAX_PTRS_PER_PUD] __page_aligned_bss;
- static inline bool kasan_pud_table(p4d_t p4d)
- {
- 	return p4d_page(p4d) == virt_to_page(lm_alias(kasan_early_shadow_pud));
-@@ -53,7 +53,7 @@ static inline bool kasan_pud_table(p4d_t p4d)
- }
- #endif
- #if CONFIG_PGTABLE_LEVELS > 2
--pmd_t kasan_early_shadow_pmd[PTRS_PER_PMD] __page_aligned_bss;
-+pmd_t kasan_early_shadow_pmd[MAX_PTRS_PER_PMD] __page_aligned_bss;
- static inline bool kasan_pmd_table(pud_t pud)
- {
- 	return pud_page(pud) == virt_to_page(lm_alias(kasan_early_shadow_pmd));
-@@ -64,7 +64,7 @@ static inline bool kasan_pmd_table(pud_t pud)
- 	return false;
- }
- #endif
--pte_t kasan_early_shadow_pte[PTRS_PER_PTE + PTE_HWTABLE_PTRS]
-+pte_t kasan_early_shadow_pte[MAX_PTRS_PER_PTE + PTE_HWTABLE_PTRS]
- 	__page_aligned_bss;
- 
- static inline bool kasan_pte_table(pmd_t pmd)
--- 
-2.30.2
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210624034050.511391-5-dja%40axtens.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNZ8rQ3W%3D3hMemrdS_V7fXf4a_mY785eo5XaPNeTngExg%40mail.gmail.com.
