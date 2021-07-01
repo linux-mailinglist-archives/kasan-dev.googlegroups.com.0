@@ -1,136 +1,124 @@
-Return-Path: <kasan-dev+bncBDTIRYVLZUEBBOHK6WDAMGQEOAWAFRQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBE776WDAMGQEAG4IT3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93b.google.com (mail-ua1-x93b.google.com [IPv6:2607:f8b0:4864:20::93b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047263B8E6F
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Jul 2021 09:56:42 +0200 (CEST)
-Received: by mail-ua1-x93b.google.com with SMTP id k13-20020a9f30cd0000b029025e3e26edb8sf1385022uab.9
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Jul 2021 00:56:41 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1625126201; cv=pass;
+Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 940BE3B8EFA
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Jul 2021 10:40:55 +0200 (CEST)
+Received: by mail-il1-x13b.google.com with SMTP id r19-20020a92c5b30000b02901f175acc987sf632102ilt.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Jul 2021 01:40:55 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1625128852; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RNcrOVKQ2DAx5BHAFGZ70T0bY05q/LaRpMVtBeaIrOHZF1g2JMcbbRP8ojmOkizwOY
-         aTrS9FPSZ+nYmwLivLvO6vfZc30QcSLit6vz8LOPLF8ldZfRQBi1ss7wQp82b5L3FJl3
-         BmejofhqojU+igPU4UKvAcvVxD4OMB0dQz4lo6wSs1ZUwRTnzj/sUmFuX/oLCvSjIMKi
-         A3QCd1HKYJeQbW07id3uiORKy795fMbF01r/3NHMG0zk6d4I+jByObm2YA76lQNY7hCK
-         /ugg7wA1a70i/txF6qCdB1U59/tpZlvTBtR9xoiuJS++1lWpfp5WMt/zNSImaO6Ba5gb
-         CfkA==
+        b=TgzJjmsXxpOGfd9JSS/hymSwxMsJqEHaVBn/r6qtTdr0xqpX/+vZRaw+CQ/STkRkVI
+         Fyo3Yj3j5e5ltZITSbMkNIV1sfML+012hC8f0EyxNCCIoZGEdYoon/niz05Afi2fme2P
+         kBor14YFirvgSvH9WtsdCaB1OCUC7B88wVzD/o8IaZ6pZIcmKoSoj26V4IpXOyXi9duk
+         VWnBs7iAXcIsa3+C2ZtRE7cwD65+v6iQVAss+16H5FH7q2dXobbwbDXhrzPKZ6M4EJ64
+         +fQLNc9U7w3aSQpjXpAf7rI9XlD0bOD5j7t6K3NLSH+yQ9ZOy1U7n8eP+hGAZgwmlmTu
+         1w4g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=upEh/jlIC/phF6ZOR6TN7if2yOCd8WsotljgnkY7me8=;
-        b=TUg0UAgWhg7zsqPqTzfKzZ9GqaSqGEfE7/XyZXocqFy20sL4kw/J24RzE1+uLAWWRd
-         SxVL5gZWOejPIw8SXN9NvgUZJLbK8uflUzGS2dCqryC1Ctqzr5GPBpOKOAHc8HfxaJ+A
-         dOE9PjpMM+aYDKDNF3Myzh2UAvVzn4P3P/+WbeosNP8bGzTCZo8KXQEBDgkZfVUPIvhn
-         7yb1HvZxtfV4NquY33ishUyaPpALmMpmIGC5ZihA4Fpyc3y0Pv5JhPgsEHu10jMy+8+x
-         AqOcudPXkDbj5H5MVXIttMuOxxiP9JNasIq+O1c0zQIwJxiWExYH45I8gWjdE9Q1P6se
-         ftCg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:dkim-signature;
+        bh=fIp86VGCGb7mXQw/oAhEVk1mtG8bdrMLmR6TC+7VAmQ=;
+        b=l0BJPFeSif3oGmKRBx5uftHN2AvTZvOFECjLAtgQ7vVcuGYWpzZEaepkiNKu4+4z56
+         oOcreaTDgddDWL3kSJpc8XGuK1omGfjUitMRDXrkw+x2arbZ7sn+48ElcwUC3+iDq4lO
+         tN3VqWjgi/z7q38pJvcXSJiG0+ayHnVYsq2U05WNoK3r1cNNiq+SJkX+FVvZSbwtoRdX
+         x5SOOOv73vK2/s1HTB7DGsrR26OYk9JfMf7WxDuAty5LIVWtNNummgJx4hOodSIaMjbL
+         xYpQKDYqCLZBPU2bbSEzbRqGY3bSC+jAkA53uECn2yoVpYA5sueIPrmY9mEHioEWpxEd
+         LglA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="Ry3iiT/b";
-       spf=pass (google.com: domain of omosnace@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=omosnace@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=FMpj5Jxu;
+       spf=pass (google.com: domain of 3kn_dyaukcruz6gzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3kn_dYAUKCRUz6GzC19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=upEh/jlIC/phF6ZOR6TN7if2yOCd8WsotljgnkY7me8=;
-        b=jn+NowEAaguHZmOFrTQaiolsABMwj6eaTDaGcAzW5DeQbn1VLFTsbjn9vr0Lf7w6OP
-         xQWvZKh3uH5hdq3l+X5Mr+pzmGTthN3pF4Xqds934nQGkaaPpn22g3un1c/s7eDeTW+5
-         m0GKkHaApYZkDWzWZiC6anrxR3sDdU/g7oNE6czhTbPPCOukxPidNZkgxQsRwNBySPiN
-         q8kry+ijlOy9D/f8qrgVZIhwAVnztmEPeii/LX2Xh2diC+PXtcnWT+Nt1BpP2i6emK1p
-         tyQuM38IK/w8mXW4aTzo6dgBhjcCnO78RW5hNWfd9svGIIIgVrXtHNVyH5LL9Zut9G+m
-         Hm+Q==
+        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=fIp86VGCGb7mXQw/oAhEVk1mtG8bdrMLmR6TC+7VAmQ=;
+        b=XD5GUYFfcxTqRRrNb/WqebUJMaswd1+bG4hfbrwowZyFnhk8Aq6i2gNqgVE+6jG0/x
+         qQ4SQ7MLXx3dYTeCLsDV9R1EM6VymIYo9oZ/2Z1ETjeAlo06GeiIDX6x7oJDEL5Ft31v
+         Rir9niYF881W0pF3QNd3QX7MHSunnN0sB2zRpkgWXmfR+jdTFjK5ZtGTbK6pQessk58y
+         maIdDaXU9lalq2lwWgFKG5OoGYqNRl573UwCeTeXD8J4BefUDEvCjxI1kzQ8NnYDqWQh
+         LP90zOkLU5GfITXWnHa8OM1fnC2WoT8B9raqjq535EdlCcF9k5IABKDGwkugDPBxACDM
+         w3uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=upEh/jlIC/phF6ZOR6TN7if2yOCd8WsotljgnkY7me8=;
-        b=aS6quEFI1rQaUT/dTWXGktg92taUeRw0n0nzQBu/+4Zu6RmrTHUCCVKoPRdjFzK4ws
-         TNy7Sps9SO8UFR7V4rvrQzx22daiQ2bky4EVZhp0Jgn0bkYRWY8IqNMT27QADqfM/Kzc
-         jKNRp5/hC2YhTB+lPu1lYDv2ek+GCFIVqL0rjsw4NFGd/TExj0R2280Rd5FL0TGvUcew
-         r7OQbIqwFMuK/XI1uRuCg7M8fH4Tsh2yiYj8g+lwbeQ3lH14k1ETMj5gPl4L174sr6Zx
-         W5dLW/6Xv3/o5Upow6+O8FYWa4V4q3Oy2d9xo8oR8iCFidvyUkzVJC7vb7TDpcQNsfa1
-         6U0Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533DnFH5vAPtXv6Dm4K0KuNVlX3NOhltO2DpTc1+CcvgKHBGh1sm
-	RXO+21dFpFnsn7k1AWSHnIQ=
-X-Google-Smtp-Source: ABdhPJyXWlhRmVK3sLuKc3xn5pgLYmaap4v3beIyJ0LfpeMsgW4FdZpz+Q7e32ROK1kJSXoCOylDoA==
-X-Received: by 2002:a67:ec97:: with SMTP id h23mr3527684vsp.41.1625126200910;
-        Thu, 01 Jul 2021 00:56:40 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=fIp86VGCGb7mXQw/oAhEVk1mtG8bdrMLmR6TC+7VAmQ=;
+        b=snFP8hYs77K9ssHi3L6M+9XyVt7bsKqRDyyCzQ6PHb601qpHAA3Mr2G4hrSWUfRRu9
+         up4cdclaTFsMDJeKlT+e0Lmdpi3zbDdcALCfhfar73savuk800kmukwjIYgAp4lVKVBS
+         D7m4far3Yx0R24wYe+ZC4AJYN31PxUs5SHDmh8W/GpeQLLnFPFQLlNlH43sPhWz866Dx
+         buO6xestG1qWN1RI4tGhMMbw+4rvuGNroDbneAqfl37+Fd8R2ssOAj09prwtKXHnyAE6
+         7CztnxTgaM1cdw6yNKUooOSUHENddXM6mE2wobpzXBg6ytDcAReovEQOcTaPf10bhia5
+         4bNQ==
+X-Gm-Message-State: AOAM530PoH0/ePyqlslwXDRCwuUKlk6LK5bwR0ymYZgUzsLzSOfj6oL0
+	X+ca3kRvlZkM1L+roGCkXBg=
+X-Google-Smtp-Source: ABdhPJz59sKJiGjVAzbjJlAUNGvIoHU7PWKiB3mhzc0UgGB99S0OSCfZd2WfTmtXIQEgvREj7kLxQA==
+X-Received: by 2002:a5d:914a:: with SMTP id y10mr11823213ioq.140.1625128851216;
+        Thu, 01 Jul 2021 01:40:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:48c2:: with SMTP id v185ls622827vka.11.gmail; Thu, 01
- Jul 2021 00:56:39 -0700 (PDT)
-X-Received: by 2002:a1f:7c05:: with SMTP id x5mr31919222vkc.17.1625126198953;
-        Thu, 01 Jul 2021 00:56:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1625126198; cv=none;
+Received: by 2002:a05:6602:2c12:: with SMTP id w18ls1010605iov.9.gmail; Thu,
+ 01 Jul 2021 01:40:50 -0700 (PDT)
+X-Received: by 2002:a05:6602:2017:: with SMTP id y23mr11135180iod.137.1625128850869;
+        Thu, 01 Jul 2021 01:40:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1625128850; cv=none;
         d=google.com; s=arc-20160816;
-        b=AeE6D3teMmYicoS+BICc1jkPgIoNHibwrmkzO677EJZ+RmoxrIshiIbYnStUwffM7B
-         Q2Slcc3pJuVgBBH8xh78ytTIlcsPe1oW9dJGTquG0DgfDQbVnZw3MAAOunHoDX68k8kD
-         Cc8e/LZUuznIP1s5+ng0Vi5e5zFVRy1DQvRADWUx/YB9iL3jDrCVTYLALvwpRM22COmP
-         LhF2JdPABJ4WGSn8MbN5w6IVsNyzqGsSBpHfcq6MqXYn8a6ieJ4szow1duw8Btf4RVl1
-         x58PZGU352jcLQV2GCd30dgNRKShBk8mFbONmN8j8EN1Z+6gRrLfjaZnaISrWaRwW2Qz
-         uJCA==
+        b=bhevvX1X9HMwFAGiYjyoD+OupiM0jbt6IUPaXPX2PODUERYF5pbD2Zwxj8sUz+rnVG
+         fAmcig0bDx3IqFSwCswYpNXEVm2C+Rcr5ICTA7Wns/haluh+3uMIxr0YhJRij2ZDKaAx
+         sMXBwUI4ks9xqXziFCMoFcAdlA/xhBpZFGKBB1LiB92n5lBX0b5PJoxCVReK69cPJg06
+         UiFJrRM5x/lRYWQO7NHK77OkE11qwoXvfCGR05L/hqnshojJiwkSyA8Hf5qksGSs5ZMO
+         AzCgP30LmHvbdIK9p7L5/B4pq3Y3oubvT8QDLC4pUT1kp2D8SdOwRewT4HPaH/LzH4v4
+         3Wcg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=y9jC4b7qIauKiDKeodtcEhNEX/AsDIdv8KzKy1Dzuxw=;
-        b=pH2avuGeDidFgQ9wTzkbR7mrZWRjfCs/G0ST8rw0cXItkv8rH3pPWjnnLRaOIj09Jd
-         Wr2Nkpw/kgbpHoa1+SYp06dRfw9onXQy0HdcFssN7AjgVyjaKHLhBVzjfeUxcDeW6sUb
-         P3KwT4guQRW7BXLfuETh9GuUm2igLUMg6//ZJ3kGTO2Wlsgm0YgWPcVAinPe1Os6gKWh
-         G2f+41F/xuprL3abLf+t/5+AWb7P9BIBvV4I+Jzg0kFK2NZNc3yAjkCvxvbBoCcoYoek
-         SRPaICPZGr7YaqcmWCOOVldUriNpKNy5ySPl/UvdCcXlCScS45JyvPTi7QWmCgMQNllm
-         AYEQ==
+        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
+        bh=5iHoNZMOeP6TxsWwP/0krCRRwCbLGs4FQeU+EZRnVpw=;
+        b=z3RqMGGcK3Jo98womAsTkH060JFqbI8rCQcQNC14vG8gJseVeEYN2AmEqlkenikNOV
+         bc67tiAZvMg/dBtWA44nJ+8a4MOSqlFNCZKeXv/L4b2+5YI6UcadiVb15EC0AvKsekfv
+         /uqr68WBMRSL8DQwxrYDA95UaDZvt5HEfI0PPYovHIcSUdf0TPLnojfCfQL1qBIDamFD
+         4vUHh99t2ZBdr1kztlj+Bgw47VcL1SqolR6SAsljH+YLl4mgBujSae2fp8+tR4lMNviK
+         NY5a1LE0hr/1h6ZtbiL6BcaZmWBK5JKrdtPwf1DwMDOnRrssnMIl4TJFi+9Zvwn8mAmt
+         i7TA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="Ry3iiT/b";
-       spf=pass (google.com: domain of omosnace@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=omosnace@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id a6si1935208vkm.1.2021.07.01.00.56.38
+       dkim=pass header.i=@google.com header.s=20161025 header.b=FMpj5Jxu;
+       spf=pass (google.com: domain of 3kn_dyaukcruz6gzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3kn_dYAUKCRUz6GzC19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com. [2607:f8b0:4864:20::749])
+        by gmr-mx.google.com with ESMTPS id b16si726797iow.0.2021.07.01.01.40.50
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Jul 2021 00:56:38 -0700 (PDT)
-Received-SPF: pass (google.com: domain of omosnace@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-zPYfx0LpN4ObLsmYGTCKaQ-1; Thu, 01 Jul 2021 03:56:36 -0400
-X-MC-Unique: zPYfx0LpN4ObLsmYGTCKaQ-1
-Received: by mail-yb1-f197.google.com with SMTP id p10-20020a056902114ab0290559cc105fe3so5331045ybu.5
-        for <kasan-dev@googlegroups.com>; Thu, 01 Jul 2021 00:56:36 -0700 (PDT)
-X-Received: by 2002:a25:25cd:: with SMTP id l196mr30064768ybl.226.1625126195761;
-        Thu, 01 Jul 2021 00:56:35 -0700 (PDT)
-X-Received: by 2002:a25:25cd:: with SMTP id l196mr30064748ybl.226.1625126195525;
- Thu, 01 Jul 2021 00:56:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210630093709.3612997-1-elver@google.com> <CAFqZXNtaHyKjcOmh4_5AUfm0mek6Zx0V1TvN8BwHNK9Q7T3D8w@mail.gmail.com>
- <YNxmyRYcs/R/8zry@elver.google.com>
-In-Reply-To: <YNxmyRYcs/R/8zry@elver.google.com>
-From: Ondrej Mosnacek <omosnace@redhat.com>
-Date: Thu, 1 Jul 2021 09:56:24 +0200
-Message-ID: <CAFqZXNsABvdcR4MPYS+o+SEpqtaU1FrUkmP8bv+1czvcv_3ADQ@mail.gmail.com>
-Subject: Re: [PATCH] perf: Require CAP_KILL if sigtrap is requested
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@kernel.org>, kasan-dev@googlegroups.com, 
-	Linux kernel mailing list <linux-kernel@vger.kernel.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@redhat.com>, 
-	Namhyung Kim <namhyung@kernel.org>, 
-	Linux Security Module list <linux-security-module@vger.kernel.org>, linux-perf-users@vger.kernel.org, 
-	Eric Biederman <ebiederm@xmission.com>, Dmitry Vyukov <dvyukov@google.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Jul 2021 01:40:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3kn_dyaukcruz6gzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::749 as permitted sender) client-ip=2607:f8b0:4864:20::749;
+Received: by mail-qk1-x749.google.com with SMTP id c3-20020a37b3030000b02903ad0001a2e8so3728318qkf.3
+        for <kasan-dev@googlegroups.com>; Thu, 01 Jul 2021 01:40:50 -0700 (PDT)
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:8b0e:c57f:ff29:7e4])
+ (user=elver job=sendgmr) by 2002:ad4:4ba4:: with SMTP id i4mr34049163qvw.42.1625128850422;
+ Thu, 01 Jul 2021 01:40:50 -0700 (PDT)
+Date: Thu,  1 Jul 2021 10:38:43 +0200
+Message-Id: <20210701083842.580466-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
+Subject: [PATCH v2] perf: Require CAP_KILL if sigtrap is requested
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, peterz@infradead.org
+Cc: tglx@linutronix.de, mingo@kernel.org, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, mingo@redhat.com, acme@kernel.org, 
+	mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@redhat.com, 
+	namhyung@kernel.org, linux-perf-users@vger.kernel.org, ebiederm@xmission.com, 
+	omosnace@redhat.com, serge@hallyn.com, linux-security-module@vger.kernel.org, 
+	stable@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: omosnace@redhat.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b="Ry3iiT/b";
-       spf=pass (google.com: domain of omosnace@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=omosnace@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@google.com header.s=20161025 header.b=FMpj5Jxu;       spf=pass
+ (google.com: domain of 3kn_dyaukcruz6gzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::749 as permitted sender) smtp.mailfrom=3kn_dYAUKCRUz6GzC19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,119 +131,77 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jun 30, 2021 at 2:43 PM Marco Elver <elver@google.com> wrote:
-> On Wed, Jun 30, 2021 at 01:13PM +0200, Ondrej Mosnacek wrote:
-> > On Wed, Jun 30, 2021 at 11:38 AM Marco Elver <elver@google.com> wrote:
-> [...]
-> > > +static inline bool kill_capable(void)
-> > > +{
-> > > +       return capable(CAP_KILL) || capable(CAP_SYS_ADMIN);
-> >
-> > Is it really necessary to fall back to CAP_SYS_ADMIN here? CAP_PERFMON
-> > and CAP_BPF have been split off from CAP_SYS_ADMIN recently, so they
-> > have it for backwards compatibility. You are adding a new restriction
-> > for a very specific action, so I don't think the fallback is needed.
->
-> That means someone having CAP_SYS_ADMIN, but not CAP_KILL, can't perform
-> the desired action. Is this what you'd like?
+If perf_event_open() is called with another task as target and
+perf_event_attr::sigtrap is set, and the target task's user does not
+match the calling user, also require the CAP_KILL capability.
 
-AFAIK, such user wouldn't be allowed to directly send a signal to a
-different process either. So I think it makes more sense to be
-consistent with the existing/main CAP_KILL usage rather than with the
-CAP_PERFMON usage (which has its own reason to have that fallback).
+Otherwise, with the CAP_PERFMON capability alone it would be possible
+for a user to send SIGTRAP signals via perf events to another user's
+tasks. This could potentially result in those tasks being terminated if
+they cannot handle SIGTRAP signals.
 
-I'm not the authority on capabilities nor the perf subsystem, it just
-didn't seem quite right to me so I wanted to raise the concern.
-Hopefully someone wiser than me will speak up if I talk nonsense :)
+Note: The check complements the existing capability check, but is not
+supposed to supersede the ptrace_may_access() check. At a high level we
+now have:
 
-> If so, I'll just remove the wrapper, and call capable(CAP_KILL)
-> directly.
->
-> > > diff --git a/kernel/events/core.c b/kernel/events/core.c
-> > > index fe88d6eea3c2..1ab4bc867531 100644
-> > > --- a/kernel/events/core.c
-> > > +++ b/kernel/events/core.c
-> > > @@ -12152,10 +12152,21 @@ SYSCALL_DEFINE5(perf_event_open,
-> > >         }
-> > >
-> > >         if (task) {
-> > > +               bool is_capable;
-> > > +
-> > >                 err = down_read_interruptible(&task->signal->exec_update_lock);
-> > >                 if (err)
-> > >                         goto err_file;
-> > >
-> > > +               is_capable = perfmon_capable();
-> > > +               if (attr.sigtrap) {
-> > > +                       /*
-> > > +                        * perf_event_attr::sigtrap sends signals to the other
-> > > +                        * task. Require the current task to have CAP_KILL.
-> > > +                        */
-> > > +                       is_capable &= kill_capable();
-> >
-> > Is it necessary to do all this dance just to call perfmon_capable()
-> > first? Couldn't this be simply:
-> >
-> > err = -EPERM;
-> > if (attr.sigtrap && !capable(CAP_KILL))
-> >         goto err_cred;
->
-> Not so much about perfmon_capable() but about the ptrace_may_access()
-> check. The condition here is supposed to be:
->
->         want CAP_PERFMON and (CAP_KILL if sigtrap)
->                 OR
->         want ptrace access (which includes a check for same thread-group and uid)
->
-> If we did what you propose, then the ptrace check is effectively ignored
-> if attr.sigtrap, and that's not what we want.
->
-> There are lots of other ways of writing the same thing, but it should
-> also remain readable and sticking it all into the same condition is not
-> readable.
+	capable of CAP_PERFMON and (CAP_KILL if sigtrap)
+		OR
+	ptrace_may_access() // also checks for same thread-group and uid
 
-Ah, I see, I missed that semantic difference... So ptrace_may_access()
-implies that the process doesn't need CAP_KILL to send a signal to the
-task, that makes sense.
+Fixes: 97ba62b27867 ("perf: Add support for SIGTRAP on perf events")
+Cc: <stable@vger.kernel.org> # 5.13+
+Reported-by: Dmitry Vyukov <dvyukov@google.com>
+Signed-off-by: Marco Elver <elver@google.com>
+---
+v2:
+* Drop kill_capable() and just check CAP_KILL (reported by Ondrej Mosnacek).
+* Use ns_capable(__task_cred(task)->user_ns, CAP_KILL) to check for
+  capability in target task's ns (reported by Ondrej Mosnacek).
+---
+ kernel/events/core.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-In that case I'm fine with this part as it is.
-
-> > Also, looking at kill_ok_by_cred() in kernel/signal.c, would it
-> > perhaps be more appropriate to do
-> > ns_capable(__task_cred(task)->user_ns, CAP_KILL) instead? (There might
-> > also need to be some careful locking around getting the target task's
-> > creds - I'm not sure...)
->
-> That might make sense. AFAIK, the locking is already in place via
-> exec_update_lock. Let me investigate.
->
-> > > +               }
-> > > +
-> > >                 /*
-> > >                  * Preserve ptrace permission check for backwards compatibility.
-> > >                  *
-> > > @@ -12165,7 +12176,7 @@ SYSCALL_DEFINE5(perf_event_open,
-> > >                  * perf_event_exit_task() that could imply).
-> > >                  */
-> > >                 err = -EACCES;
-> >
-> > BTW, shouldn't this (and several other such cases in this file...)
-> > actually be EPERM, as is the norm for capability checks?
->
-> I'm not a perf maintainer, so I can't give you a definitive answer.
-> But, this would change the ABI, so I don't think it's realistic to
-> request this change at this point unfortunately.
-
-Indeed... I worry it will make troubleshooting SELinux/capability
-errors more confusing, but I agree it would be a potentially risky
-change to fix it :/
-
---
-Ondrej Mosnacek
-Software Engineer, Linux Security - SELinux kernel
-Red Hat, Inc.
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index fe88d6eea3c2..43c99695dc3f 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -12152,10 +12152,23 @@ SYSCALL_DEFINE5(perf_event_open,
+ 	}
+ 
+ 	if (task) {
++		bool is_capable;
++
+ 		err = down_read_interruptible(&task->signal->exec_update_lock);
+ 		if (err)
+ 			goto err_file;
+ 
++		is_capable = perfmon_capable();
++		if (attr.sigtrap) {
++			/*
++			 * perf_event_attr::sigtrap sends signals to the other
++			 * task. Require the current task to have CAP_KILL.
++			 */
++			rcu_read_lock();
++			is_capable &= ns_capable(__task_cred(task)->user_ns, CAP_KILL);
++			rcu_read_unlock();
++		}
++
+ 		/*
+ 		 * Preserve ptrace permission check for backwards compatibility.
+ 		 *
+@@ -12165,7 +12178,7 @@ SYSCALL_DEFINE5(perf_event_open,
+ 		 * perf_event_exit_task() that could imply).
+ 		 */
+ 		err = -EACCES;
+-		if (!perfmon_capable() && !ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
++		if (!is_capable && !ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
+ 			goto err_cred;
+ 	}
+ 
+-- 
+2.32.0.93.g670b81a890-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAFqZXNsABvdcR4MPYS%2Bo%2BSEpqtaU1FrUkmP8bv%2B1czvcv_3ADQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210701083842.580466-1-elver%40google.com.
