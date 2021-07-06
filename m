@@ -1,142 +1,127 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRBHNQR6DQMGQEASGUGHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBOHKR6DQMGQE6MRK2TQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3d.google.com (mail-yb1-xb3d.google.com [IPv6:2607:f8b0:4864:20::b3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83933BC528
-	for <lists+kasan-dev@lfdr.de>; Tue,  6 Jul 2021 06:12:14 +0200 (CEST)
-Received: by mail-yb1-xb3d.google.com with SMTP id v184-20020a257ac10000b02904f84a5c5297sf25754794ybc.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Jul 2021 21:12:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1625544734; cv=pass;
+Received: from mail-pg1-x53a.google.com (mail-pg1-x53a.google.com [IPv6:2607:f8b0:4864:20::53a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7913BC652
+	for <lists+kasan-dev@lfdr.de>; Tue,  6 Jul 2021 08:16:26 +0200 (CEST)
+Received: by mail-pg1-x53a.google.com with SMTP id w38-20020a6347660000b029022342ce1f8bsf15369311pgk.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Jul 2021 23:16:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1625552185; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tnFRtXIsptwItymfk7/u8g2LyECQW2yC7V5OODaIRdgYA8iW0XZXeuALiSg6sCoqcM
-         SxXjWzpvCEpJXrvIj4ahlsN5isvMPn0zMrciRDcPaLakSNXurUqzWUB+5hzIBV4Xd0OJ
-         Yll7dHR+UF6gaOPAUDX5QD/fG847NLn3dgh8/jrrz4/TMxTVm9jJGPaB3UdwgkkY8Oyv
-         uYPjGHtpiIQ+0OcdOvEFMKo/31TM1Sq5JEvVKo9qV0F/VIdMih7dEQJLIPUEplkbp4q5
-         y8Em+7UUNlwqcpczcyDSopK3B2FG1+9bnEPcKNJ4lgWZeKSnOVPei6zxdxPQ1+M/OdPp
-         eJ+Q==
+        b=zVgzMUAu4873rRR4SPDfqyH/DyZSII18wWz2gBUD/DYpl3IP4kuIrD4voGbYJ+BNUI
+         lvhJvmySXI9d+2p/yjUNRnEYegLofPrqqaoLdLzSHP4L/Q0QuC32qQmplZY/fPgQOTfX
+         NWe+YNsZYVFkHedeK8fKqjNcGlCX5wE9mGb6A7GtzxXUlMagNt6HpYKZBMdTqWrWN89Y
+         6QhXns6UzTX4ydnqDLo+a8MLOFuQ8AuWqoba2QQUYcmnlQBOoSsUd5tK9nCymIhYRGtu
+         lqUJPxHLh5ofLVyGphRj93gV+hbYFraetL3UL/y+XIGybgxyh4+Crhcn7edgM+6MvYe7
+         bjcg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language
-         :content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=lUan48Fvd7vwruYyST8gdfRWlTVisQJzCZ75sV9J/ZY=;
-        b=jYUKcsqAjh7cezLGAI4O3q/Igw7A++Cv7afnaA2YMos5AaeVWmUcd9xLFbNPziVpC+
-         TNSCQql7i2BVJQWANRJwUqkfg+C6qWiEYPYW/WmyL5hnPaI5MLt/XWIuFYtt5xHUlgN8
-         /XVgoYWnAp/2FLzeChkwX1uwNEFeDNjSpz9zGko0L2ohjPDaZH83QhCzZnYY0aHMR0XA
-         RNrzruUcnhJUY0Z4IUhV77Kbu8TQvZFozuYyCh4N8cvwMTm/O3fvQxAyWWh3VweXggU0
-         D6gg2Gm5Ph1IkYqgCMWuTIJ0F6jkfRb0vfo9QXqpLMkT1BkcNEJUFkHrErg9Gk75dZL7
-         T+GA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=SH5K4N7oGhKT4J1WllrcGSjTeLgOtL/Du7mHPGiRhyU=;
+        b=Q6a37uq66XOmO0L5BIV85M4e9sgcCxzQ/oFeHVqsbTSrkewOufSApoPeuN/hyRdDfp
+         uOmEBJlVxzptUCq+a6A+1JkPvo1w6LGHipTUcPAr9quyyscb8RPM1The4Fo7LN0ZASBI
+         hi1Nu3txKUFHRE1yku0ZSdee8oEHqSp73AYWAM2yNUEpGhzh93IhhZVmpqpwpLZ5z+AK
+         sUv9n3/N5l22d1VUHlwMhec58/zw2ycNOXz/sqXAsHBeQUfmtju/MlV3TjXEpZxvNY81
+         fGHvq97qYtRMNgD09X6JEOsaALpE1cniUSBYdWyyIt2rdvKJT/ndsF1RP7boAcRC/Hqs
+         hMtw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Ap8WxFAv;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72f as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=lUan48Fvd7vwruYyST8gdfRWlTVisQJzCZ75sV9J/ZY=;
-        b=VPBrIBZTAKoUOL93GUlnZyDQYk1eGJeuy8anU5ZFavDLlKSGmO/Bnm5xbqvNSp6eOD
-         0h1///H+Ee4iq0aEfddoIOwUrQCYoAlA6BC7hy99UxBbfaeSRGdKBatILTLbe/7f73ck
-         N+ph5No7CYSLvrrk8R3b8Gt8hrIn6Vl+fnge5l+tL4sCytBw6c09y3HZC24iRMkFBmLF
-         5+lwmQDTFR14+721vHQk0zL4XsJUJ0ZCuxEoWugRVBqPagPbJ4MfD+qkgi+/gkIH71E7
-         D8k/dM/xqv29K5X+cZfHOM6J82ZDVbLqltgIoppgXa7Ql+/KtMzuGvnpkWNiWdssEoT3
-         DLxQ==
+        bh=SH5K4N7oGhKT4J1WllrcGSjTeLgOtL/Du7mHPGiRhyU=;
+        b=OBaTGRqILUQ/RV5sUxUF45EpXVbKjVmfeFJOtjtLu99jnrRqHWLZDHla5iFPqkGYDg
+         XSlu+rfxCvN7D8rJCG7Xo3oOjQZB/lJEqY12IccMzSVEf7IcOFJUyKli7miKVD472baW
+         2Y92f48/a4Ow6qD1VsX7sA6p+I/dysQx+UkPNU2p8XDC7RbyAmMXOwdZXe2b8UfBH+Xs
+         1dWdwpwk9Y/jhT/gOmRAHeiEk3Zj7l1UyKlzlCihwXxk/LKTxxJRjy2itXdqfw4OvX8v
+         MEZlJdkvO4d7lwtJmokwm4WA8gvPsr6yyetXLf0BEHm6fN5KAi6cAEgTTHRrxxCcyTgs
+         p+ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=lUan48Fvd7vwruYyST8gdfRWlTVisQJzCZ75sV9J/ZY=;
-        b=Y8ewnnzCiVQuDuwQn1Dputf25anDvqMoJaO02lc8Tcb0g4OWIm7MpFruG1UuPy7SZC
-         kNsKTSIv3DMA6d4MNzpe3MIrE0WjKh3c64vqZEKAn/4ocqVpgpePEONDQAbemzm6CN6X
-         vdCl1nUrz9qWbCdx1zj57YLzUPk6+IpoJ2dq/W3We+RrXe6W6vdfIC/7TK2KbAtmItGP
-         5TJW44j+ixlAYgwdaI4COsls3p8SBXfs4GeCXvnv1aKZz8UaUms89taAgGULuCTfm+Z4
-         guu6MTBhSvV76UVqg8fkM6LFnDO7zx34t6nHuxD1fBjyXUozA/8vRgB+Wpx5PSLr4W7p
-         zthw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5304s6O2XmbFl7ZAYtQ/Do+cvnR4P5rCPiZ1dpT/AQUZkLiCUnKR
-	uFVW/FmhQVINjfmvw3q0TiM=
-X-Google-Smtp-Source: ABdhPJw6TkUOpvNVw+JTxq3PlhtTa45kMgSl9fYs2RuTmuf6b+d7MoJjEI4oafnbgTqQHFezz05Kfg==
-X-Received: by 2002:a25:bf8c:: with SMTP id l12mr20329936ybk.200.1625544733938;
-        Mon, 05 Jul 2021 21:12:13 -0700 (PDT)
+        bh=SH5K4N7oGhKT4J1WllrcGSjTeLgOtL/Du7mHPGiRhyU=;
+        b=IsosGDwdrt6wPaF4L0lrRiyMxwyzL5Fm9txPQMi6b2CQx1O63N2jyDzZHACtlpLECM
+         oVy5Uk/3NkX6+Bvp5b5Dr3cX/tJ/j3WM4BHvilyxBVr35gXUE1j6EN5CQUfsQAuMTaEf
+         V+M3q1zqst71IU5sU9CETGA1RwClik26H3cCJhhRRFQCPBsQF2kuDlP73pJWeEIBvQh8
+         Zqrj3PCv1dI6eczHjnKiUgKkIgBlk7IlZSFPtPtsi//15kQGti0ERvka8aum+w664E2N
+         910AdVNT+sI5wlKJZeNH/EdNzaYrgN1t3BkOtNQHIBIsl6ZYGtm8aZpY2hVcVDtYJvKe
+         tXGw==
+X-Gm-Message-State: AOAM532a0iDr9Jep09cv1rlwBacINvmj13x1RKqqbOeT5EjtwpH+ahaA
+	xOlpnaQk7T9O4y0VH3l5fa0=
+X-Google-Smtp-Source: ABdhPJwfuEYJF9YaVgYA4dZWrWfTFVDCIYhJ4im9NYb7eN8o0p4sxyCePPIzFwbiOs4sY0IaeLIRbg==
+X-Received: by 2002:a17:90a:9511:: with SMTP id t17mr19243300pjo.108.1625552184805;
+        Mon, 05 Jul 2021 23:16:24 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:3f06:: with SMTP id m6ls4338971yba.6.gmail; Mon, 05 Jul
- 2021 21:12:13 -0700 (PDT)
-X-Received: by 2002:a25:af06:: with SMTP id a6mr21888762ybh.326.1625544733423;
-        Mon, 05 Jul 2021 21:12:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1625544733; cv=none;
+Received: by 2002:a63:2406:: with SMTP id k6ls9349195pgk.9.gmail; Mon, 05 Jul
+ 2021 23:16:24 -0700 (PDT)
+X-Received: by 2002:a65:498a:: with SMTP id r10mr8650510pgs.7.1625552184291;
+        Mon, 05 Jul 2021 23:16:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1625552184; cv=none;
         d=google.com; s=arc-20160816;
-        b=HaaU2RWRvp/u1Pph6ZmWVyNrLRQqCb+oYl7X4XfNWbbhXgCUxqLRYEIug1v9SnHHbi
-         VHcddPnzUGdBnLNTsMALu7NQXnF4Sb1ffNymU552Q8obUkF8dO+W8uwjNSSySDEsJ3Vv
-         lKy+beMayGe6heYWudYPVH47Tmsgk1VMMH69p9TiOt09188qzbPjU6MDB2UJ2Lz+VSXW
-         fzqy9qi85HxkHu2U8ADuRTUHQlXIkZ3TGnjV/JrbJTWmZgUsnKiUr7hHJXOsLuPshcM+
-         /ZV6eCivb3STqDe9gewtcn5QMYa8wXjDddEsKfFZgW92vbW+6bzBnf9ciuOvsmiSoLlL
-         Q8xg==
+        b=jdDu5OTjYOHrEO7Ty5hDeR2QOjW/CdUyigGWQboRT/lJVjf/jxCYwUFIlWswzvFqI3
+         5rv37JXOuh1mqoMQgW0WjZg1KOnJIYGN9lCJ7SHiivdlR8Kax9IDa2NAjo+V429NZy5p
+         5eTrICiCD0EjbEYNGiVshhpthz29ylidp9P3aeT85N648m+oFS82JOUl/c7MBaWZdFk0
+         oTjdfJ3aeYIgYS6C2gBkb1uiCkd5MW/5SjgE7w02tbUgAwIkrv4tjuPrWxjKkb8LGw0o
+         iSUuJjJMJxmvRvwXTLBOTvAVPGRLO/TbBdPcYWNNOL7BeGweMbFslbVQfBvCN0xMya8O
+         cBMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-language:content-transfer-encoding:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=QAqj8RZaJwmer9o5zU1GEzSwr/6CqANktVpVmte4XHE=;
-        b=ZjUJfumTKVpgRso52vknLY5PGfVLgT3bbn5QdBBYQK9cOD51DM9ZKm38j8QmqoKj0D
-         4wLjQOybjWJHcr80NE0i49J9Yo+3gzdQQUmgyMtG8tKu/eTsWmVr8pQ9DkEDWBmQ/lc7
-         J6x9/thFs7Imf4Pxnp2X2LG72mtR8tjMZ18Yp2jSbXYVvGW+0r6ZANSxrzVGFfax6o7t
-         98NDZqLoYiZRjkiYOCtbFeLVk1jXTEAcnEAadVaS82lKckEzgur/mxt0KjsID3rLsyoW
-         /d0F5vIhx11RT0aFMF2J89wnNpt4/56yHEoB2frs6MZsN0LjDetJDw9icrG2wRDidIX7
-         ctQw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=i2kc2sPl4mFDGHgoHEBwsK+YcufyFuxpzKrHOh0bOKs=;
+        b=a/t365bLOxj+yOyif146McA/8cZ/G6e0gS3rotl3kaV0wYGuexKfXG7B2B0Xi/htH+
+         HZbmsjhK4Ba1EmkCdzcq1zgPw99PRA3pCb470/20flh9khmmuZiOnWb5epmLu3OpORFL
+         qVj1mVoJv4YUAAI7fDmjr+7e4QvTI2rZhlOJ7T44/DJoAF5AQrZcsHSO9rx3MT41cwAS
+         s6weKHWTDZtRWFksL7BaSLdQxDYcWJMXNVZJwNVg3OouzYy4c8Wsl+ezItVn05I/w0Fx
+         BeL/prX0+4hitMKcvp/XHHH5Y/ewCakjUcbZNgVHYxGFkoRky0Tpxy/bjLbp3nmCh1Ve
+         /YyQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
-        by gmr-mx.google.com with ESMTPS id r3si888402ybc.1.2021.07.05.21.12.13
+       dkim=pass header.i=@google.com header.s=20161025 header.b=Ap8WxFAv;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72f as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com. [2607:f8b0:4864:20::72f])
+        by gmr-mx.google.com with ESMTPS id h17si1338450pfk.3.2021.07.05.23.16.24
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 05 Jul 2021 21:12:13 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GJpvc0Kmtz78ST;
-	Tue,  6 Jul 2021 12:08:44 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 6 Jul 2021 12:12:10 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 6 Jul 2021 12:12:09 +0800
-Subject: Re: [PATCH -next 3/3] kasan: arm64: Fix pcpu_page_first_chunk crash
- with KASAN_VMALLOC
-To: kernel test robot <lkp@intel.com>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Andrey Ryabinin
-	<ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, "Dmitry
- Vyukov" <dvyukov@google.com>
-CC: <kbuild-all@lists.01.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<linux-mm@kvack.org>
-References: <20210705111453.164230-4-wangkefeng.wang@huawei.com>
- <202107052207.RUhTJd4N-lkp@intel.com>
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-Message-ID: <3463cf5e-2562-7a23-6c57-421d5c3e2b4f@huawei.com>
-Date: Tue, 6 Jul 2021 12:12:08 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jul 2021 23:16:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72f as permitted sender) client-ip=2607:f8b0:4864:20::72f;
+Received: by mail-qk1-x72f.google.com with SMTP id j13so19136709qka.8
+        for <kasan-dev@googlegroups.com>; Mon, 05 Jul 2021 23:16:24 -0700 (PDT)
+X-Received: by 2002:a37:6888:: with SMTP id d130mr18540942qkc.265.1625552183218;
+ Mon, 05 Jul 2021 23:16:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <202107052207.RUhTJd4N-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
-X-Original-Sender: wangkefeng.wang@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188
- as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+References: <20210705084453.2151729-1-elver@google.com>
+In-Reply-To: <20210705084453.2151729-1-elver@google.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 6 Jul 2021 08:16:07 +0200
+Message-ID: <CACT4Y+bQovD7=CZajMJ_AZz=Rf37HpDQiTp0qnhi-GhuP0Xdeg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] perf: Fix required permissions if sigtrap is requested
+To: Marco Elver <elver@google.com>
+Cc: peterz@infradead.org, tglx@linutronix.de, mingo@kernel.org, 
+	glider@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	mingo@redhat.com, acme@kernel.org, mark.rutland@arm.com, 
+	alexander.shishkin@linux.intel.com, jolsa@redhat.com, namhyung@kernel.org, 
+	linux-perf-users@vger.kernel.org, ebiederm@xmission.com, omosnace@redhat.com, 
+	serge@hallyn.com, linux-security-module@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=Ap8WxFAv;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72f
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,50 +134,101 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Mon, Jul 5, 2021 at 10:45 AM Marco Elver <elver@google.com> wrote:
+>
+> If perf_event_open() is called with another task as target and
+> perf_event_attr::sigtrap is set, and the target task's user does not
+> match the calling user, also require the CAP_KILL capability or
+> PTRACE_MODE_ATTACH permissions.
+>
+> Otherwise, with the CAP_PERFMON capability alone it would be possible
+> for a user to send SIGTRAP signals via perf events to another user's
+> tasks. This could potentially result in those tasks being terminated if
+> they cannot handle SIGTRAP signals.
+>
+> Note: The check complements the existing capability check, but is not
+> supposed to supersede the ptrace_may_access() check. At a high level we
+> now have:
+>
+>         capable of CAP_PERFMON and (CAP_KILL if sigtrap)
+>                 OR
+>         ptrace_may_access(...) // also checks for same thread-group and uid
+>
+> Fixes: 97ba62b27867 ("perf: Add support for SIGTRAP on perf events")
+> Cc: <stable@vger.kernel.org> # 5.13+
+> Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Marco Elver <elver@google.com>
 
-On 2021/7/5 22:10, kernel test robot wrote:
-> Hi Kefeng,
+Acked-by: Dmitry Vyukov <dvyukov@google.com>
+
+> ---
+> v3:
+> * Upgrade ptrace mode check to ATTACH if attr.sigtrap, otherwise it's
+>   possible to change the target task (send signal) even if only read
+>   ptrace permissions were granted (reported by Eric W. Biederman).
 >
-> Thank you for the patch! Yet something to improve:
+> v2: https://lkml.kernel.org/r/20210701083842.580466-1-elver@google.com
+> * Drop kill_capable() and just check CAP_KILL (reported by Ondrej Mosnacek).
+> * Use ns_capable(__task_cred(task)->user_ns, CAP_KILL) to check for
+>   capability in target task's ns (reported by Ondrej Mosnacek).
 >
-> [auto build test ERROR on next-20210701]
+> v1: https://lkml.kernel.org/r/20210630093709.3612997-1-elver@google.com
+> ---
+>  kernel/events/core.c | 25 ++++++++++++++++++++++++-
+>  1 file changed, 24 insertions(+), 1 deletion(-)
 >
-> url:    https://github.com/0day-ci/linux/commits/Kefeng-Wang/arm64-suppor=
-t-page-mapping-percpu-first-chunk-allocator/20210705-190907
-> base:    fb0ca446157a86b75502c1636b0d81e642fe6bf1
-> config: i386-randconfig-a015-20210705 (attached as .config)
-> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce (this is a W=3D1 build):
->          # https://github.com/0day-ci/linux/commit/5f6b5a402ed3e390563ddb=
-ddf12973470fd4886d
->          git remote add linux-review https://github.com/0day-ci/linux
->          git fetch --no-tags linux-review Kefeng-Wang/arm64-support-page-=
-mapping-percpu-first-chunk-allocator/20210705-190907
->          git checkout 5f6b5a402ed3e390563ddbddf12973470fd4886d
->          # save the attached .config to linux build tree
->          make W=3D1 ARCH=3Di386
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index fe88d6eea3c2..f79ee82e644a 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -12152,10 +12152,33 @@ SYSCALL_DEFINE5(perf_event_open,
+>         }
 >
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
+>         if (task) {
+> +               unsigned int ptrace_mode = PTRACE_MODE_READ_REALCREDS;
+> +               bool is_capable;
+> +
+>                 err = down_read_interruptible(&task->signal->exec_update_lock);
+>                 if (err)
+>                         goto err_file;
 >
-> All errors (new ones prefixed by >>):
+> +               is_capable = perfmon_capable();
+> +               if (attr.sigtrap) {
+> +                       /*
+> +                        * perf_event_attr::sigtrap sends signals to the other
+> +                        * task. Require the current task to also have
+> +                        * CAP_KILL.
+> +                        */
+> +                       rcu_read_lock();
+> +                       is_capable &= ns_capable(__task_cred(task)->user_ns, CAP_KILL);
+> +                       rcu_read_unlock();
+> +
+> +                       /*
+> +                        * If the required capabilities aren't available, checks
+> +                        * for ptrace permissions: upgrade to ATTACH, since
+> +                        * sending signals can effectively change the target
+> +                        * task.
+> +                        */
+> +                       ptrace_mode = PTRACE_MODE_ATTACH_REALCREDS;
+> +               }
+> +
+>                 /*
+>                  * Preserve ptrace permission check for backwards compatibility.
+>                  *
+> @@ -12165,7 +12188,7 @@ SYSCALL_DEFINE5(perf_event_open,
+>                  * perf_event_exit_task() that could imply).
+>                  */
+>                 err = -EACCES;
+> -               if (!perfmon_capable() && !ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
+> +               if (!is_capable && !ptrace_may_access(task, ptrace_mode))
+>                         goto err_cred;
+>         }
 >
->     mm/vmalloc.c: In function 'vm_area_register_early':
->>> mm/vmalloc.c:2252:2: error: implicit declaration of function 'kasan_pop=
-ulate_early_vm_area_shadow' [-Werror=3Dimplicit-function-declaration]
-should add=C2=A0 a stub function when KASAN is not enabled, thanks.
->      2252 |  kasan_populate_early_vm_area_shadow(vm->addr, vm->size);
->           |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     cc1: some warnings being treated as errors
->
->
-> vim +/kasan_populate_early_vm_area_shadow +2252 mm/vmalloc.c
+> --
+> 2.32.0.93.g670b81a890-goog
 >
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/3463cf5e-2562-7a23-6c57-421d5c3e2b4f%40huawei.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbQovD7%3DCZajMJ_AZz%3DRf37HpDQiTp0qnhi-GhuP0Xdeg%40mail.gmail.com.
