@@ -1,139 +1,127 @@
-Return-Path: <kasan-dev+bncBDRZHGH43YJRBLHGUGDQMGQEBR3OFPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTNUWCDQMGQEDUENMAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53a.google.com (mail-pg1-x53a.google.com [IPv6:2607:f8b0:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432673C273E
-	for <lists+kasan-dev@lfdr.de>; Fri,  9 Jul 2021 18:02:54 +0200 (CEST)
-Received: by mail-pg1-x53a.google.com with SMTP id w38-20020a6347660000b029022342ce1f8bsf7580411pgk.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 09 Jul 2021 09:02:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1625846573; cv=pass;
+Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C443C4970
+	for <lists+kasan-dev@lfdr.de>; Mon, 12 Jul 2021 12:32:46 +0200 (CEST)
+Received: by mail-qt1-x83a.google.com with SMTP id w3-20020ac80ec30000b029024e8c2383c1sf10958188qti.5
+        for <lists+kasan-dev@lfdr.de>; Mon, 12 Jul 2021 03:32:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1626085966; cv=pass;
         d=google.com; s=arc-20160816;
-        b=a0Zf0WyF/dK5m/msN5gd3JFu0LBDDpIOvQ6aV0m7fG9X9Ufhod+sRtF5oZZRTeSeZf
-         S/EwWP//00FiV9Qr4dT6pXkLnvmuijrAEY8R64i3xD3z7ZRJMB/YZof4qK+w5PiISWit
-         KvTRdnwer/6bcjqP25SblU9hljDBxmuc3soUA21JvoFU7VAGzgG7qZ6L1bQjg2sdmKZq
-         E5OCLam2aes5aQ+a2l+qVytpk7uBF8cL2tBwejsVExQyY6lYjWmc9e+VgwudVvJXfSjN
-         c9Trx2uaT7p0e83CWL9ZJdVdLmoVnIo/Yqf56hsmLrKQbHNrzAPXnmyH6kKnxb497iV2
-         DmNg==
+        b=UWZ7QR/Bdr7RC26gGsPzxFCNwNnwTvKF4QP+s3txz0y1vfeLWAzpQwSw/UVhh36XzF
+         2xkFy6J9y5imtwmL5EXOZ2M2+BpEOnug+tpbW02PpZroGjAKaOe1JbCHRucW8AoVPYl3
+         8EaL1+xlaTEOPKnBM6YhY7fAXkJs71yVUluuXbPhkslVSQbdkfDOd+vNt6aVxDou15ar
+         B4i99cLbFlmZuiNzwAvEz+nf/9BkNtZXTmPX7HLqLsZAnJBANPoopULC6AdCYW/vDO12
+         BmWAYLPBFcYFau0UDvkXxyxa559/SfTPFwHJ52lmcikxzlNGIlhpjqWI0QSOpa2U7SoP
+         hWTA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=hwl47LymavSJ93xuEuN4TPZeSXo9XkeDn9pKcQv2FhU=;
-        b=gU2+6qnqoeIAIZTSppDIeVpMqBDz72iFLyuIKvoGaXfQ+ZYT9ntha3Jnp6pUDXg2fC
-         PWV10EV5irUS2lGjTKGTOAwGYaW6zYYy52ZVKZ3ECIp3poVJbm6j7bSmY9QydCG0fWNk
-         GK2r7rAYfkjv6jBlhj2iwOmOcspGB+85udxcEp1Q+52sZY4ESrnaAA4uYGrH6rt8hlCa
-         goXNd+KTMUITFcVZLqZjrpAL+YcYlsiMbMzSw0KIkyB/50zenruHlekLFXmD/kd5IcsZ
-         WOv6UxHzhZDNeSs5oTOGzVwxGhdolZK7/Prbi+HDo2nXFJnv7LQapWBe7lZ6Z6ikvuhv
-         b/+A==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=gm13mCozU2H8Ihqfc2O5U+ipjp7ov/hmyYi3bXyx4Ps=;
+        b=mmYrluNVe9xTdYGS5QHX9HJVyavV9drsWWVyYb+dBhGpN/Mx78GbcAuyh2Ek5io+Uk
+         CrCKeYBF79dxuqH7Edstyk6CzGgGK0vGHR97VTA4WhvoZ3+WSDLCbFUUrT53yeX8epxu
+         o2FKWOqhbQeqHSZqIZLnYukPy7wr4LT+B9HiHVCPSwByZ4j7WOvcVmnsefOG4KRuf+Ie
+         wltFN4il6d5XNoJRmYX82c8r80tDHb4lNairKy+B0NwWGfKAusW/3c60CEoF+MLa6ry1
+         F2rkfLHRNod63IrIi2lmnlXxZ1xAwg+tKX8T7sbbni6Yw/JSZ4ZYt6QZXHEWWj9Xfpcp
+         /t1w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=qgCxE7Ww;
-       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::133 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=F5afFXcZ;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hwl47LymavSJ93xuEuN4TPZeSXo9XkeDn9pKcQv2FhU=;
-        b=GDSFnFXd9lmNjTq0lGhzq/ZIyr0z6kkbp5NvCSJyNv7AokLwSCT8KTuq2QKbml8XAx
-         B59j4v6zYfk1fDmd3nG5noLGqRHfaoVWu3f2aOyH+MZqu1Dih1vwDybQ/vWunn5GfsR+
-         vtlLnaIFM0oztCthLEOx+pIjRYXxbY3C+fZWyjcJ0878E5mgZI3OcU6qyC09lR8WaDEO
-         qvRH51xqP8gCRqY13v8iLWrW7NbpZ8tllIK8L6eJs9qEXQTHMBX69yws4CQSCAI3DNs9
-         t1EcjvTmkvEixz7yKTzUEAVCdQlh36XipLxZYqVx0VQiAGCkFJxY4BmG3J1Z+lRw/5P1
-         KdJA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=hwl47LymavSJ93xuEuN4TPZeSXo9XkeDn9pKcQv2FhU=;
-        b=vftX3/bO8O44VSqMXfdVTUsi2aFpMuAr/qO90gCy5B3HaVrYbdjMllUllJW1RRXYnI
-         iOAsEpEEWKu5nOnH7IogpeaDcNMNbV5Gh80OZ1M72PH2FldTOr/gw+ZBYjhCmVtvpEKd
-         ftHzo3TdGrBYTcF3DnVHAgPCB+fmsAvWupM5cFCS2frSimJ9+BdVwfKtsp7saI7zaUwj
-         RX961Edetvcl8eQ+1pu/7oWKZtgkr5uwuKriufZ1d/H4T0gQWsDFnrVztE8QOWvL4QnX
-         B0baxvCXPuAgW0SpbGcuasbyMwXmjqSsNvdCq0k8PE55VUvi0BukopryT3AcapslBMyH
-         stLg==
+        bh=gm13mCozU2H8Ihqfc2O5U+ipjp7ov/hmyYi3bXyx4Ps=;
+        b=F2jIP4bLBoINAwEr6pdWYsmrtGqI9HxkvULS7s91qZW1dUwYxymFdzYeTE9j4LxyDa
+         vlLoK/Bl/G1YIQOBJUBu0WumzROpYLkprj4+GVvtqD6UpfjHN5Gh5ossOOr/vmVpnvut
+         Q/+UH+vg0zZ/ugpNPqBTXDTf5wASMOIF5eyPXRCYeGhsVJG3FidN2X8n+NW4Y4K87que
+         Z38WXIPD97mY6zeDOxGbTbbR2UUs9ZzHfNUhONLz1rJq+t2VjYKu7YwpRZAS03gQpv/B
+         TUkJQqy9ODBPRi6a0yLAho5Zp+gXErDCxHIWSmEE7RwWzOvyarr2AppTKaDjBt1QpIFW
+         4Y4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hwl47LymavSJ93xuEuN4TPZeSXo9XkeDn9pKcQv2FhU=;
-        b=Vy2RUSpy7WxYXk09xPtNyhqu0+VVO/PO8CjkBIQD895CMiFUZNSaS3sp385GO5KeS6
-         ltZ9knTz+wQpCPcDjZAuStmLn7Lp4Kfo+ipel0EPYYAz6snRSQp5i9ovFHysQqLR7g81
-         y9A42Q5d5Iht1dWNJdh2XGsA1HE7deym61zoQ2KEsI5+exULNIS2xqPUpw4WnUGH1o+k
-         B9pmfRMVw0gSH63PKXkGxscMRtnoCjjaUK6sY8A9riUZk1ypxQ+gmgbc6X/MRUuG4tPj
-         vbKKW5pev4K4ctRhP2NQvt0p9R6KI5pSMvuw60nDpLntMAZZB9Fr3PtDBAvjvsQlFQf4
-         715A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532vvut0lhupe/P976Yapdtd5aHtgoMif2iRl9PWMDL7ZDh1J+Vq
-	xV9gga2876ql372WWUUMb1Y=
-X-Google-Smtp-Source: ABdhPJy823alS6ya6/GbOdSnqAcley0aqGSN9e7T2MsmSUVhoUdTGqWX995sKBwz11GCyJnAZdVMGA==
-X-Received: by 2002:a17:90a:b906:: with SMTP id p6mr5461932pjr.143.1625846572750;
-        Fri, 09 Jul 2021 09:02:52 -0700 (PDT)
+        bh=gm13mCozU2H8Ihqfc2O5U+ipjp7ov/hmyYi3bXyx4Ps=;
+        b=LhoEpfJEpzs8L83V9g9D4LjJzYfu9ACeWXfrGOIphkRbTYLVv/RVuTIeHYPP7TI5Px
+         ck7N9moLdHq8sIjVR1prRO6AuQl72TtqxBLDY1F9yblku55zx2xI+AWEKDOHu2PxHhYs
+         gGbjHooKBiqgDHnRQcWOFHMTVG4/JKt8g5oMoiTR9xhtyNCsTXNVtmUrro+az3q9so4O
+         fZZwnGBG/MFGjpYmtesN04CxA6E/EgKHfCFFaCf4ae3CMhxbGezeGWfYVS37Crah8h7H
+         1F1Yr4MXcG2nE1EP7M9LWMIJXCuK6UsuIEhAuQ9nv7+YJfLIbv8LY3Uok2U4MUemuV28
+         HFyg==
+X-Gm-Message-State: AOAM5300jdRxtO5coeJUrqRianhnu5yRykChj+n7IK1CPJt1WgTVn6ae
+	BfZg2Ri/BR7IAwCEZ7nV/d0=
+X-Google-Smtp-Source: ABdhPJwiyO5NKB4yl6uF9wceUqdJNSXPGrBudnrySkas/5LdPtjkHAgXIlTXoElzRiy9CBgPux/e2A==
+X-Received: by 2002:a05:620a:6c9:: with SMTP id 9mr52004098qky.303.1626085965941;
+        Mon, 12 Jul 2021 03:32:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:8410:: with SMTP id j16ls8205570pjn.2.canary-gmail;
- Fri, 09 Jul 2021 09:02:52 -0700 (PDT)
-X-Received: by 2002:a17:903:18c:b029:125:b183:798f with SMTP id z12-20020a170903018cb0290125b183798fmr31422838plg.24.1625846572114;
-        Fri, 09 Jul 2021 09:02:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1625846572; cv=none;
+Received: by 2002:a05:620a:111a:: with SMTP id o26ls5177809qkk.6.gmail; Mon,
+ 12 Jul 2021 03:32:45 -0700 (PDT)
+X-Received: by 2002:a37:6f05:: with SMTP id k5mr50624297qkc.497.1626085965497;
+        Mon, 12 Jul 2021 03:32:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1626085965; cv=none;
         d=google.com; s=arc-20160816;
-        b=oQ/wBp4f1rPZFzMCBYnMDFhBESn+SFD3pNv1iULdHWkO1SSHU80JckfFmLERII4tS8
-         88knQTLc+K+MqKJHOVtkpAYzmNsp+V+xYEDVQ+qlFo/v6ekcz0NCjXaVLiZgkT45+J2A
-         0FNmm4TDtRErTbghy6SWAJl/gifk8GWMhl7wiDmGvRo6Zlbmsqlu1hcHc1FF0ZlHNsu8
-         z06JW9dg4WHa86DlYAq+F9PmJubRJZ0heLGzRyEldfSf0aMWQbONkDCCFlLqLz28MA1q
-         HJo6+glh1HaBf5m4XdxKrgMm/EXQlDwl8FSEUCnJqxtAOckkhX8lEUfATHmKK5/UN+Xv
-         OGTw==
+        b=dWSnavDp3NYQv7Urrj5EUiPO5iHz4ict9+YBfmRx0IDNaeNE9UgTZua39sMiec2HKs
+         GZq3xrRyqPw4lEhE6WRoXZlTuyxI+u3Aqs5WuehRef0pN2GMQYhpE2GZh/aIOm+ixIKo
+         8fHCJM3aAqSc2Rr7h0uuq0+CmcZf1dhq9UATGuoVkhvp6eygkmvcNgM/YM2eJm6ph5iI
+         yWlw2jsY3UgP55lmq9naFZRnv0leCfEHS9kk3LvILBgNZ8pPU+pHYuEdfd7km5NGvwNt
+         +BJ2/8EK/LW2bBnizrznc/uzocoU2GPDq5+HO1X+AssYVQfYAHHo4eu90VM1PwGNfiBr
+         kdxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=Sej+T/bePMdoiBqNeQkF4QPgZxgyOdE8cD4ihrSSbfI=;
-        b=s1bbUkuXgi6GHW4krJEw5k/VnC6VFjwjl9Az30VeGfDDfnukSiWe+8VC934WIKcN+s
-         f+9Gt86JMBSy9hcmHd7+veq3oektEL4mOdveCgMVNBmOZh2VDusLOODgQhZm6VtRp0np
-         9cSsl3ijRZdYNrz86cUH3m4wXmgFwANrQCqG3ZFIBsfLuifTyyBWMZGouJFt6oqz45t7
-         TGHeyJ7U8mi+O3qTerwT8n/K7+/1za6thkwPTQucDkUu9A9J4VzXWctkqvLuu0qwxdQS
-         UydofHr10++QGPremhjT4XlhG9+P73dVsqtUZgnIYb3AieeA/VZyf/UMlKz/m2JK3fY9
-         UE3A==
+        bh=6hEyAkHkInoJotPHkAfN0wodjsUHpYTw3naBo9WfZZI=;
+        b=0yZFaENoOnHIM+Bb5rFvGbeGGrQITxAfRpiiYYCkF677RUlrf5vRg2NQWeDT/sRVzY
+         GLKOfE01Q00Sous01UTS3pK7kjbfCpf7xGgIHI30Hr199p4vGkYOu7gtEZqs81wPNpZz
+         BcbBU3MggmTlAF8a50WS8m+o/VnVEqk/d2FFz+bbPGygau81ds2P7gKlHGOfDd6pW879
+         ESuR+OUMEfPWLmwU3gJWFMK4NN39FpjLI4gGI5A/bzUjAS+Lb4XFRabBcnli4nY2gY5b
+         KWNXEO9XqubEKZdr3Cn55ov2Lhd9n7K5kgF/iFuU87RC3PFLW8s/9bcFRwIsCwbodqRw
+         1DBA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b=qgCxE7Ww;
-       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::133 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com. [2607:f8b0:4864:20::133])
-        by gmr-mx.google.com with ESMTPS id u38si687672pfg.4.2021.07.09.09.02.52
+       dkim=pass header.i=@google.com header.s=20161025 header.b=F5afFXcZ;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com. [2607:f8b0:4864:20::32e])
+        by gmr-mx.google.com with ESMTPS id e30si1445645qka.4.2021.07.12.03.32.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jul 2021 09:02:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::133 as permitted sender) client-ip=2607:f8b0:4864:20::133;
-Received: by mail-il1-x133.google.com with SMTP id y6so9762925ilj.13
-        for <kasan-dev@googlegroups.com>; Fri, 09 Jul 2021 09:02:52 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1d04:: with SMTP id i4mr27150441ila.149.1625846571843;
- Fri, 09 Jul 2021 09:02:51 -0700 (PDT)
+        Mon, 12 Jul 2021 03:32:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32e as permitted sender) client-ip=2607:f8b0:4864:20::32e;
+Received: by mail-ot1-x32e.google.com with SMTP id 75-20020a9d08510000b02904acfe6bcccaso18356240oty.12
+        for <kasan-dev@googlegroups.com>; Mon, 12 Jul 2021 03:32:45 -0700 (PDT)
+X-Received: by 2002:a9d:650e:: with SMTP id i14mr12659704otl.233.1626085964667;
+ Mon, 12 Jul 2021 03:32:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANiq72kF7AbiJCTHca4A0CxDDJU90j89uh80S3pDqDt7-jthOg@mail.gmail.com>
- <CACRpkdbbPEnNTLYSP-YP+hTnqhUGQ8FjJLNY_fpSNWWd8tCFTQ@mail.gmail.com>
- <YOPcZE+WjlwNueTa@unreal> <19e0f737a3e58ed32758fb4758393c197437e8de.camel@HansenPartnership.com>
- <CANiq72mPMa9CwprrkL7QsEChQPMNtC61kJgaM4Rx0EyuQmvs2g@mail.gmail.com> <YOgesjNqpsZNK5Gf@elver.google.com>
-In-Reply-To: <YOgesjNqpsZNK5Gf@elver.google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 9 Jul 2021 18:02:40 +0200
-Message-ID: <CANiq72n8fJ8S5R4YKZBDuNFMCN3cDOUmk+6Rtp-ikNVwceX-Ng@mail.gmail.com>
-Subject: Re: [TECH TOPIC] Rust for Linux
-To: Marco Elver <elver@google.com>
-Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	Leon Romanovsky <leon@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, ksummit@lists.linux.dev, 
-	kasan-dev <kasan-dev@googlegroups.com>
+References: <20210705084453.2151729-1-elver@google.com>
+In-Reply-To: <20210705084453.2151729-1-elver@google.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 12 Jul 2021 12:32:33 +0200
+Message-ID: <CANpmjNP7Z0mxaF+eYCtP1aabPcoh-0aDSOiW6FQsPkR8SbVwnA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] perf: Fix required permissions if sigtrap is requested
+To: elver@google.com, peterz@infradead.org
+Cc: tglx@linutronix.de, mingo@kernel.org, dvyukov@google.com, 
+	glider@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	mingo@redhat.com, acme@kernel.org, mark.rutland@arm.com, 
+	alexander.shishkin@linux.intel.com, jolsa@redhat.com, namhyung@kernel.org, 
+	linux-perf-users@vger.kernel.org, ebiederm@xmission.com, omosnace@redhat.com, 
+	serge@hallyn.com, linux-security-module@vger.kernel.org, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: miguel.ojeda.sandonis@gmail.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b=qgCxE7Ww;       spf=pass
- (google.com: domain of miguel.ojeda.sandonis@gmail.com designates
- 2607:f8b0:4864:20::133 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20161025 header.b=F5afFXcZ;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32e as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,89 +134,102 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jul 9, 2021 at 12:02 PM Marco Elver <elver@google.com> wrote:
+It'd be good to get this sorted -- please take another look.
+
+Many thanks,
+-- Marco
+
+On Mon, 5 Jul 2021 at 10:45, Marco Elver <elver@google.com> wrote:
+> If perf_event_open() is called with another task as target and
+> perf_event_attr::sigtrap is set, and the target task's user does not
+> match the calling user, also require the CAP_KILL capability or
+> PTRACE_MODE_ATTACH permissions.
 >
-> I think the main point was about the combination of sanitizers paired
-> with fuzzers like syzkaller.
-
-Yes, and my reply was that compile-time detection of bugs is way, way
-better than runtime detection + relying on being lucky enough to hit
-the bug via testing and/or fuzzing.
-
-> I sincerely hope that not too much trust will be put into Rust-only
-> dynamic analysis via something like Miri (for the unsafe parts). For the
-> (...)
-
-I never claimed that we should blindly trust unsafe code written in
-Rust, nor that we should only perform Rust-only dynamic analysis.
-Quite the opposite: I mentioned there is already tooling around it
-precisely because we need as much of it as possible.
-
-Put another way: the topic is "what Rust buys us", not "what unsafe
-Rust buys us". That is, the goal is writing abstractions in a way that
-we maximize the amount of safe Rust code for modules etc. But,
-obviously, the Rust abstractions that deal with unsafe code (e.g.
-calling C) need to be as carefully reviewed and analyzed as C code is
--- nobody claimed otherwise.
-
-> It is very likely that if the Rust portion is analyzed alone, be it
-> statically or dynamically, that there will remain undiscovered bugs due
-> to improper abstractions between C and Rust. While I fully see that
-
-Definitely, but there are some things that are amenable to be analyzed
-on their own. For instance, for data structures written in pure Rust,
-Miri is a powerful tool we should be using right away.
-
-> Rust's static guarantees are strong for safe code, I'm pragmatic and
-
-Note that even within the unsafe subset there are some benefits over
-C, such as the borrow checker (it is still enabled in unsafe code),
-pattern matching and type system in general (e.g. like the
-`Option`/`Result` example a few emails above about being unable to
-mistakenly use its contents if there are none; that you can create
-types that enforce invariants, that it is stronger overall than
-C's...), etc.
-
-It also has some downsides, though: the rules one needs to abide by in
-unsafe code are different than C's (e.g. due to new concepts like
-references), and thus one should be careful about conflating
-assumptions.
-
-Side-note: our coding guidelines enforce that every `unsafe` block
-must be documented with a proof of why such block is sound. Same for
-invariants that a type holds. Moreover, we require all public APIs to
-be documented, etc. This is a way of saying that, even for unsafe
-code, we are trying to be stricter than the C side.
-
-> just do not believe those building the safe abstractions from unsafe
-> code will not make mistakes nor will those abstractions shield from
-> changed behaviour on the C side that directly affects safety of the Rust
-> abstraction.
-
-Again, please note we never claimed anything like that.
-
-It is the opposite: we want to use Rust precisely because we want to
-be able to statically enforce as much as we can -- that is, maximizing
-the amount of safe code.
-
-> Not only will Rust integration with K*SANs be required to catch early
-> bugs in the abstractions, but also be necessary to catch e.g.
-> use-after-frees in Rust code where C code freed the memory erroneously,
-> or data races between Rust and C code.
-
-It might be possible to eliminate some classes of bugs if we avoid
-mixing C and Rust too much.
-
-For instance, if we have a model where we allow the Rust side to
-manage ownership of some objects (instead of being forced to always go
-through the C APIs), then we may be able to statically guarantee more
-things and further maximize the amount of safe code, in particular in
-modules -- which is why I raised the question earlier.
-
-Cheers,
-Miguel
+> Otherwise, with the CAP_PERFMON capability alone it would be possible
+> for a user to send SIGTRAP signals via perf events to another user's
+> tasks. This could potentially result in those tasks being terminated if
+> they cannot handle SIGTRAP signals.
+>
+> Note: The check complements the existing capability check, but is not
+> supposed to supersede the ptrace_may_access() check. At a high level we
+> now have:
+>
+>         capable of CAP_PERFMON and (CAP_KILL if sigtrap)
+>                 OR
+>         ptrace_may_access(...) // also checks for same thread-group and uid
+>
+> Fixes: 97ba62b27867 ("perf: Add support for SIGTRAP on perf events")
+> Cc: <stable@vger.kernel.org> # 5.13+
+> Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+> v3:
+> * Upgrade ptrace mode check to ATTACH if attr.sigtrap, otherwise it's
+>   possible to change the target task (send signal) even if only read
+>   ptrace permissions were granted (reported by Eric W. Biederman).
+>
+> v2: https://lkml.kernel.org/r/20210701083842.580466-1-elver@google.com
+> * Drop kill_capable() and just check CAP_KILL (reported by Ondrej Mosnacek).
+> * Use ns_capable(__task_cred(task)->user_ns, CAP_KILL) to check for
+>   capability in target task's ns (reported by Ondrej Mosnacek).
+>
+> v1: https://lkml.kernel.org/r/20210630093709.3612997-1-elver@google.com
+> ---
+>  kernel/events/core.c | 25 ++++++++++++++++++++++++-
+>  1 file changed, 24 insertions(+), 1 deletion(-)
+>
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index fe88d6eea3c2..f79ee82e644a 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -12152,10 +12152,33 @@ SYSCALL_DEFINE5(perf_event_open,
+>         }
+>
+>         if (task) {
+> +               unsigned int ptrace_mode = PTRACE_MODE_READ_REALCREDS;
+> +               bool is_capable;
+> +
+>                 err = down_read_interruptible(&task->signal->exec_update_lock);
+>                 if (err)
+>                         goto err_file;
+>
+> +               is_capable = perfmon_capable();
+> +               if (attr.sigtrap) {
+> +                       /*
+> +                        * perf_event_attr::sigtrap sends signals to the other
+> +                        * task. Require the current task to also have
+> +                        * CAP_KILL.
+> +                        */
+> +                       rcu_read_lock();
+> +                       is_capable &= ns_capable(__task_cred(task)->user_ns, CAP_KILL);
+> +                       rcu_read_unlock();
+> +
+> +                       /*
+> +                        * If the required capabilities aren't available, checks
+> +                        * for ptrace permissions: upgrade to ATTACH, since
+> +                        * sending signals can effectively change the target
+> +                        * task.
+> +                        */
+> +                       ptrace_mode = PTRACE_MODE_ATTACH_REALCREDS;
+> +               }
+> +
+>                 /*
+>                  * Preserve ptrace permission check for backwards compatibility.
+>                  *
+> @@ -12165,7 +12188,7 @@ SYSCALL_DEFINE5(perf_event_open,
+>                  * perf_event_exit_task() that could imply).
+>                  */
+>                 err = -EACCES;
+> -               if (!perfmon_capable() && !ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS))
+> +               if (!is_capable && !ptrace_may_access(task, ptrace_mode))
+>                         goto err_cred;
+>         }
+>
+> --
+> 2.32.0.93.g670b81a890-goog
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANiq72n8fJ8S5R4YKZBDuNFMCN3cDOUmk%2B6Rtp-ikNVwceX-Ng%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNP7Z0mxaF%2BeYCtP1aabPcoh-0aDSOiW6FQsPkR8SbVwnA%40mail.gmail.com.
