@@ -1,138 +1,121 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBOV4W6DQMGQEGLXD37I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMN5XKDQMGQESLAQC3Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D20F3C7693
-	for <lists+kasan-dev@lfdr.de>; Tue, 13 Jul 2021 20:40:59 +0200 (CEST)
-Received: by mail-lj1-x23f.google.com with SMTP id q64-20020a2e5c430000b02901864030a0ecsf9506014ljb.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 13 Jul 2021 11:40:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1626201659; cv=pass;
+Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id E772B3C7FF1
+	for <lists+kasan-dev@lfdr.de>; Wed, 14 Jul 2021 10:22:10 +0200 (CEST)
+Received: by mail-pg1-x538.google.com with SMTP id x9-20020a6541490000b0290222fe6234d6sf967938pgp.14
+        for <lists+kasan-dev@lfdr.de>; Wed, 14 Jul 2021 01:22:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1626250929; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PJh4mdJwhVSwsA6XIBADWJ0v2nDU0WdGrErMZfpQK7XlCO35oIlZlXE0nx9z2J8EjD
-         e7YLtV4aJfDg4rxBa3kGpesQrn0Crjw7aSkNwvA/Br4WWtOpXOab1QqnooiqEBr4JJUM
-         KatC/bv1Cw5zRZmeDw9PVTwPqpCy+NBhGoCMuGkfne95kQqSKXAwMVHawNcVzaV5EJ1D
-         zsyJZgSbUgvLKikuyYfhW41sz0xTj2WKwyamRCyXeAfcFyA78Kqyj3YU6nU186xZrztH
-         9FoJgcbvMKRH2IT5DnrVBww1/RHznMQc9fLWgTVyfeHGbplMKT91ua4b/X+PruwD7UYd
-         L1SA==
+        b=vpxBLFQrY9f16LzyujthZvWYt2cGMpliuisZLl9RXMzQXFA/bqMs/2rCYmJsn2k/tj
+         HvzWOTXPpnhdIVha7MIRmhrVNlRXHkGPhOYxgXVlqmDUl1m1jx1MFbOirgDi66fuSOcm
+         IfU/Zk2Yw58OIP1HoboXdrl1Kb0Nue3ub4zjX1sR9kiuns4a1QZjIanrAkj3pIXFeTo5
+         xYjA4SaojKoXkLfPxWP6loU0JhFV4rGqpG7U1OiDvbbeakTOrL4BBV2N+n3LE3TaRFr/
+         5zMq1AJUH8UG5vK7GNWYOTsdpxiXyL4dhbuxJyaO9+u7I/kSX9N2WvyutjIZPpbq4pHC
+         /LFw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=YQqom6/sFYuK9ZKvpVi3oSSoqRgPa4TKj63hcMV0L6M=;
-        b=ja4WFE44+d98iTcLFtjUAIEG3tRdrRISWJrCmVhex3qZyBl6mUrro+sCGL+IIdyiu+
-         j5ztCOX2FC9s3xTc16pJq9/lo+JzPZl9kMIsp5yRpaEEmefAjZ2BQJx2qwhhg2szqKVj
-         d/i8fxj9XYhW5DLsjNOM/8m4xpkLz+O0hulway79JaSfHtGuF91F2yE2bgrd2XiqVnmP
-         i3JdOymocy2MhiG5e78FatApKBAcaU3ddRt6mswPr8h3r/Cn9IwR12+gWWv/BlrZvs8w
-         4uxGK9jbGpTnmJd8ssRDmdU4jIZGOY+EWtriL/MV85tCzXa9ePFseX3wi+FUBHipz9L/
-         FTbQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:dkim-signature;
+        bh=9AZ46Xq6rhvbLsfEn02pAAU0N3lFOzqqSnDYdCjnydo=;
+        b=oCMW+lxl6EZaxJeQ39oKZ/x6Dl6DZllTHOsWK+Xan5GvtcrfquSf5Ho16cgc29uo8i
+         29HRswb6Cmk20wgfvE3f8PL0rmmCuGI481lr1V7+mjK95tY3aPEBJxhlZcYh+mn9q9Fl
+         VAKwiRaIHulNOXa5JWkBlHYiKZr/v2yShqWKpG1VYnZJ92be2o0bdoI32NHMZOaEe0Xr
+         raCWD6lb6ZSypIyOCGbDF3NCBeXQYHMabTgMAQB7LSZtD18ffJWc3kcpQRohP6U4iGdb
+         WG28GxmK5b3UiMtc+2FznvsB9UNZEb60UO+bPdu4yE6mvuyK4NR571TbetwAMR+K6i5g
+         TJAQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b="gI7n/qI/";
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::62c as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b="K/k4GmUt";
+       spf=pass (google.com: domain of 3r57uyaukcbqyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3r57uYAUKCbQYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=YQqom6/sFYuK9ZKvpVi3oSSoqRgPa4TKj63hcMV0L6M=;
-        b=lAvZKHVtw1dgOxgeIcbwTLnwTEAoAJiVtYUH5liCop8dv78WRtkt3+0WfTAzTlUW2y
-         L1AT1O9uGsz84Ufc4p+xM8NeTUSYg5/sZ8zBq/qzduchPMJA1tcrGDKbhrt3ju9OOmLo
-         zQWMB5DdUNbblnbtVNorFhF2ex7L8EjPBaEHzqr9DhV++6uytrnXMonGE/BXDTny+PSE
-         r5qfxd1paPf7giKHKgbdW4F610aZYLPz9XKEPm/KgFZeEAzJcZ4tSv6JJzpVhS7k+rcL
-         vnXrBQuOYiIYEM0ZC7q6NapGymCNG3J1qrPL9R7G60A41loGqX0BfFSbkyQoTBhhPO0K
-         7zIQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=YQqom6/sFYuK9ZKvpVi3oSSoqRgPa4TKj63hcMV0L6M=;
-        b=AVExe4+BAlnrPmouQjVm5E2YQo3IXvQnGkGOXCs7HAYgFnrnvkj8n8kk41xsEN33ub
-         d16HDlj1orfCcp83xglNFdjByseJweYrip/Z005nKS6N19we7Iqgqc+kjoiNOaKqKkMH
-         BaIKdjPAwODdkulkPvYFMV0RDO9wLXY2hh/mbU2Hb8oicqd8JCKVMXybnVMLcrhL6AOL
-         QoiCJklZ85qAdAoBo3MgzsyNPBWELBORFOmOm4zBZIgdNx+zEBmaTZymFKMJiooznGxw
-         BTMhrnfONeOtmegCD/jR98LH7jpuw+AjyFZ3zkbdjdWiXyf87gBr+sPjZ+fdRpOX6rvL
-         THjQ==
+        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=9AZ46Xq6rhvbLsfEn02pAAU0N3lFOzqqSnDYdCjnydo=;
+        b=jMX6EqHIEVm+1uxw4cvipmS/ry1mM2PNaw1187Y6+RjSNxVLYOw0BpWBgqN1Bu4u0B
+         pwcXhOFd712uTWYt+d5KhY8h72I6/SevS1k2U7y4hcSCrZ7IOGGOIlgTPpu2tXcXWklN
+         uyL+XqwUClL37/5WhxqyotyBAmOy42G06PUyq6soHLJTX03jKKBy3/iAvqo7gWKiQPKs
+         rRQz1/PvzTSch8mYYP1Zo/+0dL2Dbvd+iRSXPHjxRWKsbqnRyaw+/w0x0JOSWAarkzXG
+         A7DWODFlBKFrap51cHkFYUGNuu9fXt9vLouGqGQsILQYwynMPVS/iS2gKm7NxmBMFmbF
+         8Bqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=YQqom6/sFYuK9ZKvpVi3oSSoqRgPa4TKj63hcMV0L6M=;
-        b=mCmwQu91AYLBEOaO3n18tl5rB8vMe1zn79SF6tCRShfWUEtwoWavgaEbjgCSDz8bhe
-         /5P3dLyrywNCSt99Vv26lwJpdB56O+2o7efzgg+ZEmw2ZhzMN+XGX9KdAQxwrkcvSl2z
-         fEwyB2LxF8WWvdTn+MkdkmS+g0kURzLn09Xb8KAWKQLuuZHEDczzPDC/Xe/r/dOjKvhc
-         fcAXTg+Iqh6Vf/SAts2boadgjRZ63trlrVI8TFA0UA2TxxopJKPzVhuEsiun4EsUtuct
-         aaXc1lmd4zuUwSCktDMq3BxAEW6B8eVCQGbxLAnaJyuOtYlTa/9jZslOPQDbZxfWIIuo
-         +jpw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530mRN/ME/C1X9p01RDfG5AODAhDwVxCpK7rqnvdZF2YlRo7hFGn
-	FLfcZJknWYzORnir1UpYvGA=
-X-Google-Smtp-Source: ABdhPJxb9qRP9QMy0K5spiL2lUT+v63bNzt64akqivSrezYv+dka7KnKe2Uz4GlzRRz1h4CB6wU/WA==
-X-Received: by 2002:a2e:a495:: with SMTP id h21mr5625721lji.60.1626201658871;
-        Tue, 13 Jul 2021 11:40:58 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=9AZ46Xq6rhvbLsfEn02pAAU0N3lFOzqqSnDYdCjnydo=;
+        b=fGe60UNE34iOARy3FA3LSTiqTDyf54tvlTy31HhZ1UKPo9ZsvT6evDY1SQ/F2lktKW
+         z4MQzYSShnMXeOaDVEX/itdHx4jdG/LM2VMfhmUqMC+N/P3WaGghB4cVUtQKUwFugP88
+         C0qAHsQaiV24K4l95wj3r4xsWQxffiGzqM3+Z4cTJvp1HYlwNFb1D1Sme9tyMROEiMQ7
+         SfXFbL4nFYjq3H7iVM5EojGOx2VxDIv2MlCxpgj3um1/T3ByLL5ycHS8GuvKaQ0m3oi5
+         ioEsgaXN6NdmHyC7ZB6iJEDnjl4+nJdeIa76NAZFFVfOj7fcwQ8TcsY6S+vPBmhI7CjR
+         fnYw==
+X-Gm-Message-State: AOAM533TCmhT3i8tfxDv7NW5N8IQZzBeW2fuPGBNRyhI+hC0EJnOjlgU
+	xl0DqsAIVMlQrhii4OYK9L0=
+X-Google-Smtp-Source: ABdhPJwQjXCBmeVajpD2TW3N1kC6+BRPAzdIuH+Lplm+RbsaJPgZx2qY4evEDsLZuS2H6XTKlBXqGQ==
+X-Received: by 2002:a62:92d7:0:b029:32c:8c46:9491 with SMTP id o206-20020a6292d70000b029032c8c469491mr8970524pfd.2.1626250929248;
+        Wed, 14 Jul 2021 01:22:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b88e:: with SMTP id r14ls4288916ljp.7.gmail; Tue, 13 Jul
- 2021 11:40:57 -0700 (PDT)
-X-Received: by 2002:a2e:9c19:: with SMTP id s25mr5554868lji.478.1626201657731;
-        Tue, 13 Jul 2021 11:40:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1626201657; cv=none;
+Received: by 2002:a65:5348:: with SMTP id w8ls905395pgr.10.gmail; Wed, 14 Jul
+ 2021 01:22:08 -0700 (PDT)
+X-Received: by 2002:a63:807:: with SMTP id 7mr8287945pgi.122.1626250928600;
+        Wed, 14 Jul 2021 01:22:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1626250928; cv=none;
         d=google.com; s=arc-20160816;
-        b=J8JnbzrbXMvhqW+QxD/NPNyBEVAKqrNIlaUTcK+i0s4m1XcDm7oKWu4j4fFphO1r6A
-         ulONbm+OvLYW8JnPLbYfMGZEm5fl8NjEGKnEV0AdND7Mbl74iQB4O2Rm5dCE811gxj66
-         fGZqDLeC+J52ZsyKtv6qmXnRxZgKQXtRFtqdQHIl8K+ZzxcJgE5XeD1pUsr2p5l0LMA7
-         +5SmngWbsT+iauWQtJDsBFKgnbm9TPJfYfE5g5fLbRXx3xIx42R93Xx90rVW7NZz7zfk
-         XyhXxvk8nhZwiy9kY2uJa0ZUSm3aKsW/EUVe+nkZiTpPRCeuyI5hsLDSt/UytwEoVORv
-         EHRg==
+        b=hay6YYYUdNlS1b6xOUmHQDEuWskXjA+TadAvkPz+6paGZ5CKX6U3pQtr9c7bOnEkjZ
+         zRmWDF5VmEHhJesj3aJQJ7rLpAqy88DOD7B6TMTvWVzgcYvBQJ3oGPl15kgGBRK7TZDH
+         DolXIGF4+JcgqrgqDwMQkPoc73XkyXSExj6SlZTEKR0LE6Xqb6yxJbLyD8pGYy4Oy/wF
+         S7XtX+75pXqq/eLSg3B1qW8UExh272qr+otnco2r0GTcAH46sQYkAwwJFLfIlZn/NswT
+         Z3fXuFYenxbzPMtKYfXssBeSwFQcu//PaOY7E2kNZ8wLqglwm6ceS0IZcuRAjDTNOCGW
+         7eXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=QQpf5xOaOqo0s/plb1U3NgMNZX1Ph8Dt44evAisR+l0=;
-        b=rA8BOQSAzCSqOrlF3QrVn0c6gjRsizgBhVWHK7qxEQ0/W23rR8XUi1vVy4FATgVpxP
-         g7rbqnPsy0kvyXOs+7J/YUsbooc9akjtKe/mtkU/YJaCsPZfAHvIy5/DlXQLp9ngnXn0
-         GvzZX9V1Cjwxu+lkOcJp+zTieusf1Ow8bA4jFDpaF5glrc9OuIQqAUr3dUzyXhmyVOAg
-         fDaZgV9+bmCUTjGli4RFMbrY1SZwm6UbnP/ds29eg2wsw3tXUcrjhbTc4Cm9vOeLfDYi
-         XQw8NNQ25zrnw64W0cxq+UK4WE9O/VX9lChgCauLfiCHe1RkzezipyiyWol977Ck6CXK
-         slaw==
+        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
+        bh=KdvbL+Jep13ELIaiRdmi7CMJ1jwkrxNTodiW13l5s0s=;
+        b=yDWN0I9BNZCOohRyfUuljOJuupE7sJiJN9Bqrf2GwBrUrmdaCtGqTiRGvneFZ+7UJM
+         Lkpfdd1W5P6WIHtHqN3+tm7bZQd+40zRVbXTI5cDse7Q3HBlNj7oBrnV6I1qmXKo1yaW
+         muZhxTabGEOOmchg0sMbVms10UT8GBmY+ZQsfRbeoax+AsDLRkvpRQGjvwYSSO1Hxb0R
+         R68z0NqtaIcoZaAgJHylGtPLw8FEdiRdalw3f/ie0thCqbfz5h8IqeI+KbZtTcQ3dWid
+         2xGWiNkZMtmrLInVxAPabWi/Jty1iJ6oHozO88CuOnxVqoUAsnqY+YcxMWn+NIf+jIBq
+         52eQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b="gI7n/qI/";
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::62c as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com. [2a00:1450:4864:20::62c])
-        by gmr-mx.google.com with ESMTPS id d9si546930lji.3.2021.07.13.11.40.57
+       dkim=pass header.i=@google.com header.s=20161025 header.b="K/k4GmUt";
+       spf=pass (google.com: domain of 3r57uyaukcbqyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3r57uYAUKCbQYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com. [2607:f8b0:4864:20::f49])
+        by gmr-mx.google.com with ESMTPS id c9si214681pfr.5.2021.07.14.01.22.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jul 2021 11:40:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::62c as permitted sender) client-ip=2a00:1450:4864:20::62c;
-Received: by mail-ej1-x62c.google.com with SMTP id o5so43315355ejy.7
-        for <kasan-dev@googlegroups.com>; Tue, 13 Jul 2021 11:40:57 -0700 (PDT)
-X-Received: by 2002:a17:907:7d94:: with SMTP id oz20mr7376635ejc.333.1626201657390;
- Tue, 13 Jul 2021 11:40:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210713010536.3161822-1-woodylin@google.com>
-In-Reply-To: <20210713010536.3161822-1-woodylin@google.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Tue, 13 Jul 2021 20:40:46 +0200
-Message-ID: <CA+fCnZdycHhs1fQyn1uZKhPv8T3EhE_ckQ7tVbELyMSEJGJE7Q@mail.gmail.com>
-Subject: Re: [PATCH v2] mm/kasan: move kasan.fault to mm/kasan/report.c
-To: Woody Lin <woodylin@google.com>
-Cc: Marco Elver <elver@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
+        Wed, 14 Jul 2021 01:22:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3r57uyaukcbqyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) client-ip=2607:f8b0:4864:20::f49;
+Received: by mail-qv1-xf49.google.com with SMTP id y35-20020a0cb8a30000b0290270c2da88e8so1079455qvf.13
+        for <kasan-dev@googlegroups.com>; Wed, 14 Jul 2021 01:22:08 -0700 (PDT)
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:16e4:4f77:5c18:936])
+ (user=elver job=sendgmr) by 2002:a05:6214:6a1:: with SMTP id
+ s1mr9343148qvz.54.1626250927652; Wed, 14 Jul 2021 01:22:07 -0700 (PDT)
+Date: Wed, 14 Jul 2021 10:21:45 +0200
+Message-Id: <20210714082145.2709233-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
+Subject: [PATCH mm v2] kfence: show cpu and timestamp in alloc/free info
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, akpm@linux-foundation.org
+Cc: glider@google.com, dvyukov@google.com, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, kasan-dev@googlegroups.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, Joern Engel <joern@purestorage.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b="gI7n/qI/";       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::62c
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20161025 header.b="K/k4GmUt";       spf=pass
+ (google.com: domain of 3r57uyaukcbqyfpylaiiafy.wigeumuh-xypaiiafyaliojm.wig@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3r57uYAUKCbQYfpYlaiiafY.WigeUmUh-XYpaiiafYaliojm.Wig@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,197 +128,278 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jul 13, 2021 at 3:07 AM Woody Lin <woodylin@google.com> wrote:
->
-> Move the boot parameter 'kasan.fault' from hw_tags.c to report.c, so it
-> can support all KASAN modes - generic, and both tag-based.
->
-> Signed-off-by: Woody Lin <woodylin@google.com>
-> ---
->  Documentation/dev-tools/kasan.rst | 13 ++++++----
->  mm/kasan/hw_tags.c                | 43 -------------------------------
->  mm/kasan/kasan.h                  |  1 -
->  mm/kasan/report.c                 | 29 ++++++++++++++++++---
->  4 files changed, 34 insertions(+), 52 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index 83ec4a556c19..21dc03bc10a4 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -181,9 +181,16 @@ By default, KASAN prints a bug report only for the first invalid memory access.
->  With ``kasan_multi_shot``, KASAN prints a report on every invalid access. This
->  effectively disables ``panic_on_warn`` for KASAN reports.
->
-> +Alternatively, independent of ``panic_on_warn`` the ``kasan.fault=`` boot
-> +parameter can be used to control panic and reporting behaviour:
-> +
-> +- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
-> +  report or also panic the kernel (default: ``report``). The panic happens even
-> +  if ``kasan_multi_shot`` is enabled.
-> +
->  Hardware tag-based KASAN mode (see the section about various modes below) is
->  intended for use in production as a security mitigation. Therefore, it supports
-> -boot parameters that allow disabling KASAN or controlling its features.
-> +additional boot parameters that allow disabling KASAN or controlling features:
->
->  - ``kasan=off`` or ``=on`` controls whether KASAN is enabled (default: ``on``).
->
-> @@ -199,10 +206,6 @@ boot parameters that allow disabling KASAN or controlling its features.
->  - ``kasan.stacktrace=off`` or ``=on`` disables or enables alloc and free stack
->    traces collection (default: ``on``).
->
-> -- ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
-> -  report or also panic the kernel (default: ``report``). The panic happens even
-> -  if ``kasan_multi_shot`` is enabled.
-> -
->  Implementation details
->  ----------------------
->
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index 4ea8c368b5b8..51903639e55f 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -37,16 +37,9 @@ enum kasan_arg_stacktrace {
->         KASAN_ARG_STACKTRACE_ON,
->  };
->
-> -enum kasan_arg_fault {
-> -       KASAN_ARG_FAULT_DEFAULT,
-> -       KASAN_ARG_FAULT_REPORT,
-> -       KASAN_ARG_FAULT_PANIC,
-> -};
-> -
->  static enum kasan_arg kasan_arg __ro_after_init;
->  static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
->  static enum kasan_arg_stacktrace kasan_arg_stacktrace __ro_after_init;
-> -static enum kasan_arg_fault kasan_arg_fault __ro_after_init;
->
->  /* Whether KASAN is enabled at all. */
->  DEFINE_STATIC_KEY_FALSE(kasan_flag_enabled);
-> @@ -59,9 +52,6 @@ EXPORT_SYMBOL_GPL(kasan_flag_async);
->  /* Whether to collect alloc/free stack traces. */
->  DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
->
-> -/* Whether to panic or print a report and disable tag checking on fault. */
-> -bool kasan_flag_panic __ro_after_init;
-> -
->  /* kasan=off/on */
->  static int __init early_kasan_flag(char *arg)
->  {
-> @@ -113,23 +103,6 @@ static int __init early_kasan_flag_stacktrace(char *arg)
->  }
->  early_param("kasan.stacktrace", early_kasan_flag_stacktrace);
->
-> -/* kasan.fault=report/panic */
-> -static int __init early_kasan_fault(char *arg)
-> -{
-> -       if (!arg)
-> -               return -EINVAL;
-> -
-> -       if (!strcmp(arg, "report"))
-> -               kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
-> -       else if (!strcmp(arg, "panic"))
-> -               kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
-> -       else
-> -               return -EINVAL;
-> -
-> -       return 0;
-> -}
-> -early_param("kasan.fault", early_kasan_fault);
-> -
->  /* kasan_init_hw_tags_cpu() is called for each CPU. */
->  void kasan_init_hw_tags_cpu(void)
->  {
-> @@ -197,22 +170,6 @@ void __init kasan_init_hw_tags(void)
->                 break;
->         }
->
-> -       switch (kasan_arg_fault) {
-> -       case KASAN_ARG_FAULT_DEFAULT:
-> -               /*
-> -                * Default to no panic on report.
-> -                * Do nothing, kasan_flag_panic keeps its default value.
-> -                */
-> -               break;
-> -       case KASAN_ARG_FAULT_REPORT:
-> -               /* Do nothing, kasan_flag_panic keeps its default value. */
-> -               break;
-> -       case KASAN_ARG_FAULT_PANIC:
-> -               /* Enable panic on report. */
-> -               kasan_flag_panic = true;
-> -               break;
-> -       }
-> -
->         pr_info("KernelAddressSanitizer initialized\n");
->  }
->
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 98e3059bfea4..9d57383ce1fa 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -36,7 +36,6 @@ static inline bool kasan_async_mode_enabled(void)
->
->  #endif
->
-> -extern bool kasan_flag_panic __ro_after_init;
->  extern bool kasan_flag_async __ro_after_init;
->
->  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 8fff1825b22c..884a950c7026 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -39,6 +39,31 @@ static unsigned long kasan_flags;
->  #define KASAN_BIT_REPORTED     0
->  #define KASAN_BIT_MULTI_SHOT   1
->
-> +enum kasan_arg_fault {
-> +       KASAN_ARG_FAULT_DEFAULT,
-> +       KASAN_ARG_FAULT_REPORT,
-> +       KASAN_ARG_FAULT_PANIC,
-> +};
-> +
-> +static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_DEFAULT;
-> +
-> +/* kasan.fault=report/panic */
-> +static int __init early_kasan_fault(char *arg)
-> +{
-> +       if (!arg)
-> +               return -EINVAL;
-> +
-> +       if (!strcmp(arg, "report"))
-> +               kasan_arg_fault = KASAN_ARG_FAULT_REPORT;
-> +       else if (!strcmp(arg, "panic"))
-> +               kasan_arg_fault = KASAN_ARG_FAULT_PANIC;
-> +       else
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +early_param("kasan.fault", early_kasan_fault);
-> +
->  bool kasan_save_enable_multi_shot(void)
->  {
->         return test_and_set_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags);
-> @@ -102,10 +127,8 @@ static void end_report(unsigned long *flags, unsigned long addr)
->                 panic_on_warn = 0;
->                 panic("panic_on_warn set ...\n");
->         }
-> -#ifdef CONFIG_KASAN_HW_TAGS
-> -       if (kasan_flag_panic)
-> +       if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
->                 panic("kasan.fault=panic set ...\n");
-> -#endif
->         kasan_enable_current();
->  }
->
-> --
-> 2.32.0.93.g670b81a890-goog
->
+Record cpu and timestamp on allocations and frees, and show them in
+reports. Upon an error, this can help correlate earlier messages in the
+kernel log via allocation and free timestamps.
 
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+Suggested-by: Joern Engel <joern@purestorage.com>
+Signed-off-by: Marco Elver <elver@google.com>
+Acked-by: Alexander Potapenko <glider@google.com>
+Acked-by: Joern Engel <joern@purestorage.com>
+---
+v2:
+* Rebase to v5.14-rc1 and pick up Acks.
+---
+ Documentation/dev-tools/kfence.rst | 98 ++++++++++++++++--------------
+ mm/kfence/core.c                   |  3 +
+ mm/kfence/kfence.h                 |  2 +
+ mm/kfence/report.c                 | 19 ++++--
+ 4 files changed, 71 insertions(+), 51 deletions(-)
+
+diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
+index fdf04e741ea5..0fbe3308bf37 100644
+--- a/Documentation/dev-tools/kfence.rst
++++ b/Documentation/dev-tools/kfence.rst
+@@ -65,25 +65,27 @@ Error reports
+ A typical out-of-bounds access looks like this::
+ 
+     ==================================================================
+-    BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0xa3/0x22b
++    BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0xa6/0x234
+ 
+-    Out-of-bounds read at 0xffffffffb672efff (1B left of kfence-#17):
+-     test_out_of_bounds_read+0xa3/0x22b
+-     kunit_try_run_case+0x51/0x85
++    Out-of-bounds read at 0xffff8c3f2e291fff (1B left of kfence-#72):
++     test_out_of_bounds_read+0xa6/0x234
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    kfence-#17 [0xffffffffb672f000-0xffffffffb672f01f, size=32, cache=kmalloc-32] allocated by task 507:
+-     test_alloc+0xf3/0x25b
+-     test_out_of_bounds_read+0x98/0x22b
+-     kunit_try_run_case+0x51/0x85
++    kfence-#72: 0xffff8c3f2e292000-0xffff8c3f2e29201f, size=32, cache=kmalloc-32
++
++    allocated by task 484 on cpu 0 at 32.919330s:
++     test_alloc+0xfe/0x738
++     test_out_of_bounds_read+0x9b/0x234
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    CPU: 4 PID: 107 Comm: kunit_try_catch Not tainted 5.8.0-rc6+ #7
+-    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
++    CPU: 0 PID: 484 Comm: kunit_try_catch Not tainted 5.13.0-rc3+ #7
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
+     ==================================================================
+ 
+ The header of the report provides a short summary of the function involved in
+@@ -96,30 +98,32 @@ Use-after-free accesses are reported as::
+     ==================================================================
+     BUG: KFENCE: use-after-free read in test_use_after_free_read+0xb3/0x143
+ 
+-    Use-after-free read at 0xffffffffb673dfe0 (in kfence-#24):
++    Use-after-free read at 0xffff8c3f2e2a0000 (in kfence-#79):
+      test_use_after_free_read+0xb3/0x143
+-     kunit_try_run_case+0x51/0x85
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    kfence-#24 [0xffffffffb673dfe0-0xffffffffb673dfff, size=32, cache=kmalloc-32] allocated by task 507:
+-     test_alloc+0xf3/0x25b
++    kfence-#79: 0xffff8c3f2e2a0000-0xffff8c3f2e2a001f, size=32, cache=kmalloc-32
++
++    allocated by task 488 on cpu 2 at 33.871326s:
++     test_alloc+0xfe/0x738
+      test_use_after_free_read+0x76/0x143
+-     kunit_try_run_case+0x51/0x85
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    freed by task 507:
++    freed by task 488 on cpu 2 at 33.871358s:
+      test_use_after_free_read+0xa8/0x143
+-     kunit_try_run_case+0x51/0x85
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    CPU: 4 PID: 109 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
+-    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
++    CPU: 2 PID: 488 Comm: kunit_try_catch Tainted: G    B             5.13.0-rc3+ #7
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
+     ==================================================================
+ 
+ KFENCE also reports on invalid frees, such as double-frees::
+@@ -127,30 +131,32 @@ KFENCE also reports on invalid frees, such as double-frees::
+     ==================================================================
+     BUG: KFENCE: invalid free in test_double_free+0xdc/0x171
+ 
+-    Invalid free of 0xffffffffb6741000:
++    Invalid free of 0xffff8c3f2e2a4000 (in kfence-#81):
+      test_double_free+0xdc/0x171
+-     kunit_try_run_case+0x51/0x85
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    kfence-#26 [0xffffffffb6741000-0xffffffffb674101f, size=32, cache=kmalloc-32] allocated by task 507:
+-     test_alloc+0xf3/0x25b
++    kfence-#81: 0xffff8c3f2e2a4000-0xffff8c3f2e2a401f, size=32, cache=kmalloc-32
++
++    allocated by task 490 on cpu 1 at 34.175321s:
++     test_alloc+0xfe/0x738
+      test_double_free+0x76/0x171
+-     kunit_try_run_case+0x51/0x85
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    freed by task 507:
++    freed by task 490 on cpu 1 at 34.175348s:
+      test_double_free+0xa8/0x171
+-     kunit_try_run_case+0x51/0x85
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    CPU: 4 PID: 111 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
+-    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
++    CPU: 1 PID: 490 Comm: kunit_try_catch Tainted: G    B             5.13.0-rc3+ #7
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
+     ==================================================================
+ 
+ KFENCE also uses pattern-based redzones on the other side of an object's guard
+@@ -160,23 +166,25 @@ These are reported on frees::
+     ==================================================================
+     BUG: KFENCE: memory corruption in test_kmalloc_aligned_oob_write+0xef/0x184
+ 
+-    Corrupted memory at 0xffffffffb6797ff9 [ 0xac . . . . . . ] (in kfence-#69):
++    Corrupted memory at 0xffff8c3f2e33aff9 [ 0xac . . . . . . ] (in kfence-#156):
+      test_kmalloc_aligned_oob_write+0xef/0x184
+-     kunit_try_run_case+0x51/0x85
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    kfence-#69 [0xffffffffb6797fb0-0xffffffffb6797ff8, size=73, cache=kmalloc-96] allocated by task 507:
+-     test_alloc+0xf3/0x25b
++    kfence-#156: 0xffff8c3f2e33afb0-0xffff8c3f2e33aff8, size=73, cache=kmalloc-96
++
++    allocated by task 502 on cpu 7 at 42.159302s:
++     test_alloc+0xfe/0x738
+      test_kmalloc_aligned_oob_write+0x57/0x184
+-     kunit_try_run_case+0x51/0x85
++     kunit_try_run_case+0x61/0xa0
+      kunit_generic_run_threadfn_adapter+0x16/0x30
+-     kthread+0x137/0x160
++     kthread+0x176/0x1b0
+      ret_from_fork+0x22/0x30
+ 
+-    CPU: 4 PID: 120 Comm: kunit_try_catch Tainted: G        W         5.8.0-rc6+ #7
+-    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1 04/01/2014
++    CPU: 7 PID: 502 Comm: kunit_try_catch Tainted: G    B             5.13.0-rc3+ #7
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
+     ==================================================================
+ 
+ For such errors, the address where the corruption occurred as well as the
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index d7666ace9d2e..0fd7a122e1a1 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -20,6 +20,7 @@
+ #include <linux/moduleparam.h>
+ #include <linux/random.h>
+ #include <linux/rcupdate.h>
++#include <linux/sched/clock.h>
+ #include <linux/sched/sysctl.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+@@ -196,6 +197,8 @@ static noinline void metadata_update_state(struct kfence_metadata *meta,
+ 	 */
+ 	track->num_stack_entries = stack_trace_save(track->stack_entries, KFENCE_STACK_DEPTH, 1);
+ 	track->pid = task_pid_nr(current);
++	track->cpu = raw_smp_processor_id();
++	track->ts_nsec = local_clock(); /* Same source as printk timestamps. */
+ 
+ 	/*
+ 	 * Pairs with READ_ONCE() in
+diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+index 24065321ff8a..c1f23c61e5f9 100644
+--- a/mm/kfence/kfence.h
++++ b/mm/kfence/kfence.h
+@@ -36,6 +36,8 @@ enum kfence_object_state {
+ /* Alloc/free tracking information. */
+ struct kfence_track {
+ 	pid_t pid;
++	int cpu;
++	u64 ts_nsec;
+ 	int num_stack_entries;
+ 	unsigned long stack_entries[KFENCE_STACK_DEPTH];
+ };
+diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+index 2a319c21c939..d1daabdc9188 100644
+--- a/mm/kfence/report.c
++++ b/mm/kfence/report.c
+@@ -9,6 +9,7 @@
+ 
+ #include <linux/kernel.h>
+ #include <linux/lockdep.h>
++#include <linux/math.h>
+ #include <linux/printk.h>
+ #include <linux/sched/debug.h>
+ #include <linux/seq_file.h>
+@@ -100,6 +101,13 @@ static void kfence_print_stack(struct seq_file *seq, const struct kfence_metadat
+ 			       bool show_alloc)
+ {
+ 	const struct kfence_track *track = show_alloc ? &meta->alloc_track : &meta->free_track;
++	u64 ts_sec = track->ts_nsec;
++	unsigned long rem_nsec = do_div(ts_sec, NSEC_PER_SEC);
++
++	/* Timestamp matches printk timestamp format. */
++	seq_con_printf(seq, "%s by task %d on cpu %d at %lu.%06lus:\n",
++		       show_alloc ? "allocated" : "freed", meta->alloc_track.pid,
++		       meta->alloc_track.cpu, (unsigned long)ts_sec, rem_nsec / 1000);
+ 
+ 	if (track->num_stack_entries) {
+ 		/* Skip allocation/free internals stack. */
+@@ -126,15 +134,14 @@ void kfence_print_object(struct seq_file *seq, const struct kfence_metadata *met
+ 		return;
+ 	}
+ 
+-	seq_con_printf(seq,
+-		       "kfence-#%td [0x%p-0x%p"
+-		       ", size=%d, cache=%s] allocated by task %d:\n",
+-		       meta - kfence_metadata, (void *)start, (void *)(start + size - 1), size,
+-		       (cache && cache->name) ? cache->name : "<destroyed>", meta->alloc_track.pid);
++	seq_con_printf(seq, "kfence-#%td: 0x%p-0x%p, size=%d, cache=%s\n\n",
++		       meta - kfence_metadata, (void *)start, (void *)(start + size - 1),
++		       size, (cache && cache->name) ? cache->name : "<destroyed>");
++
+ 	kfence_print_stack(seq, meta, true);
+ 
+ 	if (meta->state == KFENCE_OBJECT_FREED) {
+-		seq_con_printf(seq, "\nfreed by task %d:\n", meta->free_track.pid);
++		seq_con_printf(seq, "\n");
+ 		kfence_print_stack(seq, meta, false);
+ 	}
+ }
+-- 
+2.32.0.93.g670b81a890-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZdycHhs1fQyn1uZKhPv8T3EhE_ckQ7tVbELyMSEJGJE7Q%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210714082145.2709233-1-elver%40google.com.
