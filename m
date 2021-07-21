@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBCJZRXGY5YJBBQEZ4KDQMGQE3HOEQXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843D63D18B0
+Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
+	by mail.lfdr.de (Postfix) with ESMTPS id 782943D18AE
 	for <lists+kasan-dev@lfdr.de>; Wed, 21 Jul 2021 23:08:17 +0200 (CEST)
-Received: by mail-qk1-x73e.google.com with SMTP id g9-20020a05620a40c9b02903b9a74cee72sf2383781qko.3
+Received: by mail-pj1-x1039.google.com with SMTP id j22-20020a17090a7e96b0290175fc969950sf456980pjl.4
         for <lists+kasan-dev@lfdr.de>; Wed, 21 Jul 2021 14:08:17 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1626901696; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yaq4Ci2U1anWtwDMMMPgnFIi3kEyDE6xeBd4e5Qb4/G9m1SrCRI4cSVDzvPK6oy1xC
-         vI8afi9k4/GYV0zYIy2Ex+CVWxEJnSWd2LXTIIGG7G9mL5IWcsa5QDYzh1coFJHGuiuM
-         HQdJmVkovJ8XDG9RGEUNCoGEfeo1NGoaq9oe46fTzImcCUHYY41gvdOVJF/4o1YUwGMB
-         Dpl4gOd2AncGHT/KQcNOIF22cq1KVFzi1+sSBf5wVEfsIM73hJP3cH3WyCzqgt7mnV4w
-         MtP6pYDjm+ErtFn3sNM2ccjRGImvoI3eVU4eTD/0klRvrcTNg7i2OAq4VWWTYGO/PTfS
-         3Ovg==
+        b=nrwjEsYutzJOkiZt+oCjveyWvOM8WosXBcWeGwGicQ6sD6tCoG4Q5l7VATWfxgSFi7
+         G32ck4c2x2PPtDzgw5IIqOtgdroF4Hzeab6PK7VWYG6jaEfzxsOXDy6aFEKDSf5OHDNG
+         mPx3titZpYfF8TwFSY3LFQTriUDPotpzwRlGlmeC9J1q/qprIR/zz2Dam9oGIIM4AyeV
+         1k4UK/JtaRQwOMZxsedo1Pna1cNn+4HoAxy81gP9RVse/A3mitljDu31K70UmdZ5a7uB
+         ktmAyucgR7v4BRSWmSCoMZsOhA11waP+Y3LoIqldR7VJUHKx0tfXuzr1bW3qCinjVgH4
+         os7Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=M3RpX+amF/L9CjfSAr09VvbGC65/ECB2Pt+GZE22YmU=;
-        b=k2kCzKwh0FLJmheDNnxfHGvP0sdecnMjdt7mgIogWAMutxfrhDz25C9mdZ/PRmcCyX
-         yYRcprV3X1ONQ7J+l1RHmskfpan3Cu858qTpWjyuBn0oqPkLE3THkfYKMIXdq/vyT90j
-         7ampLqmw9sasyP9SaZM18H9bAkWeOhmqpmg31Ww186d72KuRVUY7CYn406xhvdRZqrxE
-         jvO2eRIyOrLbhjvx9+u4vLMsQHHf835zZmfqSqJi4itHUVIlYWcXHwybcxEdbPIK9HGq
-         2guujSbpHVx8GlMiALsVLhm78mvnuyHqLqESJ7C49Ziy4rN37KpduyfCfaWfszdMd7WC
-         V+0Q==
+        bh=OG+U6CDeD9QLn+doc06xxJJQYRuAAJ0x7JZqooD+XuM=;
+        b=K04QQbowUYye7w6pJ+16Lu/87bNlgUR305d+eoAAzAOMPY3gxl5ySACWZmadgJR55Y
+         Tr36V1NK+ta5Zyuf9Ve+nBvmx7+VfYnw3DUoUMtYnntgDyK4vkNQDjojJ4VriUBstB5h
+         29oC4mgWtZNleaDp5+rIpsfxCW5bvF14BHRSqtgz4rXwIP8EqX2JmwdpMl0k37iSUtVb
+         6YvpeMsIeUQK451JdvujrdNWnPYLEnDb2tIo1Dagno4BZ7iOgYrQg48MZikZ2+xuGecb
+         BwfqwbruMUoO2aZG4gBO3oJADMO0hZQTffYFU88NVXLnV+IBD6DY0Slk9kDYnJRnsPZh
+         Q3YA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PPcUrc12;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=WFJvoaHl;
        spf=pass (google.com: domain of srs0=6g4i=mn=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=6g4i=MN=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=M3RpX+amF/L9CjfSAr09VvbGC65/ECB2Pt+GZE22YmU=;
-        b=QVPu8SgmfZGafyqvQx0KaZk5F/r1CwMGF0SztMwmeE1tSYEBJxwqyHWz8mEd4RatSz
-         mbPb/bxjFp+G/8uHnVIMrv0qzKyC3yFJv5NyDl46D42V2qbHJfvG+i0Cw6PMAd6XDOUU
-         Tg1UZybtIavJx0u0hIlnAFW9/vimxtMokHbtjRGS02VtHehgOoQrCEacamFJKAbyNU+x
-         ZZdjQRqzB8HKVzgiDlPVzW4SDmfw7Iixvh2dloEjU4liL45HORYox59wPlC8eqMXgvpM
-         qFAZ123JeS6SV7zVaiUeB7goc0SiBdxzrQYdC9xnGkk3bXip9IxvGV0BSTHLZyFtuNF6
-         hrlQ==
+        bh=OG+U6CDeD9QLn+doc06xxJJQYRuAAJ0x7JZqooD+XuM=;
+        b=hM1yP4VU0T09tnsahtQMJulKuzVKm+KDglFcvo8VEDlZTmzyCPYtfFKC7HqbA3SCRW
+         JfKsoeOGPc4paEWSJq06fsqluS1i+xfaRHrDT7HyVbnq3AOusXO9UmiO7rCxIHhRC4Co
+         Q5f5ELNYpQtun3D8+eIRYmpACVtEYKZVld6GpvOqe7RaVzavcjtomzrZ0l3J9XIx4nlV
+         Lz+IkqBiJCIIWWXLus5iabBRJ9FhmSuovjGbKgkwKYIi9o45kQJh6Mqna+oloxy2HYge
+         ek/bWPy4qIBBV9aZnWLymFc7rkwyzX1dG3xjQH/j2xZC3GuVOQ720GcykvUo7xUCjDF+
+         sgrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,56 +49,56 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=M3RpX+amF/L9CjfSAr09VvbGC65/ECB2Pt+GZE22YmU=;
-        b=eNINaTv2FTzZ7lSeZNxK4wZq8OC3aqg3fl8SuhlZ18tzDO4qKu7NZ5gkf5tVl87cf5
-         cAfAmsqIXETzZJuV4ZJwUmnvaKiNuUupebXf82bVbbTT7cCrh45/Wuw9SXkgnTKyOWy9
-         8SrGAAQj8Uf9uW92vBMpW5N4crk+r4cgQVvElWV5IcH3ZFpdfm91igAM2qO2yCiVRojB
-         iySCC/ng5bpONP/v/WOgNGnqpnDXQ6T6fP2NJBUR0QuFhXAUt1iKigvLDccALqAjHVG2
-         eo/RmSjpBL9Azc05hxLPT08CAoJup0XAs/6GrP5D3th51s4g7Dr2VPFoBXncmqXWqskf
-         irzw==
+        bh=OG+U6CDeD9QLn+doc06xxJJQYRuAAJ0x7JZqooD+XuM=;
+        b=mDUFyk83EBjPpbSv0E2qq2S6JlDMKV41k4f97lI70eiqzH3TaZ2D5XjFFUDb3B4sbv
+         jlUznVOBmPZEg9lx7pIBS91vW+nRh2prURWGqKRvjBU8u6rmCoaaAlBOd8p7LG/90BSB
+         inFCZ7CSeDIjljZJhGqf0R/0QGYnPdcgVSlWO7I7F/lxuRiNbndbfxPByX/JLOFBwdYQ
+         BquSHzmPuht3dNv2GyBUKTBszrk+VWlajWygPjFjKjrU3mkCNM9uMmwagHSv7FQu2TA/
+         RaYWUCFQDhoraih02BfloVczs+j7d2Hv1F0xb7H2IvsnDJ7jEIJdidiSsD55U5D55Alw
+         uMeA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530uExVSaTzjj2odrmJ4y+JWjWdhSr0YP2ueDiGVWRy0v0iLQRBO
-	K+H35ByTVJSel1PZbG05xzg=
-X-Google-Smtp-Source: ABdhPJxncE+tczi4wkaMej24+PN6DBQ3zNgwmdpBrloTzv2hWhYIGpK0LLle7dRkQ43kbpB6sNKcXg==
-X-Received: by 2002:ac8:7087:: with SMTP id y7mr24728713qto.91.1626901696649;
+X-Gm-Message-State: AOAM533szb8CHsAxYV1Bwk2d/znqgswC8GvpyQyVihJHnO76lg8pqiy9
+	LOoLKw8JoCuTG/P5Bs+criw=
+X-Google-Smtp-Source: ABdhPJwvRZ/VhJuooxqGl+MrPOg6mASTQ5CkDs0KCuJQ6pqF0n+MD9wO1tT7oQyrLVZFSZGZ/zZqOg==
+X-Received: by 2002:a63:5f87:: with SMTP id t129mr7532444pgb.85.1626901696184;
         Wed, 21 Jul 2021 14:08:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:a786:: with SMTP id q128ls2737654qke.10.gmail; Wed, 21
- Jul 2021 14:08:16 -0700 (PDT)
-X-Received: by 2002:a05:620a:294b:: with SMTP id n11mr9829234qkp.145.1626901696220;
-        Wed, 21 Jul 2021 14:08:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1626901696; cv=none;
+Received: by 2002:a05:6a00:16ca:: with SMTP id l10ls1536928pfc.0.gmail; Wed,
+ 21 Jul 2021 14:08:15 -0700 (PDT)
+X-Received: by 2002:aa7:8e18:0:b029:2ec:a754:570e with SMTP id c24-20020aa78e180000b02902eca754570emr38001997pfr.38.1626901695636;
+        Wed, 21 Jul 2021 14:08:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1626901695; cv=none;
         d=google.com; s=arc-20160816;
-        b=0UuAF1wDv3yaOW4TtWt3kCeP9F4w5qqAWADFNdDThHJDwQ3+imN0kbMDXD0u1NV4ea
-         MCZsImMORoP09pHScD85OJxeSHx4cCVRyprvrIah7we3IKPpnh+FHrq1qVhB+Z0hr6mr
-         1ByTaSbunWAUvrzygtsnFhhIvY4+Icd3nlFB2SOIM8YZYlFaBqnTsd2WnxxQlu+qyYGb
-         c2D5OCaZ8YcirIDBunrJ69FO7Lai6OLiAreUk58szyOL8ezO4SkKt4dRK/831dAF3J4Y
-         qaKyqpNajDq4mjl8qSsWbRjt1nemiI9RJkDALsDaO78KQcdCZ473pvd/+/g+AGKDvPAQ
-         5cFw==
+        b=uLFv0svGysmz3TNxMU5CPADNKJgZ6gjRg1MboLNeog45gW7nmBgIedsmmDPQOZAHCc
+         irAKvYknldWPbrbJDZ7/VJFQ2e+5D/j8lYb/AlANhQRIgEm7FxqoTPzaPd4NHlj5pKoJ
+         60QllymJAfVlOwvsA4n5aKc9tfVSl916sNz8K9OegIAr07zAa0U6a+rn+T2AFpWOvX5Q
+         W/NYxqlr+sMoH38rt/FBNuO+cu0W19+Q8fhy76IwU0SPZycpEh/CPiypt/R90IUyfmaU
+         PtPaDdIvxJ0YI1Liwa73p9uLej41atyyvEYneMk8HQ163gNoqCJpyJ7LhdYKnM7/sR95
+         OhIQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=GjCTeiUbJoixXWqIhu+gqinIRyy7xsLWSrldbjtFn50=;
-        b=N8J1oiponyFAGxhE8BZ6HbnE1jVoNrIbE2cOPv4W8koRCg+QRxIDGfDRD0KbhZmpIk
-         fUh7UKzgrLuD9F7G7/eQaNiYqb4z7QZl5bmbk3O6uZl2rRTeC6B3A4uGwLFe8PfXUFys
-         vfNR7UBFpjOySgMHfJE/UaH7sM+VOAdTjzgOLRQAgyTy3qdZO9esgckQn9g+rJ8ULOZT
-         qjhbq4wQR7Rk3/dRh4WUQMhKn6fT16Js6BWFL7Z5Ymo6KInQ319wFTi29NuXjkOubIlP
-         h6TlCDbui/ygI6tZFPUrafA83zWnSNHon547TNkHK6Y5uMHB16crQhZutnoQ8PziXw7c
-         WHOg==
+        bh=XD7qTkIdI2wcmiG7hw9VLQk5gonPCKM3uAF9yfVjV7U=;
+        b=lNVZAOAuXtBxU5m2MRJFpgpK5vOY+lMZERvtJtiPiJB48w0Wh8WqKcOpc6S5aQHPje
+         I8M6iQtSaJovPWvvw2+MeS4HbPVfdWTeHXLqMms3fBGl0W/w7n889BbPWD4OrzvCxd6s
+         Nhfqx9Z8xvBFnQv4N/vmkJ1fzy8NKtOZ7LTKlVV3itkT3sg6feVr+lHO2J08dNHpDD16
+         zHZhPHh2aTaaa6AGkQ0E+BwjRSJCIxOJHWTqom1BxMRwrOO20oVZ6RsLKAKK1TigE0H/
+         uRM6ecqRqFB2R+qOyCe62Vqf7iaB41GatEaPaDiwJSCKUn6vlHp1opav4U12VyKNP6DH
+         qF+w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PPcUrc12;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=WFJvoaHl;
        spf=pass (google.com: domain of srs0=6g4i=mn=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=6g4i=MN=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id 138si2191778qkl.5.2021.07.21.14.08.16
+        by gmr-mx.google.com with ESMTPS id bt9si89600pjb.3.2021.07.21.14.08.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Jul 2021 14:08:16 -0700 (PDT)
+        Wed, 21 Jul 2021 14:08:15 -0700 (PDT)
 Received-SPF: pass (google.com: domain of srs0=6g4i=mn=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E654261411;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E9DA66141D;
 	Wed, 21 Jul 2021 21:08:14 +0000 (UTC)
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 6FE745C007F; Wed, 21 Jul 2021 14:08:14 -0700 (PDT)
+	id 7285E5C0D47; Wed, 21 Jul 2021 14:08:14 -0700 (PDT)
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
@@ -110,18 +110,17 @@ Cc: elver@google.com,
 	dvyukov@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
-	Mark Rutland <mark.rutland@arm.com>,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 7/8] kcsan: permissive: Ignore data-racy 1-bit value changes
-Date: Wed, 21 Jul 2021 14:08:11 -0700
-Message-Id: <20210721210812.844740-7-paulmck@kernel.org>
+Subject: [PATCH kcsan 8/8] kcsan: Make strict mode imply interruptible watchers
+Date: Wed, 21 Jul 2021 14:08:12 -0700
+Message-Id: <20210721210812.844740-8-paulmck@kernel.org>
 X-Mailer: git-send-email 2.31.1.189.g2e36527f23
 In-Reply-To: <20210721210726.GA828672@paulmck-ThinkPad-P17-Gen-1>
 References: <20210721210726.GA828672@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=PPcUrc12;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=WFJvoaHl;       spf=pass
  (google.com: domain of srs0=6g4i=mn=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
  designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=6g4i=MN=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
@@ -140,201 +139,36 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-Add rules to ignore data-racy reads with only 1-bit value changes.
-Details about the rules are captured in comments in
-kernel/kcsan/permissive.h. More background follows.
+If CONFIG_KCSAN_STRICT=y, select CONFIG_KCSAN_INTERRUPT_WATCHER as well.
 
-While investigating a number of data races, we've encountered data-racy
-accesses on flags variables to be very common. The typical pattern is a
-reader masking all but one bit, and/or the writer setting/clearing only
-1 bit (current->flags being a frequently encountered case; more examples
-in mm/sl[au]b.c, which disable KCSAN for this reason).
+With interruptible watchers, we'll also report same-CPU data races; if
+we requested strict mode, we might as well show these, too.
 
-Since these types of data-racy accesses are common (with the assumption
-they are intentional and hard to miscompile) having the option (with
-CONFIG_KCSAN_PERMISSIVE=y) to filter them will avoid forcing everyone to
-mark them, and deliberately left to preference at this time.
-
-One important motivation for having this option built-in is to move
-closer to being able to enable KCSAN on CI systems or for testers
-wishing to test the whole kernel, while more easily filtering
-less interesting data races with higher probability.
-
-For the implementation, we considered several alternatives, but had one
-major requirement: that the rules be kept together with the Linux-kernel
-tree. Adding them to the compiler would preclude us from making changes
-quickly; if the rules require tweaks, having them part of the compiler
-requires waiting another ~1 year for the next release -- that's not
-realistic. We are left with the following options:
-
-	1. Maintain compiler plugins as part of the kernel-tree that
-	   removes instrumentation for some accesses (e.g. plain-& with
-	   1-bit mask). The analysis would be reader-side focused, as
-	   no assumption can be made about racing writers.
-
-Because it seems unrealistic to maintain 2 plugins, one for LLVM and
-GCC, we would likely pick LLVM. Furthermore, no kernel infrastructure
-exists to maintain LLVM plugins, and the build-system implications and
-maintenance overheads do not look great (historically, plugins written
-against old LLVM APIs are not guaranteed to work with newer LLVM APIs).
-
-	2. Find a set of rules that can be expressed in terms of
-	   observed value changes, and make it part of the KCSAN runtime.
-	   The analysis is writer-side focused, given we rely on observed
-	   value changes.
-
-The approach taken here is (2). While a complete approach requires both
-(1) and (2), experiments show that the majority of data races involving
-trivial bit operations on flags variables can be removed with (2) alone.
-
-It goes without saying that the filtering of data races using (1) or (2)
-does _not_ guarantee they are safe! Therefore, limiting ourselves to (2)
-for now is the conservative choice for setups that wish to enable
-CONFIG_KCSAN_PERMISSIVE=y.
-
+Suggested-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Marco Elver <elver@google.com>
-Acked-by: Mark Rutland <mark.rutland@arm.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- kernel/kcsan/kcsan_test.c | 32 +++++++++++++++++++++++++
- kernel/kcsan/permissive.h | 49 ++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 80 insertions(+), 1 deletion(-)
+ lib/Kconfig.kcsan | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
-index 8bcffbdef3d36..dc55fd5a36fcc 100644
---- a/kernel/kcsan/kcsan_test.c
-+++ b/kernel/kcsan/kcsan_test.c
-@@ -414,6 +414,14 @@ static noinline void test_kernel_atomic_builtins(void)
- 	__atomic_load_n(&test_var, __ATOMIC_RELAXED);
- }
+diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+index 26f03c754d39b..e0a93ffdef30e 100644
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -150,7 +150,8 @@ config KCSAN_SKIP_WATCH_RANDOMIZE
+ 	  KCSAN_WATCH_SKIP.
  
-+static noinline void test_kernel_xor_1bit(void)
-+{
-+	/* Do not report data races between the read-writes. */
-+	kcsan_nestable_atomic_begin();
-+	test_var ^= 0x10000;
-+	kcsan_nestable_atomic_end();
-+}
-+
- /* ===== Test cases ===== */
- 
- /* Simple test with normal data race. */
-@@ -952,6 +960,29 @@ static void test_atomic_builtins(struct kunit *test)
- 	KUNIT_EXPECT_FALSE(test, match_never);
- }
- 
-+__no_kcsan
-+static void test_1bit_value_change(struct kunit *test)
-+{
-+	const struct expect_report expect = {
-+		.access = {
-+			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
-+			{ test_kernel_xor_1bit, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
-+		},
-+	};
-+	bool match = false;
-+
-+	begin_test_checks(test_kernel_read, test_kernel_xor_1bit);
-+	do {
-+		match = IS_ENABLED(CONFIG_KCSAN_PERMISSIVE)
-+				? report_available()
-+				: report_matches(&expect);
-+	} while (!end_test_checks(match));
-+	if (IS_ENABLED(CONFIG_KCSAN_PERMISSIVE))
-+		KUNIT_EXPECT_FALSE(test, match);
-+	else
-+		KUNIT_EXPECT_TRUE(test, match);
-+}
-+
- /*
-  * Generate thread counts for all test cases. Values generated are in interval
-  * [2, 5] followed by exponentially increasing thread counts from 8 to 32.
-@@ -1024,6 +1055,7 @@ static struct kunit_case kcsan_test_cases[] = {
- 	KCSAN_KUNIT_CASE(test_jiffies_noreport),
- 	KCSAN_KUNIT_CASE(test_seqlock_noreport),
- 	KCSAN_KUNIT_CASE(test_atomic_builtins),
-+	KCSAN_KUNIT_CASE(test_1bit_value_change),
- 	{},
- };
- 
-diff --git a/kernel/kcsan/permissive.h b/kernel/kcsan/permissive.h
-index f90e30800c11b..2c01fe4a59ee7 100644
---- a/kernel/kcsan/permissive.h
-+++ b/kernel/kcsan/permissive.h
-@@ -12,6 +12,8 @@
- #ifndef _KERNEL_KCSAN_PERMISSIVE_H
- #define _KERNEL_KCSAN_PERMISSIVE_H
- 
-+#include <linux/bitops.h>
-+#include <linux/sched.h>
- #include <linux/types.h>
- 
- /*
-@@ -22,7 +24,11 @@ static __always_inline bool kcsan_ignore_address(const volatile void *ptr)
- 	if (!IS_ENABLED(CONFIG_KCSAN_PERMISSIVE))
- 		return false;
- 
--	return false;
-+	/*
-+	 * Data-racy bitops on current->flags are too common, ignore completely
-+	 * for now.
-+	 */
-+	return ptr == &current->flags;
- }
- 
- /*
-@@ -41,6 +47,47 @@ kcsan_ignore_data_race(size_t size, int type, u64 old, u64 new, u64 diff)
- 	if (type || size > sizeof(long))
- 		return false;
- 
-+	/*
-+	 * A common pattern is checking/setting just 1 bit in a variable; for
-+	 * example:
-+	 *
-+	 *	if (flags & SOME_FLAG) { ... }
-+	 *
-+	 * and elsewhere flags is updated concurrently:
-+	 *
-+	 *	flags |= SOME_OTHER_FLAG; // just 1 bit
-+	 *
-+	 * While it is still recommended that such accesses be marked
-+	 * appropriately, in many cases these types of data races are so common
-+	 * that marking them all is often unrealistic and left to maintainer
-+	 * preference.
-+	 *
-+	 * The assumption in all cases is that with all known compiler
-+	 * optimizations (including those that tear accesses), because no more
-+	 * than 1 bit changed, the plain accesses are safe despite the presence
-+	 * of data races.
-+	 *
-+	 * The rules here will ignore the data races if we observe no more than
-+	 * 1 bit changed.
-+	 *
-+	 * Of course many operations can effecively change just 1 bit, but the
-+	 * general assuption that data races involving 1-bit changes can be
-+	 * tolerated still applies.
-+	 *
-+	 * And in case a true bug is missed, the bug likely manifests as a
-+	 * reportable data race elsewhere.
-+	 */
-+	if (hweight64(diff) == 1) {
-+		/*
-+		 * Exception: Report data races where the values look like
-+		 * ordinary booleans (one of them was 0 and the 0th bit was
-+		 * changed) More often than not, they come with interesting
-+		 * memory ordering requirements, so let's report them.
-+		 */
-+		if (!((!old || !new) && diff == 1))
-+			return true;
-+	}
-+
- 	return false;
- }
- 
+ config KCSAN_INTERRUPT_WATCHER
+-	bool "Interruptible watchers"
++	bool "Interruptible watchers" if !KCSAN_STRICT
++	default KCSAN_STRICT
+ 	help
+ 	  If enabled, a task that set up a watchpoint may be interrupted while
+ 	  delayed. This option will allow KCSAN to detect races between
 -- 
 2.31.1.189.g2e36527f23
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210721210812.844740-7-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210721210812.844740-8-paulmck%40kernel.org.
