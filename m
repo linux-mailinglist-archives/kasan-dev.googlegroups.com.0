@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBCJZRXGY5YJBBP4Z4KDQMGQEXRKB3KQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A653D18A9
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Jul 2021 23:08:16 +0200 (CEST)
-Received: by mail-il1-x137.google.com with SMTP id f5-20020a92b5050000b02901ff388acf98sf2298010ile.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Jul 2021 14:08:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1626901695; cv=pass;
+Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5D93D18AA
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Jul 2021 23:08:17 +0200 (CEST)
+Received: by mail-oo1-xc3b.google.com with SMTP id p142-20020a4a2f940000b0290263980f2b45sf1647810oop.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Jul 2021 14:08:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1626901696; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xrCkPJoIYqNMdZHCA0wlUC7qYVrcCkvwKgqgxSr50JZbaQGXZWz3C4kMHKYsCYbWzx
-         +iS81q0OG+UexkjqMaXNZD/wtEcYqnDiSmaC7I5KkhcZY2Lv/wrMxyUk1OgF5Je9Ekj2
-         aPo/KWq+eOsWmP6GOnn8oqEdhTQOJjv6xFTws9R+b1snoTLuczWK+ja/6AEo69a1U9UJ
-         gEvZMEHIHUqPZGmTlbTCk4yw8Q8OXrw1AuliUKoLlmCydkUd0a6f5hRCkWGu45B7l0XI
-         LRc8pgKaMZLRDS7YZhFKWug9XJOv8sq5whFehJ0aCfaw/Np2W3rfqhho18fBYkKccUeo
-         /7cw==
+        b=aSdk3/kspcAMs1TvOvUKgF7vC4CBjz1iddWKiR1GySh+6tk9XYGTQx2HCXLxN4PwIt
+         AtIcuR8oYPuRzLJjadjAG/dIHSMssw2ExMgG90r32yAMEXPDDyPrf7t2+AP6L6R9EuND
+         kc6BsWTtvzQdd7j+Za/FL/zWxY+J05PDH1Am6mTzaDofLvWhkn+VcMl3Kibd2ofXfl0Q
+         OR6Pk1ixsJTH3ew8E/CBGHrDHZPc2x/fe/QLRiWXV0LEu6SMP2zyEKshQF7eBq3AUBp3
+         wEhpG9ZSldPyEzp/qSGfUgx6dBOhELLXiSq8BMPOeytNcYxaRN7Izi606Yzu7+Ce9wJN
+         2Dzg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=6ir8aZyicZwhdJPjc80tKsP31MIWoFHbsDyuwTEKDKc=;
-        b=Bu4xK4PwCthvSIXLQuDCWxkTDV9NcsnZoRFMpmAxFwhbSTZ1Roq/u972LW1RcxPH/8
-         UJFpt+fdLHdZ0qj0T+xSn5EWcv3sYl5miY0GQjciBdO3rR+8gw+MFs2k78pUS0+bEN6l
-         Xr+x8wPg3kP9stElTEflajtwNh23eWI/dFW3f5+M4lwCdnFnZLOa2aoxOJWxbXDZcSp6
-         jMTltULBqN58uYAUYWgi6G3tn5V4jxTg+WzEmeAfU1cx9bYeWSZco+HRSimMLeLpvyv0
-         f3ktEBLv1kGzSzZzS1u6QYk05LmYyWBMxDs+3eyYUrvB0PfBEd0i76cjXjUu1j84jGgw
-         QE7g==
+        bh=8J1zm4iuru9cEM7lF7tdGLPMKMga4QYL7/1Bted820U=;
+        b=wjIWZcoWdPL1N/bdAdaT6lz85tstucVCFW6ewc7m8UI33G+5p0PW4ZYsiWie1fcKF/
+         HzK+rigGu66GWzv0VZN6Qj9ob86mOAI05tyrUbYS5tqZpmZCu/r2st4GmpoFDrNZBSLK
+         zQZITXt91HGLPD9cSMxkCsbJmdRkpidqM3SErpqSqtX4JF/xGuo+za+u4ya6MSnoBi0O
+         kd0sD7dGgM7SZT/7RJ2MQycZD3KmJQ8LPfYVFfP5uvPBvqEx58lAiKnqf6Zc78TgOSTP
+         ahpHbbCdKD7AG9l01YHzBiuxXFAMB11KXjAg981PMo1slrsjZtx9pKH+YsTjLPrbNp5X
+         6lBQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Mv0cjSVM;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HLV8wcCD;
        spf=pass (google.com: domain of srs0=6g4i=mn=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=6g4i=MN=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=6ir8aZyicZwhdJPjc80tKsP31MIWoFHbsDyuwTEKDKc=;
-        b=V9rogNeZxEPr5uai8arl4/Nm09vgilb61vDWK6KSQ9f63E0g+aO49/uVM7Z7HwkPy9
-         n2gP8dMQRorTMbysJTwwOgxynF7mR2BIb8y8+ykrvfIKeukHmfisWIyleRdlAgUaAj+q
-         YlMoOKiGUHOdihsKPSxRN35rJqb9FeyTITd/CbFpbiybiR/yEp+CxClWbG1eFEhUmhOy
-         8Cooe5KX3U78ly8xCnqql6RwSs/TTdiPRhDDpP/nJLnWDZAa9IdscQdijKeC1jDAPvkx
-         8bJeaZDBs5bkeKQGXsp5jFA1ePd9gwHpjRykZpFrR1+dexYdVjJCWml3B5q1x5XQafSL
-         rSAA==
+        bh=8J1zm4iuru9cEM7lF7tdGLPMKMga4QYL7/1Bted820U=;
+        b=FpufBqSRzKUTvglSnHc7DG66SKNlMbBkAQ4jlqdFXuGDnbpcm4z8JHe4dTuFfDnTZL
+         UPcwtLSg8jMZYws/Uby24YToKmuw2HDxCDbT7QOGJ6yt3tFftLP2UCth8A7tDJMtzDjo
+         UbhWyJJ7wFjgnqLNDLQQnmOqrw+GXoxnW3/A/M9Kv9Ryd+U1ZBRLQdp2bREeGH01S+sB
+         zELeLutYtiUDTCIlVNXo/GB2uq8OAgKa+zi4b3X34kLRCNW2wt/8mq4V3DhZBYN7C/m2
+         zvhi3A1AN9OUj06TNSfubr0lFaj6kbrqEHN8PRdgMbRwF8AxiRJHT+Uarru3b021nr9i
+         HdNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,56 +49,56 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=6ir8aZyicZwhdJPjc80tKsP31MIWoFHbsDyuwTEKDKc=;
-        b=Hye0x08YB/M4Y95NFx6BEdPdpY/UkBrrWclAfywhyAxxfeXAfA8vHSi6txwgO7PbEU
-         Ym3Xxx7vRj0NQZlRKBov0gSFXbwVEWOcI7wT2y5ZoTppk193TvDNWVjiHnozM9FHPnFu
-         dHfrpSJSsVq0J/MNjvl6pTySeR2CzIYQfpvdhKRTVWhwWfJ110SZiQuH4ZX4tdKf0z3R
-         4wP4Y0CFMmZb7PAhxzacbwoXVHx5rwGINfa9s1BtRRG1zI38HUI+M2JUpQD7FGoD4Pf0
-         NIcPHewd65T5fqzxYrVi0Wl1DiVutMGEjdhhylRRiuMZUTSAr1gdeRC9KWcaDwP4xnH3
-         aR1Q==
+        bh=8J1zm4iuru9cEM7lF7tdGLPMKMga4QYL7/1Bted820U=;
+        b=nesuYGfN+dbbeghgW/XJUEA2ocyu1NNMgD7cumn7KA9pJ6rc3mG+LLKGIYmua919CN
+         mZ0w8eqBQbZiV2fY31obaLV87YRKJtbQSDSwPLG9/KcZPd2pt7zTfHHlJAAt/zpaYine
+         R6HG/1uQ7aQ3nAJHy6v/BTKqSkIW9W+qwNCBLOP4ob4w6bQ0HDhz1vsQS5vpLr0IANfR
+         UYqpzWENDNqItZA4JDYyvFyEebgA6ZK6Ahti1oUszAA3Vfna+FzaiY+hhM+YGLrrK/YW
+         dCmBkEtePIbToMskN421PUq5TXky/JVoQLy+bKgPb4e1IWPuCTfeHTY/tLa3MLh7BYFw
+         2C7Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5326YRoP6lsN/05+jt1MmeRfIrfMgQ/Wpx+V/9NfFh742W6JREnc
-	D1Z9L0q/0jdV59ISny7RBQM=
-X-Google-Smtp-Source: ABdhPJysF1m6PrZaUaHAKjzGglkfF7i4k4pobWXaGcThD9UQIbLu0ybYUY7V+BrkXTlsE+M1uDiPZQ==
-X-Received: by 2002:a5d:8453:: with SMTP id w19mr27725419ior.105.1626901695709;
+X-Gm-Message-State: AOAM531rfwIAmhV1rzqH+VwmOSVtZWJOpDrb3izBVq8DWsQU9DblUkfQ
+	Am+j5U//YAk6cydPfAoQoKY=
+X-Google-Smtp-Source: ABdhPJwqRuwKbdhZrshQwoton4Pkd0lgQPd+dCL+eGaTaWDuX0ZgXPOF5idP31iDTJan1gaB8Ddrog==
+X-Received: by 2002:aca:3e55:: with SMTP id l82mr6761847oia.34.1626901695806;
         Wed, 21 Jul 2021 14:08:15 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a02:3b69:: with SMTP id i41ls650637jaf.3.gmail; Wed, 21 Jul
+Received: by 2002:a4a:b443:: with SMTP id h3ls267335ooo.4.gmail; Wed, 21 Jul
  2021 14:08:15 -0700 (PDT)
-X-Received: by 2002:a05:6638:6a6:: with SMTP id d6mr32086548jad.118.1626901695432;
+X-Received: by 2002:a4a:d2c9:: with SMTP id j9mr25788663oos.88.1626901695438;
         Wed, 21 Jul 2021 14:08:15 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1626901695; cv=none;
         d=google.com; s=arc-20160816;
-        b=sBxiUqxO6pyv7pChvxbxMxAEgcP140juBsY25+unk/u44mv7LR+spq85PTF2hdayvW
-         WYag62/I2rLRSioTqO9luIwjXp4kDKA6Ne3gCPTzjBHobsCLUZ+SW+iYAyzog4zJtFG8
-         pwMhx4wznn3RCZeuu4ZwfnmVdVoP1lmm7fq4o0X64pZiwMny2MUsBlcuj+OQxlq3RTcC
-         h5ZPefVsD3g4JwOIlJ2dQPmt7xpTm3WZXuE/9ryMfgAzcFc0aKvUcbC52lpiYOJwLDlO
-         jZCktRj0ZBfS68znTrWytbsRz+YdTUAm3OHaCOvFbZ3vU50OqIpYG/2MaruGNRa0on4Z
-         nGsg==
+        b=XV3s1OXDi7PmCd8C05Sx6jbzpyMQQuSY076XDpgtGHb2f0yD/AYI7uZlYv9Dn9qVKI
+         8FVDh3+wHRHfgDawLt66K1VrTAr5FB72aikEtF0+d+EQnE5TWiWA5F9puh1lbhf2Lujt
+         FyDqb105ZgocoSRpsucLjjknTSoXGqxCZ8SlAtkhdvsFEkQM0NkWetDrC2BQfwbZBDWO
+         3UYvuxd7tXpR2UUSyY0LgfD0pS89OkCuzYwVD6EubTiBgXwXu0lUu7cTf3kw1bnsaP7r
+         12fd4gK4azOQRDgodOu10drt536oE4Iev2GkIt8V5jCwANChcDwuHelMGKLJ55t0AbOj
+         gWXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=lCvSyqjYBxr3+OYNcxFarqV0Hyn3+kW4W1PBjKZbUkQ=;
-        b=usrcEefYl8eR7ldaV958yCkqVTibMLP+FW5OLWGtWtWkkh7kp0s+4ivzPblaaGIdka
-         c4FjTa1kSr2oL0rhOIaBuQNwr3CrOCdZZntIBjpVyX4vZb2dSLi4f4CzPDZTTn6E7Cmp
-         5+ysNEWmDYdbbAse4rmQuJiAvwih84RH+B6yAmRoGKORQLvmxTF5CBx+Eir5xb/J3K0u
-         nULmRVgdJUG9fJQ3AY6UxbdbKW+KCLqHWT+ZfU/srGgrafY3zkBftWMbiyh/cHYsU4J0
-         Amf6xBEFE4lmPaYo2L1R6U9X1d2YAM+q0y/e0zzLPjWN93kFTV3x/RlvTYT2mSf7eXGJ
-         z88w==
+        bh=92pQbpc8FuIZzqfiG1qKDt8AtzvU/xGMXAY202W45lA=;
+        b=KpyPlu3DxYvVBR8o8k+aB/+Jyuqstu9BP1IGgKwmJMScIO3vMLv4GinJu0gbt5BsuS
+         LlRzhFyLyBl0PWMSUvsGI1/pOdBwgK/GlKnRH+l0x/w4W+2Udfi7SewtCF2xyPJ72xxm
+         XTHBNycyLGKksMrkZnUs6rA4phLXSXITMKNYyVTGRrfL7VukzdV1V3hyAtjZN7UuXlxt
+         7S8MaazhqO6wX3Q+Us+3y3RSB4cr2TFwiGX4z3wIiLihNoU3fjm40TV9ukpg2QPFaeja
+         3zxCKGpmesul9P8GJPH32KNB/CdcoMfoXZ9zQenW1UVqD4B0YPxN3B62bDimBC3dJCvr
+         /+4Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Mv0cjSVM;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HLV8wcCD;
        spf=pass (google.com: domain of srs0=6g4i=mn=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=6g4i=MN=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id e12si1731183ile.4.2021.07.21.14.08.15
+        by gmr-mx.google.com with ESMTPS id b9si3527058ooq.1.2021.07.21.14.08.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 21 Jul 2021 14:08:15 -0700 (PDT)
 Received-SPF: pass (google.com: domain of srs0=6g4i=mn=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A0849613FD;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E2BC613F8;
 	Wed, 21 Jul 2021 21:08:14 +0000 (UTC)
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 51EC25C09A4; Wed, 21 Jul 2021 14:08:14 -0700 (PDT)
+	id 570D85C0A03; Wed, 21 Jul 2021 14:08:14 -0700 (PDT)
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
@@ -112,16 +112,16 @@ Cc: elver@google.com,
 	boqun.feng@gmail.com,
 	Mark Rutland <mark.rutland@arm.com>,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 1/8] kcsan: Improve some Kconfig comments
-Date: Wed, 21 Jul 2021 14:08:05 -0700
-Message-Id: <20210721210812.844740-1-paulmck@kernel.org>
+Subject: [PATCH kcsan 2/8] kcsan: Remove CONFIG_KCSAN_DEBUG
+Date: Wed, 21 Jul 2021 14:08:06 -0700
+Message-Id: <20210721210812.844740-2-paulmck@kernel.org>
 X-Mailer: git-send-email 2.31.1.189.g2e36527f23
 In-Reply-To: <20210721210726.GA828672@paulmck-ThinkPad-P17-Gen-1>
 References: <20210721210726.GA828672@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Mv0cjSVM;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=HLV8wcCD;       spf=pass
  (google.com: domain of srs0=6g4i=mn=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
  designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=6g4i=MN=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
@@ -140,57 +140,60 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-Improve comment for CC_HAS_TSAN_COMPOUND_READ_BEFORE_WRITE. Also shorten
-the comment above the "strictness" configuration options.
+By this point CONFIG_KCSAN_DEBUG is pretty useless, as the system just
+isn't usable with it due to spamming console (I imagine a randconfig
+test robot will run into this sooner or later). Remove it.
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+Back in 2019 I used it occasionally to record traces of watchpoints and
+verify the encoding is correct, but these days we have proper tests. If
+something similar is needed in future, just add it back ad-hoc.
+
 Signed-off-by: Marco Elver <elver@google.com>
+Acked-by: Mark Rutland <mark.rutland@arm.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- lib/Kconfig.kcsan | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ kernel/kcsan/core.c | 9 ---------
+ lib/Kconfig.kcsan   | 3 ---
+ 2 files changed, 12 deletions(-)
 
+diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+index 26709ea65c715..d92977ede7e17 100644
+--- a/kernel/kcsan/core.c
++++ b/kernel/kcsan/core.c
+@@ -479,15 +479,6 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type)
+ 		break; /* ignore; we do not diff the values */
+ 	}
+ 
+-	if (IS_ENABLED(CONFIG_KCSAN_DEBUG)) {
+-		kcsan_disable_current();
+-		pr_err("watching %s, size: %zu, addr: %px [slot: %d, encoded: %lx]\n",
+-		       is_write ? "write" : "read", size, ptr,
+-		       watchpoint_slot((unsigned long)ptr),
+-		       encode_watchpoint((unsigned long)ptr, size, is_write));
+-		kcsan_enable_current();
+-	}
+-
+ 	/*
+ 	 * Delay this thread, to increase probability of observing a racy
+ 	 * conflicting access.
 diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-index 0440f373248eb..6152fbd5cbb43 100644
+index 6152fbd5cbb43..5304f211f81f1 100644
 --- a/lib/Kconfig.kcsan
 +++ b/lib/Kconfig.kcsan
-@@ -40,10 +40,14 @@ menuconfig KCSAN
+@@ -62,9 +62,6 @@ config KCSAN_VERBOSE
+ 	  generated from any one of them, system stability may suffer due to
+ 	  deadlocks or recursion.  If in doubt, say N.
  
- if KCSAN
- 
--# Compiler capabilities that should not fail the test if they are unavailable.
- config CC_HAS_TSAN_COMPOUND_READ_BEFORE_WRITE
- 	def_bool (CC_IS_CLANG && $(cc-option,-fsanitize=thread -mllvm -tsan-compound-read-before-write=1)) || \
- 		 (CC_IS_GCC && $(cc-option,-fsanitize=thread --param tsan-compound-read-before-write=1))
-+	help
-+	  The compiler instruments plain compound read-write operations
-+	  differently (++, --, +=, -=, |=, &=, etc.), which allows KCSAN to
-+	  distinguish them from other plain accesses. This is currently
-+	  supported by Clang 12 or later.
- 
- config KCSAN_VERBOSE
- 	bool "Show verbose reports with more information about system state"
-@@ -169,13 +173,9 @@ config KCSAN_REPORT_ONCE_IN_MS
- 	  reporting to avoid flooding the console with reports.  Setting this
- 	  to 0 disables rate limiting.
- 
--# The main purpose of the below options is to control reported data races (e.g.
--# in fuzzer configs), and are not expected to be switched frequently by other
--# users. We could turn some of them into boot parameters, but given they should
--# not be switched normally, let's keep them here to simplify configuration.
--#
--# The defaults below are chosen to be very conservative, and may miss certain
--# bugs.
-+# The main purpose of the below options is to control reported data races, and
-+# are not expected to be switched frequently by non-testers or at runtime.
-+# The defaults are chosen to be conservative, and can miss certain bugs.
- 
- config KCSAN_REPORT_RACE_UNKNOWN_ORIGIN
- 	bool "Report races of unknown origin"
+-config KCSAN_DEBUG
+-	bool "Debugging of KCSAN internals"
+-
+ config KCSAN_SELFTEST
+ 	bool "Perform short selftests on boot"
+ 	default y
 -- 
 2.31.1.189.g2e36527f23
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210721210812.844740-1-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210721210812.844740-2-paulmck%40kernel.org.
