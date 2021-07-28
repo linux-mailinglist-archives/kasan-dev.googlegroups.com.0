@@ -1,129 +1,162 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBCFCQWEAMGQE75SQIAY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCYL7PHBVABBBZ6TQ2EAMGQE5Q7MTYA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE9B3D8E14
-	for <lists+kasan-dev@lfdr.de>; Wed, 28 Jul 2021 14:43:54 +0200 (CEST)
-Received: by mail-pj1-x103d.google.com with SMTP id h12-20020a17090a2eccb02901762a8fbff0sf5344833pjs.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 28 Jul 2021 05:43:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1627476233; cv=pass;
+Received: from mail-yb1-xb3d.google.com (mail-yb1-xb3d.google.com [IPv6:2607:f8b0:4864:20::b3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B403D95C0
+	for <lists+kasan-dev@lfdr.de>; Wed, 28 Jul 2021 21:03:05 +0200 (CEST)
+Received: by mail-yb1-xb3d.google.com with SMTP id q3-20020a25bfc30000b02905592911c932sf3267242ybm.15
+        for <lists+kasan-dev@lfdr.de>; Wed, 28 Jul 2021 12:03:05 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1627498984; cv=pass;
         d=google.com; s=arc-20160816;
-        b=a+p7xXDtn0r2DVuBmhsg5bANvfWaZgUmEGek3vCFxEj/rVVLRxP5QpIUK2ZEUr+vqV
-         pRHnUufJHtjPWtMeH56PPmS0gDQ/aIda2FCdHuOI+JQ1kLCuFMmpGwEwY6bYK3+wtnAc
-         hg8rlzRhoUjC9eoExnPywdZOKHFPXWAFvJHPld9z5Yqhh563dEAc4auJT6+iqrpiHSo6
-         rUHPh8Pry0wXwpI0F70EtgoiTSMfoYlPEPMyNVPYaHldP+sJvbIwXR9dt19oB6gvfVCK
-         E1r+Il2mHG+2UPkBFYCuIbnHcAEO/Csbtck2dtdXaj7ZH7kZ/oNbwI0UcEI5WOYwyzHl
-         dXvA==
+        b=GBDslNOZbuNIGVFSOBt5ubDSdDCLvrsZCKHyMAc3G2m6MhY1yNSUQCD2/uuOOeksHR
+         D3BL/YpjWP1A3U9KhclPBFRypfXrsM79eDL3AC7wtAvIvnIFAMZv/O2WBdj+mDlV6xoE
+         hluqdIiYhg+35ZoFiWOvib4wY5oCgx09WuTMbbwSXBE03IqXopumKhtw/7vnBWeGUdoR
+         pVopMsIHAHH/oN7831fT84zyAAOHy0LJzZ5c8b56wl7vRABPpu3DBakijfQdbZvGWGlO
+         1f7YYTNxPFlyuRWTvGSwh7O+nnqSFP7lqABz2Vc/4yHh/Yr4lRO56/vnRCoG2xcWdRZS
+         tKVw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=JgPY8z7BQcFjnIhELiTPHQW+qtAwz6iTemnBZu3Ost0=;
-        b=ius78JfCq+hv6TOOp+DGT3CzuIgmfSpjTUQpzCxedmj3SdqI6LD0pFiklhkxN3BI3g
-         XlAItFFZiWEkQtWOC5fTS5571oPbqJrmyl3stDTMRib7NzRhh3ch7sb6zg2YhPsDmNPA
-         pXhUUB+Ru2yCGppbi+qAcZnzNYfJ5hyTWNBFWC/gQstJDCXoy/EMYqN1GuZ3KuOsLuH+
-         7U/JwQrzjhhg7X9jiPax7NiLmxGcdYd7+zz2pq9jFnCesjhEp0vJDPLyATos0LInBxG5
-         bbZwxFLtgslDawZkBJ3VIVSRPOn7kAag3S7R2xciXskfl4ar1WHdRfHOA+f0YXY7emdE
-         D4rw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=atEqLTqVO4Dg4EHeDLdDLQboW/192irqVs2lpaqRwu8=;
+        b=QwjdUfaMG8Xvyxv0PefGzoPmiQhRWY5Uw+6xkTBJoyl/XOKO5QEj33Q2+4aOA/DIWV
+         jNorgGLEywNIMlf0E1FV0sQvJ3b2X6JCeMCE3NpkUkqmlNiu82yVj/iQQI3NdzhwnJpy
+         P70mXG/uyiSZeBIkLBo6WMGaXepK+/YolGXCbVA24RCLxFTuDk4Sadg5P/1911qsOXTT
+         2x+QfNxcrvF5o5qrzyZcXaKfmE2/LCXryE0ohDEeImv4nEoTJytmyulpYQyZutxBj1zx
+         n+aF1NHgWPUXkbfItYLHOWKx2COGBjvgFTNv53jw47NkwbFXCjzWodN/NMVIVRRVxhZh
+         MfTA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=hHX52BoT;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b="e572/hQB";
+       spf=pass (google.com: domain of hca@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=hca@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JgPY8z7BQcFjnIhELiTPHQW+qtAwz6iTemnBZu3Ost0=;
-        b=fb3sqoyMv5R7SXntPM4b+1cyzab6lUnWFJ66RmzLJ6oAiUPt5fMGi7SDiLD9x9GYAX
-         /fJSpS3eRmdtGgY8+L/1EIHCdQKc1l+3myvjwJil888DomgjUncAGkm3bOWD4ImY2yVT
-         PpfeCByD8o0chUAnf8LCCIqJxTdLulsO8vzyxO5iq5njlxGOba2JE07Bh9DWRO35DgLG
-         3z4mUfIahAmmqM1hxohtSxLH1PQwVr5P8C6FDJHCJYdrBfKvNI1x9TUbEbLsJdCCVccz
-         reypBjMcqXF96/Zxy5YRfLlVoLWloL8lOzxtCtWhLJ99+HWnqA5PcJ8hAXV0g1RU5p/p
-         uVgA==
+        bh=atEqLTqVO4Dg4EHeDLdDLQboW/192irqVs2lpaqRwu8=;
+        b=Az/2wJ61kMNnOv67NYEVGx+klsUr9LAreH5JU0r4eEWUtFxWXGxBEyFiGOKwFzneVN
+         cTxGvedWBVUTOaVvUu1iaObxAUC+KfyXVC0sppl1RQJ0gAsW+3X36zn60pEK12Ate0Yv
+         5hEi2p5wf5rtiidcb37ueGuu/qUSS1CByd53Wn1u4SQBBHLyWTaF31WqUB2SnBOCk5zt
+         IlvPjiuika5oH/WLghVO4hM5wBIqRTfMuuklOZqE9xml/HKfoY+qRx0QS6aErI6/b75O
+         JAApUHFzGZJ9KhVLgvGs7cJUdVElAejIo824kGbXnQYGLyIUM76qI8LGCSsigHy+Suv5
+         Lt6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=JgPY8z7BQcFjnIhELiTPHQW+qtAwz6iTemnBZu3Ost0=;
-        b=cmT7QQqgQHhEc7mEh2OnRHVzUkH2CIiaqhClkHXDYQuSum5lWEouCb6l3jb23eTzm4
-         ij/3uCtVG+ZEdIme7QAx2nTQ41HHO0/d3Gmn2kicoVCc5yWCHZwsOkj1OB1xRv4dl8xh
-         yVPClstf3iyssNU4m+yJUMn3OuU+PKLWlUG532s6OEzlwyM+dfQaoivluKndchU8TjTD
-         5FUgWe0xxMoghHX6Mln+tprPQiRyEhjSlNLvr5TXR/J7L9AMbl/I5UmeoLmReb069saX
-         6cvaD3CBxhgpar5u2o5l45LjhSqkCYJCcAcPI3cL3MlkbupPqFSjd66asf6XBYyoE0tG
-         9Ngw==
-X-Gm-Message-State: AOAM531a4s7it0DbIRBv9ULlx2AZ3PeYmGRzyS9qdP9ZXQhjIufbYLgc
-	d8PBnyxRKAmVo5dIv0StoI4=
-X-Google-Smtp-Source: ABdhPJyHcawynI7G0WT5Tbl3U7MPMK9U8KqsLDnVExPxSYXmgO+HKPY55LVKQigeZpk2zfqTUblMdg==
-X-Received: by 2002:a63:3f42:: with SMTP id m63mr28955030pga.33.1627476232889;
-        Wed, 28 Jul 2021 05:43:52 -0700 (PDT)
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=atEqLTqVO4Dg4EHeDLdDLQboW/192irqVs2lpaqRwu8=;
+        b=tKnkQRcubHU6ilc92AwgGAFHhz8o07BsKNXZkBZPgpUUDyRnIP4JMhQ9YB3jn0IcBk
+         AoAIlQwpUA8GqOl+XKvbYDttjfHBAvE5JI4raugWmZX29WPl7NQijum0sPrDEaZ5jCa/
+         /x6uLbPaP+NO2N7z6x74ZNeWsGYuiCetOdvnnanVqHX68nGm4CdoG1l76vS+6aCO8zVg
+         SZJi8x3WGntTvcLMaS3ToqxOnl7BAyrJkD55TJ2DElmzns5m1TMUJSIXNhZKvN9OrlRo
+         VSyrSKihGblp6aCcrI89cWcLXdY7hPmwRubEIjg6uVN0w8m2sYvWMM6lxVnPH8OuKUka
+         9ylA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM53131ybvBDUAtYHTzqpe6OFX4zr8vnXXSrNS9elBEgQhsTkBkchZ
+	MYfk+2Ns/+ATG+ce12Ma0Ro=
+X-Google-Smtp-Source: ABdhPJy1oiYpQ7fF9lrcNvgNfIJDAMP+Fjd7TdivdJzM1b0bdh5xLNGntLf1ZsC3bemdiOg6aBasqQ==
+X-Received: by 2002:a25:d0d4:: with SMTP id h203mr1664374ybg.0.1627498984021;
+        Wed, 28 Jul 2021 12:03:04 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:a1a:: with SMTP id p26ls927505pfh.9.gmail; Wed, 28
- Jul 2021 05:43:52 -0700 (PDT)
-X-Received: by 2002:aa7:9517:0:b029:35e:63f3:64a2 with SMTP id b23-20020aa795170000b029035e63f364a2mr28614483pfp.74.1627476232259;
-        Wed, 28 Jul 2021 05:43:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1627476232; cv=none;
+Received: by 2002:a25:7bc7:: with SMTP id w190ls1883845ybc.2.gmail; Wed, 28
+ Jul 2021 12:03:03 -0700 (PDT)
+X-Received: by 2002:a5b:c52:: with SMTP id d18mr1692861ybr.248.1627498983526;
+        Wed, 28 Jul 2021 12:03:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1627498983; cv=none;
         d=google.com; s=arc-20160816;
-        b=LRc06B0Btcc+2247hnl9ia5IF1I/akfi/BPevi0T+/A7PFdZH4miV+NvGzKZoBTkJg
-         16PXUDSbX8mp2SexiN529Xx4FmyepvweRziirz6vqMrzJl9IOMt8t31mkMJ4I2cRcAeC
-         4kX67fOIrrmO3ILQ9hY4TljMeMLLVubq5o+GnyA/b84hDrjZkFJvyAXMtZl0iaFFXlHK
-         vSICZdj11dIucFrj/6M1IHIAR5a1vGLmuXE5GgTg0sKWomkYEWpwsoypFZp/KS/HBHsa
-         ClR2w71jdQZ8feSCZoozeOcS/5h34ymRgXiDwc3/r5yflHKtHQQZyPT1LmD85CJtOqFG
-         iTAA==
+        b=VYBkOYMSLghU6t/k/UC4MIpagY1uRrAQZt88GpBBv2iiZvwcGK6duSrqd0Nz17Xk6e
+         FA3vxO2FZZ4u4H15Jl5btucqUqeNrDrLmi0390CqPEzhk4AKUYRpUovQVrazNXwGCJ7Z
+         9CwhnGKTB5vXIfNWnnvxH3wRv2ZVcz59XTOC5UMyB7ysthk4V9BRmSYYQQBXUDAtPtiu
+         D04KctwKKBMiUT8zYgQmQDDsRV9QpdcBV/DstlYhZE087I6bAin+QJnVYOSLphrxWtHF
+         QIQNIucPaCWUCO+Euw/tR0ZyfsaHj/fq7xGpFT6fg8CK4S7DrcDqLvqPa8bLnDFCDXbJ
+         nbvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=z8JopdaUBmz7iXRtArgg3xHwWvgUd1IpWAikP8/7uLI=;
-        b=nd6pekGEiGpq4zmZAyiNMflWitohw8NPVKf2a8JUlYXmQPJsGFSkwZC57XoxCr0qhQ
-         AvRgvGtYo9ug0MH66/uRLuWQ+sxydLZ+eCao81CUDZM0t7CWpAl/eG7etbva6gPvxgrn
-         XDASb0sThur9AYD5uxKQRXIFsWaciWJma4vRl7NSOf4R7rkQ1ykhDdVrKHYuiQ+GSWUo
-         0WuzJt8Pyr/PESsbMRTiJWQZ7yM1oHA0azXmqw2gvNNbGP3m25rOWDUmMdx38z2mFtV9
-         Bq9+iWewEDTXWz/ZUQ19t8nHiix6Af1LQtkhn0F94XINri50AsrAI2JNhrqNOmwzKR0J
-         fMrA==
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=8IQoq9d9JRaCzftcndSZz9ID4zL4uP+cWMNHvn6nuv0=;
+        b=swtODhpla3Ik+p5s7LH3WVs9+E45nFqxOIQKVsl1la7zPavCSqCHE5X2tGvM9pieKu
+         Ww0UjRF5niUs0T1Ygp2XA616eKw5WxqTIC1MRCCBcF8ok3OpECd5JeFENghkeSP1t2v8
+         YTv45AAZFJuG4pPdwAuqo1iR/It/8s1H+spMSphWviWZR6e2TDmdCrRwcEw6P0FenMx6
+         Ht6rbGgtudelBADriF1SlUYoiX4kVSnKjTkz2dWfOohh5BEora5usKbjRxdvGvGmWY7z
+         GSwup6BR596ELqaABskvZvNYtgqbSH/F0y8wj39+CVtxekayusteZknOIfNX9v7p4v8f
+         fCXw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=hHX52BoT;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com. [2607:f8b0:4864:20::32e])
-        by gmr-mx.google.com with ESMTPS id y6si388801pgb.3.2021.07.28.05.43.52
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b="e572/hQB";
+       spf=pass (google.com: domain of hca@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=hca@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
+        by gmr-mx.google.com with ESMTPS id q62si45655ybc.4.2021.07.28.12.03.03
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jul 2021 05:43:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32e as permitted sender) client-ip=2607:f8b0:4864:20::32e;
-Received: by mail-ot1-x32e.google.com with SMTP id c2-20020a0568303482b029048bcf4c6bd9so1905681otu.8
-        for <kasan-dev@googlegroups.com>; Wed, 28 Jul 2021 05:43:52 -0700 (PDT)
-X-Received: by 2002:a9d:650e:: with SMTP id i14mr19173472otl.233.1627476231336;
- Wed, 28 Jul 2021 05:43:51 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 28 Jul 2021 12:03:03 -0700 (PDT)
+Received-SPF: pass (google.com: domain of hca@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16SIf0EY028915;
+	Wed, 28 Jul 2021 15:03:02 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 3a3bwm1gq4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Jul 2021 15:03:02 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16SIqIoi106631;
+	Wed, 28 Jul 2021 15:03:01 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 3a3bwm1gp9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Jul 2021 15:03:01 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+	by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16SJ2j49014691;
+	Wed, 28 Jul 2021 19:02:59 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+	by ppma06fra.de.ibm.com with ESMTP id 3a235kgtuw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Jul 2021 19:02:59 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+	by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 16SJ2tl230736734
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Jul 2021 19:02:55 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 86E96AE04D;
+	Wed, 28 Jul 2021 19:02:55 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1B0C4AE045;
+	Wed, 28 Jul 2021 19:02:55 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Wed, 28 Jul 2021 19:02:55 +0000 (GMT)
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>
+Cc: Sven Schnelle <svens@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        kasan-dev@googlegroups.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org
+Subject: [PATCH 0/4] s390: add kfence support
+Date: Wed, 28 Jul 2021 21:02:50 +0200
+Message-Id: <20210728190254.3921642-1-hca@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: j97TaW2Of8FDCrA7PepNrglp6nV4Z9Jg
+X-Proofpoint-ORIG-GUID: borSlyoue7H9mxxHLLVA9li_lNMCF4-y
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20210727040021.21371-1-Kuan-Ying.Lee@mediatek.com>
- <20210727040021.21371-2-Kuan-Ying.Lee@mediatek.com> <CANpmjNM03Pag9OvBBVnWnSBePRxsT+BvZtBwrh_61Qzmvp+dvA@mail.gmail.com>
- <b6b96caf30e62996fa3b75ae8d146c9cc0dcbbf6.camel@mediatek.com>
- <20210727192217.GV13920@arm.com> <29f4844b1af163b0ec463fccbc9b902b3150f5c1.camel@mediatek.com>
-In-Reply-To: <29f4844b1af163b0ec463fccbc9b902b3150f5c1.camel@mediatek.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 28 Jul 2021 14:43:39 +0200
-Message-ID: <CANpmjNNhSauZEp9W48WcrjK3w5-3cV5Rk4oc=Ci+h04+T2jsAA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kasan, mm: reset tag when access metadata
-To: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Nicholas Tang <nicholas.tang@mediatek.com>, 
-	Andrew Yang <andrew.yang@mediatek.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Chinwen Chang <chinwen.chang@mediatek.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-07-28_09:2021-07-27,2021-07-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ lowpriorityscore=0 suspectscore=0 mlxscore=0 phishscore=0 impostorscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 priorityscore=1501 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107280106
+X-Original-Sender: hca@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=hHX52BoT;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32e as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@ibm.com header.s=pp1 header.b="e572/hQB";       spf=pass
+ (google.com: domain of hca@linux.ibm.com designates 148.163.156.1 as
+ permitted sender) smtp.mailfrom=hca@linux.ibm.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,89 +169,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 28 Jul 2021 at 13:05, Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com> wrote:
->
-> On Tue, 2021-07-27 at 20:22 +0100, Catalin Marinas wrote:
-> > On Tue, Jul 27, 2021 at 04:32:02PM +0800, Kuan-Ying Lee wrote:
-> > > On Tue, 2021-07-27 at 09:10 +0200, Marco Elver wrote:
-> > > > +Cc Catalin
-> > > >
-> > > > On Tue, 27 Jul 2021 at 06:00, Kuan-Ying Lee <
-> > > > Kuan-Ying.Lee@mediatek.com> wrote:
-> > > > >
-> > > > > Hardware tag-based KASAN doesn't use compiler instrumentation,
-> > > > > we
-> > > > > can not use kasan_disable_current() to ignore tag check.
-> > > > >
-> > > > > Thus, we need to reset tags when accessing metadata.
-> > > > >
-> > > > > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-> > > >
-> > > > This looks reasonable, but the patch title is not saying this is
-> > > > kmemleak, nor does the description say what the problem is. What
-> > > > problem did you encounter? Was it a false positive?
-> > >
-> > > kmemleak would scan kernel memory to check memory leak.
-> > > When it scans on the invalid slab and dereference, the issue
-> > > will occur like below.
-> > >
-> > > So I think we should reset the tag before scanning.
-> > >
-> > > # echo scan > /sys/kernel/debug/kmemleak
-> > > [  151.905804]
-> > > ==================================================================
-> > > [  151.907120] BUG: KASAN: out-of-bounds in scan_block+0x58/0x170
-> > > [  151.908773] Read at addr f7ff0000c0074eb0 by task kmemleak/138
-> > > [  151.909656] Pointer tag: [f7], memory tag: [fe]
-> >
-> > It would be interesting to find out why the tag doesn't match.
-> > Kmemleak
-> > should in principle only scan valid objects that have been allocated
-> > and
-> > the pointer can be safely dereferenced. 0xfe is KASAN_TAG_INVALID, so
-> > it
-> > either goes past the size of the object (into the red zone) or it
-> > still
-> > accesses the object after it was marked as freed but before being
-> > released from kmemleak.
-> >
-> > With slab, looking at __cache_free(), it calls kasan_slab_free()
-> > before
-> > ___cache_free() -> kmemleak_free_recursive(), so the second scenario
-> > is
-> > possible. With slub, however, slab_free_hook() first releases the
-> > object
-> > from kmemleak before poisoning it. Based on the stack dump, you are
-> > using slub, so it may be that kmemleak goes into the object red
-> > zones.
-> >
-> > I'd like this clarified before blindly resetting the tag.
->
-> This kasan issue only happened on hardware tag-based kasan mode.
-> Because kasan_disable_current() works for generic and sw tag-based
-> kasan.
->
-> HW tag-based kasan depends on slub so slab will not hit this
-> issue.
-> I think we can just check if HW tag-based kasan is enabled or not
-> and decide to reset the tag as below.
->
-> if (kasan_has_integrated_init()) // slub case, hw-tag kasan
->         pointer = *(unsigned long *)kasan_reset_tag((void *)ptr);
-> else
->         pointer = *ptr; // slab
+Hello,
 
-This is redundant. kasan_reset_tag() is a noop if
-!IS_ENABLED(CONFIG_KASAN_HW_TAGS).
+this patch series adds kfence support for s390, and was mainly
+developed by Sven Schnelle. Given that he is currently busy I send
+this out for him, since I'd like to get an ACK for the second patch,
+which touches kfence common code.
 
-> Is this better or any other suggestions?
-> Any suggestion is appreciated.
+This was already discussed here:
+https://lore.kernel.org/lkml/CANpmjNPAS5kDsADb-DwvdFR9nRnX47-mFuEG2vmMPn5U3i3sGQ@mail.gmail.com/
 
-The current version is fine. But I think Catalin's point about why
-kmemleak accesses the data in the first place still deserves some
-investigation. Could it be a race between free and kmemleak scan?
+With that ACK I'd like to carry the series via the s390 tree, so it
+gets upstream during the next merge window. Hopefully that's ok.
+
+Thanks,
+Heiko
+
+Heiko Carstens (1):
+  s390/mm: implement set_memory_4k()
+
+Sven Schnelle (3):
+  kfence: add function to mask address bits
+  s390: add support for KFENCE
+  s390: add kfence region to pagetable dumper
+
+ arch/s390/Kconfig                  |  1 +
+ arch/s390/include/asm/kfence.h     | 42 ++++++++++++++++++++++++++++++
+ arch/s390/include/asm/set_memory.h |  6 +++++
+ arch/s390/mm/dump_pagetables.c     | 14 ++++++++++
+ arch/s390/mm/fault.c               |  9 +++++--
+ arch/s390/mm/init.c                |  3 ++-
+ arch/s390/mm/pageattr.c            | 15 ++++++++---
+ mm/kfence/kfence_test.c            | 13 ++++++++-
+ 8 files changed, 96 insertions(+), 7 deletions(-)
+ create mode 100644 arch/s390/include/asm/kfence.h
+
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNhSauZEp9W48WcrjK3w5-3cV5Rk4oc%3DCi%2Bh04%2BT2jsAA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210728190254.3921642-1-hca%40linux.ibm.com.
