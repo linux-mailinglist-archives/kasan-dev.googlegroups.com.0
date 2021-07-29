@@ -1,128 +1,174 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBLGFRKEAMGQE2XNMG2Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPRA4X5IERB5PCRKEAMGQEDYQRT3Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd38.google.com (mail-io1-xd38.google.com [IPv6:2607:f8b0:4864:20::d38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAB43DA34B
-	for <lists+kasan-dev@lfdr.de>; Thu, 29 Jul 2021 14:44:30 +0200 (CEST)
-Received: by mail-io1-xd38.google.com with SMTP id w3-20020a0566020343b02905393057ad92sf3764638iou.20
-        for <lists+kasan-dev@lfdr.de>; Thu, 29 Jul 2021 05:44:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1627562669; cv=pass;
+Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2453E3DA49E
+	for <lists+kasan-dev@lfdr.de>; Thu, 29 Jul 2021 15:47:35 +0200 (CEST)
+Received: by mail-yb1-xb3c.google.com with SMTP id n192-20020a25dac90000b029054c59edf217sf6801515ybf.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 29 Jul 2021 06:47:35 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1627566454; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XMogufQqIka/T+B/63ls7QVQmKQNHDOO9zJ9CeTkp40wQr3+CYMXcdBLXuGu2emHIp
-         1pStnvwKDzT3ThouyO8vHjisfmGzTF0PMVx+MzVm5faV56bomQfF2y9FYE/8Kws4JdnX
-         7O3rNFVOz5VQRZOAOz2f0JS2wCqWS+Alnu8mdb+Mqhbz/DmqF/dSy0CiGczms0B1hMN+
-         qGfMCfQ7iLpFXqHgMfflEXkHyYwxizol6kR9nP1opa8oDaFDMJaN+XeWfcfj+St6u7xn
-         2lGFpV06jev5oXLl3E3l8TNKnqvdu2pGNCXKmYJGFs0BhCn4igz4pQZ01Laf8pygQiVs
-         VKdA==
+        b=pp9uxILAXEz6iaz05or5FBVONOsFffHoaf08vwZG27h9ondR/9eyiBoa2Tdfix3n89
+         nV9AMRJe0vd9A3zB3Q0Euk+YQSnFEYHbxzumUVFHwiFubo+5cbPZ2lCAhQztWpZ0A34o
+         RqBNnFB1S5r/ApkhJZJMQojtsvBUUNHUb+MqUZcHUX+X2HApu1WL50z/cNh3fTUlCsZE
+         9e7Ao75FISwoWFBApaLVuJM2FqMjinePMqXeOn6sgkHu1+ADEROyEgY6JXJPauMPk7No
+         8CSIukp5/q1cmHGfGFYfmY3zlq8Pm/LiRaKolCDH0YOyKQpYp6IHnmwRmUJuQtu/PKVd
+         e8ag==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ghbw/wqFwbvTzB6FMTVKZ1qwsfr0DQwTaQP8XSXB7Fc=;
-        b=CgrM9e+pF16UFXRlK2tEfH+ThQr82Dmik9hRaGY52ESjFKcX4pY75awLF5s+b8Ls+L
-         RQ8bauuCwwvDcgYAjwn+JEqS8+2/xXmtHIoYctb+8GJ44nGVa9EqKnJwP+kbVWZJ1DLH
-         LbS+sNsLww5zAeM65Y2RWeNzRqmviq6esNrN9bYYfNCcvEIyCZvGwvrc9lH2RYUwfHLV
-         UMtcP4a8q/hYCE+4gBvyOikro8Uriq7j2QDffMcTHvsnVG1rlKf7+SN1mYffF353V586
-         PNLO7xPgJrRjBvdB0TTD4IsYcOHlDPynIs0NcofZl2jhcvylX81kqEpKRuKM2NjIWZ0L
-         3FfA==
+         :list-id:mailing-list:precedence:mime-version:user-agent:message-id
+         :in-reply-to:date:references:subject:cc:to:from:sender
+         :dkim-signature;
+        bh=Mqm5bEjY8qrZHNiRxv+IsJQuQ04tVQ+EQXk1yK0cz4E=;
+        b=mBCCenOV4PR5aW7X6wbe+6Q4whlSv2zOkVyS3qkDgDsnUzc6no2mfARSxMtX1kgOrQ
+         k/xQfSLk9480/c7VaBP2JdEZD5LelrmdZBQonETSFpykidttsnK+3iAre32o8A+29urI
+         +xGDiaSOyyzjkqPllTlN5Tj2JLeNy7wpprku0JarAiZildTZ/wl8RpGpxvPnJ1n/oUsA
+         9QEV/Twp+en2IP+rr34Cw873oLEFY9DKBpMeFEYw0xaEjGNhG1QBhlBc4uORbZEmK7Pc
+         Td6U3Fb/XcWCaW5TyvVSqJyBBP9/sMAJQMfHmwOZnRbOnZ+FsuMQHp7LJWho+tzDKWEm
+         ug8w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=BDIdGkUe;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b="coJYu/Zt";
+       spf=pass (google.com: domain of svens@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=svens@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=ghbw/wqFwbvTzB6FMTVKZ1qwsfr0DQwTaQP8XSXB7Fc=;
-        b=o2/XLRRkrHS0JOrYVMBngo5MXbDbnnQYHm8bra/CQ6TT52j1abAll8ep8Wa3buhAMU
-         uafgpja7brzbFQGIAAwZBpW+ITdtACgTWc5E76uakGKqm3bPigNXh1vdSAI+DIZ/nSoV
-         egZw2wuGX4OfcWCn1tlf/AoqUeWQF1CyxBfqzBRLWAWOblDJuJr+CKx9zyfLYFCiV7VS
-         a0LnhiFtfC4+geCInCdejutmJ92aZTiVdZfxokXTCwLq/laO1NyGnt1bef/MzWy1S+4g
-         ORa9qQDoT+Mztxfre5IM12a8eIwkwlY9qXABgSk6SiFPBH4naGsfcMvmr3Jats8QLzye
-         wvwA==
+        h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
+         :user-agent:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Mqm5bEjY8qrZHNiRxv+IsJQuQ04tVQ+EQXk1yK0cz4E=;
+        b=DoRAn5L2gB5ISstuhX4IpOBjFrdZhVuOGmhUZEcL603657MozR81wrVlJ/s7WqSAkX
+         pHbwB7t8bZRgUfCP6tU5d8h4m5hi+idpf/pIeJHnODEfRErAXlAGX6tvkmSFD5k00/+e
+         q2lyi39Kd1OR3dCVo9FqAKd1FC9dwQF7IHU70ozqpDGHAlkc/T1d5xHYjJpGLPrcUDgO
+         IClh6DR4Th4uiacoXhTdlBLeLuUWZ8KucO19/DN/le5piRuXjPFZgENzQMV20f07wGc3
+         a11aYdogU5Vg5oUIrf81ilWCxCBxbHKWOLB7LNJzV2pBViUxPfu0A7KUoW/vTif49/zD
+         yCZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ghbw/wqFwbvTzB6FMTVKZ1qwsfr0DQwTaQP8XSXB7Fc=;
-        b=TXdrMVfYvz9jJq/uptxxH5tF8K4K8JW+IlHUEz5fQoixHRMgj/zltwezFXEZC3kbQf
-         aJ+MYmwanpL4Ejb1ckrqMdFIG2hqZHHrYhYOVHwMXEPdAAl6pq4/b9Vd9TNQas+HYIki
-         qmgB2Xm29X3AdGKasggeWCnpJJQeptO3sW86IvneKd0bXYazyHC0DjmcSuScw9QxDeHt
-         nepw63Ej24M8sroTfK5g5kk7soUkH5rw8x1CUTTjFL1dYXnqPHxlWSWPSrgzaFUVQPyB
-         wxmcwrJCR2zOl5QKb3VDLVjU5qu4GDvzJSK1i8wGSdAHX8HAIzeCe5eR7DHG5JFCqkn+
-         sDnw==
-X-Gm-Message-State: AOAM532utOl5r/oTWX4Cx9iJu+ufjC8jaJymHRzI1/r0ieX+LUpJe/+9
-	Q5GBcuOzhOo5cF6HAOQRdF4=
-X-Google-Smtp-Source: ABdhPJzZHlM9vqfD10tzkJWYOa+RDs9yLxixbElWZPD/0ZFzh9XtnIk0iNcb32FZcGeWiq91Q5OzsA==
-X-Received: by 2002:a5d:85ca:: with SMTP id e10mr4107543ios.193.1627562668941;
-        Thu, 29 Jul 2021 05:44:28 -0700 (PDT)
+        h=sender:x-gm-message-state:from:to:cc:subject:references:date
+         :in-reply-to:message-id:user-agent:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Mqm5bEjY8qrZHNiRxv+IsJQuQ04tVQ+EQXk1yK0cz4E=;
+        b=MRL1m+XQdG/Wfb6ajrI8kBHKciSk0ula/8SoJ9hm+Wjh6PvnjOHlFDnjLpCW4NTxSe
+         xF3x42b87j+bxNg4V4T88HoZEOQNSDNmP0/GG/7pyACcNJ61+h00r1c4Xiy6iE1lZ4gk
+         rO4SOeFZr71Dij9jT22ldQUEbV2BjBxytxWROuEbnH7gTG4/VrOmNYFFv/wbUG9GSK3Q
+         MkEkWtZK+3Fg8jbjn1+E+EafRORhmVJTnO/cXQC8yNYh3x5eKNIeWceydjW63Vue0YQr
+         5Sh57JNSZNhxOXltcaFw6wO2JdJnJERGob7RttECtPpmb27fl/JY8Yvo7k5meEep/ViJ
+         oc8g==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530caSosLBTqgctvXF0+XAOGdxjwyNxpe7XFU1DBD1vVG+S0gee3
+	BBAbtVsKN5oyZBKZ8H57deM=
+X-Google-Smtp-Source: ABdhPJwmXcLCxJMD5nOx4yRYFa01P775G19v31obff4aR6ctULSJhZL2W4m1nKTB8Bp/JMIHI+UneA==
+X-Received: by 2002:a25:7cc6:: with SMTP id x189mr7630279ybc.371.1627566453947;
+        Thu, 29 Jul 2021 06:47:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a6b:ea0c:: with SMTP id m12ls1012765ioc.2.gmail; Thu, 29 Jul
- 2021 05:44:28 -0700 (PDT)
-X-Received: by 2002:a5e:9917:: with SMTP id t23mr4135106ioj.158.1627562668576;
-        Thu, 29 Jul 2021 05:44:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1627562668; cv=none;
+Received: by 2002:a25:6e04:: with SMTP id j4ls3160010ybc.7.gmail; Thu, 29 Jul
+ 2021 06:47:33 -0700 (PDT)
+X-Received: by 2002:a5b:303:: with SMTP id j3mr6386912ybp.433.1627566453451;
+        Thu, 29 Jul 2021 06:47:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1627566453; cv=none;
         d=google.com; s=arc-20160816;
-        b=B59gAvE51WNC/6Lmt6nMPSVwXAUoY31a+N7SezFj7ZzwjFSsxZlLW6fE1WFb25uh65
-         nj4xHrKp71RKbiHFsr9yi8XazzRvZeSGdn+njNiKhsZw0I2Q5zXn1nx/pCYwzHN4RWih
-         HDp2v4v5VXBaIgdPms8tSOShpTJ0LFEF6HeHlqmHwFX7Z0vzdu4/d027alz1D29z2oLe
-         H0pxTC1iA6ZSj4vZTGuTTxYxrWPdgNezh0caVmA9DZtcY1EZ/U3hX3OUcglXOBrOBRth
-         cYQZ351xvRHFUDCsSv9B6M4OGJtIylbXyWRxCyY9kfLWOvXC4dv5s+TVLkJ7p1rsN7TJ
-         NN6w==
+        b=C7AhV28L3O6UYGBrFwQul3h8gKRDSuQ3R2P46V4WtB1qk1LE1Uvy2VXeNCHm02HNHq
+         MRbePNfdsuEWrJNL0zWwPZim2YauVtj1DSgLQuM8eHYk2NbzXEEDIsRia0xDW4J3XWxM
+         jxLTgNMbfHqrh+Qnc5buauhwem5Kj0mTiVRmmCX6aiiH5oK3oUPoVX7x9rXq7hsQxnjo
+         gB6xEbJO6JOJAXl51jZZLNE7bUh0xEJjIBwawPp64Dq2vMFQaElNtiFpzu0AH1YZNbni
+         yoaATpwHaEZEWEICrnPHgjESoAedid7yD2UACVG9keUrHHsRwXxYJkOO2X9uJH2DW45S
+         +4TA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=REukLMYHB9mfVFO1/bdDCKtlszA1rKroqNl1QPX1pLU=;
-        b=ULfIaLnRLi0noNv+FBh5wOb7hq+70nNc6pkukqUJdvBvLQP1YZyNQmuGLswToeva13
-         J2t9cg6e6AVw06txmPt4Z341TzWO1CZ2cO/tSwFxm7FstQHrsZvMv8OLNnBorA+GZjba
-         tlGxvWxdxNw7xgi5G5IADGaTlmOVJws52D78Wap6QAsmn0QTgtSzNLxtkQ2afJJqIZRL
-         CPDcRTeXQwJPnAbgaDjfMPBuUnaah2WKItXfu/L1JgQM9+X1ULXZaBgl1VI5FaVpni0M
-         006vYNNf9JSv+XotO/ezL2QlKLUPZqyY+g25E4BlG0uE8S3KxPxIDJ/soTtfdkMiMY10
-         QQ3A==
+        h=mime-version:user-agent:message-id:in-reply-to:date:references
+         :subject:cc:to:from:dkim-signature;
+        bh=9O/GEXoZTqlR+xJfXv/WGh/M7l0aIVQd0qAa+HW+Jb4=;
+        b=ypv4V+70/eODQjZEe1x7ht9eX0PWkbdOZ+6U+haNrmglaJi0R6eCy+W8n80YCAHYOT
+         wwG6jHby1VZAOfI2IoBZVjulcxQclaH/QZvG+0Hi7C9h7xlh2JGkphTMlrbOf0H8eWYG
+         3FbFkOJtt2MID4kEsVv2kVcqBrUlePaqtZ4Tw5MGsLG0JhbYb9gDbzzVivNDPJ4nOQdn
+         p5sipUmetzW8PUAt3EjzxU+RDXEfa6jWJBvNUxcuJFhppFThPjlU/o7ldNQIHXb5rzGh
+         DSb3XoMfYN6CVSgNGqdBiJYQ3FlgV44D1QhGCWQWpmQpTaepYWqJId3fJ0BnP6iga1s8
+         ilvw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=BDIdGkUe;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::82d as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com. [2607:f8b0:4864:20::82d])
-        by gmr-mx.google.com with ESMTPS id q12si211110iog.2.2021.07.29.05.44.28
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b="coJYu/Zt";
+       spf=pass (google.com: domain of svens@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=svens@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
+        by gmr-mx.google.com with ESMTPS id z205si368760ybb.0.2021.07.29.06.47.33
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jul 2021 05:44:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::82d as permitted sender) client-ip=2607:f8b0:4864:20::82d;
-Received: by mail-qt1-x82d.google.com with SMTP id d9so3778589qty.12
-        for <kasan-dev@googlegroups.com>; Thu, 29 Jul 2021 05:44:28 -0700 (PDT)
-X-Received: by 2002:a05:622a:10d:: with SMTP id u13mr4063224qtw.369.1627562667841;
- Thu, 29 Jul 2021 05:44:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210728190254.3921642-1-hca@linux.ibm.com> <20210728190254.3921642-3-hca@linux.ibm.com>
-In-Reply-To: <20210728190254.3921642-3-hca@linux.ibm.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 29 Jul 2021 14:43:51 +0200
-Message-ID: <CAG_fn=VS_WFjL+qjm79Jvq5M0KaNScvX2vCw=aNxPx14Hffa0A@mail.gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 29 Jul 2021 06:47:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of svens@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16TDXWBw110609;
+	Thu, 29 Jul 2021 09:47:33 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 3a3tw7nkue-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 29 Jul 2021 09:47:32 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16TDYInm117541;
+	Thu, 29 Jul 2021 09:47:32 -0400
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 3a3tw7nktt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 29 Jul 2021 09:47:32 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+	by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16TDZnjZ002896;
+	Thu, 29 Jul 2021 13:47:30 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+	by ppma03fra.de.ibm.com with ESMTP id 3a235ks4ry-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 29 Jul 2021 13:47:30 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+	by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 16TDigBD25428294
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 29 Jul 2021 13:44:42 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BF0C6A4051;
+	Thu, 29 Jul 2021 13:47:25 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 58190A4080;
+	Thu, 29 Jul 2021 13:47:25 +0000 (GMT)
+Received: from tuxmaker.linux.ibm.com (unknown [9.152.85.9])
+	by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+	Thu, 29 Jul 2021 13:47:25 +0000 (GMT)
+From: Sven Schnelle <svens@linux.ibm.com>
+To: Alexander Potapenko <glider@google.com>
+Cc: Heiko Carstens <hca@linux.ibm.com>, Marco Elver <elver@google.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger
+ <borntraeger@de.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux
+ Memory Management List <linux-mm@kvack.org>,
+        LKML
+ <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>
 Subject: Re: [PATCH 2/4] kfence: add function to mask address bits
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: Marco Elver <elver@google.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Christian Borntraeger <borntraeger@de.ibm.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-s390 <linux-s390@vger.kernel.org>
+References: <20210728190254.3921642-1-hca@linux.ibm.com>
+	<20210728190254.3921642-3-hca@linux.ibm.com>
+	<CAG_fn=VS_WFjL+qjm79Jvq5M0KaNScvX2vCw=aNxPx14Hffa0A@mail.gmail.com>
+Date: Thu, 29 Jul 2021 15:47:24 +0200
+In-Reply-To: <CAG_fn=VS_WFjL+qjm79Jvq5M0KaNScvX2vCw=aNxPx14Hffa0A@mail.gmail.com>
+	(Alexander Potapenko's message of "Thu, 29 Jul 2021 14:43:51 +0200")
+Message-ID: <yt9dtukdteoj.fsf@linux.ibm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 1Grps8gXUt09Y6zVx3mspHN6fv6-rv4W
+X-Proofpoint-GUID: dN18rwQmbCZAayJ0xzHHDeX5X82kCHcf
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-07-29_10:2021-07-29,2021-07-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 phishscore=0 priorityscore=1501 clxscore=1011
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107290087
+X-Original-Sender: svens@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=BDIdGkUe;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::82d as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@ibm.com header.s=pp1 header.b="coJYu/Zt";       spf=pass
+ (google.com: domain of svens@linux.ibm.com designates 148.163.158.5 as
+ permitted sender) smtp.mailfrom=svens@linux.ibm.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=ibm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,106 +181,90 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jul 28, 2021 at 9:03 PM Heiko Carstens <hca@linux.ibm.com> wrote:
->
-> From: Sven Schnelle <svens@linux.ibm.com>
->
-> s390 only reports the page address during a translation fault.
-> To make the kfence unit tests pass, add a function that might
-> be implemented by architectures to mask out address bits.
->
-> Signed-off-by: Sven Schnelle <svens@linux.ibm.com>
-> Signed-off-by: Heiko Carstens <hca@linux.ibm.com>
-> ---
->  mm/kfence/kfence_test.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-> index 942cbc16ad26..eb6307c199ea 100644
-> --- a/mm/kfence/kfence_test.c
-> +++ b/mm/kfence/kfence_test.c
-> @@ -23,8 +23,15 @@
->  #include <linux/tracepoint.h>
->  #include <trace/events/printk.h>
->
-> +#include <asm/kfence.h>
-> +
->  #include "kfence.h"
->
-> +/* May be overridden by <asm/kfence.h>. */
-> +#ifndef arch_kfence_test_address
-> +#define arch_kfence_test_address(addr) (addr)
-> +#endif
-> +
->  /* Report as observed from console. */
->  static struct {
->         spinlock_t lock;
-> @@ -82,6 +89,7 @@ static const char *get_access_type(const struct expect_=
-report *r)
->  /* Check observed report matches information in @r. */
->  static bool report_matches(const struct expect_report *r)
->  {
-> +       unsigned long addr =3D (unsigned long)r->addr;
->         bool ret =3D false;
->         unsigned long flags;
->         typeof(observed.lines) expect;
-> @@ -131,22 +139,25 @@ static bool report_matches(const struct expect_repo=
-rt *r)
->         switch (r->type) {
->         case KFENCE_ERROR_OOB:
->                 cur +=3D scnprintf(cur, end - cur, "Out-of-bounds %s at",=
- get_access_type(r));
-> +               addr =3D arch_kfence_test_address(addr);
+Alexander Potapenko <glider@google.com> writes:
 
-Can we normalize addr once before (or after) this switch?
-
->                 break;
->         case KFENCE_ERROR_UAF:
->                 cur +=3D scnprintf(cur, end - cur, "Use-after-free %s at"=
-, get_access_type(r));
-> +               addr =3D arch_kfence_test_address(addr);
->                 break;
->         case KFENCE_ERROR_CORRUPTION:
->                 cur +=3D scnprintf(cur, end - cur, "Corrupted memory at")=
-;
->                 break;
->         case KFENCE_ERROR_INVALID:
->                 cur +=3D scnprintf(cur, end - cur, "Invalid %s at", get_a=
-ccess_type(r));
-> +               addr =3D arch_kfence_test_address(addr);
->                 break;
->         case KFENCE_ERROR_INVALID_FREE:
->                 cur +=3D scnprintf(cur, end - cur, "Invalid free of");
->                 break;
->         }
+> On Wed, Jul 28, 2021 at 9:03 PM Heiko Carstens <hca@linux.ibm.com> wrote:
+>>
+>> From: Sven Schnelle <svens@linux.ibm.com>
+>>
+>> s390 only reports the page address during a translation fault.
+>> To make the kfence unit tests pass, add a function that might
+>> be implemented by architectures to mask out address bits.
+>>
+>> Signed-off-by: Sven Schnelle <svens@linux.ibm.com>
+>> Signed-off-by: Heiko Carstens <hca@linux.ibm.com>
+>> ---
+>>  mm/kfence/kfence_test.c | 13 ++++++++++++-
+>>  1 file changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+>> index 942cbc16ad26..eb6307c199ea 100644
+>> --- a/mm/kfence/kfence_test.c
+>> +++ b/mm/kfence/kfence_test.c
+>> @@ -23,8 +23,15 @@
+>>  #include <linux/tracepoint.h>
+>>  #include <trace/events/printk.h>
+>>
+>> +#include <asm/kfence.h>
+>> +
+>>  #include "kfence.h"
+>>
+>> +/* May be overridden by <asm/kfence.h>. */
+>> +#ifndef arch_kfence_test_address
+>> +#define arch_kfence_test_address(addr) (addr)
+>> +#endif
+>> +
+>>  /* Report as observed from console. */
+>>  static struct {
+>>         spinlock_t lock;
+>> @@ -82,6 +89,7 @@ static const char *get_access_type(const struct expect_report *r)
+>>  /* Check observed report matches information in @r. */
+>>  static bool report_matches(const struct expect_report *r)
+>>  {
+>> +       unsigned long addr = (unsigned long)r->addr;
+>>         bool ret = false;
+>>         unsigned long flags;
+>>         typeof(observed.lines) expect;
+>> @@ -131,22 +139,25 @@ static bool report_matches(const struct expect_report *r)
+>>         switch (r->type) {
+>>         case KFENCE_ERROR_OOB:
+>>                 cur += scnprintf(cur, end - cur, "Out-of-bounds %s at", get_access_type(r));
+>> +               addr = arch_kfence_test_address(addr);
 >
-> -       cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)r->addr);
-> +       cur +=3D scnprintf(cur, end - cur, " 0x%p", (void *)addr);
->
->         spin_lock_irqsave(&observed.lock, flags);
->         if (!report_available())
-> --
-> 2.25.1
+> Can we normalize addr once before (or after) this switch?
 >
 
+I don't think so. When reporing corrupted memory or an invalid free the
+address is not generated by hardware but kfence itself, and therefore we
+would strip valid bits.
 
---=20
-Alexander Potapenko
-Software Engineer
+>>                 break;
+>>         case KFENCE_ERROR_UAF:
+>>                 cur += scnprintf(cur, end - cur, "Use-after-free %s at", get_access_type(r));
+>> +               addr = arch_kfence_test_address(addr);
+>>                 break;
+>>         case KFENCE_ERROR_CORRUPTION:
+>>                 cur += scnprintf(cur, end - cur, "Corrupted memory at");
+>>                 break;
+>>         case KFENCE_ERROR_INVALID:
+>>                 cur += scnprintf(cur, end - cur, "Invalid %s at", get_access_type(r));
+>> +               addr = arch_kfence_test_address(addr);
+>>                 break;
+>>         case KFENCE_ERROR_INVALID_FREE:
+>>                 cur += scnprintf(cur, end - cur, "Invalid free of");
+>>                 break;
+>>         }
+>>
+>> -       cur += scnprintf(cur, end - cur, " 0x%p", (void *)r->addr);
+>> +       cur += scnprintf(cur, end - cur, " 0x%p", (void *)addr);
+>>
+>>         spin_lock_irqsave(&observed.lock, flags);
+>>         if (!report_available())
+>> --
+>> 2.25.1
+>>
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DVS_WFjL%2Bqjm79Jvq5M0KaNScvX2vCw%3DaNxPx14Hffa0A%40mail.=
-gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/yt9dtukdteoj.fsf%40linux.ibm.com.
