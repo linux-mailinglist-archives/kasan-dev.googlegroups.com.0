@@ -1,135 +1,125 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRBPFTSCEAMGQETUVJ3GQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4NDKWHQYDRBY76SGEAMGQERIQXVNA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53BA23DBC32
-	for <lists+kasan-dev@lfdr.de>; Fri, 30 Jul 2021 17:24:46 +0200 (CEST)
-Received: by mail-pj1-x103d.google.com with SMTP id k1-20020a17090a39c1b0290176898bbb9csf10104498pjf.8
-        for <lists+kasan-dev@lfdr.de>; Fri, 30 Jul 2021 08:24:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1627658685; cv=pass;
+Received: from mail-vk1-xa3a.google.com (mail-vk1-xa3a.google.com [IPv6:2607:f8b0:4864:20::a3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9483DC12D
+	for <lists+kasan-dev@lfdr.de>; Sat, 31 Jul 2021 00:38:29 +0200 (CEST)
+Received: by mail-vk1-xa3a.google.com with SMTP id m123-20020a1fd5810000b029025c99c6b992sf1091932vkg.10
+        for <lists+kasan-dev@lfdr.de>; Fri, 30 Jul 2021 15:38:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1627684708; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QOfWuRGjbCVIiHaWS8K1UV2Tr4QWC57ACQw06OyqHW9qKSD4Uf3nnnovzIzSo7atNy
-         4Q+EHQGpOmlV9W9khyNOKy8eQ88fbeNhkfl1lWbF9wOr0JyebiMp/0UWFF6CghdIC3M7
-         r0byiTi5hJYXR59ok55uVmGBkDWJPfnk/H+2zVCLvz2GINyW/3MlJq2JDH+ar/CWowDo
-         F94MNbMoABBa3HedfBLtBtNvREu0wBEGKjgZtLp5EFBER2K9O0fMvIM70d3Nx03fu0b7
-         8SB7vSgBNzAXcDDcFxbj1NsYsaGYCuE3p4KPdJ8Ny4II58QzNu4EzdD18ig+K3D2efTC
-         yl6Q==
+        b=otEHmmdJuperfn71pxFNsw5imJbN+UO73+2tH8r4qdoU3lAIMZAM97RM3g9jvW1Mrt
+         dZ3FQ0IDQ6oTRBVHpq+aguAt9S0N6c3b5Tjf4pgymgdD99eq58kdsHSFhaWApYX7SfBM
+         SFq90hbWMnHDBzUUxadeAZDO0bnc91wl0cLDqdBzgQ9e3RV/kaXV0W9VduStr3ipp73g
+         1qzg1tvvSrZEoQbxjX9PzGYGUPyRAhqcr1m+Wzt6GdvWdRLpNhYLpO1q5m2dJuG20z3b
+         TN5c4FrDsOdpESm+4eBYehaYY7Hw8XURDHwf4XuhiEqzSwkuFlPUhXG47ybTtXWw0db4
+         qqgg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=3RqgUayz5ay4w4WoANeXdHfGbkUP/6L6KMwJB2YW+fk=;
-        b=UBTPmlZeZmsIzIN5/kLA5bpA9i60iVVLwIWRK1VV7XUvG/oMchKC5Qy9aenwsxpPOM
-         bk7prG5n8RDdG/Bpbn9u0aFjwE0BviaQJGwd8axNbnLr6Xk+DqB3Av0neyQxshPgxENr
-         Yb0n1vFxQ7o6t//YxrhVbPth40rvG0KhWINYQQamJ8JYBYegBpPuuegKrK/z6cMwaFop
-         yTbutKnqfVypE7FCreoLAlvpSqj4kUo71EDL08EWmkExptyddB2/JYkykGbxh/6gmNi0
-         G+imHm+XEc/YVMpm56xEeVrV4cmJtB+gUaWCTqaf2oYuKxhKUbJPVJstQITE/nnMu4Nh
-         nVRg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=1cPYKcULJ+9Su+dEG7FDeUsZhpCCWMVoPYdMNRKqTZU=;
+        b=ivJi6hIYLeoY/knak572rqH/kEKarqyFy8k65nkOQYbv8WL8ztQObNpYOlhlXnk8ye
+         zoCv/9bl8Me89j0h9pDdtu1vxX849tKk4+8c3/H9O6yvuXJGICZ2jfHisiPxRoincqAb
+         CnKbPZ5M7kR7TqRKU5DXfLBBN55n/CB3EEUXOgXV6YABWMZDOrHPMLy1l7LfoNwxK9Gr
+         h/xHiVo1+RXf5MFBTMnBZxVCWsBG5NVvp4GLpQzlSbNuEbI0S9VqBVXTiwgLVnAejrF+
+         jE4L6ekHcOSF70oLaFaPesvBwXpAH0uUdVbpL8ZDwgiMHc+JOHXfnKzZppTVYqKK6i3O
+         RNAg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CBLwAqSq;
+       spf=pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=3RqgUayz5ay4w4WoANeXdHfGbkUP/6L6KMwJB2YW+fk=;
-        b=o4IET5HLtNvLp6zX7gIJsfoFjCUk3VziZXA0kLSYkZRduGUkh2oW0rEXwcBwg7vl7G
-         JmwxOfPsDVquTdiDC3GFYegFII0FORnFp/YZFKpampShBLbgViKu+QGk/5RA4nlJms25
-         jyTK85QCvXTKto0xf52MypP/B3d8MdzDH4Lzwb8D/ylLZJb0i/1CGhvWzRCihI1B8cB6
-         yZO8z1MGvXLe3YMZxkyFLr1UpgKTXjKP8qRmUfLxEfnaJsqAHdd+wtxUwzZ65/lzF03W
-         phyyH4uZ9FGhLKbMxQesQIhMGUb6k77UwO6I32ow9mHe+fstIHjYQmBRIjj/LwsfPG4k
-         0ohw==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=1cPYKcULJ+9Su+dEG7FDeUsZhpCCWMVoPYdMNRKqTZU=;
+        b=if8pR3HUkM4p2vlQZY+SDbc8oK4zqWM7WkddiyxASPaTj4Ldu24KxWNZfDkb9GD1R1
+         /ARfTu5eA61ewJ5HqObihZ6mNm8+K/PnP5N+hPeBgMQ6TJ8+1QfuQsre8nyFkjD7k1dm
+         yK5zBMm95umbzfQZY9Gk/epXOGzTCtNdy1QHZs121TyfRMgAS6wl3jwTA9nsNiISEKrm
+         Fq318lKppX6q5QCdTAn0TrSot7O+e8+87SWlTVDujtr7L6+AfyTClKQB0vhIkYZwARAE
+         fxf0bzC+Jd/I7iFNZvyboGAHXPArY4XT62L5E5aCfI6a1NC4FZiK2UQ56XCL0CiZyqJv
+         DPIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=3RqgUayz5ay4w4WoANeXdHfGbkUP/6L6KMwJB2YW+fk=;
-        b=Z2b8lBw86rBez98hQRIsayCgr8nmsl3OEuMHuO2cXi3oK7zV+Lq5SvLJ+bvBJW/mDL
-         YOz+7rXz1B4kWq59q4pgAKs4ucqAIYW/1nMDuY40IfLdPngOma1AOROiaE2UiMQQwGXp
-         m0FgjoPJczXMQlNwztTIVad6uAG09ym0I8MskcaRuU8Fq0eSj6kHMJqC3SHSdlmQZ5ru
-         hI07VDZsxE0eeHVFqEsst1vWBKmbzCWwPiQz4rDJ1mUP0VdXc3gWTn/su/ULrlzJy1f1
-         NOykOC/uCfXAcLMS5n+6UfyYi2jgmVygYRflXzsbqqHZBqK++qcr/r4LKKnuP+5eyfWC
-         KOUg==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=1cPYKcULJ+9Su+dEG7FDeUsZhpCCWMVoPYdMNRKqTZU=;
+        b=hhWcwEN5WAbd+rA+/SYcQbtQkaS+sIqWrXXGG5fZhNjmuT8SacDmPrfqlZNodjZD2E
+         IvVMThwlwDyWPgGIQTHrKLoslPmXEg/CzEiFd/yUuikIf0vAUHCfn41HZN8SS4oCL6tq
+         eNXLdyxy51NTuBjK4T2xf9vwkUqwucB0G7qm5eBX1pIzP8JgpFbSEvh63W5RmPz6n1wf
+         eVooDBO+T0zaeAUluqXt7FvbTGV1d7C4ndwvSktw2HP7XijejAq45ywcMfse/PB3Twcw
+         XFaiR4juXtQe+dU1iHXxju9GhU1MCbRVpOPcAX0P8kSGm9t/DaL5Vt2Q9nM1xjiGfxkw
+         NClA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530cZydsA141s5hiseoCuemH9PwTMqG3fuB9Mt2vDC2AbUs2zGaR
-	jPEJm2PJ9YSt+OrcL3w4dGk=
-X-Google-Smtp-Source: ABdhPJxTTm98wg7XAH6hsZnR3pkd/dZYlBw7unriVEer9+uuqDnxJnd52uCL/F2uxFtuaBZiNHSVHg==
-X-Received: by 2002:a17:90a:ba8e:: with SMTP id t14mr3652152pjr.176.1627658685029;
-        Fri, 30 Jul 2021 08:24:45 -0700 (PDT)
+X-Gm-Message-State: AOAM530ThWrN/Y3lTV95VJOOm3YBA03NaUFflDjes9RxV+VCos5Vua2j
+	uXN3rIaoMP6yixWcyIhijDw=
+X-Google-Smtp-Source: ABdhPJzaoyFimZOgVV0LNxJ+iBdyXh8FDwDB3KLtURH4pBA5Z9xzKFW4MjcUhpoQSZwviSNnUbxvaw==
+X-Received: by 2002:ab0:5a0e:: with SMTP id l14mr4849403uad.88.1627684708063;
+        Fri, 30 Jul 2021 15:38:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:bb8f:: with SMTP id m15ls1154385pls.3.gmail; Fri, 30
- Jul 2021 08:24:44 -0700 (PDT)
-X-Received: by 2002:a17:90a:5141:: with SMTP id k1mr3499453pjm.185.1627658684426;
-        Fri, 30 Jul 2021 08:24:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1627658684; cv=none;
+Received: by 2002:ab0:1527:: with SMTP id o36ls433647uae.3.gmail; Fri, 30 Jul
+ 2021 15:38:27 -0700 (PDT)
+X-Received: by 2002:ab0:7455:: with SMTP id p21mr4860879uaq.73.1627684707577;
+        Fri, 30 Jul 2021 15:38:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1627684707; cv=none;
         d=google.com; s=arc-20160816;
-        b=e/Xig/lstu3ujh40aBzH+nii4byFF0jWc2aH2r8JdmVBMq9fGiEVwHe0320L+h0dCU
-         TxjEM1qWgFGWIcv9bWCsZsmNkxKGJ1/bLQwps/JIeBy3sLbRStND1jZfr3GGcmJpR8qt
-         jMfZAN0I1BeSbPSOseUNjURPkeGTBka3CL0SCWHN9kpYegt8tMjnMzDfK/c9qz8e5dqH
-         rDB4AB7RE4NaZpmymH9XpQEyjTYTAItYPAUfNB4G9R3SeABJ4cy/nQbepNAgGgyAWQ2j
-         tFTLTwHo9kNdzizu5+at+Pfn+NHmKWgQ5UIpoAR3XBFfbhOVtlBhbsO8BUdvvNR/+HuE
-         EefQ==
+        b=mn2A9I7TjvRhNsZ6w+0OsZAlrSHdC+inWpyEQjrbZuPZtjcK2OKBdprrSY5ftXh/pP
+         3GuVF0O0l3H/XKgR5jlAqYmiVh1rdt1HSP5zISY294x/bXc/lnq62tTZrfDOFsw6NA8A
+         Bg61436kdypIjlVIBUMHIiaVBnSsW3l9pRpzV3wPsoGFvUecsR/a4w0egvzRjxNwqN8G
+         8l2lM0jcWnCfmvaHi1g8u8mVQKX44FDAmjVzIPJlYT2YZDCbmleiZMNb96+9ozppKl0Z
+         Qm4/qgVhZ+6SgURMNdZpuA3E5XleQzBCi0pCSleI9aOuDGsPZsr7YQTUeO2tV7ozdUak
+         G88g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date;
-        bh=13avQRiQubdP72K/fSFTr5Bfht9EwiRMW9GGBl3Hg/Q=;
-        b=mcJ0/EeIQ6sPJAFvm5q9MrpsM9+lZfTaLauX4zd9il5PIM8GgM5CEldsZA3wz8qQ0b
-         LyLnqoAvHNjm0NQfB9EyQg02+lOVGd6KN6o+UoxzlNhP0GIGQh8UEg+brZ+qlQGaeDWV
-         TcwBlwq/xAwjMRVpIHLyugyVDMyngo+2DYzKP/6EdwJ6xcPtbyJ7hEH/+uoDQA/TUA71
-         YTnme/8nA8VFM8hIVDwwbnP/IUuEmuaFFadRw8K6ftC7P8d7hiWqehkyhDmgxc99e7vk
-         EAda4wwzKcn6ZgpV+wkrPeUU52fuWBYoM9zoEu34TXYSv9jDfq+JJum9rb3g+F/sov19
-         10Fg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=fR3YoTsGn10UoLhjKnWcrXTpAUviMKq9lqUMnVNwz2Y=;
+        b=g3LVbX3bOd3wfAe3Zi8xjiIMyjEHNlIBYXF4aCj6DQu+JH7WHzaQhyu6XA1qY0THSB
+         nShZ0jfcx3jzBnro6RNR2aI6SnnwOgLAFOGByahN33RUOv1Fq3B+hXnrGSjj4tE5UmX/
+         KQrpNK+XJdpbp7yC7luTFRKWv8ZFYqMUviJklzYxdx9E3q5p6g6BtPhPKeSp/W3HY//j
+         CA6CmLwaMQAfRcX5Mdiz6dnKHIbGqbtxGHerNg5l9+FCrY3nc/kvK0T8wyToZI/+wPx3
+         BAfQPGUxpWc7R3wv6U1Pxu6ISETtV/Hc6KU9sTq+1B0ZMHYH07NbTA+/r3Ve6BYmPXwL
+         gEDg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CBLwAqSq;
+       spf=pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id p1si101190plo.3.2021.07.30.08.24.44
-        for <kasan-dev@googlegroups.com>
+        by gmr-mx.google.com with ESMTPS id f11si203265vkp.2.2021.07.30.15.38.27
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 30 Jul 2021 08:24:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F2A2260F46;
-	Fri, 30 Jul 2021 15:24:41 +0000 (UTC)
-Date: Fri, 30 Jul 2021 16:24:39 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>,
+        Fri, 30 Jul 2021 15:38:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B00660F42;
+	Fri, 30 Jul 2021 22:38:24 +0000 (UTC)
+From: Nathan Chancellor <nathan@kernel.org>
+To: Kees Cook <keescook@chromium.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Nick Desaulniers <ndesaulniers@google.com>
+Cc: Fangrui Song <maskray@google.com>,
 	Marco Elver <elver@google.com>,
-	Nicholas Tang <nicholas.tang@mediatek.com>,
-	Andrew Yang <andrew.yang@mediatek.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Chinwen Chang <chinwen.chang@mediatek.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
-Subject: Re: [PATCH 1/2] kasan, mm: reset tag when access metadata
-Message-ID: <20210730152438.GA2690@arm.com>
-References: <20210727040021.21371-1-Kuan-Ying.Lee@mediatek.com>
- <20210727040021.21371-2-Kuan-Ying.Lee@mediatek.com>
- <CANpmjNM03Pag9OvBBVnWnSBePRxsT+BvZtBwrh_61Qzmvp+dvA@mail.gmail.com>
- <b6b96caf30e62996fa3b75ae8d146c9cc0dcbbf6.camel@mediatek.com>
- <20210727192217.GV13920@arm.com>
- <CA+fCnZdprormHJHHuEMC07+OnHdC9MLb9PLpBnE1P9TvrVisfw@mail.gmail.com>
+	linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	clang-built-linux@googlegroups.com,
+	Nathan Chancellor <nathan@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] vmlinux.lds.h: Handle clang's module.{c,d}tor sections
+Date: Fri, 30 Jul 2021 15:38:15 -0700
+Message-Id: <20210730223815.1382706-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 MIME-Version: 1.0
+X-Patchwork-Bot: notify
+X-Original-Sender: nathan@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=CBLwAqSq;       spf=pass
+ (google.com: domain of nathan@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CA+fCnZdprormHJHHuEMC07+OnHdC9MLb9PLpBnE1P9TvrVisfw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: catalin.marinas@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
- sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,73 +132,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jul 30, 2021 at 04:57:20PM +0200, Andrey Konovalov wrote:
-> On Tue, Jul 27, 2021 at 9:22 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> >
-> > On Tue, Jul 27, 2021 at 04:32:02PM +0800, Kuan-Ying Lee wrote:
-> > > On Tue, 2021-07-27 at 09:10 +0200, Marco Elver wrote:
-> > > > +Cc Catalin
-> > > >
-> > > > On Tue, 27 Jul 2021 at 06:00, Kuan-Ying Lee <
-> > > > Kuan-Ying.Lee@mediatek.com> wrote:
-> > > > >
-> > > > > Hardware tag-based KASAN doesn't use compiler instrumentation, we
-> > > > > can not use kasan_disable_current() to ignore tag check.
-> > > > >
-> > > > > Thus, we need to reset tags when accessing metadata.
-> > > > >
-> > > > > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-> > > >
-> > > > This looks reasonable, but the patch title is not saying this is
-> > > > kmemleak, nor does the description say what the problem is. What
-> > > > problem did you encounter? Was it a false positive?
-> > >
-> > > kmemleak would scan kernel memory to check memory leak.
-> > > When it scans on the invalid slab and dereference, the issue
-> > > will occur like below.
-> > >
-> > > So I think we should reset the tag before scanning.
-> > >
-> > > # echo scan > /sys/kernel/debug/kmemleak
-> > > [  151.905804]
-> > > ==================================================================
-> > > [  151.907120] BUG: KASAN: out-of-bounds in scan_block+0x58/0x170
-> > > [  151.908773] Read at addr f7ff0000c0074eb0 by task kmemleak/138
-> > > [  151.909656] Pointer tag: [f7], memory tag: [fe]
-> >
-> > It would be interesting to find out why the tag doesn't match. Kmemleak
-> > should in principle only scan valid objects that have been allocated and
-> > the pointer can be safely dereferenced. 0xfe is KASAN_TAG_INVALID, so it
-> > either goes past the size of the object (into the red zone) or it still
-> > accesses the object after it was marked as freed but before being
-> > released from kmemleak.
-> >
-> > With slab, looking at __cache_free(), it calls kasan_slab_free() before
-> > ___cache_free() -> kmemleak_free_recursive(), so the second scenario is
-> > possible. With slub, however, slab_free_hook() first releases the object
-> > from kmemleak before poisoning it. Based on the stack dump, you are
-> > using slub, so it may be that kmemleak goes into the object red zones.
-> >
-> > I'd like this clarified before blindly resetting the tag.
-> 
-> AFAIK, kmemleak scans the whole object including the leftover redzone
-> for kmalloc-allocated objects.
-> 
-> Looking at the report, there are 11 0xf7 granules, which amounts to
-> 176 bytes, and the object is allocated from the kmalloc-256 cache. So
-> when kmemleak accesses the last 256-176 bytes, it causes faults, as
-> those are marked with KASAN_KMALLOC_REDZONE == KASAN_TAG_INVALID ==
-> 0xfe.
-> 
-> Generally, resetting tags in kasan_disable/enable_current() section
-> should be fine to suppress MTE faults, provided those sections had
-> been added correctly in the first place.
+A recent change in LLVM causes module_{c,d}tor sections to appear when
+CONFIG_K{A,C}SAN are enabled, which results in orphan section warnings
+because these are not handled anywhere:
 
-Thanks for the explanation, the patch makes sense. FWIW:
+ld.lld: warning: arch/x86/pci/built-in.a(legacy.o):(.text.asan.module_ctor) is being placed in '.text.asan.module_ctor'
+ld.lld: warning: arch/x86/pci/built-in.a(legacy.o):(.text.asan.module_dtor) is being placed in '.text.asan.module_dtor'
+ld.lld: warning: arch/x86/pci/built-in.a(legacy.o):(.text.tsan.module_ctor) is being placed in '.text.tsan.module_ctor'
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Place them in the TEXT_TEXT section so that these technologies continue
+to work with the newer compiler versions. All of the KASAN and KCSAN
+KUnit tests continue to pass after this change.
+
+Cc: stable@vger.kernel.org
+Link: https://github.com/ClangBuiltLinux/linux/issues/1432
+Link: https://github.com/llvm/llvm-project/commit/7b789562244ee941b7bf2cefeb3fc08a59a01865
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ include/asm-generic/vmlinux.lds.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index 17325416e2de..3b79b1e76556 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -586,6 +586,7 @@
+ 		NOINSTR_TEXT						\
+ 		*(.text..refcount)					\
+ 		*(.ref.text)						\
++		*(.text.asan .text.asan.*)				\
+ 		TEXT_CFI_JT						\
+ 	MEM_KEEP(init.text*)						\
+ 	MEM_KEEP(exit.text*)						\
+
+base-commit: 4669e13cd67f8532be12815ed3d37e775a9bdc16
+-- 
+2.32.0.264.g75ae10bc75
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210730152438.GA2690%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210730223815.1382706-1-nathan%40kernel.org.
