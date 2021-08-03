@@ -1,120 +1,121 @@
-Return-Path: <kasan-dev+bncBAABBIFNUGEAMGQEE5ZC2EQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBDH6UOEAMGQEKD6RCMI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F463DE0BE
-	for <lists+kasan-dev@lfdr.de>; Mon,  2 Aug 2021 22:33:37 +0200 (CEST)
-Received: by mail-lf1-x140.google.com with SMTP id h39-20020a0565123ca7b02903ba26e9bc4csf1979166lfv.13
-        for <lists+kasan-dev@lfdr.de>; Mon, 02 Aug 2021 13:33:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1627936417; cv=pass;
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id 077BE3DE87B
+	for <lists+kasan-dev@lfdr.de>; Tue,  3 Aug 2021 10:32:16 +0200 (CEST)
+Received: by mail-pj1-x1038.google.com with SMTP id j22-20020a17090a7e96b0290175fc969950sf2303374pjl.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 03 Aug 2021 01:32:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1627979533; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AhSHFGYJRakaZqe/YUnEbqS5BKxRSr6NL/G2BQvPUFWCqjMjhREPCr5mc9dYOhD32U
-         8v+0hIENRvZGoVf6b56cBr7PtkLKrK3wVFzOqKoux93TEWrYvorFlrhzHabyq3fi7YZo
-         y5vLCXfXlZQMmC6HuhDYVBlLWpVE12+f30HFVnRQcX2fhdTJ+8Qo4iJDdcjQEZbmceGA
-         TC7V8KgRD1RKEfBdPJ1pOJk5viV58Rh1gL790GFSQbKEljfYNFwFy8sK/k9O3D7aisKF
-         3xL6ZlsFv38kA16RwnMKlPBNXdybz/8k6EVdqd+i46+W2vNOLkva3MniEgGvPwRqxkwN
-         aFNQ==
+        b=ggAnzqE6Cyqa2Tphq/qTU7cojKhPEm/Mi9Ip9FmrF51pY8aEtsYyBUM89Te4LHUf/a
+         yvDJ1jcXbaZdkmHZGuI1WF7PYY6mneYWoY8A8BHcMEquuFi3NQfm/r11dgWCjJpxZvm7
+         yPYCnUOfY78uf87emxZugqbgJTy0zct10WCnLF6mzyor8GFoaqPFU5AIiGEWfxSscF8G
+         tfG7tIsJa33wCRdSAkyjyY3P35iA7ptxRcMAiQNwN/iyielYEH48YdA4O1e5aj4tNnyk
+         6gLYAFKnPHOHiESJlCaknu9id68o+rSsHciQCHNJsGPAGBXEnnqqh5Zjh6lEWr15fybO
+         mEeQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:subject
-         :reply-to:from:to:date:dkim-signature;
-        bh=FvdsnIvm1pFW/TS6NPwTU4bNfZokXUhhtBXxuhiUl+4=;
-        b=nL6Xv2BXwzXT/H//jvV4eFKuK7zBnSa20lgs/h3x1QFvSW0pUTaGUE8sWxV8dueUTs
-         z4UMYNlS+023cFHrREj4sxaQGSzRZeK1nkrJPm/sUqNhtV2swuvKQprfX7PZD873BMGM
-         jn5qGYAwXWdT021+2vCHZD/MWW2WeK+Tw6SOxmdw6xsSR1Qi/ENV6Vby02m0lR41AJN8
-         3ECtt1xu79u1Oo8VLqyV7qcQTK4pnV9VkkjIZZFf7R3ea4Yei0I5zD+1d2mYNaOXyutK
-         BAPm6Zh9DJmDMiv+A9/0i+K2wgKzNjG+OkJKzp6pw//Uj2yj7xltUepT+lT9T3IBm0EB
-         lkYA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=Crsd07xSUL50ZPxRMfuTOJ651y60mwpH5zu2ppEklzY=;
+        b=HiuCUEY7FaMhZhamw9l8+ghIInvOGw9Hxh8rGarj1dAxgHPjS0/nY6RQsa+SSae9TM
+         DmoWpq8X0STZDQqnnsv60Lcxtn47UJ9LaaDRU35Hp34KlO1H0elkJVRa0PGpgDoFHvbX
+         WBFmCABJ+cXQptzCnKnmqs42/0g/HToCpPjKu9a7blJUK24MDna6VsflHszGLOduDN5J
+         fMmfXepIUVf02naFhMVnb2P5mUR854N26tpw1FphTuXUwMs5tgwDMh95946hacnqZEoR
+         nRsphwsAOf/simrt6TAXlL9h/70NmoNcmou8SGr9EfZ44ZdLFc+c1VtucJH0inDMSKYA
+         hAUg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@protonmail.com header.s=protonmail header.b=icJV0Rne;
-       spf=pass (google.com: domain of nerdturtle2@protonmail.com designates 185.70.40.27 as permitted sender) smtp.mailfrom=nerdturtle2@protonmail.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=protonmail.com
+       dkim=pass header.i=@google.com header.s=20161025 header.b=bP+UZ7Dc;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72c as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:to:from:reply-to:subject:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=FvdsnIvm1pFW/TS6NPwTU4bNfZokXUhhtBXxuhiUl+4=;
-        b=JYiJ1CooYYlSUZmxSocq8Bl+h+2QexlP0cGD1+4oYxMu3fU4wjASy/7AqG4pZzWGcj
-         p0J2m3K+tkXhdp8VajSUACgXvNEev3Yyi4/hROkNL3JNxJViAZJfy9Zz6/jOHMpAJLie
-         ARiRG6jMfSne6ACq5yWfzmNm3ttcSPSeADerOrF1YgJlYAca/Zesc9wYJ3LqJbbAL/IX
-         IbySbDMmgBnkeBQF0PQmgrsXQRfS8Nnpk7t9kdw+xIde8PWgTbvcbi2rX8iA7ztI76SX
-         DZqYv8wTkyBHwnW0VZlcABrI4rgJ4zNoopclVVLod58pMDtsPIb97E4/uMtuhxBD+nYB
-         +Qhg==
+        bh=Crsd07xSUL50ZPxRMfuTOJ651y60mwpH5zu2ppEklzY=;
+        b=fh+KFoMEUyKV7jVzLe3OQf0rZMzAChPHnVMvIRnoeeqHjr443gOUL15fu26o9vD6UV
+         a3FLkw6BEctoXCRLA0SKoKOEzLqUqIBD8sCaLBGJuOszBTajvIJuffHjVjNLLJy6f7F5
+         Y/9haL7qWeG+wuOlTeCrPycM2pvR2xP41x2US9xuHnVa1XTRZAlSRoXaC2TBSEZPmpsu
+         e5pAwZ389AMhsHYpl7dqaj3CisZesRJH/hsxWvgflP+Hyc0pQkE2cp89s+cwwSJIw1vN
+         apIDPFY9Yoft6sJJVbdr0gDho93Mu0GCZEQ+mrzEEtf/yBDYLnu6Y2gP1QElwefutvY+
+         bUvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:to:from:reply-to:subject:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=FvdsnIvm1pFW/TS6NPwTU4bNfZokXUhhtBXxuhiUl+4=;
-        b=qdWEkX8JzHtjM7O3GLQB/kU3Qj3EU4i0t50BhQvVwBUFA3eJ1+xE6sGQnTw2LPZF55
-         BEYp/AqUFxG6ZINf6+pjtrXH+sgophYP4wU4E6YstYB5dEV/IN//pubpPzqMZU689PCD
-         dWHoTYYokSWV7C0pkGDS7Vxe9eR5miy9JqTzue4TuZ70FEjCpKZi1DfipgNDKuFFcq8U
-         0sIiD/oRRedJBz/HnULWu9arR4ca4LX4+v+0Mdx+vqi+YPtYJWWOr8rKZpCE0Wd4cobV
-         4/M1/+O3P9EPUEDRgj7OItFHkout+lP9Tkw3w7HiNdkBGb8XquvMZxcDw1TvWwGuIJk0
-         sstw==
-X-Gm-Message-State: AOAM532F0zsHiQNcHmx1G9VY6AUc1jpuh0BO0fKU+S9sLwfO7VWUhYAN
-	Q+X45fFqxyLyFFKjQyYaxvQ=
-X-Google-Smtp-Source: ABdhPJw/um0AI5xouwntAYGOvVRFg7Q3AvhFmz2at/H76RLfGBZu8pkdKF65RbzCsssZA+FLI0vQVA==
-X-Received: by 2002:a05:651c:542:: with SMTP id q2mr12357835ljp.192.1627936416990;
-        Mon, 02 Aug 2021 13:33:36 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Crsd07xSUL50ZPxRMfuTOJ651y60mwpH5zu2ppEklzY=;
+        b=RcKdBZbcNaLNSffpDiiP7/2dswly6ak/iJj79w/NBhYd4X6+U3m2z9m0DBu/E03y5d
+         xyBTvnp3jmmiUxddko5VxLg4poVpan0nmuKxZnwj68SvvUENcW9JJgi46eRl+QzVRDxx
+         euIBhi0XlLpgBJWODU8mDFgnizdEp65wKZqzU8/shnus9d4zCFz/6ra7tkHsuiCHq29Q
+         aEF0xtO0ykCTVuFB6PFLscVyR300V2Uo9fA7grPZxstB4cwo+wWgOLk4/DSA7HCb7qp8
+         EM6BEvccZdi/9RnsMBDY8I5IiC5LbNul13POJS5GboP+VLHLXo0KnJh3vGJyRw8OlmD+
+         /0Dg==
+X-Gm-Message-State: AOAM5300Q+c53DMh1pLT74I02D3DbUOzeXa7Hv/lSV5uSFNb9vJ/7suS
+	x+QDStZONkro/t2ERpuSKyM=
+X-Google-Smtp-Source: ABdhPJzg2ezx2U252hoAN23Zhe3zVHHvsUScC2t8jiXQE/ajj89zZyMFoicERQ9hl2HU6LAgrdW07A==
+X-Received: by 2002:a05:6a00:ac8:b029:320:a6bb:880d with SMTP id c8-20020a056a000ac8b0290320a6bb880dmr21344434pfl.41.1627979532485;
+        Tue, 03 Aug 2021 01:32:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:88c:: with SMTP id d12ls1707944ljq.9.gmail; Mon, 02
- Aug 2021 13:33:36 -0700 (PDT)
-X-Received: by 2002:a05:651c:113a:: with SMTP id e26mr12207699ljo.373.1627936416124;
-        Mon, 02 Aug 2021 13:33:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1627936416; cv=none;
+Received: by 2002:a17:902:bb8f:: with SMTP id m15ls6714091pls.3.gmail; Tue, 03
+ Aug 2021 01:32:12 -0700 (PDT)
+X-Received: by 2002:a17:90b:4b10:: with SMTP id lx16mr21736871pjb.53.1627979531896;
+        Tue, 03 Aug 2021 01:32:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1627979531; cv=none;
         d=google.com; s=arc-20160816;
-        b=zKLR8hrdASljMjVB9FWtJzHyaMneYj4aIhR+cwJtbaR+ipUFc/6jz9A5NmpPizgiCS
-         D/Pqdp4HT9G1iJbR8a3+aYznzOikMHrnLzAC6VQf29MsgdaiWCfqyt6IJl8pNI61mUIv
-         QJSkfCyxU5Cevaa9lUqQZAU1BJO8Dr1YyxFXZ+wFQSCtbNJWkXwC5MQ7DGPnnJ33zhH4
-         yxTelL7Enid+YuSYfTvoW+trWU9TdWXci8aY2w/ynma48ONKGJZoBz7rJ8t2r+gar4OJ
-         qHidV/1zc5WPmHmsbvDZOX0UXq3QR/W0RFweLAZP1RpAQgxsRLke5R6sEFT2jgrNi2US
-         UzXg==
+        b=AvcdjX+whV0Nq74Mg9ZnvN8HsprIFy+8WEM081V07pjXwKbOImwEU9TiNnX3WjApCP
+         93emrpSJXKp7XrxUkYzCjbrl9a2WDp4/SDJ6WQtmIBcxxdhGD41tEEb2zmbUfVZTzWkN
+         RheYtHSfsgNO3O71r9hlLFKPg5at+IG1tLoXrzh5UyUHim0E+b+hpXV1UXvaxbni70TY
+         jhjYtrXPme4cbZRbg2fd3MTAuzuw5Fm58m0FSOVMdzTmWVETby1NurCaViTpLLjWnT68
+         RfGneUPIFEBADz3gSO3/HEf5cTFDEJ0fzoEdZWbD5JQ/OOUg47O6sNG+8qbB4vkvmP3x
+         ByrQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:subject:reply-to:from:to:dkim-signature
-         :date;
-        bh=qEq2Txk8FZvjsRwcBKIBUu42wVTV++RR3Bn0baI/1iQ=;
-        b=LzdhDCItvsCJwekKeNbPzBOq6F2vZ5MRd3ad345kCmqZTxzLH1pFbL6JnlEIwSZKmC
-         QTFJJ+85hf+UT3zXtiQCgId6/tFhD7+0OPNo0ByNqJ48a1YSV6NHtpB3d+v30mNO+oQ9
-         MikNzv8Dr4kMjmzrlrCTi3a4GrBb954fXPr3ppOABViI78hmYBRJlb5GkV7DB2OKZCZZ
-         vjk2eICkfpTIVlvSEvCDo04WfvtpmjnvYkMxOisgSDYqUtpjQ2rbE7Gqt+yPrYDv2x5F
-         esBQxotzNqpUfN0Sbu6ZHNSRi8gIhv5fX6JEb5UoymuH4sSP+NIpOly/rjZIHm5sbkLd
-         Dtaw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=HYEhFfE/MgNjcUJSNA/EikiumZN3elnlgDSgoG8S+pQ=;
+        b=DEDDXgBhQE/Xl/rmXtFX/V6CfVYe/le5gximancmnqWvIVHnpmG6Hkws64FJKTnI5t
+         lDfGh3qs5+ZFEeoE/+Kq/t0+pLwxD2pn0unFHGmnUd2sxKLk8v1dTrJEOMJNfAM7S5ai
+         OzkMR3Ru6uOfXGUMphs3hzJNUBnrTaR/X8avbiwJsXALjkhkqRT/vrGXFezojMuC3Y/+
+         jEsAyEvFRHGu7aRNSfnApXgwBSKKb6f7M4UD/Ec14qVZMk+eV0SBCEI9hF27nqoRa8Ey
+         FPI4+ljJmCBtTI9lJVsgo/tbEhANEr4zv4+A62LX+RSEfKRlMmNCCQytmFJ1f70Vite6
+         pU+w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@protonmail.com header.s=protonmail header.b=icJV0Rne;
-       spf=pass (google.com: domain of nerdturtle2@protonmail.com designates 185.70.40.27 as permitted sender) smtp.mailfrom=nerdturtle2@protonmail.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=protonmail.com
-Received: from mail4.protonmail.ch (mail4.protonmail.ch. [185.70.40.27])
-        by gmr-mx.google.com with ESMTPS id i12si719756lfc.10.2021.08.02.13.33.36
+       dkim=pass header.i=@google.com header.s=20161025 header.b=bP+UZ7Dc;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72c as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com. [2607:f8b0:4864:20::72c])
+        by gmr-mx.google.com with ESMTPS id 136si827348pfz.2.2021.08.03.01.32.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 13:33:36 -0700 (PDT)
-Received-SPF: pass (google.com: domain of nerdturtle2@protonmail.com designates 185.70.40.27 as permitted sender) client-ip=185.70.40.27;
-Date: Mon, 02 Aug 2021 20:33:33 +0000
-To: "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
-From: "'Mike' via kasan-dev" <kasan-dev@googlegroups.com>
-Reply-To: Mike <nerdturtle2@protonmail.com>
-Subject: Enabling KASAN On Select Files
-Message-ID: <bWmJIaBTNCVY08GLY-AFFzLkFRIWs1NxOLdMGyWgELKsksOzGEb6Q0-wWCYHrLMJmqM7rxNIRA5mebViNUXT8czz4KAgyGhmXCoKmtE_yqw=@protonmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Aug 2021 01:32:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72c as permitted sender) client-ip=2607:f8b0:4864:20::72c;
+Received: by mail-qk1-x72c.google.com with SMTP id f22so19162681qke.10
+        for <kasan-dev@googlegroups.com>; Tue, 03 Aug 2021 01:32:11 -0700 (PDT)
+X-Received: by 2002:a05:620a:13f8:: with SMTP id h24mr19221798qkl.350.1627979530958;
+ Tue, 03 Aug 2021 01:32:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="b1_QUVKJghqc7Dq9ZuKf8dSBRWm65J85rtr7Nxe7Fx3GE"
-X-Spam-Status: No, score=-0.7 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-	FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,HTML_MESSAGE shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
-X-Original-Sender: nerdturtle2@protonmail.com
+References: <bWmJIaBTNCVY08GLY-AFFzLkFRIWs1NxOLdMGyWgELKsksOzGEb6Q0-wWCYHrLMJmqM7rxNIRA5mebViNUXT8czz4KAgyGhmXCoKmtE_yqw=@protonmail.com>
+In-Reply-To: <bWmJIaBTNCVY08GLY-AFFzLkFRIWs1NxOLdMGyWgELKsksOzGEb6Q0-wWCYHrLMJmqM7rxNIRA5mebViNUXT8czz4KAgyGhmXCoKmtE_yqw=@protonmail.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 3 Aug 2021 10:31:59 +0200
+Message-ID: <CACT4Y+YJCJLbJdP7r0EdbMfqxCqYgMA3zFg98wpPAHJE8QzZEg@mail.gmail.com>
+Subject: Re: Enabling KASAN On Select Files
+To: Mike <nerdturtle2@protonmail.com>
+Cc: "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@protonmail.com header.s=protonmail header.b=icJV0Rne;
-       spf=pass (google.com: domain of nerdturtle2@protonmail.com designates
- 185.70.40.27 as permitted sender) smtp.mailfrom=nerdturtle2@protonmail.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=protonmail.com
-X-Original-From: Mike <nerdturtle2@protonmail.com>
+ header.i=@google.com header.s=20161025 header.b=bP+UZ7Dc;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72c
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -127,67 +128,38 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is a multi-part message in MIME format.
+On Mon, 2 Aug 2021 at 22:33, 'Mike' via kasan-dev
+<kasan-dev@googlegroups.com> wrote:
+>
+> Hi,
+>
+> I see in the documentation it states:
+> """
+> To disable instrumentation for specific files or directories, add a line similar to the following to the respective kernel Makefile:
+>
+> For a single file (e.g. main.o):
+> KASAN_SANITIZE_main.o := n
+>
+> For all files in one directory:
+> KASAN_SANITIZE := n
+> """
+>
+> My questions are:
+> - How can I make KASAN disabled by default and just turn it on for specific items?
 
---b1_QUVKJghqc7Dq9ZuKf8dSBRWm65J85rtr7Nxe7Fx3GE
-Content-Type: text/plain; charset="UTF-8"
+Hi Mike,
 
-Hi,
+There is no existing support for this (use cases are unclear). You
+would need to modify Makefiles to not add -fsanitize=kernel-address by
+default and then some way to enable it only in specific Makefiles.
 
-I see in the documentation it states:
-"""
-To disable instrumentation for specific files or directories, add a line similar to the following to the respective kernel Makefile:
+> - If I add the "KASAN_SANITIZE := n" flag to say drivers/Makefile will it disable KASAN for every driver in the kernel or do I have to add it to every specific Makefile for a driver? (eg driver/superimportantdriver/Makefile
+> - Does the "KASAN_SANITIZE := n" recurse down into/take affect on every files and subdirectory in that folder?
 
-For a single file (e.g. main.o):
-KASAN_SANITIZE_main.o := n
-
-For all files in one directory:
-KASAN_SANITIZE := n
-"""
-
-My questions are:
-- How can I make KASAN disabled by default and just turn it on for specific items?
-- If I add the "KASAN_SANITIZE := n" flag to say drivers/Makefile will it disable KASAN for every driver in the kernel or do I have to add it to every specific Makefile for a driver? (eg driver/superimportantdriver/Makefile
-- Does the "KASAN_SANITIZE := n" recurse down into/take affect on every files and subdirectory in that folder?
+I don't think it's recursive, but I don't remember exactly. Should be
+easy to check by disassembling object files it subdirectories.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bWmJIaBTNCVY08GLY-AFFzLkFRIWs1NxOLdMGyWgELKsksOzGEb6Q0-wWCYHrLMJmqM7rxNIRA5mebViNUXT8czz4KAgyGhmXCoKmtE_yqw%3D%40protonmail.com.
-
---b1_QUVKJghqc7Dq9ZuKf8dSBRWm65J85rtr7Nxe7Fx3GE
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi,<br></div><div><br></div><div>I see in the documentation it states:=
-<br></div><div>"""<br></div><div>To disable instrumentation for specific fi=
-les or directories, add a line similar to the following to the respective k=
-ernel Makefile:<br></div><div><br></div><div>For a single file (e.g. main.o=
-):<br></div><div>KASAN_SANITIZE_main.o :=3D n<br></div><div><br></div><div>=
-For all files in one directory:<br></div><div>KASAN_SANITIZE :=3D n<br></di=
-v><div>"""<br></div><div><br></div><div>My questions are:<br></div><div>- H=
-ow can I make KASAN disabled by default and just turn it on for specific it=
-ems?<br></div><div>- If I add the "KASAN_SANITIZE :=3D n" flag to say drive=
-rs/Makefile will it disable KASAN for every driver in the kernel or do I ha=
-ve to add it to every specific Makefile for a driver? (eg driver/superimpor=
-tantdriver/Makefile<br></div><div>- Does the "KASAN_SANITIZE :=3D n" recurs=
-e down into/take affect on every files and subdirectory in that folder?<br>=
-</div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/bWmJIaBTNCVY08GLY-AFFzLkFRIWs1NxOLdMGyWgELKsksOzGEb6Q0=
--wWCYHrLMJmqM7rxNIRA5mebViNUXT8czz4KAgyGhmXCoKmtE_yqw%3D%40protonmail.com?u=
-tm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/ka=
-san-dev/bWmJIaBTNCVY08GLY-AFFzLkFRIWs1NxOLdMGyWgELKsksOzGEb6Q0-wWCYHrLMJmqM=
-7rxNIRA5mebViNUXT8czz4KAgyGhmXCoKmtE_yqw%3D%40protonmail.com</a>.<br />
-
---b1_QUVKJghqc7Dq9ZuKf8dSBRWm65J85rtr7Nxe7Fx3GE--
-
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYJCJLbJdP7r0EdbMfqxCqYgMA3zFg98wpPAHJE8QzZEg%40mail.gmail.com.
