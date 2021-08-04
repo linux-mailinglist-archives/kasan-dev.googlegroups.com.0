@@ -1,121 +1,144 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBDH6UOEAMGQEKD6RCMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY7XDHKR4OBBI6MVCEAMGQERHKDPNQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077BE3DE87B
-	for <lists+kasan-dev@lfdr.de>; Tue,  3 Aug 2021 10:32:16 +0200 (CEST)
-Received: by mail-pj1-x1038.google.com with SMTP id j22-20020a17090a7e96b0290175fc969950sf2303374pjl.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 03 Aug 2021 01:32:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1627979533; cv=pass;
+Received: from mail-qk1-x73a.google.com (mail-qk1-x73a.google.com [IPv6:2607:f8b0:4864:20::73a])
+	by mail.lfdr.de (Postfix) with ESMTPS id E45F23DFB14
+	for <lists+kasan-dev@lfdr.de>; Wed,  4 Aug 2021 07:31:16 +0200 (CEST)
+Received: by mail-qk1-x73a.google.com with SMTP id o2-20020a05620a1102b02903b9ade0af31sf1420554qkk.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 03 Aug 2021 22:31:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1628055076; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ggAnzqE6Cyqa2Tphq/qTU7cojKhPEm/Mi9Ip9FmrF51pY8aEtsYyBUM89Te4LHUf/a
-         yvDJ1jcXbaZdkmHZGuI1WF7PYY6mneYWoY8A8BHcMEquuFi3NQfm/r11dgWCjJpxZvm7
-         yPYCnUOfY78uf87emxZugqbgJTy0zct10WCnLF6mzyor8GFoaqPFU5AIiGEWfxSscF8G
-         tfG7tIsJa33wCRdSAkyjyY3P35iA7ptxRcMAiQNwN/iyielYEH48YdA4O1e5aj4tNnyk
-         6gLYAFKnPHOHiESJlCaknu9id68o+rSsHciQCHNJsGPAGBXEnnqqh5Zjh6lEWr15fybO
-         mEeQ==
+        b=FywKPvDh5Rp2vfufDV1SUMbqT2Vb9lxMWfVzWfPFEpMISnp/xASxzvl/OznE2Pc4mU
+         tJ2aIQUzh2D7dhMD+hAvFjQ7RlfU0IqxFdrQjtsouUA3odw/CJikjRFY/cK3xK1B3+jn
+         qDPVkXCcZa5xzptbC/uA52VQ+3AV7sMuAe2D3Ji5QMnuWIs/6AbQoXJbiFIBq7k+qnvw
+         CHF9qwU3OyVxjKH06MLKdLAdLh6oW+m4lJidQZMba/e+uVn0W55dLzg7dOwy7wq+fyNj
+         +PpppKlJuiErEGkK72mOeN9P7PQy4ETn5q/dZi2WodDRABXGwVoKFOJhB47bFY3mofoX
+         VgOA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Crsd07xSUL50ZPxRMfuTOJ651y60mwpH5zu2ppEklzY=;
-        b=HiuCUEY7FaMhZhamw9l8+ghIInvOGw9Hxh8rGarj1dAxgHPjS0/nY6RQsa+SSae9TM
-         DmoWpq8X0STZDQqnnsv60Lcxtn47UJ9LaaDRU35Hp34KlO1H0elkJVRa0PGpgDoFHvbX
-         WBFmCABJ+cXQptzCnKnmqs42/0g/HToCpPjKu9a7blJUK24MDna6VsflHszGLOduDN5J
-         fMmfXepIUVf02naFhMVnb2P5mUR854N26tpw1FphTuXUwMs5tgwDMh95946hacnqZEoR
-         nRsphwsAOf/simrt6TAXlL9h/70NmoNcmou8SGr9EfZ44ZdLFc+c1VtucJH0inDMSKYA
-         hAUg==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=g6PRhEY0PUqLRkiImXcOrKbpyxkbW3m/JEarcbMcpFs=;
+        b=GZDJw4zns0CK8107DNdWI8x5NJMx6I3V/b6P3eykPqWaEcXPAnHGYk74zHERCGZJke
+         k7CJd8kV0+XoYocZJmHJBp7mbITahha4+NEiRiQWVqCURi7oGdUc28VJMRienu7FWZyd
+         dXD+Kwvy5pNnaetxJGOZr/20I/O5LGGmPvRS+BKO+PqczTDxbcbryd+dqXJBK7yMCzeN
+         F3yprnQrtfO9vzjzt46GZk44nA8GZQXSxmW+5PhDeaDeTb+GOxPrOMBYI2U65wJ10RdK
+         CqAj0RWk3MJTTXh8IzAkvoRSF/TuAg82kwgTn5PNj+dutLRDb2nXR+SMK0ISppQZDxi6
+         9PjQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=bP+UZ7Dc;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72c as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=J8LdfLK6;
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Crsd07xSUL50ZPxRMfuTOJ651y60mwpH5zu2ppEklzY=;
-        b=fh+KFoMEUyKV7jVzLe3OQf0rZMzAChPHnVMvIRnoeeqHjr443gOUL15fu26o9vD6UV
-         a3FLkw6BEctoXCRLA0SKoKOEzLqUqIBD8sCaLBGJuOszBTajvIJuffHjVjNLLJy6f7F5
-         Y/9haL7qWeG+wuOlTeCrPycM2pvR2xP41x2US9xuHnVa1XTRZAlSRoXaC2TBSEZPmpsu
-         e5pAwZ389AMhsHYpl7dqaj3CisZesRJH/hsxWvgflP+Hyc0pQkE2cp89s+cwwSJIw1vN
-         apIDPFY9Yoft6sJJVbdr0gDho93Mu0GCZEQ+mrzEEtf/yBDYLnu6Y2gP1QElwefutvY+
-         bUvg==
+        bh=g6PRhEY0PUqLRkiImXcOrKbpyxkbW3m/JEarcbMcpFs=;
+        b=PVxt4z2xw5O4zKkbCFlr1QDN03crGaBHBBhqxuf21nv/gR5+/OGBTSw53Tg+UvvwqA
+         nCEcxL2AAlHjsVOwdmfgXS28NbEg8uwxU7r2wkx06E8OBWt24uW2QM3/W7FzECrRiPWI
+         t8kurt0CzHacFljeMuttZ1X9t4dfhZqVp+o24d8God0T79f8Y7gYWCjzrYrw1nf7cpp+
+         rGRJFOZ9JLI1J4vb9bCKnUOwfux8tJkdsKXWxu4fxV04aeZXnR+Gc3lBITQgck+QiP/a
+         /8NTJMepe9LFD+IQoG8piRwgkqGj31MeNcatNxVFwfum3Dw0LvVEd8AOTs4k4MlEaMyO
+         w7zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Crsd07xSUL50ZPxRMfuTOJ651y60mwpH5zu2ppEklzY=;
-        b=RcKdBZbcNaLNSffpDiiP7/2dswly6ak/iJj79w/NBhYd4X6+U3m2z9m0DBu/E03y5d
-         xyBTvnp3jmmiUxddko5VxLg4poVpan0nmuKxZnwj68SvvUENcW9JJgi46eRl+QzVRDxx
-         euIBhi0XlLpgBJWODU8mDFgnizdEp65wKZqzU8/shnus9d4zCFz/6ra7tkHsuiCHq29Q
-         aEF0xtO0ykCTVuFB6PFLscVyR300V2Uo9fA7grPZxstB4cwo+wWgOLk4/DSA7HCb7qp8
-         EM6BEvccZdi/9RnsMBDY8I5IiC5LbNul13POJS5GboP+VLHLXo0KnJh3vGJyRw8OlmD+
-         /0Dg==
-X-Gm-Message-State: AOAM5300Q+c53DMh1pLT74I02D3DbUOzeXa7Hv/lSV5uSFNb9vJ/7suS
-	x+QDStZONkro/t2ERpuSKyM=
-X-Google-Smtp-Source: ABdhPJzg2ezx2U252hoAN23Zhe3zVHHvsUScC2t8jiXQE/ajj89zZyMFoicERQ9hl2HU6LAgrdW07A==
-X-Received: by 2002:a05:6a00:ac8:b029:320:a6bb:880d with SMTP id c8-20020a056a000ac8b0290320a6bb880dmr21344434pfl.41.1627979532485;
-        Tue, 03 Aug 2021 01:32:12 -0700 (PDT)
+        bh=g6PRhEY0PUqLRkiImXcOrKbpyxkbW3m/JEarcbMcpFs=;
+        b=i/f/+RSrjDPXDeZLm/LfFKAgpoQZv/k2ENl+OuYXN9v9C3P31VlT9r7Bc2rdQFMja5
+         CIe9xlO7Bx0HLsSjUbSXVDr9k07j2rTk9TFGk1oEJt48qesz8D2cvbcMdiofPDGdWecI
+         1cE4UQp9rgtofH7bZYRifBICFC09DKkOa5WuvTgdpNpGGQnYmOEtaT3gEu6P0Xh9l5vi
+         nZ6yjJxAEjitVblE55mE3kAevbtcRvyOshLXKU7Ggk7C2xnwPjZT05VCWlejSbepE8q7
+         NWX12A/+/MtkvSvjNfUPC6NYeGepEr1muYVdLrdG4i4I6SdM3tuPsuWCh9OKgNv1zFE8
+         s4/g==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM53053oCihNNe61Sgnwr9qUBfflCF+kOfykw46UbGSlWdRuTlnbfY
+	B+16E1PUdMHzoKYbBV+XRrg=
+X-Google-Smtp-Source: ABdhPJwgjFx/+UQhmfaUepq6g8J9nPv4+ZBQjDzwDdomVKAHd5nlhW4YkvR9wgXo0x8iwinwsMzBuw==
+X-Received: by 2002:a05:620a:903:: with SMTP id v3mr23836626qkv.235.1628055076053;
+        Tue, 03 Aug 2021 22:31:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:bb8f:: with SMTP id m15ls6714091pls.3.gmail; Tue, 03
- Aug 2021 01:32:12 -0700 (PDT)
-X-Received: by 2002:a17:90b:4b10:: with SMTP id lx16mr21736871pjb.53.1627979531896;
-        Tue, 03 Aug 2021 01:32:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1627979531; cv=none;
+Received: by 2002:a0c:ecc1:: with SMTP id o1ls381206qvq.0.gmail; Tue, 03 Aug
+ 2021 22:31:15 -0700 (PDT)
+X-Received: by 2002:a05:6214:c6d:: with SMTP id t13mr5712437qvj.22.1628055075620;
+        Tue, 03 Aug 2021 22:31:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1628055075; cv=none;
         d=google.com; s=arc-20160816;
-        b=AvcdjX+whV0Nq74Mg9ZnvN8HsprIFy+8WEM081V07pjXwKbOImwEU9TiNnX3WjApCP
-         93emrpSJXKp7XrxUkYzCjbrl9a2WDp4/SDJ6WQtmIBcxxdhGD41tEEb2zmbUfVZTzWkN
-         RheYtHSfsgNO3O71r9hlLFKPg5at+IG1tLoXrzh5UyUHim0E+b+hpXV1UXvaxbni70TY
-         jhjYtrXPme4cbZRbg2fd3MTAuzuw5Fm58m0FSOVMdzTmWVETby1NurCaViTpLLjWnT68
-         RfGneUPIFEBADz3gSO3/HEf5cTFDEJ0fzoEdZWbD5JQ/OOUg47O6sNG+8qbB4vkvmP3x
-         ByrQ==
+        b=GgMIxMDh0lsuMWi+cxWPKLxgu1JATI8mUZUiclDH2Vz3uszeg+/sq6T0tu5h+5JK9c
+         ZhMl/9syn2oQMvoguTZV6/zXAkwMR4YWXgUgsoHT6Hjxc5Y6X9+wRsRtwkSsmFXVf/nG
+         ovsLXqeQNj5yiK+QCHwI7uqFaqccgo0I2rnzv/54jyZo9NvFwRg8kLFdj+HcFmXnUyyN
+         GQunu3A3uxiD9bPABBRxsX187pP+4MjaT1SZxYlZDCCW+VYw04H0GYBtNwWIatO54GsQ
+         pLa/LPo2R7OCaiButrYJe6BrtrNDMavDsaRBgigsfsfUUSKgoIBvFqxbQjewtI+2AD9L
+         BOUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=HYEhFfE/MgNjcUJSNA/EikiumZN3elnlgDSgoG8S+pQ=;
-        b=DEDDXgBhQE/Xl/rmXtFX/V6CfVYe/le5gximancmnqWvIVHnpmG6Hkws64FJKTnI5t
-         lDfGh3qs5+ZFEeoE/+Kq/t0+pLwxD2pn0unFHGmnUd2sxKLk8v1dTrJEOMJNfAM7S5ai
-         OzkMR3Ru6uOfXGUMphs3hzJNUBnrTaR/X8avbiwJsXALjkhkqRT/vrGXFezojMuC3Y/+
-         jEsAyEvFRHGu7aRNSfnApXgwBSKKb6f7M4UD/Ec14qVZMk+eV0SBCEI9hF27nqoRa8Ey
-         FPI4+ljJmCBtTI9lJVsgo/tbEhANEr4zv4+A62LX+RSEfKRlMmNCCQytmFJ1f70Vite6
-         pU+w==
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id:dkim-signature;
+        bh=nbXYjxVU9fU2eATKlueXsHPNx3eT6r3T8BtKOjcV62g=;
+        b=xz4yMho5aHqzypQwsRG+rqU1chnE0dBay8sIgcxE+FbaQQJB3afDyXG361WPg5/yNN
+         kos0q5x7xNinJjKaatXdg7wAZ7ZFK8X9yTPKZk8OQG3gF3Y929SCtuqDBqb//mQE2VG4
+         jHMAzZYYCOM8v9SeHrnUQ08lJfR8dXC/PrgXU2dPoGBf9iGlMFXD5hYQ398q+eMMyzMc
+         X4KGT15Om+R7MhUHQI7hrbRe4vw+xuWdcVUcvNr/VcJhKo+8Cr7gEIJYeCRMJi5iRC8H
+         9TpPXBaCIkHbroeQClYdqsuJpRKrVip9dAfun87xN5obdiGjHrMcUkZ440uTUJwjcl5E
+         tq/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=bP+UZ7Dc;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72c as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com. [2607:f8b0:4864:20::72c])
-        by gmr-mx.google.com with ESMTPS id 136si827348pfz.2.2021.08.03.01.32.11
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=J8LdfLK6;
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([60.244.123.138])
+        by gmr-mx.google.com with ESMTPS id n2si78593qkg.5.2021.08.03.22.31.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Aug 2021 01:32:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72c as permitted sender) client-ip=2607:f8b0:4864:20::72c;
-Received: by mail-qk1-x72c.google.com with SMTP id f22so19162681qke.10
-        for <kasan-dev@googlegroups.com>; Tue, 03 Aug 2021 01:32:11 -0700 (PDT)
-X-Received: by 2002:a05:620a:13f8:: with SMTP id h24mr19221798qkl.350.1627979530958;
- Tue, 03 Aug 2021 01:32:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <bWmJIaBTNCVY08GLY-AFFzLkFRIWs1NxOLdMGyWgELKsksOzGEb6Q0-wWCYHrLMJmqM7rxNIRA5mebViNUXT8czz4KAgyGhmXCoKmtE_yqw=@protonmail.com>
-In-Reply-To: <bWmJIaBTNCVY08GLY-AFFzLkFRIWs1NxOLdMGyWgELKsksOzGEb6Q0-wWCYHrLMJmqM7rxNIRA5mebViNUXT8czz4KAgyGhmXCoKmtE_yqw=@protonmail.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 3 Aug 2021 10:31:59 +0200
-Message-ID: <CACT4Y+YJCJLbJdP7r0EdbMfqxCqYgMA3zFg98wpPAHJE8QzZEg@mail.gmail.com>
-Subject: Re: Enabling KASAN On Select Files
-To: Mike <nerdturtle2@protonmail.com>
-Cc: "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Aug 2021 22:31:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
+X-UUID: c8fac120f9044cdf9d7f065f0c30488c-20210804
+X-UUID: c8fac120f9044cdf9d7f065f0c30488c-20210804
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1503093172; Wed, 04 Aug 2021 13:31:09 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 4 Aug 2021 13:31:08 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 4 Aug 2021 13:31:08 +0800
+Message-ID: <bbba73eb31ac508792d2b8e0971229f3660e7847.camel@mediatek.com>
+Subject: Re: [PATCH 1/2] kasan, mm: reset tag when access metadata
+From: kuan.ying lee <kuan-ying.lee@mediatek.com>
+To: Andrey Konovalov <andreyknvl@gmail.com>, Catalin Marinas
+	<catalin.marinas@arm.com>
+CC: Marco Elver <elver@google.com>, Nicholas Tang
+	<nicholas.tang@mediatek.com>, Andrew Yang <andrew.yang@mediatek.com>, Andrey
+ Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>,
+	Chinwen Chang <chinwen.chang@mediatek.com>, "Andrew Morton"
+	<akpm@linux-foundation.org>, kasan-dev <kasan-dev@googlegroups.com>, Linux
+ Memory Management List <linux-mm@kvack.org>, LKML
+	<linux-kernel@vger.kernel.org>, Linux ARM
+	<linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC
+ support" <linux-mediatek@lists.infradead.org>, <kuan-ying.lee@mediatek.com>
+Date: Wed, 4 Aug 2021 13:31:08 +0800
+In-Reply-To: <CA+fCnZdprormHJHHuEMC07+OnHdC9MLb9PLpBnE1P9TvrVisfw@mail.gmail.com>
+References: <20210727040021.21371-1-Kuan-Ying.Lee@mediatek.com>
+	 <20210727040021.21371-2-Kuan-Ying.Lee@mediatek.com>
+	 <CANpmjNM03Pag9OvBBVnWnSBePRxsT+BvZtBwrh_61Qzmvp+dvA@mail.gmail.com>
+	 <b6b96caf30e62996fa3b75ae8d146c9cc0dcbbf6.camel@mediatek.com>
+	 <20210727192217.GV13920@arm.com>
+	 <CA+fCnZdprormHJHHuEMC07+OnHdC9MLb9PLpBnE1P9TvrVisfw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2
+MIME-Version: 1.0
+X-MTK: N
+X-Original-Sender: Kuan-Ying.Lee@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=bP+UZ7Dc;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::72c
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@mediatek.com header.s=dk header.b=J8LdfLK6;       spf=pass
+ (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138
+ as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -128,38 +151,87 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 2 Aug 2021 at 22:33, 'Mike' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
->
-> Hi,
->
-> I see in the documentation it states:
-> """
-> To disable instrumentation for specific files or directories, add a line similar to the following to the respective kernel Makefile:
->
-> For a single file (e.g. main.o):
-> KASAN_SANITIZE_main.o := n
->
-> For all files in one directory:
-> KASAN_SANITIZE := n
-> """
->
-> My questions are:
-> - How can I make KASAN disabled by default and just turn it on for specific items?
+On Fri, 2021-07-30 at 16:57 +0200, Andrey Konovalov wrote:
+> On Tue, Jul 27, 2021 at 9:22 PM Catalin Marinas <
+> catalin.marinas@arm.com> wrote:
+> > 
+> > On Tue, Jul 27, 2021 at 04:32:02PM +0800, Kuan-Ying Lee wrote:
+> > > On Tue, 2021-07-27 at 09:10 +0200, Marco Elver wrote:
+> > > > +Cc Catalin
+> > > > 
+> > > > On Tue, 27 Jul 2021 at 06:00, Kuan-Ying Lee <
+> > > > Kuan-Ying.Lee@mediatek.com> wrote:
+> > > > > 
+> > > > > Hardware tag-based KASAN doesn't use compiler
+> > > > > instrumentation, we
+> > > > > can not use kasan_disable_current() to ignore tag check.
+> > > > > 
+> > > > > Thus, we need to reset tags when accessing metadata.
+> > > > > 
+> > > > > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+> > > > 
+> > > > This looks reasonable, but the patch title is not saying this
+> > > > is
+> > > > kmemleak, nor does the description say what the problem is.
+> > > > What
+> > > > problem did you encounter? Was it a false positive?
+> > > 
+> > > kmemleak would scan kernel memory to check memory leak.
+> > > When it scans on the invalid slab and dereference, the issue
+> > > will occur like below.
+> > > 
+> > > So I think we should reset the tag before scanning.
+> > > 
+> > > # echo scan > /sys/kernel/debug/kmemleak
+> > > [  151.905804]
+> > > =================================================================
+> > > =
+> > > [  151.907120] BUG: KASAN: out-of-bounds in scan_block+0x58/0x170
+> > > [  151.908773] Read at addr f7ff0000c0074eb0 by task kmemleak/138
+> > > [  151.909656] Pointer tag: [f7], memory tag: [fe]
+> > 
+> > It would be interesting to find out why the tag doesn't match.
+> > Kmemleak
+> > should in principle only scan valid objects that have been
+> > allocated and
+> > the pointer can be safely dereferenced. 0xfe is KASAN_TAG_INVALID,
+> > so it
+> > either goes past the size of the object (into the red zone) or it
+> > still
+> > accesses the object after it was marked as freed but before being
+> > released from kmemleak.
+> > 
+> > With slab, looking at __cache_free(), it calls kasan_slab_free()
+> > before
+> > ___cache_free() -> kmemleak_free_recursive(), so the second
+> > scenario is
+> > possible. With slub, however, slab_free_hook() first releases the
+> > object
+> > from kmemleak before poisoning it. Based on the stack dump, you are
+> > using slub, so it may be that kmemleak goes into the object red
+> > zones.
+> > 
+> > I'd like this clarified before blindly resetting the tag.
+> 
+> AFAIK, kmemleak scans the whole object including the leftover redzone
+> for kmalloc-allocated objects.
+> 
+> Looking at the report, there are 11 0xf7 granules, which amounts to
+> 176 bytes, and the object is allocated from the kmalloc-256 cache. So
+> when kmemleak accesses the last 256-176 bytes, it causes faults, as
+> those are marked with KASAN_KMALLOC_REDZONE == KASAN_TAG_INVALID ==
+> 0xfe.
+> 
+> Generally, resetting tags in kasan_disable/enable_current() section
+> should be fine to suppress MTE faults, provided those sections had
+> been added correctly in the first place.
 
-Hi Mike,
+Thanks Andrey for explanation.
+I will refine commit and upload v2.
 
-There is no existing support for this (use cases are unclear). You
-would need to modify Makefiles to not add -fsanitize=kernel-address by
-default and then some way to enable it only in specific Makefiles.
-
-> - If I add the "KASAN_SANITIZE := n" flag to say drivers/Makefile will it disable KASAN for every driver in the kernel or do I have to add it to every specific Makefile for a driver? (eg driver/superimportantdriver/Makefile
-> - Does the "KASAN_SANITIZE := n" recurse down into/take affect on every files and subdirectory in that folder?
-
-I don't think it's recursive, but I don't remember exactly. Should be
-easy to check by disassembling object files it subdirectories.
+Thanks.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYJCJLbJdP7r0EdbMfqxCqYgMA3zFg98wpPAHJE8QzZEg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bbba73eb31ac508792d2b8e0971229f3660e7847.camel%40mediatek.com.
