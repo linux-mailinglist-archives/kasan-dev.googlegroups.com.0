@@ -1,138 +1,132 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBRXEYWEAMGQE7JH4JEA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDKON27F3UHRBJFOY2EAMGQE6UN6BLI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868B93E4C09
-	for <lists+kasan-dev@lfdr.de>; Mon,  9 Aug 2021 20:21:58 +0200 (CEST)
-Received: by mail-wm1-x33e.google.com with SMTP id a18-20020a05600c2252b02902531dcdc68fsf16158wmm.6
-        for <lists+kasan-dev@lfdr.de>; Mon, 09 Aug 2021 11:21:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1628533318; cv=pass;
+Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 235793E4E31
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Aug 2021 22:59:18 +0200 (CEST)
+Received: by mail-pj1-x103b.google.com with SMTP id 61-20020a17090a09c3b029017897f47801sf326520pjo.8
+        for <lists+kasan-dev@lfdr.de>; Mon, 09 Aug 2021 13:59:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1628542757; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eBQXQiv95DJg2TLYNk+3DAO5rrM1rzf2DPw5utBmi2UlbSWjpFBfu+c5dpX7ZcFZke
-         5Z6IoLIBqzEXBCxlHGLcZxfZ4aKoys6zDudC5T+WgO5F9xo0fRoUq75H3tV1QHb85TIw
-         6MRW3bppTHz6o3NJjb6Kj3vOKxg+lGHV/RAoWfcubJ5pdrrpFyqqd30qwm4JlVAR0uhm
-         fZzlFMhMJi/uDItRsyK9OKrb42Btfe52fCxc73426I5GonH9Kh44N13jw5RlbjZSTKml
-         BRBOCChUEtMzHr2FndGMAdysQEJc0OUefwAf3oBbYbGtVu2BVrwsZTJ4l0c2oi+QQIYS
-         cQLw==
+        b=ANZf7iCwkLtqu/yfNrPViUUKctrZ6sVEuIa2VaySossGVl2zCIc+tFqlN27gikI2yH
+         NyxnwSLNcnrlvnTnnOMWbKK/X0YG+kxfcZnvAjn3fZesqBo6eNXK8M7+FqUyeR2fbdGR
+         KYN857fUlU8AgtuKQOeW93o7dTgPPSBcCo7nuY7khqkhVWSGtE3mrQKl0cZDttq+vUP4
+         0vNTYwKCnB0uuCHArx0PAsLrHNn9slUojDsYjAdVkXV5vGUyOSOxEtFw9LSYSMkd8h40
+         H+mLv1RoetLHQEmS142GWdxaDcUszF/CLyQZSJ7Jg52Bdo6uU+W2lJRC9lHwMtLS9YBM
+         5RWg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=Lf+F85GD25u+gBUYeUP2ATPu0PzA7OQPouwTCxPLa5Y=;
-        b=Wfhv1r8F7n+2HpPtK1Q7iU7JRkSi9b+mSlibnvmHUu2Wvy+2Je8MzYLDs+ot6mxoCa
-         xRUUbI4jTXATOjeX7E5vSlfsvHSb3b0+Y2/DDwu/jTUSS2JNbt+C40rQiPIAd+fU4tvp
-         7sOijH+V+BSrRMD4AqE42x2le3dEvC3DK5hug7KLcGoNizRoF7wZk8b90RZCvmYKlo/1
-         A1zKwpUczC7nhEg4vUgbFkzf+LPJ1OEr3FwdSm4JZGJMN0EZqAlY0u0jApIcPpWAal8Z
-         et8UpKSaWDiq/JIUXFmai5YSg0A7V6SWMFhkRDNv5iThSwFeCV1w4cw1b1ogKfpQTweK
-         mDOg==
+         :list-id:mailing-list:precedence:mime-version:organization
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=2qntGHxtG43IVYn2uuN2fsxCJHj5ZGVsO+k96RlAidk=;
+        b=qLYGTuSnArW5OHEd4xeP8oSJqb6wctg99H0J7fHDRh0CLINVhX1S5sq5LX610hbjV7
+         tupQMSfzbvZtn9TtyscbJFlQJpxJ30847RQrJDhojiYRT5/IxcZH9NOQXA4uyzB2AdXT
+         cA/maTtyyDaM+IPWswyRw04zt0Ll5vP7P1/sb097tw7wwYBEFsUYFvC4fdZx7OLkfJ1A
+         Yr/hov9KPsJWfp7FJSTQrw7TlvtA46uJT94/l2psP2lNHLimTq8dOyWUH9ESe5EAg7lj
+         FzQNJLSY9mNt+OgiHPMi6qyzBvdu3ogNgG/lFGf4kOdScaETNhBSD31ep7V2nARbmH1H
+         ghLw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b="e2p4CwB/";
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::530 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=eNF5aDrX;
+       spf=pass (google.com: domain of williams@redhat.com designates 216.205.24.124 as permitted sender) smtp.mailfrom=williams@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Lf+F85GD25u+gBUYeUP2ATPu0PzA7OQPouwTCxPLa5Y=;
-        b=RlRXwwVRoLT41oa+EyyBf2GeFMsX/+VzceBwATtlnGmRRVXx36cNlnSsxyEiQW4805
-         47LJmIlOvJxufGZOXqVcySslBeXxfkmgp/bMBTf2ALDRhuyqvMjy1B8e+296LS5/VcEW
-         Imr/qJ0CPxZ0pm7LDdGQUk1V8gIToOiXw5Tm5m89MmxUXIP9KHD4Ph9XLJ35nhWygoqN
-         EPuaitDi+mG7dbgXDTvHzCP7A44u91gQqPs6VK2Oogash8LNeQyarYLcPfS/7eIpA2gB
-         e4yCrjSnIPJzyaPRrT2T7nOZskcNjReJ/6BLO+uRWHpkUstci8P3sUTutI3RWIDFmqoK
-         VunA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
+        h=sender:date:from:to:cc:subject:message-id:organization:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Lf+F85GD25u+gBUYeUP2ATPu0PzA7OQPouwTCxPLa5Y=;
-        b=TcgZO59JKi1M79wPLnW+KqhThR9xl09HG86jAPaIqpucaWcLl/AlZl4iUtwfoVfKm3
-         oWre6yKJjTq7RJ6jM3PbRDFQk7DSlCNSBnmpythXBT9JfsvRmNPJLjU4HwqC8htQVkp+
-         KHZ6BC8SbFQ/5Dxp+a0MN7Q55pwdDw/Di4NTknhqI5kAi5NEgYlMINNvMnk6QCf/v4ck
-         S02rNcRtvEFCCm+goC4OcebjMQEtk7kpbUptH5W0YcmIJ2+KzYw82WCpTdKNnGageEit
-         EUdN++5a8+YOkKmSe2gyyiGVHoA8b23gZ836ue2vDQCDaCN42bCPe9ih0p/jqLu58f9H
-         kCiA==
+        bh=2qntGHxtG43IVYn2uuN2fsxCJHj5ZGVsO+k96RlAidk=;
+        b=pgmRs937AnNDk5TIhSsT3IVAtCPaiWkFiLTGmdjNNUrz7wv4hhIIt67rHibcXJ17i1
+         DSsU866TFzRhNW5c28L6CL6Ne1Cy7/LrtlOTf4sLVyBtgorJ+/FOC437F13DWxWYLA0S
+         vd6MGhsclRA9wNMHewqcmLlyFgleK1YRg3QRBYN3xVT9BOGSsonNC4zlWgYY0BOlmjsh
+         5mNoSy40pof6uWFOnze9RLH2VLkygkNzMSGk2+TG+U9lRquLouP5oXsd7CjLbtGQ0kCf
+         1kvGtORvwaMxH/0jPMuSugleba3gfNiLh2MrTmVQeRgSOWRuLu589M41JibLDAfWo7tk
+         sgvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :organization:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Lf+F85GD25u+gBUYeUP2ATPu0PzA7OQPouwTCxPLa5Y=;
-        b=a3NvYlPGwfO1/9wTmjCzt94fyiuMsCGo3Mu5JqnU6zZtX7L6q/4B6KRGDiDOp5OgIB
-         F2iXV4zVjLmsClSjyVSZ1y3V5xl2CTwXt2FBrZd14IFAM3ecx8mZa4vRxiKg14YduntS
-         ggCnPYoQrWJoiPuUHZ0aLyUQ4LNV8N48q5ossaEdJY9QoVklc8sgRwZKDySmcOlk0tw0
-         KIvh1609zb0Hj/osFBXKrQCke16v2LLONvjqktfWlhzPGHVt/oNTk17zPbiZ1McO4mzU
-         xoQTh8ZBkHA/NNUohxZD7VSDfaeEScfj39zbPnynQQUpo5GdPo6SSdTyge0DH0KJngmi
-         iE+Q==
+        bh=2qntGHxtG43IVYn2uuN2fsxCJHj5ZGVsO+k96RlAidk=;
+        b=jkCV8BoSC63Mqmpaoyuiht8LQKsNETOFt3gyILcT36gdkYOvhBaZPJEKHbP50Ygymf
+         UfyNOJPyNPMG8fNpS/CTShCfXd8u1VobsLYWUHraj6BVNDP8yNZ12GnIWekIq74XhiyS
+         x4ar7jlvNGI3i3PcCvp9fyYJ8aID4wXzSkRJJUjO0I5jwlQuQPx9jmMY7DBDZufY+1g/
+         ZOXWaghvTrF6XoN1oCVsD8zct63eTlwSBk4k9cDmMksassMDOf2yGvJTbrG40kjgbRxG
+         +SpWUTVE1MN8T5YiAgm9VIBBxynHhEQGSxHDMupjwapJA3LtzGWD2h+0JHf02HlOTUZ4
+         9y5g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531+HjMExP58RfgLq3AAfUajRXHUDxtfX/uJ1rKZjffb3vGqzG47
-	dNFPisNNWV7xGI+rQIA2Ip0=
-X-Google-Smtp-Source: ABdhPJxFmYaOST9qa8P4ar6UZ1IzlBwl9Wl/mz5gN8gaHvrbvX/XA7t9vOeuUcCLK2j0SDk0eIV8Tw==
-X-Received: by 2002:a5d:49c1:: with SMTP id t1mr26681591wrs.141.1628533318349;
-        Mon, 09 Aug 2021 11:21:58 -0700 (PDT)
+X-Gm-Message-State: AOAM532OYCgLzt6JG98oE4lWnQ0K5Tb3CIEFnDpoKiUzlYi3KU7voTmV
+	FC4wnbjPYuyvSBU4OjE2bMM=
+X-Google-Smtp-Source: ABdhPJwDgp9YszEcoNUref4vujcrcwi8u5mtKkh3B79D5gS2/EYJi/oe6w3TjZE9erbnsU3389fnUw==
+X-Received: by 2002:a63:e23:: with SMTP id d35mr314076pgl.189.1628542756822;
+        Mon, 09 Aug 2021 13:59:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:e5c5:: with SMTP id a5ls5552295wrn.0.gmail; Mon, 09 Aug
- 2021 11:21:57 -0700 (PDT)
-X-Received: by 2002:a5d:424d:: with SMTP id s13mr26509687wrr.356.1628533317495;
-        Mon, 09 Aug 2021 11:21:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1628533317; cv=none;
+Received: by 2002:a17:902:848e:: with SMTP id c14ls7984822plo.1.gmail; Mon, 09
+ Aug 2021 13:59:16 -0700 (PDT)
+X-Received: by 2002:a17:902:bc84:b029:12c:f9b9:db98 with SMTP id bb4-20020a170902bc84b029012cf9b9db98mr12559165plb.19.1628542756139;
+        Mon, 09 Aug 2021 13:59:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1628542756; cv=none;
         d=google.com; s=arc-20160816;
-        b=HQtbhbDEH9gznYLtAoGPlXP56/EtV64ht8UksAB6R0WLmUlxVvB3wQeHxUeiNaSIxB
-         hSKP1D9hpzE4SUdkSHBbwa/hoK3I/2Udx3lbrNHLcda9rO4uz/BPhtur5dD1tXLx+nzY
-         2HXnvstzDFxOnQR1CFdHB1PHUQC/9/UD7KOo55B8CRhgtEjdPYsK8losnvdWrJjCj6VH
-         vZagZjLlbexhF6+zgAR/D/Mftda1YruucGB7CEQI1BNBse/rsWQy50KigxW72asCVcIt
-         SVz4lBG0o6QD8WsRp5fQ0KlhiAnWYF+WkHi7ers2jb24rCkye+a43dFDe3UO4wjSEyhy
-         2h1Q==
+        b=OlQBR7dCoi0pv/1i6Fk0qHV4CEbizmtSgDQaXu47dayzVEfqJS9OogsjXe5MQB2xR5
+         z5EEkjTZXl7QYtD5I/eRfvuuUYJThRbYkOtI1vG82j+0zlU4BWJpmW6xSLipk2xJBEcX
+         yk5uziJGChCI9jyC0zTxtav2GNX702pNRpuKcQ5jqnB0ACrIY6h8Nt1bo3UTBCiwW2i9
+         aDJP5uVcWgmZtvPEbrNR2fxWde6xRvyi8NKOs+mtmdyAoXmtMKW8Z+fm8ucYTMOLSpGI
+         +wYS6lRozV5hqHujsGqoaYBP/fq8v/qHgfXEgN/K8S82k924cCk4x+6htHpv/WV3lrqV
+         oxnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ftVuG4BqRClWmA3Iio5cpbFgJTgza3Lrv72uDZY9cX8=;
-        b=DCdTYpkrKp8K++rYqeCfDfM0h1icQZKcPHjY8NPhwNdd9adtsB2MehPxNQXvJ8dfaI
-         Frlq/D12qot7oXBKJ+0YZS+ChG1ky79N1Q4xPv0sZktM42EPBLJGPNlwe5D7g+ciyCy4
-         L3y8yyeHHoBTd9rj87+jvLjca3Q5fNiUuUP7Fdcn4Cg698Ic4VE8YtMwHb3RvCX1nlJ+
-         iiHzaE+yYC5WItfKYYE9/wCd6McXGVsOo0LGR+qs5KH2uI3cyWwRfpUEp2XtNySeVDVn
-         /76PCCJa0zRPoBUilV4OwaIDxM02U8NkR+V1EivYHt51Ts/9NKCFMJ6ghiV9G03G1Ex/
-         QlkQ==
+        h=content-transfer-encoding:mime-version:organization:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=S7fF4unWqHGSW7W12PTgvCvQxdQEsv3txHXrxBi0k2k=;
+        b=WCZizalX7tEFWQkiq1ol4j99E2aliO7vvMLAVa0mCIT7IH5wVCq1J0nNlOMjuVwfS9
+         nxQGyGd9LWjxoobnt1PG0yQ2hzx117Qb8h0iFG7kUbKyArgsJc2uI9l0h9+aEEBuHgGE
+         WOwgW4NQbglXJbHiFoEb/pwOchSHQS4nolC5CMopqe+C/igbx4uGBGw8vfjkf3yz7Fp9
+         fDECUqdYQXSzTChRffQndj95bdS7iKGLlC8PydRjgrl6qu8JaEI1N5Wn0KV6e/yLtcG8
+         An8X67sXmjITwXMz3TCr61EKzvf4qyrky4BsF4Ql8aP5pbN10CppKeqXORyIYOXWfqgS
+         muqw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20161025 header.b="e2p4CwB/";
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::530 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com. [2a00:1450:4864:20::530])
-        by gmr-mx.google.com with ESMTPS id u2si990000wro.0.2021.08.09.11.21.57
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=eNF5aDrX;
+       spf=pass (google.com: domain of williams@redhat.com designates 216.205.24.124 as permitted sender) smtp.mailfrom=williams@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [216.205.24.124])
+        by gmr-mx.google.com with ESMTPS id c23si763137pls.5.2021.08.09.13.59.15
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Aug 2021 11:21:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::530 as permitted sender) client-ip=2a00:1450:4864:20::530;
-Received: by mail-ed1-x530.google.com with SMTP id f13so25969437edq.13
-        for <kasan-dev@googlegroups.com>; Mon, 09 Aug 2021 11:21:57 -0700 (PDT)
-X-Received: by 2002:a05:6402:430b:: with SMTP id m11mr31667971edc.55.1628533317269;
- Mon, 09 Aug 2021 11:21:57 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 09 Aug 2021 13:59:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of williams@redhat.com designates 216.205.24.124 as permitted sender) client-ip=216.205.24.124;
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-135-3rzxQRduPMaafSiN6M_uFg-1; Mon, 09 Aug 2021 16:59:13 -0400
+X-MC-Unique: 3rzxQRduPMaafSiN6M_uFg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF646801AC0;
+	Mon,  9 Aug 2021 20:59:11 +0000 (UTC)
+Received: from theseus.lan (unknown [10.22.34.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E2A4B604CC;
+	Mon,  9 Aug 2021 20:59:10 +0000 (UTC)
+Date: Mon, 9 Aug 2021 15:59:09 -0500
+From: Clark Williams <williams@redhat.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Steven Rostedt
+ <rostedt@goodmis.org>, Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov
+ <andreyknvl@gmail.com>, kasan-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH PREEMPT_RT] kcov:  fix locking splat from
+ kcov_remote_start()
+Message-ID: <20210809155909.333073de@theseus.lan>
+Organization: Red Hat, Inc
 MIME-Version: 1.0
-References: <20210809093750.131091-1-wangkefeng.wang@huawei.com> <20210809093750.131091-4-wangkefeng.wang@huawei.com>
-In-Reply-To: <20210809093750.131091-4-wangkefeng.wang@huawei.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Mon, 9 Aug 2021 20:21:46 +0200
-Message-ID: <CA+fCnZcL7tv=HsXJjXMayjASeAriy6N0HJwCoH7iPZZ6hqZGQw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] kasan: arm64: Fix pcpu_page_first_chunk crash with KASAN_VMALLOC
-To: Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc: Will Deacon <will@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Marco Elver <elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Original-Sender: williams@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20161025 header.b="e2p4CwB/";       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::530
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@redhat.com header.s=mimecast20190719 header.b=eNF5aDrX;
+       spf=pass (google.com: domain of williams@redhat.com designates
+ 216.205.24.124 as permitted sender) smtp.mailfrom=williams@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,131 +139,180 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Aug 9, 2021 at 11:32 AM Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
->
-> With KASAN_VMALLOC and NEED_PER_CPU_PAGE_FIRST_CHUNK, it crashs,
->
-> Unable to handle kernel paging request at virtual address ffff7000028f2000
-> ...
-> swapper pgtable: 64k pages, 48-bit VAs, pgdp=0000000042440000
-> [ffff7000028f2000] pgd=000000063e7c0003, p4d=000000063e7c0003, pud=000000063e7c0003, pmd=000000063e7b0003, pte=0000000000000000
-> Internal error: Oops: 96000007 [#1] PREEMPT SMP
-> Modules linked in:
-> CPU: 0 PID: 0 Comm: swapper Not tainted 5.13.0-rc4-00003-gc6e6e28f3f30-dirty #62
-> Hardware name: linux,dummy-virt (DT)
-> pstate: 200000c5 (nzCv daIF -PAN -UAO -TCO BTYPE=--)
-> pc : kasan_check_range+0x90/0x1a0
-> lr : memcpy+0x88/0xf4
-> sp : ffff80001378fe20
-> ...
-> Call trace:
->  kasan_check_range+0x90/0x1a0
->  pcpu_page_first_chunk+0x3f0/0x568
->  setup_per_cpu_areas+0xb8/0x184
->  start_kernel+0x8c/0x328
->
-> The vm area used in vm_area_register_early() has no kasan shadow memory,
-> Let's add a new kasan_populate_early_vm_area_shadow() function to populate
-> the vm area shadow memory to fix the issue.
->
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> ---
->  arch/arm64/mm/kasan_init.c | 16 ++++++++++++++++
->  include/linux/kasan.h      |  6 ++++++
->  mm/kasan/init.c            |  5 +++++
->  mm/vmalloc.c               |  1 +
->  4 files changed, 28 insertions(+)
->
-> diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-> index 61b52a92b8b6..5b996ca4d996 100644
-> --- a/arch/arm64/mm/kasan_init.c
-> +++ b/arch/arm64/mm/kasan_init.c
-> @@ -287,6 +287,22 @@ static void __init kasan_init_depth(void)
->         init_task.kasan_depth = 0;
->  }
->
-> +#ifdef CONFIG_KASAN_VMALLOC
-> +void __init kasan_populate_early_vm_area_shadow(void *start, unsigned long size)
-> +{
-> +       unsigned long shadow_start, shadow_end;
-> +
-> +       if (!is_vmalloc_or_module_addr(start))
-> +               return;
-> +
-> +       shadow_start = (unsigned long)kasan_mem_to_shadow(start);
-> +       shadow_start = ALIGN_DOWN(shadow_start, PAGE_SIZE);
-> +       shadow_end = (unsigned long)kasan_mem_to_shadow(start + size);
-> +       shadow_end = ALIGN(shadow_end, PAGE_SIZE);
-> +       kasan_map_populate(shadow_start, shadow_end, NUMA_NO_NODE);
-> +}
-> +#endif
-> +
->  void __init kasan_init(void)
->  {
->         kasan_init_shadow();
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index dd874a1ee862..3f8c26d9ef82 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -133,6 +133,8 @@ struct kasan_cache {
->         bool is_kmalloc;
->  };
->
-> +void kasan_populate_early_vm_area_shadow(void *start, unsigned long size);
-> +
->  slab_flags_t __kasan_never_merge(void);
->  static __always_inline slab_flags_t kasan_never_merge(void)
->  {
-> @@ -303,6 +305,10 @@ void kasan_restore_multi_shot(bool enabled);
->
->  #else /* CONFIG_KASAN */
->
-> +static inline void kasan_populate_early_vm_area_shadow(void *start,
-> +                                                      unsigned long size)
-> +{ }
-> +
->  static inline slab_flags_t kasan_never_merge(void)
->  {
->         return 0;
-> diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-> index cc64ed6858c6..d39577d088a1 100644
-> --- a/mm/kasan/init.c
-> +++ b/mm/kasan/init.c
-> @@ -279,6 +279,11 @@ int __ref kasan_populate_early_shadow(const void *shadow_start,
->         return 0;
->  }
->
-> +void __init __weak kasan_populate_early_vm_area_shadow(void *start,
-> +                                                      unsigned long size)
-> +{
-> +}
-> +
->  static void kasan_free_pte(pte_t *pte_start, pmd_t *pmd)
->  {
->         pte_t *pte;
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index 1e8fe08725b8..66a7e1ea2561 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -2253,6 +2253,7 @@ void __init vm_area_register_early(struct vm_struct *vm, size_t align)
->         vm->addr = (void *)addr;
->
->         vm_area_add_early(vm);
-> +       kasan_populate_early_vm_area_shadow(vm->addr, vm->size);
->  }
->
->  static void vmap_init_free_space(void)
-> --
-> 2.26.2
->
+Saw the following splat on 5.14-rc4-rt5 with:
 
-Acked-by: Andrey Konovalov <andreyknvl@gmail.com>
+CONFIG_KCOV=y
+CONFIG_KCOV_INSTRUMENT_ALL=y
+CONFIG_KCOV_IRQ_AREA_SIZE=0x40000
+CONFIG_RUNTIME_TESTING_MENU=y
 
-for KASAN parts.
+kernel: ehci-pci 0000:00:1d.0: USB 2.0 started, EHCI 1.00
+kernel: BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:35
+kernel: in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 34, name: ksoftirqd/3
+kernel: 4 locks held by ksoftirqd/3/34:
+kernel:  #0: ffff944376d989f8 ((softirq_ctrl.lock).lock){+.+.}-{2:2}, at: __local_bh_disable_ip+0xe0/0x190
+kernel:  #1: ffffffffbbfb61e0 (rcu_read_lock){....}-{1:2}, at: rt_spin_lock+0x5/0xd0
+kernel:  #2: ffffffffbbfb61e0 (rcu_read_lock){....}-{1:2}, at: __local_bh_disable_ip+0xbd/0x190
+kernel:  #3: ffffffffbc086518 (kcov_remote_lock){....}-{2:2}, at: kcov_remote_start+0x119/0x4a0
+kernel: irq event stamp: 4653
+kernel: hardirqs last  enabled at (4652): [<ffffffffbafb85ce>] _raw_spin_unlock_irqrestore+0x6e/0x80
+kernel: hardirqs last disabled at (4653): [<ffffffffba2517c8>] kcov_remote_start+0x298/0x4a0
+kernel: softirqs last  enabled at (4638): [<ffffffffba110a5b>] run_ksoftirqd+0x9b/0x100
+kernel: softirqs last disabled at (4644): [<ffffffffba149f12>] smpboot_thread_fn+0x2b2/0x410
+kernel: CPU: 3 PID: 34 Comm: ksoftirqd/3 Not tainted 5.14.0-rc4-rt5+ #3
+kernel: Hardware name:  /NUC5i7RYB, BIOS RYBDWi35.86A.0359.2016.0906.1028 09/06/2016
+kernel: Call Trace:
+kernel:  dump_stack_lvl+0x7a/0x9b
+kernel:  ___might_sleep.cold+0xf3/0x107
+kernel:  rt_spin_lock+0x3a/0xd0
+kernel:  ? kcov_remote_start+0x119/0x4a0
+kernel:  kcov_remote_start+0x119/0x4a0
+kernel:  ? led_trigger_blink_oneshot+0x83/0xa0
+kernel:  __usb_hcd_giveback_urb+0x161/0x1e0
+kernel:  usb_giveback_urb_bh+0xb6/0x110
+kernel:  tasklet_action_common.constprop.0+0xe8/0x110
+kernel:  __do_softirq+0xe2/0x525
+kernel:  ? smpboot_thread_fn+0x31/0x410
+kernel:  run_ksoftirqd+0x8c/0x100
+kernel:  smpboot_thread_fn+0x2b2/0x410
+kernel:  ? smpboot_register_percpu_thread+0x130/0x130
+kernel:  kthread+0x1de/0x210
+kernel:  ? set_kthread_struct+0x60/0x60
+kernel:  ret_from_fork+0x22/0x30
+kernel: usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 5.14
 
-Thanks!
+
+Change kcov_remote_lock from regular spinlock_t to raw_spinlock_t so that
+we don't get "sleeping function called from invalid context" on PREEMPT_RT kernel.
+
+Signed-off-by: Clark Williams <williams@redhat.com>
+---
+ kernel/kcov.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/kernel/kcov.c b/kernel/kcov.c
+index 80bfe71bbe13..60f903f8a46c 100644
+--- a/kernel/kcov.c
++++ b/kernel/kcov.c
+@@ -82,7 +82,7 @@ struct kcov_remote {
+ 	struct hlist_node	hnode;
+ };
+ 
+-static DEFINE_SPINLOCK(kcov_remote_lock);
++static DEFINE_RAW_SPINLOCK(kcov_remote_lock);
+ static DEFINE_HASHTABLE(kcov_remote_map, 4);
+ static struct list_head kcov_remote_areas = LIST_HEAD_INIT(kcov_remote_areas);
+ 
+@@ -375,7 +375,7 @@ static void kcov_remote_reset(struct kcov *kcov)
+ 	struct hlist_node *tmp;
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&kcov_remote_lock, flags);
++	raw_spin_lock_irqsave(&kcov_remote_lock, flags);
+ 	hash_for_each_safe(kcov_remote_map, bkt, tmp, remote, hnode) {
+ 		if (remote->kcov != kcov)
+ 			continue;
+@@ -384,7 +384,7 @@ static void kcov_remote_reset(struct kcov *kcov)
+ 	}
+ 	/* Do reset before unlock to prevent races with kcov_remote_start(). */
+ 	kcov_reset(kcov);
+-	spin_unlock_irqrestore(&kcov_remote_lock, flags);
++	raw_spin_unlock_irqrestore(&kcov_remote_lock, flags);
+ }
+ 
+ static void kcov_disable(struct task_struct *t, struct kcov *kcov)
+@@ -638,18 +638,18 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+ 		kcov->t = t;
+ 		kcov->remote = true;
+ 		kcov->remote_size = remote_arg->area_size;
+-		spin_lock_irqsave(&kcov_remote_lock, flags);
++		raw_spin_lock_irqsave(&kcov_remote_lock, flags);
+ 		for (i = 0; i < remote_arg->num_handles; i++) {
+ 			if (!kcov_check_handle(remote_arg->handles[i],
+ 						false, true, false)) {
+-				spin_unlock_irqrestore(&kcov_remote_lock,
++				raw_spin_unlock_irqrestore(&kcov_remote_lock,
+ 							flags);
+ 				kcov_disable(t, kcov);
+ 				return -EINVAL;
+ 			}
+ 			remote = kcov_remote_add(kcov, remote_arg->handles[i]);
+ 			if (IS_ERR(remote)) {
+-				spin_unlock_irqrestore(&kcov_remote_lock,
++				raw_spin_unlock_irqrestore(&kcov_remote_lock,
+ 							flags);
+ 				kcov_disable(t, kcov);
+ 				return PTR_ERR(remote);
+@@ -658,7 +658,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+ 		if (remote_arg->common_handle) {
+ 			if (!kcov_check_handle(remote_arg->common_handle,
+ 						true, false, false)) {
+-				spin_unlock_irqrestore(&kcov_remote_lock,
++				raw_spin_unlock_irqrestore(&kcov_remote_lock,
+ 							flags);
+ 				kcov_disable(t, kcov);
+ 				return -EINVAL;
+@@ -666,14 +666,14 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+ 			remote = kcov_remote_add(kcov,
+ 					remote_arg->common_handle);
+ 			if (IS_ERR(remote)) {
+-				spin_unlock_irqrestore(&kcov_remote_lock,
++				raw_spin_unlock_irqrestore(&kcov_remote_lock,
+ 							flags);
+ 				kcov_disable(t, kcov);
+ 				return PTR_ERR(remote);
+ 			}
+ 			t->kcov_handle = remote_arg->common_handle;
+ 		}
+-		spin_unlock_irqrestore(&kcov_remote_lock, flags);
++		raw_spin_unlock_irqrestore(&kcov_remote_lock, flags);
+ 		/* Put either in kcov_task_exit() or in KCOV_DISABLE. */
+ 		kcov_get(kcov);
+ 		return 0;
+@@ -845,10 +845,10 @@ void kcov_remote_start(u64 handle)
+ 		return;
+ 	}
+ 
+-	spin_lock(&kcov_remote_lock);
++	raw_spin_lock(&kcov_remote_lock);
+ 	remote = kcov_remote_find(handle);
+ 	if (!remote) {
+-		spin_unlock_irqrestore(&kcov_remote_lock, flags);
++		raw_spin_unlock_irqrestore(&kcov_remote_lock, flags);
+ 		return;
+ 	}
+ 	kcov_debug("handle = %llx, context: %s\n", handle,
+@@ -869,7 +869,7 @@ void kcov_remote_start(u64 handle)
+ 		size = CONFIG_KCOV_IRQ_AREA_SIZE;
+ 		area = this_cpu_ptr(&kcov_percpu_data)->irq_area;
+ 	}
+-	spin_unlock_irqrestore(&kcov_remote_lock, flags);
++	raw_spin_unlock_irqrestore(&kcov_remote_lock, flags);
+ 
+ 	/* Can only happen when in_task(). */
+ 	if (!area) {
+@@ -1008,9 +1008,9 @@ void kcov_remote_stop(void)
+ 	spin_unlock(&kcov->lock);
+ 
+ 	if (in_task()) {
+-		spin_lock(&kcov_remote_lock);
++		raw_spin_lock(&kcov_remote_lock);
+ 		kcov_remote_area_put(area, size);
+-		spin_unlock(&kcov_remote_lock);
++		raw_spin_unlock(&kcov_remote_lock);
+ 	}
+ 
+ 	local_irq_restore(flags);
+-- 
+2.31.1
+
+
+
+-- 
+The United States Coast Guard
+Ruining Natural Selection since 1790
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZcL7tv%3DHsXJjXMayjASeAriy6N0HJwCoH7iPZZ6hqZGQw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210809155909.333073de%40theseus.lan.
