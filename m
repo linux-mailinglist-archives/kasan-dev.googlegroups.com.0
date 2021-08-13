@@ -1,121 +1,125 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFOS3CEAMGQEO37LWGI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJZRXGY5YJBBN7F3KEAMGQE5KRGERI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id A964B3EB253
-	for <lists+kasan-dev@lfdr.de>; Fri, 13 Aug 2021 10:11:02 +0200 (CEST)
-Received: by mail-il1-x13b.google.com with SMTP id x7-20020a92b0070000b0290223c30afe67sf4601060ilh.21
-        for <lists+kasan-dev@lfdr.de>; Fri, 13 Aug 2021 01:11:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1628842261; cv=pass;
+Received: from mail-io1-xd3c.google.com (mail-io1-xd3c.google.com [IPv6:2607:f8b0:4864:20::d3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD5C3EBBBC
+	for <lists+kasan-dev@lfdr.de>; Fri, 13 Aug 2021 19:58:16 +0200 (CEST)
+Received: by mail-io1-xd3c.google.com with SMTP id n13-20020a5e8c0d0000b02905a890e11005sf5789440ioj.4
+        for <lists+kasan-dev@lfdr.de>; Fri, 13 Aug 2021 10:58:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1628877495; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DGbGzGai4aMWTvJxNh9oOiaPEUqrbbQZHuS3FC6gV6WDB61neu1LQICk5Zn5YCMcWx
-         foZ3BYRz0o6Nr4CdohYMoTbMSrLI0x+eHvKepvSZtEmt6WyDa9lBdfk15x0fu+fy/jk3
-         pWKzfNkyuDdQKIj5j7zNiWF3lFL4Ta3u3BDZodOhrHp9Ebkvgn/cXZtIBAc5beXAozdA
-         Co7edVgQLQbFoDNkqrRH+UWjEJ0qQIAQtJKvFXoER2EnUvGmo/f6dXcUJr+K/p/HZyds
-         u5TxZdmXz8FakPWV5dUFSIlW1RParC8cBP8Ch7L/V3Ut6JiK5G0FDa3ZKWuk7a4xiLsT
-         ye/Q==
+        b=xI2kegeWhnr0xvOfVD8tITsAu4dbtH0AIC5zEiSgR8U9Tw0TU3pczO1FzraUMnY4SL
+         kHoIM3igU9qcPHKKZ4dFQarzByGink4jfV6NnF1j9u61RpKT8tZ0iX1VNR1bgincqfMq
+         abssEHDjFZqgAUTPQH155nb3E2sWf72bOq+MKIoEIJu9nGIm16aF5cYoQ8qTi4i0SXVs
+         1oLZdpkSqHtKyOAQZvZOZYRbeHSX86X7Tm9PB0JpmQBNYqa4igUvcQzVBLl8dlM7bpwG
+         8OBLRlo2ENV3tJL6GxOtk8AiJFd2Yj9tQ1rDkPAOWZE9THWAomnWU4pL1MbmbiTb2stv
+         Be2w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=Eyd0pnrYSS3KJ+8b03cB3umW+MHoTRAmQ2VFb8FCD1A=;
-        b=RIZCP3MwMuT10Ece1hnLU/pl7ZmkzIlgZp7wJpRAJOvIwAVSWYqXlXcDUzDjkZn9ZY
-         EIYC6zo6HtXXI49YT5sI0PIXbCRQbfxDPlkqDyTPYbIkDZ4/5LbF/IYoQwBKnw3MeOhk
-         CZEbg+t91dfUpsZNd1nW41ZyNMSqCYivfErROSmBX9I8PpS3ngXnAelCTdusSzVGswKJ
-         iYn/jSp8Fhplx48ICd6oLhU0Ld+HE+ib+fKeMlYnZi6vtGb6jB7/r3s3UTeTrqtIYFQ5
-         Hu3FqDmj1ZDv38chALNSdNB4SWPbY+Ft65RVxo0YSEdyNMp5HbjFAB6kcuU0NN2dpB5G
-         0FKg==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=z13O8VpG9eQ+PJJirZybrumYv/2eU/xqZwmGDLZ34fI=;
+        b=pBUK3S6rbtwphJrgk4AiuGq3yHQY4m8iVyJ4wJ6AcjtHD+H6a6TiJHoj/NumQV+dFZ
+         fzWCRaWOifuH0kCXN0XpEaRlqY0RUfwuKlZ9MWHyZL6MlxEjA7whl2377TQf9IgE+yLL
+         uFF+QhNqvVcpWAOykuypCopbgOw45aK6XafmHLVhCrQBHcAvjU+U5NWWQiYVrza6F52e
+         LNPQ+t1lYYYoC3ycHNrNUBAyTsF4cnsYW/UQXuYg/MsHn+zbn8t974H7muL4FO9RfB2O
+         jaJw0qbJD/R1pJbbgRqDcjUE+fJSDWyUh8tlqZT9/wJb2kB9n8WFd8hXTM9CYl/P6wHi
+         JM4w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=PWHs269N;
-       spf=pass (google.com: domain of 3fckwyqukcc0x4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3FCkWYQUKCc0x4ExAz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VBi6zU+6;
+       spf=pass (google.com: domain of srs0=jdey=ne=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=JdEy=NE=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=Eyd0pnrYSS3KJ+8b03cB3umW+MHoTRAmQ2VFb8FCD1A=;
-        b=XTDVFpxQxa4LYM0qoG5CaLgeUb3j76fsLOO6kgzSb4w1AbZXHWR9rMBG/lIDYPFxe2
-         Zt2/i/kIuZeW8Ls9Pa3cMe8iph6n47VgeT8ajBReOVPbos9L/BIrc29L/WzK3Sp89SOB
-         yLlh1/56jNb0ONjXMi5YQ2majqJP+LaVIENPVEJN65ZBLBDtwq3Lg5pKiQZ/2HNIg/OK
-         Ylofo92jHj6UUJwnWIaUDbnnYCo7dPMYWDZ7E1HsVaPIFBDVZdZkHNWyhYzhd+NhtruU
-         lduU45WtGDtmdRFe/yfCynlpXgclq20u7Gm+0TWSibyEnD7v4mTvpAMvQoGPlYSwqvQX
-         4efw==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=z13O8VpG9eQ+PJJirZybrumYv/2eU/xqZwmGDLZ34fI=;
+        b=btlSRkYLCusfoYL8As1m0YOPcrx4wS/JkOuk0HN/q5fjgUjtGMtAHY0j+S+rY1w2wv
+         odRzSk8PHgC/dZM+WFbfqgSwwdHpYAXNc/VT2+fe+wXRI5tuZJtDyc0jaxVq0PkcKOv6
+         4UuOzZ6utokb5KEyFzIqW1kJWAjQsHLOTncCyGRk3xE3GWac4wZmcgWNaxWcy7L3GHCe
+         hpHf8E0vo7nfcNktG474o6Twd5B3fDf20P3KavYYOkfi1QkwPMuWOcWvsA8okPOiGuxM
+         7zlpL8XgxjnouvB+6YP/DHTUbS8JqO6/KvY/2S4ZHm/Hlofv+8HF9NylCsjfDh1Ac7o5
+         ABrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Eyd0pnrYSS3KJ+8b03cB3umW+MHoTRAmQ2VFb8FCD1A=;
-        b=IHNZDb5s6pmiq8FuosCGmQdUqH1eNncN/sr+6g/J9IYOkIwPdAvaju/D06Vmg3aHjP
-         sCkCiw3SJUf4MKP1UZ7NhXr+kJwIPKd2kh38ZVLWFlXi3wN35P61yUxodP/ZmN+BYxkv
-         2K/enNUpL3cl39PKa6xspuwYs0tfKPO4wN99iN0MbLHsyutn+pVnrxe4pQZuxojAmdei
-         /rc2fQg9rE1BgBbQiP+CSankjfz9Ap+D2mW4lYE/lu2777zSypJh7x+2syOyTRPNWFOf
-         WDn8EGWtBUabj097Lq7yYyzuXdYr/uOHbfYwm8NE3B3NF3+B6qSZIEy6/rcQDzpmO0lP
-         rB2A==
-X-Gm-Message-State: AOAM531uh7+TU0xcd4gnqVg/v5vQVlt0rUFpfawBxN7LxsPNjL4c04zM
-	Zf4CeIgwBHomPcmakYztjyU=
-X-Google-Smtp-Source: ABdhPJxS0ianNPkejmF9vU2mo0mwe9uh3wQe/SkwoGpSXtM7/JJiqokwhQGu6zNSRCnfOMifsqyGvQ==
-X-Received: by 2002:a5d:9eda:: with SMTP id a26mr1148308ioe.166.1628842261314;
-        Fri, 13 Aug 2021 01:11:01 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=z13O8VpG9eQ+PJJirZybrumYv/2eU/xqZwmGDLZ34fI=;
+        b=Jw+ORCUo9dsxPNiJEMDkQSGyHLP1SxfbnXU3nfGq5AHx5zBsI6aJOIRZplLK+Q8aMu
+         Tyr3D5ENeiHxY7bh2LHWaVtjkUjfWEjTjUhd3Vh55rsPmw+QWhx+KKILE/2VEAPw9l2m
+         UPCAxTaA7P4YCJFFaEbvn2MKn/cwVHM9vKtXMjhVYgGJoOLexAxMhf9r87cwp1s2/HAn
+         OsPYc5xqYS7WgibKJM9aaaHsI9m2oqJAc+6HkaRZpevNeZskeHzmQ2x4bKN26Eul9hV1
+         ZrNpEsGTK6EjM9fDnkocLD786j3zDAeifB4cc5bUQTZ6CyV/wpsHHMcnuWpMzdQj8fGr
+         v1FQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531PQcby6vGlEvEDFugl3XXEoAIu2dXjXzo2V487is5pllMjW3+E
+	cjo9hAcqVqZlP0nysewPhco=
+X-Google-Smtp-Source: ABdhPJxdTA7jVMRKMG2kXXumTd1yLGBn1dJ7qk3+krhiRiL31HKaE1jQvvkyxHYzJUuNWXhCVzFZPw==
+X-Received: by 2002:a92:c68a:: with SMTP id o10mr2597683ilg.163.1628877495122;
+        Fri, 13 Aug 2021 10:58:15 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:6c7:: with SMTP id p7ls142429ils.0.gmail; Fri, 13
- Aug 2021 01:11:01 -0700 (PDT)
-X-Received: by 2002:a92:1942:: with SMTP id e2mr1017637ilm.4.1628842260967;
-        Fri, 13 Aug 2021 01:11:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1628842260; cv=none;
+Received: by 2002:a05:6e02:1c83:: with SMTP id w3ls433816ill.9.gmail; Fri, 13
+ Aug 2021 10:58:14 -0700 (PDT)
+X-Received: by 2002:a92:7304:: with SMTP id o4mr2570882ilc.75.1628877494767;
+        Fri, 13 Aug 2021 10:58:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1628877494; cv=none;
         d=google.com; s=arc-20160816;
-        b=jxAS2WMdh1MVNIO9YScW3iE1mcULor9TD9bIqtFeyLtKZscdRUGzYDIWIat54G2pBF
-         RfUHh1zldmzbBdvua902ld984a/kQWjeguBDxiBJK99VAAnH48eMt7PaPetQPBX5gaAX
-         /WpPDkhJC8+x7AKRv0+dIEnWxnYDZSxWu++7KQ+4QoMpkx01YjxL8CKDewo+dcwUhcV0
-         HM43LYNd3tvN9CfdxbNry277IETETDHsvtXSooxReAu4AVILKReJ8++VeALd8aEcpY4B
-         4sSsKlqdL2o6emrCrEXFfo0Ww+6DiU2nFvIG5+1VZQOJbrfLTi41jxhORILhzJwHPleN
-         aG0Q==
+        b=hEbkF/qaWe+gynW50jvfh2OVltK4YiWhYxSJIYnWA6aS9/4zwpSV5bs2R5vTejKhEm
+         GdZbTGzEkFhcZyhCwuxOiS3x9M66HHNRlGHdsR7bIOWIVCUgpE7YKqJOpTflpcoDQmoO
+         gQ3X8I/SFIgLKlrD3H0GYYRc8Uwt9U/SAV8GWMYAqczVbmoC0ikQYddA8n3rXKHA36Mg
+         rsEPhNAbKhBrUSjG7DpfwES9MI6NJXgHD2iqbKJet2HecCiTtCiaXnZb3XqIubqkoxMf
+         Vse/5WT5zV1yih0+WLWNUJ3nYUUpr3AUDnks2diGFVJMyXW7hoUWi/O7PdVG1l54tA3n
+         +qeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=j24ec91WRmx0ztj0QJuWNPagxwmZnLCi87UE9Mn0dxc=;
-        b=k9lk0E8Jjvg9XSsWNME3QWHB5IUUi9ForxueVGfIwrhMqzE4UWywG+fP1N9F50iZmz
-         pxRqgEz1pa/djGb3ORSl8UXN11gJMjdLRLDIitwjfmmd4f04GAbNHL3QqfHY22knCas0
-         u4QiJ8RVOe343FhCXx42aEcgwppwamxtwGG2i8YOHdCUEQ4A9cYkwzJOTfH6kgMc59Hu
-         y+oaylqVBlnfHWIsWeWY9x/UOPoRFGQ6UmtjVZQuOSkmmDDLFh9qBVete7dO1dtQ4Rh1
-         zNSSqTpG9HzQQ3YkiJQniqCcClY6jxUyVKs4QFqiKkcp1CikPz+8G+gxkaSg1XwQoxD5
-         d29Q==
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=AjNVcTWgTz7ZCsB8YIeskwDAfb52MNjdkz5pTEAIwv8=;
+        b=uGxHA181VheuQTK+cFGkDIWFfokQrmRQRFuG6qrXSATz3DG7VrUz68e7ugI/pUe9ca
+         diQENitZwwmpjppF5ipRiULdIx+cAWRonsvwXVMyekvVIVY9LnqF3gMgAm5Q9idYVYKm
+         BgJT8Mw6JaHPOF0C0SBo14ZCJ1OB+uBuXxao8Y7iZCG2sDLzrEv0XTNEzsCBD1+2tmmy
+         FzcBynpZ7Vd2EoM4mQcHficocj2MjlsJtpN+PDbjry8Vt9gdpMfPK83tJ2sn4OLOX3Rt
+         HGLIx70IAMFij/hyg5eZqfcpVKE2zExm8BU36ZKrBFmHJXtR1piJcmHzw+X67jbvKtbM
+         IIqw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=PWHs269N;
-       spf=pass (google.com: domain of 3fckwyqukcc0x4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3FCkWYQUKCc0x4ExAz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com. [2607:f8b0:4864:20::84a])
-        by gmr-mx.google.com with ESMTPS id e16si48058ilm.3.2021.08.13.01.11.00
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VBi6zU+6;
+       spf=pass (google.com: domain of srs0=jdey=ne=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=JdEy=NE=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id y11si131861ilu.5.2021.08.13.10.58.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Aug 2021 01:11:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3fckwyqukcc0x4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::84a as permitted sender) client-ip=2607:f8b0:4864:20::84a;
-Received: by mail-qt1-x84a.google.com with SMTP id v1-20020a05622a1441b02902977bfc6bbeso3324055qtx.13
-        for <kasan-dev@googlegroups.com>; Fri, 13 Aug 2021 01:11:00 -0700 (PDT)
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f52:cd7f:2e57:442e])
- (user=elver job=sendgmr) by 2002:a05:6214:5012:: with SMTP id
- jo18mr1521038qvb.31.1628842260479; Fri, 13 Aug 2021 01:11:00 -0700 (PDT)
-Date: Fri, 13 Aug 2021 10:10:55 +0200
-Message-Id: <20210813081055.3119894-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
-Subject: [PATCH] kcsan: selftest: Cleanup and add missing __init
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, paulmck@kernel.org
-Cc: mark.rutland@arm.com, dvyukov@google.com, glider@google.com, 
-	boqun.feng@gmail.com, kasan-dev@googlegroups.com, 
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 13 Aug 2021 10:58:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=jdey=ne=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E11C360EFE;
+	Fri, 13 Aug 2021 17:58:13 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id AE51F5C0373; Fri, 13 Aug 2021 10:58:13 -0700 (PDT)
+Date: Fri, 13 Aug 2021 10:58:13 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: mark.rutland@arm.com, dvyukov@google.com, glider@google.com,
+	boqun.feng@gmail.com, kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kcsan: selftest: Cleanup and add missing __init
+Message-ID: <20210813175813.GC4126399@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20210813081055.3119894-1-elver@google.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <20210813081055.3119894-1-elver@google.com>
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=PWHs269N;       spf=pass
- (google.com: domain of 3fckwyqukcc0x4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::84a as permitted sender) smtp.mailfrom=3FCkWYQUKCc0x4ExAz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=VBi6zU+6;       spf=pass
+ (google.com: domain of srs0=jdey=ne=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=JdEy=NE=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -128,128 +132,138 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Make test_encode_decode() more readable and add missing __init.
+On Fri, Aug 13, 2021 at 10:10:55AM +0200, Marco Elver wrote:
+> Make test_encode_decode() more readable and add missing __init.
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
 
-Signed-off-by: Marco Elver <elver@google.com>
----
- kernel/kcsan/selftest.c | 72 +++++++++++++++++------------------------
- 1 file changed, 30 insertions(+), 42 deletions(-)
+Thank you!  I have queued and pushed this one as well as your previous
+series:
 
-diff --git a/kernel/kcsan/selftest.c b/kernel/kcsan/selftest.c
-index 7f29cb0f5e63..b4295a3892b7 100644
---- a/kernel/kcsan/selftest.c
-+++ b/kernel/kcsan/selftest.c
-@@ -18,7 +18,7 @@
- #define ITERS_PER_TEST 2000
- 
- /* Test requirements. */
--static bool test_requires(void)
-+static bool __init test_requires(void)
- {
- 	/* random should be initialized for the below tests */
- 	return prandom_u32() + prandom_u32() != 0;
-@@ -28,14 +28,18 @@ static bool test_requires(void)
-  * Test watchpoint encode and decode: check that encoding some access's info,
-  * and then subsequent decode preserves the access's info.
-  */
--static bool test_encode_decode(void)
-+static bool __init test_encode_decode(void)
- {
- 	int i;
- 
- 	for (i = 0; i < ITERS_PER_TEST; ++i) {
- 		size_t size = prandom_u32_max(MAX_ENCODABLE_SIZE) + 1;
- 		bool is_write = !!prandom_u32_max(2);
-+		unsigned long verif_masked_addr;
-+		long encoded_watchpoint;
-+		bool verif_is_write;
- 		unsigned long addr;
-+		size_t verif_size;
- 
- 		prandom_bytes(&addr, sizeof(addr));
- 		if (addr < PAGE_SIZE)
-@@ -44,53 +48,37 @@ static bool test_encode_decode(void)
- 		if (WARN_ON(!check_encodable(addr, size)))
- 			return false;
- 
--		/* Encode and decode */
--		{
--			const long encoded_watchpoint =
--				encode_watchpoint(addr, size, is_write);
--			unsigned long verif_masked_addr;
--			size_t verif_size;
--			bool verif_is_write;
--
--			/* Check special watchpoints */
--			if (WARN_ON(decode_watchpoint(
--				    INVALID_WATCHPOINT, &verif_masked_addr,
--				    &verif_size, &verif_is_write)))
--				return false;
--			if (WARN_ON(decode_watchpoint(
--				    CONSUMED_WATCHPOINT, &verif_masked_addr,
--				    &verif_size, &verif_is_write)))
--				return false;
--
--			/* Check decoding watchpoint returns same data */
--			if (WARN_ON(!decode_watchpoint(
--				    encoded_watchpoint, &verif_masked_addr,
--				    &verif_size, &verif_is_write)))
--				return false;
--			if (WARN_ON(verif_masked_addr !=
--				    (addr & WATCHPOINT_ADDR_MASK)))
--				goto fail;
--			if (WARN_ON(verif_size != size))
--				goto fail;
--			if (WARN_ON(is_write != verif_is_write))
--				goto fail;
--
--			continue;
--fail:
--			pr_err("%s fail: %s %zu bytes @ %lx -> encoded: %lx -> %s %zu bytes @ %lx\n",
--			       __func__, is_write ? "write" : "read", size,
--			       addr, encoded_watchpoint,
--			       verif_is_write ? "write" : "read", verif_size,
--			       verif_masked_addr);
-+		encoded_watchpoint = encode_watchpoint(addr, size, is_write);
-+
-+		/* Check special watchpoints */
-+		if (WARN_ON(decode_watchpoint(INVALID_WATCHPOINT, &verif_masked_addr, &verif_size, &verif_is_write)))
- 			return false;
--		}
-+		if (WARN_ON(decode_watchpoint(CONSUMED_WATCHPOINT, &verif_masked_addr, &verif_size, &verif_is_write)))
-+			return false;
-+
-+		/* Check decoding watchpoint returns same data */
-+		if (WARN_ON(!decode_watchpoint(encoded_watchpoint, &verif_masked_addr, &verif_size, &verif_is_write)))
-+			return false;
-+		if (WARN_ON(verif_masked_addr != (addr & WATCHPOINT_ADDR_MASK)))
-+			goto fail;
-+		if (WARN_ON(verif_size != size))
-+			goto fail;
-+		if (WARN_ON(is_write != verif_is_write))
-+			goto fail;
-+
-+		continue;
-+fail:
-+		pr_err("%s fail: %s %zu bytes @ %lx -> encoded: %lx -> %s %zu bytes @ %lx\n",
-+		       __func__, is_write ? "write" : "read", size, addr, encoded_watchpoint,
-+		       verif_is_write ? "write" : "read", verif_size, verif_masked_addr);
-+		return false;
- 	}
- 
- 	return true;
- }
- 
- /* Test access matching function. */
--static bool test_matching_access(void)
-+static bool __init test_matching_access(void)
- {
- 	if (WARN_ON(!matching_access(10, 1, 10, 1)))
- 		return false;
--- 
-2.33.0.rc1.237.g0d66db33f3-goog
+https://lkml.kernel.org/r/20210813081055.3119894-1-elver@google.com
+
+							Thanx, Paul
+
+> ---
+>  kernel/kcsan/selftest.c | 72 +++++++++++++++++------------------------
+>  1 file changed, 30 insertions(+), 42 deletions(-)
+> 
+> diff --git a/kernel/kcsan/selftest.c b/kernel/kcsan/selftest.c
+> index 7f29cb0f5e63..b4295a3892b7 100644
+> --- a/kernel/kcsan/selftest.c
+> +++ b/kernel/kcsan/selftest.c
+> @@ -18,7 +18,7 @@
+>  #define ITERS_PER_TEST 2000
+>  
+>  /* Test requirements. */
+> -static bool test_requires(void)
+> +static bool __init test_requires(void)
+>  {
+>  	/* random should be initialized for the below tests */
+>  	return prandom_u32() + prandom_u32() != 0;
+> @@ -28,14 +28,18 @@ static bool test_requires(void)
+>   * Test watchpoint encode and decode: check that encoding some access's info,
+>   * and then subsequent decode preserves the access's info.
+>   */
+> -static bool test_encode_decode(void)
+> +static bool __init test_encode_decode(void)
+>  {
+>  	int i;
+>  
+>  	for (i = 0; i < ITERS_PER_TEST; ++i) {
+>  		size_t size = prandom_u32_max(MAX_ENCODABLE_SIZE) + 1;
+>  		bool is_write = !!prandom_u32_max(2);
+> +		unsigned long verif_masked_addr;
+> +		long encoded_watchpoint;
+> +		bool verif_is_write;
+>  		unsigned long addr;
+> +		size_t verif_size;
+>  
+>  		prandom_bytes(&addr, sizeof(addr));
+>  		if (addr < PAGE_SIZE)
+> @@ -44,53 +48,37 @@ static bool test_encode_decode(void)
+>  		if (WARN_ON(!check_encodable(addr, size)))
+>  			return false;
+>  
+> -		/* Encode and decode */
+> -		{
+> -			const long encoded_watchpoint =
+> -				encode_watchpoint(addr, size, is_write);
+> -			unsigned long verif_masked_addr;
+> -			size_t verif_size;
+> -			bool verif_is_write;
+> -
+> -			/* Check special watchpoints */
+> -			if (WARN_ON(decode_watchpoint(
+> -				    INVALID_WATCHPOINT, &verif_masked_addr,
+> -				    &verif_size, &verif_is_write)))
+> -				return false;
+> -			if (WARN_ON(decode_watchpoint(
+> -				    CONSUMED_WATCHPOINT, &verif_masked_addr,
+> -				    &verif_size, &verif_is_write)))
+> -				return false;
+> -
+> -			/* Check decoding watchpoint returns same data */
+> -			if (WARN_ON(!decode_watchpoint(
+> -				    encoded_watchpoint, &verif_masked_addr,
+> -				    &verif_size, &verif_is_write)))
+> -				return false;
+> -			if (WARN_ON(verif_masked_addr !=
+> -				    (addr & WATCHPOINT_ADDR_MASK)))
+> -				goto fail;
+> -			if (WARN_ON(verif_size != size))
+> -				goto fail;
+> -			if (WARN_ON(is_write != verif_is_write))
+> -				goto fail;
+> -
+> -			continue;
+> -fail:
+> -			pr_err("%s fail: %s %zu bytes @ %lx -> encoded: %lx -> %s %zu bytes @ %lx\n",
+> -			       __func__, is_write ? "write" : "read", size,
+> -			       addr, encoded_watchpoint,
+> -			       verif_is_write ? "write" : "read", verif_size,
+> -			       verif_masked_addr);
+> +		encoded_watchpoint = encode_watchpoint(addr, size, is_write);
+> +
+> +		/* Check special watchpoints */
+> +		if (WARN_ON(decode_watchpoint(INVALID_WATCHPOINT, &verif_masked_addr, &verif_size, &verif_is_write)))
+>  			return false;
+> -		}
+> +		if (WARN_ON(decode_watchpoint(CONSUMED_WATCHPOINT, &verif_masked_addr, &verif_size, &verif_is_write)))
+> +			return false;
+> +
+> +		/* Check decoding watchpoint returns same data */
+> +		if (WARN_ON(!decode_watchpoint(encoded_watchpoint, &verif_masked_addr, &verif_size, &verif_is_write)))
+> +			return false;
+> +		if (WARN_ON(verif_masked_addr != (addr & WATCHPOINT_ADDR_MASK)))
+> +			goto fail;
+> +		if (WARN_ON(verif_size != size))
+> +			goto fail;
+> +		if (WARN_ON(is_write != verif_is_write))
+> +			goto fail;
+> +
+> +		continue;
+> +fail:
+> +		pr_err("%s fail: %s %zu bytes @ %lx -> encoded: %lx -> %s %zu bytes @ %lx\n",
+> +		       __func__, is_write ? "write" : "read", size, addr, encoded_watchpoint,
+> +		       verif_is_write ? "write" : "read", verif_size, verif_masked_addr);
+> +		return false;
+>  	}
+>  
+>  	return true;
+>  }
+>  
+>  /* Test access matching function. */
+> -static bool test_matching_access(void)
+> +static bool __init test_matching_access(void)
+>  {
+>  	if (WARN_ON(!matching_access(10, 1, 10, 1)))
+>  		return false;
+> -- 
+> 2.33.0.rc1.237.g0d66db33f3-goog
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210813081055.3119894-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210813175813.GC4126399%40paulmck-ThinkPad-P17-Gen-1.
