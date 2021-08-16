@@ -1,117 +1,135 @@
-Return-Path: <kasan-dev+bncBD6LRVPZ6YGRBY725GEAMGQENXW2E2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBL565KEAMGQEDCQXXRQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88B33ED959
-	for <lists+kasan-dev@lfdr.de>; Mon, 16 Aug 2021 16:59:48 +0200 (CEST)
-Received: by mail-io1-xd3d.google.com with SMTP id n14-20020a5d824e0000b02905b010868ff0sf5670105ioo.10
-        for <lists+kasan-dev@lfdr.de>; Mon, 16 Aug 2021 07:59:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1629125987; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 134C53EDC58
+	for <lists+kasan-dev@lfdr.de>; Mon, 16 Aug 2021 19:24:00 +0200 (CEST)
+Received: by mail-lj1-x238.google.com with SMTP id q9-20020a2e9689000000b001b964fa10b3sf2188669lji.18
+        for <lists+kasan-dev@lfdr.de>; Mon, 16 Aug 2021 10:24:00 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1629134639; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DMqNE1zu3GB3uLOJewf3mPr8uxJP9mMwPNUzM8EJybZrXP4PcFrOTz5Cqm3P1y/xx5
-         dBh4jYg62pU4t16XKXkQ0cXtTOqgydJirpP17voHOdID5/1naOZ+YenJtlIFXNfvLLA4
-         tiBrgO6yYKLvLi9Y26I5ooFJ7w0x1JwOAiS/6qVICjHFalFh9WuMtyDMbgl9XTLNwmUK
-         65vzPUy8p3VUW8xRJV+ma4JLYItlZbp5T+NMAZeVzGlAClXzMBJh7ZHnoA3dpgjGwrOQ
-         VRQK+wWJFBtJPhXNiNbrVaprITPlYmFxi3Bu6Kt2b0elhoNeNH4cy7HD/qDGnMeeUCpL
-         6TYA==
+        b=emYg1ep56WR4I/pkL0ldVjFCF4OCgwE1Jh+dVJQlDm+djattL8+R8eJP3/d4vxIF4S
+         CtqmkdSZzHqcgDldWGMSS9lgRBy2ZEs7EMV+w6i34k3P8mBLYZdMW5omR34Llb97YTv7
+         2oJK3LonXeNbTIS0MGcjILc5WL/7VXChUroeqgKTAuvPnwyK24YNeWeCZnzDlDWSrcgH
+         20dJByCrodc5bURbOBU3Msav3lia8cXGtW/Bx6GnbOAlxWipqa8pB48rpF4y2h0COZPf
+         nT2V6DeQS3RLrxWf/ZWi7UAHwjSLIlRELn73bVAjCwLiJ7FQJmVqFCKZsxF1b6EgrAWQ
+         HHLg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=eRbuOYsPc1ZL17g1oQ1cw6qnOoe5T3VjxahdljY1uFg=;
-        b=x5dparrErVW5dA9fKN8/mLopucPVH0N6kzxPCvPmshxV61WCM9LQuLYT/sDLbCkr+t
-         eyrUulGpBpXPzs3gLNTLYayaLakDTRMll9RmxWlxeuRmoVEDgi+ELZpKXH3Ohf4vf861
-         rOLEtYfoCRgRy97UWvBvhYw/4L9YdcWuW184pAy6kiFFg3V/VUaV5vgPltI8uN0Z3Yt2
-         uC2gyWJbc4rIKVTk+z0qVzy1eCB53RMFlyhe6Az2Dz1+DePXtA2tUJYQW5k3FVFOjlWE
-         nrCE2d7PEW71zTZ9Yy5xD/UBWtQuZrdP3I75mkr3Yb/zDRTw6xHe44ALeWzB9ts4FlVj
-         uILA==
+         :to:from:date:dkim-signature;
+        bh=ZVhMcYeNSNL8RoJOeq3hdCAs3O2joOSDOZFJtk1Mjaw=;
+        b=zY+cp7RQGf5Hqw2UNxJPPbjKofS4+4/zarOiIMBplS7JEuISwhlbHUDNLcOtu8qqSh
+         J3Ppgtmst8aea9u/KyvUYx923UQ/T6wRdV/vR7UbOK4IQr/AZ4HwAFXqYF3fQxCR4soM
+         YWNXClo5g1GRRZ7mwosqqkpWBQVgWLpYPyQ2PHB/CXvtq2dwyWUjaWjViJOKK7nG4Mui
+         aY1xt8mOm5bJAdaMkf7bcN7gDF/NMCWwixH3nDjy0EsPU6xtwofYTUbL5kmroS7dbMWF
+         swYmKpEbsPBTzhtOQua2i3OLWBtiML8B+mpjPXTbwCvV8NljpQuAVyc2yAk7QvNV2X95
+         5X+g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of stern+6109fa88@netrider.rowland.org designates 192.131.102.5 as permitted sender) smtp.mailfrom=stern+6109fa88@netrider.rowland.org
+       dkim=pass header.i=@google.com header.s=20161025 header.b=EnEZK2cQ;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=eRbuOYsPc1ZL17g1oQ1cw6qnOoe5T3VjxahdljY1uFg=;
-        b=f6gpF7ltjPMjOAJSDSSyPcK19196nv5oxh9MXdBz2XWK8rq68wjDnUe+sfjrpLZN/9
-         HOddJOMPqkT9ApUrb9zXf6QsLw0Z3h1ldeMg+d46gNIyxV55eFCyll4Xf+n+dGbwCkxs
-         P5Ix/r26EdjPKUDCFfB3WDSjyugHKemRp3NSrtmrMREYOvEcuRBoBxlB18viHF2wLmzQ
-         zrDiK/apVh0B1s+nG8VwZI68LJuRcivZjP2aBQxJIYDsDqBdqXhBcjUJ+bSadE0TYYcU
-         Sdn6Bb782wiPybysb5gNetyO2F/UCnQN4jOFYedJ2c+4zJ/HATGafXZ6eo3exdqR1SC6
-         +9rQ==
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=ZVhMcYeNSNL8RoJOeq3hdCAs3O2joOSDOZFJtk1Mjaw=;
+        b=a8HSzIeiVP0mXWIdX4o8QUMh5+BxxwcWrlhLAFhE/+RbuRMZWP0Yx7FOS25YsO6/dz
+         XTTcb6xX0AVlfENCCZmfUepnAoApOcSjIPsTpsFzZ2OhQA8MesvYxiXG237MziM1Rgop
+         kMvJhxHyZLUYQDGYd8de6pNzPLqBvYvRjyPH/uEUETOqNEGE5tawnxfKYIsJI/vUg/Ta
+         dUBfzPqoC2ZZn0tva1g92OWGrr8+574nT7IYclviEZhCzSu3G7TxaDstHCQFtnkEMb6C
+         maVIAe67emM12wygxMyhY7cVnqyCc3jDjFxhNGD/Gr2j5cXtIaw/qdZjTCwt+0A6EKCn
+         UD2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=eRbuOYsPc1ZL17g1oQ1cw6qnOoe5T3VjxahdljY1uFg=;
-        b=EZS1ds1Fx03Etr77EJgZpHrmA53XZwrUvy+/OgnUaELo5CrJYFS8mgAAPnmlhQUwq7
-         LP9fti+IffbXzhKpVJ4tVLKnZ74biuwt4C7Nk+DZdg1HZKXdN87SW4ynBPqon6k6HI60
-         X/SsZaTJScKMORaQPtpPDBiOXisgZNktmg5GTEpjp0okJ6SAqkmVH+SYMXhfnTEMzD2S
-         cLQbd3dWQ8GP5kRRaKQr5iJRXyw/rAonUylng0ojTTVTu0Y+893kKtiEdjPBbOfL3MTL
-         Bsdvl+V1y7srmiqe6VtyXA795Dj3wuNh9KQ5rGX4l5F1KRsOMsDVT6cP+7eC8gP1+UnI
-         qTSg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5310KBv2TD9bqCtJyGUpCJCqIHtsn75Vc/eI4G0fk4OTlYeSqOz/
-	xDzTC1pXTvK3tRHHh97E9yk=
-X-Google-Smtp-Source: ABdhPJxzRpvNLq+FHnzG/yPV5B7LllB4TuG6A8cieaGRhaGewQp3gu8NC/ByLVpKLFHnqq7hiO8Vpw==
-X-Received: by 2002:a5e:c808:: with SMTP id y8mr13465893iol.108.1629125987556;
-        Mon, 16 Aug 2021 07:59:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=ZVhMcYeNSNL8RoJOeq3hdCAs3O2joOSDOZFJtk1Mjaw=;
+        b=m7SrGkUTqXjgqTzkEi4GihjnJ7Lg+g6zRRdiD0UmjfDIJciS6WPJ84SmC6I+cswq/w
+         h6FYAMkPWa4PBm5J/LzM/uXGjM0nMN2KtyV0oGqGJQdqzdpfzpFFqhXUQPOH9g9TaHlQ
+         vjhW2S/CucwsD6sS6Gu7FUqJOnk2R/TYy7Sej4v/M7x+z7zOyp3BqMh6hS1rhJYqBJcV
+         IJW0bFX7EUP5gY0PGg7TY5u/yz8kH0ahOq/Bq4BzHNca0XSja6M5AJHl5ktt6nTsuLz2
+         slvh3DRqp+06GbM2h+yhEuUXFDoieSNfE77g01bhWwS+7UaqJeDr4e4ubZqeSOD0X8GM
+         Rcjw==
+X-Gm-Message-State: AOAM531/PBsD05kgnUPp57LyQKQJSsrv3FJxd+pL0jJyEtNdkLq0YLmQ
+	WR+ubDw5G11I1+vJTxQEHcU=
+X-Google-Smtp-Source: ABdhPJxfP4SYbfwSVG0oO2G2Y22TnNoUzBTu8EhWqWONfsl8Ookvt32HW81taci14Iphyhddygmt6A==
+X-Received: by 2002:a2e:a275:: with SMTP id k21mr9302033ljm.228.1629134639608;
+        Mon, 16 Aug 2021 10:23:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:94ca:: with SMTP id y10ls1342047ior.1.gmail; Mon, 16 Aug
- 2021 07:59:47 -0700 (PDT)
-X-Received: by 2002:a5d:9e45:: with SMTP id i5mr13190523ioi.69.1629125987149;
-        Mon, 16 Aug 2021 07:59:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1629125987; cv=none;
+Received: by 2002:a2e:8652:: with SMTP id i18ls505555ljj.1.gmail; Mon, 16 Aug
+ 2021 10:23:58 -0700 (PDT)
+X-Received: by 2002:a2e:8504:: with SMTP id j4mr11128502lji.352.1629134638474;
+        Mon, 16 Aug 2021 10:23:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1629134638; cv=none;
         d=google.com; s=arc-20160816;
-        b=qyCF8aYk0hoLYhbY//pA2ssAFldMovsF3FIXTwLgTV4Tq7+ODYaF87Pr99TNZYMMxO
-         pNgm+jkvSryz9bj/S9DtsxiMWoyNbV7jNkPIsUsqd4/ggGbwXnVL/ug9Jxr4kiVfWbn9
-         0VxaFHNtDgBQ1KUt/b1LRnllsOPBDQTWLuFPl2Hjhv5yIoCxwxRQ0NVUBZi5AKA7yA+M
-         3ii3C6QKJC5X1cY0RKBsOBm6X+6jz3VCoMcN9CbBSfgl9zxefCLZpSsNnfFJ3bSB/5AN
-         vFAuOJ8I2tou4Ak5h9/nlEfXva6EdgMrSJHs24mrKVs6iofoHRQaj5YxHbZxsmdgXCfj
-         kGWQ==
+        b=H7k4omh1cbQS5KADpT/BbFjzLeR4efZvgkc768Jf+F/MjlBElonUhs2XS8H7yhSTGy
+         o6mUmj1SvuXlFHef93QEG/Eq2ewTfbO21uWD2dcTkARd1zJR6SNnHvPPGsY58y0IEhHe
+         JMQXUU/LgiY2TEmzkRRfDAcYryU74zixHvZ8N9/QEO2c4J+GtPWQJt4ovZrxZctFgGRf
+         7HJdt56HXTLXw8oBnHS9Y/QGfKdLf8OcXikzYM5HdKmBsXc2drpphkKmIa8B38s32DuB
+         TgCpYJykVwgWDzfTd1kZETVUawhQsWg7mdv+gg/fUt0cAYLY/o+NXJ3yTuAw+/DlWAlz
+         sURA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date;
-        bh=466uhexf3+a3aalsfbho08vk722ecuCrP97jPYiZLdI=;
-        b=XEp3QrFd920IRhM0TKQQmVRKGS8Gsg+XqgeyMJFrg9YkR6pRNyo/EDacvVVI9F5GPr
-         RH7yDRY94VE31RvS/aS3E7mFoY9YsuK7Deo5rHrtvEolCoUgTCAF0jvCO4P9DB3/XwUR
-         OJ+xE6SBs+KcqfY7h/UF/RouQCxnGQuJjDUn1zSPOCeJrCd+nL2Vi2lTZyRA8XtK70Wr
-         Hl2oHA6lHTto+6vQtzFeN69VHz/WTM9m8SdZkAKY+20kL74rG6vsVqB0cCCQ5UAI4JYl
-         Ck+8RzJ7qzmXoICFPqb+o4RrvL2Oem/4hiqXZ8rka2TC1x3Ihqhsz03s+olyqyeMhWr1
-         0AOw==
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=Q4xb7GT62H6SH9N7ILRbjnxbiy5piEQLOJSGos0eCQo=;
+        b=RAK8InVipFThn9IWnOUsjvw9AmUyFRrIVA7oua+YNob2VfhBngKYInSPowmDTh93KD
+         RavZpAuxqcwYT4CUra/LAa3z1mVXuz0j1DZo0A0lOLpJ7dRDfuztVnBvFLRGcxSOxcJE
+         bJONzWnakmPa2viQdxal1DmWdD5+fczagx79Kb4q7HxTsZT5cgeW4HP+uFAMZp89heUU
+         10MVIabZkz1E3Grag07RjvKKcg6cOQ/zLRaZaETTpgPq02apPQxUCOGpyiDzpVcABOdF
+         yKjJkUZ7txNuu+WEszy9cxoUt7/dTAls20isKUHVQ+W1UmSTGNjsYJpyfx244oZ8AP0v
+         1NSA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of stern+6109fa88@netrider.rowland.org designates 192.131.102.5 as permitted sender) smtp.mailfrom=stern+6109fa88@netrider.rowland.org
-Received: from netrider.rowland.org (netrider.rowland.org. [192.131.102.5])
-        by gmr-mx.google.com with SMTP id y16si364389ilc.5.2021.08.16.07.59.46
-        for <kasan-dev@googlegroups.com>;
-        Mon, 16 Aug 2021 07:59:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of stern+6109fa88@netrider.rowland.org designates 192.131.102.5 as permitted sender) client-ip=192.131.102.5;
-Received: (qmail 123487 invoked by uid 1000); 16 Aug 2021 10:59:45 -0400
-Date: Mon, 16 Aug 2021 10:59:45 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Marco Elver <elver@google.com>
+       dkim=pass header.i=@google.com header.s=20161025 header.b=EnEZK2cQ;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com. [2a00:1450:4864:20::430])
+        by gmr-mx.google.com with ESMTPS id h11si610739lfc.4.2021.08.16.10.23.58
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Aug 2021 10:23:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as permitted sender) client-ip=2a00:1450:4864:20::430;
+Received: by mail-wr1-x430.google.com with SMTP id r7so24788645wrs.0
+        for <kasan-dev@googlegroups.com>; Mon, 16 Aug 2021 10:23:58 -0700 (PDT)
+X-Received: by 2002:a5d:4ec5:: with SMTP id s5mr12809049wrv.267.1629134637607;
+        Mon, 16 Aug 2021 10:23:57 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:15:13:4ab8:21c4:bd1f:eac2])
+        by smtp.gmail.com with ESMTPSA id p4sm14175973wrq.81.2021.08.16.10.23.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 10:23:57 -0700 (PDT)
+Date: Mon, 16 Aug 2021 19:23:51 +0200
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Alan Stern <stern@rowland.harvard.edu>
 Cc: "Paul E. McKenney" <paulmck@kernel.org>,
-  Boqun Feng <boqun.feng@gmail.com>, Andrea Parri <parri.andrea@gmail.com>,
-  Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-  Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
-  linux-kernel@vger.kernel.org
+	Boqun Feng <boqun.feng@gmail.com>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org
 Subject: Re: LKMM: Read dependencies of writes ordered by dma_wmb()?
-Message-ID: <20210816145945.GB121345@rowland.harvard.edu>
+Message-ID: <YRqfJz/lpUaZpxq7@elver.google.com>
 References: <YRo58c+JGOvec7tc@elver.google.com>
+ <20210816145945.GB121345@rowland.harvard.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <YRo58c+JGOvec7tc@elver.google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: stern@rowland.harvard.edu
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of stern+6109fa88@netrider.rowland.org designates
- 192.131.102.5 as permitted sender) smtp.mailfrom=stern+6109fa88@netrider.rowland.org
+In-Reply-To: <20210816145945.GB121345@rowland.harvard.edu>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20161025 header.b=EnEZK2cQ;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -124,106 +142,157 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Aug 16, 2021 at 12:12:01PM +0200, Marco Elver wrote:
-> Hello,
+On Mon, Aug 16, 2021 at 10:59AM -0400, Alan Stern wrote:
+[...]
+> > One caveat is the case I'm trying to understand doesn't involve just 2
+> > CPUs but also a device. And for now, I'm assuming that dma_wmb() is as
+> > strong as smp_wmb() also wrt other CPUs (but my guess is this
+> > assumption is already too strong).
 > 
-> Commit c58a801701693 added a paragraph to the LKMM:
+> I'm not sure that is right.  dma_wmb affects the visibility of writes to 
+> a DMA buffer from the point of view of the device, not necessarily from 
+> the point of view of other CPUs.  At least, there doesn't seem to be any 
+> claim in memory-barriers.txt that it does so.
+
+Thanks, I thought so.
+
+While I could just not instrument dma_*mb() at all, because KCSAN
+obviously can't instrument what devices do, I wonder if the resulting
+reports are at all interesting.
+
+For example, if I do not make the assumption that dma_wmb==smp_smb, and
+don't instrument dma_*mb() at all, I also get racy UAF reordered writes:
+I could imagine some architecture where dma_wmb() propagates the write
+to devices from CPU 0; but CPU 1 then does the kfree(), reallocates,
+reuses the data, but then gets its data overwritten by CPU 0.
+
+What would be more useful?
+
+1. Let the architecture decide how they want KCSAN to instrument non-smp
+   barriers, given it's underspecified. This means KCSAN would report
+   different races on different architectures, but keep the noise down.
+
+2. Assume the weakest possible model, where non-smp barriers just do
+   nothing wrt other CPUs.
+
+> > The whole area of the memory model that includes talking to devices and
+> > devices talking back to CPUs seems quite murky, and need to confirm that
+> > I either got it right or wrong. :-)
 > 
-> 	+Although we said that plain accesses are not linked by the ppo
-> 	+relation, they do contribute to it indirectly.  Namely, when there is
-> 	+an address dependency from a marked load R to a plain store W,
-> 	+followed by smp_wmb() and then a marked store W', the LKMM creates a
-> 	+ppo link from R to W'.
+> The LKMM itself doesn't include anything about device I/O.  So you're 
+> already going beyond the known limits.  :-)
 > 
-> Defining that certain _marked reads_ will also be ordered by smp_wmb().
-> But otherwise, other reads (especially plain reads!) will _never_ be
-> ordered by smp_wmb(). Is my understanding correct?
-
-The ordering is indirect, but yes.
-
-> I am asking because KCSAN is growing limited support for weak memory
-> modeling and memory barriers, and I'm trying to figure out if I'm seeing
-> a false positive or genuinely allowed race.
+> ...
 > 
-> One caveat is the case I'm trying to understand doesn't involve just 2
-> CPUs but also a device. And for now, I'm assuming that dma_wmb() is as
-> strong as smp_wmb() also wrt other CPUs (but my guess is this
-> assumption is already too strong).
-
-I'm not sure that is right.  dma_wmb affects the visibility of writes to 
-a DMA buffer from the point of view of the device, not necessarily from 
-the point of view of other CPUs.  At least, there doesn't seem to be any 
-claim in memory-barriers.txt that it does so.
-
-> The whole area of the memory model that includes talking to devices and
-> devices talking back to CPUs seems quite murky, and need to confirm that
-> I either got it right or wrong. :-)
-
-The LKMM itself doesn't include anything about device I/O.  So you're 
-already going beyond the known limits.  :-)
-
-...
-
-> KCSAN is saying there is a potential use-after-free read of an skb due
-> to the read to 0xffff8880077b5570 potentially being delayed/reordered
-> later. If the memory was reallocated and reused concurrently, the read
-> could read garbage data:
+> > KCSAN is saying there is a potential use-after-free read of an skb due
+> > to the read to 0xffff8880077b5570 potentially being delayed/reordered
+> > later. If the memory was reallocated and reused concurrently, the read
+> > could read garbage data:
+> > 
+> > 1.	The e1000 driver is being instructed to transmit in
+> > 	e1000_xmit_frame(). Here it uses the data in the skb in various
+> > 	places (e.g. in skb_headlen() above) to set up a new element in
+> > 	the ring buffer to be consumed by the device via DMA.
 > 
-> 1.	The e1000 driver is being instructed to transmit in
-> 	e1000_xmit_frame(). Here it uses the data in the skb in various
-> 	places (e.g. in skb_headlen() above) to set up a new element in
-> 	the ring buffer to be consumed by the device via DMA.
+> You mean here the driver reads some stuff from the skb, right?  And 
+> various writes depend on the data that was read, but these dependencies 
+> aren't evident to the memory model because they all involve plain 
+> accesses.
 
-You mean here the driver reads some stuff from the skb, right?  And 
-various writes depend on the data that was read, but these dependencies 
-aren't evident to the memory model because they all involve plain 
-accesses.
+Yes, correct.
 
-> 2.	Eventually it calls e1000_tx_queue(), which seems to publish the
-> 	next entry into the ring buffer and finally calls dma_wmb().
-> 	Until this point I see no other barriers (although there's a
-> 	writel(), but it doesn't always seem to be called).
-
-And potentially those reads from above could be delayed (or repeated) 
-after this point.
-
-But you're missing something.  What matters isn't the dma_wmb.  Rather, 
-it's the call which transfers ownership of the buffer to the device.  
-That call must certainly include its own memory barrier, meaning that 
-the reads must complete before the call returns.  We don't depend on a 
-dma_wmb which might or might not be present to enforce this ordering.
-
-Unless this buffer mapping is supposed to be coherent, of course, in 
-which case there would be no ownership transfers.
-
-> 3.	e1000_clean_tx_irq() is called on another CPU after transmit
-> 	completes, and we know the device has consumed that entry from
-> 	the ring buffer. At this point the driver then says that the
-> 	associated skb can be kfree()'d.
+> > 2.	Eventually it calls e1000_tx_queue(), which seems to publish the
+> > 	next entry into the ring buffer and finally calls dma_wmb().
+> > 	Until this point I see no other barriers (although there's a
+> > 	writel(), but it doesn't always seem to be called).
 > 
-> 4.	If I interpreted dma_wmb() (and smp_wmb()) right, plain reads
-> 	may be reordered after it, irrespective if a write that depended
-> 	on such reads was ordered by the wmb(). Which means the
-> 	reordering of the plain reads accessing the skb before it may in
-> 	fact happen concurrently with the kfree() of skb if reordered
-> 	after. For example reordered to the very end of
-> 	e1000_xmit_frame() (line 3282) as KCSAN simulated in this case.
+> And potentially those reads from above could be delayed (or repeated) 
+> after this point.
 > 
-> Is the above result allowed by the kernel's memory model?
+> But you're missing something.  What matters isn't the dma_wmb.  Rather, 
+> it's the call which transfers ownership of the buffer to the device.  
+> That call must certainly include its own memory barrier, meaning that 
+> the reads must complete before the call returns.  We don't depend on a 
+> dma_wmb which might or might not be present to enforce this ordering.
+> 
+> Unless this buffer mapping is supposed to be coherent, of course, in 
+> which case there would be no ownership transfers.
 
-This can't happen, for the reason explained above, if the buffer is 
-non-coherent.  But if the DMA mapping is coherent, this does sound like 
-a bug.
+I think it's coherent:
 
-> In practice, my guess is no compiler and architecture combination would
-> allow this today; or is there an arch where it could?
+	txdr->desc = dma_alloc_coherent(&pdev->dev, txdr->size, &txdr->dma,
+					GFP_KERNEL);
 
-Probably not; reordering of reads tends to take place over time 
-scales a lot shorter than lengthy I/O operations.
+and then in:
 
-Alan
+	static void e1000_tx_queue(...)
+	{
+		... writes to desc ...
+		/* Force memory writes to complete before letting h/w
+		 * know there are new descriptors to fetch.  (Only
+		 * applicable for weak-ordered memory model archs,
+		 * such as IA-64).
+		 */
+		dma_wmb();
+		tx_ring->next_to_use = i;
+	}
+
+used by
+
+	static netdev_tx_t e1000_xmit_frame(...)
+	{
+		...
+		e1000_tx_queue(..., tx_ring, ...);
+		...
+		if (!netdev_xmit_more() ||
+		    netif_xmit_stopped(netdev_get_tx_queue(netdev, 0))) {
+			writel(tx_ring->next_to_use, hw->hw_addr + tx_ring->tdt);
+		}
+		...
+	}
+
+My best guess: as long as the device is fetching from the ring, the
+driver can just append to it and does not do the writel().
+
+> > 3.	e1000_clean_tx_irq() is called on another CPU after transmit
+> > 	completes, and we know the device has consumed that entry from
+> > 	the ring buffer. At this point the driver then says that the
+> > 	associated skb can be kfree()'d.
+> > 
+> > 4.	If I interpreted dma_wmb() (and smp_wmb()) right, plain reads
+> > 	may be reordered after it, irrespective if a write that depended
+> > 	on such reads was ordered by the wmb(). Which means the
+> > 	reordering of the plain reads accessing the skb before it may in
+> > 	fact happen concurrently with the kfree() of skb if reordered
+> > 	after. For example reordered to the very end of
+> > 	e1000_xmit_frame() (line 3282) as KCSAN simulated in this case.
+> > 
+> > Is the above result allowed by the kernel's memory model?
+> 
+> This can't happen, for the reason explained above, if the buffer is 
+> non-coherent.  But if the DMA mapping is coherent, this does sound like 
+> a bug.
+
+Makes sense.
+
+> > In practice, my guess is no compiler and architecture combination would
+> > allow this today; or is there an arch where it could?
+> 
+> Probably not; reordering of reads tends to take place over time 
+> scales a lot shorter than lengthy I/O operations.
+
+Which might be an argument to make KCSAN's non-smp barrier
+instrumentation arch-dependent, because some drivers might in fact be
+written with some target architectures and their properties in mind. At
+least it would help keep the noise down, and those architecture that
+want to see such races certainly still could.
+
+Any preferences?
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210816145945.GB121345%40rowland.harvard.edu.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YRqfJz/lpUaZpxq7%40elver.google.com.
