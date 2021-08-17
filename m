@@ -1,126 +1,133 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTHS52EAMGQEERTKMWI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJZRXGY5YJBBRP652EAMGQE64DKWLI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93c.google.com (mail-ua1-x93c.google.com [IPv6:2607:f8b0:4864:20::93c])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0383EED56
-	for <lists+kasan-dev@lfdr.de>; Tue, 17 Aug 2021 15:27:41 +0200 (CEST)
-Received: by mail-ua1-x93c.google.com with SMTP id q40-20020a9f386b000000b002ac424902b9sf198706uad.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Aug 2021 06:27:41 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1629206860; cv=pass;
+Received: from mail-io1-xd3c.google.com (mail-io1-xd3c.google.com [IPv6:2607:f8b0:4864:20::d3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id D67843EEDC4
+	for <lists+kasan-dev@lfdr.de>; Tue, 17 Aug 2021 15:53:10 +0200 (CEST)
+Received: by mail-io1-xd3c.google.com with SMTP id g14-20020a6be60e000000b005b62a0c2a41sf4139217ioh.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 17 Aug 2021 06:53:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1629208389; cv=pass;
         d=google.com; s=arc-20160816;
-        b=v/tVlhgF2q8G/5sxqi2zSsPCaJVHqk6PYXxlhlUabvdcf8dTjYJz+vPndSfvrdEgZC
-         XkwW19YLjVzPCQnyOVG7mYCQvc+iBKFSr37VxE2xOZgAkrufAu06TMXsKGJXaVyVFmWT
-         UxyHIjQB56wIJYBQ/H6oytXNngpfyW47jE+gbFkPEDBglThOhHZc19SajT0qubNFpWOB
-         KWaBos3i63lsu580HOGOOupuZYIbuLmNSOP1AaZvEMJEd8h7fenShXbwLne+NTfjon4G
-         /VeVjdMu9V4+xdKWvqV04haGoPRnMkElz04aiyYWuSD2TKMyP3zG82r6c923yL7R6VIs
-         x2CA==
+        b=PzJpifGh8/p6srDXgpwmFKZZ5fQTSGcSL+jbpRRrfLEHj6EAZY842X4OLoemuvvwXx
+         kTMTisSi2tvzOO/60J3Bxv1/XiUfKHQHrwVXgk17ic7/eddMVnoTGTcNU5FihDwWnFG0
+         3tpUawrDG7Js9WYwadUMehHCpC2dz33CARsOqQPmA3DXr1SjdLUH7Szi5bR09dITxbpb
+         qd7aBn6wXOD4rlW3K0cbV64vNefw0GP0Xxvm+goNi082FxC30HGTGfTx0/EWkCLnU0uo
+         +G37zNnw8064SXGmzMdIcnamdQITQDgaIazlhRFxhYX4PapwBw05d71gQmrkqEfp2pqo
+         +nVg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=uVSGEfnkniiEpsfSFeayGwfFVdB10elJqYLpE+NtG38=;
-        b=sXSzjoBOkpFSwoWG9aKvvHqlNTUE+4th4djqEJKW6y0DVuGMPrTLFJ+oybo/TSvmOD
-         uLHqr3cpnx/3Wq4nZ5c3kkSjiX5de3uB0X2C6Lu1rcmh42m5u08xwE/H/TtiEH0G+fmg
-         qTVQkku6wetwrydChw6cAgorC1Jg+WVfTqK70naSBRJuTIuOkaYdruK2ASuQcdRZDDhT
-         Q6haDyVDnG+i38D9xgOa4ptneEYESKjgCoHuXBMteWaYCakcSdstKujAv9z4D6LZ0PoT
-         nd8K+zPlWJ8+9okpSEepO95/CemNjcz+u7WIdLIe2YdHVgM69rFcnURdLNAql/OaMPaJ
-         ONaQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=cbliEOVeaLcBxrD+j14FsA+FmehdQ9ZSnHZmB+/oylc=;
+        b=C0iP3rZAn3sbU7hB0zcST2YpV19UHJ1OHQYKkPSPBrW0xR+pJmlw3zIOoNGoqiERiP
+         eHZnuaEWfhbFnn7g2gmc87BY/ll4hK/aGu2758duNny92n6F5wptZ/76hibjZVUrINsT
+         A1PHfaOGwaJxkZkOJWFocVlZEQ0GBbCLxVSPgOa0icuVVnPauDnHxtpND/aMjsVfeK1N
+         qUgZKJIY5P69ztX2MCI2v7KNLb2OQIaM5f1xnhhwKaHSVeFk86MIP1Q6OYUCUGSCVBjs
+         QEdUZfTIrFK0DLAeQVsvn4cjgtLPP87VrzL+ZYPzjcRNVDOzmhtXYxf9jN/g5dmK1yZ4
+         1QEw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=dg9OG94A;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::334 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=RgLq2wmV;
+       spf=pass (google.com: domain of srs0=54/e=ni=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=54/E=NI=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=uVSGEfnkniiEpsfSFeayGwfFVdB10elJqYLpE+NtG38=;
-        b=iGIMGZWf6Yxu7236pK/lIqZcvbHYhDnLcDJSEuVz14HXeTCnQgxl9Lkk4G50AI7I7L
-         3jLgVGQs9XuQESZZ34Fpz9KZRs/dtKWD46MwCojX0jmqV3woahY0QECUs0UZR8+09flB
-         PFhdea7H0lX54lr+vbdUlquQ6vVN1hlPgXHK1hm+jXwYGk0apOGa0MLZ+o47IxRD2YUS
-         EMOuq0sKwuT+sBa2k1QJGs9wloMc9K6jZfmAlbVwvtYv+VWuBk2DkDqBEsbt+a+jlIuW
-         pgF2tdutXMmaoC3/UGQlmN4y2NJV1Vw5NHQ9QA+F2v8fjPtN6PMqLdUOX1PZOOq7MKRt
-         VWkw==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=cbliEOVeaLcBxrD+j14FsA+FmehdQ9ZSnHZmB+/oylc=;
+        b=gyaCd8MwlIDeRY5Ebzn+T0q+3LZ5RxrOUFimOcwJzpB53kg9AyBg59DIRkt7oxkoKT
+         bNJlp+mir9soQORqQzgdBeQOycRd5D4I8P5lP0RghGKacwy2+KF/xZW9d3oOhyxyDvPn
+         H/vzJuyIKUfCajjbw14FhHavTLYH7873yQCX6FRsFx5x6g3yZK5Cdbwr2u3JpifDfPG8
+         n7S2Kf1Fj+88TbtOWMMlGAvvFcwZHH8NXZuzDZyOsbnwgafcddj49nMC/z3TMqfvGtPa
+         7dKm0kDjJogev6W3xUqUa0r4pri6VKej6KbPw6hb+wDqKeNjHNDSQsG+lfScmWKBxl6m
+         OM9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=uVSGEfnkniiEpsfSFeayGwfFVdB10elJqYLpE+NtG38=;
-        b=NFipLWE6zE7dGBJZB6NgKcuvWFZ/g4YeGJGYx39MwammZ69cDVEVhBlmhtmKXJxK9X
-         fm3CrL6bE7bCyTj1q4pPasVQ4rbDWDKOKhuLrlLoKdnGkaoVdYM1f2waC2LvA8ZzMwXI
-         EUml83hPT5PO6vVQtUiVyqCmxm5An2DY0CYVcNKJLqqzuuMD3cGzPKXghtsNDoMWMZT7
-         jeziKLx8NXQ4J8vrJzYX7BAvnRlWaRql1e/dUl/GMXxvJFW8QkISeXoUDJj6KjwXVtu1
-         VU93745eNBz7WywMdqy+0IB0HQkFVgX4EUplNhNUgBnNuW/9KEA1zLOgAVJfjA9wKPI6
-         UZhg==
-X-Gm-Message-State: AOAM531bTfFatI6oc5mwtJ+q8cLy+ZRV3QpsoTDMdP/11K5fWVuNx5mw
-	zAcqIv2jnJ8gce5cwN5LHNQ=
-X-Google-Smtp-Source: ABdhPJw+9I0CgeRcozPnWrWZ7VFZuw3jq2KUcrVv+uniLMk3kJDoHCAlFRUXdztdSl6EqyZtLz8gxw==
-X-Received: by 2002:ab0:14b:: with SMTP id 69mr2250651uak.116.1629206860615;
-        Tue, 17 Aug 2021 06:27:40 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=cbliEOVeaLcBxrD+j14FsA+FmehdQ9ZSnHZmB+/oylc=;
+        b=oIiW69uMoaEuKcPtG3tATAnfIeBR9xfc2bE7JI8ccbGXMqruQbixMF2N27h6ZyEtVd
+         y0qH+gsJghDFxfkOhu2q2hYNb3y5E2pSg1gkqXtqhk6/a+rMd+TRxrtOlelCSMth3UQy
+         XDHSjcpjPDJaUz7Lts1fUn+PvW/wdRwX6XWM3HgZKOrP9k31CSR+r9N05D0Foi7EEcgE
+         URH0/M5aCCAWLgpp/OXYwU8YMcEEzRqVnw5NwkZdEW/YqnQ7SLJed0QPNkTeE6c7aRYF
+         3rvfyqfa4nmOCBAcgkX/BEzetO0eyhCPStRImxKxG3uvyP4VDg6d5PVMEHzYIiE/zp7l
+         Yq6A==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531gY3NCqGkq2pvjv1rOIPCOHuvkcHWSQ/n7bfO4/AlD4DXN4YTi
+	SVEf4hZhU1RK0RPnylUyu9s=
+X-Google-Smtp-Source: ABdhPJwZ4zr/cspnJM8KaWs2eq8wDxOO7xx3UxQWl6leFWXWjRptHov6fsX82oGbZ+uUZEHtvK3yPA==
+X-Received: by 2002:a92:ad12:: with SMTP id w18mr2449651ilh.3.1629208389498;
+        Tue, 17 Aug 2021 06:53:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:c89a:: with SMTP id v26ls367308vsk.0.gmail; Tue, 17 Aug
- 2021 06:27:40 -0700 (PDT)
-X-Received: by 2002:a67:1d07:: with SMTP id d7mr2462467vsd.25.1629206855916;
-        Tue, 17 Aug 2021 06:27:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1629206855; cv=none;
+Received: by 2002:a5d:81ca:: with SMTP id t10ls348030iol.0.gmail; Tue, 17 Aug
+ 2021 06:53:09 -0700 (PDT)
+X-Received: by 2002:a6b:f111:: with SMTP id e17mr3028165iog.210.1629208389166;
+        Tue, 17 Aug 2021 06:53:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1629208389; cv=none;
         d=google.com; s=arc-20160816;
-        b=R06Rbljw9TJkW0qhDEfKvR8Z9wzU3wGb4TeHWI+QupP4s9ILcacM22iTkjVw7gSx39
-         0fb4SPbtKdEAcvmf16kjqlrazdYeOigNWRynxP93Mbfs5b6mbWcx/J1Vh1/y/lCt2lmi
-         QKEW/lo2hJB6P+WCjDoYECAI1rx6j6VZLJSkJ82LpQ/kVsOcfR8A/56RsYahyoQn/jDB
-         TiWvxbTfVUShmX7KRhYNUKvYlGSDWuVHjloYxfdLPeeWnEw9BGHu+oGoxs1DPyjIR105
-         0MwtjdlB+kihv62XtbQg/+Tm6OACrLBio1giObfd+uBBfarB9GgDuEtTgatUdO3qM6FF
-         Hw6w==
+        b=PUg/vCoKOo+o3mYaMLnqCC6nLcR+d4zCTWILpoo4WD+m553H5WoW8ydD0pLH7d2SUm
+         huWuI8xiXrzhBJRumL4jqQuRI+De9aIng6wfIZYfpnM8nT7X4tzOds8t4dhVzFhNfgGo
+         9R7DeXZQm5wxJLOOsGVgpt2sYMq5Vyj3IYF9GkG2tVoIuhIMPWckI496keRarfB2vQm9
+         +86NJop5mzptUV7pEFaJBQXs1WxOnFVYPBohtYp6ughBl7k88PJEEt01+q8rwRwHcWHt
+         974z/QjLZ8N4t1u1twKsz/hQYWvkR5bfR3dp7YCMr8rk99lkmbYJ+7hDfhlVZewtbWp0
+         akKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=zWHDjIJawTHtbmwaJcKwdk8W++TJIaWlzkrKoGu1IaU=;
-        b=fL89lyMbMQ8+6pw23Sd17UqiXzcH1RBTrEquX9GDw2EW4ISXLQcGK39fl08VfLwxnl
-         XXzWHCdJExhJ02HL4MOZNlU8jkWFZDOLceI7chq513OFRZP3hswoXyaQLSZbR/OSLeuh
-         h/MSTfBBazlZd+UBG4v0muTVebscUiUhJYZ7MikezSpxc8NggPYDD7IWhW+02VFdED6F
-         Grn3lFjnTzjPrr5PSX1f5rkA4xhYXip4GqzyPd82x9iXZj7JNomAw4sm5x8F6XQmsP9S
-         j797z0JL6QY8QzJxgAgILxwBhe6GSZfcpNOSrggCBrBjZCwG0Le+LizVxspbjgfav1J3
-         BotQ==
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=lwXa7hLga92j3DTdVK260CMxgGblSnsuINtwLzVAD6Q=;
+        b=HaH2oOh0LVokWOLB9U3Pk+QbFh72HNWVLYlo3R9ukFKDCLc0EIcjBPeaA0EjZq54oB
+         kDhUmVpfUSOHkxhBClbW0alKlo2FuLbW+s5sJ4TKcszcLSltYkP8zwwawBs6TWidThAt
+         1prlRMPrU4mEq7XZAEZg21GD+9L6LLTBO+9g2j2pbC1fqZYIPmKeqC0eyzRmXHBQUKXU
+         hJBYZhZQNUmne6DceDESQMXmM3jtg5xHc5+Y+E+Xz/UHMqDO6P9RaBJpEaOy3mPM6k7p
+         wRcJXc29Pm98pYvwucUiruC1jViIGJbWYlxaeWR1GtL/4mFWW/JTvmvZNDcnNeyIHjKG
+         F3CQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20161025 header.b=dg9OG94A;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::334 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com. [2607:f8b0:4864:20::334])
-        by gmr-mx.google.com with ESMTPS id c5si103146vkg.4.2021.08.17.06.27.35
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=RgLq2wmV;
+       spf=pass (google.com: domain of srs0=54/e=ni=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=54/E=NI=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id z12si164536iox.0.2021.08.17.06.53.09
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Aug 2021 06:27:35 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::334 as permitted sender) client-ip=2607:f8b0:4864:20::334;
-Received: by mail-ot1-x334.google.com with SMTP id c19-20020a9d6153000000b0051829acbfc7so10011910otk.9
-        for <kasan-dev@googlegroups.com>; Tue, 17 Aug 2021 06:27:35 -0700 (PDT)
-X-Received: by 2002:a9d:d04:: with SMTP id 4mr2775588oti.251.1629206855297;
- Tue, 17 Aug 2021 06:27:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <YRo58c+JGOvec7tc@elver.google.com> <20210816145945.GB121345@rowland.harvard.edu>
- <YRqfJz/lpUaZpxq7@elver.google.com> <20210816192109.GC121345@rowland.harvard.edu>
- <20210816205057.GN4126399@paulmck-ThinkPad-P17-Gen-1> <20210817122816.GA12746@willie-the-truck>
-In-Reply-To: <20210817122816.GA12746@willie-the-truck>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 17 Aug 2021 15:27:23 +0200
-Message-ID: <CANpmjNMZxiyFbua2ck=0u7cJnHhtG4RY=Db=ry3COEED_sm7Xw@mail.gmail.com>
-Subject: Re: LKMM: Read dependencies of writes ordered by dma_wmb()?
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 17 Aug 2021 06:53:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=54/e=ni=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5145660F58;
+	Tue, 17 Aug 2021 13:53:08 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 20EF05C0F2E; Tue, 17 Aug 2021 06:53:08 -0700 (PDT)
+Date: Tue, 17 Aug 2021 06:53:08 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
 To: Will Deacon <will@kernel.org>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Boqun Feng <boqun.feng@gmail.com>, Andrea Parri <parri.andrea@gmail.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
+Cc: Alan Stern <stern@rowland.harvard.edu>, Marco Elver <elver@google.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org
+Subject: Re: LKMM: Read dependencies of writes ordered by dma_wmb()?
+Message-ID: <20210817135308.GO4126399@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <YRo58c+JGOvec7tc@elver.google.com>
+ <20210816145945.GB121345@rowland.harvard.edu>
+ <YRqfJz/lpUaZpxq7@elver.google.com>
+ <20210816192109.GC121345@rowland.harvard.edu>
+ <20210816205057.GN4126399@paulmck-ThinkPad-P17-Gen-1>
+ <20210817122816.GA12746@willie-the-truck>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <20210817122816.GA12746@willie-the-truck>
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20161025 header.b=dg9OG94A;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::334 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=RgLq2wmV;       spf=pass
+ (google.com: domain of srs0=54/e=ni=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=54/E=NI=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,34 +140,86 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 17 Aug 2021 at 14:28, Will Deacon <will@kernel.org> wrote:
+On Tue, Aug 17, 2021 at 01:28:16PM +0100, Will Deacon wrote:
 > Just on this bit...
->
+> 
 > On Mon, Aug 16, 2021 at 01:50:57PM -0700, Paul E. McKenney wrote:
-> > 5.    The dma_mb(), dma_rmb(), and dma_wmb() appear to be specific
-> >       to ARMv8.
->
+> > 5.	The dma_mb(), dma_rmb(), and dma_wmb() appear to be specific
+> > 	to ARMv8.
+> 
 > These are useful on other architectures too! IIRC, they were added by x86 in
 > the first place. They're designed to be used with dma_alloc_coherent()
 > allocations where you're sharing something like a ring buffer with a device
 > and they guarantee accesses won't be reordered before they become visible
 > to the device. They _also_ provide the same ordering to other CPUs.
-
-Ah, good you pointed it out again. Re-reading memory-barriers.txt and
-it does also say these provide order for other CPUs...
-
+> 
 > I gave a talk at LPC about some of this, which might help (or might make
 > things worse...):
->
+> 
 > https://www.youtube.com/watch?v=i6DayghhA8Q
 
-Nice, thank you!
+The slides are here, correct?  Nice summary and examples!
+
+https://elinux.org/images/a/a8/Uh-oh-Its-IO-Ordering-Will-Deacon-Arm.pdf
+
+And this is all I see for dma_mb():
+
+arch/arm64/include/asm/barrier.h:#define dma_mb()	dmb(osh)
+arch/arm64/include/asm/io.h:#define __iomb()		dma_mb()
+
+And then for __iomb():
+
+arch/arm64/include/asm/io.h:#define __iomb()		dma_mb()
+drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:	__iomb();
+
+But yes, dma_rmb() and dma_wmb() do look to have a few hundred uses
+between them, and not just within ARMv8.  I gave up too soon, so
+thank you!
 
 > Ignore the bits about mmiowb() as we got rid of that.
->
-> Will
+
+Should the leftovers in current mainline be replaced by wmb()?  Or are
+patches to that effect on their way in somewhere?
+
+$ git grep 'mmiowb()'
+arch/ia64/include/asm/mmiowb.h:#define mmiowb()	ia64_mfa()
+arch/ia64/include/asm/spinlock.h:	mmiowb();
+arch/mips/include/asm/mmiowb.h:#define mmiowb()	iobarrier_w()
+arch/mips/include/asm/spinlock.h:	mmiowb();
+arch/mips/kernel/gpio_txx9.c:	mmiowb();
+arch/mips/kernel/gpio_txx9.c:	mmiowb();
+arch/mips/kernel/gpio_txx9.c:	mmiowb();
+arch/mips/kernel/irq_txx9.c:	mmiowb();
+arch/mips/loongson2ef/common/bonito-irq.c:	mmiowb();
+arch/mips/loongson2ef/common/bonito-irq.c:	mmiowb();
+arch/mips/loongson2ef/common/mem.c:		mmiowb();
+arch/mips/loongson2ef/common/pm.c:	mmiowb();
+arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
+arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
+arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
+arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
+arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
+arch/mips/pci/ops-bonito64.c:	mmiowb();
+arch/mips/pci/ops-loongson2.c:	mmiowb();
+arch/mips/txx9/generic/irq_tx4939.c:	mmiowb();
+arch/mips/txx9/generic/setup.c:	mmiowb();
+arch/mips/txx9/rbtx4927/irq.c:	mmiowb();
+arch/mips/txx9/rbtx4938/irq.c:	mmiowb();
+arch/mips/txx9/rbtx4938/irq.c:	mmiowb();
+arch/mips/txx9/rbtx4938/setup.c:	mmiowb();
+arch/mips/txx9/rbtx4939/irq.c:	mmiowb();
+arch/powerpc/include/asm/mmiowb.h:#define mmiowb()		mb()
+arch/riscv/include/asm/mmiowb.h:#define mmiowb()	__asm__ __volatile__ ("fence o,w" : : : "memory");
+arch/s390/include/asm/io.h:#define mmiowb()	zpci_barrier()
+arch/sh/include/asm/mmiowb.h:#define mmiowb()			wmb()
+arch/sh/include/asm/spinlock-llsc.h:	mmiowb();
+include/asm-generic/mmiowb.h: * Generic implementation of mmiowb() tracking for spinlocks.
+include/asm-generic/mmiowb.h: * 	1. Implement mmiowb() (and arch_mmiowb_state() if you're fancy)
+include/asm-generic/mmiowb.h:		mmiowb();
+
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMZxiyFbua2ck%3D0u7cJnHhtG4RY%3DDb%3Dry3COEED_sm7Xw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210817135308.GO4126399%40paulmck-ThinkPad-P17-Gen-1.
