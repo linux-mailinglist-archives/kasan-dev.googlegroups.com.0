@@ -1,133 +1,128 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBRP652EAMGQE64DKWLI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD7LZ45K3ECBBKGW6KEAMGQEX4GSYAI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3c.google.com (mail-io1-xd3c.google.com [IPv6:2607:f8b0:4864:20::d3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67843EEDC4
-	for <lists+kasan-dev@lfdr.de>; Tue, 17 Aug 2021 15:53:10 +0200 (CEST)
-Received: by mail-io1-xd3c.google.com with SMTP id g14-20020a6be60e000000b005b62a0c2a41sf4139217ioh.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Aug 2021 06:53:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1629208389; cv=pass;
+Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3FE3EFCF5
+	for <lists+kasan-dev@lfdr.de>; Wed, 18 Aug 2021 08:39:37 +0200 (CEST)
+Received: by mail-wr1-x437.google.com with SMTP id q11-20020a5d61cb0000b02901550c3fccb5sf246869wrv.14
+        for <lists+kasan-dev@lfdr.de>; Tue, 17 Aug 2021 23:39:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1629268776; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PzJpifGh8/p6srDXgpwmFKZZ5fQTSGcSL+jbpRRrfLEHj6EAZY842X4OLoemuvvwXx
-         kTMTisSi2tvzOO/60J3Bxv1/XiUfKHQHrwVXgk17ic7/eddMVnoTGTcNU5FihDwWnFG0
-         3tpUawrDG7Js9WYwadUMehHCpC2dz33CARsOqQPmA3DXr1SjdLUH7Szi5bR09dITxbpb
-         qd7aBn6wXOD4rlW3K0cbV64vNefw0GP0Xxvm+goNi082FxC30HGTGfTx0/EWkCLnU0uo
-         +G37zNnw8064SXGmzMdIcnamdQITQDgaIazlhRFxhYX4PapwBw05d71gQmrkqEfp2pqo
-         +nVg==
+        b=QXQKnwhC1F1NskVP4rHM9Zb3Bc1qJR56S3MBgpgyynYJX+xgyKIduaCSiVdkncNT5p
+         KEhMr+vplIfbSlGfjCDWtioaeGg3gvluFAuM/kOLgg3Dpc8leTzTBEjopRW2Muv7+2jT
+         /kbXALP779E2f97PHT4GZWcpEJb//R4FXONujR5iZbSbGDWR3pogOsIG7FlThYzmHSDM
+         t11zP7b7tNpMBTm/01XLWCV+TSBXxFxB1cAmNapTASNG70TpWS0IUc+e+fD2TaUbAqpB
+         vg1VZWtTiDa2vH007FWvEC/WupuPTcNTqBonk4VAsks+SrdXQm+4vcRxROvUUJUJ+CNG
+         9VlA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=cbliEOVeaLcBxrD+j14FsA+FmehdQ9ZSnHZmB+/oylc=;
-        b=C0iP3rZAn3sbU7hB0zcST2YpV19UHJ1OHQYKkPSPBrW0xR+pJmlw3zIOoNGoqiERiP
-         eHZnuaEWfhbFnn7g2gmc87BY/ll4hK/aGu2758duNny92n6F5wptZ/76hibjZVUrINsT
-         A1PHfaOGwaJxkZkOJWFocVlZEQ0GBbCLxVSPgOa0icuVVnPauDnHxtpND/aMjsVfeK1N
-         qUgZKJIY5P69ztX2MCI2v7KNLb2OQIaM5f1xnhhwKaHSVeFk86MIP1Q6OYUCUGSCVBjs
-         QEdUZfTIrFK0DLAeQVsvn4cjgtLPP87VrzL+ZYPzjcRNVDOzmhtXYxf9jN/g5dmK1yZ4
-         1QEw==
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=Atop18YE4U7Fdq+rx8Jf1tPVKysGWsZQoZuDi8kqWc4=;
+        b=X5RsX55MQwTp89LoGRiwgQiI1hEkhGfJGyvUsNG1tkfaoiykpjhBCk9Z548OV3QbVw
+         WF5NfKNdyeOwp22Kw0HUtSrz1Yt0qpA5Hkruu6hnQbrg9ukJG8SINW3FlMNhz8xaIgsU
+         Fd6d5Vgc6YvVh98CduBqM5EnG/nxPWZmEed3uPg6O6IuKyHHDXylUekkeWO4lSwwengb
+         PHUsicbXK59VgZHs80UER/ixa9LuuZWoXRNCu1cRELa+Gl8+ISW/ZV4uH/GC+iBlh1Jd
+         CtNAb8pZx00+D7UQKLzMbHH75+NaJ4F5BwhwmUrW8z19YCfL7QWObZ6UO70R5J1YPWKs
+         xK+A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=RgLq2wmV;
-       spf=pass (google.com: domain of srs0=54/e=ni=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=54/E=NI=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b="RMWvSP/C";
+       spf=pass (google.com: domain of mingo.kernel.org@gmail.com designates 2a00:1450:4864:20::331 as permitted sender) smtp.mailfrom=mingo.kernel.org@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=cbliEOVeaLcBxrD+j14FsA+FmehdQ9ZSnHZmB+/oylc=;
-        b=gyaCd8MwlIDeRY5Ebzn+T0q+3LZ5RxrOUFimOcwJzpB53kg9AyBg59DIRkt7oxkoKT
-         bNJlp+mir9soQORqQzgdBeQOycRd5D4I8P5lP0RghGKacwy2+KF/xZW9d3oOhyxyDvPn
-         H/vzJuyIKUfCajjbw14FhHavTLYH7873yQCX6FRsFx5x6g3yZK5Cdbwr2u3JpifDfPG8
-         n7S2Kf1Fj+88TbtOWMMlGAvvFcwZHH8NXZuzDZyOsbnwgafcddj49nMC/z3TMqfvGtPa
-         7dKm0kDjJogev6W3xUqUa0r4pri6VKej6KbPw6hb+wDqKeNjHNDSQsG+lfScmWKBxl6m
-         OM9g==
+        bh=Atop18YE4U7Fdq+rx8Jf1tPVKysGWsZQoZuDi8kqWc4=;
+        b=QDSceoGn4HR7o2BdxqqEd/gpqowHaKIbdICI2hgrORyPT+evT8/DquY9JeDmghfLj5
+         W1vIGx4Yt9cAtRX5LTIG4BnISghb3D1NHt+kJ9RwDPLlMgnqS4O3OHDgdcYgcn44z1pe
+         cB7ZcgJwuFg0wOCJPzfPGdAOIBw/asaVuUcCBbscjFGyKnCnbB3w+jmK9Om6JWW/U39/
+         GCzFJubVLCBhLErGNalv5sfOnxgY2gZIJ924EvRS3OG8TxpGuRzvZAcCC7BRJHk7Jok9
+         /FkwynfawChvxM7hKmWwHdhrSmoKEK42LVwoVA3oUo8m8MjFJH7tEH9x7qvM/OM6Jk7f
+         zwZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=cbliEOVeaLcBxrD+j14FsA+FmehdQ9ZSnHZmB+/oylc=;
-        b=oIiW69uMoaEuKcPtG3tATAnfIeBR9xfc2bE7JI8ccbGXMqruQbixMF2N27h6ZyEtVd
-         y0qH+gsJghDFxfkOhu2q2hYNb3y5E2pSg1gkqXtqhk6/a+rMd+TRxrtOlelCSMth3UQy
-         XDHSjcpjPDJaUz7Lts1fUn+PvW/wdRwX6XWM3HgZKOrP9k31CSR+r9N05D0Foi7EEcgE
-         URH0/M5aCCAWLgpp/OXYwU8YMcEEzRqVnw5NwkZdEW/YqnQ7SLJed0QPNkTeE6c7aRYF
-         3rvfyqfa4nmOCBAcgkX/BEzetO0eyhCPStRImxKxG3uvyP4VDg6d5PVMEHzYIiE/zp7l
-         Yq6A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531gY3NCqGkq2pvjv1rOIPCOHuvkcHWSQ/n7bfO4/AlD4DXN4YTi
-	SVEf4hZhU1RK0RPnylUyu9s=
-X-Google-Smtp-Source: ABdhPJwZ4zr/cspnJM8KaWs2eq8wDxOO7xx3UxQWl6leFWXWjRptHov6fsX82oGbZ+uUZEHtvK3yPA==
-X-Received: by 2002:a92:ad12:: with SMTP id w18mr2449651ilh.3.1629208389498;
-        Tue, 17 Aug 2021 06:53:09 -0700 (PDT)
+        bh=Atop18YE4U7Fdq+rx8Jf1tPVKysGWsZQoZuDi8kqWc4=;
+        b=rQ5BnjubVZHMyrjpD+8qcWHGS1TUyC9HYKKQItImL0Re0LPqnyLOG5xpIu69EQWFOp
+         z2LqkrJrDDIYxgTh5fCaDbLFEaWEwRPg4IKr1TwMBg5LqegZ9qNICY9N0+0bvvD+gsqh
+         2gki9JHxhk7cFpppNOcZv92yE5OmCqm8AIqj9aMpwZ9AnW2n+m2ohzJ/t+cfNdKytNuU
+         ADru/DRvEVjI/BaPet94zwp6WPxKw0DkVjyJ+Kvx48UHP7VoX7jOXKyoofBvxhrQX3cw
+         5agc7S7MtmP4dXqz30MGzw6GejUnPypRdszQKD1eBmRmrAn7pQTeWco3s70ew3Co8mmL
+         04fA==
+X-Gm-Message-State: AOAM531AkcmQB1nmJea6y6V1yQRXHNXmR2F2F8Wym96/RLTQSgN48Isk
+	Ah7LLvkc8d4ma/2OwEOih5Y=
+X-Google-Smtp-Source: ABdhPJxjYdXQBck8M+j7MIk0Wf7ymDp65Cyua/3cB4V+bGgby4JZnGZIOeuyKZ+5Jmgld0CU8r1seg==
+X-Received: by 2002:a05:600c:198e:: with SMTP id t14mr6635112wmq.167.1629268776803;
+        Tue, 17 Aug 2021 23:39:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:81ca:: with SMTP id t10ls348030iol.0.gmail; Tue, 17 Aug
- 2021 06:53:09 -0700 (PDT)
-X-Received: by 2002:a6b:f111:: with SMTP id e17mr3028165iog.210.1629208389166;
-        Tue, 17 Aug 2021 06:53:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1629208389; cv=none;
+Received: by 2002:a7b:cd8a:: with SMTP id y10ls2064202wmj.1.canary-gmail; Tue,
+ 17 Aug 2021 23:39:35 -0700 (PDT)
+X-Received: by 2002:a1c:f206:: with SMTP id s6mr6843722wmc.15.1629268775708;
+        Tue, 17 Aug 2021 23:39:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1629268775; cv=none;
         d=google.com; s=arc-20160816;
-        b=PUg/vCoKOo+o3mYaMLnqCC6nLcR+d4zCTWILpoo4WD+m553H5WoW8ydD0pLH7d2SUm
-         huWuI8xiXrzhBJRumL4jqQuRI+De9aIng6wfIZYfpnM8nT7X4tzOds8t4dhVzFhNfgGo
-         9R7DeXZQm5wxJLOOsGVgpt2sYMq5Vyj3IYF9GkG2tVoIuhIMPWckI496keRarfB2vQm9
-         +86NJop5mzptUV7pEFaJBQXs1WxOnFVYPBohtYp6ughBl7k88PJEEt01+q8rwRwHcWHt
-         974z/QjLZ8N4t1u1twKsz/hQYWvkR5bfR3dp7YCMr8rk99lkmbYJ+7hDfhlVZewtbWp0
-         akKw==
+        b=g0aoVlDiSPfuVSg+oC07aizmwLA/HBJ97tbH60vMV1ccJ14UTCqRqv0fZ0MHOwFYrE
+         bESl2k0tm+sIq6aFSeceClWTAJzR/XCgUT946r4LDLpX6cptjWLTFHobzeqnWK7GRhyX
+         I4ALrK/uTOQZ9Puo03y06kA6/d+yQNPQdJRs2LZD3XQoRwruttkd0kx3KmAGB+yVCT8j
+         YfND6U2iUQkjbqtA1Q+MsLTvXS6/wppmjfI4/n4PuaOuzFyoKdZz3nXP9VyeQ8TaBsvk
+         6vZfm1ZKtzRjvkgkIayS7Omiap/xUaoLI8Dg0eOCGcb+nVdiYc0uHqmhgjospiyg/iQ+
+         sRBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=lwXa7hLga92j3DTdVK260CMxgGblSnsuINtwLzVAD6Q=;
-        b=HaH2oOh0LVokWOLB9U3Pk+QbFh72HNWVLYlo3R9ukFKDCLc0EIcjBPeaA0EjZq54oB
-         kDhUmVpfUSOHkxhBClbW0alKlo2FuLbW+s5sJ4TKcszcLSltYkP8zwwawBs6TWidThAt
-         1prlRMPrU4mEq7XZAEZg21GD+9L6LLTBO+9g2j2pbC1fqZYIPmKeqC0eyzRmXHBQUKXU
-         hJBYZhZQNUmne6DceDESQMXmM3jtg5xHc5+Y+E+Xz/UHMqDO6P9RaBJpEaOy3mPM6k7p
-         wRcJXc29Pm98pYvwucUiruC1jViIGJbWYlxaeWR1GtL/4mFWW/JTvmvZNDcnNeyIHjKG
-         F3CQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=hVrGSTnE7k8RtP/gKm1lkEWkTXogfMVkN4IhNiukPaY=;
+        b=U7NZKR9JFpAtmuhhbHlxANsmFoQW1uBlR7Cs4RAze+LJVWLwsTlkVKhASYS1bugaW8
+         HcH+m36FkbHvLlLNBjJcitPft+RvodVPPU16jzfpXvHwxZ/5iAyQMaJFmp3FiPGRkYcg
+         F2e6nIO0rg02sQhG/FCtgjGSZ3jW5pVOrXvUBlnHqQG4bwYzzh0BqowpaPbRHiYK10Zu
+         2ZUi9LCUl+6PgN+7Q8Cbfezb/jiFUAM0jT9A+4HLSk1dYVLnZzae5GQsv/WhAAgVsQkX
+         jAtmwPf5aR30ZaFWof8qIniWOToJ7V650ZPZl9ZM1kB1613puJ1j/ODEHgnoTm4jWX+n
+         LxGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=RgLq2wmV;
-       spf=pass (google.com: domain of srs0=54/e=ni=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=54/E=NI=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id z12si164536iox.0.2021.08.17.06.53.09
+       dkim=pass header.i=@gmail.com header.s=20161025 header.b="RMWvSP/C";
+       spf=pass (google.com: domain of mingo.kernel.org@gmail.com designates 2a00:1450:4864:20::331 as permitted sender) smtp.mailfrom=mingo.kernel.org@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com. [2a00:1450:4864:20::331])
+        by gmr-mx.google.com with ESMTPS id 15si243255wma.1.2021.08.17.23.39.35
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 17 Aug 2021 06:53:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=54/e=ni=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5145660F58;
-	Tue, 17 Aug 2021 13:53:08 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 20EF05C0F2E; Tue, 17 Aug 2021 06:53:08 -0700 (PDT)
-Date: Tue, 17 Aug 2021 06:53:08 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Will Deacon <will@kernel.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Marco Elver <elver@google.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: LKMM: Read dependencies of writes ordered by dma_wmb()?
-Message-ID: <20210817135308.GO4126399@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <YRo58c+JGOvec7tc@elver.google.com>
- <20210816145945.GB121345@rowland.harvard.edu>
- <YRqfJz/lpUaZpxq7@elver.google.com>
- <20210816192109.GC121345@rowland.harvard.edu>
- <20210816205057.GN4126399@paulmck-ThinkPad-P17-Gen-1>
- <20210817122816.GA12746@willie-the-truck>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Aug 2021 23:39:35 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mingo.kernel.org@gmail.com designates 2a00:1450:4864:20::331 as permitted sender) client-ip=2a00:1450:4864:20::331;
+Received: by mail-wm1-x331.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so1061878wml.3
+        for <kasan-dev@googlegroups.com>; Tue, 17 Aug 2021 23:39:35 -0700 (PDT)
+X-Received: by 2002:a1c:2702:: with SMTP id n2mr6857397wmn.78.1629268757259;
+        Tue, 17 Aug 2021 23:39:17 -0700 (PDT)
+Received: from gmail.com (77-234-64-129.pool.digikabel.hu. [77.234.64.129])
+        by smtp.gmail.com with ESMTPSA id d9sm4677050wrw.26.2021.08.17.23.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 23:39:15 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date: Wed, 18 Aug 2021 08:39:13 +0200
+From: Ingo Molnar <mingo@kernel.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: elver@google.com, mark.rutland@arm.com, tglx@linutronix.de,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	kernel-team@fb.com, Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [GIT PULL kcsan] KCSAN commits for v5.15
+Message-ID: <YRyrEQt52d0kaxQI@gmail.com>
+References: <20210812001359.GA404252@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20210817122816.GA12746@willie-the-truck>
-X-Original-Sender: paulmck@kernel.org
+In-Reply-To: <20210812001359.GA404252@paulmck-ThinkPad-P17-Gen-1>
+X-Original-Sender: mingo@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=RgLq2wmV;       spf=pass
- (google.com: domain of srs0=54/e=ni=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=54/E=NI=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@gmail.com header.s=20161025 header.b="RMWvSP/C";       spf=pass
+ (google.com: domain of mingo.kernel.org@gmail.com designates
+ 2a00:1450:4864:20::331 as permitted sender) smtp.mailfrom=mingo.kernel.org@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,86 +135,58 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Aug 17, 2021 at 01:28:16PM +0100, Will Deacon wrote:
-> Just on this bit...
+
+* Paul E. McKenney <paulmck@kernel.org> wrote:
+
+> Hello, Ingo,
 > 
-> On Mon, Aug 16, 2021 at 01:50:57PM -0700, Paul E. McKenney wrote:
-> > 5.	The dma_mb(), dma_rmb(), and dma_wmb() appear to be specific
-> > 	to ARMv8.
+> This pull request contains updates for the Kernel concurrency sanitizer
+> (KCSAN).
 > 
-> These are useful on other architectures too! IIRC, they were added by x86 in
-> the first place. They're designed to be used with dma_alloc_coherent()
-> allocations where you're sharing something like a ring buffer with a device
-> and they guarantee accesses won't be reordered before they become visible
-> to the device. They _also_ provide the same ordering to other CPUs.
+> These updates improve comments, introduce CONFIG_KCSAN_STRICT (which RCU
+> uses), optimize use of get_ctx() by kcsan_found_watchpoint(), rework
+> atomic.h into permissive.h, and add the ability to ignore writes that
+> change only one bit of a given data-racy variable.
 > 
-> I gave a talk at LPC about some of this, which might help (or might make
-> things worse...):
+> These updates have been posted on LKML:
 > 
-> https://www.youtube.com/watch?v=i6DayghhA8Q
+> https://lore.kernel.org/lkml/20210721210726.GA828672@paulmck-ThinkPad-P17-Gen-1/
+> 
+> These changes are based on v5.14-rc2, have been exposed to -next and to
+> kbuild test robot, and are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git kcsan
+> 
+> for you to fetch changes up to e04938042d77addc7f41d983aebea125cddbed33:
+> 
+>   kcsan: Make strict mode imply interruptible watchers (2021-07-20 13:49:44 -0700)
+> 
+> ----------------------------------------------------------------
+> Marco Elver (8):
+>       kcsan: Improve some Kconfig comments
+>       kcsan: Remove CONFIG_KCSAN_DEBUG
+>       kcsan: Introduce CONFIG_KCSAN_STRICT
+>       kcsan: Reduce get_ctx() uses in kcsan_found_watchpoint()
+>       kcsan: Rework atomic.h into permissive.h
+>       kcsan: Print if strict or non-strict during init
+>       kcsan: permissive: Ignore data-racy 1-bit value changes
+>       kcsan: Make strict mode imply interruptible watchers
+> 
+>  Documentation/dev-tools/kcsan.rst | 12 +++++
+>  kernel/kcsan/atomic.h             | 23 ----------
+>  kernel/kcsan/core.c               | 77 ++++++++++++++++++++------------
+>  kernel/kcsan/kcsan_test.c         | 32 +++++++++++++
+>  kernel/kcsan/permissive.h         | 94 +++++++++++++++++++++++++++++++++++++++
+>  lib/Kconfig.kcsan                 | 42 ++++++++++++-----
+>  6 files changed, 217 insertions(+), 63 deletions(-)
+>  delete mode 100644 kernel/kcsan/atomic.h
+>  create mode 100644 kernel/kcsan/permissive.h
 
-The slides are here, correct?  Nice summary and examples!
+Pulled into tip:locking/debug, thanks a lot Paul!
 
-https://elinux.org/images/a/a8/Uh-oh-Its-IO-Ordering-Will-Deacon-Arm.pdf
-
-And this is all I see for dma_mb():
-
-arch/arm64/include/asm/barrier.h:#define dma_mb()	dmb(osh)
-arch/arm64/include/asm/io.h:#define __iomb()		dma_mb()
-
-And then for __iomb():
-
-arch/arm64/include/asm/io.h:#define __iomb()		dma_mb()
-drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:	__iomb();
-
-But yes, dma_rmb() and dma_wmb() do look to have a few hundred uses
-between them, and not just within ARMv8.  I gave up too soon, so
-thank you!
-
-> Ignore the bits about mmiowb() as we got rid of that.
-
-Should the leftovers in current mainline be replaced by wmb()?  Or are
-patches to that effect on their way in somewhere?
-
-$ git grep 'mmiowb()'
-arch/ia64/include/asm/mmiowb.h:#define mmiowb()	ia64_mfa()
-arch/ia64/include/asm/spinlock.h:	mmiowb();
-arch/mips/include/asm/mmiowb.h:#define mmiowb()	iobarrier_w()
-arch/mips/include/asm/spinlock.h:	mmiowb();
-arch/mips/kernel/gpio_txx9.c:	mmiowb();
-arch/mips/kernel/gpio_txx9.c:	mmiowb();
-arch/mips/kernel/gpio_txx9.c:	mmiowb();
-arch/mips/kernel/irq_txx9.c:	mmiowb();
-arch/mips/loongson2ef/common/bonito-irq.c:	mmiowb();
-arch/mips/loongson2ef/common/bonito-irq.c:	mmiowb();
-arch/mips/loongson2ef/common/mem.c:		mmiowb();
-arch/mips/loongson2ef/common/pm.c:	mmiowb();
-arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
-arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
-arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
-arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
-arch/mips/loongson2ef/lemote-2f/reset.c:	mmiowb();
-arch/mips/pci/ops-bonito64.c:	mmiowb();
-arch/mips/pci/ops-loongson2.c:	mmiowb();
-arch/mips/txx9/generic/irq_tx4939.c:	mmiowb();
-arch/mips/txx9/generic/setup.c:	mmiowb();
-arch/mips/txx9/rbtx4927/irq.c:	mmiowb();
-arch/mips/txx9/rbtx4938/irq.c:	mmiowb();
-arch/mips/txx9/rbtx4938/irq.c:	mmiowb();
-arch/mips/txx9/rbtx4938/setup.c:	mmiowb();
-arch/mips/txx9/rbtx4939/irq.c:	mmiowb();
-arch/powerpc/include/asm/mmiowb.h:#define mmiowb()		mb()
-arch/riscv/include/asm/mmiowb.h:#define mmiowb()	__asm__ __volatile__ ("fence o,w" : : : "memory");
-arch/s390/include/asm/io.h:#define mmiowb()	zpci_barrier()
-arch/sh/include/asm/mmiowb.h:#define mmiowb()			wmb()
-arch/sh/include/asm/spinlock-llsc.h:	mmiowb();
-include/asm-generic/mmiowb.h: * Generic implementation of mmiowb() tracking for spinlocks.
-include/asm-generic/mmiowb.h: * 	1. Implement mmiowb() (and arch_mmiowb_state() if you're fancy)
-include/asm-generic/mmiowb.h:		mmiowb();
-
-							Thanx, Paul
+	Ingo
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210817135308.GO4126399%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YRyrEQt52d0kaxQI%40gmail.com.
