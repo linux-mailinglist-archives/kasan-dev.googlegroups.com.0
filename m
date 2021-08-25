@@ -1,104 +1,105 @@
 Return-Path: <kasan-dev+bncBCRKFI7J2AJRBI4VTCEQMGQEO55TMHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x740.google.com (mail-qk1-x740.google.com [IPv6:2607:f8b0:4864:20::740])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E863F718C
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Aug 2021 11:17:25 +0200 (CEST)
-Received: by mail-qk1-x740.google.com with SMTP id g73-20020a379d4c000000b003d3ed03ca28sf16275151qke.23
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Aug 2021 02:17:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1629883044; cv=pass;
+Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF543F7192
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Aug 2021 11:17:34 +0200 (CEST)
+Received: by mail-pg1-x53f.google.com with SMTP id h36-20020a6353240000b0290233de51954bsf13825212pgb.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Aug 2021 02:17:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1629883043; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rq1nEEFtfpnuXO2LPcHibZnm9ZCC0KnQ/VzB/99tkjh4jvzcwZDTCar6Bk78lyIzdi
-         U2/45mdfYsN3RU4hUeacsAQMoXez24fcacgKnyKZajgQj5LyRP5bZARt5/cwZZZbZwcj
-         HKem6neavqczeFNg9hqu5pLTGr3LB4h7iWtAEcN4nUl8M/SbBKhfq301uY8zP9gFb/i7
-         L+RE0S6ZnwKUEacT6hiY2/trwU6P91B+1nI4fGDKb1+z2rAUv9Wii+QDlaiog/9k6p6d
-         5Cwxf5WwyMNwHlcF3y91PlAVpL47jMaqSFbCKvySQQ94NbEUzAd2HkvxSOQdSDQjKGZ7
-         xQVQ==
+        b=HvSihcYD1tALX9lrzx2GOqtySb1in4M2tgASifPdW/Z6OHwtMol/T7L+KIvDnBQDlW
+         sjkA0m4Zq5xi6CZ3VlDcUTrHE4PgurAvwBQThpaQkD1Zb63pSB7W5/yEF6849ggHK0Wy
+         tImn2G/xR4YuF+AydbOq9eDRSluPBnD+2OeOELC9xTEx488TUJhPE2OUM58KKZFLzKRp
+         CdbodukMUxi/i6FtSXkSehNvAYBt7NF6hMuTlw599Khhsy4I1CMyYHEkjpZ70kjSm3lU
+         ORHzcZjeIOqfBIKMiRKpisshOtvV6fgiXbyKHI6qzU3N4yPtva4nuQOO5lrVhvkZaN8U
+         VovQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=y+SgLBqguq7kBaTtsKkAYS/iIeYmwft3uDI0CRPGs9I=;
-        b=CyDCM5sgZRqg89lk8lxFEViS8zGvH2Ipe8p1lreFoZouTwW0I3k75WnWoAzxKnAwtk
-         Kc7TKxp0adSxBP+KdLqk6ndAezOkhPgnfJANd889YUcTHfvfjafL/RX3yM3W1FhVmsUM
-         DjzOc70taPCBOmMDRZryQt1/JZ1dkc7wfI4wWm8TdJZLr9hh04wwyt8SPrXMOKgdYFjf
-         gdA8eCPj2UonlAsMFK5GjolPb20F65Yx9mN0YfHFp+9HX+ryI5o0A6gkQiUZV9XPGfYK
-         RfiWH6euzfRTuyfo/7YH5YSLZFj+aycKj3+Cf5t/HUijca8Y0DxDI+qp9NOjW48AiRHg
-         apaA==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=2vX6zdX5124EwMFvdjTal/UA7Dyp2LD9Av1vFlm1ps8=;
+        b=F83sroZMxYQw2QJLU1vZi3NfKzUcJ4MgAJQRQBNRX8IhymWjFA26Z91LFfrKPkI9U4
+         zTknGLJe3iNV3Q+l9IEPytrfs82gREbSWjkW8AeKSMmaJfzkFYVl75m88l5bAuz1FTwy
+         XzAOH7PuqeWltUibeCUaZMUOWbcfyYqitg9tijPS6TKbcU4X26zi12RHqjtycm0C6O89
+         /mORMmAcOYCiD+XYUnomvyjamfF/sFgaiuzy+uf2dgvJAKmn/GnwV5+MvEq5xH+etxmG
+         21hvmssbEd/GkAMl6ASfitO9qXx4EExRZNRNu7s7osVEfccmPNCjk7OSNDFeMun/ZcjD
+         Pj3w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=y+SgLBqguq7kBaTtsKkAYS/iIeYmwft3uDI0CRPGs9I=;
-        b=E50rzWwmfbE/YLIQUzK2rRSXoAkIaYR/N2j/2mserEvwZH4mSco2g54IbtkN9zAxog
-         ow0cYxsa37wKD8KhNuerfASGr4XoWBjfc7cDvX9BvTGx+5Wii5fGlQHpO4jlR1dyN87B
-         nfaYGd8nsJ5uFv+kUQtw30mIgHpk8U+L8PkdOwoEvYqKM1YokUVT/RTTk7ladLkzdRF9
-         XQuxXDff2ExC2jZ30SA0IGXjqNg1i4y3Zw/FMUqOwbO4fOPx+NS/KoezO+Ig/GUr+d/T
-         s+BUSNFBMJQG55PNK8VPFu7XRJHIIII0juufq3UkRAPGHs7afQBDaU49mekGcKQiblNb
-         tnWw==
+        bh=2vX6zdX5124EwMFvdjTal/UA7Dyp2LD9Av1vFlm1ps8=;
+        b=VCxbtgv7lVN6dGRUGlKd3Oo935g+S0zZEqK4gXEWlnozyYCNx1okeVnbi7oeU6Zrtr
+         lK2r2cpsQ4I787cMnHDkFvOhaljj8F4eTTuqbMrvde4K+Z/8OhuTboQVsnaxlHnd5Gsy
+         LXnkTg0c3ykbrCP4rObLxxsczTiQBHoRhylrzc205vsHzp5EwtdXfIeZM4kNV+oclovp
+         ZFqfnBfi2A4oFrOFa1A3ebOiXT8/UiWO11beqZlbhW3huguRNHl/997662vwKSYi+gEH
+         XFjiudSTBkZpzV0Gze1jfKkswlZhcuVEoY9eK9NHRwy9x4eweUe5WLwUIb9LAZBCn9Bq
+         osoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=y+SgLBqguq7kBaTtsKkAYS/iIeYmwft3uDI0CRPGs9I=;
-        b=EuR0iI/QEyTsuekzDJdIQaaiqDAWpTVi5TJIXPNgpqjBnW79WJw6yRyQXkaTgRJyya
-         oAehk9gl1wOvtPIMZIVZX1zd+mF8LxfOXAo+Pu26MhEyoj6VSfhmYe0SjM1gFrpirxKX
-         aZsS1tsMBt/Y2+TLmpAP/j9Us3xYYLkLGgL4kd9VZXS//kC5daYvbd3Euq88AhCuKIxu
-         0jOmdUf7U49l6dbZHxsNfkjDL6ZDOtJMkc0mIwftZXrc+1I3f/8NLnSBdPyL83eQce+N
-         D4FFugOIoJeT9rLAa6i1YXp1KS9+E9orng1+E3PunMxRn0eHg860A/EJca3/692xcfNx
-         416g==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=2vX6zdX5124EwMFvdjTal/UA7Dyp2LD9Av1vFlm1ps8=;
+        b=HDEBJAl2r1gOqT5OKwWYNYKEx3RmKBaRZ8bm9h9siwVS+CAja3CbxOoMl/OheRil3i
+         1BMgT5FzBjkLMSmFzHP5wfoNA5VoauC86qbIM3pSgtmkX3ClbGiGREXH6Gbq99nmrqQG
+         YXQ6YBW732BYkiBWhBzB+f4O+LOuEJV4HcrUoaKI81Yc4j47IDkrmAFB8mqnUWiZ1kjX
+         4EAdUgBp7lj62J7F2lxyiaI6jjigONOfTjgSsov1IDUBpTT6ZwwgsvZkes97SnImUmIB
+         7DeJVy8QAoenzuz4pQlH/VC9EUoEedc7cFos8xXRVZTXA4eevwXOak8sjuOH7Rl7QEbx
+         6UTw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531wqDBb+uOuo4Qv8QZ9pc+c5I5bL0kR/GvTlR7y6ht7QnSXdMvV
-	3JKRD0NbAYk4q2NeHQsaLhE=
-X-Google-Smtp-Source: ABdhPJxPLa+dMaMSK9TJLa8rQfOZKhMcai0TGSCDRSgLl6JwJj4su8BgtijwHu9bIuggi1U+sxsNDw==
-X-Received: by 2002:ac8:5442:: with SMTP id d2mr26255296qtq.176.1629883044070;
-        Wed, 25 Aug 2021 02:17:24 -0700 (PDT)
+X-Gm-Message-State: AOAM532xLkgnAQrVDxX3CRDfebpPRerek9lfisL+1sZTadKw0mnwOFvH
+	5wkqLV8dSKFBGWDa7ZLD250=
+X-Google-Smtp-Source: ABdhPJxT8M69ywpVHiEliOZl89y2CrTpw8uMn9GVxmZ5P3cJYyRFNcVGHf9ETRb2qdxdU/51MbY/Hg==
+X-Received: by 2002:a62:dbc3:0:b029:3e0:ec4a:6e60 with SMTP id f186-20020a62dbc30000b02903e0ec4a6e60mr42387399pfg.25.1629883043588;
+        Wed, 25 Aug 2021 02:17:23 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:2699:: with SMTP id c25ls843618qkp.0.gmail; Wed, 25
- Aug 2021 02:17:23 -0700 (PDT)
-X-Received: by 2002:a05:620a:13cc:: with SMTP id g12mr29898125qkl.277.1629883043601;
+Received: by 2002:a62:7d54:: with SMTP id y81ls678344pfc.10.gmail; Wed, 25 Aug
+ 2021 02:17:23 -0700 (PDT)
+X-Received: by 2002:a65:508a:: with SMTP id r10mr41178980pgp.96.1629883043036;
         Wed, 25 Aug 2021 02:17:23 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1629883043; cv=none;
         d=google.com; s=arc-20160816;
-        b=VOPn3E/Joj2faXabmWKvHAYiKTjjQ1Cm4qe1XvSJ7meDngHk6DpX6WRlH8Sq1YxUqg
-         FquK/L8AA9sfVFXPnJ3KU52ZmP0jRtjRSiAe5hIs1aJMrgLn4rJLEx7F0DqQcCY38DFX
-         tB+iw8pb6KfHYfdJlMcylAhJBZJer4nPQIuKSlzaMJxO6RE/cQbHdE/w8RxkurhS7jhM
-         aaIMTKupnWJHnm5zgrDq3DxgILTOsZ4wmwzddN11F8e+P/SkFJocTqlUlnJKBCyZ+6qR
-         ID7W2EcfNs72rvQ3/StyQgnmWHdtiIktluNPi1Defes1zptVRIVSYq9IW8/bV9kJiaOO
-         xaWQ==
+        b=vlSqMmpWDHbpAQmw4Di3XgxAHovV+Gxx1RxkGf6adAOW3jywh9yO9VEmoUdY0bAKgi
+         ussfhPqCER37paJ/6dDENOwKjdRqdPQG4OSjxN28xT+ZMf7H/WGGJmsBajSoC6GQibic
+         4gHlCgvapuhJjdnzJWJjO7X5R+S2Wq5Dz0KOlcqFsGMcuXf6E0iwFt36/taCEluTj9pe
+         WT8oAbp/K+uzle0r5GQFCHYh+ibQKCtByj3AqGMLCswX9H+soxE9EZXmOxwuobRhs5sF
+         rvFzsOtLot0vjz2Qv3QO/MfxgEdbsKoVzAdp8d6VRQOZ97PxZTtSyBtYdEkPh1JPBOnB
+         +xDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=clP+mUPYTuOlo56YQ0SYnLs1R6FBZ6qtuz6ZMArme7g=;
-        b=f64INpPDqPhoQitzGuAXOyiTGHngfqUAl+tYC9thtQh0+OS8OSMYQAMiakk/8Luodc
-         D+yFb/UGAhn1OudA1ndWdjdUeev3+uV5xqedjIicvy+8geLO+/ZcHTAj04sTmsZHZIVY
-         tkEQCiVDk7QMMx8RlewfhzJGF7JcDfk/8hD83LCK8ARqGQvMS5NrTgFMOEfs7mJ6hwZO
-         vhLoLGM4gaUieHv+/SWqSvj7+c94eu8m/vygnMT8KaK1QJgWLUVvLE9c+EALwGZoxWtt
-         ujmALuYAHREBq+Bswb4Xi93qOL20EQl8q1SsUD+9N+v7ISd9rTNIHCH2uGnJrBa3PFWK
-         tPRg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=Vz4mOQwhKwUORsZht+JDd2/y3XjAhoY0V7be4xxwIV8=;
+        b=XOujpRsmmwo8sX+jXanwNj+TzA8s0rn/+ZsbEmY3MR1Y5DSPRVT8NK6RlxmnPScVVj
+         PtaTxlEgrsHXRHbZsMmXlDIajA7XOuP1v7XOLzSEaWhqFNhO3eRVOkkT3bDjAwcl7UnC
+         LCKIOtmVZ91PidJd5AaFoevQiOYOMdw1UHWNy7d8S6n6lTd53UicbqBUcqSf1M4xHRnN
+         fywMCi31Ga6ZDm1FRj++Qq5LWFXk6k8oQvD7xrrVyglngFsHTCQhA00s0n6m07NFQXZ5
+         Ni7HpOTJgNTTF7hITo4h8DHz0pI7SNUjHEaTkwN0+HIRkpBFauc4cxI1thR7Y5Jzgd5s
+         LBiQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id g18si668321qto.2.2021.08.25.02.17.23
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
+        by gmr-mx.google.com with ESMTPS id g3si320378pjs.2.2021.08.25.02.17.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 25 Aug 2021 02:17:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GvgMz2S67zYrNx;
-	Wed, 25 Aug 2021 17:16:47 +0800 (CST)
+Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GvgJC0gzCzbdRJ;
+	Wed, 25 Aug 2021 17:13:31 +0800 (CST)
 Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 25 Aug 2021 17:17:20 +0800
+ 15.1.2176.2; Wed, 25 Aug 2021 17:17:21 +0800
 Received: from localhost.localdomain.localdomain (10.175.113.25) by
  dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -110,10 +111,12 @@ To: Russell King <linux@armlinux.org.uk>, Alexander Potapenko
 	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>
 CC: Andrew Morton <akpm@linux-foundation.org>, Kefeng Wang
 	<wangkefeng.wang@huawei.com>
-Subject: [PATCH 0/4] ARM: Support KFENCE feature
-Date: Wed, 25 Aug 2021 17:21:12 +0800
-Message-ID: <20210825092116.149975-1-wangkefeng.wang@huawei.com>
+Subject: [PATCH 1/4] ARM: mm: Provide set_memory_valid()
+Date: Wed, 25 Aug 2021 17:21:13 +0800
+Message-ID: <20210825092116.149975-2-wangkefeng.wang@huawei.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210825092116.149975-1-wangkefeng.wang@huawei.com>
+References: <20210825092116.149975-1-wangkefeng.wang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Originating-IP: [10.175.113.25]
@@ -122,7 +125,7 @@ X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
 X-CFilter-Loop: Reflected
 X-Original-Sender: wangkefeng.wang@huawei.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187
+ (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188
  as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 Precedence: list
@@ -137,40 +140,109 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The patch 1~3 is to support KFENCE feature on ARM. 
+This function validates and invalidates PTE entries.
 
-NOTE: 
-The context of patch2/3 changes in arch/arm/mm/fault.c is based on link[1],
-which make some refactor and cleanup about page fault.
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ arch/arm/include/asm/set_memory.h |  5 ++++
+ arch/arm/mm/pageattr.c            | 41 +++++++++++++++++++++++--------
+ 2 files changed, 36 insertions(+), 10 deletions(-)
 
-kfence_test is not useful when kfence is not enabled, skip kfence test
-when kfence not enabled in patch4.
-
-I tested the kfence_test on ARM QEMU with or without ARM_LPAE and all passed.
-
-[1] https://lore.kernel.org/linux-arm-kernel/20210610123556.171328-1-wangkefeng.wang@huawei.com/
-
-Kefeng Wang (4):
-  ARM: mm: Provide set_memory_valid()
-  ARM: mm: Provide is_write_fault()
-  ARM: Support KFENCE for ARM
-  mm: kfence: Only load kfence_test when kfence is enabled
-
- arch/arm/Kconfig                  |  1 +
- arch/arm/include/asm/kfence.h     | 52 +++++++++++++++++++++++++++++++
- arch/arm/include/asm/set_memory.h |  5 +++
- arch/arm/mm/fault.c               | 16 ++++++++--
- arch/arm/mm/pageattr.c            | 41 ++++++++++++++++++------
- include/linux/kfence.h            |  2 ++
- mm/kfence/core.c                  |  8 +++++
- mm/kfence/kfence_test.c           |  2 ++
- 8 files changed, 114 insertions(+), 13 deletions(-)
- create mode 100644 arch/arm/include/asm/kfence.h
-
+diff --git a/arch/arm/include/asm/set_memory.h b/arch/arm/include/asm/set_memory.h
+index ec17fc0fda7a..bf1728e1af1d 100644
+--- a/arch/arm/include/asm/set_memory.h
++++ b/arch/arm/include/asm/set_memory.h
+@@ -11,11 +11,16 @@ int set_memory_ro(unsigned long addr, int numpages);
+ int set_memory_rw(unsigned long addr, int numpages);
+ int set_memory_x(unsigned long addr, int numpages);
+ int set_memory_nx(unsigned long addr, int numpages);
++int set_memory_valid(unsigned long addr, int numpages, int enable);
+ #else
+ static inline int set_memory_ro(unsigned long addr, int numpages) { return 0; }
+ static inline int set_memory_rw(unsigned long addr, int numpages) { return 0; }
+ static inline int set_memory_x(unsigned long addr, int numpages) { return 0; }
+ static inline int set_memory_nx(unsigned long addr, int numpages) { return 0; }
++static inline int set_memory_valid(unsigned long addr, int numpages, int enable)
++{
++	return 0;
++}
+ #endif
+ 
+ #endif
+diff --git a/arch/arm/mm/pageattr.c b/arch/arm/mm/pageattr.c
+index 9790ae3a8c68..7612a1c6b614 100644
+--- a/arch/arm/mm/pageattr.c
++++ b/arch/arm/mm/pageattr.c
+@@ -31,6 +31,24 @@ static bool in_range(unsigned long start, unsigned long size,
+ 	return start >= range_start && start < range_end &&
+ 		size <= range_end - start;
+ }
++/*
++ * This function assumes that the range is mapped with PAGE_SIZE pages.
++ */
++static int __change_memory_common(unsigned long start, unsigned long size,
++				pgprot_t set_mask, pgprot_t clear_mask)
++{
++	struct page_change_data data;
++	int ret;
++
++	data.set_mask = set_mask;
++	data.clear_mask = clear_mask;
++
++	ret = apply_to_page_range(&init_mm, start, size, change_page_range,
++					&data);
++
++	flush_tlb_kernel_range(start, start + size);
++	return ret;
++}
+ 
+ static int change_memory_common(unsigned long addr, int numpages,
+ 				pgprot_t set_mask, pgprot_t clear_mask)
+@@ -38,8 +56,6 @@ static int change_memory_common(unsigned long addr, int numpages,
+ 	unsigned long start = addr & PAGE_MASK;
+ 	unsigned long end = PAGE_ALIGN(addr) + numpages * PAGE_SIZE;
+ 	unsigned long size = end - start;
+-	int ret;
+-	struct page_change_data data;
+ 
+ 	WARN_ON_ONCE(start != addr);
+ 
+@@ -50,14 +66,7 @@ static int change_memory_common(unsigned long addr, int numpages,
+ 	    !in_range(start, size, VMALLOC_START, VMALLOC_END))
+ 		return -EINVAL;
+ 
+-	data.set_mask = set_mask;
+-	data.clear_mask = clear_mask;
+-
+-	ret = apply_to_page_range(&init_mm, start, size, change_page_range,
+-					&data);
+-
+-	flush_tlb_kernel_range(start, end);
+-	return ret;
++	return __change_memory_common(start, size, set_mask, clear_mask);
+ }
+ 
+ int set_memory_ro(unsigned long addr, int numpages)
+@@ -87,3 +96,15 @@ int set_memory_x(unsigned long addr, int numpages)
+ 					__pgprot(0),
+ 					__pgprot(L_PTE_XN));
+ }
++
++int set_memory_valid(unsigned long addr, int numpages, int enable)
++{
++	if (enable)
++		return __change_memory_common(addr, PAGE_SIZE * numpages,
++					__pgprot(L_PTE_VALID),
++					__pgprot(0));
++	else
++		return __change_memory_common(addr, PAGE_SIZE * numpages,
++					__pgprot(0),
++					__pgprot(L_PTE_VALID));
++}
 -- 
 2.26.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210825092116.149975-1-wangkefeng.wang%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210825092116.149975-2-wangkefeng.wang%40huawei.com.
