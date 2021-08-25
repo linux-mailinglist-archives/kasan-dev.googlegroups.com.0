@@ -1,138 +1,136 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRBA5HTGEQMGQEZAZ2XUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKFI7J2AJRBVFITGEQMGQEJEO5RLQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3c.google.com (mail-io1-xd3c.google.com [IPv6:2607:f8b0:4864:20::d3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63DF3F775A
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Aug 2021 16:28:20 +0200 (CEST)
-Received: by mail-io1-xd3c.google.com with SMTP id n8-20020a6b7708000000b005bd491bdb6asf610587iom.5
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Aug 2021 07:28:20 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1629901699; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id F338E3F776C
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Aug 2021 16:31:49 +0200 (CEST)
+Received: by mail-pf1-x440.google.com with SMTP id i3-20020aa79083000000b003efb4fd360dsf850633pfa.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Aug 2021 07:31:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1629901908; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bGoOFaEkQj90w40fM+Gulw7w9ngCsO4OCpK4UGW0KdMzOTgFmI4sZbLjJ4sl6EAsZ8
-         T6QJChbxJS8keFyTtNqYwfO1kXTl73bd6VDzAumWcU5VAkb8SScBhIqUNL1IpWikbEWB
-         Tq90UdwUtj6iAbvNQtbSyY3nH6YM0fZJtlVtq2pvJUmG3vTIu9BhGynJ0subamiYkW0e
-         bYBwsVzJzN/XgW28YYiXugk3XbSWX8y49xtpYoFU3Si/JSB+LOm001fXs+b0E9i8xTbM
-         /o0ZLvISPxCp9hizrOxKOlmbJ4eYb9cX0Wa4YTjFQtSvtw15m/vpntoccBvMUELRB1uf
-         u/TQ==
+        b=o4jaRMuXoDU6fvQdfdJEBwf7OGusYZmfaKQJc9CcUrBK06SOCSrTekohDmyn0iMqgY
+         vgycgbq9Jkc7Wi7SlVO0b0Tsn2cRzkd8x2zl9NWHOdrUIoZ7hdcBMaf4rAEAGPZrp5J/
+         AAQvQVvAvkBPjDRlFOd8XE8pZNCu8mb/Pm0wEw71l4sjeg/+AFvKy23fAxeaml02yUUM
+         edauvvma46BLuUvjXAEUjxE3vsOHtuBGpo/+ernm8fwbK6P/mdPvsYCsNqSlfxcHHIro
+         o0S6M2TSDyO614iaQkkzRlN2vKtzx6leq3IurH2UP2+gy2D2YknvKDxiprCDxvrbh8uC
+         gQNw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language
-         :content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=GCbueGG4kPR4N93C5fWlKsxLXyzFoxISwaw4ldZpuDQ=;
-        b=edRkdjPQPqluDaBK4Zjx0OdMEDBqUrHQeNyadnqfyLxp2BlWo604/cU6s+dVhIhiz5
-         RW8SIFsu7ZYqeLWEJmUF2GVA8xBWQZMORt+PPvgsdRjO6tVcGHRcM2CHL/5gRKOal3+4
-         ECYljVtSkHhxjtTIO5aXmwwSgXKQ4KLnhw8nOJvpGS+9dc7GK9xL7OgXCk80dxI2J7fz
-         GaUp5JXCryNBv73sKPs5BwUzronJvr9ZGhH951rQ1Sgl+wkkawLFyboPDteMT1z5b6jW
-         qj2e8wg7KN2GjrPRH/cLeJDHKVGfrRmPzlrA1hGO3rbc0rZ6rprvk4kxsFGfSWYXx7B3
-         mKtw==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=SJisDqDtz5iljXZfs5aewpaAJXy+LX4or2zwWE+dUs0=;
+        b=z9SmWnCsNLyC/UtFmnSlFODYwVFJWbATCJaAkxt4OOAnTWE6ApTzuSCjtV2TiXKn4N
+         9gCofeP5U3snP0jX1R9jFYX0m3aKtyvby2+qbBvHLUH7oDZFaBHq4UyjtOTA4ITN1m3+
+         1bGUj8c+8LM0nrk0MZhirFpIKLCN0cigyO7m9x+3sR+kLAVsbrUoy0KEt8agd66ScbIy
+         wQEOPAPYnsmx1HT2MAU07cPVpPtappnLVowI8Xmh7acsVuqLE5pHhTOkPqIkHvBorJYs
+         VGD1KPE0Mxbpgq23Eh+IaiFeGrhafbgdvLm/AMcnsd2o4X6GWv9hWKpWz+wpHZSGCCi8
+         XvLA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=GCbueGG4kPR4N93C5fWlKsxLXyzFoxISwaw4ldZpuDQ=;
-        b=THnjVzjy2NWHSQWwEi5iDSPVO0q9+2+XJAVMHc6nUpBt/U2H20MD75EEkH6QND9E4r
-         xSP5k8zznU8oX8V8KZQSS6NT5aU8Eo2P4su+bB0KcolT01xJwt6lFArSh7KL1m0i/UmF
-         ZwAcL5IGgtqCPxe4mgf/IsX5ygYS9cX/TIbQALUXLGm6sIE0lrKFiOUKnxJcU47kZSMv
-         uzPM1GC1xEP9O2V/xQ8aHkwpH+g7a4SPY+cHsmXto+kYIzMvH+jFfU4Jui/Rc/epjZNW
-         zc0JCqRfLX79MYyeTaf4EcXrt9Jb+Zg1I4RFvTCsPF4yuCECWpvu1/2M/bW1w4LvgnMb
-         ghvw==
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=SJisDqDtz5iljXZfs5aewpaAJXy+LX4or2zwWE+dUs0=;
+        b=P0SsCaV++low0kjgcsaSqGqqNldIo94kcoaIOXGYOs5wmwojXRJnQ8aRtqpzNMCftC
+         xqdTiv2NuXiCCNZBhkrf2t/qFNz8egR5lPdRVmqDaQcayWOGSeuU323jSkUgAVqJbMF9
+         dRSTlg81xhZBtWiVSz5y+zHRW0IT5rDwnnrdr5WXvOIckAHXs4s+/5c9WU7eewJtpL2o
+         CnbHoiyedIfvRgmgRnKRGoaAJej24rG9yF3EAuH+yqvue/vBcn+50cDlUNkQjsVJduFq
+         OPgJGC6RkoVeYKA1Q76T+aIWieEgCct9OipTA5XzcBfAYFKZ3W++/BKuKO8IbV3/SilT
+         TIAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=GCbueGG4kPR4N93C5fWlKsxLXyzFoxISwaw4ldZpuDQ=;
-        b=la9i9vqUDVYpcMw3auoaE2sFeaEvSM2z5GH3ep69SirfPc1a1VmvFqSkd5NWJrqBXW
-         HOrrvTQfUW2adtFkM4BB/xZvRLSy3F1pu61MvejlPEh7y2ZxlDGQxAP/qPaBxyHPlgRO
-         KRxBZCgyoT55sXF8nmne0pZwCmQYBhnnPzg7AMT8KixX+MojhuRo5FGEJ0FAY4kI8cEP
-         C7rrWP9StVKmbBEg4iYmlNWaSLBPpasB2jHLnSYklsvXRgZ18019bb88BRj8R0fBmOQD
-         ebqOjXGEu1uNVjW0DxhHbAaBPAme9r1EoR/vF8K/1UkMjnEuFejOTg2uY937NqVOMJEh
-         gMBQ==
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=SJisDqDtz5iljXZfs5aewpaAJXy+LX4or2zwWE+dUs0=;
+        b=pQIoyV990PW72IISnmXIDxTf4JeJ/tsjIbaYv2QoOHnpbQ0/DfBe8AKwNiD9ExXdfW
+         URSKX0TMkJQZRmg7GOhwa3iIZ/AoPNI4zG3d3DA++6IDQnMuA4e2M9ZfzL4F4ubsau3M
+         b+Fx1nNrghC9Vk6pVOSz3q/Y2FcLLGazEmkasElxlPVouM1iUpY/m6sL0rQcu4jMM4Zp
+         0mCEFYeuVtmd3Rs50gQ6oWvjLhI/U9Lg3M180NZ9jIsgBrU9uPhSyRF3fpsxIzJh9L9l
+         b46fJ1WMkb4n4Ru673hJ/Ei7UOEePjcWI9yJpcy7m69EsNhsEJVxQ4vrpwzsKr6R05XA
+         l1lA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532IjWXEtmprOvR8IhnDteM0XAg6KmRwy6CwdDLtFw9rmGWMSsFw
-	bQfEbMw+m3b8wdZSZuTaRUk=
-X-Google-Smtp-Source: ABdhPJy4m+ZZawD6r/k3AATtfgiWqdPzwq5+ikFvWgUc4plT48yr1UZNRTqNb/7mYj/vPrFdZoEwsw==
-X-Received: by 2002:a92:c80e:: with SMTP id v14mr32416521iln.57.1629901699691;
-        Wed, 25 Aug 2021 07:28:19 -0700 (PDT)
+X-Gm-Message-State: AOAM532T+jPz5j+B94fTV/BATlQqq1hrningzzlJEVec0dI1IDn8As7Q
+	YnAXURU+Mbx85Pu32v8UPEY=
+X-Google-Smtp-Source: ABdhPJxQSc3g/YlaXbdJ6bU1l81iUzUjQD9viijB08FMceXHCslvbBhkGTS5vaME7AFlMkSldaO60g==
+X-Received: by 2002:a17:902:7b83:b029:12c:2758:1d2d with SMTP id w3-20020a1709027b83b029012c27581d2dmr38240940pll.80.1629901908674;
+        Wed, 25 Aug 2021 07:31:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:c7d1:: with SMTP id g17ls532744ilk.3.gmail; Wed, 25 Aug
- 2021 07:28:19 -0700 (PDT)
-X-Received: by 2002:a92:da87:: with SMTP id u7mr32158762iln.297.1629901699314;
-        Wed, 25 Aug 2021 07:28:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1629901699; cv=none;
+Received: by 2002:a65:6487:: with SMTP id e7ls1038896pgv.7.gmail; Wed, 25 Aug
+ 2021 07:31:48 -0700 (PDT)
+X-Received: by 2002:a62:1d0a:0:b0:3e2:7dd6:e4b0 with SMTP id d10-20020a621d0a000000b003e27dd6e4b0mr44593476pfd.27.1629901907997;
+        Wed, 25 Aug 2021 07:31:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1629901907; cv=none;
         d=google.com; s=arc-20160816;
-        b=fTX2/bUtuMpK95EccAQIfoKS0tpAUhJZeXIrzNznbdU6G+UNrcFsX8R8kmYamzm/es
-         VUpolRuZbI7dA/cOdc3Qk7LnF8C/qThMFmn1plkq1qXhLRorPHulezS9R9ycFjaEd95B
-         q6c7SUK3OXIk+i8WnhSLwzGKnB17SVYWxryCi46SDRrTK9lEpcaBwQ4e9y6fAA58s/50
-         PkzYN71ZXA5Mh9aPKWuOrLPvIjgbPd6/iYieWDQxX+ZlPYW/KVTDXDTqs2FQLohyP05j
-         CZOeq3Nr7a0iUrX3OatdWdggmACpA7jnaQ+xchsWoJyLnqwoNALx5PrWTN4koyxmVaHa
-         lOLA==
+        b=pfDAqalX2p3j35yYo8ldJDBbcKD0hw/nq+XsG8Vh5brk2Gz9isLdwlWVNp7LJEMafG
+         76pK4Lnubf5r+HW7YhMkUUbB52OLx7RyGzT2bCbh9q9P6o6ENRj6JS0lb6RGmj+olzRJ
+         jjGZUztlAFAuRfhf0AI4nMlnCNv6WEC7B2gLybFTONhoaUfoAiVWqmEAwXS8jAknXKIQ
+         jkBwbpLNFgZWYX28cGEu5ELniZyo7mfoNWEmO2Oc/xTD3HcpjdWK40K65du0XienTLDq
+         xuA0GTqz71Trtsak1p8OQsdfe8OtA5z7v6b71dUH7SNwd14JzOrFHSlXO5NUkKi6W01P
+         Cj1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-language:content-transfer-encoding:in-reply-to:mime-version
          :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=IkklPvR62wrnHbuuHbz07YDM8k0PnGfEpYkhYa7BjqU=;
-        b=AOvSAmFRAXVYEsyplK96wb++Q5Y+YAYnVT7lI1sOUGr+VYyYhYBhpPiTldJabit05P
-         tQmzzNQHPXD0w515UaXXsRu+MTZkgqPx13ZrkQxkf+2VhY7tAZlbddIaXpka6gIuyT3/
-         2mjOmrxhxs9xgC/znPWH9WSUH44esg7c7UGds5Ep7hHEizucROexrgJlfVql70kbzxa0
-         YyduMn+o/VFs8pjUjSgqEMh+Ax7h6pRp7+5KBMrcRqkAZRm9gXScQXOKnihjMNsMSpr1
-         JnCqDfEdWKhg+QJ07KMfcrLmKA5kuL8eZHhE6CdibsECj1bYzpoKAeLuFHhR+yUgutnG
-         Y6fQ==
+        bh=2FtSV4zLxOd4l7AcsSSDp0Sw86frOrKqg60ZM45jlDM=;
+        b=zqTvqVtDejCB02sBbRdLzPkZ4AW3f5pswhtNgfXaZhurb7C+OHGVBtkR+0t5zBK1U+
+         6cC52akeEtLj7hFFnWnM8o3mW/pKxizW1PlKxdYGJyrJ2ZotEL9VLmFVtoBh0Ik+1z6E
+         8GyX4n7j3nNJ5BN4gpHyBPLARgqjeJIznv8btzccm1QKXepe6WKaFd1JE561RNhAS9hO
+         +yljilDrcbRBS4uVAz5yuK5HdgwSCa4VmRzKH4vBx77kjWZ7YFWDR+MogNVcBwemNpBW
+         FBoZ0WcrsnmEQ70UfO+bk7wJvnen8XnmGQiqJZc2cCPhGch3yJPMJ3rVz7ZzcGD6fqQa
+         jkbQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com. [45.249.212.189])
-        by gmr-mx.google.com with ESMTPS id c81si13305iof.3.2021.08.25.07.28.18
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
+        by gmr-mx.google.com with ESMTPS id m1si455454pjv.1.2021.08.25.07.31.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Aug 2021 07:28:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189 as permitted sender) client-ip=45.249.212.189;
+        Wed, 25 Aug 2021 07:31:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
 Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GvpH32k6fz88qB;
-	Wed, 25 Aug 2021 22:27:59 +0800 (CST)
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GvpH001z6zbj5X;
+	Wed, 25 Aug 2021 22:27:56 +0800 (CST)
 Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
  dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 25 Aug 2021 22:28:14 +0800
+ 15.1.2176.2; Wed, 25 Aug 2021 22:31:46 +0800
 Received: from [10.174.177.243] (10.174.177.243) by
  dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 25 Aug 2021 22:28:13 +0800
-Subject: Re: [PATCH 0/4] ARM: Support KFENCE feature
-To: Marco Elver <elver@google.com>
+ 15.1.2176.2; Wed, 25 Aug 2021 22:31:45 +0800
+Subject: Re: [PATCH 3/4] ARM: Support KFENCE for ARM
+To: ownia <ownia.linux@gmail.com>
 CC: Russell King <linux@armlinux.org.uk>, Alexander Potapenko
-	<glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<kasan-dev@googlegroups.com>, Andrew Morton <akpm@linux-foundation.org>
+	<glider@google.com>, Marco Elver <elver@google.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<kasan-dev@googlegroups.com>
 References: <20210825092116.149975-1-wangkefeng.wang@huawei.com>
- <CANpmjNMnU5P9xsDhgeBKQR7Tg-3cHPkMNx7906yYwEAj85sNWg@mail.gmail.com>
- <YSYiEgEcW1Ln3+9P@elver.google.com>
+ <20210825092116.149975-4-wangkefeng.wang@huawei.com>
+ <51b02ecd-0f3d-99b0-c943-1d4da26174d0@gmail.com>
 From: Kefeng Wang <wangkefeng.wang@huawei.com>
-Message-ID: <7d08a5d8-7637-d109-cbfc-56e6449ae083@huawei.com>
-Date: Wed, 25 Aug 2021 22:28:13 +0800
+Message-ID: <8531455d-3198-96cd-e26b-03156f95ac80@huawei.com>
+Date: Wed, 25 Aug 2021 22:31:45 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <YSYiEgEcW1Ln3+9P@elver.google.com>
+In-Reply-To: <51b02ecd-0f3d-99b0-c943-1d4da26174d0@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
 X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpemm500001.china.huawei.com (7.185.36.107)
 X-CFilter-Loop: Reflected
 X-Original-Sender: wangkefeng.wang@huawei.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189
+ (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187
  as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 Precedence: list
@@ -148,33 +146,69 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 
-On 2021/8/25 18:57, Marco Elver wrote:
-> I spoke too soon -- we export __kfence_pool, and that's good enough to
-> fail the test fast if KFENCE was disabled at boot:
+On 2021/8/25 21:18, ownia wrote:
+> On 2021/8/25 17:21, Kefeng Wang wrote:
+>> Add architecture specific implementation details for KFENCE and enable
+>> KFENCE on ARM. In particular, this implements the required interface in
+>>   <asm/kfence.h>.
+>>
+>> KFENCE requires that attributes for pages from its memory pool can
+>> individually be set. Therefore, force the kfence pool to be mapped
+>> at page granularity.
+>>
+>> Testing this patch using the testcases in kfence_test.c and all passed
+>> with or without ARM_LPAE.
+>>
+>> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+...
+>> +#endif /* __ASM_ARM_KFENCE_H */
+>> diff --git a/arch/arm/mm/fault.c b/arch/arm/mm/fault.c
+>> index f7ab6dabe89f..9fa221ffa1b9 100644
+>> --- a/arch/arm/mm/fault.c
+>> +++ b/arch/arm/mm/fault.c
+>> @@ -17,6 +17,7 @@
+>>   #include <linux/sched/debug.h>
+>>   #include <linux/highmem.h>
+>>   #include <linux/perf_event.h>
+>> +#include <linux/kfence.h>
+>>   
+>>   #include <asm/system_misc.h>
+>>   #include <asm/system_info.h>
+>> @@ -131,10 +132,14 @@ __do_kernel_fault(struct mm_struct *mm, unsigned long addr, unsigned int fsr,
+>>   	/*
+>>   	 * No handler, we'll have to terminate things with extreme prejudice.
+>>   	 */
+>> -	if (addr < PAGE_SIZE)
+>> +	if (addr < PAGE_SIZE) {
+>>   		msg = "NULL pointer dereference";
+>> -	else
+>> +	} else {
+>> +		if (kfence_handle_page_fault(addr, is_write_fault(fsr), regs))
+>> +			return;
+>> +
+>>   		msg = "paging request";
+>> +	}
 >
-> 	https://lkml.kernel.org/r/20210825105533.1247922-1-elver@google.com
+> I think here should do some fixup to follow upstream mainline code.
 
-I haven't received the mail, don't know why.
+Yes, the fixup is still there, as the cover-letter said,
 
-Whatever,=C2=A0 I tested it, this patch is good and it save a lot of times,=
-=C2=A0=20
-so feel free
+NOTE:
+The context of patch2/3 changes in arch/arm/mm/fault.c is based on link[1],
+which make some refactor and cleanup about page fault.
 
-to add my tested-by, thanks.
+...
 
+[1]https://lore.kernel.org/linux-arm-kernel/20210610123556.171328-1-wangkefeng.wang@huawei.com/
 
 >
-> will do the trick. So please drop your patch 4/4 here.
->
-> Thanks,
-> -- Marco
+>>   
+>>   	die_kernel_fault(msg, mm, addr, fsr, regs);
+>>   }
 > .
 >
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/7d08a5d8-7637-d109-cbfc-56e6449ae083%40huawei.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8531455d-3198-96cd-e26b-03156f95ac80%40huawei.com.
