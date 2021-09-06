@@ -1,48 +1,47 @@
-Return-Path: <kasan-dev+bncBDGIV3UHVAGBBT5JWSEQMGQEUZUWORY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5JXFXXVEGRB3OZ2WEQMGQEQBLUSFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552D43FBAE6
-	for <lists+kasan-dev@lfdr.de>; Mon, 30 Aug 2021 19:26:40 +0200 (CEST)
-Received: by mail-lf1-x13e.google.com with SMTP id q18-20020a05651232b200b003d9019c6ae4sf3254878lfe.22
-        for <lists+kasan-dev@lfdr.de>; Mon, 30 Aug 2021 10:26:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1630344399; cv=pass;
+Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE469401298
+	for <lists+kasan-dev@lfdr.de>; Mon,  6 Sep 2021 03:20:46 +0200 (CEST)
+Received: by mail-oo1-xc3c.google.com with SMTP id o32-20020a4a95a3000000b0029018f4f7c3sf3556515ooi.22
+        for <lists+kasan-dev@lfdr.de>; Sun, 05 Sep 2021 18:20:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1630891245; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vbSprS+0ZG4JrwG/68BNRuFCXTCA50DV+CuOllEPbgnG0Qfj5pMtc8hD0ldBnkfJAn
-         ut4XvQbZUfDb0qaVZCItekkKsxBKHPrfD9wyJqMh26F9AdUNeUo/gdp88Yd0mpF58g+U
-         hjJeiXOD3WhX0qaNyVxsgl+N+hbeCXRz9yCNZpfXlo6/BMS3MQz5D9MOczjl8tef4rFN
-         DU8bBh+xu41Tol+aiTbhS5ib1VzppjwsBB74DZWJeabGh6kuq1VMVzjEABA3VgSNeuhl
-         nA55vdpH63sCAX3Eyi+OEhCdbkKdVVnheyCRXGA0DBk+BCzGQt9ltEQIBiT+ZTWoJHrx
-         WpEQ==
+        b=I6H/g5Y8ybdH7SeezthMFfpUOnJgIbRc1OslyXz4Yai1WhRc8al1JKVz896w1biUEj
+         T7T5oRqeJDZQVHd93F8pd+LfdbNMnFZJKajisJOpIMXg+sJpesgTQ/CGe9Ijpc/XuSIw
+         63pZHtheg5+87qp/nkwjglvlbJ7Ebwlq9jyWGhAvZMfD0R5cnfazbPtN4/eQnd4Evw53
+         5JGqgYOnaDKaiy8IMuHYaXUkDQn3Yg7VDhi2/sRzFybilJ9HAty+7ve/70W45c50s4ua
+         6fBy2VRgfGJSm5mhQz4TwTuYearHa7OtgyhpjKsGh/oSOPBlAkkKthMm3EpTvUXXFgfC
+         vanA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=dZaaTzR044YJCBlelfhTQsHWBpgzEsg0rPUKentEFaw=;
-        b=u10ZD2hmrIvYY1DI1gImcKbd+KbcxmL51q3cmuSALeqk6KGEhhHm9vREtevDGcajgR
-         bKsym1S6HhJ0hjDsTYb97tQmEMH5at3efBhIUwfj4q8BI/d06Tf3LF7xsFm2mzRj+8k9
-         u3fW9QkQ/9kaaBMfQykoIVWbMuK2yMeHEiUpXAH6NV/V/oLKmw0ev1YkA6yns7yssHId
-         nMeikr5peNIxnlzuz3cPAOLknfyd/2dZauSbgO1MkXciTIkW5fhBMdWri8wUFoOTiSsU
-         JklF3TzO9h+98VEgJDXk3fgFW73XVsPISuuJFMfjtswLaiDGvV0so089JDlW8FA23u44
-         LKZg==
+        bh=hr5i54RjReYhlW+cHiU4FeA1yQw2RQUT1DsuQeh9GEE=;
+        b=kdFxxQ1cwlyhfgMsdeNBPswPv4Q/rIa5MJpHC1WJmxTUj+ueCIsTu7GMNRc9Wwms+7
+         bwR+qfohdG2h+IYOaSKQfANfXhWXEEKyRPbsRqor9CP3xImXfRJZ0kfj3SL/MgroGACr
+         sQG8hjyBQCGcZnk4hHJqc8ZPEBZgSz7unK3B9v+n6ngYYBBj2i7sF1u4m8bupYYdEFES
+         drNww95s8hSTXgE+K7xIO4iZ8vQXN953cL2Q7a+8dvRGpyufR1lXIqE3xefLC/wQUcn1
+         7bCuMti+i6Z3FOGgRUXK84V0QiD6TBGkzOrpzhLoiVTM3mcEjLZmOWIGmrsg+HpYNsPP
+         xjAA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=ehsCfouJ;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Icy1ps6G;
+       spf=pass (google.com: domain of sashal@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=sashal@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=dZaaTzR044YJCBlelfhTQsHWBpgzEsg0rPUKentEFaw=;
-        b=IW9lvIiz1SbPLJv/hnoFBWDRHdX3O41UyRveED4KWKEZxXOT5d0IEePQaCkyVVB55e
-         G7C60K3Rox1jy5pkLdNSjOnKOAHWZ6C19dMmWEOL/hLPE7KkWdeWueY9qRC+eCycqGc1
-         hYdEPyTFhALuRYkSSI8UhaQTu2CYKsTiaqm65I0zz4PRILp7TzEYnpcN7ABZUSur0hJJ
-         O9bVosmbmLhL3U7KowtgfTTH9KTR5g9mX/0/j8h/BFck9NIDWJjIbGQXzt8EmF2/io4j
-         G26zxzdZY1SKkFCAABr2dU1AFs0xNyPI7V7MEzfS3a9AtOykNnF/mg6GSO0raCLUoqhm
-         P7+A==
+        bh=hr5i54RjReYhlW+cHiU4FeA1yQw2RQUT1DsuQeh9GEE=;
+        b=A5YxtX8HEt3RxpMANYynL1MImhDj30i5JtNJ5V7jz2ruKg0VYRVB4QdRJ7gftzkVyp
+         WpNAz7zpqNblYB/azyYoRrI/15Gg1dmqYOZWPyY7Bgqcji/F/rGa3M0l8P+br/TTFKJe
+         fuQCSj/fubc2Ck28EeOaE+adEwq5IW1tdYcxGMgAorLb6aazBwj9qeJZ7cPAadpYTvsR
+         uZlL1fQ2TTSCNSX27TMvIUcFahaxfhsMXsF5aZgd+oJh7FKVn2dmKggyb5HZEPO2OFLE
+         fQrHkKWm3tu14zypbhQ3kVcIf3sGZyX2KEDRTjqSctpiqgx6IZ536PYCJ2qyc0zCNxur
+         h3+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -50,76 +49,78 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=dZaaTzR044YJCBlelfhTQsHWBpgzEsg0rPUKentEFaw=;
-        b=LBT3vt8ONTXePj37l8natqwcoHDFK+N40GeBTs2nCasYAWBXneJWFf7Egj58kMT5K1
-         +Z+UefTSOPXUPlViJUK/q3VH6cqCkNg1b/qo2JJEWBOVkc0GS4DxIuYWlMWnGmLcpA6h
-         dILZyCvNNtqijuBXcyOUrHk3d2A+/iKkySEHYVf2jgYgVVz3lkujG16nT37rdV8JoiGw
-         gSBHVZ+W1642bPueDbC4HgnwpTGWq4bEJV060hXBOXqI1rshaEylUQIA2H+OoldfXnwe
-         1GcQq8umXA0J/Th6eueZfe+jQrnMjnYb49GQfeHQau9DdCo4RKCA2q1IodQhXqQNggbc
-         bovA==
+        bh=hr5i54RjReYhlW+cHiU4FeA1yQw2RQUT1DsuQeh9GEE=;
+        b=BGFP3TPzD/1PHlDGlgnbOjCRTAAINloJuhotuWqMii+AgTAlAJp/WLMc/72NAnJPiI
+         WRyrBqETCAQYfw3nUX8Ve7eMELhSxS31nfON00SUjNY0NTDaxzngiQoNwTsLqd7vlOau
+         UIHN8L2ILNONJjGul7TeLcKUKGb2809D+adfhUMpDfYjciYXV/e9wTAzdOEXBkfgIUZo
+         /d7vscI7CjYGquEhBAjpnQLK1qepLeQwUKT1wmU8FzWzkeylOQvHySA9/mkw9gU40XW8
+         NiSEfieOYbBjf65AKNoND/3uF7UObP0trG10g6l/il7rNt3n4FE/QYcjyNMwLcgy2P3Q
+         JzSA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533mXMVTJ1p1X2oWlB25ISTfIwBB9+PD0kLjTGMCqnpc4Dgb9sQw
-	D4EUngDTrKs6PhX+erXFd98=
-X-Google-Smtp-Source: ABdhPJw6+75VZZjpFNG4wcxFJjioT2/h5rgm6abrv/spFXvxyD/YBeD8FGUVIa2/bfJSNXkcs7vQZw==
-X-Received: by 2002:a19:ae05:: with SMTP id f5mr18091697lfc.117.1630344399862;
-        Mon, 30 Aug 2021 10:26:39 -0700 (PDT)
+X-Gm-Message-State: AOAM5311jvglV/cuEIloneZ0uzJ+k7ZpN2/ZLcD0uU8dCmKPtHq4RHdf
+	4/RDNcrnKiQK6KEf7wJJXrM=
+X-Google-Smtp-Source: ABdhPJyVFRJaSqgWddplqA+Ph6FEJEImIG+Ys3lH9iqwh5FhFLOhwSBIyhwXjLdgu8DxTGS7/WRXfg==
+X-Received: by 2002:a05:6808:2204:: with SMTP id bd4mr7059573oib.108.1630891245493;
+        Sun, 05 Sep 2021 18:20:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:4146:: with SMTP id c6ls1709607lfi.2.gmail; Mon, 30 Aug
- 2021 10:26:38 -0700 (PDT)
-X-Received: by 2002:a05:6512:e83:: with SMTP id bi3mr18149886lfb.420.1630344398860;
-        Mon, 30 Aug 2021 10:26:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1630344398; cv=none;
+Received: by 2002:a9d:66c4:: with SMTP id t4ls1330877otm.5.gmail; Sun, 05 Sep
+ 2021 18:20:45 -0700 (PDT)
+X-Received: by 2002:a05:6830:4b6:: with SMTP id l22mr9131233otd.129.1630891245054;
+        Sun, 05 Sep 2021 18:20:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1630891245; cv=none;
         d=google.com; s=arc-20160816;
-        b=AnXo2/nw2+cm8sxi+R/vy9gST7kLPqpBje0nLJbmJX2cso/NyiGviqwI5PI8DYLzXa
-         Y4NjAGQS79uUNLiPZJO6hnzebP9j8OHclHAuyPHlnLOfzZpsHW8hER+MTQQaBNF//YW/
-         2A76tJ0ndpfRq2rmEA4pt9Mi6r7s5nXdkdzGkDYrCc7rbONTChnwHvgSSP/Bw2OTjXnK
-         l/qDgrno1vZNi2ZrvlW8UCXmI2MRBOhVUca0wTQY/oOj88sxxjdrVk/r2in7xtGpg3YH
-         DeDXTy6lsrb6fSiN5TUC/h4iiWsmow8qXcFDhtnSB8LESu+2KJsvk3hg6HcFGOY+sfcL
-         54Tw==
+        b=W+p3JfysmmAD+WUFgD/yU945eEQeD9amHWU8vbiWvkIOHGWgtWpIjwvmLZlhEO6Kao
+         aSWCqDnSptftMV77OQeUCRNPhsUhoExTmjy/ZzOops7MUG1EyTsp8OD8gNtni3rjvdwa
+         ZdDb+K1IVMU+shtIoUg8LGosGb5l9htN3NSpddoYoGzLQzM2FyruYn8jBjWFeB683gkm
+         BypAN2GJutZuoLSe0taUOANxkD+fxSl4voBsS5gi0wpyksPY3ST/+sdmB4YjTX9rKACQ
+         7V01HfN8QuU3W/kVmHLfjASOe6rZy5FwHQCh85hXZxfQRLToet0y3zTg0tHETcAa2Ehl
+         Bpzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:dkim-signature:dkim-signature:from;
-        bh=MLg28R0I4l42Wp7Kr6HQPjKRPPqXBv2DvuNgpG1iY5M=;
-        b=ez1XZi+nqam8gNyRLSH4WwoFA8vXfrwjVGjmqhLCD/vftOHSRGCj6ghpG3totKOVYt
-         PugefLTOKabMBKTf6IE0HNOH2k6MxincoQJgM8LugTvB9mlofxaSZyKdhU0dOSAheD5j
-         7BWHCiUykNbrRjpH6OD7u3aOG2V4Kbm7IHMYuh5WpoEprHlvarayC2UjtaNP8zZr0ZjI
-         x5c7kSPTGGpocGy+zFLpat+Hh+xBJRRiqrJBKv1FG/so6sCuNdSXDkkXv/dXyzNOMqyD
-         w73yYPzYwo3HNj/2sfMtR7BYqIEIj67IVpy1f0xajV8vp5URgS7JinRm++nTq7Nmmo6g
-         dPjA==
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=XOnEGtTtmqHaMTLHwq2UKO3CWF4vA/SmI4KDyIeemgE=;
+        b=NSY7EPj+fbl/xD4e5PW6tE0BkZKC9lU9jumtBmxoajFfPar+2WOcbKbCttd93/w+L8
+         WanePmKq/d6x3Ml+BJdvfmqeu687TqawyDf9OyGLviTmK/gqzjVeUDIfBX/AgURD2tXd
+         bcxe4uNWDpzhdbVFc099/G6baLF2ROB4HAl7eE55hYVtokeTOpOLt1Cb+fKUrKrEIR33
+         FbU/J/8JPz9WtUEui4Adm3wf/AIpXRMh17jxnHREQnzYoKTJaiCRcRPIadxKihU8YVo+
+         JS7sY9ctc+EUyHgE3jnpWOWDdDk5IsoDAwqPBt9GFh55yeMQODOFPa0ERueWOhtddzkj
+         omkA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=ehsCfouJ;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
-        by gmr-mx.google.com with ESMTPS id n6si813732lft.8.2021.08.30.10.26.38
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Icy1ps6G;
+       spf=pass (google.com: domain of sashal@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=sashal@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id bf14si269860oib.0.2021.09.05.18.20.44
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Aug 2021 10:26:38 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Marco Elver <elver@google.com>,
-	Clark Williams <williams@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 5/5] kcov: Replace local_irq_save() with a local_lock_t.
-Date: Mon, 30 Aug 2021 19:26:27 +0200
-Message-Id: <20210830172627.267989-6-bigeasy@linutronix.de>
-In-Reply-To: <20210830172627.267989-1-bigeasy@linutronix.de>
-References: <20210830172627.267989-1-bigeasy@linutronix.de>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 05 Sep 2021 18:20:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of sashal@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8719861054;
+	Mon,  6 Sep 2021 01:20:43 +0000 (UTC)
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Sasha Levin <sashal@kernel.org>,
+	kasan-dev@googlegroups.com,
+	linux-s390@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.14 42/47] s390/kasan: fix large PMD pages address alignment check
+Date: Sun,  5 Sep 2021 21:19:46 -0400
+Message-Id: <20210906011951.928679-42-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210906011951.928679-1-sashal@kernel.org>
+References: <20210906011951.928679-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-Original-Sender: bigeasy@linutronix.de
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-Original-Sender: sashal@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=ehsCfouJ;       dkim=neutral
- (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
- bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender)
- smtp.mailfrom=bigeasy@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
- dis=NONE) header.from=linutronix.de
+ header.i=@kernel.org header.s=k20201202 header.b=Icy1ps6G;       spf=pass
+ (google.com: domain of sashal@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=sashal@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -133,165 +134,88 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The kcov code mixes local_irq_save() and spin_lock() in
-kcov_remote_{start|end}(). This creates a warning on PREEMPT_RT because
-local_irq_save() disables interrupts and spin_lock_t is turned into a
-sleeping lock which can not be acquired in a section with disabled
-interrupts.
+From: Alexander Gordeev <agordeev@linux.ibm.com>
 
-The kcov_remote_lock is used to synchronize the access to the hash-list
-kcov_remote_map. The local_irq_save() block protects access to the
-per-CPU data kcov_percpu_data.
+[ Upstream commit ddd63c85ef67ea9ea7282ad35eafb6568047126e ]
 
-There no compelling reason to change the lock type to raw_spin_lock_t to
-make it work with local_irq_save(). Changing it would require to move
-memory allocation (in kcov_remote_add()) and deallocation outside of the
-locked section.
-Adding an unlimited amount of entries to the hashlist will increase the
-IRQ-off time during lookup. It could be argued that this is debug code
-and the latency does not matter. There is however no need to do so and
-it would allow to use this facility in an RT enabled build.
+It is currently possible to initialize a large PMD page when
+the address is not aligned on page boundary.
 
-Using a local_lock_t instead of local_irq_save() has the befit of adding
-a protection scope within the source which makes it obvious what is
-protected. On a !PREEMPT_RT && !LOCKDEP build the local_lock_irqsave()
-maps directly to local_irq_save() so there is overhead at runtime.
-
-Replace the local_irq_save() section with a local_lock_t.
-
-Reported-by: Clark Williams <williams@redhat.com>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Alexander Gordeev <agordeev@linux.ibm.com>
+Reviewed-by: Vasily Gorbik <gor@linux.ibm.com>
+Signed-off-by: Vasily Gorbik <gor@linux.ibm.com>
+Signed-off-by: Heiko Carstens <hca@linux.ibm.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- kernel/kcov.c | 30 +++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+ arch/s390/mm/kasan_init.c | 41 +++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 21 deletions(-)
 
-diff --git a/kernel/kcov.c b/kernel/kcov.c
-index 620dc4ffeb685..36ca640c4f8e7 100644
---- a/kernel/kcov.c
-+++ b/kernel/kcov.c
-@@ -88,6 +88,7 @@ static struct list_head kcov_remote_areas = LIST_HEAD_INIT(kcov_remote_areas);
- 
- struct kcov_percpu_data {
- 	void			*irq_area;
-+	local_lock_t		lock;
- 
- 	unsigned int		saved_mode;
- 	unsigned int		saved_size;
-@@ -96,7 +97,9 @@ struct kcov_percpu_data {
- 	int			saved_sequence;
- };
- 
--static DEFINE_PER_CPU(struct kcov_percpu_data, kcov_percpu_data);
-+static DEFINE_PER_CPU(struct kcov_percpu_data, kcov_percpu_data) = {
-+	.lock = INIT_LOCAL_LOCK(lock),
-+};
- 
- /* Must be called with kcov_remote_lock locked. */
- static struct kcov_remote *kcov_remote_find(u64 handle)
-@@ -824,7 +827,7 @@ void kcov_remote_start(u64 handle)
- 	if (!in_task() && !in_serving_softirq())
- 		return;
- 
--	local_irq_save(flags);
-+	local_lock_irqsave(&kcov_percpu_data.lock, flags);
- 
- 	/*
- 	 * Check that kcov_remote_start() is not called twice in background
-@@ -832,7 +835,7 @@ void kcov_remote_start(u64 handle)
- 	 */
- 	mode = READ_ONCE(t->kcov_mode);
- 	if (WARN_ON(in_task() && kcov_mode_enabled(mode))) {
--		local_irq_restore(flags);
-+		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
- 		return;
- 	}
- 	/*
-@@ -841,14 +844,15 @@ void kcov_remote_start(u64 handle)
- 	 * happened while collecting coverage from a background thread.
- 	 */
- 	if (WARN_ON(in_serving_softirq() && t->kcov_softirq)) {
--		local_irq_restore(flags);
-+		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
- 		return;
+diff --git a/arch/s390/mm/kasan_init.c b/arch/s390/mm/kasan_init.c
+index a0fdc6dc5f9d..cc3af046c14e 100644
+--- a/arch/s390/mm/kasan_init.c
++++ b/arch/s390/mm/kasan_init.c
+@@ -107,6 +107,9 @@ static void __init kasan_early_pgtable_populate(unsigned long address,
+ 		sgt_prot &= ~_SEGMENT_ENTRY_NOEXEC;
  	}
  
- 	spin_lock(&kcov_remote_lock);
- 	remote = kcov_remote_find(handle);
- 	if (!remote) {
--		spin_unlock_irqrestore(&kcov_remote_lock, flags);
-+		spin_unlock(&kcov_remote_lock);
-+		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
- 		return;
- 	}
- 	kcov_debug("handle = %llx, context: %s\n", handle,
-@@ -873,13 +877,13 @@ void kcov_remote_start(u64 handle)
++	/*
++	 * The first 1MB of 1:1 mapping is mapped with 4KB pages
++	 */
+ 	while (address < end) {
+ 		pg_dir = pgd_offset_k(address);
+ 		if (pgd_none(*pg_dir)) {
+@@ -157,30 +160,26 @@ static void __init kasan_early_pgtable_populate(unsigned long address,
  
- 	/* Can only happen when in_task(). */
- 	if (!area) {
--		local_irqrestore(flags);
-+		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
- 		area = vmalloc(size * sizeof(unsigned long));
- 		if (!area) {
- 			kcov_put(kcov);
- 			return;
- 		}
--		local_irq_save(flags);
-+		local_lock_irqsave(&kcov_percpu_data.lock, flags);
- 	}
- 
- 	/* Reset coverage size. */
-@@ -891,7 +895,7 @@ void kcov_remote_start(u64 handle)
- 	}
- 	kcov_start(t, kcov, size, area, mode, sequence);
- 
--	local_irq_restore(flags);
-+	local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
- 
- }
- EXPORT_SYMBOL(kcov_remote_start);
-@@ -965,12 +969,12 @@ void kcov_remote_stop(void)
- 	if (!in_task() && !in_serving_softirq())
- 		return;
- 
--	local_irq_save(flags);
-+	local_lock_irqsave(&kcov_percpu_data.lock, flags);
- 
- 	mode = READ_ONCE(t->kcov_mode);
- 	barrier();
- 	if (!kcov_mode_enabled(mode)) {
--		local_irq_restore(flags);
-+		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
- 		return;
- 	}
- 	/*
-@@ -978,12 +982,12 @@ void kcov_remote_stop(void)
- 	 * actually found the remote handle and started collecting coverage.
- 	 */
- 	if (in_serving_softirq() && !t->kcov_softirq) {
--		local_irq_restore(flags);
-+		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
- 		return;
- 	}
- 	/* Make sure that kcov_softirq is only set when in softirq. */
- 	if (WARN_ON(!in_serving_softirq() && t->kcov_softirq)) {
--		local_irq_restore(flags);
-+		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
- 		return;
- 	}
- 
-@@ -1013,7 +1017,7 @@ void kcov_remote_stop(void)
- 		spin_unlock(&kcov_remote_lock);
- 	}
- 
--	local_irq_restore(flags);
-+	local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
- 
- 	/* Get in kcov_remote_start(). */
- 	kcov_put(kcov);
+ 		pm_dir = pmd_offset(pu_dir, address);
+ 		if (pmd_none(*pm_dir)) {
+-			if (mode == POPULATE_ZERO_SHADOW &&
+-			    IS_ALIGNED(address, PMD_SIZE) &&
++			if (IS_ALIGNED(address, PMD_SIZE) &&
+ 			    end - address >= PMD_SIZE) {
+-				pmd_populate(&init_mm, pm_dir,
+-						kasan_early_shadow_pte);
+-				address = (address + PMD_SIZE) & PMD_MASK;
+-				continue;
+-			}
+-			/* the first megabyte of 1:1 is mapped with 4k pages */
+-			if (has_edat && address && end - address >= PMD_SIZE &&
+-			    mode != POPULATE_ZERO_SHADOW) {
+-				void *page;
+-
+-				if (mode == POPULATE_ONE2ONE) {
+-					page = (void *)address;
+-				} else {
+-					page = kasan_early_alloc_segment();
+-					memset(page, 0, _SEGMENT_SIZE);
++				if (mode == POPULATE_ZERO_SHADOW) {
++					pmd_populate(&init_mm, pm_dir, kasan_early_shadow_pte);
++					address = (address + PMD_SIZE) & PMD_MASK;
++					continue;
++				} else if (has_edat && address) {
++					void *page;
++
++					if (mode == POPULATE_ONE2ONE) {
++						page = (void *)address;
++					} else {
++						page = kasan_early_alloc_segment();
++						memset(page, 0, _SEGMENT_SIZE);
++					}
++					pmd_val(*pm_dir) = __pa(page) | sgt_prot;
++					address = (address + PMD_SIZE) & PMD_MASK;
++					continue;
+ 				}
+-				pmd_val(*pm_dir) = __pa(page) | sgt_prot;
+-				address = (address + PMD_SIZE) & PMD_MASK;
+-				continue;
+ 			}
+-
+ 			pt_dir = kasan_early_pte_alloc();
+ 			pmd_populate(&init_mm, pm_dir, pt_dir);
+ 		} else if (pmd_large(*pm_dir)) {
 -- 
-2.33.0
+2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210830172627.267989-6-bigeasy%40linutronix.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210906011951.928679-42-sashal%40kernel.org.
