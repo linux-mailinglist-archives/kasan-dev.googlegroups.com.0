@@ -1,140 +1,133 @@
-Return-Path: <kasan-dev+bncBCCZL45QXABBBFEM36EQMGQEEIVLRVQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4NDKWHQYDRBK6G4SEQMGQELPBL3QQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D0C402F60
-	for <lists+kasan-dev@lfdr.de>; Tue,  7 Sep 2021 22:05:42 +0200 (CEST)
-Received: by mail-pj1-x1040.google.com with SMTP id h10-20020a17090a470a00b00196ead30459sf175751pjg.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 07 Sep 2021 13:05:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631045141; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7542740405B
+	for <lists+kasan-dev@lfdr.de>; Wed,  8 Sep 2021 22:55:08 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id y8-20020a92c748000000b00224811cb945sf2762627ilp.6
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 Sep 2021 13:55:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631134507; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GtbFYmH/obFaR0HT4Dht0KX4equI0lTGMXA80rE9bliYAaiDjC2e+PoqKD5ON1K9Tw
-         ZjnKR876Zckbt5fZ2RupVqNCQ8TCy5fEqlnHebUM573MQ8OqBjUzm5JU0Ldq/Tl7B4Nv
-         AVoqikNwSK0tkratdoYZtSOereaF+QAxZRyMiFfk+G80ztcKTiyWOmGo4dgaCMpKK7g9
-         joPKGH+6XjX/qCnYJTev5q/if9y29blVX6Z6IF+2RtxEfr6JiKRMItR31DQRc7k3ecdZ
-         3mkolGN4Tm+UtDS3+vpLFFmhJFgLMs/9826YJQR2v0jfIQBZ3fuAOsI2NRtxL0W6ExWt
-         7+3Q==
+        b=oxWOouGhq+jXIDt1TB1+phFwFnN9iINTD9sJ5Ys/d1Ux4hUKjt9WgPsxnvCCLA85w8
+         NmmHiT8G+xVPXY+uacG6QhdrcR7bA6FaSzHJy+cQfZoQp++Y386F2rYw/0e8NzrpdQre
+         0sOlH7DWQyQ2jRNjBPSi4yqy/8aAwXBk4bmhnhK7wYuV9wGHvs9EniS23RHvgFZg6nW3
+         2VrGAwA0Swb9090QTBy7m18T2EBxPFJrcL7okIWR37DcWhOPigg0Ii+NUqUOmJKcslei
+         cXVdb0zQSLoosrSrnWJdCDTUF8zec2Uo3KByg0S9IT+55gkn4KEWaDQw7jDhK7+llu8P
+         Db1w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=jdV8agkzfWq/qdPvrNt0kSJSbgqJa4vSIoKikkW0/GY=;
-        b=ibI8Y5MRo8kZkwbDaxiNzFUVtHkDehOTjDTUjI9lCmT2m+dBmhlAS8USCaffwQJpb4
-         CjBwBJmCxjAaGrBFoGtuMbolxC8bPUunePs4hpyyn0rrCGOULbpufK7bJ6+SEufRJ5AB
-         QIWFto0J8dBb1n0b9KIKkeIh2EEoVPvQMIMwYKcZ1LBFVCbHlMxhbM/my85m08JbBwtu
-         NINkkWvBBGrfOsyT/c2I5tsznBwLN5XYfWQ0KKTBaZe6IfTRzMVAZmIHonIM0tJApSr8
-         COcJ3T7vr6vWSr2hRZrSQ4bViVG2Jo3NnGT695iOfPjf0lvb3MzXY12Xr5f74hThqgts
-         QmAg==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=ZZ9ZNN9oZ5bdUbp6NztPMoar4htkAdvQvAgzfH++usw=;
+        b=zuGEiUcsdYSWHe6aEl0kJIgb0IBgd8k3oCIQ5jkrmbY+fPbTa0gUulznZxFNpB9GmI
+         g9QpthZrmzu7P4NEMdPG0lasYoT+HA16xAp4TwsWeJuc4zD1CKxyySz3sBhYYlHsfwdq
+         NQlcg4OHwxZlbds84+4/uyFeCzN0JJ+bGSN73HngKAKxXiRui+n4ML1AkRbjUthl8U3/
+         WID9EGRWReXIJVdp+8crzEcrs7z2iWxOp6nQD9UbRoWXCO/BxF4L0k/XEu/HSH7JG5Y0
+         lM2c19jOHDkjnytMYN0YSG7ymnr60sKXPv9X2xXIoiSccaMUGKOhIZFgVBbqUndpVRM3
+         xmAw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V3OZERQ7;
-       spf=pass (google.com: domain of skhan@linuxfoundation.org designates 2607:f8b0:4864:20::12a as permitted sender) smtp.mailfrom=skhan@linuxfoundation.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=GxBnw5yj;
+       spf=pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=jdV8agkzfWq/qdPvrNt0kSJSbgqJa4vSIoKikkW0/GY=;
-        b=WyyT5Ss1G1BcT6b109fsVPyvR/v2zx9+ro9gSVhVruGLhWldlAlc2BBghw+vuFCnz2
-         I0snplio9BN8bc9s8glZX32XZzRdefyq4XTitEsVhwLANbikwJ1AEvLKupU8+HHOBlbs
-         x/n0IETPvgADkjlm8XhDufkUE31jMSHmvCSr8t3q9pN0AGyjeOEcg2twOpcDNbmggdMB
-         5HbivOjQgq/ErNXDsO3jTXcknLaSzIFjFt7J4tcHsHm1WEBPWBaKEaZA6cMoY94myV9L
-         hVcdaFmxGyvneZ9U5QlSTYKy+viztiJoaoihIdRafP2G7H63vboKwAGgoDnfqXL1/zOJ
-         uPkQ==
+        bh=ZZ9ZNN9oZ5bdUbp6NztPMoar4htkAdvQvAgzfH++usw=;
+        b=eo4JNpx8NGencwXr0at8zBIzdVLMtTy4AicYYoKiUIkVdxAT83nsdiPH3Vwa92dYuu
+         iDJiiDrZrqkxsF2w0KE7qlKxDsW6UixJLkQ+GBheFOjYSUfvsvfjR5T2ksfFc1c6/oI+
+         jv9CcyBO03ectj2lGQ+zDBk0TrwH1bnvFTzrB2obRbZp3SCjni+z4BSyT5rp/9XqPaAA
+         MoE8t/Poo12ljXmWG91empK0pfa13L8P9QTajx1LlsJmEJSAAIm0JswWlvwKiYxMHteF
+         W14dtjm+Ky04pXjEIokEf4RgnMcJqcmHGaxJ7apU2HGvxu4+SVUv2TqQEgFlrZyQdCJy
+         5pMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
+        d=1e100.net; s=20210112;
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=jdV8agkzfWq/qdPvrNt0kSJSbgqJa4vSIoKikkW0/GY=;
-        b=lQUvOcE96mgnQjiDp869H4zfgfuOXP+n7TSa3X1DNJtNWL8+3l5bMET7A+DkZeo9jw
-         nVswnFXkTYFxceVG5MBfPJRDkp5xhot/F3dRvMxthx/MJFDS0xxQ9R0taB4j7lQpSxFj
-         O86JMb5lkOLWCo+y64anI9lttLh5bCUt1OH5xkGxvsCuvACAzdMVwVDxZU+MqFDOEWKR
-         N6rVzPC7dZXXOUszn/BJdEH+INiuDYUg5l17lGyyGIimNZZdp4EB/Nvio9sZJeN43+Od
-         a8SeLgTePacdYMzNtDdTAh0JLyh7xoiK7TO0V5nSqBnVVfH3dQGm2hYMgM0AOwbocUEG
-         Ep3g==
+        bh=ZZ9ZNN9oZ5bdUbp6NztPMoar4htkAdvQvAgzfH++usw=;
+        b=vRK+Gwz5fihh282zDuqVGTUlEOxPTOVbSPMPBKxOZVYFxm3zGQjaaNiLS1TLDIS6p/
+         oukl/zXRHzv2FtVZjckUL+vseqppbFYvuGoEdLeKnujrsJM4smiJh5RAoMf+8doVhIlY
+         J8XOJPkj9/yFO53R+tJP+Zs7fJIfDFpbKndnlZeqUy40DnCj0nPWwX2lckQMnRsuq7cY
+         Oi1m9ksCD0REr2aWuGOSquSSf4yLSEEfEMfbYWDaJ2Ran3wc32JVdthjOYTja9DlJOy0
+         bJq5d05c3w57X90iXPvPsDGdKc/tuw1aVnI59//AdY8Pn7cc/eJRbPaqAqNPaZ3x7SQj
+         Q0Gw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532X36PYuXvO5gv+kbX5o8Lp9h1OIxZdAGFpbjul8ocMmUv9rB22
-	21CKtvIucNac1yzwNGgd8q4=
-X-Google-Smtp-Source: ABdhPJxSYCiAexmodg0ysspj98OeDKsET3lI5/5FXLlNenCtukQFio9tbja4EdLUYkkzr20ofaWx+Q==
-X-Received: by 2002:a62:4ece:0:b0:3ef:88d5:ba51 with SMTP id c197-20020a624ece000000b003ef88d5ba51mr146280pfb.3.1631045140998;
-        Tue, 07 Sep 2021 13:05:40 -0700 (PDT)
+X-Gm-Message-State: AOAM532ZYZiZwraj/DdhmkJ/kdx1NEqxW+ab0kdAWhEXB/93GSTcHDdi
+	i/ByOLlfDTGkPalRZngBSWs=
+X-Google-Smtp-Source: ABdhPJzvaIwaAV//pe5/eiS6wqBMMS5cy99EY3Jo+33P+R4ZsscVRzKrlUW3zQ7YxIbK5yEW4PZVEQ==
+X-Received: by 2002:a6b:e712:: with SMTP id b18mr173269ioh.186.1631134507365;
+        Wed, 08 Sep 2021 13:55:07 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:19ca:: with SMTP id nm10ls54030pjb.0.canary-gmail;
- Tue, 07 Sep 2021 13:05:40 -0700 (PDT)
-X-Received: by 2002:a17:90a:bb13:: with SMTP id u19mr183632pjr.42.1631045140478;
-        Tue, 07 Sep 2021 13:05:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631045140; cv=none;
+Received: by 2002:a5d:87d6:: with SMTP id q22ls604953ios.7.gmail; Wed, 08 Sep
+ 2021 13:55:07 -0700 (PDT)
+X-Received: by 2002:a05:6602:2c0f:: with SMTP id w15mr186953iov.106.1631134506946;
+        Wed, 08 Sep 2021 13:55:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631134506; cv=none;
         d=google.com; s=arc-20160816;
-        b=rPqZZUMKt3bEWsFHCmum9ypHLAjSiGeJoGLoLRu1YHiUxH4Ju5jH9+MyU9tMMli9rQ
-         FMp0Ovo2w7RC4JUHPpfZhKdbsNfj2VdWDcrfDdLvL7uDPEz/FqyGMeBGgya/bCtGNved
-         M9VoBLr7VFs7VxiIEMLEgnGjMEhje0Ey/WMB1Gbyj1/p9GmRXBvs0+PZ4z4eGmMndjMN
-         QkEdBTSADMZ3BB9J5+MutOItT/jCVLnF7lGxS08nsM3OHu7/2ptU5sg07Q9ezU4vZP7m
-         zCRBuTUiyS8YyjADwaYVka4p7WLzpyaRwXtZXTo2WYs3FCOkF4jhfeuRIsBEvF8RyO1+
-         VE4w==
+        b=XRqlle4UhiYGRpkH/fQhX+as1ZrX9rxf+34rOXZrgVVK49U9LUjnTLYdvB9KehFXlD
+         ViKwLI9SilKXHeoldidnzBYlKI0oaJ6D2GWIqa1W1upTWS9wzWaaN3q8B/MxUHl3W3b/
+         PDK2S4tkYlml12Y8DYGDYrzIDHAui56V30MRiBHeOaxOPi286lwqdfezJCbm/5Cmxnev
+         L7g1GyA/dOkyRP0mabinRCbtC1QvCvfusJcskqcaL+mebOOc6q5WkiI+Tq+ILSel57mB
+         bObELdcrBIPsU9AdKuPR+A9jBRXKzFp3ejpY1J7CGIF97yieQWIhgK/+8J2OHZeN/uvS
+         5dKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=qBeV/3OVpeBGqoC50W6WyV/Bm/mvFYoJ4MmFvZCO8nQ=;
-        b=llG0Mok3SJC3W0D24nRZLI76VABpNym9XjLfXsCTkgI7vguTB1oUN5rIum5dyTsQc4
-         lsSQVMJ+bM2BZc5r/KDUXh/61EhZrVm3HhX2MXpieuifdrx8YK35ET2cpLEtpmlUQReG
-         iDRJk70SxLmIEz9MqsyP0z7ZBvrFi3slVIXW6pSXx2gKfo2ew/rF39GtDOQqnjMr5umM
-         rx0TLcN+Ref0wwNYRp54wkMi/WLpMinqH7mRIEanW4P28BSBaDTKS47B1Th9jD3Uzg16
-         WrGoBQ4KKhuf0bAth1xHwaptSn+cRDHFcuf2tW/aMXAGZIJhkZiNmsCO9o5WBljHPI6M
-         7L6g==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=yPxbcfUn4l1k//PKLn0GwIl9m7YTwdQ/EP9R2PXeQNM=;
+        b=Bmjuf7BIDURYJ2FqpsjuhxAHCut4JbUS7XRXlE0IcV/G9Whl3dNHIIEjXnHw5otAOW
+         UA3lRnz/yIniFYFpdDUqdoq4BIYFP8D86VNVr7KFVTj7cKziYZUsfpSX+Ix5aFl6roww
+         +ZcVIF5d23DTlSWbnnLGzi9JreBYmlKIOEgLWr27QiCyXbxG6/WLIxJkFV2B0qFlEuPT
+         SOXQ6mfvU8BBSPwyeivDpp0sLisztofy3+S8UKlSgTt5YU0FS7UqUWbZ76wa/GJynIft
+         hl7fgM1G5rkB0VMJYnx83U3QFxhRgJ2JrsDASI2USFPIHxi2e7zCxVy/Y7cOaB1Ben0M
+         +fPg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V3OZERQ7;
-       spf=pass (google.com: domain of skhan@linuxfoundation.org designates 2607:f8b0:4864:20::12a as permitted sender) smtp.mailfrom=skhan@linuxfoundation.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com. [2607:f8b0:4864:20::12a])
-        by gmr-mx.google.com with ESMTPS id 136si2403pfz.2.2021.09.07.13.05.40
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=GxBnw5yj;
+       spf=pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id y16si6480ilc.5.2021.09.08.13.55.06
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Sep 2021 13:05:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of skhan@linuxfoundation.org designates 2607:f8b0:4864:20::12a as permitted sender) client-ip=2607:f8b0:4864:20::12a;
-Received: by mail-il1-x12a.google.com with SMTP id a20so6468ilq.7
-        for <kasan-dev@googlegroups.com>; Tue, 07 Sep 2021 13:05:40 -0700 (PDT)
-X-Received: by 2002:a05:6e02:f03:: with SMTP id x3mr13623361ilj.315.1631045140169;
-        Tue, 07 Sep 2021 13:05:40 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id g14sm63699ila.28.2021.09.07.13.05.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Sep 2021 13:05:38 -0700 (PDT)
-Subject: Re: [PATCH 0/6] stackdepot, kasan, workqueue: Avoid expanding
- stackdepot slabs when holding raw_spin_lock
-To: Marco Elver <elver@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Walter Wu <walter-zh.wu@mediatek.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vijayanand Jitta <vjitta@codeaurora.org>,
- Vinayak Menon <vinmenon@codeaurora.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, kasan-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Aleksandr Nogikh <nogikh@google.com>, Taras Madan <tarasmadan@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20210907141307.1437816-1-elver@google.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <69f98dbd-e754-c34a-72cf-a62c858bcd2f@linuxfoundation.org>
-Date: Tue, 7 Sep 2021 14:05:37 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 Sep 2021 13:55:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of nathan@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9036F61158;
+	Wed,  8 Sep 2021 20:55:03 +0000 (UTC)
+Date: Wed, 8 Sep 2021 13:55:00 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com
+Subject: Re: [PATCH] Enable '-Werror' by default for all kernel builds
+Message-ID: <YTkjJPCdR1VGaaVm@archlinux-ax161>
+References: <20210906142615.GA1917503@roeck-us.net>
+ <CAHk-=wgjTePY1v_D-jszz4NrpTso0CdvB9PcdroPS=TNU1oZMQ@mail.gmail.com>
+ <YTbOs13waorzamZ6@Ryzen-9-3900X.localdomain>
+ <CAK8P3a3_Tdc-XVPXrJ69j3S9048uzmVJGrNcvi0T6yr6OrHkPw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210907141307.1437816-1-elver@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-X-Original-Sender: skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a3_Tdc-XVPXrJ69j3S9048uzmVJGrNcvi0T6yr6OrHkPw@mail.gmail.com>
+X-Original-Sender: nathan@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linuxfoundation.org header.s=google header.b=V3OZERQ7;
-       spf=pass (google.com: domain of skhan@linuxfoundation.org designates
- 2607:f8b0:4864:20::12a as permitted sender) smtp.mailfrom=skhan@linuxfoundation.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+ header.i=@kernel.org header.s=k20201202 header.b=GxBnw5yj;       spf=pass
+ (google.com: domain of nathan@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,86 +140,101 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 9/7/21 8:13 AM, Marco Elver wrote:
-> Shuah Khan reported [1]:
-> 
->   | When CONFIG_PROVE_RAW_LOCK_NESTING=y and CONFIG_KASAN are enabled,
->   | kasan_record_aux_stack() runs into "BUG: Invalid wait context" when
->   | it tries to allocate memory attempting to acquire spinlock in page
->   | allocation code while holding workqueue pool raw_spinlock.
->   |
->   | There are several instances of this problem when block layer tries
->   | to __queue_work(). Call trace from one of these instances is below:
->   |
->   |     kblockd_mod_delayed_work_on()
->   |       mod_delayed_work_on()
->   |         __queue_delayed_work()
->   |           __queue_work() (rcu_read_lock, raw_spin_lock pool->lock held)
->   |             insert_work()
->   |               kasan_record_aux_stack()
->   |                 kasan_save_stack()
->   |                   stack_depot_save()
->   |                     alloc_pages()
->   |                       __alloc_pages()
->   |                         get_page_from_freelist()
->   |                           rm_queue()
->   |                             rm_queue_pcplist()
->   |                               local_lock_irqsave(&pagesets.lock, flags);
->   |                               [ BUG: Invalid wait context triggered ]
-> 
-> [1] https://lkml.kernel.org/r/20210902200134.25603-1-skhan@linuxfoundation.org
-> 
-> PROVE_RAW_LOCK_NESTING is pointing out that (on RT kernels) the locking
-> rules are being violated. More generally, memory is being allocated from
-> a non-preemptive context (raw_spin_lock'd c-s) where it is not allowed.
-> 
-> To properly fix this, we must prevent stackdepot from replenishing its
-> "stack slab" pool if memory allocations cannot be done in the current
-> context: it's a bug to use either GFP_ATOMIC nor GFP_NOWAIT in certain
-> non-preemptive contexts, including raw_spin_locks (see gfp.h and
-> ab00db216c9c7).
-> 
-> The only downside is that saving a stack trace may fail if: stackdepot
-> runs out of space AND the same stack trace has not been recorded before.
-> I expect this to be unlikely, and a simple experiment (boot the kernel)
-> didn't result in any failure to record stack trace from insert_work().
-> 
-> The series includes a few minor fixes to stackdepot that I noticed in
-> preparing the series. It then introduces __stack_depot_save(), which
-> exposes the option to force stackdepot to not allocate any memory.
-> Finally, KASAN is changed to use the new stackdepot interface and
-> provide kasan_record_aux_stack_noalloc(), which is then used by
-> workqueue code.
-> 
-> Marco Elver (6):
->    lib/stackdepot: include gfp.h
->    lib/stackdepot: remove unused function argument
->    lib/stackdepot: introduce __stack_depot_save()
->    kasan: common: provide can_alloc in kasan_save_stack()
->    kasan: generic: introduce kasan_record_aux_stack_noalloc()
->    workqueue, kasan: avoid alloc_pages() when recording stack
-> 
->   include/linux/kasan.h      |  2 ++
->   include/linux/stackdepot.h |  6 +++++
->   kernel/workqueue.c         |  2 +-
->   lib/stackdepot.c           | 51 ++++++++++++++++++++++++++++++--------
->   mm/kasan/common.c          |  6 ++---
->   mm/kasan/generic.c         | 14 +++++++++--
->   mm/kasan/kasan.h           |  2 +-
->   7 files changed, 65 insertions(+), 18 deletions(-)
-> 
+Hi Arnd,
 
-Thank you. Tested all the 6 patches in this series on Linux 5.14. This problem
-exists in 5.13 and needs to be marked for both 5.14 and 5.13 stable releases.
+On Tue, Sep 07, 2021 at 11:11:17AM +0200, Arnd Bergmann wrote:
+> On Tue, Sep 7, 2021 at 4:32 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > arm32-allmodconfig.log: crypto/wp512.c:782:13: error: stack frame size (1176) exceeds limit (1024) in function 'wp512_process_buffer' [-Werror,-Wframe-larger-than]
+> > arm32-allmodconfig.log: drivers/firmware/tegra/bpmp-debugfs.c:294:12: error: stack frame size (1256) exceeds limit (1024) in function 'bpmp_debug_show' [-Werror,-Wframe-larger-than]
+> > arm32-allmodconfig.log: drivers/firmware/tegra/bpmp-debugfs.c:357:16: error: stack frame size (1264) exceeds limit (1024) in function 'bpmp_debug_store' [-Werror,-Wframe-larger-than]
+> > arm32-allmodconfig.log: drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dce_calcs.c:3043:6: error: stack frame size (1384) exceeds limit (1024) in function 'bw_calcs' [-Werror,-Wframe-larger-than]
+> > arm32-allmodconfig.log: drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dce_calcs.c:77:13: error: stack frame size (5560) exceeds limit (1024) in function 'calculate_bandwidth' [-Werror,-Wframe-larger-than]
+> > arm32-allmodconfig.log: drivers/mtd/chips/cfi_cmdset_0001.c:1872:12: error: stack frame size (1064) exceeds limit (1024) in function 'cfi_intelext_writev' [-Werror,-Wframe-larger-than]
+> > arm32-allmodconfig.log: drivers/ntb/hw/idt/ntb_hw_idt.c:1041:27: error: stack frame size (1032) exceeds limit (1024) in function 'idt_scan_mws' [-Werror,-Wframe-larger-than]
+> > arm32-allmodconfig.log: drivers/staging/fbtft/fbtft-core.c:902:12: error: stack frame size (1072) exceeds limit (1024) in function 'fbtft_init_display_from_property' [-Werror,-Wframe-larger-than]
+> > arm32-allmodconfig.log: drivers/staging/fbtft/fbtft-core.c:992:5: error: stack frame size (1064) exceeds limit (1024) in function 'fbtft_init_display' [-Werror,-Wframe-larger-than]
+> > arm32-allmodconfig.log: drivers/staging/rtl8723bs/core/rtw_security.c:1288:5: error: stack frame size (1040) exceeds limit (1024) in function 'rtw_aes_decrypt' [-Werror,-Wframe-larger-than]
+> > arm32-fedora.log: drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dce_calcs.c:3043:6: error: stack frame size (1376) exceeds limit (1024) in function 'bw_calcs' [-Werror,-Wframe-larger-than]
+> > arm32-fedora.log: drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dce_calcs.c:77:13: error: stack frame size (5384) exceeds limit (1024) in function 'calculate_bandwidth' [-Werror,-Wframe-larger-than]
+> >
+> > Aside from the dce_calcs.c warnings, these do not seem too bad. I
+> > believe allmodconfig turns on UBSAN but it could also be aggressive
+> > inlining by clang. I intend to look at all -Wframe-large-than warnings
+> > closely later.
+> 
+> I've had them close to zero in the past, but a couple of new ones came in.
+> 
+> The amdgpu ones are probably not fixable unless they stop using 64-bit
+> floats in the kernel for
+> random calculations. The crypto/* ones tend to be compiler bugs, but hard to fix
 
-Here is my
+I have started taking a look at these. Most of the allmodconfig ones
+appear to be related to CONFIG_KASAN, which is now supported for
+CONFIG_ARM.
 
-Tested-by: Shuah Khan <skhan@linuxfoundation.org>
+The two in bpmp-debugfs.c appear regardless of CONFIG_KASAN and it turns
+out that you actually submitted a patch for these:
 
-thanks,
--- Shuah
+https://lore.kernel.org/r/20201204193714.3134651-1-arnd@kernel.org/
+
+Is it worth resending or pinging that?
+
+The dce_calcs.c ones also appear without CONFIG_KASAN, which you noted
+is probably unavoidable.
+
+The other ones only appear with CONFIG_KASAN. I have not investigated
+each instance to see exactly how much KASAN makes the stack blow up.
+Perhaps it is worth setting the default of CONFIG_FRAME_WARN to a higher
+value with clang+COMPILE_TEST+KASAN?
+
+> > It appears that both Arch Linux and Fedora define CONFIG_FRAME_WARN
+> > as 1024, below its default of 2048. I am not sure these look particurly
+> > scary (although there are some that are rather large that need to be
+> > looked at).
+> 
+> For 64-bit, you usually need 1280 bytes stack space to get a
+> reasonably clean build,
+> anything that uses more than that tends to be a bug in the code but we
+> never warned
+> about those by default as the default warning limit in defconfig is 2048.
+> 
+> I think the distros using 1024 did that because they use a common base config
+> for 32-bit and 64-bit targets.
+
+That is a fair explanation.
+
+> > I suspect this is a backend problem because these do not really appear
+> > in any other configurations (might also be something with a sanitizer?)
+> 
+> Agreed. Someone needs to bisect the .config or the compiler flags to see what
+> triggers them.
+
+For other people following along, there were a lot of
+-Wframe-larger-than instances from RISC-V allmodconfig.
+
+Turns out this is because CONFIG_KASAN_STACK is not respected with
+RISC-V. They do not set CONFIG_KASAN_SHADOW_OFFSET so following along in
+scripts/Makefile.kasan, CFLAGS_KASAN_SHADOW does not get set to
+anything, which means that only '-fsanitize=kernel-address' gets added
+to the command line, with none of the other parameters.
+
+I guess there are a couple of ways to tackle this:
+
+1. RISC-V could implement CONFIG_KASAN_SHADOW_OFFSET. They mention that
+   the logic of KASAN_SHADOW_OFFSET was taken from arm64 but they did
+   not borrow the Kconfig logic it seems.
+
+2. asan-stack could be hoisted out of the else branch so that it is
+   always enabled/disabled regardless of KASAN_SHADOW_OFFSET being
+   defined, which resolved all of these warnings for me in my testing.
+
+I am adding the KASAN and RISC-V folks to CC for this reason.
+
+Cheers,
+Nathan
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/69f98dbd-e754-c34a-72cf-a62c858bcd2f%40linuxfoundation.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YTkjJPCdR1VGaaVm%40archlinux-ax161.
