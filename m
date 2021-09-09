@@ -1,143 +1,145 @@
-Return-Path: <kasan-dev+bncBCK2XL5R4APRBX6G42EQMGQE2S5B2FY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7M5BFO7YCRBQGJ42EQMGQESUEJFWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8728A40454C
-	for <lists+kasan-dev@lfdr.de>; Thu,  9 Sep 2021 08:02:07 +0200 (CEST)
-Received: by mail-wr1-x440.google.com with SMTP id y13-20020adfe6cd000000b00159694c711dsf147728wrm.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 08 Sep 2021 23:02:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631167327; cv=pass;
+Received: from mail-qv1-xf3c.google.com (mail-qv1-xf3c.google.com [IPv6:2607:f8b0:4864:20::f3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC5E404567
+	for <lists+kasan-dev@lfdr.de>; Thu,  9 Sep 2021 08:08:01 +0200 (CEST)
+Received: by mail-qv1-xf3c.google.com with SMTP id jz9-20020a0562140e6900b0037795ee01absf4156617qvb.14
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 Sep 2021 23:08:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631167680; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DcHU+g1wm0qKmxsJFmnDFg8ZCsuUXGX63IeUoXw2jvea5OuRuQWOAqEstgPzBFiVy1
-         1co1oBNpmWaZUbJ/smkEkSkBrh1g6/fUXSIkyFpiMQbyfRYUxI+rd/n/Jpw5L+wpNdJO
-         Im5yaABIQnyXUos3U8byq/+6MlAgR9sZi2lK5o+CcpMp8zpRP9FCXwnHo0ZuJIOwHYAc
-         T8qrey5en0RFgUMkz2ydaBmMNPwZ2HT5yCopoKG5tyoi5ZloKTafPR74RdkokQwgB5ub
-         leVYwO/a2XU+j9BILn1MOv7/5WCKHmHBfzH1yJB4keqRewKJVTZGJAZ/DL0nlEWxjdyr
-         2Cjg==
+        b=Np75Z2+r/+BdVvsUSRc4msYZARoJiaAshMh8pRSkI9yx02VepoWO8r4DaKafeH9RJh
+         cJOGpVIrAxXV2DLgwVEBBGeS3m8EUN/AcTYqmO/hYBckVCD077JN32Dbvel+9wKRB7Pp
+         ObqcbWlYN7825gGO1166NM87TD38kXkdVCnF/r5HdjLgXoDMS+R1Y7dcPMPW8tkohNkL
+         jW7LaSw2FK2dmx6i8/IOXVHV2ZjWW+Gr+khZSF5AuTI+MxU5qa3nI0xcqhOeetwe/YVk
+         6KRcKnhmhGDPocB38BnsoxYFdyQW7pUVdEdzM2YOkEWAeuuD8ep7ayLmQpQXCKyo58R8
+         CY3A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=pUg2oTZj1qqdDjQ0mgavq44rbbeBauZ3kmQ82UavH5M=;
-        b=v8ZhnaPuBzwfFaBVZ9C40z0t2AunbpK0cTKhQNa9BuDVeCJq8n8IKO8MZdQ9/oUGNh
-         xy+YpDpL+e1xjgQr5vTrOdh7Gvjyyb3x3jiTORcTRS4oKN1+rA2Jd+0BRLhC0+enHV3G
-         +akn0ALw3a0IrXJ2CC645oHQVaEZKZTiLlR31n2erepPC14RzD6raFte2oon8+ASr4Bn
-         W2suoCbuy8XVDIQOUBuINZGWGSg+T3m5XpMXvo3XwgODAi5CZ6WDeHK1NFxNELQBUR/7
-         1EXaDRhWHUzcPQryw3nGvnP6o8o6OO1+fzpcy1uRVswr0GVkpZh//IxtqLY7aTD7qsmk
-         s8PQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:sender:dkim-signature;
+        bh=5IOdNA4sqqIXlIBsX0TR6wokC46QxHg+sr58yC83r9Y=;
+        b=ah53Qt7E4ZT8p0uNeggpurPt0XOte8Y43c+yJnnK/O4FI8l1yYbV7ezuGfv5AGSzw6
+         3bylx16eZZdtWIWskqIT+6sH0j5rW/y9hOm+1sKZtnBLB38eKNTmyvkiA/n3TCWU/1Qq
+         NcTylfgE/Tvr9mdacoCeTy2FsI7TfOlL0O2LVmqfB02bdnPtx6eRfxjKg2IfDOm56Nvn
+         fYoUs6utXzu/w9GTOunAKpG61nDfIUySuI8wsAUwer25GfL9kU6uP6SxtWbROIkNICns
+         TKqJ3rv9H+jKAnLe56MOspiTJiadQXH/eqh/z5E54VodXPfsshrB8syXxA3JjJp3HoQT
+         Qxnw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=m7G+7uoz;
-       spf=pass (google.com: best guess record for domain of batv+ab606af41e2b6213a0ed+6591+infradead.org+hch@casper.srs.infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=BATV+ab606af41e2b6213a0ed+6591+infradead.org+hch@casper.srs.infradead.org
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Uby1UFSq;
+       spf=pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::336 as permitted sender) smtp.mailfrom=groeck7@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
+        d=gmail.com; s=20210112;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=pUg2oTZj1qqdDjQ0mgavq44rbbeBauZ3kmQ82UavH5M=;
-        b=R116nftufRmmbIRwduMQprBtNbMvIgGUG1c5MSU1/bPGOSdZvETFh0Bt670/gdAaZ7
-         Qa/hNuOH07+irGLsEZo6lWB7aKaUftuyCwgOQ7x8Xa3BUXqP2qA7OyFKMnCvf/NEM26b
-         gqd6BxrWUCHbDJRYM72bBkBJf5GGRchRmiQq3sSrAhzjU768Sf28dMD6lJNwFccoDYws
-         m2HRdRgS179KPcDiIRwoyNwf1vPaCCuxcEdda1B/8iRIbXq/HXBns4BbUMU8Ls35Pb36
-         bGgmxWMOIhqXWlsQluy8c0PgLF7ByOUGXlXmfMgAW2VyK4n77KkEzZ80kgD4ae8CaDTW
-         zg7Q==
+        bh=5IOdNA4sqqIXlIBsX0TR6wokC46QxHg+sr58yC83r9Y=;
+        b=IRLO5rmlPElSHwQTKNNGYgFZ0lm1wIGGDeCarcUwU03S0oJ8qb/4bOtMoYJksqlDCS
+         8qhc+pgpi8V5NpQm0aKABCvITuE49+KSjtQMiu5s2UxMEI5ARyricMMkqb1RwZDQ1hJ9
+         i8C6uW3fU47o+HH0c8hx/+IyCZYEUDQ8F8fA7tTx0TDRkYYRVWLbMXoLOOt7wfg77Qeb
+         m63UvwFRaBu1hYarWZXKHMzpFc8xsAfnMTemvD4dJx9eaZSvgeVoSLAa9cZ0XeGCMf1k
+         hb/lPpQIpCrbX8ouCRknEnzQQZjiX1MEwpF3YL9jluYknkty9SXoNDSM/9bv9qeAO2bv
+         NnIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:x-original-sender
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=pUg2oTZj1qqdDjQ0mgavq44rbbeBauZ3kmQ82UavH5M=;
-        b=1+mG5mFl0Kco6bu/VvfpmbC4E/6PP8naG4vTid8DgJ//oR5tIgMMhJi6RZeklWkYve
-         qEU4HZWF1G39ccWAmsxKC1JvdPXT6nD8cpvve/ZKHG/e2f9blclZL71MnlvqugwZSMJt
-         EpbY7VqZDwujdhSBepkNuROrBWarZ0FN4PAzhmYVBl2u1I/DpSCsvdjsssNOckhXR0Pg
-         x22IIWFef9gI6L8DNh7BmosiWZ5l5fMHNPffj7NHdwaebFsPgtqlP+Kxunq6Xcb5iqOB
-         NU3bi7Ll5iqFaFS9RWD9QT+SRl0LEHPZgUIEzVPm5FG6vQjx+BMKrE0nOp3I6lHOgEhV
-         X7MA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532xYF3XyWcBce6eTCamsww+N9J1pdex88/piS2Y3dE1bjCNC8iG
-	IEFsXT/5llO44Ul4Aamd5as=
-X-Google-Smtp-Source: ABdhPJzD7TO8RT/gd5sARWSYFZjnw0mrXTU9hD55PGtHjEFgxVMMs/UU0LkgxTs7JaOs8855p5+XvQ==
-X-Received: by 2002:adf:c18a:: with SMTP id x10mr1392876wre.302.1631167327275;
-        Wed, 08 Sep 2021 23:02:07 -0700 (PDT)
+        bh=5IOdNA4sqqIXlIBsX0TR6wokC46QxHg+sr58yC83r9Y=;
+        b=h0lIvgZOSCJbaYDPoTkN/HD8Fw4Y/K+LZ92O1wycOgjJ8gUZxu0/SKKmcZvAePE/aL
+         V/huvXTejYsywoPNG+aZNzcHJM8yFQkSObZUF+XKBf2wH69U5HuZg1WmnmO9uUtyAjoO
+         dZeLEFKffiNIp6JhrNMQzImHZM4sXZRTTp7OqupVLhoWc3nt41jDGeb8LJUUbdawWEqB
+         AeEihYw7Q3BckAzaAWAAZy2A4e4LuTIP/xoMCpGZAk/gHhI8EqRq71UZGbvBvp/JppU9
+         5gCFwHgXfC3ybQtnNqj8tCd8zd89UakUMB9kX2UsUQ1iVCEeoG1LRozy72gjo0tgB/TP
+         ZR8A==
+X-Gm-Message-State: AOAM5329vTI0KUVs+0diD+AekJjJHaq7gNqUsA72TITCwsy8j+xHlTCn
+	YlH/IaR+iisGPjDV41dm83k=
+X-Google-Smtp-Source: ABdhPJxqeBbKB7flj6UE5T+KmBFX0D1T/6w5ErBG3ZNYDohfWtQiDelonjuwXR4dVjnZZm/41fFbZw==
+X-Received: by 2002:a05:620a:2094:: with SMTP id e20mr1221421qka.171.1631167680758;
+        Wed, 08 Sep 2021 23:08:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:c2b2:: with SMTP id c18ls309400wmk.2.gmail; Wed, 08 Sep
- 2021 23:02:06 -0700 (PDT)
-X-Received: by 2002:a1c:9a0e:: with SMTP id c14mr1081798wme.119.1631167326287;
-        Wed, 08 Sep 2021 23:02:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631167326; cv=none;
+Received: by 2002:a05:6214:5016:: with SMTP id jo22ls292114qvb.3.gmail; Wed,
+ 08 Sep 2021 23:08:00 -0700 (PDT)
+X-Received: by 2002:a05:6214:268e:: with SMTP id gm14mr1241116qvb.51.1631167680241;
+        Wed, 08 Sep 2021 23:08:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631167680; cv=none;
         d=google.com; s=arc-20160816;
-        b=1E1SCnfGC5MRVSiNl91vCDtrA+m2etnngR98/+H2/Q4tIR47XBeiAQsn+wIJXXXTja
-         nKhcBjQCKr6s3cVO4ZnEuy6u4s+VrqI6SKzheEtFoLNT7OLWU8mh5EKC7O7gfa1lFyGH
-         +lOVxjsKvNggRMRrRfGgdOt42z7KHBdPvEFldeQvxkgzGTemMOva/rQbuI/ZXot3rmzp
-         Q7/MmagVO3fQ6x1LeTVnr06iQ1KRNdv7068AX4hQmwjFc6Lnko9yL6wO+tBH2sNU7qC5
-         uyvKu6mf9ZQ1s0U9xmr2appZbqtGeNJW8zObvTOpiBGKGemEWSBi8Cz/3nUhVh2xBjjZ
-         +IcA==
+        b=ctwvpacSgoL7zsU7LLMaxbvyaxnadyuOwLh4hR4NwXxILJR2SsApe4jGn8LUfb9DCY
+         zxkTnv54POiurKfUhK2BgsGAv4Z2bYTg5fiHShRiaePg0WPUFOwOLxCT9UnXXPAmKmZv
+         TXNbEDOs0D1IuYcfUV/p/2P/8oj38xQDvL//nKTEcQCPlkxAhwqVJDJX/sJAfBNcEyM2
+         XAFlWDX+bdrs6Y6fUkt4efNgxjKmzdsdwC4xzprY6KRF5RdDukHHN9gHNdXXddwVCxtV
+         vfjxlJTm3ozc5O+AY/wcbMWrg5RxkcrhbIAJ1+bn83xWn391D4caYwJ0pBceMi9013m5
+         3Zkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:sender
          :dkim-signature;
-        bh=EmyOmO4OA1vu17LO++qu8IgyrFImV3HoLCHV1XeAKXU=;
-        b=nDSFzyfak5GR+xvvVu0y+5NFYx21X4q60ZjhK6nnHLLfiI4ozbyqymiTV1/q1zcHJh
-         i8wtdkJh9+Ye2nAyhDuQK8bmT/Wmt3MlAGTfagKZGApD1KNXCac0nyOFanLQeH2qefFA
-         rpwqeX2pl+4zsflgz8WmHG0RP+khNl1+jFlq16aNT30RP8ZpOWH84yk1N9KjdjW4lHdL
-         /yaAZ5ZHPLymywUHSlW8TNceMn+Gr/dLz+UkY918IPxR8KOizl+eUZ1pEMBrgGsEi8p5
-         HvOZ4iM/gJbMt6XNACvemUxgnr1sEIHVjZzt7bpDMEecUSZKChzSKGbh1w0tjxNCZAFI
-         WZgA==
+        bh=5IZhKmYjWyUNxqS/JWropfkc5GoYoPNRqG2FrnyCWSw=;
+        b=LFS9PFfO0x0dElPJL/j0H2kIBrg//1/JFbz1rLfps+2yyaFw83MnsrimH4zNEnTn97
+         posfxaXshKpSO2KlzpbIo3vIhRP/Yx2zMaSlmc5nd/J32oZnlC9TVlaxMNxkKBUvsPYY
+         1+g6B9RH4JCBvreVzpatLAz8ZMgfR2a2kx1DWbibTrKYuPMohbl4WThHbuCi30fQJSLR
+         70XZPYqq2wuAutC19tetrMHiutoMqV38BcGEh4bM27D0s8j2zt+jmcycrIe+X4V+WVES
+         FBgzpCdcPsLa1/C509wyEaN2/Ufr8NtI1UFURCre85FSIz3NRGSIr4XRnNvbAUmGFsD9
+         8LmA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=m7G+7uoz;
-       spf=pass (google.com: best guess record for domain of batv+ab606af41e2b6213a0ed+6591+infradead.org+hch@casper.srs.infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=BATV+ab606af41e2b6213a0ed+6591+infradead.org+hch@casper.srs.infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id t16si39126wrx.3.2021.09.08.23.02.06
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Uby1UFSq;
+       spf=pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::336 as permitted sender) smtp.mailfrom=groeck7@gmail.com
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com. [2607:f8b0:4864:20::336])
+        by gmr-mx.google.com with ESMTPS id 6si63519qkh.3.2021.09.08.23.08.00
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Sep 2021 23:02:06 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of batv+ab606af41e2b6213a0ed+6591+infradead.org+hch@casper.srs.infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) client-ip=2001:8b0:10b:1236::1;
-Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mOD4f-009WcX-Hg; Thu, 09 Sep 2021 05:58:27 +0000
-Date: Thu, 9 Sep 2021 06:58:13 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Guenter Roeck <linux@roeck-us.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com,
-	Christian =?unknown-8bit?B?S8O2bmln?= <christian.koenig@amd.com>,
-	"Pan, Xinhui" <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Sep 2021 23:08:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::336 as permitted sender) client-ip=2607:f8b0:4864:20::336;
+Received: by mail-ot1-x336.google.com with SMTP id m7-20020a9d4c87000000b0051875f56b95so1138143otf.6
+        for <kasan-dev@googlegroups.com>; Wed, 08 Sep 2021 23:08:00 -0700 (PDT)
+X-Received: by 2002:a05:6830:4084:: with SMTP id x4mr1039349ott.280.1631167679964;
+        Wed, 08 Sep 2021 23:07:59 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y7sm180455oov.36.2021.09.08.23.07.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Sep 2021 23:07:59 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
 Subject: Re: [PATCH] Enable '-Werror' by default for all kernel builds
-Message-ID: <YTmidYBdchAv/vpS@infradead.org>
+To: Christoph Hellwig <hch@infradead.org>, Marco Elver <elver@google.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ linux-riscv@lists.infradead.org, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com,
+ Christian =?unknown-8bit?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org
 References: <20210906142615.GA1917503@roeck-us.net>
  <CAHk-=wgjTePY1v_D-jszz4NrpTso0CdvB9PcdroPS=TNU1oZMQ@mail.gmail.com>
  <YTbOs13waorzamZ6@Ryzen-9-3900X.localdomain>
  <CAK8P3a3_Tdc-XVPXrJ69j3S9048uzmVJGrNcvi0T6yr6OrHkPw@mail.gmail.com>
  <YTkjJPCdR1VGaaVm@archlinux-ax161>
  <75a10e8b-9f11-64c4-460b-9f3ac09965e2@roeck-us.net>
- <YTkyIAevt7XOd+8j@elver.google.com>
+ <YTkyIAevt7XOd+8j@elver.google.com> <YTmidYBdchAv/vpS@infradead.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Message-ID: <a04c4c37-7151-ef7e-09ce-a61ac7b12106@roeck-us.net>
+Date: Wed, 8 Sep 2021 23:07:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
+In-Reply-To: <YTmidYBdchAv/vpS@infradead.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YTkyIAevt7XOd+8j@elver.google.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
-X-Original-Sender: hch@infradead.org
+X-Original-Sender: linux@roeck-us.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=m7G+7uoz;
-       spf=pass (google.com: best guess record for domain of
- batv+ab606af41e2b6213a0ed+6591+infradead.org+hch@casper.srs.infradead.org
- designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=BATV+ab606af41e2b6213a0ed+6591+infradead.org+hch@casper.srs.infradead.org
+ header.i=@gmail.com header.s=20210112 header.b=Uby1UFSq;       spf=pass
+ (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::336 as
+ permitted sender) smtp.mailfrom=groeck7@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,26 +152,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Sep 08, 2021 at 11:58:56PM +0200, Marco Elver wrote:
-> It'd be good to avoid. It has helped uncover build issues with KASAN in
-> the past. Or at least make it dependent on the problematic architecture.
-> For example if arm is a problem, something like this:
+On 9/8/21 10:58 PM, Christoph Hellwig wrote:
+> On Wed, Sep 08, 2021 at 11:58:56PM +0200, Marco Elver wrote:
+>> It'd be good to avoid. It has helped uncover build issues with KASAN in
+>> the past. Or at least make it dependent on the problematic architecture.
+>> For example if arm is a problem, something like this:
+>=20
+> I'm also seeing quite a few stack size warnings with KASAN on x86_64
+> without COMPILT_TEST using gcc 10.2.1 from Debian.  In fact there are a
+> few warnings without KASAN, but with KASAN there are a lot more.
+> I'll try to find some time to dig into them.
+>=20
+> While we're at it, with -Werror something like this is really futile:
+>=20
+> drivers/gpu/drm/amd/amdgpu/amdgpu_object.c: In function =E2=80=98amdgpu_b=
+o_support_uswc=E2=80=99:
+> drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:493:2: warning: #warning
+> Please enable CONFIG_MTRR and CONFIG_X86_PAT for better performance thank=
+s to write-combining [-Wcpp
+>    493 | #warning Please enable CONFIG_MTRR and CONFIG_X86_PAT for better=
+ performance \
+>        |  ^~~~~~~
+>=20
 
-I'm also seeing quite a few stack size warnings with KASAN on x86_64
-without COMPILT_TEST using gcc 10.2.1 from Debian.  In fact there are a
-few warnings without KASAN, but with KASAN there are a lot more.
-I'll try to find some time to dig into them.
+I have been wondering if all those #warning "errors" should either
+be removed or be replaced with "#pragma message".
 
-While we're at it, with -Werror something like this is really futile:
-
-drivers/gpu/drm/amd/amdgpu/amdgpu_object.c: In function =E2=80=98amdgpu_bo_=
-support_uswc=E2=80=99:
-drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:493:2: warning: #warning
-Please enable CONFIG_MTRR and CONFIG_X86_PAT for better performance thanks =
-to write-combining [-Wcpp
-  493 | #warning Please enable CONFIG_MTRR and CONFIG_X86_PAT for better pe=
-rformance \
-      |  ^~~~~~~
+Guenter
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -177,4 +186,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/YTmidYBdchAv/vpS%40infradead.org.
+kasan-dev/a04c4c37-7151-ef7e-09ce-a61ac7b12106%40roeck-us.net.
