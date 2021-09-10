@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRBBG35OEQMGQER4G3OJY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKFI7J2AJRBBO35OEQMGQE2JQHUQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619D64066C5
+Received: from mail-ua1-x93b.google.com (mail-ua1-x93b.google.com [IPv6:2607:f8b0:4864:20::93b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 547F84066C4
 	for <lists+kasan-dev@lfdr.de>; Fri, 10 Sep 2021 07:30:46 +0200 (CEST)
-Received: by mail-pf1-x43c.google.com with SMTP id o130-20020a62cd88000000b004053c6c1765sf724233pfg.6
+Received: by mail-ua1-x93b.google.com with SMTP id k3-20020ab07143000000b002b3108e6dc5sf528156uao.4
         for <lists+kasan-dev@lfdr.de>; Thu, 09 Sep 2021 22:30:46 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1631251845; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GQfEScA9xvEijiVhklJy1uf2XoBUdFY3eORl6b6hpmVz79c043DCaxVwVsHl9/BdJA
-         mikfCPz3F6yzBJnRwtPF7D0ksKIuESsOwg91tO1mOVRFUIzvp7kt4M7Sx5ztDr6bAKBq
-         UWEAtX8rIcBEPTgRxkwKSSSOCMQAJtYAANNxr92fg3m2fv39KWo/j72phsWLzed77EaU
-         LQOmX+cNHreb0+DZwPqpSAVqwnrkpqEGzOF+iaTIA8PUiN0RvRQpZgeD6MFrBeX1fL0d
-         j9iQrQB7r3Mn/Bk2MKMSMD+63CD4rO6P0IbxKcWoxSaEUFYNMSVPnm0vjPI9+ojWvuLv
-         EhUw==
+        b=gaB3Rr1BqBssOUt7GcjX0heXhHX+UZwV0/xHwcIokoeIyDVvg7h9psiDzsH9m1ga0r
+         Ki1oBvKv6/WF+QvWzqD73A40VHE9YjhDNbmaBqPciYlJbrfAMB0tXQre13HreE1M8Dev
+         gsc25fE7N40W6q/cn4z+vYRXowCSM/GAfu1ADNb5/JXyMLtoMnjao7F4P0n+TQzthMU/
+         Cy71i1ai/GfnANy+we71i66Sv9J5evpqYJcykUc2ERLWBB5DVqkf4GfLUNl0NeVW721J
+         tYGDpuaBctu97rt566a4S461z8TsZqrMSUGBCC2TLziVQzUy4At4HOddBZi1dMS3RZkv
+         dspQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=zkIzMDqu2S/OfphufyT8TJAQ8Pa9huc1xSlYv6gFslQ=;
-        b=tCZvW8ZwXXv0b5rXKbwjyCqNVZc7L+cnf9Hakfm/sJrGpK6irj+VPwnn4cmzu0AI9o
-         V3Zun83A9a9gw69ojaTFCN9f7kBzw4QjsnWEwNhcZTMkwPAQEMOWyzNsjEfDsWBPZSyW
-         Xbn1yXgJBB4eGorvgYf/Tkjyj+4E0hS3QKmEJc8K2Vqzj1LF6gGsgDamQC0Ef/TdJ4pH
-         Mi5UCbagJ/m2jDz6OGgpGMTkSkYc9Ua3xaT1MRjqc4tgnS6Plena7d9oPYlzl9Z+D7pm
-         UwYOCsqd6fLbGtfWbmGFJQ5lDlNeR0CRAXXnbzg1TC7qkzk2l1pJqBF4gL1+zYaJQ+9r
-         tSwQ==
+        bh=zYNVeOm1wKJEEjwaUhWHTqNKFFV6WZHjQ4RSD+LLpkg=;
+        b=HsoZy2cffn8bx3Op1SbG8Lb1QBtqdfopWRo2K5N9aUK51/7wD0TMdmiF4/1EVZbWWq
+         rTJOwWhB5BsboypH0iDEpjgJMqMTt3gqFhtikuwoawNYX0uGOHmTTMyKbmZncP0kI+vp
+         wRq+9xENZ486pMgqg0Lmqr53ND74IfUV98u7YRynw0a86P3UkbKbwh7+YDFBEeGWb1GW
+         MxOtWt7bUb1dA9MYe0TKiioGOlFppDQ0M6wYTNjiTWzodhty3kucm/Tjzl2onQCQF/Z5
+         h/t/g1DSxZX0N0PnUs9NfhHc0+W/T2UOplAeEC9eLBoJl7FnTDETXw9V7sNNMvEWEqn0
+         lnIQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zkIzMDqu2S/OfphufyT8TJAQ8Pa9huc1xSlYv6gFslQ=;
-        b=h4cikuEoTakR8opoannesW8Axj15GaH5a+udO734i6QtT8TrMJEW1bcpRDVHrx1hdj
-         s4ZfbFrvofR9bX6Z0TzEcku9vzafrcshZ/OFtdBG9VHOYEYUI9bJ5qT3oCJRN7dL87ip
-         2H2F19OaryBOuw7WjW2l1hR/0Wi9CRlSpHsaaFkIAUXOVkemhyRh3/ktjDSnybo6uv2e
-         vcKN8sqP0XmXbcFeChxDmNMDd9+h3CsCI3s5wmyvLvfyOhZZH7HDvs3PP78NVMw+55ME
-         rRbEQbAyTpfFp0Z1CoXdhRRH3r+jEW7cULzjEvsmegwBtj0xNYC9HIyqa5R4cyIq0J29
-         Hvcg==
+        bh=zYNVeOm1wKJEEjwaUhWHTqNKFFV6WZHjQ4RSD+LLpkg=;
+        b=gnk8IzH8F4pJ1ZiLYbl/IcY8GYCZ7EKP7HJBjLaWHK5USp+dkcY/jgOSnnDf4uRqq/
+         n76vnZwsiF0hs4ZtDNwxkYZPMNytbLjjkFg11qU2ir6uF8iPJSBpJJ4BKIIujvrG809e
+         QsPsGOA4No3NrpFVMKViY9YAuhh6N+HW+1gjSBfkxrSpvaRU6rcHsMi724VyNp9V2glr
+         upU29ocIoexE8/rex+padiGIXEeUbWP2BXFWOys4xYBFOVfNEq0WX61ocSPojsfiLQdz
+         UG5L4StAXFHuuPX16N5RnlS2NYluvpPzyWUK0bKZ0jw4kCY2OWBsDvWesRSVTVxUj45A
+         KfQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -48,58 +48,58 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zkIzMDqu2S/OfphufyT8TJAQ8Pa9huc1xSlYv6gFslQ=;
-        b=GyHU4OgvTxjZUUTUj6N2pkcUGo8+Vqw9CJSvUp4cMX2uwM5MNygUB+InNXV+CJ3f6A
-         +NzsTEbOecrICTFY2IVuP6mos14uNMyCpoGnrLCXxY70dA9ree+hu/oSzBZIwGRfDo51
-         bI7F+NFmpUFIg2eZskD0xbM8kGlOa950GZFj32DjZGj/qZqPfcIMbf6X6pZ75+dFOekl
-         MFxYKfwu9HZkSLv4yAtXUXr9ijoBrl7O1+R3yA99jQ/+oe7l0keb3HyZ1OKJte1rNd2N
-         xBzWnLCnenk48OA9w7CbDmdfUl+44LKqaEscNSOZ7UzS1DINF141zzaR6G0jad0gpEMf
-         bbCQ==
+        bh=zYNVeOm1wKJEEjwaUhWHTqNKFFV6WZHjQ4RSD+LLpkg=;
+        b=xkKYf5aE5qeS2FO4moyYDLnzLdGVJq7BxZ2EcROh675VaUO3nZTYC+Mcd9OZA3z5s5
+         PmCScM7mKA3DCmUAjoF1YwYs2+roEWg1BC40Uc959eN6Wsyr6VGgAMvlWdtfDW3sNMxg
+         51rHKCBaykyvp08eOa9lLeMkHcHILdCff65eoUtcRbvhzy1fdjFk3WIOZkvrG2J/rV2u
+         Uu/PWdxXVmOrwdQabGI728Upnt0T1tBqeyTzwIJqN5Dk214FR+U9Jo55Tp7nG0v1jDtM
+         30JLqyuvn1Cxl38Px5TUE+fgKYCn8AoRlCnOuQ7EmZsKFBKkdQ9Wm1id91BUmUDLBDf2
+         z4Yw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532Q0fHtiOXI4uu/bQ+dV7VEFWci6a8QlrdQ5ujbOPK7TFJ7CYQn
-	MikdipIMeD+NZDWJjljdlzA=
-X-Google-Smtp-Source: ABdhPJzeWdFJuuuKfcJ4Qx4F/WxUgVZq/7g0QbRbJovViRWluYpvTBIK3V1q6OLF/kCJVnhtK9KYHw==
-X-Received: by 2002:a17:90a:de16:: with SMTP id m22mr7591468pjv.54.1631251844901;
-        Thu, 09 Sep 2021 22:30:44 -0700 (PDT)
+X-Gm-Message-State: AOAM533AYdi2Q0BuKaFgbRxZd7fKLtcM7DjM0LZf6AeHUa1jHJSKqwk8
+	Tg0Ijhr+hn3w/bXYkSau27k=
+X-Google-Smtp-Source: ABdhPJzquLZg5Iq9AAjx2tj+xWdTZDrmtunuAUy+pEq79T1r0CPa4L3m47NmPoeK7DUvLAvN+ag3bQ==
+X-Received: by 2002:a1f:3095:: with SMTP id w143mr4457193vkw.0.1631251845396;
+        Thu, 09 Sep 2021 22:30:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:830f:: with SMTP id h15ls1864945pfe.6.gmail; Thu, 09 Sep
+Received: by 2002:a67:edd7:: with SMTP id e23ls801866vsp.5.gmail; Thu, 09 Sep
  2021 22:30:44 -0700 (PDT)
-X-Received: by 2002:a62:80d8:0:b0:3f2:72f5:bb31 with SMTP id j207-20020a6280d8000000b003f272f5bb31mr6560711pfd.0.1631251844352;
+X-Received: by 2002:a67:cd91:: with SMTP id r17mr4728651vsl.20.1631251844863;
         Thu, 09 Sep 2021 22:30:44 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1631251844; cv=none;
         d=google.com; s=arc-20160816;
-        b=AfAMgpQGxOmGmiznAIuvghQh0tfxytyfJzbPQ3JZCYNlcYcGh2bEnxyi2jFe06rfoX
-         4evpi2nOnrwdmYgsxSB3tq2tLBmkGWa9StEUsSh0SavOZ4ojYdDLVUsG4SYhbx1gRO5i
-         MQMVKwCWNzmJSJOqCLpu8JnPazJ6wEfRBciGVjzPA/vWMewYJsOgt2Zs2fC2xLS/XU7V
-         l8R4VsJHk1BIeNSJdS5rjfkPMtDIdN8Js6WPpiTY/+s+bIY7QFuEW8Btx4QZo3xkTnAO
-         bWtHtgy5MbKUqts/Vxg9a2lwQq6O6ns0cGxmxs6HAWGJFUmxD8mG5qUB+ccyLK4W/vQ2
-         mFDA==
+        b=UVZm/Z5lVKZbnvC0bAg8+LTeEr9GV5NRVPEP+35/UinF55yJCzSU8s4CcFkji/Vkw+
+         XVUmBnmF9yNDSLNJ6MknubZqHsviIXp01PJPZDpoxGuGn2ubdcOjhoJHK6Akrg82MKoM
+         e5uU4xrc0Vt5Uvu5ro78FfQDubHhtq71NMFnkBKdMLykKn4BtVCV5OhiTcZuU0/rCtSb
+         KAdSX8jf/CIuFTJmY1+5VNIPDUR4X+weLonWgnUfOSsMfmFFNCD07Hf58zTsbEs4Ty6H
+         hoVm/qeKJWtBNa4hMrNEfCd12sAGrzl1pgcu4XYCBeJpfPGrc77W4uFS+R4a62WcVVPs
+         nWkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=XI9HzmKOoyri65Uuo794oHyspeFdsG4eI2q519F2l74=;
-        b=murI7aFlQC0qHkLVN0GEgpCmmlyMJ9+3HUwYbf+PBR5EdFFM8zt+J5H3/cbMrsNpeL
-         thJsAyQrI/n+NvTQED4UBuj80IKEUI/+9boeR3zAJRkdUyDX7HzLT9VX8CLMLH8XzAfJ
-         vphI0z/+NSAPb/5f38bqV4pScISU8CgxmZjSxKUoDW+q03dyo8PhK3/aPli16ZdTnda3
-         pJBuF4PzqBLUA4IohkUbi16tDj5muen/eEIqBLt4JKV54JTbTQysozVr97md/eoWmUJi
-         vD3ftf+68ZzjvfgwG2+e2nPVjTplMWUY9dwImhHEb25nnUQ8RB4tAzawHgJMlqISuQWj
-         mu0w==
+        bh=XXd5DTK2QvKz71FhyrC61VMgaoSD/+g/iqKjrSCfKIk=;
+        b=PZ3QW+UG/gVpepLuJ5BqIQZZJu7OYsgUrW29JIMIi+ZW4DhXgBCgAp3KG5o7x1VF2a
+         By/Aj+zIDT5wt5q2gAkYo2qAof3wro+Q1I24TOYkbIoc91YGVbPci1ATfMzrCmnpsZjM
+         GN+IixMtwYuV5WKUbYZsCnYbhXqLOwkE9D5anI+xzw6LCOAELOcaK8NvwywjDp+CMaos
+         DEQva6Jz5hZ2U+fqUwtDDUcQH3fjwj0X0ITxXokOiYI39B8pAwgxToGTuk5DuwNeup3b
+         zu1PhpaKFDECZNGywYPCcHYLRs3MmpddZB6PE1bdyEH41ABgx8UPilQ/VbXXsaDMyu5Y
+         2Org==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id u127si131709pfc.5.2021.09.09.22.30.43
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
+        by gmr-mx.google.com with ESMTPS id y23si349830vkn.1.2021.09.09.22.30.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Thu, 09 Sep 2021 22:30:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H5PZ557rKzVr2T;
-	Fri, 10 Sep 2021 13:29:17 +0800 (CST)
+Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4H5PVV0SBnzR2TJ;
+	Fri, 10 Sep 2021 13:26:10 +0800 (CST)
 Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Fri, 10 Sep 2021 13:30:11 +0800
+ 15.1.2308.8; Fri, 10 Sep 2021 13:30:12 +0800
 Received: from localhost.localdomain.localdomain (10.175.113.25) by
  dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -111,9 +111,9 @@ To: <will@kernel.org>, <catalin.marinas@arm.com>, <ryabinin.a.a@gmail.com>,
 	<linux-mm@kvack.org>, <elver@google.com>, <akpm@linux-foundation.org>,
 	<gregkh@linuxfoundation.org>
 CC: <kasan-dev@googlegroups.com>, Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: [PATCH v4 2/3] arm64: Support page mapping percpu first chunk allocator
-Date: Fri, 10 Sep 2021 13:33:53 +0800
-Message-ID: <20210910053354.26721-3-wangkefeng.wang@huawei.com>
+Subject: [PATCH v4 3/3] kasan: arm64: Fix pcpu_page_first_chunk crash with KASAN_VMALLOC
+Date: Fri, 10 Sep 2021 13:33:54 +0800
+Message-ID: <20210910053354.26721-4-wangkefeng.wang@huawei.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210910053354.26721-1-wangkefeng.wang@huawei.com>
 References: <20210910053354.26721-1-wangkefeng.wang@huawei.com>
@@ -125,7 +125,7 @@ X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
 X-CFilter-Loop: Reflected
 X-Original-Sender: wangkefeng.wang@huawei.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187
+ (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188
  as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 Precedence: list
@@ -140,150 +140,124 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Percpu embedded first chunk allocator is the firstly option, but it
-could fails on ARM64, eg,
-  "percpu: max_distance=0x5fcfdc640000 too large for vmalloc space 0x781fefff0000"
-  "percpu: max_distance=0x600000540000 too large for vmalloc space 0x7dffb7ff0000"
-  "percpu: max_distance=0x5fff9adb0000 too large for vmalloc space 0x5dffb7ff0000"
+With KASAN_VMALLOC and NEED_PER_CPU_PAGE_FIRST_CHUNK, it crashs,
 
-then we could meet "WARNING: CPU: 15 PID: 461 at vmalloc.c:3087 pcpu_get_vm_areas+0x488/0x838",
-even the system could not boot successfully.
+Unable to handle kernel paging request at virtual address ffff7000028f2000
+...
+swapper pgtable: 64k pages, 48-bit VAs, pgdp=0000000042440000
+[ffff7000028f2000] pgd=000000063e7c0003, p4d=000000063e7c0003, pud=000000063e7c0003, pmd=000000063e7b0003, pte=0000000000000000
+Internal error: Oops: 96000007 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 0 PID: 0 Comm: swapper Not tainted 5.13.0-rc4-00003-gc6e6e28f3f30-dirty #62
+Hardware name: linux,dummy-virt (DT)
+pstate: 200000c5 (nzCv daIF -PAN -UAO -TCO BTYPE=--)
+pc : kasan_check_range+0x90/0x1a0
+lr : memcpy+0x88/0xf4
+sp : ffff80001378fe20
+...
+Call trace:
+ kasan_check_range+0x90/0x1a0
+ pcpu_page_first_chunk+0x3f0/0x568
+ setup_per_cpu_areas+0xb8/0x184
+ start_kernel+0x8c/0x328
 
-Let's implement page mapping percpu first chunk allocator as a fallback
-to the embedding allocator to increase the robustness of the system.
+The vm area used in vm_area_register_early() has no kasan shadow memory,
+Let's add a new kasan_populate_early_vm_area_shadow() function to populate
+the vm area shadow memory to fix the issue.
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Acked-by: Marco Elver <elver@google.com> (for KASAN parts)
+Acked-by: Andrey Konovalov <andreyknvl@gmail.com> (for KASAN parts)
 Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 ---
- arch/arm64/Kconfig       |  4 ++
- drivers/base/arch_numa.c | 82 +++++++++++++++++++++++++++++++++++-----
- 2 files changed, 76 insertions(+), 10 deletions(-)
+ arch/arm64/mm/kasan_init.c | 16 ++++++++++++++++
+ include/linux/kasan.h      |  6 ++++++
+ mm/kasan/init.c            |  5 +++++
+ mm/vmalloc.c               |  1 +
+ 4 files changed, 28 insertions(+)
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 077f2ec4eeb2..04cfe1b4e98b 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1042,6 +1042,10 @@ config NEED_PER_CPU_EMBED_FIRST_CHUNK
- 	def_bool y
- 	depends on NUMA
- 
-+config NEED_PER_CPU_PAGE_FIRST_CHUNK
-+	def_bool y
-+	depends on NUMA
-+
- source "kernel/Kconfig.hz"
- 
- config ARCH_SPARSEMEM_ENABLE
-diff --git a/drivers/base/arch_numa.c b/drivers/base/arch_numa.c
-index 46c503486e96..995dca9f3254 100644
---- a/drivers/base/arch_numa.c
-+++ b/drivers/base/arch_numa.c
-@@ -14,6 +14,7 @@
- #include <linux/of.h>
- 
- #include <asm/sections.h>
-+#include <asm/pgalloc.h>
- 
- struct pglist_data *node_data[MAX_NUMNODES] __read_mostly;
- EXPORT_SYMBOL(node_data);
-@@ -168,22 +169,83 @@ static void __init pcpu_fc_free(void *ptr, size_t size)
- 	memblock_free_early(__pa(ptr), size);
+diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
+index 61b52a92b8b6..5b996ca4d996 100644
+--- a/arch/arm64/mm/kasan_init.c
++++ b/arch/arm64/mm/kasan_init.c
+@@ -287,6 +287,22 @@ static void __init kasan_init_depth(void)
+ 	init_task.kasan_depth = 0;
  }
  
-+#ifdef CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK
-+static void __init pcpu_populate_pte(unsigned long addr)
++#ifdef CONFIG_KASAN_VMALLOC
++void __init kasan_populate_early_vm_area_shadow(void *start, unsigned long size)
 +{
-+	pgd_t *pgd = pgd_offset_k(addr);
-+	p4d_t *p4d;
-+	pud_t *pud;
-+	pmd_t *pmd;
++	unsigned long shadow_start, shadow_end;
 +
-+	p4d = p4d_offset(pgd, addr);
-+	if (p4d_none(*p4d)) {
-+		pud_t *new;
++	if (!is_vmalloc_or_module_addr(start))
++		return;
 +
-+		new = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
-+		if (!new)
-+			goto err_alloc;
-+		p4d_populate(&init_mm, p4d, new);
-+	}
-+
-+	pud = pud_offset(p4d, addr);
-+	if (pud_none(*pud)) {
-+		pmd_t *new;
-+
-+		new = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
-+		if (!new)
-+			goto err_alloc;
-+		pud_populate(&init_mm, pud, new);
-+	}
-+
-+	pmd = pmd_offset(pud, addr);
-+	if (!pmd_present(*pmd)) {
-+		pte_t *new;
-+
-+		new = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
-+		if (!new)
-+			goto err_alloc;
-+		pmd_populate_kernel(&init_mm, pmd, new);
-+	}
-+
-+	return;
-+
-+err_alloc:
-+	panic("%s: Failed to allocate %lu bytes align=%lx from=%lx\n",
-+	      __func__, PAGE_SIZE, PAGE_SIZE, PAGE_SIZE);
++	shadow_start = (unsigned long)kasan_mem_to_shadow(start);
++	shadow_start = ALIGN_DOWN(shadow_start, PAGE_SIZE);
++	shadow_end = (unsigned long)kasan_mem_to_shadow(start + size);
++	shadow_end = ALIGN(shadow_end, PAGE_SIZE);
++	kasan_map_populate(shadow_start, shadow_end, NUMA_NO_NODE);
 +}
 +#endif
 +
- void __init setup_per_cpu_areas(void)
+ void __init kasan_init(void)
  {
- 	unsigned long delta;
- 	unsigned int cpu;
--	int rc;
-+	int rc = -EINVAL;
+ 	kasan_init_shadow();
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index dd874a1ee862..859f1e724ee1 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -434,6 +434,8 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+ 			   unsigned long free_region_start,
+ 			   unsigned long free_region_end);
+ 
++void kasan_populate_early_vm_area_shadow(void *start, unsigned long size);
 +
-+	if (pcpu_chosen_fc != PCPU_FC_PAGE) {
-+		/*
-+		 * Always reserve area for module percpu variables.  That's
-+		 * what the legacy allocator did.
-+		 */
-+		rc = pcpu_embed_first_chunk(PERCPU_MODULE_RESERVE,
-+					    PERCPU_DYNAMIC_RESERVE, PAGE_SIZE,
-+					    pcpu_cpu_distance,
-+					    pcpu_fc_alloc, pcpu_fc_free);
-+#ifdef CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK
-+		if (rc < 0)
-+			pr_warn("PERCPU: %s allocator failed (%d), falling back to page size\n",
-+				   pcpu_fc_names[pcpu_chosen_fc], rc);
-+#endif
-+	}
+ #else /* CONFIG_KASAN_VMALLOC */
  
--	/*
--	 * Always reserve area for module percpu variables.  That's
--	 * what the legacy allocator did.
--	 */
--	rc = pcpu_embed_first_chunk(PERCPU_MODULE_RESERVE,
--				    PERCPU_DYNAMIC_RESERVE, PAGE_SIZE,
--				    pcpu_cpu_distance,
--				    pcpu_fc_alloc, pcpu_fc_free);
-+#ifdef CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK
-+	if (rc < 0)
-+		rc = pcpu_page_first_chunk(PERCPU_MODULE_RESERVE,
-+					   pcpu_fc_alloc,
-+					   pcpu_fc_free,
-+					   pcpu_populate_pte);
-+#endif
- 	if (rc < 0)
--		panic("Failed to initialize percpu areas.");
-+		panic("Failed to initialize percpu areas (err=%d).", rc);
+ static inline int kasan_populate_vmalloc(unsigned long start,
+@@ -451,6 +453,10 @@ static inline void kasan_release_vmalloc(unsigned long start,
+ 					 unsigned long free_region_start,
+ 					 unsigned long free_region_end) {}
  
- 	delta = (unsigned long)pcpu_base_addr - (unsigned long)__per_cpu_start;
- 	for_each_possible_cpu(cpu)
++static inline void kasan_populate_early_vm_area_shadow(void *start,
++						       unsigned long size)
++{ }
++
+ #endif /* CONFIG_KASAN_VMALLOC */
+ 
+ #if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
+diff --git a/mm/kasan/init.c b/mm/kasan/init.c
+index cc64ed6858c6..d39577d088a1 100644
+--- a/mm/kasan/init.c
++++ b/mm/kasan/init.c
+@@ -279,6 +279,11 @@ int __ref kasan_populate_early_shadow(const void *shadow_start,
+ 	return 0;
+ }
+ 
++void __init __weak kasan_populate_early_vm_area_shadow(void *start,
++						       unsigned long size)
++{
++}
++
+ static void kasan_free_pte(pte_t *pte_start, pmd_t *pmd)
+ {
+ 	pte_t *pte;
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 5ee3cbeffa26..4cb494447910 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -2287,6 +2287,7 @@ void __init vm_area_register_early(struct vm_struct *vm, size_t align)
+ 	vm->addr = (void *)addr;
+ 	vm->next = *p;
+ 	*p = vm;
++	kasan_populate_early_vm_area_shadow(vm->addr, vm->size);
+ }
+ 
+ static void vmap_init_free_space(void)
 -- 
 2.26.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210910053354.26721-3-wangkefeng.wang%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210910053354.26721-4-wangkefeng.wang%40huawei.com.
