@@ -1,160 +1,135 @@
-Return-Path: <kasan-dev+bncBDN6TT4BRQPRBS5N5WEQMGQE4U6HJTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGIV3UHVAGBBTGN5WEQMGQEYVZS4ZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-f188.google.com (mail-qt1-f188.google.com [209.85.160.188])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EAE406C94
-	for <lists+kasan-dev@lfdr.de>; Fri, 10 Sep 2021 14:59:56 +0200 (CEST)
-Received: by mail-qt1-f188.google.com with SMTP id q19-20020ac87353000000b0029a09eca2afsf9766967qtp.21
-        for <lists+kasan-dev@lfdr.de>; Fri, 10 Sep 2021 05:59:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631278795; cv=pass;
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C014406D50
+	for <lists+kasan-dev@lfdr.de>; Fri, 10 Sep 2021 16:08:13 +0200 (CEST)
+Received: by mail-wm1-x33f.google.com with SMTP id r125-20020a1c2b830000b0290197a4be97b7sf674572wmr.9
+        for <lists+kasan-dev@lfdr.de>; Fri, 10 Sep 2021 07:08:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631282892; cv=pass;
         d=google.com; s=arc-20160816;
-        b=w/ex9+5FZYYTl0uYdqAzyJ0/0M2ZIqFqUp1p9snYh4zZPIYoXGmdrP93YSz9ygWhX9
-         Lz1y0Hy+wiZ6FO8PoI+Ff//BoqwNQo6emIv4Zaef+j4v5t0hBaivyrSmCGalr8lXKX67
-         +rgtdCDPIyKDhIMZdMTmtWYRHEtOrkjRt7N1EiL9U9jeXcTKGELm4gfgVvKRot6AgJx4
-         YwURmFbEl6CFOFtlV2orwDFKK4JVydYoVOvJ4moSFt4W3ZFLWBI2V2azkpQfFhzrnaRq
-         TaU/y9F+taNvLKXnuxoRUV47Xb+xLN7f7jb+VUx1MIprN2dQXYJpJmMp7MTqUzHOalM7
-         RecA==
+        b=az0OA5tWacB5TWMFrzCJMow2uQb26wsZK+7f+WvpxzQQcRH1eB8lAfhAMy37gPZBIG
+         1NLsQBuJO9QD41P+iEf93BtOF/8KnBLtrVDUaUxC/JxPoo7FVBnu8laPchkYp4O8KBLv
+         /YgHl4X4H0LJ9lNMW+hypFwaBsrqno/KP0gZwvC6yXzitESy0jK9ITtiX1ESoW5c+sCK
+         WhFFnqfvc98tU/CTIO4LnRfp0uqrXEnXw/2B22nw3QKI+gzuxIT9IK/frf+/RBS6JTn+
+         H53XzRMIhYVWXARsg+V09X/8b3rh4n9uHX26kkskmIGFXQdgzW0qzAPE3N390C3t1pDX
+         GlCQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:cms-type:date:message-id
-         :in-reply-to:cc:to:from:sender:reply-to:subject:mime-version
-         :dkim-filter;
-        bh=w9ThFZFERZe9oN5myYDmFfEIsXxUz/4B9M9oFl2S2OM=;
-        b=gavzMWTs+B9z3/nv56gTLq8OGePJR6tHydyVwJW2otn4f6s/AU8O8IebZ9YUqaUBcU
-         MV4aUWKTifopku3s0h3RLjSRggQ+BjC+G4JFl19yeEoV/Ioo/HFiEzdLqGBLaibB9I+8
-         Z0NtnrtJrG9/mFdKA7lGLkDMQ6VQN0cgv17KRRSsnvIpW7f/CTfvIFYIoIQZB6cgFypO
-         uOWnzIhTX5Npo03SCfn+WAm9J045mJjnj2H9gsCc60TX/+HOYADDLcYTiugQT3QPinHq
-         FezDypwW3cJwVuPItSR5ngj+OKZozp8QhprpekngahRXljJka6qezyvgOKtwllHgAS3i
-         JSYA==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=M8JIp/m+irlC5uhOgGqy1EMBs8PwORz2wy02m9xh33Y=;
+        b=krMCoU/kD8CPU7rEyxaHS0gNiLbljZa6yBwSViMzD7Q1FTTkKJo2aMn6cIEeFJPh23
+         5suKFgQQx3AEJc2WKv6TBOlIMrIt1jXJTg4oNZAfIQYuTqzoOM8m13wGBrTTNdOQB0vs
+         1QWFDLTbpB55ZRFMRfJtkLhS+UjxGFnOdVlAdKG3/tRs3Z0a73NsXCmfI8zU9Bm4Z4W6
+         0Htu7PyeBPRp+ixl+flK9XNRBIhTkgpZ88vbnRQOKCwHysHq8eq0kmq9Tu4+EPPj+oWp
+         XlGpCmmX31RQFQQZYo77lOe2SBnUa/PQHOt41ZOMhGqWP2c8qMIzecN3rTxoKayI0QE2
+         Nbpg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=iSQr58NN;
-       spf=pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=maninder1.s@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=tIMCArcK;
+       dkim=neutral (no key) header.i=@linutronix.de header.b=7JsiFf4a;
+       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=M8JIp/m+irlC5uhOgGqy1EMBs8PwORz2wy02m9xh33Y=;
+        b=FS93umpoYZGE6xE5EUNG5dbf/CriVu653j+5kc7ugRaKdb9dKPvZt1/ss16oik9znk
+         jHgJTcEGy7qT75ZEKmGVyfaRDG5sYYx3BdFOISrUIDY5uUgzyK2Ky6JmqfqUsrXPGERI
+         yKlx29Oc800CS+sRUYvOejBxS5EZWnE/AAX/fKWFfYXwMN6QvrrJC9Hz6URVBOM+Q5es
+         ekQFOSa1HuHzaS1bXYsuiqwEbgj1z//Ymit9GeoGP5MVu6RRk3+ElkAhiRfvJAoNz6im
+         0mSkjJj9jsAbVmpdeMpAWCIwy0Cq9GvufyXXz7MND581yr8Epud4mpxvXV8n5HYQFDus
+         6E6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:dkim-filter:mime-version:subject:reply-to:sender
-         :from:to:cc:in-reply-to:message-id:date:cms-type:references
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=w9ThFZFERZe9oN5myYDmFfEIsXxUz/4B9M9oFl2S2OM=;
-        b=2Ibx+hxIo7rAF6rG3j3HjxtuGFKkexwDYWZZaHtl7Zz8k/XyT1Fg96mZPnYbca6irj
-         UpvaJuoPJ+izBtzQgoYvlOintKfrL7G6P71tYVFJ7nLG+zBFJ1+xRBeRuAIZw4SWUnFK
-         5EZUCzj9BnUo/nsDCka11KaqR/67jrLkvE58+CWqPQO7XNx9slMUvlaIw8iWEMu+YmYH
-         crWUBvOnvRwxhz1JES++Txz2NhyCipb57U3PfH5xbyhnFdqbAtwOkt7BJea1d8DwLx2D
-         aeA6Y4L3ydehclXBT5vlH9h2/rO/PpcBVt4jFwPg59ufp0MbFihUHKUcI9Qa485Y5EYU
-         804g==
-X-Gm-Message-State: AOAM532/Gptq+xa/2HkaA+xYhC2WceWfyj/aNqnawMst/UFZ8IfrMCc1
-	UXsjWoWMgX6yjmZ7QLk7pS8=
-X-Google-Smtp-Source: ABdhPJwXuNeGaSjuJUJtlOAPI3mplbkcDdSYmm9IrD+IUjvKnfgv5Jyu348uNjGm/Z7nwm1LTFDIlw==
-X-Received: by 2002:a37:6451:: with SMTP id y78mr7227065qkb.427.1631278795531;
-        Fri, 10 Sep 2021 05:59:55 -0700 (PDT)
+        bh=M8JIp/m+irlC5uhOgGqy1EMBs8PwORz2wy02m9xh33Y=;
+        b=Jv8kkNHsf7Vjng6Fz1vbGlQ20Z5z1JKFRSEufgVqUot7P1nmuw+FqeondXRixG7w4b
+         LcuPlzzEr88Ge7wHnWbJc8Z7vtOoNLmcfBqbC7dIvmunagzlnnu0jQF9yITYd6wO4RfG
+         wz3qnaMWGx/6JhjGEWzG1fdz/ycxhLbPY2jbhW2uw5KK5Wp7xuE8xZ4WUNVemRzniz5W
+         s9Xj84MJRLM9V/kApTKXIvzyneyFR1txhw9IVcr5jD+VRJYbI8cx5grJxIWdf51BJ8XF
+         5dYtVH5MlSPa0bH9f/n8cILVFMnB+O1dbPhMsPMTNmPS1md3WC+Lqs99HWFJLu0EOMSw
+         f8ew==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531O/sfa+9UUURoD7LDzenXWgGIBZn31du9UGOYl+pTSHv2X8S/U
+	Hs0QJCNgob7svD57EYmB8fU=
+X-Google-Smtp-Source: ABdhPJxJMrMeHD5W0jdYNunZ0QPiG10+iH466IffRc4hbhsHmtHbRD5U9opE4TfOWvbBzaPZhZr1JA==
+X-Received: by 2002:a5d:4803:: with SMTP id l3mr10087596wrq.61.1631282892789;
+        Fri, 10 Sep 2021 07:08:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ae9:e303:: with SMTP id v3ls3557841qkf.5.gmail; Fri, 10 Sep
- 2021 05:59:55 -0700 (PDT)
-X-Received: by 2002:a05:620a:f8a:: with SMTP id b10mr7581404qkn.424.1631278795087;
-        Fri, 10 Sep 2021 05:59:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631278795; cv=none;
+Received: by 2002:adf:a314:: with SMTP id c20ls7462739wrb.2.gmail; Fri, 10 Sep
+ 2021 07:08:11 -0700 (PDT)
+X-Received: by 2002:adf:cd0f:: with SMTP id w15mr10030052wrm.346.1631282891940;
+        Fri, 10 Sep 2021 07:08:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631282891; cv=none;
         d=google.com; s=arc-20160816;
-        b=wKT3yhT15gRPPsi/HxiQG/cmYj1yfIRiWzjefHwkj2UewCU/BKg3LK+bs5056PYrbK
-         3Xig3FMU+CDJMJKNI0zuiLzkujGgNJkcJ3I9O8oTby1PKqHcC+WoQzR3Lewzq6Gsnk5z
-         MPK7RyaIAgjPojnxXJMtI32kCjE3MR7PlI2/fjbmZBz4wlGcazbSlFJn1+JhrfSIWlMl
-         oBom7LL/w8sE4/MQHMvp998YVWPMkCPVIYG8QbjRNDutJntIolyceFt3XYNHxvN7K5My
-         B1WYd5e4bdSwgds2YJ/xOC14GaVoSB4pBte2lKifZ//Nqr39MdA+1z3m2icRIhvvrY3s
-         ZzTg==
+        b=vS5LOL7etX1rperYxF++MOeduJ6z9ACnhSuFk/51ygxyBlim85sYPs9sXdLQwmlzEb
+         YgPzI44y7e9qc0RHfSDFGtedsi39qba12pEslpK5liWvSSRkixO1E9uUevmCm2Tc0c3s
+         QVOKgToGCt8qTdGVWgRjoLHuKhOhfvDn5D26jsBrhwb8uCrafdI8Om5D5Qxu1Dbc8hTk
+         dUX2hk6J0ESJ3bm7nE6CHL7XEmri23fYdfD6rpfB0e3gUGT+OB3f8+WOmvRqI7D3lMC+
+         81It7EnxlBpUcB8O1JFOV93LQs2mAnHKKaDQyLfthJ5t4uTleE7zRCpuRLE0rq6mfGTG
+         8uFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=references:cms-type:content-transfer-encoding:date:message-id
-         :in-reply-to:cc:to:from:sender:reply-to:subject:mime-version
-         :dkim-signature:dkim-filter;
-        bh=jZAIRI5syEH1dQgQ88ZbFitr00/kCWSSVpXDzAa4vzw=;
-        b=qZNMqZEP2N3Y+DNQE/6VOszGnuWR722Yqs2/SDMmdu2nIxbjVfAlvos9Vg82BuDRYb
-         9zAz4RuTMPi2ECstySBiuR0ey2uS5eEpBtHqy1yjf1HV2AlTAzspK903iUV7rJYPBTJt
-         JTgUtYlv9o9hkzLGk+gW+hyf7zC2YoFWS9GnV5qICSE+cMSQZS6Ii/bHu3H8jENNcDPP
-         Tq8hG5c1NPH2hEnRHNsBqT10vKZr266Rayq+jvVwqD0bPV2+GMPeDfydDBnVUm5sqbis
-         VlTac3xak73SXH3ry73bgXY2NkSMfd9xBluJLA6JDRZW5AHkEKmL2U7Ggkv0scEJfy1w
-         QisA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:dkim-signature:date;
+        bh=bSyyP9yahgxFA1b8RnoWYThoroPSM6gbfo1YmaotaKo=;
+        b=LHdUQyTtqwCfOlDJ9lh0SCCU9tjTw9juiotsGkdIaGZ4Z/PVKGxpYdUYpEmP/K/XfN
+         jjChkneekoEeV00YR3XydfRJoCkTbNxr6BXiDiLIE99KlMYYRJgMyNLX27EwQ2rEQI3T
+         I5wOis+HfSiFJygtXx3nrASOM7fJLKVpOVOI7uzxHj+XwzQsSEpvO7OfA0NOhi6GMAXn
+         MLeCLu6t7dnSWhO+ysziEDuO0iDNMv+G9oc60E3K8+8BzziwbxMws3trk/UeW4UEmPk1
+         zq07oLgMcZZSq6wvX/Zd+m0BZNcORh31fvGzro8m6XC/Bq4wYHlKO9xei24KvZ6Nro8K
+         pCgA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=iSQr58NN;
-       spf=pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=maninder1.s@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
-Received: from mailout1.samsung.com (mailout1.samsung.com. [203.254.224.24])
-        by gmr-mx.google.com with ESMTPS id d201si424294qkg.4.2021.09.10.05.59.54
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=tIMCArcK;
+       dkim=neutral (no key) header.i=@linutronix.de header.b=7JsiFf4a;
+       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
+        by gmr-mx.google.com with ESMTPS id c4si412409wmq.0.2021.09.10.07.08.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 Sep 2021 05:59:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as permitted sender) client-ip=203.254.224.24;
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20210910125951epoutp01412161938051c71bcf70fea0bb8eb614~jd2sSCvrg1266612666epoutp019
-	for <kasan-dev@googlegroups.com>; Fri, 10 Sep 2021 12:59:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20210910125951epoutp01412161938051c71bcf70fea0bb8eb614~jd2sSCvrg1266612666epoutp019
-Received: from epsmges5p2new.samsung.com (unknown [182.195.42.74]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20210910125950epcas5p2990404d76736db2ec3116cc6986f6d9b~jd2rQT_BH0368703687epcas5p2g;
-	Fri, 10 Sep 2021 12:59:50 +0000 (GMT)
-X-AuditID: b6c32a4a-b2dff7000000287f-d9-613b56c60c64
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	A8.C4.10367.6C65B316; Fri, 10 Sep 2021 21:59:50 +0900 (KST)
-Mime-Version: 1.0
-Subject: RE: [PATCH 1/1] exception/stackdepot: add irqentry section in case
- of STACKDEPOT
-Reply-To: maninder1.s@samsung.com
-Sender: Maninder Singh <maninder1.s@samsung.com>
-From: Maninder Singh <maninder1.s@samsung.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
-	"ryabinin.a.a@gmail.com" <ryabinin.a.a@gmail.com>, "glider@google.com"
-	<glider@google.com>
-CC: "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
-	<will@kernel.org>, "mark.rutland@arm.com" <mark.rutland@arm.com>,
-	"joey.gouly@arm.com" <joey.gouly@arm.com>, "maz@kernel.org"
-	<maz@kernel.org>, "pcc@google.com" <pcc@google.com>, "amit.kachhap@arm.com"
-	<amit.kachhap@arm.com>, "dvyukov@google.com" <dvyukov@google.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "kasan-dev@googlegroups.com"
-	<kasan-dev@googlegroups.com>, Vaneet Narang <v.narang@samsung.com>, AMIT
-	SAHRAWAT <a.sahrawat@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <YTYQKgKspSPORGH8@shell.armlinux.org.uk>
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20210910125949epcms5p40ddb337f000a5fe46bb6e59f48452060@epcms5p4>
-Date: Fri, 10 Sep 2021 18:29:49 +0530
-X-CMS-MailID: 20210910125949epcms5p40ddb337f000a5fe46bb6e59f48452060
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Sep 2021 07:08:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
+Date: Fri, 10 Sep 2021 16:08:10 +0200
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Walter Wu <walter-zh.wu@mediatek.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vijayanand Jitta <vjitta@codeaurora.org>,
+	Vinayak Menon <vinmenon@codeaurora.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, Aleksandr Nogikh <nogikh@google.com>,
+	Taras Madan <tarasmadan@google.com>
+Subject: Re: [PATCH 3/6] lib/stackdepot: introduce __stack_depot_save()
+Message-ID: <20210910140810.jxb6sfgkdzefqgio@linutronix.de>
+References: <20210907141307.1437816-1-elver@google.com>
+ <20210907141307.1437816-4-elver@google.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-CMS-TYPE: 105P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFKsWRmVeSWpSXmKPExsWy7bCmhu6xMOtEgwm3lC0u7k61mLN+DZvF
-	lA87WC3eL+thtJjwsI3dov3jXmaLL81tTBYrnt1nstj0+BqrxeVdc9gsDk3dy2ix9PpFJoud
-	c06yWvTfuc5mcXzrFmaLQyfnMlq03DF1EPRYM28No8flaxeZPXbOusvusWBTqceeiSfZPDat
-	6mTzODHjN4vH5iX1Hn1bVjF6fN4kF8AVxWWTkpqTWZZapG+XwJUx+9I39oI3LBVXf8s3MH5g
-	7mLk5JAQMJFYdq+XrYuRi0NIYDejRPOWd4xdjBwcvAKCEn93CIPUCAtES2w4e40dxBYSUJS4
-	MGMNWImwgIHEr60aIGE2AT2JVbv2sIDYIgKTGSVmvTMDGckssItV4su6m6wQu3glZrQ/ZYGw
-	pSW2L9/KCGJzCphKTFpyA+oeUYmbq9+yw9jvj81nhLBFJFrvnYWqEZR48HM3VFxGYvXmXhaQ
-	ZRIC3YwS69/thXJmMEr0PJoG1WEusX7JKrCpvAK+Eus23AGzWQRUJfZeWwV1nYvEyp7vYHFm
-	AXmJ7W/nMIN8ySygKbF+lz5EmE+i9/cTJphndsyDsVUlWm5uYIV57PPHjywgrRICHhJL1ipA
-	wvYvo8TeK21MExjlZyGCdxaSZbMQli1gZF7FKJlaUJybnlpsWmCUl1quV5yYW1yal66XnJ+7
-	iRGc3LS8djA+fPBB7xAjEwfjIUYJDmYlEd4TGywThXhTEiurUovy44tKc1KLDzFKc7AoifN+
-	fA2UEkhPLEnNTk0tSC2CyTJxcEo1MCVuEIt9JPnkyFXd2yWLUh6tlvxRnrzs29o/rfLXryX9
-	+nHo8llB08O7LspxJ/JO5A7pr5lRWvTnxpmyVd2xBVfNNtmaVb/32ujE4H1x64JTJgv1b6+z
-	DmC86DfpWMHRruVOlQwsHqaK+yQdbO91LdETL1r6631f0OP6a8mbHT/tzLrVe473lV/xMisX
-	b42CfR075geonC/Jv+7SK9MsOnPbPpVmK5trqgmfXrdP/HfE+92yL3e+75jP94K3ReK7pW2m
-	qeLkBIl094xJtW1/w5R6V106YHbkXllbcKRsZ5pPq2GrvP/2U7eCF+/geVMvHTPhbqie+Le6
-	RIflulOTdL8Lxt06lvS3Sfu49+G2lUosxRmJhlrMRcWJALDpUcPdAwAA
-X-CMS-RootMailID: 20210818071602epcas5p4fecf459638312c95c5d5aaa29e7e983a
-References: <YTYQKgKspSPORGH8@shell.armlinux.org.uk>
-	<1629270943-9304-1-git-send-email-maninder1.s@samsung.com>
-	<20210906124351epcms5p6020fbfe5f885f1e8834a72784b28d434@epcms5p6>
-	<CGME20210818071602epcas5p4fecf459638312c95c5d5aaa29e7e983a@epcms5p4>
-X-Original-Sender: maninder1.s@samsung.com
+Content-Disposition: inline
+In-Reply-To: <20210907141307.1437816-4-elver@google.com>
+X-Original-Sender: bigeasy@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@samsung.com header.s=mail20170921 header.b=iSQr58NN;       spf=pass
- (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as
- permitted sender) smtp.mailfrom=maninder1.s@samsung.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+ header.i=@linutronix.de header.s=2020 header.b=tIMCArcK;       dkim=neutral
+ (no key) header.i=@linutronix.de header.b=7JsiFf4a;       spf=pass
+ (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as
+ permitted sender) smtp.mailfrom=bigeasy@linutronix.de;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -167,27 +142,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
+On 2021-09-07 16:13:04 [+0200], Marco Elver wrote:
+> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> index c80a9f734253..cab6cf117290 100644
+> --- a/lib/stackdepot.c
+> +++ b/lib/stackdepot.c
+> @@ -339,6 +350,25 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
+>  fast_exit:
+>  	return retval;
+>  }
+> +EXPORT_SYMBOL_GPL(__stack_depot_save);
+> +
+> +/**
+> + * stack_depot_save - Save a stack trace from an array
+> + *
+> + * @entries:		Pointer to storage array
+> + * @nr_entries:		Size of the storage array
+> + * @alloc_flags:	Allocation gfp flags
+> + *
+> + * Context: Contexts where allocations via alloc_pages() are allowed.
 
->No, I've not heard of stackdepot, I don't know what it is, or what
->it does. It doesn't appear to be documented in Documentation - case
->insensitive grep for "stackdepot" gets no hits. No help text on its
->Kconfig option.
-> 
->How are arch maintainers supposed to know anything about this?
+Could we add here something like (see __stack_depot_save() for details)
+since it has more verbose.
 
-ok.
-
-Added reviewers/maintainers of stackdepot and KASAN(filter_irq_stack) code.
-Because on our ARM H/W it was causing memory issue, and without this change
-purpose of filter_irq_stack was gone as it was not filtering irq stacks.
-
-If anyone else has any views or comments for this.
-
-Thanks
-Maninder Singh
+Sebastian
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210910125949epcms5p40ddb337f000a5fe46bb6e59f48452060%40epcms5p4.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210910140810.jxb6sfgkdzefqgio%40linutronix.de.
