@@ -1,154 +1,160 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBDXR5SEQMGQEE6GDRZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN6TT4BRQPRBS5N5WEQMGQE4U6HJTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB345406A5D
-	for <lists+kasan-dev@lfdr.de>; Fri, 10 Sep 2021 12:50:55 +0200 (CEST)
-Received: by mail-lj1-x23f.google.com with SMTP id b29-20020a2ebc1d000000b001ba014dfa94sf713305ljf.9
-        for <lists+kasan-dev@lfdr.de>; Fri, 10 Sep 2021 03:50:55 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631271055; cv=pass;
+Received: from mail-qt1-f188.google.com (mail-qt1-f188.google.com [209.85.160.188])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6EAE406C94
+	for <lists+kasan-dev@lfdr.de>; Fri, 10 Sep 2021 14:59:56 +0200 (CEST)
+Received: by mail-qt1-f188.google.com with SMTP id q19-20020ac87353000000b0029a09eca2afsf9766967qtp.21
+        for <lists+kasan-dev@lfdr.de>; Fri, 10 Sep 2021 05:59:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631278795; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oc85E2hE9+FGPOwimWH/hjtsnIwm3K6GPuO2qiC4W9IkE2qUJ5bQHnLHGRJkx6znZ3
-         ReoFNs1fsBKaHqOoXn5L7zlpP+cxBXWYyWIuLyzaCfNIC2KoJn/Hmt/IPNAAP6cYPrjc
-         YINyWDr+Z9+cqDmRjziCRgBhhONTbiXp88zDqXJe38vW5LHrPzL81inACmmfoN7y0EMc
-         3HCNY7klqXE5hN15cZMYfnQ/C4ZINOiMyC7XYHQQzRIOCzY0IwG53Mztqum34zO9bN/U
-         90IcFvPKeYOxUmi8Zs9RlSnb/F5SXmdV9dsNrIVfF0a+SVifI9OrRRWHo10NygOmDvIR
-         3gcg==
+        b=w/ex9+5FZYYTl0uYdqAzyJ0/0M2ZIqFqUp1p9snYh4zZPIYoXGmdrP93YSz9ygWhX9
+         Lz1y0Hy+wiZ6FO8PoI+Ff//BoqwNQo6emIv4Zaef+j4v5t0hBaivyrSmCGalr8lXKX67
+         +rgtdCDPIyKDhIMZdMTmtWYRHEtOrkjRt7N1EiL9U9jeXcTKGELm4gfgVvKRot6AgJx4
+         YwURmFbEl6CFOFtlV2orwDFKK4JVydYoVOvJ4moSFt4W3ZFLWBI2V2azkpQfFhzrnaRq
+         TaU/y9F+taNvLKXnuxoRUV47Xb+xLN7f7jb+VUx1MIprN2dQXYJpJmMp7MTqUzHOalM7
+         RecA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:sender:dkim-signature;
-        bh=1TdAehq+izI6b1ZK8FkrjAMBeVnhbcPMRGp43DOgdwU=;
-        b=ahZL+UrtKATwiJ6C/REfQCDVYB/BYKR5niwysFNVlvKtYno7a0rDDXPlz5g5oN1iMk
-         au2mSe5Zo6jAj2hPnszHl0YE/3leJtPvvShwdKZKyCqXCInoxDO3mxqZSyg8srLBk7FE
-         L5P29YnzUM8V8gBnZo4ivTVPmnRt/MxDxPN+PnLgr1vi8vJzaU127k4WYYmkyq4ApRY5
-         f7jRwFq2VYdMUqYm+Dtg+bLYJebZeSmGSzhmu3ZFGIwCcR7Gde0b5UTMk4rdTKnpSwnM
-         UOVQV1aWN1a11SNbo6QWGWQojP9ZL3lUKfMGjogvwOxESE69ww9Bl4lPgs4RHg29qk+z
-         D2Ig==
+         :list-id:mailing-list:precedence:references:cms-type:date:message-id
+         :in-reply-to:cc:to:from:sender:reply-to:subject:mime-version
+         :dkim-filter;
+        bh=w9ThFZFERZe9oN5myYDmFfEIsXxUz/4B9M9oFl2S2OM=;
+        b=gavzMWTs+B9z3/nv56gTLq8OGePJR6tHydyVwJW2otn4f6s/AU8O8IebZ9YUqaUBcU
+         MV4aUWKTifopku3s0h3RLjSRggQ+BjC+G4JFl19yeEoV/Ioo/HFiEzdLqGBLaibB9I+8
+         Z0NtnrtJrG9/mFdKA7lGLkDMQ6VQN0cgv17KRRSsnvIpW7f/CTfvIFYIoIQZB6cgFypO
+         uOWnzIhTX5Npo03SCfn+WAm9J045mJjnj2H9gsCc60TX/+HOYADDLcYTiugQT3QPinHq
+         FezDypwW3cJwVuPItSR5ngj+OKZozp8QhprpekngahRXljJka6qezyvgOKtwllHgAS3i
+         JSYA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="UmM/PXCv";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=7h9cOBNJ;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=1TdAehq+izI6b1ZK8FkrjAMBeVnhbcPMRGp43DOgdwU=;
-        b=UF4BDw4Firw+5UHC+UlF24GCdbxyr1saYexDalb6gpNdVgbL3emJj139mCV2WwyBKk
-         VQqRN06RCBHklYEkp1NTUq0neQwoEt3vjw477RLuMe0TwRkHxALoF2m1CbpzTYaXEV/V
-         rewY9Ot/rPplJBIB4HODpO3239Rx3kDu2v5RHopAhLCWo0F74DqxFLTGuS/LLr6YPnlP
-         XH8MGqrXOfbHLRB1crvtfjdSFOyo3cN5V3c0K/P8tNPy0hnVzOMnJIeQLA0VcHSSgDfR
-         5l1gFR2FIX8XTBNwj5g9+7BYXYcM2ljgr16cNJyF97Q5Ukkxj9IET+IETAKtS5Uu1yZI
-         aurw==
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=iSQr58NN;
+       spf=pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=maninder1.s@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=1TdAehq+izI6b1ZK8FkrjAMBeVnhbcPMRGp43DOgdwU=;
-        b=Azl7CEy4qDKJ5s0HQN1VO5TwA3A/qq+7GpLjrwFdxAmOD7ja0oIhLatS/qD0OgUJJ3
-         to8Bj5LvxO9VtarnzSUy2z5S5W2GvFDNDPF1fUATuXInXWQM+otm19Sxtx6oATwcIwWu
-         SSEaRRFU8Y4Ymq9gZgXuEuXTALFlRce3b/kr09uLS/dewqJVptpg8QRZtCKYvA8j2Ufn
-         Jgn8lUJuNHTvtnHh1nuNFgPoUDQK1eIAIppwnRvVOLEnmK7v/veASEnJA4WZzAoT3I0P
-         Aoa3AuJu4Kiao7y7BCuUh9Z5y0xX8u7HAyhJy+0j2WSoNRBg/JTZJ9DPUnquXxIQALpr
-         s24g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532ULVXrhfT2I9ngAHa4bdzyonn7rurBRkp/CbTFNymdMF+sJjNA
-	fDBYe+uKByVBVY3CgwOf1V4=
-X-Google-Smtp-Source: ABdhPJxY6tDpaJ7++ZmoFB1OfTxiwpzD6cNgs2LEHeelpkLU9BhEN6hcVgwmRy//pqXI1zmFyThPnA==
-X-Received: by 2002:a05:6512:3404:: with SMTP id i4mr3313694lfr.375.1631271054309;
-        Fri, 10 Sep 2021 03:50:54 -0700 (PDT)
+        h=x-gm-message-state:dkim-filter:mime-version:subject:reply-to:sender
+         :from:to:cc:in-reply-to:message-id:date:cms-type:references
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=w9ThFZFERZe9oN5myYDmFfEIsXxUz/4B9M9oFl2S2OM=;
+        b=2Ibx+hxIo7rAF6rG3j3HjxtuGFKkexwDYWZZaHtl7Zz8k/XyT1Fg96mZPnYbca6irj
+         UpvaJuoPJ+izBtzQgoYvlOintKfrL7G6P71tYVFJ7nLG+zBFJ1+xRBeRuAIZw4SWUnFK
+         5EZUCzj9BnUo/nsDCka11KaqR/67jrLkvE58+CWqPQO7XNx9slMUvlaIw8iWEMu+YmYH
+         crWUBvOnvRwxhz1JES++Txz2NhyCipb57U3PfH5xbyhnFdqbAtwOkt7BJea1d8DwLx2D
+         aeA6Y4L3ydehclXBT5vlH9h2/rO/PpcBVt4jFwPg59ufp0MbFihUHKUcI9Qa485Y5EYU
+         804g==
+X-Gm-Message-State: AOAM532/Gptq+xa/2HkaA+xYhC2WceWfyj/aNqnawMst/UFZ8IfrMCc1
+	UXsjWoWMgX6yjmZ7QLk7pS8=
+X-Google-Smtp-Source: ABdhPJwXuNeGaSjuJUJtlOAPI3mplbkcDdSYmm9IrD+IUjvKnfgv5Jyu348uNjGm/Z7nwm1LTFDIlw==
+X-Received: by 2002:a37:6451:: with SMTP id y78mr7227065qkb.427.1631278795531;
+        Fri, 10 Sep 2021 05:59:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:13a9:: with SMTP id p41ls2595282lfa.0.gmail; Fri,
- 10 Sep 2021 03:50:53 -0700 (PDT)
-X-Received: by 2002:a05:6512:32c7:: with SMTP id f7mr3349519lfg.126.1631271053166;
-        Fri, 10 Sep 2021 03:50:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631271053; cv=none;
+Received: by 2002:ae9:e303:: with SMTP id v3ls3557841qkf.5.gmail; Fri, 10 Sep
+ 2021 05:59:55 -0700 (PDT)
+X-Received: by 2002:a05:620a:f8a:: with SMTP id b10mr7581404qkn.424.1631278795087;
+        Fri, 10 Sep 2021 05:59:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631278795; cv=none;
         d=google.com; s=arc-20160816;
-        b=UtRekqzT8b/hXMkHeIGq5s19Ftx1SpllMGXSMYTPAiFL085ZyzfM8O/EAX0JWIKv9V
-         cIvoy7mpl2qhrc/KXMp7/pX1rfv78ZYh/xJ5v024M1FRhSJtrlqfuzMNvFp/9LwbWWr8
-         ZTtZHYh+IcWAeVgBQWx+vNnR6E+KblZ4IaLaxR8BnjTvAQvBTR5XWxOia0XK2uAzoTYp
-         i4Zf3kTrGMFNBgNXjjA1m7Mru/Ig/gi/GkoJvMgi/qLBUjy0XeBfUqLwn0brjyB4AYHB
-         f0H5d/u3ICB998CJ7hyPkri2Yw6Cr5Hrl2PMVXOGPEgvqY679lV3PO7cGNWSJQ/20sqi
-         FMhw==
+        b=wKT3yhT15gRPPsi/HxiQG/cmYj1yfIRiWzjefHwkj2UewCU/BKg3LK+bs5056PYrbK
+         3Xig3FMU+CDJMJKNI0zuiLzkujGgNJkcJ3I9O8oTby1PKqHcC+WoQzR3Lewzq6Gsnk5z
+         MPK7RyaIAgjPojnxXJMtI32kCjE3MR7PlI2/fjbmZBz4wlGcazbSlFJn1+JhrfSIWlMl
+         oBom7LL/w8sE4/MQHMvp998YVWPMkCPVIYG8QbjRNDutJntIolyceFt3XYNHxvN7K5My
+         B1WYd5e4bdSwgds2YJ/xOC14GaVoSB4pBte2lKifZ//Nqr39MdA+1z3m2icRIhvvrY3s
+         ZzTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=cLa40tf04nYkoytYOxqmcnFcOjSkFNnyh5QKFWN0cDQ=;
-        b=UHsTGqMTDvgGFhfBm597HbcasWawAhW162lFLfbw3Fqvibe73JwvjWBn1DLdPIdZkD
-         B8/Zv6UrGTjD765iaz83248SmEeHCMSfnxkXyDzjngDns8uGrCO76QkMCVJ0bwHDAFXt
-         qcL/FSGX8JhUYAelWynsTQatLCKMcWoh4n+xHT3rhGyIkVfc4toO4q4YqFAnNxq0XiBe
-         CnOSJmfpSHgGczRxnW3CniFDM7kgMF21GJT1kP6IP2CHUwVMogPqint3fh8Hhpj8Dwha
-         6OShbV9/znOLjvPNwcUnc0vv1EJvnjDoivUjK7Qrxr349PoiNS6UkEGANCQOycooe/rN
-         201A==
+        h=references:cms-type:content-transfer-encoding:date:message-id
+         :in-reply-to:cc:to:from:sender:reply-to:subject:mime-version
+         :dkim-signature:dkim-filter;
+        bh=jZAIRI5syEH1dQgQ88ZbFitr00/kCWSSVpXDzAa4vzw=;
+        b=qZNMqZEP2N3Y+DNQE/6VOszGnuWR722Yqs2/SDMmdu2nIxbjVfAlvos9Vg82BuDRYb
+         9zAz4RuTMPi2ECstySBiuR0ey2uS5eEpBtHqy1yjf1HV2AlTAzspK903iUV7rJYPBTJt
+         JTgUtYlv9o9hkzLGk+gW+hyf7zC2YoFWS9GnV5qICSE+cMSQZS6Ii/bHu3H8jENNcDPP
+         Tq8hG5c1NPH2hEnRHNsBqT10vKZr266Rayq+jvVwqD0bPV2+GMPeDfydDBnVUm5sqbis
+         VlTac3xak73SXH3ry73bgXY2NkSMfd9xBluJLA6JDRZW5AHkEKmL2U7Ggkv0scEJfy1w
+         QisA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="UmM/PXCv";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=7h9cOBNJ;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
-        by gmr-mx.google.com with ESMTPS id g2si378114lfr.3.2021.09.10.03.50.52
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=iSQr58NN;
+       spf=pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=maninder1.s@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+Received: from mailout1.samsung.com (mailout1.samsung.com. [203.254.224.24])
+        by gmr-mx.google.com with ESMTPS id d201si424294qkg.4.2021.09.10.05.59.54
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 03:50:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5AF9021AD9;
-	Fri, 10 Sep 2021 10:50:52 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0B64A13D27;
-	Fri, 10 Sep 2021 10:50:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id zunNAYw4O2F5HgAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Fri, 10 Sep 2021 10:50:52 +0000
-Message-ID: <1b1569ac-1144-4f9c-6938-b9d79c6743de@suse.cz>
-Date: Fri, 10 Sep 2021 12:50:51 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 0/6] stackdepot, kasan, workqueue: Avoid expanding
- stackdepot slabs when holding raw_spin_lock
-Content-Language: en-US
-To: Shuah Khan <skhan@linuxfoundation.org>, Marco Elver <elver@google.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Walter Wu <walter-zh.wu@mediatek.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vijayanand Jitta <vjitta@codeaurora.org>,
- Vinayak Menon <vinmenon@codeaurora.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, kasan-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Aleksandr Nogikh <nogikh@google.com>, Taras Madan <tarasmadan@google.com>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-References: <20210907141307.1437816-1-elver@google.com>
- <69f98dbd-e754-c34a-72cf-a62c858bcd2f@linuxfoundation.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <69f98dbd-e754-c34a-72cf-a62c858bcd2f@linuxfoundation.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 10 Sep 2021 05:59:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as permitted sender) client-ip=203.254.224.24;
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20210910125951epoutp01412161938051c71bcf70fea0bb8eb614~jd2sSCvrg1266612666epoutp019
+	for <kasan-dev@googlegroups.com>; Fri, 10 Sep 2021 12:59:51 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20210910125951epoutp01412161938051c71bcf70fea0bb8eb614~jd2sSCvrg1266612666epoutp019
+Received: from epsmges5p2new.samsung.com (unknown [182.195.42.74]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20210910125950epcas5p2990404d76736db2ec3116cc6986f6d9b~jd2rQT_BH0368703687epcas5p2g;
+	Fri, 10 Sep 2021 12:59:50 +0000 (GMT)
+X-AuditID: b6c32a4a-b2dff7000000287f-d9-613b56c60c64
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	A8.C4.10367.6C65B316; Fri, 10 Sep 2021 21:59:50 +0900 (KST)
+Mime-Version: 1.0
+Subject: RE: [PATCH 1/1] exception/stackdepot: add irqentry section in case
+ of STACKDEPOT
+Reply-To: maninder1.s@samsung.com
+Sender: Maninder Singh <maninder1.s@samsung.com>
+From: Maninder Singh <maninder1.s@samsung.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+	"ryabinin.a.a@gmail.com" <ryabinin.a.a@gmail.com>, "glider@google.com"
+	<glider@google.com>
+CC: "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
+	<will@kernel.org>, "mark.rutland@arm.com" <mark.rutland@arm.com>,
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "maz@kernel.org"
+	<maz@kernel.org>, "pcc@google.com" <pcc@google.com>, "amit.kachhap@arm.com"
+	<amit.kachhap@arm.com>, "dvyukov@google.com" <dvyukov@google.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "kasan-dev@googlegroups.com"
+	<kasan-dev@googlegroups.com>, Vaneet Narang <v.narang@samsung.com>, AMIT
+	SAHRAWAT <a.sahrawat@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <YTYQKgKspSPORGH8@shell.armlinux.org.uk>
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20210910125949epcms5p40ddb337f000a5fe46bb6e59f48452060@epcms5p4>
+Date: Fri, 10 Sep 2021 18:29:49 +0530
+X-CMS-MailID: 20210910125949epcms5p40ddb337f000a5fe46bb6e59f48452060
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: vbabka@suse.cz
+CMS-TYPE: 105P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFKsWRmVeSWpSXmKPExsWy7bCmhu6xMOtEgwm3lC0u7k61mLN+DZvF
+	lA87WC3eL+thtJjwsI3dov3jXmaLL81tTBYrnt1nstj0+BqrxeVdc9gsDk3dy2ix9PpFJoud
+	c06yWvTfuc5mcXzrFmaLQyfnMlq03DF1EPRYM28No8flaxeZPXbOusvusWBTqceeiSfZPDat
+	6mTzODHjN4vH5iX1Hn1bVjF6fN4kF8AVxWWTkpqTWZZapG+XwJUx+9I39oI3LBVXf8s3MH5g
+	7mLk5JAQMJFYdq+XrYuRi0NIYDejRPOWd4xdjBwcvAKCEn93CIPUCAtES2w4e40dxBYSUJS4
+	MGMNWImwgIHEr60aIGE2AT2JVbv2sIDYIgKTGSVmvTMDGckssItV4su6m6wQu3glZrQ/ZYGw
+	pSW2L9/KCGJzCphKTFpyA+oeUYmbq9+yw9jvj81nhLBFJFrvnYWqEZR48HM3VFxGYvXmXhaQ
+	ZRIC3YwS69/thXJmMEr0PJoG1WEusX7JKrCpvAK+Eus23AGzWQRUJfZeWwV1nYvEyp7vYHFm
+	AXmJ7W/nMIN8ySygKbF+lz5EmE+i9/cTJphndsyDsVUlWm5uYIV57PPHjywgrRICHhJL1ipA
+	wvYvo8TeK21MExjlZyGCdxaSZbMQli1gZF7FKJlaUJybnlpsWmCUl1quV5yYW1yal66XnJ+7
+	iRGc3LS8djA+fPBB7xAjEwfjIUYJDmYlEd4TGywThXhTEiurUovy44tKc1KLDzFKc7AoifN+
+	fA2UEkhPLEnNTk0tSC2CyTJxcEo1MCVuEIt9JPnkyFXd2yWLUh6tlvxRnrzs29o/rfLXryX9
+	+nHo8llB08O7LspxJ/JO5A7pr5lRWvTnxpmyVd2xBVfNNtmaVb/32ujE4H1x64JTJgv1b6+z
+	DmC86DfpWMHRruVOlQwsHqaK+yQdbO91LdETL1r6631f0OP6a8mbHT/tzLrVe473lV/xMisX
+	b42CfR075geonC/Jv+7SK9MsOnPbPpVmK5trqgmfXrdP/HfE+92yL3e+75jP94K3ReK7pW2m
+	qeLkBIl094xJtW1/w5R6V106YHbkXllbcKRsZ5pPq2GrvP/2U7eCF+/geVMvHTPhbqie+Le6
+	RIflulOTdL8Lxt06lvS3Sfu49+G2lUosxRmJhlrMRcWJALDpUcPdAwAA
+X-CMS-RootMailID: 20210818071602epcas5p4fecf459638312c95c5d5aaa29e7e983a
+References: <YTYQKgKspSPORGH8@shell.armlinux.org.uk>
+	<1629270943-9304-1-git-send-email-maninder1.s@samsung.com>
+	<20210906124351epcms5p6020fbfe5f885f1e8834a72784b28d434@epcms5p6>
+	<CGME20210818071602epcas5p4fecf459638312c95c5d5aaa29e7e983a@epcms5p4>
+X-Original-Sender: maninder1.s@samsung.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b="UmM/PXCv";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519
- header.b=7h9cOBNJ;       spf=pass (google.com: domain of vbabka@suse.cz
- designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@samsung.com header.s=mail20170921 header.b=iSQr58NN;       spf=pass
+ (google.com: domain of maninder1.s@samsung.com designates 203.254.224.24 as
+ permitted sender) smtp.mailfrom=maninder1.s@samsung.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,132 +167,27 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 9/7/21 22:05, Shuah Khan wrote:
-> On 9/7/21 8:13 AM, Marco Elver wrote:
->> Shuah Khan reported [1]:
->>
->> =C2=A0 | When CONFIG_PROVE_RAW_LOCK_NESTING=3Dy and CONFIG_KASAN are ena=
-bled,
->> =C2=A0 | kasan_record_aux_stack() runs into "BUG: Invalid wait context" =
-when
->> =C2=A0 | it tries to allocate memory attempting to acquire spinlock in p=
-age
->> =C2=A0 | allocation code while holding workqueue pool raw_spinlock.
->> =C2=A0 |
->> =C2=A0 | There are several instances of this problem when block layer tr=
-ies
->> =C2=A0 | to __queue_work(). Call trace from one of these instances is be=
-low:
->> =C2=A0 |
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0 kblockd_mod_delayed_work_on()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mod_delayed_work_on()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __queue_delayed=
-_work()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __q=
-ueue_work() (rcu_read_lock, raw_spin_lock pool->lock held)
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 insert_work()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 kasan_record_aux_stack()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kasan_save_stack()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 stack_depot_save()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alloc_pages()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __all=
-oc_pages()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 get_page_from_freelist()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 rm_queue()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rm_queue_pcplist()
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 local_lock_irqsave(&pagesets.loc=
-k, flags);
->> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [ BUG: Invalid wait context trig=
-gered ]
->>
->> [1]
->> https://lkml.kernel.org/r/20210902200134.25603-1-skhan@linuxfoundation.o=
-rg
->>
->> PROVE_RAW_LOCK_NESTING is pointing out that (on RT kernels) the locking
->> rules are being violated. More generally, memory is being allocated from
->> a non-preemptive context (raw_spin_lock'd c-s) where it is not allowed.
->>
->> To properly fix this, we must prevent stackdepot from replenishing its
->> "stack slab" pool if memory allocations cannot be done in the current
->> context: it's a bug to use either GFP_ATOMIC nor GFP_NOWAIT in certain
->> non-preemptive contexts, including raw_spin_locks (see gfp.h and
->> ab00db216c9c7).
->>
->> The only downside is that saving a stack trace may fail if: stackdepot
->> runs out of space AND the same stack trace has not been recorded before.
->> I expect this to be unlikely, and a simple experiment (boot the kernel)
->> didn't result in any failure to record stack trace from insert_work().
->>
->> The series includes a few minor fixes to stackdepot that I noticed in
->> preparing the series. It then introduces __stack_depot_save(), which
->> exposes the option to force stackdepot to not allocate any memory.
->> Finally, KASAN is changed to use the new stackdepot interface and
->> provide kasan_record_aux_stack_noalloc(), which is then used by
->> workqueue code.
->>
->> Marco Elver (6):
->> =C2=A0=C2=A0 lib/stackdepot: include gfp.h
->> =C2=A0=C2=A0 lib/stackdepot: remove unused function argument
->> =C2=A0=C2=A0 lib/stackdepot: introduce __stack_depot_save()
->> =C2=A0=C2=A0 kasan: common: provide can_alloc in kasan_save_stack()
->> =C2=A0=C2=A0 kasan: generic: introduce kasan_record_aux_stack_noalloc()
->> =C2=A0=C2=A0 workqueue, kasan: avoid alloc_pages() when recording stack
->>
->> =C2=A0 include/linux/kasan.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
->> =C2=A0 include/linux/stackdepot.h |=C2=A0 6 +++++
->> =C2=A0 kernel/workqueue.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 2 +-
->> =C2=A0 lib/stackdepot.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 51 ++++++++++++++++++++++++++++++--------
->> =C2=A0 mm/kasan/common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 6 ++---
->> =C2=A0 mm/kasan/generic.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 14 +++++++++--
->> =C2=A0 mm/kasan/kasan.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 2 +-
->> =C2=A0 7 files changed, 65 insertions(+), 18 deletions(-)
->>
->=20
-> Thank you. Tested all the 6 patches in this series on Linux 5.14. This pr=
-oblem
-> exists in 5.13 and needs to be marked for both 5.14 and 5.13 stable relea=
-ses.
+Hi,
 
-I think if this problem manifests only with CONFIG_PROVE_RAW_LOCK_NESTING
-then it shouldn't be backported to stable. CONFIG_PROVE_RAW_LOCK_NESTING is
-an experimental/development option to earlier discover what will collide
-with RT lock semantics, without needing the full RT tree.
-Thus, good to fix going forward, but not necessary to stable backport.
+>No, I've not heard of stackdepot, I don't know what it is, or what
+>it does. It doesn't appear to be documented in Documentation - case
+>insensitive grep for "stackdepot" gets no hits. No help text on its
+>Kconfig option.
+> 
+>How are arch maintainers supposed to know anything about this?
 
-> Here is my
->=20
-> Tested-by: Shuah Khan <skhan@linuxfoundation.org>
->=20
-> thanks,
-> -- Shuah
->=20
+ok.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/1b1569ac-1144-4f9c-6938-b9d79c6743de%40suse.cz.
+Added reviewers/maintainers of stackdepot and KASAN(filter_irq_stack) code.
+Because on our ARM H/W it was causing memory issue, and without this change
+purpose of filter_irq_stack was gone as it was not filtering irq stacks.
+
+If anyone else has any views or comments for this.
+
+Thanks
+Maninder Singh
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210910125949epcms5p40ddb337f000a5fe46bb6e59f48452060%40epcms5p4.
