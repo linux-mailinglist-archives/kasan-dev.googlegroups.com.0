@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBYFDQKFAMGQESO7XMTI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRB2VXQKFAMGQEY2HDRZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0732B40AD36
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 Sep 2021 14:13:22 +0200 (CEST)
-Received: by mail-yb1-xb3c.google.com with SMTP id f64-20020a2538430000b0290593bfc4b046sf17088003yba.9
-        for <lists+kasan-dev@lfdr.de>; Tue, 14 Sep 2021 05:13:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631621601; cv=pass;
+Received: from mail-qk1-x73c.google.com (mail-qk1-x73c.google.com [IPv6:2607:f8b0:4864:20::73c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE0B40AE61
+	for <lists+kasan-dev@lfdr.de>; Tue, 14 Sep 2021 14:56:12 +0200 (CEST)
+Received: by mail-qk1-x73c.google.com with SMTP id t18-20020a05620a0b1200b003f8729fdd04sf46029973qkg.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 14 Sep 2021 05:56:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631624171; cv=pass;
         d=google.com; s=arc-20160816;
-        b=UGe2U1NGXuxQagybpsfm0zCAhRmCWBs38Ioa6K+0k1rdBIIsAf6ZlcRFlL7Sx/gYKK
-         5twUOzp7WWIuA2dRvPda6+Wd4CjnDpn3f0Yl2obp9WyyWNsfu67ciUII0GRok+fvs4qu
-         uhcy16aN/aI2ODbCfyfYghPDjKGD6nPq6NeNQKIG8WZQAea0ByjN1p4+jQmaMuaNmdYY
-         2N5a4dnP3TrVlTGv4KpmEacbv/MuEt9RDlh010jM/WDvQxOXaOIEdTJppjiPYycbQlHY
-         edwuve4TVodN5h/N7KDS53g4TgyDhvYJ7aLNnH018B6h15G+SH5X7Zm+b9Vxe0OdbGcc
-         RC4w==
+        b=UPKFzufTTv4Q5kA0ixlfX7ZJnOSxv3YAIYOHKrLx0fWQrpGS1NCPmj821a4TvXB3Kj
+         KiHNvtsgJKMKFntaC9IzC9NtybK2Ow8A+6D22ifnwK2+8IgxrC4sLJuvPDx21bPwR8Em
+         sI2uTsWt4y9KIjNCH5TuW8cZynfgA+sH6y7/59php+msPvQEta5QHLUKqoEFsGnouTiH
+         w52A9CUCkUUxv6Eh9z82wtus+qB4cFla1W16RCmO/DPrXQxjo0NP2XxlEn5QlFijRxsF
+         uQBBIKy9zUEvIgmir4BB3IUoRMWw9sW7tduyemKpUdCi+si7jJEevKF1yN7q6auA+SqB
+         5w/A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=pnX+PvhnTVVtsFBlfgmQnmmSEfZ0AWmvJIJiZZt/iWg=;
-        b=KD+t0N21WDtoAEzsnJbIcE0dOsfY8DsDDIcZy60HNxvk0nofzfGXkizEt4UjL2QC8m
-         yMGLbFmM36RP3wyhYUnabx3ZlkPNWLCH7N3Gz0zkKGnwL3uBEWqVKTTU6+3hIybGv3Ts
-         S2B5fKRpgcZ2mZ0YoyeoJ1BPFLK3uEu6aEVMYIeSYkfnCDlyqmHx4usOoo44FhGyvxAq
-         nNKEZDkJrD6Y9M1k+CYUF1IIsqjGXEt6wi+Wfv0wturd6SD/5tXrTi5oiAazWfdKUfqi
-         DXn8fUKGhchA3Xg0L4s/gkLwzbEHFWzp8bIo7rbTn6yFv82TEGfpvsqEav6jHLs6kPPV
-         +OWg==
+        bh=y4Utb2FicmdD2Al3WDapOMGxRPOy/gbWcH1NqhZBEKc=;
+        b=SZaz9l8QDgozIkSvpQXF++BYfKRmWuWsWsgH1up1NrMr7wAaRmgtbZfIcRXk75w8W2
+         JGAHGVifWo8YsNfFbqpZtA+ZTHU/u8A3aIRSLPR5xd1Qp4hA4fi23v6U67u9qnb8Js6Q
+         miuinbo65pQGZ+b7cldSdS9yteR/LYTRZmKiw+Bb9HIeyTx2f+R8Xilrjpcm+9YhgcYb
+         B41PmXme0+giJWfJm/A7JVmP2OI6HXUhpkEuL1QasFwwKittYcYwph0Q9OiOUaPoS5A9
+         8F2NFGfOyrrKP3Se6QyuwYSaZJVOtkgJcBiF3ifJKgI4bCu9x5uoO11KQlF26pnULDNq
+         u4fA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=ZT9oblhQ;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72b as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=R7A0fnkx;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::836 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=pnX+PvhnTVVtsFBlfgmQnmmSEfZ0AWmvJIJiZZt/iWg=;
-        b=tsPc+yLz+LzCAp8iT4H+JlEwwwX/75NVNHukwlCRWjcGfBJMudAV8gUX3SO09rBPuS
-         AiGLrmgmxsGE1jyH7orIGYYfxhR6qjX3OfM55aGb5DMY296QM6RH3NkJVkzljsKe2zZb
-         1G8M8N1xSW5vJixu8lfL0zMHxVMbPEOIJWnj4wEQzUae76nLKUDbW8/neBEE1iPTCU9r
-         JGDvOB+JYaHHrulRKsza4kBbUTjwWPXPIbnr7DIEEoLglLqLH8AZmLOcKYraPzEoyjuv
-         1r1ZLNd+Yjz/GoY5E/OCKWo4n9LTibroygXtTorc5nHlxJB7dSSH/prpgqsi8dXU8/t6
-         5yVQ==
+        bh=y4Utb2FicmdD2Al3WDapOMGxRPOy/gbWcH1NqhZBEKc=;
+        b=n2rg4P2AqnIET3JmoWhjIDoabaaDRJl0vKFjYAymkpbXgXt/OqFE1pYVtXl6psYDeo
+         BoNpUKUqfd4v2taZqTCucGWnfalPBuqrmv5obllDg1fGedEmNlTXMCM3JyoPQCRiBerH
+         0NX2lHHZ3qqdZ7g9IhXi5QKBWGkvPn1HvpnqsPkQQgHHMrTc7neym0n7dX73Q992rBKL
+         dYLCjQnL0TRKoXQUHNsy0wAPNQP6zplfJgauir1X3XttH5eyNnOpKw9XBSqRiDIaU2py
+         LqF3lrqI5BurD4VokftXxoySLtNEYAqCJzZNn7ei1QXFMyzy2cJr6UsqUdX3rwIVdxHO
+         pc0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -51,62 +51,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=pnX+PvhnTVVtsFBlfgmQnmmSEfZ0AWmvJIJiZZt/iWg=;
-        b=5lGNv1pH7eITaV5NwtIQNESTY0luE/tksF2RJbE13hAYz0oqNc42ZZoND5qFRjqSzM
-         11KPUF6PjMvCkgD/fuQQ79KDJ6JI39ilBvT6vKK/iimDsZwp6HQN6DkKKIvc2Isq7d2q
-         Y++tXdodQuK7W7h8Z2l4OuwvCdwt7WuHdCmhpkzSVOvaBysTwgN37dUFd7iHExwjJNgO
-         s1rWW4ZQ719BDYY/0CchDX8LWvxWR1Vldu1m/C9Y/vTBC1QTl6VN+IfnDxOMDAOkqkdq
-         OeJp8EHtyUK7fI/HKxjJmP2WKsrsdxLJJYjdp0lvGNE+8KyOJm4X5KcD4AKj/+5s6tAE
-         BrOQ==
-X-Gm-Message-State: AOAM530nQEC4MF184bh7rbEwJKc8h7js+cZiiXrhE0LusAKrdj6kkUYC
-	ILvxGnKR6HRlEiBmO+i2Pg8=
-X-Google-Smtp-Source: ABdhPJyCcUrUKMrUYmb+o8YB5thyBv2GUGmGo5XeKjqjkQmdLZz0l1h1bIV3IJ6tAnZtSxOBp7N7xQ==
-X-Received: by 2002:a25:2f42:: with SMTP id v63mr22194071ybv.388.1631621600870;
-        Tue, 14 Sep 2021 05:13:20 -0700 (PDT)
+        bh=y4Utb2FicmdD2Al3WDapOMGxRPOy/gbWcH1NqhZBEKc=;
+        b=l3cJGrEAmTG8+FUf1R3dsLWWKG8DU6Ygfs8jxR5fYVhjBU5iPVuCZI2gkyK+A7CEx/
+         UpYm77rcOUIwKzcXh0zRspuTi3Ni411B0exvvTBXlH3yzxp0sGaWAPEzqSFO48sc88WK
+         e7NORv1znn3RWLAYobrGNn0GgQsOMhOGHIoRdrJNl4iGxEdOxF2hvuCsDGxetRsX332a
+         1KCxU4S48as0qalHDDx/BVyKZcWNv3CsHFm9OcOL0+Eggah3GjldvVXUeUboHK+tr1UG
+         eSJJWmK03LGmW1UxbwTmpunFRwrbkhM7UIqSyMXbhkyjbJ7GgAAiGgDCXIo2Ba8oaZfz
+         ahhA==
+X-Gm-Message-State: AOAM532kyASmybHhQOHJGkCQrxKLcWwaaoMqz0R47E+3EvsGsilIX5/W
+	gDzyyBhwCvQC7iVXGD1kN94=
+X-Google-Smtp-Source: ABdhPJzb2Ep4Hux8nHuDjbBIGFvgjH/4i7Xoh8JlvII8zy9UEUmXfC3mGCg5njEp819UohqiJL24NA==
+X-Received: by 2002:a05:6214:528:: with SMTP id x8mr5032729qvw.30.1631624170913;
+        Tue, 14 Sep 2021 05:56:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:6e04:: with SMTP id j4ls4438406ybc.7.gmail; Tue, 14 Sep
- 2021 05:13:20 -0700 (PDT)
-X-Received: by 2002:a25:1d86:: with SMTP id d128mr22375943ybd.406.1631621600392;
-        Tue, 14 Sep 2021 05:13:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631621600; cv=none;
+Received: by 2002:a0c:e411:: with SMTP id o17ls3543712qvl.10.gmail; Tue, 14
+ Sep 2021 05:56:10 -0700 (PDT)
+X-Received: by 2002:ad4:45c5:: with SMTP id v5mr5180932qvt.37.1631624170475;
+        Tue, 14 Sep 2021 05:56:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631624170; cv=none;
         d=google.com; s=arc-20160816;
-        b=obPViPmHJw/C4DTQ183EGEtL9peEIQ2OVQ0kV2Z4and1mNFY/KS4Cu4rCc7Gv9aPiJ
-         0nSxlyuiQZBYoCxabPFen2TRQdHU3Q1e5BtZzZ2SByIELkGTaLTWuPyMsaxKjcgrhyJx
-         57DTrbPUelElvZ+EaCR+ehngsRELraS+eOt+w4abF2dl6WxJIkINLRdfM8X3WzITrhNw
-         4Pe3UTGF6IFjwKzrm/+452kv3pgsNMxVff3Oc/PBpzh8YWTR3qwGz124r30SCMJLeiv6
-         58yr4O5byDbqMQjeV5dEOSHRY6G0XPU9Rs4mkjq2UMqjGoVXP1dAcGMAhQEG1OGMrNy5
-         6MkA==
+        b=yznPltJPedl1xGJOn1m8HUo6GHSqs6jNN3u4DxRRihtJq7Z5TfGRZ4xXWKE3BvvHpE
+         Gf3423w896HfXt2ovA5EDsCD/Ylbptw3Nmyw1yGimObnnd9AoY+UqVsmVm8CfFxT4edQ
+         Hwhw01whuwo4wSO0gLvW4qJEKOdSv+pFsyClNeojhZC7QPAZ5HLAois/hjYg2s70Wkjy
+         /wBrFg8c1F++VNSg4pE5WVxpa8mjxhW8JbN9G886rOdQP0Aq8ruz7SMnd9nfOWyWQe7n
+         2DJ9RfQvwGb4C5iXDSCTx+9N0AUDIygvsL3TEXshPgdCRezgsoZ77su/ULSwTQ91jNBf
+         9GAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=pJ0yW4/1Jn6ZEeGlxOvvBqEA1VuZRtIwgqtBes2tjIY=;
-        b=Q94vpvo+VchrlfXh1nbunTwzgqposmbjRUd0/zotI02yVvnI6Wl9/3vNCCDwiY+EYF
-         mspo+dkd3blF289ctEYbwmqvVrKPZAavpYzFGrwfjtlvvb5uyhntP1d5DqjEUIJ8F82g
-         xbpcWUNegZOSIsAiH13ALHdI9FetT/GniHvth2ub1OCEytoryTEKcBaFMnvUygkag+fW
-         tJzTFV25vIEoPGhAK4clCoPDvSqaDhfIi1UTfOjaEuLCWkdO0uqeOEu81/e/GIK4Ysoh
-         pTKJkAXidIKQJf2cLdlOZMz9iInuy7a+JbhXSnH+FB8RAliePbcoSrd9hwfGyUU+CCeL
-         cvLA==
+        bh=473xgTZGiwHmobEJ6/SAUPmhRqqxJ35dz9Kf/VHgaaM=;
+        b=cZx8JKyudPwo+MelDDSeZFgAcHXcc6pUdR20/+Ez7/YnoFN74hWS+yLSnLmYTuxrjx
+         xuN8d3D/HoVRR1ZsqVaJWoxZiz7Yhhcz/0E+5F1fjecNIB4E+Vm0B+ovXRmn+SWM9+Sr
+         2vdtuNT1n5aoS/dc4H2IhiaLwDz12872OTVa8ZyueEOUTxYZ8I1moLs1JLg09kLHQCvm
+         o4pCdKqlAnFFfdvl7PhSWc0H2OKklTan17YFaaupTgNkWuW9qQMO9ctumHAQX32viqws
+         TJHhvF0aSJmNuR0dFK6WhzCaciHxoSbrRzsS5rIiVaAQ90bYfm3LbfcSin0UQb/6J592
+         pTZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=ZT9oblhQ;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72b as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=R7A0fnkx;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::836 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com. [2607:f8b0:4864:20::72b])
-        by gmr-mx.google.com with ESMTPS id w6si722628ybt.0.2021.09.14.05.13.20
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com. [2607:f8b0:4864:20::836])
+        by gmr-mx.google.com with ESMTPS id n78si830410qkn.1.2021.09.14.05.56.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Sep 2021 05:13:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72b as permitted sender) client-ip=2607:f8b0:4864:20::72b;
-Received: by mail-qk1-x72b.google.com with SMTP id t190so14439208qke.7
-        for <kasan-dev@googlegroups.com>; Tue, 14 Sep 2021 05:13:20 -0700 (PDT)
-X-Received: by 2002:a05:620a:191d:: with SMTP id bj29mr4500655qkb.362.1631621599977;
- Tue, 14 Sep 2021 05:13:19 -0700 (PDT)
+        Tue, 14 Sep 2021 05:56:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::836 as permitted sender) client-ip=2607:f8b0:4864:20::836;
+Received: by mail-qt1-x836.google.com with SMTP id m9so8413274qtk.4
+        for <kasan-dev@googlegroups.com>; Tue, 14 Sep 2021 05:56:10 -0700 (PDT)
+X-Received: by 2002:a05:622a:394:: with SMTP id j20mr4535974qtx.196.1631624169952;
+ Tue, 14 Sep 2021 05:56:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210907141307.1437816-1-elver@google.com> <20210907141307.1437816-3-elver@google.com>
-In-Reply-To: <20210907141307.1437816-3-elver@google.com>
+References: <20210907141307.1437816-1-elver@google.com>
+In-Reply-To: <20210907141307.1437816-1-elver@google.com>
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 14 Sep 2021 14:12:43 +0200
-Message-ID: <CAG_fn=XGa=UK6cduTNAd2AREA6jxUaGFJqTWT1cNTXCK4-6k0Q@mail.gmail.com>
-Subject: Re: [PATCH 2/6] lib/stackdepot: remove unused function argument
+Date: Tue, 14 Sep 2021 14:55:33 +0200
+Message-ID: <CAG_fn=U1iSYXmd=Y7mnvAbp5wqu_D6m9VXR6ebJRRzN=VfJcxQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] stackdepot, kasan, workqueue: Avoid expanding
+ stackdepot slabs when holding raw_spin_lock
 To: Marco Elver <elver@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
 	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
@@ -121,8 +122,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=ZT9oblhQ;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72b as
+ header.i=@google.com header.s=20210112 header.b=R7A0fnkx;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::836 as
  permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
@@ -141,46 +142,81 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 On Tue, Sep 7, 2021 at 4:14 PM Marco Elver <elver@google.com> wrote:
 >
-> alloc_flags in depot_alloc_stack() is no longer used; remove it.
+> Shuah Khan reported [1]:
 >
-> Signed-off-by: Marco Elver <elver@google.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
+>  | When CONFIG_PROVE_RAW_LOCK_NESTING=3Dy and CONFIG_KASAN are enabled,
+>  | kasan_record_aux_stack() runs into "BUG: Invalid wait context" when
+>  | it tries to allocate memory attempting to acquire spinlock in page
+>  | allocation code while holding workqueue pool raw_spinlock.
+>  |
+>  | There are several instances of this problem when block layer tries
+>  | to __queue_work(). Call trace from one of these instances is below:
+>  |
+>  |     kblockd_mod_delayed_work_on()
+>  |       mod_delayed_work_on()
+>  |         __queue_delayed_work()
+>  |           __queue_work() (rcu_read_lock, raw_spin_lock pool->lock held=
+)
+>  |             insert_work()
+>  |               kasan_record_aux_stack()
+>  |                 kasan_save_stack()
+>  |                   stack_depot_save()
+>  |                     alloc_pages()
+>  |                       __alloc_pages()
+>  |                         get_page_from_freelist()
+>  |                           rm_queue()
+>  |                             rm_queue_pcplist()
+>  |                               local_lock_irqsave(&pagesets.lock, flags=
+);
+>  |                               [ BUG: Invalid wait context triggered ]
+>
+> [1] https://lkml.kernel.org/r/20210902200134.25603-1-skhan@linuxfoundatio=
+n.org
+>
+> PROVE_RAW_LOCK_NESTING is pointing out that (on RT kernels) the locking
+> rules are being violated. More generally, memory is being allocated from
+> a non-preemptive context (raw_spin_lock'd c-s) where it is not allowed.
+>
+> To properly fix this, we must prevent stackdepot from replenishing its
+> "stack slab" pool if memory allocations cannot be done in the current
+> context: it's a bug to use either GFP_ATOMIC nor GFP_NOWAIT in certain
+> non-preemptive contexts, including raw_spin_locks (see gfp.h and
+> ab00db216c9c7).
+>
+> The only downside is that saving a stack trace may fail if: stackdepot
+> runs out of space AND the same stack trace has not been recorded before.
+> I expect this to be unlikely, and a simple experiment (boot the kernel)
+> didn't result in any failure to record stack trace from insert_work().
+>
+> The series includes a few minor fixes to stackdepot that I noticed in
+> preparing the series. It then introduces __stack_depot_save(), which
+> exposes the option to force stackdepot to not allocate any memory.
+> Finally, KASAN is changed to use the new stackdepot interface and
+> provide kasan_record_aux_stack_noalloc(), which is then used by
+> workqueue code.
+>
+> Marco Elver (6):
+>   lib/stackdepot: include gfp.h
+>   lib/stackdepot: remove unused function argument
+>   lib/stackdepot: introduce __stack_depot_save()
+>   kasan: common: provide can_alloc in kasan_save_stack()
+>   kasan: generic: introduce kasan_record_aux_stack_noalloc()
+>   workqueue, kasan: avoid alloc_pages() when recording stack
 
-> ---
->  lib/stackdepot.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+Acked-by: Alexander Potapenko <glider@google.com>
+
+for the whole series.
+
 >
-> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-> index 0a2e417f83cb..c80a9f734253 100644
-> --- a/lib/stackdepot.c
-> +++ b/lib/stackdepot.c
-> @@ -102,8 +102,8 @@ static bool init_stack_slab(void **prealloc)
->  }
+>  include/linux/kasan.h      |  2 ++
+>  include/linux/stackdepot.h |  6 +++++
+>  kernel/workqueue.c         |  2 +-
+>  lib/stackdepot.c           | 51 ++++++++++++++++++++++++++++++--------
+>  mm/kasan/common.c          |  6 ++---
+>  mm/kasan/generic.c         | 14 +++++++++--
+>  mm/kasan/kasan.h           |  2 +-
+>  7 files changed, 65 insertions(+), 18 deletions(-)
 >
->  /* Allocation of a new stack in raw storage */
-> -static struct stack_record *depot_alloc_stack(unsigned long *entries, in=
-t size,
-> -               u32 hash, void **prealloc, gfp_t alloc_flags)
-> +static struct stack_record *
-> +depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **pre=
-alloc)
->  {
->         struct stack_record *stack;
->         size_t required_size =3D struct_size(stack, entries, size);
-> @@ -309,9 +309,8 @@ depot_stack_handle_t stack_depot_save(unsigned long *=
-entries,
->
->         found =3D find_stack(*bucket, entries, nr_entries, hash);
->         if (!found) {
-> -               struct stack_record *new =3D
-> -                       depot_alloc_stack(entries, nr_entries,
-> -                                         hash, &prealloc, alloc_flags);
-> +               struct stack_record *new =3D depot_alloc_stack(entries, n=
-r_entries, hash, &prealloc);
-> +
->                 if (new) {
->                         new->next =3D *bucket;
->                         /*
 > --
 > 2.33.0.153.gba50c8fa24-goog
 >
@@ -204,5 +240,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DXGa%3DUK6cduTNAd2AREA6jxUaGFJqTWT1cNTXCK4-6k0Q%40mail.gm=
-ail.com.
+kasan-dev/CAG_fn%3DU1iSYXmd%3DY7mnvAbp5wqu_D6m9VXR6ebJRRzN%3DVfJcxQ%40mail.=
+gmail.com.
