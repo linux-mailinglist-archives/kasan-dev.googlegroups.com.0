@@ -1,133 +1,126 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRB2VXQKFAMGQEY2HDRZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBMWGQOFAMGQE65YNE5Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73c.google.com (mail-qk1-x73c.google.com [IPv6:2607:f8b0:4864:20::73c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE0B40AE61
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 Sep 2021 14:56:12 +0200 (CEST)
-Received: by mail-qk1-x73c.google.com with SMTP id t18-20020a05620a0b1200b003f8729fdd04sf46029973qkg.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 14 Sep 2021 05:56:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631624171; cv=pass;
+Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3751E40B66A
+	for <lists+kasan-dev@lfdr.de>; Tue, 14 Sep 2021 20:00:20 +0200 (CEST)
+Received: by mail-pg1-x53e.google.com with SMTP id w2-20020a63fb42000000b00255da18df0csf9850360pgj.9
+        for <lists+kasan-dev@lfdr.de>; Tue, 14 Sep 2021 11:00:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631642418; cv=pass;
         d=google.com; s=arc-20160816;
-        b=UPKFzufTTv4Q5kA0ixlfX7ZJnOSxv3YAIYOHKrLx0fWQrpGS1NCPmj821a4TvXB3Kj
-         KiHNvtsgJKMKFntaC9IzC9NtybK2Ow8A+6D22ifnwK2+8IgxrC4sLJuvPDx21bPwR8Em
-         sI2uTsWt4y9KIjNCH5TuW8cZynfgA+sH6y7/59php+msPvQEta5QHLUKqoEFsGnouTiH
-         w52A9CUCkUUxv6Eh9z82wtus+qB4cFla1W16RCmO/DPrXQxjo0NP2XxlEn5QlFijRxsF
-         uQBBIKy9zUEvIgmir4BB3IUoRMWw9sW7tduyemKpUdCi+si7jJEevKF1yN7q6auA+SqB
-         5w/A==
+        b=Vvcq1N7oOj2Iwzx3fCVhoqpmYhMuZ158tG0z0C9htuRdM294uDCHl+bedn/a83jHEA
+         bQMGewB805nURCe5wCZDkBrz7f+3z6vmJeDCIpbvmx9wCCtGHSQgVucg+9xy0Fb+lj5Y
+         nAZA09SE4mRljONXLhVEK4bCX1VOa1oUy4GWiiLmZULmOm3WFIFZrTLPFLSUkC4jpfmB
+         89JCD1+ItV+/KHs3uk8jM5UiOjaaUYSgXrivGd8EnDVkA/zONu+u6F3Dpa1N1+ScbzY5
+         e4n/VxV1Zri/3U48QxfbDHghlvA8QOpwNkL7alVSnZBqK8uDnBCIc9of6DPxiXAktVcO
+         H8Kg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=y4Utb2FicmdD2Al3WDapOMGxRPOy/gbWcH1NqhZBEKc=;
-        b=SZaz9l8QDgozIkSvpQXF++BYfKRmWuWsWsgH1up1NrMr7wAaRmgtbZfIcRXk75w8W2
-         JGAHGVifWo8YsNfFbqpZtA+ZTHU/u8A3aIRSLPR5xd1Qp4hA4fi23v6U67u9qnb8Js6Q
-         miuinbo65pQGZ+b7cldSdS9yteR/LYTRZmKiw+Bb9HIeyTx2f+R8Xilrjpcm+9YhgcYb
-         B41PmXme0+giJWfJm/A7JVmP2OI6HXUhpkEuL1QasFwwKittYcYwph0Q9OiOUaPoS5A9
-         8F2NFGfOyrrKP3Se6QyuwYSaZJVOtkgJcBiF3ifJKgI4bCu9x5uoO11KQlF26pnULDNq
-         u4fA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=K9PHIYWxtO7Dsm34nMzD6LkUxtGmytnlAIzzIQxf5kI=;
+        b=JNKZho+mr/+HEv1555kNMW0fDpXWgK/NX1ANaxw+P3h6Ce119gpe7m98O1dwTZnVVc
+         odRiptaBa/IPwgNUtmzkz/usmr2TmVvQoBO/kZfFao0wLJhGvP5n62DrwUgBHkzhkggW
+         mNIcUs4nshumd3OmfwYDLSbMRzcEAADEmLNMXvxSOHRV3d5EgDq3wH41He628RPx8GwS
+         zlTD7+LqV8Lmu1vUOi4VMETvBbz9DrbhZlth5KbgwCsuxiG7P27PN3cZCWDLe8cGRQNU
+         Z9bSBenkFpztAQyGt0vyTlT20vrObA10m32XF+222dN51pt2Puj6h/QtQOL2evm0E6ZD
+         VYlw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=R7A0fnkx;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::836 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=ShQlUJke;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22f as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=y4Utb2FicmdD2Al3WDapOMGxRPOy/gbWcH1NqhZBEKc=;
-        b=n2rg4P2AqnIET3JmoWhjIDoabaaDRJl0vKFjYAymkpbXgXt/OqFE1pYVtXl6psYDeo
-         BoNpUKUqfd4v2taZqTCucGWnfalPBuqrmv5obllDg1fGedEmNlTXMCM3JyoPQCRiBerH
-         0NX2lHHZ3qqdZ7g9IhXi5QKBWGkvPn1HvpnqsPkQQgHHMrTc7neym0n7dX73Q992rBKL
-         dYLCjQnL0TRKoXQUHNsy0wAPNQP6zplfJgauir1X3XttH5eyNnOpKw9XBSqRiDIaU2py
-         LqF3lrqI5BurD4VokftXxoySLtNEYAqCJzZNn7ei1QXFMyzy2cJr6UsqUdX3rwIVdxHO
-         pc0w==
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=K9PHIYWxtO7Dsm34nMzD6LkUxtGmytnlAIzzIQxf5kI=;
+        b=HaNsuoX+SsDC0OarE/AjyTRxGBoN06HY+hsc9F6oV+ggQ2ODNYpc4dyC2SwNpXHIx0
+         BHo4K+pQYQAAgznFGbU78nVc0yuoFpoyXKiHsgpkq+mwk0G6d6T52UkedWQkxnA5BMv1
+         6hoL0D68l/toRCHZ8EOwMKLmu0Hjg5ms28Ss4fV+d2ILRvej558n7gG62bL7POnV+GD4
+         jZiVIoq/nQX2Yc4IHeuiSyJOB+lxgvvlK0yplh8Ida8jinsCOWAv6iS/HREyKA7i1Dx2
+         5iZ4fIWHHVWflKSVN4jsG5nWsClXGA+yfnPNh7Rg+2wk7k1LjqECLoTIBgpMvEVYN5WQ
+         jYKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=y4Utb2FicmdD2Al3WDapOMGxRPOy/gbWcH1NqhZBEKc=;
-        b=l3cJGrEAmTG8+FUf1R3dsLWWKG8DU6Ygfs8jxR5fYVhjBU5iPVuCZI2gkyK+A7CEx/
-         UpYm77rcOUIwKzcXh0zRspuTi3Ni411B0exvvTBXlH3yzxp0sGaWAPEzqSFO48sc88WK
-         e7NORv1znn3RWLAYobrGNn0GgQsOMhOGHIoRdrJNl4iGxEdOxF2hvuCsDGxetRsX332a
-         1KCxU4S48as0qalHDDx/BVyKZcWNv3CsHFm9OcOL0+Eggah3GjldvVXUeUboHK+tr1UG
-         eSJJWmK03LGmW1UxbwTmpunFRwrbkhM7UIqSyMXbhkyjbJ7GgAAiGgDCXIo2Ba8oaZfz
-         ahhA==
-X-Gm-Message-State: AOAM532kyASmybHhQOHJGkCQrxKLcWwaaoMqz0R47E+3EvsGsilIX5/W
-	gDzyyBhwCvQC7iVXGD1kN94=
-X-Google-Smtp-Source: ABdhPJzb2Ep4Hux8nHuDjbBIGFvgjH/4i7Xoh8JlvII8zy9UEUmXfC3mGCg5njEp819UohqiJL24NA==
-X-Received: by 2002:a05:6214:528:: with SMTP id x8mr5032729qvw.30.1631624170913;
-        Tue, 14 Sep 2021 05:56:10 -0700 (PDT)
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=K9PHIYWxtO7Dsm34nMzD6LkUxtGmytnlAIzzIQxf5kI=;
+        b=T6tFL+spgNtnbMsAVq/9tfQxTMQq7FT+P3tnaossjNbSqDj8Z7gZ6aiXo6F9cbzEfW
+         QWUpjk175ml98W5UkF6WoTXJV4cTKQARVLhexCX8Kq9UWSeeB+JhvFOtCpbQPRHBX5qL
+         9Z3Z94To4E67JOh5wYJQKzVm+kVOWt4KFu0Y9/QkFQecaHEFTFU2zJzzQ6BySPUV3TRD
+         mMpCIh12HqQDdf5RFQqOmDS0i7BIzX/BsKNA5SYIdi5dlN7zo5GRNpw8Eh2rPHod4ChG
+         luGjGDc67Hm6qh9zCEgx5KlKOMDa0Tus47GFtrpx2AgwH3FqqPZznH1lQJuGFvBIMPrp
+         CGLg==
+X-Gm-Message-State: AOAM5312PX3Qfp4PGow4KLx0IMMGv2V/CDZpkrjUxvtuG2Ki/VDV5TkH
+	tqmZpM20H2khHivd1gkwoBw=
+X-Google-Smtp-Source: ABdhPJz126psPTGJmhJys7McHX5epGZCEeJeXQ/k+Nm2berniDyzR4mROnsdXDuBDNj3efJ5NYN1hw==
+X-Received: by 2002:a17:90b:4b49:: with SMTP id mi9mr3101350pjb.79.1631642418556;
+        Tue, 14 Sep 2021 11:00:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:e411:: with SMTP id o17ls3543712qvl.10.gmail; Tue, 14
- Sep 2021 05:56:10 -0700 (PDT)
-X-Received: by 2002:ad4:45c5:: with SMTP id v5mr5180932qvt.37.1631624170475;
-        Tue, 14 Sep 2021 05:56:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631624170; cv=none;
+Received: by 2002:a17:90a:4f81:: with SMTP id q1ls1133470pjh.1.gmail; Tue, 14
+ Sep 2021 11:00:16 -0700 (PDT)
+X-Received: by 2002:a17:90a:294f:: with SMTP id x15mr3558523pjf.36.1631642416655;
+        Tue, 14 Sep 2021 11:00:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631642416; cv=none;
         d=google.com; s=arc-20160816;
-        b=yznPltJPedl1xGJOn1m8HUo6GHSqs6jNN3u4DxRRihtJq7Z5TfGRZ4xXWKE3BvvHpE
-         Gf3423w896HfXt2ovA5EDsCD/Ylbptw3Nmyw1yGimObnnd9AoY+UqVsmVm8CfFxT4edQ
-         Hwhw01whuwo4wSO0gLvW4qJEKOdSv+pFsyClNeojhZC7QPAZ5HLAois/hjYg2s70Wkjy
-         /wBrFg8c1F++VNSg4pE5WVxpa8mjxhW8JbN9G886rOdQP0Aq8ruz7SMnd9nfOWyWQe7n
-         2DJ9RfQvwGb4C5iXDSCTx+9N0AUDIygvsL3TEXshPgdCRezgsoZ77su/ULSwTQ91jNBf
-         9GAQ==
+        b=DZBuK/MBT6raf4pxzD6uOJweleAePzLnSI7R91GsOl8CrIb8KMLUWlR30BG9h2FnYr
+         AZkNwDNxL4nlkNvP4bQjq4gx8jrWm/48iZ4wksfsrVVmxAa+/A+B6SsOFfmyOizuRteH
+         JPtes5DBdty8SDJXNWh9+1PzTNr3cde3ky2iDC+E0I6t2nx1JBW8AO01l3SwAkJoZSTh
+         8ZG0L+0ju1nTdroKPYt2qKVXhFbNk1CTXS6NgFc3xFc+Edl9XSeFaFZW5poX9hgcgZ0d
+         +mhfI1OxXqNu3lbSc9b5ep3wghbwlGvLRNm18qJBhmbdvcUADriMkD7U8/T9dzxLhnbV
+         1Qzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=473xgTZGiwHmobEJ6/SAUPmhRqqxJ35dz9Kf/VHgaaM=;
-        b=cZx8JKyudPwo+MelDDSeZFgAcHXcc6pUdR20/+Ez7/YnoFN74hWS+yLSnLmYTuxrjx
-         xuN8d3D/HoVRR1ZsqVaJWoxZiz7Yhhcz/0E+5F1fjecNIB4E+Vm0B+ovXRmn+SWM9+Sr
-         2vdtuNT1n5aoS/dc4H2IhiaLwDz12872OTVa8ZyueEOUTxYZ8I1moLs1JLg09kLHQCvm
-         o4pCdKqlAnFFfdvl7PhSWc0H2OKklTan17YFaaupTgNkWuW9qQMO9ctumHAQX32viqws
-         TJHhvF0aSJmNuR0dFK6WhzCaciHxoSbrRzsS5rIiVaAQ90bYfm3LbfcSin0UQb/6J592
-         pTZQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=abYYEHNJJXsCK9xEzjjhn2BOAEkX0oOtIZ/c7rdmSQY=;
+        b=NjUvLMiKi3F37sYRU84FAle2IdKEtPvfaFw0mrC+feB5L7MrCrdL2tsQ2w54zCEFeG
+         1bOEx1TD6URrMLSduYfumFT3ujspNE8V2C6YdTjrhrC+/W3XqlDMyKcfVP7qPQ9W+RU8
+         DNTAimT+obUgIvf7qC1eTPmIE0kaVJUcqzq8I4TdlC0EJUqkVTH1bHdYsuVgwtNEf1S2
+         KQQ9owB5rf6gScu7RMHpj8+9973/3/u8o2U4AnA+3e75YqSwBul908FMZ7EftD6JLTU0
+         uwOzXi9B7QKR9xvo6H5gp+LvNxRJGrHAanJxXF/yR1SgwPjrjS+Uq4dO3RaQTXOsoYYn
+         Hi+A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=R7A0fnkx;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::836 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=ShQlUJke;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22f as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com. [2607:f8b0:4864:20::836])
-        by gmr-mx.google.com with ESMTPS id n78si830410qkn.1.2021.09.14.05.56.10
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com. [2607:f8b0:4864:20::22f])
+        by gmr-mx.google.com with ESMTPS id w20si884512plq.2.2021.09.14.11.00.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Sep 2021 05:56:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::836 as permitted sender) client-ip=2607:f8b0:4864:20::836;
-Received: by mail-qt1-x836.google.com with SMTP id m9so8413274qtk.4
-        for <kasan-dev@googlegroups.com>; Tue, 14 Sep 2021 05:56:10 -0700 (PDT)
-X-Received: by 2002:a05:622a:394:: with SMTP id j20mr4535974qtx.196.1631624169952;
- Tue, 14 Sep 2021 05:56:09 -0700 (PDT)
+        Tue, 14 Sep 2021 11:00:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22f as permitted sender) client-ip=2607:f8b0:4864:20::22f;
+Received: by mail-oi1-x22f.google.com with SMTP id bd1so364155oib.5
+        for <kasan-dev@googlegroups.com>; Tue, 14 Sep 2021 11:00:16 -0700 (PDT)
+X-Received: by 2002:aca:1109:: with SMTP id 9mr2342557oir.109.1631642415672;
+ Tue, 14 Sep 2021 11:00:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210907141307.1437816-1-elver@google.com>
-In-Reply-To: <20210907141307.1437816-1-elver@google.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 14 Sep 2021 14:55:33 +0200
-Message-ID: <CAG_fn=U1iSYXmd=Y7mnvAbp5wqu_D6m9VXR6ebJRRzN=VfJcxQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] stackdepot, kasan, workqueue: Avoid expanding
- stackdepot slabs when holding raw_spin_lock
-To: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Walter Wu <walter-zh.wu@mediatek.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vijayanand Jitta <vjitta@codeaurora.org>, Vinayak Menon <vinmenon@codeaurora.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Aleksandr Nogikh <nogikh@google.com>, 
-	Taras Madan <tarasmadan@google.com>
+References: <000000000000eaacf005ca975d1a@google.com> <20210831074532.2255-1-hdanton@sina.com>
+ <20210914123726.4219-1-hdanton@sina.com> <87v933b3wf.ffs@tglx>
+In-Reply-To: <87v933b3wf.ffs@tglx>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 14 Sep 2021 20:00:04 +0200
+Message-ID: <CACT4Y+Yd3pEfZhRUQS9ymW+sQZ4O58Dz714xSqoZvdKa_9s2oQ@mail.gmail.com>
+Subject: Re: [syzbot] INFO: rcu detected stall in syscall_exit_to_user_mode
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Hillf Danton <hdanton@sina.com>, 
+	syzbot <syzbot+0e964fad69a9c462bc1e@syzkaller.appspotmail.com>, 
+	linux-kernel@vger.kernel.org, paulmck@kernel.org, 
+	syzkaller-bugs@googlegroups.com, Peter Zijlstra <peterz@infradead.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=R7A0fnkx;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::836 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@google.com header.s=20210112 header.b=ShQlUJke;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22f
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,105 +133,100 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Sep 7, 2021 at 4:14 PM Marco Elver <elver@google.com> wrote:
+On Tue, 14 Sept 2021 at 16:58, Thomas Gleixner <tglx@linutronix.de> wrote:
 >
-> Shuah Khan reported [1]:
+> On Tue, Sep 14 2021 at 20:37, Hillf Danton wrote:
 >
->  | When CONFIG_PROVE_RAW_LOCK_NESTING=3Dy and CONFIG_KASAN are enabled,
->  | kasan_record_aux_stack() runs into "BUG: Invalid wait context" when
->  | it tries to allocate memory attempting to acquire spinlock in page
->  | allocation code while holding workqueue pool raw_spinlock.
->  |
->  | There are several instances of this problem when block layer tries
->  | to __queue_work(). Call trace from one of these instances is below:
->  |
->  |     kblockd_mod_delayed_work_on()
->  |       mod_delayed_work_on()
->  |         __queue_delayed_work()
->  |           __queue_work() (rcu_read_lock, raw_spin_lock pool->lock held=
-)
->  |             insert_work()
->  |               kasan_record_aux_stack()
->  |                 kasan_save_stack()
->  |                   stack_depot_save()
->  |                     alloc_pages()
->  |                       __alloc_pages()
->  |                         get_page_from_freelist()
->  |                           rm_queue()
->  |                             rm_queue_pcplist()
->  |                               local_lock_irqsave(&pagesets.lock, flags=
-);
->  |                               [ BUG: Invalid wait context triggered ]
+> > On Mon, 13 Sep 2021 12:28:14 +0200 Thomas Gleixner wrote:
+> >>On Tue, Aug 31 2021 at 15:45, Hillf Danton wrote:
+> >>> On Mon, 30 Aug 2021 12:58:58 +0200 Dmitry Vyukov wrote:
+> >>>>>  ieee80211_iterate_active_interfaces_atomic+0x70/0x180 net/mac80211/util.c:829
+> >>>>>  mac80211_hwsim_beacon+0xd5/0x1a0 drivers/net/wireless/mac80211_hwsim.c:1861
+> >>>>>  __run_hrtimer kernel/time/hrtimer.c:1537 [inline]
+> >>>>>  __hrtimer_run_queues+0x609/0xe50 kernel/time/hrtimer.c:1601
+> >>>>>  hrtimer_run_softirq+0x17b/0x360 kernel/time/hrtimer.c:1618
+> >>>>>  __do_softirq+0x29b/0x9c2 kernel/softirq.c:558
+> >>>
+> >>> Add debug info only to help kasan catch the timer running longer than 2 ticks.
+> >>>
+> >>> Is it anything in the right direction, tglx?
+> >>
+> >>Not really. As Dmitry pointed out this seems to be related to
+> >
+> > Thanks for taking a look.
+> >
+> >>mac80211_hwsim and if you look at the above stacktrace then how is
+> >>adding something to the timer wheel helpful?
+> >
+> > Given the stall was printed on CPU1 while the supposedly offending timer was
+> > expiring on CPU0, what was proposed is the lame debug info only for kasan to
+> > catch the timer red handed.
+> >
+> > It is more appreciated if the tglx dude would likely spend a couple of minutes
+> > giving us a lesson on the expertises needed for collecting evidence that any
+> > timer runs longer than two ticks. It helps beyond the extent of kasan.
 >
-> [1] https://lkml.kernel.org/r/20210902200134.25603-1-skhan@linuxfoundatio=
-n.org
+> That tglx dude already picked the relevant part of the stack trace (see
+> also above):
 >
-> PROVE_RAW_LOCK_NESTING is pointing out that (on RT kernels) the locking
-> rules are being violated. More generally, memory is being allocated from
-> a non-preemptive context (raw_spin_lock'd c-s) where it is not allowed.
+> >>>>>  ieee80211_iterate_active_interfaces_atomic+0x70/0x180 net/mac80211/util.c:829
+> >>>>>  mac80211_hwsim_beacon+0xd5/0x1a0 drivers/net/wireless/mac80211_hwsim.c:1861
+> >>>>>  __run_hrtimer kernel/time/hrtimer.c:1537 [inline]
+> >>>>>  __hrtimer_run_queues+0x609/0xe50 kernel/time/hrtimer.c:1601
+> >>>>>  hrtimer_run_softirq+0x17b/0x360 kernel/time/hrtimer.c:1618
+> >>>>>  __do_softirq+0x29b/0x9c2 kernel/softirq.c:558
 >
-> To properly fix this, we must prevent stackdepot from replenishing its
-> "stack slab" pool if memory allocations cannot be done in the current
-> context: it's a bug to use either GFP_ATOMIC nor GFP_NOWAIT in certain
-> non-preemptive contexts, including raw_spin_locks (see gfp.h and
-> ab00db216c9c7).
+> and then asked the question how a timer wheel timer runtime check
+> helps. He just omitted the appendix "if the timer in question is a
+> hrtimer" as he assumed that this is pretty obvious from the stack trace.
 >
-> The only downside is that saving a stack trace may fail if: stackdepot
-> runs out of space AND the same stack trace has not been recorded before.
-> I expect this to be unlikely, and a simple experiment (boot the kernel)
-> didn't result in any failure to record stack trace from insert_work().
+> Aside of that if the wireless timer callback runs in an endless loop,
+> what is a runtime detection of that in the hrtimer softirq invocation
+> helping to decode the problem if the stall detector catches it when it
+> hangs there?
 >
-> The series includes a few minor fixes to stackdepot that I noticed in
-> preparing the series. It then introduces __stack_depot_save(), which
-> exposes the option to force stackdepot to not allocate any memory.
-> Finally, KASAN is changed to use the new stackdepot interface and
-> provide kasan_record_aux_stack_noalloc(), which is then used by
-> workqueue code.
+> Now that mac80211 hrtimer callback might actually be not the real
+> problem. It's certainly containing a bunch of loops, but I couldn't find
+> an endless loop there during a cursory inspection.
 >
-> Marco Elver (6):
->   lib/stackdepot: include gfp.h
->   lib/stackdepot: remove unused function argument
->   lib/stackdepot: introduce __stack_depot_save()
->   kasan: common: provide can_alloc in kasan_save_stack()
->   kasan: generic: introduce kasan_record_aux_stack_noalloc()
->   workqueue, kasan: avoid alloc_pages() when recording stack
+> But that callback does rearm the hrtimer and that made me look at
+> hrtimer_run_queues() which might be the reason for the endless loop as
+> it only terminates when there is no timer to expire anymore.
+>
+> Now what happens when the mac80211 callback rearms the timer so it
+> expires immediately again:
+>
+>         hrtimer_forward(&data->beacon_timer, hrtimer_get_expires(timer),
+>                         ns_to_ktime(bcn_int * NSEC_PER_USEC));
+>
+> bcn is a user space controlled value. Now lets assume that bcn_int is <=1,
+> which would certainly cause the loop in hrtimer_run_queues() to keeping
+> looping forever.
+>
+> That should be easy to verify by implementing a simple test which
+> reschedules a hrtimer from the callback with a expiry time close to now.
+>
+> Not today as I'm about to head home to fire up the pizza oven.
 
-Acked-by: Alexander Potapenko <glider@google.com>
+This question definitely shouldn't take priority over the pizza. But I
+think I saw this "rearm a timer with a user-controlled value without
+any checks" pattern lots of times and hangs are inherently harder to
+localize and reproduce. So I wonder if it makes sense to add a debug
+config that would catch such cases right when the timer is set up
+(issue a WARNING)?
+However, for automated testing there is the usual question of
+balancing between false positives and false negatives. The check
+should not produce false positives, but at the same time it should
+catch [almost] all actual stalls so that they don't manifest as
+duplicate stall reports.
 
-for the whole series.
+If I understand it correctly the timer is not actually set up as
+periodic, but rather each callback invocation arms it again. Setting
+up a timer for 1 ns _once_ (or few times) is probably fine (right?),
+so the check needs to be somewhat more elaborate and detect "infinite"
+rearming.
 
->
->  include/linux/kasan.h      |  2 ++
->  include/linux/stackdepot.h |  6 +++++
->  kernel/workqueue.c         |  2 +-
->  lib/stackdepot.c           | 51 ++++++++++++++++++++++++++++++--------
->  mm/kasan/common.c          |  6 ++---
->  mm/kasan/generic.c         | 14 +++++++++--
->  mm/kasan/kasan.h           |  2 +-
->  7 files changed, 65 insertions(+), 18 deletions(-)
->
-> --
-> 2.33.0.153.gba50c8fa24-goog
->
-
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DU1iSYXmd%3DY7mnvAbp5wqu_D6m9VXR6ebJRRzN%3DVfJcxQ%40mail.=
-gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYd3pEfZhRUQS9ymW%2BsQZ4O58Dz714xSqoZvdKa_9s2oQ%40mail.gmail.com.
