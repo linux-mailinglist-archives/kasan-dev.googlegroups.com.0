@@ -1,140 +1,127 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRBSW7Q2FAMGQEQDDBUII@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAMN6NI5EERBEPLQ2FAMGQEMOOOVXA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CC840C1D0
-	for <lists+kasan-dev@lfdr.de>; Wed, 15 Sep 2021 10:33:16 +0200 (CEST)
-Received: by mail-qv1-xf40.google.com with SMTP id v1-20020a0cc1c1000000b0037c671dbf1csf2740387qvh.12
-        for <lists+kasan-dev@lfdr.de>; Wed, 15 Sep 2021 01:33:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631694794; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4157540C22A
+	for <lists+kasan-dev@lfdr.de>; Wed, 15 Sep 2021 10:57:54 +0200 (CEST)
+Received: by mail-wr1-x439.google.com with SMTP id v1-20020adfc401000000b0015e11f71e65sf754081wrf.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 15 Sep 2021 01:57:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631696274; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mV4BbmUrOLcT6KmVHdH7EDpRyRKFxFQAcpigh1Z/Fa0PQ7+M1jO2owxl7CDupOHKVh
-         2TRl+85n7rVaoYi9yNhX8klQLcMp98YdQY1SQypbzJQM+BsqKUGJhluU+tVxPf0kWwnW
-         KY015iU815VOUGeiX64IN3TzMaw3/kfXr6vIMPGlCRuoYO0ci8eAchSS0hn9k2VgAz8p
-         dKEL5+yLZNfMNcjXFW1gB5ijeX6nS1M7djMuJW5HwgWMiEYCgbzHDPEPeiTiYMoTc7ZK
-         b2D0DQkdCOzSrwyss+DWGFZsG9az79O5TYIFj1ewvilDVmt/lkt08e6s65tbjjfdR7UH
-         K8ZQ==
+        b=gg1V/cJ/wOCbMuEemJjbERYp7l2ATKeKHoGE5befLvVHkv0FOEBmTh5oAROTj5rYuN
+         UbTWWEc8ABdivXMFb0LywspJvndHR5tEGZzPUEGTMamk+vQGn+ixs/vkNlg3JY6zgTDN
+         jIY+TW7Y9ba18dRTnm+eaHYz6/kVoC2hkTPApn7qNgyIX95UBRWAGmZ5S3sNOdLbNpKH
+         CInwYG1O/qGLzpsxTIbSLduxRG3rYCNPympDjb2A+pOIzNGjkYBlVKpscEB+od78EG9k
+         imv1TuNlNOoarUSQhqqfMQGA8GBYdiCchFIPQqPAj3uXy6SYj8tgkSqfUWJKXazBX6ID
+         Sf8Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language
-         :content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=+tvmoLHTWRze6yBHfEtkqQrdVgfnnogdzCz2eQgPf1Q=;
-        b=ufpQQK5z33wl7UJofmiHfjEhCS/fOvClzLJMpgVsQJhacgdAoEfsmtEiqRLh5Lh1Fw
-         2VB9ChPvll6HWtrdG2Xxx9Ta3hEefc5cvl1+1kAIzxUVS9X8nrqFTN4s+iGQBKF+pTf+
-         v6daLkdbauSUywylzCC0q5XGyx8RRTREqYQ7nYPCFq6jAlQstqgOwYoJiLRjJWKxf5HB
-         wZEv175PIjYBOHhYPlBmKXAHHF8W9FbEJXF2qUazpw448d2fP7JNVzsMVlcpMkiU3pON
-         0cF/nnlqNQwlzVqO8+2scuroILd5J3Xo/Sxzvs5gtZ3056m6OS5JIFLeOFodpRiITsDZ
-         P1Hg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=r4q7qInig3APIMsSCZIW9RK3hd8jyEi6j84qF9IBsBA=;
+        b=gKrbuDXvvx6aBOOqjw7xCcQGIbaknjv5eOKWtTfRLbbNFmQJSNTdz6dyf4w0Hd6Nyg
+         f5PwB2oVWcwTEJsubUWtBR/p/5dCVunCvc4Zbw2COBc93q9EyEReCuq5jFHlezU8wrFs
+         R5tWJnTIWWTktFmjgiFiyxlawyEWGl09lenq06PdPgkpOCZ1bkNIGh3YqKcsPuOk7bFk
+         4lX0EvAC3aCbOEApfon5FjyKxkWU7SQD6YWgxb9BOWFSLvqUB2Pj3O8m9wsNxxMqKiir
+         pv18R4m4rz4gXkKtCd+HqlVKumAh8gKahTC0A1MWcUyZd8IxeQ9opRzMr8MDgyGCeMhd
+         60RQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=vgC8kAEu;
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+tvmoLHTWRze6yBHfEtkqQrdVgfnnogdzCz2eQgPf1Q=;
-        b=IfvBtaR3WqHTPR268XMsr8Xs50Yemi5wEeUnemEJNKVAi9L7qb+L4/Pt31aAVJEvgq
-         eAEF2Z1r12IAscC2PUrPIrXaAIUHqCPJsznMJ1B3E0df1kmQf7K9YXQAhvobF3yiPJf/
-         GPu/9PZkqWC4Ey1cPnJ5uY+DAqfxM+6mstVdErkS4cCl1D39lwK5Y1753aEIbvOtvKuB
-         A7YJcJVSAPinwbE/xyWj5RWET+QrpWd/ODtBzilTuVVHwf58zumjMAxSuqL0SabMQeLi
-         i/n3WGlwvxPDB8YK5qeTuI0QV+bG1FDn3F6m+MCq1UtFO7/sADivlQb+YzkvviT728Hx
-         CrrA==
+        bh=r4q7qInig3APIMsSCZIW9RK3hd8jyEi6j84qF9IBsBA=;
+        b=otj9AqklzoNV1JQ7QObx2kSQoUno+attCjZzDQn7jYW2hirK4eaEwpg+0U3AlhYiOb
+         lJDDzf/P9tByZa/e+L0wX4C5GYUOwC+X+sOCOEi5UDfIJL8muyObWBKqDon7TOB9AzVS
+         9wRac518HotnSAmV5aYb1v5fqN7P/a1sBVbXOJRuAc84166aguiMA4UY80bhqBlsy5/E
+         13GEYH4MGWxkNaqppdbUj7B4C4ahtEsLgHvuJOw+dj7R5rtqs80eYJU20BhfleTJ5S/Q
+         JVSZj+U3OsEbO0YKpFhplWxVzJh9D9osDmy1yOvmBhDocUOqisVYCUOFgx0YQTZLRmVt
+         4tEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language:x-original-sender
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+tvmoLHTWRze6yBHfEtkqQrdVgfnnogdzCz2eQgPf1Q=;
-        b=CZ0rulsiyrP4WAW3pF4/t+wsVwTB0AFa3UbO5vpuiJQGxSbZ+Jr2t+jLiPexU25+Ek
-         rywu+wmw3Tyf/xZT9vkmJtFHtHi3ikFaru5hQFIIL4fTzktv0UZmwBetU2fegKSmnXin
-         I3WhxogNGlbQTpEikEQ0piVgjbYnDcvwz7vf8FGOk2COO8EKAl3zCmtJ1wAiD42J9UeH
-         L2i3sc5eIX/XEEx7BnTXPztkWC/1Q6WtuoGHAeUeAEGhTYJHRxkU+/f9gqBd7vqaEvF9
-         EiHXDUN2Sc+xgoq5RRw9vM6cSQQzDrdkIhQChoMzY2OkBDBCU3QS2avG0OvXisqTt0k1
-         4GhQ==
+        bh=r4q7qInig3APIMsSCZIW9RK3hd8jyEi6j84qF9IBsBA=;
+        b=4PmqcRIjuSrlMJh/1zjoI68hA4X/W0f3q0RWo0tJeI5yKRIxBzYk5IJKbl+L6Mo54W
+         Fg+Z/NJKRHygZlaocZoIDXePl2Hp9+g0I2qN0qFNaGFl+RTwY4Co0oN71IcB3xBJjNlL
+         X7r2YQ6zVoxzf4TGo3Rg9jZ4VWdCYGmZk6vUiCLFU8zFVwU/nbO37OIV1Dv6PbOCzOGu
+         zJ6tjCSF1flkD0CL+Ssz3LW8xJ7YIfpZNhzj50gf8OqaXvSNX6KnmEY0J1ZofrsO5qUg
+         lE3b/hK8ySnBsQ2cgqdQSCWxiGG4xoFnXUA6ISUMQxnEXB90p39m1BMeT7Mwl+6GsYOF
+         rRGw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532a5+y4MtnkspNBxzF/CSXGchMybdsFSfJ4L7kyP3BTwfIQUymk
-	PaQilFZoWan+uFXp3iuSzRI=
-X-Google-Smtp-Source: ABdhPJzY+TdUPgnl2uCNuuhCCO3hyeRJ32KHl5F/dGCSccVsfhn3U1mtSvdzZpAi17DV3rukyvoqcg==
-X-Received: by 2002:ae9:f304:: with SMTP id p4mr9115709qkg.334.1631694794826;
-        Wed, 15 Sep 2021 01:33:14 -0700 (PDT)
+X-Gm-Message-State: AOAM530KGeiLjPEIh6ipw6MZEdoLCs8B10mIg2MfpQZdm0HKjjddfcup
+	kQMivuezxFvjcbDBDyeQIBg=
+X-Google-Smtp-Source: ABdhPJxNcmyjXBF0akvEGobMPvvSXT+um9lKGtrOHPH3BUFTEjlDTk7yd9XF3YAwSnwRqFxaFur2Ng==
+X-Received: by 2002:a7b:c04d:: with SMTP id u13mr3269497wmc.66.1631696273943;
+        Wed, 15 Sep 2021 01:57:53 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:444c:: with SMTP id r73ls1027687qka.10.gmail; Wed, 15
- Sep 2021 01:33:14 -0700 (PDT)
-X-Received: by 2002:a37:f705:: with SMTP id q5mr8991283qkj.523.1631694794410;
-        Wed, 15 Sep 2021 01:33:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631694794; cv=none;
+Received: by 2002:a05:600c:190d:: with SMTP id j13ls2206762wmq.0.canary-gmail;
+ Wed, 15 Sep 2021 01:57:53 -0700 (PDT)
+X-Received: by 2002:a7b:c441:: with SMTP id l1mr3047125wmi.69.1631696273073;
+        Wed, 15 Sep 2021 01:57:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631696273; cv=none;
         d=google.com; s=arc-20160816;
-        b=mDYG1T7EXogDe0vYvoD2qzigzwFn7H/nTyvfx6ier32cGUdsM6NJldiiP8wKsNBxv8
-         vf8DJNB+aptWJoTL3EDh3IqdtK4cHJZsYJPXvsaE81jHEPUKEI2y/PriiEq6Rk0f5s1G
-         QjcvoVFvjeSYeCktv3ZXwhrIF2zZj9VCysqdGaD2zPEptWxK+Ol6ouhXzMCKnP2Y6Qfo
-         JhD+dqkPk3wp6BA5bz9MIsur6BqdIInkeEYG8YNvA5ujb0+TDDACDXsztMY2Z540zs6C
-         V9x7HiUTK8ceiutOuSFfYhJ4YFJTVic76tcWtxD7PkYRJpOBdVcvDl+bdgq5AWJt3c1Q
-         6sCA==
+        b=jz5nshqn4hZZ8Ula9pUfNDl5KlNNjbJbG7a9F1cDcqwA92vodRSwjEU3EaHLG73VFq
+         SghMz3Toi4/jOUh9t3jRogjUV8ZfE3Kot6JKnZwabyWCuD/c6mkCQyyDDig2l78mspTN
+         6FIjSLxEVz//otQ336d9k/d3KdH1vFlc5Dsq2B4EAA+6XRroJX0RTBUpHSbFnbcC5k5Y
+         NJrVDRy8Nmc5T4XSogvXTh5Jq11RpJM5Vshy9NhzNBoxTqYCaTUGx1rAgUncsEB3SCwu
+         YYocnwWNo4Ft1gmgaZHNGuMHs+OTHVZ/8FgMZeIh2TXHmvCdzXSjdpRm6MtMeVapBcFJ
+         RTVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-language:content-transfer-encoding:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=2gB2JsenUgF7X2sqpjmfXQMvAQTNpNnNtM/DzapDw80=;
-        b=K3WXSuMaTBAALnq73bBX5Lo9Fk1dVpUpdDrVI+FbrWM/SfIAzEDVmMwRLhN3HCdbRd
-         dFJM5HQe51juGmBcLGegCS7lJVSi8izxo5XqK2bJ7ADG76rS3c1eY0mXuZVmdj3NyiUD
-         9KnMRC1LCPTkAYdub2wIqYkB+s+rT6ab87SoNdn4wHb9IzsNQcM1YWkU0SUWBH3NgzoT
-         gjSqVREvnChybzIKubUnC2FGAE5i371YQvZcpddG9oJ0qjUtbbpXGUE4AkqytxPTHGEe
-         YWn2JLXzRp2p06qcaJDqaZg96Osb38z3B3h03lf+5zI/pK+BO684FHLsKhs/TlDPc+8U
-         UhkQ==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :dkim-signature:dkim-signature:from;
+        bh=oO9OrB1G0+YxTYn/JMvLtBpJYNEF69i2CP96bjIn7ik=;
+        b=o0u2bdKAVaAn7CFkvaEYoo2BmwBUYvB5qwMjMNhuCGzBdpeP/zeS3RXxntcFA6+jBG
+         yZYycds3kHXvSbPR+tZEMfiM6E7meiPE0pjmdHQOxCjeANvBXkM/Yn4za5ACed74cl1a
+         YxSsXcmllmamxjz/rP7rXkUnQ+w1MU67WcxwP9CXxX+bxXflU3eok9v2sYpDo1rEnA6s
+         e/K0iA62i9jvIm9oUxLZnKwNKKYdcT/Ij9GNdpDzOh2bTvrdqzFxswOdMIvUS/i7bARm
+         5qORWvRls3MplFEXlmZ7b6ZOyeJEXBXO1Tj8pj3fqrG9ibwdCnUNEgGCQWKHIpn6Kqdu
+         Yhlw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id t12si1143769qtn.4.2021.09.15.01.33.14
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 Sep 2021 01:33:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H8YNp1lWzzW1dR;
-	Wed, 15 Sep 2021 16:32:10 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Wed, 15 Sep 2021 16:33:10 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Wed, 15 Sep 2021 16:33:10 +0800
-Subject: Re: [PATCH v4 0/3] arm64: support page mapping percpu first chunk
- allocator
-To: <will@kernel.org>, <catalin.marinas@arm.com>, <ryabinin.a.a@gmail.com>,
-	<andreyknvl@gmail.com>, <dvyukov@google.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <elver@google.com>, <akpm@linux-foundation.org>,
-	<gregkh@linuxfoundation.org>
-CC: <kasan-dev@googlegroups.com>
-References: <20210910053354.26721-1-wangkefeng.wang@huawei.com>
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-Message-ID: <c06faf6c-3d21-04f2-6855-95c86e96cf5a@huawei.com>
-Date: Wed, 15 Sep 2021 16:33:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=vgC8kAEu;
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
+        by gmr-mx.google.com with ESMTPS id c4si192590wmq.0.2021.09.15.01.57.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Sep 2021 01:57:52 -0700 (PDT)
+Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
+From: Thomas Gleixner <tglx@linutronix.de>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Hillf Danton <hdanton@sina.com>, syzbot
+ <syzbot+0e964fad69a9c462bc1e@syzkaller.appspotmail.com>,
+ linux-kernel@vger.kernel.org, paulmck@kernel.org,
+ syzkaller-bugs@googlegroups.com, Peter Zijlstra <peterz@infradead.org>,
+ kasan-dev <kasan-dev@googlegroups.com>, Johannes Berg
+ <johannes.berg@intel.com>, Kalle Valo <kvalo@codeaurora.org>,
+ linux-wireless@vger.kernel.org
+Subject: Re: [syzbot] INFO: rcu detected stall in syscall_exit_to_user_mode
+In-Reply-To: <CACT4Y+Yd3pEfZhRUQS9ymW+sQZ4O58Dz714xSqoZvdKa_9s2oQ@mail.gmail.com>
+References: <000000000000eaacf005ca975d1a@google.com>
+ <20210831074532.2255-1-hdanton@sina.com>
+ <20210914123726.4219-1-hdanton@sina.com> <87v933b3wf.ffs@tglx>
+ <CACT4Y+Yd3pEfZhRUQS9ymW+sQZ4O58Dz714xSqoZvdKa_9s2oQ@mail.gmail.com>
+Date: Wed, 15 Sep 2021 10:57:52 +0200
+Message-ID: <87mtoeb4hb.ffs@tglx>
 MIME-Version: 1.0
-In-Reply-To: <20210910053354.26721-1-wangkefeng.wang@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
-X-Original-Sender: wangkefeng.wang@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187
- as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: tglx@linutronix.de
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linutronix.de header.s=2020 header.b=vgC8kAEu;       dkim=neutral
+ (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
+ tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender)
+ smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
+ dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,78 +134,119 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Greg and Andrew=EF=BC=8C as Catalin saids=EF=BC=8Cthe series touches dri=
-vers/ and mm/=20
-but missing
+On Tue, Sep 14 2021 at 20:00, Dmitry Vyukov wrote:
+> On Tue, 14 Sept 2021 at 16:58, Thomas Gleixner <tglx@linutronix.de> wrote:
+>> Now what happens when the mac80211 callback rearms the timer so it
+>> expires immediately again:
+>>
+>>         hrtimer_forward(&data->beacon_timer, hrtimer_get_expires(timer),
+>>                         ns_to_ktime(bcn_int * NSEC_PER_USEC));
+>>
+>> bcn is a user space controlled value. Now lets assume that bcn_int is <=1,
+>> which would certainly cause the loop in hrtimer_run_queues() to keeping
+>> looping forever.
+>>
+>> That should be easy to verify by implementing a simple test which
+>> reschedules a hrtimer from the callback with a expiry time close to now.
+>>
+>> Not today as I'm about to head home to fire up the pizza oven.
+>
+> This question definitely shouldn't take priority over the pizza. But I
+> think I saw this "rearm a timer with a user-controlled value without
+> any checks" pattern lots of times and hangs are inherently harder to
+> localize and reproduce. So I wonder if it makes sense to add a debug
+> config that would catch such cases right when the timer is set up
+> (issue a WARNING)?
 
-acks from both of you=EF=BC=8Ccould you take a look of this patchset(patch1=
-=20
-change mm/vmalloc.c
+Yes and no. It's hard to differentiate between a valid short expiry
+rearm and something which is caused by unchecked values. I have some
+ideas but all of them are expensive and therefore probably debug
+only. Which is actually better than nothing :)
 
-and patch2 changes drivers/base/arch_numa.c).
+> However, for automated testing there is the usual question of
+> balancing between false positives and false negatives. The check
+> should not produce false positives, but at the same time it should
+> catch [almost] all actual stalls so that they don't manifest as
+> duplicate stall reports.
 
-And Catalin, is there any other comments? I hope this could be merged=20
-into next version,
+Right. The problem could be even there with checked values:
 
-Many thanks all of you.
+       start_timer(1ms)
+       timer_expires()
+         callback()
+           forward_timer(timer, now, period(1ms));
 
-On 2021/9/10 13:33, Kefeng Wang wrote:
-> Percpu embedded first chunk allocator is the firstly option, but it
-> could fails on ARM64, eg,
->    "percpu: max_distance=3D0x5fcfdc640000 too large for vmalloc space 0x7=
-81fefff0000"
->    "percpu: max_distance=3D0x600000540000 too large for vmalloc space 0x7=
-dffb7ff0000"
->    "percpu: max_distance=3D0x5fff9adb0000 too large for vmalloc space 0x5=
-dffb7ff0000"
->
-> then we could meet "WARNING: CPU: 15 PID: 461 at vmalloc.c:3087 pcpu_get_=
-vm_areas+0x488/0x838",
-> even the system could not boot successfully.
->
-> Let's implement page mapping percpu first chunk allocator as a fallback
-> to the embedding allocator to increase the robustness of the system.
->
-> Also fix a crash when both NEED_PER_CPU_PAGE_FIRST_CHUNK and KASAN_VMALLO=
-C enabled.
->
-> Tested on ARM64 qemu with cmdline "percpu_alloc=3Dpage" based on v5.14.
->
-> V4:
-> - add ACK/RB
-> - address comments about patch1 from Catalin
-> - add Greg and Andrew into list suggested by Catalin
->
-> v3:
-> - search for a range that fits instead of always picking the end from
->    vmalloc area suggested by Catalin.
-> - use NUMA_NO_NODE to avoid "virt_to_phys used for non-linear address:"
->    issue in arm64 kasan_populate_early_vm_area_shadow().
-> - add Acked-by: Marco Elver <elver@google.com> to patch v3
->
-> V2:
-> - fix build error when CONFIG_KASAN disabled, found by lkp@intel.com
-> - drop wrong __weak comment from kasan_populate_early_vm_area_shadow(),
->    found by Marco Elver <elver@google.com>
->
-> Kefeng Wang (3):
->    vmalloc: Choose a better start address in vm_area_register_early()
->    arm64: Support page mapping percpu first chunk allocator
->    kasan: arm64: Fix pcpu_page_first_chunk crash with KASAN_VMALLOC
->
->   arch/arm64/Kconfig         |  4 ++
->   arch/arm64/mm/kasan_init.c | 16 ++++++++
->   drivers/base/arch_numa.c   | 82 +++++++++++++++++++++++++++++++++-----
->   include/linux/kasan.h      |  6 +++
->   mm/kasan/init.c            |  5 +++
->   mm/vmalloc.c               | 19 ++++++---
->   6 files changed, 116 insertions(+), 16 deletions(-)
->
+which might be perfectly fine with a production kernel as it leaves
+enough time to make overall progress.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/c06faf6c-3d21-04f2-6855-95c86e96cf5a%40huawei.com.
+Now with a full debug kernel with all bells and whistels that callback
+might just run into this situation:
+
+      start_timer(1ms) T0
+       timer_expires() T1
+         callback()
+           do_stuff()
+           forward_timer(timer, TNOW, period(1ms));
+
+
+T1 - T0   = 1.001ms
+TNOW - T1 = 0.998 ms
+
+So the forward will just rearm it to T0 + 2ms which means it expires in
+1us.
+
+> If I understand it correctly the timer is not actually set up as
+> periodic, but rather each callback invocation arms it again. Setting
+> up a timer for 1 ns _once_ (or few times) is probably fine (right?),
+> so the check needs to be somewhat more elaborate and detect "infinite"
+> rearming.
+
+Yes.
+
+That made me actually look at that mac80211_hwsim callback again.
+
+	hrtimer_forward(&data->beacon_timer, hrtimer_get_expires(timer),
+			ns_to_ktime(bcn_int * NSEC_PER_USEC));
+
+So what this does is really wrong because it tries to schedule the timer
+on the theoretical periodic timeline. Which goes really south once the
+timer is late or the callback execution took longer than the
+period. Hypervisors scheduling out a VCPU at the wrong place will do
+that for you nicely.
+
+What this actually should use is hrtimer_forward_now() which prevents
+that problem because it will forward the timer in the periodic schedule
+beyond now. That won't prevent the above corner case, but I doubt you
+can create an endless loop with that scenario as easy as you can with
+trying to catch up on your theoretical timeline by using the previous
+expiry time as a base for the forward. Patch below.
+
+/me goes off to audit hrtimer_forward() usage. Sigh...
+
+After that figure out ways to debug or even prevent this. More sigh...
+
+Thanks,
+
+        tglx
+---
+ drivers/net/wireless/mac80211_hwsim.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- a/drivers/net/wireless/mac80211_hwsim.c
++++ b/drivers/net/wireless/mac80211_hwsim.c
+@@ -1867,8 +1867,8 @@ mac80211_hwsim_beacon(struct hrtimer *ti
+ 		bcn_int -= data->bcn_delta;
+ 		data->bcn_delta = 0;
+ 	}
+-	hrtimer_forward(&data->beacon_timer, hrtimer_get_expires(timer),
+-			ns_to_ktime(bcn_int * NSEC_PER_USEC));
++	hrtimer_forward_now(&data->beacon_timer,
++			    ns_to_ktime(bcn_int * NSEC_PER_USEC));
+ 	return HRTIMER_RESTART;
+ }
+ 
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87mtoeb4hb.ffs%40tglx.
