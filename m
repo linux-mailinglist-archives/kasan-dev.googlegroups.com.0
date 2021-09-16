@@ -1,130 +1,148 @@
-Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBNWLRWFAMGQE3LPR4EY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC27HSOJ44LBBFGNRWFAMGQEJA53FII@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABBD840DE48
-	for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 17:41:43 +0200 (CEST)
-Received: by mail-pf1-x440.google.com with SMTP id z2-20020a626502000000b003fe1e4314d2sf5284717pfb.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 08:41:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631806902; cv=pass;
+Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE22640DE60
+	for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 17:45:25 +0200 (CEST)
+Received: by mail-pg1-x53c.google.com with SMTP id q22-20020a63e956000000b002524787adb1sf5589649pgj.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 08:45:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631807124; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BpxVcBNXnuk0W+HZkqNxvrkaZ74Ay/01BPaT/2Z5gKx1rsd7SWR/OaqJMgdjSXFhSV
-         UvYzFYTxaUtwpgU2hj82cKdLSM2XBUaLyur69hzlpp4PcCEbGDxYdbLgRzoEiLlg//+E
-         sArG1KZdwOX+K+MIeSW941GCCuVXshOObcm9G+IQSM3cvuNZv62LL+cZb/MIJ80E8k4U
-         mgvC7yVq8c8JWOFlDBX9WHRagA8KZlnKhLkTdhMXKbOhbNfHDZlMe6KwtIL7gql4JJMl
-         3n+zuSAQSh2yS2SS+q1vdQH7EdFDnZGzEATsBKSqAv0lkdPxjbmf3PCfBpniyr0JyV+7
-         w7Yw==
+        b=0bgUxdkwqwLMtN4hbOp+G5TGa0vp266DUkk2QAtZSmmF+oiRnS80qtFnZhFzNhG5s4
+         4J5h/4aLTWjczFf2h93VI/QC+KeAb5oDxL7Wl3J1QuUiAzz4D7cr+nFe9xyp3lW6MQyG
+         O4tRlC1hN2rw5QJBLot/9KqHur/JPSB8zDMVtswSXaClL2Ksih0zS+B1L8R2vg4Xx3ha
+         ihe2KyXXRlXEiPVR5jU1oGXp0dhvSmltpoXENV15T4kYlpIXm71uiD89erLVS5SiS5HD
+         erDaexPMSrNxfqNFVk7goSjoaEMSZwDNnDNS2iDz+kEJMsKy6bpRTIW5NCB010Ffanls
+         FfrA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=H1EM/TsYcWB1Q8zzwQ49Xva7nQSiNRNVHw6FBB+K4OY=;
-        b=cPwKbJLNNHzUfdVkLR8xKrqJxCNOCeZBOwhW2sl9EwZv9A0ZDhT6eNwLn+0obfVN8J
-         VG4jNedgz3o8VLvgyGPmZ8ybCvmZqhc1tapiMlRQBx6LM74C2NKC+Nkdfc5ZeeZ5SE6C
-         4/fZMoMuZEDDkpM8yhxLrNsJ8ye7oWhyMlIjtjaY/cKZcR7JYTH5t1uOq621rd9HHRcQ
-         EC+v3lpMj7Tdam13N7rSpWu6NM45LVdlHXmlei6qBZoCMs3suSLjEyelfdvyiKc72QGM
-         T35jvU5bgZJYX5H9pnVPo1WkUlIrn02TIygv+pAE9203uGV8fUwa8thVN88vzoA638Np
-         LuBA==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:mime-version:accept-language:in-reply-to
+         :references:message-id:date:thread-index:thread-topic:subject:cc:to
+         :from:sender:dkim-signature;
+        bh=R0WJxpQRD9Q3o/+Xn6ZisXML/mkk3LgKyx5NSeOgDfw=;
+        b=FWokAojLXl/5IgA7i41pQHAfP8c2PFbLWz5jlshhLhmmF72u+3HbOMigB1fht+JpD4
+         piwWN1fSLyoVDiFt2oO56wHNk4BwiZBP5R87GA/dwjq11CQGMG8xd7xYjVETwZww4UpA
+         NcwauzV7XaCr5BC84rh/mIKVCYncuhi2zGr5vjCNqaFHQ+OoGeR9GS4yMIIsl48xbGRu
+         yJaQgpIuTnnFeETgzRGCoLce57rFIK7JRRqDdIbs928bf3hakoR+o/dJVDerKoVyjCAv
+         zXNjhSKM/0QrgjJSVyEi5yJffQSbS0f8eLqA7IAwR+KxdQQtL3MHLGu09O9AGJg+3zrF
+         55sQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=rCF98yje;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+       spf=pass (google.com: domain of david.laight@aculab.com designates 185.58.86.151 as permitted sender) smtp.mailfrom=david.laight@aculab.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=aculab.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=H1EM/TsYcWB1Q8zzwQ49Xva7nQSiNRNVHw6FBB+K4OY=;
-        b=EsiX3JbzRjlJQfz5IKCsXWtqb/x/ibiY7jiIjQyR567Ap4K5P7K38CPJBeGaqkMK1q
-         0bYznR89znSVp2WgWIJl/5DReS5ikp56bPwRqZi3+ddV99ygboX0sfgnr6bJyig9GrRD
-         aryzT/hNQM6v4oOlead9RGArzMQt/CNYa1qOkP/OtYiVQfbZEURgx2WdiOa9XcPqt2fA
-         c2TuWQr7SpJ2BxH0WTqTX1vfdFIO2ptm5BpY2LbIw+QN65kRizjb7QzNwKdxzdMUDE7S
-         6yBMkOLBO9ZC1/SqZh0ZiLbwesBFMx0pYy3ZYx4YFMzoV4uiNNDrJ0BPBQ33P5hG8ZjS
-         6pGQ==
+        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
+         :references:in-reply-to:accept-language:mime-version
+         :content-language:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=R0WJxpQRD9Q3o/+Xn6ZisXML/mkk3LgKyx5NSeOgDfw=;
+        b=DQrc4LYouKi/GXCHXvg0TUSYTNs5cxgYP35JcSzoyd49ePfWXPF4klz19rRi3PImCp
+         jBPSj9mfpTzAWpg1umxrK/RWEP6/GJuoTXWPmvEH1SNM00SbRWYEd7VXVx1fwRmxt7Se
+         UdJe9uwe2IyvDayBrOrc2nGj7BGcgSo9h6PKRVHagdUOGSwVgn9jJ4yNcQTvhfSoVtXO
+         KAmyDRQ3GwbME09NAeSqeMs8jS6cPuMeKdggnYLFHMr/8NnYZlnevj9fVudbmzMe+td9
+         WbbSDgCKlJhyvIkAK8y8uhBPsMH0qnkFVlauoDGcUl+FidShHW8HnZiJ54hevEgqqM3p
+         uRdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=H1EM/TsYcWB1Q8zzwQ49Xva7nQSiNRNVHw6FBB+K4OY=;
-        b=VzfiwkU2Nb4uW9LWQxAmA7it7tY7Q05C4MIfSStBGIJgTnp+WEHbDH/H609MDiwB8D
-         stWnLsj86sA4NUoUeywxhxJ72IFPEIDDkg+Mc2VDJSWX0Q9MPD0OcWbPwxGnYM3rSwCm
-         NgDtHGqQErLe9UxVutYlwKHKuO6cD0erbnoHeTHzrKWILhZlotBpI9x1UMNYbpNvCoWp
-         a5KIeZzI6RZ9AyR7LGbDEiMZNU58aMfc8yMn3QtnR1L7iUICdFV3vRgCI23LPdSdRt0W
-         CWHhnVkXBgE+rpKHF8szQUmzzdonc9k8ktaNHoezShXV+UeE8AdPhDa2bJyAjNEm8JMv
-         TZTQ==
+        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
+         :thread-index:date:message-id:references:in-reply-to:accept-language
+         :mime-version:content-language:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=R0WJxpQRD9Q3o/+Xn6ZisXML/mkk3LgKyx5NSeOgDfw=;
+        b=18lMrVP4c4LkWJX53wq13ggKnx9WB9QgNvaSDOhEUAtDwTu7NJjVvsOSuDYPLhi6qx
+         eXlf8uS+a383b5XovdSgfcW5i1nstCqxWzAyHSoH1iKJhwPD7c/tjA6EOjM5f/X4DGgD
+         wQBOLpuHjIVO0Kt7A2TMhNK+bwSWwDPDYYWzmrXGNl3TVXqwOEGwkhGNw8+cR+0ZcVNt
+         EJRVLL9CYkfK9YCatQMfZxFUtOtb+eI2wsFRxpFSC7ljp56EHBX2LnErdklspBcLOUEJ
+         ggTeSHl46i41qcJHgkPmM2uylvp2d0aoGe7wizIXCed7nCpSdJazxIIGo32n+v1bSdU7
+         Q8fw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532ZRhQcraKhXFrBRQbm9zm6/DK+66lvjcjshHKSoMtWPkr3pnQ2
-	2hBxOpRaWoe4dHtG3y4cZOQ=
-X-Google-Smtp-Source: ABdhPJwAVW/nKsaLdWG6reiyDrtt+TbQTp5W+fx+6HVdwMDOP+D0bWI30qajATD02ftsxwY8SYoyww==
-X-Received: by 2002:a17:902:714e:b0:13c:9801:a33a with SMTP id u14-20020a170902714e00b0013c9801a33amr5293331plm.65.1631806902296;
-        Thu, 16 Sep 2021 08:41:42 -0700 (PDT)
+X-Gm-Message-State: AOAM530T0tlFUkrRpWzQnB5RyZPX3BwVHrT84hgF6NpensI9klnomAiz
+	DzfsLnaGJ2T7xr1Db2N+wwM=
+X-Google-Smtp-Source: ABdhPJwBbt7bfjEY2TBA5Ond+eGNHgRu+qsM9sIDSKGJbUG/OVWzaVhoVzJrulwpzBLSe2ebyERT0g==
+X-Received: by 2002:a17:90a:1a52:: with SMTP id 18mr15758189pjl.43.1631807124625;
+        Thu, 16 Sep 2021 08:45:24 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:20cc:: with SMTP id i12ls2221876plb.8.gmail; Thu, 16
- Sep 2021 08:41:41 -0700 (PDT)
-X-Received: by 2002:a17:90a:da02:: with SMTP id e2mr15710589pjv.89.1631806901773;
-        Thu, 16 Sep 2021 08:41:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631806901; cv=none;
+Received: by 2002:a65:520c:: with SMTP id o12ls1738162pgp.6.gmail; Thu, 16 Sep
+ 2021 08:45:24 -0700 (PDT)
+X-Received: by 2002:aa7:825a:0:b0:43e:124e:5c1e with SMTP id e26-20020aa7825a000000b0043e124e5c1emr5804952pfn.76.1631807123965;
+        Thu, 16 Sep 2021 08:45:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631807123; cv=none;
         d=google.com; s=arc-20160816;
-        b=ZQkoXlCvsxLlwt1fDeaNulJDq9zt1ov9Cq4pHFxJSILrsmVOegEqeBzFcpPOciAZ9b
-         SPP2WwSdILilO5f0mt/HH7L9Sr8BtEY/tTGM0V4FtaoW3xsXvIR9nM18DjSPLbr9VLns
-         BtxjwDA5taORiCfrv62SzCQocwxVbwoJ8XHj7RzE3b/y9KaLSc4rU6+PcrS5LPq3dvCt
-         ci4vvNj30yBhZSmvKpWjH7smuwJSRl+/hTW2u9SmnJ2HX68R/t1QCtnuNupZ/PoVumTx
-         KTygffMADPCPEZBcQsAuheh/HbWQcVetNpoJm4wbR6yU2Mu+W3oF4wWZlI6ch+KGve2x
-         eMJw==
+        b=RfiCguFZInjpm797B6Z7I7LjYqgl4uhcEuf0tWWyz3O/E8WlEbTuvZp9tlXd6NSibc
+         JcMrx0XtH7xhyydQG5joHbZv/41X35b8RLzDjzNWmCWvNPAVU5uhgQBAD2NCm9oFibJ1
+         jlKH5uZo+aTd71qfPBU4b6815UcY1OwfK05oNR7cMn0AoBNOUKUHHNR4HEHtpbofW3b/
+         6vbTHElCz93yNrvCkYGJwVDZOg2Ph1AIpKCgikrxvRYy5/l30+Dapl/09wc68BawmxdU
+         UT8HAwNskYtgNVDnAe4H0MZroVDt5kI7jzGcXu0Kqp3qKQjWV/gJ37aVPU3uWE6xWfA1
+         Zezw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=n3Ilu/8vnQF2QKizkVl47kk9UJvfGwMj4Qvqdqis6Hs=;
-        b=GPzwNJgi/raAC9OFCzU5UPdoe+NThi5zCB6MOHSIn09N0zAN/RuaxuDSnkWh7JEsd6
-         SZM2nKsJUHWdh8pwTxol2YDMv9aSBFAStxCUTZFF0kg+fAonCgkjlK0H5MW/3gslBG+C
-         KfCNIM4mW1EhHXmFVBUZHrBJGBEfKWJuo7csW42dQGBCeGTEwCh2f7F5rPxxTPAWG6EO
-         KmBS+cxfMNEwo34DOQE8wXvTla89+vcroVXmGdNQ45Cs7elMnH8k5fcEUHVmw30EcYoD
-         qHxPvLggt3enOlJWigDfmrO8lzKX3CJazTKOniP0XSQ01AFXw8ci31H0uR808xRIhtCp
-         zDIg==
+        h=content-transfer-encoding:content-language:mime-version
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from;
+        bh=x373u+HnYlvTxtTs67xHGzLNYvHOi01YHMTrM5pKsXI=;
+        b=WFqUZShN+i9Pv0n/WzvIuRUMxdLUkvS+X/E9F0neZMJ+ME13Eoeybww3hmTw0bN2dr
+         cIAfSaNGWncq7uwLKS0gGBb/pc1leOTausqqOh7VNoqud1Yw2ltf7Rers0KcCpx6M2zb
+         3tHuSIAk7PrkclOKhZyIf5C+J/oi94py2ekOybFWVVxdS5TIaMrneWrXbTG0SHDCQ/at
+         ZGuEvXT7mdisUdQD9sKi0+QhLtcwp/gKjWh+5FVpsK2ARpXe7oeZC65PQErTySFN/UEW
+         ES4S9C6dW8l9QEYPObAuaJEVTGe44VnxZ3I33RjZwLs2OOcqtCJ57HjUM3G+72gN32NC
+         LFrw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=rCF98yje;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id n63si601130pfd.3.2021.09.16.08.41.41
+       spf=pass (google.com: domain of david.laight@aculab.com designates 185.58.86.151 as permitted sender) smtp.mailfrom=david.laight@aculab.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=aculab.com
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com. [185.58.86.151])
+        by gmr-mx.google.com with ESMTPS id m9si353425pgl.4.2021.09.16.08.45.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 Sep 2021 08:41:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 874CE60EE2;
-	Thu, 16 Sep 2021 15:41:40 +0000 (UTC)
-Date: Thu, 16 Sep 2021 17:41:38 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc: will@kernel.org, catalin.marinas@arm.com, ryabinin.a.a@gmail.com,
-	andreyknvl@gmail.com, dvyukov@google.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, elver@google.com, akpm@linux-foundation.org,
-	kasan-dev@googlegroups.com
-Subject: Re: [PATCH v4 0/3] arm64: support page mapping percpu first chunk
- allocator
-Message-ID: <YUNlsgZoLG3g4Qup@kroah.com>
-References: <20210910053354.26721-1-wangkefeng.wang@huawei.com>
- <c06faf6c-3d21-04f2-6855-95c86e96cf5a@huawei.com>
+        Thu, 16 Sep 2021 08:45:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david.laight@aculab.com designates 185.58.86.151 as permitted sender) client-ip=185.58.86.151;
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-73-hC-drbRkMRy1ELWZmsZWpA-1; Thu, 16 Sep 2021 16:45:17 +0100
+X-MC-Unique: hC-drbRkMRy1ELWZmsZWpA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Thu, 16 Sep 2021 16:45:16 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Thu, 16 Sep 2021 16:45:16 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Kefeng Wang' <wangkefeng.wang@huawei.com>, Marco Elver
+	<elver@google.com>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+CC: "glider@google.com" <glider@google.com>, "dvyukov@google.com"
+	<dvyukov@google.com>, "jannh@google.com" <jannh@google.com>,
+	"mark.rutland@arm.com" <mark.rutland@arm.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, "hdanton@sina.com"
+	<hdanton@sina.com>
+Subject: RE: [PATCH v2 2/3] kfence: maximize allocation wait timeout duration
+Thread-Topic: [PATCH v2 2/3] kfence: maximize allocation wait timeout duration
+Thread-Index: AQHXqpka6XGQNXcc7UiTXkG8ZB1Ri6umzYQg
+Date: Thu, 16 Sep 2021 15:45:16 +0000
+Message-ID: <858909f98f33478891056a840ad68b9f@AcuMS.aculab.com>
+References: <20210421105132.3965998-1-elver@google.com>
+ <20210421105132.3965998-3-elver@google.com>
+ <6c0d5f40-5067-3a59-65fa-6977b6f70219@huawei.com>
+ <abd74d5a-1236-4f0e-c123-a41e56e22391@huawei.com>
+In-Reply-To: <abd74d5a-1236-4f0e-c123-a41e56e22391@huawei.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <c06faf6c-3d21-04f2-6855-95c86e96cf5a@huawei.com>
-X-Original-Sender: gregkh@linuxfoundation.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linuxfoundation.org header.s=korg header.b=rCF98yje;       spf=pass
- (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as
- permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+X-Original-Sender: david.laight@aculab.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of david.laight@aculab.com designates 185.58.86.151 as
+ permitted sender) smtp.mailfrom=david.laight@aculab.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=aculab.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,26 +155,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Sep 15, 2021 at 04:33:09PM +0800, Kefeng Wang wrote:
-> Hi Greg and Andrew=EF=BC=8C as Catalin saids=EF=BC=8Cthe series touches d=
-rivers/ and mm/
-> but missing
+From: Kefeng Wang
+> Sent: 16 September 2021 02:21
 >=20
-> acks from both of you=EF=BC=8Ccould you take a look of this patchset(patc=
-h1 change
-> mm/vmalloc.c
+> We found kfence_test will fails=C2=A0 on ARM64 with this patch with/witho=
+ut
+> CONFIG_DETECT_HUNG_TASK,
+>=20
+> Any thought ?
+>=20
+...
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Enable static key, and await allocat=
+ion to happen. */
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 static_branch_enable(&kfence_allocation=
+_key);
+> >> =C2=A0 -=C2=A0=C2=A0=C2=A0 wait_event_timeout(allocation_wait, atomic_=
+read(&kfence_allocation_gate), HZ);
+> >> +=C2=A0=C2=A0=C2=A0 if (sysctl_hung_task_timeout_secs) {
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * During low activit=
+y with no allocations we might wait a
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * while; let's avoid=
+ the hung task warning.
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wait_event_timeout(allocat=
+ion_wait, atomic_read(&kfence_allocation_gate),
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sysctl_hung_task_timeout_secs * HZ =
+/ 2);
+> >> +=C2=A0=C2=A0=C2=A0 } else {
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wait_event(allocation_wait=
+, atomic_read(&kfence_allocation_gate));
+> >> +=C2=A0=C2=A0=C2=A0 }
+> >> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Disable static key and reset =
+timer. */
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 static_branch_disable(&kfence_allocatio=
+n_key);
 
-What patchset?
+It has replaced a wait_event_timeout() with a wait_event().
 
-> and patch2 changes drivers/base/arch_numa.c).
+That probably isn't intended.
+Although I'd expect their to be some test for the wait being
+signalled or timing out.
 
-that file is not really owned by anyone it seems :(
+	David
 
-Can you provide a link to the real patch please?
-
-thanks,
-
-greg k-h
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -164,4 +211,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/YUNlsgZoLG3g4Qup%40kroah.com.
+kasan-dev/858909f98f33478891056a840ad68b9f%40AcuMS.aculab.com.
