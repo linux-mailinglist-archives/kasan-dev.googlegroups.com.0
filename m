@@ -1,137 +1,130 @@
-Return-Path: <kasan-dev+bncBC24VNFHTMIBBK42RSFAMGQEFIQJB2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBXM2RSFAMGQENMYATJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3e.google.com (mail-qv1-xf3e.google.com [IPv6:2607:f8b0:4864:20::f3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1BF40D602
-	for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 11:23:56 +0200 (CEST)
-Received: by mail-qv1-xf3e.google.com with SMTP id d2-20020a0caa02000000b003784ba308f1sf39760047qvb.9
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 02:23:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631784235; cv=pass;
+Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDCA40D619
+	for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 11:24:47 +0200 (CEST)
+Received: by mail-ot1-x33d.google.com with SMTP id r10-20020a056830448a00b0051b9c05a2a8sf18193183otv.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 02:24:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631784286; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eOHMVMqd+dgxdMir8H7JAFi2wrzVWFrPmspQIp65Kd6MYfR2q/hGd1aq6i2DZG9zGL
-         gt8RY+QHjC81e3sxibCw63IxUPHF9HRBmWQg0Vd2EyNAnOKQ07mi5oPUV4PkmgUwm4TX
-         Mnx+J29ZpDdl7AZQqqL7aPG1nFCdzF/4bO2mxqZIo9cd394AOVQKOJPOfFs80Nc4UHfA
-         ILB1YDcW/EFJ8//q8BF9Sy21QiQDLbVnbhLBe1DTw3BKORrOBu3274JVh+HSxrtH34rr
-         5uAcCdmsCIPwLrDIIJ43fuVXmsKeU6+9ncLtu0awFND8hWnFJJLgx4AoHxJLS8cRHTY4
-         Vhog==
+        b=bzHoMY09m5p/hXa4CfP75aCZz/chgtOmq6fco9aB23yDDmI0sO4McqhVGhzuhAZos2
+         x9AVg1rnlG4Hg2b7QYa72gu8MeGIjecTEAOgA/3pxaVN4PkiXMdZ7jT9XtHTsWB5r4cr
+         ZIb7UJSI9y1ukF2a/sP7/yX4VwBHyju/NRBEcDF2G1C+UtPHPJwrkkwiuzkI9bMCddvC
+         MbrMGCAhfYrT6rghFCS792h4pCJ+is3rM3ci8kkFQUuwvNsRMDtt3lFf4FT0ROpNZc5Q
+         fe3QQiP6r7dsBrF+LK0VKvyQnfZv22asqdRBoskHvA+7V9ztzW0duAEY+OCYxgR4yrqD
+         7NFg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:auto-submitted
-         :message-id:date:subject:to:from:sender:dkim-signature;
-        bh=sB1cZQ6Pvf25zFFDedX0RtLRJUQAtD5S4hNJ7JwFlT4=;
-        b=yBC+c46tY2vTWFR8EFTNz87otn0hKhgQCrAmp1J9XrlScsPJVjVli16Zv+RcxL1R8/
-         Z7pxCa0dcXj8E36byeizjDRiT+h87hN9Zqb+sNRyA9e11xpgBSOTg6vGqqsixgGgE6TY
-         o/mK6PSpaL18K1TqudOQFvA9jzxWT8InssGpS0G1kCxxRf0S1e+v/8LyyXNzP4JmLMeT
-         I3AkCA+cbDiSu72+3gqgzphSsWHxh5z80LjYBcPfTxGo416ad18asb8Y7jlv7rZ6rPFw
-         WuI6tAPatXi4k0NO2YwtQ/XUGEm0Kl42+KMqYCLsiikC4NiXIa3EbVRGD7cL1QWJsuUX
-         yi6g==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=WSiONAKCV5uLJ1cpZunYnHx9YlZj7dadlbAtjcOt1M4=;
+        b=YsD5BWFTy2RgeOJjK57N2GcN7vXJ9+fDkudTlHDMjY+F8ID9GzdeHcmGsfaL3Sj83w
+         9N4zC1kcdI9hkkClyRumCmScOZ0cCxfreycuqHVUh8B1tlzxgIcP1UJrVxDJilbgDjdf
+         zU+24EVXoKlgEO1ITaafRBYjPnxr/htidhDxQSPLRHsTw3m0Jcb2xQ0elQ2Byyxzt0Il
+         tup+9W5f/9cBmGtsrAPztuZjEW5xr5SwnpAfezbPYv8fieMPoKaV79uErsQArDVizvIh
+         4E9BLdphBKIxxSdztYhZOSyo5z0tAEeIA2Ff34FI1bNgtnGrekDystzDcRKnbIHruSe8
+         rRLw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="mF7PD/UR";
-       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=SbSTnF6Y;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::231 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:subject:date:message-id:auto-submitted:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=sB1cZQ6Pvf25zFFDedX0RtLRJUQAtD5S4hNJ7JwFlT4=;
-        b=rsQ+tHdXECzn+co5WMzOKtiEgYP64O0Cgm+asRQ++KbF954u9lViVXf6BcMV1MXIFC
-         upCb1X+yDmTol9iIWam4AIUnWtf6kpj9VtEk9LGBoWeScjJXUpo5oGamjZFFEVciMMr4
-         9OzRBvMlAUiZESF63XsnpOsyiHfhZrNNg8WzMBb8zVR5hGi2t1hkGOVbZHe2lGlW3Hi/
-         NwfB+zbCRXR+4sVVECZV8kwEP6VkuCioG3RbPPXiW1I/13pI/zEQpgYlbEQA6OW5F9ZK
-         QYZ4WYaBNyu7ud6VyPo3uMXniu+D23z0hBKQrDpSIBaa+4EyvH4G7HTnfspKHRceQLg+
-         HQaA==
+        bh=WSiONAKCV5uLJ1cpZunYnHx9YlZj7dadlbAtjcOt1M4=;
+        b=k3dNq8DhX+WoVkYmONS/JbAOPQZkeEAQQlSGVYpyGyfxTh6OqNh69TaOsqlpawZpEG
+         D4QrfeGOa87uVI03FtJYJbi5AbDAwt1AWYb4gsJkxm+IkmyUJSo768re24Udi22tIxrw
+         7UGZfdEzVPCkkC3fz605y+281+hlNuTF9Tch/xWCkJm+QI7Knzb/YVWWJO5sTgYYHn4f
+         0qjhiNlww7n0waniVBfnk4LzAddnzNZyX9eW4l1ICzmcaJ86bg4tlffYenf99W6tbiwl
+         VE4U5o1asIihyYxP1HgtyUj0oo5HTpGbe2LkGfRPcjq0o1QxBNIInVDGArE4K1IJf8LI
+         kPLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:subject:date:message-id
-         :auto-submitted:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=sB1cZQ6Pvf25zFFDedX0RtLRJUQAtD5S4hNJ7JwFlT4=;
-        b=Szcm9gHJRzm8I08PuJrhSPhMeDEP5SkozsOqyEPzLPZlYX8N9ua/VbOiBrLElHv2He
-         35EuTi6TA4OO4sUgoalQILi+dUBatDDHVjoqV86aouWGhewcARxpb7uM4uz8TT5hIcYO
-         /yeioITTWpURR59HRzAXHM5IInncDaR7yBCPwokcYWVD79krAH9er6/beHop0cEMdbvn
-         S7zVgMPsZbSDvNG81zt4mTswjdx+kl1+WwPS3m299ElmkEQYYmjhl+NQlEX3THwc7Hne
-         q/Vi7zRFEkrdkh4L1RTHQtG4X+PSlTRTUlvwoUDSFH22m3dTW1CxdmHfRlzbJ8jogNv4
-         mXdA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533IkNOGZkbSe33i/3wXFkd0CxEuJ5CFZe/ajNpTjPCenggxa0gj
-	ikcFyoclF/q25F6Vbuv0t6E=
-X-Google-Smtp-Source: ABdhPJx3zgskDnc4wDZN0CHQIw1Okcb5+V0ioW46sAlLrsmixmkk2MoGhi/n10MDPM2iGCtM7zzpig==
-X-Received: by 2002:ac8:59c5:: with SMTP id f5mr919595qtf.194.1631784235242;
-        Thu, 16 Sep 2021 02:23:55 -0700 (PDT)
+        bh=WSiONAKCV5uLJ1cpZunYnHx9YlZj7dadlbAtjcOt1M4=;
+        b=T4hURqhA0OKBEO70KkkEkeXMNNV/N1qp5BVWHH/Jpud3pVBBmK3gVBAPanQbZDITds
+         ZH1W7/GvI9t6uK5zQLMfY9hDR/vChiG+ATCV5op0GaFY1L+S6ZAfNNy/o0p9jtJl+ThF
+         vw21M9fMYGj5Tn3xF+QTB4m2GZ21wG4xpmwnZHU1C8ivXK5BruyvCQcVEkEHbuu5/N4s
+         TfJuGcMoV7+f+uskOG15QffP8h+7wGKqBnLjtBNQOOWPQLMuNED/9KTiL6TTBkuRXiSb
+         R0aKJiLKI9tkKyIulaHolXz+hic6WZBYcNx1M/9b9+3dvyaZ3Qp+dRNeT4gfDtBqJjP7
+         aO1A==
+X-Gm-Message-State: AOAM531fFOFwrwNDTfH+1G4TPBvajpKPn2147iW6vp6lfAt7d/XKNBti
+	p82sg6a6+bfsliOcSe1etlE=
+X-Google-Smtp-Source: ABdhPJzsdkPzqb7yBR5tlTMebZTnUV7RFnXqGjP3WchBjsnYj/uBqAMROwdcYwd65jCrj/xgIun+9w==
+X-Received: by 2002:a05:6808:657:: with SMTP id z23mr8643718oih.113.1631784285775;
+        Thu, 16 Sep 2021 02:24:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:e014:: with SMTP id j20ls1188144qvk.0.gmail; Thu, 16 Sep
- 2021 02:23:54 -0700 (PDT)
-X-Received: by 2002:a0c:f3c5:: with SMTP id f5mr4093251qvm.9.1631784234850;
-        Thu, 16 Sep 2021 02:23:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631784234; cv=none;
+Received: by 2002:aca:eb0c:: with SMTP id j12ls1651157oih.0.gmail; Thu, 16 Sep
+ 2021 02:24:45 -0700 (PDT)
+X-Received: by 2002:aca:2310:: with SMTP id e16mr2975947oie.64.1631784285463;
+        Thu, 16 Sep 2021 02:24:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631784285; cv=none;
         d=google.com; s=arc-20160816;
-        b=iyxj1XxtO7hYsFJa0yFCC7dnOAsqo63gHhxpGalFTJYPGsaHunQrT5Uz/d/0FRw0DQ
-         SEIzXnOV2y+nEmcZmgPRCjUC9MrIN4U4vCdDiuxTxZlWlTfVLOWJWpsd/n1hyckxjLGE
-         DcwqErbCLl+Tub7XBG14ey2JqF8snoxbKAR4I64N/xPPR+26d2CUszrWFzvbLtGgjoZz
-         3Z7Lg0OZjr4FELUXSholFr+02hjnedRfW/wDlmft6eSbfgiY1WTqVpqC6y9vrGzdTTDG
-         TbwFiKeNH4PtsInuNF5zQLFnOUz904y64TAjXKFMIQi+gwU7Ow1umn/vvPYLuyFPoK/H
-         7XFQ==
+        b=nCbM8bAnHSvjmko3O7uTGEnC7LgxydsbZ6PNZQZhVuFRE4zBZC6Jx8uixfkhHx05pP
+         +LgyB/0Ati9vmb5So8ZJkoCmQbsgKc8wehKn1DZ4KpPWFKI7PEtFDFXKEa1995sWWZ6J
+         QvZlARz17fwFmWXhSD2gONw5kU3rTFxEvznOECwaRL4T+FnalsHbGI6gZHgRCm3Pu1dD
+         u8lSXR5aX1duzG7vqhoVrtpvvt2wHO9tbEQFRn+C+Kd9RIkmZjs5YN3Pdd7bPzjdqVJe
+         klomx3vjtlXgvf/H2z+f4y6bLAJUIL+VUEJYj8eIoyGauUBMb3tlHTPuIwx84yPwmxn2
+         1R7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:auto-submitted:content-transfer-encoding:message-id
-         :date:subject:to:from:dkim-signature;
-        bh=GnOt5q9eFq0XZX24jnb54NbJaF9+iAF6vybdEb0ZmE0=;
-        b=bE7dIHNjxvHt6xf5Fp33OrX8UkMeurSG6Sg13KSO8Pkv5zEOyo50kv7MNuuQ5+Yiuh
-         XyQln3NFAFMdoyb3FYbR4XCWs1FgDPes3zBCubQP2qFOdozjcr/CNXasN8Sew7NN5kup
-         xzeY1A3IbpbtuD4nmPhiMyW3naT7DL8t820qdQk3RO2JS3y+TUD+mu753SgZ8VzPs8P6
-         Nz5iuOb/6HTiy5ygR8Ph83CchLbmQ/yzLKxl+SnAP3KHjMHCRhKdqr0U9MDWRpwg+NDl
-         ySv2geIU/Ip0anDbRc5aHSQvMV1KfBjbv2jvEvmn7hvsEMmHciC/l/mEKP9eIXo3P3GG
-         LQ1g==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YJJaNclf3wzSnd6KFncvUtNJPgnZ1G90tgAnEdwOG7Q=;
+        b=ah+sTvMp0RPodUX6sadl9GsFapnCf7SI0Jt7sGOZjta49SvN1ERCm3ybdwpircY6XE
+         bMohv5I2YHaGpo3yCrg8laQJ6tCJZu9UQ/jSB/uYQvFdgykVU+p+Nv8uzjH1MBv6YIDW
+         /WtTUUrVYF3+Hv+iGxyRzq3pkJnw4vZGVWDuA/c+h/zGUky6d5Gijez0cE1Bm8gl+bTD
+         PLPxithRtBO3IP2Uo6L5FX88CbslG+BwxKpSEjusl026S3nc86Q0VfU3arxm9otXXacQ
+         Nr/zycHylbrtHVbFt3P4iMS7rRtnbL8UjXwizwLoXdx4VGUg0+YdGVj9tV1AOFRoaoag
+         V2aw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="mF7PD/UR";
-       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id n78si499831qkn.1.2021.09.16.02.23.54
+       dkim=pass header.i=@google.com header.s=20210112 header.b=SbSTnF6Y;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::231 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com. [2607:f8b0:4864:20::231])
+        by gmr-mx.google.com with ESMTPS id b1si496830ooe.0.2021.09.16.02.24.45
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 Sep 2021 02:23:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPS id B342960F93
-	for <kasan-dev@googlegroups.com>; Thu, 16 Sep 2021 09:23:53 +0000 (UTC)
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-	id 9CA2B610A4; Thu, 16 Sep 2021 09:23:53 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: kasan-dev@googlegroups.com
-Subject: [Bug 214429] New: Detect periodic timers re-armed too frequently
- (leads to stalls)
-Date: Thu, 16 Sep 2021 09:23:53 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Sanitizers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: dvyukov@google.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cc cf_regression
-Message-ID: <bug-214429-199747@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Sep 2021 02:24:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::231 as permitted sender) client-ip=2607:f8b0:4864:20::231;
+Received: by mail-oi1-x231.google.com with SMTP id n27so8288199oij.0
+        for <kasan-dev@googlegroups.com>; Thu, 16 Sep 2021 02:24:45 -0700 (PDT)
+X-Received: by 2002:aca:f189:: with SMTP id p131mr8669427oih.128.1631784285005;
+ Thu, 16 Sep 2021 02:24:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
+References: <000000000000eaacf005ca975d1a@google.com> <20210831074532.2255-1-hdanton@sina.com>
+ <20210914123726.4219-1-hdanton@sina.com> <87v933b3wf.ffs@tglx>
+ <CACT4Y+Yd3pEfZhRUQS9ymW+sQZ4O58Dz714xSqoZvdKa_9s2oQ@mail.gmail.com>
+ <87mtoeb4hb.ffs@tglx> <CACT4Y+avKp8LCS8vBdaFLXFNcNiCq3vF-8K59o7c1oy86v-ADA@mail.gmail.com>
+ <87k0jib2wd.ffs@tglx>
+In-Reply-To: <87k0jib2wd.ffs@tglx>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 16 Sep 2021 11:24:33 +0200
+Message-ID: <CACT4Y+ZCRiwobf0rGUoMiUEi=6Eoxvvgxxv-c+AhH=7U6M3LXQ@mail.gmail.com>
+Subject: Re: [syzbot] INFO: rcu detected stall in syscall_exit_to_user_mode
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Hillf Danton <hdanton@sina.com>, 
+	syzbot <syzbot+0e964fad69a9c462bc1e@syzkaller.appspotmail.com>, 
+	linux-kernel@vger.kernel.org, paulmck@kernel.org, 
+	syzkaller-bugs@googlegroups.com, Peter Zijlstra <peterz@infradead.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Johannes Berg <johannes.berg@intel.com>, 
+	Kalle Valo <kvalo@codeaurora.org>, linux-wireless@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="mF7PD/UR";       spf=pass
- (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates
- 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20210112 header.b=SbSTnF6Y;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::231
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,56 +137,35 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=214429
+On Wed, 15 Sept 2021 at 11:32, Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> On Wed, Sep 15 2021 at 11:14, Dmitry Vyukov wrote:
+> > On Wed, 15 Sept 2021 at 10:57, Thomas Gleixner <tglx@linutronix.de> wrote:
+> >> That made me actually look at that mac80211_hwsim callback again.
+> >>
+> >>         hrtimer_forward(&data->beacon_timer, hrtimer_get_expires(timer),
+> >>                         ns_to_ktime(bcn_int * NSEC_PER_USEC));
+> >>
+> >> So what this does is really wrong because it tries to schedule the timer
+> >> on the theoretical periodic timeline. Which goes really south once the
+> >> timer is late or the callback execution took longer than the
+> >> period. Hypervisors scheduling out a VCPU at the wrong place will do
+> >> that for you nicely.
+> >
+> > Nice!
+> >
+> > You mentioned that hrtimer_run_queues() may not return. Does it mean
+> > that it can just loop executing the same re-armed callback again and
+> > again? Maybe then the debug check condition should be that
+> > hrtimer_run_queues() runs the same callback more than N times w/o
+> > returning?
+>
+> Something like that.
 
-            Bug ID: 214429
-           Summary: Detect periodic timers re-armed too frequently (leads
-                    to stalls)
-           Product: Memory Management
-           Version: 2.5
-    Kernel Version: ALL
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: enhancement
-          Priority: P1
-         Component: Sanitizers
-          Assignee: mm_sanitizers@kernel-bugs.kernel.org
-          Reporter: dvyukov@google.com
-                CC: kasan-dev@googlegroups.com
-        Regression: No
-
-It's quite common bug pattern that code uses user-passed values to arm periodic
-timers w/o any sanity checks. If the period is too small, it can lead to a
-stall.
-
-For an example and some discussion see:
-https://groups.google.com/g/syzkaller-bugs/c/25N568UIeiU/m/X2D1tdKoAQAJ
-
-More examples:
-https://syzkaller.appspot.com/bug?id=2381cedf5b083d4bc6d7c6ede3f71122dc08e0a0
-https://syzkaller.appspot.com/bug?id=c86299f456763a2d2d23e00ccb83358cb8b8aac3
-https://syzkaller.appspot.com/bug?id=c221fb80ac5f345a561da41310eb464b21186e2d
-https://syzkaller.appspot.com/bug?id=2efed281192be57df66a3fd0163bfc2ceb42260b
-https://syzkaller.appspot.com/bug?id=51feb020e071521675188d73f4c6b70b91aab361
-https://syzkaller.appspot.com/bug?id=6943b91d83ff6eb451065e71192e93ddf8fb0ce0
-
-We could add a debug config that would detect timers/hrtimers (what else?) that
-are re-armed with too small period. The config must not produce false positives
-to the degree possible (e.g. don't warn if the timer is re-armed once or twice
-only).
-
-Currently this is detected as stalls, but stalls are harder to
-debug/localize/bisect, sometimes they are misattributed, merged together, etc.
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are on the CC list for the bug.
+I've filed https://bugzilla.kernel.org/show_bug.cgi?id=214429 so that
+it's not lost. Thanks.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-214429-199747%40https.bugzilla.kernel.org/.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZCRiwobf0rGUoMiUEi%3D6Eoxvvgxxv-c%2BAhH%3D7U6M3LXQ%40mail.gmail.com.
