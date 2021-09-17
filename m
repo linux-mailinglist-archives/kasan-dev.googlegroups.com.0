@@ -1,104 +1,107 @@
-Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBGPJSCFAMGQEMD6OMDI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBNHJSCFAMGQENGZZY3I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66ED240F244
-	for <lists+kasan-dev@lfdr.de>; Fri, 17 Sep 2021 08:24:27 +0200 (CEST)
-Received: by mail-pg1-x538.google.com with SMTP id z127-20020a633385000000b002618d24cfacsf7214625pgz.16
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 23:24:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631859866; cv=pass;
+Received: from mail-qv1-xf3f.google.com (mail-qv1-xf3f.google.com [IPv6:2607:f8b0:4864:20::f3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8471E40F248
+	for <lists+kasan-dev@lfdr.de>; Fri, 17 Sep 2021 08:24:53 +0200 (CEST)
+Received: by mail-qv1-xf3f.google.com with SMTP id h18-20020ad446f2000000b0037a7b48ba05sf87122786qvw.19
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Sep 2021 23:24:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631859892; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PotLaVu6Tf6Uf1GgzUdwMU/EEub9ACJdqa/VaHMdWeeYl/Tk4u8Y6w3KfIY/ipOpKU
-         c1O4SFvUFRCjehx+R5oEun6ozpbqMqewaQCs65ib7WAPHr8ZVg4vzxZGuMhrAn7c7z6o
-         l5CD/qpFCnPBauXLYV+NeKrwGW0606B0wAC5Hq/asUeVU9GJXMLzJWSFelS4n847GqmW
-         hqKlsgP329fblVtSSmsNLtn/KAVL/BS76dGGAcHzzqp+T3rYG4sMfz1p+755DwW8A6LF
-         Doa7Rg9ALD4qAA7ewYgSd3pHPqQGBV6VFvvkJd2UST+dVP5eUEKF7qxsYZsn0urxr0Gc
-         ZSiQ==
+        b=Fdzyn55qbJzUmo8QgTOCuFUPAFXiFC7GtpWF4F1L4agOgVfY1wc/5jE5gm850IOeoJ
+         sLmvye4prP/4aO0hdHQZUoozqGUef6xqyW8xsV7Eio6QOVSNoMKRFUA63A4XjoIZH7e0
+         D9lwm0dwbF3EnGo1zikAIc+3WZEneGxbUSlZkcQaJKLr9nrqFRIXL8Tjn9gBB6oMb58C
+         CToKcFy9RrfGojWnXt5z+yF9AjqBQIzPf9xcVWoUYO660v4VtVq5rzrFH3E3Sh8QYPgi
+         841UlPrjfFrIPoK4MY2dYLb+Lsz394yO0JVbi++gwD31c0UR7HF2tROtwz/+vDHadRrL
+         pihg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=Md7+qILNPYIWHNSmwr8d4Q+EpkBjxeaI5yhXfOwcB0U=;
-        b=EuSCE/PBvq2BKNP5+iF8h8lQMt4k+SgqURKrcSGnbjemd0Yx8F5ex4/cmtETVSGX1i
-         /kgP/Q5M51w/QdOgQagMU7Uj8zk16S5rMrgazBQ7ySH43tAW1tnKoPl74WkNroNrCA4v
-         2Ky+r4jVA7Q66SzeRr1W7AHIvjIx9jDqODY1s57DtxrWduSgp8sgKGQMlFDi/39Rzaq0
-         dM6UWDfUviSLXF2g9WyXyM1GzrjJK2m3D7PC22GVEhS4m17ARZvssdFcww3gmmD2zMtw
-         mbX2ZrkjX9UNvzAqpha6wSoQwYza/07y8zsXwOr411UWATbXnH8xs60fJaZcwsKKVZNb
-         Vreg==
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=C61mIYzQVXOc98UbbBH1DybfHL70y9UbeqTlGNxQgNs=;
+        b=cMKob8xXWOA0KVZWhSCRSAVwScg0S+XG+flg82cf3XjZvRWBhQd7F+13BdKLzyTVkJ
+         GhIAhzbRHzUUU4aJhWg/O0Mi23j6uz5Zsn3npWAiRHt3qS/u+IWcaxn2iPHCSfJYO42s
+         G1XjOsFPAJrvTq/NTp9f2JxP5Ant/GDeTVA3jL7u05PtICBaK9fp6yQ52qWsMo8d6FZk
+         r8HUV6L0N1BelDH2ZKcnwVQkHXEXKWBlanW2H/YJoWgLMVxpWTipxpM4tXPhlZgVGRgl
+         SL2jfQZba00U3xcG2KFHKHbEIXWTdbAeZ888WJu2/mF+ny5cXLyztbC6yFEqbQhpxN0c
+         puYw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=tNzW5LF8;
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=YM10PzX6;
        spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Md7+qILNPYIWHNSmwr8d4Q+EpkBjxeaI5yhXfOwcB0U=;
-        b=tK+3nbnFJzq2M2EJBy20gPF4I/32xo985y8Oxq22tMzcxeu6qP3Tp1ve+g6J3LCRnk
-         0RWFU5C9VOoRzXq4w/HVXXOdyF29WscbWIwl5eEj/7f+4n/19bBdAIHS78GGtNh76ftp
-         TjEx0CEn8DXJcetYQ2afxTmM+u9S8FYMJVHaorzGE5eBaT/Bbb9BX+6jrWcFUuwOcWpq
-         SNMSm8TJZR66KYYAzV2ze6OEwEKV/5Gq0N1hK3s3j9Lpc0VvZb5k/qdaMoRlMV8AAVhJ
-         noTm4d8Jcwl8ZGeuyW/up2kXhkeAiUaKv4VqbOPr24K6Rv3u3AKPqIKv6FkLL7IZoDrV
-         bgFg==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=C61mIYzQVXOc98UbbBH1DybfHL70y9UbeqTlGNxQgNs=;
+        b=klmEXWTfNuZlnUtZ7jI4RSDdPzmuJNQcMAXml3USkIzL99iQtF2jPkMJGhwHIpdU9z
+         F61eXT/J5RxWx7rL+SdjKxxBbwTQwZG9yWW1mjOTP0hDhIwbDVElabQk1o9/tcqGXLft
+         vGrBaLMm1f8HoGb21Rfhlr8+J0PG8Vk85Smty/r+NM2ujTH/Zg0D6ccSMpS5SmGmOrRz
+         RT1qZLN9hYVh9y7pYo0iBDMrkKFlIKB6jRu1SjtCLTuhRqg7bQ39UdHw6MhbfYKfzmKL
+         1JEnBAFXdkbBxeRD8iCl/Srl6242Wgd0rGvb6jHSFOGLU1OchWqq7wgi67SGWvPr9wqO
+         bd7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=Md7+qILNPYIWHNSmwr8d4Q+EpkBjxeaI5yhXfOwcB0U=;
-        b=2ZPmRlHQZrqHNlUXr76cW7lyAIWE31sB48WoNUL3b7vEBrRh/qfsIbL5UeQuLKu+/N
-         zEx0lEFvAMAojhrcpUEEMzW7gk7qOZKE0Q1jlazY34GoJijsvFNL04/HkLVrEJvMH8fP
-         VUypas/1fFYddIADcQyspkAzYQpIpcYLSbtvroW8sW47XX8hKo3zl4QUU0qENwTOSMQd
-         MQtHfgzcguNxizl6HHm3r4MnZUGc8pvMh/50NVvnCIrdY0XG6Lw226aZZ8cbn8D9EdcB
-         BiJznp71cnaKQBnTqlBaegZDK/0KYqn9XZfyYK/DQf5BQd7RBQMfduXnfIpwd4TAi8ug
-         wx+w==
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=C61mIYzQVXOc98UbbBH1DybfHL70y9UbeqTlGNxQgNs=;
+        b=AJYAL25qkvOMeLr4hzDMocf2jO8FiM+Wlqngvpdwd7PLckK5U7FdfykpCNqYt3Rd0D
+         NTeRubHZk6mQq05KgpXXG5gzjMF4TJnE447GPaKZboQPEUcTTvA9rJbsAhfw7rb59RpJ
+         9xE5khFv/QSUtHNXbQ5vY4gA1NTeLXhEv0Ee8uTSNNw9ygrm4X3KreI4qgLEAzG045Fw
+         GuEIUpoH9OdHUoI8r2ClN9mfDshCNbfD3Z9Ax3EnW4fQe4ySUBbP8SylBS9M6YtlgO7s
+         VV9KMmWGdAbf5A4zJ32oIU8LfdplX72VRqHfRxhZ6km7STTtogarxhTS+xWPvpmpOYS/
+         zoAg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530efUg9d/7LcbSmSAL4am/LgBB0ipxuFIs3R0o+fLBXLYi778UJ
-	tJ/VTEipwoiqLV+akpZFoEk=
-X-Google-Smtp-Source: ABdhPJwgnUua9cg30yCxrBEQ/DcrKiQhXvQH6g++E6qC91hdXxhJOB6eWsAy7fGn6+cqhZj3u6Twvg==
-X-Received: by 2002:a63:9911:: with SMTP id d17mr8507518pge.111.1631859865889;
-        Thu, 16 Sep 2021 23:24:25 -0700 (PDT)
+X-Gm-Message-State: AOAM531sXLpVKjTZCxpTZ5xNOFjrnpTs5QEXSEPCyMOjUMN1MgIrwRBO
+	YodrRnLKu8WQOjXEEWlhYSk=
+X-Google-Smtp-Source: ABdhPJxyXdTGJ05su5WPW7EceJ7CDihW1phvlR9QO0o08Zzs55GFghJbnV7JZAofFWm/wT1Cw/huCQ==
+X-Received: by 2002:a0c:b286:: with SMTP id r6mr9353040qve.33.1631859892661;
+        Thu, 16 Sep 2021 23:24:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:ac9:: with SMTP id r9ls3377125pje.1.gmail; Thu, 16
- Sep 2021 23:24:25 -0700 (PDT)
-X-Received: by 2002:a17:90a:4a8e:: with SMTP id f14mr10513763pjh.169.1631859865291;
-        Thu, 16 Sep 2021 23:24:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631859865; cv=none;
+Received: by 2002:ac8:1344:: with SMTP id f4ls5969831qtj.8.gmail; Thu, 16 Sep
+ 2021 23:24:52 -0700 (PDT)
+X-Received: by 2002:ac8:720f:: with SMTP id a15mr9098186qtp.84.1631859892255;
+        Thu, 16 Sep 2021 23:24:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631859892; cv=none;
         d=google.com; s=arc-20160816;
-        b=m6IFDUSTsz2Vi/f2Ac3UlrfcbGFOvjY97pmXjzeQuhAiPyj6ENmdicyDYkNQboLeH4
-         KuJuf6KzQEQfzjduv4Yxq5eH3ljTpLPAVWFFBAfdS60XqlqT5Rdt5juR1EBxSYHmMkEA
-         sRS2e7inImsutPJdKlEFh1qodm0Y1lSisQokXRF/DkVB+HRk+KduSgG8Ked4fkWI7iwW
-         5RTJNcIGFIbAC+Isxwm42CeVA0lmLHX7Q0S2pAVgmgmpO5O0XLAmcQsYA6bKH3J4RA/Z
-         MFqNgGSJgH87vCFVxHQe33N+20p7m7zR+MmVemXOi3Hk+ud2OHFm0iaJjobWxT4B00Fl
-         62rw==
+        b=hrOpCau/7kA+byTN/SQAHIWujuxm6LbO0bXAJ2rmiWySWOJ6/wHDI7wjaV7AxWWObm
+         lpAhUaxO1cVcrpdzWTBFvXb9p2cpChc8OQGITIv7oAVVterNVRWkknvvslkAme+G6kKv
+         00z1xt+vFIk0gaG26oyA1cJhqiHz5bXkNzU5TfqpcRBWl3e32Q/FzZ88krN31Rj+fOKI
+         8BX77+efcqsOIQkilejNQmOTxgtO65j2hblLowQWLkstvS8C6f3agm91D4eNfUxCpxEo
+         XQ45jaZhJ3jh8rXpkQsWwi4FzoCYFudsch2B9EespJvHz3tN63HB93ax7nbymQRRUgBF
+         tiKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=pJxvJK5pINelwNbN9K9yvZcoLrtd4KfqynUK5Hmj6VY=;
-        b=S0uVPT0rL3WKsDXWOy+PYaM4Ubq4+M349YLb56mBt5H3LCY8cRMp/hvcu9ma8VTz+w
-         M22FtkPG84rAQ9WJJK3292iSswP1AE4B9tdlCi4TILMFmNzbW7T6JjaTO0H+PpjjIljQ
-         Qb3YRVFb3JvfIkSk7nWgiE/mmHwRvVuc+ueUm+b0Wqna9ncjN9jjCGhsjkYol1YzfNqZ
-         6HHtxW2cLR7JP5THzYEJRmdSkFJdeqUNnWuyu5EYsezRNMilBf/eY/wO7SghS48EKuBf
-         0Km9/m9pW6gEZ4aiOysKut0rpDlOInJcg1T9b9ViNuPgjvafe4EOPZjncb8atK2ADMMJ
-         +AwQ==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=HVtimjifHQWpR45qqeeZhyJBBHq0XIb2bwKwTkP6FrA=;
+        b=hYGSBMa8ImbpofUc7L+ILMXo4tlV64HfOETKYhP+ktp1GOUeG2792kgKh83HGmx1Kv
+         S7mtz57ls/sfbqjCb6AjaFZ525hyqbwRAkGtermQW5oDw8wnuaagrW7ZoDumOQTh0gvN
+         ndJoRhfC9EWfZbXys4UeResxrZ/vWn51YlFOOGxKrwjDGyO/3WvepwSGqSJInc0+901f
+         PGqkbl5n2FlohscU74mKaD9h1vG6ZKp9my9mQmI3iyAe+7u0pQ5Wzp2wuNyM4AR+xz8m
+         MplSaMdT0avi2HTpu54KmXkdoEnwKn+puPkbOU+P/yWH13qwVBSSv2e/ckVcicBcDfoR
+         g4Nw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=tNzW5LF8;
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=YM10PzX6;
        spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id w20si570086plq.2.2021.09.16.23.24.25
+        by gmr-mx.google.com with ESMTPS id a21si882192qtm.3.2021.09.16.23.24.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 Sep 2021 23:24:25 -0700 (PDT)
+        Thu, 16 Sep 2021 23:24:52 -0700 (PDT)
 Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F37260F4A;
-	Fri, 17 Sep 2021 06:24:24 +0000 (UTC)
-Date: Fri, 17 Sep 2021 08:24:22 +0200
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B596A60F4A;
+	Fri, 17 Sep 2021 06:24:50 +0000 (UTC)
+Date: Fri, 17 Sep 2021 08:24:48 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Kefeng Wang <wangkefeng.wang@huawei.com>
 Cc: will@kernel.org, catalin.marinas@arm.com, ryabinin.a.a@gmail.com,
@@ -106,18 +109,21 @@ Cc: will@kernel.org, catalin.marinas@arm.com, ryabinin.a.a@gmail.com,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org, elver@google.com, akpm@linux-foundation.org,
 	kasan-dev@googlegroups.com
-Subject: Re: [PATCH v4 2/3] arm64: Support page mapping percpu first chunk
+Subject: Re: [PATCH v4 0/3] arm64: support page mapping percpu first chunk
  allocator
-Message-ID: <YUQ0lvldA+wGpr0G@kroah.com>
+Message-ID: <YUQ0sFeM4xqmaNG6@kroah.com>
 References: <20210910053354.26721-1-wangkefeng.wang@huawei.com>
- <20210910053354.26721-3-wangkefeng.wang@huawei.com>
+ <c06faf6c-3d21-04f2-6855-95c86e96cf5a@huawei.com>
+ <YUNlsgZoLG3g4Qup@kroah.com>
+ <525cb266-ecfc-284e-d701-4a8b40fe413b@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20210910053354.26721-3-wangkefeng.wang@huawei.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <525cb266-ecfc-284e-d701-4a8b40fe413b@huawei.com>
 X-Original-Sender: gregkh@linuxfoundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linuxfoundation.org header.s=korg header.b=tNzW5LF8;       spf=pass
+ header.i=@linuxfoundation.org header.s=korg header.b=YM10PzX6;       spf=pass
  (google.com: domain of gregkh@linuxfoundation.org designates 198.145.29.99 as
  permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
@@ -133,143 +139,60 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Sep 10, 2021 at 01:33:53PM +0800, Kefeng Wang wrote:
-> Percpu embedded first chunk allocator is the firstly option, but it
-> could fails on ARM64, eg,
->   "percpu: max_distance=0x5fcfdc640000 too large for vmalloc space 0x781fefff0000"
->   "percpu: max_distance=0x600000540000 too large for vmalloc space 0x7dffb7ff0000"
->   "percpu: max_distance=0x5fff9adb0000 too large for vmalloc space 0x5dffb7ff0000"
-> 
-> then we could meet "WARNING: CPU: 15 PID: 461 at vmalloc.c:3087 pcpu_get_vm_areas+0x488/0x838",
-> even the system could not boot successfully.
-> 
-> Let's implement page mapping percpu first chunk allocator as a fallback
-> to the embedding allocator to increase the robustness of the system.
-> 
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> ---
->  arch/arm64/Kconfig       |  4 ++
->  drivers/base/arch_numa.c | 82 +++++++++++++++++++++++++++++++++++-----
->  2 files changed, 76 insertions(+), 10 deletions(-)
-> 
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 077f2ec4eeb2..04cfe1b4e98b 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1042,6 +1042,10 @@ config NEED_PER_CPU_EMBED_FIRST_CHUNK
->  	def_bool y
->  	depends on NUMA
->  
-> +config NEED_PER_CPU_PAGE_FIRST_CHUNK
-> +	def_bool y
-> +	depends on NUMA
+On Fri, Sep 17, 2021 at 09:11:38AM +0800, Kefeng Wang wrote:
+>=20
+> On 2021/9/16 23:41, Greg KH wrote:
+> > On Wed, Sep 15, 2021 at 04:33:09PM +0800, Kefeng Wang wrote:
+> > > Hi Greg and Andrew=EF=BC=8C as Catalin saids=EF=BC=8Cthe series touch=
+es drivers/ and mm/
+> > > but missing
+> > >=20
+> > > acks from both of you=EF=BC=8Ccould you take a look of this patchset(=
+patch1 change
+> > > mm/vmalloc.c
+> > What patchset?
+>=20
+> [PATCH v4 1/3] vmalloc: Choose a better start address in
+> vm_area_register_early()  <https://lore.kernel.org/linux-arm-kernel/20210=
+910053354.26721-2-wangkefeng.wang@huawei.com/>
+> [PATCH v4 2/3] arm64: Support page mapping percpu first chunk allocator  =
+<https://lore.kernel.org/linux-arm-kernel/20210910053354.26721-3-wangkefeng=
+.wang@huawei.com/>
+> [PATCH v4 3/3] kasan: arm64: Fix pcpu_page_first_chunk crash with
+> KASAN_VMALLOC  <https://lore.kernel.org/linux-arm-kernel/20210910053354.2=
+6721-4-wangkefeng.wang@huawei.com/>
+> [PATCH v4 0/3] arm64: support page mapping percpu first chunk allocator  =
+<https://lore.kernel.org/linux-arm-kernel/c06faf6c-3d21-04f2-6855-95c86e96c=
+f5a@huawei.com/>
+>=20
+> > > and patch2 changes drivers/base/arch_numa.c).
+> patch2 =EF=BC=9A
+>=20
+> [PATCH v4 2/3] arm64: Support page mapping percpu first chunk allocator  =
+<https://lore.kernel.org/linux-arm-kernel/20210910053354.26721-3-wangkefeng=
+.wang@huawei.com/#r>
+>=20
+> > that file is not really owned by anyone it seems :(
+> >=20
+> > Can you provide a link to the real patch please?
+>=20
+> Yes=EF=BC=8C arch_numa.c is moved into drivers/base to support riscv numa=
+, it is
+> shared by arm64/riscv,
+>=20
+> my changes(patch2) only support NEED_PER_CPU_PAGE_FIRST_CHUNK on ARM64.
+>=20
+> here is the link:
+>=20
+> https://lore.kernel.org/linux-arm-kernel/20210910053354.26721-1-wangkefen=
+g.wang@huawei.com/
 
-Why is this a config option at all?
+Now reviewed.
 
-> +
->  source "kernel/Kconfig.hz"
->  
->  config ARCH_SPARSEMEM_ENABLE
-> diff --git a/drivers/base/arch_numa.c b/drivers/base/arch_numa.c
-> index 46c503486e96..995dca9f3254 100644
-> --- a/drivers/base/arch_numa.c
-> +++ b/drivers/base/arch_numa.c
-> @@ -14,6 +14,7 @@
->  #include <linux/of.h>
->  
->  #include <asm/sections.h>
-> +#include <asm/pgalloc.h>
->  
->  struct pglist_data *node_data[MAX_NUMNODES] __read_mostly;
->  EXPORT_SYMBOL(node_data);
-> @@ -168,22 +169,83 @@ static void __init pcpu_fc_free(void *ptr, size_t size)
->  	memblock_free_early(__pa(ptr), size);
->  }
->  
-> +#ifdef CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK
-
-Ick, no #ifdef in .c files if at all possible please.
-
-> +static void __init pcpu_populate_pte(unsigned long addr)
-> +{
-> +	pgd_t *pgd = pgd_offset_k(addr);
-> +	p4d_t *p4d;
-> +	pud_t *pud;
-> +	pmd_t *pmd;
-> +
-> +	p4d = p4d_offset(pgd, addr);
-> +	if (p4d_none(*p4d)) {
-> +		pud_t *new;
-> +
-> +		new = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
-> +		if (!new)
-> +			goto err_alloc;
-> +		p4d_populate(&init_mm, p4d, new);
-> +	}
-> +
-> +	pud = pud_offset(p4d, addr);
-> +	if (pud_none(*pud)) {
-> +		pmd_t *new;
-> +
-> +		new = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
-> +		if (!new)
-> +			goto err_alloc;
-> +		pud_populate(&init_mm, pud, new);
-> +	}
-> +
-> +	pmd = pmd_offset(pud, addr);
-> +	if (!pmd_present(*pmd)) {
-> +		pte_t *new;
-> +
-> +		new = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
-> +		if (!new)
-> +			goto err_alloc;
-> +		pmd_populate_kernel(&init_mm, pmd, new);
-> +	}
-> +
-> +	return;
-> +
-> +err_alloc:
-> +	panic("%s: Failed to allocate %lu bytes align=%lx from=%lx\n",
-> +	      __func__, PAGE_SIZE, PAGE_SIZE, PAGE_SIZE);
-
-That feels harsh, are you sure you want to crash?  There's no way to
-recover from this?  If not, how can this fail in real life?
-
-> +}
-> +#endif
-> +
->  void __init setup_per_cpu_areas(void)
->  {
->  	unsigned long delta;
->  	unsigned int cpu;
-> -	int rc;
-> +	int rc = -EINVAL;
-> +
-> +	if (pcpu_chosen_fc != PCPU_FC_PAGE) {
-> +		/*
-> +		 * Always reserve area for module percpu variables.  That's
-> +		 * what the legacy allocator did.
-> +		 */
-> +		rc = pcpu_embed_first_chunk(PERCPU_MODULE_RESERVE,
-> +					    PERCPU_DYNAMIC_RESERVE, PAGE_SIZE,
-> +					    pcpu_cpu_distance,
-> +					    pcpu_fc_alloc, pcpu_fc_free);
-> +#ifdef CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK
-> +		if (rc < 0)
-> +			pr_warn("PERCPU: %s allocator failed (%d), falling back to page size\n",
-> +				   pcpu_fc_names[pcpu_chosen_fc], rc);
-> +#endif
-
-Why only print out a message for a config option?  Again, no #ifdef in
-.c files if at all possible.
-
-thanks,
-
-greg k-h
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YUQ0lvldA%2BwGpr0G%40kroah.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/YUQ0sFeM4xqmaNG6%40kroah.com.
