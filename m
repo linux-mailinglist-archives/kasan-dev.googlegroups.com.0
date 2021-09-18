@@ -1,125 +1,136 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBB65SKFAMGQEYOIDPSA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBRF4S2FAMGQECZRF55Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5353340FB1B
-	for <lists+kasan-dev@lfdr.de>; Fri, 17 Sep 2021 17:04:41 +0200 (CEST)
-Received: by mail-pj1-x1038.google.com with SMTP id l23-20020a17090aec1700b0019aefe0a92fsf7530647pjy.5
-        for <lists+kasan-dev@lfdr.de>; Fri, 17 Sep 2021 08:04:41 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631891080; cv=pass;
+Received: from mail-ot1-x33c.google.com (mail-ot1-x33c.google.com [IPv6:2607:f8b0:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 319F74104F8
+	for <lists+kasan-dev@lfdr.de>; Sat, 18 Sep 2021 10:07:34 +0200 (CEST)
+Received: by mail-ot1-x33c.google.com with SMTP id b25-20020a9d60d9000000b00519be3bdc04sf40407482otk.7
+        for <lists+kasan-dev@lfdr.de>; Sat, 18 Sep 2021 01:07:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631952453; cv=pass;
         d=google.com; s=arc-20160816;
-        b=e1IGWZsrfM3C2KGtov4Q1bKcv3QKjEttWKx2IPV76Le7f3Srk2LiQGtDQt06zVhwFk
-         e4JcUoeHyosNAGlT+/6novLxIPcl81LouXkRDYs9GLhdPHu2h9W7RWl9n1io8LnWj+vL
-         q6UDb3IKp/CJSMS+Cld1u89Gy15Rtu6RWrN4A5fd2a7sjphn6oWyn6F2v5anSATmS4Jk
-         +v3aF4n5ja6KwK4LPeVEPy58/Oi5nGp6haB429X+ga8S46oq2s3LcgoLMpkVt9BluqSL
-         7SmEFnJxKqrNq7u42oZmnb1XRwygzj8NW5eos6a0qyF9x5WUGwgSfOkKIMfurtTXzp6U
-         mbow==
+        b=SuKIeaVaI8WuMDTQCETHrWOC9SNoT/4COlM0sP8r+AaEIBs8w2gQesryEwHJ5uct+8
+         ZzcFtbINCBdN6L+ET3SXAWYD0O4lDi+d3nfD8jKfs9+1c9r423EXOjhW0d9fUNLehbYl
+         9F1lwZcs6K5widfsBBhhNVg22HTqk0qHai1gg2c6+bSrpsFijWSrIefv/18zp+wX0zWX
+         aKAA0Qn6z9VfGJmVZNc1MSmoOJJeNeNXLPNFJyOeFUnMbhF4VgCZg4ftvw+nAQ16oeP6
+         S7/Phnh619pv7yjWQUsBtynBJXuV8CkYyi5I3dNCwh0BWxzOmLGk+dsgTXg1HYMgez1u
+         XDww==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=T2acVLfgJ56YydTcPzccut+bhI7PDFml6f4UnnOP4IM=;
-        b=XSOOc02MPyk4a0NFbOXqSWZCPaYSRpP8MAnAtbspi9BL4jUab7Eivv6eqksyRZcDSj
-         itfKaA77u1uTh8bVTZfLr0xYnlZKyXOppUHJJPmiibCNsggZ6WyhBMOq/ZGK2bV2Jiwj
-         5d0ZozFdfAS7rrkGHRKiR237u4xVwwzKD6P20VOBKYcI+5kff29wD6EK7KxEdxrGNEq0
-         q3OyOYNEwQVYJk0uy58Ni1aYGNE1sbwTzzkQrrK6N4c4dD+oIc7oiLcrvbHibFWP5IZg
-         csZx9UyPzjHiqKmegK3MDl5B/SzSv7ORCbqS2X0BtVmhn2N3BFNQF8gWwAIrvAzJGu4Y
-         UIAQ==
+         :list-id:mailing-list:precedence:in-reply-to:mime-version:user-agent
+         :date:message-id:from:cc:references:to:subject:sender:dkim-signature;
+        bh=TlA/XjsZLioCVib3TdtNNsxnEfMGU3ZXdIIPw+RJ7RY=;
+        b=QfxoP3rsIJuBvzE31TYJF2vQyPaepL+e8WuhyXs5lSF1TifW6ueNetm+40eDekr1Ja
+         CykdHG3m30nE2BL2Z7Az/SW4nV/KCgC57d6yuJZtxUoGsJfBD6O1HBCwvMVA9BW5XPF/
+         Iqg8cz5BDyVRrVaY0RkFaRlUVYnYQ/8v5OBTw1oSPgl04z346G/iG5QkVtZ/X9yRup8H
+         rbwaOkqAutncqJyXdjX4K5QJUn45TUH9BBwkbcjYXHEvWpcv4GMjjJbC73J1cww5OtMc
+         u0cMTKANDg93jHEZ1LRbtmzv5fFfGpZr3GSZuAdtsn7n/OwIcrad66W+QR5WsjmVyCZa
+         1YHg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="gJ7zRq/b";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=liushixin2@huawei.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=T2acVLfgJ56YydTcPzccut+bhI7PDFml6f4UnnOP4IM=;
-        b=gna3SGPsiGDB9QjMJzB+wovxk3OQCjWc3dcJf0RFjtOQFuOGTuw8etde2B1jdWDvzr
-         3OZNuLP0/bZbOHpx35tfj3vh3wu1J3MNfMyfSNLic7U2HKhHjQ75KapYVI8IUGhIINbx
-         ioqtzYqRAdK1U9PFtusu0WStdx9UTFgO+v+PxdA+TuzwcJIoICyQtrqh2RdERK5Hxto2
-         +4Wyg7sdFOG8Ghe1FfjqRRm0cDAfBHLMYyLuf0uhdAghf8JrQ7PuJDPS4/6I/o9FiMnk
-         iYm3pzLK1EF+Kqrz8rWUVPlEQllnkHSqxOv7x+aKRXYXXWI3aYXL1Iv9FLYo1F/np26Y
-         A4vQ==
+        h=sender:subject:to:references:cc:from:message-id:date:user-agent
+         :mime-version:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=TlA/XjsZLioCVib3TdtNNsxnEfMGU3ZXdIIPw+RJ7RY=;
+        b=dsrYxMqxttg6ehn5aZwQWgwhlap9Gy7m8zZ1gWYYXcI2tD0vPdeHn/tErgOT7hwW/a
+         rIFWU6NJVlB3mrB6BEsh4IUNHGyaezgLJn/QxQIDlK0TtwJYJoaPRN3MGTQsUpkHP9c4
+         kEk5TvlgnKndLhBMv9EBIdGwtx4sUXahj0OoRjJNZr1cJ4ZiqmPXFCcnZyRgza6J8H90
+         Vo+/nSF8fjd52Ki69pL8xQisHPt1emtxWUSasxXBvLbiBeL0VI6WegHt5pFq5WZdm/n/
+         AYyTmwVvC2DaI3HG3bbh8Orr5We7s5/ExD11B5bh1CE9XH2a9jxKrSnRfigi67TsgRap
+         b+vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:subject:to:references:cc:from:message-id
+         :date:user-agent:mime-version:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=T2acVLfgJ56YydTcPzccut+bhI7PDFml6f4UnnOP4IM=;
-        b=lSVicJ9rBwYJAIlOGZXEqv40cNc5/Vp9hQdWGi982neTDhKmr/44EFhNUBhfRHS6PB
-         QXurv4ncMuYtvLK5cg3QBfqHRiD1P1hssM3piRi2BgyrQdBKvEAMZwMgHYrGqrAbkj4X
-         fhVVxLpYEq9GSY+h28h00B1fmIiP6Y+Fs7W/qUHmJA4y/TS8/6+eKB4QRvlhctZhBe/U
-         yzW4cmrNwDnVEoztvKryaz59U8goHB6fB6bbWKLkIMwMgRzajz44ZtNnuNLpU3Ja6xw6
-         YpgLO0aWBSKINPU5wovgCRIlE0EUoWjmA/WO3qDlOzIyQEQ4kbAkyYG9PXxyjdQzeMg/
-         uZ/Q==
-X-Gm-Message-State: AOAM530Ui00AIddS0E5wrtmI0+/vAwE8l+V0139d1bd8uc77UYOI6VSa
-	okCL9v1HqZfwCTmfiC+83ME=
-X-Google-Smtp-Source: ABdhPJypyI7ev8cgzrI9dZO4k516mERgVFJC0Ou3hwVhmTna+1hRErWwO1LGarsDRH8e660dFqfTrQ==
-X-Received: by 2002:a17:90b:3b8b:: with SMTP id pc11mr21973235pjb.153.1631891079854;
-        Fri, 17 Sep 2021 08:04:39 -0700 (PDT)
+        bh=TlA/XjsZLioCVib3TdtNNsxnEfMGU3ZXdIIPw+RJ7RY=;
+        b=A6ppfxSACDMF985DTmFmYY9flE3A4A+wUXFQxMvmm6q1MwzDyt1zuteT7I+ob+7HK6
+         UWgISbxKrp/IiliF51xO4riXdoAUKL+pBzeF6KGi0wT/gP3+SwG94NcNWEQeuCbr/6jb
+         DujAXeGiDrfqS+KiAf1+onbizv5EPSyAAK6K/iB11J2g7dMRgCriuFMKKjFwbZQzzxxB
+         Ou4ZVb7VKOKhX5bq862eTaNuiu3SkXxB2bO2wXnq67UZJd3ao4ddnNi1AU7f3iLBniUP
+         C6j57faGgordjgvAGmvvX01bD7J504XC0jp5k//ydXU5oKcdTXDVu2AwIjxTO99WxG1b
+         9p+w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531pHRzqvc9bIjA81VKmHBPa4DCwKtoDop/BpRTIqv/ygUw8nNE8
+	0A+A6VFVZREGwDFF0zd+zR0=
+X-Google-Smtp-Source: ABdhPJxY3CtSI4yMVhNB+fQaCqNa6LxOxXIbEc6mqwZ8IrBT86m1C4brPsWAJKqmZntUEW+cFE89ZQ==
+X-Received: by 2002:a9d:71c6:: with SMTP id z6mr12920939otj.382.1631952452941;
+        Sat, 18 Sep 2021 01:07:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:e787:: with SMTP id cp7ls4018050plb.10.gmail; Fri,
- 17 Sep 2021 08:04:39 -0700 (PDT)
-X-Received: by 2002:a17:90a:b943:: with SMTP id f3mr21852337pjw.147.1631891079192;
-        Fri, 17 Sep 2021 08:04:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631891079; cv=none;
+Received: by 2002:a4a:6155:: with SMTP id u21ls915829ooe.10.gmail; Sat, 18 Sep
+ 2021 01:07:32 -0700 (PDT)
+X-Received: by 2002:a4a:e9b5:: with SMTP id t21mr3904566ood.3.1631952452619;
+        Sat, 18 Sep 2021 01:07:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631952452; cv=none;
         d=google.com; s=arc-20160816;
-        b=LenofkNW9rtcLz0uklv0zScPbnTGV3fr58PrXTepOgL1+4crWCCfC7S6Z/WbCC48SB
-         Lg3ahQjnCbDVfhUVeP3gyp/qs+OPCfO9G2GKRzCYYxEQg/+8B16FG4W7AxXA0RYkKyVp
-         MIr1DHc2l7P//SU3WzuREJrFaoU702Ch98Bwcwmx7PoYtqg5agMpl2orjHkfPZ1dVku6
-         ZH0YZiy6WlWUvhhtUExIU4NsbI/vBXQcvabfvxD2NwxM77DBZSDggaECoLu43nCq88b/
-         odBl0SZnZ3KNGgr2lbUHoW2to65s7p16FfHCRBo7Ds75QBdodg9dpc+5kBt7AMQSvoyY
-         VfxQ==
+        b=C65XzMMOmyz0xlkEfV+NdxjYmEbgtbqyXykbAM3icDUjIOvhU/hKfe0tSatG/pxmeW
+         pqSpX81oMtZrNh1M0xyFvVRb0jis24mqIBVq0MzAVZNqVa44VrMn1zJv1rBidFyNdMb4
+         2erIDwde1xW7uqInPaSlJlRYZMxS7DE874GlM0gmlI1S++MGWqxMphb3TFdnDQ3vQkye
+         teeXgyh5IE5Cyneh2PuVdnQQKy6oAULNSAfnvG6Xa6DCL/MEur1DNkX+OP9psaGbGKNy
+         FB87vL7dqb8hb7nGTnsRGhDJsUHZU2+ecrmxKL3dcvyfxlzk+VICkQ9T4aZXrCdp+52z
+         vdZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=XUsl9Gygs4sNh6RuSqwsUb3ZhWZQ6AtKMQEzioy+07E=;
-        b=D6rxsHkfSGy5w97ETIZJ+j0tGS/2H1BFzaPOt5aYtFGGI4ZLQQmS7BftLlT+rKR6NG
-         tZdB+XAc13IzVfjcDeJjMawr0+1T3AGrjmnWodUi7YpM8QoilzxAZ6m8d+gPJaZBaKia
-         nWmZqmhq/StE9a+XRm1dcDoamIHGOqRG7gkwswXOu25/5laGg/FZTl+MyRPpV5ZZJcqY
-         ftcI1hwszGGydbqUY1MAxx26JYKCj/CeK56cMHWqjM/Xi/DLlWO00d+eniOfJHnJtgdr
-         UvZ1bpqkab0glE30PXprs/YRI2/sJJiAtgXrQo6tRyZHY+20kps7E0BjOgMVC2uT34CD
-         qSSw==
+        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:from:cc:references:to:subject;
+        bh=MI6eQ2eFs8rCLegl7gksQc14lOufDHNodUbKk2Qg4zY=;
+        b=PHLlGtcqDoTtfe/bZr7u8G0ECVqmqevhGNLXaguSQW6NwoIySAc38r1gnHotebxKfF
+         X5deec7Qe4SCaxygOFEfOC/aZ3KFeky5/xtBxOcS0y5ylFKsGaqRagShsraKyJhTU+xF
+         obJL4Xpbz6eSUM7Ky8rXurFXIzWTyQGeiNHEEWXFQcXbdM5RM0Q1zlCzLpZTGs52Srx/
+         wOKK3vpY7NMiUN7rufL3pYCBJOMS6DAof+KktfMcLwtqUQ1hnYiUk9hA5dz51fqxmbRM
+         U5MYZLrFRaYTl0vf9n2kp3bjbf+Ue/LzNNiDc3c206yQ5lMMyUF594pJoREkXVZXKEl/
+         mh+g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="gJ7zRq/b";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com. [2607:f8b0:4864:20::336])
-        by gmr-mx.google.com with ESMTPS id r7si953771pjp.0.2021.09.17.08.04.39
+       spf=pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=liushixin2@huawei.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com. [45.249.212.189])
+        by gmr-mx.google.com with ESMTPS id v21si881429oto.0.2021.09.18.01.07.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Sep 2021 08:04:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as permitted sender) client-ip=2607:f8b0:4864:20::336;
-Received: by mail-ot1-x336.google.com with SMTP id i8-20020a056830402800b0051afc3e373aso13258717ots.5
-        for <kasan-dev@googlegroups.com>; Fri, 17 Sep 2021 08:04:39 -0700 (PDT)
-X-Received: by 2002:a9d:135:: with SMTP id 50mr1442954otu.295.1631891078270;
- Fri, 17 Sep 2021 08:04:38 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 18 Sep 2021 01:07:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of liushixin2@huawei.com designates 45.249.212.189 as permitted sender) client-ip=45.249.212.189;
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4HBNh96Zq8z57Cl;
+	Sat, 18 Sep 2021 16:06:49 +0800 (CST)
+Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Sat, 18 Sep 2021 16:07:30 +0800
+Received: from [10.174.179.24] (10.174.179.24) by
+ dggpemm500009.china.huawei.com (7.185.36.225) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Sat, 18 Sep 2021 16:07:29 +0800
+Subject: Re: [PATCH v2 2/3] kfence: maximize allocation wait timeout duration
+To: Marco Elver <elver@google.com>, Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20210421105132.3965998-1-elver@google.com>
+ <20210421105132.3965998-3-elver@google.com>
+ <6c0d5f40-5067-3a59-65fa-6977b6f70219@huawei.com>
+ <abd74d5a-1236-4f0e-c123-a41e56e22391@huawei.com>
+ <CANpmjNNXiuQbjMBP=5+uZRNAiduV7v067pPmAgsYzSPpR8Y2yg@mail.gmail.com>
+CC: <akpm@linux-foundation.org>, <glider@google.com>, <dvyukov@google.com>,
+	<jannh@google.com>, <mark.rutland@arm.com>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <kasan-dev@googlegroups.com>, <hdanton@sina.com>
+From: Liu Shixin <liushixin2@huawei.com>
+Message-ID: <da6629d3-2530-46b0-651b-904159a7a189@huawei.com>
+Date: Sat, 18 Sep 2021 16:07:29 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-References: <20210917110756.1121272-1-elver@google.com> <20210917110756.1121272-2-elver@google.com>
- <CACT4Y+aqfQNv5kjT0uCdgmw9MDYzZGFTXk9XdZ==pZLxRxfG1A@mail.gmail.com>
-In-Reply-To: <CACT4Y+aqfQNv5kjT0uCdgmw9MDYzZGFTXk9XdZ==pZLxRxfG1A@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 17 Sep 2021 17:04:26 +0200
-Message-ID: <CANpmjNNJv4wt0AhnKP4fuLkeMJdPAKB0GVWDj1VvoC3kZ8bGRw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kfence: limit currently covered allocations when pool
- nearly full
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
-	Aleksandr Nogikh <nogikh@google.com>, Taras Madan <tarasmadan@google.com>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, kasan-dev@googlegroups.com
+In-Reply-To: <CANpmjNNXiuQbjMBP=5+uZRNAiduV7v067pPmAgsYzSPpR8Y2yg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="gJ7zRq/b";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+X-Originating-IP: [10.174.179.24]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500009.china.huawei.com (7.185.36.225)
+X-CFilter-Loop: Reflected
+X-Original-Sender: liushixin2@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of liushixin2@huawei.com designates 45.249.212.189 as
+ permitted sender) smtp.mailfrom=liushixin2@huawei.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,254 +143,135 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 17 Sept 2021 at 15:52, Dmitry Vyukov <dvyukov@google.com> wrote:
-[...]
-> > +/*
-> > + * A lossy hash map of allocation stack trace coverage: limits currently covered
-> > + * allocations of the same source filling up the pool when close to full.
-> > + *
-> > + * The required data fits in 64 bits, and therefore we can avoid a per-entry (or
-> > + * global) lock by simply storing each entry's data in an atomic64_t.
-> > + */
-> > +union alloc_covered_entry {
-> > +       struct {
-> > +               u32 alloc_stack_hash;   /* stack trace hash */
-> > +               u32 covered;            /* current coverage count */
-> > +       };
-> > +       u64 entry;
-> > +};
-> > +#define ALLOC_COVERED_SIZE (1 << const_ilog2(CONFIG_KFENCE_NUM_OBJECTS | 128)) /* >= 128 */
+
+On 2021/9/16 16:49, Marco Elver wrote:
+> On Thu, 16 Sept 2021 at 03:20, Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
+>> Hi Marco,
+>>
+>> We found kfence_test will fails  on ARM64 with this patch with/without
+>> CONFIG_DETECT_HUNG_TASK,
+>>
+>> Any thought ?
+> Please share log and instructions to reproduce if possible. Also, if
+> possible, please share bisection log that led you to this patch.
 >
-> const_ilog2 rounds down, so for 1023 objects we will have hashtable of
-> size 512, or am I missing something? This asking for collisions.
-> Hashtable size should be larger than expected population.
-
-That's correct. I wanted to err on the side of allocating more and not
-less, if we can afford it. Hence also the choice of lossy hash map.
-However, I think if we consider the whole fleet, your proposal below
-makes sense and I'll rerun experiments with that and see.
-
-> > +#define ALLOC_COVERED_MASK (ALLOC_COVERED_SIZE - 1)
-> > +static atomic64_t alloc_covered[ALLOC_COVERED_SIZE];
-> > +/* Stack depth used to determine uniqueness of an allocation. */
-> > +#define UNIQUE_ALLOC_STACK_DEPTH 8
-> > +/* Pool usage threshold when currently covered allocations are skipped. */
-> > +#define SKIP_COVERED_THRESHOLD ((CONFIG_KFENCE_NUM_OBJECTS * 3) / 4) /* 75% */
-> > +
-> >  /*
-> >   * Per-object metadata, with one-to-one mapping of object metadata to
-> >   * backing pages (in __kfence_pool).
-> > @@ -114,6 +138,7 @@ enum kfence_counter_id {
-> >         KFENCE_COUNTER_BUGS,
-> >         KFENCE_COUNTER_SKIP_INCOMPAT,
-> >         KFENCE_COUNTER_SKIP_CAPACITY,
-> > +       KFENCE_COUNTER_SKIP_COVERED,
-> >         KFENCE_COUNTER_COUNT,
-> >  };
-> >  static atomic_long_t counters[KFENCE_COUNTER_COUNT];
-> > @@ -125,11 +150,73 @@ static const char *const counter_names[] = {
-> >         [KFENCE_COUNTER_BUGS]           = "total bugs",
-> >         [KFENCE_COUNTER_SKIP_INCOMPAT]  = "skipped allocations (incompatible)",
-> >         [KFENCE_COUNTER_SKIP_CAPACITY]  = "skipped allocations (capacity)",
-> > +       [KFENCE_COUNTER_SKIP_COVERED]   = "skipped allocations (covered)",
-> >  };
-> >  static_assert(ARRAY_SIZE(counter_names) == KFENCE_COUNTER_COUNT);
-> >
-> >  /* === Internals ============================================================ */
-> >
-> > +static u32 get_alloc_stack_hash(void)
-> > +{
-> > +       unsigned long stack_entries[UNIQUE_ALLOC_STACK_DEPTH];
-> > +       size_t num_entries;
-> > +
-> > +       num_entries = stack_trace_save(stack_entries, UNIQUE_ALLOC_STACK_DEPTH, 1);
+> I currently do not see how this patch would cause that, it only
+> increases the timeout duration.
 >
-> Strictly speaking, if a bad persistent allocation comes from an
-> interrupt it may still consume whole pool. We've hit this problem with
-> KASAN stackdepot unbounded growth. It's better to do
-> filter_irq_stacks() here, see:
-> https://elixir.bootlin.com/linux/v5.15-rc1/source/mm/kasan/common.c#L39
-
-Time to move filter_irq_stacks() out of stackdepot, we should not
-depend on stackdepot just for filter_irq_stacks(). I'll probably move
-it to kernel/stacktrace.c, which seems most appropriate.
-
-> > +       return jhash(stack_entries, num_entries * sizeof(stack_entries[0]), 0);
-> > +}
-> > +
-> > +/*
-> > + * Check if the allocation stack trace hash @alloc_stack_hash is contained in
-> > + * @alloc_covered and currently covered.
-> > + */
-> > +static bool alloc_covered_contains(u32 alloc_stack_hash)
-> > +{
-> > +       union alloc_covered_entry entry;
-> > +
-> > +       if (!alloc_stack_hash)
-> > +               return false;
-> > +
-> > +       entry.entry = (u64)atomic64_read(&alloc_covered[alloc_stack_hash & ALLOC_COVERED_MASK]);
-> > +       return entry.alloc_stack_hash == alloc_stack_hash && entry.covered;
-> > +}
-> > +
-> > +/*
-> > + * Adds (or subtracts) coverage count to entry corresponding to
-> > + * @alloc_stack_hash. If @alloc_stack_hash is not yet contained in
-> > + * @alloc_covered, resets (potentially evicting existing) entry.
-> > + */
-> > +static void alloc_covered_add(u32 alloc_stack_hash, int val)
-> > +{
-> > +       union alloc_covered_entry old;
-> > +       union alloc_covered_entry new;
-> > +       atomic64_t *bucket;
-> > +
-> > +       if (!alloc_stack_hash)
-> > +               return;
-> > +
-> > +       bucket = &alloc_covered[alloc_stack_hash & ALLOC_COVERED_MASK];
-> > +       old.entry = (u64)atomic64_read(bucket);
-> > +       new.alloc_stack_hash = alloc_stack_hash;
-> > +       do {
-> > +               if (val > 0) {
-> > +                       new.covered = old.alloc_stack_hash == alloc_stack_hash
-> > +                                       ? old.covered + val     /* increment */
-> > +                                       : val;                  /* evict/reset */
+> I know that under QEMU TCG mode, there are occasionally timeouts in
+> the test simply due to QEMU being extremely slow or other weirdness.
 >
-> I am trying to understand the effects of this eviction policy on the result.
-> It seems that it can render the pool overflow protection void.
-> Consider, two stacks (ABC, DEF) hash to the same bucket. One
-> allocation is frequent and not persistent, another is less frequent
-> but almost persistent. The first one will evict the second one, so we
-> will always save the second effectively defeating the overflow
-> protection.
+> .
 >
-> There are also some interesting effects due to cyclic evictions
-> (A->B->A), where we do not count increment, but count decrement.
->
-> Have you considered not evicting, but rather simply combining
-> allocations with the same hash?
+Hi Marco,
 
-Hmm, good point. It's probably not as bad as a real bloom filter,
-because we might successfully remove an entry if all the allocations
-that mapped to 1 bucket are freed.
+There are some of the results of the current test:
+1. Using qemu-kvm on arm64 machine, all testcase can pass.
+2. Using qemu-system-aarch64 on x86_64 machine, randomly some testcases fail.
+3. Using qemu-system-aarch64 on x86_64, but removing the judgment of kfence_allocation_key in kfence_alloc(), all testcase can pass.
 
-> I.e. doing alloc_covered[hash]++/--.
-> It would err on the side of not sampling allocations that are unlucky
-> to collide with persistent allocations, but would provide more
-> reliable overflow guarantees (at least we continue sampling
-> allocations for all other buckets since we have pool capacity).
-> FWIW also simpler code.
->
-> I am also thinking if collisions can be resolved by adding some salt
-> that is generated on boot. Resolving collisions across different
-> machines is good enough for KFENCE. Namely, if we have stacks ABC and
-> DEF, we hash XABC and XDEF, where X is filled on boot. It should work
-> for a good hash function, right? If this works, then the simpler
-> alloc_covered[hash]++/-- scheme should work (?).
+I add some printing to the kernel and get very strange results.
+I add a new variable kfence_allocation_key_gate to track the
+state of kfence_allocation_key. As shown in the following code, theoretically,
+if kfence_allocation_key_gate is zero, then kfence_allocation_key must be
+enabled, so the value of variable error in kfence_alloc() should always be
+zero. In fact, all the passed testcases fit this point. But as shown in the
+following failed log, although kfence_allocation_key has been enabled, it's
+still check failed here.
 
-Good idea, I think I'll introduce a seed for the hash function.
+So I think static_key might be problematic in my qemu environment.
+The change of timeout is not a problem but caused us to observe this problem.
+I tried changing the wait_event to a loop. I set timeout to HZ and re-enable/disabled
+in each loop, then the failed testcase disappears.
 
-Let me experiment with the simplified version you suggest, and see what I get.
+[    3.463519]     # Subtest: kfence
+[    3.463629]     1..25
+[    3.465548]     # test_out_of_bounds_read: test_alloc: size=128, gfp=cc0, policy=left, cache=0
+[    3.561001] kfence: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~enabled~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[    3.561934] kfence: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~disabled~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[    3.665449] kfence: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~enabled~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[   13.464796] --------------kfence_allocation_key check failed 13839286 times----------------
+[   13.467482] kfence: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~disabled~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[   13.469166]     # test_out_of_bounds_read: ASSERTION FAILED at mm/kfence/kfence_test.c:308
+[   13.469166]     Expected false to be true, but is false
+[   13.469166]
+[   13.469166] failed to allocate from KFENCE
+[   13.473592]     not ok 1 - test_out_of_bounds_read
 
-> > +               } else if (old.alloc_stack_hash == alloc_stack_hash && old.covered) {
-> > +                       new.covered = old.covered + val;
-> > +               } else {
-> > +                       /*
-> > +                        * Hash mismatch or covered has become zero. The latter
-> > +                        * is possible if we race with:
-> > +                        *      reset (!= alloc_stack_hash)
-> > +                        *       -> reset (== alloc_stack_hash)
-> > +                        *        -> decrement
-> > +                        */
-> > +                       break;
-> > +               }
-> > +       } while (!atomic64_try_cmpxchg_relaxed(bucket, (s64 *)&old.entry, (s64)new.entry));
-> > +}
-> > +
-> >  static bool kfence_protect(unsigned long addr)
-> >  {
-> >         return !KFENCE_WARN_ON(!kfence_protect_page(ALIGN_DOWN(addr, PAGE_SIZE), true));
-> > @@ -261,7 +348,8 @@ static __always_inline void for_each_canary(const struct kfence_metadata *meta,
-> >         }
-> >  }
-> >
-> > -static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp)
-> > +static void *
-> > +kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp, u32 alloc_stack_hash)
-> >  {
-> >         struct kfence_metadata *meta = NULL;
-> >         unsigned long flags;
-> > @@ -322,6 +410,8 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
-> >         /* Pairs with READ_ONCE() in kfence_shutdown_cache(). */
-> >         WRITE_ONCE(meta->cache, cache);
-> >         meta->size = size;
-> > +       meta->alloc_stack_hash = alloc_stack_hash;
-> > +
-> >         for_each_canary(meta, set_canary_byte);
-> >
-> >         /* Set required struct page fields. */
-> > @@ -334,6 +424,8 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
-> >
-> >         raw_spin_unlock_irqrestore(&meta->lock, flags);
-> >
-> > +       alloc_covered_add(alloc_stack_hash, 1);
-> > +
-> >         /* Memory initialization. */
-> >
-> >         /*
-> > @@ -362,6 +454,7 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
-> >  static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool zombie)
-> >  {
-> >         struct kcsan_scoped_access assert_page_exclusive;
-> > +       u32 alloc_stack_hash;
-> >         unsigned long flags;
-> >
-> >         raw_spin_lock_irqsave(&meta->lock, flags);
-> > @@ -404,8 +497,13 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
-> >         /* Mark the object as freed. */
-> >         metadata_update_state(meta, KFENCE_OBJECT_FREED);
-> >
-> > +       alloc_stack_hash = meta->alloc_stack_hash;
-> > +       meta->alloc_stack_hash = 0;
-> > +
-> >         raw_spin_unlock_irqrestore(&meta->lock, flags);
-> >
-> > +       alloc_covered_add(alloc_stack_hash, -1);
-> > +
-> >         /* Protect to detect use-after-frees. */
-> >         kfence_protect((unsigned long)addr);
-> >
-> > @@ -744,6 +842,8 @@ void kfence_shutdown_cache(struct kmem_cache *s)
-> >
-> >  void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
-> >  {
-> > +       u32 alloc_stack_hash;
-> > +
-> >         /*
-> >          * Perform size check before switching kfence_allocation_gate, so that
-> >          * we don't disable KFENCE without making an allocation.
-> > @@ -788,7 +888,23 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
-> >         if (!READ_ONCE(kfence_enabled))
-> >                 return NULL;
-> >
-> > -       return kfence_guarded_alloc(s, size, flags);
-> > +       /*
-> > +        * Do expensive check for coverage of allocation in slow-path after
-> > +        * allocation_gate has already become non-zero, even though it might
-> > +        * mean not making any allocation within a given sample interval.
-> > +        *
-> > +        * This ensures reasonable allocation coverage when the pool is almost
-> > +        * full, including avoiding long-lived allocations of the same source
-> > +        * filling up the pool (e.g. pagecache allocations).
-> > +        */
-> > +       alloc_stack_hash = get_alloc_stack_hash();
->
-> Is it possible to unwind the stack only once per allocation? I.e.
-> unwind here into a buffer on stack and then pass it down?
 
-I'll investigate how bad it looks if we do that.
+diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+index 3fe6dd8a18c1..e72889606e82 100644
+--- a/include/linux/kfence.h
++++ b/include/linux/kfence.h
+@@ -25,6 +25,7 @@ extern char *__kfence_pool;
+ #ifdef CONFIG_KFENCE_STATIC_KEYS
+ #include <linux/static_key.h>
+ DECLARE_STATIC_KEY_FALSE(kfence_allocation_key);
++extern atomic_t kfence_allocation_key_gate;
+ #else
+ #include <linux/atomic.h>
+ extern atomic_t kfence_allocation_gate;
+@@ -116,12 +117,20 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags);
+  */
+ static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+ {
++       static int error;
+ #ifdef CONFIG_KFENCE_STATIC_KEYS
+-       if (static_branch_unlikely(&kfence_allocation_key))
++       if (static_branch_unlikely(&kfence_allocation_key)) {
+ #else
+-       if (unlikely(!atomic_read(&kfence_allocation_gate)))
++       if (unlikely(!atomic_read(&kfence_allocation_gate))) {
+ #endif
++               if (error) {
++                       pr_info("--------------kfence_allocation_key check failed %d times----------------\n", error);
++                       error = 0;
++               }
+                return __kfence_alloc(s, size, flags);
++       }
++       if (!atomic_read(&kfence_allocation_key_gate))
++               error++;
+        return NULL;
+ }
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index 7a97db8bc8e7..637c2efa6133 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -100,6 +100,7 @@ static DEFINE_RAW_SPINLOCK(kfence_freelist_lock); /* Lock protecting freelist. *
+ #ifdef CONFIG_KFENCE_STATIC_KEYS
+ /* The static key to set up a KFENCE allocation. */
+ DEFINE_STATIC_KEY_FALSE(kfence_allocation_key);
++atomic_t kfence_allocation_key_gate = ATOMIC_INIT(1);
+ #endif
+ 
+ /* Gates the allocation, ensuring only one succeeds in a given period. */
+@@ -624,7 +625,9 @@ static void toggle_allocation_gate(struct work_struct *work)
+ #ifdef CONFIG_KFENCE_STATIC_KEYS
+        /* Enable static key, and await allocation to happen. */
+        static_branch_enable(&kfence_allocation_key);
+-
++       if (static_branch_unlikely(&kfence_allocation_key))
++               pr_info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~enabled~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
++       atomic_set(&kfence_allocation_key_gate, 0);
+        if (sysctl_hung_task_timeout_secs) {
+                /*
+                 * During low activity with no allocations we might wait a
+@@ -637,7 +640,10 @@ static void toggle_allocation_gate(struct work_struct *work)
+        }
+ 
+        /* Disable static key and reset timer. */
++       atomic_set(&kfence_allocation_key_gate, 1);
+        static_branch_disable(&kfence_allocation_key);
++       if (!static_branch_unlikely(&kfence_allocation_key))
++                       pr_info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~disabled~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+ #endif
+        queue_delayed_work(system_unbound_wq, &kfence_timer,
+                           msecs_to_jiffies(kfence_sample_interval));
+
+thanks,
+ 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNJv4wt0AhnKP4fuLkeMJdPAKB0GVWDj1VvoC3kZ8bGRw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/da6629d3-2530-46b0-651b-904159a7a189%40huawei.com.
