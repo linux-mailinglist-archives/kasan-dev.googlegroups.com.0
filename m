@@ -1,129 +1,125 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBPFFS6FAMGQEWRCUW3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBC2OPIG4UICBBYV3S6FAMGQED6J554Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8039541061B
-	for <lists+kasan-dev@lfdr.de>; Sat, 18 Sep 2021 13:51:25 +0200 (CEST)
-Received: by mail-pj1-x103b.google.com with SMTP id oa15-20020a17090b1bcf00b0019c736b088fsf8112464pjb.5
-        for <lists+kasan-dev@lfdr.de>; Sat, 18 Sep 2021 04:51:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1631965884; cv=pass;
+Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
+	by mail.lfdr.de (Postfix) with ESMTPS id A002A41066F
+	for <lists+kasan-dev@lfdr.de>; Sat, 18 Sep 2021 14:39:01 +0200 (CEST)
+Received: by mail-qt1-x839.google.com with SMTP id q19-20020ac87353000000b0029a09eca2afsf112627007qtp.21
+        for <lists+kasan-dev@lfdr.de>; Sat, 18 Sep 2021 05:39:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1631968740; cv=pass;
         d=google.com; s=arc-20160816;
-        b=a7UqnPEKRjzRvcyKGIScHgh8KMgjd1k496KbsN/a9DnM6vXghwK2QlDRCamxQ8hpOB
-         3kEaDU7o91jrlgFQngRUbDvE/BzmNNOgLy6iM05KoC+l5vgh5PYmB/KrRdSoXXBaVLu1
-         gHNfxYScom5xdWhd4Ls+psxNzq4dfnKXblHGFHOIYXFfIVaa3+XYu0JY/cuxfKEtKZKq
-         2HXbde7PhmJoVsD6SmVqWd5KEPoD1g7RW7HQo1vC9E9JLCBLzfYbZqbYVXaNa1cowJLc
-         zQ3pkS/L2TbtjAMg9BG9okEoV+JruJs8kyPRHoKsxQe0GVs4uP3XnBvtWrCSAt8qZlOb
-         0VCw==
+        b=EECZV+D/4vj9SBUnmOl3Oo/uD2FvBsPtvG4Tytl6RvxytJJEPtWzFwIoWUFnv21c49
+         GuFnfv8eKsBSxNWAKDaqejNgu9ubIK19ewfDq95kznb45S7R4t0SVBNBsS7VSL5dWauv
+         Uze/y44DmIsP+RdMPnWelJjq6VFuyhsHpKrsm+9NRde7R0CoGoQuU+JBodoKXDr/PCF6
+         fqW/JuaBwTejKIVIFSrf8tK4F4FDOu3L6g55EoiORvC3E2t4mEJpjQsE6TDVhc1k3bLJ
+         IZhUL08m8RaEaveavJ/G/mNkwqp47vqe68K2zOHQbDFh2N4Fo755Gpe/d4OGHNL/nkIh
+         jFuA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=u1eecuxbfJAB5FOYlJxXu7mv9W7rFnXzAtkOGVUrm90=;
-        b=zjGccGk0LsRYZkiOS/7sus0snDG98x+VY8LbaGR9hQaAYncBlMccRZpCd4EsqTLe4v
-         J5NPKqbeXhdRRAsSxdpKfbGyEnYQ7h/CwZqljlpYkaohNgHw1Vt3xT/j3sBvGTYJMpu4
-         rOTKbFC/Mp/1hhGPGPJFSgU8I6ZmciSHQIJoqqpuNE7Z4E1GTrLGe+A81GRiqQEE2UzS
-         G2nk+uVE+oXz5TaU19beIYyOlQRH4xKTDtarPvX9edryeYSJwWFLk0F9zEV5V9x/ZTM6
-         NbxnRgbfY2ihJp+CJRZepNWOhIBQ/zQppapjViY65mthiG0ndIuEsh0DB0YQjgb7GIf4
-         WG0w==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=CmfqbFkNAYulCpkN/C6Qa/2rYSeCdTAOJPmhxec2VTE=;
+        b=gtwjdeaawsayJLFFTeImm1wahOSxyycJcwhZpvXdy3kV6Qd+pEjmap8o1t11I0Bs+S
+         A81I3QHixX2Zh7DWTDRdjXKrycrLsXXICTKfr2ko9jiqh/2bzNHzyHoRoeFWQreCx00Z
+         rLNhVoyqU2ZuKvCi/3NrWGWgegSWHRMje6cmMnr+TagsKGdFVV48OfTKyUIxoRUudarU
+         I72tGaUQmPRBUn7DaiIFGswD3Bi0vT25HDzmTP/KIwuRBTs5cDoPG8WNrDz7zN/S/TYW
+         8vFC/06g+4QRxunDdwJFqi3gM4LNzydj5EonkfFngTKRQvFy5zCLKjKGEj9ioY1wRtwH
+         5QIw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kzWzPD2O;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72d as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of hdanton@sina.com designates 202.108.3.162 as permitted sender) smtp.mailfrom=hdanton@sina.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=u1eecuxbfJAB5FOYlJxXu7mv9W7rFnXzAtkOGVUrm90=;
-        b=oxh+7EF+oy5Omrivs2zj9ZLsLaElUejjVlUJj+u5RnhlWR+dFJC6dhlEh879tW+KDz
-         /oq5mF+wm5bK9Q8cn2nFJ7UwfKxSwQeybMKiBR2+Tr35zOsJccpIviOb2NEK35IP5MI1
-         9jZOg8Ac3Z/Gd158JE2JBk6981ipaeyRq3ciWsxX8nw4YSbaqGvw39siwNrBdz6REeWo
-         ejKveKvwU8gYujItje09cAXYnDmNXfjjiryj+zVwobN+D8RjiPvKs+rBiRd4X/fQTJ3C
-         c0J3/6ISuGL413qsf3sLzdX1ogb900/7sFnvWtDwKFzKe0FB3VhEgc3iy42kdOByefo3
-         Psyw==
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=CmfqbFkNAYulCpkN/C6Qa/2rYSeCdTAOJPmhxec2VTE=;
+        b=VJPOZ0XvfnpqNCbgkiNWLC3KXS0YiB5w+b+dBgkl51XGAHveQL7Af4WWHGt9kUv7Tr
+         UGEuvW/AOAcUj7wj5qj8Nq94WKpj4Wcb3vyXY4Er5RHhjl3PC3myVxJQMvUGzIzueit0
+         q8UB8fT2iL6LigxFVl/s1TTE05z6vn8S3/NcNXnqU3/6hW3UZ/URzXjBTrMRThqRFopD
+         TYy5ZtayryJnjBmsi6iJIEUK5tglVdZG8yyy1N+cj917E1L0LBz4lUZlkXCTAQBSC2OG
+         hjzMDToHl+2EnFLKwtnRM6LzEP0lzuXk5NMi7SBiBd2baWFGzk35f7oqPBZKtmOHYx4M
+         wsKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=u1eecuxbfJAB5FOYlJxXu7mv9W7rFnXzAtkOGVUrm90=;
-        b=Nxz9BGQ/u70EgadrXTZC4/Y2HnCNgxtVBe6/oyTj7QzO3ajTQH7OHOTFZvyRGVe3sV
-         R6jyk5Sis4ME/RDT7fHb6sAKk4dHS2XDYjP54JbJl1NC+VENQqoOasLEaexd4r6U+Qt/
-         N/4HXh1w2k54L1NceiBy8rmMDoHErOZNbxos+Rg+LltoBe5KfH5xtjg+dsANPX0eDsAx
-         ojl/p8Zul2kPURie/ghrYj4uOS4YeIxZ7PM0e98lK9YjtCsu2S9FvoQ1Y8bSlNa979Ek
-         1eFU5Yqj1CEE7XkCQB8R3NiMR6DyYXpf0J3Ix2SjL3PZ+oRLrIvxE8gIuuD3jaMraUxY
-         ECgQ==
-X-Gm-Message-State: AOAM5315QCHQMGzYEyOH8O8atcY2eun4HItsC0xAfsOgfijPNXVJrDgH
-	t01UDiieT2wVxdeEqyzJW4k=
-X-Google-Smtp-Source: ABdhPJwzqyuazkH6lPKPaaqnf8+L2z1RIBGmpxVqNl9ask+Mt26lfXEy9KOYOTo+IwynTgQrJMKsog==
-X-Received: by 2002:a17:90b:a4a:: with SMTP id gw10mr18075597pjb.245.1631965884217;
-        Sat, 18 Sep 2021 04:51:24 -0700 (PDT)
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=CmfqbFkNAYulCpkN/C6Qa/2rYSeCdTAOJPmhxec2VTE=;
+        b=XU+hHPgm196L2/nmhiRiYwsGPpvtviaoIbSbnLJboEWLe9ijwyVZFIiFJf4hE6ODFH
+         BLR79TrF7ozhpC1WgEyTeQstScwiKkNhVhZJvN/1/ZpxwAp4MF/FGD1lhDGv6bYg4ftM
+         zRBR7UFHpyaVAvEHEh9T3d6ze58DhIlJmv3aI9QaHJaZyRyp32JW/v5tj2FvqLLlafF0
+         whtwoT2FGjFK/tFG6lapEh3/MU+EXgq4s6hA7lDS1+9x1DIV4ZU8aKsnBtgLRMoNWKOa
+         E94LHG4yC3p2XvkEOwKgY2h+zFDO0Y9eF4x+GrDL36bOp552VaM9OJXp2keJHgyYqT1T
+         ug0w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531wv1pox07RMZB24/GSW0gnrKET8bDmpgQexluxsWxlC58zKits
+	BnMkyMmKtr+C7M6YWi0LWhE=
+X-Google-Smtp-Source: ABdhPJyjO9Jvx8/Fgi3h3By5o0LmgYSipq+LjylyXcHI6gZDnKkKJ6A2D/Z7NOf1QPdywEJmc9ykNg==
+X-Received: by 2002:ac8:7d81:: with SMTP id c1mr14725011qtd.229.1631968740647;
+        Sat, 18 Sep 2021 05:39:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:e57:: with SMTP id p23ls8138095pja.2.canary-gmail;
- Sat, 18 Sep 2021 04:51:23 -0700 (PDT)
-X-Received: by 2002:a17:903:22c7:b0:13c:855a:3d74 with SMTP id y7-20020a17090322c700b0013c855a3d74mr14179486plg.74.1631965883644;
-        Sat, 18 Sep 2021 04:51:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1631965883; cv=none;
+Received: by 2002:a37:5ce:: with SMTP id 197ls1100578qkf.5.gmail; Sat, 18 Sep
+ 2021 05:38:58 -0700 (PDT)
+X-Received: by 2002:a05:620a:2a14:: with SMTP id o20mr15009045qkp.286.1631968737964;
+        Sat, 18 Sep 2021 05:38:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1631968737; cv=none;
         d=google.com; s=arc-20160816;
-        b=JH20YueWbgx1F6R4dXKJUsUhemzgEE+V/mbVCrDlN6E3jBhWJimTsguNnerxb6MAnQ
-         2+PKrDRpuzVSj87Vt0f9xyJlAohYSGRaw185FaTjGmZZHYVOvsAGpWdE0Q+srqsjAuB7
-         PmoQt3BJNP2FMm/dn8Fj2LXXvfYXWb4NgSK4viBGj13Jn8Z0Fk0XPeV11PUHQuPna7je
-         J7KYtQ1T2PXNHn7apMyng0jSbTiOYEFdmgFwBNq19fh4lYXwMPlxtFtUS3W2wJ+EfQJe
-         JZ11fy08A6mja+Ro36oMU/uAXcjV3p5XFndKqhGydcb2O7WobDM78d+477qEL9ZZO2wh
-         4nzA==
+        b=BxvVGO4xj5p9SvGTozsPTsg15OVLSW0FQgapzNTfIFMN/V1JTwebVYhCKcTBT2M/C+
+         eMb8onYRR5CXmsEzfLjxyxg41eAfOXLVqNUrH9kQXM7Dz1CRYr/GKTz8cN8hN0zC3f84
+         jSFBBTy85MzbDENfTdtXvguLL41+wQ0owziIju+fAmJJT81Z3J8FmYFBivPoNZGV5Bi/
+         fwv7EMgqhOWIwtkavsk6JcSPN0tUkJVh0rPqDlgNMfILOAEKCKG0H3owCMl7joohqRnX
+         qwTxP5acUYnXV95tz1cRKXsh4FIWVLzyU05pBzncW0fAf5wiG/Pton9uyBFEDHcPwFu6
+         gxbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=g4n08dQJMaesgf8J0xabMK1i7+F7RpBHsMNZa6B0wFg=;
-        b=bGCPJR5ChQU4FsjIWGmmTThm/kn2E8Aoz9KOfD4C8q9Nf0UZN+EAyanXm73u509jOV
-         K71nPBs8IWXHXtR9Y9MjHeW/kSTlC0/zpFAgFc6heE9YzJ/bP0R06Dbl/sUyPke8iynf
-         B3cukfiCM/dShEUUnA7+RR2CVA/Owog3BMrkqq+MHwtyx9+3XkrfnXZ0oSQbbS7xp9G5
-         Ana1tGrHqDVfazIYQEVJC4M9qRy+goQGZziJNKLr0hhv21QVO2t274IQNNR57ZjR5p6B
-         q41vcLr+xjkxRJf9sQ/2nghr+mAT6nKl3EY7kxUIVrKvaSyEUIcZ9U5oiGFJwEtX3VKT
-         LEVQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=RrO90kbvcyNt+e9ZVX7pwr1F7sA4fApOPrmHyw0+q+I=;
+        b=Uo1HBJwow/JoNsjfj14CUKfdevnN7ewEmGCP6+Ej+iD0YRNKOs8nnEeZ8RxlbcNqNm
+         kiJc9r58mmfRslm9vUc3SNzbq82lHboaRQQ6Fd/mOpXwnSd2cvGjLq+KCwVAoYJyou0B
+         VDJ0Ta81xzf99NqTLSl+1X+3kcTyA9aDkQRSGYTL1xGEqy1JNhc1Bgda6g2rGL9TlThJ
+         Kc+2DAcF+lXW4p1PO9FfVyNHK3Iwsw+xujIvpfwgyv2fBiCXwAcnN1jkMKUDJT0OEWFS
+         ZYEt5qLPCRS6eLHhyaSBTKYY7ej9plSCm3YMGPPpASRdsoxEx4JUxwVMhfu0Pq6ivZN0
+         AWrw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kzWzPD2O;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72d as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com. [2607:f8b0:4864:20::72d])
-        by gmr-mx.google.com with ESMTPS id n63si1117772pfd.3.2021.09.18.04.51.23
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Sep 2021 04:51:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72d as permitted sender) client-ip=2607:f8b0:4864:20::72d;
-Received: by mail-qk1-x72d.google.com with SMTP id ay33so25948964qkb.10
-        for <kasan-dev@googlegroups.com>; Sat, 18 Sep 2021 04:51:23 -0700 (PDT)
-X-Received: by 2002:a37:f903:: with SMTP id l3mr14896801qkj.502.1631965883097;
- Sat, 18 Sep 2021 04:51:23 -0700 (PDT)
+       spf=pass (google.com: domain of hdanton@sina.com designates 202.108.3.162 as permitted sender) smtp.mailfrom=hdanton@sina.com
+Received: from mail3-162.sinamail.sina.com.cn (mail3-162.sinamail.sina.com.cn. [202.108.3.162])
+        by gmr-mx.google.com with SMTP id f13si999937qko.2.2021.09.18.05.38.54
+        for <kasan-dev@googlegroups.com>;
+        Sat, 18 Sep 2021 05:38:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of hdanton@sina.com designates 202.108.3.162 as permitted sender) client-ip=202.108.3.162;
+Received: from unknown (HELO localhost.localdomain)([123.115.166.15])
+	by sina.com (172.16.97.27) with ESMTP
+	id 6145DDD200032DEB; Sat, 18 Sep 2021 20:38:46 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+X-SMAIL-MID: 39170349283440
+From: Hillf Danton <hdanton@sina.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+	Hillf Danton <hdanton@sina.com>,
+	syzbot <syzbot+0e964fad69a9c462bc1e@syzkaller.appspotmail.com>,
+	linux-kernel@vger.kernel.org,
+	paulmck@kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Peter Zijlstra <peterz@infradead.org>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Kalle Valo <kvalo@codeaurora.org>,
+	linux-wireless@vger.kernel.org
+Subject: Re: [syzbot] INFO: rcu detected stall in syscall_exit_to_user_mode
+Date: Sat, 18 Sep 2021 20:38:35 +0800
+Message-Id: <20210918123835.4295-1-hdanton@sina.com>
+In-Reply-To: <87mtoeb4hb.ffs@tglx>
+References: <000000000000eaacf005ca975d1a@google.com> <20210831074532.2255-1-hdanton@sina.com> <20210914123726.4219-1-hdanton@sina.com> <87v933b3wf.ffs@tglx> <CACT4Y+Yd3pEfZhRUQS9ymW+sQZ4O58Dz714xSqoZvdKa_9s2oQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210918083849.2696287-1-liushixin2@huawei.com>
-In-Reply-To: <20210918083849.2696287-1-liushixin2@huawei.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 18 Sep 2021 13:50:47 +0200
-Message-ID: <CAG_fn=X=k3w-jr3iCevB_t7Hh0r=qZ=nOxwk5ujsO+LZ7hA4Aw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: remove page granularity limitation from KFENCE
-To: Liu Shixin <liushixin2@huawei.com>
-Cc: Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Jisheng.Zhang@synaptics.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>, 
-	Mark Rutland <mark.rutland@arm.com>
+X-Original-Sender: hdanton@sina.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of hdanton@sina.com designates 202.108.3.162 as permitted
+ sender) smtp.mailfrom=hdanton@sina.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=kzWzPD2O;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72d as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,167 +132,125 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, Sep 18, 2021 at 10:10 AM Liu Shixin <liushixin2@huawei.com> wrote:
+On Wed, 15 Sep 2021 10:57:52 +0200 Thomas Gleixner wrote:
+>On Tue, Sep 14 2021 at 20:00, Dmitry Vyukov wrote:
+>> On Tue, 14 Sept 2021 at 16:58, Thomas Gleixner <tglx@linutronix.de> wrote:
+>>> Now what happens when the mac80211 callback rearms the timer so it
+>>> expires immediately again:
+>>>
+>>>         hrtimer_forward(&data->beacon_timer, hrtimer_get_expires(timer),
+>>>                         ns_to_ktime(bcn_int * NSEC_PER_USEC));
+>>>
+>>> bcn is a user space controlled value. Now lets assume that bcn_int is <=1,
+>>> which would certainly cause the loop in hrtimer_run_queues() to keeping
+>>> looping forever.
+>>>
+>>> That should be easy to verify by implementing a simple test which
+>>> reschedules a hrtimer from the callback with a expiry time close to now.
+>>>
+>>> Not today as I'm about to head home to fire up the pizza oven.
+>>
+>> This question definitely shouldn't take priority over the pizza. But I
+>> think I saw this "rearm a timer with a user-controlled value without
+>> any checks" pattern lots of times and hangs are inherently harder to
+>> localize and reproduce. So I wonder if it makes sense to add a debug
+>> config that would catch such cases right when the timer is set up
+>> (issue a WARNING)?
 >
-> Currently if KFENCE is enabled in arm64, the entire linear map will be
-> mapped at page granularity which seems overkilled. Actually only the
-> kfence pool requires to be mapped at page granularity. We can remove the
-> restriction from KFENCE and force the linear mapping of the kfence pool
-> at page granularity later in arch_kfence_init_pool().
+>Yes and no. It's hard to differentiate between a valid short expiry
+>rearm and something which is caused by unchecked values. I have some
+>ideas but all of them are expensive and therefore probably debug
+>only. Which is actually better than nothing :)
+>
+>> However, for automated testing there is the usual question of
+>> balancing between false positives and false negatives. The check
+>> should not produce false positives, but at the same time it should
+>> catch [almost] all actual stalls so that they don't manifest as
+>> duplicate stall reports.
+>
+>Right. The problem could be even there with checked values:
+>
+>       start_timer(1ms)
+>       timer_expires()
+>         callback()
+>           forward_timer(timer, now, period(1ms));
+>
+>which might be perfectly fine with a production kernel as it leaves
+>enough time to make overall progress.
+>
+>Now with a full debug kernel with all bells and whistels that callback
+>might just run into this situation:
+>
+>      start_timer(1ms) T0
+>       timer_expires() T1
+>         callback()
+>           do_stuff()
+>           forward_timer(timer, TNOW, period(1ms));
+>
+>
+>T1 - T0   = 1.001ms
+>TNOW - T1 = 0.998 ms
+>
+>So the forward will just rearm it to T0 + 2ms which means it expires in
+>1us.
 
-There was a previous patch by Jisheng Zhang intended to remove this
-requirement: https://lore.kernel.org/linux-arm-kernel/20210524180656.395e45=
-f6@xhacker.debian/
-Which of the two is more preferable?
+Thank you, Sir. I could not see the 1us without your explanation.
 
-> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
-> ---
->  arch/arm64/include/asm/kfence.h | 69 ++++++++++++++++++++++++++++++++-
->  arch/arm64/mm/mmu.c             |  4 +-
->  2 files changed, 70 insertions(+), 3 deletions(-)
+Hillf
 >
-> diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfe=
-nce.h
-> index aa855c6a0ae6..bee101eced0b 100644
-> --- a/arch/arm64/include/asm/kfence.h
-> +++ b/arch/arm64/include/asm/kfence.h
-> @@ -8,9 +8,76 @@
->  #ifndef __ASM_KFENCE_H
->  #define __ASM_KFENCE_H
+>> If I understand it correctly the timer is not actually set up as
+>> periodic, but rather each callback invocation arms it again. Setting
+>> up a timer for 1 ns _once_ (or few times) is probably fine (right?),
+>> so the check needs to be somewhat more elaborate and detect "infinite"
+>> rearming.
 >
-> +#include <linux/kfence.h>
->  #include <asm/set_memory.h>
-> +#include <asm/pgalloc.h>
+>Yes.
 >
-> -static inline bool arch_kfence_init_pool(void) { return true; }
-> +static inline int split_pud_page(pud_t *pud, unsigned long addr)
-> +{
-> +       int i;
-> +       pmd_t *pmd =3D pmd_alloc_one(&init_mm, addr);
-> +       unsigned long pfn =3D PFN_DOWN(__pa(addr));
-> +
-> +       if (!pmd)
-> +               return -ENOMEM;
-> +
-> +       for (i =3D 0; i < PTRS_PER_PMD; i++)
-> +               set_pmd(pmd + i, pmd_mkhuge(pfn_pmd(pfn + i * PTRS_PER_PT=
-E, PAGE_KERNEL)));
-> +
-> +       smp_wmb(); /* See comment in __pte_alloc */
-> +       pud_populate(&init_mm, pud, pmd);
-> +       flush_tlb_kernel_range(addr, addr + PUD_SIZE);
-> +       return 0;
-> +}
-> +
-> +static inline int split_pmd_page(pmd_t *pmd, unsigned long addr)
-> +{
-> +       int i;
-> +       pte_t *pte =3D pte_alloc_one_kernel(&init_mm);
-> +       unsigned long pfn =3D PFN_DOWN(__pa(addr));
-> +
-> +       if (!pte)
-> +               return -ENOMEM;
-> +
-> +       for (i =3D 0; i < PTRS_PER_PTE; i++)
-> +               set_pte(pte + i, pfn_pte(pfn + i, PAGE_KERNEL));
-> +
-> +       smp_wmb(); /* See comment in __pte_alloc */
-> +       pmd_populate_kernel(&init_mm, pmd, pte);
-> +
-> +       flush_tlb_kernel_range(addr, addr + PMD_SIZE);
-> +       return 0;
-> +}
-> +
-> +static inline bool arch_kfence_init_pool(void)
-> +{
-> +       unsigned long addr;
-> +       pgd_t *pgd;
-> +       p4d_t *p4d;
-> +       pud_t *pud;
-> +       pmd_t *pmd;
-> +
-> +       for (addr =3D (unsigned long)__kfence_pool; is_kfence_address((vo=
-id *)addr);
-> +            addr +=3D PAGE_SIZE) {
-> +               pgd =3D pgd_offset(&init_mm, addr);
-> +               if (pgd_leaf(*pgd))
-> +                       return false;
-> +               p4d =3D p4d_offset(pgd, addr);
-> +               if (p4d_leaf(*p4d))
-> +                       return false;
-> +               pud =3D pud_offset(p4d, addr);
-> +               if (pud_leaf(*pud)) {
-> +                       if (split_pud_page(pud, addr & PUD_MASK))
-> +                               return false;
-> +               }
-> +               pmd =3D pmd_offset(pud, addr);
-> +               if (pmd_leaf(*pmd)) {
-> +                       if (split_pmd_page(pmd, addr & PMD_MASK))
-> +                               return false;
-> +               }
-> +       }
-> +       return true;
-> +}
+>That made me actually look at that mac80211_hwsim callback again.
 >
->  static inline bool kfence_protect_page(unsigned long addr, bool protect)
->  {
-> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-> index cfd9deb347c3..b2c79ccfb1c5 100644
-> --- a/arch/arm64/mm/mmu.c
-> +++ b/arch/arm64/mm/mmu.c
-> @@ -516,7 +516,7 @@ static void __init map_mem(pgd_t *pgdp)
->          */
->         BUILD_BUG_ON(pgd_index(direct_map_end - 1) =3D=3D pgd_index(direc=
-t_map_end));
+>	hrtimer_forward(&data->beacon_timer, hrtimer_get_expires(timer),
+>			ns_to_ktime(bcn_int * NSEC_PER_USEC));
 >
-> -       if (can_set_direct_map() || crash_mem_map || IS_ENABLED(CONFIG_KF=
-ENCE))
-> +       if (can_set_direct_map() || crash_mem_map)
->                 flags |=3D NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
+>So what this does is really wrong because it tries to schedule the timer
+>on the theoretical periodic timeline. Which goes really south once the
+>timer is late or the callback execution took longer than the
+>period. Hypervisors scheduling out a VCPU at the wrong place will do
+>that for you nicely.
 >
->         /*
-> @@ -1485,7 +1485,7 @@ int arch_add_memory(int nid, u64 start, u64 size,
->          * KFENCE requires linear map to be mapped at page granularity, s=
-o that
->          * it is possible to protect/unprotect single pages in the KFENCE=
- pool.
->          */
-> -       if (can_set_direct_map() || IS_ENABLED(CONFIG_KFENCE))
-> +       if (can_set_direct_map())
->                 flags |=3D NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
+>What this actually should use is hrtimer_forward_now() which prevents
+>that problem because it will forward the timer in the periodic schedule
+>beyond now. That won't prevent the above corner case, but I doubt you
+>can create an endless loop with that scenario as easy as you can with
+>trying to catch up on your theoretical timeline by using the previous
+>expiry time as a base for the forward. Patch below.
 >
->         __create_pgd_mapping(swapper_pg_dir, start, __phys_to_virt(start)=
-,
-> --
-> 2.18.0.huawei.25
+>/me goes off to audit hrtimer_forward() usage. Sigh...
 >
-> --
-> You received this message because you are subscribed to the Google Groups=
- "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/kasan-dev/20210918083849.2696287-1-liushixin2%40huawei.com.
+>After that figure out ways to debug or even prevent this. More sigh...
+>
+>Thanks,
+>
+>        tglx
+>---
+> drivers/net/wireless/mac80211_hwsim.c |    4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
+>
+>--- a/drivers/net/wireless/mac80211_hwsim.c
+>+++ b/drivers/net/wireless/mac80211_hwsim.c
+>@@ -1867,8 +1867,8 @@ mac80211_hwsim_beacon(struct hrtimer *ti
+> 		bcn_int -= data->bcn_delta;
+> 		data->bcn_delta = 0;
+> 	}
+>-	hrtimer_forward(&data->beacon_timer, hrtimer_get_expires(timer),
+>-			ns_to_ktime(bcn_int * NSEC_PER_USEC));
+>+	hrtimer_forward_now(&data->beacon_timer,
+>+			    ns_to_ktime(bcn_int * NSEC_PER_USEC));
+> 	return HRTIMER_RESTART;
+> }
+> 
+>
 
-
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DX%3Dk3w-jr3iCevB_t7Hh0r%3DqZ%3DnOxwk5ujsO%2BLZ7hA4Aw%40m=
-ail.gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210918123835.4295-1-hdanton%40sina.com.
