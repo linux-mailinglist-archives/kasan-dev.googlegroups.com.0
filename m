@@ -1,132 +1,128 @@
-Return-Path: <kasan-dev+bncBDP4V4X7XUARBSWXUKFAMGQE64QR7YA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD52JJ7JXILRBVX2UOFAMGQECLD7PCY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE08411887
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 Sep 2021 17:42:02 +0200 (CEST)
-Received: by mail-lf1-x13b.google.com with SMTP id i40-20020a0565123e2800b003f53da59009sf12697092lfv.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 Sep 2021 08:42:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632152522; cv=pass;
+Received: from mail-vk1-xa37.google.com (mail-vk1-xa37.google.com [IPv6:2607:f8b0:4864:20::a37])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC942412806
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 Sep 2021 23:29:59 +0200 (CEST)
+Received: by mail-vk1-xa37.google.com with SMTP id o2-20020a1f2802000000b0028db8be8efcsf5340612vko.5
+        for <lists+kasan-dev@lfdr.de>; Mon, 20 Sep 2021 14:29:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632173399; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HfxohIFgtDsxsu1g/XIFQvtmnBFy/vcmnZ5KpbwHSFk3ohq6nauVbLczu1uwek2g4o
-         jso8LzzIMq6VupL803bSgvieT7kT3m1C0J8ugPQjHZUmM1aZEFhCVBy1IEqJycmfHT3+
-         7EYQQDkX+h5KYK5WAEbkJbk/Z2UNu8+aJOu+0q+U/OFJ+gFdt3dWLzEbapqdCkxG7DJN
-         wxYDk7paMxCIbH7iBDi08hWxHXkZfV6GyrN/HV4I629kVjv2ssrhmod8XW4BL6j1/2Xo
-         IYqeI1xAm43agI5xx4DJJRPOaFUBX4/zTDuMC+DhGINUFWVCu9kYBYPNU+Z9QT+zYpnD
-         +Czg==
+        b=Nl7sx/Qz4gczgTkwEIJNuh30N060re22aydLdFD/OysDRb+bpR2o4Z2Na+Q2J5/aop
+         R3+lids7pZsjuJOH9qNRLHQGzi/amWZreD1gcKLS5d+sOyIxxzq+zTieVpQsByoDodSN
+         pA1GEuxPaj8ysdljKZE6xrkKjOeh9FB+fMD1izGTooyaSSNeXgRFG1TG2GmtbFlMCL0j
+         bPGiY0Hw9VpnLcfSxw0TUKVi4TauZ8ghvkROIQk76Oh4KWL1Cjpyf3GuR2F21ACy+NAi
+         maDbao4mmO7zSzG3EfK9aROaru9ugBIi5OH4TrLAddw8WASMwt9AFr/mvuYPV6Skev+R
+         GYSw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:sender:dkim-signature;
-        bh=sE2zlXMQSpkT5IoWve82F+/3E0h+4mqlKRsZ8+48lOg=;
-        b=OMxxAQFMgah9LG0pQ3E8omoVPfI1Tx61feGNm+VGO0tDCDRuaU4tWOwSUWI3MNyAmS
-         jPBsdLJPBPrxZ3UWRLfJsI4QrxwxJnydhQ44oAP2FKkYHddGlO3+fEWNJ10mzoDJqcNv
-         hpxb2r0bpsSwfeppxSzu9ZzAZbqM23xEtQbYEsz6N60wARv0G+q6I0VOlvDWkGODQi8n
-         ex2Pb3JU5gAUF/djVRNGOpiMRGMLz4sQSyW6DlEJgmFyOSWrYt+T10t8plyEqp/+FGJI
-         6NCPpVFfXX2st2ADlCMbMF4wC3ynu/tO/UeGycAnRV16ATfQh8Q5UYZIg841QaS6zEF1
-         i0Zw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=CLtE+ZXFyEcXYjYTo5O70UyeqpojAgP7p1y6FBNjdu8=;
+        b=MSBGmEIwNZ9tt7eVfiB+JQwHXbhOGjpXqcKXM/Z0KCH3FsuWHUddkSz9eB9dIoeUry
+         a1HBbqSgqm8tIyV6jGNJbKGe5akbNPI9Qq3G8ceqaeAMANJF3IHIzzx+gW5AXcj/vWdj
+         0EyW53nF/UVl1RprgEEzu2sZgrqZR0jG7fNMm2axBY19uPmdDwzO8v3CNLutgBJNHcLM
+         piAd+pwDgdyW5WElWySA+3rtOiuMt91E6w1I6aw3lHTHytG9Wj/b0JlYndMCrydw9+Ut
+         GsuGDfEZWBcB6WBva8liN9ITGnJWmkjZww56mBxGLhgvhgtPhSGzO9np1eGXD1YMIGrX
+         GObw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of suzuki.poulose@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=suzuki.poulose@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=AlZLXTBj;
+       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::d30 as permitted sender) smtp.mailfrom=pcc@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=sE2zlXMQSpkT5IoWve82F+/3E0h+4mqlKRsZ8+48lOg=;
-        b=H4hlTg9myghjdmH9yTpiOukX0UnnFzCxHy818lYuL7GYFRFaMIEjWKwp9OqITSz67x
-         x7kLVmOHUZnkeYVCeV2Mviimo7MOvXQ//jFe7c4jkIpMxz+ZBTJU6O0jz9foJUXwQZOB
-         Ch0GSb9K6b/qv81HJOIrymtBylFdgHT7Xuv2DIgQvBB/zqP4LaUB4Lmc6wgPRMyUG6tF
-         3zJ5mm5acIAevtkqV7W7ESnN7S/rpXGllJpdqImFtb08dcgLQmPwfsfVeaaIQOnZ3S9x
-         1ZRPEibygzG01KZtqCXnAzJZHWHsCiYR9d640NNJb27DJJ9oVTxgeVuAe7QNGuFRZW6X
-         zTwA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=CLtE+ZXFyEcXYjYTo5O70UyeqpojAgP7p1y6FBNjdu8=;
+        b=GW6Shhe5g3hyQRUNlWeuCJme8dHz0ABhPpTJlmNfro0GlKrNoP0SK5b/1AdR91+1AD
+         EOf+mqiglYmHEwSluTITJ5sb2MqveJfTQc/M2DvNuaEqfkWwk5IBDsNL5PUjMoRaii+N
+         7XSRumSlu8FJea5oTCrXD4DZ7PF2fTSEm6ZI7DiCl/RzfWNHhrvkVQ41bHLbsFW5w+uC
+         DkP/TDQvmMZZlwUFInMnbdLycV7oZFb5YJyDLfGrkxFIqFc3pdbS6vPFJWh6bLhwNdus
+         lpS7G2dORfo0lKKHRZtH8kZvclcQoG9wK33Wy/5VxCsbaHGQehgUm0Nfhsb8Pwvp8Kge
+         p0gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=sE2zlXMQSpkT5IoWve82F+/3E0h+4mqlKRsZ8+48lOg=;
-        b=EPPhm0BoJeqS2VPDOGS0ExtwB+hgJn16DVmGlv1+/Y//PXR+15zVieV7bgcrPXeE83
-         OKTSvVYtP6ec8lwkGGuZcePjODa8XroRyVf0xjeZDU0NzCgCsXIgJnibCW3pGNHY0heL
-         H/z1seuUABsanQZUAgYPZejGUJYp9V02mj6YB+/QfJz9AUZE1MEuqv1EzQU9o8rDRmYe
-         ver9HqTQgOSySHTUD3HUYRmUe9yJfGKPy+7Tsbwg3NXr0QkGwLf/FWS0vRBEnKrwp9GX
-         yRaqLU3BNciAByeEDO48GbRn+UWpL7u9KMjLhl53xSo7X4df1AImZzvH6bvfHaxcjCEd
-         ISmw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533jst/57YHPpIQ6mIV0WU4CPPpCWUAJnO5tTwV3dRvAoLLfR5hb
-	ckN1GArq1NiZ+dI8+Il7feI=
-X-Google-Smtp-Source: ABdhPJwD1NQwfa+x+J/Sp6Jy1dDmMRluuSOhnBGrlI90Xj11BfP7SmQiQEcYqLCVXoZT6wiCLwPbQQ==
-X-Received: by 2002:a2e:131a:: with SMTP id 26mr22909645ljt.46.1632152522351;
-        Mon, 20 Sep 2021 08:42:02 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=CLtE+ZXFyEcXYjYTo5O70UyeqpojAgP7p1y6FBNjdu8=;
+        b=G2ERI7eXBpOE9DedkUZUU2VMJBWzq68KJGoyWiyeda5x9/KPVeQQ7pU7YixFstT0+L
+         wxCg6+xbKNaRL6Qbl3yxo4yUkib6lZfs1xC/u1kiW9btHzhF1x9GQnH3iWViRx4ztWBR
+         petkM5gBoL9SjaR8p6SNKIdvrrTXYHURTIt3oAW0G9xKaTZe+5/Ts1xE5SQFNjgMbZJD
+         x7k7jSc1wcKLO7bnUMJWt5QkpJepMCp/casusZ60TdTqDDfSAM8kySXw1toz0BHQo032
+         s+cIG56sa/rO3TWj/iai92WMsWQ6t5byMP8VW0rCF2uibdehL73tUDkNgxJP8F0xqH46
+         O/Tg==
+X-Gm-Message-State: AOAM530a0aB3AADopp8U3dTk3KAf7mieiVs8ErhgU92KZL7/39RiwSmN
+	GR/WbVGTpAipLL6jRItDNbY=
+X-Google-Smtp-Source: ABdhPJz4+TepXadBXawOStAZ7S3cwJiZB6U2ENdF1xGUjt+7rPPEzhxcga1j+/dHGAQF/50y3KfwMA==
+X-Received: by 2002:a05:6102:222f:: with SMTP id d15mr17768854vsb.16.1632173398814;
+        Mon, 20 Sep 2021 14:29:58 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3a83:: with SMTP id q3ls736421lfu.2.gmail; Mon, 20
- Sep 2021 08:42:01 -0700 (PDT)
-X-Received: by 2002:a05:6512:485:: with SMTP id v5mr3025232lfq.100.1632152521198;
-        Mon, 20 Sep 2021 08:42:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632152521; cv=none;
+Received: by 2002:ab0:4d6e:: with SMTP id k46ls2061558uag.6.gmail; Mon, 20 Sep
+ 2021 14:29:58 -0700 (PDT)
+X-Received: by 2002:ab0:3303:: with SMTP id r3mr14295111uao.17.1632173398285;
+        Mon, 20 Sep 2021 14:29:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632173398; cv=none;
         d=google.com; s=arc-20160816;
-        b=WAoYdEn6tnrsIUqgoxRVQFsHJ/nARhzzs+Wg+MpmeZvsmr5/y6tSmTUppmDnpb9Lc+
-         siVSFUPUi9+wQ7TTH49Ch8G9Q1MP5+ewbGFgx4LQyFUlj8f6LRcGuYUK9N/dimfvWJ5+
-         El+cfQLZP9vpn2MDAwsSd/DUWiSQpgdjh+Gb8KnY4xv5we2vffyW5YtXWAwdBM7eqxkE
-         gb7iDaUYCB3V7vILX5fgEZ9MsFoa8vORw3rMQR9Jzl0bGy/K1judTk7w8Bc572yLmvQJ
-         4oZrO77/NqwDCOK9eHTyZ5tfS5TRG/fKjPyQl2nV4ne8F88RwES515S7hbU8rjyBnLo9
-         hLGg==
+        b=MPO9US/G6ikBwPuOLDTW5Hyz1gpXhfUlG+FfMVytSiO/v/rI6OsmxHMGhADgnk2PeK
+         +d7pqHPbsm1svws7RvBfpdiHBXCThkithrZ91X+uiZqHE3B3JSMyzhkmQDm7Cj50orb6
+         FgiQ+dk8+DKz66k4dobFsgMRg0WLG7f431vcxP/vhWAx3jk/EZl3fQMyDEOFC1WYGIJO
+         Fv4eyPZGmGKXB8K7H4fCxV3VrQXO1ZAqM21IrXsPe6l7Yyz5Q2kw2LamyTteRhoqMIVS
+         m8v8fKoEvejs9C00FKbQjUJM4QuMcJgjhNF1AhFYLnPyqhcylN77C2jmy3/ilBqdnjFh
+         brjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=u5ESHOK3lSxzH3ZfpktdqU+GosBKrIokR/1Nhgl0Wj4=;
-        b=guASlLEKrHWzK8P1Cj9sxVB5LJ1e/E3DTlfZm5Y8ciGXUTXYomoNfFiPY6qudNMosl
-         6johwwgHhA/xRfKEpHF2tocV9lS5FXMV7tiRJYUWXB6bOo/VHUkSWognE/bTXKF/eGkq
-         qILbsZqobcMEMBQWzIGeF0uOC+Gr5mZlw/IJZIjcC28jY71dmqAB5QRSqKmAjNaGdXi5
-         A75rF/HmvQM2g4kxnY+1JAnD11KCKLUaevyGKBL5FtrLYw7CPXZ0wilZ++BYsGBZyOO4
-         v9v5LCn486OMjr4sH5IMmWTh6/FPdoqnhjtK6DHbn0pktsAJbLMgIguvJxaWbBBJi9uX
-         tScg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Vs5Sa4Qkum2hykw4ZyahHqvL6vQpnvGsWXcltm8dEl8=;
+        b=Ek7o42aQ/2PJxdtB0aMHFJll5JAq4tC9ogQq6IdAOMSveC44I+sd7NnrXNgO3jB2t+
+         FAcueQsxLGp/okfa+l+Fja8yRbTfbkjNKRFp/0QTx3avh6z1WjUHrc8/G/ZxKeNG2jej
+         n1TgLKe4uzqnrwQjr9q+Nkx67Hyd6FNwg0n0sGmfd2WE1hv2XSyrzAPAnwTFolYACl0C
+         7qvalzwHNigys78XCIkw3aahTEne8MkRimAnTRdpmFaypGNhOBFdwLEtCcj4scZD6JEf
+         VbVbOqupRFmBrIciOIGLqeaAjF6/2uCzst6BYvjzUDinKRzQ4349RXQ5DYLFWK9el2CF
+         3A8A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of suzuki.poulose@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=suzuki.poulose@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id t14si824068lff.6.2021.09.20.08.42.01
-        for <kasan-dev@googlegroups.com>;
-        Mon, 20 Sep 2021 08:42:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of suzuki.poulose@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 216F912FC;
-	Mon, 20 Sep 2021 08:42:00 -0700 (PDT)
-Received: from [10.57.95.67] (unknown [10.57.95.67])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE7D43F59C;
-	Mon, 20 Sep 2021 08:41:57 -0700 (PDT)
-Subject: Re: [PATCH 3/5] arm64: mte: CPU feature detection for Asymm MTE
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin
- <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>,
- Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>,
- Branislav Rankov <Branislav.Rankov@arm.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-References: <20210913081424.48613-1-vincenzo.frascino@arm.com>
- <20210913081424.48613-4-vincenzo.frascino@arm.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <6e6fb454-886e-95ff-fad2-d003a594acbd@arm.com>
-Date: Mon, 20 Sep 2021 16:41:56 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+       dkim=pass header.i=@google.com header.s=20210112 header.b=AlZLXTBj;
+       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::d30 as permitted sender) smtp.mailfrom=pcc@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com. [2607:f8b0:4864:20::d30])
+        by gmr-mx.google.com with ESMTPS id t131si460050vkd.5.2021.09.20.14.29.58
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Sep 2021 14:29:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::d30 as permitted sender) client-ip=2607:f8b0:4864:20::d30;
+Received: by mail-io1-xd30.google.com with SMTP id 134so549802iou.12
+        for <kasan-dev@googlegroups.com>; Mon, 20 Sep 2021 14:29:58 -0700 (PDT)
+X-Received: by 2002:a6b:6918:: with SMTP id e24mr20177518ioc.71.1632173397612;
+ Mon, 20 Sep 2021 14:29:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210913081424.48613-4-vincenzo.frascino@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-GB
-X-Original-Sender: suzuki.poulose@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of suzuki.poulose@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=suzuki.poulose@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+References: <20210913081424.48613-1-vincenzo.frascino@arm.com>
+In-Reply-To: <20210913081424.48613-1-vincenzo.frascino@arm.com>
+From: "'Peter Collingbourne' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 20 Sep 2021 14:29:46 -0700
+Message-ID: <CAMn1gO5sUhDkx4w-Kk8hw0xLbXmr129xeJa6YhxOeJ-v83hp6w@mail.gmail.com>
+Subject: Re: [PATCH 0/5] arm64: ARMv8.7-A: MTE: Add asymm mode support
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
+	Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>, 
+	Branislav Rankov <Branislav.Rankov@arm.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: pcc@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=AlZLXTBj;       spf=pass
+ (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::d30 as
+ permitted sender) smtp.mailfrom=pcc@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Peter Collingbourne <pcc@google.com>
+Reply-To: Peter Collingbourne <pcc@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,67 +135,24 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 13/09/2021 09:14, Vincenzo Frascino wrote:
-> Add the cpufeature entries to detect the presence of Asymmetric MTE.
-> 
-> Note: The tag checking mode is initialized via cpu_enable_mte() ->
-> kasan_init_hw_tags() hence to enable it we require asymmetric mode
-> to be at least on the boot CPU. If the boot CPU does not have it, it is
-> fine for late CPUs to have it as long as the feature is not enabled
-> (ARM64_CPUCAP_BOOT_CPU_FEATURE).
-> 
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Suzuki K Poulose <Suzuki.Poulose@arm.com>
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+On Mon, Sep 13, 2021 at 1:21 AM Vincenzo Frascino
+<vincenzo.frascino@arm.com> wrote:
+>
+> This series implements the asymmetric mode support for ARMv8.7-A Memory
+> Tagging Extension (MTE), which is a debugging feature that allows to
+> detect with the help of the architecture the C and C++ programmatic
+> memory errors like buffer overflow, use-after-free, use-after-return, etc.
 
+Unless I'm missing something, it looks like this only includes KASAN
+support and not userspace support. Is userspace support coming in a
+separate patch?
 
-> ---
->   arch/arm64/kernel/cpufeature.c | 10 ++++++++++
->   arch/arm64/tools/cpucaps       |  1 +
->   2 files changed, 11 insertions(+)
-> 
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> index f8a3067d10c6..a18774071a45 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -2317,6 +2317,16 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
->   		.sign = FTR_UNSIGNED,
->   		.cpu_enable = cpu_enable_mte,
->   	},
-> +	{
-> +		.desc = "Asymmetric Memory Tagging Extension",
-> +		.capability = ARM64_MTE_ASYMM,
-> +		.type = ARM64_CPUCAP_BOOT_CPU_FEATURE,
+The fact that this only includes KASAN support should probably be in
+the commit messages as well.
 
-FWIW, the selected type works for the described use case.
-
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-
-> +		.matches = has_cpuid_feature,
-> +		.sys_reg = SYS_ID_AA64PFR1_EL1,
-> +		.field_pos = ID_AA64PFR1_MTE_SHIFT,
-> +		.min_field_value = ID_AA64PFR1_MTE_ASYMM,
-> +		.sign = FTR_UNSIGNED,
-> +	},
->   #endif /* CONFIG_ARM64_MTE */
->   	{
->   		.desc = "RCpc load-acquire (LDAPR)",
-> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-> index 49305c2e6dfd..74a569bf52d6 100644
-> --- a/arch/arm64/tools/cpucaps
-> +++ b/arch/arm64/tools/cpucaps
-> @@ -39,6 +39,7 @@ HW_DBM
->   KVM_PROTECTED_MODE
->   MISMATCHED_CACHE_TYPE
->   MTE
-> +MTE_ASYMM
->   SPECTRE_V2
->   SPECTRE_V3A
->   SPECTRE_V4
-> 
+Peter
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6e6fb454-886e-95ff-fad2-d003a594acbd%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAMn1gO5sUhDkx4w-Kk8hw0xLbXmr129xeJa6YhxOeJ-v83hp6w%40mail.gmail.com.
