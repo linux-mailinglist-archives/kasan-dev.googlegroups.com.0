@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBDPRU2FAMGQESFME6DI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRB2HRU2FAMGQEYDBPGVY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20E64131EE
-	for <lists+kasan-dev@lfdr.de>; Tue, 21 Sep 2021 12:48:46 +0200 (CEST)
-Received: by mail-il1-x13b.google.com with SMTP id y16-20020a929510000000b0024fca7e125bsf11971436ilh.17
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Sep 2021 03:48:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632221325; cv=pass;
+Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A784131F2
+	for <lists+kasan-dev@lfdr.de>; Tue, 21 Sep 2021 12:50:18 +0200 (CEST)
+Received: by mail-pg1-x53c.google.com with SMTP id w5-20020a654105000000b002692534afcesf17515738pgp.8
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Sep 2021 03:50:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632221417; cv=pass;
         d=google.com; s=arc-20160816;
-        b=r/vCIfH11TwvPw4pxOj0Dou5ZlvhV/9djrsPaaPvgRiKtnAmbIipAYvBvCnntmmNkE
-         4rA+RNzKLejw9gc7wkag7QOyVeJLsDofr7hM0VsHc0vs0BCqmYIdcLG9awtuGIQbsg9E
-         E5TIY37ty5TTBgWzflFV6mPwc6jiPiAYAQjBE9mFxnvhMVqeKsIppTCXXW5pGZI8uEKX
-         Duwr/49X6JgLN4ntSMud7VztvAQasK1GaNifA6rcgI6IMnLDzihXtClrxWOcymjjOose
-         8N36LsBsM+NoxARb08uh8iCETlV8a0YwmPsfOtrud9CqyHcvRQzpbKad1wg9SeICvbL2
-         S4eA==
+        b=mdzDphLWHq4AXpAAcr7iRh5Vr9vFEfQUcveR61fwlA3F30DoJY6DaAMmLq17ZIP3al
+         18+O4ol9/BhQMCcMoF/F79XCkxlf3jjBjV6krKUMaG8T3vCK832Uq7cfvio9mjJ0dcFE
+         WEHWnPu5Uw2NRkmWOKAFcIp57kdNmSLp2peLZYaPQDnqia2U4BCDrXdbFXZURL6Rh/YN
+         2Yprc0Uy6yp+RMT3DOfm+l3HaGJuhZIBcgsiT43hfcAAHxJh03xOwEa3EMn9Kpcrzpjp
+         V8pDiXcWOBAT10GJWHW2GgNZ5RmXIXH453D00A+xaHXzlMPQItQ0Um0xH9JTvW3s3o3C
+         FwRw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=LmW6V0YY0pKPGi73roOMhGc13tSLj7/DCJ7fLoZzZPY=;
-        b=aG1IDClPN5b5MtOJtPSmQfF9ydTzymTv4q+3pSy2HaLQvvHvbfpZMUy0bx/7PeWY9N
-         rgUXJGkZ5YxeMAE7oryxRKUGoh3nyTwPswQFvTFC9yWHUSYtzukA0N7VsqSWs7CGeaaB
-         oFOg5aY1Ys07fxqFEh1fNnSfQxKf4wWJJzUkgkUylXPlydHWSveOdEOD82HD7/owsZkS
-         3cgIGseEamBsdlj3Ylf6rWHPLgx6T/gkED1AcAf3VeNZINAcGdQe6nd1+BlsCFtLyvmz
-         utJGLjqOCRPM2O8cIqQMr5Omf2BuuTT9PrZGuq5so4r/fq21u3Y5TmiR8T2HuaOFeitT
-         fgtw==
+        bh=gJJ8XzLe61sYBlNwBrMQFWTL8Es2J1EtWjg7EMnzgWg=;
+        b=hnFabeclQddzfG8ej/Ak0iAYHfxdpWzYiSTmHnSjesXiCdGJHZ4/JtBix9xol3hVlR
+         qkAgd1QgCNjBF+5dT/HGy2FfuTz2vVSc5yNYifwmKhv+gVGA7Yyt9exC1DqlI/OYvhtg
+         9yScXFHrR6oxrnp2ynjVMAJb0r/K//NNdI2sLF8EfJ7AAefeRVb8UtOhn5npbwD0kZ2D
+         0y5td7fOW0HNbJvvrsiIZMslevIntgTJZq+yiwc9+l3mSwiCGy9C5jkddwts9R1f3Pb2
+         3Y1wPwDhD4opcwP9W3jK+0OyUq9NUoqOedRs6/Ecas6WF1FEnlau05pr1HU4lF87cnSB
+         4qkQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=nuqlgHgS;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::234 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=pGybIBE1;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c29 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=LmW6V0YY0pKPGi73roOMhGc13tSLj7/DCJ7fLoZzZPY=;
-        b=RqwdTxRrowR8J73nv1PSnTzg2n7kNvNPasX0Ew11HcMPFl1OgQqONYIiKWIPYq3CQe
-         EMHW5PE8aqqXf7i9MShb5D9ZJ/fHaO2SnOBOP/95vLrHGWo9rWD7Yoz7vrxtS58OBw0Y
-         TrWh7bjrUqIpdcSmJbMsfpY6F5WE34EtIaFQ6ZSaGv9bx21PfBM+VUS2PT9bmjU3naxI
-         zsElKJNqhd2c6ai9zRQj70IIoP7h0521zuCtEurtRfhGvLM2em6ERsLj1STftCw2xYGG
-         mk7vq1Xp9Qc6lWiYpvp3XyZCZmr5em7X/Xw/te5RE7PrwL1EBizYCOFLvzA0PV8sE3av
-         S7Tw==
+        bh=gJJ8XzLe61sYBlNwBrMQFWTL8Es2J1EtWjg7EMnzgWg=;
+        b=Njbtgb1sTWsiO6Qdrx/DxYfoHlg+vkIiHPFlui07ljnoa0w9MZ2aZp87SSaKpoa1J6
+         N5BxBDd4SmGZYv3SRV8XghL4UAAhXZv6dR/L6Bs+Y6GCgxKJq2kUAzRi9uNz7tiggR0K
+         84TpTOnzToiNy4RHpNY4ff3r2T3zby1znaNKw6LfMjnoX/QzLtL5Vh0EsnrwS6psfN+X
+         z9/6QoAj32BlDYR4X9EuxYs75E8jbv1qgnKmwgwOs40L2fwVo770VZrXaCLkPRK3dFvo
+         euidbStACNka2qZNKChj4EOCECQXOOFq3KECPXN3m3bXa1F8tK3ywXbPMIRuKu9yT+7D
+         7WjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,62 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=LmW6V0YY0pKPGi73roOMhGc13tSLj7/DCJ7fLoZzZPY=;
-        b=B9w6fLWyBG5N9bdktJRSdhC9xsCzjnkus7jbQPjxoKIvurifZtf4z3Rh81XCMCb1E+
-         kAfGEvoXT4mssRVXXR7UM+chh6UdBaws3vsah7vxXUmkYyGOHWodjaIJO8PSuBCehR2E
-         DLXsy9UY0pO3/pEclHPI3u/dx17Z0Q3648XyTmoICJQbnAX7qfMIQn62hQ7gxJDC11Jm
-         enGcXZs4thWxkv2nB3m9jP/Vl7XT9dVff77Z9njW1EzKcaAgGtQRYqFYJB4R3UbpNmgs
-         rQhxcgLVIiaDR1lGSxlhNN2yW+xNT5iVrz8zvUOB1jx7a9HK++8cJDn8LRxBNpj+Wvq7
-         ryZw==
-X-Gm-Message-State: AOAM532+n4KzuRR0n0UZVyL7qXLSrTspWSOkef3aBreopWZXPzsy0fJm
-	N4uHHEXCtAv8pXnNYVog6ks=
-X-Google-Smtp-Source: ABdhPJwt17RrBPouNnF2nRaMdElfLBUSVtlCGlaYP1AP9bRxWxmUzUBPpV0sGibDTRQNcBc4w2YG5g==
-X-Received: by 2002:a05:6638:2189:: with SMTP id s9mr5252243jaj.73.1632221325531;
-        Tue, 21 Sep 2021 03:48:45 -0700 (PDT)
+        bh=gJJ8XzLe61sYBlNwBrMQFWTL8Es2J1EtWjg7EMnzgWg=;
+        b=AWg/ljLhmM2D46M2DJT5LOS31GzNZjx82jd4qLegWIb/uOfbMLvQa0Fb/RJGvDiR2H
+         VUzQB3itr9NI+PFrL0JHaV7sKSBdMES1W6jXs14St84Vbr/E/LaLBR1IMMRqRY8RujaR
+         pK6+WJCxu1EhlkefKwozoYrkwFgqvYNzDdUn9ED2v8P/OTDvrepgYHTwOEF6Xtsdbg3e
+         Qyr6YpcReTBAdQ7fY/gOwnBq1ZqcThcTupEn5jHxnf7g3O6zhwc/9ZH8TbD+wPbZDL+o
+         r3wyAUp1nyNSf8gEJ0j+8lCyI2Vh+ZIZBnKAKRKEEUjlXAYtjkOwH2TLQyyDtCm1Ug+K
+         UIkA==
+X-Gm-Message-State: AOAM531v+AHhZ9Tmbt3GPLWrXA8dPcg0kPsOu3JK1a+oIXVctYQJWHk0
+	Vf7u4ul1/nXbb1KDANBYz2A=
+X-Google-Smtp-Source: ABdhPJxmTwXv3Xan3JE380Cuf/5hD6T6aZ5Ts+b1wAQ8gvA8naqaRjss42nSwFU0zRLeb5bhRZgz0w==
+X-Received: by 2002:a63:894a:: with SMTP id v71mr18905461pgd.13.1632221417003;
+        Tue, 21 Sep 2021 03:50:17 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:2163:: with SMTP id s3ls1463570ilv.9.gmail; Tue, 21
- Sep 2021 03:48:45 -0700 (PDT)
-X-Received: by 2002:a92:de41:: with SMTP id e1mr21577370ilr.85.1632221325158;
-        Tue, 21 Sep 2021 03:48:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632221325; cv=none;
+Received: by 2002:a62:2cd8:: with SMTP id s207ls7638226pfs.11.gmail; Tue, 21
+ Sep 2021 03:50:16 -0700 (PDT)
+X-Received: by 2002:a63:2cce:: with SMTP id s197mr2053774pgs.45.1632221416292;
+        Tue, 21 Sep 2021 03:50:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632221416; cv=none;
         d=google.com; s=arc-20160816;
-        b=gUSoqvRkLs/U2WwiNmlm755HSyS1N4XSg+8FreWVKqGNaQgc3mPfsqPhJmG/nwKQvV
-         Xx+LqnTFKNtvn4DrPMIpjA/mFD8SElQb3e9WoWL5+FTNQFCKkjU6tVksfNRisdNp6KCc
-         dDG8mmrV+oytgR5Moc5D40mT48GdbpUFTbHvQo3vQyBZiQziFMl5x6yQJYoqvXGhFwDC
-         2V4kJDpSFfudHa5R5Mg211AuRnBFrS4HebZsqh3BiUdFLiFRmYeZ3T20DLjlUMqt+gt+
-         nk38HbkpORLgMakAT1J5DGcQjo3pHwhCYs+V7DSPfGTnlj1aPCFyfJDM10v1PG5F0CAn
-         xCiw==
+        b=sciCVJkzHBwJvpqMEgmjzqDfHlPQ1157eTR77RWH34DkHINcl+xcmj+WutdNQLz2eq
+         7PvyaMbaowobV0AAltDZwfnnzTuKVJO/x0BxfIX/ZbTFQK0gYTKltWinHUyHiG+/4XhT
+         zM4mDQ6GR5nrMcvszMXeGQSYKbbfKXCjL97TPOM0GK6ed+hwKlJIoty4nekTKyWMVEBV
+         aDlOlbPdxphj10z9Tfi0hhdfD/X6YZ6KU+jw9WK1im5aTMRiKhvZJshG1/4Qv/NDR3QD
+         hvoTaM53rYFQfU9Dw2HMaEtYuNM0Kj8clEaKrRYDtQHbi6Tm7C0duF4rkcFnMYTcfm7p
+         Nskw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=uQD0VoNg7df5hqKOKWbdHthbGkqzCUgLIjjPJbYxGXM=;
-        b=BJSFJAeE2UCO4T2yvpt1RjQVskrSGqqmHjhVcjUPQ5IkNEAjXuemR2AtJqvsIf7HFv
-         ZChlUWXh1Hvtycr7qezKabNq37KY3MMMSI4yQVxOCYBbxXj6HNBTCca/YFrDo6b/NS/1
-         fsWu6hK9InqNZeB5b+p6bkBkOphqb2hAlufFrcoI8eC2AMJQ2YWL8EnkHJ+qXA0GCB8o
-         n2n5pimXkLcVy5m65GaLmDa8LPDckGLOurYTZ5+7fjqFBTXRsHy+21ZUa8igiVwGNyBb
-         +gG5rdOJ0U4yMz5bnkEzTPPW19xUu57fDKJnKU07974BY14M2/KsxL30l95QXu8FFFC0
-         Nkzg==
+        bh=K0Bhbgp6QvbcNQHQeE1e8BDMff+79sDxtFoMpFLBCbA=;
+        b=XzkpRRdfSVKCx39iAflpJ4XY4W5KK1WfXuP3y3w7ga3amXUx8RvibSqEd9iphaZFYC
+         L1irbthqv5DXLOwSYqWBNuRlVJbODvPYU78dNmDIf/v/jc0/V4L/U/HQpHRQQDGKVNsF
+         +buhgZxj/ojb5QCAM1GAaG7pZsK8xFOmlsqnnyWn1mufDVO7GRrVOIZtRPfBqwKqTnAH
+         /eEKw60HjNxOypV8bRRP/dMQq8CorVbEQCFTQIIK2FI8nQ5eBD9nwTltPGkZ+XDb5etG
+         DCFJmNcmlh8Cbje85udwFjPxU6opnbU8LySC4J8o17YwtRZX5tMjW1P4jNIiSjmSIgIR
+         3mpg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=nuqlgHgS;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::234 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=pGybIBE1;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c29 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com. [2607:f8b0:4864:20::234])
-        by gmr-mx.google.com with ESMTPS id l68si276345iof.1.2021.09.21.03.48.45
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com. [2607:f8b0:4864:20::c29])
+        by gmr-mx.google.com with ESMTPS id n63si276884pfd.3.2021.09.21.03.50.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Sep 2021 03:48:45 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::234 as permitted sender) client-ip=2607:f8b0:4864:20::234;
-Received: by mail-oi1-x234.google.com with SMTP id z11so2000937oih.1
-        for <kasan-dev@googlegroups.com>; Tue, 21 Sep 2021 03:48:45 -0700 (PDT)
-X-Received: by 2002:a54:4005:: with SMTP id x5mr3064072oie.160.1632221324643;
- Tue, 21 Sep 2021 03:48:44 -0700 (PDT)
+        Tue, 21 Sep 2021 03:50:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c29 as permitted sender) client-ip=2607:f8b0:4864:20::c29;
+Received: by mail-oo1-xc29.google.com with SMTP id u15-20020a4a970f000000b0029aed4b0e4eso4936280ooi.9
+        for <kasan-dev@googlegroups.com>; Tue, 21 Sep 2021 03:50:16 -0700 (PDT)
+X-Received: by 2002:a4a:52c4:: with SMTP id d187mr9155943oob.53.1632221415456;
+ Tue, 21 Sep 2021 03:50:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210921101014.1938382-1-elver@google.com> <20210921101014.1938382-2-elver@google.com>
-In-Reply-To: <20210921101014.1938382-2-elver@google.com>
+References: <20210921101014.1938382-1-elver@google.com> <20210921101014.1938382-3-elver@google.com>
+In-Reply-To: <20210921101014.1938382-3-elver@google.com>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 21 Sep 2021 12:48:33 +0200
-Message-ID: <CACT4Y+bJ=i=i5eecERcAWMcZuYtU1587WEpRa=SH+bGvmoCayA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] kfence: count unexpectedly skipped allocations
+Date: Tue, 21 Sep 2021 12:50:04 +0200
+Message-ID: <CACT4Y+Yt6KjcvOehj6VV=0-W+mGuzh1vOd3dH9DbnPW9h04tQA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] kfence: move saving stack trace of allocations
+ into __kfence_alloc()
 To: Marco Elver <elver@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
 	Jann Horn <jannh@google.com>, Aleksandr Nogikh <nogikh@google.com>, 
@@ -113,8 +114,8 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@googl
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=nuqlgHgS;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::234
+ header.i=@google.com header.s=20210112 header.b=pGybIBE1;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c29
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -131,13 +132,13 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 21 Sept 2021 at 12:10, Marco Elver <elver@google.com> wrote:
+On Tue, 21 Sept 2021 at 12:10, 'Marco Elver' via kasan-dev
+<kasan-dev@googlegroups.com> wrote:
 >
-> Maintain a counter to count allocations that are skipped due to being
-> incompatible (oversized, incompatible gfp flags) or no capacity.
->
-> This is to compute the fraction of allocations that could not be
-> serviced by KFENCE, which we expect to be rare.
+> Move the saving of the stack trace of allocations into __kfence_alloc(),
+> so that the stack entries array can be used outside of
+> kfence_guarded_alloc() and we avoid potentially unwinding the stack
+> multiple times.
 >
 > Signed-off-by: Marco Elver <elver@google.com>
 
@@ -145,74 +146,107 @@ Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 
 > ---
 > v2:
-> * Do not count deadlock-avoidance skips.
+> * New patch.
 > ---
->  mm/kfence/core.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
+>  mm/kfence/core.c | 35 ++++++++++++++++++++++++-----------
+>  1 file changed, 24 insertions(+), 11 deletions(-)
 >
 > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 7a97db8bc8e7..249d75b7e5ee 100644
+> index 249d75b7e5ee..db01814f8ff0 100644
 > --- a/mm/kfence/core.c
 > +++ b/mm/kfence/core.c
-> @@ -112,6 +112,8 @@ enum kfence_counter_id {
->         KFENCE_COUNTER_FREES,
->         KFENCE_COUNTER_ZOMBIES,
->         KFENCE_COUNTER_BUGS,
-> +       KFENCE_COUNTER_SKIP_INCOMPAT,
-> +       KFENCE_COUNTER_SKIP_CAPACITY,
->         KFENCE_COUNTER_COUNT,
->  };
->  static atomic_long_t counters[KFENCE_COUNTER_COUNT];
-> @@ -121,6 +123,8 @@ static const char *const counter_names[] = {
->         [KFENCE_COUNTER_FREES]          = "total frees",
->         [KFENCE_COUNTER_ZOMBIES]        = "zombie allocations",
->         [KFENCE_COUNTER_BUGS]           = "total bugs",
-> +       [KFENCE_COUNTER_SKIP_INCOMPAT]  = "skipped allocations (incompatible)",
-> +       [KFENCE_COUNTER_SKIP_CAPACITY]  = "skipped allocations (capacity)",
->  };
->  static_assert(ARRAY_SIZE(counter_names) == KFENCE_COUNTER_COUNT);
+> @@ -187,19 +187,26 @@ static inline unsigned long metadata_to_pageaddr(const struct kfence_metadata *m
+>   * Update the object's metadata state, including updating the alloc/free stacks
+>   * depending on the state transition.
+>   */
+> -static noinline void metadata_update_state(struct kfence_metadata *meta,
+> -                                          enum kfence_object_state next)
+> +static noinline void
+> +metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state next,
+> +                     unsigned long *stack_entries, size_t num_stack_entries)
+>  {
+>         struct kfence_track *track =
+>                 next == KFENCE_OBJECT_FREED ? &meta->free_track : &meta->alloc_track;
 >
-> @@ -271,8 +275,10 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
->                 list_del_init(&meta->list);
->         }
->         raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
-> -       if (!meta)
-> +       if (!meta) {
-> +               atomic_long_inc(&counters[KFENCE_COUNTER_SKIP_CAPACITY]);
->                 return NULL;
+>         lockdep_assert_held(&meta->lock);
+>
+> -       /*
+> -        * Skip over 1 (this) functions; noinline ensures we do not accidentally
+> -        * skip over the caller by never inlining.
+> -        */
+> -       track->num_stack_entries = stack_trace_save(track->stack_entries, KFENCE_STACK_DEPTH, 1);
+> +       if (stack_entries) {
+> +               memcpy(track->stack_entries, stack_entries,
+> +                      num_stack_entries * sizeof(stack_entries[0]));
+> +       } else {
+> +               /*
+> +                * Skip over 1 (this) functions; noinline ensures we do not
+> +                * accidentally skip over the caller by never inlining.
+> +                */
+> +               num_stack_entries = stack_trace_save(track->stack_entries, KFENCE_STACK_DEPTH, 1);
 > +       }
+> +       track->num_stack_entries = num_stack_entries;
+>         track->pid = task_pid_nr(current);
+>         track->cpu = raw_smp_processor_id();
+>         track->ts_nsec = local_clock(); /* Same source as printk timestamps. */
+> @@ -261,7 +268,8 @@ static __always_inline void for_each_canary(const struct kfence_metadata *meta,
+>         }
+>  }
 >
->         if (unlikely(!raw_spin_trylock_irqsave(&meta->lock, flags))) {
->                 /*
-> @@ -740,8 +746,10 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+> -static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp)
+> +static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp,
+> +                                 unsigned long *stack_entries, size_t num_stack_entries)
+>  {
+>         struct kfence_metadata *meta = NULL;
+>         unsigned long flags;
+> @@ -320,7 +328,7 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
+>         addr = (void *)meta->addr;
+>
+>         /* Update remaining metadata. */
+> -       metadata_update_state(meta, KFENCE_OBJECT_ALLOCATED);
+> +       metadata_update_state(meta, KFENCE_OBJECT_ALLOCATED, stack_entries, num_stack_entries);
+>         /* Pairs with READ_ONCE() in kfence_shutdown_cache(). */
+>         WRITE_ONCE(meta->cache, cache);
+>         meta->size = size;
+> @@ -400,7 +408,7 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
+>                 memzero_explicit(addr, meta->size);
+>
+>         /* Mark the object as freed. */
+> -       metadata_update_state(meta, KFENCE_OBJECT_FREED);
+> +       metadata_update_state(meta, KFENCE_OBJECT_FREED, NULL, 0);
+>
+>         raw_spin_unlock_irqrestore(&meta->lock, flags);
+>
+> @@ -742,6 +750,9 @@ void kfence_shutdown_cache(struct kmem_cache *s)
+>
+>  void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+>  {
+> +       unsigned long stack_entries[KFENCE_STACK_DEPTH];
+> +       size_t num_stack_entries;
+> +
+>         /*
 >          * Perform size check before switching kfence_allocation_gate, so that
 >          * we don't disable KFENCE without making an allocation.
->          */
-> -       if (size > PAGE_SIZE)
-> +       if (size > PAGE_SIZE) {
-> +               atomic_long_inc(&counters[KFENCE_COUNTER_SKIP_INCOMPAT]);
+> @@ -786,7 +797,9 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+>         if (!READ_ONCE(kfence_enabled))
 >                 return NULL;
-> +       }
 >
->         /*
->          * Skip allocations from non-default zones, including DMA. We cannot
-> @@ -749,8 +757,10 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
->          * properties (e.g. reside in DMAable memory).
->          */
->         if ((flags & GFP_ZONEMASK) ||
-> -           (s->flags & (SLAB_CACHE_DMA | SLAB_CACHE_DMA32)))
-> +           (s->flags & (SLAB_CACHE_DMA | SLAB_CACHE_DMA32))) {
-> +               atomic_long_inc(&counters[KFENCE_COUNTER_SKIP_INCOMPAT]);
->                 return NULL;
-> +       }
+> -       return kfence_guarded_alloc(s, size, flags);
+> +       num_stack_entries = stack_trace_save(stack_entries, KFENCE_STACK_DEPTH, 0);
+> +
+> +       return kfence_guarded_alloc(s, size, flags, stack_entries, num_stack_entries);
+>  }
 >
->         /*
->          * allocation_gate only needs to become non-zero, so it doesn't make
+>  size_t kfence_ksize(const void *addr)
 > --
 > 2.33.0.464.g1972c5931b-goog
 >
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210921101014.1938382-3-elver%40google.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbJ%3Di%3Di5eecERcAWMcZuYtU1587WEpRa%3DSH%2BbGvmoCayA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYt6KjcvOehj6VV%3D0-W%2BmGuzh1vOd3dH9DbnPW9h04tQA%40mail.gmail.com.
