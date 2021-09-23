@@ -1,130 +1,150 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBT4KWKFAMGQEL2EEXOQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBK4OWKFAMGQEMFP3F4I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C4541603C
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 15:46:56 +0200 (CEST)
-Received: by mail-ua1-x937.google.com with SMTP id 14-20020ab0008e000000b002c3861ea14bsf2235082uaj.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 06:46:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632404815; cv=pass;
+Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 288E741604D
+	for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 15:54:52 +0200 (CEST)
+Received: by mail-lf1-x140.google.com with SMTP id r193-20020a19c1ca000000b003fc8f43caa6sf6134692lff.17
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 06:54:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632405291; cv=pass;
         d=google.com; s=arc-20160816;
-        b=OXiMlzqMhYTP9SteqQVm+PunX/Zot3w0rqSoOLdXQfzfelmG0I7zk5TALmC51lD7Ky
-         n8xQiWKohBqtseqLRRNJO4uL/AQdFyb++zO5h1uWNt3y0waFuvUYEQiT9xnKlSXM7HR4
-         I45CksSgavh7mRq4j+3jz5RMOgqJifp0Ayh2OFWwc/0+yqOfbWgLzsAr7oELQZu45LTf
-         s/7p7p5ma50KT5aWwfPFbabJMaREz+1ac8xvRAQu05IM3WC0CjKrJL4X+hi+PiXa5gSv
-         MQnbJgqhTpwMngqAAI6OMC93LqfEXmdYRhEzUPEu1E/6aRm9609EWMpGW9MtG4fD3U1z
-         Mxog==
+        b=epwh+dPtCyJgc8rpQKOvDhiyL75Y5wBBZ7Yg/WI0MfvBzH7n/Q5Xmd6hW2jhHMga+x
+         FeRXd0c6TuK5HPRvFgtR0u0I+a5aILgOA4dhwr8CRivj4gG6I2sP2NIcYLzsSubcpbLK
+         n/F3FkmVDXfTJDA5pxMw/KCek5kZjLds/IVM1hjzER6tMoBUqBJ+bSk/VE3x5WX9nb2i
+         BtgJFjreb7ZSBBt9cDhyivI84ToB++2OIus9PgYCjCla10KYQ35D5mGuqc81DLzmI3To
+         bD8xoz5f1cXlWaobpbRZo9fV83iTZM0G35+TU6ejezePdYIb7KaJSlLvMIffXA3GolxU
+         BAMw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=aqiHpNj+v43SQ06RI8D18xMpUaxGlNpu84enZbwzgQw=;
-        b=yNPVCMqsuIk6KoNLDYrdIQ4ApaAgAu8JR+G6dmp3Zeafu6D376Fb2+nCRSOnquXmDE
-         +1OK4GHdD+hUGQ87AvzHOa4of89snAXLKCbdeZ2aK84C19geaBWmbWvK0jzQ1QH4hITu
-         /YngEykVSDn8iKLRBlEzJ4MdF63YSeuP2hPPtHj7af2FEicesRI0zQqTBfgKzm0lDY6j
-         YJKC6ihvh08l0WPMZGs78Fgutlr/ww3zTFE/uspKcxbHNuSLfOIxgwezPePvXsKhQ/FT
-         0GMDACtxDcwOrhzluXYZFXWOrtWCzFsbG1MhoHmoqBsU1W/kvOXf0L0kXqKEmE02/UDF
-         UyBA==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:sender:dkim-signature;
+        bh=xiduNyQm0Wgk7rMLTTaGa5duoDFWU1W2djUryxGLrHg=;
+        b=e6TXJrjAN5Y8hHlyZiulEw8HLuIk9AsCtWMD+jbvS9ur15eTxs/7LnF563kRlylJKb
+         zm8gb3tJf0Dr4irJ+MJDs5LGyxx050wqoP5obpzFnNSyVV1C+OGWLX4BOA7A8uZEqv7H
+         ioxQYDI9TmxaokE/jWcifQ5okyI4W83TDq3CHffrej1vHdWZy7RLt6kOza3RuytT0aDA
+         fVTkNZ1Qv+U7IEDbZYnxv9Tjntz4aooUjr0Pa/C35Q0n68l6CSzZy0DgGUHKKl3WdeOW
+         XRqHKWYqkXs7w6H5ushFd5pdDVaDLPTOfFqDbOJUKjQdwQWaqHZdgX8dWZZpuGSzGpRc
+         oBgg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=hDlU7ifN;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2c as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=aqiHpNj+v43SQ06RI8D18xMpUaxGlNpu84enZbwzgQw=;
-        b=MeHwIjLPd2JpktqZUPcYd3hHzHUo7NhXU02O4Ll9qwT05aZVRypuIGHr9f8GuV8/XJ
-         TAVGXEXmu1IKIGBp3NNUkXgX6fYhJMrBdYizl3Tswr/DnfoJ8ydE+da6ZzWCICEDo/Ik
-         gM0IKSYUgWKN23YwKzoTXcf9eujxgHvUVHJBDbdTYei8KYcyriKvW6yRYSzylJ33FbCp
-         2fQXgU/uxbBNg9HhF56Rp94g8EI+MFYbqPpgCy25t8/qWRb6MdjZRuQgy8GJnWSGMI7g
-         5Jrc6OR05XjRTCoSVLDjeb4q1Dclko/xzGmqKMnkShllsoUzuNdWlyPLoGHFTQlMl4ZT
-         HxSQ==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=xiduNyQm0Wgk7rMLTTaGa5duoDFWU1W2djUryxGLrHg=;
+        b=qeQ/yl/a0GjOaaMeAa0OCQSeXChvHp1etdehEtdlqwBGYG17UOoD7vsQEtFxRUI8Uu
+         WLHyIaCwO5acP1Y8+jIAd6XXCspZdWeKQQppslHp+lxvE5Pd1S1+ZoujA4E0sVqca9Fu
+         DtJM4DuMhzeRGgCRhVNo5DtGlbW4oLZWs+/ZjWQpll4RgDyyLX+oWqCfWqr2uot5lRpN
+         URoMFk78xUcqJuewr2xvA7oTFRRWzOzkM9beb0ZXRiNUTxd3pKFGfOQ2WHFv1fqGEc7t
+         tyPtYAe/Pu/1g2EQzLbcYSXlXSRTdffOCkCK/5/YV5k4p0QVkMMLBPJHQxFIK03DesUg
+         vA2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=aqiHpNj+v43SQ06RI8D18xMpUaxGlNpu84enZbwzgQw=;
-        b=xF2/oFh73RLgQHqrYlZavLbMWJjDDnywyGhliEI3XqhW4OgU/aLR5td01tYIFnIaMh
-         QaGRb2DJDUikIrS0CrUbFS6NBQGi/7SgjWb4SlRvf4h7IAiaJvTgisdsZ+sIgMjK9mkd
-         PTpU652SNsU/rm/zTW1IvhqYAc4jaD0L5PZU/lE/V//TX3R43AwsPCD+suVFPW/v2ioP
-         55oPB4+ile8Bif3kucgIN2y5bBJSF8NputNdZd0hbEKH7tl6jfTweLXWRjQPY2rn5kls
-         vwahILeDg908JR09nvMDvtapmVmcrnyYZ2EOS76qLMolOAfwtZx/BuKtZE1x6+rT6jft
-         d9NQ==
-X-Gm-Message-State: AOAM533a/txDG639BBE2/Q6oirJMS8lm6fSKClVf2U4O/9yO1XjoA+hi
-	NzQOdVPHbuIAmHAq3NHm428=
-X-Google-Smtp-Source: ABdhPJw3nWfyNj7S+RtnYVIRXgawcsU2Sux6D+d13nvW6aVZShW0zaQpo0gXhM4DBScPvIfgkw5rtw==
-X-Received: by 2002:a67:a644:: with SMTP id r4mr4267815vsh.24.1632404815534;
-        Thu, 23 Sep 2021 06:46:55 -0700 (PDT)
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=xiduNyQm0Wgk7rMLTTaGa5duoDFWU1W2djUryxGLrHg=;
+        b=UCSktT66x1Lk2coD0fCAmTGGHmTCnT53Eoyfqj8txPih5mNMkP84voX/QYcRxb91IW
+         cOoSP/Xt5rvIFuItsDWtkpH8tUYGXtWy8n3ZqcJyacNg3HPYl8Y4nm5nte9xAMmIpDQo
+         7nhxE9fT1sy5VAychqekgHYQ1597xSf6D2WTct6ALrVz/99270UTwJn1nNpECQflV8kD
+         JdrBPrFqvpmT42ghOwdigbqyLgamPFZ5sBBgOpqtpsVRNf/u5p4YrfQ9WEpMWDSMW5X7
+         maaZ68ffP2wFjDfyzyil9RyRIU782uiFD08V5YNqPCMGWpQYPtcECVzzbVddEXX0dq+l
+         coEg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531n1LMBtF/IjOkvdPD4KV5BaXDCj7Hx1Dl0thvYqOOr8PT77cif
+	6w5L6C0oBFdTp13DdVwrigs=
+X-Google-Smtp-Source: ABdhPJxTnwQtPXGv7NKSp/Xoh9ygEx+q67HO3i9rMBNzboNrJ1qMBBlIcS7R3m8/zJ7nT63hlB0Uvw==
+X-Received: by 2002:a05:6512:22d5:: with SMTP id g21mr4153328lfu.544.1632405291720;
+        Thu, 23 Sep 2021 06:54:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:2dd4:: with SMTP id t203ls526607vkt.11.gmail; Thu, 23
- Sep 2021 06:46:55 -0700 (PDT)
-X-Received: by 2002:a1f:9ec3:: with SMTP id h186mr3598986vke.5.1632404815015;
-        Thu, 23 Sep 2021 06:46:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632404815; cv=none;
+Received: by 2002:a2e:a48d:: with SMTP id h13ls1201148lji.8.gmail; Thu, 23 Sep
+ 2021 06:54:50 -0700 (PDT)
+X-Received: by 2002:a2e:a49c:: with SMTP id h28mr4323726lji.387.1632405290704;
+        Thu, 23 Sep 2021 06:54:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632405290; cv=none;
         d=google.com; s=arc-20160816;
-        b=YV0JZkMiWj1k2RtUxxA/p8F9abJfD7k0fjTEMmRnGznQ5Qoxa3zNUSw+55Fc9X2KPt
-         WaPzOGhxemkNvYxZyzjeOiAMw8wYY/MG7gsdLrE9BIyusU2EdmZEG9eZ/lCZJBcALjFb
-         TWQ/FEfVtenpT2Pdp+UJI5EsMocs3VEEozXZ00m5D5wydXi3mgjzqrjweYMrm1CRURWo
-         CSakfwCT4B7zt1TdI+8jjTPsKb+ndFtNeiBLDhlA2NKVZbBlGqxt07hLA666wIkC4ZSS
-         9Tc2DjWyiHc8b7E4Azn5HzP0IIJj4kF5H8Q1rA43Z+Z0NZPLLHvb3L4EQ08F42/un63U
-         HjrQ==
+        b=uLnOAShUb5J6E9EP6HQ8he8zxUmktBsyGh6Us1brYLP9uN9D6E914tVu1IYgDd6Q4S
+         +s80Czt+AgpgwDeITwl9PvLCmOtKfLZLh55UDhphI2kSIqL3NuoaQFNYbZkEA0R/g+OU
+         d0PuJaqcG9B9rgmYa3cXZgUDE/KnADrD1Qajc7GDXWcijtro3kjhXQTTkUE/m4/b9Y6t
+         XVmVUaYEZfA8ZtAdKPseaJgs3NUSGPZXcuf17+MKFKpjWC4/db04x9IleIuIFchr+JIa
+         MQLVigZPMHiC4RAqhWDn2H0/wOfcrTvnIhmcNM1wZsJ6vmHKl4dRgTjwnthUe+5arHQe
+         7PfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dR924fzJUnTOwFpFaOiKPGo+uYxMThczPIp4R0ax1KE=;
-        b=PLo94umtDHYTHosE7Q8PXb8ToyeCVltCDdeNyWgKlZOvsnDuuJKjtqCv9TA74Pox0L
-         QnkEIA6qd3zxKM+Tf0BmFEboQY3hsSkQ/bCO6J2gtG19pe/vhzqKK+s6fvMn0YotxGJU
-         idGJsOl/M+J2+jpt8bHkv5ntNQp9675uuG7m/e4tsDDy6Khf83aCmERYSazufi0LQRmU
-         uCAaqJSDJjRrDNQBYZLUAqI2jeJhDhb6h3iI0WVwhpaay9mi1gfc2V+0eSfvATMHUCXo
-         CXGyjgHhlGwSjDvOtK5nSq4GmS51Tz2YwxwGV3i3EtXTF/D4h6se5zHqAAs1SNc2/Rvs
-         0z0Q==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=ZXQkC7V2JNT5Om5z5+jdDIZMFI/bmMUtbhTlFb1DBj8=;
+        b=z+nkZxt5iqFkh73D70Lu9KoNRlZnvszclZSpD/ySVTRuA68Eb4gNT9GbQhBX5+zBjc
+         Fb9rydw+vcJomcdSH9q1xfTIOhKixXTaynH17wh1zWtiYQqT/gBXfF+RlN3u9gy9w9MB
+         Q6YT+FkHAvMTVCX90ZlvtQWJEJtfqzGO3ydkSZarUpUZ8QqBX6J2hD0dLhy66N/Wrij1
+         b5GKJSZVBi8+tOBCpOqfQtp/Wzvf9nkGQl2LslACwMxD5zV2EFetKDd2mLpOvpe49RNW
+         ahEef83QgrmTDSsisAIj3ZJKBV1GmGsBYqkVLePDFlUdomDWOcMJ73HNfMytS8Ju63Cz
+         MVKg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=hDlU7ifN;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2c as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com. [2607:f8b0:4864:20::f2c])
-        by gmr-mx.google.com with ESMTPS id j65si312170vkj.1.2021.09.23.06.46.55
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+Received: from pegase2.c-s.fr (pegase2.c-s.fr. [93.17.235.10])
+        by gmr-mx.google.com with ESMTPS id i22si233241lfj.13.2021.09.23.06.54.50
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Sep 2021 06:46:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2c as permitted sender) client-ip=2607:f8b0:4864:20::f2c;
-Received: by mail-qv1-xf2c.google.com with SMTP id a12so4147808qvz.4
-        for <kasan-dev@googlegroups.com>; Thu, 23 Sep 2021 06:46:54 -0700 (PDT)
-X-Received: by 2002:a05:6214:6b0:: with SMTP id s16mr4427451qvz.61.1632404814437;
- Thu, 23 Sep 2021 06:46:54 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Sep 2021 06:54:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) client-ip=93.17.235.10;
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4HFc9P5sHPz9sV7;
+	Thu, 23 Sep 2021 15:54:49 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xdm1Ouzf8XXu; Thu, 23 Sep 2021 15:54:49 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4HFc9P4lm1z9sV4;
+	Thu, 23 Sep 2021 15:54:49 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 8BA938B776;
+	Thu, 23 Sep 2021 15:54:49 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id i24VgXHaAF2s; Thu, 23 Sep 2021 15:54:49 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.202.200])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id ACF658B763;
+	Thu, 23 Sep 2021 15:54:47 +0200 (CEST)
+Subject: Re: [PATCH 3/3] memblock: cleanup memblock_free interface
+To: Mike Rapoport <rppt@linux.ibm.com>
+Cc: Mike Rapoport <rppt@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, devicetree@vger.kernel.org,
+ linux-efi@vger.kernel.org, kvm@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org,
+ linux-alpha@vger.kernel.org, sparclinux@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+References: <20210923074335.12583-1-rppt@kernel.org>
+ <20210923074335.12583-4-rppt@kernel.org>
+ <1101e3c7-fcb7-a632-8e22-47f4a01ea02e@csgroup.eu>
+ <YUxsgN/uolhn1Ok+@linux.ibm.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <96e3da9f-70ff-e5c0-ef2e-cf0b636e5695@csgroup.eu>
+Date: Thu, 23 Sep 2021 15:54:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210923104803.2620285-1-elver@google.com> <20210923104803.2620285-4-elver@google.com>
- <CACT4Y+Zvm4dXQY2tCuypso9aU97_6U2dLhfg2NNA8GTvcQoCLQ@mail.gmail.com>
- <CAG_fn=V31jEBeEVh0H2+uPAd2AhV9y6hYJmcP0P_i05UJ+MiTg@mail.gmail.com> <CANpmjNOh0ugPq90cVRPAbR-6qr=Q4CsQ_R1Qxk_Bi4TocgwUQA@mail.gmail.com>
-In-Reply-To: <CANpmjNOh0ugPq90cVRPAbR-6qr=Q4CsQ_R1Qxk_Bi4TocgwUQA@mail.gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 23 Sep 2021 15:46:17 +0200
-Message-ID: <CAG_fn=VpgmcmLg7=bh6Mf6HNr6wZYUADJZfB5AuRkedCqas6-w@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] kfence: limit currently covered allocations when
- pool nearly full
-To: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jann Horn <jannh@google.com>, Aleksandr Nogikh <nogikh@google.com>, 
-	Taras Madan <tarasmadan@google.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YUxsgN/uolhn1Ok+@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: fr-FR
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=hDlU7ifN;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f2c as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+X-Original-Sender: christophe.leroy@csgroup.eu
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as
+ permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,190 +157,126 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Sep 23, 2021 at 3:44 PM Marco Elver <elver@google.com> wrote:
->
-> On Thu, 23 Sept 2021 at 15:24, Alexander Potapenko <glider@google.com> wr=
-ote:
-> >
-> > On Thu, Sep 23, 2021 at 1:19 PM Dmitry Vyukov <dvyukov@google.com> wrot=
-e:
-> > >
-> > > On Thu, 23 Sept 2021 at 12:48, Marco Elver <elver@google.com> wrote:
-> > > >
-> > > > One of KFENCE's main design principles is that with increasing upti=
-me,
-> > > > allocation coverage increases sufficiently to detect previously
-> > > > undetected bugs.
-> > > >
-> > > > We have observed that frequent long-lived allocations of the same
-> > > > source (e.g. pagecache) tend to permanently fill up the KFENCE pool
-> > > > with increasing system uptime, thus breaking the above requirement.
-> > > > The workaround thus far had been increasing the sample interval and=
-/or
-> > > > increasing the KFENCE pool size, but is no reliable solution.
-> > > >
-> > > > To ensure diverse coverage of allocations, limit currently covered
-> > > > allocations of the same source once pool utilization reaches 75%
-> > > > (configurable via `kfence.skip_covered_thresh`) or above. The effec=
-t is
-> > > > retaining reasonable allocation coverage when the pool is close to =
-full.
-> > > >
-> > > > A side-effect is that this also limits frequent long-lived allocati=
-ons
-> > > > of the same source filling up the pool permanently.
-> > > >
-> > > > Uniqueness of an allocation for coverage purposes is based on its
-> > > > (partial) allocation stack trace (the source). A Counting Bloom fil=
-ter
-> > > > is used to check if an allocation is covered; if the allocation is
-> > > > currently covered, the allocation is skipped by KFENCE.
-> > > >
-> > > > Testing was done using:
-> > > >
-> > > >         (a) a synthetic workload that performs frequent long-lived
-> > > >             allocations (default config values; sample_interval=3D1=
-;
-> > > >             num_objects=3D63), and
-> > > >
-> > > >         (b) normal desktop workloads on an otherwise idle machine w=
-here
-> > > >             the problem was first reported after a few days of upti=
-me
-> > > >             (default config values).
-> > > >
-> > > > In both test cases the sampled allocation rate no longer drops to z=
-ero
-> > > > at any point. In the case of (b) we observe (after 2 days uptime) 1=
-5%
-> > > > unique allocations in the pool, 77% pool utilization, with 20% "ski=
-pped
-> > > > allocations (covered)".
-> > > >
-> > > > Signed-off-by: Marco Elver <elver@google.com>
-> > >
-> > > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > Acked-by: Alexander Potapenko <glider@google.com>
->
-> Thank you both!
->
-> > > > ---
-> > > > v3:
-> > > > * Remove unneeded !alloc_stack_hash checks.
-> > > > * Remove unneeded meta->alloc_stack_hash=3D0 in kfence_guarded_free=
-().
-> > > >
-> > > > v2:
-> > > > * Switch to counting bloom filter to guarantee currently covered
-> > > >   allocations being skipped.
-> > > > * Use a module param for skip_covered threshold.
-> > > > * Use kfence pool address as hash entropy.
-> > > > * Use filter_irq_stacks().
-> > > > ---
-> > > >  mm/kfence/core.c   | 103 +++++++++++++++++++++++++++++++++++++++++=
-+++-
-> > > >  mm/kfence/kfence.h |   2 +
-> > > >  2 files changed, 103 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> > > > index db01814f8ff0..58a0f6f1acc5 100644
-> > > > --- a/mm/kfence/core.c
-> > > > +++ b/mm/kfence/core.c
-> > > > @@ -11,11 +11,13 @@
-> > > >  #include <linux/bug.h>
-> > > >  #include <linux/debugfs.h>
-> > > >  #include <linux/irq_work.h>
-> > > > +#include <linux/jhash.h>
-> > > >  #include <linux/kcsan-checks.h>
-> > > >  #include <linux/kfence.h>
-> > > >  #include <linux/kmemleak.h>
-> > > >  #include <linux/list.h>
-> > > >  #include <linux/lockdep.h>
-> > > > +#include <linux/log2.h>
-> > > >  #include <linux/memblock.h>
-> > > >  #include <linux/moduleparam.h>
-> > > >  #include <linux/random.h>
-> > > > @@ -82,6 +84,10 @@ static const struct kernel_param_ops sample_inte=
-rval_param_ops =3D {
-> > > >  };
-> > > >  module_param_cb(sample_interval, &sample_interval_param_ops, &kfen=
-ce_sample_interval, 0600);
-> > > >
-> > > > +/* Pool usage% threshold when currently covered allocations are sk=
-ipped. */
-> > > > +static unsigned long kfence_skip_covered_thresh __read_mostly =3D =
-75;
-> > > > +module_param_named(skip_covered_thresh, kfence_skip_covered_thresh=
-, ulong, 0644);
-> > > > +
-> > > >  /* The pool of pages used for guard pages and objects. */
-> > > >  char *__kfence_pool __ro_after_init;
-> > > >  EXPORT_SYMBOL(__kfence_pool); /* Export for test modules. */
-> > > > @@ -105,6 +111,25 @@ DEFINE_STATIC_KEY_FALSE(kfence_allocation_key)=
-;
-> > > >  /* Gates the allocation, ensuring only one succeeds in a given per=
-iod. */
-> > > >  atomic_t kfence_allocation_gate =3D ATOMIC_INIT(1);
-> > > >
-> > > > +/*
-> > > > + * A Counting Bloom filter of allocation coverage: limits currentl=
-y covered
-> > > > + * allocations of the same source filling up the pool.
-> > > > + *
-> > > > + * Assuming a range of 15%-85% unique allocations in the pool at a=
-ny point in
-> >
-> > Where do these 85% come from?
->
-> An imaginary worst case, just to illustrate the range of the false
-> positive probabilities (in the case of 85% it'd be 0.33). I expect
-> unique allocations to be around 10-15% on a freshly booted system (on
-> my real-system-experiment it stayed below 15%), but other workloads
-> may produce other unique allocations%.
->
-> > > > + * time, the below parameters provide a probablity of 0.02-0.33 fo=
-r false
-> > > > + * positive hits respectively:
-> > > > + *
-> > > > + *     P(alloc_traces) =3D (1 - e^(-HNUM * (alloc_traces / SIZE)) =
-^ HNUM
-> > > > + */
-> > > > +#define ALLOC_COVERED_HNUM     2
-> > > > +#define ALLOC_COVERED_SIZE     (1 << (const_ilog2(CONFIG_KFENCE_NU=
-M_OBJECTS) + 2))
-> > > > +#define ALLOC_COVERED_HNEXT(h) (1664525 * (h) + 1013904223)
-> >
-> > Unless we are planning to change these primes, can you use
-> > next_pseudo_random32() instead?
->
-> I'm worried about next_pseudo_random32() changing their implementation
-> to longer be deterministic or change in other ways that break our
-> usecase. In this case we want pseudorandomness, but we're not
-> implementing a PRNG.
->
-> Open-coding the constants (given they are from "Numerical Recipes") is
-> more reliable and doesn't introduce unwanted reliance on
-> next_pseudo_random32()'s behaviour.
-
-Okay, fair enough.
-
->
-> Thanks,
-> -- Marco
 
 
+Le 23/09/2021 =C3=A0 14:01, Mike Rapoport a =C3=A9crit=C2=A0:
+> On Thu, Sep 23, 2021 at 11:47:48AM +0200, Christophe Leroy wrote:
+>>
+>>
+>> Le 23/09/2021 =C3=A0 09:43, Mike Rapoport a =C3=A9crit=C2=A0:
+>>> From: Mike Rapoport <rppt@linux.ibm.com>
+>>>
+>>> For ages memblock_free() interface dealt with physical addresses even
+>>> despite the existence of memblock_alloc_xx() functions that return a
+>>> virtual pointer.
+>>>
+>>> Introduce memblock_phys_free() for freeing physical ranges and repurpos=
+e
+>>> memblock_free() to free virtual pointers to make the following pairing
+>>> abundantly clear:
+>>>
+>>> 	int memblock_phys_free(phys_addr_t base, phys_addr_t size);
+>>> 	phys_addr_t memblock_phys_alloc(phys_addr_t base, phys_addr_t size);
+>>>
+>>> 	void *memblock_alloc(phys_addr_t size, phys_addr_t align);
+>>> 	void memblock_free(void *ptr, size_t size);
+>>>
+>>> Replace intermediate memblock_free_ptr() with memblock_free() and drop
+>>> unnecessary aliases memblock_free_early() and memblock_free_early_nid()=
+.
+>>>
+>>> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+>>> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+>>> ---
+>>
+>>> diff --git a/arch/s390/kernel/smp.c b/arch/s390/kernel/smp.c
+>>> index 1a04e5bdf655..37826d8c4f74 100644
+>>> --- a/arch/s390/kernel/smp.c
+>>> +++ b/arch/s390/kernel/smp.c
+>>> @@ -723,7 +723,7 @@ void __init smp_save_dump_cpus(void)
+>>>    			/* Get the CPU registers */
+>>>    			smp_save_cpu_regs(sa, addr, is_boot_cpu, page);
+>>>    	}
+>>> -	memblock_free(page, PAGE_SIZE);
+>>> +	memblock_phys_free(page, PAGE_SIZE);
+>>>    	diag_amode31_ops.diag308_reset();
+>>>    	pcpu_set_smt(0);
+>>>    }
+>>> @@ -880,7 +880,7 @@ void __init smp_detect_cpus(void)
+>>>    	/* Add CPUs present at boot */
+>>>    	__smp_rescan_cpus(info, true);
+>>> -	memblock_free_early((unsigned long)info, sizeof(*info));
+>>> +	memblock_free(info, sizeof(*info));
+>>>    }
+>>>    /*
+>>
+>> I'm a bit lost. IIUC memblock_free_early() and memblock_free() where
+>> identical.
+>=20
+> Yes, they were, but all calls to memblock_free_early() were using
+> __pa(vaddr) because they had a virtual address at hand.
 
---=20
-Alexander Potapenko
-Software Engineer
+I'm still not following. In the above memblock_free_early() was taking=20
+(unsigned long)info . Was it a bug ? It looks odd to hide bug fixes in=20
+such a big patch, should that bug fix go in patch 2 ?
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+>=20
+>> In the first hunk memblock_free() gets replaced by memblock_phys_free()
+>> In the second hunk memblock_free_early() gets replaced by memblock_free(=
+)
+>=20
+> In the first hunk the memory is allocated with memblock_phys_alloc() and =
+we
+> have a physical range to free. In the second hunk the memory is allocated
+> with memblock_alloc() and we are freeing a virtual pointer.
+>  =20
+>> I think it would be easier to follow if you could split it in several
+>> patches:
+>=20
+> It was an explicit request from Linus to make it a single commit:
+>=20
+>    but the actual commit can and should be just a single commit that just
+>    fixes 'memblock_free()' to have sane interfaces.
+>=20
+> I don't feel strongly about splitting it (except my laziness really
+> objects), but I don't think doing the conversion in several steps worth t=
+he
+> churn.
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+The commit is quite big (55 files changed, approx 100 lines modified).
+
+If done in the right order the change should be minimal.
+
+It is rather not-easy to follow and review when a function that was=20
+existing (namely memblock_free() ) disappears and re-appears in the same=20
+commit but to do something different.
+
+You do:
+- memblock_free() =3D=3D> memblock_phys_free()
+- memblock_free_ptr() =3D=3D> memblock_free()
+
+At least you could split in two patches, the advantage would be that=20
+between first and second patch memblock() doesn't exist anymore so you=20
+can check you really don't have anymore user.
+
+>=20
+>> - First patch: Create memblock_phys_free() and change all relevant
+>> memblock_free() to memblock_phys_free() - Or change memblock_free() to
+>> memblock_phys_free() and make memblock_free() an alias of it.
+>> - Second patch: Make memblock_free_ptr() become memblock_free() and chan=
+ge
+>> all remaining callers to the new semantics (IIUC memblock_free(__pa(ptr)=
+)
+>> becomes memblock_free(ptr) and make memblock_free_ptr() an alias of
+>> memblock_free()
+>> - Fourth patch: Replace and drop memblock_free_ptr()
+>> - Fifth patch: Drop memblock_free_early() and memblock_free_early_nid() =
+(All
+>> users should have been upgraded to memblock_free_phys() in patch 1 or
+>> memblock_free() in patch 2)
+>>
+>> Christophe
+>=20
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -328,5 +284,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DVpgmcmLg7%3Dbh6Mf6HNr6wZYUADJZfB5AuRkedCqas6-w%40mail.gm=
-ail.com.
+kasan-dev/96e3da9f-70ff-e5c0-ef2e-cf0b636e5695%40csgroup.eu.
