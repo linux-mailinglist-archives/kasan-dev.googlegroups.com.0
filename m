@@ -1,174 +1,125 @@
-Return-Path: <kasan-dev+bncBDE5LFWXQAIRB6FSWOFAMGQEI2YBSFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBDM3WSFAMGQEJ3HCO6Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93f.google.com (mail-ua1-x93f.google.com [IPv6:2607:f8b0:4864:20::93f])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03E4416619
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 21:46:01 +0200 (CEST)
-Received: by mail-ua1-x93f.google.com with SMTP id j16-20020ab02510000000b002ba380b6ef5sf2689846uan.12
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 12:46:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632426361; cv=pass;
+Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B034F41687D
+	for <lists+kasan-dev@lfdr.de>; Fri, 24 Sep 2021 01:28:14 +0200 (CEST)
+Received: by mail-il1-x138.google.com with SMTP id p14-20020a92d48e000000b0022cf3231b41sf7226563ilg.16
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 16:28:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632439693; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sKFHl9FnasxwA8HO7N9c3TTbRXY9QmLwApv7D05ESETgk1ou6yejGKc2YIrKyEWpCb
-         32eZD90YHk4RbE4okys7QUfPEQ8PJhYPu5fUxgCtUvO56+ieNtv6LGbqQP2juQmj56SO
-         m116I0jWgEr3n140N7vzwSGrrx8qRhj8rjVnrj9g81mxVpins02RT43BvJyPHvaJk2BG
-         09kMbMWcNGsYcVjROPpr0bKExPQeBeqJSXZiJRnCadVz+wlnRbA9fAY44j2lcfs1jE3y
-         Lz1h99oglhhJ/VfKsu72r/nxZnntkV1CxxwbpXyPcXInRWwn4mCOo1svm7CRf1tVkFD9
-         cmgw==
+        b=P2e3veDbnKJ0fcBVW3y6In971LTY2myrkO26ErRQI/+GT+yIePDspgj9ALYD1mK1g0
+         mqCWN9HLmjAYWPojQKtP+JRgSw3QvVZMnNlwZS3xiz8R3dZQoCV6a3arKXO/jfb8hA7q
+         bvEsrW6L4HmJhLZWOFT/dcvqeDyVREEAAwcY1xBUyeGVyNf0bjzkmsi4viiakyUDmblr
+         7s7N5RP0sF8xjSIjO7c4DV3VbG0cOFvBRxE1xIW614+h3enjlfq24Uzz0zVC8oKKbc0q
+         +tgDmuIFQiQA9rq2WY5gGKh8beFf5cPRV+rDx9RgywyOa8KduMYadGjcjx9N5nhVRp8V
+         yxag==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=0Vw6pr08CV4FCZ05EUucKgcwqeKTJGQoYKETA2WALJU=;
-        b=xNuPc+cBijr9Rlgb0RwKQDklfca/k5ywgVmVi6AFxLvWYD0Qii9tYxPaPI8wsXD4Ff
-         uxCpkjhtun6C8h7EpFsYtmw4yOVFmgeoBFQit7MZjwZDAjqNVBRbxS448TZPr8FMfbvm
-         erLEJ48NiPDL5JDsBmJ7Nc1NBCh9P9Kfin88Ux4apmh2SwBu7GzEBLIvd4g0osZNLxsH
-         IpgKeWe3lDZ72GDFTXftu+XKhNnEFiuJTl7LiJE3U2vYODIUESVOtdiuhz/CyGPC+wdR
-         JKuRayuRgpqyewvP8m+DSrUKNSG++gnRSlItTjEKVp0WsOY4g77A3ASZsWOKxENze5c2
-         q5Ww==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=Llc7VWMdl9N5Vyp7NU54wm912wrtofZPr7K5KZZPOyo=;
+        b=x5GqXopMtllKaq7pIVr16NOj1JomhAiplvQeyNl8WDANstsqVSjx+OvDy9x9/lEgKf
+         UKK2ZuG6mTBNTA0DmYalEKvmvguZ/TqOu9sIJCUET/pPtI7ySEHVXCFfYPwsVEL0XkOP
+         hhzj5PIm0KB61OEuFiViTv44I23SzcPeMe1nbCoilwQqL8afxd081kqEeoEJyrRw7Mcn
+         j69qpey3tQA3+f0sPWmCA/+/keG2MBzDzB5nkly+aXTUbHEtK97FbCg0gl3+xQGl3vSc
+         1sAeVGhzFmh3tqcHsjhdzsWUlOhdshvQJS7DAtAet7qqQibBeUCBO73A5+OL71kNAca4
+         Alww==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=o2g9xUdg;
-       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=QoqOFG2q;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=0Vw6pr08CV4FCZ05EUucKgcwqeKTJGQoYKETA2WALJU=;
-        b=h1H1Pvu8ZSrUDtty8s3c2e4SFK8+ce4MY8OjFvY2CjJ+zuYS5mtnNYXfGyc38s+99N
-         15so+eyiIn+7lfU4Y9I4zLH/ZvkMzn4m2g69iUNDH2TUV8FNibx8NbiHt0fdij6tsGGj
-         jH69x+dFiVJAjUlJjh3gF3kC0gjmQUAUoawZEbkJX9ACXSjEVATznSeNOxxF5i1MK2TY
-         oX8RoVaoR1i34DcHOmvMIX29c3GzAKWTg6YupJBeM7XK6KBU//3os8iwTdooS8scWWnU
-         /EcGIbO4POa7zcXhc6mMeK+Ixp7QhlawePKXIOXfQvdKQy44UpRdwh57oJGT3NpLAITZ
-         LnDg==
+        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Llc7VWMdl9N5Vyp7NU54wm912wrtofZPr7K5KZZPOyo=;
+        b=C3Nhrz4FnIACbAhUiP8rREQ/O1f2JeMcFnJEJ54Gw7Vw+b8y77Wv6k8Df/p8myIylg
+         luZwvn44LWZLrdI6wr5KBTycYjIlXCqaOVLQAvG+NKlHJni3IkTkNJaIWCUTvXpqZ5UC
+         Vb/dwXZLYdhzKT3zKTc1VFvg3FGwKyTfDSfdKEhB+3/wDmrunXhOh6UHAM7JHnY5bZmL
+         h/10Kesfmw82MEOPuTtAKx7oFd42z92yv2jMETPOGCSCXcGovMF/518XOM4N3OhBZF95
+         BOr6HU/jjnxqet7M5KfK16Jj9IMWgDtOIeCPrIs/HsZli7T4ZojVdpaCEybOtaPRul2x
+         xTig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=0Vw6pr08CV4FCZ05EUucKgcwqeKTJGQoYKETA2WALJU=;
-        b=Q6KvT8P6koA0+j9ByzpcmpE+2r43I2GxZZoPBlC3L9eBYAOeqkdYpllSj9L9X4KxRW
-         /anEktqxByfjkyduVis7op3zBiOnYvpEE/OH18Xmqe88KuKeoz/rdyeC9xweXwisSOlQ
-         aa60hSdzHhNPHsXuTM2Ojtmu6LdNynDQsQHqiROXwnvwnVsHpUlVu8ruTjY1cgtRUFzV
-         RJkAAylmyg1dk1nHxpA/t0Iut+L1riZ+z4O3plpsRIjoyQP91cXlb82irQX61lpaED0a
-         k4x7ikm6CPIAYNdueSZtpTlxdu4JTul1zIKRCjjcfhz5woCy1s/1TD1AIwG7T4P1rSEZ
-         YkBA==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Llc7VWMdl9N5Vyp7NU54wm912wrtofZPr7K5KZZPOyo=;
+        b=MyPybPxyZvx/mfHMlRz2THc+M3TOeBWeh6E9NC7TH2BNb0NdZFxasJi0FSMhTYKzX7
+         MLykiM3hgtPa4+Z/vnSBnPyA8jnUR0UP7DHyLth7FtqGjUaxe1Yz9CwQcq0bXdwPSLc/
+         kuyFqnbRpET2Cx2uz32Sw1nO5r+JIkTWHJCbCcnKC/QSQZie/EDifrDw3BDXOuyu5N4E
+         QYlkyqPljj6AxdKLv0UJUIGkPuJk55H3FdH/L1qtEML+YaKFjdCf02ZiUW3GI58vCwsS
+         H2NJVWb/jH+2SJZ3Twfy9vSBXwICxbf+e1QF0cyHnS9W64SALdbXTAfO9h6h8+hmyzPq
+         pVbw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532gAhBtj3YTJY5EG3j3WboYMffLKomhVXf3bmvOZRLePe9qVGyv
-	opsvGxRb+E58F6+J1nuECm0=
-X-Google-Smtp-Source: ABdhPJxhcj9Y9QTXm+eoGbAUjKXHwiToco3+uso3PlOenJIDl2mwVuNN13+Aeav/n0JCCjP+HY22wA==
-X-Received: by 2002:a1f:ee0b:: with SMTP id m11mr5379218vkh.19.1632426360847;
-        Thu, 23 Sep 2021 12:46:00 -0700 (PDT)
+X-Gm-Message-State: AOAM532sZcjozMkDFuD2z0tiDf+OjzzGf2JaD/rmJjj2Km0aseWKMiIU
+	5BSrBXX/Ehuh0/2MWed7RwU=
+X-Google-Smtp-Source: ABdhPJyn4EJPVWehDujn41KTE9oSiQ8J8TuAjMy5+fC2oa1Zar6WO8zr7z/YqI6F7bAo9wgWfY6RFw==
+X-Received: by 2002:a05:6e02:1c24:: with SMTP id m4mr5829726ilh.296.1632439693710;
+        Thu, 23 Sep 2021 16:28:13 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:3768:: with SMTP id o8ls945159uat.8.gmail; Thu, 23 Sep
- 2021 12:46:00 -0700 (PDT)
-X-Received: by 2002:ab0:5596:: with SMTP id v22mr427524uaa.99.1632426360369;
-        Thu, 23 Sep 2021 12:46:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632426360; cv=none;
+Received: by 2002:a6b:f906:: with SMTP id j6ls1489119iog.9.gmail; Thu, 23 Sep
+ 2021 16:28:13 -0700 (PDT)
+X-Received: by 2002:a05:6602:1a:: with SMTP id b26mr6199834ioa.0.1632439693307;
+        Thu, 23 Sep 2021 16:28:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632439693; cv=none;
         d=google.com; s=arc-20160816;
-        b=XCT+HMxfOhVb19nzYn5m3BZ440KOMKGwbvkoBFjFFXf64ZK4Jr5BDIfx7FAv5hPcaT
-         OENrzTb5y8AkQ1KPEMOVkMT161aPkJcMrw/Nk7dOnFjO0vJvEPNv+q5WJsv+HZA3XbaU
-         /NRstwY1dzmSIg4xpnDlhouX05uwVFiigp8EaMEP4VwyuXUiWGVtCkbCYagg6WBEfrU3
-         3MoqtPYoKMW/2yQIxPFmsjPe8P3RMUfCnqC0zZHIgZrbjEt9UBy/0lxS2kQ3ZwwUnHoR
-         rcdOAz63/hEGkheP1F/CfqHcNEgBOKex9UVhzbbnwlitcoyScjucaQ24DlxoPuAx58ms
-         u/ww==
+        b=Zr51RV4/c4MAevDcKaK+AZL864uFoY4S3F5hLBWIFv+bOELPsqDlgfZKcswQqY77ys
+         9oImAhtaa8ZFu4SZnMMxN5bwi++/Y57oXvWjWxL9CXNFOcWz3pYUCYKuphrVFQmCCMcH
+         o+bPRLy79FxY2scE/HMiRZr40IRohcTrVAF26vYkHE1r/AxsruLhiV4tPX523jA4JnwH
+         GwQVGmjNLkvFjmhULCRuWDOR98AVCUj7fGw3w9zGs2kB0x2qTW2sgbD+KiXTD0TZxwuz
+         fC2MhmWqbnYzE2my2HWgd9pmkHCsIQTbtgO6S06g4PIGB4n7pkCjDzyAgzJg+abFwWra
+         OvcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=OlfxwL5SxCQJGsEygNnP+Bd9S5CycoibyIwI1T9qbFQ=;
-        b=v7Q+4d6rqOtxmXW+DyG64eVyT+AYFih5qnMxBxMwNVPqMGNsaWKRUhUO5zEifDSqTj
-         BjZjvPpHsqrctrExU2xcQ/kTuMbxQ1ElUVOI05J5LJAoONZBrd9ikHfIR6u6WW3CxHIi
-         tqWK+jkB4BHczDVg9GYb67DmNr0doRDqEP3UfrAzvGGh3Oe1ZQgDSG4uFAuPpG/XjvKg
-         9/UoQbRklBIsiWRkyJ09b3pRvtwE4HkTiL51rNvkkXltkoxXqi5yJCUMfMg/JScjeYua
-         yzlV7ar3pTSnkoHaZa1hqiQIqCe7sfFc8VFfCZStEAbDHE8eqV51Rq8s0g7v+U9HLDd4
-         QUmA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=UoYtoTmstwML8ZYwPoyxeKRDOk9ZLn4Jb/LikJefzXM=;
+        b=x+X9PyH3MTggRx9Wnvj6VaEXl2Nv6lf2lgG3sQSKmyG3myF9X3YdvMiCBFaCPdtbca
+         nSOk8/5zzDu3xFAfEOcanbEZesRqSHinwBvoSySTtZJ8QRV5VP1JFOe/ZbDcHzRut09I
+         KBMaAKkghB+phH7MllJYe0sw0ngTOwxtV521lnppERhk6U6/DIFZ1ejSVk2g3WQNg8MT
+         TNQlI+sQnH90xd55gLABFmQf+vxLuSyRKByNMrSej7WM1r3w/e6CH79ByaZjLqYaBJLh
+         aQ22YDgCYf0OP4tmdr8tU710LV83ZByX/gn8KWGzmnQg4nRbBmvhZaIaZUNyBFtM9BWG
+         zfTQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=o2g9xUdg;
-       spf=pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=rppt@linux.ibm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
-        by gmr-mx.google.com with ESMTPS id a18si106155vsi.1.2021.09.23.12.46.00
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=QoqOFG2q;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id l68si513894iof.1.2021.09.23.16.28.13
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 23 Sep 2021 12:46:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18NJW36f031236;
-	Thu, 23 Sep 2021 15:45:59 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 3b8wkuupat-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Sep 2021 15:45:58 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-	by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18NJRuDe003688;
-	Thu, 23 Sep 2021 19:45:56 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-	by ppma03fra.de.ibm.com with ESMTP id 3b7q6kd587-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Sep 2021 19:45:56 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 18NJjrxv44106172
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Sep 2021 19:45:53 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A19734C04A;
-	Thu, 23 Sep 2021 19:45:53 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 903DC4C05A;
-	Thu, 23 Sep 2021 19:45:51 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.145.159.121])
-	by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-	Thu, 23 Sep 2021 19:45:51 +0000 (GMT)
-Date: Thu, 23 Sep 2021 22:45:49 +0300
-From: Mike Rapoport <rppt@linux.ibm.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        kasan-dev <kasan-dev@googlegroups.com>, KVM list <kvm@vger.kernel.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
-        linux-um <linux-um@lists.infradead.org>, linux-usb@vger.kernel.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-sparc <sparclinux@vger.kernel.org>,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 0/3] memblock: cleanup memblock_free interface
-Message-ID: <YUzZberbgZE+7HEo@linux.ibm.com>
-References: <20210923074335.12583-1-rppt@kernel.org>
- <CAHk-=wiJB8H5pZz-AKaSJ7ViRtdxQGJT7eOByp8DJx2OwZSYwA@mail.gmail.com>
-MIME-Version: 1.0
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 23 Sep 2021 16:28:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 60AC760F43;
+	Thu, 23 Sep 2021 23:28:12 +0000 (UTC)
+Date: Thu, 23 Sep 2021 16:28:11 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Marco Elver <elver@google.com>
+Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Jann Horn <jannh@google.com>, Aleksandr Nogikh
+ <nogikh@google.com>, Taras Madan <tarasmadan@google.com>, LKML
+ <linux-kernel@vger.kernel.org>, Linux Memory Management List
+ <linux-mm@kvack.org>, kasan-dev <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH v3 4/5] kfence: limit currently covered allocations when
+ pool nearly full
+Message-Id: <20210923162811.3cc8188d6a30d9eed2375468@linux-foundation.org>
+In-Reply-To: <CANpmjNOh0ugPq90cVRPAbR-6qr=Q4CsQ_R1Qxk_Bi4TocgwUQA@mail.gmail.com>
+References: <20210923104803.2620285-1-elver@google.com>
+	<20210923104803.2620285-4-elver@google.com>
+	<CACT4Y+Zvm4dXQY2tCuypso9aU97_6U2dLhfg2NNA8GTvcQoCLQ@mail.gmail.com>
+	<CAG_fn=V31jEBeEVh0H2+uPAd2AhV9y6hYJmcP0P_i05UJ+MiTg@mail.gmail.com>
+	<CANpmjNOh0ugPq90cVRPAbR-6qr=Q4CsQ_R1Qxk_Bi4TocgwUQA@mail.gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiJB8H5pZz-AKaSJ7ViRtdxQGJT7eOByp8DJx2OwZSYwA@mail.gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: NmcKtlYbna1qS7iyZ4wr-YnA7UP6mwwQ
-X-Proofpoint-ORIG-GUID: NmcKtlYbna1qS7iyZ4wr-YnA7UP6mwwQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-23_06,2021-09-23_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 mlxscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 suspectscore=0
- mlxlogscore=691 adultscore=0 phishscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2109200000
- definitions=main-2109230115
-X-Original-Sender: rppt@linux.ibm.com
+X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=o2g9xUdg;       spf=pass (google.com:
- domain of rppt@linux.ibm.com designates 148.163.156.1 as permitted sender)
- smtp.mailfrom=rppt@linux.ibm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+ header.i=@linux-foundation.org header.s=korg header.b=QoqOFG2q;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates
+ 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -181,38 +132,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Linus,
+On Thu, 23 Sep 2021 15:44:10 +0200 Marco Elver <elver@google.com> wrote:
 
-On Thu, Sep 23, 2021 at 09:01:46AM -0700, Linus Torvalds wrote:
-> On Thu, Sep 23, 2021 at 12:43 AM Mike Rapoport <rppt@kernel.org> wrote:
+> > > > + * time, the below parameters provide a probablity of 0.02-0.33 for false
+> > > > + * positive hits respectively:
+> > > > + *
+> > > > + *     P(alloc_traces) = (1 - e^(-HNUM * (alloc_traces / SIZE)) ^ HNUM
+> > > > + */
+> > > > +#define ALLOC_COVERED_HNUM     2
+> > > > +#define ALLOC_COVERED_SIZE     (1 << (const_ilog2(CONFIG_KFENCE_NUM_OBJECTS) + 2))
+> > > > +#define ALLOC_COVERED_HNEXT(h) (1664525 * (h) + 1013904223)
 > >
-> You need to be a LOT more careful.
+> > Unless we are planning to change these primes, can you use
+> > next_pseudo_random32() instead?
 > 
-> From a trivial check - exactly because I looked at doing it with a
-> script, and decided it's not so easy - I found cases like this:
+> I'm worried about next_pseudo_random32() changing their implementation
+> to longer be deterministic or change in other ways that break our
+> usecase. In this case we want pseudorandomness, but we're not
+> implementing a PRNG.
 > 
-> -               memblock_free(__pa(paca_ptrs) + new_ptrs_size,
-> +               memblock_free(paca_ptrs + new_ptrs_size,
-> 
-> which is COMPLETELY wrong.
+> Open-coding the constants (given they are from "Numerical Recipes") is
+> more reliable and doesn't introduce unwanted reliance on
+> next_pseudo_random32()'s behaviour.
 
-I did use a coccinelle script that's slightly more robust that a sed you've
-sent, but then I did a manual review, hence the two small patches with
-fixes. Indeed I missed this one, so to be on the safe side I'll rename only
-the obvious cases where coccinelle can be used reliably and leave all the
-rest as it's now. If somebody cares enough they can update it later.
- 
-> And no, making the scripting just replace '__pa(x)' with '(void *)(x)'
+Perhaps we could summarize this in an additional comment?
 
-These were actually manual and they are required for variables that
-used as virtual addresses but have unsigned long type, like e.g.
-initrd_start. So it's either __pa(x) or (void *).
+Also, this:
 
--- 
-Sincerely yours,
-Mike.
++static u32 get_alloc_stack_hash(unsigned long *stack_entries, size_t num_entries)
++{
++	/* Some randomness across reboots / different machines. */
++	u32 seed = (u32)((unsigned long)__kfence_pool >> (BITS_PER_LONG - 32));
+
+seems a bit weak.  Would it be better to seed this at boot time with
+a randomish number?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YUzZberbgZE%2B7HEo%40linux.ibm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210923162811.3cc8188d6a30d9eed2375468%40linux-foundation.org.
