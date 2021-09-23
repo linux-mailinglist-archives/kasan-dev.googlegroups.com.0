@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDB3VRMVXIPRBXHMWCFAMGQEZSDKMAY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDB3VRMVXIPRBEXPWCFAMGQE3Q4T3TY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734044159C5
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 10:10:05 +0200 (CEST)
-Received: by mail-lf1-x13c.google.com with SMTP id i40-20020a0565123e2800b003f53da59009sf5385649lfv.16
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 01:10:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632384605; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E744159E1
+	for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 10:15:14 +0200 (CEST)
+Received: by mail-lf1-x138.google.com with SMTP id x29-20020ac259dd000000b003f950c726e1sf5380740lfn.14
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 01:15:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632384914; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MsyZibI5MR+by+XFpr30hJ99K64ZCHikRKVnnHJrafto6H8zf0oSKGoKh+lm7ObbWS
-         i3wadbD7b9rtZpKZUXQDrhDdfSnCA+qATyWz6bE6JPrxOIkVXjz6JvtTR26CGyQuv34A
-         EEzPywua4/EX9fpSKku61f04NtBgyOlrYYE6RCyNjF3VSXVGWF4i69Aj42Nlrcn5O66q
-         optIlRksoe9468EvfmRctbsdvviega6bQzP+lzu0RNp1pgt7OviHy+EjuVplfOz9xIZl
-         qRXalrHzRwPA4wxZPJv6vjiv5sGyuNjr/GwTn8lZl/FBGIeKM3Gg6/TLwrpjyIkWGjJl
-         OB8A==
+        b=mRab9kR4/mBSjos9XLUGzRWmBwxm/CI1q6CFhcm+aFiwtTSgqTKXd4J3moRPO2NBPn
+         k+CXgt8uVRb09C3meQazxGk96Fm7o8DThMKInl2ryQcA8z4UJvAYsqZ5FlQa9wW7kIzG
+         F5DenfjMGOMkxGTg12owOCqGkG622lgGbAyfCKaCa2KD20OU1BIFjOGbcNjpc8dqYjgv
+         t9BO01UwR29WT63Js0H0QVdzjw2aQLcvL+jzoPUdJJobkr1TouQ8+1q49dMJQRf0jIlQ
+         8VdDXa/v6WAMvAnBWC1uiDl5hYfQ1ScMcXzy8oTnk/Z9ZGSQlVSQlSiV1c0aY12WQj8X
+         37eA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to:mime-version
          :user-agent:date:message-id:from:references:cc:to:subject
          :dkim-signature;
-        bh=8ZQcVRd8RrB+/eOjgwX6B4+FhvKnC3BNZEccEAqAXRA=;
-        b=by1smcPZXBoI62efX8GEy59oFa+MSlG9jdemJSUU+1FuVxqML746nKMFpSLsOCsF6V
-         XIKH1foIt3Q1Z3c+xz1So4xHMZnI2VgnHWuN2BSNehgQtGSgWRHF1InlvhoAVrdgGdmf
-         48Hf2VTFcrWkuuY07y5rKJa6n3AOoTAOwA9EyojEg4Gx9ouIV8BEcBXZjxVCpCPe8wCw
-         /TSyWLBTIqQ8jv5z/ak2zL4bZ3ZRdtNyBCrt8X0U2Ljj4X3JT0d1pEGeNGN36rmUw4yx
-         WdvZpqce5XB/5/FwXXD1WNNv4IVbVkglXsfdoEKKy0Sqlrp/VJ99DKkiAmTlG/ZV2dLB
-         vIFA==
+        bh=90FNa9Ow/OE0zX/iRPP0fOpt7WvISJE2e013OU9cNnE=;
+        b=Ij5IaDhIF6+XhMxtKgZkLFL9tRcuqSH4bKrWDwhsO8jyplGy8AZG7yMFbTVcoBiVJV
+         c9qdcykxAnBzk3Y+DyoPSvtxqSCUvtVB5k+n2FsiteyLoIt8FDH49Mi9fNVloKzdX+/i
+         9UGZnTx1paqct1t/RwLJFlE4eBp9BwgfyxLV6YpKwYAtUiLCKuO0LgPaV4h+uPBgc0PD
+         KfCawekykQQUdBbMkRsluiQNJY2MgIsKCCgnssS9Y7O0es/wGPmifWKCLJl5oKU+W9kD
+         rAsZex5SAHZlhRsq4/6uKjkmLmFXRLNqddfq2r7l0Ns+8/gQ3d4OITsqnAv3/pw7GrGe
+         vKsw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=Zo9jK3BE;
-       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.28 as permitted sender) smtp.mailfrom=jgross@suse.com;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=dQkZNFnV;
+       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=jgross@suse.com;
        dmarc=pass (p=QUARANTINE sp=NONE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=8ZQcVRd8RrB+/eOjgwX6B4+FhvKnC3BNZEccEAqAXRA=;
-        b=LKbHSR4eJ+0lQCobY4ix0S0EAidYQY8hgrnPp4Sug2chjhaZwaLxr4aJ1zNknhlUJU
-         6VOW/j3m6FlIlCLlt8pw7AbEcvWHMhJLjW8CLtmPv9QpkWuQiNgnWhGVSZ4/dzMrwxM0
-         MOxJc60TpA4E4Blqu3UxiVXJW13+mC6jIrQgp5vxxFDqU7iWGWZ/OpQR8spqRlSnaig5
-         /RWnb1s4HqeMa/B1IIOf9j8E+CS1O4jM0+57dFo/J9epsdK6ET93m8zLsIz0XSLqbfdW
-         d/Oa8zJT6ymZk+W6d0+076fPblYZV2m6uQOsN+ALfl+F0q7QjSY3OHcOUfQaoz/IALMM
-         nMAw==
+        bh=90FNa9Ow/OE0zX/iRPP0fOpt7WvISJE2e013OU9cNnE=;
+        b=JBo3AVXPvPDGRsmUXtOAEQo/l5RmcHqXuIbixZv1HWBYJwy/dHbyo6nbYyckUMiLR1
+         gkRW/CCrTvCBp7XIiyQtrRjM8p1aIMst4LsMFq6Uh1z/j8ZMa3+segQCLJFJzMkgde78
+         iFSEnOLcUgMW79h4hZhjIIzZvyZHh1f7Ngl6Ql7VxwSmkibIxEV+WJFOhFXPMOFMjuf1
+         Jfe/74hi3HsdqlXSXZzXHKKcOfyobXOrFWPo7m4rEPbHvB57mP9Pk5gSsqwP7zGQE8Wo
+         dxXkRU3ZrprZrfuGVlLC05npm1rAdWQHwMrpRCLPONdlWHvcrNeuedA/d9VVVpxNuqDa
+         YItw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
@@ -51,69 +51,68 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=8ZQcVRd8RrB+/eOjgwX6B4+FhvKnC3BNZEccEAqAXRA=;
-        b=bLPp7YzACwlyG2BpYsQeafGqEqCKurAfoT7jBQB9DPE6b8nWHa1df6acQaJukLePxP
-         74gB1TzPGRrcRHEIgknUkowmr+zkC5A/MybENR8p3yJsaH/9KpiENsSYo6ZeyXicMkxS
-         le87TShwXS4SEPu8wqFCYCQWiQOPb3AGS+W+8Hswx95K3WAfi+JMZnEeYxsfBskWJagI
-         v2CrsxOIFHsSshpXU9/QuHLgM+xwJc9Kg8AQGVv7WE1sllrrQOwhWdzg+LSTt5rsBx4O
-         8EjrhVBYrtnQtPVE75eV7do+KFxKnIkhG3EWJInuYiQD0kEaVdtyHOVBk+66ACBouNHK
-         tx/Q==
-X-Gm-Message-State: AOAM531WFedebvHaAt6LC5OZJQ1588WwnMtIPrlTdQjjXCBbVgIfcCmm
-	nT299EiOVTMPD4Q2Hr6xPIA=
-X-Google-Smtp-Source: ABdhPJwm1zKfGkAPxiqvOw7EIO19iA9NHm1WOiDEW1mS307PEGe2/+m8fesbCT5+Lxn7utnsL7mdtA==
-X-Received: by 2002:a05:6512:6d4:: with SMTP id u20mr2957233lff.329.1632384604984;
-        Thu, 23 Sep 2021 01:10:04 -0700 (PDT)
+        bh=90FNa9Ow/OE0zX/iRPP0fOpt7WvISJE2e013OU9cNnE=;
+        b=eMYuWziEq+67Ok1bw4/1OFWJXebRPl0tA6iNUZ4wDZhW5O+H6iK/qaB4JFc7MxrlwL
+         9J44rRZQDzwbEwiTG1t59LKy3St4zjioV256e9+hS6rRWmasLkdzAgOeK2UndVhgIDRT
+         eqmiqBzUMbSCA63PD5Sv4Oksi9SgZdCydGXb04mn9gPMsAjQdwtJz9PsxFrtSAImySUa
+         0Fpf91AyXtRTvFwwVqJIa7enPOFvPsfYNBvQ9vRLUX5WWlzXA4rY0bfp7+j86LduDq03
+         MMbRwOtZ08l0pc7vXqyUaDWblKHw4dDUFN+NWMH4vmcVu9uMrCfniSoEMq1l74cn+cpl
+         Rnxg==
+X-Gm-Message-State: AOAM530aVpHqVm3Dl1lnOhtLVOUbW/Cboig465RdmM7cs8ELlPIpKayR
+	ZkkWsXekVicaeg+bdkBgvkw=
+X-Google-Smtp-Source: ABdhPJxydUKzQrHieLdR2PpU8h3Ub47Nh2p9fQeDT8hBHg40feRa7kmto8OI5XfaMpCw34QkeqltUA==
+X-Received: by 2002:a05:6512:21b:: with SMTP id a27mr3022654lfo.684.1632384914360;
+        Thu, 23 Sep 2021 01:15:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3f14:: with SMTP id y20ls2139353lfa.1.gmail; Thu,
- 23 Sep 2021 01:10:04 -0700 (PDT)
-X-Received: by 2002:a19:f515:: with SMTP id j21mr2939939lfb.125.1632384603944;
-        Thu, 23 Sep 2021 01:10:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632384603; cv=none;
+Received: by 2002:a05:6512:3746:: with SMTP id a6ls661566lfs.3.gmail; Thu, 23
+ Sep 2021 01:15:13 -0700 (PDT)
+X-Received: by 2002:a05:6512:3982:: with SMTP id j2mr3054560lfu.332.1632384913340;
+        Thu, 23 Sep 2021 01:15:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632384913; cv=none;
         d=google.com; s=arc-20160816;
-        b=QROnkSZZcBI/EyXiH7EuU5/iPu+T6xbwaiaDZz9QtpL6hCzCEwTMlOPGAPmpVQtANs
-         CZB4qwMgKAR9bCJ34V8TtB2jICxeH1YTlIpE9wIZ+aF2WcdimLUtMvjIdOLfmWGBuHBb
-         nERMTtJ3z2ig0wjrvo7IsMrf3K6eW4oJhsxs9oLqJxCDHCza05AiY4J5chbA+UHOQ0Aj
-         4OwYkX9SMKsyXgsnPjcsfQDx2HL7cieHBe5oe2qEfiyhSznNTmX6yjeEbx8j0VeaEW2M
-         +n59xsi2zg8XweDU5XK/OIQDhER5lLF2FicgBsEcsbgeUxCHFsh6DoBbjU2mmtx8LL1/
-         bo5w==
+        b=PnxleAm47rSNihEXoRP6d5EhSTU0B2vI0gP83u4U0pMMJ6EXx1lYlcEHw59KZp2h5T
+         F3hZQq5aSOKBI9pl6kvvzRy+MW0RFuA4rrCn2uO7FigtqG1GygOY2Szeg2Owk0x6j2Ub
+         GwJoufJhWwIffv3ZVe1Cd9+US3ZmL1xVNvVe0NIzrGzsVi8TGJyYhNWIwE3aAAR21/39
+         Fkrpk01DnlO8rfnmtvAFkIVVwQZgI52+tlxoi/oZCElSDLZ/F+0hKMxjyCrH63gLmdA2
+         AeY82hQ4jabW4yVbOFxY4WpZEUhoOHShfxM45D1sl39V92SRwXSEmXzng8uJR6didAdh
+         l+0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:mime-version:user-agent:date:message-id:from:references
          :cc:to:subject:dkim-signature;
-        bh=yCmYQKyQ1CegwpuFA1biRZgl2wD61Tp1f0chBfFWd8E=;
-        b=KSVxrm35SoShj1W+Y9tCj6ZuwTxVjuPT9A0aRnStIC/fNQKb1ejfcVHoQUbq4KLkrY
-         IlX9l/A0mw45RPxm3oUr1UzjWgmIOUi3hWMOGviYRnxZhNGepMAuM/YdQqTmEW4Evzlf
-         xKlnEtngwrWFESEzLmk7ggYWACDAU0MTsI/Jv2rpXAgwX6FCnZcwi+u1X5HuvzV5DIvP
-         rivT7Rtu8d/8H/gFIztj+Va3PiCUsD6UneRgSY9JG2zGMAJOJXh51c8WZ+7GOf4dz7iT
-         zcqwm+DpIhCHynX+lTvqse+orvp4ECYTkaqgvpZ46Oqh51VtBORfcRNtFeY+L28ZCJbh
-         gw1g==
+        bh=QSLhmvEk1Pq1iiswl5snzLhelQGabqOAvRi47xucKUc=;
+        b=YQaGJLKx9CYq3pJIIHVXE1kIN1FGd7ixD9PDwrQk0p/ZonwqFFh8lzUWgQd7P0RJdN
+         pH4pod38B5gOKRh+Ht16rsqCu4rfyD1fV9pT6ksdU2S3eWY0fBlwP0kCEScrOvqdZW/U
+         ri82NbGCC6CaCXMvPBOPaEfnYiXHxb+jD247kjhJYPmzO5aP1Llo3JqSeW2xN2X39bJj
+         gBg5bQKhwzrgmvfy55yxdFiYXfedjjmZtafYXVK6EoskwbVnUB7sTiOWSFeYLqjnBosl
+         L9CQC3ZpKidZCm4s6q1cYtPEHX51Rfmiu/r0aSpldAsPWU1dc1+5dZG9bNY2j240uXHc
+         wdow==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=Zo9jK3BE;
-       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.28 as permitted sender) smtp.mailfrom=jgross@suse.com;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=dQkZNFnV;
+       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=jgross@suse.com;
        dmarc=pass (p=QUARANTINE sp=NONE dis=NONE) header.from=suse.com
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
-        by gmr-mx.google.com with ESMTPS id a3si338004lji.6.2021.09.23.01.10.03
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
+        by gmr-mx.google.com with ESMTPS id m7si292219lfq.0.2021.09.23.01.15.13
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Sep 2021 01:10:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jgross@suse.com designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
+        Thu, 23 Sep 2021 01:15:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jgross@suse.com designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1ED1B221D4;
-	Thu, 23 Sep 2021 08:10:03 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A60422027D;
+	Thu, 23 Sep 2021 08:15:12 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 82C6313DC7;
-	Thu, 23 Sep 2021 08:10:02 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 13F2613DC7;
+	Thu, 23 Sep 2021 08:15:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id hYWfHlo2TGGbEgAAMHmgww
-	(envelope-from <jgross@suse.com>); Thu, 23 Sep 2021 08:10:02 +0000
-Subject: Re: [PATCH 2/3] xen/x86: free_p2m_page: use memblock_free_ptr() to
- free a virtual pointer
+	id ojiaA5A3TGF2FQAAMHmgww
+	(envelope-from <jgross@suse.com>); Thu, 23 Sep 2021 08:15:12 +0000
+Subject: Re: [PATCH 3/3] memblock: cleanup memblock_free interface
 To: Mike Rapoport <rppt@kernel.org>,
  Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, devicetree@vger.kernel.org,
@@ -128,21 +127,21 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, devicetree@vger.kernel.org,
  sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
  Mike Rapoport <rppt@linux.ibm.com>
 References: <20210923074335.12583-1-rppt@kernel.org>
- <20210923074335.12583-3-rppt@kernel.org>
+ <20210923074335.12583-4-rppt@kernel.org>
 From: "'Juergen Gross' via kasan-dev" <kasan-dev@googlegroups.com>
-Message-ID: <69c60441-d6d0-96e2-a04e-5bdf87241b4b@suse.com>
-Date: Thu, 23 Sep 2021 10:10:01 +0200
+Message-ID: <60c0d0f9-e4c6-ef66-b85b-0d091f8cba15@suse.com>
+Date: Thu, 23 Sep 2021 10:15:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210923074335.12583-3-rppt@kernel.org>
+In-Reply-To: <20210923074335.12583-4-rppt@kernel.org>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="Ou4UW1xPRLuVMrznu7nRrBvD9qxXwPwpI"
+ boundary="zppOVwffTjZ5Oe49Vq0wbEbRvLUF4dOID"
 X-Original-Sender: jgross@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.com header.s=susede1 header.b=Zo9jK3BE;       spf=pass
- (google.com: domain of jgross@suse.com designates 195.135.220.28 as permitted
+ header.i=@suse.com header.s=susede1 header.b=dQkZNFnV;       spf=pass
+ (google.com: domain of jgross@suse.com designates 195.135.220.29 as permitted
  sender) smtp.mailfrom=jgross@suse.com;       dmarc=pass (p=QUARANTINE sp=NONE
  dis=NONE) header.from=suse.com
 X-Original-From: Juergen Gross <jgross@suse.com>
@@ -160,8 +159,8 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Ou4UW1xPRLuVMrznu7nRrBvD9qxXwPwpI
-Content-Type: multipart/mixed; boundary="Opwz8FSwCRvDNIt0szi2Ea4VaFO0qhLYD";
+--zppOVwffTjZ5Oe49Vq0wbEbRvLUF4dOID
+Content-Type: multipart/mixed; boundary="AxmgW1XtM0JJFTzWHwG0o4gfWFl7DFvoM";
  protected-headers="v1"
 From: Juergen Gross <jgross@suse.com>
 To: Mike Rapoport <rppt@kernel.org>,
@@ -177,34 +176,45 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, devicetree@vger.kernel.org,
  linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
  Mike Rapoport <rppt@linux.ibm.com>
-Message-ID: <69c60441-d6d0-96e2-a04e-5bdf87241b4b@suse.com>
-Subject: Re: [PATCH 2/3] xen/x86: free_p2m_page: use memblock_free_ptr() to
- free a virtual pointer
+Message-ID: <60c0d0f9-e4c6-ef66-b85b-0d091f8cba15@suse.com>
+Subject: Re: [PATCH 3/3] memblock: cleanup memblock_free interface
 References: <20210923074335.12583-1-rppt@kernel.org>
- <20210923074335.12583-3-rppt@kernel.org>
-In-Reply-To: <20210923074335.12583-3-rppt@kernel.org>
+ <20210923074335.12583-4-rppt@kernel.org>
+In-Reply-To: <20210923074335.12583-4-rppt@kernel.org>
 
---Opwz8FSwCRvDNIt0szi2Ea4VaFO0qhLYD
+--AxmgW1XtM0JJFTzWHwG0o4gfWFl7DFvoM
 Content-Type: multipart/mixed;
- boundary="------------7FABCF9287BBEACE094F562B"
+ boundary="------------CFB99E0866EE66F8CFC01FC3"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------7FABCF9287BBEACE094F562B
+--------------CFB99E0866EE66F8CFC01FC3
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 
 On 23.09.21 09:43, Mike Rapoport wrote:
 > From: Mike Rapoport <rppt@linux.ibm.com>
 > 
-> free_p2m_page() wrongly passes a virtual pointer to memblock_free() that
-> treats it as a physical address.
+> For ages memblock_free() interface dealt with physical addresses even
+> despite the existence of memblock_alloc_xx() functions that return a
+> virtual pointer.
 > 
-> Call memblock_free_ptr() instead that gets a virtual address to free the
-> memory.
+> Introduce memblock_phys_free() for freeing physical ranges and repurpose
+> memblock_free() to free virtual pointers to make the following pairing
+> abundantly clear:
 > 
+> 	int memblock_phys_free(phys_addr_t base, phys_addr_t size);
+> 	phys_addr_t memblock_phys_alloc(phys_addr_t base, phys_addr_t size);
+> 
+> 	void *memblock_alloc(phys_addr_t size, phys_addr_t align);
+> 	void memblock_free(void *ptr, size_t size);
+> 
+> Replace intermediate memblock_free_ptr() with memblock_free() and drop
+> unnecessary aliases memblock_free_early() and memblock_free_early_nid().
+> 
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
 > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
-Reviewed-by: Juergen Gross <jgross@suse.com>
+arch/x86/xen/ parts: Reviewed-by: Juergen Gross <jgross@suse.com>
 
 
 Juergen
@@ -212,9 +222,9 @@ Juergen
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/69c60441-d6d0-96e2-a04e-5bdf87241b4b%40suse.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/60c0d0f9-e4c6-ef66-b85b-0d091f8cba15%40suse.com.
 
---------------7FABCF9287BBEACE094F562B
+--------------CFB99E0866EE66F8CFC01FC3
 Content-Type: application/pgp-keys;
  name="OpenPGP_0xB0DE9DD628BF132F.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -306,24 +316,24 @@ ZDn8R38=3D
 =3D2wuH
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------7FABCF9287BBEACE094F562B--
+--------------CFB99E0866EE66F8CFC01FC3--
 
---Opwz8FSwCRvDNIt0szi2Ea4VaFO0qhLYD--
+--AxmgW1XtM0JJFTzWHwG0o4gfWFl7DFvoM--
 
---Ou4UW1xPRLuVMrznu7nRrBvD9qxXwPwpI
+--zppOVwffTjZ5Oe49Vq0wbEbRvLUF4dOID
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmFMNlkFAwAAAAAACgkQsN6d1ii/Ey/u
-jwf/Wc7bKSwtYpm6kgk3TsHmpeJbPgh0Zpv1wT9MtIr5veUKbFZsg/Ji0X/gETRJ/GzFem6QpjrD
-qfZjjrHW84FjHmrikrdzulZV8SZVqYLSdZWQRL4dja5oWLHT7nPkOtdmNelKufQ3CxAmy1JmVzVb
-Mx6gmnvelfR4gvjcbXXvmtdNZvJIKIQ3zLsqDK8z5H0AA3wt7EG/6FFaIZD/lYSqQAmpBXhbvdZe
-EmLrt4FExY741RXXb6HIT7WjiQ+iFHRiGgNjAF7OZlY2xzR14fRVqNF56oq8GYvMSJU1knueE60N
-Y+1NbMVNCzWoYzBjFB95UGbdvzgBy6XOzZ21ar2IPQ==
-=DYUR
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmFMN48FAwAAAAAACgkQsN6d1ii/Ey8D
+fwf/WV3EUVWvjXkc64q0a0it6LMGy2AtQrh8KdDecuLV8iH5bKTnqNAZOUoV6sYTeiLsSSnRTLOt
+yKKjkWsC9/gUsyuO0B8Zw/VX/zoXJqp7T57FfmW+37qcslFuLzImqvDxdU65n/jEbme+VExmw6UF
+yy1ATxxxhQIxeTDXB3SfE0f6rX4Fw1DUqQc25bFNpD1wzdp1xG6qhH31/CWUI/V/frEfuzZrrN5F
+Uimkqk3+xjrqqpYh2fb/Pwpd77LFOdIrV4gH0oyl0NA3x3QMNi+67FrbMtuRHZij1jnpwoY1RiUc
+uVxzINJ+LJh0g8836hHAkPh5tQNBjV7C6V7LXddn6g==
+=Fnkp
 -----END PGP SIGNATURE-----
 
---Ou4UW1xPRLuVMrznu7nRrBvD9qxXwPwpI--
+--zppOVwffTjZ5Oe49Vq0wbEbRvLUF4dOID--
