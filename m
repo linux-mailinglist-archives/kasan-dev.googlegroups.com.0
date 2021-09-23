@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBQWDWGFAMGQEUZSPMNA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRB4GDWGFAMGQEFDLPZFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3e.google.com (mail-qv1-xf3e.google.com [IPv6:2607:f8b0:4864:20::f3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBCB415C9E
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 13:15:15 +0200 (CEST)
-Received: by mail-qv1-xf3e.google.com with SMTP id p12-20020ad4496c000000b0037a535cb8b2sf19258539qvy.15
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 04:15:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632395714; cv=pass;
+Received: from mail-ua1-x938.google.com (mail-ua1-x938.google.com [IPv6:2607:f8b0:4864:20::938])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64531415CA2
+	for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 13:16:01 +0200 (CEST)
+Received: by mail-ua1-x938.google.com with SMTP id u10-20020ab0702a000000b002b825725ef6sf2074941ual.8
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 04:16:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632395760; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eMMoAPkcxEtnVYo42P0SJpfsjKjk4w0styZnz31RVa18SQjOr8BmUP+Txsbhqx8xw4
-         N7Sg+BpRxXxTfhkvCmpYlG/axPKvJguBfGiHxJtja2qWIFqd/ICcYP8peImV8ZQKoh5N
-         3ONQFqht8fZUHMyqaeG0bEouM1E8htGGRZy0rDF/8N+5mPvGKLOyzOg06mBPCYlmckST
-         ykPMEScNvG4fQCitRkaY4UXXmF+aMjjIkR9b/IzzzLiP4U/nHN0EwJ3xaw5sfoqKUEOs
-         JWZKNk79tk7NUMJtMWm+dfg0td6OZzMMZfbcvT/AC+RTm5+7KClfwOdyemeLqyejC6Qj
-         NThg==
+        b=0VDJRTZdf97Jc6BgttUvn/bbuFV4g1wq02kgYH1D2cgLwN4MwtvNbgp90pNcogK1vc
+         9dXGHVjO88N5RbWgyY4caNzn9Oh24eJ01nkWSjFZy7IEgTYbWw3KgrvXoQboFMcruf40
+         xcLb2z0/9htE6HtFtdxwS5rSrJBKeHqKuP4d0DpXugRLRmyJkUxjoS1P8oYZ73+MMwi3
+         ReVLU92FZVgOuW6Wqcn6G7cbJckZCZ1ncjlV1QDxV6nbWX6azt9DK1Fy4muQlYc2f8sa
+         8hezgutiY8O4XYBap9F4BVAryCjfAEpvKvirnJGPEaxxnNf8GlRodMZ0+JwaM0goQBs5
+         v9BA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=JKubqrkm+JkeEKY/PfBVxr3sUA7b8RT8dXbLWq3fMXA=;
-        b=Zys6Sxgs9NT0xj4nVM6V4KzkwMREWc6WJ27o6T1kR4QcTgArmvM4DINOctEc5sasPV
-         wdpoauaoiiSqITG53GlRQNtYugKFkDMj5w0r0lyC8p8stYsjGJUYtJgdoYknA3iGCKea
-         1vP4CVwwR7zSEvJ/+m9oLGakrjUwv3otQFOIqG2sL4DTRm84v+XLBQynkcMqARx/L2fM
-         5bzPRZ+3WgvXhhblIXUSgeieXGe2YRUAweAvl09fkdKVvMAXMezThLlm1IlbDXao8POC
-         YEdKn6h4yJs+chdEnOcr8huBLfw4Z9Y23DEtcBlpTllCWir4Jd+UHICKRxaIGOWsLd4C
-         m6rQ==
+        bh=6KQnfvE4yp8KtRfTetbUqmI0ghqy+pNKeURO9MDlwK0=;
+        b=A8vcYsxeUZykd5OsMstRwXNrqeB+wdkeHNVFYRsBds4hFTHnVCN3AaZw6BnAcRVtfM
+         mDpshlk4JX/Q561hcMgBTO/0JJK0MKD2gYODfMVkLR+hsyVA3myDN68G/rVMAv0fjEKC
+         IGI/S1rOMr5iDbO4mCepfi2/A41MCQXHV/dtmDHoeMUj+8rktsm61+VaBS81v91ObpNb
+         8Y5OgzI+pmhE7Jy5M2cZ/EZGD9EispydCLY591hbtOW+mh6sdnIKPpv/QLATTUUHRDff
+         2CYkqdGiPRX/Ushp0PdfIRDaLi3eIV867QVflKYyOy4gPasIkultGpuTwaUype16t56w
+         uUQg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="L4y/1Lm4";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=piWpDsjg;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::732 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=JKubqrkm+JkeEKY/PfBVxr3sUA7b8RT8dXbLWq3fMXA=;
-        b=EbPuOlWpsvIVZWKUp9atGvSIgit3qcAkCIl10ydR+Aeb3UfIL8xOBYRfy/WEwVaR2I
-         52y6RVv+QjixfRj7R0mtpUStE3KS5YdH09S1Yxir8jZPiWaSB+r58khHsqGkcdpkyKEd
-         tH58xJDbPaezw3iaZ9k5t7CUYnLcVeU7M4EMzpJvrXFv2iFP3EPQ3SHJDwj3ZbSxDHBo
-         DMURNT/+3GzyC/fzMxfK+QgfSlooyxY0XEhvSt8OGij5x+wIoRvn1ektRglzJiRTVo8m
-         p6AkbA5KDN+vcKcfM5kNce3dhwFZv05BN9IYOqVbOU6vSFEGTkjzyR541KR0unlQPl2Y
-         F/2Q==
+        bh=6KQnfvE4yp8KtRfTetbUqmI0ghqy+pNKeURO9MDlwK0=;
+        b=B52ut8pwXtybuiI8T9OPXFKzIWlK7LANKZzeJqsEQS6klfd5QwIqrXwCQm8AxlFp2N
+         03vF2uscRGD4+vlO9v44LtqRRCjrJDpgjKUcT0jAjIcXIZtbKBFXJ+IuAIepXalHwKH2
+         P3RDRIrb0F67N8wh5PWFX1+pBJLO5ODNdHE9QtFv/On5lkwViQAFoJYlGei2MtEoPrlk
+         /cN36XbO/y37ZJSH37LBS0SMYzHMJUCwBAOKsplISK3H3kWgi746hWi2EswGsRxKbyO4
+         cDO+fccb9u7szLp/uSu1WdkaILuy2X5Ezr9MjcvchF8R1rseIWSjJ25ZZGteXkYjCoVR
+         rD5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -51,62 +51,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=JKubqrkm+JkeEKY/PfBVxr3sUA7b8RT8dXbLWq3fMXA=;
-        b=uvQcBU7hDU17p3wNvthk6P93XXBZICHvjZwQUYILs5kY6tZe08pqrE9i//JAfKDzz0
-         99eYO4cjgy1Ug6V2ioJnlBYXzQf+PZc79IHAp/EZqb752MXsAuLij75HAbfymfvmXAxh
-         AoDI5rIE0SkpxuNGIVXOYPOOL565g51BvjTldlzLQSSdvh6A2XEDLwtgy97ftDrNApoN
-         K3OqEL70tI1jWljMA4NNsQLhgIdhWtAAkT72Lk4anlSwExCNT1cQvMvpeBShkxvKPJ/3
-         9rG+/19KzqOBzaPqDjl5B69HFHu2Oj9bLFtzP5rvgNQS0rd62iK0pG9eOxTYMExHxYiq
-         iBCQ==
-X-Gm-Message-State: AOAM533mwxbG5J9/wvPaUDpwR/OedccBZ118pK0WSLfqldgkJy5oYS8A
-	8ryI3BDTGxpVmUkxEYQEBpc=
-X-Google-Smtp-Source: ABdhPJzvfRrKIjpFx0SFBL2osvH2Jgk82ivTiqJXT2EGVHud+KbNM9XnUqjQmS9AgeAqo43OEa3ZNg==
-X-Received: by 2002:a37:6596:: with SMTP id z144mr4229540qkb.292.1632395714535;
-        Thu, 23 Sep 2021 04:15:14 -0700 (PDT)
+        bh=6KQnfvE4yp8KtRfTetbUqmI0ghqy+pNKeURO9MDlwK0=;
+        b=uRBdElIdOMMFrRihDxbYrWjrXBnpS8a30i3VK7Z+5GEiLyMA06BbbdjKEJrcuW9cYP
+         sTG4M+G6mdv4Mm+hvtrUuzr3fk0k+GbKFDWxlPjtNGG1JaMgQDDjQ18PXbyUDV1l7d1F
+         UZzv5MtbvzXe4f5QY9bEa6GIojtkCaKYPntvNdUa28bGFETRIu/TJP7NOepv6J6T7ICx
+         WqN2c/6JXc3RGabeV08jt8oijMECDJY6sU73dpnGOkgNCThV+7dBgzyXkvaFBssZ71u0
+         lZDUMKs8LZS8Q33X5Dnw+pb8ZhO8/80erIFtGrRXFZVGTDQaLMVzEowslvfqFUdtzPve
+         hwGw==
+X-Gm-Message-State: AOAM531E5WkZLRxCmUkgLq+LwEzf31GceGLysMjOh+YvbtnUZYisYaye
+	eo4xciyoXb336DSenLkN1Pk=
+X-Google-Smtp-Source: ABdhPJywgJI0MTj9P2PgruqaaY8Tc8upJdzWLECwOq4wwSISFiWZBsbNj3YvLZ5HpSsWeIg3CSux9A==
+X-Received: by 2002:ab0:3b92:: with SMTP id p18mr3446314uaw.134.1632395760559;
+        Thu, 23 Sep 2021 04:16:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a37:f90b:: with SMTP id l11ls4062014qkj.0.gmail; Thu, 23 Sep
- 2021 04:15:14 -0700 (PDT)
-X-Received: by 2002:a05:620a:6a3:: with SMTP id i3mr4101352qkh.483.1632395714079;
-        Thu, 23 Sep 2021 04:15:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632395714; cv=none;
+Received: by 2002:a1f:16c7:: with SMTP id 190ls482934vkw.9.gmail; Thu, 23 Sep
+ 2021 04:16:00 -0700 (PDT)
+X-Received: by 2002:a1f:3a4b:: with SMTP id h72mr2515948vka.19.1632395760095;
+        Thu, 23 Sep 2021 04:16:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632395760; cv=none;
         d=google.com; s=arc-20160816;
-        b=GklkMdKdzWU0GLALDLVfHO1I9V2aSGvZ2vHUQb4MT761SFcHY6LynWO7i7eUKt6M2j
-         dGF8QrsWYP4F5EioBLGwcvpXJVcBwQy5RR3vTu+d33s06Kxn3DQlPuB+ixHVANlfv1XT
-         6oAOOGIx1iDJaRHwIeAuZ8kgbuqVFpgHYmu7G0h3rc+YQ61Izbe8gXt8T16vFZ0t7v3I
-         ljzdWCC6XBC7m8Sj7yz0Wy2fYA3Nn2PpHRjx0JOJonVrWtPkkA5wE8WrlHThf0ipqrCX
-         BLTolmUmLomUC2r2AB7iySHXKKcclyIKEC13HAPuj6zstYU6jsqC2blO1UBFe6AL5C/Q
-         Np4A==
+        b=j8+TudxJMITIQADV147z21GaA0bL+npYhvfC8PgM6FnFmgQVOIcgaed+THO3+XCiv5
+         A9rzvdBfRA+pbu8YRJpUEHj2VXwo5O580CSYr1zFFVFQym9RdGTg+NDT0mWcOXCJxFvr
+         lbXpkzUoULowFnGcx9c66sBHMYG07PqgwcbrmvDHNBDrCkmo1Z5KJAi1hSJ2gA9Dql0h
+         +6aMvkRxU/WokaKZz9P36u1h59rdbD78UMEgETJeDdaPDovCoRQhk4KL1hqa7QnXCmR/
+         iEt8ptqmbe8274XusPFpZw+vwevLFXmPOaZhP+WvlKGaPNb+AiJzKPGHzCMx/1slWY3O
+         I/PQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=lqxtxP5+e+pk1U3fha6q3vivDTvYwQzQQPvtliibVDE=;
-        b=di87baypAXsQrpKHFzR+nga2w0Tlk2tpBcMWNojtSfErMnLkAR1sHlUUDr3y3+c7yL
-         YdYOa3Ru1US0JppTTbF1o2rO3KNsKqSacVsHZory/vPUPNQfvpwArt6v9edysU8KqF1d
-         41UVhodyi5y2coF5ePNGr52ZsfU9NqVqDip8uMbPpDdOYAtPe9+olEtijqEiUVR9HbVU
-         +xDmhLlFxnJwzpRD9LOCGEp1pv1HsWRlx87TY6JfmgwPKkoSNDtfquEX+BOvvvwlzJev
-         OsF33aSIa86iYyPSobZilwICu+TngA+hXw4HQhAK2rAlgKcvmzireT7J5mFrGk7SuSsD
-         0oKA==
+        bh=WxWyZjqzKABxFGtDm2TtL1V2QPdgvK9G3mFsSj6IZsc=;
+        b=R7/uwe65wWbSFB31+g0KlNaWBO43IaweTpCrLItRnaGUK5gk1U5igUkmgIBUB73vdu
+         yD2qLDIeGf/xkZhxY+yvuyV1U4Wmqszgbj0h4/saiB/i93OG5OVC0GtLeP2UhpxwlDoD
+         TJmoN4ejm3YkSLeIrUM6RTCopp0xoq5egsW4e48AYyjyOuX7yKT5oVfGl1E85mkDK16e
+         DIXSZqkowSctXftxf3sXqIT3AD8Oval46qF6YDgljHdJ6HJfN4IWVxETE5fHcKYWloaE
+         bw3ZZji8G8d90KNsPN4re0UE82Pth6uDT+FJKFq3YBvSu6/OpEWdwfoHAEHJuF3eqTtv
+         3dpw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="L4y/1Lm4";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::830 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=piWpDsjg;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::732 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com. [2607:f8b0:4864:20::830])
-        by gmr-mx.google.com with ESMTPS id q27si403552qtl.0.2021.09.23.04.15.14
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com. [2607:f8b0:4864:20::732])
+        by gmr-mx.google.com with ESMTPS id 4si353919vke.2.2021.09.23.04.16.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Sep 2021 04:15:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::830 as permitted sender) client-ip=2607:f8b0:4864:20::830;
-Received: by mail-qt1-x830.google.com with SMTP id u21so5749013qtw.8
-        for <kasan-dev@googlegroups.com>; Thu, 23 Sep 2021 04:15:14 -0700 (PDT)
-X-Received: by 2002:ac8:5c49:: with SMTP id j9mr4078733qtj.246.1632395713528;
- Thu, 23 Sep 2021 04:15:13 -0700 (PDT)
+        Thu, 23 Sep 2021 04:16:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::732 as permitted sender) client-ip=2607:f8b0:4864:20::732;
+Received: by mail-qk1-x732.google.com with SMTP id f130so20686504qke.6
+        for <kasan-dev@googlegroups.com>; Thu, 23 Sep 2021 04:16:00 -0700 (PDT)
+X-Received: by 2002:a37:b483:: with SMTP id d125mr4023411qkf.362.1632395759497;
+ Thu, 23 Sep 2021 04:15:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210923104803.2620285-1-elver@google.com>
-In-Reply-To: <20210923104803.2620285-1-elver@google.com>
+References: <20210923104803.2620285-1-elver@google.com> <20210923104803.2620285-2-elver@google.com>
+In-Reply-To: <20210923104803.2620285-2-elver@google.com>
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 23 Sep 2021 13:14:36 +0200
-Message-ID: <CAG_fn=Vr7CJiug+C2LT2U5wdmysG5BbTFwU2-yaz-pe0kvaXPw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] stacktrace: move filter_irq_stacks() to kernel/stacktrace.c
+Date: Thu, 23 Sep 2021 13:15:23 +0200
+Message-ID: <CAG_fn=Wyd3-yxd3vzX82Q4iTApJr_CsG-gmEq1KenmYYCypP5g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] kfence: count unexpectedly skipped allocations
 To: Marco Elver <elver@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
 	Jann Horn <jannh@google.com>, Aleksandr Nogikh <nogikh@google.com>, 
@@ -116,8 +116,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="L4y/1Lm4";       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::830 as
+ header.i=@google.com header.s=20210112 header.b=piWpDsjg;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::732 as
  permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
@@ -136,156 +136,89 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 On Thu, Sep 23, 2021 at 12:48 PM Marco Elver <elver@google.com> wrote:
 >
-> filter_irq_stacks() has little to do with the stackdepot implementation,
-> except that it is usually used by users (such as KASAN) of stackdepot to
-> reduce the stack trace.
+> Maintain a counter to count allocations that are skipped due to being
+> incompatible (oversized, incompatible gfp flags) or no capacity.
 >
-> However, filter_irq_stacks() itself is not useful without a stack trace
-> as obtained by stack_trace_save() and friends.
->
-> Therefore, move filter_irq_stacks() to kernel/stacktrace.c, so that new
-> users of filter_irq_stacks() do not have to start depending on
-> STACKDEPOT only for filter_irq_stacks().
+> This is to compute the fraction of allocations that could not be
+> serviced by KFENCE, which we expect to be rare.
 >
 > Signed-off-by: Marco Elver <elver@google.com>
-> Acked-by: Dmitry Vyukov <dvyukov@google.com>
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 Acked-by: Alexander Potapenko <glider@google.com>
 
 > ---
-> v3:
-> * Rebase to -next due to conflicting stackdepot changes.
->
 > v2:
-> * New patch.
+> * Do not count deadlock-avoidance skips.
 > ---
->  include/linux/stackdepot.h |  2 --
->  include/linux/stacktrace.h |  1 +
->  kernel/stacktrace.c        | 30 ++++++++++++++++++++++++++++++
->  lib/stackdepot.c           | 24 ------------------------
->  4 files changed, 31 insertions(+), 26 deletions(-)
+>  mm/kfence/core.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
 >
-> diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
-> index ee03f11bb51a..c34b55a6e554 100644
-> --- a/include/linux/stackdepot.h
-> +++ b/include/linux/stackdepot.h
-> @@ -30,8 +30,6 @@ int stack_depot_snprint(depot_stack_handle_t handle, ch=
-ar *buf, size_t size,
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index 7a97db8bc8e7..249d75b7e5ee 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -112,6 +112,8 @@ enum kfence_counter_id {
+>         KFENCE_COUNTER_FREES,
+>         KFENCE_COUNTER_ZOMBIES,
+>         KFENCE_COUNTER_BUGS,
+> +       KFENCE_COUNTER_SKIP_INCOMPAT,
+> +       KFENCE_COUNTER_SKIP_CAPACITY,
+>         KFENCE_COUNTER_COUNT,
+>  };
+>  static atomic_long_t counters[KFENCE_COUNTER_COUNT];
+> @@ -121,6 +123,8 @@ static const char *const counter_names[] =3D {
+>         [KFENCE_COUNTER_FREES]          =3D "total frees",
+>         [KFENCE_COUNTER_ZOMBIES]        =3D "zombie allocations",
+>         [KFENCE_COUNTER_BUGS]           =3D "total bugs",
+> +       [KFENCE_COUNTER_SKIP_INCOMPAT]  =3D "skipped allocations (incompa=
+tible)",
+> +       [KFENCE_COUNTER_SKIP_CAPACITY]  =3D "skipped allocations (capacit=
+y)",
+>  };
+>  static_assert(ARRAY_SIZE(counter_names) =3D=3D KFENCE_COUNTER_COUNT);
 >
->  void stack_depot_print(depot_stack_handle_t stack);
->
-> -unsigned int filter_irq_stacks(unsigned long *entries, unsigned int nr_e=
-ntries);
-> -
->  #ifdef CONFIG_STACKDEPOT
->  int stack_depot_init(void);
->  #else
-> diff --git a/include/linux/stacktrace.h b/include/linux/stacktrace.h
-> index 9edecb494e9e..bef158815e83 100644
-> --- a/include/linux/stacktrace.h
-> +++ b/include/linux/stacktrace.h
-> @@ -21,6 +21,7 @@ unsigned int stack_trace_save_tsk(struct task_struct *t=
-ask,
->  unsigned int stack_trace_save_regs(struct pt_regs *regs, unsigned long *=
-store,
->                                    unsigned int size, unsigned int skipnr=
-);
->  unsigned int stack_trace_save_user(unsigned long *store, unsigned int si=
-ze);
-> +unsigned int filter_irq_stacks(unsigned long *entries, unsigned int nr_e=
-ntries);
->
->  /* Internal interfaces. Do not use in generic code */
->  #ifdef CONFIG_ARCH_STACKWALK
-> diff --git a/kernel/stacktrace.c b/kernel/stacktrace.c
-> index 9f8117c7cfdd..9c625257023d 100644
-> --- a/kernel/stacktrace.c
-> +++ b/kernel/stacktrace.c
-> @@ -13,6 +13,7 @@
->  #include <linux/export.h>
->  #include <linux/kallsyms.h>
->  #include <linux/stacktrace.h>
-> +#include <linux/interrupt.h>
->
->  /**
->   * stack_trace_print - Print the entries in the stack trace
-> @@ -373,3 +374,32 @@ unsigned int stack_trace_save_user(unsigned long *st=
-ore, unsigned int size)
->  #endif /* CONFIG_USER_STACKTRACE_SUPPORT */
->
->  #endif /* !CONFIG_ARCH_STACKWALK */
-> +
-> +static inline bool in_irqentry_text(unsigned long ptr)
-> +{
-> +       return (ptr >=3D (unsigned long)&__irqentry_text_start &&
-> +               ptr < (unsigned long)&__irqentry_text_end) ||
-> +               (ptr >=3D (unsigned long)&__softirqentry_text_start &&
-> +                ptr < (unsigned long)&__softirqentry_text_end);
-> +}
-> +
-> +/**
-> + * filter_irq_stacks - Find first IRQ stack entry in trace
-> + * @entries:   Pointer to stack trace array
-> + * @nr_entries:        Number of entries in the storage array
-> + *
-> + * Return: Number of trace entries until IRQ stack starts.
-> + */
-> +unsigned int filter_irq_stacks(unsigned long *entries, unsigned int nr_e=
-ntries)
-> +{
-> +       unsigned int i;
-> +
-> +       for (i =3D 0; i < nr_entries; i++) {
-> +               if (in_irqentry_text(entries[i])) {
-> +                       /* Include the irqentry function into the stack. =
-*/
-> +                       return i + 1;
-> +               }
+> @@ -271,8 +275,10 @@ static void *kfence_guarded_alloc(struct kmem_cache =
+*cache, size_t size, gfp_t g
+>                 list_del_init(&meta->list);
+>         }
+>         raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
+> -       if (!meta)
+> +       if (!meta) {
+> +               atomic_long_inc(&counters[KFENCE_COUNTER_SKIP_CAPACITY]);
+>                 return NULL;
 > +       }
-> +       return nr_entries;
-> +}
-> +EXPORT_SYMBOL_GPL(filter_irq_stacks);
-> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-> index 69c8c9b0d8d7..b437ae79aca1 100644
-> --- a/lib/stackdepot.c
-> +++ b/lib/stackdepot.c
-> @@ -20,7 +20,6 @@
->   */
 >
->  #include <linux/gfp.h>
-> -#include <linux/interrupt.h>
->  #include <linux/jhash.h>
->  #include <linux/kernel.h>
->  #include <linux/mm.h>
-> @@ -417,26 +416,3 @@ depot_stack_handle_t stack_depot_save(unsigned long =
-*entries,
->         return __stack_depot_save(entries, nr_entries, alloc_flags, true)=
-;
->  }
->  EXPORT_SYMBOL_GPL(stack_depot_save);
-> -
-> -static inline int in_irqentry_text(unsigned long ptr)
-> -{
-> -       return (ptr >=3D (unsigned long)&__irqentry_text_start &&
-> -               ptr < (unsigned long)&__irqentry_text_end) ||
-> -               (ptr >=3D (unsigned long)&__softirqentry_text_start &&
-> -                ptr < (unsigned long)&__softirqentry_text_end);
-> -}
-> -
-> -unsigned int filter_irq_stacks(unsigned long *entries,
-> -                                            unsigned int nr_entries)
-> -{
-> -       unsigned int i;
-> -
-> -       for (i =3D 0; i < nr_entries; i++) {
-> -               if (in_irqentry_text(entries[i])) {
-> -                       /* Include the irqentry function into the stack. =
-*/
-> -                       return i + 1;
-> -               }
-> -       }
-> -       return nr_entries;
-> -}
-> -EXPORT_SYMBOL_GPL(filter_irq_stacks);
+>         if (unlikely(!raw_spin_trylock_irqsave(&meta->lock, flags))) {
+>                 /*
+> @@ -740,8 +746,10 @@ void *__kfence_alloc(struct kmem_cache *s, size_t si=
+ze, gfp_t flags)
+>          * Perform size check before switching kfence_allocation_gate, so=
+ that
+>          * we don't disable KFENCE without making an allocation.
+>          */
+> -       if (size > PAGE_SIZE)
+> +       if (size > PAGE_SIZE) {
+> +               atomic_long_inc(&counters[KFENCE_COUNTER_SKIP_INCOMPAT]);
+>                 return NULL;
+> +       }
+>
+>         /*
+>          * Skip allocations from non-default zones, including DMA. We can=
+not
+> @@ -749,8 +757,10 @@ void *__kfence_alloc(struct kmem_cache *s, size_t si=
+ze, gfp_t flags)
+>          * properties (e.g. reside in DMAable memory).
+>          */
+>         if ((flags & GFP_ZONEMASK) ||
+> -           (s->flags & (SLAB_CACHE_DMA | SLAB_CACHE_DMA32)))
+> +           (s->flags & (SLAB_CACHE_DMA | SLAB_CACHE_DMA32))) {
+> +               atomic_long_inc(&counters[KFENCE_COUNTER_SKIP_INCOMPAT]);
+>                 return NULL;
+> +       }
+>
+>         /*
+>          * allocation_gate only needs to become non-zero, so it doesn't m=
+ake
 > --
 > 2.33.0.464.g1972c5931b-goog
 >
@@ -309,5 +242,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DVr7CJiug%2BC2LT2U5wdmysG5BbTFwU2-yaz-pe0kvaXPw%40mail.gm=
-ail.com.
+kasan-dev/CAG_fn%3DWyd3-yxd3vzX82Q4iTApJr_CsG-gmEq1KenmYYCypP5g%40mail.gmai=
+l.com.
