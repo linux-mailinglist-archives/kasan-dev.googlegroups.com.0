@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC6OLHHDVUOBBVHXWKFAMGQEQT3G6BA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBVMAWOFAMGQE7THZ5VI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73c.google.com (mail-qk1-x73c.google.com [IPv6:2607:f8b0:4864:20::73c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660F4416488
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 19:39:33 +0200 (CEST)
-Received: by mail-qk1-x73c.google.com with SMTP id ay30-20020a05620a179e00b00433294fbf97sf20928275qkb.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 10:39:33 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632418772; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2206E4164BB
+	for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 19:58:47 +0200 (CEST)
+Received: by mail-pf1-x43c.google.com with SMTP id k206-20020a6284d7000000b004380af887afsf4241086pfd.17
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Sep 2021 10:58:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632419925; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gA6c2lRRj4lhIqJeso8AuaaxThWPiTfceCEaYit90Cpk28z65kLb5yOg82EHTH+/0c
-         Zq/ga9Xf/XDvP6TKziiqfPZdT6TYKZ+KeFnrxbXmsoKR3c1szh/YkX0Py0wdce1yOMku
-         u2aqHJNwlHXJv4h2dF5e17IKQKXAdl2GuYeTHoRPjFe1ZS8Sz53HWelJdK86SUUR0oJ+
-         h2iINfT4KeLByhPVSaEOxQ2UCl9RVuGEbr+Pk7REedyI9rFvcQ+027hdiINgNSr/HF2x
-         8vA8t3WypLmhyCyje5qD0hLWfKNlB8C6ZfCrvs5UjcaU0z3rSOMyvjnNa2v3tHQQv+Do
-         HZ1Q==
+        b=i8WIwpKXC4nh7hU241BvoajD8YukwNT/iZFSyqCXhSMGUyMTdAmB9H3zzUK807APHe
+         r+pEyZxj3AzN3ScEGjwhJdV70VPN633XF/8ZVS5qMYgVMzb9Im2P/MSiZW5FXI/zQIDZ
+         iA81QYc9klAqvV9CCFE/X8SqQcGM2dooMXBG3vLx4wLchxCnxfuONYLpfXNBbMqfRGNF
+         jgaGU3MtXch6puRCoTbdIPNTdfgIleGVZibS582d1zAiALlwybyE7g8e12Sa/QvKhQC6
+         UNqXRJDeBPASzC9Ow+althUZjmPoDqDBHi8+7Z07oF57c8UG8UF+V9qPYE3xWNtuVYCk
+         xo6w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=A4tYT1HTfltjgKXS28xU5redw0SQp+eRWGxhAF+Oc7E=;
-        b=fwBDXyN6JCYIFyHKEOV1xD5V4az6erR7IpmcwOY4jniE25EJNBlS5XGT44VS/WtR+m
-         IZAe85YKjribsxjUdMxZdB35C7B9v+nNnL7xee0dMGihaNlr0rLcicHaF5xe3B+hjgok
-         Fo5cYyKtegGf5CGGTGHWg7SkVIULB8qakg3HKZvB6K+rFbjBDvmTWGQDgy04+qfDuiD+
-         grbxY+AEx6KJvRSLshiMyOLwxbaLpK+cDD/FHztrls0HRm23qByavdzkmOD5A47NTvRu
-         NHVle1B/y80Jp0xB/kRQXyeRUF23KkyVPXIDjhvDlOMOZ0asHQixxzLY67muDrIc/bay
-         ACsQ==
+        bh=Zht0TcM+A22wPcXw1ybJjInKaqgGtdDA5CO8qkIAG30=;
+        b=C0JBvZbeermO864BLZzp03PCL91D9eqXddxlziGofOaxE8z9na8xHC6H2xGmker3Ys
+         6LHh/IpJLuR3chpAgRiLWXTcQWOYjl7OTy7RzjB7GNGoJ2C3tnSlle9pafe3WBR4P4Df
+         NST9C6hM/qEW+DXwPid/aVA0bxJ4nJt4UjXMvLtR0x176tzvmSt0YF+guBaGhMMwsG9J
+         L7rHw3pRHd6IBKPD4iczpPG5fVvpdyKKpR1ET6zxqJiMxHI2R8of5vZwZ4n2a4puhIHQ
+         ofWyerE9qavR0dOlaSid4Y3YaDRW6FyLZ0ySsc+b+l0pPXZqDDo8iEPwEZ7nAUB2Q77T
+         4ACQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=H75LXkHa;
-       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::72f as permitted sender) smtp.mailfrom=davidgow@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=eKHRmobr;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::236 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=A4tYT1HTfltjgKXS28xU5redw0SQp+eRWGxhAF+Oc7E=;
-        b=WFYSCAmiZvhVx5xxeglNgaOXNk7UUGQCKxqIcifbx49QEADfjmIj0nS/zTzwT2UZzo
-         XYQObwVImLQs5zS68TKDN1weTzMBpqnEo0pd+LgusTQP5XERl+k3FygsX0jrT6rNZVO9
-         3fA0ZFR3gTOb8NlBpS4bjrcvDpChKDsUjbA22bZ8BKdeQ1YyCGbLXkyiekziT+0870V9
-         JsoMEOs+k4gGzGXkyshrsfjf6qoEZ6gVGSwyyfyqwsA9q/QbeR7tccapk3wUMPXGuFHu
-         QRMsCqbynM9AAavtKlqmecWlCS3zDFOBEPo7QVfVrd9fFGNcXqAQLCiM8V6yWa1TmylB
-         iXXw==
+        bh=Zht0TcM+A22wPcXw1ybJjInKaqgGtdDA5CO8qkIAG30=;
+        b=fstkGyAbfitSSVVpPCVSyC2gPkky3uNM+5jm5IQAuo1B1S/MBnjSK189k/e3OqZMyL
+         fwE/aoF0Dnz0awbxO1h81JtPzaRg+MBXiLMfwMGvqjNVhmXVufME1c6ROoS6aBamP4QP
+         QKgQPQ2vdZGDiqMyR/A/pQ6gz6wmc9w2nRchlQzwEldrVz/Whks8xF53jXS4CdB845tZ
+         qsoo2QrslhubStV7OyzPQ0h5Y1QTKsCrHAQphJMgfsk1m+w1mwsjAodkmeU65XsfZ6q1
+         1ugbezJ8SDO6aGsnFo7XsmUk7fH7Md7hsSPUW6n8ksKwHSRdeTzeitetjJneXMwf7IG6
+         8Qmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,77 +49,77 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=A4tYT1HTfltjgKXS28xU5redw0SQp+eRWGxhAF+Oc7E=;
-        b=L9111fP6sE486oIoCHiQDYeKFzDPp8aVsU8sFSaJBlmc7+1aS+snWHgSuxssMcAJM3
-         7KZix5rd2ndaIH40ewu4xmyNMAiGPu0zwTEgra8I6bjoAxW0IORrXqDYtTTJdrgoOP0A
-         SgWyiWnkoQLuvPHsEHmWqtELEdUtE4H7VCkfFnflx2mRtawXIUtyYPJFPwjWhYNEd5qK
-         /VpPeDzE+ZOfsuWqpGj2j/9FG+sZZ9CEqxAQJrVRyosJ01ujJYPiwXL4I0viq83SJ/lc
-         7L8zPMa8RadRURvyCDEtwwYKEYg0KuLQgkdw+mHdKwxPXtzxTQU7KpMD26UkMldgJTcF
-         CwtQ==
-X-Gm-Message-State: AOAM5321sDL05VEQ/qwqf7HRFq8E8jBt+Ol2Qn9wlKLEEEnMl47n/nas
-	KuIQQ7CBEES0p2LHEdnDsHc=
-X-Google-Smtp-Source: ABdhPJxFz4E/P2nF5u8PDr/4dVsQ064LOvwg4E3woCfFMxbdkXVx5OilUD5wZvfHEgOm9QUB7ilD/w==
-X-Received: by 2002:a37:409:: with SMTP id 9mr6015205qke.71.1632418772385;
-        Thu, 23 Sep 2021 10:39:32 -0700 (PDT)
+        bh=Zht0TcM+A22wPcXw1ybJjInKaqgGtdDA5CO8qkIAG30=;
+        b=Zb6oJGJagmHzIafWnNgDQlEAsQMQJ1oNOonISU4fWh+DxeK8GWvJRGOcE7k+QN8gZn
+         Kx+eWuKrBkQhrBxBmNaZEjXsgqHqxLR5eMzu6wgzc56Y2LncNM9wcaPHcWcSY0V0QpZ8
+         ImODxN+IH3w6APNkbXKzQsz6c/+TOZSzDV1AkoR699dKgIxZUpAZVRI+9v1fLmYJR1TL
+         VjzSSgzpdBzYymy3r4jiC7s9miHWcJUf54hmWq73zK1v4EYMysQwVMXLdqnuIsKqHVps
+         vCyA91FeiuF1SFp/1AujSjVKWIHZh4cv+D9RThzEXLHau7NMYU+BA7GVkIDwkgWI6pDP
+         BaMQ==
+X-Gm-Message-State: AOAM532sVRAtXmEYjJKqrCNdHMNAk1XDJJObziyD3dZutShoegWYgzwW
+	GbOkjkfbpv/fprP7iIdeO2E=
+X-Google-Smtp-Source: ABdhPJwePMifgZoWjy4FaK5N2/w9Ta6AKhKf0XnlA5y8dIDIR79XO0hzNvX7j9luyAW0UFbdXoDaIw==
+X-Received: by 2002:a17:90b:4c86:: with SMTP id my6mr19202373pjb.176.1632419925577;
+        Thu, 23 Sep 2021 10:58:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:6c7:: with SMTP id 7ls3480231qky.4.gmail; Thu, 23
- Sep 2021 10:39:32 -0700 (PDT)
-X-Received: by 2002:a37:6658:: with SMTP id a85mr6239923qkc.34.1632418771925;
-        Thu, 23 Sep 2021 10:39:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632418771; cv=none;
+Received: by 2002:a62:7d11:: with SMTP id y17ls2510858pfc.9.gmail; Thu, 23 Sep
+ 2021 10:58:45 -0700 (PDT)
+X-Received: by 2002:a05:6a00:22cd:b0:43c:9b41:e650 with SMTP id f13-20020a056a0022cd00b0043c9b41e650mr5521208pfj.60.1632419924986;
+        Thu, 23 Sep 2021 10:58:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632419924; cv=none;
         d=google.com; s=arc-20160816;
-        b=c+7EoEwC580A1O1PTnMd1cs/n27g1JhjIRbSmrmUdrse9Ci+radTnbzcgoQgRxiW61
-         wEkiNBDtb0jWXybxvaXd98EgNVjxmABi9MNVabICSupXuq82qRV6hVJGRtwHe1Fe8rJR
-         NF+zgI1C909io6ZcLSj6cfckKgNcYuPFnibtTtmG5RK3J8RF/5vYS+v7JbEshzWxEVKh
-         6ACGRbPiEO/1LrqgVlrjtAVpnbRSw587kB2ad5+j1q+hXl5B1qhHJLA/L4EQxOlI5Vbg
-         254IqL40wLam+lqp5MHdrqwpTKczzgFzQ5wZ6aIOcLiAFTP3bPf5c75cPQHdMWFJ3SeC
-         3EIw==
+        b=cE/xrE0+zbAeVfYzljGcQSG1qYF4avuP3Fo15jWb8SlG/3AUAZgYhNjewr+m7HyEwh
+         PFUGmG2DZmebjH8Jc9IihPeNFRP55p4aRpS7R5ig8Ud2GZf9VN++ikrxhRxEc4d6xr/I
+         a+aV8ZK0BJTi3PLq8Q5LI68S3Fc9dj1wMcaoH2vgM+uzvH0tSvLLveza9cmumwyKWN/X
+         VAQlDDdzAQSNB3Dbm7rFn0Zen68WWnOODezR6dMwAj8mm0cKfdAwm9tIyV/KkErntbRh
+         9zAxRHLCXCnsob26E4DYdzulOvzDgNNqtKfAHjxnZYmLL8tf2EC0nDiBJ9ko2I5CltRi
+         CG7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=8tzYzW9ssEz6BTq7KxGd6zNB6scfISySpG7l9Pl80cU=;
-        b=MG4S63wYOPgz2aF2oJt+R0kzXZytekkZb6NcWg0jU5s4O5gZmyUDgtIIMt2J+7dYhD
-         fpxbRjE+TX1omUmQNOmk/VYcLvSno+7n3IYqsfv/yNiAYoEVd3Hn7h/4wpErZJS6rWmB
-         6qdFPxXSRVhQXwNe20Gu7L/udYyppjh773/vqf9gmHnHrEsXoQLiWY0WKvut3RTQpTf0
-         a8atEz7cYoIDj5QMmfn3yyd9TDcPs/dMQ9jtJnNCqzj6CnXvmTt6sPzbzmU4kID3XolI
-         J7EBFBPu5mhzQY5FldiYwhNfWr9iZxQ9v5JX8xNLP26rWHtP6YtU7bY3k/C/HkdolGGp
-         4epQ==
+        bh=/JGn7mZwyWEwvBIvgUj4s0mm3yX6tvXxieiY/3sFb9c=;
+        b=b5X74gZyBi4b85j0Gh2besirKcv9GVyBnOj4VSei0tk26DLEAqOQTxCq/Gbkc+u1WI
+         NBiDn7IYZ6XCCVzbfJ8EM8nf+CpKkPqC7ir4Rj8QjgD1UnpVoRhrwo4CE2NzXX1fs+kh
+         /skE4/IQMm9bEQ/Mg/yOIwoWmO2GNhoGf5x3etTvN5Y1wTDxZgJrA5j4OC0cGl9kLx46
+         iKRLJOx5mtemEmGzLS0S9E0ipLSwsSCUA8D3OaWJ6Mlbv3BXrnXeNv+uTPKQpXaM5e48
+         YnmEY/h/kDnxogCjuRLKVIS+SjvCUocZthm/e2Mr2w18zbX9pd2GDOgdfpdgrRBPmfc5
+         3EPQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=H75LXkHa;
-       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::72f as permitted sender) smtp.mailfrom=davidgow@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=eKHRmobr;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::236 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com. [2607:f8b0:4864:20::72f])
-        by gmr-mx.google.com with ESMTPS id a21si127653qtm.3.2021.09.23.10.39.31
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com. [2607:f8b0:4864:20::236])
+        by gmr-mx.google.com with ESMTPS id r14si153844pgv.3.2021.09.23.10.58.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Sep 2021 10:39:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::72f as permitted sender) client-ip=2607:f8b0:4864:20::72f;
-Received: by mail-qk1-x72f.google.com with SMTP id q125so10134344qkd.12
-        for <kasan-dev@googlegroups.com>; Thu, 23 Sep 2021 10:39:31 -0700 (PDT)
-X-Received: by 2002:a37:a90d:: with SMTP id s13mr6209571qke.115.1632418771499;
- Thu, 23 Sep 2021 10:39:31 -0700 (PDT)
+        Thu, 23 Sep 2021 10:58:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::236 as permitted sender) client-ip=2607:f8b0:4864:20::236;
+Received: by mail-oi1-x236.google.com with SMTP id s69so10732669oie.13
+        for <kasan-dev@googlegroups.com>; Thu, 23 Sep 2021 10:58:44 -0700 (PDT)
+X-Received: by 2002:aca:db06:: with SMTP id s6mr2697081oig.70.1632419924159;
+ Thu, 23 Sep 2021 10:58:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210922182541.1372400-1-elver@google.com>
-In-Reply-To: <20210922182541.1372400-1-elver@google.com>
-From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 24 Sep 2021 01:39:19 +0800
-Message-ID: <CABVgOSmKTAQpMzFp6vd+t=ojTPXOT+heME210cq2NA0sMML==w@mail.gmail.com>
+References: <20210922182541.1372400-1-elver@google.com> <CABVgOSmKTAQpMzFp6vd+t=ojTPXOT+heME210cq2NA0sMML==w@mail.gmail.com>
+In-Reply-To: <CABVgOSmKTAQpMzFp6vd+t=ojTPXOT+heME210cq2NA0sMML==w@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 23 Sep 2021 19:58:32 +0200
+Message-ID: <CANpmjNN1VVe682haDKFLMOoHOqSizh9y1sGAc4dZXc4WnBsCbQ@mail.gmail.com>
 Subject: Re: [PATCH] kfence: test: use kunit_skip() to skip tests
-To: Marco Elver <elver@google.com>
+To: David Gow <davidgow@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, Aleksandr Nogikh <nogikh@google.com>, 
 	Taras Madan <tarasmadan@google.com>, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
 	Linux Memory Management List <linux-mm@kvack.org>, kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: davidgow@google.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=H75LXkHa;       spf=pass
- (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::72f
- as permitted sender) smtp.mailfrom=davidgow@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: David Gow <davidgow@google.com>
-Reply-To: David Gow <davidgow@google.com>
+ header.i=@google.com header.s=20210112 header.b=eKHRmobr;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::236 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,78 +132,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Sep 23, 2021 at 2:26 AM Marco Elver <elver@google.com> wrote:
+On Thu, 23 Sept 2021 at 19:39, David Gow <davidgow@google.com> wrote:
+> On Thu, Sep 23, 2021 at 2:26 AM Marco Elver <elver@google.com> wrote:
+> >
+> > Use the new kunit_skip() to skip tests if requirements were not met. It
+> > makes it easier to see in KUnit's summary if there were skipped tests.
+> >
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > ---
 >
-> Use the new kunit_skip() to skip tests if requirements were not met. It
-> makes it easier to see in KUnit's summary if there were skipped tests.
+> Thanks: I'm glad these features are proving useful. I've tested these
+> under qemu, and it works pretty well.
 >
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
+> Certainly from the KUnit point of view, this is:
+> Reviewed-by: David Gow <davidgow@google.com>
 
-Thanks: I'm glad these features are proving useful. I've tested these
-under qemu, and it works pretty well.
+Thanks!
 
-Certainly from the KUnit point of view, this is:
-Reviewed-by: David Gow <davidgow@google.com>
+> (A couple of unrelated complaints about the kfence tests are that
+> TRACEPOINTS isn't selected by default, and that the manual
+> registering/unregistering of the tracepoints does break some of the
+> kunit tooling when several tests are built-in. That's something that
+> exists independently of this patch, though, and possibly requires some
+> KUnit changes to be fixed cleanly (kfence isn't the only thing to do
+> this). So not something to hold up this patch.)
 
-(A couple of unrelated complaints about the kfence tests are that
-TRACEPOINTS isn't selected by default, and that the manual
-registering/unregistering of the tracepoints does break some of the
-kunit tooling when several tests are built-in. That's something that
-exists independently of this patch, though, and possibly requires some
-KUnit changes to be fixed cleanly (kfence isn't the only thing to do
-this). So not something to hold up this patch.)
+I think there was a reason we wanted it to "depends on TRACEPOINTS".
+If it were to select it, then if you do a CONFIG_KUNIT_ALL_TESTS=y,
+and also have KFENCE on, you'll always select tracepoints. In certain
+situations this may not be wanted. If we didn't have
+CONFIG_KUNIT_ALL_TESTS, then certainly, auto-selecting TRACEPOINTS
+would be ok.
 
-Cheers,
--- David
+If you can live with that, we can of course switch it to do "select
+TRACEPOINTS".
 
->  mm/kfence/kfence_test.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
->
-> diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-> index f1690cf54199..695030c1fff8 100644
-> --- a/mm/kfence/kfence_test.c
-> +++ b/mm/kfence/kfence_test.c
-> @@ -32,6 +32,11 @@
->  #define arch_kfence_test_address(addr) (addr)
->  #endif
->
-> +#define KFENCE_TEST_REQUIRES(test, cond) do {                  \
-> +       if (!(cond))                                            \
-> +               kunit_skip((test), "Test requires: " #cond);    \
-> +} while (0)
-> +
->  /* Report as observed from console. */
->  static struct {
->         spinlock_t lock;
-> @@ -555,8 +560,7 @@ static void test_init_on_free(struct kunit *test)
->         };
->         int i;
->
-> -       if (!IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON))
-> -               return;
-> +       KFENCE_TEST_REQUIRES(test, IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON));
->         /* Assume it hasn't been disabled on command line. */
->
->         setup_test_cache(test, size, 0, NULL);
-> @@ -603,10 +607,8 @@ static void test_gfpzero(struct kunit *test)
->         char *buf1, *buf2;
->         int i;
->
-> -       if (CONFIG_KFENCE_SAMPLE_INTERVAL > 100) {
-> -               kunit_warn(test, "skipping ... would take too long\n");
-> -               return;
-> -       }
-> +       /* Skip if we think it'd take too long. */
-> +       KFENCE_TEST_REQUIRES(test, CONFIG_KFENCE_SAMPLE_INTERVAL <= 100);
->
->         setup_test_cache(test, size, 0, NULL);
->         buf1 = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-> --
-> 2.33.0.464.g1972c5931b-goog
->
+On a whole I err on the side of fewer auto-selected Kconfig options.
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CABVgOSmKTAQpMzFp6vd%2Bt%3DojTPXOT%2BheME210cq2NA0sMML%3D%3Dw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN1VVe682haDKFLMOoHOqSizh9y1sGAc4dZXc4WnBsCbQ%40mail.gmail.com.
