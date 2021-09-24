@@ -1,181 +1,141 @@
-Return-Path: <kasan-dev+bncBAABB2FRW6FAMGQE6WUQBQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTEYW6FAMGQECPY5MQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A14417658
-	for <lists+kasan-dev@lfdr.de>; Fri, 24 Sep 2021 15:55:53 +0200 (CEST)
-Received: by mail-pg1-x53c.google.com with SMTP id 1-20020a630e41000000b002528846c9f2sf6219808pgo.12
-        for <lists+kasan-dev@lfdr.de>; Fri, 24 Sep 2021 06:55:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632491752; cv=pass;
+Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFC54173DC
+	for <lists+kasan-dev@lfdr.de>; Fri, 24 Sep 2021 15:02:05 +0200 (CEST)
+Received: by mail-lf1-x13b.google.com with SMTP id 12-20020ac2484c000000b003fcb3298d00sf5955050lfy.13
+        for <lists+kasan-dev@lfdr.de>; Fri, 24 Sep 2021 06:02:05 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632488525; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wS47YWWWPIuv2kecjN6IvZ8fxPoJOvScx15tmJNhlqCMgLWxdpruUx3zccW6F4uPFY
-         bZ4TsQ9yItba4NEgbiMULVoE2TXcIaOqaePllXdCkVGNF5MyrPDanN4KN8mljjcb4PMF
-         ekF9mCU1r5x4SHS8v3WXUt09pEzr7BJrEunrUfd7S7dAnNiMUxQEOYpSJ1bKTP4bIxlW
-         xVxXGFGiQPszWiwi9SIxSHpBhDupEzEBfGVE7kW9ycxu3/nZvhKPoPDFgYDBacLxy6XR
-         7/yiYoUq95lcRS71QIHYEI+PQ018zN4HmO+nb5FcDRUuGEYxdGoM1EdJbmj6OfQulgn0
-         kjGw==
+        b=jfqjN2fbEfxpkWdTkahV/pgtBkl4JYlE/ViMI7gTSPEZbaHzjMCBuyp9bHopVHpw0K
+         czsNfj9LvUUNH6cKO+tc3rxLVS+5n0xkS1B59A80RYiFIIi2eTOH0PR6poltzFo7o+AI
+         FED3aBMg2/w3OOwPUHFXecy3DENA9ryfloaxm9SFuTy0UUNdQIDJaKriPPA7w1fMWOvv
+         ZCsPbH0FgYhsgbr5X/djLuJo0iZ73UXd6prk5Ne+9+ShLvmrEAFV9aerinnebqgWSCxf
+         PLusCjUNZAkvT1alFWXleSpa/cbyEBtu1Ouly3kmxPqBdkr7j/WyVeOYFKOvK0zHZXZY
+         rZ0A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:cms-type:message-id:date
-         :subject:cc:to:from:dkim-filter:mime-version:sender:dkim-signature;
-        bh=s16j3AtVn+L8ZLP5yQEKLDqOjVw9Xz1OjuNKsVUj5CY=;
-        b=Pr7Phqaoec4V/ZSNIRsyJZNWkSIUk8pKh2x+rZIjLchbxj9XttVYvuIno7u/Di8Toh
-         RGkJtF2vEaPxciduGfM+Qu0GE6l1jrx027LV3PLMcJ7diwEWHGtXptEU6vHui/qD3E16
-         kbuIG2BzaK+Ek4dEEmL3545//dYCDChJW0e6OTjycTNOo9UAPbpTE8+5hx3b6Zy1j5Zu
-         n4vwziZ5Au4Q8vFR9wvB5ZCqueJ/Aa4onPG3BNCgWGQsSZWFkNab+yMkyyRlxzWjW1sM
-         DM1noMtJ1wEYC7l97HVSPSKC2N0ltRVg7VNMBoh5ooSAOYoCcpiEBxVC7dTTOrga0uaC
-         oPGQ==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=imFqG+JcmEDg8uIM74cAqlN0wUZMmp1TOdv9r1L9gyE=;
+        b=Kf/88tzoTGCKfdkBg5JyC6+JRNGSEWvCcf7zyX+5+eYcfKfjXECV7vO/kYogG13HIr
+         8KLnWGuJXHH6kgvv+JcDoRo0gH17diEdVkByf91ucHzyBK3W5pGZtRRgSeavwppBR7NS
+         QkjdhYQ5XYepIU74v5wcYFfVGra+0rSZuryS+cA7CCSo8Kv0n9oQAugK0mMyEFWLsBkH
+         KFBVfdQ7pp/aN+GwFg+8LYCVSOyGRgmZU3xqSknUMnlDeFp2DvCUt1zDcj63oV4ev62a
+         BmQy4wSAWI9W/2sd7nmth73WGZTLri7CTig8MDaTstMxKsewn8YMn+SQ3T5FsUgXBrki
+         J9NQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=LUFa8tWW;
-       spf=pass (google.com: domain of manjeet.p@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=manjeet.p@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=fZaJHWBq;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:dkim-filter:from:to:cc:subject:date:message-id
-         :cms-type:references:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=s16j3AtVn+L8ZLP5yQEKLDqOjVw9Xz1OjuNKsVUj5CY=;
-        b=IHC8mc9D3dSJAY5I+0hU6l/sFBj0b5H/i7n3/0a4ghz7AzyCcCurSQMB4f/J7iQBF3
-         BEW71wJVetkUEXhiF/m9Oi7bb3t6Klo6P4E5GVIoHaQGn2xOMjUqQxF9rEfI/AV8lXpQ
-         0qGPZicEsW8QK1Dky3jVyeJg+IP+Jg8MK2IWm/jNT2SR2TopoIZ+OVhVXRbIckf3SgXh
-         Agt79eqAZsX2XaumxlI4AvWzmDa99drMqEoWQN3QBEUplqPfgFpoWEo1fNHzgNQYb0ns
-         XmvHFWi9W7/zOciA+oBJqm2vtFTkdvqvWBYqEvNzZgFGKjEtbPvhKJf3tju7rEC4Xdi0
-         Yi3Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=imFqG+JcmEDg8uIM74cAqlN0wUZMmp1TOdv9r1L9gyE=;
+        b=HuFZeq6zS/cooUbP+BSGb3pfcRKL+s51PTom5CLy/aHWmyHatV3uXck00X3YLKOIkm
+         4BNYrP7Ea4hrzWxf0s3y/v6WCMlteVzy5KwprvxDRm+w8nNO6gZiItlPyqfrag0k+HZr
+         sFF3yG1UwcwD88foY3QM4nPDm8Ciaou2KYt3h3oIpQUWUD8/vkPGrO8wt/npxmGp/TnO
+         lB7iZLu4acrA49I0Mhpm0d06w2BkDWD+H8zC7+5/FaZO+braE2zfxegB+UOMG0vl8PAA
+         PmoNL8RXzAGh0UZKaUG1vJC+seVFYb5zjonCVrYBNFNvystb2sfgVqjlVZBSLbgk176i
+         IzcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:dkim-filter:from:to:cc
-         :subject:date:message-id:cms-type:references:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=s16j3AtVn+L8ZLP5yQEKLDqOjVw9Xz1OjuNKsVUj5CY=;
-        b=W+Z6/wZBn1qnR3liQHM3tBZpinLvcl764ZCDbB+6DgBHF7RxVxYgat6XrMflbpiCTb
-         gd1/xQ7Z6/MUMVPaC2nYIl9IlNBQ67F7jnFX2ZyXEexu00kdYc41pU0b26o/GwCsGwX9
-         d2PiFPa6kmYyNzNoqeVgzp4TOnixyj6uc8CS5OFCRarMXgwxhNNpy98GH0xw0TfNK1Yj
-         3/keVlQcxgN/Psi1x1J9meYnHVg6nLOCXRftg2kvkQSi5CLB2oismvLoJyafynXWaSvu
-         hdIhZ7TI8lxdXH2ZoVAHtuWLQA5+sjX/HJzhRtWvRcnKNUiK6owLmQlQZE57UqdeOeKs
-         Kncg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531Uz/yUKR3hYj3ja0VJ5FJarR/g0+8j1Y6euRcL5Fl4PejWo7CV
-	eHdkL0r0DwyTG6nGzGLkx5g=
-X-Google-Smtp-Source: ABdhPJzgmRMECnf07l3bozrOjrzV37mPOgoH7McJQM5qrZe6o8eJgOOOBZe4ekxu+7LSsGyh+Bgj4g==
-X-Received: by 2002:a17:90a:d312:: with SMTP id p18mr2365755pju.64.1632491752224;
-        Fri, 24 Sep 2021 06:55:52 -0700 (PDT)
-MIME-Version: 1.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=imFqG+JcmEDg8uIM74cAqlN0wUZMmp1TOdv9r1L9gyE=;
+        b=UoapHbbHV7/GM8GAVHiw8RoyrbyJtpZHD/o2xklNky241x4qnk6ypALD1M8RmANvMx
+         4RWKX+13tzxF0miKhDxVNXHieyKoU/m5XDQwivGH4gmL5UIZ3ZXWsmi9f8Rn/c57fSMM
+         WIlG7mBCdk2izYdXuowSeooxTM+3t6lzDspW7KOgjiDfMYbfAGNR5StA7mF88/3v5DXL
+         roT7i4v/MjKYjldYwVgT4QvkaPKLo77reeGXM8NGaZ04ZVl6RAqc3D6SL4+LcDNlI5fq
+         xalemmfGyL+qjXJ56XEXJbtOmqWmrhSLN38Rdcpb65Q8OLWOWdoeizmiyBlQFRPGmHV7
+         69gQ==
+X-Gm-Message-State: AOAM533x1rhJ4xq6HobXZ4ZOLldSI0FWxuFfQ228RK68gDsVwEdG47sN
+	nqRir7xY1krCr6qFfUInAoc=
+X-Google-Smtp-Source: ABdhPJzN+vhY8G3WoloDegKjDiYty6mi1iNX6XJKmk35+CcNPlBFHWSlDh7BYabYX20dZO/PvDLNEg==
+X-Received: by 2002:a2e:4a19:: with SMTP id x25mr11456971lja.114.1632488524700;
+        Fri, 24 Sep 2021 06:02:04 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:3842:: with SMTP id l2ls7888481pjf.3.canary-gmail;
- Fri, 24 Sep 2021 06:55:51 -0700 (PDT)
-X-Received: by 2002:a17:902:c10a:b0:132:580a:90b4 with SMTP id 10-20020a170902c10a00b00132580a90b4mr9065602pli.7.1632491751734;
-        Fri, 24 Sep 2021 06:55:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632491751; cv=none;
+Received: by 2002:a05:6512:324d:: with SMTP id c13ls47478lfr.0.gmail; Fri, 24
+ Sep 2021 06:02:03 -0700 (PDT)
+X-Received: by 2002:a05:6512:792:: with SMTP id x18mr9235197lfr.191.1632488523545;
+        Fri, 24 Sep 2021 06:02:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632488523; cv=none;
         d=google.com; s=arc-20160816;
-        b=zAxWFtz3k66N45SvMBNBknaMYG2awbTnGUkQasr2vCUDTee5kyDVL8gAYnwMnO2vqz
-         oNyvMa9abeX/xu2PYG9DabkF5ckXM+d1i3pn1ty5bn7U+v9fkhc5Hnz9JX8AsBUobsHK
-         mAGD6iyQYk1klNm4c1VRqPBSmYj2fLnd4Mh7lJwvAQUioDKdNRo6Mz5p/W6YmXeJhu2I
-         JsIWyFz1yVzquwl5Jfwg4+itc6iAw4bM4BZpldzfOZGwlrNyBPGAYkzHj1mcpxaj5UOQ
-         J2apaLMG6qHaw021tZqoivSd2Q/2/DCNoayygdtX6QiSmpYOfRKlL+lYpPTNZ+CywnWq
-         n3kg==
+        b=Il7ffZlE+LVaNAlPgJywq22Kk3S7V4TXm+3+BvEf63pxsDz/yXDyURhrkUqBpTU0EJ
+         x+GHZ0rK1EoO1nVSDXhqh8rVBhjD6jOYTaNJMF8aLFSTgDdBw7AOKJKOJi5DXIy42kLK
+         y6bryX5Bq8etCP08y38NUSTsTzq1JjCa/ooB1JprWz3KVXQu5IZIuNUQOeOadrv9AP/F
+         3FrdjqV8RYX3oXa20LeBS7j/0bzP4uecZRd1S4tuPe2+xoQ89YgkgEKZFIumdEWHFOqU
+         TmfvBArFzR3zRa/yoxWvxTjKR+Cc7hW6tyPlbM8x/KwK6NhuoWwZ8ReYbgCORUO3l2NA
+         p9Iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=references:cms-type:message-id:date:subject:cc:to:from
-         :dkim-signature:dkim-filter;
-        bh=mNQhFy+0EiS+QFcEKoyz6Gg5CkSs9cKnhKzNpsJdN6Y=;
-        b=fj0bvmzJ7zpeECrYQkbUNTd6sCPYGAjOrQ/O/ase3IqpPUkyywbUWrSsm5vlp0rSle
-         g/Pz+J3BRWvKt5fYvGaMOxrMZx6IlELPJNtWrbQ6qwpc5JiAPBJ3sd6FQ7VJGI4Ar/Vd
-         s0hovqjzQZOBaTfthTsWjY9XP9TChKet7cZAeu6kYFDeAXc3/YSacF400EUNsy6kyo81
-         3bFEHJBPDRF05rQHDCocbFDOTqHOTxjL6odaw2vqIgsOG3R45OtugnOx43iMcC8ZZbBb
-         2kr+8J93PWluIAMcZq3icrqKP7Hj7Rf/k3/UJX1tg6zmKUKVu4mryandbJaX/ze4jvBF
-         wNyw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=/nem774aIDIH449b+9j/jMCwWdjaEqBhcPs9HQ8+G6o=;
+        b=CVBWz6Qd7PEl2gj1484aoF+p56sq0HNTenonc9zXvT6IBOrpGjH0DW+7g0eF1Y4yMe
+         Fd3k2BZsJA0BECbIn2jzmcKP1oDcSZqJ99w1aNu0PX3lFn8nQTw15hUfAHPPh6AhhDf7
+         UhdRqHEJcSAyHOgoa9NrKB9onvcBWPiu9AF2nB9d09arKvNPUQ9UVwN2P0NlQvsifZcl
+         OfLfQMz49zn4HU1ztN3vwrEFr7PEVJEuMa20en0h7qY0ySS9mRwfRI8ZxPxl4249/48f
+         B9KnUnFDCK1NIi953Pjc+Pf0Q/OfBUwuZ6QIZiVtsgG43zYH3tkoDBL235ruwdFsFrxG
+         huPw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=LUFa8tWW;
-       spf=pass (google.com: domain of manjeet.p@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=manjeet.p@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
-Received: from mailout1.samsung.com (mailout1.samsung.com. [203.254.224.24])
-        by gmr-mx.google.com with ESMTPS id u127si811129pfc.5.2021.09.24.06.55.51
+       dkim=pass header.i=@google.com header.s=20210112 header.b=fZaJHWBq;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com. [2a00:1450:4864:20::430])
+        by gmr-mx.google.com with ESMTPS id y20si436795lfb.10.2021.09.24.06.02.03
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 Sep 2021 06:55:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of manjeet.p@samsung.com designates 203.254.224.24 as permitted sender) client-ip=203.254.224.24;
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20210924135549epoutp016d56e5c5b8e756373f9c369711a728cb~nxpjCqkpP1278212782epoutp01j
-	for <kasan-dev@googlegroups.com>; Fri, 24 Sep 2021 13:55:49 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20210924135549epoutp016d56e5c5b8e756373f9c369711a728cb~nxpjCqkpP1278212782epoutp01j
-Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20210924135548epcas5p114c5dca6c0cb260a1e30d3bde0962b39~nxph5DVLr1707317073epcas5p1g;
-	Fri, 24 Sep 2021 13:55:48 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	80.22.59762.3E8DD416; Fri, 24 Sep 2021 22:55:47 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20210924121457epcas5p39266266f9cef79177f2301a6a4f7d79a~nwRe_0fYE1848718487epcas5p3u;
-	Fri, 24 Sep 2021 12:14:57 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20210924121457epsmtrp21f242e919d84fda83da496006302ee51~nwRe_AMG82712327123epsmtrp2B;
-	Fri, 24 Sep 2021 12:14:57 +0000 (GMT)
-X-AuditID: b6c32a49-10fff7000000e972-97-614dd8e38bdf
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	AB.6D.09091.141CD416; Fri, 24 Sep 2021 21:14:57 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.109.224.44]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20210924121455epsmtip2923d25f8bf1e960d7c28e1c1f758c3bc~nwRc95v331682016820epsmtip2a;
-	Fri, 24 Sep 2021 12:14:55 +0000 (GMT)
-From: Manjeet Pawar <manjeet.p@samsung.com>
-To: glider@google.com, elver@google.com, dvyukov@google.com,
-	akpm@linux-foundation.org, kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Cc: r.thapliyal@samsung.com, a.sahrawat@samsung.com, v.narang@samsung.com,
-	Manjeet Pawar <manjeet.p@samsung.com>
-Subject: [PATCH] mm/kfence: Null check is added for return value of
- addr_to_metadata
-Date: Fri, 24 Sep 2021 17:44:02 +0530
-Message-Id: <1632485642-20625-1-git-send-email-manjeet.p@samsung.com>
-X-Mailer: git-send-email 2.7.4
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAIsWRmVeSWpSXmKPExsWy7bCmpu7jG76JBkt6bCwu7k61mLN+DZvF
-	hIdt7BZtZ7azWrR/3MtsseLZfSaLy7vmsFncW/Of1eJe61o2i433si0OnZzL6MDtsWBTqcee
-	iSfZPDZ9msTucWLGbxaPvi2rGD0+b5ILYIvisklJzcksSy3St0vgyujeeoC9oJmt4tjeZYwN
-	jJ9Zuhg5OSQETCR6tq9l7GLk4hAS2M0oMWfaNFaQhJDAJ0aJjx+dIBLfGCW+zO5khOn49+YL
-	VMdeRomeDVPYIJwvjBIvFi0Dq2IT0JbY86ONHSQhIrCCUWLWifdMIAlmgSKJ97+Xs4PYwgJh
-	Eh2HF4DFWQRUJY5f2gq2m1fAVeLYxbvsEOvkJG6e62QGGSQhcIpd4uDUj6wQCReJ3w/+s0HY
-	whKvjm+BapCS+PxuL1S8XmLzhs1QzT2MEj/P/oRK2Es8ubgQaBAH0EWaEut36UOEZSWmnloH
-	dSifRO/vJ0wQcV6JHfNgbGWJZec3Q9mSErPPHGWGsD0kNt94xQwJvFiJyR9amCYwys5C2LCA
-	kXEVo2RqQXFuemqxaYFhXmq5XnFibnFpXrpecn7uJkZwotDy3MF498EHvUOMTByMhxglOJiV
-	RHg/3/BKFOJNSaysSi3Kjy8qzUktPsQozcGiJM778bVlopBAemJJanZqakFqEUyWiYNTqoGp
-	/1Dko7KdWw/uuDax9KSaZ6fU/GIHu7CJjX9e3z7bk5eU5ZEXclKzU52v916l6q+by4/wn+H8
-	HDorTP6OL+NXzb7XqZlmE57rSTldqxBbf+3vlYil+vrHor4dDJHcKD55yn+lbdNt/m5LaW2M
-	4Y1YxLp6kbi36+1dqR+O/snMvf3m6oETzad5FApr29+9Fn/e6tP+hXm95aIDHlVvnVhrXy6s
-	vLTBKEWma3OHwS6+o1Flp/azM8ld6rwVeO6q4PWi76YnN9xb9Nv0nJjSpALW/7U7HhTYpO9l
-	OjaLj831KU+bg0dqx6+7HYdSTtm8PePpHTI3f4r7k8i1YvobP1wIdP32fb1YxyktfnGj25v2
-	KLEUZyQaajEXFScCAFiuq3aDAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprELMWRmVeSWpSXmKPExsWy7bCSvK7jQd9Eg/7rwhYXd6dazFm/hs1i
-	wsM2dou2M9tZLdo/7mW2WPHsPpPF5V1z2CzurfnPanGvdS2bxcZ72RaHTs5ldOD2WLCp1GPP
-	xJNsHps+TWL3ODHjN4tH35ZVjB6fN8kFsEVx2aSk5mSWpRbp2yVwZXRvPcBe0MxWcWzvMsYG
-	xs8sXYycHBICJhL/3nxhBLGFBHYzSjyeogsRl5ToXzcVqkZYYuW/5+wQNZ8YJba1poDYbALa
-	Ent+tIHFRQQ2MEqseefdxcjBwSxQJtHwWQAkLCwQIjFh4XpmEJtFQFXi+KWtrCA2r4CrxLGL
-	d9khxstJ3DzXyTyBkWcBI8MqRsnUguLc9NxiwwLDvNRyveLE3OLSvHS95PzcTYzgYNPS3MG4
-	fdUHvUOMTByMhxglOJiVRHg/3/BKFOJNSaysSi3Kjy8qzUktPsQozcGiJM57oetkvJBAemJJ
-	anZqakFqEUyWiYNTqoHJbXHGqX+Jk57xvSx7/+JT1xXZm891IjdVnRCXYLVfvvby65jfs+1Z
-	MwoDg7+mSPdnTfn1JTdpo/uUuVV3dsQocwh9uGsUWHovvcdrv4HWgVUek6+z39ZJ/W11zkLW
-	KLnqT9+Pa1zfeSKP/Hz2vztB3DTkytG+K9m7xSuVDiza5Xeapym0O+Jq3luDiRtz8x+IPrj/
-	+26trXyeetpWRdP4rT8NPkXX7NH2eTCjlYXvkenLD4YWGX+O+SzY/+DJ0v9SWUmJ3o+aF/H/
-	9jWUecxofPl97EtjY0v2Z/8bG3V1hJ89TCudoM94d6dup3+qbRani/CyU7v+Ja6eenJT89me
-	hHfsC9gixdylVv1a0DZHiaU4I9FQi7moOBEAT32yLaUCAAA=
-X-CMS-MailID: 20210924121457epcas5p39266266f9cef79177f2301a6a4f7d79a
-X-Msg-Generator: CA
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Sep 2021 06:02:03 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as permitted sender) client-ip=2a00:1450:4864:20::430;
+Received: by mail-wr1-x430.google.com with SMTP id t8so27429939wri.1
+        for <kasan-dev@googlegroups.com>; Fri, 24 Sep 2021 06:02:03 -0700 (PDT)
+X-Received: by 2002:a7b:c453:: with SMTP id l19mr1935567wmi.7.1632488522987;
+        Fri, 24 Sep 2021 06:02:02 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:15:13:594c:8b31:64da:f783])
+        by smtp.gmail.com with ESMTPSA id n66sm8235632wmn.2.2021.09.24.06.02.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 06:02:02 -0700 (PDT)
+Date: Fri, 24 Sep 2021 15:01:56 +0200
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
+	Aleksandr Nogikh <nogikh@google.com>,
+	Taras Madan <tarasmadan@google.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	kasan-dev <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH v3 4/5] kfence: limit currently covered allocations when
+ pool nearly full
+Message-ID: <YU3MRGaCaJiYht5g@elver.google.com>
+References: <20210923104803.2620285-1-elver@google.com>
+ <20210923104803.2620285-4-elver@google.com>
+ <CACT4Y+Zvm4dXQY2tCuypso9aU97_6U2dLhfg2NNA8GTvcQoCLQ@mail.gmail.com>
+ <CAG_fn=V31jEBeEVh0H2+uPAd2AhV9y6hYJmcP0P_i05UJ+MiTg@mail.gmail.com>
+ <CANpmjNOh0ugPq90cVRPAbR-6qr=Q4CsQ_R1Qxk_Bi4TocgwUQA@mail.gmail.com>
+ <20210923162811.3cc8188d6a30d9eed2375468@linux-foundation.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210924121457epcas5p39266266f9cef79177f2301a6a4f7d79a
-References: <CGME20210924121457epcas5p39266266f9cef79177f2301a6a4f7d79a@epcas5p3.samsung.com>
-X-Original-Sender: manjeet.p@samsung.com
+Content-Disposition: inline
+In-Reply-To: <20210923162811.3cc8188d6a30d9eed2375468@linux-foundation.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@samsung.com header.s=mail20170921 header.b=LUFa8tWW;       spf=pass
- (google.com: domain of manjeet.p@samsung.com designates 203.254.224.24 as
- permitted sender) smtp.mailfrom=manjeet.p@samsung.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+ header.i=@google.com header.s=20210112 header.b=fZaJHWBq;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::430 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -188,33 +148,120 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patch add null check for return value of addr_to_metadata().
-currently 'meta' is geting accessed without any NULL check but it is
-usually checked for this function.
+On Thu, Sep 23, 2021 at 04:28PM -0700, Andrew Morton wrote:
+> On Thu, 23 Sep 2021 15:44:10 +0200 Marco Elver <elver@google.com> wrote:
+[...]
+> > I'm worried about next_pseudo_random32() changing their implementation
+> > to longer be deterministic or change in other ways that break our
+> > usecase. In this case we want pseudorandomness, but we're not
+> > implementing a PRNG.
+> > 
+> > Open-coding the constants (given they are from "Numerical Recipes") is
+> > more reliable and doesn't introduce unwanted reliance on
+> > next_pseudo_random32()'s behaviour.
+> 
+> Perhaps we could summarize this in an additional comment?
 
-Signed-off-by: Manjeet Pawar <manjeet.p@samsung.com>
+Hmm, on second thought, while trying to write the comment realized it's
+unnecessary altogether. I've switched to just using hash_32() which is
+probably better suited.
+
+> Also, this:
+> 
+> +static u32 get_alloc_stack_hash(unsigned long *stack_entries, size_t num_entries)
+> +{
+> +	/* Some randomness across reboots / different machines. */
+> +	u32 seed = (u32)((unsigned long)__kfence_pool >> (BITS_PER_LONG - 32));
+> 
+> seems a bit weak.  Would it be better to seed this at boot time with
+> a randomish number?
+
+Sure, makes sense.
+
+Both fixes are included in the below fixup. (Let me know if resending as
+v4 is better, but I've seen the patches already appeared in -mm.)
+
+Thank you!
+
+-- Marco
+
+------ >8 ------
+
+From: Marco Elver <elver@google.com>
+Date: Fri, 24 Sep 2021 14:17:38 +0200
+Subject: [PATCH] fixup! kfence: limit currently covered allocations when pool
+ nearly full
+
+* Simplify and just use hash_32().
+* Use more random stack_hash_seed.
+
+Signed-off-by: Marco Elver <elver@google.com>
 ---
- mm/kfence/core.c | 3 +++
- 1 file changed, 3 insertions(+)
+ mm/kfence/core.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 575c685aa642..9b953cfa7fee 100644
+index 58a0f6f1acc5..545999d04af4 100644
 --- a/mm/kfence/core.c
 +++ b/mm/kfence/core.c
-@@ -802,6 +802,9 @@ void __kfence_free(void *addr)
- {
- 	struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
+@@ -10,6 +10,7 @@
+ #include <linux/atomic.h>
+ #include <linux/bug.h>
+ #include <linux/debugfs.h>
++#include <linux/hash.h>
+ #include <linux/irq_work.h>
+ #include <linux/jhash.h>
+ #include <linux/kcsan-checks.h>
+@@ -122,14 +123,21 @@ atomic_t kfence_allocation_gate = ATOMIC_INIT(1);
+  *	P(alloc_traces) = (1 - e^(-HNUM * (alloc_traces / SIZE)) ^ HNUM
+  */
+ #define ALLOC_COVERED_HNUM	2
+-#define ALLOC_COVERED_SIZE	(1 << (const_ilog2(CONFIG_KFENCE_NUM_OBJECTS) + 2))
+-#define ALLOC_COVERED_HNEXT(h)	(1664525 * (h) + 1013904223)
++#define ALLOC_COVERED_ORDER	(const_ilog2(CONFIG_KFENCE_NUM_OBJECTS) + 2)
++#define ALLOC_COVERED_SIZE	(1 << ALLOC_COVERED_ORDER)
++#define ALLOC_COVERED_HNEXT(h)	hash_32(h, ALLOC_COVERED_ORDER)
+ #define ALLOC_COVERED_MASK	(ALLOC_COVERED_SIZE - 1)
+ static atomic_t alloc_covered[ALLOC_COVERED_SIZE];
  
-+	if (unlikely(!meta))
-+		return;
+ /* Stack depth used to determine uniqueness of an allocation. */
+ #define UNIQUE_ALLOC_STACK_DEPTH 8UL
+ 
++/*
++ * Randomness for stack hashes, making the same collisions across reboots and
++ * different machines less likely.
++ */
++static u32 stack_hash_seed __ro_after_init;
 +
- 	/*
- 	 * If the objects of the cache are SLAB_TYPESAFE_BY_RCU, defer freeing
- 	 * the object, as the object page may be recycled for other-typed
+ /* Statistics counters for debugfs. */
+ enum kfence_counter_id {
+ 	KFENCE_COUNTER_ALLOCATED,
+@@ -166,12 +174,9 @@ static inline bool should_skip_covered(void)
+ 
+ static u32 get_alloc_stack_hash(unsigned long *stack_entries, size_t num_entries)
+ {
+-	/* Some randomness across reboots / different machines. */
+-	u32 seed = (u32)((unsigned long)__kfence_pool >> (BITS_PER_LONG - 32));
+-
+ 	num_entries = min(num_entries, UNIQUE_ALLOC_STACK_DEPTH);
+ 	num_entries = filter_irq_stacks(stack_entries, num_entries);
+-	return jhash(stack_entries, num_entries * sizeof(stack_entries[0]), seed);
++	return jhash(stack_entries, num_entries * sizeof(stack_entries[0]), stack_hash_seed);
+ }
+ 
+ /*
+@@ -759,6 +764,7 @@ void __init kfence_init(void)
+ 	if (!kfence_sample_interval)
+ 		return;
+ 
++	stack_hash_seed = (u32)random_get_entropy();
+ 	if (!kfence_init_pool()) {
+ 		pr_err("%s failed\n", __func__);
+ 		return;
 -- 
-2.17.1
+2.33.0.685.g46640cef36-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1632485642-20625-1-git-send-email-manjeet.p%40samsung.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YU3MRGaCaJiYht5g%40elver.google.com.
