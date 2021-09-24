@@ -1,138 +1,181 @@
-Return-Path: <kasan-dev+bncBC24VNFHTMIBB64SW2FAMGQEEKFZ7PY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB2FRW6FAMGQE6WUQBQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x337.google.com (mail-ot1-x337.google.com [IPv6:2607:f8b0:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19592416D81
-	for <lists+kasan-dev@lfdr.de>; Fri, 24 Sep 2021 10:17:01 +0200 (CEST)
-Received: by mail-ot1-x337.google.com with SMTP id x25-20020a9d6d99000000b0051bf9bfc12fsf5596193otp.8
-        for <lists+kasan-dev@lfdr.de>; Fri, 24 Sep 2021 01:17:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632471420; cv=pass;
+Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A14417658
+	for <lists+kasan-dev@lfdr.de>; Fri, 24 Sep 2021 15:55:53 +0200 (CEST)
+Received: by mail-pg1-x53c.google.com with SMTP id 1-20020a630e41000000b002528846c9f2sf6219808pgo.12
+        for <lists+kasan-dev@lfdr.de>; Fri, 24 Sep 2021 06:55:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632491752; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IiWBlYSUru8LEfJDUVZ/X58Isn298TMXEZ5HXWEe2Es86APTLdhsKLhKcH/I0rTBVy
-         CTXQb5GZfH3KwXgwkGy5py3P1Auk7l0I8PRETz9cJQFrD56P+fY7hqd2gTj5idEJL5HK
-         CpYAhXx79E37Qz3ZxMBm69wmXJt/3bS6l68CPD7BSoUaooJJ+KQXdWNIHCuRW/eu8rLF
-         O6CdIrsopBcrcGUxAijiAse7iStXg7TiBAKaD7GhLKJIOXoabgdlomn/V5iTVh+lghuH
-         PiYb6OnvrklgI3Z0/Gkd11KwjR/idfSb04jwL7aI8PP5BThsgqmN3WDT9T1vUKkuww7U
-         IH/Q==
+        b=wS47YWWWPIuv2kecjN6IvZ8fxPoJOvScx15tmJNhlqCMgLWxdpruUx3zccW6F4uPFY
+         bZ4TsQ9yItba4NEgbiMULVoE2TXcIaOqaePllXdCkVGNF5MyrPDanN4KN8mljjcb4PMF
+         ekF9mCU1r5x4SHS8v3WXUt09pEzr7BJrEunrUfd7S7dAnNiMUxQEOYpSJ1bKTP4bIxlW
+         xVxXGFGiQPszWiwi9SIxSHpBhDupEzEBfGVE7kW9ycxu3/nZvhKPoPDFgYDBacLxy6XR
+         7/yiYoUq95lcRS71QIHYEI+PQ018zN4HmO+nb5FcDRUuGEYxdGoM1EdJbmj6OfQulgn0
+         kjGw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:auto-submitted
-         :references:in-reply-to:message-id:date:subject:to:from:sender
-         :dkim-signature;
-        bh=QkSaZgXaVO0GtatKIEti0gsUGRrZxVx1xwI3xlvr2L0=;
-        b=R6UlbIA6YFaMxC5UHKqF6X6vrWex46daZofuYhog1Z6xn6FjgZ6/ts8Ha+CSv+3OJE
-         42yBoB/8JystmZi8KYwRCSgRIhkRLXiZDjxxZhiT+cAiw0t4dol9TwwZ0Iv8RJWK2ME1
-         ft2GoK4z4kSUF4kPsuO6HbjC+hSam3bswQpOdIpSWpFmmnctKZ3iAxIYyov/3EuAlLSy
-         SXohMTq9CiDLkkjfqeU+jpIP5J7vanw4ciTrPhV4Z4OJffelVw8cqOfHtgYr1S9NMj4k
-         0r8FMF4G+ZRTdEM0539bdvKB3tx0fH5oNDLRNJzT58O9ZTl9lP/mYZsqELQSdHBu2xMT
-         U57w==
+         :list-id:mailing-list:precedence:references:cms-type:message-id:date
+         :subject:cc:to:from:dkim-filter:mime-version:sender:dkim-signature;
+        bh=s16j3AtVn+L8ZLP5yQEKLDqOjVw9Xz1OjuNKsVUj5CY=;
+        b=Pr7Phqaoec4V/ZSNIRsyJZNWkSIUk8pKh2x+rZIjLchbxj9XttVYvuIno7u/Di8Toh
+         RGkJtF2vEaPxciduGfM+Qu0GE6l1jrx027LV3PLMcJ7diwEWHGtXptEU6vHui/qD3E16
+         kbuIG2BzaK+Ek4dEEmL3545//dYCDChJW0e6OTjycTNOo9UAPbpTE8+5hx3b6Zy1j5Zu
+         n4vwziZ5Au4Q8vFR9wvB5ZCqueJ/Aa4onPG3BNCgWGQsSZWFkNab+yMkyyRlxzWjW1sM
+         DM1noMtJ1wEYC7l97HVSPSKC2N0ltRVg7VNMBoh5ooSAOYoCcpiEBxVC7dTTOrga0uaC
+         oPGQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=UUfUBl9A;
-       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=LUFa8tWW;
+       spf=pass (google.com: domain of manjeet.p@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=manjeet.p@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:subject:date:message-id:in-reply-to:references
-         :auto-submitted:mime-version:x-original-sender
+        h=sender:mime-version:dkim-filter:from:to:cc:subject:date:message-id
+         :cms-type:references:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=QkSaZgXaVO0GtatKIEti0gsUGRrZxVx1xwI3xlvr2L0=;
-        b=kTkVMjKwvQzFsSdiiEHrTrVEGmA0EuudafdfuSMDsc2p6oEHnfQNi2oHHJ1B+Aq9uM
-         NKOnG/Oogt/2jtLAPxBjAKgXUVERtJvVBLqOJRIL8RQ3gn75DSpfG9tVvF/WKb+A+7He
-         di2WNeg1BxIa36W/dqmG5vzxzwwaC0iV+f1q2pZWU5Q3MbdPXvePJ/gFN6URklnpxtmT
-         GOs+b9wLA53AM6m6XEWyv8gMYPEoxRDXSFE6AW7dBMJpISHuGcmY61pLhx9OcDcns1c2
-         s5tLeOfcjNWK4e3SSc0NVbKGFjcD9hwMNLwa/bg2ItchCcMG1eKEZVKfMNoC80MElPSx
-         bfgQ==
+        bh=s16j3AtVn+L8ZLP5yQEKLDqOjVw9Xz1OjuNKsVUj5CY=;
+        b=IHC8mc9D3dSJAY5I+0hU6l/sFBj0b5H/i7n3/0a4ghz7AzyCcCurSQMB4f/J7iQBF3
+         BEW71wJVetkUEXhiF/m9Oi7bb3t6Klo6P4E5GVIoHaQGn2xOMjUqQxF9rEfI/AV8lXpQ
+         0qGPZicEsW8QK1Dky3jVyeJg+IP+Jg8MK2IWm/jNT2SR2TopoIZ+OVhVXRbIckf3SgXh
+         Agt79eqAZsX2XaumxlI4AvWzmDa99drMqEoWQN3QBEUplqPfgFpoWEo1fNHzgNQYb0ns
+         XmvHFWi9W7/zOciA+oBJqm2vtFTkdvqvWBYqEvNzZgFGKjEtbPvhKJf3tju7rEC4Xdi0
+         Yi3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:subject:date:message-id
-         :in-reply-to:references:auto-submitted:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=QkSaZgXaVO0GtatKIEti0gsUGRrZxVx1xwI3xlvr2L0=;
-        b=OzqX6gshKBa9ZgbBS8O58SpCvb4HtC1l+A4IBeRC2dNEanjByYdYVq5+ThXv6QO0EA
-         ufKRBPHnZdAB64sKPFZpE6NStOvMHxt95rLjnx9AfJM4E5wZ9uFKcwanG2hqdJ6Af9L4
-         jvw9LiPEy/zHQtwfH7jgb8tOX+jTmdvYacAfBDXd7wcUC8U5HKMvldlptX3ZIRsaK1jn
-         6h88urL7+iOS9gdMscsi6QGTtCkmKwPlCfYpZobJ4RKSmu/8XVRSitohDfQO8ur2ZsZy
-         nCz+j+S56LnIAUhoiE5g7SziiSXFep6r75FgYJ44n7XPdUeVGIO9Gbvgid6eslN6Ns6t
-         D1Bw==
+        h=sender:x-gm-message-state:mime-version:dkim-filter:from:to:cc
+         :subject:date:message-id:cms-type:references:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=s16j3AtVn+L8ZLP5yQEKLDqOjVw9Xz1OjuNKsVUj5CY=;
+        b=W+Z6/wZBn1qnR3liQHM3tBZpinLvcl764ZCDbB+6DgBHF7RxVxYgat6XrMflbpiCTb
+         gd1/xQ7Z6/MUMVPaC2nYIl9IlNBQ67F7jnFX2ZyXEexu00kdYc41pU0b26o/GwCsGwX9
+         d2PiFPa6kmYyNzNoqeVgzp4TOnixyj6uc8CS5OFCRarMXgwxhNNpy98GH0xw0TfNK1Yj
+         3/keVlQcxgN/Psi1x1J9meYnHVg6nLOCXRftg2kvkQSi5CLB2oismvLoJyafynXWaSvu
+         hdIhZ7TI8lxdXH2ZoVAHtuWLQA5+sjX/HJzhRtWvRcnKNUiK6owLmQlQZE57UqdeOeKs
+         Kncg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532uh7w57cqj2Ie9qGS89ifh2ViQbfY/7U/r9VkuXMTs+0JuWe65
-	55Lj59d6pBOo+GihDCo1U+4=
-X-Google-Smtp-Source: ABdhPJwEnAI7C7MUuqpD59tGPONjBIskSimiEscWfHq922Sv9B4g2Z4kAN32wo3viuVL5n6Ws0OSLA==
-X-Received: by 2002:a05:6830:44a4:: with SMTP id r36mr2802021otv.107.1632471419896;
-        Fri, 24 Sep 2021 01:16:59 -0700 (PDT)
+X-Gm-Message-State: AOAM531Uz/yUKR3hYj3ja0VJ5FJarR/g0+8j1Y6euRcL5Fl4PejWo7CV
+	eHdkL0r0DwyTG6nGzGLkx5g=
+X-Google-Smtp-Source: ABdhPJzgmRMECnf07l3bozrOjrzV37mPOgoH7McJQM5qrZe6o8eJgOOOBZe4ekxu+7LSsGyh+Bgj4g==
+X-Received: by 2002:a17:90a:d312:: with SMTP id p18mr2365755pju.64.1632491752224;
+        Fri, 24 Sep 2021 06:55:52 -0700 (PDT)
+MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:14d1:: with SMTP id f17ls2587042oiw.4.gmail; Fri,
- 24 Sep 2021 01:16:59 -0700 (PDT)
-X-Received: by 2002:aca:1c02:: with SMTP id c2mr467207oic.11.1632471419466;
-        Fri, 24 Sep 2021 01:16:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632471419; cv=none;
+Received: by 2002:a17:90a:3842:: with SMTP id l2ls7888481pjf.3.canary-gmail;
+ Fri, 24 Sep 2021 06:55:51 -0700 (PDT)
+X-Received: by 2002:a17:902:c10a:b0:132:580a:90b4 with SMTP id 10-20020a170902c10a00b00132580a90b4mr9065602pli.7.1632491751734;
+        Fri, 24 Sep 2021 06:55:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632491751; cv=none;
         d=google.com; s=arc-20160816;
-        b=k/gtJiUOqG+xYatSfcVyk3vtx+PWxenIn2sUNBvDrr+ed36f57dN4XJ/xqXW/CGxUm
-         i+XEVv2yQiWGTMH1WRsr2GPlEqaC8F3Rz0D9rhmmvnUUW5hYekaEFcjt6G+iFuAPUnyG
-         5XFPsJg6q9DBHI5Np7RAcZmv69iKcOrI5wxXycoL6EVaqXpnOhQi2ZmVTtRS7v9kcinu
-         XBR05YssyVdvLjx9gVQPAFfOxfcCR5yX2xKC+hJQR/7WLZDZxBesCViWVW5HM3jolU8c
-         c4FG3JIQaG6xx+tgGpElrDGQ2UdZiV4cPAIFCqrN3A35Qh3crbzJ93bFYnKIQtb8fgfx
-         YXXg==
+        b=zAxWFtz3k66N45SvMBNBknaMYG2awbTnGUkQasr2vCUDTee5kyDVL8gAYnwMnO2vqz
+         oNyvMa9abeX/xu2PYG9DabkF5ckXM+d1i3pn1ty5bn7U+v9fkhc5Hnz9JX8AsBUobsHK
+         mAGD6iyQYk1klNm4c1VRqPBSmYj2fLnd4Mh7lJwvAQUioDKdNRo6Mz5p/W6YmXeJhu2I
+         JsIWyFz1yVzquwl5Jfwg4+itc6iAw4bM4BZpldzfOZGwlrNyBPGAYkzHj1mcpxaj5UOQ
+         J2apaLMG6qHaw021tZqoivSd2Q/2/DCNoayygdtX6QiSmpYOfRKlL+lYpPTNZ+CywnWq
+         n3kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:auto-submitted:content-transfer-encoding:references
-         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
-        bh=igRKIpX5q/jPXAoPGjP/F3roaZCr3bGdUIA1eCsujBA=;
-        b=ePxjEfPBnELX5WevDbL1Nw36dVZ0/1v52Bia8ZtxXO3cXHXgzEqveRFWbzV+zPnG5/
-         VpL1PHN81LgHdiUhIUEWXsdPPDDbaA3uMEuVrPf6wcsFkCxwHQiU3npFo9vc09FEaZyQ
-         eqiSdVM1lXJEeZTPp7arhnjim9qsInSzDpkIQQYc7z+vqYqW6qIme7EcmTrium+yatGK
-         zCFb+S7kvX058+hVvtlbxsU+BKGLr9nGYp0P4sOAbuhSOoI8Ar/l5KF5YDb3nzEik0s7
-         QTcCzHJWTxV1ahJbil+ZU/ENnCLKZu3N78hBo6tPkHzQQBnYVfUWbE1fuzGFLYTSo7wk
-         Vn0w==
+        h=references:cms-type:message-id:date:subject:cc:to:from
+         :dkim-signature:dkim-filter;
+        bh=mNQhFy+0EiS+QFcEKoyz6Gg5CkSs9cKnhKzNpsJdN6Y=;
+        b=fj0bvmzJ7zpeECrYQkbUNTd6sCPYGAjOrQ/O/ase3IqpPUkyywbUWrSsm5vlp0rSle
+         g/Pz+J3BRWvKt5fYvGaMOxrMZx6IlELPJNtWrbQ6qwpc5JiAPBJ3sd6FQ7VJGI4Ar/Vd
+         s0hovqjzQZOBaTfthTsWjY9XP9TChKet7cZAeu6kYFDeAXc3/YSacF400EUNsy6kyo81
+         3bFEHJBPDRF05rQHDCocbFDOTqHOTxjL6odaw2vqIgsOG3R45OtugnOx43iMcC8ZZbBb
+         2kr+8J93PWluIAMcZq3icrqKP7Hj7Rf/k3/UJX1tg6zmKUKVu4mryandbJaX/ze4jvBF
+         wNyw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=UUfUBl9A;
-       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id bd5si622374oib.2.2021.09.24.01.16.59
+       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=LUFa8tWW;
+       spf=pass (google.com: domain of manjeet.p@samsung.com designates 203.254.224.24 as permitted sender) smtp.mailfrom=manjeet.p@samsung.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+Received: from mailout1.samsung.com (mailout1.samsung.com. [203.254.224.24])
+        by gmr-mx.google.com with ESMTPS id u127si811129pfc.5.2021.09.24.06.55.51
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 Sep 2021 01:16:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPS id AE21060F41
-	for <kasan-dev@googlegroups.com>; Fri, 24 Sep 2021 08:16:58 +0000 (UTC)
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-	id 9C01360FED; Fri, 24 Sep 2021 08:16:58 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: kasan-dev@googlegroups.com
-Subject: [Bug 214429] Detect periodic timers re-armed too frequently (leads
- to stalls)
-Date: Fri, 24 Sep 2021 08:16:58 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Sanitizers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: dvyukov@google.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214429-199747-qPGLy8teGk@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214429-199747@https.bugzilla.kernel.org/>
-References: <bug-214429-199747@https.bugzilla.kernel.org/>
+        Fri, 24 Sep 2021 06:55:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of manjeet.p@samsung.com designates 203.254.224.24 as permitted sender) client-ip=203.254.224.24;
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20210924135549epoutp016d56e5c5b8e756373f9c369711a728cb~nxpjCqkpP1278212782epoutp01j
+	for <kasan-dev@googlegroups.com>; Fri, 24 Sep 2021 13:55:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20210924135549epoutp016d56e5c5b8e756373f9c369711a728cb~nxpjCqkpP1278212782epoutp01j
+Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20210924135548epcas5p114c5dca6c0cb260a1e30d3bde0962b39~nxph5DVLr1707317073epcas5p1g;
+	Fri, 24 Sep 2021 13:55:48 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	80.22.59762.3E8DD416; Fri, 24 Sep 2021 22:55:47 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20210924121457epcas5p39266266f9cef79177f2301a6a4f7d79a~nwRe_0fYE1848718487epcas5p3u;
+	Fri, 24 Sep 2021 12:14:57 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20210924121457epsmtrp21f242e919d84fda83da496006302ee51~nwRe_AMG82712327123epsmtrp2B;
+	Fri, 24 Sep 2021 12:14:57 +0000 (GMT)
+X-AuditID: b6c32a49-10fff7000000e972-97-614dd8e38bdf
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	AB.6D.09091.141CD416; Fri, 24 Sep 2021 21:14:57 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.109.224.44]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20210924121455epsmtip2923d25f8bf1e960d7c28e1c1f758c3bc~nwRc95v331682016820epsmtip2a;
+	Fri, 24 Sep 2021 12:14:55 +0000 (GMT)
+From: Manjeet Pawar <manjeet.p@samsung.com>
+To: glider@google.com, elver@google.com, dvyukov@google.com,
+	akpm@linux-foundation.org, kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Cc: r.thapliyal@samsung.com, a.sahrawat@samsung.com, v.narang@samsung.com,
+	Manjeet Pawar <manjeet.p@samsung.com>
+Subject: [PATCH] mm/kfence: Null check is added for return value of
+ addr_to_metadata
+Date: Fri, 24 Sep 2021 17:44:02 +0530
+Message-Id: <1632485642-20625-1-git-send-email-manjeet.p@samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAIsWRmVeSWpSXmKPExsWy7bCmpu7jG76JBkt6bCwu7k61mLN+DZvF
+	hIdt7BZtZ7azWrR/3MtsseLZfSaLy7vmsFncW/Of1eJe61o2i433si0OnZzL6MDtsWBTqcee
+	iSfZPDZ9msTucWLGbxaPvi2rGD0+b5ILYIvisklJzcksSy3St0vgyujeeoC9oJmt4tjeZYwN
+	jJ9Zuhg5OSQETCR6tq9l7GLk4hAS2M0oMWfaNFaQhJDAJ0aJjx+dIBLfGCW+zO5khOn49+YL
+	VMdeRomeDVPYIJwvjBIvFi0Dq2IT0JbY86ONHSQhIrCCUWLWifdMIAlmgSKJ97+Xs4PYwgJh
+	Eh2HF4DFWQRUJY5f2gq2m1fAVeLYxbvsEOvkJG6e62QGGSQhcIpd4uDUj6wQCReJ3w/+s0HY
+	whKvjm+BapCS+PxuL1S8XmLzhs1QzT2MEj/P/oRK2Es8ubgQaBAH0EWaEut36UOEZSWmnloH
+	dSifRO/vJ0wQcV6JHfNgbGWJZec3Q9mSErPPHGWGsD0kNt94xQwJvFiJyR9amCYwys5C2LCA
+	kXEVo2RqQXFuemqxaYFhXmq5XnFibnFpXrpecn7uJkZwotDy3MF498EHvUOMTByMhxglOJiV
+	RHg/3/BKFOJNSaysSi3Kjy8qzUktPsQozcGiJM778bVlopBAemJJanZqakFqEUyWiYNTqoGp
+	/1Dko7KdWw/uuDax9KSaZ6fU/GIHu7CJjX9e3z7bk5eU5ZEXclKzU52v916l6q+by4/wn+H8
+	HDorTP6OL+NXzb7XqZlmE57rSTldqxBbf+3vlYil+vrHor4dDJHcKD55yn+lbdNt/m5LaW2M
+	4Y1YxLp6kbi36+1dqR+O/snMvf3m6oETzad5FApr29+9Fn/e6tP+hXm95aIDHlVvnVhrXy6s
+	vLTBKEWma3OHwS6+o1Flp/azM8ld6rwVeO6q4PWi76YnN9xb9Nv0nJjSpALW/7U7HhTYpO9l
+	OjaLj831KU+bg0dqx6+7HYdSTtm8PePpHTI3f4r7k8i1YvobP1wIdP32fb1YxyktfnGj25v2
+	KLEUZyQaajEXFScCAFiuq3aDAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprELMWRmVeSWpSXmKPExsWy7bCSvK7jQd9Eg/7rwhYXd6dazFm/hs1i
+	wsM2dou2M9tZLdo/7mW2WPHsPpPF5V1z2CzurfnPanGvdS2bxcZ72RaHTs5ldOD2WLCp1GPP
+	xJNsHps+TWL3ODHjN4tH35ZVjB6fN8kFsEVx2aSk5mSWpRbp2yVwZXRvPcBe0MxWcWzvMsYG
+	xs8sXYycHBICJhL/3nxhBLGFBHYzSjyeogsRl5ToXzcVqkZYYuW/5+wQNZ8YJba1poDYbALa
+	Ent+tIHFRQQ2MEqseefdxcjBwSxQJtHwWQAkLCwQIjFh4XpmEJtFQFXi+KWtrCA2r4CrxLGL
+	d9khxstJ3DzXyTyBkWcBI8MqRsnUguLc9NxiwwLDvNRyveLE3OLSvHS95PzcTYzgYNPS3MG4
+	fdUHvUOMTByMhxglOJiVRHg/3/BKFOJNSaysSi3Kjy8qzUktPsQozcGiJM57oetkvJBAemJJ
+	anZqakFqEUyWiYNTqoHJbXHGqX+Jk57xvSx7/+JT1xXZm891IjdVnRCXYLVfvvby65jfs+1Z
+	MwoDg7+mSPdnTfn1JTdpo/uUuVV3dsQocwh9uGsUWHovvcdrv4HWgVUek6+z39ZJ/W11zkLW
+	KLnqT9+Pa1zfeSKP/Hz2vztB3DTkytG+K9m7xSuVDiza5Xeapym0O+Jq3luDiRtz8x+IPrj/
+	+26trXyeetpWRdP4rT8NPkXX7NH2eTCjlYXvkenLD4YWGX+O+SzY/+DJ0v9SWUmJ3o+aF/H/
+	9jWUecxofPl97EtjY0v2Z/8bG3V1hJ89TCudoM94d6dup3+qbRani/CyU7v+Ja6eenJT89me
+	hHfsC9gixdylVv1a0DZHiaU4I9FQi7moOBEAT32yLaUCAAA=
+X-CMS-MailID: 20210924121457epcas5p39266266f9cef79177f2301a6a4f7d79a
+X-Msg-Generator: CA
 Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210924121457epcas5p39266266f9cef79177f2301a6a4f7d79a
+References: <CGME20210924121457epcas5p39266266f9cef79177f2301a6a4f7d79a@epcas5p3.samsung.com>
+X-Original-Sender: manjeet.p@samsung.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=UUfUBl9A;       spf=pass
- (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates
- 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@samsung.com header.s=mail20170921 header.b=LUFa8tWW;       spf=pass
+ (google.com: domain of manjeet.p@samsung.com designates 203.254.224.24 as
+ permitted sender) smtp.mailfrom=manjeet.p@samsung.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=samsung.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,19 +188,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=214429
+This patch add null check for return value of addr_to_metadata().
+currently 'meta' is geting accessed without any NULL check but it is
+usually checked for this function.
 
---- Comment #1 from Dmitry Vyukov (dvyukov@google.com) ---
-Thomas sent a fix for this:
-https://lkml.org/lkml/2021/9/23/688
+Signed-off-by: Manjeet Pawar <manjeet.p@samsung.com>
+---
+ mm/kfence/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index 575c685aa642..9b953cfa7fee 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -802,6 +802,9 @@ void __kfence_free(void *addr)
+ {
+ 	struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
+ 
++	if (unlikely(!meta))
++		return;
++
+ 	/*
+ 	 * If the objects of the cache are SLAB_TYPESAFE_BY_RCU, defer freeing
+ 	 * the object, as the object page may be recycled for other-typed
 -- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are on the CC list for the bug.
+2.17.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-214429-199747-qPGLy8teGk%40https.bugzilla.kernel.org/.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1632485642-20625-1-git-send-email-manjeet.p%40samsung.com.
