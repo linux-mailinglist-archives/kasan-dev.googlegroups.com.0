@@ -1,156 +1,132 @@
-Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBX772GFAMGQEQB3ETUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAZZCVNSYPBB6UV2KFAMGQEOZICMXI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1173841C7BE
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 17:01:52 +0200 (CEST)
-Received: by mail-lf1-x140.google.com with SMTP id c18-20020a056512075200b003fd0e54a0desf1781542lfs.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 08:01:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632927711; cv=pass;
+Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B1A41C8B8
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 17:49:16 +0200 (CEST)
+Received: by mail-pg1-x540.google.com with SMTP id t28-20020a63461c000000b00252078b83e4sf2331463pga.15
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 08:49:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632930554; cv=pass;
         d=google.com; s=arc-20160816;
-        b=x/9BcpSMpHyM/Jrpxe2cK+lR1vhR0hgCJgvyLqD9aN7lJgM/lSeyJIkjmD01TRnNAe
-         1aDfIBY28sGAtFiXf+vFogtDhDkvkXR+G2MdAAWosMbBeLAmSr+j76bhlB5hHuacUW2q
-         0ejnUpsC3aXqhwHwWJHdIDrOZKNkptv1ClQJzPwDHNHmq72M6PxxQ0Xn9dKIFICxZ1KF
-         MvJUSSCM9h5Euju/ZlThnGuINe5/Ev0nogpQu3hvUsgUoiyteNeG3dqDM47uP3vh1Bae
-         66xwS1mcz4Odsf7L1y+KnGSStxVrzpXOsbLnhUeLBX9mCVkJGSxzq0bhKAyWsZKG/a74
-         mN4g==
+        b=K1/vWak5TWSrRKw3tzNFEoJva1IyeP6E1PRM3dKjifW3rU8oRf7daB2yccgV8FpsgM
+         fpcjLT8O6I0EDyWeY5Q8s1nsEbfGfbPFQ8Q8XPAvK1TDQrYV1fD2bT/EKKmDEWVEc0/t
+         7fscaOWpZh/Zu/roHuhMF1kDiLh+L5RJgkCohXsnwF7TNLNrI4Vo4iBYVsDeyvgx6jIS
+         k+kRvlU1iDXdvYSRtjyxgQdHEaV/nzEit6Bg3ey+a3LJBsK0yWjGpx6oV5HiH/J9ITQs
+         u3pq8h+RC6kOjLSCAyrIlBYY2nlh0kj9jY75i27ubenYeEL6ZT0eG1YSYxaHkBht/JsL
+         02xg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=3atajb/PVkB4/DCnEnr5iYOD98b22YdKY9TKCrBSVLI=;
-        b=eNAfjSp2Uq1RwwZk0fvadjM7DhkQCBaLhAY3eyg7ygCVcrutb3uyeLo1XIJsuKFVjH
-         NQxCBGLvcZghO/sqxaAY6vx780tsowUPlVx7/qSGwLcDvz1hwFsCTkPGcfC2bOWvEdnR
-         dOcztRKtkJkaAVExYUn/M7cRCcxUA0CvkMJDu0Y78oumlCNpbLzfrezmncxVJSCKpTV7
-         r5oWjlagXMS4tdI9UPtFcZBkBSo7luhLYVC1tCLGSowpU56S7FPxZ1/kH6HWDoZ8uxVh
-         I0rCCkmweTekt/jXUZd1u56pGbncIPlA5pzHe+u9HRA5n0LuoW8QqwxM/jm6KLFPnw9U
-         fpFQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=mICU08jjjhjbiWi9h7+iHR+fFaXzXoOX3Aw0EKfxkO4=;
+        b=S6NF4P4dspL/M0Bo5UF2ReErVKsuulLdcmM4/RGJ594cqalehYeJbP4fugpSJDnTLe
+         N8LVhCFI82wsrWuFe7jCJxq96q/UmyDiL0rbBASKbPksjy6CcUj8DFWwJbkBSx7a0Ao9
+         xDp3eCI9XvsoWbKVt5RoG0QjCzlvXOZWIog416I2Ml9MnctPJ+NiIWcUhWKfOGHh9AxG
+         F0sO3GTei477bKJgyXteMkXTBY+P25WtFF34qU8MK2yL+hfoV26LqjaXvWFFVUN25Op6
+         Iy30ysYt/blPFMV1QdCBxfzoa/yu2xo73UmQuaxb+U4Sxnw61cfQZxI/h6xp12j7JNDv
+         83lQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=a2QkUZeA;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Yni+YWJS;
+       spf=pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=3atajb/PVkB4/DCnEnr5iYOD98b22YdKY9TKCrBSVLI=;
-        b=d9T47UIx1Zlx7JfkwtvaYvKBdpYYAA5WBGQMMGng4/ld7hBsSHY0UNP4kBIW8fHHNP
-         Zy6fn84LSc+pUhIGG3W8/ej0aeTxE5kPHtHSeT2KxtUh4mfWGe67NHG3m7mOIB0W3dFf
-         phRzcag0IIEU9cvsVW8HpwE4Fd4bM9ou3mnHkrPoW2S2iDoSLDdvHXpHmHIAqGs1ULZq
-         fV/YUKC0iQsz7EV3fwvm0ak5W+FZrtkK1654eub6ue+aZ+jMGFRDGUDREbuUayAkBQE/
-         OxqwuQuX6A3D6D6Hh9s8xiz8SDtt4NfrHRLStJhuaXh1/B+ecUhhA6nHGtzw7yt7Swda
-         8pEA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=mICU08jjjhjbiWi9h7+iHR+fFaXzXoOX3Aw0EKfxkO4=;
+        b=sYT1fpESvKFZmbyZVMCqQssjZEnpJz3tYCmEzdS0zaSEsVa51D6L+ZAYzx+SA+Wnnc
+         kDZ2rzX7tq7qKZbXulBQGIVh9TieMoxMu1uiURV912O6d6Ybm/op15y38KLo1rMURjP+
+         g394w31ecJhtBu/NVrNfPlSEO1lipQC+X9LLJAdLMRw/UVuJDrj4UKEhdAabi0mWspNp
+         DVE4mn4P4RAsEdU0IMVF9gNZlaTN5kU74eqmPhv304nFWZmOoqPRNogigU5AQTfMlUwm
+         GIsiPsLWEMF9f4lAGxlqiX0JSV7q4KNBv5Bwty7JmRakbG5S0HDsPtZtiuXV2IT5GK9x
+         Js1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=3atajb/PVkB4/DCnEnr5iYOD98b22YdKY9TKCrBSVLI=;
-        b=6A2puQ2CbOS72LRHrFqkvADPddLyU28ukvlTkEEF2WuZz1bdwolAVAdC/cJEFmMUGx
-         r0y9yobXTAaYBZQ0Gc62NPNzkc5OkFeS/YgFKsc4InyQD6zlZQyUuAOssXDjtWlPEC8L
-         agNJ6VHWEGy9FA7P3i3VXhFekPk7/XnfqlFybBHVtPNksNxoJcZDj615fWFAAG4PKOdg
-         Y8KeHnLKJcilZKWaJO3k6OS9Zdewiez6ylX70P7hhJcQuXp2URIf9Lh+rOe+BL63dMsZ
-         I+d+fuyTJutCHPQ8nh6v11hZ/5drTT6xb9c4LNXKb/QVUDiku4ltoPUzERIa0QQ9K4+N
-         mxeg==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=mICU08jjjhjbiWi9h7+iHR+fFaXzXoOX3Aw0EKfxkO4=;
+        b=yuJbRZnHiRxJYGCctPA/74bPoKq/8Od9nkZGl6SP0kJH9ex1QKZP/fke/GP0NZfzRz
+         ajOgz8B22HAYel2jNs1Ta73wyEIX4pJRx5ZTSfMgqYoDqfbRVF5RYBKbP2vBH9sdX/jp
+         2EaRQvvLDyzxswfE4m8syuYfnE5UIWTP37hp/UnBhtsEMhoPoFqEAQFCx3bQW6E8f7W1
+         xknARPv1zg1BpolUDTvoGBLf4Jcls1D+4syjKQFMXmDI4WwAlKFYM6Zoa/PHeTfl85Vl
+         yLkD/lZx6Tfr2WJ9W3yvzBekNpmKq1tBlaAjAf1FsRiDRAQEY9+tRBBLvzjA+jP/nIIZ
+         I5OA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5335+5c87zsOuU0vRGGAq1Bf5GaNiNt8OsXxXOfpCBPJKtCb7x0b
-	YjimVfJArGLyjf87N/JDEAg=
-X-Google-Smtp-Source: ABdhPJwjbgijGfY3KtI+ZMvHD7G4ycHxrGQtVI3zGaaDV5F7CZC4VblmpJMQ4DQuxwY+hHhKj3ig+Q==
-X-Received: by 2002:a05:6512:32c8:: with SMTP id f8mr113462lfg.683.1632927711277;
-        Wed, 29 Sep 2021 08:01:51 -0700 (PDT)
+X-Gm-Message-State: AOAM531jf0XSlMdOZoL/tIa4xcMU4aBqAEGXzDJopmhuPN3jGkZQq2kq
+	0sT69zENB16sZKQHzm2jZeQ=
+X-Google-Smtp-Source: ABdhPJy3DscH3K8zeTT5EMqBGByTU/Jho0BwoQNcgmgI6aYbhZ9jV1/SxOt14hgnRr9zeGUc2C8G4w==
+X-Received: by 2002:a17:90b:1bd2:: with SMTP id oa18mr7236579pjb.123.1632930554750;
+        Wed, 29 Sep 2021 08:49:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:7f06:: with SMTP id a6ls104673ljd.9.gmail; Wed, 29 Sep
- 2021 08:01:50 -0700 (PDT)
-X-Received: by 2002:a2e:a37c:: with SMTP id i28mr405188ljn.76.1632927710024;
-        Wed, 29 Sep 2021 08:01:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632927710; cv=none;
+Received: by 2002:a17:90a:1d0f:: with SMTP id c15ls2103030pjd.0.canary-gmail;
+ Wed, 29 Sep 2021 08:49:14 -0700 (PDT)
+X-Received: by 2002:a17:90a:ad47:: with SMTP id w7mr680392pjv.110.1632930554104;
+        Wed, 29 Sep 2021 08:49:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632930554; cv=none;
         d=google.com; s=arc-20160816;
-        b=SqHwqwdkjCH1HkFUSu2goQV+CWLUkKjWcvId1rzd8Pt9mRifIls5O1vxmNmCFmRkSN
-         DJ0DBMbxakRmqh3SF1MT6OpVXCuN2Zo8h+ztnPGzJaEKrBKbMTFMMa/6usNxyjkVT8ww
-         xLYDzJQ/2mYpnOwGTaPjiyEjoXCXCAGQf3IOC74EJw4+oaajmh0VO5j2XdnDMD1OgPTh
-         dPZbu1wi2lqfgAmlCGq6HRjUPiAFVg11EN0z0TXgl1Jvpno7zOeEkK67q5LvjL00ryCA
-         Rj3m/zlOI8YD85DK5f8Jcp3UrT7NcgwFCo/rQiBt9MRHA7fORzzDhJOdF7xYzMo6iRsG
-         Iakw==
+        b=EKBW8VWNEAePqZVmX/DM1Sjf76MKJgLGb3RLxnLcg0vEdQFp4OiHD5DaAP45OdkeAg
+         CDTr2tnjiQmc1M7OuI17uk6DNfOupKek7+IqfPC+ADVjIUCw7GtXytNd8txH/S4BQ+rC
+         fdUwXYVMy2aZJlxdsnF2QqAPMgBiga8wy5XIYJuKgph6ZMkz1oNNuO48ADr6fQLLlDdN
+         OfIl3SiCCe083oQQjD7hzM0JDSGqRQRwkxeH9OtR67e8KSD1KdCyhVgDR3wlBlOXrmy+
+         tDn+euPNJQS3WIEEeRzRrwtabc+UfJIqtzwvgR5bLoC/GeW+vN6VAxlKNjAXwUHI6N4H
+         nXLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=ZHeeeZbiilEHhtw/jMIzJY6AU5jy7F+74b86hE2E++U=;
-        b=eOsJ9Fs0WeKpf0Sj8Km2F+q/eVSxRn5onFiDRyqvH1G/lZjFFMymvXVQUlRWHIdXxt
-         hqSyYuxIDQhYphW3Jl5Ob23Z6uC3cpiPfIDYJf+duQ8fIl9d4OJpNGz2D6Ce0wmqLQNJ
-         xnVCjZJ+qChpuI07bDQHw203J3Ypw5Obr91cwF4J34JaUQ9/cGqzpCejIPSReHYwZwsP
-         JGiyNQAKPTxv+sTI9dR874KxwOnJmwllSzf4J4uAAZF6RILmO+iBooP5NY346fm5Hpai
-         aPxG4nWlRcqJPSUDqRyLjhsy73zc0RZgL613VJNzOii793VycO7vXEQcrSJiTxUtrzRY
-         zmaw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=IrBRF2Gn9frgbDCRyuiNjLiVneMvAlQsIedPPbnal/Y=;
+        b=r2b4ZnDBdvDrF6DMe39t6imxgbv+DFO57GWvrNre9SnoUwvDF6AuA251DGSUv12+3v
+         y0ilOQK0L/VYX32tcC9AXfZwTKdUVMgjjSTZb0RfdZ+UhvsvYhGzziA/+jBNV1kABJ6Q
+         KwXgt7ZA99vuTvDMGzd/Z0reKyCvAws5KGx89G1HT2OcLmCoyI+lbNu4rb3XNT37Mi9u
+         pFlbKaBXDkjH0/b2J/M1MwQa1xTShgXGMPb7eMqKuW1UHAorG8BZARUZzH7co22mTTwo
+         mHi8xZykmaeqr5555753nUhZNsAOhRLoM32I1iGyn2W7Ztiy9tDvoWmQgy+Ptd2fw7Ka
+         0MYQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=a2QkUZeA;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com. [185.125.188.123])
-        by gmr-mx.google.com with ESMTPS id a3si6112lji.6.2021.09.29.08.01.49
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Yni+YWJS;
+       spf=pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id a11si324323pjg.3.2021.09.29.08.49.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 08:01:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) client-ip=185.125.188.123;
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 557FE40255
-	for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 15:01:48 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id j21-20020a05600c1c1500b0030ccce95837so948806wms.3
-        for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 08:01:48 -0700 (PDT)
-X-Received: by 2002:a05:6000:2c6:: with SMTP id o6mr377138wry.292.1632927708044;
-        Wed, 29 Sep 2021 08:01:48 -0700 (PDT)
-X-Received: by 2002:a05:6000:2c6:: with SMTP id o6mr377109wry.292.1632927707834;
-        Wed, 29 Sep 2021 08:01:47 -0700 (PDT)
-Received: from alex.home (lfbn-lyo-1-470-249.w2-7.abo.wanadoo.fr. [2.7.60.249])
-        by smtp.gmail.com with ESMTPSA id h18sm133008wrs.75.2021.09.29.08.01.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 08:01:47 -0700 (PDT)
-From: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Zong Li <zong.li@sifive.com>,
-	Anup Patel <anup@brainfault.org>,
-	Atish Patra <Atish.Patra@wdc.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Kees Cook <keescook@chromium.org>,
-	Guo Ren <guoren@linux.alibaba.com>,
-	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-	Mayuresh Chitale <mchitale@ventanamicro.com>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 Sep 2021 08:49:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 92CC9613DA;
+	Wed, 29 Sep 2021 15:49:11 +0000 (UTC)
+Date: Wed, 29 Sep 2021 16:49:08 +0100
+From: Will Deacon <will@kernel.org>
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
-	linux-efi@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Cc: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Subject: [PATCH v2 10/10] riscv: Allow user to downgrade to sv39 when hw supports sv48
-Date: Wed, 29 Sep 2021 16:51:13 +0200
-Message-Id: <20210929145113.1935778-11-alexandre.ghiti@canonical.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
-References: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <aryabinin@virtuozzo.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Branislav Rankov <Branislav.Rankov@arm.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Subject: Re: [PATCH 0/5] arm64: ARMv8.7-A: MTE: Add asymm mode support
+Message-ID: <20210929154907.GC22029@willie-the-truck>
+References: <20210913081424.48613-1-vincenzo.frascino@arm.com>
 MIME-Version: 1.0
-X-Original-Sender: alexandre.ghiti@canonical.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@canonical.com header.s=20210705 header.b=a2QkUZeA;       spf=pass
- (google.com: domain of alexandre.ghiti@canonical.com designates
- 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20210913081424.48613-1-vincenzo.frascino@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: will@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=Yni+YWJS;       spf=pass
+ (google.com: domain of will@kernel.org designates 198.145.29.99 as permitted
+ sender) smtp.mailfrom=will@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -163,69 +139,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is made possible by using the mmu-type property of the cpu node of
-the device tree.
+On Mon, Sep 13, 2021 at 09:14:19AM +0100, Vincenzo Frascino wrote:
+> This series implements the asymmetric mode support for ARMv8.7-A Memory
+> Tagging Extension (MTE), which is a debugging feature that allows to
+> detect with the help of the architecture the C and C++ programmatic
+> memory errors like buffer overflow, use-after-free, use-after-return, etc.
+> 
+> MTE is built on top of the AArch64 v8.0 virtual address tagging TBI
+> (Top Byte Ignore) feature and allows a task to set a 4 bit tag on any
+> subset of its address space that is multiple of a 16 bytes granule. MTE
+> is based on a lock-key mechanism where the lock is the tag associated to
+> the physical memory and the key is the tag associated to the virtual
+> address.
+> 
+> When MTE is enabled and tags are set for ranges of address space of a task,
+> the PE will compare the tag related to the physical memory with the tag
+> related to the virtual address (tag check operation). Access to the memory
+> is granted only if the two tags match. In case of mismatch the PE will raise
+> an exception.
+> 
+> When asymmetric mode is present, the CPU triggers a fault on a tag mismatch
+> during a load operation and asynchronously updates a register when a tag
+> mismatch is detected during a store operation.
+> 
+> The series is based on linux-v5.15-rc1.
+> 
+> To simplify the testing a tree with the new patches on top has been made
+> available at [1].
+> 
+> [1] https://git.gitlab.arm.com/linux-arm/linux-vf.git mte/v1.asymm
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Evgenii Stepanov <eugenis@google.com>
+> Cc: Branislav Rankov <Branislav.Rankov@arm.com>
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> 
+> Vincenzo Frascino (5):
+>   kasan: Remove duplicate of kasan_flag_async
+>   arm64: mte: Bitfield definitions for Asymm MTE
+>   arm64: mte: CPU feature detection for Asymm MTE
+>   arm64: mte: Add asymmetric mode support
+>   kasan: Extend KASAN mode kernel parameter
+> 
+>  Documentation/dev-tools/kasan.rst  | 10 ++++++++--
 
-By default, the kernel will boot with 4-level page table if the hw supports
-it but it can be interesting for the user to select 3-level page table as
-it is less memory consuming and faster since it requires less memory
-accesses in case of a TLB miss.
+I'm surprised not to see any update to:
 
-Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
----
- arch/riscv/mm/init.c | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+	Documentation/arm64/memory-tagging-extension.rst
 
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index a304f2b3c178..676635f5d98a 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -641,10 +641,31 @@ static void __init disable_pgtable_l4(void)
-  * then read SATP to see if the configuration was taken into account
-  * meaning sv48 is supported.
-  */
--static __init void set_satp_mode(void)
-+static __init void set_satp_mode(uintptr_t dtb_pa)
- {
- 	u64 identity_satp, hw_satp;
- 	uintptr_t set_satp_mode_pmd;
-+	int cpus_node;
-+
-+	/* Check if the user asked for sv39 explicitly in the device tree */
-+	cpus_node = fdt_path_offset((void *)dtb_pa, "/cpus");
-+	if (cpus_node >= 0) {
-+		int node;
-+
-+		fdt_for_each_subnode(node, (void *)dtb_pa, cpus_node) {
-+			const char *mmu_type = fdt_getprop((void *)dtb_pa, node,
-+					"mmu-type", NULL);
-+			if (!mmu_type)
-+				continue;
-+
-+			if (!strcmp(mmu_type, "riscv,sv39")) {
-+				disable_pgtable_l4();
-+				return;
-+			}
-+
-+			break;
-+		}
-+	}
- 
- 	set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
- 	create_pgd_mapping(early_pg_dir,
-@@ -802,7 +823,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
- #endif
- 
- #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
--	set_satp_mode();
-+	set_satp_mode(dtb_pa);
- #endif
- 
- 	kernel_map.va_pa_offset = PAGE_OFFSET - kernel_map.phys_addr;
--- 
-2.30.2
+particularly regarding the per-cpu preferred tag checking modes. Is
+asymmetric mode not supported there?
+
+Will
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210929145113.1935778-11-alexandre.ghiti%40canonical.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210929154907.GC22029%40willie-the-truck.
