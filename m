@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBOX42GFAMGQECQEIE4Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ7NGWH7YJRB4H42GFAMGQEJCIMSPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB2E41C76C
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 16:54:51 +0200 (CEST)
-Received: by mail-wm1-x33d.google.com with SMTP id m2-20020a05600c3b0200b0030cd1310631sf941962wms.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 07:54:51 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632927290; cv=pass;
+Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE94341C77C
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 16:55:44 +0200 (CEST)
+Received: by mail-lf1-x13b.google.com with SMTP id s8-20020ac25c48000000b003faf62e104esf2583481lfp.22
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 07:55:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632927344; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lER05RBnPixP2zLY4cCtclm3upIXakvtQ/rEEA5sIUFgEQTvw+mQIFsfR3lulZ5dRr
-         0PNxIId8QA72NVxiw49hK0aKvKtinwTQzyG2yUll+tykzj5sHrThQl0Nf8k9NZGXXUDX
-         iXpYxSvD7n0E6ehUtEHwULwpqv9rppTI0w8yS47LJ2+E+LPd2JNF0S5l7Dz7hHPgwOUN
-         Z/IPNLQhyCu+bLHbdswVymqvXoY/68T97E4cKMlwVVLXD5cBa2dDJlbZJFeDlzV0amth
-         WktcjWOy8eVmiacicGU1yjdumuNTuwfmoaLgqHI+/SNt708nbF2609Yud2JGfaOVyT/1
-         5Srw==
+        b=EdiU8+1dYpUuwcyzdmMW/bEr7TaCTSlp5g7omOFhhkWV5ApT5VtaZjv0/W0tw1qUJh
+         DmQezAgEJjivT/7bMTYKDkPqW87frM71wB0mnS/iksftNCEYNtDtLpJ3Lrnto7UtUXen
+         p/naKuURmdoeMLxEwD4BAiPnjh7qTDhnFW3hzN9hjIvnoYHXStD7GnXzFlY+No94oSEM
+         qfddlc6I2GtV1ow9VfWEH8oJMBhRhTTZz2UlFrRkQYk5NJcQm0M98vYI29GuotGnIHWW
+         VwswAQBbz5P18zKT4xIZwpWabM81R/0gCH10/B58NwDBeKgm6ZI/XyFzbZa5faYMkoY8
+         zIlg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=W664ZatHuJAMkQRf9wur9ZV7KMTbnMl3eYQLF7WfIrE=;
-        b=iE5ibT+ucICwlCBW5sldI5BlZ5jyk7wpz2OgbqpDdQpTYpyjIMHxpAU/3/Vuo2AQ6n
-         0mphg4XuuMuIhBG/tE5vesDDSN+3RjQKiTMLEF6qgGj1Um4PdJqxF9hPI07L0T3AM/s7
-         rrrQOmm6MqQRy2rOCCljPpl8fWJ8ytT4+TO/j2/zx/z3217qCobAUa3+9xFEs033urXD
-         eVYanbsAVtSNg3r/Wg1fkaUeSE293OSgVfQFtbG62mPrWd/0Nk7VzjSLJOq2TBfIYKXr
-         0j4JcJFWYcJnAXsW5HRy+oNVrP5wvZAFCdbZgGi6I37omnvSTJUkeQmae0WlrzTD1oPY
-         OYUg==
+        bh=21kd3oMwhJTZ5rMDiYBsejFWMwPFZHuP/kjSxOfzRog=;
+        b=Y1Ygbf596uATQsCj9faTdCRP88DGCD266B2EmojBzcCKj4d5IPANpCejkDStYIpPr/
+         ppMlHDmWLnwwttOnqyS/rX0MP8h7/zcmugZBTYSkU0Aancsq5FcsnJ1v+SK9jBhVgV34
+         AEeym+1s2BkB8NxY/gtBXlHJ1RwqnJdgZO/QClLxQy1TMXtSPJW7TWUMxcKpLmyQbCLN
+         zplRFraHnhYdIFkxrJVlazfbPD8/FqQzCpaxdIWO2AxXReDBeTKfhVwm2cWKa0aHKKxU
+         +PaO5ivePGbjsrYpJxNlKha9VIxatrDmdMIe6cBc7qEsctBAD5C/HasTs/5srz7XMozw
+         5aFg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=ZDK7Pvmk;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=CcCtvUB8;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=W664ZatHuJAMkQRf9wur9ZV7KMTbnMl3eYQLF7WfIrE=;
-        b=c8ga3/3B+Rx5ydFf65PbvXUNJoiwG0k7xadg1oI9tTlN0CJjrnrn0F6NANAT5pSqn+
-         nZ6+/wqwQ8kHwrpqqsrDO1m5xl04iCJSidDw4qZdUY9RgAbbRUsj80zcfF9yPkTz+in8
-         0eZnXtgtO3nczVptFvXMZh+lUeTH+EHYVevQWctI6YSFz6RzUvet11zPFTVq2R79Mt1q
-         tHe3qnyB9WBWVVMRdOsmJ0wxnrL7+Tp1pZQoXFbhSkEroBIlY0Kn6lLgREbZV3JkgH+b
-         tKxEzhTpufE6Y72HSwWukMU6cIpjhGZBs0qS7IWcfHJjSL04CJfk33paadxSli+dajO0
-         paBQ==
+        bh=21kd3oMwhJTZ5rMDiYBsejFWMwPFZHuP/kjSxOfzRog=;
+        b=fEqCGq/lntPm2e9gn+tETDFRaQN5l4ILGiFOZdFGJ7aTQpKZnpqoQHV8GjSOBzVkOn
+         zz+TP6Kf6KctFDk+9op7UjIysVFSlTbmsR45Pm5l8+Ltmr9lTR1OP2K/yLtYNTCkfDek
+         sVY53nD4R1396H6xKAv1qAgsChYzhfmbQ2zze44UAAaxrtBjzx0r/d8bWh9+tStDMrIx
+         d2WJrsOACOX2EUR4W+DCDCusuo8qTY9AoC+9VGS7oMLzk8o+xG+kdNP40dpoCr7mX+GF
+         Yy+7jpYzavfeMYtPoPgwwqULUCxm/bMDu56g/vxFFyysAcIToEanU6lSWOYIaGpSuj19
+         AawA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,68 +49,68 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=W664ZatHuJAMkQRf9wur9ZV7KMTbnMl3eYQLF7WfIrE=;
-        b=1B8iosm/xfWhjKvJ1NfztjQDb4fIGgK2FJqjTJAhFQ0gJ86USJ3I5A6heL8ZAN+/Td
-         xWVJ71tifma2xwiHMuaq/6Fv3e7ie/plt3wX+VXBeR3hcMEyYKcMr96egQ9t2+3X/pbO
-         fQv4i2J0ub3AnOVrh4aKljWFGndh84X+OItWSMTGt2vAl1FoGHz8RAqDUKJ03z5VUVYz
-         zIED2V5qFlMcqPTD/XRmgIyAvqlrVLBqIHblRIxUbjBwvk+aE0AccetDc7kEIK2DYP3l
-         TD9BPQqhNtqar5Uc7lAAeEznM9gWtZvhwKzybEl1JrcZ3ADZGtlITY0qN41Xu8znBh8u
-         BYNw==
+        bh=21kd3oMwhJTZ5rMDiYBsejFWMwPFZHuP/kjSxOfzRog=;
+        b=TxonITJb7uTWACL5EYwpL0dnJfzG+cFils56L6oMM5UA36rDopTk8TpVCSsByde3qK
+         w0nCZM3EiPXzuZctqaQbL+Ahq9eGiewFF/r/mKg4nRZY3WKA+igLGUCUCFHWTExxfVev
+         eY1b6fhs59NkAlC+jsn8tj2+6S8VR+t6NnxBQ0pTyYTdXfilpwc+I75X3vpGKHLMLJKe
+         r+2cpw5WHzQERBKcVbB+gJaMhrsbriMTiX2TAUkb3LhcQQSW74kqufO9nqv4R4KOVJOx
+         ChfRxu0g0wLxXOvS5jr+vwwJ+q1IcZ+YynTvuD/UlUFg93ebZxN8sLtIRM05ejbcqXiI
+         y/MA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532X246UP4+Nm3tbsuycZHIOeZfQIGV2mU0M5vanMjGhEJHtL6EY
-	cmf9EgCRPiYH73iQfJ2IcWI=
-X-Google-Smtp-Source: ABdhPJy5re549Q4EETF//xm8V5AQfjc+PKcyrBJUWsurrUPT/YMlbmrEQMd/Bz/+9wPaMPJxwKd6DQ==
-X-Received: by 2002:a7b:ce98:: with SMTP id q24mr365069wmj.33.1632927290827;
-        Wed, 29 Sep 2021 07:54:50 -0700 (PDT)
+X-Gm-Message-State: AOAM53393/oLHhjhpy4qICgvVtv2yVf1UM35U8fIY9RcgMa7OvJxU9F1
+	DwHrd+vnyTjRGyEmQNOtWUE=
+X-Google-Smtp-Source: ABdhPJxurOtv3RFXXveMgM2YQdOAeTILhR8eDdUW7iP171CbiF1bqXnx3K5c2pfBhz62ls7Tyl0tPg==
+X-Received: by 2002:a2e:8957:: with SMTP id b23mr335946ljk.239.1632927344345;
+        Wed, 29 Sep 2021 07:55:44 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:4646:: with SMTP id n6ls3342482wmo.3.canary-gmail;
- Wed, 29 Sep 2021 07:54:50 -0700 (PDT)
-X-Received: by 2002:a7b:c74b:: with SMTP id w11mr361380wmk.21.1632927289949;
-        Wed, 29 Sep 2021 07:54:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632927289; cv=none;
+Received: by 2002:a05:6512:324d:: with SMTP id c13ls580512lfr.0.gmail; Wed, 29
+ Sep 2021 07:55:43 -0700 (PDT)
+X-Received: by 2002:a19:f249:: with SMTP id d9mr108832lfk.229.1632927343296;
+        Wed, 29 Sep 2021 07:55:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632927343; cv=none;
         d=google.com; s=arc-20160816;
-        b=0ssRxpztTqR7FQu8L/gOHJllGoGjO63GtT1Y7plVFK351wdVxJ6fXGJRFN9O+Ed/7/
-         QqkC/f0vpcayCxXGm52Q0bXBLaE1n1OzfS2DTG85TtLufAjSYskCvmu8mWZPT9IQzxKM
-         T+t1XPsK36qN+hu9Q/6gS0QiwjMZupJvadGyemUs2PXfUa2tKI0sM3P25pVkmGy5JgqR
-         gaP8W/8DmfQ27VCIuQzH5HEiXD2i9e0LRfSW9UfaVVMPXmvA7hWmw/LcPu0Gil/HR4VI
-         +aMCQSRDorhnvqyJI+JLSSNgpvV6NlrAo2TR5r0SqVld4keZLddb0WLik193oj5OuWJh
-         pPgg==
+        b=sIUlryyeRd4ExHcJOJN/DcoIAD/XbmfQRxU7qqGItcBT9qO2sYmnPX853iZGcZfdka
+         b51dFZF1NmJtEjnw+mB9pf8Z3SUyVq4yQY1nSJAlOjefWog51KIIGD/F395Fo4+GSFVA
+         HcJc6tPk+fqAvYTGmZsUMOnzHfZTcuqVz1bq1l+QXEnEw3NjNN74Jv/lnH9O8up+ApSO
+         RocDHgKQzMdElR2nFZ2z7Mf+P4fPt7TU9EOZ0xpE8sN9JSUcTNSCERes9RiYGIq9l6gU
+         XQW/nYn0UoJrc2WUT/EoUW+UVWFXvoS6bD0Qq483q8fLsHeentNPX7wfJtkbqiYUAvPx
+         C1Xg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=KeLkiElzlzQvNNsdjcFFS61hMwkuiVlVaM0dpBDB2C8=;
-        b=eeEWGJvT1I8V+fm31GRb4cnFt6UpRhaDmlzNJpnNZbsTnsub3muHmWwE1D26RmOY5d
-         U5C5W7oBbPFJEmQh0BQTTIGwvhrBbVPY3q2E5kw3jzFfW8LzSmGEWuocGZ8DPOpqkqAn
-         8arOTPt6TGX5NOr/W32fjdg1ONh1s0DZu50hWfWOE9nikNjMtzz44YlraA+geiSW/KPu
-         T2i7uQvZ9eRFqn3jelfUN8J0M3Pj/Td02SeqkcBIzrQXsB3dPmG3RM8nf8LnRnDVpsoE
-         crAKl71HeP8uSUP5abJ2jldTi1FgOTxyG8etRrwQ1p/PJzDUMjIE1+dHBIsyEO674KIe
-         a4JA==
+        bh=awWrnxw7XqyT87/sstWbSrTnivM2deqGka3w/js2sKc=;
+        b=VWdU9E0HDsGS8elnucpGkkXGKnQs/yAHtU+ljCCVUoPMi+BJ2MLQf8DUO/Kk4jnhCR
+         h549x3biia/Sz7gNV8929xsTnBPIODWOe9UGCC1Jv0KnSTyL2nSoWok3sk+nTkNamtSZ
+         M4mWvZiI3R6KNK87OkJq2d+XnTG989amsRc+3FmazJX6y2HYgBhhKXHUpjuC03Y8C0X5
+         FcginkYrjfnBktdkQrsuxbLAD0CzW0jh6AILT840H1GD+h2eTaqF1FR8yhCi+RvFlXMF
+         qMZ6W4ZK7tTwiKR8+a08Vp0xoriJ5LD4PpqTcbwP1gAONSFSQgpZLj9h5yKjXAnzsqvG
+         CoMg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=ZDK7Pvmk;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=CcCtvUB8;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com. [185.125.188.123])
-        by gmr-mx.google.com with ESMTPS id g2si537389wmc.4.2021.09.29.07.54.49
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com. [185.125.188.122])
+        by gmr-mx.google.com with ESMTPS id v25si6963lfr.1.2021.09.29.07.55.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 07:54:49 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) client-ip=185.125.188.123;
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com [209.85.167.69])
+        Wed, 29 Sep 2021 07:55:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) client-ip=185.125.188.122;
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 940243F4BE
-	for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 14:54:49 +0000 (UTC)
-Received: by mail-lf1-f69.google.com with SMTP id x29-20020ac259dd000000b003f950c726e1so2601240lfn.14
-        for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 07:54:49 -0700 (PDT)
-X-Received: by 2002:a05:6000:186a:: with SMTP id d10mr293242wri.113.1632927277902;
-        Wed, 29 Sep 2021 07:54:37 -0700 (PDT)
-X-Received: by 2002:a05:6000:186a:: with SMTP id d10mr293200wri.113.1632927277749;
-        Wed, 29 Sep 2021 07:54:37 -0700 (PDT)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id E4E3B402F8
+	for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 14:55:41 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id d12-20020a1c730c000000b0030b4e0ecf5dso942860wmb.9
+        for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 07:55:41 -0700 (PDT)
+X-Received: by 2002:a1c:ac81:: with SMTP id v123mr10894260wme.94.1632927339815;
+        Wed, 29 Sep 2021 07:55:39 -0700 (PDT)
+X-Received: by 2002:a1c:ac81:: with SMTP id v123mr10894235wme.94.1632927339436;
+        Wed, 29 Sep 2021 07:55:39 -0700 (PDT)
 Received: from alex.home (lfbn-lyo-1-470-249.w2-7.abo.wanadoo.fr. [2.7.60.249])
-        by smtp.gmail.com with ESMTPSA id e8sm127119wrr.42.2021.09.29.07.54.36
+        by smtp.gmail.com with ESMTPSA id s24sm58063wmh.34.2021.09.29.07.55.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 07:54:37 -0700 (PDT)
+        Wed, 29 Sep 2021 07:55:39 -0700 (PDT)
 From: Alexandre Ghiti <alexandre.ghiti@canonical.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -137,18 +137,18 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	linux-efi@vger.kernel.org,
 	linux-arch@vger.kernel.org
 Cc: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Subject: [PATCH v2 03/10] asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
-Date: Wed, 29 Sep 2021 16:51:06 +0200
-Message-Id: <20210929145113.1935778-4-alexandre.ghiti@canonical.com>
+Subject: [PATCH v2 04/10] riscv: Implement sv48 support
+Date: Wed, 29 Sep 2021 16:51:07 +0200
+Message-Id: <20210929145113.1935778-5-alexandre.ghiti@canonical.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
 References: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
 MIME-Version: 1.0
 X-Original-Sender: alexandre.ghiti@canonical.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@canonical.com header.s=20210705 header.b=ZDK7Pvmk;       spf=pass
+ header.i=@canonical.com header.s=20210705 header.b=CcCtvUB8;       spf=pass
  (google.com: domain of alexandre.ghiti@canonical.com designates
- 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+ 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -163,73 +163,976 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-In the following commits, riscv will almost use the generic versions of
-pud_alloc_one and pud_free but an additional check is required since those
-functions are only relevant when using at least a 4-level page table, which
-will be determined at runtime on riscv.
+By adding a new 4th level of page table, give the possibility to 64bit
+kernel to address 2^48 bytes of virtual address: in practice, that offers
+128TB of virtual address space to userspace and allows up to 64TB of
+physical memory.
 
-So move the content of those functions into other functions that riscv
-can use without duplicating code.
+If the underlying hardware does not support sv48, we will automatically
+fallback to a standard 3-level page table by folding the new PUD level into
+PGDIR level. In order to detect HW capabilities at runtime, we
+use SATP feature that ignores writes with an unsupported mode.
 
 Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
 ---
- include/asm-generic/pgalloc.h | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ arch/riscv/Kconfig                      |   4 +-
+ arch/riscv/include/asm/csr.h            |   3 +-
+ arch/riscv/include/asm/fixmap.h         |   1 +
+ arch/riscv/include/asm/kasan.h          |   2 +-
+ arch/riscv/include/asm/page.h           |  10 +
+ arch/riscv/include/asm/pgalloc.h        |  40 ++++
+ arch/riscv/include/asm/pgtable-64.h     | 108 ++++++++++-
+ arch/riscv/include/asm/pgtable.h        |  13 +-
+ arch/riscv/kernel/head.S                |   3 +-
+ arch/riscv/mm/context.c                 |   4 +-
+ arch/riscv/mm/init.c                    | 237 ++++++++++++++++++++----
+ arch/riscv/mm/kasan_init.c              |  91 +++++++--
+ drivers/firmware/efi/libstub/efi-stub.c |   2 +
+ 13 files changed, 453 insertions(+), 65 deletions(-)
 
-diff --git a/include/asm-generic/pgalloc.h b/include/asm-generic/pgalloc.h
-index 02932efad3ab..977bea16cf1b 100644
---- a/include/asm-generic/pgalloc.h
-+++ b/include/asm-generic/pgalloc.h
-@@ -147,6 +147,15 @@ static inline void pmd_free(struct mm_struct *mm, pmd_t *pmd)
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 13e9c4298fbc..69c5533955ed 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -149,7 +149,7 @@ config PAGE_OFFSET
+ 	hex
+ 	default 0xC0000000 if 32BIT
+ 	default 0x80000000 if 64BIT && !MMU
+-	default 0xffffffe000000000 if 64BIT
++	default 0xffffc00000000000 if 64BIT
  
- #if CONFIG_PGTABLE_LEVELS > 3
+ config ARCH_FLATMEM_ENABLE
+ 	def_bool !NUMA
+@@ -197,7 +197,7 @@ config FIX_EARLYCON_MEM
  
-+static inline pud_t *__pud_alloc_one(struct mm_struct *mm, unsigned long addr)
-+{
-+	gfp_t gfp = GFP_PGTABLE_USER;
+ config PGTABLE_LEVELS
+ 	int
+-	default 3 if 64BIT
++	default 4 if 64BIT
+ 	default 2
+ 
+ config LOCKDEP_SUPPORT
+diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+index 87ac65696871..3fdb971c7896 100644
+--- a/arch/riscv/include/asm/csr.h
++++ b/arch/riscv/include/asm/csr.h
+@@ -40,14 +40,13 @@
+ #ifndef CONFIG_64BIT
+ #define SATP_PPN	_AC(0x003FFFFF, UL)
+ #define SATP_MODE_32	_AC(0x80000000, UL)
+-#define SATP_MODE	SATP_MODE_32
+ #define SATP_ASID_BITS	9
+ #define SATP_ASID_SHIFT	22
+ #define SATP_ASID_MASK	_AC(0x1FF, UL)
+ #else
+ #define SATP_PPN	_AC(0x00000FFFFFFFFFFF, UL)
+ #define SATP_MODE_39	_AC(0x8000000000000000, UL)
+-#define SATP_MODE	SATP_MODE_39
++#define SATP_MODE_48	_AC(0x9000000000000000, UL)
+ #define SATP_ASID_BITS	16
+ #define SATP_ASID_SHIFT	44
+ #define SATP_ASID_MASK	_AC(0xFFFF, UL)
+diff --git a/arch/riscv/include/asm/fixmap.h b/arch/riscv/include/asm/fixmap.h
+index 54cbf07fb4e9..58a718573ad6 100644
+--- a/arch/riscv/include/asm/fixmap.h
++++ b/arch/riscv/include/asm/fixmap.h
+@@ -24,6 +24,7 @@ enum fixed_addresses {
+ 	FIX_HOLE,
+ 	FIX_PTE,
+ 	FIX_PMD,
++	FIX_PUD,
+ 	FIX_TEXT_POKE1,
+ 	FIX_TEXT_POKE0,
+ 	FIX_EARLYCON_MEM_BASE,
+diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
+index a2b3d9cdbc86..1dcf5fa93aa0 100644
+--- a/arch/riscv/include/asm/kasan.h
++++ b/arch/riscv/include/asm/kasan.h
+@@ -27,7 +27,7 @@
+  */
+ #define KASAN_SHADOW_SCALE_SHIFT	3
+ 
+-#define KASAN_SHADOW_SIZE	(UL(1) << ((CONFIG_VA_BITS - 1) - KASAN_SHADOW_SCALE_SHIFT))
++#define KASAN_SHADOW_SIZE	(UL(1) << ((VA_BITS - 1) - KASAN_SHADOW_SCALE_SHIFT))
+ #define KASAN_SHADOW_START	KERN_VIRT_START
+ #define KASAN_SHADOW_END	(KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
+ #define KASAN_SHADOW_OFFSET	(KASAN_SHADOW_END - (1ULL << \
+diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
+index 109c97e991a6..6ff4d70d13a6 100644
+--- a/arch/riscv/include/asm/page.h
++++ b/arch/riscv/include/asm/page.h
+@@ -31,7 +31,16 @@
+  * When not using MMU this corresponds to the first free page in
+  * physical memory (aligned on a page boundary).
+  */
++#ifdef CONFIG_64BIT
++#define PAGE_OFFSET		kernel_map.page_offset
++/*
++ * By default, CONFIG_PAGE_OFFSET value corresponds to SV48 address space so
++ * define the PAGE_OFFSET value for SV39.
++ */
++#define PAGE_OFFSET_L3		_AC(0xffffffe000000000, UL)
++#else
+ #define PAGE_OFFSET		_AC(CONFIG_PAGE_OFFSET, UL)
++#endif /* CONFIG_64BIT */
+ 
+ #define KERN_VIRT_SIZE (-PAGE_OFFSET)
+ 
+@@ -86,6 +95,7 @@ extern unsigned long riscv_pfn_base;
+ #endif /* CONFIG_MMU */
+ 
+ struct kernel_mapping {
++	unsigned long page_offset;
+ 	unsigned long virt_addr;
+ 	uintptr_t phys_addr;
+ 	uintptr_t size;
+diff --git a/arch/riscv/include/asm/pgalloc.h b/arch/riscv/include/asm/pgalloc.h
+index 0af6933a7100..11823004b87a 100644
+--- a/arch/riscv/include/asm/pgalloc.h
++++ b/arch/riscv/include/asm/pgalloc.h
+@@ -11,6 +11,8 @@
+ #include <asm/tlb.h>
+ 
+ #ifdef CONFIG_MMU
++#define __HAVE_ARCH_PUD_ALLOC_ONE
++#define __HAVE_ARCH_PUD_FREE
+ #include <asm-generic/pgalloc.h>
+ 
+ static inline void pmd_populate_kernel(struct mm_struct *mm,
+@@ -36,6 +38,44 @@ static inline void pud_populate(struct mm_struct *mm, pud_t *pud, pmd_t *pmd)
+ 
+ 	set_pud(pud, __pud((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
+ }
 +
-+	if (mm == &init_mm)
-+		gfp = GFP_PGTABLE_KERNEL;
-+	return (pud_t *)get_zeroed_page(gfp);
++static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4d, pud_t *pud)
++{
++	if (pgtable_l4_enabled) {
++		unsigned long pfn = virt_to_pfn(pud);
++
++		set_p4d(p4d, __p4d((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
++	}
 +}
 +
- #ifndef __HAVE_ARCH_PUD_ALLOC_ONE
- /**
-  * pud_alloc_one - allocate a page for PUD-level page table
-@@ -159,20 +168,23 @@ static inline void pmd_free(struct mm_struct *mm, pmd_t *pmd)
-  */
- static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long addr)
- {
--	gfp_t gfp = GFP_PGTABLE_USER;
--
--	if (mm == &init_mm)
--		gfp = GFP_PGTABLE_KERNEL;
--	return (pud_t *)get_zeroed_page(gfp);
-+	return __pud_alloc_one(mm, addr);
- }
- #endif
- 
--static inline void pud_free(struct mm_struct *mm, pud_t *pud)
-+static inline void __pud_free(struct mm_struct *mm, pud_t *pud)
- {
- 	BUG_ON((unsigned long)pud & (PAGE_SIZE-1));
- 	free_page((unsigned long)pud);
- }
- 
-+#ifndef __HAVE_ARCH_PUD_FREE
++static inline void p4d_populate_safe(struct mm_struct *mm, p4d_t *p4d,
++				     pud_t *pud)
++{
++	if (pgtable_l4_enabled) {
++		unsigned long pfn = virt_to_pfn(pud);
++
++		set_p4d_safe(p4d,
++			     __p4d((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
++	}
++}
++
++#define pud_alloc_one pud_alloc_one
++static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long addr)
++{
++	if (pgtable_l4_enabled)
++		return __pud_alloc_one(mm, addr);
++
++	return NULL;
++}
++
++#define pud_free pud_free
 +static inline void pud_free(struct mm_struct *mm, pud_t *pud)
 +{
-+	__pud_free(mm, pud);
++	if (pgtable_l4_enabled)
++		__pud_free(mm, pud);
++}
++
++#define __pud_free_tlb(tlb, pud, addr)  pud_free((tlb)->mm, pud)
+ #endif /* __PAGETABLE_PMD_FOLDED */
+ 
+ static inline pgd_t *pgd_alloc(struct mm_struct *mm)
+diff --git a/arch/riscv/include/asm/pgtable-64.h b/arch/riscv/include/asm/pgtable-64.h
+index 228261aa9628..bbbdd66e5e2f 100644
+--- a/arch/riscv/include/asm/pgtable-64.h
++++ b/arch/riscv/include/asm/pgtable-64.h
+@@ -8,16 +8,36 @@
+ 
+ #include <linux/const.h>
+ 
+-#define PGDIR_SHIFT     30
++extern bool pgtable_l4_enabled;
++
++#define PGDIR_SHIFT_L3  30
++#define PGDIR_SHIFT_L4  39
++#define PGDIR_SIZE_L3   (_AC(1, UL) << PGDIR_SHIFT_L3)
++
++#define PGDIR_SHIFT     (pgtable_l4_enabled ? PGDIR_SHIFT_L4 : PGDIR_SHIFT_L3)
+ /* Size of region mapped by a page global directory */
+ #define PGDIR_SIZE      (_AC(1, UL) << PGDIR_SHIFT)
+ #define PGDIR_MASK      (~(PGDIR_SIZE - 1))
+ 
++/* pud is folded into pgd in case of 3-level page table */
++#define PUD_SHIFT      30
++#define PUD_SIZE       (_AC(1, UL) << PUD_SHIFT)
++#define PUD_MASK       (~(PUD_SIZE - 1))
++
+ #define PMD_SHIFT       21
+ /* Size of region mapped by a page middle directory */
+ #define PMD_SIZE        (_AC(1, UL) << PMD_SHIFT)
+ #define PMD_MASK        (~(PMD_SIZE - 1))
+ 
++/* Page Upper Directory entry */
++typedef struct {
++	unsigned long pud;
++} pud_t;
++
++#define pud_val(x)      ((x).pud)
++#define __pud(x)        ((pud_t) { (x) })
++#define PTRS_PER_PUD    (PAGE_SIZE / sizeof(pud_t))
++
+ /* Page Middle Directory entry */
+ typedef struct {
+ 	unsigned long pmd;
+@@ -59,6 +79,16 @@ static inline void pud_clear(pud_t *pudp)
+ 	set_pud(pudp, __pud(0));
+ }
+ 
++static inline pud_t pfn_pud(unsigned long pfn, pgprot_t prot)
++{
++	return __pud((pfn << _PAGE_PFN_SHIFT) | pgprot_val(prot));
++}
++
++static inline unsigned long _pud_pfn(pud_t pud)
++{
++	return pud_val(pud) >> _PAGE_PFN_SHIFT;
++}
++
+ static inline pmd_t *pud_pgtable(pud_t pud)
+ {
+ 	return (pmd_t *)pfn_to_virt(pud_val(pud) >> _PAGE_PFN_SHIFT);
+@@ -69,6 +99,17 @@ static inline struct page *pud_page(pud_t pud)
+ 	return pfn_to_page(pud_val(pud) >> _PAGE_PFN_SHIFT);
+ }
+ 
++#define mm_pud_folded  mm_pud_folded
++static inline bool mm_pud_folded(struct mm_struct *mm)
++{
++	if (pgtable_l4_enabled)
++		return false;
++
++	return true;
++}
++
++#define pmd_index(addr) (((addr) >> PMD_SHIFT) & (PTRS_PER_PMD - 1))
++
+ static inline pmd_t pfn_pmd(unsigned long pfn, pgprot_t prot)
+ {
+ 	return __pmd((pfn << _PAGE_PFN_SHIFT) | pgprot_val(prot));
+@@ -84,4 +125,69 @@ static inline unsigned long _pmd_pfn(pmd_t pmd)
+ #define pmd_ERROR(e) \
+ 	pr_err("%s:%d: bad pmd %016lx.\n", __FILE__, __LINE__, pmd_val(e))
+ 
++#define pud_ERROR(e)   \
++	pr_err("%s:%d: bad pud %016lx.\n", __FILE__, __LINE__, pud_val(e))
++
++static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
++{
++	if (pgtable_l4_enabled)
++		*p4dp = p4d;
++	else
++		set_pud((pud_t *)p4dp, (pud_t){ p4d_val(p4d) });
++}
++
++static inline int p4d_none(p4d_t p4d)
++{
++	if (pgtable_l4_enabled)
++		return (p4d_val(p4d) == 0);
++
++	return 0;
++}
++
++static inline int p4d_present(p4d_t p4d)
++{
++	if (pgtable_l4_enabled)
++		return (p4d_val(p4d) & _PAGE_PRESENT);
++
++	return 1;
++}
++
++static inline int p4d_bad(p4d_t p4d)
++{
++	if (pgtable_l4_enabled)
++		return !p4d_present(p4d);
++
++	return 0;
++}
++
++static inline void p4d_clear(p4d_t *p4d)
++{
++	if (pgtable_l4_enabled)
++		set_p4d(p4d, __p4d(0));
++}
++
++static inline pud_t *p4d_pgtable(p4d_t p4d)
++{
++	if (pgtable_l4_enabled)
++		return (pud_t *)pfn_to_virt(p4d_val(p4d) >> _PAGE_PFN_SHIFT);
++
++	return (pud_t *)pud_pgtable((pud_t) { p4d_val(p4d) });
++}
++
++static inline struct page *p4d_page(p4d_t p4d)
++{
++	return pfn_to_page(p4d_val(p4d) >> _PAGE_PFN_SHIFT);
++}
++
++#define pud_index(addr) (((addr) >> PUD_SHIFT) & (PTRS_PER_PUD - 1))
++
++#define pud_offset pud_offset
++static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
++{
++	if (pgtable_l4_enabled)
++		return p4d_pgtable(*p4d) + pud_index(address);
++
++	return (pud_t *)p4d;
++}
++
+ #endif /* _ASM_RISCV_PGTABLE_64_H */
+diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+index e3e03226a50a..2f92d61237b4 100644
+--- a/arch/riscv/include/asm/pgtable.h
++++ b/arch/riscv/include/asm/pgtable.h
+@@ -49,7 +49,7 @@
+  * position vmemmap directly below the VMALLOC region.
+  */
+ #ifdef CONFIG_64BIT
+-#define VA_BITS		39
++#define VA_BITS		(pgtable_l4_enabled ? 48 : 39)
+ #else
+ #define VA_BITS		32
+ #endif
+@@ -88,8 +88,7 @@
+ 
+ #ifndef __ASSEMBLY__
+ 
+-/* Page Upper Directory not used in RISC-V */
+-#include <asm-generic/pgtable-nopud.h>
++#include <asm-generic/pgtable-nop4d.h>
+ #include <asm/page.h>
+ #include <asm/tlbflush.h>
+ #include <linux/mm_types.h>
+@@ -667,9 +666,11 @@ static inline pmd_t pmdp_establish(struct vm_area_struct *vma,
+  * Note that PGDIR_SIZE must evenly divide TASK_SIZE.
+  */
+ #ifdef CONFIG_64BIT
+-#define TASK_SIZE (PGDIR_SIZE * PTRS_PER_PGD / 2)
++#define TASK_SIZE      (PGDIR_SIZE * PTRS_PER_PGD / 2)
++#define TASK_SIZE_MIN  (PGDIR_SIZE_L3 * PTRS_PER_PGD / 2)
+ #else
+-#define TASK_SIZE FIXADDR_START
++#define TASK_SIZE	FIXADDR_START
++#define TASK_SIZE_MIN	TASK_SIZE
+ #endif
+ 
+ #else /* CONFIG_MMU */
+@@ -695,6 +696,8 @@ extern uintptr_t _dtb_early_pa;
+ #define dtb_early_va	_dtb_early_va
+ #define dtb_early_pa	_dtb_early_pa
+ #endif /* CONFIG_XIP_KERNEL */
++extern u64 satp_mode;
++extern bool pgtable_l4_enabled;
+ 
+ void paging_init(void);
+ void misc_mem_init(void);
+diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+index fce5184b22c3..8f21ef339c68 100644
+--- a/arch/riscv/kernel/head.S
++++ b/arch/riscv/kernel/head.S
+@@ -95,7 +95,8 @@ relocate:
+ 
+ 	/* Compute satp for kernel page tables, but don't load it yet */
+ 	srl a2, a0, PAGE_SHIFT
+-	li a1, SATP_MODE
++	la a1, satp_mode
++	REG_L a1, 0(a1)
+ 	or a2, a2, a1
+ 
+ 	/*
+diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
+index ee3459cb6750..a7246872bd30 100644
+--- a/arch/riscv/mm/context.c
++++ b/arch/riscv/mm/context.c
+@@ -192,7 +192,7 @@ static void set_mm_asid(struct mm_struct *mm, unsigned int cpu)
+ switch_mm_fast:
+ 	csr_write(CSR_SATP, virt_to_pfn(mm->pgd) |
+ 		  ((cntx & asid_mask) << SATP_ASID_SHIFT) |
+-		  SATP_MODE);
++		  satp_mode);
+ 
+ 	if (need_flush_tlb)
+ 		local_flush_tlb_all();
+@@ -201,7 +201,7 @@ static void set_mm_asid(struct mm_struct *mm, unsigned int cpu)
+ static void set_mm_noasid(struct mm_struct *mm)
+ {
+ 	/* Switch the page table and blindly nuke entire local TLB */
+-	csr_write(CSR_SATP, virt_to_pfn(mm->pgd) | SATP_MODE);
++	csr_write(CSR_SATP, virt_to_pfn(mm->pgd) | satp_mode);
+ 	local_flush_tlb_all();
+ }
+ 
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index c0cddf0fc22d..d7de414c6500 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -37,6 +37,17 @@ EXPORT_SYMBOL(kernel_map);
+ #define kernel_map	(*(struct kernel_mapping *)XIP_FIXUP(&kernel_map))
+ #endif
+ 
++#ifdef CONFIG_64BIT
++u64 satp_mode = !IS_ENABLED(CONFIG_XIP_KERNEL) ? SATP_MODE_48 : SATP_MODE_39;
++#else
++u64 satp_mode = SATP_MODE_32;
++#endif
++EXPORT_SYMBOL(satp_mode);
++
++bool pgtable_l4_enabled = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL) ?
++				true : false;
++EXPORT_SYMBOL(pgtable_l4_enabled);
++
+ phys_addr_t phys_ram_base __ro_after_init;
+ EXPORT_SYMBOL(phys_ram_base);
+ 
+@@ -59,6 +70,8 @@ struct pt_alloc_ops {
+ #ifndef __PAGETABLE_PMD_FOLDED
+ 	pmd_t *(*get_pmd_virt)(phys_addr_t pa);
+ 	phys_addr_t (*alloc_pmd)(uintptr_t va);
++	pud_t *(*get_pud_virt)(phys_addr_t pa);
++	phys_addr_t (*alloc_pud)(uintptr_t va);
+ #endif
+ };
+ 
+@@ -130,18 +143,8 @@ void __init mem_init(void)
+ 	print_vm_layout();
+ }
+ 
+-/*
+- * The default maximal physical memory size is -PAGE_OFFSET for 32-bit kernel,
+- * whereas for 64-bit kernel, the end of the virtual address space is occupied
+- * by the modules/BPF/kernel mappings which reduces the available size of the
+- * linear mapping.
+- * Limit the memory size via mem.
+- */
+-#ifdef CONFIG_64BIT
+-static phys_addr_t memory_limit = -PAGE_OFFSET - SZ_4G;
+-#else
+-static phys_addr_t memory_limit = -PAGE_OFFSET;
+-#endif
++/* Limit the memory size via mem. */
++static phys_addr_t memory_limit;
+ 
+ static int __init early_mem(char *p)
+ {
+@@ -245,6 +248,7 @@ pgd_t trampoline_pg_dir[PTRS_PER_PGD] __page_aligned_bss;
+ static pte_t fixmap_pte[PTRS_PER_PTE] __page_aligned_bss;
+ 
+ pgd_t early_pg_dir[PTRS_PER_PGD] __initdata __aligned(PAGE_SIZE);
++static pud_t __maybe_unused early_dtb_pud[PTRS_PER_PUD] __initdata __aligned(PAGE_SIZE);
+ static pmd_t __maybe_unused early_dtb_pmd[PTRS_PER_PMD] __initdata __aligned(PAGE_SIZE);
+ 
+ #ifdef CONFIG_XIP_KERNEL
+@@ -333,6 +337,16 @@ static pmd_t early_pmd[PTRS_PER_PMD] __initdata __aligned(PAGE_SIZE);
+ #define early_pmd      ((pmd_t *)XIP_FIXUP(early_pmd))
+ #endif /* CONFIG_XIP_KERNEL */
+ 
++static pud_t trampoline_pud[PTRS_PER_PUD] __page_aligned_bss;
++static pud_t fixmap_pud[PTRS_PER_PUD] __page_aligned_bss;
++static pud_t early_pud[PTRS_PER_PUD] __initdata __aligned(PAGE_SIZE);
++
++#ifdef CONFIG_XIP_KERNEL
++#define trampoline_pud ((pud_t *)XIP_FIXUP(trampoline_pud))
++#define fixmap_pud     ((pud_t *)XIP_FIXUP(fixmap_pud))
++#define early_pud      ((pud_t *)XIP_FIXUP(early_pud))
++#endif /* CONFIG_XIP_KERNEL */
++
+ static pmd_t *__init get_pmd_virt_early(phys_addr_t pa)
+ {
+ 	/* Before MMU is enabled */
+@@ -352,7 +366,7 @@ static pmd_t *__init get_pmd_virt_late(phys_addr_t pa)
+ 
+ static phys_addr_t __init alloc_pmd_early(uintptr_t va)
+ {
+-	BUG_ON((va - kernel_map.virt_addr) >> PGDIR_SHIFT);
++	BUG_ON((va - kernel_map.virt_addr) >> PUD_SHIFT);
+ 
+ 	return (uintptr_t)early_pmd;
+ }
+@@ -398,21 +412,97 @@ static void __init create_pmd_mapping(pmd_t *pmdp,
+ 	create_pte_mapping(ptep, va, pa, sz, prot);
+ }
+ 
+-#define pgd_next_t		pmd_t
+-#define alloc_pgd_next(__va)	pt_ops.alloc_pmd(__va)
+-#define get_pgd_next_virt(__pa)	pt_ops.get_pmd_virt(__pa)
++static pud_t *__init get_pud_virt_early(phys_addr_t pa)
++{
++	return (pud_t *)((uintptr_t)pa);
++}
++
++static pud_t *__init get_pud_virt_fixmap(phys_addr_t pa)
++{
++	clear_fixmap(FIX_PUD);
++	return (pud_t *)set_fixmap_offset(FIX_PUD, pa);
++}
++
++static pud_t *__init get_pud_virt_late(phys_addr_t pa)
++{
++	return (pud_t *)__va(pa);
++}
++
++static phys_addr_t __init alloc_pud_early(uintptr_t va)
++{
++	/* Only one PUD is available for early mapping */
++	BUG_ON((va - kernel_map.virt_addr) >> PGDIR_SHIFT);
++
++	return (uintptr_t)early_pud;
++}
++
++static phys_addr_t __init alloc_pud_fixmap(uintptr_t va)
++{
++	return memblock_phys_alloc(PAGE_SIZE, PAGE_SIZE);
++}
++
++static phys_addr_t alloc_pud_late(uintptr_t va)
++{
++	unsigned long vaddr;
++
++	vaddr = __get_free_page(GFP_KERNEL);
++	BUG_ON(!vaddr);
++	return __pa(vaddr);
++}
++
++static void __init create_pud_mapping(pud_t *pudp,
++				      uintptr_t va, phys_addr_t pa,
++				      phys_addr_t sz, pgprot_t prot)
++{
++	pmd_t *nextp;
++	phys_addr_t next_phys;
++	uintptr_t pud_index = pud_index(va);
++
++	if (sz == PUD_SIZE) {
++		if (pud_val(pudp[pud_index]) == 0)
++			pudp[pud_index] = pfn_pud(PFN_DOWN(pa), prot);
++		return;
++	}
++
++	if (pud_val(pudp[pud_index]) == 0) {
++		next_phys = pt_ops.alloc_pmd(va);
++		pudp[pud_index] = pfn_pud(PFN_DOWN(next_phys), PAGE_TABLE);
++		nextp = pt_ops.get_pmd_virt(next_phys);
++		memset(nextp, 0, PAGE_SIZE);
++	} else {
++		next_phys = PFN_PHYS(_pud_pfn(pudp[pud_index]));
++		nextp = pt_ops.get_pmd_virt(next_phys);
++	}
++
++	create_pmd_mapping(nextp, va, pa, sz, prot);
++}
++
++#define pgd_next_t		pud_t
++#define alloc_pgd_next(__va)	(pgtable_l4_enabled ?			\
++		pt_ops.alloc_pud(__va) : pt_ops.alloc_pmd(__va))
++#define get_pgd_next_virt(__pa)	(pgtable_l4_enabled ?			\
++		pt_ops.get_pud_virt(__pa) : (pgd_next_t *)pt_ops.get_pmd_virt(__pa))
+ #define create_pgd_next_mapping(__nextp, __va, __pa, __sz, __prot)	\
+-	create_pmd_mapping(__nextp, __va, __pa, __sz, __prot)
+-#define fixmap_pgd_next		fixmap_pmd
++				(pgtable_l4_enabled ?			\
++		create_pud_mapping(__nextp, __va, __pa, __sz, __prot) :	\
++		create_pmd_mapping((pmd_t *)__nextp, __va, __pa, __sz, __prot))
++#define fixmap_pgd_next		(pgtable_l4_enabled ?			\
++		(uintptr_t)fixmap_pud : (uintptr_t)fixmap_pmd)
++#define trampoline_pgd_next	(pgtable_l4_enabled ?			\
++		(uintptr_t)trampoline_pud : (uintptr_t)trampoline_pmd)
++#define early_dtb_pgd_next	(pgtable_l4_enabled ?			\
++		(uintptr_t)early_dtb_pud : (uintptr_t)early_dtb_pmd)
+ #else
+ #define pgd_next_t		pte_t
+ #define alloc_pgd_next(__va)	pt_ops.alloc_pte(__va)
+ #define get_pgd_next_virt(__pa)	pt_ops.get_pte_virt(__pa)
+ #define create_pgd_next_mapping(__nextp, __va, __pa, __sz, __prot)	\
+ 	create_pte_mapping(__nextp, __va, __pa, __sz, __prot)
+-#define fixmap_pgd_next		fixmap_pte
++#define fixmap_pgd_next		((uintptr_t)fixmap_pte)
++#define early_dtb_pgd_next	((uintptr_t)early_dtb_pmd)
++#define create_pud_mapping(__pmdp, __va, __pa, __sz, __prot)
+ #define create_pmd_mapping(__pmdp, __va, __pa, __sz, __prot)
+-#endif
++#endif /* __PAGETABLE_PMD_FOLDED */
+ 
+ void __init create_pgd_mapping(pgd_t *pgdp,
+ 				      uintptr_t va, phys_addr_t pa,
+@@ -500,6 +590,57 @@ static __init pgprot_t pgprot_from_va(uintptr_t va)
+ }
+ #endif /* CONFIG_STRICT_KERNEL_RWX */
+ 
++#ifdef CONFIG_64BIT
++static void __init disable_pgtable_l4(void)
++{
++	pgtable_l4_enabled = false;
++	kernel_map.page_offset = PAGE_OFFSET_L3;
++	satp_mode = SATP_MODE_39;
++}
++
++/*
++ * There is a simple way to determine if 4-level is supported by the
++ * underlying hardware: establish 1:1 mapping in 4-level page table mode
++ * then read SATP to see if the configuration was taken into account
++ * meaning sv48 is supported.
++ */
++static __init void set_satp_mode(void)
++{
++	u64 identity_satp, hw_satp;
++	uintptr_t set_satp_mode_pmd;
++
++	set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
++	create_pgd_mapping(early_pg_dir,
++			   set_satp_mode_pmd, (uintptr_t)early_pud,
++			   PGDIR_SIZE, PAGE_TABLE);
++	create_pud_mapping(early_pud,
++			   set_satp_mode_pmd, (uintptr_t)early_pmd,
++			   PUD_SIZE, PAGE_TABLE);
++	/* Handle the case where set_satp_mode straddles 2 PMDs */
++	create_pmd_mapping(early_pmd,
++			   set_satp_mode_pmd, set_satp_mode_pmd,
++			   PMD_SIZE, PAGE_KERNEL_EXEC);
++	create_pmd_mapping(early_pmd,
++			   set_satp_mode_pmd + PMD_SIZE,
++			   set_satp_mode_pmd + PMD_SIZE,
++			   PMD_SIZE, PAGE_KERNEL_EXEC);
++
++	identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
++
++	local_flush_tlb_all();
++	csr_write(CSR_SATP, identity_satp);
++	hw_satp = csr_swap(CSR_SATP, 0ULL);
++	local_flush_tlb_all();
++
++	if (hw_satp != identity_satp)
++		disable_pgtable_l4();
++
++	memset(early_pg_dir, 0, PAGE_SIZE);
++	memset(early_pud, 0, PAGE_SIZE);
++	memset(early_pmd, 0, PAGE_SIZE);
 +}
 +#endif
 +
- #endif /* CONFIG_PGTABLE_LEVELS > 3 */
+ /*
+  * setup_vm() is called from head.S with MMU-off.
+  *
+@@ -564,10 +705,14 @@ static void __init create_fdt_early_page_table(pgd_t *pgdir, uintptr_t dtb_pa)
+ 	uintptr_t pa = dtb_pa & ~(PMD_SIZE - 1);
  
- #ifndef __HAVE_ARCH_PGD_FREE
+ 	create_pgd_mapping(early_pg_dir, DTB_EARLY_BASE_VA,
+-			   IS_ENABLED(CONFIG_64BIT) ? (uintptr_t)early_dtb_pmd : pa,
++			   IS_ENABLED(CONFIG_64BIT) ? early_dtb_pgd_next : pa,
+ 			   PGDIR_SIZE,
+ 			   IS_ENABLED(CONFIG_64BIT) ? PAGE_TABLE : PAGE_KERNEL);
+ 
++	if (pgtable_l4_enabled)
++		create_pud_mapping(early_dtb_pud, DTB_EARLY_BASE_VA,
++				   (uintptr_t)early_dtb_pmd, PUD_SIZE, PAGE_TABLE);
++
+ 	if (IS_ENABLED(CONFIG_64BIT)) {
+ 		create_pmd_mapping(early_dtb_pmd, DTB_EARLY_BASE_VA,
+ 				   pa, PMD_SIZE, PAGE_KERNEL);
+@@ -593,7 +738,17 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ {
+ 	pmd_t __maybe_unused fix_bmap_spmd, fix_bmap_epmd;
+ 
++	pt_ops.alloc_pte = alloc_pte_early;
++	pt_ops.get_pte_virt = get_pte_virt_early;
++#ifndef __PAGETABLE_PMD_FOLDED
++	pt_ops.alloc_pmd = alloc_pmd_early;
++	pt_ops.get_pmd_virt = get_pmd_virt_early;
++	pt_ops.alloc_pud = alloc_pud_early;
++	pt_ops.get_pud_virt = get_pud_virt_early;
++#endif
++
+ 	kernel_map.virt_addr = KERNEL_LINK_ADDR;
++	kernel_map.page_offset = _AC(CONFIG_PAGE_OFFSET, UL);
+ 
+ #ifdef CONFIG_XIP_KERNEL
+ 	kernel_map.xiprom = (uintptr_t)CONFIG_XIP_PHYS_ADDR;
+@@ -608,11 +763,24 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 	kernel_map.phys_addr = (uintptr_t)(&_start);
+ 	kernel_map.size = (uintptr_t)(&_end) - kernel_map.phys_addr;
+ #endif
++
++#if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
++	set_satp_mode();
++#endif
++
+ 	kernel_map.va_pa_offset = PAGE_OFFSET - kernel_map.phys_addr;
+ 	kernel_map.va_kernel_pa_offset = kernel_map.virt_addr - kernel_map.phys_addr;
+ 
+ 	riscv_pfn_base = PFN_DOWN(kernel_map.phys_addr);
+ 
++	/*
++	 * The default maximal physical memory size is -PAGE_OFFSET for 32-bit kernel,
++	 * whereas for 64-bit kernel, the end of the virtual address space is occupied
++	 * by the modules/BPF/kernel mappings which reduces the available size of the
++	 * linear mapping.
++	 */
++	memory_limit = -PAGE_OFFSET - (IS_ENABLED(CONFIG_64BIT) ? SZ_4G : 0);
++
+ 	/* Sanity check alignment and size */
+ 	BUG_ON((PAGE_OFFSET % PGDIR_SIZE) != 0);
+ 	BUG_ON((kernel_map.phys_addr % PMD_SIZE) != 0);
+@@ -625,23 +793,23 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 	BUG_ON((kernel_map.virt_addr + kernel_map.size) > ADDRESS_SPACE_END - SZ_4K);
+ #endif
+ 
+-	pt_ops.alloc_pte = alloc_pte_early;
+-	pt_ops.get_pte_virt = get_pte_virt_early;
+-#ifndef __PAGETABLE_PMD_FOLDED
+-	pt_ops.alloc_pmd = alloc_pmd_early;
+-	pt_ops.get_pmd_virt = get_pmd_virt_early;
+-#endif
+ 	/* Setup early PGD for fixmap */
+ 	create_pgd_mapping(early_pg_dir, FIXADDR_START,
+-			   (uintptr_t)fixmap_pgd_next, PGDIR_SIZE, PAGE_TABLE);
++			   fixmap_pgd_next, PGDIR_SIZE, PAGE_TABLE);
+ 
+ #ifndef __PAGETABLE_PMD_FOLDED
+-	/* Setup fixmap PMD */
++	/* Setup fixmap PUD and PMD */
++	if (pgtable_l4_enabled)
++		create_pud_mapping(fixmap_pud, FIXADDR_START,
++				   (uintptr_t)fixmap_pmd, PUD_SIZE, PAGE_TABLE);
+ 	create_pmd_mapping(fixmap_pmd, FIXADDR_START,
+ 			   (uintptr_t)fixmap_pte, PMD_SIZE, PAGE_TABLE);
+ 	/* Setup trampoline PGD and PMD */
+ 	create_pgd_mapping(trampoline_pg_dir, kernel_map.virt_addr,
+-			   (uintptr_t)trampoline_pmd, PGDIR_SIZE, PAGE_TABLE);
++			   trampoline_pgd_next, PGDIR_SIZE, PAGE_TABLE);
++	if (pgtable_l4_enabled)
++		create_pud_mapping(trampoline_pud, kernel_map.virt_addr,
++				   (uintptr_t)trampoline_pmd, PUD_SIZE, PAGE_TABLE);
+ #ifdef CONFIG_XIP_KERNEL
+ 	create_pmd_mapping(trampoline_pmd, kernel_map.virt_addr,
+ 			   kernel_map.xiprom, PMD_SIZE, PAGE_KERNEL_EXEC);
+@@ -669,7 +837,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 	 * Bootime fixmap only can handle PMD_SIZE mapping. Thus, boot-ioremap
+ 	 * range can not span multiple pmds.
+ 	 */
+-	BUILD_BUG_ON((__fix_to_virt(FIX_BTMAP_BEGIN) >> PMD_SHIFT)
++	BUG_ON((__fix_to_virt(FIX_BTMAP_BEGIN) >> PMD_SHIFT)
+ 		     != (__fix_to_virt(FIX_BTMAP_END) >> PMD_SHIFT));
+ 
+ #ifndef __PAGETABLE_PMD_FOLDED
+@@ -711,6 +879,8 @@ static void __init setup_vm_final(void)
+ #ifndef __PAGETABLE_PMD_FOLDED
+ 	pt_ops.alloc_pmd = alloc_pmd_fixmap;
+ 	pt_ops.get_pmd_virt = get_pmd_virt_fixmap;
++	pt_ops.alloc_pud = alloc_pud_fixmap;
++	pt_ops.get_pud_virt = get_pud_virt_fixmap;
+ #endif
+ 	/* Setup swapper PGD for fixmap */
+ 	create_pgd_mapping(swapper_pg_dir, FIXADDR_START,
+@@ -744,9 +914,10 @@ static void __init setup_vm_final(void)
+ 	/* Clear fixmap PTE and PMD mappings */
+ 	clear_fixmap(FIX_PTE);
+ 	clear_fixmap(FIX_PMD);
++	clear_fixmap(FIX_PUD);
+ 
+ 	/* Move to swapper page table */
+-	csr_write(CSR_SATP, PFN_DOWN(__pa_symbol(swapper_pg_dir)) | SATP_MODE);
++	csr_write(CSR_SATP, PFN_DOWN(__pa_symbol(swapper_pg_dir)) | satp_mode);
+ 	local_flush_tlb_all();
+ 
+ 	/* generic page allocation functions must be used to setup page table */
+@@ -755,6 +926,8 @@ static void __init setup_vm_final(void)
+ #ifndef __PAGETABLE_PMD_FOLDED
+ 	pt_ops.alloc_pmd = alloc_pmd_late;
+ 	pt_ops.get_pmd_virt = get_pmd_virt_late;
++	pt_ops.alloc_pud = alloc_pud_late;
++	pt_ops.get_pud_virt = get_pud_virt_late;
+ #endif
+ }
+ #else
+diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+index d7189c8714a9..2573d77cbef6 100644
+--- a/arch/riscv/mm/kasan_init.c
++++ b/arch/riscv/mm/kasan_init.c
+@@ -14,7 +14,7 @@
+ extern pgd_t early_pg_dir[PTRS_PER_PGD];
+ asmlinkage void __init kasan_early_init(void)
+ {
+-	uintptr_t i;
++	uintptr_t i, pfn_pgd_next;
+ 	pgd_t *pgd = early_pg_dir + pgd_index(KASAN_SHADOW_START);
+ 
+ 	for (i = 0; i < PTRS_PER_PTE; ++i)
+@@ -25,25 +25,31 @@ asmlinkage void __init kasan_early_init(void)
+ 	for (i = 0; i < PTRS_PER_PMD; ++i)
+ 		set_pmd(kasan_early_shadow_pmd + i,
+ 			pfn_pmd(PFN_DOWN
+-				(__pa((uintptr_t) kasan_early_shadow_pte)),
+-				__pgprot(_PAGE_TABLE)));
++				(__pa((uintptr_t)kasan_early_shadow_pte)),
++				PAGE_TABLE));
++
++	if (pgtable_l4_enabled) {
++		for (i = 0; i < PTRS_PER_PUD; ++i)
++			set_pud(kasan_early_shadow_pud + i,
++				pfn_pud(PFN_DOWN
++					(__pa(((uintptr_t)kasan_early_shadow_pmd))),
++					PAGE_TABLE));
++
++		pfn_pgd_next = PFN_DOWN(__pa((uintptr_t)kasan_early_shadow_pud));
++	} else {
++		pfn_pgd_next = PFN_DOWN(__pa((uintptr_t)kasan_early_shadow_pmd));
++	}
+ 
+ 	for (i = KASAN_SHADOW_START; i < KASAN_SHADOW_END;
+ 	     i += PGDIR_SIZE, ++pgd)
+-		set_pgd(pgd,
+-			pfn_pgd(PFN_DOWN
+-				(__pa(((uintptr_t) kasan_early_shadow_pmd))),
+-				__pgprot(_PAGE_TABLE)));
++		set_pgd(pgd, pfn_pgd(pfn_pgd_next, PAGE_TABLE));
+ 
+ 	/* init for swapper_pg_dir */
+ 	pgd = pgd_offset_k(KASAN_SHADOW_START);
+ 
+ 	for (i = KASAN_SHADOW_START; i < KASAN_SHADOW_END;
+ 	     i += PGDIR_SIZE, ++pgd)
+-		set_pgd(pgd,
+-			pfn_pgd(PFN_DOWN
+-				(__pa(((uintptr_t) kasan_early_shadow_pmd))),
+-				__pgprot(_PAGE_TABLE)));
++		set_pgd(pgd, pfn_pgd(pfn_pgd_next, PAGE_TABLE));
+ 
+ 	local_flush_tlb_all();
+ }
+@@ -70,15 +76,19 @@ static void __init kasan_populate_pte(pmd_t *pmd, unsigned long vaddr, unsigned
+ 	set_pmd(pmd, pfn_pmd(PFN_DOWN(__pa(base_pte)), PAGE_TABLE));
+ }
+ 
+-static void __init kasan_populate_pmd(pgd_t *pgd, unsigned long vaddr, unsigned long end)
++static void __init kasan_populate_pmd(pud_t *pud, unsigned long vaddr, unsigned long end)
+ {
+ 	phys_addr_t phys_addr;
+ 	pmd_t *pmdp, *base_pmd;
+ 	unsigned long next;
+ 
+-	base_pmd = (pmd_t *)pgd_page_vaddr(*pgd);
+-	if (base_pmd == lm_alias(kasan_early_shadow_pmd))
++	if (pud_none(*pud)) {
+ 		base_pmd = memblock_alloc(PTRS_PER_PMD * sizeof(pmd_t), PAGE_SIZE);
++	} else {
++		base_pmd = (pmd_t *)pud_pgtable(*pud);
++		if (base_pmd == lm_alias(kasan_early_shadow_pmd))
++			base_pmd = memblock_alloc(PTRS_PER_PMD * sizeof(pmd_t), PAGE_SIZE);
++	}
+ 
+ 	pmdp = base_pmd + pmd_index(vaddr);
+ 
+@@ -102,9 +112,51 @@ static void __init kasan_populate_pmd(pgd_t *pgd, unsigned long vaddr, unsigned
+ 	 * it entirely, memblock could allocate a page at a physical address
+ 	 * where KASAN is not populated yet and then we'd get a page fault.
+ 	 */
+-	set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_pmd)), PAGE_TABLE));
++	set_pud(pud, pfn_pud(PFN_DOWN(__pa(base_pmd)), PAGE_TABLE));
+ }
+ 
++static void __init kasan_populate_pud(pgd_t *pgd, unsigned long vaddr, unsigned long end)
++{
++	phys_addr_t phys_addr;
++	pud_t *pudp, *base_pud;
++	unsigned long next;
++
++	base_pud = (pud_t *)pgd_page_vaddr(*pgd);
++	if (base_pud == lm_alias(kasan_early_shadow_pud))
++		base_pud = memblock_alloc(PTRS_PER_PUD * sizeof(pud_t), PAGE_SIZE);
++
++	pudp = base_pud + pud_index(vaddr);
++
++	do {
++		next = pud_addr_end(vaddr, end);
++
++		if (pud_none(*pudp) && IS_ALIGNED(vaddr, PUD_SIZE) && (next - vaddr) >= PUD_SIZE) {
++			phys_addr = memblock_phys_alloc(PUD_SIZE, PUD_SIZE);
++			if (phys_addr) {
++				set_pud(pudp, pfn_pud(PFN_DOWN(phys_addr), PAGE_KERNEL));
++				continue;
++			}
++		}
++
++		kasan_populate_pmd(pudp, vaddr, next);
++	} while (pudp++, vaddr = next, vaddr != end);
++
++	/*
++	 * Wait for the whole PGD to be populated before setting the PGD in
++	 * the page table, otherwise, if we did set the PGD before populating
++	 * it entirely, memblock could allocate a page at a physical address
++	 * where KASAN is not populated yet and then we'd get a page fault.
++	 */
++	set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_pud)), PAGE_TABLE));
++}
++
++#define kasan_early_shadow_pgd_next			(pgtable_l4_enabled ?	\
++				(uintptr_t)kasan_early_shadow_pud :		\
++				(uintptr_t)kasan_early_shadow_pmd)
++#define kasan_populate_pgd_next(pgdp, vaddr, next)	(pgtable_l4_enabled ?	\
++				kasan_populate_pud(pgdp, vaddr, next) :		\
++				kasan_populate_pmd((pud_t *)pgdp, vaddr, next))
++
+ static void __init kasan_populate_pgd(unsigned long vaddr, unsigned long end)
+ {
+ 	phys_addr_t phys_addr;
+@@ -116,10 +168,10 @@ static void __init kasan_populate_pgd(unsigned long vaddr, unsigned long end)
+ 
+ 		/*
+ 		 * pgdp can't be none since kasan_early_init initialized all KASAN
+-		 * shadow region with kasan_early_shadow_pmd: if this is stillthe case,
++		 * shadow region with kasan_early_shadow_pud: if this is still the case,
+ 		 * that means we can try to allocate a hugepage as a replacement.
+ 		 */
+-		if (pgd_page_vaddr(*pgdp) == (unsigned long)lm_alias(kasan_early_shadow_pmd) &&
++		if (pgd_page_vaddr(*pgdp) == (unsigned long)lm_alias(kasan_early_shadow_pgd_next) &&
+ 		    IS_ALIGNED(vaddr, PGDIR_SIZE) && (next - vaddr) >= PGDIR_SIZE) {
+ 			phys_addr = memblock_phys_alloc(PGDIR_SIZE, PGDIR_SIZE);
+ 			if (phys_addr) {
+@@ -128,7 +180,7 @@ static void __init kasan_populate_pgd(unsigned long vaddr, unsigned long end)
+ 			}
+ 		}
+ 
+-		kasan_populate_pmd(pgdp, vaddr, next);
++		kasan_populate_pgd_next(pgdp, vaddr, next);
+ 	} while (pgdp++, vaddr = next, vaddr != end);
+ }
+ 
+@@ -151,7 +203,8 @@ static void __init kasan_shallow_populate_pgd(unsigned long vaddr, unsigned long
+ 
+ 	do {
+ 		next = pgd_addr_end(vaddr, end);
+-		if (pgd_page_vaddr(*pgd_k) == (unsigned long)lm_alias(kasan_early_shadow_pmd)) {
++		if (pgd_page_vaddr(*pgd_k) ==
++		    (unsigned long)lm_alias(kasan_early_shadow_pgd_next)) {
+ 			p = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+ 			set_pgd(pgd_k, pfn_pgd(PFN_DOWN(__pa(p)), PAGE_TABLE));
+ 		}
+diff --git a/drivers/firmware/efi/libstub/efi-stub.c b/drivers/firmware/efi/libstub/efi-stub.c
+index 26e69788f27a..b3db5d91ed38 100644
+--- a/drivers/firmware/efi/libstub/efi-stub.c
++++ b/drivers/firmware/efi/libstub/efi-stub.c
+@@ -40,6 +40,8 @@
+ 
+ #ifdef CONFIG_ARM64
+ # define EFI_RT_VIRTUAL_LIMIT	DEFAULT_MAP_WINDOW_64
++#elif defined(CONFIG_RISCV)
++# define EFI_RT_VIRTUAL_LIMIT	TASK_SIZE_MIN
+ #else
+ # define EFI_RT_VIRTUAL_LIMIT	TASK_SIZE
+ #endif
 -- 
 2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210929145113.1935778-4-alexandre.ghiti%40canonical.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210929145113.1935778-5-alexandre.ghiti%40canonical.com.
