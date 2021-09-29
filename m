@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBIP72GFAMGQEFJUM7PQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBX772GFAMGQEQB3ETUQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE5E41C7AD
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 17:00:51 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id n22-20020a0565120ad600b003fcc09af59fsf2612926lfu.21
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 08:00:51 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1632927651; cv=pass;
+Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1173841C7BE
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 17:01:52 +0200 (CEST)
+Received: by mail-lf1-x140.google.com with SMTP id c18-20020a056512075200b003fd0e54a0desf1781542lfs.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Sep 2021 08:01:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1632927711; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GH+CPkKS7OS2D3ytXI4KrUJJ+bjEvBGqmSZkXzTn+z4Ffc1KbWFqqaSZf429J1Kacl
-         uCG7UJMo9Cte1lhRHYHrfuP99CTojaOVr2Lpsh3JtLQ6vKVnVjJQVn+7CuRfG7dJ9nC1
-         YxLv1Gr1nQ3RTe8LlyQ+uCI2CKBEilEdYMNPL9e+lAYM3cfwnY183OvHvCwjhhnkmGQz
-         ftcYC+5TIdR1IteJyuXb19Ep5Z36DNhSdKZkxznjQtQmm/P4WyMX9EWUYkzIkO/kZNkH
-         z3rtCOy64p24u8wumCBCf5gM82Pp4Xkykkdt/fL8BwcR333IE3HQcGul3oS7itt1HMyd
-         FY/Q==
+        b=x/9BcpSMpHyM/Jrpxe2cK+lR1vhR0hgCJgvyLqD9aN7lJgM/lSeyJIkjmD01TRnNAe
+         1aDfIBY28sGAtFiXf+vFogtDhDkvkXR+G2MdAAWosMbBeLAmSr+j76bhlB5hHuacUW2q
+         0ejnUpsC3aXqhwHwWJHdIDrOZKNkptv1ClQJzPwDHNHmq72M6PxxQ0Xn9dKIFICxZ1KF
+         MvJUSSCM9h5Euju/ZlThnGuINe5/Ev0nogpQu3hvUsgUoiyteNeG3dqDM47uP3vh1Bae
+         66xwS1mcz4Odsf7L1y+KnGSStxVrzpXOsbLnhUeLBX9mCVkJGSxzq0bhKAyWsZKG/a74
+         mN4g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=SCsw3WREMtIjVJ1mc817wHN5KIKSTK8ecXF+4hnJvnc=;
-        b=ooBBlI1llsn982ffAqhcOvJ58FBdxGCMYkd2ysrnl22kzF7AHlW7D0BiQbWo5/MEa/
-         1mNPyvNtzsWkHWjyBxtHEMFCvgLTZuvWCaAanCGsPu46ECvWB8jSA/9IBipl+cz1yqXB
-         6w+l2b7zs4P14QuUlHN4vEknCsCfh9SpfgLFw9YF9kS7j4LX4pZfrv5wltK+ofA+RPvP
-         e5p8bz8I9gWoX44ihtwml8RrAHmK/D6iIzeCb+0RFGuj5pPdAYb+VLkM3BinERVWF4pd
-         Qv4Stv/9fUYxkWG6AvBD1GerucXn2Qn3Pn/yKf3irihPhOc+xjaOpzM/uJ7yrDwFtczF
-         s9Cg==
+        bh=3atajb/PVkB4/DCnEnr5iYOD98b22YdKY9TKCrBSVLI=;
+        b=eNAfjSp2Uq1RwwZk0fvadjM7DhkQCBaLhAY3eyg7ygCVcrutb3uyeLo1XIJsuKFVjH
+         NQxCBGLvcZghO/sqxaAY6vx780tsowUPlVx7/qSGwLcDvz1hwFsCTkPGcfC2bOWvEdnR
+         dOcztRKtkJkaAVExYUn/M7cRCcxUA0CvkMJDu0Y78oumlCNpbLzfrezmncxVJSCKpTV7
+         r5oWjlagXMS4tdI9UPtFcZBkBSo7luhLYVC1tCLGSowpU56S7FPxZ1/kH6HWDoZ8uxVh
+         I0rCCkmweTekt/jXUZd1u56pGbncIPlA5pzHe+u9HRA5n0LuoW8QqwxM/jm6KLFPnw9U
+         fpFQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=CdndsxOn;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=a2QkUZeA;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=SCsw3WREMtIjVJ1mc817wHN5KIKSTK8ecXF+4hnJvnc=;
-        b=a6SmjE/ok+rC2x1mT/l62XdQMzzcJcShT7NE5JTamBVRZ81JTg5fZro061+z457SV0
-         X1RVDE1sDdPpi+RIClEFiOGF/x/z6ElzDoaAH5GvkzmpebvYII9euWwhFXURNzcGAfoN
-         WnRHQJUZG+p2U4evvY1CRiLv+vmGPahRw7kWwD2KK9VcCv1E5FJwRkAxTNwWgj7It4AZ
-         65VDeFzZ9MtUEYinfLxdEgPxGutEuhrjK5M0fDYk5kQNaWdn6jOvbpVnLBr3HYBNPcvL
-         VTaAaNo6c+l7d2IBuKdtLFy/aeRI1mxFgHe866WWnaCBbUzE1//3b1QfJuHlBchVRqlv
-         HLLA==
+        bh=3atajb/PVkB4/DCnEnr5iYOD98b22YdKY9TKCrBSVLI=;
+        b=d9T47UIx1Zlx7JfkwtvaYvKBdpYYAA5WBGQMMGng4/ld7hBsSHY0UNP4kBIW8fHHNP
+         Zy6fn84LSc+pUhIGG3W8/ej0aeTxE5kPHtHSeT2KxtUh4mfWGe67NHG3m7mOIB0W3dFf
+         phRzcag0IIEU9cvsVW8HpwE4Fd4bM9ou3mnHkrPoW2S2iDoSLDdvHXpHmHIAqGs1ULZq
+         fV/YUKC0iQsz7EV3fwvm0ak5W+FZrtkK1654eub6ue+aZ+jMGFRDGUDREbuUayAkBQE/
+         OxqwuQuX6A3D6D6Hh9s8xiz8SDtt4NfrHRLStJhuaXh1/B+ecUhhA6nHGtzw7yt7Swda
+         8pEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,68 +49,68 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=SCsw3WREMtIjVJ1mc817wHN5KIKSTK8ecXF+4hnJvnc=;
-        b=vaqdhiUcwQ/nB56oylKVv0mj7KFLOvLt90eiG05w/P00FpFdCkFGOJ7dWMKVvKlgCP
-         CXEcI2Rxzbn/d4FOgNj9AreJQle2NN/7jduenJ+ztfbQEYmoQTLEQ9f2e4oD0LB+KAKW
-         NVKgPY21IZVYz4Wz7CrYtOE0Ej8MXU0qQRj1MBHhlhWqDHkPo9fB0nDJVkqXAnStORqO
-         ahHU1D3t7yxGIKSbkUJeJp5HqwA8vkZa3DP+bGXk68LD5zeikt7q9TJ5xTDMcTYjwBXA
-         nNoaqRE/GAY3bDdUeXEN0u3AXMUzRUVw53Om0xFvAQqDHMOoAIwDLQs4LAf+xxyQs+gA
-         qS1g==
+        bh=3atajb/PVkB4/DCnEnr5iYOD98b22YdKY9TKCrBSVLI=;
+        b=6A2puQ2CbOS72LRHrFqkvADPddLyU28ukvlTkEEF2WuZz1bdwolAVAdC/cJEFmMUGx
+         r0y9yobXTAaYBZQ0Gc62NPNzkc5OkFeS/YgFKsc4InyQD6zlZQyUuAOssXDjtWlPEC8L
+         agNJ6VHWEGy9FA7P3i3VXhFekPk7/XnfqlFybBHVtPNksNxoJcZDj615fWFAAG4PKOdg
+         Y8KeHnLKJcilZKWaJO3k6OS9Zdewiez6ylX70P7hhJcQuXp2URIf9Lh+rOe+BL63dMsZ
+         I+d+fuyTJutCHPQ8nh6v11hZ/5drTT6xb9c4LNXKb/QVUDiku4ltoPUzERIa0QQ9K4+N
+         mxeg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532uBkGEgTVTbIHVdFG3+8FVSPRODs8e8th3xn01/yoK6c8m1WvA
-	u8kAgLc4+7pAOWNtMVJgLmA=
-X-Google-Smtp-Source: ABdhPJygrdgd5LXuSmsj3CUhj+2hdc7V9L6tXaR3TBrybUFK/yeZN6YJeUzgdudv39M52ytwFJt+nw==
-X-Received: by 2002:a2e:a492:: with SMTP id h18mr412649lji.10.1632927649867;
-        Wed, 29 Sep 2021 08:00:49 -0700 (PDT)
+X-Gm-Message-State: AOAM5335+5c87zsOuU0vRGGAq1Bf5GaNiNt8OsXxXOfpCBPJKtCb7x0b
+	YjimVfJArGLyjf87N/JDEAg=
+X-Google-Smtp-Source: ABdhPJwjbgijGfY3KtI+ZMvHD7G4ycHxrGQtVI3zGaaDV5F7CZC4VblmpJMQ4DQuxwY+hHhKj3ig+Q==
+X-Received: by 2002:a05:6512:32c8:: with SMTP id f8mr113462lfg.683.1632927711277;
+        Wed, 29 Sep 2021 08:01:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3994:: with SMTP id j20ls591716lfu.3.gmail; Wed, 29
- Sep 2021 08:00:48 -0700 (PDT)
-X-Received: by 2002:a19:6f4a:: with SMTP id n10mr166901lfk.290.1632927648135;
-        Wed, 29 Sep 2021 08:00:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1632927648; cv=none;
+Received: by 2002:a2e:7f06:: with SMTP id a6ls104673ljd.9.gmail; Wed, 29 Sep
+ 2021 08:01:50 -0700 (PDT)
+X-Received: by 2002:a2e:a37c:: with SMTP id i28mr405188ljn.76.1632927710024;
+        Wed, 29 Sep 2021 08:01:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1632927710; cv=none;
         d=google.com; s=arc-20160816;
-        b=dGUQdjApyoxP94gxUFRUcELyuMyUTRoFOwX8M1v4I43IRF2x1Q7mHazWv/OaUGqXb5
-         1sHdO5Qy5IA0UcQOcRGpczvZN7mmbmRyyPlq+Ti+qS5npiJBY//r4IniT+gQ54tF732S
-         toV4fCgccNMVqm7AUiQte5VHdVyE9k80aAnmooNoB2Sp64I3v/rwQNk3GMKM/P73oITm
-         xMkdC2usHjNnEm4zx4p0gYI86oOxvL+W3fcEf9bJZ/ubEwQe6LLG/JbMm1Ym1f0yNqXu
-         /q1Cl/67BVADEtyUBqLJHe2iCoGlSqGHKfVWOlX2ONOuaJoDltsweY7I813AyagoC2Ea
-         VEqQ==
+        b=SqHwqwdkjCH1HkFUSu2goQV+CWLUkKjWcvId1rzd8Pt9mRifIls5O1vxmNmCFmRkSN
+         DJ0DBMbxakRmqh3SF1MT6OpVXCuN2Zo8h+ztnPGzJaEKrBKbMTFMMa/6usNxyjkVT8ww
+         xLYDzJQ/2mYpnOwGTaPjiyEjoXCXCAGQf3IOC74EJw4+oaajmh0VO5j2XdnDMD1OgPTh
+         dPZbu1wi2lqfgAmlCGq6HRjUPiAFVg11EN0z0TXgl1Jvpno7zOeEkK67q5LvjL00ryCA
+         Rj3m/zlOI8YD85DK5f8Jcp3UrT7NcgwFCo/rQiBt9MRHA7fORzzDhJOdF7xYzMo6iRsG
+         Iakw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=vJN7Ck0uNCFG+Ctq/qAp6lWVQYR8Vj2mrO3VtePHdDo=;
-        b=UL20IVHuwBgxYMuouHTCS+LYqsQHG/afPTFmeraI34ya4FrT57SPOKE9RRMIybyEJz
-         TsQ6ivSPmMHHuhWG59kAmbCe0pA8ka68pnQulAuBIeCOoFv348o2n/7FVOlN2sZJ+RSI
-         8PfIOSaOC6HzII6iliwSCqmHis/dmFwIo6WQjal2bZOrTfIhz1sQF+FlY9U3Nyc2Rhxp
-         5iKQ9zDgtaJaQxZN9TC4SVxbR08QAxj+5FCsLlRs+aYc4pXlbwf2F8ubUlQlzRL13v4e
-         ktm/0rO9MhHlKGBdMBIxgfQtSS8H6JPVHuvHjA4R2+tlkBoG2hzzn8i85EhW6LRFZBTr
-         tSUA==
+        bh=ZHeeeZbiilEHhtw/jMIzJY6AU5jy7F+74b86hE2E++U=;
+        b=eOsJ9Fs0WeKpf0Sj8Km2F+q/eVSxRn5onFiDRyqvH1G/lZjFFMymvXVQUlRWHIdXxt
+         hqSyYuxIDQhYphW3Jl5Ob23Z6uC3cpiPfIDYJf+duQ8fIl9d4OJpNGz2D6Ce0wmqLQNJ
+         xnVCjZJ+qChpuI07bDQHw203J3Ypw5Obr91cwF4J34JaUQ9/cGqzpCejIPSReHYwZwsP
+         JGiyNQAKPTxv+sTI9dR874KxwOnJmwllSzf4J4uAAZF6RILmO+iBooP5NY346fm5Hpai
+         aPxG4nWlRcqJPSUDqRyLjhsy73zc0RZgL613VJNzOii793VycO7vXEQcrSJiTxUtrzRY
+         zmaw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=CdndsxOn;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=a2QkUZeA;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com. [185.125.188.122])
-        by gmr-mx.google.com with ESMTPS id v25si7636lfr.1.2021.09.29.08.00.48
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com. [185.125.188.123])
+        by gmr-mx.google.com with ESMTPS id a3si6112lji.6.2021.09.29.08.01.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 08:00:48 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) client-ip=185.125.188.122;
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+        Wed, 29 Sep 2021 08:01:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) client-ip=185.125.188.123;
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 46523405FB
-	for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 15:00:47 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id l42-20020a05600c1d2a00b0030d02f09530so951042wms.0
-        for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 08:00:47 -0700 (PDT)
-X-Received: by 2002:adf:d4cb:: with SMTP id w11mr327565wrk.125.1632927646707;
-        Wed, 29 Sep 2021 08:00:46 -0700 (PDT)
-X-Received: by 2002:adf:d4cb:: with SMTP id w11mr327526wrk.125.1632927646559;
-        Wed, 29 Sep 2021 08:00:46 -0700 (PDT)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 557FE40255
+	for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 15:01:48 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id j21-20020a05600c1c1500b0030ccce95837so948806wms.3
+        for <kasan-dev@googlegroups.com>; Wed, 29 Sep 2021 08:01:48 -0700 (PDT)
+X-Received: by 2002:a05:6000:2c6:: with SMTP id o6mr377138wry.292.1632927708044;
+        Wed, 29 Sep 2021 08:01:48 -0700 (PDT)
+X-Received: by 2002:a05:6000:2c6:: with SMTP id o6mr377109wry.292.1632927707834;
+        Wed, 29 Sep 2021 08:01:47 -0700 (PDT)
 Received: from alex.home (lfbn-lyo-1-470-249.w2-7.abo.wanadoo.fr. [2.7.60.249])
-        by smtp.gmail.com with ESMTPSA id e8sm142306wrr.42.2021.09.29.08.00.45
+        by smtp.gmail.com with ESMTPSA id h18sm133008wrs.75.2021.09.29.08.01.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 08:00:46 -0700 (PDT)
+        Wed, 29 Sep 2021 08:01:47 -0700 (PDT)
 From: Alexandre Ghiti <alexandre.ghiti@canonical.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -137,18 +137,18 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	linux-efi@vger.kernel.org,
 	linux-arch@vger.kernel.org
 Cc: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Subject: [PATCH v2 09/10] riscv: Initialize thread pointer before calling C functions
-Date: Wed, 29 Sep 2021 16:51:12 +0200
-Message-Id: <20210929145113.1935778-10-alexandre.ghiti@canonical.com>
+Subject: [PATCH v2 10/10] riscv: Allow user to downgrade to sv39 when hw supports sv48
+Date: Wed, 29 Sep 2021 16:51:13 +0200
+Message-Id: <20210929145113.1935778-11-alexandre.ghiti@canonical.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
 References: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
 MIME-Version: 1.0
 X-Original-Sender: alexandre.ghiti@canonical.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@canonical.com header.s=20210705 header.b=CdndsxOn;       spf=pass
+ header.i=@canonical.com header.s=20210705 header.b=a2QkUZeA;       spf=pass
  (google.com: domain of alexandre.ghiti@canonical.com designates
- 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+ 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -163,35 +163,69 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Because of the stack canary feature that reads from the current task
-structure the stack canary value, the thread pointer register "tp" must
-be set before calling any C function from head.S: by chance, setup_vm
-and all the functions that it calls does not seem to be part of the
-functions where the canary check is done, but in the following commits,
-some functions will.
+This is made possible by using the mmu-type property of the cpu node of
+the device tree.
 
-Fixes: f2c9699f65557a31 ("riscv: Add STACKPROTECTOR supported")
+By default, the kernel will boot with 4-level page table if the hw supports
+it but it can be interesting for the user to select 3-level page table as
+it is less memory consuming and faster since it requires less memory
+accesses in case of a TLB miss.
+
 Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
 ---
- arch/riscv/kernel/head.S | 1 +
- 1 file changed, 1 insertion(+)
+ arch/riscv/mm/init.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
-index 8f21ef339c68..892a25c6079d 100644
---- a/arch/riscv/kernel/head.S
-+++ b/arch/riscv/kernel/head.S
-@@ -301,6 +301,7 @@ clear_bss_done:
- 	REG_S a0, (a2)
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index a304f2b3c178..676635f5d98a 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -641,10 +641,31 @@ static void __init disable_pgtable_l4(void)
+  * then read SATP to see if the configuration was taken into account
+  * meaning sv48 is supported.
+  */
+-static __init void set_satp_mode(void)
++static __init void set_satp_mode(uintptr_t dtb_pa)
+ {
+ 	u64 identity_satp, hw_satp;
+ 	uintptr_t set_satp_mode_pmd;
++	int cpus_node;
++
++	/* Check if the user asked for sv39 explicitly in the device tree */
++	cpus_node = fdt_path_offset((void *)dtb_pa, "/cpus");
++	if (cpus_node >= 0) {
++		int node;
++
++		fdt_for_each_subnode(node, (void *)dtb_pa, cpus_node) {
++			const char *mmu_type = fdt_getprop((void *)dtb_pa, node,
++					"mmu-type", NULL);
++			if (!mmu_type)
++				continue;
++
++			if (!strcmp(mmu_type, "riscv,sv39")) {
++				disable_pgtable_l4();
++				return;
++			}
++
++			break;
++		}
++	}
  
- 	/* Initialize page tables and relocate to virtual addresses */
-+	la tp, init_task
- 	la sp, init_thread_union + THREAD_SIZE
- 	XIP_FIXUP_OFFSET sp
- #ifdef CONFIG_BUILTIN_DTB
+ 	set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
+ 	create_pgd_mapping(early_pg_dir,
+@@ -802,7 +823,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ #endif
+ 
+ #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
+-	set_satp_mode();
++	set_satp_mode(dtb_pa);
+ #endif
+ 
+ 	kernel_map.va_pa_offset = PAGE_OFFSET - kernel_map.phys_addr;
 -- 
 2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210929145113.1935778-10-alexandre.ghiti%40canonical.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210929145113.1935778-11-alexandre.ghiti%40canonical.com.
