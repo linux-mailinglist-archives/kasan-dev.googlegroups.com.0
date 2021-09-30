@@ -1,126 +1,140 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBZVU26FAMGQEGOWESPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDOY5FWKT4KRBA4O3CFAMGQEW7KSBFI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8947C41DDC3
-	for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 17:40:23 +0200 (CEST)
-Received: by mail-qv1-xf3d.google.com with SMTP id n15-20020ad44a2f000000b0038288117acdsf10962963qvz.23
-        for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 08:40:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633016422; cv=pass;
+Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BBF841E165
+	for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 20:50:44 +0200 (CEST)
+Received: by mail-oo1-xc38.google.com with SMTP id h6-20020a4ae8c6000000b002adb82e3332sf5343458ooe.16
+        for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 11:50:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633027843; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CHU67Qqocjs9Su0ZU4fXbOfExkw/Rd/hnkqgIIfsn9tK6jNv/Ikp0FUIqE6xAr/W70
-         7H4iOsG3ZGCEbRRod4GhxDeR5UjPeRVDzfc50+cbBFfxu3U4AUyHkO/SITk9L/QDUkvy
-         vek4pYYrhWuTu5sLeqafnzkMY+9vpCBY7b+Laxtu0DPbE24avlWM0sB8GnwKX9UJbx8m
-         7ehHmIcgmVQb3hnrpgEYQN/w5BXbDzKM33GTjvuMiV+VSpFaKyT1s8CMMnPsz9o8VTQ4
-         S8H0bG3OPwDrso99GxraCK7zYYdPblAuv/tFLF4A1Ebzz8NAigHxDUZpr4Q+iC1i4WSE
-         GUqw==
+        b=HnPul4NE+ycKKci8Y6/z0WvCDnOZ5/BRejb26nGloOXgQ6jxC3uCrYJnIhzHxwyq83
+         wPL9VTwwHXngo9nqURVya2uxznDiwtR7YNPt88ZFEjyCXJwncz6VRChlcqpIf2jSAMAP
+         GCM55mZM8RpNT7BXeA1AxuGX/3DkKxAYUtdYxQHTJlGLPBdzi5p+86Ki6YYKmNwDRL0L
+         ZYSZEkX5BYoDVk4TlzwIY/57Ran4Xn1jnJ31JkLq1qNK+7Z0+/YmB+G8gSaEHgM0Ettp
+         RQIZiaHwV34ZfKoJEIs7gsO0WzyqWcCnS90WjeBY8CZhuaBORYOPEdGVnpn+7+UrkK/x
+         Oa/Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=NBZ1WYburZUqwkjOdy6yNfIG1EtrNLMmJnsJ9Rym4oY=;
-        b=xkWNlEPY84KOx42fIFGzUsQjiK5awO12jhVL4OuYdtG8OYFj2ZvI+bF6ojDBdGoaJe
-         q9cY9jnFnBtU360qFN4JsjjUqzyM4HIRNdRh7f3OdxQtGK7IRS96lQKAcv4mT7fnHCIG
-         XtHweW0t/ibICadYQ7TcB1N68muoLwIPf9n/DiFy57idp2w8YNZo7VAagmHLaHLY2oTc
-         +9ObHS7/4pNA2n71mxIdLLc4UHcmKZocr+USDB1GYY7ETtywM+wa8pwcx88OzxhigQ3U
-         KEQydhnfxpjG6rJ4y9H3LIS7dmXokZSXYev/KhCG43Tb8Cq+S77nCopobORIZuqWX2zT
-         MdWw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=32EUs4WKa1rCEUkEuw5xlkKB872250TQYu7mWbNvSoc=;
+        b=ci26a8knReKqjdaM9myNbxaUXaR+yYp+jHDea/saUNCBDLtscMAW1yQW2YsJ9hznEs
+         Le28C9CuuRhgggedbmWEqrC1SwDZzJcVPWlm32ItSZJXzFyfVWIMYLiRqpHaVbLA0pgL
+         /uYA/0GSyB8H7YrDLC5iYL9H9CKGp0ROWO/JXWNSh6bV7aCAqQjUro2dgiiIhKSyxBED
+         4J0mdXLxA3qDlzkA985sqfXilwzfZft3BeHG8GUxF7ZRh3ivYZTrmxm6kRPSFFCImXlX
+         XLVAPIICpesOt9AaQU6NK+xIRc86xVnLEBonjk8TE2QdMIrQiDX0C4Zxi94VpKkvnk1V
+         YJPA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=dESEuhyj;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=uHnQO7Kn;
+       spf=pass (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=NBZ1WYburZUqwkjOdy6yNfIG1EtrNLMmJnsJ9Rym4oY=;
-        b=SUvhcP5EovWycHk7f5UXTeA6hVgwVb8PPjBva750NQrUQL/35vcKg3rj8H7QU4NLhu
-         XcYhSJ6329OhNpvUsBkD9LT0cuu7chsI9hBTVtc3WY96PYWFET6LsePMHz3CmcBFCNcc
-         zxSv9a20lvwzk/5MqyCm2J0ZZljw08SbkYtU6DVJQ4bfaemZtpLWEwg1vbEuZ8dYpXKY
-         okjUvvDivPm81EvZTppQ7pplz8PR0eYP7Uxm1cudL+5nz29XshcDUgIHmjWxF2sON0Uk
-         ou4dkD/CckeXhQC7c2pA4UBX4W8z3j9KAvj0MTYwv64m93LX6x3jGs22ow0MfYbO/+xX
-         H+fw==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=32EUs4WKa1rCEUkEuw5xlkKB872250TQYu7mWbNvSoc=;
+        b=i7kQK3c5EscJokcD2vuTCKmV5oBacVd7XVOgJ8JIaiwderI0L1tuBTvwjtxPdpzUNs
+         4yMsEOB0D7J7VPHMcsQYRCZx68Ziitei4M4f2rS/hy+8jUEVZdE4FjGEYOZJKufnKN3J
+         uoQ1JWvNR5lXG+pp8qSN9Wn0oQNCyJKUrZN5CHbdyTmqfMC8CiWHdMpuq+CmjpXPlu2A
+         zT22FRBjMAqIXbdXwA1o9CJ2Bw1X71+t2mIIdiHMGwSJ5F+grhWRjUr1OZi9pmTaI2Vd
+         6yPGBYVX6rRygDl79y9gAckWGlof4Wugxr5oZ3BHPpzrg1RSR+JqFn1a+bSj8mLVDDgL
+         4lIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=NBZ1WYburZUqwkjOdy6yNfIG1EtrNLMmJnsJ9Rym4oY=;
-        b=uU6XdJZahL1x0KbYVo54JPxJ3o8HW0EuWKhek3ueTPoXwmyv5N0z/gixjlMlnypeRx
-         0Fc08lghp9CQYY1qG9aXPUXGaje+YOnzD6USUwNqvZWCZDQkiwidEtpqaMtx5zZaxn1P
-         I8FJnpwVGblfpIiZ+g+wHWRPHLi061IXGDCMhZzCXgHy4P0ApmKikpUnZm+y25QnLIOq
-         0kQeDWKRW1OGkUX7AUf+ECVze/8Q0MNr2anmL21TZpyvCgKO6h3Adsp4wbqkXZfURlE7
-         RN9IYOyypH+7EuZwQcSy1c1tpWGTemhZeZOzmASu8J/ZiTgPleY6xlLmmx0NM2w+Mjv7
-         3Cxw==
-X-Gm-Message-State: AOAM532PM8gKAA1/H6wU/kR3KZDRLF+bMqLFqDHQOkmBQZ/vLB5UF504
-	HoIETEy3/Wc+NZOefv/lMgQ=
-X-Google-Smtp-Source: ABdhPJxYOWURwaHFpblyVXoopEYIIltWA5JdL1SDLlridjma8XlRBe15MUwawpRSNYo/mE8Jl+jFeg==
-X-Received: by 2002:ac8:4084:: with SMTP id p4mr7461110qtl.255.1633016422271;
-        Thu, 30 Sep 2021 08:40:22 -0700 (PDT)
+        bh=32EUs4WKa1rCEUkEuw5xlkKB872250TQYu7mWbNvSoc=;
+        b=HcpqQVrvk6o+zbF23s6+CBhHeUF0GuzFhra+Qg3K1wkUXQMwcGNT7rBfzJX8YkQVZ3
+         9KXDDZBZG0e1C/GCLajeufmA6OoAIXUas0UmNKuNWqS8DW2w/sPbp2t7i3TYyXnDmmny
+         kL6lMnCzUD4+1P4HNZT4YVq2jXbsNhZ5UG99KrCw1xrBMFn0pTXW+HTIU+UYJTxluGU1
+         /tOYppqv9chFSfN8jRRyczc3LLiJJMOvOdSwCr/LbvJVS2Wn7afb3sxx9MfYqEZuBnQ6
+         Cs0TORDMbOWHTbMg4nYb5Q1xOyUz++NLNlW8CUdWCaWtKvh77tjfzTfYYl8zlbe47slm
+         BISQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5321+nVWcHbbwnSIDINBR5vjEBEBGnMw8F6lkejUbO286hHLMbf9
+	u99GDIXKzxUU1JZ1vN+xaVE=
+X-Google-Smtp-Source: ABdhPJw2e1xzaWr0LTE2kzryXtxnng+dZnAguc1+tpt2pjhd3UUvgYeD33QURTlC78f0lnurlVXr2g==
+X-Received: by 2002:a9d:6092:: with SMTP id m18mr6734039otj.215.1633027843096;
+        Thu, 30 Sep 2021 11:50:43 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:14a8:: with SMTP id x8ls4460325qkj.8.gmail; Thu, 30
- Sep 2021 08:40:21 -0700 (PDT)
-X-Received: by 2002:a37:687:: with SMTP id 129mr5345401qkg.10.1633016421790;
-        Thu, 30 Sep 2021 08:40:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633016421; cv=none;
+Received: by 2002:a05:6808:114:: with SMTP id b20ls2314484oie.10.gmail; Thu,
+ 30 Sep 2021 11:50:42 -0700 (PDT)
+X-Received: by 2002:a05:6808:1151:: with SMTP id u17mr696167oiu.78.1633027842759;
+        Thu, 30 Sep 2021 11:50:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633027842; cv=none;
         d=google.com; s=arc-20160816;
-        b=jx2c5xsFBVAenyTb+5XLgW6HMYVl7yOhaOP9AiA3P6gg/FWLRG9DyX7eXMTHI5j/D+
-         zYC3Gb2QgTb99IY+zMqanOIOrtXjUTIlo/TKXof40fAkoNs8OelnUiYuANE2dqswBh00
-         NV5+QSGRxbHx/RRv2K6vgfwdVJM+a1a73nkUy2UxH5pwfQAbXdSaHN1Eo3jm2FdlWz++
-         DmKmh7M2d23IJGnU6gRCr/R6QMpqtza12u+2XJf3dru9u79uwBiYYGURyDmMnYDwr4fI
-         k+IXzZdjhd5L2jM83Qz2nx1+5XjCReDQopoAayv9muoj4n9LRSxsVmbcG+NpxmtL/x9A
-         GNww==
+        b=GMqc3OPX4JWogkNCQeIQ93j1SQzQrbCPlyH8c4xCu88I5ZeZGWdoHXPxlu6fOxoZGP
+         3KXcTmCnmxQA1ZB2SGqwQYf//kYDL8wrw39y8TioTulm4WCW2RZK/bILw5xYrs66eLPv
+         tYQH/IHmHm/n8saIHNJa822WcUo8TNpmKc567FGaQZu1r9PjvH5eDVtIhEbfqpyD6AC0
+         3q0Fg4TbwImGt/YQKwdhArrs9sgYitfnrzGgYfll4xPJDQRndr/gqbeqM+QU+8VPY0wb
+         3rhiZ8LJ1cVCb64cBJdb5wSqVe0+UGUkEEcVTNdrm+0++wdq1gbSnu4edixPR4jnO1/L
+         xbGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rk528hO09V+xXN91B1hSKF0BEg5FNswtyGgnAwkONyI=;
-        b=MSxU1bdwbITX3sZOJ3G135qgAVEk/HeP/6fjXqvpvG2oqNwdOMejSzIywqK8wCWONk
-         ot0Ztrw7z51Frfp/QXNCbXbZR5WX0pG3xRmQ1s6w1zyijjyqN3ex79vsTdHxnXBEuzEP
-         aOBB7trCB6kqpzeN7fne05Q0o4LKMdsfaXjeItshTUE7QQ8cU+QZvKvtcyA3uXUplQxZ
-         ZArpZAyea8vl8FvlZ56SUKIvUgmBqIMmrRXry1DQ8hgQvAbaDMrYYHOGGZIqkk/OwIZR
-         Cs4MTYenEYo+I14elY9VIZPmG8rLB7Q0KAu+/4b+T6oeyH6cHwt+Q53eBlOD/SeDuFGq
-         RtXg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=Fjram9k6AWZi/Mo09D9Pgn2LkjacYt0WFr6fSAi63hY=;
+        b=PZmpvszbLDzvXEaxx8/ketbqdePsHKcdJyz1jEhscyVWgHHIr02W9FeW5Zy0ufEOV1
+         rMOFhqlxgwMKmuJiOykc5B/P6uamNAa7/Br7uZ28C41gFBYlGnEJ4lWZ5YAWpUpnuH87
+         0FxpLLjyTMZ/e3/nyPxxLxzIqg8VAgFDFnz6ChyOwph89ZEBycEuFza1LvizJbvpV6re
+         JKlc4lP53pC0RcSPYdxfpjra47gW+jRvr7KjcesqDoD50cN9tffyIXEQK4KuUfjiL6+g
+         uLbFnAghZK3UO+j1Ad5YQaegkuBx8UebKRj8/sr/dpbBcvAxf5DUXc7JFaxHVRjOtWQB
+         eciQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=dESEuhyj;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com. [2607:f8b0:4864:20::734])
-        by gmr-mx.google.com with ESMTPS id 11si444508qtu.5.2021.09.30.08.40.21
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=uHnQO7Kn;
+       spf=pass (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id bc13si402561oob.2.2021.09.30.11.50.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Sep 2021 08:40:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::734 as permitted sender) client-ip=2607:f8b0:4864:20::734;
-Received: by mail-qk1-x734.google.com with SMTP id 72so6215735qkk.7
-        for <kasan-dev@googlegroups.com>; Thu, 30 Sep 2021 08:40:21 -0700 (PDT)
-X-Received: by 2002:a37:5446:: with SMTP id i67mr5480440qkb.502.1633016421262;
- Thu, 30 Sep 2021 08:40:21 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 30 Sep 2021 11:50:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8244C61216;
+	Thu, 30 Sep 2021 18:50:35 +0000 (UTC)
+From: Mike Rapoport <rppt@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Juergen Gross <jgross@suse.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Mike Rapoport <rppt@linux.ibm.com>,
+	Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
+	devicetree@vger.kernel.org,
+	iommu@lists.linux-foundation.org,
+	kasan-dev@googlegroups.com,
+	kvm@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-efi@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-um@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	sparclinux@vger.kernel.org,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v2 0/6] memblock: cleanup memblock_free interface
+Date: Thu, 30 Sep 2021 21:50:25 +0300
+Message-Id: <20210930185031.18648-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20210930153706.2105471-1-elver@google.com>
-In-Reply-To: <20210930153706.2105471-1-elver@google.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 30 Sep 2021 17:39:44 +0200
-Message-ID: <CAG_fn=XmtwrqdDwMmKeiJCwKWBEFphfgBHYq0FPOjCZm-mV2+w@mail.gmail.com>
-Subject: Re: [PATCH] kfence: shorten critical sections of alloc/free
-To: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Jann Horn <jannh@google.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Original-Sender: rppt@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=dESEuhyj;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::734 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=uHnQO7Kn;       spf=pass
+ (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted
+ sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,163 +147,110 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Sep 30, 2021 at 5:37 PM Marco Elver <elver@google.com> wrote:
->
-> Initializing memory and setting/checking the canary bytes is relatively
-> expensive, and doing so in the meta->lock critical sections extends the
-> duration with preemption and interrupts disabled unnecessarily.
->
-> Any reads to meta->addr and meta->size in kfence_guarded_alloc() and
-> kfence_guarded_free() don't require locking meta->lock as long as the
-> object is removed from the freelist: only kfence_guarded_alloc() sets
-> meta->addr and meta->size after removing it from the freelist,  which
-> requires a preceding kfence_guarded_free() returning it to the list or
-> the initial state.
->
-> Therefore move reads to meta->addr and meta->size, including expensive
-> memory initialization using them, out of meta->lock critical sections.
->
-> Signed-off-by: Marco Elver <elver@google.com>
-Acked-by: Alexander Potapenko <glider@google.com>
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-> ---
->  mm/kfence/core.c | 38 +++++++++++++++++++++-----------------
->  1 file changed, 21 insertions(+), 17 deletions(-)
->
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index b61ef93d9f98..802905b1c89b 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -309,12 +309,19 @@ static inline bool set_canary_byte(u8 *addr)
->  /* Check canary byte at @addr. */
->  static inline bool check_canary_byte(u8 *addr)
->  {
-> +       struct kfence_metadata *meta;
-> +       unsigned long flags;
-> +
->         if (likely(*addr =3D=3D KFENCE_CANARY_PATTERN(addr)))
->                 return true;
->
->         atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
-> -       kfence_report_error((unsigned long)addr, false, NULL, addr_to_met=
-adata((unsigned long)addr),
-> -                           KFENCE_ERROR_CORRUPTION);
-> +
-> +       meta =3D addr_to_metadata((unsigned long)addr);
-> +       raw_spin_lock_irqsave(&meta->lock, flags);
-> +       kfence_report_error((unsigned long)addr, false, NULL, meta, KFENC=
-E_ERROR_CORRUPTION);
-> +       raw_spin_unlock_irqrestore(&meta->lock, flags);
-> +
->         return false;
->  }
->
-> @@ -324,8 +331,6 @@ static __always_inline void for_each_canary(const str=
-uct kfence_metadata *meta,
->         const unsigned long pageaddr =3D ALIGN_DOWN(meta->addr, PAGE_SIZE=
-);
->         unsigned long addr;
->
-> -       lockdep_assert_held(&meta->lock);
-> -
->         /*
->          * We'll iterate over each canary byte per-side until fn() return=
-s
->          * false. However, we'll still iterate over the canary bytes to t=
-he
-> @@ -414,8 +419,9 @@ static void *kfence_guarded_alloc(struct kmem_cache *=
-cache, size_t size, gfp_t g
->         WRITE_ONCE(meta->cache, cache);
->         meta->size =3D size;
->         meta->alloc_stack_hash =3D alloc_stack_hash;
-> +       raw_spin_unlock_irqrestore(&meta->lock, flags);
->
-> -       for_each_canary(meta, set_canary_byte);
-> +       alloc_covered_add(alloc_stack_hash, 1);
->
->         /* Set required struct page fields. */
->         page =3D virt_to_page(meta->addr);
-> @@ -425,11 +431,8 @@ static void *kfence_guarded_alloc(struct kmem_cache =
-*cache, size_t size, gfp_t g
->         if (IS_ENABLED(CONFIG_SLAB))
->                 page->s_mem =3D addr;
->
-> -       raw_spin_unlock_irqrestore(&meta->lock, flags);
-> -
-> -       alloc_covered_add(alloc_stack_hash, 1);
-> -
->         /* Memory initialization. */
-> +       for_each_canary(meta, set_canary_byte);
->
->         /*
->          * We check slab_want_init_on_alloc() ourselves, rather than lett=
-ing
-> @@ -454,6 +457,7 @@ static void kfence_guarded_free(void *addr, struct kf=
-ence_metadata *meta, bool z
->  {
->         struct kcsan_scoped_access assert_page_exclusive;
->         unsigned long flags;
-> +       bool init;
->
->         raw_spin_lock_irqsave(&meta->lock, flags);
->
-> @@ -481,6 +485,13 @@ static void kfence_guarded_free(void *addr, struct k=
-fence_metadata *meta, bool z
->                 meta->unprotected_page =3D 0;
->         }
->
-> +       /* Mark the object as freed. */
-> +       metadata_update_state(meta, KFENCE_OBJECT_FREED, NULL, 0);
-> +       init =3D slab_want_init_on_free(meta->cache);
-> +       raw_spin_unlock_irqrestore(&meta->lock, flags);
-> +
-> +       alloc_covered_add(meta->alloc_stack_hash, -1);
-> +
->         /* Check canary bytes for memory corruption. */
->         for_each_canary(meta, check_canary_byte);
->
-> @@ -489,16 +500,9 @@ static void kfence_guarded_free(void *addr, struct k=
-fence_metadata *meta, bool z
->          * data is still there, and after a use-after-free is detected, w=
-e
->          * unprotect the page, so the data is still accessible.
->          */
-> -       if (!zombie && unlikely(slab_want_init_on_free(meta->cache)))
-> +       if (!zombie && unlikely(init))
->                 memzero_explicit(addr, meta->size);
->
-> -       /* Mark the object as freed. */
-> -       metadata_update_state(meta, KFENCE_OBJECT_FREED, NULL, 0);
-> -
-> -       raw_spin_unlock_irqrestore(&meta->lock, flags);
-> -
-> -       alloc_covered_add(meta->alloc_stack_hash, -1);
-> -
->         /* Protect to detect use-after-frees. */
->         kfence_protect((unsigned long)addr);
->
-> --
-> 2.33.0.685.g46640cef36-goog
->
+Hi,
+
+Following the discussion on [1] this is the fix for memblock freeing APIs
+mismatch. 
+
+The first patch is a cleanup of numa_distance allocation in arch_numa I've
+spotted during the conversion.
+The second patch is a fix for Xen memory freeing on some of the error
+paths.
+
+I agree with Christophe that doing step by step makes the thing easier to
+review, so the patches 3-6 do the actual cleanup step by step.
+
+This time I used stricter coccinelle scripts so that only straightforward
+uses would get converted.
+
+There still a couple of (void *) castings for the cases when a virtual
+address has unsigned long type rather than a pointer type, like e.g
+initrd_start.
+
+Since scripts/get_maintainer.pl returned more than 100 addresses I've
+trimmed the distribution list only to the relevant lists.
+
+Juergen and Shahab, I didn't keep your Reviewed-by because the patches are
+a bit different this time.
+
+v2:
+* split changes into several patches
+* use stricter coccinelle scripts 
+
+[1] https://lore.kernel.org/all/CAHk-=wj9k4LZTz+svCxLYs5Y1=+yKrbAUArH1+ghyG3OLd8VVg@mail.gmail.com
+
+Mike Rapoport (6):
+  arch_numa: simplify numa_distance allocation
+  xen/x86: free_p2m_page: use memblock_free_ptr() to free a virtual pointer
+  memblock: drop memblock_free_early_nid() and memblock_free_early()
+  memblock: stop aliasing __memblock_free_late with memblock_free_late
+  memblock: rename memblock_free to memblock_phys_free
+  memblock: use memblock_free for freeing virtual pointers
+
+ arch/alpha/kernel/core_irongate.c         |  2 +-
+ arch/arc/mm/init.c                        |  2 +-
+ arch/arm/mach-hisi/platmcpm.c             |  2 +-
+ arch/arm/mm/init.c                        |  2 +-
+ arch/arm64/mm/mmu.c                       |  4 ++--
+ arch/mips/mm/init.c                       |  2 +-
+ arch/mips/sgi-ip30/ip30-setup.c           |  6 +++---
+ arch/powerpc/kernel/dt_cpu_ftrs.c         |  4 ++--
+ arch/powerpc/kernel/paca.c                |  8 ++++----
+ arch/powerpc/kernel/setup-common.c        |  2 +-
+ arch/powerpc/kernel/setup_64.c            |  2 +-
+ arch/powerpc/platforms/powernv/pci-ioda.c |  2 +-
+ arch/powerpc/platforms/pseries/svm.c      |  3 +--
+ arch/riscv/kernel/setup.c                 |  4 ++--
+ arch/s390/kernel/setup.c                  |  8 ++++----
+ arch/s390/kernel/smp.c                    |  4 ++--
+ arch/s390/kernel/uv.c                     |  2 +-
+ arch/s390/mm/kasan_init.c                 |  2 +-
+ arch/sh/boards/mach-ap325rxa/setup.c      |  2 +-
+ arch/sh/boards/mach-ecovec24/setup.c      |  4 ++--
+ arch/sh/boards/mach-kfr2r09/setup.c       |  2 +-
+ arch/sh/boards/mach-migor/setup.c         |  2 +-
+ arch/sh/boards/mach-se/7724/setup.c       |  4 ++--
+ arch/sparc/kernel/smp_64.c                |  2 +-
+ arch/um/kernel/mem.c                      |  2 +-
+ arch/x86/kernel/setup.c                   |  4 ++--
+ arch/x86/kernel/setup_percpu.c            |  2 +-
+ arch/x86/mm/init.c                        |  2 +-
+ arch/x86/mm/kasan_init_64.c               |  4 ++--
+ arch/x86/mm/numa.c                        |  2 +-
+ arch/x86/mm/numa_emulation.c              |  2 +-
+ arch/x86/xen/mmu_pv.c                     |  6 +++---
+ arch/x86/xen/p2m.c                        |  2 +-
+ arch/x86/xen/setup.c                      |  6 +++---
+ drivers/base/arch_numa.c                  | 10 ++++------
+ drivers/firmware/efi/memmap.c             |  2 +-
+ drivers/macintosh/smu.c                   |  2 +-
+ drivers/of/kexec.c                        |  3 +--
+ drivers/of/of_reserved_mem.c              |  5 +++--
+ drivers/s390/char/sclp_early.c            |  2 +-
+ drivers/usb/early/xhci-dbc.c              | 10 +++++-----
+ drivers/xen/swiotlb-xen.c                 |  2 +-
+ include/linux/memblock.h                  | 23 +++--------------------
+ init/initramfs.c                          |  2 +-
+ init/main.c                               |  2 +-
+ kernel/dma/swiotlb.c                      |  2 +-
+ kernel/printk/printk.c                    |  4 ++--
+ lib/bootconfig.c                          |  2 +-
+ lib/cpumask.c                             |  2 +-
+ mm/cma.c                                  |  2 +-
+ mm/memblock.c                             | 22 +++++++++++-----------
+ mm/memory_hotplug.c                       |  2 +-
+ mm/percpu.c                               |  8 ++++----
+ mm/sparse.c                               |  2 +-
+ 54 files changed, 99 insertions(+), 119 deletions(-)
 
 
---=20
-Alexander Potapenko
-Software Engineer
+base-commit: 5816b3e6577eaa676ceb00a848f0fd65fe2adc29
+-- 
+2.28.0
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DXmtwrqdDwMmKeiJCwKWBEFphfgBHYq0FPOjCZm-mV2%2Bw%40mail.gm=
-ail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210930185031.18648-1-rppt%40kernel.org.
