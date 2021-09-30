@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDOY5FWKT4KRBF4O3CFAMGQEELGL3QQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDOY5FWKT4KRBHUO3CFAMGQEUIKSG4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3DD41E184
-	for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 20:51:05 +0200 (CEST)
-Received: by mail-pj1-x1040.google.com with SMTP id 41-20020a17090a0fac00b00195a5a61ab8sf4613516pjz.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 11:51:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633027864; cv=pass;
+Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F1D341E18F
+	for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 20:51:12 +0200 (CEST)
+Received: by mail-pl1-x63f.google.com with SMTP id k4-20020a170902c40400b0013e3be99481sf3818756plk.23
+        for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 11:51:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633027871; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ceGwecEyfSRD9DRyAizX+j76IqnhiUSGwWfrSQzgvHoQDGl38CDgp9a5txUv5gOoQY
-         3mfmR5uQGoVlgdRVZJmyQig9NDAnaFs+Dq7dSu8+9GMHI1YOL+dIGlZPDjaa9S6DD1YT
-         VgaftWWt8uQ7IWiJWi9HIkgwqQ+5kVU2Nyl5FcCUwB23Ho+npr0oJaIKX1U3jGBIfoLd
-         sGppvOKGXZuo2/Ah4/ySPrufAIhuQ3jZ0g56qQlXBu/5Jb16ZNnkK9PSPB9ikyXm7PZ5
-         Rabh3l5HHZxQBc5Yl9/XrpRugW18zL3A7m3VY0fQrP3oQgtM8bsTwf4d+4Yfmd4LS7T7
-         /YJA==
+        b=LQLGbdY+6cuufxC4tvI45lgCdOaqFkodoJKytFOZhdIzggfQ9qgPpBlsArJmpeV5VB
+         msznCfuqeEVCQrI2NqWQ+jwil0OF6ZF1DNi4GP6KcIQ/IwiITsSMUoDpjQtUw2SEV58l
+         lBXBZDyO4LYmWtrQjriLQJaN387ufoe9rgpYH04/DPE90LgMpzUOLCubdkgspk595cfa
+         Hocgn7uR5K2O5JvqFwsuGHCe9sMbMJ0pQ0hBvkayKqWtCQ1ZtQo7BGLpAZWarEL0NGXE
+         ipD7BKPOFyoPqBkplzqQbw/sLWj5+F6b2FmtqXW5s9/vkYk+arNzAtLMnvAgud1nBv5F
+         MwpA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=GxzaZ0zHNKbE+8WeVVcZnfVtTyerLfGlno4FWUvUOPY=;
-        b=TdIlTefNSllSuUPsvUUAHrkA8y03SAGWSGDn2l6UQs1q85rdGy0iiUKSf1WfEAGBcy
-         TjoovmAD+A7zOECErxP8s/Nj4HzUPc1m/xivpa8klhzDdP2OsZ3SDUdKAtz0gMKwgK30
-         rrt5qlz6saTU/bWMwWyTIqd7kc8PGrUHGyEX97W8QdYPs1/Ej/RU29CoUQcOgEdJY57K
-         NeBk+xBNo5b7C2zsl9AZUSdt1NPZlYsdhnG1khlapb7ahFGB0SQh0ATOEu0DgmsH/i7x
-         Fj6ND1bVdAvHey0EWr7F8c2iz0vGb7nFQJoMIO41xy/I1vi4CjaRGzwSU/Xs97llE+bB
-         K+zA==
+        bh=t4dqSoPwR2YeMeYtkpiKTkodp0zmYPCsrx2VWJyufcA=;
+        b=PVUYP0UN2j/zyeSXcrUNcDtGJeL1C7JCaKTSDr7YxzT8f/sCkc1uJUbGn0EXSUKT0M
+         eNN0/CVE1xwhjC1ZS5X96bhCl3Qwz2bFsVUDh+ZRGiUvVfRDtdy54dBWfcBXxrCPt2Dk
+         iVuOVRKcUEKxZxZZpuAxyxuCk4UlHTFVypjMFHrl9SZlF3JDUXqt7tnzt59Bqejl/Kxt
+         7KuCDTdWwLVVd14YgReUT5ZhK72QEhQSruliD2hF3c1r/h+xwQvrzw6rgqbv3JjXar0m
+         4Q1ZEE0lXIF/LPzbYcDgexWmC4TjwPROyJW7a4Qd4mS56S19eKEQv5YnCVF9o5LgcGXS
+         S8Yw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="rhARG/us";
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=dXxprhJQ;
        spf=pass (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=rppt@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=GxzaZ0zHNKbE+8WeVVcZnfVtTyerLfGlno4FWUvUOPY=;
-        b=Ydr+lCoGfBs0YUymHqTEzOUh12uBYbYda1iLFOTTS4rGwG0HnWA9s2SIn5PDkLAplh
-         mjLWTElLz9xGmGIe4JwobsSInXuuFW+v5bfJxDnnOiqnf6auZgi14MNG1Q8ZpZX6gmfL
-         WXEdOL8TzqnDAHHwv2DTF5dcQlg3sKl4zwTiyFP12LI1eEyxm4P+TMkSNbdnqQIj7KMW
-         mnIbaV9c5z7JmdGOAu9IcmWz2dBYSwFUMRZOPbXx+H3ABmfKGKnJyLCFcIAvBFo+4xLQ
-         L+gdhyVypnZuT59eVB7OvtW6czxhjY8h5Nx2pmeCpuAC6oPw854Gdh6d85KMu5SvkG88
-         1DeA==
+        bh=t4dqSoPwR2YeMeYtkpiKTkodp0zmYPCsrx2VWJyufcA=;
+        b=qAgcCxK/IVsSYz2WHybVzT3dz/y7uUOphGi1KVclX/SxILknhxJE2TxxE2LtcuW1Nn
+         5D63jSQrPyJgB300hp1m4FMOZ6BcXBatXAJlHgnrNzX9rduBq3LRcEoVJU7hKuC7hk23
+         Ab2GcnfPTn8WyGCGNQlUb/XWWRX9HnzQ0iZ67LhAkZqIXCt/Raco+WbeDjvrkZ44WwzH
+         1jsF6ZVSV+tMXRJ+XB8vk4OXLpbTWfWcy3OJ0Z3ZBreGEMcAyQ2gk2YQT7eKtLcx19OC
+         YiszQuFYQd0A5fLpNlumBQ0Xx8tSpP1LS3b1ZafoRPIBSdY7UDJhMcCf0LCO7/rmtbr5
+         G0BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,54 +49,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=GxzaZ0zHNKbE+8WeVVcZnfVtTyerLfGlno4FWUvUOPY=;
-        b=aColR29mly7PsAg4KNjvK1YIEPSwEmyFngo3TQ2RKI3/c+/07mKbz2DoIlCEW9+zou
-         UfDO/JC0inKfrZlZ5HCY8T8iVfpb2oGZb2nl+6jUbOWhe4xT+XwpFBoY4tIZvU8VCxkP
-         tjZ06HfH6yw8Khm7stDFZRtIierOxXDLpcCowpUmuY/kbKxfp2fSLBgJkNqT/6lHzqON
-         J55RX31dxvb4ZV5Yhivs77NPXewRjbWuirWMJ1R7JxrgK9qeff3eI2UhFyjXrRa1Bhpw
-         ML+G/eX9zONeqJ47dKS8wghudzt5SI4piHDfoR873k6SVvhYslbkFBmvKC+36n30n3EB
-         N6kQ==
+        bh=t4dqSoPwR2YeMeYtkpiKTkodp0zmYPCsrx2VWJyufcA=;
+        b=5Io11KVvDF6PYs4V870BIWvESkVua84m3AKNyUueTarE9TPi8oMQ8t2Cn6hnE+hQYn
+         PrXzDQCwQT+K2zB4irHF4u7XrmeuAw1ytF+FCmqCHsmI4RjJr2AxFWAFHgeJz9H5o6P2
+         quWcD36eXMSFFY6e3gdgHcrQp4BP8SswAPdhZKk4ozfYFa2wclw2OAVcop7QTGbFbkW9
+         ZNjU1+TMYxL0NQxpUJ00c642HTYbloSu7wFXKY3SzHyzZkaQz9toZ0hwzHBhARkIEmK6
+         ojMzO00Wx+HR/B1rt2VRMVnWh9xzKLDAChGj92hHb8VlYdUCCNOGLfBvq2q+kxRPDora
+         qRYA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531LjlJSulqYdj0MdEuwC3T2uyG+RW1W+F0JtK+BAZdYBn2h2w/h
-	lzKDY3QrYomAQdDPxQtHaJI=
-X-Google-Smtp-Source: ABdhPJw6oLb7cRotsQGjcQbRjcTfYyvvncuQ9zesyzQv9DehMzQLoh3V+rcMMM/rm3lumrK3Y/fftw==
-X-Received: by 2002:aa7:8116:0:b0:44b:e0d1:25e9 with SMTP id b22-20020aa78116000000b0044be0d125e9mr7025367pfi.53.1633027863850;
-        Thu, 30 Sep 2021 11:51:03 -0700 (PDT)
+X-Gm-Message-State: AOAM532+uuuyhvdPVR1mGlvRfVcEUEvbObF0m3N1Zqd1Dd9EV6ekI1sZ
+	E9q14QPdfZIhl83MF2+3AiU=
+X-Google-Smtp-Source: ABdhPJy6+wVeTql826B1fCsXKmGrVBXhzHXsreeHYbn+Lid+jxu5Z9+KrC0T7rBy3UVZU4i9gjSpSQ==
+X-Received: by 2002:a63:4e45:: with SMTP id o5mr6393244pgl.191.1633027870877;
+        Thu, 30 Sep 2021 11:51:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:c498:: with SMTP id n24ls3992766plx.0.gmail; Thu, 30
- Sep 2021 11:51:03 -0700 (PDT)
-X-Received: by 2002:a17:902:9a97:b0:13e:2da4:8132 with SMTP id w23-20020a1709029a9700b0013e2da48132mr5545604plp.34.1633027863258;
-        Thu, 30 Sep 2021 11:51:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633027863; cv=none;
+Received: by 2002:a17:90a:ac9:: with SMTP id r9ls3924036pje.1.gmail; Thu, 30
+ Sep 2021 11:51:10 -0700 (PDT)
+X-Received: by 2002:a17:90a:a88a:: with SMTP id h10mr8154059pjq.226.1633027870248;
+        Thu, 30 Sep 2021 11:51:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633027870; cv=none;
         d=google.com; s=arc-20160816;
-        b=tFVucHk5Pqb4LOinjPk+VZ3IcCJhNg78uS3Mc4LCQfzv7VwzeSS5mSplfRuZtNBqaA
-         DfTW3tOCo8Qd6eKM4vI1O8Mn0iY5hkr2M70eOJWVn1PZxGsjW+AUGBQLtnaYFFSAwvl6
-         KPM+p+in16Ns7kjuQIqFGPckydL3XpmORK7SkIDbM5/ETjpffuKfTWHnXHnQxWkKPHb0
-         ZFH6BKehN1YRE07VHqjpofp2cPi083xotyq2pQ2bTHC/W6SAVWuabsrM/i0Z4McOYvHo
-         aK0mt+V3pkCzOuH3UOL8bu+33aMUyWAuO+JQOUv9400ePSGNatTyuNOcKBfOUlYTGAWm
-         xkCQ==
+        b=WnUYlLwSZLvxgVW8JE6uzfkQU9ELjxTJQKCUxvIi0W0SHGYGQ+buO+zGxWtAApFsKT
+         izx8e2p1nPYGs0aW1XFvqzF/7afwZXzCw+LnQsa9cxVkj9Q5msiDCkIwfOAuzSyiIzBu
+         cmi6r+Qwdyw0o6sISJy7GoSmcfA5ViDeggi8mmqS7er4LWKQFkEh2Wy/C5wCzaPafjYK
+         6tcVh5wDlxUhQYihDbX+DfC4HckdHvLLjEhAF+LD8yKNy2cI7tncaCeg57jL2agvwftT
+         GRqaLFXQq6m5KBTp/9fFnv+UbBnYSPfWMb7xAJYpjUvTCtEO8W9Dkl/IBWPlDmetm6Ly
+         HeBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=qGgzOM7TeAjdcBzYF4Z/bcaQjsFldJcUmEZRCFeFBWg=;
-        b=SK1qeEmIv7a8cliUZNfP1XO/mYDglz/3eXc6n8sBDR0OzCE0MqFMR5LLluODcEWy36
-         l2dkrkKFegvZRkEzvXBEyHFukwQ0g5lNxd/Wew1WbHEcwCtRWuCuddj7UA1ZT1P0BK5e
-         3HIAyjiOQguuXe8vxtj/N2nmGDbyD47nmH9CN7yKjmltqbVkuYmSYOdTlT/bWEbwqpNk
-         Po2cz8t8IyW8cUqoWjDv8NwHhm78Yd4f0/UeudBK3sIyHlpoqNiVCY3s7/tJiTI+d7Et
-         qAObkvrqqHVHLCr4N/HvTGXd5QVwLPvEN5jJ+oUXRjrRq4TtSITy4ccKZerJy0qPE5tI
-         5ZuQ==
+        bh=E2I4OaWVQJ9dQqbw5jho5yXohmBY7XdEVzV4KjJdDgw=;
+        b=m+mgi0f3KH2+/4gzmrIqbfvwbJleyjZXk3mMGB/8u5xIj5aAY1Di+X7qz18n47oola
+         tdasm9SC1ogkNlwrofiCPXNH8Kbs45TY1DKeXu82hevbgfBzoY7ZrFu4g3qVaqX44gu2
+         MbcO6++b0/Xww9LZUu0WyS3epBtYClOFjtWV831shdrMCRXSaO0aCJmmzmWaQW3Gjtoj
+         AEigtxKd+P8NXMpC/W57pTYve46Qa8sBgn6oW6BwrJLKm4Vnnd+KAbrRkt2ELMwb+kZf
+         UgQm0yG3Vd20DpbFeiMS4hKU+QSN0ccyF4C9aTEscaRyiHIZkEZK2gIv9mc6OtmHR4lx
+         /UiQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="rhARG/us";
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=dXxprhJQ;
        spf=pass (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=rppt@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id v7si774827pjk.3.2021.09.30.11.51.03
+        by gmr-mx.google.com with ESMTPS id v7si774864pjk.3.2021.09.30.11.51.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 Sep 2021 11:51:03 -0700 (PDT)
+        Thu, 30 Sep 2021 11:51:10 -0700 (PDT)
 Received-SPF: pass (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 89FA66135D;
-	Thu, 30 Sep 2021 18:50:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8A2FA613CD;
+	Thu, 30 Sep 2021 18:51:03 +0000 (UTC)
 From: Mike Rapoport <rppt@kernel.org>
 To: linux-kernel@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -124,16 +124,16 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linuxppc-dev@lists.ozlabs.org,
 	sparclinux@vger.kernel.org,
 	xen-devel@lists.xenproject.org
-Subject: [PATCH v2 3/6] memblock: drop memblock_free_early_nid() and memblock_free_early()
-Date: Thu, 30 Sep 2021 21:50:28 +0300
-Message-Id: <20210930185031.18648-4-rppt@kernel.org>
+Subject: [PATCH v2 4/6] memblock: stop aliasing __memblock_free_late with memblock_free_late
+Date: Thu, 30 Sep 2021 21:50:29 +0300
+Message-Id: <20210930185031.18648-5-rppt@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210930185031.18648-1-rppt@kernel.org>
 References: <20210930185031.18648-1-rppt@kernel.org>
 MIME-Version: 1.0
 X-Original-Sender: rppt@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="rhARG/us";       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=dXxprhJQ;       spf=pass
  (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted
  sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=NONE sp=NONE
  dis=NONE) header.from=kernel.org
@@ -152,198 +152,85 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-memblock_free_early_nid() is unused and memblock_free_early() is an alias
-for memblock_free().
+memblock_free_late() is a NOP wrapper for __memblock_free_late(), there is
+no point to keep this indirection.
 
-Replace calls to memblock_free_early() with calls to memblock_free() and
-remove memblock_free_early() and memblock_free_early_nid().
+Drop the wrapper and rename __memblock_free_late() to memblock_free_late().
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/mips/mm/init.c                  |  2 +-
- arch/powerpc/platforms/pseries/svm.c |  3 +--
- arch/s390/kernel/smp.c               |  2 +-
- drivers/base/arch_numa.c             |  2 +-
- drivers/s390/char/sclp_early.c       |  2 +-
- include/linux/memblock.h             | 12 ------------
- kernel/dma/swiotlb.c                 |  2 +-
- lib/cpumask.c                        |  2 +-
- mm/percpu.c                          |  8 ++++----
- mm/sparse.c                          |  2 +-
- 10 files changed, 12 insertions(+), 25 deletions(-)
+ include/linux/memblock.h | 7 +------
+ mm/memblock.c            | 8 ++++----
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/arch/mips/mm/init.c b/arch/mips/mm/init.c
-index 19347dc6bbf8..21a5a7ac0037 100644
---- a/arch/mips/mm/init.c
-+++ b/arch/mips/mm/init.c
-@@ -529,7 +529,7 @@ static void * __init pcpu_fc_alloc(unsigned int cpu, size_t size,
- 
- static void __init pcpu_fc_free(void *ptr, size_t size)
- {
--	memblock_free_early(__pa(ptr), size);
-+	memblock_free(__pa(ptr), size);
- }
- 
- void __init setup_per_cpu_areas(void)
-diff --git a/arch/powerpc/platforms/pseries/svm.c b/arch/powerpc/platforms/pseries/svm.c
-index 87f001b4c4e4..f12229ce7301 100644
---- a/arch/powerpc/platforms/pseries/svm.c
-+++ b/arch/powerpc/platforms/pseries/svm.c
-@@ -56,8 +56,7 @@ void __init svm_swiotlb_init(void)
- 		return;
- 
- 
--	memblock_free_early(__pa(vstart),
--			    PAGE_ALIGN(io_tlb_nslabs << IO_TLB_SHIFT));
-+	memblock_free(__pa(vstart), PAGE_ALIGN(io_tlb_nslabs << IO_TLB_SHIFT));
- 	panic("SVM: Cannot allocate SWIOTLB buffer");
- }
- 
-diff --git a/arch/s390/kernel/smp.c b/arch/s390/kernel/smp.c
-index 1a04e5bdf655..066efd6d9345 100644
---- a/arch/s390/kernel/smp.c
-+++ b/arch/s390/kernel/smp.c
-@@ -880,7 +880,7 @@ void __init smp_detect_cpus(void)
- 
- 	/* Add CPUs present at boot */
- 	__smp_rescan_cpus(info, true);
--	memblock_free_early((unsigned long)info, sizeof(*info));
-+	memblock_free((unsigned long)info, sizeof(*info));
- }
- 
- /*
-diff --git a/drivers/base/arch_numa.c b/drivers/base/arch_numa.c
-index f6d0efd01188..e28d9dfe3c20 100644
---- a/drivers/base/arch_numa.c
-+++ b/drivers/base/arch_numa.c
-@@ -165,7 +165,7 @@ static void * __init pcpu_fc_alloc(unsigned int cpu, size_t size,
- 
- static void __init pcpu_fc_free(void *ptr, size_t size)
- {
--	memblock_free_early(__pa(ptr), size);
-+	memblock_free(__pa(ptr), size);
- }
- 
- void __init setup_per_cpu_areas(void)
-diff --git a/drivers/s390/char/sclp_early.c b/drivers/s390/char/sclp_early.c
-index f3d5c7f4c13d..f01d942e1c1d 100644
---- a/drivers/s390/char/sclp_early.c
-+++ b/drivers/s390/char/sclp_early.c
-@@ -139,7 +139,7 @@ int __init sclp_early_get_core_info(struct sclp_core_info *info)
- 	}
- 	sclp_fill_core_info(info, sccb);
- out:
--	memblock_free_early((unsigned long)sccb, length);
-+	memblock_free((unsigned long)sccb, length);
- 	return rc;
- }
- 
 diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-index 34de69b3b8ba..fc8183be340c 100644
+index fc8183be340c..e25f964fdd60 100644
 --- a/include/linux/memblock.h
 +++ b/include/linux/memblock.h
-@@ -441,18 +441,6 @@ static inline void *memblock_alloc_node(phys_addr_t size,
+@@ -133,7 +133,7 @@ void __next_mem_range_rev(u64 *idx, int nid, enum memblock_flags flags,
+ 			  struct memblock_type *type_b, phys_addr_t *out_start,
+ 			  phys_addr_t *out_end, int *out_nid);
+ 
+-void __memblock_free_late(phys_addr_t base, phys_addr_t size);
++void memblock_free_late(phys_addr_t base, phys_addr_t size);
+ 
+ #ifdef CONFIG_HAVE_MEMBLOCK_PHYS_MAP
+ static inline void __next_physmem_range(u64 *idx, struct memblock_type *type,
+@@ -441,11 +441,6 @@ static inline void *memblock_alloc_node(phys_addr_t size,
  				      MEMBLOCK_ALLOC_ACCESSIBLE, nid);
  }
  
--static inline void memblock_free_early(phys_addr_t base,
--					      phys_addr_t size)
+-static inline void memblock_free_late(phys_addr_t base, phys_addr_t size)
 -{
--	memblock_free(base, size);
+-	__memblock_free_late(base, size);
 -}
 -
--static inline void memblock_free_early_nid(phys_addr_t base,
--						  phys_addr_t size, int nid)
--{
--	memblock_free(base, size);
--}
--
- static inline void memblock_free_late(phys_addr_t base, phys_addr_t size)
- {
- 	__memblock_free_late(base, size);
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index 87c40517e822..430d2f78d540 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -247,7 +247,7 @@ swiotlb_init(int verbose)
- 	return;
- 
- fail_free_mem:
--	memblock_free_early(__pa(tlb), bytes);
-+	memblock_free(__pa(tlb), bytes);
- fail:
- 	pr_warn("Cannot allocate buffer");
- }
-diff --git a/lib/cpumask.c b/lib/cpumask.c
-index c3c76b833384..045779446a18 100644
---- a/lib/cpumask.c
-+++ b/lib/cpumask.c
-@@ -188,7 +188,7 @@ EXPORT_SYMBOL(free_cpumask_var);
+ /*
+  * Set the allocation direction to bottom-up or top-down.
   */
- void __init free_bootmem_cpumask_var(cpumask_var_t mask)
- {
--	memblock_free_early(__pa(mask), cpumask_size());
-+	memblock_free(__pa(mask), cpumask_size());
- }
- #endif
+diff --git a/mm/memblock.c b/mm/memblock.c
+index 184dcd2e5d99..603f4a02be9b 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -366,14 +366,14 @@ void __init memblock_discard(void)
+ 		addr = __pa(memblock.reserved.regions);
+ 		size = PAGE_ALIGN(sizeof(struct memblock_region) *
+ 				  memblock.reserved.max);
+-		__memblock_free_late(addr, size);
++		memblock_free_late(addr, size);
+ 	}
  
-diff --git a/mm/percpu.c b/mm/percpu.c
-index e0a986818903..f58318cb04c0 100644
---- a/mm/percpu.c
-+++ b/mm/percpu.c
-@@ -2472,7 +2472,7 @@ struct pcpu_alloc_info * __init pcpu_alloc_alloc_info(int nr_groups,
-  */
- void __init pcpu_free_alloc_info(struct pcpu_alloc_info *ai)
- {
--	memblock_free_early(__pa(ai), ai->__ai_size);
-+	memblock_free(__pa(ai), ai->__ai_size);
+ 	if (memblock.memory.regions != memblock_memory_init_regions) {
+ 		addr = __pa(memblock.memory.regions);
+ 		size = PAGE_ALIGN(sizeof(struct memblock_region) *
+ 				  memblock.memory.max);
+-		__memblock_free_late(addr, size);
++		memblock_free_late(addr, size);
+ 	}
+ 
+ 	memblock_memory = NULL;
+@@ -1586,7 +1586,7 @@ void * __init memblock_alloc_try_nid(
  }
  
  /**
-@@ -3134,7 +3134,7 @@ int __init pcpu_embed_first_chunk(size_t reserved_size, size_t dyn_size,
- out_free:
- 	pcpu_free_alloc_info(ai);
- 	if (areas)
--		memblock_free_early(__pa(areas), areas_size);
-+		memblock_free(__pa(areas), areas_size);
- 	return rc;
- }
- #endif /* BUILD_EMBED_FIRST_CHUNK */
-@@ -3256,7 +3256,7 @@ int __init pcpu_page_first_chunk(size_t reserved_size,
- 		free_fn(page_address(pages[j]), PAGE_SIZE);
- 	rc = -ENOMEM;
- out_free_ar:
--	memblock_free_early(__pa(pages), pages_size);
-+	memblock_free(__pa(pages), pages_size);
- 	pcpu_free_alloc_info(ai);
- 	return rc;
- }
-@@ -3286,7 +3286,7 @@ static void * __init pcpu_dfl_fc_alloc(unsigned int cpu, size_t size,
- 
- static void __init pcpu_dfl_fc_free(void *ptr, size_t size)
+- * __memblock_free_late - free pages directly to buddy allocator
++ * memblock_free_late - free pages directly to buddy allocator
+  * @base: phys starting address of the  boot memory block
+  * @size: size of the boot memory block in bytes
+  *
+@@ -1594,7 +1594,7 @@ void * __init memblock_alloc_try_nid(
+  * down, but we are still initializing the system.  Pages are released directly
+  * to the buddy allocator.
+  */
+-void __init __memblock_free_late(phys_addr_t base, phys_addr_t size)
++void __init memblock_free_late(phys_addr_t base, phys_addr_t size)
  {
--	memblock_free_early(__pa(ptr), size);
-+	memblock_free(__pa(ptr), size);
- }
+ 	phys_addr_t cursor, end;
  
- void __init setup_per_cpu_areas(void)
-diff --git a/mm/sparse.c b/mm/sparse.c
-index 120bc8ea5293..55fea0c2f927 100644
---- a/mm/sparse.c
-+++ b/mm/sparse.c
-@@ -451,7 +451,7 @@ static void *sparsemap_buf_end __meminitdata;
- static inline void __meminit sparse_buffer_free(unsigned long size)
- {
- 	WARN_ON(!sparsemap_buf || size == 0);
--	memblock_free_early(__pa(sparsemap_buf), size);
-+	memblock_free(__pa(sparsemap_buf), size);
- }
- 
- static void __init sparse_buffer_init(unsigned long size, int nid)
 -- 
 2.28.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210930185031.18648-4-rppt%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210930185031.18648-5-rppt%40kernel.org.
