@@ -1,120 +1,126 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLVT26FAMGQEUXMDSUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBZVU26FAMGQEGOWESPA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0FF41DDAB
-	for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 17:37:18 +0200 (CEST)
-Received: by mail-wr1-x43b.google.com with SMTP id e12-20020a056000178c00b001606927de88sf1808220wrg.10
-        for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 08:37:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633016238; cv=pass;
+Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8947C41DDC3
+	for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 17:40:23 +0200 (CEST)
+Received: by mail-qv1-xf3d.google.com with SMTP id n15-20020ad44a2f000000b0038288117acdsf10962963qvz.23
+        for <lists+kasan-dev@lfdr.de>; Thu, 30 Sep 2021 08:40:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633016422; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TO07x3wxZad8xqWims/AupNM+poUGEZrRE5o/Xc4KSKV5aDBdmT94+4+aN/1TYEVzZ
-         DFKRRjF1dy8YS6WiG1J3BvAADwlcYHipbScO1LtdjMCdhFPZg0MzJ4KkOGMuF3fWSkPr
-         0/sI4OLB6WKtgBnZktad7Y7jsfvvQPv0A7xPf6uom9nrlF/E9niSvd7UOoumOAe7faY8
-         PYRjbc6fbecvgAEp6LXzTBhHYM/hchf3eMY0FS65TFjcROsyNL8jFOy7PNVfM8hGAem9
-         oRXSedcfgSmw+R/xfLkHPBOtKxYZxJxEvhrLBf3BjsEcsIZTuQwhetv1t106Z5Z3Jg8R
-         NvYw==
+        b=CHU67Qqocjs9Su0ZU4fXbOfExkw/Rd/hnkqgIIfsn9tK6jNv/Ikp0FUIqE6xAr/W70
+         7H4iOsG3ZGCEbRRod4GhxDeR5UjPeRVDzfc50+cbBFfxu3U4AUyHkO/SITk9L/QDUkvy
+         vek4pYYrhWuTu5sLeqafnzkMY+9vpCBY7b+Laxtu0DPbE24avlWM0sB8GnwKX9UJbx8m
+         7ehHmIcgmVQb3hnrpgEYQN/w5BXbDzKM33GTjvuMiV+VSpFaKyT1s8CMMnPsz9o8VTQ4
+         S8H0bG3OPwDrso99GxraCK7zYYdPblAuv/tFLF4A1Ebzz8NAigHxDUZpr4Q+iC1i4WSE
+         GUqw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=b3xHEUeiObb1imWjvstFRNaczmUnxDBIENtLZRer9QA=;
-        b=J5OHmoIuJfkcNRGy0GzaJyQkUVTxN8Ov7EZZm/nUoWxQTmONxxJ7DhvWsSEiiOvncX
-         QvJUOucaIuZk8fLS0+rlf6hvx5DRTbTE9BffcbqGUdNhpbhix9TFeCtMSonIIe9laqq5
-         9ATR4Ghi4sXp/FhrCjoSQLM1rEujy1PUHTbhppEroOR1qYQ/RHX8i2owQPVamKyJoVJ2
-         2wm/+Uy56/q1FP701gady+2BQPFkRVFVx6Xo0eEVN2/EFY3QCHm68ZYU7TpdkQbBp6+t
-         93W2j7ewItki7hnUCNS+rG/qjnoAvT9rZN4QaNgmx5ybhQI8dn7AGzFu89W6KYybGHjN
-         czGw==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=NBZ1WYburZUqwkjOdy6yNfIG1EtrNLMmJnsJ9Rym4oY=;
+        b=xkWNlEPY84KOx42fIFGzUsQjiK5awO12jhVL4OuYdtG8OYFj2ZvI+bF6ojDBdGoaJe
+         q9cY9jnFnBtU360qFN4JsjjUqzyM4HIRNdRh7f3OdxQtGK7IRS96lQKAcv4mT7fnHCIG
+         XtHweW0t/ibICadYQ7TcB1N68muoLwIPf9n/DiFy57idp2w8YNZo7VAagmHLaHLY2oTc
+         +9ObHS7/4pNA2n71mxIdLLc4UHcmKZocr+USDB1GYY7ETtywM+wa8pwcx88OzxhigQ3U
+         KEQydhnfxpjG6rJ4y9H3LIS7dmXokZSXYev/KhCG43Tb8Cq+S77nCopobORIZuqWX2zT
+         MdWw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=agJQ6Par;
-       spf=pass (google.com: domain of 3rdlvyqukccgsz9s5u22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3rdlVYQUKCcgsz9s5u22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=dESEuhyj;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=b3xHEUeiObb1imWjvstFRNaczmUnxDBIENtLZRer9QA=;
-        b=t1/KobbLP3pC/xwnxOazN+eVsEFdQSGAu/JtfCm+SjNOQfSW2OitYmW0CVXh1xY4y3
-         NgIqNZtieKALBPa/qQuEuqHT/KAKixAw6xPTwIJ08I34ul7TNb1YXn1diWRARH8tndnv
-         GhroNtL3PfttvXgwcUeWeT6VIL2n5Mv/VmQgNSl8Kq9VpWiCaGuqOQooQAtJ5ctk/Ixm
-         bV1H4t0mXp//2n9FOPbQmISuLHt7kaWU0Ie30dlccp0rgOuFtZpLfmk0G8bIT7fpl/jf
-         jgNBIETUSBx5blmPtRCj6JqZHH/VLaCGaDMlfLkA8Xq6oZj4NVyWuuTE3WZb1KYW44q+
-         y2kg==
+        bh=NBZ1WYburZUqwkjOdy6yNfIG1EtrNLMmJnsJ9Rym4oY=;
+        b=SUvhcP5EovWycHk7f5UXTeA6hVgwVb8PPjBva750NQrUQL/35vcKg3rj8H7QU4NLhu
+         XcYhSJ6329OhNpvUsBkD9LT0cuu7chsI9hBTVtc3WY96PYWFET6LsePMHz3CmcBFCNcc
+         zxSv9a20lvwzk/5MqyCm2J0ZZljw08SbkYtU6DVJQ4bfaemZtpLWEwg1vbEuZ8dYpXKY
+         okjUvvDivPm81EvZTppQ7pplz8PR0eYP7Uxm1cudL+5nz29XshcDUgIHmjWxF2sON0Uk
+         ou4dkD/CckeXhQC7c2pA4UBX4W8z3j9KAvj0MTYwv64m93LX6x3jGs22ow0MfYbO/+xX
+         H+fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=b3xHEUeiObb1imWjvstFRNaczmUnxDBIENtLZRer9QA=;
-        b=ID0LeVEuwxiqCZ+SK1g57g0ko1yTev5ICjsn2dLy/HOyJO1VqfAzLP5yUrVQ4Pbj8s
-         ItCVRJOGLIoyDQUy5HEGkXAq1KkgAFG4s1DBo8AdIkXm9DuhtjKqKhV9s8rGT6II5SNs
-         0GottPzjRLbj3KbPua8+pwIoROkfLkZes1oynEyH72AV5RK8HXQZ65WG86R3g/yIB9BP
-         MlEN5yjKa6MkytHli9PAGZ7u7Xgp6ph2il57aC07IyThnF6daaxK7MKKTM5WHT7i+GvU
-         RrbqEX3QMfqsvC9+nfkAQgtpXyfO3IUHYZ4CbgiiakDFA7y86IUTYjbzzn7vxgtWdldi
-         gP1w==
-X-Gm-Message-State: AOAM531V3bUJGtMYciGrzAdzCt4UYcNvTW9eW6nIn+8+vyirza80vx2z
-	STGBp8IOSLPVObCj39U9d9I=
-X-Google-Smtp-Source: ABdhPJxj1pUh19zz7gyXrvcqB/sqtVmzE9Ts4C3py1e9I7aCVVJOMEaT41ih5K/l8CZZVSZw11431A==
-X-Received: by 2002:a05:600c:a4b:: with SMTP id c11mr5915785wmq.97.1633016238437;
-        Thu, 30 Sep 2021 08:37:18 -0700 (PDT)
+        bh=NBZ1WYburZUqwkjOdy6yNfIG1EtrNLMmJnsJ9Rym4oY=;
+        b=uU6XdJZahL1x0KbYVo54JPxJ3o8HW0EuWKhek3ueTPoXwmyv5N0z/gixjlMlnypeRx
+         0Fc08lghp9CQYY1qG9aXPUXGaje+YOnzD6USUwNqvZWCZDQkiwidEtpqaMtx5zZaxn1P
+         I8FJnpwVGblfpIiZ+g+wHWRPHLi061IXGDCMhZzCXgHy4P0ApmKikpUnZm+y25QnLIOq
+         0kQeDWKRW1OGkUX7AUf+ECVze/8Q0MNr2anmL21TZpyvCgKO6h3Adsp4wbqkXZfURlE7
+         RN9IYOyypH+7EuZwQcSy1c1tpWGTemhZeZOzmASu8J/ZiTgPleY6xlLmmx0NM2w+Mjv7
+         3Cxw==
+X-Gm-Message-State: AOAM532PM8gKAA1/H6wU/kR3KZDRLF+bMqLFqDHQOkmBQZ/vLB5UF504
+	HoIETEy3/Wc+NZOefv/lMgQ=
+X-Google-Smtp-Source: ABdhPJxYOWURwaHFpblyVXoopEYIIltWA5JdL1SDLlridjma8XlRBe15MUwawpRSNYo/mE8Jl+jFeg==
+X-Received: by 2002:ac8:4084:: with SMTP id p4mr7461110qtl.255.1633016422271;
+        Thu, 30 Sep 2021 08:40:22 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:c3c8:: with SMTP id t8ls3406201wmj.3.gmail; Thu, 30 Sep
- 2021 08:37:17 -0700 (PDT)
-X-Received: by 2002:a05:600c:d6:: with SMTP id u22mr6009612wmm.133.1633016237391;
-        Thu, 30 Sep 2021 08:37:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633016237; cv=none;
+Received: by 2002:a05:620a:14a8:: with SMTP id x8ls4460325qkj.8.gmail; Thu, 30
+ Sep 2021 08:40:21 -0700 (PDT)
+X-Received: by 2002:a37:687:: with SMTP id 129mr5345401qkg.10.1633016421790;
+        Thu, 30 Sep 2021 08:40:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633016421; cv=none;
         d=google.com; s=arc-20160816;
-        b=NCruTiizfcd+fJvuq4AV/fKABxqiEEKQ1Z6W8gzCvAxiBEVSi0E+VN7BzR6e4OyRQi
-         ZjxArmG2PUaR1/TNMm77LUNqu4emgvAc4NkChX8PpLcwd03ryszfnwjGqt6e9oqmjtR+
-         k2LPbE5Rrg6zBX8ATfG/HPRxELkm3nErOheb+CoGLPdKDuDh/sYAiz2F3lSuglm4AjCL
-         JvxloypoyelOAsU9DQIP1vUZ0cLzuKpNegcIHqzJj+fd9dHQk00KWqd3KDcM7i3QKPaA
-         o3SZyygnZ9vOxYs1sq8YQ6Xeen61sz4pwtVO+dL2R4TVd625RqsqaSHysd8WEzQJL9nf
-         BbuA==
+        b=jx2c5xsFBVAenyTb+5XLgW6HMYVl7yOhaOP9AiA3P6gg/FWLRG9DyX7eXMTHI5j/D+
+         zYC3Gb2QgTb99IY+zMqanOIOrtXjUTIlo/TKXof40fAkoNs8OelnUiYuANE2dqswBh00
+         NV5+QSGRxbHx/RRv2K6vgfwdVJM+a1a73nkUy2UxH5pwfQAbXdSaHN1Eo3jm2FdlWz++
+         DmKmh7M2d23IJGnU6gRCr/R6QMpqtza12u+2XJf3dru9u79uwBiYYGURyDmMnYDwr4fI
+         k+IXzZdjhd5L2jM83Qz2nx1+5XjCReDQopoAayv9muoj4n9LRSxsVmbcG+NpxmtL/x9A
+         GNww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=yWAvf4aQlVR2F4yVcHUaOtHEh1BNX6MVAiZjUIr82Uk=;
-        b=l8EZ3JDCRMIpbYykBep/4u3xnXAF3aJYNsdx3L2LDkeHtTMWGFzb+G+kWE+NVcjhlh
-         6imdDD5f4xQN85FHOVCde1Gpnt2w4cAIaaorOb6xS707nPuA9Qn7hX/toSbc6H1mBD7F
-         OFiY+U1Fan3uSx0VVnw6S2dZ/1XId8pCcbRQKU1mOe5pMcGU5Fn0m4OAJC3gJN6I3a7t
-         FX2BDwCvxd+r0nxrqioVAry/0QxASE5/yDQrXZu+L8+o2mUMF9iLHhvdQT3Rjm5KoDf6
-         am+z1iKW51yH3lSO4/8gvpkrvHZGU5LyOxbspk134x6xL1ldkwcjf1LiIGAAcFey5QLU
-         nMZA==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rk528hO09V+xXN91B1hSKF0BEg5FNswtyGgnAwkONyI=;
+        b=MSxU1bdwbITX3sZOJ3G135qgAVEk/HeP/6fjXqvpvG2oqNwdOMejSzIywqK8wCWONk
+         ot0Ztrw7z51Frfp/QXNCbXbZR5WX0pG3xRmQ1s6w1zyijjyqN3ex79vsTdHxnXBEuzEP
+         aOBB7trCB6kqpzeN7fne05Q0o4LKMdsfaXjeItshTUE7QQ8cU+QZvKvtcyA3uXUplQxZ
+         ZArpZAyea8vl8FvlZ56SUKIvUgmBqIMmrRXry1DQ8hgQvAbaDMrYYHOGGZIqkk/OwIZR
+         Cs4MTYenEYo+I14elY9VIZPmG8rLB7Q0KAu+/4b+T6oeyH6cHwt+Q53eBlOD/SeDuFGq
+         RtXg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=agJQ6Par;
-       spf=pass (google.com: domain of 3rdlvyqukccgsz9s5u22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3rdlVYQUKCcgsz9s5u22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=dESEuhyj;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::734 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
-        by gmr-mx.google.com with ESMTPS id s82si110482wme.1.2021.09.30.08.37.17
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com. [2607:f8b0:4864:20::734])
+        by gmr-mx.google.com with ESMTPS id 11si444508qtu.5.2021.09.30.08.40.21
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Sep 2021 08:37:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3rdlvyqukccgsz9s5u22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
-Received: by mail-ed1-x54a.google.com with SMTP id a7-20020a509e87000000b003da71d1b065so6788617edf.4
-        for <kasan-dev@googlegroups.com>; Thu, 30 Sep 2021 08:37:17 -0700 (PDT)
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:4c54:2b8f:fabf:78b0])
- (user=elver job=sendgmr) by 2002:a05:6402:21ef:: with SMTP id
- ce15mr7675136edb.19.1633016237037; Thu, 30 Sep 2021 08:37:17 -0700 (PDT)
-Date: Thu, 30 Sep 2021 17:37:06 +0200
-Message-Id: <20210930153706.2105471-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.33.0.685.g46640cef36-goog
-Subject: [PATCH] kfence: shorten critical sections of alloc/free
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, kasan-dev@googlegroups.com
+        Thu, 30 Sep 2021 08:40:21 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::734 as permitted sender) client-ip=2607:f8b0:4864:20::734;
+Received: by mail-qk1-x734.google.com with SMTP id 72so6215735qkk.7
+        for <kasan-dev@googlegroups.com>; Thu, 30 Sep 2021 08:40:21 -0700 (PDT)
+X-Received: by 2002:a37:5446:: with SMTP id i67mr5480440qkb.502.1633016421262;
+ Thu, 30 Sep 2021 08:40:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210930153706.2105471-1-elver@google.com>
+In-Reply-To: <20210930153706.2105471-1-elver@google.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 30 Sep 2021 17:39:44 +0200
+Message-ID: <CAG_fn=XmtwrqdDwMmKeiJCwKWBEFphfgBHYq0FPOjCZm-mV2+w@mail.gmail.com>
+Subject: Re: [PATCH] kfence: shorten critical sections of alloc/free
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Jann Horn <jannh@google.com>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=agJQ6Par;       spf=pass
- (google.com: domain of 3rdlvyqukccgsz9s5u22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3rdlVYQUKCcgsz9s5u22uzs.q20yo6o1-rs9u22uzsu52836.q20@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@google.com header.s=20210112 header.b=dESEuhyj;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::734 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -127,128 +133,163 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Initializing memory and setting/checking the canary bytes is relatively
-expensive, and doing so in the meta->lock critical sections extends the
-duration with preemption and interrupts disabled unnecessarily.
+On Thu, Sep 30, 2021 at 5:37 PM Marco Elver <elver@google.com> wrote:
+>
+> Initializing memory and setting/checking the canary bytes is relatively
+> expensive, and doing so in the meta->lock critical sections extends the
+> duration with preemption and interrupts disabled unnecessarily.
+>
+> Any reads to meta->addr and meta->size in kfence_guarded_alloc() and
+> kfence_guarded_free() don't require locking meta->lock as long as the
+> object is removed from the freelist: only kfence_guarded_alloc() sets
+> meta->addr and meta->size after removing it from the freelist,  which
+> requires a preceding kfence_guarded_free() returning it to the list or
+> the initial state.
+>
+> Therefore move reads to meta->addr and meta->size, including expensive
+> memory initialization using them, out of meta->lock critical sections.
+>
+> Signed-off-by: Marco Elver <elver@google.com>
+Acked-by: Alexander Potapenko <glider@google.com>
 
-Any reads to meta->addr and meta->size in kfence_guarded_alloc() and
-kfence_guarded_free() don't require locking meta->lock as long as the
-object is removed from the freelist: only kfence_guarded_alloc() sets
-meta->addr and meta->size after removing it from the freelist,  which
-requires a preceding kfence_guarded_free() returning it to the list or
-the initial state.
+> ---
+>  mm/kfence/core.c | 38 +++++++++++++++++++++-----------------
+>  1 file changed, 21 insertions(+), 17 deletions(-)
+>
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index b61ef93d9f98..802905b1c89b 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -309,12 +309,19 @@ static inline bool set_canary_byte(u8 *addr)
+>  /* Check canary byte at @addr. */
+>  static inline bool check_canary_byte(u8 *addr)
+>  {
+> +       struct kfence_metadata *meta;
+> +       unsigned long flags;
+> +
+>         if (likely(*addr =3D=3D KFENCE_CANARY_PATTERN(addr)))
+>                 return true;
+>
+>         atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
+> -       kfence_report_error((unsigned long)addr, false, NULL, addr_to_met=
+adata((unsigned long)addr),
+> -                           KFENCE_ERROR_CORRUPTION);
+> +
+> +       meta =3D addr_to_metadata((unsigned long)addr);
+> +       raw_spin_lock_irqsave(&meta->lock, flags);
+> +       kfence_report_error((unsigned long)addr, false, NULL, meta, KFENC=
+E_ERROR_CORRUPTION);
+> +       raw_spin_unlock_irqrestore(&meta->lock, flags);
+> +
+>         return false;
+>  }
+>
+> @@ -324,8 +331,6 @@ static __always_inline void for_each_canary(const str=
+uct kfence_metadata *meta,
+>         const unsigned long pageaddr =3D ALIGN_DOWN(meta->addr, PAGE_SIZE=
+);
+>         unsigned long addr;
+>
+> -       lockdep_assert_held(&meta->lock);
+> -
+>         /*
+>          * We'll iterate over each canary byte per-side until fn() return=
+s
+>          * false. However, we'll still iterate over the canary bytes to t=
+he
+> @@ -414,8 +419,9 @@ static void *kfence_guarded_alloc(struct kmem_cache *=
+cache, size_t size, gfp_t g
+>         WRITE_ONCE(meta->cache, cache);
+>         meta->size =3D size;
+>         meta->alloc_stack_hash =3D alloc_stack_hash;
+> +       raw_spin_unlock_irqrestore(&meta->lock, flags);
+>
+> -       for_each_canary(meta, set_canary_byte);
+> +       alloc_covered_add(alloc_stack_hash, 1);
+>
+>         /* Set required struct page fields. */
+>         page =3D virt_to_page(meta->addr);
+> @@ -425,11 +431,8 @@ static void *kfence_guarded_alloc(struct kmem_cache =
+*cache, size_t size, gfp_t g
+>         if (IS_ENABLED(CONFIG_SLAB))
+>                 page->s_mem =3D addr;
+>
+> -       raw_spin_unlock_irqrestore(&meta->lock, flags);
+> -
+> -       alloc_covered_add(alloc_stack_hash, 1);
+> -
+>         /* Memory initialization. */
+> +       for_each_canary(meta, set_canary_byte);
+>
+>         /*
+>          * We check slab_want_init_on_alloc() ourselves, rather than lett=
+ing
+> @@ -454,6 +457,7 @@ static void kfence_guarded_free(void *addr, struct kf=
+ence_metadata *meta, bool z
+>  {
+>         struct kcsan_scoped_access assert_page_exclusive;
+>         unsigned long flags;
+> +       bool init;
+>
+>         raw_spin_lock_irqsave(&meta->lock, flags);
+>
+> @@ -481,6 +485,13 @@ static void kfence_guarded_free(void *addr, struct k=
+fence_metadata *meta, bool z
+>                 meta->unprotected_page =3D 0;
+>         }
+>
+> +       /* Mark the object as freed. */
+> +       metadata_update_state(meta, KFENCE_OBJECT_FREED, NULL, 0);
+> +       init =3D slab_want_init_on_free(meta->cache);
+> +       raw_spin_unlock_irqrestore(&meta->lock, flags);
+> +
+> +       alloc_covered_add(meta->alloc_stack_hash, -1);
+> +
+>         /* Check canary bytes for memory corruption. */
+>         for_each_canary(meta, check_canary_byte);
+>
+> @@ -489,16 +500,9 @@ static void kfence_guarded_free(void *addr, struct k=
+fence_metadata *meta, bool z
+>          * data is still there, and after a use-after-free is detected, w=
+e
+>          * unprotect the page, so the data is still accessible.
+>          */
+> -       if (!zombie && unlikely(slab_want_init_on_free(meta->cache)))
+> +       if (!zombie && unlikely(init))
+>                 memzero_explicit(addr, meta->size);
+>
+> -       /* Mark the object as freed. */
+> -       metadata_update_state(meta, KFENCE_OBJECT_FREED, NULL, 0);
+> -
+> -       raw_spin_unlock_irqrestore(&meta->lock, flags);
+> -
+> -       alloc_covered_add(meta->alloc_stack_hash, -1);
+> -
+>         /* Protect to detect use-after-frees. */
+>         kfence_protect((unsigned long)addr);
+>
+> --
+> 2.33.0.685.g46640cef36-goog
+>
 
-Therefore move reads to meta->addr and meta->size, including expensive
-memory initialization using them, out of meta->lock critical sections.
 
-Signed-off-by: Marco Elver <elver@google.com>
----
- mm/kfence/core.c | 38 +++++++++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 17 deletions(-)
+--=20
+Alexander Potapenko
+Software Engineer
 
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index b61ef93d9f98..802905b1c89b 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -309,12 +309,19 @@ static inline bool set_canary_byte(u8 *addr)
- /* Check canary byte at @addr. */
- static inline bool check_canary_byte(u8 *addr)
- {
-+	struct kfence_metadata *meta;
-+	unsigned long flags;
-+
- 	if (likely(*addr == KFENCE_CANARY_PATTERN(addr)))
- 		return true;
- 
- 	atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
--	kfence_report_error((unsigned long)addr, false, NULL, addr_to_metadata((unsigned long)addr),
--			    KFENCE_ERROR_CORRUPTION);
-+
-+	meta = addr_to_metadata((unsigned long)addr);
-+	raw_spin_lock_irqsave(&meta->lock, flags);
-+	kfence_report_error((unsigned long)addr, false, NULL, meta, KFENCE_ERROR_CORRUPTION);
-+	raw_spin_unlock_irqrestore(&meta->lock, flags);
-+
- 	return false;
- }
- 
-@@ -324,8 +331,6 @@ static __always_inline void for_each_canary(const struct kfence_metadata *meta,
- 	const unsigned long pageaddr = ALIGN_DOWN(meta->addr, PAGE_SIZE);
- 	unsigned long addr;
- 
--	lockdep_assert_held(&meta->lock);
--
- 	/*
- 	 * We'll iterate over each canary byte per-side until fn() returns
- 	 * false. However, we'll still iterate over the canary bytes to the
-@@ -414,8 +419,9 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
- 	WRITE_ONCE(meta->cache, cache);
- 	meta->size = size;
- 	meta->alloc_stack_hash = alloc_stack_hash;
-+	raw_spin_unlock_irqrestore(&meta->lock, flags);
- 
--	for_each_canary(meta, set_canary_byte);
-+	alloc_covered_add(alloc_stack_hash, 1);
- 
- 	/* Set required struct page fields. */
- 	page = virt_to_page(meta->addr);
-@@ -425,11 +431,8 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
- 	if (IS_ENABLED(CONFIG_SLAB))
- 		page->s_mem = addr;
- 
--	raw_spin_unlock_irqrestore(&meta->lock, flags);
--
--	alloc_covered_add(alloc_stack_hash, 1);
--
- 	/* Memory initialization. */
-+	for_each_canary(meta, set_canary_byte);
- 
- 	/*
- 	 * We check slab_want_init_on_alloc() ourselves, rather than letting
-@@ -454,6 +457,7 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
- {
- 	struct kcsan_scoped_access assert_page_exclusive;
- 	unsigned long flags;
-+	bool init;
- 
- 	raw_spin_lock_irqsave(&meta->lock, flags);
- 
-@@ -481,6 +485,13 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
- 		meta->unprotected_page = 0;
- 	}
- 
-+	/* Mark the object as freed. */
-+	metadata_update_state(meta, KFENCE_OBJECT_FREED, NULL, 0);
-+	init = slab_want_init_on_free(meta->cache);
-+	raw_spin_unlock_irqrestore(&meta->lock, flags);
-+
-+	alloc_covered_add(meta->alloc_stack_hash, -1);
-+
- 	/* Check canary bytes for memory corruption. */
- 	for_each_canary(meta, check_canary_byte);
- 
-@@ -489,16 +500,9 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
- 	 * data is still there, and after a use-after-free is detected, we
- 	 * unprotect the page, so the data is still accessible.
- 	 */
--	if (!zombie && unlikely(slab_want_init_on_free(meta->cache)))
-+	if (!zombie && unlikely(init))
- 		memzero_explicit(addr, meta->size);
- 
--	/* Mark the object as freed. */
--	metadata_update_state(meta, KFENCE_OBJECT_FREED, NULL, 0);
--
--	raw_spin_unlock_irqrestore(&meta->lock, flags);
--
--	alloc_covered_add(meta->alloc_stack_hash, -1);
--
- 	/* Protect to detect use-after-frees. */
- 	kfence_protect((unsigned long)addr);
- 
--- 
-2.33.0.685.g46640cef36-goog
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20210930153706.2105471-1-elver%40google.com.
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAG_fn%3DXmtwrqdDwMmKeiJCwKWBEFphfgBHYq0FPOjCZm-mV2%2Bw%40mail.gm=
+ail.com.
