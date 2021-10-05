@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBP7A6CFAMGQEFFZYMEA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBQHA6CFAMGQETN7UZCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758C6422429
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ED2422428
 	for <lists+kasan-dev@lfdr.de>; Tue,  5 Oct 2021 13:00:17 +0200 (CEST)
-Received: by mail-pg1-x538.google.com with SMTP id 1-20020a630e41000000b002528846c9f2sf12265840pgo.12
+Received: by mail-wm1-x33c.google.com with SMTP id d7-20020a1c7307000000b0030d6982305bsf1143784wmb.5
         for <lists+kasan-dev@lfdr.de>; Tue, 05 Oct 2021 04:00:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633431616; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1633431617; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ScDaVUXxP7Ew0bnfV7yelhdgXb5GqfvfX6v9Rix2ynmjce7Q0Lvnj/F43y4vXpPL5T
-         ug/TlCuC4+3ppFTYuvP8yLKNFkg/4UI4zB01UqMU1mA5fd8UOrm/LfmTQOHw3z2OCtJ/
-         hg8nhrN2AFnlIdkOsZh+IiCWCXci6f2tWhPV1AsX3qrQGLo5bbgqIi1hyIANz50qlmNq
-         f5/MntVbQ3eNM8hLKsW39RcDvvkdlxKY4EKKJ56sRqLKReVxUCHkWNbcmOiQPp3AxzUr
-         tGNYuWY3U/7P9SpBl5ac/MzKO04hUays6B/kOIR+JIuw8yxbaM3Sr2OBrq5sWCZr4thP
-         O2nA==
+        b=VkJn72dmf/4msLlSRHoaig1ZDL/dOSQx+WQQTAGRIwx42O6nYC6vFPTVwnTued2ITY
+         WhdgQhDve6pTkx7t0uo9D65Ph/9Et8vAPK6FST257xbat6X0rvcYqr4dM4CBc1j2IlsZ
+         AkyKdvrvFhQKhXV+sMHkuiPTzydbvPBZN9gPwhvrKZ8RT7w/YazssWI+sayKhJUlnOFb
+         WEPgzWHwdrL9jqCcCvnmbv36wC6thHdh2qe0MDhAFJIXMns3Yh/Fxkuj/e6pyCNebpLP
+         dunkTAf+FV9B6t+/SRl0Cp5LOI8hMsHGLvI2NsMNnPfcBY94QABrYHzPYja0ZzbiP9ET
+         nJ/Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=3K2Lpzd5OLeiQ0pI0NmKJS0TBY9vr9LpRQtFnCxQzm0=;
-        b=pAvPEgKVBUFSSH17utu1NHDMOKSN72/r5gFwjCBUQ5nj5LGcROpepWYEzPFXfT5jvK
-         lHe+Za1c2Gyi4XumwgJF6Ru3/TfJzw3nDTPBvB8JImBcl5yaCwIla7pet/xsTnBVjgBa
-         CSrRs5oI0P3AEGzH5m6Ko2Pr5dM+PLxrm2l1a9HCCjJQnzLa+H4IlR/+xmIgZVwuempw
-         /KWhEv+eX4zvMqRoj+a2l84WCP7V2C8v9K5ruZ9HqZKeVdG8ysy5HgYXyD06hZ+5Z3L3
-         aVCZ1vtachGmqwLoVPGqHSbfAiXDQOCi9uAVV6SSsAcBnxEAWJ/8+EE4JkaCVyKrYPel
-         w/Fw==
+        bh=oZE/NhwU+BORGRv/Nx3TCAqVsgt50r/nFLk2t7UIvCA=;
+        b=zHo7xIo4dwh0DIFMxBMrESUCzl/FtMFTFV3ooNF2JzSSYQZToatqa2EwuPm4DSxYLs
+         IAJPHr9sf0PYEuYC5SyHq6t+N/XkcaWv1YTRaZqmRJQF8SM8dqgmeEBDqYCPOpV/7Xn7
+         ydudi0xdMBuWc4RcDvppaJP+15B6tUsaKsMpM1TY2zCo+vezZkPivyWtXBl1BsDZy9ES
+         URk6vB7fPdIsGnIwhOI/WOgQAZAU6Rde9j9yx1ge5ROyNRSDP5PrJrqRmC74vTWvWrh3
+         tFg4rgJE2BnSEuoEhEb4tcO1Y8S+iBoyoK+P2j4+zaOh7YwY3Q61InLZreYanqEnC+5Q
+         jXpA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=OjjLE4Wh;
-       spf=pass (google.com: domain of 3ptbcyqukcsaahranckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3PTBcYQUKCSAAHRANCKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=gHVBD0A+;
+       spf=pass (google.com: domain of 3pzbcyqukcsicjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3PzBcYQUKCSICJTCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=3K2Lpzd5OLeiQ0pI0NmKJS0TBY9vr9LpRQtFnCxQzm0=;
-        b=XaJy9Gs3tDUs+zWPZuY2IA0Op0dxzKf3xbEvNYj/HSGwB7HBrOJqDalBkigpmNdoue
-         7JxgDl9CSvLNDHxnO2kXZyo3UIC9Z3j7k/pKVtG4s16/E0W7PZW64cBsTtOKqGbgcqqu
-         lZPWv6bx58wO5BV7XNevR4JSZp3bcAz+cstYe4JMQbkP9jgS4i/KTauuBFLedPHvfHqn
-         wKS9yi0gUs6h+eCLADCqNaMDPPiDEw9d5UkXXu7Aary8GmTak5Tt+S4Z+HHSMNtDwzTh
-         VBWxkqGCeWqsJGeQtZkCPQevTCNN29v7UaxJmdpFvq4N2w/ZoiaHlUjzF4V1me+B08m5
-         m0qQ==
+        bh=oZE/NhwU+BORGRv/Nx3TCAqVsgt50r/nFLk2t7UIvCA=;
+        b=cLhYUtUpYf8wEH6CJRh+ZE0nuwnvwieKBkvZ7WM5k+gWKm7p5aDCMMSVxwj7qQZRxg
+         6s+VGcjgo4FZdYufS49qoWp2VULIZz0oUdR19l/b+xBJ4yrXWLTwqs0BMYh5k1yArd14
+         W62Ka5lNoxkxM3b8ejgm2RPjUvOdgzIMqu2OKNk2y3Jkvy+YtlSpqCRtspqJAo3Cs/ae
+         5cn0xtF4oqFgreIHF8kJq09eHUNQj2XgjenBxW6ZQhU4eZNKCL2C7oJAbw3AELj4MALt
+         avIJBgcog9k5JCx7yHkS3y4At6Jug4nlvSPxYEcfcHCbD2Yr0NW3rppSY7pgpxb76fJS
+         I2zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,64 +49,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=3K2Lpzd5OLeiQ0pI0NmKJS0TBY9vr9LpRQtFnCxQzm0=;
-        b=0bHg/fEuhWq7FKw6FB0ex0gUUGVIhKVLFI0DzPg2Hj45b/W7I6YfDvd0nJx1XJkB0K
-         fF5D2fwa6KP9A6JYSIr34yV/07Mt9nXcHCGQltbj2/kJz7gvzISkVdiULsV6yo1EUkAp
-         8BNL9e/wQ3CxFEo2YAD+BoniaToJktnSAAt5cOtfv6XRQenAOShGv6E6MgJppdHBBHNM
-         SEA5x08bxPrrDql0P1ieECcx60mPuxM7MlrnGQmw0M0rCH7dnxpoxTPcKkmx2/U+dV8/
-         c4Xy55JZxSQIw/Bvm1IjIxXCPwMHdH/GCAUrSpGGtRKl2buxPl5B+/wlZe5z1eUVO30r
-         Is4A==
-X-Gm-Message-State: AOAM530tY2e/9pMkqeCVQ2nJxLNJEhpTEpJcn7+4FPz2DxNANkqX/XJE
-	Qo4sp5+PRxjWqQxn9kgsYKk=
-X-Google-Smtp-Source: ABdhPJxbqqZkP2dlFs6QQqfO+qqljJLr3dZY40eCp3evhcqDdPrXnilACRSgQqrFoUCGSR5BVTfNwQ==
-X-Received: by 2002:a17:90a:e40f:: with SMTP id hv15mr2985330pjb.217.1633431615741;
-        Tue, 05 Oct 2021 04:00:15 -0700 (PDT)
+        bh=oZE/NhwU+BORGRv/Nx3TCAqVsgt50r/nFLk2t7UIvCA=;
+        b=Ga1tE/oym3z0atqiT1YV/ZLpQwL682u3GE+9DuLNX2BhCU1mNzpwrc6o9LqzGpQ06O
+         RCi6/NBdxpbxnPnwm33U4eROG7ucqbQmC+QlfqwxPZoinr16hGxoxVyWz5hXv/lrYOWa
+         sN5jvCKCUtPsq/GPp+udrLIgHy9upD2v5PndF/H3zxP/geWG61/qkT/6sHVPoCdnDqbI
+         iZX+YJgTUUz/UIKpcpmAumFV8UeQzOIRRNlLzec77LNk63n5KhGW5RclZ1c0SC1HCOak
+         2oTYNXrIO/TgYac8CaBR0YQJZBCejlZh09hKKrFuzS+jOmtblZA8KNslFUhu/RS57leB
+         fl8Q==
+X-Gm-Message-State: AOAM531ug+EEUZkkNSPaJdF4mZQfpjNhzab5coupriHLMOI5Df6y+1nO
+	/FlNmyy+ir4pkYLf2ou5dyc=
+X-Google-Smtp-Source: ABdhPJwFqdP6pELF2Adbu98aXHn1XHDPWIyiDCptJadwNMORPYrTJvg858edx9TIrajEA3CKPaXdAg==
+X-Received: by 2002:a05:6000:1544:: with SMTP id 4mr20982972wry.370.1633431616982;
+        Tue, 05 Oct 2021 04:00:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:67cc:: with SMTP id b12ls2414661pgs.4.gmail; Tue, 05 Oct
- 2021 04:00:14 -0700 (PDT)
-X-Received: by 2002:a63:f913:: with SMTP id h19mr15268723pgi.351.1633431614341;
-        Tue, 05 Oct 2021 04:00:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633431614; cv=none;
+Received: by 2002:adf:c782:: with SMTP id l2ls1838883wrg.2.gmail; Tue, 05 Oct
+ 2021 04:00:16 -0700 (PDT)
+X-Received: by 2002:adf:bb49:: with SMTP id x9mr595867wrg.413.1633431616083;
+        Tue, 05 Oct 2021 04:00:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633431616; cv=none;
         d=google.com; s=arc-20160816;
-        b=wjGHShGwIYRc8squFIbSFDq7svmwJps9UUjJz5s++WLtM4rMOLO+jUA2HOC41ZXS53
-         FJsanjmf+XcavBkLeEM8oA+VdwRRsPOaMz9m5WlQzAaa2hUFoMH92mqTae+ywv6kClXw
-         hBI7HbRIgWqYsuMRKKNUkVbrgelO1uRG7JgRSLmXWki/g8oeGTXEZRMz3/wiZ91+6FUz
-         6cthUNYfvNqhyPqMCQQPwEZsH0oZZNvHFabFOsvMIL5xmpYZpoUyE3In7lzk4Df6G5Qk
-         TReJKla66ntScrJl8aIsXvz87TZkaRM7OzNHA+/Z7sydMXykKkgXT9I1Byy4NIQ8U+9M
-         WKwA==
+        b=wfQaC2Ql4N8rT57Wyvld/feDs1ESzbnL3TxpIC/Yey3DiR5h29xVX+8Zsv4DpJuuoq
+         S4rYpkJbAQXPPaaGu2PpSOPNSpvvvssvxvpPN3basjA6okWPODk82BZeocfpn7zuj7j/
+         r+2rpHW/F180HYe9knntKIIsUiFH0nbirgrUzG+cdTQLOHl3jnKb+v07wxtlK0dGY/Wf
+         rjfBC21hZjiC7EE0aq/wh+3LTNl5SWMwfXmJfPfbV5fVDFIkecIFyuqhzZ6ZiQdIvGQf
+         yf74cxNSTot6vtsSmJBFc7HfUudwJnuQa3xjKkcFfbdC5l4a8u/Awu82YqY2WtC8ZCtL
+         ca9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=R/r9nmRkVgWsFVPaDE2PBCRFObTgRkO7hDmVE/TxXNA=;
-        b=BtezaE3iXuXfKa3pd3aJyboiEC6AZfqjHj3Hak8zHQLwl18mIeMLlv06ABQd3aDG4Y
-         XjJ945w1bsPOOy9LQSe3UhL35rFVoZrTbEPR661MT6RDrOgq87khgBNkOpG2yt0jJdqY
-         +2wRigeXh1bwYkDr8mjIbm7cq4MdvGzIqoX6YLkaFpwg3xqYBW6sZQb8t+F3bJYgtLHJ
-         MjAeMtvhVCV/GCG0Kp9Eo3TZo9c+p3UDSyEmSyoEsaKz8lw7MKLwOCTA5KS5wk0lXnco
-         VuG69vxtcLfc1yNjvcKV7c1MoTErY9hVjPuP8jCDlGW/1907/VFxSIQ/HoZBW2/dvaLC
-         k7oQ==
+        bh=E3HFvEWei3GORNCVEmwUUOkLQSsacsR5poZwBNsW3No=;
+        b=cMrAnufNCfgsanwDAVZLnM2yhq8I3z43siS+QvzjCng2aBvpugGdIlciLp0BjatCzl
+         hyvJMcK74uFt4OICVLOyOfbziRqCD9v//6KrnZFulQiEIBbcIIHzA/sV9ZdY2elppbID
+         GwHVYsYOKJuDPNeTz/WUkK2IyC69ftRbeIMHWolCXhoaW+V4GBvKoDnUSwkFXsibGsno
+         1X7Mgk/t9cysHVX1941S0yhbRqxriEcK1LLdqDdPu+V9lLD5yfsvSzkVyM/Id8XT9IQT
+         jFpB6/bPSddCJlUTy5W7Z39mWqZUL6tIEFkzejVsydChbuJYfAxRW0fBY6fAU0rw28Bf
+         XI+A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=OjjLE4Wh;
-       spf=pass (google.com: domain of 3ptbcyqukcsaahranckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3PTBcYQUKCSAAHRANCKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=gHVBD0A+;
+       spf=pass (google.com: domain of 3pzbcyqukcsicjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3PzBcYQUKCSICJTCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com. [2607:f8b0:4864:20::f49])
-        by gmr-mx.google.com with ESMTPS id w20si1200161plq.2.2021.10.05.04.00.14
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
+        by gmr-mx.google.com with ESMTPS id j9si300958wrs.3.2021.10.05.04.00.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Oct 2021 04:00:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3ptbcyqukcsaahranckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::f49 as permitted sender) client-ip=2607:f8b0:4864:20::f49;
-Received: by mail-qv1-xf49.google.com with SMTP id m13-20020ad45dcd000000b003830687491cso1251433qvh.10
-        for <kasan-dev@googlegroups.com>; Tue, 05 Oct 2021 04:00:14 -0700 (PDT)
+        Tue, 05 Oct 2021 04:00:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3pzbcyqukcsicjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
+Received: by mail-wr1-x449.google.com with SMTP id k2-20020adfc702000000b0016006b2da9bso5580142wrg.1
+        for <kasan-dev@googlegroups.com>; Tue, 05 Oct 2021 04:00:16 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:e44f:5054:55f8:fcb8])
- (user=elver job=sendgmr) by 2002:a05:6214:c47:: with SMTP id
- r7mr10449171qvj.12.1633431613511; Tue, 05 Oct 2021 04:00:13 -0700 (PDT)
-Date: Tue,  5 Oct 2021 12:58:55 +0200
+ (user=elver job=sendgmr) by 2002:a1c:f31a:: with SMTP id q26mr2540960wmq.159.1633431615667;
+ Tue, 05 Oct 2021 04:00:15 -0700 (PDT)
+Date: Tue,  5 Oct 2021 12:58:56 +0200
 In-Reply-To: <20211005105905.1994700-1-elver@google.com>
-Message-Id: <20211005105905.1994700-14-elver@google.com>
+Message-Id: <20211005105905.1994700-15-elver@google.com>
 Mime-Version: 1.0
 References: <20211005105905.1994700-1-elver@google.com>
 X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
-Subject: [PATCH -rcu/kcsan 13/23] kcsan: selftest: Add test case to check
- memory barrier instrumentation
+Subject: [PATCH -rcu/kcsan 14/23] locking/barriers, kcsan: Add instrumentation
+ for barriers
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, "Paul E . McKenney" <paulmck@kernel.org>
 Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
@@ -120,9 +120,9 @@ Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=OjjLE4Wh;       spf=pass
- (google.com: domain of 3ptbcyqukcsaahranckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::f49 as permitted sender) smtp.mailfrom=3PTBcYQUKCSAAHRANCKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=gHVBD0A+;       spf=pass
+ (google.com: domain of 3pzbcyqukcsicjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3PzBcYQUKCSICJTCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -138,203 +138,113 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Memory barrier instrumentation is crucial to avoid false positives. To
-avoid surprises, run a simple test case in the boot-time selftest to
-ensure memory barriers are still instrumented correctly.
+Adds the required KCSAN instrumentation for barriers if CONFIG_SMP.
+KCSAN supports modeling the effects of:
+
+	smp_mb()
+	smp_rmb()
+	smp_wmb()
+	smp_store_release()
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- kernel/kcsan/Makefile   |   2 +
- kernel/kcsan/selftest.c | 141 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 143 insertions(+)
+ include/asm-generic/barrier.h | 29 +++++++++++++++--------------
+ include/linux/spinlock.h      |  2 +-
+ 2 files changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/kernel/kcsan/Makefile b/kernel/kcsan/Makefile
-index c2bb07f5bcc7..ff47e896de3b 100644
---- a/kernel/kcsan/Makefile
-+++ b/kernel/kcsan/Makefile
-@@ -11,6 +11,8 @@ CFLAGS_core.o := $(call cc-option,-fno-conserve-stack) \
- 	-fno-stack-protector -DDISABLE_BRANCH_PROFILING
+diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
+index 640f09479bdf..27a9c9edfef6 100644
+--- a/include/asm-generic/barrier.h
++++ b/include/asm-generic/barrier.h
+@@ -14,6 +14,7 @@
+ #ifndef __ASSEMBLY__
  
- obj-y := core.o debugfs.o report.o
-+
-+KCSAN_INSTRUMENT_BARRIERS_selftest.o := y
- obj-$(CONFIG_KCSAN_SELFTEST) += selftest.o
- 
- CFLAGS_kcsan_test.o := $(CFLAGS_KCSAN) -g -fno-omit-frame-pointer
-diff --git a/kernel/kcsan/selftest.c b/kernel/kcsan/selftest.c
-index b4295a3892b7..08c6b84b9ebe 100644
---- a/kernel/kcsan/selftest.c
-+++ b/kernel/kcsan/selftest.c
-@@ -7,10 +7,15 @@
- 
- #define pr_fmt(fmt) "kcsan: " fmt
- 
-+#include <linux/atomic.h>
-+#include <linux/bitops.h>
- #include <linux/init.h>
+ #include <linux/compiler.h>
 +#include <linux/kcsan-checks.h>
- #include <linux/kernel.h>
- #include <linux/printk.h>
- #include <linux/random.h>
-+#include <linux/sched.h>
-+#include <linux/spinlock.h>
- #include <linux/types.h>
+ #include <asm/rwonce.h>
  
- #include "encoding.h"
-@@ -103,6 +108,141 @@ static bool __init test_matching_access(void)
- 	return true;
- }
+ #ifndef nop
+@@ -62,15 +63,15 @@
+ #ifdef CONFIG_SMP
  
-+/*
-+ * Correct memory barrier instrumentation is critical to avoiding false
-+ * positives: simple test to check at boot certain barriers are always properly
-+ * instrumented. See kcsan_test for a more complete test.
-+ */
-+static bool __init test_barrier(void)
-+{
-+#ifdef CONFIG_KCSAN_WEAK_MEMORY
-+	struct kcsan_scoped_access *reorder_access = &current->kcsan_ctx.reorder_access;
-+#else
-+	struct kcsan_scoped_access *reorder_access = NULL;
-+#endif
-+	bool ret = true;
-+	arch_spinlock_t arch_spinlock = __ARCH_SPIN_LOCK_UNLOCKED;
-+	DEFINE_SPINLOCK(spinlock);
-+	atomic_t dummy;
-+	long test_var;
-+
-+	if (!reorder_access || !IS_ENABLED(CONFIG_SMP))
-+		return true;
-+
-+#define __KCSAN_CHECK_BARRIER(access_type, barrier, name)					\
-+	do {											\
-+		reorder_access->type = (access_type) | KCSAN_ACCESS_SCOPED;			\
-+		reorder_access->size = 1;							\
-+		barrier;									\
-+		if (reorder_access->size != 0) {						\
-+			pr_err("improperly instrumented type=(" #access_type "): " name "\n");	\
-+			ret = false;								\
-+		}										\
-+	} while (0)
-+#define KCSAN_CHECK_READ_BARRIER(b)  __KCSAN_CHECK_BARRIER(0, b, #b)
-+#define KCSAN_CHECK_WRITE_BARRIER(b) __KCSAN_CHECK_BARRIER(KCSAN_ACCESS_WRITE, b, #b)
-+#define KCSAN_CHECK_RW_BARRIER(b)    __KCSAN_CHECK_BARRIER(KCSAN_ACCESS_WRITE | KCSAN_ACCESS_COMPOUND, b, #b)
-+
-+	kcsan_nestable_atomic_begin(); /* No watchpoints in called functions. */
-+
-+	KCSAN_CHECK_READ_BARRIER(mb());
-+	KCSAN_CHECK_READ_BARRIER(rmb());
-+	KCSAN_CHECK_READ_BARRIER(smp_mb());
-+	KCSAN_CHECK_READ_BARRIER(smp_rmb());
-+	KCSAN_CHECK_READ_BARRIER(dma_rmb());
-+	KCSAN_CHECK_READ_BARRIER(smp_mb__before_atomic());
-+	KCSAN_CHECK_READ_BARRIER(smp_mb__after_atomic());
-+	KCSAN_CHECK_READ_BARRIER(smp_mb__after_spinlock());
-+	KCSAN_CHECK_READ_BARRIER(smp_store_mb(test_var, 0));
-+	KCSAN_CHECK_READ_BARRIER(smp_store_release(&test_var, 0));
-+	KCSAN_CHECK_READ_BARRIER(xchg(&test_var, 0));
-+	KCSAN_CHECK_READ_BARRIER(xchg_release(&test_var, 0));
-+	KCSAN_CHECK_READ_BARRIER(cmpxchg(&test_var, 0,  0));
-+	KCSAN_CHECK_READ_BARRIER(cmpxchg_release(&test_var, 0,  0));
-+	KCSAN_CHECK_READ_BARRIER(atomic_set_release(&dummy, 0));
-+	KCSAN_CHECK_READ_BARRIER(atomic_add_return(1, &dummy));
-+	KCSAN_CHECK_READ_BARRIER(atomic_add_return_release(1, &dummy));
-+	KCSAN_CHECK_READ_BARRIER(atomic_fetch_add(1, &dummy));
-+	KCSAN_CHECK_READ_BARRIER(atomic_fetch_add_release(1, &dummy));
-+	KCSAN_CHECK_READ_BARRIER(test_and_set_bit(0, &test_var));
-+	KCSAN_CHECK_READ_BARRIER(test_and_clear_bit(0, &test_var));
-+	KCSAN_CHECK_READ_BARRIER(test_and_change_bit(0, &test_var));
-+	KCSAN_CHECK_READ_BARRIER(clear_bit_unlock(0, &test_var));
-+	KCSAN_CHECK_READ_BARRIER(__clear_bit_unlock(0, &test_var));
-+	KCSAN_CHECK_READ_BARRIER(clear_bit_unlock_is_negative_byte(0, &test_var));
-+	arch_spin_lock(&arch_spinlock);
-+	KCSAN_CHECK_READ_BARRIER(arch_spin_unlock(&arch_spinlock));
-+	spin_lock(&spinlock);
-+	KCSAN_CHECK_READ_BARRIER(spin_unlock(&spinlock));
-+
-+	KCSAN_CHECK_WRITE_BARRIER(mb());
-+	KCSAN_CHECK_WRITE_BARRIER(wmb());
-+	KCSAN_CHECK_WRITE_BARRIER(smp_mb());
-+	KCSAN_CHECK_WRITE_BARRIER(smp_wmb());
-+	KCSAN_CHECK_WRITE_BARRIER(dma_wmb());
-+	KCSAN_CHECK_WRITE_BARRIER(smp_mb__before_atomic());
-+	KCSAN_CHECK_WRITE_BARRIER(smp_mb__after_atomic());
-+	KCSAN_CHECK_WRITE_BARRIER(smp_mb__after_spinlock());
-+	KCSAN_CHECK_WRITE_BARRIER(smp_store_mb(test_var, 0));
-+	KCSAN_CHECK_WRITE_BARRIER(smp_store_release(&test_var, 0));
-+	KCSAN_CHECK_WRITE_BARRIER(xchg(&test_var, 0));
-+	KCSAN_CHECK_WRITE_BARRIER(xchg_release(&test_var, 0));
-+	KCSAN_CHECK_WRITE_BARRIER(cmpxchg(&test_var, 0,  0));
-+	KCSAN_CHECK_WRITE_BARRIER(cmpxchg_release(&test_var, 0,  0));
-+	KCSAN_CHECK_WRITE_BARRIER(atomic_set_release(&dummy, 0));
-+	KCSAN_CHECK_WRITE_BARRIER(atomic_add_return(1, &dummy));
-+	KCSAN_CHECK_WRITE_BARRIER(atomic_add_return_release(1, &dummy));
-+	KCSAN_CHECK_WRITE_BARRIER(atomic_fetch_add(1, &dummy));
-+	KCSAN_CHECK_WRITE_BARRIER(atomic_fetch_add_release(1, &dummy));
-+	KCSAN_CHECK_WRITE_BARRIER(test_and_set_bit(0, &test_var));
-+	KCSAN_CHECK_WRITE_BARRIER(test_and_clear_bit(0, &test_var));
-+	KCSAN_CHECK_WRITE_BARRIER(test_and_change_bit(0, &test_var));
-+	KCSAN_CHECK_WRITE_BARRIER(clear_bit_unlock(0, &test_var));
-+	KCSAN_CHECK_WRITE_BARRIER(__clear_bit_unlock(0, &test_var));
-+	KCSAN_CHECK_WRITE_BARRIER(clear_bit_unlock_is_negative_byte(0, &test_var));
-+	arch_spin_lock(&arch_spinlock);
-+	KCSAN_CHECK_WRITE_BARRIER(arch_spin_unlock(&arch_spinlock));
-+	spin_lock(&spinlock);
-+	KCSAN_CHECK_WRITE_BARRIER(spin_unlock(&spinlock));
-+
-+	KCSAN_CHECK_RW_BARRIER(mb());
-+	KCSAN_CHECK_RW_BARRIER(wmb());
-+	KCSAN_CHECK_RW_BARRIER(rmb());
-+	KCSAN_CHECK_RW_BARRIER(smp_mb());
-+	KCSAN_CHECK_RW_BARRIER(smp_wmb());
-+	KCSAN_CHECK_RW_BARRIER(smp_rmb());
-+	KCSAN_CHECK_RW_BARRIER(dma_wmb());
-+	KCSAN_CHECK_RW_BARRIER(dma_rmb());
-+	KCSAN_CHECK_RW_BARRIER(smp_mb__before_atomic());
-+	KCSAN_CHECK_RW_BARRIER(smp_mb__after_atomic());
-+	KCSAN_CHECK_RW_BARRIER(smp_mb__after_spinlock());
-+	KCSAN_CHECK_RW_BARRIER(smp_store_mb(test_var, 0));
-+	KCSAN_CHECK_RW_BARRIER(smp_store_release(&test_var, 0));
-+	KCSAN_CHECK_RW_BARRIER(xchg(&test_var, 0));
-+	KCSAN_CHECK_RW_BARRIER(xchg_release(&test_var, 0));
-+	KCSAN_CHECK_RW_BARRIER(cmpxchg(&test_var, 0,  0));
-+	KCSAN_CHECK_RW_BARRIER(cmpxchg_release(&test_var, 0,  0));
-+	KCSAN_CHECK_RW_BARRIER(atomic_set_release(&dummy, 0));
-+	KCSAN_CHECK_RW_BARRIER(atomic_add_return(1, &dummy));
-+	KCSAN_CHECK_RW_BARRIER(atomic_add_return_release(1, &dummy));
-+	KCSAN_CHECK_RW_BARRIER(atomic_fetch_add(1, &dummy));
-+	KCSAN_CHECK_RW_BARRIER(atomic_fetch_add_release(1, &dummy));
-+	KCSAN_CHECK_RW_BARRIER(test_and_set_bit(0, &test_var));
-+	KCSAN_CHECK_RW_BARRIER(test_and_clear_bit(0, &test_var));
-+	KCSAN_CHECK_RW_BARRIER(test_and_change_bit(0, &test_var));
-+	KCSAN_CHECK_RW_BARRIER(clear_bit_unlock(0, &test_var));
-+	KCSAN_CHECK_RW_BARRIER(__clear_bit_unlock(0, &test_var));
-+	KCSAN_CHECK_RW_BARRIER(clear_bit_unlock_is_negative_byte(0, &test_var));
-+	arch_spin_lock(&arch_spinlock);
-+	KCSAN_CHECK_RW_BARRIER(arch_spin_unlock(&arch_spinlock));
-+	spin_lock(&spinlock);
-+	KCSAN_CHECK_RW_BARRIER(spin_unlock(&spinlock));
-+
-+	kcsan_nestable_atomic_end();
-+
-+	return ret;
-+}
-+
- static int __init kcsan_selftest(void)
- {
- 	int passed = 0;
-@@ -120,6 +260,7 @@ static int __init kcsan_selftest(void)
- 	RUN_TEST(test_requires);
- 	RUN_TEST(test_encode_decode);
- 	RUN_TEST(test_matching_access);
-+	RUN_TEST(test_barrier);
+ #ifndef smp_mb
+-#define smp_mb()	__smp_mb()
++#define smp_mb()	do { kcsan_mb(); __smp_mb(); } while (0)
+ #endif
  
- 	pr_info("selftest: %d/%d tests passed\n", passed, total);
- 	if (passed != total)
+ #ifndef smp_rmb
+-#define smp_rmb()	__smp_rmb()
++#define smp_rmb()	do { kcsan_rmb(); __smp_rmb(); } while (0)
+ #endif
+ 
+ #ifndef smp_wmb
+-#define smp_wmb()	__smp_wmb()
++#define smp_wmb()	do { kcsan_wmb(); __smp_wmb(); } while (0)
+ #endif
+ 
+ #else	/* !CONFIG_SMP */
+@@ -123,19 +124,19 @@ do {									\
+ #ifdef CONFIG_SMP
+ 
+ #ifndef smp_store_mb
+-#define smp_store_mb(var, value)  __smp_store_mb(var, value)
++#define smp_store_mb(var, value)  do { kcsan_mb(); __smp_store_mb(var, value); } while (0)
+ #endif
+ 
+ #ifndef smp_mb__before_atomic
+-#define smp_mb__before_atomic()	__smp_mb__before_atomic()
++#define smp_mb__before_atomic()	do { kcsan_mb(); __smp_mb__before_atomic(); } while (0)
+ #endif
+ 
+ #ifndef smp_mb__after_atomic
+-#define smp_mb__after_atomic()	__smp_mb__after_atomic()
++#define smp_mb__after_atomic()	do { kcsan_mb(); __smp_mb__after_atomic(); } while (0)
+ #endif
+ 
+ #ifndef smp_store_release
+-#define smp_store_release(p, v) __smp_store_release(p, v)
++#define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+ #endif
+ 
+ #ifndef smp_load_acquire
+@@ -178,13 +179,13 @@ do {									\
+ #endif	/* CONFIG_SMP */
+ 
+ /* Barriers for virtual machine guests when talking to an SMP host */
+-#define virt_mb() __smp_mb()
+-#define virt_rmb() __smp_rmb()
+-#define virt_wmb() __smp_wmb()
+-#define virt_store_mb(var, value) __smp_store_mb(var, value)
+-#define virt_mb__before_atomic() __smp_mb__before_atomic()
+-#define virt_mb__after_atomic()	__smp_mb__after_atomic()
+-#define virt_store_release(p, v) __smp_store_release(p, v)
++#define virt_mb() do { kcsan_mb(); __smp_mb(); } while (0)
++#define virt_rmb() do { kcsan_rmb(); __smp_rmb(); } while (0)
++#define virt_wmb() do { kcsan_wmb(); __smp_wmb(); } while (0)
++#define virt_store_mb(var, value) do { kcsan_mb(); __smp_store_mb(var, value); } while (0)
++#define virt_mb__before_atomic() do { kcsan_mb(); __smp_mb__before_atomic(); } while (0)
++#define virt_mb__after_atomic()	do { kcsan_mb(); __smp_mb__after_atomic(); } while (0)
++#define virt_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+ #define virt_load_acquire(p) __smp_load_acquire(p)
+ 
+ /**
+diff --git a/include/linux/spinlock.h b/include/linux/spinlock.h
+index 45310ea1b1d7..f6d69808b929 100644
+--- a/include/linux/spinlock.h
++++ b/include/linux/spinlock.h
+@@ -172,7 +172,7 @@ do {									\
+  * Architectures that can implement ACQUIRE better need to take care.
+  */
+ #ifndef smp_mb__after_spinlock
+-#define smp_mb__after_spinlock()	do { } while (0)
++#define smp_mb__after_spinlock()	kcsan_mb()
+ #endif
+ 
+ #ifdef CONFIG_DEBUG_SPINLOCK
 -- 
 2.33.0.800.g4c38ced690-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211005105905.1994700-14-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211005105905.1994700-15-elver%40google.com.
