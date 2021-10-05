@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSXA6CFAMGQE77SN5SQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTHA6CFAMGQE5UOS6FQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-wr1-x43d.google.com (mail-wr1-x43d.google.com [IPv6:2a00:1450:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8868422433
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 Oct 2021 13:00:26 +0200 (CEST)
-Received: by mail-wr1-x43d.google.com with SMTP id r15-20020adfce8f000000b0015df1098ccbsf5600733wrn.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 05 Oct 2021 04:00:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633431626; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3B3422435
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 Oct 2021 13:00:29 +0200 (CEST)
+Received: by mail-wr1-x43d.google.com with SMTP id x14-20020a5d60ce000000b00160b27b5fd1sf1235984wrt.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 05 Oct 2021 04:00:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633431628; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sE6ctUgHIQLQ84599lTX9G6yGJyavs0om6RfCE20Mw5c3f83BL1GrRnsvCUEfbZYlf
-         kV5pFf5X7mS1Sdl4JmL40vV+ozQeq6jGVj4oForGoCkmHquDmUjD9EOaR8cykPqxN2BL
-         h99perINDrtRRpjCkjr2Gp4sqjpbRXJgvJaPhoEEkv7Asb7xYXg9xDJiYq8sx18vDhG8
-         ShBjdVtKRjEcsKVXWTS4ParfNfie5HOssiimS/VEWAyzdY1nzkoHKjvhHZ1tgpoirPxo
-         V0PwPJCn7+ZRN0P3TuGEFV0qUA0nsLXEjRNJGRL+GNjhKfEvt6CAxi2fHgC7iK28HkaB
-         snhQ==
+        b=ViyNvUyiRkLnaxmnhI02B3U/9ogJ34EWgTOgt1R5nvaLhO89Q78Ioed3aKYkkG+YSw
+         rlJMByKDBfPGNY8PFi+SfsltGgZwMgOc0uFstd67bXEqi2rSSGptmik6UNAs4oopg1Ou
+         qVZZNfTbR85do94mbuowufFvVJnqJ8udpSzeniM5BObIz6gyUbqXUXfWHEP6318d+xYV
+         Gg9vAGY6V1nD4A4Ix7ikl42bfAVdYPPSiMTW9Uk0EJrr5WGQ5H09fptgvT97lQNbyXD3
+         py+Exb8nLPqeS+UreDKG3tFmkxTgNGCw/py+EI5x50FgmgtWRqCAczcTRxEhB8cMF0AV
+         fhFQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=oEFwVn9/5n8K/9Vd0aSS4RtV+9fvklhNeQaqqjgdhqA=;
-        b=Ox+Ac7AHqk20H9zawtKbQtBW2NB28mPH1XF5lIUvuTCegnLUja48OsYKVgwrP1vBfX
-         dEwJqo6oO4bDy5PVYlQv/LmbLcIAFX1/nUp3jCBvHeqVnBYzboKMK6RyYv0j8BTOXgq8
-         ++HW+6/NGmI11w2ZgBIF8982phbt6M4NN/Mp8Xc/R3zaOYA16f3yQyr6wlBLRiisHLPH
-         Y5cyAYtWwGHXPEOQYNnW3VdVzkUMh/UZzkmDRW6SOYfoqIq4icQh8T6T6LYIE4YurYVm
-         7BMWke49twlZdQqP6lSeIBEvwUWWfcQ0BdYFqycSm1WEb7iQ0Xmw83veIe5UIdBRr9UV
-         jhog==
+        bh=VoPDnlMls0bxYI4yPcQrNWyDvNTwRJGkKO8wq5DYo7I=;
+        b=hKLEIGlFH+TC9kDcb1jnKzIIPZU2oUODp8IwwaEQ/t4ywXBJcBEHhlg3n+N5zsAsIY
+         3bDhF8lCpbzbfpXZR8gQkeJI6FVPo8Q3QMQ3tcnxtAQYIRuL7xqGJqhZ/C+TZuScU2oG
+         s4Nco3f52VXHIly/jv7Lz96G3J+UC2NSPkbR0QhIFdV8IxI0/2Pd1sp4E7aVs26/GlrJ
+         RL0gWRFT3kMJE2/hUwPfZHgbkB5OnfdUv+so+90vVdw0EmDj3VncFXc1ILUsITh/2Wk3
+         L2YiL3yXTBC3BIJ2jZEg2WVET1gBq6hk9ujmzOTy/Jw6IojU22LjvRpuf7TdlQJM0iCN
+         mx3A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=bncNaURV;
-       spf=pass (google.com: domain of 3stbcyqukcswmtdmzowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3STBcYQUKCSwMTdMZOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=lZfIqlUU;
+       spf=pass (google.com: domain of 3szbcyqukcs4ovfobqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3SzBcYQUKCS4OVfObQYYQVO.MYWUKcKX-NOfQYYQVOQbYeZc.MYW@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=oEFwVn9/5n8K/9Vd0aSS4RtV+9fvklhNeQaqqjgdhqA=;
-        b=aSpTR2xgVBRiyaONoHlPe7T9rtne1LKPk0KF59iwyXd7NNh++pKm0CwqTp62DkhqDE
-         vdHAgKH/qDXZ3VLT40ERezGVdlDZKT5l854P0CjpR3hfkbDkVE/IwDgr5DDCxAflohY4
-         NCZpteseVyuGimMwFTch5woZX/zMLIZAeX2IxR0lo7bSudmMU3InlTwEBvjWOR3ijXr0
-         BlJBvm8NrKrygzyvbPEbv2uD6PINue7AzyMq1irdkBUCXh7ozer/6XmvGLX5BgnpXmEo
-         WIQxw/pDpuwR9OQZVwrwKaJJ8icpOTD1Wg79Oh/TtysxzYOU5ZTtuHvPIRC4J2ZtdqV/
-         G3Yw==
+        bh=VoPDnlMls0bxYI4yPcQrNWyDvNTwRJGkKO8wq5DYo7I=;
+        b=plgBZ1rZBT/CaNrsbX/vGlGrOdw0041UD0IxQWOFKYfj94iAToNjNdwMQNVMVIypJx
+         ++jAsXGw1oLsrfWx8MXCxyztYrcs82EpPfIXb6P7WxgA4Kbah1s4Z02jc9yAyqNTrKVA
+         pZcb9HRp3kQE2rhWgutve8PBlMCegkzuwjbiipcGIVlEB5I/64V0F9l2om3nQrY+e4KZ
+         GIdN8/zWSS0Dg0R56arEdPFGEmU1u5nqshBvWCl82suhXO79Zxu6Bv7rR0vSOQzhXIfm
+         AGBwhizW//KnqPDV6dhyMjOZ3vRvRxlb+Fwe4Vnk1jfWnaWxwo+sqA227CDecBKLTs5u
+         CWdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,64 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=oEFwVn9/5n8K/9Vd0aSS4RtV+9fvklhNeQaqqjgdhqA=;
-        b=69a9VMqJJnz14lXiJVVYJiF5n7KtpNjok9LM0LsY5VmLdr/7CsOJqCxU3b+Q95PZi5
-         H1nB0eFSeIYrOplIidymXQjyTIPX3a8qHaeYAoa9ush8sU/4j9JpNYfdny4FFRGNGNlQ
-         JToWL2ivdHxGdxTwbwS790aRCvmcf+Q6S35NloiFNjaQxuAlAzGNkOUSUinuEbzBpBP8
-         6joCJosdCGeK2rfR4SQJmkdcUwMxLS+Ya0330vpZ5cOrbVpHZkl8T3vwlxnhVzGl1cCg
-         FqRxQqoV7bt82LWkxaudhXOpS1rrKnKeXsesi7/j65SJ3EKR8/azqMQL7opvXetizbcS
-         ogRw==
-X-Gm-Message-State: AOAM533JF4iZS9CP4+kQg5W8OcqDOd/943F084niHfo8WY550/cC9guI
-	Ncdn2pQZWN21QicgUdTQuCo=
-X-Google-Smtp-Source: ABdhPJx+VqFJdwlkd64dKF2FbLhqikMqeETUvaFVfjc9+TOyiWKCyCGynNDtXuHqlnLXjiFP3RL0Uw==
-X-Received: by 2002:a5d:598c:: with SMTP id n12mr20076577wri.391.1633431626525;
-        Tue, 05 Oct 2021 04:00:26 -0700 (PDT)
+        bh=VoPDnlMls0bxYI4yPcQrNWyDvNTwRJGkKO8wq5DYo7I=;
+        b=qpExtB82WMejKZsUxwaKBEETzrOhzfii4f3PDLB5gn1KVOfBxsr5tkt442ZSJy0vc1
+         Rg3dJd6J9ujMbx7OFfaa7rRd11iswZ5RzP0zo49jV+hrEhv9DtR3QJTgIJBySCkx5vIB
+         bCOeBSCdEshJjFzjKrOmCGp60MdZZOF0d/SdoMapVxJW80q40w2l9hBpdypHBL6AbLRZ
+         LCywYyLWDftpGzG5hBJ3/74T8rd0AYh/tHsSS9+BC5whrbw6RSvmCx0zsotVhMfwXnaY
+         afE7R/PC6NbgZ3E9sWf1RkRp7WBAIk79u7NKj+89Wxr0IQ3+3qyTPYhHGvi6J+6w77Gr
+         kUpw==
+X-Gm-Message-State: AOAM530OzizeaQRKXibLMIWrDjXxi7b/8iYNHSZRf1r07OmJsAaKerHB
+	47srd8HeS9L81A4Fok11IYI=
+X-Google-Smtp-Source: ABdhPJwpCm05txAXofyPiA6010xgHkqMpnSY9nuPECLAs1ZuHQNHevHJpHMFc0XkjGVQx83Qfe7adg==
+X-Received: by 2002:a5d:4522:: with SMTP id j2mr19939710wra.212.1633431628797;
+        Tue, 05 Oct 2021 04:00:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:c782:: with SMTP id l2ls1840101wrg.2.gmail; Tue, 05 Oct
- 2021 04:00:25 -0700 (PDT)
-X-Received: by 2002:a5d:56cc:: with SMTP id m12mr20345862wrw.22.1633431625735;
-        Tue, 05 Oct 2021 04:00:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633431625; cv=none;
+Received: by 2002:adf:a285:: with SMTP id s5ls1839059wra.1.gmail; Tue, 05 Oct
+ 2021 04:00:28 -0700 (PDT)
+X-Received: by 2002:adf:9c02:: with SMTP id f2mr20924178wrc.329.1633431627998;
+        Tue, 05 Oct 2021 04:00:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633431627; cv=none;
         d=google.com; s=arc-20160816;
-        b=bhzwn8oyreQKEwwXamgtG4Fiad7A3VOMO8hrMLM4+QE6oG+ZfAZAruYxf4BHq2t5Xc
-         FHluubKSz7rF7O347BesOK39AGNGsJU0KxYzo8WHkZkI8LcQlDE06YNPowjXoLh47y04
-         iHGyeu+y8TJhAO1JpsKzCuY/TZjuTpleUdE5gtxKVSTv0GVTdUxFW89wD9XKk9hMta/l
-         maGMw/ISpvuWXVSbiIgM3jxxVRjawdZXTdw84XtSloehhyaoztBiyOOTSITh+QVHinYK
-         7oZ2xvGQwZaHs9lUQejDivn1jvuG4zPL+7qPrLTD2vBW98TrjPAgkbIFwllOB1vZDOoL
-         G8gA==
+        b=mae8ABtn1xVOsBLhRoWc8XOesUr/joOV/ICXwBjgTq/jlDWUb/SlSUWJibunFEZT4K
+         lYeMRkPcUFyQFveIoPprLiu8PFf1GbesCUj5A3FHUlW0dpJR4uL6pXc6BKVQEKV91kGr
+         eUUTnSB7KPua2Nqd87/WHylGb4sj9GV/4Mmr2wnNmXnuB2NyFhQUqdrS3QS3Iri1KD5B
+         1Q4xJskJ8GD0Aw7Dedasye5PMTH7AR8tVPGnzpS4kjZqwyEYQkEM974RNgX+aOlKRcaP
+         qBVJvl1rGu3Ewtzl5E0ysVwI1MuspzDDvY1AXKOp5ZnDKzZWbXNmSwNV66PXxKDfnn0Y
+         E5Nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=FsZx+1aUI6aPLGHtJazoYidelDd+JHI3Oque8YR4DUc=;
-        b=n+M6WKePTpY/8/rr/XC7peCWGkeFfidbuyijYDKfJHM6J0TLNUHPpJOkEprJgyw5jz
-         85y2QW68ADdaYPQQzBGEbtz9NeJiuyG4MF4unGYYEcCBMBJGrG6GdKiRk+1TYnw03Y+D
-         3nCBeGORzDfpzEITH9LwOn4iefZZspZwdR/N6UdnOficewCLRgCpHUHxTsDefNDvT0mG
-         2hXHQrh8q9x516d3vF71hwKWS4RWqKn5UjpuxgxTKzsfCeQDiFQQm1d4jfcA4q26V6Qz
-         j0gfWMgw1Pm4DTswJuTLgs7otxaCsSNFral22e8Uw6/1+fBJgYuFKLjjwwP6tBFKTs61
-         5VCg==
+        bh=DahfAT1Q5cTf5jxzmYjgaD95bFaAqh3xNJSBaROtoZ0=;
+        b=iNmvVPCdNATdCUmdFR/envIYlw2OWM8LPD/plD6IiMofSC0iSmuyXKXb8DI/L9daBp
+         BjlpGbcrWwEQodaqHODFODxIFv+PwS1/QH9osg9kdh1Rc27VukVHSqxeIa3h6PLjXQEj
+         xCa/fHy/zEsk7DwhaFzbj+dj1xdGA6N3+Vy3RxqAel9YEpISMybfZaXywf5yGs1hGvel
+         ZeexYiISR8xwCkDzGISMpjVP1iB8hHlwQ99ux0hOnKez9s1L6cCWFy/v9dqEbnyGbiX6
+         vSHtPoRd9sus3xTN6JgSAtBT6tO7wCZuuBSaY7ivcw0niXlC7yO2fwe+C9ceIk02ZTQw
+         fNDQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=bncNaURV;
-       spf=pass (google.com: domain of 3stbcyqukcswmtdmzowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3STBcYQUKCSwMTdMZOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=lZfIqlUU;
+       spf=pass (google.com: domain of 3szbcyqukcs4ovfobqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3SzBcYQUKCS4OVfObQYYQVO.MYWUKcKX-NOfQYYQVOQbYeZc.MYW@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id a11si270476wrh.5.2021.10.05.04.00.25
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com. [2a00:1450:4864:20::449])
+        by gmr-mx.google.com with ESMTPS id d1si660094wrf.1.2021.10.05.04.00.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Oct 2021 04:00:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3stbcyqukcswmtdmzowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id z137-20020a1c7e8f000000b0030cd1800d86so8966317wmc.2
-        for <kasan-dev@googlegroups.com>; Tue, 05 Oct 2021 04:00:25 -0700 (PDT)
+        Tue, 05 Oct 2021 04:00:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3szbcyqukcs4ovfobqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--elver.bounces.google.com designates 2a00:1450:4864:20::449 as permitted sender) client-ip=2a00:1450:4864:20::449;
+Received: by mail-wr1-x449.google.com with SMTP id r16-20020adfbb10000000b00160958ed8acso3822765wrg.16
+        for <kasan-dev@googlegroups.com>; Tue, 05 Oct 2021 04:00:27 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:e44f:5054:55f8:fcb8])
- (user=elver job=sendgmr) by 2002:a05:600c:4fc7:: with SMTP id
- o7mr2657914wmq.91.1633431625363; Tue, 05 Oct 2021 04:00:25 -0700 (PDT)
-Date: Tue,  5 Oct 2021 12:59:00 +0200
+ (user=elver job=sendgmr) by 2002:a1c:ed0a:: with SMTP id l10mr2762058wmh.140.1633431627680;
+ Tue, 05 Oct 2021 04:00:27 -0700 (PDT)
+Date: Tue,  5 Oct 2021 12:59:01 +0200
 In-Reply-To: <20211005105905.1994700-1-elver@google.com>
-Message-Id: <20211005105905.1994700-19-elver@google.com>
+Message-Id: <20211005105905.1994700-20-elver@google.com>
 Mime-Version: 1.0
 References: <20211005105905.1994700-1-elver@google.com>
 X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
-Subject: [PATCH -rcu/kcsan 18/23] x86/barriers, kcsan: Use generic
- instrumentation for non-smp barriers
+Subject: [PATCH -rcu/kcsan 19/23] x86/qspinlock, kcsan: Instrument barrier of pv_queued_spin_unlock()
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, "Paul E . McKenney" <paulmck@kernel.org>
 Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
@@ -120,9 +119,9 @@ Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=bncNaURV;       spf=pass
- (google.com: domain of 3stbcyqukcswmtdmzowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3STBcYQUKCSwMTdMZOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=lZfIqlUU;       spf=pass
+ (google.com: domain of 3szbcyqukcs4ovfobqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::449 as permitted sender) smtp.mailfrom=3SzBcYQUKCS4OVfObQYYQVO.MYWUKcKX-NOfQYYQVOQbYeZc.MYW@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -138,42 +137,30 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Prefix all barriers with __, now that asm-generic/barriers.h supports
-defining the final instrumented version of these barriers. The change is
-limited to barriers used by x86-64.
+If CONFIG_PARAVIRT_SPINLOCKS=y, queued_spin_unlock() is implemented
+using pv_queued_spin_unlock() which is entirely inline asm based. As
+such, we do not receive any KCSAN barrier instrumentation via regular
+atomic operations.
+
+Add the missing KCSAN barrier instrumentation for the
+CONFIG_PARAVIRT_SPINLOCKS case.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- arch/x86/include/asm/barrier.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ arch/x86/include/asm/qspinlock.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/x86/include/asm/barrier.h b/arch/x86/include/asm/barrier.h
-index 3ba772a69cc8..35389b2af88e 100644
---- a/arch/x86/include/asm/barrier.h
-+++ b/arch/x86/include/asm/barrier.h
-@@ -19,9 +19,9 @@
- #define wmb() asm volatile(ALTERNATIVE("lock; addl $0,-4(%%esp)", "sfence", \
- 				       X86_FEATURE_XMM2) ::: "memory", "cc")
- #else
--#define mb() 	asm volatile("mfence":::"memory")
--#define rmb()	asm volatile("lfence":::"memory")
--#define wmb()	asm volatile("sfence" ::: "memory")
-+#define __mb()	asm volatile("mfence":::"memory")
-+#define __rmb()	asm volatile("lfence":::"memory")
-+#define __wmb()	asm volatile("sfence" ::: "memory")
- #endif
+diff --git a/arch/x86/include/asm/qspinlock.h b/arch/x86/include/asm/qspinlock.h
+index d86ab942219c..d87451df480b 100644
+--- a/arch/x86/include/asm/qspinlock.h
++++ b/arch/x86/include/asm/qspinlock.h
+@@ -53,6 +53,7 @@ static inline void queued_spin_lock_slowpath(struct qspinlock *lock, u32 val)
  
- /**
-@@ -51,8 +51,8 @@ static inline unsigned long array_index_mask_nospec(unsigned long index,
- /* Prevent speculative execution past this barrier. */
- #define barrier_nospec() alternative("", "lfence", X86_FEATURE_LFENCE_RDTSC)
- 
--#define dma_rmb()	barrier()
--#define dma_wmb()	barrier()
-+#define __dma_rmb()	barrier()
-+#define __dma_wmb()	barrier()
- 
- #define __smp_mb()	asm volatile("lock; addl $0,-4(%%" _ASM_SP ")" ::: "memory", "cc")
+ static inline void queued_spin_unlock(struct qspinlock *lock)
+ {
++	kcsan_release();
+ 	pv_queued_spin_unlock(lock);
+ }
  
 -- 
 2.33.0.800.g4c38ced690-goog
@@ -181,4 +168,4 @@ index 3ba772a69cc8..35389b2af88e 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211005105905.1994700-19-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211005105905.1994700-20-elver%40google.com.
