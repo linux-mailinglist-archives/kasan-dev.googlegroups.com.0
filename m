@@ -1,30 +1,30 @@
-Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBN4K66FAMGQEP23GNUI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBOMK66FAMGQEPY2DNAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AD24241C2
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Oct 2021 17:48:07 +0200 (CEST)
-Received: by mail-wr1-x43b.google.com with SMTP id e12-20020a056000178c00b001606927de88sf2400642wrg.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Oct 2021 08:48:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633535287; cv=pass;
+Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40ACB4241C4
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Oct 2021 17:48:10 +0200 (CEST)
+Received: by mail-wr1-x440.google.com with SMTP id l9-20020adfc789000000b00160111fd4e8sf2411629wrg.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 06 Oct 2021 08:48:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633535290; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pzbKHylJV3RjZzvgMcvAzP5RasYz7HA+bNgZy37K5MMa038gAf8tbmMPK22BehJpwE
-         3Dp0maXuM7EvJBclnkS9Zqptm48y7QARZQ/By0ktIdhz3JLRSTckxYaAqHzbIpLX4d0B
-         szmnIDOCE0ozn9OCwNna1nDLrJrYlUf/Cu22+FsaC4R2m0a4BIFAzjLyqNZUBv4hgI26
-         Y+oRdkJbdWcw0tY4kJUSfnLHKzLZ04I2x87SXSXbCAEj9AAdIjmFnJ5gzbgQiJsT20HY
-         nyet3kEp6Xndoi0M/qdDeYUOywDyJLjJIsObuAWP5Q4e3pELAF6P27U3tKZJzdtfa6u2
-         7ytQ==
+        b=B9P4ANqjkUom3md2/8V9uddcCdboYJkEjc7g0asHB1xDWV1I/hmCWj5N2QaFBHshr8
+         iZsfeFddUawMEQoOQySqOYiNzmncIYyEsJPJJeThCkB3JUIfW7Y2DSY6rX7H9al+FmGW
+         DEfTTggZe268m4LlMGK7ddcqjEiQ34oIWZFEOWco8z2J9HfW5ivhKxMhd7278bXVBXEu
+         EF4to7ePAshszd2MCzmoYNr6BhVUvlOmuxtk+SwwNj1Yqy/RXLcb28E2Vp8CgHPLZXxw
+         c99mmCpaiGf+z0QDH91mz8UkRhfvKPeAzSUqhzLcA4bv7Rpoll0lppB80i5sNwp4ugW4
+         Z7sw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=rIxqBhFZIq3balO63bzTNY4RZs3FiwUAdAEZXnQlICM=;
-        b=frwmzYbC7uE7hjq7rcZCkRrEQnTq+x+EY3i2KSFrsePKIbPKmOgDcGB3xb1lKIE8G5
-         h0/sPBDqsVqj6C2XQITikCUdyzZuPF+ba3Y1VHc9boEttGkl+hrklNndE3/euLuZdXzk
-         MQ1tYbVEY1hl/FDo+t4Srqt34b0Itp+cc9eH8hijde0IJEsGvz6LJp29kGXsXtq9pnuA
-         QN0tkIQn6nTvuyLvquriqf+ZLhVYmbj/NgljMRGl6Xx0QEHUZnTb6GXh4UeXmUh9czNm
-         WZabWP35mt8ASipyBSLfuJZ2b0Yp2jyawWDRA5tfsr0a88VQnYeJC2HJAX+assawiA17
-         WA+g==
+        bh=tJPAUeqcPDcHR25845JGm+LTqot6ZIlgbI8Nj+SEXI4=;
+        b=OTApoM8y9lRhmojcHZPfGl5Rxg87gNoI0f/VvDMaB4vnDt75T9Z1+THC88tEhwv8hy
+         cyovJN6g4a1fILQBfkQx8sihNufGN3aKRc/YIfsXcnXaUD9gSpF7Wn7ahpire9Ryrr/K
+         MKJrKdgkaPTK0OLPFzF6KkrjguRqjSXjDyWihHShkaJQE2456t6RVr3AqiAH3nKBJ4G0
+         G90gig6//qyGImoV0a+YP7s76Osna74R27JJpiHqVcYT/NhzyRL7Elac61Av3tAs04fo
+         yrExpM1j+8seeNw0bflSkeU8QtmMGRGHcGBiq76X+ohKp/dXDuo18DSTiQ4YxA4KK/Z4
+         yALA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rIxqBhFZIq3balO63bzTNY4RZs3FiwUAdAEZXnQlICM=;
-        b=d2BMexPb32K4Ebl0qvI4acmeWSYCgPywz9c2TFjh+6R8bd+lu0xjCenDrQqQjczXgd
-         47z69wkfAAvC3ZOkORGUA3R8c6B4PW/3hOeug1oVvVOnvZT+iRwdzHM1kVwAEnZWSzFF
-         pLbGax9ElkV19vGvtJJ8Fvnf/FynV6ToNUbZ37bwfMhVe8z0Bp9kfm0HSJ+3b/sEhpkS
-         Rl52LWX5mzKa3dLUsBnZJE0De00J6n3Q1iybjGxYaCcitu9EMa3Hd4cJI6uAd8HsnA6v
-         grZufXnE92w5nADEq3c0dLfAWjdOeRB5W2QI7R+F/8gV+EGD+2B+2I7XBqGoeNsIlGdn
-         NfVg==
+        bh=tJPAUeqcPDcHR25845JGm+LTqot6ZIlgbI8Nj+SEXI4=;
+        b=ZFIxaglt2ZIFB5Y38zVy3w3fq+kNaytXAehfAMJ7mxT6+M8iFKF+SEqZ6NIYGi/VQ8
+         bn+3qHmSM1rGeht4HzDkcwWUGZSEu+1IOrXFtVAXjZXd596DAOu4bUeBee8mXoRvL+3F
+         5JvLDaLH6K9Ioi3ObJ7MF0WMmkF7ntbuMTg8QK6FU3Yw62BfcA1VaW9mkXQg5casDOCR
+         x4BosN6n37ayAsh5tvgud0Xvp4qRcNRVLY/cPcO/JqOt+tVQiC5CvnaTNWcbGDlnk8oQ
+         4AqJqkxniTq0Rv0scmwYWs/Y8bBfov9LHjW8SUraBV69jPq2Ze1YLrdSFZSJEz/i8Hdh
+         Xkzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -48,56 +48,56 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=rIxqBhFZIq3balO63bzTNY4RZs3FiwUAdAEZXnQlICM=;
-        b=NTDDMpRM1cVkpQurR4K6NtR1KodN80YdJqnXQaRNoBdOa/GwkjOb6xeATVQ4IPkWyp
-         VUwNebGPpYbvpE00saTE8X0afs6OJC1ztDC8Ne9sD38yTUCqh1V+MYZUHPnT/Ol8ubM/
-         fM18O4i9MQ2dz9GvYh9jsXzF2EUAHFVWeNI9QqTlAWp0u56gfW55mGagevGxDygIRr0m
-         2SSV5V0y8+7QvV12VUmii6dpi9rkExC63QNVQpJ1byTT7gT68v573Syl+E2PTYuKV6JM
-         tdLHhxPoFvP2CnYGeI/sBzb9yH3zaiT0GY35hIi0/uBGe3xBDfCHVgKqlm5bLO6wAIGE
-         Ggvw==
+        bh=tJPAUeqcPDcHR25845JGm+LTqot6ZIlgbI8Nj+SEXI4=;
+        b=gHEG5FoPzb2sCtBq0OgYANaMYyY8apWPiR9eSAkEpYP7iW4Nl4d/jiAIc8jOLTR/jz
+         ITW2cu6oZjdL8MGT3UMYDEsnAwimMNu5OtnQssU4cIIPDHFOCetZ+TO9o2VeknW3mxdR
+         MXxqvsuYP5teEUtfa5pUaMRZMZh2iyIiprsQFlXqXpgJfo0lhmCzsDD7dzP2UMKJf5nf
+         cdlrWLJz2do7Dhzs8abN2Uik8VdJoZpE9/qhJqtPMGG+v463qCXgKoglGN/LWl2YII7W
+         1pGDmi5ADVA5ppbHdNszHW6x69pTbsFlvrMB94+eIFfKyynJSlrpvU9fEUD/BM1qX/9Z
+         ktjA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532+P3sOipIoOCuhpMc9fslAyA13I6l9rCK+tI31APKcot8xsMv6
-	M1w/8x8hbDidSG0UWGdmAR8=
-X-Google-Smtp-Source: ABdhPJxOthEcj5SM7mpZx9az2jJBEutgoQEEBoEZQSB1ctWPebAVaCcjSIPG1ulmnZkZ783Mfm0n7g==
-X-Received: by 2002:a1c:9892:: with SMTP id a140mr3249983wme.187.1633535287620;
-        Wed, 06 Oct 2021 08:48:07 -0700 (PDT)
+X-Gm-Message-State: AOAM532MsgTXDk3BHMtWMpwFiUwyigYBpRpK7df+nfdX5AJ3oQNfQyZS
+	0n5g82/PV1KmDUan+Uje6t4=
+X-Google-Smtp-Source: ABdhPJxJ/MTIDKK2FPEY0NdOc6SE2m/jHtENadIa/aHyQdU82rd/pNIyOmhe+yBK9GhosOF2vRJ3/w==
+X-Received: by 2002:adf:97d4:: with SMTP id t20mr23196486wrb.174.1633535289955;
+        Wed, 06 Oct 2021 08:48:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:ef50:: with SMTP id c16ls696099wrp.3.gmail; Wed, 06 Oct
- 2021 08:48:06 -0700 (PDT)
-X-Received: by 2002:adf:8bd2:: with SMTP id w18mr29809982wra.432.1633535286871;
-        Wed, 06 Oct 2021 08:48:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633535286; cv=none;
+Received: by 2002:adf:a285:: with SMTP id s5ls712113wra.1.gmail; Wed, 06 Oct
+ 2021 08:48:09 -0700 (PDT)
+X-Received: by 2002:adf:f6c1:: with SMTP id y1mr29556903wrp.172.1633535289145;
+        Wed, 06 Oct 2021 08:48:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633535289; cv=none;
         d=google.com; s=arc-20160816;
-        b=URjaR61PQR/hk9FYZJEvdloR5RgRvMBHHp1k42OsUdLRPBMPcrfuoW/OtltZ4JUVjg
-         2/U1IzmVq3+W9ekIioZcrMC0bufReiSYjGnfJ8sV/+XKRygat5w/P4Fdv2u3kEUy9kEv
-         1N1L0chjmfDStVJ36HyUwRvAKR00pFzBhNj8aDoCa9WAlrw5P7h4lRhyBswOKym+h7R0
-         2vVw6unUZVbMhjBgmF96EcLrB3Xu5FeZm5YQR5kmsORaqXSnAZMqpj0OydloVdw5jvVn
-         cwjBBXb+WSJSWItZSs3PbECMd8t6fBYUG6OdBGj1Qe5BNDVUKIn0AZ2FFzZ2dv3THiFW
-         WSkg==
+        b=o7i2Za+v7GAayzbFekFogpsUT1LPJdxgAZx1bqAFV5VT4Yp4NiUo8Zb0tecGmi7B49
+         cdIU4RhkbMtjlsdAS9YZmZSEZ2yH75nPFDRCAec8R0DP/saI/i2vaTnyhl5Wlmrxv7aV
+         310d0iXvgaxra6HmWdmcRVGtYFElEr3uCi+zO5DyWWr9cAfm2hkfyXO9XWwBLT7QSCod
+         W22i0azd1s6QMXfHOGT8/HKkP0NAPpIGn2cNS5FLelgQdMZ18ERTrX9oOVqnRXgcgtqK
+         HXJHqGTU51X5xSj+CExi6Jlu8TdIFIfhfpiL57dxE9Nnhlh45F4BNZ/SbeXdeppT4Wt3
+         UTqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=05JdBgmGpRmNsIOtv2YBGao+hhN4a3vISq8zcxVsC2U=;
-        b=oWnyGjIGnp0VtF+o+CqIkl/byYSQR5ngZLvxdDbtJGuVagFfg/vFetE2u+RZXANtGr
-         vfjdsBrEJohetuNQu0M2LEk9GBPurv9wD0ESLgKBc/Z0KcB3caTu4AaBLzJH33jbDxHm
-         RKGRP7sPNIP4J7oDgQjD9DfH7tJZ6dtn+SzM8wGFkHSuLiNf6Go/OAWmTMTQrk9GRt+E
-         0v9J5rQJm6ehpECatDzCdPt6PHS/+visRn74rzz837a4RgoTQp/lYhF1lmlORGP+/oZM
-         3CmjSRvVhPhVvXpyaQ9zVWWfsShFYKmKm1sWwPXBMHof3frc76Cf4IxhFW2xLLHKxB+A
-         0Gwg==
+        bh=yTlERtHDIlPOQgOV1RlT1zTcUloBx5GrEDg5YkCAcAM=;
+        b=bxoqRKrF2g9Q+m8Yqs5aLtufRJhveoG57K+X+HBWeYBm7ZAMpnGB82PMHvhQw2WoxM
+         9by+0bgMbblW9C8M0+qrgLNFW8c0ju1dHE09AQbZMZRS/hfrlGpiBzx4EaFo1MJkJllr
+         rHI60V0Q8WZ14/dGL8lsGgxPoCr2DRYCe63QBZnKHNmhumt37WmHmcgIYDxptRgecdUT
+         XXCMIJP4pUCU+8CbLId7kEbUGLeSWnIYAI7sm66q0otWOBpKJBg8mIm4qOuvGOjlAgYk
+         gY7jQS/NX5Z8t1cpsT4fb8RkPFUEpXateQqXOmU7zK1kF6Z2Hzcw1xFUXO6eE7KUT3xP
+         JWOQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id p3si1087326wrg.2.2021.10.06.08.48.06
+        by gmr-mx.google.com with ESMTP id g8si1275961wrh.0.2021.10.06.08.48.09
         for <kasan-dev@googlegroups.com>;
-        Wed, 06 Oct 2021 08:48:06 -0700 (PDT)
+        Wed, 06 Oct 2021 08:48:09 -0700 (PDT)
 Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23CAF113E;
-	Wed,  6 Oct 2021 08:48:06 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FF656D;
+	Wed,  6 Oct 2021 08:48:08 -0700 (PDT)
 Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 42F743F70D;
-	Wed,  6 Oct 2021 08:48:04 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 590FF3F70D;
+	Wed,  6 Oct 2021 08:48:06 -0700 (PDT)
 From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 To: linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
@@ -113,10 +113,12 @@ Cc: vincenzo.frascino@arm.com,
 	Evgenii Stepanov <eugenis@google.com>,
 	Branislav Rankov <Branislav.Rankov@arm.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Subject: [PATCH v3 2/5] arm64: mte: Bitfield definitions for Asymm MTE
-Date: Wed,  6 Oct 2021 16:47:48 +0100
-Message-Id: <20211006154751.4463-3-vincenzo.frascino@arm.com>
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Suzuki K Poulose <Suzuki.Poulose@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>
+Subject: [PATCH v3 3/5] arm64: mte: CPU feature detection for Asymm MTE
+Date: Wed,  6 Oct 2021 16:47:49 +0100
+Message-Id: <20211006154751.4463-4-vincenzo.frascino@arm.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211006154751.4463-1-vincenzo.frascino@arm.com>
 References: <20211006154751.4463-1-vincenzo.frascino@arm.com>
@@ -139,48 +141,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add Asymmetric Memory Tagging Extension bitfield definitions.
+Add the cpufeature entries to detect the presence of Asymmetric MTE.
+
+Note: The tag checking mode is initialized via cpu_enable_mte() ->
+kasan_init_hw_tags() hence to enable it we require asymmetric mode
+to be at least on the boot CPU. If the boot CPU does not have it, it is
+fine for late CPUs to have it as long as the feature is not enabled
+(ARM64_CPUCAP_BOOT_CPU_FEATURE).
 
 Cc: Will Deacon <will@kernel.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Suzuki K Poulose <Suzuki.Poulose@arm.com>
 Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 ---
- arch/arm64/include/asm/sysreg.h | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm64/kernel/cpufeature.c | 10 ++++++++++
+ arch/arm64/tools/cpucaps       |  1 +
+ 2 files changed, 11 insertions(+)
 
-diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
-index b268082d67ed..f51d5912b41c 100644
---- a/arch/arm64/include/asm/sysreg.h
-+++ b/arch/arm64/include/asm/sysreg.h
-@@ -621,6 +621,7 @@
- #define SCTLR_ELx_TCF_NONE	(UL(0x0) << SCTLR_ELx_TCF_SHIFT)
- #define SCTLR_ELx_TCF_SYNC	(UL(0x1) << SCTLR_ELx_TCF_SHIFT)
- #define SCTLR_ELx_TCF_ASYNC	(UL(0x2) << SCTLR_ELx_TCF_SHIFT)
-+#define SCTLR_ELx_TCF_ASYMM	(UL(0x3) << SCTLR_ELx_TCF_SHIFT)
- #define SCTLR_ELx_TCF_MASK	(UL(0x3) << SCTLR_ELx_TCF_SHIFT)
- 
- #define SCTLR_ELx_ENIA_SHIFT	31
-@@ -666,6 +667,7 @@
- #define SCTLR_EL1_TCF0_NONE	(UL(0x0) << SCTLR_EL1_TCF0_SHIFT)
- #define SCTLR_EL1_TCF0_SYNC	(UL(0x1) << SCTLR_EL1_TCF0_SHIFT)
- #define SCTLR_EL1_TCF0_ASYNC	(UL(0x2) << SCTLR_EL1_TCF0_SHIFT)
-+#define SCTLR_EL1_TCF0_ASYMM	(UL(0x3) << SCTLR_EL1_TCF0_SHIFT)
- #define SCTLR_EL1_TCF0_MASK	(UL(0x3) << SCTLR_EL1_TCF0_SHIFT)
- 
- #define SCTLR_EL1_BT1		(BIT(36))
-@@ -807,6 +809,7 @@
- #define ID_AA64PFR1_MTE_NI		0x0
- #define ID_AA64PFR1_MTE_EL0		0x1
- #define ID_AA64PFR1_MTE			0x2
-+#define ID_AA64PFR1_MTE_ASYMM		0x3
- 
- /* id_aa64zfr0 */
- #define ID_AA64ZFR0_F64MM_SHIFT		56
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 6ec7036ef7e1..9e3e8ad75f20 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -2321,6 +2321,16 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+ 		.sign = FTR_UNSIGNED,
+ 		.cpu_enable = cpu_enable_mte,
+ 	},
++	{
++		.desc = "Asymmetric MTE Tag Check Fault",
++		.capability = ARM64_MTE_ASYMM,
++		.type = ARM64_CPUCAP_BOOT_CPU_FEATURE,
++		.matches = has_cpuid_feature,
++		.sys_reg = SYS_ID_AA64PFR1_EL1,
++		.field_pos = ID_AA64PFR1_MTE_SHIFT,
++		.min_field_value = ID_AA64PFR1_MTE_ASYMM,
++		.sign = FTR_UNSIGNED,
++	},
+ #endif /* CONFIG_ARM64_MTE */
+ 	{
+ 		.desc = "RCpc load-acquire (LDAPR)",
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index 49305c2e6dfd..74a569bf52d6 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -39,6 +39,7 @@ HW_DBM
+ KVM_PROTECTED_MODE
+ MISMATCHED_CACHE_TYPE
+ MTE
++MTE_ASYMM
+ SPECTRE_V2
+ SPECTRE_V3A
+ SPECTRE_V4
 -- 
 2.33.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211006154751.4463-3-vincenzo.frascino%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211006154751.4463-4-vincenzo.frascino%40arm.com.
