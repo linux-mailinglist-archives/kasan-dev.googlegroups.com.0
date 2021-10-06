@@ -1,124 +1,117 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBBXFB6OFAMGQEYDAM4KQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ27FVWWUFRBQHM6OFAMGQEAZFTWXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62F8423372
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Oct 2021 00:25:34 +0200 (CEST)
-Received: by mail-pg1-x540.google.com with SMTP id s19-20020a63e813000000b00287d976d152sf407523pgh.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 05 Oct 2021 15:25:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633472733; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FF1423553
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Oct 2021 03:05:06 +0200 (CEST)
+Received: by mail-pl1-x637.google.com with SMTP id n2-20020a1709026a8200b0013e2253d774sf530383plk.14
+        for <lists+kasan-dev@lfdr.de>; Tue, 05 Oct 2021 18:05:05 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633482304; cv=pass;
         d=google.com; s=arc-20160816;
-        b=g05l4j2qbqonJaQQoviAW/aSCtuGyGWR18NIMFvMyTUKELUue3dlA0Z7+5vDTGYZlD
-         n3kO9zlJNmm9IBCrwb5DfqwX5L3DcIhf/cJhhKJ/IGolycGfh8kjOuYNNhwbsGx+5mh/
-         pErEJ5lsHKUXbJt9H2wGkIPnBwk7rP4MJuXMbkdmtWA0GcbOdjoYfOTQU39H/qtPuNCq
-         C4rNt0L1ZdFdvypKsCmKro+M46Bns9LPq9Uys/7jgbvFlrjYiKAj4721BT0BnkBtUOS6
-         NU+EJOv+Rz25IJ0ReWa1c3sM4dlih/4HOqu2RMuyj3XQWx3rF4GGaqI0RF2a1GOPhrP3
-         PY/A==
+        b=lJVyi9ViJWmK7QmCF4OUZ6ST4CTTG+sHH4DlRzxLB2y4ZsoRGohms77rfeCYnwPCDP
+         eN2Rt6XmUsecJC3WclL6ghppZ6mCRR/jnG+tT+AaNWOXmsz0q7S0PpimfrGETOsvR1a7
+         TD5rkpmMjNLLZ60CGVhoWx3eYi+Rkjted/zwCPTj3k15Gq7H82zPeY75NikV+PItmIY2
+         PF46tcmL5ErYDOPhtXRi4sXMpXDP8aa8rcxzKpOiR1g7/hIfIe8scCH/0BYF1MeEBBpy
+         Vzu2fL8o82ZzR5AWyC/l3IU0iiPQyahpJvvjAQ00PO57fwiXv0uzvXfWdla8GRrFnvlL
+         ttOQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=BVqz7x6DMf4DeE/sfruVX1uxrxIvwgelFzy6O9+ZiL4=;
-        b=Luf5Ep7p46NzML2leknNj/LCFJkI4afPrb/dSWnFmeP1B2SrOBkLRB+WB0whcmARYB
-         RELfpirHCVjzRll8tCr4aKVWMev7gKnbBe6aADM4toL9lH2/jC6XHz/td34EeCcXZNI2
-         oyzrSiZy8Stb417hcST1xy/Ahi9Y7h0xCazvSnhadKuU2M7EsRtEs+H/bM8lqbIgaAcL
-         XJTbjQl9qzudVsEz8grTVdNgm31zXJAHSP22rMPNO8qitGsoZhckvS97/b9rGCRH3+hP
-         km/+z/0vo1eoSXQIqN8Oh+DuOaDZkyKRAOCz0OwIEjTfH2H4RI2wTHyLMJbw4cwPpx4k
-         SuUQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:to:from:sender:dkim-signature;
+        bh=F7z5zy8pjqmlKa1NMgIoqsSomyCkz7CeKMuFqWcnb2o=;
+        b=M1CoMkGjyj2IjAiQcl0pjPoz7FnsKeZTujr5lHezPYZKu/eo/EPDx8DbGMXbs9vV/5
+         jth2wocPocIjTUEpY5CMX4O3R7Bbqfjkj2GnU2FVxF2ShXQF1yAfhPX3pWCexz61ab1p
+         Eqd2xyh0MeeUc3y5TsPoetToYBrh+Q2VsF/Oe82hWZ76JHz99FHJtX4oejtvBEfka6el
+         96JzpJC9jAgnmBCRq5q5yK5G2HIqIbLJGeofdqQu2dkNZv6WLTkkyCqX2n/X7Zb36FwM
+         uVIxuQa6RznYvywmoThwgOeIAfCsZYtod8tHZ1mdBLIuIBYgAAks7iCPfxg4UOT1QWKB
+         ix1g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=BfBcw3+Z;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@axtens.net header.s=google header.b=TH36DqQf;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1030 as permitted sender) smtp.mailfrom=dja@axtens.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=BVqz7x6DMf4DeE/sfruVX1uxrxIvwgelFzy6O9+ZiL4=;
-        b=FGU5+8PulMTRx/jUm45pnS9CWZOzc+ntnneEM0ur/6346HRMQSNMVpfSxNwIsSIifl
-         r78/RLuagaqgKaHxLxTmxbR65i+GHUB3PJA+aKc3Opz8EyiqvPEsrNjcr4OS2oafI7t4
-         JQdzDLUAp2xktK9mIfpBfUmBRohi0bvS4SkQg6dXLq4gMSloSu5AQdnmSlyaqRXbGH4u
-         wtWGwAxBhjxkRaiT6o7XQEvZQad3rBsxAUscfCWJIR+Y91YghuIJfOFH1M7tJChhz9lx
-         f3mzbFdc9RcdhpnnVFrKyTYop5s90WFL/9Em85ErkP3E7Y/vxqIiD/OoXRFICRYt/AiL
-         1Jfw==
+        bh=F7z5zy8pjqmlKa1NMgIoqsSomyCkz7CeKMuFqWcnb2o=;
+        b=LpI1LKHGaUrC6FErHdfgIw6sm7fkmjPugGqzAa+hKjKg5a/nJje3SGLsU3HlQ2ocSE
+         qjWT6ZujFKPIZUOFjMaHeXSah981T8nqrTGhHeGJyFN0SOT1EnFEtnj411LVBO+Yytx8
+         JuOYPTKsdW6T7H71nazlnbgf58RvFsk1MPq0htHWpnwWl4bABuE9l1ZSOfkr5V+FULw6
+         HAiVliK/2w+F5PswrxBmmKBPgErFyTGVrLZS1U6O8COL4L1ZqadY6AUxrlZ9s8rfkW6F
+         /f/SwLhyJf5bp8SSQIzToczdWUudLor3fAf9NpADsTGDu7g+5PMfxllugYat0ks5xULd
+         29hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=BVqz7x6DMf4DeE/sfruVX1uxrxIvwgelFzy6O9+ZiL4=;
-        b=HtTMbPDNwX7M/dDABbbxsratPYVjHwF0QFivDifUHj3R2xNR6+NVjHuEoqk4zVCnHl
-         oeaqLKNMkPalViKawCjDsgqtremNA6fwu31hTXHBJf7SbQtJ85r4oXUdMrhLWz/p+Qoo
-         I2XchNZn2JdnbG338gyZ0NVP2gdf4bSfOUqzUO+BKKsFfBC6Ywayp15HikMauTRJX5JD
-         Lr+65RvrlQOqi/Z5D5IKqTnpDHVDNp4l4cQpk2TZenq3FzOS1NRB4MPYNzm3/R6t41Z4
-         4+6UdvouBfimv2pSFH5pOSbMQoeiPEy3rxLEpI/SSORouz276vz7G+tt1DAVFpY9qB93
-         R8pg==
+        h=sender:x-gm-message-state:from:to:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=F7z5zy8pjqmlKa1NMgIoqsSomyCkz7CeKMuFqWcnb2o=;
+        b=U/x3rWPwzaeXwaxgj+juLc9co3q0iTOpjjjMWkUbdinOpUpwR2jRlmmV7ScOg3goqH
+         SEJuObdm4J2dn94WOtBqm857kkknkNI8A0d4R4r0lPXdfrKZjxLeXz5XyDyXyjmdgvx0
+         Be0qNkddTKncZoD+ccOfmD+PKgcLS5GPZ90GWWcleJk7Xx4uSZq8vICwm2a0sgXtW7H3
+         1+N4cJ6GousQmhmm0LVSRkvn3c4QuljV8REoCw7igvL1CiWt8OK9Mfv/OCv6YY7Smo23
+         M8pXxd5K4JS5g7RKu/WeBA1aT+a2g7IPO6C16KgQ5K4DeUN/s+sdR2/Whiqz3eUdHzt1
+         0DEQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5335DMQdI4x4cBjmOoPy00KOcVg9mrbBKRtKi8XNJV9K8yemZU+K
-	NOLajZFiWc5Usmw2K3l/uvU=
-X-Google-Smtp-Source: ABdhPJzIZSgqksy/dji/kkgHj/j1EHP45VL4UUHgAbsC9yT/mwV0z/ZldSCAH7VuDeaF1ZHoWn7CDw==
-X-Received: by 2002:a63:4766:: with SMTP id w38mr5605069pgk.104.1633472732978;
-        Tue, 05 Oct 2021 15:25:32 -0700 (PDT)
+X-Gm-Message-State: AOAM532Mq5W7ODVyROeKHryxL7uTAgxoHtcp4aJmF7GqWiV+JxUUZ2pY
+	u8xOJm1NqyGByZkYiIzhKdc=
+X-Google-Smtp-Source: ABdhPJzi0fMcQDVdBeLI67gUZDE+osC7xEpcM5R1eJjRcq/JaiLgHzJs4RMMLqk1LM3wyVbuntN6ZQ==
+X-Received: by 2002:a17:90b:354e:: with SMTP id lt14mr7403687pjb.244.1633482304406;
+        Tue, 05 Oct 2021 18:05:04 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:3d45:: with SMTP id o5ls1914853pjf.1.canary-gmail;
- Tue, 05 Oct 2021 15:25:32 -0700 (PDT)
-X-Received: by 2002:a17:90a:2:: with SMTP id 2mr6690378pja.77.1633472732386;
-        Tue, 05 Oct 2021 15:25:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633472732; cv=none;
+Received: by 2002:a17:902:dad1:: with SMTP id q17ls965969plx.4.gmail; Tue, 05
+ Oct 2021 18:05:03 -0700 (PDT)
+X-Received: by 2002:a17:902:7c17:b0:13e:2dd5:e5c4 with SMTP id x23-20020a1709027c1700b0013e2dd5e5c4mr8190007pll.68.1633482303834;
+        Tue, 05 Oct 2021 18:05:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633482303; cv=none;
         d=google.com; s=arc-20160816;
-        b=suCOEw6mzNvBKcBL9FsTabW4SZKOODhrvb4TJV+LBXP520AVToftFSP2BFX+d2Unev
-         GeWUUyo2TfdC13e1AlWoLrUHrw1F6kAeDhtp9gLcGLc3sWtXcotgwyVrpfT6nOyNN6Gr
-         zjksEJddY2sIc9Mh/bJbju1LvBbdYJtaOwR5qsqJqZ6DXXCt02sRsQbrcsQ1oS2x9qY7
-         nSu0IEqlAQI4ADv/9CvNae8ILHHGJM47Shqb8oyIW9FKF0MN/TjHjdCiQ9bOPWNXBsNA
-         A2TdbcttrN4cl9a6Rq3qwme8acOoXNpje69UnJlqTTHlqE8J6oOrFvpclz9478c9tBYu
-         ZgZQ==
+        b=sHNQW1nkYh9mcBH/hqWCLFvLcZXB7XlzYreEHax8t2Bt4I3w6qv+phBulZ77QrtL75
+         OXp5lwoVqxX/SYSGFo4BDtsxABnJxNsrtYEW+tN3MjUG24kZjDnTe4ARm8VZIIX26AJ8
+         /2UWZgW9NIwOU1TIoZ6hxMZAi/4i7iVIueRtKBpUnKXC2wKWE1w89fl0jpT3fsAkQdzK
+         pmhtOmz2ABdMY4aulRM4FCJH+gX7IlMb8vgA2hzMzKOXvlqs2nSPHo0M3L+8ezPtvN3B
+         fdMskTDRvEB9TZhQeW2SvX9c3u4bQfyN9ht3KEvM6yLx3rTlbeZJFPJZW4yUnbJjh8JA
+         TWQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=Mdt2pgtWJcUTVNMfmThEtanXEApEt1CeHU/ndKrSJos=;
-        b=o9O5OTvzV36gSZiZkJz6bhsnTuDMGUtYaFuuC9TyUO3rLn1r1yRegwCKbqHsgvCnkT
-         e2E4g4GzOUdLXTCRbspaMuDI3es6a+Xk8WWRp0Df5ywljOmdFuZo3LkmXSy4Tb2Z67Nn
-         HN4jJsKNK/1AjIZiQb/aUWGHIj3Seb/lFDKNDK/JBFiRFgg4sUuM4B/RFZAB2qFAMkUc
-         U4/4OCZ3wwqwpv6BbNW+5FzcmSxyYZy6Ov64YVXkRt9gGhr87H+WuQty2NiLQ4aURQve
-         bfrDqDZmI36FD7TwOfItkyfqsWAMdPVthIOQqfRc6Y/1lL3FbOMyrWd16AROfjuXSv4k
-         puWw==
+        h=mime-version:message-id:date:subject:to:from:dkim-signature;
+        bh=A4VJniHKXgRvhM9CB9NqAoMDuZnGdMIB2tESsniPS5Y=;
+        b=NVTg0LAgH/xAFxYAhnaVFff/X1utvQKhYDTKcWEua4/EvweouqPNZqjzLVRKXsvzXT
+         nOc4YBiM4P61W/PKDPti/pyY7QBn4QwdeCq5ikY0F2+oaC8gbS0YHUXd9MO+uyyd6Lkr
+         9CxFIanOi9Fk8h4+cZpuASkDRATM5qUdHnXEIsADwsHQ2FBlSyBEcz2fRYOiSqjzBa8c
+         AjE/6SPaQ85cwA2LrKrwGUIk3Gkmd0BvjBp3x/AB7q4yXKHorGv7gTkXQ5plXFt9YIUE
+         thO0EFCeGE6G7kz31qNy5g1O385aApN/IbfbtEI3rgwVL4VbvnU2WTHdoy9I1hmqgV7K
+         4MIw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=BfBcw3+Z;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id r7si339789pjp.0.2021.10.05.15.25.32
+       dkim=pass header.i=@axtens.net header.s=google header.b=TH36DqQf;
+       spf=pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1030 as permitted sender) smtp.mailfrom=dja@axtens.net
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com. [2607:f8b0:4864:20::1030])
+        by gmr-mx.google.com with ESMTPS id m1si420185pjv.1.2021.10.05.18.05.03
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 05 Oct 2021 15:25:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AC2566108F;
-	Tue,  5 Oct 2021 22:25:31 +0000 (UTC)
-Date: Tue, 5 Oct 2021 15:25:31 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, Andrey
- Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko
- <glider@google.com>, Marco Elver <elver@google.com>, Evgenii Stepanov
- <eugenis@google.com>, Branislav Rankov <Branislav.Rankov@arm.com>, Andrey
- Konovalov <andreyknvl@gmail.com>, Lorenzo Pieralisi
- <lorenzo.pieralisi@arm.com>
-Subject: Re: [PATCH v2 0/5] arm64: ARMv8.7-A: MTE: Add asymm in-kernel
- support
-Message-Id: <20211005152531.9b1443e659f4200cd4d7182d@linux-foundation.org>
-In-Reply-To: <20211004202253.27857-1-vincenzo.frascino@arm.com>
-References: <20211004202253.27857-1-vincenzo.frascino@arm.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Oct 2021 18:05:03 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1030 as permitted sender) client-ip=2607:f8b0:4864:20::1030;
+Received: by mail-pj1-x1030.google.com with SMTP id oa4so216496pjb.2
+        for <kasan-dev@googlegroups.com>; Tue, 05 Oct 2021 18:05:03 -0700 (PDT)
+X-Received: by 2002:a17:90b:4a07:: with SMTP id kk7mr7417246pjb.37.1633482303184;
+        Tue, 05 Oct 2021 18:05:03 -0700 (PDT)
+Received: from localhost ([2001:4479:e300:600:ce15:427:ed6f:99de])
+        by smtp.gmail.com with ESMTPSA id e4sm14781238pfj.130.2021.10.05.18.05.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 18:05:02 -0700 (PDT)
+From: Daniel Axtens <dja@axtens.net>
+To: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, Peter Zijlstra
+ <peterz@infradead.org>, paulmck@kernel.org, rcu@vger.kernel.org
+Subject: instrument_atomic_read()/_write() in noinstr functions?
+Date: Wed, 06 Oct 2021 12:05:00 +1100
+Message-ID: <871r4z55fn.fsf@dja-thinkpad.axtens.net>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: akpm@linux-foundation.org
+X-Original-Sender: dja@axtens.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=BfBcw3+Z;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ header.i=@axtens.net header.s=google header.b=TH36DqQf;       spf=pass
+ (google.com: domain of dja@axtens.net designates 2607:f8b0:4864:20::1030 as
+ permitted sender) smtp.mailfrom=dja@axtens.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,19 +124,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon,  4 Oct 2021 21:22:48 +0100 Vincenzo Frascino <vincenzo.frascino@arm.com> wrote:
+Hi,
 
-> This series implements the in-kernel asymmetric mode support for
-> ARMv8.7-A Memory Tagging Extension (MTE), which is a debugging feature
-> that allows to detect with the help of the architecture the C and C++
-> programmatic memory errors like buffer overflow, use-after-free,
-> use-after-return, etc.
+commit b58e733fd774 ("rcu: Fixup noinstr warnings") adds some
+instrument_atomic_read calls to rcu_nmi_enter - a function marked
+noinstr. Similar calls are added to some other functions as well.
 
-I'm not sure which subsystem tree you were targeting here, so I grabbed
-them.  I'll drop the -mm copy if this material pops up in a linux-next
-via a different tree.
+This is causing me some grief on powerpc64 while trying to enable
+KASAN. powerpc64 book3s takes some NMIs in real mode, and in real mode
+we can't access where I'm proposing to put the KASAN shadow - we can
+only access it with translations on. So I end up taking a fault in the
+kasan_check_read path via rcu_nmi_enter.
+
+As far as I can tell `instrumentation_begin()` and
+`instrumentation_end()` don't make it safe to call instrumentation, they
+just tell the developer that instrumentation is safe. (And they are used
+to check the balance of _begin()/_end() blocks.)
+
+Is the underlying assumption that the KASAN shadow will always be safe
+to access, even in functions marked noinstr? It seems to undercut what
+an architecture can assume about a function marked noinstr...
+
+Kind regards,
+Daniel
+
+P.S. On a more generic note instrumentation_begin()/_end() is now
+scattered across the kernel and it makes me a bit nervous. It's making a
+statement about something that is in part a property of how the arch
+implements instrumentation. Are arches expected to implement things in
+such a way as to make these blocks accurate? For example in
+arch/powerpc/include/asm/interrupt.h::interrupt_nmi_enter_prepare we
+currently sometimes call nmi_enter in real mode; should we instead only
+call it when we have translations on?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211005152531.9b1443e659f4200cd4d7182d%40linux-foundation.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/871r4z55fn.fsf%40dja-thinkpad.axtens.net.
