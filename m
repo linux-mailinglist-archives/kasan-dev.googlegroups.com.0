@@ -1,140 +1,132 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBW5I62FAMGQEW267DHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCOYZDMZ6UMRBUPB62FAMGQEDFGK7DI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41199423D9A
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Oct 2021 14:19:41 +0200 (CEST)
-Received: by mail-pj1-x1039.google.com with SMTP id v10-20020a17090ac90a00b0019fc1829462sf2476486pjt.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Oct 2021 05:19:41 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633522779; cv=pass;
+Received: from mail-wr1-x43d.google.com (mail-wr1-x43d.google.com [IPv6:2a00:1450:4864:20::43d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 078F5423FF4
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Oct 2021 16:21:06 +0200 (CEST)
+Received: by mail-wr1-x43d.google.com with SMTP id r21-20020adfa155000000b001608162e16dsf2176940wrr.15
+        for <lists+kasan-dev@lfdr.de>; Wed, 06 Oct 2021 07:21:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633530065; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WVDGaP/jZpnf6vhK9fmET7MGkApCRcdAOQ2LnSb/A0TpT/SbK1aD7cRXe+DvIV59VW
-         SJm+JIo+hkzcMwYdbaxT0rgt1Nn0b8CoSyQ6toJgsyNwRdz7rxIhdnhj+u2tpmKLa60T
-         D4OEJ+0Zjg/E37q27Eo9pcsU2GCVKdan0aX/WZ7auMML0mQ/FEJp1rwkJYVorJ3wTNre
-         QIfrzrtgvHSdDDfuDMoRcRAR3pgs/CqmedNTgs8mh1Y4tAJHrnEO8gphoTS/BnsOydM5
-         B6nDxb8hfERqP2TPJYTm44wx8JktS6pzsNEfp9/OnzF1sTfjraq3MeNaHvpZkaDXXcFJ
-         gonQ==
+        b=xdyqx9kGBFN+Q8pyA6H7pm29n4P0tp1o/ANP7DY5g4J6WBfvr8zac12jpEqRzvSkYD
+         TShuLL70yIXRSd0ij8uLvncQt+oAqFO2JTwfQLPTBPs6OJWN3uF9I2dOucvmZ67VuTGA
+         vdg6/xRdDXNK8JsxpxSPMnpXsYM9H/CEO94vSbLBPANgEexuWgf14GAQ2fHq6fSg3c7k
+         T3AtcgnNw3yi3D/OGHoo83CGuKCP8NXkVNQtK1UHyopzPdtrrP8OynxVqJrcqcRTXFaP
+         or8VBXo+jU9yOCQxijyppzfWFXbv1cPz6LOBPmJLzwFz7MLxJ7f5fBbjgDZw0N89WtxT
+         QTZQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=asMJmL9S1LPgY7jDn5oQkApEvq2TSiU0Y6kXS9/ycUM=;
-        b=VZntZRwYYY4BN4nlv+cWpwsvc58DY5u7NyoH6N+xIkXvUbuMMP6Qi/t8P3Y2QfhppE
-         gtHI0nzHziglC/jfDml+XMdvOuCldokv5fwzDS610otALcyWyfg+nrWPzpjw2M2Mb/jX
-         FTrXWwOzQy42ibC9JTzGzLjoe1yz4G8z8j9UL/0a4O6j5LbUPA+yPAghdly2R1rDsEz3
-         1+Spjn+Vj7GIk1TIqZm90Vpu1Xum+ZNVfb8qmafl1/Atp5cBzuH05c/EXF3BzmpE0+Z+
-         jurOtBDGh7e1ZsSjshFsRsEB5mKGpDJ6eNbRA2lOnb2MkX6F7skmZ514kCTi3SmScwkr
-         WSeQ==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=ThiJru5GAfxt5Kcob9RYWjpLTvOhy7+5ubiUwWNkOV4=;
+        b=RX6+yttxIV++OE7/k/Wbqa/0iJu35FWDBQz+3rrEHk3CIpozrE8+FjUPaYaCrXePa0
+         U/E15s3yOTzWvTyrQFnmoz2rDndOzHzqfCho/V7/dotoEzCWgm0Jz2RmSlF34JWCumiF
+         jt2MqBdDuzMeg5ZhztYPvF+o6/Ur+IhSbT67aEU5sxs1jkt+FaBFkmSBLt4YqyyjpG76
+         E+IcLAyjtHGUwIEC2OZTW39dGlr/M2Kjt/Wg/c998ux8+lA1aANCRCCP0tXLhsjiGNwg
+         s00Tlp15Sie4YP5OdXyE1Gcca8vtKMQln92e/CcZy1SxLOXGq5L6XxvXrMY+D0Gk9JCM
+         v1hg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=hqCNaDzb;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12c as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=asMJmL9S1LPgY7jDn5oQkApEvq2TSiU0Y6kXS9/ycUM=;
-        b=I/+7yhjsbTRpZB+mquR511BKuGQVYx2QiHQK+WkwSTTfZ/a0hIN67Pkp1LQcjryJdY
-         cKMWFja7TQXPfuUow1rJATuDq+LaqI/hvwMsWWe1klCpbEmvIeSOBOUWO11qTMLYkDaN
-         nJQHlhSYbvlVdYM+ywizyHTjQL77cVclY5KqiCyViYk91InOjTPDdASboA6pmnUqQ62g
-         6sKJ+g8W0JgjcasRRTdALlH/bxDhChXVx8NduzhYM2n+ZxsmNxwqGyvYn/KJQgt/fvQf
-         nS6VpO7OjW1D4+XgbbQARUuQtM03gJ/+5J4Xh/6CFvv2PukNOzUKaJBwZDUluSBDg6oo
-         Epxw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=asMJmL9S1LPgY7jDn5oQkApEvq2TSiU0Y6kXS9/ycUM=;
-        b=qKlfvAD/whH9qYAVUZ5hHGhZbXwp18dPfFLj+/e/nUmEeKdrcZF16fT3Bh9b6D/Fko
-         LLdg/eNR+t4PMxmsVS7OIwYHP+nIf/3iAa6NQMoxIsixtzXdssnMM9ch/BjHHgPODpCZ
-         rOWlEKxOKks1aVq7Tr1gXJTla4rW5T+Nj2q6Ej7+iadw5+Su/OWJqpxNIy+7ziiJVQ3p
-         WLnLyQ53WXGjXuPWTjQcnl+r342bvhFNTurLZqLelOZ/pFsC9pMOJIBLxXE4v9062fFr
-         hUuuOZ+bceydyZJaS7Jn5GOFNVC7DfcIQfVNNJgjsyOrlNpyJC1r8YTHhIXrxlfGjJhJ
-         JaNw==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=ThiJru5GAfxt5Kcob9RYWjpLTvOhy7+5ubiUwWNkOV4=;
+        b=QCtw/9UWZbKoCp2pW/pARo2jbWDAoAvnSGb8H2txOf0Ox5NcfkO+6W3niBRWuYoroj
+         jb8k/Q3ObpQ2FIAPbD51uFxI5V6ZK9vELnd3ZcN15vJWXNbsjVFs7vRCxr6oDqv6pYzl
+         LEn2kAWGkimEVotUue8Dh/Sy/2rLx6NAFxTO2DBEIpgIcTwX/MvqQIJn6eLX9kvOYPgn
+         XxMuBPIdZfRxGyKgtXfjvBZQ0D4pDD0phanIbi+LsKY3aP4hcFpVTDq1wroxvDIJOWC6
+         OP+akki4xdyUfmAmGfoFc9t6bmveT2kIGCeWs0fMrfqejx17cUBnYVfwM6x08aPWTfSk
+         Uq3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=asMJmL9S1LPgY7jDn5oQkApEvq2TSiU0Y6kXS9/ycUM=;
-        b=7/oIJiyvFkpeu8KoEPUayqrynHo/K/GuKwBRyikuXKE/gD/S1LeLYHYAV0xBdn9BKo
-         NGTii6GjmQLKV09UQVB13NQT7VdC4aJ9/HNhj/K1vyog8y2evfwrmVc8XyEnv5gtX+NF
-         P0hAC3zIVTBQdAm6cORgPiAWqWPoVedUO3bSFkWKL23YX4XBHryC1nypV05akXGjW/dt
-         oOh2+BtRCSZrEPNIvpIOS1XrN1rUOc4UfRnoFnBMy5RBpde5oAkXXr0K3OyNwb3E4ugf
-         NSTvFQv5AkYLBxN+P6XpO4Vx+W2lfgWhTVNuviLGCRVZH5ingHv8ixyw6ylgMZke4vPO
-         OC/w==
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=ThiJru5GAfxt5Kcob9RYWjpLTvOhy7+5ubiUwWNkOV4=;
+        b=hpKcFqlOiLbPOC47X5YEMlHs8Qvb7DlyOy0ofOJLa9A7RIJ2ya+9I4mMso2Bl3CESX
+         0M3TeGboKf48XTeq/Oyw4dJUyleNReibfyd4mfZbkk+SrRDIRMyqrkxat4panZ0ynUY9
+         LEpJq1p7RR4yXZfqrx3ZXTjMsslCl0YSZAPlGTUOZJQ5FyNDxv1t25WDHZfMciNKmSKb
+         YXqoxePoYU+KJdyUiblUBwFaO6V5sg/SWXDuU46vs/zl8baM1XQ2E5wknopg4ggKlW+Y
+         +3hkbzKpXBkrLB7CkxG3tE/BRmUx9oZuTV36iYVH0ZaXF8c+GfbMhGbyg/iKdaObbWNu
+         8o+g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532ESdEJNMLHY4k7rHb2bjQvJ8sWEkk6Ln7BNmxXv+4mmVBXQ5Qt
-	d7c/BcmO5Dsh3NLiS5w0lA4=
-X-Google-Smtp-Source: ABdhPJw5v9fpwJfXTAHhtroLjMPKPJgl086tivG/3tnC7bmakUsZX5slFI/zPQOXmwOlwT8XNS+8RA==
-X-Received: by 2002:a17:90b:fd2:: with SMTP id gd18mr10662288pjb.219.1633522779775;
-        Wed, 06 Oct 2021 05:19:39 -0700 (PDT)
+X-Gm-Message-State: AOAM531OqG2K1KEX2W11qcdsX6TlgTFaCEtap/d+qk6ngmS3VfhZng4Q
+	Kudjr5E1I50tvDbbtWWVyv4=
+X-Google-Smtp-Source: ABdhPJw+dnrauhQduNzXnOdQArEPtFzGKnU4OO+MkFZTaT8gjGL209J1iQBz+OFspxnin+v379EDoQ==
+X-Received: by 2002:adf:fb0a:: with SMTP id c10mr30340810wrr.354.1633530065720;
+        Wed, 06 Oct 2021 07:21:05 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:ba97:: with SMTP id k23ls13690350pls.10.gmail; Wed,
- 06 Oct 2021 05:19:39 -0700 (PDT)
-X-Received: by 2002:a17:90b:3144:: with SMTP id ip4mr9783766pjb.23.1633522779198;
-        Wed, 06 Oct 2021 05:19:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633522779; cv=none;
+Received: by 2002:a7b:c4c3:: with SMTP id g3ls110028wmk.0.gmail; Wed, 06 Oct
+ 2021 07:21:04 -0700 (PDT)
+X-Received: by 2002:a1c:4487:: with SMTP id r129mr10135050wma.127.1633530064911;
+        Wed, 06 Oct 2021 07:21:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633530064; cv=none;
         d=google.com; s=arc-20160816;
-        b=e55uiCf2YkP/v9aLlQuWaJOaO+CA4tCEgVzAm70Qb8leiutl3dQbB7sW+BmPN0jdsZ
-         NEN91n6U1twaUWTJ/gkur9KuHZqtuT0BUF20ssLEgGMvpVXEV9Ds8GPac1Mw6ttCf58u
-         dbzfie7G7xk5Ep+eSoEj8cPesmH0Dv1CzVnWqhrl3Gp1dI3oCcG9sOP8c9pgFzaobPmJ
-         T7asKxHtsWqXu3cRNSV6iKW1YlVaDCVdEo9ECM2Yv3vn18QM0J0jlh1K7eFFUdlc8Ay8
-         FZh1MPNY7T6R76kmKEbrE8QfxF+Xbh2rOkqV/HzW4eppRxxaNCrNqc88nOSWba4I/dYk
-         uAfA==
+        b=GtzaKCjM0g/qOLVhalLZSA5GTzYDMfBEuQBwM7oq2bwt/ndv6J/x6bpAJq19UUfiWI
+         tpxGMUUBOqHCKzTq6H2wXQGZS0HiMHeEUU/1BrNedVU8I3dym2wX56opQOR1KV7notDB
+         x1JABUPiAE8vDIe/ThnnlP7FiadmOGYcFy68tv2rubacL2jpGlvSy6DgYp5GpZeD2Mno
+         itpX343ASTqg23ho0ra0x2El0yvHPTHn50C9MTDnhKW7ZDSAr81lXrfj54k7mqJAjQ9p
+         bs+bVvKJrCgFrP1BeWE/XCZOTlZy8m8W44D6rIAkbFH0LSnqk9PLroCt0ga8I3zKu/KZ
+         2l3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=EPyyphJxeyPemnnSLcLAKB5S740xdXOZ+FC+Ivvdl7M=;
-        b=oYX7UTMRQ4oHBsRNFve2CbnJFnU9zXv4co12RnT52OdpFNVJ6ZSEPT4E3zA9daDPBG
-         qegQUHK1IneHLQvele1Gv2Ss4jxf91puAYeejhLZhdHU4GFvuYyH5ENqZhlly9Sgr8nF
-         N0T2B5oZ4eYil2pqnqSrSxgcSFB/2g97z/b5KAcFB6JHC/qFUMydRoitMLJeKKAyg5Q5
-         TtH0ZihogHbtVPsheMFX/AECDSRw3HjnJhq8OByQp4KBXFuV49efiAUpH8ijxgwRC7Wd
-         MhBDD4UsjEnV7FR90YG7E5zxc5yjYQVZXz3xy3MwrMOaRu2mrUNsy25kutjLrs0+XV4l
-         QNjg==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=ohvhA8TkYGwx1WO19Kid1C/JRXXLWrJzCZ7XLi6xYaY=;
+        b=TCpjprqNWE17FpEWMJJEN6/jgA7JnTPOPZ4AC7n2kcTCXfzvk7FRpaAfE0QuXC8RpW
+         XL+StM3Mj6Q4EkmSZeNNkS3vsWCjB8KsyoY6I1196wBFRDhLfY5H5oNW3yTkMKL9gigp
+         K9EUW0hn1OgRJ5xgfY7or5iwH1c7foweM28B0u7uKITo+CsqzpE6TTY/rfbCmUimyqfj
+         ocM3x2W3+gBqIXV/UgRc6ZGsWI6T2T4+/HCuSR6hbH3wsNJkcC8DLTRSHu+TEt8QjzK5
+         zW5kT+SlXU3tw1XgA2u4svTSZ4CKixqlqV4A93auBA5miVypykBmwqInJMVsstZ3AIrT
+         Vz2A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=hqCNaDzb;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12c as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com. [2607:f8b0:4864:20::12c])
-        by gmr-mx.google.com with ESMTPS id o2si521886pjj.1.2021.10.06.05.19.39
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Oct 2021 05:19:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12c as permitted sender) client-ip=2607:f8b0:4864:20::12c;
-Received: by mail-il1-x12c.google.com with SMTP id t11so2607545ilf.11
-        for <kasan-dev@googlegroups.com>; Wed, 06 Oct 2021 05:19:39 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1d1e:: with SMTP id i30mr7393102ila.248.1633522778960;
- Wed, 06 Oct 2021 05:19:38 -0700 (PDT)
+       spf=pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id e2si1245933wrj.4.2021.10.06.07.21.04
+        for <kasan-dev@googlegroups.com>;
+        Wed, 06 Oct 2021 07:21:04 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 078996D;
+	Wed,  6 Oct 2021 07:21:04 -0700 (PDT)
+Received: from [10.57.43.152] (unknown [10.57.43.152])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E4CFC3F66F;
+	Wed,  6 Oct 2021 07:21:00 -0700 (PDT)
+Subject: Re: [PATCH v2 4/5] arm64: mte: Add asymmetric mode support
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin
+ <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>,
+ Branislav Rankov <Branislav.Rankov@arm.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+References: <20211004202253.27857-1-vincenzo.frascino@arm.com>
+ <20211004202253.27857-5-vincenzo.frascino@arm.com>
+ <CA+fCnZeL48oLd8bbWgxomc6WnS4e53a7K6SwBpKBJND4f03f7A@mail.gmail.com>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <2d03d87b-5ea8-8b2a-eae6-ae70c7e9d855@arm.com>
+Date: Wed, 6 Oct 2021 16:21:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20211004202253.27857-1-vincenzo.frascino@arm.com> <20211004202253.27857-6-vincenzo.frascino@arm.com>
-In-Reply-To: <20211004202253.27857-6-vincenzo.frascino@arm.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Wed, 6 Oct 2021 14:19:28 +0200
-Message-ID: <CA+fCnZfuu3MLgeSJONqKaXMzkBsGxTQYjTtF0_=fMf4dGGQZCw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] kasan: Extend KASAN mode kernel parameter
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, Alexander Potapenko <glider@google.com>, 
-	Marco Elver <elver@google.com>, Evgenii Stepanov <eugenis@google.com>, 
-	Branislav Rankov <Branislav.Rankov@arm.com>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+In-Reply-To: <CA+fCnZeL48oLd8bbWgxomc6WnS4e53a7K6SwBpKBJND4f03f7A@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=hqCNaDzb;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12c
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Content-Language: en-US
+X-Original-Sender: vincenzo.frascino@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vincenzo.frascino@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=vincenzo.frascino@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,262 +139,24 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Oct 4, 2021 at 10:23 PM Vincenzo Frascino
-<vincenzo.frascino@arm.com> wrote:
->
-> Architectures supported by KASAN_HW_TAGS can provide an asymmetric mode
-> of execution. On an MTE enabled arm64 hw for example this can be
-> identified with the asymmetric tagging mode of execution. In particular,
-> when such a mode is present, the CPU triggers a fault on a tag mismatch
-> during a load operation and asynchronously updates a register when a tag
-> mismatch is detected during a store operation.
->
-> Extend the KASAN HW execution mode kernel command line parameter to
-> support asymmetric mode.
->
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> ---
->  Documentation/dev-tools/kasan.rst |  7 +++++--
->  lib/test_kasan.c                  |  2 +-
->  mm/kasan/hw_tags.c                | 27 ++++++++++++++++++++++-----
->  mm/kasan/kasan.h                  | 22 +++++++++++++++++++---
->  mm/kasan/report.c                 |  2 +-
->  5 files changed, 48 insertions(+), 12 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index 21dc03bc10a4..8089c559d339 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -194,14 +194,17 @@ additional boot parameters that allow disabling KASAN or controlling features:
->
->  - ``kasan=off`` or ``=on`` controls whether KASAN is enabled (default: ``on``).
->
-> -- ``kasan.mode=sync`` or ``=async`` controls whether KASAN is configured in
-> -  synchronous or asynchronous mode of execution (default: ``sync``).
-> +- ``kasan.mode=sync``, ``=async`` or ``=asymm`` controls whether KASAN
-> +  is configured in synchronous, asynchronous or asymmetric mode of
-> +  execution (default: ``sync``).
->    Synchronous mode: a bad access is detected immediately when a tag
->    check fault occurs.
->    Asynchronous mode: a bad access detection is delayed. When a tag check
->    fault occurs, the information is stored in hardware (in the TFSR_EL1
->    register for arm64). The kernel periodically checks the hardware and
->    only reports tag faults during these checks.
-> +  Asymmetric mode: a bad access is detected synchronously on reads and
-> +  asynchronously on writes.
->
->  - ``kasan.stacktrace=off`` or ``=on`` disables or enables alloc and free stack
->    traces collection (default: ``on``).
-> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-> index 8835e0784578..ebed755ebf34 100644
-> --- a/lib/test_kasan.c
-> +++ b/lib/test_kasan.c
-> @@ -88,7 +88,7 @@ static void kasan_test_exit(struct kunit *test)
->   */
->  #define KUNIT_EXPECT_KASAN_FAIL(test, expression) do {                 \
->         if (IS_ENABLED(CONFIG_KASAN_HW_TAGS) &&                         \
-> -           !kasan_async_mode_enabled())                                \
-> +           kasan_sync_fault_possible())                                \
->                 migrate_disable();                                      \
->         KUNIT_EXPECT_FALSE(test, READ_ONCE(fail_data.report_found));    \
->         barrier();                                                      \
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index 05d1e9460e2e..87eb7aa13918 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -29,6 +29,7 @@ enum kasan_arg_mode {
->         KASAN_ARG_MODE_DEFAULT,
->         KASAN_ARG_MODE_SYNC,
->         KASAN_ARG_MODE_ASYNC,
-> +       KASAN_ARG_MODE_ASYMM,
->  };
->
->  enum kasan_arg_stacktrace {
-> @@ -49,6 +50,10 @@ EXPORT_SYMBOL(kasan_flag_enabled);
->  bool kasan_flag_async __ro_after_init;
->  EXPORT_SYMBOL_GPL(kasan_flag_async);
->
-> +/* Whether the asymmetric mode is enabled. */
-> +bool kasan_flag_asymm __ro_after_init;
-> +EXPORT_SYMBOL_GPL(kasan_flag_asymm);
-> +
->  /* Whether to collect alloc/free stack traces. */
->  DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
->
-> @@ -69,7 +74,7 @@ static int __init early_kasan_flag(char *arg)
->  }
->  early_param("kasan", early_kasan_flag);
->
-> -/* kasan.mode=sync/async */
-> +/* kasan.mode=sync/async/asymm */
->  static int __init early_kasan_mode(char *arg)
->  {
->         if (!arg)
-> @@ -79,6 +84,8 @@ static int __init early_kasan_mode(char *arg)
->                 kasan_arg_mode = KASAN_ARG_MODE_SYNC;
->         else if (!strcmp(arg, "async"))
->                 kasan_arg_mode = KASAN_ARG_MODE_ASYNC;
-> +       else if (!strcmp(arg, "asymm"))
-> +               kasan_arg_mode = KASAN_ARG_MODE_ASYMM;
->         else
->                 return -EINVAL;
->
-> @@ -116,11 +123,13 @@ void kasan_init_hw_tags_cpu(void)
->                 return;
->
->         /*
-> -        * Enable async mode only when explicitly requested through
-> -        * the command line.
-> +        * Enable async or asymm modes only when explicitly requested
-> +        * through the command line.
->          */
->         if (kasan_arg_mode == KASAN_ARG_MODE_ASYNC)
->                 hw_enable_tagging_async();
-> +       else if (kasan_arg_mode == KASAN_ARG_MODE_ASYMM)
-> +               hw_enable_tagging_asymm();
->         else
->                 hw_enable_tagging_sync();
->  }
-> @@ -143,16 +152,24 @@ void __init kasan_init_hw_tags(void)
->         case KASAN_ARG_MODE_DEFAULT:
->                 /*
->                  * Default to sync mode.
-> -                * Do nothing, kasan_flag_async keeps its default value.
-> +                * Do nothing, kasan_flag_async and kasan_flag_asymm keep
-> +                * their default values.
->                  */
->                 break;
->         case KASAN_ARG_MODE_SYNC:
-> -               /* Do nothing, kasan_flag_async keeps its default value. */
-> +               /*
-> +                * Do nothing, kasan_flag_async and kasan_flag_asymm keep
-> +                * their default values.
-> +                */
->                 break;
->         case KASAN_ARG_MODE_ASYNC:
->                 /* Async mode enabled. */
->                 kasan_flag_async = true;
->                 break;
-> +       case KASAN_ARG_MODE_ASYMM:
-> +               /* Asymm mode enabled. */
-> +               kasan_flag_asymm = true;
-> +               break;
->         }
->
->         switch (kasan_arg_stacktrace) {
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 3639e7c8bb98..1d331ce67dec 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -14,15 +14,21 @@
->
->  DECLARE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
->  extern bool kasan_flag_async __ro_after_init;
-> +extern bool kasan_flag_asymm __ro_after_init;
->
->  static inline bool kasan_stack_collection_enabled(void)
->  {
->         return static_branch_unlikely(&kasan_flag_stacktrace);
->  }
->
-> -static inline bool kasan_async_mode_enabled(void)
-> +static inline bool kasan_async_fault_possible(void)
->  {
-> -       return kasan_flag_async;
-> +       return kasan_flag_async | kasan_flag_asymm;
-> +}
-> +
-> +static inline bool kasan_sync_fault_possible(void)
-> +{
-> +       return !kasan_flag_async | kasan_flag_asymm;
+On 10/6/21 2:19 PM, Andrey Konovalov wrote:
+>> +               if (!system_uses_mte_async_mode())
+>> +                       static_branch_enable(&mte_async_mode);
+> Using this variable and function here still looks confusing. Maybe
+> naming the variable mte_async_or_asymm_mode? Or
+> mte_async_fault_possible similarly to KASAN?
+> 
+> 
 
-This should be just !kasan_flag_async.
+mte_async_or_asymm_mode works for me. I will modify the code in v3.
 
-It seems that choosing one exclusive option out of 3 via two bools is
-confusing. How about an enum?
+Thanks.
 
-enum kasan_mode {
-  KASAN_MODE_SYNC,
-  KASAN_MODE_ASYNC,
-  KASAN_MODE_ASYMM,
-};
-
-enum kasan_mode kasan_mode __ro_after_init;
-EXPORT_SYMBOL_GPL(kasan_mode);
-
-I also agree with Marco re using || instead of |.
-
-
->  }
->  #else
->
-> @@ -31,11 +37,16 @@ static inline bool kasan_stack_collection_enabled(void)
->         return true;
->  }
->
-> -static inline bool kasan_async_mode_enabled(void)
-> +static inline bool kasan_async_fault_possible(void)
->  {
->         return false;
->  }
->
-> +static inline bool kasan_sync_fault_possible(void)
-> +{
-> +       return true;
-> +}
-> +
->  #endif
->
->  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
-> @@ -287,6 +298,9 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
->  #ifndef arch_enable_tagging_async
->  #define arch_enable_tagging_async()
->  #endif
-> +#ifndef arch_enable_tagging_asymm
-> +#define arch_enable_tagging_asymm()
-> +#endif
->  #ifndef arch_force_async_tag_fault
->  #define arch_force_async_tag_fault()
->  #endif
-> @@ -302,6 +316,7 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
->
->  #define hw_enable_tagging_sync()               arch_enable_tagging_sync()
->  #define hw_enable_tagging_async()              arch_enable_tagging_async()
-> +#define hw_enable_tagging_asymm()              arch_enable_tagging_asymm()
->  #define hw_force_async_tag_fault()             arch_force_async_tag_fault()
->  #define hw_get_random_tag()                    arch_get_random_tag()
->  #define hw_get_mem_tag(addr)                   arch_get_mem_tag(addr)
-> @@ -312,6 +327,7 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
->
->  #define hw_enable_tagging_sync()
->  #define hw_enable_tagging_async()
-> +#define hw_enable_tagging_asymm()
->
->  #endif /* CONFIG_KASAN_HW_TAGS */
->
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 884a950c7026..9da071ad930c 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -112,7 +112,7 @@ static void start_report(unsigned long *flags)
->
->  static void end_report(unsigned long *flags, unsigned long addr)
->  {
-> -       if (!kasan_async_mode_enabled())
-> +       if (!kasan_async_fault_possible())
->                 trace_error_report_end(ERROR_DETECTOR_KASAN, addr);
->         pr_err("==================================================================\n");
->         add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
-> --
-> 2.33.0
->
+-- 
+Regards,
+Vincenzo
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZfuu3MLgeSJONqKaXMzkBsGxTQYjTtF0_%3DfMf4dGGQZCw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2d03d87b-5ea8-8b2a-eae6-ae70c7e9d855%40arm.com.
