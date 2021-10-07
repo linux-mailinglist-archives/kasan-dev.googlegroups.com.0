@@ -1,130 +1,144 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBJVH7OFAMGQEQC2VVSY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJ5H7OFAMGQEJTQPRYY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x940.google.com (mail-ua1-x940.google.com [IPv6:2607:f8b0:4864:20::940])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7829D42519F
-	for <lists+kasan-dev@lfdr.de>; Thu,  7 Oct 2021 13:02:01 +0200 (CEST)
-Received: by mail-ua1-x940.google.com with SMTP id o4-20020ab05944000000b002c9c4d839d1sf2836587uad.13
-        for <lists+kasan-dev@lfdr.de>; Thu, 07 Oct 2021 04:02:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633604520; cv=pass;
+Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id D34EE42519E
+	for <lists+kasan-dev@lfdr.de>; Thu,  7 Oct 2021 13:01:59 +0200 (CEST)
+Received: by mail-wr1-x43e.google.com with SMTP id s18-20020adfbc12000000b00160b2d4d5ebsf4403338wrg.7
+        for <lists+kasan-dev@lfdr.de>; Thu, 07 Oct 2021 04:01:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633604519; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BUekQu8iY5Bk17nrVgIUBFoMjJ+4c25S5KwvyqRN8x9DsnCdLMkTj0q/xYSmBcnH+J
-         wes6CR4Kxu5hmggiePOoH60+vcl7NULr0cNw85iq+mQa0HaXMXMeBSOABNn89YlOMJfX
-         cJ8yCDQfC8OjOoEzhMw7q0yjZ7F7OPLcBgPOQcrg9DcOJIPuVt16AoEubEn9RQEamDMd
-         vaC5Nbm4cy/RKwojB3ujBaYysi2YadJ2ybya5izPbgI9GfoWZQCOdTp+uFdqMK4G5qwP
-         9Sn7LUPIPVo1fGhRUebzFy5b5IHUDcscia1FFuRmu2nJUr1SRRCe0LnBojDSzTGgvHKQ
-         vBjg==
+        b=Byzt7aFiZRe/0BPoieKt0PtKMQXdugYDY0BQ0BzdHicNXMB9dImxhWURKpzRL0ukpG
+         yZk7SY/wNlD4nMGjr0O519GzXXJnfdydJjb5f9Wxzjx+GtlHJyQd7bwd88Dg5RS71PbE
+         dW0irpwlJGyDKWWEHg9eSGVQH0+fKl3mKy6s0jBGUwrM3oOmeHoXfa8Ej3HgcwrGGYTe
+         fGe8OSwTn9OAAF1pXB1omDLkbHqVqeGtR/40AGmEVnpEtx6EVUzQSDW3QnkA/UbE0g0N
+         a2N01sVGvXW2WJ8sgu841poL6BH2yzN1Ni7Gsrbfp727uAsRyUo92eHXQh9vaUqGBEdy
+         zeRw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=TntmgT+12YmP+PPJsAHeIjIKdgQ0D8dJneDSdWZ9t68=;
-        b=CAie9x/acsWmD4QgOBRVATTQPmdGFYRXvVlk0VMX6sfpHlQunW19gascvY2VGUd1ny
-         hACbFfioJTX4DYkgfSOFi+aGvBIQMq7Vfr22i7ZHfXEtmA110FT0nYBODafj4MBAz2Eq
-         yVY46uw5Eft81z4FczpmCRnVrbtnxzzayLXpHPQvcRrdTJP7yLo3C/B4Du4uc4gJYVeS
-         BR6gLwjvJd+AydsBR8+Cg84UeqQLTpQEyKgLH7yQGeIl44o2YK2J1td9hWD9+x3RMEHU
-         ylq5aB10C6Gutld/b0MrSOxXjvb2r5td4EVS1H8NRb+xkQojHIeJprFmAt1g0w73Ig7O
-         Ds2g==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=soveyNa1wFSuJfHohnVrEeQAUBqcR2sMuq5q8seBwZA=;
+        b=JZyFKVnoLwU4iEHZWTFc0RJmydQm2ElN1yh+DVkvZkRt3gg0IyE8Welc/aQgdclvGB
+         yRlm2GzAxR8+dcGpA3JANgddC6TJ/r+lHfN8SAh8iT6VHnHkDOpflNAPxmM6Ic4MZIye
+         5Qdl8lz1oyo/DlwK0RFZGD3DqAG9iMa1gsn0oy8nb030BeOhUDBmOPYDTAakasvlpab1
+         t4SZr6Jbu5dhmi/52I13USOkdnEaz37tn7J//zja7eLe6PCqbd4PCBS7Bvy2E2IkBB8B
+         J+c0T3FVSLhP35OFHvL3liczLth2pUEZSee4owSC99XOP+Hk/nvmKmrO5woEpf8OHzVI
+         qOlA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=CWIileFS;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::236 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=M7iUMKBa;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42c as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TntmgT+12YmP+PPJsAHeIjIKdgQ0D8dJneDSdWZ9t68=;
-        b=Irpc1rMnPmXenVhrvRm76ssyuI5ViReh5BiwTFXhpuREgMrlkBHHzU4GuSCIdVhLu2
-         p3B7+gYzPAMW3I6y4ufiVG8ZaSm488XGaOKOkWkWw+Z9CxFtP9+Vvh93QYtpkNoV214H
-         goC6wYxnrdnM+41wMnOUGYneVK+qvx5A01ts8ukSWUSsYFlPyQu5Il/YDAb7PFzlqSo2
-         P1OtE4A0SMXQhoW425aZ0ccvWF9f4is85rFhX08NiQ1ILMPIqKAidaVKZL1DSXDrVEhk
-         Yg4uuQknBJXwVcqoETqxAYNj8gkyZlriWQNOvZkyWGcfwqzIMlBkDW1ogL4HLbZuHQTK
-         qp9Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=soveyNa1wFSuJfHohnVrEeQAUBqcR2sMuq5q8seBwZA=;
+        b=ecUz/aqJKHnyULlNmCilMPPRSlScav/xv5JQeZERdeBykNsYk0Njai61uguiiw8Gb2
+         wPCI7RWzecjhxgH79z4Vg3QJ5w7pRZ/ZRoQhiOqYdTmtfuFvVWseSXEDjSMsCE8zNOHv
+         7NMgOcM73lG+wM1RerKA8nUN1Ru2Cdc5u2cWbbE9lF8ACZn2NpdQxlzLLBNEUBzfvOiq
+         oi7//IEtv3c9G+Dvk5ViN1ZkogJzJq69Lx9cC10SrE0CjcdgXXgFDrR/wTPBRq2LHbwd
+         0HcGhSw6PB8v4QfwADR480OTZ5sJf2GoCVsgEp3XcZdRxfqzpCAw5Ve5C3hFGina5u+y
+         zTSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TntmgT+12YmP+PPJsAHeIjIKdgQ0D8dJneDSdWZ9t68=;
-        b=7+3OIyYJA7HhBIJtLhrVPM9BLKrOCFamRZR0mYomsiztzjXA16GzyBxviLcnAxPBFC
-         vp4pLNIk9MFh21tYwyswidWWm2+/psGytR8LMZwrgrnWfBDnLMXHwzsrQURafsAv+o4F
-         WVAWpT1Lt5q6RPAE83uvRaUZ/0TG2FQvyR95U0tD7IF/5509ybHhClCvDDpCe2iR8RsR
-         NdiWpR08+0Z/c7/nOVKQxvNu8OorxKIn27WUvowD+vRSHIYMRHzIA+g7K/4qx5rFLyt3
-         QmN67U0m0BSnf82SToD6gG/O34JuUPef6R4+Z75BDewpwXMkQ91nTkMiIf+8Dslbx44w
-         fBOw==
-X-Gm-Message-State: AOAM532ggapm79Q84VZEbqz+E5Fra5DaTd/FHPgZklPAp2qEHilnUT3Q
-	U7hk+o5pThsHmpnLE+Er6Ic=
-X-Google-Smtp-Source: ABdhPJxoSvIl8WGIjN7xF/BkD60nIAcoghCViQG+elxUu3F0H5fokNM+LTudFyjpQpzAdz05p0yXtQ==
-X-Received: by 2002:ab0:3b59:: with SMTP id o25mr3408877uaw.100.1633604518990;
-        Thu, 07 Oct 2021 04:01:58 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=soveyNa1wFSuJfHohnVrEeQAUBqcR2sMuq5q8seBwZA=;
+        b=Dos12vvrxqBRTHKUgNoeMweGToHK0Poia6O5WGVePQhtzYi9lqMygfOSuT52fg2Jze
+         FqmKkmG/3c2QAZz2x1as3zFBIpRVozb48GfLvhtJS//RY6slVnZ8Wet373reFjQT+Xxh
+         HSY79WUnQYHW50Y8TnCYbY8Km6x1lTCDvVX3oE0KtZZ70hs3XfFuj7cYa7TgibwC4PRn
+         d/sLbjowqfCe8yw1+1iQIUU+e2mR0Fw6DrUhFynacyI4kM35m3AofIT6QXH6yy6nqn56
+         WVMWr1kqQXQyspa4y9we8kkPqzjLOcymkgviNM02si1t+1+kFRVHgk30VnNjgZawpA06
+         SIAQ==
+X-Gm-Message-State: AOAM530gqdTfpPEGEef+F6FAjmAjZmf/1TkTynLv9iCRDwKX3dz1WOEZ
+	fFTvvlzbuGBFaOAiD23iOqI=
+X-Google-Smtp-Source: ABdhPJyQ0PFqiJSyLW0FM/Lh7C1UM5rT3xupc92fo3Im3mLZwHX0MNQIg/enY7jxtrdK89A2eh7n/A==
+X-Received: by 2002:a7b:c001:: with SMTP id c1mr3841377wmb.182.1633604519521;
+        Thu, 07 Oct 2021 04:01:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:edd7:: with SMTP id e23ls785078vsp.5.gmail; Thu, 07 Oct
- 2021 04:01:58 -0700 (PDT)
-X-Received: by 2002:a67:2285:: with SMTP id i127mr2948810vsi.57.1633604518068;
+Received: by 2002:a05:600c:364f:: with SMTP id y15ls1551287wmq.3.gmail; Thu,
+ 07 Oct 2021 04:01:58 -0700 (PDT)
+X-Received: by 2002:a7b:ca58:: with SMTP id m24mr15922224wml.0.1633604518514;
         Thu, 07 Oct 2021 04:01:58 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1633604518; cv=none;
         d=google.com; s=arc-20160816;
-        b=iLdRJG2XU+vUl4Yo1rZ9c7JLJETKdKFjc0jUTrJLoYxIgGXUlsXiYex4YyhC6NU+uE
-         WhmRRtZ0pMoCxmb9vUg2p+b535hTAA8L8JFNoa5r4YTGl/csXF+vugMawwzt5VBRP0CA
-         mXHg2cYB2p+MPa2dOpaTZiRuzVoM7r2rIGP4pKbBPNpBXkXCsy8HUPXcHWjdIdwdWbMy
-         5VvqRhLswKmVyoUE9c22ZLJ0+FKFN+hDeLAL2N7Y3Tr32Af601uVIq64k/BLdwBZwDun
-         8slpQqSWOzZuMWNRokDk/9K7HnLkNvYk34dzbCZqoO6CSqgRZY0pBC4bewqxxqhNPGtK
-         GyZA==
+        b=J9acgqkrW1+b1EXx76tBpRr5n1j+RI9aBlygxXVawkMvSkEODvzO57TXVuBDDpY/i3
+         r3JTuJzdQRTLU0bQh+ngHdxHEQwGUKdsOnX8PUDjdw0K0v1mb6n+HHK1WR+bo/+ktTVa
+         k86bxjKyJ9Jf/bISJ9ouxyk6NblSPjmAYjksMU98JPNKFSfiJS9q6/aAPGPuiL/7ulCh
+         3UXk+uuNh9ILC0DZTc+xtH8O6MkvUrudDn7+ALGhUZVe80QVkc3b4tAv7Rf+WMSJphSz
+         S/K+9BFJEVJNGIkIqYEHrw6AdGxlWkfK4i1sXumGGZOjYyddy/KidZfwZapNO0toYEoW
+         8u6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=MFLTJIiHDCdoWGozrgcXT8vP3XOP5pGhvQd0Nr+SVb4=;
-        b=fGeGfW07rmaedwoj1MtVGt/P0Xrq+YcbnJFx2udG7eVbLndOI+3BPLGyhvMcbAuuT6
-         mz82+KZjPXWtBhLfSURm9OreWAQ++RSsNkDO+Hc31L18xWT/ZfnDQdHE4SAfW2Nxv0uL
-         CokCOrQO+Ju4RdDp4W3L/f2Bv2pQB//0OmV4MBks0KEGrJnr4HByQP8ZxWZHCsmDi8DF
-         FiG3wNoTDUIFAQ0fCxiuzP4CcpX6q++WRGLHO9rfBqJJsjKeIpu5Ub0CEntQqJLu8yHP
-         P5qoLpOcAym/O1YwhztoqK2JeABiUY2HBmXpqtKZtnP8WhuadgmwSy4oG907GVHC4/D2
-         2rvw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=NJgOSqoCCgXqOknLz7AdQYpr89OwA0jzXUySVyR80Xs=;
+        b=jAbN53F3qpFCYHnLTWdpd1OUAOeMXyDRNmGDxkSuEVKzaUFvYItyQNM4ADjnrLGT6M
+         hkTK4u8BJq+Edi92GZaUpZZIa5Tcoy84BHSFzyos63qJW4X5poW7JZu76EuUFEp8utLZ
+         CoUav2YcXuJTem7mWq3/cm/carezoau0zJn/+iwaGGZMF/wFaUFupXGm3OATeNP8586t
+         HsNfg+4P4F4pGqzjhb+vKA6Orfws4TNO4/1/b9wh8YR9aXx+jtQw/DMWenS04BcWM4qz
+         RPg8xUIAyBNpRSANoXBsb4mWX+FMLLVmW5xS3pxH5XjRGs43xVjkw+tLlIlYDJBehGIV
+         Hibw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=CWIileFS;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::236 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=M7iUMKBa;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42c as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com. [2607:f8b0:4864:20::236])
-        by gmr-mx.google.com with ESMTPS id x75si1766873vsx.1.2021.10.07.04.01.58
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com. [2a00:1450:4864:20::42c])
+        by gmr-mx.google.com with ESMTPS id b72si209478wmd.1.2021.10.07.04.01.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
         Thu, 07 Oct 2021 04:01:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::236 as permitted sender) client-ip=2607:f8b0:4864:20::236;
-Received: by mail-oi1-x236.google.com with SMTP id y201so8503576oie.3
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42c as permitted sender) client-ip=2a00:1450:4864:20::42c;
+Received: by mail-wr1-x42c.google.com with SMTP id e12so17817829wra.4
         for <kasan-dev@googlegroups.com>; Thu, 07 Oct 2021 04:01:58 -0700 (PDT)
-X-Received: by 2002:a05:6808:1991:: with SMTP id bj17mr11056054oib.160.1633604517467;
- Thu, 07 Oct 2021 04:01:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211007095815.3563-1-vbabka@suse.cz>
-In-Reply-To: <20211007095815.3563-1-vbabka@suse.cz>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 7 Oct 2021 13:01:45 +0200
-Message-ID: <CACT4Y+bigoRHKxPG6G-E1OwfCBE+JFCq_Y1FbL78t368-sX+hg@mail.gmail.com>
+X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr3990455wmk.51.1633604517859;
+        Thu, 07 Oct 2021 04:01:57 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:15:13:aedf:c006:6996:1a79])
+        by smtp.gmail.com with ESMTPSA id c185sm8441412wma.8.2021.10.07.04.01.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Oct 2021 04:01:56 -0700 (PDT)
+Date: Thu, 7 Oct 2021 13:01:51 +0200
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, kasan-dev@googlegroups.com,
+	Vijayanand Jitta <vjitta@codeaurora.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Oliver Glitta <glittao@gmail.com>,
+	Imran Khan <imran.f.khan@oracle.com>
 Subject: Re: [PATCH] lib/stackdepot: allow optional init and stack_table
  allocation by kvmalloc()
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org, kasan-dev@googlegroups.com, 
-	Marco Elver <elver@google.com>, Vijayanand Jitta <vjitta@codeaurora.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Oliver Glitta <glittao@gmail.com>, Imran Khan <imran.f.khan@oracle.com>
+Message-ID: <YV7TnygBLdHJjmRW@elver.google.com>
+References: <20211007095815.3563-1-vbabka@suse.cz>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Content-Disposition: inline
+In-Reply-To: <20211007095815.3563-1-vbabka@suse.cz>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=CWIileFS;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::236
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@google.com header.s=20210112 header.b=M7iUMKBa;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42c as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,25 +151,8 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 7 Oct 2021 at 11:58, Vlastimil Babka <vbabka@suse.cz> wrote:
->
-> Currently, enabling CONFIG_STACKDEPOT means its stack_table will be allocated
-> from memblock, even if stack depot ends up not actually used. The default size
-> of stack_table is 4MB on 32-bit, 8MB on 64-bit.
->
-> This is fine for use-cases such as KASAN which is also a config option and
-> has overhead on its own. But it's an issue for functionality that has to be
-> actually enabled on boot (page_owner) or depends on hardware (GPU drivers)
-> and thus the memory might be wasted. This was raised as an issue when trying
-> to add stackdepot support for SLUB's debug object tracking functionality. It's
-> common to build kernels with CONFIG_SLUB_DEBUG and enable slub_debug on boot
-> only when needed, or create specific kmem caches with debugging for testing
-> purposes.
->
-> It would thus be more efficient if stackdepot's table was allocated only when
-> actually going to be used. This patch thus makes the allocation (and whole
-> stack_depot_init() call) optional:
->
+On Thu, Oct 07, 2021 at 11:58AM +0200, Vlastimil Babka wrote:
+[...] 
 > - Add a CONFIG_STACKDEPOT_ALWAYS_INIT flag to keep using the current
 >   well-defined point of allocation as part of mem_init(). Make CONFIG_KASAN
 >   select this flag.
@@ -170,70 +167,49 @@ On Thu, 7 Oct 2021 at 11:58, Vlastimil Babka <vbabka@suse.cz> wrote:
 >   Also handle allocation failure by disabling stackdepot (could have
 >   theoretically happened even with memblock allocation previously), and don't
 >   unnecessarily align the memblock allocation to its own size anymore.
->
-> [1] https://lore.kernel.org/all/CAMuHMdW=eoVzM1Re5FVoEN87nKfiLmM2+Ah7eNu2KXEhCvbZyA@mail.gmail.com/
->
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Vijayanand Jitta <vjitta@codeaurora.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Oliver Glitta <glittao@gmail.com>
-> Cc: Imran Khan <imran.f.khan@oracle.com>
-
-Acked-by: Dmitry Vyukov <dvyukov@google.com>
-
-> ---
+...
 > Hi, I'd appreciate review of the DRM parts - namely that I've got correctly
 > that stack_depot_init() is called from the proper init functions and iff
 > stack_depot_save() is going to be used later. Thanks!
->
->  drivers/gpu/drm/drm_dp_mst_topology.c   |  1 +
->  drivers/gpu/drm/drm_mm.c                |  4 ++++
->  drivers/gpu/drm/i915/intel_runtime_pm.c |  3 +++
->  include/linux/stackdepot.h              | 19 ++++++++-------
->  init/main.c                             |  3 ++-
->  lib/Kconfig                             |  3 +++
->  lib/Kconfig.kasan                       |  1 +
->  lib/stackdepot.c                        | 32 +++++++++++++++++++++----
->  mm/page_owner.c                         |  2 ++
->  9 files changed, 53 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 2d1adab9e360..bbe972d59dae 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -5490,6 +5490,7 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
->         mutex_init(&mgr->probe_lock);
->  #if IS_ENABLED(CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS)
->         mutex_init(&mgr->topology_ref_history_lock);
-> +       stack_depot_init();
->  #endif
->         INIT_LIST_HEAD(&mgr->tx_msg_downq);
->         INIT_LIST_HEAD(&mgr->destroy_port_list);
-> diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-> index 7d1c578388d3..8257f9d4f619 100644
+
+For ease of review between stackdepot and DRM changes, I thought it'd be
+nice to split into 2 patches, but not sure it'll work, because you're
+changing the semantics of the normal STACKDEPOT.
+
+One option would be to flip it around, and instead have
+STACKDEPOT_LAZY_INIT, but that seems counter-intuitive if the majority
+of STACKDEPOT users are LAZY_INIT users.
+
+On the other hand, the lazy initialization mode you're introducing
+requires an explicit stack_depot_init() call somewhere and isn't as
+straightforward as before.
+
+Not sure what is best. My intuition tells me STACKDEPOT_LAZY_INIT would
+be safer as it's a deliberate opt-in to the lazy initialization
+behaviour.
+
+Preferences?
+
+[...]
 > --- a/drivers/gpu/drm/drm_mm.c
 > +++ b/drivers/gpu/drm/drm_mm.c
 > @@ -980,6 +980,10 @@ void drm_mm_init(struct drm_mm *mm, u64 start, u64 size)
->         add_hole(&mm->head_node);
->
->         mm->scan_active = 0;
+>  	add_hole(&mm->head_node);
+>  
+>  	mm->scan_active = 0;
 > +
 > +#ifdef CONFIG_DRM_DEBUG_MM
-> +       stack_depot_init();
+> +	stack_depot_init();
 > +#endif
+
+DRM_DEBUG_MM implies STACKDEPOT. Not sure what is more readable to drm
+maintainers, but perhaps it'd be nicer to avoid the #ifdef here, and
+instead just keep the no-op version of stack_depot_init() in
+<linux/stackdepot.h>. I don't have a strong preference.
+
 >  }
 >  EXPORT_SYMBOL(drm_mm_init);
->
+>  
 > diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
 > index 0d85f3c5c526..806c32ab410b 100644
 > --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
@@ -241,21 +217,21 @@ Acked-by: Dmitry Vyukov <dvyukov@google.com>
 > @@ -68,6 +68,9 @@ static noinline depot_stack_handle_t __save_depot_stack(void)
 >  static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
 >  {
->         spin_lock_init(&rpm->debug.lock);
+>  	spin_lock_init(&rpm->debug.lock);
 > +
-> +       if (rpm->available)
-> +               stack_depot_init();
+> +	if (rpm->available)
+> +		stack_depot_init();
 >  }
->
+>  
 >  static noinline depot_stack_handle_t
 > diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
 > index c34b55a6e554..60ba99a43745 100644
 > --- a/include/linux/stackdepot.h
 > +++ b/include/linux/stackdepot.h
 > @@ -15,6 +15,16 @@
->
+>  
 >  typedef u32 depot_stack_handle_t;
->
+>  
 > +/*
 > + * Every user of stack depot has to call this during its own init when it's
 > + * decided that it will be calling stack_depot_save() later.
@@ -267,148 +243,104 @@ Acked-by: Dmitry Vyukov <dvyukov@google.com>
 > +int stack_depot_init(void);
 > +
 >  depot_stack_handle_t __stack_depot_save(unsigned long *entries,
->                                         unsigned int nr_entries,
->                                         gfp_t gfp_flags, bool can_alloc);
+>  					unsigned int nr_entries,
+>  					gfp_t gfp_flags, bool can_alloc);
 > @@ -30,13 +40,4 @@ int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
->
+>  
 >  void stack_depot_print(depot_stack_handle_t stack);
->
+>  
 > -#ifdef CONFIG_STACKDEPOT
 > -int stack_depot_init(void);
 > -#else
 > -static inline int stack_depot_init(void)
 > -{
-> -       return 0;
+> -	return 0;
 > -}
-> -#endif /* CONFIG_STACKDEPOT */
+> -#endif	/* CONFIG_STACKDEPOT */
 > -
+
+Could we avoid the IS_ENABLED() in init/main.c by adding a wrapper here:
+
++#ifdef CONFIG_STACKDEPOT_ALWAYS_INIT
++static inline int stack_depot_early_init(void)	{ return stack_depot_init(); }
++#else
++static inline int stack_depot_early_init(void)	{ return 0; }
++#endif	/* CONFIG_STACKDEPOT_ALWAYS_INIT */
+
 >  #endif
 > diff --git a/init/main.c b/init/main.c
 > index ee4d3e1b3eb9..b6a5833d98f5 100644
 > --- a/init/main.c
 > +++ b/init/main.c
 > @@ -844,7 +844,8 @@ static void __init mm_init(void)
->         init_mem_debugging_and_hardening();
->         kfence_alloc_pool();
->         report_meminit();
-> -       stack_depot_init();
-> +       if (IS_ENABLED(CONFIG_STACKDEPOT_ALWAYS_INIT))
-> +               stack_depot_init();
->         mem_init();
->         mem_init_print_info();
->         /* page_owner must be initialized after buddy is ready */
+>  	init_mem_debugging_and_hardening();
+>  	kfence_alloc_pool();
+>  	report_meminit();
+> -	stack_depot_init();
+> +	if (IS_ENABLED(CONFIG_STACKDEPOT_ALWAYS_INIT))
+> +		stack_depot_init();
+
+I'd push the decision of when to call this into <linux/stackdepot.h> via
+wrapper stack_depot_early_init().
+
+>  	mem_init();
+>  	mem_init_print_info();
+>  	/* page_owner must be initialized after buddy is ready */
 > diff --git a/lib/Kconfig b/lib/Kconfig
 > index 5e7165e6a346..df6bcf0a4cc3 100644
 > --- a/lib/Kconfig
 > +++ b/lib/Kconfig
 > @@ -671,6 +671,9 @@ config STACKDEPOT
->         bool
->         select STACKTRACE
->
+>  	bool
+>  	select STACKTRACE
+>  
 > +config STACKDEPOT_ALWAYS_INIT
-> +       bool
-> +
+> +	bool
+
+It looks like every users of STACKDEPOT_ALWAYS_INIT will also select
+STACKDEPOT, so we could just make this:
+
++config STACKDEPOT_ALWAYS_INIT
++	bool
++	select STACKDEPOT
+
+And remove the redundant 'select STACKDEPOT' in Kconfig.kasan.
+
 >  config STACK_HASH_ORDER
->         int "stack depot hash size (12 => 4KB, 20 => 1024KB)"
->         range 12 20
+>  	int "stack depot hash size (12 => 4KB, 20 => 1024KB)"
+>  	range 12 20
 > diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
 > index cdc842d090db..695deb603c66 100644
 > --- a/lib/Kconfig.kasan
 > +++ b/lib/Kconfig.kasan
 > @@ -39,6 +39,7 @@ menuconfig KASAN
->                    HAVE_ARCH_KASAN_HW_TAGS
->         depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
->         select STACKDEPOT
-> +       select STACKDEPOT_ALWAYS_INIT
->         help
->           Enables KASAN (KernelAddressSANitizer) - runtime memory debugger,
->           designed to find out-of-bounds accesses and use-after-free bugs.
-> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-> index b437ae79aca1..a4f449ccd0dc 100644
-> --- a/lib/stackdepot.c
-> +++ b/lib/stackdepot.c
-> @@ -23,6 +23,7 @@
->  #include <linux/jhash.h>
->  #include <linux/kernel.h>
->  #include <linux/mm.h>
-> +#include <linux/mutex.h>
->  #include <linux/percpu.h>
->  #include <linux/printk.h>
->  #include <linux/slab.h>
-> @@ -145,6 +146,7 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
->  #define STACK_HASH_MASK (STACK_HASH_SIZE - 1)
->  #define STACK_HASH_SEED 0x9747b28c
->
-> +DEFINE_MUTEX(stack_depot_init_mutex);
->  static bool stack_depot_disable;
->  static struct stack_record **stack_table;
->
-> @@ -161,18 +163,38 @@ static int __init is_stack_depot_disabled(char *str)
->  }
->  early_param("stack_depot_disable", is_stack_depot_disabled);
->
+>  		   HAVE_ARCH_KASAN_HW_TAGS
+>  	depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
+>  	select STACKDEPOT
+> +	select STACKDEPOT_ALWAYS_INIT
+
+[...]
+>  
 > -int __init stack_depot_init(void)
 > +/*
 > + * __ref because of memblock_alloc(), which will not be actually called after
 > + * the __init code is gone
+
+The reason is that after __init code is gone, slab_is_available() will
+be true (might be worth adding to the comment).
+
 > + */
 > +__ref int stack_depot_init(void)
 >  {
-> -       if (!stack_depot_disable) {
-> +       mutex_lock(&stack_depot_init_mutex);
-> +       if (!stack_depot_disable && stack_table == NULL) {
->                 size_t size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
->                 int i;
->
-> -               stack_table = memblock_alloc(size, size);
-> -               for (i = 0; i < STACK_HASH_SIZE;  i++)
-> -                       stack_table[i] = NULL;
-> +               if (slab_is_available()) {
-> +                       pr_info("Stack Depot allocating hash table with kvmalloc\n");
-> +                       stack_table = kvmalloc(size, GFP_KERNEL);
-> +               } else {
-> +                       pr_info("Stack Depot allocating hash table with memblock_alloc\n");
-> +                       stack_table = memblock_alloc(size, SMP_CACHE_BYTES);
-> +               }
-> +               if (stack_table) {
-> +                       for (i = 0; i < STACK_HASH_SIZE;  i++)
-> +                               stack_table[i] = NULL;
-> +               } else {
-> +                       pr_err("Stack Depot failed hash table allocationg, disabling\n");
-> +                       stack_depot_disable = true;
-> +                       mutex_unlock(&stack_depot_init_mutex);
-> +                       return -ENOMEM;
-> +               }
->         }
-> +       mutex_unlock(&stack_depot_init_mutex);
->         return 0;
->  }
-> +EXPORT_SYMBOL_GPL(stack_depot_init);
->
->  /* Calculate hash for a stack */
->  static inline u32 hash_stack(unsigned long *entries, unsigned int size)
-> diff --git a/mm/page_owner.c b/mm/page_owner.c
-> index a83f546c06b5..a48607b51a97 100644
-> --- a/mm/page_owner.c
-> +++ b/mm/page_owner.c
-> @@ -80,6 +80,8 @@ static void init_page_owner(void)
->         if (!page_owner_enabled)
->                 return;
->
-> +       stack_depot_init();
-> +
->         register_dummy_stack();
->         register_failure_stack();
->         register_early_stack();
-> --
-> 2.33.0
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211007095815.3563-1-vbabka%40suse.cz.
+> -	if (!stack_depot_disable) {
+> +	mutex_lock(&stack_depot_init_mutex);
+> +	if (!stack_depot_disable && stack_table == NULL) {
+>  		size_t size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbigoRHKxPG6G-E1OwfCBE%2BJFCq_Y1FbL78t368-sX%2Bhg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YV7TnygBLdHJjmRW%40elver.google.com.
