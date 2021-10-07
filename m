@@ -1,195 +1,133 @@
-Return-Path: <kasan-dev+bncBDRYTJUOSUERBXP27WFAMGQE5RZ3X7Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJZRXGY5YJBB54L72FAMGQEWPOWH4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9898F42602A
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Oct 2021 01:06:05 +0200 (CEST)
-Received: by mail-wr1-x437.google.com with SMTP id o2-20020a5d4a82000000b00160c6b7622asf5750033wrq.12
-        for <lists+kasan-dev@lfdr.de>; Thu, 07 Oct 2021 16:06:05 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1633647965; cv=pass;
+Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B320E4260A6
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Oct 2021 01:42:49 +0200 (CEST)
+Received: by mail-pj1-x103b.google.com with SMTP id ot13-20020a17090b3b4d00b001a04f094a68sf1352911pjb.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 07 Oct 2021 16:42:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633650168; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zPDrLiuKB5g1+kaFu6Khg7FuAgqfZXnunF0NtTN17BrZdIZDlzMEJwcjuC1gnozgwv
-         4AzkfjXMrwm+hTo9A/LDMg7yxqftaf/ZcuSCnbgTKGPFLkoJKn5CuLMXdQHy1MEDjznn
-         d7tQfqWU/zMdMLKkaZGuxtY6J3Ii8foOiuAKbci5Em9EQUtWn7WYIiFLSyLU8L+/zp6U
-         mjgdiGIx2UAYZsfMkf1vcKX6wJ7qlp/rppb9JCw0w0lrRF62CxKz2ZAoY1y2Vbm3fHT9
-         wvMuUP8U20igozoClVcc7Wgo9R48HB3Sl7R3vwkS26oOnSiiApU9gEG/aPSA1woGmEbL
-         uELw==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=JN8yiEJyY1SOqPYKcOQ3hfkC2WSK0s7//uUz5A6uec9ofY5H6w+ZYYic95XjLV1YvQ
+         C+N67RsdC/MHxOC1Jtzcpwd3M9YRgjmF/3q498pc7TRfN3F8W/jzn6IcgMsAVsLf53XZ
+         Is2Cf3vql3GFEHxxIF434mYrMI84XcEeRnMx85dCjOz0Lvctj33E0WczzwQFTlFg/4ik
+         ViZrXxH96YLs/K5ECHAF7rxEH6CRUO7U6MU1a8Fodd7xEJzw1Hs/kpqHK+Bv6uJCa2Ih
+         DjyB+nbq9T75RZZovOL6pu8BGb6WAXBfdA1tdpa7WmoBkDtI+2/yUIAUsPr8r3OLEl/4
+         /8Dg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=wmUC/ZBrts+zQUtQVkJW8VlTUixsTe2IYzyoiS2uRKw=;
-        b=L1rfz35x84dAry0sRhbnSPCdvUA1NNHeCm572FagpyOkR72NMl8vSvlBHadE+2+gQ+
-         QZQUTwKejcPANh8/8VlakDxBu6eXjrcikq9SFtkc8976yOY6cG8BYKRORvWc+Jjm2s0y
-         Ly6moJEbIfP5YosVgY26wswvsz0LzgiyztuTMCyJpkJ+Mhsr5rjFegm6Pd0XOtsVNeXO
-         4BWXBD5yhy9InYaCsuwFe6hdJo5cYL6s8I8Zj1KwKBOoXUc7Dm/OhmcAc5cKTDGrhsH3
-         SKXmZS/Mri3t9Y2I1Ciec1CVHZysrugca1d79HAuI3zQjXUmEr4nLzJmvXTELs4C4C8u
-         SRCQ==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@garyguo.net header.s=selector1 header.b=UzmnwL2t;
-       arc=pass (i=1 spf=pass spfdomain=garyguo.net dkim=pass dkdomain=garyguo.net dmarc=pass fromdomain=garyguo.net);
-       spf=pass (google.com: domain of gary@garyguo.net designates 40.107.10.118 as permitted sender) smtp.mailfrom=gary@garyguo.net
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=YBNJ5Su9nNmrqscT9yYTiDPJ+u/9WX9sJZrgHbYE3Ts=;
+        b=bsy94PJ5+6q1/xUgeac3HkwF7S9dLmJeosv6Hs5tcozKupc9PVS8YEDwrz6HPMUeT7
+         Es4JcNzXRO4sFNf9pxoan2eFv/O1SR7PRtcCY3cDHrFvC0hWzSZ6UfWSVKSyrhxXcOIh
+         ZvfjP2zbRI/qkBTKUpNggU0YNo4ZXbbKesonUGmlMZhN6N9MUvOs8ntXLx7uHG4FyV0U
+         fZEnQco2vPxO3CcwI7Cm2oQFmS9qTTQHRYevGVIdiThzIcL3BwXVOGDrIvwAiXw2j9lO
+         iCI0mAQxpvfU27AiBAtT2n6WJSudBGFwvmLbi8tPT3iag2c3Zl2LkF1p2PbD8tHRKJt8
+         EeEQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=MGYwZGwW;
+       spf=pass (google.com: domain of srs0=t4ee=o3=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=t4EE=O3=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=wmUC/ZBrts+zQUtQVkJW8VlTUixsTe2IYzyoiS2uRKw=;
-        b=FUz6pTM+sZ6XPiXwq42JvpKGbJdd35X7lEvT1OaRP6rvNJ/yj8JSdKsHAC4vRrGf8u
-         1PuK+kmY2UPsnu56U/GbY8W0X9iagmP/p6klopdTfjjTRFRG+REcAp+AlExL5G+UsaZJ
-         2TBP+YCse+/rjXNYykvu7fv/DY3oKU90st03wsIw/7uZTBSMzAOAC0KU8faWOGHjzL7g
-         XdDXWdRwxuTGIrrW0UxEtTOQyJf604iJABJe7i9Yb7VmYSNbgGCQNQtWiYAs5QYT4asD
-         ADHHP0q9tQjTAjHWGpyDzKOACqpOYiKpHvSSbRAQ15h089y+ua24EwCHhDPKqH+rqs0q
-         LUSw==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=YBNJ5Su9nNmrqscT9yYTiDPJ+u/9WX9sJZrgHbYE3Ts=;
+        b=YKj8q+qA9PGk+CMhGtiDu1tJbGMCYrpY2h7nasvWmgxI/tp40OTNcvfnEadfC2sGPU
+         1QrnJbaZuyVYXZ7LxFfXxJpSyMbDrvcEFhcyAXCTVOeCgrtQREKbhwsUB1aJ/RhqQgvm
+         vT7BXIBPppb6b2/rpBim2KIuYfdpbulkqX/cgqt1GnoOT6dAtJfpVqn9xE/WC6oad57A
+         GkoTEnsdKW9zH2VfVrZwkLvm+nW550fbUL4tC/h6Jsvha6nGzo6+7n1kjT0hDXgTySmJ
+         goLJX6EPfwqHnrfJQkDMpnKkbu0YHuvqJ1WPoknpDb/tMd/GvwuizBCKrpwFuu8mjTTO
+         Rr3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=wmUC/ZBrts+zQUtQVkJW8VlTUixsTe2IYzyoiS2uRKw=;
-        b=p7PvPBG0ymNy8kirtIEu7XTXcl7UvYXMa8stqtmjZei1Pg8fwDBb38k6NjI3/5GUVq
-         2iqf9zfpcVO+SreeZ6voMrNu3Vca5faK4NW7YVtGBXGSDI5aN1kYnRo4zrg9b0k5W6br
-         10dL/8vGG5m+1teLN0MNMBBT32Xrbg4QNO6A2LrRlISlE395DmeiOkh6SB7V52AhILWN
-         RHEHnszM3HPquMPrPpJGDmFUbqFVoCs9MQVB7x0kXAQNh5BBo+4CKVU+LH+fRppBoMOQ
-         tnsPY/IeiFIHHKEPS1c96In/0qpVsNwQJQxL9Esng9PV8TIS3+YuyRJ2AHA/QUTL2LYH
-         ZV9g==
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=YBNJ5Su9nNmrqscT9yYTiDPJ+u/9WX9sJZrgHbYE3Ts=;
+        b=O+8EooYpKdI1cmS3Go05qxp5LpmRPRcjKz4COqK9alLBG+vAChtQnlF7yHqaGIR2f4
+         gOU99uzE+OImHz5fYA82TooZ+3QUsOCtYaAMGKFHmIgGefAmmJ8Zi03fLGU9nnpBgtDd
+         YDcgkuvvTGUzarYpI4BBdWR/mXI4NUWSY9wotBg+fPrK8tKGMIwdPdGHCQDNg3dbPiv6
+         9EX4uoXboMM/zHJOQb5oGcFNsduk8F4bKfl15WoJzN8rO8EyNZD+hdNtm1T3WZ/EJk6k
+         KqxnFyKOsKxZiCQyOIr5HFNPS2DJBc9pE9vc6lsZrJ1fSkkDhQX9ZFYiLvUlf6keIOBz
+         TX7w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532ydJYrQMlKTGDrYIn2TyU4C3kEDhwQmdnXwaqHvzQOxFHhm72/
-	VMlajpqp3uzOPybHjmFOx7U=
-X-Google-Smtp-Source: ABdhPJxlf1cmzAs8B6q6HwiPdoy+PxSpj6ai6RGIdMX4Ptrq0zGQjnK+KvN9A0osgMW4mV+3jxk3Rg==
-X-Received: by 2002:a5d:6d8e:: with SMTP id l14mr8781797wrs.44.1633647965384;
-        Thu, 07 Oct 2021 16:06:05 -0700 (PDT)
+X-Gm-Message-State: AOAM530KXq6c+mqmDlh1JIvkh5wtLaEt9fiBAHN3iwXbCm9DjwFsnXNE
+	k/vXe6t8s2zZILIJ0jB8UmM=
+X-Google-Smtp-Source: ABdhPJz20s63CRAD0P/3SWyljsly6A4nzFi8Uv6aMfFrc94KjsmGP25ludeJ2o07UoWkJzvD4ylgjQ==
+X-Received: by 2002:a17:90a:8b8d:: with SMTP id z13mr8777415pjn.214.1633650168065;
+        Thu, 07 Oct 2021 16:42:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3b8f:: with SMTP id n15ls2934237wms.1.canary-gmail;
- Thu, 07 Oct 2021 16:06:04 -0700 (PDT)
-X-Received: by 2002:a1c:98d7:: with SMTP id a206mr19148753wme.68.1633647964391;
-        Thu, 07 Oct 2021 16:06:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633647964; cv=pass;
+Received: by 2002:a05:6a00:1392:: with SMTP id t18ls498399pfg.11.gmail; Thu,
+ 07 Oct 2021 16:42:47 -0700 (PDT)
+X-Received: by 2002:a63:ec06:: with SMTP id j6mr1992945pgh.259.1633650167542;
+        Thu, 07 Oct 2021 16:42:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633650167; cv=none;
         d=google.com; s=arc-20160816;
-        b=MTFybz7+TPec6UQY2izJMwa4Vz4SJ/2JFF0nXNH2dFvwH95DpfUPZT35b+hSo93iUj
-         upCYCSBMpfpaX4q467CVaJcwTTsnXeCaagEh5xuZ4ZokLZZmk/V8TuxAsYS08kiTXyKh
-         79SrF2aXKxt53Ld+7D1G9RYhzyGlGDE7fHC0pOYDCw3IeErB6uKf65ABBsolrLAEIcS4
-         dJfdnv1nxTlpUhlR6camMBFqkKELmhOe/1Rgo+UsBZL/rImHnDBNpFdAF1sStFSbRZNE
-         aTvda3ZvDgiB1+rrL+1KKPY21BRyvyApY+Jluavxp5gZB7LhqBhjzXjP6dGbri/1ahSX
-         pEQQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:references:in-reply-to
+        b=O8rcWlhPDgkfg6+e4Q1UMoyzaEqsQ4i9XHnHeiS+94KxHpAT6GAGvmhv4DwJ5qi4+d
+         KRyMdKLnIDsk6rhYnpqqx4OsTYiNbZX+7jYyMCU5siHqhuyHNcPuXAG6NPt8fKzyAiM7
+         rFlORCJ67qBF7V4xwudWsKzjjmHcdackEYITXUj7IQ1sbvWh3zvZBVW0qRh4kxa1oPEa
+         0g/lMEL5pFPogs/USF4kJruwBOJIGJ8phLeKSwiJPEYRM0Gflg2BpOkEDQSqOzYcjm/V
+         y9jYBD6EG85cQS1ss7j/ZshHUNmZkxvyH7+vA1a+OJqxpX2IZlcM0ph/YFWvTVrke4X8
+         zG3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=hJMBNx0B4rWO3WrispxtgACcdMNGWEFkOPJO8ka0Q8Y=;
-        b=Ru38bmBwet/pcE0bsVKr6H5U1lhfprSy9hBIDZyxvhEReIE6Ko8PIjHvtQ7NYNBiGp
-         BG+sqNEGedfIoIseiRucI7s+BKUbKwRSRTEf8hjnIPILDEliVVPig5gJTGG0U+JudkSw
-         apxMNu3enFCoTj5k6AB8AwOuH58VuKKgEvI2e8pP9oQ/AW299EDH1aVUl78a+nnR+qHu
-         GLbT4myQa6ZHV5HzNrU5RinQmka9nNSVJRljCV1+qOR+8fwHhJXUid8wWRjfwCZ6RmOI
-         5+IsGhUeTySNgfRAoxwfidVxAoTn+PkVTJPu6ElEPbv+vw7CYNQVjxoXgR8sUSA7RC0w
-         8Krg==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@garyguo.net header.s=selector1 header.b=UzmnwL2t;
-       arc=pass (i=1 spf=pass spfdomain=garyguo.net dkim=pass dkdomain=garyguo.net dmarc=pass fromdomain=garyguo.net);
-       spf=pass (google.com: domain of gary@garyguo.net designates 40.107.10.118 as permitted sender) smtp.mailfrom=gary@garyguo.net
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-eopbgr100118.outbound.protection.outlook.com. [40.107.10.118])
-        by gmr-mx.google.com with ESMTPS id a11si31690wrh.5.2021.10.07.16.06.04
+        bh=mYTwTQVs0NL7654nsAFjwtWptWQf4ScZhgZgtcuw++4=;
+        b=xbaYLZWZNjbsy3lYpeA9twxzyqRre2yUpijGZlMjSQOmOzyIFAQ9KBO/yWvY/NpPlc
+         JcT8DY8kD8VsTNt1CFnjrYJTTkN+XoPoS5Y5NGhuilKVfUUCk0WAvDbRxkqSZQXbalHL
+         lAuWrZ2XKmXAjFFMOzljkE0sw3zcAd3SEyeLWNF99ssqklcWtjC+wz4sD4faHyGTmKto
+         tH+c7ESEG+TK2MEkIU47Jx92rfyWT732nSQLNsZ8zeGVPfHrC/FYQhsWHf455yH03CZw
+         JF+fbGmn3cekKkpDdUWmDsIbsWzHAKYUUE8UKl8bfka8vb8vAUc61KlxrfCCWtnSZ4sU
+         DrKg==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=MGYwZGwW;
+       spf=pass (google.com: domain of srs0=t4ee=o3=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=t4EE=O3=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id c5si33449pjd.2.2021.10.07.16.42.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 07 Oct 2021 16:06:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of gary@garyguo.net designates 40.107.10.118 as permitted sender) client-ip=40.107.10.118;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H1mNlM5hzrXPcbUpQqWQo5GtReWSFm173cYfDM3JYGX7yBEobPZLjWMq9B1uzJ7zYSNVZ+AMIbZ/1IpKAehHb+d1pLOMUDIn6PGW+feRzwbe9gt30rlL/nabg5YFEoUyfQsSUeEZzB1zrhrTvAgsS9XJpb7pQhobiwByXvKHfYjvjCewl//viAZizgqVa+6bU+tzKqlN6hNSWfyhyHz1YZtRcOo55Zd6qhpAV8ElfmUE1uv5YBqT4nRQvy8VgEeQ27tUOBj4vEq69jgMVwdX6GwwryxNStDtJK7Qf/WfLd0Ntu5VU714Vem9+rbt4qcuJYLSli8FLO3TZiKMmwRvGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hJMBNx0B4rWO3WrispxtgACcdMNGWEFkOPJO8ka0Q8Y=;
- b=Qb0fs271ewUhz36NRiFPPu9AstAWi1wXULX24pcnGMqBpsmtDgtm4IxPgRH3u+a/SdDSRSlMOEk2EltboFbhpkZFFNXaL+RyGYBJWhFGkAULbreQoXyY/tJpis4yQhP1u/r0mhdscpMe3WAmz+n/7KokK62WoI1q8vawoZHzgvaAiinpjG7bBee0RZjmieaIyIsZ07nlCHyP5ZvZvrQuyqVcvKc68jRAkVlZgmCLuhtfBTuBacjjiCrOpYM46YRbvS+e8Yi48uqh1RX3UF1ZRDLTV9Bq9tu0a6sw6euIKs7MXUOFRLlUsEFgOMpzW1yczhYuavdcj+3xJboyxWBZtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
- by LO0P265MB5310.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:280::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.22; Thu, 7 Oct
- 2021 23:06:03 +0000
-Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
- ([fe80::35d4:eb8e:ecdc:cc89]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
- ([fe80::35d4:eb8e:ecdc:cc89%5]) with mapi id 15.20.4587.020; Thu, 7 Oct 2021
- 23:06:03 +0000
-Date: Fri, 8 Oct 2021 00:06:01 +0100
-From: Gary Guo <gary@garyguo.net>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Marco Elver
- <elver@google.com>, Boqun Feng <boqun.feng@gmail.com>, kasan-dev
- <kasan-dev@googlegroups.com>, rust-for-linux
- <rust-for-linux@vger.kernel.org>
+        Thu, 07 Oct 2021 16:42:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=t4ee=o3=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 43F906128C;
+	Thu,  7 Oct 2021 23:42:47 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 12EEC5C0870; Thu,  7 Oct 2021 16:42:47 -0700 (PDT)
+Date: Thu, 7 Oct 2021 16:42:47 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Gary Guo <gary@garyguo.net>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Marco Elver <elver@google.com>, Boqun Feng <boqun.feng@gmail.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	rust-for-linux <rust-for-linux@vger.kernel.org>
 Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
-Message-ID: <20211008000601.00000ba1@garyguo.net>
-In-Reply-To: <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1>
+Message-ID: <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
 References: <CANpmjNMijbiMqd6w37_Lrh7bV=aRm45f9j5R=A0CcRnd5nU-Ww@mail.gmail.com>
-	<YV8A5iQczHApZlD6@boqun-archlinux>
-	<CANpmjNOA3NfGDLK2dribst+0899GrwWsinMp7YKYiGvAjnT-qA@mail.gmail.com>
-	<CANiq72k2TwCY1Os2siGB=hBNRtrhzJtgRS5FQ3JDDYM-TXyq2Q@mail.gmail.com>
-	<20211007185029.GK880162@paulmck-ThinkPad-P17-Gen-1>
-	<20211007224247.000073c5@garyguo.net>
-	<20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
-Content-Type: text/plain; charset="UTF-8"
-X-ClientProxiedBy: LO4P123CA0462.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::17) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:253::10)
+ <YV8A5iQczHApZlD6@boqun-archlinux>
+ <CANpmjNOA3NfGDLK2dribst+0899GrwWsinMp7YKYiGvAjnT-qA@mail.gmail.com>
+ <CANiq72k2TwCY1Os2siGB=hBNRtrhzJtgRS5FQ3JDDYM-TXyq2Q@mail.gmail.com>
+ <20211007185029.GK880162@paulmck-ThinkPad-P17-Gen-1>
+ <20211007224247.000073c5@garyguo.net>
+ <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1>
+ <20211008000601.00000ba1@garyguo.net>
 MIME-Version: 1.0
-Received: from localhost (2001:470:6972:501:7558:fc3c:561c:bc74) by LO4P123CA0462.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:1aa::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18 via Frontend Transport; Thu, 7 Oct 2021 23:06:02 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3d84e12e-2971-4a03-653b-08d989e708f7
-X-MS-TrafficTypeDiagnostic: LO0P265MB5310:
-X-Microsoft-Antispam-PRVS: <LO0P265MB5310B5E5D6EFE8130031A0ACD6B19@LO0P265MB5310.GBRP265.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FV4sZwzBE4SOEDEDCR8CNmgt5SuoKvipXgF0u/IUAAbSvI+CcVhFZJWv5VGs9SmmVfc3MydXWbskAlMNZY5R63XwO3rCFXAowJBeAbdrA6Af/gDNB6zdeHfT+5xyhvq60pBCHy4l+wERluP/1aw5axLz2dL+3zwO+Ax/69YFPh+h2GVaXdJ7XB344nIWWvm9F9p5DFFhSpnTKOg/iybQMX+M2u+Jxw9GRTyvqCkndhZHoul2M9lW62zx9aa+F0KuFNnyvEyp6jGBKAESNPMZw4GF3DTD7hll3/MPOtipW/bAyxW+eSBAKNuME+XjAZ4yTT68xxK4PhgnFKNf6060P9153a9RCdUcs/Qhh1DofSTraJgUHWnRvChEADpDl/K8MyoGlaRM0gR2D6U3hdhCzIGp7Y5vQk2Q/EUdc7twoV2xUy0swfhr7DTyMiZi/dWhcJnaukZDNH/JvVXbj64FR0Wx4zjsMmv7kiOGKU6af+QW0kmX+6Hx7SRF03e7wD7SwJkHcGk9R7P0tunW+lM40KM8WCBc30lGP2cRUIP7L7Rjq/fM9x/po5UPYMZ93NtCByGdj8VX/NQU7zpSHg17EExgBjoRWzmAefnIe090DfEgCbcyMyLIaO6VKRkCbXkzXloW4IaYypGiueOVDet1Zg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(346002)(376002)(396003)(39830400003)(136003)(366004)(1076003)(316002)(66476007)(6486002)(508600001)(38100700002)(186003)(36756003)(8936002)(52116002)(6916009)(86362001)(66946007)(5660300002)(54906003)(66556008)(6496006)(2906002)(4326008)(8676002)(2616005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pE8FNPWkaynwb54j3Smf5xfPU2VQInyPqYgpg1pCybInUI1EjnPdoy0l9hsn?=
- =?us-ascii?Q?6/AjwD68yduqx7O0Bnu3pZ816EcEs04E4sn/hG63RB9hzNbvFyeaZtIPl0xK?=
- =?us-ascii?Q?I15rBvTDVCm93t1gtFDUd7P0aPySlv0t22N7KFA9JLHgWXnjeAuVYqdwrTEG?=
- =?us-ascii?Q?NksIejKokeRywCJ1PcVAmxtVHoz3WSu7eYvBAIPjlQfYHsGQj4P2ZSDdsXOf?=
- =?us-ascii?Q?jQPqRtMJCauPLcvGPN1up4c7sR0tc9w5NL5OaF5v7wgpJ/KwRLVGEOQUR1Ni?=
- =?us-ascii?Q?Cn5rHJE+BmOO6VtwCs4Dv1ycYNWYPMtCaM9Nk9n14DATYIcTt8p1MUGtzgVD?=
- =?us-ascii?Q?hGAgXWBOiq5fibC52RkhYGydzqXIWIEp0uSdZ/0g6V41mC71LeGZ8hjAeqVI?=
- =?us-ascii?Q?XQwMkD+fAgPNoviHCuYIO0MeDN9pVkoZRvxihZATOUxAx7LmwcXRf2f09kGL?=
- =?us-ascii?Q?GMGx3j7t89gQmiCanwsSUL0PGaxxi1XXE8+aKJPxqNQ4W2qO/WbxRtSeu9er?=
- =?us-ascii?Q?8ANRfitAiX5YLrNkR5WswJMJAe3GcYVjnSHZApCaqJhxMwoxBr4vGnXRdT4S?=
- =?us-ascii?Q?VUvvXFRhLJn7R8HXl5EoU1bTwBlrwzYjfbTPfa33lQtPol6lvuwc4V4z+Ecg?=
- =?us-ascii?Q?G5jN85nut9X6x6dvxeBaCJfEYOUe84pt1KncBEJ0ErLoO6qwLBojJEkOeI7f?=
- =?us-ascii?Q?biLbgFeW4jW2bFae5JCfhE8aeqZqXje2OuQVZhV3yF+XmcEzRvt9EXXu1SNw?=
- =?us-ascii?Q?RcfKD+69QxvEcTyjdXuJ913K2otri67aem0NZ3ihAWHmGKzN38A4T2HZkrgc?=
- =?us-ascii?Q?/a8xA7GPcYVeeyNe/HgZUNVn/bw4Tq60qX9900n66AF9NpLcDhRnjyBk2WDt?=
- =?us-ascii?Q?8JHB76VIOS2N/DLLTRqHC1UwaqNyQ3F6gBIInxn2ulfS1G3I4EMcM2nq0VNa?=
- =?us-ascii?Q?9RXgikkgaTTs8lnG0hOMYF/XifAQv7brW00yxaQZi8xs1lSTArz0tTseBQ/K?=
- =?us-ascii?Q?FbCShYT0ZdtTrN50YKO3QVjkCw2cJNJtSrcD4YO6X2KLK2BmgiAqR9GphEcO?=
- =?us-ascii?Q?ig5uQ85qUkuypFAsBV05uHUja6vmVynkXJ8KQ0Rv3XLKYUb4m8yuKwcPN1GE?=
- =?us-ascii?Q?NtB5QfYRxUJNMlW3geexmKGTx0qIP4PBWm8d4CKB9EZf91n14ZkdNh118EBp?=
- =?us-ascii?Q?3TLyGPtXk41XXK8GPXmZ3CgqAGHURZOkfCiJ00HeTJ2fOBmc0rNC9u8zAx7v?=
- =?us-ascii?Q?zrOHGucMeXtq97kahyzS6ELketCMslQ8JnFGdxEF4DU/M5b97l5NXLiG1h0w?=
- =?us-ascii?Q?61b35DDWhpKoJ2VD0NRtpA4LJunn1SESE2NLAVxBSJsFDpDlx2hMC3K0RGnT?=
- =?us-ascii?Q?xDcGlzPe181CZ4Gf2zAt6757/Zh/?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d84e12e-2971-4a03-653b-08d989e708f7
-X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2021 23:06:03.1523
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7T3HunlmJaG9PIt2tAuG4d1OYqxVdlL9/KxFOjkAfmX0j6UFikdFU8nDMKYsf6LPiXwqSKV22sjf+fdpPQqalw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB5310
-X-Original-Sender: gary@garyguo.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20211008000601.00000ba1@garyguo.net>
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@garyguo.net header.s=selector1 header.b=UzmnwL2t;       arc=pass
- (i=1 spf=pass spfdomain=garyguo.net dkim=pass dkdomain=garyguo.net dmarc=pass
- fromdomain=garyguo.net);       spf=pass (google.com: domain of
- gary@garyguo.net designates 40.107.10.118 as permitted sender) smtp.mailfrom=gary@garyguo.net
+ header.i=@kernel.org header.s=k20201202 header.b=MGYwZGwW;       spf=pass
+ (google.com: domain of srs0=t4ee=o3=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=t4EE=O3=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -202,64 +140,107 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 7 Oct 2021 15:30:10 -0700
-"Paul E. McKenney" <paulmck@kernel.org> wrote:
-
-> For C/C++, I would have written "translation unit".  But my guess is
-> that "Rust module" would work better.
+On Fri, Oct 08, 2021 at 12:06:01AM +0100, Gary Guo wrote:
+> On Thu, 7 Oct 2021 15:30:10 -0700
+> "Paul E. McKenney" <paulmck@kernel.org> wrote:
 > 
-> Thoughts?
-
-Module is not a translation unit in Rust, it is more like C++
-namespaces. The translation unit equivalent in Rust is crate.
-
-> And the definition of a module is constrained to be contained within a
-> given translation unit, correct?
-
-Correct.
-
-> But what prevents unsafe Rust code in one translation unit from
-> violating the assumptions of safe Rust code in another translation
-> unit, Rust modules notwithstanding?  Especially if that unsafe code
-> contains a bug?
-
-Unsafe code obviously can do all sorts of crazy things and hence
-they're unsafe :)
-
-However your article is talking about "safe code can violate unsafe
-code's assumptions" and this would only apply if they are in the same
-Rust module.
-
-When one writes a safe abstraction using unsafe code they need to prove
-that the usage is correct. Most properties used to construct such a
-proof would be a local type invariant (like `ptr` being a valid,
-non-null pointer in `File` example).
-
-Sometimes the code may rely on invariants of a foreign type that it
-depends on (e.g. If I have a `ptr: NonNull<bindings::file>` then I
-would expect `ptr.as_ptr()` to be non-null, and `as_ptr` is indeed
-implemented in Rust's libcore as safe code. But safe code of a
-*downstream* crate cannot violate upstream unsafe code's assumption.
-
+> > For C/C++, I would have written "translation unit".  But my guess is
+> > that "Rust module" would work better.
+> > 
+> > Thoughts?
 > 
-> Finally, are you arguing that LTO cannot under any circumstances
-> inflict a bug in Rust unsafe code on Rust safe code in some other
-> translation unit? Or just that if there are no bugs in Rust code
-> (either safe or unsafe), that LTO cannot possibly introduce any?
+> Module is not a translation unit in Rust, it is more like C++
+> namespaces. The translation unit equivalent in Rust is crate.
+> 
+> > And the definition of a module is constrained to be contained within a
+> > given translation unit, correct?
+> 
+> Correct.
 
-I don't see why LTO is significant in the argument. Doing LTO or not
-wouldn't change the number of bugs. It could make a bug more or less
-visible, but buggy code remains buggy and bug-free code remains
-bug-free.
+OK, I now have this:
 
-If I have expose a safe `invoke_ub` function in a translation unit that
-internally causes UB using unsafe code, and have another
-all-safe-code crate calling it, then the whole program has UB
-regardless LTO is enabled or not.
+	Both the unsafe Rust code and the C code can interfere with Rust
+	non-unsafe code, and furthermore safe code can violate unsafe
+	code's assumptions as long as it is in the same module. However,
+	please note that a Rust module is a syntactic construct vaguely
+	resembling a C++ namespace, and has nothing to do with a kernel
+	module or a translation unit.
 
-- Gary
+Is that better?
+
+> > But what prevents unsafe Rust code in one translation unit from
+> > violating the assumptions of safe Rust code in another translation
+> > unit, Rust modules notwithstanding?  Especially if that unsafe code
+> > contains a bug?
+> 
+> Unsafe code obviously can do all sorts of crazy things and hence
+> they're unsafe :)
+> 
+> However your article is talking about "safe code can violate unsafe
+> code's assumptions" and this would only apply if they are in the same
+> Rust module.
+
+Understood.  I was instead double-checking the first clause of that
+first sentence quoted above.
+
+> When one writes a safe abstraction using unsafe code they need to prove
+> that the usage is correct. Most properties used to construct such a
+> proof would be a local type invariant (like `ptr` being a valid,
+> non-null pointer in `File` example).
+> 
+> Sometimes the code may rely on invariants of a foreign type that it
+> depends on (e.g. If I have a `ptr: NonNull<bindings::file>` then I
+> would expect `ptr.as_ptr()` to be non-null, and `as_ptr` is indeed
+> implemented in Rust's libcore as safe code. But safe code of a
+> *downstream* crate cannot violate upstream unsafe code's assumption.
+
+OK, thank you.
+
+> > Finally, are you arguing that LTO cannot under any circumstances
+> > inflict a bug in Rust unsafe code on Rust safe code in some other
+> > translation unit? Or just that if there are no bugs in Rust code
+> > (either safe or unsafe), that LTO cannot possibly introduce any?
+> 
+> I don't see why LTO is significant in the argument. Doing LTO or not
+> wouldn't change the number of bugs. It could make a bug more or less
+> visible, but buggy code remains buggy and bug-free code remains
+> bug-free.
+> 
+> If I have expose a safe `invoke_ub` function in a translation unit that
+> internally causes UB using unsafe code, and have another
+> all-safe-code crate calling it, then the whole program has UB
+> regardless LTO is enabled or not.
+
+Here is the problem we face.  The least buggy project I know of was a
+single-threaded safety-critical project that was subjected to stringent
+code-style constraints and heavy-duty formal verification.  There was
+also a testing phase at the end of the validation process, but any failure
+detected by the test was considered to be a critical bug not only against
+the software under test, but also against the formal verification phase.
+
+The results were impressive, coming in at about 0.04 bugs per thousand
+lines of code (KLoC), that is, about one bug per 25,000 lines of code.
+
+But that is still way more than zero bugs.  And I seriously doubt that
+Rust will be anywhere near this level.
+
+A more typical bug rate is about 1-3 bugs per KLoC.
+
+Suppose Rust geometrically splits the difference between the better
+end of typical experience (1 bug per KLoC) and that safety-critical
+project (again, 0.04 bugs per KLoC), that is to say 0.2 bugs per KLoC.
+(The arithmetic mean would give 0.52 bugs per KLoC, so I am being
+Rust-optimistic here.)
+
+In a project the size of the Linux kernel, that still works out to some
+thousands of bugs.
+
+So in the context of the Linux kernel, the propagation of bugs will still
+be important, even if the entire kernel were to be converted to Rust.
+
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211008000601.00000ba1%40garyguo.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211007234247.GO880162%40paulmck-ThinkPad-P17-Gen-1.
