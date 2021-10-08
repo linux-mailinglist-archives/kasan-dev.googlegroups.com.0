@@ -1,135 +1,126 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBIMFQKFQMGQEE54MDGY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKNY4WZECBBIFEQKFQMGQEZAHJNVA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D146426FB3
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Oct 2021 19:40:51 +0200 (CEST)
-Received: by mail-pl1-x63a.google.com with SMTP id w2-20020a170902d70200b0013ed4c6e6f3sf5311867ply.9
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Oct 2021 10:40:51 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633714850; cv=pass;
+Received: from mail-oi1-x238.google.com (mail-oi1-x238.google.com [IPv6:2607:f8b0:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 602CF4270ED
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Oct 2021 20:46:58 +0200 (CEST)
+Received: by mail-oi1-x238.google.com with SMTP id x145-20020aca3197000000b002986e47af95sf785872oix.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 08 Oct 2021 11:46:58 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633718817; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rkZO9gkB5U7JBLg7bqZnZdRtP2M4/F8oeFdHVSirmSPMHjbeMnQqFc/k8xguEMAyk0
-         X8cFn8Lpdz/DYIukiPRha5kfQHZXU5uyVsFHECVQ/6DjcoDOCkZmbmuewYMM/3HLna/C
-         B43p2ue+PgJYk8VecDqQLie23+imSrCw41tHurHhCGsk7E5OPRkzG0Y72UM+xT/WEGHx
-         e2RY0dUOf5t3bIlHnGYwfqPUPZKh9m5gRngp/W//9Wylf9xj5vWF3Ga9rqVMzCf0PO1d
-         O7p8rWjYLGJ6eof4PXVlAJC3qUkRm6EmC3ij+rRZ2iUJiymepAAOHrcHwe3DjY9W8Xr5
-         WFcA==
+        b=TIujAKm9F97Zk0xMpFAN4otKNPc3QapUOv50Gb9X8QBecdbiGdzH4O1fKj78Z8SKya
+         E99slfKMX4KZYttxkCEy2sAtjhFmpaQ5rcwEdZoODuty4u809mW2S6VB746ybCgUZpWV
+         d4YVdCFeQd4oC9M4AHVFlXWW/lgY5puuAkCz4qhSWAbEKsMcm/wkzVoa0NN1oNx5Fdec
+         aOalt49jYGim6eRJFl6h+713K+BFvoTYN95iQJwbiG+Iae+7VBqWjOD6Ie7dOHreuNJl
+         xavDF9TFWyDl07lCQC58oOlPEQYAAZlSV57NaTDgcDPgCzTwkdxHIXOK+BxLOIDLgrhg
+         ejDQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=2ESJrpQ+Ce9ETx7lj6+Y8Uo1pPZ5DVEBPRDtdnRI0Vg=;
-        b=CnqYQoB+zV80OK5LbZfdEEu5A9JBkElmeZtmVPJ9cEIyOCUK/gdi816M5TiekyPOge
-         /F93DJzFQtrztrestLHojnryaW2RakLrd/aTCY2DLjCDhbfBqgm6id9EcQktDQ3ORbPL
-         A6ffuN6PNQPfYDp6nceV6qfg16G2+kiO5A39G1YZM1mzYiJHQbbTstPHcjAhWlFXYAdD
-         kk4oEvZUY2rSK3zHh9knDXYzW7CQ7qGwmvGsq+Nea1oSkQxgXqtnkAnlK9cZSo32PRr/
-         JAfARGegMqZmP5GqkvVk55pCMIVf82v2dK0ttlalRc50hxBvB3VdW6vigtKL2cyxEZT1
-         nY4g==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:message-id:to:from:cc:in-reply-to:subject:date:sender
+         :dkim-signature;
+        bh=bpCdmaPCGaYrzR/U0nMGdvvi32yBPooiZzSb18NN8ls=;
+        b=K55kfghANM7ajUTfnluIQRuUB7Smgv0XGCysrbXz8ArMtDsJAzaZ0iLKHgdFyvmbwz
+         i297BQ4K3Wh7oaDIrVEmrXpByRkDGe2UtS8yOonT2t/4yo2r/wcH1u8agPGeJuUlTAKQ
+         /7k51PFOg6XlzIwvo4bluD+M4WxJ1WqrUtl8YdFSVkBVOFCQ/uroRSNw8hS3NkclILRu
+         BGbRuwmFxmhMWgE5oRrKzc8kfzRalmL9MVSKd6PMnXFR+ZFQZiLYCVdZhOInDd3Tmur9
+         aa2cn4QstjSv14Tf2JnTed7nb1/CsE2maundSMgzlVqB+gHFdSIs+7YernBAt7pENR2X
+         pjkw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=o566nqtW;
-       spf=pass (google.com: domain of srs0=pk/0=o4=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Pk/0=O4=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=VP3FxMvb;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::529 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
+        h=sender:date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=2ESJrpQ+Ce9ETx7lj6+Y8Uo1pPZ5DVEBPRDtdnRI0Vg=;
-        b=NpmfOQBjZ0GcC7amtKDM7XRBdYRcILQym13DuiVs5+WaUXIcjwWjnqNSoK7XdQE6+v
-         rS24a/LscaGk7653jtFbR++CPQ7illJaYZVsLYLvMXJvVpHqKkFlzt1/i6N0Dd5X0+oa
-         688XBZPLP5RV7rhD37T2yDp0KnDPpFB09uccgqQKBE09jv3ugZBb6UPIEYdkAhQFuRMR
-         5QiSaDNaxDGa9TkhtAgJdVa1vyyZ6ZWLK8fUXxVdydB6uHdrBHQaqhp3ORUZUTFG2YSk
-         syBY9UQiWoGVbEu5Uq3oIJLjQ2rH/goZUfFgH/yRcgOqS25qJIyWT0iCCjW7cfk/vSdj
-         E/QQ==
+        bh=bpCdmaPCGaYrzR/U0nMGdvvi32yBPooiZzSb18NN8ls=;
+        b=DAX1AyjekFSETtSBkrHgtV/ipP232zX/CmJYNccg9ht/htKxkRA59wPVszcae/sH+T
+         FMtnKKlJHB+fiJpZ8ZOs7asbc6yoAKiDC5OuskuWayduG0U/UIqw/XsimCgvg1/XQbX8
+         rGIjYc19Cb2895MuLxE9IQXjl40IcL65y7dS8aWD1fam3fTvEih/e70mdM0j02PAX4C5
+         0SZg74XIu0GXpAzJgAqUZbMK+tW1sn5BMcW/P4NZQGX8ItMFOuePgAqBm54n/nBmrnnR
+         k8RjzNp3b4xhAOufQnp/CJVcwb+cWJpaeNOL0lqii3BcOavB+xuKvfOcC4qDe2XgnlBP
+         N3Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=2ESJrpQ+Ce9ETx7lj6+Y8Uo1pPZ5DVEBPRDtdnRI0Vg=;
-        b=naV60+Ts7jSQlZxZ0IyQKtxEUzbVNYlNU6s8aD+D4PZgmau0B3FW4b3ULIHgPrDkv1
-         kAU27S0TkpktFiS9MwgXYg/EuKWzIuupNw228dplJhjuNwnRBJoYzXZ+uIY1cRfK7YW1
-         v2xi666bCR6SXF/VymkYza8sZu0wFPZwsWeyQXsbCea9iYWLm15LLT2ySEQOuEMVDaL2
-         6P2B7uyK7haU9EczWDUjLquyQGLG7y+n5g9hFtXqsR6+gkdAxxrCSIEy/W7JXGacPB0r
-         myU+rgPpicOICQ4FHHiTMx8TQmTxWv3A7YS0zzJ6Up0Z1VfZGdT+/42duUZ2Jp5jPO+u
-         N0Fw==
+        h=sender:x-gm-message-state:date:subject:in-reply-to:cc:from:to
+         :message-id:mime-version:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=bpCdmaPCGaYrzR/U0nMGdvvi32yBPooiZzSb18NN8ls=;
+        b=AIilclpfVQsIbtf6SCKE1ZGf8SFL0VZUL/s5dFVE84h3ruPEwiN7Flteq+SqncrTl7
+         lH3JeUKIEvOz9FpIDrFmMK2eWM31/IQQM8iWPULVlQTmAsOorONQhG2pzG3n65xZATbu
+         XWENi+tsvjeePecJOaqM2tly9rZ3Pk+V6pDKQA1WPpX/nHy73V+S2XTjGYBjjRqzvwSm
+         wS6PCHZoRveUMCXuUb4Ow9Xb/s7Uy2w/3o1CgAp9Kb17JaL6CKy28Hekl5s0rDMxVbP3
+         HEp2IMY6LYPcbVexQkJQ6b3hdVobcXCYf/4cWzoz0CrYzeyuVsbQaZPHKm+NRgHijy8k
+         eS3w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532sHGptO2VvdVvRnpQJxCm87BsyiN7cyTDg/wvXMwJqEGnwL+Lb
-	3+2S19DDe2h03IH507LK2PA=
-X-Google-Smtp-Source: ABdhPJxwGhwHA/qD1ZlelN74H//dgfJWfQORbq+4Gx7FmhErXbaZ8f82zvW0HwwsC7WDiZE+srwGug==
-X-Received: by 2002:a62:1e43:0:b0:447:cb0b:4c6e with SMTP id e64-20020a621e43000000b00447cb0b4c6emr11307561pfe.1.1633714849827;
-        Fri, 08 Oct 2021 10:40:49 -0700 (PDT)
+X-Gm-Message-State: AOAM532edQwchX/RmKI/+9h9VIUxqsIGjIRxTCJKlsCjFBCJpNZ7jXTS
+	1UtGre8DEtshsCSu1ICj0/M=
+X-Google-Smtp-Source: ABdhPJzruyl2qH6FCS5ralXF7l2DhZdoYd6cYMnBT432FTOnGsWMGhs6Fr8ugo3IRkCov2S/8LlesA==
+X-Received: by 2002:a9d:86e:: with SMTP id 101mr6987816oty.177.1633718816892;
+        Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:6401:: with SMTP id y1ls1575725pfb.10.gmail; Fri, 08 Oct
- 2021 10:40:49 -0700 (PDT)
-X-Received: by 2002:aa7:9111:0:b0:44c:c206:ad9a with SMTP id 17-20020aa79111000000b0044cc206ad9amr9900973pfh.72.1633714849101;
-        Fri, 08 Oct 2021 10:40:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633714849; cv=none;
+Received: by 2002:aca:1219:: with SMTP id 25ls1234171ois.4.gmail; Fri, 08 Oct
+ 2021 11:46:56 -0700 (PDT)
+X-Received: by 2002:aca:d1a:: with SMTP id 26mr8813740oin.166.1633718816547;
+        Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633718816; cv=none;
         d=google.com; s=arc-20160816;
-        b=Vh2vpRcQLpd6uwxxUbU7nCGu9qsyG81rQYM46AOGflI1c0wFBigAHezHE1XhSDCSwy
-         oxPT3P+4pcH2AtjIxfPTrL37l6t96YeJD3HQEP7S3rWLx/CKNeCLfax9u6S72F/oJky3
-         sMj5+wU417Fw5XLm9eBjciJKm+1jQzvUa+Vn+rgIuphyGmwlJAQ8TdIBTdhXeLlXtfQH
-         DzQIW5DLHmfnGm2FBiiy71TTw/cxeDJ0tQZPQwZSgzcv4C7Vb6NZs5C5lBfFT3+vFU5h
-         byzOtB8dEojhzdycBnSXnNiPW9PeAGtuD0MfWjUTZ5APSLQh64AVRQ24TiUhBPK4CQ+a
-         aYaA==
+        b=pZJaWpvregaS0Va7dX7TCNCy5iVJQ8jh7w3P6wXosS/wnuPW7J5RcALPl08HZEr69J
+         6SxP8zmBU5KLLTk5JEZ5PLpGlfRuz7D5/8XppW1Hm5/AG6rKj80q7qkfxK8UcUTh2AUN
+         iV5Lj4+D47y06OYj7ixLt7rGp5dMy2mMKy0nr7gzlW/MDmDdKZUDsWz9L1EkMxm9zkTD
+         Wrj2F4gqvTZTZOKCFZolptuBKFmY8GQiXtZYxvywQSP8qkM75vF6iAo5wmMaFhPYB3Sw
+         g1ofnRC3a89EsZbVwTfjK4reUz0+cTzOP0J9pn7C+16PfAa9bcuZMCZYLQ4s3CzbTQMW
+         +xjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=EjTGfe7P8yuAcTqVPHAfh2QYlcOORDEzyq0Nl14Br9g=;
-        b=addan4HF25pjt/Fdoh0x6g9gyuCPbI3YR4pjes/aUnkJNrvnCXvDC5DyCKTCgVme4n
-         3surupt3pxaMFLDNlzBXspAzBOS5v2Qeg2lV9JoQdNickzIPYrKXO0tWEWxkgnxjTPon
-         ax5Ni6nD9jKXG3u84EyMccN8V14ZPdEj/fMeE6g7OFIhEMGjUEPLFEADtntKj6YPv9+F
-         43EfIWc/aiiZSWuAhsVfnVgksgbFrfykK3477ReSRBr2w3AP0B8HX57K3dxznR8mEuna
-         lIJGtIfjRivyXPx6iRpoxvCknrbqL53s3AaVKGKXEABDEhyrYdDblvcrYroeb4j+Eaok
-         WBfw==
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:dkim-signature;
+        bh=quuSqZ0dONVuv9mo4TeP3YIzWz+O416I07kQnnw7STA=;
+        b=0yDfzf0OPmcg1YX+Gq0XxsToL3P6K6rQfo2Qvbn/thgorXfRDMmRWSfVEC3dV1l36f
+         p+a1wLugrGZRaB7bH/HL8HSlMpVQSdbWiLGNPyjvKFsTFOkOMCcT13R/hN9HFvsptHtt
+         EkvuVt/cfPzLcrMmyRy3Y7sZ7A9NLQKaMHoHjOeFH3/bSsAL4LUQ2alCufz+bf9meGTR
+         5sSNeTqMO4qr1CkCGVa374BQ0H8TkZbo+XaKgOys0r6HgNjwEhOW9gobyMCsREt/mBTP
+         pCfKvSL0+yHkCHO5G1n/fIZgSxCMaa7pXXmisssrTb+c5R3AQ3HtP+xN0+QT9DkjwlVe
+         Aa0g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=o566nqtW;
-       spf=pass (google.com: domain of srs0=pk/0=o4=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Pk/0=O4=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id c130si486pfc.3.2021.10.08.10.40.49
+       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=VP3FxMvb;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::529 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com. [2607:f8b0:4864:20::529])
+        by gmr-mx.google.com with ESMTPS id bj8si28167oib.1.2021.10.08.11.46.56
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 08 Oct 2021 10:40:49 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=pk/0=o4=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CCA6160FE8;
-	Fri,  8 Oct 2021 17:40:48 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 9E0FA5C0AD6; Fri,  8 Oct 2021 10:40:48 -0700 (PDT)
-Date: Fri, 8 Oct 2021 10:40:48 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Marco Elver <elver@google.com>, Boqun Feng <boqun.feng@gmail.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	rust-for-linux <rust-for-linux@vger.kernel.org>
-Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
-Message-ID: <20211008174048.GS880162@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <CANpmjNMijbiMqd6w37_Lrh7bV=aRm45f9j5R=A0CcRnd5nU-Ww@mail.gmail.com>
- <YV8A5iQczHApZlD6@boqun-archlinux>
- <CANpmjNOA3NfGDLK2dribst+0899GrwWsinMp7YKYiGvAjnT-qA@mail.gmail.com>
- <CANiq72k2TwCY1Os2siGB=hBNRtrhzJtgRS5FQ3JDDYM-TXyq2Q@mail.gmail.com>
- <20211007185029.GK880162@paulmck-ThinkPad-P17-Gen-1>
- <20211007224247.000073c5@garyguo.net>
- <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1>
- <20211008000601.00000ba1@garyguo.net>
- <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
- <20211008005958.0000125d@garyguo.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20211008005958.0000125d@garyguo.net>
-X-Original-Sender: paulmck@kernel.org
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::529 as permitted sender) client-ip=2607:f8b0:4864:20::529;
+Received: by mail-pg1-x529.google.com with SMTP id h3so3937022pgb.7
+        for <kasan-dev@googlegroups.com>; Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
+X-Received: by 2002:a63:b214:: with SMTP id x20mr6037587pge.460.1633718816009;
+        Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id k17sm73056pff.214.2021.10.08.11.46.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Oct 2021 11:46:55 -0700 (PDT)
+Date: Fri, 08 Oct 2021 11:46:55 -0700 (PDT)
+Subject: Re: [PATCH] kasan: Always respect CONFIG_KASAN_STACK
+In-Reply-To: <YUyWYpDl2Dmegz0a@archlinux-ax161>
+CC: elver@google.com, akpm@linux-foundation.org, ryabinin.a.a@gmail.com,
+  glider@google.com, andreyknvl@gmail.com, dvyukov@google.com, ndesaulniers@google.com,
+  Arnd Bergmann <arnd@arndb.de>, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+  linux-riscv@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+  linux-mm@kvack.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: nathan@kernel.org
+Message-ID: <mhng-b5f8a6a0-c3e8-4d25-9daa-346fdc8a2e5e@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: palmer@dabbelt.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=o566nqtW;       spf=pass
- (google.com: domain of srs0=pk/0=o4=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=Pk/0=O4=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112
+ header.b=VP3FxMvb;       spf=pass (google.com: domain of palmer@dabbelt.com
+ designates 2607:f8b0:4864:20::529 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,88 +133,104 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Oct 08, 2021 at 12:59:58AM +0100, Gary Guo wrote:
-> On Thu, 7 Oct 2021 16:42:47 -0700
-> "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> 
-> > > I don't see why LTO is significant in the argument. Doing LTO or not
-> > > wouldn't change the number of bugs. It could make a bug more or less
-> > > visible, but buggy code remains buggy and bug-free code remains
-> > > bug-free.
-> > > 
-> > > If I have expose a safe `invoke_ub` function in a translation unit
-> > > that internally causes UB using unsafe code, and have another
-> > > all-safe-code crate calling it, then the whole program has UB
-> > > regardless LTO is enabled or not.  
-> > 
-> > Here is the problem we face.  The least buggy project I know of was a
-> > single-threaded safety-critical project that was subjected to
-> > stringent code-style constraints and heavy-duty formal verification.
-> > There was also a testing phase at the end of the validation process,
-> > but any failure detected by the test was considered to be a critical
-> > bug not only against the software under test, but also against the
-> > formal verification phase.
-> > 
-> > The results were impressive, coming in at about 0.04 bugs per thousand
-> > lines of code (KLoC), that is, about one bug per 25,000 lines of code.
-> > 
-> > But that is still way more than zero bugs.  And I seriously doubt that
-> > Rust will be anywhere near this level.
-> > 
-> > A more typical bug rate is about 1-3 bugs per KLoC.
-> > 
-> > Suppose Rust geometrically splits the difference between the better
-> > end of typical experience (1 bug per KLoC) and that safety-critical
-> > project (again, 0.04 bugs per KLoC), that is to say 0.2 bugs per KLoC.
-> > (The arithmetic mean would give 0.52 bugs per KLoC, so I am being
-> > Rust-optimistic here.)
-> > 
-> > In a project the size of the Linux kernel, that still works out to
-> > some thousands of bugs.
-> > 
-> > So in the context of the Linux kernel, the propagation of bugs will
-> > still be important, even if the entire kernel were to be converted to
-> > Rust.
-> 
-> There is a distinction between what is considered safe in Rust and what
-> is considered safe in safety-critical systems. Miguel's LPC talk
-> (https://youtu.be/ORwYx5_zmZo?t=1749) summarizes this really well. A
-> large Rust program would no doubt contain bugs, but it is quite
-> possible that it's UB-free.
+On Thu, 23 Sep 2021 07:59:46 PDT (-0700), nathan@kernel.org wrote:
+> On Thu, Sep 23, 2021 at 12:07:17PM +0200, Marco Elver wrote:
+>> On Wed, 22 Sept 2021 at 22:55, Nathan Chancellor <nathan@kernel.org> wro=
+te:
+>> > Currently, the asan-stack parameter is only passed along if
+>> > CFLAGS_KASAN_SHADOW is not empty, which requires KASAN_SHADOW_OFFSET t=
+o
+>> > be defined in Kconfig so that the value can be checked. In RISC-V's
+>> > case, KASAN_SHADOW_OFFSET is not defined in Kconfig, which means that
+>> > asan-stack does not get disabled with clang even when CONFIG_KASAN_STA=
+CK
+>> > is disabled, resulting in large stack warnings with allmodconfig:
+>> >
+>> > drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c:1=
+17:12:
+>> > error: stack frame size (14400) exceeds limit (2048) in function
+>> > 'lb035q02_connect' [-Werror,-Wframe-larger-than]
+>> > static int lb035q02_connect(struct omap_dss_device *dssdev)
+>> >            ^
+>> > 1 error generated.
+>> >
+>> > Ensure that the value of CONFIG_KASAN_STACK is always passed along to
+>> > the compiler so that these warnings do not happen when
+>> > CONFIG_KASAN_STACK is disabled.
+>> >
+>> > Link: https://github.com/ClangBuiltLinux/linux/issues/1453
+>> > References: 6baec880d7a5 ("kasan: turn off asan-stack for clang-8 and =
+earlier")
+>> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+>>
+>> Reviewed-by: Marco Elver <elver@google.com>
+>
+> Thanks!
+>
+>> [ Which tree are you planning to take it through? ]
+>
+> Gah, I was intending for it to go through -mm, then I cc'd neither
+> Andrew nor linux-mm... :/ Andrew, do you want me to resend or can you
+> grab it from LKML?
 
-The only purpose of my above wall of text was to assert that, as you
-said, "A large Rust program would no doubt contain bugs", so we are
-good on that point.
+Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
-Just in case there is lingering confusion, my purpose in providing an
-example from the field of safety-critical systems was nothing more or
-less than to derive an extreme lower bound for the expected bug rate in
-production software.  Believe me, there is no way that I am advocating
-use of Rust as it currently exists for use in safety-critical systems!
-Not that this will necessarily prevent such use, mind you!  ;-)
+(assuming you still want it through somewhere else)
 
-OK, on to your point about UB-freedom.
+>> Note, arch/riscv/include/asm/kasan.h mentions KASAN_SHADOW_OFFSET in
+>> comment (copied from arm64). Did RISC-V just forget to copy over the
+>> Kconfig option?
+>
+> I do see it defined in that file as well but you are right that they did
+> not copy the Kconfig logic, even though it was present in the tree when
+> RISC-V KASAN was implemented. Perhaps they should so that they get
+> access to the other flags in the "else" branch?
 
-From what I have seen, people prevent unsafe Rust code from introducing
-UB by adding things, for example assertions and proofs of correctness.
-Each and every one of those added things have a non-zero probability
-of themselves containing bugs or mistakes.  Therefore, a Rust program
-containing a sufficiently large quantity of unsafe code will with high
-probability invoke UB.
+Ya, looks like we just screwed this up.  I'm seeing some warnings like
 
-Hopefully, a much lower UB-invocation probability than a similar quantity
-of C code, but nevertheless, a decidedly non-zero probability.
+    cc1: warning: =E2=80=98-fsanitize=3Dkernel-address=E2=80=99 with stack =
+protection is not supported without =E2=80=98-fasan-shadow-offset=3D=E2=80=
+=99 for this target
 
-So what am I missing here?
+which is how I ended up here, I'm assuming that's what you're talking=20
+about here?  LMK if you were planning on sending along a fix or if you=20
+want me to go figure it out.
 
-> I should probably say that doing LTO or not wouldn't make a UB-free
-> program exhibit UB (assuming LLVM doesn't introduce any during LTO).
+>
+>> > ---
+>> >  scripts/Makefile.kasan | 3 ++-
+>> >  1 file changed, 2 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
+>> > index 801c415bac59..b9e94c5e7097 100644
+>> > --- a/scripts/Makefile.kasan
+>> > +++ b/scripts/Makefile.kasan
+>> > @@ -33,10 +33,11 @@ else
+>> >         CFLAGS_KASAN :=3D $(CFLAGS_KASAN_SHADOW) \
+>> >          $(call cc-param,asan-globals=3D1) \
+>> >          $(call cc-param,asan-instrumentation-with-call-threshold=3D$(=
+call_threshold)) \
+>> > -        $(call cc-param,asan-stack=3D$(stack_enable)) \
+>> >          $(call cc-param,asan-instrument-allocas=3D1)
+>> >  endif
+>> >
+>> > +CFLAGS_KASAN +=3D $(call cc-param,asan-stack=3D$(stack_enable))
+>> > +
+>> >  endif # CONFIG_KASAN_GENERIC
+>> >
+>> >  ifdef CONFIG_KASAN_SW_TAGS
+>> >
+>> > base-commit: 4057525736b159bd456732d11270af2cc49ec21f
+>> > --
+>> > 2.33.0.514.g99c99ed825
+>> >
+>> >
 
-I defer to comex's reply to this.
-
-							Thanx, Paul
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211008174048.GS880162%40paulmck-ThinkPad-P17-Gen-1.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/mhng-b5f8a6a0-c3e8-4d25-9daa-346fdc8a2e5e%40palmerdabbelt-glaptop=
+.
