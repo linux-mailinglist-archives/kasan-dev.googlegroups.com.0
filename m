@@ -1,126 +1,141 @@
-Return-Path: <kasan-dev+bncBCRKNY4WZECBBIFEQKFQMGQEZAHJNVA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDRZHGH43YJRBS6DQKFQMGQESWRX3IQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x238.google.com (mail-oi1-x238.google.com [IPv6:2607:f8b0:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602CF4270ED
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Oct 2021 20:46:58 +0200 (CEST)
-Received: by mail-oi1-x238.google.com with SMTP id x145-20020aca3197000000b002986e47af95sf785872oix.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Oct 2021 11:46:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633718817; cv=pass;
+Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F798427196
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Oct 2021 21:53:49 +0200 (CEST)
+Received: by mail-pj1-x1039.google.com with SMTP id u2-20020a17090add4200b001a04c270354sf3285970pjv.6
+        for <lists+kasan-dev@lfdr.de>; Fri, 08 Oct 2021 12:53:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633722827; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TIujAKm9F97Zk0xMpFAN4otKNPc3QapUOv50Gb9X8QBecdbiGdzH4O1fKj78Z8SKya
-         E99slfKMX4KZYttxkCEy2sAtjhFmpaQ5rcwEdZoODuty4u809mW2S6VB746ybCgUZpWV
-         d4YVdCFeQd4oC9M4AHVFlXWW/lgY5puuAkCz4qhSWAbEKsMcm/wkzVoa0NN1oNx5Fdec
-         aOalt49jYGim6eRJFl6h+713K+BFvoTYN95iQJwbiG+Iae+7VBqWjOD6Ie7dOHreuNJl
-         xavDF9TFWyDl07lCQC58oOlPEQYAAZlSV57NaTDgcDPgCzTwkdxHIXOK+BxLOIDLgrhg
-         ejDQ==
+        b=x028sd59B0AaaYeTiRMg/MGcqFTnYY1LlL/Ud8i+gk1wceCW7QGFzlu7LVggbf2OJz
+         PdX+Aoi/hKc4aHAx/VyTDz8dE/MzdfspgW0xwx1cf7C2KaTPeDAbaN2DGiPl6q/VUtoe
+         RzE5QBRDBqiUZpB2PFnJPKRnugXB2Dhmmd9UAYTbhrqK5pmqFGCf64dO59rHuwqk6seM
+         mYrBE8TiCIhyyo8jWZApTa2bsMxHKC367jxgZ607JmwvsBlod+UJe8Y3hLR1q7bodm+l
+         RV9I5iru8b6AjIZpMsvdvmoFAyo2hrIFhBGqty0M3yYijaOKS9a90ykQ43VPn5Gbq8fU
+         x9/g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:message-id:to:from:cc:in-reply-to:subject:date:sender
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
          :dkim-signature;
-        bh=bpCdmaPCGaYrzR/U0nMGdvvi32yBPooiZzSb18NN8ls=;
-        b=K55kfghANM7ajUTfnluIQRuUB7Smgv0XGCysrbXz8ArMtDsJAzaZ0iLKHgdFyvmbwz
-         i297BQ4K3Wh7oaDIrVEmrXpByRkDGe2UtS8yOonT2t/4yo2r/wcH1u8agPGeJuUlTAKQ
-         /7k51PFOg6XlzIwvo4bluD+M4WxJ1WqrUtl8YdFSVkBVOFCQ/uroRSNw8hS3NkclILRu
-         BGbRuwmFxmhMWgE5oRrKzc8kfzRalmL9MVSKd6PMnXFR+ZFQZiLYCVdZhOInDd3Tmur9
-         aa2cn4QstjSv14Tf2JnTed7nb1/CsE2maundSMgzlVqB+gHFdSIs+7YernBAt7pENR2X
-         pjkw==
+        bh=tbrrCUXTGBkxxZ5ywKjGixLpVRlbb1/BEmRfmdtHNmU=;
+        b=RTEuTexCabMfcBWacyD+PfsYMA0WAhWT3LgfmSyeQJM5XvVHaYnKUd2t316Rr03qtn
+         +CDQzMV2Lms7acj2VXC8uYmiwIkEweK6WUexwp2BnFkjAeSldhq5+mWmq97T36IWZ+rq
+         92XElpSk8S99kpmRIcIbSi/sRzOT/BGZGPDWtJHfFRVFI2oI3nJRS7174MDWfxgjg3to
+         WSVtO4OOelzLfZYWJ4YDQ7Z1LgRQ9kbuyaM9LPg/XqPnGay3229BcczgcJo+CAl4Df4r
+         CINMG2w5N6j28MX6F0d950F+Z09eqtD2/WQ4UBaMpiZ+fhxfQDFOTiAGjohHJmPT+vWU
+         Dt2Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=VP3FxMvb;
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::529 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q0cZY5sB;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::d2c as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=bpCdmaPCGaYrzR/U0nMGdvvi32yBPooiZzSb18NN8ls=;
-        b=DAX1AyjekFSETtSBkrHgtV/ipP232zX/CmJYNccg9ht/htKxkRA59wPVszcae/sH+T
-         FMtnKKlJHB+fiJpZ8ZOs7asbc6yoAKiDC5OuskuWayduG0U/UIqw/XsimCgvg1/XQbX8
-         rGIjYc19Cb2895MuLxE9IQXjl40IcL65y7dS8aWD1fam3fTvEih/e70mdM0j02PAX4C5
-         0SZg74XIu0GXpAzJgAqUZbMK+tW1sn5BMcW/P4NZQGX8ItMFOuePgAqBm54n/nBmrnnR
-         k8RjzNp3b4xhAOufQnp/CJVcwb+cWJpaeNOL0lqii3BcOavB+xuKvfOcC4qDe2XgnlBP
-         N3Gw==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=tbrrCUXTGBkxxZ5ywKjGixLpVRlbb1/BEmRfmdtHNmU=;
+        b=TW6WnuczrT6NncgdK6qj/KU1NBzpBUEclESCj7Ql04hBg1J/khmNW1rX7aPPq6VhZY
+         liD1/OUy2IQcpowA8rcWK0YwlaYH4agjzGXtLCO/90b1gptYoQDKAo5RO68gd/0I+h/3
+         zk4XY5pGj22X12oXjJmrcpS/hu6LHCvR3zaKMRkg6eUmojkgr/4plFGdnB0B+dXPDNeu
+         9BXFF2aRaMHFHGjqDxY2ktwySlmCSyMN6a/3hPK5Ygnp4uOCdOXevuRlxHy7voMTio7u
+         eJ1wtieODjC7314knmVh+QLDQWDO/IQScGwaqNMeGQad1/zt01QFGZsrrfD68n4Uh1ze
+         do0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=tbrrCUXTGBkxxZ5ywKjGixLpVRlbb1/BEmRfmdtHNmU=;
+        b=DKSevha2JQu2Z5C16VLprKYRHFy/Kn5zkWDyHvOw2cGx9gA4NE+x7O5EpmcQC8SuR8
+         qohmP39QZ5WKgfIh5Tsqki5SZ63JYfBsJy51FH4/WkpmIfvoD191RReVbWzEA1S5EUSL
+         Ex345l2n/Gsr6JeORFJfmHl+npcmBA2xGCZsSyrhdUm3AWW6xvrl0R75zShGmBiiMtzQ
+         5TxDKc0b9Or50BUkkay5oWR6tphytzHJPU0cgWXKQgbGl1AKRedirG19DomMLxprG+q6
+         tUL/ODRnQCPVFi8H3n+EwHZsDCiLU9cm9IAfjwLGMLIUakZOA2+BTldPcB5tB27I6K39
+         dT4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:subject:in-reply-to:cc:from:to
-         :message-id:mime-version:content-transfer-encoding:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=bpCdmaPCGaYrzR/U0nMGdvvi32yBPooiZzSb18NN8ls=;
-        b=AIilclpfVQsIbtf6SCKE1ZGf8SFL0VZUL/s5dFVE84h3ruPEwiN7Flteq+SqncrTl7
-         lH3JeUKIEvOz9FpIDrFmMK2eWM31/IQQM8iWPULVlQTmAsOorONQhG2pzG3n65xZATbu
-         XWENi+tsvjeePecJOaqM2tly9rZ3Pk+V6pDKQA1WPpX/nHy73V+S2XTjGYBjjRqzvwSm
-         wS6PCHZoRveUMCXuUb4Ow9Xb/s7Uy2w/3o1CgAp9Kb17JaL6CKy28Hekl5s0rDMxVbP3
-         HEp2IMY6LYPcbVexQkJQ6b3hdVobcXCYf/4cWzoz0CrYzeyuVsbQaZPHKm+NRgHijy8k
-         eS3w==
+        bh=tbrrCUXTGBkxxZ5ywKjGixLpVRlbb1/BEmRfmdtHNmU=;
+        b=O3MHKRiscJ3sMYDN/EPryYzNY28sjrg+ZV+eMWls5nr+32Dm+ZMaIPCJ5rv3QA11Rl
+         85Avq1fcpt4yMTDotpVT86okGAu9Ocb1UM+BOgMNYYCURTcA0WZMS+kYMoYoWCZ/gqpb
+         4Tz2HsEdR0Zw0qpMWkVet5VpD64Z30YRT3rukgcN9O2gbpVvfFCSJ+c4JQ2PKXFFkZCC
+         sRVU3aZcHaYYaGtvyjMEXG90RhKaamq2z8qedua9bw0CgS49FRMq3MftGSxWzfXckOiP
+         Y3bFmMEloNzNiULIYF+cMGZKU4jfkT3K9viIi04Gt0f2sJca0QmJ5RInTGfXzoY9JBPO
+         VKnw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532edQwchX/RmKI/+9h9VIUxqsIGjIRxTCJKlsCjFBCJpNZ7jXTS
-	1UtGre8DEtshsCSu1ICj0/M=
-X-Google-Smtp-Source: ABdhPJzruyl2qH6FCS5ralXF7l2DhZdoYd6cYMnBT432FTOnGsWMGhs6Fr8ugo3IRkCov2S/8LlesA==
-X-Received: by 2002:a9d:86e:: with SMTP id 101mr6987816oty.177.1633718816892;
-        Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
+X-Gm-Message-State: AOAM5326gUld3smc4RHWUeJRxBYJthF5QnCS6sWC1WV4LwmdWuzQzd8i
+	eo6prbBOqYPz5BiELe7+sVc=
+X-Google-Smtp-Source: ABdhPJzVMxBvWdfx5DyZ2cMreWWHHHugvMCO3r+59rYXiTRBol6gjuMA0bx058y9AwVmwnXX0RmwvA==
+X-Received: by 2002:a17:902:6947:b0:13e:8e8d:cc34 with SMTP id k7-20020a170902694700b0013e8e8dcc34mr11137483plt.88.1633722827297;
+        Fri, 08 Oct 2021 12:53:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:1219:: with SMTP id 25ls1234171ois.4.gmail; Fri, 08 Oct
- 2021 11:46:56 -0700 (PDT)
-X-Received: by 2002:aca:d1a:: with SMTP id 26mr8813740oin.166.1633718816547;
-        Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633718816; cv=none;
+Received: by 2002:a17:903:185:: with SMTP id z5ls2282007plg.9.gmail; Fri, 08
+ Oct 2021 12:53:46 -0700 (PDT)
+X-Received: by 2002:a17:90b:1c02:: with SMTP id oc2mr13899000pjb.128.1633722826163;
+        Fri, 08 Oct 2021 12:53:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633722826; cv=none;
         d=google.com; s=arc-20160816;
-        b=pZJaWpvregaS0Va7dX7TCNCy5iVJQ8jh7w3P6wXosS/wnuPW7J5RcALPl08HZEr69J
-         6SxP8zmBU5KLLTk5JEZ5PLpGlfRuz7D5/8XppW1Hm5/AG6rKj80q7qkfxK8UcUTh2AUN
-         iV5Lj4+D47y06OYj7ixLt7rGp5dMy2mMKy0nr7gzlW/MDmDdKZUDsWz9L1EkMxm9zkTD
-         Wrj2F4gqvTZTZOKCFZolptuBKFmY8GQiXtZYxvywQSP8qkM75vF6iAo5wmMaFhPYB3Sw
-         g1ofnRC3a89EsZbVwTfjK4reUz0+cTzOP0J9pn7C+16PfAa9bcuZMCZYLQ4s3CzbTQMW
-         +xjA==
+        b=0XWz34yIEOagkr073TSEMjYWU6QSN5n4dzR4FsZa6/idbhH2e6pCfEbfkhN3T86nzq
+         cCydzS/3OkvVa5SQP2kgJyVzAxjl8Vm9MB6N1YRWO4f6vRY+SujWSvgZ/5TBGur+hJNO
+         OTNwSVxuNZkMN54L8bAWIuiu09PYyjsvPYYZySakG4oZBC0CHggyJcd1Ee9ehTgEyJv7
+         Obx87mGoT7qGvVhV9Dwj+q6gx4d9J4C2P3kdQoou4+CSfMZw4jVgQFqAFykRDL7cPu32
+         AB94JPdQIyw7LloA/9JFu5eqs4xUMLvf/Dq8viim0oYCtapAAEkLw3iMrE5RrYqRipEL
+         BADQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:dkim-signature;
-        bh=quuSqZ0dONVuv9mo4TeP3YIzWz+O416I07kQnnw7STA=;
-        b=0yDfzf0OPmcg1YX+Gq0XxsToL3P6K6rQfo2Qvbn/thgorXfRDMmRWSfVEC3dV1l36f
-         p+a1wLugrGZRaB7bH/HL8HSlMpVQSdbWiLGNPyjvKFsTFOkOMCcT13R/hN9HFvsptHtt
-         EkvuVt/cfPzLcrMmyRy3Y7sZ7A9NLQKaMHoHjOeFH3/bSsAL4LUQ2alCufz+bf9meGTR
-         5sSNeTqMO4qr1CkCGVa374BQ0H8TkZbo+XaKgOys0r6HgNjwEhOW9gobyMCsREt/mBTP
-         pCfKvSL0+yHkCHO5G1n/fIZgSxCMaa7pXXmisssrTb+c5R3AQ3HtP+xN0+QT9DkjwlVe
-         Aa0g==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=OBX9dZSpmQcEMkNsFs72/snKGvpakQB3FBMD+xsLJgs=;
+        b=XFtKfg3iRon1tY9MDUuX1u19SbildrlOmvWToMsHrAIQ3RTylDTRvkI6gAQfqdhy2r
+         YViA2dBwOTAeIzSYyMCj9dYWhxKmhd94uCkyh7+Q2EwVYSs+WFv/UbNT1RqhPuc+TNcs
+         k1gWMo0PlYPTQdsWKRhFFtP+hxdnnwzQLDijHHV4HhzZKqbE2CD0gnRTVK2duteqcaIq
+         jau5q4noFqKJI+Z015JdgUII/BiU/BlUdMUQErQcjOC3gF37axMnTumKdPGRcin/XSI/
+         zzdeATn71yWIbsICNhcAY/LYa3EqyYwYjvR07+IYBuUObcElLkWCesAaZSovqMexyaFS
+         TEuQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=VP3FxMvb;
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::529 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com. [2607:f8b0:4864:20::529])
-        by gmr-mx.google.com with ESMTPS id bj8si28167oib.1.2021.10.08.11.46.56
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q0cZY5sB;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::d2c as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com. [2607:f8b0:4864:20::d2c])
+        by gmr-mx.google.com with ESMTPS id j12si6695pgk.2.2021.10.08.12.53.46
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::529 as permitted sender) client-ip=2607:f8b0:4864:20::529;
-Received: by mail-pg1-x529.google.com with SMTP id h3so3937022pgb.7
-        for <kasan-dev@googlegroups.com>; Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
-X-Received: by 2002:a63:b214:: with SMTP id x20mr6037587pge.460.1633718816009;
-        Fri, 08 Oct 2021 11:46:56 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id k17sm73056pff.214.2021.10.08.11.46.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 11:46:55 -0700 (PDT)
-Date: Fri, 08 Oct 2021 11:46:55 -0700 (PDT)
-Subject: Re: [PATCH] kasan: Always respect CONFIG_KASAN_STACK
-In-Reply-To: <YUyWYpDl2Dmegz0a@archlinux-ax161>
-CC: elver@google.com, akpm@linux-foundation.org, ryabinin.a.a@gmail.com,
-  glider@google.com, andreyknvl@gmail.com, dvyukov@google.com, ndesaulniers@google.com,
-  Arnd Bergmann <arnd@arndb.de>, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-  linux-riscv@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-  linux-mm@kvack.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: nathan@kernel.org
-Message-ID: <mhng-b5f8a6a0-c3e8-4d25-9daa-346fdc8a2e5e@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: palmer@dabbelt.com
+        Fri, 08 Oct 2021 12:53:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::d2c as permitted sender) client-ip=2607:f8b0:4864:20::d2c;
+Received: by mail-io1-xd2c.google.com with SMTP id q205so11951429iod.8
+        for <kasan-dev@googlegroups.com>; Fri, 08 Oct 2021 12:53:46 -0700 (PDT)
+X-Received: by 2002:a05:6638:297:: with SMTP id c23mr9231975jaq.131.1633722825542;
+ Fri, 08 Oct 2021 12:53:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <CANpmjNMijbiMqd6w37_Lrh7bV=aRm45f9j5R=A0CcRnd5nU-Ww@mail.gmail.com>
+ <YV8A5iQczHApZlD6@boqun-archlinux> <CANpmjNOA3NfGDLK2dribst+0899GrwWsinMp7YKYiGvAjnT-qA@mail.gmail.com>
+ <CANiq72k2TwCY1Os2siGB=hBNRtrhzJtgRS5FQ3JDDYM-TXyq2Q@mail.gmail.com>
+ <20211007185029.GK880162@paulmck-ThinkPad-P17-Gen-1> <20211007224247.000073c5@garyguo.net>
+ <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1> <20211008000601.00000ba1@garyguo.net>
+ <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 8 Oct 2021 21:53:34 +0200
+Message-ID: <CANiq72nLXmN0SJOQ-aGD4P2dUTs_vXBXMDnr2eWP-+R7H2ecEw@mail.gmail.com>
+Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Marco Elver <elver@google.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	rust-for-linux <rust-for-linux@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: miguel.ojeda.sandonis@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112
- header.b=VP3FxMvb;       spf=pass (google.com: domain of palmer@dabbelt.com
- designates 2607:f8b0:4864:20::529 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+ header.i=@gmail.com header.s=20210112 header.b=Q0cZY5sB;       spf=pass
+ (google.com: domain of miguel.ojeda.sandonis@gmail.com designates
+ 2607:f8b0:4864:20::d2c as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,104 +148,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 23 Sep 2021 07:59:46 PDT (-0700), nathan@kernel.org wrote:
-> On Thu, Sep 23, 2021 at 12:07:17PM +0200, Marco Elver wrote:
->> On Wed, 22 Sept 2021 at 22:55, Nathan Chancellor <nathan@kernel.org> wro=
-te:
->> > Currently, the asan-stack parameter is only passed along if
->> > CFLAGS_KASAN_SHADOW is not empty, which requires KASAN_SHADOW_OFFSET t=
-o
->> > be defined in Kconfig so that the value can be checked. In RISC-V's
->> > case, KASAN_SHADOW_OFFSET is not defined in Kconfig, which means that
->> > asan-stack does not get disabled with clang even when CONFIG_KASAN_STA=
-CK
->> > is disabled, resulting in large stack warnings with allmodconfig:
->> >
->> > drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c:1=
-17:12:
->> > error: stack frame size (14400) exceeds limit (2048) in function
->> > 'lb035q02_connect' [-Werror,-Wframe-larger-than]
->> > static int lb035q02_connect(struct omap_dss_device *dssdev)
->> >            ^
->> > 1 error generated.
->> >
->> > Ensure that the value of CONFIG_KASAN_STACK is always passed along to
->> > the compiler so that these warnings do not happen when
->> > CONFIG_KASAN_STACK is disabled.
->> >
->> > Link: https://github.com/ClangBuiltLinux/linux/issues/1453
->> > References: 6baec880d7a5 ("kasan: turn off asan-stack for clang-8 and =
-earlier")
->> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
->>
->> Reviewed-by: Marco Elver <elver@google.com>
+On Fri, Oct 8, 2021 at 1:42 AM Paul E. McKenney <paulmck@kernel.org> wrote:
 >
-> Thanks!
+> OK, I now have this:
 >
->> [ Which tree are you planning to take it through? ]
+>         Both the unsafe Rust code and the C code can interfere with Rust
+>         non-unsafe code, and furthermore safe code can violate unsafe
+>         code's assumptions as long as it is in the same module. However,
+>         please note that a Rust module is a syntactic construct vaguely
+>         resembling a C++ namespace, and has nothing to do with a kernel
+>         module or a translation unit.
 >
-> Gah, I was intending for it to go through -mm, then I cc'd neither
-> Andrew nor linux-mm... :/ Andrew, do you want me to resend or can you
-> grab it from LKML?
+> Is that better?
 
-Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
+For someone new to Rust, I think the paragraph may be hard to make
+sense of, and there are several ways to read it.
 
-(assuming you still want it through somewhere else)
+For instance, safe code "can" violate unsafe code's assumptions in the
+same module, but then it just means the module is buggy/unsound.
 
->> Note, arch/riscv/include/asm/kasan.h mentions KASAN_SHADOW_OFFSET in
->> comment (copied from arm64). Did RISC-V just forget to copy over the
->> Kconfig option?
->
-> I do see it defined in that file as well but you are right that they did
-> not copy the Kconfig logic, even though it was present in the tree when
-> RISC-V KASAN was implemented. Perhaps they should so that they get
-> access to the other flags in the "else" branch?
+But if we are talking about buggy/unsound modules, then even safe code
+outside the module may be able to violate the module's assumptions
+too.
 
-Ya, looks like we just screwed this up.  I'm seeing some warnings like
+Instead, it is easier to talk about what Rust aims to guarantee: that
+if libraries containing unsafe code are sound, then outside safe code
+cannot subvert them to introduce UB.
 
-    cc1: warning: =E2=80=98-fsanitize=3Dkernel-address=E2=80=99 with stack =
-protection is not supported without =E2=80=98-fasan-shadow-offset=3D=E2=80=
-=99 for this target
+Thus it is a conditional promise. But it is a powerful one. The point
+is not that libraries may be subverted if there is a bug in them, but
+that they cannot be subverted if they are correct.
 
-which is how I ended up here, I'm assuming that's what you're talking=20
-about here?  LMK if you were planning on sending along a fix or if you=20
-want me to go figure it out.
+As an example, take `std::vector` from C++. Correct usage of
+`std::vector` will not trigger UB (as long as `std::vector` is
+non-buggy). Rust aims to guarantee something extra: that even
+*incorrect* safe code using `Vec` will not be able to trigger UB (as
+long as `Vec` and other abstractions are non-buggy).
 
->
->> > ---
->> >  scripts/Makefile.kasan | 3 ++-
->> >  1 file changed, 2 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
->> > index 801c415bac59..b9e94c5e7097 100644
->> > --- a/scripts/Makefile.kasan
->> > +++ b/scripts/Makefile.kasan
->> > @@ -33,10 +33,11 @@ else
->> >         CFLAGS_KASAN :=3D $(CFLAGS_KASAN_SHADOW) \
->> >          $(call cc-param,asan-globals=3D1) \
->> >          $(call cc-param,asan-instrumentation-with-call-threshold=3D$(=
-call_threshold)) \
->> > -        $(call cc-param,asan-stack=3D$(stack_enable)) \
->> >          $(call cc-param,asan-instrument-allocas=3D1)
->> >  endif
->> >
->> > +CFLAGS_KASAN +=3D $(call cc-param,asan-stack=3D$(stack_enable))
->> > +
->> >  endif # CONFIG_KASAN_GENERIC
->> >
->> >  ifdef CONFIG_KASAN_SW_TAGS
->> >
->> > base-commit: 4057525736b159bd456732d11270af2cc49ec21f
->> > --
->> > 2.33.0.514.g99c99ed825
->> >
->> >
+As you see, the condition "as long as X is non-buggy" remains. But
+that is OK -- it does not mean encapsulation is useless: it still
+allows to effectively contain UB.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/mhng-b5f8a6a0-c3e8-4d25-9daa-346fdc8a2e5e%40palmerdabbelt-glaptop=
-.
+Put another way, C and C++ APIs are the trivial / reduced case for
+what Rust aims to guarantee. For instance, we can think of C++
+`std::vector` as a Rust type where every method is marked as `unsafe`.
+As such, Rust would be able to provide its guarantee vacuously --
+there are no safe APIs to call to begin with.
+
+To be clear, this "incorrect" usage includes maliciously-written safe
+code. So it even has some merits as an "extra layer of protection"
+against Minnesota-style or "Underhanded C Contest"-style code (at
+least regarding vulnerabilities that exploit UB).
+
+Cheers,
+Miguel
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANiq72nLXmN0SJOQ-aGD4P2dUTs_vXBXMDnr2eWP-%2BR7H2ecEw%40mail.gmail.com.
