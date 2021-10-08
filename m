@@ -1,156 +1,141 @@
-Return-Path: <kasan-dev+bncBC5ZPGPA7QKRBCFB72FAMGQEBRUISUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKFI7J2AJRBI4RQGFQMGQE7U5UB2I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE79D42614A
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Oct 2021 02:27:53 +0200 (CEST)
-Received: by mail-ot1-x340.google.com with SMTP id b7-20020a0568301de700b0054e351e751asf2946933otj.11
-        for <lists+kasan-dev@lfdr.de>; Thu, 07 Oct 2021 17:27:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633652872; cv=pass;
+Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CF9426BB7
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Oct 2021 15:33:25 +0200 (CEST)
+Received: by mail-pl1-x63a.google.com with SMTP id o6-20020a170902778600b0013c8ce59005sf4966813pll.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 08 Oct 2021 06:33:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633700003; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CcPfu66IlR5K4o7naBhIZpwKziPUQAfM0giCgPHhtBE9NqpjK5x05gVbxPJOY3Wr9F
-         z5oKFz+rIAj6Q899dU7+/xnGwVHA/GRNdZE4GkFjHXfR1GeE6TMvBX1xWsMc+/zcphVI
-         QNml5+JrD5LXHuttDUrzx4bpDV61CiyklpwnwaN9FPnVIJI0MVCZwLcLCvR3Y3gr45bv
-         vr7XXNhwNFPzc3NBDr5QDEBKXbyEToxwejFn0G6Od/UOLU/tQZFdJ3LL30KPjVHHjBJG
-         eGPmGBdbr0+tzec72y4z98Ks0Ku18+Mxo7gU6ajj0QOzE3D/I6zgBGx6wi7Rw7c/xlV3
-         /Pkg==
+        b=z9CoTkahEtXkJ4e0f6nfUFKVFwXyvDWimuU9gBLa+qrsM8grnApEUz1qSj2Zw8T7DC
+         Lo3lNkabb61B+gpKkc5BHVxzW8Z8HCQmZ/DAXRvWTN1hxJf8H7FpUynMUj+VK386gJlq
+         lLlwKWahne3j4F7BOkSGaakTCPZibWmusvCdV3j8LUlOJcmp28pE++M2GPtwHPce/ya6
+         i+WkOqiCxq44AAaQXwN4aPgT59hkGGAnTq2UkRtPuiEjvPGHogv+bzNbmpu4ZNR1/xGK
+         GCDAdAPFWUUiuLLtafVXxEhDckxnog9tokVHELwSHKQmvaC6/v5bdE/Xbaej8TvMI9GF
+         OhZQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:references:message-id
-         :content-transfer-encoding:cc:date:in-reply-to:from:subject
-         :mime-version:sender:dkim-signature:dkim-signature;
-        bh=NBxXZXJ4t4TWleSkUO6PYghm3v4XTD25bzT8HvdD8rA=;
-        b=x7uCRziHPUCllT6k1OfvE3qPbO8pfNc5nl6fyKJYBIb+3a85ooB64ErjR7LUNjG1ZE
-         lN4x/RmJMbDw1zCTgq3kwf28g/qCk91UQmOY/5PHAG0xzz+GGlXP7adXSOMonNcrmjQa
-         Av1E4cv/uMiEkjtnF746TF4wSH0BNsOdN+L95Bt9MniPNakehyig7ASRBNsz9Yl4tqBn
-         vD5w4MnD5kGIbKruYRto9v++vo1mMtIAwjH0nv7zS2E8luMOnTyzcBoym1pElPsGWmLr
-         I/5qzX5JWrxBwGTZUlZRnCI4IFG1f5aLj98ICs+2PNJSXlfBMPfa6ac767pby7gFsh7h
-         OrjA==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:references:cc:to:from:content-language:subject
+         :user-agent:mime-version:date:message-id:sender:dkim-signature;
+        bh=AyyYqe+Y7FKjzpDhpUQL2StCjCNTFROne6TLTpb/nsk=;
+        b=z5PlV7P0rRljWYD/Dn/h18882v+b3K+3Fyykgly8rRKc4Hu4CLuev9r4HHJqI725Su
+         biVELWEEDP3At/JtLzFatnoyg8tqqJUW9E79xR2JntpeTFTLCaTQaZ66jAQr2gx9l78S
+         oBQASVLqGoe2amQpUczxTAvvpwRu+qSAdB+bF174D/jo2SrB61oDvfpe8Sx+imQ63Ywy
+         3x0XDdlYlkL22MoHkocAikVdNsTxs8UWPMPhLOaItwyPIDlhizOo6EG4MeBoLpPKeeti
+         iVsoABfjLt0u0gXVBcp0lMAqF+YY8x3IM+qKJc/JzSONKdGH7S++ZwasQO4W7kKxtDqD
+         ioYQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=fSUzY63J;
-       spf=pass (google.com: domain of comexk@gmail.com designates 2607:f8b0:4864:20::534 as permitted sender) smtp.mailfrom=comexk@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=NBxXZXJ4t4TWleSkUO6PYghm3v4XTD25bzT8HvdD8rA=;
-        b=jAmZGT3L9uFHnRu9blaCoOib5zZAGt3uMwLbRnlifwx0f2jf39xArNdxPyB0aKvH33
-         WFMYzI/X7ym55lnnbGweZH78VOuFvXQ1QjmfHlAI8nEK2WYPXV4SPM3OZmmHlaYOENPL
-         Sa5xv/ZHLjiDiIYfe/1oEaeYGRZ+Jmo3O4xy5j+7Fwf0lSCQovt4Nsj0dDKZBqNUQIu2
-         RdILVAlcr47hSl69RsHIJf9qnBuAmpc+ys5ld7Kyjm5fc24+kJSQR4EwUEfKYOIe6f/J
-         xde3DS9FRDRBt2dCV3phd4NXGDTJnHjmPB8+vieouegK1JSp6Xa6tbh7lNLwRbGIUT82
-         l0aw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=NBxXZXJ4t4TWleSkUO6PYghm3v4XTD25bzT8HvdD8rA=;
-        b=XWTok4Mhx54+iDCBgATHRL53xEVaYBtqqaV2Hx0o35M3lf7X0GRcyQJ1Pl46833qeQ
-         OtuYnVic1wB96BXrifdyz3O221wyimJuYYoWK1RxQ5ZDOiu5vm9uN3iqe1Mp+ifkKADg
-         C7yofvdOjSAdw4RbGWeo9VY70ZtQbOQVT/6LIX9TRsvUZasptp/ln1OwhRfRyHjNH9Ib
-         HeAE6u/kEEid6KQaQXUEP1xkOTGjbVu6ibhOAikJHHfyHitymZE4JVoFACooBoW770ms
-         TzE0QjMb0fLYwtE2Okr3oMexZKxM6eIaHkcy2C0BZ7n5Rhb+tYDGwIRCkIhPOrTEHBcz
-         LlLQ==
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=AyyYqe+Y7FKjzpDhpUQL2StCjCNTFROne6TLTpb/nsk=;
+        b=MzvaXHy4M1jf1/IG7+YAjjbvgtmSpunFtqm4OQ0eEspJYKtIw01UYaROkMC1FiYKs5
+         JlXWKekZ2cCYCYfSxYxhhMOY4egxmFnDfqQfYihVv+n5x/cbplXB1RreHBg7OVTXJUXX
+         pQ7lJz5FvUhkziyytH91KhnpkI7pzw5puhFXkMgPjjFNEmZluFOoiG4qfTi0ht5hhi2w
+         F2CPP3UdICutwlLLRQmoqmsQoz/q0GTti542+zK5DDMAQXSoKFNzGWRBy/rPTjJ/56Ws
+         wpHK9pl4JVD1gqx3H/1AnosG0EVcbFemeB6ylu6MZPD7dpDQifFg5aW+5ilDnGEcn1bN
+         Wc3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:subject:from:in-reply-to
-         :date:cc:content-transfer-encoding:message-id:references:to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=NBxXZXJ4t4TWleSkUO6PYghm3v4XTD25bzT8HvdD8rA=;
-        b=MSohVntxIwfr02RdOay9HNgYmWXHBh+rNthoRKYHcRfy1XyVloEamOlsVEgoegFB5Q
-         SqC0XUoY3xZSLSublTKcZJj3rDIAwABbSjMoF96GsI4sgG2OiYc4x0LL6sFD63sgoKDw
-         eI9nM4x7V8jxr0S3OXFlYyU2SiOYyCVpLWcKlX+/+nyizzf7d7vSdW7dree5IkvvmPQF
-         DabafxGhCaNjrLz/nij3LQJXh7OrZIq7wXCjy0/3+Tetma5blRDAe4aDcCaT4pfQXpz4
-         oLBWlETySrdfbN6FKzO3nbTNuc7tRsKhUtMZLVki0wBihYvFCZiU5m41X0b0c+ayRi+6
-         F+pQ==
+        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
+         :subject:content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=AyyYqe+Y7FKjzpDhpUQL2StCjCNTFROne6TLTpb/nsk=;
+        b=eGcDTn925ByOsrDiaYnPa51tGAag4gBbE72O4eXAgA9472gjNf6IpBvHe1y53UR8E3
+         Z51RJuR8Nlw9T1hWAgGWY7TQRu3FcW3zoGwVWLV8yVLVPKnWKvej9IqC2znNTrmTuSTa
+         5gucXipvbZMK08oucxoW9FeEbwXNqQnoQbM/3UAYE8XvP8WqvbHHkzFKM6yjBh4A1gnR
+         cCYg2RniZTTRpi1Gg8vZpUWIRldKwwcxh07qIoBBCrd8po9w+KCAwE6JNkoqyKehK63S
+         HCIcZMz1OdoiU81cV7ADFQDeWJknGw8t7cLHjcpaXqjZq2uOw9zy5oj4VY3+p7g44okO
+         9ttg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5306Td/ZEG5TgTZaVjpeF96pSvg87bTvX0p1hfFcyy1hvTLYlc7A
-	4qAWYcegulPmBmGRz4UiB0k=
-X-Google-Smtp-Source: ABdhPJzf5gF0i//90sy3Cz87a9jRVk/1jz9tA/uWKgDYl50+eYFYQdxff4DL2txphJc5XNNmJSobbg==
-X-Received: by 2002:a05:6808:1187:: with SMTP id j7mr5702601oil.135.1633652872544;
-        Thu, 07 Oct 2021 17:27:52 -0700 (PDT)
+X-Gm-Message-State: AOAM533MT/tXHP98xqMWm8iUH5cMGjlPFIyVxaLt+dfNcBDOVM4bglea
+	ucHzQdBNyO6Ro0snPT/hP9Q=
+X-Google-Smtp-Source: ABdhPJweWDHZsWgKfcm+77wnybLvZh1N9hiROIkyBsJoh8Fji+kxj0Twr4MNn3UejMX3tLjaJzqeQQ==
+X-Received: by 2002:a17:903:248f:b029:128:d5ea:18a7 with SMTP id p15-20020a170903248fb0290128d5ea18a7mr9497443plw.83.1633700003514;
+        Fri, 08 Oct 2021 06:33:23 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:d902:: with SMTP id q2ls482315oig.5.gmail; Thu, 07 Oct
- 2021 17:27:52 -0700 (PDT)
-X-Received: by 2002:a54:4807:: with SMTP id j7mr14026109oij.140.1633652872252;
-        Thu, 07 Oct 2021 17:27:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633652872; cv=none;
+Received: by 2002:a17:902:d2c2:: with SMTP id n2ls1837997plc.7.gmail; Fri, 08
+ Oct 2021 06:33:23 -0700 (PDT)
+X-Received: by 2002:a17:90a:4815:: with SMTP id a21mr11822712pjh.108.1633700002987;
+        Fri, 08 Oct 2021 06:33:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633700002; cv=none;
         d=google.com; s=arc-20160816;
-        b=ELSrl0QuF/emkgrmh6rEZtN22StWgfm2hgpxQuOpHQEgDu7rEoPwwDvziOnmF3FNz5
-         JUztqk5vOoOI0Hhw1xzfwDfDmtcC9rMbH0/8nI34AO7ZYkvXvmAZgBK+NtdZqEG4Rt8N
-         Iu0my2hSI/7jHeVk/ql3fHZFPIMLaif/0RfEdh2dT5DuPLIvd73lJwUqErux1j6Uyv+B
-         aA/RUjWE+DFAz3kKK4kLpEd8YHDQHKSlIDV6GrftOWhhmrvxcybgNzEe4JE4oHtiHUk7
-         YGtrUl5DkGULdMAxKVPqu/cb0GAU/bxXr8//dojyPDy7vjly6eXgVXHqAluEso6TFGIw
-         iFYA==
+        b=qYmFpsFWVC3lLBzjv1nyG/LNANcabSnhkFWOAtvIx3GeMECTexR7UoX5N+hGAVhJ4U
+         4SZZQgRbD/JbXVCdD6FhQVGrsz69I7DqdX+EkiMDK387fzfB4HAPdSLQ1gITqgwPumeS
+         XnPUehX/YOzhRiMeUGK3vIAakNDogg7BIOI4iF4UaeljDtJdB80ooxB8a4CZu8H5azr0
+         c5/KKHmlexP6ceDTLcv/nfLS/GC1uXUxkYVqn8pjfyuOWJKMzuwLbV5uAcqGCtji00wb
+         XyW8Fb5NQF3noH1sPen9VojG+rzeEuPWnmbXnJ1S+Cer1NvmFmarPJd33cwOH+prSoY9
+         5f5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:dkim-signature;
-        bh=iUTP4HSmp3xOxpRb2/2WXV/LFPy9RUoNRuoCStV1//0=;
-        b=OcM6UvAKCkvi2IU0VkcNAS1XNvBGq6xSOfDW4FH+td9zi0EMc6ut/i3qbUmuxaIdNk
-         U+axIEP7lTA3gkoeoO0dKqZFVpR9+Z68CVb1rXgj1y+EUtXc+Ui4evO0NfWWty04W1z7
-         ClqN9wZdovg9WahnR6G7jGO8OwzeRCEw6wFQl9RAdWyGcKtA1HMwOdyFlDz0g71lCWMX
-         yAucDeBkBb2igu+N30OYbEW9RpuqaYXnu+fEesYw+4yEwF/zKDSbwPrShmCXZnbjiKYn
-         jp2F7LxVJ6SG7QiRfcqSBqP8QGr6d8HveFSn6AEjMeEqGfn395SfaHM3YmKdH7fMVEAi
-         aYgA==
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=GHK3UNZ1k2vtyqR2A2i+z7ONFfQdKQVPoz0Eqk2WYo8=;
+        b=cO6zUK/P3SeKrECW2LU/2y02kEWHsoUcFg82VNanFumPMxcTkLUXXCD+NBMKrALcam
+         a2fWcNUa3FRHbKhB65QddqtTP4r9mNp+BOYeWniWMTSUxhXTuiJem0KcrEgda28k6PkR
+         ykay3107oxpQ2SeMYnD02EfltZrpvnGI2l9Bo1Lo5YS9gUxQI+cZs+dRb5sIaIEiPugD
+         1wpSFPzCJzo7qXeHVFs3wV6wcxHyhYZZJVyq5/w+AVYVoxX6hOEcnx7zPYMxn9SnTRv9
+         xM3oQtwkKUdhZlPV3Z257lYEDRpviaDrb3Z2U4dmpqj80vlr89EA1P5Nw///kOLYAXJw
+         Ixcg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=fSUzY63J;
-       spf=pass (google.com: domain of comexk@gmail.com designates 2607:f8b0:4864:20::534 as permitted sender) smtp.mailfrom=comexk@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com. [2607:f8b0:4864:20::534])
-        by gmr-mx.google.com with ESMTPS id bg28si174599oib.0.2021.10.07.17.27.52
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
+        by gmr-mx.google.com with ESMTPS id p18si205621plr.1.2021.10.08.06.33.22
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Oct 2021 17:27:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of comexk@gmail.com designates 2607:f8b0:4864:20::534 as permitted sender) client-ip=2607:f8b0:4864:20::534;
-Received: by mail-pg1-x534.google.com with SMTP id 133so1459821pgb.1
-        for <kasan-dev@googlegroups.com>; Thu, 07 Oct 2021 17:27:52 -0700 (PDT)
-X-Received: by 2002:a05:6a00:1693:b0:44c:64a3:d318 with SMTP id k19-20020a056a00169300b0044c64a3d318mr7089306pfc.81.1633652871605;
-        Thu, 07 Oct 2021 17:27:51 -0700 (PDT)
-Received: from smtpclient.apple ([2601:647:5000:47cf:692c:444f:b010:8bc4])
-        by smtp.gmail.com with ESMTPSA id k1sm349838pjj.54.2021.10.07.17.27.50
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 07 Oct 2021 17:27:50 -0700 (PDT)
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
-From: comex <comexk@gmail.com>
-In-Reply-To: <20211008005958.0000125d@garyguo.net>
-Date: Thu, 7 Oct 2021 17:27:49 -0700
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Marco Elver <elver@google.com>,
- Boqun Feng <boqun.feng@gmail.com>,
- kasan-dev <kasan-dev@googlegroups.com>,
- rust-for-linux <rust-for-linux@vger.kernel.org>
+        Fri, 08 Oct 2021 06:33:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HQptb6nDpzbmq7;
+	Fri,  8 Oct 2021 21:28:55 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Fri, 8 Oct 2021 21:33:20 +0800
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.8; Fri, 8 Oct 2021 21:33:19 +0800
+Message-ID: <25c6cc97-f436-8966-9052-a1841f68e81a@huawei.com>
+Date: Fri, 8 Oct 2021 21:33:18 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH v4 0/3] arm64: support page mapping percpu first chunk
+ allocator
+Content-Language: en-US
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+To: <will@kernel.org>, <catalin.marinas@arm.com>, <ryabinin.a.a@gmail.com>,
+	<andreyknvl@gmail.com>, <dvyukov@google.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <elver@google.com>, <akpm@linux-foundation.org>,
+	<gregkh@linuxfoundation.org>
+CC: <kasan-dev@googlegroups.com>
+References: <20210910053354.26721-1-wangkefeng.wang@huawei.com>
+ <5cd6631f-0bac-bd74-3369-1fa4a744687f@huawei.com>
+In-Reply-To: <5cd6631f-0bac-bd74-3369-1fa4a744687f@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <F4A43CA9-29C2-44B7-803D-FAED9A75909D@gmail.com>
-References: <CANpmjNMijbiMqd6w37_Lrh7bV=aRm45f9j5R=A0CcRnd5nU-Ww@mail.gmail.com>
- <YV8A5iQczHApZlD6@boqun-archlinux>
- <CANpmjNOA3NfGDLK2dribst+0899GrwWsinMp7YKYiGvAjnT-qA@mail.gmail.com>
- <CANiq72k2TwCY1Os2siGB=hBNRtrhzJtgRS5FQ3JDDYM-TXyq2Q@mail.gmail.com>
- <20211007185029.GK880162@paulmck-ThinkPad-P17-Gen-1>
- <20211007224247.000073c5@garyguo.net>
- <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1>
- <20211008000601.00000ba1@garyguo.net>
- <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
- <20211008005958.0000125d@garyguo.net>
-To: Gary Guo <gary@garyguo.net>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-Original-Sender: comexk@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=fSUzY63J;       spf=pass
- (google.com: domain of comexk@gmail.com designates 2607:f8b0:4864:20::534 as
- permitted sender) smtp.mailfrom=comexk@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com
+X-Originating-IP: [10.174.177.243]
+X-ClientProxiedBy: dggeme709-chm.china.huawei.com (10.1.199.105) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
+X-Original-Sender: wangkefeng.wang@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187
+ as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -165,17 +150,74 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 
-> On Oct 7, 2021, at 4:59 PM, Gary Guo <gary@garyguo.net> wrote:
->=20
->=20
-> I should probably say that doing LTO or not wouldn't make a UB-free
-> program exhibit UB (assuming LLVM doesn't introduce any during LTO).
+On 2021/9/28 15:48, Kefeng Wang wrote:
+> Hi Catalin and Andrew, kindly ping again, any comments, thanks.
 
-Yes, but LTO makes certain types of UB =E2=80=93 the types that exist mainl=
-y to enable compiler optimizations =E2=80=93 more likely to cause actual mi=
-sbehavior.  But that=E2=80=99s no different from C.  Though, Rust code does=
- tend to make more aggressive use of inlining than C code, and then there=
-=E2=80=99s the whole saga with noalias=E2=80=A6
+Looks no more comments, Catalin and Andrew, ping again, any one of you
+could merge this patchset, many thanks.
+
+>=20
+> On 2021/9/10 13:33, Kefeng Wang wrote:
+>> Percpu embedded first chunk allocator is the firstly option, but it
+>> could fails on ARM64, eg,
+>> =C2=A0=C2=A0 "percpu: max_distance=3D0x5fcfdc640000 too large for vmallo=
+c space=20
+>> 0x781fefff0000"
+>> =C2=A0=C2=A0 "percpu: max_distance=3D0x600000540000 too large for vmallo=
+c space=20
+>> 0x7dffb7ff0000"
+>> =C2=A0=C2=A0 "percpu: max_distance=3D0x5fff9adb0000 too large for vmallo=
+c space=20
+>> 0x5dffb7ff0000"
+>>
+>> then we could meet "WARNING: CPU: 15 PID: 461 at vmalloc.c:3087=20
+>> pcpu_get_vm_areas+0x488/0x838",
+>> even the system could not boot successfully.
+>>
+>> Let's implement page mapping percpu first chunk allocator as a fallback
+>> to the embedding allocator to increase the robustness of the system.
+>>
+>> Also fix a crash when both NEED_PER_CPU_PAGE_FIRST_CHUNK and=20
+>> KASAN_VMALLOC enabled.
+>>
+>> Tested on ARM64 qemu with cmdline "percpu_alloc=3Dpage" based on v5.14.
+>>
+>> V4:
+>> - add ACK/RB
+>> - address comments about patch1 from Catalin
+>> - add Greg and Andrew into list suggested by Catalin
+>>
+>> v3:
+>> - search for a range that fits instead of always picking the end from
+>> =C2=A0=C2=A0 vmalloc area suggested by Catalin.
+>> - use NUMA_NO_NODE to avoid "virt_to_phys used for non-linear address:"
+>> =C2=A0=C2=A0 issue in arm64 kasan_populate_early_vm_area_shadow().
+>> - add Acked-by: Marco Elver <elver@google.com> to patch v3
+>>
+>> V2:
+>> - fix build error when CONFIG_KASAN disabled, found by lkp@intel.com
+>> - drop wrong __weak comment from kasan_populate_early_vm_area_shadow(),
+>> =C2=A0=C2=A0 found by Marco Elver <elver@google.com>
+>>
+>> Kefeng Wang (3):
+>> =C2=A0=C2=A0 vmalloc: Choose a better start address in vm_area_register_=
+early()
+>> =C2=A0=C2=A0 arm64: Support page mapping percpu first chunk allocator
+>> =C2=A0=C2=A0 kasan: arm64: Fix pcpu_page_first_chunk crash with KASAN_VM=
+ALLOC
+>>
+>> =C2=A0 arch/arm64/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 4 ++
+>> =C2=A0 arch/arm64/mm/kasan_init.c | 16 ++++++++
+>> =C2=A0 drivers/base/arch_numa.c=C2=A0=C2=A0 | 82 +++++++++++++++++++++++=
+++++++++++-----
+>> =C2=A0 include/linux/kasan.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++
+>> =C2=A0 mm/kasan/init.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +++
+>> =C2=A0 mm/vmalloc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19 ++++++---
+>> =C2=A0 6 files changed, 116 insertions(+), 16 deletions(-)
+>>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -183,4 +225,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/F4A43CA9-29C2-44B7-803D-FAED9A75909D%40gmail.com.
+kasan-dev/25c6cc97-f436-8966-9052-a1841f68e81a%40huawei.com.
