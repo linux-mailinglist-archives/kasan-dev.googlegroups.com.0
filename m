@@ -1,135 +1,142 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBB53QOFQMGQE7WZ6NGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDRZHGH43YJRBHUHQ6FQMGQE6Q3JF5I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1CB1427482
-	for <lists+kasan-dev@lfdr.de>; Sat,  9 Oct 2021 02:08:40 +0200 (CEST)
-Received: by mail-ot1-x33d.google.com with SMTP id p7-20020a056830318700b0054749cce9bcsf6327172ots.18
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Oct 2021 17:08:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633738119; cv=pass;
+Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A64E427C03
+	for <lists+kasan-dev@lfdr.de>; Sat,  9 Oct 2021 18:30:24 +0200 (CEST)
+Received: by mail-pj1-x1040.google.com with SMTP id g10-20020a17090a578a00b0019f1277a815sf9457594pji.1
+        for <lists+kasan-dev@lfdr.de>; Sat, 09 Oct 2021 09:30:24 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633797022; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vhDfRslB0t+erdVNen0xqtA7qzRSWfrpAKavV2pBQnFzF3X00YPqzrW9W11CftUGFg
-         foUblSgJps+8BwYl5WRKzP90OmKAH1+n4Jpe+vKb/ac2TZ4Od8xRqnyL72lvYdfsJG5O
-         UnuK1DjmyHp/8H/AKel8YdmYXUWinwLlh8Up0JS8lPhd2zILXg6uZx8pNwZVozd6zGIz
-         u1BF86+l4pwD243hVfSxpaNHCYGEt6w7wjvwAK76DAahbnB98jZkIlmdKYfZMMknRnQt
-         rLIYtq57Yg34NqJbws5tkDMb2WvYfXtIpNxsVal9lQa0L7W4DtbrCy5zkPgLcAUPzAqZ
-         hAKw==
+        b=AJqaVteiyc4miyavg4n+5DZ5PzEd1JzHY1/VD72LR/3p3x1RJEH+UHbSSonuBGCz/0
+         oo2l2PRfCyjj4oYj2iw9dhCDfpTcdly2GhSqogcVeVTQLAIofSba4PEEnnL60cZhxTKz
+         eabvCJggK/SD5jKoTWlEioSd49RI8eufvPq5eqBkypOJUVAecxSlYAWsn8DbBIv91tYt
+         k5RHVLP0cqSazoHuNffTFlSs4Sk1qYh3VJqgALDjVf7JR1pS54wu0pc7VIJvily3VbZ5
+         bLVxcLcj+iJ76qtgCYenKRnEmYACMgRh71ELSN4O12I4DDdA5GT98vhIOpl9nYO2UsCi
+         MUoA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=x17rjWRLaJ4xn3Vu72Kpo2CVur4FaagtaroeqWjKdfw=;
-        b=THh/WPJaeyr7WvfYbn1zArMzdixsxrGgJEc0ExLAUylbORbTzfuyO6VGT1esaQoV+L
-         OUvzHpyrHlo6hbZT1s7pIYhCmeHYhjnDnbl1s4ofXg2/NvN4WfvLHcm8sNEyuqR+rQrf
-         pvv8R1soOGiUw8WHW93pLlP1HB4mVcV5HtO9J90+aXWxU0h0FJP0DaBMdrgh+IzV2yhT
-         jggILZKsdVJPvw6dSMX2sdLRi1pbTN1XSVthlLhbjKOA+yIBD2gXygkMOnMl5ngQusOf
-         CMffTTdFHsL7Pc1FUPhQT16YGTokfkXzFAgRaAAIwTsYMlybStYnfp5JYSxKHtoQeizS
-         Ev+Q==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=dsFi7NsZS7wvRwkLhAR4FeKl1FoMjfWHndi8dRsUUDA=;
+        b=O8EExdG7cQ4Dp/4L5sCOJRRuXgDacszesF7d3ZI/N/7xOgH/5Wh36/Vrrndgjl5ESH
+         ULjB4hjxzBxHbxCE88XgoJYdoVIVctgZA2YwYA269g6Uv76e6dTO5DQSNRPWff8Zs2Hw
+         z/yauUNj6AcTU66uL6qU96eqq3zmHvyMYQIGpScC0O1hMI++owfsA0pCXSx5yvPCWgd7
+         w2LQJk4CJNakBvcy7uG8to4NthQedkJN4TEAnEWU8f48mgGOcI6fCFCT1HGObY6tyRI5
+         WGGwjzGuXlfSqtq75FvoDMhC/lW8n1VbizU8TE2Gb24y/s0FtLULvZ38yuuLuqWtcJqc
+         MHqg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Oo8nsj0F;
-       spf=pass (google.com: domain of srs0=ppam=o5=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=pPAm=O5=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=l5OSqSET;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=x17rjWRLaJ4xn3Vu72Kpo2CVur4FaagtaroeqWjKdfw=;
-        b=XeTriWaX6rLunFyFUTU5VmZAvaeb/sayWlTitX1ZiDjVZhvpDt6tpyeiRaDuLQtTuQ
-         lyuoUQaDHyLWvBKelAS4VtmYMFWwbeejbftbzxEWnyGn5IMXBPZk10m/Sbbgr7H66p+d
-         Qh8W3k6eUhu9uFR8UlzWS0lw4gOlDFcfGAoT6srL7Hxnw4uEnwlaSB2+pYEudDGppfQX
-         8mdlBVpe0rXO55gAUQtpg4DZGKrpsQdz8znnkBVRvhnUSvu4mNQQEdN7j+HoBPkJaMSo
-         GDWaUxBixI6JKexXWxrqazryu95Uzx9DRw1z1zHOybcbeEVNFJEz3W/K+2FLf++WIARV
-         4KjQ==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=dsFi7NsZS7wvRwkLhAR4FeKl1FoMjfWHndi8dRsUUDA=;
+        b=inkK7u2Um14+TLIWmmN4BSSzfMItUtBoseyPlooiuOFh7BYa3ondAMXro5K0X2I2W0
+         TjAMaFQwXvOEW0h6SqD/FR+/UAr5JXyIMrMoPQnDT3ezQiEFVxHy3Ft/luHvj6FqJFyQ
+         klyoRbya7QbbXVw5mnM+Jh8tM/70RJbWmHggwk3s4v6C9sEntSTCGFtQzBSRc4+Zw81N
+         7uG15JNvMvxU/Jr5hzYLmfod0cJuvERAcJNcsBllm1cMM4mvovtqBldavijcpd0tNn5Y
+         2nymxIfdpOWwogVY/1jFEQC4QrunystNTqZJZKOJMktR2MbIE4KL6iU+gl3qvXIcXp1K
+         LUMQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=dsFi7NsZS7wvRwkLhAR4FeKl1FoMjfWHndi8dRsUUDA=;
+        b=XgQXi1kQISc0lFE47PCaZgcBSF4E2K951a5qidiHL3a8ERp5pTmGXIwrkcGuKrKkII
+         9yo5d7D74SWz7hoqfXgaRgRK2ZqqPZpsFh4kbCYA35F04H45LeGbfXl1RnP0V6UhRda5
+         tKxVr5wWOi/XPtgf2UQOLWpjSfTYfVaTM92325/PfeQ3vF2+VwfNZREyEol37QeviD0k
+         uOfAlGNTYCUyh0kFi1ehKazLXXYckchb1sOQ8OXysmJfnfcUoNPpumhTSQQWeVnysDlC
+         QNTp1CPeuVF7o+TT0poaGg/kwuS80qxbmHyFxg+eXdCjVOu7Y+3sec3mzNmZ98Sbo72L
+         hYbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=x17rjWRLaJ4xn3Vu72Kpo2CVur4FaagtaroeqWjKdfw=;
-        b=5A7/CnVxyba9byxVvPlGu6vEq3WUuIvP0WLkWR6caR9IfeJVJWlmTYP+0fKGCCMY0X
-         bpCCCIolL+Zl/hJdM4l5IJoCC4+1cdKX1FaPE/KHNAdNCHyl2DQrKdtKCDkWjkuufXAQ
-         GAJjADuHpmezp5hmZ/1QSRO2pAjIC79aosaYkwTq05j/an3GXxfi+Y5cQVvp0sJG1sPL
-         vJOeO6WWgY/YMxQtLqJtHGe15mc+GlnGQY6/USFBwxW+YFdT+011SEVtQquMh0bKLIRi
-         eM4XdpQM0tjBG9ul8ttGKtc7hr8FYpW3PrU67b3xFQK6HbRdTU/cOyWTvZb2gpkjmiXh
-         Y1ww==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=dsFi7NsZS7wvRwkLhAR4FeKl1FoMjfWHndi8dRsUUDA=;
+        b=ZpjONPkLLgBiNeT6wr7PGIwmURu95FYNmTCO1e6QJdtWioUehGd4+CRMyVQz9MWWvN
+         HTAMGdreKecj+xuAtt0fRWgDIo7HSzwhuBGXYS1OZa/KgoKcyN5aDrmldcbQwpVmp6bt
+         SxChbevwKxs/Gg81ZMZbEsRNP19FVg1ysLfpbc7+XNIg/t7r3LoRj/xUezKygZMtl0QT
+         04N5zLDYN4SH5Lv+zG5HZBFT/NznCfBmzvqMsW87pq9Nxgbuv2QEnpr8EOSKdI0KIuyr
+         uaocNrzZsPP8NcSijOgXMG3PZvevv8aliKeIiaBunmK/lAbK5/ER2UM5Z6pxaOLns+/T
+         9n5A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5314iH9ZHYqr9rsarV4dUbCBgyXHXq0V8fl7mF5fnP9VX3yR2edS
-	fZertE3kei0cAcWbM17ZbYg=
-X-Google-Smtp-Source: ABdhPJwO88P2Z7mih1gAlHkha4zCQqEJw5/zbj9BGsQPsFl1z421GWzp9rLONikiwWVGUmdkpLJJmw==
-X-Received: by 2002:a05:6808:56b:: with SMTP id j11mr10109491oig.79.1633738119687;
-        Fri, 08 Oct 2021 17:08:39 -0700 (PDT)
+X-Gm-Message-State: AOAM532OAztIn59iaz0A7XB7narqIAQg1f15K76KadXQvkwK6PX4OlR/
+	TQ1InkE3UF+wP9F2Y65JzhM=
+X-Google-Smtp-Source: ABdhPJwIbGzqOzkND61e4wbIEngutGQ3jvlgZVKrFh1KZL2ogIacj6bzjXmicSlpILMRNdlOeUNYSw==
+X-Received: by 2002:a17:902:a381:b0:13d:f97d:74d0 with SMTP id x1-20020a170902a38100b0013df97d74d0mr15480435pla.61.1633797022658;
+        Sat, 09 Oct 2021 09:30:22 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:e298:: with SMTP id k24ls351411oot.3.gmail; Fri, 08 Oct
- 2021 17:08:39 -0700 (PDT)
-X-Received: by 2002:a4a:ac47:: with SMTP id q7mr10100100oon.90.1633738119351;
-        Fri, 08 Oct 2021 17:08:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633738119; cv=none;
+Received: by 2002:a63:5016:: with SMTP id e22ls2301719pgb.6.gmail; Sat, 09 Oct
+ 2021 09:30:22 -0700 (PDT)
+X-Received: by 2002:a63:ef57:: with SMTP id c23mr10297399pgk.60.1633797022028;
+        Sat, 09 Oct 2021 09:30:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633797022; cv=none;
         d=google.com; s=arc-20160816;
-        b=nvCRmHgzAlzQm492TheekEy7pHnhvq6U/zJodpi/lKrnqft8gD3FMetys+WCxUYoNE
-         5nFo4vKDKx25j7YviInoIMufLfNuLgBQ/B/FbDrd36f2E+XvGIfuV387ACD4ENJvABj2
-         29FMf0wOSntRMGT8w5q0sNNuZP6Bo+pOUqIiEmgEPcwkvlPKlZatMrnkqJAnVuRjWX2A
-         i9S/94QOx321C5aFeTIak0Q2+vtQpncKXpir0r1VSUT9lOLZ4MAO6Ro0yyUi63VkuTho
-         OPPcq9yw39grrNBY4I6BkFELy17GXhHUfz/gLS46V3gsLYLs4/TwEpvuZ5YP+FLGPpG4
-         iJWg==
+        b=Tx+6pDk9ZXdLBBbFvWTYWLI/ap1jzjD4NW4Dypt5INDvvouubtaqduGvL5tS2mM46D
+         NNj/+DbGlPb/Cf1Y/M5vMrx8cXN0kaCVYJve6GtIYuX5Ac/p6/rBbzX34C4ARAmJpOOn
+         HG4rXL9gKk+Jr2qzDCvEtyk27/2+o5H2DT9HAv2OPddcHFuNNZqFZX22HvTwR/2hY8Zl
+         +yulYF5kGEJmdKxzcyKTQbdPopg6rUAb2ZLyr0X+oxRvr5rayddw1of4DsLwtE/5+n37
+         yI1yF6WBwoR7A9ulrHjBelCKxhW5bFAwU5BklLcRPIaagFu47+LZEP3Jrgx8VNyyyrNk
+         QiTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=LFJBZKhPG97x54iS3dEkSS9CYrazS326dXDelzBhmnw=;
-        b=aOGLqikX9MPzvd3c6zfSGTvK+nfyhMRfZGoXBq3csx0mgaTV5gwWrFFWDuQKJ+Gohj
-         Fa9YQSJOfhtltAzMdRB7XAcdkKZ6OTlh7njKmashV5Ph5Y1V6RqTqQM4JU+0SHx6q+Ux
-         /bbNki1DSm/TRFMZwzOwgmKpHF9EZV3MpW3eP1TjX0wRBfNRyxJjFvRV4HRMGkPM6ibI
-         wjFQOP2wYTpa30w9NBymRHNZ2vhegPqxoUw7QfEuODD3cVATZz0Fg/lLZQMfSXZovZgN
-         PAcHP8fd7wZzhbJb/UVsBvMHAqziZptuJIgDm4X+ZRlGJSXHBLZezFb7d1DN75EwSDnv
-         lOgQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=y6JYx687k6xboEf2wHzwYIK5mYxKxPQWwDp9SWS5NZ8=;
+        b=AWnJLi66GqyBUu876qSl2egHCvNk9RoKIJ844VeuJNfKunlImG9BidPCy1bQ1zhLEp
+         D977+38uy9IiRgbq+rgySs4TfByCs8Wfad2tVIoINvsrd6oexNfDldRFDkjrkDpETOOr
+         5v9dNKwZk+DxS29z7C//TdvRbQBBrK7Y9xOyK+rdCqAeV59oPhvBPddQ5nSK4qYo03Lo
+         iODa1meoXdrWWQTc9fQ2p6k/XIc47mcDAmQgrieD3IoccLXJWazR83HoCtH7gOfiauU4
+         CtiyX4tskEwi8EsWQ4EAG3Qj8DzRABSxU0jPul4zO7BJVDVI7Dw74ahefQTpaXgDXesx
+         J2vw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Oo8nsj0F;
-       spf=pass (google.com: domain of srs0=ppam=o5=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=pPAm=O5=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id v12si43437otq.4.2021.10.08.17.08.39
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=l5OSqSET;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com. [2607:f8b0:4864:20::d36])
+        by gmr-mx.google.com with ESMTPS id w16si203021pll.0.2021.10.09.09.30.22
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 08 Oct 2021 17:08:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=ppam=o5=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8762860FC2;
-	Sat,  9 Oct 2021 00:08:38 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 51FD35C1E85; Fri,  8 Oct 2021 17:08:38 -0700 (PDT)
-Date: Fri, 8 Oct 2021 17:08:38 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, Marco Elver <elver@google.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	rust-for-linux <rust-for-linux@vger.kernel.org>
-Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
-Message-ID: <20211009000838.GV880162@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <CANpmjNOA3NfGDLK2dribst+0899GrwWsinMp7YKYiGvAjnT-qA@mail.gmail.com>
- <CANiq72k2TwCY1Os2siGB=hBNRtrhzJtgRS5FQ3JDDYM-TXyq2Q@mail.gmail.com>
- <20211007185029.GK880162@paulmck-ThinkPad-P17-Gen-1>
- <20211007224247.000073c5@garyguo.net>
- <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1>
- <20211008000601.00000ba1@garyguo.net>
- <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
- <20211008005958.0000125d@garyguo.net>
- <20211008174048.GS880162@paulmck-ThinkPad-P17-Gen-1>
- <CANiq72mOWV2SiF24E=NMB-zc2mK_UFH=CvDFxN+vdtyjy-Wm0A@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Oct 2021 09:30:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::d36 as permitted sender) client-ip=2607:f8b0:4864:20::d36;
+Received: by mail-io1-xd36.google.com with SMTP id e144so14449184iof.3
+        for <kasan-dev@googlegroups.com>; Sat, 09 Oct 2021 09:30:21 -0700 (PDT)
+X-Received: by 2002:a05:6638:2ac:: with SMTP id d12mr12504807jaq.133.1633797021729;
+ Sat, 09 Oct 2021 09:30:21 -0700 (PDT)
 MIME-Version: 1.0
+References: <CANpmjNMijbiMqd6w37_Lrh7bV=aRm45f9j5R=A0CcRnd5nU-Ww@mail.gmail.com>
+ <YV8A5iQczHApZlD6@boqun-archlinux> <CANpmjNOA3NfGDLK2dribst+0899GrwWsinMp7YKYiGvAjnT-qA@mail.gmail.com>
+ <CANiq72k2TwCY1Os2siGB=hBNRtrhzJtgRS5FQ3JDDYM-TXyq2Q@mail.gmail.com>
+ <20211007185029.GK880162@paulmck-ThinkPad-P17-Gen-1> <20211007224247.000073c5@garyguo.net>
+ <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1> <20211008000601.00000ba1@garyguo.net>
+ <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1> <CANiq72nLXmN0SJOQ-aGD4P2dUTs_vXBXMDnr2eWP-+R7H2ecEw@mail.gmail.com>
+ <20211008235744.GU880162@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20211008235744.GU880162@paulmck-ThinkPad-P17-Gen-1>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 9 Oct 2021 18:30:10 +0200
+Message-ID: <CANiq72m76-nRDNAceEqUmC_k75FZj+OZr1_HSFUdksysWgCsCA@mail.gmail.com>
+Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Marco Elver <elver@google.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	rust-for-linux <rust-for-linux@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANiq72mOWV2SiF24E=NMB-zc2mK_UFH=CvDFxN+vdtyjy-Wm0A@mail.gmail.com>
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: miguel.ojeda.sandonis@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Oo8nsj0F;       spf=pass
- (google.com: domain of srs0=ppam=o5=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=pPAm=O5=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@gmail.com header.s=20210112 header.b=l5OSqSET;       spf=pass
+ (google.com: domain of miguel.ojeda.sandonis@gmail.com designates
+ 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,102 +149,121 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Oct 08, 2021 at 11:32:34PM +0200, Miguel Ojeda wrote:
-> On Fri, Oct 8, 2021 at 7:40 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > Just in case there is lingering confusion, my purpose in providing an
-> > example from the field of safety-critical systems was nothing more or
-> > less than to derive an extreme lower bound for the expected bug rate in
-> 
-> Yes, safety-critical systems usually have lower rate of bugs, but they
-> can actually be very buggy as long as they comply with requirements...
-> :P
+On Sat, Oct 9, 2021 at 1:57 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> But some other library could have a wild-pointer bug in unsafe Rust code
+> or in C code, correct?  And such a bug could subvert a rather wide range
 
-If it complies with requirements, is it really a bug?  And while we are
-at it, I need to make an insignificant change to those requirements.  ;-)
+Indeed, but that would require a bug somewhere in unsafe Rust code --
+safe Rust code cannot do so on its own. That is why I mentioned
+"outside safe code".
 
-> > production software.  Believe me, there is no way that I am advocating
-> > use of Rust as it currently exists for use in safety-critical systems!
-> > Not that this will necessarily prevent such use, mind you!  ;-)
-> 
-> Well, people are already working on bringing Rust to safety-critical domains! :)
+> of code, including that of correct libraries, right?  If I am wrong,
+> please tell me what Rust is doing to provide the additional protection.
 
-Hey, they have been using C for quite some time!  In at least some cases,
-with the assistance of formal verification tooling that takes the C code
-as input (cbmc, for example).
+Of course, an unsafe code bug, or C code going wild, or a compiler
+bug, or a hardware bug, or a single-event upset etc. can subvert
+everything (see the other reply).
 
-> In any case, for example, DO-178 describes the software development
-> process, but does not require a particular language to be used even if
-> a particular project following that standard may do so.
+This is why I emphasize that the guarantees Rust aims to provide are
+conditional to all that. After all, it is just a language -- there is
+no way it could make a system (including hardware) immune to that.
 
-And how many of those boxes are ticked by the usual open-source processes?
-Nicholas Mc Guire talks about this from time to time.
+> I would like to believe that, but I have seen too many cases where
+> UB propagates far and wide.  :-(
 
-One challenge for use of Rust in my previous work with similar standards
-would be repeatability.  It would be necessary to carefully identify and
-archive the Rust compiler.
+To be clear, the "effectively contain UB" above did not imply that
+Rust somehow prevents UB from breaking everything if it actually
+happens (this relates to the previous point). It means that, as a
+tool, it seems to be an effective way to write less UB-related bugs
+compared to using languages like C.
 
-> > From what I have seen, people prevent unsafe Rust code from introducing
-> > UB by adding things, for example assertions and proofs of correctness.
-> > Each and every one of those added things have a non-zero probability
-> > of themselves containing bugs or mistakes.  Therefore, a Rust program
-> > containing a sufficiently large quantity of unsafe code will with high
-> > probability invoke UB.
-> >
-> > Hopefully, a much lower UB-invocation probability than a similar quantity
-> > of C code, but nevertheless, a decidedly non-zero probability.
-> >
-> > So what am I missing here?
-> 
-> Rust does not guarantee UB-freedom in an absolute way -- after all,
-> there is unsafe code in the standard library, we have unsafe code in
-> the kernel abstractions, the compiler may have bugs, the hardware may
-> misbehave, there may be a single-event upset, etc.
-> 
-> However, the key is to understand Rust as a way to minimize unsafe
-> code, and therefore minimize the chances of UB happening.
-> 
-> Let's take an example: we need to dereference a pointer 10 times in a
-> driver. And 10 more times in another driver. We may do it writing
-> `unsafe` many times in every driver, and checking that every single
-> usage does not trigger UB. This is fine, and we can write Rust code
-> like that, but is not buying us much. And, as you say, if we keep
-> accumulating those dereferences, the probability of a mistake grows
-> and grows.
+In other words, UB-related bugs can definitely still happen, but the
+idea is to reduce the amount of issues involving UB as much as
+possible via reducing the amount of code that we need to write that
+requires potentially-UB operations. So it is a matter of reducing the
+probabilities you mentioned -- but Rust alone will not make them zero
+nor guarantee no UB in an absolute manner.
 
-The real fun in device drivers is the MMIO references, along with the
-IOMMU, the occasional cache-incoherent device, and so on.
+> Except that all too many compiler writers are actively looking for more
+> UB to exploit.  So this would be a difficult moving target.
 
-> Instead, we could write an abstraction that provides a safe way to do
-> the same thing. Then we can focus our efforts in checking the
-> abstraction, and reuse it everywhere, in all drivers.
-> 
-> That abstraction does not guarantee there is no UB -- after all, it
-> may have a bug, or someone else may corrupt our memory, or the
-> hardware may have a bug, etc. However, that abstraction is promising
-> that, as long as there is no other UB subverting it, then it will not
-> allow safe code to create UB.
-> 
-> Therefore, as a driver writer, as long as I keep writing only safe
-> code, I do not have to care about introducing UB. As a reviewer, if
-> the driver does not contain unsafe code, I don't need to worry about
-> any UB either. If UB is actually introduced, then the bug is in the
-> abstractions, not the safe driver.
-> 
-> Thus we are reducing the amount of places where we risk using a
-> potentially-UB operation.
+If you mean it in the sense of C and C++ (i.e. where it is easy to
+trigger UB without realizing it because the optimizer may not take
+advantage of that today, but may actually take advantage of it
+tomorrow); then in safe Rust that would be a bug.
 
-So Rust is an attempt to let the compiler writers have their UB while
-inflicting at least somewhat less inconvenience on those of us poor
-fools using the resulting compilers?  If so, I predict that the compiler
-writers will work hard to exploit additional UB until such time as Rust
-is at least as unsound as the C language currently is.
+That is, such a bug may be in the compiler frontend, it may be a bug
+in LLVM, or in the language spec, or in the stdlib, or in our own
+unsafe code in the kernel, etc. But ultimately, it would be considered
+a bug.
 
-Sorry, but you did leave yourself wide open for that one!!!  ;-)
+The idea is that the safe subset of Rust does not allow you to write
+UB at all, whatever you write. So, for instance, no optimizer (whether
+today's version or tomorrow's version) will be able to break your code
+(again, assuming no bugs in the optimizer etc.).
 
-							Thanx, Paul
+This is in contrast with C (or unsafe Rust!), where not only we have
+the risk of compiler bugs like in safe Rust, but also all the UB
+landmines in the language itself that correct optimizers can exploit
+(assuming we agreed what is "legal" by the standard, which is a whole
+another discussion).
+
+> Let me see if I can summarize with a bit of interpretation...
+>
+> 1.      Rust modules are a pointless distraction here.  Unless you object,
+>         I will remove all mention of them from this blog series.
+
+I agree it is best to omit them. However, it is not that Rust modules
+are irrelevant/unrelated to the safety story in Rust, but for
+newcomers to Rust, I think it is a detail that can easily mislead
+them.
+
+> 2.      Safe Rust code might have bugs, as might any other code.
+>
+>         For example, even if Linux-kernel RCU were to somehow be rewritten
+>         into Rust with no unsafe code whatsoever, there is not a verifier
+>         alive today that is going to realize that changing the value of
+>         RCU_JIFFIES_FQS_DIV from 256 to (say) 16 is a really bad idea.
+
+Definitely: logic bugs are not prevented by safe Rust.
+
+It may reduce the chances of logic bugs compared to C though (e.g.
+through its stricter type system etc.), but this is another topic,
+mostly unrelated to the safety/UB discussion.
+
+> 3.      Correctly written unsafe Rust code defends itself (and the safe
+>         code invoking it) from misuse.  And presumably the same applies
+>         for wrappers written for C code, given that there is probably
+>         an "unsafe" lurking somewhere in such wrappers.
+
+Yes. And definitely, calling C code is unsafe, since C code does not
+have a way to promise in its signature that it is safe.
+
+> 4.      Rust's safety properties are focused more on UB in particular
+>         than on bugs in general.
+
+Yes, safety in Rust is all about UB, not logic bugs.
+
+This does not mean that Rust was not designed to try to minimize logic
+bugs too, of course, but that is another discussion.
+
+> And one final thing to keep in mind...  If I turn this blog series into
+> a rosy hymn to Rust, nobody is going to believe it.  ;-)
+
+I understand :)
+
+As a personal note: I am trying my best to give a fair assessment of
+Rust for the kernel, and trying hard to describe what Rust actually
+aims to guarantee and what not. I do not enjoy when Rust is portrayed
+as the solution to every single problem -- it does not solve all
+issues, at all. But I think it is a big enough improvement to be
+seriously considered for kernel development.
+
+Cheers,
+Miguel
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211009000838.GV880162%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANiq72m76-nRDNAceEqUmC_k75FZj%2BOZr1_HSFUdksysWgCsCA%40mail.gmail.com.
