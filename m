@@ -1,134 +1,123 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRBUGWSCFQMGQERAXAGPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT6537ZTEKRBUHCSCFQMGQEXEZZ67A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93d.google.com (mail-ua1-x93d.google.com [IPv6:2607:f8b0:4864:20::93d])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA77428CE1
-	for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 14:17:21 +0200 (CEST)
-Received: by mail-ua1-x93d.google.com with SMTP id m40-20020ab05a6b000000b002c9d69624b0sf7691108uad.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 05:17:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633954640; cv=pass;
+Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B5D428D3E
+	for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 14:42:57 +0200 (CEST)
+Received: by mail-lf1-x140.google.com with SMTP id c6-20020a05651200c600b003fc6d39efa4sf12671784lfp.12
+        for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 05:42:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633956177; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ak8m9Z93bEX3f+0Qr3kd1hX8NUSmKq7VZLVJGYMlwFLte4XDJN5NkH1fvu+OvisBdz
-         3/lgc1yavk+K4lm1Eo7eNVTQcV8vc6j+ehqbl9Kk6ll7CDGcpenBh/p0/XKp7nJ4TBZ+
-         cpRMYDT4xju05UDKzUJa8OFYP9mJD7wzKsY4UR4f9F7x0WcQ3OxvODpUuPOY5rdagZHd
-         e166pG7AacsbkZINslAaufvckccV4CIF0/XlKhmuXsY9OOXG0uwqspaJnrg+Ylskpx0D
-         l4/lhu9uEcJp4+dGJZsIqlbojBaF/uphiRGo+LjYuYJvRDUkdd0rmn8Eznj7vHocQZkX
-         RuZQ==
+        b=RVuWRYSgovgkR7dhRtNTqdmCU7Ukgs/xkAmWL0sdlmuixK4BNEvvIuDnkN7HnEbBXs
+         v8q0UkyI5Db6gN714M1p56h86PRCtAFK16R2qibMbGaoeUC/cVboL3Eu1p2PUPtRn+X0
+         IWZ5x6oV3xPk48UD+qDKdztdiZfcSw1Vs00wT6N/aPFcQzK0Z1t3Wtt91DpfUAxMjWRz
+         ooowUVevMYSHARMSw1IjjQnpGheTxgiR97BDXA2J2VYbnVfo/+BA4HvXt4eh1V6cSu1u
+         zOVY6PgkgI9nEWDeMaimhJV5XG/bvuhX5o9f4wGhppnAMJikJBWWW3rk1MSkAxtU26P9
+         UeFQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=bxSy+kqkH4QUn+0hHd9rsdAQ6VC6aesHr+LZ/rL4Vl0=;
-        b=BpKIpJXvz0wh08uwX+aVOJXdjSseNrEfXakp2MWqPSgn7j/60TP+nYQWBriU3lLrEQ
-         tQ5rbkT3R1LLphj77DfoABrNktwu6WP4PKiq2AajGLpfz3D9Qr24gIFJVgg/XUH+RXbN
-         LnmRM+AWs87lFJp7Sw4ahYrHfjjUdcgr8ZB5Zprpf1OYSuC7eLt2v2EsgTGF1BTx6vAE
-         QRgwHeskiHnCB7EFJtORtn7EAK6UY7qheJHsPdCyvaPnjGStG3yZCAmcO8un048FNFz1
-         U2avTJeSzhiHsmHHZI+L56Biw+JcJIpBAEx0Xy//kMJR2mnqQBdUsyMh/okgznoYhL92
-         W2Hw==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=89Fam4Q8IkxB32/W4PnOrtkjpJK46PAyUK5Q+JA9c2Q=;
+        b=mxX39ynAn2HmQIZA+jX39dyan+tBtR5DCpgwCD6gEi4/nWVhqVHR6LdBPS2yAFTvG5
+         Q2rNmiidr+kZrcUtA6gN+dqbRBJW9Ni5tXMesbFH1z4XjsfkoDhLFojHlVCHb1rkjM9p
+         aoN8jD8jrfosGZtw6VvbN9muBB8waeU7B8JG7M5uVMEluoK+9ROPCi7muwaoa7C5kctO
+         cz9pc9ATDQe24XGGwFx9nilhi+kBpDeJU0B5GIz0fCqQnO98lyynLOW3y8GtKd4FVn9L
+         QY5iBaSUtZ3rofae65I/cQ6UjnbHLXZOrdyZc5hjAgLyIveatX3wSVg4UEEIwYra7/EG
+         ck7g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@linaro.org header.s=google header.b=xLAEEpeg;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2a00:1450:4864:20::52b as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=bxSy+kqkH4QUn+0hHd9rsdAQ6VC6aesHr+LZ/rL4Vl0=;
-        b=I6a+uQ5LB3YbelMz71U+5LCFewzYZQpWZSYrWwHXzZZHyqW7isW6lPW2PpZUnmVRY6
-         lFBbdALkdr+PPe4ihNnFBQ8rka84Yh/ntDv9h5GeJ12DAKDSzoei0b9SWKH9bHdH6s8i
-         suKYoxEYfykTzz4UewPJCPWvgNydxxzgMIgjuIeog44SiOiAZsaWkyH5H8QAZMWCTETe
-         aDw9j107DdYrS2mtAdq6pbHcsv1HMzwNvgBMUzwNJIzNEsztrKI954wmZu3XelVjiukn
-         01QgENKuVVGLSv3BbAj6eF8xGQ/oZurrkjlw/sHZTBjP/aX0WaibWuodvYX5Cw9IS1Ki
-         ostw==
+        bh=89Fam4Q8IkxB32/W4PnOrtkjpJK46PAyUK5Q+JA9c2Q=;
+        b=IB7Z40xB68rIZ0nrTyAQcftOAZq04IUPiaHSzrnX7ZmcLKKQvwvZ6t7lL2TwwLpqn4
+         yKEEY942OByhZ3ShD1wHm8/dCtjRP7NsB5sv4Qhz0xMRM6LcRuHtsEVDWzPDnzbCMViI
+         H8G3n2Z2yfMfISHjASqBm8GjjP19BVrjDZGE5vLgivMxMmNO2X+/IdGdfEndZX37KKUw
+         EsvL4KdOZpc49f0KbwpbHUo9K4bgZPqkotzyn6vMwur9F1L0cm13ABbPivzihdQvPzAw
+         quxedDHpAGKb0ZCwTjw142VS1ANa2bOzxtzKhoI3Xq4U2NDnIF9NcyhJNxWHknQEVyib
+         6Fsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=bxSy+kqkH4QUn+0hHd9rsdAQ6VC6aesHr+LZ/rL4Vl0=;
-        b=zseyY8Ydh7cnYj8V/012ws8hcdVQaGXdV0YIEQ1e8ER1xvXw4ZUgujhmfC5YyLvDav
-         I9v/dMpsQiajUYKAqjfsmaKI5i7VQPZ/X2uqwd0rnulnVa0lpEf11UFHS9ITKMQUJ+0R
-         z7JiOjnsRT+Vg1VvSlmwNFgCzP2B31AA75qu5R2wzjpFNO3O2tbG1NSabA1ERptm/1mP
-         WgXsJaB5HIzF7MYxnuhMeqqvukPpuZvBASS5yLNUJo6ZfxrjlkJ62W07M4eDspMso8cz
-         9q7G7j8HUXsdbjG31JFuLckVotZxChWOTi2G7BCqkXT2yXujCpKLx33mSdX/kntISlVm
-         RpNQ==
+        bh=89Fam4Q8IkxB32/W4PnOrtkjpJK46PAyUK5Q+JA9c2Q=;
+        b=IYl0LvkH4N3KcxcozspfmmY7XO15YOF3dGF+yNpUNhJcqXaMv8PDWa0kbAGCUC6YEq
+         kVeAYJ9qRIJORxksYGRG6o8k7FDj5uW7cPmr2Wdv6k+BDrzPM7EIMd3J3z6LNMUBb9Dx
+         cbVXbUoYnUDQnF0NuvMX6vV5WCrx7hWARioVA37uZCgq3Kj7dCyvVW5OLjrczsOl5DeA
+         r3+uc5QW7CVPf34MY0u+xvigR2Vp0yvxNYKkBWHpAbDkbcNxlsgO0g6gXdId61xWmGJD
+         6YN/4ycqvekDLx+WRSKpgvwKFe1khxkZytkyQHZKKPh8Lwrhyir0iXT36yeHoUN3CBeQ
+         UzFw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530cLXF6+3ctrhZHHyB/XZcewio9r/7X4bDNT5hN9q5kVMu+S2b8
-	dhvy3KBZD8odThu2qsIkU5s=
-X-Google-Smtp-Source: ABdhPJyOSeHPhkxu+KQ3qNVZPnGInDk2XjphuPKX2NsCz2dCL5bt2izNfqHzmt8652VrmerbLHvAIA==
-X-Received: by 2002:ab0:4751:: with SMTP id i17mr14303344uac.86.1633954640786;
-        Mon, 11 Oct 2021 05:17:20 -0700 (PDT)
+X-Gm-Message-State: AOAM533AzU2NfwQVO3azMkF1rRjH7+s4OJ61Wc5/ccQXzmHo+sFl6yR5
+	2YYOBLGn1rd4zIWUXTOcIvY=
+X-Google-Smtp-Source: ABdhPJzzP0hMK64ZZoIcI3h1Ju49M7ZrTXogHv2Z3NbGckUq9KgimSTN5LpAoTSPqjZcN/WJ71RjhA==
+X-Received: by 2002:a05:6512:202a:: with SMTP id s10mr2477053lfs.560.1633956177091;
+        Mon, 11 Oct 2021 05:42:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:c083:: with SMTP id x3ls2432791vsi.1.gmail; Mon, 11 Oct
- 2021 05:17:20 -0700 (PDT)
-X-Received: by 2002:a67:1983:: with SMTP id 125mr22572451vsz.31.1633954639095;
-        Mon, 11 Oct 2021 05:17:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633954639; cv=none;
+Received: by 2002:a2e:3901:: with SMTP id g1ls581711lja.2.gmail; Mon, 11 Oct
+ 2021 05:42:56 -0700 (PDT)
+X-Received: by 2002:a2e:8799:: with SMTP id n25mr23704591lji.174.1633956176097;
+        Mon, 11 Oct 2021 05:42:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633956176; cv=none;
         d=google.com; s=arc-20160816;
-        b=iQGcaE2Vsu7DgEmWDlZaa0cyEkHWn9JdsZ76es/+n4NlGJ+C6s98a74/+O7HZ/0njL
-         Hee/bIG5/UHqdT+W4YIT2TkwjYoOsdpO0OcGIQ43hUuTnT5LvUUXKQBa62WrTAuwfONn
-         Too2wJ8I4WE+2iYvwB4AsNinXa7MUB7W8arb2lbwNJgeK7SpKPwkPKUmLGgBTrljZOHb
-         +Mi7K9J8K3wwNVvnZStnQeMVIASScYdQES3cFEIkm9sJ6scy0FaF+jv9mb7QhZAjqT+d
-         U6sQO2l+NWaFe/qYZG/EzVQahgsOn329P0/csgbSfsm7w4B3pKl9ZWicoUCNrxgLEzuZ
-         Zyhg==
+        b=nmna7ZB3UZDysqx7gpjE6sNSw0ke7Svc6dMfevA6wAfYiQ6mmBBygeivQ9R0Y7Qz4m
+         5RgjDOqkF9zIy4y1D9YnHmrl/AmfcHjna+j2gYw93uWXqN9LQOwpXxfSUdYzFh8smpZO
+         CEyYgeVlNTjsXPmDlaa06fze+0ZN2uuGmsSopAvPPZYQcGbYmeygxfbH1hdDSYK7z56z
+         9pMh/sMcn7imyWpIWlWgW2NPrhGMBHwGqxrok86EewzzlU9CbP3KI8hb4z2H3mZm5Vm+
+         fBBDeTm1uz7sXNZMAov3ZlKE1MTDfM96AflZUHJb8OCvnxXFq1+8diIkHKHUEJNP9XJy
+         L76A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=P29fbCCYSVrQV+E5E5TGvjIFfKyEo/S1NyHnLC5JPTA=;
-        b=uhDNRv49hQa/PQmV/tOUFSAWyZUr5mM89cF73moToaZCj/CK7TYoqHzxkXS8vCtT3O
-         arrbfWWfnXS2s9PbOSnQCBWLhy0swIo4ujF+kI4aiXUYikFx8J5yvdKPb2JLJDA493Ty
-         OmuQDjBXwaLtenQMhgMzgf7380HWLO1gp9lKlKjOZqk9lCwmnxP1ZxLvjqAepn256KAR
-         00TRmlLqC1SahXsSSy77YMxPJ7WtL1YFdj6AF7gQsofqXWNrJvUPwScBY0slKNljdxr2
-         K9uA3eUoueSSbhV3zqDW+azg79f0PMjoLGzPZ5F5DwxzrsX0TTdygSuR+B4aPOnuzFaM
-         +82g==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aH+daMH8/JBhYD/VNld/K3vNCe4mWktvAcObPC4aWG4=;
+        b=cIGLsoza2yjxyidKyPD7P01tfxgFTqTluakDEbAmAhen6d1jGu3ZZlrAPqYTP2w8tL
+         EwEFaZKRIP/6Txkg7+W0B6M6hWkXVSPaUjFttYN+oMrMD2sQqwh9QHmj0DDp6UR0oPo8
+         L4yMKgEir0v43gjBi3FPQeEWjulz90xaEFlxbXxg+gLkOOvSgAIZxP8M3CeO2mItAa9F
+         Cpb/weD98Evl1I7aQs59IjBUz1tDF9emyV9QTyrlH0tpWS8F50Qjxr+CtOrt3DzFNaMR
+         tjamUiycgwq04wgndZxSIKfSl9lEMBgdOM1LB+Ymhz1CFI35gDkOI0ThDnG996ATZSyR
+         mweg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id 3si301617vkc.0.2021.10.11.05.17.18
+       dkim=pass header.i=@linaro.org header.s=google header.b=xLAEEpeg;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2a00:1450:4864:20::52b as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com. [2a00:1450:4864:20::52b])
+        by gmr-mx.google.com with ESMTPS id h4si391221lft.8.2021.10.11.05.42.55
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 11 Oct 2021 05:17:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HSd3N5MVrzbn3m;
-	Mon, 11 Oct 2021 20:12:48 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Mon, 11 Oct 2021 20:17:15 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Mon, 11 Oct 2021 20:17:14 +0800
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-To: <naresh.kamboju@linaro.org>, <akpm@linux-foundatio.org>
-CC: <andreyknvl@gmail.com>, <dvyukov@google.com>, <glider@google.com>,
-	<kasan-dev@googlegroups.com>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-next@vger.kernel.org>, <ryabinin.a.a@gmail.com>,
-	<sfr@canb.auug.org.au>, Kefeng Wang <wangkefeng.wang@huawei.com>, "Linux
- Kernel Functional Testing" <lkft@linaro.org>, Catalin Marinas
-	<catalin.marinas@arm.com>
-Subject: [PATCH] mm: kasan: Fix redefinition of 'kasan_populate_early_vm_area_shadow'
-Date: Mon, 11 Oct 2021 12:32:11 +0000
-Message-ID: <20211011123211.3936196-1-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <CA+G9fYv1Vbc-Y_czipb-z1bG=9axE4R1BztKGqWz-yy=+Wcsqw@mail.gmail.com>
-References: <CA+G9fYv1Vbc-Y_czipb-z1bG=9axE4R1BztKGqWz-yy=+Wcsqw@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Oct 2021 05:42:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of naresh.kamboju@linaro.org designates 2a00:1450:4864:20::52b as permitted sender) client-ip=2a00:1450:4864:20::52b;
+Received: by mail-ed1-x52b.google.com with SMTP id z20so67139535edc.13
+        for <kasan-dev@googlegroups.com>; Mon, 11 Oct 2021 05:42:55 -0700 (PDT)
+X-Received: by 2002:a50:9993:: with SMTP id m19mr40386265edb.357.1633956175595;
+ Mon, 11 Oct 2021 05:42:55 -0700 (PDT)
 MIME-Version: 1.0
+References: <CA+G9fYv1Vbc-Y_czipb-z1bG=9axE4R1BztKGqWz-yy=+Wcsqw@mail.gmail.com>
+In-Reply-To: <CA+G9fYv1Vbc-Y_czipb-z1bG=9axE4R1BztKGqWz-yy=+Wcsqw@mail.gmail.com>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Mon, 11 Oct 2021 18:12:44 +0530
+Message-ID: <CA+G9fYtD2EFu7-j1wPLCiu2yVpZb_wObXXXebKNSW5o4gh9vgA@mail.gmail.com>
+Subject: Re: mm/kasan/init.c:282:20: error: redefinition of 'kasan_populate_early_vm_area_shadow'
+To: Linux-Next Mailing List <linux-next@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, kasan-dev <kasan-dev@googlegroups.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
-X-Original-Sender: wangkefeng.wang@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187
- as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+X-Original-Sender: naresh.kamboju@linaro.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linaro.org header.s=google header.b=xLAEEpeg;       spf=pass
+ (google.com: domain of naresh.kamboju@linaro.org designates
+ 2a00:1450:4864:20::52b as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,62 +130,59 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Move kasan_populate_early_vm_area_shadow() from mm/kasan/init.c to
-mm/kasan/shadow.c, make it under CONFIG_KASAN_VMALLOC to fix the
-redefinition issue.
++ Andrew Morton <akpm@linux-foundation.org>
 
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: kasan-dev@googlegroups.com
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
----
-Hi Andrew,
-Could you help to merge this into previos patch
- "kasan: arm64: fix pcpu_page_first_chunk crash with KASAN_VMALLOC",
-sorry for the build error.
-
- mm/kasan/init.c   | 5 -----
- mm/kasan/shadow.c | 5 +++++
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-index d39577d088a1..cc64ed6858c6 100644
---- a/mm/kasan/init.c
-+++ b/mm/kasan/init.c
-@@ -279,11 +279,6 @@ int __ref kasan_populate_early_shadow(const void *shadow_start,
- 	return 0;
- }
- 
--void __init __weak kasan_populate_early_vm_area_shadow(void *start,
--						       unsigned long size)
--{
--}
--
- static void kasan_free_pte(pte_t *pte_start, pmd_t *pmd)
- {
- 	pte_t *pte;
-diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-index 8d95ee52d019..4a4929b29a23 100644
---- a/mm/kasan/shadow.c
-+++ b/mm/kasan/shadow.c
-@@ -254,6 +254,11 @@ core_initcall(kasan_memhotplug_init);
- 
- #ifdef CONFIG_KASAN_VMALLOC
- 
-+void __init __weak kasan_populate_early_vm_area_shadow(void *start,
-+						       unsigned long size)
-+{
-+}
-+
- static int kasan_populate_vmalloc_pte(pte_t *ptep, unsigned long addr,
- 				      void *unused)
- {
--- 
-2.27.0
+On Mon, 11 Oct 2021 at 17:08, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
+>
+> Regression found on x86_64 gcc-11 built with KASAN enabled.
+> Following build warnings / errors reported on linux next 20211011.
+>
+> metadata:
+>     git_describe: next-20211011
+>     git_repo: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next
+>     git_short_log: d3134eb5de85 (\"Add linux-next specific files for 20211011\")
+>     target_arch: x86_64
+>     toolchain: gcc-11
+>
+> build error :
+> --------------
+> mm/kasan/init.c:282:20: error: redefinition of
+> 'kasan_populate_early_vm_area_shadow'
+>   282 | void __init __weak kasan_populate_early_vm_area_shadow(void *start,
+>       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> In file included from include/linux/mm.h:34,
+>                  from include/linux/memblock.h:13,
+>                  from mm/kasan/init.c:9:
+> include/linux/kasan.h:463:20: note: previous definition of
+> 'kasan_populate_early_vm_area_shadow' with type 'void(void *, long
+> unsigned int)'
+>   463 | static inline void kasan_populate_early_vm_area_shadow(void *start,
+>       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> make[3]: *** [scripts/Makefile.build:288: mm/kasan/init.o] Error 1
+> make[3]: Target '__build' not remade because of errors.
+>
+>
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+>
+> build link:
+> -----------
+> https://builds.tuxbuild.com/1zLv2snHfZN8QV01yA9MB8NhUZt/build.log
+>
+> build config:
+> -------------
+> https://builds.tuxbuild.com/1zLv2snHfZN8QV01yA9MB8NhUZt/config
+>
+> # To install tuxmake on your system globally
+> # sudo pip3 install -U tuxmake
+> tuxmake --runtime podman --target-arch x86_64 --toolchain gcc-11
+> --kconfig defconfig --kconfig-add
+> https://builds.tuxbuild.com/1zLv2snHfZN8QV01yA9MB8NhUZt/config
+>
+> --
+> Linaro LKFT
+> https://lkft.linaro.org
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211011123211.3936196-1-wangkefeng.wang%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BG9fYtD2EFu7-j1wPLCiu2yVpZb_wObXXXebKNSW5o4gh9vgA%40mail.gmail.com.
