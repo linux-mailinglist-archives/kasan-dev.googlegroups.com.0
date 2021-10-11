@@ -1,122 +1,137 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRNGR6FQMGQE2YVRNOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDOPF7OU44DRB2VUR6FQMGQEKS5XWTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2C4428690
-	for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 08:01:43 +0200 (CEST)
-Received: by mail-pf1-x43d.google.com with SMTP id f9-20020a056a001ac900b0044c4f04a6b1sf6870277pfv.23
-        for <lists+kasan-dev@lfdr.de>; Sun, 10 Oct 2021 23:01:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633932102; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7A74286DB
+	for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 08:32:10 +0200 (CEST)
+Received: by mail-lf1-x13a.google.com with SMTP id bq35-20020a056512152300b003fd45087a72sf11883016lfb.9
+        for <lists+kasan-dev@lfdr.de>; Sun, 10 Oct 2021 23:32:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633933930; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TQOhGZbDcSOCPhVfenAxmaf52/Mxqlm6JchC464kUqmBSOiNoLZAAx1y6YDys0W5tC
-         l5FNQBgZQ7ANQMqYbTQYLmA6GEl2AmQsIm5ycXXh0/KZCi1/0M//Tr3U5homWxVrnfFb
-         QEMTzCOq3EOQ2dKbCDjsrVzpHJ86nTso0mITTIDRbDTuUuSF2LISRvRFTFoBeenWLSyG
-         +ShUlgac6yrLFzSsZAlqzJon3jG9vXcOkSusWO4UAlvBaRnGPp8mjp2OFz1SgxVOdvKM
-         MVCXW4P0Wp6c5/CxotLaRyfOd4JBaVxxDEwXW2Rz8E6HE3f5DB3wC8dVJTUgFIBCKuXn
-         mcmw==
+        b=rq9z2RAVyZgSclJ9OhDnXM6390Z+BYxrU+NZxRmowDTupR+6Aor7jAoXVkXWhWEYeT
+         yrNgslxT+5EPYokgg6cI8lGOYtjMYUL4MfbOW8u6+DPDeIN17W5Y0a9lflqoNSXTPdtK
+         IH0ypWUWogGah5mEvWaeQc6vL2yN6gmgkVhp0nO3t8UEhNi7B6mZvO1qSvL6+wXlL0O9
+         SXutfC0eGU7qVitp1Fqe28wzU7x9cDx8+xGH3gR/+OvLnfbSTtyeEm1mY8wrDWGt52iS
+         7jbIJpocpVq5/lPQ/22sFU0dbq6IWCnXy1YyOD8Zzo9v0PuwlOLqxOUAzG/jfn2Wu/d2
+         6O1Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=HOFyMUxYGQBhLcpZO7L3dsYCEwW75EtnDBtz4xAMgwA=;
-        b=PfP5x8uLJ9pDbho74TKeCOG8Rqq9eLfoW1IUH7NWjJciMRhWddGKuhoDU0LIqfvnBA
-         zoz6JgWw5pAXIWWHxcywUEeCO9TuRrBeY6UQeG6tlFVyd6jws1p1j3CIPSyDTQyLA7/T
-         vuXTJUZVmPO6Z/nh3tZO0ti+wWmHa2BUmteGi+itW6S7M2Vqqi7JMhG6HjVduEYhTxl2
-         niLvKE/BSrT1KHwui1P/euMuI2RSJ+WPiYB4VoovHydFZRaZDgycD9HuLDyf0zUUAcnv
-         UvjKUtTvGjKnCb6XJGF+ET9YFHJO1jHcGLCjsb/vc23bmqjHuhDCqkGDhjDTRkeyG2cx
-         jNbQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=XE0ZoDCb8HR85jpM5kZBPjWbg9jmqbnwHrVHyD5SuNM=;
+        b=RBi/U6oaEOcxFm0b4/jU2cwbhbqNOWPJUJIs5ad9Ma5T3PKuXhpdgxrimPX6Sdqvsf
+         X4lsnerbsQNumes5j+3fdj1MjtI3+tDZYnEr2K8rND3MQ8KgwBmPupYUQf3bpV5TFt0F
+         LIx9H3bHtegD2nGtZV1Lo0rn1JPOjr4kCJkSrLAKx2bG+tscYtQGZ5CkflmmKaHVKPDZ
+         uhWX6zzLBEMa3errR2LjY5LwVNlkveXrEYSqdZVU2Z5WLVIKxM01nOY3X3ixg8Kt7pOA
+         9hlOnCybs7+cN4zAJSalvs8V8msxf6QTNHNuBkJHbnVHhacC1wLYC2BtdPmLW8bQRjdI
+         5pBA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lyUPYDSh;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b="nxEy/w5r";
+       spf=pass (google.com: domain of andrea.righi@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=andrea.righi@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=HOFyMUxYGQBhLcpZO7L3dsYCEwW75EtnDBtz4xAMgwA=;
-        b=ZuKjdCXefi1fmJi2X4OT4vX/nyR61ja4dnBC52jJa/FjU1APTsoYZ0xLC4FmnfLzzz
-         VQxH5zZ3SrS4XsCecquUMwVZp19pW+8fG0Fx+S6RUMN3gcsjcUEEXV817JD3ahLGT3tZ
-         QQkl4Eedg0FqD3JKIt0GDMnlwqdx+Gaf5triCFWe+SUioNv42bXmfFssSmB+accVsn3Z
-         3Ej6H2DCSIRok4/04aydoCJLi6VsS/oHf/geAJSY4fpoiLZltJ6s7RNnSnL+JG5wYgjd
-         LI6WYn/Og3lYTrPZ59rBLzQYLwPgORGaVEiqQKJHTNmzQzzvGU+evsaSXNsAkJwsEmzy
-         3g6Q==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=XE0ZoDCb8HR85jpM5kZBPjWbg9jmqbnwHrVHyD5SuNM=;
+        b=R8Xuy5NrkeT8jYqDnr4BJqEiSH1xkGPfWN2MbpFDH6l1DZ2Nq171Ifb0Y3UHVUPYbS
+         LJN6iOYkSSnMq2H2pgPvV6UBcdtinN8JN1jfn6kqB1zHU1sOFHI1Zz17uBC1T7kqWHiv
+         zZdPgOL/q7lvR0HvCclbHOxGfAF41d7Ojwa+PUU+33SgI/oMJclcAjMiqKhxjPtqYoGo
+         or4fnMQcMQkbr94n8rGZnzBJ21ZgfcRn4luUradiugbh7g1t/DjDaDXMLiRfNbjAvjyT
+         IkFeq24wDzh70BWVv3wKQtYQdbx5odD7tts+tyAgZoHMm5cDY/8EYTKF7DNvifzMUs/o
+         z6Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=HOFyMUxYGQBhLcpZO7L3dsYCEwW75EtnDBtz4xAMgwA=;
-        b=5CEQu5kmA2s8MWVfdBHmpq8rKQMcJMo/JR4TuiheoaRAAtpT2ASYs4zzpiC1M+ACvr
-         LvZYGTBDV32dJbNQjXcIvCoVpwTD/E2fOzcrzga/to4x4a3LlW0fedWuppNjyhqhSc/o
-         fDdaaj0BXBcG3FeCVE+cLe65WXIyQ1pkdpd/p+3+JCZ/kOKXPPwj/aUZNI+t/OGw8JAU
-         EZuDctufNLvjD6Vls1Jr4ZE+k5HWQrAigtfNS3rhjZHTWjEmrBC4WMrYVfBi7WPIEzF0
-         ggCwHAe7K1w8ksRBjdKOA7gJfKtw3/LEVf5EP5PbnI0sUtLaa/NCqsJ9OOP6LI/8KEZ1
-         6nMQ==
-X-Gm-Message-State: AOAM530Fs3m3k/SOE7ebCU1Tm2wOt/HzhEaUYqRWlQvFz89JzCeex98T
-	s9Td+PsJSbudZt22p48bKn8=
-X-Google-Smtp-Source: ABdhPJz1Ne6EvQYciAl8aHnQ/vLB/sBfNoWKbWuX8tUZUVAC1g25Z4gcuGo8AY2y8XJhnc1EZ3Lygw==
-X-Received: by 2002:a63:8c42:: with SMTP id q2mr17039680pgn.325.1633932101872;
-        Sun, 10 Oct 2021 23:01:41 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=XE0ZoDCb8HR85jpM5kZBPjWbg9jmqbnwHrVHyD5SuNM=;
+        b=u5V8tSwAzIjEwnWcNuvHtgawarmIGbRJK+m0TRNxa3EFK0TJzlSEPFo+tatDOmqpUl
+         ACPzY6rmCuO7ndbhdIV8PFkVTsaSCt1nO5KnwQfhdvjlGniscIH8ohyzesAjD3rF1km4
+         CqYfyem89mxTU4gbMGRnZKVb/vko0PaKOG6ytalamPKiyg8gMaPBjAeLhaS8sHBIXykw
+         cy2GwPAf/wVafUZ/rsv8xdcUD3w1gWUJewP1f/xY5DdMkExXNFCjWnjJI3tpr9ydjOK6
+         YNvTHoG2Vz0vxOrBijJtsifVPsBZhCYR3on/GJ/BEfzjFvMwH4kWn33jRfdSBbL0Cfxq
+         kbaQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533w6bVlBCLHodRWeyU9t9yJO+TcORnou7CakAJcbcvFeefoRtPf
+	1xhwXB8FDLWHSMeH3kSqbLU=
+X-Google-Smtp-Source: ABdhPJz0mOivzowkd5rJPZaIs8sU91CKka/X/evYm4bs+D3NmwArbnb8MYaOMwi/6vWWdB4/6Le5Uw==
+X-Received: by 2002:a19:8c4b:: with SMTP id i11mr25878483lfj.278.1633933930348;
+        Sun, 10 Oct 2021 23:32:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:1e0c:: with SMTP id pg12ls3712013pjb.0.canary-gmail;
- Sun, 10 Oct 2021 23:01:41 -0700 (PDT)
-X-Received: by 2002:a17:90a:bf82:: with SMTP id d2mr28543205pjs.201.1633932101257;
-        Sun, 10 Oct 2021 23:01:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633932101; cv=none;
+Received: by 2002:a05:6512:3499:: with SMTP id v25ls1673132lfr.0.gmail; Sun,
+ 10 Oct 2021 23:32:09 -0700 (PDT)
+X-Received: by 2002:a05:6512:3b8b:: with SMTP id g11mr5618909lfv.216.1633933929387;
+        Sun, 10 Oct 2021 23:32:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633933929; cv=none;
         d=google.com; s=arc-20160816;
-        b=gU/VT8Qb65l0hZ9n8BUBxgzOI/i4rPHhZmKn2qqOxiQ/aXUlvyRHZubIkPFlVYG5TW
-         gVSXHLVFzvDvNOn9Fcjt3HaG8MdwmFUd1MwipohIC3mAii6qm465f8uoe3PsgdnDR4eT
-         bVUTHzbh280PD6FRifjB2/SKtKadDbTwdrBAScN6V9XNH2iQ2wk75Xto8/nqw5pqM8ZH
-         CVsCMsTnooiwtoqAJQ/cdi8jhOjHCLWEp+8Dyi0VFOQtdLsm7OiuqubFXmsqb7UNNDQr
-         nxpZQd7n2+I9DlEAlqmrLBBR679vykccn3RbuAUiqYg0M5F7H2rbUYZRrpwkPEZNa+hc
-         5lXw==
+        b=0MGVWGwES86XGVtutz1EGUBE992hCYPlwhhAUEPI9XX63IJUIJkh6Ulq33SR+r96GI
+         QyZLlEPb4wFq9Gh0cbuan6FSWMtGP2rSWDhKgBCAxigDZAVahvZTft9TXUlYX9yIrELM
+         r2g2Ek4KBIqNeDFhoPnbUbdgIRn2I3yoLlhRqTZCMWxzYpZitU0fjNrJREjLxhtXuYMz
+         tMHrqJRjKKtzDBkM9XtQFO4qHAZ9RWof5RFxEtrWMN5BGfPbPxTtC5JnOxCN9t3/w4C/
+         lJd6HUWnFoOdSiHw39IrizKfSD3+sUPStNu8TNGfyY/PB3FOFwaw2HSUuH0I18gJa1m9
+         D3BQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=7h13AY5afsp7vOYth4Tp6m8iDZB9FmezNoNd7LDicIs=;
-        b=lvJqxKZvTXH1Y35HUj8JbFoo3BI8kju49Td4B1uP0DzZf+kO9WrFbBqNO5SKOlYzBd
-         wk8C3/fGR0LDQxOPcVjG2WBCqTWGEwfq2eRcDwCf5KoXv/SSbJ+qhSr06FJhmVuhozkW
-         /XNDDLyQUOmHZfkmZh2MH9wmGdrDREPqtH9HvhZ7wBNxeIZbgGNiiwd29xffQR7dUkgy
-         uOLySprsLxHOev0Z8tcnkwYNKQKAIcUJlvOiMCLFH3qFHoRKdNmEY6g0mpZOIlD3CpuW
-         kpzu+ndCsTVMJqNlI3il2QQKJpAIIKERTdIrfsTdK+5dSE6IKdTiO6p1H++r6JIj4bbE
-         FaFA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=lwPipFh22ocDNcUOEMMzIfuiqy6HWce+IYzbCS/BeoI=;
+        b=RztGNj32uRmvDbDE7rSa+8I6l6EsmdLFTZ6TCaUn1E/V0HYBqUxU3QTZRgi6axPod1
+         RGhkMHNRZrbbAEKFEex6wohxvsWv7N4pdk68tftpWGlir05Wzo02Malt6j4IuxR6MN5z
+         13L3rK6dd6hB5djadeQDTl5A8x3GAqRsWQqL6N2yHiBteCjSMHR6O63AUhD2jbhawZSF
+         WFe4dusOYqQQenIA/LPzTpb3GiENaVshO1Exik6CUYXSZpjRPwsEpdZWboBe6C/emBYn
+         4jjlGH7SJNFuYHLEU4UguiNg4X+i3NKcjmCL4tsnPqWVO4YIFoE8h4ZPtImkboXUUB64
+         f80g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lyUPYDSh;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com. [2607:f8b0:4864:20::336])
-        by gmr-mx.google.com with ESMTPS id x17si331778pge.4.2021.10.10.23.01.41
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b="nxEy/w5r";
+       spf=pass (google.com: domain of andrea.righi@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=andrea.righi@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com. [185.125.188.122])
+        by gmr-mx.google.com with ESMTPS id k8si243817ljq.8.2021.10.10.23.32.09
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Oct 2021 23:01:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as permitted sender) client-ip=2607:f8b0:4864:20::336;
-Received: by mail-ot1-x336.google.com with SMTP id u20-20020a9d7214000000b0054e170300adso20302381otj.13
-        for <kasan-dev@googlegroups.com>; Sun, 10 Oct 2021 23:01:41 -0700 (PDT)
-X-Received: by 2002:a9d:3e04:: with SMTP id a4mr20242022otd.329.1633932100754;
- Sun, 10 Oct 2021 23:01:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <YWLwUUNuRrO7AxtM@arighi-desktop>
-In-Reply-To: <YWLwUUNuRrO7AxtM@arighi-desktop>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 11 Oct 2021 08:00:00 +0200
-Message-ID: <CANpmjNOw--ZNyhmn-GjuqU+aH5T98HMmBoCM4z=JFvajC913Qg@mail.gmail.com>
-Subject: Re: BUG: soft lockup in __kmalloc_node() with KFENCE enabled
-To: Andrea Righi <andrea.righi@canonical.com>
-Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Oct 2021 23:32:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andrea.righi@canonical.com designates 185.125.188.122 as permitted sender) client-ip=185.125.188.122;
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 8F53E40000
+	for <kasan-dev@googlegroups.com>; Mon, 11 Oct 2021 06:32:08 +0000 (UTC)
+Received: by mail-ed1-f70.google.com with SMTP id c8-20020a50d648000000b003daa53c7518so14868144edj.21
+        for <kasan-dev@googlegroups.com>; Sun, 10 Oct 2021 23:32:08 -0700 (PDT)
+X-Received: by 2002:a17:907:334f:: with SMTP id yr15mr7244662ejb.8.1633933928111;
+        Sun, 10 Oct 2021 23:32:08 -0700 (PDT)
+X-Received: by 2002:a17:907:334f:: with SMTP id yr15mr7244636ejb.8.1633933927912;
+        Sun, 10 Oct 2021 23:32:07 -0700 (PDT)
+Received: from localhost ([2001:67c:1560:8007::aac:c1b6])
+        by smtp.gmail.com with ESMTPSA id o15sm2945745ejj.10.2021.10.10.23.32.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Oct 2021 23:32:07 -0700 (PDT)
+Date: Mon, 11 Oct 2021 08:32:05 +0200
+From: Andrea Righi <andrea.righi@canonical.com>
+To: Marco Elver <elver@google.com>
+Cc: Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
 	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: BUG: soft lockup in __kmalloc_node() with KFENCE enabled
+Message-ID: <YWPaZSX4WyOwilW+@arighi-desktop>
+References: <YWLwUUNuRrO7AxtM@arighi-desktop>
+ <CANpmjNOw--ZNyhmn-GjuqU+aH5T98HMmBoCM4z=JFvajC913Qg@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOw--ZNyhmn-GjuqU+aH5T98HMmBoCM4z=JFvajC913Qg@mail.gmail.com>
+X-Original-Sender: andrea.righi@canonical.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=lyUPYDSh;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::336 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@canonical.com header.s=20210705 header.b="nxEy/w5r";       spf=pass
+ (google.com: domain of andrea.righi@canonical.com designates 185.125.188.122
+ as permitted sender) smtp.mailfrom=andrea.righi@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -129,53 +144,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sun, 10 Oct 2021 at 15:53, Andrea Righi <andrea.righi@canonical.com> wrote:
-> I can systematically reproduce the following soft lockup w/ the latest
-> 5.15-rc4 kernel (and all the 5.14, 5.13 and 5.12 kernels that I've
-> tested so far).
->
-> I've found this issue by running systemd autopkgtest (I'm using the
-> latest systemd in Ubuntu - 248.3-1ubuntu7 - but it should happen with
-> any recent version of systemd).
->
-> I'm running this test inside a local KVM instance and apparently systemd
-> is starting up its own KVM instances to run its tests, so the context is
-> a nested KVM scenario (even if I don't think the nested KVM part really
-> matters).
->
-> Here's the oops:
->
-> [   36.466565] watchdog: BUG: soft lockup - CPU#0 stuck for 26s! [udevadm:333]
-> [   36.466565] Modules linked in: btrfs blake2b_generic zstd_compress raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor raid6_pq libcrc32c raid1 raid0 multipath linear psmouse floppy
-> [   36.466565] CPU: 0 PID: 333 Comm: udevadm Not tainted 5.15-rc4
-> [   36.466565] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
-[...]
->
-> If I disable CONFIG_KFENCE the soft lockup doesn't happen and systemd
-> autotest completes just fine.
->
-> We've decided to disable KFENCE in the latest Ubuntu Impish kernel
-> (5.13) for now, because of this issue, but I'm still investigating
-> trying to better understand the problem.
->
-> Any hint / suggestion?
+On Mon, Oct 11, 2021 at 08:00:00AM +0200, Marco Elver wrote:
+> On Sun, 10 Oct 2021 at 15:53, Andrea Righi <andrea.righi@canonical.com> wrote:
+> > I can systematically reproduce the following soft lockup w/ the latest
+> > 5.15-rc4 kernel (and all the 5.14, 5.13 and 5.12 kernels that I've
+> > tested so far).
+> >
+> > I've found this issue by running systemd autopkgtest (I'm using the
+> > latest systemd in Ubuntu - 248.3-1ubuntu7 - but it should happen with
+> > any recent version of systemd).
+> >
+> > I'm running this test inside a local KVM instance and apparently systemd
+> > is starting up its own KVM instances to run its tests, so the context is
+> > a nested KVM scenario (even if I don't think the nested KVM part really
+> > matters).
+> >
+> > Here's the oops:
+> >
+> > [   36.466565] watchdog: BUG: soft lockup - CPU#0 stuck for 26s! [udevadm:333]
+> > [   36.466565] Modules linked in: btrfs blake2b_generic zstd_compress raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor raid6_pq libcrc32c raid1 raid0 multipath linear psmouse floppy
+> > [   36.466565] CPU: 0 PID: 333 Comm: udevadm Not tainted 5.15-rc4
+> > [   36.466565] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
+> [...]
+> >
+> > If I disable CONFIG_KFENCE the soft lockup doesn't happen and systemd
+> > autotest completes just fine.
+> >
+> > We've decided to disable KFENCE in the latest Ubuntu Impish kernel
+> > (5.13) for now, because of this issue, but I'm still investigating
+> > trying to better understand the problem.
+> >
+> > Any hint / suggestion?
+> 
+> Can you confirm this is not a QEMU TCG instance? There's been a known
+> issue with it: https://bugs.launchpad.net/qemu/+bug/1920934
 
-Can you confirm this is not a QEMU TCG instance? There's been a known
-issue with it: https://bugs.launchpad.net/qemu/+bug/1920934
+It looks like systemd is running qemu-system-x86 without any "accel"
+options, so IIUC the instance shouldn't use TCG. Is this a correct
+assumption or is there a better way to check?
 
-One thing that I've been wondering is, if we can make
-CONFIG_KFENCE_STATIC_KEYS=n the default, because the static keys
-approach is becoming more trouble than it's worth. It requires us to
-re-benchmark the defaults. If you're thinking of turning KFENCE on by
-default (i.e. CONFIG_KFENCE_SAMPLE_INTERVAL non-zero), you could make
-this decision for Ubuntu with whatever sample interval you choose.
-We've found that for large deployments 500ms or above is more than
-adequate.
+> 
+> One thing that I've been wondering is, if we can make
+> CONFIG_KFENCE_STATIC_KEYS=n the default, because the static keys
+> approach is becoming more trouble than it's worth. It requires us to
+> re-benchmark the defaults. If you're thinking of turning KFENCE on by
+> default (i.e. CONFIG_KFENCE_SAMPLE_INTERVAL non-zero), you could make
+> this decision for Ubuntu with whatever sample interval you choose.
+> We've found that for large deployments 500ms or above is more than
+> adequate.
+
+Another thing that I forgot to mention is that with
+CONFIG_KFENCE_STATIC_KEYS=n the soft lockup doesn't seem to happen.
 
 Thanks,
--- Marco
+-Andrea
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOw--ZNyhmn-GjuqU%2BaH5T98HMmBoCM4z%3DJFvajC913Qg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YWPaZSX4WyOwilW%2B%40arighi-desktop.
