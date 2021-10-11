@@ -1,128 +1,149 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBWVKSGFQMGQEPKXWCCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBIW4SGFQMGQE52KEWSI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61E04292F5
-	for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 17:16:43 +0200 (CEST)
-Received: by mail-oo1-xc3b.google.com with SMTP id k1-20020a4a8501000000b0029ac7b9dc82sf10233184ooh.17
-        for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 08:16:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1633965402; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489B342951C
+	for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 19:02:27 +0200 (CEST)
+Received: by mail-lf1-x13f.google.com with SMTP id i40-20020a0565123e2800b003f53da59009sf13235990lfv.16
+        for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 10:02:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1633971746; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lZiSpJxbpX3BBfGcbMtxHecf3ti3xXyXM5wEYAnhSZ3ddYkr27+85bAb+1KXAUVjLK
-         f7OeTvsYBCuzIn5oOidwlMsGlu+8tU0Qlo+LqrNJ6L2jlqEp1bBIUgplC5EKzBuVT42O
-         /JuZF836fCyYK1gWq/VoJPOrOAXufuzDnIdUOXMg3h0I5cnKWb0wm+wU1DbQPYTxqIe2
-         j4sSajGxQXRRJDeb3YovLYUV+qZcJO103BtrRkFgZ6x+FBzCmo35cLTlSO5TiQqFSRZM
-         m9gxAPmqthco9kr+N9Mrj2uEYCRi0fN1mj4TxxjvKnF9rmgks2VfjaqGjI5CXWCekbuh
-         4ayA==
+        b=xXius5fiQU9g/vTZ7N245B01opDWDMvjRMBx9nxYm4p/0yot16doupeUW8kx/xnx9T
+         W/G+ENOtLoXshOlG/t7+oj7LuFSwhtG16NuL/JLl29uIkgmTWM3WbRwDFq/VtuQmaBNh
+         rXom1//VJjCnTNx0FL+BfVgzoBb1O+6x00imKuVKTE4OLHFzHyMTK7o2ktezf9UvuMl2
+         gOvSgdzDFnnuwGU49VqbuLn7hjJrRVNSYfX0nIqcoyw0EHgfqSb8i5yT6In33przdC1L
+         o5OX6lwbEGw0EvMc4T4+Tfb0Uv5T/vcX9hKR4qUeSFH8D8MOTndNsBVNUX51cEbmffGp
+         1owA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=AKNMNIM8Rn/30jYa+UBNpcuObpoo6yGhqNFC7WmdkgQ=;
-        b=eG5y814JCR00sgjtyrrlczfhzF8FZA5phfZgkm7//OO74Ec6Ytiftif75DuUtJjoGP
-         Q+x9xfSWySlKK1CVATMkBOZ22l2ALLGR5v5KRcNhFkBG/q5LpkJY8IlndQY8MufNemqY
-         5xK2UIjVp4nrPx2zIXDYx9El17q9jfIhK8Q5JWrhV/CDRQRtXSPZ1u93/mWW5a44ROGv
-         S5WEj97sU/CtCzK5NgoOZg8wzeoKRdzMQ3CmJCebCEgw0zXIOuRH+om9uq4xNtcnrnRg
-         Q7N7S/eiAJQaYAe6t2vfCCvigUk6KllEB7oLZ/G9z6KBnth/4miI3OxEav1pi0y0aO/8
-         yAbw==
+         :list-id:mailing-list:precedence:in-reply-to:subject:from:references
+         :cc:to:content-language:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=xzNg73Zo11yKYppzU4e/Z24x1HPx4kENwmPGaLWHYUA=;
+        b=ZWSTkIaLfHorzdSG8w7i4rTh9q7X5M6KcOMAm/blwUwAk80rOK1osWNrkCgQ4gr6hJ
+         5bPBqI5l8YqB190YF61vuaeN3Gon8EspYIHnRQpdbXC9hu8jcW7dNmf/jS4JplNHu0jN
+         bHumTODpf+MUqg4ZyvBjbg+Kl1pVD7nyn+2eWVLQSGdNPFs3o+7fzn8/PBjtRbXbGmbz
+         EHP/bqTx4cwBGn+C54OU2/7In0aam19lAj8/cHtO+T/ZW9J0qCaR/CEYq4sGZbTuhOME
+         QJ/gOPxKwILUJ2RjtfMFkRCnp5VhrKnkFp2aRA1MRuzPbuGdshdoan4+nNcOZHHL0I2i
+         MAUA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=el38wyOt;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::334 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=b7iLr7up;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=AKNMNIM8Rn/30jYa+UBNpcuObpoo6yGhqNFC7WmdkgQ=;
-        b=VtO2ucVpKgzFSVBGy303Au07yBB2lbDE8JW9dV6w/8vJNITK6ZUc3AFMqc1ns2o+9l
-         M+0BUUk2jpLABbBrlz96BrCsjySlpr1c7mRK/1Pr6oIXl57OigUZaVKd7LCYm03kJisb
-         KfVeW7uG0pLMPZVihRHMygNdutcPfg5eAmhYGhsNiwNOYiHFPFdnH5Nuno4uYjTz+HPs
-         Ez38/u60CgNM3efdJ+B092+3BDwM5EKMnSd53YG7PLmR11fasU9EBf6exBLkRZtQFH4g
-         nFxC8+3VD0XWeeJYXXIJZO5iE8XDes9eeqnFP4Peehb0Zs2WTqW3Q1cYVdDpvEx3aFBA
-         Vk0A==
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=xzNg73Zo11yKYppzU4e/Z24x1HPx4kENwmPGaLWHYUA=;
+        b=XOqra2UzecxR2Ol2KPVHivnstNo1Y7GNtgdKRcsa426sSjs9MYtbDTYbNsNCwuCyNm
+         Qo+rj4MF72/o67sqU8syTCEpSQ9uCFLit6QEIrRtTaynxsFjuoqeaQ9jJfPNGqwRHCir
+         SgUh3ta6BkFpk8xikmMf76V+nw7zosU+dIDiipwLUpPpwVmJ95p/PMtHLKdnQfNOjtQj
+         3Fr5/yrtp59fiBB3tN1sHr/hWGnw+daZyhTVhEaMWv12edA2BkcqwSLKWFejKT3ctkMF
+         AwRbDYdYSdEtY1k4vucEGbS6yw+G+wLhD0tXVb1/mjJ0IO1HinI1CzNiraUKU035+V5d
+         MPGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=AKNMNIM8Rn/30jYa+UBNpcuObpoo6yGhqNFC7WmdkgQ=;
-        b=i6v0DKq1M7IYh6jwr1EfWL/17++o2+pWx0nQyRt1zeDs2EyLWVy1TZgeY+/DA1OVwr
-         83Dh61s8kbrpKfkpVvvTKIdoLYDkKqWDXra4tlygb5luDkrIYnqVAYrKXOHyRlDLO8V5
-         CoBsHmDCJyxvzUfYpAunsek1JWgL2Kh8YEcXZK+RLNKR2eba+wLz4BXdk7XRgkiEA/+u
-         kNNTDWLKIv/ZikiLNZ2duhH/aCzRRiVPDfF46R520IZvhM4y4WB1VXAHsDlanuvWgn3z
-         h5M+xjQRNYqrSh6W85luiKGvEvb/Er8SfLlk8KFaUfwVUkehHBdDE5sqQ2VoYyRNoZCZ
-         f7Yw==
-X-Gm-Message-State: AOAM532r369qDkmadL8LuWu8viAIx5OvVY8NtndhcaJ2uFycLZK7s4lM
-	VOAbOcN5JyT/6Ntqb6D2De4=
-X-Google-Smtp-Source: ABdhPJwFiv+CZR9dZotG0iAYVSSsAkB8Oj0QUn+aKXL+sLeGTnnWVIfO7223fiULsBTt8utQCoSpGw==
-X-Received: by 2002:a05:6820:1504:: with SMTP id ay4mr19783096oob.34.1633965402378;
-        Mon, 11 Oct 2021 08:16:42 -0700 (PDT)
+        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=xzNg73Zo11yKYppzU4e/Z24x1HPx4kENwmPGaLWHYUA=;
+        b=7CA+gdaT3vwoVewWsDD0zT+NFT0DGeputJhJd/RN2H61l8NQO3YIHAZG3WqtUygRL/
+         IM+HJHcqoLOdVPb32Yqa6nlOi6GuWM3UhQJsOBkeyerTlo+qLtzj51Yo62WpV1IQvdAr
+         Bp4Kt2xe7ptRI1xEPMWBVaDi4ocklGhrx6hrlJw/qn3vPF6jC3TPat9j1ROOGd8r6Lpy
+         neUkrxkrv5gkLEqwkkEACxEUJTQJDfJmrhzVU0GDhlMwCGjFuNYGC5kvq9m7KfGoIh+H
+         6zeHr47lyS58OAQ/oNF/L69x9iVr6DbPGscSHlvREum3RQ8pex04kHy1ww0kXWVRB6rl
+         kDOw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530leirsvKg9/DXtYkVT5H1Eqpx+XOMUvWEe0KOgDkHHA6yLjSwI
+	HpD0NisncEUGgOoEZvJDJrM=
+X-Google-Smtp-Source: ABdhPJxXaiSPIv29Ib+uQVAcfRE5Kxf1JmFpenBs7H7mFmcY8aKgcpq92uXKg8XbY/hFhmQnEjGrJQ==
+X-Received: by 2002:a2e:81d6:: with SMTP id s22mr18683544ljg.128.1633971746839;
+        Mon, 11 Oct 2021 10:02:26 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:6155:: with SMTP id c21ls574948otk.10.gmail; Mon, 11 Oct
- 2021 08:16:42 -0700 (PDT)
-X-Received: by 2002:a05:6830:78d:: with SMTP id w13mr2684925ots.183.1633965402055;
-        Mon, 11 Oct 2021 08:16:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1633965402; cv=none;
+Received: by 2002:a05:6512:3499:: with SMTP id v25ls740039lfr.0.gmail; Mon, 11
+ Oct 2021 10:02:25 -0700 (PDT)
+X-Received: by 2002:a05:6512:128a:: with SMTP id u10mr29083899lfs.84.1633971745735;
+        Mon, 11 Oct 2021 10:02:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1633971745; cv=none;
         d=google.com; s=arc-20160816;
-        b=wCgOHu8jh89bxVDuRW9rOu4AQ/2KeGmsZwDgEjT9kausfXNmWLuacsZHIRkTaba67t
-         QyNudQHywHYZeolTxZ38YOzS+EKXzd3pRuhok6mUQzB/eal7vRQSQi/VeGUas6jJGVPX
-         BXql+32uPr0EYdLOmr/Af49S4du6kBaDVqXYNRu728yYN3POfotGyTa61367IWOo0QVg
-         Zvq8IH5MUG8obejDzB8I3xg5sAyUiWIjwP63lB2rNIFKKt8Ff26ihT3bJ3viYvaGmPxc
-         ReAas7wzxI+r4ue4a5Shl84bCPWwwbI2K4sCxraJAME96cazWsKmUxw31XcfanLbUgGO
-         LWRQ==
+        b=N90YYywQxRheqWHRPB35CWWl447LtdI+kpdkc92IgGtjbCsJ1w5ibVEPOhemDMacpQ
+         Fytc1fOvuHZuPYkyJMY1NI3Wbybl+hvXfRY+JzjXr3Rd74ukpSxRpy4vwELo0deTckQw
+         LteStn5h032xromBYFsLydE8YIJvnEHrGhMYO/c0mJDM9+Op6CQlberkgiTg5bwNLg0D
+         wvKculVZKUhqzIt3J0y77DFro6RtYmji5G8Vdm11cdKFRpZ39CMen/mOf2RRyCHMQuGD
+         3THQ5Ib96n0bMn8iKpiheJBUZywu1P5BBl105X033kcYppcUA4jS+Ss23aiIUAssjIgv
+         jnYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=etYgg+h2O5V3SwL5gD13pIM27MsV6K0L3L1sqF1wYTE=;
-        b=X0crcpXZdCSR0HXnhONAmXTZ4LJBCRUFFHW8UDdmz4xyUMHEvuwOQsWkc4Oq7moT7r
-         Eh+p7Nt9f5vmpovRy+pU2Foh/NSgt1DCuOJCiPBTsIcKdEpZavJWQqKFWMOMsafW4bS8
-         AzCmeQQ6q4IaddnW6w2BwkN3laDzu5ukAxiuDZnbixPhn2K9FmI1fJElhvaIKlfL/SKT
-         vKDNRrmMxTVYa3MaO+QwQw8r9K3Updy3hB9t+X0DVGThcKAFkbCCsqDxljIBf/wBPggo
-         whnMfQT3dRFxiy1rxyfXeIdCo3CVOaGptOP5jyvNR3N8esH5HhmtHhaTk+9vgwwLrA1+
-         E4Iw==
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature;
+        bh=4jY518LLN0DEflKAEIOoiJENNbC5tBQaKEI9hO0rfaU=;
+        b=SHvrhdFdKpisaidxrxq/pUfta/+bSLW0t3k6idsTHWW0TwThmuz35dwe4Y5E2v5H5q
+         sExhu15isqdi2ERAMweg2JTx+ApK4SG4SmUbYEZt5YBnTSET4ffbnI6mZ38Fi/zqN4ec
+         Teyf0Bvmo8wqoYwGHrNuFBNS/cZEjpJc4/gjT7TRxiRGtPup4LONtlpKLlwgE7edeUzG
+         cDH5smwnxpQWSkCuDrA6umXfBUtOoCy9/agvY2qWPmq76X36eaCz1ir8ZdSIfvOQTiv6
+         0PGdYR3sPH+WEm56+UOAgL8nlrRXfmZV3QvE2denlhsfYblvMsRpMExszkoWONRfVqZv
+         aXEg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=el38wyOt;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::334 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com. [2607:f8b0:4864:20::334])
-        by gmr-mx.google.com with ESMTPS id bc13si742063oob.2.2021.10.11.08.16.42
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=b7iLr7up;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
+        by gmr-mx.google.com with ESMTPS id b25si529886lfv.9.2021.10.11.10.02.25
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Oct 2021 08:16:42 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::334 as permitted sender) client-ip=2607:f8b0:4864:20::334;
-Received: by mail-ot1-x334.google.com with SMTP id x33-20020a9d37a4000000b0054733a85462so22029540otb.10
-        for <kasan-dev@googlegroups.com>; Mon, 11 Oct 2021 08:16:42 -0700 (PDT)
-X-Received: by 2002:a05:6830:402c:: with SMTP id i12mr7503223ots.319.1633965401529;
- Mon, 11 Oct 2021 08:16:41 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Oct 2021 10:02:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0AFC022007;
+	Mon, 11 Oct 2021 17:02:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B16C513BCE;
+	Mon, 11 Oct 2021 17:02:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id MAS1KSBuZGEcfwAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Mon, 11 Oct 2021 17:02:24 +0000
+Message-ID: <2a62971d-467f-f354-caac-2b5ecf258e3c@suse.cz>
+Date: Mon, 11 Oct 2021 19:02:24 +0200
 MIME-Version: 1.0
-References: <CANpmjNOw--ZNyhmn-GjuqU+aH5T98HMmBoCM4z=JFvajC913Qg@mail.gmail.com>
- <YWPaZSX4WyOwilW+@arighi-desktop> <CANpmjNMFFFa=6toZJXqo_9hzv05zoD0aXA4D_K93rfw58cEw3w@mail.gmail.com>
- <YWPjZv7ClDOE66iI@arighi-desktop> <CACT4Y+b4Xmev7uLhASpHnELcteadhaXCBkkD5hO2YNP5M2451g@mail.gmail.com>
- <YWQCknwPcGlOBfUi@arighi-desktop> <YWQJe1ccZ72FZkLB@arighi-desktop>
- <CANpmjNNtCf+q21_5Dj49c4D__jznwFbBFrWE0LG5UnC__B+fKA@mail.gmail.com>
- <YWRNVTk9N8K0RMst@arighi-desktop> <CACT4Y+bZGK75S+cyeQda-oHmeDVeownwOj2imQbPYi0dRY18+A@mail.gmail.com>
- <YWRUBxS0hGGDkeU4@arighi-desktop>
-In-Reply-To: <YWRUBxS0hGGDkeU4@arighi-desktop>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 11 Oct 2021 17:16:30 +0200
-Message-ID: <CACT4Y+ZATYYpX6wJ_i1ig6ZhA3kwuH_8eC51spkd+0x3ZxX0ow@mail.gmail.com>
-Subject: Re: BUG: soft lockup in __kmalloc_node() with KFENCE enabled
-To: Andrea Righi <andrea.righi@canonical.com>
-Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Content-Language: en-US
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, kasan-dev@googlegroups.com,
+ Vijayanand Jitta <vjitta@codeaurora.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Oliver Glitta
+ <glittao@gmail.com>, Imran Khan <imran.f.khan@oracle.com>
+References: <20211007095815.3563-1-vbabka@suse.cz>
+ <YV7TnygBLdHJjmRW@elver.google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH] lib/stackdepot: allow optional init and stack_table
+ allocation by kvmalloc()
+In-Reply-To: <YV7TnygBLdHJjmRW@elver.google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=el38wyOt;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::334
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@suse.cz header.s=susede2_rsa header.b=b7iLr7up;       dkim=neutral
+ (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
+ vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,98 +156,179 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 11 Oct 2021 at 17:11, Andrea Righi <andrea.righi@canonical.com> wrote:
->
-> On Mon, Oct 11, 2021 at 05:00:15PM +0200, Dmitry Vyukov wrote:
-> > On Mon, 11 Oct 2021 at 16:42, Andrea Righi <andrea.righi@canonical.com> wrote:
-> > >
-> > > On Mon, Oct 11, 2021 at 12:03:52PM +0200, Marco Elver wrote:
-> > > > On Mon, 11 Oct 2021 at 11:53, Andrea Righi <andrea.righi@canonical.com> wrote:
-> > > > > On Mon, Oct 11, 2021 at 11:23:32AM +0200, Andrea Righi wrote:
-> > > > > ...
-> > > > > > > You seem to use the default 20s stall timeout. FWIW syzbot uses 160
-> > > > > > > secs timeout for TCG emulation to avoid false positive warnings:
-> > > > > > > https://github.com/google/syzkaller/blob/838e7e2cd9228583ca33c49a39aea4d863d3e36d/dashboard/config/linux/upstream-arm64-kasan.config#L509
-> > > > > > > There are a number of other timeouts raised as well, some as high as
-> > > > > > > 420 seconds.
-> > > > > >
-> > > > > > I see, I'll try with these settings and see if I can still hit the soft
-> > > > > > lockup messages.
-> > > > >
-> > > > > Still getting soft lockup messages even with the new timeout settings:
-> > > > >
-> > > > > [  462.663766] watchdog: BUG: soft lockup - CPU#2 stuck for 430s! [systemd-udevd:168]
-> > > > > [  462.755758] watchdog: BUG: soft lockup - CPU#3 stuck for 430s! [systemd-udevd:171]
-> > > > > [  924.663765] watchdog: BUG: soft lockup - CPU#2 stuck for 861s! [systemd-udevd:168]
-> > > > > [  924.755767] watchdog: BUG: soft lockup - CPU#3 stuck for 861s! [systemd-udevd:171]
-> > > >
-> > > > The lockups are expected if you're hitting the TCG bug I linked. Try
-> > > > to pass '-enable-kvm' to the inner qemu instance (my bad if you
-> > > > already have), assuming that's somehow easy to do.
-> > >
-> > > If I add '-enable-kvm' I can triggering other random panics (almost
-> > > immediately), like this one for example:
-> > >
-> > > [21383.189976] BUG: kernel NULL pointer dereference, address: 0000000000000098
-> > > [21383.190633] #PF: supervisor read access in kernel mode
-> > > [21383.191072] #PF: error_code(0x0000) - not-present page
-> > > [21383.191529] PGD 0 P4D 0
-> > > [21383.191771] Oops: 0000 [#1] SMP NOPTI
-> > > [21383.192113] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.15-rc4
-> > > [21383.192757] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-> > > [21383.193414] RIP: 0010:wb_timer_fn+0x44/0x3c0
-> > > [21383.193855] Code: 41 8b 9c 24 98 00 00 00 41 8b 94 24 b8 00 00 00 41 8b 84 24 d8 00 00 00 4d 8b 74 24 28 01 d3 01 c3 49 8b 44 24 60 48 8b 40 78 <4c> 8b b8 98 00 00 00 4d 85 f6 0f 84 c4 00 00 00 49 83 7c 24 30 00
-> > > [21383.195366] RSP: 0018:ffffbcd140003e68 EFLAGS: 00010246
-> > > [21383.195842] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000004
-> > > [21383.196425] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff9a3521f4fd80
-> > > [21383.197010] RBP: ffffbcd140003e90 R08: 0000000000000000 R09: 0000000000000000
-> > > [21383.197594] R10: 0000000000000004 R11: 000000000000000f R12: ffff9a34c75c4900
-> > > [21383.198178] R13: ffff9a34c3906de0 R14: 0000000000000000 R15: ffff9a353dc18c00
-> > > [21383.198763] FS:  0000000000000000(0000) GS:ffff9a353dc00000(0000) knlGS:0000000000000000
-> > > [21383.199558] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > [21383.200212] CR2: 0000000000000098 CR3: 0000000005f54000 CR4: 00000000000006f0
-> > > [21383.200930] Call Trace:
-> > > [21383.201210]  <IRQ>
-> > > [21383.201461]  ? blk_stat_free_callback_rcu+0x30/0x30
-> > > [21383.202692]  blk_stat_timer_fn+0x138/0x140
-> > > [21383.203180]  call_timer_fn+0x2b/0x100
-> > > [21383.203666]  __run_timers.part.0+0x1d1/0x240
-> > > [21383.204227]  ? kvm_clock_get_cycles+0x11/0x20
-> > > [21383.204815]  ? ktime_get+0x3e/0xa0
-> > > [21383.205309]  ? native_apic_msr_write+0x2c/0x30
-> > > [21383.205914]  ? lapic_next_event+0x20/0x30
-> > > [21383.206412]  ? clockevents_program_event+0x94/0xf0
-> > > [21383.206873]  run_timer_softirq+0x2a/0x50
-> > > [21383.207260]  __do_softirq+0xcb/0x26f
-> > > [21383.207647]  irq_exit_rcu+0x8c/0xb0
-> > > [21383.208010]  sysvec_apic_timer_interrupt+0x7c/0x90
-> > > [21383.208464]  </IRQ>
-> > > [21383.208713]  asm_sysvec_apic_timer_interrupt+0x12/0x20
-> > >
-> > > I think that systemd autotest used to use -enable-kvm, but then they
-> > > removed it, because it was introducing too many problems in the nested
-> > > KVM context. I'm not sure about the nature of those problems though, I
-> > > can investigate a bit and see if I can understand what they were
-> > > exactly.
-> >
-> > This looks like just a plain bug in wb_timer_fn, not something related
-> > to virtualization.
-> > Do you have this fix?
-> > https://syzkaller.appspot.com/bug?extid=aa0801b6b32dca9dda82
->
-> Yes, it looks like I have this:
->
->  d152c682f03c block: add an explicit ->disk backpointer to the request_queue
+On 10/7/21 13:01, Marco Elver wrote:
+> On Thu, Oct 07, 2021 at 11:58AM +0200, Vlastimil Babka wrote:
+> [...] 
+>> - Add a CONFIG_STACKDEPOT_ALWAYS_INIT flag to keep using the current
+>>   well-defined point of allocation as part of mem_init(). Make CONFIG_KASAN
+>>   select this flag.
+>> - Other users have to call stack_depot_init() as part of their own init when
+>>   it's determined that stack depot will actually be used. This may depend on
+>>   both config and runtime conditions. Convert current users which are
+>>   page_owner and several in the DRM subsystem. Same will be done for SLUB
+>>   later.
+>> - Because the init might now be called after the boot-time memblock allocation
+>>   has given all memory to the buddy allocator, change stack_depot_init() to
+>>   allocate stack_table with kvmalloc() when memblock is no longer available.
+>>   Also handle allocation failure by disabling stackdepot (could have
+>>   theoretically happened even with memblock allocation previously), and don't
+>>   unnecessarily align the memblock allocation to its own size anymore.
+> ...
+>> Hi, I'd appreciate review of the DRM parts - namely that I've got correctly
+>> that stack_depot_init() is called from the proper init functions and iff
+>> stack_depot_save() is going to be used later. Thanks!
+> 
+> For ease of review between stackdepot and DRM changes, I thought it'd be
+> nice to split into 2 patches, but not sure it'll work, because you're
+> changing the semantics of the normal STACKDEPOT.
 
-Then there is another bug in wb_timer_fn I guess...
+Yeah, that's why it's a single patch. As the DRM parts are clearly separated
+to their files, I think review should be fine.
 
-Don't know if this is the same or something else:
-https://lore.kernel.org/lkml/CAHbLzkrdGva2dzO36r62LKv_ip5trbMK0BO3vCeSBk2_7OE-zA@mail.gmail.com/
+> One option would be to flip it around, and instead have
+> STACKDEPOT_LAZY_INIT, but that seems counter-intuitive if the majority
+> of STACKDEPOT users are LAZY_INIT users.
 
-There also were some data races in this function:
-https://groups.google.com/g/syzkaller-upstream-moderation/search?q=wb_timer_fn
+Agree.
+
+> On the other hand, the lazy initialization mode you're introducing
+> requires an explicit stack_depot_init() call somewhere and isn't as
+> straightforward as before.
+> 
+> Not sure what is best. My intuition tells me STACKDEPOT_LAZY_INIT would
+> be safer as it's a deliberate opt-in to the lazy initialization
+> behaviour.
+
+I think it should be fine with ALWAYS_INIT. There are not many stackdepot
+users being added, and anyone developing a new one will very quickly find
+out if they forget to call stack_depot_init()?
+
+> Preferences?
+> 
+> [...]
+>> --- a/drivers/gpu/drm/drm_mm.c
+>> +++ b/drivers/gpu/drm/drm_mm.c
+>> @@ -980,6 +980,10 @@ void drm_mm_init(struct drm_mm *mm, u64 start, u64 size)
+>>  	add_hole(&mm->head_node);
+>>  
+>>  	mm->scan_active = 0;
+>> +
+>> +#ifdef CONFIG_DRM_DEBUG_MM
+>> +	stack_depot_init();
+>> +#endif
+> 
+> DRM_DEBUG_MM implies STACKDEPOT. Not sure what is more readable to drm
+> maintainers, but perhaps it'd be nicer to avoid the #ifdef here, and
+> instead just keep the no-op version of stack_depot_init() in
+> <linux/stackdepot.h>. I don't have a strong preference.
+
+Hm, but in case STACKDEPOT is also selected by something else (e.g.
+CONFIG_PAGE_OWNER) which uses lazy init but isn't enabled on boot, then
+without #ifdef CONFIG_DRM_DEBUG_MM above, this code would call a
+stack_depot_init() (that's not a no-op) even in case it's not going to be
+using it, so not what we want to achieve.
+But it could be changed to use IS_ENABLED() if that's preferred by DRM folks.
+
+BTW it's possible that there won't be any DRM review because this failed to
+apply:
+https://patchwork.freedesktop.org/series/95549/
+DRM folks, any hint how to indicate that the base was next-20211001?
+
+>> @@ -30,13 +40,4 @@ int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
+>>  
+>>  void stack_depot_print(depot_stack_handle_t stack);
+>>  
+>> -#ifdef CONFIG_STACKDEPOT
+>> -int stack_depot_init(void);
+>> -#else
+>> -static inline int stack_depot_init(void)
+>> -{
+>> -	return 0;
+>> -}
+>> -#endif	/* CONFIG_STACKDEPOT */
+>> -
+> 
+> Could we avoid the IS_ENABLED() in init/main.c by adding a wrapper here:
+> 
+> +#ifdef CONFIG_STACKDEPOT_ALWAYS_INIT
+> +static inline int stack_depot_early_init(void)	{ return stack_depot_init(); }
+> +#else
+> +static inline int stack_depot_early_init(void)	{ return 0; }
+> +#endif	/* CONFIG_STACKDEPOT_ALWAYS_INIT */
+
+We could, but it's a wrapper made for only a single caller...
+
+>>  #endif
+>> diff --git a/init/main.c b/init/main.c
+>> index ee4d3e1b3eb9..b6a5833d98f5 100644
+>> --- a/init/main.c
+>> +++ b/init/main.c
+>> @@ -844,7 +844,8 @@ static void __init mm_init(void)
+>>  	init_mem_debugging_and_hardening();
+>>  	kfence_alloc_pool();
+>>  	report_meminit();
+>> -	stack_depot_init();
+>> +	if (IS_ENABLED(CONFIG_STACKDEPOT_ALWAYS_INIT))
+>> +		stack_depot_init();
+> 
+> I'd push the decision of when to call this into <linux/stackdepot.h> via
+> wrapper stack_depot_early_init().
+
+No strong preferrences, if you think it's worth it.
+
+>>  	mem_init();
+>>  	mem_init_print_info();
+>>  	/* page_owner must be initialized after buddy is ready */
+>> diff --git a/lib/Kconfig b/lib/Kconfig
+>> index 5e7165e6a346..df6bcf0a4cc3 100644
+>> --- a/lib/Kconfig
+>> +++ b/lib/Kconfig
+>> @@ -671,6 +671,9 @@ config STACKDEPOT
+>>  	bool
+>>  	select STACKTRACE
+>>  
+>> +config STACKDEPOT_ALWAYS_INIT
+>> +	bool
+> 
+> It looks like every users of STACKDEPOT_ALWAYS_INIT will also select
+> STACKDEPOT, so we could just make this:
+> 
+> +config STACKDEPOT_ALWAYS_INIT
+> +	bool
+> +	select STACKDEPOT
+> 
+> And remove the redundant 'select STACKDEPOT' in Kconfig.kasan.
+
+Right, will do, if KConfig resolver doesn't bite me.
+
+>>  config STACK_HASH_ORDER
+>>  	int "stack depot hash size (12 => 4KB, 20 => 1024KB)"
+>>  	range 12 20
+>> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+>> index cdc842d090db..695deb603c66 100644
+>> --- a/lib/Kconfig.kasan
+>> +++ b/lib/Kconfig.kasan
+>> @@ -39,6 +39,7 @@ menuconfig KASAN
+>>  		   HAVE_ARCH_KASAN_HW_TAGS
+>>  	depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
+>>  	select STACKDEPOT
+>> +	select STACKDEPOT_ALWAYS_INIT
+> 
+> [...]
+>>  
+>> -int __init stack_depot_init(void)
+>> +/*
+>> + * __ref because of memblock_alloc(), which will not be actually called after
+>> + * the __init code is gone
+> 
+> The reason is that after __init code is gone, slab_is_available() will
+> be true (might be worth adding to the comment).
+
+OK
+
+Thanks for the review!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZATYYpX6wJ_i1ig6ZhA3kwuH_8eC51spkd%2B0x3ZxX0ow%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2a62971d-467f-f354-caac-2b5ecf258e3c%40suse.cz.
