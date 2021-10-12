@@ -1,34 +1,35 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRB355SOFQMGQEOIN3KCA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRB4UPSWFQMGQEZ7GDFCI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa39.google.com (mail-vk1-xa39.google.com [IPv6:2607:f8b0:4864:20::a39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71165429AB3
-	for <lists+kasan-dev@lfdr.de>; Tue, 12 Oct 2021 03:03:44 +0200 (CEST)
-Received: by mail-vk1-xa39.google.com with SMTP id r10-20020a056122014a00b002a3bd59eda8sf2183578vko.6
-        for <lists+kasan-dev@lfdr.de>; Mon, 11 Oct 2021 18:03:44 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634000623; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB06429FE8
+	for <lists+kasan-dev@lfdr.de>; Tue, 12 Oct 2021 10:31:47 +0200 (CEST)
+Received: by mail-lf1-x13c.google.com with SMTP id v2-20020ac25582000000b003fd1c161a31sf14507276lfg.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 12 Oct 2021 01:31:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634027506; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NYmZCKE6MXaoFDGQntSvUaK72faw9Iadik6epAN3RfaYeMGFyEzUjJbNkwQNwBfCZH
-         Fjmpmib/dhsAC8/DHklCFbzcP4odbBztey+z7d1xjcs89c+s44GypFYSbXNFiNyOjpK2
-         w9Nt85HzmBuvq1/5Rtd8DUd5yXPVaNaEFCUCOgq+K94DwxlDFNXMP3358mFIol5L+NJu
-         iJmf1yoy5HR70hICFGRkk+29Bt38v1mp1O2nsTHiK1MMVwBbLTHgXJShsMFDH7E5PFm5
-         clZJOFkNZ+LsD7o/UzChSpn/4TZi+0l9DZIgqMdY6NzTNdlY2RrzgcIWSQ+2FtHG4klW
-         78LA==
+        b=TtpHgYWMfGa8zdKI3L3sfVDacQgoY5DrKI1L/cwqrma3M1ZXR21G2qjg3IHa/7Jqvz
+         GF0CF6tsukIxr+4e+4Um5P5YZzUyx/warNPvIEYKsbOfwYGQXlhdcdjWMPMFmli8Pm/x
+         OsfRtqN+zf5Mc2CyUs8L+y0kolo/t8h1SzAKhrzWcQY0yeu10h5I5VIkQ37/JYnnmLvr
+         mtMugPlHdHCHQFMtKoXamPzYzcVs+h3sWD+Aw21AN22Ir364IZnscCVFjjbQCuBaLUis
+         lJYOzYNBfmsKstjJ3BhRnCxplGGd8skm8Fd/dx9iutq5LvjyC6Rk7uHYOzZQeGS685La
+         +VDA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :sender:dkim-signature;
-        bh=qeuVcYl94ZjtExF/glyPHNpwhqR7tSUo5Vzm8uQ2soA=;
-        b=aZkcT1JRYYXTHcLeryRTBwTvAeufkOd054JxYm6O5QghAjvhJt/RNEnaczhLy+XA3i
-         ceGarqLVOjdjFZyPz5kj+LM/Joq++9lqmeeSVTJEu8ikHivhxSYuKeIEnwA+6SASBa3V
-         +s6Vz0CUbRNy9fiW624R8vwUPHyx9hOpiX7MrBxR9bBy2+mBpTgnJaRf6iRaMjYZgfzh
-         IXdcR/SKG39UH1esgZ/K6HR50WaOQeGgsb2At4/x5OLzLllpID7lW/ehwwcl5iFZU8wp
-         jWGlm84OJxEVdO0Gf75h8dz5WdnMqGwYwVgsJ/De2wCA+Ndn/actsEd/h2Pr8qW5JnM6
-         h43Q==
+        bh=L4bI6v0VN/Y/P5IDkrj9vw82uO692Q7zr9g50pfdMcE=;
+        b=WPgyNn/07ySt1CjdAMOn+pE/6xeYIVqnahSQ/NK9BQhGE6gzois/+SS4Y8dgL9qJFi
+         N5RI0g+aAABSbAed4+kI40FotBNqnCkIFts08/a3ip2JjcgmuMxXgOF0j9IYaxO3r7or
+         4ZnFE8IV78m88+hE0tn0U/kQA6ttdD4cs0B42HMnMcbj7Tdgzgqn9PXiJdAR3BdQM1he
+         uF9rLFZCztlmlewHxoxJj6ez710H2b17lMIF0Gv7AWBvnk/7jEH72HQ9GjYWPE9MDh93
+         AwD5CuRkMor287mCGM5zJHrVxHp0VWniM1jePF9iJCRBBNoFbXqlHxV1/8DOWG3mfQn5
+         PA3w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=GBFKzyqP;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=sender:message-id:date:mime-version:user-agent:subject
@@ -36,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=qeuVcYl94ZjtExF/glyPHNpwhqR7tSUo5Vzm8uQ2soA=;
-        b=fv+F852cHBYSYeT8HBTf4hvIQefZNAAEkBcNfYNqUqLOi9kHZB0cn4HniExryMQFAr
-         nvKddP2MHcZLwUvZnkHEv8PFS94heqDQPcYmDoq/l2M+y5w2a9ruViU/oln9dlON04al
-         M0F0JVBGDPGiiZahuw9ZwB6Ij+5QEyru4pqFwi5eZstJQj0YcVe8inguCHLDLF+LlFvM
-         EOpSTdBte7Yu7G6rSjfobukDih9ZXRoONiMyo+Ncopo+UmQyKS/lSBrEFbmaOfHcHQ45
-         ZBYKJEQ0HaxEklGViRTu/eYMkR+pLahp8OHogCZepKHquxvvNngmmJa2TDnzVBeXQ7ep
-         mH1A==
+        bh=L4bI6v0VN/Y/P5IDkrj9vw82uO692Q7zr9g50pfdMcE=;
+        b=HA3rNmnl1FyrtWPHq4QfvDVldZ1B/kaZy4gO/hxsXknyXuHzGEsM1Jjt7LBfue14OQ
+         nlzXdA+yG0gduUHt0U3gQgZ8tOg1zfK+HhTv3Z1QYOCgZmAmqD/BC+DnAhaZjNjljkU7
+         KFCCOqlRlnTuhpYyQSq9AVgjNJ/GSIOpViCWeC4lukNx20AnyRIeF9GTowiFB44iLoPo
+         37+j6p2C+T0EUIPh4vkWOpmnCEshmBSTHPC7H6zsUOXBRshAgbGS6lEOOPrECUq35GRh
+         2uxudxXqgtPodZrtILCNHBx875Y8W7a6IxS296S+i3ljG7MJDOwqc5PsNTib7PwyuKvC
+         ZZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
@@ -50,93 +51,102 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=qeuVcYl94ZjtExF/glyPHNpwhqR7tSUo5Vzm8uQ2soA=;
-        b=XAbHJ4eLXTFvI23vZjUWnad1/+ClSfitMOEvtYq13Z7OFKJJ4yeT1QsrfoiTAAduLr
-         nuRnrGj2ckryx/XlFVjhXzbVqu2Y2M2abTSHuS7aravhhTO8fUlGwlSa6/HG3JB+htIL
-         3CMQRytf7cxccqIw0AN9cQ7rfqAgHTF+rvNx08+z0BRqbGzx/0oDhNYY+b3nKQO/NZJf
-         A4kEdpCkthyuqQtgC/Jlz06OafdPwPwX8wdp5vqABNejkPQUgSzxcjSl9VE5OkM/2koe
-         ESjsGxCFgETThtwH8iqQ35HO7pG1owUajojrAGT3yMptNt8WvAJGnRgWey7+2lcCb3dj
-         5Smg==
+        bh=L4bI6v0VN/Y/P5IDkrj9vw82uO692Q7zr9g50pfdMcE=;
+        b=6sU6qvg7RqaHYUWn4HophFQow64T1XRgd8r+xJDwVKyT6p7mlmkbHYs9p9zgj0BLWI
+         BnYnVzorBkgvo7OyVpzsIjl3s/+VSU5pnALjiDdeSO8IH8uqfw5+bngMd0Fa1SD/q+1K
+         FB7i8dW8GxdmbLOelzfDKoy5pHTyfJZUuscEQByOvU+v2HSb0tKe3bn4IEKp85/dUiRx
+         rOGIuhAuTStUDn1sCYIB0vuCwh74UvMegxmVFFM2QIKaNRlw4OpRuk6gIEnX6am/2KGt
+         IfXL2kM22DC1Eq9NjSgLhfbBqgO/CfpPCB0oYHH3R0wPs5v8v+mX7KxB6rwAXxDQ4oBr
+         GIuA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532owOb/1eh5PSmAMkIi9Le5Zy1p02bKlMX5WDIoIJkiFzQn/ByH
-	gB9GLHp4bEMIK77UtKkMJd0=
-X-Google-Smtp-Source: ABdhPJwuS7YLV1W38gxw/WbrQC/fGyi1KWOGRmWNhwRl7/zDdortpkyAVbgg0M4fmOJMfIwnrwk7Bw==
-X-Received: by 2002:a1f:1bc6:: with SMTP id b189mr23898042vkb.15.1634000623371;
-        Mon, 11 Oct 2021 18:03:43 -0700 (PDT)
+X-Gm-Message-State: AOAM5303/LBPrR3soadij0oRuSTXEnnuZJKdu74e5UiBtIZpEboL+WmY
+	jkG5eZqMJSFOyytxrYcVzmU=
+X-Google-Smtp-Source: ABdhPJxlQZOCsEI89eTWZUYieT1R7T/oerxESTS+h1TCRi+u9/BzTLoc0HE+fdTZLqbkE14wq9om3g==
+X-Received: by 2002:a05:651c:1505:: with SMTP id e5mr5298574ljf.308.1634027506202;
+        Tue, 12 Oct 2021 01:31:46 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:34d8:: with SMTP id a24ls3049711vst.0.gmail; Mon,
- 11 Oct 2021 18:03:42 -0700 (PDT)
-X-Received: by 2002:a05:6102:3e84:: with SMTP id m4mr26013271vsv.51.1634000622891;
-        Mon, 11 Oct 2021 18:03:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634000622; cv=none;
+Received: by 2002:a05:6512:3994:: with SMTP id j20ls1974830lfu.3.gmail; Tue,
+ 12 Oct 2021 01:31:45 -0700 (PDT)
+X-Received: by 2002:a05:6512:2346:: with SMTP id p6mr31517592lfu.214.1634027505221;
+        Tue, 12 Oct 2021 01:31:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634027505; cv=none;
         d=google.com; s=arc-20160816;
-        b=YH3BGJ1FbM7Agf855h3nYsT8/1/RG6ebQIulFTCjj/vqfWaxMEcch2IrZn4XgulWOM
-         UZgvESy2b62NnT51TmAPACS1Gwzwr/RQ8WKW43o4tLbw4vyE7sD48PARwfe3uSa4BIPK
-         xXkzqLpt8JZHb+D/TLNrd8kKzNpgvJZ0uXME2JhqXyEZpbqRtaa7LJJlSTjF7jX9Vy30
-         o8r0w1X5Dah28rxQAiVJJUXQamq0jPUTawK+1kz6O19S79n7nH9J8CTh/WTz0D4BiXWW
-         zmu1sgUHmyP9siVX5dip+d81N8zu48Ij9XJiNKwspfuPX2NN5gT82VCLb5J/53RgBkv9
-         uqGA==
+        b=oFx7kCkp1UvEHVmK8ygDVawpWwGoMMZ564CNeBi7qafLO7SwQy3eiJ1BamEZziFYIs
+         EocreOm7fbtCzntsXB4V614mFdqOarxbBZWQLPMp898JH+J29rRULvmLiwd1T8TF+2hN
+         cOUrAw/HiVehDWdM/YKGn3ZmGTbFW5O5x0sh5F9KMYx8klpfhDrxPzhD1ziTk4vhr6Pk
+         Zqu2t/ELDN8FD+vMQEHa7zxo2asa/cJEqi0/cJy1eFo592xvOy+fKk58jFeffZAvBrqP
+         CfmlDAVg1E3TRHHB4A08GKEoEd+Fr09OEdVzTBWkas/Vd6EuIVjTtKujRGOMEFkgJGsb
+         mZiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=HC19gpeFovHUcB3vyj0/n2jojgWRIsxlxViPobDW03g=;
-        b=FRpSkIoc71ELjVzRkY5zgTLVJ7BuGYncIoRtB5ophrsYz3qNgDIBJxHLpkNU9413wX
-         U4WBZuI8fC8TSiICbVWlizeXaOn2qTv5r8DedvVW7+3Gtfj9O9UEtDTp3q3qt2yTCkW+
-         iy4grLpd0gXezRPfgVbvX/ZXaT/xvMG/O3V3jupjxtOgw1vagUkFzylZJzalHHAp6U9l
-         hTwVoV7EXBph0H8R8ep6I9vxy+OoW4jPrkEH+E3l0w3YAqUsCrMrZaSynEbDcyNJwfRQ
-         LwY40j5uAsIQlu3zNbuDf1CisPDur7/rPrp9QDVl3t+RzLhqW8LZmu97z4W3nMWDSjWD
-         lGCg==
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature;
+        bh=jzhciBvqQ0vTMCmMY7ans9eWDLkjdIgrfHAs17HgGQk=;
+        b=Pbh7x23myYC4VZGWJWY09P6ev6so0tBND/Qkm4zYS00Jpeh/KE/q1bESF0tm70EZT6
+         CQYcdoiq5pdBhnwA8PFWaGvbE0/WqgE3dI6QbGComJBNqd82Cj4fk0tkAJCNfHk6VeqU
+         0mosa7wunzYlT/8puCx3juhgOiiP62qdN7BFhGafI2lUoFrGHecnr7VD7PorX4wolLWo
+         w+hUICwMXFd/jaM1LIu9frqE6Xqrxc5Q05MZT+BayiTAETIQQV6npRpnRH1u3LUUixj2
+         55lxlt8HsMyLRZ663KLUfeTHlzKWLAMhxdCTgRiI+vrBPBwX2i6XQcBik/NoCGGiKiCI
+         wWhA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
-        by gmr-mx.google.com with ESMTPS id u23si797552vsn.2.2021.10.11.18.03.42
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=GBFKzyqP;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
+        by gmr-mx.google.com with ESMTPS id m18si11820ljg.7.2021.10.12.01.31.45
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 11 Oct 2021 18:03:42 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HSy3G6HCHz8ypD;
-	Tue, 12 Oct 2021 08:58:50 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Tue, 12 Oct 2021 09:03:39 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.8; Tue, 12 Oct 2021 09:03:39 +0800
-Message-ID: <3796d319-10a9-9721-f300-44a28f1f7507@huawei.com>
-Date: Tue, 12 Oct 2021 09:03:38 +0800
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Oct 2021 01:31:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 79F0220189;
+	Tue, 12 Oct 2021 08:31:44 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E7E8613AD5;
+	Tue, 12 Oct 2021 08:31:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id +SDwN+9HZWFCSwAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Tue, 12 Oct 2021 08:31:43 +0000
+Message-ID: <f4f9c5b8-7bff-4d5d-8768-5e58ee1cc907@suse.cz>
+Date: Tue, 12 Oct 2021 10:31:43 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-Subject: Re: mm/kasan/init.c:282:20: error: redefinition of
- 'kasan_populate_early_vm_area_shadow'
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] lib/stackdepot: allow optional init and stack_table
+ allocation by kvmalloc()
 Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>, Naresh Kamboju
-	<naresh.kamboju@linaro.org>
-CC: Linux-Next Mailing List <linux-next@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>, kasan-dev
-	<kasan-dev@googlegroups.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov
-	<andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Stephen Rothwell
-	<sfr@canb.auug.org.au>
-References: <CA+G9fYv1Vbc-Y_czipb-z1bG=9axE4R1BztKGqWz-yy=+Wcsqw@mail.gmail.com>
- <CA+G9fYtD2EFu7-j1wPLCiu2yVpZb_wObXXXebKNSW5o4gh9vgA@mail.gmail.com>
- <20211011135345.9506437ee2504a81054dc06f@linux-foundation.org>
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <20211011135345.9506437ee2504a81054dc06f@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggeme720-chm.china.huawei.com (10.1.199.116) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
-X-Original-Sender: wangkefeng.wang@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188
- as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=huawei.com
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, kasan-dev@googlegroups.com,
+ Vijayanand Jitta <vjitta@codeaurora.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Oliver Glitta
+ <glittao@gmail.com>, Imran Khan <imran.f.khan@oracle.com>
+References: <20211007095815.3563-1-vbabka@suse.cz>
+ <YV7TnygBLdHJjmRW@elver.google.com>
+ <2a62971d-467f-f354-caac-2b5ecf258e3c@suse.cz>
+ <CANpmjNP4U9a5HFoRt=HLHpUCNiR5v82ia++wfRCezTY1TpR9RA@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <CANpmjNP4U9a5HFoRt=HLHpUCNiR5v82ia++wfRCezTY1TpR9RA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: vbabka@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@suse.cz header.s=susede2_rsa header.b=GBFKzyqP;       dkim=neutral
+ (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
+ vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,70 +159,56 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 2021/10/12 4:53, Andrew Morton wrote:
-> On Mon, 11 Oct 2021 18:12:44 +0530 Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
-> 
->> + Andrew Morton <akpm@linux-foundation.org>
+On 10/11/21 19:08, Marco Elver wrote:
+> On Mon, 11 Oct 2021 at 19:02, Vlastimil Babka <vbabka@suse.cz> wrote:
+> [...]
+>> > On the other hand, the lazy initialization mode you're introducing
+>> > requires an explicit stack_depot_init() call somewhere and isn't as
+>> > straightforward as before.
+>> >
+>> > Not sure what is best. My intuition tells me STACKDEPOT_LAZY_INIT would
+>> > be safer as it's a deliberate opt-in to the lazy initialization
+>> > behaviour.
 >>
->> On Mon, 11 Oct 2021 at 17:08, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
->>>
->>> Regression found on x86_64 gcc-11 built with KASAN enabled.
->>> Following build warnings / errors reported on linux next 20211011.
->>>
->>> metadata:
->>>      git_describe: next-20211011
->>>      git_repo: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next
->>>      git_short_log: d3134eb5de85 (\"Add linux-next specific files for 20211011\")
->>>      target_arch: x86_64
->>>      toolchain: gcc-11
->>>
->>> build error :
->>> --------------
->>> mm/kasan/init.c:282:20: error: redefinition of
->>> 'kasan_populate_early_vm_area_shadow'
->>>    282 | void __init __weak kasan_populate_early_vm_area_shadow(void *start,
->>>        |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>> In file included from include/linux/mm.h:34,
->>>                   from include/linux/memblock.h:13,
->>>                   from mm/kasan/init.c:9:
->>> include/linux/kasan.h:463:20: note: previous definition of
->>> 'kasan_populate_early_vm_area_shadow' with type 'void(void *, long
->>> unsigned int)'
->>>    463 | static inline void kasan_populate_early_vm_area_shadow(void *start,
->>>        |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>> make[3]: *** [scripts/Makefile.build:288: mm/kasan/init.o] Error 1
->>> make[3]: Target '__build' not remade because of errors.
->>>
->>>
->>> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
->>>
->>> build link:
->>> -----------
->>> https://builds.tuxbuild.com/1zLv2snHfZN8QV01yA9MB8NhUZt/build.log
->>>
->>> build config:
->>> -------------
->>> https://builds.tuxbuild.com/1zLv2snHfZN8QV01yA9MB8NhUZt/config
->>>
->>> # To install tuxmake on your system globally
->>> # sudo pip3 install -U tuxmake
->>> tuxmake --runtime podman --target-arch x86_64 --toolchain gcc-11
->>> --kconfig defconfig --kconfig-add
->>> https://builds.tuxbuild.com/1zLv2snHfZN8QV01yA9MB8NhUZt/config
+>> I think it should be fine with ALWAYS_INIT. There are not many stackdepot
+>> users being added, and anyone developing a new one will very quickly find
+>> out if they forget to call stack_depot_init()?
 > 
-> Presumably "kasan: arm64: fix pcpu_page_first_chunk crash with
-> KASAN_VMALLOC".  Let's cc Kefeng.
+> I think that's fine.
+> 
+>> > Preferences?
+>> >
+>> > [...]
+>> >> --- a/drivers/gpu/drm/drm_mm.c
+>> >> +++ b/drivers/gpu/drm/drm_mm.c
+>> >> @@ -980,6 +980,10 @@ void drm_mm_init(struct drm_mm *mm, u64 start, u64 size)
+>> >>      add_hole(&mm->head_node);
+>> >>
+>> >>      mm->scan_active = 0;
+>> >> +
+>> >> +#ifdef CONFIG_DRM_DEBUG_MM
+>> >> +    stack_depot_init();
+>> >> +#endif
+>> >
+>> > DRM_DEBUG_MM implies STACKDEPOT. Not sure what is more readable to drm
+>> > maintainers, but perhaps it'd be nicer to avoid the #ifdef here, and
+>> > instead just keep the no-op version of stack_depot_init() in
+>> > <linux/stackdepot.h>. I don't have a strong preference.
+>>
+>> Hm, but in case STACKDEPOT is also selected by something else (e.g.
+>> CONFIG_PAGE_OWNER) which uses lazy init but isn't enabled on boot, then
+>> without #ifdef CONFIG_DRM_DEBUG_MM above, this code would call a
+>> stack_depot_init() (that's not a no-op) even in case it's not going to be
+>> using it, so not what we want to achieve.
+>> But it could be changed to use IS_ENABLED() if that's preferred by DRM folks.
+> 
+> You're right -- but I'll leave this to DRM folks.
 
-Yes, I send a fix patch, and reply this mail, see
-https://lore.kernel.org/linux-mm/5077aa7e-0167-33b6-35f0-0ea7df8f2375@huawei.com/
-
-> 
-> .
-> 
+Ah, the file only includes stackdepot.h in a #ifdef CONFIG_DRM_DEBUG_MM
+section so I will keep the #ifdef here for a minimal change, unless
+requested otherwise.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3796d319-10a9-9721-f300-44a28f1f7507%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f4f9c5b8-7bff-4d5d-8768-5e58ee1cc907%40suse.cz.
