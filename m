@@ -1,153 +1,142 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBBEWTKFQMGQE7EVEQEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDRZHGH43YJRBY4OTOFQMGQETVNLY5I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0481342B91C
-	for <lists+kasan-dev@lfdr.de>; Wed, 13 Oct 2021 09:30:13 +0200 (CEST)
-Received: by mail-lf1-x13c.google.com with SMTP id u17-20020a05651206d100b003fd714d9a38sf1312669lff.8
-        for <lists+kasan-dev@lfdr.de>; Wed, 13 Oct 2021 00:30:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634110212; cv=pass;
+Received: from mail-ua1-x939.google.com (mail-ua1-x939.google.com [IPv6:2607:f8b0:4864:20::939])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3327842BF2C
+	for <lists+kasan-dev@lfdr.de>; Wed, 13 Oct 2021 13:47:50 +0200 (CEST)
+Received: by mail-ua1-x939.google.com with SMTP id q2-20020a9f3842000000b002c9f4b7ede2sf1165628uad.10
+        for <lists+kasan-dev@lfdr.de>; Wed, 13 Oct 2021 04:47:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634125669; cv=pass;
         d=google.com; s=arc-20160816;
-        b=X+YaUfB9Jwnk4HaSii7llz3vFMhX3sOvjeMMkKM9H3FroS51X2G6OVWNaSUxoGeBNE
-         URgH+DQostu2PzbjAZwuGqkZgZojDQjP63C6mSgW7VKrhpR6V8APY1fYAi/ruVF8QhjK
-         wBj/sGbJwcYl1P9T4QXvy9KZ75dg/Key6wqL9olQaVLInK5iyZPkRZMR5763TusfywOz
-         4a24wLaw88UMrtKjzfQ76xgpyu07YATuV089LGY0Sto7nuwskhv7U7txNQCVoncLL5hz
-         B5qlxxyKXSGMehcosGkRNyjmRqSxebJUhiPUojRn1LyM80jtM3QV23+J5rsYiMO/AJ3e
-         5V8g==
+        b=BJzKTQLKIwvklVj0idmjqt4N2v/NVDSdIVgItiT/L4LWnXG8+aTXOTfzy5JSOVUj+5
+         VqPsVQOmd4/OJH4W3BT8Uy1dZeCKL0n0mYwAYubS76KHpIJViSOFdhLB8DgEGOpWumb0
+         QOH0UI9j3NiHd981kKDegUBxK7zsq/4MUvNPLw7BC109GPrOEZHTxgvHVRE/YOulSc2G
+         kRNQVcNRC3iLdSAr2AwWikIY/Szd1qhTM2e4795N44HRBYkEPNLpPBxLCF7yENTMw6QI
+         4PrPaqgc/kGsqYNeWm8cWETp62L2ixgmKeXAqvpTQ6Yyf0UEWxLFpgF39ZmE5y7Hgqb4
+         t4Hg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=4SsGPyfmk4kid4AxrgQ20bGmYVIEHWMWZPy+Pg3i1B4=;
-        b=yh5Zr12ytjQuMTmU7Bm0poSir8coRiy7dMa8PeLAHHOW8h4AiJDVqRspxn0EfFulfk
-         MXCaD6avVCw3+8k5kwl1RpdkwH/obF9PXmB5zq2X2km5oiRkXPHJk9aoYZS+nIRYcYQ4
-         JKGZ44RFgblwhzqVIuEngSAyIY+xlSl8twMfI7WZJcVVdgZJnl6ct7vD+M3epgF029QB
-         oDeSIfPmpRMkMbyi++hfTK+kLNaTS5rjEC/GLq75S57DqtTuwcqH7hiltDoGOHLOi9Ze
-         eNmHW/9IsChF0pGmvckPTaTjaynskh6/rtdBrndLfYTyFOk3jD8Vl0f8ozv1U5BKIOww
-         9jZw==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=rjLFbLzRX4VM63m/n21She+ia0ayzWl2VDpvQf2/86s=;
+        b=Soj1UX78TKkJ7d4qx2UXwXyRFTJGvx27mBhCs+soxi/KjJIRBDW6YYRmEj1/4HjZLK
+         eB1+uc4dBfM94fpKypauvhW2d6wDtKTKIUZTfsHhpwdcysAXnd9OOgct35pa+35cOhlo
+         psBEIc8doHcXvjWjS8qijXjZV47Xvmp0H8FgGrrnBflVHkWw6sVAF3l4ZfpyVUrRmbxX
+         rqc4EJrvPPeFrwQ1aZFO9v2DlZoE1ZRt3R5cFtYMz1l1B8ko8cq4un61ZSJOx9fahrog
+         Z63DLShdvgHYDgfW3MGOoQW1UVXvzuC4Dkd3Nu8q13qy/ahzIEZ8mFdwPBe6v1LPl67B
+         v5Dg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=uITKLYCJ;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UyxQKE97;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::132 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=4SsGPyfmk4kid4AxrgQ20bGmYVIEHWMWZPy+Pg3i1B4=;
-        b=biU/OGjd3A2mlBvnT/cZlqYIrn8zLMm5HSNFVU9kQgUB3+8BYEOkONC0MKs2hxL3Nv
-         U2v9PxZipET9kmWUF1WlUoI7vxKiuo5Ffbs/GbQFaLFsGDL/ZptRsUONWiSBYe180i4N
-         o6Qja1IilCCIj8oSQ6pwddvhZp54vIRo0/swKExrW6CV9XaRq0pB+QoysUVRQqET7iB+
-         4dPpfq7ZBHQQkIR3lzx44fu37mj21aYFP/fvI05z+92cu+RIlZrqPBTFcKwOipE8eItm
-         9g1DAjVzL2ANrryQPaT0mlnvVLFehivtVds0zHHgQy4swvrLA3pmxkQuuifNYwmCwj+C
-         LtPw==
+        bh=rjLFbLzRX4VM63m/n21She+ia0ayzWl2VDpvQf2/86s=;
+        b=ElzuV5A/vYvRW9MeVekqxtJmbJHST4hIM7XRQRdto1J7/UqmTgP+eKTWdJvTBBtYN/
+         QLffJXyIADI2AqkEYNlDdLgcm9+5MkzFlSu9ykoF6W+H+DgSSNeHV3vDJIaU4Oc8PS1w
+         sHfWvmPZawIKUFDUsYYp6O9shaJnd01kLBm2lnqIBFMzUS/Ca7q/kPfppLfa75aDLyWW
+         rPuQUMkdgMMJMYpCm9riSJUv2ucFvtJLIaVdA04vkbZITmJNGSPRqJ6gsyzmulPoC5Sk
+         gpAjvf4S0QNMf3vtT82XHutx73rCZqvuNeyrmgZROf5u6gPMbQRKterz/FCYxAe/l6Js
+         nO3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=rjLFbLzRX4VM63m/n21She+ia0ayzWl2VDpvQf2/86s=;
+        b=b/nITk3/+WeTkvRUWXfbRsnVz626WyDtwN/K1mG+FGIicRJj0gFDP3aSvetu/gWbPs
+         WmC7rNhqc43nTJ7Funiu0NrfcX5TaVN5ExIaPCcwrDerkCiEsUPy6xzTuwTVuuQ90ycI
+         WpRf8Yk6uObA+ytbLx9P8pHJV/Yl5nUCM8VLipKZG/fRik9nGsM1zdZ9JIHpx+CfeLzg
+         5iEmX8p6/vWDrB//Omw67vFsSj/wG6EfVa+B34+BrDdpWIA++7apASrISEJVBB983xBn
+         yXyOz7DJCyME4/vyBIBdvzpcfYatuoorPfGE3/TacLskr5+ExrLYNGS4/yJ5XA4Y0OOQ
+         gPGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=4SsGPyfmk4kid4AxrgQ20bGmYVIEHWMWZPy+Pg3i1B4=;
-        b=1TpiihRZQRtZGHLwPr3w2rrNQsXR/A81gu5ybbABW1fJ4+xy7cN2k6LXQiLWo/1Agm
-         unaNBAbjfVvKp4rGhj4EfWDzbL/osajwyx/qVgbDiF0nYK79FRFhekYAdKL7lfNCYEYU
-         g1Dh1BIvFL9wHlqYftQkAmG0zy1ohzup/wqtwW/PONy1DZYY9YxGet+r3Tk5KznqD1LD
-         ElGauBuH79puUtTtvQ768i2R8I2LcSsF6ei5A5MP0OkNsjAfUwP6ta2fgS+6tenT3xSV
-         7YrDL2XSwkRwqq2MBGG/wYqaN9tkZ2FvC3m+peT1sL8CiZRkxQcUUqkOm13K+7X3KvUv
-         aP/g==
+        bh=rjLFbLzRX4VM63m/n21She+ia0ayzWl2VDpvQf2/86s=;
+        b=oTnYfXXhKC4VJOdpNfc3S997lOpoNBdWD22MjhOsMUD7txXPJ3ut42YFxJVStKIsyC
+         cQzOEz2jnopKjdGeW2tR/kYe7MGqUhGt8ZDQfXiA+78yYOZfCv5n3RLeOON9PTsQhaTE
+         aeZR3ctQsJm5hiAJk4IbkYOPW4g497Hh1YKyqTBS/SiduhHxNEHb38MBu6/NuM5B/KeK
+         fGNg89w1Sk+JLMeAYeWZWuvl8fGjxWLt9xQtpWUULivRR7xTP5BXIKKQbdXMUzLfQ4xB
+         Qc2aiu2D8zD+rqLcYl4dSvVZMLwLMMz96qK6fcWJwf305zdRZHUIcoRchCR4rOQmITNB
+         4dxg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5313hxx9vl0nurojPeMRH2z/kNiw+58/vSclYz/8wtnpj8E9Bl1E
-	rX1D6Grbwfm7/aIEyJ6dQl0=
-X-Google-Smtp-Source: ABdhPJziE0Sj9fJLMqSBZsocJkiKqR0lh3X64GaNGszDOcOAbZloS/lq/f/WXQHgeKVx//9arYv9oA==
-X-Received: by 2002:a19:dc59:: with SMTP id f25mr40663854lfj.414.1634110212508;
-        Wed, 13 Oct 2021 00:30:12 -0700 (PDT)
+X-Gm-Message-State: AOAM532QWC6pvSszBQVfKcF8lnXEoIDwH9mpwKol/rcveUtHxytNUyog
+	492Skg51n6zOt/VPAAxrpKc=
+X-Google-Smtp-Source: ABdhPJy1UmlpIPGd1js671iA0cM+TGlwNt7u3jSxNOPzXo8Ed7Q8RqjuRndFSEOE+YFW8PpPt0jURw==
+X-Received: by 2002:a67:2285:: with SMTP id i127mr37651143vsi.57.1634125667449;
+        Wed, 13 Oct 2021 04:47:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:982:: with SMTP id b2ls227406ljq.7.gmail; Wed, 13
- Oct 2021 00:30:11 -0700 (PDT)
-X-Received: by 2002:a05:651c:1549:: with SMTP id y9mr35306291ljp.105.1634110211293;
-        Wed, 13 Oct 2021 00:30:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634110211; cv=none;
+Received: by 2002:a1f:2405:: with SMTP id k5ls227292vkk.1.gmail; Wed, 13 Oct
+ 2021 04:47:46 -0700 (PDT)
+X-Received: by 2002:a1f:3448:: with SMTP id b69mr22695042vka.10.1634125666636;
+        Wed, 13 Oct 2021 04:47:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634125666; cv=none;
         d=google.com; s=arc-20160816;
-        b=0o0qFvkdlQKLnbhET9REsB9SSmeSPVNC7OOQTtIWbe5s9eDHBYqrKw/mfLioQZOICN
-         Dmq6fJTaLPhrR+lPY31XbfQnxzV1oRDEr61HkXY1+8JvBEzUHKOpUuz7vN+tGAt29bZ4
-         KM+tAXXtN+Hy3sGBp4z654YC3jaLIdxg0AStNSRQSh+O7Ma/0MNuntf+mQHbWTgcJUIP
-         BLs/2ZICXY7sjzPrjQ+vIc590hP+6BLIM1mnK6Njnv12tDd8Xt/tfPf5hMjZgsach3ce
-         Le2BNauwoxeG5vHsTwAj+DFTB5MEHz9tVGU5NnkBdP5l9DKzpTK6cAE50bAiFeFDWIGR
-         AnHw==
+        b=0CLUXYEqAxVi0vzKlPdHnWrYkKQk4pW53kZ9s2bboVilfuJXiXUNTI+Wo/bjVhItDP
+         e0MoP4bD0mVB1g0y+SKugjauBg1IJ5h633kyu18gjMPtpLJ2z3uOlDifRq3/bk14gUoP
+         y0Y7ScgHt6s/vMpZ9e0A7kPMUVKm+m8jLGdMmQwHiCCjqddpLnMO7BKRbrzO0XaySBXK
+         tg+Wqm/I5L2cw8bBqw4ZkK58RA60Ef11Zo3MVwb/QIrWJksc5a31fk7RPahkHQvufh7L
+         Bju5941CJG3u5L/r1lVhrx3XJgGOMvtO+kKl/rlbNBhY7tc7n6+63cVbOj9SjFfevtAn
+         CbVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature:dkim-signature;
-        bh=vRq42N1XLsyLwSLUiEBzWgw9ErM7r3K5wCbitSDHSyo=;
-        b=f+0S1Sepk3IC6juhd0mCL8B7lHYaapYBLuO5S7bBr0pqx0x0atU3aywfUQ55s8GUT0
-         IoPwR1SQAF1iLezB22rwSZIH7oyOZGCeZ1OoG1EyfCx1hY0TD+xXsihIaAMkHgz0bRY2
-         T5JWhWk70KNnImaj9KEEPEndALCwG/33eshqeKl2xRWA5H2BMZQVGehp4LileGacBfT1
-         Edm45l1X05Yw+A1Yj9mySEhCUQ91Y/t8RAYZDSNMRNdDaCVY6CGce9s2wDdnrtGiZTnv
-         VvozkD5+QFr2hflY6YAx7EK30u3PgoGWnbug91e6myjRU2W91B1pUzGUSMU7I/3/ql2P
-         eAMg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=WNpZ64Dfc3sW2fQ35x9beQ3WXpgO0Vr7YbM8MXV6/e0=;
+        b=JAXu7rW/VtrhNaELNYp8cD+SrtgCwmFaBdSXJGhfFAMeTEVQyX6stGqsvjxxkY4gEx
+         QgnnFSB9y9N/BG1yZ9xa3wOnkhPb7ApCYWHcUO7H6Vfx3okGbNF9eHJiPTvxfjTLd+aZ
+         9KdUo8vyWoWhoicXTfya3TPEp7ZlMO+GAj4jRaXDfZrVyDuKZy9kQnpfs76s7b3efP3R
+         bY8jlPOqw1XEQ3M1lkD0vMibqspnHlnO3cXH9I7w5Isd4nryuxSttdyzGRUOzT7OvBJK
+         JYPuY8MdiXnbJf0YGeuVdn0uTfAT9Xj9RLh0TOIPU3dMuzUPk/OWd2paswK4d1dG89hH
+         uLoA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=uITKLYCJ;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
-        by gmr-mx.google.com with ESMTPS id t20si704727lfg.12.2021.10.13.00.30.11
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UyxQKE97;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::132 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com. [2607:f8b0:4864:20::132])
+        by gmr-mx.google.com with ESMTPS id c19si575856uad.1.2021.10.13.04.47.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Oct 2021 00:30:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 823121FF8D;
-	Wed, 13 Oct 2021 07:30:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3B53F13CBE;
-	Wed, 13 Oct 2021 07:30:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id o9nIDQKLZmEjdQAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Wed, 13 Oct 2021 07:30:10 +0000
-From: Vlastimil Babka <vbabka@suse.cz>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	kasan-dev@googlegroups.com,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Marco Elver <elver@google.com>,
-	Vijayanand Jitta <vjitta@codeaurora.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Oliver Glitta <glittao@gmail.com>,
-	Imran Khan <imran.f.khan@oracle.com>
-Subject: [PATCH v3] lib/stackdepot: allow optional init and stack_table allocation by kvmalloc()
-Date: Wed, 13 Oct 2021 09:30:05 +0200
-Message-Id: <20211013073005.11351-1-vbabka@suse.cz>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211012090621.1357-1-vbabka@suse.cz>
-References: <20211012090621.1357-1-vbabka@suse.cz>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Oct 2021 04:47:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::132 as permitted sender) client-ip=2607:f8b0:4864:20::132;
+Received: by mail-il1-x132.google.com with SMTP id k3so2387582ilu.2
+        for <kasan-dev@googlegroups.com>; Wed, 13 Oct 2021 04:47:46 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1543:: with SMTP id j3mr10881842ilu.151.1634125666291;
+ Wed, 13 Oct 2021 04:47:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9908; h=from:subject; bh=qKzKhI1AHwrSrbWvBiUMgXVjAfkBM20Gt+RN+iz94ug=; b=owEBbQGS/pANAwAIAeAhynPxiakQAcsmYgBhZoroX1oZ3COYXA1v5xFy/NEofHOjrYXATAI9XEsE ivh3F/WJATMEAAEIAB0WIQSNS5MBqTXjGL5IXszgIcpz8YmpEAUCYWaK6AAKCRDgIcpz8YmpEJkuB/ 9KmtN5+EN4UjZv6tC5JHtuFlHLHtEvMlkdwvWywlhDC5BS/Or4lo/jwhGdNMWOwfhnBH49WvvmMzH/ jk0Q2WYFgNyuaKA9qvUjOrCh+DfViHv80nF0A1gg+By/bXouEGZ7PbnZsQZMj0zKSdllS/wF/kf+mO j/KB+Jb6V4WXCmZefZsJoX45s9rS5ghpucsMwODS9xjYPIW+MDpF0RWy5fiPCoo7fy142xzxbmoDIw uKxHcFdNuhDlvgq7xmDn9cQDnGA2A6Z5ZkVSPV7xZlKdaVB53vfAZQtbQcW2Lm+OlLPFdu6E1OBXfW ID4CN2f5u8b5cP80r8K/cI2Y3wnd90
-X-Developer-Key: i=vbabka@suse.cz; a=openpgp; fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
-X-Original-Sender: vbabka@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=uITKLYCJ;       dkim=neutral
- (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
- vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+References: <20211007185029.GK880162@paulmck-ThinkPad-P17-Gen-1>
+ <20211007224247.000073c5@garyguo.net> <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1>
+ <20211008000601.00000ba1@garyguo.net> <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
+ <CANiq72nLXmN0SJOQ-aGD4P2dUTs_vXBXMDnr2eWP-+R7H2ecEw@mail.gmail.com>
+ <20211008235744.GU880162@paulmck-ThinkPad-P17-Gen-1> <CANiq72m76-nRDNAceEqUmC_k75FZj+OZr1_HSFUdksysWgCsCA@mail.gmail.com>
+ <20211009234834.GX880162@paulmck-ThinkPad-P17-Gen-1> <CANiq72=uPFMbp+270O5zTS7vb8xJLNYvYXdyx2Xsz5+3-JATLw@mail.gmail.com>
+ <20211011185234.GH880162@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20211011185234.GH880162@paulmck-ThinkPad-P17-Gen-1>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 13 Oct 2021 13:47:34 +0200
+Message-ID: <CANiq72k+wa8bkxzcaRUSAee2btOy04uqLLnwY_AsBfd2RBhOxw@mail.gmail.com>
+Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Marco Elver <elver@google.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	rust-for-linux <rust-for-linux@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: miguel.ojeda.sandonis@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20210112 header.b=UyxQKE97;       spf=pass
+ (google.com: domain of miguel.ojeda.sandonis@gmail.com designates
+ 2607:f8b0:4864:20::132 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,272 +149,159 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Currently, enabling CONFIG_STACKDEPOT means its stack_table will be allocated
-from memblock, even if stack depot ends up not actually used. The default size
-of stack_table is 4MB on 32-bit, 8MB on 64-bit.
+On Mon, Oct 11, 2021 at 8:52 PM Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> I am sorry, but I have personally witnessed way way too many compiler
+> writers gleefully talk about breaking user programs.
 
-This is fine for use-cases such as KASAN which is also a config option and
-has overhead on its own. But it's an issue for functionality that has to be
-actually enabled on boot (page_owner) or depends on hardware (GPU drivers)
-and thus the memory might be wasted. This was raised as an issue [1] when
-attempting to add stackdepot support for SLUB's debug object tracking
-functionality. It's common to build kernels with CONFIG_SLUB_DEBUG and enable
-slub_debug on boot only when needed, or create only specific kmem caches with
-debugging for testing purposes.
+Sure, and I just said that even if compiler writers disregarded their
+users, they are not completely free to do whatever they want.
 
-It would thus be more efficient if stackdepot's table was allocated only when
-actually going to be used. This patch thus makes the allocation (and whole
-stack_depot_init() call) optional:
+> And yes, I am working to try to provide the standards with safe ways to
+> implement any number of long-standing concurrent algorithms.  And more
+> than a few sequential algorithms.  It is slow going.  Compiler writers are
+> quite protective of not just current UB, but any prospects for future UB.
 
-- Add a CONFIG_STACKDEPOT_ALWAYS_INIT flag to keep using the current
-  well-defined point of allocation as part of mem_init(). Make CONFIG_KASAN
-  select this flag.
-- Other users have to call stack_depot_init() as part of their own init when
-  it's determined that stack depot will actually be used. This may depend on
-  both config and runtime conditions. Convert current users which are
-  page_owner and several in the DRM subsystem. Same will be done for SLUB
-  later.
-- Because the init might now be called after the boot-time memblock allocation
-  has given all memory to the buddy allocator, change stack_depot_init() to
-  allocate stack_table with kvmalloc() when memblock is no longer available.
-  Also handle allocation failure by disabling stackdepot (could have
-  theoretically happened even with memblock allocation previously), and don't
-  unnecessarily align the memblock allocation to its own size anymore.
+I am aware of that -- I am in WG14 and the UBSG, and some folks there
+want to change the definition of UB altogether to prevent exactly the
+sort of issues you worry about.
 
-[1] https://lore.kernel.org/all/CAMuHMdW=eoVzM1Re5FVoEN87nKfiLmM2+Ah7eNu2KXEhCvbZyA@mail.gmail.com/
+But, again, this is a different matter, and it does not impact Rust.
 
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-Acked-by: Dmitry Vyukov <dvyukov@google.com>
-Reviewed-by: Marco Elver <elver@google.com> # stackdepot
-Cc: Marco Elver <elver@google.com>
-Cc: Vijayanand Jitta <vjitta@codeaurora.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Oliver Glitta <glittao@gmail.com>
-Cc: Imran Khan <imran.f.khan@oracle.com>
----
-Changes in v3:
-- stack_depot_init_mutex made static and moved inside stack_depot_init()
-  Reported-by: kernel test robot <lkp@intel.com>
-- use !stack_table condition instead of stack_table == NULL
-  reported by checkpatch on freedesktop.org patchwork
- drivers/gpu/drm/drm_dp_mst_topology.c   |  1 +
- drivers/gpu/drm/drm_mm.c                |  4 +++
- drivers/gpu/drm/i915/intel_runtime_pm.c |  3 +++
- include/linux/stackdepot.h              | 25 ++++++++++++-------
- init/main.c                             |  2 +-
- lib/Kconfig                             |  4 +++
- lib/Kconfig.kasan                       |  2 +-
- lib/stackdepot.c                        | 33 +++++++++++++++++++++----
- mm/page_owner.c                         |  2 ++
- 9 files changed, 60 insertions(+), 16 deletions(-)
+> Adducing new classes of UB from the standard means that there will be
+> classes of UB that the Rust compiler doesn't handle.  Optimizations in
+> the common compiler backends could then break existing Rust programs.
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 86d13d6bc463..b0ebdc843a00 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -5493,6 +5493,7 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 	mutex_init(&mgr->probe_lock);
- #if IS_ENABLED(CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS)
- 	mutex_init(&mgr->topology_ref_history_lock);
-+	stack_depot_init();
- #endif
- 	INIT_LIST_HEAD(&mgr->tx_msg_downq);
- 	INIT_LIST_HEAD(&mgr->destroy_port_list);
-diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-index 93d48a6f04ab..5916228ea0c9 100644
---- a/drivers/gpu/drm/drm_mm.c
-+++ b/drivers/gpu/drm/drm_mm.c
-@@ -983,6 +983,10 @@ void drm_mm_init(struct drm_mm *mm, u64 start, u64 size)
- 	add_hole(&mm->head_node);
- 
- 	mm->scan_active = 0;
-+
-+#ifdef CONFIG_DRM_DEBUG_MM
-+	stack_depot_init();
-+#endif
- }
- EXPORT_SYMBOL(drm_mm_init);
- 
-diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-index eaf7688f517d..d083506986e1 100644
---- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-+++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-@@ -78,6 +78,9 @@ static void __print_depot_stack(depot_stack_handle_t stack,
- static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
- {
- 	spin_lock_init(&rpm->debug.lock);
-+
-+	if (rpm->available)
-+		stack_depot_init();
- }
- 
- static noinline depot_stack_handle_t
-diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
-index 6bb4bc1a5f54..40fc5e92194f 100644
---- a/include/linux/stackdepot.h
-+++ b/include/linux/stackdepot.h
-@@ -13,6 +13,22 @@
- 
- typedef u32 depot_stack_handle_t;
- 
-+/*
-+ * Every user of stack depot has to call this during its own init when it's
-+ * decided that it will be calling stack_depot_save() later.
-+ *
-+ * The alternative is to select STACKDEPOT_ALWAYS_INIT to have stack depot
-+ * enabled as part of mm_init(), for subsystems where it's known at compile time
-+ * that stack depot will be used.
-+ */
-+int stack_depot_init(void);
-+
-+#ifdef CONFIG_STACKDEPOT_ALWAYS_INIT
-+static inline int stack_depot_early_init(void)	{ return stack_depot_init(); }
-+#else
-+static inline int stack_depot_early_init(void)	{ return 0; }
-+#endif
-+
- depot_stack_handle_t stack_depot_save(unsigned long *entries,
- 				      unsigned int nr_entries, gfp_t gfp_flags);
- 
-@@ -21,13 +37,4 @@ unsigned int stack_depot_fetch(depot_stack_handle_t handle,
- 
- unsigned int filter_irq_stacks(unsigned long *entries, unsigned int nr_entries);
- 
--#ifdef CONFIG_STACKDEPOT
--int stack_depot_init(void);
--#else
--static inline int stack_depot_init(void)
--{
--	return 0;
--}
--#endif	/* CONFIG_STACKDEPOT */
--
- #endif
-diff --git a/init/main.c b/init/main.c
-index 81a79a77db46..ca2765c8e45c 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -842,7 +842,7 @@ static void __init mm_init(void)
- 	init_mem_debugging_and_hardening();
- 	kfence_alloc_pool();
- 	report_meminit();
--	stack_depot_init();
-+	stack_depot_early_init();
- 	mem_init();
- 	mem_init_print_info();
- 	/* page_owner must be initialized after buddy is ready */
-diff --git a/lib/Kconfig b/lib/Kconfig
-index 5e7165e6a346..9d0569084152 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -671,6 +671,10 @@ config STACKDEPOT
- 	bool
- 	select STACKTRACE
- 
-+config STACKDEPOT_ALWAYS_INIT
-+	bool
-+	select STACKDEPOT
-+
- config STACK_HASH_ORDER
- 	int "stack depot hash size (12 => 4KB, 20 => 1024KB)"
- 	range 12 20
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index cdc842d090db..879757b6dd14 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -38,7 +38,7 @@ menuconfig KASAN
- 		    CC_HAS_WORKING_NOSANITIZE_ADDRESS) || \
- 		   HAVE_ARCH_KASAN_HW_TAGS
- 	depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
--	select STACKDEPOT
-+	select STACKDEPOT_ALWAYS_INIT
- 	help
- 	  Enables KASAN (KernelAddressSANitizer) - runtime memory debugger,
- 	  designed to find out-of-bounds accesses and use-after-free bugs.
-diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 0a2e417f83cb..049d7d025d78 100644
---- a/lib/stackdepot.c
-+++ b/lib/stackdepot.c
-@@ -24,6 +24,7 @@
- #include <linux/jhash.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
-+#include <linux/mutex.h>
- #include <linux/percpu.h>
- #include <linux/printk.h>
- #include <linux/slab.h>
-@@ -162,18 +163,40 @@ static int __init is_stack_depot_disabled(char *str)
- }
- early_param("stack_depot_disable", is_stack_depot_disabled);
- 
--int __init stack_depot_init(void)
-+/*
-+ * __ref because of memblock_alloc(), which will not be actually called after
-+ * the __init code is gone, because at that point slab_is_available() is true
-+ */
-+__ref int stack_depot_init(void)
- {
--	if (!stack_depot_disable) {
-+	static DEFINE_MUTEX(stack_depot_init_mutex);
-+
-+	mutex_lock(&stack_depot_init_mutex);
-+	if (!stack_depot_disable && stack_table == NULL) {
- 		size_t size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
- 		int i;
- 
--		stack_table = memblock_alloc(size, size);
--		for (i = 0; i < STACK_HASH_SIZE;  i++)
--			stack_table[i] = NULL;
-+		if (slab_is_available()) {
-+			pr_info("Stack Depot allocating hash table with kvmalloc\n");
-+			stack_table = kvmalloc(size, GFP_KERNEL);
-+		} else {
-+			pr_info("Stack Depot allocating hash table with memblock_alloc\n");
-+			stack_table = memblock_alloc(size, SMP_CACHE_BYTES);
-+		}
-+		if (stack_table) {
-+			for (i = 0; i < STACK_HASH_SIZE;  i++)
-+				stack_table[i] = NULL;
-+		} else {
-+			pr_err("Stack Depot failed hash table allocationg, disabling\n");
-+			stack_depot_disable = true;
-+			mutex_unlock(&stack_depot_init_mutex);
-+			return -ENOMEM;
-+		}
- 	}
-+	mutex_unlock(&stack_depot_init_mutex);
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(stack_depot_init);
- 
- /* Calculate hash for a stack */
- static inline u32 hash_stack(unsigned long *entries, unsigned int size)
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index 62402d22539b..16a0ef903384 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -80,6 +80,8 @@ static void init_page_owner(void)
- 	if (!page_owner_enabled)
- 		return;
- 
-+	stack_depot_init();
-+
- 	register_dummy_stack();
- 	register_failure_stack();
- 	register_early_stack();
--- 
-2.33.0
+No, that is conflating different layers. The Rust compiler does not
+"handle classes of UB" from the C or C++ standards. LLVM, the main
+backend in rustc, defines some semantics and optimizes according to
+those. Rust lowers to LLVM, not to C.
+
+Now, sure, somebody may break LLVM with any given change, including
+changes that are intended to be used by a particular language. But
+that is arguing about accidents and it can happen in every direction,
+not just C to Rust (e.g. Rust made LLVM fix bugs in `noalias` -- those
+changes could have broken the C and C++ compilers). If you follow that
+logic, then compilers should never use a common backend. Including
+between C and C++.
+
+Furthermore, the Rust compiler does not randomly pick a LLVM version
+found in your system. Each release internally uses a given LLVM
+instance. So you can see the Rust compiler as monolithic, not
+"sharing" the backend. Therefore, even if LLVM has a particular bug
+somewhere, the Rust frontend can either fix that in their copy (they
+patch LLVM at times) or avoid generating the input that breaks LLVM
+(they did it for `noalias`).
+
+But, again, this applies to any change to LLVM, UB-related or not. I
+don't see how or why this is related to Rust in particular.
+
+> Or you rely on semantics that appear to be clear to you right now, but
+> that someone comes up with another interpretation for later.  And that
+> other interpretation opens the door for unanticipated-by-Rust classes
+> of UB.
+
+When I say "subtle semantics that may not be clear yet", I mean that
+they are not explicitly delimited by the language; not as in
+"understood in a personal capacity".
+
+If we really want to use `unsafe` code with unclear semantics, we have
+several options:
+
+  - Ask upstream Rust about it, so that it can be clearly encoded /
+clarified in the reference etc.
+
+  - Do it, but ensure we create an issue in upstream Rust + ideally we
+have a test for it in the kernel, so that a crater run would alert
+upstream Rust if they ever attempt to change it in the future
+(assuming we manage to get the kernel in the crater runs).
+
+  - Call into C for the time being.
+
+> All fair points, but either way the program doesn't do what its users
+> want it to do.
+
+Sure, but even if you don't agree with the categorization, safe Rust
+helps to avoid several classes of errors, and users do see the results
+of that.
+
+> OK, I will more strongly emphasize wrappering in my next pass through
+> this series.  And there does seem to have been at least a few cases
+> of confusion where "implementing" was interpreted by me as a proposed
+> rewrite of some Linux-kernel subsystem, but where others instead meant
+> "provide Rust wrappers for".
+
+Yeah, we are not suggesting to rewrite anything. There are, in fact,
+several fine approaches, and which to take depends on the code we are
+talking about:
+
+  - A given kernel maintainer can provide safe abstractions over the C
+APIs, thus avoiding the risk of rewrites, and then start accepting new
+"client" modules in mostly safe Rust.
+
+  - Another may do the same, but may only accept new "client" modules
+in Rust and not C.
+
+  - Another may do the same, but start rewriting the existing "client"
+modules too, perhaps with aims to gradually move to Rust.
+
+  - Another may decide to rewrite the entire subsystem in Rust,
+possibly keeping the C version alive for some releases or forever.
+
+  - Another may do the same, but provide the existing C API as
+exported Rust functions.
+
+In any case, rewrites from scratch should be a conscious decision --
+perhaps a major refactor was due anyway, perhaps the subsystem has had
+a history of memory-safety issues, perhaps they want to take advantage
+of Rust generics, macros or enums...
+
+> I get that the Rust community makes this distinction.  I am a loss as
+> to why they do so.
+
+If you mean the distinction between different types of bugs, then the
+distinction does not come from the Rust community.
+
+For instance, in the links I gave you, you can see major C/C++
+projects like Chromium and major companies like Microsoft talking
+about memory-safety issues.
+
+> OK.  I am definitely not putting forward Linux-kernel RCU as a candidate
+> for conversion.  But it might well be that there is code in the Linux
+> kernel that would benefit from application of Rust, and answering this
+> question is in fact the point of this experiment.
+
+Converting (rather than wrapping) core kernel APIs requires keeping
+two separate implementations, because Rust is not mandatory for the
+moment.
+
+So I would only do that if there is a good reason, or if somebody is
+implementing something new, rather than rewriting it.
+
+> The former seems easier and faster than the latter, sad to say!  ;-)
+
+Well, since you maintain that compiler writers will never drop UB from
+their hands, I would expect you see the latter as the easier one. ;)
+
+And, in fact, it would be the best way to do it -- fix the language,
+not each individual tool.
+
+> Plus there are long-standing algorithms that dereference pointers to
+> objects that have been freed, but only if a type-compatible still-live
+> object was subsequently allocated and initialized at that same address.
+> And "long standing" as in known and used when I first wrote code, which
+> was quite some time ago.
+
+Yes, C and/or Rust may not be suitable for writing certain algorithms
+without invoking UB, but that just means we need to write them in
+another language, or in assembly, or we ask the compiler to do what we
+need. It does not mean we need to drop C or Rust for the vast majority
+of the code.
+
+Cheers,
+Miguel
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211013073005.11351-1-vbabka%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANiq72k%2Bwa8bkxzcaRUSAee2btOy04uqLLnwY_AsBfd2RBhOxw%40mail.gmail.com.
