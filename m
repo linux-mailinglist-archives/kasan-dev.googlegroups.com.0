@@ -1,132 +1,118 @@
-Return-Path: <kasan-dev+bncBCJZRXGY5YJBBLMITSFQMGQEOT4AADA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJZRXGY5YJBB2UZTSFQMGQEI35QCRA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D78042C5D5
-	for <lists+kasan-dev@lfdr.de>; Wed, 13 Oct 2021 18:07:10 +0200 (CEST)
-Received: by mail-vk1-xa3f.google.com with SMTP id v62-20020a1f2f41000000b002a41c96d713sf1271639vkv.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 13 Oct 2021 09:07:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634141229; cv=pass;
+Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD9F42C6A6
+	for <lists+kasan-dev@lfdr.de>; Wed, 13 Oct 2021 18:44:27 +0200 (CEST)
+Received: by mail-il1-x138.google.com with SMTP id z10-20020a92650a000000b00258e63b8ea1sf196266ilb.18
+        for <lists+kasan-dev@lfdr.de>; Wed, 13 Oct 2021 09:44:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634143466; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TCG1+Qsx9i+T7W+pb5vgsHEYSttXCtaL2SzzQmyk2mP4+NrwL2iMViUe8S5GMNn6bC
-         +ONfkJQHbj83AzB4wIYr6nEljzD2Q89RIzJ4RU87VNBEMUfQpn49YT5C+P+UKW11sceW
-         aA4X0GnHFOMsYgY6TppkcaHiGrgWwMC6kupWLjspAEmlXmmViiMWu7JAWEFLko7oCEId
-         xp6clUsVN2NFollhF0GZJhRIxVeE8HPcRy5KaqT3t2dkZx9S9bXmFb06wmPnJdPQcL69
-         6YfCYCWQOxuKrVj4ZQ5+pFAuCr93vsif0mld/YNzF5EvH4zI3QuBpHs2l1/2ZN2GZ8Tw
-         yD7w==
+        b=dyecL7ur3Ar+EUJXNX0WDNsM45jxMW/0fG0Ph/FIarp04qWRoYjw07+r7qzjk6Mj0L
+         YH1wG6ZYGOavhrIbLek+/IT360K7Oi3dFHAi3xQKA2FH9nbzyOy5yoOwWkVTOBifh5So
+         SX2fVry52gnBzX18CJqtvXJUDs9ges4SPndpNhbdsJYYuJKWrkRtN42MKniaOK3T5Nie
+         F5WLUDsRnEeCfU3Gfl2HXB5QbfT/vPauvdjBE+ltZ4uqblenoAOn7QlT63BkUdkMiSKs
+         a/KpiDMDRENVvrHV0Te6PxbdErd6uFJJLqbDAVkz0aUGrBVI2L8/CwCV5ov4QmQF43By
+         lKPA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=9Ieio6caWSmgF0LBwADRwymFYhTIdfs27y6vk1gKnig=;
-        b=hWViTnecc6r4BBMk3qk53Jpwk840gocky6fP/WgQ+NrfUdH3L8xwtGgv1cZW9MaRKQ
-         hGGW30KX+GkhHjfVYFJRdWzpD+BzxAeg+adbP7wCtMKul4Qi7xtDjyaBLUr8lZaLBPpr
-         Om7Rw0BK/DOsT1NmTjKyzL7BKar66dX2v71wiNXS5hwYL2BmBWT9MhwJicn5fSaGxhSB
-         2X7vdhhPkZJ7nbIhzZQYCcG2yY+g2N8SzTh8ZebGAPxAKr12LP1mOKIwJBi2us8DVYX7
-         MFI1rcJX658yeaB8KicmOd4NmM1cAvZI4jgv6hko15+TCsD2AxPMq7+l9QfJeMHjH0oi
-         +Suw==
+         :list-id:mailing-list:precedence:content-disposition:mime-version
+         :reply-to:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=obujq6zZveVPISNk3YKSfhh+Ynquu2PGViBRncIilYE=;
+        b=HB70QJSIqADe5LsmA2xPZafUAKz8pi1ePhoMxe52B9AtxoHV3MAIIrdyDHQrn4A3R/
+         JgWCqxKgxU4fFR8/fxfq31K9WXE3DSpSfPVQurw7rdvck2Rf9/VvyyTiKPbToamPVn2q
+         f6D2nlsqEcv2vM9EjrMa2kb4j5OT3+xQ0VtjjqWLBujQDpDhTdqFVMZ5adE5s1PPfCdC
+         MY3Ff3jMr3K5mANEA8l9F4W/mQH27KP54PC9x7JKwi/E2fT/oqsH9cGRy6LW+lrIRcvP
+         pAQb/Nxsg32xZWs3Dk+TqECcOWFGy1DbLr/3Uf2RMDNUYySdIWwC0D26UI9weaeBqfJY
+         rKfQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=bxE7Qb4C;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=djWf7Fv8;
        spf=pass (google.com: domain of srs0=masw=pb=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=mASW=PB=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
+        h=sender:date:from:to:cc:subject:message-id:reply-to:mime-version
+         :content-disposition:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=9Ieio6caWSmgF0LBwADRwymFYhTIdfs27y6vk1gKnig=;
-        b=fdb4xJP3whpY8DxAFPgXFVMm3D4Q935SGcMRh3vAY0ZJqzcY9IJ3vPg336ozMtdbMG
-         wHb8Brmzm8tv7v7dmNypthoOEWVAbqGa8flSDQY4SlpQWSnq/WcMYs+VSQVET654jiZG
-         fVm40nKIvd2oDBMkzZNE2YFzp0CNI8LoBWS8iN69R6tXKzsOWTg8NNe7GsracuyL5VCj
-         JDZ58oDnhBzpsbXe2oIcN/j7vE6tR7MB5eVfnwW/cqEquKNjBMtG7ZW+Y9SQRVkIJ0O1
-         /zA6OyxJ2RV/UrMIIHNZzz6RnhmI0GBp6z0+hGc0sMF7s4K4oMhrivCr2h9L2SZB09eW
-         b29A==
+        bh=obujq6zZveVPISNk3YKSfhh+Ynquu2PGViBRncIilYE=;
+        b=Yg1yMM2Nv8dLhwoVqwMORZNLd6tmHmNjIWIrSCzSgZ8i/DTPuNpONqY6J3M7fYAfhC
+         ALYiCAUcvDvRo8jn/l0Ro8B8m71JGSain2ikwvRlCyZEhEnZPwdYaIz30hmiOXHxDILK
+         qLg/+QvV4HqE8JZZcLKUDFQTHBvqGRBjd6ff+Iunl6uIkmNdbp41im2vjgcbatI8bdgT
+         d1wU/wZQx3gxnOsO4qFgnhfdhgjY8iDKChuvUfVAGQPCS0yG6xOj4KTgUWt2Btbm6rgq
+         R+Xmvh3FiTqPzSRBsgqKyExKXZ91ERqvdRhPVEoCbGsy/KYErqMgj0Gq61VFJD/tGUqR
+         Ac1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=9Ieio6caWSmgF0LBwADRwymFYhTIdfs27y6vk1gKnig=;
-        b=p+WshqpI2Flu+HUkArzWs3havsIFGF37EfEbYh9T+2BDp39e0t6a8IrwcklRupCTvb
-         bm64WcKZ6oC5pY9TFViZZdGFHxkTS01dUG/FM+S1wcdfZomhm7kP4ghDhS2t55mBncQf
-         x6dybAuDI3lqVdEq1fAxvOMnB6y9xDVxrQr0bdj+pKgxXEhqub5Iuh+Ce4UqDhuJgrYP
-         ncP0ZKHy+i2MWCrcPkl70pIZhL+kcYkTavhKex5m2z2ibwgY/rywovOJ+4eM7GiN19iu
-         LE/J32oCc+Cw70wnB97By1WtVAJKwP0ZGKBnXJpiXj8ElDdGnjqHeQRnnXUQSeg1W9yB
-         pPxQ==
+         :reply-to:mime-version:content-disposition:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=obujq6zZveVPISNk3YKSfhh+Ynquu2PGViBRncIilYE=;
+        b=0P7Z+myLMlJbGQkYVO9f/ui7Fc3BSzxF4An0VdcXNCbkhDI2hGu+c2ktDFfwT/JqMg
+         Vzw6524DcfDjYisIME0d+KVK1qNOemf4UIMOmBIigfpc1KTliY4U7PxJLs+Sh4DIivgS
+         fo5/0WpuiY24W3Mv4qty6Q9QeuH6oAN0Bowd0fenNF7S4Jj7LkwH5rggz/C4oAIWkGjq
+         UJ0oyot/Lj5ZlnfccKVLnTTQH4421PGwrNUP/dNRxsnpijlrNiCRU89Ya4gLAIIEU/46
+         H9P0lXloSdQ8zDgbsxZOPhvOzdbyeW0035pSFquMapzfNYpoy9RL1HUc/Rmi8AUcE8HI
+         FybA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532PG/tLxCOqBlXsfViR6slUm9p//Pec8Dow3sPirBYDGrgPLKlH
-	5fBz/1Cm+D6HDdHQLA0WBlo=
-X-Google-Smtp-Source: ABdhPJy+4sWSGqKHy5fOo4KjkoceEpAWh7jDxLARFSRJylA9nYTZhUH0KhoV47+33d88reeYaKkf8A==
-X-Received: by 2002:a67:c886:: with SMTP id v6mr298805vsk.40.1634141229250;
-        Wed, 13 Oct 2021 09:07:09 -0700 (PDT)
+X-Gm-Message-State: AOAM531qk1eKBH9yDEXOim4ofv5mm8OEGy/PrdljSrasgPjd3DOmYhIS
+	aBNlKTIx39JO77WqarInZoY=
+X-Google-Smtp-Source: ABdhPJyYWp1X8sI+ZhnZEh8Bs1GjedQiXKUWAykkYikTgaeNzZEWQNpp+VkiE3MexrynCnfFSi8ObQ==
+X-Received: by 2002:a05:6e02:154b:: with SMTP id j11mr89702ilu.236.1634143466092;
+        Wed, 13 Oct 2021 09:44:26 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6122:9a4:: with SMTP id g36ls321778vkd.7.gmail; Wed, 13
- Oct 2021 09:07:08 -0700 (PDT)
-X-Received: by 2002:a05:6122:218e:: with SMTP id j14mr57012vkd.0.1634141228783;
-        Wed, 13 Oct 2021 09:07:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634141228; cv=none;
+Received: by 2002:a92:c7ac:: with SMTP id f12ls798015ilk.5.gmail; Wed, 13 Oct
+ 2021 09:44:25 -0700 (PDT)
+X-Received: by 2002:a05:6e02:190a:: with SMTP id w10mr59360ilu.243.1634143465795;
+        Wed, 13 Oct 2021 09:44:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634143465; cv=none;
         d=google.com; s=arc-20160816;
-        b=mMZA7rn3tcAuA0aYgelDwmPN2MMesUgU5BvQy80lz/SsX28/rW32P6sZYhjbGvEs/P
-         9DVpW4JOWkXOdKVPY0Ntr0Rzgb1TwrxFLahjTh2ya1vl/aK3gN+mGdFn9eLv7HngTiWq
-         AtYCyo6ECjhfQFpuzJfBlvWtEW7EL8NVQ/OG0BkbITrWyBQTqbjRlBUw+oZIea/FXi1a
-         4UWX6jFaf7b75VailwzmUVBcKFNc5pk+1pupO/SK1fSjjoRwJZi/Lj3FuxLasp+zeIjN
-         X4PEXJqzrkjDfUT6lK0wh3FN4eKRWk3u1Pg/9bJEiIAQx8hSQHAHSvyeIC3Wwe/RqrQc
-         FyOg==
+        b=BvEZ40J2XClBIHeJ3qA/CzdJiOxUobfZLu5MzWbi0NPsbiD5CDdKZluRoVptMo55yB
+         Ty0Kwz/HDbjAY6rOnDtwDKM3unYJFWexaoI7118ZHku0aZ9Og472b+cMG7Sx11wRu5T4
+         6CIeXOUYoULlqir/ms/ftoQX1gs3+6GxBlDDkSClDOcNj2C5jPYD1a9kc1mWMOL+mLX6
+         iH5PbzwHGyOJGtZ3VK3qEi5S62qSTAUE5b2fcvEvIOl9Vi4SY3QTJRcpRF2uVM2UMswW
+         2R6sVpylmBrHgnmNLqjqT7J6ZXPQJbE63Ed/61YVUGyjOcJJ2KjB6JQKv3L3xQf2xx5Q
+         aHSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=8bSYXKEDuAO+Qvj027Or3102LmAtqz02zb7R4T2789c=;
-        b=rx0Jvgy+RJ6a49lf+BXXrSW84IBE1rO0W0CSML7pq82w47KK72JtygJRXs8z5SpKrH
-         y1PpwRv8oCVs5zfLlAw3j9s/Bvb6bdcvl+FtHIQHvbHUY4sT+8MwpjBGL6B3TJ2Cq+kg
-         Fckjbb98VM7/VrNjwQdXH7NCUMbEDLz2bZ/vMk5y2VOuk5/1CXvKxwpYd79xjnMiYZDo
-         eMHFjN/1C9gO6JzcMDI3IYIdl1mCkz/jHSqyfk3WStO9PeOPD7LF4cHYLtALTBhzsLtu
-         TatoVTSaRW8YVz1jtnta7FUjMdIGdgi6dFn+6ctByjZcMGguofYFwX/V147aYYLuK8TL
-         6/ew==
+        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
+         :from:date:dkim-signature;
+        bh=j0RlFYjv60E+awOtrUn0ONRy4eLFVOgf491IXoe1R4o=;
+        b=wN8JTp8ar+XiLosn4+PS0jPbGceHJ5Sh3rtkZx6dTmyxbeGzhSgCc1pGzRaoHtBSGc
+         66i3vL+u6AmSjybBL2tNS6vL+yt9P7KDO8+RVC4OWy/2xVaHq0VW3I1I5iY6btRYOeeY
+         0N3mn6LVMO02TneBjRXZmhFWzGdFFLSsu6QAuedQ/a1c3nQt0QfJA8uwzsC3Dd9s0cUL
+         /xchBBifUZGBypwRtbmpuuc/THkpD3ojmLZ1tpLv1825Y6aJKf4KewnwwbXjH6K5+bou
+         CDmOtKOhdEMxvM4oDwWzmCuSNhvtHLZOWJCX9I/YxvGJhmVqvn6n7qT94zNYSwi9IBvO
+         j2ZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=bxE7Qb4C;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=djWf7Fv8;
        spf=pass (google.com: domain of srs0=masw=pb=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=mASW=PB=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id g132si3245vkg.4.2021.10.13.09.07.08
+        by gmr-mx.google.com with ESMTPS id e16si11250ilm.3.2021.10.13.09.44.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 13 Oct 2021 09:07:08 -0700 (PDT)
+        Wed, 13 Oct 2021 09:44:25 -0700 (PDT)
 Received-SPF: pass (google.com: domain of srs0=masw=pb=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E47460EE9;
-	Wed, 13 Oct 2021 16:07:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DF8F460C41;
+	Wed, 13 Oct 2021 16:44:24 +0000 (UTC)
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 6EB3A5C0687; Wed, 13 Oct 2021 09:07:07 -0700 (PDT)
-Date: Wed, 13 Oct 2021 09:07:07 -0700
+	id B0ACC5C0687; Wed, 13 Oct 2021 09:44:24 -0700 (PDT)
+Date: Wed, 13 Oct 2021 09:44:24 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, Marco Elver <elver@google.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	rust-for-linux <rust-for-linux@vger.kernel.org>
-Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
-Message-ID: <20211013160707.GR880162@paulmck-ThinkPad-P17-Gen-1>
+To: mingo@kernel.org
+Cc: elver@google.com, tglx@linutronix.de, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, kernel-team@fb.com
+Subject: [GIT PULL kcsan] KCSAN commits for v5.16
+Message-ID: <20211013164424.GA2842388@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
- <20211008005958.0000125d@garyguo.net>
- <20211008174048.GS880162@paulmck-ThinkPad-P17-Gen-1>
- <CANiq72mOWV2SiF24E=NMB-zc2mK_UFH=CvDFxN+vdtyjy-Wm0A@mail.gmail.com>
- <20211009000838.GV880162@paulmck-ThinkPad-P17-Gen-1>
- <CANiq72nGX6bgwDuVMX3nGUfs_UQB1ikOBHE-Q74nEaJ2Stx_2w@mail.gmail.com>
- <20211009235906.GY880162@paulmck-ThinkPad-P17-Gen-1>
- <CANiq72mj9x7a4mfzJo+pY8HOXAshqfhyEJMjs7F+qS-rJaaCeA@mail.gmail.com>
- <20211011190104.GI880162@paulmck-ThinkPad-P17-Gen-1>
- <CANiq72ny0RCnO1+E_wBgx0C6NCaMfv82rvkLVuwmW8Y+7Kii0Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CANiq72ny0RCnO1+E_wBgx0C6NCaMfv82rvkLVuwmW8Y+7Kii0Q@mail.gmail.com>
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=bxE7Qb4C;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=djWf7Fv8;       spf=pass
  (google.com: domain of srs0=masw=pb=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
  designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=mASW=PB=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
@@ -142,63 +128,48 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Oct 13, 2021 at 01:48:13PM +0200, Miguel Ojeda wrote:
-> On Mon, Oct 11, 2021 at 9:01 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > The main issue I was calling out was not justifying Rust, but rather
-> > making sure that the exact same build could be reproduced a decade later.
-> 
-> Yes, but that is quite trivial compared to other issues I was
-> mentioning like adapting and requalifying a testing tool. For
-> instance, if you already had a team maintaining the configuration
-> management (i.e. the versions etc.), adding one more tool is not a big
-> deal.
+Hello, Ingo,
 
-OK, close enough to fair enough.  ;-)
+This pull request contains updates for the Kernel concurrency sanitizer
+(KCSAN).
 
-> > There are things that concurrent software would like to do that are
-> > made quite inconvenient due to large numbers of existing optimizations
-> > in the various compiler backends.  Yes, we have workarounds.  But I
-> > do not see how Rust is going to help with these inconveniences.
-> 
-> Sure, but C UB is unrelated to Rust UB. Thus, if you think it would be
-> valuable to be able to express particular algorithms in unsafe Rust,
-> then I would contact the Rust teams to let them know your needs --
-> perhaps we end up with something way better than C for that use case!
+These updates fix an initialization issue, update tests, improve reporting,
+and provide support for scoped accesses.
 
-Sequence locks and RCU do seem to be posing some challenges.  I suppose
-this should not be too much of a surprise, given that there are people who
-have been in the Rust community for a long time who do understand both.
-If it were easy, they would have already come up with a solution.
+These updates have been posted on LKML:
 
-So the trick is to stage things so as to allow people time to work on
-these sorts of issues.
+https://lore.kernel.org/all/20210916003126.GA3910257@paulmck-ThinkPad-P17-Gen-1/
 
-> In any case, Rust does not necessarily need to help there. What is
-> important is whether Rust helps writing the majority of the kernel
-> code. If we need to call into C or use inline assembly for certain
-> bits -- so be it.
-> 
-> > But to be fair, much again depends on exactly where Rust is to be applied
-> > in the kernel.  If a given Linux-kernel feature is not used where Rust
-> > needs to be applied, then there is no need to solve the corresponding
-> > issues.
-> 
-> Exactly.
+These changes are based on v5.15-rc1, have been exposed to -next and to
+kbuild test robot, and are available in the Git repository at:
 
-Thank you for bearing with me.
+  git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git kcsan
 
-I will respond to your other email later,.  but the focus on memory
-safety in particular instead of undefined behavior in general does help
-me quite a bit.
+for you to fetch changes up to ac20e39e8d254da3f82b5ed2afc7bb1e804d32c9:
 
-My next step is to create a "TL;DR: Memory-Model Recommendations" post
-that is more specific, with both short-term ("do what is easy") and
-long-term suggestions.
+  kcsan: selftest: Cleanup and add missing __init (2021-09-13 16:41:20 -0700)
 
-							Thanx, Paul
+----------------------------------------------------------------
+Marco Elver (9):
+      kcsan: test: Defer kcsan_test_init() after kunit initialization
+      kcsan: test: Use kunit_skip() to skip tests
+      kcsan: test: Fix flaky test case
+      kcsan: Add ability to pass instruction pointer of access to reporting
+      kcsan: Save instruction pointer for scoped accesses
+      kcsan: Start stack trace with explicit location if provided
+      kcsan: Support reporting scoped read-write access type
+      kcsan: Move ctx to start of argument list
+      kcsan: selftest: Cleanup and add missing __init
+
+ include/linux/kcsan-checks.h |  3 ++
+ kernel/kcsan/core.c          | 75 ++++++++++++++++++++++++------------------
+ kernel/kcsan/kcsan.h         |  8 ++---
+ kernel/kcsan/kcsan_test.c    | 62 +++++++++++++++++++++++------------
+ kernel/kcsan/report.c        | 77 ++++++++++++++++++++++++++++++++++++--------
+ kernel/kcsan/selftest.c      | 72 +++++++++++++++++------------------------
+ 6 files changed, 186 insertions(+), 111 deletions(-)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211013160707.GR880162%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211013164424.GA2842388%40paulmck-ThinkPad-P17-Gen-1.
