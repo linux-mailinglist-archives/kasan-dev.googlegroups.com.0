@@ -1,138 +1,117 @@
-Return-Path: <kasan-dev+bncBDOY5FWKT4KRBHUHUCFQMGQE77SRO4I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMFI6L4MMBBPVAUCFQMGQEH4HU4AI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78BF42D6DA
-	for <lists+kasan-dev@lfdr.de>; Thu, 14 Oct 2021 12:17:03 +0200 (CEST)
-Received: by mail-ua1-x937.google.com with SMTP id 104-20020ab00471000000b002c9e0baf2e2sf2726900uav.9
-        for <lists+kasan-dev@lfdr.de>; Thu, 14 Oct 2021 03:17:03 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634206622; cv=pass;
+Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BB542D7D5
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 Oct 2021 13:10:54 +0200 (CEST)
+Received: by mail-wr1-x43f.google.com with SMTP id s18-20020adfbc12000000b00160b2d4d5ebsf4309990wrg.7
+        for <lists+kasan-dev@lfdr.de>; Thu, 14 Oct 2021 04:10:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634209854; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jDS1hJ/8VmiZKvZwjarqBjdaDvik6bA0czg4jx5YSk4XhxK0Pu0zT9vUxYtHxAEyeS
-         UH3ooTM8OYcUIFuR2JvYvNSMpsuHe4QC0gAu5x7TCrDPycMm+gdyJ/6d90haqGalRi2A
-         uBFCpTq0WAFgje6XnLTcFzjdXbA6gszG6VDYfKo5kqRDkS/lBLXanoNnwc1xPhK74rM2
-         Dz6ZmtoDIyGauEYEMSlNPxzu4ZahS8IzE6Roaqi9gMj52hN5rD0yOmCKaxeR5g3zM4Tq
-         WO7LmOwRjWFhYXCdIvEqyUrVoOeneSGRpVpRNktNywQNCNfD4EQgYU/Qtgyq1lGTnDG5
-         9aww==
+        b=uvD9+G3za9mePIahn3Eg0IPZW7vbN0ThtnS1G0ElskVZ/42EJ9ZxeTrTfwOW0dOeVI
+         IHVmunrFmWJliy3DzMwgg9QgxLxBKDCyxk+4tzwpOKVWbNGoD4SJcqm55Y9ud+IJB/C4
+         kozb3yliGxCjh4wpcJ9A25hzt9IAaAkIvTt/MRW6huRD2H6NgZfyGWzZVsuq8QoQQJBl
+         9Z4eNrGfB1naP0GlZXRBogRnXaeCHPcdrJK4dBAKTu7fdkdOaUCCyOyliY+p/eMD3P/p
+         sJX+WytJZlkxQ4vLpjyXEkulCgu9oc+6Oh0WZuzYjDamcYXFNJMmZpNyqtmKth6YWsWO
+         R8xw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=vdJf4GROqLpHDuOQ2MrMz8q+OOkMY2noy8EVUyVv8GQ=;
-        b=ifB++gf5RecEjOpXypNb5tSFLlMb2n7BIVugPYebRWcRz3x64oCvd5CCCx9qrZVC1q
-         WBdYTDOuXcHKjMijHfB/+9DZfADkJ0JliaLVTWKYoBCxshfMD6zjfAG0q88JKKCONDan
-         PhdZ+iGw7QQV0eIQ30OEgjG/Jrc7Fdsjr9Blv/3DYaH0dl+BIggysWUG4dRR8p8zAifH
-         cE/l34GLhhvMBVoFWchLidyMnKfirSkAWb4KNkoEVZB6osq80eJB0MzFeAJNSgSwZXma
-         DBaEh5WoVy/sguapNodCNM9OkLROA9jwUnFPRwweHCkf3W6hTS7lmrMEJgSmvAMUmKK+
-         L32Q==
+         :list-id:mailing-list:precedence:to:subject:message-id:date:from
+         :sender:mime-version:dkim-signature;
+        bh=pszPHNuuZfsLpLCAPFY4JNgpDIKZkWn6OCzzFxzcgVk=;
+        b=YWksRkCkTyeaZXOAgCp257Z/LlYaEbksQ+Wuz2QSQTNK5TZy/3aoMEaajhC82sQRwd
+         BlunvwCtus/OH1qzLpfZZ9+Kl8RB77/qvLYjdfC3sCzVgSRS7vCuxv1wK27ZKtRkCb0Y
+         HQe9KuCrhQOl2BWhLHATUXq7DYOguWFM6yanjFCPdWbFSyGhKHDl8TVwCYFiB21Llno6
+         deXUcmqRsuZeHOwWxqwY+Y40RmIooomhwgBnuXbFX8LY1zk/xNOD2t2ltAEriFNyk92q
+         fqR3dD3Sjg6YaVrGUy0qeQfEcoG5qL0Agfss4OWojHXOQH6E+8v7Ra8zxyA9f8vLBuWT
+         8fiw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NhOD9vih;
-       spf=pass (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=IIvZ9En2;
+       spf=pass (google.com: domain of florencelornalaboso@gmail.com designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=florencelornalaboso@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=vdJf4GROqLpHDuOQ2MrMz8q+OOkMY2noy8EVUyVv8GQ=;
-        b=eMcfHE6S9n2mqW0X9of3cCtq1sUvIWzR1O1Dtp/loOUE0XvzyqBl9Hm3yp/BBob0rA
-         CGlYb4Atf5LHN4VKaYkhwF3rK8rxa67aH+gtpkJwKw6X5MJtpDg5qx+9Y+JRWTjdKcVg
-         4Ni5Z+HaXSrqB521htdLsr7LzyaMwnVtnjv6yOFcEm2HvS/wt9t4E+TGzBDiqeSOSh10
-         Cxp8ycciQ0sEbmbbShQ3ldfY29gKQZ68edBpXYmZdWbAOWrhea+qjJ9deAeHRoIg8laV
-         Vye8jMDHb+lkZdK361caG5TlGvHGDWQ6beKXGNh+YPPy4x3FujJqsw9xkhGoWdmYFH4R
-         NLlg==
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=pszPHNuuZfsLpLCAPFY4JNgpDIKZkWn6OCzzFxzcgVk=;
+        b=liYMI7oErhOvPxCHzSIg4e7ZuKzm6yaBOopn3bNHl/TZB3IvlEJH6PaoWzebfn9454
+         /LPOtr11lYk9BpLcJh9lp5I6E8FOIAF1SW2ecwIWam7997CN1PbkmUl6H1bk9agRdGNk
+         2M0k410pQgUGT7GYDn1uNANyCVI2WFUSGOXteoSeR0XwWPhV2QBC13fmK3P4Y0CBade2
+         B8b6Gen2lQ450yXZowwIlJfxUdtoLK2SlzI7cyhe2ULjaJ9kwRRiPOG2RONGGDl/YqYG
+         0oNAGqZhgi0NNe7nGOE3M5lMdY3OkwXIw7I4ItyRGVEaN+IR3hER5TccMp+9+MMfGswq
+         0uCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=vdJf4GROqLpHDuOQ2MrMz8q+OOkMY2noy8EVUyVv8GQ=;
-        b=yorsWVZ2My2p+ngRBU9QdTR+RAzZpIrRnxPuLhF9hTIQc2CIXbLanwz/heK2/KXhfX
-         voVl8JYy3h/Sbo48nGtfue6mivIBAlzt2Wa48SG7Pnz6xDftSgOyncA9UBSdh/MDcVLU
-         3mwIdfQGdQgOYuPOa8T68QRCDRax2SkiVQzFblCaBJAlBKnoR5PXjO56mW6pMN5Rp3G2
-         PTzGiojoYggwS8QjtW+ffrg/Bf4ua2cQBZYkqjMYNVNmjJCq53qeWDfdL2Sl2KUOzymM
-         VQEFMCBAKWUjE0Ygvud8LToOyLRPpE5rLx1Vvcri9ezswIegk9cmvRlD5b3o4AJXWg3+
-         d3WA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531QK9Djy6Z16a/sg8jcicpF1PEDglaUxyD9A6t54LFlwxqYUs88
-	Wv4TquCG5s8t+Soo6yBwB1s=
-X-Google-Smtp-Source: ABdhPJwvrxau8XwosbQivKcEcKGW8g+U2OMhT7BE1XxLEqj7yCRfLmOOI6gx6o9I2S6F7eVI9Rm6gg==
-X-Received: by 2002:ac5:cbcf:: with SMTP id h15mr4785142vkn.0.1634206622405;
-        Thu, 14 Oct 2021 03:17:02 -0700 (PDT)
+        bh=pszPHNuuZfsLpLCAPFY4JNgpDIKZkWn6OCzzFxzcgVk=;
+        b=N2xDoDrnFWkmPqcBuLdGHF/kvXEsNoKzSSdjAnE1tKeFHqmaRYTp88K/AQ0QP/io7L
+         xEqRUqyCDXyNfNGRwlhLjquq8UBzex1VQFo6WUr+TnP3vWyY6QBfdzFrxMRmRVaNNg+V
+         2UQOEE+HEf1alduBBlg/NT7UAjr59I4nzl0QS8KQKhZDRwzqqKN3LlnHQKQ3jj7lMjhF
+         e1VPeSjTR36fZRr0u6Pcal6CNUi35hUaS/54+Zbpi7Jy/3D0kMpF97K6+bIlMmgnqip2
+         OemYsDp9VFob68x9gi9fjZ51v24ZL+6iqPhqxMopa5zkgPUyyw+mK+mbfPUdh1+NNL90
+         DctQ==
+X-Gm-Message-State: AOAM53314D5hyJzOXpgVrDY5otmDxGdlMQ2bLCNBcCINqzgkP9z8kKUt
+	Xm75CEEBMUuZDSDBymSmlAw=
+X-Google-Smtp-Source: ABdhPJxsYmI9J6Y7asDhVUJYXs5kovx6CH8k1zrqTNYx2sxr9knvKfCMVTQ5Cxv+XZCbWoXGG3j3Fw==
+X-Received: by 2002:a1c:2282:: with SMTP id i124mr4896201wmi.164.1634209854732;
+        Thu, 14 Oct 2021 04:10:54 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:d81a:: with SMTP id e26ls1779566vsj.3.gmail; Thu, 14 Oct
- 2021 03:17:01 -0700 (PDT)
-X-Received: by 2002:a05:6102:e87:: with SMTP id l7mr5744556vst.56.1634206621865;
-        Thu, 14 Oct 2021 03:17:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634206621; cv=none;
+Received: by 2002:a05:600c:1caa:: with SMTP id k42ls4606779wms.3.canary-gmail;
+ Thu, 14 Oct 2021 04:10:53 -0700 (PDT)
+X-Received: by 2002:a1c:2b04:: with SMTP id r4mr13514087wmr.48.1634209853752;
+        Thu, 14 Oct 2021 04:10:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634209853; cv=none;
         d=google.com; s=arc-20160816;
-        b=wZxNIz0oQFLZ8IGJdspEFQiBKv0XYB2jxNSxYf5oHdYOGbeGn6yZ0HRv64um4ETd+3
-         f+6jCkBoVOj6QaLIJ5VE2TtBj5mkJdgSTAaP+3kvmrprnrjI35nuNGjKA3W3Iv0fTJdX
-         hPLWxrLkStiwukwjPd3gSvZTeWAomedaQ8zO6W42dHZQRJVYPCsIsakGlaq6JctPinu3
-         r5IN4C9+BDlaSamcGFW8EXHB33cAJGeGMd4kuRwmut0dX6yujgCJVwsr+ntEZ5cfKyRv
-         d0SU2BU0shWEYS4f7Iir6h+cgGLH5QTBP+tLEfq60EpmU7MxxihUszrSzmB8lWyIoVVW
-         yPDw==
+        b=Qe8GKMr4QFqntdOeC2nuoxODVqIIi5KWxHHwN2fMwRT312071NzBCDpzz6Iao9atvI
+         jWeDNzrxKDNi4XRWIupV8OVariKlWVZHyPgaNRJLXAjDpk0P1jPEIJIxgSW7Kq4t3X2k
+         4SdT1eC4A5ovPUECUha9DU4w2e9zG5xL9FsETGdx7WpGRAyRK6tkBJ5pDMpxj9kmY286
+         fqeGzNNOQqFXyw/u1TDH34VET6o0bHgRrxLJf+addT6E/AG8uVdD1pwBH/ndyaDwwpLy
+         PuRATo9ZX43Aif0OAQL3QYXiUAOpPLTj7XFEnK367evuMlYbL6j/qexQ2L0iiKrDdT6J
+         0tUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=FdLsF8li5auFUEtFrNkFV6k7aRz5asF7CPC7ov8J9WQ=;
-        b=eNmBD6VvgDowDVD9hSyaaqOZSMFejdzAq9cIWOnKYeFOKuFeIgGBPv3a4eBAXBIM8f
-         q1JOd/Q7EA0DJL5Lsm9E4a39NbyndyWfAVFHulF2C/lc3fcqsAszbG3K6WowySxRJV4j
-         WHXo4F7wgEuLeNrxiT8AMi3auxtm+xPC8UgbcLCEorEDdUI1X9nYnHWm13R42tPheJ7p
-         X68tHanhWApqWjKznBVh81m3V+6Pf+BMvtDM96q0d4oMNAc3p40n8ThWQ7r6LeGLwmcd
-         76fQBS8TAGWnXILOOFImyMAXAidLrhqVqL7MtY/ff9vDsAZEHLGG3XlTfQn+AeebA1o2
-         CL4w==
+        h=to:subject:message-id:date:from:sender:mime-version:dkim-signature;
+        bh=DjPUUn1axG7nGncHfesfsKT8SZCMIwt1jz58EwcASzE=;
+        b=RG8ERW29RhUY0vBlZ6U8bl+OBDpr2qFgDNpoA/iqCRB7qIJWHRoIpO0eSAZFCa2IxA
+         mvlT4/WkN4uv0BNbZmIv7IVXA1zOltPHQx7qKeM0tg3SJERDyS8e6mPG3BxA2/Z7/sva
+         s6vGM9Sq7fg3vB2qZHTQEttVmg0i6rA4iKKliDJo95ycm6CHg7rzj/xC60Rq2YXNWOPq
+         UhiIPW2xFu5+H7mPxKMah5N59g6eo69CKkkibI2IuLZsiYLEDXz0JYVJNdF0ZIbOGmev
+         LqVt8WKPzvn3XKIBYFXu4Zpap6c/+k8UkCws08N8RRKMXEivWzmgw3w21x1a+UOZ8cKC
+         DV1g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NhOD9vih;
-       spf=pass (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id h82si159222vke.1.2021.10.14.03.17.01
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=IIvZ9En2;
+       spf=pass (google.com: domain of florencelornalaboso@gmail.com designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=florencelornalaboso@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com. [2a00:1450:4864:20::130])
+        by gmr-mx.google.com with ESMTPS id a10si165147wmb.0.2021.10.14.04.10.53
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 14 Oct 2021 03:17:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F1CC1610E8;
-	Thu, 14 Oct 2021 10:16:54 +0000 (UTC)
-Date: Thu, 14 Oct 2021 13:16:50 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: kernel test robot <oliver.sang@intel.com>, 0day robot <lkp@intel.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>,
-	Vijayanand Jitta <vjitta@codeaurora.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Oliver Glitta <glittao@gmail.com>,
-	Imran Khan <imran.f.khan@oracle.com>,
-	LKML <linux-kernel@vger.kernel.org>, lkp@lists.01.org,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	kasan-dev@googlegroups.com
-Subject: Re: [lib/stackdepot] 1cd8ce52c5:
- BUG:unable_to_handle_page_fault_for_address
-Message-ID: <YWgDkjqtJO4e3DM6@kernel.org>
-References: <20211014085450.GC18719@xsang-OptiPlex-9020>
- <4d99add1-5cf7-c608-a131-18959b85e5dc@suse.cz>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Oct 2021 04:10:53 -0700 (PDT)
+Received-SPF: pass (google.com: domain of florencelornalaboso@gmail.com designates 2a00:1450:4864:20::130 as permitted sender) client-ip=2a00:1450:4864:20::130;
+Received: by mail-lf1-x130.google.com with SMTP id p16so25454262lfa.2
+        for <kasan-dev@googlegroups.com>; Thu, 14 Oct 2021 04:10:53 -0700 (PDT)
+X-Received: by 2002:a05:6512:e96:: with SMTP id bi22mr4452412lfb.156.1634209853207;
+ Thu, 14 Oct 2021 04:10:53 -0700 (PDT)
 MIME-Version: 1.0
+Sender: florencelornalaboso@gmail.com
+Received: by 2002:ab3:6209:0:0:0:0:0 with HTTP; Thu, 14 Oct 2021 04:10:52
+ -0700 (PDT)
+From: Natacha Wesa <natachawesa@gmail.com>
+Date: Thu, 14 Oct 2021 17:40:52 +0630
+Message-ID: <CALZBHgGYAjxdXoU-uEGY+AgvJhPWC28vXOaBaRb_iV6vkEtCtw@mail.gmail.com>
+Subject: Hello friend,
+To: undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <4d99add1-5cf7-c608-a131-18959b85e5dc@suse.cz>
-X-Original-Sender: rppt@kernel.org
+X-Original-Sender: natachawesa@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=NhOD9vih;       spf=pass
- (google.com: domain of rppt@kernel.org designates 198.145.29.99 as permitted
- sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@gmail.com header.s=20210112 header.b=IIvZ9En2;       spf=pass
+ (google.com: domain of florencelornalaboso@gmail.com designates
+ 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=florencelornalaboso@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,131 +124,58 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Oct 14, 2021 at 11:33:03AM +0200, Vlastimil Babka wrote:
-> On 10/14/21 10:54, kernel test robot wrote:
-> > 
-> > 
-> > Greeting,
-> > 
-> > FYI, we noticed the following commit (built with gcc-9):
-> > 
-> > commit: 1cd8ce52c520c26c513899fb5aee42b8e5f60d0d ("[PATCH v2] lib/stackdepot: allow optional init and stack_table allocation by kvmalloc()")
-> > url: https://github.com/0day-ci/linux/commits/Vlastimil-Babka/lib-stackdepot-allow-optional-init-and-stack_table-allocation-by-kvmalloc/20211012-170816
-> > base: git://anongit.freedesktop.org/drm-intel for-linux-next
-> > 
-> > in testcase: rcutorture
-> > version: 
-> > with following parameters:
-> > 
-> > 	runtime: 300s
-> > 	test: cpuhotplug
-> > 	torture_type: srcud
-> > 
-> > test-description: rcutorture is rcutorture kernel module load/unload test.
-> > test-url: https://www.kernel.org/doc/Documentation/RCU/torture.txt
-> > 
-> > 
-> > on test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m 4G
-> > 
-> > caused below changes (please refer to attached dmesg/kmsg for entire log/backtrace):
-> > 
-> > 
-> > +---------------------------------------------+------------+------------+
-> > |                                             | a94a6d76c9 | 1cd8ce52c5 |
-> > +---------------------------------------------+------------+------------+
-> > | boot_successes                              | 30         | 0          |
-> > | boot_failures                               | 0          | 7          |
-> > | BUG:kernel_NULL_pointer_dereference,address | 0          | 2          |
-> > | Oops:#[##]                                  | 0          | 7          |
-> > | EIP:stack_depot_save                        | 0          | 7          |
-> > | Kernel_panic-not_syncing:Fatal_exception    | 0          | 7          |
-> > | BUG:unable_to_handle_page_fault_for_address | 0          | 5          |
-> > +---------------------------------------------+------------+------------+
-> > 
-> > 
-> > If you fix the issue, kindly add following tag
-> > Reported-by: kernel test robot <oliver.sang@intel.com>
-> > 
-> > 
-> > 
-> > [  319.147926][  T259] BUG: unable to handle page fault for address: 0ec74110
-> > [  319.149309][  T259] #PF: supervisor read access in kernel mode
-> > [  319.150362][  T259] #PF: error_code(0x0000) - not-present page
-> > [  319.151372][  T259] *pde = 00000000
-> > [  319.151964][  T259] Oops: 0000 [#1] SMP
-> > [  319.152617][  T259] CPU: 0 PID: 259 Comm: systemd-rc-loca Not tainted 5.15.0-rc1-00270-g1cd8ce52c520 #1
-> > [  319.154514][  T259] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
-> > [  319.156200][  T259] EIP: stack_depot_save+0x12a/0x4d0
-> 
-> 
-> Cc Mike Rapoport, looks like:
-> - memblock_alloc() should have failed (I think, because page allocator
->   already took over?), but didn't. So apparently we got some area that wasn't
->   fully mapped.
-> - using slab_is_available() is not accurate enough to detect when to use
-> memblock or page allocator (kvmalloc in case of my patch). I have used it
-> because memblock_alloc_internal() checks the same condition to issue a warning.
-> 
-> Relevant part of dmesg.xz that was attached:
-> [    1.589075][    T0] Dentry cache hash table entries: 524288 (order: 9, 2097152 bytes, linear)
-> [    1.592396][    T0] Inode-cache hash table entries: 262144 (order: 8, 1048576 bytes, linear)
-> [    2.916844][    T0] allocated 31496920 bytes of page_ext
-> 
-> - this means we were allocating from page allocator by alloc_pages_exact_nid() already
-> 
-> [    2.918197][    T0] mem auto-init: stack:off, heap alloc:off, heap free:on
-> [    2.919683][    T0] mem auto-init: clearing system memory may take some time...
-> [    2.921239][    T0] Initializing HighMem for node 0 (000b67fe:000bffe0)
-> [   23.023619][    T0] Initializing Movable for node 0 (00000000:00000000)
-> [  245.194520][    T0] Checking if this processor honours the WP bit even in supervisor mode...Ok.
-> [  245.196847][    T0] Memory: 2914460K/3145208K available (20645K kernel code, 5953K rwdata, 12624K rodata, 760K init, 8112K bss, 230748K reserved, 0K cma-reserved, 155528K highmem)
-> [  245.200521][    T0] Stack Depot allocating hash table with memblock_alloc
-> 
-> - initializing stack depot as part of initializing page_owner, uses memblock_alloc()
->   because slab_is_available() is still false
-> 
-> [  245.212005][    T0] Node 0, zone   Normal: page owner found early allocated 0 pages
-> [  245.213867][    T0] Node 0, zone  HighMem: page owner found early allocated 0 pages
-> [  245.216126][    T0] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
-> 
-> - printed by slub's kmem_cache_init() after create_kmalloc_caches() setting slab_state
->   to UP, making slab_is_available() true, but too late
-> 
-> In my local testing of the patch, when stackdepot was initialized through
-> page owner init, it was using kvmalloc() so slab_is_available() was true.
-> Looks like the exact order of slab vs page_owner alloc is non-deterministic,
-> could be arch-dependent or just random ordering of init calls. A wrong order
-> will exploit the apparent fact that slab_is_available() is not a good
-> indicator of using memblock vs page allocator, and we would need a better one.
-> Thoughts?
+Hello friend,
 
-The order of slab vs page_owner is deterministic, but it is different for
-FLATMEM and SPARSEMEM. And page_ext_init_flatmem_late() that initializes
-page_ext for FLATMEM is called exactly between buddy and slab setup:
+My name is Natacha Wesa, and I am 29 years old, and I  used to live in
+New York, USA. I am so sorry for using this medium and this
+circumstance to contact you, but I have something very relevant and
+tangible to disclose to you. I know that we have never met but God
+cannot mislead me on this since He directed me to you, and I want you
+know that whatsoever you will read here is 100% true.
 
-static void __init mm_init(void)
-{
-	...
+My late husband was a boat and yacht dealer and he made a huge amount
+of money during the past years. Early 2020 he flew to Italy for a
+business deal and on reaching Italy was when the Corona Virus pandemic
+was rising, after his business deal and he was about flying back to
+USA he was examined and tested positive for Corona Virus. He was put
+in an Isolation camp where he died after 2 months.
 
-	mem_init();
-	mem_init_print_info();
-	/* page_owner must be initialized after buddy is ready */
-	page_ext_init_flatmem_late();
-	kmem_cache_init();
+Now he has a sum of $ 3,750,000.00 deposited in a private and reliable
+bank, and due to my situation here in New York, USA then, My husband's
+brothers and sisters are doing everything possible to find the
+location of this fund which they know that I am the only person who
+knows the location of the fund, they have tapped my phone and fax
+number for any external communication that will lead to the money, and
+if they eventually find the location of the money they will kill me
+and my only son, because they are wicked and now I cannot discuss this
+on direct phone call except WhatsApp which is more secured for now.
 
-	...
-}
+I will send to you the contact of the bank where this money is
+deposited so that you will contact them on my behalf, and before then
+I will send to the bank a LETTER OF NOMINATION / AUTHORIZATION on your
+behalf as my foreign partner. You will contact the bank and they will
+transfer this fund to you and you will send to me some reasonable
+amount of money to prepare my traveling documents with my son and fly
+to your country while we discuss on the modalities of how and where to
+invest the money in, and I promise to give you 15% of this money if
+you do this for me and my son. I know this might sound like unreal but
+I want you to never doubt my proposal and I know that God has plans
+for us . I know this might sound like a difficult task but there is
+nothing impossible for God to do. I want you to also know that this
+transaction is 100% risk free.
 
-I've stared for a while at page_ext init and it seems that the
-page_ext_init_flatmem_late() can be simply dropped because there is anyway
-a call to invoke_init_callbacks() in page_ext_init() that is called much
-later in the boot process.
+Please I await your response as you as you receive this message to
+enable me send across to you my bank contact details for you to
+contact them immediately before my late husband's family kill me.
+Please also keep this transacting confidential and secret from anyone
+around you. contact me with my email (natachawesa@gmail.com).
 
--- 
-Sincerely yours,
-Mike.
+God bless and keep you safe.
+
+God bless you
+Natacha
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YWgDkjqtJO4e3DM6%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CALZBHgGYAjxdXoU-uEGY%2BAgvJhPWC28vXOaBaRb_iV6vkEtCtw%40mail.gmail.com.
