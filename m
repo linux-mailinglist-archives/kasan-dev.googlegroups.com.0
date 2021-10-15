@@ -1,152 +1,129 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRB24EUWFQMGQEWFI62MQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC447XVYUEMRB6XYUWFQMGQE6VI2KDA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x537.google.com (mail-ed1-x537.google.com [IPv6:2a00:1450:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1AA42ECEB
-	for <lists+kasan-dev@lfdr.de>; Fri, 15 Oct 2021 10:57:16 +0200 (CEST)
-Received: by mail-ed1-x537.google.com with SMTP id u23-20020a50a417000000b003db23c7e5e2sf7641247edb.8
-        for <lists+kasan-dev@lfdr.de>; Fri, 15 Oct 2021 01:57:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634288236; cv=pass;
+Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3DC42F1AD
+	for <lists+kasan-dev@lfdr.de>; Fri, 15 Oct 2021 15:04:59 +0200 (CEST)
+Received: by mail-wm1-x33b.google.com with SMTP id o22-20020a1c7516000000b0030d6f9c7f5fsf653382wmc.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 15 Oct 2021 06:04:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634303099; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hCPPOMAtfCdlqtF4WbBqa+plbXZzEcujBe+YUmiWtYmaKH9+rWcS9M4weu4m46Rte1
-         u5uf7w/zEC6/9J+5HSPuMFlfRkZJRePg0M2v74jKuUiE6VvbF8PWY0K2YfRNMdXVCBT8
-         ExUT++mlFQO0YvxgqM/4E+7Em8PMwNG2v9JfU5zHUGoRtDvEFdO4bJ+Gg8L2/O00BTld
-         6vNekeJl0gn0oudFWLd+XJxUK08wUFN/2ClkH0XJkWYljCs+ihf4p4rtaI9JdoK05TqT
-         grfO3+tHNJyYU1h4CXD9RZ4FCm0rvy91XlXVMrGlCvxDecKo5YklOQer71CVAO0IOwHU
-         V9Xg==
+        b=QSfG7XmcMPP4I7qt1rTVxEvEZhpBkI8ImyEJrqPLG/W2mabiZsU0mwp7xJu0RQxbnW
+         wuWrJ+CPjSBermA6uIkmf94h1HDPoxgv4hp5BbvP6GovRIO5FGoatIJ0qtXlNJH0RF87
+         dWINLz2lskoGlUFPxui190WF0IZBTToW6zP6i08NnKJ066nA8o+guIg9LbMCa2t+BS+5
+         2My0+yE1fgP/gjVEmLDp5GH52vuD+brHC+1QIz+a0Yuved20D85eKlau5oNcCu3LSon2
+         DfD4LwPnSnxxxEWnW0k2KKwXfVkeSJAVvbT3ivNiMqndJuwdMHqnrLlIZTIvKavJbw67
+         9piA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=8HGW1M23ss3L/92Eb4cgu475wdQANN5CNzyrmi6BPGM=;
-        b=09k+LMHmXVA/h6rk/nhjxOFeSJWuktfp/fBO2eZBgjL8h/Xw+ZJ32O4bb8Wd/8Rfmc
-         i5075xdfL3w018wDGZojNQu2iVsUbqm7rP4hTfez7szE075ABeH06rzwBrLurNoULWU5
-         N2CmwsN4FfESlfaxZv5kMPBSS/uZP4I/SgIRiNW9h1B3yjIT9Vj79iOVwwwZ0Y7iTrQo
-         /LkJRYpcXqqTshMHxd4nhLsK9JOL3x/PhQ19sQfZnlB9VvLxJcrcxXfuz8L345oKkKNd
-         8GuG8DCw3E8Bn5psPrcTBKdHlrN9JE6XRDGDH68biOhkIbhQEmuZxB7Eh87x5AQ9bqgV
-         iXEg==
+         :list-id:mailing-list:precedence:content-language
+         :content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:references:cc:to:from:subject:sender:dkim-signature;
+        bh=yZxuqgSVHWE/oVo/Ec9xmnmZtiHaq0F/DzU3ODvQzv8=;
+        b=I6di7q56NsiELoPRfx7ZXcwomoQQkCdPInAz5IzrhlkznTVcrnD1WMPaBUBmSIXVAP
+         afxSFoKCUcwMGln1juhnJJjOFWNK6+ZncPIvecyMqXFMlLqiqvqvfBASQx3zGr5H5O+u
+         HiohzXlL9CZLlvJVRoC0wuXyghkWnApdsv8+JOxCqj0MxKzMx3/nLKELDSZyr2EbJm03
+         3xwWUuQzSkRPSI0NrK4uso4/onNOlTtsNSivSMCFUgQUzWMBlRDzpH9diKEYV3Sx4wer
+         F+Wv9nc5Ghel14aESkGMLfEl/fV5yZG3bxBMyZS0hgM2y6xOyskCarmsXZxzSAvygVnD
+         SWwg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="F/r+O+h+";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=8Ac48pcX;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       spf=neutral (google.com: 217.70.183.197 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=sender:subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=8HGW1M23ss3L/92Eb4cgu475wdQANN5CNzyrmi6BPGM=;
-        b=QP84qYgGI27dWVy8CemUFCfPPlqnrbZ3zWC4uj4WrlUlscyXx2xeAEJA60GwYHkaDy
-         MtyvMO0H9JQZdcu966N+zbjOGE84TOlqttIMZ2j2QuEjgejQySzENyYe47sv7S1bLue0
-         ya7Juav4GKvZLPBlzbssOC+eA7uABaJyQQ34btDLQYTCzdqnmJzx90C2KaCEKDDdtM77
-         D9YvnD6GoiMBq4gIrtA5sjcjE46CAMSYnbBNVXKsspzK4dilQnbIAOac7P3F37XebwHH
-         wENESSeUkpRzggxvhKFTl+TYokzL5tXWs66ubRxT6YVpx3v1fQMeal3fkQe/XDqEwAfK
-         o1Jg==
+        bh=yZxuqgSVHWE/oVo/Ec9xmnmZtiHaq0F/DzU3ODvQzv8=;
+        b=WM1LHBN+9+xdKh+gb1kPQKKLYguwweOxLvj2qtlnbX3G5pqu1NnUifigMj3gLK5KYe
+         gXczHDibFm36uOMPLihke4PFYZbhAz1OejR24a7PYEyBqe4Gyy3MIMqnhw8xAu2khSZs
+         shkMRYzcBibDktKg+Pn4vLfYQvaToN4nAL1lYpGAtsvwGsAIZjsIxP/w6SdNmR7tZAog
+         fxduLoWZsYMnsP00MLY9ZnWPxiGlpHGdc4bbDz4iUwWoqqK9d4MzPEI0CaA/c1zNhXWE
+         5kyZAnnS/TWS+9nBU04yTmWo041A/vSLybAptyb24o9ef12LpVCbssDPQrRMx3Ocma6D
+         nqlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=8HGW1M23ss3L/92Eb4cgu475wdQANN5CNzyrmi6BPGM=;
-        b=BZdsLahzu5wUvaBQBemSJ1MWrmZgy8bsl8loSdNXPjmZJm7eYZQpS5dM6Sz9XWcgb0
-         nhq4DoFjfTXRtj+mlveiz0QtKodJjjw+oaU3+5dKziinZL17i2t1k7kZMgxSQUkvG32F
-         E1qAFC/4rckGnZPybXgFYNfpgP/SYt/C0KizkmWsQLCtpRV+GqBpCZCLxwlrVwM2dRPD
-         9tUo+I63tsHsYDJFbIqtiGi6j0q//9FlasyWBC49BNzDxhhxOOwrv/oa1KPokmqF/1QV
-         OA4Y56hvFxrGoilB6z6yodvSeeVyUrQSWqkPFegWOhYLh3S6GA1IDqeMNgIEMh7XBt9G
-         BBuw==
+        h=sender:x-gm-message-state:subject:from:to:cc:references:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=yZxuqgSVHWE/oVo/Ec9xmnmZtiHaq0F/DzU3ODvQzv8=;
+        b=5eDyP+bDMfV7wJknkTfNDN5Y3HDkhS9qXKyjtjhV1djNhd5OmNkXnRpx3ABE/DAg7N
+         dVpvkeKIZTFJaHh7jNU7tdfCpKKZOdDKG/dpLbXEI+Gjsoq5SefQ2yD1KWIHVjG01kzu
+         5b83tifH+pgywi5HHxWPMNClFFYMDutdsimeW4dh3wROk8344qqzl+8d48SD7HeQYIR5
+         fB9TpUnbk2+X5n8BBARsFt1FyGiLMfs60yht1XDXFNiJ3DavyS/F+eoZp3dKXuYLUyVA
+         91vaEsullEK5sUsWM4388EcWBD/3Ddm2R85oWe+1ncFIckK0ZuqI1/QBSUAptvn1geN6
+         PYUA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530I7C90d3kyoALuSA2qxAF9mV1IwixtAk8kHnQrO8fPMZGBx+R3
-	ZSIi4Qbu0Ke2YRJX8J6xrXw=
-X-Google-Smtp-Source: ABdhPJz9La8AKvw3Gbk3dNiJPdIaAHdfrbrMcZofd7oBLBlKgEMb5jAd2nd5eTUXgJgtMacyfye1Lg==
-X-Received: by 2002:a17:907:76e1:: with SMTP id kg1mr5347693ejc.329.1634288236040;
-        Fri, 15 Oct 2021 01:57:16 -0700 (PDT)
+X-Gm-Message-State: AOAM530Glb83vQY0iyql1RZDZ83ZHLybAtbRHkQB1Y1ReAQMNslDRXqK
+	6HN88bYoIuVkzFGLcDQZV3s=
+X-Google-Smtp-Source: ABdhPJzllA9ziLQtiUR7a+q22zmqQKBLadN4zge3NIVUDEVIAe28Tw7R1MmXHtWLxwt4IfNqvxbOvA==
+X-Received: by 2002:a7b:c4c8:: with SMTP id g8mr12358785wmk.101.1634303099139;
+        Fri, 15 Oct 2021 06:04:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:8d88:: with SMTP id ry8ls3194159ejc.6.gmail; Fri, 15
- Oct 2021 01:57:15 -0700 (PDT)
-X-Received: by 2002:a17:906:d937:: with SMTP id rn23mr5297591ejb.101.1634288234963;
-        Fri, 15 Oct 2021 01:57:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634288234; cv=none;
+Received: by 2002:a05:600c:35cd:: with SMTP id r13ls4310388wmq.2.gmail; Fri,
+ 15 Oct 2021 06:04:58 -0700 (PDT)
+X-Received: by 2002:a1c:2309:: with SMTP id j9mr25675051wmj.189.1634303098227;
+        Fri, 15 Oct 2021 06:04:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634303098; cv=none;
         d=google.com; s=arc-20160816;
-        b=bog1rv+xZnUAju6lTzPvpMsdROu6/tOoWoU78RdDUPxEcUtGtbkbQOq7Cnpwy21s8D
-         vspBUnw9t5TnHWWmRUqBCDz48AjPEt5FWKs6LAsUdWJ9vfp+uSh85b2XjZ0tmHVqaNLJ
-         xpLIedLHzCLo1aeDjk0wzPgO4LdW5iZnB7/Ks4PzEKWlryw01LI5GLuNZ2NuWNBo1Zey
-         4yPDNEfkddc7gjWCVTbsukdIn0pn0qPV0GREzsbTKffySXjVndhqIVnfWPvi6TCcswmh
-         C0gKITx1/NARBMUanq9zxQuQ7FuGZ9O7AKDOKmvTRXWj3ZFEqc0sDEPg2QktBHS10zgV
-         tVZg==
+        b=m/amLsbWijczCu1BrM0ZQTi1fmCDW4SyvoA8JsiB5Mx0FUh0OmDjppEZSt5U1FFS52
+         krO7n6yROlfVAojnWkQx0YiS9H/EAns2DgnQm+wjmOtPQrqhsAWjdPY1nygaETMG40uH
+         P5q7Q1lmLfhZHUFAxiRZE5gA3JwqCOLu/y0OC+IS6ZmH97lO+Jzud671VBeMYv0OodAR
+         mV9iCZV5zNd1SxfMTsU1fdXbWwowKYSHk1858AcpiREEutdXQ4GHBcmEkdFOJcbwlnUC
+         TkMIVaBosls3kkIc0NlifzNIJvhKocKQQ8JfO7hsx1ywHgujxawojUm8c373Pdv+mzpx
+         YWFg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=1gJCQ4LKq38Wz8fQyxCuZehL+Con9ahBr+7Hnu4iI6I=;
-        b=KnSWb2helVLwhA0moB0f7st7QEoZVydlxveD+ae6PIC5vLws0Hsi92YDoCpyM39FqX
-         6gec5q9fmBHcEn2x8HK5+AaghYA3XwQmW2vRkKkA5Kj+/Jb3dv/0aLrpA/5mGzFogiH3
-         D7qKL6sn8sz5aWl/t2ROQl665c2hv0w+5Hx6HfpVFuE8JMrRIx+bOJGGt7z/QYV7ixGS
-         zumbXDs3+KnCnwwiRiOTlRsofh1WQTxep6L0tRe1huaAtyxvZLftWftu+e5aRKs2L43g
-         DhG83Tqhe2HwncYHezuQerqCswTYEEKo6NuOWp14xyv8amHzsSzUBVZ+xpTgG2S6tjtP
-         7t1A==
+        h=content-language:content-transfer-encoding:in-reply-to:mime-version
+         :user-agent:date:message-id:references:cc:to:from:subject;
+        bh=acOWkHtRjZbKJzBgy7A+CmS93t7WEGIYbwk2wpbgJM4=;
+        b=dG6GjCCuZbq7lgju4Z0WHZDfJ5NJJGTvZQcPiRBj24bgkem7OwiWFg1rA2pP+AlQ8B
+         kQT8OHv20+99YoJjxNwxvuCwXFVGHZrkQbznWeRyPnR1nTUspd7871foadumx7CxdXJ9
+         dc9BbFWdq9dA7A4DwdNq5lmlPWfrYrKmflcLtYBIs1XDyBsBu1RAbOUCSn5u8/UMoa7j
+         Mxf7MjjB319WpBhjW8dWKEC1vqSTFat1XjZy6H34/BExdPatHQqeipXGcVxp3hFt/SUN
+         tkUbGrUoLD3bGSg7EY16vBzyLYkJMTfHC+MPF7C9b2Gr4+AABg02ifbNdyMx2pMkNehv
+         Ld0g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="F/r+O+h+";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=8Ac48pcX;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
-        by gmr-mx.google.com with ESMTPS id r21si346983edq.2.2021.10.15.01.57.14
+       spf=neutral (google.com: 217.70.183.197 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net. [217.70.183.197])
+        by gmr-mx.google.com with ESMTPS id f9si1076706wmg.2.2021.10.15.06.04.57
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Oct 2021 01:57:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E2EF21A5C;
-	Fri, 15 Oct 2021 08:57:14 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3098F13B87;
-	Fri, 15 Oct 2021 08:57:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id CuQlC2pCaWHeIgAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Fri, 15 Oct 2021 08:57:14 +0000
-Message-ID: <6abd9213-19a9-6d58-cedc-2414386d2d81@suse.cz>
-Date: Fri, 15 Oct 2021 10:57:13 +0200
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 15 Oct 2021 06:04:57 -0700 (PDT)
+Received-SPF: neutral (google.com: 217.70.183.197 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.197;
+Received: (Authenticated sender: alex@ghiti.fr)
+	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 401031C0007;
+	Fri, 15 Oct 2021 13:04:51 +0000 (UTC)
+Subject: Re: [PATCH] kasan: Always respect CONFIG_KASAN_STACK
+From: Alexandre ghiti <alex@ghiti.fr>
+To: Nathan Chancellor <nathan@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: elver@google.com, akpm@linux-foundation.org, ryabinin.a.a@gmail.com,
+ glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
+ ndesaulniers@google.com, Arnd Bergmann <arnd@arndb.de>,
+ kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+ Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+ linux-mm@kvack.org
+References: <YUyWYpDl2Dmegz0a@archlinux-ax161>
+ <mhng-b5f8a6a0-c3e8-4d25-9daa-346fdc8a2e5e@palmerdabbelt-glaptop>
+ <YWhg8/UzjJsB51Gd@archlinux-ax161>
+ <afeaea5f-70f2-330f-f032-fb0c8b5d0aa5@ghiti.fr>
+Message-ID: <990a894c-1806-5ab2-775e-a6f2355c2299@ghiti.fr>
+Date: Fri, 15 Oct 2021 15:04:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3] lib/stackdepot: allow optional init and stack_table
- allocation by kvmalloc()
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>,
- Marco Elver <elver@google.com>, Vijayanand Jitta <vjitta@codeaurora.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Oliver Glitta
- <glittao@gmail.com>, Imran Khan <imran.f.khan@oracle.com>,
- Mike Rapoport <rppt@kernel.org>, kernel test robot <oliver.sang@intel.com>
-References: <20211012090621.1357-1-vbabka@suse.cz>
- <20211013073005.11351-1-vbabka@suse.cz>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20211013073005.11351-1-vbabka@suse.cz>
+In-Reply-To: <afeaea5f-70f2-330f-f032-fb0c8b5d0aa5@ghiti.fr>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: vbabka@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b="F/r+O+h+";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519
- header.b=8Ac48pcX;       spf=pass (google.com: domain of vbabka@suse.cz
- designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-Original-Sender: alex@ghiti.fr
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 217.70.183.197 is neither permitted nor denied by best guess
+ record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -159,121 +136,139 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 10/13/21 09:30, Vlastimil Babka wrote:
-> Currently, enabling CONFIG_STACKDEPOT means its stack_table will be allocated
-> from memblock, even if stack depot ends up not actually used. The default size
-> of stack_table is 4MB on 32-bit, 8MB on 64-bit.
-> 
-> This is fine for use-cases such as KASAN which is also a config option and
-> has overhead on its own. But it's an issue for functionality that has to be
-> actually enabled on boot (page_owner) or depends on hardware (GPU drivers)
-> and thus the memory might be wasted. This was raised as an issue [1] when
-> attempting to add stackdepot support for SLUB's debug object tracking
-> functionality. It's common to build kernels with CONFIG_SLUB_DEBUG and enable
-> slub_debug on boot only when needed, or create only specific kmem caches with
-> debugging for testing purposes.
-> 
-> It would thus be more efficient if stackdepot's table was allocated only when
-> actually going to be used. This patch thus makes the allocation (and whole
-> stack_depot_init() call) optional:
-> 
-> - Add a CONFIG_STACKDEPOT_ALWAYS_INIT flag to keep using the current
->   well-defined point of allocation as part of mem_init(). Make CONFIG_KASAN
->   select this flag.
-> - Other users have to call stack_depot_init() as part of their own init when
->   it's determined that stack depot will actually be used. This may depend on
->   both config and runtime conditions. Convert current users which are
->   page_owner and several in the DRM subsystem. Same will be done for SLUB
->   later.
-> - Because the init might now be called after the boot-time memblock allocation
->   has given all memory to the buddy allocator, change stack_depot_init() to
->   allocate stack_table with kvmalloc() when memblock is no longer available.
->   Also handle allocation failure by disabling stackdepot (could have
->   theoretically happened even with memblock allocation previously), and don't
->   unnecessarily align the memblock allocation to its own size anymore.
-> 
-> [1] https://lore.kernel.org/all/CAMuHMdW=eoVzM1Re5FVoEN87nKfiLmM2+Ah7eNu2KXEhCvbZyA@mail.gmail.com/
-...
-> ---
-> Changes in v3:
-> - stack_depot_init_mutex made static and moved inside stack_depot_init()
->   Reported-by: kernel test robot <lkp@intel.com>
-> - use !stack_table condition instead of stack_table == NULL
->   reported by checkpatch on freedesktop.org patchwork
+On 10/14/21 8:31 PM, Alex Ghiti wrote:
+> Hi Nathan,
+>
+> Le 14/10/2021 =C3=A0 18:55, Nathan Chancellor a =C3=A9crit=C2=A0:
+>> On Fri, Oct 08, 2021 at 11:46:55AM -0700, Palmer Dabbelt wrote:
+>>> On Thu, 23 Sep 2021 07:59:46 PDT (-0700), nathan@kernel.org wrote:
+>>>> On Thu, Sep 23, 2021 at 12:07:17PM +0200, Marco Elver wrote:
+>>>>> On Wed, 22 Sept 2021 at 22:55, Nathan Chancellor
+>>>>> <nathan@kernel.org> wrote:
+>>>>>> Currently, the asan-stack parameter is only passed along if
+>>>>>> CFLAGS_KASAN_SHADOW is not empty, which requires
+>>>>>> KASAN_SHADOW_OFFSET to
+>>>>>> be defined in Kconfig so that the value can be checked. In RISC-V's
+>>>>>> case, KASAN_SHADOW_OFFSET is not defined in Kconfig, which means
+>>>>>> that
+>>>>>> asan-stack does not get disabled with clang even when
+>>>>>> CONFIG_KASAN_STACK
+>>>>>> is disabled, resulting in large stack warnings with allmodconfig:
+>>>>>>
+>>>>>> drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c=
+:117:12:
+>>>>>>
+>>>>>> error: stack frame size (14400) exceeds limit (2048) in function
+>>>>>> 'lb035q02_connect' [-Werror,-Wframe-larger-than]
+>>>>>> static int lb035q02_connect(struct omap_dss_device *dssdev)
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+>>>>>> 1 error generated.
+>>>>>>
+>>>>>> Ensure that the value of CONFIG_KASAN_STACK is always passed
+>>>>>> along to
+>>>>>> the compiler so that these warnings do not happen when
+>>>>>> CONFIG_KASAN_STACK is disabled.
+>>>>>>
+>>>>>> Link: https://github.com/ClangBuiltLinux/linux/issues/1453
+>>>>>> References: 6baec880d7a5 ("kasan: turn off asan-stack for clang-8
+>>>>>> and earlier")
+>>>>>> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+>>>>>
+>>>>> Reviewed-by: Marco Elver <elver@google.com>
+>>>>
+>>>> Thanks!
+>>>>
+>>>>> [ Which tree are you planning to take it through? ]
+>>>>
+>>>> Gah, I was intending for it to go through -mm, then I cc'd neither
+>>>> Andrew nor linux-mm... :/ Andrew, do you want me to resend or can you
+>>>> grab it from LKML?
+>>>
+>>> Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
+>>>
+>>> (assuming you still want it through somewhere else)
+>>
+>> Thanks, it is now in mainline as commit 19532869feb9 ("kasan: always
+>> respect CONFIG_KASAN_STACK").
+>>
+>>>>> Note, arch/riscv/include/asm/kasan.h mentions KASAN_SHADOW_OFFSET in
+>>>>> comment (copied from arm64). Did RISC-V just forget to copy over the
+>>>>> Kconfig option?
+>>>>
+>>>> I do see it defined in that file as well but you are right that
+>>>> they did
+>>>> not copy the Kconfig logic, even though it was present in the tree
+>>>> when
+>>>> RISC-V KASAN was implemented. Perhaps they should so that they get
+>>>> access to the other flags in the "else" branch?
+>>>
+>>> Ya, looks like we just screwed this up.=C2=A0 I'm seeing some warnings =
+like
+>>>
+>>> =C2=A0=C2=A0=C2=A0 cc1: warning: =E2=80=98-fsanitize=3Dkernel-address=
+=E2=80=99 with stack protection
+>>> is not supported without =E2=80=98-fasan-shadow-offset=3D=E2=80=99 for =
+this target
+>>
+>> Hmmm, I thought I did a GCC build with this change but I must not have
+>> :/
+>>
+>>> which is how I ended up here, I'm assuming that's what you're
+>>> talking about
+>>> here?=C2=A0 LMK if you were planning on sending along a fix or if you
+>>> want me to
+>>> go figure it out.
+>>
+>> I took a look at moving the logic into Kconfig like arm64 before sending
+>> this change and I did not really understand it well enough to do so. I
+>> think it would be best if you were able to do that so that nothing gets
+>> messed up.
+>>
+>
+> I'll do it tomorrow, I'm the last one who touched kasan on riscv :)
+>
 
-The last change above was missing because I forgot git commit --amend before
-git format-patch. More importantly there was a bot report for FLATMEM. Please
-add this fixup. Thanks.
+Adding KASAN_SHADOW_OFFSET config makes kasan kernel fails to boot.
+It receives a *write* fault at the beginning of a memblock_alloc
+function while populating the kernel shadow memory: the trap address is
+in the kasan shadow virtual address range and this corresponds to a
+kernel address in init_stack. The question is: how do I populate the
+stack shadow mapping without using memblock API? It's weird, I don't
+find anything on other architectures.
 
-----8<----
-From a971a1670491f8fbbaab579eef3c756a5263af95 Mon Sep 17 00:00:00 2001
-From: Vlastimil Babka <vbabka@suse.cz>
-Date: Thu, 7 Oct 2021 10:49:09 +0200
-Subject: [PATCH] lib/stackdepot: allow optional init and stack_table
- allocation by kvmalloc() - fixup
+And just a short note: I have realized this will break with the sv48
+patchset as we decide at runtime the address space width and the kasan
+shadow start address is different between sv39 and sv48. I will have to
+do like x86 and move the kasan shadow start at the end of the address
+space so that it is the same for both sv39 and sv48.
 
-On FLATMEM, we call page_ext_init_flatmem_late() just before kmem_cache_init()
-which means stack_depot_init() (called by page owner init) will not recognize
-properly it should use kvmalloc() and not memblock_alloc(). memblock_alloc()
-will also not issue a warning and return a block memory that can be invalid and
-cause kernel page fault when saving stacks, as reported by the kernel test
-robot [1].
+Thanks,
 
-Fix this by moving page_ext_init_flatmem_late() below kmem_cache_init() so that
-slab_is_available() is true during stack_depot_init(). SPARSEMEM doesn't have
-this issue, as it doesn't do page_ext_init_flatmem_late(), but a different
-page_ext_init() even later in the boot process.
+Alex
 
-Thanks to Mike Rapoport for pointing out the FLATMEM init ordering issue.
 
-While at it, also actually resolve a checkpatch warning in stack_depot_init()
-from DRM CI, which was supposed to be in the original patch already.
+> Thanks,
+>
+> Alex
+>
+>> Cheers,
+>> Nathan
+>>
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-[1] https://lore.kernel.org/all/20211014085450.GC18719@xsang-OptiPlex-9020/
-
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-Reported-by: kernel test robot <oliver.sang@intel.com>
----
- init/main.c      | 7 +++++--
- lib/stackdepot.c | 2 +-
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/init/main.c b/init/main.c
-index ca2765c8e45c..0ab632f681c5 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -845,9 +845,12 @@ static void __init mm_init(void)
- 	stack_depot_early_init();
- 	mem_init();
- 	mem_init_print_info();
--	/* page_owner must be initialized after buddy is ready */
--	page_ext_init_flatmem_late();
- 	kmem_cache_init();
-+	/*
-+	 * page_owner must be initialized after buddy is ready, and also after
-+	 * slab is ready so that stack_depot_init() works properly
-+	 */
-+	page_ext_init_flatmem_late();
- 	kmemleak_init();
- 	pgtable_init();
- 	debug_objects_mem_init();
-diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 049d7d025d78..1f8ea6d0899b 100644
---- a/lib/stackdepot.c
-+++ b/lib/stackdepot.c
-@@ -172,7 +172,7 @@ __ref int stack_depot_init(void)
- 	static DEFINE_MUTEX(stack_depot_init_mutex);
- 
- 	mutex_lock(&stack_depot_init_mutex);
--	if (!stack_depot_disable && stack_table == NULL) {
-+	if (!stack_depot_disable && !stack_table) {
- 		size_t size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
- 		int i;
- 
--- 
-2.33.0
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6abd9213-19a9-6d58-cedc-2414386d2d81%40suse.cz.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/990a894c-1806-5ab2-775e-a6f2355c2299%40ghiti.fr.
