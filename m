@@ -1,145 +1,132 @@
-Return-Path: <kasan-dev+bncBDOPF7OU44DRBDHGX2FQMGQECORPUUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY7XDHKR4OBB3PGX2FQMGQE3KVELJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2384344F7
-	for <lists+kasan-dev@lfdr.de>; Wed, 20 Oct 2021 08:11:24 +0200 (CEST)
-Received: by mail-ed1-x540.google.com with SMTP id g28-20020a50d0dc000000b003dae69dfe3asf19907731edf.7
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Oct 2021 23:11:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634710284; cv=pass;
+Received: from mail-ua1-x938.google.com (mail-ua1-x938.google.com [IPv6:2607:f8b0:4864:20::938])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2094344FD
+	for <lists+kasan-dev@lfdr.de>; Wed, 20 Oct 2021 08:13:02 +0200 (CEST)
+Received: by mail-ua1-x938.google.com with SMTP id n6-20020ab01e46000000b002ca7b8a916csf1314330uak.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Oct 2021 23:13:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634710381; cv=pass;
         d=google.com; s=arc-20160816;
-        b=a5rV/MZb2nEyl5FeoAp88Cq3dKszboJnYNfITc5rAM0zd478XeiGXv6KPkNsx7SU32
-         IZsxLgWvmbJ++bx0ObCgDq24bfypO1PnR+kS+fKQPw+aJDlI8nuj/JTIrLb0Sab1U5Ma
-         /LvfhsStaNqq7CbyGkPa/akoMves3qAfszPSgqMxTcx604ZAi6d7bBg9CQlr2Z2WhwWe
-         RmQmqVVUmLnamgGfLmYFLOtRvkyoW7V9Q+ra6TzdAsKz7GBbZhlW8ZEmRtMQNk80Nabc
-         1y5PTaogG/nSV9Vr1QB+lcfAPtmn7PH0O7EM+h5eCxgE3BCcYM5mi/Ak703I6lnXogIq
-         AZ3A==
+        b=XnW0kVZPnQlhqrrWCTZuAP93fOy3WalcTbDK2pTzkvUiy5cbvSyFM8rKLzFJB7tMFD
+         IBUzYNGTEdtomBAjn2ub7RCL8awTb9GEGfQCjg/46MRMzGAp4tuFOugxT/8KB+6GEQQC
+         LnrNwydL/FfLFGTEeiosbAN46geubPX+Q7igjAUdXCe8ejX36d8zv2gj6xUSHiyidjHy
+         JO3MGT4dNQYFN06narrXCqjF4U/nALvcllwziPPlgFFNEmZp1kaF3wy5D52eiMZzMMu4
+         Iu40tuO2txpxUm2TaK/oXmaZvoZBs9Arf3uR1A8DeMAex+H9ck6Hr7FRRw6dfUS7V3B/
+         CZyA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=bkBwOxxMH1DFJ33AtLArXxDJeRaVHrYQAujH4wfl+q4=;
-        b=TTO9Rr6DeeUHOKydrMhHEdNnTPOXOWc1izkX01qVKcchtR3oM0DfJ2BOOZmZDDrwVv
-         ruanS/dY/Y9G07qxAb/B5K49vo76JilxhCJ9i83SuGzlPpZ7ZL6+Fd1cVcUvcb+7b9uy
-         7IaDEu9A+eg94Sm7gmkIDrccTMpn2Q+vdE1AYwwm3LZlfU7kwmAR9fQvJtI05oZhKKPN
-         ESrBa/XSWUFQA27PNYFwg+smVB/FldEY1s/3ciYP/Zmpb5jhzyxmpuVAFBZDAHb7OFxD
-         SyBzM3sBw5mCyBijhJhb9OsoZJhoZiVeN58prZtPLOv7O7Jc6dJTW9h/Njv7zqcz+y3L
-         9iKQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=eDFXsxrCDqAYMie/OWFEwYgebmv34wX5SgbPgqadJsg=;
+        b=iDx258K1uSQUne3PiIT+MPJEWPQSdT2y0kU9ZSLnVYzi/z1jvYPpayouZd7mXv5fYj
+         Q8hspzzkfLOgSxZeOgY9WoinnNv6e7jnzbWh9k4Lty7pExUZNW+VIDi3iqXNFXoRT2KG
+         c/wwoK2FP8UrWBIdO3B20zi6jzg1BuWVLjpcf0phgQecGaKTzFrR4mJtC7ZePfb3lvE9
+         SEZZADQ/3NJK3VpB7R3xQHxXnOmWwI4IU4+KgecU0l8QRZ0mQAdxlpYC7AdnjPwAkYqE
+         ewA9Oaf3PdDZdgdKAHGTsV6/AfAeR/qPzSDgasdETg1hWO1EddgGgDwP/TQPLsfU1lhF
+         U3Ng==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b="TV6/5zrA";
-       spf=pass (google.com: domain of andrea.righi@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=andrea.righi@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=bkBwOxxMH1DFJ33AtLArXxDJeRaVHrYQAujH4wfl+q4=;
-        b=o25gp18+3jgCwTy2UpnMDIqQm+o/Aew78bJmUq3Frm5acOrRWxh8lAPifj0ceBltna
-         5ZkJY5mkwnT5SazL2CD+h6/TCSPS/e3dVg5MQbmVO7N5k5inHOMPEFjgPHfskIuNnwKV
-         v2KZLAaZIIwwvkTJxXvWboyNhoaINLFYjJd8xPMEKrMPJZKkkM9RiTGe29BH5GvuJUm5
-         vmgVNViRIAM6/d/u5ZvxGH6TufRu22Bno47bGsE5fy0o1sR6ZebAlmUi/PxzFMmn7wUs
-         J8lrL8eB+Y8ARbyeWvBDKtdS/LcsKZg4GGipdcK6FBmsGrz5l8aMVnrdImcPCmCsnoku
-         6VKw==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=eDFXsxrCDqAYMie/OWFEwYgebmv34wX5SgbPgqadJsg=;
+        b=bn4iwRvMiEiL5r+nXARtqF0ux0D6NhXDL+WzQckMSpQ3+dKMez1DBzGwxE9rp1eQ2p
+         /tJ2scDG/CpXxpIVnVOkxtrJu5oN9jG0NDBg4gUPpooSGTaqmhBEtgdPiOtoi9kLz3XQ
+         Zqyf0kNLA2xkKdJRmDjwhqG/Ns+2ufxH8pf8raKniVFcFUr3Spk2RklebOlraimmGrdG
+         B2I/PWyUXHte8Z5/iWUqaI+yhNAK0SzhuDLLabYsREQQ0ofhHc4eF2rk3eLobmdk29kp
+         X2fBZuEZTIEroYW/sJJ0I4GCJnfZZWX/H1Lc0+QNX/vh50QXZES3trYc3RmQy8iL+PzE
+         zYWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=bkBwOxxMH1DFJ33AtLArXxDJeRaVHrYQAujH4wfl+q4=;
-        b=T1+vbL5gjIJFZYG6kdKyVfoR6yRdIfoNBNKuW8EtdxW/LmiI/CUGRfdGqzIFrlkYKW
-         XLNtua3mHAIZh1EK9jRGvPrlBJ2oEHXzJaVIoXNl6r7zx25Dr1HM0ZpibhXz8/5qeFmz
-         kSeo2MNk0QMXqmXOZMDUGcFpFK9eU41GR3TJzfDeE7bFYnFEk3a9iDkGsBP50LnfjnqW
-         LAAuTHHk5TOKrDXSdTPS8TWVz4PHi46Ec8eHdBbnB5JQEdHfDBgsYq7rdM79nPFN02D/
-         s53m0js1HXfQLwWAmIrXoCUcS4xKoSnXy7FTs34ElfAVbTF7ZdXY/SFM2t70vVmQ0+gZ
-         kAUQ==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=eDFXsxrCDqAYMie/OWFEwYgebmv34wX5SgbPgqadJsg=;
+        b=M1fDQPrT6sJxu0Ifwf7suLnoqpeLeWLIycGrzq1Yt4r9wJ/LGTPnUPRgJI4yLqsKoh
+         ZyCTogNJF6gO4vq0zfi33KIDf7C/Rh7+LwyziOjfKKIFJERr4tWeP3TVDikSI6Q5QGS0
+         Q3InnwlmC7XAj9kkE9dpmCRBMymqjRon7VyPkPEJJSkW5BWROFw3zC4l7+jdY0Y2ulZd
+         SZI40Lbo8Phon+/ibjhU00N+3O+qWmMqUvGm7lkY5XxwSZGWW67BtS1pylDPGckgsB1q
+         FRX9iwP/fcJU8TwwSO6WeNg4FO3pEPfT6/7OySw4ZpbH5+cLQLjuOAqPRDhznAFlSj9s
+         ovZA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530D6iXPleVXPqSyl2hO1SKd5G00td6Y18gy0YbvmcEyULcZmGBw
-	iW572F4ZWzuumTnRoQ6JTE4=
-X-Google-Smtp-Source: ABdhPJzDGZi08DXoKr6KCCWpmqA4bUR3HAHSxMTpGICzDh/kkBuh94PJKCM4xX+h2J8FyDRCt3rAYQ==
-X-Received: by 2002:a17:907:7fa8:: with SMTP id qk40mr42423654ejc.445.1634710284420;
-        Tue, 19 Oct 2021 23:11:24 -0700 (PDT)
+X-Gm-Message-State: AOAM531ICN/P1+fSNRAeRHNVpbcFKctsXsNiENtJjg6/1zsIRBsmYglx
+	oCYz2KlkFYYFmy1R/BuYdhA=
+X-Google-Smtp-Source: ABdhPJwWUqcGGeBXb8fAlX95chY8CZFICNP6KtUVZA7i3fS8WanqzfP9cWagpDGc38xVOh7WBvEphQ==
+X-Received: by 2002:a05:6122:511:: with SMTP id x17mr6951777vko.14.1634710381533;
+        Tue, 19 Oct 2021 23:13:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:1484:: with SMTP id x4ls596675ejc.1.gmail; Tue, 19
- Oct 2021 23:11:23 -0700 (PDT)
-X-Received: by 2002:a17:906:d0d8:: with SMTP id bq24mr44862462ejb.402.1634710283503;
-        Tue, 19 Oct 2021 23:11:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634710283; cv=none;
+Received: by 2002:a67:bc09:: with SMTP id t9ls392511vsn.8.gmail; Tue, 19 Oct
+ 2021 23:13:01 -0700 (PDT)
+X-Received: by 2002:a67:ca1c:: with SMTP id z28mr40292469vsk.11.1634710381004;
+        Tue, 19 Oct 2021 23:13:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634710381; cv=none;
         d=google.com; s=arc-20160816;
-        b=H/u7LouGorzd0v4nlHqIrD0t8RpnacmXs14kf5j0YpSCNEEP9ly4+Uhioz+Zo/gj1f
-         WoVZvpZ/y2kVn/CIr2lo2Fu4eBLhlXzHd3XCkgh1sGqAcUNB203k3Au/RFpw0p4YSYnt
-         yzeTLwTulT3cgUbS4C4nc1X1zywcIgGEM/nEVK/1uKhndbrOgKhS48pQDLnk9C31iNEB
-         L5xvtb67hafWVItXbOV61VIjmyfJfKMUhJjb4baI4uMjEwdQa7HETmU8aq8/0Ac8y8pF
-         VrXkYgNhCr0VM+KgTV7pAxuXdDNTwjGYMsduDNuSKwERfhlUgkxscUV0auWQ8PTNlstD
-         mOfg==
+        b=Y83mFZyT1Xu9MIxJ/kThhFpFGte78MISFoKlK5Vw+4eEpwlWqk+C6ZnvUwGqzl12ih
+         N//mZw5jlRJc9fdInJs8KXT7GRcNtC8ku8g/+nDB/o6OzQQReFU6KtBVgsgX9Iu5s9Mc
+         uSkltAZOnmcWhpv667+YYULermv7t+ImiuM3gDorBWtnBlbnHeM+AYZxcQ+ZWd/R7Z6V
+         +WDLNXyL//HJFO4VOQudeP0p/eC6kwxko/lphVIUmc5gu1OemOCBsIcw6tHSrv/u9ECi
+         NIjom35F5iOc+R6kVwVMQWpYXeaCK0OS6n6twFYeLqCc8raBUI65EdCfzQSU3xdElG5Q
+         QcgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=1Pwbto3xzDOuj9AdmGAawkkhjI3NOhcoDznc6EjuA4E=;
-        b=FjtPI8GXuq1nrgwhqk6rXkA1DX+ffnkR+zzWCGpINxEsEWENXF5y+vLmuO9qUGABuQ
-         flzN0OLSm4fB2Se2fXlu2JCyClAXrcZRrD2D87bvk7oGSKlMpzynmiudwJXtnybWqF0L
-         /9fRjKOpXBYAGGBOHZ7TH7HmpiL1oCp011NRsa4qv9w9tfbUF1H2fUtPMIRPCsAXQT0u
-         akxPlm7Kh0i4PUIHtmfvvIfdbJNcfkoO43RVXIVyJD47bB52elQni2VH4w8jtXKVGR+W
-         bgxsg+d8CF4tRM0WgmrqrQUUwFigoKNcWCHeRQ/N1bwrLOPG7xrGn2HWZCLiAlSBNkR/
-         RomQ==
+        h=mime-version:message-id:date:subject:cc:to:from;
+        bh=dq94LENGeOH5kscGjO4AeiggaLkHNIev5GtO7EAkipM=;
+        b=s76knpcdCddPvwGIdQ7dYxF0cjuG/7M93ecEOzplk97W9cRU12Y7YZyyCYD3/8NLf5
+         icDplf2AjfOQ9zDyhXeA6e4hxiCTYRNlL3mkUZ980bwO/4tJIlYfBMrjJ+qj3dAvFhSQ
+         Obm+n/a8N7qPqzj/LHCLPjWWW+g1b0ZEwJZA2eifEE42NZV7LBgCYVgJIlYpTDqE4dcq
+         stCm3sIGHldgFNNxphjPbbwR1UI1YOkePdPMO4esJzSLQrUMq2nxbDN0C4E0LmsoCjhm
+         +Wl5F/pJTuPJT3xHlGj01v63r2mt83LT1xkwPI+/pB+pOUmINE8m1VJC5hPrbk1gYcC3
+         Bjzg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b="TV6/5zrA";
-       spf=pass (google.com: domain of andrea.righi@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=andrea.righi@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com. [185.125.188.122])
-        by gmr-mx.google.com with ESMTPS id s19si81411edi.1.2021.10.19.23.11.23
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([60.244.123.138])
+        by gmr-mx.google.com with ESMTPS id y8si94311vsy.0.2021.10.19.23.12.59
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 23:11:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrea.righi@canonical.com designates 185.125.188.122 as permitted sender) client-ip=185.125.188.122;
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 297F640002
-	for <kasan-dev@googlegroups.com>; Wed, 20 Oct 2021 06:11:23 +0000 (UTC)
-Received: by mail-ed1-f72.google.com with SMTP id e14-20020a056402088e00b003db6ebb9526so19842532edy.22
-        for <kasan-dev@googlegroups.com>; Tue, 19 Oct 2021 23:11:23 -0700 (PDT)
-X-Received: by 2002:a50:9d49:: with SMTP id j9mr59027136edk.39.1634710282866;
-        Tue, 19 Oct 2021 23:11:22 -0700 (PDT)
-X-Received: by 2002:a50:9d49:: with SMTP id j9mr59027121edk.39.1634710282707;
-        Tue, 19 Oct 2021 23:11:22 -0700 (PDT)
-Received: from localhost ([2001:67c:1560:8007::aac:c1b6])
-        by smtp.gmail.com with ESMTPSA id e7sm573903edz.95.2021.10.19.23.11.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 23:11:22 -0700 (PDT)
-Date: Wed, 20 Oct 2021 08:11:21 +0200
-From: Andrea Righi <andrea.righi@canonical.com>
-To: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: BUG: soft lockup in __kmalloc_node() with KFENCE enabled
-Message-ID: <YW+zCbaf1Xb8lBMo@arighi-desktop>
-References: <CANpmjNOw--ZNyhmn-GjuqU+aH5T98HMmBoCM4z=JFvajC913Qg@mail.gmail.com>
- <YWPaZSX4WyOwilW+@arighi-desktop>
- <CANpmjNMFFFa=6toZJXqo_9hzv05zoD0aXA4D_K93rfw58cEw3w@mail.gmail.com>
- <YWPjZv7ClDOE66iI@arighi-desktop>
- <CACT4Y+b4Xmev7uLhASpHnELcteadhaXCBkkD5hO2YNP5M2451g@mail.gmail.com>
- <YWQCknwPcGlOBfUi@arighi-desktop>
- <YWQJe1ccZ72FZkLB@arighi-desktop>
- <CANpmjNNtCf+q21_5Dj49c4D__jznwFbBFrWE0LG5UnC__B+fKA@mail.gmail.com>
- <YWRNVTk9N8K0RMst@arighi-desktop>
- <CANpmjNMXNZX5QyLhXtT87ycnAhEe1upU_cL9D3+NOGKEn-gtCw@mail.gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 Oct 2021 23:13:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
+X-UUID: 154ad8d91b31496bb95a5cc342c30621-20211020
+X-UUID: 154ad8d91b31496bb95a5cc342c30621-20211020
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 493942100; Wed, 20 Oct 2021 14:12:55 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Wed, 20 Oct 2021 14:12:54 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 20 Oct 2021 14:12:54 +0800
+From: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
+	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
+	<will@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, "Matthias
+ Brugger" <matthias.bgg@gmail.com>, Marco Elver <elver@google.com>
+CC: <chinwen.chang@mediatek.com>, <yee.lee@mediatek.com>,
+	<nicholas.tang@mediatek.com>, <kasan-dev@googlegroups.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-mediatek@lists.infradead.org>, Kuan-Ying Lee
+	<Kuan-Ying.Lee@mediatek.com>
+Subject: [PATCH v2] kasan: add kasan mode messages when kasan init
+Date: Wed, 20 Oct 2021 14:12:48 +0800
+Message-ID: <20211020061248.13270-1-Kuan-Ying.Lee@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNMXNZX5QyLhXtT87ycnAhEe1upU_cL9D3+NOGKEn-gtCw@mail.gmail.com>
-X-Original-Sender: andrea.righi@canonical.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@canonical.com header.s=20210705 header.b="TV6/5zrA";       spf=pass
- (google.com: domain of andrea.righi@canonical.com designates 185.125.188.122
- as permitted sender) smtp.mailfrom=andrea.righi@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+X-MTK: N
+X-Original-Sender: Kuan-Ying.Lee@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138
+ as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,51 +139,89 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Oct 20, 2021 at 08:00:00AM +0200, Marco Elver wrote:
-> On Mon, 11 Oct 2021 at 16:42, Andrea Righi <andrea.righi@canonical.com> wrote:
-> > On Mon, Oct 11, 2021 at 12:03:52PM +0200, Marco Elver wrote:
-> > > On Mon, 11 Oct 2021 at 11:53, Andrea Righi <andrea.righi@canonical.com> wrote:
-> > > > On Mon, Oct 11, 2021 at 11:23:32AM +0200, Andrea Righi wrote:
-> > > > ...
-> > > > > > You seem to use the default 20s stall timeout. FWIW syzbot uses 160
-> > > > > > secs timeout for TCG emulation to avoid false positive warnings:
-> > > > > > https://github.com/google/syzkaller/blob/838e7e2cd9228583ca33c49a39aea4d863d3e36d/dashboard/config/linux/upstream-arm64-kasan.config#L509
-> > > > > > There are a number of other timeouts raised as well, some as high as
-> > > > > > 420 seconds.
-> > > > >
-> > > > > I see, I'll try with these settings and see if I can still hit the soft
-> > > > > lockup messages.
-> > > >
-> > > > Still getting soft lockup messages even with the new timeout settings:
-> > > >
-> > > > [  462.663766] watchdog: BUG: soft lockup - CPU#2 stuck for 430s! [systemd-udevd:168]
-> > > > [  462.755758] watchdog: BUG: soft lockup - CPU#3 stuck for 430s! [systemd-udevd:171]
-> > > > [  924.663765] watchdog: BUG: soft lockup - CPU#2 stuck for 861s! [systemd-udevd:168]
-> > > > [  924.755767] watchdog: BUG: soft lockup - CPU#3 stuck for 861s! [systemd-udevd:171]
-> > >
-> > > The lockups are expected if you're hitting the TCG bug I linked. Try
-> > > to pass '-enable-kvm' to the inner qemu instance (my bad if you
-> > > already have), assuming that's somehow easy to do.
-> >
-> > If I add '-enable-kvm' I can triggering other random panics (almost
-> > immediately), like this one for example:
-> 
-> Just FYI: https://lkml.kernel.org/r/20211019102524.2807208-2-elver@google.com
-> 
-> But you can already flip that switch in your config
-> (CONFIG_KFENCE_STATIC_KEYS=n), which we recommend as a default now.
-> 
-> As a side-effect it'd also make your QEMU TCG tests pass.
+There are multiple kasan modes. It makes sense that we add some messages
+to know which kasan mode is when booting up. see [1].
 
-Cool! Thanks for the update!
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=212195 [1]
+Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+---
+change since v2:
+ - Rebase to linux-next
+ - HW-tags based mode need to consider asymm mode
+ - Thanks for Marco's suggestion
 
-And about the other panic that I was getting it seems to be fixed by
-this one:
-https://lore.kernel.org/lkml/YW6N2qXpBU3oc50q@arighi-desktop/T/#u
+ arch/arm64/mm/kasan_init.c |  2 +-
+ mm/kasan/hw_tags.c         |  4 +++-
+ mm/kasan/kasan.h           | 10 ++++++++++
+ mm/kasan/sw_tags.c         |  2 +-
+ 4 files changed, 15 insertions(+), 3 deletions(-)
 
--Andrea
+diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
+index 5b996ca4d996..6f5a6fe8edd7 100644
+--- a/arch/arm64/mm/kasan_init.c
++++ b/arch/arm64/mm/kasan_init.c
+@@ -309,7 +309,7 @@ void __init kasan_init(void)
+ 	kasan_init_depth();
+ #if defined(CONFIG_KASAN_GENERIC)
+ 	/* CONFIG_KASAN_SW_TAGS also requires kasan_init_sw_tags(). */
+-	pr_info("KernelAddressSanitizer initialized\n");
++	pr_info("KernelAddressSanitizer initialized (generic)\n");
+ #endif
+ }
+ 
+diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+index dc892119e88f..1d5c89c7cdfe 100644
+--- a/mm/kasan/hw_tags.c
++++ b/mm/kasan/hw_tags.c
+@@ -177,7 +177,9 @@ void __init kasan_init_hw_tags(void)
+ 		break;
+ 	}
+ 
+-	pr_info("KernelAddressSanitizer initialized\n");
++	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, stacktrace=%s)\n",
++		kasan_mode_info(),
++		kasan_stack_collection_enabled() ? "on" : "off");
+ }
+ 
+ void kasan_alloc_pages(struct page *page, unsigned int order, gfp_t flags)
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index aebd8df86a1f..387ed7b6de37 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -36,6 +36,16 @@ static inline bool kasan_sync_fault_possible(void)
+ {
+ 	return kasan_mode == KASAN_MODE_SYNC || kasan_mode == KASAN_MODE_ASYMM;
+ }
++
++static inline const char *kasan_mode_info(void)
++{
++	if (kasan_mode == KASAN_MODE_ASYNC)
++		return "async";
++	else if (kasan_mode == KASAN_MODE_ASYMM)
++		return "asymm";
++	else
++		return "sync";
++}
+ #else
+ 
+ static inline bool kasan_stack_collection_enabled(void)
+diff --git a/mm/kasan/sw_tags.c b/mm/kasan/sw_tags.c
+index bd3f540feb47..77f13f391b57 100644
+--- a/mm/kasan/sw_tags.c
++++ b/mm/kasan/sw_tags.c
+@@ -42,7 +42,7 @@ void __init kasan_init_sw_tags(void)
+ 	for_each_possible_cpu(cpu)
+ 		per_cpu(prng_state, cpu) = (u32)get_cycles();
+ 
+-	pr_info("KernelAddressSanitizer initialized\n");
++	pr_info("KernelAddressSanitizer initialized (sw-tags)\n");
+ }
+ 
+ /*
+-- 
+2.18.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YW%2BzCbaf1Xb8lBMo%40arighi-desktop.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211020061248.13270-1-Kuan-Ying.Lee%40mediatek.com.
