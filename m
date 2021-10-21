@@ -1,125 +1,128 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBBONQYKFQMGQE7KMRZ2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBKEEYSFQMGQEVNJ2MGY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97874355D9
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Oct 2021 00:29:14 +0200 (CEST)
-Received: by mail-pj1-x103f.google.com with SMTP id x10-20020a17090abc8a00b001a04877d05bsf2467344pjr.5
-        for <lists+kasan-dev@lfdr.de>; Wed, 20 Oct 2021 15:29:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634768953; cv=pass;
+Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC43435A8F
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Oct 2021 08:01:14 +0200 (CEST)
+Received: by mail-oi1-x23e.google.com with SMTP id w3-20020acadf03000000b00299926760basf928813oig.20
+        for <lists+kasan-dev@lfdr.de>; Wed, 20 Oct 2021 23:01:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634796072; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hUvx711zTOk1F9HHqfrnQAedIlZ7g79VOS6BYiacL7JAWB+Zv67j/Esgg1XBn9d2Mj
-         NMu+kTAq3FQkH/8rYnwEkf/B4EoffZUSCqirwWQYcFvJt3gY8g+Gz4jhg+cFY1VNhDWt
-         vCj0onzEQvM+1UW4ScgIwuLNUankh7UmLhS1ehJBZBRIw9h/WzWfoLj6YnqJCLVkd9XK
-         jSa+tCBaubYEYSmsR+ir/NU0FMsYk8cKQUgYPwD6jJBbL+BB+B4tN6jWLNUQ47LhGQ83
-         eE+52sFJ7uv1PAOhVvbnkbtucgAYzF5nIdfw58jg6YnXHE3rE+pQ6wQ7ExODf9l4k51L
-         +7jg==
+        b=vv3suBRu8pILczOVMnvmjA0SJ+nZEo2/9cvG8q/fqZ4EXMuokAcG1CPN9MZhpBJXkx
+         YJo56SHyH02dRutm3sq5oXjq/z8dBkA1iy3NsUM6SBJFrK38Gq4FzVPNx23YCyd7Hl9f
+         +3KNspsRfJiPuQGSaB8RDgrq3l3MNqyRtmvtHOAOcTgP6lACGTLPaHp8qQRDprK0oe2T
+         2G9UMH27DlBhgySqXkZeqY5/bnhWSWVVZVFbkDvZsuX9GMQX9srR35PyvG/8FSBp8DLw
+         LvwDX0smC+zZ5qdSvRhN8wt6kTMv/ABErV56azeodFoeM0rfukqfirbOTdjg5NDy9Yvt
+         G87A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=gP9C8Ztig/NNgWcNU1xMAPuBh0HfaxtfHdS2MF6zcNo=;
-        b=gchyFIDp4A9I78+cBDirSSigmJirsI2PSj8+orVCqo6Dor/OOb+rGq7VqZ2Ivh6EiY
-         01RElc1IguFvsCBbqatnLA5Xn8XCk1tVfTgAyJJhmWapm6/7TGxRYeaW3p27g14V1gZR
-         4DLivcXeLdFa5grotZiQpMD+Ihqor7eFyYStrlg/woSlR2etiXtCvQbHvvvjngC2j1h5
-         HjrL1XuGVjTSDKViJo3NRi1pv2MK/qEKC5XbIRk1iNHDcflaSZF735nWDHjmgglJlhNP
-         QhMqnBh68PRmIqZ5/acgpholfqaLwVk3pQjNqDbgBf26FcDeQWq7Gb2N/9/LSMv3ufv7
-         7TCA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=SlJjtXWfrvqjbRNWvqxyz/mgDNVkRzMNAOqAxU9XhSA=;
+        b=vd7OYy7tR1wcR/c+Sb2x375uiSRGAtVCBTb+DV8OtnuFY5O3vIk36R2g2mrnhm8KAc
+         ivPXYInt/0xfvx2y4iS92IHCnIN+wOTx3DWN2PNY+SJZH/vGAmdoevGMMsGOAWhop6Eu
+         zXl9lkH0hzFVqju3CIFSq8upuEk80xHQV9yD4U1Nn+2eFbxT+Z7/hzq8VvFnSFUtKOzS
+         csZb1DFIGAEEtVmwF2ua7zjzyUlGdMEzkLaPt3oGaPvRv5ymC7Xwb59N0Q+RyR91RaHX
+         YMiGmO048o9mk7T2b89g0zLLTqa2PSU5NhA0b9mc/rA4fcjdmFycRyApxR+4Osf3rKhd
+         uoMA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=TEnlDxKO;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b="tHM/UYL4";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gP9C8Ztig/NNgWcNU1xMAPuBh0HfaxtfHdS2MF6zcNo=;
-        b=Not9HvDVRnGTK44B6Q2GqvdWZm0OPmHHa+L8cYzVMKFE3EMmevJjtJDshHV6aKIT9g
-         DByyqTBad1TxDBVjValAjZnZt2vHJhDpilHKaYstQJdqoEjkwyvScAIZuoBSs28taveO
-         ZODWwcAtMTtxfX0CgNNH7s7mnSqfJxpeOBjfHD33nbxioffVUi+RuQALdzWUSRgDU/eG
-         GY8eXc8RqOwIOrzoLUggRqVDm+vv3x6DFydaB1ct8vFW6iWObdkzoPNUnHfeYqO4LG1+
-         JKWLZmZWltelTyTZc0J4H6QDHfnSt7cKZ5U3fX/nr6MkV45xxsCOrk+Qj9jOH1/hI5PH
-         ydbQ==
+        bh=SlJjtXWfrvqjbRNWvqxyz/mgDNVkRzMNAOqAxU9XhSA=;
+        b=OecN+Jjcgzh/XWZrIVxYM5xf5+9SL/RVqEgRX6siQC04FzQ/LBR4ptCxDmoYzVaWe2
+         dHVZ9O44Tz2staKVPt8IVPqkZu3FLDCSNlErfYrrjt4sJGx4oFyaRd1di3lwq0cYqCEm
+         kStlvOppryXOvE72hB0DX+nRKv8OMH3jq8CKRIjL44u9nVirws15ToitItc9M3Agg4Bg
+         LVr8mVDWUdmwsVVP2nCmL3gvlQtX1Dq1yAGiMjlyfg+9a8SvaEJqNiBisQ5xfqFtIOF7
+         mViSgoQTLOKyj/49PDVkNnOo1UyT+1Pd+p3CwMUnMUxCMH1TJGOJJKBe0oO+GWLa9Nij
+         NdJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gP9C8Ztig/NNgWcNU1xMAPuBh0HfaxtfHdS2MF6zcNo=;
-        b=4JAEGg1o5SuQSl7ltRLoVNQYFIw6ber52JNcWi0MzHnb1znHZmP9vqbUM+MkAS/sDf
-         T8Nm62BhoBcPE9zR5krqycGWXL+9F4k5f0FRTcYCbrS8zp6UZO6E/+pmQTcKgUtjynMY
-         uA83Ce1bMNPEo8ceuu5HXjR9z7ZH/PMrsZhX0bNVHWf3VS1cLKxbFzSggJNrbkDIuTKh
-         o9mntpJmFTkYeFxx6EAQt66pLa506JvCjTp0HAUzIhPfZROEmAFtjxp4LerzuyCCPPOM
-         REKMAJV1KZcUaqr1KzwnQm1M+rWFj3eKV9hXwsUeARMYnOzwYyPsbnC/jWavx9CYi8g3
-         O8GQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5311G7mbzh5Aug4sM4r0n5Ib785KP2rTLH/TNWOgI06AWSw4USAp
-	8mDIR0xxRiXK/xk7e31AMYE=
-X-Google-Smtp-Source: ABdhPJytRb8QDHnJZMQJUEfoHr3eWI21R5wyfPACK0LI5f72E4Cj++3akEQ8nvBOnHMMsSUgtCy9kg==
-X-Received: by 2002:a62:7752:0:b0:44c:eb65:8561 with SMTP id s79-20020a627752000000b0044ceb658561mr1462791pfc.43.1634768953465;
-        Wed, 20 Oct 2021 15:29:13 -0700 (PDT)
+        bh=SlJjtXWfrvqjbRNWvqxyz/mgDNVkRzMNAOqAxU9XhSA=;
+        b=NdkL1w4UDUh8GH/SCcWgsYfL5QU/cq1wu3HRiVNicDsxOvGeHWFD3LSwyX+Tr6Wacr
+         somMesfWL+hTAuOVVSQMiJ86LvAeFyCH6JyuHc46PutW3/pj9OlbzFta6kJPhafxur6j
+         S0qJ2EVEZ+QtfqDokU3PrONRjH3ny0akLQ2+g/AlyM1RmNmLIfwAs1CASvzP5hYYL9ud
+         qzpR9XjFjxJZzrsngjdFkcpIqNAXgUWTpQhhNtMjWpFfOusZt3gO74JJUgkKbabqqQTu
+         jopzQ8tlQdk83G22DT/CEDqkI6JOLSycOQJbpaeaNHAbk186YIaQdfoOshfoNZJ4Q1aN
+         Vozw==
+X-Gm-Message-State: AOAM5339P22AJFGOYovTtrPZfYA0cNmuMg5CuQ3Ic2uy2nCR+mm9ahC8
+	54DR2tYe+n01o9UoOvNOOtQ=
+X-Google-Smtp-Source: ABdhPJzFMUXPZNZODB4UStNhQHdkkRHH8Qi/qs5+DqEY3oR8xxLco/ePh0yE2jo9hqjHl/Hq619wRw==
+X-Received: by 2002:a05:6808:8f2:: with SMTP id d18mr2767465oic.90.1634796072323;
+        Wed, 20 Oct 2021 23:01:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:1a48:: with SMTP id h8ls1606013pfv.7.gmail; Wed, 20
- Oct 2021 15:29:12 -0700 (PDT)
-X-Received: by 2002:a05:6a00:c8e:b0:44d:f590:e32f with SMTP id a14-20020a056a000c8e00b0044df590e32fmr1570024pfv.3.1634768952801;
-        Wed, 20 Oct 2021 15:29:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634768952; cv=none;
+Received: by 2002:a05:6830:356:: with SMTP id h22ls1364202ote.5.gmail; Wed, 20
+ Oct 2021 23:01:12 -0700 (PDT)
+X-Received: by 2002:a9d:12b2:: with SMTP id g47mr3044491otg.227.1634796071869;
+        Wed, 20 Oct 2021 23:01:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634796071; cv=none;
         d=google.com; s=arc-20160816;
-        b=XMsOVMGkJ2H7j6K30IR4mfmwlBYCfpel3EfOEK8Ryz/dfkUUmCSKawDntdtq544EeO
-         mFyNP8ToTMq50JAUdxjQipFQAhn+Nk9s/xfXejcIyg/riDdppiGra0QczQeTncjY+6Lk
-         KQBnMteUccLR/JUgS6czAyilg0us6Gk0hDQFnAj/qs+6J3DvIHSa/xKLvGaHT6jnqY97
-         93TXgR2Au03kKbdsoz4BBclHlqgxSFa4edYFEVNIA2bZHXzB95HNafHBfOUPaNkRSzXI
-         /HvE5VAmdn8a+2MonNiZIg1cuRWPxkNM9l0EQlkyw4jmAnO6CdSpgusJ7xQI7XvHb9Wp
-         F7BQ==
+        b=t8EZtxM48bzYbPcxdeIVlMLJ//Ite1W4TzLRJ4S8RCTcJPAZHBZlGYvRz89o+px+qt
+         Q8e0jjLul46qIgWBYe5g4dTNNGLAhq0daZRattVha8W1xLqAiweBeqwv5UjuzFQlrDy9
+         NBS1I932oYa1P/+VuVOuKCEUhm1XmMCWGvy5I2aDOYej1nh5nukcY+cfwzKOon6WfKss
+         /rXOvFcFHEqq3PbB2uLt0B/veQu0xCV9aMb7JbROxV3o4xyqE8plvZDHzLgZNzPI++Ew
+         SigQ59aeaHLAEf9iaLEL8ualzuaVgsgM9WaktKzJ9BDEq/2tmNh6g1qi9v0mkrZfx9Vc
+         bNSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=FIzODl9jZINQHGUHj43LcboxgqM/k/yCmad49nZmNzM=;
-        b=vOMthRtK4BnbfsQfjIzuVjoYp7yS+5DVN6DYz+4COPTx31KgVcPBPQWnBzS6XSy0K3
-         6WoWIQSEKWYs4iGtVx6H21TSfvA/qHHjvWGEghHjmV938cBupyll+D7dqDt9H2qjVsJo
-         CoYge+X3/dBv1MkniLB7JqYXvDmdHUV0Cxnz3zb+Lox/pJJHj6HxpIycwttAoDQrmVM4
-         Gsbncc1GkgWfeahNocXabi8hHHUNkPTHcd//Dbtp0QjdAeBKzDUnxEtpdQ9w25MTkJ1Q
-         QR4yyqs8I2BYApRMELA2GHGCpfLd0SybuMxQQAo3vEMcy9oOJt4zwTv6ePRHgPjpRMUg
-         13bQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=xTVsi87T0lDEPgn8Tsk62laBFA4FkXChR4d7SeUQje8=;
+        b=aYoj6Euu0VAVraWV4Vsvhk+v2uxBN38Fr+noX0JUo4ypdYmOuWghhxXGt3S4q2ttvl
+         5laHHg5UMiQyaxVz6WHBb3QhA6cQEmTH1rVALkZ6J/QXZXfcBN7Ld9J0OjwUnJKMwgiA
+         12FZNUh+nrrE0uUZVgN5L7OrCrPsarP2DLb//yZ4XNrRdZc9bX+zqgnsRpokxYe8EE0f
+         YOeno3z6boZguEHU/qR/Ziqn5oL5GRLatZ2oesCGmhMQucRt8EMHn9B1pUULtHzZ9xPt
+         gROM/LQ7Z8BhFtDmiCPQTnzWu8QN7T+MIdBp4WsBwX4mCVfAI7W9ePJL/kZArMzOH4tu
+         bjwg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=TEnlDxKO;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id b1si268315pgs.2.2021.10.20.15.29.12
+       dkim=pass header.i=@google.com header.s=20210112 header.b="tHM/UYL4";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com. [2607:f8b0:4864:20::22e])
+        by gmr-mx.google.com with ESMTPS id r130si277929oig.2.2021.10.20.23.01.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 20 Oct 2021 15:29:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F36716056B;
-	Wed, 20 Oct 2021 22:29:11 +0000 (UTC)
-Date: Wed, 20 Oct 2021 15:29:09 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Marco Elver <elver@google.com>
-Cc: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey
- Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, chinwen.chang@mediatek.com,
- yee.lee@mediatek.com, nicholas.tang@mediatek.com,
- kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v3] kasan: add kasan mode messages when kasan init
-Message-Id: <20211020152909.2ea34f8f0c0d70d8b245b234@linux-foundation.org>
-In-Reply-To: <CANpmjNMk-2pfBjD3ak9hto+xAFExuG+Pc-_vQRa6DSS=9-=WUg@mail.gmail.com>
-References: <20211020094850.4113-1-Kuan-Ying.Lee@mediatek.com>
-	<CANpmjNMk-2pfBjD3ak9hto+xAFExuG+Pc-_vQRa6DSS=9-=WUg@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Oct 2021 23:01:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) client-ip=2607:f8b0:4864:20::22e;
+Received: by mail-oi1-x22e.google.com with SMTP id r6so12504904oiw.2
+        for <kasan-dev@googlegroups.com>; Wed, 20 Oct 2021 23:01:11 -0700 (PDT)
+X-Received: by 2002:a05:6808:118c:: with SMTP id j12mr2641330oil.65.1634796071409;
+ Wed, 20 Oct 2021 23:01:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211020200039.170424-1-keescook@chromium.org>
+In-Reply-To: <20211020200039.170424-1-keescook@chromium.org>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 21 Oct 2021 08:00:00 +0200
+Message-ID: <CANpmjNMPaLpw_FoMzmShLSEBNq_Cn6t86tO_FiYLR2eD001=4Q@mail.gmail.com>
+Subject: Re: [PATCH] compiler-gcc.h: Define __SANITIZE_ADDRESS__ under
+ hwaddress sanitizer
+To: Kees Cook <keescook@chromium.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Will Deacon <will@kernel.org>, 
+	Arvind Sankar <nivedita@alum.mit.edu>, Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev, 
+	Ard Biesheuvel <ardb@kernel.org>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: akpm@linux-foundation.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=TEnlDxKO;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 198.145.29.99 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ header.i=@google.com header.s=20210112 header.b="tHM/UYL4";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,31 +135,102 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 20 Oct 2021 11:58:26 +0200 Marco Elver <elver@google.com> wrote:
+On Wed, 20 Oct 2021 at 22:00, Kees Cook <keescook@chromium.org> wrote:
+> When Clang is using the hwaddress sanitizer, it sets __SANITIZE_ADDRESS__
+> explicitly:
+>
+>  #if __has_feature(address_sanitizer) || __has_feature(hwaddress_sanitizer)
+>  /* Emulate GCC's __SANITIZE_ADDRESS__ flag */
+>  #define __SANITIZE_ADDRESS__
+>  #endif
 
-> On Wed, 20 Oct 2021 at 11:48, Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com> wrote:
-> >
-> > There are multiple kasan modes. It makes sense that we add some messages
-> > to know which kasan mode is when booting up. see [1].
-> >
-> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=212195 [1]
-> > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-> 
-> Reviewed-by: Marco Elver <elver@google.com>
-> 
-> Thank you.
-> 
-> Because this is rebased on the changes in the arm64 tree, and also
-> touches arch/arm64, it probably has to go through the arm64 tree.
+Hmm, the comment is a little inaccurate if hwaddress sanitizer is on,
+but I certainly wouldn't want compiler-clang.h to start emulating gcc
+here and start defining __SANITIZE_HWADDRESS__ if the places where we
+check it are the same as __SANITIZE_ADDRESS__. So this patch is the
+right approach.
 
-That would be OK, as long as it doesn't also have dependencies on
-pending changes elsewhere in the -mm tree.
+> Once hwaddress sanitizer was added to GCC, however, a separate define
+> was created, __SANITIZE_HWADDRESS__. The kernel is expecting to find
+> __SANITIZE_ADDRESS__ in either case, though, and the existing string
+> macros break on supported architectures:
+>
+>  #if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
+>           !defined(__SANITIZE_ADDRESS__)
+>
+> where as other architectures (like arm32) have no idea about hwaddress
+> sanitizer and just check for __SANITIZE_ADDRESS__:
+>
+>  #if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
 
-To solve both potential problems, I've queued it in -mm's
-post-linux-next section, so it gets sent to Linus after both -mm and
-arm have merged up.
+arm32 doesn't support KASAN_SW_TAGS, so I think the bit about arm32 is
+irrelevant.
+
+Only arm64 can, and the reason that arm64 doesn't check against
+"defined(CONFIG_KASAN)" is because we also have KASAN_HW_TAGS (no
+compiler instrumentation).
+
+> This would lead to compiler foritfy self-test warnings when building
+> with CONFIG_KASAN_SW_TAGS=y:
+>
+> warning: unsafe memmove() usage lacked '__read_overflow2' symbol in lib/test_fortify/read_overflow2-memmove.c
+> warning: unsafe memcpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-memcpy.c
+> ...
+>
+> Sort this out by also defining __SANITIZE_ADDRESS__ in GCC under the
+> hwaddress sanitizer.
+>
+> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Arvind Sankar <nivedita@alum.mit.edu>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: llvm@lists.linux.dev
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+
+Other than that,
+
+  Reviewed-by: Marco Elver <elver@google.com>
+
+Thanks!
+
+> ---
+> I'm intending to take this via my overflow series, since that is what introduces
+> the compile-test regression tests (which found this legitimate bug). :)
+>
+> -Kees
+> ---
+>  include/linux/compiler-gcc.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+> index 6f24eb8c5dda..ccbbd31b3aae 100644
+> --- a/include/linux/compiler-gcc.h
+> +++ b/include/linux/compiler-gcc.h
+> @@ -121,6 +121,14 @@
+>  #define __no_sanitize_coverage
+>  #endif
+>
+> +/*
+> + * Treat __SANITIZE_HWADDRESS__ the same as __SANITIZE_ADDRESS__ in the kernel,
+> + * matching the defines used by Clang.
+> + */
+> +#ifdef __SANITIZE_HWADDRESS__
+> +#define __SANITIZE_ADDRESS__
+> +#endif
+> +
+>  /*
+>   * Turn individual warnings and errors on and off locally, depending
+>   * on version.
+> --
+> 2.30.2
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211020152909.2ea34f8f0c0d70d8b245b234%40linux-foundation.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMPaLpw_FoMzmShLSEBNq_Cn6t86tO_FiYLR2eD001%3D4Q%40mail.gmail.com.
