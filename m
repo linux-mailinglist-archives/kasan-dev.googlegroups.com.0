@@ -1,128 +1,139 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBKEEYSFQMGQEVNJ2MGY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBH6QYSFQMGQEGRIOJOQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC43435A8F
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Oct 2021 08:01:14 +0200 (CEST)
-Received: by mail-oi1-x23e.google.com with SMTP id w3-20020acadf03000000b00299926760basf928813oig.20
-        for <lists+kasan-dev@lfdr.de>; Wed, 20 Oct 2021 23:01:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634796072; cv=pass;
+Received: from mail-qk1-x740.google.com (mail-qk1-x740.google.com [IPv6:2607:f8b0:4864:20::740])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DEC435D28
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Oct 2021 10:43:12 +0200 (CEST)
+Received: by mail-qk1-x740.google.com with SMTP id f12-20020a05620a15ac00b0046007dbd2a7sf4276836qkk.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Oct 2021 01:43:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634805791; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vv3suBRu8pILczOVMnvmjA0SJ+nZEo2/9cvG8q/fqZ4EXMuokAcG1CPN9MZhpBJXkx
-         YJo56SHyH02dRutm3sq5oXjq/z8dBkA1iy3NsUM6SBJFrK38Gq4FzVPNx23YCyd7Hl9f
-         +3KNspsRfJiPuQGSaB8RDgrq3l3MNqyRtmvtHOAOcTgP6lACGTLPaHp8qQRDprK0oe2T
-         2G9UMH27DlBhgySqXkZeqY5/bnhWSWVVZVFbkDvZsuX9GMQX9srR35PyvG/8FSBp8DLw
-         LvwDX0smC+zZ5qdSvRhN8wt6kTMv/ABErV56azeodFoeM0rfukqfirbOTdjg5NDy9Yvt
-         G87A==
+        b=PM1Uqc4VavbhwHh5Z3yI33X8326GiADCdby2MFFNX+MX3fY5/ZgIyJy7j/wdFn+cX6
+         iON/+RLJkiWDjygvHWskJYx89wEbGDZspHCfAhcm/FgZaSRSGi6+XVbs3lSQ4D1rXbY9
+         JeTgXJ3W/i/Dh6R2bm3ULCNEdAuIs4dvFnQfNkN+JgbKn46uVG4OxbstbVd/PSPmJ84r
+         sRelLTDVkLrEVR70/Cy1AYTrlZ7w6tAmXmrNtdJ7ErTowXVGWtT6ofXfoyDBsqxE97YL
+         MbPk1uZLTWAWXE49ei73crgAQ25KM75Rm3LeA5oBpJKPQt4DjTLHVzV7cZbUo9J9PJdl
+         +GiQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=SlJjtXWfrvqjbRNWvqxyz/mgDNVkRzMNAOqAxU9XhSA=;
-        b=vd7OYy7tR1wcR/c+Sb2x375uiSRGAtVCBTb+DV8OtnuFY5O3vIk36R2g2mrnhm8KAc
-         ivPXYInt/0xfvx2y4iS92IHCnIN+wOTx3DWN2PNY+SJZH/vGAmdoevGMMsGOAWhop6Eu
-         zXl9lkH0hzFVqju3CIFSq8upuEk80xHQV9yD4U1Nn+2eFbxT+Z7/hzq8VvFnSFUtKOzS
-         csZb1DFIGAEEtVmwF2ua7zjzyUlGdMEzkLaPt3oGaPvRv5ymC7Xwb59N0Q+RyR91RaHX
-         YMiGmO048o9mk7T2b89g0zLLTqa2PSU5NhA0b9mc/rA4fcjdmFycRyApxR+4Osf3rKhd
-         uoMA==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=FjWubWDSC9DhX6MykuMJ5m6rnLxT5qz4Lp3z0QqrzKo=;
+        b=Jwv86zDZplXwHl9pAeZyNRzzv9cJJy12lYuLTxwg6zA9/pZo4RHltYUvv0MAybBGjv
+         d6uMOcGOOi1FeyrCRmvLBvFwZx3v9P6kiSfCcIX2jGF+sOUxqb2XHTkA2AgPIeTfr7Xf
+         944uCX5DSGKCFnKRNY5sLJ+AQKLrsh5YjHmKhPKQKQI6bKE0RhC5313W1FeGKFrTSq5l
+         JXssOhPdaS2viG+BifEE/H/vdsb4a6vBQyizADxIyNDfL72PxWCdGTx0OioZ/PUI3vzM
+         VQ+MvVTRjYgGNwHpTmhh5AMnwjnr62qt9b1FQ4G25GM0j+01kDqaIUdF1d4/I85fS+33
+         ZiuA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="tHM/UYL4";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@chromium.org header.s=google header.b="T6xp/4rR";
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102c as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=SlJjtXWfrvqjbRNWvqxyz/mgDNVkRzMNAOqAxU9XhSA=;
-        b=OecN+Jjcgzh/XWZrIVxYM5xf5+9SL/RVqEgRX6siQC04FzQ/LBR4ptCxDmoYzVaWe2
-         dHVZ9O44Tz2staKVPt8IVPqkZu3FLDCSNlErfYrrjt4sJGx4oFyaRd1di3lwq0cYqCEm
-         kStlvOppryXOvE72hB0DX+nRKv8OMH3jq8CKRIjL44u9nVirws15ToitItc9M3Agg4Bg
-         LVr8mVDWUdmwsVVP2nCmL3gvlQtX1Dq1yAGiMjlyfg+9a8SvaEJqNiBisQ5xfqFtIOF7
-         mViSgoQTLOKyj/49PDVkNnOo1UyT+1Pd+p3CwMUnMUxCMH1TJGOJJKBe0oO+GWLa9Nij
-         NdJg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=FjWubWDSC9DhX6MykuMJ5m6rnLxT5qz4Lp3z0QqrzKo=;
+        b=Tqcu7mDelaa1BGEK2ohmClJfBE2SvZZx6kmqnMb4aNUxelb47ejaD6l0JzEe743Y2Y
+         9gDwIE9yngvYkMK061BUHkupgKXVtdaKS4NdyJc97ZBmH3zmSdLlQ326Z2BDcAuAvtWm
+         oX4/wDmSzdnkmBZdgu3UhomZ6VjPdDAbXD0t0MGqYzIzFO3KGwodTmhKl9ECdcql96SF
+         8llNVyozvBLwLVgSp4zQZFmKQGmZCkZWczj76kZlzRzUqFpWw62e0NYHZBnqune1lczh
+         baFfNWJIl5OBTxcCpsLT8rbmBupuM71c5TXrokd3JdfY37XYNRg4boG/dJVQGVhczm+s
+         JDYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=SlJjtXWfrvqjbRNWvqxyz/mgDNVkRzMNAOqAxU9XhSA=;
-        b=NdkL1w4UDUh8GH/SCcWgsYfL5QU/cq1wu3HRiVNicDsxOvGeHWFD3LSwyX+Tr6Wacr
-         somMesfWL+hTAuOVVSQMiJ86LvAeFyCH6JyuHc46PutW3/pj9OlbzFta6kJPhafxur6j
-         S0qJ2EVEZ+QtfqDokU3PrONRjH3ny0akLQ2+g/AlyM1RmNmLIfwAs1CASvzP5hYYL9ud
-         qzpR9XjFjxJZzrsngjdFkcpIqNAXgUWTpQhhNtMjWpFfOusZt3gO74JJUgkKbabqqQTu
-         jopzQ8tlQdk83G22DT/CEDqkI6JOLSycOQJbpaeaNHAbk186YIaQdfoOshfoNZJ4Q1aN
-         Vozw==
-X-Gm-Message-State: AOAM5339P22AJFGOYovTtrPZfYA0cNmuMg5CuQ3Ic2uy2nCR+mm9ahC8
-	54DR2tYe+n01o9UoOvNOOtQ=
-X-Google-Smtp-Source: ABdhPJzFMUXPZNZODB4UStNhQHdkkRHH8Qi/qs5+DqEY3oR8xxLco/ePh0yE2jo9hqjHl/Hq619wRw==
-X-Received: by 2002:a05:6808:8f2:: with SMTP id d18mr2767465oic.90.1634796072323;
-        Wed, 20 Oct 2021 23:01:12 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=FjWubWDSC9DhX6MykuMJ5m6rnLxT5qz4Lp3z0QqrzKo=;
+        b=xp9xY7u6/Ef98vLcZAXyy7UFFgDhUhpd9ZgxTWBo3xEstSoAlraU73zp7eKmgLz1Fv
+         95tbftduAUbiLVQrLCFncgDHmOdLnA2ufa3LJ9wusLA/Wpbo+PgAMUFs6mVVfb3y6VPz
+         tkK1vMU3H3QJf2CE/WhUPhfiIOwDEZB268punqUkowFTY1A/4207AhgWgheJjsctw1tE
+         vbJzjcKDI1Hw/JG2H/axVodMgoAWuZWx6JeWl9L4iPgasZDjojQoiO8sFVUpNukYCp0L
+         ZSoxJlEJghs1c5fGD0kQ+HtXunEnfntM5/MQYmNpsW/T1gpBWGsc5K/tbcTk1v7twnR3
+         jbrg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533ffvTaqaM0vvex6ebWFjZ8pKT2OPeF8uFk31zyfz1SpDa/aPTI
+	BG+DSUKaLZtawDja0X+mXSs=
+X-Google-Smtp-Source: ABdhPJz3zvFE4GCgPNcAMydZ1ZpV/RIrmnifQZ4em2oogpGWH1yP2ZcnaheTxb7rNEf8UXhZoDd6Lw==
+X-Received: by 2002:a05:622a:1807:: with SMTP id t7mr4586601qtc.140.1634805791683;
+        Thu, 21 Oct 2021 01:43:11 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:356:: with SMTP id h22ls1364202ote.5.gmail; Wed, 20
- Oct 2021 23:01:12 -0700 (PDT)
-X-Received: by 2002:a9d:12b2:: with SMTP id g47mr3044491otg.227.1634796071869;
-        Wed, 20 Oct 2021 23:01:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634796071; cv=none;
+Received: by 2002:a05:6214:1805:: with SMTP id o5ls125075qvw.9.gmail; Thu, 21
+ Oct 2021 01:43:11 -0700 (PDT)
+X-Received: by 2002:ad4:45f0:: with SMTP id q16mr3912752qvu.4.1634805791188;
+        Thu, 21 Oct 2021 01:43:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634805791; cv=none;
         d=google.com; s=arc-20160816;
-        b=t8EZtxM48bzYbPcxdeIVlMLJ//Ite1W4TzLRJ4S8RCTcJPAZHBZlGYvRz89o+px+qt
-         Q8e0jjLul46qIgWBYe5g4dTNNGLAhq0daZRattVha8W1xLqAiweBeqwv5UjuzFQlrDy9
-         NBS1I932oYa1P/+VuVOuKCEUhm1XmMCWGvy5I2aDOYej1nh5nukcY+cfwzKOon6WfKss
-         /rXOvFcFHEqq3PbB2uLt0B/veQu0xCV9aMb7JbROxV3o4xyqE8plvZDHzLgZNzPI++Ew
-         SigQ59aeaHLAEf9iaLEL8ualzuaVgsgM9WaktKzJ9BDEq/2tmNh6g1qi9v0mkrZfx9Vc
-         bNSw==
+        b=b+fh1uGjJSLKM8Gb9UABR8ab8uvW5IUuRu0kLsppC7RorVr9/d3wnD7jodMwXwqqnp
+         ZOpqkN75EuPDv4tQgzHnSahMVog6IsK5XUPDrG7A9dUnxck9OlaCm/pkmuOqdtLmunA4
+         fNa858amWe2PtUQLBSsNMlO+I9aOTQ6IV9IlWZfVOXgYgg0k64jMOsRLIx9wKHMa08nZ
+         aQ+fnJMad4NRitJterirXsBE2TCzZXrTTOntmuu99rA/R5CiH9tto+IPGVmLvBUaHO8g
+         EDr8hIXs7269caip93RvRqIb3S1tucHGHRxDnA+uMTkOlExwhYJo8wyPXICt++0HqDWu
+         ov/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=xTVsi87T0lDEPgn8Tsk62laBFA4FkXChR4d7SeUQje8=;
-        b=aYoj6Euu0VAVraWV4Vsvhk+v2uxBN38Fr+noX0JUo4ypdYmOuWghhxXGt3S4q2ttvl
-         5laHHg5UMiQyaxVz6WHBb3QhA6cQEmTH1rVALkZ6J/QXZXfcBN7Ld9J0OjwUnJKMwgiA
-         12FZNUh+nrrE0uUZVgN5L7OrCrPsarP2DLb//yZ4XNrRdZc9bX+zqgnsRpokxYe8EE0f
-         YOeno3z6boZguEHU/qR/Ziqn5oL5GRLatZ2oesCGmhMQucRt8EMHn9B1pUULtHzZ9xPt
-         gROM/LQ7Z8BhFtDmiCPQTnzWu8QN7T+MIdBp4WsBwX4mCVfAI7W9ePJL/kZArMzOH4tu
-         bjwg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=SJY6DwBxYVl+QUdSNsoZifHerg6QBwwY0i9CzwdxMWE=;
+        b=PG0TIY43YNCu9ahhN0KEHaQfaHeWAnrmMe3Ag3f3kyEcCAkGXd0iwM0zp1DU3Jcacn
+         MdluMXW54ZDAlM8t0E68jXHa3ioV9GjhNNY2RUbfudX+rGLTFhCZESpB+aqt/kI9Iz3N
+         i3+ugDdXV3h7NP3kuQfZ18hJ193zEKhUQnR4InBBsMorcz9NHC4+IdoLiK6vN/xYvbXg
+         6j2q6K2kI/Xgxc0Z8xyWpgIHWwNbJaFrersWUnjMsToom8m5WOWGdW01oJnXOnv2ZnjV
+         j8QdSU44EGKHagq3cBdMY9fF6nSrZA/4TzUQq9i8uGKPO9+k+cX+0rjPJwqkkll/z99T
+         zg/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="tHM/UYL4";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com. [2607:f8b0:4864:20::22e])
-        by gmr-mx.google.com with ESMTPS id r130si277929oig.2.2021.10.20.23.01.11
+       dkim=pass header.i=@chromium.org header.s=google header.b="T6xp/4rR";
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102c as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com. [2607:f8b0:4864:20::102c])
+        by gmr-mx.google.com with ESMTPS id s15si36443qkp.3.2021.10.21.01.43.11
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Oct 2021 23:01:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) client-ip=2607:f8b0:4864:20::22e;
-Received: by mail-oi1-x22e.google.com with SMTP id r6so12504904oiw.2
-        for <kasan-dev@googlegroups.com>; Wed, 20 Oct 2021 23:01:11 -0700 (PDT)
-X-Received: by 2002:a05:6808:118c:: with SMTP id j12mr2641330oil.65.1634796071409;
- Wed, 20 Oct 2021 23:01:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211020200039.170424-1-keescook@chromium.org>
-In-Reply-To: <20211020200039.170424-1-keescook@chromium.org>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 21 Oct 2021 08:00:00 +0200
-Message-ID: <CANpmjNMPaLpw_FoMzmShLSEBNq_Cn6t86tO_FiYLR2eD001=4Q@mail.gmail.com>
+        Thu, 21 Oct 2021 01:43:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102c as permitted sender) client-ip=2607:f8b0:4864:20::102c;
+Received: by mail-pj1-x102c.google.com with SMTP id t5-20020a17090a4e4500b001a0a284fcc2so2580053pjl.2
+        for <kasan-dev@googlegroups.com>; Thu, 21 Oct 2021 01:43:11 -0700 (PDT)
+X-Received: by 2002:a17:90b:4f88:: with SMTP id qe8mr4919558pjb.223.1634805790444;
+        Thu, 21 Oct 2021 01:43:10 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d71sm4494239pga.67.2021.10.21.01.43.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Oct 2021 01:43:10 -0700 (PDT)
+Date: Thu, 21 Oct 2021 01:43:09 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Marco Elver <elver@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Will Deacon <will@kernel.org>,
+	Arvind Sankar <nivedita@alum.mit.edu>,
+	Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	kasan-dev <kasan-dev@googlegroups.com>
 Subject: Re: [PATCH] compiler-gcc.h: Define __SANITIZE_ADDRESS__ under
  hwaddress sanitizer
-To: Kees Cook <keescook@chromium.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Will Deacon <will@kernel.org>, 
-	Arvind Sankar <nivedita@alum.mit.edu>, Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev, 
-	Ard Biesheuvel <ardb@kernel.org>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>
+Message-ID: <202110210141.18C98C4@keescook>
+References: <20211020200039.170424-1-keescook@chromium.org>
+ <CANpmjNMPaLpw_FoMzmShLSEBNq_Cn6t86tO_FiYLR2eD001=4Q@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNMPaLpw_FoMzmShLSEBNq_Cn6t86tO_FiYLR2eD001=4Q@mail.gmail.com>
+X-Original-Sender: keescook@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="tHM/UYL4";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@chromium.org header.s=google header.b="T6xp/4rR";       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102c
+ as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,102 +146,82 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 20 Oct 2021 at 22:00, Kees Cook <keescook@chromium.org> wrote:
-> When Clang is using the hwaddress sanitizer, it sets __SANITIZE_ADDRESS__
-> explicitly:
->
->  #if __has_feature(address_sanitizer) || __has_feature(hwaddress_sanitizer)
->  /* Emulate GCC's __SANITIZE_ADDRESS__ flag */
->  #define __SANITIZE_ADDRESS__
->  #endif
+On Thu, Oct 21, 2021 at 08:00:00AM +0200, Marco Elver wrote:
+> On Wed, 20 Oct 2021 at 22:00, Kees Cook <keescook@chromium.org> wrote:
+> > When Clang is using the hwaddress sanitizer, it sets __SANITIZE_ADDRESS__
+> > explicitly:
+> >
+> >  #if __has_feature(address_sanitizer) || __has_feature(hwaddress_sanitizer)
+> >  /* Emulate GCC's __SANITIZE_ADDRESS__ flag */
+> >  #define __SANITIZE_ADDRESS__
+> >  #endif
+> 
+> Hmm, the comment is a little inaccurate if hwaddress sanitizer is on,
+> but I certainly wouldn't want compiler-clang.h to start emulating gcc
+> here and start defining __SANITIZE_HWADDRESS__ if the places where we
+> check it are the same as __SANITIZE_ADDRESS__. So this patch is the
+> right approach.
 
-Hmm, the comment is a little inaccurate if hwaddress sanitizer is on,
-but I certainly wouldn't want compiler-clang.h to start emulating gcc
-here and start defining __SANITIZE_HWADDRESS__ if the places where we
-check it are the same as __SANITIZE_ADDRESS__. So this patch is the
-right approach.
+Yeah, I agree. I think that was Arnd's thinking as well.
 
-> Once hwaddress sanitizer was added to GCC, however, a separate define
-> was created, __SANITIZE_HWADDRESS__. The kernel is expecting to find
-> __SANITIZE_ADDRESS__ in either case, though, and the existing string
-> macros break on supported architectures:
->
->  #if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
->           !defined(__SANITIZE_ADDRESS__)
->
-> where as other architectures (like arm32) have no idea about hwaddress
-> sanitizer and just check for __SANITIZE_ADDRESS__:
->
->  #if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
+> 
+> > Once hwaddress sanitizer was added to GCC, however, a separate define
+> > was created, __SANITIZE_HWADDRESS__. The kernel is expecting to find
+> > __SANITIZE_ADDRESS__ in either case, though, and the existing string
+> > macros break on supported architectures:
+> >
+> >  #if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
+> >           !defined(__SANITIZE_ADDRESS__)
+> >
+> > where as other architectures (like arm32) have no idea about hwaddress
+> > sanitizer and just check for __SANITIZE_ADDRESS__:
+> >
+> >  #if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
+> 
+> arm32 doesn't support KASAN_SW_TAGS, so I think the bit about arm32 is
+> irrelevant.
 
-arm32 doesn't support KASAN_SW_TAGS, so I think the bit about arm32 is
-irrelevant.
+Right -- I had just picked an example.
 
-Only arm64 can, and the reason that arm64 doesn't check against
-"defined(CONFIG_KASAN)" is because we also have KASAN_HW_TAGS (no
-compiler instrumentation).
+> Only arm64 can, and the reason that arm64 doesn't check against
+> "defined(CONFIG_KASAN)" is because we also have KASAN_HW_TAGS (no
+> compiler instrumentation).
+> 
+> > This would lead to compiler foritfy self-test warnings when building
+> > with CONFIG_KASAN_SW_TAGS=y:
+> >
+> > warning: unsafe memmove() usage lacked '__read_overflow2' symbol in lib/test_fortify/read_overflow2-memmove.c
+> > warning: unsafe memcpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-memcpy.c
+> > ...
+> >
+> > Sort this out by also defining __SANITIZE_ADDRESS__ in GCC under the
+> > hwaddress sanitizer.
+> >
+> > Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> > Cc: Nathan Chancellor <nathan@kernel.org>
+> > Cc: Nick Desaulniers <ndesaulniers@google.com>
+> > Cc: Miguel Ojeda <ojeda@kernel.org>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Marco Elver <elver@google.com>
+> > Cc: Will Deacon <will@kernel.org>
+> > Cc: Arvind Sankar <nivedita@alum.mit.edu>
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: llvm@lists.linux.dev
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> 
+> Other than that,
+> 
+>   Reviewed-by: Marco Elver <elver@google.com>
 
-> This would lead to compiler foritfy self-test warnings when building
-> with CONFIG_KASAN_SW_TAGS=y:
->
-> warning: unsafe memmove() usage lacked '__read_overflow2' symbol in lib/test_fortify/read_overflow2-memmove.c
-> warning: unsafe memcpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-memcpy.c
-> ...
->
-> Sort this out by also defining __SANITIZE_ADDRESS__ in GCC under the
-> hwaddress sanitizer.
->
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Arvind Sankar <nivedita@alum.mit.edu>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: llvm@lists.linux.dev
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+Thanks! (Oh, BTW, it seems "b4" won't include your Reviewed-by: tag if
+it is indented like this.)
 
-Other than that,
+-Kees
 
-  Reviewed-by: Marco Elver <elver@google.com>
-
-Thanks!
-
-> ---
-> I'm intending to take this via my overflow series, since that is what introduces
-> the compile-test regression tests (which found this legitimate bug). :)
->
-> -Kees
-> ---
->  include/linux/compiler-gcc.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
-> index 6f24eb8c5dda..ccbbd31b3aae 100644
-> --- a/include/linux/compiler-gcc.h
-> +++ b/include/linux/compiler-gcc.h
-> @@ -121,6 +121,14 @@
->  #define __no_sanitize_coverage
->  #endif
->
-> +/*
-> + * Treat __SANITIZE_HWADDRESS__ the same as __SANITIZE_ADDRESS__ in the kernel,
-> + * matching the defines used by Clang.
-> + */
-> +#ifdef __SANITIZE_HWADDRESS__
-> +#define __SANITIZE_ADDRESS__
-> +#endif
-> +
->  /*
->   * Turn individual warnings and errors on and off locally, depending
->   * on version.
-> --
-> 2.30.2
->
+-- 
+Kees Cook
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMPaLpw_FoMzmShLSEBNq_Cn6t86tO_FiYLR2eD001%3D4Q%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202110210141.18C98C4%40keescook.
