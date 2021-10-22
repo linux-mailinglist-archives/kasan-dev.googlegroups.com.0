@@ -1,142 +1,135 @@
-Return-Path: <kasan-dev+bncBDRZHGH43YJRBWU4ZSFQMGQEQJKZIPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJZRXGY5YJBB2OAZSFQMGQEUXFIOSA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E74437E77
-	for <lists+kasan-dev@lfdr.de>; Fri, 22 Oct 2021 21:17:48 +0200 (CEST)
-Received: by mail-il1-x13b.google.com with SMTP id c17-20020a92c791000000b0025929f440f0sf3101631ilk.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 Oct 2021 12:17:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634930266; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F88437F62
+	for <lists+kasan-dev@lfdr.de>; Fri, 22 Oct 2021 22:34:51 +0200 (CEST)
+Received: by mail-pl1-x637.google.com with SMTP id n15-20020a170902e54f00b0013ed08c1bacsf2175679plf.20
+        for <lists+kasan-dev@lfdr.de>; Fri, 22 Oct 2021 13:34:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634934889; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ojqLzU3LUCbHhgsKS9SfoLYKRhx25/3+MKptITyDwZ9/M6iHATjbWSwV0UxBU0+G5C
-         9jxG/EmJIaeG1eQQTcJUz3+1up5xt5zM7h6NUalPaxGcbNANcy1GFRsW/AMjUBVE/xC+
-         lEwOGFY6NiwkODta4tju4GZKOAqH0XYgvPtSHlx+aDgKy2G6yHcv6DVjQA3T4a8UIKd6
-         2JZ7Tqhkl36DSVPi2542a1n7faV44TlLdq58bXFG516B+BlSt61Ogn4hjpC446jCVkag
-         57JnrBh8nwBMnA2lffoAxQ4fQvCamrv9BMei1QuOTB64XJYLh2WZyOl4FoqiJMdG+e45
-         1+5A==
+        b=zcdXizlWm7MMJ+pLzekVaQ8wfP9jeumGTTEi09QAdcCqJnAclmAOhWO5ggLMFd3XUk
+         o9izReCWRAisCcd+nyQ8NAb/bokEE+lpTHT79QtnyiwW6zhpPJhV3BVuNc92ws0/FtgW
+         woYX3nKyF7UwoDiYvZxsabc7hEUj91xSP5m17qtw2jKMlHlyblmoxIzAdsR4+4cVkvNO
+         /R5D6piFiXrgXZyQWIAZnnTbz4eLf2ydFkExfHvXage46sZ4KGgT7INh+l35F9JLH8tb
+         9oxG29An6F5NeaBDza9MPCxZlR9BGajNLIXWgkGz9UPUJH2lrMws3PGK6+tDuEJV1uR4
+         Fdtg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=nGqJDWQzVsFgmBdAWpcynAKy8SKBrheek4RMEYPIrpw=;
-        b=w5H1jfZCCANDqV8IubDkJ9OL7jLhkKNSYKLqvcs33a3t9MbBPOcyMDucSF7tZ6vX3Z
-         9xZG9hIIqjxJFw5RGlJiN7hjaPm3SGyCVRGqG5anL5J3pJcB28VI9T8wmitTfwXSCa7c
-         yhxv7mNQNUXDwx7wdpj3JtBDBciqn0zbHWfdeGuN6DvKQfgH66CLpuf7HZ69hTfvNQ37
-         gl/ttDJAkq2byL7ih3rAvzpWgV9zd2wZSf9ByVgR4t8V9Dh8jY2sRl05eUvqEjWL4Vqw
-         53DAl6A8itJqNCJDoqVy0uCTmjSGqISvLxWb/AXMNSxtwWLanC1JqeLVvikC+sZZe4p1
-         LAvg==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=vClQRphdiKvW2HLMsFXQTMYRHoLfA8W1FVxnPs7dP08=;
+        b=aMX3CuP5ucrVxgYLxvboeCxPYUG1DWy/u/7JOcx4UhIhRjZSn5Tj9j0TBoFp4HlisT
+         x7m2VH1tCZvFlrA0HkDK+xD92rRUQ9W3M+wP0kMs3Vr0983aYgw2Fr4rh+IMibBasES2
+         TGntiMbPr9b+40O7ls65jWnWAWw50NA54OkJsi6Vqd3sxrdCgQ5K+bJ4F8US+JUYMakL
+         M1znoVyDZmm1rBRMqNb/bz0e4vkdvfVpLItL1zCNpj9dRfpgxdqIOF1kZ83zKMyKYKiL
+         j4Vz8zTBy96JDFrt+OQwimaoVAD5KHbLj9lPKUVXstehm2pEo71fKaR6fR2HaMXpLvEM
+         lAgg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=KTSH8Ohq;
-       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::134 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=hOcAlJzS;
+       spf=pass (google.com: domain of srs0=cjuh=pk=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=CjuH=PK=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=nGqJDWQzVsFgmBdAWpcynAKy8SKBrheek4RMEYPIrpw=;
-        b=Gc/xwE5ft+XnV62qAlYre75Fn7ZiXanch9JwnQuD3WfCXI4D+PSbgzfnI+Kw1zqwdN
-         kKGWPiUTuDtj9azq9/zzJuwxd5Mu08lzN/IG2uOo+iGPDlur4NkFq5nVm5aAe/sIzmDh
-         bRs7Ef8q0SsE1mQyYi75q0g+q2M9nZ9CWbWc2B13ItuU9RNbVslHanHKThs4mlioR9Cu
-         k26wwevnyLIypt9pcZO1gGnIuQwX0wA4xYXCBbCsWweMUURKT4OG8Uh8v3uL3oNhQ+Fw
-         q460CdY0qxPPJ0X7R+DLYr/3T3pCI094UlZZXADDjxScmc9kvOR04dYdg9ncUp1+pks+
-         RZPQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=nGqJDWQzVsFgmBdAWpcynAKy8SKBrheek4RMEYPIrpw=;
-        b=EeTholKl0qD27yzgRBurEw0ccZaaiyEU2mIX6o0Db/FCQVTjxLo/vPuMcklh+ySzb0
-         CYyhBru9Oq2C28wN8RmBIH5oYhlkZaDsB7KF84v7fYsgF+h+lolj6fUISpzc+dkQxwHe
-         nK/+uSI11fRSAYfZsuIlV0i4QQPQGn7k9ukwk+/+89HEcMeuXUy9u2mvL+QA/St8ftwU
-         9d5PbeAiGHtqUI9naB85Y++vEIQSaA+kTAmM1XOsvcpDtnWObtb7ynNgIWqsjT/u96WZ
-         DW34hM45O+GrsC8a/exF9Tu0yRYHDFXfCVN8kkinzXiAmh+A5x/jUOztkTzB1s3BMG5t
-         c+og==
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=vClQRphdiKvW2HLMsFXQTMYRHoLfA8W1FVxnPs7dP08=;
+        b=JRzjeNbUFisiBh6PEkCOFHYyTCSGVL7YcmMhz8eO0NrhZfJwfidIclJNbLS3EdKYYH
+         65yO5BsYJFIzABZo411IrGfphfxl395Iu63W4SDFKERlp378xjR7yzH7sbdQ32ggFjwb
+         rp+Lhh+Us8naJeJPWQ7twp7KIBh+2C5/WlIiYzIbsnqGbbOid8KMQhLIj/ZrJd65BVuW
+         esSSaGWBBVJxBg7NBAgQK9L+HCcpWAr07LQ3zL19I25I0bYRLC8g9sARSMbhePqHd24j
+         GONLiU8npQ3cMbxsUym/tXDQtpFLtxTPSLyUMU284O86cPjTQ+aiIf65JPcIQuW5pch1
+         wLJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=nGqJDWQzVsFgmBdAWpcynAKy8SKBrheek4RMEYPIrpw=;
-        b=J2EKdVpfAo5iH5RARNKMJt5qfwrQMFh3RJn0VN4vIAoPjSH6ldsAYLfKY9Dv5PLWvK
-         8SbOG2fb7Slnai6wpt5Btk0zw4jmySbX+qz0GcY3gPH7Yf4IlQ6bgREezUtYSZsI/FPB
-         DsGeRfhJ1IaR5PMJti/81j5sTrSqxsLS8IsuFi6zAAbn5g3S4WW/hou8VaH8ZX7U17Y+
-         Du7ZDc0nYZ19LjKiMhJgLqRvazHOng7Sgj+01MoXtdX3dnBfm7BiRClJG1zHkaYmbN82
-         X82swdliTqVEbilc6/Rq6pgkU7NYbzookGpfYgZol1bXnGrc8KQdIAgjVZ+bcZk0Obc1
-         j00g==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=vClQRphdiKvW2HLMsFXQTMYRHoLfA8W1FVxnPs7dP08=;
+        b=4BqaCrFoCyBJ54rcQXEENFC0NwTXAknrtfsEPr/fprv/p83d5uoLP+F+JQRXGrtCA8
+         nNnofdTjP2jPmwUHKn4A7bMx6dizWNZ9E5tLOHC7y3TkEsbVY1D6cTTtYcOyJt1YkVfi
+         k5/FNNO0Dm9JWpjEvKZStR4amgsRI81QvDfSmXoCEWd4U8ULNJk1heOz7bad+vQhJO9u
+         cF/d2i2AkJ3I3bEULxtJWbUWXplTKdW3Tbn5DvS+LdXMVH2F9JtjRtChKEbVJFLBp7/8
+         CdlDF++gZauQCNw6m0BhlC023JgiRJfHaA6aVmvoh+djcyJkkwxBO7CRJTJrOdDlWW18
+         8sJQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532Ti9tbtA1L1qoQ7bX6KM4sP/E3vDufS1cG2jnSuyK9mkeL8v24
-	pLYKXJ37wY6+3lgJ7ZikZhY=
-X-Google-Smtp-Source: ABdhPJw+q0Y/aIQbYwP2Hrm65uevw/2Bg/t7uuw6zfD8rjiGvBe3E6PWjghxV2d0F15GLj/u/4Oqzg==
-X-Received: by 2002:a92:7f0e:: with SMTP id a14mr1081236ild.215.1634930266710;
-        Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
+X-Gm-Message-State: AOAM530/5VCkz619/RLcGG0gGHxmudOfp1Wa/kDjwMRGCLuze+sQlH7Z
+	PUA2vDXasGy6N/9dJqFgmH4=
+X-Google-Smtp-Source: ABdhPJylsbEVCiC5AUFyQye/G7xQnpUfz3VDQcVQLXcMdo3nG+xwzYxfi3NyFjzUM3DTiE4NLVV8VQ==
+X-Received: by 2002:a62:1887:0:b0:44c:872e:27ed with SMTP id 129-20020a621887000000b0044c872e27edmr2015659pfy.71.1634934889537;
+        Fri, 22 Oct 2021 13:34:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a6b:f906:: with SMTP id j6ls1863297iog.9.gmail; Fri, 22 Oct
- 2021 12:17:46 -0700 (PDT)
-X-Received: by 2002:a6b:dc05:: with SMTP id s5mr987882ioc.131.1634930266387;
-        Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634930266; cv=none;
+Received: by 2002:a17:902:e5c1:: with SMTP id u1ls6298993plf.0.gmail; Fri, 22
+ Oct 2021 13:34:49 -0700 (PDT)
+X-Received: by 2002:a17:902:9882:b0:13e:1749:daae with SMTP id s2-20020a170902988200b0013e1749daaemr2191522plp.60.1634934888836;
+        Fri, 22 Oct 2021 13:34:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634934888; cv=none;
         d=google.com; s=arc-20160816;
-        b=YM0OdDKpqwBaUf62twPWG2/UYsLHayelB7zuUn7l9FV2y1UgWpst0uZoAvvwIIWB+z
-         vpHLV25n5tssRA4Zp7zuLohuX9KHf+34piCzYTcrIaGGikGwydJVU5yHtZ2u8A0gDNjw
-         LvyTVW33qZ/3vAc+9SF+l1XJ0unfLbSMDPrgXDzflQO7+jdXWpYjIdxOOfh+0aHrRXEU
-         xbokwwBN2zyfeUZ/qIs4bqcRWglcn8PzIO3gurSZlAJ1jWeQRJhSfnLJmZFvEUasucvb
-         thUl2xJ7QySV77NNPIAqF+QxIocJiw8MBpiKNlqdCPKR4AeNffdK9mrZ2auJMuD+lyF/
-         pafg==
+        b=W+LsY931RNpbtn9PM6De/Y7nCLui29A8kG6RRbVEsQ+MrG1B/SYz4meK5HPro2xG+D
+         qZl1UrfDa34QwF6p9doocE6MSUFmbQO648UOebbd5rwXkpiCPMHmZg6gNyrpLQZ23JdX
+         KDEOxsDDZlgHXz/IM8xmH0BiA+2GXV4tzh/SaXcn4tnmxzEUsSusakAA32+ER/4O6+W6
+         HdTDxEBLBwnJgXdvCXcKuXk/OoV5wGAfCJncxm91NuMnpYGWm275fciiD4ZhDaR72vpf
+         iXx86a/JLzfFXq5QxOh4FcytPAfhpD8arOeADBOqCrknkWNVnpjxG/+3HWvD8fVqIzj5
+         1Avw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=2ulfGQ2/OGrqGipqel6m6LOJoxfozQy2WBLXzVVjKVk=;
-        b=hNryL1XPDebKhOa0Gap2MutwM+qg1vDh6kPMNkQHA7kS03KqfkV/DsGVVpFiQ3ATXZ
-         fK1A4HHOHRmeAwb2DKyzpcc2B1x0YpGNj8wclEG98TyEk1Uc3gl+FDXDVlnTtNuQCbyn
-         0ZGKjGMFKnP74c797iNHUjEQaBX3UbnmX2KuYGbhZEKtnZkNX0+tcOavkTKWS521QVCo
-         er5FvqYEQJsry9YVR5Bhqs6ltezRRHoSTCBCa7Lu96V1+qoeu7O+60o/Roiu9XjnGj9y
-         CwOtGAGJPIDQs9WHZMnXMJ+ScOaSg3N6HeX2dN7W6roHEbMwKN45UNQgr3T8QkIkisAF
-         BtDQ==
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=YK6plP3YVtpRTatGguH2lYXlGYfJlicz4elazx9XJKM=;
+        b=PVwnd3wKoZg+RAtNAjBM2HUX8+aiWmVMZeJ4kvQVfJV/VUqb3JP6bR4NGGG4y9K4vc
+         IjMOAVU4a7+iQKAuY6g/B6Vu34DYa/mXOPWOp3yNBkEjIRivft3bKQaFyMPgirazImMt
+         n1E4A5rmxxxOZ3kiXuraT4AmHMvzURdlw/axjUUvLJbg4GgQDn6XEMzJyxXh4COfF6sz
+         6j2BHndmDvs6x2l0qZkrTmmJCoo8M3Mk9mp0j4bfwzAYB4GwVe19bp1SzvzOQdOcJy9u
+         uzc2Y9k8zVraNWJVjHN8nFsOCoVlSHzJJ7zX2PNQ2Uy/j+AFs3A63ZQpzai8aKXqPBlA
+         PIEQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=KTSH8Ohq;
-       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::134 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com. [2607:f8b0:4864:20::134])
-        by gmr-mx.google.com with ESMTPS id n3si579528ioc.4.2021.10.22.12.17.46
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=hOcAlJzS;
+       spf=pass (google.com: domain of srs0=cjuh=pk=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=CjuH=PK=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id w9si768628plq.0.2021.10.22.13.34.48
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::134 as permitted sender) client-ip=2607:f8b0:4864:20::134;
-Received: by mail-il1-x134.google.com with SMTP id j10so2053354ilu.2
-        for <kasan-dev@googlegroups.com>; Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1543:: with SMTP id j3mr1127059ilu.151.1634930266149;
- Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1>
- <20211008000601.00000ba1@garyguo.net> <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
- <CANiq72nLXmN0SJOQ-aGD4P2dUTs_vXBXMDnr2eWP-+R7H2ecEw@mail.gmail.com>
- <20211008235744.GU880162@paulmck-ThinkPad-P17-Gen-1> <CANiq72m76-nRDNAceEqUmC_k75FZj+OZr1_HSFUdksysWgCsCA@mail.gmail.com>
- <20211009234834.GX880162@paulmck-ThinkPad-P17-Gen-1> <CANiq72=uPFMbp+270O5zTS7vb8xJLNYvYXdyx2Xsz5+3-JATLw@mail.gmail.com>
- <20211011185234.GH880162@paulmck-ThinkPad-P17-Gen-1> <CANiq72k+wa8bkxzcaRUSAee2btOy04uqLLnwY_AsBfd2RBhOxw@mail.gmail.com>
- <20211013232939.GW880162@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20211013232939.GW880162@paulmck-ThinkPad-P17-Gen-1>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 22 Oct 2021 21:17:34 +0200
-Message-ID: <CANiq72m=MV2rF=SHKfrAi+E0vwEpKemeO_48h10=tvejJ_mAPw@mail.gmail.com>
-Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Marco Elver <elver@google.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 22 Oct 2021 13:34:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=cjuh=pk=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B69A61059;
+	Fri, 22 Oct 2021 20:34:48 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 47C635C0BF4; Fri, 22 Oct 2021 13:34:48 -0700 (PDT)
+Date: Fri, 22 Oct 2021 13:34:48 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Gary Guo <gary@garyguo.net>, Marco Elver <elver@google.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
 	rust-for-linux <rust-for-linux@vger.kernel.org>
+Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
+Message-ID: <20211022203448.GC880162@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
+ <CANiq72nLXmN0SJOQ-aGD4P2dUTs_vXBXMDnr2eWP-+R7H2ecEw@mail.gmail.com>
+ <20211008235744.GU880162@paulmck-ThinkPad-P17-Gen-1>
+ <CANiq72m76-nRDNAceEqUmC_k75FZj+OZr1_HSFUdksysWgCsCA@mail.gmail.com>
+ <20211009234834.GX880162@paulmck-ThinkPad-P17-Gen-1>
+ <CANiq72=uPFMbp+270O5zTS7vb8xJLNYvYXdyx2Xsz5+3-JATLw@mail.gmail.com>
+ <20211011185234.GH880162@paulmck-ThinkPad-P17-Gen-1>
+ <CANiq72k+wa8bkxzcaRUSAee2btOy04uqLLnwY_AsBfd2RBhOxw@mail.gmail.com>
+ <20211013232939.GW880162@paulmck-ThinkPad-P17-Gen-1>
+ <CANiq72m=MV2rF=SHKfrAi+E0vwEpKemeO_48h10=tvejJ_mAPw@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: miguel.ojeda.sandonis@gmail.com
+Content-Disposition: inline
+In-Reply-To: <CANiq72m=MV2rF=SHKfrAi+E0vwEpKemeO_48h10=tvejJ_mAPw@mail.gmail.com>
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=KTSH8Ohq;       spf=pass
- (google.com: domain of miguel.ojeda.sandonis@gmail.com designates
- 2607:f8b0:4864:20::134 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@kernel.org header.s=k20201202 header.b=hOcAlJzS;       spf=pass
+ (google.com: domain of srs0=cjuh=pk=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=CjuH=PK=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,73 +142,104 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Oct 14, 2021 at 1:29 AM Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> So Rust could support zombie pointers without changes to LLVM?
+On Fri, Oct 22, 2021 at 09:17:34PM +0200, Miguel Ojeda wrote:
+> On Thu, Oct 14, 2021 at 1:29 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> >
+> > So Rust could support zombie pointers without changes to LLVM?
+> 
+> I don't know what you mean "without changes". LLVM is not fixed, it
+> changes every version, and Rust sometimes has to patch it on top. If
+> Rust decides to support (or not) zombie pointers, then they will have
+> to look for a way to lower code in the given version/instance of LLVM
+> they are using in a way that does not break the zap-susceptible
+> algorithms. That may require new features for the IR, or disabling
+> certain optimizations, or fixing bugs, etc.
 
-I don't know what you mean "without changes". LLVM is not fixed, it
-changes every version, and Rust sometimes has to patch it on top. If
-Rust decides to support (or not) zombie pointers, then they will have
-to look for a way to lower code in the given version/instance of LLVM
-they are using in a way that does not break the zap-susceptible
-algorithms. That may require new features for the IR, or disabling
-certain optimizations, or fixing bugs, etc.
+And we do have some people working on these fixes in the LLVM backend,
+but it may take some time.
 
-> The standard is for the most part not a mathematical document.  So many
-> parts of it can only be "understood in a personal capacity".
+> > The standard is for the most part not a mathematical document.  So many
+> > parts of it can only be "understood in a personal capacity".
+> 
+> Sure, but there is a middle-ground between a formal model and
+> completely unstated semantics where nobody can even guess the
+> intention. My point was that we should not rely on semantics that are
+> not precise yet -- if possible. And if the same problem happens in C,
+> but we have a workaround for it, we should not be rewriting those
+> algorithms in Rust.
 
-Sure, but there is a middle-ground between a formal model and
-completely unstated semantics where nobody can even guess the
-intention. My point was that we should not rely on semantics that are
-not precise yet -- if possible. And if the same problem happens in C,
-but we have a workaround for it, we should not be rewriting those
-algorithms in Rust.
+Me, I don't have a choice.  To get my job done, I am required to use
+things that the standards do not define very well, if at all.
 
-> To be proven in the context of the Linux kernel.  And I am happy to
-> provide at least a little help with the experiment.
+And this is true of any large project.  And also part of the reason that
+Rust has unsafe mode.
 
-I was talking about classes of errors that are avoided "just" by using
-the language. For instance, using `Result` instead of hoping users to
-get the error encoding right even across maintenance rounds.
+But yes, in many cases, informal definitions are better than no
+definitions.  And I agree that it is possible to reason informally.
+After all, the formal definitions of RCU didn't show up until RCU had
+some decades of use in production.  ;-)
 
-> Working on it in the case of C/C++, though quite a bit more slowly
-> than I would like.
+> > To be proven in the context of the Linux kernel.  And I am happy to
+> > provide at least a little help with the experiment.
+> 
+> I was talking about classes of errors that are avoided "just" by using
+> the language. For instance, using `Result` instead of hoping users to
+> get the error encoding right even across maintenance rounds.
 
-In my case I am trying to see if WG14 would be interested in adding
-Rust-like features to C, but even if everyone agreed, it would take a
-very long time, indeed.
+OK, I have to ask and I apologize in advance, but...
 
-> However...
->
-> Just to get you an idea of the timeframe, the C++ committee requested
-> an RCU proposal from me in 2014.  It took about four years to exchange
-> sufficient C++ and RCU knowledge to come to agreement on what a C++
-> RCU API would even look like.  The subsequent three years of delay were
-> due to bottlenecks in the standardization process.  Only this year were
-> hazard pointers and RCU voted into a Technical Specification, which has
-> since been drafted by Michael Wong, Maged Michael (who of course did the
-> hazard pointers section), and myself.  The earliest possible International
-> Standard release date is 2026, with 2029 perhaps being more likely.
->
-> Let's be optimistic and assume 2026.  That would be 12 years elapsed time.
->
-> Now, the USA Social Security actuarial tables [1] give me about a 77%
-> chance of living another 12 years, never mind the small matter of
-> remaining vigorous enough to participate in the standards process.
-> Therefore, there is only so much more that I will doing in this space.
->
-> Apologies for bringing up what might seem to be a rather morbid point,
-> but there really are sharp limits here.  ;-)
+...have you taken courses in statistics and in experiment design?
 
-I feel you, I have also experienced it (to a much lesser degree, though).
+> > Working on it in the case of C/C++, though quite a bit more slowly
+> > than I would like.
+> 
+> In my case I am trying to see if WG14 would be interested in adding
+> Rust-like features to C, but even if everyone agreed, it would take a
+> very long time, indeed.
 
-I could even see similar work for Rust going in faster than in C++
-even if you started today ;-)
+I know that feeling.
 
-Cheers,
-Miguel
+And to be fair, everyone would have been better off had C and C++ been
+slower to adopt memory_order_consume.  (Another thing being worked on.)
+
+> > However...
+> >
+> > Just to get you an idea of the timeframe, the C++ committee requested
+> > an RCU proposal from me in 2014.  It took about four years to exchange
+> > sufficient C++ and RCU knowledge to come to agreement on what a C++
+> > RCU API would even look like.  The subsequent three years of delay were
+> > due to bottlenecks in the standardization process.  Only this year were
+> > hazard pointers and RCU voted into a Technical Specification, which has
+> > since been drafted by Michael Wong, Maged Michael (who of course did the
+> > hazard pointers section), and myself.  The earliest possible International
+> > Standard release date is 2026, with 2029 perhaps being more likely.
+> >
+> > Let's be optimistic and assume 2026.  That would be 12 years elapsed time.
+> >
+> > Now, the USA Social Security actuarial tables [1] give me about a 77%
+> > chance of living another 12 years, never mind the small matter of
+> > remaining vigorous enough to participate in the standards process.
+> > Therefore, there is only so much more that I will doing in this space.
+> >
+> > Apologies for bringing up what might seem to be a rather morbid point,
+> > but there really are sharp limits here.  ;-)
+> 
+> I feel you, I have also experienced it (to a much lesser degree, though).
+> 
+> I could even see similar work for Rust going in faster than in C++
+> even if you started today ;-)
+
+For RCU in Rust, there would first be much need for the Rust community
+to learn more about RCU and for me to learn more about Rust.  As noted
+earlier, my next step is to better document RCU's wide range of use cases.
+
+And I know (and appreciate) that some in the Rust community have read
+my open-source book on concurrency, but I suspect that quite a few more
+could benefit from doing so.  ;-)
+
+							Thanx, Paul
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANiq72m%3DMV2rF%3DSHKfrAi%2BE0vwEpKemeO_48h10%3DtvejJ_mAPw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211022203448.GC880162%40paulmck-ThinkPad-P17-Gen-1.
