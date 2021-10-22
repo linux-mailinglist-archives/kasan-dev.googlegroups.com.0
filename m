@@ -1,149 +1,142 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBEG5ZKFQMGQEP3332MQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDRZHGH43YJRBWU4ZSFQMGQEQJKZIPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3e.google.com (mail-yb1-xb3e.google.com [IPv6:2607:f8b0:4864:20::b3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FFD43771F
-	for <lists+kasan-dev@lfdr.de>; Fri, 22 Oct 2021 14:29:05 +0200 (CEST)
-Received: by mail-yb1-xb3e.google.com with SMTP id y18-20020a25a092000000b005bddb39f160sf4706383ybh.10
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 Oct 2021 05:29:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634905744; cv=pass;
+Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E74437E77
+	for <lists+kasan-dev@lfdr.de>; Fri, 22 Oct 2021 21:17:48 +0200 (CEST)
+Received: by mail-il1-x13b.google.com with SMTP id c17-20020a92c791000000b0025929f440f0sf3101631ilk.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 22 Oct 2021 12:17:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634930266; cv=pass;
         d=google.com; s=arc-20160816;
-        b=K48poroh+bPZFqB4sy+bVaL6cDbI3+7IB++hNFQufo5gmmsr5h3zTuihUlc8LLbS2P
-         OxTHSQH81iw6S+0YkNNyAwi8xgLzj78jnHsVfzUaMSo6rekQTyr3n6yfyhi16YH4HH1u
-         J2N3Ps9UMydnXvxcA3SzBgQi4KUfaWS3GF2cwv91ESHc0NQ2fFY/QZTCiImH8BsPw8Hy
-         asTV8e149NEvX7rWVAZr+h3MXHAFBn24rza/sz7hensxQCakm7gt4U2R/hlxGLAJLDUG
-         p/DZry2k+rawnSuM/DJ5c+xJDN62PdaSb/nfiPTK1yk5ptAUOxtcBXCPaicZcx1kyPTh
-         iPXQ==
+        b=ojqLzU3LUCbHhgsKS9SfoLYKRhx25/3+MKptITyDwZ9/M6iHATjbWSwV0UxBU0+G5C
+         9jxG/EmJIaeG1eQQTcJUz3+1up5xt5zM7h6NUalPaxGcbNANcy1GFRsW/AMjUBVE/xC+
+         lEwOGFY6NiwkODta4tju4GZKOAqH0XYgvPtSHlx+aDgKy2G6yHcv6DVjQA3T4a8UIKd6
+         2JZ7Tqhkl36DSVPi2542a1n7faV44TlLdq58bXFG516B+BlSt61Ogn4hjpC446jCVkag
+         57JnrBh8nwBMnA2lffoAxQ4fQvCamrv9BMei1QuOTB64XJYLh2WZyOl4FoqiJMdG+e45
+         1+5A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :organization:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:dkim-signature;
-        bh=hSfstX6SKoV/IObwZo5mqcx/R957Qqmx3peoB6YUPeI=;
-        b=p/D8jRZzQukbf6y/kug62T4hU8rOYsZ81je0V3hHd/ICs7CPhvRdNM62TWkek/JkLk
-         gbWEUpBiwfpO1VZWbdD3hxtm1luiYYqG9Kmq0gKiQMpdzRcuVNYnd+mSmieXo5yyawiI
-         9AOEwnkpC1+A0KE6VRxarBMVXC+kN3KLeHcygQ557XSYxfMlOUhFoPpUJKBAGaVLNAtK
-         Y5FLt8fs6DOZHhXKtBFifeUJHnHjJ5skzeSeFSiuf2qGR4xgsNibOBCumOVpuZvs9vO/
-         cc81ilMIvLn3K69HVZ7COS1sA0IuASRK4OhCoNE6j4ZaaaVxsJymAe7cGaa9TSg5Xjhk
-         SxiQ==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=nGqJDWQzVsFgmBdAWpcynAKy8SKBrheek4RMEYPIrpw=;
+        b=w5H1jfZCCANDqV8IubDkJ9OL7jLhkKNSYKLqvcs33a3t9MbBPOcyMDucSF7tZ6vX3Z
+         9xZG9hIIqjxJFw5RGlJiN7hjaPm3SGyCVRGqG5anL5J3pJcB28VI9T8wmitTfwXSCa7c
+         yhxv7mNQNUXDwx7wdpj3JtBDBciqn0zbHWfdeGuN6DvKQfgH66CLpuf7HZ69hTfvNQ37
+         gl/ttDJAkq2byL7ih3rAvzpWgV9zd2wZSf9ByVgR4t8V9Dh8jY2sRl05eUvqEjWL4Vqw
+         53DAl6A8itJqNCJDoqVy0uCTmjSGqISvLxWb/AXMNSxtwWLanC1JqeLVvikC+sZZe4p1
+         LAvg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Yo0ReFKC;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=KTSH8Ohq;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::134 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject:to:cc
-         :references:from:organization:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=nGqJDWQzVsFgmBdAWpcynAKy8SKBrheek4RMEYPIrpw=;
+        b=Gc/xwE5ft+XnV62qAlYre75Fn7ZiXanch9JwnQuD3WfCXI4D+PSbgzfnI+Kw1zqwdN
+         kKGWPiUTuDtj9azq9/zzJuwxd5Mu08lzN/IG2uOo+iGPDlur4NkFq5nVm5aAe/sIzmDh
+         bRs7Ef8q0SsE1mQyYi75q0g+q2M9nZ9CWbWc2B13ItuU9RNbVslHanHKThs4mlioR9Cu
+         k26wwevnyLIypt9pcZO1gGnIuQwX0wA4xYXCBbCsWweMUURKT4OG8Uh8v3uL3oNhQ+Fw
+         q460CdY0qxPPJ0X7R+DLYr/3T3pCI094UlZZXADDjxScmc9kvOR04dYdg9ncUp1+pks+
+         RZPQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hSfstX6SKoV/IObwZo5mqcx/R957Qqmx3peoB6YUPeI=;
-        b=rG1tuupKpaSKE6HxU2Vo66en3CPl4EVHpoEbl/9rTVsZlXVOagpmnoryNzOnEu7EPV
-         hjrRrWNh4M2AW+TCImXilNUiMEgbp50QD+GU7YsddWxJ5RJ70rKqTLS057ntWvPEdQ+k
-         9K1u821/IqKvrpOujTH8z2y3qEDmgWUrXTicGgonqmjvh1G2Kk/qePQWCUqt1IwlhToF
-         QyRsbDNZLd20rhJL1jK6n2pTdZj/FJ1tEvinV2mxFv/n3lHMMj+36SIEyfMqof6xllJK
-         DNnkSDfwimS2TxvLmjpNZ43xakR8ifOzUmlySsg4dNslFHovyqf0jiOl2osF22/rpFdL
-         S7cQ==
+        bh=nGqJDWQzVsFgmBdAWpcynAKy8SKBrheek4RMEYPIrpw=;
+        b=EeTholKl0qD27yzgRBurEw0ccZaaiyEU2mIX6o0Db/FCQVTjxLo/vPuMcklh+ySzb0
+         CYyhBru9Oq2C28wN8RmBIH5oYhlkZaDsB7KF84v7fYsgF+h+lolj6fUISpzc+dkQxwHe
+         nK/+uSI11fRSAYfZsuIlV0i4QQPQGn7k9ukwk+/+89HEcMeuXUy9u2mvL+QA/St8ftwU
+         9d5PbeAiGHtqUI9naB85Y++vEIQSaA+kTAmM1XOsvcpDtnWObtb7ynNgIWqsjT/u96WZ
+         DW34hM45O+GrsC8a/exF9Tu0yRYHDFXfCVN8kkinzXiAmh+A5x/jUOztkTzB1s3BMG5t
+         c+og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
-         :subject:to:cc:references:from:organization:in-reply-to
-         :content-language:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=hSfstX6SKoV/IObwZo5mqcx/R957Qqmx3peoB6YUPeI=;
-        b=LFuc2MmKrNAYOogjtYowkAVxtiV1mMKn4KKxljgqHEin1G1XF/+XtVDr8OunJPsHNV
-         ONp7/DM9nCY8fkPdOQ0Genu+E+PdVuoZj5Yx9rsQrbUgIpr2JE2vbxuoCL4lOVptXB76
-         TT4Qu7N+eYw/Rmkqnt833q64a1QEdDnltXce8mPCPWI1FTIeAam0ziV3p2wHbbXRzl0M
-         IqEqVc9T+l+OhqvSjrQD3i+UtKjf8tAznHNdB9640P0DjZQRo/bABPNl6ycyLIM7/DKF
-         InRD4qL7yvG6uWFwebU4nAKy8AOhRKs3dhWuA1iWYXu8MzQ8iEbP/9bp91oOGBTVReWm
-         3XQw==
+        bh=nGqJDWQzVsFgmBdAWpcynAKy8SKBrheek4RMEYPIrpw=;
+        b=J2EKdVpfAo5iH5RARNKMJt5qfwrQMFh3RJn0VN4vIAoPjSH6ldsAYLfKY9Dv5PLWvK
+         8SbOG2fb7Slnai6wpt5Btk0zw4jmySbX+qz0GcY3gPH7Yf4IlQ6bgREezUtYSZsI/FPB
+         DsGeRfhJ1IaR5PMJti/81j5sTrSqxsLS8IsuFi6zAAbn5g3S4WW/hou8VaH8ZX7U17Y+
+         Du7ZDc0nYZ19LjKiMhJgLqRvazHOng7Sgj+01MoXtdX3dnBfm7BiRClJG1zHkaYmbN82
+         X82swdliTqVEbilc6/Rq6pgkU7NYbzookGpfYgZol1bXnGrc8KQdIAgjVZ+bcZk0Obc1
+         j00g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533bqpm9ZzBtQLE4T1fqDbI7clISOIIHe9lw/fagMmBCOv+tb1tk
-	MRazOQ6XaojTQAxipz1rqdk=
-X-Google-Smtp-Source: ABdhPJxH5j2OF6vSRMEA1Oqe4iKtHDfcTsEwb9zvYwrIhj4ds+6FR1j9A9WdT3+B91eS929LX5w+Tg==
-X-Received: by 2002:a5b:385:: with SMTP id k5mr13705866ybp.65.1634905744600;
-        Fri, 22 Oct 2021 05:29:04 -0700 (PDT)
+X-Gm-Message-State: AOAM532Ti9tbtA1L1qoQ7bX6KM4sP/E3vDufS1cG2jnSuyK9mkeL8v24
+	pLYKXJ37wY6+3lgJ7ZikZhY=
+X-Google-Smtp-Source: ABdhPJw+q0Y/aIQbYwP2Hrm65uevw/2Bg/t7uuw6zfD8rjiGvBe3E6PWjghxV2d0F15GLj/u/4Oqzg==
+X-Received: by 2002:a92:7f0e:: with SMTP id a14mr1081236ild.215.1634930266710;
+        Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:320f:: with SMTP id y15ls6191877yby.10.gmail; Fri, 22
- Oct 2021 05:29:04 -0700 (PDT)
-X-Received: by 2002:a25:e406:: with SMTP id b6mr12486309ybh.134.1634905743989;
-        Fri, 22 Oct 2021 05:29:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634905743; cv=none;
+Received: by 2002:a6b:f906:: with SMTP id j6ls1863297iog.9.gmail; Fri, 22 Oct
+ 2021 12:17:46 -0700 (PDT)
+X-Received: by 2002:a6b:dc05:: with SMTP id s5mr987882ioc.131.1634930266387;
+        Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634930266; cv=none;
         d=google.com; s=arc-20160816;
-        b=FJA8Ka1oQZOhZnGjnHjkjTIR6s4KJ4a1nBeiIotkJEbOW1av+2lTyRo+7AQO0YugYa
-         xHP7+ymjPxOov/bI/dkhEqQ1TVXo684J9mY7KPTzNS7dKEqIBsry1jMl6Z9z03L29KdQ
-         jHnileTe3Az8hw8SYyisCrvWfQEzzYdFoEUCZgK8sEy078V1Se77ACTiqb7raOzzB9lZ
-         ry5XMi+Wr2HcYgVDfxU2Orhu9f6rqDSwBvYmYBK6CRZbQwexuEPjepci7p4B71njDC+0
-         JK/4eugSLSw50TvJUy0azVKg+E/1LSNOqE4AMEAxk34lVjJnX65nTU8q+EMPuIjwOvyr
-         EU1Q==
+        b=YM0OdDKpqwBaUf62twPWG2/UYsLHayelB7zuUn7l9FV2y1UgWpst0uZoAvvwIIWB+z
+         vpHLV25n5tssRA4Zp7zuLohuX9KHf+34piCzYTcrIaGGikGwydJVU5yHtZ2u8A0gDNjw
+         LvyTVW33qZ/3vAc+9SF+l1XJ0unfLbSMDPrgXDzflQO7+jdXWpYjIdxOOfh+0aHrRXEU
+         xbokwwBN2zyfeUZ/qIs4bqcRWglcn8PzIO3gurSZlAJ1jWeQRJhSfnLJmZFvEUasucvb
+         thUl2xJ7QySV77NNPIAqF+QxIocJiw8MBpiKNlqdCPKR4AeNffdK9mrZ2auJMuD+lyF/
+         pafg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:organization
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=YuUgTaC7SncRn/56fPFHOc3RSrpIisjOLVPx5zTF8wM=;
-        b=rYRgWP9IhKu50q++DS60c7v4rBcXF+fDLxBr0R+dLBxoVZsB42dObhy6c5s5EZk1dq
-         SyO0qmd54CZwhgG05eRFwW5MMpmRfCHyAgOJrTp2n6pW4ScgvTbnT/1WO2XGXnpxv/VX
-         89bzE5O9YS267dZubBoNp1+Xc1UbUMWpmMwtWAHL1+pFl3OY0WlZ5w4E2BQv5Ur4f41s
-         PcxAMvDgjqzMUhczyXQ2/UVh/47xN4yJSFx00+C8kyaiAUlkmv3lDoBQ2aNmjzjKiM20
-         qdSpPuIdYnxnKS5BLQfwTFTjrUi/Pot2glPyuAmyofWEADX3H3fRNCv4N3/MJCXgyChL
-         pGnQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=2ulfGQ2/OGrqGipqel6m6LOJoxfozQy2WBLXzVVjKVk=;
+        b=hNryL1XPDebKhOa0Gap2MutwM+qg1vDh6kPMNkQHA7kS03KqfkV/DsGVVpFiQ3ATXZ
+         fK1A4HHOHRmeAwb2DKyzpcc2B1x0YpGNj8wclEG98TyEk1Uc3gl+FDXDVlnTtNuQCbyn
+         0ZGKjGMFKnP74c797iNHUjEQaBX3UbnmX2KuYGbhZEKtnZkNX0+tcOavkTKWS521QVCo
+         er5FvqYEQJsry9YVR5Bhqs6ltezRRHoSTCBCa7Lu96V1+qoeu7O+60o/Roiu9XjnGj9y
+         CwOtGAGJPIDQs9WHZMnXMJ+ScOaSg3N6HeX2dN7W6roHEbMwKN45UNQgr3T8QkIkisAF
+         BtDQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Yo0ReFKC;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id v16si901979ybq.5.2021.10.22.05.29.03
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=KTSH8Ohq;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::134 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com. [2607:f8b0:4864:20::134])
+        by gmr-mx.google.com with ESMTPS id n3si579528ioc.4.2021.10.22.12.17.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 22 Oct 2021 05:29:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-ttqNmjhyPkS6hs9XHLupiA-1; Fri, 22 Oct 2021 08:29:02 -0400
-X-MC-Unique: ttqNmjhyPkS6hs9XHLupiA-1
-Received: by mail-wm1-f70.google.com with SMTP id l187-20020a1c25c4000000b0030da46b76daso1082523wml.9
-        for <kasan-dev@googlegroups.com>; Fri, 22 Oct 2021 05:29:02 -0700 (PDT)
-X-Received: by 2002:adf:b355:: with SMTP id k21mr15307019wrd.380.1634905741162;
-        Fri, 22 Oct 2021 05:29:01 -0700 (PDT)
-X-Received: by 2002:adf:b355:: with SMTP id k21mr15306985wrd.380.1634905740893;
-        Fri, 22 Oct 2021 05:29:00 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6324.dip0.t-ipconnect.de. [91.12.99.36])
-        by smtp.gmail.com with ESMTPSA id h14sm3553851wmq.34.2021.10.22.05.28.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Oct 2021 05:29:00 -0700 (PDT)
-Message-ID: <d6f6bb06-17a5-92d4-82f9-f8350d0a7b0f@redhat.com>
-Date: Fri, 22 Oct 2021 14:28:59 +0200
+        Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::134 as permitted sender) client-ip=2607:f8b0:4864:20::134;
+Received: by mail-il1-x134.google.com with SMTP id j10so2053354ilu.2
+        for <kasan-dev@googlegroups.com>; Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1543:: with SMTP id j3mr1127059ilu.151.1634930266149;
+ Fri, 22 Oct 2021 12:17:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3] kasan: add kasan mode messages when kasan init
-To: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Marco Elver <elver@google.com>
-Cc: chinwen.chang@mediatek.com, yee.lee@mediatek.com,
- nicholas.tang@mediatek.com, kasan-dev@googlegroups.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-mediatek@lists.infradead.org
-References: <20211020094850.4113-1-Kuan-Ying.Lee@mediatek.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20211020094850.4113-1-Kuan-Ying.Lee@mediatek.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+References: <20211007223010.GN880162@paulmck-ThinkPad-P17-Gen-1>
+ <20211008000601.00000ba1@garyguo.net> <20211007234247.GO880162@paulmck-ThinkPad-P17-Gen-1>
+ <CANiq72nLXmN0SJOQ-aGD4P2dUTs_vXBXMDnr2eWP-+R7H2ecEw@mail.gmail.com>
+ <20211008235744.GU880162@paulmck-ThinkPad-P17-Gen-1> <CANiq72m76-nRDNAceEqUmC_k75FZj+OZr1_HSFUdksysWgCsCA@mail.gmail.com>
+ <20211009234834.GX880162@paulmck-ThinkPad-P17-Gen-1> <CANiq72=uPFMbp+270O5zTS7vb8xJLNYvYXdyx2Xsz5+3-JATLw@mail.gmail.com>
+ <20211011185234.GH880162@paulmck-ThinkPad-P17-Gen-1> <CANiq72k+wa8bkxzcaRUSAee2btOy04uqLLnwY_AsBfd2RBhOxw@mail.gmail.com>
+ <20211013232939.GW880162@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20211013232939.GW880162@paulmck-ThinkPad-P17-Gen-1>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 22 Oct 2021 21:17:34 +0200
+Message-ID: <CANiq72m=MV2rF=SHKfrAi+E0vwEpKemeO_48h10=tvejJ_mAPw@mail.gmail.com>
+Subject: Re: Can the Kernel Concurrency Sanitizer Own Rust Code?
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Marco Elver <elver@google.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	rust-for-linux <rust-for-linux@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: david@redhat.com
+X-Original-Sender: miguel.ojeda.sandonis@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=Yo0ReFKC;
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@gmail.com header.s=20210112 header.b=KTSH8Ohq;       spf=pass
+ (google.com: domain of miguel.ojeda.sandonis@gmail.com designates
+ 2607:f8b0:4864:20::134 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,100 +149,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 20.10.21 11:48, Kuan-Ying Lee wrote:
-> There are multiple kasan modes. It makes sense that we add some messages
-> to know which kasan mode is when booting up. see [1].
+On Thu, Oct 14, 2021 at 1:29 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> So Rust could support zombie pointers without changes to LLVM?
 
-s/is/is active/ ?
+I don't know what you mean "without changes". LLVM is not fixed, it
+changes every version, and Rust sometimes has to patch it on top. If
+Rust decides to support (or not) zombie pointers, then they will have
+to look for a way to lower code in the given version/instance of LLVM
+they are using in a way that does not break the zap-susceptible
+algorithms. That may require new features for the IR, or disabling
+certain optimizations, or fixing bugs, etc.
 
-Looks reasonable to me
+> The standard is for the most part not a mathematical document.  So many
+> parts of it can only be "understood in a personal capacity".
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Sure, but there is a middle-ground between a formal model and
+completely unstated semantics where nobody can even guess the
+intention. My point was that we should not rely on semantics that are
+not precise yet -- if possible. And if the same problem happens in C,
+but we have a workaround for it, we should not be rewriting those
+algorithms in Rust.
 
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=212195 [1]
-> Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-> ---
-> v3:
->  - Rebase to linux-next
->  - Move kasan_mode_info() into hw_tags.c
-> v2:
->  - Rebase to linux-next
->  - HW-tag based mode need to consider asymm mode
->  - Thanks Marco's suggestion
-> 
->  arch/arm64/mm/kasan_init.c |  2 +-
->  mm/kasan/hw_tags.c         | 14 +++++++++++++-
->  mm/kasan/sw_tags.c         |  2 +-
->  3 files changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-> index 5b996ca4d996..6f5a6fe8edd7 100644
-> --- a/arch/arm64/mm/kasan_init.c
-> +++ b/arch/arm64/mm/kasan_init.c
-> @@ -309,7 +309,7 @@ void __init kasan_init(void)
->  	kasan_init_depth();
->  #if defined(CONFIG_KASAN_GENERIC)
->  	/* CONFIG_KASAN_SW_TAGS also requires kasan_init_sw_tags(). */
-> -	pr_info("KernelAddressSanitizer initialized\n");
-> +	pr_info("KernelAddressSanitizer initialized (generic)\n");
->  #endif
->  }
->  
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index dc892119e88f..7355cb534e4f 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -106,6 +106,16 @@ static int __init early_kasan_flag_stacktrace(char *arg)
->  }
->  early_param("kasan.stacktrace", early_kasan_flag_stacktrace);
->  
-> +static inline const char *kasan_mode_info(void)
-> +{
-> +	if (kasan_mode == KASAN_MODE_ASYNC)
-> +		return "async";
-> +	else if (kasan_mode == KASAN_MODE_ASYMM)
-> +		return "asymm";
-> +	else
-> +		return "sync";
-> +}
-> +
->  /* kasan_init_hw_tags_cpu() is called for each CPU. */
->  void kasan_init_hw_tags_cpu(void)
->  {
-> @@ -177,7 +187,9 @@ void __init kasan_init_hw_tags(void)
->  		break;
->  	}
->  
-> -	pr_info("KernelAddressSanitizer initialized\n");
-> +	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, stacktrace=%s)\n",
-> +		kasan_mode_info(),
-> +		kasan_stack_collection_enabled() ? "on" : "off");
->  }
->  
->  void kasan_alloc_pages(struct page *page, unsigned int order, gfp_t flags)
-> diff --git a/mm/kasan/sw_tags.c b/mm/kasan/sw_tags.c
-> index bd3f540feb47..77f13f391b57 100644
-> --- a/mm/kasan/sw_tags.c
-> +++ b/mm/kasan/sw_tags.c
-> @@ -42,7 +42,7 @@ void __init kasan_init_sw_tags(void)
->  	for_each_possible_cpu(cpu)
->  		per_cpu(prng_state, cpu) = (u32)get_cycles();
->  
-> -	pr_info("KernelAddressSanitizer initialized\n");
-> +	pr_info("KernelAddressSanitizer initialized (sw-tags)\n");
->  }
->  
->  /*
-> 
+> To be proven in the context of the Linux kernel.  And I am happy to
+> provide at least a little help with the experiment.
 
+I was talking about classes of errors that are avoided "just" by using
+the language. For instance, using `Result` instead of hoping users to
+get the error encoding right even across maintenance rounds.
 
--- 
-Thanks,
+> Working on it in the case of C/C++, though quite a bit more slowly
+> than I would like.
 
-David / dhildenb
+In my case I am trying to see if WG14 would be interested in adding
+Rust-like features to C, but even if everyone agreed, it would take a
+very long time, indeed.
+
+> However...
+>
+> Just to get you an idea of the timeframe, the C++ committee requested
+> an RCU proposal from me in 2014.  It took about four years to exchange
+> sufficient C++ and RCU knowledge to come to agreement on what a C++
+> RCU API would even look like.  The subsequent three years of delay were
+> due to bottlenecks in the standardization process.  Only this year were
+> hazard pointers and RCU voted into a Technical Specification, which has
+> since been drafted by Michael Wong, Maged Michael (who of course did the
+> hazard pointers section), and myself.  The earliest possible International
+> Standard release date is 2026, with 2029 perhaps being more likely.
+>
+> Let's be optimistic and assume 2026.  That would be 12 years elapsed time.
+>
+> Now, the USA Social Security actuarial tables [1] give me about a 77%
+> chance of living another 12 years, never mind the small matter of
+> remaining vigorous enough to participate in the standards process.
+> Therefore, there is only so much more that I will doing in this space.
+>
+> Apologies for bringing up what might seem to be a rather morbid point,
+> but there really are sharp limits here.  ;-)
+
+I feel you, I have also experienced it (to a much lesser degree, though).
+
+I could even see similar work for Rust going in faster than in C++
+even if you started today ;-)
+
+Cheers,
+Miguel
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/d6f6bb06-17a5-92d4-82f9-f8350d0a7b0f%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANiq72m%3DMV2rF%3DSHKfrAi%2BE0vwEpKemeO_48h10%3DtvejJ_mAPw%40mail.gmail.com.
