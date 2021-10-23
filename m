@@ -1,150 +1,129 @@
-Return-Path: <kasan-dev+bncBC33FCGW2EDRBNHKZSFQMGQEFF6BXWI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBS7GZ2FQMGQEXSEA5CQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255E3438015
-	for <lists+kasan-dev@lfdr.de>; Sat, 23 Oct 2021 00:03:33 +0200 (CEST)
-Received: by mail-wm1-x33c.google.com with SMTP id d73-20020a1c1d4c000000b0032ca7ec21a4sf161829wmd.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 Oct 2021 15:03:33 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1634940213; cv=pass;
+Received: from mail-qk1-x73b.google.com (mail-qk1-x73b.google.com [IPv6:2607:f8b0:4864:20::73b])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAAFE43821B
+	for <lists+kasan-dev@lfdr.de>; Sat, 23 Oct 2021 09:01:32 +0200 (CEST)
+Received: by mail-qk1-x73b.google.com with SMTP id v14-20020a05620a0f0e00b0043355ed67d1sf4485631qkl.7
+        for <lists+kasan-dev@lfdr.de>; Sat, 23 Oct 2021 00:01:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1634972491; cv=pass;
         d=google.com; s=arc-20160816;
-        b=q1hcoi3IPQZY8AYd5d6ZcfMFQt+BNE2xmXM5Lpl214VaCmisu5y8AK2mA9XhAofHmO
-         ju4GItxoTEUnNzMoxMg/aVOd4WY1bl/ZbpDQY93o+pS4ljJ5DndTnW9oj+XhGBi9tAkv
-         iKN0wkYpsDKa+YT3a0VE1uwXEecARhtr4vkXRrfBqFuT7hmvUZtd9S4xJE1y2PIKUePl
-         ll8vkkYMSqV8A9VJKKCME7apathnGmvkhan454g76eVJQfhGT1Kven7iMBLW/kPn7aDq
-         NMK7C07pQktXz01/sSlqe6VAzEXBA74P7aYpSRb/EFa7DJQDRXdcW4ztz16Gt+Ud3cFg
-         BjkQ==
+        b=U9eaHFr9KxuyXoo2MhpkOBRqhyD4jKIhdBQNR/XI3lPIeHE0WDp7scY6+izF24YBgd
+         W2xH0qgesRVQD6jhDMzvgKUdI/cL5M33hW8eByJJRpqOENMzoj+olwbyzZhXK7aLc2Li
+         Xqpx7zP7xZwH0UG39GICYzb4A1V4M0Ld8h5lovqx6nCI+fBffTYEtkpMzYZqZw6G5q7O
+         7tDk5DB0qcwpnWOWJJzlB/64yHmgnCHtMXOx2xndjXczJLx11jCn4PZXRnIW8OeoYkW8
+         kFPjOR3kE/AKcg9qSlY4jxHZcevZOuNS0fRkehrc30I+uohYazbCUi+loJxUuJKqQH86
+         vIjQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:mime-version:user-agent
-         :date:message-id:subject:from:references:cc:to:sender:dkim-signature;
-        bh=2oV0rSA+9KRFUxqXxjB1r4R0mwi/qaHTrSnbC98j2So=;
-        b=EIZrUIJIe1w6yq1ViYqRGy5Lv/p2uUQgk4kBqYppCWfLyc0lIPo8KU16DTW0Omc4X7
-         9JqV0d/QlbtMsJ4M/UPG+57mfo4IFJFGKdctK5VQjRYtbAXUeBWWHK5T2+NUVyFGqwuw
-         Zw60CCvo8GJ8y8/2Huh5Q4aUWqVEsloYjdYjnDT6YmyHUN8CI9Pa+gNadhkGWzcwgKvZ
-         b2GL2OtOXrz0t6EGm9zDAOKpRXBCzJmDAkBc+NHWyK2qyzkow+XgIsnV3aXdfelROXrH
-         bHjQqoaX4te5I8vcmE3lEOcETr5UZYGqbgJ38aYVGOXiDB8Izrm6/lcPLpbiZ2d/x+Mo
-         2Slw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=dQhWDxHKDL1MQBRvh6EHBZMor3R+nUVDtdqVcwru6Xs=;
+        b=Pc7YQWnXTuEenXVulYHrRCK4VhxeHwRGoOgiRivvh3QLv77g/PXuwBJQzJ2Qulhekt
+         isEWwJ6ECaKL+Xdl0ZxbnCUx0JqyhAcSL2ka5dqgHR7TYgjk0NSSZx4uVoNeHVZkzIWv
+         IaWfYIDUdj5y4dWiOZzzIm22MgAcM/Icfx57bumPYSTgitPtFzYIZz7y+1uvFGEgVxDq
+         GkxSelhLeqVd33EhHr+ZPEC3jtrnFVUQn/1vWGnrZzjAf6Uwviq9Xqb/srfFjYoNF85+
+         JmOVn/rF/wY5uoiSxgfMFOCbIP9QlDQrjcBSiC8AQnDuewYKY9atAzrZpcKQk5ZUcgKm
+         UEgg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@alexander-lochmann.de header.s=key2 header.b=aqtQLCPA;
-       spf=pass (google.com: domain of info@alexander-lochmann.de designates 188.68.61.106 as permitted sender) smtp.mailfrom=info@alexander-lochmann.de
+       dkim=pass header.i=@google.com header.s=20210112 header.b=OhhKJKYr;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::229 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:to:cc:references:from:subject:message-id:date:user-agent
-         :mime-version:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=2oV0rSA+9KRFUxqXxjB1r4R0mwi/qaHTrSnbC98j2So=;
-        b=Lqf6JmU8jEtMKgbb0ElTYldERJc+d1YVKxp6rZwdv1RD6oFbs/WnPIh2/J086kAjPr
-         f0nG213Fw6gDXiluyf/3NbtIsjDFZX4mq56llosnE/m7cB3V3Qu8pDOMCKq7gsDvO7zw
-         ekcMsh+mAnM9Bdzz6qAVOOQ+RcT2SJxz6/bplYXOANaHGbqlE13e2EbMsdzO9NJM2cJK
-         cM6OP/85D7MUbE2b91BkBM6Cv+TB5C9OdYN28JRNbHBhgJFpAHVwbSkJsew7YwSY58o7
-         xRTzB1PnmXZ9OyRf3L6OMiRnQly0r3rAYHF7d02RC3zI96ArTM/jeMrygWXq5OYedDWA
-         J+xg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=dQhWDxHKDL1MQBRvh6EHBZMor3R+nUVDtdqVcwru6Xs=;
+        b=W29jVG4Nf4BKhcipV1Do6m4MPA57+xaXtONt9Ed1sjbG8PyFnBukv8icXuPKLXZbjq
+         nrAYGEMF6JY3mpJqH9nfmHHD3O2Qev1kMe97jP93ql1d3eGNDDj8qdg18kYCEmIX+fUv
+         TgJXRd7UJwxWIwBoCgFbqBSZQ7j7RnAY85kBIGeer6WdZgZvoyIKR5pdlQPCisFcDR4e
+         lveb0gNfvTAG+da0QnIkt68JEFbY/2Sn/2e1tJMpGGrOFOlPS8dVZiN5ybvK7SFxJpzD
+         l9njBsNE4O0WuZUwRPK7X1zqlhT7Ke5G+NGX66n8KRr7yBBoBaB7oRUN2w43fKsPmJrF
+         XViw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:to:cc:references:from:subject:message-id
-         :date:user-agent:mime-version:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=2oV0rSA+9KRFUxqXxjB1r4R0mwi/qaHTrSnbC98j2So=;
-        b=1k2iqsMUQ1p99mjqvMUfnPP752mssQWifJYibYOLT516pgR8dJrKIqNPClsvTWtA+d
-         fq+7/eVDkWOXbfnZCao6WJTxpLDL75mrUt3L12WqntOalXjGWlC51MId9QrLru6B7kX3
-         mPkuihAAKU4/tKo3C7q1ww3VL/r5+Ft6G51+0mIb18qwtZHq+3UrxNDFEbFACvRj2ujd
-         g8v0TE9LuRaj60GpaLGOCCiz/UOE+tXa7q8+TYV+MnCqhDr1LyAhNOUaEcR3ebPMN4kN
-         2ErJGItJ4r+ybjNB+X6sVKCAvQOMe1A4IUUE3Z8YIJAW+gDx33OL+T43RjADSuAFhJ+C
-         KnVA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530xOyD21tQHEumFtkWbZQWrtEJY0t7ZWaHWtXvNbLtXd4pz9hqE
-	9XG/1tADpg6KTDI84xMdDgo=
-X-Google-Smtp-Source: ABdhPJx9FIj0Q7sjKbkSarHMql44Sx/i7jTRdE1FmJhbi7EZ+6u9kKVS6WI/nnzXTt16BpQrfa8C8g==
-X-Received: by 2002:a1c:ac03:: with SMTP id v3mr32093453wme.13.1634940212855;
-        Fri, 22 Oct 2021 15:03:32 -0700 (PDT)
+        bh=dQhWDxHKDL1MQBRvh6EHBZMor3R+nUVDtdqVcwru6Xs=;
+        b=O3vu0pvu2Za4N7X6iHASVNcWQSXi2XyJoFTGT5tdcSlOp/LlZKDn9b1gDBERHLGP9i
+         lrEp7q8ouH33ADVT2gPfyoAC8LWytWiVBWrHeyQTt1i5R2c3xsg18tKT26WUbKhWVRba
+         tVhZTEuAl6xToXzLhV6/DNrNttCFWTN4Pcnuoj0QC6ccmDBKq/JHCACjJBDgChZTRdTh
+         zydM/T1JS4NLz4z+H11vw8jMnN7jcaVCtjyLaWkHYAs0vLN2onRIQ7UJt4KutO2ZyMFy
+         sHY1s7/T4Yd9GB33snOQTI1iEYhRp1lCZ14x6Z38TjsYGCqm1XewF0T7t2ow59254G+Z
+         0CkA==
+X-Gm-Message-State: AOAM530sqK+MqlEqihIKkZPLlFlqiaZjY1uvZeECpQwhMKtCstlqbp0k
+	1K6rAfA0L2/7YKwAZpNorpE=
+X-Google-Smtp-Source: ABdhPJzMcUYYMOXoiYev/0y+HStVm8l89Wt1ldiAQe3gJ7GWeb1zv3n4jTho72OjduObESghfM9Thw==
+X-Received: by 2002:a37:b606:: with SMTP id g6mr3638377qkf.328.1634972491684;
+        Sat, 23 Oct 2021 00:01:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3b9e:: with SMTP id n30ls63780wms.1.experimental-gmail;
- Fri, 22 Oct 2021 15:03:31 -0700 (PDT)
-X-Received: by 2002:a1c:4c19:: with SMTP id z25mr2550890wmf.4.1634940211788;
-        Fri, 22 Oct 2021 15:03:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1634940211; cv=none;
+Received: by 2002:a05:622a:1883:: with SMTP id v3ls2315996qtc.3.gmail; Sat, 23
+ Oct 2021 00:01:31 -0700 (PDT)
+X-Received: by 2002:ac8:5c8e:: with SMTP id r14mr5001292qta.4.1634972491302;
+        Sat, 23 Oct 2021 00:01:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1634972491; cv=none;
         d=google.com; s=arc-20160816;
-        b=LVWWY/X05ejGysGCHnEsHCg/K10vEUk1m59qIrBYsysy4rPyyH8dK9vvsA0FEeRvgX
-         uKlGe3qPtJR3l1YrLZI+NaNKCPbhNTyT/DJcnBDWPP9Ip+ppdXW5Y/FMc6WnAa24GctI
-         2v46104aewoTCyOPc1qVRXFZM6Ezlj+zC4E/Xfnw2C2nBcCYA9ZMOA48fGS1hfNiR0Gc
-         cCTI74eBD8Qk4Lsrnp30GBKsCSlx/v5siGfMtnLrQWzAi5YbhtHfZi17JXKDWD06FHho
-         miFygugn6bTa9ds2eNCz8fyp+EUXAz76baWDCzaSwrmMhTgmeO6uKJTy1k5kDU1BLpyF
-         UjFg==
+        b=SGg/lMjarJd982x9gBjR4ELOhY5k+n082rtnk3aQbPDSBLTA0BdWXGnCSBdb1UxWcA
+         uS65+b//02u7/X9akHtdiN17qxTmoIxpjD6SnwcP8k5bdbD2LgXhJ9Hos9usxSNj0W7O
+         9Pcc/anVvz/z4Ku+rTNf5Vpijve+psSaqyIlxB7nh3bTudPteGS/dkQ7rGTK8MdKyg6n
+         IMvmSFhxBBmTloYjiaAmzTOG0ZSOLmkNm/rx51q/v5jSOJhS6TrbM/SG6Tomt3Xaix1q
+         JFjNbFDhHF8grr+hNUMLTAxULvqhL+HzgREPnUFdgagxd7C66C6F7VqJrS31k544lwpA
+         ImjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:mime-version:user-agent:date:message-id:subject:from
-         :references:cc:to:dkim-signature;
-        bh=lsq3d60soXZSZmqhrSEGUvUdArwGIFVirEq6+pvpD2s=;
-        b=b6uWIUdk4WPkr4erlC61uX3wYqZ9jV94l5ez3pBV1MFepTXb0AV65uiPGx367MRi4c
-         DAZUthmGFdTWmRV5AMYUeAgZt7ceAIvh++X1ZJvjxmQJgj+wuspyelSf5MrU9BkSXbNv
-         b+ltYw00dX7DcFK+i8BjusXX2jA1//d2RHGexZhfG2cz4PDM+uck1Nc5nzZ3CsrFgB6q
-         GrX/OdMraRrYHYyghdggO6eLFIDK6OR4bbhdwKyCXLIRfu/Z5ksyuWV4yCL3vl0IKZB7
-         K8vCrgXnZ1+a9xU0fLNsq7S4gLLOP2TvqDZUMKz9hDoie7OUtVyulbWRFbBdW73Zksmh
-         7WXQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=3XNK8/G5+03RpD0j7S3Gnth3OiCNUfmJqhs9h8ooGSo=;
+        b=gimuDaoc9AaiiNTqxlw6BuebR0uh19HisefHLNgDlgo2fGvy2IAfdZhbM+wJxom+EL
+         UKJpNCvWcXBIit5H9PzEz0nTF33oOOY6Rmzn0bQVOATmdOx98TSYzXCkX63+QR5gOE2o
+         WYZnFIIrMQ9BgkVxmAhYfqQPq7XNpDMPU17U8Obh7fBF9HwpMbcueRRniECSo9GWDttB
+         jEscqzbqf2WfWu/YZ8MOBynVDWYSinZ2qX3mCUjhEK2fFEiMeR4pncnnDBxcdmTnDcza
+         +5HjPB+DVl2jskFk/N8ViWmo092c5mi5CZzw3f/ki5nwKCuboV1GxPQGuzz7XBVxwNlk
+         Chaw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@alexander-lochmann.de header.s=key2 header.b=aqtQLCPA;
-       spf=pass (google.com: domain of info@alexander-lochmann.de designates 188.68.61.106 as permitted sender) smtp.mailfrom=info@alexander-lochmann.de
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de. [188.68.61.106])
-        by gmr-mx.google.com with ESMTPS id w22si244148wmk.1.2021.10.22.15.03.31
+       dkim=pass header.i=@google.com header.s=20210112 header.b=OhhKJKYr;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::229 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com. [2607:f8b0:4864:20::229])
+        by gmr-mx.google.com with ESMTPS id z23si625727qko.6.2021.10.23.00.01.31
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Oct 2021 15:03:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of info@alexander-lochmann.de designates 188.68.61.106 as permitted sender) client-ip=188.68.61.106;
-Received: from mors-relay-8405.netcup.net (localhost [127.0.0.1])
-	by mors-relay-8405.netcup.net (Postfix) with ESMTPS id 4Hbddv2B5yz6w03;
-	Sat, 23 Oct 2021 00:03:31 +0200 (CEST)
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-8405.netcup.net (Postfix) with ESMTPS id 4Hbddv1pmhz6w01;
-	Sat, 23 Oct 2021 00:03:31 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at policy02-mors.netcup.net
-X-Spam-Flag: NO
-X-Spam-Score: -2.901
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.901 required=6.31 tests=[ALL_TRUSTED=-1,
-	BAYES_00=-1.9, SPF_PASS=-0.001] autolearn=ham autolearn_force=no
-Received: from mx2e12.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4Hbddr3XTvz8svs;
-	Sat, 23 Oct 2021 00:03:28 +0200 (CEST)
-Received: from [10.128.131.224] (unknown [37.120.132.67])
-	by mx2e12.netcup.net (Postfix) with ESMTPSA id 5B203A04FB;
-	Sat, 23 Oct 2021 00:03:20 +0200 (CEST)
-Received-SPF: pass (mx2e12: connection is authenticated)
-To: Peter Zijlstra <peterz@infradead.org>, Dmitry Vyukov <dvyukov@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Andrew Klychkov <andrew.a.klychkov@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Johannes Berg <johannes@sipsolutions.net>, Ingo Molnar <mingo@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Jakub Kicinski <kuba@kernel.org>, Aleksandr Nogikh <nogikh@google.com>,
- kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20210927173348.265501-1-info@alexander-lochmann.de>
- <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net>
-From: Alexander Lochmann <info@alexander-lochmann.de>
-Subject: Re: [PATCHv2] Introduced new tracing mode KCOV_MODE_UNIQUE.
-Message-ID: <927385c7-0155-22b0-c2f3-7776b6fe374c@alexander-lochmann.de>
-Date: Sat, 23 Oct 2021 00:03:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Oct 2021 00:01:31 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::229 as permitted sender) client-ip=2607:f8b0:4864:20::229;
+Received: by mail-oi1-x229.google.com with SMTP id y207so7895029oia.11
+        for <kasan-dev@googlegroups.com>; Sat, 23 Oct 2021 00:01:31 -0700 (PDT)
+X-Received: by 2002:a05:6808:d50:: with SMTP id w16mr13922075oik.128.1634972490639;
+ Sat, 23 Oct 2021 00:01:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="CDzUVjhiPtClmKUvK9yUQsAHucLgloZvz"
-X-PPP-Message-ID: <163494020654.20467.833133958238456166@mx2e12.netcup.net>
-X-PPP-Vhost: alexander-lochmann.de
-X-NC-CID: yTucXSprgOVIdQ7m3pFnHtEZSL80pRmPiiPjZRCUXJtPlaTCDtHB87NH
-X-Original-Sender: info@alexander-lochmann.de
+References: <20210927173348.265501-1-info@alexander-lochmann.de>
+ <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net> <927385c7-0155-22b0-c2f3-7776b6fe374c@alexander-lochmann.de>
+In-Reply-To: <927385c7-0155-22b0-c2f3-7776b6fe374c@alexander-lochmann.de>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Sat, 23 Oct 2021 09:01:19 +0200
+Message-ID: <CACT4Y+aH5dZTSw7+59GTDQyikP6CqXCD7AAhjciaS_MQSbrV6A@mail.gmail.com>
+Subject: Re: [PATCHv2] Introduced new tracing mode KCOV_MODE_UNIQUE.
+To: Alexander Lochmann <info@alexander-lochmann.de>
+Cc: Peter Zijlstra <peterz@infradead.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Klychkov <andrew.a.klychkov@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Johannes Berg <johannes@sipsolutions.net>, Ingo Molnar <mingo@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Jakub Kicinski <kuba@kernel.org>, 
+	Aleksandr Nogikh <nogikh@google.com>, kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@alexander-lochmann.de header.s=key2 header.b=aqtQLCPA;
-       spf=pass (google.com: domain of info@alexander-lochmann.de designates
- 188.68.61.106 as permitted sender) smtp.mailfrom=info@alexander-lochmann.de
+ header.i=@google.com header.s=20210112 header.b=OhhKJKYr;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::229
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,86 +136,48 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---CDzUVjhiPtClmKUvK9yUQsAHucLgloZvz
-Content-Type: multipart/mixed; boundary="UBwMM8vn54PR4LUbz1olAyRhXFoyVHnMk";
- protected-headers="v1"
-From: Alexander Lochmann <info@alexander-lochmann.de>
-To: Peter Zijlstra <peterz@infradead.org>, Dmitry Vyukov <dvyukov@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Andrew Klychkov <andrew.a.klychkov@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Johannes Berg <johannes@sipsolutions.net>, Ingo Molnar <mingo@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Jakub Kicinski <kuba@kernel.org>, Aleksandr Nogikh <nogikh@google.com>,
- kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-ID: <927385c7-0155-22b0-c2f3-7776b6fe374c@alexander-lochmann.de>
-Subject: Re: [PATCHv2] Introduced new tracing mode KCOV_MODE_UNIQUE.
-References: <20210927173348.265501-1-info@alexander-lochmann.de>
- <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net>
-In-Reply-To: <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net>
+On Sat, 23 Oct 2021 at 00:03, Alexander Lochmann
+<info@alexander-lochmann.de> wrote:
+>
+> Maybe Dmitry can shed some light on this. He actually suggested that
+> optimization.
+>
+> - Alex
+>
+> On 29.09.21 10:33, Peter Zijlstra wrote:
+> > On Mon, Sep 27, 2021 at 07:33:40PM +0200, Alexander Lochmann wrote:
+> >> The existing trace mode stores PCs in execution order. This could lead
+> >> to a buffer overflow if sufficient amonut of kernel code is executed.
+> >> Thus, a user might not see all executed PCs. KCOV_MODE_UNIQUE favors
+> >> completeness over execution order. While ignoring the execution order,
+> >> it marks a PC as exectued by setting a bit representing that PC. Each
+> >> bit in the shared buffer represents every fourth byte of the text
+> >> segment.  Since a call instruction on every supported architecture is
+> >> at least four bytes, it is safe to just store every fourth byte of the
+> >> text segment.
+> >
+> > I'm still trying to wake up, but why are call instruction more important
+> > than other instructions? Specifically, I'd think any branch instruction
+> > matters for coverage.,
+> >
+> > More specifically, x86 can do a tail call with just 2 bytes.
 
---UBwMM8vn54PR4LUbz1olAyRhXFoyVHnMk
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: de-DE-1901
+Hi Peter, Alex,
 
-Maybe Dmitry can shed some light on this. He actually suggested that 
-optimization.
+The calls are important here because we only use PCs that are return
+PCs from a callback emitted by the compiler. These PCs point to the
+call of the callback.
 
-- Alex
+I don't remember exactly what's the story for tail calls of the
+callback for both compilers, ideally they should not use tail calls
+for this call, and I think at least one of them does not use tail
+calls.
 
-On 29.09.21 10:33, Peter Zijlstra wrote:
-> On Mon, Sep 27, 2021 at 07:33:40PM +0200, Alexander Lochmann wrote:
->> The existing trace mode stores PCs in execution order. This could lead
->> to a buffer overflow if sufficient amonut of kernel code is executed.
->> Thus, a user might not see all executed PCs. KCOV_MODE_UNIQUE favors
->> completeness over execution order. While ignoring the execution order,
->> it marks a PC as exectued by setting a bit representing that PC. Each
->> bit in the shared buffer represents every fourth byte of the text
->> segment.  Since a call instruction on every supported architecture is
->> at least four bytes, it is safe to just store every fourth byte of the
->> text segment.
-> 
-> I'm still trying to wake up, but why are call instruction more important
-> than other instructions? Specifically, I'd think any branch instruction
-> matters for coverage.
-> 
-> More specifically, x86 can do a tail call with just 2 bytes.
-> 
-
--- 
-Alexander Lochmann                PGP key: 0xBC3EF6FD
-Heiliger Weg 72                   phone:  +49.231.28053964
-D-44141 Dortmund                  mobile: +49.151.15738323
+But even with tail calls, the callback is emitted into every basic
+block of code. So it should be (call, some other instructions, call)
+and at least the first call is not a tail call.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/927385c7-0155-22b0-c2f3-7776b6fe374c%40alexander-lochmann.de.
-
---UBwMM8vn54PR4LUbz1olAyRhXFoyVHnMk--
-
---CDzUVjhiPtClmKUvK9yUQsAHucLgloZvz
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEElhZsUHzVP0dbkjCRWT7tBbw+9v0FAmFzNSQFAwAAAAAACgkQWT7tBbw+9v3r
-3w/7Bv8kyg3mPcCinEzZ9AnnM/yQ20THcNhazgLOZNfSMOqGKhyu2lCwY8A8TakScZAd+si/iU/v
-d6n14El+O4hTXzqjq42Kyukl9F56f45qPd8CXciiSnkCcH2LO7t0MEck6KobaGDe1km0QBoXc/kN
-hhyG5Yp5qduw34Ltj8kaylCUzSOqYiRFmZ2Ws7aA5HkGTA8zgoRm4BZj/YEqpUsoFeGsUglvMtlt
-vPyG479llRhv3DVE3Kal7pxGTSVccFg4uCMsBGFzl5nwLhrkC9P3c2gzkbzcQ6rUTTCnBEZAnU6o
-6G4lZER0xOW41J8ZxdCfk3JadcKM/w245pu6SBDHKNE+oLm//+BCbhAReB/74WqPI4XvkQP623Gk
-x6mFm6EeXA72C/bWQg+V0VrFdbnkBACI88QMcEyzDHTddNno3/jkFx3rOQx7ZbVjY98Xw0p6Nf/P
-YjPM3qj1LEg7wKV12oQEBIHGo6oLUC4f2NUpl4DtYKCpBjBF4iMqCbkTmTtGi7GCyzFfiUDscafB
-3Y9BzfzJKM5zlgsd9n29jAWzUCFhAByzJsFUY78c5JjVylnUugdLuBoichLvh1r4Hg67AX1TB84N
-cvS0Y+c/jgXEV4/EeqnfaBW9Uk8yhdGLytC6UpAhGNNkK3r5bhU1WY6PiCGGR5XbFIkbw9+i6L5Q
-ST8=
-=9qA3
------END PGP SIGNATURE-----
-
---CDzUVjhiPtClmKUvK9yUQsAHucLgloZvz--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BaH5dZTSw7%2B59GTDQyikP6CqXCD7AAhjciaS_MQSbrV6A%40mail.gmail.com.
