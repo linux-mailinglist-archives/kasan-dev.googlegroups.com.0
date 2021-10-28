@@ -1,122 +1,137 @@
-Return-Path: <kasan-dev+bncBCRKNY4WZECBBEH35KFQMGQECP32A6Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC24VNFHTMIBBQXM5OFQMGQEJ3IHGPY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBFB43E4AA
-	for <lists+kasan-dev@lfdr.de>; Thu, 28 Oct 2021 17:11:14 +0200 (CEST)
-Received: by mail-oi1-x23b.google.com with SMTP id r79-20020acaa852000000b002991da0573asf3207548oie.23
-        for <lists+kasan-dev@lfdr.de>; Thu, 28 Oct 2021 08:11:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1635433872; cv=pass;
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E41943E8E3
+	for <lists+kasan-dev@lfdr.de>; Thu, 28 Oct 2021 21:13:08 +0200 (CEST)
+Received: by mail-pj1-x1038.google.com with SMTP id mn8-20020a17090b188800b001a2257579b9sf6083070pjb.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 28 Oct 2021 12:13:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1635448387; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DckMlsfRqOuR5CpIBSoHt+TqJ3mukaxucDRmyBtAQ/nBgDxwPyVO77sTWXj1xWnAxL
-         pQWL28mLQGwDp8aYkJ+C9+XXYG4HPKmDiVNQOCIc62Fpn0Lr1xs+2prNZ++xzi4UfQl0
-         vUG9kNn7T6YB1f6lNp5ujzRFM0U65oIaA33GY/8+vbYY68Nv2qP2oBSigK+/ZXuou/5p
-         nGVFo8y2vpqLe7Ycac/IXeVuyFzTOEeogyWTiWSkHAlX7VAXr8FMOcB7NzFAhyg+dq6T
-         ImtNXpXDfGdpv0sJjUSnKCp554uH95KhVr8QLo8RqPqIPPn9pTQoibVaUQQnKCThju3v
-         3m3A==
+        b=hyvnqCMqVZ+RaO5ji9mkhLJ/tXDmXkUgndKOs6nnTwLFJPDqgqwVIkX+YkZBchzUPv
+         dmRRLk4+rL8+p+6sD1uv2S2TBZRSLxp7FYjDhXR+1YyUlVVNB0Qm+gxH+TTeWs9/kwpB
+         AsVrIlbZUwlgP+mFFL8r1/YfwjbWPrZI0DtLxbSZVmw93enOQZXZd816Y2LncSg2LB6z
+         9kHAGyq1Jpy0kiVrKF297sw7qyDvmmLSeHfBf3/WaXDVbf6iODMu5BKEVuOVLNcv3T3B
+         3a5GNhaHlMg0KeirG1cAcwlpSCBqiWMirRmCQU1qWqc3/kZTkfQJLe2FePFt6TZHWXy+
+         ty8A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:sender:dkim-signature;
-        bh=OAALNjtcfGxC1W57STNaOYfkRstOha7sVBBrUC8vuuE=;
-        b=cAGHE+mlk17rtS3r/5duod4gWNeR8uwlfWjK6kB/MRvT5amqoGnIHkVtdc1LN0hscs
-         tL7piU/USGPsi8swufc/K5NlL816rAr+s6M20ZIIb/sYxMPvpACy5DdlUXHVuYfPmMQQ
-         ZJ2ldo9MqNMMGsIDR5qQKNwqllcyy/w9wZ/p7cC+17B8q3o+Cq+bA1jib+oStjwNfZ+i
-         E8zMmuWCbd4x//t0Uy0ncZSTxvZDVRUzrg7ReIn4K86AbCwCRmmXKSEGSSEn8+Zen1tG
-         etsaLP1FbbBzRfZs2BCJ8UIEd+2uBn7xa+unCzem6Fxs6fLolwPmE7sTA8GWtG6PQ/T1
-         +CmA==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :message-id:date:subject:to:from:sender:dkim-signature;
+        bh=8Y/HDPtltaNZ5Q+ixb33n5+pBxJ+N37aBZFip1fURkY=;
+        b=jzY35KzN19VXl5EkcyHZfvPr4WuoIn16a8nbZ8VXCeGfLmcdm7obNqeFprLrVPFgDi
+         qM6oQczF64nA8U101gWQJTn16Z24PXTF7eg6sgszaxlZD12Qx1yYYTb12JQdbqsTjUix
+         +x+MyoAxmVWPUeOVPlsxh3zABxHw04Dt2tmK1liBOxD4zZ0rShjwxPva11Y+g2F3AM7y
+         WsR/rivvOx1SbU2llyZTDGR+b/5FNQjg1cH6uXbcGQ0dZGgnh392jTPul1Vv+wwoWumh
+         MHYJaAaH7e9S9vP6duNZi3bk0DwbufY7OdJu1U5g6lMX55hWX800ZupVe0uUDwzW9hhz
+         YykA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=FSE7WAV8;
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::434 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VWrVfJCd;
+       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:subject:in-reply-to:cc:from:to:message-id:mime-version
+        h=sender:from:to:subject:date:message-id:auto-submitted:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OAALNjtcfGxC1W57STNaOYfkRstOha7sVBBrUC8vuuE=;
-        b=fkrdZ6uhIBtDvhOzTt9/CP6uxHz+VxDxLM9FrFgfgaXmZxhiGgmW/v8TRLsTDf5Xpe
-         5VCz4w5O/2oljaJJKwranXeRnW4wQhAZlaLny2XrLrO2xCntHlXI6LNGZY33EJiOG6cx
-         O4ujha1PRTJk1TU4/QKMMtPz2YVlFg8WjLuRvHNrTDy1MuPF+iQGj2nHdfqtkYCms7R9
-         46VBf5+lMPxmTM0matTy369ruIYQ+qkRoHpOJ7xgQ6PmgnOV0mEaH0Azyu1WJVbuX8s7
-         UnlQqdqWxN4FPiV6v0UyXu7/6d4mI7vi6tPLCaIObdQIq2UkxheAgTjpxeOINDpgGtIa
-         ZFzA==
+        bh=8Y/HDPtltaNZ5Q+ixb33n5+pBxJ+N37aBZFip1fURkY=;
+        b=gC5iKni1ECGiEIBbfA/5D1uNGf1Jsphsm8ZywUWFwRQFrol8WTiebWAV0dZwOwI9sW
+         ep5RbjWqOwJG/c+M1WrE2NtKu43haKvMT06DxAHIghRelbnOIWmSyPXSlRGB8NHmC1Fn
+         /6DJ/4jim1/i5i0eV2JMuQOs3MK2Dd0nsyzQiu/evgSGFTmnxjarWJYqmv0Ivc3OBRwd
+         Kh+Lc5jOAnNaWeV81IWhINmcFL91B94nT3VXyXH0bxL6qxM58o8U9EsS6WiZGvoy03JU
+         Qhh6JjE9VICZ7wjiC8sZk9HwDLsVup2KSNr4yJnkSB99pOXWce950ArrS6fS0U2HC8f/
+         P/gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:subject:in-reply-to:cc:from:to
-         :message-id:mime-version:x-original-sender
+        h=sender:x-gm-message-state:from:to:subject:date:message-id
+         :auto-submitted:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=OAALNjtcfGxC1W57STNaOYfkRstOha7sVBBrUC8vuuE=;
-        b=4NxBf2GHQY2E2sIgUPwwgDHGEM4LBEnjvBpDfcaqfZ0aVMatjTfRLaw7XKnfdipdjD
-         hn/kN05wYBU2stgoQjJP1TWcBJnw6/jiP9aMYqZthtEENUWhVCL05n8CTP0ZOFplFSnf
-         rVq5lPgSqqoWMiiT0m6IAakRk186L/G10x4zJlSJQX4tUINerlnssmTRlQF0oiXCI6X+
-         mSc+Xp7dzXMY8dTZnhvx6A7nz043l0xXz4nIyYezWlUT4XBRm7fNUvNu2sUQJh9JgpE8
-         KgBhg6AFXqPIvw/YErFMQzbA6b76D1UBFADk8q74FipJUD8A+vKeH5PIoLZXKLPJfqLs
-         ScXg==
+        bh=8Y/HDPtltaNZ5Q+ixb33n5+pBxJ+N37aBZFip1fURkY=;
+        b=sG2bkbRfVc2LSYtkZIKGHM51gPPZf+IMOfMkq7M3RyopqDsE0Ccn4KviqmS6N2HT8S
+         ftf/a+9eY2qOCIbtztx+CtH0xDQEy2MOtNnnFiHTdxE9Sin7dY1T+C/3AgY6thLZytlo
+         GwyjQAG+iSlsklmMM6svo59QYpqxUWjn8fFFoTmbgcJX7gQsLIEOPFsDLYuNywU91pEW
+         3zC+hFs6lEJvXdRrWo/JUobBNaLvO/Cqew6M+KCbBcRmYb6csvmlS5ENyY2BSoiSnBfB
+         uyky5maFM8VxfS/3SwKOxvb4HCKn7hCyhj7YV+VJFVMkqzkXtDHg24L2vK+yLUhXWeez
+         VFAg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531zYt6KtPRFGPycgDLMAUQ7J7BBYsEoETCiVzZzdLlZYUbKzUb2
-	EbWH3HcoUkg9dZDB2HpCLDA=
-X-Google-Smtp-Source: ABdhPJwip1xtOlDa60DifvNAno7U38UoxQuHxISPDNJoO0YUNfcASQuUPrZC9LEKHZdUzBaHXTqqtA==
-X-Received: by 2002:aca:dbc2:: with SMTP id s185mr3329120oig.141.1635433872438;
-        Thu, 28 Oct 2021 08:11:12 -0700 (PDT)
+X-Gm-Message-State: AOAM532SmT7jv7yTfOKsay4CnpShgdcgyiQyqxQ2Fc8htfP/jkEXMf5M
+	XgwjnfFsXIClhj/QEymMW/Y=
+X-Google-Smtp-Source: ABdhPJyltoSWZBlr9CGNexSJyuCm1w9DXIX5uK36u2vzsoB8Di++sGevFtZjfkurV0ysp7T7SkVv1w==
+X-Received: by 2002:a17:902:c102:b0:13f:5507:bdc9 with SMTP id 2-20020a170902c10200b0013f5507bdc9mr5487294pli.8.1635448386909;
+        Thu, 28 Oct 2021 12:13:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:5989:: with SMTP id n131ls964270oib.3.gmail; Thu, 28 Oct
- 2021 08:11:12 -0700 (PDT)
-X-Received: by 2002:a05:6808:989:: with SMTP id a9mr3478874oic.41.1635433872076;
-        Thu, 28 Oct 2021 08:11:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1635433872; cv=none;
+Received: by 2002:a05:6a00:982:: with SMTP id u2ls1976704pfg.11.gmail; Thu, 28
+ Oct 2021 12:13:06 -0700 (PDT)
+X-Received: by 2002:a63:ab02:: with SMTP id p2mr4488612pgf.209.1635448386332;
+        Thu, 28 Oct 2021 12:13:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1635448386; cv=none;
         d=google.com; s=arc-20160816;
-        b=gqyrwu8wyVUDg+FQDgqiGxh6C0Wd/w7TqfnKDbP8xIdQphVwYbm+kOVRH0+00729/u
-         izGIQ1/IVFUsgTBdY4YEfvfuikvUoQN2A48aueFLVUppEvKTRpz0sh3je/DoDymQmACt
-         O4PFh8XZKv+QiGBizV72CLo+8ppsvKg7MIFq3ymQe570j7Wj8MTT/rZRWTR0kGCP7QIA
-         BDAksK0qwOvmavYE/ZqWfy+VGxp8z6j1DylTbIKHPaCprXxv3OY2qGqi7CM9+YuzcoPm
-         IggrS4AZ7iKBbrwVKQOklVfqORYnIzpv9beJbAsKiTsCjicC4YeLViLgmR20eXsyTYdv
-         mx+Q==
+        b=Cz5GHBsJS5YYljGjEU600lf67ffZYS5PZmk187HpNEZ7pya+uKFC/N55XVknNH2kEa
+         iUk7kSRqPAdiN8ur4AtL4gPZyJILz8/2JzRnyGwLsthq4yb6nlOOLXUKm9f8ehPkFAW4
+         5h5EFQS39PkJAjR/zstCURtaS2OPRSiS+gNmkx7VV1swkLvC4ghs2846T5Z93PlvAX7M
+         r/lx+sHiQmgiKeWoJFm+HQ6nkOhS0zuo+etzY3rYBCQp9iRJqEKv8yvwh7WpIUUbzcqB
+         XPc2mw4xQvvxZDogzEb0jm+FOAFE99KOcC7shaSJSP7HAdYnnAFEwv56sCPWVBxY5tJu
+         EOBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:dkim-signature;
-        bh=259aXqiOnA5iWuUV4ETs5uC0oUlsrJdMmweeqlD6Flw=;
-        b=He352s+5Bzab5RCvdihWGWMLooodJTLjI656uHOGpqE5+cbcZ0bJeTRTXzTHVjAcSg
-         juaIWd5WNjhuSH+VvB0wE2RLMSGb4nBd9RubBaYnsV0d3q/Db/WbvXEVzdstw1X0dC1U
-         7M0up+ERYcUI5LYlxN8kUH4z0DTvY6Qwy74h9n4/VVkcIp7NA9Y1O4zbBmO7NlOfbBlt
-         nNQ0lCzrOgDEV3lFjvySEvPzxn/olUvG/mhPB/6v/BIYNCStNKVzqfGcXcOSYetA9rv7
-         HNWgD1Uy90IHbB1ocJAwVb+7rW244tmzV4WDwRsj98aI4Cm1wfSQ72STin4/w0iCUxgi
-         MHhA==
+        h=mime-version:auto-submitted:content-transfer-encoding:message-id
+         :date:subject:to:from:dkim-signature;
+        bh=lPd51K6B/NMpNdGcVlZ4xE9bTz8pKKM41/O0g8UQBV8=;
+        b=HLJbtscg5z3ubtBhb7uPbERkb2ExOuopgxW9kmNBuuhUHBUP0MfZsR9mFMnnHFKQfJ
+         LTre8ugjPzLdedCq2QyMrpQ/5DCD/sOR8hk5BAuPIdUJ76psjm+EWyilVJ8rWnm3HVV4
+         +WrjAr/V3ovyH2eFLDABMmgb7JnOeSxGKGl3CNWtrh2pLqBhL6gyFmoF+LaxaO9LpB/L
+         FXTORLFJDF3qELtUTWFGxbUJRZ3ymyL/la/9gmqBlhxz5doSw1+yb3wBpskE4I03qkDK
+         oguH0M1+HJAvN7I5J0RFdJQ6OxCZYH2LlapuhHMMI0FPvZa5vCCMa5Omxh8noB0PDrpI
+         JDSQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=FSE7WAV8;
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::434 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com. [2607:f8b0:4864:20::434])
-        by gmr-mx.google.com with ESMTPS id r130si163706oig.2.2021.10.28.08.11.11
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VWrVfJCd;
+       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id o22si556381pjp.2.2021.10.28.12.13.06
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Oct 2021 08:11:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::434 as permitted sender) client-ip=2607:f8b0:4864:20::434;
-Received: by mail-pf1-x434.google.com with SMTP id m26so6285612pff.3
-        for <kasan-dev@googlegroups.com>; Thu, 28 Oct 2021 08:11:11 -0700 (PDT)
-X-Received: by 2002:a63:3446:: with SMTP id b67mr3614765pga.258.1635433871085;
-        Thu, 28 Oct 2021 08:11:11 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id f14sm2956300pfv.5.2021.10.28.08.11.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 08:11:10 -0700 (PDT)
-Date: Thu, 28 Oct 2021 08:11:10 -0700 (PDT)
-Subject: Re: [PATCH 1/2] riscv: Fix asan-stack clang build
-In-Reply-To: <CA+zEjCv+whmnL_SFf20j06NpikaMtA7MNQ9+o8Zz7=1_nAtTqw@mail.gmail.com>
-CC: Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-  ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-  linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, nathan@kernel.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: alexandre.ghiti@canonical.com
-Message-ID: <mhng-4c43fe14-f36b-4232-a316-530a4d041d49@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: palmer@dabbelt.com
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 28 Oct 2021 12:13:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPS id F1734610FD
+	for <kasan-dev@googlegroups.com>; Thu, 28 Oct 2021 19:13:05 +0000 (UTC)
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+	id E7BDD610FD; Thu, 28 Oct 2021 19:13:05 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 214861] New: UBSAN_OBJECT_SIZE=y results in a non-booting
+ kernel (32 bit, i686)
+Date: Thu, 28 Oct 2021 19:13:05 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cc cf_regression attachments.created
+Message-ID: <bug-214861-199747@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112
- header.b=FSE7WAV8;       spf=pass (google.com: domain of palmer@dabbelt.com
- designates 2607:f8b0:4864:20::434 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+ header.i=@kernel.org header.s=k20201202 header.b=VWrVfJCd;       spf=pass
+ (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates
+ 198.145.29.99 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -129,145 +144,53 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 28 Oct 2021 00:13:06 PDT (-0700), alexandre.ghiti@canonical.com wrote:
-> On Thu, Oct 28, 2021 at 8:45 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->>
->> On Wed, 27 Oct 2021 22:34:32 PDT (-0700), alexandre.ghiti@canonical.com wrote:
->> > On Thu, Oct 28, 2021 at 7:30 AM Alexandre Ghiti
->> > <alexandre.ghiti@canonical.com> wrote:
->> >>
->> >> On Thu, Oct 28, 2021 at 7:02 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->> >> >
->> >> > On Wed, 27 Oct 2021 21:15:28 PDT (-0700), alexandre.ghiti@canonical.com wrote:
->> >> > > On Thu, Oct 28, 2021 at 1:06 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->> >> > >>
->> >> > >> On Tue, 26 Oct 2021 21:58:42 PDT (-0700), alexandre.ghiti@canonical.com wrote:
->> >> > >> > Nathan reported that because KASAN_SHADOW_OFFSET was not defined in
->> >> > >> > Kconfig, it prevents asan-stack from getting disabled with clang even
->> >> > >> > when CONFIG_KASAN_STACK is disabled: fix this by defining the
->> >> > >> > corresponding config.
->> >> > >> >
->> >> > >> > Reported-by: Nathan Chancellor <nathan@kernel.org>
->> >> > >> > Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
->> >> > >> > ---
->> >> > >> >  arch/riscv/Kconfig             | 6 ++++++
->> >> > >> >  arch/riscv/include/asm/kasan.h | 3 +--
->> >> > >> >  arch/riscv/mm/kasan_init.c     | 3 +++
->> >> > >> >  3 files changed, 10 insertions(+), 2 deletions(-)
->> >> > >> >
->> >> > >> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
->> >> > >> > index c1abbc876e5b..79250b1ed54e 100644
->> >> > >> > --- a/arch/riscv/Kconfig
->> >> > >> > +++ b/arch/riscv/Kconfig
->> >> > >> > @@ -162,6 +162,12 @@ config PAGE_OFFSET
->> >> > >> >       default 0xffffffff80000000 if 64BIT && MAXPHYSMEM_2GB
->> >> > >> >       default 0xffffffe000000000 if 64BIT && MAXPHYSMEM_128GB
->> >> > >> >
->> >> > >> > +config KASAN_SHADOW_OFFSET
->> >> > >> > +     hex
->> >> > >> > +     depends on KASAN_GENERIC
->> >> > >> > +     default 0xdfffffc800000000 if 64BIT
->> >> > >> > +     default 0xffffffff if 32BIT
->> >> > >>
->> >> > >> I thought I posted this somewhere, but this is exactly what my first
->> >> > >> guess was.  The problem is that it's hanging on boot for me.  I don't
->> >> > >> really have anything exotic going on, it's just a defconfig with
->> >> > >> CONFIG_KASAN=y running in QEMU.
->> >> > >>
->> >> > >> Does this boot for you?
->> >> > >
->> >> > > Yes with the 2nd patch of this series which fixes the issue
->> >> > > encountered here. And that's true I copied/pasted this part of your
->> >> > > patch which was better than what I had initially done, sorry I should
->> >> > > have mentioned you did that, please add a Codeveloped-by or something
->> >> > > like that.
->>
->> OK, those should probably be in the opposite order (though it looks like
->> they're inter-dependent, which makes things a bit trickier).
->>
->> >> >
->> >> > Not sure if I'm missing something, but it's still not booting for me.
->> >> > I've put what I'm testing on palmer/to-test, it's these two on top of
->> >> > fixes and merged into Linus' tree
->> >> >
->> >> >     *   6d7d351902ff - (HEAD -> to-test, palmer/to-test) Merge remote-tracking branch 'palmer/fixes' into to-test (7 minutes ago) <Palmer Dabbelt>
->> >> >     |\
->> >> >     | * 782551edf8f8 - (palmer/fixes) riscv: Fix CONFIG_KASAN_STACK build (6 hours ago) <Alexandre Ghiti>
->> >> >     | * 47383e5b3c4f - riscv: Fix asan-stack clang build (6 hours ago) <Alexandre Ghiti>
->> >> >     | * 64a19591a293 - (riscv/fixes) riscv: fix misalgned trap vector base address (9 hours ago) <Chen Lu>
->> >> >     * |   1fc596a56b33 - (palmer/master, linus/master, linus/HEAD, master) Merge tag 'trace-v5.15-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace (11 hours ago) <Linus Torvalds>
->> >> >
->> >> > Am I missing something else?
->> >>
->> >> Hmm, that's weird, I have just done the same: cherry-picked both my
->> >> commits on top of fixes (64a19591a293) and it boots fine with KASAN
->> >> enabled. Maybe a config thing? I pushed my branch here:
->> >> https://github.com/AlexGhiti/riscv-linux/tree/int/alex/kasan_stack_fixes_rebase
->> >
->> > I pushed the config I use and that boots in that branch, maybe there's
->> > another issue somewhere.
->>
->> CONFIG_KASAN_VMALLOC=n is what's causing the failure.  I'm testing both
->> polarities of that, looks like your config has =y.  I haven't looked any
->> further as I'm pretty much cooked for tonight, but if you don't have
->> time then I'll try to find some time tomorrow.
->>
->
-> Arf, that was obvious and just under my nose: without KASAN_VMALLOC,
-> kasan_populate_early_shadow is called and creates the same issue that
-> the second patch fixes.
->
-> I'll send a v2 today and try to swap both patches to avoid having a
-> non-bootable kernel commit.
+https://bugzilla.kernel.org/show_bug.cgi?id=214861
 
-Thanks.
+            Bug ID: 214861
+           Summary: UBSAN_OBJECT_SIZE=y results in a non-booting kernel
+                    (32 bit, i686)
+           Product: Memory Management
+           Version: 2.5
+    Kernel Version: 5.15-rc7
+          Hardware: i386
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Sanitizers
+          Assignee: mm_sanitizers@kernel-bugs.kernel.org
+          Reporter: erhard_f@mailbox.org
+                CC: kasan-dev@googlegroups.com
+        Regression: No
 
->
-> Alex
->
->> >
->> >>
->> >> >
->> >> > >
->> >> > > Thanks,
->> >> > >
->> >> > > Alex
->> >> > >
->> >> > >>
->> >> > >> > +
->> >> > >> >  config ARCH_FLATMEM_ENABLE
->> >> > >> >       def_bool !NUMA
->> >> > >> >
->> >> > >> > diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
->> >> > >> > index a2b3d9cdbc86..b00f503ec124 100644
->> >> > >> > --- a/arch/riscv/include/asm/kasan.h
->> >> > >> > +++ b/arch/riscv/include/asm/kasan.h
->> >> > >> > @@ -30,8 +30,7 @@
->> >> > >> >  #define KASAN_SHADOW_SIZE    (UL(1) << ((CONFIG_VA_BITS - 1) - KASAN_SHADOW_SCALE_SHIFT))
->> >> > >> >  #define KASAN_SHADOW_START   KERN_VIRT_START
->> >> > >> >  #define KASAN_SHADOW_END     (KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
->> >> > >> > -#define KASAN_SHADOW_OFFSET  (KASAN_SHADOW_END - (1ULL << \
->> >> > >> > -                                     (64 - KASAN_SHADOW_SCALE_SHIFT)))
->> >> > >> > +#define KASAN_SHADOW_OFFSET  _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
->> >> > >> >
->> >> > >> >  void kasan_init(void);
->> >> > >> >  asmlinkage void kasan_early_init(void);
->> >> > >> > diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
->> >> > >> > index d7189c8714a9..8175e98b9073 100644
->> >> > >> > --- a/arch/riscv/mm/kasan_init.c
->> >> > >> > +++ b/arch/riscv/mm/kasan_init.c
->> >> > >> > @@ -17,6 +17,9 @@ asmlinkage void __init kasan_early_init(void)
->> >> > >> >       uintptr_t i;
->> >> > >> >       pgd_t *pgd = early_pg_dir + pgd_index(KASAN_SHADOW_START);
->> >> > >> >
->> >> > >> > +     BUILD_BUG_ON(KASAN_SHADOW_OFFSET !=
->> >> > >> > +             KASAN_SHADOW_END - (1UL << (64 - KASAN_SHADOW_SCALE_SHIFT)));
->> >> > >> > +
->> >> > >> >       for (i = 0; i < PTRS_PER_PTE; ++i)
->> >> > >> >               set_pte(kasan_early_shadow_pte + i,
->> >> > >> >                       mk_pte(virt_to_page(kasan_early_shadow_page),
+Created attachment 299353
+  --> https://bugzilla.kernel.org/attachment.cgi?id=299353&action=edit
+kernel .config (kernel 5.15-rc7, Shuttle XPC FS51, Pentium 4)
+
+There seems to be a problem with UBSAN_OBJECT_SIZE, at least on my Pentium 4
+box.
+
+The machine boots fine with CONFIG_UBSAN_BOUNDS, UBSAN_ARRAY_BOUNDS,
+UBSAN_SHIFT, UBSAN_BOOL, UBSAN_ENUM, UBSAN_SANITIZE_ALL enabled but when I
+build the kernel with UBSAN_OBJECT_SIZE=y the machine won't boot at all.
+
+The problem seems to be very early at boot as I don't get any output on screen
+or via netconsole, only a blinking grey cursor on an otherwise black screen...
+
+Kernel is built with clang 12.0.1 on another machine (Ryzen 5950x) and copied
+over to the target machine via nfs.
+
+The attached kernel config is the failing one, the attached dmesg is the same
+config without UBSAN_OBJECT_SIZE, just booting fine.
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/mhng-4c43fe14-f36b-4232-a316-530a4d041d49%40palmerdabbelt-glaptop.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-214861-199747%40https.bugzilla.kernel.org/.
