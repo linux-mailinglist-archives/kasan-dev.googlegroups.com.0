@@ -1,30 +1,30 @@
-Return-Path: <kasan-dev+bncBDAOBFVI5MIBBNWVWCGAMGQENVEYLYQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAOBFVI5MIBBOOVWCGAMGQE567PGEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53f.google.com (mail-ed1-x53f.google.com [IPv6:2a00:1450:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1FB44CA85
-	for <lists+kasan-dev@lfdr.de>; Wed, 10 Nov 2021 21:25:27 +0100 (CET)
-Received: by mail-ed1-x53f.google.com with SMTP id z21-20020a05640240d500b003e3340a215asf3367403edb.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 10 Nov 2021 12:25:27 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1636575926; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 233A544CA86
+	for <lists+kasan-dev@lfdr.de>; Wed, 10 Nov 2021 21:25:30 +0100 (CET)
+Received: by mail-lf1-x138.google.com with SMTP id p19-20020a056512139300b003ff6dfea137sf1710064lfa.9
+        for <lists+kasan-dev@lfdr.de>; Wed, 10 Nov 2021 12:25:30 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1636575929; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XJ0IVWcjuYy65DWxP/Zr0RRV/srxQZDAT9XWAm69NV60HfaDZXbycfmjeqLMkoWVV+
-         o93yyqqLzJHR6BxL6Fu4hrHmVfowvasS/MWnyL3xSn/82RnMj83nrh8+5zDEQoCr8I4M
-         ehd2Zc+MPiCY/Gu/8E28GqfoA4x8B2ZRs4ft21SDv9HVsT/YFaVaMA2Hw2SeavifwaNw
-         hkK7CU/WxbdGw6zFf4QQ/BtGcZWboOx+caPtYkhxDpqtC7DHv+fimuOZdFZzuq9LvxSq
-         ziJAC06ALYY1aeNQCVpvdXj5kV8eOxIjlmy4/RLAcQWSmS9KbW9blddDvfW3O0sEMal9
-         TNeA==
+        b=o91PDLSBdwLedu12tRtkXdzjWG+ZvdN2gdYPsVt2xr8qjAOjb2/74pU5jMv3c462Hy
+         /wCsShllun6RVXvi8YZh+qnGptfNmQ4g5GDGgWE1tUMbccRr0uriirnLDuc8rnzV5K07
+         bTdI7nQ17mdHYKjYMJBJIEZDgOwmdHfhN+vBUSZASI6z8LRW0bB8jg9oOJPlQkR5yST6
+         MMkah9XheiVNpzCBHZBdfwbkeHaUCGwGAwCiXxc2YfMm6Xz79YsKdCrLdajEzV4niVMt
+         wDrq+Bnd5j6hVpmL8x05NGBkNqPLmMwcCxVuUMq1DZUd8wAeptW7KZr+l4oKO4Bwm6zN
+         XEaQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=2tY7f+SDe9O12od7XozL/wGWLTFR4JUyJVKTAXYH/fI=;
-        b=XOJXLHlxqvTuNLv22TxoUb881cga6W9MBrUK09YeZ2lxGJYz1tZ0Q5Nx6AWuozEcFw
-         3luOc0KcSlQ8yPvEJ/DNga0jFUp37UnSkNYQnosmLKbgjExeYqBoZlCn87kzZJNd5JNZ
-         OuWdyKZJhON6vpAJ8Mod7AEnRbd8ZUCKa6+aZT7tdWChzxxqHWfHIrYwAB/IsDa8JLOB
-         sE9ZymfsLK/Ng3n0d58gH+Aih1eso6gvUd5ZHtvEmoOmXKHxg/emBQ4YPZT/SdNUFRs2
-         Jl8ikmUmOKo/8VMobrGi1twCimOakXKYpnWb5+q7h4GX0a1RSPh6T3LC59yIiztA/+5W
-         RKBA==
+        bh=tK80CbRfa8wWGvFV+JNmhiYOIudFkwkljwHMCYuApxI=;
+        b=OAPx4kMWd/kNJSwAxfeS0rZWpY8+AbOVmnPNNkq2ve69Y6/zHJmEntFBPXzHT/6KZ8
+         iI0C0rk6NAhUObC0NtwSZEgi+AU8BkiEx/AgFpfPWCAL417U9lBklBecCTLrDZ7kUga2
+         MXCxYgHHIXkg6zsen6ZveJakfIBcyHPRkAV56Qe/qGPSxQ9xORDQcw7lc0N7KldenQ0N
+         KL/yYv/JAmZGYJWsjrkoh/PBC/hxUJmL1HydbNImyOlCYaJTZZbV5YfBnP3ll6xm+AV0
+         UkwMp+NF4L8n9lrO4bZfV82I0cPs9kSTAIKNf5YcUEXaJbgVBXnYUVGR7YpY+m3H2XBB
+         MZtg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of valentin.schneider@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=valentin.schneider@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=2tY7f+SDe9O12od7XozL/wGWLTFR4JUyJVKTAXYH/fI=;
-        b=mLI2TY1KukHdDuCn89WPkA3weY1KYPk0Ubx3jJi4cKwMgk+2lTwB4yLxoeFL6vmWcy
-         ObTA0OAZescaC7duy62EFgPSAkOJm6qXDjoFUYy3tAB5zbELKbw30nUObVtiSqoM/MNX
-         gXvvgCZ/eTqq77wKp6kh8PYHD62iE2hrH7N0mafAexNF+oAD9vu2riM3/oSkmDNUgcjq
-         CZu+ZQizFr5Jtl+KnqZ4oWQNcvOGnOYa7OSyt/0Iv7kHeiYfzwa3UkfDgLif2HUT4I2t
-         9FPJ1oqcaOLjZwx46eYufmZu+PUkLmD5yso0W7L9dkjUmyIhyZHQNLdFU5I/YJf5SnKj
-         MRuQ==
+        bh=tK80CbRfa8wWGvFV+JNmhiYOIudFkwkljwHMCYuApxI=;
+        b=owHN7J2so3LBKZ+3yC5FnJu2tn1v8kqh7a91ety7tsPKsq1THE4M4eYY+gOjhDy+Lj
+         RO33M2qZPElF/S6xnv9wFrIEGDoh/cNOB9S62T/F7MVaPc0rXXV0ra5wcPTkoWyou8bp
+         rnE2nsfstRWLIdjRJuR7Fdt/KgzldK1coNOT4R9RT3TKkGeALjUKTUM0KqbnyFpekNhU
+         +dpgovw2ULIxkCsoXZlUFEC0WpISztahzfHxdKKre1mMmz2YnV0E3y6JSfacSqswkIAI
+         FjbisuKn92xpo6srEYt4dJxcnjllvvDOAQrL+j6xdKjCX7Yrq8hk0hQq9hwRn9qQEG9M
+         A77Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -48,66 +48,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=2tY7f+SDe9O12od7XozL/wGWLTFR4JUyJVKTAXYH/fI=;
-        b=ijtkF4cVsYDiJmL0Q5rHW0zkTggbo+akF31SriEwQSGonA3sh4vSTMFXmuniYD+dmL
-         fGsWQVgMlMm+9c/6YD6KhQCuVhNmrCB3bDjrqYfeKVuaWTNhjgdhQg2JUh8vyuG5zTSr
-         lc4QlG3CITk+CX/5gdDMO1QMP7oC/jzPuhs9z3Br6MS2otSxcGXMn3+/o1vloccjbP3m
-         INVpVL2syNR1mx1HU9G1v7EXtuAWcxBeGlwpgNnhkDBhOieD+urkLabsJnXhZOHrQjz/
-         Pc8i7Pd6FGo5VGS5+xyx+joIjI95rM+tS+ZdkLXasPfpClVloierCds14tPGNSUUO8Y4
-         QzeA==
+        bh=tK80CbRfa8wWGvFV+JNmhiYOIudFkwkljwHMCYuApxI=;
+        b=TimTMJGuBvy6qD10gp8A9twqqRcLj5/QzUqZPxtHVtxQ4FeMGnIh2FX8e/9AqKSSh2
+         63a1Idiv6wG2gvk8BCL1wj+kX1KsXbrBn3bzLAzeLmCdGlnbj4XHkNVjGEtEOP1VA/uf
+         Sw+RTYGLOc/29vmFAKt8SsDDWS5cOoW+55pxVwJQwiMhMrRXNFfpO8ZnXONRerIb4DbU
+         uPWU+3CgkEI/BpDHZmz/sY4p9i9Jf1Y/0SDnyDXFMQjO+efm7by9vQA9irAFk3waN2xw
+         8hKiDnLWATQkhWHR3Nojp/I4gBp2rxKZHXDzdusNf+YYv/9dEzSpL7M4MUIdBNkO5ghk
+         npyg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533gMrdGNACFYqSgNQXQagwHXrRCrAhKWJkgbCho/KeHL+QA2r1A
-	LfeJynbBUlaYDGwoJWk73v4=
-X-Google-Smtp-Source: ABdhPJwdX7kL801qP534+kVzXuISDFqs+0Ob4wW/0OYv665x3ItMD1jZdI+f1Op/53LLN0wacAyZRA==
-X-Received: by 2002:a05:6402:270e:: with SMTP id y14mr2333249edd.140.1636575926887;
-        Wed, 10 Nov 2021 12:25:26 -0800 (PST)
+X-Gm-Message-State: AOAM530cTuylICAK1BhKHq/uSRdZ46/5WZ2kAPQ3OdGXYvVgAnfdIEte
+	wf8H4Nlvmfv0+U97rOjjCpk=
+X-Google-Smtp-Source: ABdhPJx4QPMIFKW41UnXixEAqhrCCh9wu9WJ2dGLA+UyLczp7zOGHPeCA7rruSPp5fDipfrlDWxWCw==
+X-Received: by 2002:a05:651c:503:: with SMTP id o3mr1654260ljp.249.1636575929640;
+        Wed, 10 Nov 2021 12:25:29 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:d10:: with SMTP id gn16ls363822ejc.5.gmail; Wed, 10
- Nov 2021 12:25:25 -0800 (PST)
-X-Received: by 2002:a17:906:4fc5:: with SMTP id i5mr2392274ejw.475.1636575925903;
-        Wed, 10 Nov 2021 12:25:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1636575925; cv=none;
+Received: by 2002:a05:651c:1251:: with SMTP id h17ls173741ljh.6.gmail; Wed, 10
+ Nov 2021 12:25:28 -0800 (PST)
+X-Received: by 2002:a2e:9e07:: with SMTP id e7mr1672128ljk.457.1636575928657;
+        Wed, 10 Nov 2021 12:25:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1636575928; cv=none;
         d=google.com; s=arc-20160816;
-        b=ee/0cKv6UCMdsfeVnzhh/TvBde415Vb351Udg1JX8Dbg55UhrIc0Ekvy5r+fifu7CS
-         ao5lyqGYDBgQ0GwVo90IYbn4tVfyuIYCgfeiI+0uzef0365oK1Oum1SAp0cveZW3db4K
-         G8JUFQ+mF6EUZISS+2LytxY1zaMwdM7rJyNP6pBeljTwZwYKGRiQywK6IeQohqbBDmvH
-         8KCQ7BHC/IuCf7vAnZflH79+CAGSxmHh8Nk+gwhMKVx6vurfToV2h1M3zxOTVtyv2nqt
-         EKy6YxuCiBE4uxNpTR7ZHPwKbwUX4sdQ0hjS1gKvn6wf+qieNhCXeksQj8Ci0UB41hoe
-         f//w==
+        b=O9giYsrNnDICOTk1JyeYx+5fRrvq30udIt+Z8pn+xxvMoMlADDDSXcBfTVkWvsAGnA
+         7Hte++ORya61F+K8Qg4wIeDVHd6B/XPTC7J4kWH3GqfYYlHlpmFfPGbv0DKJUPz6JW1r
+         W+MjDWXPw4agxt9qY4xFBzFxScD3VEcTY6u+atrrZQ+33kqmId3guAGdxKov+oU4C3kE
+         OF43sO54vLDA4PPd/zpXrgQYa0v9S5kR3CQdw2JVQyqVyfpma9lPdtGAOEnkuhh4/qM4
+         6laKj/Sl49CcKjcgFVEdkwFx0wFbxXtCfOcmlqWhjabizrsWXD7KcRzYEBOZ+qp8ck2q
+         acGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=A1eg+ddyxvGdqK+wV6P6KzvwAx/ukheotKt5KM+zucM=;
-        b=vD/OhY0tooH6/jfHpiaNK4uaeqMXfblCI1JsguoK8W+QZs3AV8RvptkZ9Aq2L8f+eo
-         I9DDpwNnZ+03eySVSD1+Vou5de9opqtZuCaL7DHEDC/10n/bYvZ/7w2dEKtQatyynvoY
-         hr8zDBrX2QtoJ1bWLNsaRLaIrkN2LQ5sk/znJpbhUdxBv5CtRT+pUM4p4TkpY31sQ5PJ
-         ulcl8lO0weFFnTKTysY+KeB7eLlOrCTad82ASFW9uiDcwr01oJDTdlYYriWVeaDnLbdP
-         LrAIAewKKM4g/nUgKIdl2UiXCMKFWhngXqITpx9nXI5O3UdG/rO6E4VgsQdDSgUuX9VJ
-         LHXQ==
+        bh=3HaXY73ihfpskTj9j0pI9M6hMuGkezVST1fktm/y4z0=;
+        b=cfTtWdpWa7V0oqEKvanfMK9WT+ocSRTZ2CZPLG+7qJlVzWMn7l8F1r+oYDudThYkCx
+         xNU3/NZkOOxANzyTjFDQ+dpFbhHAnCKCf3MUjqZwyL9MVsSekGt/VagCGLBD3r5vCoRx
+         GsnPr3FH+NdmxlvhmTEeiUz7dWKYBYaOvq1L5fD4zCFWhWa1O3wKMjB8Hsj+0BQvil5D
+         EgQS2T5jD1oxQ0PtpQ/3+FqUrhodG+0H5NzmpBnHumG6ggFAqwMzngvgZrUUn+25xEYm
+         Kt7Pn+kOK0/APcA/a8scp8OOTWwyla6x4Trne5nzVVDp3NTOaMCveeotxhtdKnzCjkwB
+         XZYQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of valentin.schneider@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=valentin.schneider@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id u19si94177edo.5.2021.11.10.12.25.25
+        by gmr-mx.google.com with ESMTP id z12si84276lfd.12.2021.11.10.12.25.28
         for <kasan-dev@googlegroups.com>;
-        Wed, 10 Nov 2021 12:25:25 -0800 (PST)
+        Wed, 10 Nov 2021 12:25:28 -0800 (PST)
 Received-SPF: pass (google.com: domain of valentin.schneider@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 225C713A1;
-	Wed, 10 Nov 2021 12:25:25 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88E0C1435;
+	Wed, 10 Nov 2021 12:25:27 -0800 (PST)
 Received: from e113632-lin.cambridge.arm.com (e113632-lin.cambridge.arm.com [10.1.196.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E5F3D3F5A1;
-	Wed, 10 Nov 2021 12:25:22 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5863A3F5A1;
+	Wed, 10 Nov 2021 12:25:25 -0800 (PST)
 From: Valentin Schneider <valentin.schneider@arm.com>
 To: linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	linuxppc-dev@lists.ozlabs.org,
 	linux-kbuild@vger.kernel.org
-Cc: Peter Zijlstra <peterz@infradead.org>,
+Cc: Marco Elver <elver@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
 	Ingo Molnar <mingo@kernel.org>,
 	Frederic Weisbecker <frederic@kernel.org>,
 	Mike Galbraith <efault@gmx.de>,
-	Marco Elver <elver@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	Michael Ellerman <mpe@ellerman.id.au>,
 	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
@@ -116,9 +116,9 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Michal Marek <michal.lkml@markovi.net>,
 	Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH v2 1/5] preempt: Restore preemption model selection configs
-Date: Wed, 10 Nov 2021 20:24:44 +0000
-Message-Id: <20211110202448.4054153-2-valentin.schneider@arm.com>
+Subject: [PATCH v2 2/5] preempt/dynamic: Introduce preempt mode accessors
+Date: Wed, 10 Nov 2021 20:24:45 +0000
+Message-Id: <20211110202448.4054153-3-valentin.schneider@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211110202448.4054153-1-valentin.schneider@arm.com>
 References: <20211110202448.4054153-1-valentin.schneider@arm.com>
@@ -141,199 +141,77 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Commit c597bfddc9e9 ("sched: Provide Kconfig support for default dynamic
-preempt mode") changed the selectable config names for the preemption
-model. This means a config file must now select
-
-  CONFIG_PREEMPT_BEHAVIOUR=y
-
-rather than
-
-  CONFIG_PREEMPT=y
-
-to get a preemptible kernel. This means all arch config files would need to
-be updated - right now they'll all end up with the default
-CONFIG_PREEMPT_NONE_BEHAVIOUR.
-
-Rather than touch a good hundred of config files, restore usage of
-CONFIG_PREEMPT{_NONE, _VOLUNTARY}. Make them configure:
+CONFIG_PREEMPT{_NONE, _VOLUNTARY} designate either:
 o The build-time preemption model when !PREEMPT_DYNAMIC
 o The default boot-time preemption model when PREEMPT_DYNAMIC
 
-Add siblings of those configs with the _BUILD suffix to unconditionally
-designate the build-time preemption model (PREEMPT_DYNAMIC is built with
-the "highest" preemption model it supports, aka PREEMPT). Downstream
-configs should by now all be depending / selected by CONFIG_PREEMPTION
-rather than CONFIG_PREEMPT, so only a few sites need patching up.
+IOW, using those on PREEMPT_DYNAMIC kernels is meaningless - the actual
+model could have been set to something else by the "preempt=foo" cmdline
+parameter.
 
+Introduce a set of helpers to determine the actual preemption mode used by
+the live kernel.
+
+Suggested-by: Marco Elver <elver@google.com>
 Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
 ---
- include/linux/kernel.h   |  2 +-
- include/linux/vermagic.h |  2 +-
- init/Makefile            |  2 +-
- kernel/Kconfig.preempt   | 42 ++++++++++++++++++++--------------------
- kernel/sched/core.c      |  6 +++---
- 5 files changed, 27 insertions(+), 27 deletions(-)
+ include/linux/sched.h | 16 ++++++++++++++++
+ kernel/sched/core.c   | 11 +++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 2776423a587e..9c7d774ef809 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -88,7 +88,7 @@
- struct completion;
- struct user;
- 
--#ifdef CONFIG_PREEMPT_VOLUNTARY
-+#ifdef CONFIG_PREEMPT_VOLUNTARY_BUILD
- 
- extern int __cond_resched(void);
- # define might_resched() __cond_resched()
-diff --git a/include/linux/vermagic.h b/include/linux/vermagic.h
-index 1eaaa93c37bf..329d63babaeb 100644
---- a/include/linux/vermagic.h
-+++ b/include/linux/vermagic.h
-@@ -15,7 +15,7 @@
- #else
- #define MODULE_VERMAGIC_SMP ""
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 5f8db54226af..0640d5622496 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -2073,6 +2073,22 @@ static inline void cond_resched_rcu(void)
  #endif
--#ifdef CONFIG_PREEMPT
-+#ifdef CONFIG_PREEMPT_BUILD
- #define MODULE_VERMAGIC_PREEMPT "preempt "
- #elif defined(CONFIG_PREEMPT_RT)
- #define MODULE_VERMAGIC_PREEMPT "preempt_rt "
-diff --git a/init/Makefile b/init/Makefile
-index 2846113677ee..04eeee12c076 100644
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -30,7 +30,7 @@ $(obj)/version.o: include/generated/compile.h
- quiet_cmd_compile.h = CHK     $@
-       cmd_compile.h = \
- 	$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
--	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
-+	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT_BUILD)"	\
- 	"$(CONFIG_PREEMPT_RT)" $(CONFIG_CC_VERSION_TEXT) "$(LD)"
+ }
  
- include/generated/compile.h: FORCE
-diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
-index 60f1bfc3c7b2..ce77f0265660 100644
---- a/kernel/Kconfig.preempt
-+++ b/kernel/Kconfig.preempt
-@@ -1,12 +1,23 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
-+config PREEMPT_NONE_BUILD
-+	bool
++#ifdef CONFIG_PREEMPT_DYNAMIC
 +
-+config PREEMPT_VOLUNTARY_BUILD
-+	bool
++extern bool is_preempt_none(void);
++extern bool is_preempt_voluntary(void);
++extern bool is_preempt_full(void);
 +
-+config PREEMPT_BUILD
-+	bool
-+	select PREEMPTION
-+	select UNINLINE_SPIN_UNLOCK if !ARCH_INLINE_SPIN_UNLOCK
++#else
 +
- choice
- 	prompt "Preemption Model"
--	default PREEMPT_NONE_BEHAVIOUR
-+	default PREEMPT_NONE
- 
--config PREEMPT_NONE_BEHAVIOUR
-+config PREEMPT_NONE
- 	bool "No Forced Preemption (Server)"
--	select PREEMPT_NONE if !PREEMPT_DYNAMIC
-+	select PREEMPT_NONE_BUILD if !PREEMPT_DYNAMIC
- 	help
- 	  This is the traditional Linux preemption model, geared towards
- 	  throughput. It will still provide good latencies most of the
-@@ -18,10 +29,10 @@ config PREEMPT_NONE_BEHAVIOUR
- 	  raw processing power of the kernel, irrespective of scheduling
- 	  latencies.
- 
--config PREEMPT_VOLUNTARY_BEHAVIOUR
-+config PREEMPT_VOLUNTARY
- 	bool "Voluntary Kernel Preemption (Desktop)"
- 	depends on !ARCH_NO_PREEMPT
--	select PREEMPT_VOLUNTARY if !PREEMPT_DYNAMIC
-+	select PREEMPT_VOLUNTARY_BUILD if !PREEMPT_DYNAMIC
- 	help
- 	  This option reduces the latency of the kernel by adding more
- 	  "explicit preemption points" to the kernel code. These new
-@@ -37,10 +48,10 @@ config PREEMPT_VOLUNTARY_BEHAVIOUR
- 
- 	  Select this if you are building a kernel for a desktop system.
- 
--config PREEMPT_BEHAVIOUR
-+config PREEMPT
- 	bool "Preemptible Kernel (Low-Latency Desktop)"
- 	depends on !ARCH_NO_PREEMPT
--	select PREEMPT
-+	select PREEMPT_BUILD
- 	help
- 	  This option reduces the latency of the kernel by making
- 	  all kernel code (that is not executing in a critical section)
-@@ -58,7 +69,7 @@ config PREEMPT_BEHAVIOUR
- 
- config PREEMPT_RT
- 	bool "Fully Preemptible Kernel (Real-Time)"
--	depends on EXPERT && ARCH_SUPPORTS_RT && !PREEMPT_DYNAMIC
-+	depends on EXPERT && ARCH_SUPPORTS_RT
- 	select PREEMPTION
- 	help
- 	  This option turns the kernel into a real-time kernel by replacing
-@@ -75,17 +86,6 @@ config PREEMPT_RT
- 
- endchoice
- 
--config PREEMPT_NONE
--	bool
--
--config PREEMPT_VOLUNTARY
--	bool
--
--config PREEMPT
--	bool
--	select PREEMPTION
--	select UNINLINE_SPIN_UNLOCK if !ARCH_INLINE_SPIN_UNLOCK
--
- config PREEMPT_COUNT
-        bool
- 
-@@ -95,8 +95,8 @@ config PREEMPTION
- 
- config PREEMPT_DYNAMIC
- 	bool "Preemption behaviour defined on boot"
--	depends on HAVE_PREEMPT_DYNAMIC
--	select PREEMPT
-+	depends on HAVE_PREEMPT_DYNAMIC && !PREEMPT_RT
-+	select PREEMPT_BUILD
- 	default y
- 	help
- 	  This option allows to define the preemption model on the kernel
++#define is_preempt_none() IS_ENABLED(CONFIG_PREEMPT_NONE)
++#define is_preempt_voluntary() IS_ENABLED(CONFIG_PREEMPT_VOLUNTARY)
++#define is_preempt_full() IS_ENABLED(CONFIG_PREEMPT)
++
++#endif
++
++#define is_preempt_rt() IS_ENABLED(CONFIG_PREEMPT_RT)
++
+ /*
+  * Does a critical section need to be broken due to another
+  * task waiting?: (technically does not depend on CONFIG_PREEMPTION,
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index f2611b9cf503..97047aa7b6c2 100644
+index 97047aa7b6c2..9db7f77e53c3 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
-@@ -6625,13 +6625,13 @@ __setup("preempt=", setup_preempt_mode);
- static void __init preempt_dynamic_init(void)
- {
- 	if (preempt_dynamic_mode == preempt_dynamic_undefined) {
--		if (IS_ENABLED(CONFIG_PREEMPT_NONE_BEHAVIOUR)) {
-+		if (IS_ENABLED(CONFIG_PREEMPT_NONE)) {
- 			sched_dynamic_update(preempt_dynamic_none);
--		} else if (IS_ENABLED(CONFIG_PREEMPT_VOLUNTARY_BEHAVIOUR)) {
-+		} else if (IS_ENABLED(CONFIG_PREEMPT_VOLUNTARY)) {
- 			sched_dynamic_update(preempt_dynamic_voluntary);
- 		} else {
- 			/* Default static call setting, nothing to do */
--			WARN_ON_ONCE(!IS_ENABLED(CONFIG_PREEMPT_BEHAVIOUR));
-+			WARN_ON_ONCE(!IS_ENABLED(CONFIG_PREEMPT));
- 			preempt_dynamic_mode = preempt_dynamic_full;
- 			pr_info("Dynamic Preempt: full\n");
- 		}
+@@ -6638,6 +6638,17 @@ static void __init preempt_dynamic_init(void)
+ 	}
+ }
+ 
++#define PREEMPT_MODE_ACCESSOR(mode) \
++	bool is_preempt_##mode(void)						 \
++	{									 \
++		WARN_ON_ONCE(preempt_dynamic_mode == preempt_dynamic_undefined); \
++		return preempt_dynamic_mode == preempt_dynamic_##mode;		 \
++	}
++
++PREEMPT_MODE_ACCESSOR(none)
++PREEMPT_MODE_ACCESSOR(voluntary)
++PREEMPT_MODE_ACCESSOR(full)
++
+ #else /* !CONFIG_PREEMPT_DYNAMIC */
+ 
+ static inline void preempt_dynamic_init(void) { }
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211110202448.4054153-2-valentin.schneider%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211110202448.4054153-3-valentin.schneider%40arm.com.
