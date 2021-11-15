@@ -1,139 +1,119 @@
-Return-Path: <kasan-dev+bncBDA5BKNJ6MIBB4XJZGGAMGQEW76UO5A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAOBFVI5MIBB67ZZGGAMGQESENCMDQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x537.google.com (mail-ed1-x537.google.com [IPv6:2a00:1450:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id B375D4507A4
-	for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 15:55:46 +0100 (CET)
-Received: by mail-ed1-x537.google.com with SMTP id bx28-20020a0564020b5c00b003e7c42443dbsf2242768edb.15
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 06:55:46 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1636988146; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 640B1450852
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 16:30:04 +0100 (CET)
+Received: by mail-wm1-x33a.google.com with SMTP id 145-20020a1c0197000000b0032efc3eb9bcsf9814491wmb.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 07:30:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1636990204; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SDRbsAHhJ7JbArB9TDQH88E+l5Wj5r/juug7yrSm/5Drm577lak7GQYBCeUQo0Yx01
-         fccs5P9x0geeuG8vve57F0ajATMwbKlyE46lum+sOErh18VabsEuO5Miv0VcZVrms46/
-         PPoflb/5Cad3j8oJu/H5Qc9eLWrlFcRqY2hGBHBQfPvrxueE/Fy0FRQaDJkJqH5fVydm
-         PLCDplUti3ifQovptMcm2zhf3sAojILLC//3PJyRovOsRq+HalgxXrR6QKIfsJIcxbVG
-         6oB6FinJBxvNyKxcENrvj4YDw8uMm3gmn4G7H7d33wC0z3b+Khaa8z3kZm+6Fvq0yDKR
-         NbpA==
+        b=CeHsf8aSjCV0oZh6Fpsv338ueOq56JaA9QcCIRKA6OEeGOuvDxVY9KSx45I96abxam
+         IrB65Idh9WYSPS00tvHA4os7zl86gBCwnSNdf0smL3d9YL9nME3hgAJ0k7WSE/832Eg/
+         JxhzpaMpYnAtmJ/75nzT3QzsfWQfGJQNHDvjxy/fs6I8UjaOe8Tc1uDvtxufRFt/CIZH
+         n+dPhizXurfKlXlxG8LgZXkHCsNVDx9hKPULatSkiojcCr6OTQdoSeHvla1GFnGSa8mV
+         OJJLIkOmBvS9/HaFHi6L0VRZF41/U8KBjwRKjt3uwlKdmKkoHLpB4NDOW6P2TCBh7eDc
+         sgEw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:organization:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=ZzcjVhsn9Hwa4c5xGcOCHRPBk7iRCvFlaa0CGMhZ0pA=;
-        b=pNjPI+LafkQLysVfZef8wrilZs0D0B7z+fR4SwtEPUDmNwd/GKMT8l0wIZnt2acp2P
-         Euk/Vn4n3G4UTf/bX8GO4c4jI0BWGKTXMNOmJ6Oc9rW+P5OEznlNHoqjzw8S3bieSSGe
-         NzH8A0WmpRPawb/8Y9+m2k4DlHoKy9tVZg3T0tNkj0ojCJMy4QE/0qV8X1KeTDR9Q7rj
-         JSL/NFeDg8Kux8f4eCYZ4XN3zkuHN2DTLNZnWX7KM2G2UAWXHkiLkrxRNWptZ1qtW4kK
-         QnSOfxUQj03cFBE+b8XLFzIiEX8YeyOe9vW+wrfo1Qii6uLGZV+XyOVao2fo3suc/Xdw
-         WmlA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=BbvhovK3lsVF38Y4CMiRMRKT2Fg466/vlLjj0rHvoIk=;
+        b=kNnbxDPFZegJAZYbWw5cO66Iew6BSfZ8WmKaREYHmj+JhRQV+36CXqQ9IVoevdOQI9
+         rZ6/YJGwh/eEtaBCWn6+DXXWaKp67vVhV2bBJmgYoYtrp0dexAyjQr3ESuy7ePyarnUP
+         VpbAPSrfKy03C+ImOAprP7O1ObNOP2Bc/vbPet4e5P12QQyYAt8L1gmUygHBLRS3Evfr
+         c7KuA91zoLQ/2xvS5L0F82lYdgAGU5+2NLNZP4Bkl9e1e999qdP6WIzoBFa0icweBYM+
+         ZY0ikwjU+7A6ee9PnXHBaCuQm1q5NTHyezI8ZsLz6gPv4h1FOpUd9r1vSJAEGtjJ/hTT
+         JcNQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com designates 192.55.52.136 as permitted sender) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       spf=pass (google.com: domain of valentin.schneider@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=valentin.schneider@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:organization:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ZzcjVhsn9Hwa4c5xGcOCHRPBk7iRCvFlaa0CGMhZ0pA=;
-        b=fuBUCrbScF2++4mxzWJTzX9FPOi7yXXJa549FVVveb4G2S4BscPQa59deN1c25ZXUF
-         4m+GoZpLIjdtkYFknqe0FprJpmSFsjWB91+A/IVrgTusPzslBEsrUxr451TkxFc/8Gib
-         zF0NN52l9dKkw49fZb6qEDzU/TrkyAOfsLNZmxOLb5zR8tGCwy84UUhMOqQeN4YFQC2/
-         8MBkJ6c0ZQUau04J+btfwEgX22t1A1dKcBjGf0FXlt96R/FkPpdre4/K4DTmbO0sgQWb
-         BR00ddKsvxOOcnnF3kZxQo1hq91+xQwo8kgkVlDiafjLFi04n7arlioE+W18wzy/dOaX
-         erNg==
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=BbvhovK3lsVF38Y4CMiRMRKT2Fg466/vlLjj0rHvoIk=;
+        b=XHuwcBySYYiX19UYv8b3QN4Ah3yAwwULwZinog4uNL+M9+GHtfq6FEPPQuKsyqr5Zz
+         3gWuO7RDydmBquVrCeGEvr+bDSpAYgLE/cajuaGjn3FU3Cyec4+XlP1s2kZwMag+K2lj
+         GHSsHwZRwHph75DBnunfvACHSmekqov+i2/hPpuYn0d6wAGcUoi/McOULsXWLvwEBgJT
+         /5EFnKevMCErtrPcQFncwtJsrBvX5BcySTcNOr1rkOuxjC+Y1MLU1d5cASPJsgUZBfsY
+         w0cPFhLBg2EmnIS3m0XoJWAioTRGFjR+OtCAUMW8Jn2hFvLS39mEs5KagxJbfeQmMSmO
+         ZaRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :organization:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ZzcjVhsn9Hwa4c5xGcOCHRPBk7iRCvFlaa0CGMhZ0pA=;
-        b=fCcxA3hz0hsRdu/foS20n7FOgPd1X7CS27bn5CQh9PNPpz9vTkeUwMjMhLCJJjsKUs
-         n3eeajEvfpxZ0j54E9DvCd+fgpAXc7Wzp8t7Ov9YnPdop4yBdfOySjXgaJzBIAegGN7i
-         So4X/kMlOXrMV4QI+KCmTQwph0eSv2/dwFqXb5g0NkHNkmrZwrTVgUHoUCLhLBKD8owX
-         s+nr0/m6hURu+QRaFWZ8k/9QUw6Fx3y+p/WmrdYCcEq/cIq/YCZMw25c4soGRw/ZaBkh
-         eCdpq2NcFGNWQ68mVAioz5VxFE9YsNL3JCBC1ALp1eT+zJdxjg3HBgbM48yq16L2tEqn
-         /pgA==
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=BbvhovK3lsVF38Y4CMiRMRKT2Fg466/vlLjj0rHvoIk=;
+        b=e3GmBI+Danyd1Ivi2g/teYzeCvVxFjKfmjkbeJVzYHoZkR6TpWoC2oaGN2oskkzdyy
+         OJY5AzelZ1nC9UxP1COPtel2CiZsX6KtnIsQipvyFop4HTyDFjGw2NC14/WrJbXWGVD9
+         aNTEbIq6mE3UUdLfRwS7Rdfgo7dOGdb7g67V8i8T97zNVTL5MWvgLmlr3n5AwptI3Lqp
+         ThgNnPNxxzJ9NsAnvuFr6KsQB8+PsbduKjHP+GuOI3B+IZrOy9SY8/M+qPGwCFfB+Pbf
+         VFxECKyv6NNt8KecRw4uWimsLXMqjjDu9D1BEBTxYM3Di2/vjaT35TYoKXhzq00rPk/x
+         W3oA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532BturwRVxStljFrDN0p0rtLXBOjA1befJSo2QNt5hDVeuqs7v1
-	YLmqiWuL3PYroOH8XA1d1fM=
-X-Google-Smtp-Source: ABdhPJypjyuv3Ijz2y3HcQ+SBhfUfkI8rwt1KqiWAd8AdWdofXfaEd5ohObovIW/YABwJi8ErIehIw==
-X-Received: by 2002:a50:e707:: with SMTP id a7mr56646659edn.352.1636988146531;
-        Mon, 15 Nov 2021 06:55:46 -0800 (PST)
+X-Gm-Message-State: AOAM532NtpKnT5vU3ZGouhwjztgDJxB0guCac4jTpcuZdu61HV/j9Xr+
+	+EuxkNm1T54rllV5XRlNkVg=
+X-Google-Smtp-Source: ABdhPJyqtMdX/28xg4glNC4uK0j2oOC9vyQJdz3z8EYKZToQkDdxczpT2rVegou2FcJyONkg6ZGt8w==
+X-Received: by 2002:a5d:628f:: with SMTP id k15mr49519094wru.363.1636990204113;
+        Mon, 15 Nov 2021 07:30:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:c0a:: with SMTP id ga10ls5719320ejc.9.gmail; Mon, 15
- Nov 2021 06:55:45 -0800 (PST)
-X-Received: by 2002:a17:906:8699:: with SMTP id g25mr49703434ejx.271.1636988145645;
-        Mon, 15 Nov 2021 06:55:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1636988145; cv=none;
+Received: by 2002:a5d:6a05:: with SMTP id m5ls10898272wru.3.gmail; Mon, 15 Nov
+ 2021 07:30:03 -0800 (PST)
+X-Received: by 2002:adf:fc90:: with SMTP id g16mr47425673wrr.53.1636990203329;
+        Mon, 15 Nov 2021 07:30:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1636990203; cv=none;
         d=google.com; s=arc-20160816;
-        b=L2/SNxoM5ftld7VqQDmR8PIaucsYZTEkDiEWegIVZV99dbCpU4Ph3UBIc9q85CT6HM
-         ogpbVmbC4LfoK338TSKuofVYLG9sj6EJK4D5gUYN1N4d0YL4Nbd+QgubRvgvs/eqzlhK
-         0veDb3qyXm7XlGv2Xh9Afrs7OqAfF7alzcccjqT0ddvqY6wh0wODdsxcjz0nWwskhBU1
-         6LzUk5/fk40a52GUH6muAQ9qJwDh9iG1Dq9YxK+JDtvIbXfWYP0b1FiP+w0opOKyCOtu
-         ZKa2vVm2Y8FHjRGhMbDQAr4JLDVCUHNCjpP3BLgzz5mwfv27cDGyOKM3t5ZwpI/av6sl
-         Ihhw==
+        b=OPT1s4fytMaLQQWuBbvjFzNAHU/2+7SGGivKxdn2Umc8IfS8LAtkvW7bttDgAPhw6R
+         033ouc963bjartBj9tLj4YjI5hknr0o5OxndLeJJ0ZBmWAf7xWcxI522mrI2XPlUEVxu
+         0CiRju5X5z6LExs0CoQu1QY86aVwoRORumCAFc6xZaoYpu9kQAsA1hXgk18ET+AvOmtW
+         WKczIiVmvE74TlkIbQ3lHyoQijyeBncJKkv61OXIsz5Tmj5Rbxy6eK3fiR0TIUYYunzY
+         UEnf8pTfgW2aKP62JMgzHEHn0We1DwBX5fg5TXhUiSfnSA4lGLzof1VxhdZEfdthTBA5
+         UEPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=organization:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date;
-        bh=IHHKmU4diSFq4hqtapWtREnZnfrG2MIQMm/XtutvMec=;
-        b=cI6CVaG0IDz8Dxz+v+MdYu2HPhZMlwT9tPKGAhrNDcADhQ446BJ8YyE3JB8s+1YxeE
-         5inOXI31mWUznYWFovyyAIWcmIU1eOYP/xUkvxyffSQXfe6Yp9irmFs3BZuNGD5mkOL4
-         4a6A2jdbGGMVdewLcF+wJkMnT19Hpj6YQgfC/0qctGdENC4jriWCCBC6YjGhrntMBAVE
-         pmKmG9otUeLSOn6qM0lWWEukQcm7DLLEXskkMsWAwKx2BQ/qM7Zl28Rc1BUfOOrr+LRl
-         R4p5d5BlKp+18aomIuutMPnQYMc/8RXT+gEtBn/YhB4yHMVy2cVzqxSDBWifxGtg4aWg
-         119w==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from;
+        bh=LUmFveSO3zhUUmaQCQRLwp5HCF7es6iaWdQtkJmd/vw=;
+        b=SI/w4hQohbLxr+WZbwrgeBqUCO2v/1NUDCdJei59AjRl1li6RK8IgEdzXNAmFl4F0q
+         t6W0WJdkbaMX5yMagXH4/t4LuHiXimx1N15JzQr+gTdKC2nmgotSnEA8/DLBF4+pYhBm
+         DB5MMI8XyUILdemxu9/YE97AEhxcvLrXyq8taYeIPapoxSfxkdb/hUuEdcd5owShk73R
+         pCrPTO7Vr4eW7GFANLEEqli7LBvVg+J9q00cEd33pcgFVyQvCgbsTnS3FEzX6mIHXAw+
+         B6HgIIvt7ehExhVD93Wsnnh4pbnsEW4r7dQnSBGMV8bsuNs3kBRiQROIbNJY/BEe587f
+         ib4Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com designates 192.55.52.136 as permitted sender) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga12.intel.com (mga12.intel.com. [192.55.52.136])
-        by gmr-mx.google.com with ESMTPS id w5si1020734ede.3.2021.11.15.06.55.45
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Nov 2021 06:55:45 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com designates 192.55.52.136 as permitted sender) client-ip=192.55.52.136;
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="213486057"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; 
-   d="scan'208";a="213486057"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 06:55:31 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; 
-   d="scan'208";a="471929100"
-Received: from smile.fi.intel.com ([10.237.72.184])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 06:55:27 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1mmdO9-0077gj-Vz;
-	Mon, 15 Nov 2021 16:55:17 +0200
-Date: Mon, 15 Nov 2021 16:55:17 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Marco Elver <elver@google.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wei.liu@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	John Ogness <john.ogness@linutronix.de>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	Alexander Popov <alex.popov@linux.com>
-Subject: Re: [PATCH] panic: use error_report_end tracepoint on warnings
-Message-ID: <YZJ01V8fZBlWz4VW@smile.fi.intel.com>
-References: <20211115085630.1756817-1-elver@google.com>
- <YZJw69RdPES7gHBM@smile.fi.intel.com>
- <CANpmjNMcxQ1YrvsbO-+=5vmW6rwhChjgB20FUMKvHQ9HXNwcAg@mail.gmail.com>
+       spf=pass (google.com: domain of valentin.schneider@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=valentin.schneider@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id x20si1019179wrg.3.2021.11.15.07.30.03
+        for <kasan-dev@googlegroups.com>;
+        Mon, 15 Nov 2021 07:30:03 -0800 (PST)
+Received-SPF: pass (google.com: domain of valentin.schneider@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EF1C6D;
+	Mon, 15 Nov 2021 07:30:02 -0800 (PST)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.196.57])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 557F03F766;
+	Mon, 15 Nov 2021 07:30:00 -0800 (PST)
+From: Valentin Schneider <valentin.schneider@arm.com>
+To: Michael Ellerman <mpe@ellerman.id.au>, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Mike Galbraith <efault@gmx.de>, Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Steven Rostedt <rostedt@goodmis.org>, Masahiro Yamada <masahiroy@kernel.org>, Michal Marek <michal.lkml@markovi.net>, Nick
+ Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH v2 3/5] powerpc: Use preemption model accessors
+In-Reply-To: <87o86rmgu8.fsf@mpe.ellerman.id.au>
+References: <20211110202448.4054153-1-valentin.schneider@arm.com> <20211110202448.4054153-4-valentin.schneider@arm.com> <87o86rmgu8.fsf@mpe.ellerman.id.au>
+Date: Mon, 15 Nov 2021 15:29:53 +0000
+Message-ID: <87lf1pqvwu.mognet@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNMcxQ1YrvsbO-+=5vmW6rwhChjgB20FUMKvHQ9HXNwcAg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Original-Sender: andriy.shevchenko@linux.intel.com
+X-Original-Sender: valentin.schneider@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com
- designates 192.55.52.136 as permitted sender) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ (google.com: domain of valentin.schneider@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=valentin.schneider@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,36 +126,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Nov 15, 2021 at 03:40:24PM +0100, Marco Elver wrote:
-> On Mon, 15 Nov 2021 at 15:38, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Mon, Nov 15, 2021 at 09:56:30AM +0100, Marco Elver wrote:
 
-...
+Doh, thought I had sent this one out already...
 
-> > >       ERROR_DETECTOR_KFENCE,
-> > > -     ERROR_DETECTOR_KASAN
-> > > +     ERROR_DETECTOR_KASAN,
-> > > +     ERROR_DETECTOR_WARN
-> >
-> > ...which exactly shows my point (given many times somewhere else) why comma
-> > is good to have when we are not sure the item is a terminator one in the enum
-> > or array of elements.
-> 
-> So you want me to add a comma?
+On 11/11/21 15:55, Michael Ellerman wrote:
+> Valentin Schneider <valentin.schneider@arm.com> writes:
+>> Per PREEMPT_DYNAMIC, checking CONFIG_PREEMPT doesn't tell you the actual
+>> preemption model of the live kernel. Use the newly-introduced accessors
+>> instead.
+>>
+>> sched_init() -> preempt_dynamic_init() happens way before IRQs are set up,
+>> so this should be fine.
+>
+> Despite the name interrupt_exit_kernel_prepare() is called before IRQs
+> are setup, traps and page faults are "interrupts" here.
+>
+> So I'm not sure about adding that call there, because it will trigger a
+> WARN if called early in boot, which will trigger a trap and depending on
+> the context we may not survive.
+>
+> I'd be happier if we can make it a build-time check.
+>
 
-Yes. And you see exactly why I'm asking for that.
+This can't be done at build-time for PREEMPT_DYNAMIC, but that can be
+punted off to whoever will implement ppc support for that :-) AFAICT if
+this can't use preempt_dynamic_mode (due to how "late" it is setup), the
+preempt_schedule_irq() needs to go and ppc needs to use irqentry_exit() /
+irqentry_exit_cond_resched().
 
-> (I'm not participating in bikeshedding here, just tell me what to do.)
+I dropped that for v2.
 
-Done!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> cheers
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YZJ01V8fZBlWz4VW%40smile.fi.intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87lf1pqvwu.mognet%40arm.com.
