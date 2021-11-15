@@ -1,136 +1,132 @@
-Return-Path: <kasan-dev+bncBDPJLN7A4MFRBBXTZSGAMGQEKHKP7TQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDO7SMFVEFBBX6DZWGAMGQENBHW2YQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A1B452949
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 05:54:31 +0100 (CET)
-Received: by mail-il1-x13a.google.com with SMTP id d3-20020a056e02050300b0027578c6d9aasf12006237ils.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 20:54:31 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637038470; cv=pass;
+Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C0F452C19
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 08:46:40 +0100 (CET)
+Received: by mail-ed1-x540.google.com with SMTP id b15-20020aa7c6cf000000b003e7cf0f73dasf4043043eds.22
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 23:46:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637048800; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TiMHylJfvjLqwOADBXSvvcXbuRn+2aLxflnEqhq7hcp9t9k+r08YYSLWYDUdo8cxlZ
-         iu8Md9fJfz2tZHKZVN/QlHSs4pbkFueUmmwYNyTH5RTCiccV02kRk6aLFNYSFL7gb0SX
-         YICiY4A7Mg/ygy97O07D0w5PvIJ/MYZlRh9DIKkpWaUITvD25q9gGcclUjdNtYVFxCUi
-         p2RFhtqgJ+I7llsizlotiuimBoedY3XR5onffhQYiZeS6M+E3fFYSrWigyuUkkkxBmKr
-         SJrK4DVraEZqGVICGOtRBWJh4h6ToJ75eSLrJTCzmZ1KWmCt0ooqUuNKaCbGkiYxw/2R
-         oBOQ==
+        b=Tf+aa0E6IM8M1PG/Y3Cpc3d4JwzNGPUjmQdwiQTMOkXNJqFT5akyi+WUREIvBVZpsy
+         GC0DeyI/oxk0bh0+8xs5lrbKEeTp94WkQ6i0MgTxKvj0MXgduci4KExt2T0X4P2dpBxf
+         05qivAAof79xVXW4wBaIcSfPYuQrRrLouVi8TrRrD0w8+ZdBijHWprDegeX6W3dPNVRt
+         qc/Yt37MX+6Ne5T2sc+2YupHZlq9aaBttBEAowpbalR4vreKFEsQF8aPbYc+1FSHLdul
+         L44wWI7DDeOwiXl4WBHW5EMuB24+odNOeMN0kIyPKcR9gMmGvgrByZrR4yD1xPXjDYIC
+         FH+w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:user-agent:date:cc:to
-         :from:subject:message-id:sender:dkim-signature:dkim-signature;
-        bh=co9Voop+RmOdbaN5dj8BgM6h6mF2NQGJ+MuyNV/7OGY=;
-        b=p0HQik5Y8zTwVNz1z7hwetIC8hQGjDf/Oy4Ws6F+NQhXw+vyzOnt6JWHMwr6hV97i+
-         XEAv9b9jbO4mn97VCfhc8GkY0BnXm+WY92ON6OtlFgVmJ1PWycYivtWuX73NIN7oNiHh
-         MIH2E8hbaYn/r/F2kGXFiRZwyyVkMm3n72g2WMPuiFZJCXFt0G49qyzPcVhNelZfigqj
-         UDIkL2BX1kXZoZ9lo6VtXXwKb9l7W1iDrQdpDF2nozjE6U0asr53FZ98wj2eVAD5Eb0B
-         hzUUcoDejR//qJco6t1EKXW6f3KRaBjtW24rCQ+AfPQBfF6mt2S+kRgD8Bqv+h26Wm0x
-         VLMg==
+         :list-id:mailing-list:precedence:message-id:date:subject:cc:to:from
+         :mime-version:sender:dkim-signature;
+        bh=AqQ3AlfWL+QlFNGqxaz5axOURAg7YaE9OuLtdThNY7o=;
+        b=l6afgpZPmsrCGsxwT3VxcrOULuB7/9z0bQUfBfdhCv4GJiFaDP7RzyIPekpAx62xBZ
+         u8+oUTFT2vf/tejnGoDIg+l6urSyzGP4GjMzj+42bev+NZ84i5aTWaPktvlSDQh/SflT
+         PiTldQgRZqGXSjg3AajH2b1jwP5Tob43XWH7ZJltDpClJNsTXM+5DspoHlFvzuOvQ5wa
+         8YcdXcDfNpbRcPojMTQnEXqyBy+qZSax+r94U2CXpK0BPKOPR+yFhclE6a35RxPS9LAc
+         eBpNh7uCPojcPdgHaGVj622hJ2OJnBZn7IyboA4600KFnBNlOIvfCpfhawCSEy34Kyz6
+         VAeA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=d8yxdZca;
-       spf=pass (google.com: domain of kaiwan.billimoria@gmail.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=kaiwan.billimoria@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of jun.miao@intel.com designates 192.55.52.43 as permitted sender) smtp.mailfrom=jun.miao@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:message-id:subject:from:to:cc:date:user-agent:mime-version
+        h=sender:mime-version:from:to:cc:subject:date:message-id
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=co9Voop+RmOdbaN5dj8BgM6h6mF2NQGJ+MuyNV/7OGY=;
-        b=Tc3uCUH5YluR+9sJqmIZKF+Dtou9Nh+i+8brAfW4QRXHjoa2eSzjuRNSx1hsoND7+H
-         mU167qK9jKAHFk3fdBFIllLpsZEnBvDCr6n7NOelPhVlH22yQ1sYx+jswuZjKPWA2/sm
-         s4XM1be4YIsmgrQsDJA/wjbpM7UmxsY+yawjD3IR0zmAoG4GP032uDieFR+VTz7BGAIs
-         2HcXzSJQU6Bjv68otlULBg+hvcTCifo73906tFEkBT1Ik7C4MRFfTpM23Xguz8hNuoE5
-         L1tcWn3PwVRthD0i0UAFAPwsyeWddXgV4WdQPV2JT3qYXZCbK6UOBz/T/YV3be2QPYR9
-         JfnA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:user-agent:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=co9Voop+RmOdbaN5dj8BgM6h6mF2NQGJ+MuyNV/7OGY=;
-        b=o67ZtTKiADAkG47ZVpMIL2aeVu9z0GeZrsVbBZNP5WUb2QULA3a48X5Tclztm6/pyh
-         iTz1b0jjg1k283y2M09gUmdZV5haAfc/H5JgMS7ELNXCmwwVAEN3HQWEhlUGcFvD2XOd
-         5DKcoW/Dvo6c/3CubfG3Pc0Xc36OB6d2yBFbENuflYNLNEhMitkTc1REUTndqOEi0+Aa
-         93Rm64UhXSotX0+IULXQWcmlMv6JkJDLHQljlhWKRbUBpCOx6xyNRGnU384mh7fYtt9a
-         HIYMkxUNfuw2ozr5P3GgUPaj3ORO4qvR6vX/frgTWOD4zWvST++0wgpj23VkJNB6XIzR
-         Jy4w==
+        bh=AqQ3AlfWL+QlFNGqxaz5axOURAg7YaE9OuLtdThNY7o=;
+        b=FUEdOf7Fg1KAkZprSE1bwLRjC3jgMVr3S0X51pju495gegBz5hSY52SNbjHMo+hl7/
+         1vcw6psa0z1WLFh1uHb+GmVeRFu80OGurtKrL7EoVx3W7FDTRS4OthodaDZaG4OPbbpq
+         2LNdSskxZ3aahiXTWS7q5nWyWllUMbSOHOh7LPiyXnky7Qd2nI+80DyxvBDq7EAx5qU3
+         3/wUQfXk37Ss96fjJ9P4WUTbrTdaQya+wQQLU52f6HbnspQzOXO2vK1QMi50UvMcIhdc
+         UI16WgUTOuLH5cUTvqXatTLib0eDWAQskYLGdlEnAIqqoBsvZ95zxzFrdDQYYnVGfiK1
+         vwFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
-         :user-agent:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=co9Voop+RmOdbaN5dj8BgM6h6mF2NQGJ+MuyNV/7OGY=;
-        b=JKlim0aqjbuRHGzmphmARkJ9z1fni/cokoq40bUu9mF90MUebhK9NaQ6lrfekhTkS2
-         +5srJlo67Ry+OcuigH+i7pAqq3G1CqUsTSoPZWcXsbDpeaTpYWGy8zuj1MyhCYCs5H7y
-         Q+cOEdwuWAHcYJFKW8qv4q8f/XkZsUS8cbix7UfxoOISGkDk0WUCWw7g8YAGOVUQy1K0
-         cg8sr09t6Q5C8ioCl8QrogFgPNaCWNq2JYkyUfwyboGCZ5WX+IF7lWCAJDbXQDNJfDL3
-         T/pbBX5jzdEs17ygzZAU83r+sJmA/qMG2G+YOyS3xkW3s9yVbchh6XAZ2r4kqfjqa8Om
-         2ObQ==
+        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
+         :message-id:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=AqQ3AlfWL+QlFNGqxaz5axOURAg7YaE9OuLtdThNY7o=;
+        b=PHJdyH04pkmX1mCww51E5scflO/B0brynyHVp4cMiopcHpqwFqrvNVRdbklQZXyhfF
+         MF972ab5p5agPvmlzYD0Xysr/JofEjK3YgHmTqtPyP5T0qzAw35V5vXOZhDz7oYVns02
+         3AJT8o9w3v3rZzEivwCHYo/CpbCIv8W/lXOt13tO21Y5lRfq/P4wECM+eQpPtUcuBbR3
+         dnOoKCzu2A7SPNwneARzm8pX9hcnlFtVAgCAkBRTj6gBytO8JJfrJZvputeCq4Pd34TI
+         X4KDWID+azfBGqUKt6+36ue9xmpRJe/7nJFwzFLsmeX74+zJhdyJkO+C5CCTWeIUvxqM
+         EvOw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530R9e6Quu0NDhAM4/avGg1269McsSQvPRNKZKvJVf71NliLq+dR
-	LDAQZOiL2/KMOPSL4y10nx0=
-X-Google-Smtp-Source: ABdhPJxezevcer0tZ8FZXmnfFaZdCBmxzfr6FAgPlYXRR3Natopzx9fJ58omPJ52Zd12P8jy14RmxA==
-X-Received: by 2002:a05:6e02:1b01:: with SMTP id i1mr2589512ilv.53.1637038470685;
-        Mon, 15 Nov 2021 20:54:30 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a02:3401:: with SMTP id x1ls1876147jae.6.gmail; Mon, 15 Nov
- 2021 20:54:30 -0800 (PST)
-X-Received: by 2002:a02:cf06:: with SMTP id q6mr3132095jar.62.1637038470335;
-        Mon, 15 Nov 2021 20:54:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637038470; cv=none;
-        d=google.com; s=arc-20160816;
-        b=ZvJEmpRdY9JhGoZ1Oi+LB1uoX8rXwZ3Utaz1RdQW/154vmeH0VWiZMtBflyyCse/52
-         9nEqm/LeFE+UCvfI531mNcJ4ewYoIWXU6nost1hkRoUqvFOXfPXdcE2zrMzEWquAzjlL
-         favFnaghL3UhAO0xgJl2sVJ4XAsh1yjkI8If7alW9S/7ZZIfeMRXv2YSTJLdW73vzqDW
-         VETjGAnrlN9JR8AZHv5PNnqzizsjoghzBFEV38YssE3gdygbfDSgqimRBTfwKbK2Pnfk
-         c7PMieBTy5vmu46XzaTv0CpGASdXsq7IQnLoD7MJp9aYMnlnJ+UQxLw5BjCN5vZnxInf
-         Xqjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:user-agent:date:cc:to:from
-         :subject:message-id:dkim-signature;
-        bh=aZEgCAw926fm0yLVJgfVRWVyzchDmo838PuZyVld5WU=;
-        b=oAQYGdZEn04umxoEWIKobgdsEolcd4pjcXc39ExPlGAlO579OFZKHMFsckRDlJWI/j
-         4bAI7c/7SZgz7yHaAHtqIH4gU5nNS1tyl6HmYXUb48JwdjrElr3SM3LqGtCabAKEatZk
-         FSHkg9ltaM+tAnn4TzI5ob2doWH5zN0FJ5rUiodT3gx3c88x5cU9WxsKYAmf6rckyzD4
-         JmgYeALST/OPu3+3QL7H9FtKCbS9gzD08Ny4fJE6Lcl2Cri00/YRYwulAgT3ZzPELYvD
-         PeOzlcSo9lMRNmzQjz3+diOCp8Rjdn5Uh54BpSIFkg3eZ/xskIQpHE3DTdiYHBW/H0Vf
-         t23A==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=d8yxdZca;
-       spf=pass (google.com: domain of kaiwan.billimoria@gmail.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=kaiwan.billimoria@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com. [2607:f8b0:4864:20::1035])
-        by gmr-mx.google.com with ESMTPS id z11si944708iox.1.2021.11.15.20.54.30
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Nov 2021 20:54:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of kaiwan.billimoria@gmail.com designates 2607:f8b0:4864:20::1035 as permitted sender) client-ip=2607:f8b0:4864:20::1035;
-Received: by mail-pj1-x1035.google.com with SMTP id fv9-20020a17090b0e8900b001a6a5ab1392so1759436pjb.1
-        for <kasan-dev@googlegroups.com>; Mon, 15 Nov 2021 20:54:30 -0800 (PST)
-X-Received: by 2002:a17:90a:c58e:: with SMTP id l14mr71339597pjt.214.1637038469308;
-        Mon, 15 Nov 2021 20:54:29 -0800 (PST)
-Received: from k7550 ([103.214.62.4])
-        by smtp.gmail.com with ESMTPSA id t15sm16457886pfl.186.2021.11.15.20.54.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 20:54:28 -0800 (PST)
-Message-ID: <a2ced905703ede4465f3945eb3ae4e615c02faf8.camel@gmail.com>
-Subject: KASAN isn't catching rd/wr underflow bugs on static global memory?
-From: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-To: kasan-dev@googlegroups.com
-Cc: Chi-Thanh Hoang <chithanh.hoang@gmail.com>
-Date: Tue, 16 Nov 2021 10:24:25 +0530
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1
+X-Gm-Message-State: AOAM532gw2O8boquJG+3h4nv0fpvNoOGBigqf6GEs3LuYn7RMz8Vo6G+
+	UPTlMYWUSc+/ddQ+Xocv9f8=
+X-Google-Smtp-Source: ABdhPJzv0J2K6PDbpdh7s2nKq4iCD2UXYQARaw6XbbdsiPx5MqlJuPapdDYF1F5zootjCk/LJHK8Zg==
+X-Received: by 2002:aa7:c902:: with SMTP id b2mr7273955edt.320.1637048799980;
+        Mon, 15 Nov 2021 23:46:39 -0800 (PST)
 MIME-Version: 1.0
-X-Original-Sender: kaiwan.billimoria@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=d8yxdZca;       spf=pass
- (google.com: domain of kaiwan.billimoria@gmail.com designates
- 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=kaiwan.billimoria@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a50:8e41:: with SMTP id 1ls1750574edx.0.gmail; Mon, 15 Nov
+ 2021 23:46:39 -0800 (PST)
+X-Received: by 2002:a05:6402:34d4:: with SMTP id w20mr7459491edc.63.1637048799064;
+        Mon, 15 Nov 2021 23:46:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637048799; cv=none;
+        d=google.com; s=arc-20160816;
+        b=KbyPEs/JNkspg3YzcB7reHMYyFRrxSq+wtgFikX3r7JmiKKqBwZ6u+uZQyFdosa934
+         Ndsp1LY8D77m3yGAOtmtIcHSpjWBVALsxtayRDYazS/Zuzsj0s7V8CixbHQaA/6H4tM0
+         9TuKauH2c9AdAOIQWsHdbSE4dYx8AT58qqJLgEUCOmLLA8hHPMa05dcgwSajEWYwJgGp
+         lhRkh37h8akfZggtcYp9GXL1Vc32VrAhs7I1tVUqm2A1rZxCVfbE8dsKUucObGM8o3sB
+         ruI2uAr1SraBKJrb1dLHyZ6oICUrow2gXxuTzUHp6UfBwbrT4J3Oojnz1pM5sUp/jr92
+         M9IA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=message-id:date:subject:cc:to:from;
+        bh=W4DhsAqA+0vfI/+SKEZOsLNQv9K2UwZ1yUbvLw0uFlE=;
+        b=fcO0hYG0jxB2uHM+GYGZw1B2B0fLzMsxQy6eCjgimpbcTsxqFTv1YsQuD+jWo8OT15
+         7O/RmtP2+9xsEqKqlIxBPO4PF5ZUcF5Gur9SOMR/XggLTshTY2meMFWWxzPC/XB0FXof
+         aWJuHawyFwLnaUK/3F4eGyrMjh15/XmDkHE46v+ZTM4PW/5GoHmJ4BrQI5HoS7vDVcYt
+         Yet3rzQTH0kb1zCrYu+htg3dQ8eqqo7oiiQIdn61TXpBE9MAPa2z22MP6U4iRU7GVcRL
+         3mhZu+/xk/hzzq4TwLhVahh7XX8GcLLCYdmZ6mSuBaG+SBVSvOlGv4xh0gw3wPuCJHXo
+         k/PQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of jun.miao@intel.com designates 192.55.52.43 as permitted sender) smtp.mailfrom=jun.miao@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga05.intel.com (mga05.intel.com. [192.55.52.43])
+        by gmr-mx.google.com with ESMTPS id w5si1153902ede.3.2021.11.15.23.46.38
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Nov 2021 23:46:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of jun.miao@intel.com designates 192.55.52.43 as permitted sender) client-ip=192.55.52.43;
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="319854778"
+X-IronPort-AV: E=Sophos;i="5.87,238,1631602800"; 
+   d="scan'208";a="319854778"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 23:46:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,238,1631602800"; 
+   d="scan'208";a="506321806"
+Received: from sdp.bj.intel.com ([10.240.193.77])
+  by orsmga008.jf.intel.com with ESMTP; 15 Nov 2021 23:46:29 -0800
+From: Jun Miao <jun.miao@intel.com>
+To: paulmck@kernel.org,
+	urezki@gmail.com,
+	elver@google.com,
+	josh@joshtriplett.org,
+	rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com,
+	jiangshanlai@gmail.com,
+	joel@joelfernandes.org,
+	qiang.zhang1211@gmail.com
+Cc: rcu@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	jianwei.hu@windriver.com,
+	Jun Miao <jun.miao@intel.com>
+Subject: [V2][PATCH] rcu: avoid alloc_pages() when recording stack
+Date: Tue, 16 Nov 2021 07:23:02 +0800
+Message-Id: <1637018582-10788-1-git-send-email-jun.miao@intel.com>
+X-Mailer: git-send-email 2.7.4
+X-Original-Sender: jun.miao@intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of jun.miao@intel.com designates 192.55.52.43 as
+ permitted sender) smtp.mailfrom=jun.miao@intel.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,71 +139,99 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello all,
+The default kasan_record_aux_stack() calls stack_depot_save() with GFP_NOWAIT,
+which in turn can then call alloc_pages(GFP_NOWAIT, ...).  In general, however,
+it is not even possible to use either GFP_ATOMIC nor GFP_NOWAIT in certain
+non-preemptive contexts/RT kernel including raw_spin_locks (see gfp.h and ab00db216c9c7).
+Fix it by instructing stackdepot to not expand stack storage via alloc_pages()
+in case it runs out by using kasan_record_aux_stack_noalloc().
 
-I'm facing some issues when testing for read/write underflow ('left OOB') defects via KASAN, and am requesting your help...
-Briefly, KASAN does not seem to catch the read/write undeflow ('left OOB') on a static global memory buffer.
-First off, is this a known limitation?
+Jianwei Hu reported:
+BUG: sleeping function called from invalid context at kernel/locking/rtmutex.c:969
+in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 15319, name: python3
+INFO: lockdep is turned off.
+irq event stamp: 0
+  hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+  hardirqs last disabled at (0): [<ffffffff856c8b13>] copy_process+0xaf3/0x2590
+  softirqs last  enabled at (0): [<ffffffff856c8b13>] copy_process+0xaf3/0x2590
+  softirqs last disabled at (0): [<0000000000000000>] 0x0
+  CPU: 6 PID: 15319 Comm: python3 Tainted: G        W  O 5.15-rc7-preempt-rt #1
+  Hardware name: Supermicro SYS-E300-9A-8C/A2SDi-8C-HLN4F, BIOS 1.1b 12/17/2018
+  Call Trace:
+    show_stack+0x52/0x58
+    dump_stack+0xa1/0xd6
+    ___might_sleep.cold+0x11c/0x12d
+    rt_spin_lock+0x3f/0xc0
+    rmqueue+0x100/0x1460
+    rmqueue+0x100/0x1460
+    mark_usage+0x1a0/0x1a0
+    ftrace_graph_ret_addr+0x2a/0xb0
+    rmqueue_pcplist.constprop.0+0x6a0/0x6a0
+     __kasan_check_read+0x11/0x20
+     __zone_watermark_ok+0x114/0x270
+     get_page_from_freelist+0x148/0x630
+     is_module_text_address+0x32/0xa0
+     __alloc_pages_nodemask+0x2f6/0x790
+     __alloc_pages_slowpath.constprop.0+0x12d0/0x12d0
+     create_prof_cpu_mask+0x30/0x30
+     alloc_pages_current+0xb1/0x150
+     stack_depot_save+0x39f/0x490
+     kasan_save_stack+0x42/0x50
+     kasan_save_stack+0x23/0x50
+     kasan_record_aux_stack+0xa9/0xc0
+     __call_rcu+0xff/0x9c0
+     call_rcu+0xe/0x10
+     put_object+0x53/0x70
+     __delete_object+0x7b/0x90
+     kmemleak_free+0x46/0x70
+     slab_free_freelist_hook+0xb4/0x160
+     kfree+0xe5/0x420
+     kfree_const+0x17/0x30
+     kobject_cleanup+0xaa/0x230
+     kobject_put+0x76/0x90
+     netdev_queue_update_kobjects+0x17d/0x1f0
+     ... ...
+     ksys_write+0xd9/0x180
+     __x64_sys_write+0x42/0x50
+     do_syscall_64+0x38/0x50
+     entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-More details follow, requesting your patience in reading thorugh...
+Links: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/linux/kasan.h?id=7cb3007ce2da27ec02a1a3211941e7fe6875b642
+Fixes: 84109ab58590 ("rcu: Record kvfree_call_rcu() call stack for KASAN")
+Fixes: 26e760c9a7c8 ("rcu: kasan: record and print call_rcu() call stack")
+Reported-by: Jianwei Hu <jianwei.hu@windriver.com>
+Reviewed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
+Signed-off-by: Jun Miao <jun.miao@intel.com>
+---
+ kernel/rcu/tree.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-1. Test Env:
-x86_64 Ubuntu 20.04 LTS guest VM
-Custom 'debug' kernel: ver 5.10.60
-CONFIG_KASAN=y
-CONFIG_UBSAN=y
-
-Detailed configs:
-
-$ grep KASAN /boot/config-5.10.60-dbg02
-CONFIG_KASAN_SHADOW_OFFSET=0xdffffc0000000000
-CONFIG_HAVE_ARCH_KASAN=y
-CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
-CONFIG_CC_HAS_KASAN_GENERIC=y
-CONFIG_KASAN=y
-CONFIG_KASAN_GENERIC=y
-CONFIG_KASAN_OUTLINE=y
-# CONFIG_KASAN_INLINE is not set
-CONFIG_KASAN_STACK=1
-CONFIG_KASAN_VMALLOC=y
-CONFIG_KASAN_KUNIT_TEST=m
-CONFIG_TEST_KASAN_MODULE=m
-$ 
-
-$ grep UBSAN /boot/config-5.10.60-dbg02
-CONFIG_ARCH_HAS_UBSAN_SANITIZE_ALL=y
-CONFIG_UBSAN=y
-# CONFIG_UBSAN_TRAP is not set
-CONFIG_UBSAN_BOUNDS=y
-CONFIG_UBSAN_MISC=y
-CONFIG_UBSAN_SANITIZE_ALL=y
-# CONFIG_UBSAN_ALIGNMENT is not set
-CONFIG_TEST_UBSAN=m
-$ 
-
-2. I've written a module to perform simple test cases:
-https://github.com/PacktPublishing/Linux-Kernel-Debugging/tree/main/ch7/kmembugs_test
-(the book is in dev :-)...
-
-It provides an interactive way to run various memory-related (and other) test cases; pl have a look (and try!)
-
-Here's the test cases that KASAN does NOT seem to catch:
-# 4.3 and 4.4 : OOB (Out oF Bounds) access on static global memory buffer.
-I'm unsure why...
-
-Here's the relevant code for the testcase (as of now):
-https://github.com/PacktPublishing/Linux-Kernel-Debugging/blob/81a2873275bd400fd235dc51cdac352d9d5fb03a/ch7/kmembugs_test/kmembugs_test.c#L185
-
-My testing shows that UBSAN clearly catches both the read and write underflow bugs, but KASAN doesn't. All other defects are correctly caught by KASAN..
-(Am having other issues with UBSAN, which we can discuss on another thread :).
-
-3. Also, I tried a similar testcase in userspace w/ ASAN and the global memory underflow bugs were caught... (with both gcc and clang).
-
-Any help is appreciated!
-TIA and Regards,
-Kaiwan.
+diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+index ef8d36f580fc..906b6887622d 100644
+--- a/kernel/rcu/tree.c
++++ b/kernel/rcu/tree.c
+@@ -2982,7 +2982,7 @@ __call_rcu(struct rcu_head *head, rcu_callback_t func)
+ 	head->func = func;
+ 	head->next = NULL;
+ 	local_irq_save(flags);
+-	kasan_record_aux_stack(head);
++	kasan_record_aux_stack_noalloc(head);
+ 	rdp = this_cpu_ptr(&rcu_data);
+ 
+ 	/* Add the callback to our list. */
+@@ -3547,7 +3547,7 @@ void kvfree_call_rcu(struct rcu_head *head, rcu_callback_t func)
+ 		return;
+ 	}
+ 
+-	kasan_record_aux_stack(ptr);
++	kasan_record_aux_stack_noalloc(ptr);
+ 	success = add_ptr_to_bulk_krc_lock(&krcp, &flags, ptr, !head);
+ 	if (!success) {
+ 		run_page_cache_worker(krcp);
+-- 
+2.32.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/a2ced905703ede4465f3945eb3ae4e615c02faf8.camel%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1637018582-10788-1-git-send-email-jun.miao%40intel.com.
