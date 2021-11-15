@@ -1,48 +1,47 @@
-Return-Path: <kasan-dev+bncBCSMHHGWUEMBBTWBZGGAMGQEXDBPE4Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBN6LZGGAMGQEMRYR4GY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9CF8450576
-	for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 14:29:52 +0100 (CET)
-Received: by mail-pf1-x43c.google.com with SMTP id y124-20020a623282000000b0047a09271e49sf9932497pfy.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 05:29:52 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1636982991; cv=pass;
+Received: from mail-wr1-x43d.google.com (mail-wr1-x43d.google.com [IPv6:2a00:1450:4864:20::43d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F364505F4
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 14:50:48 +0100 (CET)
+Received: by mail-wr1-x43d.google.com with SMTP id h13-20020adfa4cd000000b001883fd029e8sf3594112wrb.11
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 05:50:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1636984248; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zw72jKZKD5mbG8GudS0e8OjADRKlFd2hSnxndrc1tNkRtTSm3wfP5LIKowO/ZzE5Gm
-         TxPlqRlNVAhl7wZu0Aeim6IWTCXg1EXtGuSGulSNVGaTlQJbkc5i0uNEUoBz1DW5HQI6
-         jqW/a8SY+XqDVZjTTYLsUl86KrUnb9Mym9IHPA6sZN6mDul3M/jsYITlK8t3dZm4LJGg
-         DE1QTKzHzIDy0gq3Xgpr2FIZsmWYImIoMf+AksaxwmEUfYWfeoN3VF2f/plI15RwIlCv
-         vquEY76Sez2gVumoNoHyAsvvdRvPs8Efe0vvpQHZMnhUKxYF/3J+8EVedex47UmRGE+8
-         tVZg==
+        b=e5ZK3b2S7suOQg1pasNkaWKOOZ4u+6EbdvsracqTrkxomILHpsDDcfGauudwM3faFe
+         NMjo0N4xIJ00Ya/9zoCGPgApkhV7h+KqasoSWxEVBttbYZfM9GBhtX+qw75Qb5z8srzK
+         CvxdOyhC1oUbSsZRVcshGTgnozIRYcNCPzlgOqOCP7U0v0ao+CCHCPeisx4hr8ll3b27
+         h3Wu7YSmmPuqXYvrP7AVv8WiKSXzs452/V+cpRH6YjYCMQC5vBAoNebBHJ8PE78FnNmu
+         BduqFiUU6FhFLf44Q0CKZkccOatmv3Cct8zzz/sD3LJocUcNzG5cIG29y6COYryc/uKa
+         l8NA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=PSeWtToEiSgAs2kzH6Tqz+VBqTLlmPNePfBbZhwqRrM=;
-        b=yNf1x/Q4ziQUfO2YYcUpXdgk0YT3pVN264LahslzeJANEbDwVkXZa0T56uy/REqVMl
-         MDDVdf9mvl9yg1Cu9IoEar2s74aDq2cOzQxuNaJYoaFxt6gApF+B4wqcHSlgZwx/xIBd
-         sGjiawN06QjA93fL9DIIvoSRfINh61nqmfbKw+cLuXB48ccgxHqn0xlgrmS+pAPvjBJi
-         dav5nZcEfLb5ro68qrAoHDb7dBGr0hVYV8BzCXIG2EdtcK6oaFca91orNZZC/bNNQuO5
-         C5YIsw+i9/PTfJSurDqvxqoti+ustya50uz386GyyDU+Vc5v81WtC1qTgnwPDFr+PHat
-         yUMw==
+        bh=rudVoTcuGSGs6rIgQh6NG9z2fGXUbJbK6hB7/Uhj/A4=;
+        b=lnivhi5zuPri6B4I2x25ZNJ7xblElaJalBR68l9n331pUlr0OJihjZhT3sQumShJSi
+         pam4sWm445o1KMWkiHMk0Elb2o9S56Rxiga/nBbKy6Z40NAHZ4ChaAXFzJMn1SREoxNN
+         xDD72B9WNF+363A+Am9NcYWXZKr3ayE/q8DgIoIjZDMe502c2HYGTdLLXN9mkpCNKgDV
+         vZRObypgbkQM2krRGUv96oL7wTnZ3AtvaU1hDjc/oy6u/f99lsZWjV8D2ybp7jQlnt4Z
+         uO08YDg9sL1/fX6bYvwz1ZsPfDR7+VKfG0Hz6a7SXhEYSyDYv5eR0C8zSmWPbKKGxxu2
+         6KkQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcdkim header.b=AleVJa4d;
-       spf=pass (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.38 as permitted sender) smtp.mailfrom=quic_qiancai@quicinc.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=PSeWtToEiSgAs2kzH6Tqz+VBqTLlmPNePfBbZhwqRrM=;
-        b=TaFRXawCF1Qcuav/gUQXCVApaFB+Jh6lbxiwQudZrl+yo6e1CRcGR6I0vnW2bf8WZS
-         7sWJyx3kHOv7Eky4vsjzUxYKAztc6FxJMnH8RntN47QMTc/IA3maEcLf0eXVRINAOngL
-         Wig4SsbI9xIgMODzIatB4mzoQeeRDqs1Mj23DCw/OGoECz3qdr3VJ7KqviHtkieCM1Iq
-         Jxk8X2lpysU27YQpozHSsYUBd0tXCP02WY0LhEMhDCRBLUfEys+BlgNGews5ltWo/pXE
-         3qfN8JTuMieOfV43Q6rQmqKTmYzThnxopJ8snRoTnLzLx1InUZn7cHRR/U8usoYy9xHu
-         vvng==
+        bh=rudVoTcuGSGs6rIgQh6NG9z2fGXUbJbK6hB7/Uhj/A4=;
+        b=d07fs6XxEZDZgJZ17Ruo/u9hK2ycUfmvHDxGW1jxoPwqY7Vc5GDt5eb5Jia1jjEcCk
+         6sXrGMp9skIxa6oTjhzDZ+/38/RBFWlbbVtgeFwA8lEz1bI8R0MuJCTwVUs35ykfflN5
+         YxQf60cyRHR94KZCfBoal/a0mY9rWTn+G1qnLw+d2Ypuex54sCgyRb+O9n8BGSR1mVml
+         BomkIbPrLdHIY42NHYBkJG8wMTaJMuRqjEfbckx9Lj8uAKXMfEDNiCtzUVIL/AgN2YQY
+         YC5OBpHxUgn/TBc3xoxU0PShq1hELbHLTfx+f/bYG6pzn1zuw+BnhuIXUaYAGNKOpC1K
+         URKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,91 +49,79 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=PSeWtToEiSgAs2kzH6Tqz+VBqTLlmPNePfBbZhwqRrM=;
-        b=4/pSD7sxlzWgF0lPG3bRKpUHm9hDo8ahwPYIuG/8Fczzf7DYjkAy/sA3/L2gN1U2Fe
-         o3/skwgIC+XPM94N51iS4dA6Gyiwf1Zd7WbKXl41zAM1kusz3OrscqBK2kKhZqI1FBQw
-         uESZxLA7VZg/lWnVbdl+lSqUowIS4X0YPoqYrMEovX5tIkO8UW9WcQYjO/hX0RkARtbz
-         O+l2juzGhF7esLoqas6jyVfydRvSAjae6VXvcHiDv3VuEPEg2SPTF353Si1F61o3N5EJ
-         0D7P6GB4Ej8e7DKVUSIGbXp+Ksl0i71CjB+GgZnNCUhO9FPIloe4YX6dBZyQtNKucgNJ
-         +t7w==
+        bh=rudVoTcuGSGs6rIgQh6NG9z2fGXUbJbK6hB7/Uhj/A4=;
+        b=cv/Sw3IlgcgWMrMUv//+4brSWaQpOHTC0+heGYP9fi0dY8lr4MArwEhFSP/sjmR+hn
+         BDsx2omb1rAn+6MpTKa9lv5A/m0eTs9ueC8HREMsS6okjjXxXBPXjl85/hET/gy5a8L+
+         l/j7OOS3gOBvIHTiLjbMbTks3lh8O3VV3OIoSFWtgaGnaSKIZdQdp2Ejm3F1oHiFVQ2g
+         wtYngMbiK7Zc51zAM16tnK3cMWV0cOwMWo+K8W6i0qkKkXTAlcNTDclBffIXndHcv6QC
+         l/yC1Qlah9lFEBujMlAFLd3cOr3cZ78IGNCMPJqY/JJ8K6IOj4uFan27dSl4fyvY+nHI
+         +6aw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5313Vauz8k6vRm6Ec23bViCfiSYzqD0244DzQCL7XM87iqS3YqPa
-	GkseBwk8CtfZc0jBMBsw1Sc=
-X-Google-Smtp-Source: ABdhPJya9lWv04Q+gMptYncXNEeqPGJMaAn9YAnLLAZBordhqhN+1BXNno9BX0OdRTPeZsxMKWVrLg==
-X-Received: by 2002:a05:6a00:1a8f:b0:49f:f5ac:b27a with SMTP id e15-20020a056a001a8f00b0049ff5acb27amr32899944pfv.38.1636982991033;
-        Mon, 15 Nov 2021 05:29:51 -0800 (PST)
+X-Gm-Message-State: AOAM533u5PTjZHU22g72x9Tp/31RFhyy0z4xeBdZPb1R/WSu6jhyjg9w
+	7Pe278tL5EMkAhu1U9cjwJM=
+X-Google-Smtp-Source: ABdhPJy5I9Z5QOmiUKPSBdXpYc28lO5oLa/mgJIsu2mE+DyAHcwXNTV7ppDkBjtFtzUunae23dgG2w==
+X-Received: by 2002:a05:6000:1862:: with SMTP id d2mr47407573wri.203.1636984248000;
+        Mon, 15 Nov 2021 05:50:48 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:f20c:: with SMTP id m12ls965081plc.3.gmail; Mon, 15
- Nov 2021 05:29:50 -0800 (PST)
-X-Received: by 2002:a17:902:8bc3:b0:13e:9d00:a8f5 with SMTP id r3-20020a1709028bc300b0013e9d00a8f5mr35202736plo.79.1636982990409;
-        Mon, 15 Nov 2021 05:29:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1636982990; cv=none;
+Received: by 2002:adf:f1c2:: with SMTP id z2ls10453135wro.2.gmail; Mon, 15 Nov
+ 2021 05:50:46 -0800 (PST)
+X-Received: by 2002:adf:db47:: with SMTP id f7mr46803693wrj.113.1636984246881;
+        Mon, 15 Nov 2021 05:50:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1636984246; cv=none;
         d=google.com; s=arc-20160816;
-        b=vbnoAg9WKy26Y3bXVB4ztraRgFUKIADtocWWqgwSgaU1wE3YMoNw9fbCdb2GFoCMt9
-         QIJQ1GpzTHlljNuxQCLEe2pMf1DpRx7vh/NyGmb8U5QH3dgXwKdOUBVVutgUSZERfXxy
-         8r1+MLE09yOohq2Cais+HdeZx/lhyrgCIRs5x5p2kmTD0IWkjilfhTyhxYRIV7FkD01k
-         zmiX8L5oSE2Q78Iq7Yp2/x21w9uzvEv+nzP1hB/YlMUWYb4CZrjDkuF628QGsfPUDpi2
-         8h2QZAEm9GWiRsT13GXmy+d/sE8tOvmRBnuDpL2zhB+B/2YT1RiKlmTePhSFJ8fYW2WP
-         MFmw==
+        b=KZEuh3Wwp+FwLsRDzTJiwfrov9A8uKjsJK4fE09lGHWS8D9Fuo6GEu4t+1Bn0nskmx
+         wirCsE6upcKemXCxZSx0RECtwUyIz08fiLhSqzssduLFDWbKEA7xyglde9tanCXhvD1K
+         e5PWlSCboUEEsjfvLg3V7NP6y12HJP8Koxz+y9kJCfDnv1UwBpHS+4A2Eq3G9c1melZ/
+         Q18Pkb2IV1AvRF9qvGsOihHrOFHYQXz1VCZtwCurb07OhxCeR/GUAWzi35jFX3BVZRMh
+         9AtiVTH71XQHfnPkyQuLCPzhwLBl3ohZDqMITxJmWJbQqv4PxAM3dX9L9EjFxszBPgoJ
+         9gsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=xSASduQVtPzP/emfrd+RzN5Fm3/Hk+6ZPxPAcA4/Lgw=;
-        b=K/4SrItnF5Cty7pIIMwwtdIEXG5YL7TdH4fPHnURBmbFH/2YX1JOm9M/MXIr7XRO+B
-         kaDbqH6dzCP2BOPCzAg4I+QlJ96P8twNd5LCLJcjLr6bWsNR2I/O1+Wxq2cInM2T6/RN
-         X43yJhWzjB7pRnvuzcLisDZ33G4W+bYi+VwVA9pEkaF5Jge6hjCvLwGJmb0IIogB+xXV
-         eBZ8f+BO9eK1p40/v7bfnCN9mQqC8eM0qKTp4iRnfBv5fJDexIJ5I9uK+miOZYRLcpN8
-         eyeuF1F6Hc9BDx6f7Nh0ziQ83jVb60JJ0jP5GND0TTkzbUpxshkOvq3zAiUSujwk5UNq
-         DFgQ==
+         :subject:cc:to:from:date;
+        bh=Y67lnyoitQgYMGWiTLOuKFjBtHUS1zkO0T/JvLBxUfU=;
+        b=Afio16EWfv9kigH96DhOtSqoVtmGOeeDlFkxUhXuDl4bn2jD8hsZNNiW9iosAHs/IF
+         vPpQkVJESC9bO0qtDpU/7QtGGr6SoOVDx1HIAKi1PlOEiO4NgqS4Rz+sr7oJdHDd1Mm9
+         RHG3dwFTFo3LQCh2dIMPmzoA1j8s7Ir+hMC/bbphstkdXxbxSH8fT9x7VTwW/1kdZ58r
+         e24ZmERI2AG6KlLtqp7zO8TpJsONkIjIla0XV/vjOIZ636fJ5FOwYVjTI8gV4Y0PbPF1
+         DaX3/fO4/YvEjPDN+rHR2WOiH1tc7xn/Epj7nAx68oi6KRSOX3hAg0UVQjg5A1Po1HKp
+         V7aQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcdkim header.b=AleVJa4d;
-       spf=pass (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.38 as permitted sender) smtp.mailfrom=quic_qiancai@quicinc.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com. [199.106.114.38])
-        by gmr-mx.google.com with ESMTPS id y2si2066272pjp.2.2021.11.15.05.29.50
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Nov 2021 05:29:50 -0800 (PST)
-Received-SPF: pass (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.38 as permitted sender) client-ip=199.106.114.38;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Nov 2021 05:29:49 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 05:29:49 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Mon, 15 Nov 2021 05:29:49 -0800
-Received: from qian-HP-Z2-SFF-G5-Workstation (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Mon, 15 Nov 2021 05:29:48 -0800
-Date: Mon, 15 Nov 2021 08:29:46 -0500
-From: Qian Cai <quic_qiancai@quicinc.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-CC: Will Deacon <will@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>, "Valentin
- Schneider" <valentin.schneider@arm.com>
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id i7si1185698wrc.4.2021.11.15.05.50.46
+        for <kasan-dev@googlegroups.com>;
+        Mon, 15 Nov 2021 05:50:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 203806D;
+	Mon, 15 Nov 2021 05:50:46 -0800 (PST)
+Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.26.128])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E57CD3F766;
+	Mon, 15 Nov 2021 05:50:44 -0800 (PST)
+Date: Mon, 15 Nov 2021 13:50:39 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Qian Cai <quic_qiancai@quicinc.com>,
+	Valentin Schneider <valentin.schneider@arm.com>
+Cc: Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Dmitry Vyukov <dvyukov@google.com>, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com
 Subject: Re: KASAN + CPU soft-hotplug = stack-out-of-bounds at
  cpuinfo_store_cpu
-Message-ID: <YZJgyve+tQ/+8NDC@qian-HP-Z2-SFF-G5-Workstation>
+Message-ID: <YZJlr50XQExl7NUg@FVFF77S0Q05N.cambridge.arm.com>
 References: <YY9ECKyPtDbD9q8q@qian-HP-Z2-SFF-G5-Workstation>
- <YY9WKU/cnQI4xqNE@qian-HP-Z2-SFF-G5-Workstation>
- <CACT4Y+bj7JU=5Db=bAafjNKJcezeczzDCTwpKvhhC8kESc5+kQ@mail.gmail.com>
+ <YZI5+83nxZzo00Dy@FVFF77S0Q05N>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CACT4Y+bj7JU=5Db=bAafjNKJcezeczzDCTwpKvhhC8kESc5+kQ@mail.gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-Original-Sender: quic_qiancai@quicinc.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@quicinc.com header.s=qcdkim header.b=AleVJa4d;       spf=pass
- (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.38 as
- permitted sender) smtp.mailfrom=quic_qiancai@quicinc.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
+In-Reply-To: <YZI5+83nxZzo00Dy@FVFF77S0Q05N>
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,16 +134,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, Nov 13, 2021 at 07:49:39AM +0100, Dmitry Vyukov wrote:
-> This may be just a bad format string.
-> But I don't see kernel/printk/printk.c:2264 doing any printk on
-> next-20211110. What's up with line numbers?
+On Mon, Nov 15, 2021 at 10:44:11AM +0000, Mark Rutland wrote:
+> Hi,
+> 
+> On Fri, Nov 12, 2021 at 11:50:16PM -0500, Qian Cai wrote:
+> > FYI, running CPU soft-hotplug with KASAN on arm64 defconfig will
+> > always trigger a stack-out-of-bounds below. I am not right sure where
+> > exactly KASAN pointed at, so I am just doing the brute-force
+> > bisect. The progress so far:
+> 
+> From below it looks like this is on linux-next; I can reproduce this on
+> v5.16-rc1 using your config, when hotplugging CPU0 back in.
+> 
+> We used to have issues with stale poison being left on the stack across a
+> hotplug, and we fixed that with commit:
+> 
+>   e1b77c92981a5222 ("sched/kasan: remove stale KASAN poison after hotplug")
+> 
+> ... but it looks like we no longer call init_idle() for each hotplug since commit:
+> 
+>   f1a0a376ca0c4ef1 ("sched/core: Initialize the idle task with preemption disabled")
+> 
+> ... and so don't get the kasan_unpoison_task_stack() call which we want when
+> bringing up a CPU, which we used to get by way of idle_thread_get() calling init_idle().
+> 
+> Adding a call to kasan_unpoison_task_stack(idle) within bringup_cpu() gets rid
+> of that, and I reckon we want that explciitly *somewhere* on the CPU bringup
+> path.
 
-Yeah, it is usual that the line number could be off by a few lines
-with that .config. It is still in my TODO to dig into the bottom of it
-though.
+FWIW I sent that out as a patch:
+
+https://lore.kernel.org/linux-arm-kernel/20211115113310.35693-1-mark.rutland@arm.com/
+
+Thanks,
+Mark.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YZJgyve%2BtQ/%2B8NDC%40qian-HP-Z2-SFF-G5-Workstation.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YZJlr50XQExl7NUg%40FVFF77S0Q05N.cambridge.arm.com.
