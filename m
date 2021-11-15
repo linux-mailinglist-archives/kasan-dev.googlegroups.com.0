@@ -1,124 +1,140 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB7EIZGGAMGQETFKSJCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSMHHGWUEMBBTWBZGGAMGQEXDBPE4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A7F45036B
-	for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 12:29:01 +0100 (CET)
-Received: by mail-lj1-x240.google.com with SMTP id d20-20020a05651c111400b00218c6372b7esf5015714ljo.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 03:29:01 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1636975741; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9CF8450576
+	for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 14:29:52 +0100 (CET)
+Received: by mail-pf1-x43c.google.com with SMTP id y124-20020a623282000000b0047a09271e49sf9932497pfy.16
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 05:29:52 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1636982991; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qGeF3AbAlx329xdHzQWcKMcZSIGhdceSpRqUr/0BALeRpMOktSnTHM6wm9+TmycNYR
-         E1kKaPWP1YFaiXMG5uBD7XbMEIuWMHwZQE5Updz5mQQRFBhqcrU13O+6Do5+2TmaTBUH
-         9/w9jzZwl6Awgrp3RqHaH4Pt6fQ/ezraytrU4kw5lkHZ9Gxmi1onLMqzefhUBRxT/Cxl
-         rtu99px9TW3WbnnAxO2feXJ1PhsbCz2cNmT2VzyO6MTdip6zbSjjaxMp3rvMoOeQbzxT
-         YyTk+hBBVWC4HZgQVeN+1SqYErF4xYyoYTsVHE2LIO1/9Bs8P4zJFlxNzL7jZuRf7HBp
-         d0xA==
+        b=zw72jKZKD5mbG8GudS0e8OjADRKlFd2hSnxndrc1tNkRtTSm3wfP5LIKowO/ZzE5Gm
+         TxPlqRlNVAhl7wZu0Aeim6IWTCXg1EXtGuSGulSNVGaTlQJbkc5i0uNEUoBz1DW5HQI6
+         jqW/a8SY+XqDVZjTTYLsUl86KrUnb9Mym9IHPA6sZN6mDul3M/jsYITlK8t3dZm4LJGg
+         DE1QTKzHzIDy0gq3Xgpr2FIZsmWYImIoMf+AksaxwmEUfYWfeoN3VF2f/plI15RwIlCv
+         vquEY76Sez2gVumoNoHyAsvvdRvPs8Efe0vvpQHZMnhUKxYF/3J+8EVedex47UmRGE+8
+         tVZg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=uTBbTXYFGNCpYUwVobhOIlz/Mhz77ivOPjCkAtB5xU4=;
-        b=CrxxCHKfNPrd0SBpkJmmOrcWIe7nPXGf4qoRqdzHt/JZziFdgNNk/canhmeV50HMLH
-         OFJqJ2k0UQS6jbTyz7FolrwyWtUJt/+cO2nKe6/qM7xtWtvdMezE6jbwgmjt8xaR9ovp
-         fH/bCKpaIu740SpUdKuui8CAosiuxlCwbvheZYCrlsBoYMpexk8WCxs31eWULfrdO7sy
-         m3y7ID/GRqueNm26HzHmQlPCX/IMXZvCpRBoK+tbn4m0D1ePbdZV9V/spegn6IXHWdzX
-         xvMNKOFqT0eAPvXGhu0JXnUmfsvjtUi3/MWG4cGWMeqFdtOwKUmDRS1pos+qGaZYsJx5
-         KELw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=PSeWtToEiSgAs2kzH6Tqz+VBqTLlmPNePfBbZhwqRrM=;
+        b=yNf1x/Q4ziQUfO2YYcUpXdgk0YT3pVN264LahslzeJANEbDwVkXZa0T56uy/REqVMl
+         MDDVdf9mvl9yg1Cu9IoEar2s74aDq2cOzQxuNaJYoaFxt6gApF+B4wqcHSlgZwx/xIBd
+         sGjiawN06QjA93fL9DIIvoSRfINh61nqmfbKw+cLuXB48ccgxHqn0xlgrmS+pAPvjBJi
+         dav5nZcEfLb5ro68qrAoHDb7dBGr0hVYV8BzCXIG2EdtcK6oaFca91orNZZC/bNNQuO5
+         C5YIsw+i9/PTfJSurDqvxqoti+ustya50uz386GyyDU+Vc5v81WtC1qTgnwPDFr+PHat
+         yUMw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lCCgT0Pg;
-       spf=pass (google.com: domain of 3e0ssyqukcwacjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3e0SSYQUKCWACJTCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@quicinc.com header.s=qcdkim header.b=AleVJa4d;
+       spf=pass (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.38 as permitted sender) smtp.mailfrom=quic_qiancai@quicinc.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=uTBbTXYFGNCpYUwVobhOIlz/Mhz77ivOPjCkAtB5xU4=;
-        b=AyRroVUk/YLpqGrBsuoYKhS3y0vQEW5ZDYD9liWLVGtq6zbIk2gB9+LYsGPFysetpm
-         pO8QBC6FK9hwxjChJW8bPIMMllCo/mp6Bu8MZGh/jEe59lejLelBuExM/4GYO05Km782
-         RWmedOTA018kRI04403aB3DPW4Jpx/ObXQbUhxOpOn4ZWICNaKKggM4vzoKGC4+gEt8m
-         oBh1ogYkfNt299iWbKamsAmElomW+TN3ci2xGo/XbNxXcH6x8l649aOJ/dqll8FD8rNz
-         n83uu4cynLJGjhLAlx7xZ5So5uT5QE1Mv0NI1vOHh3rbxPRSkreYKuipJ1yTLfH6nCoN
-         QGeA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=PSeWtToEiSgAs2kzH6Tqz+VBqTLlmPNePfBbZhwqRrM=;
+        b=TaFRXawCF1Qcuav/gUQXCVApaFB+Jh6lbxiwQudZrl+yo6e1CRcGR6I0vnW2bf8WZS
+         7sWJyx3kHOv7Eky4vsjzUxYKAztc6FxJMnH8RntN47QMTc/IA3maEcLf0eXVRINAOngL
+         Wig4SsbI9xIgMODzIatB4mzoQeeRDqs1Mj23DCw/OGoECz3qdr3VJ7KqviHtkieCM1Iq
+         Jxk8X2lpysU27YQpozHSsYUBd0tXCP02WY0LhEMhDCRBLUfEys+BlgNGews5ltWo/pXE
+         3qfN8JTuMieOfV43Q6rQmqKTmYzThnxopJ8snRoTnLzLx1InUZn7cHRR/U8usoYy9xHu
+         vvng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=uTBbTXYFGNCpYUwVobhOIlz/Mhz77ivOPjCkAtB5xU4=;
-        b=yn1f08lfwi5UwvWu+z04Bu7UcRK8azp1obhcVAqqWtvAleZpc0ppk4idln8uAsecDE
-         RUu7mNgR2Qqpa4Ol3/VUqFNQMW1xGKjNHcj9Ija/5PdQeN1Eq6k54JG2q3P2iFelWMwo
-         /6uQTr68ggNafY+g1KOi0YbBK5of97c/PzFxgoqjCFJJRR6XZAauzCxZqdnAmE5gi3Q7
-         1f9Luv0FryC+c9oiKX+OWFKZ8oKZjbAj8/zmh2WKLSzYipMCpIp5/R45FwVm+7PmXSmF
-         pG59QewrtJ9065YGFWkPeif1eXk/1hxgls41G/uRq4trE4xT9V9GPm4qlimEncqC4vLI
-         a0VQ==
-X-Gm-Message-State: AOAM530iOWDfNIHDOuYGT1yNFGNT6VgdWS638SK0BKVzIoCaknUvI80P
-	2UKlbnYrt5LQSh9byj6HOw0=
-X-Google-Smtp-Source: ABdhPJxmdklkfR9hOxx4ju61ZbGdSdZU/nHHQvdpTzUWMX785Zen1bqIogOmCskIW39VjToePPmt1g==
-X-Received: by 2002:a05:6512:3d07:: with SMTP id d7mr34967060lfv.233.1636975740918;
-        Mon, 15 Nov 2021 03:29:00 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=PSeWtToEiSgAs2kzH6Tqz+VBqTLlmPNePfBbZhwqRrM=;
+        b=4/pSD7sxlzWgF0lPG3bRKpUHm9hDo8ahwPYIuG/8Fczzf7DYjkAy/sA3/L2gN1U2Fe
+         o3/skwgIC+XPM94N51iS4dA6Gyiwf1Zd7WbKXl41zAM1kusz3OrscqBK2kKhZqI1FBQw
+         uESZxLA7VZg/lWnVbdl+lSqUowIS4X0YPoqYrMEovX5tIkO8UW9WcQYjO/hX0RkARtbz
+         O+l2juzGhF7esLoqas6jyVfydRvSAjae6VXvcHiDv3VuEPEg2SPTF353Si1F61o3N5EJ
+         0D7P6GB4Ej8e7DKVUSIGbXp+Ksl0i71CjB+GgZnNCUhO9FPIloe4YX6dBZyQtNKucgNJ
+         +t7w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM5313Vauz8k6vRm6Ec23bViCfiSYzqD0244DzQCL7XM87iqS3YqPa
+	GkseBwk8CtfZc0jBMBsw1Sc=
+X-Google-Smtp-Source: ABdhPJya9lWv04Q+gMptYncXNEeqPGJMaAn9YAnLLAZBordhqhN+1BXNno9BX0OdRTPeZsxMKWVrLg==
+X-Received: by 2002:a05:6a00:1a8f:b0:49f:f5ac:b27a with SMTP id e15-20020a056a001a8f00b0049ff5acb27amr32899944pfv.38.1636982991033;
+        Mon, 15 Nov 2021 05:29:51 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:2610:: with SMTP id bt16ls222583lfb.2.gmail; Mon,
- 15 Nov 2021 03:28:59 -0800 (PST)
-X-Received: by 2002:a05:6512:234c:: with SMTP id p12mr33509547lfu.157.1636975739707;
-        Mon, 15 Nov 2021 03:28:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1636975739; cv=none;
+Received: by 2002:a17:902:f20c:: with SMTP id m12ls965081plc.3.gmail; Mon, 15
+ Nov 2021 05:29:50 -0800 (PST)
+X-Received: by 2002:a17:902:8bc3:b0:13e:9d00:a8f5 with SMTP id r3-20020a1709028bc300b0013e9d00a8f5mr35202736plo.79.1636982990409;
+        Mon, 15 Nov 2021 05:29:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1636982990; cv=none;
         d=google.com; s=arc-20160816;
-        b=nvYHhU3qXB02/4uTJHExzG27yEoNa0i3kYNiC9nJFQjw2tcY9ncrQunJoGJX5eRvj7
-         10mD3H7S/jNbLoX3tNfZ4VnNdIKm/uTrHEOk2I4QJbSCgQ+FJsGCig967YCTj/a7zELc
-         KRmCPgnBw72Dmijygpuwj9Zt5xduvt4Jk7+qQdJfq62YCbJ41SncRGZjPLD/ntkdalWR
-         rWbaVPWPvPQssJKrJ0mCUuXPE6xSWJNhtuFfJ76fwsk6bBHm6ByobzggBvHJuACeUvav
-         hGIGqfxJTLcv9tt36ARZ051R6+8dWRPuAQ0OyARrAji69jGQqTO196bYsiQNY6Yl7IqQ
-         BolQ==
+        b=vbnoAg9WKy26Y3bXVB4ztraRgFUKIADtocWWqgwSgaU1wE3YMoNw9fbCdb2GFoCMt9
+         QIJQ1GpzTHlljNuxQCLEe2pMf1DpRx7vh/NyGmb8U5QH3dgXwKdOUBVVutgUSZERfXxy
+         8r1+MLE09yOohq2Cais+HdeZx/lhyrgCIRs5x5p2kmTD0IWkjilfhTyhxYRIV7FkD01k
+         zmiX8L5oSE2Q78Iq7Yp2/x21w9uzvEv+nzP1hB/YlMUWYb4CZrjDkuF628QGsfPUDpi2
+         8h2QZAEm9GWiRsT13GXmy+d/sE8tOvmRBnuDpL2zhB+B/2YT1RiKlmTePhSFJ8fYW2WP
+         MFmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=xf9u2CscKkkxKfWTXnB3UoCYnr7mB7Mfxpso9hhGJvU=;
-        b=EOG3Vi+VY0o6FJt48NnO/snx28gPzMrQkiLK6umU4tyLmXqOhG1/DzLnv87Tu53RgS
-         xJrBZE3Utxvpiqv5Cd1meJJd0d0qx2PhMldOPUZaq8RaAHXrqNlxSczf4gqHTj9iI2gO
-         ldn9XqXNIZkXG4f/om1pNyGhtVy746j5dvdFmr6doV66mRHJGyAXEaCGgCvMyYwVVJ1r
-         Eotta/igGmX90pNNq+ZqoMPtjigNzyvrJxBpUh6FneFwgfJDvnPdUBmC9zuPhHPSPiIA
-         fsky+8452fD0+H8u+egXD4Gejiu6Lh7D29VDtgA5PBedK9CGwl8RT80je7jCofAAQPym
-         Y2fA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=xSASduQVtPzP/emfrd+RzN5Fm3/Hk+6ZPxPAcA4/Lgw=;
+        b=K/4SrItnF5Cty7pIIMwwtdIEXG5YL7TdH4fPHnURBmbFH/2YX1JOm9M/MXIr7XRO+B
+         kaDbqH6dzCP2BOPCzAg4I+QlJ96P8twNd5LCLJcjLr6bWsNR2I/O1+Wxq2cInM2T6/RN
+         X43yJhWzjB7pRnvuzcLisDZ33G4W+bYi+VwVA9pEkaF5Jge6hjCvLwGJmb0IIogB+xXV
+         eBZ8f+BO9eK1p40/v7bfnCN9mQqC8eM0qKTp4iRnfBv5fJDexIJ5I9uK+miOZYRLcpN8
+         eyeuF1F6Hc9BDx6f7Nh0ziQ83jVb60JJ0jP5GND0TTkzbUpxshkOvq3zAiUSujwk5UNq
+         DFgQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lCCgT0Pg;
-       spf=pass (google.com: domain of 3e0ssyqukcwacjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3e0SSYQUKCWACJTCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id z1si1073432lfu.5.2021.11.15.03.28.59
+       dkim=pass header.i=@quicinc.com header.s=qcdkim header.b=AleVJa4d;
+       spf=pass (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.38 as permitted sender) smtp.mailfrom=quic_qiancai@quicinc.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com. [199.106.114.38])
+        by gmr-mx.google.com with ESMTPS id y2si2066272pjp.2.2021.11.15.05.29.50
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Nov 2021 03:28:59 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3e0ssyqukcwacjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id m18-20020a05600c3b1200b0033283ea5facso3340673wms.1
-        for <kasan-dev@googlegroups.com>; Mon, 15 Nov 2021 03:28:59 -0800 (PST)
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:6385:6bd0:4ede:d8c6])
- (user=elver job=sendgmr) by 2002:a05:600c:104b:: with SMTP id
- 11mr60511649wmx.54.1636975739083; Mon, 15 Nov 2021 03:28:59 -0800 (PST)
-Date: Mon, 15 Nov 2021 12:28:23 +0100
-Message-Id: <20211115112822.4077224-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.34.0.rc1.387.gb447b232ab-goog
-Subject: [PATCH] perf test: Add basic stress test for sigtrap handling
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@redhat.com>, 
-	Namhyung Kim <namhyung@kernel.org>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Fabian Hemmer <copy@copy.sh>, Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Nov 2021 05:29:50 -0800 (PST)
+Received-SPF: pass (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.38 as permitted sender) client-ip=199.106.114.38;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Nov 2021 05:29:49 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 05:29:49 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Mon, 15 Nov 2021 05:29:49 -0800
+Received: from qian-HP-Z2-SFF-G5-Workstation (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Mon, 15 Nov 2021 05:29:48 -0800
+Date: Mon, 15 Nov 2021 08:29:46 -0500
+From: Qian Cai <quic_qiancai@quicinc.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Will Deacon <will@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>, "Valentin
+ Schneider" <valentin.schneider@arm.com>
+Subject: Re: KASAN + CPU soft-hotplug = stack-out-of-bounds at
+ cpuinfo_store_cpu
+Message-ID: <YZJgyve+tQ/+8NDC@qian-HP-Z2-SFF-G5-Workstation>
+References: <YY9ECKyPtDbD9q8q@qian-HP-Z2-SFF-G5-Workstation>
+ <YY9WKU/cnQI4xqNE@qian-HP-Z2-SFF-G5-Workstation>
+ <CACT4Y+bj7JU=5Db=bAafjNKJcezeczzDCTwpKvhhC8kESc5+kQ@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+bj7JU=5Db=bAafjNKJcezeczzDCTwpKvhhC8kESc5+kQ@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Original-Sender: quic_qiancai@quicinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=lCCgT0Pg;       spf=pass
- (google.com: domain of 3e0ssyqukcwacjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3e0SSYQUKCWACJTCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@quicinc.com header.s=qcdkim header.b=AleVJa4d;       spf=pass
+ (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.38 as
+ permitted sender) smtp.mailfrom=quic_qiancai@quicinc.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,219 +147,16 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add basic stress test for sigtrap handling as a perf tool built-in test.
-This allows sanity checking the basic sigtrap functionality from within
-the perf tool.
+On Sat, Nov 13, 2021 at 07:49:39AM +0100, Dmitry Vyukov wrote:
+> This may be just a bad format string.
+> But I don't see kernel/printk/printk.c:2264 doing any printk on
+> next-20211110. What's up with line numbers?
 
-Signed-off-by: Marco Elver <elver@google.com>
----
- tools/perf/tests/Build          |   1 +
- tools/perf/tests/builtin-test.c |   1 +
- tools/perf/tests/sigtrap.c      | 154 ++++++++++++++++++++++++++++++++
- tools/perf/tests/tests.h        |   1 +
- 4 files changed, 157 insertions(+)
- create mode 100644 tools/perf/tests/sigtrap.c
-
-diff --git a/tools/perf/tests/Build b/tools/perf/tests/Build
-index 803ca426f8e6..af2b37ef7c70 100644
---- a/tools/perf/tests/Build
-+++ b/tools/perf/tests/Build
-@@ -65,6 +65,7 @@ perf-y += pe-file-parsing.o
- perf-y += expand-cgroup.o
- perf-y += perf-time-to-tsc.o
- perf-y += dlfilter-test.o
-+perf-y += sigtrap.o
- 
- $(OUTPUT)tests/llvm-src-base.c: tests/bpf-script-example.c tests/Build
- 	$(call rule_mkdir)
-diff --git a/tools/perf/tests/builtin-test.c b/tools/perf/tests/builtin-test.c
-index 8cb5a1c3489e..f1e6d2a3a578 100644
---- a/tools/perf/tests/builtin-test.c
-+++ b/tools/perf/tests/builtin-test.c
-@@ -107,6 +107,7 @@ static struct test_suite *generic_tests[] = {
- 	&suite__expand_cgroup_events,
- 	&suite__perf_time_to_tsc,
- 	&suite__dlfilter,
-+	&suite__sigtrap,
- 	NULL,
- };
- 
-diff --git a/tools/perf/tests/sigtrap.c b/tools/perf/tests/sigtrap.c
-new file mode 100644
-index 000000000000..febfa1609356
---- /dev/null
-+++ b/tools/perf/tests/sigtrap.c
-@@ -0,0 +1,154 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Basic test for sigtrap support.
-+ *
-+ * Copyright (C) 2021, Google LLC.
-+ */
-+
-+#include <stdint.h>
-+#include <stdlib.h>
-+#include <linux/hw_breakpoint.h>
-+#include <pthread.h>
-+#include <signal.h>
-+#include <sys/ioctl.h>
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+
-+#include "cloexec.h"
-+#include "debug.h"
-+#include "event.h"
-+#include "tests.h"
-+#include "../perf-sys.h"
-+
-+#define NUM_THREADS 5
-+
-+static struct {
-+	int tids_want_signal;		/* Which threads still want a signal. */
-+	int signal_count;		/* Sanity check number of signals received. */
-+	volatile int iterate_on;	/* Variable to set breakpoint on. */
-+	siginfo_t first_siginfo;	/* First observed siginfo_t. */
-+} ctx;
-+
-+#define TEST_SIG_DATA (~(unsigned long)(&ctx.iterate_on))
-+
-+static struct perf_event_attr make_event_attr(void)
-+{
-+	struct perf_event_attr attr = {
-+		.type		= PERF_TYPE_BREAKPOINT,
-+		.size		= sizeof(attr),
-+		.sample_period	= 1,
-+		.disabled	= 1,
-+		.bp_addr	= (unsigned long)&ctx.iterate_on,
-+		.bp_type	= HW_BREAKPOINT_RW,
-+		.bp_len		= HW_BREAKPOINT_LEN_1,
-+		.inherit	= 1, /* Children inherit events ... */
-+		.inherit_thread = 1, /* ... but only cloned with CLONE_THREAD. */
-+		.remove_on_exec = 1, /* Required by sigtrap. */
-+		.sigtrap	= 1, /* Request synchronous SIGTRAP on event. */
-+		.sig_data	= TEST_SIG_DATA,
-+	};
-+	return attr;
-+}
-+
-+static void
-+sigtrap_handler(int signum __maybe_unused, siginfo_t *info, void *ucontext __maybe_unused)
-+{
-+	if (!__atomic_fetch_add(&ctx.signal_count, 1, __ATOMIC_RELAXED))
-+		ctx.first_siginfo = *info;
-+	__atomic_fetch_sub(&ctx.tids_want_signal, syscall(SYS_gettid), __ATOMIC_RELAXED);
-+}
-+
-+static void *test_thread(void *arg)
-+{
-+	pthread_barrier_t *barrier = (pthread_barrier_t *)arg;
-+	pid_t tid = syscall(SYS_gettid);
-+	int i;
-+
-+	pthread_barrier_wait(barrier);
-+
-+	__atomic_fetch_add(&ctx.tids_want_signal, tid, __ATOMIC_RELAXED);
-+	for (i = 0; i < ctx.iterate_on - 1; i++)
-+		__atomic_fetch_add(&ctx.tids_want_signal, tid, __ATOMIC_RELAXED);
-+
-+	return NULL;
-+}
-+
-+static int run_test_threads(pthread_t *threads, pthread_barrier_t *barrier)
-+{
-+	int i;
-+
-+	pthread_barrier_wait(barrier);
-+	for (i = 0; i < NUM_THREADS; i++)
-+		TEST_ASSERT_EQUAL("pthread_join() failed", pthread_join(threads[i], NULL), 0);
-+
-+	return TEST_OK;
-+}
-+
-+static int run_stress_test(int fd, pthread_t *threads, pthread_barrier_t *barrier)
-+{
-+	int ret;
-+
-+	ctx.iterate_on = 3000;
-+
-+	TEST_ASSERT_EQUAL("misfired signal?", ctx.signal_count, 0);
-+	TEST_ASSERT_EQUAL("enable failed", ioctl(fd, PERF_EVENT_IOC_ENABLE, 0), 0);
-+	ret = run_test_threads(threads, barrier);
-+	TEST_ASSERT_EQUAL("disable failed", ioctl(fd, PERF_EVENT_IOC_DISABLE, 0), 0);
-+
-+	TEST_ASSERT_EQUAL("unexpected sigtraps", ctx.signal_count, NUM_THREADS * ctx.iterate_on);
-+	TEST_ASSERT_EQUAL("missing signals or incorrectly delivered", ctx.tids_want_signal, 0);
-+	TEST_ASSERT_VAL("unexpected si_addr", ctx.first_siginfo.si_addr == &ctx.iterate_on);
-+#if 0 /* FIXME: enable when libc's signal.h has si_perf_{type,data} */
-+	TEST_ASSERT_EQUAL("unexpected si_perf_type", ctx.first_siginfo.si_perf_type,
-+			  PERF_TYPE_BREAKPOINT);
-+	TEST_ASSERT_EQUAL("unexpected si_perf_data", ctx.first_siginfo.si_perf_data,
-+			  TEST_SIG_DATA);
-+#endif
-+
-+	return ret;
-+}
-+
-+static int test__sigtrap(struct test_suite *test __maybe_unused, int subtest __maybe_unused)
-+{
-+	struct perf_event_attr attr = make_event_attr();
-+	struct sigaction action = {};
-+	struct sigaction oldact;
-+	pthread_t threads[NUM_THREADS];
-+	pthread_barrier_t barrier;
-+	int i, fd, ret = TEST_FAIL;
-+
-+	pthread_barrier_init(&barrier, NULL, NUM_THREADS + 1);
-+
-+	action.sa_flags = SA_SIGINFO | SA_NODEFER;
-+	action.sa_sigaction = sigtrap_handler;
-+	sigemptyset(&action.sa_mask);
-+	if (sigaction(SIGTRAP, &action, &oldact)) {
-+		pr_debug("FAILED sigaction()\n");
-+		goto out;
-+	}
-+
-+	fd = sys_perf_event_open(&attr, 0, -1, -1, perf_event_open_cloexec_flag());
-+	if (fd < 0) {
-+		pr_debug("FAILED sys_perf_event_open()\n");
-+		goto out_restore_sigaction;
-+	}
-+
-+	for (i = 0; i < NUM_THREADS; i++) {
-+		if (pthread_create(&threads[i], NULL, test_thread, &barrier)) {
-+			pr_debug("FAILED pthread_create()");
-+			goto out_close_perf_event;
-+		}
-+	}
-+
-+	ret = run_stress_test(fd, threads, &barrier);
-+
-+out_close_perf_event:
-+	close(fd);
-+out_restore_sigaction:
-+	sigaction(SIGTRAP, &oldact, NULL);
-+out:
-+	pthread_barrier_destroy(&barrier);
-+	return ret;
-+}
-+
-+DEFINE_SUITE("Sigtrap", sigtrap);
-diff --git a/tools/perf/tests/tests.h b/tools/perf/tests/tests.h
-index 8f65098110fc..5bbb8f6a48fc 100644
---- a/tools/perf/tests/tests.h
-+++ b/tools/perf/tests/tests.h
-@@ -146,6 +146,7 @@ DECLARE_SUITE(pe_file_parsing);
- DECLARE_SUITE(expand_cgroup_events);
- DECLARE_SUITE(perf_time_to_tsc);
- DECLARE_SUITE(dlfilter);
-+DECLARE_SUITE(sigtrap);
- 
- /*
-  * PowerPC and S390 do not support creation of instruction breakpoints using the
--- 
-2.34.0.rc1.387.gb447b232ab-goog
+Yeah, it is usual that the line number could be off by a few lines
+with that .config. It is still in my TODO to dig into the bottom of it
+though.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211115112822.4077224-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YZJgyve%2BtQ/%2B8NDC%40qian-HP-Z2-SFF-G5-Workstation.
