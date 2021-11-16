@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBDLKPY4HVQKBBU7EZ2GAMGQEQRU3DNQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBB47JZ2GAMGQEZ2WEQ4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C674532DA
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 14:29:56 +0100 (CET)
-Received: by mail-lj1-x238.google.com with SMTP id o15-20020a2e90cf000000b00218dfebebdesf6195117ljg.13
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 05:29:56 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637069395; cv=pass;
+Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DF5453308
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 14:41:07 +0100 (CET)
+Received: by mail-ed1-x53c.google.com with SMTP id i9-20020a508709000000b003dd4b55a3casf17246464edb.19
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 05:41:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637070067; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0utvH/Xosk9z3R+qCUnCQ1kURChFSLLsZh2H0iFbT59LcFYBNgGOr1/D93/I2vvLdl
-         QF3UaLsmgNaL+QZneS8H5TwMwsMO0jxP/1Fw9zGOFNG6pKd3bfdIG3QAD02eq9UExrKb
-         +fqAMEozSB2/O3AgH/ECzpTNHLvFRQMhyjQMXJXjtexd6ALjICs5bfoMI8YvN6v4MreF
-         C3t3FvD7tI4O6nhLHvCyxS2wGIa2QtiB5itv7G43OQ03QrpTYFBOcHECxMd5rkbpiUTF
-         wrNJ9b8iGoYBkysRCDdOZ2JD0C6uAOk5mfedRqryknb8Pagw59iAVCCgd4CaXA6ELz5S
-         2RTw==
+        b=t+wzYbNTKz0lj1PwSJE6otuq/RmBzaD0L/eq22es/M01P25E4HOFS3Y3ppJYeX5R27
+         vLWd63XK6fd+Y30d13MPOThjeaH7XIXdbiWw2nFOHE8HMQU8mp8eGSK285Ff1MlQSS4p
+         N7SocpkwazBxPGO5n1B9lOm0HNXImcUQajyynR9NZXBu8kT8wh5iZqIa1r5B3ozwJyaK
+         CmMYCpxVFBz8wFhkMWXg+Q+soPoFQh6BzL7QY2AI1HQ4WTR+zKcEg19heuvKTQ1k5MLH
+         c2Gsc9W4/qiGzvCY8W9Y4AJVre5x2cwIVuuTfLNb2TpybhpMjwmVGwRxjXlP+a34HAYi
+         DpTA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding
          :in-reply-to:from:references:cc:to:content-language:subject
          :user-agent:mime-version:date:message-id:sender:dkim-signature;
-        bh=ejsQzvXOHCNgFLExBVqB0FPCIZoQ3cx+mHEGCTdalVo=;
-        b=nEcJJ6ZfL1dA6irKVDtVChXdqUQJkV+dPwCQEDETeOyKDWSNAwMBmRI6MEQ6J4GkCs
-         n0dS9af4TgbRPsQTrv+825/qv1yArkurPfYAo9410ELezyN7rHOfVu0OQFEv9xsuiqOd
-         4Re2HIr0bI49maHvcLMxFNKrJLjS84p05vb3fNahhXJQ0oy4PaqgJHtl04QWqzlwHiTh
-         217fSnWEDBErxPQkJTRDEERgQgz1/zW1ZWpI7ERLJ5tB9QTt7bcmfvj5dq3A/ySDIemS
-         sJvWY2jKzW7iQQpC1NEmuUBDHWyOn1DS1pvBI1h0wo01IDG2GOdo43ITD9zki8BcQ3P2
-         MoIw==
+        bh=N6lOXQIW9f6ELVJwWIlh/DkcpVvNNjLt3ahlZuT/2YI=;
+        b=So+4ff+Nkst4rfLeiq7D7LrNyxQxiQFgHcuKPIwbTKFBEp3CB8/eIiri998S8kMz5+
+         wa/kWnUsnbpBdgj2/jK/n1spBZOzvh9EEFJECbaCnt4uxUMWgPC6QSflQK5kvSIieISZ
+         yAG3l5u+qXRCLkEzfFwTpkjuqCFUs0UO8QaQzFqLBh9ezrTDa5LkWe1YBIJIDfjli8LB
+         rqxcchpaC0nfhRaDOpTvuQZ/QzpkKzQY38oyjLAhaJV7JEA7dsmHGeCOPqe9amQWuQdV
+         O5OJA1C0iphn2qluOeemOXiw2ttaX9P19k3Eh1kuDcyqx97KnTIPvKQmPgf+khjJHL0t
+         +mkQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-transfer-encoding:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ejsQzvXOHCNgFLExBVqB0FPCIZoQ3cx+mHEGCTdalVo=;
-        b=XQT9ixkfNA1+/Bh+R5/E8newzniIwdJYrlXVSupmwPwPOoxD+8m63rkZkksekIDzzu
-         0D/aQJnRU04KjGk+wkJzLaukfrj516MCNvANBoDvo8Tlypolj+9wJPnlMnyKezPK7cBP
-         z0DbJeWcv/WpGeDqvdBwEKQTV5Y3vYFiqV3T9LgiXPR9MJOdRhWiPyr+TrosecEMxCGG
-         VqTo5EW/yI52Cht5lwQxXgF2rEdKYbThgKv04edJolzhKDYaxKHUINfQ7g1W9FVdmoYT
-         QnfT8TB9xdNnEjLOiv1sze2wu28bJWX8V8oJXhH5RKCzXMchtHc4ZvbZyZGBHlxj0arZ
-         nlAg==
+        bh=N6lOXQIW9f6ELVJwWIlh/DkcpVvNNjLt3ahlZuT/2YI=;
+        b=oVXxOtSj7QN30Ez6MwcTjL4uOC6SkLyXskc3YzO7QNU4afS/ONKRPjjlh7w7qAemi0
+         FpB8y7ctb7ZH7/Q4RJ8ev7VAKIXynKenNBFeN/FWoL4iDjpVwUrj2AqLZSB1bSHot9Ky
+         m5oSyIqX6JQx4DyjqUw0OqlDemmk3WnjcjcY/6mCWNsg5aBzr7uOIZqAcpHQtjkEm2ai
+         XkTgu4kCrHn7KzUFQNUW01UzuRxvfY6LRNAOhQKqpnIQNmG8UrN0To3m5sS4ntQAyDSc
+         HOSRx+jZfy+bkEVGPxjkDadPdMM9j8m0o+L1E2qNaDLq8uO4ETGK8iAIBhEkd5nrA44n
+         8YoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
@@ -50,76 +50,76 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ejsQzvXOHCNgFLExBVqB0FPCIZoQ3cx+mHEGCTdalVo=;
-        b=Npk5HKLvAiiY8hVsxgAFOdqS0nGCaHqXpd+x5kylSQf8MlLE478Rz54RcZi4fFLJJU
-         G9EVvn1PZ/GPHSKRhj7H0SREWsH53T7BNvYsm+aiIu5oMs2gClQGDEZpStJg8nhXyBI1
-         6XdNX8Bzb6/NRZAwANKy2Ts+Bu9Pq/8eJLN5zf6EsZ7N+DZvn14XYhNh8jFcNFqOIIVU
-         WuN2EDXM6Yu73B6hE47jTKZ/PxYmwoDg/5BeCf0LoLej7u0TNkArjjN3zrii9JGQ6qaS
-         AETTNSINB0LGJ8eVf20TzlmQkXQAnPtvQ2pCPecUBGa+CPBMoxexOc2D6SPIssDyRc1b
-         ENyw==
+        bh=N6lOXQIW9f6ELVJwWIlh/DkcpVvNNjLt3ahlZuT/2YI=;
+        b=fL0piNShsbAtkz2WwUtNELTzowOuLu7gPJ2so5OmQkZt9XybGIzXg7Ln02JM5upik1
+         6Kn1oDBHZh6WtzEtavLbhkJFqyf7CBgvcbEi4XLVpgr4J5/wo1P/BQuqFHZrOnqZguQd
+         qvLhe3vvn2jR4/hGknfqwgG1YqmoHCHt/3eUjkebwiVqZNkvQcTPt9hvHopvyOUdG7ox
+         ZI46cXfdtM8QVH7NyNZ58C83MMntCkVJANd+Y7vE3Uk1xaUAtZG/rzL2RX60MK1t+0sY
+         jBiygEFNfZJkkgYCbPLs9wUUNhWQnXxm6IDADNDVmlPMkS0eIWJ/8N0mdQPY5LPUaSQF
+         1yZg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5306v0k2GcLzqnnJt1FEKpXbYUWkoV05KbWzTySnCahJfikzNgBx
-	cgDnFTkzj6NK1gBbjZb7xA0=
-X-Google-Smtp-Source: ABdhPJzW8rKcd5Zhjd+iIS5aLJUsQhcEOnRw85aWLpp+tKbRy4u8cqsJ5vmzsmSsGcFO9IAdkwUoJw==
-X-Received: by 2002:a05:6512:3e04:: with SMTP id i4mr6742155lfv.167.1637069395827;
-        Tue, 16 Nov 2021 05:29:55 -0800 (PST)
+X-Gm-Message-State: AOAM530nt40dOP8wX4z6wH2iqtddzX6yX3KtvMDf+/Ryf/AQG7lr5TEB
+	/Bp5og0i6wE4Ge3AkZwjHME=
+X-Google-Smtp-Source: ABdhPJyKxxTZSjuH8KAjtJbjLcIpwjgovHBI1Gmyw4ZKkVh2aGcPbUg6m8SQPrkr9alXVLIitGTidA==
+X-Received: by 2002:a17:907:7d8b:: with SMTP id oz11mr10092194ejc.507.1637070067369;
+        Tue, 16 Nov 2021 05:41:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:2610:: with SMTP id bt16ls376856lfb.2.gmail; Tue,
- 16 Nov 2021 05:29:54 -0800 (PST)
-X-Received: by 2002:a05:6512:2348:: with SMTP id p8mr6846339lfu.428.1637069394801;
-        Tue, 16 Nov 2021 05:29:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637069394; cv=none;
+Received: by 2002:a50:8e41:: with SMTP id 1ls2773320edx.0.gmail; Tue, 16 Nov
+ 2021 05:41:06 -0800 (PST)
+X-Received: by 2002:a05:6402:268e:: with SMTP id w14mr10194377edd.48.1637070066476;
+        Tue, 16 Nov 2021 05:41:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637070066; cv=none;
         d=google.com; s=arc-20160816;
-        b=nRkeUP144YRHtfdIw9t8VAimLcy/kDx2GBV2IaSK3+6tIUCnpRQdA1SsKM3jeJZG3x
-         b62j4oqCN3uln5LhkFMhkdsD7ifvsq/sgXDrOO/fIdMoLpwf2v6SbcNootgZ33JY4Lhi
-         n4CIHQYdD4HiVF8XAeHWbgDe1PygBm94rEcWc3zM9IM1aTkQ9rGsp4yXWTICJN/vxi0h
-         5/IP8FKGJ4LiEVagW8fqmdcp//7BraUobq4bwYDIggoSv8HCz9arXcayukS76W5bPc24
-         UYN59YgWs4N8EiWXGYeJwHkhrojUJ3BRWy0jDx8VA3gj6xquBQnR2dOjE4LfRQWtrSAp
-         bzpw==
+        b=spnMVDpCanJTbNxhddfZJ641HHrglWy4mjwmc/Ua4X5PWrWPwWkKhXhK3/FgMqpzq0
+         ne/RM13Dm08+09HCMNU4i6Bbrj/O4Ki/zmylO4wXr+NhpzFPXqtnb12754QF+t607IDp
+         ITqCd/FDcKEDggaRou9D4wxkDgfMRG3JYwCsAJ0Tu0t3kvWAoqVwBFxQGdaGtHYn+9og
+         c6qXeHZBUM2voU0gSoHcKwbL+GXW8gApwMOR4XiJghsZyf4fVp5yDDspSMOj504NTx/O
+         Tr30gsklXBQg8QrsAKaPxTMgB/jKSDNeBHPoa1ZkcdinuzN11uGx4eQkWbbtQhuiMeIK
+         QvFg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=zr3GahUMNSp9KOfquKN/GwDfv6NI9JWhLSnHMxCyGeg=;
-        b=VIwfpm4BEeKB4KhMU4RjzrpT1diyBKvpKHYQvB+MS0NTlsYvBGSGGdXiXeOcoALK1y
-         mXUnX0m5lf3s4SOSgoZ7r7EMu5S96Uvio3tVuQL0TnMqarQwxY8RjIWbZrgZLJdRoNP2
-         s3uB46WwqIZRqoFppslX3LSBfZAjbT2Rq+oxgocAGotpb00Q65O3Cwi1D7pGVSZi0Kd2
-         XkYXF99uYRdGCGmPjuOCPPZddq/J2wDPejCEbr9MZmXo+taLfDwrQLQRvaCydW1Bzkee
-         KRuDQzFsvFCFvKlaQBgiD/N/ro1n/scNTHtXsx9+9wCtjeHz0Mb5/HcU2etiiznv1Cyf
-         DZJw==
+        bh=nQ1Gc5SYViUfAk5KqfqKCGyJTu464xnyJQmhfyxWflA=;
+        b=O5wGeoUf1JYeAPASR8fN8MPoIpWYNwaYHtTDzLV/+TgwnyGORTHf/vFg8djnQAhD85
+         I6g5QBgVuoWnLS+i5OutTflT0xgsABzEX9o43x1OOOIyHFjGsVbF94fDTn7ZOPhiBOsK
+         8MWrZ1gDHLSnBCcKS6SkgWlLAMqnv3N0FLo+ReKRLc7BsvaFNAVJsM58ZJWlVg36GQbk
+         amhiAiABaaYLbRvOVQ96GfCieABoXS+HhP1dGZw5qqvXXY/TX8k3Eqpv5azjtFJyPdxY
+         LuHLGif7X16xHprbSU8lZpiwuWWMapUDymXQr8PArn8OEE0U8xoJ6VKUIzjotSE01OQb
+         rRww==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 Received: from pegase2.c-s.fr (pegase2.c-s.fr. [93.17.235.10])
-        by gmr-mx.google.com with ESMTPS id x65si923469lff.10.2021.11.16.05.29.54
+        by gmr-mx.google.com with ESMTPS id o19si186300edz.5.2021.11.16.05.41.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Nov 2021 05:29:54 -0800 (PST)
+        Tue, 16 Nov 2021 05:41:06 -0800 (PST)
 Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) client-ip=93.17.235.10;
 Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4Htn3j6dQLz9sSJ;
-	Tue, 16 Nov 2021 14:29:53 +0100 (CET)
+	by localhost (Postfix) with ESMTP id 4HtnJf0bH4z9sSJ;
+	Tue, 16 Nov 2021 14:41:06 +0100 (CET)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from pegase2.c-s.fr ([172.26.127.65])
 	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id US9XL2ibzr6x; Tue, 16 Nov 2021 14:29:53 +0100 (CET)
+	with ESMTP id u7mAiaYI_xFI; Tue, 16 Nov 2021 14:41:05 +0100 (CET)
 Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4Htn3j50jLz9sSH;
-	Tue, 16 Nov 2021 14:29:53 +0100 (CET)
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4HtnJd6N0tz9sSH;
+	Tue, 16 Nov 2021 14:41:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 95FD48B77A;
-	Tue, 16 Nov 2021 14:29:53 +0100 (CET)
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id C51128B77A;
+	Tue, 16 Nov 2021 14:41:05 +0100 (CET)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from messagerie.si.c-s.fr ([127.0.0.1])
 	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id f2Vdc5Ovhuop; Tue, 16 Nov 2021 14:29:53 +0100 (CET)
+	with ESMTP id Nh3y__qSDvzK; Tue, 16 Nov 2021 14:41:05 +0100 (CET)
 Received: from [192.168.234.8] (unknown [192.168.234.8])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id BFA358B763;
-	Tue, 16 Nov 2021 14:29:52 +0100 (CET)
-Message-ID: <2f22c57d-9bf0-3cc1-f0f1-61ecdf5dfa52@csgroup.eu>
-Date: Tue, 16 Nov 2021 14:29:51 +0100
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 036078B763;
+	Tue, 16 Nov 2021 14:41:04 +0100 (CET)
+Message-ID: <431fb6da-fe21-c5a6-bfb3-4e26bdc153b4@csgroup.eu>
+Date: Tue, 16 Nov 2021 14:41:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v2 2/5] preempt/dynamic: Introduce preempt mode accessors
+Subject: Re: [PATCH v2 3/5] powerpc: Use preemption model accessors
 Content-Language: fr-FR
 To: Valentin Schneider <valentin.schneider@arm.com>,
  linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
@@ -132,9 +132,9 @@ Cc: Marco Elver <elver@google.com>, Michal Marek <michal.lkml@markovi.net>,
  Masahiro Yamada <masahiroy@kernel.org>, Ingo Molnar <mingo@kernel.org>,
  Dmitry Vyukov <dvyukov@google.com>
 References: <20211110202448.4054153-1-valentin.schneider@arm.com>
- <20211110202448.4054153-3-valentin.schneider@arm.com>
+ <20211110202448.4054153-4-valentin.schneider@arm.com>
 From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <20211110202448.4054153-3-valentin.schneider@arm.com>
+In-Reply-To: <20211110202448.4054153-4-valentin.schneider@arm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: christophe.leroy@csgroup.eu
@@ -156,96 +156,81 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 Le 10/11/2021 =C3=A0 21:24, Valentin Schneider a =C3=A9crit=C2=A0:
-> CONFIG_PREEMPT{_NONE, _VOLUNTARY} designate either:
-> o The build-time preemption model when !PREEMPT_DYNAMIC
-> o The default boot-time preemption model when PREEMPT_DYNAMIC
+> Per PREEMPT_DYNAMIC, checking CONFIG_PREEMPT doesn't tell you the actual
+> preemption model of the live kernel. Use the newly-introduced accessors
+> instead.
+
+Is that change worth it for now ? As far as I can see powerpc doesn't=20
+have DYNAMIC PREEMPT, a lot of work needs to be done before being able=20
+to use it:
+- Implement GENERIC_ENTRY
+- Implement STATIC_CALLS (already done on PPC32, to be done on PPC64)
+
 >=20
-> IOW, using those on PREEMPT_DYNAMIC kernels is meaningless - the actual
-> model could have been set to something else by the "preempt=3Dfoo" cmdlin=
-e
-> parameter.
+> sched_init() -> preempt_dynamic_init() happens way before IRQs are set up=
+,
+> so this should be fine.
+
+It looks like you are mixing up interrupts and IRQs (also known as=20
+"external interrupts").
+
+ISI (Instruction Storage Interrupt) and DSI (Data Storage Interrupt) for=20
+instance are also interrupts. They happen everytime there is a page=20
+fault so may happen pretty early.
+
+Traps generated by WARN_ON() are also interrupts that may happen at any=20
+time.
+
 >=20
-> Introduce a set of helpers to determine the actual preemption mode used b=
-y
-> the live kernel.
->=20
-> Suggested-by: Marco Elver <elver@google.com>
 > Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
 > ---
->   include/linux/sched.h | 16 ++++++++++++++++
->   kernel/sched/core.c   | 11 +++++++++++
->   2 files changed, 27 insertions(+)
+>   arch/powerpc/kernel/interrupt.c | 2 +-
+>   arch/powerpc/kernel/traps.c     | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index 5f8db54226af..0640d5622496 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -2073,6 +2073,22 @@ static inline void cond_resched_rcu(void)
->   #endif
->   }
->  =20
-> +#ifdef CONFIG_PREEMPT_DYNAMIC
-> +
-> +extern bool is_preempt_none(void);
-> +extern bool is_preempt_voluntary(void);
-> +extern bool is_preempt_full(void);
+> diff --git a/arch/powerpc/kernel/interrupt.c b/arch/powerpc/kernel/interr=
+upt.c
+> index de10a2697258..c56c10b59be3 100644
+> --- a/arch/powerpc/kernel/interrupt.c
+> +++ b/arch/powerpc/kernel/interrupt.c
+> @@ -552,7 +552,7 @@ notrace unsigned long interrupt_exit_kernel_prepare(s=
+truct pt_regs *regs)
+>   		/* Returning to a kernel context with local irqs enabled. */
+>   		WARN_ON_ONCE(!(regs->msr & MSR_EE));
+>   again:
+> -		if (IS_ENABLED(CONFIG_PREEMPT)) {
+> +		if (is_preempt_full()) {
 
-Those are trivial tests supposed to be used in fast pathes. They should=20
-be static inlines in order to minimise the overhead.
+I think the cost of that additionnal test should be analysed. Maybe it's=20
+worth not doing the test at all and check _TIF_NEED_RESCHED everytime,=20
+unless that recurrent test is changed into a jump label as suggested in=20
+patch 2.
 
-> +
-> +#else
-> +
-> +#define is_preempt_none() IS_ENABLED(CONFIG_PREEMPT_NONE)
-> +#define is_preempt_voluntary() IS_ENABLED(CONFIG_PREEMPT_VOLUNTARY)
-> +#define is_preempt_full() IS_ENABLED(CONFIG_PREEMPT)
 
-Would be better to use static inlines here as well instead of macros.
-
-> +
-> +#endif
-> +
-> +#define is_preempt_rt() IS_ENABLED(CONFIG_PREEMPT_RT)
-> +
->   /*
->    * Does a critical section need to be broken due to another
->    * task waiting?: (technically does not depend on CONFIG_PREEMPTION,
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 97047aa7b6c2..9db7f77e53c3 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -6638,6 +6638,17 @@ static void __init preempt_dynamic_init(void)
->   	}
->   }
->  =20
-> +#define PREEMPT_MODE_ACCESSOR(mode) \
-> +	bool is_preempt_##mode(void)						 \
-> +	{									 \
-> +		WARN_ON_ONCE(preempt_dynamic_mode =3D=3D preempt_dynamic_undefined); \
-
-Not sure using WARN_ON is a good idea here, as it may be called very=20
-early, see comment on powerpc patch.
-
-> +		return preempt_dynamic_mode =3D=3D preempt_dynamic_##mode;		 \
-> +	}
-
-I'm not sure that's worth a macro. You only have 3 accessors, 2 lines of=20
-code each. Just define all 3 in plain text.
-
-CONFIG_PREEMPT_DYNAMIC is based on using strategies like static_calls in=20
-order to minimise the overhead. For those accessors you should use the=20
-same kind of approach and use things like jump_labels in order to not=20
-redo the test at each time and minimise overhead as much as possible.
-
-> +
-> +PREEMPT_MODE_ACCESSOR(none)
-> +PREEMPT_MODE_ACCESSOR(voluntary)
-> +PREEMPT_MODE_ACCESSOR(full)
-> +
->   #else /* !CONFIG_PREEMPT_DYNAMIC */
->  =20
->   static inline void preempt_dynamic_init(void) { }
+>   			/* Return to preemptible kernel context */
+>   			if (unlikely(current_thread_info()->flags & _TIF_NEED_RESCHED)) {
+>   				if (preempt_count() =3D=3D 0)
+> diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
+> index aac8c0412ff9..1cb31bbdc925 100644
+> --- a/arch/powerpc/kernel/traps.c
+> +++ b/arch/powerpc/kernel/traps.c
+> @@ -265,7 +265,7 @@ static int __die(const char *str, struct pt_regs *reg=
+s, long err)
+>   	printk("%s PAGE_SIZE=3D%luK%s%s%s%s%s%s %s\n",
+>   	       IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN) ? "LE" : "BE",
+>   	       PAGE_SIZE / 1024, get_mmu_str(),
+> -	       IS_ENABLED(CONFIG_PREEMPT) ? " PREEMPT" : "",
+> +	       is_preempt_full() ? " PREEMPT" : "",
+>   	       IS_ENABLED(CONFIG_SMP) ? " SMP" : "",
+>   	       IS_ENABLED(CONFIG_SMP) ? (" NR_CPUS=3D" __stringify(NR_CPUS)) :=
+ "",
+>   	       debug_pagealloc_enabled() ? " DEBUG_PAGEALLOC" : "",
 >=20
+
+Would it be interesting as well to know that we are indeed in a DYNAMIC=20
+PREEMPT context when dying ?
+
+Christophe
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -253,4 +238,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/2f22c57d-9bf0-3cc1-f0f1-61ecdf5dfa52%40csgroup.eu.
+kasan-dev/431fb6da-fe21-c5a6-bfb3-4e26bdc153b4%40csgroup.eu.
