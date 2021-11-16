@@ -1,129 +1,135 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBBPVL2CGAMGQE6FIWDXA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC2OFAOUZYGBBJ5S2CGAMGQES6GL54A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F837453AFE
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 21:34:08 +0100 (CET)
-Received: by mail-oo1-xc3c.google.com with SMTP id q63-20020a4a3342000000b002c25d2d8772sf225767ooq.11
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 12:34:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637094846; cv=pass;
+Received: from mail-qk1-x738.google.com (mail-qk1-x738.google.com [IPv6:2607:f8b0:4864:20::738])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E31E453B33
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 21:48:40 +0100 (CET)
+Received: by mail-qk1-x738.google.com with SMTP id p18-20020a05620a057200b00467bc32b45asf137092qkp.12
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 12:48:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637095719; cv=pass;
         d=google.com; s=arc-20160816;
-        b=B4d+uWkMjbvCXISRwo5X3q4VzX8Q4BHYMDuaZA/T7PBO7MQ3fFrCdhHRLhyQyEplBn
-         C1vBaDg5PbDRBwZUVJYjb18pnqn1XIZHBHZfWkWvhccof5pos6g2RvNU4hq16p43mWiA
-         aDlkbXfmJxmxHn4rhWAhMrF31DYUU1jFm2KIKXkjyD+jGqIokTb1wZZEAL+obkO5YAKS
-         xeoOVpITZKgzVF3CrbMEpe6gSxbkWwoFw8A8urJkOpBBp7FkbFAadD+wEI6gi80VwVvM
-         scH6zGKd0bcDmWr1dhvUjwjAbI+Y4o6BkE5w7WYLPXtu3XvBbK1SWUQgahfBZBbFHHTt
-         LIwA==
+        b=GK4CRdeTSRJEUawvNySMj4qDIN+EYpXudAV7sm+4q46krzW3seezX7t+3EOSQJLjXU
+         l9C/7++IzYxjuWVzAzpEvXDVPfWhuN15cGiR8UjfoVnlUaBRjudv2fEwRrPovm63UV1l
+         HuuVUvHWpv+mpAMZYfbaiV9KsFYzRVPdzYtBhHEz0+fi10LFVgP0H7G9iHKkjnzHcC9p
+         Zx/C3cKK8fcbbZE8ScakQSswBlP9qQN1Uom5I408WNRGIVMDWJUpMkI/+eNslHG6EyNl
+         apftS8HPKEAizsavSgQSyadjX6ZVljOnnXo2s2QUZ4WtezONcftqU8/h9IGnODaNU73j
+         KT4A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=MSjS+57WNUDnMpY7k0CcZKHxNaN3rLuhhMDwb3Pmiqw=;
-        b=CJ2DUEMSS/GznQ0A2ayyyGyx5QXbIY4MpUXbySaU61+jZYixvU7QhIbAcF+T6XCdHl
-         qeQ2hpqcbL+UrUCNJoBmwEcaK7eJ3O+v268seppkAz5irz3uLN8tUZKYD1omrWG5xAFK
-         hERTUxCq6GBoOpZE5xfvhoM6lQxZoNS/E9iEcjuQw/1+bKfI8rKBPgrsqV22iv6u5QU+
-         WiFXwTcXb85PM9UGLOQQCBmNybFLMBLkWR/eyKQCUQt+C8Hb0wxw8FLQ7mlO4wurpS7y
-         m4XKnxJEmOiS0o7uhXYnjvsAczn5NDN3Tlu3EAYyrPr1M2TAReByLHM/EQGDgYAkr6gZ
-         6rUA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=aPfcu4md4MX6GxgwyWlCxclJ2fvL558KNODj4fWl3Aw=;
+        b=vJqGw6z4l5ggNHU8OEDaAclDaKdldfxXRJ0iP9msHb56z+zHWydObjzrpNchB2Vw5f
+         onKvapcXULA17CdSwSdLmoArtYG4x0N7vrLCGzFq9JiReb5q7JCSApkZpXzlcplpG1/D
+         gNny/aJmUbQJBAiDH2652DZmtOX42tdSdsIJ2B5S7p/I2fdRwuBd0TdEKV3Lu8m4NiR2
+         jmnfQ+xnVgpVXgwQbE6K/GCFtLTZUKYbbMLnds06bBO/CLEomNBj1klgDibXVtP4EzjS
+         XWTl9EanXEJpagNcT4zu/rUH3h+zkt294F2wlSIamUEG2u45poxj6oSXAlX1QFlAYUNl
+         GjvA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="YLPy/WNN";
-       spf=pass (google.com: domain of srs0=nev0=qd=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=NEV0=QD=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=d0QjB9Or;
+       spf=pass (google.com: domain of almasrymina@google.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=almasrymina@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=MSjS+57WNUDnMpY7k0CcZKHxNaN3rLuhhMDwb3Pmiqw=;
-        b=m2JCltx5zGmGjyVZpYnPVaX6tBvNyceMRxnCYE1U+ESuyFpp/t4RSbD68IrJJgb5kU
-         GocBdhKSiRd+tQmV+GK2ZABbDd84fbtgJc29xNmjoqeTUrKE1KCHvTsF5v7b5Ti7C/aa
-         D8IfnOhIafp0WJKUK+kx+XPac24UjozIkbWcWVR2+tC3EHoFdzx427dFlfDSDuOAgIzx
-         KzgdeKhrRBNcTwWcNGWhArDUKRuHoYr7sGijH9YhLDz5Fr5jGDFgNiVXRZhLUS/LLA1i
-         i7RuewcRrvgOP2uKT4pFWk73A6mq6N+NUrmPRf2I1pP01/791wCIYXl6/+jEz8kHTH3c
-         O5dg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=aPfcu4md4MX6GxgwyWlCxclJ2fvL558KNODj4fWl3Aw=;
+        b=EumzQlzpzZpvfoNBT5M2qGYN+09cMTdejyr+fxhsCDv1FlfGVRbDR5pxy1Gcnkcgns
+         KiAMBnUM7WJAUCfeAMZjyEyoFMTKoZ//kizZPQlwa/6hKLWh2Esv2ilfS60wkPHrlHt/
+         TSBtfQdWV5mves1Bq29y53tCV8AcDbmXE8AbJ389zF39f2oT6uMXjzOEVp2PvfRrheJj
+         rSyAEciVOU7bzYfvVigSfrrWNlC/YfdUg/WubMs9XSI9CHGUurCvLKQAOAGXcq5dOKxS
+         6xpGHyBvvqWsFsogdageM0wO0EF7BthbojPzfgxG+pQgqoc/O+8SW9bTOIpYNnaqRxLv
+         ykVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=MSjS+57WNUDnMpY7k0CcZKHxNaN3rLuhhMDwb3Pmiqw=;
-        b=zYiZjixj6ahWP+AMEG1cpE0b/V9tl5j7hrelweWC63S6oyHb5u5WxQ3esAtd+Cy77f
-         YSPvoD3qJ+ksKeaSDh4XQf7L5W8gGCRpWmp4AgamQms3JkM8HBDQttacuR9+nY5O16s2
-         vTC55ewL6oZ3uMtCj3dg8FthCxsWpE39oN1VCUjmMT8+fh45UOG2wdyQxaWQbs73sQxH
-         v1GLdrzHWUmGH9sesvrcwbarNZ3N/Jp3weS+0hL7pJqvT+BqA/jqdeLAvYk70mIcgi/j
-         9ye3rCGOcr0snVnenl+ijB6zUQqw49a7CQe+gCslMh2n/8JKQXo9TxprpJWyjQ2bFFbv
-         N2nw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531gIt2TmQpjl87ZwycBg+JZ7XhtI8lYjMGzWJBRxt9IfoNyvZhF
-	JevyjpnwVacY+xn8DICOf+k=
-X-Google-Smtp-Source: ABdhPJyH7unAMxJvM15st5LGLwcX1n7IDROiWY7zUYBFgIdjE8pEuahikj24guJy/xwVUELqevFQKQ==
-X-Received: by 2002:a9d:2923:: with SMTP id d32mr8246110otb.149.1637094846639;
-        Tue, 16 Nov 2021 12:34:06 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=aPfcu4md4MX6GxgwyWlCxclJ2fvL558KNODj4fWl3Aw=;
+        b=vmcWwiW49ldqrcV2Bk1amp4UzKjrAEl4M2ExRr3LZyLGo63Af8R4EHUFtK9LeJRVVx
+         Z/+UB4hZHP2Xxp9O5CLmK0etjnQji7MtgRLBBMS1jQUgNflSqSXoW6ukfm4TUG0l2nVI
+         Bau3RvHjPXJ5mpxsOTRpalZn8SY8Drz+7aFULDhgso2gnwitcXe70NfwM8L/07UiyusG
+         iNExYPNiZWIbr5+29a9m3ncdUSJIt4uz8mAYZxeZlPvgNNIeMnsCsFUZjNHGfeWEZiQf
+         78wlOEOq9T5IH6vk+atKPyoF6R+TnczyA5KdXWyI0TWjj40G2CJ0Efjuqeeo90zyCEyN
+         kQJQ==
+X-Gm-Message-State: AOAM530GBJxXJEwVjq2SpCtbrZ4JyToCcU8OBRegPWvhxvWTTt7Tq0oa
+	xk8w/ouE/1yk+xUz4mvjwjE=
+X-Google-Smtp-Source: ABdhPJyx9Qb89R7xAQLoXXDU30sMe+we3/bsBX3LBh6D9kgVUOYBsWimKEKvGN9O3Dxd1lUoIaYH3A==
+X-Received: by 2002:ac8:5803:: with SMTP id g3mr10644107qtg.317.1637095719179;
+        Tue, 16 Nov 2021 12:48:39 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:bca:: with SMTP id 68ls3867717oth.8.gmail; Tue, 16 Nov
- 2021 12:34:06 -0800 (PST)
-X-Received: by 2002:a9d:2647:: with SMTP id a65mr8541048otb.185.1637094846241;
-        Tue, 16 Nov 2021 12:34:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637094846; cv=none;
+Received: by 2002:a0c:e705:: with SMTP id d5ls6236566qvn.4.gmail; Tue, 16 Nov
+ 2021 12:48:38 -0800 (PST)
+X-Received: by 2002:a05:6214:e83:: with SMTP id hf3mr49646151qvb.52.1637095718679;
+        Tue, 16 Nov 2021 12:48:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637095718; cv=none;
         d=google.com; s=arc-20160816;
-        b=OrhxCO6h52T/nGSUoYIFRidzWljZCuiV5u66frgmu2PbcQzXEm8pje9ltFmoGdDIGg
-         lfXidLYl60qpyforAa5yEd1eG/JEpsBL1rxWRUGrgwUFqNjO6HNJE1+IP8Vyv9HZxf+q
-         N3hqHDAImCC3Ezay8qpJbZNzvacw6wG/LP4QwKAbShnxhfjqDgjBerjJKuvQGeCionfo
-         Jf56ejxrOKuDG/aHN3RGhnWJnTaXBJ8iGg9qMRQLOe8Y3ARkhAu5kyZE0IHZ2sp6y4yc
-         gY4ZgqIXGlPynkIGYoY8nSSX9vCFlYK1BWiJFeCKvpfB4crJWJhctFsNFgkmjPuZybvS
-         LB0A==
+        b=e9bqb/6cobMBy4GSbqJvwa09pWeiJ6gfnShZUMzULVE4KtMUV6huxZ4U43CCqyGTgy
+         Sfk2+bmYaAHLtMAua5Of7mHtjfdygn0nSWxHn4Z2oL7KFdI+jWIFWB6rNpA0tl/kbr1Q
+         MKlznJZUNqJObrLlxgKnzEIuoLN+gmqHRw0a0MejTfDrXM1Xh1l9i79NBD+9NJH3PbzS
+         ibdIS+rL0TOeD9jrLa9o+5ppOj/dm6DLRNTAijJOa8387S0SUPni6l3TQ/dwJLQeHaFn
+         aNDk46FdRi6qtj9OXv1OFGEoqMmHlv8ANHlWG5w9jwIYnczXDajOKw3khCfzKjp6d6ne
+         0rCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=50UCo7OMcAYkmBjj9XxJq2OOyl1zii+nrtvsdCVEy9Q=;
-        b=PXjMqowSyc+dDTPPLtKX6zegGRzRn1CRHksr9Hejd9USYnleVwzoMOjQQAyMamIMhz
-         n8ACvH/W/A98dOrCD6BT/N2NEWLtjemIh/j+a7AX9NFz32v54i9nAYfyXuekax/D6Pha
-         Z5aKzkgbDX3Sx3LMcjypb45P23N1mTNME+kg3Q49XdT+mz4mA3UpG5+EXHKJeG8MTIBZ
-         genEIp7vV6Pnp7Ncmy3s9sFKadOZoaWgJ7kjPAZZgV63aCMM0eZFYS+dLQqHWUEUOcmQ
-         /sCYoKV3IQqJS6bb4FGYvbu/yp3I1DDnQK5nFqm5jTBPf2XokRf1jWK4PdsBc1cSItq2
-         QPiA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jOfzVabuJm7V2x9GPx6NulAgjy/f+/1BiIEsCRGFw8Q=;
+        b=C2X7tq7kKCdbl86OA4pCwtVmLTCP1v2ZItQhpSd24AgFaG6n02rotlRgivcTLZ4hQm
+         ga8dH88ElL61dtP+TzRH0k/h49krqGEUUc0iAR0Tx2ML8fmtillHChJThtsu207//aRB
+         x7+5JoknoVoFwaTsTMeFSdd1DSfe29xnjDisQB1whDpmCXPdC+4vPvlxlgnU4Hg7dHcO
+         JdwPZcKbR3IC5NIS0suNtI0EIzdHefNMQQoenaI34N0c2pLIYBpNrwKN+5KHde/BCvmB
+         IWQ15vU1+OSa3XpYYWn2qQl/JqWLLx6dmGJDu7WiTbIqOIABYEwGdxzq6ZZOWMXKEO7g
+         jwWA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="YLPy/WNN";
-       spf=pass (google.com: domain of srs0=nev0=qd=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=NEV0=QD=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
-        by gmr-mx.google.com with ESMTPS id g64si100340oia.1.2021.11.16.12.34.06
+       dkim=pass header.i=@google.com header.s=20210112 header.b=d0QjB9Or;
+       spf=pass (google.com: domain of almasrymina@google.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=almasrymina@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com. [2607:f8b0:4864:20::d36])
+        by gmr-mx.google.com with ESMTPS id d17si1919960qtb.2.2021.11.16.12.48.38
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Nov 2021 12:34:06 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=nev0=qd=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7519461037;
-	Tue, 16 Nov 2021 20:34:05 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 428345C0433; Tue, 16 Nov 2021 12:34:05 -0800 (PST)
-Date: Tue, 16 Nov 2021 12:34:05 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Juri Lelli <juri.lelli@redhat.com>
-Cc: Jun Miao <jun.miao@intel.com>, urezki@gmail.com, elver@google.com,
-	josh@joshtriplett.org, rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	joel@joelfernandes.org, qiang.zhang1211@gmail.com,
-	rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, jianwei.hu@windriver.com
-Subject: Re: [V2][PATCH] rcu: avoid alloc_pages() when recording stack
-Message-ID: <20211116203405.GU641268@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <1637018582-10788-1-git-send-email-jun.miao@intel.com>
- <20211116173959.osdzlvv7niyxthd6@localhost.localdomain>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Nov 2021 12:48:38 -0800 (PST)
+Received-SPF: pass (google.com: domain of almasrymina@google.com designates 2607:f8b0:4864:20::d36 as permitted sender) client-ip=2607:f8b0:4864:20::d36;
+Received: by mail-io1-xd36.google.com with SMTP id m9so323170iop.0
+        for <kasan-dev@googlegroups.com>; Tue, 16 Nov 2021 12:48:38 -0800 (PST)
+X-Received: by 2002:a5e:cb0d:: with SMTP id p13mr7165308iom.71.1637095718250;
+ Tue, 16 Nov 2021 12:48:38 -0800 (PST)
 MIME-Version: 1.0
+References: <20211111015037.4092956-1-almasrymina@google.com>
+ <CAMZfGtWj5LU0ygDpH9B58R48kM8w3tnowQDD53VNMifSs5uvig@mail.gmail.com>
+ <cfa5a07d-1a2a-abee-ef8c-63c5480af23d@oracle.com> <CAMZfGtVjrMC1+fm6JjQfwFHeZN3dcddaAogZsHFEtL4HJyhYUw@mail.gmail.com>
+ <CAHS8izPjJRf50yAtB0iZmVBi1LNKVHGmLb6ayx7U2+j8fzSgJA@mail.gmail.com>
+ <CALvZod7VPD1rn6E9_1q6VzvXQeHDeE=zPRpr9dBcj5iGPTGKfA@mail.gmail.com>
+ <CAMZfGtWJGqbji3OexrGi-uuZ6_LzdUs0q9Vd66SwH93_nfLJLA@mail.gmail.com>
+ <6887a91a-9ec8-e06e-4507-b2dff701a147@oracle.com> <CAHS8izP3aOZ6MOOH-eMQ2HzJy2Y8B6NYY-FfJiyoKLGu7_OoJA@mail.gmail.com>
+ <CALvZod7UEo100GLg+HW-CG6rp7gPJhdjYtcPfzaPMS7Yxa=ZPA@mail.gmail.com> <YZOeUAk8jqO7uiLd@elver.google.com>
+In-Reply-To: <YZOeUAk8jqO7uiLd@elver.google.com>
+From: "'Mina Almasry' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 16 Nov 2021 12:48:26 -0800
+Message-ID: <CAHS8izPV20pD8nKEsnEYicaCKLH7A+QTYphWRrtTqcppzoQAWg@mail.gmail.com>
+Subject: Re: [PATCH v6] hugetlb: Add hugetlb.*.numa_stat file
+To: Marco Elver <elver@google.com>
+Cc: Shakeel Butt <shakeelb@google.com>, paulmck@kernel.org, 
+	Mike Kravetz <mike.kravetz@oracle.com>, Muchun Song <songmuchun@bytedance.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Oscar Salvador <osalvador@suse.de>, Michal Hocko <mhocko@suse.com>, 
+	David Rientjes <rientjes@google.com>, Jue Wang <juew@google.com>, Yang Yao <ygyao@google.com>, 
+	Joanna Li <joannali@google.com>, Cannon Matthews <cannonmatthews@google.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20211116173959.osdzlvv7niyxthd6@localhost.localdomain>
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: almasrymina@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="YLPy/WNN";       spf=pass
- (google.com: domain of srs0=nev0=qd=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 198.145.29.99 as permitted sender) smtp.mailfrom="SRS0=NEV0=QD=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20210112 header.b=d0QjB9Or;       spf=pass
+ (google.com: domain of almasrymina@google.com designates 2607:f8b0:4864:20::d36
+ as permitted sender) smtp.mailfrom=almasrymina@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Mina Almasry <almasrymina@google.com>
+Reply-To: Mina Almasry <almasrymina@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,84 +142,125 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 16, 2021 at 05:39:59PM +0000, Juri Lelli wrote:
-> Hi,
-> 
-> On 16/11/21 07:23, Jun Miao wrote:
-> > The default kasan_record_aux_stack() calls stack_depot_save() with GFP_NOWAIT,
-> > which in turn can then call alloc_pages(GFP_NOWAIT, ...).  In general, however,
-> > it is not even possible to use either GFP_ATOMIC nor GFP_NOWAIT in certain
-> > non-preemptive contexts/RT kernel including raw_spin_locks (see gfp.h and ab00db216c9c7).
-> > Fix it by instructing stackdepot to not expand stack storage via alloc_pages()
-> > in case it runs out by using kasan_record_aux_stack_noalloc().
-> > 
-> > Jianwei Hu reported:
-> > BUG: sleeping function called from invalid context at kernel/locking/rtmutex.c:969
-> > in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 15319, name: python3
-> > INFO: lockdep is turned off.
-> > irq event stamp: 0
-> >   hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-> >   hardirqs last disabled at (0): [<ffffffff856c8b13>] copy_process+0xaf3/0x2590
-> >   softirqs last  enabled at (0): [<ffffffff856c8b13>] copy_process+0xaf3/0x2590
-> >   softirqs last disabled at (0): [<0000000000000000>] 0x0
-> >   CPU: 6 PID: 15319 Comm: python3 Tainted: G        W  O 5.15-rc7-preempt-rt #1
-> >   Hardware name: Supermicro SYS-E300-9A-8C/A2SDi-8C-HLN4F, BIOS 1.1b 12/17/2018
-> >   Call Trace:
-> >     show_stack+0x52/0x58
-> >     dump_stack+0xa1/0xd6
-> >     ___might_sleep.cold+0x11c/0x12d
-> >     rt_spin_lock+0x3f/0xc0
-> >     rmqueue+0x100/0x1460
-> >     rmqueue+0x100/0x1460
-> >     mark_usage+0x1a0/0x1a0
-> >     ftrace_graph_ret_addr+0x2a/0xb0
-> >     rmqueue_pcplist.constprop.0+0x6a0/0x6a0
-> >      __kasan_check_read+0x11/0x20
-> >      __zone_watermark_ok+0x114/0x270
-> >      get_page_from_freelist+0x148/0x630
-> >      is_module_text_address+0x32/0xa0
-> >      __alloc_pages_nodemask+0x2f6/0x790
-> >      __alloc_pages_slowpath.constprop.0+0x12d0/0x12d0
-> >      create_prof_cpu_mask+0x30/0x30
-> >      alloc_pages_current+0xb1/0x150
-> >      stack_depot_save+0x39f/0x490
-> >      kasan_save_stack+0x42/0x50
-> >      kasan_save_stack+0x23/0x50
-> >      kasan_record_aux_stack+0xa9/0xc0
-> >      __call_rcu+0xff/0x9c0
-> >      call_rcu+0xe/0x10
-> >      put_object+0x53/0x70
-> >      __delete_object+0x7b/0x90
-> >      kmemleak_free+0x46/0x70
-> >      slab_free_freelist_hook+0xb4/0x160
-> >      kfree+0xe5/0x420
-> >      kfree_const+0x17/0x30
-> >      kobject_cleanup+0xaa/0x230
-> >      kobject_put+0x76/0x90
-> >      netdev_queue_update_kobjects+0x17d/0x1f0
-> >      ... ...
-> >      ksys_write+0xd9/0x180
-> >      __x64_sys_write+0x42/0x50
-> >      do_syscall_64+0x38/0x50
-> >      entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > 
-> > Links: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/linux/kasan.h?id=7cb3007ce2da27ec02a1a3211941e7fe6875b642
-> > Fixes: 84109ab58590 ("rcu: Record kvfree_call_rcu() call stack for KASAN")
-> > Fixes: 26e760c9a7c8 ("rcu: kasan: record and print call_rcu() call stack")
-> > Reported-by: Jianwei Hu <jianwei.hu@windriver.com>
-> > Reviewed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
-> > Signed-off-by: Jun Miao <jun.miao@intel.com>
-> > ---
-> 
-> I gave this a quick try on RT. No splats. Nice!
-> 
-> Tested-by: Juri Lelli <juri.lelli@redhat.com>
+On Tue, Nov 16, 2021 at 4:04 AM Marco Elver <elver@google.com> wrote:
+>
+> On Mon, Nov 15, 2021 at 11:59AM -0800, Shakeel Butt wrote:
+> > On Mon, Nov 15, 2021 at 10:55 AM Mina Almasry <almasrymina@google.com> wrote:
+> [...]
+> > > Sorry I'm still a bit confused. READ_ONCE/WRITE_ONCE isn't documented
+> > > to provide atomicity to the write or read, just prevents the compiler
+> > > from re-ordering them. Is there something I'm missing, or is the
+> > > suggestion to add READ_ONCE/WRITE_ONCE simply to supress the KCSAN
+> > > warnings?
+>
+> It's actually the opposite: READ_ONCE/WRITE_ONCE provide very little
+> ordering (modulo dependencies) guarantees, which includes ordering by
+> compiler, but are supposed to provide atomicity (when used with properly
+> aligned types up to word size [1]; see __READ_ONCE for non-atomic
+> variant).
+>
+> Some more background...
+>
+> The warnings that KCSAN tells you about are "data races", which occur
+> when you have conflicting concurrent accesses, one of which is "plain"
+> and at least one write. I think [2] provides a reasonable summary of
+> data races and why we should care.
+>
+> For Linux, our own memory model (LKMM) documents this [3], and says that
+> as long as concurrent operations are marked (non-plain; e.g. *ONCE),
+> there won't be any data races.
+>
+> There are multiple reasons why data races are undesirable, one of which
+> is to avoid bad compiler transformations [4], because compilers are
+> oblivious to concurrency otherwise.
+>
+> Why do marked operations avoid data races and prevent miscompiles?
+> Among other things, because they should be executed atomically. If they
+> weren't a lot of code would be buggy (there had been cases where the old
+> READ_ONCE could be used on data larger than word size, which certainly
+> weren't atomic, but this is no longer possible).
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/asm-generic/rwonce.h#n35
+> [2] https://lwn.net/Articles/816850/#Why%20should%20we%20care%20about%20data%20races?
+> [3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt#n1920
+> [4] https://lwn.net/Articles/793253/
+>
+> Some rules of thumb when to use which marking:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt
+>
+> In an ideal world, we'd have all intentionally concurrent accesses
+> marked. As-is, KCSAN will find:
+>
+> A. Data race, where failure due to current compilers is unlikely
+>    (supposedly "benign"); merely marking the accesses appropriately is
+>    sufficient. Finding a crash for these will require a miscompilation,
+>    but otherwise look "benign" at the C-language level.
+>
+> B. Race-condition bugs where the bug manifests as a data race, too --
+>    simply marking things doesn't fix the problem. These are the types of
+>    bugs where a data race would point out a more severe issue.
+>
+> Right now we have way too much of type (A), which means looking for (B)
+> requires patience.
+>
+> > +Paul & Marco
+> >
+> > Let's ask the experts.
+> >
+> > We have a "unsigned long usage" variable that is updated within a lock
+> > (hugetlb_lock) but is read without the lock.
+> >
+> > Q1) I think KCSAN will complain about it and READ_ONCE() in the
+> > unlocked read path should be good enough to silent KCSAN. So, the
+> > question is should we still use WRITE_ONCE() as well for usage within
+> > hugetlb_lock?
+>
+> KCSAN's default config will forgive the lack of WRITE_ONCE().
+> Technically it's still a data race (which KCSAN can find with a config
+> change), but can be forgiven because compilers are less likely to cause
+> trouble for writes (background: https://lwn.net/Articles/816854/ bit
+> about "Unmarked writes (aligned and up to word size)...").
+>
+> I would mark both if feasible, as it clearly documents the fact the
+> write can be read concurrently.
+>
+> > Q2) Second question is more about 64 bit archs breaking a 64 bit write
+> > into two 32 bit writes. Is this a real issue? If yes, then the
+> > combination of READ_ONCE()/WRITE_ONCE() are good enough for the given
+> > use-case?
+>
+> Per above, probably unlikely, but allowed. WRITE_ONCE should prevent it,
+> and at least relieve you to not worry about it (and shift the burden to
+> WRITE_ONCE's implementation).
+>
 
-Applied with Juri's Tested-by and Marco's Acked-by.  Thank you all!
+Thank you very much for the detailed response. I can add READ_ONCE()
+at the no-lock read site, that is no issue.
 
-							Thanx, Paul
+However, for the writes that happen while holding the lock, the write
+is like so:
++               h_cg->nodeinfo[page_to_nid(page)]->usage[idx] += nr_pages;
+
+And like so:
++               h_cg->nodeinfo[page_to_nid(page)]->usage[idx] -= nr_pages;
+
+I.e. they are increments/decrements. Sorry if I missed it but I can't
+find an INC_ONCE(), and it seems wrong to me to do something like:
+
++               WRITE_ONCE(h_cg->nodeinfo[page_to_nid(page)]->usage[idx],
++
+h_cg->nodeinfo[page_to_nid(page)] + nr_pages);
+
+I know we're holding a lock anyway so there is no race, but to the
+casual reader this looks wrong as there is a race between the fetch of
+the value and the WRITE_ONCE(). What to do here? Seems to me the most
+reasonable thing to do is just READ_ONCE() and leave the write plain?
+
+
+> Thanks,
+> -- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211116203405.GU641268%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHS8izPV20pD8nKEsnEYicaCKLH7A%2BQTYphWRrtTqcppzoQAWg%40mail.gmail.com.
