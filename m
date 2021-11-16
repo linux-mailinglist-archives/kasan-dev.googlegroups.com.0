@@ -1,170 +1,165 @@
-Return-Path: <kasan-dev+bncBC23VB5X54DBBD45ZKGAMGQEXJKPPQI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBZXQZOGAMGQE2LF7UAI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82BF4509E8
-	for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 17:45:03 +0100 (CET)
-Received: by mail-lf1-x13b.google.com with SMTP id f15-20020a056512228f00b004037c0ab223sf7006285lfu.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 08:45:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1636994703; cv=pass;
+Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id C65CD451C84
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 01:16:38 +0100 (CET)
+Received: by mail-wm1-x33d.google.com with SMTP id 145-20020a1c0197000000b0032efc3eb9bcsf346884wmb.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Nov 2021 16:16:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637021798; cv=pass;
         d=google.com; s=arc-20160816;
-        b=STOedTttbKaDvPJONSlm2lNsodxHjc965I0nZhQ8WyUeDQNd92bgkg7oekt4WshlGL
-         2jGhMXQSlc1Gg3zFpNdrVp9ZmqljU3DWb9xUD4uvQhAqSVnViKK6q9KQYXxuGi07dNL0
-         EiChNSnpUqPWYkLw4SUo66PRYwRbqdCamL8IodeJmXn8VdudK1dxqm3jDMJrhFcVO4uv
-         NhM8jPncvXucfnJeg7pliOIXYhoObKH+W/+hJzU/MiV63X/XouuTQ86e0Qxvcf7WGVNP
-         AonE51lo36LEq0I5XmCcadCvrE/vkVOaAUkQLrSwY9zCOW1x/sX8qdkeTS0cTGF6au4I
-         LUUg==
+        b=ZU1uILD6uDIdS0odPabN6jLMLlmvNqAWRKQ+IuCVJhAQjccfSIqbxF2K5twu/fvYCB
+         iN9+TBnfUaNFnarGSiF3BDQGs62/4yvlZjf/1OJ/kJ2q0EWjuh6lCY55zcETbCf7gCLh
+         WgkTYYkVX+qpO7AFR3ZoOgU2T2ahn9FIE8unnBsUULlD5HGUs6ERHOGNIzJ5HJ7UKhB2
+         zz2ihF7MhZ+vKtnmXgdnXZU8jEd47ujYBsfRzUAdgFIgn5CTevpqLpVb0uxl6HvLDinV
+         ytS+pZevkc6uSDMfmqYR3Krd0Fvoi7m96wBQRpzk7dk8ldTsNXGq2cHzUDlfzJCgHf2a
+         MKBA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=qg/u9kCv53QUdlRPvuV0oWmUxwOq9C1DYcYT/RZnpHA=;
-        b=JN098CYCWGfFJQ6pDkcT6uMEORsZ8C7Ut/I0G/QysuOQLkcssM8PDYcdKIlXXrusKH
-         LpTrYB5ZCMAW16lWhJCqUgtCKLrMoRRkL0p8tZFz1q8Nnfr2J2TwERPCiFnmIj19DPFz
-         t6jmVpL8I2dkrPyGVIXCx388B7CKz+ZrSEf+cwFZ19WnHBaazLSHB+DD3F+6Zdgt5L8X
-         g9vOyIknKOW8fPWk1AVbvCw8zmWmVYHJch+nJk8B+sq7+lqPru6IvibHlUbbPuxgVJSA
-         T76VzfVBzunOtEc/OGny+uwuENb+1fTwnc2OFfoYwPvNbYRk5aWkUMARaXP5Pp5WSrkr
-         Q+3Q==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=rYQPtfc7a6CSzB86TIeyBOvZpUfYT4kS2Nrvlt7LvOA=;
+        b=FIqQx5cACUCK+wFBCOnrmlP+GQPPwsr4L8CHdamMk7bCo6RtU3RM91x/KBEGBWW/Uk
+         zAkm7xTPwpsyBIuWlfiglssXS8v6aCVA+TROJ64ospoeFO8HpkIFbwW6l2gXxxUQ0K8z
+         Zd0BEAbO+Ei/pjNYhckt40BJ9wQmbxYSqetbuSwnwk7HCTpqHC5Dv1hUVr0Wz0KheNg8
+         upMuxSoUG63wVNVRlINJ41AU8bBjfHU4JqvUhQ2jNuTTWbhXgaVFNDncnQhwM9MwSir6
+         oyMIKu1dtct81ae442o5ncVyhp0B/j9SsH9KFpCjVdtJh+fCSCGZhV5dPcxnr61ArXdZ
+         czUg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b="ZNp1vsR/";
-       spf=pass (google.com: domain of deller@gmx.de designates 212.227.17.21 as permitted sender) smtp.mailfrom=deller@gmx.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=gmx.de
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=ulrfLKfX;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=sender:from:to:cc:subject:date:message-id:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=qg/u9kCv53QUdlRPvuV0oWmUxwOq9C1DYcYT/RZnpHA=;
-        b=RFCBselbfm+uek2mvjAELr9Vts7TODD03qp6LNl40UvStjmeFTmPDZDYTKv/tg7Tnp
-         qtmbc+xIQ47gG9e25qQS1uJ7LcFTTeJMqkKfhqTHm7pVhjSsyhKYZ/NzYX8XM4WK1yMZ
-         Zaewj8qP1pqu0VWVHQoTtHJ/m4u+f8S3JCaDX1u0LRiG3vxdk9AL6b/kQ9eK5CVvTA4m
-         N/cxZ2zhhFQdV3x1lxITNkLbDWh0gdZiCUJGVO5isFu69fIVXEx2JcXv7Xjsnf9q+HcT
-         J0jrZL6NmpJuP+/vtNNFHLWjF2uMP1uQGjzsKvwTVoVCo5I6r5br0IlxLoAvD0rtjHvV
-         evQQ==
+        bh=rYQPtfc7a6CSzB86TIeyBOvZpUfYT4kS2Nrvlt7LvOA=;
+        b=E4p0N+EHOrDC4uip8nZVe6jNMvFMvKYhXK0m8Ty2tLeAusSWGuID+xjL546DzrHfzn
+         aXXcAmA9GGtWLu1cSuapcoarbkEAjjSX2X1ZzrmETCYw75YeryPqH81DG7Xb94MVlwbc
+         Q3Qp2FuVtFc5XxouOTAnojBWcvHYciLeN/Qr8uscsMnDmkgCFMuq6fGRpIyGAahnbg8S
+         fbP9xJNdgDrvEYawAtJN0NiO5+9DELQR2msz7lN/W5I7Q+j7i7S7jOXgytfCHPZefhgL
+         ZVTzMnrVJTXNRinJnx5qK6ME3U3VkUgoIh3KO6QKD+QyLp5qPdWPwCIPW2/gGrH6auQV
+         w+Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=qg/u9kCv53QUdlRPvuV0oWmUxwOq9C1DYcYT/RZnpHA=;
-        b=LfQCzOS6wg5Mt+CAFYRXDqHw7v60gEeY3YdoThzyxhOu1UTqM0jULlIXPIeQaYzbYM
-         abyWQpGjJBGWkke3sLwTxsP7pYX9NPT9C88kxMVvzNC7SUq5OsG/5PzdbDL3Vn2MbdRs
-         lpHKen2gQHsnQgRqRek9vMQKb/NEYbJn9I8Sd5ZcUczb87b7mN/tjcKxzIs7wjjWJVIZ
-         nsB0tOSvsgLhuljXYxbRkOg6qcycCWXiggTKPkRsWS4HgpjQwlRFDqiZ758HckJ/Qoin
-         ACldBzx/p0+D3TrWoiYMX3QxjtYKtS57U7ufASLXyTS1Ynel4fcZp+rVf26T4O5O/guy
-         5rBA==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=rYQPtfc7a6CSzB86TIeyBOvZpUfYT4kS2Nrvlt7LvOA=;
+        b=lVULgIhbawdSqY388Sd6tFt6WvBwK++Qnz35T7zLsi5ZI/skwHJNufEwWaTxUDz+qR
+         eBk6SBFGIJKyN6CeV8O+E0R29foE5GpZdSAuvbe6lLPbmNJ0AInM5vE2d2QLEEWJZdb9
+         xHqbbjtSs/axWP4hV/00B4MpDrExzoFMzaZf+DPT2W1b6jlj0Wz4qhz1qF+v3EHWVLOa
+         NfqQPDtjm45lskwFlg3w1pkbh2zL0utsN06ia1h01j9mH/YZuN7jWbQMwThdkfvCvGMK
+         6Q0vSFuf6Q6ZG5/NRWirxpF7dZlLwaGZ0OctByuYgaG+tmQYsAJrtFyeSt9eK47BOQhP
+         B6OQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533E6x6TATKeYTkI+FT5KAMJAXitVmk4FTYBrbU2EF1sxrAVbIiR
-	2azPEAZEixj57aLFySY1p5U=
-X-Google-Smtp-Source: ABdhPJyjbHFf7BooMNmGc5pQuJqVxKEnblIx4aNybQRPV5QiZxo/jL+jD7SaP6vjpRSU7djWcT7VcQ==
-X-Received: by 2002:a05:651c:323:: with SMTP id b3mr39877536ljp.316.1636994703406;
-        Mon, 15 Nov 2021 08:45:03 -0800 (PST)
+X-Gm-Message-State: AOAM532oJ2mCYTFZkPJw/hmAp6WwRjP3QcRnVStRdctaHqTgR0jOlcPg
+	PtvPixQKdQUU+ivejqONNr8=
+X-Google-Smtp-Source: ABdhPJx2xo9TfaIM06Slrtl6oCxjsX+NyzRf1VXY1z6r2lpBI6UA3HABZitsxlAD0bbzScUNti99wQ==
+X-Received: by 2002:a7b:c409:: with SMTP id k9mr2812969wmi.173.1637021798545;
+        Mon, 15 Nov 2021 16:16:38 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3e10:: with SMTP id i16ls196201lfv.3.gmail; Mon, 15
- Nov 2021 08:45:02 -0800 (PST)
-X-Received: by 2002:a19:6b08:: with SMTP id d8mr25810lfa.39.1636994702444;
-        Mon, 15 Nov 2021 08:45:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1636994702; cv=none;
+Received: by 2002:a1c:1c7:: with SMTP id 190ls403759wmb.3.canary-gmail; Mon,
+ 15 Nov 2021 16:16:37 -0800 (PST)
+X-Received: by 2002:a1c:f219:: with SMTP id s25mr64281039wmc.31.1637021797591;
+        Mon, 15 Nov 2021 16:16:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637021797; cv=none;
         d=google.com; s=arc-20160816;
-        b=VtXE/mJTiiLznyKidnVh+RrcSpm+JHpF1lMKCe1slubsTbEWMO2IW1TVqJ1w+ztkOB
-         3ZIsAYMHjOoSDNqSLFdGEtmM8WmoGpzFfkJGv9pJmpe3EzVBBQEd8LzUwVynDzRAXFE2
-         dkuLtFCEUKk/7jaHUexGIMWgfSfxKlvbFU79EzQ6cr22JdSPwkvCwWh3bsXoCx5obsUZ
-         83a/XUsA2bfgiCpdMyW7QVPCFvuKNrki7OW+7zg5nVgCjNqC+nYAOyTqyAJKIVkJUZWv
-         ed8xvhPQvocDVX6VZ9q0sKp0747JIfASCT4/cJivLHi+tR91JlItZUEmRPvKLq3Dw190
-         IKFA==
+        b=pP/jWgP30hG7p49OY6Hoi9B4ThHdkyCJ9/1qghvsk2wxU/yh3w318o45palk5LZNNr
+         nEplnNAvZZ954Z6qmoBTjKw+cODO2tOMzpk56XhJApTEAH5AQ18O6OjFcqtLT7PU6Bqx
+         0b1aRphBXnWJ3bRvAbYRzU9cO1sBc60C8asdaF1HQdEW9YMAWVUEuILQA/Mp4vgGEAl7
+         T2tqnfUPq/pGYczsZPr9Fq+q4iNh+XvJFTo06/SD/ExB0+AVNWxvpQyFU07jilGvVDMf
+         aVMPhyxz2rGw48cMsg41M7ue3tCTaVjNFcRC1QHYn2XhJ9skTDLIYNdgiSYPySgQKmqF
+         17aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=Qj/acku42wukI1znMH8FRDwAdiCeiQKumHbNzKc8OmY=;
-        b=sFbWpgYMCjCC/F+5hAvB1F0JQxt5NXN7ylVqD08z5lkMe5hDnXXdaHJ7a7XZIvFzlK
-         ArHcKO16H+FQSakHQEx+RSpdLZCAAmDOAKbMFLoY9HfhUOdBy8w2yGztTyTUUJhwdbGM
-         T2u/UtOO2DWPc5/8kPRlwjZ9oz3cVMGsi75Ah0mkBeqooEtn8oQFZkLErzJgf/Wd0tOf
-         p+c2zunJx6IktkJCDz/Vpw9CScvWYRmi8HjriHMwJ2f/6NEeoAUmRMoa6dSpAnZVc2ds
-         kTLj3zEcsHbVv/FYApSVPWlKdAENQsu2rOuMYMOf1UOfmsMHLOfWSa/tHLc8r/v0s+5Y
-         Cfqw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature:dkim-signature;
+        bh=qMPAWzuBja3HPc266bh9/SxdkyevbbiS70h3IGw63Mk=;
+        b=PNjZ5kr+iFno4J/UpMVKCbn7yTejWtT1aHig3QPTa12vNIXTHQztH66jcXcl31JIAX
+         4MI25bXqYO9LT0iEP5A1+rLVjDJES75j9cIMsvxifzTVFHXMRpTkx8U9i6PrfVQlcnUl
+         quDwMYXsR3W5nKi3S3odevg95trNBmvwMBnuersktlVufPFVbLh1klo/Oit2gKSMiwEw
+         tZcDF8Mh8KJJmXYrUzinHtUFgMsbDb4i16j67/7YqXA/b6UdSn1r7Zp8Ktnzwa9qK3se
+         ghQI5mcos6G6Cs9yoKAuXayFbQf/eIA8/j0Le95iAgrL7bDA3Vqzx4XjjJH9sUjkWFYh
+         zyAQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b="ZNp1vsR/";
-       spf=pass (google.com: domain of deller@gmx.de designates 212.227.17.21 as permitted sender) smtp.mailfrom=deller@gmx.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=gmx.de
-Received: from mout.gmx.net (mout.gmx.net. [212.227.17.21])
-        by gmr-mx.google.com with ESMTPS id x65si786100lff.10.2021.11.15.08.45.02
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=ulrfLKfX;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
+        by gmr-mx.google.com with ESMTPS id z3si82440wmi.2.2021.11.15.16.16.37
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 08:45:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of deller@gmx.de designates 212.227.17.21 as permitted sender) client-ip=212.227.17.21;
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.172.2]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MulmF-1mUiZj3MMl-00rlU4; Mon, 15
- Nov 2021 17:44:52 +0100
-Message-ID: <fcdead1c-2e26-b8ca-9914-4b3718d8f6d4@gmx.de>
-Date: Mon, 15 Nov 2021 17:44:46 +0100
+        Mon, 15 Nov 2021 16:16:37 -0800 (PST)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0EE092170C;
+	Tue, 16 Nov 2021 00:16:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 880A3139DB;
+	Tue, 16 Nov 2021 00:16:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id OON5IGT4kmFjXAAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Tue, 16 Nov 2021 00:16:36 +0000
+From: Vlastimil Babka <vbabka@suse.cz>
+To: Matthew Wilcox <willy@infradead.org>,
+	linux-mm@kvack.org,
+	Christoph Lameter <cl@linux.com>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Pekka Enberg <penberg@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	cgroups@vger.kernel.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	iommu@lists.linux-foundation.org,
+	Joerg Roedel <joro@8bytes.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	kasan-dev@googlegroups.com,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Marco Elver <elver@google.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	Minchan Kim <minchan@kernel.org>,
+	Nitin Gupta <ngupta@vflare.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vladimir Davydov <vdavydov.dev@gmail.com>,
+	Will Deacon <will@kernel.org>,
+	x86@kernel.org
+Subject: [RFC PATCH 00/32] Separate struct slab from struct page
+Date: Tue, 16 Nov 2021 01:15:56 +0100
+Message-Id: <20211116001628.24216-1-vbabka@suse.cz>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: Build regressions/improvements in v5.16-rc1
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Nick Terrell <terrelln@fb.com>, Rob Clark <robdclark@gmail.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Anton Altaparmakov <anton@tuxera.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Joey Gouly <joey.gouly@arm.com>,
- Stan Skowronek <stan@corellium.com>, Hector Martin <marcan@marcan.st>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Parisc List <linux-parisc@vger.kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-ntfs-dev@lists.sourceforge.net,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- linux-pci <linux-pci@vger.kernel.org>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- kasan-dev <kasan-dev@googlegroups.com>
-References: <20211115155105.3797527-1-geert@linux-m68k.org>
- <CAMuHMdUCsyUxaEf1Lz7+jMnur4ECwK+JoXQqmOCkRKqXdb1hTQ@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <CAMuHMdUCsyUxaEf1Lz7+jMnur4ECwK+JoXQqmOCkRKqXdb1hTQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:5BKtXEDuts0Z1GbTQQwbacSZ6Qy1U07fZEMQSQLpuPBBQDGFGvS
- jgmRgNw/0/YxGtzSDq/AyZLFtskYKCywXQ3lO2wtd3EGePe4Ixvqqh7DUZZeoRxCsQMl6GA
- by16J3GCpzXn/Msq8wegCjeZkFLZeq3tCjI3WXTxmaGR5bFXZPJKjDTbupJilCqt5Bs35DE
- Rw+BaHR8OgV3ewoQytQig==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:b77E2Nv2HWU=:1iEuQwORGxqm+Wxgophchs
- kJUQQ6hBkiYPbKA0OD9YByp1bHssWrVkeWRGKN5pykYEH3l7dN0ijgUMSWJcN0GfQUbeMrT1b
- YaGdtm1k4/pCbjVfG0S149Z9y49SItZL4ZWtdlVE+CRAqawiC7KOmFHtqeN0Y3JmBhRIOjqfA
- uwpF6echOB0lej0vS99fwoOz3DbzQCS0D+iIZnjK/55BLHi1EdS59b+xe3FYn1MbOzW1sOTXh
- U2NPD4g+VaVZuUlI+pmHPQ4wNk3aQQ/0v2vADxHoqHF8G6ISUZLs6qLqK4AmJFA1E1A4aLtz/
- 7huNRwSazAtuaLdZpRe6Qeys5FuaWNHQLsONPwXczWfhlS5ZxxU4znt96t19rKNnOB44icruu
- FpfCnxAIbKLuFgiiE4TBO4D3tcK6iDuh4gsXT/0L9E/QB26kjEtSHA3QP7ACtzqYu1Bdzxu0+
- neK0u+MJdKV7sSNcTbjG+E0D8+rAJZz5NjcCzEg57aRJ+O5YgbDkAoaLXcR3+ihlZml9NHl8I
- nyqs3iFoo+U5FZS6xEAjtRTd3kjOJpcutf95kWK5s5mTRo34ItK4k/Ad0JVdO0Qk94Gly7dd3
- EPRvkD3IvjVdIAoJ1rGqrCJLxNWP9OskTwtxtnvl4HqpjswTECMXMjjUHePuirpU/wbanGDjZ
- gLkqWwbit6L+/MF8j/WgH0uEf54Q4Ym1PEHqdoCmTAevhGPZZD49/diYSKX8c4baXWRjKyRYu
- jCjMhrQJFRiCXP70cHBPZPB5ov1LUhDv5uzdeyGBDdFbsha0M6M8zmtIj9jngXvAp7jjclHY2
- Q4keWlRsrozLDEB86NArf/fA+BNKh5UekNeLQ1k9csmoAntQei+GfSJl/SL76lPfgp0jAHfUg
- TvygG2oE3WZk43TGud0mvrvuC5RIjSTvIVbkSX5eI/GUxeqOuV5DaO80y8DDA1+oswXNTMVJ9
- VPSs3miXxGYDwZ+8z0E8DZ8Q1eG6CZDbs4b5ClRtuiPMJX76ARaXEeTlPpAffiH/ptsUKt03s
- zF15t5hKeMRpsZJ9fldqE2/ud15ANfqT6CXGMZfxXhHhIa0Hc9jQPkvTp1cVZRTJtChK318IW
- JWFtnZlRQXGilk=
-X-Original-Sender: deller@gmx.de
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6354; h=from:subject; bh=Yv4yTdINqcoqD7G0pRh1MdRj/fEwyrMlw3UnFAcYj7Y=; b=owEBbQGS/pANAwAIAeAhynPxiakQAcsmYgBhkvgftiZeNrWVhI+DKUHzPdvji/FLFq5wjFQzaaPr g56dz96JATMEAAEIAB0WIQSNS5MBqTXjGL5IXszgIcpz8YmpEAUCYZL4HwAKCRDgIcpz8YmpEDd2CA C5VF2fCCrFh+cwzoazBKYOudAHl4b/Ln5DcnL9t00V5H6CRcgWEe+uq7ju+KYaShk/4aDVU6/k4iI/ i8XUUIcXQBM1hQfAzvivKsbo37IEwmw/yYTJu7P8HI5stLfZ9pYSuNZiMa3tjh7xDXE2lXoboaSisR pJ5PEvAxmgTPOKQ0Kn3axIp5C8xS+5lQIoDk10I7DiVwjiPjWgyOnYKXGwxQ10xu6Rs0VTv79x9Fo1 beM5ueTcBD4P12IyMYNLnjPDHveynUlOqdrB/oS6gcSstu847TOW64xYyb9KBgkhnJG6epdIvJTRMr tcE5Bo6jnyrVzSwZc6pgdQjX45G7Ju
+X-Developer-Key: i=vbabka@suse.cz; a=openpgp; fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmx.net header.s=badeba3b8450 header.b="ZNp1vsR/";       spf=pass
- (google.com: domain of deller@gmx.de designates 212.227.17.21 as permitted
- sender) smtp.mailfrom=deller@gmx.de;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=gmx.de
+ header.i=@suse.cz header.s=susede2_rsa header.b=ulrfLKfX;       dkim=neutral
+ (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
+ vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -177,110 +172,139 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 11/15/21 17:12, Geert Uytterhoeven wrote:
-> On Mon, Nov 15, 2021 at 4:54 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> Below is the list of build error/warning regressions/improvements in
->> v5.16-rc1[1] compared to v5.15[2].
->>
->> Summarized:
->>   - build errors: +20/-13
->>   - build warnings: +3/-28
->>
->> Happy fixing! ;-)
->>
->> Thanks to the linux-next team for providing the build service.
->>
->> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf/ (all 90 configs)
->> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/8bb7eca972ad531c9b149c0a51ab43a417385813/ (all 90 configs)
->>
->>
->> *** ERRORS ***
->>
->> 20 error regressions:
->>   + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: expected ':' before '__stringify':  => 33:4, 18:4
->>   + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: label 'l_yes' defined but not used [-Werror=unused-label]:  => 38:1, 23:1
->
->     due to static_branch_likely() in crypto/api.c
->
-> parisc-allmodconfig
+Folks from non-slab subsystems are Cc'd only to patches affecting them, and
+this cover letter.
 
-fixed now in the parisc for-next git tree.
+Series also available in git, based on 5.16-rc1:
+https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=slab-struct_slab-v1r13
 
+Side note: as my SLUB PREEMPT_RT series in 5.15, I would prefer to repeat the
+git pull request way of eventually merging this, as it's also not a small
+series. Also I wouldn't mind to then continue with a git tree for all slab
+patches in general. It was apparently even done that way before:
+https://lore.kernel.org/linux-mm/alpine.DEB.2.00.1107221108190.2996@tiger/
+What do other slab maintainers think?
 
->>   + /kisskb/src/drivers/gpu/drm/msm/msm_drv.h: error: "COND" redefined [-Werror]:  => 531
->>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame size of 3252 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 47:1
->>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame size of 3360 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 499:1
->>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame size of 5344 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 334:1
->>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame size of 5380 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 354:1
->>   + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size of 1824 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 372:1
->>   + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size of 2224 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 204:1
->>   + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size of 3800 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 476:1
->
-> parisc-allmodconfig
+Previous version from Matthew Wilcox:
+https://lore.kernel.org/all/20211004134650.4031813-1-willy@infradead.org/
 
-parisc needs much bigger frame sizes, so I'm not astonished here.
-During the v5.15 cycl I increased it to 1536 (from 1280), so I'm simply tempted to
-increase it this time to 4096, unless someone has a better idea....
+LWN coverage of the above:
+https://lwn.net/Articles/871982/
 
->>   + /kisskb/src/fs/ntfs/aops.c: error: the frame size of 2240 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]:  => 1311:1
->>   + /kisskb/src/fs/ntfs/aops.c: error: the frame size of 2304 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]:  => 1311:1
->>   + /kisskb/src/fs/ntfs/aops.c: error: the frame size of 2320 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]:  => 1311:1
->
-> powerpc-allmodconfig
->
->>   + /kisskb/src/include/linux/compiler_types.h: error: call to '__compiletime_assert_366' declared with attribute error: FIELD_PREP: value too large for the field:  => 335:38
->
->     in drivers/pinctrl/pinctrl-apple-gpio.c
->
-> arm64-allmodconfig (gcc8)
->
->>   + /kisskb/src/include/linux/fortify-string.h: error: call to '__read_overflow' declared with attribute error: detected read beyond size of object (1st parameter):  => 263:25, 277:17
->
->     in lib/test_kasan.c
->
-> s390-all{mod,yes}config
-> arm64-allmodconfig (gcc11)
->
->>   + error: modpost: "mips_cm_is64" [drivers/pci/controller/pcie-mt7621.ko] undefined!:  => N/A
->>   + error: modpost: "mips_cm_lock_other" [drivers/pci/controller/pcie-mt7621.ko] undefined!:  => N/A
->>   + error: modpost: "mips_cm_unlock_other" [drivers/pci/controller/pcie-mt7621.ko] undefined!:  => N/A
->>   + error: modpost: "mips_cpc_base" [drivers/pci/controller/pcie-mt7621.ko] undefined!:  => N/A
->>   + error: modpost: "mips_gcr_base" [drivers/pci/controller/pcie-mt7621.ko] undefined!:  => N/A
->
-> mips-allmodconfig
->
->> 3 warning regressions:
->>   + <stdin>: warning: #warning syscall futex_waitv not implemented [-Wcpp]:  => 1559:2
->
-> powerpc, m68k, mips, s390, parisc (and probably more)
+This is originally an offshoot of the folio work by Matthew. One of the more
+complex parts of the struct page definition is the parts used by the slab
+allocators. It would be good for the MM in general if struct slab were its own
+data type, and it also helps to prevent tail pages from slipping in anywhere.
+As Matthew requested in his proof of concept series, I have taken over the
+development of this series, so it's a mix of patches from him (often modified
+by me) and my own.
 
-Will someone update all of them at once?
+One big difference is the use of coccinelle to perform the less interesting
+parts of the conversions automatically and at once, instead of a larger number
+of smaller incremental reviewable steps. Thanks to Julia Lawall and Luis
+Chamberlain for all their help!
 
+Another notable difference is (based also on review feedback) I don't represent
+with a struct slab the large kmalloc allocations which are not really a slab,
+but use page allocator directly. When going from an object address to a struct
+slab, the code tests first folio slab flag, and only if it's set it converts to
+struct slab. This makes the struct slab type stronger.
 
+Finally, although Matthew's version didn't use any of the folio work, the
+initial support has been merged meanwhile so my version builds on top of it
+where appropriate. This eliminates some of the redundant compound_head() e.g.
+when testing the slab flag.
 
+To sum up, after this series, struct page fields used by slab allocators are
+moved from struct page to a new struct slab, that uses the same physical
+storage. The availability of the fields is further distinguished by the
+selected slab allocator implementation. The advantages include:
 
-Helge
+- Similar to plain folio, if the slab is of order > 0, struct slab always is
+guaranteed to be the head page. Additionally it's guaranteed to be an actual
+slab page, not a large kmalloc. This removes uncertainty and potential for
+bugs.
+- It's not possible to accidentally use fields of slab implementation that's
+not actually selected.
+- Other subsystems cannot use slab's fields in struct page anymore (some
+existing non-slab usages had to be adjusted in this series), so slab
+implementations have more freedom in rearranging them in the struct slab.
 
+Matthew Wilcox (Oracle) (16):
+  mm: Split slab into its own type
+  mm: Add account_slab() and unaccount_slab()
+  mm: Convert virt_to_cache() to use struct slab
+  mm: Convert __ksize() to struct slab
+  mm: Use struct slab in kmem_obj_info()
+  mm: Convert check_heap_object() to use struct slab
+  mm/slub: Convert detached_freelist to use a struct slab
+  mm/slub: Convert kfree() to use a struct slab
+  mm/slub: Convert print_page_info() to print_slab_info()
+  mm/slub: Convert pfmemalloc_match() to take a struct slab
+  mm/slob: Convert SLOB to use struct slab
+  mm/kasan: Convert to struct slab
+  zsmalloc: Stop using slab fields in struct page
+  bootmem: Use page->index instead of page->freelist
+  iommu: Use put_pages_list
+  mm: Remove slab from struct page
 
->>   + arch/m68k/configs/multi_defconfig: warning: symbol value 'm' invalid for MCTP:  => 322
->>   + arch/m68k/configs/sun3_defconfig: warning: symbol value 'm' invalid for MCTP:  => 295
->
-> Yeah, that happens when symbols are changed from tristate to bool...
-> Will be fixed in 5.17-rc1, with the next defconfig refresh.
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
->
+Vlastimil Babka (16):
+  mm/slab: Dissolve slab_map_pages() in its caller
+  mm/slub: Make object_err() static
+  mm/slub: Convert __slab_lock() and __slab_unlock() to struct slab
+  mm/slub: Convert alloc_slab_page() to return a struct slab
+  mm/slub: Convert __free_slab() to use struct slab
+  mm/slub: Convert most struct page to struct slab by spatch
+  mm/slub: Finish struct page to struct slab conversion
+  mm/slab: Convert kmem_getpages() and kmem_freepages() to struct slab
+  mm/slab: Convert most struct page to struct slab by spatch
+  mm/slab: Finish struct page to struct slab conversion
+  mm: Convert struct page to struct slab in functions used by other
+    subsystems
+  mm/memcg: Convert slab objcgs from struct page to struct slab
+  mm/kfence: Convert kfence_guarded_alloc() to struct slab
+  mm/sl*b: Differentiate struct slab fields by sl*b implementations
+  mm/slub: Simplify struct slab slabs field definition
+  mm/slub: Define struct slab fields for CONFIG_SLUB_CPU_PARTIAL only
+    when enabled
+
+ arch/x86/mm/init_64.c          |    2 +-
+ drivers/iommu/amd/io_pgtable.c |   59 +-
+ drivers/iommu/dma-iommu.c      |   11 +-
+ drivers/iommu/intel/iommu.c    |   89 +--
+ include/linux/bootmem_info.h   |    2 +-
+ include/linux/iommu.h          |    3 +-
+ include/linux/kasan.h          |    9 +-
+ include/linux/memcontrol.h     |   48 --
+ include/linux/mm_types.h       |   38 +-
+ include/linux/page-flags.h     |   37 -
+ include/linux/slab.h           |    8 -
+ include/linux/slab_def.h       |   16 +-
+ include/linux/slub_def.h       |   29 +-
+ mm/bootmem_info.c              |    7 +-
+ mm/kasan/common.c              |   25 +-
+ mm/kasan/generic.c             |    8 +-
+ mm/kasan/kasan.h               |    1 +
+ mm/kasan/quarantine.c          |    2 +-
+ mm/kasan/report.c              |   12 +-
+ mm/kasan/report_tags.c         |   10 +-
+ mm/kfence/core.c               |   17 +-
+ mm/kfence/kfence_test.c        |    6 +-
+ mm/memcontrol.c                |   43 +-
+ mm/slab.c                      |  455 ++++++-------
+ mm/slab.h                      |  322 ++++++++-
+ mm/slab_common.c               |    8 +-
+ mm/slob.c                      |   46 +-
+ mm/slub.c                      | 1164 ++++++++++++++++----------------
+ mm/sparse.c                    |    2 +-
+ mm/usercopy.c                  |   13 +-
+ mm/zsmalloc.c                  |   18 +-
+ 31 files changed, 1302 insertions(+), 1208 deletions(-)
+
+-- 
+2.33.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/fcdead1c-2e26-b8ca-9914-4b3718d8f6d4%40gmx.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211116001628.24216-1-vbabka%40suse.cz.
