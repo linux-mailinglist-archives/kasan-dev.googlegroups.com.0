@@ -1,132 +1,139 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTN4Z6GAMGQEO3NFMKQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC73HQ6VSAGBB5OZZ6GAMGQESXAFRUA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A2E4537C3
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 17:37:34 +0100 (CET)
-Received: by mail-lf1-x13b.google.com with SMTP id y40-20020a0565123f2800b003fded085638sf8391898lfa.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 08:37:33 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637080653; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2AC4538A7
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 18:40:06 +0100 (CET)
+Received: by mail-qt1-x840.google.com with SMTP id c19-20020ac81e93000000b002a71180fd3dsf16292376qtm.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 09:40:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637084405; cv=pass;
         d=google.com; s=arc-20160816;
-        b=F/nqle3und4NRQ6uvGGRtUld5ikRyHz0nK/96vmh9nzebK3+XjnBxvrQA9wKYo8A/9
-         JWQYND3eoX1ljMVLGAjF+9gOKmW0Dir26B4NFLztPOB4vTHLgahFS++g3fvEi0ND30Wi
-         1YUKJApSLVXDyP30Af1r2S05q35+ojqak5vGmH4KnbaAUUJ43RpljAlUBLCHL3Zpie0C
-         jy6J8OHjw0/TUktt2smexSLA3XlumDBJigNTMDWYW2/+8p1a2j6yWU3svfRmpcv7Mb6w
-         E0VN81yUh7JhsOf4nP/z6G4o7hH+eN2dzX9GPtTCmIHbZk8VYY5Vo9/PpLauTheUh/l7
-         4YLA==
+        b=Vw4ShZ1IqjUxoB8tvxYMDP5HqWpletJxthZ6zMSPmRdTBtAEqR7Ka2NqEH2npULReN
+         L4rVoBl5IcN3TFEmiTpgA5OVS72zfACQz1qFFrAz4FeIus/NUBDIIV1+iJg8Ls4U7szD
+         LU7/+10tm7n8g8lrcemtYfxt9u6dz9IK1R/M5xWPiiYWWndNb/V/k4YBxB/dv8vNu0sE
+         cX9hii2RGVovzyjfkLj6/mKFmCWfI/vwZDlr59IUuNPiDC6LbhpCQguTfRqPe28QfEwG
+         3SHcY4A9DrPCm6lPbWOZgdAmsBtiVqzj2CMpxdGYzDSm/G0fohK6JPg8VGYk0FmeSjcE
+         PEHw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=1ti8WivOPuTsmNAok0lO31ocIlaqw9Tzij1zNp8qfbI=;
-        b=FTBHlLcZqz3PzUeWJzjOByE6KLFrlNqN778cIhYDSLUFVPJ9YEq/IjRhwwpyDPtOZP
-         4szhyBJMQCMOjUKOJ4rVCekf8vDorT6ad5fsassY7JYf4sl5soEFV0sjYXhvAYtrOyQY
-         Eau5JoXbsrgRp/Fc2RN9JckV56s/q+9xhXQlel5uVQtbmZABL9RPQYbrxv/ZGYv3ru1J
-         5aMjc4fgn/eSH3IH2vrbmP0vRxmTFfL1DCWP9kCpbN0O+RoGiV5jE3RXGW4OoufGvhFe
-         RnLkdf+u0irpqmZu0Wl69k3aeRimQYgrNWhS3EnBxixOgLRlgHRySWo7piVyMreyigZp
-         GnBg==
+         :list-id:mailing-list:precedence:content-disposition:in-reply-to
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=d1tmkK4CJMtZTNpq9YSljNv3aJiLrWQP4MvT1OVY7+0=;
+        b=uvRx4dmob4f80TwXaWXF6owe+BDefLr2BPP38dAClVbuPpzu0c3AnaUSQ/wU+SyYoe
+         leJstBLglSKNifjaNCsKMkg7GErTIxOPyb0jIszIlZBrOqLqeXgi8Md60YwQkBX40VVL
+         9VqW1YpMuf1Wo0U5m2I/WNgqtf1AIh6T/FkZYJCG+/Gjif1oxpiw/jJTiRxN8D9K9uYx
+         CLWbZNTzUK7kpb/9GKq/GWLLk1UMKiN5hqQ4ker/2aKv9AX4+2mcJGCxWc4p9Ba3zirg
+         JMjMni1zgSAP3//iOP9tkKvyl/A/77IVj34E9i2Q5lj2mYxY/PMWN/WQF77slhyoKEtG
+         LgcQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=tf1H6JKf;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=A2UDpMBo;
+       spf=pass (google.com: domain of juri.lelli@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=juri.lelli@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=1ti8WivOPuTsmNAok0lO31ocIlaqw9Tzij1zNp8qfbI=;
-        b=Iyinu6rYsTv5zr0TavhD73NWkOKf91/VyBpTPiSMUlf26/UB2CL/JwYXNJL1IoWZ38
-         sosLrXh0TfcZo1zGjph7ALkWznLQKMMuHypEYwf72a9HWjBkgKKpuyF6tWK1v5WkLr/1
-         bgkIcvh1O9I+Gg2DUazTUr4y+Vble8OyG/Wg6XtOxw7x6Z9KcqycWZ7jUoR0ROAdp+Qz
-         YzN6WXePq6kDj4SnkwUWVlvoM46U/9YRwgQJlaG0RQLNfyga6YftIBH2JXQGwkEQ0GOX
-         Nb+dyt2oDD0q5KD0HqCI1SwVjAvUwMqPSvtYqtF/OS72j4+Jq2XeMWEq0QE2aeqFNTPw
-         rneg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :in-reply-to:content-disposition:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=d1tmkK4CJMtZTNpq9YSljNv3aJiLrWQP4MvT1OVY7+0=;
+        b=dBY4Sj4joz1U6hA0LXCxTp9WGUsET5KVe3oDHEkCn6fq2A/SewdUVKHXghifXNGWZu
+         bmKX87dblLbFtfBQzBR1UnWj+qdyaoO0qi3p0nBlpD7v1Q89JgzV/MeQtKRUIpHYpMXk
+         al1yogX7rLNf/MahOHrx0/o0UGSiE8IVNtQ1pZz/eUIlXBc2eP5gWDFLJ8X5SsJbIzwf
+         3twItusqAsyUogunnMbQwLan46WoDibu1+U95xO1xwsqybQRMUxJ9ekeeDAEKPC6k8Ep
+         W8KqZybHJyMLqiY02wiyXVS7U04PEa2xCx4UiaGks/6oincS8Comxi6TXl8NQHn5gj3g
+         dx9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=1ti8WivOPuTsmNAok0lO31ocIlaqw9Tzij1zNp8qfbI=;
-        b=VdrnxSdvYQ73U/4pL2JqAvG4XfEjBatNtUWGh+GCrGJyYpL1TqJ29JKrU20apsn63B
-         qmFAevCf/uTnCh4yyfQwz/yBhSy3IVyZYV2IgYbeBeZs9WFToKo+1+t3sMuehzjyTE6J
-         /hPyZuxykVhmBDExPcuLgIXjGRADVkkiR+wZdjBsh39xAdpMBaXByLJOYwbtzzog8FjV
-         8lvkNwlJLF+zY1ivgYjpN30O6AHgyuXRbi0OkLxWiC2QndB1MSy5Kt3Hbe8tVmwPCEaf
-         tezHPWCWUGnCC8iUzDPbne4yHzZxDtJ/3WOHUxi5dCMUH9lUBv9xLnr61WBDWT4kyHEm
-         GOGg==
-X-Gm-Message-State: AOAM533UZY9Ld8AsQR4iwT6BlRMveEW+h3P8sH641VBAIkqp/5Q64adI
-	Murf/WrPPkOwEPdHygwZgs4=
-X-Google-Smtp-Source: ABdhPJzFCT+Xl3RvLd97qIPnu+txZMAX5i0SdCOBb2i5Dl5KSM11Rg9P1diHIHkN8aIlTAk+eaXqmg==
-X-Received: by 2002:a2e:b88e:: with SMTP id r14mr442769ljp.365.1637080653560;
-        Tue, 16 Nov 2021 08:37:33 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:in-reply-to:content-disposition
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=d1tmkK4CJMtZTNpq9YSljNv3aJiLrWQP4MvT1OVY7+0=;
+        b=IAuDJTv75j21Qa6jsyt+Gy7ZAgFcLBbi+K4aFyh7+TFt3dqWX0IhqKTTo28aVtVih8
+         W8XbqadfvZe5KSnOorc97Mwd7hBi+IwkwOEqKOb1SZLUZfBGccXbZSxFMu1cOQGP0Eb/
+         Tvr3Oz+ZnJnsi4YjuSROs+8u2A0LBHOQwirwqqIREoY79TUDGG1pxZ7/mfRpfb5ME4hX
+         Z7mLErgYE2zCgQNtyl0ccIbvlBuPKHTXHooA4e/yPvaLn5HdwL7GMNw2s4XPT7E8z2to
+         Qa4NNf7d5LaGmem9v/U5twGeP2i/XWds1vLfQf0TSjAsKzIfkYrWcQqqi+9CneQgYRqD
+         aWUw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533oOkYTgL2YZcqNR4KzgqA6brDiWIy74m90pwvZHV4y/HHsRvYw
+	Jhi8wBFragNSK7HfdtmkLU8=
+X-Google-Smtp-Source: ABdhPJz9lo3yO0VKlXP9/koHT7DXp67gTM/naK/HQU1ii8P1WtffdEab9jB1jNwOPh40a4V+W/oVkA==
+X-Received: by 2002:a05:6214:cac:: with SMTP id s12mr47709345qvs.60.1637084405434;
+        Tue, 16 Nov 2021 09:40:05 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:8611:: with SMTP id a17ls358227lji.1.gmail; Tue, 16 Nov
- 2021 08:37:32 -0800 (PST)
-X-Received: by 2002:a05:651c:1548:: with SMTP id y8mr501594ljp.458.1637080652481;
-        Tue, 16 Nov 2021 08:37:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637080652; cv=none;
+Received: by 2002:a05:622a:180f:: with SMTP id t15ls6878291qtc.2.gmail; Tue,
+ 16 Nov 2021 09:40:05 -0800 (PST)
+X-Received: by 2002:a05:622a:307:: with SMTP id q7mr9694989qtw.330.1637084404983;
+        Tue, 16 Nov 2021 09:40:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637084404; cv=none;
         d=google.com; s=arc-20160816;
-        b=TfrSzQLrl6VXGj+DAcRVKqJS2zXklITvP8LIDpUOHa3rwAIDxzRgUYIqArr56DdH9G
-         WUSQQyqP4Qt1B/9DtSPPIgRoNb1Oqfu95Khkfu4QrP4DyyH5vrOtDVVC1rotpZyw8hIV
-         rXHYRH3Lc7ul9tfjRvGgyMYxRmUpDWdEN/b3w8krKwFWXWyunTV+W0iDzylrRxjEdoHF
-         30Hme3z1vKvt4/0Wi88B2gOdRgXhrYYTk4fZOhztEBnIfH5TY1FQX3iscJOfb0Icw1d1
-         55cr282hwa7aYcFsbIyYaMUbeTW/NEJF8UeLVjG6T40qHpk3vc6tmjs6ZD/pSEBM8Dka
-         5H5Q==
+        b=kjjD9bAlNXJ1V5T6o/93pqp7GH/NNhqhgMa+7Vcxio74+jjZ/RQDOIbwevMB3Uo8I3
+         EzJRvplnQVpJRX8CSs99rxEzyJjlx+xsRpzHQnk/+GxyNND0FlsbQSRi3sjwRlTi5NOK
+         hjyEr089WKP8MQyZM+p6msqm3w6r+pgwUh7bEjWCMIC8U8yJedxtUEZD5hpXOjr8TvGq
+         QYSzYhHAzuM/1L90XGls/VQewf0yPy1ZxCrdwQJwFPDHBu5iyj5qv+03hkdba38ZQNMx
+         i6EoJ0knaVi/cwzA1fz1VKMmbKw0DydHo7WfwFGlJtZ8TJMiHkOq0Z1YU1pU16SHimUq
+         AXJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=e67vX3WEbPLEdrDSDU1oq4usnXf+xAkRvSIMthcAISo=;
-        b=D3hBA2gsAgCnGwX/nLclqRkAQG0V3Qu1Rmk2PZh6exg/gBXHf2MoCYpfSKP5X9luwM
-         6SYtQsmr48XEVXtZotLjF3S5eKst05pyl8p27xzPXeLcJ7/NHoCmcDJ7O5mPQDlfC/1g
-         doKg1OQgjxkkBDP/5Jb14zuUAjCpWvEG9+SUtRPNoNXUDzVTJeeM/otw9XrrI2MqNSF2
-         bdeHTMc078wpduGywl07Q37Ku4a7d7QBHE8m9aG3jEcE/Okmf/OQ5Jjvinmny4h3nzaw
-         R37OBnJWrguk7zTngxXr8F+NyqTS+st9oVg9kdC+R7QHrBv4qtKdJrmy9haLL3jxml9w
-         hISQ==
+        h=content-disposition:in-reply-to:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=Nr+r2xGROsXNBH9KeOUTHUo6tYTD1I9AjqYWE2OJRlU=;
+        b=VQTs2oJhF6LSxNR+bTMqi8mk0LEE22pM1MUY1F/oST3DEuCDfby76HqtjuVJgGnmbS
+         6YsUIDubavylg77shGH6pomrAq6ft45gdlQVap8NIWW6+N/y0XlGwjYmq5PFTdbNeH9r
+         Mc7YdXqMtN8rMHu3iZTf62u/qdlOgobnkfKKZIjj6znTdXUOIX8gjSKjZ2J4gDmWegcO
+         JuotYSaSblSyV+cwsiS0SaIsKR3iCDOQ5CuyhaJr97LowG7VUKZIE5hjji64k+cgJtyg
+         fwJoYdNDubne7W2tYKbQ25XetigC5Aaz+IRLViLuqgmmZrYSbOK2VBibQxE72L2G3rh5
+         NY6A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=tf1H6JKf;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com. [2a00:1450:4864:20::330])
-        by gmr-mx.google.com with ESMTPS id t12si1605137ljh.0.2021.11.16.08.37.32
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=A2UDpMBo;
+       spf=pass (google.com: domain of juri.lelli@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=juri.lelli@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id b8si419677qtg.5.2021.11.16.09.40.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Nov 2021 08:37:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::330 as permitted sender) client-ip=2a00:1450:4864:20::330;
-Received: by mail-wm1-x330.google.com with SMTP id p18so8201952wmq.5
-        for <kasan-dev@googlegroups.com>; Tue, 16 Nov 2021 08:37:32 -0800 (PST)
-X-Received: by 2002:a1c:23cb:: with SMTP id j194mr71731195wmj.13.1637080651610;
-        Tue, 16 Nov 2021 08:37:31 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:ee27:74df:199e:beab])
-        by smtp.gmail.com with ESMTPSA id n32sm3894156wms.1.2021.11.16.08.37.30
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Nov 2021 09:40:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of juri.lelli@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-2qU_h7H1O6GpExMRLNaAuQ-1; Tue, 16 Nov 2021 12:40:03 -0500
+X-MC-Unique: 2qU_h7H1O6GpExMRLNaAuQ-1
+Received: by mail-wr1-f70.google.com with SMTP id d3-20020adfa343000000b0018ed6dd4629so4660992wrb.2
+        for <kasan-dev@googlegroups.com>; Tue, 16 Nov 2021 09:40:02 -0800 (PST)
+X-Received: by 2002:a05:600c:4f10:: with SMTP id l16mr9855678wmq.47.1637084401705;
+        Tue, 16 Nov 2021 09:40:01 -0800 (PST)
+X-Received: by 2002:a05:600c:4f10:: with SMTP id l16mr9855643wmq.47.1637084401466;
+        Tue, 16 Nov 2021 09:40:01 -0800 (PST)
+Received: from localhost.localdomain ([2a00:23c6:4a17:4f01:3a16:ae0:112c:ba92])
+        by smtp.gmail.com with ESMTPSA id n1sm3718108wmq.6.2021.11.16.09.40.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Nov 2021 08:37:30 -0800 (PST)
-Date: Tue, 16 Nov 2021 17:37:24 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-Cc: kasan-dev@googlegroups.com, Chi-Thanh Hoang <chithanh.hoang@gmail.com>
-Subject: Re: KASAN isn't catching rd/wr underflow bugs on static global
- memory?
-Message-ID: <YZPeRGpOTSgXjaE6@elver.google.com>
-References: <a2ced905703ede4465f3945eb3ae4e615c02faf8.camel@gmail.com>
- <CANpmjNNSRVMO+PJWvpP=w+V6CR51Yd-r2ku_fVEvymae0g7JaQ@mail.gmail.com>
- <c2693ecb223eb634f4fa94101c4cb98999ef0032.camel@gmail.com>
+        Tue, 16 Nov 2021 09:40:01 -0800 (PST)
+Date: Tue, 16 Nov 2021 17:39:59 +0000
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Jun Miao <jun.miao@intel.com>
+Cc: paulmck@kernel.org, urezki@gmail.com, elver@google.com,
+	josh@joshtriplett.org, rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	joel@joelfernandes.org, qiang.zhang1211@gmail.com,
+	rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, jianwei.hu@windriver.com
+Subject: Re: [V2][PATCH] rcu: avoid alloc_pages() when recording stack
+Message-ID: <20211116173959.osdzlvv7niyxthd6@localhost.localdomain>
+References: <1637018582-10788-1-git-send-email-jun.miao@intel.com>
 MIME-Version: 1.0
+In-Reply-To: <1637018582-10788-1-git-send-email-jun.miao@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <c2693ecb223eb634f4fa94101c4cb98999ef0032.camel@gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Original-Sender: elver@google.com
+X-Original-Sender: juri.lelli@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=tf1H6JKf;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::330 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@redhat.com header.s=mimecast20190719 header.b=A2UDpMBo;
+       spf=pass (google.com: domain of juri.lelli@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=juri.lelli@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,138 +146,82 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 16, 2021 at 07:46PM +0530, Kaiwan N Billimoria wrote:
-> On Tue, 2021-11-16 at 12:52 +0100, Marco Elver wrote:
-> > 
-> > KASAN globals support used to be limited in Clang. This was fixed in
-> > Clang 11. I'm not sure about GCC.
-> ...
-> > > Which compiler versions are you using? This is probably the most
-> > important piece to the puzzle.
-> > 
-> Right! This is the primary issue i think, thanks!
-> am currently using gcc 9.3.0.
+Hi,
+
+On 16/11/21 07:23, Jun Miao wrote:
+> The default kasan_record_aux_stack() calls stack_depot_save() with GFP_NOWAIT,
+> which in turn can then call alloc_pages(GFP_NOWAIT, ...).  In general, however,
+> it is not even possible to use either GFP_ATOMIC nor GFP_NOWAIT in certain
+> non-preemptive contexts/RT kernel including raw_spin_locks (see gfp.h and ab00db216c9c7).
+> Fix it by instructing stackdepot to not expand stack storage via alloc_pages()
+> in case it runs out by using kasan_record_aux_stack_noalloc().
 > 
-> So, my Ubuntu system had clang-10; I installed clang-11 on top of it...
-> (this causes some issues?). Updated the Makefile to use clang-11, and it did build.
-
-Only the test or the whole kernel? You need to build the whole kernel
-and your module with the same compiler, otherwise all bets are off wrt
-things like KASAN.
-
-> But when running these tests, *only* UBSAN was triggered, KASAN unseen.
-> So: I then rebuilt the 5.10.60 kernel removing UBSAN config and retried (same module rebuilt w/ clang 11).
-> This time UBSAN didn't pop up but nor did KASAN ! (For the same rd/wr underflow testcases)...
-> My script + dmesg:
-> ...
-> (Type in the testcase number to run): 
-> 4.4
-> Running testcase "4.4" via test module now...
-> [  371.368096] testcase to run: 4.4
-> $ 
+> Jianwei Hu reported:
+> BUG: sleeping function called from invalid context at kernel/locking/rtmutex.c:969
+> in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 15319, name: python3
+> INFO: lockdep is turned off.
+> irq event stamp: 0
+>   hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+>   hardirqs last disabled at (0): [<ffffffff856c8b13>] copy_process+0xaf3/0x2590
+>   softirqs last  enabled at (0): [<ffffffff856c8b13>] copy_process+0xaf3/0x2590
+>   softirqs last disabled at (0): [<0000000000000000>] 0x0
+>   CPU: 6 PID: 15319 Comm: python3 Tainted: G        W  O 5.15-rc7-preempt-rt #1
+>   Hardware name: Supermicro SYS-E300-9A-8C/A2SDi-8C-HLN4F, BIOS 1.1b 12/17/2018
+>   Call Trace:
+>     show_stack+0x52/0x58
+>     dump_stack+0xa1/0xd6
+>     ___might_sleep.cold+0x11c/0x12d
+>     rt_spin_lock+0x3f/0xc0
+>     rmqueue+0x100/0x1460
+>     rmqueue+0x100/0x1460
+>     mark_usage+0x1a0/0x1a0
+>     ftrace_graph_ret_addr+0x2a/0xb0
+>     rmqueue_pcplist.constprop.0+0x6a0/0x6a0
+>      __kasan_check_read+0x11/0x20
+>      __zone_watermark_ok+0x114/0x270
+>      get_page_from_freelist+0x148/0x630
+>      is_module_text_address+0x32/0xa0
+>      __alloc_pages_nodemask+0x2f6/0x790
+>      __alloc_pages_slowpath.constprop.0+0x12d0/0x12d0
+>      create_prof_cpu_mask+0x30/0x30
+>      alloc_pages_current+0xb1/0x150
+>      stack_depot_save+0x39f/0x490
+>      kasan_save_stack+0x42/0x50
+>      kasan_save_stack+0x23/0x50
+>      kasan_record_aux_stack+0xa9/0xc0
+>      __call_rcu+0xff/0x9c0
+>      call_rcu+0xe/0x10
+>      put_object+0x53/0x70
+>      __delete_object+0x7b/0x90
+>      kmemleak_free+0x46/0x70
+>      slab_free_freelist_hook+0xb4/0x160
+>      kfree+0xe5/0x420
+>      kfree_const+0x17/0x30
+>      kobject_cleanup+0xaa/0x230
+>      kobject_put+0x76/0x90
+>      netdev_queue_update_kobjects+0x17d/0x1f0
+>      ... ...
+>      ksys_write+0xd9/0x180
+>      __x64_sys_write+0x42/0x50
+>      do_syscall_64+0x38/0x50
+>      entry_SYSCALL_64_after_hwframe+0x44/0xa9
 > 
-> This implies it escaped unnoticed..
-> 
-> To show the difference, here's my testcase #4.1- Read  (right) overflow on global memory - output:
-> 
-> Running testcase "4.1" via test module now...
-> [ 1372.401484] testcase to run: 4.1
-> [ 1372.401515] ==================================================================
-> [ 1372.402284] BUG: KASAN: global-out-of-bounds in static_mem_oob_right+0xaf/0x160 [test_kmembugs]
-> [ 1372.402851] Read of size 1 at addr ffffffffc088dfcc by task run_tests/1656
-> 
-> [ 1372.403428] CPU: 2 PID: 1656 Comm: run_tests Tainted: G    B      O      5.10.60-dbg02 #14
-> [ 1372.403442] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-> [ 1372.403454] Call Trace:
-> [ 1372.403486]  dump_stack+0xbd/0xfa
-> 
-> [... lots more, as expected ...]
-> 
-> So, am puzzled... why isn't KASAN catching the underflow...
+> Links: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/linux/kasan.h?id=7cb3007ce2da27ec02a1a3211941e7fe6875b642
+> Fixes: 84109ab58590 ("rcu: Record kvfree_call_rcu() call stack for KASAN")
+> Fixes: 26e760c9a7c8 ("rcu: kasan: record and print call_rcu() call stack")
+> Reported-by: Jianwei Hu <jianwei.hu@windriver.com>
+> Reviewed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
+> Signed-off-by: Jun Miao <jun.miao@intel.com>
+> ---
 
-Please take a look at the paragraph at:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/lib/test_kasan.c#n706
+I gave this a quick try on RT. No splats. Nice!
 
-I think your test is giving the compiler opportunities to miscompile
-your code, because, well it has undefined behaviour (negative index)
-that it very clearly can see. I think you need to put more effort into
-hiding the UB from the optimizer like we do in test_kasan.c.
+Tested-by: Juri Lelli <juri.lelli@redhat.com>
 
-If you want to know in detail what's happening I recommend you
-disassemble your compiled code and check if the negative dereferences
-are still there.
-
-> A couple of caveats:
-> 1) I had to manually setup a soft link to llvm-objdump (it was installed as llvm-objdump-11)
-> 2) the module build initially failed with
-> /bin/sh: 1: ld.lld: not found
-> So I installed the 'lld' package; then the build worked..
-> 
-> Any thoughts?
-
-Is this "make LLVM=1". Yeah, if there's a version suffix it's known to
-be problematic.
-
-You can just build the kernel with "make CC=clang" and it'll use
-binutils ld, which works as well.
-
-> > FWIW, the kernel has its own KASAN test suite in lib/test_kasan.c.
-> > There are a few things to not make the compiler optimize away
-> > explicitly buggy code, so I'd also suggest you embed your test in
-> > test_kasan and see if it changes anything (unlikely but worth a shot).
-> I have studied it, and essentially copied it's techniques where required... Interestingly, the kernel's test_kasan module does _not_ have a test case for this: underflow on global memory! :-)
-
-I just added such a test (below) and it passes just fine with clang 11
-(I'll probably send it as a real patch later). Notice that the address
-itself ("array") is a volatile, so that the compiler cannot make any
-assumptions about it.
-
-Thanks,
--- Marco
-
------- >8 ------
-
-diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-index 67ed689a0b1b..e56c9eb3f16e 100644
---- a/lib/test_kasan.c
-+++ b/lib/test_kasan.c
-@@ -700,7 +700,7 @@ static void kmem_cache_bulk(struct kunit *test)
- 
- static char global_array[10];
- 
--static void kasan_global_oob(struct kunit *test)
-+static void kasan_global_oob_right(struct kunit *test)
- {
- 	/*
- 	 * Deliberate out-of-bounds access. To prevent CONFIG_UBSAN_LOCAL_BOUNDS
-@@ -723,6 +723,15 @@ static void kasan_global_oob(struct kunit *test)
- 	KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
- }
- 
-+static void kasan_global_oob_left(struct kunit *test)
-+{
-+	char *volatile array = global_array;
-+	char *p = array - 3;
-+
-+	KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
-+	KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
-+}
-+
- /* Check that ksize() makes the whole object accessible. */
- static void ksize_unpoisons_memory(struct kunit *test)
- {
-@@ -1160,7 +1169,8 @@ static struct kunit_case kasan_kunit_test_cases[] = {
- 	KUNIT_CASE(kmem_cache_oob),
- 	KUNIT_CASE(kmem_cache_accounted),
- 	KUNIT_CASE(kmem_cache_bulk),
--	KUNIT_CASE(kasan_global_oob),
-+	KUNIT_CASE(kasan_global_oob_right),
-+	KUNIT_CASE(kasan_global_oob_left),
- 	KUNIT_CASE(kasan_stack_oob),
- 	KUNIT_CASE(kasan_alloca_oob_left),
- 	KUNIT_CASE(kasan_alloca_oob_right),
+Best,
+Juri
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YZPeRGpOTSgXjaE6%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211116173959.osdzlvv7niyxthd6%40localhost.localdomain.
