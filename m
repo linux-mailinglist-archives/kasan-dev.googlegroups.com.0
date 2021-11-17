@@ -1,150 +1,229 @@
-Return-Path: <kasan-dev+bncBDV2D5O34IDRB7OG2GGAMGQEHJR5L6A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBLXJ5LQYCBBS6N2GGAMGQEPDZRAYA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc39.google.com (mail-oo1-xc39.google.com [IPv6:2607:f8b0:4864:20::c39])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C3B453E2A
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Nov 2021 03:05:50 +0100 (CET)
-Received: by mail-oo1-xc39.google.com with SMTP id k1-20020a4a8501000000b0029ac7b9dc82sf706854ooh.17
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 18:05:50 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637114749; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=sbMNfUkzwLF6G5E2SCBKMzJ0WaZAM0oiwPAe451y9qi0RY6WyJPzFAd8EH1dP086mW
-         rlBuCr7Gw4jPB5mfZ/0bGsOaUPrYL9eDlGf4ZVPvU21E21YS8EDID0vWUnf9bOQCPJav
-         0GCchUi9KZ7iGf9MUqRrYIK/ryPIVeEwatJflGxUnKIW5OaCMsx1tgjqn/euHlEqlUqK
-         f4jMR1ubAO8jH0klPypFYPWw9Cdkq6mls6QCo2rkc53XDyOs/a2oNbDYyJxEyWPk9PLP
-         Bdz5MWBM1qw1y0PQjNRkbHr/JF/pe8cDavrJtw11Q4gk8SvX+iYGF+IIYV0mBeux19Is
-         EzsQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=K98LV+D6osVQaQMzMAV27raCN4suAf48Z+zRkeGgIwk=;
-        b=hp9B6B/+QPCmIuMwWDHvwy6cuJwpn+0vzdrBI9X/Zdx3z1nQanfe7Jz3iutS+39c1U
-         NnRUhjc2OkWawZGa6TLJ0oU5OOFPBhpoo1AcP+EDlSE86CDxlwmEHKDrG08jCmTk5GoU
-         ll8xyWmqaZTv1pvLRsQGkNUh2yo6s5xdsL5oEUar5Ms+PDrrXM2qMpHw8jNAwEvKaKU+
-         16Z0BTw8x93RS+DLeT2FpvSwUI0QWO23GwhiCTKVDMJ7PSa3PvHpdHrHUGPjRblKt74D
-         9wwUXAxcwyYvawEcxTGczKoFznnLbXRtywgd1bcxGzP2Pe3jnulBByRryPoXHCRirCzX
-         pV0A==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b="Adq4v/KW";
-       spf=pass (google.com: best guess record for domain of rdunlap@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=rdunlap@infradead.org
+Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A1E453E52
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 Nov 2021 03:19:56 +0100 (CET)
+Received: by mail-qk1-x73f.google.com with SMTP id v14-20020a05620a0f0e00b0043355ed67d1sf713636qkl.7
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 18:19:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=K98LV+D6osVQaQMzMAV27raCN4suAf48Z+zRkeGgIwk=;
-        b=Z8INkhraspxJgkwCLsCiT41yczDQx/HKX+RreXX3d2p9OUYmx+Ma8zAn52R6Is4RWh
-         qpMr2NzjcYbG0/qkjDhl0efrwNX69uL41yt5jm9/ORtNZ6Dh/iteyAXIDqprhZ+5q24T
-         6Mvlofh4DHI1jNo1rXpfDvwOGpMErzZ2hXiD9v2tfV6UvrNZV1Qe5xwXrr9Os75ONfoU
-         YGPMbGc1dQ1DieAKr8noV8m0ET4VGy56aUgKn/tsQSMlIsDEV5dY/Px06LMmxeq/vJVy
-         qi3Qkf3LqmQbf1AyQyUA3pNcvW7kPwtwlxBgsFlnNWt1/kjHqNDr08VSMY4eB6MG39YB
-         zfeQ==
+        h=from:to:cc:subject:thread-topic:thread-index:date:message-id
+         :references:in-reply-to:accept-language:content-language:content-id
+         :content-transfer-encoding:mime-version:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=gYQM5TBPcjoGryCPCZQmJP58w4A3EGDabuwsAPluEUE=;
+        b=nkzNgDXCk2qJiVwxUZJye9EhmElwQUOmfYA1bSICKK7kYiWwgSToD2jqcB5LSoe4jV
+         7pO8AMMPj5xp7ElDy9TsBRsghC7OYXq0XlJik1Mwdk9XkAAX8ubdn773DHIERL9CeAYm
+         pHPsgqyhL8Qt6ffeFvq3Bc83K8QmVtc0xPbZTp1t9WSJNoYU0Dq4RwLwMKD74UkvwuX2
+         ltXfqHANAUoUBqx55FXDD/2L8YejF67PRgTrFQIv37YOAvEjDwpGHyDD5B68ZztHuSp/
+         ahBDayC9LApKkosxJSc7JHTdRkZRrhXDJvFIeKfk7ymhO+cU8k4Ziq0y33C/kRP045cH
+         3pSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=K98LV+D6osVQaQMzMAV27raCN4suAf48Z+zRkeGgIwk=;
-        b=m/TwVV/TmYTIHc9YVflSacFg04KSsi8UaqBB6SH0Q68/YQuu2jOCFpX1rAICbdszKG
-         cRFYlCpaj1tyA/ZlGHws8Y4uXHEwrsut7vqOmSHpxYD6aE0nwSG0yYxc7XU3RwUWvuuu
-         LBrDp4pHlpnudMkurTr5tJcWMYIOGfVfFCLQoLdRB0jBbSd6uuU1iEaYTzVHpQrgnv6S
-         C1NHC3WTkiwX5Jn60DVSrh+y6P0rEcyaEGt08WSLeqx4wVR+hTXYLhuhsg2gFjZBx3UR
-         Y3URko7KHKT2OLpSzo3ak2TuzFVtFBtjq/cLMLKLYRXfkPylsYRqIQsVOQhR0KMlpgPO
-         PUzw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531TOzVMh/hUsylZfiPsjekbVCoVK4Ph+tju2FiQEsflydSfZ0Mp
-	G4v4OSJ84QyTJPB4iGG8728=
-X-Google-Smtp-Source: ABdhPJyNxaHisBS/6NITbd+qoM8KOCM1AekXsquUjSmmAOynP5pNs9gFzUDjt5XAqw+vSJ70h+KMEQ==
-X-Received: by 2002:a05:6830:4d:: with SMTP id d13mr10648455otp.45.1637114749536;
-        Tue, 16 Nov 2021 18:05:49 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:thread-topic:thread-index
+         :date:message-id:references:in-reply-to:accept-language
+         :content-language:content-id:content-transfer-encoding:mime-version
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=gYQM5TBPcjoGryCPCZQmJP58w4A3EGDabuwsAPluEUE=;
+        b=UkGG3L8SyI31N6IDbS9+EVKWkWiEnLkj1RamA5FS27LTwRRpjHUhygQIfNZS5YTjH0
+         /IsPuVjuzp5QrloF3oNnu7XAzbrW+1ZW0I0It/NyR9+1vVFrydqfKUDAj2yPyRIOcp+P
+         1wZIUqmTmgZFSDIRpZkg4lQbVhjgheiqrS1ZwpsBL4+qKLHc/GfaTma+/NQqD25mEWbR
+         E/vy/T6NnUsAmtq7CnJ2ERlzk1rhfBqri4573qwTQxq4+2itNeZB6NpS1uiI+NJlKrmL
+         cQYQPOAVZ+AfwQkbfKBECoAU79AjFuogjMsVACL2P+E2ArazhTGN9iniJJTCHvaNTArr
+         BmfQ==
+X-Gm-Message-State: AOAM532+D6GwdPGJV2M1LUpip/T7TB5vVvLyQd/0Tikr8/GFRHHWff6p
+	SYtlTJq/KMojzYBlj3iV8Z4=
+X-Google-Smtp-Source: ABdhPJwCDvJzHo1FtNe7fhOOskg6SAiNm27FGs/h2wu9/FVlCOU3I/GwsZAR2MWpl4QC9Rml6Dxjjg==
+X-Received: by 2002:ac8:7d45:: with SMTP id h5mr12861018qtb.256.1637115595155;
+        Tue, 16 Nov 2021 18:19:55 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:15a1:: with SMTP id t33ls2497509oiw.6.gmail; Tue,
- 16 Nov 2021 18:05:49 -0800 (PST)
-X-Received: by 2002:a54:4f1d:: with SMTP id e29mr57568185oiy.179.1637114749156;
-        Tue, 16 Nov 2021 18:05:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637114749; cv=none;
-        d=google.com; s=arc-20160816;
-        b=G2nfQP9Ih5Xz1xElsY/NiACv/SmVWXAOPtM9agkqNmuDEqemDw34PyNdKrgJH9yVL2
-         02bUh0gVp7Yu3hLJ34mfb7YMhLfYSaDyzesUtP00bBpbX4fN6PZe711lg7i0wzPvhwto
-         iuaqbw1CdX35dV4t0GpF/nY+2gMcExGIkDzDhCI5u4OLWRr1op2qyozWOTn3FQjdmbwA
-         GLMHJik0vb3CbtmaWHgHaYqCaMuC7spENQUXuYF6/bEDSZw8+bID3dyz6ogUefModbAY
-         d129T17IBYROutsADm5BEY/aQBnCafzVxw0LA5cTM5fpS2vB52a70kpEqffwyvEAOpZg
-         tQGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :dkim-signature;
-        bh=4tWYtMZGixA+wvOSftKSlvk/VgodDRuuv8NOVBgK9qA=;
-        b=Ic2FYhfJ5J5LBIv7kLd65ovbS2tZQdif+LMk0/2R2j1aSKLNFGjjS/PfWlFUP4xV2a
-         2vID0feYvcwgAf63COucuw2dtmm2ugtTHZxaotrJNPJQwDdVQOMo1UV9emnXn402Fde8
-         fcdM00o/tXEcRx4Ji1ZfFTd/iiToRqCDcLgF7OTYI+BYxYLXigKBpIcJ8GpJ30K+nOkJ
-         hF+YcxaHs/9YyvayN9liENdVwrlWnfFmtzMCVacze75BEl5wO7l9HIga/nsL8JRNHjw5
-         zNf6EIbH10yawDlbfHzPYt2wK/7RKhVhbSCl3cVnlr5GF47Y9642a00W/dmWjrTy41yU
-         LMMw==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b="Adq4v/KW";
-       spf=pass (google.com: best guess record for domain of rdunlap@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=rdunlap@infradead.org
-Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:e::133])
-        by gmr-mx.google.com with ESMTPS id g64si221902oia.1.2021.11.16.18.05.48
+Received: by 2002:ac8:24b:: with SMTP id o11ls10890638qtg.0.gmail; Tue, 16 Nov
+ 2021 18:19:54 -0800 (PST)
+X-Received: by 2002:ac8:59ce:: with SMTP id f14mr12905659qtf.30.1637115594721;
+        Tue, 16 Nov 2021 18:19:54 -0800 (PST)
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com. [67.231.153.30])
+        by gmr-mx.google.com with ESMTPS id i6si254113qko.3.2021.11.16.18.19.54
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Nov 2021 18:05:48 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of rdunlap@infradead.org designates 2607:7c80:54:e::133 as permitted sender) client-ip=2607:7c80:54:e::133;
-Received: from [2601:1c0:6280:3f0::aa0b]
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mnAKU-0035bi-Ao; Wed, 17 Nov 2021 02:05:44 +0000
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Nov 2021 18:19:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of prvs=0955d447e6=terrelln@fb.com designates 67.231.153.30 as permitted sender) client-ip=67.231.153.30;
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AH1pQV2003739;
+	Tue, 16 Nov 2021 18:19:39 -0800
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com with ESMTP id 3cch9x3fte-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 16 Nov 2021 18:19:39 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.35.175) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Tue, 16 Nov 2021 18:19:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Cu0X/VvKNm5J7BnHf6kT4jLNevtHTDd0HI5mPp0EnqtEu8ghTTuZSuEcfOjWJNvJKq+0uiPcSEW8koc4VqAWWzhbg/VgCH3S5QUOk74F54R7F80y9Y/SpH4oxAgQKm7XlBspA2DfNX/LkKDH6JrkqDF5tpyR7aDftz6SfQFVG1Hig9nL4mREDK0xxrAZJlXdrci7Xt/AfHPyd3biSxjvKisQZRFCZUQxekq4jdk32oteZQt9qfw8N/ObRXKul75GBuIUb3wFDi5OZ8qc2sQ95s94g9KdkQZ2MyIEck37AtlADgpQ2fWSxIp1OJVazWyEIMBiixgo1lMdJDA5rb9bYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f0Za2ACT3ZaRoTY8XTFPQuCzyP9a87pJXo0dcwAl2ak=;
+ b=WMLl92vSa0vCC0yB+fwoJzZmsa6dWSbXejlvnUs4OdNK7ne5+sq6lUkP3jkMzCrmnQxVDZEed51ZwqPUh94u52OoPKSP6ubDMwD2jIQVbgKXHQTnynd25+YMLk9rJt8kdPwMNL4WRryKFgoJghPf32XhalqbMgvmYXL/wpI8JOQhUB6ov2PfzRtXWs4MHEEuBzVW5/oQPnNOfglQy3ue3PPbwqrkmbf3cp6OJq9PLfMJiYtIukW+mgdIR2mcmtS9PL+PpNy2dluV0erSOxWPAigxMDexk7WOXRJB0HQp5jZzeMXTcceNX0WBIsIs/ii+VnmVWCAFALLM29vxhCkljw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from BY5PR15MB3667.namprd15.prod.outlook.com (2603:10b6:a03:1f9::18)
+ by BYAPR15MB2456.namprd15.prod.outlook.com (2603:10b6:a02:82::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Wed, 17 Nov
+ 2021 02:19:32 +0000
+Received: from BY5PR15MB3667.namprd15.prod.outlook.com
+ ([fe80::8d7d:240:3369:11b4]) by BY5PR15MB3667.namprd15.prod.outlook.com
+ ([fe80::8d7d:240:3369:11b4%6]) with mapi id 15.20.4690.027; Wed, 17 Nov 2021
+ 02:19:32 +0000
+From: "'Nick Terrell' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+CC: Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rob Clark
+	<robdclark@gmail.com>,
+        "James E.J. Bottomley"
+	<James.Bottomley@hansenpartnership.com>,
+        Anton Altaparmakov
+	<anton@tuxera.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "Sergio
+ Paracuellos" <sergio.paracuellos@gmail.com>,
+        Herbert Xu
+	<herbert@gondor.apana.org.au>,
+        Joey Gouly <joey.gouly@arm.com>,
+        "Stan
+ Skowronek" <stan@corellium.com>,
+        Hector Martin <marcan@marcan.st>,
+        "Andrey
+ Ryabinin" <ryabinin.a.a@gmail.com>,
+        =?utf-8?B?QW5kcsOpIEFsbWVpZGE=?=
+	<andrealmeid@collabora.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linux ARM
+	<linux-arm-kernel@lists.infradead.org>,
+        "open list:GPIO SUBSYSTEM"
+	<linux-gpio@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        DRI Development
+	<dri-devel@lists.freedesktop.org>,
+        "linux-ntfs-dev@lists.sourceforge.net"
+	<linux-ntfs-dev@lists.sourceforge.net>,
+        linuxppc-dev
+	<linuxppc-dev@lists.ozlabs.org>,
+        "open list:BROADCOM NVRAM DRIVER"
+	<linux-mips@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        "Linux
+ Crypto Mailing List" <linux-crypto@vger.kernel.org>,
+        kasan-dev
+	<kasan-dev@googlegroups.com>
 Subject: Re: Build regressions/improvements in v5.16-rc1
-To: Nick Terrell <terrelln@fb.com>, Helge Deller <deller@gmx.de>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@gmail.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Anton Altaparmakov <anton@tuxera.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Joey Gouly <joey.gouly@arm.com>,
- Stan Skowronek <stan@corellium.com>, Hector Martin <marcan@marcan.st>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Parisc List <linux-parisc@vger.kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "linux-ntfs-dev@lists.sourceforge.net"
- <linux-ntfs-dev@lists.sourceforge.net>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- linux-pci <linux-pci@vger.kernel.org>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- kasan-dev <kasan-dev@googlegroups.com>
+Thread-Topic: Build regressions/improvements in v5.16-rc1
+Thread-Index: AQHX2jynD2CHATmgwEukyh+iAPvEB6wEy7gAgAItboCAAAGdAIAAA9+A
+Date: Wed, 17 Nov 2021 02:19:32 +0000
+Message-ID: <B57193D6-1FD4-45D3-8045-8D2DE691E24E@fb.com>
 References: <20211115155105.3797527-1-geert@linux-m68k.org>
  <CAMuHMdUCsyUxaEf1Lz7+jMnur4ECwK+JoXQqmOCkRKqXdb1hTQ@mail.gmail.com>
  <fcdead1c-2e26-b8ca-9914-4b3718d8f6d4@gmx.de>
  <480CE37B-FE60-44EE-B9D2-59A88FDFE809@fb.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <78b2d093-e06c-ba04-9890-69f948bfb937@infradead.org>
-Date: Tue, 16 Nov 2021 18:05:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <480CE37B-FE60-44EE-B9D2-59A88FDFE809@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <78b2d093-e06c-ba04-9890-69f948bfb937@infradead.org>
+In-Reply-To: <78b2d093-e06c-ba04-9890-69f948bfb937@infradead.org>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1a2d3ab0-18e6-487c-08cc-08d9a970b13d
+x-ms-traffictypediagnostic: BYAPR15MB2456:
+x-microsoft-antispam-prvs: <BYAPR15MB24563099488E2EBD125C88E1AB9A9@BYAPR15MB2456.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8uBXr6FaQzF4nFe/MM+0Tzr+HhKUgN/Le0Crea7p8PZiUtyh2gsvKqVmdGhkCDz8UTh8F59PtQ9eP5oOGy+rd4v/Paxvv4kjNOt0QU41qAxjIAnnzomQUabeCpYg3lCWec8WGOY90clvOSX2AYWjIk0dbE4+mzvwwmvt2Q4p6sHpyIaqgTP1BBT/pX/xwOJjqlrqtDB8XaNL6KStVzeRvh/7NLsiOekDOo8TuRLSBmRH+vZ8n+i9UyKvTraGesjWh+9cmagCWplSzeAFpKItOXE59axgmo7qUmkB9LQ+fxd/2Yv7tMpBrYKfAyag+PuQxxmjJFEGP7H4poKi8z2Izke1wwrqGCAF/l0lXGbYOWScOv3KdX1bQqMooYRquIjU51Pfh32s4RoG4YjTP0w2PFIWURmZqeyRQGoLVAvahPecQrZVW46StZRHOjnsVyxZYD4ynG8A5/xWozn1UMeIFBSxPxg4eqIFF/WUJjQyxx6NjKAIPbgCMl9/zx/nEV9U9LHuyeHMbCK0Y6poQjNxSfJItZ9DdQKNLBt0HdQk0AohRf++7ksjxXi27qISOF+KQllCbgPXy26zdP1RMEWBV7FO0imv1ANPlQtFMBSFZNlnfqgg+q2RiQXwF8leMk1oF5NPc49AAyjGkTJEzQHW3WyTNEEszbbKQ3ZRaTmw3Z0S9plZMYQVmKqm+WXyL0faLr+3F9hlMpO3qmTusorUNxsV8D/hk4smh9yNs8dP9B7gKfm0qpKQMU4z9NDvgXls0O+2AVaTOUP2Q8x2XxPyskKD2KstAVXzP6UkvAuoCcupgAhPCN7pj8fYceErf58InV+JhPkVvIQt73i27tc7+A==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR15MB3667.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38070700005)(8936002)(6916009)(316002)(91956017)(54906003)(508600001)(8676002)(186003)(7416002)(5660300002)(966005)(2616005)(6506007)(71200400001)(86362001)(53546011)(33656002)(66946007)(66476007)(122000001)(36756003)(64756008)(66556008)(6512007)(76116006)(66446008)(38100700002)(4326008)(6486002)(83380400001)(2906002)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NEk4c1RSRnhPd1NndUZIb3RlOS90RFBjd1RRQ2ZMQ3ZOM0NVbWdSTDRBcVBM?=
+ =?utf-8?B?NnJwOS9rOVUvSDM0MWtnV0RQaWcyTG5vQmF3TVJ1S01Gb2ZGaURKRXpqMlJN?=
+ =?utf-8?B?bmxKS1RkanZkODF4cDRpZ2lwa0NxQnorc0R6eFkxTzRVQWoxemVzTWVvbUJw?=
+ =?utf-8?B?eCtSRjVHQ1lzbG1wMnZncmxWZklzUitWR1NKUVdZdGNCTFpucmdyZXZ3VndN?=
+ =?utf-8?B?TFVycHp4SHhHSUtLR2IyVGJhQS9DVWZQM3FPalplT255MnpsYStmTmwxODBN?=
+ =?utf-8?B?T2E0SXBRN3ZFSEl5TlR4YlhDWnFLY3JCTmwzVUNiU1ZSYU9xZzVjVEhQTVI2?=
+ =?utf-8?B?UnNOT0wvb2FFWENxOXBvczZiKzBtVUE1dWU3VW1OTTBUeXJrNkt3WjNqei9W?=
+ =?utf-8?B?alJDTVg4U2padlFSUlA4M1lIdnlDSUZzMlFSZlMzbDhHN1M0KzNHMitHUmpZ?=
+ =?utf-8?B?R0JaMUhWTEEzZnhDaG5vVVVMVEtYaW5qQStRYmdWM1ZHY0pQZ0Irc0NlbTRs?=
+ =?utf-8?B?UWVYdCtrcUtDVERQUUNZY0pJN09JQUJwNnRuZDF3eFliYURlRk1nZkZadytt?=
+ =?utf-8?B?Wk5wZW1DLy92czVZM2REN3NwQjJuelNBREphanpkZW00eDdUbFU0L3ZXV1R5?=
+ =?utf-8?B?TG9sUTRqNmN3Y1AvcFVLcDVyekt3dmJmTTFkSnpIeXlndE5MRjdtNmZMdENC?=
+ =?utf-8?B?MThBUnA1dTc0TERkMkV3ZUNiQUtWa2VBYzVhR21HNmQvTDlYNU9tZ0g4SUJy?=
+ =?utf-8?B?RHU0U1JVSzF1b2ZKWE8vOU03YmZXbmlGN21JWi9vVDJyNHZMVFd2Q2V6U3g3?=
+ =?utf-8?B?dGtrT3pFT2htTjZxa0lXUW5GTURRUkhqWmorTjd0alpuRWk2WW9UeGZnOVJ5?=
+ =?utf-8?B?dk8vMUhaMFNtamJHS2gyR25xNURscUpmTE1ROUJSaG5BN29kNnVCbk1HL2Zw?=
+ =?utf-8?B?REJ0NzRWS0d2UDMySzJnU1J4U0xCWXhjaWR4c3ZweGlZcE5aYXV6UzhxZHFp?=
+ =?utf-8?B?S1A5dG9YVytLcEYvSGdkWTRsNit3azlJeWVLSStzdnRKV1M3OExsNEJiZWt1?=
+ =?utf-8?B?SFRpcGVmK0Fiek1uS2pGaGNtdjdyZFc4cFA2RHBIbmRtN0ZlUlFOMVM5SU15?=
+ =?utf-8?B?WHhJdmdLRjhrdkhWaG9KbDE1SGlsajE5TTZDdkcrWnhSL1JQVVlkcnc1aHl0?=
+ =?utf-8?B?eHhPdHJFckJQOGM3WXMybGZUYlR3WDd2RnRuUmx3YmNoOGp0YVRMQmZWSkZS?=
+ =?utf-8?B?RzN5K29jNzVlTGUyR0NSbzF6OXZySU1DR0hBNnhsVXh2Q2N5ZDZlZGNBMDJG?=
+ =?utf-8?B?cjJvNmxoemFRTFYwWmpIcGFvUWdjc2t1T1R3b1N1dnoxN1Z5SlRvUS9HSjNs?=
+ =?utf-8?B?N0xNSkVOQ2dqSi9rdXUxQ0p0RjNheE9QcThWV1I0MGFVMHN1WnJSWEpBUlpv?=
+ =?utf-8?B?TnFhMDRwK0lQUlZSZVVKUnZYamltclQ1K2l3Q0hScDBTQTh2SnJjOHFERXc1?=
+ =?utf-8?B?QzJ2a3lFUTJjcUdvZERtVlVodEdMVTIrcngxNG5BdFJyOGNBSXdoUncvM1Ex?=
+ =?utf-8?B?QzNIS1VFNGNrS1ppWlhDckwydnYzV0Q3eDB5WEdLZFlldndRNm5zbW42Y2VY?=
+ =?utf-8?B?c21hTUFLZjJBZG15VUF2c01DYk1LM0lWS0JBZjZVSFRiMnU0V3d6NTczQUxo?=
+ =?utf-8?B?RHRjOWwyUm5SRlZ5YmwrL3o4T0ZzdjUzbTB1ckZEK2JOeXlQRTBYYkM0SjB5?=
+ =?utf-8?B?ZDhBL1BUODBWZFdNUU5uR2JtRHMyT1FPUDJxSDB6Vzh4aDlOenhaY2taL0xk?=
+ =?utf-8?B?ZDhMN1llWFdaT28xZDhnTlBLbmkwZ2ZsQUFINzR6cHp4OFhpb24xbGJxNVgr?=
+ =?utf-8?B?c2h4ZjFZdEtjN0pZblRDVHVtNWkyaHJtTUt0ZzNZN25LMzBUQWdzcWdiamxS?=
+ =?utf-8?B?WWF6NWsyRnhxWWQwUFFGSGtETHVJSkZWREorVytmdUZWYy81MzVoaHlxeWV1?=
+ =?utf-8?B?RjBKUHBIdHkzNWVsanF2QUJLcWk0S0N0SWtTZ1ZvaUpZRTV0RDhUNnZZQVlu?=
+ =?utf-8?B?TkU5NDVCV2Q2NWU5T0FUSFJmbFBzblh1ai95OGdSMlE0WWpvcEpHcDQxVnFI?=
+ =?utf-8?B?QlAxZEN2a21CQmlYdWxTWkhaWnBRRlR4MGwrbDM0eC9VM3Uva01PY0x2Tmt6?=
+ =?utf-8?B?YkE9PQ==?=
+Content-Type: text/plain; charset="UTF-8"
+Content-ID: <2DE18F7773349D4497C4E2636E96C550@namprd15.prod.outlook.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR15MB3667.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a2d3ab0-18e6-487c-08cc-08d9a970b13d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2021 02:19:32.2285
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9Z4KzT+7g04BlBqEn7A9dAvPkSDqWfCvR7Tc3XOl08TB29zgDxDwcd4ZF13jklqe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2456
+X-OriginatorOrg: fb.com
+X-Proofpoint-ORIG-GUID: eEaB03tzDHzivai07-_NT1UhvUKsSgdP
+X-Proofpoint-GUID: eEaB03tzDHzivai07-_NT1UhvUKsSgdP
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: rdunlap@infradead.org
+X-Proofpoint-UnRewURL: 2 URL's were un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-16_07,2021-11-16_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0 malwarescore=0 spamscore=0 adultscore=0
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111170008
+X-FB-Internal: deliver
+X-Original-Sender: terrelln@fb.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20210309 header.b="Adq4v/KW";
-       spf=pass (google.com: best guess record for domain of
- rdunlap@infradead.org designates 2607:7c80:54:e::133 as permitted sender) smtp.mailfrom=rdunlap@infradead.org
+ header.i=@fb.com header.s=facebook header.b=SlkrnHDL;       arc=fail (body
+ hash mismatch);       spf=pass (google.com: domain of prvs=0955d447e6=terrelln@fb.com
+ designates 67.231.153.30 as permitted sender) smtp.mailfrom="prvs=0955d447e6=terrelln@fb.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=fb.com
+X-Original-From: Nick Terrell <terrelln@fb.com>
+Reply-To: Nick Terrell <terrelln@fb.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,95 +236,102 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 11/16/21 5:59 PM, Nick Terrell wrote:
+
+
+> On Nov 16, 2021, at 6:05 PM, Randy Dunlap <rdunlap@infradead.org> wrote:
 >=20
->=20
->> On Nov 15, 2021, at 8:44 AM, Helge Deller <deller@gmx.de> wrote:
->>
->> On 11/15/21 17:12, Geert Uytterhoeven wrote:
->>> On Mon, Nov 15, 2021 at 4:54 PM Geert Uytterhoeven <geert@linux-m68k.or=
-g> wrote:
->>>> Below is the list of build error/warning regressions/improvements in
->>>> v5.16-rc1[1] compared to v5.15[2].
->>>>
->>>> Summarized:
->>>>   - build errors: +20/-13
->>>>   - build warnings: +3/-28
->>>>
->>>> Happy fixing! ;-)
->>>>
->>>> Thanks to the linux-next team for providing the build service.
->>>>
->>>> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/fa55b7dcdc43=
-c1aa1ba12bca9d2dd4318c2a0dbf/  (all 90 configs)
->>>> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/8bb7eca972ad=
-531c9b149c0a51ab43a417385813/  (all 90 configs)
->>>>
->>>>
->>>> *** ERRORS ***
->>>>
->>>> 20 error regressions:
->>>>   + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: expected =
+> On 11/16/21 5:59 PM, Nick Terrell wrote:
+>>> On Nov 15, 2021, at 8:44 AM, Helge Deller <deller@gmx.de> wrote:
+>>>=20
+>>> On 11/15/21 17:12, Geert Uytterhoeven wrote:
+>>>> On Mon, Nov 15, 2021 at 4:54 PM Geert Uytterhoeven <geert@linux-m68k.o=
+rg> wrote:
+>>>>> Below is the list of build error/warning regressions/improvements in
+>>>>> v5.16-rc1[1] compared to v5.15[2].
+>>>>>=20
+>>>>> Summarized:
+>>>>>  - build errors: +20/-13
+>>>>>  - build warnings: +3/-28
+>>>>>=20
+>>>>> Happy fixing! ;-)
+>>>>>=20
+>>>>> Thanks to the linux-next team for providing the build service.
+>>>>>=20
+>>>>> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/fa55b7dcdc4=
+3c1aa1ba12bca9d2dd4318c2a0dbf/   (all 90 configs)
+>>>>> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/8bb7eca972a=
+d531c9b149c0a51ab43a417385813/   (all 90 configs)
+>>>>>=20
+>>>>>=20
+>>>>> *** ERRORS ***
+>>>>>=20
+>>>>> 20 error regressions:
+>>>>>  + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: expected =
 ':' before '__stringify':  =3D> 33:4, 18:4
->>>>   + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: label 'l_=
+>>>>>  + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: label 'l_=
 yes' defined but not used [-Werror=3Dunused-label]:  =3D> 38:1, 23:1
->>>
->>>     due to static_branch_likely() in crypto/api.c
->>>
->>> parisc-allmodconfig
->>
->> fixed now in the parisc for-next git tree.
->>
->>
->>>>   + /kisskb/src/drivers/gpu/drm/msm/msm_drv.h: error: "COND" redefined=
+>>>>=20
+>>>>    due to static_branch_likely() in crypto/api.c
+>>>>=20
+>>>> parisc-allmodconfig
+>>>=20
+>>> fixed now in the parisc for-next git tree.
+>>>=20
+>>>=20
+>>>>>  + /kisskb/src/drivers/gpu/drm/msm/msm_drv.h: error: "COND" redefined=
  [-Werror]:  =3D> 531
->>>>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
+>>>>>  + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
  size of 3252 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
 =3D]:  =3D> 47:1
->>>>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
+>>>>>  + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
  size of 3360 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
 =3D]:  =3D> 499:1
->>>>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
+>>>>>  + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
  size of 5344 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
 =3D]:  =3D> 334:1
->>>>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
+>>>>>  + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
  size of 5380 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
 =3D]:  =3D> 354:1
->>>>   + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size o=
+>>>>>  + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size o=
 f 1824 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =
 =3D> 372:1
->>>>   + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size o=
+>>>>>  + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size o=
 f 2224 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =
 =3D> 204:1
->>>>   + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size o=
+>>>>>  + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size o=
 f 3800 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =
 =3D> 476:1
->>>
->>> parisc-allmodconfig
->>
->> parisc needs much bigger frame sizes, so I'm not astonished here.
->> During the v5.15 cycl I increased it to 1536 (from 1280), so I'm simply =
-tempted to
->> increase it this time to 4096, unless someone has a better idea....
+>>>>=20
+>>>> parisc-allmodconfig
+>>>=20
+>>> parisc needs much bigger frame sizes, so I'm not astonished here.
+>>> During the v5.15 cycl I increased it to 1536 (from 1280), so I'm simply=
+ tempted to
+>>> increase it this time to 4096, unless someone has a better idea....
+>> This patch set should fix the zstd stack size warnings [0]. I=E2=80=99ve
+>> verified the fix using the same tooling: gcc-8-hppa-linux-gnu.
+>> I=E2=80=99ll send the PR to Linus tomorrow. I=E2=80=99ve been informed t=
+hat it
+>> isn't strictly necessary to send the patches to the mailing list
+>> for bug fixes, but its already done, so I=E2=80=99ll wait and see if the=
+re
+>> is any feedback.
 >=20
-> This patch set should fix the zstd stack size warnings [0]. I=E2=80=99ve
-> verified the fix using the same tooling: gcc-8-hppa-linux-gnu.
+> IMO several (or many more) people would disagree with that.
 >=20
-> I=E2=80=99ll send the PR to Linus tomorrow. I=E2=80=99ve been informed th=
-at it
-> isn't strictly necessary to send the patches to the mailing list
-> for bug fixes, but its already done, so I=E2=80=99ll wait and see if ther=
-e
-> is any feedback.
+> "strictly?"  OK, it's probably possible that almost any patch
+> could be merged without being on a mailing list, but it's not
+> desirable (except in the case of "security" patches).
 
-IMO several (or many more) people would disagree with that.
+Good to know! Thanks for the advice, I wasn=E2=80=99t really sure what
+the best practice is for sending patches to your own tree, as I
+didn't see anything about it in the maintainer guide.
 
-"strictly?"  OK, it's probably possible that almost any patch
-could be merged without being on a mailing list, but it's not
-desirable (except in the case of "security" patches).
+Thanks,
+Nick Terrell
 
---=20
-~Randy
+> --=20
+> ~Randy
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -253,4 +339,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/78b2d093-e06c-ba04-9890-69f948bfb937%40infradead.org.
+kasan-dev/B57193D6-1FD4-45D3-8045-8D2DE691E24E%40fb.com.
