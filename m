@@ -1,229 +1,135 @@
-Return-Path: <kasan-dev+bncBDBLXJ5LQYCBBS6N2GGAMGQEPDZRAYA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDKPDS4R5ECRBOFS2KGAMGQENWMKFTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A1E453E52
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Nov 2021 03:19:56 +0100 (CET)
-Received: by mail-qk1-x73f.google.com with SMTP id v14-20020a05620a0f0e00b0043355ed67d1sf713636qkl.7
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 18:19:55 -0800 (PST)
+Received: from mail-vk1-xa37.google.com (mail-vk1-xa37.google.com [IPv6:2607:f8b0:4864:20::a37])
+	by mail.lfdr.de (Postfix) with ESMTPS id E39EE454080
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 Nov 2021 06:55:05 +0100 (CET)
+Received: by mail-vk1-xa37.google.com with SMTP id f11-20020a1f9c0b000000b002e52d613018sf790153vke.20
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Nov 2021 21:55:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637128504; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Gqgft47GiDgmsbrNCL45oMHLobZU0KbA+5urCNW0oVsXx423G/ou04G0xhbzlCy+mP
+         dcvX0L+5LqBclLd8SQg8if+ezsBh3Jq9+KivPzP3V753K30DXaivzY6/NDSqr90ONyNq
+         mKYWJ30qYRTKlYfg6XzeSgDJTxLC9igVSgVAKe++5A9TrmEXtY9MFRWB+GTyBE4Xoi+h
+         oYcmR/axubWKVT3wQuL1+CPy504CPW+d3PGJyHwG2iulWuiVl2O5tSupaUbM2Xa8sWuH
+         KIMVPxeWAgISuaxnM72YZx+qEYWcQvaDUArYFr7SJFQvLNqQCfDPPJDQztDSOrcfRYTe
+         XNKg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=1o9BByPxHPvo6UBUZ/pi8IfXxdOo/XZ55ppCobx5OMk=;
+        b=dJSJ6g+gA1OM0VQws5+GQgBdvIVEdR3UX6vW/Z63+2/qSpjqXIycHPmpttz0efGQWe
+         QeV70wVHVM7nq94y7waI42dyxc1vXDqifxP/VTkG/7FYCKcCQe1Nzu/MM17Tw17CoNsW
+         +U2/hyeTYycepcbbFtGxHCRth2aU6AuhDwJkWPj7JLSz8U2CVo38kcO78SEvVqxMGotR
+         5Ahtkh3KdcKU5Oqi549+mwDiNvzEk1sj/6GlKcs8I2clR6mdXX8fkebXMq9AiO04vXnz
+         w5pm9kL2pSnsomapVTJq1YwUnuxD7IP0fS8CenQLcOqfXND8xcisEl/0iT6/njSadI7h
+         T/UQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@bytedance-com.20210112.gappssmtp.com header.s=20210112 header.b=XeG50oA0;
+       spf=pass (google.com: domain of songmuchun@bytedance.com designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=songmuchun@bytedance.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=bytedance.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:cc:subject:thread-topic:thread-index:date:message-id
-         :references:in-reply-to:accept-language:content-language:content-id
-         :content-transfer-encoding:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=gYQM5TBPcjoGryCPCZQmJP58w4A3EGDabuwsAPluEUE=;
-        b=nkzNgDXCk2qJiVwxUZJye9EhmElwQUOmfYA1bSICKK7kYiWwgSToD2jqcB5LSoe4jV
-         7pO8AMMPj5xp7ElDy9TsBRsghC7OYXq0XlJik1Mwdk9XkAAX8ubdn773DHIERL9CeAYm
-         pHPsgqyhL8Qt6ffeFvq3Bc83K8QmVtc0xPbZTp1t9WSJNoYU0Dq4RwLwMKD74UkvwuX2
-         ltXfqHANAUoUBqx55FXDD/2L8YejF67PRgTrFQIv37YOAvEjDwpGHyDD5B68ZztHuSp/
-         ahBDayC9LApKkosxJSc7JHTdRkZRrhXDJvFIeKfk7ymhO+cU8k4Ziq0y33C/kRP045cH
-         3pSA==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=1o9BByPxHPvo6UBUZ/pi8IfXxdOo/XZ55ppCobx5OMk=;
+        b=lOa9tIqVgfkukv6IWFHnOZdWhOhNbK2xZGsW1Bs9O/SV7oJqS0n6eExQOSro0EU53C
+         XuTgPqza/2/vDcnQoKfeEctmYYDOpF9x4MY3Gyk0cWlg3ryE3YG444Qb3MucZ5z4xwuq
+         CkQyVmRyGtHfeXlxYyQOBcOXwgf0MYavi2krt5Xumaad44VKgN0jKm5at+vjRuS9XqGc
+         snCWz34thDv1yRhXx1MM+7lxco9meMxP8RSTXfNtybaczb+5f9lMUhSbJYYgrEB2Tq0Y
+         q4hg27GZDPW1arHFv/hekP+S7GKJsTVVBfhQVx0yJ1NEp4wqw7z81V9sRjbCmAHUX4EX
+         4AMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:thread-topic:thread-index
-         :date:message-id:references:in-reply-to:accept-language
-         :content-language:content-id:content-transfer-encoding:mime-version
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=gYQM5TBPcjoGryCPCZQmJP58w4A3EGDabuwsAPluEUE=;
-        b=UkGG3L8SyI31N6IDbS9+EVKWkWiEnLkj1RamA5FS27LTwRRpjHUhygQIfNZS5YTjH0
-         /IsPuVjuzp5QrloF3oNnu7XAzbrW+1ZW0I0It/NyR9+1vVFrydqfKUDAj2yPyRIOcp+P
-         1wZIUqmTmgZFSDIRpZkg4lQbVhjgheiqrS1ZwpsBL4+qKLHc/GfaTma+/NQqD25mEWbR
-         E/vy/T6NnUsAmtq7CnJ2ERlzk1rhfBqri4573qwTQxq4+2itNeZB6NpS1uiI+NJlKrmL
-         cQYQPOAVZ+AfwQkbfKBECoAU79AjFuogjMsVACL2P+E2ArazhTGN9iniJJTCHvaNTArr
-         BmfQ==
-X-Gm-Message-State: AOAM532+D6GwdPGJV2M1LUpip/T7TB5vVvLyQd/0Tikr8/GFRHHWff6p
-	SYtlTJq/KMojzYBlj3iV8Z4=
-X-Google-Smtp-Source: ABdhPJwCDvJzHo1FtNe7fhOOskg6SAiNm27FGs/h2wu9/FVlCOU3I/GwsZAR2MWpl4QC9Rml6Dxjjg==
-X-Received: by 2002:ac8:7d45:: with SMTP id h5mr12861018qtb.256.1637115595155;
-        Tue, 16 Nov 2021 18:19:55 -0800 (PST)
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=1o9BByPxHPvo6UBUZ/pi8IfXxdOo/XZ55ppCobx5OMk=;
+        b=qjUrjvPT/evQarwUMkZ3pv6K7x38j3JgSImZE6M7B+bD01h+367D7l7+FPwvgWkl4m
+         LHTFKLNn11g5PkjbobCgpQnqjliLCGUtNrv61wrZU4oB9I41TW5/hse4TyQ3fM0wf7PV
+         HvcrJYhyciEnuL4M6NbOeh5u1eRtFk0lpiQ17GSEkhfHwetdPgqhJR85wL4DpENQ7LfB
+         WyhDcR00WojUe0PcNTLXMxfu2sVqRY/sh2u7F9bjlbwIZanzLRbXv3pHp9pz78HEOr0N
+         Ry5/1kEGejq1GGPPL/m1PeAgADiOiUy77H70vK2pk3/Khi3E5LqFqclvalsJ4XtjHsUX
+         PomQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533/VU2XuI2e5q5Bva2KzRQnIJ1cZD7GwCAEN9MouAeBreENy+b+
+	GBXxaomdoMgDLxXh6qqjAI4=
+X-Google-Smtp-Source: ABdhPJz8ZOSbzzpvNQv+IptGH+kzdIwM+vtDrIo28OAe03aO8Y6Lk++/IjEDrJPIZPnSAt3QzlUAYQ==
+X-Received: by 2002:ab0:5a23:: with SMTP id l32mr19763594uad.129.1637128504639;
+        Tue, 16 Nov 2021 21:55:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:24b:: with SMTP id o11ls10890638qtg.0.gmail; Tue, 16 Nov
- 2021 18:19:54 -0800 (PST)
-X-Received: by 2002:ac8:59ce:: with SMTP id f14mr12905659qtf.30.1637115594721;
-        Tue, 16 Nov 2021 18:19:54 -0800 (PST)
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com. [67.231.153.30])
-        by gmr-mx.google.com with ESMTPS id i6si254113qko.3.2021.11.16.18.19.54
+Received: by 2002:ab0:3d9a:: with SMTP id l26ls2004407uac.8.gmail; Tue, 16 Nov
+ 2021 21:55:04 -0800 (PST)
+X-Received: by 2002:ab0:63ce:: with SMTP id i14mr19336634uap.130.1637128504189;
+        Tue, 16 Nov 2021 21:55:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637128504; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Vqs+YuWD5AYax8FySb2SGBcqWB3H3dXbyowfJ6bofDg0qcjFII9ZoZ6/O5fxrjbriQ
+         MH5QQQToxsJXY/yDkk0ByUUsaArbaoTx1pv7QQOUr001OSfLVg4oVDXbkxzJ9+Zu4sLo
+         A1NP7QCgB27nQB3cnRMTmoVNG/CT4WfckUOwA+inmN60m/e1COFBx/spkBZejTqf0KU5
+         ZGfUVYiW/OSsVMdPJUZk8JgddCNnCOGo2GIWTBItgI5QbgTl+ScXWfXZtvis84hp3mo3
+         tg5ZxlQNjtIne36uLam88fPM+Hbjmk7L6k42+gEtQ9urMmoD9g9eumxcFJH/eOOnm656
+         S8Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=BrkwcwkttrB5ifjfBku0kt7bp7zUGWIamThouDnJlbw=;
+        b=Q+rWMeqTCQ85I0o9fQYLvcW9O+Yuzcm+g/N/uBVjmp7neJVVoqUZH8i5HGetAkrkyP
+         gt+qU8//8cAT/r0qzerw1I8wZpoKHczrvybChZT+Se+XwyLFns73UIIobJflPpAk+LgA
+         Htt2Y07LusgDF5Bf6DEDn2jboc1iZhc0IBvcxBiFmw+FYnzHGh1pxu5Qi4lbbQi97Krc
+         n/DbtTMshHaBeEeqe9PdplDvzMd3qBoWlCtmbHjAOdGahc24FEoDp2sHtrmOsIv3RRU6
+         24t3sEXgOUmbXB0Wow8E60KGSi8qUh03k6kxbb2nVlRyxZU0R2ifGsxDvEwCSzzNf4E1
+         P9Qw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@bytedance-com.20210112.gappssmtp.com header.s=20210112 header.b=XeG50oA0;
+       spf=pass (google.com: domain of songmuchun@bytedance.com designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=songmuchun@bytedance.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=bytedance.com
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com. [2607:f8b0:4864:20::b31])
+        by gmr-mx.google.com with ESMTPS id r20si239571vsn.2.2021.11.16.21.55.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Nov 2021 18:19:54 -0800 (PST)
-Received-SPF: pass (google.com: domain of prvs=0955d447e6=terrelln@fb.com designates 67.231.153.30 as permitted sender) client-ip=67.231.153.30;
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AH1pQV2003739;
-	Tue, 16 Nov 2021 18:19:39 -0800
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com with ESMTP id 3cch9x3fte-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 16 Nov 2021 18:19:39 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.35.175) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Tue, 16 Nov 2021 18:19:38 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cu0X/VvKNm5J7BnHf6kT4jLNevtHTDd0HI5mPp0EnqtEu8ghTTuZSuEcfOjWJNvJKq+0uiPcSEW8koc4VqAWWzhbg/VgCH3S5QUOk74F54R7F80y9Y/SpH4oxAgQKm7XlBspA2DfNX/LkKDH6JrkqDF5tpyR7aDftz6SfQFVG1Hig9nL4mREDK0xxrAZJlXdrci7Xt/AfHPyd3biSxjvKisQZRFCZUQxekq4jdk32oteZQt9qfw8N/ObRXKul75GBuIUb3wFDi5OZ8qc2sQ95s94g9KdkQZ2MyIEck37AtlADgpQ2fWSxIp1OJVazWyEIMBiixgo1lMdJDA5rb9bYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f0Za2ACT3ZaRoTY8XTFPQuCzyP9a87pJXo0dcwAl2ak=;
- b=WMLl92vSa0vCC0yB+fwoJzZmsa6dWSbXejlvnUs4OdNK7ne5+sq6lUkP3jkMzCrmnQxVDZEed51ZwqPUh94u52OoPKSP6ubDMwD2jIQVbgKXHQTnynd25+YMLk9rJt8kdPwMNL4WRryKFgoJghPf32XhalqbMgvmYXL/wpI8JOQhUB6ov2PfzRtXWs4MHEEuBzVW5/oQPnNOfglQy3ue3PPbwqrkmbf3cp6OJq9PLfMJiYtIukW+mgdIR2mcmtS9PL+PpNy2dluV0erSOxWPAigxMDexk7WOXRJB0HQp5jZzeMXTcceNX0WBIsIs/ii+VnmVWCAFALLM29vxhCkljw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Received: from BY5PR15MB3667.namprd15.prod.outlook.com (2603:10b6:a03:1f9::18)
- by BYAPR15MB2456.namprd15.prod.outlook.com (2603:10b6:a02:82::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Wed, 17 Nov
- 2021 02:19:32 +0000
-Received: from BY5PR15MB3667.namprd15.prod.outlook.com
- ([fe80::8d7d:240:3369:11b4]) by BY5PR15MB3667.namprd15.prod.outlook.com
- ([fe80::8d7d:240:3369:11b4%6]) with mapi id 15.20.4690.027; Wed, 17 Nov 2021
- 02:19:32 +0000
-From: "'Nick Terrell' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rob Clark
-	<robdclark@gmail.com>,
-        "James E.J. Bottomley"
-	<James.Bottomley@hansenpartnership.com>,
-        Anton Altaparmakov
-	<anton@tuxera.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "Sergio
- Paracuellos" <sergio.paracuellos@gmail.com>,
-        Herbert Xu
-	<herbert@gondor.apana.org.au>,
-        Joey Gouly <joey.gouly@arm.com>,
-        "Stan
- Skowronek" <stan@corellium.com>,
-        Hector Martin <marcan@marcan.st>,
-        "Andrey
- Ryabinin" <ryabinin.a.a@gmail.com>,
-        =?utf-8?B?QW5kcsOpIEFsbWVpZGE=?=
-	<andrealmeid@collabora.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linux ARM
-	<linux-arm-kernel@lists.infradead.org>,
-        "open list:GPIO SUBSYSTEM"
-	<linux-gpio@vger.kernel.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        DRI Development
-	<dri-devel@lists.freedesktop.org>,
-        "linux-ntfs-dev@lists.sourceforge.net"
-	<linux-ntfs-dev@lists.sourceforge.net>,
-        linuxppc-dev
-	<linuxppc-dev@lists.ozlabs.org>,
-        "open list:BROADCOM NVRAM DRIVER"
-	<linux-mips@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        "Linux
- Crypto Mailing List" <linux-crypto@vger.kernel.org>,
-        kasan-dev
-	<kasan-dev@googlegroups.com>
-Subject: Re: Build regressions/improvements in v5.16-rc1
-Thread-Topic: Build regressions/improvements in v5.16-rc1
-Thread-Index: AQHX2jynD2CHATmgwEukyh+iAPvEB6wEy7gAgAItboCAAAGdAIAAA9+A
-Date: Wed, 17 Nov 2021 02:19:32 +0000
-Message-ID: <B57193D6-1FD4-45D3-8045-8D2DE691E24E@fb.com>
-References: <20211115155105.3797527-1-geert@linux-m68k.org>
- <CAMuHMdUCsyUxaEf1Lz7+jMnur4ECwK+JoXQqmOCkRKqXdb1hTQ@mail.gmail.com>
- <fcdead1c-2e26-b8ca-9914-4b3718d8f6d4@gmx.de>
- <480CE37B-FE60-44EE-B9D2-59A88FDFE809@fb.com>
- <78b2d093-e06c-ba04-9890-69f948bfb937@infradead.org>
-In-Reply-To: <78b2d093-e06c-ba04-9890-69f948bfb937@infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1a2d3ab0-18e6-487c-08cc-08d9a970b13d
-x-ms-traffictypediagnostic: BYAPR15MB2456:
-x-microsoft-antispam-prvs: <BYAPR15MB24563099488E2EBD125C88E1AB9A9@BYAPR15MB2456.namprd15.prod.outlook.com>
-x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8uBXr6FaQzF4nFe/MM+0Tzr+HhKUgN/Le0Crea7p8PZiUtyh2gsvKqVmdGhkCDz8UTh8F59PtQ9eP5oOGy+rd4v/Paxvv4kjNOt0QU41qAxjIAnnzomQUabeCpYg3lCWec8WGOY90clvOSX2AYWjIk0dbE4+mzvwwmvt2Q4p6sHpyIaqgTP1BBT/pX/xwOJjqlrqtDB8XaNL6KStVzeRvh/7NLsiOekDOo8TuRLSBmRH+vZ8n+i9UyKvTraGesjWh+9cmagCWplSzeAFpKItOXE59axgmo7qUmkB9LQ+fxd/2Yv7tMpBrYKfAyag+PuQxxmjJFEGP7H4poKi8z2Izke1wwrqGCAF/l0lXGbYOWScOv3KdX1bQqMooYRquIjU51Pfh32s4RoG4YjTP0w2PFIWURmZqeyRQGoLVAvahPecQrZVW46StZRHOjnsVyxZYD4ynG8A5/xWozn1UMeIFBSxPxg4eqIFF/WUJjQyxx6NjKAIPbgCMl9/zx/nEV9U9LHuyeHMbCK0Y6poQjNxSfJItZ9DdQKNLBt0HdQk0AohRf++7ksjxXi27qISOF+KQllCbgPXy26zdP1RMEWBV7FO0imv1ANPlQtFMBSFZNlnfqgg+q2RiQXwF8leMk1oF5NPc49AAyjGkTJEzQHW3WyTNEEszbbKQ3ZRaTmw3Z0S9plZMYQVmKqm+WXyL0faLr+3F9hlMpO3qmTusorUNxsV8D/hk4smh9yNs8dP9B7gKfm0qpKQMU4z9NDvgXls0O+2AVaTOUP2Q8x2XxPyskKD2KstAVXzP6UkvAuoCcupgAhPCN7pj8fYceErf58InV+JhPkVvIQt73i27tc7+A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR15MB3667.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38070700005)(8936002)(6916009)(316002)(91956017)(54906003)(508600001)(8676002)(186003)(7416002)(5660300002)(966005)(2616005)(6506007)(71200400001)(86362001)(53546011)(33656002)(66946007)(66476007)(122000001)(36756003)(64756008)(66556008)(6512007)(76116006)(66446008)(38100700002)(4326008)(6486002)(83380400001)(2906002)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NEk4c1RSRnhPd1NndUZIb3RlOS90RFBjd1RRQ2ZMQ3ZOM0NVbWdSTDRBcVBM?=
- =?utf-8?B?NnJwOS9rOVUvSDM0MWtnV0RQaWcyTG5vQmF3TVJ1S01Gb2ZGaURKRXpqMlJN?=
- =?utf-8?B?bmxKS1RkanZkODF4cDRpZ2lwa0NxQnorc0R6eFkxTzRVQWoxemVzTWVvbUJw?=
- =?utf-8?B?eCtSRjVHQ1lzbG1wMnZncmxWZklzUitWR1NKUVdZdGNCTFpucmdyZXZ3VndN?=
- =?utf-8?B?TFVycHp4SHhHSUtLR2IyVGJhQS9DVWZQM3FPalplT255MnpsYStmTmwxODBN?=
- =?utf-8?B?T2E0SXBRN3ZFSEl5TlR4YlhDWnFLY3JCTmwzVUNiU1ZSYU9xZzVjVEhQTVI2?=
- =?utf-8?B?UnNOT0wvb2FFWENxOXBvczZiKzBtVUE1dWU3VW1OTTBUeXJrNkt3WjNqei9W?=
- =?utf-8?B?alJDTVg4U2padlFSUlA4M1lIdnlDSUZzMlFSZlMzbDhHN1M0KzNHMitHUmpZ?=
- =?utf-8?B?R0JaMUhWTEEzZnhDaG5vVVVMVEtYaW5qQStRYmdWM1ZHY0pQZ0Irc0NlbTRs?=
- =?utf-8?B?UWVYdCtrcUtDVERQUUNZY0pJN09JQUJwNnRuZDF3eFliYURlRk1nZkZadytt?=
- =?utf-8?B?Wk5wZW1DLy92czVZM2REN3NwQjJuelNBREphanpkZW00eDdUbFU0L3ZXV1R5?=
- =?utf-8?B?TG9sUTRqNmN3Y1AvcFVLcDVyekt3dmJmTTFkSnpIeXlndE5MRjdtNmZMdENC?=
- =?utf-8?B?MThBUnA1dTc0TERkMkV3ZUNiQUtWa2VBYzVhR21HNmQvTDlYNU9tZ0g4SUJy?=
- =?utf-8?B?RHU0U1JVSzF1b2ZKWE8vOU03YmZXbmlGN21JWi9vVDJyNHZMVFd2Q2V6U3g3?=
- =?utf-8?B?dGtrT3pFT2htTjZxa0lXUW5GTURRUkhqWmorTjd0alpuRWk2WW9UeGZnOVJ5?=
- =?utf-8?B?dk8vMUhaMFNtamJHS2gyR25xNURscUpmTE1ROUJSaG5BN29kNnVCbk1HL2Zw?=
- =?utf-8?B?REJ0NzRWS0d2UDMySzJnU1J4U0xCWXhjaWR4c3ZweGlZcE5aYXV6UzhxZHFp?=
- =?utf-8?B?S1A5dG9YVytLcEYvSGdkWTRsNit3azlJeWVLSStzdnRKV1M3OExsNEJiZWt1?=
- =?utf-8?B?SFRpcGVmK0Fiek1uS2pGaGNtdjdyZFc4cFA2RHBIbmRtN0ZlUlFOMVM5SU15?=
- =?utf-8?B?WHhJdmdLRjhrdkhWaG9KbDE1SGlsajE5TTZDdkcrWnhSL1JQVVlkcnc1aHl0?=
- =?utf-8?B?eHhPdHJFckJQOGM3WXMybGZUYlR3WDd2RnRuUmx3YmNoOGp0YVRMQmZWSkZS?=
- =?utf-8?B?RzN5K29jNzVlTGUyR0NSbzF6OXZySU1DR0hBNnhsVXh2Q2N5ZDZlZGNBMDJG?=
- =?utf-8?B?cjJvNmxoemFRTFYwWmpIcGFvUWdjc2t1T1R3b1N1dnoxN1Z5SlRvUS9HSjNs?=
- =?utf-8?B?N0xNSkVOQ2dqSi9rdXUxQ0p0RjNheE9QcThWV1I0MGFVMHN1WnJSWEpBUlpv?=
- =?utf-8?B?TnFhMDRwK0lQUlZSZVVKUnZYamltclQ1K2l3Q0hScDBTQTh2SnJjOHFERXc1?=
- =?utf-8?B?QzJ2a3lFUTJjcUdvZERtVlVodEdMVTIrcngxNG5BdFJyOGNBSXdoUncvM1Ex?=
- =?utf-8?B?QzNIS1VFNGNrS1ppWlhDckwydnYzV0Q3eDB5WEdLZFlldndRNm5zbW42Y2VY?=
- =?utf-8?B?c21hTUFLZjJBZG15VUF2c01DYk1LM0lWS0JBZjZVSFRiMnU0V3d6NTczQUxo?=
- =?utf-8?B?RHRjOWwyUm5SRlZ5YmwrL3o4T0ZzdjUzbTB1ckZEK2JOeXlQRTBYYkM0SjB5?=
- =?utf-8?B?ZDhBL1BUODBWZFdNUU5uR2JtRHMyT1FPUDJxSDB6Vzh4aDlOenhaY2taL0xk?=
- =?utf-8?B?ZDhMN1llWFdaT28xZDhnTlBLbmkwZ2ZsQUFINzR6cHp4OFhpb24xbGJxNVgr?=
- =?utf-8?B?c2h4ZjFZdEtjN0pZblRDVHVtNWkyaHJtTUt0ZzNZN25LMzBUQWdzcWdiamxS?=
- =?utf-8?B?WWF6NWsyRnhxWWQwUFFGSGtETHVJSkZWREorVytmdUZWYy81MzVoaHlxeWV1?=
- =?utf-8?B?RjBKUHBIdHkzNWVsanF2QUJLcWk0S0N0SWtTZ1ZvaUpZRTV0RDhUNnZZQVlu?=
- =?utf-8?B?TkU5NDVCV2Q2NWU5T0FUSFJmbFBzblh1ai95OGdSMlE0WWpvcEpHcDQxVnFI?=
- =?utf-8?B?QlAxZEN2a21CQmlYdWxTWkhaWnBRRlR4MGwrbDM0eC9VM3Uva01PY0x2Tmt6?=
- =?utf-8?B?YkE9PQ==?=
-Content-Type: text/plain; charset="UTF-8"
-Content-ID: <2DE18F7773349D4497C4E2636E96C550@namprd15.prod.outlook.com>
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR15MB3667.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a2d3ab0-18e6-487c-08cc-08d9a970b13d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2021 02:19:32.2285
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9Z4KzT+7g04BlBqEn7A9dAvPkSDqWfCvR7Tc3XOl08TB29zgDxDwcd4ZF13jklqe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2456
-X-OriginatorOrg: fb.com
-X-Proofpoint-ORIG-GUID: eEaB03tzDHzivai07-_NT1UhvUKsSgdP
-X-Proofpoint-GUID: eEaB03tzDHzivai07-_NT1UhvUKsSgdP
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 2 URL's were un-rewritten
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Nov 2021 21:55:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of songmuchun@bytedance.com designates 2607:f8b0:4864:20::b31 as permitted sender) client-ip=2607:f8b0:4864:20::b31;
+Received: by mail-yb1-xb31.google.com with SMTP id u60so3995276ybi.9
+        for <kasan-dev@googlegroups.com>; Tue, 16 Nov 2021 21:55:04 -0800 (PST)
+X-Received: by 2002:a25:ef0b:: with SMTP id g11mr15001602ybd.404.1637128503870;
+ Tue, 16 Nov 2021 21:55:03 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-16_07,2021-11-16_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 mlxlogscore=999
- mlxscore=0 bulkscore=0 malwarescore=0 spamscore=0 adultscore=0
- suspectscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111170008
-X-FB-Internal: deliver
-X-Original-Sender: terrelln@fb.com
+References: <20211111015037.4092956-1-almasrymina@google.com>
+ <CAMZfGtWj5LU0ygDpH9B58R48kM8w3tnowQDD53VNMifSs5uvig@mail.gmail.com>
+ <cfa5a07d-1a2a-abee-ef8c-63c5480af23d@oracle.com> <CAMZfGtVjrMC1+fm6JjQfwFHeZN3dcddaAogZsHFEtL4HJyhYUw@mail.gmail.com>
+ <CAHS8izPjJRf50yAtB0iZmVBi1LNKVHGmLb6ayx7U2+j8fzSgJA@mail.gmail.com>
+ <CALvZod7VPD1rn6E9_1q6VzvXQeHDeE=zPRpr9dBcj5iGPTGKfA@mail.gmail.com>
+ <CAMZfGtWJGqbji3OexrGi-uuZ6_LzdUs0q9Vd66SwH93_nfLJLA@mail.gmail.com>
+ <6887a91a-9ec8-e06e-4507-b2dff701a147@oracle.com> <CAHS8izP3aOZ6MOOH-eMQ2HzJy2Y8B6NYY-FfJiyoKLGu7_OoJA@mail.gmail.com>
+ <CALvZod7UEo100GLg+HW-CG6rp7gPJhdjYtcPfzaPMS7Yxa=ZPA@mail.gmail.com>
+ <YZOeUAk8jqO7uiLd@elver.google.com> <CAHS8izPV20pD8nKEsnEYicaCKLH7A+QTYphWRrtTqcppzoQAWg@mail.gmail.com>
+In-Reply-To: <CAHS8izPV20pD8nKEsnEYicaCKLH7A+QTYphWRrtTqcppzoQAWg@mail.gmail.com>
+From: Muchun Song <songmuchun@bytedance.com>
+Date: Wed, 17 Nov 2021 13:54:25 +0800
+Message-ID: <CAMZfGtXuKt_6JGG=N_u0LiMkjYw20CQsUj6tEERU+E0NLCpmbg@mail.gmail.com>
+Subject: Re: [PATCH v6] hugetlb: Add hugetlb.*.numa_stat file
+To: Mina Almasry <almasrymina@google.com>
+Cc: Marco Elver <elver@google.com>, Shakeel Butt <shakeelb@google.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Mike Kravetz <mike.kravetz@oracle.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Oscar Salvador <osalvador@suse.de>, Michal Hocko <mhocko@suse.com>, 
+	David Rientjes <rientjes@google.com>, Jue Wang <juew@google.com>, Yang Yao <ygyao@google.com>, 
+	Joanna Li <joannali@google.com>, Cannon Matthews <cannonmatthews@google.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	kasan-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: songmuchun@bytedance.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@fb.com header.s=facebook header.b=SlkrnHDL;       arc=fail (body
- hash mismatch);       spf=pass (google.com: domain of prvs=0955d447e6=terrelln@fb.com
- designates 67.231.153.30 as permitted sender) smtp.mailfrom="prvs=0955d447e6=terrelln@fb.com";
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=fb.com
-X-Original-From: Nick Terrell <terrelln@fb.com>
-Reply-To: Nick Terrell <terrelln@fb.com>
+ header.i=@bytedance-com.20210112.gappssmtp.com header.s=20210112
+ header.b=XeG50oA0;       spf=pass (google.com: domain of songmuchun@bytedance.com
+ designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=songmuchun@bytedance.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=bytedance.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -236,107 +142,149 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Wed, Nov 17, 2021 at 4:48 AM Mina Almasry <almasrymina@google.com> wrote:
+>
+> On Tue, Nov 16, 2021 at 4:04 AM Marco Elver <elver@google.com> wrote:
+> >
+> > On Mon, Nov 15, 2021 at 11:59AM -0800, Shakeel Butt wrote:
+> > > On Mon, Nov 15, 2021 at 10:55 AM Mina Almasry <almasrymina@google.com> wrote:
+> > [...]
+> > > > Sorry I'm still a bit confused. READ_ONCE/WRITE_ONCE isn't documented
+> > > > to provide atomicity to the write or read, just prevents the compiler
+> > > > from re-ordering them. Is there something I'm missing, or is the
+> > > > suggestion to add READ_ONCE/WRITE_ONCE simply to supress the KCSAN
+> > > > warnings?
+> >
+> > It's actually the opposite: READ_ONCE/WRITE_ONCE provide very little
+> > ordering (modulo dependencies) guarantees, which includes ordering by
+> > compiler, but are supposed to provide atomicity (when used with properly
+> > aligned types up to word size [1]; see __READ_ONCE for non-atomic
+> > variant).
+> >
+> > Some more background...
+> >
+> > The warnings that KCSAN tells you about are "data races", which occur
+> > when you have conflicting concurrent accesses, one of which is "plain"
+> > and at least one write. I think [2] provides a reasonable summary of
+> > data races and why we should care.
+> >
+> > For Linux, our own memory model (LKMM) documents this [3], and says that
+> > as long as concurrent operations are marked (non-plain; e.g. *ONCE),
+> > there won't be any data races.
+> >
+> > There are multiple reasons why data races are undesirable, one of which
+> > is to avoid bad compiler transformations [4], because compilers are
+> > oblivious to concurrency otherwise.
+> >
+> > Why do marked operations avoid data races and prevent miscompiles?
+> > Among other things, because they should be executed atomically. If they
+> > weren't a lot of code would be buggy (there had been cases where the old
+> > READ_ONCE could be used on data larger than word size, which certainly
+> > weren't atomic, but this is no longer possible).
+> >
+> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/asm-generic/rwonce.h#n35
+> > [2] https://lwn.net/Articles/816850/#Why%20should%20we%20care%20about%20data%20races?
+> > [3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt#n1920
+> > [4] https://lwn.net/Articles/793253/
+> >
+> > Some rules of thumb when to use which marking:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt
+> >
+> > In an ideal world, we'd have all intentionally concurrent accesses
+> > marked. As-is, KCSAN will find:
+> >
+> > A. Data race, where failure due to current compilers is unlikely
+> >    (supposedly "benign"); merely marking the accesses appropriately is
+> >    sufficient. Finding a crash for these will require a miscompilation,
+> >    but otherwise look "benign" at the C-language level.
+> >
+> > B. Race-condition bugs where the bug manifests as a data race, too --
+> >    simply marking things doesn't fix the problem. These are the types of
+> >    bugs where a data race would point out a more severe issue.
+> >
+> > Right now we have way too much of type (A), which means looking for (B)
+> > requires patience.
+> >
+> > > +Paul & Marco
+> > >
+> > > Let's ask the experts.
+> > >
+> > > We have a "unsigned long usage" variable that is updated within a lock
+> > > (hugetlb_lock) but is read without the lock.
+> > >
+> > > Q1) I think KCSAN will complain about it and READ_ONCE() in the
+> > > unlocked read path should be good enough to silent KCSAN. So, the
+> > > question is should we still use WRITE_ONCE() as well for usage within
+> > > hugetlb_lock?
+> >
+> > KCSAN's default config will forgive the lack of WRITE_ONCE().
+> > Technically it's still a data race (which KCSAN can find with a config
+> > change), but can be forgiven because compilers are less likely to cause
+> > trouble for writes (background: https://lwn.net/Articles/816854/ bit
+> > about "Unmarked writes (aligned and up to word size)...").
+> >
+> > I would mark both if feasible, as it clearly documents the fact the
+> > write can be read concurrently.
+> >
+> > > Q2) Second question is more about 64 bit archs breaking a 64 bit write
+> > > into two 32 bit writes. Is this a real issue? If yes, then the
+> > > combination of READ_ONCE()/WRITE_ONCE() are good enough for the given
+> > > use-case?
+> >
+> > Per above, probably unlikely, but allowed. WRITE_ONCE should prevent it,
+> > and at least relieve you to not worry about it (and shift the burden to
+> > WRITE_ONCE's implementation).
+> >
+>
+> Thank you very much for the detailed response. I can add READ_ONCE()
+> at the no-lock read site, that is no issue.
+>
+> However, for the writes that happen while holding the lock, the write
+> is like so:
+> +               h_cg->nodeinfo[page_to_nid(page)]->usage[idx] += nr_pages;
+>
+> And like so:
+> +               h_cg->nodeinfo[page_to_nid(page)]->usage[idx] -= nr_pages;
+>
+> I.e. they are increments/decrements. Sorry if I missed it but I can't
+> find an INC_ONCE(), and it seems wrong to me to do something like:
+>
+> +               WRITE_ONCE(h_cg->nodeinfo[page_to_nid(page)]->usage[idx],
+> +
+> h_cg->nodeinfo[page_to_nid(page)] + nr_pages);
 
+How about using a local variable to cache
+h_cg->nodeinfo[page_to_nid(page)]->usage[idx],
+like the following.
 
-> On Nov 16, 2021, at 6:05 PM, Randy Dunlap <rdunlap@infradead.org> wrote:
->=20
-> On 11/16/21 5:59 PM, Nick Terrell wrote:
->>> On Nov 15, 2021, at 8:44 AM, Helge Deller <deller@gmx.de> wrote:
->>>=20
->>> On 11/15/21 17:12, Geert Uytterhoeven wrote:
->>>> On Mon, Nov 15, 2021 at 4:54 PM Geert Uytterhoeven <geert@linux-m68k.o=
-rg> wrote:
->>>>> Below is the list of build error/warning regressions/improvements in
->>>>> v5.16-rc1[1] compared to v5.15[2].
->>>>>=20
->>>>> Summarized:
->>>>>  - build errors: +20/-13
->>>>>  - build warnings: +3/-28
->>>>>=20
->>>>> Happy fixing! ;-)
->>>>>=20
->>>>> Thanks to the linux-next team for providing the build service.
->>>>>=20
->>>>> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/fa55b7dcdc4=
-3c1aa1ba12bca9d2dd4318c2a0dbf/   (all 90 configs)
->>>>> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/8bb7eca972a=
-d531c9b149c0a51ab43a417385813/   (all 90 configs)
->>>>>=20
->>>>>=20
->>>>> *** ERRORS ***
->>>>>=20
->>>>> 20 error regressions:
->>>>>  + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: expected =
-':' before '__stringify':  =3D> 33:4, 18:4
->>>>>  + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: label 'l_=
-yes' defined but not used [-Werror=3Dunused-label]:  =3D> 38:1, 23:1
->>>>=20
->>>>    due to static_branch_likely() in crypto/api.c
->>>>=20
->>>> parisc-allmodconfig
->>>=20
->>> fixed now in the parisc for-next git tree.
->>>=20
->>>=20
->>>>>  + /kisskb/src/drivers/gpu/drm/msm/msm_drv.h: error: "COND" redefined=
- [-Werror]:  =3D> 531
->>>>>  + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
- size of 3252 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
-=3D]:  =3D> 47:1
->>>>>  + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
- size of 3360 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
-=3D]:  =3D> 499:1
->>>>>  + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
- size of 5344 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
-=3D]:  =3D> 334:1
->>>>>  + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame=
- size of 5380 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
-=3D]:  =3D> 354:1
->>>>>  + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size o=
-f 1824 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =
-=3D> 372:1
->>>>>  + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size o=
-f 2224 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =
-=3D> 204:1
->>>>>  + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size o=
-f 3800 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =
-=3D> 476:1
->>>>=20
->>>> parisc-allmodconfig
->>>=20
->>> parisc needs much bigger frame sizes, so I'm not astonished here.
->>> During the v5.15 cycl I increased it to 1536 (from 1280), so I'm simply=
- tempted to
->>> increase it this time to 4096, unless someone has a better idea....
->> This patch set should fix the zstd stack size warnings [0]. I=E2=80=99ve
->> verified the fix using the same tooling: gcc-8-hppa-linux-gnu.
->> I=E2=80=99ll send the PR to Linus tomorrow. I=E2=80=99ve been informed t=
-hat it
->> isn't strictly necessary to send the patches to the mailing list
->> for bug fixes, but its already done, so I=E2=80=99ll wait and see if the=
-re
->> is any feedback.
->=20
-> IMO several (or many more) people would disagree with that.
->=20
-> "strictly?"  OK, it's probably possible that almost any patch
-> could be merged without being on a mailing list, but it's not
-> desirable (except in the case of "security" patches).
+long usage = h_cg->nodeinfo[page_to_nid(page)]->usage[idx];
 
-Good to know! Thanks for the advice, I wasn=E2=80=99t really sure what
-the best practice is for sending patches to your own tree, as I
-didn't see anything about it in the maintainer guide.
+usage += nr_pages;
+WRITE_ONCE(h_cg->nodeinfo[page_to_nid(page)]->usage[idx], usage);
 
-Thanks,
-Nick Terrell
+Does this look more comfortable?
 
-> --=20
-> ~Randy
+>
+> I know we're holding a lock anyway so there is no race, but to the
+> casual reader this looks wrong as there is a race between the fetch of
+> the value and the WRITE_ONCE(). What to do here? Seems to me the most
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/B57193D6-1FD4-45D3-8045-8D2DE691E24E%40fb.com.
+It's not an issue, because fetching is a read operation and the
+path of reading a stat file is also a read operation. Both are "plain"
+operations.
+
+> reasonable thing to do is just READ_ONCE() and leave the write plain?
+
+I suggest using WRITE_ONCE() here and READ_ONCE() in the reading.
+
+Thanks.
+
+>
+>
+> > Thanks,
+> > -- Marco
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAMZfGtXuKt_6JGG%3DN_u0LiMkjYw20CQsUj6tEERU%2BE0NLCpmbg%40mail.gmail.com.
