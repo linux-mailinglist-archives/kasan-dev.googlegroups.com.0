@@ -1,141 +1,139 @@
-Return-Path: <kasan-dev+bncBDPJLN7A4MFRBPVJ3CGAMGQEZWWXSXQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY7XDHKR4OBB25V3CGAMGQERG5D2BI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD3E455767
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 09:54:22 +0100 (CET)
-Received: by mail-wm1-x33e.google.com with SMTP id 205-20020a1c00d6000000b003335d1384f1sf4034624wma.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 00:54:22 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637225662; cv=pass;
+Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 478734557EA
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 10:20:44 +0100 (CET)
+Received: by mail-qv1-xf3b.google.com with SMTP id e14-20020a0562140d8e00b003bace92a1fesf5357056qve.5
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 01:20:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637227243; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ox4uQ1pPfY0eThh5ob5inh2ziaEDLiU8WiIJOE3qqs70EXlPv2k/b7WztZzj3Ooqj4
-         Mw+QXHN6mgdkuxjI0qckWG+8CItDqaUgnJ2VC3QpVc3kcbJQsEcofw2yMv+m8hfMXJob
-         uEkKQAQfwOhIajaSNxngVXd+G4WDp2BqrVFNfbzqvNViTDGIFghdtDCvJqrh0oIrOM/R
-         vtgHGT6iTsNvIpONl9InbmuVXUgzI6WXNvXO+b5b3guUrjNwDdCUdwybNqQwnh2X6kej
-         rFThonbKthPqsRS5f+/2bOq2mYQSYEck7cDYuHcDgrYglvEbR2x7d0/BYe6HjL88RmOr
-         YTHQ==
+        b=zhOlSYrjazZ+ytrDfsD7TMZ5g0j8JT5fXlHxvk4T1ZnzXO5m8MEWloBfPjhzKwidpZ
+         jiEAYm+AEuaeM4jIze9VhzfcIPiDIbr2/KG4S04pwBlnaTzRKETeF+4bk6hlKQxsU8Qa
+         AKTmInDy3WfA1ycQYnmKoVIsr67/Aj+PMHKwqinP5rsE94oTpUGjmsiDVzEJJ6HjuIVS
+         OImL8e0mbHH43zADCDXgwC4z4Sm3Mk5G1lv9UVDC75Eax0afZR11IErwjUZ5tDpO1wVA
+         Z3Kiv/X9RKXx1ToyuSYpa5B/7EgaS71U2UydIpmrCq56G0JGoDccDLLOdIno+UaeAZtL
+         6ONw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=v9acqGOvWzTvK6G6Z9RHzDH21X+yfgeeW5TI2dxWNGw=;
-        b=Ltm1BM7IBP2x3TymcTYSMtixxpZPVafkR58zA6I//1gCOe46YxaPYcglexPYSLdcnm
-         7zb1IOtDvJRIqlo610lDgjURQIs7XJqXooFTSvUsRKaOdDxyU5GBT6+P+NfJ7ypcMKwq
-         zP22NbQTER6e+t2W28+HR4W5OynAmuUegGZSbhkwp/FUEVbq5yLuYGxR6xb3DYKoQSsU
-         7mlBewOcet/Qzm1lY4DlCAlnrSGiX8NM+u1pVfgr5tO8AdR1yh/iuLUhCyk4J2NVa+Pt
-         R6ciidJL2kPHNNVKtylD6/H/lYs8PCa3SxrqYcqTUhlxU9/etyvpKTkZxgotZ8RHvtb3
-         Xwgw==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=oFw0tP3ULV/AgGDWzAFhRL7jWIojA3sYnC7TKACAXRE=;
+        b=hTuf403WyI5ZUKdkNnoMTPMgGn2Nslzbq1gfoJNO8gYoYKC6CLbXA41Z9shqAnM6KV
+         V3/kVjAyRQOPot5CzyQwwTjpN7aqwU/WjWw5Nbz5TIrfjsahoMHgtPdQ+m3KguIGhplv
+         vFSQf1a5PQoomF7T5MwLpHBItsG4uNVIrs4waVT5d2+xgkT2BVKuQU2ZetYCIP79Bg7o
+         KarQoNWuMokzKWpKG0TLZli8s/rDQthQwQKmxAuTYRuuEnE5L/5Ven5yCrXnWqW/LYwI
+         Y/416jrIOzdLrQoJpHyKpUO+82lV0gUTYHrzRJU/LKJWvV/zpX9AzSq9yK51A3x24O4Z
+         N/Vg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=YRgL1wCN;
-       spf=pass (google.com: domain of kaiwan.billimoria@gmail.com designates 2a00:1450:4864:20::52f as permitted sender) smtp.mailfrom=kaiwan.billimoria@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=v9acqGOvWzTvK6G6Z9RHzDH21X+yfgeeW5TI2dxWNGw=;
-        b=N9hSRhLMm98PNrovZ6NY7ZmLndFd8DwRPCnm4MZxowWQnbcy8ZEnMoYWhp3hQYefjE
-         StyLD7lCji4s+AiYyHWYWswL+DosKZttd5Wadt3zrh4RnyAgRnUSGm5Z+UZ4BEuwRuJj
-         jGfkdMhWpA7XmJmuU3ECKfAOzRuxLb48hnwziZzIvStcMfm83Ci2oWY3huQ45lpq5Otu
-         ZJlVMhhBYbmq7YvU/MgcdIxO8aChNiKPYJX/e2+ar0vJ+ADJuEKMyQvgOIkbE1vNPEEF
-         TvTtohJXOYz1356SVCTiLtHHc+Hty6pnM3B/QIYnp6mm5PAvYwyn94RcqoNQl2iPN9PH
-         kRNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=v9acqGOvWzTvK6G6Z9RHzDH21X+yfgeeW5TI2dxWNGw=;
-        b=qlxXH5+zv+xFEzrh+xZjcWXXbxDiSW9+TE7R3Tuy0wjBbukQ4Zk6O7qk9JPoiSJ3Zj
-         poYtcxHmHLBbu+xQACTx6a04o0l+SJaNb3wFSoqqaFJpVcDOFHueMryZpV3cESxYNKfi
-         V3vuRdQDgBjlZdkXHVNEd5TfZasREpYWmXH6kj3yKxGOhJ2Zmxa+0EuJf4+q5LSIKj6O
-         qbC/ZzwjNtpT1wcE8je2MzR4oVHJ3QNnl3SUui1kE9bJ5NmYxMg5ov/Hespg9PVTwraO
-         y6fKY6OGwDuX+oLREvQh2oZnC7z3c7Lrceq4uNvwbhMgDyQ+avF/zEfzrhXZ+NiWtTWF
-         snDw==
+        bh=oFw0tP3ULV/AgGDWzAFhRL7jWIojA3sYnC7TKACAXRE=;
+        b=FVeZKmMClF/vGs6W2J0zed5FgGsoiKQUeVN6AlJwhUA+PwT5msmMI8TcLV5vrjsChd
+         S2b56id+ZjnKiT50z5BDBCiTh0DoEJOuiEZwcYc2C1PUi+4KUu5Nk7mTHOr9yfa2qN5K
+         DS5F/S/7zl6U36rozMHboHtnTXIn43gG0FcC4rDN7nirCFjH7RJM5M6Lzpj3VkP+PC5U
+         iUeod6nQc+R4GeLP/ak5j/yt86Fwa4nGoFlFPnXuxeJbnfC0/7D/TDr1W4Tln8I2AWgK
+         Z1uuYGkFlvtWepPY2i7fPKp+dNPEGfnayQGC0EFcCjMoXu+wQpWgnjWiqI/fXercPu90
+         XZ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=v9acqGOvWzTvK6G6Z9RHzDH21X+yfgeeW5TI2dxWNGw=;
-        b=nTfOUBZMlVyRatvL4hemMjMLicguwB/Bd3s9Z3zGsSaNsvtUytTlVHeFJAl3oiefb1
-         pD1HKvH4ERKdkRjJqMn8QUUSY1SDcTeMbpUo0EFuEZn9/pcYY/YxS1yEeQFeFx08giSc
-         MNOe83shg2ab7tHfqvA3c6hWT+Z0GVq5dMc5sbSTcIlvFBU1eQIullTBuR5jvruw0Avi
-         2rAeTvSZkVjdO4o034l69m485syV+XbAofHPezl5k1LWgayg8AwglECociIoViEaDA8E
-         GpnzQZG6As2DQDBWO4rouxu8Y3YobJVBf9j6vQbDIWEc1WNaJVtZbNSXTtbJeiw7Y5AM
-         KKJw==
+        bh=oFw0tP3ULV/AgGDWzAFhRL7jWIojA3sYnC7TKACAXRE=;
+        b=zsRqcfYepKVvMKMSm8/sYthJDKauvAzozCCR0/QlrQcFHwwSWLDXxzll1LfPwpRAfH
+         /n7WxH5J9QEJbBpZQXWGFz/RBnoPUwdu+wQsCE/wBcbQ0cPxhL6EpCG3LGSg7zWF0Yaq
+         RvI4tHjeI+WJoifVIWvYliZyO6NRvz/u+2s+0j31/giMX9vV8qvLXYJQ7hiSW0qseaou
+         ja6GzuYTHCE3w3TUtNdJVBN00dqQg9+X/oBJVc9CoCVCyVY9g2IG+2mWNuDnrCEdhq4C
+         0SI55jXZzuoLco8LALoeZ12IeiJ58xP2dSs4W5WClUwUF80InIlY9Ny+OB0cllQOkd+X
+         vxRg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530oqdpd+PwLc0Z1IhQ3Q/kYnLlhYv4fz7zvnlapFg1sj9vcLxa6
-	N5ic2PM+VmrV0Ho14CiF3rY=
-X-Google-Smtp-Source: ABdhPJzLxPRIz0HMkDl7acQCt+mLi5yXUfRpfcjF5JZFFlx4HGteFtq+pc+nBABJn9lIkzgenhgYOw==
-X-Received: by 2002:a05:600c:190b:: with SMTP id j11mr7805230wmq.112.1637225662664;
-        Thu, 18 Nov 2021 00:54:22 -0800 (PST)
+X-Gm-Message-State: AOAM531wcdPSkhWQaVGM3OQ+BswiYZmuLMcZrvf4KTxgCK8ZgsBNA/BF
+	4jWfSBu9E97NjEeYkqLXVi4=
+X-Google-Smtp-Source: ABdhPJzD8lngUbqc3Qpl4lS0BJJ5JiWf3zKFG8YHEnUF0G1dyujrLYV7/L7jzs3xy5T+E5IWsE/pag==
+X-Received: by 2002:a0c:e98a:: with SMTP id z10mr62142440qvn.43.1637227243256;
+        Thu, 18 Nov 2021 01:20:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:4092:: with SMTP id o18ls2483169wrp.1.gmail; Thu, 18 Nov
- 2021 00:54:21 -0800 (PST)
-X-Received: by 2002:a5d:4e52:: with SMTP id r18mr26787338wrt.224.1637225661658;
-        Thu, 18 Nov 2021 00:54:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637225661; cv=none;
+Received: by 2002:a05:620a:1aa2:: with SMTP id bl34ls1462670qkb.11.gmail; Thu,
+ 18 Nov 2021 01:20:42 -0800 (PST)
+X-Received: by 2002:a05:620a:2f9:: with SMTP id a25mr19831212qko.327.1637227242834;
+        Thu, 18 Nov 2021 01:20:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637227242; cv=none;
         d=google.com; s=arc-20160816;
-        b=nxqv5/Ay5GeM2Y0y9IApLrznuscP+U5dlJFXdG4ANAJSqgigKwMPnPdfG2evfAKp7A
-         ml6shmo2xXwVCq50lc/6dqJ5WtNYoALKkRs/Ncs72Q3Q/4CKBb2ehXLY8e03b+POM/X+
-         gLB5g317o5IjKs1p1wWl1beKQNCK7IGjX+Su1sXScbM0sKlkUTXpUrnY6AtIpjtICuNw
-         BBLHXxfDPRelcbjPuBpt6phMY8nRCOP1bsd68xMJUqKWGYS8ZsDzN4sW60pPcOaXHcma
-         IDn8k9DfdWrzgayEhOWPkkw+eXG4I491NTzSm1PohHxVf3AWXqOqWhInDUY6CNztEkv1
-         v0JQ==
+        b=ohoyZj+8uyc0bfmnw6D36gBKe7D4OkCyfKV4wZ4fqTThYrvtOobiRhb4b+qO57coP9
+         yazgxSsvyxCVFuPfUjlwdFm9Jhx1QKvnh+FyR5qiNYM6UQLP+3lR7uN7qVWFbYeHpI27
+         +/jS4/kqStmw2FhVfcDxczgUwXQKFL+yr2czIVmm1aqwUty/eZ2Gv9GKH8BWCijbPyIe
+         pbsW8xL5SaBfAAIzXQ4ILjG+iztZUshJkOi+YAq28mb9SqJxHa7qvv90atkUJ+l8oV02
+         og4Lx3igX/cRmXFjy+ITXMuNe8LgvTypB3jlB+gk68cc9mCEmZXLbRbbDF6SWvLffFDE
+         s1Bw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=d/QIJd6SO3Eh7Nd0TeN0hyCU4FksH7wOhTIoVbkbxn8=;
-        b=xlLp7vn47uXEYDQ2EmqO+usbbNKO4dK5557Sl8gkR8q9VB5C/dKxvJg8+K18q9DyGv
-         34bSneW/7lTEinynVX+QNk4m22VsTXzD60v9GGDpFzYJyLNV+AzLI2SQV6CVLn23XVIU
-         IwjjQLZSW7EQw/Ada2z8a+qWuDZEZNgJk5DbrvnbfZ8mcbjyStaOC5x7e4szViXT0nTH
-         gLyMzCsVSOK6/GTU+T0fwJxIv0PB1SQJKmx211ZRTmChAPXi7KJ2qAzPHXTJIGujFcLY
-         /o+Kkit0TM/hhltVeDbjg6Qnjvf6yhWvSglg7qF4vPQa6M9LSzOBQ91wbzWiLJZuPVH8
-         MISg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id;
+        bh=VIk8qyx7793j2yNg7qbRvB5JxiDjuZTG9/24ug1zdL0=;
+        b=Z4xGpmFGB4bd2Qa49/7BvlayM+Mw3Q9qGU5INBHGvobsMFUqZ3x3OKoMoJEHUHP8oh
+         JMKvNjoee3fyb7wESgwsMjZo5iJVn5SQpOTmbeyqwoDCva2oHcG+4+6Omp+GrhXsyqd5
+         miDdaJqayZoOMfWUR9PGhNGA9TDDkQqON2C0fycgdnLH7zSauQJ882hIjg2SC85njmEe
+         Gqs1Fi1RjoFuyr+s9yd2PmZ/eHXqV3ka4YdMph75vhUSPKzyECLvilLWxGh7SIDRaWJc
+         3rwfLmFM0Tda39LqWb9wwjs0RHX2qgpU7lDqmSJXs3+dexHL+fmn8IRJpH7OXJB5ZFp5
+         CW6w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=YRgL1wCN;
-       spf=pass (google.com: domain of kaiwan.billimoria@gmail.com designates 2a00:1450:4864:20::52f as permitted sender) smtp.mailfrom=kaiwan.billimoria@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com. [2a00:1450:4864:20::52f])
-        by gmr-mx.google.com with ESMTPS id 125si580487wmc.1.2021.11.18.00.54.21
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([60.244.123.138])
+        by gmr-mx.google.com with ESMTPS id u7si406968qki.5.2021.11.18.01.20.41
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 00:54:21 -0800 (PST)
-Received-SPF: pass (google.com: domain of kaiwan.billimoria@gmail.com designates 2a00:1450:4864:20::52f as permitted sender) client-ip=2a00:1450:4864:20::52f;
-Received: by mail-ed1-x52f.google.com with SMTP id g14so23777680edz.2
-        for <kasan-dev@googlegroups.com>; Thu, 18 Nov 2021 00:54:21 -0800 (PST)
-X-Received: by 2002:a17:907:c1d:: with SMTP id ga29mr30458439ejc.180.1637225661407;
- Thu, 18 Nov 2021 00:54:21 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Nov 2021 01:20:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
+X-UUID: 93647bccf59144dabaaf01070fae0942-20211118
+X-UUID: 93647bccf59144dabaaf01070fae0942-20211118
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1194778436; Thu, 18 Nov 2021 17:20:39 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 18 Nov 2021 17:20:38 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 18 Nov 2021 17:20:38 +0800
+Message-ID: <754511d9a0368065768cc3ad8037184d62c3fbd1.camel@mediatek.com>
+Subject: Re: [PATCH] kmemleak: fix kmemleak false positive report with HW
+ tag-based kasan enable
+From: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Matthias Brugger <matthias.bgg@gmail.com>
+CC: <kuan-ying.lee@mediatek.com>, Chinwen Chang
+ =?UTF-8?Q?=28=E5=BC=B5=E9=8C=A6=E6=96=87=29?= <chinwen.chang@mediatek.com>,
+	Nicholas Tang =?UTF-8?Q?=28=E9=84=AD=E7=A7=A6=E8=BC=9D=29?=
+	<nicholas.tang@mediatek.com>, James Hsu
+ =?UTF-8?Q?=28=E5=BE=90=E6=85=B6=E8=96=B0=29?= <James.Hsu@mediatek.com>, "Yee
+ Lee =?UTF-8?Q?=28=E6=9D=8E=E5=BB=BA=E8=AA=BC=29?=" <Yee.Lee@mediatek.com>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, <kasan-dev@googlegroups.com>
+Date: Thu, 18 Nov 2021 17:20:38 +0800
+In-Reply-To: <20211118054426.4123-1-Kuan-Ying.Lee@mediatek.com>
+References: <20211118054426.4123-1-Kuan-Ying.Lee@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2
 MIME-Version: 1.0
-References: <a2ced905703ede4465f3945eb3ae4e615c02faf8.camel@gmail.com>
- <CANpmjNNSRVMO+PJWvpP=w+V6CR51Yd-r2ku_fVEvymae0g7JaQ@mail.gmail.com>
- <c2693ecb223eb634f4fa94101c4cb98999ef0032.camel@gmail.com>
- <YZPeRGpOTSgXjaE6@elver.google.com> <CAPDLWs88WLTPVnh1TtY3tOU6XLPucf8zKMhzCfxRv2HbCnKndA@mail.gmail.com>
- <CA+LMZ3r9ioqSN31w5v_Bkgs7UyPux=0MO8g0dQC16AxEiorBcg@mail.gmail.com>
- <CANpmjNMzv2b1srETOp1STjVWYZx-1XpdMm5yY485vSmd=wjJiw@mail.gmail.com>
- <CA+LMZ3qhJ1dnS3O9vKRA1DCF93Lpi-xq9PmStwhWC+ykRSGr_g@mail.gmail.com>
- <CAPDLWs9TR4gNHg+n2j2958yff+F6Ex0gVZxD8qtcPrgcYghfWA@mail.gmail.com> <CANpmjNO5AQ_Yhk6k+N2u_sFPRP2JWRvkPqUSrS6koAYrqCx5-w@mail.gmail.com>
-In-Reply-To: <CANpmjNO5AQ_Yhk6k+N2u_sFPRP2JWRvkPqUSrS6koAYrqCx5-w@mail.gmail.com>
-From: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-Date: Thu, 18 Nov 2021 14:24:09 +0530
-Message-ID: <CAPDLWs8gt6vStwi86FT8cKEcjHkJsybSVn_q7eQKiAu7sqo0zA@mail.gmail.com>
-Subject: Re: KASAN isn't catching rd/wr underflow bugs on static global memory?
-To: Marco Elver <elver@google.com>
-Cc: Chi-Thanh Hoang <chithanh.hoang@gmail.com>, kasan-dev@googlegroups.com
-Content-Type: multipart/alternative; boundary="000000000000f72e0005d10c4de7"
-X-Original-Sender: kaiwan.billimoria@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=YRgL1wCN;       spf=pass
- (google.com: domain of kaiwan.billimoria@gmail.com designates
- 2a00:1450:4864:20::52f as permitted sender) smtp.mailfrom=kaiwan.billimoria@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+X-MTK: N
+X-Original-Sender: Kuan-Ying.Lee@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138
+ as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,166 +146,195 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---000000000000f72e0005d10c4de7
-Content-Type: text/plain; charset="UTF-8"
++Cc kasan group
 
-On Thu, 18 Nov 2021, 14:06 Marco Elver, <elver@google.com> wrote:
-
-> On Thu, 18 Nov 2021 at 06:56, Kaiwan N Billimoria
-> <kaiwan.billimoria@gmail.com> wrote:
-> >
-> > On Thu, Nov 18, 2021 at 8:29 AM Chi-Thanh Hoang
-> > <chithanh.hoang@gmail.com> wrote:
-> > >
-> > > Thanks Marco for creating the bugzilla.
-> > > I will post my findings.
->
-> Thanks for adding your findings.
->
-> [...]
-> >
-> > Really interesting! Am trying to replicate along similar lines but it
-> > doesn't trigger !
-> >
-> > static char global_arr1[100];
-> > static int global_arr2[10];
-> > static char global_arr3[10];
-> > ...
-> > int global_mem_oob_left(int mode)
-> > {
-> >     volatile char w;
-> >     char *volatile array = global_arr3;
-> >     char *p = array - 3; // invalid, not within bounds
-> >
-> >     w = *(volatile char *)p;
-> >     ...
-> > }
-> >
-> > I also find that the global arrays seem to be laid out "in reverse",
-> > i.e., if i print their kernel va's:
-> > test_kmembugs:global_mem_oob_left(): global_arr1=ffffffffc07db8e0
-> > global_arr2=ffffffffc07db900 global_arr3=ffffffffc07db8c0
-> >
-> > And the last one, global_arr3, coincides with the BSS start:
-> >
-> > $ sudo cat /sys/module/test_kmembugs/sections/.bss
-> > 0xffffffffc07db8c0
-> >
-> > Can we infer anything here?
->
-> Infer why it's broken? Not really, there's no guaranteed order how
-> globals are laid out in memory. It's entirely up to the linker (except
-> if you explicitly put the symbol in some section)
->
-
-Ok..
-
->
-> The reason why GCC is not detecting this is because last I checked its
-> implementation of adding globals redzones is based on increasing
-> alignment of globals, which is really not the most reliable way to
-> ensure there's always padding. Clang explicitly adds data after a
-> global and doesn't rely on alignment.
->
-Ok. But, this had been done on a kernel and module compiled with clang.
-Thanks, Kaiwan.
-
->
+On Thu, 2021-11-18 at 13:44 +0800, Kuan-Ying Lee wrote:
+> With HW tag-based kasan enable, We will get the warning
+> when we free object whose address starts with 0xFF.
+> 
+> It is because kmemleak rbtree stores tagged object and
+> this freeing object's tag does not match with rbtree object.
+> 
+> In the example below, kmemleak rbtree stores the tagged object in
+> the kmalloc(), and kfree() gets the pointer with 0xFF tag.
+> 
+> Call sequence:
+> ptr = kmalloc(size, GFP_KERNEL);
+> page = virt_to_page(ptr);
+> kfree(page_address(page));
+> ptr = kmalloc(size, GFP_KERNEL);
+> 
+> Call sequence like that may cause the warning as following:
+> 1) Freeing unknown object:
+> In kfree(), we will get free unknown object warning in
+> kmemleak_free().
+> Because object(0xFx) in kmemleak rbtree and pointer(0xFF) in kfree()
+> have
+> different tag.
+> 
+> 2) Overlap existing:
+> When we allocate that object with the same hw-tag again, we will
+> find the overlap in the kmemleak rbtree and kmemleak thread will
+> be killed.
+> 
+> [  116.685312] kmemleak: Freeing unknown object at 0xffff000003f88000
+> [  116.686422] CPU: 5 PID: 177 Comm: cat Not tainted 5.16.0-rc1-dirty 
+> #21
+> [  116.687067] Hardware name: linux,dummy-virt (DT)
+> [  116.687496] Call trace:
+> [  116.687792]  dump_backtrace+0x0/0x1ac
+> [  116.688255]  show_stack+0x1c/0x30
+> [  116.688663]  dump_stack_lvl+0x68/0x84
+> [  116.689096]  dump_stack+0x1c/0x38
+> [  116.689499]  kmemleak_free+0x6c/0x70
+> [  116.689919]  slab_free_freelist_hook+0x104/0x200
+> [  116.690420]  kmem_cache_free+0xa8/0x3d4
+> [  116.690845]  test_version_show+0x270/0x3a0
+> [  116.691344]  module_attr_show+0x28/0x40
+> [  116.691789]  sysfs_kf_seq_show+0xb0/0x130
+> [  116.692245]  kernfs_seq_show+0x30/0x40
+> [  116.692678]  seq_read_iter+0x1bc/0x4b0
+> [  116.692678]  seq_read_iter+0x1bc/0x4b0
+> [  116.693114]  kernfs_fop_read_iter+0x144/0x1c0
+> [  116.693586]  generic_file_splice_read+0xd0/0x184
+> [  116.694078]  do_splice_to+0x90/0xe0
+> [  116.694498]  splice_direct_to_actor+0xb8/0x250
+> [  116.694975]  do_splice_direct+0x88/0xd4
+> [  116.695409]  do_sendfile+0x2b0/0x344
+> [  116.695829]  __arm64_sys_sendfile64+0x164/0x16c
+> [  116.696306]  invoke_syscall+0x48/0x114
+> [  116.696735]  el0_svc_common.constprop.0+0x44/0xec
+> [  116.697263]  do_el0_svc+0x74/0x90
+> [  116.697665]  el0_svc+0x20/0x80
+> [  116.698261]  el0t_64_sync_handler+0x1a8/0x1b0
+> [  116.698695]  el0t_64_sync+0x1ac/0x1b0
+> ...
+> [  117.520301] kmemleak: Cannot insert 0xf2ff000003f88000 into the
+> object search tree (overlaps existing)
+> [  117.521118] CPU: 5 PID: 178 Comm: cat Not tainted 5.16.0-rc1-dirty 
+> #21
+> [  117.521827] Hardware name: linux,dummy-virt (DT)
+> [  117.522287] Call trace:
+> [  117.522586]  dump_backtrace+0x0/0x1ac
+> [  117.523053]  show_stack+0x1c/0x30
+> [  117.523578]  dump_stack_lvl+0x68/0x84
+> [  117.524039]  dump_stack+0x1c/0x38
+> [  117.524472]  create_object.isra.0+0x2d8/0x2fc
+> [  117.524975]  kmemleak_alloc+0x34/0x40
+> [  117.525416]  kmem_cache_alloc+0x23c/0x2f0
+> [  117.525914]  test_version_show+0x1fc/0x3a0
+> [  117.526379]  module_attr_show+0x28/0x40
+> [  117.526827]  sysfs_kf_seq_show+0xb0/0x130
+> [  117.527363]  kernfs_seq_show+0x30/0x40
+> [  117.527848]  seq_read_iter+0x1bc/0x4b0
+> [  117.528320]  kernfs_fop_read_iter+0x144/0x1c0
+> [  117.528809]  generic_file_splice_read+0xd0/0x184
+> [  117.529316]  do_splice_to+0x90/0xe0
+> [  117.529734]  splice_direct_to_actor+0xb8/0x250
+> [  117.530227]  do_splice_direct+0x88/0xd4
+> [  117.530686]  do_sendfile+0x2b0/0x344
+> [  117.531154]  __arm64_sys_sendfile64+0x164/0x16c
+> [  117.531673]  invoke_syscall+0x48/0x114
+> [  117.532111]  el0_svc_common.constprop.0+0x44/0xec
+> [  117.532621]  do_el0_svc+0x74/0x90
+> [  117.533048]  el0_svc+0x20/0x80
+> [  117.533461]  el0t_64_sync_handler+0x1a8/0x1b0
+> [  117.533950]  el0t_64_sync+0x1ac/0x1b0
+> [  117.534625] kmemleak: Kernel memory leak detector disabled
+> [  117.535201] kmemleak: Object 0xf2ff000003f88000 (size 128):
+> [  117.535761] kmemleak:   comm "cat", pid 177, jiffies 4294921177
+> [  117.536339] kmemleak:   min_count = 1
+> [  117.536718] kmemleak:   count = 0
+> [  117.537068] kmemleak:   flags = 0x1
+> [  117.537429] kmemleak:   checksum = 0
+> [  117.537806] kmemleak:   backtrace:
+> [  117.538211]      kmem_cache_alloc+0x23c/0x2f0
+> [  117.538924]      test_version_show+0x1fc/0x3a0
+> [  117.539393]      module_attr_show+0x28/0x40
+> [  117.539844]      sysfs_kf_seq_show+0xb0/0x130
+> [  117.540304]      kernfs_seq_show+0x30/0x40
+> [  117.540750]      seq_read_iter+0x1bc/0x4b0
+> [  117.541206]      kernfs_fop_read_iter+0x144/0x1c0
+> [  117.541687]      generic_file_splice_read+0xd0/0x184
+> [  117.542182]      do_splice_to+0x90/0xe0
+> [  117.542611]      splice_direct_to_actor+0xb8/0x250
+> [  117.543097]      do_splice_direct+0x88/0xd4
+> [  117.543544]      do_sendfile+0x2b0/0x344
+> [  117.543983]      __arm64_sys_sendfile64+0x164/0x16c
+> [  117.544471]      invoke_syscall+0x48/0x114
+> [  117.544917]      el0_svc_common.constprop.0+0x44/0xec
+> [  117.545416]      do_el0_svc+0x74/0x90
+> [  117.554100] kmemleak: Automatic memory scanning thread ended
+> 
+> Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+> ---
+>  mm/kmemleak.c | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
+> 
+> diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+> index b57383c17cf6..fa12e2e08cdc 100644
+> --- a/mm/kmemleak.c
+> +++ b/mm/kmemleak.c
+> @@ -381,15 +381,20 @@ static void dump_object_info(struct
+> kmemleak_object *object)
+>  static struct kmemleak_object *lookup_object(unsigned long ptr, int
+> alias)
+>  {
+>  	struct rb_node *rb = object_tree_root.rb_node;
+> +	unsigned long untagged_ptr = (unsigned
+> long)kasan_reset_tag((void *)ptr);
+>  
+>  	while (rb) {
+>  		struct kmemleak_object *object =
+>  			rb_entry(rb, struct kmemleak_object, rb_node);
+> -		if (ptr < object->pointer)
+> +		unsigned long untagged_objp;
+> +
+> +		untagged_objp = (unsigned long)kasan_reset_tag((void
+> *)object->pointer);
+> +
+> +		if (untagged_ptr < untagged_objp)
+>  			rb = object->rb_node.rb_left;
+> -		else if (object->pointer + object->size <= ptr)
+> +		else if (untagged_objp + object->size <= untagged_ptr)
+>  			rb = object->rb_node.rb_right;
+> -		else if (object->pointer == ptr || alias)
+> +		else if (untagged_objp == untagged_ptr || alias)
+>  			return object;
+>  		else {
+>  			kmemleak_warn("Found object by alias at
+> 0x%08lx\n",
+> @@ -576,6 +581,7 @@ static struct kmemleak_object
+> *create_object(unsigned long ptr, size_t size,
+>  	struct kmemleak_object *object, *parent;
+>  	struct rb_node **link, *rb_parent;
+>  	unsigned long untagged_ptr;
+> +	unsigned long untagged_objp;
+>  
+>  	object = mem_pool_alloc(gfp);
+>  	if (!object) {
+> @@ -629,9 +635,10 @@ static struct kmemleak_object
+> *create_object(unsigned long ptr, size_t size,
+>  	while (*link) {
+>  		rb_parent = *link;
+>  		parent = rb_entry(rb_parent, struct kmemleak_object,
+> rb_node);
+> -		if (ptr + size <= parent->pointer)
+> +		untagged_objp = (unsigned long)kasan_reset_tag((void
+> *)parent->pointer);
+> +		if (untagged_ptr + size <= untagged_objp)
+>  			link = &parent->rb_node.rb_left;
+> -		else if (parent->pointer + parent->size <= ptr)
+> +		else if (untagged_objp + parent->size <= untagged_ptr)
+>  			link = &parent->rb_node.rb_right;
+>  		else {
+>  			kmemleak_stop("Cannot insert 0x%lx into the
+> object search tree (overlaps existing)\n",
+> -- 
+> 2.18.0
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAPDLWs8gt6vStwi86FT8cKEcjHkJsybSVn_q7eQKiAu7sqo0zA%40mail.gmail.com.
-
---000000000000f72e0005d10c4de7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, 18 Nov 2021, 14:06 Marco Elver, &lt;<a href=3D=
-"mailto:elver@google.com">elver@google.com</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">On Thu, 18 Nov 2021 at 06:56, Kaiwan N Billimoria<br=
->
-&lt;<a href=3D"mailto:kaiwan.billimoria@gmail.com" target=3D"_blank" rel=3D=
-"noreferrer">kaiwan.billimoria@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Thu, Nov 18, 2021 at 8:29 AM Chi-Thanh Hoang<br>
-&gt; &lt;<a href=3D"mailto:chithanh.hoang@gmail.com" target=3D"_blank" rel=
-=3D"noreferrer">chithanh.hoang@gmail.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Thanks Marco for creating the bugzilla.<br>
-&gt; &gt; I will post my findings.<br>
-<br>
-Thanks for adding your findings.<br>
-<br>
-[...]<br>
-&gt;<br>
-&gt; Really interesting! Am trying to replicate along similar lines but it<=
-br>
-&gt; doesn&#39;t trigger !<br>
-&gt;<br>
-&gt; static char global_arr1[100];<br>
-&gt; static int global_arr2[10];<br>
-&gt; static char global_arr3[10];<br>
-&gt; ...<br>
-&gt; int global_mem_oob_left(int mode)<br>
-&gt; {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0volatile char w;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0char *volatile array =3D global_arr3;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0char *p =3D array - 3; // invalid, not within bound=
-s<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0w =3D *(volatile char *)p;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0...<br>
-&gt; }<br>
-&gt;<br>
-&gt; I also find that the global arrays seem to be laid out &quot;in revers=
-e&quot;,<br>
-&gt; i.e., if i print their kernel va&#39;s:<br>
-&gt; test_kmembugs:global_mem_oob_left(): global_arr1=3Dffffffffc07db8e0<br=
->
-&gt; global_arr2=3Dffffffffc07db900 global_arr3=3Dffffffffc07db8c0<br>
-&gt;<br>
-&gt; And the last one, global_arr3, coincides with the BSS start:<br>
-&gt;<br>
-&gt; $ sudo cat /sys/module/test_kmembugs/sections/.bss<br>
-&gt; 0xffffffffc07db8c0<br>
-&gt;<br>
-&gt; Can we infer anything here?<br>
-<br>
-Infer why it&#39;s broken? Not really, there&#39;s no guaranteed order how<=
-br>
-globals are laid out in memory. It&#39;s entirely up to the linker (except<=
-br>
-if you explicitly put the symbol in some section)<br></blockquote></div></d=
-iv><div dir=3D"auto"><br></div><div dir=3D"auto">Ok..=C2=A0</div><div dir=
-=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-The reason why GCC is not detecting this is because last I checked its<br>
-implementation of adding globals redzones is based on increasing<br>
-alignment of globals, which is really not the most reliable way to<br>
-ensure there&#39;s always padding. Clang explicitly adds data after a<br>
-global and doesn&#39;t rely on alignment.<br></blockquote></div></div><div =
-dir=3D"auto">Ok. But, this had been done on a kernel and module compiled wi=
-th clang.=C2=A0</div><div dir=3D"auto">Thanks, Kaiwan.=C2=A0</div><div dir=
-=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CAPDLWs8gt6vStwi86FT8cKEcjHkJsybSVn_q7eQKiAu7sqo0zA%40=
-mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.googl=
-e.com/d/msgid/kasan-dev/CAPDLWs8gt6vStwi86FT8cKEcjHkJsybSVn_q7eQKiAu7sqo0zA=
-%40mail.gmail.com</a>.<br />
-
---000000000000f72e0005d10c4de7--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/754511d9a0368065768cc3ad8037184d62c3fbd1.camel%40mediatek.com.
