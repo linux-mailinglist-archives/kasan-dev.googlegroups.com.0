@@ -1,233 +1,138 @@
-Return-Path: <kasan-dev+bncBDBLXJ5LQYCBBNNV2WGAMGQELZVIZHY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCEZPNXX34KRBEED26GAMGQEHNPOHYY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EDB454E0D
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Nov 2021 20:40:39 +0100 (CET)
-Received: by mail-pf1-x43b.google.com with SMTP id f206-20020a6238d7000000b004a02dd7156bsf2224221pfa.5
-        for <lists+kasan-dev@lfdr.de>; Wed, 17 Nov 2021 11:40:39 -0800 (PST)
+Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 222664552FF
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 03:59:30 +0100 (CET)
+Received: by mail-pj1-x103e.google.com with SMTP id a16-20020a17090aa51000b001a78699accesf4160424pjq.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 Nov 2021 18:59:30 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637204368; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=V+AgvoesE5DV9B7fn+/7a+F36XvGP8skNvXW4Y0RAlFpxjEOc/7Z+/mhwAftfFMbzX
+         0JXnooKLj1G4FgIpNUId8oqXUAJAxs3pv5dMVB2GYCV35DXc7sNY5vuBa1jY+SKU5jcq
+         MbGqq+jyJcB+GLCuJyMGcJLzJFhuhjfuaDxVvIY4VxWuPi4VJds+6ScQhIQKK4MuY1j4
+         r1bwMPISeIdLSUe4F9DIah3A4aUQtyU6U2dJ9CT7Lo6UjMFarvVRgGtpI1EgIXfwQt+8
+         jPYVnLz0dgTUBGuOB/A2skDfyhR1DeMlh5wwavnB/5FCYc9658NS2PwNgiA3SZogakGS
+         meUg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=7gR6CYGHg+rURD842xYPpYx29L4bTDLUFaTiQvJ2LY0=;
+        b=S1TZfcCuBQYqy7EyHVqi9/SzTraQ9JOFWWiwDX5sV1raHiFZHmauJPwbqjZE1LN3Y8
+         EsD/J68hp8hNP48aPOzvfAC3cVapNde3004QTkO2f2GSbwWG99g1KQJEjxZP98jNda6l
+         /6GJ6aYijdo9rj3eOeL0t1GytUsANIQV95Nkr6uNHNQxgOBtWhfgqMag0hXYON4n7Cuf
+         q/x/WapryFGfmd9XL/aCCPZbshQ3TKB7GDjG7WksGrdjW112lB+YHsEPaY04WRVDpQtE
+         2M8tJBQg8PJRBygf8o22EQ3ddujiTnz4xZIqr1MEtssFCRJuBSi3l45zD7FixEDhYqql
+         VrwQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=l1VbhvJq;
+       spf=pass (google.com: domain of chithanh.hoang@gmail.com designates 2607:f8b0:4864:20::633 as permitted sender) smtp.mailfrom=chithanh.hoang@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:cc:subject:thread-topic:thread-index:date:message-id
-         :references:in-reply-to:accept-language:content-language:content-id
-         :content-transfer-encoding:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=R32sZrBG30PkxCLq0wfQOYMxwjIIu3mtjswd5n2C5x8=;
-        b=I2LX8Pnt+XZDIuyeWBwRNksV4udvLReXke2k/Ba4ChzhpdSBpos1mYqCrGBzbf19P5
-         1M6BY46qXnBSCO3M9StRV5PuZCMUCajoXVhFZuGYu+uh0/CDqj4ltJkw4dd8NT01MOV+
-         sbY1X5iy3wgb0gJdUyIUgcNnngwKfkbR0rAVeTMf/nZkvH4SlLpbkHcJLq5BmAURnwt4
-         yH+rKG1AoTyrLmbAbwR95IvDIi4ib0oXTraGFr2ih9140G54Dg10t+6xrZdJo5YlyU6z
-         CRxyj7IVoAq4wlq2FF9251dv+cEWk1X4/fwpJ9SMt1fWL5mHOi6YWm5s2Iwz+BRn1Omq
-         Lv1Q==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7gR6CYGHg+rURD842xYPpYx29L4bTDLUFaTiQvJ2LY0=;
+        b=iqlfo8oxKBOkw16sFqZDrWSdrsgdxm8dU6C3gLs1VejUw0S6HFbKMPwlmViumPKOre
+         KbXmsa0Ls07UbuEiXO62MK3CDhqTbGDRYE3pLzyuVWT3wvQDiKeQvmlb8ZVP6F8bJAeD
+         uirwRyM2VjLUg52B0TY9AoMDLojVt1y3wBSSippQ0aSHGcP6vV1ii97DjxYv/JzFn+/3
+         qJt14D/TwzrpwLht5f0h7Ew7/8jrrpdIQo7qO13OqB5GsBCjEtesl7Q3e9pxTLOguxGq
+         RlKM42Sk77DVXWMOk88JHjT8HWGoBFW6wZfBTuj6zFb3+hYmk8j/o/5427FaMPzEWn+x
+         9JRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7gR6CYGHg+rURD842xYPpYx29L4bTDLUFaTiQvJ2LY0=;
+        b=H/bunD9puKCh7e+h6cBJnITeZnhfpcULviAyO7X+ZOhMAjNVJ8Ld4bobaNMr0OCdn7
+         CRv2cuTe4tgYh8Yz9xXfigJkDAkXvMbqi4tmW/9zpnaQfuP+z6vp99rwGtkW3enL6b3y
+         1apEazd6PYUSJI+XYgXRR157kojulJmGEeouB1ejgNGgFzlYOhU2wvHi6Bm+MlTaz3RK
+         s6TNlj17O0ARn/zdNVcYXmw4GTEYV8LDND9L3WUGtiA3yewtmstP6sl+Rms3E4nH3c17
+         RWLeaZ4Fdkv5w8aZMV+kdq4EhPegodWB3/nL59BdnCvnClv68LE2dr2cgUn4i0r4/BKm
+         kNaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:thread-topic:thread-index
-         :date:message-id:references:in-reply-to:accept-language
-         :content-language:content-id:content-transfer-encoding:mime-version
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=R32sZrBG30PkxCLq0wfQOYMxwjIIu3mtjswd5n2C5x8=;
-        b=YPLw1hPfIhlPpUmC+VDU+aO5J9d9x0/x9b+a9tHZhjjNB/QOlDEZF8weoQtazMgNlm
-         pvqMOuEYSt0y1OyuYRX3KWURxh+UyW7gZ9/VD5ENyU3cEkZLO5w9pgcYbYozDRSPH8Qe
-         R4shCzwPtnBx49RKhOQVPkdyW9zjbFaIOPw5mlYnAZvrWKgBiIx473LZVA6QtjbYO0hQ
-         jOxf9T1U6yf7DM0uEkp0FS66g+T+T9jRL18vePBxf5Mv6kewCI2L2XL2z3BTYJTtB+Vz
-         BoC+ecd7RiMtfutmWhF10Vv3aLoCX2UGtDwDct1Oc6s29alcSaOl14O+IiK4Xnf4zZWl
-         s+Vg==
-X-Gm-Message-State: AOAM531jmVyc+uzc7kCwxBTFo8DMDZU3z8BQm+0BSf4j8SRS/x/4dUqW
-	iZMNDMwQmOup7WOK3n+Fecw=
-X-Google-Smtp-Source: ABdhPJzX9v0ds3ZAgl7cPe4HFU9CNZvfPmXl8zXNVrq9cFLB2VmIfq8scWKGI3TnBSrYN+c1JnJ4mA==
-X-Received: by 2002:a63:9142:: with SMTP id l63mr7092271pge.384.1637178037306;
-        Wed, 17 Nov 2021 11:40:37 -0800 (PST)
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7gR6CYGHg+rURD842xYPpYx29L4bTDLUFaTiQvJ2LY0=;
+        b=fsuW61UqPTwmSzzvZqU+q5uf/5SrMseHhlmH42tmxcO4urRdgr6qPYvl0pu2aczF16
+         WgSEsRwVQtNeDF4aOFzOyq5QjJUevzxwbQFTLXuaG+PfYb+tF/bo5hZAKLPdGtB5760I
+         RhFLeZTRIrY+BjB0bFwjrJ4TSkRm8vk856YOOEKsyS6xz7HU9hK9sg4SG76Hh5xhPmzo
+         5af4eoapZBYGlS8oPKLksEJKAARPTCZh8lCjJG/s1IhxFbcLwyNuvlOmlXAdFwAwspwx
+         wV/l/uYBbAZJWmjTCVI58FPIdjMO7UUEC5RyZ720bv5iKVkD4yNnNBLd5WiBc9xgjsMK
+         yW0g==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532zaHJ1/BkFpujE3JaWl5UedC0eMGas5xMSP0w8nsQVaKT+y2HT
+	SebsSKdVPg17S1sLBr6SQmw=
+X-Google-Smtp-Source: ABdhPJxr2InBjnmElqcP1heZ8NlwUsvJzaN9/M0LnCe2t06nhRBKaEBleGG3SuqyUgGX4KD1Y8+MGg==
+X-Received: by 2002:a05:6a00:140c:b0:44b:e251:fe13 with SMTP id l12-20020a056a00140c00b0044be251fe13mr11879945pfu.10.1637204368373;
+        Wed, 17 Nov 2021 18:59:28 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:d50e:: with SMTP id b14ls487984plg.7.gmail; Wed, 17
- Nov 2021 11:40:36 -0800 (PST)
-X-Received: by 2002:a17:90a:ba13:: with SMTP id s19mr2685233pjr.62.1637178036635;
-        Wed, 17 Nov 2021 11:40:36 -0800 (PST)
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com. [67.231.153.30])
-        by gmr-mx.google.com with ESMTPS id l11si65794pfc.4.2021.11.17.11.40.36
+Received: by 2002:a63:1c05:: with SMTP id c5ls461502pgc.6.gmail; Wed, 17 Nov
+ 2021 18:59:27 -0800 (PST)
+X-Received: by 2002:a63:91c7:: with SMTP id l190mr8031541pge.447.1637204367708;
+        Wed, 17 Nov 2021 18:59:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637204367; cv=none;
+        d=google.com; s=arc-20160816;
+        b=PofY7D2URaudja5iZkad+vkyEY8thkB858RCA4p8flmCqvjTBCIe3K9UkO98M0Z55r
+         z+DircwIRDwijpUfJKyfihyQfIot/JMBrlESImNK/DmPUfx7djDaauwlnpJJ7ucn7OaA
+         39SPze25amXG/GwPn3v9dz2timSfwN9uKJBY9wH8nKWA/O8OVarT/GHnNVVzgYvZ99TH
+         g96stQ3nCAQxSDA/dpb5TjVY8XlVmxueEKnxfuWmzfn9L5yHjC+QXvvBh+hBvIBdznd+
+         ul5RwgELUUelvv+N8c1DrY3NeQwX83G52C71+Aipy8IDwfuD8q5sh7QdXYZI19I3lAZR
+         +qaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=c1n2VocZrwNIf3Tn3vbYwvjWty5HMUJpwwN5pId01ug=;
+        b=mveK/Fu14gtUvXcygVpr+PI4V0HadKQIvYTfCQd2CCFq1o6Xq4Lsw1cMeZaOv9aLR4
+         1BoF6qhQQP9+oRqXu1/z8helRZYWphnnxjbfr5tfGkPyKOadckDy5ke8pCP0WYsHoV7+
+         qmj4KmK5mmGG4evTosanTDu9fETzGCxevYvuTUOWzlYpO+Gb7UN4kpPgCZbGbhd62MVg
+         MNl4P23JacXPijwFKjzfF3D5WtGOei8MsFyMqnYyrPWD6sJtsskKzMtcwDhjurpF2RRa
+         mv8aXSD/Lhlp94mJTRpi5cdb63nq6ih8ussQ2yJLi48pXH2dh+fe954wb+rO50LYy6X2
+         /3xA==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=l1VbhvJq;
+       spf=pass (google.com: domain of chithanh.hoang@gmail.com designates 2607:f8b0:4864:20::633 as permitted sender) smtp.mailfrom=chithanh.hoang@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com. [2607:f8b0:4864:20::633])
+        by gmr-mx.google.com with ESMTPS id mq9si914672pjb.3.2021.11.17.18.59.27
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Nov 2021 11:40:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of prvs=0955d447e6=terrelln@fb.com designates 67.231.153.30 as permitted sender) client-ip=67.231.153.30;
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.16.1.2/8.16.1.2) with SMTP id 1AHJdtFC004740;
-	Wed, 17 Nov 2021 11:40:06 -0800
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by m0089730.ppops.net with ESMTP id 3cd1gnk610-8
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 17 Nov 2021 11:40:06 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.228) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Wed, 17 Nov 2021 11:39:42 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZwAtCzQvlWT1q771Tk8COUSY2XcUVGfgr72yr+Z6xPbFVpb8UJoT3DY7anfi+cTbUN+5TlpziTdzfY280xnk31qbL1peJc0nf53NgyyvaFjaDoLEoeG/GcL46uKMyFfWxSr4hYE4scBmVIjLU2XqCCN1TWyIRRok3iN646GBx2dyOkowjbpKe9M1vgYVo3MHe5tz6FOgJd6wWviWjvRV/vFBKhWutZfdNnFjXcNYz7eAUK0WzNK9m4DN/t5QGGs1O2qH4XzsHmfiOtmBPKgjQyvkyVCe5OMqoCdluEh60eUreQ6x4fZIEotBOILuBiGsnbLeJK8xUsi3HokhOgTGZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wfjcIKT7XzV6Dvjzx+Gs0kgXvkD5gJKAPj82OBOJV8Q=;
- b=Bw8fZ+Bpauq8ZyldPqlyS7E+87z+S0rcy0O5DwDMfZiRu9RhHlw8GX5qdzcGt1dLJyEgBzF1EYxAZyDEfPzChBcc6QlItjwN6awAdshUEs6mqAxswbcnmKcpMwTQDHe+6qDKh2V4w2LOVE99oSV7Efl4BF6KU0PrHzKqk4TTuSiTcmbEC0Dk5M8MpzJG15UTyiBuYr6QWW5DP6HLMNWbq9mHplp36Yn7eY3s4CMQl0rjnlPO3YpKU9KAx8zAO7sVGqAqioLT04U/3JcPpg4fBNC+iqUyfcNXch6h/ZD2ZiPnDJf/uczI+TJKJoj13KQFyTR1Vytx7oRH9MStS+prIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Received: from BY5PR15MB3667.namprd15.prod.outlook.com (2603:10b6:a03:1f9::18)
- by BYAPR15MB2693.namprd15.prod.outlook.com (2603:10b6:a03:155::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27; Wed, 17 Nov
- 2021 19:39:41 +0000
-Received: from BY5PR15MB3667.namprd15.prod.outlook.com
- ([fe80::8d7d:240:3369:11b4]) by BY5PR15MB3667.namprd15.prod.outlook.com
- ([fe80::8d7d:240:3369:11b4%6]) with mapi id 15.20.4690.027; Wed, 17 Nov 2021
- 19:39:40 +0000
-From: "'Nick Terrell' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Helge Deller <deller@gmx.de>
-CC: Randy Dunlap <rdunlap@infradead.org>,
-        Geert Uytterhoeven
-	<geert@linux-m68k.org>,
-        Linux Kernel Mailing List
-	<linux-kernel@vger.kernel.org>,
-        Rob Clark <robdclark@gmail.com>,
-        "James E.J.
- Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Anton Altaparmakov
-	<anton@tuxera.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "Sergio
- Paracuellos" <sergio.paracuellos@gmail.com>,
-        Herbert Xu
-	<herbert@gondor.apana.org.au>,
-        Joey Gouly <joey.gouly@arm.com>,
-        "Stan
- Skowronek" <stan@corellium.com>,
-        Hector Martin <marcan@marcan.st>,
-        "Andrey
- Ryabinin" <ryabinin.a.a@gmail.com>,
-        =?utf-8?B?QW5kcsOpIEFsbWVpZGE=?=
-	<andrealmeid@collabora.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linux ARM
-	<linux-arm-kernel@lists.infradead.org>,
-        "open list:GPIO SUBSYSTEM"
-	<linux-gpio@vger.kernel.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        DRI Development
-	<dri-devel@lists.freedesktop.org>,
-        "linux-ntfs-dev@lists.sourceforge.net"
-	<linux-ntfs-dev@lists.sourceforge.net>,
-        linuxppc-dev
-	<linuxppc-dev@lists.ozlabs.org>,
-        "open list:BROADCOM NVRAM DRIVER"
-	<linux-mips@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        "Linux
- Crypto Mailing List" <linux-crypto@vger.kernel.org>,
-        kasan-dev
-	<kasan-dev@googlegroups.com>
-Subject: Re: Build regressions/improvements in v5.16-rc1
-Thread-Topic: Build regressions/improvements in v5.16-rc1
-Thread-Index: AQHX2jynD2CHATmgwEukyh+iAPvEB6wEy7gAgAItboCAAAGdAIAAA9+AgACXqoCAAIrygA==
-Date: Wed, 17 Nov 2021 19:39:40 +0000
-Message-ID: <62F607C5-0004-473F-9864-4F73E70EA8F1@fb.com>
-References: <20211115155105.3797527-1-geert@linux-m68k.org>
- <CAMuHMdUCsyUxaEf1Lz7+jMnur4ECwK+JoXQqmOCkRKqXdb1hTQ@mail.gmail.com>
- <fcdead1c-2e26-b8ca-9914-4b3718d8f6d4@gmx.de>
- <480CE37B-FE60-44EE-B9D2-59A88FDFE809@fb.com>
- <78b2d093-e06c-ba04-9890-69f948bfb937@infradead.org>
- <B57193D6-1FD4-45D3-8045-8D2DE691E24E@fb.com>
- <525f9914-04bd-2d8a-0bbf-daf2d0d2053d@gmx.de>
-In-Reply-To: <525f9914-04bd-2d8a-0bbf-daf2d0d2053d@gmx.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 35d7bf98-109c-4288-5a84-08d9aa01ff9f
-x-ms-traffictypediagnostic: BYAPR15MB2693:
-x-microsoft-antispam-prvs: <BYAPR15MB26939139D96F136F45400D2FAB9A9@BYAPR15MB2693.namprd15.prod.outlook.com>
-x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: TDFFznG/8SflJPzXTOT73Ctuc872viio6hpgNZzAvuDjveYwHkpeMQVQuDqmc4ZARE6+VUCVxPhKlBWc9miVFjANF4rgJvUbeVPW3r2uJnFaH4XaSGnewapXFHQ/KgkaBwR6q3ASJkvRCjjZQ9NxvjC5t7Ql7ovl0+146iXyBf5ENA/GcYHrqvqYrnOB8MnxqfF2Kmnp0ai9ODpm+s1vRzz6ouz9tDESYO+ZjxPQOA4DKonED+MqTcfy7NOmhoCkE0nxRnXaAdzM6M9k7WVTmGemvYterzdHzM0/ThJ0HLRiUYZR8UU/PExovLuLsXuJlUQxEqJcgbzf98ItEYMyoYUTLYigl8q1/JW+xgjO7N7OPlLY7LdtUi8Ogz+Jc80Zkxe0HGWyOHKhtYoi72W0ac3XYYsoHKTeEIIW9ekDzZud63Q0wqzWH5TuxjIAC3pTdJxlM7UmLbKO1Ho5I6cReMq/m3QH7eiyvGwqvDgUSGGmwd2CJFnWTJ9OmxCFFG6EIhSkDtPZR/Uxp9JsMeLSlHS7vj8RuSdX8vEmEDy9zMUI6bfJCk3QT70g1hzGruVVPbsBHFJVFueR7bAqrBwjGzEHTcK81f+K9YW7IEQ75caKt7+xpzTA7Bmngmc7ZWPInX1xJ78iw/h7D3yqKUKzQMIa+0rEbN3dugpwmIaFZZuD2Mgf4wPm9RaiuaPzya3uPsk0ZKSdpAhnY09Ep4DQ+7O7541IbMIyNWtbmQuKVzTlCiDf3ILOW14H4sjMAbh+XJAKnf786E1jy6AcDh+qTrwtN8k0TB2jo0kd9mUS8vSFj0YBbuZzX00V5zsWtsACrTd533OYDRHhGn1hwnA+EQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR15MB3667.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(8676002)(8936002)(86362001)(4326008)(66556008)(966005)(6512007)(5660300002)(66446008)(91956017)(71200400001)(6506007)(36756003)(53546011)(66946007)(76116006)(83380400001)(66476007)(38070700005)(64756008)(186003)(508600001)(6916009)(2906002)(33656002)(7416002)(316002)(122000001)(6486002)(38100700002)(54906003)(2616005)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bHU5S0VFby9saDltVlhIazFWUVJ1WlR2Tlg0RU5aTldxeXhMVnNqak92K21w?=
- =?utf-8?B?d0U0WWxnQXpOTTJQcXR4Zm5ZQ0VzWnBmR1l3VXVKbUJwUk50U0RWWUhpR3ZH?=
- =?utf-8?B?LzBFbUFQU1kvb3pwNlRLVHFXZ2ovenltVTZmclBUNGwrdlpxS2lzQk5Ma05I?=
- =?utf-8?B?emFHZUIyVXVoUWxLZUYxRk85c0tuK2RhNys2NnhWN2VaOVBlOElGdnF2Nk93?=
- =?utf-8?B?aGdNaUdHbHdBMjM3ZFZRRkVEQTdHTEtEZkJtcGxxMGZIZERwempWaU5vdHY4?=
- =?utf-8?B?RVpRZW9zeXVCTEc5dFBsRUhTS1hJNytzWkl1UXBpZzRsMG5wV3N6Q1g2aWZ6?=
- =?utf-8?B?UHprdUZGbDF4c09wbVJFZEkya3UzenRieHl4VFlmeWErSEx6T1h3VHN1ZUsz?=
- =?utf-8?B?TTlGK3ZNR3RCZzRxbHp0VFZ3Ri81S2RFTVZnRkdESnRxYVV3ck0rempacUZU?=
- =?utf-8?B?dUZxL2hscFRpeEFvV0xqZ0FwUWNJdXhUcUdCdHN5RWFKVFpZQ0FGQ0MzZkFx?=
- =?utf-8?B?NUZ2NU5KMmNOZk1BQXpxd0c0d041WU00aFRDRUI5Si9SbGRNWEtGb2M5Njc3?=
- =?utf-8?B?T25KMXk5NFVXUmhLSXBiR3AyYW4yUUJ6Z0t1Y2hCUW5jNXZGSjg0OHhOOTFp?=
- =?utf-8?B?dFoyeko4QXFmVFM3azhOQzl5UlRiQ2VNVzd3V2FJOXpDMXByeittMFZZa3U3?=
- =?utf-8?B?Z2ViRFMwdHlRczlUTXFjWWtTaUdmVVJMS2NacWkzNUtXZmMrSDJtWmFJYjZt?=
- =?utf-8?B?Tyt4WGpPbnZ5dGJsSXFjNkROdlpMSUdZVTJBdUl4bjduU2JpZGhIV2NmZW1t?=
- =?utf-8?B?VWJPeDRMRnJZdFYveU5nV2JlaG54WUVXUHgzMVA2NzNySXJjV0FyYUNPQ3Bu?=
- =?utf-8?B?ZlFBZVh4eDdlMjlCNUNxR29oRWN6VUxOUDJqMjZPUzZ0NklYcHFGaWNmN1kv?=
- =?utf-8?B?TWdteDgrMzF1dzcrcDdsOFROakZsSGN2RVJQUkluZzJZYW1QMVJqczlWd0k4?=
- =?utf-8?B?dXF6dElQY1B4M0lvd0Joa09jdDJiaXRkTjNMbVZuZTNBMHhkTGtrR3hUanJM?=
- =?utf-8?B?TktWZU9lcVFKQUdWSEtBQjBYUG9OaGFQYjAyaWNIVmFYckFYcGwzVm1pUHB2?=
- =?utf-8?B?UHduUVdoZndjSDlPSHA0SDluYWczNno0eW03K2xzaG1kM29HdXRWL05EcjNE?=
- =?utf-8?B?eTZpN3Z0aHJmZm1QV2xraGQ5S1pzczdSeUFWSEtTeDJJd0FsQzRGVzZKTkJq?=
- =?utf-8?B?QityZ2FnK01iNGRuZHF0bEFvcnlRV3RHOTZvSXpYQVhvazJDVjZZaU00Ty9S?=
- =?utf-8?B?TGxxZkZPMkRlbVpnckdjVzIxTU12RlFEQmhvbHdTVTdHTnBickJycU5VN0Zn?=
- =?utf-8?B?b0NHMi9lRzRHRExKV01rd3BtNEgyRTVVaHZLT1ZMRUZJQ0xnTVRGQUhLTENI?=
- =?utf-8?B?Q3VIdk1PWkE1MlpoSmVmV0tmMjhYcU5VYVZ0SCt3RkZ1QXE4Q2I3dnBSRjFV?=
- =?utf-8?B?Qm1MSFljUkNRMFpBRVk1RHB1aXQrUGQ1VjVMSXdkMlRWNk1laXhxaSt2Sm10?=
- =?utf-8?B?Q1p2NVQwclVURlovdmdBcXh5V1BwWHpMdGFDcGlLVFVyMkdDTVFyWmhuSWdh?=
- =?utf-8?B?WDNpcWVBRzJCVUNGWXZxZUpiTFFyejhidVl3ZnJjTnZVNm5EejBRQnVJOXpz?=
- =?utf-8?B?Q1lLdS92L3BKRzk4OUJnWmRSWEhSRmJwTWdINkVoTkh0ZmI1K1pRcUhSQ0tN?=
- =?utf-8?B?MHJ0UE5mTkFPTTRTbHg2cGVyRldBZHZSZ0VYYWRjWU0rbVdaV0kwWFJTVXlq?=
- =?utf-8?B?RVdvYzJRSVNzeDZtdFJsRjVqdnRyNytOSmVxeGZnejhiTTR0VVEzbmZsNDk2?=
- =?utf-8?B?Y204bHhUVllxWXNlblljMXB6eENIbG5xQ2doQVlEYmlYUFdRdnNvbFlmckFk?=
- =?utf-8?B?YTNiT0h4cGtNNjRPSEZybXpOL21HdUdmOWIxSkpMVWZ1OTRlSlVzWDVId0dt?=
- =?utf-8?B?Z0kreU9yK0hla0NYUHJGYkNpY0xEWXhMTXJSSUlVOXhnelhyVFhaRUtuK0h1?=
- =?utf-8?B?N2ZQVlQ0SkU0S3RmU1dmbWhaYnhsREtxMWdwcGVGR1VvZEdmd1g0L1c5UGh4?=
- =?utf-8?B?d1NJNk1ucXpQVHh6QVVuRDMvUEZFa0VuZ3RPK3JOanFjZ0Urb0F3WlNLUGkr?=
- =?utf-8?B?alE9PQ==?=
-Content-Type: text/plain; charset="UTF-8"
-Content-ID: <A1CCA86516A21F46B2F1B76ECB5AD575@namprd15.prod.outlook.com>
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR15MB3667.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35d7bf98-109c-4288-5a84-08d9aa01ff9f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2021 19:39:40.8089
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QBJWUViTlr7KCgh89OqNGa49/oaxLTMtpHKAtZ7kGdiKn0DggSZ00LJqnL7S39rM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2693
-X-OriginatorOrg: fb.com
-X-Proofpoint-GUID: tdC2voR1NU9mrsbUqafjSZ1MJEQmCWbY
-X-Proofpoint-ORIG-GUID: tdC2voR1NU9mrsbUqafjSZ1MJEQmCWbY
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 2 URL's were un-rewritten
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Nov 2021 18:59:27 -0800 (PST)
+Received-SPF: pass (google.com: domain of chithanh.hoang@gmail.com designates 2607:f8b0:4864:20::633 as permitted sender) client-ip=2607:f8b0:4864:20::633;
+Received: by mail-pl1-x633.google.com with SMTP id k4so3951473plx.8
+        for <kasan-dev@googlegroups.com>; Wed, 17 Nov 2021 18:59:27 -0800 (PST)
+X-Received: by 2002:a17:90a:be10:: with SMTP id a16mr6055005pjs.133.1637204367371;
+ Wed, 17 Nov 2021 18:59:27 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-17_07,2021-11-17_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 clxscore=1015
- impostorscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 mlxscore=0
- phishscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111170086
-X-FB-Internal: deliver
-X-Original-Sender: terrelln@fb.com
+References: <a2ced905703ede4465f3945eb3ae4e615c02faf8.camel@gmail.com>
+ <CANpmjNNSRVMO+PJWvpP=w+V6CR51Yd-r2ku_fVEvymae0g7JaQ@mail.gmail.com>
+ <c2693ecb223eb634f4fa94101c4cb98999ef0032.camel@gmail.com>
+ <YZPeRGpOTSgXjaE6@elver.google.com> <CAPDLWs88WLTPVnh1TtY3tOU6XLPucf8zKMhzCfxRv2HbCnKndA@mail.gmail.com>
+ <CA+LMZ3r9ioqSN31w5v_Bkgs7UyPux=0MO8g0dQC16AxEiorBcg@mail.gmail.com> <CANpmjNMzv2b1srETOp1STjVWYZx-1XpdMm5yY485vSmd=wjJiw@mail.gmail.com>
+In-Reply-To: <CANpmjNMzv2b1srETOp1STjVWYZx-1XpdMm5yY485vSmd=wjJiw@mail.gmail.com>
+From: Chi-Thanh Hoang <chithanh.hoang@gmail.com>
+Date: Wed, 17 Nov 2021 21:59:16 -0500
+Message-ID: <CA+LMZ3qhJ1dnS3O9vKRA1DCF93Lpi-xq9PmStwhWC+ykRSGr_g@mail.gmail.com>
+Subject: Re: KASAN isn't catching rd/wr underflow bugs on static global memory?
+To: Marco Elver <elver@google.com>
+Cc: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>, kasan-dev@googlegroups.com
+Content-Type: multipart/alternative; boundary="000000000000bdefd705d107584f"
+X-Original-Sender: chithanh.hoang@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@fb.com header.s=facebook header.b=clDBZ9LK;       arc=fail (body
- hash mismatch);       spf=pass (google.com: domain of prvs=0955d447e6=terrelln@fb.com
- designates 67.231.153.30 as permitted sender) smtp.mailfrom="prvs=0955d447e6=terrelln@fb.com";
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=fb.com
-X-Original-From: Nick Terrell <terrelln@fb.com>
-Reply-To: Nick Terrell <terrelln@fb.com>
+ header.i=@gmail.com header.s=20210112 header.b=l1VbhvJq;       spf=pass
+ (google.com: domain of chithanh.hoang@gmail.com designates
+ 2607:f8b0:4864:20::633 as permitted sender) smtp.mailfrom=chithanh.hoang@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -240,137 +145,526 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+--000000000000bdefd705d107584f
+Content-Type: text/plain; charset="UTF-8"
 
+Thanks Marco for creating the bugzilla.
+I will post my findings.
+I found the Clang compiler quite smart when comparing code generated vs
+gcc, i.e. clang would not bother generating code that are OOB when indexing
+[ ].
 
-> On Nov 17, 2021, at 3:22 AM, Helge Deller <deller@gmx.de> wrote:
->=20
-> On 11/17/21 03:19, Nick Terrell wrote:
->>=20
->>=20
->>> On Nov 16, 2021, at 6:05 PM, Randy Dunlap <rdunlap@infradead.org> wrote=
-:
->>>=20
->>> On 11/16/21 5:59 PM, Nick Terrell wrote:
->>>>> On Nov 15, 2021, at 8:44 AM, Helge Deller <deller@gmx.de> wrote:
->>>>>=20
->>>>> On 11/15/21 17:12, Geert Uytterhoeven wrote:
->>>>>> On Mon, Nov 15, 2021 at 4:54 PM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->>>>>>> Below is the list of build error/warning regressions/improvements i=
-n
->>>>>>> v5.16-rc1[1] compared to v5.15[2].
->>>>>>>=20
->>>>>>> Summarized:
->>>>>>> - build errors: +20/-13
->>>>>>> - build warnings: +3/-28
->>>>>>>=20
->>>>>>> Happy fixing! ;-)
->>>>>>>=20
->>>>>>> Thanks to the linux-next team for providing the build service.
->>>>>>>=20
->>>>>>> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/fa55b7dcd=
-c43c1aa1ba12bca9d2dd4318c2a0dbf/    (all 90 configs)
->>>>>>> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/8bb7eca97=
-2ad531c9b149c0a51ab43a417385813/    (all 90 configs)
->>>>>>>=20
->>>>>>>=20
->>>>>>> *** ERRORS ***
->>>>>>>=20
->>>>>>> 20 error regressions:
->>>>>>> + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: expected=
- ':' before '__stringify':  =3D> 33:4, 18:4
->>>>>>> + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: label 'l=
-_yes' defined but not used [-Werror=3Dunused-label]:  =3D> 38:1, 23:1
->>>>>>=20
->>>>>>   due to static_branch_likely() in crypto/api.c
->>>>>>=20
->>>>>> parisc-allmodconfig
->>>>>=20
->>>>> fixed now in the parisc for-next git tree.
->>>>>=20
->>>>>=20
->>>>>>> + /kisskb/src/drivers/gpu/drm/msm/msm_drv.h: error: "COND" redefine=
-d [-Werror]:  =3D> 531
->>>>>>> + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the fram=
-e size of 3252 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
-=3D]:  =3D> 47:1
->>>>>>> + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the fram=
-e size of 3360 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
-=3D]:  =3D> 499:1
->>>>>>> + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the fram=
-e size of 5344 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
-=3D]:  =3D> 334:1
->>>>>>> + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the fram=
-e size of 5380 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=
-=3D]:  =3D> 354:1
->>>>>>> + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size =
-of 1824 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =
-=3D> 372:1
->>>>>>> + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size =
-of 2224 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =
-=3D> 204:1
->>>>>>> + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size =
-of 3800 bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =
-=3D> 476:1
->>>>>>=20
->>>>>> parisc-allmodconfig
->>>>>=20
->>>>> parisc needs much bigger frame sizes, so I'm not astonished here.
->>>>> During the v5.15 cycl I increased it to 1536 (from 1280), so I'm simp=
-ly tempted to
->>>>> increase it this time to 4096, unless someone has a better idea....
->>>> This patch set should fix the zstd stack size warnings [0]. I=E2=80=99=
-ve
->>>> verified the fix using the same tooling: gcc-8-hppa-linux-gnu.
->>>> I=E2=80=99ll send the PR to Linus tomorrow. I=E2=80=99ve been informed=
- that it
->>>> isn't strictly necessary to send the patches to the mailing list
->>>> for bug fixes, but its already done, so I=E2=80=99ll wait and see if t=
-here
->>>> is any feedback.
->>>=20
->>> IMO several (or many more) people would disagree with that.
->>>=20
->>> "strictly?"  OK, it's probably possible that almost any patch
->>> could be merged without being on a mailing list, but it's not
->>> desirable (except in the case of "security" patches).
->>=20
->> Good to know! Thanks for the advice, I wasn=E2=80=99t really sure what
->> the best practice is for sending patches to your own tree, as I
->> didn't see anything about it in the maintainer guide.
->=20
-> Nick, thanks a lot for your efforts to get the frame size usage down!
->=20
-> I've applied your patch series to the parisc for-next tree [1], so that i=
-t
-> gets some testing in the upstream for-next tree.
-> My tests so far are good, although I'm only using gcc-11.
->=20
-> If you don't mind, and if it doesn't generate issues for other
-> platforms & architectures I could submit them upstream to Linus when
-> I send the next pull request.
+On Wed, 17 Nov 2021 at 09:14, Marco Elver <elver@google.com> wrote:
 
-Sure, I=E2=80=99m fine with that. The only other major goal of this patch s=
-eries
-is to reduce code size bloat. But, that isn=E2=80=99t blocking development =
-of
-anyone.
+> On Wed, 17 Nov 2021 at 15:11, Chi-Thanh Hoang <chithanh.hoang@gmail.com>
+> wrote:
+> >
+> > I managed to figure out why the global OOB-left is not being detected
+> and work around the issue 8-)
+> > I am still using gcc 9.3.0.
+>
+> Yeah, gcc is doing worse here. I just filed:
+> https://bugzilla.kernel.org/show_bug.cgi?id=215051
+>
+> Clang 11+ doesn't have this issue.
+>
+> Please, if you can, post your findings to the bugzilla bug above. Then
+> we can perhaps take it to gcc devs and ask them to do the same as
+> clang or fix it some other way.
+>
+> Thanks,
+> -- Marco
+>
+> > I notice KASAN detects fine when OOB happen in overflow, KASAN shown the
+> status of shadow memory around the OOB, I see there is no redzone for the
+> global before the allocated memory, there is redzone after, if the global
+> is the first declared object in the .bss example, there is no redzone in
+> front of it so shadow memory are zero, that is why KASAN did not detect.
+> > I then do the following, I declare 3 globals array in .bss, and test the
+> OOB underflow on the second array and KASAN does detect as doing -1 will
+> fall into the redzone of the first object.
+> > I agree this is kind of a corner case, but to fix this I guess we need
+> to provide redzone in front of the first global either in .bss or .data,
+> and if possible to configure the size of such redzone.
+> >
+> > at ffffffffa07a6580 is start of .bss, in the log below there is 3 arrays
+> of 10 bytes (00 02 from shadow mem), the fault detected as shown on the 2nd
+> array when I do a -1 reference.
+> > [25768.140717] Memory state around the buggy address:
+> > [25768.140721]  ffffffffa07a6480: 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00
+> > [25768.140725]  ffffffffa07a6500: 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00  <<<<< Here are zero value in shadow mem so access is good
+> > [25768.140730] >ffffffffa07a6580: 00 02 f9 f9 f9 f9 f9 f9 00 02 f9 f9 f9
+> f9 f9 f9
+> > [25768.140733]                                         ^
+> > [25768.140737]  ffffffffa07a6600: 00 02 f9 f9 f9 f9 f9 f9 01 f9 f9 f9 f9
+> f9 f9 f9
+> > [25768.140741]  ffffffffa07a6680: 00 f9 f9 f9 f9 f9 f9 f9 00 00 00 00 00
+> 00 00 00
+> >
+> >
+> > On Wed, 17 Nov 2021 at 02:23, Kaiwan N Billimoria <
+> kaiwan.billimoria@gmail.com> wrote:
+> >>
+> >>
+> >>
+> >> On Tue, 16 Nov 2021, 22:07 Marco Elver, <elver@google.com> wrote:
+> >>>
+> >>> On Tue, Nov 16, 2021 at 07:46PM +0530, Kaiwan N Billimoria wrote:
+> >>> > On Tue, 2021-11-16 at 12:52 +0100, Marco Elver wrote:
+> >>> > >
+> >>> > > KASAN globals support used to be limited in Clang. This was fixed
+> in
+> >>> > > Clang 11. I'm not sure about GCC.
+> >>> > ...
+> >>> > > > Which compiler versions are you using? This is probably the most
+> >>> > > important piece to the puzzle.
+> >>> > >
+> >>> > Right! This is the primary issue i think, thanks!
+> >>> > am currently using gcc 9.3.0.
+> >>> >
+> >>> > So, my Ubuntu system had clang-10; I installed clang-11 on top of
+> it...
+> >>> > (this causes some issues?). Updated the Makefile to use clang-11,
+> and it did build.
+> >>>
+> >>> Only the test or the whole kernel? You need to build the whole kernel
+> >>> and your module with the same compiler, otherwise all bets are off wrt
+> >>> things like KASAN.
+> >>
+> >> Ah, will do so and let you know, thanks!
+> >>
+> >>
+> >>>
+> >>> > But when running these tests, *only* UBSAN was triggered, KASAN
+> unseen.
+> >>> > So: I then rebuilt the 5.10.60 kernel removing UBSAN config and
+> retried (same module rebuilt w/ clang 11).
+> >>> > This time UBSAN didn't pop up but nor did KASAN ! (For the same
+> rd/wr underflow testcases)...
+> >>> > My script + dmesg:
+> >>> > ...
+> >>> > (Type in the testcase number to run):
+> >>> > 4.4
+> >>> > Running testcase "4.4" via test module now...
+> >>> > [  371.368096] testcase to run: 4.4
+> >>> > $
+> >>> >
+> >>> > This implies it escaped unnoticed..
+> >>> >
+> >>> > To show the difference, here's my testcase #4.1- Read  (right)
+> overflow on global memory - output:
+> >>> >
+> >>> > Running testcase "4.1" via test module now...
+> >>> > [ 1372.401484] testcase to run: 4.1
+> >>> > [ 1372.401515]
+> ==================================================================
+> >>> > [ 1372.402284] BUG: KASAN: global-out-of-bounds in
+> static_mem_oob_right+0xaf/0x160 [test_kmembugs]
+> >>> > [ 1372.402851] Read of size 1 at addr ffffffffc088dfcc by task
+> run_tests/1656
+> >>> >
+> >>> > [ 1372.403428] CPU: 2 PID: 1656 Comm: run_tests Tainted: G    B
+> O      5.10.60-dbg02 #14
+> >>> > [ 1372.403442] Hardware name: innotek GmbH VirtualBox/VirtualBox,
+> BIOS VirtualBox 12/01/2006
+> >>> > [ 1372.403454] Call Trace:
+> >>> > [ 1372.403486]  dump_stack+0xbd/0xfa
+> >>> >
+> >>> > [... lots more, as expected ...]
+> >>> >
+> >>> > So, am puzzled... why isn't KASAN catching the underflow...
+> >>>
+> >>> Please take a look at the paragraph at:
+> >>>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/lib/test_kasan.c#n706
+> >>>
+> >>> I think your test is giving the compiler opportunities to miscompile
+> >>> your code, because, well it has undefined behaviour (negative index)
+> >>> that it very clearly can see. I think you need to put more effort into
+> >>> hiding the UB from the optimizer like we do in test_kasan.c.
+> >>>
+> >>> If you want to know in detail what's happening I recommend you
+> >>> disassemble your compiled code and check if the negative dereferences
+> >>> are still there.
+> >>
+> >> Will recheck...
+> >>
+> >> Thanks, Kaiwan.
+> >>>
+> >>>
+> >>> > A couple of caveats:
+> >>> > 1) I had to manually setup a soft link to llvm-objdump (it was
+> installed as llvm-objdump-11)
+> >>> > 2) the module build initially failed with
+> >>> > /bin/sh: 1: ld.lld: not found
+> >>> > So I installed the 'lld' package; then the build worked..
+> >>> >
+> >>> > Any thoughts?
+> >>>
+> >>> Is this "make LLVM=1". Yeah, if there's a version suffix it's known to
+> >>> be problematic.
+> >>>
+> >>> You can just build the kernel with "make CC=clang" and it'll use
+> >>> binutils ld, which works as well.
+> >>>
+> >>> > > FWIW, the kernel has its own KASAN test suite in lib/test_kasan.c.
+> >>> > > There are a few things to not make the compiler optimize away
+> >>> > > explicitly buggy code, so I'd also suggest you embed your test in
+> >>> > > test_kasan and see if it changes anything (unlikely but worth a
+> shot).
+> >>> > I have studied it, and essentially copied it's techniques where
+> required... Interestingly, the kernel's test_kasan module does _not_ have a
+> test case for this: underflow on global memory! :-)
+> >>>
+> >>> I just added such a test (below) and it passes just fine with clang 11
+> >>> (I'll probably send it as a real patch later). Notice that the address
+> >>> itself ("array") is a volatile, so that the compiler cannot make any
+> >>> assumptions about it.
+> >>>
+> >>> Thanks,
+> >>> -- Marco
+> >>>
+> >>> ------ >8 ------
+> >>>
+> >>> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+> >>> index 67ed689a0b1b..e56c9eb3f16e 100644
+> >>> --- a/lib/test_kasan.c
+> >>> +++ b/lib/test_kasan.c
+> >>> @@ -700,7 +700,7 @@ static void kmem_cache_bulk(struct kunit *test)
+> >>>
+> >>>  static char global_array[10];
+> >>>
+> >>> -static void kasan_global_oob(struct kunit *test)
+> >>> +static void kasan_global_oob_right(struct kunit *test)
+> >>>  {
+> >>>         /*
+> >>>          * Deliberate out-of-bounds access. To prevent
+> CONFIG_UBSAN_LOCAL_BOUNDS
+> >>> @@ -723,6 +723,15 @@ static void kasan_global_oob(struct kunit *test)
+> >>>         KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
+> >>>  }
+> >>>
+> >>> +static void kasan_global_oob_left(struct kunit *test)
+> >>> +{
+> >>> +       char *volatile array = global_array;
+> >>> +       char *p = array - 3;
+> >>> +
+> >>> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
+> >>> +       KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
+> >>> +}
+> >>> +
+> >>>  /* Check that ksize() makes the whole object accessible. */
+> >>>  static void ksize_unpoisons_memory(struct kunit *test)
+> >>>  {
+> >>> @@ -1160,7 +1169,8 @@ static struct kunit_case
+> kasan_kunit_test_cases[] = {
+> >>>         KUNIT_CASE(kmem_cache_oob),
+> >>>         KUNIT_CASE(kmem_cache_accounted),
+> >>>         KUNIT_CASE(kmem_cache_bulk),
+> >>> -       KUNIT_CASE(kasan_global_oob),
+> >>> +       KUNIT_CASE(kasan_global_oob_right),
+> >>> +       KUNIT_CASE(kasan_global_oob_left),
+> >>>         KUNIT_CASE(kasan_stack_oob),
+> >>>         KUNIT_CASE(kasan_alloca_oob_left),
+> >>>         KUNIT_CASE(kasan_alloca_oob_right),
+>
 
-I do have an update to make for patch 1 though, after some comments
-from Linus. So I=E2=80=99ll send out a V2 shortly.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BLMZ3qhJ1dnS3O9vKRA1DCF93Lpi-xq9PmStwhWC%2BykRSGr_g%40mail.gmail.com.
 
-Best,
-Nick Terrell
+--000000000000bdefd705d107584f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Helge
->=20
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.g=
-it/log/?h=3Dfor-next
+<div dir=3D"ltr"><div>Thanks Marco for creating the bugzilla.</div><div>I w=
+ill post my findings.</div><div>I found the Clang compiler quite smart when=
+ comparing code generated vs gcc, i.e. clang would not bother generating co=
+de that are OOB when indexing [ ].</div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Wed, 17 Nov 2021 at 09:14, Marco Elver=
+ &lt;<a href=3D"mailto:elver@google.com">elver@google.com</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 17 Nov 202=
+1 at 15:11, Chi-Thanh Hoang &lt;<a href=3D"mailto:chithanh.hoang@gmail.com"=
+ target=3D"_blank">chithanh.hoang@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; I managed to figure out why the global OOB-left is not being detected =
+and work around the issue 8-)<br>
+&gt; I am still using gcc 9.3.0.<br>
+<br>
+Yeah, gcc is doing worse here. I just filed:<br>
+<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D215051" rel=3D"nor=
+eferrer" target=3D"_blank">https://bugzilla.kernel.org/show_bug.cgi?id=3D21=
+5051</a><br>
+<br>
+Clang 11+ doesn&#39;t have this issue.<br>
+<br>
+Please, if you can, post your findings to the bugzilla bug above. Then<br>
+we can perhaps take it to gcc devs and ask them to do the same as<br>
+clang or fix it some other way.<br>
+<br>
+Thanks,<br>
+-- Marco<br>
+<br>
+&gt; I notice KASAN detects fine when OOB happen in overflow, KASAN shown t=
+he status of shadow memory around the OOB, I see there is no redzone for th=
+e global before the allocated memory, there is redzone after, if the global=
+ is the first declared object in the .bss example, there is no redzone in f=
+ront of it so shadow memory are zero, that is why KASAN did not detect.<br>
+&gt; I then do the following, I declare 3 globals array in .bss, and test t=
+he OOB underflow on the second array and KASAN does detect as doing -1 will=
+ fall into the redzone of the first object.<br>
+&gt; I agree this is kind of a corner case, but to fix this I guess we need=
+ to provide redzone in front of the first global either in .bss or .data, a=
+nd if possible to configure the size of such redzone.<br>
+&gt;<br>
+&gt; at ffffffffa07a6580 is start of .bss, in the log below there is 3 arra=
+ys of 10 bytes (00 02 from shadow mem), the fault detected as shown on the =
+2nd array when I do a -1 reference.<br>
+&gt; [25768.140717] Memory state around the buggy address:<br>
+&gt; [25768.140721]=C2=A0 ffffffffa07a6480: 00 00 00 00 00 00 00 00 00 00 0=
+0 00 00 00 00 00<br>
+&gt; [25768.140725]=C2=A0 ffffffffa07a6500: 00 00 00 00 00 00 00 00 00 00 0=
+0 00 00 00 00 00=C2=A0 &lt;&lt;&lt;&lt;&lt; Here are zero value in shadow m=
+em so access is good<br>
+&gt; [25768.140730] &gt;ffffffffa07a6580: 00 02 f9 f9 f9 f9 f9 f9 00 02 f9 =
+f9 f9 f9 f9 f9<br>
+&gt; [25768.140733]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0^<br>
+&gt; [25768.140737]=C2=A0 ffffffffa07a6600: 00 02 f9 f9 f9 f9 f9 f9 01 f9 f=
+9 f9 f9 f9 f9 f9<br>
+&gt; [25768.140741]=C2=A0 ffffffffa07a6680: 00 f9 f9 f9 f9 f9 f9 f9 00 00 0=
+0 00 00 00 00 00<br>
+&gt;<br>
+&gt;<br>
+&gt; On Wed, 17 Nov 2021 at 02:23, Kaiwan N Billimoria &lt;<a href=3D"mailt=
+o:kaiwan.billimoria@gmail.com" target=3D"_blank">kaiwan.billimoria@gmail.co=
+m</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; On Tue, 16 Nov 2021, 22:07 Marco Elver, &lt;<a href=3D"mailto:elve=
+r@google.com" target=3D"_blank">elver@google.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; On Tue, Nov 16, 2021 at 07:46PM +0530, Kaiwan N Billimoria wro=
+te:<br>
+&gt;&gt;&gt; &gt; On Tue, 2021-11-16 at 12:52 +0100, Marco Elver wrote:<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt; KASAN globals support used to be limited in Clang. T=
+his was fixed in<br>
+&gt;&gt;&gt; &gt; &gt; Clang 11. I&#39;m not sure about GCC.<br>
+&gt;&gt;&gt; &gt; ...<br>
+&gt;&gt;&gt; &gt; &gt; &gt; Which compiler versions are you using? This is =
+probably the most<br>
+&gt;&gt;&gt; &gt; &gt; important piece to the puzzle.<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; Right! This is the primary issue i think, thanks!<br>
+&gt;&gt;&gt; &gt; am currently using gcc 9.3.0.<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; So, my Ubuntu system had clang-10; I installed clang-11 o=
+n top of it...<br>
+&gt;&gt;&gt; &gt; (this causes some issues?). Updated the Makefile to use c=
+lang-11, and it did build.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Only the test or the whole kernel? You need to build the whole=
+ kernel<br>
+&gt;&gt;&gt; and your module with the same compiler, otherwise all bets are=
+ off wrt<br>
+&gt;&gt;&gt; things like KASAN.<br>
+&gt;&gt;<br>
+&gt;&gt; Ah, will do so and let you know, thanks!<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; &gt; But when running these tests, *only* UBSAN was triggered,=
+ KASAN unseen.<br>
+&gt;&gt;&gt; &gt; So: I then rebuilt the 5.10.60 kernel removing UBSAN conf=
+ig and retried (same module rebuilt w/ clang 11).<br>
+&gt;&gt;&gt; &gt; This time UBSAN didn&#39;t pop up but nor did KASAN ! (Fo=
+r the same rd/wr underflow testcases)...<br>
+&gt;&gt;&gt; &gt; My script + dmesg:<br>
+&gt;&gt;&gt; &gt; ...<br>
+&gt;&gt;&gt; &gt; (Type in the testcase number to run):<br>
+&gt;&gt;&gt; &gt; 4.4<br>
+&gt;&gt;&gt; &gt; Running testcase &quot;4.4&quot; via test module now...<b=
+r>
+&gt;&gt;&gt; &gt; [=C2=A0 371.368096] testcase to run: 4.4<br>
+&gt;&gt;&gt; &gt; $<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; This implies it escaped unnoticed..<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; To show the difference, here&#39;s my testcase #4.1- Read=
+=C2=A0 (right) overflow on global memory - output:<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; Running testcase &quot;4.1&quot; via test module now...<b=
+r>
+&gt;&gt;&gt; &gt; [ 1372.401484] testcase to run: 4.1<br>
+&gt;&gt;&gt; &gt; [ 1372.401515] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D<br>
+&gt;&gt;&gt; &gt; [ 1372.402284] BUG: KASAN: global-out-of-bounds in static=
+_mem_oob_right+0xaf/0x160 [test_kmembugs]<br>
+&gt;&gt;&gt; &gt; [ 1372.402851] Read of size 1 at addr ffffffffc088dfcc by=
+ task run_tests/1656<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; [ 1372.403428] CPU: 2 PID: 1656 Comm: run_tests Tainted: =
+G=C2=A0 =C2=A0 B=C2=A0 =C2=A0 =C2=A0 O=C2=A0 =C2=A0 =C2=A0 5.10.60-dbg02 #1=
+4<br>
+&gt;&gt;&gt; &gt; [ 1372.403442] Hardware name: innotek GmbH VirtualBox/Vir=
+tualBox, BIOS VirtualBox 12/01/2006<br>
+&gt;&gt;&gt; &gt; [ 1372.403454] Call Trace:<br>
+&gt;&gt;&gt; &gt; [ 1372.403486]=C2=A0 dump_stack+0xbd/0xfa<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; [... lots more, as expected ...]<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; So, am puzzled... why isn&#39;t KASAN catching the underf=
+low...<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Please take a look at the paragraph at:<br>
+&gt;&gt;&gt; <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/tor=
+valds/linux.git/tree/lib/test_kasan.c#n706" rel=3D"noreferrer" target=3D"_b=
+lank">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/lib/test_kasan.c#n706</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; I think your test is giving the compiler opportunities to misc=
+ompile<br>
+&gt;&gt;&gt; your code, because, well it has undefined behaviour (negative =
+index)<br>
+&gt;&gt;&gt; that it very clearly can see. I think you need to put more eff=
+ort into<br>
+&gt;&gt;&gt; hiding the UB from the optimizer like we do in test_kasan.c.<b=
+r>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; If you want to know in detail what&#39;s happening I recommend=
+ you<br>
+&gt;&gt;&gt; disassemble your compiled code and check if the negative deref=
+erences<br>
+&gt;&gt;&gt; are still there.<br>
+&gt;&gt;<br>
+&gt;&gt; Will recheck...<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks, Kaiwan.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; &gt; A couple of caveats:<br>
+&gt;&gt;&gt; &gt; 1) I had to manually setup a soft link to llvm-objdump (i=
+t was installed as llvm-objdump-11)<br>
+&gt;&gt;&gt; &gt; 2) the module build initially failed with<br>
+&gt;&gt;&gt; &gt; /bin/sh: 1: ld.lld: not found<br>
+&gt;&gt;&gt; &gt; So I installed the &#39;lld&#39; package; then the build =
+worked..<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; Any thoughts?<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Is this &quot;make LLVM=3D1&quot;. Yeah, if there&#39;s a vers=
+ion suffix it&#39;s known to<br>
+&gt;&gt;&gt; be problematic.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; You can just build the kernel with &quot;make CC=3Dclang&quot;=
+ and it&#39;ll use<br>
+&gt;&gt;&gt; binutils ld, which works as well.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; &gt; &gt; FWIW, the kernel has its own KASAN test suite in lib=
+/test_kasan.c.<br>
+&gt;&gt;&gt; &gt; &gt; There are a few things to not make the compiler opti=
+mize away<br>
+&gt;&gt;&gt; &gt; &gt; explicitly buggy code, so I&#39;d also suggest you e=
+mbed your test in<br>
+&gt;&gt;&gt; &gt; &gt; test_kasan and see if it changes anything (unlikely =
+but worth a shot).<br>
+&gt;&gt;&gt; &gt; I have studied it, and essentially copied it&#39;s techni=
+ques where required... Interestingly, the kernel&#39;s test_kasan module do=
+es _not_ have a test case for this: underflow on global memory! :-)<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; I just added such a test (below) and it passes just fine with =
+clang 11<br>
+&gt;&gt;&gt; (I&#39;ll probably send it as a real patch later). Notice that=
+ the address<br>
+&gt;&gt;&gt; itself (&quot;array&quot;) is a volatile, so that the compiler=
+ cannot make any<br>
+&gt;&gt;&gt; assumptions about it.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Thanks,<br>
+&gt;&gt;&gt; -- Marco<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; ------ &gt;8 ------<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; diff --git a/lib/test_kasan.c b/lib/test_kasan.c<br>
+&gt;&gt;&gt; index 67ed689a0b1b..e56c9eb3f16e 100644<br>
+&gt;&gt;&gt; --- a/lib/test_kasan.c<br>
+&gt;&gt;&gt; +++ b/lib/test_kasan.c<br>
+&gt;&gt;&gt; @@ -700,7 +700,7 @@ static void kmem_cache_bulk(struct kunit *=
+test)<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 static char global_array[10];<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; -static void kasan_global_oob(struct kunit *test)<br>
+&gt;&gt;&gt; +static void kasan_global_oob_right(struct kunit *test)<br>
+&gt;&gt;&gt;=C2=A0 {<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Deliberate out-of-bounds a=
+ccess. To prevent CONFIG_UBSAN_LOCAL_BOUNDS<br>
+&gt;&gt;&gt; @@ -723,6 +723,15 @@ static void kasan_global_oob(struct kunit=
+ *test)<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_KASAN_FAIL(test,=
+ *(volatile char *)p);<br>
+&gt;&gt;&gt;=C2=A0 }<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; +static void kasan_global_oob_left(struct kunit *test)<br>
+&gt;&gt;&gt; +{<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0char *volatile array =3D global_ar=
+ray;<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0char *p =3D array - 3;<br>
+&gt;&gt;&gt; +<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0KASAN_TEST_NEEDS_CONFIG_ON(test, C=
+ONFIG_KASAN_GENERIC);<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_EXPECT_KASAN_FAIL(test, *(vo=
+latile char *)p);<br>
+&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;=C2=A0 /* Check that ksize() makes the whole object accessible.=
+ */<br>
+&gt;&gt;&gt;=C2=A0 static void ksize_unpoisons_memory(struct kunit *test)<b=
+r>
+&gt;&gt;&gt;=C2=A0 {<br>
+&gt;&gt;&gt; @@ -1160,7 +1169,8 @@ static struct kunit_case kasan_kunit_tes=
+t_cases[] =3D {<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_CASE(kmem_cache_oob),<b=
+r>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_CASE(kmem_cache_account=
+ed),<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_CASE(kmem_cache_bulk),<=
+br>
+&gt;&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_CASE(kasan_global_oob),<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_CASE(kasan_global_oob_right)=
+,<br>
+&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_CASE(kasan_global_oob_left),=
+<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_CASE(kasan_stack_oob),<=
+br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_CASE(kasan_alloca_oob_l=
+eft),<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0KUNIT_CASE(kasan_alloca_oob_r=
+ight),<br>
+</blockquote></div></div>
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
 To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/62F607C5-0004-473F-9864-4F73E70EA8F1%40fb.com.
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/CA%2BLMZ3qhJ1dnS3O9vKRA1DCF93Lpi-xq9PmStwhWC%2BykRSGr_=
+g%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.g=
+oogle.com/d/msgid/kasan-dev/CA%2BLMZ3qhJ1dnS3O9vKRA1DCF93Lpi-xq9PmStwhWC%2B=
+ykRSGr_g%40mail.gmail.com</a>.<br />
+
+--000000000000bdefd705d107584f--
