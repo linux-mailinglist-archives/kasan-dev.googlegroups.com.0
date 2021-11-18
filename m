@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFEV3CGAMGQE3HPTKOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFUV3CGAMGQE2BTK4QQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6A7455652
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 09:11:00 +0100 (CET)
-Received: by mail-wm1-x339.google.com with SMTP id b133-20020a1c808b000000b0032cdd691994sf3994881wmd.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 00:11:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637223060; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02603455654
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 09:11:03 +0100 (CET)
+Received: by mail-wm1-x33a.google.com with SMTP id b133-20020a1c808b000000b0032cdd691994sf3994931wmd.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 00:11:03 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637223062; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bqM8R4XCYpFxiNOK7L1oWJWOB3oPJyALE3nRDyZTuw1NkInA6NrHVNHOMWpqYN9rSI
-         V42wlksHQ2jqZoclJ8SD+kolxVbzSLaPWoiFU2RR06e93H/N9CUqnMaeUExKoeWaLVq3
-         qn8AaMIIn0cFzcdjsLP63k7D5UK144McHbl0hod7Dq+tsBsI2ejBWoutcb8/M1fi50/y
-         QXcD75MjQtETl64ah4k0/LJ65qpd3eig67Kx8zqQUxNCI/T3u24zBYYNKEN5Jvim0Opg
-         G9bkZGFDowbcQsKqT+KpyjJiFsLX0LlxzCyq7/hJCYXCCKN5tNd74sTjdK1wnk2jYSNG
-         dkTA==
+        b=aebgcFKktTC6zYDH6GnylgMwpFhpqA2SIrqYXsi1iqOBU055TXnafb+siqFd/X6HJS
+         mQiQVXzdtbRP3jbO9crWAokweYRXjpZHJ99feFDz/7YaqlfYMy/o0fnu+/qePx6V76gt
+         8GRpcn0rz3SueZY8H+5box1DHnkFQ7CeamXKG0akTwhwItAjkbxBGkJxmUDypnJySEMa
+         UADO1kA9eijNjWLyzsW0OrGqb9CkMDRQ1PCRCTJdXhf1MAfunP5FGHiiL5FyuiK/xiUt
+         YIKncfpkz+wnsJ9PDr14K7T3jxotmcIx3Ct8kRQyR69obiu1E9WqCYUhU7BiJ7y05dEI
+         33HA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=wQrK/suWY6e/UNkqMByQnCjGnLKD4mltsOV0NwcHz50=;
-        b=vTSHU2L5CJf4/Q7ow3M+otKEAV+Isv+LNtw65Mlc1pjCvqKm0+Xc1FdzSasMx5aeYB
-         9RodUltPtX8VCJ5wQ05OwjNnAtDQs4UpkJLSRlGLC+puWUkBbxctXhqEV3QofSeWSfVw
-         1swxv1AwcUH6dxdb3IAkFZW8OCoUCgpWdcJc/h5hFlaOBcZC5V3RxJXLeE2PxPFRO7lC
-         Kvm5flQcpUZ4rvcAdj8pqL0KrWpegkvmYhR6KyKqD//psJ8i+x2H1eCx76lU+1yWWGTk
-         hl8wqKqy+swTbunuddMwz43ESp1JBooXf5BWbgWsirAmbEycepaqxgX2uD516P6X/+yN
-         lMWg==
+        bh=ciRopITJDbKuVCevYNRtUhAw0gK9FhWOXoVw9He+7fA=;
+        b=pWoMYgopJo0RY7FN/wBLNoCR95YbOL2YGcb21eCImqUPjF7cS+uK02SAf1n5ro2DmX
+         3hRw2sMF0koddFezvt4KIBUKOveJ5suICeBrQsgF2U9assMcaz/5GSNjq3l8mfd/uD9L
+         pokeBc3PNnpkOBpeecKNtAgw5B7jJdn8BuOjXDbHTqBPHp4ZBzThFtWS0gpFaw8Lj3h4
+         L2HWDesHEITqD5h/EB4Pt6veG6Xjq1e+KGIbgWoi6kJM0nauSSLUHdzA2WrILzvjL7yj
+         TPqhGZN9wbZhzhHnU4T5Uxads+yS7Vt0D47nK+nVM76wECOUjdRI3hPyqb/EPVOzdudc
+         d9fw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=XyT5v0i6;
-       spf=pass (google.com: domain of 3kgqwyqukcrmx4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3kgqWYQUKCRMx4ExAz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=D3oVfd2Y;
+       spf=pass (google.com: domain of 3lqqwyqukcry07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3lQqWYQUKCRY07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wQrK/suWY6e/UNkqMByQnCjGnLKD4mltsOV0NwcHz50=;
-        b=lPiXBT9FnVnTiA5vurIs+y2D9dewbDHY10ggo4tX8UC5uTuTIKqkCSlBm3e3xL/IX7
-         1SWVtkBSN/s9fPo8hdaKZy+flgZUGyBkkCwgFGjeaL/8g1lydUHJGguCR40kd5bgC+9v
-         hjLD0v+GwWBA/B0pD3riklyKbabiY2SoT5LkqON8AqN4seOsQORKup03WWBVlWhjNSeP
-         z073iCq7vdYfOVC4LfmEeSpWcJ7A9aYTumbQ5CNd5Z+/MH+tYt/VorDSd6xURsFJvC0o
-         xpTEfNmh/pgxL4ryhfUkrWtFKylTZbKeLBuA7e+UgsMkg4uxdnX5lBNiThZ7LSxrEiaB
-         /9NQ==
+        bh=ciRopITJDbKuVCevYNRtUhAw0gK9FhWOXoVw9He+7fA=;
+        b=Yd4pMo34Qz8YjbJL85uayH0qBXHHZcpUjSvZZPBpopb252Edu7xB2BfO6+ziD1ivg+
+         rNor2ykVLgZnu6gowBJoeVcfjYgJdtOcN2PKzqShizXO8cla9OXQ8zTJ2BcuOH6b6QrG
+         xm/gV6Ec+GauHFFc3lrxP/vHZwC+/Q3/8y4XkCEAjKLkqe1C6GFa3b7cP0zQ0q+pb4Cj
+         vA0UgFGcX0pJnIqJ8pVv4FCRJEf6ulOq9ppsmbWVVum6IDW3zJlIg0HxrYGEdya9Vwda
+         kOPt3GKd5laPBfBzE+f4U+804CNAC6Zf3jYXlKI4/DGj3ypEl9lQiUlVB5IFvKKd7vaL
+         GhqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,63 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wQrK/suWY6e/UNkqMByQnCjGnLKD4mltsOV0NwcHz50=;
-        b=QBu9/lz362rZxZjm5GS+wBtw5hi9nuY5oaHlyNbY4RrRbaepMOArP45OwNzSPnmokT
-         dHR/dEOm4I2AYzdMHhBhGJFT4pBDeJuWN+wD7xcfET+yoqBmaRcgTG/68A/qa7ZGFjsL
-         5WCu9kcwYzTDfVBuU+xEqa1BhA2jqCTk5ZEk91PfAA1oGK+fZ7wSToARvTguaZnhOh7d
-         Xr5DUNTCCmqQ1tkvCuIVWkXuoQgGweQATJfQMpxG/iByQCPXGP/fJfevc/bt7Tujq78B
-         gAKijLC0GiIdOhsqNfG8AOFfJwX+A0CTTfuBgQCygbKZ7NoXTrLOD+LbZ6qMxF85OCdG
-         bfEQ==
-X-Gm-Message-State: AOAM53324TZzP4M7zCb7SzlwXK0j1RwrPBHtEdurJLZEFQYUxT2F+Mqo
-	JFK/sorHni2IpCc4BzxJDcc=
-X-Google-Smtp-Source: ABdhPJzqOJRg726ErGTaTk13kW3uhpbBlcrdqcDwIDP7NRssH654HME3tNCg/DR6PWtJA0OJ6gx7AA==
-X-Received: by 2002:a5d:5651:: with SMTP id j17mr28737765wrw.166.1637223060513;
-        Thu, 18 Nov 2021 00:11:00 -0800 (PST)
+        bh=ciRopITJDbKuVCevYNRtUhAw0gK9FhWOXoVw9He+7fA=;
+        b=lmKLdgYVTG30kwbYIkQyQhdzeKF8PbVHCk2Pk1M9NMY3/Twk0L5qPFwdvymKuKwNOA
+         ar7Id+wTBp2KlZALNtYmQYeiSanBXudtDtFAK7l8PjAOSr3zvDpL76B+tpEiW5WPOenF
+         g5TC2WAmD3eRJrZrBaD+XPx6i6pz1Mb+KFt52ac5puvj4KhrdRw7OtGVP3wA4FBohgFV
+         uKCGWv6sHSdcgbB94BqlhrgZksuG2oxuvTBPWmwXOGMSYZbc1tzidHkKyDP404cadMeW
+         Be34ifSodtcwP690X8rpnuMVMaLsjHuEEBYmftPNKPDnl8g4bu0jdoYW6qkcSReVl+g0
+         WQ0g==
+X-Gm-Message-State: AOAM530Vls2IPgrlY/89cZ2By8rq3V/ercMjW8XQ75pAzl57MWQLV9QC
+	tXJ4SfcNmbKK6sqit4vL0sQ=
+X-Google-Smtp-Source: ABdhPJzWNFocXlE4iF949EdwahmT3vxyl6YDNUkItEJy25bAl8tft8d/YxckUc1AwGQFyaNyvGLY6g==
+X-Received: by 2002:a05:600c:34c2:: with SMTP id d2mr7926605wmq.102.1637223062802;
+        Thu, 18 Nov 2021 00:11:02 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:1943:: with SMTP id 64ls1165392wmz.0.gmail; Thu, 18 Nov
- 2021 00:10:59 -0800 (PST)
-X-Received: by 2002:a05:600c:a05:: with SMTP id z5mr7655498wmp.73.1637223059533;
-        Thu, 18 Nov 2021 00:10:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637223059; cv=none;
+Received: by 2002:a05:600c:ad6:: with SMTP id c22ls4709333wmr.1.canary-gmail;
+ Thu, 18 Nov 2021 00:11:01 -0800 (PST)
+X-Received: by 2002:a7b:c92e:: with SMTP id h14mr7744804wml.135.1637223061871;
+        Thu, 18 Nov 2021 00:11:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637223061; cv=none;
         d=google.com; s=arc-20160816;
-        b=y+Tm3MeCdf9ndfNYcxu7RE2l1U/wZUz1VOsgvsJN9DgF+nFRNxnaS1et319jw23tlY
-         T/m0H+MJaUFDspXPj5RDOvFSmxMWHXgWYkoPQ62T5hBr7TjH4m4axHOygp6z6qblP/pA
-         gIjpj/mVxxn8027RXzWpuEJxU7lWj17B0bEeKhA4AsxxeG/S4cHSj11MmdQUFT9bZCEe
-         lbr1qey4ssQe4YNfhy1CnjDA6gy2Cy5Nd/+bbwPeUlt8McjKHjykXsxS9E8iF4fbZMOq
-         bLWtqF084BGQj6MIu0GXa1kwWGOVI/GDA8iOULBgd/1KhvRhxXlgdbVXu1BKWXIR4uIP
-         dfYg==
+        b=brs1k1m6La92tnkS8UprMHzwBy2mKegLarcpixGNab3tcMcKsWlAfTbsV+4FrFSvMG
+         fPPQlYtUNldWdgrf/hP4qZDB/foZIbSvnFZzapXN9cB+bbDcrO+Y88A5WmY+m6vepEgo
+         xlgTnM+kZYDt9xy1bvV01J/3tZwo64ShegnGsY7ve5TLy0o686m/Et2CCypCVGWaPKvP
+         ijlT4FglTlyM4PsWYZ1ZzeYvkh8Wbbf+UDYCupd1+25ooq4GuuNvZldSuL3oSe+39Di4
+         iCMAUieaiqkpAgcYJIopa+C1SS26yIHRLprYOHK9hfLjVWKDo2mIqzSeaHdsGHvpxdZ4
+         4rQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=SHlXPesj/sMVN1b9WbUeHFHzMLC0KZiq0qGR6QmTL6E=;
-        b=gonW+N0x0P0Iay2KyMtk9irfZXoIn1ccV4U4LcZxsS471FS59UmlHtqmYvoJr7COZ6
-         i8qE9WuQ61Ps9pMI6c3/ZREPsnW/B45tVsLqN1ySlFhwGX7uQ8e1c5VK0CdiXP2IZj0t
-         f9b/LhojrjZ0Oe8gRZ9CllBXzYc8siDE6kT0UAnM4KagJPmfHutlaNx9kvYsWOxhpR2Q
-         2+Mo9jZV0F3J52xJmhHUmmFpEkK3zvH3/OkyXGd9g+3OWvkTIGeElnl+PbI2dh4JO+km
-         RFv264BuID5HQjgZL2kny1jJVVDKPoqQL/UWyw5N9asbUFN3t+WmfKf4PcQ5a1np3tvN
-         zFRg==
+        bh=tuhyQwzlfQERbV6yctXDUlEPG1hDRNoinPlUWTt5/uo=;
+        b=gNWcpjSbl2rnLN+rIpNMe1DUX2Yx4R38i3n58XKjFPX7ebIJfhkj06BVuhIWWoyYGF
+         4KEDNrCEHdzTtOcwHG/TQz4LB0oLCyPYGMnKKikin7JTEG2AxmEj1bsWk+AeAAmYhyqR
+         Qy/9fYQgh3lFunpWAjuhgHFn9wzbAGtmLhcB74+3AmaT99saAT6VPzPj1zkEeCK4bGYG
+         z8WQoYaZqB+Ctf/c5ALRi8RRtZVe+K06OoJbRws2oyW8xHeanp4Dbhms5V0e2M+JI1RE
+         0jN2CK4hJ27WAAG9lN8UGtoefzAmxAIyvT4Dw9Eyt1fWht/jcKUMouN+Gs22UZBQAz1O
+         l7mw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=XyT5v0i6;
-       spf=pass (google.com: domain of 3kgqwyqukcrmx4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3kgqWYQUKCRMx4ExAz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=D3oVfd2Y;
+       spf=pass (google.com: domain of 3lqqwyqukcry07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3lQqWYQUKCRY07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
-        by gmr-mx.google.com with ESMTPS id j14si171787wrq.5.2021.11.18.00.10.59
+        by gmr-mx.google.com with ESMTPS id 125si574941wmc.1.2021.11.18.00.11.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 00:10:59 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3kgqwyqukcrmx4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
-Received: by mail-wm1-x349.google.com with SMTP id v10-20020a1cf70a000000b00318203a6bd1so2718433wmh.6
-        for <kasan-dev@googlegroups.com>; Thu, 18 Nov 2021 00:10:59 -0800 (PST)
+        Thu, 18 Nov 2021 00:11:01 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3lqqwyqukcry07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id l6-20020a05600c4f0600b0033321934a39so2706586wmq.9
+        for <kasan-dev@googlegroups.com>; Thu, 18 Nov 2021 00:11:01 -0800 (PST)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:7155:1b7:fca5:3926])
- (user=elver job=sendgmr) by 2002:a05:600c:24c:: with SMTP id
- 12mr7649392wmj.124.1637223058978; Thu, 18 Nov 2021 00:10:58 -0800 (PST)
-Date: Thu, 18 Nov 2021 09:10:05 +0100
+ (user=elver job=sendgmr) by 2002:a5d:452b:: with SMTP id j11mr28008131wra.432.1637223061543;
+ Thu, 18 Nov 2021 00:11:01 -0800 (PST)
+Date: Thu, 18 Nov 2021 09:10:06 +0100
 In-Reply-To: <20211118081027.3175699-1-elver@google.com>
-Message-Id: <20211118081027.3175699-2-elver@google.com>
+Message-Id: <20211118081027.3175699-3-elver@google.com>
 Mime-Version: 1.0
 References: <20211118081027.3175699-1-elver@google.com>
 X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v2 01/23] kcsan: Refactor reading of instrumented memory
+Subject: [PATCH v2 02/23] kcsan: Remove redundant zero-initialization of globals
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
 Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
@@ -119,9 +119,9 @@ Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=XyT5v0i6;       spf=pass
- (google.com: domain of 3kgqwyqukcrmx4exaz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3kgqWYQUKCRMx4ExAz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=D3oVfd2Y;       spf=pass
+ (google.com: domain of 3lqqwyqukcry07h0d2aa270.ya86wew9-z0h2aa2702dagbe.ya8@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3lQqWYQUKCRY07H0D2AA270.yA86wEw9-z0H2AA2702DAGBE.yA8@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -137,96 +137,57 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Factor out the switch statement reading instrumented memory into a
-helper read_instrumented_memory().
+They are implicitly zero-initialized, remove explicit initialization.
+It keeps the upcoming additions to kcsan_ctx consistent with the rest.
 
-No functional change.
+No functional change intended.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- kernel/kcsan/core.c | 51 +++++++++++++++------------------------------
- 1 file changed, 17 insertions(+), 34 deletions(-)
+ init/init_task.c    | 9 +--------
+ kernel/kcsan/core.c | 5 -----
+ 2 files changed, 1 insertion(+), 13 deletions(-)
 
+diff --git a/init/init_task.c b/init/init_task.c
+index 2d024066e27b..61700365ce58 100644
+--- a/init/init_task.c
++++ b/init/init_task.c
+@@ -181,14 +181,7 @@ struct task_struct init_task
+ 	.kasan_depth	= 1,
+ #endif
+ #ifdef CONFIG_KCSAN
+-	.kcsan_ctx = {
+-		.disable_count		= 0,
+-		.atomic_next		= 0,
+-		.atomic_nest_count	= 0,
+-		.in_flat_atomic		= false,
+-		.access_mask		= 0,
+-		.scoped_accesses	= {LIST_POISON1, NULL},
+-	},
++	.kcsan_ctx = { .scoped_accesses = {LIST_POISON1, NULL} },
+ #endif
+ #ifdef CONFIG_TRACE_IRQFLAGS
+ 	.softirqs_enabled = 1,
 diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 4b84c8e7884b..6bfd3040f46b 100644
+index 6bfd3040f46b..e34a1710b7bc 100644
 --- a/kernel/kcsan/core.c
 +++ b/kernel/kcsan/core.c
-@@ -325,6 +325,21 @@ static void delay_access(int type)
- 	udelay(delay);
- }
+@@ -44,11 +44,6 @@ bool kcsan_enabled;
  
-+/*
-+ * Reads the instrumented memory for value change detection; value change
-+ * detection is currently done for accesses up to a size of 8 bytes.
-+ */
-+static __always_inline u64 read_instrumented_memory(const volatile void *ptr, size_t size)
-+{
-+	switch (size) {
-+	case 1:  return READ_ONCE(*(const u8 *)ptr);
-+	case 2:  return READ_ONCE(*(const u16 *)ptr);
-+	case 4:  return READ_ONCE(*(const u32 *)ptr);
-+	case 8:  return READ_ONCE(*(const u64 *)ptr);
-+	default: return 0; /* Ignore; we do not diff the values. */
-+	}
-+}
-+
- void kcsan_save_irqtrace(struct task_struct *task)
- {
- #ifdef CONFIG_TRACE_IRQFLAGS
-@@ -482,23 +497,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 	 * Read the current value, to later check and infer a race if the data
- 	 * was modified via a non-instrumented access, e.g. from a device.
- 	 */
--	old = 0;
--	switch (size) {
--	case 1:
--		old = READ_ONCE(*(const u8 *)ptr);
--		break;
--	case 2:
--		old = READ_ONCE(*(const u16 *)ptr);
--		break;
--	case 4:
--		old = READ_ONCE(*(const u32 *)ptr);
--		break;
--	case 8:
--		old = READ_ONCE(*(const u64 *)ptr);
--		break;
--	default:
--		break; /* ignore; we do not diff the values */
--	}
-+	old = read_instrumented_memory(ptr, size);
+ /* Per-CPU kcsan_ctx for interrupts */
+ static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx) = {
+-	.disable_count		= 0,
+-	.atomic_next		= 0,
+-	.atomic_nest_count	= 0,
+-	.in_flat_atomic		= false,
+-	.access_mask		= 0,
+ 	.scoped_accesses	= {LIST_POISON1, NULL},
+ };
  
- 	/*
- 	 * Delay this thread, to increase probability of observing a racy
-@@ -511,23 +510,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 	 * racy access.
- 	 */
- 	access_mask = ctx->access_mask;
--	new = 0;
--	switch (size) {
--	case 1:
--		new = READ_ONCE(*(const u8 *)ptr);
--		break;
--	case 2:
--		new = READ_ONCE(*(const u16 *)ptr);
--		break;
--	case 4:
--		new = READ_ONCE(*(const u32 *)ptr);
--		break;
--	case 8:
--		new = READ_ONCE(*(const u64 *)ptr);
--		break;
--	default:
--		break; /* ignore; we do not diff the values */
--	}
-+	new = read_instrumented_memory(ptr, size);
- 
- 	diff = old ^ new;
- 	if (access_mask)
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211118081027.3175699-2-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211118081027.3175699-3-elver%40google.com.
