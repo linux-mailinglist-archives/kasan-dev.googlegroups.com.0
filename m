@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBKUV3CGAMGQEPRCZKMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBLMV3CGAMGQEEPGLJMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3678E45566B
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 09:11:23 +0100 (CET)
-Received: by mail-wm1-x339.google.com with SMTP id 145-20020a1c0197000000b0032efc3eb9bcsf4005989wmb.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 00:11:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637223083; cv=pass;
+Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id C251445566C
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 09:11:25 +0100 (CET)
+Received: by mail-ed1-x540.google.com with SMTP id v10-20020aa7d9ca000000b003e7bed57968sf4515488eds.23
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 00:11:25 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637223085; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FjWTyHlFPDcJKA20Z++Gj6aKiJvW1NnXnJekSkPsQKYhI9cXZYrWcwlEW/u4EBXIW0
-         8G+E4h1jqrzV/SggqTC7RVQ+wlf1zIBLHB36aZcRT3Rr88pYWrlnROj0bPcBmZi7u3lF
-         FwniApcAWdrZA0yOoUiHCpTcVs6jlts8yg4oMpOJfRdOQ72jQoFzOjHzMe6kihERvUPA
-         X4dpx9hoAMc+2hPis7nHlqrR4jaT3DVVFZHwj0AFL4knEyTkjiUHzjDHIx3MimEIs/Fx
-         hufjb2fd/+vpTRFsakDipqQinxYh1z7kRytc173MpZ7OPj6gLzeovKsRmYPNM5MCZjHh
-         ugew==
+        b=qGLpYojLB4tdf0s3pOPzGVCjioUIFBeSSrmNWZwcx6gMeTgMCzqQs0Y/W6Q82x6EKt
+         MMkp0ORlCsIZtbnQRMrb+DSH8TDYY4RnBamEVgyd3mtNF4gHixtjfVSDyu4sXWdHg+xs
+         9ODDWXEVzNe3Tvg7pPPAA56W6Yy+z1IRN5HhZu0lVGHBNDULFGvIhMGEzOmEviG8Cmcs
+         XxWoxVT1e8nPIgKZy4a64JG+HrCgj7pugjIU9x0a8/6gaxYvHO2tkJfV5WhVxoQpQKS3
+         RDXzAn1ezmQ2oLCIwQQ/HBFzXTbh9lA3iQ/f61OvJTdq79nr0XqSrLm/14S/fLwAGDEp
+         AIqQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=gh96vCGoFnh77FpXHCYgegVz34NdGIw4cG3LjC4jQ/g=;
-        b=SGZBgg6ujHHCyENwmFXqR1g2Ck6SBLCYC19EFrvlRMp5h2it8xt+2Qn1SwuNZPKtj1
-         GvjatH/qXtP6QgNYugHYDc7kdJrvWmJa7Jv9H8MOJMwD5UqtfrMKSE+LWZHhBz0BVlbB
-         MXT9MSJZxYEVYFSoIHllWmzMe9BYDlEyErB/xhd2PmysLSWoiY5Rjl6UcGP5t8UbbFuP
-         zH3V9qblkvmJsDNA/OQKA5NTC+JlX01/TpnNiGOBnQomrN/glutrrZqX6HQncE+VMwvT
-         weP4wOIWGYtEFNJaNpx2YFQMO78Rtsvp+YC9wnu70q/IhLH1EYayRg5tAqrGb2+JKHGK
-         qULA==
+        bh=HVnodNTk60pfzlreIceOgL8UHRtJPKuj8mzFuO2OVvo=;
+        b=PSzbiea2EemnljJ6JNve8rNHDPRrUZnRQWU2eAAtAF565q2whQ0yU2OEj75QJRhdYz
+         1miTGd/oGi/JGz+kr1yrRm74QNy/PUgm14jIaBRk7zQf/2UfmmTo5HjOvodRVM7Zml6U
+         Bs9SZ2C10HP7ZrUETJHLEZvoaee88wvHFU/6Oz/2u9IDkSNaaukzrF8Ztn9YZLGaoB46
+         jOj5kZ86hxWi6dhstnhJZVEOLTJZ4EsKORS4pXZ1Tis95wl1T8By43CQtDg94iiZ1jJy
+         4pQ01RYME1ZyGKigIRHKixa1bjmNrrX7zjSCpqg8jh7/ESflBiBJHGGOqT4OtyLCDaeb
+         JjtA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="Pl3A/KdX";
-       spf=pass (google.com: domain of 3qqqwyqukcsokrbkxmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3qQqWYQUKCSoKRbKXMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="AY/DSezV";
+       spf=pass (google.com: domain of 3raqwyqukcs0nuenapxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3rAqWYQUKCS0NUeNaPXXPUN.LXVTJbJW-MNePXXPUNPaXdYb.LXV@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gh96vCGoFnh77FpXHCYgegVz34NdGIw4cG3LjC4jQ/g=;
-        b=ZbOb9WEHM6pKNmX+3mlkQAJGGKXJSrUzNd5+Rr4GrOsV8a51ma6y4e8JcUKNuTD9o7
-         P36j5XieYoJXFSwUeWasQ7TtYFgtameacMkYw6Dwnh3lpFVtorTM33SPfzHmsdtW30w6
-         /EiEUhQYjbNdRL5Zpa4flDMRp0CdkgDV0Cc1o/GNvDIon25LL/OcThuhAw/nCO7TEUmQ
-         c/SRuWl4f95u1Pic+cpKE3f9/1lXq6tUysQbdV7yheC01sMPfn0tYWR1+QQIIlmK7o9n
-         Jb2XBkpZjSRaujYTaHfuH6qRTZxZExkuxB/NhniBt9j3x+yX8WSw5hvU+0402jKvP7GD
-         551g==
+        bh=HVnodNTk60pfzlreIceOgL8UHRtJPKuj8mzFuO2OVvo=;
+        b=QjHsLPwYwD1VEaQTC4EWlIW0lhknoXYuzBjKEehDanUy/s4zjY8FiKw4KGERlCK2lz
+         lWO955PVE3aqjd+5cS3r73K8QS6sx8d0+9adPc8zfNk8ck6LBkdASB2p7Q2/Om04uxkW
+         P9idkFgYE3+X2jNtsimW5AofbQ/SvBlYS+4cw90V0mVacjpo0NdXNR8qfjDKGTWRjNFZ
+         N4AQCiQEJ2YThWoy9XOLMgTeFxuGCePCCsIeBi7JwjZdqgeq0FFA6bvXFISWmBNZy4s/
+         gqHD/nX+U1xDVPqobr9Q3uZcMmc4RcdGSyw77DvsXP2XEm3Yo0O/H6OlpSAAizcaerdw
+         U62w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,63 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=gh96vCGoFnh77FpXHCYgegVz34NdGIw4cG3LjC4jQ/g=;
-        b=XR+Sz0sYpC7SY1gQCLjr1oGf0AOTAbvVw0Upvd4WTmTaamq4oywK6l+3IN55d9NkQk
-         h18qs6BdA13M8irAYiUXudhqMoK7IeWeOPoC3gaNrnY8ahTpUscN8cf7j69eVyE5WTxj
-         nPLoPR29Nna0/EGfJfBopFTDdorTkvApgO0yhE+twXhGVF/hOc+L47G/DENlQqQqwHXi
-         lZowT6FpifgpheDQLvoxUBRKfNSigLrdG1xgBzbWnt8PPVSXfU9DDU7XoRrbpxZgAxez
-         yzg2TbjuPTKlYXIVrcadKX61EtPEEdS60OA0qxIzxiZrpzs+97MDrCAwTbKrWYVZbJ2z
-         f5vw==
-X-Gm-Message-State: AOAM533eMY1MNK7oUWDn7a/H/3jImeLqV1abQ7MppxMYEp/DLTg3JWAS
-	nxbrkqFEiLeB/sAMZ8D2enw=
-X-Google-Smtp-Source: ABdhPJzIJCobnkEKnyBnnXY3juETuVgm2GDcRrP6Wg9KhcFRsKTgFIb1oCMk1QnlttEA/AT7i3KATQ==
-X-Received: by 2002:a7b:c744:: with SMTP id w4mr8014291wmk.50.1637223082979;
-        Thu, 18 Nov 2021 00:11:22 -0800 (PST)
+        bh=HVnodNTk60pfzlreIceOgL8UHRtJPKuj8mzFuO2OVvo=;
+        b=zTUw12A9MQrNc69//8XJ7QkGPQeeK+UShs/l9GbImVFpA2JSx05Gqbo6l9RgyLsEC6
+         Dh6aW7I3aqc7prjgDWGsSShH98gH0v21Paq10/cRlg35nEh6orc4J9aT7pYsDRrSkfXm
+         f9nB/AihH2iY9ubNB42x/6Q/6yCpJUOXg/ij12tDyxme75tpRsq0pjDq7hkqDJnJ+ahC
+         J1va2psORrsaCH7dfNKKCaRvGTg1zgFoiONURxkbRXhVJ4oTlY6tCloOOZdbfXgTkl+n
+         RSB1vEnnc0MWP+VICNvwkPohi5oerIy19WUPC8xZeDvaJ8bzFLkK8lul+d4h0fvzJa44
+         jxdg==
+X-Gm-Message-State: AOAM532jGkquE8olw0kCyfL72tpkYd0r1pTa1J6vKx19cV2H/cF8RtbP
+	j13U5Dy3Jz0C5SZbZgs7n3g=
+X-Google-Smtp-Source: ABdhPJwInNH+qCnmf/rjhEeg6wSoFW9ZoJFWnusGceAQFokrvqNKB1r2w2x/ITiDAmoh11eRJJY3Jw==
+X-Received: by 2002:a17:907:7e88:: with SMTP id qb8mr29930502ejc.535.1637223085585;
+        Thu, 18 Nov 2021 00:11:25 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:fe0b:: with SMTP id n11ls2319694wrr.0.gmail; Thu, 18 Nov
- 2021 00:11:22 -0800 (PST)
-X-Received: by 2002:a05:6000:1889:: with SMTP id a9mr29922618wri.68.1637223082018;
-        Thu, 18 Nov 2021 00:11:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637223082; cv=none;
+Received: by 2002:aa7:c517:: with SMTP id o23ls2420032edq.2.gmail; Thu, 18 Nov
+ 2021 00:11:24 -0800 (PST)
+X-Received: by 2002:a50:cd87:: with SMTP id p7mr8446794edi.205.1637223084525;
+        Thu, 18 Nov 2021 00:11:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637223084; cv=none;
         d=google.com; s=arc-20160816;
-        b=iAeptpZKaNTw3cLYpwSAMlNFZZgDxGZnI9PwxwTKMSMGBeWjVLelH2vX+6z+Qd/3K9
-         Ju7HliaYxFEOKBLv9NbNSPypktOBKySHnNOWJ2bDmzjqfukqcRDwFb+eKwNI7hq1qfi7
-         xkQ5ZcY7OqjbuZWM8rotQRaJWEJ8mlyR4Fu7np6jp1uFnEdH+T/FBjc7It70wasLzgOD
-         ZYxQgekU8jWQo9LwLK760acROsz+Yb6FBGOEwB+10zfyeNDcqdKUoXURJpVx0APsy2K4
-         dHfYiH12XTR5TdTXGQvxbqwGlzbrqLORxZQXdg6JVAl/o79laAG94qeA1HiAaFsKrDFy
-         XEPg==
+        b=L+4Sne+/1dx7PuM1ax5bWZURgB5RKvivYDFnKXbcaPVvn5csa/vBWCuOY6XOzJs/fF
+         Rv8Bx+5PHlFwsdMZ9/TpgHXlQuvH3ra1Gl/iHArO4ci8opDM6gonCTctPLHnhFCOQTHd
+         ACjfJo5REn+7umyAIgSerXns2NGdh7UR2S0Bof0zm7lnaSiOklio4ormC295HEhZiHz1
+         /aGmaqsl3m5Zyoly4D/5NbR1Zz1DmQV47x3P6uMnXK3klO8KW5B2JzjuKBY4f4i24vdf
+         b1sZuRhuJ+EfQAZUEARJzQJQ4razPpgt2kpcUnWrzuXMS+JvY1g5iHXkd6s7ZmXGvhdP
+         Rg+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=UU4Lhk72EIyuCjy+G0t4z2bUBJwzL7HcimRlPhkjEC4=;
-        b=oDToQSRiJp1wgZOLOJExIoqVtJqgjKTq1YvKyImcUDmwQJxili526KfEbNQNXStF86
-         MWU1BqMsn8a7EMnDEDQy+OkcJx/FVF6eM18hD8sEYahtyR0rMMf/muU8PWt76XWe97J6
-         Q2p1t24HWb0RWeytBMgQRD8iG04hAkKuvFb2ivMuZI5On3lowM245P9y40BgmbwvUNoA
-         2NBQHB6ltGS2kcGDyDK8CtPhbEesR6IglmcVYHLivob9mezePCg0/z8W35E9800IddCY
-         Fc6/G4t6ZFf+0lGD0PnZhCsOAYBTPrFXc2HXB0dEbNandp2ZgDBoWUgtWZMMSpgN1dEG
-         C6kw==
+        bh=ic5DswJD8qYyTuN5KkN6sBXbJt7WxHJMqJbtz8dthuw=;
+        b=nzeY39HdAsyzRQjaKiQPS6UfB3HdYaXE9lxZ8nk048YqWLmmsaZgVNtYT/eONEe7sD
+         /m1rQwxItwQ1gSdEouRHzMs5Lz3btvgtqtegDCEojESpj3qIepPC4nHhVtLJuAgYCZ0G
+         dSryoDr+BzRidjgjuOTnSWXB/wOucb/S23ZgsfI3GcorGbUF7no0aJHKjqLpRAFdz68Q
+         ZwabtwUvUUFLeY1SCPTtwW+4ltm5ctj32thdBICRYe/72B511KgY/WyeNLkVI2tqldTX
+         HrpyoMstJpyy2Si8teEDRA/ahqY3fnRBHSfADnAX1anUXfnzNfaa6jR20bI5JMtOkzZZ
+         czDw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="Pl3A/KdX";
-       spf=pass (google.com: domain of 3qqqwyqukcsokrbkxmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3qQqWYQUKCSoKRbKXMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="AY/DSezV";
+       spf=pass (google.com: domain of 3raqwyqukcs0nuenapxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3rAqWYQUKCS0NUeNaPXXPUN.LXVTJbJW-MNePXXPUNPaXdYb.LXV@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id q74si600325wme.0.2021.11.18.00.11.22
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
+        by gmr-mx.google.com with ESMTPS id fl21si175611ejc.0.2021.11.18.00.11.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 00:11:22 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3qqqwyqukcsokrbkxmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id k25-20020a05600c1c9900b00332f798ba1dso3992628wms.4
-        for <kasan-dev@googlegroups.com>; Thu, 18 Nov 2021 00:11:21 -0800 (PST)
+        Thu, 18 Nov 2021 00:11:24 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3raqwyqukcs0nuenapxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id q17-20020adfcd91000000b0017bcb12ad4fso873100wrj.12
+        for <kasan-dev@googlegroups.com>; Thu, 18 Nov 2021 00:11:24 -0800 (PST)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:7155:1b7:fca5:3926])
- (user=elver job=sendgmr) by 2002:a5d:4443:: with SMTP id x3mr29290572wrr.189.1637223081578;
- Thu, 18 Nov 2021 00:11:21 -0800 (PST)
-Date: Thu, 18 Nov 2021 09:10:14 +0100
+ (user=elver job=sendgmr) by 2002:a05:600c:a0b:: with SMTP id
+ z11mr7808020wmp.147.1637223084247; Thu, 18 Nov 2021 00:11:24 -0800 (PST)
+Date: Thu, 18 Nov 2021 09:10:15 +0100
 In-Reply-To: <20211118081027.3175699-1-elver@google.com>
-Message-Id: <20211118081027.3175699-11-elver@google.com>
+Message-Id: <20211118081027.3175699-12-elver@google.com>
 Mime-Version: 1.0
 References: <20211118081027.3175699-1-elver@google.com>
 X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v2 10/23] kcsan: test: Match reordered or normal accesses
+Subject: [PATCH v2 11/23] kcsan: test: Add test cases for memory barrier instrumentation
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
 Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
@@ -119,9 +119,9 @@ Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="Pl3A/KdX";       spf=pass
- (google.com: domain of 3qqqwyqukcsokrbkxmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3qQqWYQUKCSoKRbKXMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b="AY/DSezV";       spf=pass
+ (google.com: domain of 3raqwyqukcs0nuenapxxpun.lxvtjbjw-mnepxxpunpaxdyb.lxv@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3rAqWYQUKCS0NUeNaPXXPUN.LXVTJbJW-MNePXXPUNPaXdYb.LXV@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -137,305 +137,404 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Due to reordering accesses with weak memory modeling, any access can now
-appear as "(reordered)".
-
-Match any permutation of accesses if CONFIG_KCSAN_WEAK_MEMORY=y, so that
-we effectively match an access if it is denoted "(reordered)" or not.
+Adds test cases to check that memory barriers are instrumented
+correctly, and detection of missing memory barriers is working as
+intended if CONFIG_KCSAN_STRICT=y.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- kernel/kcsan/kcsan_test.c | 92 +++++++++++++++++++++++++++------------
- 1 file changed, 63 insertions(+), 29 deletions(-)
+ kernel/kcsan/kcsan_test.c | 320 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 320 insertions(+)
 
 diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
-index 6e3c2b8bc608..ec054879201b 100644
+index ec054879201b..469f3044a5b3 100644
 --- a/kernel/kcsan/kcsan_test.c
 +++ b/kernel/kcsan/kcsan_test.c
-@@ -151,7 +151,7 @@ struct expect_report {
+@@ -16,9 +16,12 @@
+ #define pr_fmt(fmt) "kcsan_test: " fmt
  
- /* Check observed report matches information in @r. */
+ #include <kunit/test.h>
++#include <linux/atomic.h>
++#include <linux/bitops.h>
+ #include <linux/jiffies.h>
+ #include <linux/kcsan-checks.h>
+ #include <linux/kernel.h>
++#include <linux/mutex.h>
+ #include <linux/sched.h>
+ #include <linux/seqlock.h>
+ #include <linux/spinlock.h>
+@@ -305,6 +308,16 @@ static DEFINE_SEQLOCK(test_seqlock);
  __no_kcsan
--static bool report_matches(const struct expect_report *r)
-+static bool __report_matches(const struct expect_report *r)
- {
- 	const bool is_assert = (r->access[0].type | r->access[1].type) & KCSAN_ACCESS_ASSERT;
- 	bool ret = false;
-@@ -253,6 +253,40 @@ static bool report_matches(const struct expect_report *r)
- 	return ret;
+ static noinline void sink_value(long v) { WRITE_ONCE(test_sink, v); }
+ 
++/*
++ * Generates a delay and some accesses that enter the runtime but do not produce
++ * data races.
++ */
++static noinline void test_delay(int iter)
++{
++	while (iter--)
++		sink_value(READ_ONCE(test_sink));
++}
++
+ static noinline void test_kernel_read(void) { sink_value(test_var); }
+ 
+ static noinline void test_kernel_write(void)
+@@ -466,8 +479,220 @@ static noinline void test_kernel_xor_1bit(void)
+ 	kcsan_nestable_atomic_end();
  }
  
-+static __always_inline const struct expect_report *
-+__report_set_scoped(struct expect_report *r, int accesses)
++#define TEST_KERNEL_LOCKED(name, acquire, release)		\
++	static noinline void test_kernel_##name(void)		\
++	{							\
++		long *flag = &test_struct.val[0];		\
++		long v = 0;					\
++		if (!(acquire))					\
++			return;					\
++		while (v++ < 100) {				\
++			test_var++;				\
++			barrier();				\
++		}						\
++		release;					\
++		test_delay(10);					\
++	}
++
++TEST_KERNEL_LOCKED(with_memorder,
++		   cmpxchg_acquire(flag, 0, 1) == 0,
++		   smp_store_release(flag, 0));
++TEST_KERNEL_LOCKED(wrong_memorder,
++		   cmpxchg_relaxed(flag, 0, 1) == 0,
++		   WRITE_ONCE(*flag, 0));
++TEST_KERNEL_LOCKED(atomic_builtin_with_memorder,
++		   __atomic_compare_exchange_n(flag, &v, 1, 0, __ATOMIC_ACQUIRE, __ATOMIC_RELAXED),
++		   __atomic_store_n(flag, 0, __ATOMIC_RELEASE));
++TEST_KERNEL_LOCKED(atomic_builtin_wrong_memorder,
++		   __atomic_compare_exchange_n(flag, &v, 1, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED),
++		   __atomic_store_n(flag, 0, __ATOMIC_RELAXED));
++
+ /* ===== Test cases ===== */
+ 
++/*
++ * Tests that various barriers have the expected effect on internal state. Not
++ * exhaustive on atomic_t operations. Unlike the selftest, also checks for
++ * too-strict barrier instrumentation; these can be tolerated, because it does
++ * not cause false positives, but at least we should be aware of such cases.
++ */
++__no_kcsan
++static void test_barrier_nothreads(struct kunit *test)
 +{
-+	BUILD_BUG_ON(accesses > 3);
++#ifdef CONFIG_KCSAN_WEAK_MEMORY
++	struct kcsan_scoped_access *reorder_access = &current->kcsan_ctx.reorder_access;
++#else
++	struct kcsan_scoped_access *reorder_access = NULL;
++#endif
++	arch_spinlock_t arch_spinlock = __ARCH_SPIN_LOCK_UNLOCKED;
++	DEFINE_SPINLOCK(spinlock);
++	DEFINE_MUTEX(mutex);
++	atomic_t dummy;
 +
-+	if (accesses & 1)
-+		r->access[0].type |= KCSAN_ACCESS_SCOPED;
-+	else
-+		r->access[0].type &= ~KCSAN_ACCESS_SCOPED;
++	KCSAN_TEST_REQUIRES(test, reorder_access != NULL);
++	KCSAN_TEST_REQUIRES(test, IS_ENABLED(CONFIG_SMP));
 +
-+	if (accesses & 2)
-+		r->access[1].type |= KCSAN_ACCESS_SCOPED;
-+	else
-+		r->access[1].type &= ~KCSAN_ACCESS_SCOPED;
++#define __KCSAN_EXPECT_BARRIER(access_type, barrier, order_before, name)			\
++	do {											\
++		reorder_access->type = (access_type) | KCSAN_ACCESS_SCOPED;			\
++		reorder_access->size = sizeof(test_var);					\
++		barrier;									\
++		KUNIT_EXPECT_EQ_MSG(test, reorder_access->size,					\
++				    order_before ? 0 : sizeof(test_var),			\
++				    "improperly instrumented type=(" #access_type "): " name);	\
++	} while (0)
++#define KCSAN_EXPECT_READ_BARRIER(b, o)  __KCSAN_EXPECT_BARRIER(0, b, o, #b)
++#define KCSAN_EXPECT_WRITE_BARRIER(b, o) __KCSAN_EXPECT_BARRIER(KCSAN_ACCESS_WRITE, b, o, #b)
++#define KCSAN_EXPECT_RW_BARRIER(b, o)    __KCSAN_EXPECT_BARRIER(KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE, b, o, #b)
 +
-+	return r;
++	/* Force creating a valid entry in reorder_access first. */
++	test_var = 0;
++	while (test_var++ < 1000000 && reorder_access->size != sizeof(test_var))
++		__kcsan_check_read(&test_var, sizeof(test_var));
++	KUNIT_ASSERT_EQ(test, reorder_access->size, sizeof(test_var));
++
++	kcsan_nestable_atomic_begin(); /* No watchpoints in called functions. */
++
++	KCSAN_EXPECT_READ_BARRIER(mb(), true);
++	KCSAN_EXPECT_READ_BARRIER(wmb(), false);
++	KCSAN_EXPECT_READ_BARRIER(rmb(), true);
++	KCSAN_EXPECT_READ_BARRIER(smp_mb(), true);
++	KCSAN_EXPECT_READ_BARRIER(smp_wmb(), false);
++	KCSAN_EXPECT_READ_BARRIER(smp_rmb(), true);
++	KCSAN_EXPECT_READ_BARRIER(dma_wmb(), false);
++	KCSAN_EXPECT_READ_BARRIER(dma_rmb(), true);
++	KCSAN_EXPECT_READ_BARRIER(smp_mb__before_atomic(), true);
++	KCSAN_EXPECT_READ_BARRIER(smp_mb__after_atomic(), true);
++	KCSAN_EXPECT_READ_BARRIER(smp_mb__after_spinlock(), true);
++	KCSAN_EXPECT_READ_BARRIER(smp_store_mb(test_var, 0), true);
++	KCSAN_EXPECT_READ_BARRIER(smp_load_acquire(&test_var), false);
++	KCSAN_EXPECT_READ_BARRIER(smp_store_release(&test_var, 0), true);
++	KCSAN_EXPECT_READ_BARRIER(xchg(&test_var, 0), true);
++	KCSAN_EXPECT_READ_BARRIER(xchg_release(&test_var, 0), true);
++	KCSAN_EXPECT_READ_BARRIER(xchg_relaxed(&test_var, 0), false);
++	KCSAN_EXPECT_READ_BARRIER(cmpxchg(&test_var, 0,  0), true);
++	KCSAN_EXPECT_READ_BARRIER(cmpxchg_release(&test_var, 0,  0), true);
++	KCSAN_EXPECT_READ_BARRIER(cmpxchg_relaxed(&test_var, 0,  0), false);
++	KCSAN_EXPECT_READ_BARRIER(atomic_read(&dummy), false);
++	KCSAN_EXPECT_READ_BARRIER(atomic_read_acquire(&dummy), false);
++	KCSAN_EXPECT_READ_BARRIER(atomic_set(&dummy, 0), false);
++	KCSAN_EXPECT_READ_BARRIER(atomic_set_release(&dummy, 0), true);
++	KCSAN_EXPECT_READ_BARRIER(atomic_add(1, &dummy), false);
++	KCSAN_EXPECT_READ_BARRIER(atomic_add_return(1, &dummy), true);
++	KCSAN_EXPECT_READ_BARRIER(atomic_add_return_acquire(1, &dummy), false);
++	KCSAN_EXPECT_READ_BARRIER(atomic_add_return_release(1, &dummy), true);
++	KCSAN_EXPECT_READ_BARRIER(atomic_add_return_relaxed(1, &dummy), false);
++	KCSAN_EXPECT_READ_BARRIER(atomic_fetch_add(1, &dummy), true);
++	KCSAN_EXPECT_READ_BARRIER(atomic_fetch_add_acquire(1, &dummy), false);
++	KCSAN_EXPECT_READ_BARRIER(atomic_fetch_add_release(1, &dummy), true);
++	KCSAN_EXPECT_READ_BARRIER(atomic_fetch_add_relaxed(1, &dummy), false);
++	KCSAN_EXPECT_READ_BARRIER(test_and_set_bit(0, &test_var), true);
++	KCSAN_EXPECT_READ_BARRIER(test_and_clear_bit(0, &test_var), true);
++	KCSAN_EXPECT_READ_BARRIER(test_and_change_bit(0, &test_var), true);
++	KCSAN_EXPECT_READ_BARRIER(clear_bit_unlock(0, &test_var), true);
++	KCSAN_EXPECT_READ_BARRIER(__clear_bit_unlock(0, &test_var), true);
++	KCSAN_EXPECT_READ_BARRIER(clear_bit_unlock_is_negative_byte(0, &test_var), true);
++	KCSAN_EXPECT_READ_BARRIER(arch_spin_lock(&arch_spinlock), false);
++	KCSAN_EXPECT_READ_BARRIER(arch_spin_unlock(&arch_spinlock), true);
++	KCSAN_EXPECT_READ_BARRIER(spin_lock(&spinlock), false);
++	KCSAN_EXPECT_READ_BARRIER(spin_unlock(&spinlock), true);
++	KCSAN_EXPECT_READ_BARRIER(mutex_lock(&mutex), false);
++	KCSAN_EXPECT_READ_BARRIER(mutex_unlock(&mutex), true);
++
++	KCSAN_EXPECT_WRITE_BARRIER(mb(), true);
++	KCSAN_EXPECT_WRITE_BARRIER(wmb(), true);
++	KCSAN_EXPECT_WRITE_BARRIER(rmb(), false);
++	KCSAN_EXPECT_WRITE_BARRIER(smp_mb(), true);
++	KCSAN_EXPECT_WRITE_BARRIER(smp_wmb(), true);
++	KCSAN_EXPECT_WRITE_BARRIER(smp_rmb(), false);
++	KCSAN_EXPECT_WRITE_BARRIER(dma_wmb(), true);
++	KCSAN_EXPECT_WRITE_BARRIER(dma_rmb(), false);
++	KCSAN_EXPECT_WRITE_BARRIER(smp_mb__before_atomic(), true);
++	KCSAN_EXPECT_WRITE_BARRIER(smp_mb__after_atomic(), true);
++	KCSAN_EXPECT_WRITE_BARRIER(smp_mb__after_spinlock(), true);
++	KCSAN_EXPECT_WRITE_BARRIER(smp_store_mb(test_var, 0), true);
++	KCSAN_EXPECT_WRITE_BARRIER(smp_load_acquire(&test_var), false);
++	KCSAN_EXPECT_WRITE_BARRIER(smp_store_release(&test_var, 0), true);
++	KCSAN_EXPECT_WRITE_BARRIER(xchg(&test_var, 0), true);
++	KCSAN_EXPECT_WRITE_BARRIER(xchg_release(&test_var, 0), true);
++	KCSAN_EXPECT_WRITE_BARRIER(xchg_relaxed(&test_var, 0), false);
++	KCSAN_EXPECT_WRITE_BARRIER(cmpxchg(&test_var, 0,  0), true);
++	KCSAN_EXPECT_WRITE_BARRIER(cmpxchg_release(&test_var, 0,  0), true);
++	KCSAN_EXPECT_WRITE_BARRIER(cmpxchg_relaxed(&test_var, 0,  0), false);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_read(&dummy), false);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_read_acquire(&dummy), false);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_set(&dummy, 0), false);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_set_release(&dummy, 0), true);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_add(1, &dummy), false);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_add_return(1, &dummy), true);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_add_return_acquire(1, &dummy), false);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_add_return_release(1, &dummy), true);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_add_return_relaxed(1, &dummy), false);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_fetch_add(1, &dummy), true);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_fetch_add_acquire(1, &dummy), false);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_fetch_add_release(1, &dummy), true);
++	KCSAN_EXPECT_WRITE_BARRIER(atomic_fetch_add_relaxed(1, &dummy), false);
++	KCSAN_EXPECT_WRITE_BARRIER(test_and_set_bit(0, &test_var), true);
++	KCSAN_EXPECT_WRITE_BARRIER(test_and_clear_bit(0, &test_var), true);
++	KCSAN_EXPECT_WRITE_BARRIER(test_and_change_bit(0, &test_var), true);
++	KCSAN_EXPECT_WRITE_BARRIER(clear_bit_unlock(0, &test_var), true);
++	KCSAN_EXPECT_WRITE_BARRIER(__clear_bit_unlock(0, &test_var), true);
++	KCSAN_EXPECT_WRITE_BARRIER(clear_bit_unlock_is_negative_byte(0, &test_var), true);
++	KCSAN_EXPECT_WRITE_BARRIER(arch_spin_lock(&arch_spinlock), false);
++	KCSAN_EXPECT_WRITE_BARRIER(arch_spin_unlock(&arch_spinlock), true);
++	KCSAN_EXPECT_WRITE_BARRIER(spin_lock(&spinlock), false);
++	KCSAN_EXPECT_WRITE_BARRIER(spin_unlock(&spinlock), true);
++	KCSAN_EXPECT_WRITE_BARRIER(mutex_lock(&mutex), false);
++	KCSAN_EXPECT_WRITE_BARRIER(mutex_unlock(&mutex), true);
++
++	KCSAN_EXPECT_RW_BARRIER(mb(), true);
++	KCSAN_EXPECT_RW_BARRIER(wmb(), true);
++	KCSAN_EXPECT_RW_BARRIER(rmb(), true);
++	KCSAN_EXPECT_RW_BARRIER(smp_mb(), true);
++	KCSAN_EXPECT_RW_BARRIER(smp_wmb(), true);
++	KCSAN_EXPECT_RW_BARRIER(smp_rmb(), true);
++	KCSAN_EXPECT_RW_BARRIER(dma_wmb(), true);
++	KCSAN_EXPECT_RW_BARRIER(dma_rmb(), true);
++	KCSAN_EXPECT_RW_BARRIER(smp_mb__before_atomic(), true);
++	KCSAN_EXPECT_RW_BARRIER(smp_mb__after_atomic(), true);
++	KCSAN_EXPECT_RW_BARRIER(smp_mb__after_spinlock(), true);
++	KCSAN_EXPECT_RW_BARRIER(smp_store_mb(test_var, 0), true);
++	KCSAN_EXPECT_RW_BARRIER(smp_load_acquire(&test_var), false);
++	KCSAN_EXPECT_RW_BARRIER(smp_store_release(&test_var, 0), true);
++	KCSAN_EXPECT_RW_BARRIER(xchg(&test_var, 0), true);
++	KCSAN_EXPECT_RW_BARRIER(xchg_release(&test_var, 0), true);
++	KCSAN_EXPECT_RW_BARRIER(xchg_relaxed(&test_var, 0), false);
++	KCSAN_EXPECT_RW_BARRIER(cmpxchg(&test_var, 0,  0), true);
++	KCSAN_EXPECT_RW_BARRIER(cmpxchg_release(&test_var, 0,  0), true);
++	KCSAN_EXPECT_RW_BARRIER(cmpxchg_relaxed(&test_var, 0,  0), false);
++	KCSAN_EXPECT_RW_BARRIER(atomic_read(&dummy), false);
++	KCSAN_EXPECT_RW_BARRIER(atomic_read_acquire(&dummy), false);
++	KCSAN_EXPECT_RW_BARRIER(atomic_set(&dummy, 0), false);
++	KCSAN_EXPECT_RW_BARRIER(atomic_set_release(&dummy, 0), true);
++	KCSAN_EXPECT_RW_BARRIER(atomic_add(1, &dummy), false);
++	KCSAN_EXPECT_RW_BARRIER(atomic_add_return(1, &dummy), true);
++	KCSAN_EXPECT_RW_BARRIER(atomic_add_return_acquire(1, &dummy), false);
++	KCSAN_EXPECT_RW_BARRIER(atomic_add_return_release(1, &dummy), true);
++	KCSAN_EXPECT_RW_BARRIER(atomic_add_return_relaxed(1, &dummy), false);
++	KCSAN_EXPECT_RW_BARRIER(atomic_fetch_add(1, &dummy), true);
++	KCSAN_EXPECT_RW_BARRIER(atomic_fetch_add_acquire(1, &dummy), false);
++	KCSAN_EXPECT_RW_BARRIER(atomic_fetch_add_release(1, &dummy), true);
++	KCSAN_EXPECT_RW_BARRIER(atomic_fetch_add_relaxed(1, &dummy), false);
++	KCSAN_EXPECT_RW_BARRIER(test_and_set_bit(0, &test_var), true);
++	KCSAN_EXPECT_RW_BARRIER(test_and_clear_bit(0, &test_var), true);
++	KCSAN_EXPECT_RW_BARRIER(test_and_change_bit(0, &test_var), true);
++	KCSAN_EXPECT_RW_BARRIER(clear_bit_unlock(0, &test_var), true);
++	KCSAN_EXPECT_RW_BARRIER(__clear_bit_unlock(0, &test_var), true);
++	KCSAN_EXPECT_RW_BARRIER(clear_bit_unlock_is_negative_byte(0, &test_var), true);
++	KCSAN_EXPECT_RW_BARRIER(arch_spin_lock(&arch_spinlock), false);
++	KCSAN_EXPECT_RW_BARRIER(arch_spin_unlock(&arch_spinlock), true);
++	KCSAN_EXPECT_RW_BARRIER(spin_lock(&spinlock), false);
++	KCSAN_EXPECT_RW_BARRIER(spin_unlock(&spinlock), true);
++	KCSAN_EXPECT_RW_BARRIER(mutex_lock(&mutex), false);
++	KCSAN_EXPECT_RW_BARRIER(mutex_unlock(&mutex), true);
++
++	kcsan_nestable_atomic_end();
++}
++
+ /* Simple test with normal data race. */
+ __no_kcsan
+ static void test_basic(struct kunit *test)
+@@ -1039,6 +1264,90 @@ static void test_1bit_value_change(struct kunit *test)
+ 		KUNIT_EXPECT_TRUE(test, match);
+ }
+ 
++__no_kcsan
++static void test_correct_barrier(struct kunit *test)
++{
++	struct expect_report expect = {
++		.access = {
++			{ test_kernel_with_memorder, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
++			{ test_kernel_with_memorder, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(0) },
++		},
++	};
++	bool match_expect = false;
++
++	test_struct.val[0] = 0; /* init unlocked */
++	begin_test_checks(test_kernel_with_memorder, test_kernel_with_memorder);
++	do {
++		match_expect = report_matches_any_reordered(&expect);
++	} while (!end_test_checks(match_expect));
++	KUNIT_EXPECT_FALSE(test, match_expect);
 +}
 +
 +__no_kcsan
-+static bool report_matches_any_reordered(struct expect_report *r)
++static void test_missing_barrier(struct kunit *test)
 +{
-+	return __report_matches(__report_set_scoped(r, 0)) ||
-+	       __report_matches(__report_set_scoped(r, 1)) ||
-+	       __report_matches(__report_set_scoped(r, 2)) ||
-+	       __report_matches(__report_set_scoped(r, 3));
++	struct expect_report expect = {
++		.access = {
++			{ test_kernel_wrong_memorder, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
++			{ test_kernel_wrong_memorder, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(0) },
++		},
++	};
++	bool match_expect = false;
++
++	test_struct.val[0] = 0; /* init unlocked */
++	begin_test_checks(test_kernel_wrong_memorder, test_kernel_wrong_memorder);
++	do {
++		match_expect = report_matches_any_reordered(&expect);
++	} while (!end_test_checks(match_expect));
++	if (IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
++		KUNIT_EXPECT_TRUE(test, match_expect);
++	else
++		KUNIT_EXPECT_FALSE(test, match_expect);
 +}
 +
-+#ifdef CONFIG_KCSAN_WEAK_MEMORY
-+/* Due to reordering accesses, any access may appear as "(reordered)". */
-+#define report_matches report_matches_any_reordered
-+#else
-+#define report_matches __report_matches
-+#endif
++__no_kcsan
++static void test_atomic_builtins_correct_barrier(struct kunit *test)
++{
++	struct expect_report expect = {
++		.access = {
++			{ test_kernel_atomic_builtin_with_memorder, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
++			{ test_kernel_atomic_builtin_with_memorder, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(0) },
++		},
++	};
++	bool match_expect = false;
 +
- /* ===== Test kernels ===== */
++	test_struct.val[0] = 0; /* init unlocked */
++	begin_test_checks(test_kernel_atomic_builtin_with_memorder,
++			  test_kernel_atomic_builtin_with_memorder);
++	do {
++		match_expect = report_matches_any_reordered(&expect);
++	} while (!end_test_checks(match_expect));
++	KUNIT_EXPECT_FALSE(test, match_expect);
++}
++
++__no_kcsan
++static void test_atomic_builtins_missing_barrier(struct kunit *test)
++{
++	struct expect_report expect = {
++		.access = {
++			{ test_kernel_atomic_builtin_wrong_memorder, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
++			{ test_kernel_atomic_builtin_wrong_memorder, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(0) },
++		},
++	};
++	bool match_expect = false;
++
++	test_struct.val[0] = 0; /* init unlocked */
++	begin_test_checks(test_kernel_atomic_builtin_wrong_memorder,
++			  test_kernel_atomic_builtin_wrong_memorder);
++	do {
++		match_expect = report_matches_any_reordered(&expect);
++	} while (!end_test_checks(match_expect));
++	if (IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
++		KUNIT_EXPECT_TRUE(test, match_expect);
++	else
++		KUNIT_EXPECT_FALSE(test, match_expect);
++}
++
+ /*
+  * Generate thread counts for all test cases. Values generated are in interval
+  * [2, 5] followed by exponentially increasing thread counts from 8 to 32.
+@@ -1088,6 +1397,7 @@ static const void *nthreads_gen_params(const void *prev, char *desc)
  
- static long test_sink;
-@@ -438,13 +472,13 @@ static noinline void test_kernel_xor_1bit(void)
- __no_kcsan
- static void test_basic(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_write, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
- 		},
- 	};
--	static const struct expect_report never = {
-+	struct expect_report never = {
- 		.access = {
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
-@@ -469,14 +503,14 @@ static void test_basic(struct kunit *test)
- __no_kcsan
- static void test_concurrent_races(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			/* NULL will match any address. */
- 			{ test_kernel_rmw_array, NULL, 0, __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
- 			{ test_kernel_rmw_array, NULL, 0, __KCSAN_ACCESS_RW(0) },
- 		},
- 	};
--	static const struct expect_report never = {
-+	struct expect_report never = {
- 		.access = {
- 			{ test_kernel_rmw_array, NULL, 0, 0 },
- 			{ test_kernel_rmw_array, NULL, 0, 0 },
-@@ -498,13 +532,13 @@ static void test_concurrent_races(struct kunit *test)
- __no_kcsan
- static void test_novalue_change(struct kunit *test)
- {
--	const struct expect_report expect_rw = {
-+	struct expect_report expect_rw = {
- 		.access = {
- 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
- 		},
- 	};
--	const struct expect_report expect_ww = {
-+	struct expect_report expect_ww = {
- 		.access = {
- 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
-@@ -530,13 +564,13 @@ static void test_novalue_change(struct kunit *test)
- __no_kcsan
- static void test_novalue_change_exception(struct kunit *test)
- {
--	const struct expect_report expect_rw = {
-+	struct expect_report expect_rw = {
- 		.access = {
- 			{ test_kernel_write_nochange_rcu, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
- 		},
- 	};
--	const struct expect_report expect_ww = {
-+	struct expect_report expect_ww = {
- 		.access = {
- 			{ test_kernel_write_nochange_rcu, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_write_nochange_rcu, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
-@@ -556,7 +590,7 @@ static void test_novalue_change_exception(struct kunit *test)
- __no_kcsan
- static void test_unknown_origin(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
- 			{ NULL },
-@@ -578,7 +612,7 @@ static void test_unknown_origin(struct kunit *test)
- __no_kcsan
- static void test_write_write_assume_atomic(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_write, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_write, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
-@@ -604,7 +638,7 @@ static void test_write_write_assume_atomic(struct kunit *test)
- __no_kcsan
- static void test_write_write_struct(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
-@@ -626,7 +660,7 @@ static void test_write_write_struct(struct kunit *test)
- __no_kcsan
- static void test_write_write_struct_part(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_write_struct_part, &test_struct.val[3], sizeof(test_struct.val[3]), KCSAN_ACCESS_WRITE },
-@@ -658,7 +692,7 @@ static void test_read_atomic_write_atomic(struct kunit *test)
- __no_kcsan
- static void test_read_plain_atomic_write(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
- 			{ test_kernel_write_atomic, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC },
-@@ -679,7 +713,7 @@ static void test_read_plain_atomic_write(struct kunit *test)
- __no_kcsan
- static void test_read_plain_atomic_rmw(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
- 			{ test_kernel_atomic_rmw, &test_var, sizeof(test_var),
-@@ -701,13 +735,13 @@ static void test_read_plain_atomic_rmw(struct kunit *test)
- __no_kcsan
- static void test_zero_size_access(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
- 		},
- 	};
--	const struct expect_report never = {
-+	struct expect_report never = {
- 		.access = {
- 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
- 			{ test_kernel_read_struct_zero_size, &test_struct.val[3], 0, 0 },
-@@ -741,7 +775,7 @@ static void test_data_race(struct kunit *test)
- __no_kcsan
- static void test_assert_exclusive_writer(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_assert_writer, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
- 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
-@@ -759,7 +793,7 @@ static void test_assert_exclusive_writer(struct kunit *test)
- __no_kcsan
- static void test_assert_exclusive_access(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_assert_access, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE },
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
-@@ -777,19 +811,19 @@ static void test_assert_exclusive_access(struct kunit *test)
- __no_kcsan
- static void test_assert_exclusive_access_writer(struct kunit *test)
- {
--	const struct expect_report expect_access_writer = {
-+	struct expect_report expect_access_writer = {
- 		.access = {
- 			{ test_kernel_assert_access, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE },
- 			{ test_kernel_assert_writer, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
- 		},
- 	};
--	const struct expect_report expect_access_access = {
-+	struct expect_report expect_access_access = {
- 		.access = {
- 			{ test_kernel_assert_access, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE },
- 			{ test_kernel_assert_access, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE },
- 		},
- 	};
--	const struct expect_report never = {
-+	struct expect_report never = {
- 		.access = {
- 			{ test_kernel_assert_writer, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
- 			{ test_kernel_assert_writer, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
-@@ -813,7 +847,7 @@ static void test_assert_exclusive_access_writer(struct kunit *test)
- __no_kcsan
- static void test_assert_exclusive_bits_change(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_assert_bits_change, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
- 			{ test_kernel_change_bits, &test_var, sizeof(test_var),
-@@ -844,13 +878,13 @@ static void test_assert_exclusive_bits_nochange(struct kunit *test)
- __no_kcsan
- static void test_assert_exclusive_writer_scoped(struct kunit *test)
- {
--	const struct expect_report expect_start = {
-+	struct expect_report expect_start = {
- 		.access = {
- 			{ test_kernel_assert_writer_scoped, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_SCOPED },
- 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
- 		},
- 	};
--	const struct expect_report expect_inscope = {
-+	struct expect_report expect_inscope = {
- 		.access = {
- 			{ test_enter_scope, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_SCOPED },
- 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
-@@ -871,16 +905,16 @@ static void test_assert_exclusive_writer_scoped(struct kunit *test)
- __no_kcsan
- static void test_assert_exclusive_access_scoped(struct kunit *test)
- {
--	const struct expect_report expect_start1 = {
-+	struct expect_report expect_start1 = {
- 		.access = {
- 			{ test_kernel_assert_access_scoped, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_SCOPED },
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
- 		},
- 	};
--	const struct expect_report expect_start2 = {
-+	struct expect_report expect_start2 = {
- 		.access = { expect_start1.access[0], expect_start1.access[0] },
- 	};
--	const struct expect_report expect_inscope = {
-+	struct expect_report expect_inscope = {
- 		.access = {
- 			{ test_enter_scope, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_SCOPED },
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
-@@ -985,7 +1019,7 @@ static void test_atomic_builtins(struct kunit *test)
- __no_kcsan
- static void test_1bit_value_change(struct kunit *test)
- {
--	const struct expect_report expect = {
-+	struct expect_report expect = {
- 		.access = {
- 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
- 			{ test_kernel_xor_1bit, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
+ #define KCSAN_KUNIT_CASE(test_name) KUNIT_CASE_PARAM(test_name, nthreads_gen_params)
+ static struct kunit_case kcsan_test_cases[] = {
++	KUNIT_CASE(test_barrier_nothreads),
+ 	KCSAN_KUNIT_CASE(test_basic),
+ 	KCSAN_KUNIT_CASE(test_concurrent_races),
+ 	KCSAN_KUNIT_CASE(test_novalue_change),
+@@ -1112,6 +1422,10 @@ static struct kunit_case kcsan_test_cases[] = {
+ 	KCSAN_KUNIT_CASE(test_seqlock_noreport),
+ 	KCSAN_KUNIT_CASE(test_atomic_builtins),
+ 	KCSAN_KUNIT_CASE(test_1bit_value_change),
++	KCSAN_KUNIT_CASE(test_correct_barrier),
++	KCSAN_KUNIT_CASE(test_missing_barrier),
++	KCSAN_KUNIT_CASE(test_atomic_builtins_correct_barrier),
++	KCSAN_KUNIT_CASE(test_atomic_builtins_missing_barrier),
+ 	{},
+ };
+ 
+@@ -1176,6 +1490,9 @@ static int test_init(struct kunit *test)
+ 	observed.nlines = 0;
+ 	spin_unlock_irqrestore(&observed.lock, flags);
+ 
++	if (strstr(test->name, "nothreads"))
++		return 0;
++
+ 	if (!torture_init_begin((char *)test->name, 1))
+ 		return -EBUSY;
+ 
+@@ -1218,6 +1535,9 @@ static void test_exit(struct kunit *test)
+ 	struct task_struct **stop_thread;
+ 	int i;
+ 
++	if (strstr(test->name, "nothreads"))
++		return;
++
+ 	if (torture_cleanup_begin())
+ 		return;
+ 
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211118081027.3175699-11-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211118081027.3175699-12-elver%40google.com.
