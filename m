@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBKHI3CGAMGQEWLPMMZQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRB4PI3CGAMGQE4GI3UVA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20354559A2
-	for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 12:08:24 +0100 (CET)
-Received: by mail-lf1-x13c.google.com with SMTP id x17-20020a0565123f9100b003ff593b7c65sf3789230lfa.12
-        for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 03:08:24 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637233704; cv=pass;
+Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1208A4559B1
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 12:09:38 +0100 (CET)
+Received: by mail-wm1-x337.google.com with SMTP id r6-20020a1c4406000000b0033119c22fdbsf2453003wma.4
+        for <lists+kasan-dev@lfdr.de>; Thu, 18 Nov 2021 03:09:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637233777; cv=pass;
         d=google.com; s=arc-20160816;
-        b=t6vYYWbJES/AU2FH8fYJ/tR6GH+XYe4RKTuZVBRuanrNv/LIMAkbV1m7iPghaGQwd5
-         BpqoPWG5TwUWinXqQkqDC/uxE6GVZFMQC2+BjTPBkGr1RZywI+oYox28KH8mwH2aQlkj
-         2IJohfnprtinCSZw0Hx7z/FIwd9oDWh5Li0a8mhi3E9tTp7+M0w5aT5Hmui4UuMZGfdE
-         sKFhaZanQUb+10IuhqX4YtdXqGfZpL7A+DlEPItpz97k4itqggSQKQL8+2TyhUCQxH7P
-         CpemBZ+n+PhTf/RyyIyXhwCIJS5omUFJb1DM+0dslYVq1tOWsX1Bo1UFCJlUZ+c4M8vi
-         q2tw==
+        b=hlpCEtVAOCsN5fsQEzlhB9R6rta+PJhY2P1qjC5crfcCcC5P1Hq/E4qcrzu0RPwm4w
+         6maSE3z3Iakjjr5A6Xbn4xsCW5lvQK7v+5yBQxTYMzARFzz60GoTYxEVVCd3ScBDCwwE
+         EtJMhsKKwXB9oyJb7lJhUYsSNddmNaCU8JVD9zw2p9CZQrxJMyxrd/ZkC8U2bwff1imD
+         9s9VqF1PkWSD+OMgbMwBuZhmpZug7DhmoDNAlz0JKITu1pWIke878mWaEGIf0Bo4fLlF
+         FZaUhzI23D5tmVYF/aquVTHn8Cz0T2M94im/3kkNlN60KCG5LMhQh9U1XpMJo4aZYfa3
+         bAjg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=cXkbOhEi3wXEwgJdhKhWu0rCBRUvO0fPkgYLNsdFVfU=;
-        b=WADxELPWmTsNUa55y/LUpctjQUgxthUeneCXQBzZ406YYQYTg4h8vJ5ic02eoqbbuB
-         NIheKB36poAVJNwD2ZTuh/Dd7alka6DJUGwXePdbG52o2dh0hML6xN+E4hQ0TacRl65l
-         yhfL5GGres2hnxIlkM8Gwvwdq3TkDc0b2bSGNghcZ8lG0fRLz4mRgUy/5hrRe+nvN5sm
-         Ejti+6RzkMoLBRKgsyiFERrNoPBhtU07PzJJImV7fFo4qwR4uIB0edAGnTn0Jn5aNgq/
-         2CSDbv2C+sEYe0YxdQu2sa7QRvX5aFr01wM5sglTjKMNriJNp9m/SdHz1xbJXmjclh0m
-         8tOA==
+        bh=g/U1pxZAThCOSWO42pJTkHsTnkYDViBZ3MvW4ree840=;
+        b=SYtNw48ZnsG8bCkiwKI1Pckp+LbYPGaRAD7jbtTG8q5nchnV6G0y2ZnowZ7VGzx/LU
+         qoYQjlVYN1Kzi7N130DNLb9dTN/exVgXGIWdkdOTHA5gIMeQmhzytxumUqPlJ1xKt77D
+         yv9kAXgT999AxpBQVPJloaWgMsMEB0bIPa9dz9DdDOlu/BVwHU+6D0F+bqOMGxeRzKsI
+         8B/DoHJbgSVGHwqNKHiYBvM3IMaQkS5VEFnXI+HkCuz+n9ZHGC7zGRof1qw7VO1zB0t9
+         Uv42dLNbqMz0byHQ3MOFaftyR3cz7HtIrgPsVxOw1fdIbdhDlm6lkHQzohQtdACgFCGi
+         JCyw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=cXkbOhEi3wXEwgJdhKhWu0rCBRUvO0fPkgYLNsdFVfU=;
-        b=dUx2Y7QtpuqlG67iVaA7UC1cKcTA7O7RJY1oX+HbaUS5QHpL0uIEwpJ9wcsOCw4WXu
-         05X18MPpsMbBIVn8I09Hxw+wt0BsiM+Dl5SPrFBAbxCV1hc2UjG6VNRq5m4ZFXmALAxG
-         lfWNQroW3SO2KeN0XQHZrK/CEQPLyOx5zrHTOFSeNnHhNliEtofndR8cRc8bbd3giEUK
-         EG+Zy6+43hYsdTwCXOdAYbN8NNWl6oEeY/tjvo8jD9aBs5HSVyq31dMLXXCFVi6u2kSz
-         al70gW/YceJlvDCm7516y0x7UMNHSJDvrFjUPWb2M+8i3wjiWhpH6YkW67EBTMWxulIj
-         UlMg==
+        bh=g/U1pxZAThCOSWO42pJTkHsTnkYDViBZ3MvW4ree840=;
+        b=m6ZNhryGPYuJH0NEIzFkHZmrYWpyHwepCr1Wbks3uahhC3LHGqSZRD7AcZ8fcDMswm
+         DfW4pmWML2NftsNZns9wz27Fqx4BPz+fHhUEXAbrXE1S3696QM+aJ39RKqFHY+q8N8MS
+         OkZ0VxjmAaiaTATRDNhFD8FKihEGsCRCvu1qtBBEjg3+vb9pQwkZNN+jDKe/9BcRARuV
+         Upvw08Fq9ITT6LY+eb5H0QO5lIAH5TQwPaMklYIRfQtgIE3Fq2fzFT6Y1bVHARneYB5d
+         eegMHd1ju70fDY/VjbBI9LYYjJZb284lwYsVFk8dvRQ/NY1VCWti46rdpNaAJOATa2hK
+         0vXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -49,57 +49,57 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=cXkbOhEi3wXEwgJdhKhWu0rCBRUvO0fPkgYLNsdFVfU=;
-        b=sS9KuOD1JoN2wTGiCsmg1aGcYZyzbg/pu5mxySvF0HayHDdYOPK7OSRWymUyUHtmfi
-         E9rmJTZPXQWrie1TYWHcStnp1u6Mir8iGF95QA2SC9ULADfIoNimPrTarf2GF4QYwprW
-         HO/OiBE+fSaKH2oYzbOguTQW2w9kf3ZisfbXaLeQxCfg/+0QDeuXPAV8NEV+fsNcGdEA
-         Bs7fdveT7qKKKLKBhKOsCNWYb/rIAhfQ6CGKacRff0fvDtJubmXU60ip7qmDoX/rHPpa
-         3s0B0VXw3/WzzrlLv3txTiCm1lgEtaUH8BXWyKXjtT/ek1I56CEBmiSSWy++dda65M/y
-         2+qw==
+        bh=g/U1pxZAThCOSWO42pJTkHsTnkYDViBZ3MvW4ree840=;
+        b=rFr1bfgzgKrigxzzAQWL0n8A31dS6Vbm8vt8xG3VxXU2uu9FzEBBZeiPq+GiRQ9rtn
+         av/soQeiASjiW5RY73zfsU/bWC96eY/I8yx+ooxqTJMQsWKtM2gUCycU9La3nWS16f9V
+         KGY1YDLPmzRWD8NJLJe81+BRq2XUjpOExaB4dL1a+oc0pkGGdHMhy7RLSPEuTen/oLAn
+         adoFgGaGF5Ej1YL9Tda3haN6hwYjShNg4LvS3coRnNHkmV1tsgqoL6cCGsK0mtT+yqjg
+         z9p4spI/JH6NjGG3WDT8KUbCq+bq6eI0fgmY/nFadnU92v9bHkmqrR7uIWBFJgtrAmtP
+         l7ug==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532hlJFISkIB0w20KvgwShxlWF7DmxCHrlz2Nc2llVZHs4l7dsBh
-	0Te2GRMFdWfgJ+JVsfkaLZg=
-X-Google-Smtp-Source: ABdhPJycuv94CePYLRU96TPxLCqccHbTUt+4XxMydkve5Pc27mn6YJ+eombIwaThlY4nYQBxPAwt1Q==
-X-Received: by 2002:a2e:5c87:: with SMTP id q129mr15367586ljb.424.1637233704256;
-        Thu, 18 Nov 2021 03:08:24 -0800 (PST)
+X-Gm-Message-State: AOAM531/wnK1JtWrBIChEKqsdFZoWTW3sLLP3Y5O/bCr+YuAXu8EgDhW
+	66Kc9tK9tDHIlQ7rN7TUJjg=
+X-Google-Smtp-Source: ABdhPJwkpvjCsGZoV8kJMXYZgzfuiGLYXpfbaljzfFiAc80uFRuNRmCMeWnlhAk4O3Zj6SH6OlT1FA==
+X-Received: by 2002:a5d:6152:: with SMTP id y18mr30181252wrt.271.1637233777814;
+        Thu, 18 Nov 2021 03:09:37 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:2610:: with SMTP id bt16ls1951920lfb.2.gmail; Thu,
- 18 Nov 2021 03:08:23 -0800 (PST)
-X-Received: by 2002:a05:6512:1310:: with SMTP id x16mr3121872lfu.436.1637233703135;
-        Thu, 18 Nov 2021 03:08:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637233703; cv=none;
+Received: by 2002:adf:fe0b:: with SMTP id n11ls3049312wrr.0.gmail; Thu, 18 Nov
+ 2021 03:09:36 -0800 (PST)
+X-Received: by 2002:adf:d1c2:: with SMTP id b2mr30344943wrd.369.1637233776751;
+        Thu, 18 Nov 2021 03:09:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637233776; cv=none;
         d=google.com; s=arc-20160816;
-        b=Uco0K0tDv5qBB06Uoed4e20WKRxOUNWI+wr02emTp8pkipGepBWkc5fODNBxlSFC2g
-         XceoCdeuCKWKU6jEwSq5SvXl6XEtn1M03sPacKLOVEp8dSu6SIoDVf/ZescKTKhwt3n3
-         BrNKxhfA4VldeCdBvhxK6dq33FrWEi9ChdZdnepeoWXE9EdKqtDZejD/xozYzl7z0uq2
-         LRCQhZuFXux/D7MD1IIpwnQxP2kS1Rmv3VBLfxVrmjr/1RT4iYzpJ2ObAehVIv2qVu9C
-         qcEcIh0Iv+uuTfx9ZWjVRVcvbfQEqdBD9/3cEV3lkv08W6Rd2jprp1JamLjpBjaG452l
-         b+Sw==
+        b=Se9YwIccSLC1yjfQqknJ5pEAkkUWoGlEWqiXUTjaslk5FHyE/L1TiwijI3z9FzPZXj
+         CCI7gWpDSOsAuzPXVzXQzNT1GXmlxbG39G6w9f8mTKL8scxqySwMC/uQNiRvfMNVo1xx
+         h3kAmLIA1Oh1AEBO87mhJOEi8dJx1bnnE+csfm9ZxU+ruBjcYCr+EEd3Z5aU+xPH6k09
+         F50416+Ijvo7KsehE9ijf0jQhfBSNO6XwY3DyFRD4mR7NOVUQsOMQ/p4Nmj3f0UoijOQ
+         i8DEqtoM8ppmJRTEpiFxqf2v3Om0hwXkqe7ng0p5b4zk2u+iMhlBDPnwV2mY/OxIo9tS
+         BOIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date;
-        bh=/abr01z3EYDOUESYJNw736mTWHWquEi+JvHBGL6q6rQ=;
-        b=bGJqTq8zzuKEo6IKyw7hPd/frBeUh7vxpM5WaVI1hfEru5LUOrih8JnpRKRs68tYqu
-         14Kxye3vFk/pxYfwn7a9PttWVV1AzXFRDzGvN2Ym7qgKqiDGx7U35oWQTFaqZbe2ZFRg
-         0kwLLJEHdlm5ym6KnFUhl2SHscVuysCLcMsrZcPwjbRCFtC7gvqyYXYQ0bnH7MtUBmS4
-         no//xZUrtV7XU01UKwIxxDmGzTgzss7eTf2bc7kWoABbxcYzOfmZ0NK6sDCjWqg0H2gQ
-         iKrJ1tHPF7gv6A+/vvEr9K0o4FvQXlrTjLPjZCsW8wO76LC8IpxE6xMZ3ypp5lyb7cxm
-         4K+A==
+        bh=WjRKTFUMYfLD2lR7e9VkwRwtbg3YIQKufVeatWZNt3I=;
+        b=E+3FL2aP/a2IWlLbXZT+MJXF86TVEg2GDPGxAeHIs1L/a5KXkKvUyvUKaab2JN9lDc
+         Dwy3fDIAZo+vjF4r9gmNh/tn3FVLz2gCwXJnqLZVnKmeS+MdG05WWeptgrb4IzWlulfl
+         CVmsmNQ5jltH0MrrPMCUhdNOo2vGXMijCIdXxZ0mMVoTiDJKUOwTn7vgx/3X2kV/4h+D
+         xM/QAq6OpjM++11sOUEEay+SP956sM+rD6OExGG9aTpkzWk5wAWcIwN6pD3Fh8CK5aPK
+         YwkqAIo7H3afQdGx2JgqHSvzU2BHzMpHp7YENQPqf/IqmECnR2HUBFAk7HMVRY8mlVsL
+         5QKA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id i12si188627lfr.7.2021.11.18.03.08.22
+        by gmr-mx.google.com with ESMTP id s138si612600wme.1.2021.11.18.03.09.36
         for <kasan-dev@googlegroups.com>;
-        Thu, 18 Nov 2021 03:08:23 -0800 (PST)
+        Thu, 18 Nov 2021 03:09:36 -0800 (PST)
 Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ACE881FB;
-	Thu, 18 Nov 2021 03:08:21 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EAB671FB;
+	Thu, 18 Nov 2021 03:09:35 -0800 (PST)
 Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 26D7E3F5A1;
-	Thu, 18 Nov 2021 03:08:19 -0800 (PST)
-Date: Thu, 18 Nov 2021 11:08:14 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C2123F5A1;
+	Thu, 18 Nov 2021 03:09:33 -0800 (PST)
+Date: Thu, 18 Nov 2021 11:09:31 +0000
 From: Mark Rutland <mark.rutland@arm.com>
 To: Marco Elver <elver@google.com>
 Cc: "Paul E. McKenney" <paulmck@kernel.org>,
@@ -113,14 +113,15 @@ Cc: "Paul E. McKenney" <paulmck@kernel.org>,
 	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 01/23] kcsan: Refactor reading of instrumented memory
-Message-ID: <20211118110813.GA5233@lakrids.cambridge.arm.com>
+Subject: Re: [PATCH v2 02/23] kcsan: Remove redundant zero-initialization of
+ globals
+Message-ID: <20211118110931.GB5233@lakrids.cambridge.arm.com>
 References: <20211118081027.3175699-1-elver@google.com>
- <20211118081027.3175699-2-elver@google.com>
+ <20211118081027.3175699-3-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20211118081027.3175699-2-elver@google.com>
+In-Reply-To: <20211118081027.3175699-3-elver@google.com>
 User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 X-Original-Sender: mark.rutland@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
@@ -139,100 +140,69 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Nov 18, 2021 at 09:10:05AM +0100, Marco Elver wrote:
-> Factor out the switch statement reading instrumented memory into a
-> helper read_instrumented_memory().
+On Thu, Nov 18, 2021 at 09:10:06AM +0100, Marco Elver wrote:
+> They are implicitly zero-initialized, remove explicit initialization.
+> It keeps the upcoming additions to kcsan_ctx consistent with the rest.
 > 
-> No functional change.
+> No functional change intended.
 > 
 > Signed-off-by: Marco Elver <elver@google.com>
+> ---
+>  init/init_task.c    | 9 +--------
+>  kernel/kcsan/core.c | 5 -----
+>  2 files changed, 1 insertion(+), 13 deletions(-)
+> 
+> diff --git a/init/init_task.c b/init/init_task.c
+> index 2d024066e27b..61700365ce58 100644
+> --- a/init/init_task.c
+> +++ b/init/init_task.c
+> @@ -181,14 +181,7 @@ struct task_struct init_task
+>  	.kasan_depth	= 1,
+>  #endif
+>  #ifdef CONFIG_KCSAN
+> -	.kcsan_ctx = {
+> -		.disable_count		= 0,
+> -		.atomic_next		= 0,
+> -		.atomic_nest_count	= 0,
+> -		.in_flat_atomic		= false,
+> -		.access_mask		= 0,
+> -		.scoped_accesses	= {LIST_POISON1, NULL},
+> -	},
+> +	.kcsan_ctx = { .scoped_accesses = {LIST_POISON1, NULL} },
 
-Nice cleanup!
+I'd recommend leaving this as:
+
+	.kcsan_ctx = {
+		.scoped_accesses = {LIST_POISON1, NULL},
+	},
+
+... which'd be consistent with the DEFINE_PER_CPU() usage below, and
+makes it easier to add fields to in future without needing structural
+changes.
+
+Either way:
 
 Acked-by: Mark Rutland <mark.rutland@arm.com>
 
-Mark.
-
-> ---
->  kernel/kcsan/core.c | 51 +++++++++++++++------------------------------
->  1 file changed, 17 insertions(+), 34 deletions(-)
-> 
+>  #endif
+>  #ifdef CONFIG_TRACE_IRQFLAGS
+>  	.softirqs_enabled = 1,
 > diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-> index 4b84c8e7884b..6bfd3040f46b 100644
+> index 6bfd3040f46b..e34a1710b7bc 100644
 > --- a/kernel/kcsan/core.c
 > +++ b/kernel/kcsan/core.c
-> @@ -325,6 +325,21 @@ static void delay_access(int type)
->  	udelay(delay);
->  }
+> @@ -44,11 +44,6 @@ bool kcsan_enabled;
 >  
-> +/*
-> + * Reads the instrumented memory for value change detection; value change
-> + * detection is currently done for accesses up to a size of 8 bytes.
-> + */
-> +static __always_inline u64 read_instrumented_memory(const volatile void *ptr, size_t size)
-> +{
-> +	switch (size) {
-> +	case 1:  return READ_ONCE(*(const u8 *)ptr);
-> +	case 2:  return READ_ONCE(*(const u16 *)ptr);
-> +	case 4:  return READ_ONCE(*(const u32 *)ptr);
-> +	case 8:  return READ_ONCE(*(const u64 *)ptr);
-> +	default: return 0; /* Ignore; we do not diff the values. */
-> +	}
-> +}
-> +
->  void kcsan_save_irqtrace(struct task_struct *task)
->  {
->  #ifdef CONFIG_TRACE_IRQFLAGS
-> @@ -482,23 +497,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
->  	 * Read the current value, to later check and infer a race if the data
->  	 * was modified via a non-instrumented access, e.g. from a device.
->  	 */
-> -	old = 0;
-> -	switch (size) {
-> -	case 1:
-> -		old = READ_ONCE(*(const u8 *)ptr);
-> -		break;
-> -	case 2:
-> -		old = READ_ONCE(*(const u16 *)ptr);
-> -		break;
-> -	case 4:
-> -		old = READ_ONCE(*(const u32 *)ptr);
-> -		break;
-> -	case 8:
-> -		old = READ_ONCE(*(const u64 *)ptr);
-> -		break;
-> -	default:
-> -		break; /* ignore; we do not diff the values */
-> -	}
-> +	old = read_instrumented_memory(ptr, size);
+>  /* Per-CPU kcsan_ctx for interrupts */
+>  static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx) = {
+> -	.disable_count		= 0,
+> -	.atomic_next		= 0,
+> -	.atomic_nest_count	= 0,
+> -	.in_flat_atomic		= false,
+> -	.access_mask		= 0,
+>  	.scoped_accesses	= {LIST_POISON1, NULL},
+>  };
 >  
->  	/*
->  	 * Delay this thread, to increase probability of observing a racy
-> @@ -511,23 +510,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
->  	 * racy access.
->  	 */
->  	access_mask = ctx->access_mask;
-> -	new = 0;
-> -	switch (size) {
-> -	case 1:
-> -		new = READ_ONCE(*(const u8 *)ptr);
-> -		break;
-> -	case 2:
-> -		new = READ_ONCE(*(const u16 *)ptr);
-> -		break;
-> -	case 4:
-> -		new = READ_ONCE(*(const u32 *)ptr);
-> -		break;
-> -	case 8:
-> -		new = READ_ONCE(*(const u64 *)ptr);
-> -		break;
-> -	default:
-> -		break; /* ignore; we do not diff the values */
-> -	}
-> +	new = read_instrumented_memory(ptr, size);
->  
->  	diff = old ^ new;
->  	if (access_mask)
 > -- 
 > 2.34.0.rc2.393.gf8c9666880-goog
 > 
@@ -240,4 +210,4 @@ Mark.
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211118110813.GA5233%40lakrids.cambridge.arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211118110931.GB5233%40lakrids.cambridge.arm.com.
