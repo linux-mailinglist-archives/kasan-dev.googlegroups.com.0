@@ -1,127 +1,220 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBMH53WGAMGQEKX46AVA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAL5AMDVMDBBV4L32GAMGQEYGS6KRY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x737.google.com (mail-qk1-x737.google.com [IPv6:2607:f8b0:4864:20::737])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED118456D6B
-	for <lists+kasan-dev@lfdr.de>; Fri, 19 Nov 2021 11:38:41 +0100 (CET)
-Received: by mail-qk1-x737.google.com with SMTP id bq9-20020a05620a468900b004681cdb3483sf7437512qkb.23
-        for <lists+kasan-dev@lfdr.de>; Fri, 19 Nov 2021 02:38:41 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637318321; cv=pass;
+Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B222456DFB
+	for <lists+kasan-dev@lfdr.de>; Fri, 19 Nov 2021 12:09:12 +0100 (CET)
+Received: by mail-wr1-x437.google.com with SMTP id o4-20020adfca04000000b0018f07ad171asf1702728wrh.20
+        for <lists+kasan-dev@lfdr.de>; Fri, 19 Nov 2021 03:09:12 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1637320152; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qiiuviXIO8ZystNYPFu7Z4mMSV1aUEFX/oeTDV98xiFmqh5kdDkNhUTkKpfSsGrcfn
-         RybCU8aEMVrBNQ4cliTUx7KRlsBpfN1VGo4JcNhp1OBJluSE7eBl/YFUhQQS0TotzoLP
-         7ZO4ZJH9LmDSgG6bscG5xUdv+/E0yqJaVsLGV/dwQGYm8F9Gz4E2A7FAFuPqpe5lBKAR
-         u+9AkHEy7Z5nZBgL5JugfOmmebNoVbGrWAsRBB4gnvgyMKmzaf1YAfWqIC40X+lwYYek
-         SdX9Q2UHhU8Qu0FPlPgsfC5CEL503uogV+QFCx+a1hchiboPN/8N7zfmvKlHOcfydSxV
-         ir4w==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=TWoSB67tRCPm6/k/3/sq0YE9ZcrVAPGi8RDtKDLFHMJJVV9Wg+rAs1k1YqXNNtSLvx
+         dLrTk6lhTycY4eIfHxO96+wUxeijnz59JObqWGQpdg4EddUZDZFtBvsnWNAwnS5LvIKW
+         3uCQxYf5RC9cQOt52Ck0InRHiOLp468stps8G+hB8y95BUWt6VOzREI2lJGmnZaDsgdR
+         aYl2BuvMoz9EoXOPoHGFPNYiw+F+d9X8Zz8iOUxpztwx78qdx4Cl5lW1QxJTSLNGVNkx
+         /Wwak6voIbZftk2GhQU+128394PBg/rDD3EiqO4wEZcmBeAjwjsueH5JK3MI/9ODa4V3
+         yB3A==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=JgEX1KJryDfPUG0IhBtoIuNzY43zoweZEPZaOL4ta8s=;
-        b=xD9uQTuhoG9M0HmpU3VCf26bHVcu9FcUytQC1izlW8EJT5avFhdCb9RdvOpHKZKU2p
-         2vTywJiMxXtDgF8inNpbW5AL7LDrQv0P7WAKqWD/Z+GU756nLXaPVS1qTXzn3WAGGJru
-         tokfXXHIUj7B549+k0UUX6BbJGilHfYwiuyhp8+0MP/WPDOH/Odd8wHdv5ZU6ocfhofT
-         vJ2FzesHJQIujxIBp9Ih0wpfXB7VI/g2KFL2TldZZ/lPAmBlNkHZnXnfeym2R4insfKQ
-         2T1oz2+gE5wDH/mSPNmII+TML1G0sXBbHl52Z7kA53SXepCZ/eRCcRbzFwxHGhtBoMzt
-         sK7g==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="bAWRE/8m";
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+         :list-id:mailing-list:precedence:mime-version
+         :content-transfer-encoding:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=nDQ+BNrw+L67MWfAe1MBJjMCgWQ11vpBiQLFWmIoAvw=;
+        b=r5l4GVjB6mnd4maH+NDq2Eri97ZV94d7z2pDwPpNpYSn7LXXB7rUd31BduBYbigH/W
+         C2JBKLuW/SPgJfKgA0GA5FYyzQwOBffe8Sqv9+yRnW92juaFHoE4yWC11bznlBcMQJgp
+         +q58I8f7rgrWFJsaFXTv9+SKmJ5E6rLYtDDMeF6AsZFykVhoN35d4cWp0T8eLB+gbf+w
+         2bo+8YJ5R2rKXHy3JeZlvoP9V8udy8ZTvXN9glEY+CBtvSValYpuiGp2n/+CNPQzKPAT
+         +QQpchlNZf2rGUX3CJGoFF5NGDoHHrIz1NpKfbQVcAQWnfj/UuloOdotOGMJ0p93hkpa
+         D5ag==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@qti.qualcomm.com header.s=qccesdkim1 header.b=uK0S82+R;
+       arc=pass (i=1 spf=pass spfdomain=qti.qualcomm.com dkim=pass dkdomain=qti.qualcomm.com dmarc=pass fromdomain=qti.qualcomm.com);
+       spf=pass (google.com: domain of jiangenj@qti.qualcomm.com designates 216.71.140.77 as permitted sender) smtp.mailfrom=jiangenj@qti.qualcomm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=qti.qualcomm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=JgEX1KJryDfPUG0IhBtoIuNzY43zoweZEPZaOL4ta8s=;
-        b=tK3s4bDvagoRDImK827oRc0fjChYZI4FCHOvNs52f2FtnkDpnGLDU0EZz0hfFiQOHC
-         xyLV3OLiUGs9iwxTW/8uLkY/h6Dw1wOdU/QIjw/VVzqUzAk1fWkJgqlYfCrvBNgISpzf
-         DMytptAJeGPLEg6Y1rDIVUH5DCCTUP56/4K5pIMcOG2t84i7QNQb6ZbcPvKfv+9quuyZ
-         8kKqzfCmVsUN7Qmt2fDsvYIkBdmvJQFcPYyUMQ21DJL2iBHi/p+o0/098TwrftJOfEAP
-         F7hiWPrEmpGaG2ojNgA6fftZATZdIYzSMIYjP9hGp28628ZLYBmpLqBeHOf3KABivm5Z
-         BqLg==
+        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
+         :references:in-reply-to:accept-language:content-language
+         :content-transfer-encoding:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=nDQ+BNrw+L67MWfAe1MBJjMCgWQ11vpBiQLFWmIoAvw=;
+        b=dd5RQt/bGjGWnNMvJSQiidcjZoQAsokiaStesdA7rxUvag5irEb1rhLw0ij7Og9bWr
+         HIlcVlQEBg8432MRwCyc8p+TJlunENNmTw0fLDeEoTz7lym/kyUzQZchP/ve4LLYRNB6
+         KXTA5IinglTazx5DLaTJ/PHXlUJdIvYS2EsFVMeMpiJYFhSg8aiqvvhqQXCRLBrYPvAV
+         dL4K/I5JuxPbnkwMLAJBHk0CdlMBmaamf9cIQV97DWLC3neO9X+S+m5EE2nAhHXmHyCa
+         twPZfkGH0HTl0PqEtkpe9fG2DTFqrUWfil5YXfKsayZNaJDogqXTRb4k5bbSVusb5zo/
+         iaMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=JgEX1KJryDfPUG0IhBtoIuNzY43zoweZEPZaOL4ta8s=;
-        b=Zhix+vOjturbkqQMIE+OJlWnZXK4u738T9wxsJwY0WajRHfgcSdwHt7BtwNpgWsyV5
-         4cnk+NsxcRWbRXUKiIYuczNBgCXjugB06crPpz7vkDWF815dBYNt9lwv5XvpwQwlGMcm
-         RlO53JlRJcGt1f5zsv+CAiTzyOYWrDt1qw2KiP0TOW1cMi6WvPUI+q0Gj7JdpcMT6IY2
-         5gXWELijgW7DOdD+a2VWy22ALdxoagJ+9N3W2LJFPc0lNVRMhFAIjfIWdoDQ0fe2ikph
-         2B9stCY23nUPAqmJ6fyosGnV/QCEKIltaAmOPE+rG2KoTvBf7H6Lsaz+1m5qtthwKmPg
-         kFPA==
-X-Gm-Message-State: AOAM532Vc2jzywhBZTUYZsPYESW/k7BZVa//2hlR1/1NT8h9rBrZ/cYe
-	XEftejaud8gVqVrmudRKL1Q=
-X-Google-Smtp-Source: ABdhPJy9rlHzss4wCD7uJlGZqfP4YnxYQnbr37Y24bQcxCDcPgfFVg1ZTiD1yaY/LGYkeF+WtJC2QQ==
-X-Received: by 2002:a05:6214:411d:: with SMTP id kc29mr71419687qvb.22.1637318320851;
-        Fri, 19 Nov 2021 02:38:40 -0800 (PST)
+        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
+         :thread-index:date:message-id:references:in-reply-to:accept-language
+         :content-language:content-transfer-encoding:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=nDQ+BNrw+L67MWfAe1MBJjMCgWQ11vpBiQLFWmIoAvw=;
+        b=kg5CaPzjuCTv60jowJe4B66dqexx3bQAJzHdx3XRpqEdHimFVCCbjSiVUw0+ysxv5f
+         njgoOdTzAmYHi+YnrMfF3yiL/o5HeBEBSwl7hDNSDYb4nSgrr5CSd+0eL9n1h92SjmkT
+         K8YHdmCRlqmrUmO9SM+3gjDEPlUgT0YQi2LgVBEydqeBEWuudbZAgcgvt1iV5isFTpmp
+         qJTbNX233VnmPcCF8Fr8hFryUgJ8w5+RFvIzEH9uFVSp9wtVbbIkaA33iztn0/eIsvPy
+         vomnwOxDzLZzUtVVesJJbTAu7R2wKzAyuq48Gksa3DcruLA0Lz+iRByErYPCq7rhA7+w
+         tDkQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532i05jEb72G2xq574ByofuZhGcvIhwrzzfubeSnBQ3wX80WozcF
+	Zwa/U7iXe3bRDQqAl0qECXk=
+X-Google-Smtp-Source: ABdhPJw1TugTbvIM4JU4TGoObGL1KYj5VlGYG/SoFmLB8bn7RIIj5Ve/y8rMhslJk6ZntI3Jy90rbA==
+X-Received: by 2002:a5d:48cf:: with SMTP id p15mr6233392wrs.277.1637320151859;
+        Fri, 19 Nov 2021 03:09:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:1a81:: with SMTP id s1ls1425066qtc.11.gmail; Fri,
- 19 Nov 2021 02:38:40 -0800 (PST)
-X-Received: by 2002:ac8:58d1:: with SMTP id u17mr5020325qta.137.1637318320431;
-        Fri, 19 Nov 2021 02:38:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637318320; cv=none;
+Received: by 2002:a1c:416:: with SMTP id 22ls6891771wme.0.canary-gmail; Fri,
+ 19 Nov 2021 03:09:10 -0800 (PST)
+X-Received: by 2002:a1c:2397:: with SMTP id j145mr5796415wmj.113.1637320150877;
+        Fri, 19 Nov 2021 03:09:10 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637320150; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XHeWOBDq44DZ8ZbF+oc5RamjLQJUvcQ86cCXV51c+JXbFuPPjZQjUt6C0W2o1RJ0zN
-         ENjsOfUP6gGr+30rlNQBxOoKfIydLyP7FQVKQ4FxCrmBDj30P+QvfkvyqlE9id8NjV5O
-         J3Ye0+rWdULlsKyYdkBBE7yT+uAVJDEHP0TRA9HxAFa5khGAoHCwgCNQYs53LPBShBkT
-         EUiIHNnteXBQewAJgpKRNHDE2k8+RLA/q4cmiQkxahXKn+ZOMEx9pfuBMluUkty7Xbbi
-         lgVEgcsYJeHJUkjJ019ulEvP9YhCh+wIoxCknn/51oOwH1q53JnhwhXIxqypczpau/0B
-         D4CA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AYXZ3Fwirr8SQxJ7wPvNhsrS3JHRNan1bxHGs12//g8=;
-        b=WDbc/V+5CCgEz6QW43JvksGeWy+e7My2kPywG/HScvmiTzRuC3ZVt0GJPPbPdTnRld
-         jhEwKKBN2qpapAgFoV4/ymkp+CuDGFz7EAe+YwXtjiP/ncugpWyT74hQxFwmPsFDEdKc
-         mn1ZZZb4RaeXP7vjab0CqiyzJYOaQ0LuwoFVluaZYuVyk8UcoC8vN7M987kXoBlPmlys
-         tJt8gVSWi0DW3Yz1GuvpdIOf2oFHgBymezL9NuP6Kg/R5HlnFexKoVLhKRsnkPnQnbpc
-         e5fCLFu46+O8miVD11naw+t5cTfCYvo2aboMZdF35xdft9DGDNvbtdqJRIFwjjtF4bTi
-         EfLg==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="bAWRE/8m";
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com. [2607:f8b0:4864:20::22c])
-        by gmr-mx.google.com with ESMTPS id u2si525337qkp.6.2021.11.19.02.38.40
+        b=nnzxOpBJXxsEBvfBqnrwPFnkGoPlj9pWd5cKtidrOCFZzN7VDUGi3+bA09haKvCuJh
+         bqUNWNFEYZLqmstopGhpZNPoWM8e+YqhA42bm/z6a0EG7Ar1wIITkh8laCQAlzfSlbYs
+         QaIfzfuWIVMgDmDjnc3jFHtsv0LxPAcu5yCADqfv6U6FBwIZb377R7plI+EPJ2yaJ2kC
+         p3EHCY8H+2FmCMscvoZVmC7WAJKr7wxrGZeVGIpVdJN1rynpK3i8Sv66oK2JDLn8ZRUD
+         4ROtxkMcFnBvRGLdDb0I8DJF6j9ve24d300LjiCORw3u1sxyeddNHfak/YDT36gutav4
+         eatQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:dkim-signature;
+        bh=V7yUWx3Zq1hx2NvHD6/fjK+fsZoksjsOUo83UTkD3hE=;
+        b=ItX75T1AIdF63nBuSr4FoHykINI6ysC4dxRwiUSCOf4lnN7Z4vCf2qQQY8a/xQN25N
+         8U6/DjRW0VGOwrNOxvw+i9/7VYZp5fPxS/WaRowQ9BpEIY6WXibHuQpAl1jyKM+u5hJC
+         19qUFsWmXO/Gcw1z1jvesXd77acZZFd5qilDoDNs8qh9b0jrEEHlrDfR3NB6jvka8vHV
+         bq/bgK+QuuAYhJdysIkIVqMUxz1ei47W281zgwbz59IpTkBQ2JToHFzQbsNFbZLSzm1B
+         HOZWLWWg75MllDZdWJ5IVucQUxrzc9N8BEwom4UaDDdD3dpJ6URd48SWD8PI/16R+Xh3
+         3aGw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@qti.qualcomm.com header.s=qccesdkim1 header.b=uK0S82+R;
+       arc=pass (i=1 spf=pass spfdomain=qti.qualcomm.com dkim=pass dkdomain=qti.qualcomm.com dmarc=pass fromdomain=qti.qualcomm.com);
+       spf=pass (google.com: domain of jiangenj@qti.qualcomm.com designates 216.71.140.77 as permitted sender) smtp.mailfrom=jiangenj@qti.qualcomm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=qti.qualcomm.com
+Received: from esa.hc3962-90.iphmx.com (esa.hc3962-90.iphmx.com. [216.71.140.77])
+        by gmr-mx.google.com with ESMTPS id j14si186457wrq.5.2021.11.19.03.09.10
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Nov 2021 02:38:40 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c as permitted sender) client-ip=2607:f8b0:4864:20::22c;
-Received: by mail-oi1-x22c.google.com with SMTP id 7so20950300oip.12
-        for <kasan-dev@googlegroups.com>; Fri, 19 Nov 2021 02:38:40 -0800 (PST)
-X-Received: by 2002:a54:4390:: with SMTP id u16mr4092034oiv.109.1637318319738;
- Fri, 19 Nov 2021 02:38:39 -0800 (PST)
-MIME-Version: 1.0
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 19 Nov 2021 03:09:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of jiangenj@qti.qualcomm.com designates 216.71.140.77 as permitted sender) client-ip=216.71.140.77;
+Received: from mail-mw2nam12lp2049.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.49])
+  by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2021 11:09:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FUzqTPxGstHdljVsNZzlFtcnJj4F/mppcuKoDtW+adIH7ojUu1rFkHFJcuzzAqjNhGy0mqB0gOrDmR1nwfNnZ4OpLKVtsLSHEenlcqjDe6hIo4vJV65a3mAVDnHK+E6wKKsjrWZSVz13o9vgxqbWDs226aYKPjbxEjzxWV07wk6OsN78O2t7HJcDz6GmzFvAccrwpIC4+x5VGEluA4NdGz8GuDqMeVXi9RZ/QnQk2DKNJAP4BXsZY3TNaT9xND5DMAygwO6eauA6qGpOGXALrLAQjc4tuiqhGo0BkcRFdN6DqBLADjxuKUnZUAXozffzwtv/QVykpgJW4vUnFnwmTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V7yUWx3Zq1hx2NvHD6/fjK+fsZoksjsOUo83UTkD3hE=;
+ b=Rt31aos8HidwXcrZuCmof9RPixMGnbX2cgRY8g2LnkP0P9OAQ01c9hEPiMpPXL4ji8HFocZMDR3Qk2gz+u69LdwjIVNl+s/DCWm0NyBDIOKO3CPRDG1sqOLfdA7U2WwEkK3PPypYonK3d1SNTVTvip/2CTxXbXVmBQ+QNfN1LnRVU1XBb+BHsKBBdDMLaKArTwmMziOQw5SWK6Pr725NBrR3wDdtj91Av+1aoewGhzbynMN52Kwx7IwChke0ycQqS6jl+h6m6Q54ebunczCNPGDNIYt7BvxWHdcHNFgsaLKuxyLPMIkT5SSfyCstv4U3rOKwuAMQANaS2GzhF9vCeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
+ header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
+Received: from DM8PR02MB8247.namprd02.prod.outlook.com (2603:10b6:8:d::19) by
+ DM6PR02MB4332.namprd02.prod.outlook.com (2603:10b6:5:23::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4713.22; Fri, 19 Nov 2021 11:09:00 +0000
+Received: from DM8PR02MB8247.namprd02.prod.outlook.com
+ ([fe80::7049:5fd3:2061:c1f3]) by DM8PR02MB8247.namprd02.prod.outlook.com
+ ([fe80::7049:5fd3:2061:c1f3%9]) with mapi id 15.20.4713.022; Fri, 19 Nov 2021
+ 11:09:00 +0000
+From: "JianGen Jiao (Joey)" <jiangenj@qti.qualcomm.com>
+To: Dmitry Vyukov <dvyukov@google.com>, "JianGen Jiao (QUIC)"
+	<quic_jiangenj@quicinc.com>
+CC: "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, LKML
+	<linux-kernel@vger.kernel.org>, Alexander Lochmann
+	<info@alexander-lochmann.de>, "Likai Ding (QUIC)" <quic_likaid@quicinc.com>
+Subject: RE: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
+Thread-Topic: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
+Thread-Index: AQHX23vD2nRqghWy5Eq5zUX4/l1PcKwJUjYAgAC3OuCAAKLFAIAAB9gQ
+Date: Fri, 19 Nov 2021 11:09:00 +0000
+Message-ID: <DM8PR02MB824798E699AC9F4B2510E293F89C9@DM8PR02MB8247.namprd02.prod.outlook.com>
 References: <1637130234-57238-1-git-send-email-quic_jiangenj@quicinc.com>
- <CACT4Y+YwNawV9H7uFMVSCA5WB-Dkyu9TX+rMM3FR6gNGkKFPqw@mail.gmail.com> <DM8PR02MB8247720860A08914CAA41D42F89C9@DM8PR02MB8247.namprd02.prod.outlook.com>
-In-Reply-To: <DM8PR02MB8247720860A08914CAA41D42F89C9@DM8PR02MB8247.namprd02.prod.outlook.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 19 Nov 2021 11:38:28 +0100
-Message-ID: <CACT4Y+a07DxQdYFY6uc5Y4GhTUbcnETij6gg3y+JRDvtwSmK5g@mail.gmail.com>
-Subject: Re: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
-To: "JianGen Jiao (QUIC)" <quic_jiangenj@quicinc.com>
-Cc: "andreyknvl@gmail.com" <andreyknvl@gmail.com>, 
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Alexander Lochmann <info@alexander-lochmann.de>, "Likai Ding (QUIC)" <quic_likaid@quicinc.com>
+ <CACT4Y+YwNawV9H7uFMVSCA5WB-Dkyu9TX+rMM3FR6gNGkKFPqw@mail.gmail.com>
+ <DM8PR02MB8247720860A08914CAA41D42F89C9@DM8PR02MB8247.namprd02.prod.outlook.com>
+ <CACT4Y+a07DxQdYFY6uc5Y4GhTUbcnETij6gg3y+JRDvtwSmK5g@mail.gmail.com>
+In-Reply-To: <CACT4Y+a07DxQdYFY6uc5Y4GhTUbcnETij6gg3y+JRDvtwSmK5g@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 479617f3-17d7-4a75-14ae-08d9ab4cfd8d
+x-ms-traffictypediagnostic: DM6PR02MB4332:
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-microsoft-antispam-prvs: <DM6PR02MB43326607CA1E44462B969236F89C9@DM6PR02MB4332.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9faBHq+Ir414ksTxtBD1ykW0yK2b/I6vwGVuufeM6hq89VDFPnRJjN5+g/fAxRy/jWZTZ1Sw8JbTgz/G+PSK7u7ZrI/+kkJfk14245VCGCIWk3XDO1TtxUVcxZcRF8aMef2+csxWISiBoA4i3woSaxzcHMlPYGMi11LuCWZKI1cW0LQ80euCDcukHKvQJMKbVoFG5MfdC8MlQJzqgpdeEPG7unl9MkxfLjB17DJai8G6qLVjBFSYx6VtvuLCVrPzg2eqKtxnY0u89nzhkjhY61D4SjXs8BAXc7DCwXgK5ls0YINMldv9yhOLumJtVuCZzOF5/3qe55xUPgGY3fnRTm2AbN9Jy54poXxN43aDhUfqLkDHzcWWbq2nyGVxu8+Re+R+pdXBiDllGK84bDcmboC4TK2Sn0q2mxixxf9+HuDQmZYy3Xqn7KK4EKlSrcW3NjXzxQgxcs/M1+PwNy24pC4fyKJB0gP+aZG8Cw77mnDfySlZzOnUpOfsK2XlmA8TcjoQC2VGOcj+e+Qp/bQezG/0IbZBArvaZbjwyqD6e1HKvVP5ZC/ky3/RhSyvf8KSLACspL/haefZUpG9TNi0viCQ1/dJlOqgJYHdT6WGa5Zvci67dqvwnXj3kM7FPNTm8ABJFnA7ontPQ5XBaHxXGZTzZYN8e/YzV0uCCHkwFZIXBhxUmwlp61vRIZ5xqKztXAIPOA8O1ViXolq6epn4tFquOcLKUtNdrwNvqmhEx5RU4tGM6f0+6L2cDiFL/s8P0gKtNGcsBRpi8802AOzSkF0WXZA9f08jYQHsrYm0/F7Ek+mS1Ran+IKrXXlXrw/E9bQT8/1G7W2XQUiiQ99SXg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR02MB8247.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(54906003)(966005)(508600001)(71200400001)(7696005)(8936002)(316002)(110136005)(33656002)(4326008)(38070700005)(66476007)(64756008)(53546011)(6506007)(83380400001)(66556008)(66446008)(52536014)(107886003)(38100700002)(2906002)(86362001)(66946007)(76116006)(122000001)(8676002)(9686003)(55016002)(5660300002)(26005)(186003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SkNXamFSWHY1VHkyUGdZQ3g3R1l1dlJ1TzhjR3Y4Q1ptMFRyTEVJdXBJQnFH?=
+ =?utf-8?B?RW83RGZTd1Q3Z01iUitabGpZK25Nbm00eW9PdlRSSUQ4dGZxc0V2TWVteGxH?=
+ =?utf-8?B?b0dGdFltR2pjeWhjVXdvbTB2c1J4eHdRVDVCUnpCNXpUaTQ5Q1BqQytnRWZm?=
+ =?utf-8?B?VUxkeGZIYzFNMVlSTUN2a0c4aHJpWHBOV2wrU0VycUZwU0M5MzEvNm53amtH?=
+ =?utf-8?B?aW5rNjU3aEVCQUFWcjRRZnBVWmRVK2VYUFI1aE5uWkxYblJFd0trVG9idXI0?=
+ =?utf-8?B?dEd3L2ZndVRCMVcvY1dydzc0d0ZtKy84czVPQjdiVXgzZ1lEWWlUMkVIQjI1?=
+ =?utf-8?B?WjI3dHZWNTRzaVhGZ2dPK0REN29zNC9JbDNRMldHM0t3ZzVpYVBLc1FIendY?=
+ =?utf-8?B?TW1TREU1VlV5WnB0N3dLa3Zza1F1dkh5RVBocHFTZytIUzZteEU4N0xUZFJq?=
+ =?utf-8?B?TGlGZjdxdjZnbTg4cTVWZTdwYlpDUHNYS0lYTkh3Q0JoSEF0Y3AyTkJRenRQ?=
+ =?utf-8?B?NXVnMms0dm9pY29XS203QzZoa2FMcnhla3dwL0NQa1dFUy9SanRjczdyc3N2?=
+ =?utf-8?B?aDlTMlFnRGhpTkZLWmpQdVJvckszZkhkVDVHWjloYkp0WXJOVDc1MU1ab2NZ?=
+ =?utf-8?B?a2JpY0U4VzlZSk11UnczeFNLaHRLZ0p5dnNQMlhWNGZwcW94Zm5Nb2duczFp?=
+ =?utf-8?B?Tnl4dlJ3UmIzY3Z0M3NlWlM1a3d4VzRpL1hibU5HQWVtVjZzaEUwY0syRFA1?=
+ =?utf-8?B?dTluU01GanpaVjJOUldCRmZKR1NDZEpsNUQ4Y2M1TFkwQmsyK3N2VEZHZkt2?=
+ =?utf-8?B?cjNkTm41cFNrNG5TTWpJTWVHM2ZSS2ZVYUVGOXZDRmZHWmUxQ2lHRHZkRW03?=
+ =?utf-8?B?bWVoL0lvZXR3bW1WZG5CeUVPZzBlNFg1TlJTSlpnWlNTUExEaHNONk9ZT3BL?=
+ =?utf-8?B?eDl5RUJYMFdWY0p3Y1RIVjFvZDlHWi9oNDlJRUIwRTh4REZKSFhqNmZqcDU1?=
+ =?utf-8?B?SzlPWU1yK1lYUEM4WlR2SXVxdU1UaE8vUEZvSnRRU01QUDlsT3VBQ0VibjBa?=
+ =?utf-8?B?WmVheVQ3UlkzWjFlVDZVNnBESDFmaHlEWUJDYzhMTmVUR3B0OUdoeGdHUnRi?=
+ =?utf-8?B?am9pL3B0ejEzSGl0Si9qVXkzVUVaNTVGOXF3d3dVdTdsVi9DaFlhWHFVMmJT?=
+ =?utf-8?B?TFN5aVZFcE5QQTRJSWRzNk1ad2U5Q252a0hPZEpBUW4yWnF0cWNYTjhVaUg2?=
+ =?utf-8?B?eFQyNi85d1JHL0NKYkxiL0d3ZWoxWEI0Rzg1TFhVUTg1T3d3NlY3ZldBU1pq?=
+ =?utf-8?B?WUwyOEJYNlNDRCtya1huaDE3OTJTeWRNMTlaTk9lUHArbG9haXVRUytkSHcv?=
+ =?utf-8?B?TDBGWTBUSittUU5rSlRUZ3c5VlFSNTk0TUlYekF2SFZrM1ZMZExUaWEyM21M?=
+ =?utf-8?B?Qm1mQ3lIU1Z0VWh3LzN6cERKQzVBdnlNdVVab0dvc3Arb0E0SGNCR2l4MXQw?=
+ =?utf-8?B?U2hEdVl3Z0FrbUNWdTkvWThOZ3NqeEF2NW9PamxDeUdMNnEzbGRwaTdtc0t5?=
+ =?utf-8?B?UnU3VGw4MGNRSHNtLzFMSThuZStFRHdTZWQrcDBqODFORkNQTXZvemhGVFVl?=
+ =?utf-8?B?aWdpNHRuUk0xRFFUeE50SFgwRHJVUHBrbWhFQVc2VmdwZWhMVGJCUS9pWC9j?=
+ =?utf-8?B?TFd5QzE1M3FRQWdhTDQxQ2RQdUpyOHFzSnZiV0hMM3pSYWhRUG5PejNzTjFt?=
+ =?utf-8?B?MllMVkh4S2tYSlJzalNON2w4ZFBMWEF3cVBpZUR6Vjk5aUlFS0ZIeHZSZDRW?=
+ =?utf-8?B?RTBCTFcxQ1liejI0eXhueElFU3R5a0VnUWczR3pvNEZiWTdkUkhFc1ArSUxm?=
+ =?utf-8?B?bWtwenhDRG10clNIRlB4cVBmZkNMVlk2aDRBMzVZWFlEKzhqQ1llV0JVUGEz?=
+ =?utf-8?B?ejVkWnFURElwZ0NZV3IzZFBPSWh4aERqZVdkcTZJWjdJOGgwdVhlbkR2R0lO?=
+ =?utf-8?B?SERsR0g5bTEyK3VhUjJwZm5sRURGNW92alVJeHZxMU1GVXNja3JMYmY5TFV6?=
+ =?utf-8?B?eitDVXBvTHEyT09RWmMxVEduZUJHVHByanJkSGFqVXdNb05IZE96K2hackVE?=
+ =?utf-8?B?cFJBVjYvaG9yYXZjWU0za3BWZWFzUUcrSVZZaWNsbm9VczV1UzJvZGZJMFIv?=
+ =?utf-8?B?bXhhSm9OM1hhNDIwaHRjWkxOVDNiQ05EeVVCWlpxQW9uZUNlT1g3bEpVbmJZ?=
+ =?utf-8?B?S1dIWXZ0MVBVT1hSMDh5RG9NdUNRPT0=?=
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: dvyukov@google.com
+MIME-Version: 1.0
+X-OriginatorOrg: qti.qualcomm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR02MB8247.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 479617f3-17d7-4a75-14ae-08d9ab4cfd8d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2021 11:09:00.8156
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hbfiGW1OqRUNxjoydSVIVMwmUkHXM9UmlHntU2K5BaiI4IoUBCU/8FBgi4wVtBaehLLJGqs++FRMLMb4TAsgEEcZR672Lx9fkGdylumEiSM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4332
+X-Original-Sender: jiangenj@qti.qualcomm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="bAWRE/8m";       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@qti.qualcomm.com header.s=qccesdkim1 header.b=uK0S82+R;
+       arc=pass (i=1 spf=pass spfdomain=qti.qualcomm.com dkim=pass
+ dkdomain=qti.qualcomm.com dmarc=pass fromdomain=qti.qualcomm.com);
+       spf=pass (google.com: domain of jiangenj@qti.qualcomm.com designates
+ 216.71.140.77 as permitted sender) smtp.mailfrom=jiangenj@qti.qualcomm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=qti.qualcomm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,8 +227,31 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 19 Nov 2021 at 04:17, JianGen Jiao (QUIC)
-<quic_jiangenj@quicinc.com> wrote:
+Yes, on x86_64, module address space is after kernel. But like below on arm=
+64, it's different.
+
+# grep stext /proc/kallsyms
+ffffffc010010000 T _stext
+# cat /proc/modules |sort -k 6 | tail -2
+Some_module_1 552960 0 - Live 0xffffffc00ca05000 (O)
+Some_module_1 360448 0 - Live 0xffffffc00cb8f000 (O)
+# cat /proc/modules |sort -k 6 | head -2
+Some_module_3 16384 1 - Live 0xffffffc009430000
+
+-----Original Message-----
+From: Dmitry Vyukov <dvyukov@google.com>=20
+Sent: Friday, November 19, 2021 6:38 PM
+To: JianGen Jiao (QUIC) <quic_jiangenj@quicinc.com>
+Cc: andreyknvl@gmail.com; kasan-dev@googlegroups.com; LKML <linux-kernel@vg=
+er.kernel.org>; Alexander Lochmann <info@alexander-lochmann.de>; Likai Ding=
+ (QUIC) <quic_likaid@quicinc.com>
+Subject: Re: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
+
+WARNING: This email originated from outside of Qualcomm. Please be wary of =
+any links or attachments, and do not enable macros.
+
+On Fri, 19 Nov 2021 at 04:17, JianGen Jiao (QUIC) <quic_jiangenj@quicinc.co=
+m> wrote:
 >
 > Hi Dmitry,
 > I'm using the start, end pc from cover filter, which currently is the fas=
@@ -143,26 +259,26 @@ t way compared to the big bitmap passing from syzkaller solution, as I only=
  set the cover filter to dirs/files I care about.
 
 I see.
-But if we are unlucky and our functions of interest are at the very
-low and high addresses, start/end will cover almost all kernel code...
+But if we are unlucky and our functions of interest are at the very low and=
+ high addresses, start/end will cover almost all kernel code...
 
-> I checked https://groups.google.com/g/kasan-dev/c/oVz3ZSWaK1Q/m/9ASztdzCA=
-AAJ,
+> I checked=20
+> https://groups.google.com/g/kasan-dev/c/oVz3ZSWaK1Q/m/9ASztdzCAAAJ,
 > The bitmap seems not the same as syzkaller one, which one will be used fi=
 nally?
 
 I don't know yet. We need to decide.
-In syzkaller we are more flexible and can change code faster, while
-kernel interfaces are stable and need to be kept forever. So I think
-we need to concentrate more on the good kernel interface and then
-support it in syzkaller.
+In syzkaller we are more flexible and can change code faster, while kernel =
+interfaces are stable and need to be kept forever. So I think we need to co=
+ncentrate more on the good kernel interface and then support it in syzkalle=
+r.
 
 > ``` Alexander's one
-> + pos =3D (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
-> + idx =3D pos % BITS_PER_LONG;
-> + pos /=3D BITS_PER_LONG;
-> + if (likely(pos < t->kcov_size))
-> + WRITE_ONCE(area[pos], READ_ONCE(area[pos]) | 1L << idx);
+> + pos =3D (ip - canonicalize_ip((unsigned long)&_stext)) / 4; idx =3D pos=
+=20
+> + % BITS_PER_LONG; pos /=3D BITS_PER_LONG; if (likely(pos <=20
+> + t->kcov_size)) WRITE_ONCE(area[pos], READ_ONCE(area[pos]) | 1L <<=20
+> + idx);
 > ```
 > Pc offset is divided by 4 and start is _stext. But for some arch, pc is l=
 ess than _stext.
@@ -211,8 +327,9 @@ Yes, the in-kernel filter solves the problem of trace capacity/overflows.
 > From: Dmitry Vyukov <dvyukov@google.com>
 > Sent: Thursday, November 18, 2021 10:00 PM
 > To: JianGen Jiao (QUIC) <quic_jiangenj@quicinc.com>
-> Cc: andreyknvl@gmail.com; kasan-dev@googlegroups.com; LKML <linux-kernel@=
-vger.kernel.org>; Alexander Lochmann <info@alexander-lochmann.de>
+> Cc: andreyknvl@gmail.com; kasan-dev@googlegroups.com; LKML=20
+> <linux-kernel@vger.kernel.org>; Alexander Lochmann=20
+> <info@alexander-lochmann.de>
 > Subject: Re: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
 >
 > WARNING: This email originated from outside of Qualcomm. Please be wary o=
@@ -221,11 +338,11 @@ f any links or attachments, and do not enable macros.
 > ,On Wed, 17 Nov 2021 at 07:24, Joey Jiao <quic_jiangenj@quicinc.com> wrot=
 e:
 > >
-> > Sometimes we only interested in the pcs within some range, while there
-> > are cases these pcs are dropped by kernel due to `pos >=3D
+> > Sometimes we only interested in the pcs within some range, while=20
+> > there are cases these pcs are dropped by kernel due to `pos >=3D
 > > t->kcov_size`, and by increasing the map area size doesn't help.
 > >
-> > To avoid disabling KCOV for these not intereseted pcs during build
+> > To avoid disabling KCOV for these not intereseted pcs during build=20
 > > time, adding this new KCOV_PC_RANGE cmd.
 >
 > Hi Joey,
@@ -284,7 +401,7 @@ cov_pc_range)
 > >         int fd;
 > >         unsigned long *cover, n, i;
 > > +        /* Change start and/or end to your interested pc range. */
-> > +        struct kcov_pc_range pc_range =3D {.start =3D 0, .end =3D
+> > +        struct kcov_pc_range pc_range =3D {.start =3D 0, .end =3D=20
 > > + (uint32)(~((uint32)0))};
 > >
 > >         /* A single fd descriptor allows coverage collection on a singl=
@@ -299,8 +416,8 @@ e
 > > +               dprintf(2, "ignore KCOV_PC_RANGE error.\n");
 > >         /* Enable coverage collection on the current thread. */
 > >         if (ioctl(fd, KCOV_ENABLE, KCOV_TRACE_PC))
-> >                 perror("ioctl"), exit(1); diff --git
-> > a/include/uapi/linux/kcov.h b/include/uapi/linux/kcov.h index
+> >                 perror("ioctl"), exit(1); diff --git=20
+> > a/include/uapi/linux/kcov.h b/include/uapi/linux/kcov.h index=20
 > > 1d0350e..353ff0a 100644
 > > --- a/include/uapi/linux/kcov.h
 > > +++ b/include/uapi/linux/kcov.h
@@ -347,7 +464,7 @@ ange)
 > >  };
 > >
 > >  struct kcov_remote_area {
-> > @@ -192,6 +195,7 @@ static notrace unsigned long
+> > @@ -192,6 +195,7 @@ static notrace unsigned long=20
 > > canonicalize_ip(unsigned long ip)  void notrace
 > > __sanitizer_cov_trace_pc(void)  {
 > >         struct task_struct *t;
@@ -366,7 +483,7 @@ ange)
 > > +               return;
 > >
 > >         area =3D t->kcov_area;
-> >         /* The first 64-bit word is the number of subsequent PCs. */
+> >         /* The first 64-bit word is the number of subsequent PCs. */=20
 > > @@ -568,6 +577,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, uns=
 igned int cmd,
 > >         int mode, i;
@@ -403,5 +520,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CACT4Y%2Ba07DxQdYFY6uc5Y4GhTUbcnETij6gg3y%2BJRDvtwSmK5g%40mail.gm=
-ail.com.
+kasan-dev/DM8PR02MB824798E699AC9F4B2510E293F89C9%40DM8PR02MB8247.namprd02.p=
+rod.outlook.com.
