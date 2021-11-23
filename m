@@ -1,142 +1,138 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBK5B6OGAMGQEH54P5UQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKFI7J2AJRBWHR6OGAMGQEWUPZEYQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A7745A180
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Nov 2021 12:29:47 +0100 (CET)
-Received: by mail-wm1-x33a.google.com with SMTP id 138-20020a1c0090000000b00338bb803204sf7547024wma.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Nov 2021 03:29:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637666987; cv=pass;
+Received: from mail-oi1-x23a.google.com (mail-oi1-x23a.google.com [IPv6:2607:f8b0:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FE845A52D
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Nov 2021 15:21:14 +0100 (CET)
+Received: by mail-oi1-x23a.google.com with SMTP id r15-20020acaa80f000000b002bcc50ca40dsf13898935oie.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Nov 2021 06:21:14 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637677273; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cPSXWjIYoN2+oeDZZ44FxDbqvHXfbNB2qlLuRQpuaCGFvORiREyAnlypk17FGKq9Sq
-         1/da+I7QlXEfIbKJ43fJeZvd3rCbbM5OyOqbe/LmpoHxTb5m3FfuAKVlsoGGg6SGAu9g
-         saNuywqB2rZf5C90FStXwCaVq8F4G3VbhSWG5lKwr+a503VqWGBlxcTlRPFVL0037kVD
-         OQh5NBrwYXOS/fe1qHcm5APUlxTgJBJMWeMGVOOlTUWFZhFiVfYYoXw5vQdX5pvlALaQ
-         vTabD4E11KbXzEwXPo4QaMlsFR35WL1QuGWUTYfIihrHyvrjkRy+D2wrKyEfZxdTCHJc
-         ZTcg==
+        b=ewWC670gIcjOEBReIS2aWHv+tI8ZtYyVtAPxQaP5PLHl/NHLF+wwjaHgivODD7s1F4
+         DSFW4IOQgctDtIH/vA5FKBAB5XOCVYbw5rGTkYmQLUv8htlxS4UjzlUNt6GzV8sGUVUT
+         01yHHTtIFw97BZtUIH2/ELOiolZYXL3m69qtd3qILXdgVVu0f+dflyj07zUNKKCkjhto
+         uAwW0yI8NsVfPmgtjLCAFUwJ0kPuZ47U3SjLpkDtEMAovd/2+naFK+e/YxpVnuE0ekHZ
+         WI/MBmUKelUZ0j1VijE53NG0Bx8FE9AYsv2eTXAOUfgYEyccuQC+tbRuyY0z+axBnnuS
+         mzVA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=hjEHZoTOP4PwEQl04x8mpjhvItdPdbRKlkFNEvkM0ZE=;
-        b=nmSN6qd/6g4b3j+GXJQR/CVVL7Se6q20REV5lbfVmH1UwvPFG76oz6WQ1rdh/XZGsu
-         N6GF+SbpE8d4ZuB/VIJ15wQuy6UXbqnF8c5przYIGEL3yZY3W9P1FOdb3RDgboaxkr7i
-         1TmXKnsp9cEM29+7tjZDuPHXfKXiWd52JB+d+9uyOveffnePsoNBfwAcO0GGu1h7Yi8S
-         HF/SxOG672l4AW3zo4VDVi2t15lkSj3y9klB4o/WkZQaYPo5QhzIOGPPHUTs/fFYAkXT
-         mLOCEo4EIwJyapLp5FM1CxWyzTbeca+4txBK0Xr2ADZMSKToPZG6bSlAbWHwTOSgQPla
-         OIIg==
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=JZoi9yKYvcYCuIHkwdwqAFyCc6bOuui/xQ7kTzuFGIA=;
+        b=TeTu9u7uc34ys7BTSNRHV1Z5+i4YVXaNK4U0qnd4XfGBYZerMihrCycJg6vXWC/ez2
+         RqeTHTXcKbYpWSMh5PegBb11RzKTEmb5N5WgkUHUoDx+4nxojZ1wC3IfoqdVRi7oiCbw
+         qk6acJHwoacYm39A1IIvHw2n7zPV4jw5Fh8g8WUCHHC7AuuES0Rh9ob4vHv2zlXKzBS5
+         mJ75pdYC5eswyKc1hMuMFXfY4lCQTYOa2r72hw2e9LjuzUDKJoZMPgAMh0A5FLNq9mgS
+         6RAUGJQcsOo+hWI59ln4iZXwZ+pf1TuD1jHaunaLrTqKmP0Coof3Wn2OME6SSbM86NKI
+         IMYQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=iORsK4eh;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
+        h=from:to:cc:subject:date:message-id:mime-version:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=hjEHZoTOP4PwEQl04x8mpjhvItdPdbRKlkFNEvkM0ZE=;
-        b=EJrfO6qTuaGaMb4JtZGZ0rfBm9bCjxiCJ5G7V/XhaL1I5bKepyfsHNLvBe+dRVif6p
-         6fgNgzZyj57NjvC0OPtGYoMbM2taITNxiiIe1BHtdkauytXCFck+MAazSZIJ59cGAYm+
-         J91vzI0CQA59enbyomDBgs1fL2/QzK3ogIXFAY0pMnx+iETHsex38Rev5aotQLiCpXHQ
-         2qrLso062dyQG4nSWwbMDcAWgunZGh42jmGyC53A/KYecAtPUp3HQCdeow5lUQyvxCzz
-         BEJYWsvZhKndW6EtnfrkGLUBVeTMsm49hPMt/ywpvX4STuComEzOb3n/F//+5l+bykef
-         fihQ==
+        bh=JZoi9yKYvcYCuIHkwdwqAFyCc6bOuui/xQ7kTzuFGIA=;
+        b=RJmSZcvgcRfH2Q2Gnw5iII+qPpBtQD9DKN6tQ0nxtSk32KkgPdNFgRftQPApMwhNz/
+         47kWwRghtSEefwWOVpYRz+czwiDmW5tENfxhXPJ4B0UZfIemurxZAVSUF5XHXICFC44J
+         ZxBiUNbVpK6VEWNxZAwulUN2NLSJFneHRKh5U56CvH3Um4jZQU7gul2fjJOUaai1vG4i
+         2Vrk1f9YCUGsrkM5WXBwl1IPAOwUdVv605f+D4p8dymm48VC1dVpb/3uL5Ik4u/II2tH
+         8Xj0WHtB1CJxu4MVRMmSYJxT5QuzUEax4NMDHT99Xzqe81MHN310ZBk80PnRpW1pKOc0
+         zZtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=hjEHZoTOP4PwEQl04x8mpjhvItdPdbRKlkFNEvkM0ZE=;
-        b=h2jw30c2Uh8pnicQi7TeKdUDu7FuvbGUDSVaxInYVTTJ3dy8nKY4re6BpMDGxfo/Xr
-         +dGp5ycCNgScldK1SI6UhX36o8SmmTeBNUwK9JJSCamsAmKQi87TylB0ddhqgTXfRPJa
-         CBiig7k5zFx9hHeWcl0oCaHaMW/cYrPbihEl9FRi5n8M18ZIFkG+xGfRha8eidKlv/Tq
-         9WwtnMevjZtBRyFu9PXGd5rTLeUk9tS7Cy15BOmAPgRtpeKfs0RLTiTMeAkZbCDroslL
-         +iLYm68CKqK4Zwjwsrkh9CQxquQATO6tr+dLYvB24dAAej3uBTevp5V3vxIfqYQ/D6eq
-         QTfg==
-X-Gm-Message-State: AOAM532uTETlT6j59YmOa/5BnwzdHJFRtdPm0Nh/kuE73/bqLb3Ys6bm
-	seESmY7yc6gY/Hsmn/k9+ic=
-X-Google-Smtp-Source: ABdhPJxbx/r+Qq97O2ugDkBXmuBYoeoStlwR5KSvsptcniTklfPetYaGBh2+59YrZcsYyFyY/ZWQzw==
-X-Received: by 2002:adf:f6cf:: with SMTP id y15mr6773524wrp.56.1637666987470;
-        Tue, 23 Nov 2021 03:29:47 -0800 (PST)
+        bh=JZoi9yKYvcYCuIHkwdwqAFyCc6bOuui/xQ7kTzuFGIA=;
+        b=5EXLW0h66kmpUTLUkq0StQqwJ/i+BJNr9pw45Lmdx1qIyFkOfPkWjIiKuBOKEiAle9
+         ppkqBl1Uea2l7unzitWqSMUmVnnBWx5pH7EK8lYokSNCzM0NsPvhKe9oglnjCCSoSHIp
+         kWTne9kiikvOzvVrsocpg6k+Uo3fOYNXSj/moU0FIL17xS0wFsQoehi4Rugnti7EG7GN
+         SAMc1fxREuB1vmg8j2gBZ9m8ECyR2nw1/Q18obbi9nrleAmm1V3XGQ1wLQmG22Qit3m9
+         0zJdHN+W8YcY38rczhhNkHW8p1UxiYks+IPJhXp8Hv8Ie6rPM7h9rhiMEjnm4PpO3kdL
+         dWZw==
+X-Gm-Message-State: AOAM533Gms/LbtdGymAGiF0/xxSWiLAUh+/YtgkKovbtGgTuSHt2/ikS
+	dZzXLZLIsLckJQAgkOdE3AA=
+X-Google-Smtp-Source: ABdhPJyEVQQC8MXi+0BiQXo/Rk2zEGebjNjdgeDAFaCBeduGIgNXbyhZpnT8Ed0CSqF9Sgd/oxfgcg==
+X-Received: by 2002:aca:a897:: with SMTP id r145mr2676985oie.136.1637677272871;
+        Tue, 23 Nov 2021 06:21:12 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:f1c2:: with SMTP id z2ls2808778wro.2.gmail; Tue, 23 Nov
- 2021 03:29:46 -0800 (PST)
-X-Received: by 2002:a5d:4d51:: with SMTP id a17mr6179028wru.384.1637666986415;
-        Tue, 23 Nov 2021 03:29:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637666986; cv=none;
+Received: by 2002:a05:6808:19a5:: with SMTP id bj37ls4083995oib.0.gmail; Tue,
+ 23 Nov 2021 06:21:12 -0800 (PST)
+X-Received: by 2002:a05:6808:ec3:: with SMTP id q3mr2703438oiv.57.1637677272177;
+        Tue, 23 Nov 2021 06:21:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637677272; cv=none;
         d=google.com; s=arc-20160816;
-        b=wMwi1N7SXZvZLxdLubU9NERXOse09dXMP9OeWRgsVOhNkV+97znpeBt4P9s05gspwa
-         STonTvz5ypCXQIBgWnDTOo5C4vNnki9oztPFRNLmos5B5pbvKDbKtP+PguA5C5ruHkJz
-         S3kvSBx2pHDnDVv5IyRy1PLmF71xhQRB5Jlg4QAu2oEh87dTH60Jfwp14Onsed0J/CYk
-         ljpXgZJoUBQ8pmB905VohciL4MxGXrvjiblLMggx9sqClOm9mbyaz0YvmmICCvPo/Y9o
-         r+eMHc+tRgxD3uqP21Y6lF/pIvXxPxccTenEP8s3QlJl6kBr4PEJ1kR0V/4DGBPIgQni
-         SazQ==
+        b=XM+rHVjH9p9QbpIW97I9ZFai26QfOIl4l1f9LZNV9VBc6TqhXYlrSux32zCDrPEnKa
+         MhiNWCk8stTee3KrfSIPWt+AUkS59/MwNBV6/fIcOfr/a86NlPHaGE7KaUpLyZOpQz6K
+         +2TGEgVmwnqu0zE5ufjhZVMBo1acV+uPuYtrVHgfDbCTeCFt18fFeVtslKyIQfN0Gg0M
+         5QzjX2fE87EjxS5EjvL2LBvZ2FLagn866h1ZBtFq28mmFUpDOvi9QghYD6th/pmWHHqy
+         ENCcIl4Tuv2iDSX9+vdlzqjX2oWNg8V6X2uixCercqth9mZXakF1Q6C0oRxZGCZ3xnNI
+         ladQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=RCz+vh2bGRc6vOt1cmcyty/tcvje22f5Ps81nyvaJl8=;
-        b=pZhKI2lPkJldzZJoUkL960jxJJIUcHqVQ/HJIPFwIdJajxtNLjTpBs9qoE3ElKwjXT
-         MXve53pU1Njai5IW8Bhm+0wvbFH8P0+jQN1Zi5SWYE8MXMzAgPh8fX+1Op2VGFYxCs4U
-         2y4H6vqvUcDSx2o8LlfILBAwv/0BDsXXxVEkLuIrWsDSqSqbeIlG0cde5T4fUolKh0Ph
-         YAwYE/0ZDXrx6w952/nZX1HZgO2N78B0PGOMc0wQHWHVFsg+Zx+mXkB4n0OoYWoyUtwT
-         0SyPrnOrFv4nGml7zSIB+5BmfN+wq3q/dE6euovsGQJkQgWBKrvftLTkxSTjpGhWN2po
-         NZ0Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=9ock/u/ohPFWaprE0wS2hNpCcCzhU9rGtazF5P6ipGY=;
+        b=LqEOF5f11hHnSrowDbIoWKogj0HpuxrAj7LrHSCObwNC5y4VLO/NraeFGcFUKzL7JU
+         XkDVKwsFOQ7gQ9UJI5zZoHvdpmfBDH6TAJQz6sf9jH5S75vTuJkGr+h6H70x5WjYchLU
+         vGXL7YWDqgFvI+puH6adjXP1Id0IGZ0StdeUuJXqcCS1NDRVVVyrvAPw2GHp1j/bEo82
+         wSQF/szqALSC1aoN/mhGtR6gmfGN/mqe8w7DCdCBgrtwQPfezkjQYFkL1fAsHNsppxII
+         urwoxMdX00q+Oac9YryMA5edJtVHmJNYMkMGBpmSQ6LaGEOd0AmxQ3a9SBmr1gLCjKoi
+         ZALw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=iORsK4eh;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
-        by gmr-mx.google.com with ESMTPS id p5si125735wru.1.2021.11.23.03.29.46
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
+        by gmr-mx.google.com with ESMTPS id g64si148391oia.1.2021.11.23.06.21.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Nov 2021 03:29:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
-Received: by mail-wm1-x32f.google.com with SMTP id 77-20020a1c0450000000b0033123de3425so1958513wme.0
-        for <kasan-dev@googlegroups.com>; Tue, 23 Nov 2021 03:29:46 -0800 (PST)
-X-Received: by 2002:a05:600c:1c20:: with SMTP id j32mr2110302wms.1.1637666985890;
-        Tue, 23 Nov 2021 03:29:45 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:1444:3668:5c57:85cc])
-        by smtp.gmail.com with ESMTPSA id k27sm1041180wms.41.2021.11.23.03.29.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 03:29:44 -0800 (PST)
-Date: Tue, 23 Nov 2021 12:29:39 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Borislav Petkov <bp@alien8.de>,
-	Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
-	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 23/23] objtool, kcsan: Remove memory barrier
- instrumentation from noinstr
-Message-ID: <YZzQoz0e/oiutuq5@elver.google.com>
-References: <20211118081027.3175699-1-elver@google.com>
- <20211118081027.3175699-24-elver@google.com>
- <20211119203135.clplwzh3hyo5xddg@treble>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 23 Nov 2021 06:21:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hz5s651Lhz90r9;
+	Tue, 23 Nov 2021 22:20:42 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 23 Nov 2021 22:21:08 +0800
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 23 Nov 2021 22:21:07 +0800
+From: "'Kefeng Wang' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-s390@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<linux-mm@kvack.org>
+CC: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Alexander Gordeev
+	<agordeev@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, Alexander Potapenko <glider@google.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>, Yongqiang Liu
+	<liuyongqiang13@huawei.com>
+Subject: [PATCH v2] mm: Delay kmemleak object creation of module_alloc()
+Date: Tue, 23 Nov 2021 22:32:20 +0800
+Message-ID: <20211123143220.134361-1-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20211119203135.clplwzh3hyo5xddg@treble>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=iORsK4eh;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+X-Originating-IP: [10.175.113.25]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
+X-Original-Sender: wangkefeng.wang@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188
+ as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: Kefeng Wang <wangkefeng.wang@huawei.com>
+Reply-To: Kefeng Wang <wangkefeng.wang@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,146 +145,194 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Nov 19, 2021 at 12:31PM -0800, Josh Poimboeuf wrote:
-> On Thu, Nov 18, 2021 at 09:10:27AM +0100, Marco Elver wrote:
-[...]
-> > +	if (insn->sec->noinstr && sym->removable_instr) {
-[...]
-> I'd love to have a clearer name than 'removable_instr', though I'm
-> having trouble coming up with something.
-[...]
+Yongqiang reports a kmemleak panic when module insmod/rmmod with KASAN
+enabled on x86[1].
 
-I now have the below as v3 of this patch. The naming isn't entirely
-obvious, but coming up with a short name for this is tricky, but
-hopefully the comments make it clear. We can of course still pick
-another name.
+When the module allocates memory, it's kmemleak_object is created successfully,
+but the KASAN shadow memory of module allocation is not ready, so when kmemleak
+scan the module's pointer, it will panic due to no shadow memory with KASAN.
 
-Does that look reasonable?
+module_alloc
+  __vmalloc_node_range
+    kmemleak_vmalloc
+				kmemleak_scan
+				  update_checksum
+  kasan_module_alloc
+    kmemleak_ignore
 
-Note, I'd like this series to sit in -next for a while (probably from
-some time next week after sending v3 if there are no further
-complaints). By default everything will be picked up by the -rcu tree,
-and we're targeting Linux 5.18.
+The bug should exist on ARM64/S390 too, add a VM_DELAY_KMEMLEAK flags, delay
+vmalloc'ed object register of kmemleak in module_alloc().
 
-If you feel there might be objtool conflicts coming, this patch could be
-taken through another tree as there are no hard dependencies, as long as
-this patch reaches mainline before or with the rest.
-
-Thanks,
--- Marco
-
------- >8 ------
-
-From: Marco Elver <elver@google.com>
-Date: Mon, 9 Aug 2021 12:11:14 +0200
-Subject: [PATCH] objtool, kcsan: Remove memory barrier instrumentation from
- noinstr
-
-Teach objtool to turn instrumentation required for memory barrier
-modeling into nops in noinstr text.
-
-The __tsan_func_entry/exit calls are still emitted by compilers even
-with the __no_sanitize_thread attribute. The memory barrier
-instrumentation will be inserted explicitly (without compiler help), and
-thus needs to also explicitly be removed.
-
-Signed-off-by: Marco Elver <elver@google.com>
+[1] https://lore.kernel.org/all/6d41e2b9-4692-5ec4-b1cd-cbe29ae89739@huawei.com/
+Reported-by: Yongqiang Liu <liuyongqiang13@huawei.com>
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 ---
-v3:
-* s/removable_instr/profiling_func/ (suggested by Josh Poimboeuf)
-* Fix and add more comments.
-
 v2:
-* Rewrite after rebase to v5.16-rc1.
----
- tools/objtool/check.c               | 41 ++++++++++++++++++++++++-----
- tools/objtool/include/objtool/elf.h |  2 +-
- 2 files changed, 36 insertions(+), 7 deletions(-)
+- fix type error on changelog and kasan_module_alloc()
 
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index 61dfb66b30b6..a78186c583f4 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -1072,11 +1072,11 @@ static void annotate_call_site(struct objtool_file *file,
+ arch/arm64/kernel/module.c | 4 ++--
+ arch/s390/kernel/module.c  | 5 +++--
+ arch/x86/kernel/module.c   | 7 ++++---
+ include/linux/kasan.h      | 4 ++--
+ include/linux/vmalloc.h    | 7 +++++++
+ mm/kasan/shadow.c          | 9 +++++++--
+ mm/vmalloc.c               | 3 ++-
+ 7 files changed, 27 insertions(+), 12 deletions(-)
+
+diff --git a/arch/arm64/kernel/module.c b/arch/arm64/kernel/module.c
+index b5ec010c481f..e6da010716d0 100644
+--- a/arch/arm64/kernel/module.c
++++ b/arch/arm64/kernel/module.c
+@@ -36,7 +36,7 @@ void *module_alloc(unsigned long size)
+ 		module_alloc_end = MODULES_END;
+ 
+ 	p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_base,
+-				module_alloc_end, gfp_mask, PAGE_KERNEL, 0,
++				module_alloc_end, gfp_mask, PAGE_KERNEL, VM_DELAY_KMEMLEAK,
+ 				NUMA_NO_NODE, __builtin_return_address(0));
+ 
+ 	if (!p && IS_ENABLED(CONFIG_ARM64_MODULE_PLTS) &&
+@@ -58,7 +58,7 @@ void *module_alloc(unsigned long size)
+ 				PAGE_KERNEL, 0, NUMA_NO_NODE,
+ 				__builtin_return_address(0));
+ 
+-	if (p && (kasan_module_alloc(p, size) < 0)) {
++	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
+ 		vfree(p);
+ 		return NULL;
  	}
+diff --git a/arch/s390/kernel/module.c b/arch/s390/kernel/module.c
+index b01ba460b7ca..8d66a93562ca 100644
+--- a/arch/s390/kernel/module.c
++++ b/arch/s390/kernel/module.c
+@@ -37,14 +37,15 @@
  
- 	/*
--	 * Many compilers cannot disable KCOV with a function attribute
--	 * so they need a little help, NOP out any KCOV calls from noinstr
--	 * text.
-+	 * Many compilers cannot disable KCOV or sanitizer calls with a function
-+	 * attribute so they need a little help, NOP out any such calls from
-+	 * noinstr text.
- 	 */
--	if (insn->sec->noinstr && sym->kcov) {
-+	if (insn->sec->noinstr && sym->profiling_func) {
- 		if (reloc) {
- 			reloc->type = R_NONE;
- 			elf_write_reloc(file->elf, reloc);
-@@ -1991,6 +1991,35 @@ static int read_intra_function_calls(struct objtool_file *file)
- 	return 0;
- }
- 
-+/*
-+ * Return true if name matches an instrumentation function, where calls to that
-+ * function from noinstr code can safely be removed, but compilers won't do so.
-+ */
-+static bool is_profiling_func(const char *name)
-+{
-+	/*
-+	 * Many compilers cannot disable KCOV with a function attribute.
-+	 */
-+	if (!strncmp(name, "__sanitizer_cov_", 16))
-+		return true;
-+
-+	/*
-+	 * Compilers currently do not remove __tsan_func_entry/exit with the
-+	 * __no_sanitize_thread attribute, remove them.
-+	 *
-+	 * Memory barrier instrumentation is not emitted by the compiler, but
-+	 * inserted explicitly, so we need to also remove them.
-+	 */
-+	if (!strncmp(name, "__tsan_func_", 12) ||
-+	    !strcmp(name, "__kcsan_mb") ||
-+	    !strcmp(name, "__kcsan_wmb") ||
-+	    !strcmp(name, "__kcsan_rmb") ||
-+	    !strcmp(name, "__kcsan_release"))
-+		return true;
-+
-+	return false;
-+}
-+
- static int classify_symbols(struct objtool_file *file)
+ void *module_alloc(unsigned long size)
  {
- 	struct section *sec;
-@@ -2011,8 +2040,8 @@ static int classify_symbols(struct objtool_file *file)
- 			if (!strcmp(func->name, "__fentry__"))
- 				func->fentry = true;
++	gfp_t gfp_mask = GFP_KERNEL;
+ 	void *p;
  
--			if (!strncmp(func->name, "__sanitizer_cov_", 16))
--				func->kcov = true;
-+			if (is_profiling_func(func->name))
-+				func->profiling_func = true;
- 		}
+ 	if (PAGE_ALIGN(size) > MODULES_LEN)
+ 		return NULL;
+ 	p = __vmalloc_node_range(size, MODULE_ALIGN, MODULES_VADDR, MODULES_END,
+-				 GFP_KERNEL, PAGE_KERNEL_EXEC, 0, NUMA_NO_NODE,
++				 gfp_mask, PAGE_KERNEL_EXEC, VM_DELAY_KMEMLEAK, NUMA_NO_NODE,
+ 				 __builtin_return_address(0));
+-	if (p && (kasan_module_alloc(p, size) < 0)) {
++	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
+ 		vfree(p);
+ 		return NULL;
+ 	}
+diff --git a/arch/x86/kernel/module.c b/arch/x86/kernel/module.c
+index 169fb6f4cd2e..ff134d0f1ca1 100644
+--- a/arch/x86/kernel/module.c
++++ b/arch/x86/kernel/module.c
+@@ -67,6 +67,7 @@ static unsigned long int get_module_load_offset(void)
+ 
+ void *module_alloc(unsigned long size)
+ {
++	gfp_t gfp_mask = GFP_KERNEL;
+ 	void *p;
+ 
+ 	if (PAGE_ALIGN(size) > MODULES_LEN)
+@@ -74,10 +75,10 @@ void *module_alloc(unsigned long size)
+ 
+ 	p = __vmalloc_node_range(size, MODULE_ALIGN,
+ 				    MODULES_VADDR + get_module_load_offset(),
+-				    MODULES_END, GFP_KERNEL,
+-				    PAGE_KERNEL, 0, NUMA_NO_NODE,
++				    MODULES_END, gfp_mask,
++				    PAGE_KERNEL, VM_DELAY_KMEMLEAK, NUMA_NO_NODE,
+ 				    __builtin_return_address(0));
+-	if (p && (kasan_module_alloc(p, size) < 0)) {
++	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
+ 		vfree(p);
+ 		return NULL;
+ 	}
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index d8783b682669..89c99e5e67de 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -474,12 +474,12 @@ static inline void kasan_populate_early_vm_area_shadow(void *start,
+  * allocations with real shadow memory. With KASAN vmalloc, the special
+  * case is unnecessary, as the work is handled in the generic case.
+  */
+-int kasan_module_alloc(void *addr, size_t size);
++int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask);
+ void kasan_free_shadow(const struct vm_struct *vm);
+ 
+ #else /* (CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS) && !CONFIG_KASAN_VMALLOC */
+ 
+-static inline int kasan_module_alloc(void *addr, size_t size) { return 0; }
++static inline int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask) { return 0; }
+ static inline void kasan_free_shadow(const struct vm_struct *vm) {}
+ 
+ #endif /* (CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS) && !CONFIG_KASAN_VMALLOC */
+diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+index 6e022cc712e6..56d2b7828b31 100644
+--- a/include/linux/vmalloc.h
++++ b/include/linux/vmalloc.h
+@@ -28,6 +28,13 @@ struct notifier_block;		/* in notifier.h */
+ #define VM_MAP_PUT_PAGES	0x00000200	/* put pages and free array in vfree */
+ #define VM_NO_HUGE_VMAP		0x00000400	/* force PAGE_SIZE pte mapping */
+ 
++#if defined(CONFIG_KASAN) && (defined(CONFIG_KASAN_GENERIC) || \
++	defined(CONFIG_KASAN_SW_TAGS)) && !defined(CONFIG_KASAN_VMALLOC)
++#define VM_DELAY_KMEMLEAK	0x00000800	/* delay kmemleak object create */
++#else
++#define VM_DELAY_KMEMLEAK	0
++#endif
++
+ /*
+  * VM_KASAN is used slightly differently depending on CONFIG_KASAN_VMALLOC.
+  *
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index 4a4929b29a23..2ade2f484562 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -498,7 +498,7 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+ 
+ #else /* CONFIG_KASAN_VMALLOC */
+ 
+-int kasan_module_alloc(void *addr, size_t size)
++int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask)
+ {
+ 	void *ret;
+ 	size_t scaled_size;
+@@ -520,9 +520,14 @@ int kasan_module_alloc(void *addr, size_t size)
+ 			__builtin_return_address(0));
+ 
+ 	if (ret) {
++		struct vm_struct *vm = find_vm_area(addr);
+ 		__memset(ret, KASAN_SHADOW_INIT, shadow_size);
+-		find_vm_area(addr)->flags |= VM_KASAN;
++		vm->flags |= VM_KASAN;
+ 		kmemleak_ignore(ret);
++
++		if (vm->flags & VM_DELAY_KMEMLEAK)
++			kmemleak_vmalloc(vm, size, gfp_mask);
++
+ 		return 0;
  	}
  
-diff --git a/tools/objtool/include/objtool/elf.h b/tools/objtool/include/objtool/elf.h
-index cdc739fa9a6f..d22336781401 100644
---- a/tools/objtool/include/objtool/elf.h
-+++ b/tools/objtool/include/objtool/elf.h
-@@ -58,7 +58,7 @@ struct symbol {
- 	u8 static_call_tramp : 1;
- 	u8 retpoline_thunk   : 1;
- 	u8 fentry            : 1;
--	u8 kcov              : 1;
-+	u8 profiling_func    : 1;
- 	struct list_head pv_target;
- };
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index d2a00ad4e1dd..23c595b15839 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -3074,7 +3074,8 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
+ 	clear_vm_uninitialized_flag(area);
+ 
+ 	size = PAGE_ALIGN(size);
+-	kmemleak_vmalloc(area, size, gfp_mask);
++	if (!(vm_flags & VM_DELAY_KMEMLEAK))
++		kmemleak_vmalloc(area, size, gfp_mask);
+ 
+ 	return addr;
  
 -- 
-2.34.0.rc2.393.gf8c9666880-goog
+2.27.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YZzQoz0e/oiutuq5%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211123143220.134361-1-wangkefeng.wang%40huawei.com.
