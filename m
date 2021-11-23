@@ -1,138 +1,131 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRBWHR6OGAMGQEWUPZEYQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBLUJ6WGAMGQEIXFNWWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23a.google.com (mail-oi1-x23a.google.com [IPv6:2607:f8b0:4864:20::23a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74FE845A52D
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Nov 2021 15:21:14 +0100 (CET)
-Received: by mail-oi1-x23a.google.com with SMTP id r15-20020acaa80f000000b002bcc50ca40dsf13898935oie.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 Nov 2021 06:21:14 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637677273; cv=pass;
+Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 505F845ACC2
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Nov 2021 20:44:48 +0100 (CET)
+Received: by mail-qv1-xf3b.google.com with SMTP id q2-20020a05621419e200b003aeeeff5417sf54704qvc.9
+        for <lists+kasan-dev@lfdr.de>; Tue, 23 Nov 2021 11:44:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637696687; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ewWC670gIcjOEBReIS2aWHv+tI8ZtYyVtAPxQaP5PLHl/NHLF+wwjaHgivODD7s1F4
-         DSFW4IOQgctDtIH/vA5FKBAB5XOCVYbw5rGTkYmQLUv8htlxS4UjzlUNt6GzV8sGUVUT
-         01yHHTtIFw97BZtUIH2/ELOiolZYXL3m69qtd3qILXdgVVu0f+dflyj07zUNKKCkjhto
-         uAwW0yI8NsVfPmgtjLCAFUwJ0kPuZ47U3SjLpkDtEMAovd/2+naFK+e/YxpVnuE0ekHZ
-         WI/MBmUKelUZ0j1VijE53NG0Bx8FE9AYsv2eTXAOUfgYEyccuQC+tbRuyY0z+axBnnuS
-         mzVA==
+        b=NANl0KNocSKi/zKC7LpJwrBHGg4LDAdQcuy6n5lrnAtdZN2iSjzc5llwjBT5CxMSMX
+         DOiBp4cUdvNGcpQTpLIFMty68TQ40hEFmKowgBJ94rirBabkYtl664zBbTq8HeKL79JR
+         BcCvkXy84yvtBr3DJ1cuhb2lYymDof9bZeIMNYN42sORgIRCXP9s1wfvODeJdXZdK1Rq
+         AIdVbTCoamzmQg7/Yz/QSXq0IaXDRXiMGh4xg8iai/5O4Oa7BPxaWkXswm14fBnX5sws
+         5HLGc6O6PZ5AK5XABy9tBGDlGhOiHu4CNhACMYZt3J3e6tTXkn7onfhcXcu8RCkmM6fW
+         wpiQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=JZoi9yKYvcYCuIHkwdwqAFyCc6bOuui/xQ7kTzuFGIA=;
-        b=TeTu9u7uc34ys7BTSNRHV1Z5+i4YVXaNK4U0qnd4XfGBYZerMihrCycJg6vXWC/ez2
-         RqeTHTXcKbYpWSMh5PegBb11RzKTEmb5N5WgkUHUoDx+4nxojZ1wC3IfoqdVRi7oiCbw
-         qk6acJHwoacYm39A1IIvHw2n7zPV4jw5Fh8g8WUCHHC7AuuES0Rh9ob4vHv2zlXKzBS5
-         mJ75pdYC5eswyKc1hMuMFXfY4lCQTYOa2r72hw2e9LjuzUDKJoZMPgAMh0A5FLNq9mgS
-         6RAUGJQcsOo+hWI59ln4iZXwZ+pf1TuD1jHaunaLrTqKmP0Coof3Wn2OME6SSbM86NKI
-         IMYQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=F756dimHOg5e1voVYHzR+3FgJjDiSMBKXgInK9DpzUk=;
+        b=Izeh3JPkkMFzjpTQwA3ewbkeOq7PZER5UKTkmXHzW+Z1B9013ddk7a3t0f2O/sr2W6
+         IBZi0hI6V5rgVGb5AUj7lttw/S4ugBCd5lqVHHVgh75yXMlS9S08siA0MhBBl+WClimM
+         mG8jq3iH0huvwpQgwYAEvIUBi/3+54jUn0LMDySaQvBs8wB1Yo7l+I1DEhRSjKqsNqiN
+         +8mO+DKLqTnl45Vt6yhRDgooI7LvFeH9NN+IqRvrFS1reBsIUrfaeefjd1uLWCNZEki5
+         g33b5jnuuGlINuFvLhR1YYRZKDThEtrJ8L80sTN4ua/oNmkh5hojNeFB44ycMlzJ2p1+
+         6F0A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=JZoi9yKYvcYCuIHkwdwqAFyCc6bOuui/xQ7kTzuFGIA=;
-        b=RJmSZcvgcRfH2Q2Gnw5iII+qPpBtQD9DKN6tQ0nxtSk32KkgPdNFgRftQPApMwhNz/
-         47kWwRghtSEefwWOVpYRz+czwiDmW5tENfxhXPJ4B0UZfIemurxZAVSUF5XHXICFC44J
-         ZxBiUNbVpK6VEWNxZAwulUN2NLSJFneHRKh5U56CvH3Um4jZQU7gul2fjJOUaai1vG4i
-         2Vrk1f9YCUGsrkM5WXBwl1IPAOwUdVv605f+D4p8dymm48VC1dVpb/3uL5Ik4u/II2tH
-         8Xj0WHtB1CJxu4MVRMmSYJxT5QuzUEax4NMDHT99Xzqe81MHN310ZBk80PnRpW1pKOc0
-         zZtA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=F756dimHOg5e1voVYHzR+3FgJjDiSMBKXgInK9DpzUk=;
+        b=Cat8wYqwmm9Sd8QD8Yi8AuXJT0mKFw9Z9VJuO1tcnxzMClGQOUJu2DU+ngeFcI2U8c
+         +BxS3f9+z6cwxdWyUScc0PP6FXqI6PtJ1c+fHE28EiwT8EjUwjLadCW5+qptYtt7CvM9
+         ksOnZdGo4QtW+sYjti8l2X8UeY0W676Mc2GPvRVeHoBqzbvh83uG16jti21pPRBXi8e6
+         kfcDk/PBj+0exxvfUiJ6Qz2j1blo/MFoGNkP4wQwCuGCHN2sZW0ttwVNRsHFfpBw9aPH
+         iES4EjSxO8ObX4YvuZ/ry1W/N1h5UvH9j+XVnj2ggE9sKaAvvP+VpUQmn8uY5SSYD2yV
+         qUhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=JZoi9yKYvcYCuIHkwdwqAFyCc6bOuui/xQ7kTzuFGIA=;
-        b=5EXLW0h66kmpUTLUkq0StQqwJ/i+BJNr9pw45Lmdx1qIyFkOfPkWjIiKuBOKEiAle9
-         ppkqBl1Uea2l7unzitWqSMUmVnnBWx5pH7EK8lYokSNCzM0NsPvhKe9oglnjCCSoSHIp
-         kWTne9kiikvOzvVrsocpg6k+Uo3fOYNXSj/moU0FIL17xS0wFsQoehi4Rugnti7EG7GN
-         SAMc1fxREuB1vmg8j2gBZ9m8ECyR2nw1/Q18obbi9nrleAmm1V3XGQ1wLQmG22Qit3m9
-         0zJdHN+W8YcY38rczhhNkHW8p1UxiYks+IPJhXp8Hv8Ie6rPM7h9rhiMEjnm4PpO3kdL
-         dWZw==
-X-Gm-Message-State: AOAM533Gms/LbtdGymAGiF0/xxSWiLAUh+/YtgkKovbtGgTuSHt2/ikS
-	dZzXLZLIsLckJQAgkOdE3AA=
-X-Google-Smtp-Source: ABdhPJyEVQQC8MXi+0BiQXo/Rk2zEGebjNjdgeDAFaCBeduGIgNXbyhZpnT8Ed0CSqF9Sgd/oxfgcg==
-X-Received: by 2002:aca:a897:: with SMTP id r145mr2676985oie.136.1637677272871;
-        Tue, 23 Nov 2021 06:21:12 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=F756dimHOg5e1voVYHzR+3FgJjDiSMBKXgInK9DpzUk=;
+        b=HHhwc/lm5mJQfad3UGhFnCcvkIqv9LbiwjOGtKELv47v40JatXvwOJO567rwusQMtd
+         Fbwt+sITLt32gqBXhbh5PHa2+YKbQBrM9hndzgpAJUe/h0fBZKlqmbqpVcmK7206b2P6
+         rr4PXYNLYoPvqni32nhcbD9MkgLYXUWr7Wdy7wIXSs0l6CynytMjjj+htcqOqIkKnks5
+         Tkmvg9LDATszWawnnscMPAZdy5MevrX80FrmhluiKMHSe5X82dOH7oE741LBVxCWIbOf
+         Wg6tWE1HJASInxjyua3WSQ3ih0I2XSRnnb3sR63Su9SArtQS4lWa9RvyXxZFPdwniLsm
+         IQNg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533JgXNhL1GF8p0145LHLR5yaWgOHLP24b9ZUP0h/SMIFGoZClFK
+	8iT7IEFEvNBBPrZJfL7QqBk=
+X-Google-Smtp-Source: ABdhPJzY8ha2noY0Opy2mL8IW8+mV4/PVdYQA8Zmtt00K6LH9fIPkV57Hg/AsFbWiYMY1CnK4W+jMA==
+X-Received: by 2002:a0c:f9cc:: with SMTP id j12mr9073844qvo.2.1637696686895;
+        Tue, 23 Nov 2021 11:44:46 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:19a5:: with SMTP id bj37ls4083995oib.0.gmail; Tue,
- 23 Nov 2021 06:21:12 -0800 (PST)
-X-Received: by 2002:a05:6808:ec3:: with SMTP id q3mr2703438oiv.57.1637677272177;
-        Tue, 23 Nov 2021 06:21:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637677272; cv=none;
+Received: by 2002:a05:620a:bca:: with SMTP id s10ls6534263qki.1.gmail; Tue, 23
+ Nov 2021 11:44:46 -0800 (PST)
+X-Received: by 2002:a37:a7cb:: with SMTP id q194mr7352828qke.238.1637696686430;
+        Tue, 23 Nov 2021 11:44:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637696686; cv=none;
         d=google.com; s=arc-20160816;
-        b=XM+rHVjH9p9QbpIW97I9ZFai26QfOIl4l1f9LZNV9VBc6TqhXYlrSux32zCDrPEnKa
-         MhiNWCk8stTee3KrfSIPWt+AUkS59/MwNBV6/fIcOfr/a86NlPHaGE7KaUpLyZOpQz6K
-         +2TGEgVmwnqu0zE5ufjhZVMBo1acV+uPuYtrVHgfDbCTeCFt18fFeVtslKyIQfN0Gg0M
-         5QzjX2fE87EjxS5EjvL2LBvZ2FLagn866h1ZBtFq28mmFUpDOvi9QghYD6th/pmWHHqy
-         ENCcIl4Tuv2iDSX9+vdlzqjX2oWNg8V6X2uixCercqth9mZXakF1Q6C0oRxZGCZ3xnNI
-         ladQ==
+        b=Cv7CWho8I/hOYa/WCY1u6TwqSH9hpu0JWRNY85ZzgCPGM4Tg41dBafIHIJrFlt6gDD
+         X4mosRDa+xodQurEaoaa+4B9KnXPOml0oPPiZRnmH9FCWg1yr7gBqo3jORkSA4vwr593
+         ZA6W1W6uPHKeIZ/zwdli0Q8KVuPbFlTE7iFf2BhpjEExv3LC5MHw8FM44n3oo+k9c+bq
+         cxM7wA2A+YsiEuef/P2pkgvKPjXD4VSjj+y9oDq/8RKx1fPY+49nwUpT5+eX5gU3W6iJ
+         ch5nUpqX5qZg/O76yiOxrTp1m23QDke5Uk/CItyLRPIEXDR+mjdXUeexlCg3oXjxXXKm
+         E9Aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=9ock/u/ohPFWaprE0wS2hNpCcCzhU9rGtazF5P6ipGY=;
-        b=LqEOF5f11hHnSrowDbIoWKogj0HpuxrAj7LrHSCObwNC5y4VLO/NraeFGcFUKzL7JU
-         XkDVKwsFOQ7gQ9UJI5zZoHvdpmfBDH6TAJQz6sf9jH5S75vTuJkGr+h6H70x5WjYchLU
-         vGXL7YWDqgFvI+puH6adjXP1Id0IGZ0StdeUuJXqcCS1NDRVVVyrvAPw2GHp1j/bEo82
-         wSQF/szqALSC1aoN/mhGtR6gmfGN/mqe8w7DCdCBgrtwQPfezkjQYFkL1fAsHNsppxII
-         urwoxMdX00q+Oac9YryMA5edJtVHmJNYMkMGBpmSQ6LaGEOd0AmxQ3a9SBmr1gLCjKoi
-         ZALw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=q0c9DSyL4lVUSDcNqiH06RA+fWe/PMB+Q+qazz6UCPc=;
+        b=VyzhsdBCtTCo3l37l6uMb+1OFwr5I27IxKE0tVkFbDVnF9drepa2fxOQlZbpGoXrd1
+         MkQYvdtHLB3Sxw7O64BpeTdo7PVUKtCf7vZobKHeDAW1G7wfTs/DJvFtIZTOx8s6frg3
+         g/uZnvzfFlRKmhEw4Bg/zrF0FkdP/lW5wjo0tggIZAi+UxBD7sgNszk3LrGj6FfhUIBQ
+         gLPLdPaU0PG247JjAUp3D3/StQx/PkXesQetAMphPXIg6jy2TwaClEGzKUAGyYTcyInC
+         9UVY2EFmGO9YnVX3dNTppe3hq95mHISOanp0fVdYcc+YKsfNFCSmVa60DWp+tE26ZEKm
+         Kc+w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
-        by gmr-mx.google.com with ESMTPS id g64si148391oia.1.2021.11.23.06.21.11
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from mail.kernel.org (mail.kernel.org. [198.145.29.99])
+        by gmr-mx.google.com with ESMTPS id i6si462741qko.3.2021.11.23.11.44.46
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Nov 2021 06:21:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hz5s651Lhz90r9;
-	Tue, 23 Nov 2021 22:20:42 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 23 Nov 2021 22:21:08 +0800
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 23 Nov 2021 22:21:07 +0800
-From: "'Kefeng Wang' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov
-	<dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-s390@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<linux-mm@kvack.org>
-CC: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Alexander Gordeev
-	<agordeev@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, Alexander Potapenko <glider@google.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>, Yongqiang Liu
-	<liuyongqiang13@huawei.com>
-Subject: [PATCH v2] mm: Delay kmemleak object creation of module_alloc()
-Date: Tue, 23 Nov 2021 22:32:20 +0800
-Message-ID: <20211123143220.134361-1-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.26.2
+        Tue, 23 Nov 2021 11:44:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as permitted sender) client-ip=198.145.29.99;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0FE6160F26;
+	Tue, 23 Nov 2021 19:44:39 +0000 (UTC)
+Date: Tue, 23 Nov 2021 19:44:35 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-s390@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org, Will Deacon <will@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alexander Potapenko <glider@google.com>,
+	Yongqiang Liu <liuyongqiang13@huawei.com>
+Subject: Re: [PATCH v2] mm: Delay kmemleak object creation of module_alloc()
+Message-ID: <YZ1Eo2m3VKZTfthA@arm.com>
+References: <20211123143220.134361-1-wangkefeng.wang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.175.113.25]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
-X-Original-Sender: wangkefeng.wang@huawei.com
+Content-Disposition: inline
+In-Reply-To: <20211123143220.134361-1-wangkefeng.wang@huawei.com>
+X-Original-Sender: catalin.marinas@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188
- as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-Reply-To: Kefeng Wang <wangkefeng.wang@huawei.com>
+ (google.com: domain of cmarinas@kernel.org designates 198.145.29.99 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,194 +138,87 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Yongqiang reports a kmemleak panic when module insmod/rmmod with KASAN
-enabled on x86[1].
+On Tue, Nov 23, 2021 at 10:32:20PM +0800, Kefeng Wang wrote:
+> Yongqiang reports a kmemleak panic when module insmod/rmmod with KASAN
+> enabled on x86[1].
+> 
+> When the module allocates memory, it's kmemleak_object is created successfully,
+> but the KASAN shadow memory of module allocation is not ready, so when kmemleak
+> scan the module's pointer, it will panic due to no shadow memory with KASAN.
+> 
+> module_alloc
+>   __vmalloc_node_range
+>     kmemleak_vmalloc
+> 				kmemleak_scan
+> 				  update_checksum
+>   kasan_module_alloc
+>     kmemleak_ignore
 
-When the module allocates memory, it's kmemleak_object is created successfully,
-but the KASAN shadow memory of module allocation is not ready, so when kmemleak
-scan the module's pointer, it will panic due to no shadow memory with KASAN.
+Can you share the .config and the stack trace you get on arm64?
 
-module_alloc
-  __vmalloc_node_range
-    kmemleak_vmalloc
-				kmemleak_scan
-				  update_checksum
-  kasan_module_alloc
-    kmemleak_ignore
+I have a suspicion there is no problem if KASAN_VMALLOC is enabled.
 
-The bug should exist on ARM64/S390 too, add a VM_DELAY_KMEMLEAK flags, delay
-vmalloc'ed object register of kmemleak in module_alloc().
+> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+> index 4a4929b29a23..2ade2f484562 100644
+> --- a/mm/kasan/shadow.c
+> +++ b/mm/kasan/shadow.c
+> @@ -498,7 +498,7 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+>  
+>  #else /* CONFIG_KASAN_VMALLOC */
+>  
+> -int kasan_module_alloc(void *addr, size_t size)
+> +int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask)
+>  {
+>  	void *ret;
+>  	size_t scaled_size;
+> @@ -520,9 +520,14 @@ int kasan_module_alloc(void *addr, size_t size)
+>  			__builtin_return_address(0));
+>  
+>  	if (ret) {
+> +		struct vm_struct *vm = find_vm_area(addr);
+>  		__memset(ret, KASAN_SHADOW_INIT, shadow_size);
+> -		find_vm_area(addr)->flags |= VM_KASAN;
+> +		vm->flags |= VM_KASAN;
+>  		kmemleak_ignore(ret);
+> +
+> +		if (vm->flags & VM_DELAY_KMEMLEAK)
+> +			kmemleak_vmalloc(vm, size, gfp_mask);
+> +
+>  		return 0;
+>  	}
 
-[1] https://lore.kernel.org/all/6d41e2b9-4692-5ec4-b1cd-cbe29ae89739@huawei.com/
-Reported-by: Yongqiang Liu <liuyongqiang13@huawei.com>
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
----
-v2:
-- fix type error on changelog and kasan_module_alloc()
+This function only exists if CONFIG_KASAN_VMALLOC=n.
 
- arch/arm64/kernel/module.c | 4 ++--
- arch/s390/kernel/module.c  | 5 +++--
- arch/x86/kernel/module.c   | 7 ++++---
- include/linux/kasan.h      | 4 ++--
- include/linux/vmalloc.h    | 7 +++++++
- mm/kasan/shadow.c          | 9 +++++++--
- mm/vmalloc.c               | 3 ++-
- 7 files changed, 27 insertions(+), 12 deletions(-)
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index d2a00ad4e1dd..23c595b15839 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -3074,7 +3074,8 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
+>  	clear_vm_uninitialized_flag(area);
+>  
+>  	size = PAGE_ALIGN(size);
+> -	kmemleak_vmalloc(area, size, gfp_mask);
+> +	if (!(vm_flags & VM_DELAY_KMEMLEAK))
+> +		kmemleak_vmalloc(area, size, gfp_mask);
 
-diff --git a/arch/arm64/kernel/module.c b/arch/arm64/kernel/module.c
-index b5ec010c481f..e6da010716d0 100644
---- a/arch/arm64/kernel/module.c
-+++ b/arch/arm64/kernel/module.c
-@@ -36,7 +36,7 @@ void *module_alloc(unsigned long size)
- 		module_alloc_end = MODULES_END;
- 
- 	p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_base,
--				module_alloc_end, gfp_mask, PAGE_KERNEL, 0,
-+				module_alloc_end, gfp_mask, PAGE_KERNEL, VM_DELAY_KMEMLEAK,
- 				NUMA_NO_NODE, __builtin_return_address(0));
- 
- 	if (!p && IS_ENABLED(CONFIG_ARM64_MODULE_PLTS) &&
-@@ -58,7 +58,7 @@ void *module_alloc(unsigned long size)
- 				PAGE_KERNEL, 0, NUMA_NO_NODE,
- 				__builtin_return_address(0));
- 
--	if (p && (kasan_module_alloc(p, size) < 0)) {
-+	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
- 		vfree(p);
- 		return NULL;
- 	}
-diff --git a/arch/s390/kernel/module.c b/arch/s390/kernel/module.c
-index b01ba460b7ca..8d66a93562ca 100644
---- a/arch/s390/kernel/module.c
-+++ b/arch/s390/kernel/module.c
-@@ -37,14 +37,15 @@
- 
- void *module_alloc(unsigned long size)
- {
-+	gfp_t gfp_mask = GFP_KERNEL;
- 	void *p;
- 
- 	if (PAGE_ALIGN(size) > MODULES_LEN)
- 		return NULL;
- 	p = __vmalloc_node_range(size, MODULE_ALIGN, MODULES_VADDR, MODULES_END,
--				 GFP_KERNEL, PAGE_KERNEL_EXEC, 0, NUMA_NO_NODE,
-+				 gfp_mask, PAGE_KERNEL_EXEC, VM_DELAY_KMEMLEAK, NUMA_NO_NODE,
- 				 __builtin_return_address(0));
--	if (p && (kasan_module_alloc(p, size) < 0)) {
-+	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
- 		vfree(p);
- 		return NULL;
- 	}
-diff --git a/arch/x86/kernel/module.c b/arch/x86/kernel/module.c
-index 169fb6f4cd2e..ff134d0f1ca1 100644
---- a/arch/x86/kernel/module.c
-+++ b/arch/x86/kernel/module.c
-@@ -67,6 +67,7 @@ static unsigned long int get_module_load_offset(void)
- 
- void *module_alloc(unsigned long size)
- {
-+	gfp_t gfp_mask = GFP_KERNEL;
- 	void *p;
- 
- 	if (PAGE_ALIGN(size) > MODULES_LEN)
-@@ -74,10 +75,10 @@ void *module_alloc(unsigned long size)
- 
- 	p = __vmalloc_node_range(size, MODULE_ALIGN,
- 				    MODULES_VADDR + get_module_load_offset(),
--				    MODULES_END, GFP_KERNEL,
--				    PAGE_KERNEL, 0, NUMA_NO_NODE,
-+				    MODULES_END, gfp_mask,
-+				    PAGE_KERNEL, VM_DELAY_KMEMLEAK, NUMA_NO_NODE,
- 				    __builtin_return_address(0));
--	if (p && (kasan_module_alloc(p, size) < 0)) {
-+	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
- 		vfree(p);
- 		return NULL;
- 	}
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index d8783b682669..89c99e5e67de 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -474,12 +474,12 @@ static inline void kasan_populate_early_vm_area_shadow(void *start,
-  * allocations with real shadow memory. With KASAN vmalloc, the special
-  * case is unnecessary, as the work is handled in the generic case.
-  */
--int kasan_module_alloc(void *addr, size_t size);
-+int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask);
- void kasan_free_shadow(const struct vm_struct *vm);
- 
- #else /* (CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS) && !CONFIG_KASAN_VMALLOC */
- 
--static inline int kasan_module_alloc(void *addr, size_t size) { return 0; }
-+static inline int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask) { return 0; }
- static inline void kasan_free_shadow(const struct vm_struct *vm) {}
- 
- #endif /* (CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS) && !CONFIG_KASAN_VMALLOC */
-diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
-index 6e022cc712e6..56d2b7828b31 100644
---- a/include/linux/vmalloc.h
-+++ b/include/linux/vmalloc.h
-@@ -28,6 +28,13 @@ struct notifier_block;		/* in notifier.h */
- #define VM_MAP_PUT_PAGES	0x00000200	/* put pages and free array in vfree */
- #define VM_NO_HUGE_VMAP		0x00000400	/* force PAGE_SIZE pte mapping */
- 
-+#if defined(CONFIG_KASAN) && (defined(CONFIG_KASAN_GENERIC) || \
-+	defined(CONFIG_KASAN_SW_TAGS)) && !defined(CONFIG_KASAN_VMALLOC)
-+#define VM_DELAY_KMEMLEAK	0x00000800	/* delay kmemleak object create */
-+#else
-+#define VM_DELAY_KMEMLEAK	0
-+#endif
-+
- /*
-  * VM_KASAN is used slightly differently depending on CONFIG_KASAN_VMALLOC.
-  *
-diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-index 4a4929b29a23..2ade2f484562 100644
---- a/mm/kasan/shadow.c
-+++ b/mm/kasan/shadow.c
-@@ -498,7 +498,7 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
- 
- #else /* CONFIG_KASAN_VMALLOC */
- 
--int kasan_module_alloc(void *addr, size_t size)
-+int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask)
- {
- 	void *ret;
- 	size_t scaled_size;
-@@ -520,9 +520,14 @@ int kasan_module_alloc(void *addr, size_t size)
- 			__builtin_return_address(0));
- 
- 	if (ret) {
-+		struct vm_struct *vm = find_vm_area(addr);
- 		__memset(ret, KASAN_SHADOW_INIT, shadow_size);
--		find_vm_area(addr)->flags |= VM_KASAN;
-+		vm->flags |= VM_KASAN;
- 		kmemleak_ignore(ret);
-+
-+		if (vm->flags & VM_DELAY_KMEMLEAK)
-+			kmemleak_vmalloc(vm, size, gfp_mask);
-+
- 		return 0;
- 	}
- 
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index d2a00ad4e1dd..23c595b15839 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -3074,7 +3074,8 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
- 	clear_vm_uninitialized_flag(area);
- 
- 	size = PAGE_ALIGN(size);
--	kmemleak_vmalloc(area, size, gfp_mask);
-+	if (!(vm_flags & VM_DELAY_KMEMLEAK))
-+		kmemleak_vmalloc(area, size, gfp_mask);
- 
- 	return addr;
- 
+So with KASAN_VMALLOC enabled, we'll miss the kmemleak allocation.
+
+You could add an IS_ENABLED(CONFIG_KASAN_VMALLOC) check but I'm not
+particularly fond of the delay approach (also think DEFER is probably a
+better name).
+
+A quick fix would be to make KMEMLEAK depend on !KASAN || KASAN_VMALLOC.
+We'll miss KASAN_SW_TAGS with kmemleak but I think vmalloc support could
+be enabled for this as well.
+
+What does KASAN do with other vmalloc() allocations when !KASAN_VMALLOC?
+Can we not have a similar approach. I don't fully understand why the
+module vmalloc() is a special case.
+
 -- 
-2.27.0
+Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211123143220.134361-1-wangkefeng.wang%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YZ1Eo2m3VKZTfthA%40arm.com.
