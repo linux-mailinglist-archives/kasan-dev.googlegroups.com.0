@@ -1,147 +1,138 @@
-Return-Path: <kasan-dev+bncBDGYRP4K5MGBBYXR66GAMGQEHVPCXAY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKFI7J2AJRBNUP7GGAMGQENTUEHOI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE73F45B696
-	for <lists+kasan-dev@lfdr.de>; Wed, 24 Nov 2021 09:33:40 +0100 (CET)
-Received: by mail-pg1-x540.google.com with SMTP id z4-20020a656104000000b00321790921fbsf450392pgu.4
-        for <lists+kasan-dev@lfdr.de>; Wed, 24 Nov 2021 00:33:40 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1637742819; cv=pass;
+Received: from mail-oo1-xc39.google.com (mail-oo1-xc39.google.com [IPv6:2607:f8b0:4864:20::c39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 605C445C6DA
+	for <lists+kasan-dev@lfdr.de>; Wed, 24 Nov 2021 15:10:00 +0100 (CET)
+Received: by mail-oo1-xc39.google.com with SMTP id v2-20020a4ae6c2000000b002c622008d77sf1694091oot.12
+        for <lists+kasan-dev@lfdr.de>; Wed, 24 Nov 2021 06:10:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1637762999; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zqNPGmk9yKV5fDGkrIGUiBcpR5PgIUaG8SeUUaIqQyg8L9B8KgSP6D3Q56Ve/seMGL
-         d86MIxisIrY/3dNEtH2uzo2xy+T833nNbwN9I4lYcGOBpytTswQ7NwKc0324LywKK7u3
-         Gx7GUAGFM9Ty9QQBwoeLFMRLWVFwOUGXHgjjl2eQe1gL1Pdvni2YejV6knemMENUGvUA
-         e9bc5wwqvcZr1L2a18/XeCOs1vlnx5IBltD1pL0H7qgKs03so/tSQGYKyP+GDvbCCOMW
-         5/DR5Pgtvf/7/D+ysyAxKMJAl39sdHUYuhxUOw5nw5NgvXuq+zL7XESiG8ORYt9mQCnv
-         /gGw==
+        b=jgx3ouqgLIEGEtdX2+hQ0tjChKfmDYjMjccFzw7BERr4AjS4uzPQZn3PP2FicGDa/X
+         t5k56GNAfnkVNJJz9FBan9Zwa9y0GjIjami7xFw0Z/uo402ePoylzMeUWDoqDYUaZIFR
+         oTiL4XWU6IV6RarEtHVpFVFt+cb7+pS+7oT9lC9Jh/Cgf+oak4I6/rpvAwIJmv2XMltE
+         oC2aIpIAtCTXK1EGUV4otPWsgegMAQLBRe4vXK6PnIMdJcmgM1K0d+qLcHnj5tGBKtJl
+         o+xIjwT1wkrq8Ab/l4DI4+fNoozZ81n/7U3hMKybKgFrhUiqFxzial0x5J8gAYy53xM7
+         QEBg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=xyZPv28Owzq+WtBjqaq1L95XboujsOsHsMIWz0LF3Hk=;
-        b=JzjbQ7Ovfi4nb5FbpEGM5cbKNatg2FFZEgjDenJdEAGbbRA1VxahFtruzaSpo4aKs9
-         F1CyZdJt6Co6fgtJaii6XxDK9hCxSrR5A/znL2MHteiqcNtBBfej98+B3gGhU7Czza1T
-         atjsnL2Qfbt2ka4QGmQ61e/mpbIaVLDIBsd84rURmLSssj7rFs2O1tqG8oPcFLhhpkcm
-         49ddIx90AtiDU5NcCiVQ//sgFCvIwFcn8xZBIZmwyg+gqGjrDmUATTqbI0x/TUfH+POV
-         4sb1g+BRdaDiaAtIj6Y44idKhKGUCeAP69V+iW4JvUZDFOE+ogF3OoEPnFCk+LCMexP3
-         clIA==
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=V6Ux+ygy2SOQN31aG8NuC4D2kN3xbmK8KmuS1Nm5qHU=;
+        b=Zf5i85jGEUN/yanfBQED5zb00cslhzn8SqvdXfeXZC2g9pFb+makLV5He8oerUf68+
+         caXTZXnaRFhStIIAXuAH4db0iw/TzbgrvOZWkdErwySZMXTnwwfxW+hUnCGsktACOTn4
+         eLOaCcn53AmxZ/3jaSWBlbWKTTrVmKZIAx+1t2aE0WtVyCMR4aOrhWMzR3drPk6P529s
+         FSouLC0CZTtwUybsLv4nsln7ULmCM33m97oJaT4Kwwh+KgSwVPL1zsE0RcqrK5xjzvGk
+         yZgFcUpUZR0RPW3VfQS1iGSDI5Z6KYOEprsZw8oewdXyWERNsl6clJUUv22hB0mrZoTg
+         tRTg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=LJBo8MkM;
-       spf=pass (google.com: domain of kaipeng94@gmail.com designates 2607:f8b0:4864:20::231 as permitted sender) smtp.mailfrom=kaipeng94@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=xyZPv28Owzq+WtBjqaq1L95XboujsOsHsMIWz0LF3Hk=;
-        b=GJNyfQtcG6oAGUfTBGvB4aL6FGXXNy104VYCSGJ3TavTflSbVAj+H7wSSR/i+N5BXU
-         IgKFZS5OafiexCBYl/tekEpruD/CFYAaJLzM5/aXsdklsytF9/5J3BAjwL1MjleHcmTj
-         p8d5pxPPWZpEG8CFLNMEMkHnpNHrYD3XRS8vs9Z3WSU1Ig5wNMVALlzjEAoGf0DyhIHX
-         rMgQo8pnXW3XLoImxSppaQ0OtuanV+zeNxCep61jq353//b1rQLVcBUHVsEOs+Um/kSI
-         vpIbKoYKdDfzE2ZgjGEWhkWpkWDa4X7dh113OZNCxGFOnE1PHJmTz+PWx5Qer4CR7xQZ
-         3XVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=xyZPv28Owzq+WtBjqaq1L95XboujsOsHsMIWz0LF3Hk=;
-        b=Oj2L14ARSrOD3zYzHDTmOYa/Diu0v/tZLtdqF3680TR9ABf6QwzAHa+R1cfMspnqvA
-         2ulI81I2+Nry8BuzILVlRVEIImjgXp6Fys2tfQiRZrsbbVuH3Tpmx5xT+3++pw8Z4K9U
-         2u9cgnqvmU+RsqMtypefm3rg87+EoczljgSBN4T30d9Tm3rwvde1kdYIqk8Ww6o6hEde
-         O+CHeeFaT+4nElgPz3fGVXlbyZi7nwOaPzYvdUHVXQUlFPdlaQc9MKh9i85VFHxUH35C
-         nW6S0YCGPa5d6QTQAMUeNnbBzDOuJwp9nRsZsugMVwwV486k1uyrBn6/1R6MdHs9s5sk
-         jqKw==
+        h=from:to:cc:subject:date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=V6Ux+ygy2SOQN31aG8NuC4D2kN3xbmK8KmuS1Nm5qHU=;
+        b=hv7LNY3t2bitts6njobHUVbqSlGfxPK25N8FPRULWbjEiOBHVcyIWwperf5RFezEoq
+         Fu3XjFF6LYgoKxPmJWd6yq1ETi/KgAOe0EQ72V+SCSneyirRMBCuktVmvZZMdwKuBkJa
+         FLNUcMLCKD/IrkysjChhbPofevYIKi5RCYsozqm4Ay+RtGbZjviZuW54JWZj5uWrx2mJ
+         FK5kgw1KIENHM04HfhBsYT5TriEUx++sqoEhqG53wF1UabBq4ugv9jAD1GGum3AdS5a7
+         mgkUQiHbsiwbEHHW1UIfGPc/kTPawLWf6PIUEooToGJJUXg17SajkfYvC7BDjTbqZHNb
+         fuAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=xyZPv28Owzq+WtBjqaq1L95XboujsOsHsMIWz0LF3Hk=;
-        b=5Yi0qr2AaIzVZwJtIEx68s40YTwJJOwLAXiSfyf/pEMiIcMIULJMkml4Zx7O6bQHVY
-         6klOiR9gzbNAt1QPVAV2Aij/BtwETt5knjiEhox9GF4qQEZ6tye2KHrETQ0NKpM8WfMG
-         qQvcX1RZVhkX5QHWLgSxcEwPKrquXieXQ2Tj75M15Yb5Z+tIkV7vfwGNdaqHat4gmiSy
-         nrQtKr5GJLRMs8B8Qd7WUTxXimult7+Dhoc1gsh/8MhFEg/yBpa2WHZ38F4B6OdAufvx
-         tbawmzVWEygKI2TttOQcYXhs6KyWYKy4i3W1iEVrekDHSYoL9g6v5idKAM9w7aKX3cx4
-         PZKw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531PG+EzvcLk1pChyuzpOL7RKKVlC4Ld1e9f6AZL1iKr+NSQIeuX
-	t8oMvjXTtZEjJZMddec/Df0=
-X-Google-Smtp-Source: ABdhPJwzBhlcIj37pjilrVX+/F6ta7nmrfTeUoXVBYAZ6y9jp0GClTbQ4PpQ3NFzrQhVfiBfy4ehHA==
-X-Received: by 2002:a17:902:c407:b0:142:28fe:668e with SMTP id k7-20020a170902c40700b0014228fe668emr15913464plk.31.1637742818905;
-        Wed, 24 Nov 2021 00:33:38 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=V6Ux+ygy2SOQN31aG8NuC4D2kN3xbmK8KmuS1Nm5qHU=;
+        b=LKmuaEi4GRp/j6nIMqB2XnGGc3u9M2+O7HCpq4bh1cG4Rkb8260sCjouQBq4OWyluu
+         GqH40PMPIanfMjsQjkqMkyf8wIBVd5ANRxsecTW8mzidUDlokGB41k8Fo68aKAmf4nCi
+         XHbgpG16Z3NpvDadqdp+M5HTzJPIKvzezpazpJnilAynR3fx85HSE9nkav2hcIHBGMEV
+         VKhJJCqZ6qvoM67KFxbDD40vhsRo6hLjNX6Eh0mTZD+2ei+Cwg4nFtKG8QIGET2hvYUo
+         EQZ5S4/AS4FLlkX1EkWyM+X0ijS9Agm2KuxGy09ZtmM4/jEEc2bijO65aw7JzvavFlWJ
+         xtFg==
+X-Gm-Message-State: AOAM530LXmKQRY/NhttzlQf78UC07uZ/IjxOzlR1vtVq5xskfL+lmBsK
+	6w2/2mIR8+HTfjIreZfPU3o=
+X-Google-Smtp-Source: ABdhPJyLFsg/xi7YPVZj0bmUxkfeMPJeqsmHqXPQQXGVOQtAgyYTMHCP/oE1oio7kjOST7IUcUoJhA==
+X-Received: by 2002:aca:1a05:: with SMTP id a5mr6581120oia.146.1637762999028;
+        Wed, 24 Nov 2021 06:09:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:1bcf:: with SMTP id oa15ls1927159pjb.0.canary-gmail;
- Wed, 24 Nov 2021 00:33:38 -0800 (PST)
-X-Received: by 2002:a17:90b:3511:: with SMTP id ls17mr6166600pjb.81.1637742818317;
-        Wed, 24 Nov 2021 00:33:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1637742818; cv=none;
+Received: by 2002:a4a:45d8:: with SMTP id y207ls911538ooa.3.gmail; Wed, 24 Nov
+ 2021 06:09:58 -0800 (PST)
+X-Received: by 2002:a4a:cf12:: with SMTP id l18mr8962709oos.25.1637762998652;
+        Wed, 24 Nov 2021 06:09:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1637762998; cv=none;
         d=google.com; s=arc-20160816;
-        b=H1IFzSdlK5IxhWtoWxxj1WOTNSZWtwGya8tFILcwZOuEVt2jxsynLAasyireDi3hwE
-         zjcowZ5RcwOQf2sTZI3ZSkld9S6BTRXwuksJ5VeyzYXOdyBqyYtaYC0FVIo604deIf1p
-         o9Medbxf0dsIHQdk/Fr3X4RTo0FCETf6icI9CBBbs4v05YmQu9o5xndWaVeVUVFCPrSv
-         hMDRRPTkgfjGwRGt7vYsQxPyn5zjg+mOMwrKmxkCqt9vvSCexQainGG+xrzC7JaTukE8
-         UC0TlmO2Durbila3dIScqzFTqPIMhgv/vTDIdy+s0ncDvSXYMCs6NwBaAe1rmc6R/ZwK
-         DSbw==
+        b=Wutcm8uU9obTSnTva15KJRSw3imwnPKFeCRI/nlFrStSTe6ytbXzs2MIEMj+jbDk5J
+         BRd4TfllYbCrFXanP+ia56JYPM8drh5vZaNI67IB8JeIGqe3Lu/i1Z7cqxYaO1gRkoEP
+         6oEP3VwU/2jznDIwCI6rkyS5OcSXMgtam4cPRJPn3atMMf0P8KBSp2xwSFGo9GBREX6S
+         wFOzrDfNn7zJD+ZQRSLEq23Iv3Y6TmLQMdDiLbI9JKorHlIa4RsdK6e/JgxHfxHTmhSb
+         jjmksIueCMKc5WEQhUq9UzLMOGydLWCrMvHXhjHojutsg+XLopMdsgJfc2swyaEyzbH0
+         3DuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tP10DOG463xXLNI62otDmU6DPleLlPyFGqakw7Ax0FU=;
-        b=fx8Kt7isyNseS0svnRxHv+dvaafzZoJe0QPrjP/3W1Dpxosa0omq1Ria/mQ5EdfFCI
-         YFaiWkWGw+kGZ+ChsC9V8n2w2BZWltrqsXsH1htPzv76rbk0I6K+p4O21jJp3K0T5rhw
-         XP7KwCbQ0tN/rI4w2Mg2GCcwXR+aIrRKYE/ViZOgfsO5P2I8KeaTuvHT7eQEr1lp8hic
-         AZqz6mOYOszNWFaxgdj9SxzjfGRP9kUmXEQ7xfT30Rg2oDvwj7AikRR/d2cJ0Sz7MxGj
-         wOn/kfEpsazy6zSBi9+4lSNEY8HhQRLNYgnEgBq9G/ylWDnui5zN8yr73IgaU/Jnhyus
-         x6PA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=EEpsBAkwGyRWSRbnOoxeEL6126HaLNQDathi6lYt5YQ=;
+        b=NCFa2t2ChyyrYsHbPPPBXjWOUnvBLXUbh+J5Hq4NZqRIJ1V0KpuRjL47yBxoiKBP5Q
+         Vt1tV5JzbLIVW5H+KQ/G/s+Wju3qjx2Bnno81EfKagWpvKCHY118mvkkrW+xaQHqE2g+
+         dUiXFCLO07pI/uh7khKZcdagdzavqd40ndftfzNZwtKn5MINYxDZRBUMpE9G7Pi7vYpR
+         clERAxHctTO8qFtlduqX42HLvSmiUsQy7hAbSO2gMOEmTLL4oTnWg+JBKTPigOmANqy9
+         yZO8ucW7qvXnD+RgXBF6xfWpc7AcrqTcxNiRRvB5poIEs974CEo1jkCFcIJDUinDn/Sd
+         Zmkw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=LJBo8MkM;
-       spf=pass (google.com: domain of kaipeng94@gmail.com designates 2607:f8b0:4864:20::231 as permitted sender) smtp.mailfrom=kaipeng94@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com. [2607:f8b0:4864:20::231])
-        by gmr-mx.google.com with ESMTPS id p10si132851pfh.2.2021.11.24.00.33.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Nov 2021 00:33:38 -0800 (PST)
-Received-SPF: pass (google.com: domain of kaipeng94@gmail.com designates 2607:f8b0:4864:20::231 as permitted sender) client-ip=2607:f8b0:4864:20::231;
-Received: by mail-oi1-x231.google.com with SMTP id u74so3855048oie.8;
-        Wed, 24 Nov 2021 00:33:38 -0800 (PST)
-X-Received: by 2002:aca:2b09:: with SMTP id i9mr4067402oik.14.1637742817622;
- Wed, 24 Nov 2021 00:33:37 -0800 (PST)
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
+        by gmr-mx.google.com with ESMTPS id g64si444oia.1.2021.11.24.06.09.58
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 24 Nov 2021 06:09:58 -0800 (PST)
+Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.57])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HzjYb1m3vzbj4c;
+	Wed, 24 Nov 2021 22:09:23 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 24 Nov 2021 22:09:25 +0800
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 24 Nov 2021 22:09:24 +0800
+From: "'Kefeng Wang' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-s390@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<linux-mm@kvack.org>
+CC: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Alexander Gordeev
+	<agordeev@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, Alexander Potapenko <glider@google.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>, Yongqiang Liu
+	<liuyongqiang13@huawei.com>
+Subject: [PATCH v3] mm: Defer kmemleak object creation of module_alloc()
+Date: Wed, 24 Nov 2021 22:20:34 +0800
+Message-ID: <20211124142034.192078-1-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <1637130234-57238-1-git-send-email-quic_jiangenj@quicinc.com>
- <CACT4Y+YwNawV9H7uFMVSCA5WB-Dkyu9TX+rMM3FR6gNGkKFPqw@mail.gmail.com>
- <DM8PR02MB8247720860A08914CAA41D42F89C9@DM8PR02MB8247.namprd02.prod.outlook.com>
- <CACT4Y+a07DxQdYFY6uc5Y4GhTUbcnETij6gg3y+JRDvtwSmK5g@mail.gmail.com>
- <DM8PR02MB8247A19843220E03B34BA440F89C9@DM8PR02MB8247.namprd02.prod.outlook.com>
- <CACT4Y+Y36wgP_xjYVQApNLdMOFTr2-KCHc=AipcZyZiAhwf1Nw@mail.gmail.com>
- <CACT4Y+YF4Ngm6em_Sn2p+N0x1L+O8A=BEVTNhd00LmSZ+aH1iQ@mail.gmail.com>
- <CAHk8ZdsPDDshy2EVtdGs=rjVOEWDctcNo2H+B5=d4GRcpQunog@mail.gmail.com>
- <062ffa8658124e089f17d73c2f523afb@quicinc.com> <DM8PR02MB82473E366FA560E2FF214EF8F8609@DM8PR02MB8247.namprd02.prod.outlook.com>
- <CACT4Y+baE0Wn9fCbLF1O_3XVRwiBVpbmTV5KDNdTQb9RSy_FCg@mail.gmail.com>
-In-Reply-To: <CACT4Y+baE0Wn9fCbLF1O_3XVRwiBVpbmTV5KDNdTQb9RSy_FCg@mail.gmail.com>
-From: Kaipeng Zeng <kaipeng94@gmail.com>
-Date: Wed, 24 Nov 2021 16:33:25 +0800
-Message-ID: <CAHk8ZdvhcFQPkovXL_-t2NMyGb4H9poC7ysfo8DsjeGioqjPyQ@mail.gmail.com>
-Subject: Re: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: "JianGen Jiao (QUIC)" <quic_jiangenj@quicinc.com>, syzkaller <syzkaller@googlegroups.com>, 
-	"andreyknvl@gmail.com" <andreyknvl@gmail.com>, 
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
-	Alexander Lochmann <info@alexander-lochmann.de>, "Likai Ding (QUIC)" <quic_likaid@quicinc.com>, 
-	Hangbin Liu <liuhangbin@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: Kaipeng94@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=LJBo8MkM;       spf=pass
- (google.com: domain of kaipeng94@gmail.com designates 2607:f8b0:4864:20::231
- as permitted sender) smtp.mailfrom=kaipeng94@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+X-Originating-IP: [10.175.113.25]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
+X-Original-Sender: wangkefeng.wang@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188
+ as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: Kefeng Wang <wangkefeng.wang@huawei.com>
+Reply-To: Kefeng Wang <wangkefeng.wang@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,531 +145,203 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 23, 2021 at 2:31 PM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> I am not sure... hard question. I actually see the main downside of
-> installing bitmap in the kernel implementation complexity and
-> additional code (checking range is definitely simpler).
->
-> Let me comment on Kaipeng's points:
-> 1. Re edge coverage. There is an idea to remove it from syzkaller:
-> https://groups.google.com/g/syzkaller/c/8AUanXPoWiw/m/gAzSjv8yAwAJ
-> For clang we already have edge coverage (so with syz-executor
-> additional hashing of PC pairs we are actually getting double-edges);
-> nobody proved that edges are actually useful for kernel. Removing
-> edges would make module support easier and will just remove a bunch of
-> code and maybe make fuzzing faster. But we will need to benchmark.
->
+Yongqiang reports a kmemleak panic when module insmod/rmmod
+with KASAN enabled(without KASAN_VMALLOC) on x86[1].
 
-1. It seems that only switch to Clang edge instrument can't completely
-replace syzkaller edge calculate because it's based on
-intra-procedural analysis, the inter-procedural edge would be lost.
-Maybe add -fsanitize-coverage=3Dtrace-pc,indirect-calls or callgraph
-analysis can restore these information.
+When the module area allocates memory, it's kmemleak_object
+is created successfully, but the KASAN shadow memory of module
+allocation is not ready, so when kmemleak scan the module's
+pointer, it will panic due to no shadow memory with KASAN check.
 
-2. Currently syzkaller uses the length of edges to determine which
-testcases are valuable to mutate. Using Clang edge may meet a problem
-here. Clang put some fake block which is just an edge and do nothing
-actually. But syzkaller would assign the same prior to it as other
-real blocks. And it seems that these fake blocks are not conspicuous
-and can't be picked out unless we do more static analysis.
+module_alloc
+  __vmalloc_node_range
+    kmemleak_vmalloc
+				kmemleak_scan
+				  update_checksum
+  kasan_module_alloc
+    kmemleak_ignore
 
-Also, all of these are based on "fuzzer can benefit from control flow
-and call graph information". Maybe support using syzkaller on such
-memory-limited devices are more necessary. I have less experience with
-this. If so, just forget what I mentioned above:).
+Note, there is no problem if KASAN_VMALLOC enabled, the modules
+area entire shadow memory is preallocated. Thus, the bug only
+exits on ARCH which supports dynamic allocation of module area
+per module load, for now, only x86/arm64/s390 are involved.
 
-> 2/3. It should be possible to attach different filters and in
-> particular we could not install a filter at all when collecting full
-> coverage.
->
-> An interesting benefit of a bitmap filter is that we can update with
-> max coverage during fuzzing, so that the kernel will log only new
-> uncovered PCs. Then the trace will be very small and we will never
-> miss new coverage due to buffer overflow.
->
-> Re BPF, it can be used only to decide if we log a PC or not. Namely:
-> if (execute_bpf_filter(kcov->bpf_prog, pc))
->    kcov->trace[pos] =3D pc;
->
-> Or, if we install just a map:
-> if (bpf_map_contains(kcov->bpf_map, pc))
->    kcov->trace[pos] =3D pc;
->
-> Not sure if it needs to be a positive or a negative test (!bpf_map_contai=
-ns).
->
->
-> On Tue, 23 Nov 2021 at 04:18, JianGen Jiao (QUIC)
-> <quic_jiangenj@quicinc.com> wrote:
-> >
-> > Hi Dmitry,
-> > Based on these info, any further comment and next action?
-> >
-> > # Summary
-> > * shouldn't filter inside kernel which will loose edge info (Kaipeng).
-> > * filter start, end should be enough (Kaipeng).
-> > * put edge info into kernel? (Kaipeng) __sanitizer_cov_trace_pc_guard m=
-ight be an option? But it will loose PC info for /cover page (perhaps needs=
- gcov), also not feasible to filter out pc guard value. (Joey)
-> > * eBPF is for read-only purpose, not suitable to overcome kcov->area ov=
-erflow (Joey).
-> > * PC RANGE (start, end) can be used together with current cover filter =
-(start, start+size) in syzkaller to fuzzing file or module interested (Joey=
-).
-> > * KCOV uniq PC is for another purpose (dropping edge info) even it also=
- overcomes kcov->area overflow (Joey).
-> >
-> > THX
-> > Joey
-> >
-> > -----Original Message-----
-> > From: JianGen Jiao (QUIC) <quic_jiangenj@quicinc.com>
-> > Sent: Monday, November 22, 2021 11:25 AM
-> > To: Kaipeng Zeng <kaipeng94@gmail.com>; Dmitry Vyukov <dvyukov@google.c=
-om>
-> > Cc: JianGen Jiao (QUIC) <quic_jiangenj@quicinc.com>; syzkaller <syzkall=
-er@googlegroups.com>; andreyknvl@gmail.com; kasan-dev@googlegroups.com; LKM=
-L <linux-kernel@vger.kernel.org>; Alexander Lochmann <info@alexander-lochma=
-nn.de>; Likai Ding (QUIC) <quic_likaid@quicinc.com>; Hangbin Liu <liuhangbi=
-n@gmail.com>
-> > Subject: RE: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
-> >
-> > Hi Kaipeng,
-> > > BTW, our coverage filter is for Linux/amd64 only. Seems the author ne=
-eds a coverage filter on arm.
-> >
-> > Let you know that cov filer for arm[64] is available too in syzkaller b=
-ack months.
-> >
-> > -----Original Message-----
-> > From: Kaipeng Zeng <kaipeng94@gmail.com>
-> > Sent: Monday, November 22, 2021 11:09 AM
-> > To: Dmitry Vyukov <dvyukov@google.com>
-> > Cc: JianGen Jiao (QUIC) <quic_jiangenj@quicinc.com>; syzkaller <syzkall=
-er@googlegroups.com>; andreyknvl@gmail.com; kasan-dev@googlegroups.com; LKM=
-L <linux-kernel@vger.kernel.org>; Alexander Lochmann <info@alexander-lochma=
-nn.de>; Likai Ding (QUIC) <quic_likaid@quicinc.com>; Hangbin Liu <liuhangbi=
-n@gmail.com>
-> > Subject: Re: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
-> >
-> > WARNING: This email originated from outside of Qualcomm. Please be wary=
- of any links or attachments, and do not enable macros.
-> >
-> > Hi Dmitry,
-> >
-> > On Fri, Nov 19, 2021 at 9:07 PM Dmitry Vyukov <dvyukov@google.com> wrot=
-e:
-> > >
-> > > On Fri, 19 Nov 2021 at 13:55, Dmitry Vyukov <dvyukov@google.com> wrot=
-e:
-> > > >
-> > > > +Kaipeng, Hangbin who contributed the coverage filter to syzkaller.
-> > > > This is a discussion about adding a similar filter to the kernel.
-> > > > You can see whole discussion here:
-> > > > https://groups.google.com/g/kasan-dev/c/TQmYUdUC08Y
-> > >
-> > > Joey, what do you think in general about passing a filter bitmap to t=
-he kernel?
-> > >
-> > > Since the bitmap is large, it can make sense to reuse it across
-> > > different KCOV instances.
-> > > I am thinking about something along the following lines:
-> > >
-> > > kcov_fd =3D open("/debugfs/kcov");
-> > > filter_fd =3D ioctl(kcov_fd, KCOV_CREATE_FILTER, &{... some args
-> > > specifying start/end ...}); filter =3D mmap(..., filter_fd); ... writ=
-e
-> > > to the filter ...
-> > >
-> > > ...
-> > > kcov_fd2 =3D open("/debugfs/kcov");
-> > > ioctl(kcov_fd2, KCOV_ATTACH_FILTER, filter_fd); ioctl(kcov_fd2,
-> > > KCOV_ENABLE);
-> > >
-> > >
-> > > This would allow us to create 2 filters:
-> > > 1. One the interesting subsystems
-> > > 2. Second only for yet uncovered PCs in the interesting subsystems
-> > > (updated as we discover more coverage)
-> > >
-> > > During fuzzing we attach the second filter to KCOV.
-> > > But when we want to obtain full program coverage, we attach the first=
- one.
-> > >
-> > > The filters (bitmaps) are reused across all threads in all executor
-> > > processes (so that we have only 2 filters globally per VM).
-> > >
-> >
-> > I think implementing such a filter in kernel would be harmful to syzkal=
-ler fuzzing:
-> > 1. Both two bitmaps would impede syzkaller from getting backward and fo=
-rward edge between interesting and uninteresting code.
-> > Currently, syzkaller uses edge but not coverage to decide if the prog s=
-hould be collected to the corpus. And the second bitmap actually destroys t=
-he CFG in the interesting subsystem.
-> > It's impossible that syzkaller restores such information by analyzing t=
-he filtered coverage. While syzkaller coverage filter doesn't have this pro=
-blem.
-> > 2. The First bitmap would impede syzkaller from getting full coverage o=
-f the whole kernel. So that it would be hard to analyze how the kernel path=
- gets into the interesting subsystem.
-> > It's OK if the syscall description is completed. But, we always need to=
- do such analysis if we try to improve syscall descriptions.
-> > 3. Coverage of prog would be imcompleted.
-> >
-> > It seems the only reason to introduce in-kernel coverage filter is to d=
-efense KCOV area overflow. Do nothing in improving the fuzzing loop.
-> > It is reasonable that a fuzzer should collect full information as feedb=
-ack, then analyze and decide how to use that information and which to drop.
-> > In the other hand, kernel should try its best to send more information =
-to fuzzer. Only if the memory is not enough to store such information.
-> > Doing such in-kernel filtering would be reasonable.
-> >
-> > An alternative choice is doing edge analyzing in kernel also, but KCOV =
-would be more and more restricted and limited.
-> >
-> > So, I think the pc_range is enough for defense KCOV area overflow. And =
-keep it from the syzkaller fuzzing loop. But not implement such bitmap into=
- kernel.
-> > Coverage filter in syzkaller would be more flexible. A user could effec=
-tively fuzz their objective subsystems and easier to customize fuzzing loop=
-.
-> >
-> > BTW, our coverage filter is for Linux/amd64 only. Seems the author need=
-s a coverage filter on arm.
-> >
-> >
-> > > KCOV_CREATE_FILTER could also accept how many bytes each bit
-> > > represents (that scaling factor, as hardcoding 4, 8, 16 may be bad fo=
-r
-> > > a stable kernel interface).
-> > >
-> > > But I am still not sure how to support both the main kernel and
-> > > modules. We could allow setting up multiple filters for different PC
-> > > ranges. Or may be just 2 (one for kernel and one for modules range).
-> > > Or maybe 1 bitmap can cover both kernel and modules?
-> > >
-> > > Thoughts?
-> > >
-> > >
-> > > > On Fri, 19 Nov 2021 at 12:21, JianGen Jiao (QUIC)
-> > > > <quic_jiangenj@quicinc.com> wrote:
-> > > > >
-> > > > > Yes, on x86_64, module address space is after kernel. But like be=
-low on arm64, it's different.
-> > > > >
-> > > > > # grep stext /proc/kallsyms
-> > > > > ffffffc010010000 T _stext
-> > > > > # cat /proc/modules |sort -k 6 | tail -2
-> > > > > Some_module_1 552960 0 - Live 0xffffffc00ca05000 (O)
-> > > > > Some_module_1 360448 0 - Live 0xffffffc00cb8f000 (O) # cat
-> > > > > /proc/modules |sort -k 6 | head -2
-> > > > > Some_module_3 16384 1 - Live 0xffffffc009430000
-> > > > >
-> > > > > -----Original Message-----
-> > > > > From: Dmitry Vyukov <dvyukov@google.com>
-> > > > > Sent: Friday, November 19, 2021 6:38 PM
-> > > > > To: JianGen Jiao (QUIC) <quic_jiangenj@quicinc.com>
-> > > > > Cc: andreyknvl@gmail.com; kasan-dev@googlegroups.com; LKML
-> > > > > <linux-kernel@vger.kernel.org>; Alexander Lochmann
-> > > > > <info@alexander-lochmann.de>; Likai Ding (QUIC)
-> > > > > <quic_likaid@quicinc.com>
-> > > > > Subject: Re: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
-> > > > >
-> > > > > WARNING: This email originated from outside of Qualcomm. Please b=
-e wary of any links or attachments, and do not enable macros.
-> > > > >
-> > > > > On Fri, 19 Nov 2021 at 04:17, JianGen Jiao (QUIC) <quic_jiangenj@=
-quicinc.com> wrote:
-> > > > > >
-> > > > > > Hi Dmitry,
-> > > > > > I'm using the start, end pc from cover filter, which currently =
-is the fast way compared to the big bitmap passing from syzkaller solution,=
- as I only set the cover filter to dirs/files I care about.
-> > > > >
-> > > > > I see.
-> > > > > But if we are unlucky and our functions of interest are at the ve=
-ry low and high addresses, start/end will cover almost all kernel code...
-> > > > >
-> > > > > > I checked
-> > > > > > https://groups.google.com/g/kasan-dev/c/oVz3ZSWaK1Q/m/9ASztdzCA=
-A
-> > > > > > AJ, The bitmap seems not the same as syzkaller one, which one
-> > > > > > will be used finally?
-> > > > >
-> > > > > I don't know yet. We need to decide.
-> > > > > In syzkaller we are more flexible and can change code faster, whi=
-le kernel interfaces are stable and need to be kept forever. So I think we =
-need to concentrate more on the good kernel interface and then support it i=
-n syzkaller.
-> > > > >
-> > > > > > ``` Alexander's one
-> > > > > > + pos =3D (ip - canonicalize_ip((unsigned long)&_stext)) / 4; i=
-dx
-> > > > > > + =3D pos % BITS_PER_LONG; pos /=3D BITS_PER_LONG; if (likely(p=
-os <
-> > > > > > + t->kcov_size)) WRITE_ONCE(area[pos], READ_ONCE(area[pos]) | 1=
-L
-> > > > > > + t-><<
-> > > > > > + idx);
-> > > > > > ```
-> > > > > > Pc offset is divided by 4 and start is _stext. But for some arc=
-h, pc is less than _stext.
-> > > > >
-> > > > > You mean that modules can have PC < _stext?
-> > > > >
-> > > > > > ``` https://github.com/google/syzkaller/blob/master/syz-manager=
-/covfilter.go#L139-L154
-> > > > > >         data :=3D make([]byte, 8+((size>>4)/8+1))
-> > > > > >         order :=3D binary.ByteOrder(binary.BigEndian)
-> > > > > >         if target.LittleEndian {
-> > > > > >                 order =3D binary.LittleEndian
-> > > > > >         }
-> > > > > >         order.PutUint32(data, start)
-> > > > > >         order.PutUint32(data[4:], size)
-> > > > > >
-> > > > > >         bitmap :=3D data[8:]
-> > > > > >         for pc :=3D range pcs {
-> > > > > >                 // The lowest 4-bit is dropped.
-> > > > > >                 pc =3D uint32(backend.NextInstructionPC(target,=
- uint64(pc)))
-> > > > > >                 pc =3D (pc - start) >> 4
-> > > > > >                 bitmap[pc/8] |=3D (1 << (pc % 8))
-> > > > > >         }
-> > > > > >         return data
-> > > > > > ```
-> > > > > > Pc offset is divided by 16 and start is cover filter start pc.
-> > > > > >
-> > > > > > I think divided by 8 is more reasonable? Because there is at le=
-ast one instruction before each __sanitizer_cov_trace_pc call.
-> > > > > > 0000000000000160 R_AARCH64_CALL26  __sanitizer_cov_trace_pc
-> > > > > > 0000000000000168 R_AARCH64_CALL26  __sanitizer_cov_trace_pc
-> > > > > >
-> > > > > > I think we still need my patch because we still need a way to k=
-eep the trace_pc call and post-filter in syzkaller doesn't solve trace_pc d=
-ropping, right?
-> > > > >
-> > > > > Yes, the in-kernel filter solves the problem of trace capacity/ov=
-erflows.
-> > > > >
-> > > > >
-> > > > > > But for sure I can use the bitmap from syzkaller.
-> > > > > >
-> > > > > > THX
-> > > > > > Joey
-> > > > > > -----Original Message-----
-> > > > > > From: Dmitry Vyukov <dvyukov@google.com>
-> > > > > > Sent: Thursday, November 18, 2021 10:00 PM
-> > > > > > To: JianGen Jiao (QUIC) <quic_jiangenj@quicinc.com>
-> > > > > > Cc: andreyknvl@gmail.com; kasan-dev@googlegroups.com; LKML
-> > > > > > <linux-kernel@vger.kernel.org>; Alexander Lochmann
-> > > > > > <info@alexander-lochmann.de>
-> > > > > > Subject: Re: [PATCH] kcov: add KCOV_PC_RANGE to limit pc range
-> > > > > >
-> > > > > > WARNING: This email originated from outside of Qualcomm. Please=
- be wary of any links or attachments, and do not enable macros.
-> > > > > >
-> > > > > > ,On Wed, 17 Nov 2021 at 07:24, Joey Jiao <quic_jiangenj@quicinc=
-.com> wrote:
-> > > > > > >
-> > > > > > > Sometimes we only interested in the pcs within some range,
-> > > > > > > while there are cases these pcs are dropped by kernel due to
-> > > > > > > `pos >=3D
-> > > > > > > t->kcov_size`, and by increasing the map area size doesn't he=
-lp.
-> > > > > > >
-> > > > > > > To avoid disabling KCOV for these not intereseted pcs during
-> > > > > > > build time, adding this new KCOV_PC_RANGE cmd.
-> > > > > >
-> > > > > > Hi Joey,
-> > > > > >
-> > > > > > How do you use this? I am concerned that a single range of PCs =
-is too restrictive. I can only see how this can work for single module (con=
-tinuous in memory) or a single function. But for anything else (something i=
-n the main kernel, or several modules), it won't work as PCs are not contin=
-uous.
-> > > > > >
-> > > > > > Maybe we should use a compressed bitmap of interesting PCs? It =
-allows to support all cases and we already have it in syz-executor, then sy=
-z-executor could simply pass the bitmap to the kernel rather than post-filt=
-er.
-> > > > > > It's also overlaps with the KCOV_MODE_UNIQUE mode that +Alexand=
-er proposed here:
-> > > > > > https://groups.google.com/g/kasan-dev/c/oVz3ZSWaK1Q/m/9ASztdzCA=
-A
-> > > > > > AJ It would be reasonable if kernel uses the same bitmap format
-> > > > > > for these
-> > > > > > 2 features.
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > > > An example usage is to use together syzkaller's cov filter.
-> > > > > > >
-> > > > > > > Change-Id: I954f6efe1bca604f5ce31f8f2b6f689e34a2981d
-> > > > > > > Signed-off-by: Joey Jiao <quic_jiangenj@quicinc.com>
-> > > > > > > ---
-> > > > > > >  Documentation/dev-tools/kcov.rst | 10 ++++++++++
-> > > > > > >  include/uapi/linux/kcov.h        |  7 +++++++
-> > > > > > >  kernel/kcov.c                    | 18 ++++++++++++++++++
-> > > > > > >  3 files changed, 35 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/Documentation/dev-tools/kcov.rst
-> > > > > > > b/Documentation/dev-tools/kcov.rst
-> > > > > > > index d83c9ab..fbcd422 100644
-> > > > > > > --- a/Documentation/dev-tools/kcov.rst
-> > > > > > > +++ b/Documentation/dev-tools/kcov.rst
-> > > > > > > @@ -52,9 +52,15 @@ program using kcov:
-> > > > > > >      #include <fcntl.h>
-> > > > > > >      #include <linux/types.h>
-> > > > > > >
-> > > > > > > +    struct kcov_pc_range {
-> > > > > > > +      uint32 start;
-> > > > > > > +      uint32 end;
-> > > > > > > +    };
-> > > > > > > +
-> > > > > > >      #define KCOV_INIT_TRACE                    _IOR('c', 1, =
-unsigned long)
-> > > > > > >      #define KCOV_ENABLE                        _IO('c', 100)
-> > > > > > >      #define KCOV_DISABLE                       _IO('c', 101)
-> > > > > > > +    #define KCOV_TRACE_RANGE                   _IOW('c', 103=
-, struct kcov_pc_range)
-> > > > > > >      #define COVER_SIZE                 (64<<10)
-> > > > > > >
-> > > > > > >      #define KCOV_TRACE_PC  0
-> > > > > > > @@ -64,6 +70,8 @@ program using kcov:
-> > > > > > >      {
-> > > > > > >         int fd;
-> > > > > > >         unsigned long *cover, n, i;
-> > > > > > > +        /* Change start and/or end to your interested pc ran=
-ge. */
-> > > > > > > +        struct kcov_pc_range pc_range =3D {.start =3D 0, .en=
-d =3D
-> > > > > > > + (uint32)(~((uint32)0))};
-> > > > > > >
-> > > > > > >         /* A single fd descriptor allows coverage collection =
-on a single
-> > > > > > >          * thread.
-> > > > > > > @@ -79,6 +87,8 @@ program using kcov:
-> > > > > > >                                      PROT_READ | PROT_WRITE, =
-MAP_SHARED, fd, 0);
-> > > > > > >         if ((void*)cover =3D=3D MAP_FAILED)
-> > > > > > >                 perror("mmap"), exit(1);
-> > > > > > > +        if (ioctl(fd, KCOV_PC_RANGE, pc_range))
-> > > > > > > +               dprintf(2, "ignore KCOV_PC_RANGE error.\n");
-> > > > > > >         /* Enable coverage collection on the current thread. =
-*/
-> > > > > > >         if (ioctl(fd, KCOV_ENABLE, KCOV_TRACE_PC))
-> > > > > > >                 perror("ioctl"), exit(1); diff --git
-> > > > > > > a/include/uapi/linux/kcov.h b/include/uapi/linux/kcov.h index
-> > > > > > > 1d0350e..353ff0a 100644
-> > > > > > > --- a/include/uapi/linux/kcov.h
-> > > > > > > +++ b/include/uapi/linux/kcov.h
-> > > > > > > @@ -16,12 +16,19 @@ struct kcov_remote_arg {
-> > > > > > >         __aligned_u64   handles[0];
-> > > > > > >  };
-> > > > > > >
-> > > > > > > +#define PC_RANGE_MASK ((__u32)(~((u32) 0))) struct kcov_pc_r=
-ange {
-> > > > > > > +       __u32           start;          /* start pc & 0xFFFFF=
-FFF */
-> > > > > > > +       __u32           end;            /* end pc & 0xFFFFFFF=
-F */
-> > > > > > > +};
-> > > > > > > +
-> > > > > > >  #define KCOV_REMOTE_MAX_HANDLES                0x100
-> > > > > > >
-> > > > > > >  #define KCOV_INIT_TRACE                        _IOR('c', 1, =
-unsigned long)
-> > > > > > >  #define KCOV_ENABLE                    _IO('c', 100)
-> > > > > > >  #define KCOV_DISABLE                   _IO('c', 101)
-> > > > > > >  #define KCOV_REMOTE_ENABLE             _IOW('c', 102, struct=
- kcov_remote_arg)
-> > > > > > > +#define KCOV_PC_RANGE                  _IOW('c', 103, struct=
- kcov_pc_range)
-> > > > > > >
-> > > > > > >  enum {
-> > > > > > >         /*
-> > > > > > > diff --git a/kernel/kcov.c b/kernel/kcov.c index
-> > > > > > > 36ca640..59550450
-> > > > > > > 100644
-> > > > > > > --- a/kernel/kcov.c
-> > > > > > > +++ b/kernel/kcov.c
-> > > > > > > @@ -36,6 +36,7 @@
-> > > > > > >   *  - initial state after open()
-> > > > > > >   *  - then there must be a single ioctl(KCOV_INIT_TRACE) cal=
-l
-> > > > > > >   *  - then, mmap() call (several calls are allowed but not
-> > > > > > > useful)
-> > > > > > > + *  - then, optional to set trace pc range
-> > > > > > >   *  - then, ioctl(KCOV_ENABLE, arg), where arg is
-> > > > > > >   *     KCOV_TRACE_PC - to trace only the PCs
-> > > > > > >   *     or
-> > > > > > > @@ -69,6 +70,8 @@ struct kcov {
-> > > > > > >          * kcov_remote_stop(), see the comment there.
-> > > > > > >          */
-> > > > > > >         int                     sequence;
-> > > > > > > +       /* u32 Trace PC range from start to end. */
-> > > > > > > +       struct kcov_pc_range    pc_range;
-> > > > > > >  };
-> > > > > > >
-> > > > > > >  struct kcov_remote_area {
-> > > > > > > @@ -192,6 +195,7 @@ static notrace unsigned long
-> > > > > > > canonicalize_ip(unsigned long ip)  void notrace
-> > > > > > > __sanitizer_cov_trace_pc(void)  {
-> > > > > > >         struct task_struct *t;
-> > > > > > > +       struct kcov_pc_range pc_range;
-> > > > > > >         unsigned long *area;
-> > > > > > >         unsigned long ip =3D canonicalize_ip(_RET_IP_);
-> > > > > > >         unsigned long pos;
-> > > > > > > @@ -199,6 +203,11 @@ void notrace __sanitizer_cov_trace_pc(vo=
-id)
-> > > > > > >         t =3D current;
-> > > > > > >         if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
-> > > > > > >                 return;
-> > > > > > > +       pc_range =3D t->kcov->pc_range;
-> > > > > > > +       if (pc_range.start < pc_range.end &&
-> > > > > > > +               ((ip & PC_RANGE_MASK) < pc_range.start ||
-> > > > > > > +               (ip & PC_RANGE_MASK) > pc_range.end))
-> > > > > > > +               return;
-> > > > > > >
-> > > > > > >         area =3D t->kcov_area;
-> > > > > > >         /* The first 64-bit word is the number of subsequent
-> > > > > > > PCs. */ @@ -568,6 +577,7 @@ static int kcov_ioctl_locked(stru=
-ct kcov *kcov, unsigned int cmd,
-> > > > > > >         int mode, i;
-> > > > > > >         struct kcov_remote_arg *remote_arg;
-> > > > > > >         struct kcov_remote *remote;
-> > > > > > > +       struct kcov_pc_range *pc_range;
-> > > > > > >         unsigned long flags;
-> > > > > > >
-> > > > > > >         switch (cmd) {
-> > > > > > > @@ -589,6 +599,14 @@ static int kcov_ioctl_locked(struct kcov=
- *kcov, unsigned int cmd,
-> > > > > > >                 kcov->size =3D size;
-> > > > > > >                 kcov->mode =3D KCOV_MODE_INIT;
-> > > > > > >                 return 0;
-> > > > > > > +       case KCOV_PC_RANGE:
-> > > > > > > +               /* Limit trace pc range. */
-> > > > > > > +               pc_range =3D (struct kcov_pc_range *)arg;
-> > > > > > > +               if (copy_from_user(&kcov->pc_range, pc_range,=
- sizeof(kcov->pc_range)))
-> > > > > > > +                       return -EINVAL;
-> > > > > > > +               if (kcov->pc_range.start >=3D kcov->pc_range.=
-end)
-> > > > > > > +                       return -EINVAL;
-> > > > > > > +               return 0;
-> > > > > > >         case KCOV_ENABLE:
-> > > > > > >                 /*
-> > > > > > >                  * Enable coverage for the current task.
-> > > > > > > --
-> > > > > > > 2.7.4
+Add a VM_DEFER_KMEMLEAK flags, defer vmalloc'ed object register
+of kmemleak in module_alloc() to fix this issue.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAHk8ZdvhcFQPkovXL_-t2NMyGb4H9poC7ysfo8DsjeGioqjPyQ%40mail.gmail.=
-com.
+[1] https://lore.kernel.org/all/6d41e2b9-4692-5ec4-b1cd-cbe29ae89739@huawei.com/
+Reported-by: Yongqiang Liu <liuyongqiang13@huawei.com>
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+v3:
+- update changelog to add more explanation
+- use DEFER instead of DELAY sugguested by Catalin.
+v2:
+- fix type error on changelog and kasan_module_alloc()
+
+ arch/arm64/kernel/module.c | 4 ++--
+ arch/s390/kernel/module.c  | 5 +++--
+ arch/x86/kernel/module.c   | 7 ++++---
+ include/linux/kasan.h      | 4 ++--
+ include/linux/vmalloc.h    | 7 +++++++
+ mm/kasan/shadow.c          | 9 +++++++--
+ mm/vmalloc.c               | 3 ++-
+ 7 files changed, 27 insertions(+), 12 deletions(-)
+
+diff --git a/arch/arm64/kernel/module.c b/arch/arm64/kernel/module.c
+index b5ec010c481f..309a27553c87 100644
+--- a/arch/arm64/kernel/module.c
++++ b/arch/arm64/kernel/module.c
+@@ -36,7 +36,7 @@ void *module_alloc(unsigned long size)
+ 		module_alloc_end = MODULES_END;
+ 
+ 	p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_base,
+-				module_alloc_end, gfp_mask, PAGE_KERNEL, 0,
++				module_alloc_end, gfp_mask, PAGE_KERNEL, VM_DEFER_KMEMLEAK,
+ 				NUMA_NO_NODE, __builtin_return_address(0));
+ 
+ 	if (!p && IS_ENABLED(CONFIG_ARM64_MODULE_PLTS) &&
+@@ -58,7 +58,7 @@ void *module_alloc(unsigned long size)
+ 				PAGE_KERNEL, 0, NUMA_NO_NODE,
+ 				__builtin_return_address(0));
+ 
+-	if (p && (kasan_module_alloc(p, size) < 0)) {
++	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
+ 		vfree(p);
+ 		return NULL;
+ 	}
+diff --git a/arch/s390/kernel/module.c b/arch/s390/kernel/module.c
+index b01ba460b7ca..d52d85367bf7 100644
+--- a/arch/s390/kernel/module.c
++++ b/arch/s390/kernel/module.c
+@@ -37,14 +37,15 @@
+ 
+ void *module_alloc(unsigned long size)
+ {
++	gfp_t gfp_mask = GFP_KERNEL;
+ 	void *p;
+ 
+ 	if (PAGE_ALIGN(size) > MODULES_LEN)
+ 		return NULL;
+ 	p = __vmalloc_node_range(size, MODULE_ALIGN, MODULES_VADDR, MODULES_END,
+-				 GFP_KERNEL, PAGE_KERNEL_EXEC, 0, NUMA_NO_NODE,
++				 gfp_mask, PAGE_KERNEL_EXEC, VM_DEFER_KMEMLEAK, NUMA_NO_NODE,
+ 				 __builtin_return_address(0));
+-	if (p && (kasan_module_alloc(p, size) < 0)) {
++	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
+ 		vfree(p);
+ 		return NULL;
+ 	}
+diff --git a/arch/x86/kernel/module.c b/arch/x86/kernel/module.c
+index 169fb6f4cd2e..95fa745e310a 100644
+--- a/arch/x86/kernel/module.c
++++ b/arch/x86/kernel/module.c
+@@ -67,6 +67,7 @@ static unsigned long int get_module_load_offset(void)
+ 
+ void *module_alloc(unsigned long size)
+ {
++	gfp_t gfp_mask = GFP_KERNEL;
+ 	void *p;
+ 
+ 	if (PAGE_ALIGN(size) > MODULES_LEN)
+@@ -74,10 +75,10 @@ void *module_alloc(unsigned long size)
+ 
+ 	p = __vmalloc_node_range(size, MODULE_ALIGN,
+ 				    MODULES_VADDR + get_module_load_offset(),
+-				    MODULES_END, GFP_KERNEL,
+-				    PAGE_KERNEL, 0, NUMA_NO_NODE,
++				    MODULES_END, gfp_mask,
++				    PAGE_KERNEL, VM_DEFER_KMEMLEAK, NUMA_NO_NODE,
+ 				    __builtin_return_address(0));
+-	if (p && (kasan_module_alloc(p, size) < 0)) {
++	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
+ 		vfree(p);
+ 		return NULL;
+ 	}
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index d8783b682669..89c99e5e67de 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -474,12 +474,12 @@ static inline void kasan_populate_early_vm_area_shadow(void *start,
+  * allocations with real shadow memory. With KASAN vmalloc, the special
+  * case is unnecessary, as the work is handled in the generic case.
+  */
+-int kasan_module_alloc(void *addr, size_t size);
++int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask);
+ void kasan_free_shadow(const struct vm_struct *vm);
+ 
+ #else /* (CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS) && !CONFIG_KASAN_VMALLOC */
+ 
+-static inline int kasan_module_alloc(void *addr, size_t size) { return 0; }
++static inline int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask) { return 0; }
+ static inline void kasan_free_shadow(const struct vm_struct *vm) {}
+ 
+ #endif /* (CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS) && !CONFIG_KASAN_VMALLOC */
+diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+index 6e022cc712e6..506fc6e6a126 100644
+--- a/include/linux/vmalloc.h
++++ b/include/linux/vmalloc.h
+@@ -28,6 +28,13 @@ struct notifier_block;		/* in notifier.h */
+ #define VM_MAP_PUT_PAGES	0x00000200	/* put pages and free array in vfree */
+ #define VM_NO_HUGE_VMAP		0x00000400	/* force PAGE_SIZE pte mapping */
+ 
++#if defined(CONFIG_KASAN) && (defined(CONFIG_KASAN_GENERIC) || \
++	defined(CONFIG_KASAN_SW_TAGS)) && !defined(CONFIG_KASAN_VMALLOC)
++#define VM_DEFER_KMEMLEAK	0x00000800	/* defer kmemleak object creation */
++#else
++#define VM_DEFER_KMEMLEAK	0
++#endif
++
+ /*
+  * VM_KASAN is used slightly differently depending on CONFIG_KASAN_VMALLOC.
+  *
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index 4a4929b29a23..2ade2f484562 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -498,7 +498,7 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+ 
+ #else /* CONFIG_KASAN_VMALLOC */
+ 
+-int kasan_module_alloc(void *addr, size_t size)
++int kasan_module_alloc(void *addr, size_t size, gfp_t gfp_mask)
+ {
+ 	void *ret;
+ 	size_t scaled_size;
+@@ -520,9 +520,14 @@ int kasan_module_alloc(void *addr, size_t size)
+ 			__builtin_return_address(0));
+ 
+ 	if (ret) {
++		struct vm_struct *vm = find_vm_area(addr);
+ 		__memset(ret, KASAN_SHADOW_INIT, shadow_size);
+-		find_vm_area(addr)->flags |= VM_KASAN;
++		vm->flags |= VM_KASAN;
+ 		kmemleak_ignore(ret);
++
++		if (vm->flags & VM_DELAY_KMEMLEAK)
++			kmemleak_vmalloc(vm, size, gfp_mask);
++
+ 		return 0;
+ 	}
+ 
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index d2a00ad4e1dd..bf3c2fe8f528 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -3074,7 +3074,8 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
+ 	clear_vm_uninitialized_flag(area);
+ 
+ 	size = PAGE_ALIGN(size);
+-	kmemleak_vmalloc(area, size, gfp_mask);
++	if (!(vm_flags & VM_DEFER_KMEMLEAK))
++		kmemleak_vmalloc(area, size, gfp_mask);
+ 
+ 	return addr;
+ 
+-- 
+2.26.2
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211124142034.192078-1-wangkefeng.wang%40huawei.com.
