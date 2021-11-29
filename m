@@ -1,124 +1,143 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBQHKSGGQMGQES6VSG2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBIXESKGQMGQEXHMLJTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC2F460EC5
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Nov 2021 07:37:53 +0100 (CET)
-Received: by mail-yb1-xb40.google.com with SMTP id k6-20020a259846000000b005fee1fd7d3fsf12777550ybo.1
-        for <lists+kasan-dev@lfdr.de>; Sun, 28 Nov 2021 22:37:53 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638167872; cv=pass;
+Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B654612FC
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Nov 2021 11:57:38 +0100 (CET)
+Received: by mail-ed1-x53c.google.com with SMTP id eg20-20020a056402289400b003eb56fcf6easf13292836edb.20
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Nov 2021 02:57:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638183458; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XYajcL8CjeyVkr1gN3/2L9/rBMDLxKjb/kYhh+wbrNjMXajxznjtrlyssHSCGY4K2R
-         pcETM0SJ3WrBKcKwHhtwdJDtYxeobxVR/MIBiD4L9p6wIwgK/tRS8Ibcn5XxRUnpLc88
-         eKjYUrlrfKaPzuX+EBgYwofTkmxuFldZmgjeRL+2QEeVrtzjGSpgCX/dLCa1P9pE4yy4
-         nAUbbn8DofNfcCu+YfEUFDmn1vdSCx4lztXpfK0T9H87J9g5dmJiJ+xRc1ATxe1Fd9k2
-         hE+UiT2Rtzabk5Vo5evybeRTNY0vzf00ys//VG7pfx/9Ahsd6/2fmIay2KLigbhlWjtu
-         t4Zw==
+        b=K/7mdMgv5AbiQ+nXCuDxnx+c5Qw/zGolNcWDw1XyLA4tspzQeKMVJv6w3kp77LrhYa
+         mR8ZERYwUgyX615HaPTES7j8ra8YYxQ/N3M9TWEizAakkLJcs0ErY7IqF7wLoVOgtXKT
+         e4TlG5RNiF77LuAMDigdPq/GFUjOYbnfi6UkYWv1zjIpQJ9Pd6VmHh6Vwn4Y+G5g3GKf
+         8Jz4G2fTAXurDl1B+os+UkFXC5QJJ5jBmENiT+iZfQpJSXcJJxoglqffyrvhPA05M66L
+         l2i4ZNqItn9zDIeTEm/VzySG+pnI5RPYL8pC7hKKx7djKvnS/mmNWcenVjUafKe7qWYI
+         c6dg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=kOjK1al6TdPAhmE57H1mhS7G25TQNR9/ceJN8X4luhA=;
-        b=0W1J0caZdxrPr+ejvk0GLLgFvXM8A7mTvEDPdQFGeeC+F7L/AaBXRza7J6XKvGGI3w
-         DzdNvDJ2iRmJ+hspxPGrbXXNI1RinAPzTrx4pswcoXw4X60FF7GwCj5hyACuGgqmIWfk
-         /IlkqyOZ3hkq7hgI4GQ1sOBnttME3u4EYT+1UN3a4NN59EUzcaCcjRikFjKQp+l2zWqR
-         pIhlz8gmCwJObJkOPjwOLOoSc2FW2dP7T11i3W69Lq7Z2wcYfkvS9kGig45DirxbJidN
-         hx2KeTL11DjCec2h0ojJT3H6NsOrUUSOvccJJrO1h6C394/XNnMMpfYkYigsxUjc4dT1
-         qjgg==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=cKepdnVdo4HfoivtYMO1RJoMR1tfwrAazbtIRBIA+Es=;
+        b=G7z/hgosZ2cUBhYfmxWEAxJMUqDQSULr0j6t3sVkF4TkCdorfWJNmWBJaxGU3BADEV
+         qt/wXGs93d5X+LkKaOJ9y4wl1UqH7TG6WkRpPMftlKlkO/ng7fc7JrwWz4KELIFDolYT
+         j8GDnbcRfhe9hjo+aF/npoJ6nAwPEfs/uuyiWwRzxXxUg4Gn8GEUzS43tOPFUkYfu9Zu
+         Fa41RinQjDT/khbs6SBE+LRZw3VdictywyczvgeQRoyUPGvQToQAfEWnhQo/R2CnTwPl
+         AP570x3SJPhTvyjjgL4pNr+4ZVmFSfH0NEtAASFlZbtIxtATQBcYhrzfD+dPLPWio5QK
+         mrpg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lR+kUz1M;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c2d as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=FpAGCEzp;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=kOjK1al6TdPAhmE57H1mhS7G25TQNR9/ceJN8X4luhA=;
-        b=G5UyRMLoYLVvv9DiQvJ6gdeMyh3YpEn2L/KRFUsZ0s7Vqt8uVMFqEjY8CZEfkzdpSY
-         y391ovpsgWpLEHkKkbwCvgUiQcCQl9InGOI1eKH9BzDhGGxRRrWHsELax92HxLWc4UVh
-         rOzbeQwfzRf1tJC+JFzqhaG2u8l2yoZaldrEWf45pRP/8X3puL31nZh4Dw4kDiW6m+5I
-         NKNiX640AN0N7OaWjOVQ7AYebyKy+Z3wSswBN4t2DpoJzynFOACAufyUhMi/XuejwqJG
-         1pSB2nCGjIEOLpKmcJVCYfa+dFRJLTIov9S79XFBzyRnJ57aSl8SaWK/+eTVTgoPNbru
-         jntA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=cKepdnVdo4HfoivtYMO1RJoMR1tfwrAazbtIRBIA+Es=;
+        b=gWUrsdFL027+Wu2sLUuZ+UR/N1+CusalZ5a5QetvLVBSykF3fW7Cxa/brMKLC95xqu
+         W82Iv0bJGb9ODG1fCrFl5V/HtSxj4bpipufZlnXJZd1wfyDrOYhVkXMHuY6zO4SjZFXv
+         yd8swDjGzZGO0Nh9EyC/Rn5hDOxLAueZzM1G+ZBwQeHZMQ0qm40BqcRveML+vBAoPGpX
+         lguEAHC1yBfbrmyxOkjKmwmPWvcwY0aId8/FM8BnA+GpmDiwtud8DpMKl7D6HKeNuHRs
+         t1k0oRtQhpeZ9QutC8Nmn+wc8w2+A+MShxdgiQCufJ9dmSuROVz6vvGtxd20Q0UFzcpE
+         1imA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=kOjK1al6TdPAhmE57H1mhS7G25TQNR9/ceJN8X4luhA=;
-        b=zZRF0BjEFXLyZ6ykVjEyX5St0ZNoTVnJqE006SFK0hEuVBb+SeaRsm0Q6gM57J6NYO
-         8/X3GOLLg4BNOAakX/UW9O6VwlghNGuuRdEXTOYa5rxpjdtzPCOCx/GVwtq/UQnb1kfo
-         lDZx4h+zApXAZf2t72pzSFKcFmaJeXKEs7JPcpjnVGkRhL931THONLAxqshP302bKwPf
-         YPVlQkk4cWMkh+pPuPO4Rd2vlG8Ozih34jYzlRUvShcyGrEOVeFPCnUOGDrZEMPpuIC0
-         Z0Wh65kE/dkuBoL0SWaGlWJXoW7pSKw7pOx7eFTbYxFe6PZ+PBrAgtuaU6Wo6puHkHoJ
-         N4KA==
-X-Gm-Message-State: AOAM532n1/+EQEbmi++2KYDddeeBw5da2WcZPa6lPArL5OlG7y/vOZdl
-	CMeWFLkjFx4X/8wUBiM1uxg=
-X-Google-Smtp-Source: ABdhPJy462YZUKQm2xaBYw1Y8vgnQg2wMnWO6j9ZDTSfGFTC0ec/NpQZqfKvW4S7No+7fOr4pqDX1w==
-X-Received: by 2002:a25:cdc7:: with SMTP id d190mr5308559ybf.758.1638167872295;
-        Sun, 28 Nov 2021 22:37:52 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=cKepdnVdo4HfoivtYMO1RJoMR1tfwrAazbtIRBIA+Es=;
+        b=fCYb3cX1nh+8OLwGEIoOyLrUXQQm8EHeyMdbdQJJoQ+c8cFiZr+LltZsdOE6elptrn
+         Gqf4b/+yVVV0ZQMobHEjL9EmaSAhbCc5pHXKoYdorzhNw+YFBDCGHE60o0PSomP2A5AK
+         Zf8JgBAaMFgC8fQHkPHVNtsfaTqQlUm3tInPl1IrW3NsuEuLkt3PM41wEdqbdyLLoPq0
+         MWMKqsOY8MVdMVuazZnqo76TMnGdp/69BFIt70DgNDIN5+n408vO6/BdyZ2mxt5k3lHu
+         t20eukyNSO7AlpSkvR44Ul1S5snbnE3/F99nptC2i7qc883qSdRU+4lbKBnbqsZ4E291
+         gQpA==
+X-Gm-Message-State: AOAM533d7COeO8Kvh49hkQfsTWy+j+lg2EfYWnc9m3lZ6PstiHuoFTWZ
+	eEse8rCFskbwYAeQMZ2vdbg=
+X-Google-Smtp-Source: ABdhPJxUYzLoH2tkWxR/Gkfkl+ThdO0agdt0w0MIPnbwR/IW8HpcuTxXf1CLxJW79xzXCaN19JRwVw==
+X-Received: by 2002:a17:906:3e83:: with SMTP id a3mr60217643ejj.383.1638183458212;
+        Mon, 29 Nov 2021 02:57:38 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:3857:: with SMTP id f84ls7490142yba.10.gmail; Sun, 28
- Nov 2021 22:37:51 -0800 (PST)
-X-Received: by 2002:a25:3786:: with SMTP id e128mr31975307yba.123.1638167871760;
-        Sun, 28 Nov 2021 22:37:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638167871; cv=none;
+Received: by 2002:a17:906:c013:: with SMTP id e19ls1595989ejz.3.gmail; Mon, 29
+ Nov 2021 02:57:37 -0800 (PST)
+X-Received: by 2002:a17:907:2d12:: with SMTP id gs18mr57652126ejc.126.1638183457287;
+        Mon, 29 Nov 2021 02:57:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638183457; cv=none;
         d=google.com; s=arc-20160816;
-        b=bN/6o6FrXM7snHNuEUbpMyefvEk+JbBxMCbL3RpdhgEmGzy2MUZPQdhFXgeAnv8//O
-         BijGuFwp0uIoGOYH9Klu0L1l69LICi7Z7fgqcxl/l6qowE9BXi+QQojzPT2LeReJWf+2
-         y127lMslpTWEr1xVERJGzxBxpzl8AVYFeKm9v4kPpmN1G6I6aNELu7tldFiDLARpT1CL
-         Wadbj81R/PG9HeR26AUrD/MrSdI7C0L+c4VudZ19846WxpzE3g6GE/8QvHr+EX8h+ogx
-         iCdrJQGZCLUYVarfCuLx6xVmW/rDf2DvdPQshNTpA0KsrwawndNfcOKIRXw3TszRACic
-         T8ww==
+        b=OoSKO1je9IWENt0hJjfYtP2GlfsuRisAVyr4yR5rJAhVVxPC7eYSaSt5gx9mK+hUAL
+         QKYQQnApiDr0zdbblgZXWlwX//fFcPxfReEmy/eqFe+mwFiHYzywmrfbff0Dl7V0by28
+         H6oRwXwZu8k3iZL975gS4yhWRYoAnVhFmR8ePoiBXkE88hsJlJHb2FcSHKjqoFUo5Ycg
+         CqMmDgzQOfCKS4Prj0WSMvf2F7Dhvvhr/ItKFgwbs2Ejbyh+kNGQWQPqxGTtWjVCfPa+
+         Q27scMgLsFSDC684ITzVvG4DnSG5x1DGau8KFtvaJYCwIaod9GJ2EuGua7o1+uznHFcU
+         SODw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yfLJTrqi5jUZYQEwuSAUlCXF+OleODxB0oQPX3+rjPc=;
-        b=C3VAktg7QZdh9ZztuEkR4ILTrHLlmcZ17pcaKKZjj5ZIsk2R1barQ9Gp1d1nFDdHl6
-         B6NnS2VCV4XxxgoPCUo0HKsOFaqAS9EHkMGVlHAAJG0H9hb4k70mWXQQ4PsFdnstKjGA
-         vCXxWEvuCgq1YHoln5VQRsoqr2EvnJQK9hJXIHK6Eo8w+kuOA8pI1/wPjXzQIEjRStjB
-         zWwjRN7r2IP77hLcByRitDwtRVrN71PqmfYMmbglJixCwJBOpLAuLX4Cioe7pJEri1gA
-         5KoeYqUuZ1XE6/PoSny1+R4WNgybKD0ALbwqzcZDR+v9BM6BzdNalW7jv8aqVm+R5wRa
-         wo+w==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=7vafQL9VRNu9gFf/4mCpAetbH+x6q7yQT0LZFBgrIEY=;
+        b=T+7JqmEZApQf1YzPx2SOhHCPsgM315F3oPMrNYJyRfVWVo68kNw6uDvyN5yTj+aZGH
+         YaTZIE4FvLpt3pUz4U4kc2dl2hcMPgxcnmlajiwNKBko0tw8KKXW7+dg6Eqyiqdou9C/
+         n5ywA5l+5Fxa6iodH9JYRZvazsvRbPJNYJLbVP9R05IQKqNQPPjnpJ9cD4cOrQwosO/h
+         ShhV7fiywT/dJzc7MEVj0vWRwMIvOS00dMI2r44CuiNr8sDE6tSYtlvAVkDEs+tiQvqa
+         /D/ffzTMyuBAZmfs1zCHCRfJBL82t4vo1N2XQroYBw7/z5SMg9WWECsEwgh19ATT5Zcc
+         oOdw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lR+kUz1M;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c2d as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=FpAGCEzp;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com. [2607:f8b0:4864:20::c2d])
-        by gmr-mx.google.com with ESMTPS id a38si184618ybi.4.2021.11.28.22.37.51
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com. [2a00:1450:4864:20::42e])
+        by gmr-mx.google.com with ESMTPS id d5si1075145ede.2.2021.11.29.02.57.37
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Nov 2021 22:37:51 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c2d as permitted sender) client-ip=2607:f8b0:4864:20::c2d;
-Received: by mail-oo1-xc2d.google.com with SMTP id w5-20020a4a2745000000b002c2649b8d5fso5393145oow.10
-        for <kasan-dev@googlegroups.com>; Sun, 28 Nov 2021 22:37:51 -0800 (PST)
-X-Received: by 2002:a4a:96f1:: with SMTP id t46mr30240912ooi.53.1638167871113;
- Sun, 28 Nov 2021 22:37:51 -0800 (PST)
+        Mon, 29 Nov 2021 02:57:37 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as permitted sender) client-ip=2a00:1450:4864:20::42e;
+Received: by mail-wr1-x42e.google.com with SMTP id i5so35830010wrb.2
+        for <kasan-dev@googlegroups.com>; Mon, 29 Nov 2021 02:57:37 -0800 (PST)
+X-Received: by 2002:adf:d082:: with SMTP id y2mr32476986wrh.214.1638183456845;
+        Mon, 29 Nov 2021 02:57:36 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:aaf:77c4:3d2:af75])
+        by smtp.gmail.com with ESMTPSA id n1sm16528943wmq.6.2021.11.29.02.57.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 02:57:36 -0800 (PST)
+Date: Mon, 29 Nov 2021 11:57:30 +0100
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Borislav Petkov <bp@alien8.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Josh Poimboeuf <jpoimboe@redhat.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
+	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v2 03/23] kcsan: Avoid checking scoped accesses from
+ nested contexts
+Message-ID: <YaSyGr4vW3yifWWC@elver.google.com>
+References: <20211118081027.3175699-1-elver@google.com>
+ <20211118081027.3175699-4-elver@google.com>
+ <YaSTn3JbkHsiV5Tm@boqun-archlinux>
 MIME-Version: 1.0
-References: <CANiq72kGS0JzFkuUS9oN2_HU9f_stm1gA8v79o2pUCb7bNSe0A@mail.gmail.com>
-In-Reply-To: <CANiq72kGS0JzFkuUS9oN2_HU9f_stm1gA8v79o2pUCb7bNSe0A@mail.gmail.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 29 Nov 2021 07:37:39 +0100
-Message-ID: <CACT4Y+Z7bD62SkYGQH2tXV0Zx2MFojYoZzA2R+4J-CrXa6siMw@mail.gmail.com>
-Subject: Re: KASAN Arm: global-out-of-bounds in load_module
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>
-Cc: kasan-dev <kasan-dev@googlegroups.com>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	Florian Fainelli <f.fainelli@gmail.com>, Ahmad Fatoum <a.fatoum@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Content-Disposition: inline
+In-Reply-To: <YaSTn3JbkHsiV5Tm@boqun-archlinux>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=lR+kUz1M;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c2d
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@google.com header.s=20210112 header.b=FpAGCEzp;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42e as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,73 +150,114 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sun, 28 Nov 2021 at 01:43, Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> Hi KASAN / Arm folks,
->
-> I noticed in our CI that inserting and removing a module, and then
-> inserting it again, e.g.:
->
->     insmod bcm2835_thermal.ko
->     rmmod bcm2835_thermal.ko
->     insmod bcm2835_thermal.ko
->
-> deterministically triggers the report below in v5.16-rc2. I also tried
-> it on v5.12 to see if it was a recent thing, but same story.
->
-> I could find this other report from May, which may be related:
-> https://lore.kernel.org/lkml/20210510202653.gjvqsxacw3hcxfvr@pengutronix.de/
->
-> Cheers,
-> Miguel
+On Mon, Nov 29, 2021 at 04:47PM +0800, Boqun Feng wrote:
+> Hi Marco,
+> 
+> On Thu, Nov 18, 2021 at 09:10:07AM +0100, Marco Elver wrote:
+> > Avoid checking scoped accesses from nested contexts (such as nested
+> > interrupts or in scheduler code) which share the same kcsan_ctx.
+> > 
+> > This is to avoid detecting false positive races of accesses in the same
+> 
+> Could you provide an example for a false positive?
+> 
+> I think we do want to detect the following race:
+> 
+> 	static int v = SOME_VALUE; // a percpu variable.
+> 	static int other_v = ... ;
+> 
+> 	void foo(..)
+> 	{
+> 		int tmp;
+> 		int other_tmp;
+> 
+> 		preempt_disable();
+> 		{
+> 			ASSERT_EXCLUSIVE_ACCESSS_SCOPED(v);
+> 			tmp = v;
+> 			
+> 			other_tmp = other_v; // int_handler() may run here
+> 			
+> 			v = tmp + 2;
+> 		}
+> 		preempt_enabled();
+> 	}
+> 
+> 	void int_handler() // an interrupt handler
+> 	{
+> 		v++;
+> 	}
+> 
+> , if I understand correctly, we can detect this currently, but with this
+> patch, we cannot detect this if the interrupt happens while we're doing
+> the check for "other_tmp = other_v;", right? Of course, running tests
+> multiple times may eventually catch this, but I just want to understand
+> what's this patch for, thanks!
 
-HI Miguel,
+The above will still be detected. Task and interrupt contexts in this
+case are distinct, i.e. kcsan_ctx differ (see get_ctx()).
 
-0xf9 is redzone for global variables:
-#define KASAN_GLOBAL_REDZONE    0xF9  /* redzone for global variable */
+But there are rare cases where kcsan_ctx is shared, such as nested
+interrupts (NMI?), or when entering scheduler code -- which currently
+has a KCSAN_SANITIZE := n, but I occasionally test it, which is how I
+found this problem. The problem occurs frequently when enabling KCSAN in
+kernel/sched and placing a random ASSERT_EXCLUSIVE_ACCESS_SCOPED() in
+task context, or just enable "weak memory modeling" without this fix.
+You also need CONFIG_PREEMPT=y + CONFIG_KCSAN_INTERRUPT_WATCHER=y.
 
-I would assume this is caused by not clearing shadow of unloaded
-modules, so that the next module loaded hits these leftover redzones.
+The emphasis here really is on _shared kcsan_ctx_, which is not too
+common. As noted in the commit description, we need to "[...] setting up
+a watchpoint for a non-scoped (normal) access that also "conflicts" with
+a current scoped access."
 
-+arm mailing list and Linus W
+Consider this:
 
+	static int v;
+	int foo(..)
+	{
+		ASSERT_EXCLUSIVE_ACCESS_SCOPED(v);
+		v++; // preempted during watchpoint for 'v++'
+	}
 
-> BUG: KASAN: global-out-of-bounds in load_module+0x1b98/0x33b0
-> Write of size 16384 at addr bf000000 by task busybox/17
->
-> CPU: 0 PID: 17 Comm: busybox Not tainted 5.15.0 #7
-> Hardware name: Generic DT based system
-> [<c010f968>] (unwind_backtrace) from [<c010c6f8>] (show_stack+0x10/0x14)
-> [<c010c6f8>] (show_stack) from [<c0210734>]
-> (print_address_description+0x58/0x384)
-> [<c0210734>] (print_address_description) from [<c0210cc8>]
-> (kasan_report+0x168/0x1fc)
-> [<c0210cc8>] (kasan_report) from [<c0211230>] (kasan_check_range+0x260/0x2a8)
-> [<c0211230>] (kasan_check_range) from [<c0211c68>] (memset+0x20/0x44)
-> [<c0211c68>] (memset) from [<c019d21c>] (load_module+0x1b98/0x33b0)
-> [<c019d21c>] (load_module) from [<c0199f88>] (sys_init_module+0x198/0x1ac)
-> [<c0199f88>] (sys_init_module) from [<c0100060>] (ret_fast_syscall+0x0/0x48)
-> Exception stack(0xc113ffa8 to 0xc113fff0)
-> ffa0:                   00000000 00002a98 00098038 00002a98 00081483 00093f88
-> ffc0: 00000000 00002a98 00000000 00000080 00000001 b66ffef0 00081483 000815c7
-> ffe0: b66ffbd8 b66ffbc8 000207f5 00011cc2
->
->
-> Memory state around the buggy address:
->  bf001200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->  bf001280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >bf001300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f9 f9
->                                                      ^
->  bf001380: 00 00 07 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
->  bf001400: 00 00 f9 f9 f9 f9 f9 f9 00 00 04 f9 f9 f9 f9 f9
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANiq72kGS0JzFkuUS9oN2_HU9f_stm1gA8v79o2pUCb7bNSe0A%40mail.gmail.com.
+Here we set up a scoped_access to be checked for v. Then on v++, a
+watchpoint is set up for the normal access. While the watchpoint is set
+up, the task is preempted and upon entering scheduler code, we're still
+in_task() and 'current' is still the same, thus get_ctx() returns a
+kcsan_ctx where the scoped_accesses list is non-empty containing the
+scoped access for foo()'s ASSERT_EXCLUSIVE.
+
+That means, when instrumenting scheduler code or any other code called
+by scheduler code or nested interrupts (anything where get_ctx() still
+returns the same as parent context), it'd now perform checks based on
+the parent context's scoped access, and because the parent context also
+has a watchpoint set up on the variable that conflicts with the scoped
+access we'd report a nonsensical race.
+
+This case is also possible:
+
+	static int v;
+	static int x;
+	int foo(..)
+	{
+		ASSERT_EXCLUSIVE_ACCESS_SCOPED(v);
+		x++; // preempted during watchpoint for 'v' after checking x++
+	}
+
+Here, all we need is for the scoped access to be checked after x++, end
+up with a watchpoint for it, then enter scheduler code, which then
+checked 'v', sees the conflicting watchpoint, and reports a nonsensical
+race again.
+
+By disallowing scoped access checking for a kcsan_ctx, we simply make
+sure that in such nested contexts where kcsan_ctx is shared, none of
+these nonsensical races would be detected nor reported.
+
+Hopefully that clarifies what this is about.
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZ7bD62SkYGQH2tXV0Zx2MFojYoZzA2R%2B4J-CrXa6siMw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YaSyGr4vW3yifWWC%40elver.google.com.
