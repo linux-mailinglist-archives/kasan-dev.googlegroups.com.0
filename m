@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABBU6BTKGQMGQENFLUE6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBV6BTKGQMGQEH7LRBGI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD9F464107
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 23:08:19 +0100 (CET)
-Received: by mail-wr1-x437.google.com with SMTP id o4-20020adfca04000000b0018f07ad171asf3855223wrh.20
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 14:08:19 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638310099; cv=pass;
+Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B569464108
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 23:08:24 +0100 (CET)
+Received: by mail-lf1-x140.google.com with SMTP id g38-20020a0565123ba600b004036147023bsf8593804lfv.10
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 14:08:24 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638310104; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NUgj2As0kKC8XbekAR6Vp6L46yVrpBcoeYhPN2kUFxcWUj5uxzGiaAqIJDUGnfohhT
-         2VBzX9fiqvhETAFxIxC2HfMzAXUo8i5nOIemkNYPL36Fh+VbxyikkT8Sg8S0Jw/NhJwG
-         tC/BIiCBgyUQ8dpXJ9g1HZZmT6Jwr9iG0cRHvVGgIQgDGGg/XhsOIb435MtvjbSqonO7
-         PqciFw/KF7/1VRSPy2QiWXEQj30Z5ycaHxSYqYDATqa8B50C8MJM4kzIk03OmACZk3db
-         E9DHIlXjvBOfMnteY8qQhjzy1Sk1D1PWxrE0dQpID6+ddlnTNWo2/dsJJVc28hir9v1M
-         DJCQ==
+        b=GUz/E3ZFgkuG+F30iFor9Fvm4D7n2Z0tmI9EiwFY7hAMlPZLztjK6hSpSL+7umSufQ
+         uIXXCLStz4Sbio4cWfvIVlLOXKCxK2baFnFRKEOC6X72a9vdBQhb9aMrMRb41fdflJtf
+         Ap000Uei/VXZdF4IDNZ6mZc8/BNCbGTQ9lm0qHjaYtaO8NKD6upT3cr//TmV+D2/5J7x
+         C/+4PcEFDcYX7g26LqZq4NCL4dEiBvf+MBWLZU3uyivOhkLf986dhyQg0pkT336YJOla
+         NKcizvayi+ZOQva4RBelOUBXQYT3YKZgZ8uArgPEo6DrusX1KGKd0zoxA6If8ZS0U8sU
+         hg6w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=I3yaqJAO0znb/eGEI1HDiRagiUvu19r+cYyDhne4Hbw=;
-        b=S2lmEt8LIYlnAlZ5wXlvb/VSa1B0q7EprFIyp0JDaV8Op4e0VPQFVRvimfiOGCism9
-         rQDwJF74nsAbs2hyq1g6etyfRpWTYdUKL/q/TSsryqNs37dk3UaqauOW8mx3Bf5aRfZM
-         U5+o/XqFg4jiERhGpEJzVXs2i4BdwuY65dbBH45BGo2w3rraxsoRA04jpnldOfjziLx4
-         otMr/8pD+l+tMxQF1umo9/iSW3ZIM2Lp0sj8JqvAJrhLZ71/HWU2CPKqq9LeTVuAiZ/2
-         Xdm/dlm+2VTtAUdZ8vASvXMQAlyXXSYTT7n5eAl5pVl9S9m8j6etzzTlML0MzhndNgzm
-         wYkA==
+        bh=VD41E/jbgR87q1arW5IraxTNQtAgapf8CxaLOHdWrQA=;
+        b=AK/X2uy5trc2OmpZlxijaigvaunaTkJwXtsiIXf9lSVC4LCNw2FH3mfPa2Hy1xCP98
+         PIhbAcZ0JD88PkiUpAwUt7cVLt9CgEFvG8ktZE0sNoQXS2+mqTPg+4W5A5cVykQNkL58
+         6EuypxjEWW1uIExHuATbdTA5cwGz4wjK8t+bVZg+n6pSUaz/SWN3YOFWGzPsnHVkFpwC
+         r1x2bCrz0gFb32DxZaSPz3rU9a6EmO23See9crqEw9G4XCKGq2ZzG7L/Y4O1SQ5mslqv
+         FVzNJtlQIECbv9heWKv9Wr7d4fZiFinElIQn55YsVMPVBOi/euAPv6wDfo9P0UtgcoQF
+         Lwqw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=HD4yVRk2;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Fjt3KF2A;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=I3yaqJAO0znb/eGEI1HDiRagiUvu19r+cYyDhne4Hbw=;
-        b=tSSLt8ejZQm1a1s70/f9MmR5YeJdtC6LspgEn89I3l0dnis4ha2e5iMu3vdGPiGFYQ
-         aMgnwwRuUU7q+uh4/k+/5qV0ctI1AqObVf+W07pQN/k/fA38SRrjFTIDzyL1yhmexUTs
-         90BcvQgH2xutpwvU6HgWBQa27d77wKz4nt+2ETxrWXQUf7Uz26Yz2a4T1czHuz8ep2ku
-         +/0za51jpy4oSgxJX6Z59g/jvufqU9ZRHhq4vnjca7YnNCBGzdiYrfTyDxMi1P6M2OOo
-         Cue9nHxHobK/X6PdsHSd3S/PUBhkRMBQyOAwCPeAswpRGXnMEowtBG8OngcGBHghzHtg
-         sMrg==
+        bh=VD41E/jbgR87q1arW5IraxTNQtAgapf8CxaLOHdWrQA=;
+        b=OIqht6hblCg61HaIjdP+A7kl14l/kQIVF5DwAF2VcVEr8/XeI5UVCXCgjpTd1QqziB
+         bniR/ybSAKJesbQYQFpYj3ISOAk6YK0haiUSjHpdfOU0ukBAsh0RvFS8PjiJXRF05trm
+         za6mQAmG3qcaIMM3jQgJLtEtB6q3aeVb/f/AiVQUdzoBIQM5Nkuqie+V/mV9itI6NkFX
+         C5Z6f5ipPOeXdNXFUzI9ztVyeMf2IRLPqELofjZNeUy/2Z0AVi+ZASf/27jFnILnFOYO
+         mdLlCh5NVA5YGniI5/XNkHKE0qp1dzPClqUJS6F9Q8r/diqnFTGjxVgAaTjnM+d6uf2P
+         Waug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,52 +49,52 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=I3yaqJAO0znb/eGEI1HDiRagiUvu19r+cYyDhne4Hbw=;
-        b=HAXiXqUNlVRv0OCN4GbhygNrXvNThZvqTdG/yJSzxwwRnoSUMzqttDZ7dL0F4U71yU
-         /6XJ2TuJIUqdgVpaH1to7koGyXKGO/ewRaOwwJx7WNstYJ1sWCmTZJTOIpJxsRTYuUQ9
-         H44esucd8MMgz50zbH5hnIa4s10Xz2FW18hfw5PFqOYLeCZYXr/baM7n3h27wqTkvIrn
-         whOw5i5+D1bnNLhejY2B/6yvrO5l17469zNLDd8f9T0CqyuE2zmxHW6oL7grGv7plB/D
-         tR47j1CUwADt3igTYIMGrkeL0V+S8faJm4xwBXvPS/hYO3auZtwBTaefgDPVhmGqRrU0
-         /nlg==
+        bh=VD41E/jbgR87q1arW5IraxTNQtAgapf8CxaLOHdWrQA=;
+        b=fR5m3DxCt9xlRbzdgPSGdXwuzWOmZx3PdVGotc/WoZy4afwM3pUTHQbKIVGNGElpM0
+         246dMltc5A003a4JRLeQUAZnND61sa6uF3bIXALcXgHIzNWjRt0UNVb2h/9M5v8hYhOz
+         /Kr80sKUMzMpdAW3L0BOds/zAU5/+MJyucAgEovQ4YG7V2itq/BYfHTRYixjuTFqNct/
+         XNjXRO0Nt3xDIhNy5au6/bANbGTRuf/9dgJUfLD+NurR4+5n2+sj0vIlh/IgdXY07+ay
+         lP5OpeBsZsiitu1Gtz+jM5eIOJu4iUG4WCnLTd8rkwc+5Mwxiw4b16Nu29h8Xw8cYTBp
+         rwbg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531WYglNxD0V2SQAFBr1JKRn2+0v/FLKJAaLwD9wM//+55IXMyqv
-	0a8atK8jOIhyjCQ4Fg1mwhA=
-X-Google-Smtp-Source: ABdhPJysUpMVy596Wl1q0hm4OhieV3NH3E68LEG+o5V3iD6KjkOqFfgCbx6E38Vhm12xVWbR0DUlpQ==
-X-Received: by 2002:a5d:68cb:: with SMTP id p11mr1947355wrw.262.1638310099331;
-        Tue, 30 Nov 2021 14:08:19 -0800 (PST)
+X-Gm-Message-State: AOAM533AHgiX6xBVXwcwJ8yUfgR+i5eLWoHD51qMFBwiemoqtFxe72w0
+	kbkaBHODjikFMU4c4NscDpw=
+X-Google-Smtp-Source: ABdhPJw2DHSQmtQjn1rUqe77dYxpyAWJ/RjuS+PpevFTijO9qLKgeqmYpp0QK91pW8EpH1L+KkyChQ==
+X-Received: by 2002:a2e:b053:: with SMTP id d19mr1520330ljl.231.1638310103858;
+        Tue, 30 Nov 2021 14:08:23 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:7e16:: with SMTP id z22ls2135827wmc.2.canary-gmail; Tue,
- 30 Nov 2021 14:08:18 -0800 (PST)
-X-Received: by 2002:a1c:4303:: with SMTP id q3mr1808079wma.78.1638310098655;
-        Tue, 30 Nov 2021 14:08:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638310098; cv=none;
+Received: by 2002:a2e:8946:: with SMTP id b6ls13059ljk.7.gmail; Tue, 30 Nov
+ 2021 14:08:23 -0800 (PST)
+X-Received: by 2002:a2e:8ec7:: with SMTP id e7mr1605415ljl.430.1638310102926;
+        Tue, 30 Nov 2021 14:08:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638310102; cv=none;
         d=google.com; s=arc-20160816;
-        b=Wp1rZq5HNE+RFoKCSHoDLs0f2O30q8cWVLM4gYkXxbZjkMsDqa3qSZeSII3YZkwo1z
-         b8wK2DgJH8C3DrZbcU1L1J2ywCKmKfWsjTZxwfyYRAiprKpN2dZiKdQ9a60a/pwFzLrK
-         YCHTk/YMny4LXlPa4X+hxyskEyQYuUtTYM19u9sXVvvjQAXsIXXXaogNNKB144LD5o0X
-         bVrpui9dflsScXe5iWYyK3t6Byg0bHP4F6x0kddRUYuzBoUvJJJ7bVUV2vNvMSCxeb5Z
-         lOKTn5fyDAhk1zKm/e3hGgPF6VmqIKqSx4IWua5kFhMPiDnEY8q4S85cOLcws1h5sHI1
-         A7mQ==
+        b=CcSrGfh+NTYULCWbuUDle0cHuPdL9KBHti9tA8xS0L0/nWBBMcOGLfPJdOKXjOmdI1
+         8bXj8JWk7oEjnTVerItgYl50WiD77XX1Zk6JUWMItURzdM8Z9MgmFGLPllBt52qfMN+I
+         ySA59vg9VvizU/iygcyYWesV2ugHGyGwsQNhJSQ42m9j22ZFoTV/jxWoFjckWU7qRiHs
+         eUzXZ7UK/idebo+QLYcL7jH14JyeTp9WKNCfsTPpBtYmgYrcBIggQ/yiM4HvPeVyxWxX
+         VMegqZvNH9+qcDOqnorZbzrPW+3Oj4BXnCiSqy2Zh0YMe+dSCWdSoppbSSg6vYLcAvpr
+         U9iQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=I6urKhfqw7JpSyBvAL9pvvA3mZVZS1PNduDQn1CKZuM=;
-        b=qHK2QiE43iAigsq1ilkjKe563wySLQjAuTeuGQMlOPa7xXxUZBQcZ0WPTmIYwtggtb
-         luj/y1NtLIxe5tenVlSQAusXPoh2xD2NiH1z5rvlDc2VIbtSS7KzvyKto6bGflL8J9sD
-         Pv4iOpkQIxcnIUK7vPz6q/B92+wHJ9AN/8FA3Jgox4DFqexHeMIku97sHG5Ql6YG44v6
-         fqI71vHDrDtlOG5v19A2DiDpe3EdveGQeeiOVfzFXteGP73CXn2KecgDaLJBSN89laOH
-         fCiTW5MunALyAsU657slFlW5foIEWhtizUplC2eBXbX/3TxAvGtXMNxvFnm2vS4tbcLs
-         44xg==
+        bh=xAlgAJIkgdSw/H62J4ONvMmg8WxewXYkqfQfZPdbW8s=;
+        b=buLzAvN/Pz3Mp6q9Vp9R7h0QsQpiwhWO+GAoopjlR/HCTpbVR/dgcD4l4nsv5CZzJZ
+         Sukkrgckm6UQxuzOlog2/1SuhZ92Mp937wjgPPl3M6XLv6DBUaIjejoPwCVUj6J8qqiY
+         nU3LtdFB/WZrvyGdOKuIdmhlhqu3txjpXcH9SX+YjzGXC9c6Z6qYrEYWEKSzAdL6BaD6
+         NJTz40X/Uk7GRyjjYoAfk0Yrs9L1eeMHbGq1i8nlvbDWzo9uek8rI8U+Rhv5o+VD0d8f
+         uJrXE5cBAa8YfXQFhso2DPsMT3drBUh6tSSO9iqQcp6LxBhZq2Hl8akEGr3lpZNyAvcL
+         gRug==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=HD4yVRk2;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Fjt3KF2A;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out2.migadu.com (out2.migadu.com. [2001:41d0:2:aacc::])
-        by gmr-mx.google.com with ESMTPS id c2si689229wmq.2.2021.11.30.14.08.18
+Received: from out1.migadu.com (out1.migadu.com. [91.121.223.63])
+        by gmr-mx.google.com with ESMTPS id x65si1334147lff.10.2021.11.30.14.08.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 30 Nov 2021 14:08:18 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) client-ip=2001:41d0:2:aacc::;
+        Tue, 30 Nov 2021 14:08:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as permitted sender) client-ip=91.121.223.63;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -113,9 +113,9 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	Evgenii Stepanov <eugenis@google.com>,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH 28/31] kasan: add kasan.vmalloc command line flag
-Date: Tue, 30 Nov 2021 23:08:16 +0100
-Message-Id: <b82fe56af4aa45a0895eb31f8e611f24512cf85b.1638308023.git.andreyknvl@google.com>
+Subject: [PATCH 29/31] kasan, arm64: allow KASAN_VMALLOC with HW_TAGS
+Date: Tue, 30 Nov 2021 23:08:20 +0100
+Message-Id: <8afdf7eb0bae77d2e94210d689d524580cf5ed9a.1638308023.git.andreyknvl@google.com>
 In-Reply-To: <cover.1638308023.git.andreyknvl@google.com>
 References: <cover.1638308023.git.andreyknvl@google.com>
 MIME-Version: 1.0
@@ -123,10 +123,10 @@ X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=HD4yVRk2;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates
- 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@linux.dev header.s=key1 header.b=Fjt3KF2A;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as
+ permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -142,149 +142,72 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Allow disabling vmalloc() tagging for HW_TAGS KASAN via a kasan.vmalloc
-command line switch.
+vmalloc tagging support for HW_TAGS KASAN is now complete.
 
-This is a fail-safe switch intended for production systems that enable
-HW_TAGS KASAN. In case vmalloc() tagging ends up having an issue not
-detected during testing but that manifests in production, kasan.vmalloc
-allows to turn vmalloc() tagging off while leaving page_alloc/slab
-tagging on.
+Allow enabling CONFIG_KASAN_VMALLOC.
+
+Also adjust CONFIG_KASAN_VMALLOC description:
+
+- Mention HW_TAGS support.
+- Remove unneeded internal details: they have no place in Kconfig
+  description and are already explained in the documentation.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- mm/kasan/hw_tags.c | 46 +++++++++++++++++++++++++++++++++++++++++++++-
- mm/kasan/kasan.h   |  6 ++++++
- 2 files changed, 51 insertions(+), 1 deletion(-)
+ arch/arm64/Kconfig |  3 +--
+ lib/Kconfig.kasan  | 20 ++++++++++----------
+ 2 files changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-index fd3a93dfca42..2da9ad051cdd 100644
---- a/mm/kasan/hw_tags.c
-+++ b/mm/kasan/hw_tags.c
-@@ -32,6 +32,12 @@ enum kasan_arg_mode {
- 	KASAN_ARG_MODE_ASYMM,
- };
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index c05d7a06276f..5981e5460c51 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -205,8 +205,7 @@ config ARM64
+ 	select IOMMU_DMA if IOMMU_SUPPORT
+ 	select IRQ_DOMAIN
+ 	select IRQ_FORCED_THREADING
+-	select KASAN_VMALLOC if KASAN_GENERIC
+-	select KASAN_VMALLOC if KASAN_SW_TAGS
++	select KASAN_VMALLOC
+ 	select MODULES_USE_ELF_RELA
+ 	select NEED_DMA_MAP_STATE
+ 	select NEED_SG_DMA_LENGTH
+diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+index 3f144a87f8a3..7834c35a7964 100644
+--- a/lib/Kconfig.kasan
++++ b/lib/Kconfig.kasan
+@@ -178,17 +178,17 @@ config KASAN_TAGS_IDENTIFY
+ 	  memory consumption.
  
-+enum kasan_arg_vmalloc {
-+	KASAN_ARG_VMALLOC_DEFAULT,
-+	KASAN_ARG_VMALLOC_OFF,
-+	KASAN_ARG_VMALLOC_ON,
-+};
+ config KASAN_VMALLOC
+-	bool "Back mappings in vmalloc space with real shadow memory"
+-	depends on (KASAN_GENERIC || KASAN_SW_TAGS) && HAVE_ARCH_KASAN_VMALLOC
++	bool "Check accesses to vmalloc allocations"
++	depends on HAVE_ARCH_KASAN_VMALLOC
+ 	help
+-	  By default, the shadow region for vmalloc space is the read-only
+-	  zero page. This means that KASAN cannot detect errors involving
+-	  vmalloc space.
+-
+-	  Enabling this option will hook in to vmap/vmalloc and back those
+-	  mappings with real shadow memory allocated on demand. This allows
+-	  for KASAN to detect more sorts of errors (and to support vmapped
+-	  stacks), but at the cost of higher memory usage.
++	  This mode makes KASAN check accesses to vmalloc allocations for
++	  validity.
 +
- enum kasan_arg_stacktrace {
- 	KASAN_ARG_STACKTRACE_DEFAULT,
- 	KASAN_ARG_STACKTRACE_OFF,
-@@ -40,6 +46,7 @@ enum kasan_arg_stacktrace {
- 
- static enum kasan_arg kasan_arg __ro_after_init;
- static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
-+static enum kasan_arg_vmalloc kasan_arg_vmalloc __ro_after_init;
- static enum kasan_arg_stacktrace kasan_arg_stacktrace __ro_after_init;
- 
- /* Whether KASAN is enabled at all. */
-@@ -50,6 +57,9 @@ EXPORT_SYMBOL(kasan_flag_enabled);
- enum kasan_mode kasan_mode __ro_after_init;
- EXPORT_SYMBOL_GPL(kasan_mode);
- 
-+/* Whether to enable vmalloc tagging. */
-+DEFINE_STATIC_KEY_FALSE(kasan_flag_vmalloc);
++	  With software KASAN modes, checking is done for all types of vmalloc
++	  allocations. Enabling this option leads to higher memory usage.
 +
- /* Whether to collect alloc/free stack traces. */
- DEFINE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
++	  With hardware tag-based KASAN, only VM_ALLOC mappings are checked.
++	  There is no additional memory usage.
  
-@@ -89,6 +99,23 @@ static int __init early_kasan_mode(char *arg)
- }
- early_param("kasan.mode", early_kasan_mode);
- 
-+/* kasan.vmalloc=off/on */
-+static int __init early_kasan_flag_vmalloc(char *arg)
-+{
-+	if (!arg)
-+		return -EINVAL;
-+
-+	if (!strcmp(arg, "off"))
-+		kasan_arg_vmalloc = KASAN_ARG_VMALLOC_OFF;
-+	else if (!strcmp(arg, "on"))
-+		kasan_arg_vmalloc = KASAN_ARG_VMALLOC_ON;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+early_param("kasan.vmalloc", early_kasan_flag_vmalloc);
-+
- /* kasan.stacktrace=off/on */
- static int __init early_kasan_flag_stacktrace(char *arg)
- {
-@@ -174,6 +201,19 @@ void __init kasan_init_hw_tags(void)
- 		break;
- 	}
- 
-+	switch (kasan_arg_vmalloc) {
-+	case KASAN_ARG_VMALLOC_DEFAULT:
-+		/* Default to enabling vmalloc tagging. */
-+		static_branch_enable(&kasan_flag_vmalloc);
-+		break;
-+	case KASAN_ARG_VMALLOC_OFF:
-+		/* Do nothing, kasan_flag_vmalloc keeps its default value. */
-+		break;
-+	case KASAN_ARG_VMALLOC_ON:
-+		static_branch_enable(&kasan_flag_vmalloc);
-+		break;
-+	}
-+
- 	switch (kasan_arg_stacktrace) {
- 	case KASAN_ARG_STACKTRACE_DEFAULT:
- 		/* Default to enabling stack trace collection. */
-@@ -187,8 +227,9 @@ void __init kasan_init_hw_tags(void)
- 		break;
- 	}
- 
--	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, stacktrace=%s)\n",
-+	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s)\n",
- 		kasan_mode_info(),
-+		kasan_vmalloc_enabled() ? "on" : "off",
- 		kasan_stack_collection_enabled() ? "on" : "off");
- }
- 
-@@ -221,6 +262,9 @@ void *__kasan_unpoison_vmalloc(const void *start, unsigned long size,
- 	u8 tag;
- 	unsigned long redzone_start, redzone_size;
- 
-+	if (!kasan_vmalloc_enabled())
-+		return (void *)start;
-+
- 	if (!is_vmalloc_or_module_addr(start))
- 		return (void *)start;
- 
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index 0827d74d0d87..b58a4547ec5a 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -12,6 +12,7 @@
- #include <linux/static_key.h>
- #include "../slab.h"
- 
-+DECLARE_STATIC_KEY_FALSE(kasan_flag_vmalloc);
- DECLARE_STATIC_KEY_FALSE(kasan_flag_stacktrace);
- 
- enum kasan_mode {
-@@ -22,6 +23,11 @@ enum kasan_mode {
- 
- extern enum kasan_mode kasan_mode __ro_after_init;
- 
-+static inline bool kasan_vmalloc_enabled(void)
-+{
-+	return static_branch_likely(&kasan_flag_vmalloc);
-+}
-+
- static inline bool kasan_stack_collection_enabled(void)
- {
- 	return static_branch_unlikely(&kasan_flag_stacktrace);
+ config KASAN_KUNIT_TEST
+ 	tristate "KUnit-compatible tests of KASAN bug detection capabilities" if !KUNIT_ALL_TESTS
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b82fe56af4aa45a0895eb31f8e611f24512cf85b.1638308023.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8afdf7eb0bae77d2e94210d689d524580cf5ed9a.1638308023.git.andreyknvl%40google.com.
