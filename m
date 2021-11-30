@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB37SS6GQMGQEQL7IQWA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBP45TCGQMGQEKO2OIIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881234630C6
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 11:14:08 +0100 (CET)
-Received: by mail-lf1-x13c.google.com with SMTP id t9-20020a056512068900b00417ba105469sf5346422lfe.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 02:14:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638267248; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F984632B8
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 12:45:04 +0100 (CET)
+Received: by mail-lf1-x13c.google.com with SMTP id c14-20020a056512104e00b004036d17f91bsf7789955lfb.17
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 03:45:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638272704; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PHQl9w+teu35qI3QKWgBCVNJK6oGHcobFTRYhIWq7lOCHMgJvvDerAWH/hi2T1FjG4
-         JrjDXTAXiDjEVHU9p7kLGJVJZSoIDG5C9UIQZjsg4/tshri70+XFJmG/8anSsG9E+1TE
-         ylVo/TevkW6oCWtNig7Pv/Fv1F7Duu554YIs9OVEaFJ4uOlVj7uPBA3MCz8/Z+YkDYRV
-         uO+rfyiER2x6R+FQgI7jFVJOFf0pWEgjNWETVr9ZOxNxM177Yvd9/K07rLkjzHw2DsJ6
-         rkNtYbOr1GnMAxXCRSruR7O2+iut4wlkhNo76xD2Kp8EyW+epmM1dyJ7hzJOqQ5T6y+Z
-         Kbjg==
+        b=gMhY2P4SEER5YVU5zqs2Ohk2EIdB/HdRDAzKx3lpO1OI50n9S2XpVSOKYLoM9eHUgX
+         B7Q7Jl9EBySDIuLBkcTBIFEhmTXv9zNFVXrkXP3FirkZXsCQQfj4IogZF+xRHpq2Iak6
+         yDJk5Rg1qtSvg1pzoRpkRpZkM9kIpqHkU+yOGDdFrr8Zb+n3SUWVfIbxhhTCiK4lm+x3
+         ZIAiS1FRnxhlAav33p9CINvWXvraW2bTvpsRlE34IfPJedGspnOcJ2ZFhYFivIGSPD3C
+         U+0pJg1d/eh9od8UP6228B8V6evP5NMrGeB/UvgamoEGsZPYSnNkfMZAZ8mxP0JVmcRN
+         Ap2g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :mime-version:message-id:date:dkim-signature;
-        bh=r6ng7C/ZLPcDn/0/6YWUAtKOM2QwzN5z6ampmfHT+fc=;
-        b=Vwio1Srk9QZw5GBBZUwu/6efzAmMaPvwSNVAR6obVu4A50k6v2qprIQ9GrXCGaAp7N
-         +/ABcKD+w1SIKrWaeTNRiSpsyke0bM1poT8CkgU3QULs6cKYJ69KRqTQL0uh9nvJwsiF
-         rq+aMRKl3KhBP2EVpyvRUb40RFqFB8Yx9P3ES1GFZb1KavjeQBQ1k/RSgjvBWLB+65Gp
-         nTS4t7/WzO5TqJ7Rtc9PvKiuQpOVkjK5qHlW5GmtosVTIxjIvjrYov+iEOrd0aST5puo
-         LXVIFwte05XeCSRsogEiDoTC2xlYpdK0QgHgUhyaukRuwYbQ/PD4KHbLCM0uagn5A+fv
-         a9vA==
+        bh=whXa8YAQvxbxiHZF/ikHyFi7mTTXHemAfHlguzheVYo=;
+        b=BoxqvsU55HQt58Zs9WNgdOAixF0xz8ZoBy4XVciNnL012xBLge0qVx58P0+aRfpB7l
+         /2FlNkZjWQQhUlCqPG7UZQTE63us2a+0BActwim44yF/avv6vSoCNsyvdXyJrwsd/Ix7
+         mWH+6txz44mIrGEaw8UYh9UV4bpKislEwfkAWODlyDlUwIiBcmAKCyeQz9s78bhnSNcJ
+         6KLfppEsrrVPFBB5EZVXafZMgDOXf7lRHBNdo4Sy7mCNijLS5NhFGM0rhCbdK9cTislc
+         N5lYcRGMPhiJxfpmDUa8ulmZ0/gk5bBIMVood9Yld28QQMSQ455pCqeY3zZZPa1JoKAL
+         yy9w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=PGw1FmJ+;
-       spf=pass (google.com: domain of 3bvmlyqukcq0ry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3bvmlYQUKCQ0ry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=IL7CAFvV;
+       spf=pass (google.com: domain of 3vg6myqukcycpw6p2rzzrwp.nzxvl3ly-op6rzzrwpr2z503.nzx@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3vg6mYQUKCYcpw6p2rzzrwp.nzxvl3ly-op6rzzrwpr2z503.nzx@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,89 +35,89 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=r6ng7C/ZLPcDn/0/6YWUAtKOM2QwzN5z6ampmfHT+fc=;
-        b=DDtunHCm5Jt+P+fH2V4l8EP10cOpvCcC9Eshp/U/CSHbwDsyk9mVEsLEyCPz54sARV
-         KdVsz/PTr8yBMUwCap3N/5BwuumjB2+WvnentkquSQaiIjlot8hzZaV6DRzk0wQnefdi
-         DZ78pUcJStwj/JQGncJXjXXY6PnmW8aDlk0xXb0tP2Ho30PIPGFiM7S0EyLfauAaiXyy
-         yz5UMW4UW7NSg1mbqXsLNfNzdVnIf9E5u08JyQRkvWno15j8aTHpEn2BIkcMsbpRtmR5
-         sCuh6tYGTY6jWIuxWwPcMSE/RlXJoWYIn63OB5Rox2wuc3a3nxKzJn3lZ3TcGRmlJwLc
-         H0kg==
+        bh=whXa8YAQvxbxiHZF/ikHyFi7mTTXHemAfHlguzheVYo=;
+        b=AdPIhRA2VFO9T2QRR3FaiByYs8BOa/T3mjS9ozLA9rvFhzgDU9SonCwNsHTsZJtd9P
+         GkEIzJ6uP3Iai+YcQPVQEqFZ3JiPViWNt6El14rUZ5aZBrTC7czyMJKqVeAI+h3R564w
+         vr63KdrKfhf+7CbKuK1hsA3aK06fJsXdkgW+UVIE8G/4W1GsIBuH7Ix8Bn8NUGMvnEl6
+         rpUINOQLKcgkVITyYE01W0no8JEjL5ZJDMBre3fq4GtZScgij8gvCmX28zJtKdRkSKWB
+         LwGxnewh4i5jrbEzZ0thZV54H3hax2Zxp+GXfTsuZA3WHyUbEyRHxNOCMe12ByiQ4pxx
+         jF9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=r6ng7C/ZLPcDn/0/6YWUAtKOM2QwzN5z6ampmfHT+fc=;
-        b=s7rokLXMMPYDKe7Er3hg11EKooJWdH4w5gWgbGYPDJaX+OKpE0RZwWFqH+JAX4VsbX
-         bnFuHXr4uVk6twgfSIHg7/HayzuDrSaoFMiTX7NZz0DkWYd7heW0UgLS1Ni7HRTd94GY
-         QkPB1rU5sovfQwuFo4+2MaYlDr45XEK6SeawTStOLXiJvHTqPzLFcAgQ6ecZOEumrXR3
-         7A92vLbLtvk5qfD7wyjkpReU7U7kOFtWn9yrWSYl1y7NI52lr4fOncMUprbNWwn9h28M
-         sbI092+fNfYWMt9wNXd7e95gI7TuL8tAxakeGQnr3TusjSGgvPKkj0G8wNl9vmk5EDUv
-         oxng==
-X-Gm-Message-State: AOAM533sdFOSnW7WNgMnvRumvPAMzWbOQb1ssZFT7qwjxm0e0PMOs5u9
-	WlNhwJRocDOFVaWEV2kKsaE=
-X-Google-Smtp-Source: ABdhPJynVTn3rl2Aow5Eq0N9HGoJn5gblghR2AjY+cpPJ5xZtMbbX03wqhK587L7Z2mZCHHoRW58YQ==
-X-Received: by 2002:a19:f603:: with SMTP id x3mr53319020lfe.222.1638267248095;
-        Tue, 30 Nov 2021 02:14:08 -0800 (PST)
+        bh=whXa8YAQvxbxiHZF/ikHyFi7mTTXHemAfHlguzheVYo=;
+        b=cJm7enSApS6D5jGYMgORMGq9i2/ox1JYkumpHlGgKuEfJXXPFlkYb59DfyfhOaHnQ7
+         /pJpJa2L31eTgxtXrofsmAfILOVruj2vce9085TH2gqrySXtbvLF8ev1B68P/f+bHInn
+         Sm4rMABnpnjDhXTqY5I0xVMbmzpI0kRgEN0hZX2buaMq4NBJ7uaD9pvCWcM8gtgNKFdF
+         OA8zT5ICtdZM8M9BOoRHWzyLdThfx233fCSdBVF4d5Qsql1goeOogd4D/hfkOnTSK0xf
+         dmH40FUIqSY/uZejGloZfjMVXnuy8IyQgZlBTTPeu6iNssUrJywyepuIowO5iee7iLMi
+         7FnQ==
+X-Gm-Message-State: AOAM531Sh/9HFY79QGfpoWpW3DzERr33kzhHD/1CdR54VHkD6X9Z5eTg
+	CxddCARckVuhEj+BqCDRs4g=
+X-Google-Smtp-Source: ABdhPJzVIfUZDx0F/9DWtA2tFylMNarB/n+FX+pdgF4TPlm8R46FZ87RlrkbpGMM1Dcy3eTrpDzLfw==
+X-Received: by 2002:a19:5052:: with SMTP id z18mr54313870lfj.23.1638272704071;
+        Tue, 30 Nov 2021 03:45:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:1320:: with SMTP id x32ls279023lfu.2.gmail; Tue, 30
- Nov 2021 02:14:07 -0800 (PST)
-X-Received: by 2002:a05:6512:320b:: with SMTP id d11mr52517423lfe.221.1638267246980;
-        Tue, 30 Nov 2021 02:14:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638267246; cv=none;
+Received: by 2002:a05:651c:1687:: with SMTP id bd7ls2437823ljb.10.gmail; Tue,
+ 30 Nov 2021 03:45:03 -0800 (PST)
+X-Received: by 2002:a2e:2206:: with SMTP id i6mr54976561lji.357.1638272702953;
+        Tue, 30 Nov 2021 03:45:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638272702; cv=none;
         d=google.com; s=arc-20160816;
-        b=rIDF9YSXkTi3zxAoRMycBbhOGOEiqa8RbaTormDAW5gFbT6dwSUj4WSikcDSn9xRsC
-         zBwjweQ1eUGjbaPto5y4A71Og/JrOmfs921yQTNByOhCni/k7ep0b7/tzmXsszYaSVpd
-         5IAEtNpqIWPt/aOWAR+/44ewtXlqe/EK5mHK27hSjh2Iq2cVEbDPuXv5StRKX+AHrlwq
-         hAGB5GNqFKeq7EfmVt9SxTpEaX2qFLnCKgjlD7rrtZqugBSajj/GFajv1H0JuD00L4wi
-         dJo8wfjBoPMZR4oz1QWk5FQQ7hqAXw5bUBOCocfmn4MdM2xCeNfYg5/cLdkIH/5rZTNR
-         h/2w==
+        b=weT6BT4o0Idgz/ggvoi4dmbBIKu9Qfgp7w8h5yWArKNwBRcXlYEqsORPq5oFgzBfUs
+         wDz44m0brp/4GgKAKCyYKByT8yZkrsiEjGVXU6H8yMEmk0JqgVl8fCqzBI42zLO6XHFT
+         SelU63eRmlvSVWrM6UVhcH6QRPso3v91yC0OCMFMVmD25Ylev6Q2/VHcbgrqSnL6fydS
+         5lYZat/tokQTXySEESb5kcb3zqV4egdUahkD4+21d3pEFOIJi1yR6Cnnjwc3mGPbcoCK
+         8LhJ7AUigbs5i3z6RN5QOgTQgUMh4IV7XMMJ8JPA2/BArRW90o/elraZe6kwKR/1Bcal
+         diVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=GIp7EQn2UnohoTj+yPMh1P0FmhJDYsjIC78ghQsH60U=;
-        b=yTMEdMC9Iad3zqTbayhRbyBZURtSgaAgAZwC4ZRPYIjYYtPBB+AAgsvGV2RP/2IIZ7
-         MKULaD/jQU0qwHySmze64FhULGJdQ1kbABVTrKTAo/XRvzODFZuyJRaB0450ctSYXAoG
-         rqAnhn3+koUNRJOL9fzAFyvdvwmuN3SDrAuO0/Y3bc88qEl1rCS48PHEjTNVF3kWIFv0
-         7RQxI9sQvUMEC7K/sF01/aDZvE2als0fWSmWygZmcHF4gB9JfJe4jOHwHmBV8JXGbWsY
-         3G9H0jjJ9ONd1R9wyFc/K8T6n1e5h8Mv0cgFGezn9bLUFhuwLH6pVC5lBlBEtZKCWtdC
-         0pfg==
+        bh=bYDosMGyIXEijQF2/XlnbLPYOrdGKyrE1hTUivhL4CU=;
+        b=JDsHlwRMG7oRsdjmNV6SELF/HgELjFWrplTEkzPaQ7bnrZdCD++++SBBonhvnKqlDQ
+         T9f/IFmQN+csAk3kq7RElSmh6ZDebOlHSCMs0KDtPInGXchf+Zn29Cu6J67oGOQlpgcB
+         omUini9ped1KuT9NymMo+h4kpyc9Xft7ebNKuaU3j37T0N+N2wNhax0F7YzGBVuNQApC
+         4j2BL1JiR7gfXPwk0AQMBzV/aJ2AOx1mabiFmLUPg3pKkjheM3BUNIr09NTiAmzy8q94
+         EcM6LC36cXTgLIHkwgX/lrQ7oipaQuYAGDPqjY2Nnxp2Y+J3qPI5myfEmllP27/sAA5O
+         D82A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=PGw1FmJ+;
-       spf=pass (google.com: domain of 3bvmlyqukcq0ry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3bvmlYQUKCQ0ry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=IL7CAFvV;
+       spf=pass (google.com: domain of 3vg6myqukcycpw6p2rzzrwp.nzxvl3ly-op6rzzrwpr2z503.nzx@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3vg6mYQUKCYcpw6p2rzzrwp.nzxvl3ly-op6rzzrwpr2z503.nzx@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
-        by gmr-mx.google.com with ESMTPS id i16si1630417lfv.2.2021.11.30.02.14.06
+        by gmr-mx.google.com with ESMTPS id h12si1551209lfv.4.2021.11.30.03.45.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Nov 2021 02:14:06 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3bvmlyqukcq0ry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
-Received: by mail-wm1-x349.google.com with SMTP id bg20-20020a05600c3c9400b0033a9300b44bso12570110wmb.2
-        for <kasan-dev@googlegroups.com>; Tue, 30 Nov 2021 02:14:06 -0800 (PST)
+        Tue, 30 Nov 2021 03:45:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3vg6myqukcycpw6p2rzzrwp.nzxvl3ly-op6rzzrwpr2z503.nzx@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id p12-20020a05600c1d8c00b0033a22e48203so12698003wms.6
+        for <kasan-dev@googlegroups.com>; Tue, 30 Nov 2021 03:45:02 -0800 (PST)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:86b7:11e9:7797:99f0])
- (user=elver job=sendgmr) by 2002:adf:dd0a:: with SMTP id a10mr39649481wrm.60.1638267246341;
- Tue, 30 Nov 2021 02:14:06 -0800 (PST)
-Date: Tue, 30 Nov 2021 10:57:27 +0100
-Message-Id: <20211130095727.2378739-1-elver@google.com>
+ (user=elver job=sendgmr) by 2002:a05:600c:1990:: with SMTP id
+ t16mr4315850wmq.48.1638272702321; Tue, 30 Nov 2021 03:45:02 -0800 (PST)
+Date: Tue, 30 Nov 2021 12:44:08 +0100
+Message-Id: <20211130114433.2580590-1-elver@google.com>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH] lib/stackdepot: always do filter_irq_stacks() in stack_depot_save()
+Subject: [PATCH v3 00/25] kcsan: Support detecting a subset of missing memory barriers
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Vijayanand Jitta <vjitta@codeaurora.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Imran Khan <imran.f.khan@oracle.com>, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
-	Chris Wilson <chris@chris-wilson.co.uk>, Jani Nikula <jani.nikula@intel.com>, 
-	Mika Kuoppala <mika.kuoppala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org
+To: elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Borislav Petkov <bp@alien8.de>, Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>, 
+	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
+	x86@kernel.org, Josh Poimboeuf <jpoimboe@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=PGw1FmJ+;       spf=pass
- (google.com: domain of 3bvmlyqukcq0ry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3bvmlYQUKCQ0ry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=IL7CAFvV;       spf=pass
+ (google.com: domain of 3vg6myqukcycpw6p2rzzrwp.nzxvl3ly-op6rzzrwpr2z503.nzx@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3vg6mYQUKCYcpw6p2rzzrwp.nzxvl3ly-op6rzzrwpr2z503.nzx@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -133,75 +133,146 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The non-interrupt portion of interrupt stack traces before interrupt
-entry is usually arbitrary. Therefore, saving stack traces of interrupts
-(that include entries before interrupt entry) to stack depot leads to
-unbounded stackdepot growth.
+Detection of some missing memory barriers has been on the KCSAN feature
+wishlist for some time: this series adds support for modeling a subset
+of weak memory as defined by the LKMM, which enables detection of a
+subset of data races due to missing memory barriers.
 
-As such, use of filter_irq_stacks() is a requirement to ensure
-stackdepot can efficiently deduplicate interrupt stacks.
+KCSAN's approach to detecting missing memory barriers is based on
+modeling access reordering. Each memory access for which a watchpoint is
+set up, is also selected for simulated reordering within the scope of
+its function (at most 1 in-flight access).
 
-Looking through all current users of stack_depot_save(), none (except
-KASAN) pass the stack trace through filter_irq_stacks() before passing
-it on to stack_depot_save().
+We are limited to modeling the effects of "buffering" (delaying the
+access), since the runtime cannot "prefetch" accesses. Once an access
+has been selected for reordering, it is checked along every other access
+until the end of the function scope. If an appropriate memory barrier is
+encountered, the access will no longer be considered for reordering.
 
-Rather than adding filter_irq_stacks() to all current users of
-stack_depot_save(), it became clear that stack_depot_save() should
-simply do filter_irq_stacks().
+When the result of a memory operation should be ordered by a barrier,
+KCSAN can then detect data races where the conflict only occurs as a
+result of a missing barrier due to reordering accesses.
 
-Signed-off-by: Marco Elver <elver@google.com>
+Some more details and an example are captured in the updated
+<Documentation/dev-tools/kcsan.rst>.
+
+Some light fuzzing with the feature also resulted in a discussion [1]
+around an issue which appears to be allowed, but unlikely in practice.
+
+[1] https://lkml.kernel.org/r/YRo58c+JGOvec7tc@elver.google.com
+
+
+The first half of the series are core KCSAN changes, documentation
+updates, and test changes. The second half adds instrumentation to
+barriers, atomics, bitops, along with enabling barrier instrumentation
+for some currently uninstrumented subsystems.
+
+Followed by objtool changes to add the usual entries to the uaccess
+whitelist, but also instruct objtool to remove memory barrier
+instrumentation from noinstr code (on x86), given not all versions of
+Clang currently respect __no_kcsan (== __no_sanitize_thread) for the new
+instrumentation.
+
+The last 2 patches (new in v3) fix up __no_kcsan for newer versions of
+Clang, so that non-x86 architectures can enable weak memory modeling
+with Clang 14.0 or newer.
+
+Changelog
+---------
+
+v3:
+* Rework to avoid kcsan_noinstr hackery, because it is unclear if
+  this works on architectures like arm64. A better alternative exists
+  where we can get __no_kcsan to work for barrier instrumentation, too.
+  Clang's and GCC's __no_kcsan (== __no_sanitize_thread) behave slightly
+  differently, which is reflected in KCSAN_WEAK_MEMORY's dependencies
+  (either STACK_VALIDATION for older Clang, or GCC which works as-is).
+* Rework to avoid inserting explicit calls for barrier instrumentation,
+  and instead repurpose __atomic_signal_fence (see comment at
+  __tsan_atomic_signal_fence), which is handled by fsanitize=thread
+  instrumentation and can therefore be removed via __no_kcsan.
+* objtool: s/removable_instr/profiling_func/, and more comments per
+  Josh's suggestion.
+* Minimize diff in patch removing zero-initialization of globals.
+* Don't define kcsan_weak_memory bool if !KCSAN_WEAK_MEMORY.
+* Apply Acks.
+* 2 new patches to make it work with Clang >= 14.0 without objtool,
+  which will be required on non-x86 architectures.
+
+v2: https://lkml.kernel.org/r/20211118081027.3175699-1-elver@google.com
+* Rewrite objtool patch after rebase to v5.16-rc1.
+* Note the reason in documentation that address or control dependencies
+  do not require special handling.
+* Rename kcsan_atomic_release() to kcsan_atomic_builtin_memorder() to
+  avoid confusion.
+* Define kcsan_noinstr as noinline if we rely on objtool nop'ing out
+  calls, to avoid things like LTO inlining it.
+
+v1: https://lore.kernel.org/all/20211005105905.1994700-1-elver@google.com/
 ---
- lib/stackdepot.c  | 13 +++++++++++++
- mm/kasan/common.c |  1 -
- 2 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index b437ae79aca1..519c7898c7f2 100644
---- a/lib/stackdepot.c
-+++ b/lib/stackdepot.c
-@@ -305,6 +305,9 @@ EXPORT_SYMBOL_GPL(stack_depot_fetch);
-  * (allocates using GFP flags of @alloc_flags). If @can_alloc is %false, avoids
-  * any allocations and will fail if no space is left to store the stack trace.
-  *
-+ * If the stack trace in @entries is from an interrupt, only the portion up to
-+ * interrupt entry is saved.
-+ *
-  * Context: Any context, but setting @can_alloc to %false is required if
-  *          alloc_pages() cannot be used from the current context. Currently
-  *          this is the case from contexts where neither %GFP_ATOMIC nor
-@@ -323,6 +326,16 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
- 	unsigned long flags;
- 	u32 hash;
- 
-+	/*
-+	 * If this stack trace is from an interrupt, including anything before
-+	 * interrupt entry usually leads to unbounded stackdepot growth.
-+	 *
-+	 * Because use of filter_irq_stacks() is a requirement to ensure
-+	 * stackdepot can efficiently deduplicate interrupt stacks, always
-+	 * filter_irq_stacks() to simplify all callers' use of stackdepot.
-+	 */
-+	nr_entries = filter_irq_stacks(entries, nr_entries);
-+
- 	if (unlikely(nr_entries == 0) || stack_depot_disable)
- 		goto fast_exit;
- 
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 8428da2aaf17..efaa836e5132 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -36,7 +36,6 @@ depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc)
- 	unsigned int nr_entries;
- 
- 	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
--	nr_entries = filter_irq_stacks(entries, nr_entries);
- 	return __stack_depot_save(entries, nr_entries, flags, can_alloc);
- }
- 
+Alexander Potapenko (1):
+  compiler_attributes.h: Add __disable_sanitizer_instrumentation
+
+Marco Elver (24):
+  kcsan: Refactor reading of instrumented memory
+  kcsan: Remove redundant zero-initialization of globals
+  kcsan: Avoid checking scoped accesses from nested contexts
+  kcsan: Add core support for a subset of weak memory modeling
+  kcsan: Add core memory barrier instrumentation functions
+  kcsan, kbuild: Add option for barrier instrumentation only
+  kcsan: Call scoped accesses reordered in reports
+  kcsan: Show location access was reordered to
+  kcsan: Document modeling of weak memory
+  kcsan: test: Match reordered or normal accesses
+  kcsan: test: Add test cases for memory barrier instrumentation
+  kcsan: Ignore GCC 11+ warnings about TSan runtime support
+  kcsan: selftest: Add test case to check memory barrier instrumentation
+  locking/barriers, kcsan: Add instrumentation for barriers
+  locking/barriers, kcsan: Support generic instrumentation
+  locking/atomics, kcsan: Add instrumentation for barriers
+  asm-generic/bitops, kcsan: Add instrumentation for barriers
+  x86/barriers, kcsan: Use generic instrumentation for non-smp barriers
+  x86/qspinlock, kcsan: Instrument barrier of pv_queued_spin_unlock()
+  mm, kcsan: Enable barrier instrumentation
+  sched, kcsan: Enable memory barrier instrumentation
+  objtool, kcsan: Add memory barrier instrumentation to whitelist
+  objtool, kcsan: Remove memory barrier instrumentation from noinstr
+  kcsan: Support WEAK_MEMORY with Clang where no objtool support exists
+
+ Documentation/dev-tools/kcsan.rst             |  76 +++-
+ arch/x86/include/asm/barrier.h                |  10 +-
+ arch/x86/include/asm/qspinlock.h              |   1 +
+ include/asm-generic/barrier.h                 |  54 ++-
+ .../asm-generic/bitops/instrumented-atomic.h  |   3 +
+ .../asm-generic/bitops/instrumented-lock.h    |   3 +
+ include/linux/atomic/atomic-instrumented.h    | 135 +++++-
+ include/linux/compiler_attributes.h           |  18 +
+ include/linux/compiler_types.h                |  13 +-
+ include/linux/kcsan-checks.h                  |  81 +++-
+ include/linux/kcsan.h                         |  11 +-
+ include/linux/sched.h                         |   3 +
+ include/linux/spinlock.h                      |   2 +-
+ init/init_task.c                              |   5 -
+ kernel/kcsan/Makefile                         |   2 +
+ kernel/kcsan/core.c                           | 345 ++++++++++++---
+ kernel/kcsan/kcsan_test.c                     | 415 ++++++++++++++++--
+ kernel/kcsan/report.c                         |  51 ++-
+ kernel/kcsan/selftest.c                       | 141 ++++++
+ kernel/sched/Makefile                         |   7 +-
+ lib/Kconfig.kcsan                             |  20 +
+ mm/Makefile                                   |   2 +
+ scripts/Makefile.kcsan                        |  15 +-
+ scripts/Makefile.lib                          |   5 +
+ scripts/atomic/gen-atomic-instrumented.sh     |  41 +-
+ tools/objtool/check.c                         |  41 +-
+ tools/objtool/include/objtool/elf.h           |   2 +-
+ 27 files changed, 1330 insertions(+), 172 deletions(-)
+
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211130095727.2378739-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211130114433.2580590-1-elver%40google.com.
