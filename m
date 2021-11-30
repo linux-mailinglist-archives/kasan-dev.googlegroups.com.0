@@ -1,98 +1,99 @@
-Return-Path: <kasan-dev+bncBAABBV5UTKGQMGQEUP6GK5Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBWFUTKGQMGQE3ECC6HI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126D146405E
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 22:40:41 +0100 (CET)
-Received: by mail-ed1-x53d.google.com with SMTP id l15-20020a056402124f00b003e57269ab87sf18124242edw.6
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 13:40:41 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638308439; cv=pass;
+Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6700946405D
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 22:40:40 +0100 (CET)
+Received: by mail-wr1-x438.google.com with SMTP id h7-20020adfaa87000000b001885269a937sf3863378wrc.17
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 13:40:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638308440; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bmKYLg5hsvfl55Edx+U2Artj6NCMNGk1jKYX0dIRRZFlu992/xFZZDPzqcULH1zau9
-         O7rm2e7763O504fGXqipjWJGkPzBEjWDvu1nihYdXgDixZApxN+fbvXuFzYPF9VZ4Cfv
-         JikUOL51oDrAxRM4eAFtSzyCcpjUyeJw1PizbD7j+EKoU54mfbo7MNakb8wuOsB4dIKM
-         EpX4U2GIONQjl9tbyVoByZ/PcN1kk8cV4Z88Zcq5xTkGBQEniUNIDbYakkHN3HidPer4
-         46C9/5r/WfxN5ATZbYuhoK9R2q/l3gn6PMkUnHRXXi5/NfwB9EZcBIbp5EdXBU9mStSv
-         7NTQ==
+        b=VnEhDrSlZOOqvh3HxV5BnhedGovoLrObt5zsBYHZ5zV2kSxxv4JmdlLPEHyRs2rODA
+         45FmCRK6e7jCj+e2QIU27rzhIkAztiJz9zN8zsh8jEMGGt2oDyNliw7aeIKLQ8Lx+Eu1
+         VQLwHvbq1TEH9e+W+pJA5UFLZMQ4thMjtb/Emwj6IydvvzCskK2RHCVYRpNFyH83g+MD
+         5zb4BeyZ6gkDGPN5PHjax49a3tLPuAi/BP6A98fsvFr/ReG78OBB3NRrj4sCWwy4a6tC
+         V8nGVr2BatsNaAfeSeUs0EY55ZdxKdNmFMtp8h8lx6P0FF7MjuRA5rRbSAm4JIcb0CKv
+         LClA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=6C81FHcbR48tBGT3fZJQksg0eHQMX/idZt8myU5O12U=;
-        b=NwX9+yGG3dg5n7S+C3b2ZNAHAFkuLnBDzdShIcCyqZhfRpFOnFRq2C0dJeh/inGYv5
-         Hrwe8NPba7ZE8tAmArbuH7nPgvXJCHKJdbsPiRQMy1qO8TuVDqBHHdHC2y+ZX09mgCKi
-         qnqZP8tNUAvbJ4B8NiSwPdeG23OdyWqOw7O6Y6+CWmYYhXzjf8qNXSvXsq1ih+YxuAv+
-         oLeJMPz+o/cQ9ARSEAV4x8UE0XzYJf1qEFeGwlrAmonFpFTdRjjBXbmq5vhWDlhZErPC
-         ZYEwWrKv0OCaZ+lZ4U4KS4ixV0bdcOdPO7YS6baXGKTxxSbZPmmU7BsvrPiY+DM7DwDm
-         W7qQ==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=HxOERjMa8AROh1LRrjmAyr0JVy6pWb7dxctTRaiDHVk=;
+        b=QcQf527oKO8c2mrjj/K8l4h2N/EwcMDehOe7lzZ4sWppIQ+l2q5whMz6BkifgEfmL+
+         aVUfn+awqtsTkTghFqpQXfJBvVVN5fM8BTMbf8UaJxWYq0kJ2PnxdBz6yMVAWC66VT+Y
+         FRXeIYYX2QU2r8tkTZUpTEWS1c3cPTiKvgbvZeoJsYyaQvwt4alFhiIlcgKwswfdVlul
+         RzaRd10vGUJcUyV9aqR/BLTJjVIX+IzGWuaktZf3uv1K+EndOsG1zfxhmR/ZavhW8Ou0
+         Hmp+DrAwEKLuw0Me6xI6Ux56uj9MRina1MlUK8tZKJDEP5xsA52lHHEQVbAy4xrifVnW
+         n65Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="gni20/Gn";
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="A1yF/Qsa";
        spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=6C81FHcbR48tBGT3fZJQksg0eHQMX/idZt8myU5O12U=;
-        b=MbT1XT9wSaFSgsWPhcGTd7PbAljdrpI1CD65DccUDGmmqoGxv5imp5LUsVWlK2YSaP
-         FnRu+5NJ4H7kYn0Tce6roWHmimBz0ka6x9kv9cs541ls1/Jfg+5DRvugrfIGHxaVR7Op
-         IJQbkpfnbXmjQ4puD5xG/m5R8g395rJGhSwQLNDVSjKbj/I/xUDjknEZ5TtK46osTv9A
-         nmkpRxDyB8vfpfT2BGfZzpuJWVNCcBgEGUxo7mPWgv1xJ1zNp9x70kR8Md+kFqqLroQF
-         Qk+E3u1VV5w9f7EbKXkzmwHQM64WqxIoiXIu14YEreb0Tga4vtXsHBO2YwoK4u3PCUAC
-         rYrA==
+        bh=HxOERjMa8AROh1LRrjmAyr0JVy6pWb7dxctTRaiDHVk=;
+        b=PrrNIBUGHikZ04vebeQLc8f4sZHH1+8AXVdXFhCZdiJYsgqB41z7OsxHKsg4OEJmSe
+         bsHG5mnfMHSnWOUgsNdceyzDZAQTvjEnUgoIGbj/8LEdP5BLPjNCbyPeeCAekjtND3kN
+         3N1ErK7qPgcyjw5SKYGCvHvT0I8DJaIMEaLaq/yffZER4cfqAeJFjUEa4NpxgF8LuWYw
+         z1xjZ/jC/c2q9xOo9nq3YeCE+CKRbOQ4eRitKQ6RjtqjWVeiCdK2+ir6YXIrqy0dc97m
+         yCamsyb2g2XAiOVkApJDAE/HCTNdZt+nm8D2nco8YTG0xP4ch2+dZVS1HsGJNILBEvhl
+         nJow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=6C81FHcbR48tBGT3fZJQksg0eHQMX/idZt8myU5O12U=;
-        b=nqRF/EldwC6fUgkmrSORaMMAJNf7BAYPftQIOa5XEyhGU7zEYekL+JaLaPxo4njxRW
-         9QLuTfr/Cr5FfbLJ7AjlyCRI3573gUnczEnWrBo8EN/17+Aqnhc4O66RjKlJ0weEJ5i9
-         PPOFcMjmurYtaghOSLBn5dOWlFd3zQ+XlA7AKQpAmtppOdYJgWy3X0362twGcBaDAMmU
-         vaLYgIrkfTQoEbZxTsAwNYsG0oqvXoCtZQttD/WCHKmneD00qUyhPx7SOgURZf2uvaql
-         lQaJcaroNzUqEjDn/+XLKqrUwrG80TZD5t++60Lo5vZwpnjUZ4h+AVywcFkRBagnHVYq
-         rQKA==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=HxOERjMa8AROh1LRrjmAyr0JVy6pWb7dxctTRaiDHVk=;
+        b=asroCEPAzlGf0yYiJ2Ke6rDIb/1rJlPfGYZMRkQGkuM0yHH+/YMH8oUSWiwjfWlRhQ
+         Z//qvMrwb8lXjmK2qZO5njP+QH6Y8qiEZxe3K3xHTU6eIAnCRxYMCQRQh6sbRQvjE/AV
+         mj5v/OtlbfLPdkjyDOcVR9c5TrIs0t+05zUGmWF7yGUR1qPG0uKAjb2lnj+6/q/9D9qh
+         gbAXAap6x58la/1StseWQ0uR4E7YRl5N94Q9qw4+/9sAlktrNeFtisTUmW3oQOoJdaYm
+         BN4nXxEDHeg22TiPuzScJFXhYfIv9WbYyyeq8fQ/zKXIWMw9LUTyRSLNiNtLA0jB5dVR
+         f5JQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533W2wIeMGCQy13ojuFCxQcf9b1LMFsWt72mceLhuXXSoXvV8qxT
-	/Y2MdwN+6zjgj2N1nc9cJU0=
-X-Google-Smtp-Source: ABdhPJwrfrPKEQ2zJNF5//rh+Ncr7L9DhOf7M6DUZ+TTlbSPZDdNnQe3euH4OC3nBEuejZX3+R1frg==
-X-Received: by 2002:a17:906:aecf:: with SMTP id me15mr1914129ejb.351.1638308439690;
-        Tue, 30 Nov 2021 13:40:39 -0800 (PST)
+X-Gm-Message-State: AOAM531258MCvauN4W9LojIsGt3KKvx8jSZ6louYLJNpSop1zH99pRDU
+	I3y8HKzb6iAZSIiVp+7GLis=
+X-Google-Smtp-Source: ABdhPJxIXCBVyjcQ1KAa+QxjSJECskZWi+2Vx+sKqB65//GcsbP51QsELbEzLfeGLRPfv5DpsRc70A==
+X-Received: by 2002:adf:8bd8:: with SMTP id w24mr1772386wra.540.1638308440184;
+        Tue, 30 Nov 2021 13:40:40 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:c944:: with SMTP id h4ls186308edt.1.gmail; Tue, 30 Nov
- 2021 13:40:38 -0800 (PST)
-X-Received: by 2002:aa7:cb48:: with SMTP id w8mr2396462edt.402.1638308438816;
-        Tue, 30 Nov 2021 13:40:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638308438; cv=none;
+Received: by 2002:a5d:4092:: with SMTP id o18ls123687wrp.1.gmail; Tue, 30 Nov
+ 2021 13:40:39 -0800 (PST)
+X-Received: by 2002:adf:97c2:: with SMTP id t2mr1731504wrb.577.1638308439483;
+        Tue, 30 Nov 2021 13:40:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638308439; cv=none;
         d=google.com; s=arc-20160816;
-        b=joFjOsE7TpGmVOerLNT34Q92v+cM5c37jCOm/UoznpisMH34EAH3HrTpwikDn0ssng
-         1Iwajx7nTdolVVIPuMZgYyane0sIaehdFcabrUIuXM6wq3iIoEHyZ1rpQWPs7FJudwBh
-         1rD3k48LBGQTaBfjYLZ9xt7okVVK2jZb/WeVUDw7uJQS5cWs9i3sCElQ2ENOemaWcZvi
-         HSkSKIg2UgKEdWWzRzRKWEnRGfPkGt6GVXK0Bme54aLrexpLHQg2s2bJvYf3Jb76oXQu
-         R1WrLvhtV4S0KgNB71teFPflfIQlnwYu2hJ2V16QRtn+U5ErV0BjVgJ58xKQ9HHJFd7y
-         NEXQ==
+        b=wbSslWDiXDUjYI6bJPDhNE2QYgObQn7BEi0A1BE6EdavHB+IjBK4a9mXc0epLWFRoR
+         lJCBqDcD8xQ3lTJWIjSO3LPBSsqgV0z8lf13t0c4TB1wf1x8fdWZl9PEh2BqcReAtf4E
+         NRxg+nXVM0T0A8F93BnezeAOvLt06ZUM6LLP/RT5J+QUsB3i+K4CwdRgF8CQ78FfhmVp
+         9rprTSbdhHKmNo7k+aQJadqUU3NiKj/TpTTDIuSxY8+973TKdqI4jWx/AFWoZMPhtPSJ
+         pfscGXtxghSu9EZ4g8U506rr+EkvpGlfVmc/eIOxbhi3g5/SZoZja0/fSzAs6+d1JKCz
+         BIiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=Rcspyw3aJSs9x/mVwJKJ/FdDOElM4iaddbIoQBCce4s=;
-        b=ikIkaDO5Z4MxM60stijDGm+mWbdOzA+lExVpUDH3DHwSGGJmYQRSzy54j6+omH91Iv
-         Axso9uUPAQhdW5Vds9mGj2KyInkQma9PxFzfsDw6JCGsc8qt3Wrzkxg6vsI8xZzYVi3p
-         hmb5KrtpW4RA8JbKW14xBgEH9r0UipV/RCUIZjhvEfGoa0DQAKroVjAKrIR7UeQ++97+
-         sUWR9Dweho6fAngumZwQ0w99In3BOT23wMU8nZeZHpRTDyPG0V/xvE4EpWQTjRa3TcRQ
-         VQJAPNoUMnMW5UPVsx3gJuqWXLrBTiAq0XUinP9ATFLuXVFKDAxwx9MamG072NBep5Cu
-         lSvQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=4G8h4hgySaJey6iKxW5y4/UhksHPaOzWIIS8r9vmE5w=;
+        b=RVQ0SRVTJcn8F3llZZz44t+4SHaKWsobqoPaiNf9sAndiAGBTmf4j9ixc+kwZIZMv4
+         y/dir3DeUR4dZh0nBNyvHpusCCR07AKlyKtn+p4RVXs/ToVB6ck0fsIhTDcJ2JV9IYGK
+         JgNbXz/1HRBZVec7Fn6EOyM+SN7aOrGJG1JvGW0T75NRbuFFgOWLGWOubxFV+/nn1T1K
+         RhkIDtsrYHNb00kF2AtRgBQb7R8hGTAmyIBtdTbbsstTh6vpXmHVfhipYLxVPN0otZRf
+         48HMIfyBzQn0qMT93gQOzKfy8TAPFjGOS6bQwlqXZ1/G7swTp4Ig5lVME9FDV5ZBxLy8
+         3V5A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="gni20/Gn";
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="A1yF/Qsa";
        spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Received: from out0.migadu.com (out0.migadu.com. [94.23.1.103])
-        by gmr-mx.google.com with ESMTPS id eb8si1631834edb.0.2021.11.30.13.40.38
+        by gmr-mx.google.com with ESMTPS id o29si784228wms.1.2021.11.30.13.40.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 30 Nov 2021 13:40:38 -0800 (PST)
+        Tue, 30 Nov 2021 13:40:39 -0800 (PST)
 Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 94.23.1.103 as permitted sender) client-ip=94.23.1.103;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
@@ -112,15 +113,17 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	Evgenii Stepanov <eugenis@google.com>,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH 00/31] kasan, vmalloc, arm64: add vmalloc tagging support for SW/HW_TAGS
-Date: Tue, 30 Nov 2021 22:39:06 +0100
-Message-Id: <cover.1638308023.git.andreyknvl@google.com>
+Subject: [PATCH 01/31] kasan, page_alloc: deduplicate should_skip_kasan_poison
+Date: Tue, 30 Nov 2021 22:39:07 +0100
+Message-Id: <4d98c25d3cb7898fa27510d612742b6693b37cd5.1638308023.git.andreyknvl@google.com>
+In-Reply-To: <cover.1638308023.git.andreyknvl@google.com>
+References: <cover.1638308023.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b="gni20/Gn";       spf=pass
+ header.i=@linux.dev header.s=key1 header.b="A1yF/Qsa";       spf=pass
  (google.com: domain of andrey.konovalov@linux.dev designates 94.23.1.103 as
  permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=linux.dev
@@ -139,111 +142,105 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Hi,
+Currently, should_skip_kasan_poison() has two definitions: one for when
+CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, one for when it's not.
+Instead of duplicating the checks, add a deferred_pages_enabled()
+helper and use it in a single should_skip_kasan_poison() definition.
 
-This patchset adds vmalloc tagging support for SW_TAGS and HW_TAGS
-KASAN modes.
+Also move should_skip_kasan_poison() closer to its caller and clarify
+all conditions in the comment.
 
-About half of patches are cleanups I went for along the way. None of
-them seem to be important enough to go through stable, so I decided
-not to split them out into separate patches/series.
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ mm/page_alloc.c | 55 +++++++++++++++++++++++++++++--------------------
+ 1 file changed, 33 insertions(+), 22 deletions(-)
 
-I'll keep the patchset based on the mainline for now. Once the
-high-level issues are resolved, I'll rebase onto mm - there might be
-a few conflicts right now.
-
-The patchset is partially based on an early version of the HW_TAGS
-patchset by Vincenzo that had vmalloc support. Thus, I added a
-Co-developed-by tag into a few patches.
-
-SW_TAGS vmalloc tagging support is straightforward. It reuses all of
-the generic KASAN machinery, but uses shadow memory to store tags
-instead of magic values. Naturally, vmalloc tagging requires adding
-a few kasan_reset_tag() annotations to the vmalloc code.
-
-HW_TAGS vmalloc tagging support stands out. HW_TAGS KASAN is based on
-Arm MTE, which can only assigns tags to physical memory. As a result,
-HW_TAGS KASAN only tags vmalloc() allocations, which are backed by
-page_alloc memory. It ignores vmap() and others.
-
-Two things about the patchset that might be questionable, and I'd like
-to get input on:
-
-1. In this version of the pathset, if both HW_TAGS KASAN and memory
-   initialization are enabled, the memory for vmalloc() allocations is
-   initialized by page_alloc, while the tags are assigned in vmalloc.
-   Initially I thought that moving memory initialization into vmalloc
-   would be confusing, but I don't have any good arguments to support
-   that. So unless anyone has objecttions, I will move memory
-   initialization for HW_TAGS KASAN into vmalloc in v2.
-
-2. In this version of the patchset, when VMAP_STACK is enabled, pointer
-   tags of stacks allocated via vmalloc() are reset, see the "kasan,
-   fork: don't tag stacks allocated with vmalloc" patch. However,
-   allowing sp to be tagged works just fine in my testing setup. Does
-   anyone has an idea of why having a tagged sp in the kernel could be
-   bad? If not, I can drop the mentioned patch.
-
-Thanks!
-
-Andrey Konovalov (31):
-  kasan, page_alloc: deduplicate should_skip_kasan_poison
-  kasan, page_alloc: move tag_clear_highpage out of
-    kernel_init_free_pages
-  kasan, page_alloc: merge kasan_free_pages into free_pages_prepare
-  kasan, page_alloc: simplify kasan_poison_pages call site
-  kasan, page_alloc: init memory of skipped pages on free
-  mm: clarify __GFP_ZEROTAGS comment
-  kasan: only apply __GFP_ZEROTAGS when memory is zeroed
-  kasan, page_alloc: refactor init checks in post_alloc_hook
-  kasan, page_alloc: merge kasan_alloc_pages into post_alloc_hook
-  kasan, page_alloc: combine tag_clear_highpage calls in post_alloc_hook
-  kasan, page_alloc: move SetPageSkipKASanPoison in post_alloc_hook
-  kasan, page_alloc: move kernel_init_free_pages in post_alloc_hook
-  kasan, page_alloc: simplify kasan_unpoison_pages call site
-  kasan: clean up metadata byte definitions
-  kasan: define KASAN_VMALLOC_INVALID for SW_TAGS
-  kasan, x86, arm64, s390: rename functions for modules shadow
-  kasan, vmalloc: drop outdated VM_KASAN comment
-  kasan: reorder vmalloc hooks
-  kasan: add wrappers for vmalloc hooks
-  kasan, vmalloc: reset tags in vmalloc functions
-  kasan, fork: don't tag stacks allocated with vmalloc
-  kasan, vmalloc: add vmalloc support to SW_TAGS
-  kasan, arm64: allow KASAN_VMALLOC with SW_TAGS
-  kasan, vmalloc, arm64: mark vmalloc mappings as pgprot_tagged
-  kasan, vmalloc: don't unpoison VM_ALLOC pages before mapping
-  kasan, page_alloc: allow skipping unpoisoning for HW_TAGS
-  kasan, vmalloc: add vmalloc support to HW_TAGS
-  kasan: add kasan.vmalloc command line flag
-  kasan, arm64: allow KASAN_VMALLOC with HW_TAGS
-  kasan: documentation updates
-  kasan: improve vmalloc tests
-
- Documentation/dev-tools/kasan.rst |  17 ++-
- arch/arm64/Kconfig                |   2 +-
- arch/arm64/include/asm/vmalloc.h  |  10 ++
- arch/arm64/kernel/module.c        |   2 +-
- arch/s390/kernel/module.c         |   2 +-
- arch/x86/kernel/module.c          |   2 +-
- include/linux/gfp.h               |  17 ++-
- include/linux/kasan.h             |  90 +++++++++------
- include/linux/vmalloc.h           |  18 ++-
- kernel/fork.c                     |   1 +
- lib/Kconfig.kasan                 |  20 ++--
- lib/test_kasan.c                  | 181 +++++++++++++++++++++++++++++-
- mm/kasan/common.c                 |   4 +-
- mm/kasan/hw_tags.c                | 142 +++++++++++++++++++----
- mm/kasan/kasan.h                  |  16 ++-
- mm/kasan/shadow.c                 |  54 +++++----
- mm/page_alloc.c                   | 138 +++++++++++++++--------
- mm/vmalloc.c                      |  65 +++++++++--
- 18 files changed, 597 insertions(+), 184 deletions(-)
-
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index c5952749ad40..c99566a3b67e 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -375,25 +375,9 @@ int page_group_by_mobility_disabled __read_mostly;
+  */
+ static DEFINE_STATIC_KEY_TRUE(deferred_pages);
+ 
+-/*
+- * Calling kasan_poison_pages() only after deferred memory initialization
+- * has completed. Poisoning pages during deferred memory init will greatly
+- * lengthen the process and cause problem in large memory systems as the
+- * deferred pages initialization is done with interrupt disabled.
+- *
+- * Assuming that there will be no reference to those newly initialized
+- * pages before they are ever allocated, this should have no effect on
+- * KASAN memory tracking as the poison will be properly inserted at page
+- * allocation time. The only corner case is when pages are allocated by
+- * on-demand allocation and then freed again before the deferred pages
+- * initialization is done, but this is not likely to happen.
+- */
+-static inline bool should_skip_kasan_poison(struct page *page, fpi_t fpi_flags)
++static inline bool deferred_pages_enabled(void)
+ {
+-	return static_branch_unlikely(&deferred_pages) ||
+-	       (!IS_ENABLED(CONFIG_KASAN_GENERIC) &&
+-		(fpi_flags & FPI_SKIP_KASAN_POISON)) ||
+-	       PageSkipKASanPoison(page);
++	return static_branch_unlikely(&deferred_pages);
+ }
+ 
+ /* Returns true if the struct page for the pfn is uninitialised */
+@@ -444,11 +428,9 @@ defer_init(int nid, unsigned long pfn, unsigned long end_pfn)
+ 	return false;
+ }
+ #else
+-static inline bool should_skip_kasan_poison(struct page *page, fpi_t fpi_flags)
++static inline bool deferred_pages_enabled(void)
+ {
+-	return (!IS_ENABLED(CONFIG_KASAN_GENERIC) &&
+-		(fpi_flags & FPI_SKIP_KASAN_POISON)) ||
+-	       PageSkipKASanPoison(page);
++	return false;
+ }
+ 
+ static inline bool early_page_uninitialised(unsigned long pfn)
+@@ -1258,6 +1240,35 @@ static int free_tail_pages_check(struct page *head_page, struct page *page)
+ 	return ret;
+ }
+ 
++/*
++ * Skip KASAN memory poisoning when either:
++ *
++ * 1. Deferred memory initialization has not yet completed,
++ *    see the explanation below.
++ * 2. Skipping poisoning is requested via FPI_SKIP_KASAN_POISON,
++ *    see the comment next to it.
++ * 3. Skipping poisoning is requested via __GFP_SKIP_KASAN_POISON,
++ *    see the comment next to it.
++ *
++ * Poisoning pages during deferred memory init will greatly lengthen the
++ * process and cause problem in large memory systems as the deferred pages
++ * initialization is done with interrupt disabled.
++ *
++ * Assuming that there will be no reference to those newly initialized
++ * pages before they are ever allocated, this should have no effect on
++ * KASAN memory tracking as the poison will be properly inserted at page
++ * allocation time. The only corner case is when pages are allocated by
++ * on-demand allocation and then freed again before the deferred pages
++ * initialization is done, but this is not likely to happen.
++ */
++static inline bool should_skip_kasan_poison(struct page *page, fpi_t fpi_flags)
++{
++	return deferred_pages_enabled() ||
++	       (!IS_ENABLED(CONFIG_KASAN_GENERIC) &&
++		(fpi_flags & FPI_SKIP_KASAN_POISON)) ||
++	       PageSkipKASanPoison(page);
++}
++
+ static void kernel_init_free_pages(struct page *page, int numpages, bool zero_tags)
+ {
+ 	int i;
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cover.1638308023.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4d98c25d3cb7898fa27510d612742b6693b37cd5.1638308023.git.andreyknvl%40google.com.
