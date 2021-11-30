@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABBS6BTKGQMGQE4K6LPDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBT6BTKGQMGQEDTA3SFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96980464104
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 23:08:11 +0100 (CET)
-Received: by mail-ed1-x53a.google.com with SMTP id v1-20020aa7cd41000000b003e80973378asf18182489edw.14
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 14:08:11 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638310091; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55307464105
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 23:08:16 +0100 (CET)
+Received: by mail-lf1-x13a.google.com with SMTP id c40-20020a05651223a800b004018e2f2512sf8587535lfv.11
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 14:08:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638310096; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0wUDGEwgNeqrBp84SI/XWl/qMviy1c/MF/6iccLxrASgMOignHEQv6o4bmKx/snzDK
-         DuhX0PTCUm8gHcP0GsvxS4uQ5Wl59jwa1gT695VLz3xw21iawsuh34D3vahNXlEfPudA
-         rByHyBMrMRHlPxwcMLkTXFmj6mlp7wtSQuJj/B0Qcz0pMe73p7DTDxlJTL5rfm/p8u9b
-         q503beY2ZnrOtiAnVS18VjAkXmdTaxKcm+NMQMGlBRfDb0jACn1aMXwAewbdOtFBbfIM
-         Kc8kTIvcxsc8DPW1NOFOoHdxXDIGLpUh6/6zjao6zjeu9s+B4biC67iaR4ysMxMkSgSO
-         VCBQ==
+        b=IrvpztfufgiImQaXelCdQIDapjS+xUUNwG262GrwKcc3TMdQz/yan2Eg8u4AVmRjsG
+         svd5AUsKKCzWRojCukav49xT4DEPtwILA+n+ox7LgdQWo1gBOwEAvXgqUkcKGEOghr6P
+         JG5oxGPj7WhZSpbY9zLx3Pok5H69pKFEl6lEOdR56ZfUg2Ql8qElDZuEHwgtJesuTuci
+         z+i0ErcOHvi48XcrV2WG3oIJvMdR+ZtUlndEjGkxneF8Pz7T6SXz3leMpiUH3M/xaeI2
+         8UBboNY260HklkOJ6uAxl63IkRdS0/+vgociQ/2wLiLoCMQBwWNW4vt6tItpxg6f6ghp
+         yvRA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=QROIooCG5A7iQKDso/g4R39FlQjsnmwPPEBS8RtYbFc=;
-        b=upIFTNwgvT9fUXOm1nv3cS/YwpjafbIvXGucuImSvPDj4w0pYuc+x14ZYY8z2bCmLu
-         8Fs4G/cr+gR1+eblQZnsvq0mWQV9agXLXWMm/qyTuIW/CshVu4lED9zVxprU5Bn8hCg6
-         kpu/adJCEe/4VI7FWtLbGYWpQgKnLQlCkz+X1iH/Fs3MGUVxeTm3t4tfB+SFTpNTU9if
-         J+aHRva7OHm8Y3YXj9Ks26OAlVcaCMkpG4qgXeSG8cdFpxgjwLsY7GjE2FvjCY64/G25
-         17TSEx6v3TdiNDeIf3SHzehX4WM/64xXcMe2ae+YLqHQ8IklF9Cc7Bm/dUmfGEPO0raT
-         cqJg==
+        bh=cqTwC+ryMa3OmYzNRUiQpPrt4jwFOzY/TcPCIVcYZEY=;
+        b=fZ/r2dggihXTua8TTBcuCq72ry7Tro4P7CcPgI+rYTP+XqwqN0omnhAq9NCkb5RcDl
+         U3KcFnDUGlffit0Ih0hMHxBW3ljBfgDq50fgIVzDk7aBvZinXyf5FmZWfVBO3cmkUeE6
+         ySV7sliEjaIwXlvyHw4ThKom4RzghbSkGJh1n5prjNTXF93zSMtcqiNY9+AIesnMB+ai
+         TQpZ05eGOfy7WtlKmwG0+I3W4pp1Rlu4ZLXss6u+fgjidaEKpX1lfhhN2xaC638Namk2
+         B8eB0dde3/MzO6vvTwkchBFSbb5t3TrLwhe2R6CZkIfDJqy0H4GiKRN/2XlAxCLKXnOC
+         qFTQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=Z4Yuz3BR;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=e5hYOgE6;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=QROIooCG5A7iQKDso/g4R39FlQjsnmwPPEBS8RtYbFc=;
-        b=Dc6TU77ZtxmDqscPt7FFUgkO0q9XHOLNuYNq3SzHYBW2VGDdIFkb/boTunAvXO4v8Z
-         TsL63WvsoBOXNvwWKWctDwo+GBSsyqJJL+8vuaIEPhCR07ppqUzlJs8QoOneUgFw+4gw
-         gSqQQujkG3oIgJ89AdVKAvGHLQVoBSyfYYaoz9FT+28+85qeJiZdoB5axoNzWuGxIbyF
-         yg+4LMWDO8FxKtRZbhZy31Ws6FmUZYe3VarNQYHVLZiO7YSys8GrcxrLspL2MTy0A7RS
-         W0BsTaGqzIOA8TZWMvxv0/HLziw0i4xJjkC9/KeknNaJ7oLMwfE35UXnm97Xjv8CQUEB
-         cE5A==
+        bh=cqTwC+ryMa3OmYzNRUiQpPrt4jwFOzY/TcPCIVcYZEY=;
+        b=QkkUQJdyMnZ19DCoPIXK9hHeK/ywxVslhPBtm0oqOkMOzUrW0NmhNW2btpSNucf00v
+         ZK9mMn4VyTcNN5Ai0QQ9iXMPtEFGpMgFzxKNzmQwdVf0/MsG4dIkALj58+050+i/BBpj
+         E7eGPh+K1EQvIE2iFBd061RwOzzZmYvly+SnODz6fKax25TBt773wO07AWfYIDt9KKZ6
+         CCRsGKi+VT6dP+gFb1I8XNEqv6Jht7wPQY2AtjzC2w7GdvuU9htymktvrHGsG5EW5FTq
+         njrVnT5URlkRdG4fgpK0XmTIV8dolgdKYgeyHfHY2Gaud6l2SvxtfXGS66lO3g4Ka27I
+         SY/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,52 +49,52 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=QROIooCG5A7iQKDso/g4R39FlQjsnmwPPEBS8RtYbFc=;
-        b=gqJLffmbKG1A32X6qcMBlQ6nfZzyS1f6Z4BfpE09OHFQmuGLTlMPbAzuTi3z0lk7j5
-         ABP3nMo/MMbgkACpe0Qj3jvs7swF2BjSi9IDiEFMoQhGcTZCkx0Jk2+e+9Z0Yh+5kkdu
-         9UUocglwx2K5Al7Fr/x0LWYV/P/D2lilemZ9WC1H4Gv3OMGL3J40FxhOeF85S5i+aENW
-         I56hF14cxx7ng9kd3bo+aF2815rtmswxR5/VcOJDqk6gIKHB1S5M7SWGrF2efmjsqW3f
-         s8IqiaJCfWQaYtBLp3uifpNV/iJFk4frT5WFFw4qXOieg8QwwC9dYbZ1Dja3f8XSyn8t
-         zMoQ==
+        bh=cqTwC+ryMa3OmYzNRUiQpPrt4jwFOzY/TcPCIVcYZEY=;
+        b=q+P1v/9HmH4wY4B9VrShM0CF9vkujeyJgkO9Js6oR4ZYlwzazpVpc8gWguvcZfG6Yj
+         y6V65tugJVe3qQSezVGle8LFwQx/9nd5HrqYsQufi61U1FIc1mgph/ehBfebdDBWFLjb
+         vitwtdqWUGEaicou+2A6XHVucI9c35vAGLaRwQpStlkLxDYjZa6mphgXxYEL4aXzM8oh
+         OygFrgTl10SIjPIo6FRhn7FGBBr+z11v7KSM8Lc9YTi5I75u2RbOqcpKseAct6CuTWSl
+         V6oUu/ezh1DtGUwyh/TrV+CAzPdu13I692su7EMs7sdfGp0VufvZhhr7M+l2NYM/P5N2
+         25VA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531EYpqzgRSQjuSIHx6uMkiQ11FqVEUSZtpL1SQilKi6aK1Kx074
-	aeTQ1guEK5JHPSqN8rggK84=
-X-Google-Smtp-Source: ABdhPJzA5SExcxOTniwTC167vZPzgdc5s9UJ4FXsPYmCGSIrC5Vyj8QRnGB9291VYiTNGfxJu4lCRw==
-X-Received: by 2002:a17:907:2622:: with SMTP id aq2mr2183331ejc.76.1638310091399;
-        Tue, 30 Nov 2021 14:08:11 -0800 (PST)
+X-Gm-Message-State: AOAM5320CZrfA8OsQ0uDmQFG0IuQ6eZGAmVmERO/vFitnPQDXV4snb55
+	jy2R/mP9bW5qbDPAz+ThGak=
+X-Google-Smtp-Source: ABdhPJz95+M3qxEKGArEnCkWLHrTsK28RWSF4g52WBMZG+2Y++x8X4b3pa5RlIIhlQkwjsY8I7ngtA==
+X-Received: by 2002:a2e:2a46:: with SMTP id q67mr1636309ljq.398.1638310095941;
+        Tue, 30 Nov 2021 14:08:15 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:6da0:: with SMTP id sb32ls31648ejc.8.gmail; Tue, 30
- Nov 2021 14:08:10 -0800 (PST)
-X-Received: by 2002:a17:907:7e8e:: with SMTP id qb14mr2075639ejc.562.1638310090708;
-        Tue, 30 Nov 2021 14:08:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638310090; cv=none;
+Received: by 2002:a2e:a378:: with SMTP id i24ls14769ljn.3.gmail; Tue, 30 Nov
+ 2021 14:08:15 -0800 (PST)
+X-Received: by 2002:a2e:7319:: with SMTP id o25mr1611507ljc.320.1638310095113;
+        Tue, 30 Nov 2021 14:08:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638310095; cv=none;
         d=google.com; s=arc-20160816;
-        b=l7mSuGhVefrBKkaCfmP7EZas/3UlPq/DFAGH/OwON2i4ICaoML3MrSay+N/GrM6LH1
-         tBLCQuOeV24cubNpisNKZBGQhkU/8EIaNgXYTiMSev3x2FEUfYj70jC6EipjBKws7dVC
-         JMjNEzgmwZezkypsyn+NHr44PreDnjgt86cln+/1oS9CdGiOxhj1QZZQ2uI//SHNoCtl
-         eXM1Y6aniDfyDCOk6R4c2EB2Hlnci/4WmFVahqAlYEsIX8w09klgIFmKQnY82BP3c/dB
-         73vqGrBnDw+jSCka5rp2VzizgYgc9vGKj+K0ZbxBOYukYGTpexJ9ystY5cSsE68SoSQA
-         d6XQ==
+        b=QdOsGjLOel4AL4c8ofY8I2PVRZgvziEr2gantbEu91wDCkO4pH0TQXEnFktvWS1FyQ
+         ncKu3uPM0/Iis9LjzYBdKWkd9WCKGav5Tqy5qgciG4RjeltoKvJv0AlFOzeKlRvH1Idh
+         K+KKTwBLNnJ8KHLrOpYXl+g9orTh+ku/C+VHJ0HCBwJWGmeKVxXGDZBjuCtfwNieHIrK
+         Hm3ToyyLwKN2tNn/DFJqrHirB7/6sKxgoJ6FSbAIln6SAvuDQ8GC3bVbRxYriZLSlSfK
+         7BFtqkTsh5GMLr/BYE2Wvg3dltM2d0zRZbNvA9kd4Nyh9nX+Y5Zud45bQwxzkBolzpZ8
+         DP6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=/6qJwit6ITW8lPGUAdTPjRxCn0EQ40SKku7cvq8gPsA=;
-        b=GdJdfZTBrKX1o+ctgcPAjErppVcWxmokH1S6zm7EnTiVAWF1C6Q/d7hUjcWBWgp7lr
-         9furvYUPLbrq1O8RE9vZWf7seiM5GMVc6mV2iIByWztzauLDj/2FtztKEQ6s468yi0WN
-         /LCUgEpRnhBSj57poo+m1JC2dyi/LHx8kACn4zLUCYD3QRJrtgSxPP7Ex8PN+56QhI+f
-         ZqKLp89S05WSFR18td66PMpS+Vd3quG+Ir+DHdT6IU1xVmIvc/P0GN8kSsy+WURKqXE1
-         7VzIejxcRO3cmqprYjgwG++xBBfM20sem1inQ8IaJldWJjkqWYcBugfQMpQx951CqVl3
-         tGTQ==
+        bh=HNHQ9BiBKyIqAtWVImrJMYlD8BjFZxN/2CktLIPvhw0=;
+        b=lH4MVi2nZIsktcSr7qe/laGm90nCh4fgCfQFlC4MeHaxB9Hv8duhDUJycBg8lK7n6E
+         aTOuvfAYmgbUGlC6U1U7vQ8nj393JmmTeC5eckxtj/hYGL8GRB0K350dCb51qR33YMQ/
+         RR50zguQ6fp1+CBoxXiw6nf/vrs47LeVLGb61bbmY4l+JBdh50H9NUuuPUMGOyoxC+Rl
+         MYV45rgJ9nv4xIw4mDpGXQmJxhb2vfnOpSGf7LBR1BF1gIc7t1rivbjBZ6WT5E6uilBE
+         cX1tutfq77/HTQNaFusDu58FJFILbw8TA7E0HFQbeUYAr/8ibyALR5V0u1LAL8FsEFFQ
+         8eCg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=Z4Yuz3BR;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=e5hYOgE6;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out1.migadu.com (out1.migadu.com. [91.121.223.63])
-        by gmr-mx.google.com with ESMTPS id d5si1367294ede.2.2021.11.30.14.08.10
+Received: from out1.migadu.com (out1.migadu.com. [2001:41d0:2:863f::])
+        by gmr-mx.google.com with ESMTPS id g21si1785138lfv.11.2021.11.30.14.08.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 30 Nov 2021 14:08:10 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as permitted sender) client-ip=91.121.223.63;
+        Tue, 30 Nov 2021 14:08:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:863f:: as permitted sender) client-ip=2001:41d0:2:863f::;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -113,9 +113,9 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	Evgenii Stepanov <eugenis@google.com>,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH 26/31] kasan, page_alloc: allow skipping unpoisoning for HW_TAGS
-Date: Tue, 30 Nov 2021 23:08:08 +0100
-Message-Id: <e60cbad6f4f8ee08137671c008c83ab26255e9bf.1638308023.git.andreyknvl@google.com>
+Subject: [PATCH 27/31] kasan, vmalloc: add vmalloc support to HW_TAGS
+Date: Tue, 30 Nov 2021 23:08:12 +0100
+Message-Id: <aa90926d11b5977402af4ce6dccea89932006d36.1638308023.git.andreyknvl@google.com>
 In-Reply-To: <cover.1638308023.git.andreyknvl@google.com>
 References: <cover.1638308023.git.andreyknvl@google.com>
 MIME-Version: 1.0
@@ -123,10 +123,10 @@ X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=Z4Yuz3BR;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as
- permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@linux.dev header.s=key1 header.b=e5hYOgE6;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates
+ 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -142,111 +142,283 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-This patch add a new GFP flag __GFP_SKIP_KASAN_UNPOISON that allows
-skipping KASAN poisoning for page_alloc allocations. The flag is only
-effective with HW_TAGS KASAN.
+This patch adds vmalloc tagging support to HW_TAGS KASAN.
 
-This flag will be used by vmalloc code for page_alloc allocations
-backing vmalloc() mappings in the following patch. The reason to skip
-KASAN poisoning for these pages in page_alloc is because vmalloc code
-will be poisoning them instead.
+The key difference between HW_TAGS and the other two KASAN modes
+when it comes to vmalloc: HW_TAGS KASAN can only assign tags to
+physical memory. The other two modes have shadow memory covering
+every mapped virtual memory region.
+
+This patch makes __kasan_unpoison_vmalloc() for HW_TAGS KASAN:
+
+- Skip non-VM_ALLOC mappings as HW_TAGS KASAN can only tag a single
+  mapping of normal physical memory; see the comment in the function.
+- Generate a random tag, tag the returned pointer and the allocation.
+- Propagate the tag into the page stucts to allow accesses through
+  page_address(vmalloc_to_page()).
+
+The rest of vmalloc-related KASAN hooks are not needed:
+
+- The shadow-related ones are fully skipped.
+- __kasan_poison_vmalloc() is kept as a no-op with a comment.
+
+Poisoning of physical pages that are backing vmalloc() allocations
+is skipped via __GFP_SKIP_KASAN_UNPOISON: __kasan_unpoison_vmalloc()
+poisons them instead.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+Co-developed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 ---
- include/linux/gfp.h | 13 +++++++++----
- mm/page_alloc.c     | 24 +++++++++++++++++-------
- 2 files changed, 26 insertions(+), 11 deletions(-)
+ include/linux/kasan.h | 27 +++++++++++--
+ mm/kasan/hw_tags.c    | 92 +++++++++++++++++++++++++++++++++++++++++++
+ mm/kasan/shadow.c     |  8 +++-
+ mm/vmalloc.c          | 25 +++++++++---
+ 4 files changed, 143 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index dddd7597689f..a4c8ff3fbed1 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -54,9 +54,10 @@ struct vm_area_struct;
- #define ___GFP_THISNODE		0x200000u
- #define ___GFP_ACCOUNT		0x400000u
- #define ___GFP_ZEROTAGS		0x800000u
--#define ___GFP_SKIP_KASAN_POISON	0x1000000u
-+#define ___GFP_SKIP_KASAN_UNPOISON	0x1000000u
-+#define ___GFP_SKIP_KASAN_POISON	0x2000000u
- #ifdef CONFIG_LOCKDEP
--#define ___GFP_NOLOCKDEP	0x2000000u
-+#define ___GFP_NOLOCKDEP	0x4000000u
- #else
- #define ___GFP_NOLOCKDEP	0
- #endif
-@@ -235,6 +236,9 @@ struct vm_area_struct;
-  * %__GFP_ZEROTAGS zeroes memory tags at allocation time if the memory itself
-  * is being zeroed (either via __GFP_ZERO or via init_on_alloc).
-  *
-+ * %__GFP_SKIP_KASAN_UNPOISON skips KASAN unpoisoning on page allocation.
-+ * Currently only has an effect in HW tags mode.
-+ *
-  * %__GFP_SKIP_KASAN_POISON returns a page which does not need to be poisoned
-  * on deallocation. Typically used for userspace pages. Currently only has an
-  * effect in HW tags mode.
-@@ -243,13 +247,14 @@ struct vm_area_struct;
- #define __GFP_COMP	((__force gfp_t)___GFP_COMP)
- #define __GFP_ZERO	((__force gfp_t)___GFP_ZERO)
- #define __GFP_ZEROTAGS	((__force gfp_t)___GFP_ZEROTAGS)
--#define __GFP_SKIP_KASAN_POISON	((__force gfp_t)___GFP_SKIP_KASAN_POISON)
-+#define __GFP_SKIP_KASAN_UNPOISON ((__force gfp_t)___GFP_SKIP_KASAN_UNPOISON)
-+#define __GFP_SKIP_KASAN_POISON   ((__force gfp_t)___GFP_SKIP_KASAN_POISON)
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index 6a2619759e93..df1a09fb7623 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -417,19 +417,40 @@ static inline void kasan_init_hw_tags(void) { }
  
- /* Disable lockdep for GFP context tracking */
- #define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)
+ #ifdef CONFIG_KASAN_VMALLOC
  
- /* Room for N __GFP_FOO bits */
--#define __GFP_BITS_SHIFT (25 + IS_ENABLED(CONFIG_LOCKDEP))
-+#define __GFP_BITS_SHIFT (26 + IS_ENABLED(CONFIG_LOCKDEP))
- #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
++#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
++
+ void kasan_populate_early_vm_area_shadow(void *start, unsigned long size);
+ int kasan_populate_vmalloc(unsigned long addr, unsigned long size);
+ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+ 			   unsigned long free_region_start,
+ 			   unsigned long free_region_end);
  
- /**
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 4eb341351124..3afebc037fcd 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -2381,6 +2381,21 @@ static bool check_new_pages(struct page *page, unsigned int order)
- 	return false;
++#else /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
++
++static inline void kasan_populate_early_vm_area_shadow(void *start,
++						       unsigned long size)
++{ }
++static inline int kasan_populate_vmalloc(unsigned long start,
++					unsigned long size)
++{
++	return 0;
++}
++static inline void kasan_release_vmalloc(unsigned long start,
++					 unsigned long end,
++					 unsigned long free_region_start,
++					 unsigned long free_region_end) { }
++
++#endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
++
+ void * __must_check __kasan_unpoison_vmalloc(const void *start,
+-					     unsigned long size);
++					     unsigned long size,
++					     bool vm_alloc);
+ static __always_inline void * __must_check kasan_unpoison_vmalloc(
+-					const void *start, unsigned long size)
++					const void *start, unsigned long size,
++					bool vm_alloc)
+ {
+ 	if (kasan_enabled())
+-		return __kasan_unpoison_vmalloc(start, size);
++		return __kasan_unpoison_vmalloc(start, size, vm_alloc);
+ 	return (void *)start;
  }
  
-+static inline bool should_skip_kasan_unpoison(gfp_t flags, bool init_tags)
+diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+index 76cf2b6229c7..fd3a93dfca42 100644
+--- a/mm/kasan/hw_tags.c
++++ b/mm/kasan/hw_tags.c
+@@ -192,6 +192,98 @@ void __init kasan_init_hw_tags(void)
+ 		kasan_stack_collection_enabled() ? "on" : "off");
+ }
+ 
++#ifdef CONFIG_KASAN_VMALLOC
++
++static void unpoison_vmalloc_pages(const void *addr, u8 tag)
 +{
-+	/* Don't skip if a software KASAN mode is enabled. */
-+	if (!IS_ENABLED(CONFIG_KASAN_HW_TAGS))
-+		return false;
++	struct vm_struct *area;
++	int i;
 +
 +	/*
-+	 * For hardware tag-based KASAN, skip if either:
-+	 *
-+	 * 1. Memory tags have already been cleared via tag_clear_highpage().
-+	 * 2. Skipping has been requested via __GFP_SKIP_KASAN_UNPOISON.
++	 * As hardware tag-based KASAN only tags VM_ALLOC vmalloc allocations
++	 * (see the comment in __kasan_unpoison_vmalloc), all of the pages
++	 * should belong to a single area.
 +	 */
-+	return init_tags || (flags & __GFP_SKIP_KASAN_UNPOISON);
++	area = find_vm_area((void *)addr);
++	if (WARN_ON(!area))
++		return;
++
++	for (i = 0; i < area->nr_pages; i++) {
++		struct page *page = area->pages[i];
++
++		page_kasan_tag_set(page, tag);
++	}
 +}
 +
- inline void post_alloc_hook(struct page *page, unsigned int order,
- 				gfp_t gfp_flags)
- {
-@@ -2420,13 +2435,8 @@ inline void post_alloc_hook(struct page *page, unsigned int order,
- 		/* Note that memory is already initialized by the loop above. */
- 		init = false;
- 	}
--	/*
--	 * If either a software KASAN mode is enabled, or,
--	 * in the case of hardware tag-based KASAN,
--	 * if memory tags have not been cleared via tag_clear_highpage().
--	 */
--	if (!IS_ENABLED(CONFIG_KASAN_HW_TAGS) || !init_tags) {
--		/* Mark shadow memory or set memory tags. */
-+	if (!should_skip_kasan_unpoison(gfp_flags, init_tags)) {
-+		/* Unpoison shadow memory or set memory tags. */
- 		kasan_unpoison_pages(page, order, init);
++void *__kasan_unpoison_vmalloc(const void *start, unsigned long size,
++				bool vm_alloc)
++{
++	u8 tag;
++	unsigned long redzone_start, redzone_size;
++
++	if (!is_vmalloc_or_module_addr(start))
++		return (void *)start;
++
++	/* Unpoisoning and pointer tag assignment is skipped for non-VM_ALLOC
++	 * mappings as:
++	 *
++	 * 1. Unlike the software KASAN modes, hardware tag-based KASAN only
++	 *    supports tagging physical memory. Therefore, it can only tag a
++	 *    single mapping of normal physical pages.
++	 * 2. Hardware tag-based KASAN can only tag memory mapped with special
++	 *    mapping protection bits, see arch_vmalloc_pgprot_modify().
++	 *    As non-VM_ALLOC mappings can be mapped outside of vmalloc code,
++	 *    providing these bits would require tracking all non-VM_ALLOC
++	 *    mappers.
++	 *
++	 * Thus, for VM_ALLOC mappings, hardware tag-based KASAN only tags
++	 * the first virtual mapping, which is created by vmalloc().
++	 * Tagging the page_alloc memory backing that vmalloc() allocation is
++	 * skipped, see ___GFP_SKIP_KASAN_UNPOISON.
++	 *
++	 * For non-VM_ALLOC allocations, page_alloc memory is tagged as usual.
++	 */
++	if (!vm_alloc)
++		return (void *)start;
++
++	tag = kasan_random_tag();
++	start = set_tag(start, tag);
++
++	/*
++	 * Unpoison but don't initialize. The pages have already been
++	 * initialized by page_alloc.
++	 */
++	kasan_unpoison(start, size, false);
++
++	/*
++	 * Unlike software KASAN modes, hardware tag-based KASAN doesn't
++	 * unpoison memory when populating shadow for vmalloc() space.
++	 * Thus, it needs to explicitly poison the in-page vmalloc() redzone.
++	 */
++	redzone_start = round_up((unsigned long)start + size, KASAN_GRANULE_SIZE);
++	redzone_size = round_up(redzone_start, PAGE_SIZE) - redzone_start;
++	kasan_poison((void *)redzone_start, redzone_size, KASAN_TAG_INVALID, false);
++
++	/*
++	 * Set per-page tag flags to allow accessing physical memory for the
++	 * vmalloc() mapping through page_address(vmalloc_to_page()).
++	 */
++	unpoison_vmalloc_pages(start, tag);
++
++	return (void *)start;
++}
++
++void __kasan_poison_vmalloc(const void *start, unsigned long size)
++{
++	/*
++	 * No tagging here.
++	 * The physical pages backing the vmalloc() allocation are poisoned
++	 * through the usual page_alloc paths.
++	 */
++}
++
++#endif
++
+ #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
  
- 		/* Note that memory is already initialized by KASAN. */
+ void kasan_enable_tagging_sync(void)
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index 4ca280a96fbc..f27d48c24166 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -475,8 +475,14 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+ 	}
+ }
+ 
+-void *__kasan_unpoison_vmalloc(const void *start, unsigned long size)
++void *__kasan_unpoison_vmalloc(const void *start, unsigned long size,
++				bool vm_alloc)
+ {
++	/*
++	 * As software tag-based KASAN tags both VM_ALLOC and non-VM_ALLOC
++	 * mappings, the vm_alloc argument is ignored.
++	 */
++
+ 	if (!is_vmalloc_or_module_addr(start))
+ 		return (void *)start;
+ 
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 82ef1e27e2e4..409a289dec81 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -2214,8 +2214,12 @@ void *vm_map_ram(struct page **pages, unsigned int count, int node)
+ 		return NULL;
+ 	}
+ 
+-	/* Mark the pages as accessible after they were mapped in. */
+-	mem = kasan_unpoison_vmalloc(mem, size);
++	/*
++	 * Mark the pages as accessible after they were mapped in.
++	 * With hardware tag-based KASAN, marking is skipped for
++	 * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
++	 */
++	mem = kasan_unpoison_vmalloc(mem, size, false);
+ 
+ 	return mem;
+ }
+@@ -2449,9 +2453,12 @@ static struct vm_struct *__get_vm_area_node(unsigned long size,
+ 	 * accessible after they are mapped in.
+ 	 * Otherwise, as the pages can be mapped outside of vmalloc code,
+ 	 * mark them now as a best-effort approach.
++	 * With hardware tag-based KASAN, marking is skipped for
++	 * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
+ 	 */
+ 	if (!(flags & VM_ALLOC))
+-		area->addr = kasan_unpoison_vmalloc(area->addr, requested_size);
++		area->addr = kasan_unpoison_vmalloc(area->addr, requested_size,
++							false);
+ 
+ 	return area;
+ }
+@@ -2849,6 +2856,12 @@ vm_area_alloc_pages(gfp_t gfp, int nid,
+ 	struct page *page;
+ 	int i;
+ 
++	/*
++	 * Skip page_alloc poisoning for pages backing VM_ALLOC mappings,
++	 * see __kasan_unpoison_vmalloc. Only effective in HW_TAGS mode.
++	 */
++	gfp &= __GFP_SKIP_KASAN_UNPOISON;
++
+ 	/*
+ 	 * For order-0 pages we make use of bulk allocator, if
+ 	 * the page array is partly or not at all populated due
+@@ -3084,7 +3097,7 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
+ 	 * Mark the pages for VM_ALLOC mappings as accessible after they were
+ 	 * mapped in.
+ 	 */
+-	addr = kasan_unpoison_vmalloc(addr, real_size);
++	addr = kasan_unpoison_vmalloc(addr, real_size, true);
+ 
+ 	/*
+ 	 * In this function, newly allocated vm_struct has VM_UNINITIALIZED
+@@ -3784,10 +3797,12 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+ 	 * Mark allocated areas as accessible.
+ 	 * As the pages are mapped outside of vmalloc code,
+ 	 * mark them now as a best-effort approach.
++	 * With hardware tag-based KASAN, marking is skipped for
++	 * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
+ 	 */
+ 	for (area = 0; area < nr_vms; area++)
+ 		vms[area]->addr = kasan_unpoison_vmalloc(vms[area]->addr,
+-							 vms[area]->size);
++							 vms[area]->size, false);
+ 
+ 	kfree(vas);
+ 	return vms;
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/e60cbad6f4f8ee08137671c008c83ab26255e9bf.1638308023.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/aa90926d11b5977402af4ce6dccea89932006d36.1638308023.git.andreyknvl%40google.com.
