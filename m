@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBRM5TCGQMGQEE733PWY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBR45TCGQMGQESEKPTII@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A284632BD
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 12:45:09 +0100 (CET)
-Received: by mail-wm1-x340.google.com with SMTP id g81-20020a1c9d54000000b003330e488323sf6060520wme.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 03:45:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638272709; cv=pass;
+Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FAA54632C1
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 12:45:12 +0100 (CET)
+Received: by mail-lj1-x23a.google.com with SMTP id s16-20020a2ea710000000b0021b674e9347sf7529465lje.8
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 03:45:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638272711; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Zq3IE5Oz5tD7pIQYRPvOuLqa5Rcl7EOIsjR7Vt54s2ge1wz8MNJH/S57FnFneCJ7Gp
-         byFU1/kGvml5BKv3jwukd1jGVWlmCNoVBS9QSufg5xslJKA+E3xbezHbSZSRKEUy3YJw
-         W8dWpqwskG6nRJ0OMQcPmQXue1xP54MlddIASK5DZkhSABemp48nNCyf5gYCzYiwHewh
-         LhXh2PI/Gwbsy4U2pyGl75NVxWqcD0lQvYuGwUbmMFKAWYi8/UoMqZyp85QFaDuDS1aH
-         Ca1peJGWkAqdssyGFtJr9v/r6kuciwcqWDtdP/OQugmiRmh5riuAg4mRU8FCERL+3ALS
-         rahg==
+        b=L5TAtfcRzulTNXxo4KL3Ef0gYs+Btvt08amesi4w8GdNrM6GxnLo9KclaOMFDp/0M5
+         wKJVuyNaRKQG8g2oYRRcou++dXtaViWeKdhTmTfGXQ06fEz/Mkm+YFHFGSX7lmFWamn2
+         jz7nqqBBhgGfhVEK33TSHNbYPgCNS3M3dJLrzwQw+EvkUi+gVz4TKmyWWKdfBPRzQIID
+         LBqdzwoziDSI41ROFU2tgEZP6Tu3fvmEX3nDxm+q8c9762Mx25no7HtjUkG1ToDtKbuV
+         cU7spCkAOIt2ofiUEbU2Pr6eH7RrOJ3fV/yTZy5SRPGJCbWOsl+C+AyqgxmIdhlpL3Uo
+         k20A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=aUVPSkNq8YXOH7uLD8meDjhYTPMFrEyKqZa+CCpE5pM=;
-        b=UhX/opFMJs3i5Xw2jZH3GUk9vHbNRdQQF1xOfc1wRmOGSd+i1ukhPNJnJBJ882bE3r
-         pxwDuFz7FR/atIEIoWcmPbo7ZCwl2nCP0SWgj7zdjMh5/MHDJ6w1h1f4bLPUnUG3laWC
-         HQksc9VXn5ciaV0lZula4yHQzCM76B5AxGRs1vJSaa8U3ESC3zduqfb4wZWtZrLMdU1i
-         tMjEMZ5eHwZugHtvONO8TBPvE1dk45+X19iLEDzPH9rWzmbk8DHviH4YWuHHYyPQcwEi
-         t8tAnKWBJo/LQv9x7U3iBBNNhBw2YrRL7Sp0U+xgEYWuyL8Yy+1oDXTE0uBMM+0jF+tv
-         doXQ==
+        bh=HQl1wagcKrCF9vlgWEwHZAuHz2T04p/ScsrDj/WLNkM=;
+        b=MG8CeB18M2UTTdwVIj5pyDqVb8GxiJX8YQUtx1zfQZdmanLElRjR1H6Mk1V3hh7GyM
+         XnGKh6nSNKr+9JmrAcXygoTm/yz1RW4fA3IFWN+Ps+XCirgOgdH65nqYW4zEhs2gAxoQ
+         +vl4JtZOtGoFfCV7t5gnL8pzm5CMqm/z6j0FnGO3GU4tp52HM4bDz/qJUqjLHprn+MaQ
+         l4vSeElzNfqALcCiPkrzroxxjx0pQKq0LxSr3U8DVI+R7f56a4qnr9nenxa7zUn/AaWL
+         BII6aJpMxCVHEePyoAixNPQ7mXDPXrNvGKaWenQhkRWR6srJX0PwHs6HVshijMqfVRB5
+         MfLQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=hs4LlI5l;
-       spf=pass (google.com: domain of 3ww6myqukcywu1bu7w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3ww6mYQUKCYwu1Bu7w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=cKjMDTXM;
+       spf=pass (google.com: domain of 3xq6myqukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3xQ6mYQUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=aUVPSkNq8YXOH7uLD8meDjhYTPMFrEyKqZa+CCpE5pM=;
-        b=beMU5Nw2qEN7Nn0srcDzKa0AF2K9Ka2A+pAWdTLMiN+5Kp2OZlSWqkvWAcOoYgnyQV
-         WlNfTwuchlW1klN11qPkNV3HGNszyzFV6Q9AAO1Ef6hp6KaSplNsIOMtwxEXOGqp6bkl
-         X605q5cceDHPw9oFiRMrgbphSqRSlcMQ2Ts88Z3dw4vH+echB2YSEtds0jUcgxQj3LHV
-         e3t2dzBJ21cSdlYnWcDdUMVsC/2+Ob+3+QOy+dOcOjAyPob6E8nS0t3CmUOuFZStOdVi
-         aM9QS6bcnZ3/VMO4GGayIRrYREMVjhRqESf1+toJmz1dVhtnhPSknDf6C14FjXoKEzhn
-         6AMg==
+        bh=HQl1wagcKrCF9vlgWEwHZAuHz2T04p/ScsrDj/WLNkM=;
+        b=BbuMfWJJhLjBbfBtMfALanfYugDVEOG3c1+GghENgcoePSOJq63/MYDvCboqegdSux
+         i2Sg5LfR5K7qWU5MH+9z1Xsn+cVjHXCo3wdevraLb+uNtP16nix5EiUe3hwYWiKDPGVn
+         MQDXesM7Ga9W0fjv6y7ZgUsMfKTf2Z+AnvJdRRfVINe/K0/ASZUrPXZuH2KxUg3gWGt1
+         FVKDXJ2bktr776JSuYkoEBh1siDmEJHDFeZgvC9wE+zG7whRei1749p7KmEaEt292+ZQ
+         fPrJAxCS6wgImtw4dRKSDKw2GjSIqd/i5AC5vGa45MLb2MftkBR9NMQNqs/tC1ezE51P
+         BJHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,63 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=aUVPSkNq8YXOH7uLD8meDjhYTPMFrEyKqZa+CCpE5pM=;
-        b=mX7k85Whms2C8XHfi+kPGEnqTw4SqgEwttkkgjJF5wmyapMrfKx2oybdfJqKEk3QUE
-         ukaJNVcuBhYuBWhYpsMWwZKTSq6O3ScwwG44tB2fZYTw3UjrmLxD8kH9AFsZR24F+f5f
-         B3fz1r9RccC3YjSsXXbNK0IPZuilNNtj46ZNIw8g1CE2UEd0TpxoZ7RGLzFfW26RaqKW
-         t/AhN57IBIkq7+5+WJNdGo6epVk0CF674KPg+Y2C2AGYAl4bvjjBljZq7sN93hJC1HoV
-         THB17PScOY8ZwvWeFHRAkxSKZPcpypXKoTyGbu2xQeEhayhB/dVN5CFGyuwgquTzt2fw
-         YgBw==
-X-Gm-Message-State: AOAM532peFDaYWQlpmtOqKC30O60fULpm7TIniGq7RTWQWdPi3vbhcS5
-	LRUeaDTvu0OBAdQsjNX+0/Q=
-X-Google-Smtp-Source: ABdhPJw7kFUvUAw9BkkFG0uuVanWXUges0RcUL546dGYqeU4P1jw9AlKfuW6rwcl8/uXz5ZZFLQM1g==
-X-Received: by 2002:adf:f8c3:: with SMTP id f3mr40051933wrq.495.1638272709220;
-        Tue, 30 Nov 2021 03:45:09 -0800 (PST)
+        bh=HQl1wagcKrCF9vlgWEwHZAuHz2T04p/ScsrDj/WLNkM=;
+        b=p0PjgKQrR5N4wmi3iSUX9XoyEcSGITfvtVfGcjwp76zwpQY1mr/Vimhv4jvmvw2qrj
+         ChzejdAvEjG5I1lgHYwtn/YWVyHUiHIvz9FiJ0aa7e430mXcLNAAdrNLzGFG/JyMsP8o
+         dvUXMzcKoQdqmyN80GcQq6uY6prE3fHaH7n9WrxN/ELOvCTgr9uILTqv+LQFMkQHWY3v
+         1bVLTvYzj5+ayfufLXvcWk2DCrrCDOUwPibygOjfh4nibG+e4S0O1bUD6VMHKwqcOgor
+         Aa0Yb7SjMvllUDlfeKlJLVxUNdoxoD+uVVi6wxvg/CgsE3RxNExwVeaWbPLXUhOpbt9i
+         v0Lw==
+X-Gm-Message-State: AOAM531qPVROb2YEKhuiatIdC7e+XzsMMLVNrDtmaAzLneJGTU8xNAB6
+	LaM4pVVkS/lkett7cd3/3+M=
+X-Google-Smtp-Source: ABdhPJx48z9o1/xwUfnLAU2Yd25XdONAmhUW7C8+vqUQCxZ7HbsnE9o7EUd5utnDQfoPVQZONYq8xw==
+X-Received: by 2002:a2e:5c46:: with SMTP id q67mr30321346ljb.271.1638272711858;
+        Tue, 30 Nov 2021 03:45:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:f1c2:: with SMTP id z2ls13074392wro.2.gmail; Tue, 30 Nov
- 2021 03:45:08 -0800 (PST)
-X-Received: by 2002:adf:aa9a:: with SMTP id h26mr38236557wrc.437.1638272708277;
-        Tue, 30 Nov 2021 03:45:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638272708; cv=none;
+Received: by 2002:a2e:a4c2:: with SMTP id p2ls2450402ljm.4.gmail; Tue, 30 Nov
+ 2021 03:45:10 -0800 (PST)
+X-Received: by 2002:a2e:8350:: with SMTP id l16mr52555570ljh.428.1638272710765;
+        Tue, 30 Nov 2021 03:45:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638272710; cv=none;
         d=google.com; s=arc-20160816;
-        b=MiTC0uKFDCwWa6mHOQbhfQBBIB6lCQt/eVPMW2U5guRfOJw3cWBzcGWyF4AOEf+XLw
-         EzKzy/LBVq7bdLAomUPxIVDknmZTptKNzP/h6ANjrRL9GVW8hRyRgSgVfg3rj6vviYzd
-         y2YgXAeARO0TiHIqZ9Y5JiCLNodpwa40hwGWEFZDAbeRhVSRcHKc7zFn5UzrEMu0Aw8K
-         dvQdPauCRnAljuDhgCyL5iJE3ubUhpExQ6v1sgxehC17xlpZY/WzU1H6+UJO3Um7EBBF
-         lRPh/FToulJeyJIo7cdIY1YctmN5bCwi5lJ+5skoM7OWv5/Wb+sgLSwZmP+36TBCp/tu
-         qzGg==
+        b=Dvcmq95nQTjwn6VoOvrbhtLyvsiGf++MbPUcjaK6lQAaXf1/ElRdzFc6LjBIG/NtUz
+         FyOqUXzSF5jV8g1OGVj1Jf9SgfO17FsxyhJwNRG8Cg2CuXcwPDAV5YARMfoKZtIWHQMo
+         LCaSIEgE7cIKbwChODYSNSYlrNL5vuI4PrKZFF4bhtD7r1ViKCFU9jqQR3B17wMYh7ck
+         tXGB/0jk64r9JnwXFckyGLLeiN8jObde4gPq2lx+yD6YqpxN+Ejg0vrhseFSnJRqVWnr
+         TOaRA586ZAUDOPtn1wOQ5kkBygEagT+EtjIfCYmPMIa5RN9qIVqkmO/8OHZZeQfnR6J0
+         U5/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=ZmySmV7nXgp7ZU44HAHRwN8PhZWnIeFNi9/5LSGaJn0=;
-        b=m8nxbrB3HmuWywjW26jpDc7qiAZuHggoIgTI8ppXbXuYpFDJHmkI0caFG0W3xu2twC
-         sNKRR0zRhmAgipjFvjuZNZ3ufgPQiBXK+qzBJT+oVzyk7hzo5IBS13+iLgi2Zawo5OF8
-         4UrVW3QuEuKQ9wnTi58/+OkSHD87XFj8hnO3ns0eKjfyNNWvez6P+lAzoK+z1i3QbQ3B
-         BTqBQAHXaySAl6fkuNx3STe9Q8kSNfAmoDumog0tgHx/jA3LXyd7snxcovOaLsyiMTd6
-         23fXN+C1d+dk1znldj216pG4hxxoRvbkG1Tje3X30Ywxc73ND+qhuhho/pX2+RkmNQ9i
-         h8VQ==
+        bh=cCyxJnES0DWyrpQ2J5vRoZu9DlHTb3+fL88VjiCWbjg=;
+        b=nMeglu9wdmLv/3kNOngNb/IedzAWL4VjmppDpQeTQZIlObN7GVVKMJqccXyjrPztlT
+         s5me/1qYrRN9yPKl13ZoFmJ4WCrH0kxpemNJBBDASXKlbpL7X7KlB6aCyxkcUHlH/tVp
+         5bGl0wPt4WMvB7ROq76i54rK+GfT9VAKFVjX8uiZUVHWQLaIf9UMworBI5q+qI4ws6A5
+         ZZkBv3BJKkBZHs2MlMHNjfP1iMCP6w8aLRx3wCQzANADNBy9m//el4fUuOvDE2e7nDDY
+         bkBX4x0mcu+7GVfW4L1ZwEOFfHUk9/RL+izzHFFhk0S3bRO1+p2O22Z8yka+jOtZfaqw
+         11aw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=hs4LlI5l;
-       spf=pass (google.com: domain of 3ww6myqukcywu1bu7w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3ww6mYQUKCYwu1Bu7w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=cKjMDTXM;
+       spf=pass (google.com: domain of 3xq6myqukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3xQ6mYQUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
-        by gmr-mx.google.com with ESMTPS id d9si847513wrf.0.2021.11.30.03.45.08
+Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
+        by gmr-mx.google.com with ESMTPS id c12si1371168ljf.4.2021.11.30.03.45.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Nov 2021 03:45:08 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3ww6myqukcywu1bu7w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
-Received: by mail-wm1-x349.google.com with SMTP id a64-20020a1c7f43000000b003335e5dc26bso10282263wmd.8
-        for <kasan-dev@googlegroups.com>; Tue, 30 Nov 2021 03:45:08 -0800 (PST)
+        Tue, 30 Nov 2021 03:45:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3xq6myqukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
+Received: by mail-wm1-x34a.google.com with SMTP id v62-20020a1cac41000000b0033719a1a714so10282431wme.6
+        for <kasan-dev@googlegroups.com>; Tue, 30 Nov 2021 03:45:10 -0800 (PST)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:86b7:11e9:7797:99f0])
- (user=elver job=sendgmr) by 2002:a05:600c:4f0b:: with SMTP id
- l11mr625318wmq.0.1638272707028; Tue, 30 Nov 2021 03:45:07 -0800 (PST)
-Date: Tue, 30 Nov 2021 12:44:10 +0100
+ (user=elver job=sendgmr) by 2002:a05:600c:1d1b:: with SMTP id
+ l27mr623895wms.1.1638272709978; Tue, 30 Nov 2021 03:45:09 -0800 (PST)
+Date: Tue, 30 Nov 2021 12:44:11 +0100
 In-Reply-To: <20211130114433.2580590-1-elver@google.com>
-Message-Id: <20211130114433.2580590-3-elver@google.com>
+Message-Id: <20211130114433.2580590-4-elver@google.com>
 Mime-Version: 1.0
 References: <20211130114433.2580590-1-elver@google.com>
 X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v3 02/25] kcsan: Remove redundant zero-initialization of globals
+Subject: [PATCH v3 03/25] kcsan: Avoid checking scoped accesses from nested contexts
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
 Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
@@ -119,9 +119,9 @@ Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=hs4LlI5l;       spf=pass
- (google.com: domain of 3ww6myqukcywu1bu7w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3ww6mYQUKCYwu1Bu7w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=cKjMDTXM;       spf=pass
+ (google.com: domain of 3xq6myqukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=3xQ6mYQUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -137,58 +137,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-They are implicitly zero-initialized, remove explicit initialization.
-It keeps the upcoming additions to kcsan_ctx consistent with the rest.
+Avoid checking scoped accesses from nested contexts (such as nested
+interrupts or in scheduler code) which share the same kcsan_ctx.
 
-No functional change intended.
+This is to avoid detecting false positive races of accesses in the same
+thread with currently scoped accesses: consider setting up a watchpoint
+for a non-scoped (normal) access that also "conflicts" with a current
+scoped access. In a nested interrupt (or in the scheduler), which shares
+the same kcsan_ctx, we cannot check scoped accesses set up in the parent
+context -- simply ignore them in this case.
+
+With the introduction of kcsan_ctx::disable_scoped, we can also clean up
+kcsan_check_scoped_accesses()'s recursion guard, and do not need to
+modify the list's prev pointer.
 
 Signed-off-by: Marco Elver <elver@google.com>
-Acked-by: Mark Rutland <mark.rutland@arm.com>
 ---
-v3:
-* Minimize diff by leaving "scoped_accesses" on its own line, which
-  should also reduce diff of future changes.
----
- init/init_task.c    | 5 -----
- kernel/kcsan/core.c | 5 -----
- 2 files changed, 10 deletions(-)
+ include/linux/kcsan.h |  1 +
+ kernel/kcsan/core.c   | 18 +++++++++++++++---
+ 2 files changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/init/init_task.c b/init/init_task.c
-index 2d024066e27b..73cc8f03511a 100644
---- a/init/init_task.c
-+++ b/init/init_task.c
-@@ -182,11 +182,6 @@ struct task_struct init_task
- #endif
- #ifdef CONFIG_KCSAN
- 	.kcsan_ctx = {
--		.disable_count		= 0,
--		.atomic_next		= 0,
--		.atomic_nest_count	= 0,
--		.in_flat_atomic		= false,
--		.access_mask		= 0,
- 		.scoped_accesses	= {LIST_POISON1, NULL},
- 	},
- #endif
+diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
+index fc266ecb2a4d..13cef3458fed 100644
+--- a/include/linux/kcsan.h
++++ b/include/linux/kcsan.h
+@@ -21,6 +21,7 @@
+  */
+ struct kcsan_ctx {
+ 	int disable_count; /* disable counter */
++	int disable_scoped; /* disable scoped access counter */
+ 	int atomic_next; /* number of following atomic ops */
+ 
+ 	/*
 diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 6bfd3040f46b..e34a1710b7bc 100644
+index e34a1710b7bc..bd359f8ee63a 100644
 --- a/kernel/kcsan/core.c
 +++ b/kernel/kcsan/core.c
-@@ -44,11 +44,6 @@ bool kcsan_enabled;
+@@ -204,15 +204,17 @@ check_access(const volatile void *ptr, size_t size, int type, unsigned long ip);
+ static noinline void kcsan_check_scoped_accesses(void)
+ {
+ 	struct kcsan_ctx *ctx = get_ctx();
+-	struct list_head *prev_save = ctx->scoped_accesses.prev;
+ 	struct kcsan_scoped_access *scoped_access;
  
- /* Per-CPU kcsan_ctx for interrupts */
- static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx) = {
--	.disable_count		= 0,
--	.atomic_next		= 0,
--	.atomic_nest_count	= 0,
--	.in_flat_atomic		= false,
--	.access_mask		= 0,
- 	.scoped_accesses	= {LIST_POISON1, NULL},
- };
+-	ctx->scoped_accesses.prev = NULL;  /* Avoid recursion. */
++	if (ctx->disable_scoped)
++		return;
++
++	ctx->disable_scoped++;
+ 	list_for_each_entry(scoped_access, &ctx->scoped_accesses, list) {
+ 		check_access(scoped_access->ptr, scoped_access->size,
+ 			     scoped_access->type, scoped_access->ip);
+ 	}
+-	ctx->scoped_accesses.prev = prev_save;
++	ctx->disable_scoped--;
+ }
  
+ /* Rules for generic atomic accesses. Called from fast-path. */
+@@ -465,6 +467,15 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+ 		goto out;
+ 	}
+ 
++	/*
++	 * Avoid races of scoped accesses from nested interrupts (or scheduler).
++	 * Assume setting up a watchpoint for a non-scoped (normal) access that
++	 * also conflicts with a current scoped access. In a nested interrupt,
++	 * which shares the context, it would check a conflicting scoped access.
++	 * To avoid, disable scoped access checking.
++	 */
++	ctx->disable_scoped++;
++
+ 	/*
+ 	 * Save and restore the IRQ state trace touched by KCSAN, since KCSAN's
+ 	 * runtime is entered for every memory access, and potentially useful
+@@ -578,6 +589,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+ 	if (!kcsan_interrupt_watcher)
+ 		local_irq_restore(irq_flags);
+ 	kcsan_restore_irqtrace(current);
++	ctx->disable_scoped--;
+ out:
+ 	user_access_restore(ua_flags);
+ }
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211130114433.2580590-3-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211130114433.2580590-4-elver%40google.com.
