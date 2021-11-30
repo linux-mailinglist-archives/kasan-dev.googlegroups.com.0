@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBVU5TCGQMGQECNAGXVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBWE5TCGQMGQEGFEUBNQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F06D4632D8
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 12:45:27 +0100 (CET)
-Received: by mail-lj1-x23e.google.com with SMTP id q19-20020a05651c055300b0021a259ae8bbsf7492477ljp.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 03:45:27 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638272726; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AA54632D9
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 12:45:29 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id c15-20020a05651200cf00b0040524451deesf7712961lfp.20
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Nov 2021 03:45:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638272729; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Uf515eLBf6UITRCVdLdxRkKodLV7kYqpF0qi/w7eD27aKvmJd04SkwfuYL9nYE3fUr
-         NAkRRpMAZiyGL8xjbPmj8zZN8+pSz7VUhBI2QXS4wYOAwPChy3NiEwXj+hRYIQSTOR/A
-         o7uLmFJuIm8AF/x7WRkEBzPtDezF/TUt17wWzNop6PfGprm4p0KALBd0RM8g2Nq0xfzI
-         8aH/6GzZEY2UdZcxFAZmCF6/Ltss9nZiii8z9gVw6MwZ0Gpgu/GLd76VpQiAPqCe8Hb3
-         xiv6Xw2iLSJpkmsbMZxlvffGWJuZgAfGbkHIoM5KJ9i9iKd1BZkjVVr7gJKH5C7hqYBV
-         4ztw==
+        b=0HCp7j+YPLzdhW2usN/WaCXtyxeBA65uf80CB6dT4zrpZS5KfSCdL8CRrpzlfe1RT8
+         UKS8qQ8OF1ySsg7gs/29uPxLCCK71NlMPwcoOVfP5Wx0hUrFgJV5GJBcoPbb4EzNwXCV
+         cEDA+DMj9/NWXDTr5uCXgdPG+iFtMc+5a21B5VjY2R3TdjG4kE5x+KMew16XFcgB3B6n
+         ZB8tEunX0mBwa6s6eKgjIW6OjUe7tPDkBr8GVNH/TMl44X79RcQERcT7lJp17Dho+MLf
+         PB8eU4qJNA+sLj26ss9Y2q4JxOwpKWmVlsnoW1ATULkbnJemJPRdTGKrDIzQ10hxCgpE
+         7CjQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=9MF2kYe9KOHO2XHIN9Bp39jCNJPO9U02Mle8z51DLmY=;
-        b=dAxq5ViM2t5j/Iyo0X1ZnrbvhLJsTiiRr5jjayKNylgCdtPLcM40/Kq3KqotVsm9Kw
-         zGlG6v30SZ0iKW+cfLf/dh2YG+iQS47c39JYzTpFnb7A9luGYvhN+cdpinzDszbdINlW
-         bZPJYfY0k/jCjmfwNF/YeGnt2NeT0IiYBQhgYAA4bWxldjBmyQgJ4h6oStg6QtXd4BrZ
-         oJXyn3jYxhHqJuzxS0Q4exUfTJmgX1nk+KS7Wk5MfaapemrGH4eeyiwmkGxJWr0XzPuW
-         j1li3gxdNykk9yeyX/bNs3gN/0MM+w0V14fChKM8H5aifyGoFioqEniRG3UO30SRRM8r
-         AAcA==
+        bh=l+uvq8Gma/K/CqNi0qPJ5MW464DFsJkj/rLugAbhIOs=;
+        b=sROAG7HjPohrMHT5LDAQqFoRASX4o1mSbwYlGJBt5Snif4+AblXbjgq2aYnLsX2+gc
+         0BoHLoJtp3bb0Ipna8aSaUc11a6BbjBFazKFKn/FBKS0/VkaOy2sDPajMlk+PRgvxZI3
+         FowFgslfCLnOdSBZbVIJJHHW2NQNhH6cQL7+bnhso7am/8oZ7KK6yn2FeNAd+L4pTULw
+         TA5qvE75uG/G8gjmV6X3j2XjsmX35wDDqFWL5boT9Yc8o4+Ymat2SZsJEkZmtlj1Whvh
+         65SywDf1IZt8qOhsAEegVxMbQubDdYBytAXDEdnI4X8a7Q0GSIkj33m0EK74MABIlj0I
+         Vt1g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=P81cETHj;
-       spf=pass (google.com: domain of 31q6myqukcz4cjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=31Q6mYQUKCZ4CJTCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Qf1SuGMO;
+       spf=pass (google.com: domain of 31w6myqukcaaelvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=31w6mYQUKCaAELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9MF2kYe9KOHO2XHIN9Bp39jCNJPO9U02Mle8z51DLmY=;
-        b=gr7tDH7UAEqz9SEx5veXmjE1+4GxkpKrJQ9wPmJJHXS5+vNi/qZt0gwaytbflk4i5d
-         V83ZT6IkCmxt5rS6h/If9my/26T7z8+LxZGYb+LZTgMHXgE/cn/KH8UHWoPGqh15K3jI
-         MC1HvjPpX1dKvrnN+H2J8cDEq/g4r3RCIbLi2xl3XGz0PqvT6IOcsbTvBJyhi7tq8Vep
-         zz8wxSmNYi1NOyV5kAHs4fg5zSLieLAXwhaaSEKlwkBQCHgRH9/XxknkbhKiD2Z69/GX
-         uDFK50N3R50VHLr2825jNLi6Q2hRfUiI5Cqm1Wfw9VsQBl48rTV2n5g7f+YbjzRucxtF
-         uadw==
+        bh=l+uvq8Gma/K/CqNi0qPJ5MW464DFsJkj/rLugAbhIOs=;
+        b=l6Mh45D/EqxWFBp2mzp1Z9beZRmz520m/x0G+pEPh1sm2ZmK8SiVCjHT1cLWionJM0
+         0KShKs3jUYSJwqN7PHo7pvljNmTgB1qNo/2XeWtdJQTAnLg16oL+ZsM5YP/Mt2ihE7bF
+         jnQ3aRh8Qv7JZZzhUTgi4o7NMIzqw5I3gEivl3c0jvCv2rilwVhBeZPLg3/pyhOUksGu
+         qmQqddzRG+fgqeemybhoEXSA1mG1GTyES5k/XwXqlbwgxR1gVEX84SNkK5MGpN+C4CQl
+         6A8J3rSwnu0iNVxkLnw6fYFZSGOcfwL/K0laXf/bLZ/KQ+3K8bf1UnTbY7OfBQVsxCdK
+         vexw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,63 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=9MF2kYe9KOHO2XHIN9Bp39jCNJPO9U02Mle8z51DLmY=;
-        b=sqLShckTbdCqsZfWXexKI9+VS8w0DsKkl8eyEji7D2I0ULOBIbYui2fWiL2IwWBJUx
-         /n2lu4PzEJpQICkWRmkwhgScmZbWtruNEGkqSMIrCKiCJVI+gw9PipSChAvPoKpmPFTs
-         OTQP4Lz4qI/zHDlEHWUDnKEIfgw13se3rGRy1JgvdEyl9VX1GWvi70Iup/oG6PJIRQ2p
-         FLUdOus+6PQXP3i05M9TWQmM/dWFWED2SD1YPLmAvZ2iP2NDc7boqVWBapEDCu+Yk6ws
-         6kvhkxKBHAbD6dLSQpyAYtd8R9PryLixoAt9k3nP6UVFxkn5Ie+4HmndGufUWUz9S3lY
-         sMVg==
-X-Gm-Message-State: AOAM532u2972lRI5R9cnLvoms09G3C8CSsH9iI7ndBMLG2wklWy3cJbl
-	Fkcwbk3h2638ypC7vhjnXaA=
-X-Google-Smtp-Source: ABdhPJx/uriRmTuRk7rnY0M7XJHFiO67qdmwzsZ1+Es9v2G5ReksAtP4aQs21WqTf5/mMPzLEvqMyA==
-X-Received: by 2002:a05:651c:308:: with SMTP id a8mr56931784ljp.149.1638272726688;
-        Tue, 30 Nov 2021 03:45:26 -0800 (PST)
+        bh=l+uvq8Gma/K/CqNi0qPJ5MW464DFsJkj/rLugAbhIOs=;
+        b=CBQ2xJvo/vmVfMonTsxzPKCGdrxgHpTsaUEYzDQ23jOOD3WBIB+Wh2PXLBJVT914E/
+         bzLeoVyZJmj1pMkJSEqSWhsFOvRGbDa8SRfEmoQy2g7K2iiVT05ruPMZc7EeGAh4VIM6
+         wJ2hq3av2RjqDIVaRsXtaLyQ3uZKjU5EeFaBOHmMaWZPZI88U3w2zWCySEIXLn9/WJoa
+         B5kHqs4u9QoPXjT9WZvt8EZhDzkR2f826GawiDtsntHql5L/0D+bpl/gV0tvTw/bDeLS
+         L23ifRlv8UuouUPFgmSf5ngmiy2SjbvRJDZ/mUX0EQtSc/YvGElMXaWrpuOB6qgO3iXo
+         YP5A==
+X-Gm-Message-State: AOAM531ChskdLMiEkyg2SF/nZ3QfMUgnA64u8W2ElFnY1BSaveyDzC8H
+	s6PA4W8BubzaCIp2RLIYdY4=
+X-Google-Smtp-Source: ABdhPJxWxQxsTQSXg+oynDNF/9J+/64s3LqLXsmHQwFsu44pBgFtCwQoOatS6W/z8ESuJd4HPJpPSg==
+X-Received: by 2002:a2e:8189:: with SMTP id e9mr54674841ljg.333.1638272728960;
+        Tue, 30 Nov 2021 03:45:28 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:234c:: with SMTP id p12ls452928lfu.0.gmail; Tue, 30
- Nov 2021 03:45:25 -0800 (PST)
-X-Received: by 2002:a05:6512:487:: with SMTP id v7mr54120179lfq.386.1638272725628;
-        Tue, 30 Nov 2021 03:45:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638272725; cv=none;
+Received: by 2002:a05:6512:234c:: with SMTP id p12ls453000lfu.0.gmail; Tue, 30
+ Nov 2021 03:45:28 -0800 (PST)
+X-Received: by 2002:a19:9157:: with SMTP id y23mr54922332lfj.277.1638272728040;
+        Tue, 30 Nov 2021 03:45:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638272728; cv=none;
         d=google.com; s=arc-20160816;
-        b=mmIuoV9WEfmk2JoTpx7yj56l4Q+Lb61FZ+9z2qvS8KdzKbYMrr9neAkLo9qOd1X1T8
-         /hKJVrPt8yOQoDzDJyFRTu9Tc01XYck13RNiUUQk6j0IolWB3/HUik7ybhAxw9U2TM5r
-         hAy36XoAYaWlYyBCYPzGH9vxdJZb8qAnA6VzBjlIem3KoqVX4KSWTSGOSMejX3lk6hC8
-         f6hvbwgsjehuvZm84nkzKJ4mJd1KYp8XZyYr6uF/lv+Yk0+oDkY+PAcnU/FKGo1wC4xv
-         rXkxGJ8dPmgVDOHJKI+x/G5kr6JPGwy9rzDQfQvIuUWsZGVYj3knK31nvKMgBoldy/sY
-         nMrg==
+        b=0qG4DSmG3b2nTWE9vQ0PoGkA9pWRag+YMyOmFnrKFWeF13/IYTmMaJ+Mvhfg0YA8fi
+         TpuazWG2Uc+mL/5cDzqsEzxRArcF9sWhiiixB2Zoxw9ecFZ8PEuzVQEEh8scXU/xCV0I
+         X6zcGYuzDnow4y8nwGPGB3GUVgroq2aOymWjNjtbvuwOlpnGTUfC/5AIg1neSf+NDWxj
+         c8CxWiMGq1geUELVAz0zrc5Tk+VmqHJB08S1FwAmmSp8Z3M0n9Kc5YxWtD09GmP4qX3P
+         y4Zp0AHDPanj7VfSYGqXn0qtm24NqWwm6ZGdP5TfUXvj9DpoGnqQlfYeN0NPMHdFXm6s
+         Ct4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=rG1xNdPiM+b/19SfERFIEiLMABj+g1AA81VAk56ezfY=;
-        b=IFIjNhVu/GCNp08WcNYOCkwLz+qTjIer5s5AMPKh+a+iEKi3ZvkmjfXQCNODtu4KGF
-         5iDCPaBGIsSfUwSrpoX019kyMg2ZeZf/Qa016JAPi1LJgGE5rC6+nWuzDBLWCT/cyRRf
-         +d4X9MesH6SezkN8PDRqZL0UlN7F/oepezBOjgGzeIzu3JUiK1uNrjUgZV2G4Y7EU0Aj
-         jtks/KPKKq2Hc/rwZmvZ79ESI05Yr+R8Xw73MWzzFi9WyuhZcwttwznOYRWfNB4bqqlw
-         8uESrL0bXzGcHaYQYFd4hzo+IAHQWgJMnsRpuB3Xh3KbvQ6j03hRElpOah0OBymD87ED
-         ahfw==
+        bh=UU4Lhk72EIyuCjy+G0t4z2bUBJwzL7HcimRlPhkjEC4=;
+        b=ckt9a4WTjjMlNRyzns6s5JPuBos54SYigIBGqJQ+GvvRQ/HAzwyXWm166h8Z2pP/dm
+         hvRBPR/g7/vPQfsyvgzfBKt+P6KR7NcVUIXgTv3OfMkf06SIvmaepoSJZKrqKEr1fhVc
+         imYi6Zblu5uaEqPPft0HpPpdBCow/j/l79okuExdfg8sXF+EMn/54HWzaNXMk7bN+GTY
+         7tEX/KSjOzsf6Rcdo+yyuoWB5FIDlwIXTQrPRSh+fbmqMfJZGj+CWaR+DMiQ7x+f7QER
+         IHgeK86iVymLIChXdzNrwPfL3mbI0vB8RHHzD8Z1DMuC1A0p0xCtf19+kkDfKKQAGKRb
+         dEIw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=P81cETHj;
-       spf=pass (google.com: domain of 31q6myqukcz4cjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=31Q6mYQUKCZ4CJTCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Qf1SuGMO;
+       spf=pass (google.com: domain of 31w6myqukcaaelvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=31w6mYQUKCaAELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
-        by gmr-mx.google.com with ESMTPS id l13si1214738lfg.1.2021.11.30.03.45.25
+        by gmr-mx.google.com with ESMTPS id b9si1840940lji.2.2021.11.30.03.45.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Nov 2021 03:45:25 -0800 (PST)
-Received-SPF: pass (google.com: domain of 31q6myqukcz4cjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
-Received: by mail-wm1-x349.google.com with SMTP id 138-20020a1c0090000000b00338bb803204so10300810wma.1
-        for <kasan-dev@googlegroups.com>; Tue, 30 Nov 2021 03:45:25 -0800 (PST)
+        Tue, 30 Nov 2021 03:45:28 -0800 (PST)
+Received-SPF: pass (google.com: domain of 31w6myqukcaaelvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id n16-20020a05600c3b9000b003331973fdbbso12722917wms.0
+        for <kasan-dev@googlegroups.com>; Tue, 30 Nov 2021 03:45:28 -0800 (PST)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:86b7:11e9:7797:99f0])
- (user=elver job=sendgmr) by 2002:adf:f0c8:: with SMTP id x8mr41133135wro.290.1638272725050;
- Tue, 30 Nov 2021 03:45:25 -0800 (PST)
-Date: Tue, 30 Nov 2021 12:44:17 +0100
+ (user=elver job=sendgmr) by 2002:a05:600c:2252:: with SMTP id
+ a18mr4415894wmm.133.1638272727443; Tue, 30 Nov 2021 03:45:27 -0800 (PST)
+Date: Tue, 30 Nov 2021 12:44:18 +0100
 In-Reply-To: <20211130114433.2580590-1-elver@google.com>
-Message-Id: <20211130114433.2580590-10-elver@google.com>
+Message-Id: <20211130114433.2580590-11-elver@google.com>
 Mime-Version: 1.0
 References: <20211130114433.2580590-1-elver@google.com>
 X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v3 09/25] kcsan: Document modeling of weak memory
+Subject: [PATCH v3 10/25] kcsan: test: Match reordered or normal accesses
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
 Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
@@ -119,9 +119,9 @@ Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=P81cETHj;       spf=pass
- (google.com: domain of 31q6myqukcz4cjtcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=31Q6mYQUKCZ4CJTCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=Qf1SuGMO;       spf=pass
+ (google.com: domain of 31w6myqukcaaelvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=31w6mYQUKCaAELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -137,123 +137,305 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Document how KCSAN models a subset of weak memory and the subset of
-missing memory barriers it can detect as a result.
+Due to reordering accesses with weak memory modeling, any access can now
+appear as "(reordered)".
+
+Match any permutation of accesses if CONFIG_KCSAN_WEAK_MEMORY=y, so that
+we effectively match an access if it is denoted "(reordered)" or not.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v2:
-* Note the reason that address or control dependencies do not require
-  special handling.
----
- Documentation/dev-tools/kcsan.rst | 76 +++++++++++++++++++++++++------
- 1 file changed, 63 insertions(+), 13 deletions(-)
+ kernel/kcsan/kcsan_test.c | 92 +++++++++++++++++++++++++++------------
+ 1 file changed, 63 insertions(+), 29 deletions(-)
 
-diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
-index 7db43c7c09b8..3ae866dcc924 100644
---- a/Documentation/dev-tools/kcsan.rst
-+++ b/Documentation/dev-tools/kcsan.rst
-@@ -204,17 +204,17 @@ Ultimately this allows to determine the possible executions of concurrent code,
- and if that code is free from data races.
+diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
+index 6e3c2b8bc608..ec054879201b 100644
+--- a/kernel/kcsan/kcsan_test.c
++++ b/kernel/kcsan/kcsan_test.c
+@@ -151,7 +151,7 @@ struct expect_report {
  
- KCSAN is aware of *marked atomic operations* (``READ_ONCE``, ``WRITE_ONCE``,
--``atomic_*``, etc.), but is oblivious of any ordering guarantees and simply
--assumes that memory barriers are placed correctly. In other words, KCSAN
--assumes that as long as a plain access is not observed to race with another
--conflicting access, memory operations are correctly ordered.
--
--This means that KCSAN will not report *potential* data races due to missing
--memory ordering. Developers should therefore carefully consider the required
--memory ordering requirements that remain unchecked. If, however, missing
--memory ordering (that is observable with a particular compiler and
--architecture) leads to an observable data race (e.g. entering a critical
--section erroneously), KCSAN would report the resulting data race.
-+``atomic_*``, etc.), and a subset of ordering guarantees implied by memory
-+barriers. With ``CONFIG_KCSAN_WEAK_MEMORY=y``, KCSAN models load or store
-+buffering, and can detect missing ``smp_mb()``, ``smp_wmb()``, ``smp_rmb()``,
-+``smp_store_release()``, and all ``atomic_*`` operations with equivalent
-+implied barriers.
-+
-+Note, KCSAN will not report all data races due to missing memory ordering,
-+specifically where a memory barrier would be required to prohibit subsequent
-+memory operation from reordering before the barrier. Developers should
-+therefore carefully consider the required memory ordering requirements that
-+remain unchecked.
+ /* Check observed report matches information in @r. */
+ __no_kcsan
+-static bool report_matches(const struct expect_report *r)
++static bool __report_matches(const struct expect_report *r)
+ {
+ 	const bool is_assert = (r->access[0].type | r->access[1].type) & KCSAN_ACCESS_ASSERT;
+ 	bool ret = false;
+@@ -253,6 +253,40 @@ static bool report_matches(const struct expect_report *r)
+ 	return ret;
+ }
  
- Race Detection Beyond Data Races
- --------------------------------
-@@ -268,6 +268,56 @@ marked operations, if all accesses to a variable that is accessed concurrently
- are properly marked, KCSAN will never trigger a watchpoint and therefore never
- report the accesses.
++static __always_inline const struct expect_report *
++__report_set_scoped(struct expect_report *r, int accesses)
++{
++	BUILD_BUG_ON(accesses > 3);
++
++	if (accesses & 1)
++		r->access[0].type |= KCSAN_ACCESS_SCOPED;
++	else
++		r->access[0].type &= ~KCSAN_ACCESS_SCOPED;
++
++	if (accesses & 2)
++		r->access[1].type |= KCSAN_ACCESS_SCOPED;
++	else
++		r->access[1].type &= ~KCSAN_ACCESS_SCOPED;
++
++	return r;
++}
++
++__no_kcsan
++static bool report_matches_any_reordered(struct expect_report *r)
++{
++	return __report_matches(__report_set_scoped(r, 0)) ||
++	       __report_matches(__report_set_scoped(r, 1)) ||
++	       __report_matches(__report_set_scoped(r, 2)) ||
++	       __report_matches(__report_set_scoped(r, 3));
++}
++
++#ifdef CONFIG_KCSAN_WEAK_MEMORY
++/* Due to reordering accesses, any access may appear as "(reordered)". */
++#define report_matches report_matches_any_reordered
++#else
++#define report_matches __report_matches
++#endif
++
+ /* ===== Test kernels ===== */
  
-+Modeling Weak Memory
-+~~~~~~~~~~~~~~~~~~~~
-+
-+KCSAN's approach to detecting data races due to missing memory barriers is
-+based on modeling access reordering (with ``CONFIG_KCSAN_WEAK_MEMORY=y``).
-+Each plain memory access for which a watchpoint is set up, is also selected for
-+simulated reordering within the scope of its function (at most 1 in-flight
-+access).
-+
-+Once an access has been selected for reordering, it is checked along every
-+other access until the end of the function scope. If an appropriate memory
-+barrier is encountered, the access will no longer be considered for simulated
-+reordering.
-+
-+When the result of a memory operation should be ordered by a barrier, KCSAN can
-+then detect data races where the conflict only occurs as a result of a missing
-+barrier. Consider the example::
-+
-+    int x, flag;
-+    void T1(void)
-+    {
-+        x = 1;                  // data race!
-+        WRITE_ONCE(flag, 1);    // correct: smp_store_release(&flag, 1)
-+    }
-+    void T2(void)
-+    {
-+        while (!READ_ONCE(flag));   // correct: smp_load_acquire(&flag)
-+        ... = x;                    // data race!
-+    }
-+
-+When weak memory modeling is enabled, KCSAN can consider ``x`` in ``T1`` for
-+simulated reordering. After the write of ``flag``, ``x`` is again checked for
-+concurrent accesses: because ``T2`` is able to proceed after the write of
-+``flag``, a data race is detected. With the correct barriers in place, ``x``
-+would not be considered for reordering after the proper release of ``flag``,
-+and no data race would be detected.
-+
-+Deliberate trade-offs in complexity but also practical limitations mean only a
-+subset of data races due to missing memory barriers can be detected. With
-+currently available compiler support, the implementation is limited to modeling
-+the effects of "buffering" (delaying accesses), since the runtime cannot
-+"prefetch" accesses. Also recall that watchpoints are only set up for plain
-+accesses, and the only access type for which KCSAN simulates reordering. This
-+means reordering of marked accesses is not modeled.
-+
-+A consequence of the above is that acquire operations do not require barrier
-+instrumentation (no prefetching). Furthermore, marked accesses introducing
-+address or control dependencies do not require special handling (the marked
-+access cannot be reordered, later dependent accesses cannot be prefetched).
-+
- Key Properties
- ~~~~~~~~~~~~~~
- 
-@@ -290,8 +340,8 @@ Key Properties
- 4. **Detects Racy Writes from Devices:** Due to checking data values upon
-    setting up watchpoints, racy writes from devices can also be detected.
- 
--5. **Memory Ordering:** KCSAN is *not* explicitly aware of the LKMM's ordering
--   rules; this may result in missed data races (false negatives).
-+5. **Memory Ordering:** KCSAN is aware of only a subset of LKMM ordering rules;
-+   this may result in missed data races (false negatives).
- 
- 6. **Analysis Accuracy:** For observed executions, due to using a sampling
-    strategy, the analysis is *unsound* (false negatives possible), but aims to
+ static long test_sink;
+@@ -438,13 +472,13 @@ static noinline void test_kernel_xor_1bit(void)
+ __no_kcsan
+ static void test_basic(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_write, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+ 		},
+ 	};
+-	static const struct expect_report never = {
++	struct expect_report never = {
+ 		.access = {
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+@@ -469,14 +503,14 @@ static void test_basic(struct kunit *test)
+ __no_kcsan
+ static void test_concurrent_races(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			/* NULL will match any address. */
+ 			{ test_kernel_rmw_array, NULL, 0, __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
+ 			{ test_kernel_rmw_array, NULL, 0, __KCSAN_ACCESS_RW(0) },
+ 		},
+ 	};
+-	static const struct expect_report never = {
++	struct expect_report never = {
+ 		.access = {
+ 			{ test_kernel_rmw_array, NULL, 0, 0 },
+ 			{ test_kernel_rmw_array, NULL, 0, 0 },
+@@ -498,13 +532,13 @@ static void test_concurrent_races(struct kunit *test)
+ __no_kcsan
+ static void test_novalue_change(struct kunit *test)
+ {
+-	const struct expect_report expect_rw = {
++	struct expect_report expect_rw = {
+ 		.access = {
+ 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+ 		},
+ 	};
+-	const struct expect_report expect_ww = {
++	struct expect_report expect_ww = {
+ 		.access = {
+ 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+@@ -530,13 +564,13 @@ static void test_novalue_change(struct kunit *test)
+ __no_kcsan
+ static void test_novalue_change_exception(struct kunit *test)
+ {
+-	const struct expect_report expect_rw = {
++	struct expect_report expect_rw = {
+ 		.access = {
+ 			{ test_kernel_write_nochange_rcu, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+ 		},
+ 	};
+-	const struct expect_report expect_ww = {
++	struct expect_report expect_ww = {
+ 		.access = {
+ 			{ test_kernel_write_nochange_rcu, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_write_nochange_rcu, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+@@ -556,7 +590,7 @@ static void test_novalue_change_exception(struct kunit *test)
+ __no_kcsan
+ static void test_unknown_origin(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+ 			{ NULL },
+@@ -578,7 +612,7 @@ static void test_unknown_origin(struct kunit *test)
+ __no_kcsan
+ static void test_write_write_assume_atomic(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_write, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_write, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+@@ -604,7 +638,7 @@ static void test_write_write_assume_atomic(struct kunit *test)
+ __no_kcsan
+ static void test_write_write_struct(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
+@@ -626,7 +660,7 @@ static void test_write_write_struct(struct kunit *test)
+ __no_kcsan
+ static void test_write_write_struct_part(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_write_struct_part, &test_struct.val[3], sizeof(test_struct.val[3]), KCSAN_ACCESS_WRITE },
+@@ -658,7 +692,7 @@ static void test_read_atomic_write_atomic(struct kunit *test)
+ __no_kcsan
+ static void test_read_plain_atomic_write(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+ 			{ test_kernel_write_atomic, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC },
+@@ -679,7 +713,7 @@ static void test_read_plain_atomic_write(struct kunit *test)
+ __no_kcsan
+ static void test_read_plain_atomic_rmw(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+ 			{ test_kernel_atomic_rmw, &test_var, sizeof(test_var),
+@@ -701,13 +735,13 @@ static void test_read_plain_atomic_rmw(struct kunit *test)
+ __no_kcsan
+ static void test_zero_size_access(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
+ 		},
+ 	};
+-	const struct expect_report never = {
++	struct expect_report never = {
+ 		.access = {
+ 			{ test_kernel_write_struct, &test_struct, sizeof(test_struct), KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_read_struct_zero_size, &test_struct.val[3], 0, 0 },
+@@ -741,7 +775,7 @@ static void test_data_race(struct kunit *test)
+ __no_kcsan
+ static void test_assert_exclusive_writer(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_assert_writer, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
+ 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+@@ -759,7 +793,7 @@ static void test_assert_exclusive_writer(struct kunit *test)
+ __no_kcsan
+ static void test_assert_exclusive_access(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_assert_access, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+@@ -777,19 +811,19 @@ static void test_assert_exclusive_access(struct kunit *test)
+ __no_kcsan
+ static void test_assert_exclusive_access_writer(struct kunit *test)
+ {
+-	const struct expect_report expect_access_writer = {
++	struct expect_report expect_access_writer = {
+ 		.access = {
+ 			{ test_kernel_assert_access, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_assert_writer, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
+ 		},
+ 	};
+-	const struct expect_report expect_access_access = {
++	struct expect_report expect_access_access = {
+ 		.access = {
+ 			{ test_kernel_assert_access, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE },
+ 			{ test_kernel_assert_access, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE },
+ 		},
+ 	};
+-	const struct expect_report never = {
++	struct expect_report never = {
+ 		.access = {
+ 			{ test_kernel_assert_writer, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
+ 			{ test_kernel_assert_writer, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
+@@ -813,7 +847,7 @@ static void test_assert_exclusive_access_writer(struct kunit *test)
+ __no_kcsan
+ static void test_assert_exclusive_bits_change(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_assert_bits_change, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT },
+ 			{ test_kernel_change_bits, &test_var, sizeof(test_var),
+@@ -844,13 +878,13 @@ static void test_assert_exclusive_bits_nochange(struct kunit *test)
+ __no_kcsan
+ static void test_assert_exclusive_writer_scoped(struct kunit *test)
+ {
+-	const struct expect_report expect_start = {
++	struct expect_report expect_start = {
+ 		.access = {
+ 			{ test_kernel_assert_writer_scoped, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_SCOPED },
+ 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+ 		},
+ 	};
+-	const struct expect_report expect_inscope = {
++	struct expect_report expect_inscope = {
+ 		.access = {
+ 			{ test_enter_scope, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_SCOPED },
+ 			{ test_kernel_write_nochange, &test_var, sizeof(test_var), KCSAN_ACCESS_WRITE },
+@@ -871,16 +905,16 @@ static void test_assert_exclusive_writer_scoped(struct kunit *test)
+ __no_kcsan
+ static void test_assert_exclusive_access_scoped(struct kunit *test)
+ {
+-	const struct expect_report expect_start1 = {
++	struct expect_report expect_start1 = {
+ 		.access = {
+ 			{ test_kernel_assert_access_scoped, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_SCOPED },
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+ 		},
+ 	};
+-	const struct expect_report expect_start2 = {
++	struct expect_report expect_start2 = {
+ 		.access = { expect_start1.access[0], expect_start1.access[0] },
+ 	};
+-	const struct expect_report expect_inscope = {
++	struct expect_report expect_inscope = {
+ 		.access = {
+ 			{ test_enter_scope, &test_var, sizeof(test_var), KCSAN_ACCESS_ASSERT | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_SCOPED },
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+@@ -985,7 +1019,7 @@ static void test_atomic_builtins(struct kunit *test)
+ __no_kcsan
+ static void test_1bit_value_change(struct kunit *test)
+ {
+-	const struct expect_report expect = {
++	struct expect_report expect = {
+ 		.access = {
+ 			{ test_kernel_read, &test_var, sizeof(test_var), 0 },
+ 			{ test_kernel_xor_1bit, &test_var, sizeof(test_var), __KCSAN_ACCESS_RW(KCSAN_ACCESS_WRITE) },
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211130114433.2580590-10-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211130114433.2580590-11-elver%40google.com.
