@@ -1,131 +1,141 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBCWSUOGQMGQEPBLCNFQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCPILY4NUAFBB6WUUOGQMGQE36BQNFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd37.google.com (mail-io1-xd37.google.com [IPv6:2607:f8b0:4864:20::d37])
-	by mail.lfdr.de (Postfix) with ESMTPS id B711F4666DF
-	for <lists+kasan-dev@lfdr.de>; Thu,  2 Dec 2021 16:41:00 +0100 (CET)
-Received: by mail-io1-xd37.google.com with SMTP id a12-20020a056602148c00b005e7052734adsf32816120iow.20
-        for <lists+kasan-dev@lfdr.de>; Thu, 02 Dec 2021 07:41:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638459658; cv=pass;
+Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1409346671A
+	for <lists+kasan-dev@lfdr.de>; Thu,  2 Dec 2021 16:47:08 +0100 (CET)
+Received: by mail-qk1-x73f.google.com with SMTP id az44-20020a05620a172c00b0046a828b4684sf215881qkb.22
+        for <lists+kasan-dev@lfdr.de>; Thu, 02 Dec 2021 07:47:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638460027; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rGyMkn1ZJRv3LpOZsJal2a3yQUJUSMikdORL4aCh2rGTphgPL1YErieAwwjdryzH/q
-         8pEGwF4Sbrm4WogsP1moTNq2Mx8kx4yTX8XVUbFTMI5UkU8pOanZ7dE/yf3SMnnAVwX4
-         J2wlILljrqrj1U7GZcEVvcPxHtw3lkqcNP/lnTULok6SUw1GTxA6YOZFIsclDHE6BVxi
-         /2X7ycKrxKC22j3j4UjuAL4ZcqRZA7eq3EVz+SXqQzJSIN0Tdhp+IFuMEodky4U7KD74
-         hIbtBVy37uLvOfYMqZRn41Fx91WxLLEUYZ5pddB/WSgpTk50vHIsklUJf9zPas2LVGNT
-         CM1g==
+        b=hylbL33qDJEFtsKjIwC18/VGdKGysmzBl2jMVTSjLBRjPfndZG07mIByRnAXjnA8Gd
+         0vWc+d1/xzzViGM0wiTNABBWowTIzzNOm/OyB8cebO62KiHMphFS+aGxtPCCeJKIfbA/
+         +bjwcYvLrSpMkErKGTaltO3fw5QT6Q0CUVZEq/ebqbF2tKYfRuFLwNL6ib2P3N3aEYHN
+         XXodxXmTuQDCFNp2aM15B1mGpccn4md066hGrKNkANNsiJeBEb1OI3O95dMsCIyV4KUL
+         Tvm9FHSjG8ApG+ay0TAnTzTJSteTO1SzoEdrcjRe7tvUSenBYNV2ZVI0V0G4LG/RLnRM
+         f7sg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Zt8hsd/rjM6toNxga63ChNrs1o7OyWewUJLVYn9YwTc=;
-        b=lYi97XnhmCnUmv+b3/D+5DkApdfqnWhbKsesbdmEGFBDIj8m5liszMnwxBD2vx1X8k
-         GR2xJRM8MNJ2zwFNUmfB4MawiWcsMDsWAHxt2Xka9jhlMmwySsHKlh2oYtOqsbesErLS
-         IT1WVPTZCmuNFLKgSGX7zNQIxowuW0f1gpvWO19l6SOkCsX5GBDEPzSHkjzY8NE9SFnc
-         yf7S5CVrSbLUHZXQw6iNE7YsLR7+EMmbshKWcQUQZEp4SXNz7haUHv/hVWqzNAiStTag
-         gPjtdT2EAanQvbih+A1arEpex7u3QFP8pxpKYy3Tlx8h62NTzirQhbkcKoZ2Dhpgi0dz
-         /eCg==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=GNxKmhljhOzzy1EEpq5jNAQS3W/0KoIrIllFqgpqk1M=;
+        b=ZriJlF4sppMkgNsZjdx2tYRgU+7D7J4Z3N9jwLVGGFBE8uWyAFr/MIZq5P6R4+C814
+         knnWXyRbpq3OPMBL0lPHSCjp3MHiHa+vDRN+opZoR6w55+q4Pib/9ExbgbU01ugJTbYf
+         FHq4QyToTrX2qhfUKE6IoysjRgc7TNSCCd1OiibZtq1jgQkXwI0S+kKQQkiZ55xUy9cQ
+         UsUgAQ53uy6LsnQU3B6blgUuGMHgzOsuu88JS69cIwDre8FLXSTpJBeQvSfxFY0W8kZG
+         BfyK9R1zkQbo/84nut6erw679eQO63eLtTvhfONdiEaNHKjn+ZhsRAj+TX6ht70377fi
+         J+eA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=pa2nCnfc;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72b as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=g7nMqNmk;
+       spf=pass (google.com: domain of longman@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=Zt8hsd/rjM6toNxga63ChNrs1o7OyWewUJLVYn9YwTc=;
-        b=rUKHKJ/fKl7AiKf437cSsJtTMAtklSCRqtS/a8exz2+Axu44gppeQhCSmdeNaqwkjR
-         EXZ47gT7rSlZVeSe8Mt3rQ5BTkF6ZfEGmVlUhyGlxgzi5jcjCYodg41KIq1kt+3yZHVu
-         yWIEwU+8CRKQaJ1tizOWaCT24vlcR5CDEVyJMhD2csECOyIsPr5XXrYhIxF9sg0Sqcw1
-         53z/70MRxAH9knrqOIe5wCx60d4oMhPvRov/4ydQQdMkS9aC7erxivNSoJKKAJkwH+0r
-         ENZEXYgWtOWr7A17LZHMeEhE28hmP7wRnGyNbT5Wxv8Qz3nqt6EzoU7ztSoX0O16gMbK
-         P+BQ==
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=GNxKmhljhOzzy1EEpq5jNAQS3W/0KoIrIllFqgpqk1M=;
+        b=HFwZMSoSouTYscUw+feds21vH9nC7Q9dNfSSRBfHItVTtkua0kI0P+e4M/YSm9TG/Z
+         8rcLTThm6swga4KBvZgLDhkVK8rzlc8Cfi8vWjkKBR4d6wzpP3mYX0bvhAfSTAJiT7bu
+         gkPKEYkQPyzZr7DedzniQ9mrczz2DUQnuvtXO03h3sW9sEDPvF40/vFlAqOAQ2V4J95g
+         SmLT3qd/at5ZtdlPa1jgg4oHSGvntlRdhiBIUQmxSP2HeRd7SQmFBhm822jcQbCibY+U
+         uMTg9oFjJ3iNwP3JX+nCXfZ3ueRlcPEjNX0AtOUKDbqX9/hhgNclwzPSdQjIAvGro1x1
+         LrQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Zt8hsd/rjM6toNxga63ChNrs1o7OyWewUJLVYn9YwTc=;
-        b=dAsFM4YL/k6784uD/dcjWyDtH2emPUY9OwlTaU8cc/vxXV7kzXXzmhWnwBubsUtnVQ
-         e0+6tAxR8GYAR9MhyMusvLMsa+Qv5WTyaXxoy1iIVdNaf+8ZbSM8R/qsbjiHk9zUXPI2
-         TW66SUiDD115elupFjSC3CTkXBR3oSjyHDBRaz1Mt5WzWK/dNJPPxgl5qFUeG2iNT3zK
-         3Z/LSfWhdOSyOYJUrM5erdW0TXzQS3uXU7940iUYM46vkNoJ/f9RqY8MaaNsmMgpV4DZ
-         IY1n9MbyOuHnNur6HJxK7S0EWvQHjOVm7WydXBn4ToSpkL4YjP2v/CXTUA435aA7+GT+
-         Pa5A==
-X-Gm-Message-State: AOAM5314ySsXRBUhefq9/v9J4f2J4gg5T8M5W7Hmr+fucOLQu1NluDh6
-	+9nzPsBseAXL0m0iusKqNxA=
-X-Google-Smtp-Source: ABdhPJwwwBM8ztVwgBlDlSQHvrkGf8Mxv+RxNfcJ8cDlGuje507xylOhzIrL5sMWtzeBl4S5LJ0rGw==
-X-Received: by 2002:a05:6602:140d:: with SMTP id t13mr16890775iov.120.1638459658403;
-        Thu, 02 Dec 2021 07:40:58 -0800 (PST)
+        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=GNxKmhljhOzzy1EEpq5jNAQS3W/0KoIrIllFqgpqk1M=;
+        b=eWgf4R1QuEPsm+fIUjRJoFGHjNHCA/CEQ4YK7rN6qgQ16vvWySjv7t6eeON6FPEsw6
+         13kYVSyFl7GmNQj7APS/sLYBAYk0vew3Ubf0nfwq1YE6GitIIhNpB/sGOqAVqZAl3zRB
+         EJLMwLkHDZIOAsqgsm6aIs9jArNDcHSvQo6YJ+tMsam9dZertd3FJ3gudjBsnbn3AYDR
+         r5s4TDXoM3p9Cu71crV2yDmPSo+GhczAX+WokiYOTBkTHbB8Vf+jga2J2MNJGV3NVCZ2
+         WYHpp5QcmhFkubKmtJsCPok33/OfYerChEkHEYByw+QnGSAv1IyD89RsuqI+1lb1J/rh
+         QpCQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530G3DaE+rmsGRESQ6xooy8rnR745nBDKKjSxqySIYbIyoSs0olo
+	EtikBPInogs6H6FomwORriA=
+X-Google-Smtp-Source: ABdhPJyEwwMy1PKeqzK6xACYdl3MpHNIDEgp6KXTxRVwef6lxwFnLOnPj+bNIBgUOISZ/9t6SKcGLw==
+X-Received: by 2002:a05:622a:388:: with SMTP id j8mr14549275qtx.366.1638460027062;
+        Thu, 02 Dec 2021 07:47:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:2165:: with SMTP id s5ls1115349ilv.7.gmail; Thu, 02
- Dec 2021 07:40:58 -0800 (PST)
-X-Received: by 2002:a05:6e02:20ca:: with SMTP id 10mr16118026ilq.246.1638459658068;
-        Thu, 02 Dec 2021 07:40:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638459658; cv=none;
+Received: by 2002:a05:620a:1926:: with SMTP id bj38ls4282349qkb.7.gmail; Thu,
+ 02 Dec 2021 07:47:06 -0800 (PST)
+X-Received: by 2002:a05:620a:4006:: with SMTP id h6mr13124153qko.559.1638460026668;
+        Thu, 02 Dec 2021 07:47:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638460026; cv=none;
         d=google.com; s=arc-20160816;
-        b=qTTvh1813wUqEQev2vGSTKWonTqbG4XXwYok+xnWwREcSkGk59ldql4NYiScz0M7kZ
-         oc9IcdaS0/cNMyJKo8/JyyhomnA/89bGwy2OqBVeTyEHvd8UuYbWou57EZ03Df7hg0wB
-         MF8NtLs7mHPbzPyXBbsyd4lXuYASWEL+qPuT9IVCs8wn3R2ZdDnJVqK1PsavbTQ10Ypv
-         S+lWXIIKjtcSSgYsLvvtT/VojnmR0zt9/8IOAlcAFFptZ3Oa/PAT3YuuI9F5Tqo54bpR
-         kYuxtqyYgpbNB/CC2y80sC51Z3plwpMPbCqex5vI3rcgB7sThEDMs0cWImOI83OXVbJV
-         TLVA==
+        b=DycIOW3H59FN5wvf9HalwQx2zpWQruPoBaBfcuCHKaiXkOKCp3scgqbmrVKy6xnHv5
+         4KMgLEgdAHY6WS/1UVp9dMmap0TXLhgYnoOGqeCVN1cf7nbFB4nq3IomE517Q6+5SHGy
+         LUau4GuIUulqHSdh0kHqASczDuehJ43Ns3jfj+zCfCAmj+Q+/KkuZ559kh2SMvEu/9xK
+         pAZaOhnE8duttMBwVbr37+8UCxsL/uf5pDewU1w3NyWO9ijMBnu4yFl3wpu5gRM6eK5u
+         ZB0XbVbEF/Eass/wELMOpLtFf5XpQbsn1oTxwtYJK3Oviqx5DKnnQjij/moAW+UioqeH
+         H2gA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ze4OYA4kCMJmMvK5z2d/7YkRmJBRmguQKYCL2ja2UL4=;
-        b=tpS4qIM52nGFlMs2FOphdC2XpolhILju31SatN8Q/Nz7aWphCYcJZJwT2BXRCDpqTV
-         zKBJMZDTj1HHjCimF/SnMv3Pamx3KVyVrqZ/JIUlFamHlYcmKJdnnzYD3aQADsZ7l3vq
-         PwDqOYIwOCBxWJwFs+bIrhe6U9sgkCskPGB1BqWtxcZj1gdtOHdQd6QYdo2TZjdRUbnp
-         7Th5p90NjCfxyb+eBQE/s4pDOWzxUxlcmpUdSNNJlooprmTluWesPXAG/vhlCL0yjK6t
-         jfald/RNPA+j/4nZS/tjIuYZe55++FWAPZV4r8uHbYfABZixdtFBhth1PtwUJoYU2AxW
-         FNQg==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=1QXpG/U1Vsg/4uKa21qXS5jgoVnEShvvUuealgGuJJw=;
+        b=EZczKCbz0At8ioY2XAvi+oDw1grjBbOQKhTJMUk3awLBvOOkc3EnhEyJRHm2Pb2o2H
+         xDqRONmFPSV7kzV6Iufjp+HrOIvXAPnyYhdZ00//bHWZfL5cbYaepBaodInAdjBPXV1M
+         i1jXtK7t6it3ckyo1HraCoaqkh4QGah/tMkV+qADyGJywKFW2keKXmL/KzCgfLW0RH+g
+         AxuQDtsW94N6dPugIUNzoTeHydiYNBNZbSzGGb7EAlMUwZ8XS+ggnylzDQHiFA34rVwd
+         ayGntJPE12v8oiu6jJ6tE9bZzMSLdR+lSNNt6UDGjlmSVQ0bSD7dgSD/vBkonVC4JrOi
+         YExg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=pa2nCnfc;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72b as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com. [2607:f8b0:4864:20::72b])
-        by gmr-mx.google.com with ESMTPS id s4si3507iov.0.2021.12.02.07.40.58
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=g7nMqNmk;
+       spf=pass (google.com: domain of longman@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id d14si34666qkn.4.2021.12.02.07.47.06
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Dec 2021 07:40:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72b as permitted sender) client-ip=2607:f8b0:4864:20::72b;
-Received: by mail-qk1-x72b.google.com with SMTP id m192so302023qke.2
-        for <kasan-dev@googlegroups.com>; Thu, 02 Dec 2021 07:40:58 -0800 (PST)
-X-Received: by 2002:a05:620a:d84:: with SMTP id q4mr13046469qkl.610.1638459657279;
- Thu, 02 Dec 2021 07:40:57 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 02 Dec 2021 07:47:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of longman@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-122-hQDi2Ru_MfqdMskLlbh9bg-1; Thu, 02 Dec 2021 10:46:59 -0500
+X-MC-Unique: hQDi2Ru_MfqdMskLlbh9bg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9350780A1BF;
+	Thu,  2 Dec 2021 15:46:54 +0000 (UTC)
+Received: from [10.22.18.96] (unknown [10.22.18.96])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5C2E35D9D5;
+	Thu,  2 Dec 2021 15:46:53 +0000 (UTC)
+Message-ID: <2f67a2d9-98d6-eabd-fb5e-4c89574ce52c@redhat.com>
+Date: Thu, 2 Dec 2021 10:46:52 -0500
 MIME-Version: 1.0
-References: <cover.1638308023.git.andreyknvl@google.com> <938a827f9927ee2112d98e2053ad7764aae9d8f8.1638308023.git.andreyknvl@google.com>
-In-Reply-To: <938a827f9927ee2112d98e2053ad7764aae9d8f8.1638308023.git.andreyknvl@google.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 2 Dec 2021 16:40:21 +0100
-Message-ID: <CAG_fn=WRKRUskUrN1wb20gv2nLF-DOPBF5aDAg+q+sFKczDw1Q@mail.gmail.com>
-Subject: Re: [PATCH 07/31] kasan: only apply __GFP_ZEROTAGS when memory is zeroed
-To: andrey.konovalov@linux.dev
-Cc: Marco Elver <elver@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Peter Collingbourne <pcc@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrey Ryabinin <aryabinin@virtuozzo.com>, kasan-dev@googlegroups.com, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
-	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	Evgenii Stepanov <eugenis@google.com>, linux-kernel@vger.kernel.org, 
-	Andrey Konovalov <andreyknvl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] locking/mutex: Mark racy reads of owner->on_cpu
+Content-Language: en-US
+To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Boqun Feng <boqun.feng@gmail.com>, linux-kernel@vger.kernel.org
+Cc: kasan-dev@googlegroups.com, Thomas Gleixner <tglx@linutronix.de>,
+ Mark Rutland <mark.rutland@arm.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20211202101238.33546-1-elver@google.com>
+ <CANpmjNMvPepakONMjTO=FzzeEtvq_CLjPN6=zF35j10rVrJ9Fg@mail.gmail.com>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <CANpmjNMvPepakONMjTO=FzzeEtvq_CLjPN6=zF35j10rVrJ9Fg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Original-Sender: longman@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=pa2nCnfc;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72b as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@redhat.com header.s=mimecast20190719 header.b=g7nMqNmk;
+       spf=pass (google.com: domain of longman@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,64 +148,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 30, 2021 at 10:41 PM <andrey.konovalov@linux.dev> wrote:
+On 12/2/21 06:53, Marco Elver wrote:
+> On Thu, 2 Dec 2021 at 11:13, Marco Elver <elver@google.com> wrote:
+>> One of the more frequent data races reported by KCSAN is the racy read
+>> in mutex_spin_on_owner(), which is usually reported as "race of unknown
+>> origin" without showing the writer. This is due to the racing write
+>> occurring in kernel/sched. Locally enabling KCSAN in kernel/sched shows:
+>>
+>>   | write (marked) to 0xffff97f205079934 of 4 bytes by task 316 on cpu 6:
+>>   |  finish_task                kernel/sched/core.c:4632 [inline]
+>>   |  finish_task_switch         kernel/sched/core.c:4848
+>>   |  context_switch             kernel/sched/core.c:4975 [inline]
+>>   |  __schedule                 kernel/sched/core.c:6253
+>>   |  schedule                   kernel/sched/core.c:6326
+>>   |  schedule_preempt_disabled  kernel/sched/core.c:6385
+>>   |  __mutex_lock_common        kernel/locking/mutex.c:680
+>>   |  __mutex_lock               kernel/locking/mutex.c:740 [inline]
+>>   |  __mutex_lock_slowpath      kernel/locking/mutex.c:1028
+>>   |  mutex_lock                 kernel/locking/mutex.c:283
+>>   |  tty_open_by_driver         drivers/tty/tty_io.c:2062 [inline]
+>>   |  ...
+>>   |
+>>   | read to 0xffff97f205079934 of 4 bytes by task 322 on cpu 3:
+>>   |  mutex_spin_on_owner        kernel/locking/mutex.c:370
+>>   |  mutex_optimistic_spin      kernel/locking/mutex.c:480
+>>   |  __mutex_lock_common        kernel/locking/mutex.c:610
+>>   |  __mutex_lock               kernel/locking/mutex.c:740 [inline]
+>>   |  __mutex_lock_slowpath      kernel/locking/mutex.c:1028
+>>   |  mutex_lock                 kernel/locking/mutex.c:283
+>>   |  tty_open_by_driver         drivers/tty/tty_io.c:2062 [inline]
+>>   |  ...
+>>   |
+>>   | value changed: 0x00000001 -> 0x00000000
+>>
+>> This race is clearly intentional, and the potential for miscompilation
+>> is slim due to surrounding barrier() and cpu_relax(), and the value
+>> being used as a boolean.
+>>
+>> Nevertheless, marking this reader would more clearly denote intent and
+>> make it obvious that concurrency is expected. Use READ_ONCE() to avoid
+>> having to reason about compiler optimizations now and in future.
+>>
+>> Similarly, mark the read to owner->on_cpu in mutex_can_spin_on_owner(),
+>> which immediately precedes the loop executing mutex_spin_on_owner().
+>>
+>> Signed-off-by: Marco Elver <elver@google.com>
+> [...]
 >
-> From: Andrey Konovalov <andreyknvl@google.com>
+> Kefeng kindly pointed out that there is an alternative, which would
+> refactor owner_on_cpu() from rwsem that would address both mutex and
+> rwsem:
+> https://lore.kernel.org/all/b641f1ea-6def-0fe4-d273-03c35c4aa7d6@huawei.com/
 >
-> __GFP_ZEROTAGS should only be effective if memory is being zeroed.
-> Currently, hardware tag-based KASAN violates this requirement.
->
-> Fix by including an initialization check along with checking for
-> __GFP_ZEROTAGS.
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
+> Preferences?
 
-> ---
->  mm/kasan/hw_tags.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index 0b8225add2e4..c643740b8599 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -199,11 +199,12 @@ void kasan_alloc_pages(struct page *page, unsigned =
-int order, gfp_t flags)
->          * page_alloc.c.
->          */
->         bool init =3D !want_init_on_free() && want_init_on_alloc(flags);
-> +       bool init_tags =3D init && (flags & __GFP_ZEROTAGS);
->
->         if (flags & __GFP_SKIP_KASAN_POISON)
->                 SetPageSkipKASanPoison(page);
->
-> -       if (flags & __GFP_ZEROTAGS) {
-> +       if (init_tags) {
->                 int i;
->
->                 for (i =3D 0; i !=3D 1 << order; ++i)
-> --
-> 2.25.1
->
+I would like to see owner_on_cpu() extracted out from 
+kernel/locking/rwsem.c into include/linux/sched.h right after 
+vcpu_is_preempted(), for instance, and with READ_ONCE() added. Then it 
+can be used in mutex.c as well. This problem is common to both mutex and 
+rwsem.
 
+Cheers,
+Longman
 
---=20
-Alexander Potapenko
-Software Engineer
+Thanks,
+-- Marco
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DWRKRUskUrN1wb20gv2nLF-DOPBF5aDAg%2Bq%2BsFKczDw1Q%40mail.=
-gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2f67a2d9-98d6-eabd-fb5e-4c89574ce52c%40redhat.com.
