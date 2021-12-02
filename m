@@ -1,139 +1,129 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBDP7UOGQMGQEN6UF7CI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBEUJUSGQMGQEFDO6JKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd40.google.com (mail-io1-xd40.google.com [IPv6:2607:f8b0:4864:20::d40])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E354668F5
-	for <lists+kasan-dev@lfdr.de>; Thu,  2 Dec 2021 18:17:02 +0100 (CET)
-Received: by mail-io1-xd40.google.com with SMTP id r199-20020a6b2bd0000000b005e234972ddfsf131605ior.23
-        for <lists+kasan-dev@lfdr.de>; Thu, 02 Dec 2021 09:17:02 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638465422; cv=pass;
+Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 522AF466941
+	for <lists+kasan-dev@lfdr.de>; Thu,  2 Dec 2021 18:38:28 +0100 (CET)
+Received: by mail-pj1-x103e.google.com with SMTP id j9-20020a17090a31c900b001abe663b508sf2438134pjf.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 02 Dec 2021 09:38:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638466707; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Wye+jjsNFmvMiVcXR/aZ7DLuqWk8my7t8mOb13QZ82DCxlq/1jP26j/GTZgQDt+EGv
-         3qVWKsbJQPXSVETcZLOWl6StYfUpisoZH1GF1DegYLip/B3eHiGovCdcnzG2V53IILx8
-         oMhH2Nsqfj6b5TLef+U4BppQkM94VddWw+nVatZVG1kBWquiXugNkEcVQcj1pmr+iZeN
-         cp89HV1EXrddbTmPFwy6fSm4vGqp4K2nd6TrzeYQNAAicZArfwQTvy52IED4cXfuQDP6
-         m9HZ1V6MFnYF9kOJwwJW0osxQOho9TtsFkIb9w9E4zzMzU943ygorOKRP3b/GBT+81R6
-         JDUQ==
+        b=nTH2MVuHVFCIm7XzTOjRA/UrHtb6nGXjmTQS8eKYx+Zj5KpFRtyfS4AaQX0WywcZvc
+         Ob/n1N/YeSP/A96pez3UrjC6o9V0fqquA6dhVFtWQpQLdSZfbU6TP88KnjpxHyRCIBvw
+         Z2zsOE8CWd3DAT0jh8FJYVPGEHjXgNJu2mEC8qGu+8A9IOLxjzSpR88HMAuZJmh7SVP9
+         DVj3fiCrcrPxL61JZ707nWcEvMTg2xSatENtI0k3EX3dtlvbDwDKvHRp3jeI51q0ZlUo
+         F9iDxvBHSvHwMHU+dnIpZ4TaxEwMimMRb0JQ213gOG9RmYG8lGsYrw0Uxz3rmO6F30oO
+         rD2Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=CfcJtpIB21G78HBPiK/Ast8Tyus917yI2QpZ9kdEQog=;
-        b=iSQDQ4bBihB/GyGUbOH+664c6nr/ljaTQNcm69Cz3uCFi7AI+C37Cs0B5ZG3PZC+mk
-         ihmQb7RKxdVc/uwGr6gWobJdzq54au11o/n2p0myt3jrQ97sC7EkOfilQGqk6t0X/NWN
-         pDXe9pTBLO2jqcG61ta7HXCgEQ7BrKvIN96kmPe6M8VKhon4D2JOxNnSIR+150QdPJZx
-         Us07sEQ35CSP5//6cq7Jgz5h4eV5V4sbv0uYT1sbe7sad049f8YkrGGAfyBxCo6AX949
-         IEXL9MmGvCfo9Avt4j7891Kug2ECV4Zduh+XTCVJFbxxbTKgJQX2g6WV6Hr1dK8hqdQ3
-         tDvQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=8vjwQ8gvCbJSZC/TzO8aN8JWUwe4LNOhzYjQxQGD4LY=;
+        b=fhmTetsTwIiQVJxAR8DId7g0kfpsyYHnMVDsgCPY1qU8Ol/ryNBbr5oaJZMuenUXEI
+         IvKZtM0LmsAZDuFA1cY/RZBAJS+D0e5uRBVwU3baqUuepQS9gXH2vnW54ZibIuamdqHT
+         DCGW2hGYO5xp7XRRClr8lv0qFRAuXDZbc5XCFkSIJUcd6oaKXEc9uQLfQAwzqK8cUjn5
+         zNFD7r9U0R/lRZgLtgYLvRUv/B4d4Vz4kAvaiAcd8mqEOYELKOiYc4WLp4MaZxMsBPhA
+         7JggdyQ1GFJoniJQ1c1VI1B/14IqX4FZSGXlSKsHVm+9TravBabLovIFOLj+dqgPvVol
+         VDDw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=bFNdUTFd;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=GeF+Yeyg;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::229 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=CfcJtpIB21G78HBPiK/Ast8Tyus917yI2QpZ9kdEQog=;
-        b=PHChrwB5H5tPHXWbJk2DdULeUzyODWf6JmPiSIZl+MF7a280Lmt7GLgWwD286LnW4E
-         sTUTQntqhwivPknBH920l3hWXZuHbk2rtOikSl2jW3b8VXWOIi++rgTQjZrWglDgcz80
-         CQICHyjgkMynRNAydL9ehn3EJn8mL3abWOQTN1WgvqO76gMi3jO5gKiJQ1S1chGPHSX7
-         cv7jVOjHGCjAG+PubhsbTxJZb94ou6qU0EBqL39d0c8a2F8kxDTc4AYzbv2v0njZk5YG
-         aCM68Zqq+2dpEGcQU6EM22gIed/kdhEiUEKWGsQ1wBFjY5QYoim9DdOgjurivF8uHMNJ
-         9NRw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=CfcJtpIB21G78HBPiK/Ast8Tyus917yI2QpZ9kdEQog=;
-        b=geZlTi8JZx7mjOiG1YFeJri7+vn1UTwACq01Ri7xKzrtBL/pUWUAo/hSBMCqamIcql
-         AAy6oLzgnBJ1oNT0wiIP6pdeodMbjmRMggP8PLIAzpB7Sa0OY5keMChiSEELsqJ7QqZP
-         UVfzKcQm/hOJsJGLXe5uzW5XsvW2wV4urdoPz/3XHOklQGtJ8YR/h23vGGYDwyhBP8Do
-         yuvDnq3BWSSkWJeRAqO2QLJiQysr6CB96W9ilcYe+x8hIFY3qGWKVccm4LshQ/PWGE/G
-         mao+JTMhznK9DrgnGIWkrH5deQzimXRiUqteEev530R4ASXixcZxwD7d07wJSuhoTYdi
-         K8uw==
+        bh=8vjwQ8gvCbJSZC/TzO8aN8JWUwe4LNOhzYjQxQGD4LY=;
+        b=DtDKDm4jhXXTZ+6Ez9tjaX8oZa8MwbaMmnObl+jiZZULUQWpdJrm0fpmf3EG62BAeM
+         WFQARZzOnbhBlMv7P/Tnvtemy0f3p9fosBbBLWGr1q2GdYZjbLmvWCtbJnP/gGL87tpS
+         7QwI12/Vap/Zoo7+Mvf+SQQD2AsZgcnhKRqbgb5ZFaiVM4e7zxyKIjyHXHgugcCaN3IQ
+         933UjhR1bbvhDTZS5t5VZJcFUin1XLBt72Bz68KsfcC61EDgxmc54l8pPa2hM9yVpl2C
+         r4fWDk1Bv4D1qqT7PiQwkuJjavn3mw4id/Gk8O9T0NSg2tGalTuID3Md86SwagwGIjuu
+         Qzpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=CfcJtpIB21G78HBPiK/Ast8Tyus917yI2QpZ9kdEQog=;
-        b=xfDGdoEa71QlESCKFDkbjWyFfcLHtAfkTDFISeeAIhrOoIJ+skgJuo0Uh1ErC2mwJD
-         /ToMB++y6K8SV5VYTjFi4+N2Q2X0pMbFphKZvfOU6FJszpWm1Quz0n0PdsZPo3MFYVdd
-         mGVEAuyBDLTPhyZUglAh+FRbmoe/wNDdT49QbGKXh5TLGGTTetaY53/gNVlSj5Bwarcb
-         2bt1xLxulzaBBH4fSI8cXwmgdBcbnU1xFADfOv5gKmzcaR3cjzbRGVGyrND1IKwc0zcz
-         G4ps4IWiGMNrYN5QS/EGxAfNmMnXEC6plISdFnHrWBjN6OdtMN8oN9US7Ugp41V/W83q
-         Pm8g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531M8KnJFGpGk4OvlpDrwoC9vsnKUMFukWfH5y5S2xMf3hfx0VlS
-	2BdKE9Q9iXV0kiYoytfMGi0=
-X-Google-Smtp-Source: ABdhPJzhffrfVp0mYdntIt73v4YE2Za8gMyURCVZOgt3HuJ57e2XFz1JqIPKr+C3fqKVcE4EuPJ/hA==
-X-Received: by 2002:a05:6602:27c2:: with SMTP id l2mr16252638ios.147.1638465422001;
-        Thu, 02 Dec 2021 09:17:02 -0800 (PST)
+        bh=8vjwQ8gvCbJSZC/TzO8aN8JWUwe4LNOhzYjQxQGD4LY=;
+        b=7/ozrLfxW8xX30cEaUAWdv2+LjicOj/IyXBFiqk6B/oxyO/i5QYP5qBPui1ge8DFcL
+         EfnDlC8XX/Su8CJ6+kKvCwl9dZ/AggY5qyr6ZDYmBgoXXZHShJAe54U/IcHdXtdyOZ2k
+         Pk79QPm/Frhm0vWfk8T8uMP0TCQ45Nie8p5vF06BU4G37aTGfFIxxWUoiBnR2ouSrYiB
+         Lh5cTiMT/lXEzPcW3S7WoM2Z76zOS69a/7MpeDgjSH0TGzjLzRfhzsmb1gvSQ6oitGL9
+         i05fG1ECNEW4L2WWyqk9v5J4lMhAf81mhsIn/m/QAow8+gss+xDhy/a6nuck+sXgSd7C
+         lhdA==
+X-Gm-Message-State: AOAM532MNfom0vh7Fi5zYEO8u5ywcdsf8F3wbQreGSOJDs4flFlR/ng8
+	BQAJ4nqIHfBXLcr9lBxyrw4=
+X-Google-Smtp-Source: ABdhPJz8VrR1Ae2UJqgpJuoYbzfgOHaZ5+K8yEgSjJhsZ08QtpoBSq8W+bercPs1W3XJn9BKWRvM8w==
+X-Received: by 2002:a63:6947:: with SMTP id e68mr483944pgc.292.1638466707035;
+        Thu, 02 Dec 2021 09:38:27 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:2188:: with SMTP id j8ls1185922ila.2.gmail; Thu, 02
- Dec 2021 09:17:01 -0800 (PST)
-X-Received: by 2002:a92:cda6:: with SMTP id g6mr15695728ild.83.1638465421588;
-        Thu, 02 Dec 2021 09:17:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638465421; cv=none;
+Received: by 2002:a05:6a00:80f:: with SMTP id m15ls2643282pfk.0.gmail; Thu, 02
+ Dec 2021 09:38:26 -0800 (PST)
+X-Received: by 2002:a05:6a00:2441:b0:4a0:ddb0:a6ff with SMTP id d1-20020a056a00244100b004a0ddb0a6ffmr14133718pfj.74.1638466706424;
+        Thu, 02 Dec 2021 09:38:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638466706; cv=none;
         d=google.com; s=arc-20160816;
-        b=KuWYCbpPSwSEr7OSL5cWWArcHIBezWXBS4i+FP+5gKokwId1dA8FGHvL/4tJtBFQlU
-         q6a1iqdUkSZn0E/KM7f6YTO1f4D4JT6bFqWWQGj6I/ygSJ/lkpPhTtJhbrTBSI/NPUW1
-         1IzqMWM8IzGweFMjDhQ7Se65v4tgb/uUiUOsloc4myHUfhoAqG88YaJaQ/SvIBUccmhZ
-         Oprw0vjJgcs86EmuAAr4F8lNkZQZBHRG2v0l5MOFyFVvq3tC8+hzh1qtcsOvUbVoVv9h
-         XrmVjtZbETsmaku6YPFun3x7494mVkKCGuaZib6VbaCS6ZUOFf5+l4TtrGu8dENanFrT
-         CYyA==
+        b=qQGjf6d2K1F2hrjNNZZOtXtVFYUImSJn4SZ8vHS5b+dR4ty/3Lmb7mCgUmPk9wEnTc
+         pFxYrv9/oQfdNTQB9L67Rr1r2DsuTGJol0/GOuIgX22PdVsdZqTlp+WdX2jn/Em0B33g
+         hMZGX7oeDNgVc0M/Mv+sMJbpyNENVGaoPb4mtpERBIbOiiHpms/TE2Xq+PYO8nfO1sPO
+         pbVPzQ2cXXmfnVcZzrRyrSRdxUBhJEK6ccNwqNnS1xnvMBPelFmTlhuPcSukEd5g+aCf
+         gUf3nIPv/tSwsmZah3/YpolWWIOaqsdgiNIJsS4doa9+giBcJIu22uewqoL5nT1vwDwF
+         HkBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=+VlhgbxZ//E40UP4VkdcPEO+gAtVu81nLcN2Mja4zCg=;
-        b=LRpYcG3JYZ/JtRmsi0JMzOQnja9edhzAymRkbmD6VT8Tx9MPjQAU0VEl2UQNaXHysn
-         1c3VoH81XgmhqOBU8RKMeaDZgkoN2W1ev2xbeddaRMBQBIawtr6zOw71/xkCDSIKS4ys
-         n7NHOkJ6tnmHMQRq4DdPW8h4ArOtbqPeSLLmiicDrqYKkmsfaaFP3kJKtnZZF63//sxo
-         qVS+wWWJOxiAPNbIfNvbmYbEJhYqo3HBFw27iV6aK6Uu+rR/khUYACOa2OBt8mhvSmHy
-         iZ9bC7a6I9rYnleksjxY5wG///tIrsDYzSEteBxGBThBA4u5RgvY7868My5gDE7ihVXZ
-         CnqA==
+        bh=ur6dUBVD60Gl/OuuEHFc1N/ZnkqMrKChf9cSJr/RUAk=;
+        b=pDbsUNpPslRUH6xUF+dJ7F18vSx7eGZ7XZILhUpGVN1KuZ+8gPoi1YHVMdcIL88wDX
+         GFASaejoSWTnDkON0QKXjqX8YZs/3uucqXRIqPwBDcpKJzZrdFHM1qqF1+mX9iWmL6UK
+         hksdPReC78EjpaBRBnWBLsROcnJubUS/TXGvZCT3Oy3fvN7Bo75CLpJ16ki3Zd6iAS4S
+         4jKESyRhFSzgLDxoxOLaCxEO1TxPyriDvYCKBKpsyp15O8ugL0covondaycZvAoA2los
+         gC+SUvULZDqPMxPtobRHW8vaROcjTlQdiUHMuGikHUdUi/pEDD/n+w0NHO39LxjdufXL
+         WQCg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=bFNdUTFd;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com. [2607:f8b0:4864:20::d36])
-        by gmr-mx.google.com with ESMTPS id l7si86478ilh.5.2021.12.02.09.17.01
+       dkim=pass header.i=@google.com header.s=20210112 header.b=GeF+Yeyg;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::229 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com. [2607:f8b0:4864:20::229])
+        by gmr-mx.google.com with ESMTPS id l17si24844plb.1.2021.12.02.09.38.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Dec 2021 09:17:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d36 as permitted sender) client-ip=2607:f8b0:4864:20::d36;
-Received: by mail-io1-xd36.google.com with SMTP id x10so327150ioj.9
-        for <kasan-dev@googlegroups.com>; Thu, 02 Dec 2021 09:17:01 -0800 (PST)
-X-Received: by 2002:a5e:d502:: with SMTP id e2mr17468976iom.118.1638465421406;
- Thu, 02 Dec 2021 09:17:01 -0800 (PST)
+        Thu, 02 Dec 2021 09:38:26 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::229 as permitted sender) client-ip=2607:f8b0:4864:20::229;
+Received: by mail-oi1-x229.google.com with SMTP id be32so555388oib.11
+        for <kasan-dev@googlegroups.com>; Thu, 02 Dec 2021 09:38:26 -0800 (PST)
+X-Received: by 2002:a05:6808:118c:: with SMTP id j12mr5492643oil.65.1638466705594;
+ Thu, 02 Dec 2021 09:38:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20211201181510.18784-1-vbabka@suse.cz> <20211201181510.18784-26-vbabka@suse.cz>
-In-Reply-To: <20211201181510.18784-26-vbabka@suse.cz>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Thu, 2 Dec 2021 18:16:50 +0100
-Message-ID: <CA+fCnZd8oD2nEB0C+D73mQqJobaVY_82gnU9Lfu_JydDZ21sQQ@mail.gmail.com>
-Subject: Re: [PATCH v2 25/33] mm/kasan: Convert to struct folio and struct slab
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Matthew Wilcox <willy@infradead.org>, Christoph Lameter <cl@linux.com>, 
-	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Pekka Enberg <penberg@kernel.org>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, patches@lists.linux.dev, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>
+References: <20211201152604.3984495-1-elver@google.com> <YajdN5T8vi2ZzP3D@hirez.programming.kicks-ass.net>
+In-Reply-To: <YajdN5T8vi2ZzP3D@hirez.programming.kicks-ass.net>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 2 Dec 2021 18:38:13 +0100
+Message-ID: <CANpmjNM4nxnwt7iWF+kCT862H21CHL-cshYyugBei0ysGAt5uA@mail.gmail.com>
+Subject: Re: [PATCH] kcov: fix generic Kconfig dependencies if ARCH_WANTS_NO_INSTR
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	kasan-dev@googlegroups.com, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=bFNdUTFd;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d36
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20210112 header.b=GeF+Yeyg;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::229 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,291 +136,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Dec 1, 2021 at 7:15 PM Vlastimil Babka <vbabka@suse.cz> wrote:
+On Thu, 2 Dec 2021 at 18:30, Peter Zijlstra <peterz@infradead.org> wrote:
 >
-> From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> On Wed, Dec 01, 2021 at 04:26:04PM +0100, Marco Elver wrote:
+> > Until recent versions of GCC and Clang, it was not possible to disable
+> > KCOV instrumentation via a function attribute. The relevant function
+> > attribute was introduced in 540540d06e9d9 ("kcov: add
+> > __no_sanitize_coverage to fix noinstr for all architectures").
+> >
+> > x86 was the first architecture to want a working noinstr, and at the
+> > time no compiler support for the attribute existed yet. Therefore,
+> > 0f1441b44e823 ("objtool: Fix noinstr vs KCOV") introduced the ability to
+> > NOP __sanitizer_cov_*() calls in .noinstr.text.
+> >
+> > However, this doesn't work for other architectures like arm64 and s390
+> > that want a working noinstr per ARCH_WANTS_NO_INSTR.
+> >
+> > At the time of 0f1441b44e823, we didn't yet have ARCH_WANTS_NO_INSTR,
+> > but now we can move the Kconfig dependency checks to the generic KCOV
+> > option. KCOV will be available if:
+> >
+> >       - architecture does not care about noinstr, OR
+> >       - we have objtool support (like on x86), OR
+> >       - GCC is 12.0 or newer, OR
+> >       - Clang is 13.0 or newer.
+> >
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > ---
+> >  arch/x86/Kconfig  | 2 +-
+> >  lib/Kconfig.debug | 2 ++
+> >  2 files changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> > index 95dd1ee01546..c030b2ee93b3 100644
+> > --- a/arch/x86/Kconfig
+> > +++ b/arch/x86/Kconfig
+> > @@ -78,7 +78,7 @@ config X86
+> >       select ARCH_HAS_FILTER_PGPROT
+> >       select ARCH_HAS_FORTIFY_SOURCE
+> >       select ARCH_HAS_GCOV_PROFILE_ALL
+> > -     select ARCH_HAS_KCOV                    if X86_64 && STACK_VALIDATION
+> > +     select ARCH_HAS_KCOV                    if X86_64
+> >       select ARCH_HAS_MEM_ENCRYPT
+> >       select ARCH_HAS_MEMBARRIER_SYNC_CORE
+> >       select ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE
+> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> > index 9ef7ce18b4f5..589c8aaa2d5b 100644
+> > --- a/lib/Kconfig.debug
+> > +++ b/lib/Kconfig.debug
+> > @@ -1977,6 +1977,8 @@ config KCOV
+> >       bool "Code coverage for fuzzing"
+> >       depends on ARCH_HAS_KCOV
+> >       depends on CC_HAS_SANCOV_TRACE_PC || GCC_PLUGINS
+> > +     depends on !ARCH_WANTS_NO_INSTR || STACK_VALIDATION || \
+> > +                GCC_VERSION >= 120000 || CLANG_VERSION >= 130000
 >
-> KASAN accesses some slab related struct page fields so we need to convert it
-> to struct slab. Some places are a bit simplified thanks to kasan_addr_to_slab()
-> encapsulating the PageSlab flag check through virt_to_slab().
-> When resolving object address to either a real slab or a large kmalloc, use
-> struct folio as the intermediate type for testing the slab flag to avoid
-> unnecessary implicit compound_head().
+> Can we write that as something like:
 >
-> [ vbabka@suse.cz: use struct folio, adjust to differences in previous patches ]
+>         $(cc-attribute,__no_sanitize_coverage)
 >
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: <kasan-dev@googlegroups.com>
-> ---
->  include/linux/kasan.h  |  9 +++++----
->  mm/kasan/common.c      | 23 +++++++++++++----------
->  mm/kasan/generic.c     |  8 ++++----
->  mm/kasan/kasan.h       |  1 +
->  mm/kasan/quarantine.c  |  2 +-
->  mm/kasan/report.c      | 13 +++++++++++--
->  mm/kasan/report_tags.c | 10 +++++-----
->  mm/slab.c              |  2 +-
->  mm/slub.c              |  2 +-
->  9 files changed, 42 insertions(+), 28 deletions(-)
->
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index d8783b682669..fb78108d694e 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -9,6 +9,7 @@
->
->  struct kmem_cache;
->  struct page;
-> +struct slab;
->  struct vm_struct;
->  struct task_struct;
->
-> @@ -193,11 +194,11 @@ static __always_inline size_t kasan_metadata_size(struct kmem_cache *cache)
->         return 0;
->  }
->
-> -void __kasan_poison_slab(struct page *page);
-> -static __always_inline void kasan_poison_slab(struct page *page)
-> +void __kasan_poison_slab(struct slab *slab);
-> +static __always_inline void kasan_poison_slab(struct slab *slab)
->  {
->         if (kasan_enabled())
-> -               __kasan_poison_slab(page);
-> +               __kasan_poison_slab(slab);
->  }
->
->  void __kasan_unpoison_object_data(struct kmem_cache *cache, void *object);
-> @@ -322,7 +323,7 @@ static inline void kasan_cache_create(struct kmem_cache *cache,
->                                       slab_flags_t *flags) {}
->  static inline void kasan_cache_create_kmalloc(struct kmem_cache *cache) {}
->  static inline size_t kasan_metadata_size(struct kmem_cache *cache) { return 0; }
-> -static inline void kasan_poison_slab(struct page *page) {}
-> +static inline void kasan_poison_slab(struct slab *slab) {}
->  static inline void kasan_unpoison_object_data(struct kmem_cache *cache,
->                                         void *object) {}
->  static inline void kasan_poison_object_data(struct kmem_cache *cache,
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index 6a1cd2d38bff..7c06db78a76c 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -247,8 +247,9 @@ struct kasan_free_meta *kasan_get_free_meta(struct kmem_cache *cache,
->  }
->  #endif
->
-> -void __kasan_poison_slab(struct page *page)
-> +void __kasan_poison_slab(struct slab *slab)
->  {
-> +       struct page *page = slab_page(slab);
->         unsigned long i;
->
->         for (i = 0; i < compound_nr(page); i++)
-> @@ -401,9 +402,9 @@ void __kasan_kfree_large(void *ptr, unsigned long ip)
->
->  void __kasan_slab_free_mempool(void *ptr, unsigned long ip)
->  {
-> -       struct page *page;
-> +       struct folio *folio;
->
-> -       page = virt_to_head_page(ptr);
-> +       folio = virt_to_folio(ptr);
->
->         /*
->          * Even though this function is only called for kmem_cache_alloc and
-> @@ -411,12 +412,14 @@ void __kasan_slab_free_mempool(void *ptr, unsigned long ip)
->          * !PageSlab() when the size provided to kmalloc is larger than
->          * KMALLOC_MAX_SIZE, and kmalloc falls back onto page_alloc.
->          */
-> -       if (unlikely(!PageSlab(page))) {
-> +       if (unlikely(!folio_test_slab(folio))) {
->                 if (____kasan_kfree_large(ptr, ip))
->                         return;
-> -               kasan_poison(ptr, page_size(page), KASAN_FREE_PAGE, false);
-> +               kasan_poison(ptr, folio_size(folio), KASAN_FREE_PAGE, false);
->         } else {
-> -               ____kasan_slab_free(page->slab_cache, ptr, ip, false, false);
-> +               struct slab *slab = folio_slab(folio);
-> +
-> +               ____kasan_slab_free(slab->slab_cache, ptr, ip, false, false);
->         }
->  }
->
-> @@ -560,7 +563,7 @@ void * __must_check __kasan_kmalloc_large(const void *ptr, size_t size,
->
->  void * __must_check __kasan_krealloc(const void *object, size_t size, gfp_t flags)
->  {
-> -       struct page *page;
-> +       struct slab *slab;
->
->         if (unlikely(object == ZERO_SIZE_PTR))
->                 return (void *)object;
-> @@ -572,13 +575,13 @@ void * __must_check __kasan_krealloc(const void *object, size_t size, gfp_t flag
->          */
->         kasan_unpoison(object, size, false);
->
-> -       page = virt_to_head_page(object);
-> +       slab = virt_to_slab(object);
->
->         /* Piggy-back on kmalloc() instrumentation to poison the redzone. */
-> -       if (unlikely(!PageSlab(page)))
-> +       if (unlikely(!slab))
->                 return __kasan_kmalloc_large(object, size, flags);
->         else
-> -               return ____kasan_kmalloc(page->slab_cache, object, size, flags);
-> +               return ____kasan_kmalloc(slab->slab_cache, object, size, flags);
->  }
->
->  bool __kasan_check_byte(const void *address, unsigned long ip)
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index 5d0b79416c4e..a25ad4090615 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -330,16 +330,16 @@ DEFINE_ASAN_SET_SHADOW(f8);
->
->  static void __kasan_record_aux_stack(void *addr, bool can_alloc)
->  {
-> -       struct page *page = kasan_addr_to_page(addr);
-> +       struct slab *slab = kasan_addr_to_slab(addr);
->         struct kmem_cache *cache;
->         struct kasan_alloc_meta *alloc_meta;
->         void *object;
->
-> -       if (is_kfence_address(addr) || !(page && PageSlab(page)))
-> +       if (is_kfence_address(addr) || !slab)
->                 return;
->
-> -       cache = page->slab_cache;
-> -       object = nearest_obj(cache, page_slab(page), addr);
-> +       cache = slab->slab_cache;
-> +       object = nearest_obj(cache, slab, addr);
->         alloc_meta = kasan_get_alloc_meta(cache, object);
->         if (!alloc_meta)
->                 return;
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index aebd8df86a1f..c17fa8d26ffe 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -265,6 +265,7 @@ bool kasan_report(unsigned long addr, size_t size,
->  void kasan_report_invalid_free(void *object, unsigned long ip);
->
->  struct page *kasan_addr_to_page(const void *addr);
-> +struct slab *kasan_addr_to_slab(const void *addr);
->
->  depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc);
->  void kasan_set_track(struct kasan_track *track, gfp_t flags);
-> diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
-> index d8ccff4c1275..587da8995f2d 100644
-> --- a/mm/kasan/quarantine.c
-> +++ b/mm/kasan/quarantine.c
-> @@ -117,7 +117,7 @@ static unsigned long quarantine_batch_size;
->
->  static struct kmem_cache *qlink_to_cache(struct qlist_node *qlink)
->  {
-> -       return virt_to_head_page(qlink)->slab_cache;
-> +       return virt_to_slab(qlink)->slab_cache;
->  }
->
->  static void *qlink_to_object(struct qlist_node *qlink, struct kmem_cache *cache)
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index e00999dc6499..3ad9624dcc56 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -150,6 +150,14 @@ struct page *kasan_addr_to_page(const void *addr)
->         return NULL;
->  }
->
-> +struct slab *kasan_addr_to_slab(const void *addr)
-> +{
-> +       if ((addr >= (void *)PAGE_OFFSET) &&
-> +                       (addr < high_memory))
-> +               return virt_to_slab(addr);
-> +       return NULL;
-> +}
-> +
->  static void describe_object_addr(struct kmem_cache *cache, void *object,
->                                 const void *addr)
->  {
-> @@ -248,8 +256,9 @@ static void print_address_description(void *addr, u8 tag)
->         pr_err("\n");
->
->         if (page && PageSlab(page)) {
-> -               struct kmem_cache *cache = page->slab_cache;
-> -               void *object = nearest_obj(cache, page_slab(page),      addr);
-> +               struct slab *slab = page_slab(page);
-> +               struct kmem_cache *cache = slab->slab_cache;
-> +               void *object = nearest_obj(cache, slab, addr);
->
->                 describe_object(cache, object, addr, tag);
->         }
-> diff --git a/mm/kasan/report_tags.c b/mm/kasan/report_tags.c
-> index 06c21dd77493..1b41de88c53e 100644
-> --- a/mm/kasan/report_tags.c
-> +++ b/mm/kasan/report_tags.c
-> @@ -12,7 +12,7 @@ const char *kasan_get_bug_type(struct kasan_access_info *info)
->  #ifdef CONFIG_KASAN_TAGS_IDENTIFY
->         struct kasan_alloc_meta *alloc_meta;
->         struct kmem_cache *cache;
-> -       struct page *page;
-> +       struct slab *slab;
->         const void *addr;
->         void *object;
->         u8 tag;
-> @@ -20,10 +20,10 @@ const char *kasan_get_bug_type(struct kasan_access_info *info)
->
->         tag = get_tag(info->access_addr);
->         addr = kasan_reset_tag(info->access_addr);
-> -       page = kasan_addr_to_page(addr);
-> -       if (page && PageSlab(page)) {
-> -               cache = page->slab_cache;
-> -               object = nearest_obj(cache, page_slab(page), (void *)addr);
-> +       slab = kasan_addr_to_slab(addr);
-> +       if (slab) {
-> +               cache = slab->slab_cache;
-> +               object = nearest_obj(cache, slab, (void *)addr);
->                 alloc_meta = kasan_get_alloc_meta(cache, object);
->
->                 if (alloc_meta) {
-> diff --git a/mm/slab.c b/mm/slab.c
-> index 785fffd527fe..fed55fa1b7d0 100644
-> --- a/mm/slab.c
-> +++ b/mm/slab.c
-> @@ -2605,7 +2605,7 @@ static struct slab *cache_grow_begin(struct kmem_cache *cachep,
->          * page_address() in the latter returns a non-tagged pointer,
->          * as it should be for slab pages.
->          */
-> -       kasan_poison_slab(slab_page(slab));
-> +       kasan_poison_slab(slab);
->
->         /* Get slab management. */
->         freelist = alloc_slabmgmt(cachep, slab, offset,
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 61aaaa662c5e..58f0d499a293 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -1961,7 +1961,7 @@ static struct slab *allocate_slab(struct kmem_cache *s, gfp_t flags, int node)
->
->         slab->slab_cache = s;
->
-> -       kasan_poison_slab(slab_page(slab));
-> +       kasan_poison_slab(slab);
->
->         start = slab_address(slab);
->
-> --
-> 2.33.1
->
+> instead? Other than that, yes totally.
 
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+That'd be nice, but I think we don't have that cc-attribute helper? I
+checked how e.g. CC_HAS_NO_PROFILE_FN_ATTR does it, but it won't work
+like that because gcc and clang define the attribute differently and
+it becomes a mess. That's also what Nathan pointed out here I think:
+https://lkml.kernel.org/r/Yaet8x/1WYiADlPh@archlinux-ax161
 
-Great job with the overall struct page refactoring!
+Let's keep it simple.
+
+> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
 Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZd8oD2nEB0C%2BD73mQqJobaVY_82gnU9Lfu_JydDZ21sQQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNM4nxnwt7iWF%2BkCT862H21CHL-cshYyugBei0ysGAt5uA%40mail.gmail.com.
