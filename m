@@ -1,143 +1,131 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBBXOWVKGQMGQE4RWKJXQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJWYVKGQMGQEQM63TVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD3B4680CE
-	for <lists+kasan-dev@lfdr.de>; Sat,  4 Dec 2021 00:42:21 +0100 (CET)
-Received: by mail-wm1-x33a.google.com with SMTP id o18-20020a05600c511200b00332fa17a02esf1991658wms.5
-        for <lists+kasan-dev@lfdr.de>; Fri, 03 Dec 2021 15:42:21 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638574941; cv=pass;
+Received: from mail-qt1-x83b.google.com (mail-qt1-x83b.google.com [IPv6:2607:f8b0:4864:20::83b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3875B4680DB
+	for <lists+kasan-dev@lfdr.de>; Sat,  4 Dec 2021 00:45:44 +0100 (CET)
+Received: by mail-qt1-x83b.google.com with SMTP id h8-20020a05622a170800b002acc8656e05sf5324786qtk.7
+        for <lists+kasan-dev@lfdr.de>; Fri, 03 Dec 2021 15:45:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638575143; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DRj4K1CbnS3VduJ99pksp2Q0FIoQ+gj4HEcw7T745QGYwAOemgxkwe5DqFowXPv4M1
-         NsnXzHGLpR/F4lLTFwDT8iwMKSkR5GdXkBiTp8gfkZMSFziRwY86mwDetWyw70qyg/z1
-         VMONQbhmg4dgx6L7HSZ3qth2iFbWPGL+JyLK+eANAdsSTCtJd4BEs7wZjFiDpLKNCALS
-         6Snss3H5u4Ew40pkja5zbhubISMT3c8FPnwHUN9UcSHqKHsDJPb53tlhZ3QSGCFQQsOk
-         X44mfa1E0EeYEx1JwKolX7UgWminR8lPm3xboBgUb40/4EXg/AZn1mlJ3Vdwu4VAshqN
-         pgdQ==
+        b=JBrsI7UxhHGRDE2jGQFgt2YvdLB8hOpKHuZDhM1dghb76GmsKFB+VbtjEE6bLUcIjO
+         +xGT1UhmyHFWFe+eCH90TwrNMVyOY7gBiGbGI0Oy2LkR+Jf6EJmT1zPvK5n8Z3E78upQ
+         jXIgWOuiSj85JojSPVKpof9wH7fLwZQUlCgHUQyhuji82FFqmpu9psurFZmbEHBEidiI
+         t4bozEdhHs03PTW2DhbtOaVMCp1i+jPRyz2pjY1T83hPZfef459JrAwRJWLXIvQGTBs/
+         Ijl1BT2qj0VkKkpM5Kd5GCkYMzKSc3g+ijBQAgAA3ZauOQf+HJrMi/By5UdWVn1KdqWv
+         Rs5g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=PXV7gMY+CukvQD12dOoLf9mf2KuKKkCzwWr9Q/BFGHk=;
-        b=E8qFZQuA5LwqLYqgH3Bu8dNptc4c9Ry2H/BNYCAy66CWYx9IksM4bBgHjMbyEqcrmD
-         KF6cGT0vWpQQrAGSqpaclsIgCAPbF9FbcBJlraIZWzZsH2RlZeftEk3bGmuq/rV7J2KN
-         wTHAdnNnQNpRlNtgFUrcfhJm9VL/UwYzDNCVWDl5a2WKFtXJ8xURV+jffLKcqSDKtq3q
-         jYup4ZNDCUpD2v+W8n+EltZdK04ulpKmp25NPWvQe/I2e6x6JEKZ23Bte43uOjNaVx8+
-         R8M4MPmYAeKV93whSll1L+QUewsvfFLQI5gyHpHsm/0U74lY2V7Gt2Ci7FTBwQ7b7+WG
-         kACQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=7GlqhssEpTO/XcoYrq1+0ztg5ptqr0pFv/fi9zo9zlE=;
+        b=cpsE2qmBAe9FpMKZJmxGg1wzVidF0wlf9QhRP/bRtLgvNDyceNv9qN/Mx27Ha5PosU
+         ywI5GEiaN9LgWjmBbUN8oBl0iMuf3hjPHIQlU+aiMqRQK+ZSLa1XrRe2HERf7zXBIOXl
+         roqRBN3JFNynB94xdRKzU1EoSFDDs3x9foZ1f2cwxv8TfE7ctJsi+GoXqB0w8kWyKeLS
+         VYTsTFk3yvipPqcpeyQMe7FIceMY2RMvLKVr09GlQDyYN1oAcOvIVljQ0CsQY7GKrLBp
+         /Lq11liqRS8XxsDVe4jTYc08tmB3BX3dTKyJhAQgk1HHRbUKglq2nOD5ixruldplQX9K
+         1uGQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=d2lVgutR;
-       spf=pass (google.com: domain of srs0=jahq=qu=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=JAHq=QU=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=lwLR59to;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=PXV7gMY+CukvQD12dOoLf9mf2KuKKkCzwWr9Q/BFGHk=;
-        b=MQxOXxvPq4MOQ8+uw2xAcysqdPgbH+y8RaSssd1aSnAf9TP1BPO2VEtfmcdkQtdPjv
-         Y4AJwy6Mr/qI2d+ro5dc9hnBQGWm+N03pLS1wFozUY2+LdU1ulUvN3rk5B+2MG3q1e6S
-         qj94pRT8v4/Ir6mtXG4i9m9/F727cV0HBxv+/28LugFtL0qkiEb/TLbhwcLHxNf0pkmB
-         U7dTTYRZm1S2wAPvPMU7xjilc6+T+LwSAzmMP27KUMbG2QXl9w3iyX7UFm6rmlfMHknk
-         10qlj7z7YoL9bS/wNTcp23y00fqaikdAgOQu8pPIlNUPv59paSOAIiitqfFBR/slKKbf
-         sTAw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7GlqhssEpTO/XcoYrq1+0ztg5ptqr0pFv/fi9zo9zlE=;
+        b=FAZpuXo4sna4JhhHYxJYNUk9KlquANKIuCxlOIU15240Zm7upSTB8joq3YbPt2Ll2o
+         pRe7ZLx/pkhVBstxu6e3RjAAknRzARlgTORq0MuKepGzc2BeP9uWlQiEX65NsTR/5l+R
+         DzqvC5WgeOJdvhERZehRm3W9hpcEHnwcx3MUvsoUtzot2RNEh1Y/LuEe+7e0NboKMglU
+         q+qSwLQOJWlB6RVE6HWD6Ei8CutLpqjNiss25u1V1G8V0wnG/DnYk0S1YO3OgqmvCddD
+         /nalYgnLwHZy5x6JfArU9hAowIYX7Isi2S6ZSYCcSnSTL1AF6x3/zshlp/wf8FLjCXcP
+         oV6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=PXV7gMY+CukvQD12dOoLf9mf2KuKKkCzwWr9Q/BFGHk=;
-        b=28LKrl/GcveCpN2UAg4vD4JVfHHvCg7Iv7OJ2M/IvVozpG+rlwm9mm/srPD1RkvW/h
-         hJ38Se/UcIRai9efYw2ZGniXTA6/qxzLsKYt2vnZQ5c3TEXqFyRtpOt1GDqqm2ud/g0q
-         GSyJgkOlUnXVF/Yq5RvaSymGsVJhEMD26OjGsvANW9N+3nkxnK6hF8UyEzRafQ2wGt4s
-         1Bzb8sTycscs6NzbtUr6P43vfBTxZrUsdCXehV5dXQtAjKQ/GVf0WbLJF/2JRGXdlE/K
-         CA2+LmJHw5iT4MhYL6pGDEsITlSjnI/vLDS6Rp+ka0HlH+3HKMNdYsXOPI9pgb1qtwIw
-         IS/g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532HTD2Z5/mZqX2ken81Ho6jLod6+ys1VabXo5rNVzz3YY588ya2
-	pCdw9jhzka5F0haCr9c1dwQ=
-X-Google-Smtp-Source: ABdhPJzQkLTINooTWvd0t8MZcsxES2LO4woEFY9Nmg209IAZdUQfpVzJgaawomWbAG5c/LAiO+p4Wg==
-X-Received: by 2002:a05:600c:210a:: with SMTP id u10mr18542338wml.33.1638574941763;
-        Fri, 03 Dec 2021 15:42:21 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7GlqhssEpTO/XcoYrq1+0ztg5ptqr0pFv/fi9zo9zlE=;
+        b=lTOd6+wJ7Qcqc8byv7XimxztGQC6XpVzaI7GA7bPM3bXa/bSb+ZbQjvp/oEY06+THs
+         b550EEnf8VopH3BL7zLBNavYj7NpS1JqTNXfOKsGfGh6YsLQDPA0OyT7j2URxLtHaAtv
+         t643HL0sJf6unf8moakz8UXawN153wOP62pl3M1tWn3Eg07PzMrRZ7b+8D0O3HOdG2JE
+         M9L/hH6OM0C0VBHfkRafWIM3PQ+/tFY40REU9Bpps22XRLegICqAR/+sae6cxLlIUCIR
+         WCvfMSXOhwwGKy4+y9+xQTVV3I+SQMTDSfiV9SbPfzhi3/VGm8RH8u2lNCE8McWkFVfU
+         3T9A==
+X-Gm-Message-State: AOAM533XcEfQyay0c2rHXbsdK21cLsLeVeazgWNzHKn+DJNjY8xMdgG6
+	MkGCv/rDK1qrSlZEIZeB+Ac=
+X-Google-Smtp-Source: ABdhPJwvqQ0QzWiSO4/RCoQ5fV9CIAupg1ZvFmh5Z5KqQ+kxqruI1BQDoLM5FwItYtITGJm2upL8pQ==
+X-Received: by 2002:ad4:54f2:: with SMTP id k18mr22459039qvx.63.1638575143055;
+        Fri, 03 Dec 2021 15:45:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:fe0b:: with SMTP id n11ls134018wrr.0.gmail; Fri, 03 Dec
- 2021 15:42:20 -0800 (PST)
-X-Received: by 2002:adf:9e4b:: with SMTP id v11mr25586603wre.531.1638574940780;
-        Fri, 03 Dec 2021 15:42:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638574940; cv=none;
+Received: by 2002:a05:620a:4728:: with SMTP id bs40ls7455408qkb.8.gmail; Fri,
+ 03 Dec 2021 15:45:42 -0800 (PST)
+X-Received: by 2002:a37:2750:: with SMTP id n77mr20909656qkn.490.1638575142623;
+        Fri, 03 Dec 2021 15:45:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638575142; cv=none;
         d=google.com; s=arc-20160816;
-        b=pZEDxMd0uqAJsHGUoMiefOHH8dqgSaO2AXvRAmd8l95TjtvVSCyxuS1Jx4tBVzntyp
-         IY7WvbtcmtcV4kkW8imKlMs56NI25B+oaB5b99zn/zn6lNnGtAR+k4Ducd5r5ti6WZcA
-         dj9N8wfD5PNQ85+kB6YNa4O6+lqTFMYDvpUc4AiySi8eQstKCrQMI0KbdPv0mqiOXXsz
-         0mUlC+CmtDKfPUb8aVWxro54e98Af99nyNMvFekUgKWeVtZ7HwHrTmN/89ctRCN/Njue
-         w3vnAygnVhNvY4Z0gCDLrS1gAToNDrGfPlpjs5BWawCM2efkWCQbJqo8olrsGoSpuo85
-         m18Q==
+        b=QZA+sWdKdWR1z2EvfkMZ9hFh+539BObkA1XiFPdmGgm48EsYaxBmlsEHKRJ5VjUH+2
+         35kfMug/1FHUIDFxMhSpEVF9ALGIiFjqgWCRAXGWkokTO/zv38l9GUU7uoA0AgTFb+SD
+         arwNWDBnZafd1bErtmSvoyMr4Ckubt3Xn7rRtRTFMjvgfeDFRHVPr/EFJMmLXxAev7t6
+         jj0V8vd6abus9XDhoWsg7SZeaOfnMGi0SSTKuoEPpKtayGfVAx3nL5IksoBnwDE8d3mR
+         ove1TxjfGjzGB1L3aCDdhCwwHBCA9PtpGLMeD4IRhkyKO/9AbDBSx75CVRpuAZn785mk
+         3VCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=G/U6VuVYn/OHYxdh46kgQ5kcodEbqB8gX+4VSwVW540=;
-        b=rJN0Rfe2/utlzw8TBXgTzOlFa9IwXrDtGrNQcm2023MXT1Es+tArLbOxIZ7NPV2SfB
-         bF6kardsUdiUO8J1fdFKR+ucl792Ibj/5TlUGfI0Js7jdimeXlXOFOfeIDsAMY2PRpu/
-         vdimILOZP56gsAQ8EgFkgxgiVGz7+I0jTdwfXUpY6HRVRpmzwW0MkSlD9XVvvzDGDaCx
-         VGYgSZaTYXwCqIs250B7cCMf8guV0OS5loViBRMmThdGl8LJLIgNnu7oiEV62J1/xEOW
-         sfUCMyVJsJjuzlznQCuloD2xg5qt/NP8M+H9PUwJwYXtQNAp7+34RQJkL0A3F3Ev/+tM
-         eAfw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=60reH7R0DIOnYiDzjJxXKxDAKSmQYMrrZWuqMItQwS0=;
+        b=HKZCdRxslR9t7Kk+/TtRKx5LBq3AiReFols6JLv6+mDaM5nEMY23fvuJYTAJdIFkXS
+         N3lhTRiX2GgS8KrPlJ9NdPbQjv066dvtDQLRNGjgZj1jwFMdXm85MlvvxeYQVHWLSgbk
+         4q+ECiqeGySZcJ06eMYrE/sZif4F9RUBIntj5qnovy+bIcEWkhoTghmfVuUQXgzlvew+
+         /+ht1vsDofZjBLC+AweI+dUH3bcjKGVKMmD7LFPIaOdm9FCqNLq8eWycU1i8yUYPm4/F
+         Xh00wt+kgYGRZTg+WACI+RvuSExD6y80Lmd30rMxt863vpBgeG1JAI8URlURITGvNFLi
+         hcTw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=d2lVgutR;
-       spf=pass (google.com: domain of srs0=jahq=qu=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=JAHq=QU=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id o29si699504wms.1.2021.12.03.15.42.20
+       dkim=pass header.i=@google.com header.s=20210112 header.b=lwLR59to;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com. [2607:f8b0:4864:20::32d])
+        by gmr-mx.google.com with ESMTPS id w22si940304qkp.2.2021.12.03.15.45.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 03 Dec 2021 15:42:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=jahq=qu=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 4ABD1B828C4;
-	Fri,  3 Dec 2021 23:42:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 044B1C53FAD;
-	Fri,  3 Dec 2021 23:42:19 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 9BA865C1010; Fri,  3 Dec 2021 15:42:18 -0800 (PST)
-Date: Fri, 3 Dec 2021 15:42:18 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Alexander Potapenko <glider@google.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Borislav Petkov <bp@alien8.de>,
-	Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
-	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	llvm@lists.linux.dev, x86@kernel.org
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Dec 2021 15:45:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as permitted sender) client-ip=2607:f8b0:4864:20::32d;
+Received: by mail-ot1-x32d.google.com with SMTP id v15-20020a9d604f000000b0056cdb373b82so5387196otj.7
+        for <kasan-dev@googlegroups.com>; Fri, 03 Dec 2021 15:45:42 -0800 (PST)
+X-Received: by 2002:a9d:77d1:: with SMTP id w17mr18546120otl.329.1638575142007;
+ Fri, 03 Dec 2021 15:45:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20211130114433.2580590-1-elver@google.com> <20211130114433.2580590-5-elver@google.com>
+ <YanbzWyhR0LwdinE@elver.google.com> <20211203165020.GR641268@paulmck-ThinkPad-P17-Gen-1>
+ <20211203210856.GA712591@paulmck-ThinkPad-P17-Gen-1> <20211203234218.GA3308268@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20211203234218.GA3308268@paulmck-ThinkPad-P17-Gen-1>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Sat, 4 Dec 2021 00:45:30 +0100
+Message-ID: <CANpmjNNUinNdBBOVbAgQQYCJVftgUfQQZyPSchWhyVRyjWpedA@mail.gmail.com>
 Subject: Re: [PATCH v3 04/25] kcsan: Add core support for a subset of weak
  memory modeling
-Message-ID: <20211203234218.GA3308268@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20211130114433.2580590-1-elver@google.com>
- <20211130114433.2580590-5-elver@google.com>
- <YanbzWyhR0LwdinE@elver.google.com>
- <20211203165020.GR641268@paulmck-ThinkPad-P17-Gen-1>
- <20211203210856.GA712591@paulmck-ThinkPad-P17-Gen-1>
-MIME-Version: 1.0
+To: paulmck@kernel.org
+Cc: Alexander Potapenko <glider@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Borislav Petkov <bp@alien8.de>, Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>, 
+	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
+	x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20211203210856.GA712591@paulmck-ThinkPad-P17-Gen-1>
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=d2lVgutR;       spf=pass
- (google.com: domain of srs0=jahq=qu=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=JAHq=QU=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20210112 header.b=lwLR59to;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::32d as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,192 +138,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Dec 03, 2021 at 01:08:56PM -0800, Paul E. McKenney wrote:
-> On Fri, Dec 03, 2021 at 08:50:20AM -0800, Paul E. McKenney wrote:
-> > On Fri, Dec 03, 2021 at 09:56:45AM +0100, Marco Elver wrote:
-> > > On Tue, Nov 30, 2021 at 12:44PM +0100, Marco Elver wrote:
-> > > [...]
-> > > > v3:
-> > > > * Remove kcsan_noinstr hackery, since we now try to avoid adding any
-> > > >   instrumentation to .noinstr.text in the first place.
-> > > [...]
-> > > 
-> > > I missed some cleanups after changes from v2 to v3 -- the below cleanup
-> > > is missing.
-> > > 
-> > > Full replacement patch attached.
-> > 
-> > I pulled this into -rcu with the other patches from your v3 post, thank
-> > you all!
-> 
-> A few quick tests located the following:
-> 
-> [    0.635383] INFO: trying to register non-static key.
-> [    0.635804] The code is fine but needs lockdep annotation, or maybe
-> [    0.636194] you didn't initialize this object before use?
-> [    0.636194] turning off the locking correctness validator.
-> [    0.636194] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.16.0-rc1+ #3208
-> [    0.636194] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.13.0-1ubuntu1.1 04/01/2014
-> [    0.636194] Call Trace:
-> [    0.636194]  <TASK>
-> [    0.636194]  dump_stack_lvl+0x88/0xd8
-> [    0.636194]  dump_stack+0x15/0x1b
-> [    0.636194]  register_lock_class+0x6b3/0x840
-> [    0.636194]  ? __this_cpu_preempt_check+0x1d/0x30
-> [    0.636194]  __lock_acquire+0x81/0xee0
-> [    0.636194]  ? lock_is_held_type+0xf1/0x160
-> [    0.636194]  lock_acquire+0xce/0x230
-> [    0.636194]  ? test_barrier+0x490/0x14c7
-> [    0.636194]  ? lock_is_held_type+0xf1/0x160
-> [    0.636194]  ? test_barrier+0x490/0x14c7
-> [    0.636194]  _raw_spin_lock+0x36/0x50
-> [    0.636194]  ? test_barrier+0x490/0x14c7
-> [    0.636194]  ? kcsan_init+0xf/0x80
-> [    0.636194]  test_barrier+0x490/0x14c7
-> [    0.636194]  ? kcsan_debugfs_init+0x1f/0x1f
-> [    0.636194]  kcsan_selftest+0x47/0xa0
-> [    0.636194]  do_one_initcall+0x104/0x230
-> [    0.636194]  ? rcu_read_lock_sched_held+0x5b/0xc0
-> [    0.636194]  ? kernel_init+0x1c/0x200
-> [    0.636194]  do_initcall_level+0xa5/0xb6
-> [    0.636194]  do_initcalls+0x66/0x95
-> [    0.636194]  do_basic_setup+0x1d/0x23
-> [    0.636194]  kernel_init_freeable+0x254/0x2ed
-> [    0.636194]  ? rest_init+0x290/0x290
-> [    0.636194]  kernel_init+0x1c/0x200
-> [    0.636194]  ? rest_init+0x290/0x290
-> [    0.636194]  ret_from_fork+0x22/0x30
-> [    0.636194]  </TASK>
-> 
-> When running without the new patch series, this splat does not appear.
-> 
-> Do I need a toolchain upgrade?  I see the Clang 14.0 in the cover letter,
-> but that seems to apply only to non-x86 architectures.
-> 
-> $ clang-11 -v
-> Ubuntu clang version 11.1.0-++20210805102428+1fdec59bffc1-1~exp1~20210805203044.169
+On Sat, 4 Dec 2021 at 00:42, Paul E. McKenney <paulmck@kernel.org> wrote:
+[...]
+> And to further extend this bug report, the following patch suppresses
+> the error.
+>
+>                                                         Thanx, Paul
+>
+> ------------------------------------------------------------------------
+>
+> commit d157b802f05bd12cf40bef7a73ca6914b85c865e
+> Author: Paul E. McKenney <paulmck@kernel.org>
+> Date:   Fri Dec 3 15:35:29 2021 -0800
+>
+>     kcsan: selftest: Move test spinlock to static global
 
-And to further extend this bug report, the following patch suppresses
-the error.
+Indeed, that will fix the selftest. The kcsan_test has the same
+problem (+1 extra problem).
 
-							Thanx, Paul
+We raced sending the fix. :-)
+I hope this patch works for you:
+https://lkml.kernel.org/r/20211203233817.2815340-1-elver@google.com
 
-------------------------------------------------------------------------
-
-commit d157b802f05bd12cf40bef7a73ca6914b85c865e
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Fri Dec 3 15:35:29 2021 -0800
-
-    kcsan: selftest: Move test spinlock to static global
-    
-    Running the TREE01 or TREE02 rcutorture scenarios results in the
-    following splat:
-    
-    ------------------------------------------------------------------------
-    
-     INFO: trying to register non-static key.
-     The code is fine but needs lockdep annotation, or maybe
-     you didn't initialize this object before use?
-     turning off the locking correctness validator.
-     CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.16.0-rc1+ #3208
-     Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.13.0-1ubuntu1.1 04/01/2014
-     Call Trace:
-      <TASK>
-      dump_stack_lvl+0x88/0xd8
-      dump_stack+0x15/0x1b
-      register_lock_class+0x6b3/0x840
-      ? __this_cpu_preempt_check+0x1d/0x30
-      __lock_acquire+0x81/0xee0
-      ? lock_is_held_type+0xf1/0x160
-      lock_acquire+0xce/0x230
-      ? test_barrier+0x490/0x14c7
-      ? lock_is_held_type+0xf1/0x160
-      ? test_barrier+0x490/0x14c7
-      _raw_spin_lock+0x36/0x50
-      ? test_barrier+0x490/0x14c7
-      ? kcsan_init+0xf/0x80
-      test_barrier+0x490/0x14c7
-      ? kcsan_debugfs_init+0x1f/0x1f
-      kcsan_selftest+0x47/0xa0
-      do_one_initcall+0x104/0x230
-      ? rcu_read_lock_sched_held+0x5b/0xc0
-      ? kernel_init+0x1c/0x200
-      do_initcall_level+0xa5/0xb6
-      do_initcalls+0x66/0x95
-      do_basic_setup+0x1d/0x23
-      kernel_init_freeable+0x254/0x2ed
-      ? rest_init+0x290/0x290
-      kernel_init+0x1c/0x200
-      ? rest_init+0x290/0x290
-      ret_from_fork+0x22/0x30
-      </TASK>
-    
-    ------------------------------------------------------------------------
-    
-    This appears to be due to this line of code in kernel/kcsan/selftest.c:
-    KCSAN_CHECK_READ_BARRIER(spin_unlock(&spinlock)), which operates on a
-    spinlock allocated on the stack.  This shot-in-the-dark patch makes the
-    spinlock instead be a static global, which suppresses the above splat.
-    
-    Fixes: 510b49b8d4c9 ("kcsan: selftest: Add test case to check memory barrier instrumentation")
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/kernel/kcsan/selftest.c b/kernel/kcsan/selftest.c
-index 08c6b84b9ebed..05d772c9fe933 100644
---- a/kernel/kcsan/selftest.c
-+++ b/kernel/kcsan/selftest.c
-@@ -108,6 +108,8 @@ static bool __init test_matching_access(void)
- 	return true;
- }
- 
-+static DEFINE_SPINLOCK(test_barrier_spinlock);
-+
- /*
-  * Correct memory barrier instrumentation is critical to avoiding false
-  * positives: simple test to check at boot certain barriers are always properly
-@@ -122,7 +124,6 @@ static bool __init test_barrier(void)
- #endif
- 	bool ret = true;
- 	arch_spinlock_t arch_spinlock = __ARCH_SPIN_LOCK_UNLOCKED;
--	DEFINE_SPINLOCK(spinlock);
- 	atomic_t dummy;
- 	long test_var;
- 
-@@ -172,8 +173,8 @@ static bool __init test_barrier(void)
- 	KCSAN_CHECK_READ_BARRIER(clear_bit_unlock_is_negative_byte(0, &test_var));
- 	arch_spin_lock(&arch_spinlock);
- 	KCSAN_CHECK_READ_BARRIER(arch_spin_unlock(&arch_spinlock));
--	spin_lock(&spinlock);
--	KCSAN_CHECK_READ_BARRIER(spin_unlock(&spinlock));
-+	spin_lock(&test_barrier_spinlock);
-+	KCSAN_CHECK_READ_BARRIER(spin_unlock(&test_barrier_spinlock));
- 
- 	KCSAN_CHECK_WRITE_BARRIER(mb());
- 	KCSAN_CHECK_WRITE_BARRIER(wmb());
-@@ -202,8 +203,8 @@ static bool __init test_barrier(void)
- 	KCSAN_CHECK_WRITE_BARRIER(clear_bit_unlock_is_negative_byte(0, &test_var));
- 	arch_spin_lock(&arch_spinlock);
- 	KCSAN_CHECK_WRITE_BARRIER(arch_spin_unlock(&arch_spinlock));
--	spin_lock(&spinlock);
--	KCSAN_CHECK_WRITE_BARRIER(spin_unlock(&spinlock));
-+	spin_lock(&test_barrier_spinlock);
-+	KCSAN_CHECK_WRITE_BARRIER(spin_unlock(&test_barrier_spinlock));
- 
- 	KCSAN_CHECK_RW_BARRIER(mb());
- 	KCSAN_CHECK_RW_BARRIER(wmb());
-@@ -235,8 +236,8 @@ static bool __init test_barrier(void)
- 	KCSAN_CHECK_RW_BARRIER(clear_bit_unlock_is_negative_byte(0, &test_var));
- 	arch_spin_lock(&arch_spinlock);
- 	KCSAN_CHECK_RW_BARRIER(arch_spin_unlock(&arch_spinlock));
--	spin_lock(&spinlock);
--	KCSAN_CHECK_RW_BARRIER(spin_unlock(&spinlock));
-+	spin_lock(&test_barrier_spinlock);
-+	KCSAN_CHECK_RW_BARRIER(spin_unlock(&test_barrier_spinlock));
- 
- 	kcsan_nestable_atomic_end();
- 
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211203234218.GA3308268%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNUinNdBBOVbAgQQYCJVftgUfQQZyPSchWhyVRyjWpedA%40mail.gmail.com.
