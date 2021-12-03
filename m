@@ -1,141 +1,143 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBVNXU6GQMGQE5UTQXKI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC24VNFHTMIBB3XIU6GQMGQETQ3N6WA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E8146738E
-	for <lists+kasan-dev@lfdr.de>; Fri,  3 Dec 2021 09:56:53 +0100 (CET)
-Received: by mail-wr1-x43c.google.com with SMTP id q15-20020adfbb8f000000b00191d3d89d09sf447877wrg.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 03 Dec 2021 00:56:53 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638521813; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id EFDC9467548
+	for <lists+kasan-dev@lfdr.de>; Fri,  3 Dec 2021 11:41:50 +0100 (CET)
+Received: by mail-wr1-x43c.google.com with SMTP id q15-20020adfbb8f000000b00191d3d89d09sf517479wrg.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 03 Dec 2021 02:41:50 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638528110; cv=pass;
         d=google.com; s=arc-20160816;
-        b=H4WpzI+MmJhwFKDDf7QcKzfLX3ZrbZCRBl4OSdOJFPGnhGmGSR7wnHlr7VaVpTd77O
-         StOn0ai2XU7npsbMHSQo2gjasMIj0cR0q8TpuCr/pUlh1H47/Yjlz9e1r2ewjvzY+Amq
-         NxLoSzWisSJazhgTeaYpbGBY1CmDIe1Podk45NM0Is7c9Z5ca45Rz1kFGWW63Ord+uu4
-         QTb8ck3pAKwgD21+8IX9Lue7M/NWViTDQIoXZnNKYFMlN+gU7VOFFYpIPvmlefqP5poD
-         x8oeKN6FyOlx8qJa33j6+03yX4Q5sTsxGiV7Xi+ujRX3kArZfyNICY9ol64obVgqQlyk
-         OC4A==
+        b=qpL2L1xo/wsSwkEF6HsqtKLEBfYQknsnwZ+h3NgsHqHzwsZkd7fJKLmwuA3+caD23O
+         nJAonHl9npUG4w0hMmjqLwWgR/oy3qj6IimyMq7ZhpGGV/vnQtNXnluF80S7LreP//zC
+         laEVdEKmrTSMXcTRvjB8MjEykzbjtnUMjkJxxDGvyOK/6Jp9K052kEDr2JK+PwGv/5mZ
+         tkWqNx8rUJPoxG92A2mIcifPAFb8ttw22AHUqOktjr+uiVK+driQkv1fQPtCGd2Rwjr2
+         GT00l2/LFrSUwiOfqkOh+UiYsATOW3DA7IXvdga+gOXZt+inMo5fRacFdqg8tt7vfh+H
+         JYdw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=eCCfT9eSk36mX0gWiRkxMBfdnt5VdZxYt0FnagO93GY=;
-        b=OZ6Ts3phZ4QIUQoNo/i+5NpwQs8d4lELfgMf9Bgco8xQaimA/SGqEqlx48NvsdGCxT
-         D8aFDqdPVDWVTdb5oKGTdqZjZW5nxEECdNVILnP5uFC6R+Zbc2e+bgF37gxp3+BQck5n
-         QfOWjje0+NF8bLDPo8SKTago7J3Q9XOfG87kXFTfnpVA+CVwrVvCQg+TaqYLe2A21G00
-         GARzVqtT8bWDTO9phw5AXGDXh9qNPfIqo8yX7/rfNdaKyxZrO1mEDt+mM+NL3AJ5LrJP
-         eAB+mo6H6m9wqSsopkPujRCbDiolXQ25MUC3/8f1FS5V+hwETUpxThz6vGwJYKtWHtA7
-         lq8w==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :references:in-reply-to:message-id:date:subject:to:from:sender
+         :dkim-signature;
+        bh=dOmuNk7zalbLJI9lEHzM0jIO7jAHFNBido3FIu9pBsk=;
+        b=qF1Y96IHQoufn1uuLKuls9Xt3N95T7CPrw5+yeD38bDzpbBKXxEYJtRRkuWIZ+Rp55
+         o0p9RZgoCLvFTzgQL/+TjharyUf7P8x12chq1HT29mefrHfQ7DK3rAEHfsIfHuZ5tMYu
+         EyV2lPiTBfbwTDpGWaZ2lPiu60XEJSNDuvLuDKlVwOjA34InQG9KNLD4eOFHwnJ+Ib1B
+         LPSRWMXm2npK+xzW4bMY/whHHA5U+xPYgU+F8Q3bsNXofF3A9HwJzwFimfZia/GwqzYC
+         5i8SU/zGfGqz3twnPbj/u6YTLUEsqENaBUpuTwu+cuaJvo1uQJ7mzwKtzRvO7jaIV7bQ
+         bcQA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="fFM0awD/";
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=UGyt6c7B;
+       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=eCCfT9eSk36mX0gWiRkxMBfdnt5VdZxYt0FnagO93GY=;
-        b=RL/MQnQvPGW6SWmZ66sbaFQJXc5r7OzcVH0Z26957D4qfCOcqKgLELzKtsEEjEIVav
-         4q/06kmiysdHegRZbr0vA2pKNhjGujGqW9JMD+2xFEJdZV63PI//8wFDXRTfyKgB6tFB
-         4az1wxwolpm9cA0W+0xEJYRqUOWzXGk96J+iPVYt5BNqqsjsWAACSrXNvz3iHyp+WKqk
-         okGYN94oYNSRhBLl7woMwV/paCp35HxdC3DjouRcUltEEfc4ObIvBUVqbiC5LPC1er9K
-         h1kOr3O/T44ckaw+zK4GBEH0o21fKfjhpNCMbsOn9d8AAOUIvX2pclnLx+cG3sdyuC+3
-         p2vw==
+        h=sender:from:to:subject:date:message-id:in-reply-to:references
+         :auto-submitted:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=dOmuNk7zalbLJI9lEHzM0jIO7jAHFNBido3FIu9pBsk=;
+        b=WMH4wntN1ziOp9lvdpEn2x9+0lAGD5I0AGinFriYgIk1lHNmfpe/K2nvCxG3Wurhk+
+         vRq1ijFy90qHW2zOlsfL6J4gnkTyVVYqEDzKGwDiAwfLA0GYf9LDovPDB8mnXmBNJ8DA
+         1p165KU4Hsb0osdS2Ue129KJiQQGBlVuVs2JwfF96oLnp6TMrYal6ZcM6qlTFSRTb9zk
+         OdNNc1RSYqtSbI0g8pPxVWLaMUbMn0fsjGle+Jh8uH8lRBpW9+vXgO4jZSaSJ7Af0GCD
+         LuTt4EuMCARVKOiZ9K5oIy+9FB74z/ehptFy9nVH1ETV9+kg26i0CcmVP4EnpYqDxBFP
+         BDVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=eCCfT9eSk36mX0gWiRkxMBfdnt5VdZxYt0FnagO93GY=;
-        b=c2NY5or3e7f/6GK5IcHmKh4SgQryPPuCXnz5plotTKoM0xSem3tW+tfakerlUk8CX9
-         zP/ejsV1/ZH4lF47OwWv1Pw8aOl2naCi43mFBiDfl+he3TJrzHDsjwrvXs03BcDfSCXx
-         USzR7UXSFj+H4BPHvXBBgEKVO4US9Zm7hZoojRQd27mpHJG+pwvXeEKm7NRIK+hQPNNh
-         zkV/9eRwoV2Nuqo0agE6PW9GC0QLfwpgx9UVqgpjgInQI55/Sb5erIcRRybzILb++rNY
-         CoBKX7Lb3GzODoS3T+4fzvnCHFTACyB9exGehAeXxDda31TAeBeeRB2fE50+sQdSLML7
-         VMrg==
-X-Gm-Message-State: AOAM533baY1i9ONHeXn/0oOKeRwGrcgyi+CzQ0nkQatjMar40O1mFC5v
-	nc51UKLvncZuKX+A4Je76mo=
-X-Google-Smtp-Source: ABdhPJwomK0M2GNOy1ai08LIBDssMZWT4kgRCJuZqfTUdgpUo7wha5skoghna5iMUCL3xiO/WHJbuQ==
-X-Received: by 2002:a5d:604b:: with SMTP id j11mr21044761wrt.22.1638521813595;
-        Fri, 03 Dec 2021 00:56:53 -0800 (PST)
+        h=sender:x-gm-message-state:from:to:subject:date:message-id
+         :in-reply-to:references:auto-submitted:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=dOmuNk7zalbLJI9lEHzM0jIO7jAHFNBido3FIu9pBsk=;
+        b=PAE/T2pfVBL4zQC98BvC6/BlJ0Hnmwfl29vCBypuFDl4yP90Px1maDJLn9ffVFDplF
+         MYfIRHXAmTtl0DUU8ZlRPLgsd/MQTcHH6P59fmusnuQtQt1Fvu2hsRiL1qrDffgWh8nh
+         oC7wQtjd9cRmZQ4/TckAxwT2/rRZ4vKP8bsLCTT09LaRBWDab1yPDGwn+JL+fO6J20xV
+         13XLPIGHELyMMI+fUPbKqUMETalcYUk8tCUmFAcxXDghvtrTkGe9CZJrjL3yRpiy5CYk
+         FE8hNcBOyPFIydC2xsGdvaPpfBzGLfVKV/4mq3OF+GZltlN8X+uEczwrTYMIj0//8gxH
+         tsgQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531eLZekMu9XlKYYqjLcLgdmle8ZCdOG8JboyPW3+bboLTAnyNVW
+	CmdWAD6DwZpra4gDKuqlH+0=
+X-Google-Smtp-Source: ABdhPJz4EAbHmNdyg7XsRMEu+wR6Cg19sGQ+zLRZi945j1yeszG1bvsAh1+X1aszXa5Wb3RdYopVCQ==
+X-Received: by 2002:adf:ea90:: with SMTP id s16mr20592307wrm.288.1638528110693;
+        Fri, 03 Dec 2021 02:41:50 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:f1c2:: with SMTP id z2ls388819wro.2.gmail; Fri, 03 Dec
- 2021 00:56:52 -0800 (PST)
-X-Received: by 2002:a5d:55cf:: with SMTP id i15mr20246008wrw.166.1638521812621;
-        Fri, 03 Dec 2021 00:56:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638521812; cv=none;
+Received: by 2002:a05:600c:ad6:: with SMTP id c22ls6512440wmr.1.canary-gmail;
+ Fri, 03 Dec 2021 02:41:49 -0800 (PST)
+X-Received: by 2002:a05:600c:2195:: with SMTP id e21mr14276737wme.187.1638528109870;
+        Fri, 03 Dec 2021 02:41:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638528109; cv=none;
         d=google.com; s=arc-20160816;
-        b=l+88iijSZU4xG6vF08mIhfdFHAIuXrcVVcpS5uKPfhmNmbtaztCXaOBkVDjobLPPrd
-         E7egjIL2WJhtjxj1f0keWJQWIid1SZM9+MQGuoi1loAW5qmknYnIuHu4lN4Ok3g4vj3E
-         nV8e4p496BKIFy0hOFBIhDTcMJQIxmqzo4Tl0DMzHy9GPhM8lg7HQB3rW78RwSPOZY8Y
-         oN+K9zshOPAmmsJQrOT9RTgtaB+lcuedVzJIKiCCEEwViBle0F/trcRx3iZxVHgQmHHQ
-         40esUXVdJ2aTnfLJAbJuttStJNsvXM16QFJeSmTNxL+wSpt134jX+VpbaLNoOCjI1uI3
-         aw4A==
+        b=EC+qft/hxW93rJwlN41DOvAE0JOhiE5lA0f/aqNM7iQoMZKRmvsCuo/ao0iO0XGLAX
+         cgbhln6Qj2HK0nIUMYEdLkE/UcDVDnC+rlDVdfWbsd+Lk2rkyF9/mCP9OQ0KGTSGBhBR
+         +dJW80w+wdfZ1jMON+BDtTEZVSKOZfR/2cJy7Sm0Sjr6RBdfhkea0FdIjMOLzTc1JQ41
+         0/rSPEZE7/GkniOyfClPBedMRuhBdWUZ6JN9RxqDs8EMK1uyCso1XvOJd5zGmCNREAsU
+         +Rd5w+WgcEcNgoeXKaHJy6UP3tcJuW/IEBzOrkq8ggcCwFk7+vGuAxCNxdx1wIoKS0Sr
+         6GQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=qx5PvmkFVYZqETai/jK/rfHutzbtJKEAqXwvuGBVDPE=;
-        b=papZIKRgPsDuefZmmhO10kpYJ4arSI476eQqXNoBFOfqseS0jpbVeQUlDj9r7TT5EL
-         LRRfLpOBf0w9xqSiqcckNbbdONya3tYuCpcQ3e4TXK5o59LztMsIwLqfzEQy0EI8PHaM
-         y3F0NRc4qXInQ6CTTFHoDDS/zJ7OERbYkcMytUn0ps8Vj7wJzyFWXSoFV4+PVw86MdLI
-         9hILchYRx+coBCJ5V6RiPo43Xdo8qdkBZ4wKJ551Ld8v10cl9YJwU0W114g+O06hpwq+
-         zlGGZV5gtAjfdSlbo4FKXltpmtwCCc+1iQJ8KZvZ8noA3NfMMjHVhLr4utW3EJe11QML
-         CnUg==
+        h=mime-version:auto-submitted:content-transfer-encoding:references
+         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
+        bh=XWmg9Yg2azJsu5XdHmKH0qHibFR+4A0hYCTkTKq879E=;
+        b=Yy+HdvtRU7scrEC1CUQANIitHKmiXr53bnmgfPbb6NPWN8RKiMIalSXJIqXT4fzTV6
+         YDsbiYkt1E1W8KtrgrqXtiDznG65iYkPVIvqIJKQ+7rxgjAvlClWrYO2Q2AvDx7a+d+I
+         tP81ZUZVlvIYr6MrkSl2s4VZO4DO1GxzWBMgA538SYyj9+W5YIrmncMUoPKQJnM+A168
+         hyrZ46Zi7keHO2tQxGHpqSnv23pFgqg49fD3Dv3zUJ04Yas12CZCQmnPVunrxYUTvlid
+         XX32bsxo/EdEiiIANVNxDmCtca5oSu6n4LXVQtVZ1Pfon/CJbQqj6cbnlXtZLeZtq9/H
+         t4Ew==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="fFM0awD/";
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com. [2a00:1450:4864:20::433])
-        by gmr-mx.google.com with ESMTPS id x20si98991wrg.3.2021.12.03.00.56.52
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=UGyt6c7B;
+       spf=pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
+        by gmr-mx.google.com with ESMTPS id o19si361727wme.2.2021.12.03.02.41.49
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Dec 2021 00:56:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::433 as permitted sender) client-ip=2a00:1450:4864:20::433;
-Received: by mail-wr1-x433.google.com with SMTP id l16so4174084wrp.11
-        for <kasan-dev@googlegroups.com>; Fri, 03 Dec 2021 00:56:52 -0800 (PST)
-X-Received: by 2002:a5d:6e82:: with SMTP id k2mr20186167wrz.147.1638521812022;
-        Fri, 03 Dec 2021 00:56:52 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:cb5f:d3e:205e:c7c4])
-        by smtp.gmail.com with ESMTPSA id z7sm4272542wmi.33.2021.12.03.00.56.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 00:56:50 -0800 (PST)
-Date: Fri, 3 Dec 2021 09:56:45 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Alexander Potapenko <glider@google.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Borislav Petkov <bp@alien8.de>,
-	Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
-	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	llvm@lists.linux.dev, x86@kernel.org
-Subject: Re: [PATCH v3 04/25] kcsan: Add core support for a subset of weak
- memory modeling
-Message-ID: <YanbzWyhR0LwdinE@elver.google.com>
-References: <20211130114433.2580590-1-elver@google.com>
- <20211130114433.2580590-5-elver@google.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 03 Dec 2021 02:41:49 -0800 (PST)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 6ADF9B82604
+	for <kasan-dev@googlegroups.com>; Fri,  3 Dec 2021 10:41:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1DC29C53FC7
+	for <kasan-dev@googlegroups.com>; Fri,  3 Dec 2021 10:41:46 +0000 (UTC)
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+	id 0930C60FF4; Fri,  3 Dec 2021 10:41:46 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 214861] UBSAN_OBJECT_SIZE=y results in a non-booting kernel (32
+ bit, i686)
+Date: Fri, 03 Dec 2021 10:41:45 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: melver@kernel.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214861-199747-QyZHKm0Uqh@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214861-199747@https.bugzilla.kernel.org/>
+References: <bug-214861-199747@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="oIcY7JcqTshlMZ0y"
-Content-Disposition: inline
-In-Reply-To: <20211130114433.2580590-5-elver@google.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Original-Sender: elver@google.com
+X-Original-Sender: bugzilla-daemon@bugzilla.kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="fFM0awD/";       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::433 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=UGyt6c7B;       spf=pass
+ (google.com: domain of bugzilla-daemon@bugzilla.kernel.org designates
+ 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@bugzilla.kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,571 +150,118 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=214861
 
---oIcY7JcqTshlMZ0y
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
+--- Comment #4 from Marco Elver (melver@kernel.org) ---
+As a reminder, in its current implementation, fsanitize=object-size relies on
+__builtin_object_size of the converted-from object to determine if the
+converted-to object could -- due to its size -- __potentially__ access
+out-of-bounds bytes.
 
-On Tue, Nov 30, 2021 at 12:44PM +0100, Marco Elver wrote:
-[...]
-> v3:
-> * Remove kcsan_noinstr hackery, since we now try to avoid adding any
->   instrumentation to .noinstr.text in the first place.
-[...]
+Also UBSAN_OBJECT_SIZE is already unavailable in kernel builds with GCC, so the
+below is Clang-specific.
 
-I missed some cleanups after changes from v2 to v3 -- the below cleanup
-is missing.
+Example program that illustrates what [1] is doing:
 
-Full replacement patch attached.
+---
+// clang -O2 -fsanitize=object-size ubsan.c
+struct sk_buff_head {
+  volatile struct sk_buff_head *prev;
+  volatile struct sk_buff_head *next;
+};
+struct sk_buff {
+  struct sk_buff_head list;
+  int foo;
+  long bar;
+  short baz;
+};
+void ubsan_fail(struct sk_buff *skb)
+{
+  skb->list.next++;
+#if 0 // uncommenting this no longer causes failure! strange, isn't it?!
+  skb->list.prev++;
+#endif
+}
+int skbuf_xmit(struct sk_buff *skb)
+{
+  struct sk_buff_head list = {};
+  _Static_assert(__builtin_object_size(&list, 0) == sizeof(struct
+sk_buff_head), "");
+  _Static_assert(_Alignof(struct sk_buff_head) == _Alignof(struct sk_buff),
+""); // not UB!
+  ubsan_fail((struct sk_buff *)&list);
+  return 42;
+}
+int main()
+{
+  struct sk_buff s = {};
+  return skbuf_xmit(&s);
+}
+---
 
-Thanks,
--- Marco
+I was really struggling to understand why a small change (see the #if 0) would
+suddenly no longer trigger fsanitize=object-size. I guess this has something to
+do with what optimizations are applied and the visibility of
+__builtin_object_size.
 
------- >8 ------
+Furthermore, as is evident from the first _Static_assert, it's clear the size
+of 'list' is always known to the compiler, which fsanitize=object-size relies
+on. Yet subtle code changes no longer trigger UBSan.
 
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 2254cb75cbb0..916060913966 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -12,7 +12,6 @@
- #include <linux/delay.h>
- #include <linux/export.h>
- #include <linux/init.h>
--#include <linux/instrumentation.h>
- #include <linux/kernel.h>
- #include <linux/list.h>
- #include <linux/moduleparam.h>
-@@ -21,8 +20,6 @@
- #include <linux/sched.h>
- #include <linux/uaccess.h>
- 
--#include <asm/sections.h>
--
- #include "encoding.h"
- #include "kcsan.h"
- #include "permissive.h"
-@@ -1086,9 +1083,7 @@ noinline void __tsan_func_entry(void *call_pc)
- 	if (!IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
- 		return;
- 
--	instrumentation_begin();
- 	add_kcsan_stack_depth(1);
--	instrumentation_end();
- }
- EXPORT_SYMBOL(__tsan_func_entry);
- 
-@@ -1100,7 +1095,6 @@ noinline void __tsan_func_exit(void)
- 	if (!IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
- 		return;
- 
--	instrumentation_begin();
- 	reorder_access = get_reorder_access(get_ctx());
- 	if (!reorder_access)
- 		goto out;
-@@ -1120,7 +1114,6 @@ noinline void __tsan_func_exit(void)
- 	}
- out:
- 	add_kcsan_stack_depth(-1);
--	instrumentation_end();
- }
- EXPORT_SYMBOL(__tsan_func_exit);
- 
+And in the above there is no UB as far as I can interpret the C standard --
+"6.3.2.3 Pointers": "A pointer to an object type may be converted to a pointer
+to a different object type. If the resulting pointer is not correctly aligned
+for the referenced type, the behavior is undefined."
+
+So what does fsanitize=object-size actually try to catch? Per documentation [2]
+"an attempt to potentially use bytes [...]" -- yet, its report is generated on
+the cast itself, not on the access.
+
+It doesn't actually catch UB pointer casts, and it seems its only purpose is to
+report on _potential for_ out-of-bounds accesses, although it's only guessing.
+To catch UB pointer casts due to alignment issues we have -Wcast-align. And to
+catch real out-of-bounds we have ASan (in kernel, KASAN).
+
+I think the major clue here is this line:
+https://github.com/llvm/llvm-project/blob/c41b318423c4dbf0a65f81e5e9a816c1710ba4f6/clang/lib/CodeGen/CGExpr.cpp#L733
+, which has existed since its inception:
+https://github.com/llvm/llvm-project/commit/69d0d2626a4f5
+
+If the plan was always to rely on ASan or some other dynamic check to check for
+OOB, this has never happened, and fsanitize=object-size is therefore
+incomplete.
+
+Like a compiler-warning, fsanitize=object-size appears to report on poor design
+or interface choices, but is oblivious if a real out-of-bounds access occurred.
+This sort of checking should not happen at runtime.
+
+So my conclusion from this is:
+
+        1. fsanitize=object-size is unreliable, and cannot
+           deterministically be triggered.
+
+        2. It does not actually report real UB if the objects have
+           compatible alignment and no out-of-bounds bytes are accessed.
+
+        3. fsanitize=object-size should be a compiler warning.
+
+I think there are already several compiler warnings that can catch real OOB
+where the compiler knows the object size (-Warray-bounds), and for the rest
+there is ASan (in kernel, KASAN).
+
+I would therefore propose to remove UBSAN_OBJECT_SIZE, given the above and the
+fact it's already unusable in the Linux kernel.
+
+[1] https://lkml.kernel.org/r/20211111003519.1050494-1-tadeusz.struk@linaro.org
+[2] https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YanbzWyhR0LwdinE%40elver.google.com.
-
---oIcY7JcqTshlMZ0y
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename="v4-0004-kcsan-Add-core-support-for-a-subset-of-weak-memor.patch"
-
-From 7ac337afb7bec3cc5c5bd5e4155b08bdb554bc7d Mon Sep 17 00:00:00 2001
-From: Marco Elver <elver@google.com>
-Date: Thu, 5 Aug 2021 14:57:45 +0200
-Subject: [PATCH v4 04/25] kcsan: Add core support for a subset of weak memory
- modeling
-
-Add support for modeling a subset of weak memory, which will enable
-detection of a subset of data races due to missing memory barriers.
-
-KCSAN's approach to detecting missing memory barriers is based on
-modeling access reordering, and enabled if `CONFIG_KCSAN_WEAK_MEMORY=y`,
-which depends on `CONFIG_KCSAN_STRICT=y`. The feature can be enabled or
-disabled at boot and runtime via the `kcsan.weak_memory` boot parameter.
-
-Each memory access for which a watchpoint is set up, is also selected
-for simulated reordering within the scope of its function (at most 1
-in-flight access).
-
-We are limited to modeling the effects of "buffering" (delaying the
-access), since the runtime cannot "prefetch" accesses (therefore no
-acquire modeling). Once an access has been selected for reordering, it
-is checked along every other access until the end of the function scope.
-If an appropriate memory barrier is encountered, the access will no
-longer be considered for reordering.
-
-When the result of a memory operation should be ordered by a barrier,
-KCSAN can then detect data races where the conflict only occurs as a
-result of a missing barrier due to reordering accesses.
-
-Suggested-by: Dmitry Vyukov <dvyukov@google.com>
-Signed-off-by: Marco Elver <elver@google.com>
----
-v4:
-* Remove redundant instrumentation_begin/end() now that kcsan_noinstr no
-  longer exists.
-
-v3:
-* Remove kcsan_noinstr hackery, since we now try to avoid adding any
-  instrumentation to .noinstr.text in the first place.
-* Restrict config WEAK_MEMORY to only be enabled with tooling where
-  we actually remove instrumentation from noinstr.
-* Don't define kcsan_weak_memory bool if !KCSAN_WEAK_MEMORY.
-
-v2:
-* Define kcsan_noinstr as noinline if we rely on objtool nop'ing out
-  calls, to avoid things like LTO inlining it.
----
- include/linux/kcsan-checks.h |  10 +-
- include/linux/kcsan.h        |  10 +-
- include/linux/sched.h        |   3 +
- kernel/kcsan/core.c          | 202 ++++++++++++++++++++++++++++++++---
- lib/Kconfig.kcsan            |  20 ++++
- scripts/Makefile.kcsan       |   9 +-
- 6 files changed, 235 insertions(+), 19 deletions(-)
-
-diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
-index 5f5965246877..a1c6a89fde71 100644
---- a/include/linux/kcsan-checks.h
-+++ b/include/linux/kcsan-checks.h
-@@ -99,7 +99,15 @@ void kcsan_set_access_mask(unsigned long mask);
- 
- /* Scoped access information. */
- struct kcsan_scoped_access {
--	struct list_head list;
-+	union {
-+		struct list_head list; /* scoped_accesses list */
-+		/*
-+		 * Not an entry in scoped_accesses list; stack depth from where
-+		 * the access was initialized.
-+		 */
-+		int stack_depth;
-+	};
-+
- 	/* Access information. */
- 	const volatile void *ptr;
- 	size_t size;
-diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
-index 13cef3458fed..c07c71f5ba4f 100644
---- a/include/linux/kcsan.h
-+++ b/include/linux/kcsan.h
-@@ -49,8 +49,16 @@ struct kcsan_ctx {
- 	 */
- 	unsigned long access_mask;
- 
--	/* List of scoped accesses. */
-+	/* List of scoped accesses; likely to be empty. */
- 	struct list_head scoped_accesses;
-+
-+#ifdef CONFIG_KCSAN_WEAK_MEMORY
-+	/*
-+	 * Scoped access for modeling access reordering to detect missing memory
-+	 * barriers; only keep 1 to keep fast-path complexity manageable.
-+	 */
-+	struct kcsan_scoped_access reorder_access;
-+#endif
- };
- 
- /**
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 78c351e35fec..0cd40b010487 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1339,6 +1339,9 @@ struct task_struct {
- #ifdef CONFIG_TRACE_IRQFLAGS
- 	struct irqtrace_events		kcsan_save_irqtrace;
- #endif
-+#ifdef CONFIG_KCSAN_WEAK_MEMORY
-+	int				kcsan_stack_depth;
-+#endif
- #endif
- 
- #if IS_ENABLED(CONFIG_KUNIT)
-diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index bd359f8ee63a..481f8a524089 100644
---- a/kernel/kcsan/core.c
-+++ b/kernel/kcsan/core.c
-@@ -40,6 +40,13 @@ module_param_named(udelay_interrupt, kcsan_udelay_interrupt, uint, 0644);
- module_param_named(skip_watch, kcsan_skip_watch, long, 0644);
- module_param_named(interrupt_watcher, kcsan_interrupt_watcher, bool, 0444);
- 
-+#ifdef CONFIG_KCSAN_WEAK_MEMORY
-+static bool kcsan_weak_memory = true;
-+module_param_named(weak_memory, kcsan_weak_memory, bool, 0644);
-+#else
-+#define kcsan_weak_memory false
-+#endif
-+
- bool kcsan_enabled;
- 
- /* Per-CPU kcsan_ctx for interrupts */
-@@ -351,6 +358,67 @@ void kcsan_restore_irqtrace(struct task_struct *task)
- #endif
- }
- 
-+static __always_inline int get_kcsan_stack_depth(void)
-+{
-+#ifdef CONFIG_KCSAN_WEAK_MEMORY
-+	return current->kcsan_stack_depth;
-+#else
-+	BUILD_BUG();
-+	return 0;
-+#endif
-+}
-+
-+static __always_inline void add_kcsan_stack_depth(int val)
-+{
-+#ifdef CONFIG_KCSAN_WEAK_MEMORY
-+	current->kcsan_stack_depth += val;
-+#else
-+	BUILD_BUG();
-+#endif
-+}
-+
-+static __always_inline struct kcsan_scoped_access *get_reorder_access(struct kcsan_ctx *ctx)
-+{
-+#ifdef CONFIG_KCSAN_WEAK_MEMORY
-+	return ctx->disable_scoped ? NULL : &ctx->reorder_access;
-+#else
-+	return NULL;
-+#endif
-+}
-+
-+static __always_inline bool
-+find_reorder_access(struct kcsan_ctx *ctx, const volatile void *ptr, size_t size,
-+		    int type, unsigned long ip)
-+{
-+	struct kcsan_scoped_access *reorder_access = get_reorder_access(ctx);
-+
-+	if (!reorder_access)
-+		return false;
-+
-+	/*
-+	 * Note: If accesses are repeated while reorder_access is identical,
-+	 * never matches the new access, because !(type & KCSAN_ACCESS_SCOPED).
-+	 */
-+	return reorder_access->ptr == ptr && reorder_access->size == size &&
-+	       reorder_access->type == type && reorder_access->ip == ip;
-+}
-+
-+static inline void
-+set_reorder_access(struct kcsan_ctx *ctx, const volatile void *ptr, size_t size,
-+		   int type, unsigned long ip)
-+{
-+	struct kcsan_scoped_access *reorder_access = get_reorder_access(ctx);
-+
-+	if (!reorder_access || !kcsan_weak_memory)
-+		return;
-+
-+	reorder_access->ptr		= ptr;
-+	reorder_access->size		= size;
-+	reorder_access->type		= type | KCSAN_ACCESS_SCOPED;
-+	reorder_access->ip		= ip;
-+	reorder_access->stack_depth	= get_kcsan_stack_depth();
-+}
-+
- /*
-  * Pull everything together: check_access() below contains the performance
-  * critical operations; the fast-path (including check_access) functions should
-@@ -389,8 +457,10 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
- 	 * The access_mask check relies on value-change comparison. To avoid
- 	 * reporting a race where e.g. the writer set up the watchpoint, but the
- 	 * reader has access_mask!=0, we have to ignore the found watchpoint.
-+	 *
-+	 * reorder_access is never created from an access with access_mask set.
- 	 */
--	if (ctx->access_mask)
-+	if (ctx->access_mask && !find_reorder_access(ctx, ptr, size, type, ip))
- 		return;
- 
- 	/*
-@@ -440,11 +510,13 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 	const bool is_assert = (type & KCSAN_ACCESS_ASSERT) != 0;
- 	atomic_long_t *watchpoint;
- 	u64 old, new, diff;
--	unsigned long access_mask;
- 	enum kcsan_value_change value_change = KCSAN_VALUE_CHANGE_MAYBE;
-+	bool interrupt_watcher = kcsan_interrupt_watcher;
- 	unsigned long ua_flags = user_access_save();
- 	struct kcsan_ctx *ctx = get_ctx();
-+	unsigned long access_mask = ctx->access_mask;
- 	unsigned long irq_flags = 0;
-+	bool is_reorder_access;
- 
- 	/*
- 	 * Always reset kcsan_skip counter in slow-path to avoid underflow; see
-@@ -467,6 +539,17 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 		goto out;
- 	}
- 
-+	/*
-+	 * The local CPU cannot observe reordering of its own accesses, and
-+	 * therefore we need to take care of 2 cases to avoid false positives:
-+	 *
-+	 *	1. Races of the reordered access with interrupts. To avoid, if
-+	 *	   the current access is reorder_access, disable interrupts.
-+	 *	2. Avoid races of scoped accesses from nested interrupts (below).
-+	 */
-+	is_reorder_access = find_reorder_access(ctx, ptr, size, type, ip);
-+	if (is_reorder_access)
-+		interrupt_watcher = false;
- 	/*
- 	 * Avoid races of scoped accesses from nested interrupts (or scheduler).
- 	 * Assume setting up a watchpoint for a non-scoped (normal) access that
-@@ -482,7 +565,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 	 * information is lost if dirtied by KCSAN.
- 	 */
- 	kcsan_save_irqtrace(current);
--	if (!kcsan_interrupt_watcher)
-+	if (!interrupt_watcher)
- 		local_irq_save(irq_flags);
- 
- 	watchpoint = insert_watchpoint((unsigned long)ptr, size, is_write);
-@@ -503,7 +586,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 	 * Read the current value, to later check and infer a race if the data
- 	 * was modified via a non-instrumented access, e.g. from a device.
- 	 */
--	old = read_instrumented_memory(ptr, size);
-+	old = is_reorder_access ? 0 : read_instrumented_memory(ptr, size);
- 
- 	/*
- 	 * Delay this thread, to increase probability of observing a racy
-@@ -515,8 +598,17 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 	 * Re-read value, and check if it is as expected; if not, we infer a
- 	 * racy access.
- 	 */
--	access_mask = ctx->access_mask;
--	new = read_instrumented_memory(ptr, size);
-+	if (!is_reorder_access) {
-+		new = read_instrumented_memory(ptr, size);
-+	} else {
-+		/*
-+		 * Reordered accesses cannot be used for value change detection,
-+		 * because the memory location may no longer be accessible and
-+		 * could result in a fault.
-+		 */
-+		new = 0;
-+		access_mask = 0;
-+	}
- 
- 	diff = old ^ new;
- 	if (access_mask)
-@@ -585,11 +677,20 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 	 */
- 	remove_watchpoint(watchpoint);
- 	atomic_long_dec(&kcsan_counters[KCSAN_COUNTER_USED_WATCHPOINTS]);
-+
- out_unlock:
--	if (!kcsan_interrupt_watcher)
-+	if (!interrupt_watcher)
- 		local_irq_restore(irq_flags);
- 	kcsan_restore_irqtrace(current);
- 	ctx->disable_scoped--;
-+
-+	/*
-+	 * Reordered accesses cannot be used for value change detection,
-+	 * therefore never consider for reordering if access_mask is set.
-+	 * ASSERT_EXCLUSIVE are not real accesses, ignore them as well.
-+	 */
-+	if (!access_mask && !is_assert)
-+		set_reorder_access(ctx, ptr, size, type, ip);
- out:
- 	user_access_restore(ua_flags);
- }
-@@ -597,7 +698,6 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- static __always_inline void
- check_access(const volatile void *ptr, size_t size, int type, unsigned long ip)
- {
--	const bool is_write = (type & KCSAN_ACCESS_WRITE) != 0;
- 	atomic_long_t *watchpoint;
- 	long encoded_watchpoint;
- 
-@@ -608,12 +708,14 @@ check_access(const volatile void *ptr, size_t size, int type, unsigned long ip)
- 	if (unlikely(size == 0))
- 		return;
- 
-+again:
- 	/*
- 	 * Avoid user_access_save in fast-path: find_watchpoint is safe without
- 	 * user_access_save, as the address that ptr points to is only used to
- 	 * check if a watchpoint exists; ptr is never dereferenced.
- 	 */
--	watchpoint = find_watchpoint((unsigned long)ptr, size, !is_write,
-+	watchpoint = find_watchpoint((unsigned long)ptr, size,
-+				     !(type & KCSAN_ACCESS_WRITE),
- 				     &encoded_watchpoint);
- 	/*
- 	 * It is safe to check kcsan_is_enabled() after find_watchpoint in the
-@@ -627,9 +729,42 @@ check_access(const volatile void *ptr, size_t size, int type, unsigned long ip)
- 	else {
- 		struct kcsan_ctx *ctx = get_ctx(); /* Call only once in fast-path. */
- 
--		if (unlikely(should_watch(ctx, ptr, size, type)))
-+		if (unlikely(should_watch(ctx, ptr, size, type))) {
- 			kcsan_setup_watchpoint(ptr, size, type, ip);
--		else if (unlikely(ctx->scoped_accesses.prev))
-+			return;
-+		}
-+
-+		if (!(type & KCSAN_ACCESS_SCOPED)) {
-+			struct kcsan_scoped_access *reorder_access = get_reorder_access(ctx);
-+
-+			if (reorder_access) {
-+				/*
-+				 * reorder_access check: simulates reordering of
-+				 * the access after subsequent operations.
-+				 */
-+				ptr = reorder_access->ptr;
-+				type = reorder_access->type;
-+				ip = reorder_access->ip;
-+				/*
-+				 * Upon a nested interrupt, this context's
-+				 * reorder_access can be modified (shared ctx).
-+				 * We know that upon return, reorder_access is
-+				 * always invalidated by setting size to 0 via
-+				 * __tsan_func_exit(). Therefore we must read
-+				 * and check size after the other fields.
-+				 */
-+				barrier();
-+				size = READ_ONCE(reorder_access->size);
-+				if (size)
-+					goto again;
-+			}
-+		}
-+
-+		/*
-+		 * Always checked last, right before returning from runtime;
-+		 * if reorder_access is valid, checked after it was checked.
-+		 */
-+		if (unlikely(ctx->scoped_accesses.prev))
- 			kcsan_check_scoped_accesses();
- 	}
- }
-@@ -916,19 +1051,56 @@ DEFINE_TSAN_VOLATILE_READ_WRITE(8);
- DEFINE_TSAN_VOLATILE_READ_WRITE(16);
- 
- /*
-- * The below are not required by KCSAN, but can still be emitted by the
-- * compiler.
-+ * Function entry and exit are used to determine the validty of reorder_access.
-+ * Reordering of the access ends at the end of the function scope where the
-+ * access happened. This is done for two reasons:
-+ *
-+ *	1. Artificially limits the scope where missing barriers are detected.
-+ *	   This minimizes false positives due to uninstrumented functions that
-+ *	   contain the required barriers but were missed.
-+ *
-+ *	2. Simplifies generating the stack trace of the access.
-  */
- void __tsan_func_entry(void *call_pc);
--void __tsan_func_entry(void *call_pc)
-+noinline void __tsan_func_entry(void *call_pc)
- {
-+	if (!IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
-+		return;
-+
-+	add_kcsan_stack_depth(1);
- }
- EXPORT_SYMBOL(__tsan_func_entry);
-+
- void __tsan_func_exit(void);
--void __tsan_func_exit(void)
-+noinline void __tsan_func_exit(void)
- {
-+	struct kcsan_scoped_access *reorder_access;
-+
-+	if (!IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
-+		return;
-+
-+	reorder_access = get_reorder_access(get_ctx());
-+	if (!reorder_access)
-+		goto out;
-+
-+	if (get_kcsan_stack_depth() <= reorder_access->stack_depth) {
-+		/*
-+		 * Access check to catch cases where write without a barrier
-+		 * (supposed release) was last access in function: because
-+		 * instrumentation is inserted before the real access, a data
-+		 * race due to the write giving up a c-s would only be caught if
-+		 * we do the conflicting access after.
-+		 */
-+		check_access(reorder_access->ptr, reorder_access->size,
-+			     reorder_access->type, reorder_access->ip);
-+		reorder_access->size = 0;
-+		reorder_access->stack_depth = INT_MIN;
-+	}
-+out:
-+	add_kcsan_stack_depth(-1);
- }
- EXPORT_SYMBOL(__tsan_func_exit);
-+
- void __tsan_init(void);
- void __tsan_init(void)
- {
-diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-index e0a93ffdef30..e4394ea8068b 100644
---- a/lib/Kconfig.kcsan
-+++ b/lib/Kconfig.kcsan
-@@ -191,6 +191,26 @@ config KCSAN_STRICT
- 	  closely aligns with the rules defined by the Linux-kernel memory
- 	  consistency model (LKMM).
- 
-+config KCSAN_WEAK_MEMORY
-+	bool "Enable weak memory modeling to detect missing memory barriers"
-+	default y
-+	depends on KCSAN_STRICT
-+	# We can either let objtool nop __tsan_func_{entry,exit}() and builtin
-+	# atomics instrumentation in .noinstr.text, or use a compiler that can
-+	# implement __no_kcsan to really remove all instrumentation.
-+	depends on STACK_VALIDATION || CC_IS_GCC
-+	help
-+	  Enable support for modeling a subset of weak memory, which allows
-+	  detecting a subset of data races due to missing memory barriers.
-+
-+	  Depends on KCSAN_STRICT, because the options strenghtening certain
-+	  plain accesses by default (depending on !KCSAN_STRICT) reduce the
-+	  ability to detect any data races invoving reordered accesses, in
-+	  particular reordered writes.
-+
-+	  Weak memory modeling relies on additional instrumentation and may
-+	  affect performance.
-+
- config KCSAN_REPORT_VALUE_CHANGE_ONLY
- 	bool "Only report races where watcher observed a data value change"
- 	default y
-diff --git a/scripts/Makefile.kcsan b/scripts/Makefile.kcsan
-index 37cb504c77e1..4c7f0d282e42 100644
---- a/scripts/Makefile.kcsan
-+++ b/scripts/Makefile.kcsan
-@@ -9,7 +9,12 @@ endif
- 
- # Keep most options here optional, to allow enabling more compilers if absence
- # of some options does not break KCSAN nor causes false positive reports.
--export CFLAGS_KCSAN := -fsanitize=thread \
--	$(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit=0) -fno-optimize-sibling-calls) \
-+kcsan-cflags := -fsanitize=thread -fno-optimize-sibling-calls \
- 	$(call cc-option,$(call cc-param,tsan-compound-read-before-write=1),$(call cc-option,$(call cc-param,tsan-instrument-read-before-write=1))) \
- 	$(call cc-param,tsan-distinguish-volatile=1)
-+
-+ifndef CONFIG_KCSAN_WEAK_MEMORY
-+kcsan-cflags += $(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit=0))
-+endif
-+
-+export CFLAGS_KCSAN := $(kcsan-cflags)
--- 
-2.34.0.384.gca35af8252-goog
-
-
---oIcY7JcqTshlMZ0y--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-214861-199747-QyZHKm0Uqh%40https.bugzilla.kernel.org/.
