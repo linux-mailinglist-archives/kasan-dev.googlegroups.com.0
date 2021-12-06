@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBMGVW6GQMGQE2HQZXSI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ7NGWH7YJRB3WVW6GQMGQEFKQZUMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D558469436
-	for <lists+kasan-dev@lfdr.de>; Mon,  6 Dec 2021 11:49:21 +0100 (CET)
-Received: by mail-wr1-x43f.google.com with SMTP id k15-20020adfe8cf000000b00198d48342f9sf1914724wrn.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 06 Dec 2021 02:49:21 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638787761; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F72469444
+	for <lists+kasan-dev@lfdr.de>; Mon,  6 Dec 2021 11:50:22 +0100 (CET)
+Received: by mail-lf1-x13a.google.com with SMTP id d26-20020ac244da000000b00417e1d212a2sf3716712lfm.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 06 Dec 2021 02:50:22 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638787822; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qWk3sYlRbI6dObMhV5YnF5vcXM3fWKG0W5Y2KkLlICDBnhE4HG0W1LE9SvVimrFqm0
-         tBxsEnO+DGJWs5u4OBbusfQZJYSQLsj5nSmKmD6169sdP/3q0wa8ru0GYdCQDdzuxowQ
-         kQSWpn3glTz/IJuguLbgv4PcUEZcwrqlu+V/k5GT2pCf6C0f53Omx2vH6UcUrcmCJbRV
-         uZKIHTG0wEMfTXYZbjTIQ7xfzTNGg7QiKFNUltRv87g+tJ3xPZ96ARLzX8bKDTMc79xP
-         4ceVFVqaZ2bmid9+AM9mefbVfuEywRS/bUlLb1Rur0O3Y81D8iqJb1L9c9Hn6nlNFVhA
-         K/KA==
+        b=JsMdg3l1OeWpR9RBkR/SPYLCINxvnyPAQr3ya+y7b365Ev30UlWd091jEEpcuxWeiX
+         b5IvDXSOwh0T4XDMvo1jHt5dFPFRdfXK8sXrATz1T5qA3RJgUp5rvawJtY77iD56Jagg
+         64W+MWaWr+Gu4O7QX2XqRZwVApcelOSXDRfA6SW65mnrHFXfGASStPN4kMr1xsObIPbU
+         gFmiwR5q2gEMx+ZbnVxK/RQbqxRvBje07kWHXi4USUEeqAPEoGExoxcTUaaLQAwfPK23
+         N1Kn3f7H+OgnJmQFtFeDBXoeHuI68vzzc7Gh0wX75uDSor/2N1vDvcOEOuhUPTXAMpdc
+         GRvA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=ELV313Zk3jK0npNstq0TkfIgEgkoCyqTSQnZ/mDlLeQ=;
-        b=g3DiXrrxWL931Eo0rukGngPvzXh9Ny91GIUzDPpU4373yuejmHB/LLlgSWZs5cnRXX
-         ttWYP+0zx+N0XCrdMYXeTc4BkbdKFvYBpp4MLy65wjsQsDzp4rn1p7r76A+zoRCbkpf8
-         u853BPaS2WLpCJaOmAxNBBnEyn7wjB3qXVt7UfRGaNGbexePaAb4MJlJSpW6NOIHlnto
-         l+QahQOQpFx0d+voYEgSoo3LgNNdYR2QlIvArrZQI2fsCJP78QmQtpx1jKms6TDbSwg+
-         FfiDQxaPMGJw/hxNRb/OAFL7vk6rkLNg/6Oa/ccXtsmUNW1S/WCCXc6XazDz6fmYUs9b
-         7b7g==
+        bh=LZtOCzWI0ag0evwHP3eUirFPcr2/zYgdvbZYBsrDE00=;
+        b=RBIjJ4qB54IcJBKM5aLkvYlA4wcyojNbcgj0jNVh0CLLXC3h3TXTdWD/3NtPfA8lyB
+         NjVOMM55DHojz1dKegEglwGfnZfjV2dmF59a9HQ4Mbrcg6eojimgTUcQN7znTzExW5zp
+         g9y8P9eXuks/q3yCOoZvMbTOkPPwaPr5dJfUl8PK0xX5Jf6RmZlbaC80cz/P2ztM+80M
+         njQ00+KSdsXXddcA1CNwgsRPnuo4daLnUGSZOwwMEXJfLCTMli/N1RPdYcH7wZC4bNvE
+         aP9MV9WQ5QWG7Q6oq64hG0Ukapze/Pd+VY/PqZackeTE3IFAjPNLdu7RQzFywVw4dRck
+         sRSA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=ON5x4H32;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b="SbqC6I/w";
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ELV313Zk3jK0npNstq0TkfIgEgkoCyqTSQnZ/mDlLeQ=;
-        b=IGAU7xM4cKSbbyA1bUD8BuhHj17hcmznAVKyAorfH4zeUDtFD8AHj2J/oSzWZE/yAZ
-         tqbjuMN3h2rF9CPBzegbQB/wY1zLbdob7xnN6j4rE3zkStVhJh+1m6twu8GC/7I8gT5V
-         u9bM3DTxYSO+Bme12JKFr7msQrG4k5TBJUdJF2CeChpfvRhhPouYW9NkNbdJY817s16b
-         qoEIRkhFW8ZwvHAiaWTiCXJWlip26vahXHvAHHXIvnAyJD1OaJ1zKhZeirR6GwwDo14m
-         j/UFiVHuKJQ8HpUwLeRvE69CVmPu0s5Rlredi0zHtzDhAOOp/zB7kNm9ouocVcgadC0Q
-         1kUg==
+        bh=LZtOCzWI0ag0evwHP3eUirFPcr2/zYgdvbZYBsrDE00=;
+        b=m2Z+suWalRuruZQCPphPgJWR4eS+agL3zbTG+inkDp8MCeAfPkPds8L9yytsSQ3Yha
+         yscKgQxsEfyUdshsTW0YiSk8SLNNugsm/NqoI9XoZ1a5YRKghnBxOCS8ZTZS+I+Z1Go+
+         ONsua1Q8trYucO+mnyJVM2cI3F55TaAt4eXTtzdqtm0uJnZ+zcC6QHs9vD+JI2EJvWrh
+         eO9Qo0J+q9XngWNzmOmQHXt6QRM2EyBpaBeEvGS09xTTqZd4KzwnYLoW4qC7wI60hr4a
+         O2HJcvRltar9ckhSkRl/3pAlPurEs+SuOcy36Z2ioqy8mrRB8rRTXzixk/KhCIvUrqSd
+         uGjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,68 +49,68 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=ELV313Zk3jK0npNstq0TkfIgEgkoCyqTSQnZ/mDlLeQ=;
-        b=K1IxM93LVRE9Axi5/GZtGtFPsgcZj9iPhMTEbXE7R95+iYyn1KH+u9rl7iu4Ef8aNi
-         zVTkUEdc3BVCYRpxZJshoYmQnmZ3/MrEtEathMmEsXH/VPLl34zEqD+gzh+/3JaJVkeI
-         xpW/OOIT/3JuvVjYobJdVtxJuY2Z+1Lmq/Lt6L8tBDJ/eftNru6wJq3G6momSAR4O9z3
-         9I0SZcCk8b2cuJmX8pfsEnxRlT0ify7ZtlGrXeT91i/7330WutW95h6zkOOJWK9XgLtT
-         JJ0AYEDUDGfQqtB7whGe82qHK2AZT/BlshZEB2ow+uzXGJD5W7Qcw8VYt7Q3aOS3j1Vs
-         FL/w==
+        bh=LZtOCzWI0ag0evwHP3eUirFPcr2/zYgdvbZYBsrDE00=;
+        b=mdG5TBcoq+fQwtQ3Gbq2OS2YLW0OXcK5+2yNQGD+wChDQ4wEDyhPmD3iZx+Y1rXyr/
+         acxQIyZrYX14fHtlHfM/fPAlRBjrwQPIUabKpAccuLCZ/IcGfjbg/5Phqjlefl39UXuU
+         6Rsa4JIvKH+zlUO+p/6w76sTYruvSNIJyGKkzT3VA5E2mIPZGn9jzcCFl+hid2vY8C2S
+         s/S9MsLfrlafN0/8saeAEw6PuCpQumxjBcDrI/YekLGmmQOcAGp5wYeij9rPNzvwQxmq
+         KxnXLc8ZkfK0LQ+I6gnss8EnOmUh6SMWM3Tr5ZAWE/W5dfQM40ucVs3cgMxL2fYk+PuK
+         oAxg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531kXi3PU8i2Q8YJL7Pt+R8EBomK54QgF1pY5LkE9kBbGgQGYx7L
-	YDCdrR3EVutzACQjIgzPLnw=
-X-Google-Smtp-Source: ABdhPJwphOQR6cGFZPvQ3db68vt7fnJFuqiaX6tqKh8OmUa6nwFFEHlM7eG7+Nyqx1fCJSHQHoMifg==
-X-Received: by 2002:a5d:4989:: with SMTP id r9mr41295352wrq.14.1638787760911;
-        Mon, 06 Dec 2021 02:49:20 -0800 (PST)
+X-Gm-Message-State: AOAM530lc7OkqFFWVAlrXDbW6i1Z/Tgpzsn/9k4F36hV4Ik5QbMMvUwZ
+	cfv/A8mZoMnx5+uTr4mHAZo=
+X-Google-Smtp-Source: ABdhPJy65J9rdtUQ4/UhGK8enDTlhoDcNda8wup0DiM89rS6H/RxQ4K2GtV8xBWrq8Dohfmexx9jPA==
+X-Received: by 2002:a05:6512:200b:: with SMTP id a11mr34692745lfb.398.1638787822365;
+        Mon, 06 Dec 2021 02:50:22 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:80c3:: with SMTP id b186ls7914742wmd.2.gmail; Mon, 06
- Dec 2021 02:49:20 -0800 (PST)
-X-Received: by 2002:a1c:1b15:: with SMTP id b21mr38072640wmb.174.1638787760109;
-        Mon, 06 Dec 2021 02:49:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638787760; cv=none;
+Received: by 2002:a05:6512:234c:: with SMTP id p12ls691604lfu.0.gmail; Mon, 06
+ Dec 2021 02:50:21 -0800 (PST)
+X-Received: by 2002:ac2:5ca8:: with SMTP id e8mr34873219lfq.391.1638787821555;
+        Mon, 06 Dec 2021 02:50:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638787821; cv=none;
         d=google.com; s=arc-20160816;
-        b=VhsjXlmuzloDQfbSI9nv+sh3g5G3/YOAsIXRj2HbdOYmuNWIK5dmt1SJdVsvcis/dU
-         PbSHPqGjYDTZuJ4lj816ZaBQCG6y7bU3mS/Kv8TXfdF5edlkIGb8YJgmr5I3tDE6CqAf
-         5ihaNuOWt2R7BT49CVqzLQFQcqn902duwIy9AHTVTJWrD0BvkOsFx8Y6951pa8Z3ZPGx
-         dsAELeicseWm2dR5xJWL1ptXH1podVgp1yBTChPkkRQJk853wrdBG2nXA75gLv3IecuF
-         N3IdL8xnHLCtHRq+m1CumXOF5W/8Kt4hpETq31Gcu7Hd3QPB7Tl/J3o2iNCRaJI4eikL
-         KpRg==
+        b=taLP/XA65WZnrwkGr+DWZxUwnU8Lh6tr91W11hYEVDtFsGH6H2HWPnNz8d7yi8YG/t
+         4tecRCNbNvstA+RUkd280LUHB9wz4KWe4RiQ2ehFzb0bwnVoDmY9XyFSFJBh365JCTF/
+         Ahs6VIlclBP2ek+3DleB/GQPb1huJq80BN/tRqiyBHJm41vTsUOB/0QkGjC/VFiTMd8W
+         G08QffVjuyzhmikRKf1HEGhkxLV+JaEVUNiBcaDx3/7CtoEa6Fi6fwPVaCYV6iP/Kw+A
+         3RnAO8TjEVOwkJ8ms8nfX6TGnZHqCJfB767LUSlJ/K9IUuShEzBV4W3qFZ/5LskAtFfA
+         faCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=SRQqaE+eBxp32u4NFRGojAHgHUNJ3nLFCtcyJRkcDak=;
-        b=JuZbr9Z3mvx+7hdiSAkWWG7W5QqDvRSMsZfrLBHPjmHf/MtU7rYJbp700I3NhCYH+h
-         s6pKk+QhBZk00bJwE/Y8qonjq6t9qCvZdddDUlio66RJw4ALtfpb+TW4lWTQLnrglHUD
-         /1TL2jkIY3HK/4wUrR7o/SnG923KVgrSmpKGerbpj1mupzGPbE8twnK3eBmMxpgQMedZ
-         H5MJoq0bZCpNr3esGd8BaSrMAP1lc0dwNlPiBeq046jVqTY2+HJVZUfy878E1wGWd//r
-         iLlEHaEUA//X2pQwwvVdcrwQUqsYrCFCqskkmQ1yS8riDCe1N1XcQ5xePEyulepNAPXF
-         R3hA==
+        bh=AamuRCUDtOeG1u1NXrTV8g0J3yQ8ijBKUVLSOIso31U=;
+        b=TQEY4ZXGd26LS9oKVtUtN25lFw0fykvSWDejDyhlHUG/+KEFvVXzYP+6Q+F9aswbR7
+         LNhGQ+ajG5Isf+nvYoY0nY6rCJIHAbIBd0KD8onwWY/kokgf1ScB1RIjQtfPayDXonTu
+         Rs2rgJrZhjyhKZZbky1ZTg0913bzSXCU3uHyU5+6j7UpHAzghfJCaqsfII5xLykWtWEX
+         HwAPoIGqI+TyZ3qciP8w8juYygVUwbS3rEoe/Dhe6PyUCc38KZzMjPXqy5pSBAVHyiNW
+         YInGCzk5X/rj8VuvNuyJbOnmJYtoTHoYpBsJUGVNc0D3yx/FdIO2GbzQTZHJBp02NSIM
+         K+Mw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=ON5x4H32;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b="SbqC6I/w";
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com. [185.125.188.122])
-        by gmr-mx.google.com with ESMTPS id s138si837706wme.1.2021.12.06.02.49.20
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com. [185.125.188.123])
+        by gmr-mx.google.com with ESMTPS id y8si213149lfj.0.2021.12.06.02.50.21
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 02:49:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) client-ip=185.125.188.122;
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+        Mon, 06 Dec 2021 02:50:21 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) client-ip=185.125.188.123;
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id A8D4440040
-	for <kasan-dev@googlegroups.com>; Mon,  6 Dec 2021 10:49:19 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id n41-20020a05600c502900b003335ab97f41so4318358wmr.3
-        for <kasan-dev@googlegroups.com>; Mon, 06 Dec 2021 02:49:19 -0800 (PST)
-X-Received: by 2002:adf:efc6:: with SMTP id i6mr40936988wrp.428.1638787759176;
-        Mon, 06 Dec 2021 02:49:19 -0800 (PST)
-X-Received: by 2002:adf:efc6:: with SMTP id i6mr40936958wrp.428.1638787758943;
-        Mon, 06 Dec 2021 02:49:18 -0800 (PST)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id BA1FF3F1F7
+	for <kasan-dev@googlegroups.com>; Mon,  6 Dec 2021 10:50:20 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id p17-20020adff211000000b0017b902a7701so1882519wro.19
+        for <kasan-dev@googlegroups.com>; Mon, 06 Dec 2021 02:50:20 -0800 (PST)
+X-Received: by 2002:a05:600c:1d0e:: with SMTP id l14mr36985916wms.64.1638787820351;
+        Mon, 06 Dec 2021 02:50:20 -0800 (PST)
+X-Received: by 2002:a05:600c:1d0e:: with SMTP id l14mr36985880wms.64.1638787820171;
+        Mon, 06 Dec 2021 02:50:20 -0800 (PST)
 Received: from localhost.localdomain (lfbn-lyo-1-470-249.w2-7.abo.wanadoo.fr. [2.7.60.249])
-        by smtp.gmail.com with ESMTPSA id m21sm11197860wrb.2.2021.12.06.02.49.18
+        by smtp.gmail.com with ESMTPSA id y7sm10770064wrw.55.2021.12.06.02.50.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 02:49:18 -0800 (PST)
+        Mon, 06 Dec 2021 02:50:19 -0800 (PST)
 From: Alexandre Ghiti <alexandre.ghiti@canonical.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -138,18 +138,18 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	linux-efi@vger.kernel.org,
 	linux-arch@vger.kernel.org
 Cc: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Subject: [PATCH v3 02/13] riscv: Split early kasan mapping to prepare sv48 introduction
-Date: Mon,  6 Dec 2021 11:46:46 +0100
-Message-Id: <20211206104657.433304-3-alexandre.ghiti@canonical.com>
+Subject: [PATCH v3 03/13] riscv: Introduce functions to switch pt_ops
+Date: Mon,  6 Dec 2021 11:46:47 +0100
+Message-Id: <20211206104657.433304-4-alexandre.ghiti@canonical.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
 References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
 MIME-Version: 1.0
 X-Original-Sender: alexandre.ghiti@canonical.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@canonical.com header.s=20210705 header.b=ON5x4H32;       spf=pass
+ header.i=@canonical.com header.s=20210705 header.b="SbqC6I/w";       spf=pass
  (google.com: domain of alexandre.ghiti@canonical.com designates
- 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+ 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -164,206 +164,132 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Now that kasan shadow region is next to the kernel, for sv48, this
-region won't be aligned on PGDIR_SIZE and then when populating this
-region, we'll need to get down to lower levels of the page table. So
-instead of reimplementing the page table walk for the early population,
-take advantage of the existing functions used for the final population.
-
-Note that kasan swapper initialization must also be split since memblock
-is not initialized at this point and as the last PGD is shared with the
-kernel, we'd need to allocate a PUD so postpone the kasan final
-population after the kernel population is done.
+This simply gathers the different pt_ops initialization in functions
+where a comment was added to explain why the page table operations must
+be changed along the boot process.
 
 Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
 ---
- arch/riscv/include/asm/kasan.h |   1 +
- arch/riscv/mm/init.c           |   4 ++
- arch/riscv/mm/kasan_init.c     | 113 ++++++++++++++++++---------------
- 3 files changed, 67 insertions(+), 51 deletions(-)
+ arch/riscv/mm/init.c | 74 ++++++++++++++++++++++++++++++--------------
+ 1 file changed, 51 insertions(+), 23 deletions(-)
 
-diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
-index 257a2495145a..2788e2c46609 100644
---- a/arch/riscv/include/asm/kasan.h
-+++ b/arch/riscv/include/asm/kasan.h
-@@ -34,6 +34,7 @@
- 
- void kasan_init(void);
- asmlinkage void kasan_early_init(void);
-+void kasan_swapper_init(void);
- 
- #endif
- #endif
 diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 4224e9d0ecf5..5010eba52738 100644
+index 5010eba52738..1552226fb6bd 100644
 --- a/arch/riscv/mm/init.c
 +++ b/arch/riscv/mm/init.c
-@@ -742,6 +742,10 @@ static void __init setup_vm_final(void)
- 	create_kernel_page_table(swapper_pg_dir, false);
+@@ -582,6 +582,52 @@ static void __init create_fdt_early_page_table(pgd_t *pgdir, uintptr_t dtb_pa)
+ 	dtb_early_pa = dtb_pa;
+ }
+ 
++/*
++ * MMU is not enabled, the page tables are allocated directly using
++ * early_pmd/pud/p4d and the address returned is the physical one.
++ */
++void pt_ops_set_early(void)
++{
++	pt_ops.alloc_pte = alloc_pte_early;
++	pt_ops.get_pte_virt = get_pte_virt_early;
++#ifndef __PAGETABLE_PMD_FOLDED
++	pt_ops.alloc_pmd = alloc_pmd_early;
++	pt_ops.get_pmd_virt = get_pmd_virt_early;
++#endif
++}
++
++/*
++ * MMU is enabled but page table setup is not complete yet.
++ * fixmap page table alloc functions must be used as a means to temporarily
++ * map the allocated physical pages since the linear mapping does not exist yet.
++ *
++ * Note that this is called with MMU disabled, hence kernel_mapping_pa_to_va,
++ * but it will be used as described above.
++ */
++void pt_ops_set_fixmap(void)
++{
++	pt_ops.alloc_pte = kernel_mapping_pa_to_va((uintptr_t)alloc_pte_fixmap);
++	pt_ops.get_pte_virt = kernel_mapping_pa_to_va((uintptr_t)get_pte_virt_fixmap);
++#ifndef __PAGETABLE_PMD_FOLDED
++	pt_ops.alloc_pmd = kernel_mapping_pa_to_va((uintptr_t)alloc_pmd_fixmap);
++	pt_ops.get_pmd_virt = kernel_mapping_pa_to_va((uintptr_t)get_pmd_virt_fixmap);
++#endif
++}
++
++/*
++ * MMU is enabled and page table setup is complete, so from now, we can use
++ * generic page allocation functions to setup page table.
++ */
++void pt_ops_set_late(void)
++{
++	pt_ops.alloc_pte = alloc_pte_late;
++	pt_ops.get_pte_virt = get_pte_virt_late;
++#ifndef __PAGETABLE_PMD_FOLDED
++	pt_ops.alloc_pmd = alloc_pmd_late;
++	pt_ops.get_pmd_virt = get_pmd_virt_late;
++#endif
++}
++
+ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ {
+ 	pmd_t __maybe_unused fix_bmap_spmd, fix_bmap_epmd;
+@@ -626,12 +672,8 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 	BUG_ON((kernel_map.virt_addr + kernel_map.size) > ADDRESS_SPACE_END - SZ_4K);
  #endif
  
-+#ifdef CONFIG_KASAN
-+	kasan_swapper_init();
-+#endif
+-	pt_ops.alloc_pte = alloc_pte_early;
+-	pt_ops.get_pte_virt = get_pte_virt_early;
+-#ifndef __PAGETABLE_PMD_FOLDED
+-	pt_ops.alloc_pmd = alloc_pmd_early;
+-	pt_ops.get_pmd_virt = get_pmd_virt_early;
+-#endif
++	pt_ops_set_early();
 +
- 	/* Clear fixmap PTE and PMD mappings */
- 	clear_fixmap(FIX_PTE);
- 	clear_fixmap(FIX_PMD);
-diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-index 54294f83513d..1434a0225140 100644
---- a/arch/riscv/mm/kasan_init.c
-+++ b/arch/riscv/mm/kasan_init.c
-@@ -12,44 +12,6 @@
- #include <asm/pgalloc.h>
- 
- extern pgd_t early_pg_dir[PTRS_PER_PGD];
--asmlinkage void __init kasan_early_init(void)
--{
--	uintptr_t i;
--	pgd_t *pgd = early_pg_dir + pgd_index(KASAN_SHADOW_START);
--
--	BUILD_BUG_ON(KASAN_SHADOW_OFFSET !=
--		KASAN_SHADOW_END - (1UL << (64 - KASAN_SHADOW_SCALE_SHIFT)));
--
--	for (i = 0; i < PTRS_PER_PTE; ++i)
--		set_pte(kasan_early_shadow_pte + i,
--			mk_pte(virt_to_page(kasan_early_shadow_page),
--			       PAGE_KERNEL));
--
--	for (i = 0; i < PTRS_PER_PMD; ++i)
--		set_pmd(kasan_early_shadow_pmd + i,
--			pfn_pmd(PFN_DOWN
--				(__pa((uintptr_t) kasan_early_shadow_pte)),
--				__pgprot(_PAGE_TABLE)));
--
--	for (i = KASAN_SHADOW_START; i < KASAN_SHADOW_END;
--	     i += PGDIR_SIZE, ++pgd)
--		set_pgd(pgd,
--			pfn_pgd(PFN_DOWN
--				(__pa(((uintptr_t) kasan_early_shadow_pmd))),
--				__pgprot(_PAGE_TABLE)));
--
--	/* init for swapper_pg_dir */
--	pgd = pgd_offset_k(KASAN_SHADOW_START);
--
--	for (i = KASAN_SHADOW_START; i < KASAN_SHADOW_END;
--	     i += PGDIR_SIZE, ++pgd)
--		set_pgd(pgd,
--			pfn_pgd(PFN_DOWN
--				(__pa(((uintptr_t) kasan_early_shadow_pmd))),
--				__pgprot(_PAGE_TABLE)));
--
--	local_flush_tlb_all();
--}
- 
- static void __init kasan_populate_pte(pmd_t *pmd, unsigned long vaddr, unsigned long end)
- {
-@@ -108,26 +70,35 @@ static void __init kasan_populate_pmd(pgd_t *pgd, unsigned long vaddr, unsigned
- 	set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_pmd)), PAGE_TABLE));
+ 	/* Setup early PGD for fixmap */
+ 	create_pgd_mapping(early_pg_dir, FIXADDR_START,
+ 			   (uintptr_t)fixmap_pgd_next, PGDIR_SIZE, PAGE_TABLE);
+@@ -695,6 +737,8 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 		pr_warn("FIX_BTMAP_BEGIN:     %d\n", FIX_BTMAP_BEGIN);
+ 	}
+ #endif
++
++	pt_ops_set_fixmap();
  }
  
--static void __init kasan_populate_pgd(unsigned long vaddr, unsigned long end)
-+static void __init kasan_populate_pgd(pgd_t *pgdp,
-+				      unsigned long vaddr, unsigned long end,
-+				      bool early)
- {
- 	phys_addr_t phys_addr;
--	pgd_t *pgdp = pgd_offset_k(vaddr);
- 	unsigned long next;
+ static void __init setup_vm_final(void)
+@@ -703,16 +747,6 @@ static void __init setup_vm_final(void)
+ 	phys_addr_t pa, start, end;
+ 	u64 i;
  
- 	do {
- 		next = pgd_addr_end(vaddr, end);
- 
--		/*
--		 * pgdp can't be none since kasan_early_init initialized all KASAN
--		 * shadow region with kasan_early_shadow_pmd: if this is stillthe case,
--		 * that means we can try to allocate a hugepage as a replacement.
--		 */
--		if (pgd_page_vaddr(*pgdp) == (unsigned long)lm_alias(kasan_early_shadow_pmd) &&
--		    IS_ALIGNED(vaddr, PGDIR_SIZE) && (next - vaddr) >= PGDIR_SIZE) {
--			phys_addr = memblock_phys_alloc(PGDIR_SIZE, PGDIR_SIZE);
--			if (phys_addr) {
--				set_pgd(pgdp, pfn_pgd(PFN_DOWN(phys_addr), PAGE_KERNEL));
-+		if (IS_ALIGNED(vaddr, PGDIR_SIZE) && (next - vaddr) >= PGDIR_SIZE) {
-+			if (early) {
-+				phys_addr = __pa((uintptr_t)kasan_early_shadow_pgd_next);
-+				set_pgd(pgdp, pfn_pgd(PFN_DOWN(phys_addr), PAGE_TABLE));
- 				continue;
-+			} else if (pgd_page_vaddr(*pgdp) ==
-+				   (unsigned long)lm_alias(kasan_early_shadow_pgd_next)) {
-+				/*
-+				 * pgdp can't be none since kasan_early_init
-+				 * initialized all KASAN shadow region with
-+				 * kasan_early_shadow_pud: if this is still the
-+				 * case, that means we can try to allocate a
-+				 * hugepage as a replacement.
-+				 */
-+				phys_addr = memblock_phys_alloc(PGDIR_SIZE, PGDIR_SIZE);
-+				if (phys_addr) {
-+					set_pgd(pgdp, pfn_pgd(PFN_DOWN(phys_addr), PAGE_KERNEL));
-+					continue;
-+				}
- 			}
- 		}
- 
-@@ -135,12 +106,52 @@ static void __init kasan_populate_pgd(unsigned long vaddr, unsigned long end)
- 	} while (pgdp++, vaddr = next, vaddr != end);
- }
- 
-+asmlinkage void __init kasan_early_init(void)
-+{
-+	uintptr_t i;
-+
-+	BUILD_BUG_ON(KASAN_SHADOW_OFFSET !=
-+		KASAN_SHADOW_END - (1UL << (64 - KASAN_SHADOW_SCALE_SHIFT)));
-+
-+	for (i = 0; i < PTRS_PER_PTE; ++i)
-+		set_pte(kasan_early_shadow_pte + i,
-+			mk_pte(virt_to_page(kasan_early_shadow_page),
-+			       PAGE_KERNEL));
-+
-+	for (i = 0; i < PTRS_PER_PMD; ++i)
-+		set_pmd(kasan_early_shadow_pmd + i,
-+			pfn_pmd(PFN_DOWN
-+				(__pa((uintptr_t)kasan_early_shadow_pte)),
-+				PAGE_TABLE));
-+
-+	if (pgtable_l4_enabled) {
-+		for (i = 0; i < PTRS_PER_PUD; ++i)
-+			set_pud(kasan_early_shadow_pud + i,
-+				pfn_pud(PFN_DOWN
-+					(__pa(((uintptr_t)kasan_early_shadow_pmd))),
-+					PAGE_TABLE));
-+	}
-+
-+	kasan_populate_pgd(early_pg_dir + pgd_index(KASAN_SHADOW_START),
-+			   KASAN_SHADOW_START, KASAN_SHADOW_END, true);
-+
-+	local_flush_tlb_all();
-+}
-+
-+void __init kasan_swapper_init(void)
-+{
-+	kasan_populate_pgd(pgd_offset_k(KASAN_SHADOW_START),
-+			   KASAN_SHADOW_START, KASAN_SHADOW_END, true);
-+
-+	local_flush_tlb_all();
-+}
-+
- static void __init kasan_populate(void *start, void *end)
- {
- 	unsigned long vaddr = (unsigned long)start & PAGE_MASK;
- 	unsigned long vend = PAGE_ALIGN((unsigned long)end);
- 
--	kasan_populate_pgd(vaddr, vend);
-+	kasan_populate_pgd(pgd_offset_k(vaddr), vaddr, vend, false);
- 
+-	/**
+-	 * MMU is enabled at this point. But page table setup is not complete yet.
+-	 * fixmap page table alloc functions should be used at this point
+-	 */
+-	pt_ops.alloc_pte = alloc_pte_fixmap;
+-	pt_ops.get_pte_virt = get_pte_virt_fixmap;
+-#ifndef __PAGETABLE_PMD_FOLDED
+-	pt_ops.alloc_pmd = alloc_pmd_fixmap;
+-	pt_ops.get_pmd_virt = get_pmd_virt_fixmap;
+-#endif
+ 	/* Setup swapper PGD for fixmap */
+ 	create_pgd_mapping(swapper_pg_dir, FIXADDR_START,
+ 			   __pa_symbol(fixmap_pgd_next),
+@@ -754,13 +788,7 @@ static void __init setup_vm_final(void)
+ 	csr_write(CSR_SATP, PFN_DOWN(__pa_symbol(swapper_pg_dir)) | SATP_MODE);
  	local_flush_tlb_all();
- 	memset(start, KASAN_SHADOW_INIT, end - start);
+ 
+-	/* generic page allocation functions must be used to setup page table */
+-	pt_ops.alloc_pte = alloc_pte_late;
+-	pt_ops.get_pte_virt = get_pte_virt_late;
+-#ifndef __PAGETABLE_PMD_FOLDED
+-	pt_ops.alloc_pmd = alloc_pmd_late;
+-	pt_ops.get_pmd_virt = get_pmd_virt_late;
+-#endif
++	pt_ops_set_late();
+ }
+ #else
+ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
 -- 
 2.32.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211206104657.433304-3-alexandre.ghiti%40canonical.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211206104657.433304-4-alexandre.ghiti%40canonical.com.
