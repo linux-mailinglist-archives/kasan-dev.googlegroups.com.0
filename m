@@ -1,138 +1,177 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRB75RXCGQMGQEHY6WCNI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC6LHPWNU4DBBEF6XCGQMGQEVR4KRZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F8F4697F4
-	for <lists+kasan-dev@lfdr.de>; Mon,  6 Dec 2021 15:06:56 +0100 (CET)
-Received: by mail-il1-x13e.google.com with SMTP id h10-20020a056e021b8a00b002a3f246adeasf4629191ili.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 06 Dec 2021 06:06:56 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638799615; cv=pass;
+Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3922646990C
+	for <lists+kasan-dev@lfdr.de>; Mon,  6 Dec 2021 15:32:50 +0100 (CET)
+Received: by mail-pl1-x63b.google.com with SMTP id o8-20020a170902d4c800b001424abc88f3sf1780297plg.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 06 Dec 2021 06:32:50 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638801168; cv=pass;
         d=google.com; s=arc-20160816;
-        b=iFfZz/BAJVwraSkECi3eHtYpEvcA4HvhpQ5JsMLVWg1ARjaaDawoXKd3MLvqAtcsju
-         2AtiWDoMqffaZBxq53ax1dZDPHtSwEu8wkeaMldWg1pg4ME/C0dBUslrjeTYTpcntgub
-         dovYNiNGDcq174Eyi8TFoeoh1etSESUNLbL2Hmjol1D2C2OWTo+EuNxBnO3cs3lHumlu
-         zCvlsa6/dPJqUbkR37jH9xqgMhZEXaXlGcsn+dnKtufJBMaVbs0iWLkg3J0h51RxA1jG
-         YFUWce0geYgH4hBNVIqSg88g0YvlAtOMSea7Np8z7/7dj1+aiHdLCVF2H2ehxfeuP7E/
-         qRXA==
+        b=u+qgf1AMyRO77+h+q1wyEEQVjIWKmH/GI74WdVbTEc5GkFPvhfAHnSRRBemhMen6kJ
+         3KvdAkEaAGirzE5Lh2PWkMw9Fv0kbtFlhsEtJ3mizj53Fkp/UL20RUFQEoQo51aJchMq
+         Q++m6XbDYhMUyLWUZDKMuzhhcYYLW6bTUg6hB0EsR+zRJzphGK+BKpV9PoO52LMZHkw/
+         gvgWYJk1UIitG5SYD3R/QO+j8rGU9g8RZ8GI32cgwCEG3D49z69IdqNcj5f68HPq/y5x
+         Iq9JaDOwV0Ml7FWX8Ipb4rMSjeTDZnhMDXWZLo1V51ds5ps+j1BqYm3hYzSxx3/LT14t
+         H1Fg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=9kLcp75pqOiooND0Ys3pWZaNd7OgLfG6xrOa5ekKHyo=;
-        b=d5MYYxAfiSF2x7nCS4d2KZRKrdeXHGrAxh+7YdOFagc4RLn+kdh2wIFl4Sf3stAeus
-         aBxjForObW5f/bT/thB+6jTtpDxqS/I+7SrIHZ6hz9BCBCr4nwNFtfplgyo6KghfY2kM
-         5q8ZWaKp7Cz6zEadp+PAWLHWc6IB4NhdESQ6y38fkSdNGE2n5r8bKqdEZWDbUnOJvIAm
-         tmyqJm5TLZQkHzLWGGSyC/H8z049ShluomLJ4aFBb136MURp5J/WC7AnWZSolQmGfOin
-         KbnhZWbFjGmRaJ3Jh9nBY0VlYOitsQfzqJdu5qLxBdSTMqLWG9j6I79xIXF6inQxI0Fv
-         KvYQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature:dkim-signature;
+        bh=28az3iR5b64gdhvybvPozzAkChp8JlAhG6PUoALtmmk=;
+        b=EATkFtXqpVbH1O118TVI2FmNxntu4W3bdrwBj1snYpcFsuqSo12bawMI6ANe2hbCQN
+         LUBa9x+/dxrIaz7cdsKdAxezeyO3XUT5et7PE9cyw22er4vsUP/05HM8ArHulGogCDPo
+         l0Ww0EBjPWc080IX6X4UPGJoYvIyMt0NTc/866+f5S4gt5XM0kBBQSz+oSTu111bf5o5
+         UfUYjvwbZTBMSi4RpWQw7mJXl1DTrwJmHMRQ+Sl+71BG+plB2AhoCigbUlxXBNf9Wk0z
+         6BF3m5jubZZGC9Bot1wgz1arXwXCpMeT2zkL7qabK4ug5mwdct1E2/eJfz7KbgORL5tY
+         CvFw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=GXfZLWEr;
+       spf=pass (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=boqun.feng@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=9kLcp75pqOiooND0Ys3pWZaNd7OgLfG6xrOa5ekKHyo=;
-        b=ccjP9ZIxCq4ppSrXoK5OQoKP8CTiRKND4XItapxO/rCF3x+uLEZfimRtyJ03uYcDAV
-         b3fAKerxQWDoGK2ZbTp0dgPpEZ9fkHHHonZ1aM4ojP8hywsyLRODEWDvUUybzFZfJva2
-         575jAULOTaMZxREw54gLpT4G95I4uYxirWyb8XyO1FOwQE5cgEmslyv679w4tMA4gPdB
-         vkIuYXNy1G1ujOwjYv4AxeL1UG+CNJVYEldyDl7Zs+EcfcHQstLJZ63yMwChiPc2SOR+
-         OWE1iV+g5n0Y8dTeyh/YkOAN9Jz7dlZomMHecUpLhTybfNLkucawsCTBm42zUt864ygs
-         kNJA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=28az3iR5b64gdhvybvPozzAkChp8JlAhG6PUoALtmmk=;
+        b=OxyFvTluTMd2trCr4eUjNVtRoB7r5HtI3tHMzEs38HRvv1zn6vVrzFw9chqA9/VozF
+         lgmhNgNlaMtDnKONN6GSv6i5+Ijays2uqL88883qOHudc7+7DWnnTaKeZzys+nJw3+XH
+         yyRGoJ27WYd/Z2kLxslScDDIveATxdwhjEzlccmB3RL+/VR3I+GCBfqcYrkL0PvxmS8a
+         Db/waj5lx+yMT9dtoHbIZ/IGGynzvFD/LzOOlN9FLPCjijRV85gBo32+WLKCUg4Bvrg8
+         NSm3iffQAqNG1vNEkk+XK8Xvg5EklvodApiahhJiPsJdfHifF3W1+7ITGkQz/pBK0m5h
+         6l5A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=28az3iR5b64gdhvybvPozzAkChp8JlAhG6PUoALtmmk=;
+        b=RjaTdRAfidmGvhNPtlZl9ukdHL36wt43JWjGKSNc1f7mP3EJ+itXciHMCgZ8msC0vx
+         8/Z36rKrP5hCv9i2uOcRR4J5tal4bWtbOXS4tK+FgopsPOoVPTwYZgVik3UJJ9ZrD4W1
+         TlHvgg8LSH86OkMheIHE25JKV1tUKUcQtqBEo94Vi9u/DKrRwGwf0mplp3GXMaqwCr6U
+         P+WzsSe4diRAgvjIlqIo2aeFynHPmF8IR86OoIl3UwV1mS9vAF5qlsVdk9SVhlKvCEEN
+         276tJzaqozTfrP6C+JAaMrUf2yElVqFM7h58D6nGbp3zhVisuaTw+J8E7j9hIb18IE/u
+         AEcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=9kLcp75pqOiooND0Ys3pWZaNd7OgLfG6xrOa5ekKHyo=;
-        b=Nk8i/nYcbaiBnYWeOAqBaQOUgBXVUnx8c84aobIr1lvfQOJRAdawMAXNXT6nHoQWk6
-         saHIuT0zVbMzoQ/LLuW7zWY5njsbdqrD72vaOUj8Cm3/ZOI+gdJsrgcpBFNWkAGKxXiw
-         etIjQ8pPWd0Ljxcm2lLKJLYWAcmh6bh40XHCMpcZsEB9HtJnFbOo/kxsuSer0ZxlyUb+
-         rfOP14m6tz4OjFAlmfNSzIJgHoF+H7blIlleH4Y1K8STR5OCgW1xGS2uCaM64fb8yul3
-         d+PnW8v4wL8PSCw5qsyY9iafB96bR9DLsoBsuEA8+p2jWfUL06CbJA7gLtzK7nyClJ20
-         ittg==
-X-Gm-Message-State: AOAM531W6x8ZwzpON1LIRXNffKOnbJ+6osnzsGxe0udC4kt+rCyyoAUH
-	TvPKiPCjoWT22dVT0dvMmZY=
-X-Google-Smtp-Source: ABdhPJwhm0nKgrV9NqeSARPcefv8xFEZ7SF8jbBhb1uoMX43pVbINAs/38/t7XyklVafwq6Am/Ql0g==
-X-Received: by 2002:a05:6e02:1c2e:: with SMTP id m14mr34880948ilh.172.1638799615464;
-        Mon, 06 Dec 2021 06:06:55 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=28az3iR5b64gdhvybvPozzAkChp8JlAhG6PUoALtmmk=;
+        b=P6yrWehoJNvHBu3LEnR5q89XBcl/x090HIn/AplNSMmuMj399sUeuHt5lseFvKSLKm
+         CLJ271NZieKey1Bx2wIlEIJ4djFUYSVDEb0o/0ahxakt/GemDchyIOqNe42At5z/tNzD
+         JbURrlObUNZyO5YThH/24PxC0mVvTPZVBYVULaeQh3F4SN1M5aVvx8BzQcOdtjRPxH74
+         O+l9B9lN/1FUT0ARL4YGeLWd6GCAhThU1e9NwZlpYo/dAPCH/31aHEGyro0dtxZvuhXn
+         yfY5HiBlMKn426gHkc0N1LHUkhFyoJUmva90y/qKsJaUSOp/tm79keKDDdMK4mww28XP
+         nuqg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530TDhgtOv4hrxuy1AWdvSXqgtdattAxo8YR6J8TS9T8nM0TksKH
+	unx0fY9Oa0zlcIPCWYoqSTw=
+X-Google-Smtp-Source: ABdhPJyPMKXoJ7EUGOID5Fx2aPjmryqZDfGpOmYdVL7AedL6jX3xQ23p6F/XykdnFL5EhX6UFginzQ==
+X-Received: by 2002:a63:874a:: with SMTP id i71mr19438154pge.93.1638801168534;
+        Mon, 06 Dec 2021 06:32:48 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a02:cf81:: with SMTP id w1ls1856184jar.9.gmail; Mon, 06 Dec
- 2021 06:06:55 -0800 (PST)
-X-Received: by 2002:a02:ab8f:: with SMTP id t15mr43833578jan.147.1638799615051;
-        Mon, 06 Dec 2021 06:06:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638799615; cv=none;
+Received: by 2002:a17:902:d4cc:: with SMTP id o12ls8463221plg.11.gmail; Mon,
+ 06 Dec 2021 06:32:47 -0800 (PST)
+X-Received: by 2002:a17:90b:4c8d:: with SMTP id my13mr38524222pjb.107.1638801167822;
+        Mon, 06 Dec 2021 06:32:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638801167; cv=none;
         d=google.com; s=arc-20160816;
-        b=zEKOLsGAvcMy2YSFgzZNFlwe37zwaEj5+JDAriKMc2D7DadO+FPtIkFwFOVJnT1EKV
-         BMdCCavbRqdGJNFjndchsL9MlPIjgSa5QzZcM/vYuOr5Q3imnii0DtQ2jnQ19vKwM70z
-         nX3Gjy08bwqgUj0uCYgwcFnbdyYYr4u1laUrKDQLjV6/K75cOFK8qJe2d5NkD2YfCJLE
-         9CnxrawhF3BFBRJy3vOzggVavxcp+rOrFFx3V8WYeJQj/1GK/8/uM2zmByVszqDA0zXK
-         Hp/xdzXvHQA+/BQN83fjwR5IS6eKDKhqTI8ut48yF0Yay3c7m2I/8M5XgAGvzb6XufNj
-         cBbg==
+        b=QxrdECkPkALPSFBiyBxbFvR6FTTBVm7EMdpfUBd0qYFJPCviwod8DOMn/dTurjHNMv
+         gYzDqv4/NTZVFJQLT8OUDl4IiNT1wYOULtCQlSAS1GZSLfXCxuVrb9GbfM4zoka/qwbQ
+         7xcouzSB/HmL/Zfjid94Q8LGBx0NDUyXGQTXGQJyYSSB7HozNpfQ1VDR/lwjryHeoT1d
+         mtj1cscftYZIQWvotV8/Xd1WIGox5J26i2RHaHy7vGqCSeusWmaKa9z7fPiNYpYTB16V
+         NAfCDFbqDckOSLwR/ZrZ9+6OgQwRzBeW8hWl1NSyTmAmQbl05mWbrMfpleS0GKYRUAe5
+         2z3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=l/Sy8gnKSEJG1QN1xeA2xReXFtdF3iOy7s8pjcmmi+E=;
-        b=TFqwraoamYlM0bO2WEU5my1JeIUJeY2gor3eziTVlmhB/goF8IKuJ4myaK+08tviDy
-         ClKvAdCtGPhcXQTYYjK8CbKx4UTotv/TmAdEjou/Z6G2pXNimWHXXWSW9/6UQM+B6cV9
-         kqMJMNPjJnHKtQ68zNpnLM7GSHmBoyz00cA/giRlvZjqE37OSV6BUc+NZoG6docRr78z
-         phtqo3dXthdB0ishTUBiPitDzljphWVrIDlK7X/eS3op3zFzmQsVgL+KORiEipNSn7nE
-         d58mwjUZbvd6ZAZOFtGF2vK/knAmCN7omBVV7r7ERZ+d3uT7g4VoBRPjQ3873J78dOoy
-         940w==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=FHezbGrYlKxA1aTrkxNXSkuk1RduKCiWsmFP87kNHNY=;
+        b=rPO11NdSia8SAMfe3C7sPmEFEzlZjOAhi8Iuu8+uhjwodi9jDcMEGjCPFE9pz69rby
+         Tbz1sTwIujtKqjbZylZZ8s0kZdwzll3u1KpI5fMrRLQJxfzAO09PgN52rO7KksYC8sBm
+         cXPhJM2x6OhJC4LuEwtHBPJDtHAR3hjIgFUPI5oFVKi/QdpsWKA7qvcc5BZM3tuVVZXe
+         LU4HW4BojE3rkWFmMpKi+4KGxV0rFlw0ZZu4CITS1gY25IHrmaiLB1GjfN3SrZIvI3L7
+         HEv9afeM7tRXaXjkMoyrxMTDpeiHfXS8qEiDSqP1m1S6gypXot4hQFVTojI5injpq+1m
+         H6yg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com. [45.249.212.255])
-        by gmr-mx.google.com with ESMTPS id d4si595699iob.2.2021.12.06.06.06.54
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=GXfZLWEr;
+       spf=pass (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=boqun.feng@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com. [2607:f8b0:4864:20::d36])
+        by gmr-mx.google.com with ESMTPS id l5si1088449pfc.2.2021.12.06.06.32.47
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 06 Dec 2021 06:06:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.255 as permitted sender) client-ip=45.249.212.255;
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4J74sw35xcz1DJxB;
-	Mon,  6 Dec 2021 22:04:04 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 6 Dec 2021 22:06:52 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Mon, 6 Dec 2021 22:06:51 +0800
-Message-ID: <71c69735-6064-6b28-eab3-67c36f88e51d@huawei.com>
-Date: Mon, 6 Dec 2021 22:06:51 +0800
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Dec 2021 06:32:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::d36 as permitted sender) client-ip=2607:f8b0:4864:20::d36;
+Received: by mail-io1-xd36.google.com with SMTP id m9so13224959iop.0
+        for <kasan-dev@googlegroups.com>; Mon, 06 Dec 2021 06:32:47 -0800 (PST)
+X-Received: by 2002:a02:a708:: with SMTP id k8mr42965751jam.26.1638801167426;
+        Mon, 06 Dec 2021 06:32:47 -0800 (PST)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id y8sm6337176iox.32.2021.12.06.06.32.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Dec 2021 06:32:46 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailauth.nyi.internal (Postfix) with ESMTP id 8E52D27C0054;
+	Mon,  6 Dec 2021 09:32:44 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 06 Dec 2021 09:32:44 -0500
+X-ME-Sender: <xms:Cx-uYQs85A1MMXJYGuWqEJ7Z5H0fYWyIBMsroi5ZcJYhDA_0sXEVKw>
+    <xme:Cx-uYdeOOSQTLomCC91P6fvNfLUaBzynTvS8S1IJqe42v_kaQOsPATPLrlpxDh5K-
+    VsJpX9OMQqwUGTEww>
+X-ME-Received: <xmr:Cx-uYbxTazrQNhAmwOJDGcwBcZKt0G6ftpVDE7070sHyD2fzk1MP_1dE6sw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrjeefgdeihecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
+    gvrhhnpeevieejtdfhieejfeduheehvdevgedugeethefggfdtvdeutdevgeetvddvfeeg
+    tdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
+    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:Cx-uYTP7IMvllYtCuW-96zpzDKmquPq_Oc0AMq8B6-3JLGB89W1FVQ>
+    <xmx:Cx-uYQ-LAihlYOGwm6Zoiy1lOqxm_kftsSxg_LPN5by606Y0o4ftaA>
+    <xmx:Cx-uYbVLvwYrqkFwFZoM7PbDfKREKDylKP9K-SP5OD6QDsGQMr7wcg>
+    <xmx:DB-uYT3XFpOMXfNRE9xfxrXZdDXokmbhrddzAfQotajWX2sPWXYz3F-Xqns>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Dec 2021 09:32:43 -0500 (EST)
+Date: Mon, 6 Dec 2021 22:31:24 +0800
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Marco Elver <elver@google.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Borislav Petkov <bp@alien8.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Ingo Molnar <mingo@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
+	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	llvm@lists.linux.dev, x86@kernel.org
+Subject: Re: [PATCH v3 08/25] kcsan: Show location access was reordered to
+Message-ID: <Ya4evHE7uQ9eXpax@boqun-archlinux>
+References: <20211130114433.2580590-1-elver@google.com>
+ <20211130114433.2580590-9-elver@google.com>
+ <Ya2Zpf8qpgDYiGqM@boqun-archlinux>
+ <CANpmjNMirKGSBW2m+bWRM9_FnjK3_HjnJC=dhyMktx50mwh1GQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH -next] kfence: fix memory leak when cat kfence objects
-Content-Language: en-US
-To: Marco Elver <elver@google.com>, Baokun Li <libaokun1@huawei.com>
-CC: <glider@google.com>, <dvyukov@google.com>, <akpm@linux-foundation.org>,
-	<viro@zeniv.linux.org.uk>, <kasan-dev@googlegroups.com>,
-	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>, <yukuai3@huawei.com>,
-	Hulk Robot <hulkci@huawei.com>
-References: <20211206133628.2822545-1-libaokun1@huawei.com>
- <CANpmjNOrtcu16zKEjiZbBZJPDKWa6-PM_hw1yNZhXvpZupYgng@mail.gmail.com>
-From: "'Kefeng Wang' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <CANpmjNOrtcu16zKEjiZbBZJPDKWa6-PM_hw1yNZhXvpZupYgng@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggeme705-chm.china.huawei.com (10.1.199.101) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
-X-Original-Sender: wangkefeng.wang@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.255
- as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-Reply-To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <CANpmjNMirKGSBW2m+bWRM9_FnjK3_HjnJC=dhyMktx50mwh1GQ@mail.gmail.com>
+X-Original-Sender: boqun.feng@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20210112 header.b=GXfZLWEr;       spf=pass
+ (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::d36
+ as permitted sender) smtp.mailfrom=boqun.feng@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,83 +184,150 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Mon, Dec 06, 2021 at 08:16:11AM +0100, Marco Elver wrote:
+> On Mon, 6 Dec 2021 at 06:04, Boqun Feng <boqun.feng@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > On Tue, Nov 30, 2021 at 12:44:16PM +0100, Marco Elver wrote:
+> > > Also show the location the access was reordered to. An example report:
+> > >
+> > > | ==================================================================
+> > > | BUG: KCSAN: data-race in test_kernel_wrong_memorder / test_kernel_wrong_memorder
+> > > |
+> > > | read-write to 0xffffffffc01e61a8 of 8 bytes by task 2311 on cpu 5:
+> > > |  test_kernel_wrong_memorder+0x57/0x90
+> > > |  access_thread+0x99/0xe0
+> > > |  kthread+0x2ba/0x2f0
+> > > |  ret_from_fork+0x22/0x30
+> > > |
+> > > | read-write (reordered) to 0xffffffffc01e61a8 of 8 bytes by task 2310 on cpu 7:
+> > > |  test_kernel_wrong_memorder+0x57/0x90
+> > > |  access_thread+0x99/0xe0
+> > > |  kthread+0x2ba/0x2f0
+> > > |  ret_from_fork+0x22/0x30
+> > > |   |
+> > > |   +-> reordered to: test_kernel_wrong_memorder+0x80/0x90
+> > > |
+> >
+> > Should this be "reordered from" instead of "reordered to"? For example,
+> > if the following case needs a smp_mb() between write to A and write to
+> > B, I think currently it will report as follow:
+> >
+> >         foo() {
+> >                 WRITE_ONCE(A, 1); // let's say A's address is 0xaaaa
+> >                 bar() {
+> >                         WRITE_ONCE(B, 1); // Assume B's address is 0xbbbb
+> >                                           // KCSAN find the problem here
+> >                 }
+> >         }
+> >
+> >         <report>
+> >         | write (reordered) to 0xaaaa of ...:
+> >         | bar+0x... // address of the write to B
+> >         | foo+0x... // address of the callsite to bar()
+> >         | ...
+> >         |  |
+> >         |  +-> reordered to: foo+0x... // address of the write to A
+> >
+> > But since the access reported here is the write to A, so it's a
+> > "reordered from" instead of "reordered to"?
+> 
+> Perhaps I could have commented on this in the commit message to avoid
+> the confusion, but per its updated comment replace_stack_entry()
+> "skips to the first entry that matches the function of @ip, and then
+> replaces that entry with @ip, returning the entries to skip with
+> @replaced containing the replaced entry."
+> 
+> When a reorder_access is set up, the ip to it is stored, which is
+> what's passed to @ip of replace_stack_entry(). It effectively swaps
+> the top frame where the race occurred with where the original access
+> happened. This all works because the runtime is careful to only keep
+> reorder_accesses valid until the original function where it occurred
+> is left.
+> 
 
-On 2021/12/6 21:29, Marco Elver wrote:
-> On Mon, 6 Dec 2021 at 14:24, Baokun Li <libaokun1@huawei.com> wrote:
->> Hulk robot reported a kmemleak problem:
->> -----------------------------------------------------------------------
->> unreferenced object 0xffff93d1d8cc02e8 (size 248):
->>    comm "cat", pid 23327, jiffies 4624670141 (age 495992.217s)
->>    hex dump (first 32 bytes):
->>      00 40 85 19 d4 93 ff ff 00 10 00 00 00 00 00 00  .@..............
->>      00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->>    backtrace:
->>      [<00000000db5610b3>] seq_open+0x2a/0x80
->>      [<00000000d66ac99d>] full_proxy_open+0x167/0x1e0
->>      [<00000000d58ef917>] do_dentry_open+0x1e1/0x3a0
->>      [<0000000016c91867>] path_openat+0x961/0xa20
->>      [<00000000909c9564>] do_filp_open+0xae/0x120
->>      [<0000000059c761e6>] do_sys_openat2+0x216/0x2f0
->>      [<00000000b7a7b239>] do_sys_open+0x57/0x80
->>      [<00000000e559d671>] do_syscall_64+0x33/0x40
->>      [<000000000ea1fbfd>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
->> unreferenced object 0xffff93d419854000 (size 4096):
->>    comm "cat", pid 23327, jiffies 4624670141 (age 495992.217s)
->>    hex dump (first 32 bytes):
->>      6b 66 65 6e 63 65 2d 23 32 35 30 3a 20 30 78 30  kfence-#250: 0x0
->>      30 30 30 30 30 30 30 37 35 34 62 64 61 31 32 2d  0000000754bda12-
->>    backtrace:
->>      [<000000008162c6f2>] seq_read_iter+0x313/0x440
->>      [<0000000020b1b3e3>] seq_read+0x14b/0x1a0
->>      [<00000000af248fbc>] full_proxy_read+0x56/0x80
->>      [<00000000f97679d1>] vfs_read+0xa5/0x1b0
->>      [<000000000ed8a36f>] ksys_read+0xa0/0xf0
->>      [<00000000e559d671>] do_syscall_64+0x33/0x40
->>      [<000000000ea1fbfd>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
->> -----------------------------------------------------------------------
->>
->> I find that we can easily reproduce this problem with the following
->> commands:
->>          `cat /sys/kernel/debug/kfence/objects`
->>          `echo scan > /sys/kernel/debug/kmemleak`
->>          `cat /sys/kernel/debug/kmemleak`
->>
->> The leaked memory is allocated in the stack below:
->> ----------------------------------
->> do_syscall_64
->>    do_sys_open
->>      do_dentry_open
->>        full_proxy_open
->>          seq_open            ---> alloc seq_file
->>    vfs_read
->>      full_proxy_read
->>        seq_read
->>          seq_read_iter
->>            traverse          ---> alloc seq_buf
->> ----------------------------------
->>
->> And it should have been released in the following process:
->> ----------------------------------
->> do_syscall_64
->>    syscall_exit_to_user_mode
->>      exit_to_user_mode_prepare
->>        task_work_run
->>          ____fput
->>            __fput
->>              full_proxy_release  ---> free here
->> ----------------------------------
->>
->> However, the release function corresponding to file_operations is not
->> implemented in kfence. As a result, a memory leak occurs. Therefore,
->> the solution to this problem is to implement the corresponding
->> release function.
->>
->> Fixes: 0ce20dd84089 ("mm: add Kernel Electric-Fence infrastructure")
->> Reported-by: Hulk Robot <hulkci@huawei.com>
->> Signed-off-by: Baokun Li <libaokun1@huawei.com>
-Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+Thanks for the explanation, I was missing the swap here. However...
+
+> So in your above example you need to swap "reordered to" and the top
+> frame of the stack trace.
+> 
+
+IIUC, the report for my above example will be:
+
+         | write (reordered) to 0xaaaa of ...:
+         | foo+0x... // address of the write to A
+         | ...
+         |  |
+         |  +-> reordered to: foo+0x... // address of the callsite to bar() in foo()
+
+, right? Because in replace_stack_entry(), it's not the top frame where
+the race occurred that gets swapped, it's the frame which belongs to the
+same function as the original access that gets swapped. In other words,
+when KCSAN finds the problem, top entries of the calling stack are:
+
+	[0] bar+0x.. // address of the write to B
+	[1] foo+0x.. // address of the callsite to bar() in foo()
+
+after replace_stack_entry(), they changes to:
+
+	[0] bar+0x.. // address of the write to B
+skip  ->[1] foo+0x.. // address of the write to A
+
+, as a result the report won't mention bar() at all.
+
+And I think a better report will be:
+
+         | write (reordered) to 0xaaaa of ...:
+         | foo+0x... // address of the write to A
+         | ...
+         |  |
+         |  +-> reordered to: bar+0x... // address of the write to B in bar()
+
+because it tells users the exact place the accesses get reordered. That
+means maybe we want something as below? Not completely tested, but I
+play with scope checking a bit, seems it gives what I want. Thoughts?
+
+Regards,
+Boqun
+
+diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
+index 67794404042a..b495ed3aa637 100644
+--- a/kernel/kcsan/report.c
++++ b/kernel/kcsan/report.c
+@@ -324,7 +324,10 @@ replace_stack_entry(unsigned long stack_entries[], int num_entries, unsigned lon
+        else
+                goto fallback;
+
+-       for (skip = 0; skip < num_entries; ++skip) {
++       skip = get_stack_skipnr(stack_entries, num_entries);
++       *replaced = stack_entries[skip];
++
++       for (;skip < num_entries; ++skip) {
+                unsigned long func = stack_entries[skip];
+
+                if (!kallsyms_lookup_size_offset(func, &symbolsize, &offset))
+@@ -332,7 +335,6 @@ replace_stack_entry(unsigned long stack_entries[], int num_entries, unsigned lon
+                func -= offset;
+
+                if (func == target_func) {
+-                       *replaced = stack_entries[skip];
+                        stack_entries[skip] = ip;
+                        return skip;
+                }
+
+> The implementation is a little trickier of course, but I really wanted
+> the main stack trace to look like any other non-reordered access,
+> which starts from the original access, and only have the "reordered
+> to" location be secondary information.
+> 
+> The foundation for doing this this was put in place here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6c65eb75686f
+> 
+> Thanks,
+> -- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/71c69735-6064-6b28-eab3-67c36f88e51d%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Ya4evHE7uQ9eXpax%40boqun-archlinux.
