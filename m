@@ -1,117 +1,124 @@
-Return-Path: <kasan-dev+bncBDHPTCWTXEHRBSHCW6GQMGQEQHZOZAA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBR5AXCGQMGQEY7JRUIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E2E4694DE
-	for <lists+kasan-dev@lfdr.de>; Mon,  6 Dec 2021 12:17:30 +0100 (CET)
-Received: by mail-io1-xd3f.google.com with SMTP id s199-20020a6b2cd0000000b005ed3e776ad0sf8076960ios.18
-        for <lists+kasan-dev@lfdr.de>; Mon, 06 Dec 2021 03:17:30 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638789449; cv=pass;
+Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1964469701
+	for <lists+kasan-dev@lfdr.de>; Mon,  6 Dec 2021 14:29:44 +0100 (CET)
+Received: by mail-oo1-xc3a.google.com with SMTP id g20-20020a4a7554000000b002caefc8179csf7981619oof.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 06 Dec 2021 05:29:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638797384; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tnQyI/66dbcoqJDwEWx/I94sjUf1HnVDZO6yKOqBzLtnrOnSqmET8xi/MEUkYf69/y
-         pkTKZMynYv8IVJGBfBAgoseWQ8lwMjxFj40eBA75/d0BtTlERsHGwmStfLHphhLtRCTf
-         RtScPBfZZJidRga4jsyD13BcH/FYxYNWrR7jLqoqG1BxtF4D7r+jays06FuyYm//Ouli
-         dXqa1pvpBQkiXHkF08PNoqAbpx3x2oC5o3nmVGRG6DtGDC4/Z30WUuhpVMvzLSjEtMUc
-         RdzvgfIRyRTTQrVNR808SfV4/zNDNsQOyUEU+uTwVNtfKxkk9M3bQQFVLAjy/2n4Opo9
-         aaEQ==
+        b=A7KXNN1Y+Iav/EKKZqmGwPavHcvmOFpDeuBXPBR2BXvMNT/Ds2x6Oh3oR/8IEeQiU9
+         YSkHVxRKMslhdslK6Gqf5JryKmAF29TrheoxBzV2zzFHGXp3wBQRnDDWe8ncUKG6t0FM
+         3vKoo98aOrJZBwBngQkb1Wsqncqtx8elkPoMqr1I2GXJNbVelsaG/m/wN56QAHrZ7tFL
+         +BvbJ0H8c/glrHNGTUHU6QIbX0ImuZTS9fYx+8YEBq3mKRblSO76Oa9V8ZuV1H/eq7Zs
+         7zJcPdwZuOLnuH/4FxqMMfbi82GGQhOWdvSc9t/JBg6KgYib8VNVED4sjfzgDc7r3Z5I
+         mRNA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:sender:dkim-signature;
-        bh=cnbA4hkG3DjsQUjHG0pIkohl8yJNOh+8w2BKfizAq50=;
-        b=uZfayzMB6IFce1kk3uutR77fejpawU3OQkK7d3yc5H+c9sy0mr7/Pgn7Z+wozfDCdx
-         kRxl5TQNUX3lCAKUzRIvmJvGrfGTygBQ6j3lXSncy6fqrtfOAttuuv2r0L0hL2ymHH34
-         H3K49YIYmxf59F8QJnQdlOiEsXLUOWZ3Wg/uXovvKLUANXATqf3dzULPyUZEeiZunvcg
-         kIOuZs9VMnhY/lNVU3iGyvroY/fI+Th6mROP5Rwbw2+4RKvG8kFGK6PxAN3Zk2yONOJH
-         0eUy7e290pxnO35bO/pyJ45AU0JXb48El73RZI6YQntpMrqRZo0DO/6ZrAbHzx7P+sZ9
-         ZCvg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=VSKm5P3ff3XvWvQuXLrggg2RyBVFlu543RGBS6R9KkM=;
+        b=Cfp3yxq6ILyz9LWC6gLCaGSCplnc/UJtDcdxUEN0Xy9Mh+TzImNvDFtdwP3U9hC6JK
+         4Xm3P6tCanxvlbJBNJgYL43NBkNDwx4dS2QpODg5qiPU1vrar/kGQ/KDOLpUuPiKD9ip
+         FdNBoA9Iq/6V4QxgoD89YJX2Sfi4rvxqugh8tudGm7HboOImtRJ5vPRAixdnwyrrF/S6
+         1y0fiDKahImA2P0hlIyx0JNqtqjtWNrHQNd/DxvmNlBBpGo6xJ9XhrXy5diaaIw8/p8p
+         iiN+gsyUhefBLSohuMqTINI5M1ovUQ1LNrFe1VNhlqtu++GvXbeRrlI8fnYZyiAClVvg
+         gk8A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of heiko@sntech.de designates 185.11.138.130 as permitted sender) smtp.mailfrom=heiko@sntech.de
+       dkim=pass header.i=@google.com header.s=20210112 header.b=IE5me+LH;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=cnbA4hkG3DjsQUjHG0pIkohl8yJNOh+8w2BKfizAq50=;
-        b=UP0q6CkjlqEwBWdzsdMZXJ0VkDaQfexUhYLHyVluJzouZT5vfSzr5zRjR+X2OwZO3f
-         8hTjyJX9duYdOY0g5cYeT/6FPlDREGpPqmb+vYkAyr/R8rqFDouaAbE/04AXCAYRPcHn
-         FSqXo1+lKlHHh8O9aau9nzXDq3RroIWfbHCt/IOqOBhqADKCjWzMqGQSL8gdRrk7WemD
-         5sLhJwjgBAhofNwRdvmfkkBUnyOP0O5EcMaHwWvtCM4s+yBscLbRO6M7e7Dg7oa0vQqW
-         6iQWaCWLIOOnTVybtsd90EWtuA2Tfv44NYGULsj1e8pQaLvm2XfkrFb0k/5oeUeqUY5F
-         VqZQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=VSKm5P3ff3XvWvQuXLrggg2RyBVFlu543RGBS6R9KkM=;
+        b=DZdXP+1AAg/lCrQrk7yb8iG2ok2bN7gVinZ61T+/eJ21oqKdU4KL15JSvbS3OJfSnL
+         XIagBD3s69WzHuLxpTxsvqEs2R5U2+ta/8wwIh//unxekFswa+A+wX5qAAkHnpj/aCNY
+         ENTQf+6jK3ywhVK2++lM2icAIkrwxmDE7Lg2tVWFbPqKzRSmrJsEsJ20kHTBXjf3E567
+         018yMs2gHSiPP4dVMzCqlo2vjL26d74fe8KN4uO4Rb+kPDgN9i8Ia5J60g2+YsnofbhY
+         rdOhnQ0nmnuwZ3Wv7OFWfJPWH0GoKGWkvozik812DrVqfl2OyZO/U0uVd3Feo8YuAFnY
+         GQ/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=cnbA4hkG3DjsQUjHG0pIkohl8yJNOh+8w2BKfizAq50=;
-        b=mZdGtrgE79RMoLLSAAyCpi6VWBCpu8pSths+MztLGSCK8dvpTk+dgZzUE/ycDnabT4
-         MJJKUuGQN+LtWnoZO+Sad3IA3i00TAXeXQMlaaUOuKSmHd6B5XS1awMF2bi6N0A26o7T
-         OrVwjDrKUhbJlcIqDOgsBtx+tZor+fXOiPszrUgBYuCGnY6xWpTIR3itO37FFppjz/Pb
-         65VRV5bqgkz+N5VlEjJ4C70sURU2x/9+8SksRcCBT4PaH/4p1+0MGHNRSk0b5WLC0u9O
-         5kZ3OrhtW5hgd64axIVhWidUg1DApPpuJjK3iCDlZJFrh/hnGe9p7oQ4DU3TGIKrYwNw
-         3uZQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530bcBHLNtYG3lA5XtfJGdyVklnW78XFxAXKg4WAJlyZGmJNFJ8g
-	ag1aWBzJjALZgkrF11/4i2k=
-X-Google-Smtp-Source: ABdhPJzlfIEmYFllm6Sh4cVAcxr/DQEi0jE2RjQX5seJaesYyEWhwYfSOjxN72n34SqDRc+Q3zl8qg==
-X-Received: by 2002:a05:6e02:1be5:: with SMTP id y5mr29358721ilv.8.1638789448958;
-        Mon, 06 Dec 2021 03:17:28 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=VSKm5P3ff3XvWvQuXLrggg2RyBVFlu543RGBS6R9KkM=;
+        b=X3wfHzUdekQXEpAu8SBYD6Sz9BmPJzxaTJeQA9mjv45rZqNu5GxMZ0YaWtVKTTte08
+         G79V3wNYxeEYchgMISDSQySK5qWiM/S1xfj/+tqzbiKCPksWS8aUso6MgEuncH5aKwqV
+         RU+LJbNxossdtTvK+Xehh4r1RtpRjvq8Gzg5Tt+AhIxG/GJxpsQxFZ3mj26jyeS3aNZC
+         UkftgHjCqfakG0OHS5HwCV62Rw94pY/CpuGaPZ3WodCmncrpSIbelra/BsUcBc/Xw2eG
+         WkTR2bF4vqpGAsyR9plCp8P/rJXL+0igtHtsS3TVZmjN9pF0w1jaP5lhr4tPtS4H3xjW
+         WgJA==
+X-Gm-Message-State: AOAM531QVBHGm38p0rqIh7rqM4SE+JaQECV0f3W0aMBKu/rWwscPI54A
+	vj1HVcf917uBefwwkpkwqAA=
+X-Google-Smtp-Source: ABdhPJz+elPIvBRmiWG/vtYA6coOcgrjja8ltzD90znX5h8jxwGqvFwTpLF/QLjBMfw7J2dmYZmvgQ==
+X-Received: by 2002:a05:6808:1814:: with SMTP id bh20mr22971594oib.31.1638797383758;
+        Mon, 06 Dec 2021 05:29:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:9358:: with SMTP id i24ls1988839ioo.4.gmail; Mon, 06 Dec
- 2021 03:17:28 -0800 (PST)
-X-Received: by 2002:a05:6602:2acc:: with SMTP id m12mr31584341iov.107.1638789448672;
-        Mon, 06 Dec 2021 03:17:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638789448; cv=none;
+Received: by 2002:a05:6830:3116:: with SMTP id b22ls5634969ots.3.gmail; Mon,
+ 06 Dec 2021 05:29:43 -0800 (PST)
+X-Received: by 2002:a05:6830:4103:: with SMTP id w3mr28792871ott.207.1638797383309;
+        Mon, 06 Dec 2021 05:29:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638797383; cv=none;
         d=google.com; s=arc-20160816;
-        b=yzAXh9Q9VU15iWkFMZWMteHSPXmQEXQhcPHsX4VxGMIolEithpw6jyuTWBa6DseI23
-         e7C7zKJEiZGEeh3eq8H1zA6dHvM344qABidhoo6pUo15amFXTGfiyqwlAyBwOYQ6AfBa
-         W1kjbJt7EyqYst8XdKoxX35VcMNSy7IrMaoDVzdszgfHdwgJ8qjK0XKWsji4BKcWjrRM
-         7Lqn0JiN2n9BrIoyTn/s/e491wQIQOD6wOkBAcfVkcyhr5TbY4juGtEORgHhfqy2ndEL
-         NcUjrTS1Cnsudmek7snqGQ/ZuQ6uv4aK8G6y1wlnr1XrkvBm+75CCKCyTuxBBeIzEVlW
-         XYeA==
+        b=s/gdTbEt7OdsURnHaoakfUrkh/MYM1scm3RGFOSAD5MMRWD6aHHfCB/0BGeMUB2vMM
+         75Wdkou2DBPgYnXALYhgKeG+bDzdVSPAP+4ryLIgGCxMvVbhZwOrbGz8PfAt6V6F5veS
+         8ljDIT0UM/r2+TSS0Sv9aBkTdJU7/UTGI7PB+EWqZqa7d1W6ITP4Gsdwr2zyPEw8GtIB
+         LWInWpPouv0XHfGywaCFHPPGAgNZMh1JhJw1zV6Bd1/l6VuoGxIK1oFMq1wBhmG3XTi7
+         Ld02SJmniTDltw27QwjNrMWiJbQrYfPBSV4GHsnDLMykI34HNwEuJh8cIJGpBc6ZfMCW
+         RRhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=yb2qTjxtWUreQ1kbT356c+DT2h0IZ8MA2z19Rj4gdJg=;
-        b=M5vueQgZZ6H2FURVWO7IIUlQasEA+AmQC5kDWOn78cnhrND6JOeuwS+SwP6B/15Zs2
-         Zqm5gcJinQNuLlq5VPWTk2Kw+lfoOdLmqSJtnPbNi4az5MeDkCciAEhNRJI7FpH6Wa72
-         J/X0sRkeYjLVRYfv1u38cKqdd0MogxkQcKmfxGMYwrrZE1ux7PfLxMwk0r313AdArV/U
-         gu/mX3cM1vD+gCnXcVbuZo005cDxk76irozsiZPYizc9+kyroJRXvyt59bgCJ+VAkVUj
-         pelSt/eFc2HtCEG8002UvwSdeEjIvtDxLW4Bbo5Q+UcUcLUI5nx/YfZfOARqLVyt8MGB
-         jOaw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=hwAXMiVFRnMKI3jWqdRm+kJXMsdijWyrT1caWs3PQTk=;
+        b=rjskuNVtq95tBlhabZEUNJrFQcIwJoxSQJxXtKJnqqCPOacnW9jiq2Atj5Yb+CTDej
+         mJ+XFqX5z+fG+JRcI8uzBpeGjLzZ9syxz/qDX/iNTTSEgag7KhiU+oChvro73DZoYF+u
+         9mAyi2qhUVLJ/6elm6igAwQ5mF1IXcVLI14SbzJZYOYFT9fgk8GvN5+oMOSG+RzsM+0+
+         PtcDz62MtC4Dr9913g3wnUNZEWKpJtuXlL4HMjswkMOPMeryi21506O5TnJ9DsRVoDp4
+         o1eJ/EWL+BWi/DADqyV7CxnOklJbvz2UiodMgW7HwOoGzVVi8dmnAnftl/YYJslT3hQ5
+         o0hg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: best guess record for domain of heiko@sntech.de designates 185.11.138.130 as permitted sender) smtp.mailfrom=heiko@sntech.de
-Received: from gloria.sntech.de (gloria.sntech.de. [185.11.138.130])
-        by gmr-mx.google.com with ESMTPS id a15si2117845ilv.2.2021.12.06.03.17.28
+       dkim=pass header.i=@google.com header.s=20210112 header.b=IE5me+LH;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com. [2607:f8b0:4864:20::22c])
+        by gmr-mx.google.com with ESMTPS id u27si1225466ots.2.2021.12.06.05.29.43
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 03:17:28 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of heiko@sntech.de designates 185.11.138.130 as permitted sender) client-ip=185.11.138.130;
-Received: from [77.23.162.171] (helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <heiko@sntech.de>)
-	id 1muBzU-0003Gp-KA; Mon, 06 Dec 2021 12:17:04 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>, Atish Patra <Atish.Patra@wdc.com>, Christoph Hellwig <hch@lst.de>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Kees Cook <keescook@chromium.org>, Guo Ren <guoren@linux.alibaba.com>, Heinrich Schuchardt <heinrich.schuchardt@canonical.com>, Mayuresh Chitale <mchitale@ventanamicro.com>, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Cc: Alexandre ghiti <alex@ghiti.fr>
-Subject: Re: [PATCH v2 00/10] Introduce sv48 support without relocatable kernel
-Date: Mon, 06 Dec 2021 12:17:02 +0100
-Message-ID: <16228030.BXmPpbjjvJ@diego>
-In-Reply-To: <3283761f-0506-464b-d351-af8ddecafa9b@ghiti.fr>
-References: <20210929145113.1935778-1-alexandre.ghiti@canonical.com> <2700575.YIZvDWadBg@diego> <3283761f-0506-464b-d351-af8ddecafa9b@ghiti.fr>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Dec 2021 05:29:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22c as permitted sender) client-ip=2607:f8b0:4864:20::22c;
+Received: by mail-oi1-x22c.google.com with SMTP id s139so21352502oie.13
+        for <kasan-dev@googlegroups.com>; Mon, 06 Dec 2021 05:29:43 -0800 (PST)
+X-Received: by 2002:a05:6808:118c:: with SMTP id j12mr23741704oil.65.1638797382907;
+ Mon, 06 Dec 2021 05:29:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20211206133628.2822545-1-libaokun1@huawei.com>
+In-Reply-To: <20211206133628.2822545-1-libaokun1@huawei.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 6 Dec 2021 14:29:31 +0100
+Message-ID: <CANpmjNOrtcu16zKEjiZbBZJPDKWa6-PM_hw1yNZhXvpZupYgng@mail.gmail.com>
+Subject: Re: [PATCH -next] kfence: fix memory leak when cat kfence objects
+To: Baokun Li <libaokun1@huawei.com>
+Cc: glider@google.com, dvyukov@google.com, akpm@linux-foundation.org, 
+	viro@zeniv.linux.org.uk, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, yukuai3@huawei.com, 
+	Hulk Robot <hulkci@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: heiko@sntech.de
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: best guess record for domain of heiko@sntech.de designates
- 185.11.138.130 as permitted sender) smtp.mailfrom=heiko@sntech.de
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=IE5me+LH;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22c as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -124,117 +131,105 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Am Montag, 6. Dezember 2021, 11:49:55 CET schrieb Alexandre ghiti:
-> On 11/25/21 00:29, Heiko St=C3=BCbner wrote:
-> > Am Mittwoch, 29. September 2021, 16:51:03 CET schrieb Alexandre Ghiti:
-> >> This patchset allows to have a single kernel for sv39 and sv48 without
-> >> being relocatable.
-> >>                                                                       =
-           =20
-> >> The idea comes from Arnd Bergmann who suggested to do the same as x86,
-> >> that is mapping the kernel to the end of the address space, which allo=
-ws
-> >> the kernel to be linked at the same address for both sv39 and sv48 and
-> >> then does not require to be relocated at runtime.
-> >>                                                                       =
-           =20
-> >> This implements sv48 support at runtime. The kernel will try to
-> >> boot with 4-level page table and will fallback to 3-level if the HW do=
-es not
-> >> support it. Folding the 4th level into a 3-level page table has almost=
- no
-> >> cost at runtime.
-> >>                                                                       =
-           =20
-> >> Tested on:
-> >>    - qemu rv64 sv39: OK
-> >>    - qemu rv64 sv48: OK
-> >>    - qemu rv64 sv39 + kasan: OK
-> >>    - qemu rv64 sv48 + kasan: OK
-> >>    - qemu rv32: OK
-> >>    - Unmatched: OK
-> > On a beagleV (which supports only sv39) I've tested both the limit via
-> > the mmu-type in the devicetree and also that the fallback works when
-> > I disable the mmu-type in the dt, so
-> >
-> > Tested-by: Heiko Stuebner <heiko@sntech.de>
-> >
->=20
-> Thanks Heiko for testing this, unfortunately I could not add this tag to=
-=20
-> the latest version as significant changes came up.
->=20
-> Thanks again for taking the time to test this,
+On Mon, 6 Dec 2021 at 14:24, Baokun Li <libaokun1@huawei.com> wrote:
+>
+> Hulk robot reported a kmemleak problem:
+> -----------------------------------------------------------------------
+> unreferenced object 0xffff93d1d8cc02e8 (size 248):
+>   comm "cat", pid 23327, jiffies 4624670141 (age 495992.217s)
+>   hex dump (first 32 bytes):
+>     00 40 85 19 d4 93 ff ff 00 10 00 00 00 00 00 00  .@..............
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<00000000db5610b3>] seq_open+0x2a/0x80
+>     [<00000000d66ac99d>] full_proxy_open+0x167/0x1e0
+>     [<00000000d58ef917>] do_dentry_open+0x1e1/0x3a0
+>     [<0000000016c91867>] path_openat+0x961/0xa20
+>     [<00000000909c9564>] do_filp_open+0xae/0x120
+>     [<0000000059c761e6>] do_sys_openat2+0x216/0x2f0
+>     [<00000000b7a7b239>] do_sys_open+0x57/0x80
+>     [<00000000e559d671>] do_syscall_64+0x33/0x40
+>     [<000000000ea1fbfd>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> unreferenced object 0xffff93d419854000 (size 4096):
+>   comm "cat", pid 23327, jiffies 4624670141 (age 495992.217s)
+>   hex dump (first 32 bytes):
+>     6b 66 65 6e 63 65 2d 23 32 35 30 3a 20 30 78 30  kfence-#250: 0x0
+>     30 30 30 30 30 30 30 37 35 34 62 64 61 31 32 2d  0000000754bda12-
+>   backtrace:
+>     [<000000008162c6f2>] seq_read_iter+0x313/0x440
+>     [<0000000020b1b3e3>] seq_read+0x14b/0x1a0
+>     [<00000000af248fbc>] full_proxy_read+0x56/0x80
+>     [<00000000f97679d1>] vfs_read+0xa5/0x1b0
+>     [<000000000ed8a36f>] ksys_read+0xa0/0xf0
+>     [<00000000e559d671>] do_syscall_64+0x33/0x40
+>     [<000000000ea1fbfd>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> -----------------------------------------------------------------------
+>
+> I find that we can easily reproduce this problem with the following
+> commands:
+>         `cat /sys/kernel/debug/kfence/objects`
+>         `echo scan > /sys/kernel/debug/kmemleak`
+>         `cat /sys/kernel/debug/kmemleak`
+>
+> The leaked memory is allocated in the stack below:
+> ----------------------------------
+> do_syscall_64
+>   do_sys_open
+>     do_dentry_open
+>       full_proxy_open
+>         seq_open            ---> alloc seq_file
+>   vfs_read
+>     full_proxy_read
+>       seq_read
+>         seq_read_iter
+>           traverse          ---> alloc seq_buf
+> ----------------------------------
+>
+> And it should have been released in the following process:
+> ----------------------------------
+> do_syscall_64
+>   syscall_exit_to_user_mode
+>     exit_to_user_mode_prepare
+>       task_work_run
+>         ____fput
+>           __fput
+>             full_proxy_release  ---> free here
+> ----------------------------------
+>
+> However, the release function corresponding to file_operations is not
+> implemented in kfence. As a result, a memory leak occurs. Therefore,
+> the solution to this problem is to implement the corresponding
+> release function.
+>
+> Fixes: 0ce20dd84089 ("mm: add Kernel Electric-Fence infrastructure")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Baokun Li <libaokun1@huawei.com>
 
-No worries, I can repeat that with your new version :-)
+Good catch!
 
-Heiko
+Acked-by: Marco Elver <elver@google.com>
 
+> ---
+>  mm/kfence/core.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index 46103a7628a6..186838f062b2 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -684,6 +684,7 @@ static const struct file_operations objects_fops = {
+>         .open = open_objects,
+>         .read = seq_read,
+>         .llseek = seq_lseek,
+> +       .release = seq_release,
+>  };
+>
+>  static int __init kfence_debugfs_init(void)
+> --
+> 2.31.1
+>
 
-> >>   =20
-> >>                                                                       =
-           =20
-> >> Changes in v2:
-> >>    - Rebase onto for-next
-> >>    - Fix KASAN
-> >>    - Fix stack canary
-> >>    - Get completely rid of MAXPHYSMEM configs
-> >>    - Add documentation
-> >>
-> >> Alexandre Ghiti (10):
-> >>    riscv: Allow to dynamically define VA_BITS
-> >>    riscv: Get rid of MAXPHYSMEM configs
-> >>    asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
-> >>    riscv: Implement sv48 support
-> >>    riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
-> >>    riscv: Explicit comment about user virtual address space size
-> >>    riscv: Improve virtual kernel memory layout dump
-> >>    Documentation: riscv: Add sv48 description to VM layout
-> >>    riscv: Initialize thread pointer before calling C functions
-> >>    riscv: Allow user to downgrade to sv39 when hw supports sv48
-> >>
-> >>   Documentation/riscv/vm-layout.rst             |  36 ++
-> >>   arch/riscv/Kconfig                            |  35 +-
-> >>   arch/riscv/configs/nommu_k210_defconfig       |   1 -
-> >>   .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
-> >>   arch/riscv/configs/nommu_virt_defconfig       |   1 -
-> >>   arch/riscv/include/asm/csr.h                  |   3 +-
-> >>   arch/riscv/include/asm/fixmap.h               |   1 +
-> >>   arch/riscv/include/asm/kasan.h                |   2 +-
-> >>   arch/riscv/include/asm/page.h                 |  10 +
-> >>   arch/riscv/include/asm/pgalloc.h              |  40 +++
-> >>   arch/riscv/include/asm/pgtable-64.h           | 108 +++++-
-> >>   arch/riscv/include/asm/pgtable.h              |  30 +-
-> >>   arch/riscv/include/asm/sparsemem.h            |   6 +-
-> >>   arch/riscv/kernel/cpu.c                       |  23 +-
-> >>   arch/riscv/kernel/head.S                      |   4 +-
-> >>   arch/riscv/mm/context.c                       |   4 +-
-> >>   arch/riscv/mm/init.c                          | 323 +++++++++++++++-=
---
-> >>   arch/riscv/mm/kasan_init.c                    |  91 +++--
-> >>   drivers/firmware/efi/libstub/efi-stub.c       |   2 +
-> >>   include/asm-generic/pgalloc.h                 |  24 +-
-> >>   include/linux/sizes.h                         |   1 +
-> >>   21 files changed, 615 insertions(+), 131 deletions(-)
-> >>
-> >>
-> >
-> >
-> >
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
->=20
-
-
-
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/16228030.BXmPpbjjvJ%40diego.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOrtcu16zKEjiZbBZJPDKWa6-PM_hw1yNZhXvpZupYgng%40mail.gmail.com.
