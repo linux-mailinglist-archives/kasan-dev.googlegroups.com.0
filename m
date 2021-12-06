@@ -1,143 +1,138 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBC7JXCGQMGQE6QUV4QA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBOPTXCGQMGQELUW5NNQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FF346A09A
-	for <lists+kasan-dev@lfdr.de>; Mon,  6 Dec 2021 17:04:28 +0100 (CET)
-Received: by mail-wm1-x33a.google.com with SMTP id o18-20020a05600c511200b00332fa17a02esf70755wms.5
-        for <lists+kasan-dev@lfdr.de>; Mon, 06 Dec 2021 08:04:28 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1638806667; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id C20D646A14F
+	for <lists+kasan-dev@lfdr.de>; Mon,  6 Dec 2021 17:26:33 +0100 (CET)
+Received: by mail-lj1-x23c.google.com with SMTP id s16-20020a2ea710000000b0021b674e9347sf3669016lje.8
+        for <lists+kasan-dev@lfdr.de>; Mon, 06 Dec 2021 08:26:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1638807993; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AcOXRg7h3vbWGfhwrg5rItJ08IRYPncF7a69bYmIGXpa0a777F+M87E8rNWQHcfWsO
-         VIDuU+0zP1frehkmVEyfKq7REJJysgBZ0DfofnM7bWaXqk0ilv6V0/ODBT/J2BxxStF2
-         iHx12RLxaW6nvYlIq4BBkobbojFmUR1ydCuCR/WLMujSGqhFIVSPQxLFMwYTYO45R8zu
-         lMkAtW+n0KO5Q8mUPYRA2T/9d24vfBS558pxizNXpeZotoAAgIYfj3uz717U6W9xrDHl
-         31xS3NptvgE/Bq7umpkMkaCj8EiO50EQ2gZXT/Vx4wTZfskiX6j7qDMogjkIqFZuq2yr
-         H7mg==
+        b=hXOtPYUxwAWfNEB59imn/DEEBq/8NAwnuLrlnQE+KL+YsdU+z3em4GOpiVSsG6fVsG
+         lYA4lNpQi+mX0DJi79XBor3LrQUoIey7Eii7sHVlps/kaIX2oULtyFBXWukRYVo/balC
+         iF28G5/JFNHLFKn93VNjCc7a3mj35Igxs29npjIBoFf1eH0y+vum839QwA0JqgWJQ92n
+         DqsQN2xbxTr6SMJFexpLNqQM1ngIlN1ekiWBRX2aaurDN+MbefpQ2VCCVD4hcdfzNl3j
+         FsPQ+hfG1ym0QTQd1PU36clOSK9OIrv8RV0RIYvRoOdqeY5eo7jqnNN/7Athenl137uo
+         poAg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=cekP+V65iT+LPMIbE2JIYEHogD8+QjSsCAX+Zziwk6w=;
-        b=CipasIGDjZcKJt7OIOkGdxex38LoqaDgGws+t2l9e7vm5xmvGCQtd69Bb+WOsboLkY
-         LiORqTUY5FFkU+Jiyfk948pB3jTw9iaxpVx3+G6vX2ge9llUDOrI6HRAzC+uP6fyurbk
-         eBltL2ncmMAZhebnDGRefEOjNXQAy+/BQZP6ctQEVN7y/EIwiza8yzKpvUmgSEcQYxhL
-         x5IbHqLPJRulP19rGOqvtqqYynlAmHfgsOUPQeyxM3Mojq83tTD45Aa7N3QLgmytber/
-         jmTIwiFg0GaViF9kXutDjpz+Bmbfp03oKiXl7YKEF1fBwV4WfwLMAz9xSNuQbm1eEe1Q
-         AeQw==
+         :list-id:mailing-list:precedence:message-id:mime-version:references
+         :in-reply-to:subject:cc:to:from:date:sender:dkim-signature;
+        bh=0jCTXe5S4aey+rXqRNC45tcdOnPTxLser0eO4fZpwok=;
+        b=fgtiUqod02LpsSmIVOYuOnelh6XaCDe7b2Y/IsDBAGh05erZjMg1m26kLcXLTUXD/9
+         4dXlW31ac/YxkGJBL2sXtXU0bSMY7SG/URclQyLFdL0DlEKwF5CPqukwQs3S3SwFlmM7
+         M1Jw+W20vRjByfO6TfqkXnf0qrFDVxPI3FMEx962WHitBC6o5YhE6jrrZ6S1sz8C1+SN
+         VpQDmrRYy1aC36kV/jccZO7O4JFFcLoTbgGsg/PBtRtGVs9Y0FBQCi5OIwIWNyMR62RG
+         kwaxjjhBZSwQWDngKxzK8z5JZGgGQY/ID6rSFHuYyva/hdAdW+UEngzgFXPfPmXCCp3t
+         B9Yg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=CXhtCLa0;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=sckZAMuU;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=cekP+V65iT+LPMIbE2JIYEHogD8+QjSsCAX+Zziwk6w=;
-        b=WCgjOLlAP0SY6q9mBHhXv5z0KhnKKRDiRi0pbsDziTVjEQXdewZVxZ0ClHU1/Err4z
-         3hWWDwssSdVjh/egrXO8A2U5lQTRYN+6Be+Hfl254Gq9YS9xptU8gBX2kvS6LPwl+YK0
-         ThXLgZP5Z08gzBz1PTxgwfyQPfk5vYwNyibpt2Avi6uQin6ddTH2yeOvF1g0N9y0ww/q
-         zkrilAP6nDjfnlXyyHCQqpjy6p6/SbZb8ez2Pt5OhA0Vq2MKm0Xn7o4tUwHtMBPnzoZP
-         ordUvceYavYNiS/PaWO5x+a3VFZr2KBD9stgi/UyfpeqAThnJEH7mt7D/AFvqTjuRXbk
-         woGw==
+        h=sender:date:from:to:cc:subject:in-reply-to:references:mime-version
+         :message-id:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=0jCTXe5S4aey+rXqRNC45tcdOnPTxLser0eO4fZpwok=;
+        b=Wo8y+CHBbY5azfCvLytfjp6RAP9GWrDBKp/ZQ/gFu9CwMhN+5u6JxXOprtlDHSUefQ
+         0RGuxt3lxXK8NNTyT0ZSjxHa/lHcha7COEu0FcxOz59FzVV8QfvHdWwyF8tBEiM+MT/8
+         5V7k6YmzK5/KhvTtNkykP/pYyI1grtvLtyhriONNLmTjHkBeWPj1PtCGUhKwCtBuRifZ
+         GTtF/0SV4Hwh/K+9re5RHy4T+Cp7W73aUMWk/X9jYCcjBGdPGa/PeYLYKf4K9IZxOdsC
+         qXgQarqRp0WB6rh639/AXWXao2mjB5bSfP3QrPKGmlMvGRUJgcdJSJ/gOU7Um6DHJcvh
+         olKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=cekP+V65iT+LPMIbE2JIYEHogD8+QjSsCAX+Zziwk6w=;
-        b=hs8vo3Mhp15b5OrJ3gptdeL4vaqk8nU+YOVlgMW4JIccUesz2RWnDQ0YJ8o2D32m9A
-         FLTGLP+ki4F//w9an3kh2Kj3eCdh3m4yVarJOn4F688Uw/39Pds+del5BR3f7KNfDKaZ
-         nzsF1nH8BB42oQc6FC4gkPqoBJvZxja2uwGZj/s3wJfnNKJc6MOtFTbt4/VGdcxJVSzB
-         jLdENSzrpn6CKF2EKbh8+60R4KML/fO3dZV1wbsujZlB3/tYi/hgJojoGhMEQfsZplXv
-         Fm8kJ1vlMHMyiK8qg5uaAbRVnzAzE+iKZtRaP2iC8oe5K97eWX0sRqRM25+23tJx4FA/
-         XRAQ==
-X-Gm-Message-State: AOAM533dtHLPcXRSauUBseUQHNFEFXH5JwUCxwFQtqBRK/wPy8fl2P3H
-	BLDLFEC1eeY/6E7TD6HxHnE=
-X-Google-Smtp-Source: ABdhPJx5B8CdJ0S6d22S4y3RF0xYnFAoCTZTDImUnkPgfFMM6AuiqgLTxUgqtsANG5zaNBjiQQqFaA==
-X-Received: by 2002:a5d:6a89:: with SMTP id s9mr45036558wru.123.1638806667890;
-        Mon, 06 Dec 2021 08:04:27 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:in-reply-to
+         :references:mime-version:message-id:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=0jCTXe5S4aey+rXqRNC45tcdOnPTxLser0eO4fZpwok=;
+        b=inM7bk0peqHq8yUS8FYl+hoFnYBXVDWGyhkUwWgk7HHTz/R8VrC4h7IDWaTkvJ4OAU
+         6CYuzdpdWH4TKyulU75C4mbY99AsyFwKAqKm+aFsoBMd3P1UFNeG4JxkCgfqMlU/1nUZ
+         I0JS/ZagYIyd6iosYsjRSXGOJQ4QOSnmsBm9uKu+y1xGsZWO+4Bk0ZIM59q+4Ub88DSg
+         dB/E0bQ7F4E9crfGfxRFRZ/35QwzSa6ozw8IsBSNCGuSDjx8FiytHnBXVFqJl7CdoDaK
+         8rQnI3LkZaaYm/IVaorayhDGwjYHq+MIc6q82etQCvzKTRdPO3Yrpe3c1yheiFQuWixu
+         jdqw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532+irRyv6gHvD+vdRpHeFahvKSNe4/NzVZDFldfOAvMBMWPqnRG
+	ne02cD/eGhty6TfMa0G7uAo=
+X-Google-Smtp-Source: ABdhPJxKRgaECAs6JeD19sOlgDW8jI/hAlY6OsFTsAQOYfss9bE9Eye0VL+GgQm1FHYdoaM+qRm6Rw==
+X-Received: by 2002:a05:6512:344d:: with SMTP id j13mr38268160lfr.347.1638807993332;
+        Mon, 06 Dec 2021 08:26:33 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:7e16:: with SMTP id z22ls10396750wmc.2.canary-gmail;
- Mon, 06 Dec 2021 08:04:26 -0800 (PST)
-X-Received: by 2002:a05:600c:a42:: with SMTP id c2mr40273997wmq.154.1638806666901;
-        Mon, 06 Dec 2021 08:04:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1638806666; cv=none;
+Received: by 2002:a2e:bc09:: with SMTP id b9ls2687101ljf.2.gmail; Mon, 06 Dec
+ 2021 08:26:32 -0800 (PST)
+X-Received: by 2002:a05:651c:4c9:: with SMTP id e9mr37728652lji.10.1638807992516;
+        Mon, 06 Dec 2021 08:26:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1638807992; cv=none;
         d=google.com; s=arc-20160816;
-        b=wpjvvLToQ4YIJD+shgTQ7rzL7ZsV7ptv0u9nNMDyVoV9fwzXF9gM+kXsWTboqEMot4
-         65aqEmgySj5apIGeHZ8uUimEtls071EGditK1Q7XbOKo9IM/irF2kCHMpq4dQ+j6KtZB
-         RSl11R7n+3O9bJZgFRCX9sebJqJHliL63ssvSBskqXsVQar20xqhitFyJIH1oAd3UxGu
-         NzheqkW+Y8QhQJ5TANDzTWrsouq9sAQyS81uK4XGF89fK3eVP/KTLQ7JXLaPoSzQLDpQ
-         DcePyjxI4KWwlKTIOI+nMBUKmFnKymTPin1g+xoLo0XeObsRMwuXYi+OFyV1/ooU2cMx
-         /Edg==
+        b=y6NcXVjTalWwoN4D4m1/8u/jt4Zk6XABQyLaFsrAf7g+RC+bCgiZA1BX52hSZceLOE
+         tjW6FPFjW31P46i/a8U9g4xjLIYjgihMLm7cC+fLXVOk0BYGx2NSR9pHUkBVasiHZZ8J
+         0LcdjnuSA2TNF/nPzkpsUtJI408o/nT6M/ELJax86Jyjie+vm1o4ctgK4YFw3MH8GSC/
+         yzs5+jiTF2ox+3ZEr67d5TiIGwdcIU89wuMHO87JXWQnnAh/RSBEvIt0wJi0wzdC9bl9
+         Mq6DEq4DqERGpY7Lpa55RQzbfhsnmeab1Cjnub5GSY6GS8ValNssMxAXjs4gYpHrnrzH
+         jGcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=nMw+1lOhPz92ldC1eztxTws1Eot0vmOAhw9KFEmlatA=;
-        b=F3k/o1BZ7N5se8Q/xmGtA6BVtpjYhjfg999CQd9sulSMw1kOfOZNvNFXAwwWGbO2vW
-         QtdtlFiWulfx4qmXEKUexZvWNysdCPOJ/SX+NelytwpLQUr5yTBiybx8NLSq4rYo3gUY
-         oRgvGU65JUBoiCojGdTigMwpBG5gMoR6wOS13yOrqFSt5C/b2b5tF2sDWrZ7BBHNX38E
-         6dXEnbKpeR3AgTiD2+mUtz2lh+cvnSiCUE7Nkiy6+6OsV+Cs7bE+bF6maK+uZeE6iLYO
-         UvWyWQEBVwP7ZyrufgiRn1eRIvYuVgM1010ohGhtkd3Icc+jsymzRm7V2y6G+/LY419C
-         Xhkg==
+        h=message-id:content-transfer-encoding:mime-version:references
+         :in-reply-to:subject:cc:to:from:date:dkim-signature;
+        bh=iXAzfbTSlU6SRN8zIk+0x0/o02jMqQ65ltDM0wm5akw=;
+        b=EYliqCmd9pzvAS1HkhWdveZTYgOPAUXKa0Qymxprd24Ta4mbKQOeXWd1o3T0/wPEFW
+         v7tQ1yAEyRDUto+zdmzPkfTrxiJmCXZQHp7jmd0D5SfOGLj2SnEaEkW1RviQPCyXZWD3
+         grgW02YEuOS5KqzsvFLTDgArt5YYwEzADfcXRXdoMco+3YNHWXa9hJ9yhbSu+7krgLPZ
+         Og2vXSj7I6o+GpvYSNXkpCx3A5Rd6HmoueocqrgOKUICxVp0Fzie5yEVk4ZLZqCAZ0a9
+         1WySriA7XyazhkpX76CU8LH3bJCC+E5g0DY/j/KLdwE9tY35lwK9Xj7S2jL3JcAUmi7M
+         JyMQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=CXhtCLa0;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com. [2a00:1450:4864:20::42a])
-        by gmr-mx.google.com with ESMTPS id c10si15128wmq.4.2021.12.06.08.04.26
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=sckZAMuU;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
+        by gmr-mx.google.com with ESMTPS id u13si132316lff.9.2021.12.06.08.26.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Dec 2021 08:04:26 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42a as permitted sender) client-ip=2a00:1450:4864:20::42a;
-Received: by mail-wr1-x42a.google.com with SMTP id u17so16128178wrt.3
-        for <kasan-dev@googlegroups.com>; Mon, 06 Dec 2021 08:04:26 -0800 (PST)
-X-Received: by 2002:adf:d1c2:: with SMTP id b2mr44013090wrd.114.1638806666388;
-        Mon, 06 Dec 2021 08:04:26 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:88f3:db53:e34:7bb0])
-        by smtp.gmail.com with ESMTPSA id o3sm14929749wms.10.2021.12.06.08.04.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 08:04:25 -0800 (PST)
-Date: Mon, 6 Dec 2021 17:04:20 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Borislav Petkov <bp@alien8.de>, Dmitry Vyukov <dvyukov@google.com>,
-	Ingo Molnar <mingo@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
-	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	llvm@lists.linux.dev, x86@kernel.org
-Subject: Re: [PATCH v3 08/25] kcsan: Show location access was reordered to
-Message-ID: <Ya40hEQv5SEu7ZeL@elver.google.com>
-References: <20211130114433.2580590-1-elver@google.com>
- <20211130114433.2580590-9-elver@google.com>
- <Ya2Zpf8qpgDYiGqM@boqun-archlinux>
- <CANpmjNMirKGSBW2m+bWRM9_FnjK3_HjnJC=dhyMktx50mwh1GQ@mail.gmail.com>
- <Ya4evHE7uQ9eXpax@boqun-archlinux>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 Dec 2021 08:26:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 9080DB81118;
+	Mon,  6 Dec 2021 16:26:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1EF4C341C2;
+	Mon,  6 Dec 2021 16:26:24 +0000 (UTC)
+Date: Tue, 7 Dec 2021 00:18:54 +0800
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Zong Li <zong.li@sifive.com>, Anup Patel
+ <anup@brainfault.org>, Atish Patra <Atish.Patra@rivosinc.com>, Christoph
+ Hellwig <hch@lst.de>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander
+ Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Ard Biesheuvel <ardb@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>, Kees Cook <keescook@chromium.org>, Guo Ren
+ <guoren@linux.alibaba.com>, Heinrich Schuchardt
+ <heinrich.schuchardt@canonical.com>, Mayuresh Chitale
+ <mchitale@ventanamicro.com>, panqinglin2020@iscas.ac.cn,
+ linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+ linux-efi@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH v3 01/13] riscv: Move KASAN mapping next to the kernel
+ mapping
+In-Reply-To: <20211206104657.433304-2-alexandre.ghiti@canonical.com>
+References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
+	<20211206104657.433304-2-alexandre.ghiti@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <Ya4evHE7uQ9eXpax@boqun-archlinux>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Original-Sender: elver@google.com
+Message-Id: <20211206162624.F1EF4C341C2@smtp.kernel.org>
+X-Original-Sender: jszhang@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=CXhtCLa0;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42a as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=sckZAMuU;       spf=pass
+ (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as
+ permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,216 +145,136 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Dec 06, 2021 at 10:31PM +0800, Boqun Feng wrote:
-[...]
-> Thanks for the explanation, I was missing the swap here. However...
+On Mon,  6 Dec 2021 11:46:45 +0100
+Alexandre Ghiti <alexandre.ghiti@canonical.com> wrote:
+
+> Now that KASAN_SHADOW_OFFSET is defined at compile time as a config,
+> this value must remain constant whatever the size of the virtual address
+> space, which is only possible by pushing this region at the end of the
+> address space next to the kernel mapping.
 > 
-> > So in your above example you need to swap "reordered to" and the top
-> > frame of the stack trace.
-> > 
-
-Apologies, I wasn't entirely precise ... what you say below is correct.
-
-> IIUC, the report for my above example will be:
+> Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+> ---
+>  Documentation/riscv/vm-layout.rst | 12 ++++++------
+>  arch/riscv/Kconfig                |  4 ++--
+>  arch/riscv/include/asm/kasan.h    |  4 ++--
+>  arch/riscv/include/asm/page.h     |  6 +++++-
+>  arch/riscv/include/asm/pgtable.h  |  6 ++++--
+>  arch/riscv/mm/init.c              | 25 +++++++++++++------------
+>  6 files changed, 32 insertions(+), 25 deletions(-)
 > 
->          | write (reordered) to 0xaaaa of ...:
->          | foo+0x... // address of the write to A
->          | ...
->          |  |
->          |  +-> reordered to: foo+0x... // address of the callsite to bar() in foo()
-> 
-> , right? Because in replace_stack_entry(), it's not the top frame where
-> the race occurred that gets swapped, it's the frame which belongs to the
-> same function as the original access that gets swapped. In other words,
-> when KCSAN finds the problem, top entries of the calling stack are:
-> 
-> 	[0] bar+0x.. // address of the write to B
-> 	[1] foo+0x.. // address of the callsite to bar() in foo()
-> 
-> after replace_stack_entry(), they changes to:
-> 
-> 	[0] bar+0x.. // address of the write to B
-> skip  ->[1] foo+0x.. // address of the write to A
-> 
-> , as a result the report won't mention bar() at all.
+> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+> index b7f98930d38d..1bd687b97104 100644
+> --- a/Documentation/riscv/vm-layout.rst
+> +++ b/Documentation/riscv/vm-layout.rst
+> @@ -47,12 +47,12 @@ RISC-V Linux Kernel SV39
+>                                                                | Kernel-space virtual memory, shared between all processes:
+>    ____________________________________________________________|___________________________________________________________
+>                      |            |                  |         |
+> -   ffffffc000000000 | -256    GB | ffffffc7ffffffff |   32 GB | kasan
+> -   ffffffcefee00000 | -196    GB | ffffffcefeffffff |    2 MB | fixmap
+> -   ffffffceff000000 | -196    GB | ffffffceffffffff |   16 MB | PCI io
+> -   ffffffcf00000000 | -196    GB | ffffffcfffffffff |    4 GB | vmemmap
+> -   ffffffd000000000 | -192    GB | ffffffdfffffffff |   64 GB | vmalloc/ioremap space
+> -   ffffffe000000000 | -128    GB | ffffffff7fffffff |  124 GB | direct mapping of all physical memory
+> +   ffffffc6fee00000 | -228    GB | ffffffc6feffffff |    2 MB | fixmap
+> +   ffffffc6ff000000 | -228    GB | ffffffc6ffffffff |   16 MB | PCI io
+> +   ffffffc700000000 | -228    GB | ffffffc7ffffffff |    4 GB | vmemmap
+> +   ffffffc800000000 | -224    GB | ffffffd7ffffffff |   64 GB | vmalloc/ioremap space
+> +   ffffffd800000000 | -160    GB | fffffff6ffffffff |  124 GB | direct mapping of all physical memory
+> +   fffffff700000000 |  -36    GB | fffffffeffffffff |   32 GB | kasan
+>    __________________|____________|__________________|_________|____________________________________________________________
+>                                                                |
+>                                                                |
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index 6d5b63bd4bd9..6cd98ade5ebc 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -161,12 +161,12 @@ config PAGE_OFFSET
+>  	default 0xC0000000 if 32BIT && MAXPHYSMEM_1GB
+>  	default 0x80000000 if 64BIT && !MMU
+>  	default 0xffffffff80000000 if 64BIT && MAXPHYSMEM_2GB
+> -	default 0xffffffe000000000 if 64BIT && MAXPHYSMEM_128GB
+> +	default 0xffffffd800000000 if 64BIT && MAXPHYSMEM_128GB
+>  
+>  config KASAN_SHADOW_OFFSET
+>  	hex
+>  	depends on KASAN_GENERIC
+> -	default 0xdfffffc800000000 if 64BIT
+> +	default 0xdfffffff00000000 if 64BIT
+>  	default 0xffffffff if 32BIT
+>  
+>  config ARCH_FLATMEM_ENABLE
+> diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
+> index b00f503ec124..257a2495145a 100644
+> --- a/arch/riscv/include/asm/kasan.h
+> +++ b/arch/riscv/include/asm/kasan.h
+> @@ -28,8 +28,8 @@
+>  #define KASAN_SHADOW_SCALE_SHIFT	3
+>  
+>  #define KASAN_SHADOW_SIZE	(UL(1) << ((CONFIG_VA_BITS - 1) - KASAN_SHADOW_SCALE_SHIFT))
+> -#define KASAN_SHADOW_START	KERN_VIRT_START
+> -#define KASAN_SHADOW_END	(KASAN_SHADOW_START + KASAN_SHADOW_SIZE)
+> +#define KASAN_SHADOW_START	(KASAN_SHADOW_END - KASAN_SHADOW_SIZE)
+> +#define KASAN_SHADOW_END	MODULES_LOWEST_VADDR
+>  #define KASAN_SHADOW_OFFSET	_AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
+>  
+>  void kasan_init(void);
+> diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
+> index 109c97e991a6..e03559f9b35e 100644
+> --- a/arch/riscv/include/asm/page.h
+> +++ b/arch/riscv/include/asm/page.h
+> @@ -33,7 +33,11 @@
+>   */
+>  #define PAGE_OFFSET		_AC(CONFIG_PAGE_OFFSET, UL)
+>  
+> -#define KERN_VIRT_SIZE (-PAGE_OFFSET)
+> +/*
+> + * Half of the kernel address space (half of the entries of the page global
+> + * directory) is for the direct mapping.
+> + */
+> +#define KERN_VIRT_SIZE		((PTRS_PER_PGD / 2 * PGDIR_SIZE) / 2)
+>  
+>  #ifndef __ASSEMBLY__
+>  
+> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+> index 39b550310ec6..d34f3a7a9701 100644
+> --- a/arch/riscv/include/asm/pgtable.h
+> +++ b/arch/riscv/include/asm/pgtable.h
+> @@ -39,8 +39,10 @@
+>  
+>  /* Modules always live before the kernel */
+>  #ifdef CONFIG_64BIT
+> -#define MODULES_VADDR	(PFN_ALIGN((unsigned long)&_end) - SZ_2G)
+> -#define MODULES_END	(PFN_ALIGN((unsigned long)&_start))
+> +/* This is used to define the end of the KASAN shadow region */
+> +#define MODULES_LOWEST_VADDR	(KERNEL_LINK_ADDR - SZ_2G)
+> +#define MODULES_VADDR		(PFN_ALIGN((unsigned long)&_end) - SZ_2G)
+> +#define MODULES_END		(PFN_ALIGN((unsigned long)&_start))
+>  #endif
+>  
+>  /*
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index c0cddf0fc22d..4224e9d0ecf5 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -103,6 +103,9 @@ static void __init print_vm_layout(void)
+>  	print_mlm("lowmem", (unsigned long)PAGE_OFFSET,
+>  		  (unsigned long)high_memory);
+>  #ifdef CONFIG_64BIT
+> +#ifdef CONFIG_KASAN
+> +	print_mlm("kasan", KASAN_SHADOW_START, KASAN_SHADOW_END);
+> +#endif
 
-Correct.
+I think we'd better avoid #ifdef usage as much as possible.
+For this KASAN case, we can make both KASAN_SHADOW_START and KASAN_SHADOW_END
+always visible as x86 does, then above code can be
+if (IS_ENABLED(CONFIG_KASAN))
+	print_mlm("kasan", KASAN_SHADOW_START, KASAN_SHADOW_END);
 
-> And I think a better report will be:
-> 
->          | write (reordered) to 0xaaaa of ...:
->          | foo+0x... // address of the write to A
->          | ...
->          |  |
->          |  +-> reordered to: bar+0x... // address of the write to B in bar()
-> 
-> because it tells users the exact place the accesses get reordered. That
-> means maybe we want something as below? Not completely tested, but I
-> play with scope checking a bit, seems it gives what I want. Thoughts?
-
-This is problematic because it makes it much harder to actually figure
-out what's going on, given "reordered to" isn't a full stack trace. So
-if you're deep in some call hierarchy, seeing a random "reordered to"
-line is quite useless. What I want to see, at the very least, is the ip
-to the same function where the original access happened.
-
-We could of course try and generate a full stack trace at "reordered
-to", but this would entail
-
-	a) allocating 2x unsigned long[64] on the stack (or moving to
-	   static storage),
-	b) further increasing the report length,
-	c) an even larger number of possibly distinct reports for the
-	   same issue; this makes deduplication even harder.
-
-The reason I couldn't justify all that is that when I looked through
-several dozen "reordered to" reports, I never found anything other than
-the ip in the function frame of the original access useful. That, and in
-most cases the "reordered to" location was in the same function or in an
-inlined function.
-
-The below patch would do what you'd want I think.
-
-My opinion is to err on the side of simplicity until there is evidence
-we need it. Of course, if you have a compelling reason that we need it
-from the beginning, happy to send it as a separate patch on top.
-
-What do you think?
-
-Thanks,
--- Marco
-
------- >8 ------
-
-From: Marco Elver <elver@google.com>
-Date: Mon, 6 Dec 2021 16:35:02 +0100
-Subject: [PATCH] kcsan: Show full stack trace of reordered-to accesses
-
-Change reports involving reordered accesses to show the full stack trace
-of "reordered to" accesses. For example:
-
- | ==================================================================
- | BUG: KCSAN: data-race in test_kernel_wrong_memorder / test_kernel_wrong_memorder
- |
- | read-write to 0xffffffffc02d01e8 of 8 bytes by task 2481 on cpu 2:
- |  test_kernel_wrong_memorder+0x57/0x90
- |  access_thread+0xb7/0x100
- |  kthread+0x2ed/0x320
- |  ret_from_fork+0x22/0x30
- |
- | read-write (reordered) to 0xffffffffc02d01e8 of 8 bytes by task 2480 on cpu 0:
- |  test_kernel_wrong_memorder+0x57/0x90
- |  access_thread+0xb7/0x100
- |  kthread+0x2ed/0x320
- |  ret_from_fork+0x22/0x30
- |   |
- |   +-> reordered to: test_delay+0x31/0x110
- |                     test_kernel_wrong_memorder+0x80/0x90
- |
- | Reported by Kernel Concurrency Sanitizer on:
- | CPU: 0 PID: 2480 Comm: access_thread Not tainted 5.16.0-rc1+ #2
- | Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
- | ==================================================================
-
-Signed-off-by: Marco Elver <elver@google.com>
----
- kernel/kcsan/report.c | 33 +++++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
-
-diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-index 67794404042a..a8317d5f5123 100644
---- a/kernel/kcsan/report.c
-+++ b/kernel/kcsan/report.c
-@@ -317,22 +317,29 @@ replace_stack_entry(unsigned long stack_entries[], int num_entries, unsigned lon
- {
- 	unsigned long symbolsize, offset;
- 	unsigned long target_func;
--	int skip;
-+	int skip, i;
- 
- 	if (kallsyms_lookup_size_offset(ip, &symbolsize, &offset))
- 		target_func = ip - offset;
- 	else
- 		goto fallback;
- 
--	for (skip = 0; skip < num_entries; ++skip) {
-+	skip = get_stack_skipnr(stack_entries, num_entries);
-+	for (i = 0; skip < num_entries; ++skip, ++i) {
- 		unsigned long func = stack_entries[skip];
- 
- 		if (!kallsyms_lookup_size_offset(func, &symbolsize, &offset))
- 			goto fallback;
- 		func -= offset;
- 
-+		replaced[i] = stack_entries[skip];
- 		if (func == target_func) {
--			*replaced = stack_entries[skip];
-+			/*
-+			 * There must be at least 1 entry left in the original
-+			 * @stack_entries, so we know that we will never occupy
-+			 * more than @num_entries - 1 of @replaced.
-+			 */
-+			replaced[i + 1] = 0;
- 			stack_entries[skip] = ip;
- 			return skip;
- 		}
-@@ -341,6 +348,7 @@ replace_stack_entry(unsigned long stack_entries[], int num_entries, unsigned lon
- fallback:
- 	/* Should not happen; the resulting stack trace is likely misleading. */
- 	WARN_ONCE(1, "Cannot find frame for %pS in stack trace", (void *)ip);
-+	replaced[0] = 0;
- 	return get_stack_skipnr(stack_entries, num_entries);
- }
- 
-@@ -365,11 +373,16 @@ static int sym_strcmp(void *addr1, void *addr2)
- }
- 
- static void
--print_stack_trace(unsigned long stack_entries[], int num_entries, unsigned long reordered_to)
-+print_stack_trace(unsigned long stack_entries[], int num_entries, unsigned long *reordered_to)
- {
- 	stack_trace_print(stack_entries, num_entries, 0);
--	if (reordered_to)
--		pr_err("  |\n  +-> reordered to: %pS\n", (void *)reordered_to);
-+	if (reordered_to[0]) {
-+		int i;
-+
-+		pr_err("  |\n  +-> reordered to: %pS\n", (void *)reordered_to[0]);
-+		for (i = 1; i < NUM_STACK_ENTRIES && reordered_to[i]; ++i)
-+			pr_err("                    %pS\n", (void *)reordered_to[i]);
-+	}
- }
- 
- static void print_verbose_info(struct task_struct *task)
-@@ -390,12 +403,12 @@ static void print_report(enum kcsan_value_change value_change,
- 			 struct other_info *other_info,
- 			 u64 old, u64 new, u64 mask)
- {
--	unsigned long reordered_to = 0;
-+	unsigned long reordered_to[NUM_STACK_ENTRIES] = { 0 };
- 	unsigned long stack_entries[NUM_STACK_ENTRIES] = { 0 };
- 	int num_stack_entries = stack_trace_save(stack_entries, NUM_STACK_ENTRIES, 1);
--	int skipnr = sanitize_stack_entries(stack_entries, num_stack_entries, ai->ip, &reordered_to);
-+	int skipnr = sanitize_stack_entries(stack_entries, num_stack_entries, ai->ip, reordered_to);
- 	unsigned long this_frame = stack_entries[skipnr];
--	unsigned long other_reordered_to = 0;
-+	unsigned long other_reordered_to[NUM_STACK_ENTRIES] = { 0 };
- 	unsigned long other_frame = 0;
- 	int other_skipnr = 0; /* silence uninit warnings */
- 
-@@ -408,7 +421,7 @@ static void print_report(enum kcsan_value_change value_change,
- 	if (other_info) {
- 		other_skipnr = sanitize_stack_entries(other_info->stack_entries,
- 						      other_info->num_stack_entries,
--						      other_info->ai.ip, &other_reordered_to);
-+						      other_info->ai.ip, other_reordered_to);
- 		other_frame = other_info->stack_entries[other_skipnr];
- 
- 		/* @value_change is only known for the other thread */
--- 
-2.34.1.400.ga245620fadb-goog
+Thanks
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Ya40hEQv5SEu7ZeL%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211206162624.F1EF4C341C2%40smtp.kernel.org.
