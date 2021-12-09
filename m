@@ -1,135 +1,126 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBVPDZGGQMGQEVVFL3QY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBPHEZGGQMGQE4WU3EYA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2617D46F5C7
-	for <lists+kasan-dev@lfdr.de>; Thu,  9 Dec 2021 22:15:03 +0100 (CET)
-Received: by mail-ua1-x937.google.com with SMTP id t22-20020ab02696000000b002e970ec14a3sf4850547uao.19
-        for <lists+kasan-dev@lfdr.de>; Thu, 09 Dec 2021 13:15:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1639084502; cv=pass;
+Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE0B46F5CA
+	for <lists+kasan-dev@lfdr.de>; Thu,  9 Dec 2021 22:16:44 +0100 (CET)
+Received: by mail-wr1-x43f.google.com with SMTP id x17-20020a5d6511000000b0019838caab88sf1832082wru.6
+        for <lists+kasan-dev@lfdr.de>; Thu, 09 Dec 2021 13:16:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1639084604; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NTe4NvTsf2EVmN9iuiiKG7m0pcTThGUJbk/9OYH89YaEXX/OM3RVpaWat5DRxXppgm
-         Jr8eCKn7IRg0yEOelnEhAxrFhRdExKn/hkvQTtPFRNezTIx80yzpJN61G6dV/DE/ktAV
-         hFBX+5XDfxnDZSLSCRTjnXVlTTtlM8ezPYskmSkmWN9x+4RQzL9/2B+RV0AefiKrRzkQ
-         j7Jp31Fl/ddkyFFc2ztQ+ml06WDx2k+dhIL3iyALVQLofynEJ3FOAbz7IJ8iYFml5eYC
-         Y374TktL3uOytUW/gB8eo/CVMezFBf55d+p//jMUR5VhOw8WvN/FDeIOUa7nyANyOXDY
-         4GcQ==
+        b=kMolkA4ZvHc3zIdT14Z0oPLQPiRAECk6K8CcBZA0hMc8GVlti1sTnLEf95eqKKUIFp
+         5FSpXnmmInoFmjwWqlXoKA5qYzeTN8EVEQwz4pzxnfCLKe92mxoPga8q47LWri0Lts0h
+         A0RgsqRY1ih3MFIjWc7soJ3t8Co5m4XdIuuEAy1IYAKuYQiywW+B8U3pBz3lv9yQOuBE
+         hv+WwOn1Y4zchiKrRCgRGs+aqLCyG4PK/K5+Vb/w/TZkxy6yKAzHhuxbBL+SIR/xMEMl
+         jh+E0nqPf9+T+q8ecMOxaYiKmsMMP/R3Zs+rKWehf8Qz+ckWoDZoTUXXAWmMswgvFeYe
+         Kgdg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=VWyHYipDRs0f6dIzJsdT2wdfr4/yNNapx6U5kQxeNKU=;
-        b=OY+tRmwqbc/UMyVgdicKBGtJ2peYxZ9P+C7HJDQkYlSfUMjH9ja7OMcy6ylu/dUNMI
-         2mylk5zOd8+gnhGPAtzGtRVFYSsmXoNsgPlnlk63eEF0KmgJGeAfGF6dW1rhJgOuO1mF
-         s7MgXMkA7sLDpEOA3iVKme3b27lIMig8Tfgkvd1BYtoaKRoEqNS99yvtpEiwnsmYdvTU
-         nHIIj3H99o1MUnjG3b1KdEG6CIb20qg1xITH5rTKOzUUX7ocatXBxty0icJjpWcjrrs4
-         zY2T0B8x6a3k3Yltl6roQCg5TkO86nLQTerWiN7uEZwtxUAUv6nDPVQ/vf1Y8viBp+hY
-         gwhg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=WZ7sY1tRChbinLfR45Yw71boay5i02akVutS1q2leSU=;
+        b=fEF9e9DGQxY6Ue58U29KTf+mUPIMHccFykDj9p67Xl77dEdG+ax2HSN3Kd9R4qid8M
+         eov2UMc6WJb5vm3PpOckg9Y2jX78o5ekF2Pi8cLVjbSCspUpAvm649xYHhwdgntgqTVV
+         X2Vd6wmjTUs6MVaD2oUzxvlwc/bB73zeVPcNG6Qcm3PU+iqy0YpgIz6OZ0x9gjJvI/Xd
+         k4Is6UHzqUNg4Bo91Toc+MOW+EWyjDzW8GKqx63RDbi1IHY0MWqfvxhHz6JbFvm5UWGY
+         v+e1GAdEHuC6MCBX/VP18GhKJCX10iWlN+h/gfmm0ug4cn3p5y+mP7x+6o+DCLLin6MF
+         aV8w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b="IvRNfl/y";
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=g4y37LIT;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::12b as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=VWyHYipDRs0f6dIzJsdT2wdfr4/yNNapx6U5kQxeNKU=;
-        b=F8lIgcPQNpvdOfSZUuhk0HY/Xeu+IU8xUpJcakPnEt156FQ6Q8ZneoXKSMCvAV+ouW
-         pVi3zUn77PmkYnWb99DQ5gwi1VQ1amFmLNJeHbRy8egN8oU1mCeD+V734qntu+bPEmM5
-         L7bhf3XIrFG500W/nQBO6ZdtqiuzPSaRtO7YYxomolcEKouzvEHx8p2GOKjJP3OfxrQz
-         M4vqwWYucq8s159MxKwHi+3UEW8oRKqCyguQIv5i8FY+XirpKryhel5YifJ38ucmNZjF
-         NIijjY1RW3/JbXpeczMZY3yrz6D/lOvK8pnKZJHDkD1GfQnReYtXbIv6KNWh+RkSLllv
-         T7hw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=WZ7sY1tRChbinLfR45Yw71boay5i02akVutS1q2leSU=;
+        b=t3HARXYRSVYmYD/56+iSkp8kqIT2pLY4BiTWOai6Sx6Uu3MngM2T6uimQAHM0VYmMo
+         gwk2P4v3pktFXV7Qu+ebh9Dckl11A3HMfyZo7xdLn+V77VUv7vPcywT4VBC2l3vKqcEM
+         1jCtrgAnAR2to6ddG/9j1Wri66+s2as/vpxjwpUmI1ybwH6GCMGg0OmODKssQ+gExm0g
+         VKjTQv//y1OxHZtpWjevRVJFS1QoAowF4v/30QiAWFlHjG21jJHtYICK/S9YRxvV//rP
+         s95s6/2Rd1CkA7S0iN9Hw3FbfujS9uOg28qPEoZ15XTpEsSI8B1ZyJ4nep4hcuGtISjB
+         84IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=VWyHYipDRs0f6dIzJsdT2wdfr4/yNNapx6U5kQxeNKU=;
-        b=K8dG3cI1PFMPjjctxcNGdPomk7hxpR4yxWuTDnZeJKplwOMxRUN1UTYGuu8g+j7MLb
-         ahdtp0UQkJVxqrIqpn2Bs/mZOLPOOUuG6ixyZsDjcOu2fGRI/UnvbmaBT95Q7tvPggjO
-         AGx51DNDzeC1d6JMSk1TwGWRzpOKMr647UOf+GcfrMaaMiwamWP+mm30Z3A6JgFHEzAM
-         AZcMA+SojHG7kNQaC56MEDHKtTW4gqDqPW+ffHQPYurX1wksoh0Oc+mpbgaaWczwGnQs
-         6op6oAvINL/yr4X/LqdEZoAUeUg6G6AfJp4B2w1pGQbyxAfL1CxbJjeq13QG1qfRxhi5
-         lr5A==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532dq4poQn5TOLylQrTppxH3pf8re2BD5IPZ3cn4R7dkxjz2IbWK
-	4l/hiR226RB57Zn4aAtyPvQ=
-X-Google-Smtp-Source: ABdhPJzOyrwwu/5DpZgJWMonQ+Er6B2kJ5YAFQdoVudbCpm71A8ZHvMeA6tI11WSQdeDC+7pH1T/Uw==
-X-Received: by 2002:a05:6122:7d4:: with SMTP id l20mr13310391vkr.26.1639084501904;
-        Thu, 09 Dec 2021 13:15:01 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=WZ7sY1tRChbinLfR45Yw71boay5i02akVutS1q2leSU=;
+        b=zevFU+otwtcNtUKZf5s1rImjm/n95FmABNw43eRHP8dVvcFO9OecTL3dZBXUh8htB8
+         42/FZEGSk3wvhxLE/co5RLSNl+I3VCEqLovUk2NtnKExEEf24dlBwXjeW+kKhYVRUHXf
+         wenRWenNPVu/c0zMbArcOuzfIApf1hz7yICaNkk+fvZlHsdhBQ93ZUcb9HfiTib3IhZk
+         l0I2xjbHZPrLEsngRjmOdDVnj2wptWpWb3C6bW2e1MAsy//FPpGPu7fkLKxiWYtWlLL8
+         M/1X9HLo9ihwy2gStNo/9ReDmS8gojr5Mw8ssU0NcqUW4wVL/NNYLjqv48r8QFFbFCF1
+         gAjg==
+X-Gm-Message-State: AOAM531uBSYnijMUHsonjrcbNOVg/isXzkCuaIaEiPooBbyoxjbYwSP6
+	rs8sNbcWce2LhU+B7LuZ3UQ=
+X-Google-Smtp-Source: ABdhPJz2qPEokdkoKennjeGJO5Dh3mOYqRNAK+LTcQv8k5p00tTXB4FYd/XQRB0/nLI0Yu+Snkeljg==
+X-Received: by 2002:a1c:7517:: with SMTP id o23mr10359277wmc.172.1639084604608;
+        Thu, 09 Dec 2021 13:16:44 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:3d9a:: with SMTP id l26ls1164019uac.8.gmail; Thu, 09 Dec
- 2021 13:15:01 -0800 (PST)
-X-Received: by 2002:ab0:77ca:: with SMTP id y10mr9778594uar.49.1639084501413;
-        Thu, 09 Dec 2021 13:15:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1639084501; cv=none;
+Received: by 2002:a5d:4092:: with SMTP id o18ls10080wrp.1.gmail; Thu, 09 Dec
+ 2021 13:16:43 -0800 (PST)
+X-Received: by 2002:adf:edc1:: with SMTP id v1mr9480705wro.170.1639084603670;
+        Thu, 09 Dec 2021 13:16:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1639084603; cv=none;
         d=google.com; s=arc-20160816;
-        b=XfKE4CsRQ5JzZqQTo7fyb+y3IvmFsuvaAn4HQdOV9xPz8Yoj/L4Q+aUKWAj8zkvBgZ
-         qAs63xbcPZC1dA74lyr/jxR57GD3e+o8UFVYQ306PPrAaFHwD7LLZCPsXzpcX3Hv4R08
-         v0pQlo0W5VREpgObO83wNftwLtjKX5XOdTnfzLlsAnjrugOfoL/AUuDKWDLau4b52Dvb
-         /TQMCjfT7W0CWe5TKo9UcJ6nIiqu9TUXEmLTWlW9yQ/AgIXnd5evtmf74Z68nUQ1W1yM
-         98yRvK233vYkXTdETkBuC3+0urjuuzJs8gwx+qJ60rmiM2N2MGSIEtSgj2MMo1HgGvAJ
-         XWjA==
+        b=M3cQw9iLxQhCEfw9szZe+B1dIGPBMwGbvWN1FiKw/fNZsRWx59BuAvXS/74w3j+YRL
+         FEIhvlmMzumw48lAAPEkWlLHy5nEFTK+crFXLSfsyqMdNa4bhIlrHh0laOZCZP6hnXyN
+         b3/bK+eoegP8Wjv49L9b9Dum8DRowC/zp4WFduwAe2/bShH3mjbCBnSQb7ZGP6967F09
+         bn+EScUdi1iR5HQGnzJFiMEqXN/CZrPzLBME9Mu7zQkj8tsRAEDTFKCK5ioY40ORyZ13
+         9MI7JXgDzKshFINGgzrd2EQ7Nbr8ScSHpdr76bK5UuoGsqmdGwnkCm+yCdE46dh3radc
+         CWPQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=idhxYsGIqFY0iC2foXmRO1Y7kKO1WrOHXiDZA3WqNNo=;
-        b=e44GASBY7k9UbucgcCpouQeT9sCKTaJECvajY8EHsLbQsZCn58Q2vW/rXTWZF88W4e
-         2hYNah3lUlsoDjyZ89pghVlZh/xQzDAKAtI1EkzjOyJO9bBHQlYTnU94t+K+6TwTgM6k
-         GcuGNYBKDbl+RyBl5l/eOo2RhbAMn5G6iuSusM02yX5m1ukekY0ZOQLEoBDy91fuQpl8
-         Yoo/XWfRcZwzwiMxgB9WCuHSdbx22uIjCqQbMHvp7M0S/L95OYoXuk4iDxvqetxq/Lf3
-         SfBUXDLavbMwWdud3tD7NLekPnmru06qK6cOEKcY6w5KRDEt7Tlm7BZ8s5LwiilK/rBp
-         VZXQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=n/PRQqohZJZoWPfeAL4/gTv4y1kA/vUHTgUSzu+kjUk=;
+        b=cqpgazEUSvxXOAglPBB52KXMcizueoIVWbhUAcXd5xEUeftfnykG+JBdDFoe6cFEqs
+         kwPAx/wWG8AGeSYn/mhto1lGPGzNbq0vqJjz+W/LKYOAf1wl7RVvgMZEsojbzgdOz6/a
+         tnXxS6neuSlcaVjGWZI2VC0vIYbul5HBaPP4Stkt91tHAsmO8ApndCzxzeuwh7Vzn/7U
+         hDNELjj8NxKmnEY2h1jth/U7Vd/98lKHnh6PsWQgS56yejjiVTj7ThrOiTk7sI8gLmw8
+         8PqeoQbk6COIpCFy/t5rdvoKzcI0cUUYNuK9n/gDglshYgLIvtHt1d6NLMxhPGdg5713
+         JE+Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b="IvRNfl/y";
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com. [2607:f8b0:4864:20::431])
-        by gmr-mx.google.com with ESMTPS id g8si147809vsk.0.2021.12.09.13.15.01
+       dkim=pass header.i=@google.com header.s=20210112 header.b=g4y37LIT;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::12b as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com. [2a00:1450:4864:20::12b])
+        by gmr-mx.google.com with ESMTPS id q74si786522wme.0.2021.12.09.13.16.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Dec 2021 13:15:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::431 as permitted sender) client-ip=2607:f8b0:4864:20::431;
-Received: by mail-pf1-x431.google.com with SMTP id p13so6591563pfw.2
-        for <kasan-dev@googlegroups.com>; Thu, 09 Dec 2021 13:15:01 -0800 (PST)
-X-Received: by 2002:a05:6a00:811:b0:4af:d1c9:fa3f with SMTP id m17-20020a056a00081100b004afd1c9fa3fmr14185879pfk.21.1639084500512;
-        Thu, 09 Dec 2021 13:15:00 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q10sm8940664pjd.0.2021.12.09.13.15.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 13:15:00 -0800 (PST)
-Date: Thu, 9 Dec 2021 13:14:59 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Marco Elver <elver@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Elena Reshetova <elena.reshetova@intel.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexander Potapenko <glider@google.com>,
-	Jann Horn <jannh@google.com>, Peter Collingbourne <pcc@google.com>,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-toolchains@vger.kernel.org
-Subject: Re: randomize_kstack: To init or not to init?
-Message-ID: <202112091308.600DA7FE63@keescook>
-References: <YbHTKUjEejZCLyhX@elver.google.com>
+        Thu, 09 Dec 2021 13:16:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::12b as permitted sender) client-ip=2a00:1450:4864:20::12b;
+Received: by mail-lf1-x12b.google.com with SMTP id m6so2657627lfu.1
+        for <kasan-dev@googlegroups.com>; Thu, 09 Dec 2021 13:16:43 -0800 (PST)
+X-Received: by 2002:ac2:418f:: with SMTP id z15mr7863545lfh.213.1639084602937;
+ Thu, 09 Dec 2021 13:16:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
+References: <YbHTKUjEejZCLyhX@elver.google.com>
 In-Reply-To: <YbHTKUjEejZCLyhX@elver.google.com>
-X-Original-Sender: keescook@chromium.org
+From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 9 Dec 2021 22:16:16 +0100
+Message-ID: <CAG48ez0dZwigkLHVWvNS6Cg-7bL4GoCMULyQzWteUv4zZ=OnWQ@mail.gmail.com>
+Subject: Re: randomize_kstack: To init or not to init?
+To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Alexander Potapenko <glider@google.com>
+Cc: Kees Cook <keescook@chromium.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Elena Reshetova <elena.reshetova@intel.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Peter Collingbourne <pcc@google.com>, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-toolchains@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: jannh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b="IvRNfl/y";       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::431
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+ header.i=@google.com header.s=20210112 header.b=g4y37LIT;       spf=pass
+ (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::12b as
+ permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Jann Horn <jannh@google.com>
+Reply-To: Jann Horn <jannh@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,58 +133,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Dec 09, 2021 at 10:58:01AM +0100, Marco Elver wrote:
+On Thu, Dec 9, 2021 at 10:58 AM Marco Elver <elver@google.com> wrote:
 > Clang supports CONFIG_INIT_STACK_ALL_ZERO, which appears to be the
 > default since dcb7c0b9461c2, which is why this came on my radar. And
 > Clang also performs auto-init of allocas when auto-init is on
 > (https://reviews.llvm.org/D60548), with no way to skip. As far as I'm
 > aware, GCC 12's upcoming -ftrivial-auto-var-init= doesn't yet auto-init
 > allocas.
-> 
+>
 > add_random_kstack_offset() uses __builtin_alloca() to add a stack
 > offset. This means, when CONFIG_INIT_STACK_ALL_{ZERO,PATTERN} is
 > enabled, add_random_kstack_offset() will auto-init that unused portion
 > of the stack used to add an offset.
-> 
+>
 > There are several problems with this:
-> 
-> 	1. These offsets can be as large as 1023 bytes. Performing
-> 	   memset() on them isn't exactly cheap, and this is done on
-> 	   every syscall entry.
-> 
-> 	2. Architectures adding add_random_kstack_offset() to syscall
-> 	   entry implemented in C require them to be 'noinstr' (e.g. see
-> 	   x86 and s390). The potential problem here is that a call to
-> 	   memset may occur, which is not noinstr.
-> 
-> A defconfig kernel with Clang 11 and CONFIG_VMLINUX_VALIDATION shows:
-> 
->  | vmlinux.o: warning: objtool: do_syscall_64()+0x9d: call to memset() leaves .noinstr.text section
->  | vmlinux.o: warning: objtool: do_int80_syscall_32()+0xab: call to memset() leaves .noinstr.text section
->  | vmlinux.o: warning: objtool: __do_fast_syscall_32()+0xe2: call to memset() leaves .noinstr.text section
->  | vmlinux.o: warning: objtool: fixup_bad_iret()+0x2f: call to memset() leaves .noinstr.text section
-> 
-> Switching to INIT_STACK_ALL_NONE resolves the warnings as expected.
-> 
-> To figure out what the right solution is, the first thing to figure out
-> is, do we actually want that offset portion of the stack to be
-> auto-init'd?
+>
+>         1. These offsets can be as large as 1023 bytes. Performing
+>            memset() on them isn't exactly cheap, and this is done on
+>            every syscall entry.
+>
+>         2. Architectures adding add_random_kstack_offset() to syscall
+>            entry implemented in C require them to be 'noinstr' (e.g. see
+>            x86 and s390). The potential problem here is that a call to
+>            memset may occur, which is not noinstr.
 
-I actually can't reproduce this with the latest Clang. I see no memset
-call with/without INIT_STACK_ALL_ZERO. I do see:
+This doesn't just affect alloca(), right? According to godbolt.org
+(https://godbolt.org/z/jYrWEx7o8):
 
-vmlinux.o: warning: objtool: fixup_bad_iret()+0x2f: call to memset() leaves .noinstr.text section
+void bar(char *p);
+void foo() {
+  char arr[512];
+  bar(arr);
+}
 
-I assume that's from:
+when compiled with "-ftrivial-auto-var-init=pattern -O2 -mno-sse"
+gives this result:
 
-	struct bad_iret_stack tmp
+foo:                                    # @foo
+        push    rbx
+        sub     rsp, 512
+        mov     rbx, rsp
+        mov     edx, 512
+        mov     rdi, rbx
+        mov     esi, 170
+        call    memset@PLT
+        mov     rdi, rbx
+        call    bar
+        add     rsp, 512
+        pop     rbx
+        ret
 
-But I'll try with Clang 11 and report back...
-
--- 
-Kees Cook
+So I think to fix this properly in a way that doesn't conflict with
+noinstr validation, I think you'll have to add a compiler flag that
+lets you specify a noinstr-safe replacement for memset() that should
+be used here?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202112091308.600DA7FE63%40keescook.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez0dZwigkLHVWvNS6Cg-7bL4GoCMULyQzWteUv4zZ%3DOnWQ%40mail.gmail.com.
