@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBE4522GQMGQECTTKW6Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBZ4722GQMGQEZEDUX7A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9CD64718D2
-	for <lists+kasan-dev@lfdr.de>; Sun, 12 Dec 2021 06:54:29 +0100 (CET)
-Received: by mail-pf1-x43d.google.com with SMTP id q82-20020a627555000000b004a4f8cadb6fsf8506960pfc.20
-        for <lists+kasan-dev@lfdr.de>; Sat, 11 Dec 2021 21:54:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1639288468; cv=pass;
+Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E524718D3
+	for <lists+kasan-dev@lfdr.de>; Sun, 12 Dec 2021 07:00:08 +0100 (CET)
+Received: by mail-oi1-x239.google.com with SMTP id w131-20020acac689000000b002a813c6e600sf9456809oif.1
+        for <lists+kasan-dev@lfdr.de>; Sat, 11 Dec 2021 22:00:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1639288807; cv=pass;
         d=google.com; s=arc-20160816;
-        b=j9u1sYmMXRX8yOQHrz99DjPF4QnGxo+CVSjJ1atI0cW3zOnD/2T6kM5s5t1klMo/0G
-         ekr+u80T35iBBQpbWofgHHCMGEbAbADBb2NAN/iaPX6fW59sGFLG7iu1KWC473lWt0ro
-         mrXsdAc8dbS/YiayJQ2zQQltLEgFvNSUimJVF7wLsUHMc+xzlJK5npRUI0n8gqmvBcA1
-         gbJVMwS9EvEuawDqRdtWwZV2GfiekYNvVjloen5XQPcDKt7IZOGy/q8cbJs+WcjiBBX8
-         lvyoV2uA0CMGtEXSUt/T/hvf7R79Bhzot4nNEd82q+nTZxkTtRlBpCy3WzzZLAMvWONS
-         PPQA==
+        b=TwABkk4zCXQz3cvLrE5RhuezJdkPV2ufTsVXYaphyJfrkn9vKtoHrwl/rnlitTWvn2
+         9mg42bJxiD9l6wJjUBDccpMamdQ68uEzIRpCRIwln3wXhxULBkKYSw0PI2OE6iN3gZRP
+         U0ORpgVv6tlvuVBSwaNtMEXcSEumWNa0xZIkk/KmE0STRQRoz+ti2JtZwCNnGF20/YzH
+         5jpVFU1XVNulSYAYMLmqgZ3dqiN4HDd/8FgLkweZwLgRy7j79hZCHrdcrI0d9MlOG/W5
+         D71HMuI+/ibEgBxWCOoWn/rNznMCoKSILIgXq20bEmEmWKCs/a+vkaBwbcAPy44nhpZ4
+         iPmw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature:dkim-signature;
-        bh=qaq55FoyETSTAusI0RaY3MV0HafyfWEqPJ8pRXoAghU=;
-        b=L2xBDz1xdsb3FrNNYXQZXBx4Qe6CCYSoD2Ydn+Ql6g+uaxy6xbOa23ZphrkhmrdQLa
-         YtgQjHVi1sfEsLN8P7aFrlBWeCbCyqfI3D20IlLbxUnXmq8bti0qpL/sypgTQujFVtcX
-         FnbEiR3yiIiX8cA7aRkHkKELV5sqOoaHKAbnVCL21BD1cmuxYefuHl8fvrutQTgiPhn6
-         bAEC9dBjiAeTDcF7Rt8uqNtSmm9mpKhn6cYGaz6EZWbraFIwKArc6imGsSNX5q5l2f1G
-         RCjI9ZBTK539LpTKCWzEjWGunB8bQUjrFwyA8oeD428LQjJMEZRxZl4KPus5c+dVA//F
-         2AMw==
+        bh=2ewbHxk8JWVYU3f1S4DOE8vCkuQw/+5BGmrYHkHu+E0=;
+        b=eghnt149cDr/3SOpxHAProzLUhzrgeD9lan0wOMd74m6HxtwwRhhHj7Rv5OlvyPVk6
+         nd8UE5p/EDSeOQcXst+94yawLETGLJL5koOhcPbZ03HLu0CGCQG6aZmIjFke3EaofRAV
+         btnbi2TjnAw4HL2b4H997nNJOkDSrOU3hnWSz5tCtyt7p1puIZR7wTTFImiEjM+mzM/M
+         0nebxJCMuI1+OtUmvs8n3zWt5ap42FX38O+0GUgjHnKZyhWTMvRohurCesw6poXJCleS
+         OBD/BT33YDrT/FgJx+sf1QP1c7EexrYR2w9ozbDWULCWUj5CYBgZn5T73AEtRw28dScD
+         79GQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=o37rdZ0G;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::102c as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Fx13XGlX;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::530 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,26 +36,26 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=qaq55FoyETSTAusI0RaY3MV0HafyfWEqPJ8pRXoAghU=;
-        b=QkLpgYcLc2hA04TKHH1mpSgBz3dr6s5ueceYp1TzNq9Rhap2CBgmabaNJUxoyK7SgB
-         aV3qs8NgzAv4JwTSxUPNQTo1XFjXUBL3KJ97hrykVN2D6hFaax1Wvk4j/T8Ts9OYxPNZ
-         z1gpganjrUw8q7LIdfACfsne1tfoOPh9OyvfRSXs6KF57K+DUYZR/Apf0Ve3dTeMGwYC
-         s9cp7MN7yZ14WEaxZhsFlg1vD0ndNA4IOZkZa2c8LrghUkGb3CqmbrTygkIMi74DniCu
-         bCMgIm6EAEzP5tfMjmv97eLzRpjBvS60Mc2sj4tXZmvu3BO6sZDOlGrcetPGhAK630f6
-         G5zQ==
+        bh=2ewbHxk8JWVYU3f1S4DOE8vCkuQw/+5BGmrYHkHu+E0=;
+        b=Q4HuDJ3+GaEbrN6WUseXBYiAjuRyAUXmrReTXgo2dBI0GOqfCjve0Jtth4Yft6yTg/
+         b42F5qrRYT9ANW05sB+E4GmrIIlC1l2Hmsb11PC5hXS7WqSYbTI0+ZRSh2ekGedIM1iz
+         CbictjEkbh5P+1oKyv+g66SGax8kqYlSBeReaBnvVRsWfz63AuB0oOna14sLkNFQ5bsF
+         RatQDB6kd7bzRfdAhvEHl9Vf9A10SJcw7NVtffhzIeIc4XBUhuh/Cuzmx/IwOhI7+nfm
+         Q7iik2Uo3Ut1hLY7VC85jEuphGXoHAPvKmGUifT/LbcO9wbh956siFrB6ZNfI6CTyCPC
+         CI9Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=qaq55FoyETSTAusI0RaY3MV0HafyfWEqPJ8pRXoAghU=;
-        b=kkbVinFzfFvq91wWTg9Yr+qdoglgZ9UxkRjCXn2o4ZIX/aCeaWDeFmZGH4lTwHHR68
-         xs/lv5anaTqosuLVMG86VGfI2VCD4w5mnevTBespg5l6HXiS4msw5ALS6m+IFYq3ieua
-         iTU/8+2U7CdtzpLobm7LPXOeQlnJc1GNpgwjPva5PdDJjxFKU0EdI/L8ubu5kc/S6wli
-         LFfqoc4lJe/0Q7/Og26JtGIcGNQRiDjQWwkEQDFm+h3We4RXAkHzLHNmYppx7cMBPdz2
-         qtQLwPoW/AuHMUx4xWvN5F+/7w+ylx2k4rygZ0IBPuYU4f/MeFHCoBGd7GZ2k5qV/K29
-         yihg==
+        bh=2ewbHxk8JWVYU3f1S4DOE8vCkuQw/+5BGmrYHkHu+E0=;
+        b=fS2ZJ2EnCtP51C5GYd8WuqDQLMW/OhunLkeFf48BCZ4Q4pV5phStKsm0Xvmwul5Zw8
+         m+Bc+4Al6HgvHQTbctCeQtLLPcF/enc+z9UUQQvWVK1T04jMqC7v7ktJdJJjgNI1tFUE
+         fkbv5yPdekkwo5f8ZvyMmLigw6lf6DQVCXI99NRadPMpP6rw1YQ/siuzvw9031Jlv//y
+         PmmyslUXSHiPXM3zfJ7pDwQXgiKSaxes/d3Ng9whGyGADHc2+QLnJKKva6hV8HNrVJ6n
+         oApd8TPD4X1EHjTB4IKoZKpH/HcC2a6B9A/XDhCAMk+BbPeliBeZVgP1zbBZoKFhbQ7k
+         QNOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -63,61 +63,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=qaq55FoyETSTAusI0RaY3MV0HafyfWEqPJ8pRXoAghU=;
-        b=EmT1c4HKXvDo2xb/oK8D+vsWeeSZtY4kQr8LWofxdWH5jC/Hm20vTnU6Amp1wy7SMu
-         Q+y75lPHzcaDblvCJXMPCP93b3Y9tDUuKwrY3eyflsykdiiWiPvP5RApS7J7sqiHAp5Q
-         7qLIUnkApzZqv/E5hc77aQRhfzmN9MgfbA5aIZzIq8O0+OJkrF4tbN211f+2PClnc+pu
-         urM0FlnzTZrYuWRfEqeU2J/QQxp4d1Q4Aa+1DEe+tTbE0KCbB7wlebG7rRCHMqphbpmn
-         SjV7MloPmgH17NaCo6VfVfh8SkqKV8zPk5UHK8MZl4/WDoP4udhXVP0jbzla8c0YVhTP
-         YVAg==
+        bh=2ewbHxk8JWVYU3f1S4DOE8vCkuQw/+5BGmrYHkHu+E0=;
+        b=UqsPoRsb0LxVDZE4PhYVTVZZjMnTOVb4LNhP5aPnpsnl1ErS8RVmIAoCm2obrN5RrH
+         UjLzMERNfAok9U8HOfuZGbxslA0U97Z776l98iH2UCT2L2Ce9Qfs77Q4l5Tr4juUCynF
+         goavGUHBp5/NxnIKf1HuE3Bh/Ai5/8ixS2ok5PwO6evisfrsT+A3HzG0YX7SuQYPdIYg
+         t6NvjVsrxB0eZSUlJMLKSkp79If7IVmy32nbQYbS4X1ct7TNQ7izb3Hve2DCQwL5AS7Y
+         1YN6Kiska2ocX8mZeF6CLckKm6VioLiSiahGlW69bXmD+bl7/zYemK2FNzR7uSDov6P2
+         QVdA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530dMLkokLcvDuR2mWFqtTNMbDFN7tJ8+svoPHvkN5EtHCoi8tIh
-	qYB5m6/RlzNPkbiYX2+MCZs=
-X-Google-Smtp-Source: ABdhPJwJyHjCQSGy3XS5vCT13eTPRAQ8+1SA2evDjNCX0H09JCfj9X3nuzagOLlW5aGDqsQbogXGig==
-X-Received: by 2002:a17:903:110c:b0:143:9edf:4985 with SMTP id n12-20020a170903110c00b001439edf4985mr83705789plh.15.1639288467850;
-        Sat, 11 Dec 2021 21:54:27 -0800 (PST)
+X-Gm-Message-State: AOAM531IfUmz9P1LGsYUuQTlHCdJJ8qMQsRlVf0vTZpA+xhlORyYz0qc
+	isRzi2QwX/lsCMmGlJBRU8U=
+X-Google-Smtp-Source: ABdhPJx1kRetmY3CxZtwEYafjqxyjxKGcmqfzcC4dDpo0SS60FzPsGXgKYylJfZ7u3yHjt36EwQS5w==
+X-Received: by 2002:a05:6808:11c6:: with SMTP id p6mr21440834oiv.44.1639288807629;
+        Sat, 11 Dec 2021 22:00:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:491a:: with SMTP id w26ls3703672pga.10.gmail; Sat, 11
- Dec 2021 21:54:27 -0800 (PST)
-X-Received: by 2002:a05:6a00:a14:b0:4a0:945:16fa with SMTP id p20-20020a056a000a1400b004a0094516famr26480129pfh.9.1639288467148;
-        Sat, 11 Dec 2021 21:54:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1639288467; cv=none;
+Received: by 2002:a05:6808:1921:: with SMTP id bf33ls716324oib.6.gmail; Sat,
+ 11 Dec 2021 22:00:07 -0800 (PST)
+X-Received: by 2002:a05:6808:1709:: with SMTP id bc9mr21380682oib.130.1639288807327;
+        Sat, 11 Dec 2021 22:00:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1639288807; cv=none;
         d=google.com; s=arc-20160816;
-        b=Wct2xQWwlgeOobab4JLpCffxjW9GIku9oIrgKZXaSEsoza+AATFVrg4wdVJSgNdIsS
-         v1uax4BXAFgJQm7VXaj86fUJSYX/yScmgLvLB9SEs0cY6Y4w9LwFNLAiEWOeJQF2qDHi
-         Nlmitko8U9CHt9YPx0TTd/Z4hJlb3Q6H7+IOBuD1hDS5tqwUjtRM1K+hXOCUMccg4OIe
-         fe8Ws8hZ17wJeQ35U6qqZ7bDw6BTMf21LEGEJUBLFHyR/eVUy71cTOma5wDHE1hIL4rS
-         c3w2zbRPvKN6LuuGtSGPbmnOJz7WbY4Q5ITGTO76ZOxXU1xtnfh62F8qUAEp9Ftl49Rl
-         93ZA==
+        b=xdDeSVjjcXAUys7u1hXZ6wbYz0+8MfPtCraECJRAxmFyfFRctICenptPYoE/3A5M87
+         bq+0+ESkkDTi1oCf+zgr+haoC+DjOJAUhT0+pzOThL0gAaN9W9ySTznOj4kNk8n2ZGeh
+         kBRZt7xyGQet4NH14lX2gQfO+qW4Um0VYihr5/lkt7cr/Bh5lW5xAEDv73W9iDcqDgFR
+         Nqc/fAYM9968sqDEgBMMMlEBwLA810SSiKJZU5pL2yB4r0yCMfg72gJXopK+ou3u8s3X
+         2NrpuX/RTQvyVGQ5a82fLSgJ7KnQgyvmpaF9pXt0kRei8edT/PASDX3Jb09D0MjHMVRI
+         uJ0g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=ENK+0yKya7IQicbCDEeQU/Qo9FMF4UqG6i5xVlrxVaY=;
-        b=0WU/Wy/uHgXCHMKMSNHzeA0+srLb5KduV0fvb+4l9Zz4qazjSwVeAdFQFAMcx5lDcg
-         J3/UQHMuOnQ2uxYUdw1XmYcFq7tLj9yhTBSD2GrRivnPrmW2EAj8ywxKsRMkjY2dI157
-         cJvJSV2Pa744vatDtx1j4o9pn6uPRKSPYgIl8WUL90AiLvNobjrl733cbWx0GCGhraXS
-         S6SU0/e/hJlDjdSp0RYPJkaBWaZT3xht96FZ3WkMM73vMlEqTOGXPZx5Lr+PhUd1GS5M
-         agkxo35J28lo1hzM+mI0wmCAb8lmWGBci+PPcnfL8YPp2MzysH3Zcm+Le4qNsngp0+DX
-         bC2g==
+        bh=kB9exNo42Y5DkFvS1nHe23MR4UO4ZzBwWX7LEeG3EKg=;
+        b=Gsj9Szdc4BrtzNH5Hw2WCWQ89jtQpApPg+iKgnpl5OwHGQcpLZe7r2oe5VkNAf57wt
+         OLzGic1fki0xaXA+Jw5Msz5KHxwF1oovFwzedo+/J3glsUbYqEHaIdwojtVQU90efP3I
+         uV4rY3PKFMi/rxzcWbyHQOE9hKtG0nLKr/Q1F6CZJOaoyUzFM3CJAYeAvOyszGu/X84y
+         f8uiDJA3+JPxJfOFrSAx9hb7HGgHARTNhRu/MLE1pIXEAcZhDrcXDbBV+sLVXbTsTweg
+         Ksq9bN8JI3PzJZ4nHImBAIkr8n8Rt8fafKjNH7EMxr3qL/mKhY0KXW7jTMF091fAvO9T
+         eW8A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=o37rdZ0G;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::102c as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Fx13XGlX;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::530 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com. [2607:f8b0:4864:20::102c])
-        by gmr-mx.google.com with ESMTPS id p17si375766plo.5.2021.12.11.21.54.27
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com. [2607:f8b0:4864:20::530])
+        by gmr-mx.google.com with ESMTPS id w29si750238oth.3.2021.12.11.22.00.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Dec 2021 21:54:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::102c as permitted sender) client-ip=2607:f8b0:4864:20::102c;
-Received: by mail-pj1-x102c.google.com with SMTP id j6-20020a17090a588600b001a78a5ce46aso12387364pji.0
-        for <kasan-dev@googlegroups.com>; Sat, 11 Dec 2021 21:54:27 -0800 (PST)
-X-Received: by 2002:a17:90b:4b4c:: with SMTP id mi12mr35546234pjb.66.1639288466879;
-        Sat, 11 Dec 2021 21:54:26 -0800 (PST)
+        Sat, 11 Dec 2021 22:00:07 -0800 (PST)
+Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::530 as permitted sender) client-ip=2607:f8b0:4864:20::530;
+Received: by mail-pg1-x530.google.com with SMTP id k4so11633453pgb.8
+        for <kasan-dev@googlegroups.com>; Sat, 11 Dec 2021 22:00:07 -0800 (PST)
+X-Received: by 2002:a63:5407:: with SMTP id i7mr37203096pgb.242.1639288806677;
+        Sat, 11 Dec 2021 22:00:06 -0800 (PST)
 Received: from odroid ([114.29.23.242])
-        by smtp.gmail.com with ESMTPSA id x37sm8530902pfh.116.2021.12.11.21.54.23
+        by smtp.gmail.com with ESMTPSA id ng9sm3492264pjb.4.2021.12.11.22.00.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Dec 2021 21:54:26 -0800 (PST)
-Date: Sun, 12 Dec 2021 05:54:20 +0000
+        Sat, 11 Dec 2021 22:00:06 -0800 (PST)
+Date: Sun, 12 Dec 2021 06:00:00 +0000
 From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 To: Matthew Wilcox <willy@infradead.org>
 Cc: Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>,
@@ -130,21 +130,20 @@ Cc: Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>,
 	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
 Subject: Re: [PATCH v2 31/33] mm/sl*b: Differentiate struct slab fields by
  sl*b implementations
-Message-ID: <20211212055420.GA882557@odroid>
+Message-ID: <20211212060000.GB882557@odroid>
 References: <20211201181510.18784-1-vbabka@suse.cz>
  <20211201181510.18784-32-vbabka@suse.cz>
  <20211210163757.GA717823@odroid>
  <f3f02e1e-88b2-a188-1679-9c6256d19c7a@suse.cz>
- <20211211115527.GA822127@odroid>
- <YbTXXwVy/a+/9PCn@casper.infradead.org>
+ <YbTQk9Dj+kUYAX09@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <YbTXXwVy/a+/9PCn@casper.infradead.org>
+In-Reply-To: <YbTQk9Dj+kUYAX09@casper.infradead.org>
 X-Original-Sender: 42.hyeyoo@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=o37rdZ0G;       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::102c
+ header.i=@gmail.com header.s=20210112 header.b=Fx13XGlX;       spf=pass
+ (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::530
  as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
@@ -159,102 +158,30 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, Dec 11, 2021 at 04:52:47PM +0000, Matthew Wilcox wrote:
-> On Sat, Dec 11, 2021 at 11:55:27AM +0000, Hyeonggon Yoo wrote:
-> > On Fri, Dec 10, 2021 at 07:26:11PM +0100, Vlastimil Babka wrote:
-> > > On 12/10/21 17:37, Hyeonggon Yoo wrote:
-> > > > On Wed, Dec 01, 2021 at 07:15:08PM +0100, Vlastimil Babka wrote:
-> > > >> With a struct slab definition separate from struct page, we can go further and
-> > > >> define only fields that the chosen sl*b implementation uses. This means
-> > > >> everything between __page_flags and __page_refcount placeholders now depends on
-> > > >> the chosen CONFIG_SL*B.
-> > > > 
-> > > > When I read this patch series first, I thought struct slab is allocated
-> > > > separately from struct page.
-> > > > 
-> > > > But after reading it again, It uses same allocated space of struct page.
-> > > 
-> > > Yes. Allocating it elsewhere is something that can be discussed later. It's
-> > > not a simple clear win - more memory used, more overhead, complicated code...
-> > >
+On Sat, Dec 11, 2021 at 04:23:47PM +0000, Matthew Wilcox wrote:
+> On Fri, Dec 10, 2021 at 07:26:11PM +0100, Vlastimil Babka wrote:
+> > > Because SLUB and SLAB sets slab->slab_cache = NULL (to set page->mapping = NULL),
 > > 
-> > Right. That is a something that can be discussed,
-> > But I don't think there will be much win.
+> > Hm, now that you mention it, maybe it would be better to do a
+> > "folio->mapping = NULL" instead as we now have a more clearer view where we
+> > operate on struct slab, and where we transition between that and a plain
+> > folio. This is IMHO part of preparing the folio for freeing, not a struct
+> > slab cleanup as struct slab doesn't need this cleanup.
 > 
-> Oh no, there's a substantial win.  If we can reduce struct page to a
-> single pointer, that shrinks it from 64 bytes/4k to 8 bytes/4k.  Set
-> against that, you have to allocate the struct folio / struct slab / ...
-> but then it's one _per allocation_ rather than one per page.  So for
-> an order-2 allocation, it takes 32 bytes + 64 bytes (= 96 bytes)
-> rather than 4*64 = 256 bytes.  It's an even bigger win for larger
-> allocations, and it lets us grow the memory descriptors independently
-> of each other.
-
-Oh I thought there won't be much win because I thought it was
-just allocating additional memory for struct slab and still allocating
-memory for struct page as we do now.
-
-It will be more efficient if we can allocate descriptor of slab/page/...etc
-per *allocation*, which may have order > 1. And currently we're
-duplicating memory descriptor (struct page) even on high order
-allocation.
-
-Even if we do not allocate high order page at all, it's
-still efficient if we can reduce struct page into double word.
-And we can allocate something like struct slab only when we need it. 
-
-One challenge here is that we should allocate the descriptors
-dynamically... I'm going to read the link you sent.
-
-> Everything currently using struct page needs to
-> be converted to use another type, and that's just the pre-requisite
-> step.
+> Yes, I did that as part of "mm/slub: Convert slab freeing to struct slab"
+> in my original series:
 > 
+> -       __ClearPageSlabPfmemalloc(page);
+> +       __slab_clear_pfmemalloc(slab);
+>         __ClearPageSlab(page);
+> -       /* In union with page->mapping where page allocator expects NULL */
+> -       page->slab_cache = NULL;
+> +       page->mapping = NULL;
 
-Oh, you're planning to separate *everything* from
-struct page, not only struct slab!
-
-So your intention of this patch series is preparing for
-physical separation. It's fascinating...
-
-> But it's also a substantial amount of work, so don't expect us to get
-> there any time soon.
-
-Yeah, that will require much work. But I'll wait for your good work.
-It's so interesting.
-
-> Some more thoughts on this here:
-> https://lore.kernel.org/linux-mm/YXcLqcFhDq3uUwIj@casper.infradead.org/
-> 
-
-Thank you for the link.
-
-> > > Yeah. Also whatever aliases with compound_head must not have bit zero set as
-> > > that means a tail page.
-> > > 
-> > 
-> > Oh I was missing that. Thank you.
-> > 
-> > Hmm then in struct slab, page->compound_head and slab->list_head (or
-> > slab->rcu_head) has same offset. And list_head / rcu_head both store pointers.
-> > 
-> > then it has a alignment requirement. (address saved in list_head/rcu_head
-> > should be multiple of 2)
-> > 
-> > Anyway, it was required long time before this patch,
-> > so it is not a problem for this patch.
-> 
-> Yes, that's why there's an assert that the list_heads all line up.  This
-> requirement will go away if we do get separately allocated memory
-> descriptors (because that bottom bit is no longer PageTail).
-
-Yeah, we don't need to care that if we separately allocate memory for
-struct slab.
-
-Thanks,
-Hyeonggon.
+Didn't know your original patch series did it already.
+Vlastimil, would you update that patch?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211212055420.GA882557%40odroid.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211212060000.GB882557%40odroid.
