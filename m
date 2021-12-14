@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBB7NJ4SGQMGQELIIP4WY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS4VDMYRUNBB7VJ4SGQMGQEPKJXLKI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53e.google.com (mail-ed1-x53e.google.com [IPv6:2a00:1450:4864:20::53e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3355C474D7E
+Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B97474D85
 	for <lists+kasan-dev@lfdr.de>; Tue, 14 Dec 2021 23:04:46 +0100 (CET)
-Received: by mail-ed1-x53e.google.com with SMTP id t9-20020aa7d709000000b003e83403a5cbsf18246988edq.19
+Received: by mail-ed1-x53a.google.com with SMTP id 30-20020a508e5e000000b003f02e458b17sf18248172edx.17
         for <lists+kasan-dev@lfdr.de>; Tue, 14 Dec 2021 14:04:46 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1639519486; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RvLHFTjKFvaozfgrqHy/K7Z+sVCelGecKsTd2ZOca6xbFL+eai6A7KXwZyeY7fH9tx
-         6IX4y1+RmTE3IJoIsrDM+5XGq0dWCNk0YV4phDr2NZXHlJ52KVjaGSoMTgQkAg1z6p2O
-         psniC0msDuGYxGyHl3+7GzsBRaSbAOBRPyUBfus5kjLBckQ1Gscf9HNwAMC7KqqbcrR4
-         QybpCjYLxm6nLfi1TCbNRrs1pVNrVaDKlyMDly932tXS7pjhREi1q8YrSM9a7tj4Zqnv
-         BJnrUEHgEZmq5njaoaOzjahgyvnlNumfBG9P4UVtZiyQsd+g08IjUgVVQi9dPYP2bvKC
-         WmUQ==
+        b=lecqcCoFtUjPpqASrIODnj+/nh4j3TXj4HFUy5SNpZsvAWoeUNCzP7bPy/sBA0U8lv
+         MOGR3exDuymccL5PAzfSPYqlpfyBTWnsp+9elR6DWOBSKRPNZK+Y0gmZaWabvtSFcTZx
+         oI4kHBKXfF9PrXtSHhjH6uUWDYU4VMB1YAzj/rLKip4Rqx5V4HYRjoIM5mGJPLljBAaF
+         teRFXHPqSoAW0v03M29G1Id0cdPkXLV8Fmqd107aXvKgyLXpCuLs2HEE0B3OUHUmIytU
+         ReUwCgGoWe3wk9alyr1zzGI+uDB8JbtK4m0vqzCFHxkEC0KbaL0YtHte/tCfWMZun44N
+         1AsA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=V/yRbjgeLkuNrblZBALujIxju+H+jFsmLieih/jXd9M=;
-        b=vbn/K1Z2WFF2FvbqUX44Eol6m2xSA8zys6Qy8oQ1E77DmmNlQyfPrKOT1VFN1MkChg
-         McjgJA0OIt2EO4iHx5cUvk32LY2nObnpr3lcDHrWAzAHecE+YJCw2virFi7pqwaudOGc
-         s67YjYRncL+BOQKYt4YSNFppnwDU4ZtMZ1URWyQINOQyN5G2azUP+h3pZmktTuuu0ePg
-         ua9V3AWjmhZFSjiyMxFwe3oCFIOVny/u32GQGcrvKlaTYlvkkfbT5uNtbjl7lEDppJS9
-         Wmhq1BAhl4vxyQgs7GLnvyz1g0ONeYDf50y5tq/7oNjfcDOvdgg/Izt0gT2ze5ukuEDd
-         H5Bw==
+        bh=vZITH2PxeZv5ynhAe/zMGKnAxlV0ESjn8BchoG9nq0I=;
+        b=zLWOMnKGaQkP1QX/nnUXYXxR2LaaYCq8xdcbyZur3T3v5OyRXv9FLhuGVeRymcX5Vh
+         xW/OOwoJeow0wSCpB2m04yvJt6K33N+y42CE0Wz2WkRUmUr5Nj+lB0UdFVMhcINVx9eN
+         ixk0G6PaS8L8OHSQeFfEaaMZ1hZos6AWtMHTQwpw5Rrh8FvpXoyQnoXaJwAn8F2OQw/n
+         ww3ZicN+ekFPIysprNM/7UzXhXPqm5/vMY5OjGsvRl5xuVs7/xYOVld7t/iQ8f1LJUPm
+         0QPyce9U1yo4NAPy2mgYo7piqUMNeM/tOlQFY3R5PGedoVjdMwD1XXu0sCUO348hJp82
+         EpVg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=UEmnFyHs;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HhmOnGy0;
        spf=pass (google.com: domain of srs0=oav4=q7=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=oav4=Q7=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=V/yRbjgeLkuNrblZBALujIxju+H+jFsmLieih/jXd9M=;
-        b=grN0aOyI6F2i25Cps4xEO+u+ydfSq0b8Kbn5k+VL0hlci3sJ5yNeXZqx9ApHd3oj1e
-         MUkI2ac/lzbFUbPJvdCmIBTTXvNpDA20VA1WZ/h+sQP/M317kaFrlAY4Cg39M6KZaP2c
-         EE9tHp74jgsIGQFK9bml+3/Pfv3RIVu+1D/ziYqsIlqD1a4bVTZ7g7T+q2vOJX/a6Rm6
-         JKmh6IvUXBSljo26nNW3DoBZ4mnIpHiiExdY8DciL5IFYzLFGU8MTQWHx/0U3rC+0BFv
-         +k6/DHFxlVLTIvj2zEmOZuwkzG3faELbX3hr7eXVESlme+w+Zw9ywZ85H1T5YC6Q//RS
-         hn4Q==
+        bh=vZITH2PxeZv5ynhAe/zMGKnAxlV0ESjn8BchoG9nq0I=;
+        b=ZCS+GsgjAXP6ZYSBDTfFtUBe6yQ0DAxT0AJ36vJQvdYRSO1WHzUYFjQhBvOujdcegA
+         RdkthCBhtk8pwn3QMHojVBN+SyGvigjo0cG+Rua2vf2hxH4wPy24jT9ZWqO+1awE3FWj
+         a79uw7kK+WOn4xVBY5S5CogENxGLzh393Jc0YhsoxbWVkuGd2/zHIGPdFJusj22XJPbD
+         2NSPauMkE3xJeUqwBGHEfAPyI7ib5aqq9bQ13ZLbAUNsH7+fOWl5S8ea63ECzC0v079L
+         RuomVOtR9YJJ+bLv2u9+FAJvmKGPvDeUfB5T3DLuRUh9EurOxUj+li7epoiPH796cyH8
+         M6yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,61 +49,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=V/yRbjgeLkuNrblZBALujIxju+H+jFsmLieih/jXd9M=;
-        b=0IY2x6v+oFcwafyS9TyxupDObADnkqpTHSnbDj8BRKzcH4kmwkEIl3pVWLGyB76qFm
-         HKbMumCrT66jRDXX08ie7PnUzECB+2rEIRi291+/MwjOsFaips8mVAKrjL91kSRf2fSj
-         tqAOEYxZ5BuyK2mc7NMP74OoyUzW/dAaAQ6v6NflYXnbyWVMTzrg4v4y1fh3z+O8O9H8
-         X0/bjuzgNM/SxOFS3yGKr85/vy0yi/TMi+gmOJ0gEICdc9vm5CJszO5yVTzLTimhu8nF
-         ur/ajLjKcAYkUV7CLowbJ5l8xkaJP1vavRWm0O/B/7j2x2ULG5xQWwG6Hg7D0M8NtO6s
-         UyuA==
+        bh=vZITH2PxeZv5ynhAe/zMGKnAxlV0ESjn8BchoG9nq0I=;
+        b=SwJF0HMsDgDevoTVOAWrC35GLRV8czFvORH26NBQe47hYx3o2S7m+d42lyL5fKHZB0
+         9OZn7C+SHtcaqmlXTvyPXU3FU617ExW8ysjztgF587kQUhDxF7ZDW37XjKn3+QPcq7Zz
+         +D5qBT0xPjrOIws8rhHMgzFIP3Z61IXtu7819C3TI+6xRVLCurnIxnqvkMXBWFLWYCBU
+         T6SyBRYrNJRMPfIaZqg7yI7ufNWBuOdzL3fJSPKAzGFyBh5OEMiSn9KbhEw1j5AbZq6r
+         r0j55qTYjP9RDZdXrdrMS+bcoyv1I7VeGmG/lj2JeEmPYqPeMqO095PnL7WnqurChjMW
+         2+2g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531GJr81x9KVmfGC1Xi6cisqsXsJIQnbjOlsc/CoJFSkIMMWdEiX
-	ASw2xxRDJ8/dpFUJGUVK2Rg=
-X-Google-Smtp-Source: ABdhPJz70RamQdta0OEi2a1bAmOaut8c8zPPNrr45CjhGyxCgVsYan/jQ63dHGqdIo6q2yqkgTOQ8w==
-X-Received: by 2002:a17:906:685:: with SMTP id u5mr8271848ejb.543.1639519485958;
-        Tue, 14 Dec 2021 14:04:45 -0800 (PST)
+X-Gm-Message-State: AOAM530OJ92SQkBOf/NmAoLCFBUkzuqyODE3bGY13NraquT92p7df5/w
+	/ENtRfpDPRsk5InjD9c20Cc=
+X-Google-Smtp-Source: ABdhPJzNNcm5MSgbod+GdY8mQ3Vw6YAZL7FUTb9jXLrDRbXYhLeG13OSfpYr8Sf84JzR60Bb/86MsA==
+X-Received: by 2002:a17:906:a091:: with SMTP id q17mr8156563ejy.669.1639519486697;
+        Tue, 14 Dec 2021 14:04:46 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:7294:: with SMTP id dt20ls20831ejc.10.gmail; Tue, 14
- Dec 2021 14:04:44 -0800 (PST)
-X-Received: by 2002:a17:906:31c2:: with SMTP id f2mr8538803ejf.341.1639519484869;
-        Tue, 14 Dec 2021 14:04:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1639519484; cv=none;
+Received: by 2002:a17:907:6da0:: with SMTP id sb32ls23338ejc.8.gmail; Tue, 14
+ Dec 2021 14:04:45 -0800 (PST)
+X-Received: by 2002:a17:906:830b:: with SMTP id j11mr8534604ejx.161.1639519485655;
+        Tue, 14 Dec 2021 14:04:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1639519485; cv=none;
         d=google.com; s=arc-20160816;
-        b=XDrskdCOXpu9QDhiC8YrX84LFWk1EqnBcbroM4kvuPmok+oabI9AcoRTqEpBgcR0vI
-         ssjByED7Wb0r8BtjSHswK8VZoVTUQDxdo1uekXF+SsdpojeNC7cupplzgOkMjpaXD0/N
-         8ULg/QuxOdcROvnDuo8ld044W1S4G5hr94MiNXkFpHKGGYKcasc4cI72eEEigOUodIc0
-         bhP+ieVVNbAahb1omfZdJgBPDC5z2W4/oNr5VLTi7PlKgi+gOF6dEe8nzS71JcW6dHY+
-         aokmDGCHrDh35GhzE9CSl01bAPJOqwzcnjGyEWr5yR2oPhQsUtLPMeOIIj0NxVhgsLSb
-         goCg==
+        b=VDmbUybFyeVEjnjKF+zB1y3PvGwX2YRETkljXZev/aiLSjNU9J80P0LONGD9RGILCm
+         pPzPwVpDCNZR1BQUZ01lX5pNJ7KlQyy3Mkowg9/v9wP11J9hxTqQFjyCeam8vVwFfcsi
+         +n+/R14q+pH0T9aabplYKwzTyhCCEmcAfRdxjQ2Kz+E1EZ5LKVSgxpjxEtzrr/NWL5fA
+         UfYfE6pY0z4YlRXF00hI+29IjcdoS5VF/B78wFKYrx6YSqnKAkWZT3WQD0ZwZBs24czS
+         W7HuYc003RHCd/909zBZWiSRTvgAgVDvvEB27UKs75c5X0oWCQQQ98pPmzqYwhJ1uc0f
+         +P7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=nBf3/LEb81JFAhRAibwuws5274SZcOtqg9g6wHBEjyM=;
-        b=Y9vEs/WfGjal3FqLrT1rSeKFuz6atTjH5xsLFaFJcJxnBsl4V9TGBEhtjDzjCxcg2y
-         w8jQrcpuGl/HJs99epUGWN0FQgTQ23QExUYD88YRAQBgBrDVKyI4Q2lURPl1Lw2EVmLG
-         GSLKA2eRk5/s+xDQF06KNNSKt8YvosE0QBPk4ckqpNxX7SZIDOat6b7KB1dt29AouEbg
-         SRvsrreDqygFhjxdrJxByL0D9TPNcGXDl7DCJQnisv4IBpqBVxf/phxg8OvNkbixS57B
-         1qbFt2UWasOLiwYDm8eeltP7uvmY5D9u+8ZrlaRO40cLx8KI6F6ukgZKFknsua9EmDA6
-         lDmA==
+        bh=Eh1yZdiaZPbgeBdr2Rs53qJdnKrbrYETVEADq+9sMDo=;
+        b=P/9+y8g1pP2KYt6vfQ4hqQlG0td6+FppdpsFQRvzQJOkNk3ynainwnw9mFPatSpeEh
+         oHpCV6nvrqjhC1PYDwIdCcTNOPjQe/G+S+NZQd0mrgB9bCz42qSTEbZ3Paj+TJcK6L0N
+         KIi2B9yOIGcLHK3fZe+8g+9LuyjAnKIPCh8V2tEg4zsj6gM42+Zn9ATIUrNxzkCguF7p
+         NXeRLCK4b/MddJsYNELVkdC0SbvLeytmXjHCeC0xR8ykUKsNH45vz9xVQ0wf6o33gJKn
+         NPXVPQg/00BIpKDKmrQmlyKm5THo4qwvvInDzpsn9WG+XbkM26XwRmHSSM2ubSY82rpV
+         QEew==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=UEmnFyHs;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HhmOnGy0;
        spf=pass (google.com: domain of srs0=oav4=q7=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=oav4=Q7=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id bs25si2734ejb.2.2021.12.14.14.04.44
+        by gmr-mx.google.com with ESMTPS id fl21si7328ejc.0.2021.12.14.14.04.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 Dec 2021 14:04:44 -0800 (PST)
+        Tue, 14 Dec 2021 14:04:45 -0800 (PST)
 Received-SPF: pass (google.com: domain of srs0=oav4=q7=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id AA89F6171D;
+	by dfw.source.kernel.org (Postfix) with ESMTPS id C2CB261742;
 	Tue, 14 Dec 2021 22:04:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03667C34621;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F9DFC34625;
 	Tue, 14 Dec 2021 22:04:42 +0000 (UTC)
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 74CD75C17E3; Tue, 14 Dec 2021 14:04:41 -0800 (PST)
+	id 76D005C193A; Tue, 14 Dec 2021 14:04:41 -0800 (PST)
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
@@ -116,16 +116,16 @@ Cc: elver@google.com,
 	cai@lca.pw,
 	boqun.feng@gmail.com,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH kcsan 14/29] locking/barriers, kcsan: Add instrumentation for barriers
-Date: Tue, 14 Dec 2021 14:04:24 -0800
-Message-Id: <20211214220439.2236564-14-paulmck@kernel.org>
+Subject: [PATCH kcsan 15/29] locking/barriers, kcsan: Support generic instrumentation
+Date: Tue, 14 Dec 2021 14:04:25 -0800
+Message-Id: <20211214220439.2236564-15-paulmck@kernel.org>
 X-Mailer: git-send-email 2.31.1.189.g2e36527f23
 In-Reply-To: <20211214220356.GA2236323@paulmck-ThinkPad-P17-Gen-1>
 References: <20211214220356.GA2236323@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
 X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=UEmnFyHs;       spf=pass
+ header.i=@kernel.org header.s=k20201202 header.b=HhmOnGy0;       spf=pass
  (google.com: domain of srs0=oav4=q7=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
  designates 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=oav4=Q7=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
@@ -144,114 +144,67 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Marco Elver <elver@google.com>
 
-Adds the required KCSAN instrumentation for barriers if CONFIG_SMP.
-KCSAN supports modeling the effects of:
+Thus far only smp_*() barriers had been defined by asm-generic/barrier.h
+based on __smp_*() barriers, because the !SMP case is usually generic.
 
-	smp_mb()
-	smp_rmb()
-	smp_wmb()
-	smp_store_release()
+With the introduction of instrumentation, it also makes sense to have
+asm-generic/barrier.h assist in the definition of instrumented versions
+of mb(), rmb(), wmb(), dma_rmb(), and dma_wmb().
+
+Because there is no requirement to distinguish the !SMP case, the
+definition can be simpler: we can avoid also providing fallbacks for the
+__ prefixed cases, and only check if `defined(__<barrier>)`, to finally
+define the KCSAN-instrumented versions.
+
+This also allows for the compiler to complain if an architecture
+accidentally defines both the normal and __ prefixed variant.
 
 Signed-off-by: Marco Elver <elver@google.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- include/asm-generic/barrier.h | 29 +++++++++++++++--------------
- include/linux/spinlock.h      |  2 +-
- 2 files changed, 16 insertions(+), 15 deletions(-)
+ include/asm-generic/barrier.h | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
-index 640f09479bdf7..27a9c9edfef66 100644
+index 27a9c9edfef66..02c4339c8eebf 100644
 --- a/include/asm-generic/barrier.h
 +++ b/include/asm-generic/barrier.h
-@@ -14,6 +14,7 @@
- #ifndef __ASSEMBLY__
- 
- #include <linux/compiler.h>
-+#include <linux/kcsan-checks.h>
- #include <asm/rwonce.h>
- 
- #ifndef nop
-@@ -62,15 +63,15 @@
- #ifdef CONFIG_SMP
- 
- #ifndef smp_mb
--#define smp_mb()	__smp_mb()
-+#define smp_mb()	do { kcsan_mb(); __smp_mb(); } while (0)
+@@ -21,6 +21,31 @@
+ #define nop()	asm volatile ("nop")
  #endif
  
- #ifndef smp_rmb
--#define smp_rmb()	__smp_rmb()
-+#define smp_rmb()	do { kcsan_rmb(); __smp_rmb(); } while (0)
- #endif
- 
- #ifndef smp_wmb
--#define smp_wmb()	__smp_wmb()
-+#define smp_wmb()	do { kcsan_wmb(); __smp_wmb(); } while (0)
- #endif
- 
- #else	/* !CONFIG_SMP */
-@@ -123,19 +124,19 @@ do {									\
- #ifdef CONFIG_SMP
- 
- #ifndef smp_store_mb
--#define smp_store_mb(var, value)  __smp_store_mb(var, value)
-+#define smp_store_mb(var, value)  do { kcsan_mb(); __smp_store_mb(var, value); } while (0)
- #endif
- 
- #ifndef smp_mb__before_atomic
--#define smp_mb__before_atomic()	__smp_mb__before_atomic()
-+#define smp_mb__before_atomic()	do { kcsan_mb(); __smp_mb__before_atomic(); } while (0)
- #endif
- 
- #ifndef smp_mb__after_atomic
--#define smp_mb__after_atomic()	__smp_mb__after_atomic()
-+#define smp_mb__after_atomic()	do { kcsan_mb(); __smp_mb__after_atomic(); } while (0)
- #endif
- 
- #ifndef smp_store_release
--#define smp_store_release(p, v) __smp_store_release(p, v)
-+#define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
- #endif
- 
- #ifndef smp_load_acquire
-@@ -178,13 +179,13 @@ do {									\
- #endif	/* CONFIG_SMP */
- 
- /* Barriers for virtual machine guests when talking to an SMP host */
--#define virt_mb() __smp_mb()
--#define virt_rmb() __smp_rmb()
--#define virt_wmb() __smp_wmb()
--#define virt_store_mb(var, value) __smp_store_mb(var, value)
--#define virt_mb__before_atomic() __smp_mb__before_atomic()
--#define virt_mb__after_atomic()	__smp_mb__after_atomic()
--#define virt_store_release(p, v) __smp_store_release(p, v)
-+#define virt_mb() do { kcsan_mb(); __smp_mb(); } while (0)
-+#define virt_rmb() do { kcsan_rmb(); __smp_rmb(); } while (0)
-+#define virt_wmb() do { kcsan_wmb(); __smp_wmb(); } while (0)
-+#define virt_store_mb(var, value) do { kcsan_mb(); __smp_store_mb(var, value); } while (0)
-+#define virt_mb__before_atomic() do { kcsan_mb(); __smp_mb__before_atomic(); } while (0)
-+#define virt_mb__after_atomic()	do { kcsan_mb(); __smp_mb__after_atomic(); } while (0)
-+#define virt_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
- #define virt_load_acquire(p) __smp_load_acquire(p)
- 
- /**
-diff --git a/include/linux/spinlock.h b/include/linux/spinlock.h
-index b4e5ca23f8403..5c0c5174155d0 100644
---- a/include/linux/spinlock.h
-+++ b/include/linux/spinlock.h
-@@ -171,7 +171,7 @@ do {									\
-  * Architectures that can implement ACQUIRE better need to take care.
-  */
- #ifndef smp_mb__after_spinlock
--#define smp_mb__after_spinlock()	do { } while (0)
-+#define smp_mb__after_spinlock()	kcsan_mb()
- #endif
- 
- #ifdef CONFIG_DEBUG_SPINLOCK
++/*
++ * Architectures that want generic instrumentation can define __ prefixed
++ * variants of all barriers.
++ */
++
++#ifdef __mb
++#define mb()	do { kcsan_mb(); __mb(); } while (0)
++#endif
++
++#ifdef __rmb
++#define rmb()	do { kcsan_rmb(); __rmb(); } while (0)
++#endif
++
++#ifdef __wmb
++#define wmb()	do { kcsan_wmb(); __wmb(); } while (0)
++#endif
++
++#ifdef __dma_rmb
++#define dma_rmb()	do { kcsan_rmb(); __dma_rmb(); } while (0)
++#endif
++
++#ifdef __dma_wmb
++#define dma_wmb()	do { kcsan_wmb(); __dma_wmb(); } while (0)
++#endif
++
+ /*
+  * Force strict CPU ordering. And yes, this is required on UP too when we're
+  * talking to devices.
 -- 
 2.31.1.189.g2e36527f23
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211214220439.2236564-14-paulmck%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211214220439.2236564-15-paulmck%40kernel.org.
