@@ -1,48 +1,61 @@
-Return-Path: <kasan-dev+bncBDV6LP4FXIHRBOOV4KGQMGQESZC47EA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKJJ7XLVUBBB26Y4KGQMGQEQ3MXRUQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42627474517
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 Dec 2021 15:31:23 +0100 (CET)
-Received: by mail-pj1-x103b.google.com with SMTP id lt10-20020a17090b354a00b001a649326aedsf15243799pjb.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 14 Dec 2021 06:31:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1639492281; cv=pass;
+Received: from mail-qk1-x740.google.com (mail-qk1-x740.google.com [IPv6:2607:f8b0:4864:20::740])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EE4474549
+	for <lists+kasan-dev@lfdr.de>; Tue, 14 Dec 2021 15:38:37 +0100 (CET)
+Received: by mail-qk1-x740.google.com with SMTP id de12-20020a05620a370c00b00467697ab8a7sf17030401qkb.9
+        for <lists+kasan-dev@lfdr.de>; Tue, 14 Dec 2021 06:38:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1639492716; cv=pass;
         d=google.com; s=arc-20160816;
-        b=egePxJs8YEx3riVZ1KieWTp1FVSR5PVxIeOZOhX/qpfCRLOZnEzB1yf58wkX1YlEMa
-         N7DOco3fUGVE5XlQ0YG+y438Sk4qktcecbcM2Uh68/1ql/7B3D3F72xiat5b6dp26Vi1
-         BkIDBIiQ3Isfo+WsZPqRS8fU6puxD2DybUu5h9xr8QRyHDfnOL4rRqzbEe8x0ZDmFqTR
-         1ylT2Kbtm/XuhbW6y58SIKesgU7T1q2lHkigWki4UDx1IrjSbGx9A9mLYNrFLDw9taXY
-         oyodSG2clgPidNyAHAP/fEMVip65iRwEBtMfYSJQhDfcIi3i2UrprL1q6xs7SgzH/n3c
-         hz6A==
+        b=wAmtn9sGDy9NKMoVyYWMRKaqcS06EHWBSiADyAEJCh8Nz6SPP9gk3KtpPniMxzkKA+
+         Iq9mJ94R2JGB9yjdoYcVbSUWRIL4kXbnXlPI4458JUqauHOHXT7/YRiWZMGmWquz18gy
+         ae6oJCFibhbpROdpvot3mJiQa1vf1D/5jUSKSnk3hR3eQDCGxQzf9WOG6Zt/V9QIOXLO
+         wBZYWZiJh3585PArnkBx0FdaBo/EuSlKGEWRIc9sPDTSuL4flgPfHVyg1ZL//z+vTl8C
+         Pum6Yj/UVBcUt9l2gB67brErCSRF2Q5MyB7qALqVtKdQWng04QnsZGrN11rBIa37bU9f
+         1otA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=GIkSkxPOD60g0KF6e4wwY+zzOYJj//d3Qct+ch6G8qM=;
-        b=ec03MgRzJJ8YQw2ssttkwbp4aRo1TCqxQcNrzJxg5ZI8kNvrZqjkz5Z9ILSso8sydU
-         8IbcgIao80muOHPZ7gtL6YyTdDXf0IovSlItUxi8PxmoaLHuPdPVdavCxefhuOu/tiLK
-         TzFHbGXaQgNFQm8n+DfjR9fo28UTEcHW8k/UJ+/0okAe3nXr+9Bwgsy3tJ3WDZ7B0xLc
-         TbyWTuUfEqy8yCHMfrnEOct1lKe5aYRyUKMuujuJD51ZYrzQrE6A2P3UbKyfAZwce8pe
-         xdk7IeAxpqNpAZ7Yflo1QCUviiiFF97kqimQs6jw71MN0lCC0a17MOLUAe0OPNNMG4ct
-         qsGA==
+         :dkim-signature:dkim-signature;
+        bh=Xh/fiPeIkvg7PVPc5LqRTGtpoHE5WiNwGXd2jqITvAM=;
+        b=W7lKl91aqcDvHNihhrpAO7gdnKI+vlShcqhn5ayi9dJ8c/yEudgWf/lwQtL129NRti
+         TnYDfulmUsWMWAgnkb4WGkgoD0Q5NgFCiq8VhzB8f50U3YZ5K2IVoNTD2rtSit4WGfho
+         pfigY5xAM1A2/zN1WoGzGztdFh0/YHTCYO7GpjgUeX6whf7LC0BKkrVUWnCbTckvj9O8
+         cp4YNHQINPmE8JFa02yPL+vBKA7KIR2Ecawa2LvtwT7OD47USX8MSafIIo8u76zDHl35
+         phRCpEgpVzRFUacggL7y6rFFlCsWYd4MUSpqSGoTYwq9D0A+nQ8OjcOWeQo7FTpxnb4o
+         FYdg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@cmpxchg-org.20210112.gappssmtp.com header.s=20210112 header.b=wZQgz4iU;
-       spf=pass (google.com: domain of hannes@cmpxchg.org designates 2607:f8b0:4864:20::72a as permitted sender) smtp.mailfrom=hannes@cmpxchg.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=cmpxchg.org
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=GOrcD4Bm;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::1033 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=GIkSkxPOD60g0KF6e4wwY+zzOYJj//d3Qct+ch6G8qM=;
-        b=BpiO5b4rXOyQgSABxYxv2ydJukxqYHpIwdD+sANIXFqxcQ78B602EuHA/Kh0Nqxwid
-         tl6LN+OMlvRCE0CFLYdkLag05m8GSRcLxtNVVD2xHYI945quGd8upzzT5oi96A+0Xtk+
-         JHNjtotttpGH1ZZK52Xrr6NxNwW2NfzF0fQIMAr7HIGNk0eObjNb6pNltZtg90/9JxVw
-         eOH8zTLroCf0ye4vkQuIu4CSiScgEd2jKlxRur0XDwG291+PJGgsdLK6MR98vQki+ra5
-         //uaMt+li0tsteXaeA6bET3rX9hBY3X4L+YGm3qazC+LV43FE03fD1xgM3h2NF4J0wQz
-         xDUw==
+        bh=Xh/fiPeIkvg7PVPc5LqRTGtpoHE5WiNwGXd2jqITvAM=;
+        b=fVogCfsCd+/bRwN/ajeM89TYPiyPlzDkwy2j1Mkk3bHoxWSdbDv4qHx2iEPbyv67oU
+         jaIL4RHAQP0gtrPf/dfIS8lp9RNryAOqe5yfzjv9d+40cXclGjqT78NHxIbXNVofK5SV
+         4rn+0AHDDwRMUkT7fZdedXBdPURGzxLlJJpLJE2pHiaUttAQ6lQNiAzNKs+omR9CCqdH
+         qr6a7MO2lmz4AHF+0IwPYicDZuzsmXRGGlXfNTQqAkhL2kfFxXLCUpxLxdqgxcJ0ZpoS
+         bV11xXU7QFZzwBpsBhh+BaRs8EJlj2jEV08FddAboxmUVderDj1IBT0Xk7+gZY+Lb4kK
+         SHHQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Xh/fiPeIkvg7PVPc5LqRTGtpoHE5WiNwGXd2jqITvAM=;
+        b=pWVmoauESAVQQnS9eUjMsaG3mMJ5/eSJd5wZCXO2tv3QopcQ560eV95WYiedFxC7Xd
+         zLo3XW4UoeEnr29VGVFlDTPMKBxLpu59vPsy8RAn5dp2kKlBkxJbCjmxUFOnWLhms3sF
+         aJIJkmeOcP0mP8VQPjSVdbt+AuEuom/61K4Raq+EHlpEclX2mxYwebfht81pdaacei+4
+         IcrUxR17czyeaKAhG/Os+wRjE7Ypz9Yx+RisYjD7UlZFsa9cGlPd3SReIUVKasR97pTz
+         5QSkmEYAEnioYA72JOTp0dS/BCAmQtcL5v5H7gMao/Rv7Bev9ce8nVX743i6VvIht/AH
+         01MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,92 +63,103 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=GIkSkxPOD60g0KF6e4wwY+zzOYJj//d3Qct+ch6G8qM=;
-        b=IK2f95dJBvgtncmYWOvTQHThi5pkTY1UIpEkkmtXGZMArrwbkUOPUgOXhkesBsuRgR
-         xEvSogKzN2MpUWK2E5z5fZX/TvdQMUmQxiZ9my8dpqcWqGOD1y10lL9iFyp+qLYz86tX
-         d+LEahn+q1paRjpHa5YXJrD1ZaUARNYCtq7XzY0hb0YHJW3WhmiDLNxkfB+oel8np6AR
-         OyUYfp/UXHRziY6N6tsylxRROoiDTzlQNZP++OgMhF/1pLNQyqipfTSSllIgkuKje1wn
-         +W0N723+hCEw9ebVdxDc9a9jPpK8EH9o72dOo8cqDKMKyqeCv2KiKaHK4mAkrBxaP6NX
-         0sGA==
+        bh=Xh/fiPeIkvg7PVPc5LqRTGtpoHE5WiNwGXd2jqITvAM=;
+        b=ml+IDHAN339Ngaf3E+CWjaco73hsf43GoZRf1u5urR72lASIJVSfl/nonu3a3q6/r3
+         Fh9f7Z6QzMtvqoQIHOmiwUvFcoC/wVHa8qEtKKhOXPqRoET+F27vJRjuHR+L7qm07UbU
+         zAqT34yMBEKsS3gBGvFAZkOODkMIw56e/r4HLlmFStAArI7iMw0cCDBgEdz3pZzRw8E+
+         eBT6LbEbeRHJAbYx3D6LHIRQNeqWFYOTHK6RyAwa8B1A1r/5txPBxJSjL9X19beep3ld
+         Nw1tuMfX4kLISM/O6EhCyTlfnL7eP3JAaKfzW6nEFAIesHO9ABz6Sn5Wie+yaJlvc2dL
+         l72g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531qmgSrB21eahTq+MH+ONhxdM+vzKrnxPDdi9Plq8WUyqk+G6Kk
-	s5yLrjla3IoryjX7+o8mF4A=
-X-Google-Smtp-Source: ABdhPJzPaawxO+h2a1q9VCzd/KPMOoGuvgxNqGrl9lySrKqRIvq4lxSNft4lAwu25Fj2HrvOIjA5eQ==
-X-Received: by 2002:a63:8a4b:: with SMTP id y72mr3932017pgd.1.1639492281432;
-        Tue, 14 Dec 2021 06:31:21 -0800 (PST)
+X-Gm-Message-State: AOAM53109bBZ79kggo9K4CPrJ0P9javLM5kevFXPr7HnIAC/JN0ZpBOm
+	dIzM2qSpnq4cxhFvylfJGJc=
+X-Google-Smtp-Source: ABdhPJxtS/mbJpIWCLd2aAiZxa1t0j9B8is8+fq2jIaHSgtqFZjWLR9b/sgo11hs7wsxWg87tq0Sgg==
+X-Received: by 2002:a05:622a:c:: with SMTP id x12mr6344871qtw.502.1639492715359;
+        Tue, 14 Dec 2021 06:38:35 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:3ece:: with SMTP id rm14ls904519pjb.2.canary-gmail;
- Tue, 14 Dec 2021 06:31:20 -0800 (PST)
-X-Received: by 2002:a17:90b:384a:: with SMTP id nl10mr6064414pjb.234.1639492280799;
-        Tue, 14 Dec 2021 06:31:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1639492280; cv=none;
+Received: by 2002:a05:622a:1a81:: with SMTP id s1ls15256218qtc.11.gmail; Tue,
+ 14 Dec 2021 06:38:35 -0800 (PST)
+X-Received: by 2002:ac8:57ca:: with SMTP id w10mr6505338qta.88.1639492714923;
+        Tue, 14 Dec 2021 06:38:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1639492714; cv=none;
         d=google.com; s=arc-20160816;
-        b=AexSVgZnaSSeCqEXq+I77bvFuCBBRTTkVeAdw1THjGY0h6lDPh9z7JGndmBmAL2T3F
-         Hqg2960dKmfo0mJW6/xkv2cctj4kB6DhN8xPsXS6envq5p39YUgeMQcaUqO0cgPqUZ7Z
-         CC63DoLcDO2VpPiMejOSZDqfSzP33X9Sx9RsNCRMfclaaY9s63xOAeEEyQ+I7i2l+c6k
-         jr9nM3RlCO+nUC53XFU7Ip7M3wmTd7J9HHr9uAPMxIOqr+1o90jnVBXtMbo7iCxloN8/
-         9x+fcFWFf0Fy0DDgE1WDxvt50xT6872Mdy0a3+FC0FmU5pU2j9t6ZchIR7Ionq90puWw
-         Y66w==
+        b=NdIjYDTA9tq++D7t2bhf7qggDm5OA61fJ/3D52fcgSDfBIrw50I5WlgL6kDZH8dPCT
+         1P/qf+vLrlbkdOYsf2Z8u0JlTuSH8opKOm4NEtsSGmoshkqrEX7CoE/Fk9wedIYLVkmO
+         QBkk5mJU6bywdc1WQtKTikDk5DYZmXYJImXTcUy3HG+ljCkOZ2qvV4XNO/8v7lFEQI2/
+         i11qFufbwvIIAgTaHuIwXLG5qI5rn9nLm2sUIZ4wlmwiHB37oNQzwTTAy8OMytN1bnGp
+         CJWiKGNxjj9f3+6tF6NKWFoQWJrMeeOWCnj3gHApPfWPBF1d4bArsW9K6XmlXh4jk5ST
+         s4Eg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=PnyBX2cL3sw5aLNMKdlSdA2yt3vqpypZzbVoHtQrrVM=;
-        b=VFVOqokBTe0vcWXMa3WnyBc+/37Wy4wZ+TcvE2zNUf44SsWjPQ3WgGn/+Trm+/Fl3W
-         /knqV1KzhhF5iUWfuhRpupKP5f+RQNQ0VNWIKKqfPgNV9kYxa1NqgaRHQLUBiDAeD0U5
-         LxMaDjEsbpwWFECoKBHNk9OSYa/t81BgD/vbQIJ5JHG5C61DWukHc8t1Nu/EGm2RDJXf
-         jdkAhR1Q7Au+OoVK2A9b8+e6N+wlLYaycwEYvXDXKCR3bvMzHfk2FKMdDJ0h9ql+8Ebl
-         sDsMxBgrC244W472sleJstp6oUlule8x+2vPVWXcS0xWI/qC56aA3IdfRbd+tiQ31v8d
-         P2PA==
+        bh=R4NvS2jKJuj6HSBgH45i5FwQuCehWvgVUBxINrvhBWY=;
+        b=IYlJcloIN+wJfd1AroQ51IjeMTc3J4MJcyBfF2VvK3yECfJaF8SopNzITzUjM8859p
+         h81yYmVP8UL0xa4wIbvJy3PYebz2L4YeBeDv9ZtAqqmzKzIxwVDZdbDxzK67BAHN5iTK
+         Wxn06g9dvx55wWErJWlmrEGsEzoTmskNSaYvV/XRPYv9a856fxDr2uoons1avufTpeGq
+         f1Ualq2QFPFq1lsLmT+GYEa/IZUBcTpoIRgscLU8jv4EpgRah1tn/ztAMSuCl2PFMc2G
+         t7NANXxR28mQg2IGa1BH4VPxYPLZARtSOW33Fh8GsPRohsXuCeJmEA4p2L8MPuHDIAhJ
+         WnZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@cmpxchg-org.20210112.gappssmtp.com header.s=20210112 header.b=wZQgz4iU;
-       spf=pass (google.com: domain of hannes@cmpxchg.org designates 2607:f8b0:4864:20::72a as permitted sender) smtp.mailfrom=hannes@cmpxchg.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=cmpxchg.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com. [2607:f8b0:4864:20::72a])
-        by gmr-mx.google.com with ESMTPS id w1si167643pjn.1.2021.12.14.06.31.20
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=GOrcD4Bm;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::1033 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com. [2607:f8b0:4864:20::1033])
+        by gmr-mx.google.com with ESMTPS id w9si4581qtc.5.2021.12.14.06.38.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Dec 2021 06:31:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of hannes@cmpxchg.org designates 2607:f8b0:4864:20::72a as permitted sender) client-ip=2607:f8b0:4864:20::72a;
-Received: by mail-qk1-x72a.google.com with SMTP id b67so16872880qkg.6
-        for <kasan-dev@googlegroups.com>; Tue, 14 Dec 2021 06:31:20 -0800 (PST)
-X-Received: by 2002:a37:654f:: with SMTP id z76mr4207368qkb.224.1639492276068;
-        Tue, 14 Dec 2021 06:31:16 -0800 (PST)
-Received: from localhost ([2620:10d:c091:480::1:e1e4])
-        by smtp.gmail.com with ESMTPSA id o9sm16361qtk.81.2021.12.14.06.31.15
+        Tue, 14 Dec 2021 06:38:34 -0800 (PST)
+Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::1033 as permitted sender) client-ip=2607:f8b0:4864:20::1033;
+Received: by mail-pj1-x1033.google.com with SMTP id y14-20020a17090a2b4e00b001a5824f4918so17289563pjc.4
+        for <kasan-dev@googlegroups.com>; Tue, 14 Dec 2021 06:38:34 -0800 (PST)
+X-Received: by 2002:a17:902:e544:b0:144:e3fa:3c2e with SMTP id n4-20020a170902e54400b00144e3fa3c2emr6596816plf.17.1639492714139;
+        Tue, 14 Dec 2021 06:38:34 -0800 (PST)
+Received: from odroid ([114.29.23.242])
+        by smtp.gmail.com with ESMTPSA id s16sm64466pfu.109.2021.12.14.06.38.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Dec 2021 06:31:15 -0800 (PST)
-Date: Tue, 14 Dec 2021 15:31:13 +0100
-From: Johannes Weiner <hannes@cmpxchg.org>
+        Tue, 14 Dec 2021 06:38:33 -0800 (PST)
+Date: Tue, 14 Dec 2021 14:38:22 +0000
+From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 To: Vlastimil Babka <vbabka@suse.cz>
 Cc: Matthew Wilcox <willy@infradead.org>, Christoph Lameter <cl@linux.com>,
 	David Rientjes <rientjes@google.com>,
 	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
 	Pekka Enberg <penberg@kernel.org>, linux-mm@kvack.org,
 	Andrew Morton <akpm@linux-foundation.org>, patches@lists.linux.dev,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Alexander Potapenko <glider@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>,
-	Michal Hocko <mhocko@kernel.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	cgroups@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	iommu@lists.linux-foundation.org, Joerg Roedel <joro@8bytes.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Julia Lawall <julia.lawall@inria.fr>, kasan-dev@googlegroups.com,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Marco Elver <elver@google.com>, Michal Hocko <mhocko@kernel.org>,
+	Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
 	Vladimir Davydov <vdavydov.dev@gmail.com>,
-	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v2 22/33] mm: Convert struct page to struct slab in
- functions used by other subsystems
-Message-ID: <YbiqseeMBeqbn5CR@cmpxchg.org>
+	Will Deacon <will@kernel.org>, x86@kernel.org
+Subject: Re: [PATCH v2 00/33] Separate struct slab from struct page
+Message-ID: <20211214143822.GA1063445@odroid>
 References: <20211201181510.18784-1-vbabka@suse.cz>
- <20211201181510.18784-23-vbabka@suse.cz>
+ <4c3dfdfa-2e19-a9a7-7945-3d75bc87ca05@suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20211201181510.18784-23-vbabka@suse.cz>
-X-Original-Sender: hannes@cmpxchg.org
+In-Reply-To: <4c3dfdfa-2e19-a9a7-7945-3d75bc87ca05@suse.cz>
+X-Original-Sender: 42.hyeyoo@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@cmpxchg-org.20210112.gappssmtp.com header.s=20210112
- header.b=wZQgz4iU;       spf=pass (google.com: domain of hannes@cmpxchg.org
- designates 2607:f8b0:4864:20::72a as permitted sender) smtp.mailfrom=hannes@cmpxchg.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=cmpxchg.org
+ header.i=@gmail.com header.s=20210112 header.b=GOrcD4Bm;       spf=pass
+ (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::1033
+ as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,112 +172,30 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Dec 01, 2021 at 07:14:59PM +0100, Vlastimil Babka wrote:
-> KASAN, KFENCE and memcg interact with SLAB or SLUB internals through functions
-> nearest_obj(), obj_to_index() and objs_per_slab() that use struct page as
-> parameter. This patch converts it to struct slab including all callers, through
-> a coccinelle semantic patch.
+On Tue, Dec 14, 2021 at 01:57:22PM +0100, Vlastimil Babka wrote:
+> On 12/1/21 19:14, Vlastimil Babka wrote:
+> > Folks from non-slab subsystems are Cc'd only to patches affecting them, and
+> > this cover letter.
+> > 
+> > Series also available in git, based on 5.16-rc3:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=slab-struct_slab-v2r2
 > 
-> // Options: --include-headers --no-includes --smpl-spacing include/linux/slab_def.h include/linux/slub_def.h mm/slab.h mm/kasan/*.c mm/kfence/kfence_test.c mm/memcontrol.c mm/slab.c mm/slub.c
-> // Note: needs coccinelle 1.1.1 to avoid breaking whitespace
+> Pushed a new branch slab-struct-slab-v3r3 with accumulated fixes and small tweaks
+> and a new patch from Hyeonggon Yoo on top. To avoid too much spam, here's a range diff:
 > 
-> @@
-> @@
-> 
-> -objs_per_slab_page(
-> +objs_per_slab(
->  ...
->  )
->  { ... }
-> 
-> @@
-> @@
-> 
-> -objs_per_slab_page(
-> +objs_per_slab(
->  ...
->  )
-> 
-> @@
-> identifier fn =~ "obj_to_index|objs_per_slab";
-> @@
-> 
->  fn(...,
-> -   const struct page *page
-> +   const struct slab *slab
->     ,...)
->  {
-> <...
-> (
-> - page_address(page)
-> + slab_address(slab)
-> |
-> - page
-> + slab
-> )
-> ...>
->  }
-> 
-> @@
-> identifier fn =~ "nearest_obj";
-> @@
-> 
->  fn(...,
-> -   struct page *page
-> +   const struct slab *slab
->     ,...)
->  {
-> <...
-> (
-> - page_address(page)
-> + slab_address(slab)
-> |
-> - page
-> + slab
-> )
-> ...>
->  }
-> 
-> @@
-> identifier fn =~ "nearest_obj|obj_to_index|objs_per_slab";
-> expression E;
-> @@
-> 
->  fn(...,
-> (
-> - slab_page(E)
-> + E
-> |
-> - virt_to_page(E)
-> + virt_to_slab(E)
-> |
-> - virt_to_head_page(E)
-> + virt_to_slab(E)
-> |
-> - page
-> + page_slab(page)
-> )
->   ,...)
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Julia Lawall <julia.lawall@inria.fr>
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> Cc: Michal Hocko <mhocko@kernel.org>
-> Cc: Vladimir Davydov <vdavydov.dev@gmail.com>
-> Cc: <kasan-dev@googlegroups.com>
-> Cc: <cgroups@vger.kernel.org>
 
-LGTM.
+Hello Vlastimil, Thank you for nice work.
+I'm going to review and test new version soon in free time.
 
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Btw, I gave you some review and test tags and seems to be missing in new
+series. Did I do review/test process wrongly? It's first time to review
+patches so please let me know if I did it wrongly.
+
+--
+Thank you.
+Hyeonggon.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YbiqseeMBeqbn5CR%40cmpxchg.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211214143822.GA1063445%40odroid.
