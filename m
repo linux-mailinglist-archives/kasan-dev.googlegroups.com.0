@@ -1,127 +1,145 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBBWVE56GQMGQERFZEN7Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY7XDHKR4OBBZGZ56GQMGQEIRKWLOY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x339.google.com (mail-ot1-x339.google.com [IPv6:2607:f8b0:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1CD478105
-	for <lists+kasan-dev@lfdr.de>; Fri, 17 Dec 2021 00:57:15 +0100 (CET)
-Received: by mail-ot1-x339.google.com with SMTP id z16-20020a056830129000b0055c7b3ceaf5sf327860otp.8
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Dec 2021 15:57:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1639699034; cv=pass;
+Received: from mail-vk1-xa3c.google.com (mail-vk1-xa3c.google.com [IPv6:2607:f8b0:4864:20::a3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB30F478265
+	for <lists+kasan-dev@lfdr.de>; Fri, 17 Dec 2021 02:50:29 +0100 (CET)
+Received: by mail-vk1-xa3c.google.com with SMTP id q3-20020a056122116300b002faa0b9026fsf209166vko.18
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Dec 2021 17:50:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1639705828; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VHeuQ4e7wuCRdoK4EMxmCRFcYQ9O25s0yS5VKNxu4TLWxNGGnXvn4epLCcMhoGTcfQ
-         iXzQPJEkumzwTgorH3JLr9oDVXqaNGdM3W3JMm2q83uAN023kaR7yCVSkeUfnUZMx2pV
-         2km2yJyMsSmuNwDEc+WAq9m3U3STz/GOZiyFcZrn5aqpfIcxtxXc07OH191gpnoiQ3xn
-         /QDfjyxfPXIseMDxAjirFXho1caFESJ0cv/uPbMLB3Uf27kJ9oZAXnC6JUspxzeV7bN9
-         J6D6+wL0k3X75G0tjHTOr+nPkFYZahoFsPO69qCaty19T+mx5tJ6laCjedDMAdxuJMXE
-         cYiA==
+        b=VQZOchji/ue04fCXF0BacDFACJFkO18f2MSbGaFl1XVQS1uq2JbqbFvWW+ABiiNgim
+         izDjfK/2flU8lzDXTEQTpJWRW94VjiFgwA+N7sMRqL3R7Zc/xWOMU2ghKjozRHKjNRl9
+         JJf/oUjs9D0Z9MWr383zL5gQ/p9eyXkalkLqwbFiDs5w3vhRSVdOgcfqWP5wBjCvXifa
+         5bpXRrk68/nojb//PNiUbxiZgjeLvS8dXdh4xPmX31Vf2HxA+6WmmNXUQJuzeGhTLPZa
+         AVfZZAYjzX9wzB9UXJLMLoA7GnD+eBbdJtgi/4RO3wk1opHAHZ/tunrKWsdB2/m/tisp
+         3pqw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-disposition:mime-version
-         :reply-to:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=MhY0txoKFevZJFQn6PTB4TPI/kFKoxKpeQB39HmEMsM=;
-        b=W0Y/KhP2kgBzLa4PDGAM4Uzmwx0IbeY+zqWrg0nuBRMtwd0pMAHMQqDBJfhmxhXcbg
-         4ytf1psz1IjOWO1qxxUSm05gWdXlvZfbWBNA7OFwrUek1l9Nnig32NsJSESbpSNA+Ai/
-         LvMF47X+2vueEW6ozhFP4f8gwqEA3gN0gk2/yHs4md8TZr0iwQ6tEwH3n/Q6GeUyeP4W
-         QveQFRSDmcMoihQaWbXAE+rUaRMf8GjJIYwshFMSGOLDwMymFavisazInruUGIVe6pML
-         RbnAxBSykygsawS8kpGI2+O6m7ZX8bjcGXZn1v7TKOxzMIjkFSuo9fzWrHuP4ZNrrWwo
-         K8Zw==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:dkim-signature;
+        bh=pbfY9YdcuTaiVZqEWdNmBA1KUIsW2GHeh5ZJPTLfX7E=;
+        b=JyoEwvkkqDkkCAC1qhuJOk1fIPLo3/E30Vh+/3zWt/EgGT5ipCkQcQyP3PmonPffbR
+         JNuxwM4OCPgfAKTWcaCHQBhybTrj8gJxF3aQw6ATTivOUKOVMO8lYIhILJtlgGwP4ks8
+         aV2RaZc+b5l3gt6w5LP1cOtCBXeIhJQtVRnG2EYJ3ZjaoI/Ko9RszTvP7D2tJUj7s6Tz
+         ZiehlBx6VvwM1evPYCXVu9oRJDYQn8B3efCBCKyTdbq+ngwxkYnlJGGySa/iSn/l957S
+         ZErrHarEJbiE14zeQfIQvNn0SWmdbQaJI1onQmSz0yFN+oyVPTNbOWkofemq6vUJn01N
+         Z4mw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=dei2kj6q;
-       spf=pass (google.com: domain of srs0=zdho=rb=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=ZDHo=RB=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:mime-version
-         :content-disposition:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=MhY0txoKFevZJFQn6PTB4TPI/kFKoxKpeQB39HmEMsM=;
-        b=XyxOJfAefQYoZEfovFvd5ZNLJXRAguuPCBNl+Df9s029Tl8H+tHh3FtKxpACsIGAQa
-         b47ZdkaNJQyco8zrljA8+dPexSCV+h+k1bXuG+DVrYS7ddS7Ng/JWLJPB2U2cbIg69Ja
-         P/IOA1nJFlXGn0O1ievDzFiBpWiHkjmig8rMeIpp2GPX1JQx/X2V3+xZMaZVv/0GduRi
-         +Yt6PYW7l2F1lsEbr4vI6vLDDsFn4Uje0p/s6cxWeE0SG74XCRH3+CjzmBv7WKeb7tH0
-         VSeAUs3f9oj6HdQJDMElf2cgPo8CAZqBcL/8/M9CHDnnEMv4oG4hLCk73+rUcwnCK1oT
-         sbTg==
+        h=sender:message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=pbfY9YdcuTaiVZqEWdNmBA1KUIsW2GHeh5ZJPTLfX7E=;
+        b=P65wwhllqogoaLKEtyotm+AGjnb8MUSoZJTmkyNVqfZijhdFVtGeSjv+e30900Ibew
+         xY22Hyo9SXREzJtcndC/TXHLvJqqphPXQhEWcvKwx/1YgHdJ3Wv2VrNM3oS0aW5FD1Rh
+         OoPdO327MX3KAdPRS2OUikqaWaTa/PfrmHfLYakMVKP7Po9qQFpICwi/qXjRJ+iUmN6T
+         WtKIz0QZRBNM09fZnH+3FBsiLTbTfDxgy87M7qyBWuANnD/zo6GOKYTleQVq+093CHoJ
+         pX+C7prUuhRKSxA+xj2G8Fa8ZCWX0TybaJJMj5EMqCR3iloxQnX4VZtqYEjDYzjgZ/TU
+         nxpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :reply-to:mime-version:content-disposition:x-original-sender
+        h=sender:x-gm-message-state:message-id:subject:from:to:cc:date
+         :in-reply-to:references:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=MhY0txoKFevZJFQn6PTB4TPI/kFKoxKpeQB39HmEMsM=;
-        b=t8eCnbhpVf/Zu8dr99YE7ECq+fIWhdWRiusKf/kup4UYgcKi2DDl1KaGQjwLoCP6Nt
-         E9DH9+uAOfCuU2TYt/3NfkoNrROrrYMejgNMzEKDA8PViIE1Y5JVzwAqU8cXfraiFISO
-         Z+wwTtTdapgqvhj5sW2m7O21oQjn2dHhfx4du/EPM+iAzh+8n2tmIUX+6LhkRCtATY2l
-         miK95ZvmNI+l+ECNFZRhjz+xi+lgA7aXP7yu3A+mco2OJ6Yu/QN2p4XHmqyoWdExThQ0
-         M6hD7hEwMhEQZrOZFh434tSVV9rSXvzRs2CtblRaUnWicdSS+DLDFEINj4/tEaxGYin6
-         0fdw==
+        bh=pbfY9YdcuTaiVZqEWdNmBA1KUIsW2GHeh5ZJPTLfX7E=;
+        b=SnKJDlsSZ28Ob65vz/ROjKhT/RKkeMLWzqMeu8AyJWzAU4nEFCEBfF7Ro2QqezFnG5
+         dchdXoUTh9J5DlDRVi7ZUkYTtlrklXahpk9jvD95fgMeDAu1I0P3nWZy32vgehnTp0Sz
+         amnzuzewoNY1qKdxvo7fWsQoFbVpby5Wo0t1LGdD9mU7njGOrMDb3HCcyPTrzy95DCAm
+         XaphevUHpOc/s1CXD+9lnVGr5RWdU4mZUN1WTTuR9aXvXIys+L17NNewyhv+kcjvYcah
+         hw1jHEihmUE2ksy3ZE7wMeTdVLo09y1YSkVggNdLB9t7vK8OBUKjevmOT46Y7VpKg7mW
+         O/JA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532+NdlgnPCyxijJFndH//lmJi3XeLGhY1jUjcWYCEyvVSQeZEby
-	ypTyfQJeWPJkecpohcwqBaU=
-X-Google-Smtp-Source: ABdhPJxNs0v/DnjW+Lclxz3q9bx03+XLWyV28HrX8Im9vb4DqmOjWMpky2wtT3tK/Gi9Px2FA/pwnA==
-X-Received: by 2002:aca:44c1:: with SMTP id r184mr5870740oia.15.1639699034295;
-        Thu, 16 Dec 2021 15:57:14 -0800 (PST)
+X-Gm-Message-State: AOAM53081QiCOmg2QpllEWAaCEmv0j3QeNuyib2RKcRFD9q4T1aixGnb
+	Z6aGo3sdCUBXCaNfdAGumkM=
+X-Google-Smtp-Source: ABdhPJxJON8MXHmDbqU/xmsPKkhI7YgnWCcBU4kkULfG1EDcopK+496lxwskCEyP0+uUAhoad2pTyg==
+X-Received: by 2002:a05:6102:f0f:: with SMTP id v15mr249671vss.28.1639705828493;
+        Thu, 16 Dec 2021 17:50:28 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:90c:: with SMTP id v12ls1686519ott.2.gmail; Thu, 16
- Dec 2021 15:57:13 -0800 (PST)
-X-Received: by 2002:a9d:5604:: with SMTP id e4mr376198oti.249.1639699033910;
-        Thu, 16 Dec 2021 15:57:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1639699033; cv=none;
+Received: by 2002:a67:a64e:: with SMTP id r14ls1466740vsh.10.gmail; Thu, 16
+ Dec 2021 17:50:28 -0800 (PST)
+X-Received: by 2002:a67:1701:: with SMTP id 1mr251024vsx.75.1639705827974;
+        Thu, 16 Dec 2021 17:50:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1639705827; cv=none;
         d=google.com; s=arc-20160816;
-        b=AmFlWSmeJBNKyDL21vr80UPyDtQsn3Rg0k98KB58jlFAqgMRPzZIBmbWJxa0TBrexI
-         wcQ8ht5KU4CRmCWDX2Y9xVBjRQwm1ydlXonO37BzyYW0rbJF6gZ9bCB11rX7GeC6Rqo9
-         lxX0vmNP7ZRd3GB2b/MkMkdaLfTIZiocyP1baXE8tYZBihRs75qY5HdkRrcM+JTmJFHp
-         v88WmWFuy8L+43RZ865JbMw2Cnh2CRXviu32YRjiL3fQ6qp0PAmLOUV0MaEiMq2nPxwH
-         fd5BlRGwzpHzBPLqn0PozQ6eHutOeakn2h+AkRqDdopIKyl6/agLoz0wy9GIut4rU4I5
-         MFXQ==
+        b=ViIS6Y0pV2o+K0SA3d0rlmkypqZiG3bReyvci9GY26kpFrmWar2qu0vGbXq/drw18m
+         c/PY4KahAy6a9NbeEE39wD7rKcJ5Aa8ScbJ4g6JbC4u0sWO4XN3DzPEClqIl7xUgdYap
+         v3xeNfK8odjIAliAW1NxUcewx+ZHAGTnr3zBjpGN8EJ6EXHpYkTdSYb0cw0gfjDXrx89
+         XyGx2/CMDrMvKV82+udn9oY5xUoNf8s9AtCL4QXCFIokp3aEQU6qtVrzsItBQhJ+NVAi
+         qKdSEuJ//BaA85DD1MJxCGDuGK2AI2O5oID0JL+BXHWKiPl9Uq0aRXGh0y7qGjDaRYEx
+         wWRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
-         :from:date:dkim-signature;
-        bh=9rgTWgkKanrZHPv2JUoTzCaQMI1uO8dDC8haYlNBF94=;
-        b=NhEdGLid3lElromQdKxdCY/tHLvOgD2xRlDDqbtLA+zUIo6XXXbg/juXS3e/xLseUB
-         LHM1jzYBo56JN0rw8nUpVB0y1KFGqYD1GlXeKXtTJ9uOogCg/bu47PcqV21bWAHKg1MO
-         3YVP3Fcah3xkWTHvwCpg/XWab875mS+zU9lAiTOMaAE8bNxSa5v4BtY95N+3+cw1NLA1
-         jIKew+hqhZInB5gslelslablClVgWnXya3PcIdoxk3sUBurxTIhDnr76HB17TIBy+NqW
-         xvMlXdZGYLU852cHkLgvOpyt76ozGfHD10JTJLRIignW/a6j40++eEGcDB2Z4KJm8YmJ
-         B17w==
+        h=content-transfer-encoding:mime-version:references:in-reply-to:date
+         :cc:to:from:subject:message-id;
+        bh=dGVRmVzVHKu+kUGotLGDdBeOxXbl+OEbRJ40lQC83Eo=;
+        b=ioxP0+IAx6K9za4GD92u4xrVW/hBznBEe3huW6o/pDTGHsvMlPgI/zYIEVTKYQ/viC
+         +gl9e/aHmsqevg7iI8k3J43AKMIwFvnW769G/K0d1vGLaJ6XMSgKDIC9+R5VU8zw9RYx
+         lk8eUVtw0TCYZDZ1bCE7Fcx76Q2DoSiXakusGYbx1kl5R2ezU0FWky2IrCQTCqqoox/R
+         2jvVnHwpwWJQXfgR2F7KBpzES8sFu2OSeiLEIKRd1VlIY4OnYIkt9HOBEgjXGu5nJlgY
+         zzG39vBRNmbQLXqjdRWTcikEfvuNOeVpIqhK2r983g3Vn0QTL0Vm9JsPNIJv59GEvQG8
+         tvIA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=dei2kj6q;
-       spf=pass (google.com: domain of srs0=zdho=rb=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=ZDHo=RB=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id s16si432127oiw.4.2021.12.16.15.57.13
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184])
+        by gmr-mx.google.com with ESMTPS id e5si186605vkn.1.2021.12.16.17.50.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 Dec 2021 15:57:13 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=zdho=rb=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 9882061FBF;
-	Thu, 16 Dec 2021 23:57:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07FB5C36AE7;
-	Thu, 16 Dec 2021 23:57:13 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id B3B995C0556; Thu, 16 Dec 2021 15:57:12 -0800 (PST)
-Date: Thu, 16 Dec 2021 15:57:12 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: mingo@kernel.org
-Cc: peterz@infradead.org, tglx@linutronix.de, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, kernel-team@fb.com, elver@google.com,
-	glider@google.com
-Subject: [GIT PULL kcsan] KCSAN commits for v5.17
-Message-ID: <20211216235712.GA2991567@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-MIME-Version: 1.0
+        Thu, 16 Dec 2021 17:50:27 -0800 (PST)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
+X-UUID: 7e41e068975f4003b105575a15179857-20211217
+X-UUID: 7e41e068975f4003b105575a15179857-20211217
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 316835896; Fri, 17 Dec 2021 09:50:21 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 17 Dec 2021 09:50:20 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 17 Dec
+ 2021 09:50:20 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 17 Dec 2021 09:50:20 +0800
+Message-ID: <bf06044e10b5eae36c9ac6ad0d56c77b35ca8585.camel@mediatek.com>
+Subject: Re: [PATCH mm v3 28/38] kasan, page_alloc: allow skipping memory
+ init for HW_TAGS
+From: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+To: "andrey.konovalov@linux.dev" <andrey.konovalov@linux.dev>, Marco Elver
+	<elver@google.com>, Alexander Potapenko <glider@google.com>, Andrew Morton
+	<akpm@linux-foundation.org>
+CC: Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, Vincenzo Frascino
+	<vincenzo.frascino@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, "Will
+ Deacon" <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, Peter Collingbourne <pcc@google.com>,
+	Evgenii Stepanov <eugenis@google.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Andrey Konovalov <andreyknvl@google.com>,
+	<kuan-ying.lee@mediatek.com>
+Date: Fri, 17 Dec 2021 09:50:19 +0800
+In-Reply-To: <cd8667450f7a0daf6b4081276e11a5f7bed60128.1639432170.git.andreyknvl@google.com>
+References: <cover.1639432170.git.andreyknvl@google.com>
+	 <cd8667450f7a0daf6b4081276e11a5f7bed60128.1639432170.git.andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-Original-Sender: paulmck@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=dei2kj6q;       spf=pass
- (google.com: domain of srs0=zdho=rb=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=ZDHo=RB=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2
+MIME-Version: 1.0
+X-MTK: N
+X-Original-Sender: Kuan-Ying.Lee@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of kuan-ying.lee@mediatek.com designates 210.61.82.184 as
+ permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,95 +152,139 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello, Ingo,
+On Tue, 2021-12-14 at 05:54 +0800, andrey.konovalov@linux.dev wrote:
+> From: Andrey Konovalov <andreyknvl@google.com>
+> 
+> Add a new GFP flag __GFP_SKIP_ZERO that allows to skip memory
+> initialization. The flag is only effective with HW_TAGS KASAN.
+> 
+> This flag will be used by vmalloc code for page_alloc allocations
+> backing vmalloc() mappings in a following patch. The reason to skip
+> memory initialization for these pages in page_alloc is because
+> vmalloc
+> code will be initializing them instead.
+> 
+> With the current implementation, when __GFP_SKIP_ZERO is provided,
+> __GFP_ZEROTAGS is ignored. This doesn't matter, as these two flags
+> are
+> never provided at the same time. However, if this is changed in the
+> future, this particular implementation detail can be changed as well.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> 
+> ---
+> 
+> Changes v2->v3:
+> - Update patch description.
+> 
+> Changes v1->v2:
+> - Add this patch.
+> ---
+>  include/linux/gfp.h | 16 +++++++++++-----
+>  mm/page_alloc.c     | 13 ++++++++++++-
+>  2 files changed, 23 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+> index 6781f84345d1..b8b1a7198186 100644
+> --- a/include/linux/gfp.h
+> +++ b/include/linux/gfp.h
+> @@ -54,10 +54,11 @@ struct vm_area_struct;
+>  #define ___GFP_THISNODE		0x200000u
+>  #define ___GFP_ACCOUNT		0x400000u
+>  #define ___GFP_ZEROTAGS		0x800000u
+> -#define ___GFP_SKIP_KASAN_UNPOISON	0x1000000u
+> -#define ___GFP_SKIP_KASAN_POISON	0x2000000u
+> +#define ___GFP_SKIP_ZERO	0x1000000u
+> +#define ___GFP_SKIP_KASAN_UNPOISON	0x2000000u
+> +#define ___GFP_SKIP_KASAN_POISON	0x4000000u
+>  #ifdef CONFIG_LOCKDEP
+> -#define ___GFP_NOLOCKDEP	0x4000000u
+> +#define ___GFP_NOLOCKDEP	0x8000000u
+>  #else
+>  #define ___GFP_NOLOCKDEP	0
+>  #endif
+> @@ -230,7 +231,11 @@ struct vm_area_struct;
+>   * %__GFP_ZERO returns a zeroed page on success.
+>   *
+>   * %__GFP_ZEROTAGS zeroes memory tags at allocation time if the
+> memory itself
+> - * is being zeroed (either via __GFP_ZERO or via init_on_alloc).
+> + * is being zeroed (either via __GFP_ZERO or via init_on_alloc,
+> provided that
+> + * __GFP_SKIP_ZERO is not set).
+> + *
+> + * %__GFP_SKIP_ZERO makes page_alloc skip zeroing memory.
+> + * Only effective when HW_TAGS KASAN is enabled.
+>   *
+>   * %__GFP_SKIP_KASAN_UNPOISON makes KASAN skip unpoisoning on page
+> allocation.
+>   * Only effective in HW_TAGS mode.
+> @@ -242,6 +247,7 @@ struct vm_area_struct;
+>  #define __GFP_COMP	((__force gfp_t)___GFP_COMP)
+>  #define __GFP_ZERO	((__force gfp_t)___GFP_ZERO)
+>  #define __GFP_ZEROTAGS	((__force gfp_t)___GFP_ZEROTAGS)
+> +#define __GFP_SKIP_ZERO ((__force gfp_t)___GFP_SKIP_ZERO)
+>  #define __GFP_SKIP_KASAN_UNPOISON ((__force
+> gfp_t)___GFP_SKIP_KASAN_UNPOISON)
+>  #define __GFP_SKIP_KASAN_POISON   ((__force
+> gfp_t)___GFP_SKIP_KASAN_POISON)
+>  
+> @@ -249,7 +255,7 @@ struct vm_area_struct;
+>  #define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)
+>  
+>  /* Room for N __GFP_FOO bits */
+> -#define __GFP_BITS_SHIFT (26 + IS_ENABLED(CONFIG_LOCKDEP))
+> +#define __GFP_BITS_SHIFT (27 + IS_ENABLED(CONFIG_LOCKDEP))
+>  #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) -
+> 1))
+>  
+>  /**
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index f1d5b80591c4..af7516a2d5ea 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -2409,10 +2409,21 @@ static inline bool
+> should_skip_kasan_unpoison(gfp_t flags, bool init_tags)
+>  	return init_tags || (flags & __GFP_SKIP_KASAN_UNPOISON);
+>  }
+>  
+> +static inline bool should_skip_init(gfp_t flags)
+> +{
+> +	/* Don't skip if a software KASAN mode is enabled. */
+> +	if (!IS_ENABLED(CONFIG_KASAN_HW_TAGS))
+> +		return false;
+> +
 
-This pull request contains updates for the Kernel concurrency sanitizer
-(KCSAN).  Perhaps the most notable addition is added support for weak
-memory ordering, as described here: https://lwn.net/Articles/877200/
+Hi Andrey,
 
-These updats have been posted on LKML:
+Should we use kasan_hw_tags_enabled() in should_skip_init() function
+instead of checking the config?
 
-https://lore.kernel.org/all/20211214220356.GA2236323@paulmck-ThinkPad-P17-Gen-1/
+I think we should handle the condition which is CONFIG_KASAN_HW_TAGS=y
+and command line="kasan=off".
 
-These changes are based on v5.16-rc1, have been exposed to -next and to
-kbuild test robot, and are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git kcsan
-
-for you to fetch changes up to b473a3891c46393e9c4ccb4e3197d7fb259c7100:
-
-  kcsan: Only test clear_bit_unlock_is_negative_byte if arch defines it (2021-12-09 16:42:29 -0800)
-
-If I don't hear from you by Friday of the week prior to the merge window
-opening, I will assume that you would prefer that I push this directly
-to Linus.
-
-Have a great holiday season!
-
-----------------------------------------------------------------
-Alexander Potapenko (1):
-      compiler_attributes.h: Add __disable_sanitizer_instrumentation
-
-Marco Elver (28):
-      kcsan: Refactor reading of instrumented memory
-      kcsan: Remove redundant zero-initialization of globals
-      kcsan: Avoid checking scoped accesses from nested contexts
-      kcsan: Add core support for a subset of weak memory modeling
-      kcsan: Add core memory barrier instrumentation functions
-      kcsan, kbuild: Add option for barrier instrumentation only
-      kcsan: Call scoped accesses reordered in reports
-      kcsan: Show location access was reordered to
-      kcsan: Document modeling of weak memory
-      kcsan: test: Match reordered or normal accesses
-      kcsan: test: Add test cases for memory barrier instrumentation
-      kcsan: Ignore GCC 11+ warnings about TSan runtime support
-      kcsan: selftest: Add test case to check memory barrier instrumentation
-      locking/barriers, kcsan: Add instrumentation for barriers
-      locking/barriers, kcsan: Support generic instrumentation
-      locking/atomics, kcsan: Add instrumentation for barriers
-      asm-generic/bitops, kcsan: Add instrumentation for barriers
-      x86/barriers, kcsan: Use generic instrumentation for non-smp barriers
-      x86/qspinlock, kcsan: Instrument barrier of pv_queued_spin_unlock()
-      mm, kcsan: Enable barrier instrumentation
-      sched, kcsan: Enable memory barrier instrumentation
-      objtool, kcsan: Add memory barrier instrumentation to whitelist
-      objtool, kcsan: Remove memory barrier instrumentation from noinstr
-      kcsan: Support WEAK_MEMORY with Clang where no objtool support exists
-      kcsan: Make barrier tests compatible with lockdep
-      kcsan: Turn barrier instrumentation into macros
-      kcsan: Avoid nested contexts reading inconsistent reorder_access
-      kcsan: Only test clear_bit_unlock_is_negative_byte if arch defines it
-
- Documentation/dev-tools/kcsan.rst                |  76 +++-
- arch/x86/include/asm/barrier.h                   |  10 +-
- arch/x86/include/asm/qspinlock.h                 |   1 +
- include/asm-generic/barrier.h                    |  54 ++-
- include/asm-generic/bitops/instrumented-atomic.h |   3 +
- include/asm-generic/bitops/instrumented-lock.h   |   3 +
- include/linux/atomic/atomic-instrumented.h       | 135 ++++++-
- include/linux/compiler_attributes.h              |  18 +
- include/linux/compiler_types.h                   |  13 +-
- include/linux/kcsan-checks.h                     |  83 ++++-
- include/linux/kcsan.h                            |  11 +-
- include/linux/sched.h                            |   3 +
- include/linux/spinlock.h                         |   2 +-
- init/init_task.c                                 |   5 -
- kernel/kcsan/Makefile                            |   2 +
- kernel/kcsan/core.c                              | 347 +++++++++++++++---
- kernel/kcsan/kcsan_test.c                        | 426 +++++++++++++++++++++--
- kernel/kcsan/report.c                            |  51 +--
- kernel/kcsan/selftest.c                          | 143 ++++++++
- kernel/sched/Makefile                            |   7 +-
- lib/Kconfig.kcsan                                |  20 ++
- mm/Makefile                                      |   2 +
- scripts/Makefile.kcsan                           |  15 +-
- scripts/Makefile.lib                             |   5 +
- scripts/atomic/gen-atomic-instrumented.sh        |  41 ++-
- tools/objtool/check.c                            |  41 ++-
- tools/objtool/include/objtool/elf.h              |   2 +-
- 27 files changed, 1347 insertions(+), 172 deletions(-)
+> +	/* For hardware tag-based KASAN, skip if requested. */
+> +	return (flags & __GFP_SKIP_ZERO);
+> +}
+> +
+>  inline void post_alloc_hook(struct page *page, unsigned int order,
+>  				gfp_t gfp_flags)
+>  {
+> -	bool init = !want_init_on_free() &&
+> want_init_on_alloc(gfp_flags);
+> +	bool init = !want_init_on_free() &&
+> want_init_on_alloc(gfp_flags) &&
+> +			!should_skip_init(gfp_flags);
+>  	bool init_tags = init && (gfp_flags & __GFP_ZEROTAGS);
+>  
+>  	set_page_private(page, 0);
+> -- 
+> 2.25.1
+> 
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211216235712.GA2991567%40paulmck-ThinkPad-P17-Gen-1.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bf06044e10b5eae36c9ac6ad0d56c77b35ca8585.camel%40mediatek.com.
