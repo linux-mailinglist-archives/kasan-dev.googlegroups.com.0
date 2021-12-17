@@ -1,135 +1,126 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRB3FI6KGQMGQEGMHYGPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAMN6NI5EERBIUI6SGQMGQEWM5SJ7A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6760478C97
-	for <lists+kasan-dev@lfdr.de>; Fri, 17 Dec 2021 14:45:16 +0100 (CET)
-Received: by mail-wm1-x33e.google.com with SMTP id 144-20020a1c0496000000b003305ac0e03asf2960017wme.8
-        for <lists+kasan-dev@lfdr.de>; Fri, 17 Dec 2021 05:45:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1639748716; cv=pass;
+Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF399479667
+	for <lists+kasan-dev@lfdr.de>; Fri, 17 Dec 2021 22:41:54 +0100 (CET)
+Received: by mail-lj1-x237.google.com with SMTP id h18-20020a05651c159200b0021cf7c089d0sf1021678ljq.21
+        for <lists+kasan-dev@lfdr.de>; Fri, 17 Dec 2021 13:41:54 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1639777314; cv=pass;
         d=google.com; s=arc-20160816;
-        b=iTipDEB1C5oz8eIxlh9B/d3qUIP/GKZFTMrRhud14CK2JaDKKATE2sudqS2jECuT3G
-         ZGjwZ3Ra5NU5WTiUx50aWnIwQMJoZ/3eLOeSInbIvAom1mZbHxsB5x3rvenBwow5+ky2
-         m9GwEOaup9rDdZ5mg/q8HZq6m6DiAAZLGds3/Y64hEwYgLtlI0r3qoGx0OfJFjIJhGig
-         8xZ3ntVRz9UTEsUZRvj85+odzTdOQbkOhkENyog239/TPfk7dJ0qTwVXqajEtYJAmH2/
-         HarcvjJB6kc+EXBlZuq+8u5RnVOBdSps80NGHOyGn8uVxJOye05pMs4c/drWN0A/EQp9
-         0Mcg==
+        b=aJs3FKhu8dIWKpxSFwnLsYMjPUZE3ujDdAe5WAxDOS6KoZ6o7kaOhsDOFIo34u4V0E
+         u4r65aLE36IsrvYDKmOO9AC38srwJY3BT7LNa+UB25JMpIsFP4u4h2y1aVQlnSEdbxyq
+         La42JtZ85LyCkzpVyPGwWwsJ1K28bATCTT3d+OCu8Y7yuoCVeeQ8mkr1eLBXYrfoUw6C
+         TMWvgeJeMr1EFtyCK2IdN3rMRFcJcxlnVYY0ViJe6Ma9FRUUqemUR6TLdxoQBcKwk8j2
+         5mtiWlfTrKE9Gg7t1SZVmUj7dh5yAmmI7+UBbmg3r7WQtkdqcFpmqLX6P4DatnBzgvY2
+         ekUg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=HMT4fRuvBbvIbWXdCesldlcZ9RPRax/cP5ZoXHSB27w=;
-        b=mENn3/++66K0VTnFWoYIB4u8oNflPIae9Balq/s4R+fMZZrBbimjWq4xYCxRi547fY
-         br7RsWDVcLAnDx0i/t1V95BGBdKCPsR2IsAtj9CHOzcc8BX6jSI1G6hZAVqDPLxRrdvy
-         kqcOCzEa1f0jgbp01o+HhiJ8NY9JpkUArVQABtmKFPdXh/JyCRUrhodIAatzz3+NAjsU
-         MF/p9r2cLr3va8DaBL7PPKi51AIveLLD6JRxHu2pe1fNALRDuOdflqvoELZx+YmSJC4c
-         PJw7xR0bHmC5FJMLw8S5HTRirOqlEARcl7L1VO+1aUIrv85jA6edwAi0NaAO0aCqY5/0
-         /BNA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=7kHn7q4NR8XT5i2UnenRtgL+Nju3t5NOo9fcBayEpu8=;
+        b=EQkBahQEjpsCf2Lg4F3GjeBJ3PpJOGzszQs+caYYiQq7/JYZLYrZYDq70nM7txmnk8
+         17fq731Kr++s0aYmClrfN3fDsvIrHjKtMrbAY4kPLLo+r2MqUqte5nGk7hyENQpE8Hkd
+         bITOY8orHz5n337U4PlioS9Y4sfKYnCrj2W9IZzRPVAH7tWsDxBrhTC6JimSgcNXwzYN
+         23vnQDdngyoYFC48VhTV2iahxAIha99WCaqYD0m2U+BNEZAOmI6xCqUzLyXS1LRdjLJZ
+         TZGGtZoPmqNXNQKw4tOwK0TNEklBbPDriw4RNCg1nzeR5k1cDT5HlaRGehxwdzZqHulU
+         23NA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=qv1nFbWt;
+       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=HMT4fRuvBbvIbWXdCesldlcZ9RPRax/cP5ZoXHSB27w=;
-        b=CWWePwAdwLtaf3mbd984xmUp72mvpFB58i41im5A6jqmV6v3kzCllvyXEbxicPgj7P
-         4I433QJRD+heQZH57hRLiXT1P8Oqq/xhEnKRcVOD37YfrPBjzbyH5cSNCP4Bn8zOZ3WL
-         IO29A4ezePJcoHO/FuC93GR94Iu/H22A4cnlK3yZKO/leAn23IF2038LCwwTd+CRdtvm
-         sXck+aLBqGZh1jpHgjhJ5xJb78k7s6mNdHITt4z2c3CHQLtTeybAwzry53kuOpmAX7io
-         qKjrsXW1ZA9NS5AHadU7CBwZ/CmA7lhBfWQExPe1e9H9lejgEFlf8Cjva0dg9nOpgYeU
-         UstA==
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7kHn7q4NR8XT5i2UnenRtgL+Nju3t5NOo9fcBayEpu8=;
+        b=hM5cNE2zVhM8Hn8qt8GLX8/Viyo1KPU95eBnsfNLEqhOzohVSTUhhHH8YPumTdNRMw
+         bOVRs+HS/Zs1xn3YQn4CBPU/q83wRXy/GV9RyA9aoY+9dbZ3AEZvgLNqGPe5HHWRetC1
+         GLcuU8s7EdP0t71oxz+nfYh5UcGg3LX/S/0ZWVsz+VE7DAY1WfEspHhvjYVeMxQ5+SxW
+         AVi5Q62epBawlRtlmbPUO2ZPjMTE+tYYCa4bjFsi5l6qNPtm/4qaZi124eO9WI9VLAVq
+         h9WIirID8daDcCvm06VhfIxtCsW4MBNgjuBh3ytNnJw/GwKz3wKcxC970nWo8EbiBzR8
+         Djsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=HMT4fRuvBbvIbWXdCesldlcZ9RPRax/cP5ZoXHSB27w=;
-        b=sGqafJb0YHTdVOhu/uICwoILNwb7PetqEinISg7jwNuzu86bhabPzR+k1M/2+nh2yP
-         avR5s7c+7NebzfEkuBfkTqe4EhCh/1mScp6H/9I/DfPsxIQzevaKnewnWQ80JtxqBgR+
-         qhPjAQN7IaGBBjkr/i7vcbIGPetyB2qxgzV9anCcT7cY80v9ocot72S41tNZGUh+saig
-         DN5uvXncB3oklQlm4Ld6uUvHxIrcHdicZrvUIY+OXP6CY/1CG1PMHjXEdeTrTx+uTt1x
-         HgyGf5r44rNXBB3P3E2n4OhkNvhVjTJZtIXRJXPkJ8wqD11AcUT2vB2bzI0vvXb5oMob
-         y1Kg==
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=7kHn7q4NR8XT5i2UnenRtgL+Nju3t5NOo9fcBayEpu8=;
+        b=E2yMDdKwmcdoVl2PvtEz7JHNQgLmc5bhlcC9BuSRilqQVHhZZ2hjy0NAfJmXoayJsQ
+         98v40fG+3oPovpPX30IsO3/AEDC3qD9fW2o9drt3+g50MXovtj85aAR+nHTog3InuoSd
+         rmDvDFCMMHPuQkKi3WxG7tYJc6I3RpxEzl5m5CXrXy4ivdB8qyhJ73TBMx33FWQ0jHHg
+         HSFPONNxhuKQMEjaLKWRn8GKObDbzzf56xF8dUOJErNQ5X0RdDnh4tML11ltiHdx04/0
+         Yro7e/cxgPTW7vj1FHPKqCSvZOzZSv5bqnkwHbi3xSmbbO3VvKSVECigmA25ANiiX5BL
+         d2LQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533GGuedIGf5tudRoipZTLjFLMg+9VLQM+imNr9ARPRpDrksyRpR
-	bhfLUY7cPD6OkUvrK/3oQc0=
-X-Google-Smtp-Source: ABdhPJxin70eknbvDGn//8Hw2qgGKTtiJ9sOWeG73p6LxN5dB6YmoFkaM937zU298+WmQstdDRJYEg==
-X-Received: by 2002:a5d:4bcf:: with SMTP id l15mr2704794wrt.618.1639748716463;
-        Fri, 17 Dec 2021 05:45:16 -0800 (PST)
+X-Gm-Message-State: AOAM533w3fgOKoRrZqF4BfxZOAYoue3NDOfa+W8CwJDRU3i7q0efp8tU
+	riD5QEA44T9ouxF20SBl3Wc=
+X-Google-Smtp-Source: ABdhPJyX/bdTbb9uZ8BJaHYFj58nDDSq4kC7sf1S9D4ifQK5DLdaPWhlDyJgux0FFQzArCiDfCpXlg==
+X-Received: by 2002:a05:651c:1049:: with SMTP id x9mr4277735ljm.121.1639777314345;
+        Fri, 17 Dec 2021 13:41:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:3b56:: with SMTP id i83ls138323wma.0.canary-gmail; Fri,
- 17 Dec 2021 05:45:15 -0800 (PST)
-X-Received: by 2002:a1c:90:: with SMTP id 138mr9775542wma.27.1639748715510;
-        Fri, 17 Dec 2021 05:45:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1639748715; cv=none;
+Received: by 2002:a2e:8611:: with SMTP id a17ls1734204lji.1.gmail; Fri, 17 Dec
+ 2021 13:41:53 -0800 (PST)
+X-Received: by 2002:a2e:a376:: with SMTP id i22mr4375805ljn.201.1639777313420;
+        Fri, 17 Dec 2021 13:41:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1639777313; cv=none;
         d=google.com; s=arc-20160816;
-        b=SiZZ3M2fg2uOcqBgh9HKTCcgruO0Xe1aq+hhf0dCHmuPQbfknc8fDXxU3xjbzI0nNX
-         tgsCp8+hsxA2UHoIN8Jyhz8v3VqjUe14al2HvUqNXCjaBRQ+/TDnckop3h9Tp7ZERs55
-         t+NSo9K+C6xUYyKB0Bh6v+YUD1pZ2kQ3xBkl5Q0Hp6AXzvkjH4z2gBiuEuupq/n2jg/C
-         fzR4TUFqzOrvlj8fmQNRKJGV496kTc1aJZm+Ru0pZ3ST/5kQMQKgabIMUgHFb2UnfHg4
-         Ws9WGLEf4wYeTtGJod5ikjaKzXcbl1WCPd+MRAjzEf4ywe0EsDK9ratUaECvfUrQxoKd
-         PYLA==
+        b=Us954XB7/4X3s1UYONcv+892U/rmbDnNu/y0Y9bM3JURjt7DaXdw9kQo0fUN8USNkR
+         +cyk/77ECgMwpLGZdP+J/10Wb/LpSWAPnV2S8y20QydjVr08yogya8jUzwWmCnkrwlG5
+         SQA4He/i60sSNDeWgnjVT6igr4F6KrjnkHPU+sKJLv4h9oJo/QCJvwrqNlojrHnKL6Bo
+         EMf3aCl6eDgYdRJys0R/N6w8BUnSIPLL4IBFM7ZBtazldQxcdBS4HwASXnhq8XULzniY
+         srSsgubt46ZJwhVh2HAU2daf35MF/SttOZE1l7BuRcoqf+jmC01S2d9nmPly9OqyJwW7
+         lAsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=aoYqu+a9CUYRmef3DoH9cSz7a581S6szXhlOS6VaXG8=;
-        b=rmtygHODiiiBpZ8/IhQ7xefhujlPKy0kvMdv8v4elS/rh54lUqkf2jjiQL4I3EQ3CB
-         8XdDO/RRfxurFIbPCyFW5FlzFUwUQDOr+27UpIp28S6FR4ioYuSpOFDvkgtkkEY8/CWn
-         DYKqmSIail/XTG3oBG2PADSxftOYXV9/ItBl9gSIvS/1r/CLOiGlzMDURvxpoDm06tZK
-         m4IfBUQneZWwAay68VJpwM6kbMq735jQDPj69naXgJiEIVawMEzSNClCnRr28GTysw6X
-         M9PoZCRicKhdQkX0YJ0ErvbVvZcnt8gsrcaiFT9Ib6Ydlp8e5pLSzD3mVHi4AJaRzPYO
-         PBRw==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :dkim-signature:dkim-signature:from;
+        bh=5y3J7Tby5HG9Z/kf8KBxRk8HRJWB6fZTjqhP8qW1XRc=;
+        b=Q6IK0Pi+LVVugrOI5SQpAGQuBsWNCW3QiKaDbx72QoF8HlGOBxmgFjILllvGJjHG29
+         +DRTu0NGVeR8nPLNxi3OGCCbwC5ACWdvYiFHifot9O/SEApQnngAkvRpEQY0H1jr/qjE
+         ItqbvTPhWBDejGj977jMqftbIrVpBolmEeUnc3flh5nCS+PnqAq0c55izZDzS3Nj11fY
+         NAF5NwP2mOZxZ94HfTzQ4ImP+dq4lc8V73dG2GQ2hRMPIYMy28oFFPd5cqMDwC8UUi9W
+         gGVUl/+5W1HaUB/ePabZiN0txbuttFNiBgCL/QSD/QQjJZJASYV6oFHkFT5D5vdk8p12
+         VXew==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id g9si459945wrm.3.2021.12.17.05.45.15
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=qv1nFbWt;
+       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
+        by gmr-mx.google.com with ESMTPS id j15si42662lfg.9.2021.12.17.13.41.53
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 17 Dec 2021 05:45:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 4E03D62210;
-	Fri, 17 Dec 2021 13:45:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D017FC36AE7;
-	Fri, 17 Dec 2021 13:45:10 +0000 (UTC)
-Date: Fri, 17 Dec 2021 13:45:07 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: andrey.konovalov@linux.dev
-Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Peter Collingbourne <pcc@google.com>,
-	Evgenii Stepanov <eugenis@google.com>, linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH mm v3 31/38] kasan, arm64: don't tag executable vmalloc
- allocations
-Message-ID: <YbyUY/A1G+7SmdRo@arm.com>
-References: <cover.1639432170.git.andreyknvl@google.com>
- <4a5ec956a2666c1f967c9789534a8ac4d4fe26f9.1639432170.git.andreyknvl@google.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Dec 2021 13:41:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
+From: Thomas Gleixner <tglx@linutronix.de>
+To: Waiman Long <longman@redhat.com>, Marco Elver <elver@google.com>, Peter
+ Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will
+ Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ linux-kernel@vger.kernel.org
+Cc: kasan-dev@googlegroups.com, Mark Rutland <mark.rutland@arm.com>, "Paul
+ E. McKenney" <paulmck@kernel.org>, Kefeng Wang
+ <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH] locking/mutex: Mark racy reads of owner->on_cpu
+In-Reply-To: <2f67a2d9-98d6-eabd-fb5e-4c89574ce52c@redhat.com>
+References: <20211202101238.33546-1-elver@google.com>
+ <CANpmjNMvPepakONMjTO=FzzeEtvq_CLjPN6=zF35j10rVrJ9Fg@mail.gmail.com>
+ <2f67a2d9-98d6-eabd-fb5e-4c89574ce52c@redhat.com>
+Date: Fri, 17 Dec 2021 22:41:51 +0100
+Message-ID: <87ee6ac3j4.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <4a5ec956a2666c1f967c9789534a8ac4d4fe26f9.1639432170.git.andreyknvl@google.com>
-X-Original-Sender: catalin.marinas@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as
- permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
- sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: tglx@linutronix.de
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linutronix.de header.s=2020 header.b=qv1nFbWt;       dkim=neutral
+ (no key) header.i=@linutronix.de header.s=2020e;       spf=pass (google.com:
+ domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender)
+ smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
+ dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,34 +133,17 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Dec 13, 2021 at 10:54:27PM +0100, andrey.konovalov@linux.dev wrote:
-> From: Andrey Konovalov <andreyknvl@google.com>
-> 
-> Besides asking vmalloc memory to be executable via the prot argument
-> of __vmalloc_node_range() (see the previous patch), the kernel can skip
-> that bit and instead mark memory as executable via set_memory_x().
-> 
-> Once tag-based KASAN modes start tagging vmalloc allocations, executing
-> code from such allocations will lead to the PC register getting a tag,
-> which is not tolerated by the kernel.
-> 
-> Generic kernel code typically allocates memory via module_alloc() if
-> it intends to mark memory as executable. (On arm64 module_alloc()
-> uses __vmalloc_node_range() without setting the executable bit).
-> 
-> Thus, reset pointer tags of pointers returned from module_alloc().
-> 
-> However, on arm64 there's an exception: the eBPF subsystem. Instead of
-> using module_alloc(), it uses vmalloc() (via bpf_jit_alloc_exec())
-> to allocate its JIT region.
-> 
-> Thus, reset pointer tags of pointers returned from bpf_jit_alloc_exec().
-> 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+On Thu, Dec 02 2021 at 10:46, Waiman Long wrote:
+> On 12/2/21 06:53, Marco Elver wrote:
+> I would like to see owner_on_cpu() extracted out from 
+> kernel/locking/rwsem.c into include/linux/sched.h right after 
+> vcpu_is_preempted(), for instance, and with READ_ONCE() added. Then it 
+> can be used in mutex.c as well. This problem is common to both mutex and 
+> rwsem.
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+And rtmutex.c
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YbyUY/A1G%2B7SmdRo%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87ee6ac3j4.ffs%40tglx.
