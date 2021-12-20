@@ -1,122 +1,61 @@
-Return-Path: <kasan-dev+bncBCXKTJ63SAARBHN7QKHAMGQE6W52D7A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJLHM7G6YHBBJWCQKHAMGQEFAEYRMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BFC47AFE7
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 Dec 2021 16:22:06 +0100 (CET)
-Received: by mail-lf1-x138.google.com with SMTP id k25-20020a056512331900b004259a8d8090sf2796296lfe.12
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 Dec 2021 07:22:06 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1640013726; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=u3/cIy74sLRhnztp6IZSbzF7Olg7jbzMtJtsOWXrcfMk71z1rwt7umvPrqAzj46vqE
-         W6i/rIIXlanVlEasAYIOne61eOk2f52K69Ku8+XYvReKLpnkt4XcIcSfl8hNXg61gEHv
-         A1XP+j4y0IW3SHmiJXP1QI4ChQnrDpp0L1d422ctyWttk4ax21tqJTR+Tu0XO5bTbsC5
-         J+rCOQfFiBjglHNl/zNbhTkqQT27dj2to3QNo1Q9/v8SZX9S2HBgp4FMj0NT+1bBq1Y1
-         xCiRPeYligpt+dth0YZtY7Uy2kVMHKa7q7QeOpDNzDZ8qQoAbAmrpumTeHRDaKRiDr5V
-         5xCQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=kpyKepGmSdTYEyz59OaAULL7PbRvZQ1FEg2GxdiFC6k=;
-        b=beFeXg8Cx1+laK05ZNguZbZR1Fgwtc3vXBW1zbMq1iqsaUPX5VLiSlIRHlxtKrleEU
-         0j7FHHU5RhqJimniTQZzjWAzAXkOgNRYgotr3iA12SkIrE0S3Gl5VuPAgHm/8yVnU/0K
-         CCgLcTwncAWXaGr8y2qN1+ZGzLRlUBJyElo0LhBf4grWI5BI8ddVuEV9VpiRiFpeUIfi
-         JB2Iv/2cuc2pu/nW4QoBGgKdhA5btl/zatBgr4Ce7MtPfolgow4ChTA8JlE1ep6yyQQZ
-         JazZNyEg0Z+MmZcNCDhUOjuctb9WMX8QzSdHgKRkT82MsMcp5FYzwXy1vYC76xq/l/nc
-         EF6g==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=MtTxOS+N;
-       spf=pass (google.com: domain of 3nj_ayqykcfeghzbdazhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--nogikh.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3nJ_AYQYKCfEghZbdaZhhZeX.VhfdTlTg-WXoZhhZeXZkhnil.Vhf@flex--nogikh.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FF247B036
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 Dec 2021 16:28:40 +0100 (CET)
+Received: by mail-oo1-xc3b.google.com with SMTP id i11-20020a4adf0b000000b002c6a9df15a0sf6001414oou.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 20 Dec 2021 07:28:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=kpyKepGmSdTYEyz59OaAULL7PbRvZQ1FEg2GxdiFC6k=;
-        b=to4mpowwHF4eP0DqbyDp4cdM2DNfINsaFAVP7dqLye6RS8+dUd9rsO8bRsREpTJLOx
-         0R2tk20zsE9/KozA7KcYfVzvQbDSRhyTnW8peF9OqSUFs1AH5sql9eVhu/PJCAO7YeYJ
-         HYOYwnRvtfKcC1IXXd8BtlA0mJpaiqwMpjlJ73ZLk8ZnfXH8GX2xgxXs44Z2sAg5pgzT
-         TO6vvCa4SQ4XDdIBUiB2nOBQDS8rDoZho5M4IaqZnaDFpOMhn4UN8TT2MNqEjdW6Ut/R
-         l98VcJufycPtYNkkFNFqLRihT0BgCmITsI5NYcYUW87KPXPsbO9sEEqct/q52STBF9tk
-         MgkA==
+        h=sender:date:from:to:message-id:subject:mime-version
+         :x-original-sender:precedence:mailing-list:list-id:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=ee4vwCUbQ5MW/Ks3NC5ZS2532+kzk17PmM2mPKcyFYU=;
+        b=psqAEHhFMuDZboU3U1L2zGJTnMfmbsUC8QovsB241zNj8cbU8Dv+RvSjvXjY3TZSjI
+         b/BoLlbsPIwTqeWxgFc/AIU9pzp43+/5XbYChy79C8QN4Ir29o0Mf9dZEzgsxI0BIi1T
+         BracSoDM03S97eHcWNE3teBnwqoGDrmXToVFIQmx1a4q39imS2vHEstCI8/nDrI/JfR1
+         NIq5lQWy8QvFdLNzWeWlAvG65WdelZ4H+7nWEr5+Mzw0acUQJKwZar+WZLzNNXPTzG4o
+         bnFgDN97745KngwUCf1vOreNVp1deJO/pjfFvm7qQa04c8qRDohr1We2o7NWaUzf+kq0
+         9SfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=kpyKepGmSdTYEyz59OaAULL7PbRvZQ1FEg2GxdiFC6k=;
-        b=14laeW6ZEUv+w/f9KqGgvQqUv6R7P1xARrTkDXhUB/Hwt8BZPOF1ZtImTSZOWvmWD1
-         l2eLWM8Q7UMbx5TSxZVYyuU3Ej7v1M+Zw2z7RSwBlW6MuEklO31KSn4k8/+Y83x0pcrd
-         iewrKc1BDKcWf9Fs0QoNr8bHq8oCquQ/ZfClaSQPv/z5VrZXpAyPU/ZmjHHxBATLmSCF
-         E2b3qJpwQghTjTQpSlRKX4kVAdCXxKy5VfDq6n4fbhMrEiTrwhuHdj2gX29acRbVbglR
-         SuZYzqS/Ciy3Jn9BpQUy2BR/Eafag141yKcVpcngIQDs8v1ppHlgjNU3UPKCvgfEZ39e
-         d4Ug==
-X-Gm-Message-State: AOAM530Kc8CQ92jfdvesquri/b9cDmVGF6pgrwZjc3SzUgD49i/pWzpc
-	BxQx86XU9OiJtNO5W8lk6F4=
-X-Google-Smtp-Source: ABdhPJz1jyA4R/+hT8AlNDujzi4p+678F7o8qT6LiBw69jKEAd3gdd6sp6C0i9drxrMHu21MfHDbFA==
-X-Received: by 2002:ac2:4215:: with SMTP id y21mr16170587lfh.526.1640013725997;
-        Mon, 20 Dec 2021 07:22:05 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:message-id:subject
+         :mime-version:x-original-sender:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ee4vwCUbQ5MW/Ks3NC5ZS2532+kzk17PmM2mPKcyFYU=;
+        b=tNyYrCgq6PAZusRXqhDPTsvkqUQo6nm96nvG7yTeh9e3AKRDRx05lVLTQgPvLqGaAI
+         oJkV1dWRwCpvULLIhy490Sxy1BP9gbR8zwsxvzXun9CpZtF2ErWJUDWO4rBWFDZXke1k
+         D3LnsbbkllG2AuUFkARiwXM8xlrXGqlQt3Tc2wUspd63pDN8zembycPI+bDSV+aY0pJD
+         RZSvvpKB6/Rh9km4PYngJMJsgMAZAoqxAegmnR9mGhidve6iBIEf7YShzTDDW34kfTbL
+         6ULZ4m3oAR000E8VtcEyaA+cSx7SYBxbIjyyayp0p95DziutlGQYDT/PiMpyda7Ut4yb
+         A4nQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532QmNzEBSgcRxAgKJ5CjDZT1N363OM4oF3vMQ3eCsRl6jvMLMqC
+	agOb7qc/jc66MFZpUcwXkNQ=
+X-Google-Smtp-Source: ABdhPJxzPXFwpterAE9qiZR0i9wUlA1ApIZsrSQ/ZpIH/VoAF6BTbAUces09BkKLuNVbAaMni/1HzA==
+X-Received: by 2002:aca:1913:: with SMTP id l19mr4187205oii.1.1640014118893;
+        Mon, 20 Dec 2021 07:28:38 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5304:: with SMTP id c4ls161016lfh.3.gmail; Mon, 20 Dec
- 2021 07:22:05 -0800 (PST)
-X-Received: by 2002:ac2:4e0d:: with SMTP id e13mr16247511lfr.388.1640013724933;
-        Mon, 20 Dec 2021 07:22:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1640013724; cv=none;
-        d=google.com; s=arc-20160816;
-        b=uLLi4ZrTqh/8H4xDviwV8jtfkZTpBeKeMUyTriejU/XQTdIpJOmY45FxwyHTbxNlAe
-         loenu69N/857fBirSHPnizQCr/iiLd56hWPEQkxZx9DU4SF7aCsI1v6JAfmpXwndBrJl
-         aR/3n0qoHY5fjJmGRpNbU7ylGTdSnvzg4Rt/bIuYL0BNix2KRLKxy+MjMOtOrhuh+dDI
-         T0ZO1ozlWf2h8SeUilx5g8DtOYmngq3boeA0o7vCmuZMFX005xViJ21mNAUclMC1AxKP
-         dtryyZ02NEOTV8o2+NJrFzAjyY1PxNevdO7QL+RguItYQG6Q68hMvGKanBSUbbAWyM46
-         cOog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=DGxWEqDmq2iHcedzGdhHTPdO/cXggHy4vSm/RYyxtTI=;
-        b=Ec+ttjWIn4kvQEz6gvM0cwHwX3zLqwvqPmC/hFrBxLYf0qRzqyvONv3jdXA2QVmzbF
-         wXDKdGafgjc71aOhTl4wNeMaWkdDo7vD/1oEptG64tc7iH4bbR00A+TSNSA4JkJE+vc3
-         x4bwyGPTuRhvblIE8KeCT9+Zr9Npp71dpX2HVInBpr6x6S4dlIOuz/5PpwsJwipUTOQ5
-         mlzdopHxIO1vbk89bwpQXWKQMgMKz4yJClDo+gI7IQZtHfFAwbbUNRg6QUgJu4LiF7Ms
-         bpJvtW34PL8vFOTemGrKgvpw3NqeeadYo18HWyfLaZxPyB/0HrnwaDqx8/2OMgaq7g/t
-         4iDQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=MtTxOS+N;
-       spf=pass (google.com: domain of 3nj_ayqykcfeghzbdazhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--nogikh.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3nJ_AYQYKCfEghZbdaZhhZeX.VhfdTlTg-WXoZhhZeXZkhnil.Vhf@flex--nogikh.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
-        by gmr-mx.google.com with ESMTPS id c12si830578ljf.4.2021.12.20.07.22.04
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Dec 2021 07:22:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3nj_ayqykcfeghzbdazhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--nogikh.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
-Received: by mail-ed1-x54a.google.com with SMTP id ch27-20020a0564021bdb00b003f8389236f8so4034825edb.19
-        for <kasan-dev@googlegroups.com>; Mon, 20 Dec 2021 07:22:04 -0800 (PST)
-X-Received: from nogikh-hp.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:200d])
- (user=nogikh job=sendgmr) by 2002:a17:907:6e11:: with SMTP id
- sd17mr6030459ejc.143.1640013724229; Mon, 20 Dec 2021 07:22:04 -0800 (PST)
-Date: Mon, 20 Dec 2021 15:21:53 +0000
-Message-Id: <20211220152153.910990-1-nogikh@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.34.1.173.g76aa8bc2d0-goog
-Subject: [PATCH] kcov: properly handle subsequent mmap calls
-From: "'Aleksandr Nogikh' via kasan-dev" <kasan-dev@googlegroups.com>
-To: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	akpm@linux-foundation.org
-Cc: dvyukov@google.com, andreyknvl@gmail.com, elver@google.com, 
-	glider@google.com, tarasmadan@google.com, bigeasy@linutronix.de, 
-	nogikh@google.com
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: nogikh@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=MtTxOS+N;       spf=pass
- (google.com: domain of 3nj_ayqykcfeghzbdazhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--nogikh.bounces.google.com
- designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3nJ_AYQYKCfEghZbdaZhhZeX.VhfdTlTg-WXoZhhZeXZkhnil.Vhf@flex--nogikh.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Aleksandr Nogikh <nogikh@google.com>
-Reply-To: Aleksandr Nogikh <nogikh@google.com>
+Received: by 2002:a05:6808:219c:: with SMTP id be28ls4115236oib.1.gmail; Mon,
+ 20 Dec 2021 07:28:38 -0800 (PST)
+X-Received: by 2002:aca:1708:: with SMTP id j8mr11906755oii.62.1640014118355;
+        Mon, 20 Dec 2021 07:28:38 -0800 (PST)
+Date: Mon, 20 Dec 2021 07:28:37 -0800 (PST)
+From: "MARCO CAVICCHIOLI. MASSONERIA DI JONGHI LAVARINI"
+ <gennarinozagami@mail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <17403d68-2a22-439d-854a-fd577ead0095n@googlegroups.com>
+Subject: =?UTF-8?Q?=C3=89_PEDOFILO_ASSASSINO:_#GIOELEMA?=
+ =?UTF-8?Q?GALDI!_IN_LOGGE_INTERNAZIONALI_?=
+ =?UTF-8?Q?LO_CHIAMIAMO_TUTTI_"IL_LICIO_GELLI_PEDERASTA_E_SATANISTA_GIOELE?=
+ =?UTF-8?Q?_MAGALDI"!_HA_ORGANIZZATO_CENTINAIA_DI_OMICIDI_FATTI_PASSARE_X?=
+ =?UTF-8?Q?_FINTI_SUICIDI,_INFARTI,_INCIDENTI_(ERA_AMANTE_OMOSESSUALE_DI..?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_4182_1664215746.1640014117785"
+X-Original-Sender: gennarinozagami@mail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -129,190 +68,215 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Subsequent mmaps of the same kcov descriptor currently do not update the
-virtual memory of the task and yet return 0 (success). This is
-counter-intuitive and may lead to unexpected memory access errors.
+------=_Part_4182_1664215746.1640014117785
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_4183_1837024616.1640014117785"
 
-Also, this unnecessarily limits the functionality of kcov to only the
-simplest usage scenarios. Kcov instances are effectively forever attached
-to their first address spaces and it becomes impossible to e.g. reuse the
-same kcov handle in forked child processes without mmapping the memory
-first. This is exactly what we tried to do in syzkaller and
-inadvertently came upon this problem.
+------=_Part_4183_1837024616.1640014117785
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Allocate the buffer during KCOV_MODE_INIT in order to untie mmap and
-coverage collection. Modify kcov_mmap, so that it can be reliably used
-any number of times once KCOV_MODE_INIT has succeeded.
+=C3=89 PEDOFILO ASSASSINO: #GIOELEMAGALDI! IN LOGGE INTERNAZIONALI LO CHIAM=
+IAMO=20
+TUTTI "IL LICIO GELLI PEDERASTA E SATANISTA GIOELE MAGALDI"! HA ORGANIZZATO=
+=20
+CENTINAIA DI OMICIDI FATTI PASSARE X FINTI SUICIDI, INFARTI, INCIDENTI (ERA=
+=20
+AMANTE OMOSESSUALE DI...............#GIULIOTREMONTI ED #ALEXANDERBOETTCHER,=
+=20
+ED HA QUINDI "VENDICATO" QUEST'ULTIMO, FACENDO METTERE SOTTO UN AUTO,=20
+L'OTTMIO PM CHE LO AVEVA CONDANNATO: #MARCELLOMUSSO".
+https://www.ilmessaggero.it/italia/morto_marcello_musso_pm_procura_milano-4=
+678870.html)
+NE SCRIVE CHI LO CONOSCE MOLTO BENE, ESSENDO DA DECENNI DI SUA STESSA UR=20
+LODGE INTERNAZIONALE CHIAMATA THOMAS PAINE: MICHAEL CHINNICK, EX MORGAN=20
+STANLEY, NOTO COME "IL SIMON BOLIVAR DELLA CITY DI LONDRA"!
 
-Refactor ioctl processing so that a vmalloc could be executed before the
-spin lock is obtained.
+CIAO E SCUSATE PER MIO ITALIANO, SON INGLESE. FACCIO PARTE DELLA UR LODGE=
+=20
+INTERNAZIONALE #THOMASPAINE, DI CUI FA PARTE PURE IL SATANISTA PEDERASTA,=
+=20
+CHE FA RAPIRE, INCULARE ED UCCIDERE CENTINAIA DI BAMBINI, SIA PER VENDERNE=
+=20
+GLI ORGANI, CHE PER RITI SATANICI: MASSONE PEDOFILO ED ASSASSINO=20
+#GIOELEMAGALDI
+https://twitter.com/PedofiloMagaldi
+https://twitter.com/MagaldiRapeKids
+https://twitter.com/GioeMag_Anal_Di
+(COSA ORRIBILISSIMA, DI CUI STO PEZZO DI MERDA, NONCH=C3=89 "QUADRUPLO=20
+GIOCHISTA", VIVE
 
-These changes to the user-facing interface of the tool only weaken the
-preconditions, so all existing user space code should remain compatible
-with the new version.
+https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting=
+-415x208.jpg=20
+). RAGLIA DI ESSERE DI CENTRO SINISTRA, MA =C3=89 UN ASSOLUTO NAZI=E5=8D=90=
+FASCISTA DI=20
+MERDA! GIOELE MAGALDI =C3=89 IL TIPICO TRASFORMISTA, ENORME FIGLIO DI PUTTA=
+NA,=20
+CHE QUANDO LA CASA BIANCA =C3=89 OTTIMAMENTE DEMOCRAT, COME ORA, STRA MENTE=
+,=20
+RAGLIANDO DI ESSER PROGRESSISTA. QUANDO LA CASA BIANCA DIVIENE CASA NERA,=
+=20
+OSSIA NAZIST=E5=8D=90ASSASSINA, COME AI TEMPI DEL PEZZO DI MERDA PEDOFILO E=
+=20
+GENOCIDA #DONALDTRUMP, IL CAMERATA #GIOELEMAGALDI NON RECITA PI=C3=9A E SI=
+=20
+MOSTRA PER IL FIGLIO DI CA=E5=8D=90NAZISTA CHE ALTRO NON =C3=89: VERO E PRO=
+PRIO=20
+#ADOLPHHITLER DENOANTRI! E POI, OGNI ANNO RAPISCE, INCULA ED AMMAZZA=20
+TANTISSIMI BAMBINI, CON SCRUPOLO SOTTO ZERO (IN ITALIA SCOMPAIONO 40.000=20
+BAMBINI OGNI ANNO: BEN 110 AL GIORNO), SIA PER SCHIFOSISSIMI RITI=20
+LUCIFERINI, CHE PER VENDERNE GLI ORGANI! AI TEMPI DI #OBAMABARACK,=20
+GIUSTISSIMAMENTE, IL PEDOFILO INCULA BAMBINI #GIOELEMAGALDI DICEVA CHE IL=
+=20
+PEDOFILO STRAGISTA #SILVIOBERLUSCONI ERA, E STRA =C3=89 TUTT'ORA, IL PI=C3=
+=9A GRANDE=20
+CRIMINALE IN CRAVATTA DI TUTTO IL MONDO E DI TUTTI I TEMPI. SGAMANDO I SUOI=
+=20
+SUPER RICICLAGGI DI SOLDI MAFIOSI ED IL SUO ESSERE MANDANTE DI TANTE STRAGI=
+=20
+ED OMICIDI, QUI
+https://www.youtube.com/watch?v=3DqOJF1jI_iBY
+ORA FA CANDIDARE SUOI MASSONCELLI BERLUSCONICCHI E SATANISTI DI MERDA,=20
+TUTT'UNO CON MAFIA, CAMORRA E NDRANGHETA, A ROMA, MILANO E SPECIALMENTE IN=
+=20
+CALABRIA (GIOELE MAGALDI =C3=89 PURE AFFILIATO ALLA #NDRANGETA, ESATTAMENTE=
+ A=20
+COSENZA: COSCA PERNA), CON QUEL COCAINOMANE PEDOFILO E NAZISTA BASTARDO DI=
+=20
+#VITTORIOSGARBI (COCAINOMANE PEDOFILO E NAZISTA BASTARDO COME GIOELE=20
+MAGALDI)!
+ECCO DI CHE OMINICCHIO DI MERDA, DI CHE PEDERASTA CHE SI FA SBORRARE IN=20
+CULO DA RAGAZZINI CHE PAGA ALL'UOPO, PARLIAMO, QUANDO PARLIAMO DEL=20
+QUINTUPLO GIOCHISTA CRIMINALISSIMO, LADRO E TRUFFATORE #GIOELEMAGALDI (CHE=
+=20
+SUL WEB HA RUBATO 2 MILIONI DI EURO A TANTISSIMI FESSI, SOLDI SUDATI E DA=
+=20
+LUI FREGATI, DICENDO CHE VOLEVA FARE UN PARTITO POLITICO, PER POI FARE=20
+NULLA E SPENDERE QUESTI SOLDI, ORA, IN COCAINA E RAGAZZINI GAY CHE STECCA=
+=20
+AFFINCH=C3=89 LO INCULINO E GLI SBORRINO TUTTO DENTRO AL CULO, DOZZINE DI V=
+OLTE=20
+A SETTIMANA)! FA TUTTI QUESTI CRIMINI CON 2 AVVOCATI SATANISTI?=20
+NDRANGHETISTI, PEDOFILI ED ASSASSINI TANTO QUANTO
+1) IL NDRANGHETISTA, SUPER KILLER CARPEORO ALIAS GIANFRANCO PECORARO
+@CarpeorO_micida
+2)
+L'AVVOCATO MASSONE DI MERDA, SATANISTA, SUPER OMICIDA, LADRO, TRUFFATORE,=
+=20
+NAZI=E5=8D=8DSTALKER DANIELE MINOTTI DI GENOVA E DELINQUENTISSIMO STUDIO LE=
+GALE=20
+#LISI.
+https://twitter.com/MinottiPedofilo
 
-Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
----
- kernel/kcov.c | 94 +++++++++++++++++++++++++++++----------------------
- 1 file changed, 53 insertions(+), 41 deletions(-)
+SGAMER=C3=93 TANTISSIMI COSIDETTI "SEGRETI, INTRIGHI, MISTERI, CRIMINI, OMI=
+CIDI=20
+MASSONICI ALL'ITALIANA", DI CUI MI HAN DETTO TUTTO, IN UR LOGGIA THOMAS=20
+PAINE, UR LOGGIA POTENTISSIMA, CHE DELL'ITALIA DI TIPO ASSASSINO, S=C3=81 T=
+UTTO,=20
+GRAZIE A CIA E FBI OTTIMAMENTE DEMOCRAT!
 
-diff --git a/kernel/kcov.c b/kernel/kcov.c
-index 36ca640c4f8e..49e1fa2b330f 100644
---- a/kernel/kcov.c
-+++ b/kernel/kcov.c
-@@ -459,37 +459,28 @@ void kcov_task_exit(struct task_struct *t)
- static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
- {
- 	int res = 0;
--	void *area;
- 	struct kcov *kcov = vma->vm_file->private_data;
- 	unsigned long size, off;
- 	struct page *page;
- 	unsigned long flags;
- 
--	area = vmalloc_user(vma->vm_end - vma->vm_start);
--	if (!area)
--		return -ENOMEM;
--
- 	spin_lock_irqsave(&kcov->lock, flags);
- 	size = kcov->size * sizeof(unsigned long);
--	if (kcov->mode != KCOV_MODE_INIT || vma->vm_pgoff != 0 ||
-+	if (kcov->area == NULL || vma->vm_pgoff != 0 ||
- 	    vma->vm_end - vma->vm_start != size) {
- 		res = -EINVAL;
- 		goto exit;
- 	}
--	if (!kcov->area) {
--		kcov->area = area;
--		vma->vm_flags |= VM_DONTEXPAND;
--		spin_unlock_irqrestore(&kcov->lock, flags);
--		for (off = 0; off < size; off += PAGE_SIZE) {
--			page = vmalloc_to_page(kcov->area + off);
--			if (vm_insert_page(vma, vma->vm_start + off, page))
--				WARN_ONCE(1, "vm_insert_page() failed");
--		}
--		return 0;
-+	spin_unlock_irqrestore(&kcov->lock, flags);
-+	vma->vm_flags |= VM_DONTEXPAND;
-+	for (off = 0; off < size; off += PAGE_SIZE) {
-+		page = vmalloc_to_page(kcov->area + off);
-+		if (vm_insert_page(vma, vma->vm_start + off, page))
-+			WARN_ONCE(1, "vm_insert_page() failed");
- 	}
-+	return 0;
- exit:
- 	spin_unlock_irqrestore(&kcov->lock, flags);
--	vfree(area);
- 	return res;
- }
- 
-@@ -564,31 +555,13 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- 			     unsigned long arg)
- {
- 	struct task_struct *t;
--	unsigned long size, unused;
-+	unsigned long unused;
- 	int mode, i;
- 	struct kcov_remote_arg *remote_arg;
- 	struct kcov_remote *remote;
- 	unsigned long flags;
- 
- 	switch (cmd) {
--	case KCOV_INIT_TRACE:
--		/*
--		 * Enable kcov in trace mode and setup buffer size.
--		 * Must happen before anything else.
--		 */
--		if (kcov->mode != KCOV_MODE_DISABLED)
--			return -EBUSY;
--		/*
--		 * Size must be at least 2 to hold current position and one PC.
--		 * Later we allocate size * sizeof(unsigned long) memory,
--		 * that must not overflow.
--		 */
--		size = arg;
--		if (size < 2 || size > INT_MAX / sizeof(unsigned long))
--			return -EINVAL;
--		kcov->size = size;
--		kcov->mode = KCOV_MODE_INIT;
--		return 0;
- 	case KCOV_ENABLE:
- 		/*
- 		 * Enable coverage for the current task.
-@@ -685,6 +658,49 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- 	}
- }
- 
-+static int kcov_ioctl_unlocked(struct kcov *kcov, unsigned int cmd,
-+			     unsigned long arg)
-+{
-+	unsigned long size, flags;
-+	void *area;
-+	int res;
-+
-+	switch (cmd) {
-+	case KCOV_INIT_TRACE:
-+		/*
-+		 * Enable kcov in trace mode and setup buffer size.
-+		 * Must happen before anything else.
-+		 *
-+		 *
-+		 * Size must be at least 2 to hold current position and one PC.
-+		 */
-+		size = arg;
-+		if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-+			return -EINVAL;
-+
-+		area = vmalloc_user(size * sizeof(unsigned long));
-+		if (area == NULL)
-+			return -ENOMEM;
-+
-+		spin_lock_irqsave(&kcov->lock, flags);
-+		if (kcov->mode != KCOV_MODE_DISABLED) {
-+			spin_unlock_irqrestore(&kcov->lock, flags);
-+			vfree(area);
-+			return -EBUSY;
-+		}
-+		kcov->area = area;
-+		kcov->size = size;
-+		kcov->mode = KCOV_MODE_INIT;
-+		spin_unlock_irqrestore(&kcov->lock, flags);
-+		return 0;
-+	default:
-+		spin_lock_irqsave(&kcov->lock, flags);
-+		res = kcov_ioctl_locked(kcov, cmd, arg);
-+		spin_unlock_irqrestore(&kcov->lock, flags);
-+		return res;
-+	}
-+}
-+
- static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- {
- 	struct kcov *kcov;
-@@ -692,7 +708,6 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 	struct kcov_remote_arg *remote_arg = NULL;
- 	unsigned int remote_num_handles;
- 	unsigned long remote_arg_size;
--	unsigned long flags;
- 
- 	if (cmd == KCOV_REMOTE_ENABLE) {
- 		if (get_user(remote_num_handles, (unsigned __user *)(arg +
-@@ -713,10 +728,7 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 	}
- 
- 	kcov = filep->private_data;
--	spin_lock_irqsave(&kcov->lock, flags);
--	res = kcov_ioctl_locked(kcov, cmd, arg);
--	spin_unlock_irqrestore(&kcov->lock, flags);
--
-+	res = kcov_ioctl_unlocked(kcov, cmd, arg);
- 	kfree(remote_arg);
- 
- 	return res;
--- 
-2.34.1.173.g76aa8bc2d0-goog
+SONO #MICHAELCHINNICK
+MICHAEL CHINNICK GEAS GROUP AND MANDARIN GROP. EX OF NAZI ASSASSIN=20
+INVESTMENT BANK MORGAN STANLEY.
+MASSONE PER BENE DI UR LODGE THOMAS PAINE
+http://geasgroup.com/our-team/
+https://www.mdncapital.com/staff/hong-kong/michael-chinnick
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211220152153.910990-1-nogikh%40google.com.
+CONTINUA QUI
+https://groups.google.com/g/comp.lang.python/c/dyHD5GxQHSw
+
+TROVATE MILIARDI DI ALTRI VINCENTISSIMI DETTAGLI QUI
+https://groups.google.com/g/comp.lang.python/c/dyHD5GxQHSw
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/17403d68-2a22-439d-854a-fd577ead0095n%40googlegroups.com.
+
+------=_Part_4183_1837024616.1640014117785
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+=C3=89 PEDOFILO ASSASSINO: #GIOELEMAGALDI! IN LOGGE INTERNAZIONALI LO CHIAM=
+IAMO TUTTI "IL LICIO GELLI PEDERASTA E SATANISTA GIOELE MAGALDI"! HA ORGANI=
+ZZATO CENTINAIA DI OMICIDI FATTI PASSARE X FINTI SUICIDI, INFARTI, INCIDENT=
+I (ERA AMANTE OMOSESSUALE DI...............#GIULIOTREMONTI ED #ALEXANDERBOE=
+TTCHER, ED HA QUINDI "VENDICATO" QUEST'ULTIMO, FACENDO METTERE SOTTO UN AUT=
+O, L'OTTMIO PM CHE LO AVEVA CONDANNATO: #MARCELLOMUSSO".<br>https://www.ilm=
+essaggero.it/italia/morto_marcello_musso_pm_procura_milano-4678870.html)<br=
+>NE SCRIVE CHI LO CONOSCE MOLTO BENE, ESSENDO DA DECENNI DI SUA STESSA UR L=
+ODGE INTERNAZIONALE CHIAMATA THOMAS PAINE: MICHAEL CHINNICK, EX MORGAN STAN=
+LEY, NOTO COME "IL SIMON BOLIVAR DELLA CITY DI LONDRA"!<br><br>CIAO E SCUSA=
+TE PER MIO ITALIANO, SON INGLESE. FACCIO PARTE DELLA UR LODGE INTERNAZIONAL=
+E #THOMASPAINE, DI CUI FA PARTE PURE IL SATANISTA PEDERASTA, CHE FA RAPIRE,=
+ INCULARE ED UCCIDERE CENTINAIA DI BAMBINI, SIA PER VENDERNE GLI ORGANI, CH=
+E PER RITI SATANICI: MASSONE PEDOFILO ED ASSASSINO #GIOELEMAGALDI<br>https:=
+//twitter.com/PedofiloMagaldi<br>https://twitter.com/MagaldiRapeKids<br>htt=
+ps://twitter.com/GioeMag_Anal_Di<br>(COSA ORRIBILISSIMA, DI CUI STO PEZZO D=
+I MERDA, NONCH=C3=89 "QUADRUPLO GIOCHISTA", VIVE<br><br>https://www.newnoti=
+zie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting-415x208.jpg ). RAG=
+LIA DI ESSERE DI CENTRO SINISTRA, MA =C3=89 UN ASSOLUTO NAZI=E5=8D=90FASCIS=
+TA DI MERDA! GIOELE MAGALDI =C3=89 IL TIPICO TRASFORMISTA, ENORME FIGLIO DI=
+ PUTTANA, CHE QUANDO LA CASA BIANCA =C3=89 OTTIMAMENTE DEMOCRAT, COME ORA, =
+STRA MENTE, RAGLIANDO DI ESSER PROGRESSISTA. QUANDO LA CASA BIANCA DIVIENE =
+CASA NERA, OSSIA NAZIST=E5=8D=90ASSASSINA, COME AI TEMPI DEL PEZZO DI MERDA=
+ PEDOFILO E GENOCIDA #DONALDTRUMP, IL CAMERATA #GIOELEMAGALDI NON RECITA PI=
+=C3=9A E SI MOSTRA PER IL FIGLIO DI CA=E5=8D=90NAZISTA CHE ALTRO NON =C3=89=
+: VERO E PROPRIO #ADOLPHHITLER DENOANTRI! E POI, OGNI ANNO RAPISCE, INCULA =
+ED AMMAZZA TANTISSIMI BAMBINI, CON SCRUPOLO SOTTO ZERO (IN ITALIA SCOMPAION=
+O 40.000 BAMBINI OGNI ANNO: BEN 110 AL GIORNO), SIA PER SCHIFOSISSIMI RITI =
+LUCIFERINI, CHE PER VENDERNE GLI ORGANI! AI TEMPI DI #OBAMABARACK, GIUSTISS=
+IMAMENTE, IL PEDOFILO INCULA BAMBINI #GIOELEMAGALDI DICEVA CHE IL PEDOFILO =
+STRAGISTA #SILVIOBERLUSCONI ERA, E STRA =C3=89 TUTT'ORA, IL PI=C3=9A GRANDE=
+ CRIMINALE IN CRAVATTA DI TUTTO IL MONDO E DI TUTTI I TEMPI. SGAMANDO I SUO=
+I SUPER RICICLAGGI DI SOLDI MAFIOSI ED IL SUO ESSERE MANDANTE DI TANTE STRA=
+GI ED OMICIDI, QUI<br>https://www.youtube.com/watch?v=3DqOJF1jI_iBY<br>ORA =
+FA CANDIDARE SUOI MASSONCELLI BERLUSCONICCHI E SATANISTI DI MERDA, TUTT'UNO=
+ CON MAFIA, CAMORRA E NDRANGHETA, A ROMA, MILANO E SPECIALMENTE IN CALABRIA=
+ (GIOELE MAGALDI =C3=89 PURE AFFILIATO ALLA #NDRANGETA, ESATTAMENTE A COSEN=
+ZA: COSCA PERNA), CON QUEL COCAINOMANE PEDOFILO E NAZISTA BASTARDO DI #VITT=
+ORIOSGARBI (COCAINOMANE PEDOFILO E NAZISTA BASTARDO COME GIOELE MAGALDI)!<b=
+r>ECCO DI CHE OMINICCHIO DI MERDA, DI CHE PEDERASTA CHE SI FA SBORRARE IN C=
+ULO DA RAGAZZINI CHE PAGA ALL'UOPO, PARLIAMO, QUANDO PARLIAMO DEL QUINTUPLO=
+ GIOCHISTA CRIMINALISSIMO, LADRO E TRUFFATORE #GIOELEMAGALDI (CHE SUL WEB H=
+A RUBATO 2 MILIONI DI EURO A TANTISSIMI FESSI, SOLDI SUDATI E DA LUI FREGAT=
+I, DICENDO CHE VOLEVA FARE UN PARTITO POLITICO, PER POI FARE NULLA E SPENDE=
+RE QUESTI SOLDI, ORA, IN COCAINA E RAGAZZINI GAY CHE STECCA AFFINCH=C3=89 L=
+O INCULINO E GLI SBORRINO TUTTO DENTRO AL CULO, DOZZINE DI VOLTE A SETTIMAN=
+A)! FA TUTTI QUESTI CRIMINI CON 2 AVVOCATI SATANISTI? NDRANGHETISTI, PEDOFI=
+LI ED ASSASSINI TANTO QUANTO<br>1) IL NDRANGHETISTA, SUPER KILLER CARPEORO =
+ALIAS GIANFRANCO PECORARO<br>@CarpeorO_micida<br>2)<br>L'AVVOCATO MASSONE D=
+I MERDA, SATANISTA, SUPER OMICIDA, LADRO, TRUFFATORE, NAZI=E5=8D=8DSTALKER =
+DANIELE MINOTTI DI GENOVA E DELINQUENTISSIMO STUDIO LEGALE #LISI.<br>https:=
+//twitter.com/MinottiPedofilo<br><br>SGAMER=C3=93 TANTISSIMI COSIDETTI "SEG=
+RETI, INTRIGHI, MISTERI, CRIMINI, OMICIDI MASSONICI ALL'ITALIANA", DI CUI M=
+I HAN DETTO TUTTO, IN UR LOGGIA THOMAS PAINE, UR LOGGIA POTENTISSIMA, CHE D=
+ELL'ITALIA DI TIPO ASSASSINO, S=C3=81 TUTTO, GRAZIE A CIA E FBI OTTIMAMENTE=
+ DEMOCRAT!<br><br>SONO #MICHAELCHINNICK<br>MICHAEL CHINNICK GEAS GROUP AND =
+MANDARIN GROP. EX OF NAZI ASSASSIN INVESTMENT BANK MORGAN STANLEY.<br>MASSO=
+NE PER BENE DI UR LODGE THOMAS PAINE<br>http://geasgroup.com/our-team/<br>h=
+ttps://www.mdncapital.com/staff/hong-kong/michael-chinnick<br><br>CONTINUA =
+QUI<br>https://groups.google.com/g/comp.lang.python/c/dyHD5GxQHSw<br><br>TR=
+OVATE MILIARDI DI ALTRI VINCENTISSIMI DETTAGLI QUI<br>https://groups.google=
+.com/g/comp.lang.python/c/dyHD5GxQHSw<br>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/17403d68-2a22-439d-854a-fd577ead0095n%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/17403d68-2a22-439d-854a-fd577ead0095n%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_4183_1837024616.1640014117785--
+
+------=_Part_4182_1664215746.1640014117785--
