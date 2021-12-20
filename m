@@ -1,147 +1,127 @@
-Return-Path: <kasan-dev+bncBCM2HQW3QYHRBJV776GQMGQENJ4BKZY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBAWUQCHAMGQENI62ATY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B5C47A353
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 Dec 2021 02:43:02 +0100 (CET)
-Received: by mail-lf1-x13e.google.com with SMTP id d2-20020a0565123d0200b0040370d0d2fbsf3760305lfv.23
-        for <lists+kasan-dev@lfdr.de>; Sun, 19 Dec 2021 17:43:02 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1639964582; cv=pass;
+Received: from mail-pg1-x539.google.com (mail-pg1-x539.google.com [IPv6:2607:f8b0:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE5E47A53D
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 Dec 2021 08:00:20 +0100 (CET)
+Received: by mail-pg1-x539.google.com with SMTP id m15-20020a638c0f000000b0034056b46a05sf673803pgd.15
+        for <lists+kasan-dev@lfdr.de>; Sun, 19 Dec 2021 23:00:19 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1639983618; cv=pass;
         d=google.com; s=arc-20160816;
-        b=JVxhL2T9w8sBtR477yWlaNvAPxJtv3dahKNI+Rt/78UhIWtLmNNNaxY/jVMCMiuaVq
-         gt1/g4E2S14qdb/Ad6bIpx6B4iMt8nI46HLiRRtE19Ks+wMQmCpYou7OXLjSIQukHjLh
-         Fhm6dhiqAUAL6zNOalr6mPxs21lcVI40235OwouwybB9QCK01ChyWuOsp0eyHq6IftPD
-         9AYoUh18ecmHMZTYCOlhspqiIghGsZSsWhu1lJRQUllDU7QWCmrenmdOS/yQgs+s9ovq
-         I8yZGm4HoB17DVgfsKzp3EAcORt3HOxA3B/HzIBorUiYOxHpVaJK2WPokE/EV/WsMUmy
-         VArQ==
+        b=zzvrttU3ElzXEq5Cete1QEOussHh6KPJMkZHiTzB7MzygZNyRrGcGSb5J27IsTDIjd
+         +/MAHhLQy9nl0mpWQCfgKrduNOTHFfh0autwSfW8CID4shcnm9Rm6Vss+8QHPnThSFNt
+         zGyBu/LzaINutYENFP22WF/bFGEfsJxcMfh6eI8QhDkVtuRjBGM6z/SlbidT7GhGrsFV
+         Tq6oJ51pup38xmrI/M3+zCoGe6aVBQCgpUbUs7wRnuWo5zyhAh19hxsrUexIqQNbjkoC
+         MWkIcq9xNFbGKpYWS7KzGTW+DpF9SGUK9qwR3+yCIo+0awWzH/uO6izUzomyssxkiHW+
+         mwfg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=DhdKBlwqBOgnySyjKWq+2J0ZiES2RdmfExq1kr76Dbk=;
-        b=KFPNfVyLPDSSnAkxKAlv1F3HRxYSks5BQ+bLuRUggNNv48qU/qdiitQPWnhdg/phbS
-         smFxvjILUK3/ivVEPtTdHnVlxg0oh0mbSbHh56drPOm7r0G3ygy/w0MS80crJ2KRDVfW
-         OWryKsvQrZbzoj/EDS8mfdZVmbIhecmyxIFqPkRE3eqYPn6FS+AzzuHvLX4AhAxshqxK
-         O9DTPiK3JypkKNZmtpQOBY9SD3Bn+aAWieAhIJeWt6XM0OhvYTFaW13zGJHXVagFOTmn
-         D0acUTp8vl0HkDY4fTpVMGW1a6UUy6/rnssFyOl0dajFVNkz9tDaV71f+StGsbZ5tyE1
-         KMsA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=fbBVCnDY21zi6zYZ+iscJkOEZsu3crfH6MFo0CyAaMg=;
+        b=y8Zb/qHLb1xb237k+ak6XbeXjcuhfsKd+yPjm82GLR87WvdRg3nvTVmZN11BQ6KIZQ
+         wKcQ9k0Q4WgqvVSSMMWU3B0Jyg1Em+b8jC10vwTyetRzjV98Qv+42Us8YwRC8t2wBSxk
+         BHmWin6KiBhI/FpCVDiMpwFlTvMbP3OvCzXrjGq+iH2QTnrqyF+5jAA3U1wd/izcHHaQ
+         XMapuxaZ1RTTIzixk9f18zKKBldwp3iEJHJQiRj/9WSRPe4CDrcaWpcJ7mDFzpGkUyVj
+         zWJ877ERA1PKu94cEnShIoSrVjwg4+uLMSkriLAxcsLFi0eUriFpTuIxA7Go31QNp9C4
+         cqBQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=fbUn3fvK;
-       spf=pass (google.com: best guess record for domain of willy@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=willy@infradead.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=EhTOwMFa;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::232 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=DhdKBlwqBOgnySyjKWq+2J0ZiES2RdmfExq1kr76Dbk=;
-        b=X1WcdGD8Ckrg8720ehmW/aci7aF3+/xLVsK60SZqY7JF7VdJ+b2mSt6NzG0dHK2Eo1
-         9EkyA+sDVN/PdsMDVl5uGOjxY+JhfAoLNGCX4YvXREKybJbU+eLR8ij3IPuuaCWNYohj
-         yqfSgPjQ93P4dqAPG7PwK+5D6RE6o0UQaW8KNdu+1yMbbtaNrNke1qR+HvkRA80gvyUa
-         MFijBFU4VE0+09qhYoSpy0q1h/YnPTaYzSysU5PYLXHg8NXeegpjgNHr7mPxcnMd94Ek
-         NCTv0NccGl6y6bIOK+iORsq+QQacMRJ9APO8kDGxZBpl/lxOKtdxxEkrLN8onfr0afSG
-         hk4Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=fbBVCnDY21zi6zYZ+iscJkOEZsu3crfH6MFo0CyAaMg=;
+        b=giOJYZgI2pRtCRmd0kGLPakRDYmAUwrVZj7fQ7YBH6TUnHM7JlrZACBNXkfjb6z7W1
+         qIW1cPL67xizIXl+EudmyAOy90/jSmMoECBMRCP5OnEKCa7+QObACHuQt8yVZ9yPck+8
+         /5Vz1R4PvMtbC2kQ5WcfKjv8Dgw/h8f71c73Mpp7PBkNuZrsde9syGWAkG48OptkGzD+
+         xOf23XX/PxXq5aNJQc+SvMFbI47YAEo0uJjsLeg5Ny6lNdeC6+Ii/hXSiEKvygfvf6EN
+         itZWRGV2NmuiTQO0sOx2LWJ2OcrLB0uxYoMZrFsj9zwOvr7D9gWJqlocbdAKJNJWjny3
+         vPZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=DhdKBlwqBOgnySyjKWq+2J0ZiES2RdmfExq1kr76Dbk=;
-        b=gSIJ3NPfKoLD5qEEgKw4iKGN5Fzmu/tC8gEnB8HQMrZsTfTnOwnnjhZDjNnUafs4VW
-         NSwCviYUdbtvrYdsBE532DlUI+UxruJNz9mSyTy+/QNjEhHJwGQlZSwEQGHYf3UZhcge
-         xehFdpFSPLB0lz1kX9UyQvjMDqln+iOhUqXMfBfoNgm8ngyyAccae1MlnMjp5x2wF7q3
-         P79bP4V0bAgDGXDndcbUTAFMaJhihczWEwz8nl7IvuSQG9oCRKZhzAJM+a5wSYSlrhkH
-         vOtwslogSdP97zdQvfo+kZ+i8Jadl/C7YHysU0kvMyxXwVZR5E77jneRsfbg0r61WakJ
-         lIBg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531YAiBbqlfpig1VtE7CzhI4e4Bvb7SGSKgYeTBkKWOeQ68vYHNa
-	OWGCDFQvN3fHbcA4V3eDqAU=
-X-Google-Smtp-Source: ABdhPJzpZ4Idba8hNMJHEC5FtmW15WuHfKzotOZKSd7h/OuWmTEj6WTeScwhaUdDg2m//TrEOY+v8A==
-X-Received: by 2002:a05:651c:246:: with SMTP id x6mr12581081ljn.24.1639964582264;
-        Sun, 19 Dec 2021 17:43:02 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=fbBVCnDY21zi6zYZ+iscJkOEZsu3crfH6MFo0CyAaMg=;
+        b=f+QezVpRA4SAPDO/Gs639xNjBy0u6ohUVi8fCEJpD4YtcVUcsJJ1paK+pL+50CFsFY
+         x3SRhNwMD9m0lvWFJhkbgEsFXOml4zzu8VTkWzoC66Ffx785WtpfOBNLXpk52c8qGlrD
+         t7f19UhbkZEQjYQT+OC/wwd7RHNJNQxl2bS1U/nfk0oLuRBKOmP5ABtHWRfhK1xp2h20
+         4f3dXvCiKYzoA7iSWLCg6g2s+3fbvj5N9jvFc2Nf/T/ELklure7j2mS7W6or/mqasLJ+
+         q9Lwf3J4qVUhLu6O/dZtzi9+lD27PgOJhGnIQbYv71PCVMl1cIBGw1mAo/qPectd/LlF
+         4duA==
+X-Gm-Message-State: AOAM533436/Xs+m5U5DH/vVP6G6VrLy6B06lyi2rYjHL7bB4vnozCcqs
+	j6UAqfvcJYfZnROCicbZR0c=
+X-Google-Smtp-Source: ABdhPJwvY0VYxEAUf4r5/JkEsJM31ehfQUomeoJpNA5nPhCPEAFwL1vSW2pAwj7pTJEH2edQ1gsIjg==
+X-Received: by 2002:a17:903:228f:b0:148:d5d0:5be0 with SMTP id b15-20020a170903228f00b00148d5d05be0mr15366198plh.104.1639983618322;
+        Sun, 19 Dec 2021 23:00:18 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:234c:: with SMTP id p12ls1367307lfu.0.gmail; Sun,
- 19 Dec 2021 17:43:01 -0800 (PST)
-X-Received: by 2002:a05:6512:2149:: with SMTP id s9mr6605416lfr.96.1639964581228;
-        Sun, 19 Dec 2021 17:43:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1639964581; cv=none;
+Received: by 2002:a17:90b:4c91:: with SMTP id my17ls1353740pjb.3.canary-gmail;
+ Sun, 19 Dec 2021 23:00:17 -0800 (PST)
+X-Received: by 2002:a17:90b:1c05:: with SMTP id oc5mr2150028pjb.31.1639983616918;
+        Sun, 19 Dec 2021 23:00:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1639983616; cv=none;
         d=google.com; s=arc-20160816;
-        b=qCFwdv7wvTItEKg4wbNlr1MNFtkseqU8Kg+IBw64mBKZ3yF/7P0/tFpZgOZFgNnApb
-         7Nx4UHZ7NrcvAVAFI55QpRt1OMChH0tRI4ZkhuP6VboeqB0re+7P3Wdamx1Gx90J6s7m
-         wGPzWP+K4XExmRzxMj7eKbHNqBMiWYcv6zYDsnbngOopVIo48j9eSbbWXLGcGUpB0AxB
-         adSnN7Ac1jZQZrgasjXvb5IBC4KJgBS/7ysPNAKB3zthDVwcZFm5z9VJwGgird+ASfiL
-         +3RBj22gVxpthvpWxHWUy0pZtJvHFfOW2BIH67gizvhs5wsVFYrki5KVuYrb6ZElV6j/
-         RvAA==
+        b=VzGwDhU+TPfuFKrwfxK+C6dot24WATfXOC22udDnHL2bMIuc2cVxNrOBsEtYPsP9XW
+         PudCwGN0MRgE3f8udTv8+3ywPDWMI9w6MswWtSH3/SEKKph2uavC80QpbXkgiBdUjI/Z
+         JtJwcguVE1nsjos7oHaIvdVG4BmIJfsCpaHgTW6m7qbUXdaYMiGQr1nDTb9BNEaGyO5P
+         trS9AG0wDUESdEEQm8UM2HlTYBs4jIrsouGmq4ikksca7qycnKl1dlWWW4bNLsg69Clf
+         xEdQsmAfsYTFFK7xlGCmwC7LX34epuuMBRqllto5rvH+SsPdbc7lcaz/Le5v6ONrqRNl
+         ZELA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=k7fHWgKrjS6NSIvn5a4Jtgxmp/WhT9Wz1heA+PvFHEU=;
-        b=UPRSSFNNaGJtskHHEoyInG6GHZzbxU2CJYpcFNB1LPytNBmpuqppLXCaCspQWnMUZQ
-         5I+xIWmpaFchjzzLqTbLjhGPlnIiaFHUlEEdJLM3guTPx7D3bk9WzdANVQkWTk19iqk3
-         rljSgYwXn8yHqh+P22spxyV1ruEDfc1YsqjTVFKPwUM4XLjqACNgIN2H1+qrCwL8wORe
-         hBLJtZMUEdby9pvk497dr3fbTl0KrSKEfcKoBBkp8aHGrOM3ebrUaINnOeJiibXkZSZp
-         laEeNSSCrx9iG2Nvi5Fo5s62nKFortPlqpJFJ+OmG4jy/gYH07C2QLGruqFhZqZ9FiGk
-         79aw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=bOWHMfUqWgS66PgQYYet33MLKueM0ddFZqC4iawf0eo=;
+        b=XBHhCfepyE0FjjVvVan+Cvx7ClJ+11Y5BZrbXBZHZtegVg7fbyaPf6jFtc2VNVrw5H
+         Lhx12F3OoJFzO7k7NjlpSQAEmA6sUIid6FLRN0SoC9zQHX8D0cOiGF+4RQ2ARaeLx9eM
+         TMwGYmx4jNO0KDyN5QIQZmMlJ5EgN+xvse2xzD56gxELxlIJY6f7sDk6tUpbnYDSpAym
+         z2W23zuArXsxJoJFws007crqGo/2axVuDGViB579Xh3BgZdkE8LBA8B6YSY8zjmYuJHm
+         dcU59JASH+iQi88GXO5i0plDMS84RNa2izFR2jWqSHS+MkXpTb2gTLyO2+EPNKomCnUH
+         8v8A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=fbUn3fvK;
-       spf=pass (google.com: best guess record for domain of willy@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=willy@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id i21si356964lfv.10.2021.12.19.17.43.00
+       dkim=pass header.i=@google.com header.s=20210112 header.b=EhTOwMFa;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::232 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com. [2607:f8b0:4864:20::232])
+        by gmr-mx.google.com with ESMTPS id c9si1093924pgw.1.2021.12.19.23.00.16
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Dec 2021 17:43:00 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of willy@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) client-ip=2001:8b0:10b:1236::1;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mz7gr-001BXA-DH; Mon, 20 Dec 2021 01:42:13 +0000
-Date: Mon, 20 Dec 2021 01:42:13 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Roman Gushchin <guro@fb.com>, Christoph Lameter <cl@linux.com>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Pekka Enberg <penberg@kernel.org>, linux-mm@kvack.org,
-	Andrew Morton <akpm@linux-foundation.org>, patches@lists.linux.dev,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	cgroups@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	iommu@lists.linux-foundation.org, Joerg Roedel <joro@8bytes.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Julia Lawall <julia.lawall@inria.fr>, kasan-dev@googlegroups.com,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Marco Elver <elver@google.com>, Michal Hocko <mhocko@kernel.org>,
-	Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vladimir Davydov <vdavydov.dev@gmail.com>,
-	Will Deacon <will@kernel.org>, x86@kernel.org,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Subject: Re: [PATCH v2 00/33] Separate struct slab from struct page
-Message-ID: <Yb/fdYbLunsVYRqQ@casper.infradead.org>
-References: <20211201181510.18784-1-vbabka@suse.cz>
- <4c3dfdfa-2e19-a9a7-7945-3d75bc87ca05@suse.cz>
- <Ybk+0LKrsAJatILE@carbon.dhcp.thefacebook.com>
- <Ybp8a5JNndgCLy2w@carbon.dhcp.thefacebook.com>
- <86617be0-8aa8-67d2-08bd-1e06c3d12785@suse.cz>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Dec 2021 23:00:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::232 as permitted sender) client-ip=2607:f8b0:4864:20::232;
+Received: by mail-oi1-x232.google.com with SMTP id u74so14444062oie.8
+        for <kasan-dev@googlegroups.com>; Sun, 19 Dec 2021 23:00:16 -0800 (PST)
+X-Received: by 2002:aca:af50:: with SMTP id y77mr11164327oie.134.1639983616081;
+ Sun, 19 Dec 2021 23:00:16 -0800 (PST)
 MIME-Version: 1.0
+References: <YbHTKUjEejZCLyhX@elver.google.com> <20211209201616.GU614@gate.crashing.org>
+ <CANpmjNN4OAA_DM_KNLGJah3fk-PaZktGjziiu8ztf6fevZy5ug@mail.gmail.com>
+In-Reply-To: <CANpmjNN4OAA_DM_KNLGJah3fk-PaZktGjziiu8ztf6fevZy5ug@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 20 Dec 2021 08:00:00 +0100
+Message-ID: <CANpmjNM3eSd9sxi-1tV0cRthJ0hudrME8nYdhYP=ttcWDoPNfg@mail.gmail.com>
+Subject: Re: randomize_kstack: To init or not to init?
+To: Segher Boessenkool <segher@kernel.crashing.org>
+Cc: Kees Cook <keescook@chromium.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Elena Reshetova <elena.reshetova@intel.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Alexander Potapenko <glider@google.com>, Jann Horn <jannh@google.com>, 
+	Peter Collingbourne <pcc@google.com>, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-toolchains@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <86617be0-8aa8-67d2-08bd-1e06c3d12785@suse.cz>
-X-Original-Sender: willy@infradead.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=fbUn3fvK;
-       spf=pass (google.com: best guess record for domain of
- willy@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=willy@infradead.org
+ header.i=@google.com header.s=20210112 header.b=EhTOwMFa;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::232 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,56 +134,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Dec 20, 2021 at 01:47:54AM +0100, Vlastimil Babka wrote:
-> > * mm/slub: Convert print_page_info() to print_slab_info()
-> > Do we really need to explicitly convert slab_folio()'s result to (struct folio *)?
-> 
-> Unfortunately yes, as long as folio_flags() don't take const struct folio *,
-> which will need some yak shaving.
+On Thu, 9 Dec 2021 at 21:33, Marco Elver <elver@google.com> wrote:
+> On Thu, 9 Dec 2021 at 21:19, Segher Boessenkool <segher@kernel.crashing.org> wrote:
+> > On Thu, Dec 09, 2021 at 10:58:01AM +0100, Marco Elver wrote:
+> > > Clang supports CONFIG_INIT_STACK_ALL_ZERO, which appears to be the
+> > > default since dcb7c0b9461c2, which is why this came on my radar. And
+> > > Clang also performs auto-init of allocas when auto-init is on
+> > > (https://reviews.llvm.org/D60548), with no way to skip. As far as I'm
+> > > aware, GCC 12's upcoming -ftrivial-auto-var-init= doesn't yet auto-init
+> > > allocas.
+> >
+> > The space allocated by alloca is not an automatic variable, so of course
+> > it is not affected by this compiler flag.  And it should not, this flag
+> > is explicitly for *small fixed-size* stack variables (initialising
+> > others can be much too expensive).
+> >
+> > >       C. Introduce a new __builtin_alloca_uninitialized().
+> >
+> > That is completely backwards.  That is the normal behaviour of alloca
+> > already.  Also you can get __builtin_alloca inserted by the compiler
+> > (for a variable length array for example), and you typically do not want
+> > those initialised either, for the same reasons.
+>
+> You're right, if we're strict about it, initializing allocas is
+> technically out-of-scope of that feature.
+>
+> So, option D: Add a param to control this, and probably it shouldn't
+> do it by default. Let's see how far that gets then.
 
-In case anyone's interested ...
+Just an update: after some discussion, the Clang side says that
+alloca() is in scope, because the intent is that trivially initialized
+"automatic stack storage" should be handled by ftrivial-auto-var-init.
+And alloca() is automatic stack storage:
+https://www.gnu.org/software/libc/manual/html_node/Variable-Size-Automatic.html
 
-folio_flags calls VM_BUG_ON_PGFLAGS() which would need its second
-argument to be const.
+So currently it looks like the builtin is the only solution in this case.
 
-That means dump_page() needs to take a const struct page, which
-means __dump_page() needs its argument to be const.
-
-That calls ...
-
-is_migrate_cma_page()
-page_mapping()
-page_mapcount()
-page_ref_count()
-page_to_pgoff()
-page_to_pfn()
-hpage_pincount_available()
-head_compound_mapcount()
-head_compound_pincount()
-compound_order()
-PageKsm()
-PageAnon()
-PageCompound()
-
-... and at that point, I ran out of motivation to track down some parts
-of this tarbaby that could be fixed.  I did do:
-
-    mm: constify page_count and page_ref_count
-    mm: constify get_pfnblock_flags_mask and get_pfnblock_migratetype
-    mm: make compound_head const-preserving
-    mm/page_owner: constify dump_page_owner
-
-so some of those are already done.  But a lot of them just need to be
-done at the same time.  For example, page_mapping() calls
-folio_mapping() which calls folio_test_slab() which calls folio_flags(),
-so dump_page() and page_mapping() need to be done at the same time.
-
-One bit that could be broken off easily (I think ...) is PageTransTail()
-PageTail(), PageCompound(), PageHuge(), page_to_pgoff() and
-page_to_index().  One wrinkle is needed a temporary
-TESTPAGEFLAGS_FALSE_CONST.  But I haven't tried it yet.
+Thanks.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yb/fdYbLunsVYRqQ%40casper.infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNM3eSd9sxi-1tV0cRthJ0hudrME8nYdhYP%3DttcWDoPNfg%40mail.gmail.com.
