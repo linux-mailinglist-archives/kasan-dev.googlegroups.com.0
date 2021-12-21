@@ -1,144 +1,124 @@
-Return-Path: <kasan-dev+bncBCUJBAM67YFRB7E3RCHAMGQE5TB4MUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2XNRCHAMGQEMOEAV3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9C347C4FA
-	for <lists+kasan-dev@lfdr.de>; Tue, 21 Dec 2021 18:25:16 +0100 (CET)
-Received: by mail-wm1-x340.google.com with SMTP id n31-20020a05600c501f00b00345b15f5e15sf1018903wmr.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Dec 2021 09:25:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1640107516; cv=pass;
+Received: from mail-pj1-x1037.google.com (mail-pj1-x1037.google.com [IPv6:2607:f8b0:4864:20::1037])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2D647C82D
+	for <lists+kasan-dev@lfdr.de>; Tue, 21 Dec 2021 21:19:55 +0100 (CET)
+Received: by mail-pj1-x1037.google.com with SMTP id u13-20020a17090a450d00b001b1e6726fccsf2198495pjg.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Dec 2021 12:19:55 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1640117994; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MNYr4BAyx68RMSR1Ay1DiExQcQwwd2izi6ZwaQnDq1ksixiQK/hsQAWZsjwcLGYjXl
-         Ct3kHWgaYEyj+BDy8srjf/3fZpWg0YOb5dYHe+wgCmF3xcPIreZTv4azDWQOGzxNR+dL
-         Z4tO91pKIFUSvW064sRg1DgM6YhQ8Gx1KxS4x2x7sW1SUtnv3/kJnOdUTaMVJutxRf1q
-         pQ6k2gq56ZxQ48Jg90buNbC4xXIol45b9z5I2kzjrSLTvqjtiPzBUO+CxAED2T9K5gZo
-         7WBA4NJUAO85PO7AGNZ6h0hvOGcQqUKZtKrOuG9xo0rvztE/1GaZzcVSIPizcynqZcmb
-         JDWg==
+        b=oGCQVdwV0WFTBKJmZE5l79sO57hK4zHY0Rrhbm4D6J8v1MKqTBmzaGCJ4TfJqfzxaO
+         +YLxG31UzOYKtTpLGD+V/DVD/8dBc9E0zKsM1fZvqPCJVyPMH/jEvniN5NVMMeaKn2Eh
+         4a5Y4IVgzO+Q8VTTKhl8T7FURcsoAH61Ll/BYlD+dhP1Qgy8DAnmQPFUfpea/LoLcQEN
+         2T9PUrn8fBFA8I0DYkmaOMk3F+NRHCC3V0Nx4yp+c8TEEFCyURqxmjNUMwR6Q9mYlYf1
+         sMRTy7dOPRPPgr4VpJAdLET2zPJK7lDhIfAWEAYiJob4IKrQGOjChjm0My8nptfSFOUA
+         fojw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=mhUVp+opRLPzYc3JkJ6Y6b8KuTAu869U3nWaeAwZTiQ=;
-        b=E+ar32coI8wKab9byhDwu65I8KUoEjZhT0N7xPWTK2eBpwsd+RBrSLsyeHnIvLnRko
-         OQBffCrxpxt3tNcYqgstKKq1ie9mPALhHoxzlCymC7xqwoSYnD9ClvM39rfhpJx+cOCP
-         KHHr9IEkckgCjlBKLB294tEDOrirjJKf6xTh9SXoFA7KRTZJkQ6r7OOTo0wHLRSPUIw7
-         vlC2KD5ZPh6S0mjWkzWUai0hGHa1IIKWL4hWVVEoRSW33e/kGI2duxRjPYCQYyIxkp4h
-         zr5Snz8q0j/d8MXcRnqhd9FolFj4gLoFR7AAo4dzPFCmETzEF4lBgi61HyJ/++WibJNk
-         b6Dw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=vKx3sTMgynsObdyhIKBk0NiSxApOoVc5x3V3ZcLWdb0=;
+        b=bEBXIC/LvJJUqQh25id98LoNdyk+bS4dGpJUFQRvyWus36KIq1FVdNCJPcksiczD7J
+         FhSGhLXeDTMKu8JDYB/xFdtI0rEt8bcZU3R3+LxbJmLGoFVax0V56uxQgKILHluozMo8
+         opYWQyYC0u3W84MMKMmvWSQHGVFHGdb4DbS3GQv9VkBmF6wrPU73205nGw3GRbwTzXUg
+         CQactdapfj+9idxjzOz6TpuRgKPQA1bBmoBXKFjjqJBsVWaK1owxW6QG4kNCODXqXh4I
+         fxkKygy5FmkJtZ3js+R+W6DBa9obAfJ6JtAXQsbzMWN5MItPzTN0pfH1Bfsqw46fVJB+
+         kyWQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=robin.murphy@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=hFET+5vc;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=mhUVp+opRLPzYc3JkJ6Y6b8KuTAu869U3nWaeAwZTiQ=;
-        b=M6EhoYIKYoERbSRR8wsGSlKM1NrtUT/rvAUDpaCcfWRwEPqWMiDmTyneZpa9IDApMO
-         LgGBxdW56jNoXiVc6ylM9CsMGt1lNzZQ8TSrLUupx8bmHvAPTn+WFZluW+m9esc5yZ51
-         bcrdAhDKdYujslJ0/qneV86pyd20KvSXQG34PEzawrCXsfMOjOQYZitb31d9qK4j5iP5
-         jlfY9oHELvEtuDyjHfeBUKdHupgVZsOXaOiGLO5WpHri/bGqb+kD9Zsnw/MUMvfaXtE8
-         iz6eg751VbuoGrRHEKAktE+JNQaaN46wLv861nB3N3F+kcFoegC3fVEq2k315tFUPFtS
-         kf5A==
+        bh=vKx3sTMgynsObdyhIKBk0NiSxApOoVc5x3V3ZcLWdb0=;
+        b=sTsctKBgazDs+nFjX9o3VKk8DDxuRRZcPYDBQqUL5wDZGaoG4OnlPYJ/LU+o1nkb50
+         N7oiJIsnfLergmMKiJqf+Wi8Q4SGPUxCI8jnDcl5S1q3tjuTKGcEjTLNGaU86c3/rzpo
+         i8tkinuKUDwbJwt6LFeUMnAIFo7hixw0FU6iAZm2OgalgNIgqzqpQ5ZM3+sOhvGdw26L
+         UNzQ3Pn4/FvkZDmNCCp15JffmsMTJtEAF8d0idtkIHT99mUfkB/Bt0PwK9TLLKcJz6ym
+         pAsTLmcFD37v+LNgpMwEokMbMz7yWDuiiS/gAPJ8xbE6qnOsphgLA+d+NMGLpst3bMW3
+         ugSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=mhUVp+opRLPzYc3JkJ6Y6b8KuTAu869U3nWaeAwZTiQ=;
-        b=yhsrO8XlMDUzHNobzbJfmPYTFwEvQPFYbONyvI261uURaDjO2O+qUIdUl8ymtx5jzD
-         CPVhRblqqeVwLco7Kd0jdepRPk4mDRsNDishC8mWn2uXFTPgImjJvgR5u/8J49psRdT2
-         wSCnil96ybY5tfmYMuKeTg0pPc9HQE5xckfLpYvHamTwssorwcWqKe3EqdI59r5/AnfD
-         MHVH+YINsmvoI6+Mmrv7YmSwq7ZDLjKtX6Mf/nMCzZMt/UYPK9JndjDd/q/NA1mGSxy4
-         j6XaEz7ukxCeAUVsZwglLTatsJy8/+bAaIX7SettwwY7AcygLZwosU1MnPS/wAksIRFc
-         v8zA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532FcnHVc+585okQzrrdq273LPTODCbDXc4v5zWkmavGowwMTvuD
-	vXP9HKtZ00liTuTpLrTqnCQ=
-X-Google-Smtp-Source: ABdhPJx0ZY39eNuv+Pf3PN7BP5iwQF4Qgduf85bopfEx4HHOkky87GqLY/ypWYGHuRAI3JTmZgXi9Q==
-X-Received: by 2002:adf:db04:: with SMTP id s4mr3533919wri.467.1640107516436;
-        Tue, 21 Dec 2021 09:25:16 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=vKx3sTMgynsObdyhIKBk0NiSxApOoVc5x3V3ZcLWdb0=;
+        b=N//X7Fh+nn0iSCvMGPw5hjzHC6S+nJC+ZIv/wSe5jwmzkeXP2fE+CLdAySHeivysHs
+         RvHLFWRaJMiCBM0lijYNIRQf/KaBfKr09i9DqUrfBd+09c1irf3vxk0RdWqAS0jBgqa8
+         o410o9MxxEmot39EMoTZHa7PEtxSxnwD5Sh7zG/6TXdF4GpNzKLKyTNMBVovMFnVaJf1
+         RAMt6vIw7j0pjQk+2zNZibcAfg/gNOrjyb3GNPRhWKb4Z7Ud+oA2HbbjuFru9XFMod+Z
+         6JfEjnEhbOB3ZLjeEZ7UIlzMppb6fpDf8Jh6IiSswf3/CYQagRx5/b6jbUvHvtEps3S6
+         4eOA==
+X-Gm-Message-State: AOAM533ayd54vip/wo4Cu52wQ/gkbATp3emmXklGd3n328tYlEYr5Fk0
+	PPGzcjAKrGxlN3vYcHo9gp8=
+X-Google-Smtp-Source: ABdhPJycHS3Cuof7hAM6tZepRHo9dcaZ5zDJ2HyyarBCF3SvtqeSCXwntKtDofk5uL0zg9RU3xVJbw==
+X-Received: by 2002:a05:6a00:2444:b0:4ab:15b9:20e5 with SMTP id d4-20020a056a00244400b004ab15b920e5mr4890681pfj.0.1640117994179;
+        Tue, 21 Dec 2021 12:19:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:522c:: with SMTP id i12ls316666wra.0.gmail; Tue, 21 Dec
- 2021 09:25:15 -0800 (PST)
-X-Received: by 2002:a5d:6351:: with SMTP id b17mr3373438wrw.247.1640107515614;
-        Tue, 21 Dec 2021 09:25:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1640107515; cv=none;
+Received: by 2002:a17:90a:1f8d:: with SMTP id x13ls2637835pja.1.canary-gmail;
+ Tue, 21 Dec 2021 12:19:53 -0800 (PST)
+X-Received: by 2002:a17:902:e805:b0:149:95a:1983 with SMTP id u5-20020a170902e80500b00149095a1983mr5106164plg.9.1640117993531;
+        Tue, 21 Dec 2021 12:19:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1640117993; cv=none;
         d=google.com; s=arc-20160816;
-        b=rvIA2e2XWdKyT89HGXQUbMblvEBhDPmW7nqWduNkDIH552fKsTzBCimy0z5qP8KPh2
-         AZBwPLVTY2+4+yBfe/mDgKGByHGADp5GI3LMWDoVk1LdpLW50KB/CJWNDLpcfDo8TYAr
-         2sjpLkn9iJ9o9xHYWpm80IiPSCJvpEFy3UhzVANZbJPwdL1jo7TXoMtQwEsE8m5+0YJD
-         gJC5msZNKz6CjxynlRem4GKgJrLQi/GuCo+QGuAeQyv+60Bm/EhRfKxhtJ4w9p7h5Uqm
-         ky252fVJ26yBNJ4bt+W/hRS+jUHg7T6Jtf+NQje5FwPg4VAHwztmBgA1SdiLC3CJVWKK
-         K2+Q==
+        b=e8PZ7mINkw3qNvHkkbD11qZmU9PGeLT9p+UFoIkPIsyBDAfICll2riE658HZv50LUG
+         sJx/xPAMyDTlFhqZRARKHU9AIliiBNpGSf5gPX40VvUy2DE0X6AAs8OG4uGARtb2jPn+
+         ksmV3o2DoMzZ7w4rgZO5yUXh7pkSlmbfR4rD4oH7tKlHm4GXXo1ZwlqGGqvhi/UiZ7TP
+         ddWkoJZrDgWVEO1TmcZrpN6GDy6yHAQ1/it3G/CaTG6OuXioLzBacbSS/zEsmUTbW3MF
+         sukF405IxGw3hnTlJ+u0eBgbnty0MXXNUGrvcD7hT5h4sdcViG6Ojdpp2XUwlU0q8KH1
+         r90g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=WWcPaHySjASkjvLDyMhxBgZWhtUtMlaoxGmiE1ybw5M=;
-        b=GTn1K8YtoQOeZKBdfr0/Qc49xfjcL7cChzpWKK7RVRyeeZQPNLHs8eqC7O1lS2xZB4
-         SGbE8cSgXl+9ZFgaq32Imc8b9GFnMkxsInjFQimeu9UR/liJvuHnqLztmIVgwVXmBJQc
-         QSdEQk40gls+4OjjSVf55SyOBOX5KL9hzJX5OE3jYYX/Oa+x05EEPF/kxojCYjjO84fk
-         9RU8tgme0Pc55lEbj25Nn5RstIQf8CakNZr1DzvhDXqvW9BgOfGeCHPNDmnUdIfYWSvF
-         k9cHDlxwjfh3itz4uZX0jc9ZVX86+MD1spyPR5Fc3u6KKnWm1AMF6LPWXsv6/ys6Y4bA
-         c85w==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=G9LWWkXvMjCHJdkHQwVy+G2bXdZtAb8HFnc0qRd88BI=;
+        b=hhMwCyUw2QVpnkgHilEn10AesI7Jd/4mIS/6AeOsVMZRBtEMtGAo/PC5/cmCtAazGf
+         8/hhFVG3Hz1JGP7TFNWRV9YKnHpVrn+pjPzex4yWRNlrknXRz5oLU3APXJEeWYCR/Rfy
+         99W0pyCb63lJl/zX2Ifo019Zxl1QpU78eR2VwaHAmekoUO7XJFLaw07qer8TzvJ97+qo
+         GpICZ/4mtmRtdMn6DcVYoHtEQW6UB6RTqkrxiiNwB8nwRVCzRl/0eI6EN5Rwr/qBzaeE
+         2vsIVYS4hNwBdwc98/Ftzc3qzvp8FirFjHzCihHJznGESObuUTknoqp2d8ywCIaTTKib
+         bzDA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=robin.murphy@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id l19si285627wms.3.2021.12.21.09.25.15
-        for <kasan-dev@googlegroups.com>;
-        Tue, 21 Dec 2021 09:25:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 97EB4D6E;
-	Tue, 21 Dec 2021 09:25:14 -0800 (PST)
-Received: from [10.57.34.58] (unknown [10.57.34.58])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27FF13F718;
-	Tue, 21 Dec 2021 09:25:06 -0800 (PST)
-Message-ID: <db0ba937-8785-a27b-afff-55c55456ae19@arm.com>
-Date: Tue, 21 Dec 2021 17:25:01 +0000
+       dkim=pass header.i=@google.com header.s=20210112 header.b=hFET+5vc;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com. [2607:f8b0:4864:20::22e])
+        by gmr-mx.google.com with ESMTPS id c9si1374208pgw.1.2021.12.21.12.19.53
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Dec 2021 12:19:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as permitted sender) client-ip=2607:f8b0:4864:20::22e;
+Received: by mail-oi1-x22e.google.com with SMTP id w64so489576oif.10
+        for <kasan-dev@googlegroups.com>; Tue, 21 Dec 2021 12:19:53 -0800 (PST)
+X-Received: by 2002:aca:6245:: with SMTP id w66mr90879oib.134.1640117992657;
+ Tue, 21 Dec 2021 12:19:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 00/33] Separate struct slab from struct page
-Content-Language: en-GB
-To: Vlastimil Babka <vbabka@suse.cz>, Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com,
- "H. Peter Anvin" <hpa@zytor.com>, Christoph Lameter <cl@linux.com>,
- Will Deacon <will@kernel.org>, Julia Lawall <julia.lawall@inria.fr>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, x86@kernel.org,
- Luis Chamberlain <mcgrof@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Vladimir Davydov <vdavydov.dev@gmail.com>,
- David Rientjes <rientjes@google.com>, Nitin Gupta <ngupta@vflare.org>,
- Marco Elver <elver@google.com>, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, cgroups@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
- patches@lists.linux.dev, Pekka Enberg <penberg@kernel.org>,
- Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
- Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Woodhouse <dwmw2@infradead.org>
-References: <20211201181510.18784-1-vbabka@suse.cz>
- <4c3dfdfa-2e19-a9a7-7945-3d75bc87ca05@suse.cz>
- <YbtUmi5kkhmlXEB1@ip-172-31-30-232.ap-northeast-1.compute.internal>
- <38976607-b9f9-1bce-9db9-60c23da65d2e@suse.cz>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <38976607-b9f9-1bce-9db9-60c23da65d2e@suse.cz>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: robin.murphy@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of robin.murphy@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=robin.murphy@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+References: <20211221170348.1113266-1-nogikh@google.com> <20211221170348.1113266-2-nogikh@google.com>
+In-Reply-To: <20211221170348.1113266-2-nogikh@google.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 21 Dec 2021 21:19:41 +0100
+Message-ID: <CANpmjNMAWuE0Y20ZuBUSRXkvWZd8NC1d=DDYYrEZytJz9ndxeA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kcov: split ioctl handling into locked and
+ unlocked parts
+To: Aleksandr Nogikh <nogikh@google.com>
+Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	akpm@linux-foundation.org, dvyukov@google.com, andreyknvl@gmail.com, 
+	glider@google.com, tarasmadan@google.com, bigeasy@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=hFET+5vc;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::22e as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,113 +131,146 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2021-12-20 23:58, Vlastimil Babka wrote:
-> On 12/16/21 16:00, Hyeonggon Yoo wrote:
->> On Tue, Dec 14, 2021 at 01:57:22PM +0100, Vlastimil Babka wrote:
->>> On 12/1/21 19:14, Vlastimil Babka wrote:
->>>> Folks from non-slab subsystems are Cc'd only to patches affecting them, and
->>>> this cover letter.
->>>>
->>>> Series also available in git, based on 5.16-rc3:
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=slab-struct_slab-v2r2
->>>
->>> Pushed a new branch slab-struct-slab-v3r3 with accumulated fixes and small tweaks
->>> and a new patch from Hyeonggon Yoo on top. To avoid too much spam, here's a range diff:
->>
->> Reviewing the whole patch series takes longer than I thought.
->> I'll try to review and test rest of patches when I have time.
->>
->> I added Tested-by if kernel builds okay and kselftests
->> does not break the kernel on my machine.
->> (with CONFIG_SLAB/SLUB/SLOB depending on the patch),
-> 
-> Thanks!
-> 
->> Let me know me if you know better way to test a patch.
-> 
-> Testing on your machine is just fine.
-> 
->> # mm/slub: Define struct slab fields for CONFIG_SLUB_CPU_PARTIAL only when enabled
->>
->> Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->> Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->>
->> Comment:
->> Works on both SLUB_CPU_PARTIAL and !SLUB_CPU_PARTIAL.
->> btw, do we need slabs_cpu_partial attribute when we don't use
->> cpu partials? (!SLUB_CPU_PARTIAL)
-> 
-> The sysfs attribute? Yeah we should be consistent to userspace expecting to
-> read it (even with zeroes), regardless of config.
-> 
->> # mm/slub: Simplify struct slab slabs field definition
->> Comment:
->>
->> This is how struct page looks on the top of v3r3 branch:
->> struct page {
->> [...]
->>                  struct {        /* slab, slob and slub */
->>                          union {
->>                                  struct list_head slab_list;
->>                                  struct {        /* Partial pages */
->>                                          struct page *next;
->> #ifdef CONFIG_64BIT
->>                                          int pages;      /* Nr of pages left */
->> #else
->>                                          short int pages;
->> #endif
->>                                  };
->>                          };
->> [...]
->>
->> It's not consistent with struct slab.
-> 
-> Hm right. But as we don't actually use the struct page version anymore, and
-> it's not one of the fields checked by SLAB_MATCH(), we can ignore this.
-> 
->> I think this is because "mm: Remove slab from struct page" was dropped.
-> 
-> That was just postponed until iommu changes are in. Matthew mentioned those
-> might be merged too, so that final cleanup will happen too and take care of
-> the discrepancy above, so no need for extra churn to address it speficially.
+On Tue, 21 Dec 2021 at 18:04, Aleksandr Nogikh <nogikh@google.com> wrote:
+>
+> Currently all ioctls are de facto processed under a spin lock in order
+> to serialise them. This, however, prohibits the use of vmalloc and other
+> memory management functions in the implementation of those ioctls,
+> unnecessary complicating any further changes.
+>
+> Let all ioctls first be processed inside the kcov_ioctl_unlocked()
+> function which should execute the ones that are not compatible with
+> spinlock and pass control to kcov_ioctl_locked() for all other ones.
+>
+> Although it is still compatible with a spinlock, move KCOV_INIT_TRACE
+> handling to kcov_ioctl_unlocked(), so that its planned change is easier
+> to follow.
+>
+> Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
+> ---
+>  kernel/kcov.c | 64 +++++++++++++++++++++++++++++++--------------------
+>  1 file changed, 39 insertions(+), 25 deletions(-)
+>
+> diff --git a/kernel/kcov.c b/kernel/kcov.c
+> index 36ca640c4f8e..5d87b4e0126f 100644
+> --- a/kernel/kcov.c
+> +++ b/kernel/kcov.c
+> @@ -564,31 +564,12 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                              unsigned long arg)
+>  {
+>         struct task_struct *t;
+> -       unsigned long size, unused;
+> +       unsigned long flags, unused;
+>         int mode, i;
+>         struct kcov_remote_arg *remote_arg;
+>         struct kcov_remote *remote;
+> -       unsigned long flags;
+>
+>         switch (cmd) {
+> -       case KCOV_INIT_TRACE:
+> -               /*
+> -                * Enable kcov in trace mode and setup buffer size.
+> -                * Must happen before anything else.
+> -                */
+> -               if (kcov->mode != KCOV_MODE_DISABLED)
+> -                       return -EBUSY;
+> -               /*
+> -                * Size must be at least 2 to hold current position and one PC.
+> -                * Later we allocate size * sizeof(unsigned long) memory,
+> -                * that must not overflow.
+> -                */
+> -               size = arg;
+> -               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+> -                       return -EINVAL;
+> -               kcov->size = size;
+> -               kcov->mode = KCOV_MODE_INIT;
+> -               return 0;
+>         case KCOV_ENABLE:
+>                 /*
+>                  * Enable coverage for the current task.
+> @@ -685,6 +666,43 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>         }
+>  }
+>
+> +static int kcov_ioctl_unlocked(struct kcov *kcov, unsigned int cmd,
+> +                            unsigned long arg)
+> +{
+> +       unsigned long size, flags;
+> +       int res;
+> +
+> +       switch (cmd) {
+> +       case KCOV_INIT_TRACE:
+> +               /*
+> +                * Enable kcov in trace mode and setup buffer size.
+> +                * Must happen before anything else.
+> +                */
+> +               if (kcov->mode != KCOV_MODE_DISABLED)
+> +                       return -EBUSY;
+> +               /*
+> +                * Size must be at least 2 to hold current position and one PC.
+> +                * Later we allocate size * sizeof(unsigned long) memory,
+> +                * that must not overflow.
+> +                */
+> +               size = arg;
+> +               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+> +                       return -EINVAL;
+> +               kcov->size = size;
+> +               kcov->mode = KCOV_MODE_INIT;
+> +               return 0;
 
-FYI the IOMMU changes are now queued in linux-next, so if all goes well 
-you might be able to sneak that final patch in too.
+This patch should be a non-functional change, but it is not.
 
-Robin.
+To do that, you'd have to add the locking around KCOV_INIT_TRACE here,
+and then do whatever else you're doing in patch 2/2.
 
-> 
->> Would you update some of patches?
->>
->> # mm/sl*b: Differentiate struct slab fields by sl*b implementations
->> Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->> Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->> Works SL[AUO]B on my machine and makes code much better.
->>
->> # mm/slob: Convert SLOB to use struct slab and struct folio
->> Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->> Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->> It still works fine on SLOB.
->>
->> # mm/slab: Convert kmem_getpages() and kmem_freepages() to struct slab
->> Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->> Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->>
->> # mm/slub: Convert __free_slab() to use struct slab
->> Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->> Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->>
->> Thanks,
->> Hyeonggon.
-> 
-> Thanks again,
-> Vlastimil
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> +       default:
+> +               /*
+> +                * All other commands can be fully executed under a spin lock, so we
+> +                * obtain and release it here to simplify the code of kcov_ioctl_locked().
+> +                */
+> +               spin_lock_irqsave(&kcov->lock, flags);
+> +               res = kcov_ioctl_locked(kcov, cmd, arg);
+> +               spin_unlock_irqrestore(&kcov->lock, flags);
+> +               return res;
+> +       }
+> +}
+> +
+>  static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>  {
+>         struct kcov *kcov;
+> @@ -692,7 +710,6 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>         struct kcov_remote_arg *remote_arg = NULL;
+>         unsigned int remote_num_handles;
+>         unsigned long remote_arg_size;
+> -       unsigned long flags;
+>
+>         if (cmd == KCOV_REMOTE_ENABLE) {
+>                 if (get_user(remote_num_handles, (unsigned __user *)(arg +
+> @@ -713,10 +730,7 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>         }
+>
+>         kcov = filep->private_data;
+> -       spin_lock_irqsave(&kcov->lock, flags);
+> -       res = kcov_ioctl_locked(kcov, cmd, arg);
+> -       spin_unlock_irqrestore(&kcov->lock, flags);
+> -
+> +       res = kcov_ioctl_unlocked(kcov, cmd, arg);
+
+Also, I find that kcov_ioctl_unlocked() isn't a very descriptive name,
+since now we have both locked and unlocked variants. What is it
+actually doing?
+
+Perhaps kcov_ioctl_with_context()? Assuming that 'struct kcov' is some
+sort of context.
+
+>         kfree(remote_arg);
+>
+>         return res;
+> --
+> 2.34.1.307.g9b7440fafd-goog
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/db0ba937-8785-a27b-afff-55c55456ae19%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMAWuE0Y20ZuBUSRXkvWZd8NC1d%3DDDYYrEZytJz9ndxeA%40mail.gmail.com.
