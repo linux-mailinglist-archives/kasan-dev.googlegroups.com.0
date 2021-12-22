@@ -1,61 +1,47 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBDFLROHAMGQEXMJLUHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBUUPRSHAMGQEIWANHAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73a.google.com (mail-qk1-x73a.google.com [IPv6:2607:f8b0:4864:20::73a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FA547CD97
-	for <lists+kasan-dev@lfdr.de>; Wed, 22 Dec 2021 08:36:45 +0100 (CET)
-Received: by mail-qk1-x73a.google.com with SMTP id c1-20020a05620a0ce100b00468060d41ecsf1139249qkj.19
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Dec 2021 23:36:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1640158604; cv=pass;
+Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6FA47D084
+	for <lists+kasan-dev@lfdr.de>; Wed, 22 Dec 2021 12:11:16 +0100 (CET)
+Received: by mail-pf1-x43d.google.com with SMTP id t29-20020aa7947d000000b004bb4bd3dd77sf1034158pfq.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 22 Dec 2021 03:11:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1640171475; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BjM0t3RoZilMxRqfBI6pBGb7HAieA/pWJgWwFr43svstJoGWKTscta0b6849jKnbNE
-         jnw5clR0nqhmfRABYovYlTI2fTz0xxORmUZUZ2rOJRWq0kC03xLE7jDkU18D2KAWr9l1
-         Cd8jVk9iCV40d/xWOtHtWLVSbwzlI9fvjvJbCUwalAeoY3pTNU9VxOYgLBEeeAgdhT5F
-         hCaTCDXP7lYJo6k25Qn9AcTontkwB9hO/qk4jBgRDt2NIPL+xxRa6s7TnIwMx0l4VYy4
-         szV7380XmV643ASflaB0WmkI7No/tXX/Zidq1RZf4KZSqpOr+WR2mU6lapal+gOnGMhe
-         nbEQ==
+        b=yABLyH02mIJPHrYcK8dJcKSA9w+TLoM9FjgvvTH6PiaPsfrKtmUsOLD+WDOmU1/t4P
+         yP7UuAGTeUyUV1Zyt6SvWdH4IQW17cSsdbb9YhGY+UA93Nhrl3ODnLt8WIkybLo8EDV1
+         r9rlvby+2ccZQ+6v/zCr7Bv4zeYo6Q4Pyc6aHPWnRO2JywpReQN/K4gBPPIMAsqqQoh5
+         ViljQOOMuodXXfEo8RXiRjO4CYtU4OITza0uHNLxn3XItTYUUsa3/ZO35bPCZqQIgTb3
+         HYEcWgTM8uyr9Zeptl2E9upKVB61SxMH3su8aV4yjSJZTM77sxgt1qR8BafjfKMKeBpu
+         dZBg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature:dkim-signature;
-        bh=3EPSftdbQ1QvX6Aleis3c9mdC9xrTOUojKkC3uA9LPE=;
-        b=H2B35e5FeLookpGO8NQgVOuKovpF0eDkw42y11gdraUJiVAOKUjdrd82EWg3e1sswD
-         3pQD7VPUJ9qWM994G4L8o8P/PwLL+E6xM5izpcDgpzsMutJXl2net0KwSErwkKVfq0jR
-         gJlHFLkEV/fVSfnQrhe+j1MLJEHL+253z3EVuDsLgKaAe6LQ0sNcPYxHLT0tQMAe7lf7
-         w92Bijp+FBKzlnqsLGbd5t4QmQ4SJlOonC5PMMvGie5xhUX4N/kw/m6ClUqbAT2DZT4U
-         dqCpkE60aFTc6LYBa0nmyURkGMCxdEfasYJdB0N0OcIp5E2gaPcAfc81VjlsK+cSFQ+L
-         D+jQ==
+         :dkim-signature;
+        bh=Ei4S3Qm5gZUfT9DbRAjkajQ6TAY0FcnQmoYPgryy0tI=;
+        b=qJRmuR9TeGY26xrbc1cpb2fXrUiBa550InA3Z1ytLcOLraZri8eVbO/Z5Dosb3CcmF
+         NOaIZR0BgIG3cprywflwndMG1H/YdB4nX0FRmaCrk0oaXiWckec0wDhu8nz5nV0qI5M1
+         7vlN6qHn6g1HUgS7Kcw6CryZCAcQW9hlyVKUvpLbbxTIfDEbUWKXq1d4/MPenoWHBnrZ
+         oQbhP3bMZjz4oTjepA2J/Br4Oop38C3lBtLN6KRbfLrFMzMVgp4hTpjU1LMFsX5Fcz8C
+         gZlizm/5tQjmfSXJ24l5jNIaXZ90pumrc4QHquUA9F6Jnd+ti5WD0GwCRLh3loT8c5Z/
+         n2ag==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=RKpi5mEK;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::536 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=3EPSftdbQ1QvX6Aleis3c9mdC9xrTOUojKkC3uA9LPE=;
-        b=eBoObH/Hz/P4ddeE9lAYNBd9a59rziWeHerV8EXtyE9NXl5dxqOYWvmILqfpUNHbV3
-         ArnMhTsQdKeu0YuOD3VNpiEhgU3tjmNPhdzql5VTsDm40F/9fq2Bb+EagmH/KOPjabP0
-         nuYiqeAxe83oncWk2gB/CgV49WsjHytEQiGNcjuLjNswDa3bvyLa80mO23CzoXRYr9q1
-         RNDNvFUGACrsVlzzm6b9mMWVQSDI4UlOyE5YRnuMmg3Dt9mDmkhERDQarOfj2eUsGV71
-         6dsdz0nJEKA9X1DpOjaoyHyG4h2yS5oj9XxqOLyLGqUNexU3B4sE6gQfzpOrwj2caxse
-         L9Ig==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=3EPSftdbQ1QvX6Aleis3c9mdC9xrTOUojKkC3uA9LPE=;
-        b=SvVTEhmeSmxH0Swb7uYVt7HJY0BGJn8uD1jWeahSVjR8LHnnklrYOlgN2YMkQFHtQR
-         MWRSfFmNTcCbpoMWlLUuJ5W4ARHAp32EQzcGDm9iGQiWYzsJBsgNFlij0LEVAd0RMoAa
-         fJmKQXY5UvAvoUJd66ehzz93emd1bAve/B2VYcwtguida8A7kiDtIH8ItlqE6r6jZva2
-         FgeuqbNMNPF+e3op8Ewg2S0OXo3+7ZxQ59nJ6ZJJ2KlTmy+bCXKvqLfpMOY0rsGOxUYL
-         fcUDrkjjRglA8ezovfzVdC4UooGfKtDio9zPFt6Lc6FlTDvBsuM5zmDdOWTSwytcTTx+
-         3UlA==
+        bh=Ei4S3Qm5gZUfT9DbRAjkajQ6TAY0FcnQmoYPgryy0tI=;
+        b=Ep/DKlEBZVW/rqaJobkQ4/hjUxMXSsVt18soHVcAEyJb9S5z7eEYtFQceFD1NB+mrv
+         OLbnUpW/nJBQ1m4T1IbXxxxRBGn91+g6M8VXqZQQ6rV8uDBynLtDFXEBouDLoav96Y82
+         MlX3Uvx9eI35zMN0AmfRuDdnidGp+/ASI/Uh14IYglVvx2eXrBAva0GMyGHeaO0CyTLK
+         V8WwEQ7mC5tHpRmKdxuzNMxg4dOYe/bNGrvxjyaoJrmdmMfL5MMprO6HB2DQTbIlUvyD
+         jZgnWR80Tow8WSaoP9Xb5xwCT8vuo+GO/6s/Y7yqMcf3WGfnUqSpkW2xzmvHCvtZAZow
+         VuHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -63,105 +49,87 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=3EPSftdbQ1QvX6Aleis3c9mdC9xrTOUojKkC3uA9LPE=;
-        b=4ITz6u2YfwFAsbN85No6Hl/13bI/pZsGC5duygTngXV0jnkAsZyeaXtqRvlFvT2p6K
-         RwEzbpLx78vXyPRaAgDleotQ8lJeM2eVQttzQhT1rF0Mi9AInUC8NJxMtVPqJNG/53tR
-         Xgo7bAw9iDE+hJT7Oz1H55gj3i+2zDS82DJ9TPbGpM2XQMILbWdVzqVJvCADbrsvOHZh
-         5l/OaLTaqky3S7tKnUKGJe1o1S0CHa5+58CqzmmtapP5FHzUqPaQh45AZYwkKw6Kzuvb
-         pR9MSFCd3X/q5B8V+zHXj9Otu26WUC7aL0p9sRDRDC6V5JKE2lD8kqZQ/4KrisMz+leH
-         x6Tg==
+        bh=Ei4S3Qm5gZUfT9DbRAjkajQ6TAY0FcnQmoYPgryy0tI=;
+        b=Lr7dlG6WMhKt+syh0YPuqY6hWGyX4GM0CLEuJsKjqAMFH/MVwp85l9o9CSy2EKdZAX
+         4d3r329inG/fw/UKdBwDs0B9HGNbZeBnL/ABhMpg79wZb760DXQOr8peq/NInDsOmlPf
+         x7xxjAkiGXwKcV+qEKYmtvG5UAfwIZCrsC4ApjU07juRb5VIHyQJn/1MkIukHzIdWXrL
+         l/O56ZDMf6fzU/uKsjDlEekIMQgzUj6PbVN63XPRM49tG45mr50gv6KjronBcY8rLvRu
+         7WwNj8PvLTOsMuVRhApPkauRhqcQYN8POr2Oms2mlnBeZisOWIFPG/I05Ngom8k61Tx2
+         KVYw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532kaINgFLqW8scziIrGMBQ3/YU53tK49h6K9fBXTfr0+q5/RXuT
-	NYTwHDQqe71TcOT/WNXFOrw=
-X-Google-Smtp-Source: ABdhPJwmfxxl3mX++05oIpWGMNlzHPqgFwn9T/Ucw43qbNL5TEB1osyLTo1RVjRG/amKdyOsbElggw==
-X-Received: by 2002:a05:620a:141b:: with SMTP id d27mr1142975qkj.233.1640158604204;
-        Tue, 21 Dec 2021 23:36:44 -0800 (PST)
+X-Gm-Message-State: AOAM531AYxg9yT1E+tj7FZCf1O6JjRhvT/jEdnw0M1IZa3n51XCWI20P
+	J+uDRtEwtSfAeO5uhPiHhvk=
+X-Google-Smtp-Source: ABdhPJxFFIIneWyByPhFW2VVKdotVma1dQdFaQyGSmFSRwTI4d/cQ13LXW554xQnq85tju3ecpiggg==
+X-Received: by 2002:a63:191d:: with SMTP id z29mr2375016pgl.358.1640171474899;
+        Wed, 22 Dec 2021 03:11:14 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:1789:: with SMTP id s9ls618302qtk.7.gmail; Tue, 21
- Dec 2021 23:36:43 -0800 (PST)
-X-Received: by 2002:ac8:5f0a:: with SMTP id x10mr1243686qta.607.1640158603775;
-        Tue, 21 Dec 2021 23:36:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1640158603; cv=none;
+Received: by 2002:a17:90b:4d85:: with SMTP id oj5ls2106543pjb.0.canary-gmail;
+ Wed, 22 Dec 2021 03:11:14 -0800 (PST)
+X-Received: by 2002:a17:90a:b012:: with SMTP id x18mr757369pjq.140.1640171474269;
+        Wed, 22 Dec 2021 03:11:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1640171474; cv=none;
         d=google.com; s=arc-20160816;
-        b=j3dbnhFgDSQ15cX0bxto6hqxGke7msLrfd92vyOZ0+t9hl2yIjKi4zaGjw/p8Y7X67
-         xtpRBCFtxOMJF9mMQLINuqRquTujrHAs+t4NKRK2RaCZmPHn0MqBs0+25y2suUSyLTAr
-         lN8XqxcwTsOhhJ5/4wwAcAnCnv1JfFkE9pCSE+erf59+bdnER5qXSOi6q2cXzTGU4giP
-         NRqazszJOLYFrPC6gPNDhREN/tP8CHdZNsBkxPP3qbyKcoH4q3bBWqsojDAIbZmY/0TE
-         gevyGdjA293l2+Q9Tm8lnx0GEnaw96d8P9Q5CxUufmNQvHx27NPGKNIhI0n5Dyk2oXP7
-         iznQ==
+        b=evy9ozdTIxzZA5Eb1YopBkYSJni8dwsQtVnCbyQP+610H9K3d/y/5nEszhQjqpHiFX
+         KVU+d4RmirwnKhW15V8x15tcKz1bp+10hT1a91MbKE5RIyA/+JvMMHd2pAnbsNRVnvCP
+         eBBFy1aamJA8hSc9oD9qE5Nj1imiQ8lk43gon/Lr8dDW+C2GDYZTMCKfB5FPUGwyUL/c
+         He9FdSjhonwa87ikW2NTXNAVLhoR+fKuwmwkkivLx3Kp3ViwY9k4hmOMB8BzPcW5Hkew
+         ev1xcmGTp+R3qLs0Q27InL7gf6lys80qJkqkHx6/mKse2n01vABYQpsJ7tMWQmf6GaXu
+         oz/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=WrvvWhSLi37P9Hu9a/lN3dt16MiGegPkcEW+eWXvnco=;
-        b=yde6F7+MNpbO1F486OU4z7c5b9ReXSDwKOw/+FthuJKgr9wwZ1vgjOQzPn1H0k0hRe
-         1wVrWIKN0I60LkMpROMGkVyUa+eViBDTTOQXMaTT8+ChJcK8r0bd/CtmRnOwTjlVDJ3i
-         mLslTYkeHIrZCbxMFBsTsLxxnMUqZRZ9UHPU+6TvjMUm/uu0WJotdB4d0OHIgEVWly0G
-         OXPW5QS2VCHvsRAU91y3sVAUzXvbc/h1kDADSpq1tWt6qPqB0eVc7eClIpZQTvj/zigv
-         GHAEUwfudePFX78O1CoD91Lay/RCI6z0Tc0qsd7v2mMKQ+2Lmn8Rztu1BU/TXg36FdJf
-         Ladg==
+         :subject:cc:to:from:date;
+        bh=zDevqOGHrnaSXWOBZdeoMoYsQ5hDM4uZFouXt0cqDrg=;
+        b=Vlr4BAuR/eB2KmsgvvmQanvnxpAfa24NreagSlwbfu6XxalxEx0yfdXz6ZRWbRI/Dw
+         x7dJ2nDZl7fcC/Em5CoxPo0AzIO5ctKSvrXIVCwom2x90ehiCKxIDvAwQ5piuI9lkxk4
+         1bcmACvkd7a79w/7K50ScjYoJLw7U4M64DS8NXVv6MiTtUuI7OjYRuJjCq70aHtSfZFQ
+         dPETyc7VL/chYpB98bK6ymIHbxXYoy/rZpXPSXHnXco8qjp6g/OgkMVeQ6FY9QeKSa/y
+         ZV//C3VWIeGw7dUAOIR8Lrfq7pPMXw/3ktnwWy5AGufxDwyy7CwHi1tzY/t7aW5DB7La
+         bZIA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=RKpi5mEK;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::536 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com. [2607:f8b0:4864:20::536])
-        by gmr-mx.google.com with ESMTPS id l20si276630qtk.2.2021.12.21.23.36.43
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id fa11si280513pjb.0.2021.12.22.03.11.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Dec 2021 23:36:43 -0800 (PST)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::536 as permitted sender) client-ip=2607:f8b0:4864:20::536;
-Received: by mail-pg1-x536.google.com with SMTP id v25so1389552pge.2
-        for <kasan-dev@googlegroups.com>; Tue, 21 Dec 2021 23:36:43 -0800 (PST)
-X-Received: by 2002:a63:8f06:: with SMTP id n6mr1787692pgd.95.1640158602956;
-        Tue, 21 Dec 2021 23:36:42 -0800 (PST)
-Received: from ip-172-31-30-232.ap-northeast-1.compute.internal (ec2-18-181-137-102.ap-northeast-1.compute.amazonaws.com. [18.181.137.102])
-        by smtp.gmail.com with ESMTPSA id v4sm884943pjk.38.2021.12.21.23.36.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 23:36:42 -0800 (PST)
-Date: Wed, 22 Dec 2021 07:36:33 +0000
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Matthew Wilcox <willy@infradead.org>, Christoph Lameter <cl@linux.com>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Pekka Enberg <penberg@kernel.org>, linux-mm@kvack.org,
-	Andrew Morton <akpm@linux-foundation.org>, patches@lists.linux.dev,
-	Alexander Potapenko <glider@google.com>,
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 Dec 2021 03:11:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id A55E061947;
+	Wed, 22 Dec 2021 11:11:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30E0CC36AE5;
+	Wed, 22 Dec 2021 11:11:10 +0000 (UTC)
+Date: Wed, 22 Dec 2021 11:11:07 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: andrey.konovalov@linux.dev
+Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	cgroups@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
 	Dmitry Vyukov <dvyukov@google.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	iommu@lists.linux-foundation.org, Joerg Roedel <joro@8bytes.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Julia Lawall <julia.lawall@inria.fr>, kasan-dev@googlegroups.com,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Marco Elver <elver@google.com>, Michal Hocko <mhocko@kernel.org>,
-	Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vladimir Davydov <vdavydov.dev@gmail.com>,
-	Will Deacon <will@kernel.org>, x86@kernel.org
-Subject: Re: [PATCH v2 00/33] Separate struct slab from struct page
-Message-ID: <YcLVgdpyhZjtAatZ@ip-172-31-30-232.ap-northeast-1.compute.internal>
-References: <20211201181510.18784-1-vbabka@suse.cz>
- <4c3dfdfa-2e19-a9a7-7945-3d75bc87ca05@suse.cz>
- <YbtUmi5kkhmlXEB1@ip-172-31-30-232.ap-northeast-1.compute.internal>
- <38976607-b9f9-1bce-9db9-60c23da65d2e@suse.cz>
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Peter Collingbourne <pcc@google.com>,
+	Evgenii Stepanov <eugenis@google.com>, linux-kernel@vger.kernel.org,
+	Andrey Konovalov <andreyknvl@google.com>
+Subject: Re: [PATCH mm v4 32/39] kasan, arm64: don't tag executable vmalloc
+ allocations
+Message-ID: <YcMHyxOIN0LD7Lrt@arm.com>
+References: <cover.1640036051.git.andreyknvl@google.com>
+ <85ecef50788a3915a9a8fb52e97207901f27b057.1640036051.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <38976607-b9f9-1bce-9db9-60c23da65d2e@suse.cz>
-X-Original-Sender: 42.hyeyoo@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=RKpi5mEK;       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::536
- as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+In-Reply-To: <85ecef50788a3915a9a8fb52e97207901f27b057.1640036051.git.andreyknvl@google.com>
+X-Original-Sender: catalin.marinas@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -174,131 +142,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Dec 21, 2021 at 12:58:14AM +0100, Vlastimil Babka wrote:
-> On 12/16/21 16:00, Hyeonggon Yoo wrote:
-> > On Tue, Dec 14, 2021 at 01:57:22PM +0100, Vlastimil Babka wrote:
-> >> On 12/1/21 19:14, Vlastimil Babka wrote:
-> >> > Folks from non-slab subsystems are Cc'd only to patches affecting them, and
-> >> > this cover letter.
-> >> > 
-> >> > Series also available in git, based on 5.16-rc3:
-> >> > https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=slab-struct_slab-v2r2
-> >> 
-> >> Pushed a new branch slab-struct-slab-v3r3 with accumulated fixes and small tweaks
-> >> and a new patch from Hyeonggon Yoo on top. To avoid too much spam, here's a range diff:
-> > 
-> > Reviewing the whole patch series takes longer than I thought.
-> > I'll try to review and test rest of patches when I have time.
-> > 
-> > I added Tested-by if kernel builds okay and kselftests
-> > does not break the kernel on my machine.
-> > (with CONFIG_SLAB/SLUB/SLOB depending on the patch),
+On Mon, Dec 20, 2021 at 11:02:04PM +0100, andrey.konovalov@linux.dev wrote:
+> From: Andrey Konovalov <andreyknvl@google.com>
 > 
-> Thanks!
->
-
-:)
-
-> > Let me know me if you know better way to test a patch.
+> Besides asking vmalloc memory to be executable via the prot argument
+> of __vmalloc_node_range() (see the previous patch), the kernel can skip
+> that bit and instead mark memory as executable via set_memory_x().
 > 
-> Testing on your machine is just fine.
->
-
-Good!
-
-> > # mm/slub: Define struct slab fields for CONFIG_SLUB_CPU_PARTIAL only when enabled
-> > 
-> > Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > 
-> > Comment:
-> > Works on both SLUB_CPU_PARTIAL and !SLUB_CPU_PARTIAL.
-> > btw, do we need slabs_cpu_partial attribute when we don't use
-> > cpu partials? (!SLUB_CPU_PARTIAL)
+> Once tag-based KASAN modes start tagging vmalloc allocations, executing
+> code from such allocations will lead to the PC register getting a tag,
+> which is not tolerated by the kernel.
 > 
-> The sysfs attribute? Yeah we should be consistent to userspace expecting to
-> read it (even with zeroes), regardless of config.
+> Generic kernel code typically allocates memory via module_alloc() if
+> it intends to mark memory as executable. (On arm64 module_alloc()
+> uses __vmalloc_node_range() without setting the executable bit).
+> 
+> Thus, reset pointer tags of pointers returned from module_alloc().
+> 
+> However, on arm64 there's an exception: the eBPF subsystem. Instead of
+> using module_alloc(), it uses vmalloc() (via bpf_jit_alloc_exec())
+> to allocate its JIT region.
+> 
+> Thus, reset pointer tags of pointers returned from bpf_jit_alloc_exec().
+> 
+> Resetting tags for these pointers results in untagged pointers being
+> passed to set_memory_x(). This causes conflicts in arithmetic checks
+> in change_memory_common(), as vm_struct->addr pointer returned by
+> find_vm_area() is tagged.
+> 
+> Reset pointer tag of find_vm_area(addr)->addr in change_memory_common().
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 > 
 
-I thought entirely disabling the attribute is simpler,
-But okay If it should be exposed even if it's always zero.
-
-> > # mm/slub: Simplify struct slab slabs field definition
-> > Comment:
-> > 
-> > This is how struct page looks on the top of v3r3 branch:
-> > struct page {
-> > [...]
-> >                 struct {        /* slab, slob and slub */
-> >                         union {
-> >                                 struct list_head slab_list;
-> >                                 struct {        /* Partial pages */
-> >                                         struct page *next;
-> > #ifdef CONFIG_64BIT
-> >                                         int pages;      /* Nr of pages left */
-> > #else
-> >                                         short int pages;
-> > #endif
-> >                                 };
-> >                         };
-> > [...]
-> > 
-> > It's not consistent with struct slab.
-> 
-> Hm right. But as we don't actually use the struct page version anymore, and
-> it's not one of the fields checked by SLAB_MATCH(), we can ignore this.
->
-
-Yeah this is not a big problem. just mentioned this because 
-it looked weird and I didn't know when the patch "mm: Remove slab from struct page"
-will come back.
-
-> > I think this is because "mm: Remove slab from struct page" was dropped.
->
-> That was just postponed until iommu changes are in. Matthew mentioned those
-> might be merged too, so that final cleanup will happen too and take care of
-> the discrepancy above, so no need for extra churn to address it speficially.
-> 
-
-Okay it seems no extra work needed until the iommu changes are in!
-
-BTW, in the patch (that I sent) ("mm/slob: Remove unnecessary page_mapcount_reset()
-function call"), it refers commit 4525180926f9  ("mm/sl*b: Differentiate struct slab fields by
-sl*b implementations"). But the commit hash 4525180926f9 changed after the
-tree has been changed.
-
-It will be nice to write a script to handle situations like this.
-
-> > Would you update some of patches?
-> > 
-> > # mm/sl*b: Differentiate struct slab fields by sl*b implementations
-> > Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > Works SL[AUO]B on my machine and makes code much better.
-> > 
-> > # mm/slob: Convert SLOB to use struct slab and struct folio
-> > Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > It still works fine on SLOB.
-> > 
-> > # mm/slab: Convert kmem_getpages() and kmem_freepages() to struct slab
-> > Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> >
-> > # mm/slub: Convert __free_slab() to use struct slab
-> > Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > 
-> > Thanks,
-> > Hyeonggon.
-> 
-> Thanks again,
-> Vlastimil
-
-Have a nice day, thanks!
-Hyeonggon.
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YcLVgdpyhZjtAatZ%40ip-172-31-30-232.ap-northeast-1.compute.internal.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YcMHyxOIN0LD7Lrt%40arm.com.
