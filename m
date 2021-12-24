@@ -1,134 +1,60 @@
-Return-Path: <kasan-dev+bncBCN7B3VUS4CRB3XHSGHAMGQEX7FLE6Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDKXGE5TIFBBCFDSSHAMGQEMC5VPVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3AAB47E3EB
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Dec 2021 14:04:47 +0100 (CET)
-Received: by mail-qk1-x73f.google.com with SMTP id m9-20020a05620a24c900b00467f2fdd657sf4261836qkn.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Dec 2021 05:04:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1640264686; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=aAZQN2DnYihMHy4ouAC+7KlQefhfbjpwcBteaERtCF+kAFoIwzg5WlqpIgLKXGACVY
-         m7it0rodylHz0WTtfEqUgVvbXIBbsUM3l+qf49OtDMBC5PjQTKxk958q0RoWWeFJ4D+u
-         H6ZK6i2Fo3/MyzhghXjyIanAb7ZtlAZcwai+coSCvwlxmLss89Q/mmt5hXY6G/xdfFtX
-         iTZMPJWvlN1yKqau/Kn9HH+95xpxJPciKfHbaww0hX1Z27o+9VTzfzTNpmpjJsZZNVh1
-         GQuGEQhPSfUXgJVkVbmiIz+7NzdWK1H8B/X9unrD2dDBwpJsVXIIoYVqw+ej+PnMX62Z
-         SEsg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=j9lkbk0RN9flzEjSgrfdtrxHpyJuguGAU5SjTzTATRI=;
-        b=PRiBiDHBFLCYMQHTw9ZjRmbBsIxMWeF89G7llPPbj9Es4NwQY2qnmQSQ1Y2kcNneyi
-         fEKlzJIy1mcYTPwxGz23/gJF/GCpnQ8y1hcW3aklFYOCzYF1ydMaE4qNfIef5BMaqk1s
-         HU3ZDxBSznkMoU6Rj3f/lVDVU2II2isxQVWRgxca6lsqwWdslVluxorPCutAE1U8kDpj
-         CVIMVYcRI8OeC6we1deU+an6U1TKOi7FO5zo30ox3eXLEZ3llUF7/0qrSG/Wtwt8b6Na
-         80jOauYMhBjbk5zdsxbhuOuTO//A+wkAJsHyvEBrjyDZgYe8c6nJGyF0PoLZprCaO4nV
-         gH8A==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2159B47E9D0
+	for <lists+kasan-dev@lfdr.de>; Fri, 24 Dec 2021 01:17:14 +0100 (CET)
+Received: by mail-ot1-x33e.google.com with SMTP id c22-20020a9d67d6000000b00567f3716bdbsf2836260otn.11
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Dec 2021 16:17:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=j9lkbk0RN9flzEjSgrfdtrxHpyJuguGAU5SjTzTATRI=;
-        b=qdzEu+Z3WOpH34/muswWnMfKProUbLW0iyCNzvcXKrecRMtwkugDZuIzK72Jb8OzH3
-         HURjmFNUe7WUfFiAimvMyVF8+Jf0+Y6gAxzo0yC/ZeAbFnu7tIuLyhUzdUyZnIi9B8tj
-         v6OOXB5NoTByU7xHFr+rjJ5ztK+kdXJAlmlQF75ERg3QK/2LRtI9yPs7KBqw9zNe53CO
-         NTiuhbRNfJnRw6A3u74N2SnlYi6GYkZkqrKa3K+Jjw/KrWID9T5ucBVUBvhi1AVaCKTp
-         Yus8a0vBkhvn2suWjmyV7WaP8limq7CXhkLDCmacVxKHpqsNUbZDSQuifOB4/Hs/ge5a
-         WCbw==
+        h=sender:date:from:to:message-id:subject:mime-version
+         :x-original-sender:precedence:mailing-list:list-id:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=WpghU5CHKmGzHOz3X0Q0uDfis9JVxxLyf8g//m6yY3M=;
+        b=s36378qmbWfHNDm7DxHranNrM2fn4JF9jG8SarkkAk9RWZYcFUwTlA3k+WeIFI2t8C
+         M72KvsoKOS8HGICoeK2GiLTTEoyRg+fNtgB4GpXby14622enTFqW06oRWRSaI3xKqpZa
+         H2E3vwbWPWzGK141q5SKE0octCGpcRUHqyEJWuZmC3oHPVgu0NKzkLYwS3Zd4URLV48U
+         zyDm119izxaMMq2vLwVK34+ZaB+xXHCwym3DKbAIruH1x1rvRLxNcA+7TG32k5JR1DgQ
+         3eOCksGsd28AeX5KSa1G0A/eOVF4+Yp+bcYx96DdQL0aEb3xQej1euTuegdHS6VXclCb
+         RaYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:date:from:to:message-id:subject
+         :mime-version:x-original-sender:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=j9lkbk0RN9flzEjSgrfdtrxHpyJuguGAU5SjTzTATRI=;
-        b=HJzj3r0c32m9tX2CIFNC/CtBc/c1ZRXmRhTHy0r/+eG2mC1CX49MvFJtPPSgZmnYWr
-         YDz+ens/QLmSyXICvZXFuV+i6CF4uH7c0kKn0RCXk41WBhuKll4c+Rb41t/2RZpts0YH
-         96KRCMe0IykDLUj7JnKFTgItMPl9RIyi93QuAkzi6/EdLdN7V6s6FA3llH6VPLiS2DJR
-         Jhs8Yb2wj6eSQgKxE31Ir7dt5NMnAtP+WKd1daT5fJ3+ez1Cb3K0LwiTx522rubVhSMe
-         k/4Rzfre0ekXz44ap1Sl4L3I8LjVCQCguqeWlzZZKgWTT/0gZlYdbWHARByNDNj5uX9m
-         9ZOg==
+        bh=WpghU5CHKmGzHOz3X0Q0uDfis9JVxxLyf8g//m6yY3M=;
+        b=0Wt1BrYWLgI4Oi/1q5xIkf+xhsPnafOuYGvvAcPjxMmZ/2DhUp2AduUWmNiRNSU7gI
+         IsR5D3deFSuy4AFR0R7mpm2PaMYKF2EEym/8VlxuMg7MsiGQ4GD2/oIiP1cMJJ5eieEQ
+         4msi9s2K+93GOATiguZnucxT7Nfiul0wBV9p1aLPqlRCAOHGbe6+ugwPiD3+dT0hh8iV
+         Y/IPl1sM0lTDNUIQV2fJMIqwPXgy5qLt27GNlLj4poWzw6oOxWMnxVBJErX2a11B+LYh
+         2aJiERbs4UGoIE2mrSuPdLRM6rkYkbPqSGd/vbUvV8fd+DwmmvpNUr4GQMZ41kC8AFQr
+         Z5RQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530qdZF7vlidKG3/7jiRAR+BYoEq5o8VxE7xQ3v/xy87ga7iiA0Z
-	vSMzL1hU+iDA3in4Xy2lv4M=
-X-Google-Smtp-Source: ABdhPJxHeblb6PqShuoGHPDlB0lyUfS3DPubKGuIgPAlcA9CxnQIIVJkaMI7Q8OVwO/+YA00sD1Ybg==
-X-Received: by 2002:a05:620a:45aa:: with SMTP id bp42mr1211722qkb.556.1640264686449;
-        Thu, 23 Dec 2021 05:04:46 -0800 (PST)
+X-Gm-Message-State: AOAM532aU4Tegkt7CbQHdPC04NIa60NS31IJbDhWSpxiVJR2K+VuuN1D
+	fJ5Siqhsh1bZ7uslhftw6Vo=
+X-Google-Smtp-Source: ABdhPJxNEQvnUfrw/sdnDfkc7957Bldea7P8mcX+Wze8PKex4ARhlBvFuKVNDOck+Ae5eepVrwSKtg==
+X-Received: by 2002:aca:3188:: with SMTP id x130mr3440880oix.34.1640305032757;
+        Thu, 23 Dec 2021 16:17:12 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:1986:: with SMTP id u6ls2659053qtc.0.gmail; Thu, 23
- Dec 2021 05:04:46 -0800 (PST)
-X-Received: by 2002:a05:622a:1055:: with SMTP id f21mr1456446qte.421.1640264685975;
-        Thu, 23 Dec 2021 05:04:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1640264685; cv=none;
-        d=google.com; s=arc-20160816;
-        b=t82OGtu4V5qjanj/fg/QaCOrKtqtIOW8ALsuUZk+RS1KDkJ5jzOgQ729GsrjjgNku6
-         /4x/XMTxTOt9oZ3EMIZROhstGFj35aSKLjtzgbW/421rzouQj0NQBbCetbVV7dtmOc50
-         /YwKmzPvB9qTNt6oG1A4ga2A4Ksk+Tj+9YuMDss/J8dTK4XLbTpq8PyKHBfV6kKuOw6h
-         SkFC/rBB+0vqmquIYs93/C1OSJOL2zS8ARt6juRoB/hM7+WSR882DEwJyhKFvXS/I6w4
-         c2w6yWyCuukwlTQ2xB9fd0QlBqQ/pq3a9lKVTViKAC1rkXhxv9TwyhtbTHJgjUBTMqAf
-         cySg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from;
-        bh=Au5G8ZUALKdpzUarOe3JJq5F06BIgki4ODZFNhYPcjs=;
-        b=b+u5M1q1J4u9bXBaVJ3+q3hUL1V2b8DhFGoFDEnk4fKg49Y5riudfnGrY01oD3NKT/
-         lLCxNWrDRWAUuk9ZXCTGCgiq3dKnS/luWFGS44+v3+aPiralXleSZFPkEQcq/CO6nI74
-         36owHj2Vxz95S8anMGuToFO4gDTCisRATdKcVkU+DQFuJEFL/6+dROV4+z05pNerllsn
-         LhggXXJC+YA0CwrAjI+GMiQ8G5UPeP/EtEbObFTs4piS7ukCCAEDOIa4240nitIBYb0w
-         3ZK5rskH8yfSPLRKKium0PEyXkYEAZxzljKyTjAsLiW05pLhbgP/tMNnNo6fsUFJ5gS5
-         Vwsg==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTPS id f3si1054617qtb.3.2021.12.23.05.04.44
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 23 Dec 2021 05:04:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: 69369d50f71d4276ad6f4de1521c3921-20211223
-X-UUID: 69369d50f71d4276ad6f4de1521c3921-20211223
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-	(envelope-from <lecopzer.chen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1651115744; Thu, 23 Dec 2021 21:04:38 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 23 Dec 2021 21:04:37 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 23 Dec
- 2021 21:04:37 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 23 Dec 2021 21:04:37 +0800
-From: Lecopzer Chen <lecopzer.chen@mediatek.com>
-To: <ardb@kernel.org>
-CC: <dvyukov@google.com>, <f.fainelli@gmail.com>,
-	<kasan-dev@googlegroups.com>, <lecopzer.chen@mediatek.com>,
-	<linus.walleij@linaro.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux@armlinux.org.uk>,
-	<liuwenliang@huawei.com>, <stable@vger.kernel.org>, <yj.chiang@mediatek.com>
-Subject: Re: [PATCH] ARM: module: fix MODULE_PLTS not work for KASAN
-Date: Thu, 23 Dec 2021 21:04:37 +0800
-Message-ID: <20211223130437.23313-1-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <CAMj1kXGL++stjcuryn8zVwMgH4F05mONoU3Kca9Ch8N2dW-_bg@mail.gmail.com>
-References: <CAMj1kXGL++stjcuryn8zVwMgH4F05mONoU3Kca9Ch8N2dW-_bg@mail.gmail.com>
+Received: by 2002:a9d:4d0e:: with SMTP id n14ls1405515otf.5.gmail; Thu, 23 Dec
+ 2021 16:17:12 -0800 (PST)
+X-Received: by 2002:a05:6830:314b:: with SMTP id c11mr3032586ots.224.1640305032310;
+        Thu, 23 Dec 2021 16:17:12 -0800 (PST)
+Date: Thu, 23 Dec 2021 16:17:11 -0800 (PST)
+From: ANDREAS NIGG BANK J SAFRA SARASIN ZURICH <jackpapeck@mail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <44b70efa-5f80-4a3d-af09-4307707a4b57n@googlegroups.com>
+Subject: =?UTF-8?Q?=C3=89_PEDERASTA_ASSASSINO:_#GIOELEM?=
+ =?UTF-8?Q?AGALDI!_IN_LOGGE_INTERNAZIONALI?=
+ =?UTF-8?Q?_LO_CHIAMIAMO_TUTTI_"IL_LICIO_GELLI_PEDOFILO_E_SATANISTA_GIOELE?=
+ =?UTF-8?Q?_MAGALDI"!_HA_ORGANIZZATO_CENTINAIA_DI_OMICIDI_FATTI_PASSARE_X?=
+ =?UTF-8?Q?_FINTI_SUICIDI,_INFARTI,_INCIDENTI_(ERA_AMANTE_OMOSESSUALE_DI..?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-MTK: N
-X-Original-Sender: lecopzer.chen@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=mediatek.com
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_6782_1811547488.1640305031827"
+X-Original-Sender: jackpapeck@mail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,65 +67,284 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> > Fixes: 421015713b306e47af9 ("ARM: 9017/2: Enable KASan for ARM")
-> > Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
-> > ---
-> >  arch/arm/kernel/module.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/arch/arm/kernel/module.c b/arch/arm/kernel/module.c
-> > index beac45e89ba6..c818aba72f68 100644
-> > --- a/arch/arm/kernel/module.c
-> > +++ b/arch/arm/kernel/module.c
-> > @@ -46,7 +46,7 @@ void *module_alloc(unsigned long size)
-> >         p = __vmalloc_node_range(size, 1, MODULES_VADDR, MODULES_END,
-> >                                 gfp_mask, PAGE_KERNEL_EXEC, 0, NUMA_NO_NODE,
-> >                                 __builtin_return_address(0));
-> > -       if (!IS_ENABLED(CONFIG_ARM_MODULE_PLTS) || p)
-> > +       if (!IS_ENABLED(CONFIG_ARM_MODULE_PLTS) || IS_ENABLED(CONFIG_KASAN) || p)
-> 
-> 
-> Hello Lecopzer,
-> 
-> This is not the right place to fix this. If module PLTs are
-> incompatible with KAsan, they should not be selectable in Kconfig at
-> the same time.
-> 
-> But ideally, we should implement KASAN_VMALLOC for ARM as well - we
-> also need this for the vmap'ed stacks.
+------=_Part_6782_1811547488.1640305031827
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_6783_1743854858.1640305031827"
 
-Hi Ard,
+------=_Part_6783_1743854858.1640305031827
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks a lots for your advice.
+=C3=89 PEDERASTA ASSASSINO: #GIOELEMAGALDI! IN LOGGE INTERNAZIONALI LO CHIA=
+MIAMO=20
+TUTTI "IL LICIO GELLI PEDOFILO E SATANISTA GIOELE MAGALDI"! HA ORGANIZZATO=
+=20
+CENTINAIA DI OMICIDI FATTI PASSARE X FINTI SUICIDI, INFARTI, INCIDENTI (ERA=
+=20
+AMANTE OMOSESSUALE DI...............#GIULIOTREMONTI ED #ALEXANDERBOETTCHER,=
+=20
+ED HA QUINDI "VENDICATO" QUEST'ULTIMO, FACENDO METTERE SOTTO UN AUTO,=20
+L'OTTMIO PM CHE LO AVEVA CONDANNATO: #MARCELLOMUSSO".
+https://www.ilmessaggero.it/italia/morto_marcello_musso_pm_procura_milano-4=
+678870.html)
+NE SCRIVE CHI LO CONOSCE MOLTO BENE, ESSENDO DA DECENNI DI SUA STESSA UR=20
+LODGE INTERNAZIONALE CHIAMATA THOMAS PAINE: MICHAEL CHINNICK, EX MORGAN=20
+STANLEY, NOTO COME "IL SIMON BOLIVAR DELLA CITY DI LONDRA"!
 
-Of course, I just simulate how arm64 did, It's surrounded by a bunch of
-IS_ENABLED(CONFIG_...). I think I could also send a patch for arm64 to
-move out the IS_ENABLED() to Kconfig.
+CIAO E SCUSATE PER MIO ITALIANO, SON INGLESE. FACCIO PARTE DELLA UR LODGE=
+=20
+INTERNAZIONALE #THOMASPAINE, DI CUI FA PARTE PURE IL SATANISTA PEDERASTA,=
+=20
+CHE FA RAPIRE, INCULARE ED UCCIDERE CENTINAIA DI BAMBINI, SIA PER VENDERNE=
+=20
+GLI ORGANI, CHE PER RITI SATANICI: MASSONE PEDOFILO ED ASSASSINO=20
+#GIOELEMAGALDI
+https://twitter.com/PedofiloMagaldi
+https://twitter.com/MagaldiRapeKids
+https://twitter.com/GioeMag_Anal_Di
+(COSA ORRIBILISSIMA, DI CUI STO PEZZO DI MERDA, NONCH=C3=89 "QUADRUPLO=20
+GIOCHISTA", VIVE
 
-Actually I have a patch set support KASAN_VMALLOC for arm which is
-similar with I did for arm64, this patch is regarded as the first patch
-from the serise.
+https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting=
+-415x208.jpg=20
+). RAGLIA DI ESSERE DI CENTRO SINISTRA, MA =C3=89 UN ASSOLUTO NAZI=E5=8D=90=
+FASCISTA DI=20
+MERDA! GIOELE MAGALDI =C3=89 IL TIPICO TRASFORMISTA, ENORME FIGLIO DI PUTTA=
+NA,=20
+CHE QUANDO LA CASA BIANCA =C3=89 OTTIMAMENTE DEMOCRAT, COME ORA, STRA MENTE=
+,=20
+RAGLIANDO DI ESSER PROGRESSISTA. QUANDO LA CASA BIANCA DIVIENE CASA NERA,=
+=20
+OSSIA NAZIST=E5=8D=90ASSASSINA, COME AI TEMPI DEL PEZZO DI MERDA PEDOFILO E=
+=20
+GENOCIDA #DONALDTRUMP, IL CAMERATA #GIOELEMAGALDI NON RECITA PI=C3=9A E SI=
+=20
+MOSTRA PER IL FIGLIO DI CA=E5=8D=90NAZISTA CHE ALTRO NON =C3=89: VERO E PRO=
+PRIO=20
+#ADOLPHHITLER DENOANTRI! E POI, OGNI ANNO RAPISCE, INCULA ED AMMAZZA=20
+TANTISSIMI BAMBINI, CON SCRUPOLO SOTTO ZERO (IN ITALIA SCOMPAIONO 40.000=20
+BAMBINI OGNI ANNO: BEN 110 AL GIORNO), SIA PER SCHIFOSISSIMI RITI=20
+LUCIFERINI, CHE PER VENDERNE GLI ORGANI! AI TEMPI DI #OBAMABARACK,=20
+GIUSTISSIMAMENTE, IL PEDOFILO INCULA BAMBINI #GIOELEMAGALDI DICEVA CHE IL=
+=20
+PEDOFILO STRAGISTA #SILVIOBERLUSCONI ERA, E STRA =C3=89 TUTT'ORA, IL PI=C3=
+=9A GRANDE=20
+CRIMINALE IN CRAVATTA DI TUTTO IL MONDO E DI TUTTI I TEMPI. SGAMANDO I SUOI=
+=20
+SUPER RICICLAGGI DI SOLDI MAFIOSI ED IL SUO ESSERE MANDANTE DI TANTE STRAGI=
+=20
+ED OMICIDI, QUI
+https://www.youtube.com/watch?v=3DqOJF1jI_iBY
+ORA FA CANDIDARE SUOI MASSONCELLI BERLUSCONICCHI E SATANISTI DI MERDA,=20
+TUTT'UNO CON MAFIA, CAMORRA E NDRANGHETA, A ROMA, MILANO E SPECIALMENTE IN=
+=20
+CALABRIA (GIOELE MAGALDI =C3=89 PURE AFFILIATO ALLA #NDRANGETA, ESATTAMENTE=
+ A=20
+COSENZA: COSCA PERNA), CON QUEL COCAINOMANE PEDOFILO E NAZISTA BASTARDO DI=
+=20
+#VITTORIOSGARBI (COCAINOMANE PEDOFILO E NAZISTA BASTARDO COME GIOELE=20
+MAGALDI)!
+ECCO DI CHE OMINICCHIO DI MERDA, DI CHE PEDERASTA CHE SI FA SBORRARE IN=20
+CULO DA RAGAZZINI CHE PAGA ALL'UOPO, PARLIAMO, QUANDO PARLIAMO DEL=20
+QUINTUPLO GIOCHISTA CRIMINALISSIMO, LADRO E TRUFFATORE #GIOELEMAGALDI (CHE=
+=20
+SUL WEB HA RUBATO 2 MILIONI DI EURO A TANTISSIMI FESSI, SOLDI SUDATI E DA=
+=20
+LUI FREGATI, DICENDO CHE VOLEVA FARE UN PARTITO POLITICO, PER POI FARE=20
+NULLA E SPENDERE QUESTI SOLDI, ORA, IN COCAINA E RAGAZZINI GAY CHE STECCA=
+=20
+AFFINCH=C3=89 LO INCULINO E GLI SBORRINO TUTTO DENTRO AL CULO, DOZZINE DI V=
+OLTE=20
+A SETTIMANA)! FA TUTTI QUESTI CRIMINI CON 2 AVVOCATI SATANISTI?=20
+NDRANGHETISTI, PEDOFILI ED ASSASSINI TANTO QUANTO
+1) IL NDRANGHETISTA, SUPER KILLER CARPEORO ALIAS GIANFRANCO PECORARO
+@CarpeorO_micida
+2)
+L'AVVOCATO MASSONE DI MERDA, SATANISTA, SUPER OMICIDA, LADRO, TRUFFATORE,=
+=20
+NAZI=E5=8D=8DSTALKER DANIELE MINOTTI DI GENOVA E DELINQUENTISSIMO STUDIO LE=
+GALE=20
+#LISI.
+https://twitter.com/MinottiPedofilo
 
-But It has problems that it's very easy to run out of vmalloc area
-due to 32bit address space(balance between low and highmem),
-so the serise is pending and I send this patch alone.
+SGAMER=C3=93 TANTISSIMI COSIDETTI "SEGRETI, INTRIGHI, MISTERI, CRIMINI, OMI=
+CIDI=20
+MASSONICI ALL'ITALIANA", DI CUI MI HAN DETTO TUTTO, IN UR LOGGIA THOMAS=20
+PAINE, UR LOGGIA POTENTISSIMA, CHE DELL'ITALIA DI TIPO ASSASSINO, S=C3=81 T=
+UTTO,=20
+GRAZIE A CIA E FBI OTTIMAMENTE DEMOCRAT!
 
-Anyway, I'll send v2 to move the conditioni-if to Kconfig.
-
-thanks,
-
-Lecopzer
-
-
-
-
-
-
+SONO #MICHAELCHINNICK
+MICHAEL CHINNICK GEAS GROUP AND MANDARIN GROP. EX OF NAZI ASSASSIN=20
+INVESTMENT BANK MORGAN STANLEY.
+MASSONE PER BENE DI UR LODGE THOMAS PAINE
+http://geasgroup.com/our-team/
+https://www.mdncapital.com/staff/hong-kong/michael-chinnick
 
 
+E A PROPOSITO DEL PRIMA CITATO, AVVOCATO NAZI=E5=8D=8DPEDOFILO ASSASSINO=20
+#DANIELEMINOTTI DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI....
 
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211223130437.23313-1-lecopzer.chen%40mediatek.com.
+=C3=89 DA ARRESTARE PRIMA CHE FACCIA UCCIDERE ANCORA, L'AVVOCATO PEDOFILO,=
+=20
+BERLUSCO=E5=8D=90NAZISTA, FASCIOLEGHISTA, ASSASSINO DANIELE MINOTTI (FACEBO=
+OK,=20
+TWITTER) DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI.
+=C3=89 DA FERMARE PER SEMPRE, L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90N=
+AZISTA,=20
+PEDERASTA, OMICIDA #DANIELEMINOTTI DI RAPALLO E GENOVA: RAPISCE, INCULA,=20
+UCCIDE TANTI BIMBI, SIA PER VENDERNE GLI ORGANI (COME DA QUESTA ABERRANTE=
+=20
+FOTO
+https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting=
+-415x208.jpg),
+CHE PER RITI MASSONICO^SATANISTI, CHE FA IN MILLE SETTE!
+=C3=89 DI PERICOLO PUBBLICO ENORME, L'AVV ASSASSINO E PEDERASTA DANIELE MIN=
+OTTI=20
+(FACEBOOK) DI RAPALLO E GENOVA! AVVOCATO STUPRANTE INFANTI ED ADOLESCENTI,=
+=20
+COME PURE KILLER #DANIELEMINOTTI DI CRIMINALISSIMO #STUDIOLEGALELISI DI=20
+LECCE E MILANO (
+https://studiolegalelisi.it/team/daniele-minotti/
+STUDIO LEGALE MASSO^MAFIOSO LISI DI LECCE E MILANO, DA SEMPRE TUTT'UNO CON=
+=20
+MEGA KILLERS DI COSA NOSTRA, CAMORRA, NDRANGHETA, E, COME DA SUA=20
+SPECIALITA' PUGLIESE, ANCOR PI=C3=9A, DI SACRA CORONA UNITA, MAFIA BARESE, =
+MAFIA=20
+FOGGIANA, MAFIA DI SAN SEVERO)! =C3=89 STALKER DIFFAMATORE VIA INTERNET, NO=
+NCH=C3=89=20
+PEDERASTA CHE VIOLENTA ED UCCIDE BIMBI, QUESTO AVVOCATO OMICIDA CHIAMATO=20
+DANIELE MINOTTI! QUESTO AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA, =
+PEDOFILO=20
+E SANGUINARIO, DI RAPALLO E GENOVA (LO VEDETE A SINISTRA, SOPRA SCRITTA=20
+ECOMMERCE https://i.ytimg.com/vi/LDoNHVqzee8/maxresdefault.jpg)
+RAPALLO: OVE ORGANIZZA TRAME OMICIDA E TERRORISMO DI ESTREMA DESTRA,=20
+INSIEME "AL RAPALLESE" DI RESIDENZA, HITLERIANO, RAZZISTA, KU KLUK=20
+KLANISTA, MAFIOSO E RICICLA SOLDI MAFIOSI COME SUO PADRE: VI ASSICURO,=20
+ANCHE ASSASSINO #PIERSILVIOBERLUSCONI PIERSILVIO BERLUSCONI!
+
+CONTINUA QUI
+https://groups.google.com/g/comp.lang.python/c/IZRbrfh1-qE
+
+TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
+https://groups.google.com/g/comp.lang.python/c/IZRbrfh1-qE
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/44b70efa-5f80-4a3d-af09-4307707a4b57n%40googlegroups.com.
+
+------=_Part_6783_1743854858.1640305031827
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+=C3=89 PEDERASTA ASSASSINO: #GIOELEMAGALDI! IN LOGGE INTERNAZIONALI LO CHIA=
+MIAMO TUTTI "IL LICIO GELLI PEDOFILO E SATANISTA GIOELE MAGALDI"! HA ORGANI=
+ZZATO CENTINAIA DI OMICIDI FATTI PASSARE X FINTI SUICIDI, INFARTI, INCIDENT=
+I (ERA AMANTE OMOSESSUALE DI...............#GIULIOTREMONTI ED #ALEXANDERBOE=
+TTCHER, ED HA QUINDI "VENDICATO" QUEST'ULTIMO, FACENDO METTERE SOTTO UN AUT=
+O, L'OTTMIO PM CHE LO AVEVA CONDANNATO: #MARCELLOMUSSO".<br>https://www.ilm=
+essaggero.it/italia/morto_marcello_musso_pm_procura_milano-4678870.html)<br=
+>NE SCRIVE CHI LO CONOSCE MOLTO BENE, ESSENDO DA DECENNI DI SUA STESSA UR L=
+ODGE INTERNAZIONALE CHIAMATA THOMAS PAINE: MICHAEL CHINNICK, EX MORGAN STAN=
+LEY, NOTO COME "IL SIMON BOLIVAR DELLA CITY DI LONDRA"!<br><br>CIAO E SCUSA=
+TE PER MIO ITALIANO, SON INGLESE. FACCIO PARTE DELLA UR LODGE INTERNAZIONAL=
+E #THOMASPAINE, DI CUI FA PARTE PURE IL SATANISTA PEDERASTA, CHE FA RAPIRE,=
+ INCULARE ED UCCIDERE CENTINAIA DI BAMBINI, SIA PER VENDERNE GLI ORGANI, CH=
+E PER RITI SATANICI: MASSONE PEDOFILO ED ASSASSINO #GIOELEMAGALDI<br>https:=
+//twitter.com/PedofiloMagaldi<br>https://twitter.com/MagaldiRapeKids<br>htt=
+ps://twitter.com/GioeMag_Anal_Di<br>(COSA ORRIBILISSIMA, DI CUI STO PEZZO D=
+I MERDA, NONCH=C3=89 "QUADRUPLO GIOCHISTA", VIVE<br><br>https://www.newnoti=
+zie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting-415x208.jpg ). RAG=
+LIA DI ESSERE DI CENTRO SINISTRA, MA =C3=89 UN ASSOLUTO NAZI=E5=8D=90FASCIS=
+TA DI MERDA! GIOELE MAGALDI =C3=89 IL TIPICO TRASFORMISTA, ENORME FIGLIO DI=
+ PUTTANA, CHE QUANDO LA CASA BIANCA =C3=89 OTTIMAMENTE DEMOCRAT, COME ORA, =
+STRA MENTE, RAGLIANDO DI ESSER PROGRESSISTA. QUANDO LA CASA BIANCA DIVIENE =
+CASA NERA, OSSIA NAZIST=E5=8D=90ASSASSINA, COME AI TEMPI DEL PEZZO DI MERDA=
+ PEDOFILO E GENOCIDA #DONALDTRUMP, IL CAMERATA #GIOELEMAGALDI NON RECITA PI=
+=C3=9A E SI MOSTRA PER IL FIGLIO DI CA=E5=8D=90NAZISTA CHE ALTRO NON =C3=89=
+: VERO E PROPRIO #ADOLPHHITLER DENOANTRI! E POI, OGNI ANNO RAPISCE, INCULA =
+ED AMMAZZA TANTISSIMI BAMBINI, CON SCRUPOLO SOTTO ZERO (IN ITALIA SCOMPAION=
+O 40.000 BAMBINI OGNI ANNO: BEN 110 AL GIORNO), SIA PER SCHIFOSISSIMI RITI =
+LUCIFERINI, CHE PER VENDERNE GLI ORGANI! AI TEMPI DI #OBAMABARACK, GIUSTISS=
+IMAMENTE, IL PEDOFILO INCULA BAMBINI #GIOELEMAGALDI DICEVA CHE IL PEDOFILO =
+STRAGISTA #SILVIOBERLUSCONI ERA, E STRA =C3=89 TUTT'ORA, IL PI=C3=9A GRANDE=
+ CRIMINALE IN CRAVATTA DI TUTTO IL MONDO E DI TUTTI I TEMPI. SGAMANDO I SUO=
+I SUPER RICICLAGGI DI SOLDI MAFIOSI ED IL SUO ESSERE MANDANTE DI TANTE STRA=
+GI ED OMICIDI, QUI<br>https://www.youtube.com/watch?v=3DqOJF1jI_iBY<br>ORA =
+FA CANDIDARE SUOI MASSONCELLI BERLUSCONICCHI E SATANISTI DI MERDA, TUTT'UNO=
+ CON MAFIA, CAMORRA E NDRANGHETA, A ROMA, MILANO E SPECIALMENTE IN CALABRIA=
+ (GIOELE MAGALDI =C3=89 PURE AFFILIATO ALLA #NDRANGETA, ESATTAMENTE A COSEN=
+ZA: COSCA PERNA), CON QUEL COCAINOMANE PEDOFILO E NAZISTA BASTARDO DI #VITT=
+ORIOSGARBI (COCAINOMANE PEDOFILO E NAZISTA BASTARDO COME GIOELE MAGALDI)!<b=
+r>ECCO DI CHE OMINICCHIO DI MERDA, DI CHE PEDERASTA CHE SI FA SBORRARE IN C=
+ULO DA RAGAZZINI CHE PAGA ALL'UOPO, PARLIAMO, QUANDO PARLIAMO DEL QUINTUPLO=
+ GIOCHISTA CRIMINALISSIMO, LADRO E TRUFFATORE #GIOELEMAGALDI (CHE SUL WEB H=
+A RUBATO 2 MILIONI DI EURO A TANTISSIMI FESSI, SOLDI SUDATI E DA LUI FREGAT=
+I, DICENDO CHE VOLEVA FARE UN PARTITO POLITICO, PER POI FARE NULLA E SPENDE=
+RE QUESTI SOLDI, ORA, IN COCAINA E RAGAZZINI GAY CHE STECCA AFFINCH=C3=89 L=
+O INCULINO E GLI SBORRINO TUTTO DENTRO AL CULO, DOZZINE DI VOLTE A SETTIMAN=
+A)! FA TUTTI QUESTI CRIMINI CON 2 AVVOCATI SATANISTI? NDRANGHETISTI, PEDOFI=
+LI ED ASSASSINI TANTO QUANTO<br>1) IL NDRANGHETISTA, SUPER KILLER CARPEORO =
+ALIAS GIANFRANCO PECORARO<br>@CarpeorO_micida<br>2)<br>L'AVVOCATO MASSONE D=
+I MERDA, SATANISTA, SUPER OMICIDA, LADRO, TRUFFATORE, NAZI=E5=8D=8DSTALKER =
+DANIELE MINOTTI DI GENOVA E DELINQUENTISSIMO STUDIO LEGALE #LISI.<br>https:=
+//twitter.com/MinottiPedofilo<br><br>SGAMER=C3=93 TANTISSIMI COSIDETTI "SEG=
+RETI, INTRIGHI, MISTERI, CRIMINI, OMICIDI MASSONICI ALL'ITALIANA", DI CUI M=
+I HAN DETTO TUTTO, IN UR LOGGIA THOMAS PAINE, UR LOGGIA POTENTISSIMA, CHE D=
+ELL'ITALIA DI TIPO ASSASSINO, S=C3=81 TUTTO, GRAZIE A CIA E FBI OTTIMAMENTE=
+ DEMOCRAT!<br><br>SONO #MICHAELCHINNICK<br>MICHAEL CHINNICK GEAS GROUP AND =
+MANDARIN GROP. EX OF NAZI ASSASSIN INVESTMENT BANK MORGAN STANLEY.<br>MASSO=
+NE PER BENE DI UR LODGE THOMAS PAINE<br>http://geasgroup.com/our-team/<br>h=
+ttps://www.mdncapital.com/staff/hong-kong/michael-chinnick<br><br><br>E A P=
+ROPOSITO DEL PRIMA CITATO, AVVOCATO NAZI=E5=8D=8DPEDOFILO ASSASSINO #DANIEL=
+EMINOTTI DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI....<br><br>=
+<br>=C3=89 DA ARRESTARE PRIMA CHE FACCIA UCCIDERE ANCORA, L'AVVOCATO PEDOFI=
+LO, BERLUSCO=E5=8D=90NAZISTA, FASCIOLEGHISTA, ASSASSINO DANIELE MINOTTI (FA=
+CEBOOK, TWITTER) DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI.<br=
+>=C3=89 DA FERMARE PER SEMPRE, L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90=
+NAZISTA, PEDERASTA, OMICIDA #DANIELEMINOTTI DI RAPALLO E GENOVA: RAPISCE, I=
+NCULA, UCCIDE TANTI BIMBI, SIA PER VENDERNE GLI ORGANI (COME DA QUESTA ABER=
+RANTE FOTO<br>https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Or=
+gan-Harvesting-415x208.jpg),<br>CHE PER RITI MASSONICO^SATANISTI, CHE FA IN=
+ MILLE SETTE!<br>=C3=89 DI PERICOLO PUBBLICO ENORME, L'AVV ASSASSINO E PEDE=
+RASTA DANIELE MINOTTI (FACEBOOK) DI RAPALLO E GENOVA! AVVOCATO STUPRANTE IN=
+FANTI ED ADOLESCENTI, COME PURE KILLER #DANIELEMINOTTI DI CRIMINALISSIMO #S=
+TUDIOLEGALELISI DI LECCE E MILANO (<br>https://studiolegalelisi.it/team/dan=
+iele-minotti/<br>STUDIO LEGALE MASSO^MAFIOSO LISI DI LECCE E MILANO, DA SEM=
+PRE TUTT'UNO CON MEGA KILLERS DI COSA NOSTRA, CAMORRA, NDRANGHETA, E, COME =
+DA SUA SPECIALITA' PUGLIESE, ANCOR PI=C3=9A, DI SACRA CORONA UNITA, MAFIA B=
+ARESE, MAFIA FOGGIANA, MAFIA DI SAN SEVERO)! =C3=89 STALKER DIFFAMATORE VIA=
+ INTERNET, NONCH=C3=89 PEDERASTA CHE VIOLENTA ED UCCIDE BIMBI, QUESTO AVVOC=
+ATO OMICIDA CHIAMATO DANIELE MINOTTI! QUESTO AVVOCATO SATANISTA, NAZISTA, S=
+ATA=E5=8D=90NAZISTA, PEDOFILO E SANGUINARIO, DI RAPALLO E GENOVA (LO VEDETE=
+ A SINISTRA, SOPRA SCRITTA ECOMMERCE https://i.ytimg.com/vi/LDoNHVqzee8/max=
+resdefault.jpg)<br>RAPALLO: OVE ORGANIZZA TRAME OMICIDA E TERRORISMO DI EST=
+REMA DESTRA, INSIEME "AL RAPALLESE" DI RESIDENZA, HITLERIANO, RAZZISTA, KU =
+KLUK KLANISTA, MAFIOSO E RICICLA SOLDI MAFIOSI COME SUO PADRE: VI ASSICURO,=
+ ANCHE ASSASSINO #PIERSILVIOBERLUSCONI PIERSILVIO BERLUSCONI!<br><br>CONTIN=
+UA QUI<br>https://groups.google.com/g/comp.lang.python/c/IZRbrfh1-qE<br><br=
+>TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI<br>https://groups.google.co=
+m/g/comp.lang.python/c/IZRbrfh1-qE<br>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/44b70efa-5f80-4a3d-af09-4307707a4b57n%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/44b70efa-5f80-4a3d-af09-4307707a4b57n%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_6783_1743854858.1640305031827--
+
+------=_Part_6782_1811547488.1640305031827--
