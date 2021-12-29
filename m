@@ -1,61 +1,139 @@
-Return-Path: <kasan-dev+bncBDNNB6762EJBBF4ZV6HAMGQEBTJUR4Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBNNSV6HAMGQEN3SY5PY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 872BF480F04
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Dec 2021 03:48:56 +0100 (CET)
-Received: by mail-ot1-x33f.google.com with SMTP id y35-20020a9d22a6000000b0058f1cced940sf6557872ota.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Dec 2021 18:48:56 -0800 (PST)
+Received: from mail-ed1-x53f.google.com (mail-ed1-x53f.google.com [IPv6:2a00:1450:4864:20::53f])
+	by mail.lfdr.de (Postfix) with ESMTPS id A72CA480F5D
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Dec 2021 04:42:45 +0100 (CET)
+Received: by mail-ed1-x53f.google.com with SMTP id ay24-20020a056402203800b003f8491e499esf14279005edb.21
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Dec 2021 19:42:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1640749365; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Fowr8heZWEi0llZ5j9IMYrKVO84//OUVwB08+eXm2anStN93eZID8ychzfdlzpFaO5
+         TLq5qqk0m3eW0tqdxlS1a+6lNJvXsxa8dcK3O+59H81oUiFLYzmfcyRW1XmxHT7l+Ztk
+         uuSA6gfYSCpCW87LLBfq90lNaIk9bBh4Hq0nT9RifwKqmojX4G+3KRGbsX5/PstOvpgx
+         QKGyJrqnwNVv+0ae6aRLfRxynK3l9RfnTvFvQwQkd8d3E/MDVfGi5XOIf+6j5q9+X8Dr
+         PqeKQC51C1yANv9H4Vgt6PCde16XSo+zijmGEd6GgR5ZguxR7Oyr9+DekGFzebW+QzgU
+         ZWbQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=Bwf14Lz/vFh8GZcdK4loqiUMZ0n30TKZKHfY2dI4Qnw=;
+        b=ITlOlZ1AJJZLJxLp3no2YuTeJhPgN+4U8padx1ybcUVt2eLl3+X8BNCtPdr8PSpwL9
+         mB0TaCv5vlqWvvMHJ3bYCd1V9Cz8Ii1HOioWaUNl126lM3hH93ft4mgNXRSqzWgs8urz
+         3moxSE8YV5p+07/YRykrFL+XS0e2+KyLEpHQBblZPLO6gQh7+fpN349ZJpg1ow3R0WNr
+         XZVGjWD54G5woQwEwphvjsjMN5wVHDuLP8bODuQWS7TGNSWmM2W3H/afgnrrQmOX2Ojm
+         c2/L2raO1vLk/UhGSbJrR9ZETByRAPN01OFzhegm66HCTdHrgOk4kn/bPL/0G/MuR3w0
+         7uSA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=iZ9RV1zc;
+       spf=pass (google.com: domain of guoren@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=guoren@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=+34IlkwyzOJouZkCnnc6o2jqsAjSYFeXqvFKYJTG8hM=;
-        b=CT+lyGMzmp0EOu0uuMIechezSJ8BgsN55J1X+O3HBK+FOvebRp3AfzpivuQo2K2FrH
-         kMmG8qifkbNTDA750+Lf3nSYCp0OhjEQhMekpyYBx7qzUA6rRLOFljvCTl6pGl0fPI15
-         w9VoIXN2FAxslXZ17ip0L8DrBwbvkiTIVw9qbJCtuOUHH0niAAF/ApL8GyEfDsx9dHUv
-         wd+PZuFmIsZTWJJd/RMXMR/tHfNeJ7vpg03lW+4inNTXKOvC5Bu+artsnxM2dGtWE+71
-         8m5Zal3sJ+mdRTyV263OX+PJiusEGozb+acI9eSXNy7jkPisWPSRW6FOaL8IsqUXmTnP
-         AUkA==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Bwf14Lz/vFh8GZcdK4loqiUMZ0n30TKZKHfY2dI4Qnw=;
+        b=NayQj2wqdBElKJmr6ln5tJHvcqQFfsDW1snhPjo2OfnBJJU+tHS3Pa/pxY//PMuFf9
+         3iaJSAzKRakzA2JQv2jokuCXdKbvwDTQ6GnjCSZAxISb1DxWJvs7H91c5ucCNEC+xo7V
+         PEVdS4pZPFEgLtqCTQJwU4m2OLs4+LGMHnLuPgwEeu61rmAN48tmlVqHfZUAnreiADaW
+         LH5D/P35al+sDsmwGmmk2lZ7srUaRb8QFVyhXEPrBqM4L1OyrK7P8frTR3mzkdPDM6BV
+         xfhbehuZDsGVmJSt9FRZDvs56MjqrH1NtoBn6VVVh15odf9kKsGtyXrTk04D3mearwdg
+         Q72w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=+34IlkwyzOJouZkCnnc6o2jqsAjSYFeXqvFKYJTG8hM=;
-        b=ItGaBgEXTM7PbDlJ7iPO2uW7XlqGzQO3DWIfBk+8VNZCBxOOpz8yptxkrY1SLuh1N8
-         UbXWJZtzSn3FZkR+sczOdiBllXD+6mPuOmASHSpCpQy5sLzVt6fGte5+tSTvLvYaSYTd
-         tNVpA61xh7l/sqpiaE3rj8RXyI4srHhoMfXJNRZZAUDguyEBVbKiXXe9nXHN2FcJKfor
-         H4O2BQOcn0m2iDbP1E52OldgiElcVh24ufL1/qdNtf9+gCMIEXZ0H148B0z6KGhZY1CR
-         N18/14HGZ8doGrmGV333moI24iQ19orMx+uQRwCuvqmxfaRJdPvOAz/wQYY/iZ8T7sG4
-         RTRg==
+        bh=Bwf14Lz/vFh8GZcdK4loqiUMZ0n30TKZKHfY2dI4Qnw=;
+        b=JDX9bTYwlqpYruqndvQkWQJamICiFmERjtpM2MdyDDD/TZHnxZLhxbwHyG/e60q2+i
+         nExhEUxHLoRExyUIojVCvTJDUtDIE3yFLX9pb00v8yNSEh1uujrm2EUdUnniG7eH7Ubr
+         Dz5zPm//g+Enqd0BA6wQXeslaKGYYdOpI7CFv30YbLyK4PJurphVanqERzeLYpFUm/bY
+         jPU1ixSY5gocGjFfvKcCXATAbcwmaDwleGqSU+1aA/7BRQh+xkRGlHFCZgJLrdzarrQr
+         S4B0fvkltUw0ZNHs+FylU7tKxXTfej0Suyneq8IzxV3BzEcKrE+JPmQTSbvLwcDNAMwT
+         S6Ew==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5313tbASmVOxuN1qC1yFEfDXN/7blbQwxm7GOoupjUgljigG60d/
-	iaWNmlKTKCBYkhqIyDXsqTA=
-X-Google-Smtp-Source: ABdhPJwLrk837uPSjxtYri5AD/J3onuBbBxx7PS+9eERh6YMDubh/T36wr25wLPWJRn4XmfMpDWzUQ==
-X-Received: by 2002:a05:6808:180d:: with SMTP id bh13mr18804154oib.142.1640746135155;
-        Tue, 28 Dec 2021 18:48:55 -0800 (PST)
+X-Gm-Message-State: AOAM532xPhvvd+obIr2KmjZ6VQCFXJuTlubMbXdvPXwIGRqBlLddhglv
+	iv7A4gq9qTPGKI7n4aj1XsA=
+X-Google-Smtp-Source: ABdhPJzuKAmn4Qf+/eUM6OvPwJf/kyJqN9f2ehdBjZ4179SRVt5XSTIjcfO50gRE6PhthWv5+nGrMg==
+X-Received: by 2002:a17:906:254a:: with SMTP id j10mr19487046ejb.362.1640749365221;
+        Tue, 28 Dec 2021 19:42:45 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:18aa:: with SMTP id bi42ls4665864oib.11.gmail; Tue,
- 28 Dec 2021 18:48:54 -0800 (PST)
-X-Received: by 2002:aca:1708:: with SMTP id j8mr18000692oii.62.1640746134628;
-        Tue, 28 Dec 2021 18:48:54 -0800 (PST)
-Date: Tue, 28 Dec 2021 18:48:53 -0800 (PST)
-From: "MATTHEW HOLLAND. TRIUM CAPITAL. FREEMASONRY LONDON."
- <massoni.assassini@mail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <a4c4aaba-5ed0-493d-ab7f-c7f8d3fbea3bn@googlegroups.com>
-Subject: =?UTF-8?Q?PRENDE_CAZZONI_IN_CULO:_#MARIAPAOLATOSCHI_DI_#JPMORGAN!_VUOLE_?=
- =?UTF-8?Q?SESSO_DI_GRUPPO_EXTREME_(INSIEME_A_SUOI_COMPARI_SATANISTI,_COMP?=
- =?UTF-8?Q?LOTTARDI,_SPIONI,_ASSASSINI_DI_LIONS_CLUBS):_MARIA_PAOLA_TOSCH?=
- =?UTF-8?Q?I_DI_JP_MORGAN!_=C3=89_NINFOMANE_ASS?=
- =?UTF-8?Q?ATANATA:_#MARIAPAOLATOSCHI......?=
+Received: by 2002:a05:6402:3591:: with SMTP id y17ls780646edc.3.gmail; Tue, 28
+ Dec 2021 19:42:44 -0800 (PST)
+X-Received: by 2002:a05:6402:51cc:: with SMTP id r12mr23346298edd.92.1640749364429;
+        Tue, 28 Dec 2021 19:42:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1640749364; cv=none;
+        d=google.com; s=arc-20160816;
+        b=WAvzFtzX+JCZ19hrO5abYhaiaelJCBG0cjx1K7Rv2BZpe9BcTOlPaClUbqYww9ug19
+         oDYY84nS7yg1TCZqc6KXuFIC+iPuqdujw74TAapGQw/fjq196NQHmDw1zYAdL5QykbAJ
+         Ws9Mk4eGH9Og5OTGoCv6uPZwr6XSX9MamURGT9fEwuLI1GyXbp4MeuUUiRm7cVyZzSrm
+         dJtRSSh9OuZn/1LGt0V4ql9s10svl8vf1R1+UnKYDjQ41Ya94DIWIHeVg88xGSlbtfGT
+         4scixg8E9lphTYtQXqlJspiTf2roBJnSEpRm5eVxA5svTlwGOPVrsulLEP0+z223YQVD
+         Xb1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=K0UN8aqcv6IoUGcQHkG63bTC8loYIoM8ySF22V/rcS8=;
+        b=UaAj9FkY9GT50TanqI9cjT2fhhoAOzMZ3iB1u6nFmmPdVPjNBEO7qC9vlmFpk6addA
+         X1EuG+Hc+iqOtFrw5poWeBYCRZudSNilMW+zE9IwaWw/ASy4QB471QtaVWUxBKqL1mQ1
+         NrkvxFZDqW4OHi66PF8j6/vKUFwH2ZOUHoEUpI7GwYNexmwiF2nWMNUHUZKRrgKXxfwt
+         QFKnMqWnmZYJAqD5b8QDmnyvs9Oz9MwV8taCFVtjQhohc6fcMREePrYkZXwMK3y93fxH
+         emvzA725YrkZQckjPme73tAPcCApJn23766r4xImcLJDtsd797XIFnCkb1FdWJsDkwh1
+         fbpg==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=iZ9RV1zc;
+       spf=pass (google.com: domain of guoren@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=guoren@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
+        by gmr-mx.google.com with ESMTPS id y11si557340eda.5.2021.12.28.19.42.44
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 28 Dec 2021 19:42:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of guoren@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id D70E2B81188
+	for <kasan-dev@googlegroups.com>; Wed, 29 Dec 2021 03:42:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9939BC36AEC
+	for <kasan-dev@googlegroups.com>; Wed, 29 Dec 2021 03:42:42 +0000 (UTC)
+Received: by mail-ua1-f42.google.com with SMTP id p2so34982748uad.11
+        for <kasan-dev@googlegroups.com>; Tue, 28 Dec 2021 19:42:42 -0800 (PST)
+X-Received: by 2002:a05:6102:a83:: with SMTP id n3mr7683953vsg.2.1640749361347;
+ Tue, 28 Dec 2021 19:42:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_8654_1782643615.1640746133968"
-X-Original-Sender: massoni.assassini@mail.com
+References: <20211206104657.433304-1-alexandre.ghiti@canonical.com> <20211206104657.433304-8-alexandre.ghiti@canonical.com>
+In-Reply-To: <20211206104657.433304-8-alexandre.ghiti@canonical.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Wed, 29 Dec 2021 11:42:30 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQ3a4wP33V31HhzTC1zERMsATb1NZKoS6zVhKUafvAe+A@mail.gmail.com>
+Message-ID: <CAJF2gTQ3a4wP33V31HhzTC1zERMsATb1NZKoS6zVhKUafvAe+A@mail.gmail.com>
+Subject: Re: [PATCH v3 07/13] riscv: Implement sv48 support
+To: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Zong Li <zong.li@sifive.com>, 
+	Anup Patel <anup@brainfault.org>, Atish Patra <Atish.Patra@rivosinc.com>, 
+	Christoph Hellwig <hch@lst.de>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Kees Cook <keescook@chromium.org>, Guo Ren <guoren@linux.alibaba.com>, 
+	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>, 
+	Mayuresh Chitale <mchitale@ventanamicro.com>, panqinglin2020@iscas.ac.cn, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-riscv <linux-riscv@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	linux-efi <linux-efi@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: guoren@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=iZ9RV1zc;       spf=pass
+ (google.com: domain of guoren@kernel.org designates 145.40.68.75 as permitted
+ sender) smtp.mailfrom=guoren@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -68,389 +146,1038 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_8654_1782643615.1640746133968
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_8655_241382111.1640746133968"
+On Tue, Dec 7, 2021 at 11:54 AM Alexandre Ghiti
+<alexandre.ghiti@canonical.com> wrote:
+>
+> By adding a new 4th level of page table, give the possibility to 64bit
+> kernel to address 2^48 bytes of virtual address: in practice, that offers
+> 128TB of virtual address space to userspace and allows up to 64TB of
+> physical memory.
+>
+> If the underlying hardware does not support sv48, we will automatically
+> fallback to a standard 3-level page table by folding the new PUD level into
+> PGDIR level. In order to detect HW capabilities at runtime, we
+> use SATP feature that ignores writes with an unsupported mode.
+>
+> Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+> ---
+>  arch/riscv/Kconfig                      |   4 +-
+>  arch/riscv/include/asm/csr.h            |   3 +-
+>  arch/riscv/include/asm/fixmap.h         |   1 +
+>  arch/riscv/include/asm/kasan.h          |   6 +-
+>  arch/riscv/include/asm/page.h           |  14 ++
+>  arch/riscv/include/asm/pgalloc.h        |  40 +++++
+>  arch/riscv/include/asm/pgtable-64.h     | 108 +++++++++++-
+>  arch/riscv/include/asm/pgtable.h        |  24 ++-
+>  arch/riscv/kernel/head.S                |   3 +-
+>  arch/riscv/mm/context.c                 |   4 +-
+>  arch/riscv/mm/init.c                    | 212 +++++++++++++++++++++---
+>  arch/riscv/mm/kasan_init.c              | 137 ++++++++++++++-
+>  drivers/firmware/efi/libstub/efi-stub.c |   2 +
+>  13 files changed, 514 insertions(+), 44 deletions(-)
+>
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index ac6c0cd9bc29..d28fe0148e13 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -150,7 +150,7 @@ config PAGE_OFFSET
+>         hex
+>         default 0xC0000000 if 32BIT
+>         default 0x80000000 if 64BIT && !MMU
+> -       default 0xffffffd800000000 if 64BIT
+> +       default 0xffffaf8000000000 if 64BIT
+>
+>  config KASAN_SHADOW_OFFSET
+>         hex
+> @@ -201,7 +201,7 @@ config FIX_EARLYCON_MEM
+>
+>  config PGTABLE_LEVELS
+>         int
+> -       default 3 if 64BIT
+> +       default 4 if 64BIT
+>         default 2
+>
+>  config LOCKDEP_SUPPORT
+> diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+> index 87ac65696871..3fdb971c7896 100644
+> --- a/arch/riscv/include/asm/csr.h
+> +++ b/arch/riscv/include/asm/csr.h
+> @@ -40,14 +40,13 @@
+>  #ifndef CONFIG_64BIT
+>  #define SATP_PPN       _AC(0x003FFFFF, UL)
+>  #define SATP_MODE_32   _AC(0x80000000, UL)
+> -#define SATP_MODE      SATP_MODE_32
+>  #define SATP_ASID_BITS 9
+>  #define SATP_ASID_SHIFT        22
+>  #define SATP_ASID_MASK _AC(0x1FF, UL)
+>  #else
+>  #define SATP_PPN       _AC(0x00000FFFFFFFFFFF, UL)
+>  #define SATP_MODE_39   _AC(0x8000000000000000, UL)
+> -#define SATP_MODE      SATP_MODE_39
+> +#define SATP_MODE_48   _AC(0x9000000000000000, UL)
+>  #define SATP_ASID_BITS 16
+>  #define SATP_ASID_SHIFT        44
+>  #define SATP_ASID_MASK _AC(0xFFFF, UL)
+> diff --git a/arch/riscv/include/asm/fixmap.h b/arch/riscv/include/asm/fixmap.h
+> index 54cbf07fb4e9..58a718573ad6 100644
+> --- a/arch/riscv/include/asm/fixmap.h
+> +++ b/arch/riscv/include/asm/fixmap.h
+> @@ -24,6 +24,7 @@ enum fixed_addresses {
+>         FIX_HOLE,
+>         FIX_PTE,
+>         FIX_PMD,
+> +       FIX_PUD,
+>         FIX_TEXT_POKE1,
+>         FIX_TEXT_POKE0,
+>         FIX_EARLYCON_MEM_BASE,
+> diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
+> index 743e6ff57996..0b85e363e778 100644
+> --- a/arch/riscv/include/asm/kasan.h
+> +++ b/arch/riscv/include/asm/kasan.h
+> @@ -28,7 +28,11 @@
+>  #define KASAN_SHADOW_SCALE_SHIFT       3
+>
+>  #define KASAN_SHADOW_SIZE      (UL(1) << ((VA_BITS - 1) - KASAN_SHADOW_SCALE_SHIFT))
+> -#define KASAN_SHADOW_START     (KASAN_SHADOW_END - KASAN_SHADOW_SIZE)
+> +/*
+> + * Depending on the size of the virtual address space, the region may not be
+> + * aligned on PGDIR_SIZE, so force its alignment to ease its population.
+> + */
+> +#define KASAN_SHADOW_START     ((KASAN_SHADOW_END - KASAN_SHADOW_SIZE) & PGDIR_MASK)
+>  #define KASAN_SHADOW_END       MODULES_LOWEST_VADDR
+>  #define KASAN_SHADOW_OFFSET    _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
+>
+> diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
+> index e03559f9b35e..d089fe46f7d8 100644
+> --- a/arch/riscv/include/asm/page.h
+> +++ b/arch/riscv/include/asm/page.h
+> @@ -31,7 +31,20 @@
+>   * When not using MMU this corresponds to the first free page in
+>   * physical memory (aligned on a page boundary).
+>   */
+> +#ifdef CONFIG_64BIT
+> +#ifdef CONFIG_MMU
+> +#define PAGE_OFFSET            kernel_map.page_offset
+> +#else
+> +#define PAGE_OFFSET            _AC(CONFIG_PAGE_OFFSET, UL)
+> +#endif
+> +/*
+> + * By default, CONFIG_PAGE_OFFSET value corresponds to SV48 address space so
+> + * define the PAGE_OFFSET value for SV39.
+> + */
+> +#define PAGE_OFFSET_L3         _AC(0xffffffd800000000, UL)
+> +#else
+>  #define PAGE_OFFSET            _AC(CONFIG_PAGE_OFFSET, UL)
+> +#endif /* CONFIG_64BIT */
+>
+>  /*
+>   * Half of the kernel address space (half of the entries of the page global
+> @@ -90,6 +103,7 @@ extern unsigned long riscv_pfn_base;
+>  #endif /* CONFIG_MMU */
+>
+>  struct kernel_mapping {
+> +       unsigned long page_offset;
+>         unsigned long virt_addr;
+>         uintptr_t phys_addr;
+>         uintptr_t size;
+> diff --git a/arch/riscv/include/asm/pgalloc.h b/arch/riscv/include/asm/pgalloc.h
+> index 0af6933a7100..11823004b87a 100644
+> --- a/arch/riscv/include/asm/pgalloc.h
+> +++ b/arch/riscv/include/asm/pgalloc.h
+> @@ -11,6 +11,8 @@
+>  #include <asm/tlb.h>
+>
+>  #ifdef CONFIG_MMU
+> +#define __HAVE_ARCH_PUD_ALLOC_ONE
+> +#define __HAVE_ARCH_PUD_FREE
+>  #include <asm-generic/pgalloc.h>
+>
+>  static inline void pmd_populate_kernel(struct mm_struct *mm,
+> @@ -36,6 +38,44 @@ static inline void pud_populate(struct mm_struct *mm, pud_t *pud, pmd_t *pmd)
+>
+>         set_pud(pud, __pud((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
+>  }
+> +
+> +static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4d, pud_t *pud)
+> +{
+> +       if (pgtable_l4_enabled) {
+> +               unsigned long pfn = virt_to_pfn(pud);
+> +
+> +               set_p4d(p4d, __p4d((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
+> +       }
+> +}
+> +
+> +static inline void p4d_populate_safe(struct mm_struct *mm, p4d_t *p4d,
+> +                                    pud_t *pud)
+> +{
+> +       if (pgtable_l4_enabled) {
+> +               unsigned long pfn = virt_to_pfn(pud);
+> +
+> +               set_p4d_safe(p4d,
+> +                            __p4d((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
+> +       }
+> +}
+> +
+> +#define pud_alloc_one pud_alloc_one
+> +static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long addr)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               return __pud_alloc_one(mm, addr);
+> +
+> +       return NULL;
+> +}
+> +
+> +#define pud_free pud_free
+> +static inline void pud_free(struct mm_struct *mm, pud_t *pud)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               __pud_free(mm, pud);
+> +}
+> +
+> +#define __pud_free_tlb(tlb, pud, addr)  pud_free((tlb)->mm, pud)
+>  #endif /* __PAGETABLE_PMD_FOLDED */
+>
+>  static inline pgd_t *pgd_alloc(struct mm_struct *mm)
+> diff --git a/arch/riscv/include/asm/pgtable-64.h b/arch/riscv/include/asm/pgtable-64.h
+> index 228261aa9628..bbbdd66e5e2f 100644
+> --- a/arch/riscv/include/asm/pgtable-64.h
+> +++ b/arch/riscv/include/asm/pgtable-64.h
+> @@ -8,16 +8,36 @@
+>
+>  #include <linux/const.h>
+>
+> -#define PGDIR_SHIFT     30
+> +extern bool pgtable_l4_enabled;
+> +
+> +#define PGDIR_SHIFT_L3  30
+> +#define PGDIR_SHIFT_L4  39
+> +#define PGDIR_SIZE_L3   (_AC(1, UL) << PGDIR_SHIFT_L3)
+> +
+> +#define PGDIR_SHIFT     (pgtable_l4_enabled ? PGDIR_SHIFT_L4 : PGDIR_SHIFT_L3)
+>  /* Size of region mapped by a page global directory */
+>  #define PGDIR_SIZE      (_AC(1, UL) << PGDIR_SHIFT)
+>  #define PGDIR_MASK      (~(PGDIR_SIZE - 1))
+>
+> +/* pud is folded into pgd in case of 3-level page table */
+> +#define PUD_SHIFT      30
+> +#define PUD_SIZE       (_AC(1, UL) << PUD_SHIFT)
+> +#define PUD_MASK       (~(PUD_SIZE - 1))
+> +
+>  #define PMD_SHIFT       21
+>  /* Size of region mapped by a page middle directory */
+>  #define PMD_SIZE        (_AC(1, UL) << PMD_SHIFT)
+>  #define PMD_MASK        (~(PMD_SIZE - 1))
+>
+> +/* Page Upper Directory entry */
+> +typedef struct {
+> +       unsigned long pud;
+> +} pud_t;
+> +
+> +#define pud_val(x)      ((x).pud)
+> +#define __pud(x)        ((pud_t) { (x) })
+> +#define PTRS_PER_PUD    (PAGE_SIZE / sizeof(pud_t))
+> +
+>  /* Page Middle Directory entry */
+>  typedef struct {
+>         unsigned long pmd;
+> @@ -59,6 +79,16 @@ static inline void pud_clear(pud_t *pudp)
+>         set_pud(pudp, __pud(0));
+>  }
+>
+> +static inline pud_t pfn_pud(unsigned long pfn, pgprot_t prot)
+> +{
+> +       return __pud((pfn << _PAGE_PFN_SHIFT) | pgprot_val(prot));
+> +}
+> +
+> +static inline unsigned long _pud_pfn(pud_t pud)
+> +{
+> +       return pud_val(pud) >> _PAGE_PFN_SHIFT;
+> +}
+> +
+>  static inline pmd_t *pud_pgtable(pud_t pud)
+>  {
+>         return (pmd_t *)pfn_to_virt(pud_val(pud) >> _PAGE_PFN_SHIFT);
+> @@ -69,6 +99,17 @@ static inline struct page *pud_page(pud_t pud)
+>         return pfn_to_page(pud_val(pud) >> _PAGE_PFN_SHIFT);
+>  }
+>
+> +#define mm_pud_folded  mm_pud_folded
+> +static inline bool mm_pud_folded(struct mm_struct *mm)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               return false;
+> +
+> +       return true;
+> +}
+> +
+> +#define pmd_index(addr) (((addr) >> PMD_SHIFT) & (PTRS_PER_PMD - 1))
+> +
+>  static inline pmd_t pfn_pmd(unsigned long pfn, pgprot_t prot)
+>  {
+>         return __pmd((pfn << _PAGE_PFN_SHIFT) | pgprot_val(prot));
+> @@ -84,4 +125,69 @@ static inline unsigned long _pmd_pfn(pmd_t pmd)
+>  #define pmd_ERROR(e) \
+>         pr_err("%s:%d: bad pmd %016lx.\n", __FILE__, __LINE__, pmd_val(e))
+>
+> +#define pud_ERROR(e)   \
+> +       pr_err("%s:%d: bad pud %016lx.\n", __FILE__, __LINE__, pud_val(e))
+> +
+> +static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               *p4dp = p4d;
+> +       else
+> +               set_pud((pud_t *)p4dp, (pud_t){ p4d_val(p4d) });
+> +}
+> +
+> +static inline int p4d_none(p4d_t p4d)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               return (p4d_val(p4d) == 0);
+> +
+> +       return 0;
+> +}
+> +
+> +static inline int p4d_present(p4d_t p4d)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               return (p4d_val(p4d) & _PAGE_PRESENT);
+> +
+> +       return 1;
+> +}
+> +
+> +static inline int p4d_bad(p4d_t p4d)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               return !p4d_present(p4d);
+> +
+> +       return 0;
+> +}
+> +
+> +static inline void p4d_clear(p4d_t *p4d)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               set_p4d(p4d, __p4d(0));
+> +}
+> +
+> +static inline pud_t *p4d_pgtable(p4d_t p4d)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               return (pud_t *)pfn_to_virt(p4d_val(p4d) >> _PAGE_PFN_SHIFT);
+> +
+> +       return (pud_t *)pud_pgtable((pud_t) { p4d_val(p4d) });
+> +}
+> +
+> +static inline struct page *p4d_page(p4d_t p4d)
+> +{
+> +       return pfn_to_page(p4d_val(p4d) >> _PAGE_PFN_SHIFT);
+> +}
+> +
+> +#define pud_index(addr) (((addr) >> PUD_SHIFT) & (PTRS_PER_PUD - 1))
+> +
+> +#define pud_offset pud_offset
+> +static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+> +{
+> +       if (pgtable_l4_enabled)
+> +               return p4d_pgtable(*p4d) + pud_index(address);
+> +
+> +       return (pud_t *)p4d;
+> +}
+> +
+>  #endif /* _ASM_RISCV_PGTABLE_64_H */
+> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+> index e1a52e22ad7e..e1c74ef4ead2 100644
+> --- a/arch/riscv/include/asm/pgtable.h
+> +++ b/arch/riscv/include/asm/pgtable.h
+> @@ -51,7 +51,7 @@
+>   * position vmemmap directly below the VMALLOC region.
+>   */
+>  #ifdef CONFIG_64BIT
+> -#define VA_BITS                39
+> +#define VA_BITS                (pgtable_l4_enabled ? 48 : 39)
+>  #else
+>  #define VA_BITS                32
+>  #endif
+> @@ -90,8 +90,7 @@
+>
+>  #ifndef __ASSEMBLY__
+>
+> -/* Page Upper Directory not used in RISC-V */
+> -#include <asm-generic/pgtable-nopud.h>
+> +#include <asm-generic/pgtable-nop4d.h>
+>  #include <asm/page.h>
+>  #include <asm/tlbflush.h>
+>  #include <linux/mm_types.h>
+> @@ -113,6 +112,17 @@
+>  #define XIP_FIXUP(addr)                (addr)
+>  #endif /* CONFIG_XIP_KERNEL */
+>
+> +struct pt_alloc_ops {
+> +       pte_t *(*get_pte_virt)(phys_addr_t pa);
+> +       phys_addr_t (*alloc_pte)(uintptr_t va);
+> +#ifndef __PAGETABLE_PMD_FOLDED
+> +       pmd_t *(*get_pmd_virt)(phys_addr_t pa);
+> +       phys_addr_t (*alloc_pmd)(uintptr_t va);
+> +       pud_t *(*get_pud_virt)(phys_addr_t pa);
+> +       phys_addr_t (*alloc_pud)(uintptr_t va);
+> +#endif
+> +};
+> +
+>  #ifdef CONFIG_MMU
+>  /* Number of entries in the page global directory */
+>  #define PTRS_PER_PGD    (PAGE_SIZE / sizeof(pgd_t))
+> @@ -669,9 +679,11 @@ static inline pmd_t pmdp_establish(struct vm_area_struct *vma,
+>   * Note that PGDIR_SIZE must evenly divide TASK_SIZE.
+>   */
+>  #ifdef CONFIG_64BIT
+> -#define TASK_SIZE (PGDIR_SIZE * PTRS_PER_PGD / 2)
+> +#define TASK_SIZE      (PGDIR_SIZE * PTRS_PER_PGD / 2)
+> +#define TASK_SIZE_MIN  (PGDIR_SIZE_L3 * PTRS_PER_PGD / 2)
+>  #else
+> -#define TASK_SIZE FIXADDR_START
+> +#define TASK_SIZE      FIXADDR_START
+> +#define TASK_SIZE_MIN  TASK_SIZE
+This is used by efi-stub.c, rv64 compat patch also need it, we reuse
+DEFAULT_MAP_WINDOW_64 macro.
 
-------=_Part_8655_241382111.1640746133968
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+TASK_SIZE_MIN is also okay for me, I think it should be a separate
+patch with efi-stub midification.
+https://lore.kernel.org/linux-riscv/20211228143958.3409187-9-guoren@kernel.org/
 
-PRENDE CAZZONI IN CULO: #MARIAPAOLATOSCHI DI #JPMORGAN! VUOLE SESSO DI=20
-GRUPPO EXTREME (INSIEME A SUOI COMPARI SATANISTI, COMPLOTTARDI, SPIONI,=20
-ASSASSINI DI LIONS CLUBS): MARIA PAOLA TOSCHI DI JP MORGAN! =C3=89 NINFOMAN=
-E=20
-ASSATANATA: #MARIAPAOLATOSCHI......DI JP MORGAN! NE SCRIVE CON ENTUSIASMO=
-=20
-(VOLENDOLE BENE) E PER NULLA CON CRITICA, L'EROICO BANCHIERE SVIZZERO=20
-#ANDREASNIGG DI BANK J SAFRA SARASIN ZURICH. CHE PASSAVA WEEK ENDS DI SESSO=
-=20
-INTENSISSIMO, CON LEI, STILE PERVERTITO ^ARCORE^HARDCORE^, FRA 2001 E 2004,=
-=20
-MENTRE LA TOSCHI LAVORAVA IN BANCA LEONARDO DI NOTO, PURE ASSASSINO,=20
-#MICHELEMILLA, ORA IN CRIMINALE #MOMENTUM ASSAGNO (KILLER MICHELE MILLA CHE=
-=20
-FECE IMPICCARE #UBALDOGAGGIO ED UCCIDERE ^MASSONICAMENTE^, ALLA DAVID=20
-ROSSI, TANTISSIMI ALTRI)! A VOI IL VINCENTISSIMO ANDREAS NIGG DI BANK J=20
-SAFRA SARASIN ZURICH!
+I've merged your patchset with compat tree and we are testing them
+together totally & carefully.
+https://github.com/c-sky/csky-linux/tree/riscv_compat_v2_sv48_v3
 
-CIAO A TUTTI. SONO SEMPRE IL VOSTRO ANDREAS NIGG DI BANK J SAFRA SARASIN.
-https://citywireselector.com/manager/andreas-nigg/d2395
-https://ch.linkedin.com/in/andreasnigg
-https://www.blogger.com/profile/13220677517437640922
+Now, rv32_rootfs & 64_rootfs booting have been passed. But I would
+give you tested-by later after totally tested. Your patch set is very
+helpful, thx.
 
-HO SERI INTERESSI IN ITALIA. HO TANTI CLIENTI IN SVIZZERA, DI NAZIONALIT=C3=
-=80=20
-ITALIANA. I #BENETTON, #RENZOROSSO DI DIESEL, #GIOELEMAGALDI, #LEOZAGAMI,=
-=20
-#ENRICOLETTA, #GIANNILETTA, #ANDREAMARCUCCI, #MATTEORENZI,=20
-#MARIAELENABOSCHI, #VITTORIOSGARBI, #CARLOBONOMI, QUEL PORCO PERVERTITO DI=
-=20
-#GUIDOCROSETTO. PURE ARTISTI, COME I MASSONI #LAURAPAUSINI,=20
-#ADRIANOCELENTANO, #MONICABELLUCCI, #CARLOVERDONE, #ENRICOMONTESANO, LA=20
-FAMIGLIA #FACCHINETTI E TANTI ALTRI (NON ESISTE PI=C3=99 IL SEGRETO BANCARI=
-O,=20
-QUINDI POSSO SCRIVERNE). DI SOLITO SCRIVO PER SGAMARE IL MALE BASTARDAMENTE=
-=20
-MASSO^NAZI=E5=8D=90FASCISTA E BERLUSCONIANO CHE BLOCCA, STUPRA, DIREI UCCID=
-E=20
-L'ITALIA, DA 35 ANNI. SCHIFO CON TUTTE LE FORZE I BASTARDI PEDOFILI=20
-ASSASSINI #BERLUSCONI! SONO DEI PEZZI DI MERDA #HITLER, #PINOCHET, #PUTIN=
-=20
-MISTI A STRA PEZZI DI MERDA AL CAPONE, TOTO RIINA E PASQUALE BARRA DETTO "O=
-=20
-ANIMALE"! SI PRENDONO LA NAZIONE INTERA, INTRECCIANDO POTERE ECONOMICO,=20
-POTERE DI CORROMPERE CHIUNQUE, POTERE MEDIATICO, POTERE EDITORIALE, POTERE=
-=20
-MAFIOSO, POTERE MILITARE, POTERE DI POLIZIA E GIUDICI DA LORO=20
-CORROTTISSIMI, POTERE DI INTELLIGENCE ASSASSINA, POTERE DI TERRORISTI=20
-NAZIFASCISTI, ADDIRITURA PURE POTERE CALCISTICO ED IL POTERE DEI POTERI: IL=
-=20
-POTERE POLITICO (OSSIA OGNI TIPO DI POTERE: OGNI)! CREANDO DITTATURA=20
-STRAGISTA, STRA OMICIDA! I TOPI DI FOGNA KILLER #SILVIOBERLUSCONI,=20
-#PAOLOBERLUSCONI, #PIERSILVIOBERLUSCONI E #MARINABERLUSCONI HAN FATTO=20
-UCCIDERE IN VITA LORO, CENTINAIA DI PERSONE (ALMENO 700)! LA LORO=20
-SPECIALIT=C3=81 =C3=89 ORGANIZZARE OMICIDI ^MASSONICI^! OSSIA DA FAR PASSAR=
-E PER=20
-FINTI SUICIDI, INFARTI, INCIDENTI (VEDI COME HANNO UCCISO LENTAMENTE, IN=20
-MANIERA MASSONICISSIMA, LA GRANDE #IMANEFADIL, MA PURE GLI AVVOCATI VICINI=
-=20
-A IMANE FADIL: #EGIDIOVERZINI E #MAURORUFFFINI)! IN COMBUTTA CON SERVIZI=20
-SEGRETI NAZIFASCISTI, BASTARDA MASSONERIA DI ESTREMA DESTRA (VEDI #P2 P2 O=
-=20
-#LOGGIADELDRAGO LOGGIA DEL DRAGO, OSSIA LOGGIA PERSONALE DEL PEZZO DI MERDA=
-=20
-PEDOSIFLO E STRAGISTA #SILVIOBERLUSCONI). OLTRE CHE DI LORO VARIE COSA=20
-NOSTRA, CAMORRA, NDRANGHETA, MAFIA RUSSA, MAFIA CINESE, MAFIA COLOMBIANA,=
-=20
-MAFIE DI TUTTO IL PIANETA TERRA. OGGI PER=C3=93 VOGLIO SCRIVERE DI UNA PERS=
-ONA=20
-DI CUI HO BUON RICORDO. LA SEMPRE VOGLIOSISSIMA DI SESSO ANALE, SESSO DI=20
-GRUPPO O SESSO FOCOSO IN GENERE: #MARIAPAOLATOSCHI DI #JPMORGAN (TUTT'ORA,=
-=20
-21 ANNI DOPO QUELLO CHE VADO A DESCRIVERE, NON =C3=89 MALE FISICAMENTE
-https://www.instagram.com/p/BmbRyjljaSm/
-MA 21 ANNI FA ERA MOLTISSIMO ANCOR PI=C3=9A BELLA FIGA, VE LO ASSICURO).
-ANNO 2000. ERA NATA LA MAFIOSA #BANCALEONARDO (DEL CRIMINALISSIMO,=20
-ESTRMEMANTE OMICIDA #MICHELEMILLA MICHELE MILLA
-https://finlantern.com/financeforum/sponsors/milla-michele-partner-momentum=
--alternative-investments/
-ORA PRESSO CRIMINALISSIMA #MOMENTUM MASSAGNO=20
-https://ch.linkedin.com/company/momentum-alternative-investment-sa
-SU CUI TROVATE NON POCO QUI
-https://www.politbjuro.com/itemeva-di-essere-licenziataibrfunzionaria-di-ba=
-nca-suicida/).
-SCENDEVO A MILANO OGNI VENERDI SERA DA ZURIGO, E PASSAVO WEEK END DI SESSO=
-=20
-SCATENATISSIMO CON LEI (DI NASCOSTO, DA VERI E PROPRI SECRET LOVERS=20
-https://www.youtube.com/watch?v=3DOe2UXqFo0DY, LEI ERA, COME ME, SPOSATA, M=
-A=20
-ESSENDO NOI DUE, VOGLIOSI DI SESSO, LIBERTINI DI ROTARY E LIONS CLUBS,=20
-SCOPAVAMO TANTISSIMO, LEI AMAVA IL SESSO ANALE, ANDAMMO AVANTI FINO AL=20
-2004, PER FANTASTICI 48 MESI). CHE BEI RICORDI CHE HO NEL CUORE. UN BACIO=
-=20
-CALIENTISSIMO. SONO ANDREAS NIGG DI BANK J SAFRA SARASIN ZURICH. PREMIATO=
-=20
-NEL 2018, 2019, 2020, COME BANCHIERE SVIZZERO DELL'ANNO, A BASILEA. I=20
-SONDAGGI MI DANNO VINCITORE PURE NEL 2021. MA NON MI FIDO TANTISSIMO DEI=20
-SONDAGGI. MASSIMA UMILT=C3=80, FAME ESTREMA DI VITTORIE E PIEDI PER TERRA, =
-SON=20
-LE UNICHE CHIAVI PER FARE LA STORIA!
-LEGGETE QUESTO TESTO, ORA, PLEASE, DOVE INIZIO A SCRIVERE DI UN MASSONE=20
-SATANISTA NAZISTA SATA=E5=8D=8DNAZISTA E BERLUSCONICCHIO: L'AVVOCATO ASSASS=
-INO=20
-#DANIELEMINOTTI DI GENOVA E CRIMINALE STUDIO LEGALE LISI. NOTO PER RAPIRE,=
-=20
-SODOMIZZARE ED UCCIDERE TANTISSIMI BAMBINI OGNI ANNO. CIAO A TUTTI.
-ANDREAS NIGG DI BANK J SAFRA SARASIN.
-https://citywireselector.com/manager/andreas-nigg/d2395
-https://ch.linkedin.com/in/andreasnigg
-https://www.blogger.com/profile/13220677517437640922
-
-PS SCUSATE PER MIO ITALIANO COS=C3=8D COS=C3=8D MA SON SVIZZERO
-
-MA ORA VAMOS CON QUESTO IMPORTANTISSIMO TESTO, VAMOS BABY, VAMOS, IAMM=20
-BELL, IA:
+ps: Could you give chance let customer choice sv48 or sv39 in dts?
 
 
-=C3=89 DA ARRESTARE PRIMA CHE FACCIA UCCIDERE ANCORA, L'AVVOCATO PEDOFILO,=
-=20
-BERLUSCO=E5=8D=90NAZISTA, FASCIOLEGHISTA, ASSASSINO DANIELE MINOTTI (FACEBO=
-OK,=20
-TWITTER) DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI.
-=C3=89 DA FERMARE PER SEMPRE, L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90N=
-AZISTA,=20
-PEDERASTA, OMICIDA #DANIELEMINOTTI DI RAPALLO E GENOVA: RAPISCE, INCULA,=20
-UCCIDE TANTI BIMBI, SIA PER VENDERNE GLI ORGANI (COME DA QUESTA ABERRANTE=
-=20
-FOTO
-https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting=
--415x208.jpg),
-CHE PER RITI MASSONICO^SATANISTI, CHE FA IN MILLE SETTE!
-=C3=89 DI PERICOLO PUBBLICO ENORME, L'AVV ASSASSINO E PEDERASTA DANIELE MIN=
-OTTI=20
-(FACEBOOK) DI RAPALLO E GENOVA! AVVOCATO STUPRANTE INFANTI ED ADOLESCENTI,=
-=20
-COME PURE KILLER #DANIELEMINOTTI DI CRIMINALISSIMO #STUDIOLEGALELISI DI=20
-LECCE E MILANO (
-https://studiolegalelisi.it/team/daniele-minotti/
-STUDIO LEGALE MASSO^MAFIOSO LISI DI LECCE E MILANO, DA SEMPRE TUTT'UNO CON=
-=20
-MEGA KILLERS DI COSA NOSTRA, CAMORRA, NDRANGHETA, E, COME DA SUA=20
-SPECIALITA' PUGLIESE, ANCOR PI=C3=9A, DI SACRA CORONA UNITA, MAFIA BARESE, =
-MAFIA=20
-FOGGIANA, MAFIA DI SAN SEVERO)! =C3=89 STALKER DIFFAMATORE VIA INTERNET, NO=
-NCH=C3=89=20
-PEDERASTA CHE VIOLENTA ED UCCIDE BIMBI, QUESTO AVVOCATO OMICIDA CHIAMATO=20
-DANIELE MINOTTI! QUESTO AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA, =
-PEDOFILO=20
-E SANGUINARIO, DI RAPALLO E GENOVA (LO VEDETE A SINISTRA, SOPRA SCRITTA=20
-ECOMMERCE https://i.ytimg.com/vi/LDoNHVqzee8/maxresdefault.jpg)
-RAPALLO: OVE ORGANIZZA TRAME OMICIDA E TERRORISMO DI ESTREMA DESTRA,=20
-INSIEME "AL RAPALLESE" DI RESIDENZA, HITLERIANO, RAZZISTA, KU KLUK=20
-KLANISTA, MAFIOSO E RICICLA SOLDI MAFIOSI COME SUO PADRE: VI ASSICURO,=20
-ANCHE ASSASSINO #PIERSILVIOBERLUSCONI PIERSILVIO BERLUSCONI! SI, SI =C3=89=
-=20
-PROPRIO COS=C3=8D: =C3=89 DA ARRESTARE SUBITO L'AVVOCATO SATANISTA, NAZISTA=
-,=20
-SATA=E5=8D=90NAZISTA, PEDOFILO E KILLER DANIELE MINOTTI DI GENOVA E RAPALLO=
-!
-https://www.py.cz/pipermail/python/2017-March/012979.html
-OGNI SETTIMANA SGOZZA, OLTRE CHE GATTI E SERPENTI, TANTI BIMBI, IN RITI=20
-SATANICI. IN TUTTO NORD ITALIA (COME DA LINKS CHE QUI SEGUONO, I FAMOSI 5=
-=20
-STUDENTI SCOMPARSI NEL CUNEENSE FURONO UCCISI, FATTI A PEZZI E SOTTERRATI=
-=20
-IN VARI BOSCHI PIEMONTESI E LIGURI, PROPRIO DALL'AVVOCATO SATANISTA,=20
-PEDOFILO ED ASSASSINO DANIELE MINOTTI DI RAPALLO E GENOVA
-https://www.ilfattoquotidiano.it/2013/05/29/piemonte-5-ragazzi-suicidi-in-s=
-ette-anni-pm-indagano-sullombra-delle-sette-sataniche/608837/
-https://www.adnkronos.com/fatti/cronaca/2019/03/02/satanismo-oltre-mille-sc=
-omparsi-anni_QDnvslkFZt8H9H4pXziROO.html)
-E' DAVVERO DA ARRESTARE SUBITO, PRIMA CHE AMMAZZI ANCORA, L'AVVOCATO=20
-PEDOFILO, STUPRANTE ED UCCIDENTE BAMBINI: #DANIELEMINOTTI DI RAPALLO E=20
-GENOVA!
-https://www.studiominotti.it
-Studio Legale Minotti
-Address: Via della Libert=C3=A0, 4, 16035 Rapallo GE,
-Phone: +39 335 594 9904
-NON MOSTRATE MAI E POI MAI I VOSTRI FIGLI AL PEDOFIL-O-MOSESSUALE=20
-COCAINOMANE E KILLER DANIELE MINOTTI (QUI IN CHIARO SCURO MASSONICO, PER=20
-MANDARE OVVI MESSAGGI LUCIFERINI=20
-https://i.pinimg.com/280x280_RS/6d/04/4f/6d044f51fa89a71606e662cbb3346b7f.j=
-pg=20
-). PURE A CAPO, ANZI A KAP=C3=93 DI UNA SETTA ASSASSINA DAL NOME ELOQUENTE =
-: "=20
-AMMAZZIAMO PER NOSTRI SATANA IN TERRA: SILVIO BERLUSCONI, GIORGIA MELONI E=
-=20
-MATTEO SALVINI".
+>  #endif
+>
+>  #else /* CONFIG_MMU */
+> @@ -697,6 +709,8 @@ extern uintptr_t _dtb_early_pa;
+>  #define dtb_early_va   _dtb_early_va
+>  #define dtb_early_pa   _dtb_early_pa
+>  #endif /* CONFIG_XIP_KERNEL */
+> +extern u64 satp_mode;
+> +extern bool pgtable_l4_enabled;
+>
+>  void paging_init(void);
+>  void misc_mem_init(void);
+> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+> index 52c5ff9804c5..c3c0ed559770 100644
+> --- a/arch/riscv/kernel/head.S
+> +++ b/arch/riscv/kernel/head.S
+> @@ -95,7 +95,8 @@ relocate:
+>
+>         /* Compute satp for kernel page tables, but don't load it yet */
+>         srl a2, a0, PAGE_SHIFT
+> -       li a1, SATP_MODE
+> +       la a1, satp_mode
+> +       REG_L a1, 0(a1)
+>         or a2, a2, a1
+>
+>         /*
+> diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
+> index ee3459cb6750..a7246872bd30 100644
+> --- a/arch/riscv/mm/context.c
+> +++ b/arch/riscv/mm/context.c
+> @@ -192,7 +192,7 @@ static void set_mm_asid(struct mm_struct *mm, unsigned int cpu)
+>  switch_mm_fast:
+>         csr_write(CSR_SATP, virt_to_pfn(mm->pgd) |
+>                   ((cntx & asid_mask) << SATP_ASID_SHIFT) |
+> -                 SATP_MODE);
+> +                 satp_mode);
+>
+>         if (need_flush_tlb)
+>                 local_flush_tlb_all();
+> @@ -201,7 +201,7 @@ static void set_mm_asid(struct mm_struct *mm, unsigned int cpu)
+>  static void set_mm_noasid(struct mm_struct *mm)
+>  {
+>         /* Switch the page table and blindly nuke entire local TLB */
+> -       csr_write(CSR_SATP, virt_to_pfn(mm->pgd) | SATP_MODE);
+> +       csr_write(CSR_SATP, virt_to_pfn(mm->pgd) | satp_mode);
+>         local_flush_tlb_all();
+>  }
+>
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index 1552226fb6bd..6a19a1b1caf8 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -37,6 +37,17 @@ EXPORT_SYMBOL(kernel_map);
+>  #define kernel_map     (*(struct kernel_mapping *)XIP_FIXUP(&kernel_map))
+>  #endif
+>
+> +#ifdef CONFIG_64BIT
+> +u64 satp_mode = !IS_ENABLED(CONFIG_XIP_KERNEL) ? SATP_MODE_48 : SATP_MODE_39;
+> +#else
+> +u64 satp_mode = SATP_MODE_32;
+> +#endif
+> +EXPORT_SYMBOL(satp_mode);
+> +
+> +bool pgtable_l4_enabled = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL) ?
+> +                               true : false;
+> +EXPORT_SYMBOL(pgtable_l4_enabled);
+> +
+>  phys_addr_t phys_ram_base __ro_after_init;
+>  EXPORT_SYMBOL(phys_ram_base);
+>
+> @@ -53,15 +64,6 @@ extern char _start[];
+>  void *_dtb_early_va __initdata;
+>  uintptr_t _dtb_early_pa __initdata;
+>
+> -struct pt_alloc_ops {
+> -       pte_t *(*get_pte_virt)(phys_addr_t pa);
+> -       phys_addr_t (*alloc_pte)(uintptr_t va);
+> -#ifndef __PAGETABLE_PMD_FOLDED
+> -       pmd_t *(*get_pmd_virt)(phys_addr_t pa);
+> -       phys_addr_t (*alloc_pmd)(uintptr_t va);
+> -#endif
+> -};
+> -
+>  static phys_addr_t dma32_phys_limit __initdata;
+>
+>  static void __init zone_sizes_init(void)
+> @@ -222,7 +224,7 @@ static void __init setup_bootmem(void)
+>  }
+>
+>  #ifdef CONFIG_MMU
+> -static struct pt_alloc_ops _pt_ops __initdata;
+> +struct pt_alloc_ops _pt_ops __initdata;
+>
+>  #ifdef CONFIG_XIP_KERNEL
+>  #define pt_ops (*(struct pt_alloc_ops *)XIP_FIXUP(&_pt_ops))
+> @@ -238,6 +240,7 @@ pgd_t trampoline_pg_dir[PTRS_PER_PGD] __page_aligned_bss;
+>  static pte_t fixmap_pte[PTRS_PER_PTE] __page_aligned_bss;
+>
+>  pgd_t early_pg_dir[PTRS_PER_PGD] __initdata __aligned(PAGE_SIZE);
+> +static pud_t __maybe_unused early_dtb_pud[PTRS_PER_PUD] __initdata __aligned(PAGE_SIZE);
+>  static pmd_t __maybe_unused early_dtb_pmd[PTRS_PER_PMD] __initdata __aligned(PAGE_SIZE);
+>
+>  #ifdef CONFIG_XIP_KERNEL
+> @@ -326,6 +329,16 @@ static pmd_t early_pmd[PTRS_PER_PMD] __initdata __aligned(PAGE_SIZE);
+>  #define early_pmd      ((pmd_t *)XIP_FIXUP(early_pmd))
+>  #endif /* CONFIG_XIP_KERNEL */
+>
+> +static pud_t trampoline_pud[PTRS_PER_PUD] __page_aligned_bss;
+> +static pud_t fixmap_pud[PTRS_PER_PUD] __page_aligned_bss;
+> +static pud_t early_pud[PTRS_PER_PUD] __initdata __aligned(PAGE_SIZE);
+> +
+> +#ifdef CONFIG_XIP_KERNEL
+> +#define trampoline_pud ((pud_t *)XIP_FIXUP(trampoline_pud))
+> +#define fixmap_pud     ((pud_t *)XIP_FIXUP(fixmap_pud))
+> +#define early_pud      ((pud_t *)XIP_FIXUP(early_pud))
+> +#endif /* CONFIG_XIP_KERNEL */
+> +
+>  static pmd_t *__init get_pmd_virt_early(phys_addr_t pa)
+>  {
+>         /* Before MMU is enabled */
+> @@ -345,7 +358,7 @@ static pmd_t *__init get_pmd_virt_late(phys_addr_t pa)
+>
+>  static phys_addr_t __init alloc_pmd_early(uintptr_t va)
+>  {
+> -       BUG_ON((va - kernel_map.virt_addr) >> PGDIR_SHIFT);
+> +       BUG_ON((va - kernel_map.virt_addr) >> PUD_SHIFT);
+>
+>         return (uintptr_t)early_pmd;
+>  }
+> @@ -391,21 +404,97 @@ static void __init create_pmd_mapping(pmd_t *pmdp,
+>         create_pte_mapping(ptep, va, pa, sz, prot);
+>  }
+>
+> -#define pgd_next_t             pmd_t
+> -#define alloc_pgd_next(__va)   pt_ops.alloc_pmd(__va)
+> -#define get_pgd_next_virt(__pa)        pt_ops.get_pmd_virt(__pa)
+> +static pud_t *__init get_pud_virt_early(phys_addr_t pa)
+> +{
+> +       return (pud_t *)((uintptr_t)pa);
+> +}
+> +
+> +static pud_t *__init get_pud_virt_fixmap(phys_addr_t pa)
+> +{
+> +       clear_fixmap(FIX_PUD);
+> +       return (pud_t *)set_fixmap_offset(FIX_PUD, pa);
+> +}
+> +
+> +static pud_t *__init get_pud_virt_late(phys_addr_t pa)
+> +{
+> +       return (pud_t *)__va(pa);
+> +}
+> +
+> +static phys_addr_t __init alloc_pud_early(uintptr_t va)
+> +{
+> +       /* Only one PUD is available for early mapping */
+> +       BUG_ON((va - kernel_map.virt_addr) >> PGDIR_SHIFT);
+> +
+> +       return (uintptr_t)early_pud;
+> +}
+> +
+> +static phys_addr_t __init alloc_pud_fixmap(uintptr_t va)
+> +{
+> +       return memblock_phys_alloc(PAGE_SIZE, PAGE_SIZE);
+> +}
+> +
+> +static phys_addr_t alloc_pud_late(uintptr_t va)
+> +{
+> +       unsigned long vaddr;
+> +
+> +       vaddr = __get_free_page(GFP_KERNEL);
+> +       BUG_ON(!vaddr);
+> +       return __pa(vaddr);
+> +}
+> +
+> +static void __init create_pud_mapping(pud_t *pudp,
+> +                                     uintptr_t va, phys_addr_t pa,
+> +                                     phys_addr_t sz, pgprot_t prot)
+> +{
+> +       pmd_t *nextp;
+> +       phys_addr_t next_phys;
+> +       uintptr_t pud_index = pud_index(va);
+> +
+> +       if (sz == PUD_SIZE) {
+> +               if (pud_val(pudp[pud_index]) == 0)
+> +                       pudp[pud_index] = pfn_pud(PFN_DOWN(pa), prot);
+> +               return;
+> +       }
+> +
+> +       if (pud_val(pudp[pud_index]) == 0) {
+> +               next_phys = pt_ops.alloc_pmd(va);
+> +               pudp[pud_index] = pfn_pud(PFN_DOWN(next_phys), PAGE_TABLE);
+> +               nextp = pt_ops.get_pmd_virt(next_phys);
+> +               memset(nextp, 0, PAGE_SIZE);
+> +       } else {
+> +               next_phys = PFN_PHYS(_pud_pfn(pudp[pud_index]));
+> +               nextp = pt_ops.get_pmd_virt(next_phys);
+> +       }
+> +
+> +       create_pmd_mapping(nextp, va, pa, sz, prot);
+> +}
+> +
+> +#define pgd_next_t             pud_t
+> +#define alloc_pgd_next(__va)   (pgtable_l4_enabled ?                   \
+> +               pt_ops.alloc_pud(__va) : pt_ops.alloc_pmd(__va))
+> +#define get_pgd_next_virt(__pa)        (pgtable_l4_enabled ?                   \
+> +               pt_ops.get_pud_virt(__pa) : (pgd_next_t *)pt_ops.get_pmd_virt(__pa))
+>  #define create_pgd_next_mapping(__nextp, __va, __pa, __sz, __prot)     \
+> -       create_pmd_mapping(__nextp, __va, __pa, __sz, __prot)
+> -#define fixmap_pgd_next                fixmap_pmd
+> +                               (pgtable_l4_enabled ?                   \
+> +               create_pud_mapping(__nextp, __va, __pa, __sz, __prot) : \
+> +               create_pmd_mapping((pmd_t *)__nextp, __va, __pa, __sz, __prot))
+> +#define fixmap_pgd_next                (pgtable_l4_enabled ?                   \
+> +               (uintptr_t)fixmap_pud : (uintptr_t)fixmap_pmd)
+> +#define trampoline_pgd_next    (pgtable_l4_enabled ?                   \
+> +               (uintptr_t)trampoline_pud : (uintptr_t)trampoline_pmd)
+> +#define early_dtb_pgd_next     (pgtable_l4_enabled ?                   \
+> +               (uintptr_t)early_dtb_pud : (uintptr_t)early_dtb_pmd)
+>  #else
+>  #define pgd_next_t             pte_t
+>  #define alloc_pgd_next(__va)   pt_ops.alloc_pte(__va)
+>  #define get_pgd_next_virt(__pa)        pt_ops.get_pte_virt(__pa)
+>  #define create_pgd_next_mapping(__nextp, __va, __pa, __sz, __prot)     \
+>         create_pte_mapping(__nextp, __va, __pa, __sz, __prot)
+> -#define fixmap_pgd_next                fixmap_pte
+> +#define fixmap_pgd_next                ((uintptr_t)fixmap_pte)
+> +#define early_dtb_pgd_next     ((uintptr_t)early_dtb_pmd)
+> +#define create_pud_mapping(__pmdp, __va, __pa, __sz, __prot)
+>  #define create_pmd_mapping(__pmdp, __va, __pa, __sz, __prot)
+> -#endif
+> +#endif /* __PAGETABLE_PMD_FOLDED */
+>
+>  void __init create_pgd_mapping(pgd_t *pgdp,
+>                                       uintptr_t va, phys_addr_t pa,
+> @@ -493,6 +582,57 @@ static __init pgprot_t pgprot_from_va(uintptr_t va)
+>  }
+>  #endif /* CONFIG_STRICT_KERNEL_RWX */
+>
+> +#ifdef CONFIG_64BIT
+> +static void __init disable_pgtable_l4(void)
+> +{
+> +       pgtable_l4_enabled = false;
+> +       kernel_map.page_offset = PAGE_OFFSET_L3;
+> +       satp_mode = SATP_MODE_39;
+> +}
+> +
+> +/*
+> + * There is a simple way to determine if 4-level is supported by the
+> + * underlying hardware: establish 1:1 mapping in 4-level page table mode
+> + * then read SATP to see if the configuration was taken into account
+> + * meaning sv48 is supported.
+> + */
+> +static __init void set_satp_mode(void)
+> +{
+> +       u64 identity_satp, hw_satp;
+> +       uintptr_t set_satp_mode_pmd;
+> +
+> +       set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
+> +       create_pgd_mapping(early_pg_dir,
+> +                          set_satp_mode_pmd, (uintptr_t)early_pud,
+> +                          PGDIR_SIZE, PAGE_TABLE);
+> +       create_pud_mapping(early_pud,
+> +                          set_satp_mode_pmd, (uintptr_t)early_pmd,
+> +                          PUD_SIZE, PAGE_TABLE);
+> +       /* Handle the case where set_satp_mode straddles 2 PMDs */
+> +       create_pmd_mapping(early_pmd,
+> +                          set_satp_mode_pmd, set_satp_mode_pmd,
+> +                          PMD_SIZE, PAGE_KERNEL_EXEC);
+> +       create_pmd_mapping(early_pmd,
+> +                          set_satp_mode_pmd + PMD_SIZE,
+> +                          set_satp_mode_pmd + PMD_SIZE,
+> +                          PMD_SIZE, PAGE_KERNEL_EXEC);
+> +
+> +       identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
+> +
+> +       local_flush_tlb_all();
+> +       csr_write(CSR_SATP, identity_satp);
+> +       hw_satp = csr_swap(CSR_SATP, 0ULL);
+> +       local_flush_tlb_all();
+> +
+> +       if (hw_satp != identity_satp)
+> +               disable_pgtable_l4();
+> +
+> +       memset(early_pg_dir, 0, PAGE_SIZE);
+> +       memset(early_pud, 0, PAGE_SIZE);
+> +       memset(early_pmd, 0, PAGE_SIZE);
+> +}
+> +#endif
+> +
+>  /*
+>   * setup_vm() is called from head.S with MMU-off.
+>   *
+> @@ -557,10 +697,15 @@ static void __init create_fdt_early_page_table(pgd_t *pgdir, uintptr_t dtb_pa)
+>         uintptr_t pa = dtb_pa & ~(PMD_SIZE - 1);
+>
+>         create_pgd_mapping(early_pg_dir, DTB_EARLY_BASE_VA,
+> -                          IS_ENABLED(CONFIG_64BIT) ? (uintptr_t)early_dtb_pmd : pa,
+> +                          IS_ENABLED(CONFIG_64BIT) ? early_dtb_pgd_next : pa,
+>                            PGDIR_SIZE,
+>                            IS_ENABLED(CONFIG_64BIT) ? PAGE_TABLE : PAGE_KERNEL);
+>
+> +       if (pgtable_l4_enabled) {
+> +               create_pud_mapping(early_dtb_pud, DTB_EARLY_BASE_VA,
+> +                                  (uintptr_t)early_dtb_pmd, PUD_SIZE, PAGE_TABLE);
+> +       }
+> +
+>         if (IS_ENABLED(CONFIG_64BIT)) {
+>                 create_pmd_mapping(early_dtb_pmd, DTB_EARLY_BASE_VA,
+>                                    pa, PMD_SIZE, PAGE_KERNEL);
+> @@ -593,6 +738,8 @@ void pt_ops_set_early(void)
+>  #ifndef __PAGETABLE_PMD_FOLDED
+>         pt_ops.alloc_pmd = alloc_pmd_early;
+>         pt_ops.get_pmd_virt = get_pmd_virt_early;
+> +       pt_ops.alloc_pud = alloc_pud_early;
+> +       pt_ops.get_pud_virt = get_pud_virt_early;
+>  #endif
+>  }
+>
+> @@ -611,6 +758,8 @@ void pt_ops_set_fixmap(void)
+>  #ifndef __PAGETABLE_PMD_FOLDED
+>         pt_ops.alloc_pmd = kernel_mapping_pa_to_va((uintptr_t)alloc_pmd_fixmap);
+>         pt_ops.get_pmd_virt = kernel_mapping_pa_to_va((uintptr_t)get_pmd_virt_fixmap);
+> +       pt_ops.alloc_pud = kernel_mapping_pa_to_va((uintptr_t)alloc_pud_fixmap);
+> +       pt_ops.get_pud_virt = kernel_mapping_pa_to_va((uintptr_t)get_pud_virt_fixmap);
+>  #endif
+>  }
+>
+> @@ -625,6 +774,8 @@ void pt_ops_set_late(void)
+>  #ifndef __PAGETABLE_PMD_FOLDED
+>         pt_ops.alloc_pmd = alloc_pmd_late;
+>         pt_ops.get_pmd_virt = get_pmd_virt_late;
+> +       pt_ops.alloc_pud = alloc_pud_late;
+> +       pt_ops.get_pud_virt = get_pud_virt_late;
+>  #endif
+>  }
+>
+> @@ -633,6 +784,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>         pmd_t __maybe_unused fix_bmap_spmd, fix_bmap_epmd;
+>
+>         kernel_map.virt_addr = KERNEL_LINK_ADDR;
+> +       kernel_map.page_offset = _AC(CONFIG_PAGE_OFFSET, UL);
+>
+>  #ifdef CONFIG_XIP_KERNEL
+>         kernel_map.xiprom = (uintptr_t)CONFIG_XIP_PHYS_ADDR;
+> @@ -647,6 +799,11 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>         kernel_map.phys_addr = (uintptr_t)(&_start);
+>         kernel_map.size = (uintptr_t)(&_end) - kernel_map.phys_addr;
+>  #endif
+> +
+> +#if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
+> +       set_satp_mode();
+> +#endif
+> +
+>         kernel_map.va_pa_offset = PAGE_OFFSET - kernel_map.phys_addr;
+>         kernel_map.va_kernel_pa_offset = kernel_map.virt_addr - kernel_map.phys_addr;
+>
+> @@ -676,15 +833,21 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>
+>         /* Setup early PGD for fixmap */
+>         create_pgd_mapping(early_pg_dir, FIXADDR_START,
+> -                          (uintptr_t)fixmap_pgd_next, PGDIR_SIZE, PAGE_TABLE);
+> +                          fixmap_pgd_next, PGDIR_SIZE, PAGE_TABLE);
+>
+>  #ifndef __PAGETABLE_PMD_FOLDED
+> -       /* Setup fixmap PMD */
+> +       /* Setup fixmap PUD and PMD */
+> +       if (pgtable_l4_enabled)
+> +               create_pud_mapping(fixmap_pud, FIXADDR_START,
+> +                                  (uintptr_t)fixmap_pmd, PUD_SIZE, PAGE_TABLE);
+>         create_pmd_mapping(fixmap_pmd, FIXADDR_START,
+>                            (uintptr_t)fixmap_pte, PMD_SIZE, PAGE_TABLE);
+>         /* Setup trampoline PGD and PMD */
+>         create_pgd_mapping(trampoline_pg_dir, kernel_map.virt_addr,
+> -                          (uintptr_t)trampoline_pmd, PGDIR_SIZE, PAGE_TABLE);
+> +                          trampoline_pgd_next, PGDIR_SIZE, PAGE_TABLE);
+> +       if (pgtable_l4_enabled)
+> +               create_pud_mapping(trampoline_pud, kernel_map.virt_addr,
+> +                                  (uintptr_t)trampoline_pmd, PUD_SIZE, PAGE_TABLE);
+>  #ifdef CONFIG_XIP_KERNEL
+>         create_pmd_mapping(trampoline_pmd, kernel_map.virt_addr,
+>                            kernel_map.xiprom, PMD_SIZE, PAGE_KERNEL_EXEC);
+> @@ -712,7 +875,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>          * Bootime fixmap only can handle PMD_SIZE mapping. Thus, boot-ioremap
+>          * range can not span multiple pmds.
+>          */
+> -       BUILD_BUG_ON((__fix_to_virt(FIX_BTMAP_BEGIN) >> PMD_SHIFT)
+> +       BUG_ON((__fix_to_virt(FIX_BTMAP_BEGIN) >> PMD_SHIFT)
+>                      != (__fix_to_virt(FIX_BTMAP_END) >> PMD_SHIFT));
+>
+>  #ifndef __PAGETABLE_PMD_FOLDED
+> @@ -783,9 +946,10 @@ static void __init setup_vm_final(void)
+>         /* Clear fixmap PTE and PMD mappings */
+>         clear_fixmap(FIX_PTE);
+>         clear_fixmap(FIX_PMD);
+> +       clear_fixmap(FIX_PUD);
+>
+>         /* Move to swapper page table */
+> -       csr_write(CSR_SATP, PFN_DOWN(__pa_symbol(swapper_pg_dir)) | SATP_MODE);
+> +       csr_write(CSR_SATP, PFN_DOWN(__pa_symbol(swapper_pg_dir)) | satp_mode);
+>         local_flush_tlb_all();
+>
+>         pt_ops_set_late();
+> diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+> index 1434a0225140..993f50571a3b 100644
+> --- a/arch/riscv/mm/kasan_init.c
+> +++ b/arch/riscv/mm/kasan_init.c
+> @@ -11,7 +11,29 @@
+>  #include <asm/fixmap.h>
+>  #include <asm/pgalloc.h>
+>
+> +/*
+> + * Kasan shadow region must lie at a fixed address across sv39, sv48 and sv57
+> + * which is right before the kernel.
+> + *
+> + * For sv39, the region is aligned on PGDIR_SIZE so we only need to populate
+> + * the page global directory with kasan_early_shadow_pmd.
+> + *
+> + * For sv48 and sv57, the region is not aligned on PGDIR_SIZE so the mapping
+> + * must be divided as follows:
+> + * - the first PGD entry, although incomplete, is populated with
+> + *   kasan_early_shadow_pud/p4d
+> + * - the PGD entries in the middle are populated with kasan_early_shadow_pud/p4d
+> + * - the last PGD entry is shared with the kernel mapping so populated at the
+> + *   lower levels pud/p4d
+> + *
+> + * In addition, when shallow populating a kasan region (for example vmalloc),
+> + * this region may also not be aligned on PGDIR size, so we must go down to the
+> + * pud level too.
+> + */
+> +
+>  extern pgd_t early_pg_dir[PTRS_PER_PGD];
+> +extern struct pt_alloc_ops _pt_ops __initdata;
+> +#define pt_ops _pt_ops
+>
+>  static void __init kasan_populate_pte(pmd_t *pmd, unsigned long vaddr, unsigned long end)
+>  {
+> @@ -35,15 +57,19 @@ static void __init kasan_populate_pte(pmd_t *pmd, unsigned long vaddr, unsigned
+>         set_pmd(pmd, pfn_pmd(PFN_DOWN(__pa(base_pte)), PAGE_TABLE));
+>  }
+>
+> -static void __init kasan_populate_pmd(pgd_t *pgd, unsigned long vaddr, unsigned long end)
+> +static void __init kasan_populate_pmd(pud_t *pud, unsigned long vaddr, unsigned long end)
+>  {
+>         phys_addr_t phys_addr;
+>         pmd_t *pmdp, *base_pmd;
+>         unsigned long next;
+>
+> -       base_pmd = (pmd_t *)pgd_page_vaddr(*pgd);
+> -       if (base_pmd == lm_alias(kasan_early_shadow_pmd))
+> +       if (pud_none(*pud)) {
+>                 base_pmd = memblock_alloc(PTRS_PER_PMD * sizeof(pmd_t), PAGE_SIZE);
+> +       } else {
+> +               base_pmd = (pmd_t *)pud_pgtable(*pud);
+> +               if (base_pmd == lm_alias(kasan_early_shadow_pmd))
+> +                       base_pmd = memblock_alloc(PTRS_PER_PMD * sizeof(pmd_t), PAGE_SIZE);
+> +       }
+>
+>         pmdp = base_pmd + pmd_index(vaddr);
+>
+> @@ -67,9 +93,72 @@ static void __init kasan_populate_pmd(pgd_t *pgd, unsigned long vaddr, unsigned
+>          * it entirely, memblock could allocate a page at a physical address
+>          * where KASAN is not populated yet and then we'd get a page fault.
+>          */
+> -       set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_pmd)), PAGE_TABLE));
+> +       set_pud(pud, pfn_pud(PFN_DOWN(__pa(base_pmd)), PAGE_TABLE));
+> +}
+> +
+> +static void __init kasan_populate_pud(pgd_t *pgd,
+> +                                     unsigned long vaddr, unsigned long end,
+> +                                     bool early)
+> +{
+> +       phys_addr_t phys_addr;
+> +       pud_t *pudp, *base_pud;
+> +       unsigned long next;
+> +
+> +       if (early) {
+> +               /*
+> +                * We can't use pgd_page_vaddr here as it would return a linear
+> +                * mapping address but it is not mapped yet, but when populating
+> +                * early_pg_dir, we need the physical address and when populating
+> +                * swapper_pg_dir, we need the kernel virtual address so use
+> +                * pt_ops facility.
+> +                */
+> +               base_pud = pt_ops.get_pud_virt(pfn_to_phys(_pgd_pfn(*pgd)));
+> +       } else {
+> +               base_pud = (pud_t *)pgd_page_vaddr(*pgd);
+> +               if (base_pud == lm_alias(kasan_early_shadow_pud))
+> +                       base_pud = memblock_alloc(PTRS_PER_PUD * sizeof(pud_t), PAGE_SIZE);
+> +       }
+> +
+> +       pudp = base_pud + pud_index(vaddr);
+> +
+> +       do {
+> +               next = pud_addr_end(vaddr, end);
+> +
+> +               if (pud_none(*pudp) && IS_ALIGNED(vaddr, PUD_SIZE) && (next - vaddr) >= PUD_SIZE) {
+> +                       if (early) {
+> +                               phys_addr = __pa(((uintptr_t)kasan_early_shadow_pmd));
+> +                               set_pud(pudp, pfn_pud(PFN_DOWN(phys_addr), PAGE_TABLE));
+> +                               continue;
+> +                       } else {
+> +                               phys_addr = memblock_phys_alloc(PUD_SIZE, PUD_SIZE);
+> +                               if (phys_addr) {
+> +                                       set_pud(pudp, pfn_pud(PFN_DOWN(phys_addr), PAGE_KERNEL));
+> +                                       continue;
+> +                               }
+> +                       }
+> +               }
+> +
+> +               kasan_populate_pmd(pudp, vaddr, next);
+> +       } while (pudp++, vaddr = next, vaddr != end);
+> +
+> +       /*
+> +        * Wait for the whole PGD to be populated before setting the PGD in
+> +        * the page table, otherwise, if we did set the PGD before populating
+> +        * it entirely, memblock could allocate a page at a physical address
+> +        * where KASAN is not populated yet and then we'd get a page fault.
+> +        */
+> +       if (!early)
+> +               set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_pud)), PAGE_TABLE));
+>  }
+>
+> +#define kasan_early_shadow_pgd_next                    (pgtable_l4_enabled ?   \
+> +                               (uintptr_t)kasan_early_shadow_pud :             \
+> +                               (uintptr_t)kasan_early_shadow_pmd)
+> +#define kasan_populate_pgd_next(pgdp, vaddr, next, early)                      \
+> +               (pgtable_l4_enabled ?                                           \
+> +                       kasan_populate_pud(pgdp, vaddr, next, early) :          \
+> +                       kasan_populate_pmd((pud_t *)pgdp, vaddr, next))
+> +
+>  static void __init kasan_populate_pgd(pgd_t *pgdp,
+>                                       unsigned long vaddr, unsigned long end,
+>                                       bool early)
+> @@ -102,7 +191,7 @@ static void __init kasan_populate_pgd(pgd_t *pgdp,
+>                         }
+>                 }
+>
+> -               kasan_populate_pmd(pgdp, vaddr, next);
+> +               kasan_populate_pgd_next(pgdp, vaddr, next, early);
+>         } while (pgdp++, vaddr = next, vaddr != end);
+>  }
+>
+> @@ -157,18 +246,54 @@ static void __init kasan_populate(void *start, void *end)
+>         memset(start, KASAN_SHADOW_INIT, end - start);
+>  }
+>
+> +static void __init kasan_shallow_populate_pud(pgd_t *pgdp,
+> +                                             unsigned long vaddr, unsigned long end,
+> +                                             bool kasan_populate)
+> +{
+> +       unsigned long next;
+> +       pud_t *pudp, *base_pud;
+> +       pmd_t *base_pmd;
+> +       bool is_kasan_pmd;
+> +
+> +       base_pud = (pud_t *)pgd_page_vaddr(*pgdp);
+> +       pudp = base_pud + pud_index(vaddr);
+> +
+> +       if (kasan_populate)
+> +               memcpy(base_pud, (void *)kasan_early_shadow_pgd_next,
+> +                      sizeof(pud_t) * PTRS_PER_PUD);
+> +
+> +       do {
+> +               next = pud_addr_end(vaddr, end);
+> +               is_kasan_pmd = (pud_pgtable(*pudp) == lm_alias(kasan_early_shadow_pmd));
+> +
+> +               if (is_kasan_pmd) {
+> +                       base_pmd = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+> +                       set_pud(pudp, pfn_pud(PFN_DOWN(__pa(base_pmd)), PAGE_TABLE));
+> +               }
+> +       } while (pudp++, vaddr = next, vaddr != end);
+> +}
+> +
+>  static void __init kasan_shallow_populate_pgd(unsigned long vaddr, unsigned long end)
+>  {
+>         unsigned long next;
+>         void *p;
+>         pgd_t *pgd_k = pgd_offset_k(vaddr);
+> +       bool is_kasan_pgd_next;
+>
+>         do {
+>                 next = pgd_addr_end(vaddr, end);
+> -               if (pgd_page_vaddr(*pgd_k) == (unsigned long)lm_alias(kasan_early_shadow_pmd)) {
+> +               is_kasan_pgd_next = (pgd_page_vaddr(*pgd_k) ==
+> +                                    (unsigned long)lm_alias(kasan_early_shadow_pgd_next));
+> +
+> +               if (is_kasan_pgd_next) {
+>                         p = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
+>                         set_pgd(pgd_k, pfn_pgd(PFN_DOWN(__pa(p)), PAGE_TABLE));
+>                 }
+> +
+> +               if (IS_ALIGNED(vaddr, PGDIR_SIZE) && (next - vaddr) >= PGDIR_SIZE)
+> +                       continue;
+> +
+> +               kasan_shallow_populate_pud(pgd_k, vaddr, next, is_kasan_pgd_next);
+>         } while (pgd_k++, vaddr = next, vaddr != end);
+>  }
+>
+> diff --git a/drivers/firmware/efi/libstub/efi-stub.c b/drivers/firmware/efi/libstub/efi-stub.c
+> index 26e69788f27a..b3db5d91ed38 100644
+> --- a/drivers/firmware/efi/libstub/efi-stub.c
+> +++ b/drivers/firmware/efi/libstub/efi-stub.c
+> @@ -40,6 +40,8 @@
+>
+>  #ifdef CONFIG_ARM64
+>  # define EFI_RT_VIRTUAL_LIMIT  DEFAULT_MAP_WINDOW_64
+> +#elif defined(CONFIG_RISCV)
+> +# define EFI_RT_VIRTUAL_LIMIT  TASK_SIZE_MIN
+>  #else
+>  # define EFI_RT_VIRTUAL_LIMIT  TASK_SIZE
+>  #endif
+> --
+> 2.32.0
+>
 
-UNITO IN CI=C3=93, AL PARIMENTI AVVOCATO MASSONE, FASCISTA, LADRO, TRUFFATO=
-RE,=20
-RICICLA SOLDI MAFIOSI, OMICIDA E MOLTO PEDOFILO=20
-#FULVIOSARZANADISANTIPPOLITO FULVIO SARZANA DI SANT'IPPOLITO.
 
-ED INSIEME AL VERME SATA=E5=8D=90NAZISTA E COCAINOMANE #MARIOGIORDANO MARIO=
-=20
-GIORDANO. FOTO ELOQUENTE A PROPOSITO=20
-https://www.rollingstone.it/cultura/fenomenologia-delle-urla-di-mario-giord=
-ano/541979/
-MARIO GIORDANO =C3=89 NOTO MASSONE OMOSESSUALE DI TIPO ^OCCULTO^ (=C3=89=20
-FROCIO=E5=8D=90NAZISTA SEGRETO COME IL SEMPRE SCOPATO E SBORRATO IN CULO=20
-#LUCAMORISI), FA MIGLIAIA DI POMPINI E BEVE LITRI DI SPERMA DI RAGAZZINI,=
-=20
-PER QUESTO AMA TENERE LA BOCCA SEMPRE APERTA.
+--
+Best Regards
+ Guo Ren
 
-IL TUTTO INSIEME AL MAFIOSO AFFILIATO A COSA NOSTRA #CLAUDIOCERASA, ANCHE=
-=20
-LUI NOTO PEDOFILO (AFFILIATO MAFIOSO CLAUDIO CERASA: PUNCIUTO PRESSO=20
-FAMIGLIA MEGA KILLER CIMINNA, MANDAMENTO DI CACCAMO).
+ML: https://lore.kernel.org/linux-csky/
 
-CONTINUA QUI
-https://groups.google.com/g/comp.lang.python/c/7mYvrLL8THs
-
-TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
-https://groups.google.com/g/comp.lang.python/c/7mYvrLL8THs
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/a4c4aaba-5ed0-493d-ab7f-c7f8d3fbea3bn%40googlegroups.com.
-
-------=_Part_8655_241382111.1640746133968
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-PRENDE CAZZONI IN CULO: #MARIAPAOLATOSCHI DI #JPMORGAN! VUOLE SESSO DI GRUP=
-PO EXTREME (INSIEME A SUOI COMPARI SATANISTI, COMPLOTTARDI, SPIONI, ASSASSI=
-NI DI LIONS CLUBS): MARIA PAOLA TOSCHI DI JP MORGAN! =C3=89 NINFOMANE ASSAT=
-ANATA: #MARIAPAOLATOSCHI......DI JP MORGAN! NE SCRIVE CON ENTUSIASMO (VOLEN=
-DOLE BENE) E PER NULLA CON CRITICA, L'EROICO BANCHIERE SVIZZERO #ANDREASNIG=
-G DI BANK J SAFRA SARASIN ZURICH. CHE PASSAVA WEEK ENDS DI SESSO INTENSISSI=
-MO, CON LEI, STILE PERVERTITO ^ARCORE^HARDCORE^, FRA 2001 E 2004, MENTRE LA=
- TOSCHI LAVORAVA IN BANCA LEONARDO DI NOTO, PURE ASSASSINO, #MICHELEMILLA, =
-ORA IN CRIMINALE #MOMENTUM ASSAGNO (KILLER MICHELE MILLA CHE FECE IMPICCARE=
- #UBALDOGAGGIO ED UCCIDERE ^MASSONICAMENTE^, ALLA DAVID ROSSI, TANTISSIMI A=
-LTRI)! A VOI IL VINCENTISSIMO ANDREAS NIGG DI BANK J SAFRA SARASIN ZURICH!<=
-br><br>CIAO A TUTTI. SONO SEMPRE IL VOSTRO ANDREAS NIGG DI BANK J SAFRA SAR=
-ASIN.<br>https://citywireselector.com/manager/andreas-nigg/d2395<br>https:/=
-/ch.linkedin.com/in/andreasnigg<br>https://www.blogger.com/profile/13220677=
-517437640922<br><br>HO SERI INTERESSI IN ITALIA. HO TANTI CLIENTI IN SVIZZE=
-RA, DI NAZIONALIT=C3=80 ITALIANA. I #BENETTON, #RENZOROSSO DI DIESEL, #GIOE=
-LEMAGALDI, #LEOZAGAMI, #ENRICOLETTA, #GIANNILETTA, #ANDREAMARCUCCI, #MATTEO=
-RENZI, #MARIAELENABOSCHI, #VITTORIOSGARBI, #CARLOBONOMI, QUEL PORCO PERVERT=
-ITO DI #GUIDOCROSETTO. PURE ARTISTI, COME I MASSONI #LAURAPAUSINI, #ADRIANO=
-CELENTANO, #MONICABELLUCCI, #CARLOVERDONE, #ENRICOMONTESANO, LA FAMIGLIA #F=
-ACCHINETTI E TANTI ALTRI (NON ESISTE PI=C3=99 IL SEGRETO BANCARIO, QUINDI P=
-OSSO SCRIVERNE). DI SOLITO SCRIVO PER SGAMARE IL MALE BASTARDAMENTE MASSO^N=
-AZI=E5=8D=90FASCISTA E BERLUSCONIANO CHE BLOCCA, STUPRA, DIREI UCCIDE L'ITA=
-LIA, DA 35 ANNI. SCHIFO CON TUTTE LE FORZE I BASTARDI PEDOFILI ASSASSINI #B=
-ERLUSCONI! SONO DEI PEZZI DI MERDA #HITLER, #PINOCHET, #PUTIN MISTI A STRA =
-PEZZI DI MERDA AL CAPONE, TOTO RIINA E PASQUALE BARRA DETTO "O ANIMALE"! SI=
- PRENDONO LA NAZIONE INTERA, INTRECCIANDO POTERE ECONOMICO, POTERE DI CORRO=
-MPERE CHIUNQUE, POTERE MEDIATICO, POTERE EDITORIALE, POTERE MAFIOSO, POTERE=
- MILITARE, POTERE DI POLIZIA E GIUDICI DA LORO CORROTTISSIMI, POTERE DI INT=
-ELLIGENCE ASSASSINA, POTERE DI TERRORISTI NAZIFASCISTI, ADDIRITURA PURE POT=
-ERE CALCISTICO ED IL POTERE DEI POTERI: IL POTERE POLITICO (OSSIA OGNI TIPO=
- DI POTERE: OGNI)! CREANDO DITTATURA STRAGISTA, STRA OMICIDA! I TOPI DI FOG=
-NA KILLER #SILVIOBERLUSCONI, #PAOLOBERLUSCONI, #PIERSILVIOBERLUSCONI E #MAR=
-INABERLUSCONI HAN FATTO UCCIDERE IN VITA LORO, CENTINAIA DI PERSONE (ALMENO=
- 700)! LA LORO SPECIALIT=C3=81 =C3=89 ORGANIZZARE OMICIDI ^MASSONICI^! OSSI=
-A DA FAR PASSARE PER FINTI SUICIDI, INFARTI, INCIDENTI (VEDI COME HANNO UCC=
-ISO LENTAMENTE, IN MANIERA MASSONICISSIMA, LA GRANDE #IMANEFADIL, MA PURE G=
-LI AVVOCATI VICINI A IMANE FADIL: #EGIDIOVERZINI E #MAURORUFFFINI)! IN COMB=
-UTTA CON SERVIZI SEGRETI NAZIFASCISTI, BASTARDA MASSONERIA DI ESTREMA DESTR=
-A (VEDI #P2 P2 O #LOGGIADELDRAGO LOGGIA DEL DRAGO, OSSIA LOGGIA PERSONALE D=
-EL PEZZO DI MERDA PEDOSIFLO E STRAGISTA #SILVIOBERLUSCONI). OLTRE CHE DI LO=
-RO VARIE COSA NOSTRA, CAMORRA, NDRANGHETA, MAFIA RUSSA, MAFIA CINESE, MAFIA=
- COLOMBIANA, MAFIE DI TUTTO IL PIANETA TERRA. OGGI PER=C3=93 VOGLIO SCRIVER=
-E DI UNA PERSONA DI CUI HO BUON RICORDO. LA SEMPRE VOGLIOSISSIMA DI SESSO A=
-NALE, SESSO DI GRUPPO O SESSO FOCOSO IN GENERE: #MARIAPAOLATOSCHI DI #JPMOR=
-GAN (TUTT'ORA, 21 ANNI DOPO QUELLO CHE VADO A DESCRIVERE, NON =C3=89 MALE F=
-ISICAMENTE<br>https://www.instagram.com/p/BmbRyjljaSm/<br>MA 21 ANNI FA ERA=
- MOLTISSIMO ANCOR PI=C3=9A BELLA FIGA, VE LO ASSICURO).<br>ANNO 2000. ERA N=
-ATA LA MAFIOSA #BANCALEONARDO (DEL CRIMINALISSIMO, ESTRMEMANTE OMICIDA #MIC=
-HELEMILLA MICHELE MILLA<br>https://finlantern.com/financeforum/sponsors/mil=
-la-michele-partner-momentum-alternative-investments/<br>ORA PRESSO CRIMINAL=
-ISSIMA #MOMENTUM MASSAGNO https://ch.linkedin.com/company/momentum-alternat=
-ive-investment-sa<br>SU CUI TROVATE NON POCO QUI<br>https://www.politbjuro.=
-com/itemeva-di-essere-licenziataibrfunzionaria-di-banca-suicida/).<br>SCEND=
-EVO A MILANO OGNI VENERDI SERA DA ZURIGO, E PASSAVO WEEK END DI SESSO SCATE=
-NATISSIMO CON LEI (DI NASCOSTO, DA VERI E PROPRI SECRET LOVERS https://www.=
-youtube.com/watch?v=3DOe2UXqFo0DY, LEI ERA, COME ME, SPOSATA, MA ESSENDO NO=
-I DUE, VOGLIOSI DI SESSO, LIBERTINI DI ROTARY E LIONS CLUBS, SCOPAVAMO TANT=
-ISSIMO, LEI AMAVA IL SESSO ANALE, ANDAMMO AVANTI FINO AL 2004, PER FANTASTI=
-CI 48 MESI). CHE BEI RICORDI CHE HO NEL CUORE. UN BACIO CALIENTISSIMO. SONO=
- ANDREAS NIGG DI BANK J SAFRA SARASIN ZURICH. PREMIATO NEL 2018, 2019, 2020=
-, COME BANCHIERE SVIZZERO DELL'ANNO, A BASILEA. I SONDAGGI MI DANNO VINCITO=
-RE PURE NEL 2021. MA NON MI FIDO TANTISSIMO DEI SONDAGGI. MASSIMA UMILT=C3=
-=80, FAME ESTREMA DI VITTORIE E PIEDI PER TERRA, SON LE UNICHE CHIAVI PER F=
-ARE LA STORIA!<br>LEGGETE QUESTO TESTO, ORA, PLEASE, DOVE INIZIO A SCRIVERE=
- DI UN MASSONE SATANISTA NAZISTA SATA=E5=8D=8DNAZISTA E BERLUSCONICCHIO: L'=
-AVVOCATO ASSASSINO #DANIELEMINOTTI DI GENOVA E CRIMINALE STUDIO LEGALE LISI=
-. NOTO PER RAPIRE, SODOMIZZARE ED UCCIDERE TANTISSIMI BAMBINI OGNI ANNO. CI=
-AO A TUTTI.<br>ANDREAS NIGG DI BANK J SAFRA SARASIN.<br>https://citywiresel=
-ector.com/manager/andreas-nigg/d2395<br>https://ch.linkedin.com/in/andreasn=
-igg<br>https://www.blogger.com/profile/13220677517437640922<br><br>PS SCUSA=
-TE PER MIO ITALIANO COS=C3=8D COS=C3=8D MA SON SVIZZERO<br><br>MA ORA VAMOS=
- CON QUESTO IMPORTANTISSIMO TESTO, VAMOS BABY, VAMOS, IAMM BELL, IA:<br><br=
-><br>=C3=89 DA ARRESTARE PRIMA CHE FACCIA UCCIDERE ANCORA, L'AVVOCATO PEDOF=
-ILO, BERLUSCO=E5=8D=90NAZISTA, FASCIOLEGHISTA, ASSASSINO DANIELE MINOTTI (F=
-ACEBOOK, TWITTER) DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI.<b=
-r>=C3=89 DA FERMARE PER SEMPRE, L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=
-=90NAZISTA, PEDERASTA, OMICIDA #DANIELEMINOTTI DI RAPALLO E GENOVA: RAPISCE=
-, INCULA, UCCIDE TANTI BIMBI, SIA PER VENDERNE GLI ORGANI (COME DA QUESTA A=
-BERRANTE FOTO<br>https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt=
--Organ-Harvesting-415x208.jpg),<br>CHE PER RITI MASSONICO^SATANISTI, CHE FA=
- IN MILLE SETTE!<br>=C3=89 DI PERICOLO PUBBLICO ENORME, L'AVV ASSASSINO E P=
-EDERASTA DANIELE MINOTTI (FACEBOOK) DI RAPALLO E GENOVA! AVVOCATO STUPRANTE=
- INFANTI ED ADOLESCENTI, COME PURE KILLER #DANIELEMINOTTI DI CRIMINALISSIMO=
- #STUDIOLEGALELISI DI LECCE E MILANO (<br>https://studiolegalelisi.it/team/=
-daniele-minotti/<br>STUDIO LEGALE MASSO^MAFIOSO LISI DI LECCE E MILANO, DA =
-SEMPRE TUTT'UNO CON MEGA KILLERS DI COSA NOSTRA, CAMORRA, NDRANGHETA, E, CO=
-ME DA SUA SPECIALITA' PUGLIESE, ANCOR PI=C3=9A, DI SACRA CORONA UNITA, MAFI=
-A BARESE, MAFIA FOGGIANA, MAFIA DI SAN SEVERO)! =C3=89 STALKER DIFFAMATORE =
-VIA INTERNET, NONCH=C3=89 PEDERASTA CHE VIOLENTA ED UCCIDE BIMBI, QUESTO AV=
-VOCATO OMICIDA CHIAMATO DANIELE MINOTTI! QUESTO AVVOCATO SATANISTA, NAZISTA=
-, SATA=E5=8D=90NAZISTA, PEDOFILO E SANGUINARIO, DI RAPALLO E GENOVA (LO VED=
-ETE A SINISTRA, SOPRA SCRITTA ECOMMERCE https://i.ytimg.com/vi/LDoNHVqzee8/=
-maxresdefault.jpg)<br>RAPALLO: OVE ORGANIZZA TRAME OMICIDA E TERRORISMO DI =
-ESTREMA DESTRA, INSIEME "AL RAPALLESE" DI RESIDENZA, HITLERIANO, RAZZISTA, =
-KU KLUK KLANISTA, MAFIOSO E RICICLA SOLDI MAFIOSI COME SUO PADRE: VI ASSICU=
-RO, ANCHE ASSASSINO #PIERSILVIOBERLUSCONI PIERSILVIO BERLUSCONI! SI, SI =C3=
-=89 PROPRIO COS=C3=8D: =C3=89 DA ARRESTARE SUBITO L'AVVOCATO SATANISTA, NAZ=
-ISTA, SATA=E5=8D=90NAZISTA, PEDOFILO E KILLER DANIELE MINOTTI DI GENOVA E R=
-APALLO!<br>https://www.py.cz/pipermail/python/2017-March/012979.html<br>OGN=
-I SETTIMANA SGOZZA, OLTRE CHE GATTI E SERPENTI, TANTI BIMBI, IN RITI SATANI=
-CI. IN TUTTO NORD ITALIA (COME DA LINKS CHE QUI SEGUONO, I FAMOSI 5 STUDENT=
-I SCOMPARSI NEL CUNEENSE FURONO UCCISI, FATTI A PEZZI E SOTTERRATI IN VARI =
-BOSCHI PIEMONTESI E LIGURI, PROPRIO DALL'AVVOCATO SATANISTA, PEDOFILO ED AS=
-SASSINO DANIELE MINOTTI DI RAPALLO E GENOVA<br>https://www.ilfattoquotidian=
-o.it/2013/05/29/piemonte-5-ragazzi-suicidi-in-sette-anni-pm-indagano-sullom=
-bra-delle-sette-sataniche/608837/<br>https://www.adnkronos.com/fatti/cronac=
-a/2019/03/02/satanismo-oltre-mille-scomparsi-anni_QDnvslkFZt8H9H4pXziROO.ht=
-ml)<br>E' DAVVERO DA ARRESTARE SUBITO, PRIMA CHE AMMAZZI ANCORA, L'AVVOCATO=
- PEDOFILO, STUPRANTE ED UCCIDENTE BAMBINI: #DANIELEMINOTTI DI RAPALLO E GEN=
-OVA!<br>https://www.studiominotti.it<br>Studio Legale Minotti<br>Address: V=
-ia della Libert=C3=A0, 4, 16035 Rapallo GE,<br>Phone: +39 335 594 9904<br>N=
-ON MOSTRATE MAI E POI MAI I VOSTRI FIGLI AL PEDOFIL-O-MOSESSUALE COCAINOMAN=
-E E KILLER DANIELE MINOTTI (QUI IN CHIARO SCURO MASSONICO, PER MANDARE OVVI=
- MESSAGGI LUCIFERINI https://i.pinimg.com/280x280_RS/6d/04/4f/6d044f51fa89a=
-71606e662cbb3346b7f.jpg ). PURE A CAPO, ANZI A KAP=C3=93 DI UNA SETTA ASSAS=
-SINA DAL NOME ELOQUENTE : " AMMAZZIAMO PER NOSTRI SATANA IN TERRA: SILVIO B=
-ERLUSCONI, GIORGIA MELONI E MATTEO SALVINI".<br><br>UNITO IN CI=C3=93, AL P=
-ARIMENTI AVVOCATO MASSONE, FASCISTA, LADRO, TRUFFATORE, RICICLA SOLDI MAFIO=
-SI, OMICIDA E MOLTO PEDOFILO #FULVIOSARZANADISANTIPPOLITO FULVIO SARZANA DI=
- SANT'IPPOLITO.<br><br>ED INSIEME AL VERME SATA=E5=8D=90NAZISTA E COCAINOMA=
-NE #MARIOGIORDANO MARIO GIORDANO. FOTO ELOQUENTE A PROPOSITO https://www.ro=
-llingstone.it/cultura/fenomenologia-delle-urla-di-mario-giordano/541979/<br=
->MARIO GIORDANO =C3=89 NOTO MASSONE OMOSESSUALE DI TIPO ^OCCULTO^ (=C3=89 F=
-ROCIO=E5=8D=90NAZISTA SEGRETO COME IL SEMPRE SCOPATO E SBORRATO IN CULO #LU=
-CAMORISI), FA MIGLIAIA DI POMPINI E BEVE LITRI DI SPERMA DI RAGAZZINI, PER =
-QUESTO AMA TENERE LA BOCCA SEMPRE APERTA.<br><br>IL TUTTO INSIEME AL MAFIOS=
-O AFFILIATO A COSA NOSTRA #CLAUDIOCERASA, ANCHE LUI NOTO PEDOFILO (AFFILIAT=
-O MAFIOSO CLAUDIO CERASA: PUNCIUTO PRESSO FAMIGLIA MEGA KILLER CIMINNA, MAN=
-DAMENTO DI CACCAMO).<br><br>CONTINUA QUI<br>https://groups.google.com/g/com=
-p.lang.python/c/7mYvrLL8THs<br><br>TROVATE TANTISSIMI ALTRI VINCENTI DETTAG=
-LI QUI<br>https://groups.google.com/g/comp.lang.python/c/7mYvrLL8THs
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/a4c4aaba-5ed0-493d-ab7f-c7f8d3fbea3bn%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/a4c4aaba-5ed0-493d-ab7f-c7f8d3fbea3bn%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_8655_241382111.1640746133968--
-
-------=_Part_8654_1782643615.1640746133968--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAJF2gTQ3a4wP33V31HhzTC1zERMsATb1NZKoS6zVhKUafvAe%2BA%40mail.gmail.com.
