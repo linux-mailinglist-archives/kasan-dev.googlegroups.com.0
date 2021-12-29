@@ -1,129 +1,167 @@
-Return-Path: <kasan-dev+bncBAABBAVXV6HAMGQEQ3NCJDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBGEKWGHAMGQE4ACWEVA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8AE480F70
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Dec 2021 04:52:36 +0100 (CET)
-Received: by mail-pf1-x43b.google.com with SMTP id w7-20020a628207000000b004ba79b50064sf10971151pfd.21
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Dec 2021 19:52:36 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1640749955; cv=pass;
+Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0888A4811F8
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Dec 2021 12:23:06 +0100 (CET)
+Received: by mail-qk1-x739.google.com with SMTP id br9-20020a05620a460900b0046ad784c791sf12683180qkb.4
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Dec 2021 03:23:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1640776985; cv=pass;
         d=google.com; s=arc-20160816;
-        b=I639bPr0tz6ZJktrG1TaI4l0XkAwYG5ISByKt/JdNQlU/LYbfhHTmXN7Q0gxcpG284
-         yZNLIaRPY1yWRcFTd//Ywk08gdGf8SLNj9nWBeENa6WCgMhuyxHHS3sKVOoR6LjEvS4x
-         HMzDGeoKXjSKe70CgWSalVcO4Y8Y0J/vSI8RyE+z2tHOSEJwWk3e0SFUGzg5jL7GBECf
-         BeD40U24vsXd1ze0vCG62QfCf4ZHx5bnyFynj2bgRZ7ECMW97N3IgaXU4Zy03A2WO5tY
-         Lc0ndGoq3Niwg9VZmulFI3/esltl74n0e56LAvQKO3DDAQ6oMJFa+FjK+UYI7jk+6ioL
-         XEtg==
+        b=omQJbSaJAquVWMrO9HrbGDi1hXbQDvP1lOV8REYJDQAPXFwZpYZlht9YNk7nTZA7SY
+         XB3l4QLBFw1kD4h0iPKF6BTlX4Rhc9nzbGwb99JsvzfQT+Domw87+VTmN9RL4+FTvIMs
+         hHz0liqK6GQQiusnq6bHAJijdp/cLQcuPwXQ0cmpHZllzcbbv3ySNADhDzzpz2GvQzJJ
+         +V1kCIJuiILuY+gPJZfQOSpAkhew7iWUSUZeBKqFdDBnL/D63FQIV+kD3LJKCXzd4rtA
+         BdMJd+9hI7iUvocWZY7kdloxNd64QRdQy8NzbRsl2bTePR4XSohPubYKfI7Xk8BzzwlL
+         FCqQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:to:from:dkim-signature;
-        bh=n2qYN9ku5DaQSbZ4/AuY0DopDMAbhOGCJ3e02UcGsIE=;
-        b=K5bS5dJz4cQCkqcsc5yWG7igjqVnpW15BhCwiicKGI0HQ2j6sBK7lzCscaUbaxPSDQ
-         3TgAyYs/cXdW7Y+jRKnaATaUYzXD3n0FcIB+yAKA8XNhlyNjSyA8kzbFZAro5p0jPDle
-         2zAksKH/D66Oy6+PwV8u83Hck9nKMO/H7k/3HyHr20GnNsSz24A6D7FPAv3A4zEOxThg
-         ubiBBwUaBb5ae77TdUSAurJifmXkr0Lq51GS2nRfJaFCXLx03Gcwju8zchW9ffMO43J6
-         qDFLXGHvif0x4N+f/zaxGpq6ws0OSXE1udW2CCr8/hG8bquoajfiEEMsFOmijbaMu8lE
-         jDhQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature:dkim-signature;
+        bh=z2ZgQ6P36pmFNjB9PaYdX4mIOjTsv0xzCprKQCXli6w=;
+        b=qpwCrCElFdOlwfoS6CzAl2UH1Lmk1gnnkHASrBbj81SdjXmPqQ/Ync1nverJmcE8ty
+         kcDHIRoMk7Euyat/DFnv/NGgwH8H4nlabPdb98+7YZ3nBgWay78IYPPmksbV/OrpteEK
+         2VMPkjehqwzjQMwIRDF+qnOy2x3HCp3tT5+fEQ6JOajHGAAmEeWGwEHGy47eP8KVUnvG
+         qsTQo3vpxUE5Dy6MeBKPF8lnVj6gdmfsuTu//54Jzr5YK1GAfENGxMPcLrtVG/YMf8Pz
+         S8oeViccjzvLGxlampcCWjGlSbeq8HGdwozZGhNfY2Rj7Q6Bd32JUz4C1WPR6U8+sG82
+         PdjQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of chenjingwen6@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=chenjingwen6@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=WGgAxIa7;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::1034 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=n2qYN9ku5DaQSbZ4/AuY0DopDMAbhOGCJ3e02UcGsIE=;
-        b=tWcqcyPIZfr4/fjyQQYoCAY2afbB+p8yXTznvXo+3lZyoWMXCJxwXRk3TW7j2F+5c6
-         aLpvEpMVlM3wdxCJ9pzLnrjyMoUhap6JOwXYEb/aK3kVPypeAJG+MtjmlewVH9pcIFqZ
-         DQACj5g6GYa4jj5Sd/mWLX1vhuqz/p+a/m5CUnbj9FnujoAnbtKHZ1TbeDHVM3qjJ0vL
-         0uWH4FJrPFYtDr0/4T0UPTEwTG0AlwlY8CRsNYaVqA3N7GmCx2wUFqYpGyinV/Fmlf3+
-         JGlynXYAfSBrUHue+EnR9S46jV9CjCZ/KaoNiZZyvc77iaNgN7UolFBL+nSGOn3FRp9C
-         5WYg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=z2ZgQ6P36pmFNjB9PaYdX4mIOjTsv0xzCprKQCXli6w=;
+        b=djolbXazSG2lzD3iDbEkYBopbFQgNfT58Gu9xYffioZzY4yvjwuCYGsf5TJUVZ+hBy
+         hQcuQ8rULD5gCLYUGAIsa6GXMQxvf5kpuSq8JoAeIdLiaI3pMlVPfqnQcDYkoPbM+vUE
+         nJ7L5vNR4IEQwLaBC9NlOvpQMqVL0MtV0irkUQg1m8QS4CbpcVvlvuWpc3z1JC1rldBM
+         T8OwgqvVxrzF7ZHVfF0ZTFJS0NslGJwE2X6/vP/gvOwgHNcEOnfFA7GAvTQHGRfk+hpl
+         y1vWqiJ/1U716fqCZV/SqiYtC9/3vbSvkPTQpS5dO9wddAsRcR54e4P6P3uPx6rRlp07
+         yNxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=z2ZgQ6P36pmFNjB9PaYdX4mIOjTsv0xzCprKQCXli6w=;
+        b=F3WhAMPVZJigs/EJgFBZPP1jv/U88RJGPn5SA6lTIGMbIwWixsF+gunJ638Vx9wuXc
+         PCjeeUjNM6Ii60B+4OrfbK7QY8t2VaJYW1+r6kX+kgdzYx/QtemCcAc6ZpRGGgg6nNCd
+         sSiM91pvJiM83n0HbyQeNpv6oFflSdoXZrjT3pS4TTA6mdQL4SJaWAqGqxsatw1ovNbd
+         RdukPIPaMlazW7K0VqdpLvVvyyHaeSEZivKn9T+uPf+I6ms2NqFb7ZAbO3SqiNPOdieQ
+         68WvMs4ldAkRcAsQsbVqFBt9byJN4uB3PaCnaPoQPlsEutScK8dxYsd0snwlLUduxv+z
+         QoVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=n2qYN9ku5DaQSbZ4/AuY0DopDMAbhOGCJ3e02UcGsIE=;
-        b=GgiS8ovnRBXc444JSFi4GhUbdiNWd13ZMFXkMaqvkZD654jfDBrlCbss+njsURk60r
-         zorWlcOTk/tQFjKSsSiA5JL+352VV/c9Xa5XohYvfU8yh45Jxvpdxi/3k2rmGWshtC1T
-         39/GIUku2WnEE+E0q9KJ/E9ywPRMwYY4pghHGxoLBKCEnwwXoAt5YjBIBof9108Msaj2
-         jFP1fXpubLFidN1iM08cTDgQylrYriLj3ycOm53AR85/ey7akXKoLPV9Cuoh/GwTdCum
-         ezQBG9bhxlw2vS1nqBM02TYR3ZUfZATlJton3AP0wqvun2x2G8ApGmTmEissuPCM8Yky
-         6opQ==
-X-Gm-Message-State: AOAM530oR9DfqunxKrDJ4RS4KYt8pmvZedJ7zFFtw2f1edsZ0UVBDJYv
-	hunHrzU1aPA/jn6Jf0+lBeQ=
-X-Google-Smtp-Source: ABdhPJwH66tBptiNVOf3RqQANBs7mRn2u4SjmzsJKV9lxuZlxbaZ44oXrC2sIKSilPadXsdJvy3OIQ==
-X-Received: by 2002:a17:90a:7001:: with SMTP id f1mr30100615pjk.70.1640749955014;
-        Tue, 28 Dec 2021 19:52:35 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=z2ZgQ6P36pmFNjB9PaYdX4mIOjTsv0xzCprKQCXli6w=;
+        b=eWwLAHawCRieH2ktFXc107qUQwYqoQIphxcLhDXczzFhsVSu08GlEns3B5CYjuqHNA
+         IRYu13NZ2TwvOCuau4HbIdSSsZnU6K1dUdLNRwST1YwRxFsyvoDQBtnxPiWo5ED1jLkW
+         dA8upzwwQoX/oRr5ca9vhVDLJ37eHXiuSGTpe2ROCISrrDM+kUX0p1f8aXvYIELNn6Rf
+         Hnq6ILvQKcR/D0V84WA5T152wN4Sso5Avgt8iqacJ0OBslhSJBz87DwI0cl4G7cIfZ2V
+         ONZJMRoeOoqkToDaJqgTuPN7OEaS4qigQHCajYMBaCy/UF7EqA80ele2Sm8nGxl6eMpS
+         1yXw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531jBvVsn5zJuacq2atPxMqHLqaOK/bIjM0ylc9R1BTWl82UJq1f
+	obLwk47IgU/dbzTFGU8GRPw=
+X-Google-Smtp-Source: ABdhPJzpsC0Vy8465p+n8jRBvdkTCxqL5kcdd2VkUwxqsdXzFPpe9MY5p1QFP1AIc0zaZH9iK84K3Q==
+X-Received: by 2002:a05:620a:469f:: with SMTP id bq31mr18104558qkb.41.1640776984903;
+        Wed, 29 Dec 2021 03:23:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:3442:: with SMTP id lj2ls6453669pjb.1.gmail; Tue, 28
- Dec 2021 19:52:34 -0800 (PST)
-X-Received: by 2002:a17:90b:4b0e:: with SMTP id lx14mr18899219pjb.66.1640749954531;
-        Tue, 28 Dec 2021 19:52:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1640749954; cv=none;
+Received: by 2002:a0c:e206:: with SMTP id q6ls9058160qvl.0.gmail; Wed, 29 Dec
+ 2021 03:23:04 -0800 (PST)
+X-Received: by 2002:a05:6214:2484:: with SMTP id gi4mr22606769qvb.67.1640776984515;
+        Wed, 29 Dec 2021 03:23:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1640776984; cv=none;
         d=google.com; s=arc-20160816;
-        b=jWCKjtRe7SMAx2kYFiIZvCCviYZdEKAgZCdJLGIseYER/kiNe9hjMckP27YYM/ShlR
-         m6aUMb+JE+wUaPHVgw104e69VretuZ3f5W84Jg6OOjIHCe6zMnSLi2GaL0Q9hQT3x8Ac
-         /DOHabU91NCTcFcWrE9B0i8BxgndulvxlAzNWdAV+5PMDblFZkHuEZVjYUKWUAuR+/IP
-         PHLbKcPKQnZ7wkLP6QKXmJ5hR9KEHlYjmjGtA79+eN7yB53qG0n3QoOL4F9qPYjwVy67
-         FKL6+cpNTW3Kryp/J/BPeWTHNfai6lRkPrI9u4YT0VD2zbaLY2VPHB648ReXThtb5vEY
-         51RA==
+        b=npDXzS3Eic6AEwcvbLlmqV/r431TCO8sN2U61T/mxdeQyL8gS7mxLlXp3sEM+ojVQm
+         haKelAkyrSloHUH9D7EEaXEBKIfiWORVdNzQK/wxLEMQ2iPekwcn3M6ysw8V1ok/9w1/
+         DFV4s+yz38T4qpZwAyi+6xqFPpncTBj5KFYtlJlmpmRteVaGwp08VvLs47TwiCIKJIZP
+         2oFckGPKcUtiMHQLL8neBFc0dk2332NYoyvB6aDeLjZnBHsUhHc6SuQLruPLAxt08Fjj
+         DVPU2FfTy/A6zr9tjaBeb0VYoZcSXPUG4AYzftLrqNYEhgwPBgMkq8UhpjG0+nMHYVGi
+         oMDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:to:from;
-        bh=1LfmY5ciHzcrn0niPAo96geCOzQorEXEzjBIMDkmyO8=;
-        b=DyKeIQQx3hmk6DHnO7LYaUoKlv8vbq+Z4TvDEdjyly7AcKXUakl4gt0V0u37pwYRVQ
-         qjjWgfic1t3xrB1Jv0jBI4pPrMDjEaYWj2MzSBSd/JbPslJQFEmzQSmm2mqf8thFQdg3
-         kyMG/m4K6+0Zj4wPAKA/AsOOv92tZttor9Kml4NTZGHXc+sLL9g1F79au+Z08Dm6ONCg
-         oaN8AJU4U1LSKUDr1ntmjBUtRqpVbBn7XiZOYpr7m8cTdrFo+UHtrfbUmg6C0VGi404k
-         umyE2RNprexjlJMy+hYBeyXPxnDMZcc/zpAT4NmlOvGaV09cXUZfhKbhHZEWXqO4Oc/P
-         S99g==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=B8D9h3oa8OpyqxIH3xe2rIOLYO1p/ntyh/ItEZc2ers=;
+        b=gLh6R6687yBonxMr5sn0b9YZPlabdWl3ye8GNXJM/OCeFU1ltuMP5b45uyyi8PA+lG
+         h4qaxaRzBOsVTiWL514Zun2kxd03EKl9pX+vfdX2DLTBqFfeNfzi9ciBIZna4/Tc9000
+         aljeblVJZQBdTmuIbJCF7WWJWVN0rHWZfwUh8GPoU1Tl1B5kgFdm2CCxktEW3hfVDtaS
+         FZcx30ZjFSle9TjEgiGcZkErtEOJ3gmkIsPn0p9WW8dGXpmxJHAAYoQz+3XTuN8xn9wU
+         rvJUZxTMw/kRHz+m/KyznwXgL9xUc5+8Vme7eo/IGSXIAm7gEViC45DIYlAePUGdr3gC
+         OcJQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of chenjingwen6@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=chenjingwen6@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id k14si1750077pji.1.2021.12.28.19.52.34
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=WGgAxIa7;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::1034 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com. [2607:f8b0:4864:20::1034])
+        by gmr-mx.google.com with ESMTPS id k10si2051086qko.0.2021.12.29.03.23.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Dec 2021 19:52:34 -0800 (PST)
-Received-SPF: pass (google.com: domain of chenjingwen6@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JNyC764gtzccBh;
-	Wed, 29 Dec 2021 11:52:03 +0800 (CST)
-Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 29 Dec 2021 11:52:32 +0800
-Received: from linux-suspe12sp5.huawei.com (10.67.133.83) by
- dggpeml500017.china.huawei.com (7.185.36.243) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 29 Dec 2021 11:52:31 +0800
-From: "'Chen Jingwen' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Chen Jingwen <chenjingwen6@huawei.com>, Michael Ellerman
-	<mpe@ellerman.id.au>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	"Paul Mackerras" <paulus@samba.org>, Christophe Leroy
-	<christophe.leroy@c-s.fr>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>
-Subject: [PATCH] powerpc/kasan: Fix early region not updated correctly
-Date: Wed, 29 Dec 2021 11:52:26 +0800
-Message-ID: <20211229035226.59159-1-chenjingwen6@huawei.com>
-X-Mailer: git-send-email 2.12.3
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Dec 2021 03:23:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::1034 as permitted sender) client-ip=2607:f8b0:4864:20::1034;
+Received: by mail-pj1-x1034.google.com with SMTP id f18-20020a17090aa79200b001ad9cb23022so19638620pjq.4
+        for <kasan-dev@googlegroups.com>; Wed, 29 Dec 2021 03:23:04 -0800 (PST)
+X-Received: by 2002:a17:902:9343:b0:148:a2e7:fb5f with SMTP id g3-20020a170902934300b00148a2e7fb5fmr27487300plp.160.1640776983676;
+        Wed, 29 Dec 2021 03:23:03 -0800 (PST)
+Received: from ip-172-31-30-232.ap-northeast-1.compute.internal (ec2-18-181-137-102.ap-northeast-1.compute.amazonaws.com. [18.181.137.102])
+        by smtp.gmail.com with ESMTPSA id pf7sm27063114pjb.8.2021.12.29.03.22.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Dec 2021 03:23:03 -0800 (PST)
+Date: Wed, 29 Dec 2021 11:22:54 +0000
+From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Matthew Wilcox <willy@infradead.org>, Christoph Lameter <cl@linux.com>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Pekka Enberg <penberg@kernel.org>, linux-mm@kvack.org,
+	Andrew Morton <akpm@linux-foundation.org>, patches@lists.linux.dev,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	cgroups@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	iommu@lists.linux-foundation.org, Joerg Roedel <joro@8bytes.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Julia Lawall <julia.lawall@inria.fr>, kasan-dev@googlegroups.com,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Marco Elver <elver@google.com>, Michal Hocko <mhocko@kernel.org>,
+	Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vladimir Davydov <vdavydov.dev@gmail.com>,
+	Will Deacon <will@kernel.org>, x86@kernel.org,
+	Roman Gushchin <guro@fb.com>
+Subject: Re: [PATCH v2 00/33] Separate struct slab from struct page
+Message-ID: <YcxFDuPXlTwrPSPk@ip-172-31-30-232.ap-northeast-1.compute.internal>
+References: <20211201181510.18784-1-vbabka@suse.cz>
+ <4c3dfdfa-2e19-a9a7-7945-3d75bc87ca05@suse.cz>
+ <f3a83708-3f3c-a634-7bee-dcfcaaa7f36e@suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.67.133.83]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500017.china.huawei.com (7.185.36.243)
-X-CFilter-Loop: Reflected
-X-Original-Sender: chenjingwen6@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of chenjingwen6@huawei.com designates 45.249.212.187 as
- permitted sender) smtp.mailfrom=chenjingwen6@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Chen Jingwen <chenjingwen6@huawei.com>
-Reply-To: Chen Jingwen <chenjingwen6@huawei.com>
+Content-Disposition: inline
+In-Reply-To: <f3a83708-3f3c-a634-7bee-dcfcaaa7f36e@suse.cz>
+X-Original-Sender: 42.hyeyoo@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20210112 header.b=WGgAxIa7;       spf=pass
+ (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::1034
+ as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,85 +174,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The shadow's page table is not updated when PTE_RPN_SHIFT is 24
-and PAGE_SHIFT is 12. It not only causes false positives but
-also false negative as shown the following text.
+On Wed, Dec 22, 2021 at 05:56:50PM +0100, Vlastimil Babka wrote:
+> On 12/14/21 13:57, Vlastimil Babka wrote:
+> > On 12/1/21 19:14, Vlastimil Babka wrote:
+> >> Folks from non-slab subsystems are Cc'd only to patches affecting them, and
+> >> this cover letter.
+> >>
+> >> Series also available in git, based on 5.16-rc3:
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=slab-struct_slab-v2r2
+> > 
+> > Pushed a new branch slab-struct-slab-v3r3 with accumulated fixes and small tweaks
+> > and a new patch from Hyeonggon Yoo on top. To avoid too much spam, here's a range diff:
+> 
+> Hi, I've pushed another update branch slab-struct_slab-v4r1, and also to
+> -next. I've shortened git commit log lines to make checkpatch happier,
+> so no range-diff as it would be too long. I believe it would be useless
+> spam to post the whole series now, shortly before xmas, so I will do it
+> at rc8 time, to hopefully collect remaining reviews. But if anyone wants
+> a mailed version, I can do that.
+>
 
-Fix it by bringing the logic of kasan_early_shadow_page_entry here.
+Hello Matthew and Vlastimil.
+it's part 3 of review.
 
-1. False Positive:
-==================================================================
-BUG: KASAN: vmalloc-out-of-bounds in pcpu_alloc+0x508/0xa50
-Write of size 16 at addr f57f3be0 by task swapper/0/1
+# mm: Convert struct page to struct slab in functions used by other subsystems
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 
-CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.15.0-12267-gdebe436e77c7 #1
-Call Trace:
-[c80d1c20] [c07fe7b8] dump_stack_lvl+0x4c/0x6c (unreliable)
-[c80d1c40] [c02ff668] print_address_description.constprop.0+0x88/0x300
-[c80d1c70] [c02ff45c] kasan_report+0x1ec/0x200
-[c80d1cb0] [c0300b20] kasan_check_range+0x160/0x2f0
-[c80d1cc0] [c03018a4] memset+0x34/0x90
-[c80d1ce0] [c0280108] pcpu_alloc+0x508/0xa50
-[c80d1d40] [c02fd7bc] __kmem_cache_create+0xfc/0x570
-[c80d1d70] [c0283d64] kmem_cache_create_usercopy+0x274/0x3e0
-[c80d1db0] [c2036580] init_sd+0xc4/0x1d0
-[c80d1de0] [c00044a0] do_one_initcall+0xc0/0x33c
-[c80d1eb0] [c2001624] kernel_init_freeable+0x2c8/0x384
-[c80d1ef0] [c0004b14] kernel_init+0x24/0x170
-[c80d1f10] [c001b26c] ret_from_kernel_thread+0x5c/0x64
 
-Memory state around the buggy address:
- f57f3a80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
- f57f3b00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
->f57f3b80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-                                               ^
- f57f3c00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
- f57f3c80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-==================================================================
+# mm/slub: Convert most struct page to struct slab by spatch
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+with a question below.
 
-2. False Negative (with KASAN tests):
-==================================================================
-Before fix:
-    ok 45 - kmalloc_double_kzfree
-    # vmalloc_oob: EXPECTATION FAILED at lib/test_kasan.c:1039
-    KASAN failure expected in "((volatile char *)area)[3100]", but none occurred
-    not ok 46 - vmalloc_oob
-    not ok 1 - kasan
-
-==================================================================
-After fix:
-    ok 1 - kasan
-
-Fixes: cbd18991e24fe ("powerpc/mm: Fix an Oops in kasan_mmu_init()")
-Cc: stable@vger.kernel.org # 5.4.x
-Signed-off-by: Chen Jingwen <chenjingwen6@huawei.com>
----
- arch/powerpc/mm/kasan/kasan_init_32.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/arch/powerpc/mm/kasan/kasan_init_32.c b/arch/powerpc/mm/kasan/kasan_init_32.c
-index cf8770b1a692e..f3e4d069e0ba7 100644
---- a/arch/powerpc/mm/kasan/kasan_init_32.c
-+++ b/arch/powerpc/mm/kasan/kasan_init_32.c
-@@ -83,13 +83,12 @@ void __init
- kasan_update_early_region(unsigned long k_start, unsigned long k_end, pte_t pte)
+-static int check_slab(struct kmem_cache *s, struct page *page)
++static int check_slab(struct kmem_cache *s, struct slab *slab)
  {
- 	unsigned long k_cur;
--	phys_addr_t pa = __pa(kasan_early_shadow_page);
+        int maxobj;
  
- 	for (k_cur = k_start; k_cur != k_end; k_cur += PAGE_SIZE) {
- 		pmd_t *pmd = pmd_off_k(k_cur);
- 		pte_t *ptep = pte_offset_kernel(pmd, k_cur);
- 
--		if ((pte_val(*ptep) & PTE_RPN_MASK) != pa)
-+		if (pte_page(*ptep) != virt_to_page(lm_alias(kasan_early_shadow_page)))
- 			continue;
- 
- 		__set_pte_at(&init_mm, k_cur, ptep, pte, 0);
--- 
-2.19.1
+-       if (!PageSlab(page)) {
+-               slab_err(s, page, "Not a valid slab page");
++       if (!folio_test_slab(slab_folio(slab))) {
++               slab_err(s, slab, "Not a valid slab page");
+                return 0;
+        }
+
+Can't we guarantee that struct slab * always points to a slab?
+
+for struct page * it can be !PageSlab(page) because struct page *
+can be other than slab. but struct slab * can only be slab
+unlike struct page. code will be simpler if we guarantee that
+struct slab * always points to a slab (or NULL).
+
+
+# mm/slub: Convert pfmemalloc_match() to take a struct slab
+It's confusing to me because the original pfmemalloc_match() is removed
+and pfmemalloc_match_unsafe() was renamed to pfmemalloc_match() and
+converted to use slab_test_pfmemalloc() helper.
+
+But I agree with the resulting code. so:
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+
+
+# mm/slub: Convert alloc_slab_page() to return a struct slab
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+
+
+# mm/slub: Convert print_page_info() to print_slab_info()
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+
+I hope to review rest of patches in a week.
+
+Thanks,
+Hyeonggon
+
+> Changes in v4:
+> - rebase to 5.16-rc6 to avoid a conflict with mainline
+> - collect acks/reviews/tested-by from Johannes, Roman, Hyeonggon Yoo -
+> thanks!
+> - in patch "mm/slub: Convert detached_freelist to use a struct slab"
+> renamed free_nonslab_page() to free_large_kmalloc() and use folio there,
+> as suggested by Roman
+> - in "mm/memcg: Convert slab objcgs from struct page to struct slab"
+> change one caller of slab_objcgs_check() to slab_objcgs() as suggested
+> by Johannes, realize the other caller should be also changed, and remove
+> slab_objcgs_check() completely.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211229035226.59159-1-chenjingwen6%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YcxFDuPXlTwrPSPk%40ip-172-31-30-232.ap-northeast-1.compute.internal.
