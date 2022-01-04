@@ -1,61 +1,144 @@
-Return-Path: <kasan-dev+bncBCM2RP62ZYGBBUVHZ6HAMGQE7E7K6PQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBBO72CHAMGQEHNEOVRY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3f.google.com (mail-oo1-xc3f.google.com [IPv6:2607:f8b0:4864:20::c3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC7E483B62
-	for <lists+kasan-dev@lfdr.de>; Tue,  4 Jan 2022 05:57:56 +0100 (CET)
-Received: by mail-oo1-xc3f.google.com with SMTP id 68-20020a4a0347000000b002c2ac2c476dsf18354550ooi.21
-        for <lists+kasan-dev@lfdr.de>; Mon, 03 Jan 2022 20:57:56 -0800 (PST)
+Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FFB4840D6
+	for <lists+kasan-dev@lfdr.de>; Tue,  4 Jan 2022 12:29:11 +0100 (CET)
+Received: by mail-pj1-x1039.google.com with SMTP id d3-20020a17090a2a4300b001b22191073dsf25602406pjg.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 Jan 2022 03:29:11 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1641295750; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=ot7PsoXc7QcqnXB8wP9/IyDj0J9jB2Vyu6b7DIi1E+43TEAaSvSVAitDGsBavQJVCn
+         VrQHFWLfediHby4h01WtVgUAH3P1fOau9gSyDRFv463Jt0aeXIQpFLNqnvCCMgLudSRq
+         rGsSqu6eNDkbHeClQz/w10aMsq1HJ+IdgNXnehrjyFieGSdQtnoCRZ1mEfra2ZRq26js
+         g5Iio6qEuO3RPCfNFFNF+NfVjM5lLuEJwJrQUJG/jZuZKcp0lP88N7DsYkAFJhmAqASy
+         wbBSHxnX90T0XWleAoxql98GAQPKNnXz579QbUlqKqtCJoGS4gy6ib3ox2El7tVmzGPj
+         rBjw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=1TzGtT9XaFhdNBwjMp+WdMgwbYJauQHjjbtuiwheOOU=;
+        b=sozNikSvqX/VRQ+Ap3wymYjRG0Mt/9pXk9mmY2IhhSf9D5JJaioR573msqCDDR8hBs
+         80Ca6H4YOHWOMFu7yqXavy5yPh0ISB5+xnXnpirgjcefL6Rgk8/Uy1GFFPY8XaZ9Tb5T
+         Ju8jsGAYulJ3Uqh68/Du9/Jrb9xruMY6+HHrEDjTIIXDsbYoGFngLSw4t4wXtjG+sfLj
+         jddJ/J8QykMkZ/aAPAGiXljNFzLLOEUEeKLoYvnKOviAjAd2jKGaNXqz89Sy3KY27JFD
+         LmtDFCLZ8C6xx15lxb1aM5Vc8oYom9AZlYSS0rnxfSEqGN8G1O0FK2pspA/ICYZPCSw3
+         7AGA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=qL2vWPom;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12d as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=HLGyNwaPQ3pCibrAbObSXSH+Zf9PHs8mz4o4JCquAAQ=;
-        b=YHIZHo7AvktrXzbzsX31w1l6CF+/8cPkzmGTRK7FOsYv+ckv/uEuwWRLiFFqlUaftK
-         u1sZKVdh7y53tOnS9edwvME5QCAVLyg2wyrEDopXTVvOcwUSRqjYUiUju3u6LGDPJxc/
-         dgUXUqXf0+YwwIlr4IhiToYSWFR4uvLBWeiDbq9pOx8+HTGfAmj97iTgmQ+ZY7H0DUkR
-         Kajdt+ai6BbNGc8GlT2mP/nv1UYwb1f1MQOlEG0SX5AUboKdbXCOTS5cX5h4NhY3+xTE
-         phcqP7MXEwlv2pCdKShmicQAvvlja50SSTGeSxn/1gViiv1jwn3EjZ3YF2bygHnWfgMW
-         mc6w==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=1TzGtT9XaFhdNBwjMp+WdMgwbYJauQHjjbtuiwheOOU=;
+        b=kDE4t45ZGPMCQvDOfqnngKqjlUEBkV1SkU9dGI8MLMhhSERTdONR2j44zN3NZYvbIj
+         XwI1xLBxG50KyxL14MHZnfeRbZVPQvGOQ4NkbcnZxv+q0gN+XERu7KFXXLqJCHFmz1hu
+         dX+kATwPjQnAzMZga2TLha0+ROpY9CrKFBBImpt+RHiA0kezDRdSRU9w0ImTy3EXyID6
+         GHpoh5zuuDCArGCCAY2TUO3E9aMHgBc26JvXDlSCL8YmJmVv6EkQ6bHOJUIDTQm986F+
+         fa9L0HM8avx/asFO/zKeuXD2yW2bbTHKEobB32G2LDXvi4zf1wCdm8h1QFva0srPe7Yr
+         phuQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=1TzGtT9XaFhdNBwjMp+WdMgwbYJauQHjjbtuiwheOOU=;
+        b=d2Uo8SBVINf4VLR7rsmpe+iiYPVhyUT+F0EyzUcplQq98HWJVS/tjdL2f/eLml+RAc
+         sL+SFQdX9Hn+OJkOBtiupSGTzVSEkg4SX/SdG6ZDoaEZ7OQcLjsKcwLfhlHcyHhumZIA
+         scjDeSv0Rj/MbvNYF3W47C2fruKtKV1DHpWGJ0GQQwPrXFDjOSZIqcwlllthKeMFtO4P
+         KOM5ZOeJDJ0/6qrLYhXEMb73emIjpA7HkuGQagbmwEEMJjJ8R4wC5spoCN0yoW2J3+f3
+         Gpzvjq72NdPOYT8pguVDiLd9Z/Fm9gQd/Rn3UTQ+5ZCFn43h6eO6MrULEGWbGD2t3num
+         uYkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=HLGyNwaPQ3pCibrAbObSXSH+Zf9PHs8mz4o4JCquAAQ=;
-        b=CY8TdO4PAJszbDuRI6TkehIeqXZK9wD6pUcb3t6y5BZyD4I11vzfatQByyKk7VvK2e
-         Sz6JNctxXoDL0va8EPyyFu3tVEkvccvlf58UAz2YDJt6TxpoEqdkhs/rWPMBkZXhdMBe
-         idasHhTiY0+uEmCfMIGgmHvSqYlaAvHcKOZii5AZ3Nt1p8yJnOq0iYBW7MfYKX23LTO+
-         NUp0tDM4412Nb4o6a5z+kRDX++q71gNMIAHHs4zwO9dvmkEZsBmG0s4qVws56o+7uM54
-         ElY3cnedQ58EVf4FYLZ4W9h6d+T+WmcYciTv11+m/vEo10ZBecJ0ZJyYK8aaoEQJbKWA
-         rxmw==
+        bh=1TzGtT9XaFhdNBwjMp+WdMgwbYJauQHjjbtuiwheOOU=;
+        b=tcExrnOpF4wzVpnSGVY+tN3gzz0Y8+q/d9rG7wUAdhv/IeIciJ0tBN17s1725LR/Ue
+         fWkimQiiKhWDc9oWhW0dTV4N6UeTAFyL0/DF8j2Ep61Ow05DmlLrIEN0X17s0syykqwo
+         mDOsAyPBVT6CHpXIQCZi4N+31OnKdC5rTsZ5Pd0e18RcN2aimDgnYO4ov4ikZDldkNBK
+         fmy8HbIqwg6I0Djrie/0L9Y3ZIeHSxteiu5cPGhOg6oSX3gGyrk7ynFvq5oyLW2Ijhmi
+         QeW+KwIFPiJZK5DDfTFfhs/CLWjkTJ/EpNzS/4GDcUhizzAU7L2v7xgcU4mDtHfXdmDP
+         ToTw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532TgSfKosxSURWvdpeYmQHr7hkPGJ0hdg6E2DUEDw9EgtXEm1Bb
-	Hlf5ZFm/Rv36qn1xano8ZDc=
-X-Google-Smtp-Source: ABdhPJzkg+Hmg+BkqHmFr20WVdALbzV4/QunCktTRUGh3n39INlEP14GVd3CEjYZULbQS7BESjwhqQ==
-X-Received: by 2002:a05:6830:440f:: with SMTP id q15mr33452761otv.373.1641272274883;
-        Mon, 03 Jan 2022 20:57:54 -0800 (PST)
+X-Gm-Message-State: AOAM532lV/5qm8LOiDCnzMZCRZhVHlHaCZfdaCiqezepufS3xfePZIA2
+	ohzOAmYSkQ++TcFEth46CMw=
+X-Google-Smtp-Source: ABdhPJxagNm24DD0RfIN5W0odeOITEoYzsHz+TTZu88b82Z+8W7pIQE6wbA4F38iygEEIBuEgfhbXg==
+X-Received: by 2002:a17:902:bd4b:b0:149:460a:9901 with SMTP id b11-20020a170902bd4b00b00149460a9901mr48960761plx.44.1641295750107;
+        Tue, 04 Jan 2022 03:29:10 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:4d0e:: with SMTP id n14ls7344678otf.5.gmail; Mon, 03 Jan
- 2022 20:57:54 -0800 (PST)
-X-Received: by 2002:a05:6830:238f:: with SMTP id l15mr35375452ots.281.1641272274331;
-        Mon, 03 Jan 2022 20:57:54 -0800 (PST)
-Date: Mon, 3 Jan 2022 20:57:53 -0800 (PST)
-From: FRANCESCO PERILLI EQUITA SIM MILAN <adamjalam@mail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <c5b7195a-523f-46c8-9dfe-c6a692632521n@googlegroups.com>
-Subject: =?UTF-8?Q?=C3=89_LECCA_FIGHE_ASSASSINA:_#MARIN?=
- =?UTF-8?Q?ABERLUSCONI_DI_CRIMINALISSIMA_#?=
- =?UTF-8?Q?FININVEST!_=C3=89_NAZI=E5=8D=8DPEDOFILA,_LES?=
- =?UTF-8?Q?BICA_E_KILLER:_MARINA_BERLUSCONI?=
- =?UTF-8?Q?_DI_CRIMINALISSIMA_#MONDADORI!_COME_SUO_PADRE,_IL_FASCISTA,_MA?=
- =?UTF-8?Q?FIOSO,_PEDOFILO,_FREQUENTISSIMO_MANDANTE_DI_OMICIDI_E_STRAGI...?=
+Received: by 2002:a05:6a00:174d:: with SMTP id j13ls10269328pfc.0.gmail; Tue,
+ 04 Jan 2022 03:29:09 -0800 (PST)
+X-Received: by 2002:a05:6a00:1946:b0:44d:8136:a4a4 with SMTP id s6-20020a056a00194600b0044d8136a4a4mr50488989pfk.46.1641295749564;
+        Tue, 04 Jan 2022 03:29:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1641295749; cv=none;
+        d=google.com; s=arc-20160816;
+        b=NXeb8EJJZJe6mnQ5lYgt4nO5vWMhRTAOeO/BuvIaxl7tEH8l4Y9YuqLditt7xYE5/t
+         1JFVHduAlQj7oBFBYoGMGSFBuQQXGewK51XG1QK0LMnZjaF8ETdzn1H1hN/wv5H3oiOi
+         wLmVNik8niPAX56ufwLKnZtrLVL5WkmMc6IeSmFNsktUNrUAjKYeodOgZ4UqQ/DLhY5U
+         WG1te/KCzVrJRHhwiK4HKhjT+mBpvDRH17sqM62WUuvpn/aCNJ9CLyPojSqypVH1mZpz
+         q65G5FWYfwf8qsCl2ven/VioB9yHp1HggKso7b+2rlPuO40zx+i1Y/OP1XAo4N4uJ60E
+         l9nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=PKqdYNUCxKzWzj64ePA/dIaYRd4jF6O5Lkt/GXeobao=;
+        b=sszKHr4OHaWUvztOUOGNjCyWVlOCjQgeN2qIDRO9ulNgVXtu5lTXWtt4SR7KRGw8if
+         mi9CPM/FIGr9O4NJSJ45EGIvZFX6dkCjz+xNiAadhU/ObldU0eIgaE3PbY4qcdJpBbKJ
+         HBgyjXZPXeY82Pw9MABkQxuTjxjlqGkr/TO+NHnPqM5uDkMQMPUEyeuURLsz8JMFoGAh
+         M/0gl2Qt3zhbJNR9LxKwQivTL2vg343jVCfgSDJgws3iLCOeSkS4U60VDzM15wxfWAAQ
+         61+DT0PeaTtLVdNMRQdwRlFOAmLo7ukdIk8EuQjMT5Nalompz+EAK0dDBbcAxGoQgvw2
+         xoKQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=qL2vWPom;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12d as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com. [2607:f8b0:4864:20::12d])
+        by gmr-mx.google.com with ESMTPS id k15si702974plk.3.2022.01.04.03.29.09
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jan 2022 03:29:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12d as permitted sender) client-ip=2607:f8b0:4864:20::12d;
+Received: by mail-il1-x12d.google.com with SMTP id e8so28054455ilm.13
+        for <kasan-dev@googlegroups.com>; Tue, 04 Jan 2022 03:29:09 -0800 (PST)
+X-Received: by 2002:a05:6e02:1bec:: with SMTP id y12mr24360769ilv.233.1641295749226;
+ Tue, 04 Jan 2022 03:29:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_17990_1755341179.1641272273792"
-X-Original-Sender: adamjalam@mail.com
+References: <cover.1640891329.git.andreyknvl@google.com> <88f2964f4063aa6fd935ef8c8302d02d8d67005b.1640891329.git.andreyknvl@google.com>
+ <b968e485f4d7f201fdb4e39f64ca757180e7374a.camel@mediatek.com>
+In-Reply-To: <b968e485f4d7f201fdb4e39f64ca757180e7374a.camel@mediatek.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 4 Jan 2022 12:28:58 +0100
+Message-ID: <CA+fCnZd4p+80MqOLJTa0-SwcXPbXe+n3FsCCN2dFHJ+bAsdZ-A@mail.gmail.com>
+Subject: Re: [PATCH mm v5 29/39] kasan, page_alloc: allow skipping memory init
+ for HW_TAGS
+To: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+Cc: "andrey.konovalov@linux.dev" <andrey.konovalov@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Peter Collingbourne <pcc@google.com>, 
+	Evgenii Stepanov <eugenis@google.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Andrey Konovalov <andreyknvl@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: andreyknvl@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20210112 header.b=qL2vWPom;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12d
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -68,562 +151,162 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_17990_1755341179.1641272273792
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_17991_2134021547.1641272273792"
+On Mon, Jan 3, 2022 at 3:32 AM Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com> wrote:
+>
+> On Fri, 2021-12-31 at 03:14 +0800, andrey.konovalov@linux.dev wrote:
+> > From: Andrey Konovalov <andreyknvl@google.com>
+> >
+> > Add a new GFP flag __GFP_SKIP_ZERO that allows to skip memory
+> > initialization. The flag is only effective with HW_TAGS KASAN.
+> >
+> > This flag will be used by vmalloc code for page_alloc allocations
+> > backing vmalloc() mappings in a following patch. The reason to skip
+> > memory initialization for these pages in page_alloc is because
+> > vmalloc
+> > code will be initializing them instead.
+> >
+> > With the current implementation, when __GFP_SKIP_ZERO is provided,
+> > __GFP_ZEROTAGS is ignored. This doesn't matter, as these two flags
+> > are
+> > never provided at the same time. However, if this is changed in the
+> > future, this particular implementation detail can be changed as well.
+> >
+> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> >
+> > ---
+> >
+> > Changes v4->v5:
+> > - Cosmetic changes to __def_gfpflag_names_kasan and __GFP_BITS_SHIFT.
+> >
+> > Changes v3->v4:
+> > - Only define __GFP_SKIP_ZERO when CONFIG_KASAN_HW_TAGS is enabled.
+> > - Add __GFP_SKIP_ZERO to include/trace/events/mmflags.h.
+> > - Use proper kasan_hw_tags_enabled() check instead of
+> >   IS_ENABLED(CONFIG_KASAN_HW_TAGS). Also add explicit checks for
+> >   software modes.
+> >
+> > Changes v2->v3:
+> > - Update patch description.
+> >
+> > Changes v1->v2:
+> > - Add this patch.
+> > ---
+> >  include/linux/gfp.h            | 18 +++++++++++-------
+> >  include/trace/events/mmflags.h |  1 +
+> >  mm/page_alloc.c                | 18 +++++++++++++++++-
+> >  3 files changed, 29 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+> > index 487126f089e1..6eef3e447540 100644
+> > --- a/include/linux/gfp.h
+> > +++ b/include/linux/gfp.h
+> > @@ -55,14 +55,16 @@ struct vm_area_struct;
+> >  #define ___GFP_ACCOUNT               0x400000u
+> >  #define ___GFP_ZEROTAGS              0x800000u
+> >  #ifdef CONFIG_KASAN_HW_TAGS
+> > -#define ___GFP_SKIP_KASAN_UNPOISON   0x1000000u
+> > -#define ___GFP_SKIP_KASAN_POISON     0x2000000u
+> > +#define ___GFP_SKIP_ZERO             0x1000000u
+> > +#define ___GFP_SKIP_KASAN_UNPOISON   0x2000000u
+> > +#define ___GFP_SKIP_KASAN_POISON     0x4000000u
+> >  #else
+> > +#define ___GFP_SKIP_ZERO             0
+> >  #define ___GFP_SKIP_KASAN_UNPOISON   0
+> >  #define ___GFP_SKIP_KASAN_POISON     0
+> >  #endif
+> >  #ifdef CONFIG_LOCKDEP
+> > -#define ___GFP_NOLOCKDEP     0x4000000u
+> > +#define ___GFP_NOLOCKDEP     0x8000000u
+> >  #else
+> >  #define ___GFP_NOLOCKDEP     0
+> >  #endif
+> > @@ -235,9 +237,10 @@ struct vm_area_struct;
+> >   * %__GFP_ZERO returns a zeroed page on success.
+> >   *
+> >   * %__GFP_ZEROTAGS zeroes memory tags at allocation time if the
+> > memory itself
+> > - * is being zeroed (either via __GFP_ZERO or via init_on_alloc).
+> > This flag is
+> > - * intended for optimization: setting memory tags at the same time
+> > as zeroing
+> > - * memory has minimal additional performace impact.
+> > + * is being zeroed (either via __GFP_ZERO or via init_on_alloc,
+> > provided that
+> > + * __GFP_SKIP_ZERO is not set). This flag is intended for
+> > optimization: setting
+> > + * memory tags at the same time as zeroing memory has minimal
+> > additional
+> > + * performace impact.
+> >   *
+> >   * %__GFP_SKIP_KASAN_UNPOISON makes KASAN skip unpoisoning on page
+> > allocation.
+> >   * Only effective in HW_TAGS mode.
+> > @@ -249,6 +252,7 @@ struct vm_area_struct;
+> >  #define __GFP_COMP   ((__force gfp_t)___GFP_COMP)
+> >  #define __GFP_ZERO   ((__force gfp_t)___GFP_ZERO)
+> >  #define __GFP_ZEROTAGS       ((__force gfp_t)___GFP_ZEROTAGS)
+> > +#define __GFP_SKIP_ZERO ((__force gfp_t)___GFP_SKIP_ZERO)
+> >  #define __GFP_SKIP_KASAN_UNPOISON ((__force
+> > gfp_t)___GFP_SKIP_KASAN_UNPOISON)
+> >  #define __GFP_SKIP_KASAN_POISON   ((__force
+> > gfp_t)___GFP_SKIP_KASAN_POISON)
+> >
+> > @@ -257,7 +261,7 @@ struct vm_area_struct;
+> >
+> >  /* Room for N __GFP_FOO bits */
+> >  #define __GFP_BITS_SHIFT (24 +
+> >       \
+> > -                       2 * IS_ENABLED(CONFIG_KASAN_HW_TAGS) +        \
+> > +                       3 * IS_ENABLED(CONFIG_KASAN_HW_TAGS) +        \
+> >                         IS_ENABLED(CONFIG_LOCKDEP))
+> >  #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) -
+> > 1))
+> >
+> > diff --git a/include/trace/events/mmflags.h
+> > b/include/trace/events/mmflags.h
+> > index 5ffc7bdce91f..0698c5d0f194 100644
+> > --- a/include/trace/events/mmflags.h
+> > +++ b/include/trace/events/mmflags.h
+> > @@ -52,6 +52,7 @@
+> >
+> >  #ifdef CONFIG_KASAN_HW_TAGS
+> >  #define __def_gfpflag_names_kasan ,
+> >        \
+> > +     {(unsigned long)__GFP_SKIP_ZERO,           "__GFP_SKIP_ZERO"},
+> >   \
+> >       {(unsigned
+> > long)__GFP_SKIP_KASAN_POISON,   "__GFP_SKIP_KASAN_POISON"}, \
+> >       {(unsigned long)__GFP_SKIP_KASAN_UNPOISON,
+> > "__GFP_SKIP_KASAN_UNPOISON"}
+> >  #else
+> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> > index 102f0cd8815e..30da0e1f94f8 100644
+> > --- a/mm/page_alloc.c
+> > +++ b/mm/page_alloc.c
+> > @@ -2415,10 +2415,26 @@ static inline bool
+> > should_skip_kasan_unpoison(gfp_t flags, bool init_tags)
+> >       return init_tags || (flags & __GFP_SKIP_KASAN_UNPOISON);
+> >  }
+> >
+> > +static inline bool should_skip_init(gfp_t flags)
+> > +{
+> > +     /* Don't skip if a software KASAN mode is enabled. */
+> > +     if (IS_ENABLED(CONFIG_KASAN_GENERIC) ||
+> > +         IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+> > +             return false;
+>
+> Forget to drop the above check?
+>
+> I saw v4 mentioned that this check can be dropped. [1]
+>
+> Do I miss something?
+>
+> [1] https://lkml.org/lkml/2021/12/30/450
 
-------=_Part_17991_2134021547.1641272273792
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Right, forgot to include this change. Will include into v5 or post as
+a standalone fix closer to rc1. Thanks for noticing!
 
-=C3=89 LECCA FIGHE ASSASSINA: #MARINABERLUSCONI DI CRIMINALISSIMA #FININVES=
-T! =C3=89=20
-NAZI=E5=8D=8DPEDOFILA, LESBICA E KILLER: MARINA BERLUSCONI DI CRIMINALISSIM=
-A=20
-#MONDADORI! COME SUO PADRE, IL FASCISTA, MAFIOSO, PEDOFILO, FREQUENTISSIMO=
-=20
-MANDANTE DI OMICIDI E STRAGI...........#SILVIOBERLUSCONI! E POI, IL FIGLIO=
-=20
-DI PUTTANA #PIERSILVIOBERLUSCONI (ANCOR PI=C3=9A FIGLIO DI PEDOFILO MACELLA=
-=20
-MAGISTRATI SILVIO BERLUSCONI) RICICLA MONTAGNE DI SOLDI MAFIOSI. COME HA=20
-FATTO SUO PEZZO DI MERDA NONNO #LUIGIBERLUSCONI IN #BANCARASINI! E COME HA=
-=20
-FATTO PER MEZZO SECOLO, IL LECCA FIGHE DI BAMBINE E RAGAZZINE, BASTARDO=20
-STRAGISTA, FIGLIO, MARITO E PADRE DI PUTTANE: #SILVIOBERLUSCONI! SOLDI=20
-ASSASSINI, ESATTAMENTE DI #COSANOSTRA, #CAMORRA, #NDRANGHETA,=20
-#SACRACORONAUNITA, #SOCIETAFOGGIANA, #MAFIA RUSSA, MAFIA CINESE, MAFIA=20
-COLOMBIANA, MAFIA MESSICANA, MAFIA MAROCCHINA, MAFIA ALBANESE, MAFIA SLAVA,=
-=20
-MAFIA RUMENA, MAFIE DI TUTTO IL PIANETA TERRA, COME ANCOR PI=C3=9A, MASSONE=
-RIE=20
-CRIMINALISSIME DI TUTTO IL MONDO)! NE SCRIVE IL MIO BANCHIERE PREFERITO,=20
-#ANDREASNIGG DI BANK J SAFRA SARASIN ZURIGO! CHE TANTE VOLTE SI =C3=89 SENT=
-ITO=20
-PROPORRE DAL PEGGIORE CRIMINALE IN CRAVATTA DI TUTTO IL PIANETA TERRA E DI=
-=20
-TUTTI I TEMPI, SILVIO BERLUSCONI, COME DAL NAZIST=E5=8D=8DASSASSINO PIERSIL=
-VIO=20
-BERLUSCONI E DALLA LECCA FIGHE PEDOFILA, SATA=E5=8D=8DNAZISTA E FALSA DA FA=
-RE=20
-SCHIFO, MARINA BERLUSCONI, DI RICICLARE PER LORO, CENTINAIA DI MILIONI DI=
-=20
-EURO MAFIOSI, DA DESTINARE AL CORROMPERE CHIUNQUE, COME A FINANZIARE STRAGI=
-=20
-ED OMICIDI FASCISTI, IN ITALIA! SEMPRE EROICAMENTE RIFIUTANDO! A VOI IL=20
-GRANDISSIMO ANDREAS NIGG DI BANK J SAFRA SARASIN ZURIGO.
-
-CIAO A TUTTI. SON SEMPRE IO, ANDREAS NIGG, EX MANAGER IN BANK VONTOBEL=20
-ZURIGO ED ORA MANAGER IN BANK J SAFRA SARASIN ZURIGO. SCHIFO CON TUTTE LE=
-=20
-FORZE I PEDOFILI BASTARDI, SATANISTI, NAZISTI, SATA=E5=8D=90NAZISTI, MAFIOS=
-I,=20
-ASSASSINI #BERLUSCONI! SON DEI FIGLI DI PUTTANE E PEDOFILI! SON #HITLER,=20
-#PINOCHET E #PUTIN MISTI AD AL CAPONE, TOTO RIINA E PASQUALE BARRA DETTO "O=
-=20
-ANIMALE"! SI PRENDONO LA NAZIONE INTERA, INTRECCIANDO POTERE ECONOMICO,=20
-POTERE DI CORROMPERE CHIUNQUE, POTERE MEDIATICO, POTERE EDITORIALE, POTERE=
-=20
-SATANICO, POTERE FASCIOCIELLINO, POTERE MASSO^MAFIOSO =E2=98=A0, POTERE DI=
-=20
-TERRORISTI NAZI=E5=8D=90FASCISTI =E2=98=A0, POTERE RICATTATORIO, POTERE ASS=
-ASSINO =E2=98=A0, POTERE=20
-STRAGISTA =E2=98=A0, POTERE DI INTELLIGENCE FOTOCOPIA DI BEN NOTE OVRA E GE=
-STAPO =E2=98=A0,=20
-ADDIRITURA PURE POTERE CALCISTICO ED IL POTERE DEI POTERI: IL POTERE=20
-POLITICO (OSSIA OGNI TIPO DI POTERE: OGNI)! CREANDO DITTATURA STRA OMICIDA!=
-=20
-I TOPI DI FOGNA KILLER #SILVIOBERLUSCONI, #PIERSILVIOBERLUSCONI E=20
-#MARINABERLUSCONI HAN FATTO UCCIDERE IN VITA LORO, ALMENO 900 PERSONE,=20
-QUASI SEMPRE PER BENISSIMO! LA LORO SPECIALIT=C3=81 =C3=89 ORGANIZZARE OMIC=
-IDI=20
-MASSONICI! OSSIA DA FAR PASSARE PER FINTI SUICIDI, MALORI, INCIDENTI (VEDI=
-=20
-COME HANNO UCCISO LENTAMENTE, IN MANIERA MASSONICISSIMA, LA GRANDE=20
-#IMANEFADIL, MA PURE GLI AVVOCATI VICINI A IMANE FADIL, #EGIDIOVERZINI E=20
-#MAURORUFFFINI, MA ANCHE TANTISSIMI MAGISTRATI GIOVANI CHE LI STAVANO=20
-INDAGANDO SEGRETAMENTE O NON, COME #GABRIELECHELAZZI, #ALBERTOCAPERNA,=20
-#PIETROSAVIOTTI, #MARCELLOMUSSO, #FRANKDIMAIO, PER NON DIRE DI COME HAN=20
-MACELLATO GLI EROI #GIOVANNIFALCONE E #PAOLOBORSELLINO)! IL TUTTO IN=20
-COMBUTTA CON SERVIZI SEGRETI NAZI=E5=8D=90FASCISTI, BASTARDA MASSONERIA DI =
-ESTREMA=20
-DESTRA (VEDI #P2 P2 O #LOGGIADELDRAGO LOGGIA DEL DRAGO, OSSIA LOGGIA=20
-PERSONALE DEL PEZZO DI MERDA PEDOFILO E STRAGISTA #SILVIOBERLUSCONI). OLTRE=
-=20
-CHE IN STRA COMBUTTA CON LORO VARIE COSA NOSTRA, CAMORRA, NDRANGHETA, MAFIA=
-=20
-RUSSA, MAFIA CINESE, MAFIA COLOMBIANA, MAFIE DI TUTTO IL PIANETA TERRA.
-
-OGGI VORREI SCRIVERE PURE, DI QUEL TOPO DI FOGNA CORROTTISSIMO, ANZI=20
-"BERLU$$$CORROTTISSIMO", CHE =C3=89 IL GIUDICE PI=C3=9A STECCATO DEL MONDO:=
-=20
-#MARCOTREMOLADA DEL #RUBYTER! MASSONE DI MILLE LOGGE D'UNGHERIA (MA PURE DI=
-=20
-BULGARIA, CECOSLOVACCHIA E CAMBOGIA DI POL POT, TANTO CHE CI SIAMO, MEGLIO=
-=20
-IRONIZZARCI SOPRA UN POCO, PLEASE). FOGNA STUPRA GIUSTIZIA MARCO TREMOLADA=
-=20
-DEL RUBY TER, MASSONE SATANISTA NAZI=E5=8D=90FASCISTA CORROTTISSIMO DA SILV=
-IO=20
-BERLUSCONI, PIERSILVIO BERLUSCONI E MARINA BERLUSCONI! STO BERLU$$$CORROTTO=
-=20
-SGOZZA GIUSTIZIA DI #MARCOTREMOLADA (LO VEDETE QUI
-https://l450v.alamy.com/450vfr/2ded6pm/milan-italie-30-novembre-2020-milan-=
-ruby-ter-proces-a-la-foire-president-marco-tremolada-usage-editorial-seulem=
-ent-credit-agence-de-photo-independante-alamy-live-news-2ded6pm.jpg=20
-) =C3=89 IL NUOVO #CORRADOCARNEVALE MISTO A #RENATOSQUILLANTE E #VITTORIOME=
-TTA.=20
-ESSENDO IO, ANDREAS NIGG DI BANK J SAFRA SARASIN, STATO DEFINITO BANCHIERE=
-=20
-SVIZZERO DELL'ANNO, SIA NEL 2018, 2019 E 2020, E CON MIA GRAN EMOZIONE,=20
-PURE NEL 2021, HO FATTO LE MIE INDAGINI E S=C3=93 PER STRA CERTO, CHE STO=
-=20
-MASSONE NAZI=E5=8D=90FASCISTA PREZZOLATO A PALLONE, DI #MARCOTREMOLADA DEL=
-=20
-#RUBYTER, HA GI=C3=81 A DISPOSIZIONE, PRESSO 7 DIVERSI FIDUCIARI ELVETICI, =
-3 MLN=20
-DI =E2=82=AC, RICEVUTI AL FINE DI INIZIARE AD AZZOPPARE IL PROCESSO RUBY TE=
-R (COME=20
-PUNTUALISSIMAMENTE ACCADUTO IL 3/11/2021). ALTRI 7 MLN DI =E2=82=AC GLI=20
-ARRIVEREBBERO A PROCESSO COMPLETAMENTE MORTO. MI HA CONFERMATO CI=C3=93, PU=
-RE IL=20
-VERTICE DEI SERVIZI SEGRETI SVIZZERI (CHE ESSENDO SEGRETI, MI HAN IMPOSTO=
-=20
-DI NON SCRIVERE NOMI E COGNOMI, COSA CHE DA BANCHIERE SPECCHIATO, RISPETTO)=
-=20
-ED IL GRAN MAESTRO DELLA GRAN LOGGIA SVIZZERA: #DOMINIQUEJUILLAND.=20
-D'ALTRONDE, SE ASCOLTATE SU #RADIORADICALE, TUTTE LE UDIENZE DEL PROCESSO,=
-=20
-AHIM=C3=89 FARSA, #RUBYTER, VEDRETE CHE STA MERDA CORROTTA, NAZISTA E NEO=
-=20
-PIDUISTA DI #MARCOTREMOLADA DEL #RUBYTER STESSO (GIUDICE CORROTTO DA=20
-SCHIFO, DI 1000 LOGGE D'UNGHERIA, BULGARIA, CECOSLOVACCHIA E PURE DI=20
-CAMBOGIA DI POL POT, TANTO CHE CI SIAMO, MEGLIO IRONIZZARCI SOPRA UN POCO,=
-=20
-PLEASE), SLINGUA INTELLETTUALMENTE (E FORSE, STILE OMOSESSUALE NAZISTA E=20
-COCAINOMANE #LUCAMORISI, NON SOLO INTELLETTUALMENTE), TUTTE LE VOLTE, CON=
-=20
-QUEL FIGLIO DI CANE BERLU$$$CORRUTTORE CHE =C3=89 L'AVVOCATO CRIMINALISSIMO=
-,=20
-DAVVERO PEZZO DI MERDA, DAVVERO SGOZZATORE BASTARDO DI GIUSTIZIA,=20
-DEMOCRAZIA E LIBERT=C3=81: #FEDERICOCECCONI. OGNI VOLTA CHE VI =C3=89 STATO=
- UN=20
-CONTRASTO FRA GLI EROICI PM #TIZIANASICILIANO E #LUCAGAGLIO E STO FIGLIO DI=
-=20
-PUTTANONA MASSOMAFIOSO E DELINQUENTE, CHE =C3=89 L'AVVOCATO BASTARDO FEDERI=
-CO=20
-CECCONI, IL GIUDICE MASSONE E NAZIFASCISTA, TANTO QUANTO STRA CORROTTO,=20
-ALIAS IL BERLUSCONICCHIO DI MERDA #MARCOTREMOLADA, COSTUI HA SEMPRE DATO=20
-RAGIONE AL SECONDO. QUESTO APPARE EVIDENTE PURE ALLE MURA DEL TRIBUNALE=20
-MENEGHINO. CHE MI FACCIA AMMAZZARE PURE, STA MERDA PREZZOLATA, STO GIUDICE=
-=20
-VENDUTISSIMO, CORROTTISSIMO, STO TOPO DI FOGNA DI ARCORE^HARDCORE ( ^ STA=
-=20
-PER MASSONERIA SATANICA, MA PURE PER VAGINA DISPONIBILE A GO GO... VISTO=20
-CHE SCRIVO DI ARCORE^HARDCORE), CHE =C3=89 IL GIUDICE CRIMINALISSIMO MARCO=
-=20
-TREMOLADA DEL RUBY TER. MA IO, AL MALE BERLUSCONICCHIO, NON MI PIEGO E=20
-PIEGHER=C3=93 MAI, MEGLIO MORTO PIUTTOSTO. HO POCO TEMPO, DEVO PRODURRE PER=
- LA=20
-MIA BANCA, J SAFRA SARASIN ZURICH. MA QUESTO =C3=89 SOLO UN MINI MINI MINI=
-=20
-ANTIPASTO. MILIARDI DI MIEI POSTS E PROFILI DI OGNI TIPO INVADERANNO TUTTI=
-=20
-I SITI DEL MONDO, FINO A CHE LEGGER=C3=93 CHE TUTTI I BASTARDI MEGA ASSASSI=
-NI=20
-#BERLUSCONI HAN FATTO UNA FINE MOLTO PEGGIORE DEI #LIGRESTI O #TANZI, CHE A=
-=20
-DIFFERENZA DEI FIGLI DI PEDOFILI E TROIONE BERLUSCONI, NON HAN MAI=20
-PARTICOLARMENTE FATTO UCCIDERE NESSUNO, E CHE QUINDI, A LORO CONFRONTO, SON=
-=20
-ANGELINI (NON ANGELUCCI, MA ANGELINI, NON #ANTONIOANGELUCCI, QUELLO =C3=89 =
-UN=20
-PEDOFILO FASCISTA, UN MASSONE SATANISTISSIMO, UN PEZZO DI MERDA=20
-SATA=E5=8D=90NAZISTA, MAFIOSO ED ASSASSINO COME SILVIO BERLUSCONI). VENIAMO=
- AI=20
-FATTI, NOW, PLEASE. IL COCAINOMANE NAZIST=E5=8D=8DASSASSINO #PIERSILVIOBERL=
-USCONI,=20
-IL PEDOFILO MACELLA MAGISTRATI #SILVIOBERLUSCONI E LA LESBICA LECCA FIGHE=
-=20
-DI BAMBINE E RAGAZZINE #MARINABERLUSCONI,
-
-- INSIEME AL FASCISTASSASSINO #ROBERTOJONGHILAVARINI ROBERTO JONGHI=20
-LAVARINI DI CRIMINALISSIMO ISTITUTO GANASSINI DI RICERCHE BIOMEDICHE E=20
-CRIMINALISSIMO MOVIMENTO #FAREFRONTE FARE FRONTE
-
-- INSIEME AL FASCISTASSASSINO #GIANFRANCOSTEFANIZZI (PURE PEDOFILO E FILO=
-=20
-NDRANGHETISTA) DI CRIMINALISSIMO STUDIO MOAI #MOAI #STUDIOMOAI #MOAISTUDIO
-
-- INSIEME AL FASCISTASSASSINO, CORROTTO DI MERDA, PAPPA TANGENTI, LADRONE=
-=20
-#CARLOFIDANZA DI FRATELLI (MASSONI E SPECIALMENTE NDRANGHETISTI) D'ITALIA
-
--INSIEME AL TRIONE SCOPATO IN CULO DA 1000 MAFIOSI E NAZISTI #SILVIASARDONE=
-=20
-DI #LEGALADRONA
-
-- INSIEME AL FASCISTASSASSINO #PAOLO PARRAI ALIAS #PAOLOPIETROBARRAI (PURE=
-=20
-PEDOFILO ED AFFILIATO ALLA NDRANGHETA) DI CRIMINALE TERRANFT E TERRABITCOIN=
-=20
-#TERRANFT E CRIMINALE #TERRABITCOIN
-
-SON VENUTI SPESSO A CHIEDERMI DI RICICLARE CENTINAIA DI MILIONI DI EURO, DI=
-=20
-MAFIE DI TUTTO IL MONDO, CHE, MI HAN DETTO, HAN SOTTO TERRA, IN VARIE VILLE=
-=20
-LORO, COME PURE UN ALTRE VILLE DI LORO SODALI ASSASSINI. HO SEMPRE SBATTUTO=
-=20
-LORO LA PORTA IN FACCIA. SIA A LORO, CHE A UN LORO AVVOCATO MASSONE,=20
-SATANISTA, PEDOFILO, SPECIALISTA NEL RAPIRE, INCULARE ED UCCIDERE BAMBINI=
-=20
-PER VENDERNE GLI ORGANI: #DANIELEMINOTTI DI GENOVA RAPALLO (E A RAPALLO,=20
-"GUARDA CASO", HA RESIDENZA IL TESTA DI CAZZO STRA ASSASSINO=20
-#PIERSILVIOBERLUSCONI). SCRIVER=C3=93 DETTAGLI A PROPOSITO DI QUESTO, IN=20
-MILIARDI DI MIEI PROSSIMI POSTS. PER IL MOMENTO, ORA, INIZIAMO AD ESAMINARE=
-=20
-LA FIGURA DI QUESTO AVVOCATO PEDOFILO, NAZI=E5=8D=90FASCISTA, MASSO=E5=8D=
-=90NAZISTA,=20
-SATA=E5=8D=90NAZISTA, ASSASSINO DANIELE MINOTTI DI CRIMINALISSIMO STUDIO LE=
-GALE=20
-LISI. SONO ANDREAS NIGG DI BANK J SAFRA SARASIN ZURICH. PREMIATO NEL 2018,=
-=20
-2019, 2020 E 2021 COME BANCHIERE SVIZZERO DELL'ANNO, A BASILEA. IN OGNI=20
-CASO, IL MIO MOTTO =C3=89 MASSIMA UMILT=C3=80, FAME ESTREMA DI VITTORIE E P=
-IEDI PER=20
-TERRA! SON LE UNICHE CHIAVI PER FARE LA STORIA!
-LEGGETE QUESTO TESTO, ORA, PLEASE, DOVE INIZIO A SCRIVERE PROPRIO DEL=20
-MASSONE SATANISTA NAZISTA SATA=E5=8D=8DNAZISTA BERLUSCONICCHIO DANIELE MINO=
-TTI:=20
-AVVOCATO ASSASSINO DI GENOVA E CRIMINALE STUDIO LEGALE LISI, NOTO PER=20
-RAPIRE, SODOMIZZARE ED UCCIDERE TANTISSIMI BAMBINI OGNI ANNO. CIAO A TUTTI.
-https://citywireselector.com/manager/andreas-nigg/d2395
-https://ch.linkedin.com/in/andreasnigg
-https://www.blogger.com/profile/13220677517437640922
-
-
-=C3=89 DA ARRESTARE PRIMA CHE FACCIA UCCIDERE ANCORA, L'AVVOCATO PEDOFILO,=
-=20
-BERLUSCO=E5=8D=90NAZISTA, FASCIOLEGHISTA, ASSASSINO DANIELE MINOTTI (FACEBO=
-OK,=20
-TWITTER) DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI.
-=C3=89 DA FERMARE PER SEMPRE, L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90N=
-AZISTA,=20
-PEDERASTA, OMICIDA #DANIELEMINOTTI DI RAPALLO E GENOVA: RAPISCE, INCULA,=20
-UCCIDE TANTI BIMBI, SIA PER VENDERNE GLI ORGANI (COME DA QUESTA ABERRANTE=
-=20
-FOTO
-https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting=
--415x208.jpg),
-CHE PER RITI MASSONICO^SATANISTI, CHE FA IN MILLE SETTE!
-=C3=89 DI PERICOLO PUBBLICO ENORME, L'AVV ASSASSINO E PEDERASTA DANIELE MIN=
-OTTI=20
-(FACEBOOK) DI RAPALLO E GENOVA! AVVOCATO STUPRANTE INFANTI ED ADOLESCENTI,=
-=20
-COME PURE KILLER #DANIELEMINOTTI DI CRIMINALISSIMO #STUDIOLEGALELISI DI=20
-LECCE E MILANO (
-https://studiolegalelisi.it/team/daniele-minotti/
-STUDIO LEGALE MASSO^MAFIOSO LISI DI LECCE E MILANO, DA SEMPRE TUTT'UNO CON=
-=20
-MEGA KILLERS DI COSA NOSTRA, CAMORRA, NDRANGHETA, E, COME DA SUA=20
-SPECIALITA' PUGLIESE, ANCOR PI=C3=9A, DI SACRA CORONA UNITA, MAFIA BARESE, =
-MAFIA=20
-FOGGIANA, MAFIA DI SAN SEVERO)! =C3=89 STALKER DIFFAMATORE VIA INTERNET, NO=
-NCH=C3=89=20
-PEDERASTA CHE VIOLENTA ED UCCIDE BIMBI, QUESTO AVVOCATO OMICIDA CHIAMATO=20
-DANIELE MINOTTI! QUESTO AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA, =
-PEDOFILO=20
-E SANGUINARIO, DI RAPALLO E GENOVA (LO VEDETE A SINISTRA, SOPRA SCRITTA=20
-ECOMMERCE https://i.ytimg.com/vi/LDoNHVqzee8/maxresdefault.jpg)
-RAPALLO: OVE ORGANIZZA TRAME OMICIDA E TERRORISMO DI ESTREMA DESTRA,=20
-INSIEME "AL RAPALLESE" DI RESIDENZA, HITLERIANO, RAZZISTA, KU KLUK=20
-KLANISTA, MAFIOSO E RICICLA SOLDI MAFIOSI COME SUO PADRE: VI ASSICURO,=20
-ANCHE ASSASSINO #PIERSILVIOBERLUSCONI PIERSILVIO BERLUSCONI! SI, SI =C3=89=
-=20
-PROPRIO COS=C3=8D: =C3=89 DA ARRESTARE SUBITO L'AVVOCATO SATANISTA, NAZISTA=
-,=20
-SATA=E5=8D=90NAZISTA, PEDOFILO E KILLER DANIELE MINOTTI DI GENOVA E RAPALLO=
-!
-https://www.py.cz/pipermail/python/2017-March/012979.html
-OGNI SETTIMANA SGOZZA, OLTRE CHE GATTI E SERPENTI, TANTI BIMBI, IN RITI=20
-SATANICI. IN TUTTO NORD ITALIA (COME DA LINKS CHE QUI SEGUONO, I FAMOSI 5=
-=20
-STUDENTI SCOMPARSI NEL CUNEENSE FURONO UCCISI, FATTI A PEZZI E SOTTERRATI=
-=20
-IN VARI BOSCHI PIEMONTESI E LIGURI, PROPRIO DALL'AVVOCATO SATANISTA,=20
-PEDOFILO ED ASSASSINO DANIELE MINOTTI DI RAPALLO E GENOVA
-https://www.ilfattoquotidiano.it/2013/05/29/piemonte-5-ragazzi-suicidi-in-s=
-ette-anni-pm-indagano-sullombra-delle-sette-sataniche/608837/
-https://www.adnkronos.com/fatti/cronaca/2019/03/02/satanismo-oltre-mille-sc=
-omparsi-anni_QDnvslkFZt8H9H4pXziROO.html)
-E' DAVVERO DA ARRESTARE SUBITO, PRIMA CHE AMMAZZI ANCORA, L'AVVOCATO=20
-PEDOFILO, STUPRANTE ED UCCIDENTE BAMBINI: #DANIELEMINOTTI DI RAPALLO E=20
-GENOVA!
-https://www.studiominotti.it
-Studio Legale Minotti
-Address: Via della Libert=C3=A0, 4, 16035 Rapallo GE,
-Phone: +39 335 594 9904
-NON MOSTRATE MAI E POI MAI I VOSTRI FIGLI AL PEDOFIL-O-MOSESSUALE=20
-COCAINOMANE E KILLER DANIELE MINOTTI (QUI IN CHIARO SCURO MASSONICO, PER=20
-MANDARE OVVI MESSAGGI LUCIFERINI=20
-https://i.pinimg.com/280x280_RS/6d/04/4f/6d044f51fa89a71606e662cbb3346b7f.j=
-pg=20
-). PURE A CAPO, ANZI A KAP=C3=93 DI UNA SETTA ASSASSINA DAL NOME ELOQUENTE =
-: "=20
-AMMAZZIAMO PER NOSTRI SATANA IN TERRA: SILVIO BERLUSCONI, GIORGIA MELONI E=
-=20
-MATTEO SALVINI".
-
-UNITO IN CI=C3=93, AL PARIMENTI AVVOCATO MASSONE, FASCISTA, LADRO, TRUFFATO=
-RE,=20
-RICICLA SOLDI MAFIOSI, OMICIDA E MOLTO PEDOFILO=20
-#FULVIOSARZANADISANTIPPOLITO FULVIO SARZANA DI SANT'IPPOLITO.
-
-ED INSIEME AL VERME SATA=E5=8D=90NAZISTA E COCAINOMANE #MARIOGIORDANO MARIO=
-=20
-GIORDANO. FOTO ELOQUENTE A PROPOSITO=20
-https://www.rollingstone.it/cultura/fenomenologia-delle-urla-di-mario-giord=
-ano/541979/
-MARIO GIORDANO =C3=89 NOTO MASSONE OMOSESSUALE DI TIPO ^OCCULTO^ (=C3=89=20
-FROCIO=E5=8D=90NAZISTA SEGRETO COME IL SEMPRE SCOPATO E SBORRATO IN CULO=20
-#LUCAMORISI), FA MIGLIAIA DI POMPINI E BEVE LITRI DI SPERMA DI RAGAZZINI,=
-=20
-PER QUESTO AMA TENERE LA BOCCA SEMPRE APERTA.
-
-IL TUTTO INSIEME AL MAFIOSO AFFILIATO A COSA NOSTRA #CLAUDIOCERASA, ANCHE=
-=20
-LUI NOTO PEDOFILO (AFFILIATO MAFIOSO CLAUDIO CERASA: PUNCIUTO PRESSO=20
-FAMIGLIA MEGA KILLER CIMINNA, MANDAMENTO DI CACCAMO).
-
-CONTINUA QUI
-https://groups.google.com/g/comp.lang.python/c/ruscu2GqKPc
-
-TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
-https://groups.google.com/g/comp.lang.python/c/ruscu2GqKPc
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/c5b7195a-523f-46c8-9dfe-c6a692632521n%40googlegroups.com.
-
-------=_Part_17991_2134021547.1641272273792
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-=C3=89 LECCA FIGHE ASSASSINA: #MARINABERLUSCONI DI CRIMINALISSIMA #FININVES=
-T! =C3=89 NAZI=E5=8D=8DPEDOFILA, LESBICA E KILLER: MARINA BERLUSCONI DI CRI=
-MINALISSIMA #MONDADORI! COME SUO PADRE, IL FASCISTA, MAFIOSO, PEDOFILO, FRE=
-QUENTISSIMO MANDANTE DI OMICIDI E STRAGI...........#SILVIOBERLUSCONI! E POI=
-, IL FIGLIO DI PUTTANA #PIERSILVIOBERLUSCONI (ANCOR PI=C3=9A FIGLIO DI PEDO=
-FILO MACELLA MAGISTRATI SILVIO BERLUSCONI) RICICLA MONTAGNE DI SOLDI MAFIOS=
-I. COME HA FATTO SUO PEZZO DI MERDA NONNO #LUIGIBERLUSCONI IN #BANCARASINI!=
- E COME HA FATTO PER MEZZO SECOLO, IL LECCA FIGHE DI BAMBINE E RAGAZZINE, B=
-ASTARDO STRAGISTA, FIGLIO, MARITO E PADRE DI PUTTANE: #SILVIOBERLUSCONI! SO=
-LDI ASSASSINI, ESATTAMENTE DI #COSANOSTRA, #CAMORRA, #NDRANGHETA, #SACRACOR=
-ONAUNITA, #SOCIETAFOGGIANA, #MAFIA RUSSA, MAFIA CINESE, MAFIA COLOMBIANA, M=
-AFIA MESSICANA, MAFIA MAROCCHINA, MAFIA ALBANESE, MAFIA SLAVA, MAFIA RUMENA=
-, MAFIE DI TUTTO IL PIANETA TERRA, COME ANCOR PI=C3=9A, MASSONERIE CRIMINAL=
-ISSIME DI TUTTO IL MONDO)! NE SCRIVE IL MIO BANCHIERE PREFERITO, #ANDREASNI=
-GG DI BANK J SAFRA SARASIN ZURIGO! CHE TANTE VOLTE SI =C3=89 SENTITO PROPOR=
-RE DAL PEGGIORE CRIMINALE IN CRAVATTA DI TUTTO IL PIANETA TERRA E DI TUTTI =
-I TEMPI, SILVIO BERLUSCONI, COME DAL NAZIST=E5=8D=8DASSASSINO PIERSILVIO BE=
-RLUSCONI E DALLA LECCA FIGHE PEDOFILA, SATA=E5=8D=8DNAZISTA E FALSA DA FARE=
- SCHIFO, MARINA BERLUSCONI, DI RICICLARE PER LORO, CENTINAIA DI MILIONI DI =
-EURO MAFIOSI, DA DESTINARE AL CORROMPERE CHIUNQUE, COME A FINANZIARE STRAGI=
- ED OMICIDI FASCISTI, IN ITALIA! SEMPRE EROICAMENTE RIFIUTANDO! A VOI IL GR=
-ANDISSIMO ANDREAS NIGG DI BANK J SAFRA SARASIN ZURIGO.<br><br>CIAO A TUTTI.=
- SON SEMPRE IO, ANDREAS NIGG, EX MANAGER IN BANK VONTOBEL ZURIGO ED ORA MAN=
-AGER IN BANK J SAFRA SARASIN ZURIGO. SCHIFO CON TUTTE LE FORZE I PEDOFILI B=
-ASTARDI, SATANISTI, NAZISTI, SATA=E5=8D=90NAZISTI, MAFIOSI, ASSASSINI #BERL=
-USCONI! SON DEI FIGLI DI PUTTANE E PEDOFILI! SON #HITLER, #PINOCHET E #PUTI=
-N MISTI AD AL CAPONE, TOTO RIINA E PASQUALE BARRA DETTO "O ANIMALE"! SI PRE=
-NDONO LA NAZIONE INTERA, INTRECCIANDO POTERE ECONOMICO, POTERE DI CORROMPER=
-E CHIUNQUE, POTERE MEDIATICO, POTERE EDITORIALE, POTERE SATANICO, POTERE FA=
-SCIOCIELLINO, POTERE MASSO^MAFIOSO =E2=98=A0, POTERE DI TERRORISTI NAZI=E5=
-=8D=90FASCISTI =E2=98=A0, POTERE RICATTATORIO, POTERE ASSASSINO =E2=98=A0, =
-POTERE STRAGISTA =E2=98=A0, POTERE DI INTELLIGENCE FOTOCOPIA DI BEN NOTE OV=
-RA E GESTAPO =E2=98=A0, ADDIRITURA PURE POTERE CALCISTICO ED IL POTERE DEI =
-POTERI: IL POTERE POLITICO (OSSIA OGNI TIPO DI POTERE: OGNI)! CREANDO DITTA=
-TURA STRA OMICIDA! I TOPI DI FOGNA KILLER #SILVIOBERLUSCONI, #PIERSILVIOBER=
-LUSCONI E #MARINABERLUSCONI HAN FATTO UCCIDERE IN VITA LORO, ALMENO 900 PER=
-SONE, QUASI SEMPRE PER BENISSIMO! LA LORO SPECIALIT=C3=81 =C3=89 ORGANIZZAR=
-E OMICIDI MASSONICI! OSSIA DA FAR PASSARE PER FINTI SUICIDI, MALORI, INCIDE=
-NTI (VEDI COME HANNO UCCISO LENTAMENTE, IN MANIERA MASSONICISSIMA, LA GRAND=
-E #IMANEFADIL, MA PURE GLI AVVOCATI VICINI A IMANE FADIL, #EGIDIOVERZINI E =
-#MAURORUFFFINI, MA ANCHE TANTISSIMI MAGISTRATI GIOVANI CHE LI STAVANO INDAG=
-ANDO SEGRETAMENTE O NON, COME #GABRIELECHELAZZI, #ALBERTOCAPERNA, #PIETROSA=
-VIOTTI, #MARCELLOMUSSO, #FRANKDIMAIO, PER NON DIRE DI COME HAN MACELLATO GL=
-I EROI #GIOVANNIFALCONE E #PAOLOBORSELLINO)! IL TUTTO IN COMBUTTA CON SERVI=
-ZI SEGRETI NAZI=E5=8D=90FASCISTI, BASTARDA MASSONERIA DI ESTREMA DESTRA (VE=
-DI #P2 P2 O #LOGGIADELDRAGO LOGGIA DEL DRAGO, OSSIA LOGGIA PERSONALE DEL PE=
-ZZO DI MERDA PEDOFILO E STRAGISTA #SILVIOBERLUSCONI). OLTRE CHE IN STRA COM=
-BUTTA CON LORO VARIE COSA NOSTRA, CAMORRA, NDRANGHETA, MAFIA RUSSA, MAFIA C=
-INESE, MAFIA COLOMBIANA, MAFIE DI TUTTO IL PIANETA TERRA.<br><br>OGGI VORRE=
-I SCRIVERE PURE, DI QUEL TOPO DI FOGNA CORROTTISSIMO, ANZI "BERLU$$$CORROTT=
-ISSIMO", CHE =C3=89 IL GIUDICE PI=C3=9A STECCATO DEL MONDO: #MARCOTREMOLADA=
- DEL #RUBYTER! MASSONE DI MILLE LOGGE D'UNGHERIA (MA PURE DI BULGARIA, CECO=
-SLOVACCHIA E CAMBOGIA DI POL POT, TANTO CHE CI SIAMO, MEGLIO IRONIZZARCI SO=
-PRA UN POCO, PLEASE). FOGNA STUPRA GIUSTIZIA MARCO TREMOLADA DEL RUBY TER, =
-MASSONE SATANISTA NAZI=E5=8D=90FASCISTA CORROTTISSIMO DA SILVIO BERLUSCONI,=
- PIERSILVIO BERLUSCONI E MARINA BERLUSCONI! STO BERLU$$$CORROTTO SGOZZA GIU=
-STIZIA DI #MARCOTREMOLADA (LO VEDETE QUI<br>https://l450v.alamy.com/450vfr/=
-2ded6pm/milan-italie-30-novembre-2020-milan-ruby-ter-proces-a-la-foire-pres=
-ident-marco-tremolada-usage-editorial-seulement-credit-agence-de-photo-inde=
-pendante-alamy-live-news-2ded6pm.jpg ) =C3=89 IL NUOVO #CORRADOCARNEVALE MI=
-STO A #RENATOSQUILLANTE E #VITTORIOMETTA. ESSENDO IO, ANDREAS NIGG DI BANK =
-J SAFRA SARASIN, STATO DEFINITO BANCHIERE SVIZZERO DELL'ANNO, SIA NEL 2018,=
- 2019 E 2020, E CON MIA GRAN EMOZIONE, PURE NEL 2021, HO FATTO LE MIE INDAG=
-INI E S=C3=93 PER STRA CERTO, CHE STO MASSONE NAZI=E5=8D=90FASCISTA PREZZOL=
-ATO A PALLONE, DI #MARCOTREMOLADA DEL #RUBYTER, HA GI=C3=81 A DISPOSIZIONE,=
- PRESSO 7 DIVERSI FIDUCIARI ELVETICI, 3 MLN DI =E2=82=AC, RICEVUTI AL FINE =
-DI INIZIARE AD AZZOPPARE IL PROCESSO RUBY TER (COME PUNTUALISSIMAMENTE ACCA=
-DUTO IL 3/11/2021). ALTRI 7 MLN DI =E2=82=AC GLI ARRIVEREBBERO A PROCESSO C=
-OMPLETAMENTE MORTO. MI HA CONFERMATO CI=C3=93, PURE IL VERTICE DEI SERVIZI =
-SEGRETI SVIZZERI (CHE ESSENDO SEGRETI, MI HAN IMPOSTO DI NON SCRIVERE NOMI =
-E COGNOMI, COSA CHE DA BANCHIERE SPECCHIATO, RISPETTO) ED IL GRAN MAESTRO D=
-ELLA GRAN LOGGIA SVIZZERA: #DOMINIQUEJUILLAND. D'ALTRONDE, SE ASCOLTATE SU =
-#RADIORADICALE, TUTTE LE UDIENZE DEL PROCESSO, AHIM=C3=89 FARSA, #RUBYTER, =
-VEDRETE CHE STA MERDA CORROTTA, NAZISTA E NEO PIDUISTA DI #MARCOTREMOLADA D=
-EL #RUBYTER STESSO (GIUDICE CORROTTO DA SCHIFO, DI 1000 LOGGE D'UNGHERIA, B=
-ULGARIA, CECOSLOVACCHIA E PURE DI CAMBOGIA DI POL POT, TANTO CHE CI SIAMO, =
-MEGLIO IRONIZZARCI SOPRA UN POCO, PLEASE), SLINGUA INTELLETTUALMENTE (E FOR=
-SE, STILE OMOSESSUALE NAZISTA E COCAINOMANE #LUCAMORISI, NON SOLO INTELLETT=
-UALMENTE), TUTTE LE VOLTE, CON QUEL FIGLIO DI CANE BERLU$$$CORRUTTORE CHE =
-=C3=89 L'AVVOCATO CRIMINALISSIMO, DAVVERO PEZZO DI MERDA, DAVVERO SGOZZATOR=
-E BASTARDO DI GIUSTIZIA, DEMOCRAZIA E LIBERT=C3=81: #FEDERICOCECCONI. OGNI =
-VOLTA CHE VI =C3=89 STATO UN CONTRASTO FRA GLI EROICI PM #TIZIANASICILIANO =
-E #LUCAGAGLIO E STO FIGLIO DI PUTTANONA MASSOMAFIOSO E DELINQUENTE, CHE =C3=
-=89 L'AVVOCATO BASTARDO FEDERICO CECCONI, IL GIUDICE MASSONE E NAZIFASCISTA=
-, TANTO QUANTO STRA CORROTTO, ALIAS IL BERLUSCONICCHIO DI MERDA #MARCOTREMO=
-LADA, COSTUI HA SEMPRE DATO RAGIONE AL SECONDO. QUESTO APPARE EVIDENTE PURE=
- ALLE MURA DEL TRIBUNALE MENEGHINO. CHE MI FACCIA AMMAZZARE PURE, STA MERDA=
- PREZZOLATA, STO GIUDICE VENDUTISSIMO, CORROTTISSIMO, STO TOPO DI FOGNA DI =
-ARCORE^HARDCORE ( ^ STA PER MASSONERIA SATANICA, MA PURE PER VAGINA DISPONI=
-BILE A GO GO... VISTO CHE SCRIVO DI ARCORE^HARDCORE), CHE =C3=89 IL GIUDICE=
- CRIMINALISSIMO MARCO TREMOLADA DEL RUBY TER. MA IO, AL MALE BERLUSCONICCHI=
-O, NON MI PIEGO E PIEGHER=C3=93 MAI, MEGLIO MORTO PIUTTOSTO. HO POCO TEMPO,=
- DEVO PRODURRE PER LA MIA BANCA, J SAFRA SARASIN ZURICH. MA QUESTO =C3=89 S=
-OLO UN MINI MINI MINI ANTIPASTO. MILIARDI DI MIEI POSTS E PROFILI DI OGNI T=
-IPO INVADERANNO TUTTI I SITI DEL MONDO, FINO A CHE LEGGER=C3=93 CHE TUTTI I=
- BASTARDI MEGA ASSASSINI #BERLUSCONI HAN FATTO UNA FINE MOLTO PEGGIORE DEI =
-#LIGRESTI O #TANZI, CHE A DIFFERENZA DEI FIGLI DI PEDOFILI E TROIONE BERLUS=
-CONI, NON HAN MAI PARTICOLARMENTE FATTO UCCIDERE NESSUNO, E CHE QUINDI, A L=
-ORO CONFRONTO, SON ANGELINI (NON ANGELUCCI, MA ANGELINI, NON #ANTONIOANGELU=
-CCI, QUELLO =C3=89 UN PEDOFILO FASCISTA, UN MASSONE SATANISTISSIMO, UN PEZZ=
-O DI MERDA SATA=E5=8D=90NAZISTA, MAFIOSO ED ASSASSINO COME SILVIO BERLUSCON=
-I). VENIAMO AI FATTI, NOW, PLEASE. IL COCAINOMANE NAZIST=E5=8D=8DASSASSINO =
-#PIERSILVIOBERLUSCONI, IL PEDOFILO MACELLA MAGISTRATI #SILVIOBERLUSCONI E L=
-A LESBICA LECCA FIGHE DI BAMBINE E RAGAZZINE #MARINABERLUSCONI,<br><br>- IN=
-SIEME AL FASCISTASSASSINO #ROBERTOJONGHILAVARINI ROBERTO JONGHI LAVARINI DI=
- CRIMINALISSIMO ISTITUTO GANASSINI DI RICERCHE BIOMEDICHE E CRIMINALISSIMO =
-MOVIMENTO #FAREFRONTE FARE FRONTE<br><br>- INSIEME AL FASCISTASSASSINO #GIA=
-NFRANCOSTEFANIZZI (PURE PEDOFILO E FILO NDRANGHETISTA) DI CRIMINALISSIMO ST=
-UDIO MOAI #MOAI #STUDIOMOAI #MOAISTUDIO<br><br>- INSIEME AL FASCISTASSASSIN=
-O, CORROTTO DI MERDA, PAPPA TANGENTI, LADRONE #CARLOFIDANZA DI FRATELLI (MA=
-SSONI E SPECIALMENTE NDRANGHETISTI) D'ITALIA<br><br>-INSIEME AL TRIONE SCOP=
-ATO IN CULO DA 1000 MAFIOSI E NAZISTI #SILVIASARDONE DI #LEGALADRONA<br><br=
->- INSIEME AL FASCISTASSASSINO #PAOLO PARRAI ALIAS #PAOLOPIETROBARRAI (PURE=
- PEDOFILO ED AFFILIATO ALLA NDRANGHETA) DI CRIMINALE TERRANFT E TERRABITCOI=
-N #TERRANFT E CRIMINALE #TERRABITCOIN<br><br>SON VENUTI SPESSO A CHIEDERMI =
-DI RICICLARE CENTINAIA DI MILIONI DI EURO, DI MAFIE DI TUTTO IL MONDO, CHE,=
- MI HAN DETTO, HAN SOTTO TERRA, IN VARIE VILLE LORO, COME PURE UN ALTRE VIL=
-LE DI LORO SODALI ASSASSINI. HO SEMPRE SBATTUTO LORO LA PORTA IN FACCIA. SI=
-A A LORO, CHE A UN LORO AVVOCATO MASSONE, SATANISTA, PEDOFILO, SPECIALISTA =
-NEL RAPIRE, INCULARE ED UCCIDERE BAMBINI PER VENDERNE GLI ORGANI: #DANIELEM=
-INOTTI DI GENOVA RAPALLO (E A RAPALLO, "GUARDA CASO", HA RESIDENZA IL TESTA=
- DI CAZZO STRA ASSASSINO #PIERSILVIOBERLUSCONI). SCRIVER=C3=93 DETTAGLI A P=
-ROPOSITO DI QUESTO, IN MILIARDI DI MIEI PROSSIMI POSTS. PER IL MOMENTO, ORA=
-, INIZIAMO AD ESAMINARE LA FIGURA DI QUESTO AVVOCATO PEDOFILO, NAZI=E5=8D=
-=90FASCISTA, MASSO=E5=8D=90NAZISTA, SATA=E5=8D=90NAZISTA, ASSASSINO DANIELE=
- MINOTTI DI CRIMINALISSIMO STUDIO LEGALE LISI. SONO ANDREAS NIGG DI BANK J =
-SAFRA SARASIN ZURICH. PREMIATO NEL 2018, 2019, 2020 E 2021 COME BANCHIERE S=
-VIZZERO DELL'ANNO, A BASILEA. IN OGNI CASO, IL MIO MOTTO =C3=89 MASSIMA UMI=
-LT=C3=80, FAME ESTREMA DI VITTORIE E PIEDI PER TERRA! SON LE UNICHE CHIAVI =
-PER FARE LA STORIA!<br>LEGGETE QUESTO TESTO, ORA, PLEASE, DOVE INIZIO A SCR=
-IVERE PROPRIO DEL MASSONE SATANISTA NAZISTA SATA=E5=8D=8DNAZISTA BERLUSCONI=
-CCHIO DANIELE MINOTTI: AVVOCATO ASSASSINO DI GENOVA E CRIMINALE STUDIO LEGA=
-LE LISI, NOTO PER RAPIRE, SODOMIZZARE ED UCCIDERE TANTISSIMI BAMBINI OGNI A=
-NNO. CIAO A TUTTI.<br>https://citywireselector.com/manager/andreas-nigg/d23=
-95<br>https://ch.linkedin.com/in/andreasnigg<br>https://www.blogger.com/pro=
-file/13220677517437640922<br><br><br>=C3=89 DA ARRESTARE PRIMA CHE FACCIA U=
-CCIDERE ANCORA, L'AVVOCATO PEDOFILO, BERLUSCO=E5=8D=90NAZISTA, FASCIOLEGHIS=
-TA, ASSASSINO DANIELE MINOTTI (FACEBOOK, TWITTER) DI GENOVA, RAPALLO E CRIM=
-INALISSIMO STUDIO LEGALE LISI.<br>=C3=89 DA FERMARE PER SEMPRE, L'AVVOCATO =
-SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA, PEDERASTA, OMICIDA #DANIELEMINOTT=
-I DI RAPALLO E GENOVA: RAPISCE, INCULA, UCCIDE TANTI BIMBI, SIA PER VENDERN=
-E GLI ORGANI (COME DA QUESTA ABERRANTE FOTO<br>https://www.newnotizie.it/wp=
--content/uploads/2016/07/Egypt-Organ-Harvesting-415x208.jpg),<br>CHE PER RI=
-TI MASSONICO^SATANISTI, CHE FA IN MILLE SETTE!<br>=C3=89 DI PERICOLO PUBBLI=
-CO ENORME, L'AVV ASSASSINO E PEDERASTA DANIELE MINOTTI (FACEBOOK) DI RAPALL=
-O E GENOVA! AVVOCATO STUPRANTE INFANTI ED ADOLESCENTI, COME PURE KILLER #DA=
-NIELEMINOTTI DI CRIMINALISSIMO #STUDIOLEGALELISI DI LECCE E MILANO (<br>htt=
-ps://studiolegalelisi.it/team/daniele-minotti/<br>STUDIO LEGALE MASSO^MAFIO=
-SO LISI DI LECCE E MILANO, DA SEMPRE TUTT'UNO CON MEGA KILLERS DI COSA NOST=
-RA, CAMORRA, NDRANGHETA, E, COME DA SUA SPECIALITA' PUGLIESE, ANCOR PI=C3=
-=9A, DI SACRA CORONA UNITA, MAFIA BARESE, MAFIA FOGGIANA, MAFIA DI SAN SEVE=
-RO)! =C3=89 STALKER DIFFAMATORE VIA INTERNET, NONCH=C3=89 PEDERASTA CHE VIO=
-LENTA ED UCCIDE BIMBI, QUESTO AVVOCATO OMICIDA CHIAMATO DANIELE MINOTTI! QU=
-ESTO AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA, PEDOFILO E SANGUINA=
-RIO, DI RAPALLO E GENOVA (LO VEDETE A SINISTRA, SOPRA SCRITTA ECOMMERCE htt=
-ps://i.ytimg.com/vi/LDoNHVqzee8/maxresdefault.jpg)<br>RAPALLO: OVE ORGANIZZ=
-A TRAME OMICIDA E TERRORISMO DI ESTREMA DESTRA, INSIEME "AL RAPALLESE" DI R=
-ESIDENZA, HITLERIANO, RAZZISTA, KU KLUK KLANISTA, MAFIOSO E RICICLA SOLDI M=
-AFIOSI COME SUO PADRE: VI ASSICURO, ANCHE ASSASSINO #PIERSILVIOBERLUSCONI P=
-IERSILVIO BERLUSCONI! SI, SI =C3=89 PROPRIO COS=C3=8D: =C3=89 DA ARRESTARE =
-SUBITO L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA, PEDOFILO E KILL=
-ER DANIELE MINOTTI DI GENOVA E RAPALLO!<br>https://www.py.cz/pipermail/pyth=
-on/2017-March/012979.html<br>OGNI SETTIMANA SGOZZA, OLTRE CHE GATTI E SERPE=
-NTI, TANTI BIMBI, IN RITI SATANICI. IN TUTTO NORD ITALIA (COME DA LINKS CHE=
- QUI SEGUONO, I FAMOSI 5 STUDENTI SCOMPARSI NEL CUNEENSE FURONO UCCISI, FAT=
-TI A PEZZI E SOTTERRATI IN VARI BOSCHI PIEMONTESI E LIGURI, PROPRIO DALL'AV=
-VOCATO SATANISTA, PEDOFILO ED ASSASSINO DANIELE MINOTTI DI RAPALLO E GENOVA=
-<br>https://www.ilfattoquotidiano.it/2013/05/29/piemonte-5-ragazzi-suicidi-=
-in-sette-anni-pm-indagano-sullombra-delle-sette-sataniche/608837/<br>https:=
-//www.adnkronos.com/fatti/cronaca/2019/03/02/satanismo-oltre-mille-scompars=
-i-anni_QDnvslkFZt8H9H4pXziROO.html)<br>E' DAVVERO DA ARRESTARE SUBITO, PRIM=
-A CHE AMMAZZI ANCORA, L'AVVOCATO PEDOFILO, STUPRANTE ED UCCIDENTE BAMBINI: =
-#DANIELEMINOTTI DI RAPALLO E GENOVA!<br>https://www.studiominotti.it<br>Stu=
-dio Legale Minotti<br>Address: Via della Libert=C3=A0, 4, 16035 Rapallo GE,=
-<br>Phone: +39 335 594 9904<br>NON MOSTRATE MAI E POI MAI I VOSTRI FIGLI AL=
- PEDOFIL-O-MOSESSUALE COCAINOMANE E KILLER DANIELE MINOTTI (QUI IN CHIARO S=
-CURO MASSONICO, PER MANDARE OVVI MESSAGGI LUCIFERINI https://i.pinimg.com/2=
-80x280_RS/6d/04/4f/6d044f51fa89a71606e662cbb3346b7f.jpg ). PURE A CAPO, ANZ=
-I A KAP=C3=93 DI UNA SETTA ASSASSINA DAL NOME ELOQUENTE : " AMMAZZIAMO PER =
-NOSTRI SATANA IN TERRA: SILVIO BERLUSCONI, GIORGIA MELONI E MATTEO SALVINI"=
-.<br><br>UNITO IN CI=C3=93, AL PARIMENTI AVVOCATO MASSONE, FASCISTA, LADRO,=
- TRUFFATORE, RICICLA SOLDI MAFIOSI, OMICIDA E MOLTO PEDOFILO #FULVIOSARZANA=
-DISANTIPPOLITO FULVIO SARZANA DI SANT'IPPOLITO.<br><br>ED INSIEME AL VERME =
-SATA=E5=8D=90NAZISTA E COCAINOMANE #MARIOGIORDANO MARIO GIORDANO. FOTO ELOQ=
-UENTE A PROPOSITO https://www.rollingstone.it/cultura/fenomenologia-delle-u=
-rla-di-mario-giordano/541979/<br>MARIO GIORDANO =C3=89 NOTO MASSONE OMOSESS=
-UALE DI TIPO ^OCCULTO^ (=C3=89 FROCIO=E5=8D=90NAZISTA SEGRETO COME IL SEMPR=
-E SCOPATO E SBORRATO IN CULO #LUCAMORISI), FA MIGLIAIA DI POMPINI E BEVE LI=
-TRI DI SPERMA DI RAGAZZINI, PER QUESTO AMA TENERE LA BOCCA SEMPRE APERTA.<b=
-r><br>IL TUTTO INSIEME AL MAFIOSO AFFILIATO A COSA NOSTRA #CLAUDIOCERASA, A=
-NCHE LUI NOTO PEDOFILO (AFFILIATO MAFIOSO CLAUDIO CERASA: PUNCIUTO PRESSO F=
-AMIGLIA MEGA KILLER CIMINNA, MANDAMENTO DI CACCAMO).<br><br>CONTINUA QUI<br=
->https://groups.google.com/g/comp.lang.python/c/ruscu2GqKPc<br><br>TROVATE =
-TANTISSIMI ALTRI VINCENTI DETTAGLI QUI<br>https://groups.google.com/g/comp.=
-lang.python/c/ruscu2GqKPc<br>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/c5b7195a-523f-46c8-9dfe-c6a692632521n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/c5b7195a-523f-46c8-9dfe-c6a692632521n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_17991_2134021547.1641272273792--
-
-------=_Part_17990_1755341179.1641272273792--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZd4p%2B80MqOLJTa0-SwcXPbXe%2Bn3FsCCN2dFHJ%2BbAsdZ-A%40mail.gmail.com.
