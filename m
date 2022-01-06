@@ -1,183 +1,138 @@
-Return-Path: <kasan-dev+bncBDNMJTNWWEEBBHOY3GHAMGQETD3DQDA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDZKHAFW3AGBBBHF3KHAMGQEKV4EUWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2773485F8A
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Jan 2022 05:12:14 +0100 (CET)
-Received: by mail-pf1-x438.google.com with SMTP id n4-20020aa79044000000b004bcd447b6easf888780pfo.22
-        for <lists+kasan-dev@lfdr.de>; Wed, 05 Jan 2022 20:12:14 -0800 (PST)
+Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD0B4861DC
+	for <lists+kasan-dev@lfdr.de>; Thu,  6 Jan 2022 10:12:38 +0100 (CET)
+Received: by mail-pf1-x437.google.com with SMTP id n4-20020aa79044000000b004bcd447b6easf1343752pfo.22
+        for <lists+kasan-dev@lfdr.de>; Thu, 06 Jan 2022 01:12:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1641460357; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=DmeU5uvrnAuYVrqyL0FDXOuItIGDZp/CZj4JmdvTaZLogrGU6q8V3LlK4Oh/M8P7/2
+         idXOId4S0eWklaDR0hH99aqBaFsdvh3t5ftQn/6lk7T/G+XKcSBTmQ8d/dcLDYhNNSij
+         P/b9jKdBB8qJxsrvf4a2KHmUjffCgiju8w0G2rA09gzQUOe5H3VdEvmyHRMENA+WcaKw
+         B1w6MP2LgGwydOYm9+7yPBUQdM2g97XIUw3G1V2RItd3NzLYBFCsk7vRJRlYrxHHKMsN
+         i2SWoEPEZabYi+KzJHJg4w8SV6MLwrFYR0XENbv5k8gNmNPlM0bwZebk6L2UgmhEd93M
+         /NcQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=/sjBmY4m7N5xZ53HwRKTwIxG6NXQyNrbxHmzgiriQQg=;
+        b=pJ/85WofgH8PwT+wcsQ3fBDjkkZHZljdjQHJdtdKm5ltB3eWnlM8SUoOrkOJNHa+2G
+         BZB0vEok0hN4gPSK4BksiSRx8tPJk9ICL/PR0LYjxPf8dIxt4Zgbg2TA89tDWgfGP2MM
+         J7bTWIojb5Tbj01zx9WVrEVZDCJiQfsxbecGYwzND/87GlmLrS/OkDL235Z/lEUbuMKg
+         P5MwWd4A43s1uCzTWur4nYk9Kq/GncnuDVmel0man8fy1bdXcfkWtmcSBySwJfQ16Y0g
+         k6q9JhOjgMSzmm8ALsf3+0T8DKtMZtiALf3Tbnptq1W8g3NBa6Dw9uchkz8ES7iUn0O7
+         BOCg==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=i6GwA8wb;
+       spf=pass (google.com: domain of pmladek@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=pmladek@suse.com;
+       dmarc=pass (p=QUARANTINE sp=NONE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:content-disposition
-         :in-reply-to:mime-version:x-original-sender
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=4i7fXfrkK4j1sImKzcwmZsHKvHqB4StOaMQWcMBWrRk=;
-        b=c5D3IRB8aEgdLM6sHtswHekfRsDdmKG2eXOEYH2OsoVkvao9tY5uLQmKI9G+u/11nv
-         HP6xuAZ2hMHCpPxr1dJJA3+NcT5cKTA5xrgVRadDeew6ZtPaZzeoc+k3UO5qu9ztNC/d
-         EANnnkAoDCFlg4yfBMt/oztgWRgxt0YEZdKZPikk8q0BtOd2kP+MXiZ/ml4OXUAMY8b4
-         0kK8YSBixy/1tSRGd8E4b6bwxNjJgYbQIlxRpra8wVqgQrzoFhCF1b8Xu8l4CUBuhWIt
-         Q8fLQNEypiSMtd1XwoV7bJuOAN1D0ZKuMPk5ysLM2HYLhQvNqLYmIpcCwGclhSdFnZ0q
-         4c1w==
+        bh=/sjBmY4m7N5xZ53HwRKTwIxG6NXQyNrbxHmzgiriQQg=;
+        b=VKBO2EgaDku/iOPtrftE9Il9FB0hDWg1W2LwCMa2pHTZwo2t/Dnj9s9IiT+jHRTG9n
+         Degh9soJqEFC7n3Q4Ej6/AkDLE1c24a3gcjiZb1E2fF55IQhNEaym/oTX2SOL15/hWAB
+         Lv7pL4fsRXHWuq63ovAmXA6xo8Liq7XLDo2l1DSQhznkeG8icK9yQ6j9MpBnyjHfu7Jk
+         cjFj3wQ6g8K7/O6KgrXOdrVRtk21pwcJPNMvtH2s1h6BxeqhZ0qD9EmnI5gMRYm9C7uS
+         GMFSQ7mhFGwCVcJYWpbGEtzQeoolvGOpA3jlBeyLanNXQDpLfjc0uXfFe3RJXlpAhWcl
+         tV1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :content-disposition:in-reply-to:mime-version:x-original-sender
+         :mime-version:content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=4i7fXfrkK4j1sImKzcwmZsHKvHqB4StOaMQWcMBWrRk=;
-        b=mGxws+rJIxz8u+u/oz5cQIUClIc4c3Ji+fzDtaDDxWNIO9AQHXkWIGhNrysqffYhhP
-         PCY4PQzZYcCreIlMULChk7GBMeo21jEMqmCt3n+FrB5UcjPjifbRga6YfgOdsgpHuVgR
-         cEvHAHh7TwyAHE2WUf5GtIvHlWymYOPEv7O2RatAIN5rQsA+TgqhwF00ky97AVbqRI5v
-         dUGwJBuLOAOf3bwoRTI828Oa1NnLQ7vL4rmkYlGEOLIPL5GL3Ps14jNU9OJEmjXqb9KN
-         PTajzI5Fwbqu+JCRgBMRGKxqgSOZftDEH1xv2E8K8FlOpXQXwW9kTNfsKljwa8Py4yAd
-         DNSw==
-X-Gm-Message-State: AOAM532iX8MVOKqPynrV6Jr6DnGKtkDidpmEo+pDAFzO6w8ZVKj76fvI
-	qeCL1fv5Eyhwdhx0cTOm04E=
-X-Google-Smtp-Source: ABdhPJyu2pPlCF73jlubRhaJy3D5kutMWiuDY8sx3hX/etMWwRfy9IEiG0kgHdvaAtEQdO75vPs9dQ==
-X-Received: by 2002:aa7:8888:0:b0:4bb:b0d4:efff with SMTP id z8-20020aa78888000000b004bbb0d4efffmr52522542pfe.53.1641442333100;
-        Wed, 05 Jan 2022 20:12:13 -0800 (PST)
+        bh=/sjBmY4m7N5xZ53HwRKTwIxG6NXQyNrbxHmzgiriQQg=;
+        b=WoZs7dtRp9OrzZfkLnUJnhpDkI81sSkTyN78JFW2v5wc0qI4GX/zH3XdpJ26urJnVw
+         BtTtI4XT7z1CLQVMkBUTDyTH/pToNDby3c0b183TKK7PGpuDNpnHuIAgZ4LH9OcN2C4v
+         DQU8xk7iF6sbfbqpvfUGa/vQ0zOMsJp4HKYJ4CXxDX4OW051D7fv+rowM4UWI+u7iDF+
+         UL4mKmMX1nq74NcztLw9wObgW91gCX+zBUFN4+2GjNOi7/pWsKmGpaIdhWD/L9SwwV6c
+         cddI8aXvWyIfG6IUG7tvRfbgc2gt1QYrPUreme8Hw4OWphqwNfBwnBw+oINejHA/TC3M
+         gShg==
+X-Gm-Message-State: AOAM532EmvqF80PcPKhpfUd1xj7y1g/MyltfZG/mGqj2YmRa6p033a5o
+	JLOjgVDumMZ9UES5HFByTjs=
+X-Google-Smtp-Source: ABdhPJyV3U2+rwLOIPQaQl8EAnxf9E/MSehYUwCMixwVxPWq7WpM3gcOgC+890NtJxReyqnYNJ2Anw==
+X-Received: by 2002:a17:90a:414b:: with SMTP id m11mr9016205pjg.158.1641460356550;
+        Thu, 06 Jan 2022 01:12:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:daca:: with SMTP id q10ls692470plx.0.gmail; Wed, 05
- Jan 2022 20:12:12 -0800 (PST)
-X-Received: by 2002:a17:90b:88e:: with SMTP id bj14mr7933815pjb.183.1641442332606;
-        Wed, 05 Jan 2022 20:12:12 -0800 (PST)
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com. [67.231.145.42])
-        by gmr-mx.google.com with ESMTPS id x5si40493pll.11.2022.01.05.20.12.12
+Received: by 2002:a63:78ce:: with SMTP id t197ls613650pgc.1.gmail; Thu, 06 Jan
+ 2022 01:12:36 -0800 (PST)
+X-Received: by 2002:a63:8f05:: with SMTP id n5mr51302724pgd.606.1641460355923;
+        Thu, 06 Jan 2022 01:12:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1641460355; cv=none;
+        d=google.com; s=arc-20160816;
+        b=OLj7Xq636onJ59nH/WSZtCIN8DjiobmlQtSHxkFR0uORjXhmD+Q1SnTZ3c2/zQk51P
+         rurMWJGlzYQiqmAUBi5gyClkhM2peQjTfoQLhhlYzMjt2LY87uSuXha3d7ZGx1MAn0A2
+         hPp3HexkdxQPmMtO3duUUiEiNQGXmfJOPwu/8UuYEFzHp7dWZQfxIngrMUrzY9mzNYNp
+         t//81phRQkXSrnhYDTuJ1Kt/u10Mc6XaVNhOSpsBcbIC2MOkcWeJK+iVzJF//46YBrXT
+         WBv+KwcDnu6oVshhLLcZd33b8fDUkvFP76MgkKe+QzqLY8lQtPu23zLOEnXzGOme5OCf
+         S/CQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=2brGx705QYkY0AujJCUiwrOpHDiV9D8MTqlymar57Js=;
+        b=KO11MDgrsYRW0R1nQMnlGggfv5T1Hn6IKraQNfkkpJT+2+DkbpYdRf+Q4a+7tuMich
+         JmH+U/x4ureoFzehe1lR5HBGJeotcr/5dVmBwlEqiBWBuGzwbmC8hIjcWK+VmHRTmoWd
+         jwuBfEySpZNLXeMM9tfL/QpEjkJqq3Eg8/1v57ucJoA8bVof62BlQMg97sjaq0ZBzkUC
+         0Hrd5MUFhopiDfFfcu/Lhq19XLi9/qZLZz+ETvl8sNPIm7uuXrlaFDhzTZfpr9szZOqu
+         7dQoQORBAYHSlHQuZzXpf/KOk+2F1S8lwv9kuN+d8/NJrR7r70bcdDHaEzLjt1/CRLOq
+         +wCw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=i6GwA8wb;
+       spf=pass (google.com: domain of pmladek@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=pmladek@suse.com;
+       dmarc=pass (p=QUARANTINE sp=NONE dis=NONE) header.from=suse.com
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
+        by gmr-mx.google.com with ESMTPS id j11si46950plx.9.2022.01.06.01.12.35
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Jan 2022 20:12:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of prvs=2005fbe8c5=guro@fb.com designates 67.231.145.42 as permitted sender) client-ip=67.231.145.42;
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 205N524n028602;
-	Wed, 5 Jan 2022 20:12:07 -0800
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3ddmpe17nm-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 05 Jan 2022 20:12:07 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.36.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 5 Jan 2022 20:12:06 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XpKH7ZB6B/u1sNSZRVplaFyuc8Di9S7MYFrXyLPTk+IinRL2AAHXLUsmUcE8A5bVyWvoUYH5DxTnphI+HMX2/bz7iybHSKXwDIfcI4GAOq1xyhwTfhhxtU4t2EakPtc1Cbv2SDRqjZgIj16cZrNF+QL35+JKiVjyMjIvwBjgEYefG7r5g7rhwfLY4+FsCSa+JZ9szAi+E22PdLhf34XR78JplAUjD7yi8Hfz/T2/f40B0QzDJxdPmDnpRoZgSVyJ9N4urAxVhgF/cwnOTVrytfr3HLMQ8gayzclfL7lSCymlM7g+UUwxtID/oTaIINjVAyBZQesMLK/gBiSZUTk6EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mBY0aVGrmg/UmGknsP0e3kT60vbGeb2O0zkHrou2tKk=;
- b=iY4f39de+vLLFiVoegQQjr5f4oP+hSBoIwRNtwXJJ4yTEneJyENMF2XM3OSlS729qfu43dAoksN2ne29RxSJjkevJTTraWQgpkoTVaBtvsi8pZezxMe+5fbmeWUVcfuYt6Pq3fSP6RqhgPgRnd2NPvX4f9nwAAC81iNLzE6vXnzFs1gEXEcZkDXCZAcyVjMdn6E96x2MwiVc5edJqSxbXmibvDhjbULFst3wriBAU9JWiPZpl+IjFRYHrJim56cyAoPdmRUNtFYhvue0HQJ6AthXPitAe8+cH5WXIkbS8OBqq+fidDOEzTMla2MkX0w6cQopyS0/+1Qc0Cem9Y+emw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Received: from BYAPR15MB4136.namprd15.prod.outlook.com (2603:10b6:a03:96::24)
- by BYAPR15MB3143.namprd15.prod.outlook.com (2603:10b6:a03:b5::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.15; Thu, 6 Jan
- 2022 04:12:05 +0000
-Received: from BYAPR15MB4136.namprd15.prod.outlook.com
- ([fe80::c4e9:672d:1e51:7913]) by BYAPR15MB4136.namprd15.prod.outlook.com
- ([fe80::c4e9:672d:1e51:7913%3]) with mapi id 15.20.4844.016; Thu, 6 Jan 2022
- 04:12:05 +0000
-Date: Wed, 5 Jan 2022 20:12:00 -0800
-From: "'Roman Gushchin' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-CC: Matthew Wilcox <willy@infradead.org>, Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Pekka Enberg <penberg@kernel.org>, <linux-mm@kvack.org>,
-        Andrew Morton
-	<akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Hyeonggon
- Yoo <42.hyeyoo@gmail.com>, <patches@lists.linux.dev>,
-        Marco Elver
-	<elver@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov
-	<dvyukov@google.com>, <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH v4 27/32] mm/sl*b: Differentiate struct slab fields by
- sl*b implementations
-Message-ID: <YdZsENIJU3QQXDMD@carbon.dhcp.thefacebook.com>
-References: <20220104001046.12263-1-vbabka@suse.cz>
- <20220104001046.12263-28-vbabka@suse.cz>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jan 2022 01:12:35 -0800 (PST)
+Received-SPF: pass (google.com: domain of pmladek@suse.com designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out2.suse.de (Postfix) with ESMTP id 52FBB1F37C;
+	Thu,  6 Jan 2022 09:12:34 +0000 (UTC)
+Received: from suse.cz (unknown [10.100.224.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by relay2.suse.de (Postfix) with ESMTPS id D052AA3B84;
+	Thu,  6 Jan 2022 09:12:33 +0000 (UTC)
+Date: Thu, 6 Jan 2022 10:12:30 +0100
+From: "'Petr Mladek' via kasan-dev" <kasan-dev@googlegroups.com>
+To: "Sabri N. Ferreiro" <snferreiro1@gmail.com>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Kees Cook <keescook@chromium.org>,
+	Anton Vorontsov <anton@enomsg.org>,
+	Colin Cross <ccross@android.com>, Tony Luck <tony.luck@intel.com>,
+	linux-kernel@vger.kernel.org, mosesfonscqf75@gmail.com,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
+Subject: Re: INFO: rcu detected stall in devkmsg_read
+Message-ID: <YdayfngxLCBB/Ful@alley>
+References: <CAKG+3NT_v6fVOOn-qftVTLTHg5kSgsfnwb_-+zAQ-3drJm5+=A@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20220104001046.12263-28-vbabka@suse.cz>
-X-ClientProxiedBy: MW4PR04CA0155.namprd04.prod.outlook.com
- (2603:10b6:303:85::10) To BYAPR15MB4136.namprd15.prod.outlook.com
- (2603:10b6:a03:96::24)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d4cf05af-b369-4334-a8a6-08d9d0cab2df
-X-MS-TrafficTypeDiagnostic: BYAPR15MB3143:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR15MB314387BE140278471E773F7CBE4C9@BYAPR15MB3143.namprd15.prod.outlook.com>
-X-FB-Source: Internal
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2OVrQ0wBc/fyMKJrx78P/QndDIx1iQk/CCZG3tdVH4cmcs29pYxwKfEwCvus6I80TFhHGrU47Ij0VMXbUkmXHuqRTnvlTYjjdiu+/dZZRxIs7MdwbGxuMg8nouaaJ+6BvQrhIzhbeeyGcSx8O9DeRkZ88b0/L44rVTUJIQA53tf2iRrND/zQSoOil9Q2O8Iv7sOLj47YRMiBXyQC7MLyhnLHYoAeUqrOj9KwrJZvnM0QgBT4or1ONR6fRLBLyNG23ujqiYnx5Eo0lm5BpoR1HuVfPI+XuYPMzn581Im3H1VcNop+1Oqr5hUFS1oqeVOz3NrOhVRLGvAq0c1a4azLKzMydpHZRScx16UWBOJ17WEkFFgVQb0+MuUPyQk4pSafJ3NakzTgr6LXuQMzh22enpvGsMnwMFOaade8JFXf1pKiIcupZJSGadLTbbar1YShHcaqtYiaB09TL5cm7tXe2EBSVKncvz6ybSoTZyDn+v+mRJ3PC3KHmw2B94RVrmwjF3T5e4vanDaiCWJ4mNHe9+k4Vj6z7zaHgkXD17V8s520C8tez/4aZ2FYjNsVPyguxCsjI1tu3+x16ITWEU1tdYdNfBinUxERg+d7cZPDMfY7thBUGVV7FRyvSyjABjkzjwOTH0JXyYAqTCjPSr0Mvg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR15MB4136.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6506007)(8936002)(66556008)(2906002)(52116002)(186003)(6486002)(508600001)(6666004)(66946007)(4326008)(5660300002)(38100700002)(83380400001)(6916009)(54906003)(6512007)(9686003)(8676002)(316002)(86362001)(7416002)(66476007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OTiTlcLzhO0rmuwABmzVLPXj+ULw1KQc4PETht/FoBwQsqkRb1EZ/N2ds6nB?=
- =?us-ascii?Q?Stp3dqg3osOrMa7Frf80rGrfcAxNrGDY4DvR0AjrM2H6b/L4NJNhofjCOpn5?=
- =?us-ascii?Q?CPLWhpVVtspxkvmi4Z6AdjZN2taWWEPqLYqlM7pAUGbWjZkQTp4voRyrK40o?=
- =?us-ascii?Q?XmLrOD6VeQgrKz/cHx3J8RZ8WQUpEHdfLlO6GKjsaAIUu05RIpM/zJThMC/h?=
- =?us-ascii?Q?H+3llwflGpSGvhrEQC8ANpouxMGr2zri6mZCIcWuxL8SjS3ICeTaBtmIVYNh?=
- =?us-ascii?Q?00UI7k8ry7AT8pu5/b1FGalOqxOuuvakIRethtdXKPijvYobLoA2D8txlBPy?=
- =?us-ascii?Q?sl9ZytjxERyHVBkRAQqTLCVOf1YtDtEN106KVEHeXIsUIMu7z6+xunwhXVvS?=
- =?us-ascii?Q?Ah8NHo33I0nH4s1cvyNx9GZoAkrXmFRCVqCdWyFuMnnYoKKM4h1NL8p38sM7?=
- =?us-ascii?Q?VeAS/P2m7qooo8N9wXAWvhWaFOcGvOpQGbcaxvWn1Pxsw6xQoharNS526NAj?=
- =?us-ascii?Q?u0dMxRZRAS7J7hXC4yaOq+EheCMo0JWpUpgWHG0poUKx++eClei+XIfi7Vl5?=
- =?us-ascii?Q?DYacH/hlEIt9SMX50i1m6CQ0adLvSWmwyQB5EJB1gXwo+Hc7rHYo1shc1kGY?=
- =?us-ascii?Q?cFwNH3glQthAkU4wRlfgEz0z1ollBBWJ/f0612uW4iw3Cdd49gL9CXMFR+iF?=
- =?us-ascii?Q?bLCbB27r5j+NlTX/jPNajocUiGKFaWC6yOoYRS2Pg1N4fKQAEBbtcIZJStWW?=
- =?us-ascii?Q?4ocGJ4CgZE5eZMWjsEHmcDPYdVopb99CcyVrjjK03XUJAL+27vcIdZR1h1AC?=
- =?us-ascii?Q?v1IDIzFaTnajMTi6wc8NyZfLCEJ+rW97v2aKUC9b6eIe1FNZ3WodFM24EdC1?=
- =?us-ascii?Q?y2nz1M2smMcSBaWzYudaph0DT9E/Z4WVPA1h/o8eA8TWey9ED2iUqi7BGRXz?=
- =?us-ascii?Q?rORb4/EhZEbT6/xC8N8qpLGIeIkJjI51Cf8+SMQAVWuigP/XBKDYrQ5Tj+Yx?=
- =?us-ascii?Q?OidbFdMi2wAbq14TW+6R0oogz+XCbjnSdoPNdHXb/7pt1ibSQHSUiPqRgXAT?=
- =?us-ascii?Q?4lDxP0uoFu2Ex85hDFjjns+t1dOu+w8ccqnBfYcCpnweHgWj/k27Qb3USWZN?=
- =?us-ascii?Q?BUiUZD43+0N3byamYbR+aUXT1D4sjJzTxy4l9/5pXJ5NGI/rKEHH/qM4McNh?=
- =?us-ascii?Q?+5ca2919U1yv0YTLpwny/Ku8I4oi2I7cN7zPZmELJbv7u2M8KBoA7Q3wc0ak?=
- =?us-ascii?Q?hamLTc8o10AT969AL7Y6ThGdx0O/LeW8EyfMOoVURhH5YBjwOWrH1/aTTgyA?=
- =?us-ascii?Q?fmew4RjnwyjmM4xPdIToHklLlvzXId4q3q+5PRHsUNfBI68smopjTQFMSQvx?=
- =?us-ascii?Q?VhesEJrymCDE7CEMP5H6wIYBhKCyVQSpBLaK73PFDltkFoP/ZtrF1mXRjEtB?=
- =?us-ascii?Q?KZaTbFh1yY+LthMlLjywFgQQsYZL3EMF7f9+HW/B0Lg+OgML+aLw0I13FD/W?=
- =?us-ascii?Q?cF6VVxm4ZPskoceVjXpEbxBA0AC6Q8iHe09ad/tzuYY2Ie1eKIeCBu8SoJNV?=
- =?us-ascii?Q?Te4Pnus8oPelQlsxyWtJg/NDoFLSp+bNFFFo9P7L?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4cf05af-b369-4334-a8a6-08d9d0cab2df
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB4136.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2022 04:12:05.4015
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yejlAy8JTC7ut/cQUuEUuDd8qWUiFC/sdMMS4+2P/7qD1yQipjA5tK0qSZzIhr9L
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB3143
-X-OriginatorOrg: fb.com
-X-Proofpoint-ORIG-GUID: e4t3ssZibJ3UEK0q6N5uwm4J-jJhRP8A
-X-Proofpoint-GUID: e4t3ssZibJ3UEK0q6N5uwm4J-jJhRP8A
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-06_01,2022-01-04_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=fb_outbound_notspam policy=fb_outbound score=0 mlxscore=0
- priorityscore=1501 malwarescore=0 suspectscore=0 spamscore=0 bulkscore=0
- mlxlogscore=782 clxscore=1015 adultscore=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2112160000 definitions=main-2201060024
-X-FB-Internal: deliver
-X-Original-Sender: guro@fb.com
+In-Reply-To: <CAKG+3NT_v6fVOOn-qftVTLTHg5kSgsfnwb_-+zAQ-3drJm5+=A@mail.gmail.com>
+X-Original-Sender: pmladek@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@fb.com header.s=facebook header.b=oQX2FWkl;       arc=fail
- (signature failed);       spf=pass (google.com: domain of prvs=2005fbe8c5=guro@fb.com
- designates 67.231.145.42 as permitted sender) smtp.mailfrom="prvs=2005fbe8c5=guro@fb.com";
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=fb.com
-X-Original-From: Roman Gushchin <guro@fb.com>
-Reply-To: Roman Gushchin <guro@fb.com>
+ header.i=@suse.com header.s=susede1 header.b=i6GwA8wb;       spf=pass
+ (google.com: domain of pmladek@suse.com designates 195.135.220.29 as
+ permitted sender) smtp.mailfrom=pmladek@suse.com;       dmarc=pass
+ (p=QUARANTINE sp=NONE dis=NONE) header.from=suse.com
+X-Original-From: Petr Mladek <pmladek@suse.com>
+Reply-To: Petr Mladek <pmladek@suse.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -190,129 +145,214 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 04, 2022 at 01:10:41AM +0100, Vlastimil Babka wrote:
-> With a struct slab definition separate from struct page, we can go
-> further and define only fields that the chosen sl*b implementation uses.
-> This means everything between __page_flags and __page_refcount
-> placeholders now depends on the chosen CONFIG_SL*B. Some fields exist in
-> all implementations (slab_list) but can be part of a union in some, so
-> it's simpler to repeat them than complicate the definition with ifdefs
-> even more.
+On Wed 2022-01-05 23:54:16, Sabri N. Ferreiro wrote:
+> Hi,
 > 
-> The patch doesn't change physical offsets of the fields, although it
-> could be done later - for example it's now clear that tighter packing in
-> SLOB could be possible.
+> When using Syzkaller to fuzz the Linux kernel, it triggers the following crash.
 > 
-> This should also prevent accidental use of fields that don't exist in
-> given implementation. Before this patch virt_to_cache() and
-> cache_from_obj() were visible for SLOB (albeit not used), although they
-> rely on the slab_cache field that isn't set by SLOB. With this patch
-> it's now a compile error, so these functions are now hidden behind
-> an #ifndef CONFIG_SLOB.
+> HEAD commit: a7904a538933 Linux 5.16-rc6
+> git tree: upstream
+> console output: https://paste.ubuntu.com/p/mdfS9m5C74/
+> kernel config: https://docs.google.com/document/d/1w94kqQ4ZSIE6BW-5WIhqp4_Zh7XTPH57L5OF2Xb6O6o/view
 > 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> Tested-by: Marco Elver <elver@google.com> # kfence
-> Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: <kasan-dev@googlegroups.com>
-> ---
->  mm/kfence/core.c |  9 +++++----
->  mm/slab.h        | 48 ++++++++++++++++++++++++++++++++++++++----------
->  2 files changed, 43 insertions(+), 14 deletions(-)
+> If you fix this issue, please add the following tag to the commit:
+> Reported-by:  Yuheng Shen <mosesfonscqf75@gmail.com>
 > 
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 4eb60cf5ff8b..267dfde43b91 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -427,10 +427,11 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
->  	/* Set required slab fields. */
->  	slab = virt_to_slab((void *)meta->addr);
->  	slab->slab_cache = cache;
-> -	if (IS_ENABLED(CONFIG_SLUB))
-> -		slab->objects = 1;
-> -	if (IS_ENABLED(CONFIG_SLAB))
-> -		slab->s_mem = addr;
-> +#if defined(CONFIG_SLUB)
-> +	slab->objects = 1;
-> +#elif defined(CONFIG_SLAB)
-> +	slab->s_mem = addr;
-> +#endif
->  
->  	/* Memory initialization. */
->  	for_each_canary(meta, set_canary_byte);
-> diff --git a/mm/slab.h b/mm/slab.h
-> index 36e0022d8267..b8da249f44f9 100644
-> --- a/mm/slab.h
-> +++ b/mm/slab.h
-> @@ -8,9 +8,24 @@
->  /* Reuses the bits in struct page */
->  struct slab {
->  	unsigned long __page_flags;
-> +
-> +#if defined(CONFIG_SLAB)
-> +
->  	union {
->  		struct list_head slab_list;
-> -		struct {	/* Partial pages */
-> +		struct rcu_head rcu_head;
-> +	};
-> +	struct kmem_cache *slab_cache;
-> +	void *freelist;	/* array of free object indexes */
-> +	void *s_mem;	/* first object */
-> +	unsigned int active;
-> +
-> +#elif defined(CONFIG_SLUB)
-> +
-> +	union {
-> +		struct list_head slab_list;
-> +		struct rcu_head rcu_head;
-> +		struct {
->  			struct slab *next;
->  #ifdef CONFIG_64BIT
->  			int slabs;	/* Nr of slabs left */
-> @@ -18,25 +33,32 @@ struct slab {
->  			short int slabs;
->  #endif
->  		};
-> -		struct rcu_head rcu_head;
->  	};
-> -	struct kmem_cache *slab_cache; /* not slob */
-> +	struct kmem_cache *slab_cache;
->  	/* Double-word boundary */
->  	void *freelist;		/* first free object */
->  	union {
-> -		void *s_mem;	/* slab: first object */
-> -		unsigned long counters;		/* SLUB */
-> -		struct {			/* SLUB */
-> +		unsigned long counters;
-> +		struct {
->  			unsigned inuse:16;
->  			unsigned objects:15;
->  			unsigned frozen:1;
->  		};
->  	};
-> +	unsigned int __unused;
-> +
-> +#elif defined(CONFIG_SLOB)
-> +
-> +	struct list_head slab_list;
-> +	void *__unused_1;
-> +	void *freelist;		/* first free block */
-> +	void *__unused_2;
-> +	int units;
-> +
-> +#else
-> +#error "Unexpected slab allocator configured"
-> +#endif
+> Sorry for my lack of this crash reproducer, I hope the symbolic report
+> will help you.
+> 
+> R13: 00007ffd0a4a0e08 R14: 000055d71ee2c958 R15: 0005d4cd3d2ed07c
+>  </TASK>
+> Call Trace:
+>  <IRQ>
+>  x86_pmu_stop+0x11b/0x320 root/fuzz/kernel/5.16/arch/x86/events/core.c:1597
+> rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+>  x86_pmu_del+0x1a5/0x5b0 root/fuzz/kernel/5.16/arch/x86/events/core.c:1636
+> rcu: 1-....: (108 ticks this GP) idle=459/1/0x4000000000000000
+> softirq=39414/39414 fqs=4592
+> (detected by 3, t=21002 jiffies, g=40973, q=19739)
+>  event_sched_out.part.0+0x1ea/0x820
+> root/fuzz/kernel/5.16/kernel/events/core.c:2285
+> Sending NMI from CPU 3 to CPUs 1:
+> NMI backtrace for cpu 1
+> CPU: 1 PID: 121 Comm: systemd-journal Not tainted 5.16.0-rc6 #3
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+> 1.13.0-1ubuntu1.1 04/01/2014
+> RIP: 0010:preempt_count_add+0x7/0x140
+> root/fuzz/kernel/5.16/kernel/sched/core.c:5422
+> Code: df 03 00 48 89 ef e8 68 81 04 00 48 8b 3d b1 ca b8 03 48 89 ee
+> 5d e9 a8 2b 44 00 0f 1f 84 00 00 00 00 00 48 c7 c0 c0 ef 6d 92 <55> 48
+> ba 00 00 00 00 00 fc ff df 48 89 c1 53 83 e0 07 89 fb 48 c1
+> RSP: 0018:ffff8881f7289868 EFLAGS: 00000046
+> RAX: ffffffff926defc0 RBX: 1ffff1103ee5130e RCX: ffffffff8e253c25
+> RDX: ffff8881082bd3c0 RSI: 0000000000000000 RDI: 0000000000000001
+> RBP: ffffffff9269e980 R08: 0000000000000001 R09: ffffffff9269e30e
+> R10: fffffbfff24d3c61 R11: 0000000000000001 R12: ffff8881f7289940
+> R13: 0000000000014f2e R14: 0000000000014f2e R15: ffff8881f7289ad0
+> FS:  00007f3f4e83c8c0(0000) GS:ffff8881f7280000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f3f4a04b000 CR3: 0000000108138000 CR4: 0000000000350ee0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000ffff4ff0 DR7: 0000000000000400
+> Call Trace:
+>  <IRQ>
 
-Nice!
+The backtrace is from IRQ context.
 
-Reviewed-by: Roman Gushchin <guro@fb.com>
+>  __raw_spin_lock
+> root/fuzz/kernel/5.16/./include/linux/spinlock_api_smp.h:132 [inline]
+>  _raw_spin_lock+0x5e/0xd0 root/fuzz/kernel/5.16/kernel/locking/spinlock.c:154
+>  console_lock_spinning_enable
+> root/fuzz/kernel/5.16/kernel/printk/printk.c:1776 [inline]
+>  console_unlock+0x28e/0x8e0 root/fuzz/kernel/5.16/kernel/printk/printk.c:2708
+
+console_unlock() was called from IRQ context.
+
+It is a known printk() design problem that console_unlock() called
+from IRQ context can cause softlockups, rcu stalls, ... when it has
+to flush too many messages to the consoles. Especially when there
+are messages added from other CPUs.
+
+And the console output at https://paste.ubuntu.com/p/mdfS9m5C74/ suggests
+that there were many printk messages flushed.
+
+John Ogness is working on solving this design problem by offloading
+the console handling to kthreads. So, we hopefully get rid of it
+one day.
+
+
+At the moment, the only solution is to reduce the number of messages
+printed to the console.
+
+And I am a bit confused here. I do not understand who is producing all
+the other messages. They look like "regular" snapshots but I do not
+understand who triggered them.
+
+We should make sure that there is no infinite loop caused by kasan
+reports and printk code. But I do not fully understand if this is
+the case here. Adding Kasan people into CC.
+
+Best Regards,
+Petr
+
+
+>  vprintk_emit+0xf8/0x230 root/fuzz/kernel/5.16/kernel/printk/printk.c:2245
+>  vprintk+0x69/0x80 root/fuzz/kernel/5.16/kernel/printk/printk_safe.c:50
+>  _printk+0xba/0xed root/fuzz/kernel/5.16/kernel/printk/printk.c:2266
+>  printk_stack_address
+> root/fuzz/kernel/5.16/arch/x86/kernel/dumpstack.c:72 [inline]
+>  show_trace_log_lvl+0x263/0x2ca
+> root/fuzz/kernel/5.16/arch/x86/kernel/dumpstack.c:282
+>  ex_handler_wrmsr_unsafe root/fuzz/kernel/5.16/arch/x86/mm/extable.c:87 [inline]
+>  fixup_exception+0x3bb/0x690 root/fuzz/kernel/5.16/arch/x86/mm/extable.c:150
+>  __exc_general_protection
+> root/fuzz/kernel/5.16/arch/x86/kernel/traps.c:601 [inline]
+>  exc_general_protection+0xed/0x2e0
+> root/fuzz/kernel/5.16/arch/x86/kernel/traps.c:562
+>  asm_exc_general_protection+0x1e/0x30
+> root/fuzz/kernel/5.16/./arch/x86/include/asm/idtentry.h:562
+> RIP: 0010:__wrmsr
+> root/fuzz/kernel/5.16/./arch/x86/include/asm/msr.h:103 [inline]
+> RIP: 0010:native_write_msr
+> root/fuzz/kernel/5.16/./arch/x86/include/asm/msr.h:160 [inline]
+> RIP: 0010:wrmsrl root/fuzz/kernel/5.16/./arch/x86/include/asm/msr.h:281 [inline]
+> RIP: 0010:x86_pmu_disable_event
+> root/fuzz/kernel/5.16/arch/x86/events/amd/../perf_event.h:1138
+> [inline]
+> RIP: 0010:amd_pmu_disable_event+0x83/0x280
+> root/fuzz/kernel/5.16/arch/x86/events/amd/core.c:639
+> Code: 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 e0 01
+> 00 00 48 8b ab 78 01 00 00 4c 89 e2 44 89 e0 48 c1 ea 20 89 e9 <0f> 30
+> 66 90 e8 34 4a 38 00 e8 2f 4a 38 00 48 8d bb 94 01 00 00 48
+> RSP: 0018:ffff8881f7289df8 EFLAGS: 00010016
+> RAX: 0000000000110076 RBX: ffff88810e915c88 RCX: 00000000c0010200
+> RDX: 0000000000000100 RSI: ffffffff90e07480 RDI: ffff88810e915e00
+> RBP: 00000000c0010200 R08: 0000000000000000 R09: ffff8881f72a19e7
+> R10: ffffed103ee5433c R11: 0000000000000001 R12: 0000010000110076
+> R13: 0000000000000000 R14: ffff8881f72a17e0 R15: ffff88810e915e14
+>  x86_pmu_stop+0x11b/0x320 root/fuzz/kernel/5.16/arch/x86/events/core.c:1597
+>  x86_pmu_del+0x1a5/0x5b0 root/fuzz/kernel/5.16/arch/x86/events/core.c:1636
+>  event_sched_out.part.0+0x1ea/0x820
+> root/fuzz/kernel/5.16/kernel/events/core.c:2285
+>  event_sched_out root/fuzz/kernel/5.16/kernel/events/core.c:2354 [inline]
+>  __perf_remove_from_context+0x5c6/0x750
+> root/fuzz/kernel/5.16/kernel/events/core.c:2352
+>  event_function+0x216/0x310 root/fuzz/kernel/5.16/kernel/events/core.c:253
+>  remote_function root/fuzz/kernel/5.16/kernel/events/core.c:91 [inline]
+>  remote_function+0x110/0x190 root/fuzz/kernel/5.16/kernel/events/core.c:71
+>  flush_smp_call_function_queue+0x162/0x4f0
+> root/fuzz/kernel/5.16/kernel/smp.c:628
+>  __sysvec_call_function_single+0x62/0x200
+> root/fuzz/kernel/5.16/arch/x86/kernel/smp.c:248
+>  sysvec_call_function_single+0x89/0xc0
+> root/fuzz/kernel/5.16/arch/x86/kernel/smp.c:243
+>  </IRQ>
+>  <TASK>
+>  asm_sysvec_call_function_single+0x12/0x20
+> root/fuzz/kernel/5.16/./arch/x86/include/asm/idtentry.h:646
+> RIP: 0010:bytes_is_nonzero root/fuzz/kernel/5.16/mm/kasan/generic.c:85 [inline]
+> RIP: 0010:memory_is_nonzero
+> root/fuzz/kernel/5.16/mm/kasan/generic.c:102 [inline]
+> RIP: 0010:memory_is_poisoned_n
+> root/fuzz/kernel/5.16/mm/kasan/generic.c:128 [inline]
+> RIP: 0010:memory_is_poisoned
+> root/fuzz/kernel/5.16/mm/kasan/generic.c:159 [inline]
+> RIP: 0010:check_region_inline
+> root/fuzz/kernel/5.16/mm/kasan/generic.c:180 [inline]
+> RIP: 0010:kasan_check_range+0x18e/0x1e0
+> root/fuzz/kernel/5.16/mm/kasan/generic.c:189
+> Code: 07 48 39 d0 7d 87 41 bb 01 00 00 00 5b 5d 44 89 d8 41 5c c3 48
+> 85 d2 74 ed 48 01 ea eb 09 48 83 c0 01 48 39 d0 74 df 80 38 00 <74> f2
+> e9 32 ff ff ff 41 bb 01 00 00 00 44 89 d8 c3 48 29 c3 48 89
+> RSP: 0018:ffff888108c07b68 EFLAGS: 00000246
+> RAX: fffffbfff22dc768 RBX: fffffbfff22dc769 RCX: ffffffff8e254b5c
+> RDX: fffffbfff22dc769 RSI: 0000000000000008 RDI: ffffffff916e3b40
+> RBP: fffffbfff22dc768 R08: 0000000000000000 R09: ffffffff916e3b47
+> R10: fffffbfff22dc768 R11: 0000000000000001 R12: ffffffff916e3b40
+> R13: ffff888108c07c30 R14: ffff888108c07c50 R15: ffffffff916e3b20
+>  instrument_atomic_read
+> root/fuzz/kernel/5.16/./include/linux/instrumented.h:71 [inline]
+>  atomic_long_read
+> root/fuzz/kernel/5.16/./include/linux/atomic/atomic-instrumented.h:1183
+> [inline]
+>  prb_first_seq root/fuzz/kernel/5.16/kernel/printk/printk_ringbuffer.c:1833
+> [inline]
+>  _prb_read_valid+0x48c/0x660
+> root/fuzz/kernel/5.16/kernel/printk/printk_ringbuffer.c:1881
+>  prb_read_valid+0x75/0xa0
+> root/fuzz/kernel/5.16/kernel/printk/printk_ringbuffer.c:1929
+>  devkmsg_read+0x158/0x680 root/fuzz/kernel/5.16/kernel/printk/printk.c:730
+>  vfs_read+0x13c/0x4c0 root/fuzz/kernel/5.16/fs/read_write.c:479
+>  ksys_read+0x100/0x210 root/fuzz/kernel/5.16/fs/read_write.c:619
+>  do_syscall_x64 root/fuzz/kernel/5.16/arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x3b/0x90 root/fuzz/kernel/5.16/arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> RIP: 0033:0x7f3f4ddcd210
+> Code: 73 01 c3 48 8b 0d 98 7d 20 00 f7 d8 64 89 01 48 83 c8 ff c3 66
+> 0f 1f 44 00 00 83 3d b9 c1 20 00 00 75 10 b8 00 00 00 00 0f 05 <48> 3d
+> 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 4e fc ff ff 48 89 04 24
+> RSP: 002b:00007ffd0a49e438 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+> RAX: ffffffffffffffda RBX: 00007ffd0a4a0eb0 RCX: 00007f3f4ddcd210
+> RDX: 0000000000002000 RSI: 00007ffd0a49ecb0 RDI: 0000000000000009
+> RBP: 0000000000000000 R08: 000000000000e000 R09: 0000000000000007
+> R10: 0000000000000002 R11: 0000000000000246 R12: 00007ffd0a49ecb0
+> R13: 00007ffd0a4a0e08 R14: 000055d71ee2c958 R15: 0005d4cd3d2ed07c
+>  </TASK>
+>  event_sched_out root/fuzz/kernel/5.16/kernel/events/core.c:2354 [inline]
+>  __perf_remove_from_context+0x5c6/0x750
+> root/fuzz/kernel/5.16/kernel/events/core.c:2352
+>  event_function+0x216/0x310 root/fuzz/kernel/5.16/kernel/events/core.c:253
+>  remote_function root/fuzz/kernel/5.16/kernel/events/core.c:91 [inline]
+>  remote_function+0x110/0x190 root/fuzz/kernel/5.16/kernel/events/core.c:71
+>  flush_smp_call_function_queue+0x162/0x4f0
+> root/fuzz/kernel/5.16/kernel/smp.c:628
+>  __sysvec_call_function_single+0x62/0x200
+> root/fuzz/kernel/5.16/arch/x86/kernel/smp.c:248
+>  sysvec_call_function_single+0x89/0xc0
+> root/fuzz/kernel/5.16/arch/x86/kernel/smp.c:243
+>  </IRQ>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YdZsENIJU3QQXDMD%40carbon.dhcp.thefacebook.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YdayfngxLCBB/Ful%40alley.
