@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBC6MTGHQMGQEWF3GZIQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBF6MTGHQMGQEGALYNIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x238.google.com (mail-oi1-x238.google.com [IPv6:2607:f8b0:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78A9491FA7
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jan 2022 08:02:36 +0100 (CET)
-Received: by mail-oi1-x238.google.com with SMTP id w133-20020acadf8b000000b002c6c86f4afbsf12881468oig.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 Jan 2022 23:02:36 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1642489355; cv=pass;
+Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2818491FA9
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jan 2022 08:02:48 +0100 (CET)
+Received: by mail-il1-x13a.google.com with SMTP id x13-20020a056e021bcd00b002b7f0aa0034sf12037614ilv.17
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 Jan 2022 23:02:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1642489367; cv=pass;
         d=google.com; s=arc-20160816;
-        b=R2quQUxz9HygpOr5KqlWeqvB8m/6Cpx1acRweTRAbPaDdyOzV63eNypYeS0glmyqhV
-         WZKZjCgokgfmU9Jhf0gjBU23yipTnrrrpZknsTAtBM2QDGA0yWWAaoVFrfEusddN3gN9
-         ZOw5EfyYgPVH9idhLpp77jOlL6ORRlnEA/7C40Bc9ZSUdTC1qd1Q6ruIaSn4Xi7GfeWl
-         oG5TIdooRwzq0OsINCy/IJ1PRwYl5PmpJ5ERNCRLyzEzJad4MzvLMAGbTq+vCzSuuWrs
-         RSfRaHeyj50NLHeHCM+m12WI1X75rOfXWwjNAoSccjLISF0uKT5zR0D/3ggwv9bcA8yI
-         7XJQ==
+        b=iBZlyw6lylXCf802sGs6OUw9V0OaZgLDn+9lndgblWH8eF1vxSQuBkgrWjIpuurF+8
+         peCVR6OzzNYWdzdvSsgInGV1Vgn7c+jHnC6uC94E91hUSI6u7DhMysdJ4x76COh//6k5
+         JDx5OhJSLZg05C4/bV0QUoedZiVcNJ04ZJaLchfH0E1+ON57ouVzaxo8yl6MfyYchj6G
+         +ys0Epn+4zIjOX+U5B14YGElV2zhY79bfky7JFb17pEkuBAZDof4o4VPeTMinbqihpCx
+         0+0Wsszpm/c0yFnq7fg9KTsuM2ChEedEYZ4Ct8HuoqoYH4DHhWFmayyIiHMXcgXXsbt3
+         RPuA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=zOevC0S65un53NbB9A0Gst6RD9Ns9kAnD2OnaHOGZzU=;
-        b=WGmrZTxg8ooaixU4N7dfSNvxX9aH/0fMIttAMJ4+2gnsw4GylXrK+zP56aXAs0/7Tx
-         ULp+i4wSKtK8PyieSvFuogshGVXDtxBlqaEbC2Dg2wuehmA50nUcf2qpi9a/XEc5hsb6
-         rrlTTHZfpPLvRJy6i7kcY35AAtgrco+uzqFcYXkwGajN+oEgYYMbAFDQtJRWoPGlIkCU
-         5jyewAn4q25dWI9Nv2wetRbCMfsBAc2cQH60JkNkb3RtiXKMstqw+6LKIfxafiIgT+Is
-         /U6e8K3po45zrpzAAuU5b49rHAIO/F3xcyNSdCNSl4i7hT0UsnzKgK3y5+qPkMwiAQit
-         5l4A==
+        bh=bLauiDaz+uFGjJ/MfC3Yp+WAuYwgYzRfitEEQnAAQAg=;
+        b=uy3CQOugOUejUH6g9+buSB41ui1i6DDhDSYZUIom5JcXm+ua6dw3+j3NzQaiy0pJc0
+         YB28I3h1/xmkvi1iqVOUqqltv93NAq1BtxoMn+xLz742PSPI8bQVb0gzU5sSUnGdHHJ9
+         4ROIDqlHhFXigxc50HoZ8wKABROlh5nnRKrNkqnn9bKdQ8kJ+vYdWyzYouieMoEHRAhi
+         F3MTREZcMmmd0jR94yMi5MI/qzZIqjxTPJKXvbsq7uEUa9WCdcKoZloFJLgITp04TmFy
+         0udj91ypRvlgLSGX4mZVaZquJjiGTKrI8xDSzqqU8omS4n2NkTl0gJ29cANIqMm/nJNr
+         MteQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kkmxCxwD;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::231 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=BEvv2LoI;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zOevC0S65un53NbB9A0Gst6RD9Ns9kAnD2OnaHOGZzU=;
-        b=m2wE+acNRqyXlhRVlGzSmETdu4jsZvlPOlrBTScj85gtnWDhxigxsFzXr98Fbs7LuK
-         rShEI/08BVytbdda/6v56gxBibb98ggDk/xzWD1/ru9xWV8rzHOtjjWH5ukbQlDEDI+A
-         xH0yE1VzNTWuS9P6z/h2xOwU9+j5K2epi1cYMhqtjlVsacs5sev3uNM0d26rNBLtQ+wu
-         Jtn2/MFKlAjBJNh4JXHn9oU7k+nxkxHykLMj8bLE/rlG5uL5d1xnfjYxlcqcTxs3k1d+
-         ISuX/ofONP2Bn6Jj7S5MKgq00rPFe9IyF7FpFrgtK/VS9D3L7pRzAfW0N2qMubcF3r8T
-         VVnQ==
+        bh=bLauiDaz+uFGjJ/MfC3Yp+WAuYwgYzRfitEEQnAAQAg=;
+        b=IuTUI853kZAicKT5PnhFLk3owJeyutZIwi7Uwvw/9e0OzZP1UGPqz5FsK0xvoZqb89
+         AnwBP1MNR10fC+CrrMkbi7CbPZX9+9T4Vfp9NEJTaMP7AjVeTdjPXaTbPqasKuUKo4Mo
+         LUuYZUGfBbbobqgUB32BJXaoav5d6DxYd4l1KOmdeyq5e16I8tDoNYRNcUXVWNq2qXaN
+         T6WM0Vr8TZ6uSaSsyI0O+Nfgf455IeCHHUiYpTqUbkO4b29qm4vIhZ4Jlh7GtV4t0pDh
+         JYF73sJxE2xqCHOPAmY8X4BnouiytDYOcG7T2YwXheOxadE7a9Ion0oLY5iNXcWR2EAZ
+         WgnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,63 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zOevC0S65un53NbB9A0Gst6RD9Ns9kAnD2OnaHOGZzU=;
-        b=upPdKH0twhseL08NFc1zturXT/eBXJuJXzHFu0UOG1YlzII0/kbfLJc/4qXd1EBfTB
-         +XBRaQEd2NxQaBOUYWNRKS50OnParR/bLiIlsZPe9iNFlaewVdZTYxu8ao3EHBcDzkO3
-         IkUm7yLbZ+UCtPCy1b39kCMZq+3r7PlQN6JUDphqgBX2gGQtKXgxn5tyKD4bGUR0y6Bb
-         6opQaFC0ts7zVMcRzWvAAixGomNtUtN2yL0lI7pnRoV4iVKzBbJ7/vzPzDJ4D+s+GvGJ
-         jQV24/HflzlhGyv0R4Yg+4SqgPEdxIKKkhNJmAOs2L/G2Rmer6R2dsTmugB2pC6IKD0g
-         VnSg==
-X-Gm-Message-State: AOAM532Wb72hjymaOCgxmwOfzAibekwkW5zrtYmXudl+uaIlUdsLrE+X
-	SQ+lMVvlZiMWkodu27KyiwI=
-X-Google-Smtp-Source: ABdhPJx2CQZ94b25xJ81vOqz8emWj3nESEJkqor1WgCreHgMKDAHuBTjqXEMKghEubP3k7su99A7tg==
-X-Received: by 2002:a05:6830:1e37:: with SMTP id t23mr15322557otr.160.1642489355396;
-        Mon, 17 Jan 2022 23:02:35 -0800 (PST)
+        bh=bLauiDaz+uFGjJ/MfC3Yp+WAuYwgYzRfitEEQnAAQAg=;
+        b=Y5dXESJ2ebX6BHJp5USEJnY+J/VOhu2HTN1iWmki+a24xdk7J4+S1de+b5nUWdjoJ+
+         6BSZ73i1hKcobZuXm+im1RLFilTB2+ZhADCBsKdk8Jrx5wwr9yl/Xh3xRQDnWtxKeGEm
+         ZpjVbTwbf1RhuzWkU42I1Z9EoRXfa79njOZXbK87LP+qsplfwDAH3OdpWN0rcwfRYQ4z
+         kRXALZmIm/8+aOm37LgOEr3s5PwexFyOvPPumMKCyc9O5S/mtBeRU+PVOwUKth3Dz90O
+         o+xglSvW7BUpL9GT3+RriNXirQs6QPhogfnrJa1OF4LoF4PSIcvMgEmwoNpsFunZ0aFP
+         3S4A==
+X-Gm-Message-State: AOAM532/kP6tLYojLzCw2QEr1UzdQoQTlu0Yc6B0d7E57Mg3S2X10lBR
+	CKNdDpiadkHvd7jRFY7ZDto=
+X-Google-Smtp-Source: ABdhPJyft405vkN4nRd39Chkmd3ZcdmAc20LZX1UgfbeOLlFiI9yzI6p6U+QVj7AGZtMyez0wQXCJw==
+X-Received: by 2002:a5e:8717:: with SMTP id y23mr8279706ioj.79.1642489367741;
+        Mon, 17 Jan 2022 23:02:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:1412:: with SMTP id w18ls4281823oiv.4.gmail; Mon,
- 17 Jan 2022 23:02:35 -0800 (PST)
-X-Received: by 2002:a05:6808:2097:: with SMTP id s23mr16423045oiw.132.1642489355118;
-        Mon, 17 Jan 2022 23:02:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1642489355; cv=none;
+Received: by 2002:a92:cd8c:: with SMTP id r12ls379339ilb.9.gmail; Mon, 17 Jan
+ 2022 23:02:47 -0800 (PST)
+X-Received: by 2002:a92:c268:: with SMTP id h8mr12540332ild.135.1642489367401;
+        Mon, 17 Jan 2022 23:02:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1642489367; cv=none;
         d=google.com; s=arc-20160816;
-        b=He31g8EYB3aYAsNWWAN7+YRm+kAd/tJ/I4ieGL1NIbrBUhVEABE7NIvNi1KA47LwX4
-         fdywSkAZh0oX8rfbFoH0ziOQsMR13n+y/jvLb+2qDqpZS1KjDRVEGGYG8y7sPDdAHvE1
-         qd34a7ezBXNoHv3nucXFGEQfzvWdlbnoJg8IotFB5/fj/2lBL82SmX1ZLgGenzMp6Jeb
-         3lK+z0Qvw53Zq+4gGuJR1Q6kcrfElcD8SOhU2OyEl68gXXXs+amRiHU6Bl+3bMK5W97N
-         0K6ocE0weQHMoMoAVdxJ08dZyQadMjDwseqGzlIK8dbmWcsBsB8JSPuEABCktiGtUQT4
-         6wcw==
+        b=jI5+UFqNbQ5i56jwmgDq+tkg4vgaTeXAp2idbTeRVaN/O/yTYffddypwRTQc3rJFv/
+         kAz/pIPBOMLUdFDmE1Jwj9tM7HTYcLebwK30Wd8lTF39QUMZGoFcvUGfH8NHZus8JRlZ
+         4+T5bQi93euwQdfowM6M9ZmGNwB1IWn/ZLWnrli2rxsDlijb0Ui5gDC3xkqwtRpcWzep
+         mUKjgPPe2Nj6pAGW+HZ8snRYmiiSvvkcu67MxhlQ9KtfXaF4lnldevM8GjBuP4NJBum8
+         Sa0UFdYltH1pVnf7A6WyUVofAZgbulNIm9rMvlody23gI6pzSJc+VXjDN9fXt3MbXjCw
+         u0uQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=OU1bIi6zrErACRNMAd72qpHOpezdoqwFxeDmsExWnOE=;
-        b=onWXs0Lj5w17MfUL3oMhZmUpVXhjDm8PC4LQiKVOgM+P91m3xZ9eSIKVX6zB4NP/2H
-         jkx9w7cUjgAEIh9tlBoMPpks9jL5FGVXjOOoH3qps4WnAPAN4cLAyaLfjusMGMCeST7H
-         9FXL4ZSXvuTiEVmOnpkW7ddCzAoUdtew3MxZjOCHWXSeHSwu2jYkmTks8hPaTYXmuhGO
-         5RWVLVbDjNZcfLV6WaEsIVo/sUfex+Mo2ivxXkdZNxXbkNnwuOtsX9pqfoeIgWuRpGQK
-         l1gQUidOnmhYDMMkmcrjxpHBCTmxvhuLTLcH2RflCzT1r9EQ1P4jwZ2ZB7Au24T6OnEj
-         ysvA==
+        bh=jPb1J18pp2+JcNd7ly09xmW41XnMO+ZDAZ+Gr42WbPA=;
+        b=lpgs0S/ty2fkjz626Nz4WhHvAwKvA+I26lFl9FVR5kKDxDZhZrQNmEZD+gVnyLWU4Y
+         2EeWzKUFBIUXftppJ4cstmwMXgEgAvjvrVPwij0JBiEifT/K9DVkkFkWzLQrZ0k/C1Oh
+         YULxkdnlxolU7o8HYah7EmbzIFrn5H2E+HhyYRIiKLNcdrdHatmcglt4eD6MmsTSLDBr
+         aVkVF2On8MBGekarwS/xioNTysemA1fRCUHnzOUXwLsjxYQknhxlSwRYMWe1jtTOexxU
+         +4URfMktlIgQKLoYEfX3YDPpMr0n94FtXKVKi8+r7VlGbFryyspyTzUcK3Y4xA3XcvCf
+         piHQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kkmxCxwD;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::231 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=BEvv2LoI;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com. [2607:f8b0:4864:20::231])
-        by gmr-mx.google.com with ESMTPS id b3si644681ook.0.2022.01.17.23.02.35
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com. [2607:f8b0:4864:20::22c])
+        by gmr-mx.google.com with ESMTPS id h25si1204264ila.2.2022.01.17.23.02.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jan 2022 23:02:35 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::231 as permitted sender) client-ip=2607:f8b0:4864:20::231;
-Received: by mail-oi1-x231.google.com with SMTP id r138so27150799oie.3
-        for <kasan-dev@googlegroups.com>; Mon, 17 Jan 2022 23:02:35 -0800 (PST)
-X-Received: by 2002:aca:abc1:: with SMTP id u184mr14344282oie.109.1642489354590;
- Mon, 17 Jan 2022 23:02:34 -0800 (PST)
+        Mon, 17 Jan 2022 23:02:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c as permitted sender) client-ip=2607:f8b0:4864:20::22c;
+Received: by mail-oi1-x22c.google.com with SMTP id s9so27078468oib.11
+        for <kasan-dev@googlegroups.com>; Mon, 17 Jan 2022 23:02:47 -0800 (PST)
+X-Received: by 2002:a05:6808:290:: with SMTP id z16mr11273405oic.128.1642489366843;
+ Mon, 17 Jan 2022 23:02:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20220117153634.150357-1-nogikh@google.com> <20220117153634.150357-2-nogikh@google.com>
-In-Reply-To: <20220117153634.150357-2-nogikh@google.com>
+References: <20220117153634.150357-1-nogikh@google.com> <20220117153634.150357-3-nogikh@google.com>
+In-Reply-To: <20220117153634.150357-3-nogikh@google.com>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 18 Jan 2022 08:02:23 +0100
-Message-ID: <CACT4Y+btn2qz-Q22LyWeT6hq2NLwToOXyD96K-MKfjyB3ukDFg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] kcov: split ioctl handling into locked and
- unlocked parts
+Date: Tue, 18 Jan 2022 08:02:35 +0100
+Message-ID: <CACT4Y+bVMp26=aL3a1e_wccXwwNHwwy8-fmCienQ7hSmdmmw8w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] kcov: properly handle subsequent mmap calls
 To: Aleksandr Nogikh <nogikh@google.com>
 Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
 	akpm@linux-foundation.org, andreyknvl@gmail.com, elver@google.com, 
@@ -113,8 +112,8 @@ Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=kkmxCxwD;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::231
+ header.i=@google.com header.s=20210112 header.b=BEvv2LoI;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -131,131 +130,107 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 17 Jan 2022 at 16:36, Aleksandr Nogikh <nogikh@google.com> wrote:
+On Mon, 17 Jan 2022 at 16:37, Aleksandr Nogikh <nogikh@google.com> wrote:
 >
-> Currently all ioctls are de facto processed under a spinlock in order
-> to serialise them. This, however, prohibits the use of vmalloc and other
-> memory management functions in the implementations of those ioctls,
-> unnecessary complicating any further changes to the code.
+> Allocate the kcov buffer during KCOV_MODE_INIT in order to untie mmapping
+> of a kcov instance and the actual coverage collection process. Modify
+> kcov_mmap, so that it can be reliably used any number of times once
+> KCOV_MODE_INIT has succeeded.
 >
-> Let all ioctls first be processed inside the kcov_ioctl() function
-> which should execute the ones that are not compatible with spinlock
-> and then pass control to kcov_ioctl_locked() for all other ones.
-> KCOV_REMOTE_ENABLE is processed both in kcov_ioctl() and
-> kcov_ioctl_locked() as the steps are easily separable.
->
-> Although it is still compatible with a spinlock, move KCOV_INIT_TRACE
-> handling to kcov_ioctl(), so that the changes from the next commit are
-> easier to follow.
+> These changes to the user-facing interface of the tool only weaken the
+> preconditions, so all existing user space code should remain compatible
+> with the new version.
 >
 > Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
 
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 
 > ---
->  kernel/kcov.c | 68 ++++++++++++++++++++++++++++-----------------------
->  1 file changed, 37 insertions(+), 31 deletions(-)
+>  kernel/kcov.c | 34 +++++++++++++++-------------------
+>  1 file changed, 15 insertions(+), 19 deletions(-)
 >
 > diff --git a/kernel/kcov.c b/kernel/kcov.c
-> index 36ca640c4f8e..e1be7301500b 100644
+> index e1be7301500b..475524bd900a 100644
 > --- a/kernel/kcov.c
 > +++ b/kernel/kcov.c
-> @@ -564,31 +564,12 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
->                              unsigned long arg)
+> @@ -459,37 +459,28 @@ void kcov_task_exit(struct task_struct *t)
+>  static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
 >  {
->         struct task_struct *t;
-> -       unsigned long size, unused;
-> +       unsigned long flags, unused;
->         int mode, i;
->         struct kcov_remote_arg *remote_arg;
->         struct kcov_remote *remote;
-> -       unsigned long flags;
+>         int res = 0;
+> -       void *area;
+>         struct kcov *kcov = vma->vm_file->private_data;
+>         unsigned long size, off;
+>         struct page *page;
+>         unsigned long flags;
 >
->         switch (cmd) {
-> -       case KCOV_INIT_TRACE:
-> -               /*
-> -                * Enable kcov in trace mode and setup buffer size.
-> -                * Must happen before anything else.
-> -                */
-> -               if (kcov->mode != KCOV_MODE_DISABLED)
-> -                       return -EBUSY;
-> -               /*
-> -                * Size must be at least 2 to hold current position and one PC.
-> -                * Later we allocate size * sizeof(unsigned long) memory,
-> -                * that must not overflow.
-> -                */
-> -               size = arg;
-> -               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-> -                       return -EINVAL;
-> -               kcov->size = size;
-> -               kcov->mode = KCOV_MODE_INIT;
-> -               return 0;
->         case KCOV_ENABLE:
->                 /*
->                  * Enable coverage for the current task.
-> @@ -692,9 +673,32 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
->         struct kcov_remote_arg *remote_arg = NULL;
->         unsigned int remote_num_handles;
->         unsigned long remote_arg_size;
-> -       unsigned long flags;
-> +       unsigned long size, flags;
->
-> -       if (cmd == KCOV_REMOTE_ENABLE) {
-> +       kcov = filep->private_data;
-> +       switch (cmd) {
-> +       case KCOV_INIT_TRACE:
-> +               /*
-> +                * Enable kcov in trace mode and setup buffer size.
-> +                * Must happen before anything else.
-> +                *
-> +                * First check the size argument - it must be at least 2
-> +                * to hold the current position and one PC. Later we allocate
-> +                * size * sizeof(unsigned long) memory, that must not overflow.
-> +                */
-> +               size = arg;
-> +               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-> +                       return -EINVAL;
-> +               spin_lock_irqsave(&kcov->lock, flags);
-> +               if (kcov->mode != KCOV_MODE_DISABLED) {
-> +                       spin_unlock_irqrestore(&kcov->lock, flags);
-> +                       return -EBUSY;
-> +               }
-> +               kcov->size = size;
-> +               kcov->mode = KCOV_MODE_INIT;
-> +               spin_unlock_irqrestore(&kcov->lock, flags);
-> +               return 0;
-> +       case KCOV_REMOTE_ENABLE:
->                 if (get_user(remote_num_handles, (unsigned __user *)(arg +
->                                 offsetof(struct kcov_remote_arg, num_handles))))
->                         return -EFAULT;
-> @@ -710,16 +714,18 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
->                         return -EINVAL;
->                 }
->                 arg = (unsigned long)remote_arg;
-> +               fallthrough;
-> +       default:
-> +               /*
-> +                * All other commands can be normally executed under a spin lock, so we
-> +                * obtain and release it here in order to simplify kcov_ioctl_locked().
-> +                */
-> +               spin_lock_irqsave(&kcov->lock, flags);
-> +               res = kcov_ioctl_locked(kcov, cmd, arg);
-> +               spin_unlock_irqrestore(&kcov->lock, flags);
-> +               kfree(remote_arg);
-> +               return res;
+> -       area = vmalloc_user(vma->vm_end - vma->vm_start);
+> -       if (!area)
+> -               return -ENOMEM;
+> -
+>         spin_lock_irqsave(&kcov->lock, flags);
+>         size = kcov->size * sizeof(unsigned long);
+> -       if (kcov->mode != KCOV_MODE_INIT || vma->vm_pgoff != 0 ||
+> +       if (kcov->area == NULL || vma->vm_pgoff != 0 ||
+>             vma->vm_end - vma->vm_start != size) {
+>                 res = -EINVAL;
+>                 goto exit;
 >         }
-> -
-> -       kcov = filep->private_data;
-> -       spin_lock_irqsave(&kcov->lock, flags);
-> -       res = kcov_ioctl_locked(kcov, cmd, arg);
-> -       spin_unlock_irqrestore(&kcov->lock, flags);
-> -
-> -       kfree(remote_arg);
-> -
-> -       return res;
+> -       if (!kcov->area) {
+> -               kcov->area = area;
+> -               vma->vm_flags |= VM_DONTEXPAND;
+> -               spin_unlock_irqrestore(&kcov->lock, flags);
+> -               for (off = 0; off < size; off += PAGE_SIZE) {
+> -                       page = vmalloc_to_page(kcov->area + off);
+> -                       if (vm_insert_page(vma, vma->vm_start + off, page))
+> -                               WARN_ONCE(1, "vm_insert_page() failed");
+> -               }
+> -               return 0;
+> +       spin_unlock_irqrestore(&kcov->lock, flags);
+> +       vma->vm_flags |= VM_DONTEXPAND;
+> +       for (off = 0; off < size; off += PAGE_SIZE) {
+> +               page = vmalloc_to_page(kcov->area + off);
+> +               if (vm_insert_page(vma, vma->vm_start + off, page))
+> +                       WARN_ONCE(1, "vm_insert_page() failed");
+>         }
+> +       return 0;
+>  exit:
+>         spin_unlock_irqrestore(&kcov->lock, flags);
+> -       vfree(area);
+>         return res;
 >  }
 >
->  static const struct file_operations kcov_fops = {
+> @@ -674,6 +665,7 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>         unsigned int remote_num_handles;
+>         unsigned long remote_arg_size;
+>         unsigned long size, flags;
+> +       void *area;
+>
+>         kcov = filep->private_data;
+>         switch (cmd) {
+> @@ -683,17 +675,21 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>                  * Must happen before anything else.
+>                  *
+>                  * First check the size argument - it must be at least 2
+> -                * to hold the current position and one PC. Later we allocate
+> -                * size * sizeof(unsigned long) memory, that must not overflow.
+> +                * to hold the current position and one PC.
+>                  */
+>                 size = arg;
+>                 if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+>                         return -EINVAL;
+> +               area = vmalloc_user(size * sizeof(unsigned long));
+> +               if (area == NULL)
+> +                       return -ENOMEM;
+>                 spin_lock_irqsave(&kcov->lock, flags);
+>                 if (kcov->mode != KCOV_MODE_DISABLED) {
+>                         spin_unlock_irqrestore(&kcov->lock, flags);
+> +                       vfree(area);
+>                         return -EBUSY;
+>                 }
+> +               kcov->area = area;
+>                 kcov->size = size;
+>                 kcov->mode = KCOV_MODE_INIT;
+>                 spin_unlock_irqrestore(&kcov->lock, flags);
 > --
 > 2.34.1.703.g22d0c6ccf7-goog
 >
@@ -263,4 +238,4 @@ Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bbtn2qz-Q22LyWeT6hq2NLwToOXyD96K-MKfjyB3ukDFg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbVMp26%3DaL3a1e_wccXwwNHwwy8-fmCienQ7hSmdmmw8w%40mail.gmail.com.
