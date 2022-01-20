@@ -1,132 +1,137 @@
-Return-Path: <kasan-dev+bncBAABBIX4UOHQMGQEPU7GNDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBMM7USHQMGQEA435X4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3b.google.com (mail-yb1-xb3b.google.com [IPv6:2607:f8b0:4864:20::b3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B71494737
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jan 2022 07:16:03 +0100 (CET)
-Received: by mail-yb1-xb3b.google.com with SMTP id 4-20020a250304000000b006137f4a9920sf9166390ybd.6
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jan 2022 22:16:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1642659362; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 909A3494846
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jan 2022 08:30:58 +0100 (CET)
+Received: by mail-lf1-x13c.google.com with SMTP id v13-20020ac25b0d000000b0043455bd1cbcsf834773lfn.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jan 2022 23:30:58 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1642663858; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IRYBi6xIgXoBzNdn0ysYICgHJJj9ukJeXB1ndfHyxUUysZJcYEoj6J8P+OSd02jVUy
-         SfxaZw0LKAnlU6jHvIJo//NysV05lcjuwOV0vGwOVtElvcl6yTmlMq203SDmJVELJykb
-         GCJDaQtwmBYKB8X1+oQk2TYQZfgyHmfYJfH1IoQ+l4twJJ7VohwToXg+DT1e+73VI5Va
-         29tuFERAQpKWcQsyI2+nKvWSOSy21Q2NnAwdSZVsk+8QgnR//oF1gePviFVa+wjgFFUY
-         ladq4htCzTrX6s8Cm1sIPv1V4WcCLyMkcDYDQ9Jn0emptHYvA6qYFRtC86lT3blzxbqe
-         2+gQ==
+        b=pOjDHbyOEFFrr6f2knZ8jwtoEMdvuMeTXpeupPxIu12aVP7thwWVkzYFsP4AsIQ/yg
+         bkbFLetGHtkjb+3UUWQJO7HIrWGcYGiiboQu4vd2xmu2P0nyoWbN78ZtJs/b84GnXGwT
+         0cOCfNa5J3BWikSA6VJ3SioaVSeQd09GRLLC91tNz8ToXRUMjHHrSAoVIOU9R6pOZOFN
+         IsvR9LiK5W4m4wey+6Ud5dlA2CiH8B0rv6r5FBXioDJjj17c0oUmfPNcK8PHTYQmo41G
+         fXPmSoSuHnkBPfFYbIKaFXPhUThpFBq7S5pp99hQv6CvzLaYpZcp+SA+JXaC+mZ2ud6K
+         U3Nw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:in-reply-to
-         :references:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=xepA5CdiPQokktFSXbDX6WhomilR7mgvABTHcZlKRoQ=;
-        b=Tqu+fYP6jiwHQElktHkkQmvvL3v7sUOSZrHxb4DTp3BW8i3w4PpARR1kLsyQ1d0QpF
-         dFos26BDCKaqkPYyIVf/Gamx1xtpMCQe5/+ViPXg4fY/CtHe10EGcu8P82z5521ElGKH
-         w9WP6goW0OaH/N1Z+D3Y0QKhzqnmRqBHly8NIZHi6mWtEvwtdN41xkqRhRwojAdzUn6n
-         Bjtp+7pBn0RMihWfbK4GB8mJOEVqP/Ja8vzrUuJ4SPWvM9X6YzmKQg6YHwywgWJxil0p
-         IM5KP1X08PZREbOoKgHDtfxNBPPHNUE594Jj4hmPvNnDd+RnvKAsh/wQI5x90ZU+N3ju
-         h6pg==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=oIXCJOkiWe6p/zWdQhndm7PT/S96VjRA/X+BaBjjSUI=;
+        b=Zq2aQHu9qjO0KidtnkBIaL2uGv6pkxjP9FxXsuSVIjVFTdWKSDFPNhxExcrrTOyv0t
+         S2EsmlE0JoYrHWon5wlgYIMGpb3cwUq/82X5yAxzwoH7D746aDo59z3+ghOkT25RKbxh
+         326wheW/OjD4AyUoXgFH8nuCXX04QK8AyN6PIja4uHEmevjN9WaAWlfjQlfh2ATElBJl
+         x0iU10KvMsIMcGvXAmexim9sUmwA6hQm51cSyc2RcdNdL9ILITjS9Y2LJGdGVqNM+fZf
+         AIDJR/WwbwoV2I0vffYcGoKS/xSek6eqmhRuQGS2MULG2eTLV4AKrFRz+XcOU12mQfcM
+         EcFw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of chenjingwen6@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=chenjingwen6@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=H0DpcxNd;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :mime-version:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=xepA5CdiPQokktFSXbDX6WhomilR7mgvABTHcZlKRoQ=;
-        b=maAUsofIWPzrl5/RKHbo80sfgVggF1tuZkyREdKWGCB/SXiSOoNz/wR+OA/OxrJAl6
-         eTKVJaFZ9JeLmiPAh4v53famq9OJbrzp/Ijm264Yrmp29kdtURoLJaJB4fOK0IcAUfN0
-         LhDlJgvYEr7lF5hZolm7QcL5md8hTMmPA2ePyzc7iirSuINPpXkbJRnBWHppP8aRsnUc
-         uD8MQjp57qdinNIDsvtvR40BKbLeiNFZL0CdRSUqbz5+xAjggGWGx9BOXrHAcrFXXLn/
-         B1kTssK/G/PdATSFNL5c8F8Ek9+5bYBDFQVFCpDlqDkUlTqL6MNeUZAZPqyeswFQkN5u
-         s87Q==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=oIXCJOkiWe6p/zWdQhndm7PT/S96VjRA/X+BaBjjSUI=;
+        b=TXWbq0z4cZ78hrsBRa3VwGEobDoAyw/XMlumvP19+2kU2GJ5mp3IX56ECIhdJogJ+v
+         i4SLp6ornHlKf+nxy/t2wVygcW0HsPN0i0fflTYVUKrOsfrF/YrQARB5QEfUM7laIsXe
+         lQt0h717e1AXkBN46hpZzBbTyQC7dZBhckOjhE1jNJhL0kcXEy8iRzjnQqnTvT4WdH3r
+         Y6CLCBgs117mSZGZ2BkxtVrsQbSFXeISIj7a180JjF7JhsomRUTSrxQbgGMlRnlGySxF
+         MYdMAst1P9iHG6R4Cuu6no9v8pMA8qaYx7GDf9CVfvFfQtgm536b8hpYamll6QyPQ32e
+         KLuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=xepA5CdiPQokktFSXbDX6WhomilR7mgvABTHcZlKRoQ=;
-        b=aAvDG2ifCWgsFlK6zDs0IPvOF7S8PUNRwV/5UNAcqEsDi7pNWAqD/pbOLxup/DHp58
-         zN+VqJYBjasF/8G9dpCoPzuUFR9zjQ4InSd2G16sogrwqchaiwQa2BTN5QK7chF8Ebv1
-         X4VDIo6c9GmsZaN2gybWGhW8JNI23w0uY8ndG6HVguWMtiAz4cUOA4+8E6gOnH/B67kX
-         ra5sxLyA2bwWkdSETDkAHupnPd9PyKv8o8w4rq7Z00K1Luo0zwPmaX9TXdWdVOZZ3Iak
-         lpW6HV+WVTaJNMy31nICgYhCzmH43IM1Nty0SdMmcXqYt6w+cQAmwDuMb9p1uNRGgW5J
-         0X7w==
-X-Gm-Message-State: AOAM531aSxw19qCtrTBepxwCiqq68XCmshO3hN1bPXPk2RB1fD/ZzWGS
-	2YpP8l1fXxjEvzyxMf/0sD8=
-X-Google-Smtp-Source: ABdhPJznef8qgnj6PFeRty0hIzfXLtWX2XOQiopCP70T8rLoWDiuSBD7F5FYVIBhEIVGZy3PFJilXQ==
-X-Received: by 2002:a05:6902:150a:: with SMTP id q10mr48411660ybu.386.1642659362408;
-        Wed, 19 Jan 2022 22:16:02 -0800 (PST)
+        bh=oIXCJOkiWe6p/zWdQhndm7PT/S96VjRA/X+BaBjjSUI=;
+        b=c1++c+3VkGf2dg8ysAM61x5HaKP4LQI0FXcdzMdE0LBZchIIhL2I8uhOF7nnTLCclx
+         A/xd+ULP1VK1eaVj5LSJrqCVKbmZMQcyiO5dI4JslQ9oxwMv6aaqsLiWZx3FWY2iNIaw
+         psr7Da1LMY0Uj2l1lH9rppSMhPEYvmPZ1r6FyC8WbmXbjpx5K9MF7CNgV1FJZmHBXIPC
+         rqo9yeehbLpC1000QHfdTyHypfOHKsOrI4NY0yVdzhFUge9oRvpDE/x6yhFQbOhUMQEZ
+         O98lpzrp/E48mdWXZL49Dy4XeNpn7feLo+l5yqJ3Kp9cszmaOqR5yUtxWpJ9g6n8KBJ9
+         uIrw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531TKYhzwjdZb3hmq+i8w45kTlTrEOBl+X6Y/VxH1REOtiDUNtHz
+	UZLJMSB0dOkSWNc2m9b3XlI=
+X-Google-Smtp-Source: ABdhPJyHuJaFUlHGx/HHnjZeRO3vE6ofz7wCt7hqRK41wxTi2FhcbIdVG2+px0KoMOXtgnHUZNxigQ==
+X-Received: by 2002:ac2:57c7:: with SMTP id k7mr32162804lfo.110.1642663857980;
+        Wed, 19 Jan 2022 23:30:57 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:1254:: with SMTP id 81ls4254934ybs.6.gmail; Wed, 19 Jan
- 2022 22:16:02 -0800 (PST)
-X-Received: by 2002:a05:6902:100b:: with SMTP id w11mr19628803ybt.350.1642659361978;
-        Wed, 19 Jan 2022 22:16:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1642659361; cv=none;
+Received: by 2002:a2e:a550:: with SMTP id e16ls717869ljn.11.gmail; Wed, 19 Jan
+ 2022 23:30:57 -0800 (PST)
+X-Received: by 2002:a2e:a26d:: with SMTP id k13mr14237431ljm.300.1642663856977;
+        Wed, 19 Jan 2022 23:30:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1642663856; cv=none;
         d=google.com; s=arc-20160816;
-        b=Ug2muOkbtfCaEPOtUdi6ppFPtJVI5XyN2oA2olOSG3rUwODkd3dhA3QWqU1Z6R6gs7
-         PheGkuYRWvdOs7bQagH0nbheCLWJhe1aK2ZaOYti/bYoEJJrg4wQiSRBCo78pqHkFa11
-         5KJCx2yNhm6jjXYRZ99Lp1GpQmOMsGLjX06qOtfEg+EUI0v+erx6RUYQ4V+JG1rQeTo9
-         cwfVYNqrH86XZmmfCu09+YmfSDlqG/9OEAJqfI5VUEJjKhkq2og7QDD0Je9JQ+BqV0rO
-         IeINiQIiqigG6TCeWtVP0V6uRsp2ipl7PHU3/VH0Zl4yC4tMhqZSqM+vKchTAJMBldaC
-         UD2w==
+        b=LoUVxPPl7vdnv1CM+kPYlF5TNYy7Erw0CIHxj36+CbrgydVgHscEhFw3BMwRsdrUU5
+         Q1JqRNOTOrwcn9Yz8zJ4umqa/Vhpmnab62k61ZSX6jz+Aks5rPSuj5TLHhqQNlv4cCvs
+         jTYXOqpTMWcR9wqr3Kcnkq+Dj31EcFe1AaXc0e87FdAmLvW4levVX1fN6cyd2WU7JEqM
+         +/ExobPczUBSxYz9yz2et5ItBN67SI/hL8xcwhGQWttwyxxpy4V6lBgu7q/Rq1eHuD2B
+         z06jRFElihSKRfLwHM+dulG9RC5SOgkTd3a05sCgCTWRU54j0Ge4dxolRq7r17rf3tBT
+         HwjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:in-reply-to:references:message-id:date:subject:cc:to
-         :from;
-        bh=lHD+5SXI2yI24yhOmDiWf4vfaQPv+3Wx488yioswqbE=;
-        b=yT7oFAtYM9I+joViyFJrR/Tv+q1XeGyAnKK15jW4b0evPc9zVHTqXQfpdBOH5RtBWX
-         EME3elUwRyhmln/VnlROmkv4UDPhNklQjiRGgVCtt+I9wN40xxiO/qZDF6g2BWv3JNhU
-         +AP0sKVNEumYGOKoNxdTWksI6P7AjEcZqP4yfzz6mEKzWAAu9zlvJi1gPusroWlxc6Hu
-         4mhjF9I8M2mxO/9ug7I9/dkAeSCMFRP14L/XkuNlDHIrQyecpHI7Dq9BuDinPNHmMkqC
-         pxosG/yO/6X7/XhkA77ezDwMg3+X8FyEfMIb2qUNPDq8bLtNlPHy7qM+5ay1oEIjjCO/
-         VWMw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dCQXkZtZ/VwDrAN2uVWBP6tsU2v5k0SPHuefqy0UyIg=;
+        b=NZFlPzWbhmOIifO1qgPOsv0Y4QE/D2hzkKQXxQw+xmrhCnn3kHGaC2FPFyrtR11djK
+         2vqfXLsrEMPuUzYRxqmd2yJSon0TE50oD8GSTFtlzCWLPDH5C7Qv3nPHPywMTAVavBpV
+         NuAkHILLWYpxIhLcKhKkWcVfluLGezLEI7vjvLX1SvF7r4rn/JkRCMyLfkF7zNwwZH1G
+         cGYvlsB0ALkXN3a5OlHsfAph6j2jsIb7seAXIbnLWwQDLtrtJWOqmOaV2yJ5oZX5a9iz
+         78RcvzDrlKXH4nb8PIMXFWeIoDemZUUtjfxNkyxV0wZ0DUnTJ7OQC51MMMR64L0YOYTa
+         dQRw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of chenjingwen6@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=chenjingwen6@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id e65si247787ybf.5.2022.01.19.22.16.01
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=H0DpcxNd;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com. [185.125.188.122])
+        by gmr-mx.google.com with ESMTPS id z20si62289ljj.5.2022.01.19.23.30.56
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Jan 2022 22:16:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of chenjingwen6@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JfXL94MJKzccch;
-	Thu, 20 Jan 2022 14:15:13 +0800 (CST)
-Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 20 Jan 2022 14:15:58 +0800
-Received: from linux-suspe12sp5.huawei.com (10.67.133.83) by
- dggpeml500017.china.huawei.com (7.185.36.243) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 20 Jan 2022 14:15:58 +0800
-From: "'ChenJingwen' via kasan-dev" <kasan-dev@googlegroups.com>
-To: <chenjingwen6@huawei.com>
-CC: <benh@kernel.crashing.org>, <christophe.leroy@c-s.fr>,
-	<kasan-dev@googlegroups.com>, <linuxppc-dev@lists.ozlabs.org>,
-	<mpe@ellerman.id.au>, <paulus@samba.org>
-Subject: Re: [PATCH] powerpc/kasan: Fix early region not updated correctly
-Date: Thu, 20 Jan 2022 14:15:58 +0800
-Message-ID: <20220120061558.60526-1-chenjingwen6@huawei.com>
-X-Mailer: git-send-email 2.12.3
-References: <20211229035226.59159-1-chenjingwen6@huawei.com>
-In-Reply-To: 20211229035226.59159-1-chenjingwen6@huawei.com
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jan 2022 23:30:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) client-ip=185.125.188.122;
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id E3CC13F1E9
+	for <kasan-dev@googlegroups.com>; Thu, 20 Jan 2022 07:30:55 +0000 (UTC)
+Received: by mail-ed1-f70.google.com with SMTP id k10-20020a50cb8a000000b00403c8326f2aso5089134edi.6
+        for <kasan-dev@googlegroups.com>; Wed, 19 Jan 2022 23:30:55 -0800 (PST)
+X-Received: by 2002:a05:6402:268a:: with SMTP id w10mr35311108edd.10.1642663855555;
+        Wed, 19 Jan 2022 23:30:55 -0800 (PST)
+X-Received: by 2002:a05:6402:268a:: with SMTP id w10mr35311082edd.10.1642663855317;
+ Wed, 19 Jan 2022 23:30:55 -0800 (PST)
 MIME-Version: 1.0
+References: <20211206104657.433304-1-alexandre.ghiti@canonical.com> <mhng-cdec292e-aea2-4b76-8853-b8465521e94f@palmer-ri-x1c9>
+In-Reply-To: <mhng-cdec292e-aea2-4b76-8853-b8465521e94f@palmer-ri-x1c9>
+From: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Date: Thu, 20 Jan 2022 08:30:43 +0100
+Message-ID: <CA+zEjCuTSjOCmNExSN1jO50tsuXNzL9x6K6jWjG4+vVky5eWsw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, 
+	zong.li@sifive.com, anup@brainfault.org, Atish.Patra@rivosinc.com, 
+	Christoph Hellwig <hch@lst.de>, ryabinin.a.a@gmail.com, glider@google.com, 
+	andreyknvl@gmail.com, dvyukov@google.com, ardb@kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, keescook@chromium.org, guoren@linux.alibaba.com, 
+	heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com, 
+	panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-efi@vger.kernel.org, 
+	linux-arch@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.67.133.83]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500017.china.huawei.com (7.185.36.243)
-X-CFilter-Loop: Reflected
-X-Original-Sender: chenjingwen6@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of chenjingwen6@huawei.com designates 45.249.212.187 as
- permitted sender) smtp.mailfrom=chenjingwen6@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: ChenJingwen <chenjingwen6@huawei.com>
-Reply-To: ChenJingwen <chenjingwen6@huawei.com>
+X-Original-Sender: alexandre.ghiti@canonical.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@canonical.com header.s=20210705 header.b=H0DpcxNd;       spf=pass
+ (google.com: domain of alexandre.ghiti@canonical.com designates
+ 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,106 +144,113 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Chen Jingwen <chenjingwen6@huawei.com>
+On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>
+> On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
+> > * Please note notable changes in memory layouts and kasan population *
+> >
+> > This patchset allows to have a single kernel for sv39 and sv48 without
+> > being relocatable.
+> >
+> > The idea comes from Arnd Bergmann who suggested to do the same as x86,
+> > that is mapping the kernel to the end of the address space, which allows
+> > the kernel to be linked at the same address for both sv39 and sv48 and
+> > then does not require to be relocated at runtime.
+> >
+> > This implements sv48 support at runtime. The kernel will try to
+> > boot with 4-level page table and will fallback to 3-level if the HW does not
+> > support it. Folding the 4th level into a 3-level page table has almost no
+> > cost at runtime.
+> >
+> > Note that kasan region had to be moved to the end of the address space
+> > since its location must be known at compile-time and then be valid for
+> > both sv39 and sv48 (and sv57 that is coming).
+> >
+> > Tested on:
+> >   - qemu rv64 sv39: OK
+> >   - qemu rv64 sv48: OK
+> >   - qemu rv64 sv39 + kasan: OK
+> >   - qemu rv64 sv48 + kasan: OK
+> >   - qemu rv32: OK
+> >
+> > Changes in v3:
+> >   - Fix SZ_1T, thanks to Atish
+> >   - Fix warning create_pud_mapping, thanks to Atish
+> >   - Fix k210 nommu build, thanks to Atish
+> >   - Fix wrong rebase as noted by Samuel
+> >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
+> >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
+> >
+> > Changes in v2:
+> >   - Rebase onto for-next
+> >   - Fix KASAN
+> >   - Fix stack canary
+> >   - Get completely rid of MAXPHYSMEM configs
+> >   - Add documentation
+> >
+> > Alexandre Ghiti (13):
+> >   riscv: Move KASAN mapping next to the kernel mapping
+> >   riscv: Split early kasan mapping to prepare sv48 introduction
+> >   riscv: Introduce functions to switch pt_ops
+> >   riscv: Allow to dynamically define VA_BITS
+> >   riscv: Get rid of MAXPHYSMEM configs
+> >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
+> >   riscv: Implement sv48 support
+> >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
+> >   riscv: Explicit comment about user virtual address space size
+> >   riscv: Improve virtual kernel memory layout dump
+> >   Documentation: riscv: Add sv48 description to VM layout
+> >   riscv: Initialize thread pointer before calling C functions
+> >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
+> >
+> >  Documentation/riscv/vm-layout.rst             |  48 ++-
+> >  arch/riscv/Kconfig                            |  37 +-
+> >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
+> >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
+> >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
+> >  arch/riscv/include/asm/csr.h                  |   3 +-
+> >  arch/riscv/include/asm/fixmap.h               |   1
+> >  arch/riscv/include/asm/kasan.h                |  11 +-
+> >  arch/riscv/include/asm/page.h                 |  20 +-
+> >  arch/riscv/include/asm/pgalloc.h              |  40 ++
+> >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
+> >  arch/riscv/include/asm/pgtable.h              |  47 +-
+> >  arch/riscv/include/asm/sparsemem.h            |   6 +-
+> >  arch/riscv/kernel/cpu.c                       |  23 +-
+> >  arch/riscv/kernel/head.S                      |   4 +-
+> >  arch/riscv/mm/context.c                       |   4 +-
+> >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
+> >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
+> >  drivers/firmware/efi/libstub/efi-stub.c       |   2
+> >  drivers/pci/controller/pci-xgene.c            |   2 +-
+> >  include/asm-generic/pgalloc.h                 |  24 +-
+> >  include/linux/sizes.h                         |   1
+> >  22 files changed, 833 insertions(+), 209 deletions(-)
+>
+> Sorry this took a while.  This is on for-next, with a bit of juggling: a
+> handful of trivial fixes for configs that were failing to build/boot and
+> some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
+> it'd be easier to backport.  This is bigger than something I'd normally like to
+> take late in the cycle, but given there's a lot of cleanups, likely some fixes,
+> and it looks like folks have been testing this I'm just going to go with it.
+>
 
-> The shadow's page table is not updated when PTE_RPN_SHIFT is 24
-> and PAGE_SHIFT is 12. It not only causes false positives but
-> also false negative as shown the following text.
-> 
-> Fix it by bringing the logic of kasan_early_shadow_page_entry here.
-> 
-> 1. False Positive:
-> ==================================================================
-> BUG: KASAN: vmalloc-out-of-bounds in pcpu_alloc+0x508/0xa50
-> Write of size 16 at addr f57f3be0 by task swapper/0/1
-> 
-> CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.15.0-12267-gdebe436e77c7 #1
-> Call Trace:
-> [c80d1c20] [c07fe7b8] dump_stack_lvl+0x4c/0x6c (unreliable)
-> [c80d1c40] [c02ff668] print_address_description.constprop.0+0x88/0x300
-> [c80d1c70] [c02ff45c] kasan_report+0x1ec/0x200
-> [c80d1cb0] [c0300b20] kasan_check_range+0x160/0x2f0
-> [c80d1cc0] [c03018a4] memset+0x34/0x90
-> [c80d1ce0] [c0280108] pcpu_alloc+0x508/0xa50
-> [c80d1d40] [c02fd7bc] __kmem_cache_create+0xfc/0x570
-> [c80d1d70] [c0283d64] kmem_cache_create_usercopy+0x274/0x3e0
-> [c80d1db0] [c2036580] init_sd+0xc4/0x1d0
-> [c80d1de0] [c00044a0] do_one_initcall+0xc0/0x33c
-> [c80d1eb0] [c2001624] kernel_init_freeable+0x2c8/0x384
-> [c80d1ef0] [c0004b14] kernel_init+0x24/0x170
-> [c80d1f10] [c001b26c] ret_from_kernel_thread+0x5c/0x64
-> 
-> Memory state around the buggy address:
->  f57f3a80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
->  f57f3b00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-> >f57f3b80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
->                                                ^
->  f57f3c00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
->  f57f3c80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-> ==================================================================
-> 
-> 2. False Negative (with KASAN tests):
-> ==================================================================
-> Before fix:
->     ok 45 - kmalloc_double_kzfree
->     # vmalloc_oob: EXPECTATION FAILED at lib/test_kasan.c:1039
->     KASAN failure expected in "((volatile char *)area)[3100]", but none occurred
->     not ok 46 - vmalloc_oob
->     not ok 1 - kasan
-> 
-> ==================================================================
-> After fix:
->     ok 1 - kasan
-> 
-> Fixes: cbd18991e24fe ("powerpc/mm: Fix an Oops in kasan_mmu_init()")
-> Cc: stable@vger.kernel.org # 5.4.x
-> Signed-off-by: Chen Jingwen <chenjingwen6@huawei.com>
-> ---
->  arch/powerpc/mm/kasan/kasan_init_32.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/arch/powerpc/mm/kasan/kasan_init_32.c b/arch/powerpc/mm/kasan/kasan_init_32.c
-> index cf8770b1a692e..f3e4d069e0ba7 100644
-> --- a/arch/powerpc/mm/kasan/kasan_init_32.c
-> +++ b/arch/powerpc/mm/kasan/kasan_init_32.c
-> @@ -83,13 +83,12 @@ void __init
->  kasan_update_early_region(unsigned long k_start, unsigned long k_end, pte_t pte)
->  {
->  	unsigned long k_cur;
-> -	phys_addr_t pa = __pa(kasan_early_shadow_page);
->  
->  	for (k_cur = k_start; k_cur != k_end; k_cur += PAGE_SIZE) {
->  		pmd_t *pmd = pmd_off_k(k_cur);
->  		pte_t *ptep = pte_offset_kernel(pmd, k_cur);
->  
-> -		if ((pte_val(*ptep) & PTE_RPN_MASK) != pa)
-> +		if (pte_page(*ptep) != virt_to_page(lm_alias(kasan_early_shadow_page)))
->  			continue;
->  
->  		__set_pte_at(&init_mm, k_cur, ptep, pte, 0);
-> -- 
-> 2.19.1
+Yes yes yes! That's fantastic news :)
 
-Hi, It can be reproduced with the following kernel configs.
-make corenet32_smp_defconfig
+> Let me know if there's any issues with the merge, it was a bit hairy.
+> Probably best to just send along a fixup patch at this point.
 
-CONFIG_PPC_QEMU_E500=y
-CONFIG_KASAN=y
-CONFIG_KASAN_GENERIC=y
-CONFIG_KASAN_OUTLINE=y
-# CONFIG_KASAN_INLINE is not set
-CONFIG_KASAN_STACK=y
-CONFIG_KASAN_VMALLOC=y
+I'm going to take a look at that now, and I'll fix anything that comes
+up quickly :)
 
-And boot the kernel with the rootfs created by buildroot-2021.08.1.
-qemu-system-ppc -M ppce500 -cpu e500mc -m 256 -kernel /code/linux/vmlinux \
--drive file=output/images/rootfs.ext2,if=virtio,format=raw \
--append "console=ttyS0 rootwait root=/dev/vda" -serial mon:stdio -nographic
+Thanks!
 
-Could you help review this patch?
-I will add the necessary info if any is needed.
+Alex
+
+>
+> Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220120061558.60526-1-chenjingwen6%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BzEjCuTSjOCmNExSN1jO50tsuXNzL9x6K6jWjG4%2BvVky5eWsw%40mail.gmail.com.
