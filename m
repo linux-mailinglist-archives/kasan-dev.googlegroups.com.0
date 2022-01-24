@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBAABB6VBXCHQMGQEU3FB2PI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB65BXCHQMGQE6KJ66RY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB9D497772
-	for <lists+kasan-dev@lfdr.de>; Mon, 24 Jan 2022 03:37:47 +0100 (CET)
-Received: by mail-pf1-x437.google.com with SMTP id x11-20020aa7918b000000b004bd70cde509sf8380427pfa.9
-        for <lists+kasan-dev@lfdr.de>; Sun, 23 Jan 2022 18:37:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1642991866; cv=pass;
+Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8F1497774
+	for <lists+kasan-dev@lfdr.de>; Mon, 24 Jan 2022 03:37:48 +0100 (CET)
+Received: by mail-il1-x13d.google.com with SMTP id m3-20020a056e02158300b002b6e3d1f97csf8602286ilu.19
+        for <lists+kasan-dev@lfdr.de>; Sun, 23 Jan 2022 18:37:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1642991867; cv=pass;
         d=google.com; s=arc-20160816;
-        b=OUr252vGjIxwSx5ygJKXmbDUE7ibe51MXzYvwq5gZN4QCmHr2zqsbyAN63nzIxgk62
-         +ihKsMaLeYmkV8uCZD8M6C3j1InHU+gvi+UzjyIAB5oE2gmay1iclOnzzayyaJCJC2/8
-         hDW21W8oeixowey6sbv8uUTy68fKXZ+PFVlL5NrBj0xL+830tqf2Ylcm8K8jirrPfe/o
-         sBzuwtIckifTDuPK1FZu7gLB8SzS0PNuKOvbp/X0hJCYLxqF8K8tFed0+Hw+Gq1eAmlW
-         jmBnurg5/sa8huMr62h8VdvnZfcNm/gnlNDrfFso49S02Bt+wAgXy6fTjswEmdKZn9rK
-         OErw==
+        b=VrBKSRvwuDFzLQdMWF0Q7rmWiSMbeuHDADZEaQVpU5vGpKbn6cXZ/GYLXSUqphjnkx
+         U2RhV+i4ygmUdcPjKv4K5fRmfuwOw4a+7rENE9VCICCVjBIYxmmIJFWp+TfFGR2wM1vI
+         LMx1kvuPyF1rW1MabOSjEyMbACnYi7YhkymCu+wUP9z4gfbsKIielmlZpb1xMWKYBMij
+         Vl4Pf3R2SIqayiMdSnasBRiJ7xFa6IF3u2f79ugx2xH68cUs0IFJgeNOocnvhN9d7tL8
+         /rvq2ZdgCwX5EsfPg/KL1Plpd1+82pm6Lboab7N6dUW5AtLQvt8lX8akSYlaIMY27XLw
+         QN2Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=YsNlnJjaMCZtvzn0YrMdVh6J0LUWaORPOGGMyZ6bex8=;
-        b=aqnrf7zBs5Ap6ntX0BcmZDDQxIl71gL0FcJBtXdra9srHnr/VctpwB2p05zsYPXLam
-         zk9L3Zco/5j+SKz5Iu0Mn+ReGAvI4DnXEjKUPufo/RO50gGNv/Iom4oHhUhaRJMudsrs
-         Bxnw6VJPQfmBHN50VjNOtV0TUaJhwvqyOw1h8B7JUHXMlQRUDY4ceKfK7bs/cruxLcLf
-         +dNssDo7qJnbz7I9SeckzQWHm1bT4l24ZoRQgs86Dvs0DL+6u2cTZpxi1AFJTvb1KL7T
-         6PC9cDzj0umL/4Z9KvnVvLPosvYdtNGHWrAIob24rFN5eTmar6MugUdaUCHXHq1VQ786
-         ghGQ==
+        bh=0Vv+NSlNrhEBFkAe5eDf7Edcah9O+VJ95is+XBb5tII=;
+        b=QlEsW80YcwfLR2gukjQZ0HxHqmlEBO5uoyMEFX8WINXqGZGLsrId8lN0jkYFvjUP+M
+         1s0faLtWejK9wkxlhKnYBWarph6xOS3ataz+1v0ireVhMdZUZ/9fH/5ENOQWXJCXepNI
+         fPbTSog9u6cKP/0AAoFkddGl+wRAq/RNARt+sdgmD64HWLM++uwzoVF78dotqqeydacf
+         te7Q44d9ZrxUjIs1eTUiWbrBGvc9Uh+LgZnx+24y2gc6UH+kAspChCXsEbTugzeypPWm
+         OqsLj+gj92FgyEj8bcBbXzDGag1BeR6ifG1L+ddbaBfftk8i3PHXk2XI76TsQSyiXCLH
+         5eiQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=liupeng256@huawei.com;
+       spf=pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=liupeng256@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=YsNlnJjaMCZtvzn0YrMdVh6J0LUWaORPOGGMyZ6bex8=;
-        b=X3RawSMoYnzkue/eFGn74avUT2gRcvc9XvkjvNbidNqacsc0+bX35MYXY1h2qhiLTz
-         O5p9CMg5EM6ucPWuOjLmvw4UISeihj6xBsaDHIcBwTdhDnqhaRRGyd4FIQLyHNr/FGz8
-         saptQDTdzaI/o0m0jiJHL4Dy8NrsW3PvfJvO2NcrCUNXDcLqCvR08a1WpMQGeWgNmLpy
-         9+qc9PERcFNxzSs1c3N9KSx6OY8GNaRE8WXzzwTRIZCtllMU76hiNwHILtA35d+tHqSK
-         +OPyQ8agLgH5EblQAWxWO5b+OfpLbI5djCQcgzZxlI98nPnJhNiNcOHQg780DKAFQnT0
-         QZnQ==
+        bh=0Vv+NSlNrhEBFkAe5eDf7Edcah9O+VJ95is+XBb5tII=;
+        b=YaW/IliFUvwCR1h1TMFaWWGks3fbC5UtRRcgXnYMJzzr71U3OvYwkeYM3rbdaromAt
+         TWkz3U1XVnBFU5RlPkPMAjKa8hRdL1kMTUTmIz18ZbGAFHJ6yRQl7y1g12rh9qf7Qrsu
+         EZk4+4YE5ad5OTzVrTVCKws6QuGPtpWyQMX+qe23mMRrmAiyH9YkqNZ7c1cL0Sz0e7nU
+         IB0PvthcHpRkk9tL03cuk7edp77ZGBulj/lhX/mktJq/VyoBZzfZMDcynvMzihhWCens
+         7AfSD3PR66crZBFwFZGyohuNOjNmXvOyvk+HRV/dF6g/OqPAfcDTJY4FOmKdsiER1Mpd
+         vIlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
@@ -48,61 +48,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=YsNlnJjaMCZtvzn0YrMdVh6J0LUWaORPOGGMyZ6bex8=;
-        b=g2ejNxHabxN3ppItLY2x7e72DdYNL7zYQ12UGl+jv1Ho1st7UU7h38D2AXldmaGQYp
-         Kw2z/noZxU1vyQ764FPnd+vHkbUyaTpGA6GfPAaF8Vymd1bGWuib2wSbA5BLGMie12cJ
-         rkF+sHOV2H3FCQuke1fATSXDo/CbCInckCYbgu0JwW6aJF3RXSdUsrlfHFiMyOUcxgZ4
-         zjGJxRrJTyQfa3jNC34zbKsq/9PHRGmJM2kGQ6E/xjwlosEv1KhihdLqkyXQoCFRO7JV
-         2MXT4J33fG5qv1Z357txGMCchS4+A8tMcpBhj+PL6BC6gmahIl6N8HC3Pn93L+RtP58r
-         qcng==
-X-Gm-Message-State: AOAM533QQPCbbSOC7ap95XyYkk1y4uhKvZYZ9XKryHDJ5Kx1NwpwabJz
-	KuTKomYoii7nKlwjpta2yfU=
-X-Google-Smtp-Source: ABdhPJwVqXdqXV53tZpb5C892iJy6s+yztKHouaqASG5d317P81izp4XqSa72Bsc4sN4Eo/sAcnWUw==
-X-Received: by 2002:a17:902:9343:b0:148:a2e7:fb5f with SMTP id g3-20020a170902934300b00148a2e7fb5fmr13577048plp.160.1642991866321;
-        Sun, 23 Jan 2022 18:37:46 -0800 (PST)
+        bh=0Vv+NSlNrhEBFkAe5eDf7Edcah9O+VJ95is+XBb5tII=;
+        b=VUc+C75Wd420f+zJBmCv3me3W+39GOE0t5Dh/7BvdZT/cx+CuzxiL5Ho/THUTzQdmA
+         dIFLZcakW31+08MMvzInKlrdvvMM1/nTOE95RxeT10xc1h7dWoUPMB+VNDgpE/Bbug6P
+         vcM6+U2l84EQcELkera2FvLU8BDZ7mplpMqHtvwVBS80mp3xq13uvcQKE6Y3pEtjOsnQ
+         nTa3lQUK6vJhwRJXx9b0UTBIN65CDc70w9bEtN00JYqJKZYZKZ7Gjwmw44/mYK7FaVrw
+         RIqphPQHzQr4OUjwEeVSzopCSZZtrztKkipLBANiMiNq8slr4a2iRF4W9H6QjXC4LguP
+         OCkA==
+X-Gm-Message-State: AOAM5333I76LwLGJqkBgxq4QHGmDgaYBPR9V+Mb/mKkKNz/dGrNf6YvQ
+	GMhHii+VJmwVxkw06h1ZzzI=
+X-Google-Smtp-Source: ABdhPJwtGjS6sfob2KFOeArb5nddOGd+1bYGs77kLgb5XxLMzXvQm9a2tsEL9DqTdjTSWZXHasb7sQ==
+X-Received: by 2002:a05:6602:2d8e:: with SMTP id k14mr7161842iow.197.1642991867131;
+        Sun, 23 Jan 2022 18:37:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:a94:: with SMTP id b20ls6081173pfl.9.gmail; Sun, 23
- Jan 2022 18:37:45 -0800 (PST)
-X-Received: by 2002:a05:6a00:1a08:b0:4c1:9f31:6d18 with SMTP id g8-20020a056a001a0800b004c19f316d18mr12261789pfv.0.1642991865705;
-        Sun, 23 Jan 2022 18:37:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1642991865; cv=none;
+Received: by 2002:a05:6638:b01:: with SMTP id a1ls241913jab.11.gmail; Sun, 23
+ Jan 2022 18:37:46 -0800 (PST)
+X-Received: by 2002:a02:114a:: with SMTP id 71mr6142492jaf.88.1642991866842;
+        Sun, 23 Jan 2022 18:37:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1642991866; cv=none;
         d=google.com; s=arc-20160816;
-        b=KlW1N6ezibkY4rcG3io98yPVrAKQ+Q1ghAw9Ljq3gj8+mI2+mT9/044kJmCyQCN9v9
-         QNnl0TF1HkGyHgmrkp2EvLTsNEYcxkF785vADegrgeUXz5zN5RWo3zS+FtNDZ3vaKChm
-         R55LWgDOO8/79o/og8Qa3qPvUAtrz+edXpPrPzv5SPtzDfAnMhrbLP+wxlOtyDZQzJsn
-         qZ5Gjl39W5oCf7qaxQjtZzG+VyxRJOG5xPEgkGQo2ibVHga/fEynC8xCC3A7EJuhEMxj
-         +9t5xPxmYl+nSghY5DvReWgVIJYOdmQXFlRzvBofciCPBRVGv5IsCcnIWraPwTbtbg4L
-         QdiA==
+        b=cnuGYRWaTkgiHpnbRUoMdjFcndvAfM4CdC+43L9IWbxzjNIZ3On/jUSJyNRjdxhF4e
+         jDQ4LGpdf36iWZJIfTbLbtS7Uo/UidGleus26AYuZBQUZglL78MQs2tuLM73bJKCMpB2
+         DqjCrAlg8lut13koIGi8rW4lGX9zCd7WYVRMAScx9T4kp/CWl0QEAjwuat34z/6LpOA6
+         Hc6nsDsz9odrTw9iJUpwtUtGGPcwl4QUfyFm6HOYxLxc4vETfH3krL/Pnez/lj427MGI
+         dGnqql3iw4+qSYoNQz8IhosJugr7IZEc+ngTNxaAsGxBMsbRQDtkIRkCAu2smarhBLar
+         8DVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from;
-        bh=3g+MPf0IwUa/f2agonMpS0G5IPjK9URyioB0BTuRp2k=;
-        b=GoDcBckeclKiaY44G63gnT8i9A0+Jv69obrEi08QEO1AN5Fc0FRLiDjUW+3yraiJu9
-         MRNIDnwHlyHDwh7KW30URGENotK8VUHk8y4GGL9/2MhNj1o0DT8/HVjRfLA7718B3f66
-         mIMdI2/PP0NPQFEeQ+1j8nBF2Ehl5clpOcFmnZhJ8SEzhfPYQH6W4yhLW2W1pFueFxTk
-         us9IV3gowq6ddyTJD6vFREOAVwY/4DyP/tsxkh6zlGgkfOY1xLOH4/ue9PkSkU/OI5Mx
-         zQudfGn5k4ejcT9dfLhIjbBGySQWjxpq7u2AdjbtNg7VVBT907MVekTmnyFb9DrtiGMh
-         RHeQ==
+        bh=M4ajph3ZtbzHDPolT3FV/tEBfiEmftpEQWZYjP10uII=;
+        b=bnrHA9mCkVbIxLiCxYMxv0VLYXPEnHupwxxgA8oGM19z5Lo5R+zebNEKafo+kpjLeB
+         Y225FywPGEoxOWVcMNzvpmDhz1OBF77DFbme0RP6dGn5C+ePCTojGHuLFyNe74Mz4Uk/
+         T+r4ZTrkCCrP/k710DsNpU6L8Bq7sChIDy6YXyQ2YgJtTDIMuiqlgnYOjERNiRq/mI0K
+         U027tCxOFYwgH6U0VDAwJ8g3Dfbzal80iVoenzwyEoADmXOKd4WGj+dTz3P7uV1tXban
+         r+PnLdSN7C+P1xXJ2Mo9FrgTAqxIuxcHGbIsjZgfuAx0BVREet8wfwTZHRXNpoW43ZNr
+         3Y+g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=liupeng256@huawei.com;
+       spf=pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=liupeng256@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com. [45.249.212.189])
-        by gmr-mx.google.com with ESMTPS id k13si587189plk.10.2022.01.23.18.37.45
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
+        by gmr-mx.google.com with ESMTPS id i7si85304iov.0.2022.01.23.18.37.46
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 Jan 2022 18:37:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.189 as permitted sender) client-ip=45.249.212.189;
-Received: from kwepemi500013.china.huawei.com (unknown [172.30.72.54])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JhvG070gtz8wTb;
-	Mon, 24 Jan 2022 10:34:48 +0800 (CST)
+        Sun, 23 Jan 2022 18:37:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
+Received: from kwepemi100026.china.huawei.com (unknown [172.30.72.55])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JhvJR4KKjzbk5R;
+	Mon, 24 Jan 2022 10:36:55 +0800 (CST)
 Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
- kwepemi500013.china.huawei.com (7.221.188.120) with Microsoft SMTP Server
+ kwepemi100026.china.huawei.com (7.221.188.60) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 24 Jan 2022 10:37:43 +0800
+ 15.1.2308.21; Mon, 24 Jan 2022 10:37:44 +0800
 Received: from localhost.localdomain (10.175.112.125) by
  kwepemm600017.china.huawei.com (7.193.23.234) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 24 Jan 2022 10:37:42 +0800
+ 15.1.2308.21; Mon, 24 Jan 2022 10:37:43 +0800
 From: "'Peng Liu' via kasan-dev" <kasan-dev@googlegroups.com>
 To: <glider@google.com>, <elver@google.com>, <dvyukov@google.com>,
 	<corbet@lwn.net>, <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
@@ -110,9 +110,9 @@ To: <glider@google.com>, <elver@google.com>, <dvyukov@google.com>,
 CC: <kasan-dev@googlegroups.com>, <linux-doc@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
 	<linux-mm@kvack.org>, <liupeng256@huawei.com>
-Subject: [PATCH RFC 2/3] kfence: Optimize branches prediction when sample interval is zero
-Date: Mon, 24 Jan 2022 02:52:04 +0000
-Message-ID: <20220124025205.329752-3-liupeng256@huawei.com>
+Subject: [PATCH RFC 3/3] kfence: Make test case compatible with run time set sample interval
+Date: Mon, 24 Jan 2022 02:52:05 +0000
+Message-ID: <20220124025205.329752-4-liupeng256@huawei.com>
 X-Mailer: git-send-email 2.18.0.huawei.25
 In-Reply-To: <20220124025205.329752-1-liupeng256@huawei.com>
 References: <20220124025205.329752-1-liupeng256@huawei.com>
@@ -124,7 +124,7 @@ X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
 X-CFilter-Loop: Reflected
 X-Original-Sender: liupeng256@huawei.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of liupeng256@huawei.com designates 45.249.212.189 as
+ (google.com: domain of liupeng256@huawei.com designates 45.249.212.188 as
  permitted sender) smtp.mailfrom=liupeng256@huawei.com;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 X-Original-From: Peng Liu <liupeng256@huawei.com>
@@ -141,67 +141,88 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-In order to release a uniform kernel with KFENCE, it is good to
-compile it with CONFIG_KFENCE_SAMPLE_INTERVAL = 0. For a group of
-produtions who don't want to use KFENCE, they can use kernel just
-as original vesion without KFENCE. For KFENCE users, they can open
-it by setting the kernel boot parameter kfence.sample_interval.
-Hence, set KFENCE sample interval default to zero is convenient.
-
-The current KFENCE is supportted to adjust sample interval via the
-kernel boot parameter. However, branches prediction in kfence_alloc
-is not good for situation with CONFIG_KFENCE_SAMPLE_INTERVAL = 0
-and boot parameter kfence.sample_interval != 0, which is because
-the current kfence_alloc is likely to return NULL when
-CONFIG_KFENCE_SAMPLE_INTERVAL = 0. To optimize branches prediction
-in this situation, kfence_enabled will check firstly.
+The parameter kfence_sample_interval can be set via boot parameter
+and late shell command. However, KFENCE test case just use compile
+time CONFIG_KFENCE_SAMPLE_INTERVAL, this will make KFENCE test case
+not run as user desired. This patch will make KFENCE test case
+compatible with run-time-set sample interval.
 
 Signed-off-by: Peng Liu <liupeng256@huawei.com>
 ---
- include/linux/kfence.h | 5 ++++-
- mm/kfence/core.c       | 2 +-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ include/linux/kfence.h  | 2 ++
+ mm/kfence/core.c        | 3 ++-
+ mm/kfence/kfence_test.c | 8 ++++----
+ 3 files changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-index aec4f6b247b5..bf91b76b87ee 100644
+index bf91b76b87ee..0fc913a7f017 100644
 --- a/include/linux/kfence.h
 +++ b/include/linux/kfence.h
-@@ -17,6 +17,7 @@
- #include <linux/atomic.h>
- #include <linux/static_key.h>
+@@ -19,6 +19,8 @@
  
-+extern bool kfence_enabled;
+ extern bool kfence_enabled;
  extern unsigned long kfence_num_objects;
++extern unsigned long kfence_sample_interval;
++
  /*
   * We allocate an even number of pages, as it simplifies calculations to map
-@@ -115,7 +116,9 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags);
-  */
- static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
- {
--#if defined(CONFIG_KFENCE_STATIC_KEYS) || CONFIG_KFENCE_SAMPLE_INTERVAL == 0
-+	if (!kfence_enabled)
-+		return NULL;
-+#if defined(CONFIG_KFENCE_STATIC_KEYS)
- 	if (!static_branch_unlikely(&kfence_allocation_key))
- 		return NULL;
- #else
+  * address to metadata indices; effectively, the very first page serves as an
 diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 4655bcc0306e..2301923182b8 100644
+index 2301923182b8..e2fcae34cc84 100644
 --- a/mm/kfence/core.c
 +++ b/mm/kfence/core.c
-@@ -48,7 +48,7 @@
+@@ -50,7 +50,8 @@
  
- /* === Data ================================================================= */
+ bool kfence_enabled __read_mostly;
  
--static bool kfence_enabled __read_mostly;
-+bool kfence_enabled __read_mostly;
+-static unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
++unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
++EXPORT_SYMBOL(kfence_sample_interval); /* Export for test modules. */
  
- static unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
+ #ifdef MODULE_PARAM_PREFIX
+ #undef MODULE_PARAM_PREFIX
+diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+index 084e3a55aebb..97ff3a133f11 100644
+--- a/mm/kfence/kfence_test.c
++++ b/mm/kfence/kfence_test.c
+@@ -268,13 +268,13 @@ static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocat
+ 	 * 100x the sample interval should be more than enough to ensure we get
+ 	 * a KFENCE allocation eventually.
+ 	 */
+-	timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
++	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
+ 	/*
+ 	 * Especially for non-preemption kernels, ensure the allocation-gate
+ 	 * timer can catch up: after @resched_after, every failed allocation
+ 	 * attempt yields, to ensure the allocation-gate timer is scheduled.
+ 	 */
+-	resched_after = jiffies + msecs_to_jiffies(CONFIG_KFENCE_SAMPLE_INTERVAL);
++	resched_after = jiffies + msecs_to_jiffies(kfence_sample_interval);
+ 	do {
+ 		if (test_cache)
+ 			alloc = kmem_cache_alloc(test_cache, gfp);
+@@ -608,7 +608,7 @@ static void test_gfpzero(struct kunit *test)
+ 	int i;
  
+ 	/* Skip if we think it'd take too long. */
+-	KFENCE_TEST_REQUIRES(test, CONFIG_KFENCE_SAMPLE_INTERVAL <= 100);
++	KFENCE_TEST_REQUIRES(test, kfence_sample_interval <= 100);
+ 
+ 	setup_test_cache(test, size, 0, NULL);
+ 	buf1 = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
+@@ -739,7 +739,7 @@ static void test_memcache_alloc_bulk(struct kunit *test)
+ 	 * 100x the sample interval should be more than enough to ensure we get
+ 	 * a KFENCE allocation eventually.
+ 	 */
+-	timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
++	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
+ 	do {
+ 		void *objects[100];
+ 		int i, num = kmem_cache_alloc_bulk(test_cache, GFP_ATOMIC, ARRAY_SIZE(objects),
 -- 
 2.18.0.huawei.25
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220124025205.329752-3-liupeng256%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220124025205.329752-4-liupeng256%40huawei.com.
