@@ -1,143 +1,138 @@
-Return-Path: <kasan-dev+bncBDYZHQ6J7ENRBY7MXOHQMGQEQBIWQAQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBNGSXSHQMGQEO6COISI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb38.google.com (mail-yb1-xb38.google.com [IPv6:2607:f8b0:4864:20::b38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE6D49897A
-	for <lists+kasan-dev@lfdr.de>; Mon, 24 Jan 2022 19:56:36 +0100 (CET)
-Received: by mail-yb1-xb38.google.com with SMTP id z15-20020a25bb0f000000b00613388c7d99sf36665244ybg.8
-        for <lists+kasan-dev@lfdr.de>; Mon, 24 Jan 2022 10:56:36 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1643050595; cv=pass;
+Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 239CC499D37
+	for <lists+kasan-dev@lfdr.de>; Mon, 24 Jan 2022 23:33:26 +0100 (CET)
+Received: by mail-oo1-xc3c.google.com with SMTP id k16-20020a4aa5d0000000b002eaa82bf180sf431459oom.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 24 Jan 2022 14:33:26 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1643063605; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CwztIxD5bfcGwUqipd0KQexBhPG4UKWzqv643KWqP5Aa6vgfKlVqDL+ZOqtuE1Cl8j
-         hewwTvO/db4XtoE85QpTJKW9x7k4yHldQz+1Av66vCgrruXZAgTQ6LTGhWrqNBLTdahQ
-         dt44qYRiYSn6tpYBLnXQDkaPfiNvx/IThJPZdL63k93yeoIygfCMTjMZMjKiaCBA+Mgl
-         mbQOqFeNvD5DyWz+ZGeiDWodEw6axw8blCXCyQ5slJEBUPH+ibYWS2kGLiAlHrVfYTs6
-         QJvHGqm1SvNTMPb19/58qkEkKyn1JbBjf8la5zD4SVVQaUj3daxQhqP7H9ItO22xi7G9
-         7Ebg==
+        b=DS1oVjOzZSiomTooGvZWcrGyTyN6CNcYS3MSfDWC1vh2vlYLBwiNAWM5H72JjoWpNM
+         se60R82PIwAJ3QHxkyIWrkt4WQLVI92BPrRl0XwXUaX2mCCzqeiiUJBgRW2xuomRSDrZ
+         AcgBbsO7Cg9t/yMCt9BOslxY40W9X3oUqOXqmRjTY2OulSnemS4wiG/6Cy5tOiN5+uDM
+         JaQyMYbajn2fEvL2UpGreFNuuuw22VOJpIXn7RBKcyAVkTL4z2hIlyG30dwEcAWv+gak
+         fVtKLwL2Sjn06Demgxr4G2bcfUKS3A6pPWlL4/WBn5W5/ezbLkjVjK5mmmdFD0G9LUx2
+         ZH7Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=e6xVgm17ESztZUnqoWqldF3Nhd6S+oISNVJ8HhqlVJY=;
-        b=M5x4MZ2SvjyAPzhghdp8diwOJ1/JohjC9+w+OXX2bZsnQfhYhmBtdmOL/Mapq7gkXJ
-         JbHTHiEwMCu1PuzS+r9uJAQJz7BXcs0iBvBMsqwHit5v/Jq9qQGgO2luERyg9K0K+3zS
-         haIaNEMnxpdjnvhUO71eIObb5XJ845f1Eiwi3XRXKSKoXj71ygvScSE7mak4TEnryP2M
-         tV6RFjlIY99a95XmMeujzkeZJXAPrz67fwzF7gIon4ScLSSrkiYWzGShVPsSYHWcyctF
-         ajorSEtiU/JTPMuIjbm2DUh7Tp6u4rDgswFHWXRiVpMvBdiK0xcZeqdbYOK9LTntqYnC
-         2VIA==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=CM1DXMrPWlkRJdHSrVQZKpbcE0QUOs72+l2MFv5Ep94=;
+        b=Y031Tw9KjSlrrXyAF9J03p5d+OH2Ujo69WFdHQaKN9E01Gs+mL7bosfCFy7lJA3FPD
+         E7eG3D+QZ5pDz7phueoJbQVtSBx270JYLhJjuP5jHFPNqsvlygwRe/O9BSiXcHVmLpIG
+         jtJwRZAbRvzh+NvgNuc/t3Qjsn6IWo6L1s4OlY21+AW+y3xZF63QvjknQuU0ruSvojID
+         8lpJEBHEMu7A01PNRx8hO6WlKsBDJOI746JxQmBBTgYZF1hmeEWev+XiL5/Fb67mpEPI
+         a1vWHGQKT7x/g2GOi3eGLvAw6mb1Kj+BfWkkBhshxgqibz5SmENgEJV40OUSBdgsOkZd
+         6IEg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=UBsX8t7t;
-       spf=pass (google.com: domain of npache@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=npache@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=mZ8GIjqK;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d2d as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject:to:cc
-         :references:from:in-reply-to:content-language:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=e6xVgm17ESztZUnqoWqldF3Nhd6S+oISNVJ8HhqlVJY=;
-        b=mEUrN3H3p/lcpI9y80f1gTim5ztRFWZXZM+NN22eTcnHGLp5MBOHP2JNEXXtux9MFl
-         X82jdFTc2wdmobXAxn2vMh6WbSQfIjPm9kAh/ejLSCb/5CkvMH00WgE6bczhqixjybAN
-         6QyzZVGWQpsSWSHG35JbBz/vkeqlwUzKrPdJeAQtxpNJ4Ne4vDWt0B6jLmsGsTy+2bVP
-         FCq9rJ0wHLLPmMnDpCVSTkQbtwFlzFP8mYlHxnzd9cxFKtkvpG9kvU6WbWwWj2JfxcVj
-         VdTeafT26EBleXZ4ohgt4Umct4PWldbQpzraxf2RUKALJoA7GEeK+0W2az9sO6d9cQI2
-         D5eQ==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=CM1DXMrPWlkRJdHSrVQZKpbcE0QUOs72+l2MFv5Ep94=;
+        b=jGnBdep94pZGcMszfTiLYp3YhNJl3PV+3O1uRatTrIiQtBvXnihepKtG/uyvyQ4XKv
+         UgqQ4BDSXI2EFhnuSmLiYQxR4CpIVw23D6Un9r7VumilNipOJa+RTLIFESy0HHagGzKZ
+         7KwpMaNbbCKEqOOT4xi8HLFqKnoxyULgTql4/rOHprjjNxtTOxEWJirgZMbYQ86mHQEi
+         kpDx7PVW9KCK81VmAFV2wNwZJ99MFg2EggyK3ZBe8ndBM67wHfME97SLQmRooo1kSfuF
+         cAf8bwd68SocQqXXoZNWJZj9PjZxQIb7hj+B4JXq+5DzuI0rcpMAnbWNi1XH1FyiqNp1
+         VQkg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=CM1DXMrPWlkRJdHSrVQZKpbcE0QUOs72+l2MFv5Ep94=;
+        b=F0Is+1mSFpPJF9i2r3dEckt2NlVq+ZlBBXrVIGJUJGIs7WF0LPt/Hu3TBoNl/j1CXK
+         Cv4+t4Z4wohZvS3k0VcdS0Gg/iFMdRfPr2eTjin4jA1UiRWM6GpabiFz+fxivs0biJ5s
+         v50BTDwi1NSw0SG6CAMGCZD42lTf3OOhYaMNNfhMJkjdC24DCkbXQTm+mXA5qE8+3BnU
+         nINtfubInXGUDmOdic9TFn19XEy3TlgS7wwAUSD7H/Inc/5yk1OoYSSRHIK0Pa/g03oT
+         lDx7NEg7UUBOJRHyP/RBjGrqU/+233AAZoaiYszBdwkErN3fCie36XYQ9GpYj/tV2hIA
+         9E/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
-         :subject:to:cc:references:from:in-reply-to:content-language
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=e6xVgm17ESztZUnqoWqldF3Nhd6S+oISNVJ8HhqlVJY=;
-        b=KiVgIF6Gvmrq86YBrsxUYsGUYW9mnyus5LpPwNNDIjd90Ic6HsLw6uusbFJVzlFx6i
-         ssMcJ1JnSLl0Q8ODyb9/K60Kq1O4CUG2EfUoZAI3X9FRG5AADWLDhKULktSl7LiVZjZs
-         A9ipuPC1hVbPreus5E5WqiHDw/A3sUZY1uYeABzmZD8thAHEa/aI0VOamHJpn1t5cm9c
-         E8i0xji0aAHoj0NXJwUixSrvAjm/F1T/4HimC0/xuBhuUjKKkuEshNeFLigq5oH02OzO
-         PrnmwqOKD5UUoI0yiOZGS5QSBzbK+f2ltq2ZM1FVD0KKCKHH1NmwJPNADk2c0Z1+0e1W
-         uqjg==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=CM1DXMrPWlkRJdHSrVQZKpbcE0QUOs72+l2MFv5Ep94=;
+        b=QBUB00NZ3QWKP3bHtg7FCZHE9RjPrxAZqrjknkFbAqUoiYvVkYb0Bx/B745W8JTko/
+         6k80tpPyGVEeQQvE+GhOEoQ0PcK+TreBfeEXkGtCG1Pbv9SKn64UaWF8Ggl4F+gZvpQK
+         7BmpPV/GlCIZG7IyixssI8nUM86qzZqHRlHXacVb2NYO6BYiiBMJ9kFlwT4OWYeM4PCX
+         QH0EK6bnP4nao43m/hk4yOU2pdE/+lyIt6Ib3o3GgWjFWWBRxP3Lkrik+ii+snfcfdeK
+         Ic310iOPcwCd3LtpI/BpGJiUSLotzdg/au7A6brTViKRBK3eIcOz/SzGvl2oFRCj0vnU
+         8iYQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533Lw+IEsYkdBENHsxkHcBxF+42ex5w0Zv79VebWLCfAfTcxFgIP
-	8wTsqPup0PXxSVR10KT6U6o=
-X-Google-Smtp-Source: ABdhPJxz8CXQ8a+77Vr90WvNJoGSH/AlDkccdMd411Mm24AZ6dvCKIMRj4AA8862Ju80JgI2ERMZDw==
-X-Received: by 2002:a25:8a08:: with SMTP id g8mr24235034ybl.739.1643050595463;
-        Mon, 24 Jan 2022 10:56:35 -0800 (PST)
+X-Gm-Message-State: AOAM531RLCuKpNlL2sBXp1tdcCVe7uTTLPmFPjE1ANiCMBXX/OSzktTZ
+	AMHXOqHkuzsjAfmpt5eA23E=
+X-Google-Smtp-Source: ABdhPJwHreFsZ0wmOBYMWxqPaPRfn1MBDZKihQeaxA3BWGVe3z9IatEWXBXKmwIcXuhcFogy8N9k5Q==
+X-Received: by 2002:aca:90f:: with SMTP id 15mr3216442oij.27.1643063604896;
+        Mon, 24 Jan 2022 14:33:24 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:52c1:: with SMTP id g184ls17754184ybb.1.gmail; Mon, 24
- Jan 2022 10:56:35 -0800 (PST)
-X-Received: by 2002:a25:db03:: with SMTP id g3mr19535424ybf.261.1643050594986;
-        Mon, 24 Jan 2022 10:56:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1643050594; cv=none;
+Received: by 2002:a9d:4807:: with SMTP id c7ls5358996otf.0.gmail; Mon, 24 Jan
+ 2022 14:33:24 -0800 (PST)
+X-Received: by 2002:a05:6830:2814:: with SMTP id w20mr6432347otu.10.1643063604576;
+        Mon, 24 Jan 2022 14:33:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1643063604; cv=none;
         d=google.com; s=arc-20160816;
-        b=A8+lG+d+Byts5WwkQjwDaEf7fqzZd08O51ysMrGmd+mDtRo/Tc8NkTuyJIs6VnDjMx
-         C4ctVjYh1tcIIAZmMJOKelgJo7g90AlGXEvG35T1rH3vXouGZD3tWjG8aNMJ9QHiA6Ij
-         UOoWjYTP86piSzIfC58GEi1aYWjf4xE8ftwwQjBfoezSmqKsZaL30oV4+lIKp8a6vvAJ
-         yljim+sYvXaDCoN3zo7fNe4plAu+rwirkdTvjiTPGuGRLc2OM7dEdFVvpnw3ae5SHbvP
-         TcjJUZPHfNl0/0qblJJQq/RFSZkoohUafYg+vu2iUH5eBxgl6WY0wbWu8bpZI93XtIRG
-         Tqjw==
+        b=v4MZurG5S/oGM7qYDGEuDNtXgC7RbExel8a2550Y4lvPEOlhwP+VxBEZLpdH4oviga
+         xZWQv64nTPyJ5Jq2DEqs8smcsjq0TRgumezZeHg6k4hIqf2DsTfJDGj/cJwKO/wLAGMK
+         YKjVKyY5DmfrGOdgrZkJP3AngBHNw3d79ZfItw8HuAwEGMCZE39zg2BLMNwBChNRlBMK
+         Nks16a9iOHN/gI2a5vGdw+v+ZvcTF1H9hh0+LJKya+Nv0sYIfj1U1qEuenSyYKNgslHl
+         lDMD9yWqZeclzy6Tl7ZwYi69IAQYfgZXVwbm4jpbCgKkBxW0+SCkHTWrWqkZKuNSXofW
+         5T2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=OmJVF3D4x24T0ZfBgEiGjVTIdFS2FiU3zC/rm7HZ71k=;
-        b=WnJIl0FvQxuQq1HCcjSmvnqjnNH1KyB3GssrFnUYndQOKOZyvIEZTlTG7mP17b7jf+
-         L9pTGo381zJ79CspqISCT1OZGGjeSh35PmIsEPZLQGMlzOBmK32o1UhYVt//neqTHxVJ
-         edtZPfx/DR25R/vSCsLjYae5874fMNuQA3XXr3MuO2bfnTHIztjN5Jel04Xw2BAD/qxW
-         Yy6h3GpDoCRVCnOc88/qhxLJeTdGriampExkzInzL007lsrMJHpmsqHqs/FMzULrcqUQ
-         nJ2LwsJxrAt8z3W4txd8XIox0gMbSp2lXKnTuymQQ4MXMQ/9ts680f5yU4semYxuXTA2
-         SUJg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=O5eAllqBOa11gWFD3bXB1J+EOSlOaRJV9IqmWOlMTeg=;
+        b=UUpSpWk8i1zAtycYSpDBbyIYzNKSHbhz/k9zPoFOmmmEGuxAiarZ09Mc+nmsSRsMju
+         sJq3fTxnt2XpGoZIAwsishDUXSoeA5DU3obRCI0gY+lK9X8ughuGfqOK8k7nfF9fQv9P
+         HrFUVkgKFE+cAB71CwvVY435rAlk8LfsiS8VnnROx+Z8Cc7QlgviqUMsRixJgmNCKECi
+         ncI5gfufGvazkB7ARYNqx6zBDpsmctuqdSPGdN7j/YTNmXKQdQtxcmoWuTYyCuLjjCCi
+         ifnRbJ+T/9MEMnbqSe2wc+1kq11EMyuDXr882DFbh7AZ1edL3yufPLSp1KuofbiIG0sr
+         H2ow==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=UBsX8t7t;
-       spf=pass (google.com: domain of npache@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=npache@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id r11si1057749ybu.2.2022.01.24.10.56.34
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=mZ8GIjqK;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d2d as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com. [2607:f8b0:4864:20::d2d])
+        by gmr-mx.google.com with ESMTPS id h8si136220otg.1.2022.01.24.14.33.24
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 24 Jan 2022 10:56:34 -0800 (PST)
-Received-SPF: pass (google.com: domain of npache@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-509-rrMtYy5WPzaEEu3KuX08-g-1; Mon, 24 Jan 2022 13:56:33 -0500
-X-MC-Unique: rrMtYy5WPzaEEu3KuX08-g-1
-Received: by mail-io1-f70.google.com with SMTP id o189-20020a6bbec6000000b00604e5f63337so12825601iof.15
-        for <kasan-dev@googlegroups.com>; Mon, 24 Jan 2022 10:56:33 -0800 (PST)
-X-Received: by 2002:a05:6e02:1648:: with SMTP id v8mr9493339ilu.286.1643050592802;
-        Mon, 24 Jan 2022 10:56:32 -0800 (PST)
-X-Received: by 2002:a05:6e02:1648:: with SMTP id v8mr9493326ilu.286.1643050592493;
-        Mon, 24 Jan 2022 10:56:32 -0800 (PST)
-Received: from ?IPV6:2601:280:4400:a2e0::2b4c? ([2601:280:4400:a2e0::2b4c])
-        by smtp.gmail.com with ESMTPSA id h8sm6822557iow.15.2022.01.24.10.56.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jan 2022 10:56:32 -0800 (PST)
-Message-ID: <8f457c89-28ed-71d1-5afa-2386abec6da9@redhat.com>
-Date: Mon, 24 Jan 2022 13:56:30 -0500
+        Mon, 24 Jan 2022 14:33:24 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d2d as permitted sender) client-ip=2607:f8b0:4864:20::d2d;
+Received: by mail-io1-xd2d.google.com with SMTP id s18so4925037ioa.12
+        for <kasan-dev@googlegroups.com>; Mon, 24 Jan 2022 14:33:24 -0800 (PST)
+X-Received: by 2002:a02:bb98:: with SMTP id g24mr8335227jan.22.1643063604155;
+ Mon, 24 Jan 2022 14:33:24 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] kasan: test: fix compatibility with FORTIFY_SOURCE
-To: Marco Elver <elver@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Kees Cook <keescook@chromium.org>,
- Brendan Higgins <brendanhiggins@google.com>, linux-hardening@vger.kernel.org
-References: <20220124160744.1244685-1-elver@google.com>
-From: Nico Pache <npache@redhat.com>
-In-Reply-To: <20220124160744.1244685-1-elver@google.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+References: <20220117153634.150357-1-nogikh@google.com> <20220117153634.150357-2-nogikh@google.com>
+In-Reply-To: <20220117153634.150357-2-nogikh@google.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Mon, 24 Jan 2022 23:33:13 +0100
+Message-ID: <CA+fCnZdO+oOLQSfH=+H8wKNv1+hYasyyyNHxumWa5ex1P0xp0g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] kcov: split ioctl handling into locked and
+ unlocked parts
+To: Aleksandr Nogikh <nogikh@google.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>, 
+	Taras Madan <tarasmadan@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: npache@redhat.com
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=UBsX8t7t;
-       spf=pass (google.com: domain of npache@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=npache@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@gmail.com header.s=20210112 header.b=mZ8GIjqK;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d2d
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,89 +145,143 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 1/24/22 11:07, Marco Elver wrote:
-> With CONFIG_FORTIFY_SOURCE enabled, string functions will also perform
-> dynamic checks using __builtin_object_size(ptr), which when failed will
-> panic the kernel.
-> 
-> Because the KASAN test deliberately performs out-of-bounds operations,
-> the kernel panics with FORITY_SOURCE, for example:
-> 
->  | kernel BUG at lib/string_helpers.c:910!
->  | invalid opcode: 0000 [#1] PREEMPT SMP KASAN PTI
->  | CPU: 1 PID: 137 Comm: kunit_try_catch Tainted: G    B             5.16.0-rc3+ #3
->  | Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
->  | RIP: 0010:fortify_panic+0x19/0x1b
->  | ...
->  | Call Trace:
->  |  <TASK>
->  |  kmalloc_oob_in_memset.cold+0x16/0x16
->  |  ...
-> 
-> Fix it by also hiding `ptr` from the optimizer, which will ensure that
-> __builtin_object_size() does not return a valid size, preventing
-> fortified string functions from panicking.
-> 
-> Reported-by: Nico Pache <npache@redhat.com>
-> Signed-off-by: Marco Elver <elver@google.com>
-
-Looks good! Thanks for posting this Marco :)
-
-Reviewed-by: Nico Pache <npache@redhat.com>
-
+.On Mon, Jan 17, 2022 at 4:36 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+>
+> Currently all ioctls are de facto processed under a spinlock in order
+> to serialise them. This, however, prohibits the use of vmalloc and other
+> memory management functions in the implementations of those ioctls,
+> unnecessary complicating any further changes to the code.
+>
+> Let all ioctls first be processed inside the kcov_ioctl() function
+> which should execute the ones that are not compatible with spinlock
+> and then pass control to kcov_ioctl_locked() for all other ones.
+> KCOV_REMOTE_ENABLE is processed both in kcov_ioctl() and
+> kcov_ioctl_locked() as the steps are easily separable.
+>
+> Although it is still compatible with a spinlock, move KCOV_INIT_TRACE
+> handling to kcov_ioctl(), so that the changes from the next commit are
+> easier to follow.
+>
+> Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
 > ---
->  lib/test_kasan.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-> index 847cdbefab46..26a5c9007653 100644
-> --- a/lib/test_kasan.c
-> +++ b/lib/test_kasan.c
-> @@ -492,6 +492,7 @@ static void kmalloc_oob_in_memset(struct kunit *test)
->  	ptr = kmalloc(size, GFP_KERNEL);
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
->  
-> +	OPTIMIZER_HIDE_VAR(ptr);
->  	OPTIMIZER_HIDE_VAR(size);
->  	KUNIT_EXPECT_KASAN_FAIL(test,
->  				memset(ptr, 0, size + KASAN_GRANULE_SIZE));
-> @@ -515,6 +516,7 @@ static void kmalloc_memmove_negative_size(struct kunit *test)
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
->  
->  	memset((char *)ptr, 0, 64);
-> +	OPTIMIZER_HIDE_VAR(ptr);
->  	OPTIMIZER_HIDE_VAR(invalid_size);
->  	KUNIT_EXPECT_KASAN_FAIL(test,
->  		memmove((char *)ptr, (char *)ptr + 4, invalid_size));
-> @@ -531,6 +533,7 @@ static void kmalloc_memmove_invalid_size(struct kunit *test)
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
->  
->  	memset((char *)ptr, 0, 64);
-> +	OPTIMIZER_HIDE_VAR(ptr);
->  	KUNIT_EXPECT_KASAN_FAIL(test,
->  		memmove((char *)ptr, (char *)ptr + 4, invalid_size));
->  	kfree(ptr);
-> @@ -893,6 +896,7 @@ static void kasan_memchr(struct kunit *test)
->  	ptr = kmalloc(size, GFP_KERNEL | __GFP_ZERO);
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
->  
-> +	OPTIMIZER_HIDE_VAR(ptr);
->  	OPTIMIZER_HIDE_VAR(size);
->  	KUNIT_EXPECT_KASAN_FAIL(test,
->  		kasan_ptr_result = memchr(ptr, '1', size + 1));
-> @@ -919,6 +923,7 @@ static void kasan_memcmp(struct kunit *test)
->  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
->  	memset(arr, 0, sizeof(arr));
->  
-> +	OPTIMIZER_HIDE_VAR(ptr);
->  	OPTIMIZER_HIDE_VAR(size);
->  	KUNIT_EXPECT_KASAN_FAIL(test,
->  		kasan_int_result = memcmp(ptr, arr, size+1));
-> 
+>  kernel/kcov.c | 68 ++++++++++++++++++++++++++++-----------------------
+>  1 file changed, 37 insertions(+), 31 deletions(-)
+>
+> diff --git a/kernel/kcov.c b/kernel/kcov.c
+> index 36ca640c4f8e..e1be7301500b 100644
+> --- a/kernel/kcov.c
+> +++ b/kernel/kcov.c
+> @@ -564,31 +564,12 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                              unsigned long arg)
+>  {
+>         struct task_struct *t;
+> -       unsigned long size, unused;
+> +       unsigned long flags, unused;
+>         int mode, i;
+>         struct kcov_remote_arg *remote_arg;
+>         struct kcov_remote *remote;
+> -       unsigned long flags;
+>
+>         switch (cmd) {
+> -       case KCOV_INIT_TRACE:
+> -               /*
+> -                * Enable kcov in trace mode and setup buffer size.
+> -                * Must happen before anything else.
+> -                */
+> -               if (kcov->mode != KCOV_MODE_DISABLED)
+> -                       return -EBUSY;
+> -               /*
+> -                * Size must be at least 2 to hold current position and one PC.
+> -                * Later we allocate size * sizeof(unsigned long) memory,
+> -                * that must not overflow.
+> -                */
+> -               size = arg;
+> -               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+> -                       return -EINVAL;
+> -               kcov->size = size;
+> -               kcov->mode = KCOV_MODE_INIT;
+> -               return 0;
+>         case KCOV_ENABLE:
+>                 /*
+>                  * Enable coverage for the current task.
+> @@ -692,9 +673,32 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>         struct kcov_remote_arg *remote_arg = NULL;
+>         unsigned int remote_num_handles;
+>         unsigned long remote_arg_size;
+> -       unsigned long flags;
+> +       unsigned long size, flags;
+>
+> -       if (cmd == KCOV_REMOTE_ENABLE) {
+> +       kcov = filep->private_data;
+> +       switch (cmd) {
+> +       case KCOV_INIT_TRACE:
+> +               /*
+> +                * Enable kcov in trace mode and setup buffer size.
+> +                * Must happen before anything else.
+> +                *
+> +                * First check the size argument - it must be at least 2
+> +                * to hold the current position and one PC. Later we allocate
+> +                * size * sizeof(unsigned long) memory, that must not overflow.
+> +                */
+> +               size = arg;
+> +               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+> +                       return -EINVAL;
+> +               spin_lock_irqsave(&kcov->lock, flags);
+
+Arguably, we could keep the part of the KCOV_INIT_TRACE handler that
+happens under the lock in kcov_ioctl_locked(). In a similar way as
+it's done for KCOV_REMOTE_ENABLE. This would get rid of the asymmetric
+fallthrough usage.
+
+But I'll leave this up to you, either way looks acceptable to me.
+
+> +               if (kcov->mode != KCOV_MODE_DISABLED) {
+> +                       spin_unlock_irqrestore(&kcov->lock, flags);
+> +                       return -EBUSY;
+> +               }
+> +               kcov->size = size;
+> +               kcov->mode = KCOV_MODE_INIT;
+> +               spin_unlock_irqrestore(&kcov->lock, flags);
+> +               return 0;
+> +       case KCOV_REMOTE_ENABLE:
+>                 if (get_user(remote_num_handles, (unsigned __user *)(arg +
+>                                 offsetof(struct kcov_remote_arg, num_handles))))
+>                         return -EFAULT;
+> @@ -710,16 +714,18 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+>                         return -EINVAL;
+>                 }
+>                 arg = (unsigned long)remote_arg;
+> +               fallthrough;
+> +       default:
+> +               /*
+> +                * All other commands can be normally executed under a spin lock, so we
+> +                * obtain and release it here in order to simplify kcov_ioctl_locked().
+> +                */
+> +               spin_lock_irqsave(&kcov->lock, flags);
+> +               res = kcov_ioctl_locked(kcov, cmd, arg);
+> +               spin_unlock_irqrestore(&kcov->lock, flags);
+> +               kfree(remote_arg);
+> +               return res;
+>         }
+> -
+> -       kcov = filep->private_data;
+> -       spin_lock_irqsave(&kcov->lock, flags);
+> -       res = kcov_ioctl_locked(kcov, cmd, arg);
+> -       spin_unlock_irqrestore(&kcov->lock, flags);
+> -
+> -       kfree(remote_arg);
+> -
+> -       return res;
+>  }
+>
+>  static const struct file_operations kcov_fops = {
+> --
+> 2.34.1.703.g22d0c6ccf7-goog
+>
+
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8f457c89-28ed-71d1-5afa-2386abec6da9%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZdO%2BoOLQSfH%3D%2BH8wKNv1%2BhYasyyyNHxumWa5ex1P0xp0g%40mail.gmail.com.
