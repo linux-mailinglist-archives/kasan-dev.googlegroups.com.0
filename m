@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABBKGYYCHQMGQEZ3HTXSY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBLGYYCHQMGQEETGYOIQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0192249B961
-	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jan 2022 17:58:17 +0100 (CET)
-Received: by mail-wr1-x43e.google.com with SMTP id a11-20020adffb8b000000b001a0b0f4afe9sf3325914wrr.13
-        for <lists+kasan-dev@lfdr.de>; Tue, 25 Jan 2022 08:58:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1643129896; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id A753E49B962
+	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jan 2022 17:58:22 +0100 (CET)
+Received: by mail-lj1-x23c.google.com with SMTP id a7-20020a05651c210700b0023223408119sf2849717ljq.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 25 Jan 2022 08:58:22 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1643129902; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wygZiogvsvEo7nQldblIEUHrbN3FACYrODigo7j06bDr74mYdeNTeJ+DXquJkS0cQu
-         yUQ/cxcfe5MsV5HVmujMUN8/Ri5Ha5J+bnIVAzlD2pyXxy3iPU7Ie2anLS+GIPlewmOi
-         1nX4vNgIVvt4/NOQGpkQuiK3j6oV2lV782nLwUR+zSvtD3PgO5Zy6CJIIAIlpPCdeNzb
-         hgQ8bS4Rv87Zbg45/OKTa88izXJtD1nMbguUC2UDOLGwTEBGoZhbbxaq0gRQnNpkf2tb
-         7+65PtxX4lxuYq6S2tqK0q70w/DFB5UOZH9lUNsTsUmxd6ANRpb4OAThrwlvOzclql2j
-         wdzA==
+        b=JabD0owNoRSm9sztkZFGtXCCKmg9Mk8PPk54HlDDVGPvBxOpmtc2JxNlsBIJTGJTM3
+         17yFgUEwL6LHozIeqOXnTi38wLQ0pWDKKBQVqGH83PhGj4lRFPt8Rblw2XSVjFZr5t9I
+         mwuh7UtA21j4900y+Z8BwweRjpCBhp7Ufk9YgRCEchPD/pI4XNrqk8+4rwyL3HWIADZN
+         cWVmW1g3tK8JGkKPainZOJuI062hzXN6XbD8gKn/R0eUIvxfhrHxVmkgYBo3jNITrziN
+         43B+ttaUHxNclsM5YpusbX63aTy/SSAW9kHUiZ0CLOx4gT8nH8v5lZwiZ3yeACzOcU5X
+         Yy3w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=h7nKF2SGTZP1fgQhJlKuyU3xfiAAdMnEGuTR1oH6LFo=;
-        b=FSWv/DzlqKP1LZ9tOSMfLu8B8XpO7opE9kThqpABDCU92X8Vytivg7kp/78QuFJGPF
-         Qjsb5LL0taiH0blY1aoO4nhjhl+jXF66ISfle/r72jLi4wLHTi/5uUrlhjqvbttd3lDK
-         gmimCSdwp/XX0aLOAaJwkPfTE+YAR+dZPzYjk3RXPxjdFm0855NRJ7Pji3vk5mM12F12
-         lCBr5iWTnr9TZPlyuA+zZV7immHzGMgiMDPEBaDN1KoRPkVSrsPQtIPZdME3L9z4LV+x
-         FkrImEOLkop/JIEoTULhdT0oVPra9kX0e3eHgCT/i60lP25TMEXIWw+7KROwleEBgYym
-         Gieg==
+        bh=Rgeb0Aabhc9KIZ2Qg79T2WvRiyU3cIDNOMwm3XmYo6A=;
+        b=atWyc8vZom32j/If75+/8/TmzYymBqgrMtmbHlGzblMihRq5HgzTL1atXpXuMuTTQi
+         g+hUlkCOeAijfn6YtljBC/5dI0G9pMJW8Y3bR2Be6M1WPr4DMYvfEdGJYfV+QDs8Kq+5
+         x7eGto8p/TT/aFr2l/H9CbKRrZBOXWZl8QWUhkoRSq2+cOhsKApy87KTjRu5jw6vnaI7
+         JeSdV4rIASF0YWS0cqQnNCoZwfZ+GMA4TV/TehHRdeXxN7FpRSrn9jHoKys3L3q7H9kk
+         P8JcMZ2X+4EdmgUQXRE5sbch8/W1utiKRcX5kEVnLiAo5wUwVqNWHvSYuVYOKiGux/d9
+         MBsw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=fNch9TQE;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=fimlBcBb;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=h7nKF2SGTZP1fgQhJlKuyU3xfiAAdMnEGuTR1oH6LFo=;
-        b=C23Qx8hF01K6svmWa41dPwPTamN+8Lp6b+LnL97xd8dibq47C8AuSOTHo4NaUXB5LZ
-         1PQR9ZzlT7PL299SjUOrwYD5ZS6NOGT4Jqeiu4g1Lzvy+gTox8AHiApErAu9utIxDFDG
-         jexltaV05Uk56zhtl/y1kp3bjU5HcIuFWkviWDDjQxhfR+PopKnX0gQKS0q3bOWazmZx
-         qCEdz9/9gqygrt8DeS6EJHkHgztC72tiErJgUn6piaeGvHnCDy/Z9zKfjE9fEW0nn9NK
-         q7z+h5IHbZzXMM88LeFRMKwdngbhoWXjoiaCOSZylyhFYAnnJGjIATONRk4vRgQOFvYO
-         S+WA==
+        bh=Rgeb0Aabhc9KIZ2Qg79T2WvRiyU3cIDNOMwm3XmYo6A=;
+        b=Sa72K3fEh86GjJPGLesNHHedrlwXr9NE1/WBvXxY/9NZUeKdUq+QJjhLKLA0SK50V5
+         mD28naHXXt1viG0f71toidclU4xNEo3Kdl12juDhancSCb+zkhu7fzMDufmZZS4SOvxP
+         oz35OXcBQL6V74JE4ApCDy75EiZAeExuoV7PXPjK21a9bSkVaCExdC+nvETT72CWBj6N
+         6Z0ZYoMxZXSW5l2sGu78emGifqZWkqsBC9wCf1Oa3kjfAKhykf5JDbNeOiynAfFBhNj5
+         olzNov/c/0U2VZsgoklGCdGZW6juA1tZLHjaYmI3oKrDeMSoncvzlKSqDf3qMpQBsgRr
+         TOIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,59 +49,59 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=h7nKF2SGTZP1fgQhJlKuyU3xfiAAdMnEGuTR1oH6LFo=;
-        b=n/wC/5nqs13kQuEuK3B3JgGM6MUlInJr4GaBkjp2d6KcuhvW0hMtJQCap9WpjGzG3w
-         BpRDroNdBbs2bkuNKwzmX+qtZ/VcKYyYkm+Ut0u1x4W+hIbWFv20ClpOQi39wKk1HUrE
-         Q9Vqp5/KiLMjEch6ppLcByYs75u2u2UoNOjP9zhpKR6UPSZWcbv2PVukQB1H+InQzcfG
-         YEU9l/x5ByZxWA5SwbiJty8GAubW20d50araqDrDNBHShVIRDONmyxk+y6bjHq2OW+I5
-         Py2eEggvx1pxapEjDiNBypDPcnx1u+iH0lryhWLa48nZHydKiQpPi92rTzwT7ylyphoz
-         8axQ==
+        bh=Rgeb0Aabhc9KIZ2Qg79T2WvRiyU3cIDNOMwm3XmYo6A=;
+        b=v5tVtnkU5BRJK2pgS4GaWW24zbducmwOvuYDw2Lswl6NBN9Dx1g2xctJPKOg+U0ODR
+         eK4QPGp8hC0HvBzVNu6x/S9VukIrjsf+A+1LT7EG+JkM46HtgseoKoxk/NaBWQ4+PJA6
+         g+FeAME9VfLj5wCY2JyrgNXj0t4debESZ9PsS6DTfsp/MYNrPLSx1yDL0xTEvni+2wa5
+         WMRANE0ip8//ki1blcPVVgflMTkRKP8vU6x8wfWP8yinVZajww0Q33/wPRd+/b4gbix2
+         9WE6kmH69yRuTf/wCF/yXawWXuUjMaEOGDtOGtBnKUsALjIUphYQ/PhGLsKfCavO8+H7
+         sAqw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533+BikU9PPWt8i0o1/9n+1MLpQfhyCJRAq3MkzLcd8qe2mSBYX5
-	rc1pvKu3e7TlPwd9U0Cximg=
-X-Google-Smtp-Source: ABdhPJyNy8pzEIM+clFlx1l+kcp2aYB/+6Orsu+ca4a0KfxIlVLgxI+mWn2tS+kbOUOGi7MH34gC9A==
-X-Received: by 2002:adf:f7cd:: with SMTP id a13mr3822390wrq.517.1643129896555;
-        Tue, 25 Jan 2022 08:58:16 -0800 (PST)
+X-Gm-Message-State: AOAM531Z2Dw7wUVE0diMOHdQT+ExJJuTmqGWqFl/jKEAsgAwIRpaFKXM
+	y3USXPTcLUA1FAeNIgGjxeI=
+X-Google-Smtp-Source: ABdhPJx/DlIei8pSQo6ZybB5pZTQYz6K9vEhCKbwaIbGSJmO8qSiQf/Hxrar06qNHs1+Rg2KDOyo7w==
+X-Received: by 2002:a05:651c:1404:: with SMTP id u4mr9574007lje.291.1643129900749;
+        Tue, 25 Jan 2022 08:58:20 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:6013:: with SMTP id az19ls16099wmb.3.canary-gmail;
- Tue, 25 Jan 2022 08:58:15 -0800 (PST)
-X-Received: by 2002:a05:600c:24d3:: with SMTP id 19mr3819111wmu.178.1643129895855;
-        Tue, 25 Jan 2022 08:58:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1643129895; cv=none;
+Received: by 2002:a05:651c:1a2a:: with SMTP id by42ls3043398ljb.4.gmail; Tue,
+ 25 Jan 2022 08:58:20 -0800 (PST)
+X-Received: by 2002:a2e:9cd4:: with SMTP id g20mr2523089ljj.2.1643129899930;
+        Tue, 25 Jan 2022 08:58:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1643129899; cv=none;
         d=google.com; s=arc-20160816;
-        b=eiY0l3yywjU9Lqk3Irwkw6PFVrygqZ2ApblYBvDtWHw703fxYHQNX+rIVzL1oAcJJV
-         2WUdMSKA09FcMLplunVQa3+sAakodIMnjrCimFQezwJWZIBhIRtAKqw4LCGjNHDSWPpX
-         3LA2BbAS1xL3UtxHtm9rLOGjHmo85GgUGnyPqQ3189xMZVTj59LevWolGGKf1PXt/K7p
-         1kMUeMJSI29ypxS/DE4RjAcz2cd/nMl7hwOlicNVfkZBpJTyERqDrjPn7DSXXGGIuZ6H
-         tPwiaZK8aYsKwWVcsm+KzTpWo4LyrTgQllYst6o57kJ8XiSZixmb39nTH4L4X1aRp8/n
-         dfPw==
+        b=Wf3bQ1oYZW4dmCVNf3rvQIRV7XMlQwCDcOpChCTnkpg0RgjGfyZstsi8WV6hyCzp9p
+         HmwBnMClcxb448/Ikn55Vw3gsARsBGtvbvcAP25l30vJCHd60jPZpJiRrlhFw3JWeN4u
+         lSHHwH92rmusDBVLbi2PUXWhAN0I+wS65EBHmXYOxFYsS+LvpoGvdz32KohSsv2jv8/i
+         Hsqco20djGhSrfNAUaKQbSD/G5dhKvo4oNdioWZIR6qA4klmuyaewPlowQzMgco2z8be
+         qFug/8N25/NlaDy9IDDlD67621V18fat7BXz+lZTUFBUV8EHpRCBaVQVy7BfB1gvJj2e
+         j3zA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=WLg2BeBvW/j0sV2P8p2IWf4T8GWUW5KyuZAg98ro1Fs=;
-        b=YwXQl8EQVi8dEwqja6NFUx9BmDGiGNCJiasYfTgQdBB3bcU2uIEcENUy4i0FjU7ceq
-         A3SDzSc8q4oHzdiKS7m1gC398GLHdZc4BfKxlS3K59BtOXodgntyCHRJBQfHTCMrqdGB
-         6vw+RIZ3Qxrnt9Eb+JdpsWPGgN733WJYw9ssPMknhlNAf8bskLKu2jWgUyQmflW+YNdC
-         2AIrYj5bi2tHXGYAC5R8HA20c2sKzVXMdQ3PmTxoEkWlJWBNrm55lyPr80kW6YQrQhX8
-         5P95UHNBoRBgYDm88m8eAX6MAAr20GrtMk1nT0JDC1ZOvETbyt4dc7wBEP9mKCcabNX7
-         DNdg==
+        bh=m8Dfv93J8Kk1ZQHSMIfywODJNZyurYYF/TfoeUxsjNs=;
+        b=kNWlvLzUna5lm6EVMv7AdWN78Vx+dl7tznbzboshY8jjp12Fr6gGmCH4jSx6Eih/VL
+         CV7uzjsSyBN7pG+jQaw4S3wMxchcdWwg4xSWr/x30/sJGb0JXc5vkO+0Nu1Gn5JLF4jP
+         6UtRwrKooYhfHpSeKaO0p2cAdL5Si717xtHQOwNMCdXfjRQwHqAgCnoa1k2N3+Fgg/vp
+         4KspU1Rl9ChNFM6qPQAmJd+X/BQlYaFgBum01FUy9OYdLsbveB+z/yfLtpKoAIaf0hlN
+         izFwfxX6SLlPKaVEf0BcfgzhTl+vj1U3fMwmIWQ1xFs1r9FqtwhP1/JQoq+SiQnWlaPm
+         7TvA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=fNch9TQE;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=fimlBcBb;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id l24si220069wmg.1.2022.01.25.08.58.15
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id z19si624756ljo.2.2022.01.25.08.58.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Jan 2022 08:58:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+        Tue, 25 Jan 2022 08:58:19 -0800 (PST)
+Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 5A4D1B81912;
-	Tue, 25 Jan 2022 16:58:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 942B9C340E0;
-	Tue, 25 Jan 2022 16:58:11 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 8779960F03;
+	Tue, 25 Jan 2022 16:58:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D8AC340E8;
+	Tue, 25 Jan 2022 16:58:14 +0000 (UTC)
 From: Jisheng Zhang <jszhang@kernel.org>
 To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -114,19 +114,19 @@ To: Paul Walmsley <paul.walmsley@sifive.com>,
 Cc: linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com
-Subject: [PATCH 1/3] riscv: introduce unified static key mechanism for CPU features
-Date: Wed, 26 Jan 2022 00:50:34 +0800
-Message-Id: <20220125165036.987-2-jszhang@kernel.org>
+Subject: [PATCH 2/3] riscv: replace has_fpu() with system_supports_fpu()
+Date: Wed, 26 Jan 2022 00:50:35 +0800
+Message-Id: <20220125165036.987-3-jszhang@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220125165036.987-1-jszhang@kernel.org>
 References: <20220125165036.987-1-jszhang@kernel.org>
 MIME-Version: 1.0
 X-Original-Sender: jszhang@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=fNch9TQE;       spf=pass
- (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as
- permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=fimlBcBb;       spf=pass
+ (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1
+ as permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -140,288 +140,132 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Currently, riscv has several features why may not be supported on all
-riscv platforms, for example, FPU, SV48 and so on. To support unified
-kernel Image style, we need to check whether the feature is suportted
-or not. If the check sits at hot code path, then performance will be
-impacted a lot. static key can be used to solve the issue. In the past
-FPU support has been converted to use static key mechanism. I believe
-we will have similar cases in the future.
-
-Similar as arm64 does(in fact, some code is borrowed from arm64), this
-patch tries to add an unified mechanism to use static keys for all
-the cpu features by implementing an array of default-false static keys
-and enabling them when detected. The cpus_have_*_cap() check uses the
-static keys if riscv_const_caps_ready is finalized, otherwise the
-compiler generates the bitmap test.
+This is to use the unified cpus_have_{final|const}_cap() instead of
+putting static key related here and there.
 
 Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 ---
- arch/riscv/Makefile                 |  3 +
- arch/riscv/include/asm/cpufeature.h | 94 +++++++++++++++++++++++++++++
- arch/riscv/kernel/cpufeature.c      | 23 +++++++
- arch/riscv/tools/Makefile           | 22 +++++++
- arch/riscv/tools/cpucaps            |  5 ++
- arch/riscv/tools/gen-cpucaps.awk    | 40 ++++++++++++
- 6 files changed, 187 insertions(+)
- create mode 100644 arch/riscv/include/asm/cpufeature.h
- create mode 100644 arch/riscv/tools/Makefile
- create mode 100644 arch/riscv/tools/cpucaps
- create mode 100755 arch/riscv/tools/gen-cpucaps.awk
+ arch/riscv/include/asm/cpufeature.h | 5 +++++
+ arch/riscv/include/asm/switch_to.h  | 9 ++-------
+ arch/riscv/kernel/cpufeature.c      | 8 ++------
+ arch/riscv/kernel/process.c         | 2 +-
+ arch/riscv/kernel/signal.c          | 4 ++--
+ 5 files changed, 12 insertions(+), 16 deletions(-)
 
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index 8a107ed18b0d..65c63023c8a8 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -148,3 +148,6 @@ PHONY += rv64_randconfig
- rv64_randconfig:
- 	$(Q)$(MAKE) KCONFIG_ALLCONFIG=$(srctree)/arch/riscv/configs/64-bit.config \
- 		-f $(srctree)/Makefile randconfig
-+
-+archprepare:
-+	$(Q)$(MAKE) $(build)=arch/riscv/tools kapi
 diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-new file mode 100644
-index 000000000000..d80ddd2f3b49
---- /dev/null
+index d80ddd2f3b49..634a653c7fa2 100644
+--- a/arch/riscv/include/asm/cpufeature.h
 +++ b/arch/riscv/include/asm/cpufeature.h
-@@ -0,0 +1,94 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2014 Linaro Ltd. <ard.biesheuvel@linaro.org>
-+ * Copyright (C) 2022 Jisheng Zhang <jszhang@kernel.org>
-+ */
-+
-+#ifndef __ASM_CPUFEATURE_H
-+#define __ASM_CPUFEATURE_H
-+
-+#include <asm/cpucaps.h>
-+
-+#include <linux/bug.h>
-+#include <linux/jump_label.h>
-+#include <linux/kernel.h>
-+
-+extern DECLARE_BITMAP(cpu_hwcaps, RISCV_NCAPS);
-+extern struct static_key_false cpu_hwcap_keys[RISCV_NCAPS];
-+extern struct static_key_false riscv_const_caps_ready;
-+
-+static __always_inline bool system_capabilities_finalized(void)
+@@ -91,4 +91,9 @@ static inline void cpus_set_cap(unsigned int num)
+ 	}
+ }
+ 
++static inline bool system_supports_fpu(void)
 +{
-+	return static_branch_likely(&riscv_const_caps_ready);
++	return IS_ENABLED(CONFIG_FPU) && !cpus_have_final_cap(RISCV_HAS_NO_FPU);
 +}
 +
-+/*
-+ * Test for a capability with a runtime check.
-+ *
-+ * Before the capability is detected, this returns false.
-+ */
-+static inline bool cpus_have_cap(unsigned int num)
-+{
-+	if (num >= RISCV_NCAPS)
-+		return false;
-+	return test_bit(num, cpu_hwcaps);
-+}
-+
-+/*
-+ * Test for a capability without a runtime check.
-+ *
-+ * Before capabilities are finalized, this returns false.
-+ * After capabilities are finalized, this is patched to avoid a runtime check.
-+ *
-+ * @num must be a compile-time constant.
-+ */
-+static __always_inline bool __cpus_have_const_cap(int num)
-+{
-+	if (num >= RISCV_NCAPS)
-+		return false;
-+	return static_branch_unlikely(&cpu_hwcap_keys[num]);
-+}
-+
-+/*
-+ * Test for a capability without a runtime check.
-+ *
-+ * Before capabilities are finalized, this will BUG().
-+ * After capabilities are finalized, this is patched to avoid a runtime check.
-+ *
-+ * @num must be a compile-time constant.
-+ */
-+static __always_inline bool cpus_have_final_cap(int num)
-+{
-+	if (system_capabilities_finalized())
-+		return __cpus_have_const_cap(num);
-+	else
-+		BUG();
-+}
-+
-+/*
-+ * Test for a capability, possibly with a runtime check.
-+ *
-+ * Before capabilities are finalized, this behaves as cpus_have_cap().
-+ * After capabilities are finalized, this is patched to avoid a runtime check.
-+ *
-+ * @num must be a compile-time constant.
-+ */
-+static __always_inline bool cpus_have_const_cap(int num)
-+{
-+	if (system_capabilities_finalized())
-+		return __cpus_have_const_cap(num);
-+	else
-+		return cpus_have_cap(num);
-+}
-+
-+static inline void cpus_set_cap(unsigned int num)
-+{
-+	if (num >= RISCV_NCAPS) {
-+		pr_warn("Attempt to set an illegal CPU capability (%d >= %d)\n",
-+			num, RISCV_NCAPS);
-+	} else {
-+		__set_bit(num, cpu_hwcaps);
-+	}
-+}
-+
-+#endif
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index d959d207a40d..09331abfa70c 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
+ #endif
+diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/switch_to.h
+index 0a3f4f95c555..362cb18d12d5 100644
+--- a/arch/riscv/include/asm/switch_to.h
++++ b/arch/riscv/include/asm/switch_to.h
 @@ -8,6 +8,7 @@
  
- #include <linux/bitmap.h>
- #include <linux/of.h>
+ #include <linux/jump_label.h>
+ #include <linux/sched/task_stack.h>
 +#include <asm/cpufeature.h>
  #include <asm/processor.h>
- #include <asm/hwcap.h>
- #include <asm/smp.h>
-@@ -22,6 +23,15 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
- __ro_after_init DEFINE_STATIC_KEY_FALSE(cpu_hwcap_fpu);
- #endif
- 
-+DECLARE_BITMAP(cpu_hwcaps, RISCV_NCAPS);
-+EXPORT_SYMBOL(cpu_hwcaps);
-+
-+DEFINE_STATIC_KEY_ARRAY_FALSE(cpu_hwcap_keys, RISCV_NCAPS);
-+EXPORT_SYMBOL(cpu_hwcap_keys);
-+
-+DEFINE_STATIC_KEY_FALSE(riscv_const_caps_ready);
-+EXPORT_SYMBOL(riscv_const_caps_ready);
-+
- /**
-  * riscv_isa_extension_base() - Get base extension word
-  *
-@@ -59,6 +69,17 @@ bool __riscv_isa_extension_available(const unsigned long *isa_bitmap, int bit)
+ #include <asm/ptrace.h>
+ #include <asm/csr.h>
+@@ -56,13 +57,7 @@ static inline void __switch_to_aux(struct task_struct *prev,
+ 	fstate_restore(next, task_pt_regs(next));
  }
- EXPORT_SYMBOL_GPL(__riscv_isa_extension_available);
  
-+static void __init enable_cpu_capabilities(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < RISCV_NCAPS; i++) {
-+		if (!cpus_have_cap(i))
-+			continue;
-+		static_branch_enable(&cpu_hwcap_keys[i]);
-+	}
-+}
-+
- void __init riscv_fill_hwcap(void)
+-extern struct static_key_false cpu_hwcap_fpu;
+-static __always_inline bool has_fpu(void)
+-{
+-	return static_branch_likely(&cpu_hwcap_fpu);
+-}
+ #else
+-static __always_inline bool has_fpu(void) { return false; }
+ #define fstate_save(task, regs) do { } while (0)
+ #define fstate_restore(task, regs) do { } while (0)
+ #define __switch_to_aux(__prev, __next) do { } while (0)
+@@ -75,7 +70,7 @@ extern struct task_struct *__switch_to(struct task_struct *,
+ do {							\
+ 	struct task_struct *__prev = (prev);		\
+ 	struct task_struct *__next = (next);		\
+-	if (has_fpu())					\
++	if (system_supports_fpu())					\
+ 		__switch_to_aux(__prev, __next);	\
+ 	((last) = __switch_to(__prev, __next));		\
+ } while (0)
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index 09331abfa70c..da272b399af6 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -19,10 +19,6 @@ unsigned long elf_hwcap __read_mostly;
+ /* Host ISA bitmap */
+ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
+ 
+-#ifdef CONFIG_FPU
+-__ro_after_init DEFINE_STATIC_KEY_FALSE(cpu_hwcap_fpu);
+-#endif
+-
+ DECLARE_BITMAP(cpu_hwcaps, RISCV_NCAPS);
+ EXPORT_SYMBOL(cpu_hwcaps);
+ 
+@@ -166,8 +162,8 @@ void __init riscv_fill_hwcap(void)
+ 	pr_info("riscv: ELF capabilities %s\n", print_str);
+ 
+ #ifdef CONFIG_FPU
+-	if (elf_hwcap & (COMPAT_HWCAP_ISA_F | COMPAT_HWCAP_ISA_D))
+-		static_branch_enable(&cpu_hwcap_fpu);
++	if (!(elf_hwcap & (COMPAT_HWCAP_ISA_F | COMPAT_HWCAP_ISA_D)))
++		cpus_set_cap(RISCV_HAS_NO_FPU);
+ #endif
+ 	enable_cpu_capabilities();
+ 	static_branch_enable(&riscv_const_caps_ready);
+diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
+index 03ac3aa611f5..ece62392b79f 100644
+--- a/arch/riscv/kernel/process.c
++++ b/arch/riscv/kernel/process.c
+@@ -87,7 +87,7 @@ void start_thread(struct pt_regs *regs, unsigned long pc,
+ 	unsigned long sp)
  {
- 	struct device_node *node;
-@@ -148,4 +169,6 @@ void __init riscv_fill_hwcap(void)
- 	if (elf_hwcap & (COMPAT_HWCAP_ISA_F | COMPAT_HWCAP_ISA_D))
- 		static_branch_enable(&cpu_hwcap_fpu);
- #endif
-+	enable_cpu_capabilities();
-+	static_branch_enable(&riscv_const_caps_ready);
+ 	regs->status = SR_PIE;
+-	if (has_fpu()) {
++	if (system_supports_fpu()) {
+ 		regs->status |= SR_FS_INITIAL;
+ 		/*
+ 		 * Restore the initial value to the FP register
+diff --git a/arch/riscv/kernel/signal.c b/arch/riscv/kernel/signal.c
+index c2d5ecbe5526..c236eb777fbc 100644
+--- a/arch/riscv/kernel/signal.c
++++ b/arch/riscv/kernel/signal.c
+@@ -90,7 +90,7 @@ static long restore_sigcontext(struct pt_regs *regs,
+ 	/* sc_regs is structured the same as the start of pt_regs */
+ 	err = __copy_from_user(regs, &sc->sc_regs, sizeof(sc->sc_regs));
+ 	/* Restore the floating-point state. */
+-	if (has_fpu())
++	if (system_supports_fpu())
+ 		err |= restore_fp_state(regs, &sc->sc_fpregs);
+ 	return err;
  }
-diff --git a/arch/riscv/tools/Makefile b/arch/riscv/tools/Makefile
-new file mode 100644
-index 000000000000..932b4fe5c768
---- /dev/null
-+++ b/arch/riscv/tools/Makefile
-@@ -0,0 +1,22 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+gen := arch/$(ARCH)/include/generated
-+kapi := $(gen)/asm
-+
-+kapi-hdrs-y := $(kapi)/cpucaps.h
-+
-+targets += $(addprefix ../../../,$(gen-y) $(kapi-hdrs-y))
-+
-+PHONY += kapi
-+
-+kapi:   $(kapi-hdrs-y) $(gen-y)
-+
-+# Create output directory if not already present
-+_dummy := $(shell [ -d '$(kapi)' ] || mkdir -p '$(kapi)')
-+
-+quiet_cmd_gen_cpucaps = GEN     $@
-+      cmd_gen_cpucaps = mkdir -p $(dir $@) && \
-+                     $(AWK) -f $(filter-out $(PHONY),$^) > $@
-+
-+$(kapi)/cpucaps.h: $(src)/gen-cpucaps.awk $(src)/cpucaps FORCE
-+	$(call if_changed,gen_cpucaps)
-diff --git a/arch/riscv/tools/cpucaps b/arch/riscv/tools/cpucaps
-new file mode 100644
-index 000000000000..cb1ff2747859
---- /dev/null
-+++ b/arch/riscv/tools/cpucaps
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Internal CPU capabilities constants, keep this list sorted
-+
-+HAS_NO_FPU
-diff --git a/arch/riscv/tools/gen-cpucaps.awk b/arch/riscv/tools/gen-cpucaps.awk
-new file mode 100755
-index 000000000000..52a1e1b064ad
---- /dev/null
-+++ b/arch/riscv/tools/gen-cpucaps.awk
-@@ -0,0 +1,40 @@
-+#!/bin/awk -f
-+# SPDX-License-Identifier: GPL-2.0
-+# gen-cpucaps.awk: riscv cpucaps header generator
-+#
-+# Usage: awk -f gen-cpucaps.awk cpucaps.txt
-+
-+# Log an error and terminate
-+function fatal(msg) {
-+	print "Error at line " NR ": " msg > "/dev/stderr"
-+	exit 1
-+}
-+
-+# skip blank lines and comment lines
-+/^$/ { next }
-+/^#/ { next }
-+
-+BEGIN {
-+	print "#ifndef __ASM_CPUCAPS_H"
-+	print "#define __ASM_CPUCAPS_H"
-+	print ""
-+	print "/* Generated file - do not edit */"
-+	cap_num = 0
-+	print ""
-+}
-+
-+/^[vA-Z0-9_]+$/ {
-+	printf("#define RISCV_%-30s\t%d\n", $0, cap_num++)
-+	next
-+}
-+
-+END {
-+	printf("#define RISCV_NCAPS\t\t\t\t%d\n", cap_num)
-+	print ""
-+	print "#endif /* __ASM_CPUCAPS_H */"
-+}
-+
-+# Any lines not handled by previous rules are unexpected
-+{
-+	fatal("unhandled statement")
-+}
+@@ -143,7 +143,7 @@ static long setup_sigcontext(struct rt_sigframe __user *frame,
+ 	/* sc_regs is structured the same as the start of pt_regs */
+ 	err = __copy_to_user(&sc->sc_regs, regs, sizeof(sc->sc_regs));
+ 	/* Save the floating-point state. */
+-	if (has_fpu())
++	if (system_supports_fpu())
+ 		err |= save_fp_state(regs, &sc->sc_fpregs);
+ 	return err;
+ }
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220125165036.987-2-jszhang%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220125165036.987-3-jszhang%40kernel.org.
