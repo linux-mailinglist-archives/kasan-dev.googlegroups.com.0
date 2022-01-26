@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBXESY2HQMGQEHMRXBXQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXKTJ63SAARBE4VY2HQMGQEEKB72WQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A8749D11F
-	for <lists+kasan-dev@lfdr.de>; Wed, 26 Jan 2022 18:48:13 +0100 (CET)
-Received: by mail-lf1-x138.google.com with SMTP id c5-20020ac244a5000000b00437739a41a0sf53211lfm.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 26 Jan 2022 09:48:12 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1643219292; cv=pass;
+Received: from mail-qk1-x73b.google.com (mail-qk1-x73b.google.com [IPv6:2607:f8b0:4864:20::73b])
+	by mail.lfdr.de (Postfix) with ESMTPS id A27F049D128
+	for <lists+kasan-dev@lfdr.de>; Wed, 26 Jan 2022 18:53:24 +0100 (CET)
+Received: by mail-qk1-x73b.google.com with SMTP id z188-20020a3797c5000000b0047cf1030280sf290933qkd.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 26 Jan 2022 09:53:24 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1643219603; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LUP44908jKFcXzzhseF4E9WrhPQVen+W68CCrgKfL9W5zD6fZwaJb3mOE5o+8daQS1
-         mR+FsEJR2/suAusNoI9GMBlj457KnXH0ybxcZReQd+rTwMSvm0FZ7MN8Lv10ezIE7NLJ
-         tNl49b8/bjKyNS2Ec5rhtKjSFQLKP+Cfv7xyGG5J60fl9R2UFYGKu9q/PPDWsUafXh0x
-         fQS9mpPh7OsgpQ73iUrHRRX3Ob9cLLWK+mH6tIkO4gvVVVngGgEi4Q/xnbOXG9gRbi/c
-         N3ESUe/zhv0QLmZ/i7j8dSzRipG9SX4CcP1t8cImWNPHcqemxU38IqfgQAhBhXRHPtNj
-         LTXA==
+        b=BKL+VLSj/nO79gvfVQdj6saz3FdbNXjWzidyUbjVSfwKQdOzjRFOs/r6Jb90V907TL
+         hq9LYJQp5RnElbcfF4JWFqPT6wgZyg1oQ535tBThyPyzVNY71GjwB8m5IYwSVEQQQe54
+         zAIbjuXV+FahSwKsJPGXiw3WPqC3qZbkD8cyqmPQkQg+OzDoV75pAxrajD8g/Zi0PxAV
+         grJCRKJ82hyt90TAOkM8QSJ//iCrky8EQ1bsYCfcrYsnMY4+8n/P0itAoM11frCkIX9H
+         LnfzP0wrjO38r6NdUMmrwk5bMvQPgiQtb//6zxHMQjncgJ13lBAWMsy1nceRm1XD9A1B
+         RNaQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=VPcFY39Fsmcu3Cbz/E4IdvN4U3tNf88HQkbIXvWD7OU=;
-        b=dl/PXMULX903euKHpQvJrvEVVeN08QZbxrWsTa4/Xw+0/y7pszR4Gn0Icfwf6H5LW5
-         4oSOjdSoQf8Lw9ei8+z8cvq2T2ZG2ECzA9kq5MrlJWHs0pEJsqq2swpqkbIyWTKBvX94
-         XjXV5Lu9mcUa3sZyGb+vrBdYvy16Vuu3AQlq5CDGs8i/yEIQzOZshxiG5Y6M4Zb2lx+h
-         NQTbtVu0qlhnN74KYb1iEyfORA9dRsU3Q9X0ezniv1Kh9ldeZxxIVP/iv2b/p/en25G9
-         3nJqhzbFbYiLlOXsB3v9QecFY/wIhQ8lE+y6fgpbS+l3W69SznO3m+MJQdRYWLtdJsMw
-         9SqA==
+        bh=aY+Fq8hd+bSiBlfPPo08a0+kAc6aZR/xa+h+FTHv7lk=;
+        b=cWJOnlr2YLiGMD+Bfbc7iLuwNkW22hjqnqRuBKBxNqoI/rOXZJpzpUfh/W9V/i/eC5
+         sOvosQk4L6bvv4wZu3ao94I+kRO9Iut4Qg1mFA63YQ+DYBkJzo2rA3cwht+ib4Lc6M64
+         2L0I0T1qb4AKoE7FJwcxUD/Eh/NQwW/4k7MFJYxS5q4oZwM8sKMPT6zEcJLRoLtvbf1/
+         wtH6aKBWZEh8iZkeMS8UinC4SdJkTkphrO5nVd7HeIz7GWVloiBEaH8anoOaWfCkjt4x
+         eqW3xl65XXyy9RXPX2GvXnNbqJY+E+eBAjLhT1namxEEPyHRSazb49ktD39rPy9Gr9ON
+         NyTQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=X7xFhQb0;
-       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::134 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=i9L6HTFH;
+       spf=pass (google.com: domain of nogikh@google.com designates 2607:f8b0:4864:20::d2e as permitted sender) smtp.mailfrom=nogikh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=VPcFY39Fsmcu3Cbz/E4IdvN4U3tNf88HQkbIXvWD7OU=;
-        b=eI8meeVQDKcvl7nWE4wJV/4ZJy/n5ela6/rA8rMdSSsSSR2cCKNdT8gh+2Q4P97HMT
-         BqwIs1edyD5Psddbj3M5/x+lAI8/mr0uuaIaJ0nj6H+XrN8iXGHjNEPl6+VKbB18g7rJ
-         ZGZY0NAFSf4bDUFYi8SmPaDtJBUVrv09nsNWDSabRkGQy2f8pAOib4aQnUKfzp4UgBZT
-         ajgpNllikDq3CZ5C64HURI+4b11q1sqLdZo3DNRqUuUn/Qn9hZkA8P+5WQy1l2xtFjQz
-         +V/y009NHR15+NiIgfrYSA7NAu47w1Pgfq6QYc90UABDZMc1Esfn6pxmAJN9n0YoI4mU
-         /yIw==
+        bh=aY+Fq8hd+bSiBlfPPo08a0+kAc6aZR/xa+h+FTHv7lk=;
+        b=lJda0v63F6oZmQqjEVa+L4hct4tkZrs3xC5ui+f/PKucjtU1/lHKYS++EI45XuYqXg
+         hcmz0COOh+mzRwRVnLmVP2IuDuAT27tjK6tGFxr9QsfG5iq2CKl+HavSD9wxw5CbzPZq
+         nnvlLQG7WBMNq41YZtPdm016QIQpbB1S5Ohk7nl323c1HZu0ePMkpVwq+1gB97L8GtH6
+         H3mv2fBCLPbKvxH6O2ORXfDcoskmPmQHxaZJbU8Dqi72fvynh4zhh/odUUugv1OrXZNb
+         wJaEk9oEuNjIUbqasOCjPUFtt8gY8sHk0EYfrzdBoOpKJp+vj4eCRdn3zlSpmYHn/R5f
+         I4Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,78 +49,77 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=VPcFY39Fsmcu3Cbz/E4IdvN4U3tNf88HQkbIXvWD7OU=;
-        b=pwJsi6IgkcB8UgdqN4C3Je8aKKLONohP3qUkygIGrdErzEy3zsrd/w+Ex/bXvYyH19
-         VNK3XmU9jsdLgO19oF9Ou4iB/N8kQcqL3aIjj9SJhr5MH/t/Ue5JhfZscVdZPPremnbj
-         j2JG1pB4/3TlZL8B5cBzX7qvrM21d34/Y7T4a/+nmRLgQWVR5o/ctpavCknk7kXEHv83
-         0U4gbeoY1mG07d6Ds2r4FtsziMnb33f26Q/5KvXOVXbjg3ykU7f21feZIX+D6u9Ft1Rl
-         aqMB/AKQsoe1I+VGPkwEzLvXgWMLN0ukA7cJVegVubbz15OtNLY0RlOrI34anVO9YQIg
-         UiuA==
-X-Gm-Message-State: AOAM533XD/mdyFI7/HBdbWROjcIQIfJysFjAcUvjiFH0j2al6p8yoVZm
-	z9QPYe51eKy0dTS7+811TbY=
-X-Google-Smtp-Source: ABdhPJx+ItY2fEgOi355CbqSXjMdo7Q6+ituo6H8/g6F/AY0+joE0Fms31hdlQ/0apTUC8ZvTtE38Q==
-X-Received: by 2002:ac2:491c:: with SMTP id n28mr12576lfi.486.1643219292588;
-        Wed, 26 Jan 2022 09:48:12 -0800 (PST)
+        bh=aY+Fq8hd+bSiBlfPPo08a0+kAc6aZR/xa+h+FTHv7lk=;
+        b=Bz3bRaGPDooiF3/WMcQGAnIPN6LykdqTW+/SySynrZKIRboLcr8IPAWgPxxXYz7p/b
+         lrmD6A0iIw3x+6tKEkGHADMLjdJNZ1PCFbsm1cGSR9Exy1NMu5+ciFYTGqDOEh7pnGTl
+         whMwF+IGlwWc9IyfN1yEgsDPl7tzTj+OyeKtJlMdG9Q03635LmNqupYsZNEmdSxnLhVf
+         UCKo3Hk5OFC9Injop+u8LeDeAiL9vvEet6UXa5fhmTZQrei9cyr30EWjoqjJn5yFuw8k
+         fdq57hwUO/KTHgxYc58D/joUEo/mPYHTTEO+26Af60AqeuefPSdfOIc5rOaukJUPAWdm
+         tqNQ==
+X-Gm-Message-State: AOAM530o22QX7KaNRmKwr6Ewv1udDDpOEIyW3omydeIWWpi9UqZAgTpc
+	g6QtO4SrD8ASleAbefzZsDA=
+X-Google-Smtp-Source: ABdhPJwJZt7uIPlj46d722IlIrqR+Do7lAR5hWbyh+a0z2g7luVEa0s/MJaA5ait/M0a+xdTpWChCQ==
+X-Received: by 2002:ac8:57d4:: with SMTP id w20mr11377305qta.67.1643219603412;
+        Wed, 26 Jan 2022 09:53:23 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3b1f:: with SMTP id f31ls1408631lfv.3.gmail; Wed,
- 26 Jan 2022 09:48:11 -0800 (PST)
-X-Received: by 2002:a05:6512:2506:: with SMTP id be6mr57740lfb.48.1643219291609;
-        Wed, 26 Jan 2022 09:48:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1643219291; cv=none;
+Received: by 2002:a05:620a:24c8:: with SMTP id m8ls1430252qkn.5.gmail; Wed, 26
+ Jan 2022 09:53:23 -0800 (PST)
+X-Received: by 2002:a37:ae43:: with SMTP id x64mr14251387qke.681.1643219602897;
+        Wed, 26 Jan 2022 09:53:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1643219602; cv=none;
         d=google.com; s=arc-20160816;
-        b=dPR7dW++DuZSUTofqRD+y/QhhxdwaJDS3HQbsT48ShzPJh9Bz4m4qc7k6ECaYCodr6
-         mnOnGJDOrGw4k9AIrMKGRGVLUq9sqkGtvQN7gt0eNI+FV+GrH+kudGgY1GV7eNzjk45r
-         AigJnxL/LWlI1wvSk9W5OTgQ1W7ji+MExOx/HnmSSexY25Z6vWFEp/fVXNb7zYr2h8VG
-         SYsaWTDIrhjvKO/zFYNVaeqwTtAxeb3iIa7DVfh1MNL7LKCSYZg4icIKHoCDdaq294rI
-         V76naDD43SvMtuIuPJc4WHId+W0h22UKF0UwgXyZFvWfXjxiW7O8Ix2rT1XdtarMfBtV
-         qQ7w==
+        b=Xvbf3BOMG+mp5aNkZ8/2y3+Nvn7Yodm7jVTpMDe+0YIkZWKhS6jAQzB1mh53D3Ie8L
+         rB4AeKfhl4kQxjW/XigxW9lZaOi7ZmYo4fzb3xqfuSyHN2uiqBse9M2/c4cNbycpSDiW
+         CjMvbXCVWadgkL7WMr55NIlSsWGKWvcUS+omeKPz4r3+BA6yg5YHGA4pui8l8O2Cc/M5
+         /GzLdx+Bn44w3b7xkh7159pGQtWN4nxCsK4vxmbkeS7Jw4jkfhLuxw3Jpct9Bsk2ZP7q
+         53INcsY396QaGUqE5qQ4A4gfgOiP2wCBPoT1c/j6fGn5qNWVdO+2CCdzyuAL4SoMKMEx
+         vYBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=xLIqTYmkTKOqFZ7wfTxJc0kW+NLs1daqfDz4QtnxNOE=;
-        b=AI3p/AUS1nxceO4DukiRPVurte2Tx1NI3wmQLgLO4Ta2bmxES08C85mkUrT1YrpW1R
-         WjncyzETlr0xBYNIVvH4Svmif+XAxjo2jyOJmhlXmVsdwVRrqgtVAZoPptAY4xEk/kDf
-         0vCi5u14g6dSMSwVknOId3h+ETdsaZwWPIuGb0AdZtxQHy2NzDaDIa942aza3+Ecaacw
-         AFeWUqj/Dto+tGO1YYmT2Hab+Ebxk88rNT6bhYkzDH1Kz7JbzeyT6TsRZusuzi8gr3Qh
-         oHJh76wNI7KjD9IXuAHPfAzNHm6ggYIotQsLjMgYm7DMUWcgjKmfCY3f1N8Onafjouz1
-         hYjw==
+        bh=dtNWMQ6fpndr+gNiN9rmzbRxHIN+CmzsS5NgAG+zOwA=;
+        b=gVGsV7qSQVQgHZhFVdvsg6Sb2I5Te29DsYc3EQhJ+WR+dFbcjPI1kjn2Jx5JBBZCE3
+         LuCuq0Qi2R8vQhnz8zxtp1aNxl0RgSvSQ6GJo14spocJq10zDNRE/4vnRpdn9O2RZ+GO
+         VezzmtU4SVkrfo12J7qPIKLuXFlvKPoZ20T6qfmnXjFQutG3CeVeyjhMI+c2DfZVEnv5
+         i3M5zpYKFAODTkHONEw5sLKB2vWMhwJD2XWgsRffTVRjFnV3VDhaI0APW1zIjTJgiKQP
+         UTKkig4HGKerYW4jejoFPHxHsyZzdo1bcp1J2FcGHDVQIs/VgsfgBqJ2JKWtHFpMtr+4
+         itfQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=X7xFhQb0;
-       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::134 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=i9L6HTFH;
+       spf=pass (google.com: domain of nogikh@google.com designates 2607:f8b0:4864:20::d2e as permitted sender) smtp.mailfrom=nogikh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com. [2a00:1450:4864:20::134])
-        by gmr-mx.google.com with ESMTPS id u17si2649lfo.13.2022.01.26.09.48.11
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com. [2607:f8b0:4864:20::d2e])
+        by gmr-mx.google.com with ESMTPS id i7si2457265qko.1.2022.01.26.09.53.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jan 2022 09:48:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::134 as permitted sender) client-ip=2a00:1450:4864:20::134;
-Received: by mail-lf1-x134.google.com with SMTP id u6so373241lfm.10
-        for <kasan-dev@googlegroups.com>; Wed, 26 Jan 2022 09:48:11 -0800 (PST)
-X-Received: by 2002:a19:ee13:: with SMTP id g19mr32931lfb.288.1643219291219;
- Wed, 26 Jan 2022 09:48:11 -0800 (PST)
+        Wed, 26 Jan 2022 09:53:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of nogikh@google.com designates 2607:f8b0:4864:20::d2e as permitted sender) client-ip=2607:f8b0:4864:20::d2e;
+Received: by mail-io1-xd2e.google.com with SMTP id c188so511987iof.6
+        for <kasan-dev@googlegroups.com>; Wed, 26 Jan 2022 09:53:22 -0800 (PST)
+X-Received: by 2002:a02:9427:: with SMTP id a36mr11213152jai.259.1643219602187;
+ Wed, 26 Jan 2022 09:53:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20220126171232.2599547-1-jannh@google.com> <CACT4Y+b8ty07hAANzktksbbe5HdDM=jm6TSYLKawctpBmPfatw@mail.gmail.com>
-In-Reply-To: <CACT4Y+b8ty07hAANzktksbbe5HdDM=jm6TSYLKawctpBmPfatw@mail.gmail.com>
-From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 26 Jan 2022 18:47:45 +0100
-Message-ID: <CAG48ez3mfAwgkJp+GKLnbtgQoQVT78U+voRN09H5S=7Ewf+DgQ@mail.gmail.com>
-Subject: Re: [PATCH] x86/csum: Add KASAN/KCSAN instrumentation
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com, 
-	Eric Dumazet <edumazet@google.com>, Christoph Hellwig <hch@lst.de>
+References: <20220117153634.150357-1-nogikh@google.com> <20220117153634.150357-3-nogikh@google.com>
+ <CA+fCnZdUJS=qcTKews9XEgZi8=u5=iHPkDh1MaZryKL45vOKDQ@mail.gmail.com>
+In-Reply-To: <CA+fCnZdUJS=qcTKews9XEgZi8=u5=iHPkDh1MaZryKL45vOKDQ@mail.gmail.com>
+From: "'Aleksandr Nogikh' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 26 Jan 2022 18:53:11 +0100
+Message-ID: <CANp29Y63K326mhX8AVQ+w2PeccUsy9V8uvKO5iR-N6PqaaDUJg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] kcov: properly handle subsequent mmap calls
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>, 
+	Taras Madan <tarasmadan@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: jannh@google.com
+X-Original-Sender: nogikh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=X7xFhQb0;       spf=pass
- (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::134 as
- permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
+ header.i=@google.com header.s=20210112 header.b=i9L6HTFH;       spf=pass
+ (google.com: domain of nogikh@google.com designates 2607:f8b0:4864:20::d2e as
+ permitted sender) smtp.mailfrom=nogikh@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Jann Horn <jannh@google.com>
-Reply-To: Jann Horn <jannh@google.com>
+X-Original-From: Aleksandr Nogikh <nogikh@google.com>
+Reply-To: Aleksandr Nogikh <nogikh@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,25 +132,133 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jan 26, 2022 at 6:38 PM Dmitry Vyukov <dvyukov@google.com> wrote:
-> On Wed, 26 Jan 2022 at 18:13, Jann Horn <jannh@google.com> wrote:
+Thanks for reviewing the code!
+
+Yes, it is safe to access kcov->area without a lock.
+1) kcov->area is set only once since KCOV_INIT_TRACE will succeed only
+once. Reason
+for that is that kcov->mode is only set to KCOV_MODE_DISABLED during
+kcov_open().
+2) kcov->area won't be freed because an ongoing mmap operation for the
+kcov fd won't let
+the kernel invoke release() on that same fd, while that release() is
+necessary to finally
+decrement kcov->refcount.
+
+
+On Mon, Jan 24, 2022 at 11:33 PM Andrey Konovalov <andreyknvl@gmail.com> wrote:
+>
+> On Mon, Jan 17, 2022 at 4:37 PM Aleksandr Nogikh <nogikh@google.com> wrote:
 > >
-> > In the optimized X86 version of the copy-with-checksum helpers, use
-> > instrument_*() before accessing buffers from assembly code so that KASAN
-> > and KCSAN don't have blind spots there.
-[...]
-> Can these potentially be called with KERNEL_DS as in some compat
-> syscalls? If so it's better to use instrument_copy_to/from_user.
-> Or probably it's better to use them anyway b/c we also want to know
-> about user accesses for uaccess logging and maybe other things.
-
-Christoph Hellwig has basically eradicated KERNEL_DS. :)
-
-In particular, on X86, set_fs(KERNEL_DS) doesn't really do anything
-anymore since commit 47058bb54b579 ("x86: remove address space
-overrides using set_fs()").
+> > Allocate the kcov buffer during KCOV_MODE_INIT in order to untie mmapping
+> > of a kcov instance and the actual coverage collection process. Modify
+> > kcov_mmap, so that it can be reliably used any number of times once
+> > KCOV_MODE_INIT has succeeded.
+> >
+> > These changes to the user-facing interface of the tool only weaken the
+> > preconditions, so all existing user space code should remain compatible
+> > with the new version.
+> >
+> > Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
+> > ---
+> >  kernel/kcov.c | 34 +++++++++++++++-------------------
+> >  1 file changed, 15 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/kernel/kcov.c b/kernel/kcov.c
+> > index e1be7301500b..475524bd900a 100644
+> > --- a/kernel/kcov.c
+> > +++ b/kernel/kcov.c
+> > @@ -459,37 +459,28 @@ void kcov_task_exit(struct task_struct *t)
+> >  static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+> >  {
+> >         int res = 0;
+> > -       void *area;
+> >         struct kcov *kcov = vma->vm_file->private_data;
+> >         unsigned long size, off;
+> >         struct page *page;
+> >         unsigned long flags;
+> >
+> > -       area = vmalloc_user(vma->vm_end - vma->vm_start);
+> > -       if (!area)
+> > -               return -ENOMEM;
+> > -
+> >         spin_lock_irqsave(&kcov->lock, flags);
+> >         size = kcov->size * sizeof(unsigned long);
+> > -       if (kcov->mode != KCOV_MODE_INIT || vma->vm_pgoff != 0 ||
+> > +       if (kcov->area == NULL || vma->vm_pgoff != 0 ||
+> >             vma->vm_end - vma->vm_start != size) {
+> >                 res = -EINVAL;
+> >                 goto exit;
+> >         }
+> > -       if (!kcov->area) {
+> > -               kcov->area = area;
+> > -               vma->vm_flags |= VM_DONTEXPAND;
+> > -               spin_unlock_irqrestore(&kcov->lock, flags);
+> > -               for (off = 0; off < size; off += PAGE_SIZE) {
+> > -                       page = vmalloc_to_page(kcov->area + off);
+> > -                       if (vm_insert_page(vma, vma->vm_start + off, page))
+> > -                               WARN_ONCE(1, "vm_insert_page() failed");
+> > -               }
+> > -               return 0;
+> > +       spin_unlock_irqrestore(&kcov->lock, flags);
+> > +       vma->vm_flags |= VM_DONTEXPAND;
+> > +       for (off = 0; off < size; off += PAGE_SIZE) {
+> > +               page = vmalloc_to_page(kcov->area + off);
+>
+> Hm, you're accessing kcov->area without the lock here. Although, the
+> old code does this as well. This is probably OK, as kcov->area can't
+> be changed nor freed while this handler is executing.
+>
+>
+> > +               if (vm_insert_page(vma, vma->vm_start + off, page))
+> > +                       WARN_ONCE(1, "vm_insert_page() failed");
+> >         }
+> > +       return 0;
+> >  exit:
+> >         spin_unlock_irqrestore(&kcov->lock, flags);
+> > -       vfree(area);
+> >         return res;
+> >  }
+> >
+> > @@ -674,6 +665,7 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+> >         unsigned int remote_num_handles;
+> >         unsigned long remote_arg_size;
+> >         unsigned long size, flags;
+> > +       void *area;
+> >
+> >         kcov = filep->private_data;
+> >         switch (cmd) {
+> > @@ -683,17 +675,21 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+> >                  * Must happen before anything else.
+> >                  *
+> >                  * First check the size argument - it must be at least 2
+> > -                * to hold the current position and one PC. Later we allocate
+> > -                * size * sizeof(unsigned long) memory, that must not overflow.
+> > +                * to hold the current position and one PC.
+> >                  */
+> >                 size = arg;
+> >                 if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+> >                         return -EINVAL;
+> > +               area = vmalloc_user(size * sizeof(unsigned long));
+> > +               if (area == NULL)
+> > +                       return -ENOMEM;
+> >                 spin_lock_irqsave(&kcov->lock, flags);
+> >                 if (kcov->mode != KCOV_MODE_DISABLED) {
+> >                         spin_unlock_irqrestore(&kcov->lock, flags);
+> > +                       vfree(area);
+> >                         return -EBUSY;
+> >                 }
+> > +               kcov->area = area;
+> >                 kcov->size = size;
+> >                 kcov->mode = KCOV_MODE_INIT;
+> >                 spin_unlock_irqrestore(&kcov->lock, flags);
+> > --
+> > 2.34.1.703.g22d0c6ccf7-goog
+> >
+>
+> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez3mfAwgkJp%2BGKLnbtgQoQVT78U%2BvoRN09H5S%3D7Ewf%2BDgQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANp29Y63K326mhX8AVQ%2Bw2PeccUsy9V8uvKO5iR-N6PqaaDUJg%40mail.gmail.com.
