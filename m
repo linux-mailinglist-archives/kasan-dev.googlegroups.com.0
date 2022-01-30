@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCKPFB7SXUERBHPH26HQMGQEHRNM6SY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKPFB7SXUERBBHY26HQMGQEYMTXIOQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363414A3335
-	for <lists+kasan-dev@lfdr.de>; Sun, 30 Jan 2022 03:10:39 +0100 (CET)
-Received: by mail-io1-xd39.google.com with SMTP id d70-20020a6bcd49000000b0060d10445eddsf7398084iog.13
-        for <lists+kasan-dev@lfdr.de>; Sat, 29 Jan 2022 18:10:39 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1643508638; cv=pass;
+Received: from mail-pg1-x53a.google.com (mail-pg1-x53a.google.com [IPv6:2607:f8b0:4864:20::53a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 260254A335B
+	for <lists+kasan-dev@lfdr.de>; Sun, 30 Jan 2022 03:46:30 +0100 (CET)
+Received: by mail-pg1-x53a.google.com with SMTP id o20-20020a656a54000000b003441a994d60sf5991133pgu.6
+        for <lists+kasan-dev@lfdr.de>; Sat, 29 Jan 2022 18:46:30 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1643510788; cv=pass;
         d=google.com; s=arc-20160816;
-        b=C4P36SrcDV1oc4JjDvMsj+etsul3GI6/uc7RPbfFeTysFlcc/6Jx1dGvfezq7Irqwf
-         YXr3LgNz6+3ZVRmhtbSq4D4G1KfWxkbulPmqJ9djQ9D9tbtZISTLdrvAHo5nnjQkL+VH
-         f2gHqGzcqkVPVq0GK61SuBZIvJuIlvk+scFrVg5Q09qotHIQ5si0UQWH8RRDKYLC5kSy
-         sHSbLJhf34QXqkmLy9dbMTr+QPMWeyd+xxRR3CnJb7i8mRp0FdcyznkuAIsRl6/4qD8C
-         4/UEs4ohILKs/UU9IyQfgbe9YOa5dJvJgNOZragGU+9ZCOZTI2Wl2Wk+LPeJrpqSwOL0
-         UaTA==
+        b=cCi7qRIheKDk7qc7OLDyWHrIRaMKtbw7/Uxqa7CsP30hxqVC/r8D2S2l4r2wa42KyL
+         oOrObo3Q7rvFNsa54rzD6o3OjQhrrJnhYhkdExT662XvcPl3xMD2e3nwcLoWTpQC6glr
+         h3OCfo8rBI+XoEtBDG+6s91ecm3jb4CLIrwTaFSVtWRxTFzYW3blZLphtQ9jiAqOWnAR
+         rmVJ9mSY5o6+OWjO7l7tnynMlGpqY9Gq8X8R3XMJ8QIt01LggQPBIasBfm4KaFEcn92Y
+         hUP9xG047iK2nlAhbnlPibmnayV5lDhhI00yGovZm6pkyLmpWqMXcoGOQd7DzHxdv9wu
+         0wCw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=DvI+vGEnQTvPV1YfmWt3qKgNGCUpXb1S5DKPYJLl6xo=;
-        b=bZ6mHO4XuoJ/u2twuuVZdCdjAKbTcyn3hmrsCqnHOvdWeJOENE0p6LdYCjgr9euE+o
-         BocK1QhXrKssJzDwdQsWOwn5fDOYFMrACCdHAkrUMp5G+zK6vYQ5ueu2Bq6xjI5Q0n9V
-         BsLrYkluFI1hQquzYuPNQbzhCLTHZpl6bwXtundKWHJCqI+LyIJeZJZy97+4hZSlruYQ
-         eJny/CnCYXTq2jVGjfWAiKO84lg+jjK9hgA8COKfOBJUOG36rllIX3zRbpbcgQ8ilnKG
-         JoZkwLNyrrL6tnCv8aNlyZYxVJ5Y9wHI5FFmvjOkx8pxWkyfKbnQiNfZALQ28cFhIm2P
-         Kq5w==
+        bh=8EOBjAZ+r2Y73r3JORRhGTnKcCIlR5jGvtACC+ri2k0=;
+        b=qcpaBuJd6O5oiolx5FRUQuqYqpv7iCRcD6B1TjndfZWBYTyuiqy/oq65soKjBCacTZ
+         zsebCxkK46EKWT5NnJZRsvIyEW48Y0HfWQl0U1D5KjoTI5vCSrbjPXODBtw/WJzgDXa7
+         4oqtUY3FYdsbm1Rlr6FyT+Ba9FVyLw+DNMWb/QGXxLwOgzOmFtLjneMt5Knjy4rEWSus
+         q4ao8OXlgfan8cCet+kCkvIxc0Oxe3L/N8kVNK8xufQMDKgk/mYogTqO5UC4Swo0qvJZ
+         D5JXx6EXQu57TwAa/sPnJOgr3Tvy1iHShmC0quVHQ3R5ewUqCS2kNjOKPmDg6Zgn6U00
+         6FuA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=IwxTzJnY;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=EacTNH8o;
        spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=DvI+vGEnQTvPV1YfmWt3qKgNGCUpXb1S5DKPYJLl6xo=;
-        b=gcAimwfWX9YcH9RhIO81Vm0OQfTa4tgASvQvx2XGkkX8tvl1R7UIJrdlLLAUFrs0Pq
-         LY5e2rXYk4LuvgCo6QV4ONjXjD3Nt48fQ5r4REYmlraC0xYPRiakVymDr2uNRB2vl0BF
-         rnNPAi2n/8eaLHFK9G/OSSG1x+ema0EcQUPY7R+E6NodgLSulCVcGrcXJVb3Brrq9U1v
-         x8wwR64NxmTQuHO2rW/AKXED+ayQfnIRkWNHMrE0qCuEWvRsWcUagODcvNNf6tIMezPj
-         k+kAwOemlIyZSWC3Ev5lAVH2sEzb+T10evQNvKr5JylJZjI1rgLbPSrF9IzGI2cljRjP
-         9RzQ==
+        bh=8EOBjAZ+r2Y73r3JORRhGTnKcCIlR5jGvtACC+ri2k0=;
+        b=RIqCsvSyQ59WW6P2GdaOGC78kUQBOv7LFYvg1IDEZc7oDfjw4WaMEFQydvr+zGFkCE
+         0Ciz0WNznykyEjDYJMVmFJ/ITLEyuqpMADvsvLzTIuRD+KlU706J8fCko/X67+7h22IN
+         9qwkTdL6G0AZYBrOZM9/DMcbBnKoCpUCNWkoM4IAoLZOhKpi73rm23vZg33gTIPnRr33
+         eHGoVyvGaUTE9lC/vCh4MpLg9YKETvceHG0YtIQkKHS9+R6WPbhi7FKoS2RCgzikeyAb
+         +Oo/j2/4mt8zg/1N8aqHsZEeIH89ch534vp6vB6rRmjp0+yPaVup7y0qjPZbTAW2Qxtm
+         CCoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,66 +50,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=DvI+vGEnQTvPV1YfmWt3qKgNGCUpXb1S5DKPYJLl6xo=;
-        b=2PIYBlvk7l3FcKPMcvVnZsP7HiF9S62UhIgIiIcnHTAo6mATluQAEF4KkyuIkBreXf
-         gPTp7Y7uo6txIvXoFbf8QBGJSEc6dapcgGnBOY5DMm1KHO4aokLcZhEXQJgR1ELG/umi
-         BZ4f0rbAnIabyycTqkkUzU9NRLqIwary2iBrZOtxBHIiZq0zdaaeYCbgJQnYBp0TYDWb
-         aiiFJqdwt4M9sr4Y3NtlOHWr9aDbniNCll2T+ahO/oKu3/r0qoqNUWDojf644hthn+wm
-         cz7MDu+OM7kdELjA3jZhCRVQXonRrY3Ia6i58Zb50LItWcSCIiUbCY1N3DfUS1tuju6A
-         wMug==
+        bh=8EOBjAZ+r2Y73r3JORRhGTnKcCIlR5jGvtACC+ri2k0=;
+        b=lzDmmIkSRdDNeu2HF8mNzZKU1ye9ednohnzcfj3DdfQU93MJ8c15L3NQ9MGZM0uYkB
+         dKb/XEHNyFg8L2sXjdWCs2Fd5C4Riko9p3aRu1Cw5DXaruGMilB34xIp+5uGsb7TODHd
+         d5yprlFBm83xBAB2Ctz0VQN/hH6eDxP4a4StyJUrsUzNXCbKkogPUdx+rW86L2nUUEYe
+         bSpdJq9XsFkqCN3qiWnECx3nBiUutGOfnpXL01hGITlSoRZpCj3alv1o0ULYsquuy5SR
+         9n1TrJ7/1jFulFiurjyJJ6zSwf0mtgVBeB6J3xz8aT2SwANRq4WaIxUC2tvH4+HGMbD+
+         0XQA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531gXffhnheYvaftTnkBc96ZKAsLsk+2Nu5yFUJEQqLNfaafLjAK
-	kRCPwfLpLv9WpZf9wdQv5W0=
-X-Google-Smtp-Source: ABdhPJwnkJCCY/hI931s9dKmMiqzpOo3qC93/FxGdXyZam4RcDnbCypDXUt2W27qL705FRdtdpgxLw==
-X-Received: by 2002:a05:6638:24d5:: with SMTP id y21mr1445906jat.115.1643508638044;
-        Sat, 29 Jan 2022 18:10:38 -0800 (PST)
+X-Gm-Message-State: AOAM532Xdwx7PYbQfMUcTQfthry7UZMlUpPRBnBGUA0PUyMIXBNT/zR0
+	xfHKHOwdpUQm8v07aHhHDnI=
+X-Google-Smtp-Source: ABdhPJzfmISew4+6NE3str4BVAHrKyTeadTYP6CsYRiKK8UZKXR71KxffCspgBiYx6oi091qkeJnyw==
+X-Received: by 2002:a17:902:f681:: with SMTP id l1mr15302236plg.169.1643510788572;
+        Sat, 29 Jan 2022 18:46:28 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6638:d0a:: with SMTP id q10ls2487307jaj.7.gmail; Sat, 29
- Jan 2022 18:10:37 -0800 (PST)
-X-Received: by 2002:a02:a19a:: with SMTP id n26mr8334051jah.129.1643508637747;
-        Sat, 29 Jan 2022 18:10:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1643508637; cv=none;
+Received: by 2002:a05:6a00:b42:: with SMTP id p2ls5428540pfo.4.gmail; Sat, 29
+ Jan 2022 18:46:28 -0800 (PST)
+X-Received: by 2002:a62:d14c:: with SMTP id t12mr14638421pfl.30.1643510787936;
+        Sat, 29 Jan 2022 18:46:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1643510787; cv=none;
         d=google.com; s=arc-20160816;
-        b=ttJNW/1RFY4uT6kOkC5Y8Nyw65dCJImbtXKFGnd8ZTCjH9gdekDewlzf3dlkBTl6HN
-         Uzh/N69+QVG5tMVmjulUtgxmziVNtWsudToYo8FSn0/+xJ1ne2uEtQrSU5UEVpUQ0LYt
-         yaRr4UnkyxxxItXX9bJiw1KVvkmoqEI1+iZ3HIGLJVS1SvjggTNzvgW9Fa4a3tR0lyJ1
-         LKRG3EAm8IGHWM2BsJxNFlEdH+HUqgzYnaSdB0x973jlhhDg1xkbJjgBgl+3efbrG/gg
-         ALT3Pn+Zx8z1lHnyRd0f2gT9JIwk/x671v/IKW7n+ZfcmfLf64kw6SJUH3AvVpSO4yZ/
-         jwMQ==
+        b=q6yxzLtNrY8Xp7aoNfNOQK69eyvrLl72hYIiLUumrIKzKyo0qqSudrj3h4r/WDNQhq
+         6t2Iy57lcFdPfmMJi54RjVn7sf6fW8uhO+QPjH1QZdEcl/2zxwjfwxPWEVz+PXSn2wLv
+         jZQiz3Sk/yiahwVeYNgJkfi5FxK5RrYXxqXRJgj7O9sm1nsvlPZuYRbPIasuG7Y/NaBA
+         0vRO7Ujy15TpuqFL4//oyQR2me9VvJ2XkHj0UyJ74xj3XT2hORSBINBfgiusNl3BzuVk
+         bfnhUVNte2h9xtSR0KOJTAb09GKg3imnSMmdDbNcoRCk534HanuJKVxGJSHK1FHE/+ON
+         w/zA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=xhTMfyrjbAbtJcMYDK7fzUfXvPUd309awCDdI/pLbrI=;
-        b=Ies8zCc1N6r3GpCh/wNKd4xmMhrhsOrBee7Ip+wLHfKzTu3OugQIlYSYqLKpShHEKw
-         yBGB8EVaQa2OnUVVSuLtL9abaDolMQJQReeoYeochiW6Szc93TwAkF06QBx8gFCkwtTU
-         EnEUr8ytWAsFL8QD7069qGrZ5Gs1K+MDGCB/Jm4HLiRCf0ZwGk1xHhW8OAnBp9t/doy+
-         WS1D/r2oIjkuc3QYXbrTI4xMdEya19pjuot8cgqfrUnGh1xjJIDX7vS5CSEBMbJ5vUhz
-         hGr37/e9rhvRjlAbc6cLf5H32z5tdX4Q5WgwKP8Aq1mNKX4lMwFDlmOXDd1pkQ5f9KAh
-         CnDA==
+        bh=pcOcmEb5ngGy0dZAQ9mUDW+ZAjVj+zk/0lR2PgFjLiE=;
+        b=pi4UVFsBNIg1C9V3PZvOqKRXqA/4ihBplDZEMzWc4LFxtw5zJzXU7dx+52fsVXlKwI
+         Kri2MCIn8fkXQKGLi0KjXxbIP6n0cOkZS6ztCpnbpm+dlvMCC96A/2yy7V1QPoZK1laZ
+         Kni+3g0pHZoMa+Gcgc29SwgTm52yq4QY3Sjvb1EacmSx5YHV1TzrX6DMBJSU8uPsNgzM
+         QPyZzRJWDLFd+DEOXggdqIzLty2aFtnqhVP04Numct0SwKhoKuSzK8LcT7vrcxqhz7Il
+         nLgWCLQb+Ytb2k2kVYBoOaMS1iU6jnlslCoQ9a16wIAjpVb0ElF+u+nUx8rSUwsnAJ8u
+         VgUA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=IwxTzJnY;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=EacTNH8o;
        spf=pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id ay13si1269032iob.4.2022.01.29.18.10.37
+        by gmr-mx.google.com with ESMTPS id gd22si369708pjb.1.2022.01.29.18.46.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 29 Jan 2022 18:10:37 -0800 (PST)
+        Sat, 29 Jan 2022 18:46:27 -0800 (PST)
 Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-Cw25cyrBM72GK8TGlt1RNA-1; Sat, 29 Jan 2022 21:10:33 -0500
-X-MC-Unique: Cw25cyrBM72GK8TGlt1RNA-1
+ us-mta-43-_VSw3NT0NqiU6JSdBclvyA-1; Sat, 29 Jan 2022 21:46:23 -0500
+X-MC-Unique: _VSw3NT0NqiU6JSdBclvyA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4689D8144E4;
-	Sun, 30 Jan 2022 02:10:31 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E504E1F243;
+	Sun, 30 Jan 2022 02:46:21 +0000 (UTC)
 Received: from localhost (ovpn-12-238.pek2.redhat.com [10.72.12.238])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EDBDB5445E;
-	Sun, 30 Jan 2022 02:10:08 +0000 (UTC)
-Date: Sun, 30 Jan 2022 10:10:06 +0800
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C83412E34;
+	Sun, 30 Jan 2022 02:46:20 +0000 (UTC)
+Date: Sun, 30 Jan 2022 10:46:17 +0800
 From: Baoquan He <bhe@redhat.com>
 To: Tiezhu Yang <yangtiezhu@loongson.cn>
 Cc: Jonathan Corbet <corbet@lwn.net>,
@@ -118,20 +118,20 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Marco Elver <elver@google.com>, kexec@lists.infradead.org,
 	linux-doc@vger.kernel.org, kasan-dev@googlegroups.com,
 	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] docs: kdump: update description about sysfs file
- system support
-Message-ID: <20220130021006.GA29425@MiWiFi-R3L-srv>
+Subject: Re: [PATCH 2/5] docs: kdump: add scp sample to write out the dump
+ file
+Message-ID: <20220130024617.GB29425@MiWiFi-R3L-srv>
 References: <1643370145-26831-1-git-send-email-yangtiezhu@loongson.cn>
- <1643370145-26831-2-git-send-email-yangtiezhu@loongson.cn>
+ <1643370145-26831-3-git-send-email-yangtiezhu@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <1643370145-26831-2-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1643370145-26831-3-git-send-email-yangtiezhu@loongson.cn>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Original-Sender: bhe@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=IwxTzJnY;
+ header.i=@redhat.com header.s=mimecast20190719 header.b=EacTNH8o;
        spf=pass (google.com: domain of bhe@redhat.com designates
  170.10.129.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
@@ -148,36 +148,40 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On 01/28/22 at 07:42pm, Tiezhu Yang wrote:
-> After commit 6a108a14fa35 ("kconfig: rename CONFIG_EMBEDDED to
-> CONFIG_EXPERT"), "Configure standard kernel features (for small
-> systems)" is not exist, we should use "Configure standard kernel
-> features (expert users)" now.
+> Except cp and makedumpfile, add scp sample to write out the dump file.
+                                      ~~~~~~? You mean example?
+
+I think we just give example here, but not list all cases. seems
+adding scp is nothing bad. Anyway, except of the concern for 'sample':
+
+Acked-by: Baoquan He <bhe@redhat.com>
+
 > 
 > Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 > ---
->  Documentation/admin-guide/kdump/kdump.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  Documentation/admin-guide/kdump/kdump.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 > diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-> index cb30ca3d..d187df2 100644
+> index d187df2..a748e7e 100644
 > --- a/Documentation/admin-guide/kdump/kdump.rst
 > +++ b/Documentation/admin-guide/kdump/kdump.rst
-> @@ -146,9 +146,9 @@ System kernel config options
->  	CONFIG_SYSFS=y
+> @@ -533,6 +533,10 @@ the following command::
 >  
->     Note that "sysfs file system support" might not appear in the "Pseudo
-> -   filesystems" menu if "Configure standard kernel features (for small
-> -   systems)" is not enabled in "General Setup." In this case, check the
-> -   .config file itself to ensure that sysfs is turned on, as follows::
-> +   filesystems" menu if "Configure standard kernel features (expert users)"
-> +   is not enabled in "General Setup." In this case, check the .config file
-> +   itself to ensure that sysfs is turned on, as follows::
-
-Nice clean up, ack.
-
-Acked-by: Baoquan He <bhe@redhat.com>
+>     cp /proc/vmcore <dump-file>
+>  
+> +or use scp to write out the dump file between hosts on a network, e.g::
+> +
+> +   scp /proc/vmcore remote_username@remote_ip:<dump-file>
+> +
+>  You can also use makedumpfile utility to write out the dump file
+>  with specified options to filter out unwanted contents, e.g::
+>  
+> -- 
+> 2.1.0
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220130021006.GA29425%40MiWiFi-R3L-srv.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220130024617.GB29425%40MiWiFi-R3L-srv.
