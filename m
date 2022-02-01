@@ -1,135 +1,125 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRB45C4GHQMGQEHEDN2OA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBKOE4OHQMGQEOXPMTTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AFCB4A5137
-	for <lists+kasan-dev@lfdr.de>; Mon, 31 Jan 2022 22:15:33 +0100 (CET)
-Received: by mail-pg1-x53d.google.com with SMTP id 127-20020a630585000000b0035de5e88314sf9189222pgf.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 31 Jan 2022 13:15:33 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1643663731; cv=pass;
+Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C944A57C4
+	for <lists+kasan-dev@lfdr.de>; Tue,  1 Feb 2022 08:32:59 +0100 (CET)
+Received: by mail-oi1-x23d.google.com with SMTP id ay31-20020a056808301f00b002d06e828c00sf1461015oib.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 31 Jan 2022 23:32:58 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1643700777; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Mlb8vhDwNHqpOTJULtnqUdA7ZbV/TDjajHxlZd7LfllU5cQVvXGCqyoHtwlgnMMyCo
-         kwa/uj4R4q4Nz+EOCvvfNv7loFYf8Djl6PvPGIhxw6MQx8KwhvP+n9ivTd3w7qFTmoQo
-         CWtw6iUdESLGoS608KgNA8N4zZoNbgueho5eKUg6rSlQjU9ag+uza7ff90A8f5JPPlUA
-         4h7Vb6lObmJpN2edb5cVk5UxoUvws2HGL5RwNjarOFo68028waZmb8F7GKgqrE91G2Bc
-         s+qTiIGCV3YzfnGedUmptZAETbyDwjf0/FGJn+Qrt7qG0uh1e+NA2+fnRQSFYWJHTuMV
-         wpuw==
+        b=VP7FCt5Lan+zZ8XdNUEEohTpA0/9JnPzi3taSzYWIZpkzw6wyPSyRJ0IbXRzJzxxyo
+         s1fiCQZnT3WmrKjZUueL5y5O/h0QerBjT1ghjYBbIVK4QRjtAp6X5YcJSdo0FUeypFa4
+         bQzRprl/Zk+tH5oRencjGkuOw+jsetBqJR8vpg7Mw+RCDRbwe+LROt7ip+xx1zbdoHMm
+         cyj7sN3WdQh1TleS0MBplvYE6lHeqLfdwquB/617sYX5aH5RHP0HhY2eXfjE+ixpboiD
+         sLUkFDP4gp9G0y+EnwreLjr7IpSTQI2x1VrqttOUXSbORaYyJSkwcVHVrhjE5os6vcYg
+         fwBA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=TZe6f2ZoLsH1ILYMTXVAAmawDBVoP2ypBmT/WgkAWLE=;
-        b=V1XFIEQhVacXaG47bE05pmf4ZJ27tS7D8p3AQ0l6mS588kzGZvCjg/Vd6OXXkC0wuL
-         JIQmhMOiJXFYz3D9tK3cHQ7748r0I1kJUKNOX49FBnE1e1gD8fF2KwiQNngAtZYsT9h7
-         Z7fQIMlK5nLHUkQHJYpbHUvQ0IzXoTAm8cN/lpGje99JA+MN+QX9ZItFEIdSgtigvN/p
-         hKYSeJ9CZJ1L/kQd7ym3YFV6dbti+Aj4d8sUstuKSdihkfj4I2j9l5QviARWA1nsgfR5
-         Ao9d4mL5yzw8EytVJkx01FVF0adfDNSVa4SEp1qkn0w+hiMBMmdhqXopPCw+HzJ3U217
-         cosA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=zrSqHrb5EoFp2APecX8E2Sw1qw86/cr96z+sNxnAgcw=;
+        b=lb5szp2SSSW8HBTBKOKja77OzAr6XdlEpr2dGvj5ipz3VGk2SuaX89tjk4Swcsr/f2
+         qm9Dh2NcOkh4vk7fv0EgEHJnN3zRuDOnbt+2PlMcBQ3V36jLTpF887wAEWHzDJAMZHgX
+         es/Zz6qp4O2/bX/CnDI5uOn5VNGNeLZ8wgNN2NOCdw6JsHGrnHsr4f9+FCgEjCDpXW1q
+         DVfT1IsnirHAyAWqzKdAqW7xr/DCsl4KZfHtGeD3VQ8qa87OsVJSFlmXV0Zewl5glm0M
+         vvGZIEW0WSdT8o0bLJ2l63lBiDce4Td3ytkIE37NwsNYX7OVdXjHBoCPeVoA7wBubB4k
+         2xfQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=Qo7cE3pl;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62f as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b="LJlQ0q/u";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::32c as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=TZe6f2ZoLsH1ILYMTXVAAmawDBVoP2ypBmT/WgkAWLE=;
-        b=Nbj44wWXftjXZ1zvekzc9LM8OPI/CFqMdtAI6/Da6qk2XHM4WyqbxV8k0iNBLUw8Hx
-         n5m+bGQqIkHDAgANxKU7vW4Ym55haYwfvQbJztdn6CFwqS7sarpmsydSXTH52yMqDo1j
-         BigqPMtpCIs3QEX4CO9AgAzhBoCcsXvl6NiQAmOKrPaWtmp0vmWdn417bZy9dxXoNBRA
-         6Px6wX8z8QMpK59Ilq1cGWdecxgoAldZfaWeYXPG/D7wmuGC+IRarss3iwGpeNY9wdnB
-         EdXUMzl5l2vgjq52skUCvL/nWFrSXJdQULRyyVWiLW1Z1z+UyxJPGSrvdMwVex5JChri
-         pPqA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=zrSqHrb5EoFp2APecX8E2Sw1qw86/cr96z+sNxnAgcw=;
+        b=MYtL1nxDgWBpz1IhQuSFhuIth1I3kgKV1Tx9uYQsLFyamgcZ7SS0WFftMg9uXtBAhY
+         500lTUbOxWEqU79HLLxVNAExTtzl6lSJ2fUJNCbnQidpOsEXHtkp/4VGU33kx4kiH2TV
+         fPecLNgfEcnfkKQVnsqS4tmdrVTEhdvdYdvKk2RqBjNc1uW5Kl5Q65p9qqc0wRt5t5Zg
+         wyavxnu1Ye6qh0lvtmFhqya4drcfQamYLtfDK3oPvvbhAwQm1UKhOHfpNe2pRJehIMvJ
+         Z9xmnze52yCODCu/g3wx4xV7J9tvpsyFKf0JdPZTRnSte8b0njXTCFjgfrfOmwUHSppP
+         an5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=TZe6f2ZoLsH1ILYMTXVAAmawDBVoP2ypBmT/WgkAWLE=;
-        b=Qh4gfGNq8vc5Dp1uyaBNAs8R4JdWAnifayKWCqRpeB67hlLrEEUqtHes+Om6xfuSfu
-         AAEAHtSgUjIsN0z5r3vHgIwR1TtF+RzrDn3EzMb7JJLrAnnoLrUUS/e4e03cTxlfySAZ
-         dUtGyNeg+ie+crUudcgbfFnIIrRFCHuPUn7b8WG0Mm+GPB9xZ/M5EGGpkKYUCwAyq/vL
-         w0uRT3DFLjvmxxzsYsg0f1EI1nRAACbEiMQLmbwxWqZXwms+YDrvjj/oiNRxVmbZckzG
-         fRTywpbfJnUbxI2fGubnJg9M2Axrni1zBb9yTTlSfg8D9RaXwmfhs9+XhQiluydGz72W
-         8wsg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530v+3NDe5gJvxsx5Ntuu7rZBkZbv2sfjHlSW9zF6ej+VSx/quHE
-	o+j47WcA+Ke2q8aovzxO3x4=
-X-Google-Smtp-Source: ABdhPJzjhzy2KcUu5XfyEifjzw7htFLIi9tSLDpHHUwKcIG6nQ1oo+LK+7zeNRXLaU+ptq4RL9L8gQ==
-X-Received: by 2002:a17:902:6942:: with SMTP id k2mr22093823plt.133.1643663731302;
-        Mon, 31 Jan 2022 13:15:31 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=zrSqHrb5EoFp2APecX8E2Sw1qw86/cr96z+sNxnAgcw=;
+        b=q1AkN9WcpKBHNUJdjpDjsovOhL6JdACZ6Uszled2WL64tY23GPBQbzWtGl29HmTk1J
+         FtvcduveuSjFC61+0TNAhfcZpphsRjAwL4ppaSlE8Op8NrfaJP0HCW592/8LQRcbqLQ2
+         EeQMdyt32r73wi1fh80OhqvSBEYYHCO55FTCq3XpuyDTPTb16j3EgDCXJbyeC0k3zJBU
+         3ohyevjoCX1pkwnfsgO3fQNGVjybSCAmVSHWTJ/jdAXxa9Mt5UYn0d6PuH9/mjg+zveO
+         CHjHwisjckP7wrISq++pWxwi+t++yPrXBUWUN0+0ulddgTXxSLJv5ni9JhsJbsvx58Hf
+         ahtw==
+X-Gm-Message-State: AOAM532AvPSLQ1bTNEq5ZsumqQJJvssCueClrtuTlqBWH8DdwHgNhXlR
+	B9lNKNH9QImMIM8NwaewKto=
+X-Google-Smtp-Source: ABdhPJzh3NG9p9tcAxRn24Xmycx6pEgZWQkz1JPLjFoHOwqFkXUozCIpSTdLL/wx3Ci9kYeB2RlSQw==
+X-Received: by 2002:a05:6808:14c1:: with SMTP id f1mr431794oiw.12.1643700777718;
+        Mon, 31 Jan 2022 23:32:57 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:6a11:: with SMTP id m17ls5913762pgu.2.gmail; Mon, 31 Jan
- 2022 13:15:30 -0800 (PST)
-X-Received: by 2002:a63:e04a:: with SMTP id n10mr18506983pgj.487.1643663730707;
-        Mon, 31 Jan 2022 13:15:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1643663730; cv=none;
+Received: by 2002:a9d:2017:: with SMTP id n23ls3525538ota.8.gmail; Mon, 31 Jan
+ 2022 23:32:57 -0800 (PST)
+X-Received: by 2002:a05:6830:40af:: with SMTP id x47mr5045923ott.362.1643700777385;
+        Mon, 31 Jan 2022 23:32:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1643700777; cv=none;
         d=google.com; s=arc-20160816;
-        b=v70L9ilWcxd1z/qbahTOrpEcC0SmAyoImJJArONo/9JmKdLtQSpI/XxVbyNwQ1WSYE
-         UrUOfWyau8TjSHkMdulPIXJ70JTGl4gOG+IAlq3Zn8FgyRhMAR2YgCUDY5j7Sg6JObu/
-         eQmZWEeAke7tSYSA+iiN+pktMG7omRpsd/GhmWQjIZYomGnWbkvIa+IwliupLYsBg1xx
-         fLoKuaTZkSbYxBQUrT5ZAW1QylYmrubd2x3tjYWJtq7t7V5U3biMb+ZPXyzmfHQ3N6/R
-         WwRVTd2IZ9UwcIHSaQUb5JCQad3shf6ZbjStErxWfhfw33phkv35aCK1avDJf6pM0BnB
-         XQtA==
+        b=Vg3ARxQZiu256h8gMZ0hODUCFeNPkn+3yIvV4kaWlqomTaa0BZlOB7KfJCtgOfxf+Y
+         AEPJu9xRfDJ2xRkf+cNh0/0Tz6pV0GMO8K+VQPs+VMTXorUGV+xIWZiJ2ac8Tm1cwdOa
+         xVX0mDSf4ggJn3KBnu0Zu0zgp2+CFhyu5MUi9h9Q9if5iLor+fgZ+ovOfPHnrj+85OeI
+         v1+RCJn1OFzmeWejQqsqjWwoMPIZY/mfv5zkDGzbuS6ZOGzmOgEkzMD9mBVaLA0jXx9U
+         J3Rp96Zps0KUrl4kop4XdBn+v/SIEKd9PltxuT8B0Y3tZy/yeQR8LMiJDIJ4BQ2SrIU3
+         /Pmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=cxXm9S9rBUGO+n/qf1n3on2rs5DZHI4UmQ2+ms2iYP4=;
-        b=i1JR1cVcbr8z6KhRXuXpg8SDrvc+MmQ7r2nuAt/JOFJu4gAIukIDgCkbCCDDpHSB4L
-         rIjr0se8tzcfIqX/4HmZrNh/ons2peQqgTBqQvdhQpZjMnG7a3m0PdJwlc5J9hjGQCTa
-         qu/ouJ+jZK3X9bAnvJo+G/bSIPSaRalKcmzLvx2FbefjF4b+xveyytQX1UYcf+vdi7U8
-         fVyrz/r9rgzTExuM16CTBDWO7D6hmxR20ORY7qq2xPodBghbLO34j6u5nr/y8wRW0N31
-         Wem0BHuBoms/VFl1QGd86WfmNCYZLBGAhehdJpP09EygKDIx6Z+deQIZqfA49V18jLEF
-         CfpA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=IJSDBj0HvFrkS4TLKuPLvlZS13YusH/7w8kLNZ4wxGA=;
+        b=dkFb3nZJy2CFfbDmUIm8QLqUvV+PE2pyVuChUF8zjE0OZQx3IOW23Qc4ofikqvrvSM
+         n4FxPtuJobAGvi4/yjXTHPL0De4ETqenD9zPz+6jOdq58xKa2v33czEHtlxGjHRTDFMn
+         hSILjzJOyJxQuTzyMslEejuojm4kp1yFRmFj29y4GiLbcRnVUp0ESde6EYM1tyfBtBlj
+         uYeqlm5L9flnaXHHZ0J5A3B8LD6sKSKkhLCcjcxhF+O3otQz6I+C1SmLfOvWadRrdKkU
+         oYdv/A+vPZ6kt0ApaisZm3x8uK+8VqGqujD7WEFhwPfdmm6H9m1pJfaDnT3kEv8MfwNw
+         Xj1w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=Qo7cE3pl;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62f as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com. [2607:f8b0:4864:20::62f])
-        by gmr-mx.google.com with ESMTPS id ck20si69805pjb.0.2022.01.31.13.15.30
+       dkim=pass header.i=@google.com header.s=20210112 header.b="LJlQ0q/u";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::32c as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com. [2607:f8b0:4864:20::32c])
+        by gmr-mx.google.com with ESMTPS id u43si2186861oiw.2.2022.01.31.23.32.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 13:15:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62f as permitted sender) client-ip=2607:f8b0:4864:20::62f;
-Received: by mail-pl1-x62f.google.com with SMTP id h14so13662435plf.1
-        for <kasan-dev@googlegroups.com>; Mon, 31 Jan 2022 13:15:30 -0800 (PST)
-X-Received: by 2002:a17:902:d509:: with SMTP id b9mr22602105plg.3.1643663730410;
-        Mon, 31 Jan 2022 13:15:30 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id mi18sm219840pjb.35.2022.01.31.13.15.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jan 2022 13:15:30 -0800 (PST)
-Date: Mon, 31 Jan 2022 13:15:29 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Marco Elver <elver@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Elena Reshetova <elena.reshetova@intel.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Alexander Potapenko <glider@google.com>, llvm@lists.linux.dev,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] stack: Constrain and fix stack offset
- randomization with Clang builds
-Message-ID: <202201311315.B9FDD0A@keescook>
-References: <20220131090521.1947110-1-elver@google.com>
- <20220131090521.1947110-2-elver@google.com>
+        Mon, 31 Jan 2022 23:32:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::32c as permitted sender) client-ip=2607:f8b0:4864:20::32c;
+Received: by mail-ot1-x32c.google.com with SMTP id n6-20020a9d6f06000000b005a0750019a7so15401653otq.5
+        for <kasan-dev@googlegroups.com>; Mon, 31 Jan 2022 23:32:57 -0800 (PST)
+X-Received: by 2002:a9d:356:: with SMTP id 80mr13762561otv.335.1643700776891;
+ Mon, 31 Jan 2022 23:32:56 -0800 (PST)
 MIME-Version: 1.0
+References: <20220131103407.1971678-1-elver@google.com>
+In-Reply-To: <20220131103407.1971678-1-elver@google.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 1 Feb 2022 08:32:45 +0100
+Message-ID: <CACT4Y+Zcg9Jf9p+RHWwKNDoCpfH-SBTzPpuQBBryyeopMONmEw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] perf: Copy perf_event_attr::sig_data on modification
+To: Marco Elver <elver@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@redhat.com>, 
+	Namhyung Kim <namhyung@kernel.org>, linux-perf-users@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20220131090521.1947110-2-elver@google.com>
-X-Original-Sender: keescook@chromium.org
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=Qo7cE3pl;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62f
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+ header.i=@google.com header.s=20210112 header.b="LJlQ0q/u";       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::32c
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,53 +132,75 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jan 31, 2022 at 10:05:21AM +0100, Marco Elver wrote:
-> All supported versions of Clang perform auto-init of __builtin_alloca()
-> when stack auto-init is on (CONFIG_INIT_STACK_ALL_{ZERO,PATTERN}).
-> 
-> add_random_kstack_offset() uses __builtin_alloca() to add a stack
-> offset. This means, when CONFIG_INIT_STACK_ALL_{ZERO,PATTERN} is
-> enabled, add_random_kstack_offset() will auto-init that unused portion
-> of the stack used to add an offset.
-> 
-> There are several problems with this:
-> 
-> 	1. These offsets can be as large as 1023 bytes. Performing
-> 	   memset() on them isn't exactly cheap, and this is done on
-> 	   every syscall entry.
-> 
-> 	2. Architectures adding add_random_kstack_offset() to syscall
-> 	   entry implemented in C require them to be 'noinstr' (e.g. see
-> 	   x86 and s390). The potential problem here is that a call to
-> 	   memset may occur, which is not noinstr.
-> 
-> A x86_64 defconfig kernel with Clang 11 and CONFIG_VMLINUX_VALIDATION shows:
-> 
->  | vmlinux.o: warning: objtool: do_syscall_64()+0x9d: call to memset() leaves .noinstr.text section
->  | vmlinux.o: warning: objtool: do_int80_syscall_32()+0xab: call to memset() leaves .noinstr.text section
->  | vmlinux.o: warning: objtool: __do_fast_syscall_32()+0xe2: call to memset() leaves .noinstr.text section
->  | vmlinux.o: warning: objtool: fixup_bad_iret()+0x2f: call to memset() leaves .noinstr.text section
-> 
-> Clang 14 (unreleased) will introduce a way to skip alloca initialization
-> via __builtin_alloca_uninitialized() (https://reviews.llvm.org/D115440).
-> 
-> Constrain RANDOMIZE_KSTACK_OFFSET to only be enabled if no stack
-> auto-init is enabled, the compiler is GCC, or Clang is version 14+. Use
-> __builtin_alloca_uninitialized() if the compiler provides it, as is done
-> by Clang 14.
-> 
-> Link: https://lkml.kernel.org/r/YbHTKUjEejZCLyhX@elver.google.com
-> Fixes: 39218ff4c625 ("stack: Optionally randomize kernel stack offset each syscall")
+On Mon, 31 Jan 2022 at 11:34, Marco Elver <elver@google.com> wrote:
+>
+> The intent has always been that perf_event_attr::sig_data should also be
+> modifiable along with PERF_EVENT_IOC_MODIFY_ATTRIBUTES, because it is
+> observable by user space if SIGTRAP on events is requested.
+>
+> Currently only PERF_TYPE_BREAKPOINT is modifiable, and explicitly copies
+> relevant breakpoint-related attributes in hw_breakpoint_copy_attr().
+> This misses copying perf_event_attr::sig_data.
+>
+> Since sig_data is not specific to PERF_TYPE_BREAKPOINT, introduce a
+> helper to copy generic event-type-independent attributes on
+> modification.
+>
+> Fixes: 97ba62b27867 ("perf: Add support for SIGTRAP on perf events")
+> Reported-by: Dmitry Vyukov <dvyukov@google.com>
 > Signed-off-by: Marco Elver <elver@google.com>
 
-Thanks for the tweaks; this looks good to me now.
+Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 
-Acked-by: Kees Cook <keescook@chromium.org>
+Thanks for the quick fix.
 
--- 
-Kees Cook
+> ---
+>  kernel/events/core.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index fc18664f49b0..db0d85a85f1b 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -3197,6 +3197,15 @@ static int perf_event_modify_breakpoint(struct perf_event *bp,
+>         return err;
+>  }
+>
+> +/*
+> + * Copy event-type-independent attributes that may be modified.
+> + */
+> +static void perf_event_modify_copy_attr(struct perf_event_attr *to,
+> +                                       const struct perf_event_attr *from)
+> +{
+> +       to->sig_data = from->sig_data;
+> +}
+> +
+>  static int perf_event_modify_attr(struct perf_event *event,
+>                                   struct perf_event_attr *attr)
+>  {
+> @@ -3219,10 +3228,17 @@ static int perf_event_modify_attr(struct perf_event *event,
+>         WARN_ON_ONCE(event->ctx->parent_ctx);
+>
+>         mutex_lock(&event->child_mutex);
+> +       /*
+> +        * Event-type-independent attributes must be copied before event-type
+> +        * modification, which will validate that final attributes match the
+> +        * source attributes after all relevant attributes have been copied.
+> +        */
+> +       perf_event_modify_copy_attr(&event->attr, attr);
+>         err = func(event, attr);
+>         if (err)
+>                 goto out;
+>         list_for_each_entry(child, &event->child_list, child_list) {
+> +               perf_event_modify_copy_attr(&child->attr, attr);
+>                 err = func(child, attr);
+>                 if (err)
+>                         goto out;
+> --
+> 2.35.0.rc2.247.g8bbb082509-goog
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202201311315.B9FDD0A%40keescook.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZcg9Jf9p%2BRHWwKNDoCpfH-SBTzPpuQBBryyeopMONmEw%40mail.gmail.com.
