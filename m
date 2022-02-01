@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBUGE4OHQMGQEYOBXF6A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBYOE4OHQMGQE3JBYHRI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40734A57C8
-	for <lists+kasan-dev@lfdr.de>; Tue,  1 Feb 2022 08:33:38 +0100 (CET)
-Received: by mail-pf1-x43a.google.com with SMTP id z29-20020a62d11d000000b004c8f0d5dec9sf8728460pfg.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 31 Jan 2022 23:33:38 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1643700817; cv=pass;
+Received: from mail-io1-xd38.google.com (mail-io1-xd38.google.com [IPv6:2607:f8b0:4864:20::d38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D244A57CA
+	for <lists+kasan-dev@lfdr.de>; Tue,  1 Feb 2022 08:33:55 +0100 (CET)
+Received: by mail-io1-xd38.google.com with SMTP id h1-20020a056602008100b0061152382337sf11939272iob.18
+        for <lists+kasan-dev@lfdr.de>; Mon, 31 Jan 2022 23:33:55 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1643700834; cv=pass;
         d=google.com; s=arc-20160816;
-        b=m5X1v1+hXSFGbpckB4qDW8WuEUS7ENLkctnU0YShVVeoYXpTCVxm8Kv4eRa4KAVZZV
-         kP8bQbXKZkMpUZkK0i6O+oTZb6I6+/+4BFhvkfz0YQk6XuFatvu39y9+dTSLzq2VH7A4
-         3nudo7QqRcqsw09rPljdjNW6qDGHLfnrIVa9GitWaHhYy3WZ+cW3WrGN2jEb2AYKR6PM
-         +s7jVYd93SO/ui2bXdZludBW3ZaMIazAWusHvLsSt0OI9pUmmkQc97rwwug0cHGYwWdY
-         HyhsbW2r1hvYfWpYWwkec7VnkVQXxzNMv3kNxfK9+2uupisAoVwrzEbE4o7uMJnklYwO
-         /1ug==
+        b=yTqmTnobaBblsDmLTyXuGtPYkbGvFLhjGih8VbAzuqE/wW/gh6TJBG6jw88Zaph7W2
+         7Vds64ViWWtEfYQ0MQbDHrrv4wu77GoDCxPbuy0lPtwOrHWsT1ZR10lL3Vb0Xa0uXShB
+         5AqVi4HK98k6MAfl5uk4o88SlUwinxJYbLlZZqo9KNpvP3wDRigQ+WEte1Z9oL04bWW2
+         cXS+zQT9AMKapqNm8IgcSuBPsQF0Y98JvqHaBtf2bO+QSbAj8u2PPZUYksMeyOKlJq9b
+         +prQa2A+kp9AfLWwNlWcANU415IyiB05VzDHEp03snR0ugIjtse4Rp373/EFjsBLd1CQ
+         WRJA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=2FsuoMYe4KDVjLA/8FGPo1OKSAv5gtoXi8MIglDfGho=;
-        b=o44/UAyh3GxCizOJQItrQqCLyK/2eNODReMBVMgdTo4uXDQRJ88yJ+3jVKA3IMjw2s
-         AXlIdsp9SBfM7+EeOr9VolDID7TFdqD6aKmS8IsE/+UXICZCWdp5uX2Q3aXTXoEpFzxJ
-         CN0YjQjM+2HD/5kcI0knc0kdHdo7JxNIStDNaTurpQ27PZ3r785HBfqgOASoLAAjfPoA
-         FT2dfuACon4XpbJD+3aLRGFTMrKabNMiWTz2s9MT3swbMVj9wdrQm4VXWDtNsuGFgV6/
-         /heqg5jTF2hN9LGcyyFFilKko9+1GmzljmzQLJLFAXXV2Tonq6bZHUGBTrC1JhgqJQRO
-         2W1g==
+        bh=JM+oQm937vPs17/8EUhSQHbqKjsLtfvmOj40AkWus/A=;
+        b=HVwUcrHTsKY59L1ZoaHr+b185kQaIpSc6KqKI3TF89CasR/S7t08sbs0P3DxeCwoIP
+         rLE/cX77Bme5bX36bRtPuqub0IDJuZftRr5ZcFw3D0+6U4Z1IRRHuAeY2MOuxlXL5eCo
+         jV49ArOwhT6sbeEtjrjGBhMLIodIs2Pk5DN+yPNBSMZqncl+XZwMjSlMg17Kv9dvQgTo
+         ziMHSRAs/ANvBvsHaxNpc/a5FE3nruRdkvEu9iRi9LUf9K81X6IUt2zp4Gs1htIHcxR0
+         oCdAlClgXAKlgOrHq1A8XZilFNzsgVoweG7BdQh9AB8AjO/A1g5VXL7jA7CG7kcgi6ex
+         xU1g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=haoGVsVQ;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::230 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=aNQ2P6FI;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22f as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=2FsuoMYe4KDVjLA/8FGPo1OKSAv5gtoXi8MIglDfGho=;
-        b=BubY9aZQJvYfDWXjX0aJSj+zuekcyC+uflJWz3fNSMFA+XPJHWTYQGgkDK56kwKGej
-         wEJc0pxqap10pXVZMa7h/NVVPzXMmeJpT/fyQTe7WSbJnqIA2QVUYz+CpIOAylOxPZ8K
-         Rx6CxYyE/eLZLidhzAmSEgBL3Rqw163u9jLFkJ2hIykVuNx80k0QhT6GI8HRXCUxzXMq
-         AuDC+RZzJpiUNBNjQiI6cTIHrOvSenah1XUWQgAcGjNB446CjqLQdgRbTAx19Ds+m/SP
-         Z98mwvT2qKU3JuElU54Wg/LRwhXAX2IzASCjbU/tDHJP68IPMODKPHadDUlTHFmj9uHX
-         8krQ==
+        bh=JM+oQm937vPs17/8EUhSQHbqKjsLtfvmOj40AkWus/A=;
+        b=MCDfRNvGCUlyWKeEBa4lMq/9McYdduWA1WlRV5g7MFEcAXZVat6Ck9Uf7qb2nBd7Qc
+         rSScB23YYKgdcBtoTMXC1zKVPDX7kJRvZ8PGIqqc/emtl+Bev9BKUZFGa+j0lKz5bn8s
+         tyHKTxaTW7L9K7MqKe7d4XNHVViAdoXPNe42Xsddyxn4zkKGys2JHxTupg+xWgaSjBM4
+         3NU1RMZH+psZLhjND95JgwBTy0oI6BLEXknIVxX7VggITfntxEqIkZ0C0RIL870yBDWV
+         xfGJJbAwEPqjSNiTmuQpev6d16XDiOH2bxTEzxg2Hx4Eec4S/WmpxAq6KYH9qa7KaAPX
+         0BUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,62 +49,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=2FsuoMYe4KDVjLA/8FGPo1OKSAv5gtoXi8MIglDfGho=;
-        b=hC9EG1ur8SfF+bWc/WJ1ilthglvXrz6GENgBxdTYiXu6njfFAvzgEPHYCvNQbFPwsr
-         Ww3YuW9aV/WtFZO7KLW5bjGlFdgxUys1gqRZj60yo5QixCzhBkQ0TeRLyzfo6dxOG0XC
-         K7Z8c6KUhB0fBmaXNCuCilg2QeO/M716X+wKJ+bVVMuIgrbMhY0a48SRm5x/av70grkQ
-         mt8hackX0PrFvTIZaCujs9+o10PNpuMwmC2z1M3swdYvRepa1hCUdd/bzIGvbar1rdzD
-         5E1OJSHlachA95zu4dvremD2WVqOcTvZsh9l0ojvEaJYE73eSZop3v8AWRBxF1vNGrwa
-         Uu+Q==
-X-Gm-Message-State: AOAM531fViUI2YLuRZB8+zd4hSQcqyIXTENV9xWnzAIB57YSvficyTjd
-	tXD3F2h822GrN5862DboOrE=
-X-Google-Smtp-Source: ABdhPJw8uwnlON/fiEK7Bale1aKgjXG7feb4I0L/QB9MJpk059Ulc+3cbOhfyKpq8GCBwNc0HXXvdQ==
-X-Received: by 2002:a05:6a00:8d2:: with SMTP id s18mr23353074pfu.5.1643700817099;
-        Mon, 31 Jan 2022 23:33:37 -0800 (PST)
+        bh=JM+oQm937vPs17/8EUhSQHbqKjsLtfvmOj40AkWus/A=;
+        b=nBNlifpyVeVAU/MMyaUpOD+Cq+vRAE/uyin/PUIsle4IVraF/nfBWDRc4yx2K82eTT
+         jygG7WXVeMqZAiqZDOZbDeMk2sOGIvuf6E+ba2Jev5eSzvJmz9WkcbqL4X4CBpzlT+P2
+         oGJGxoVahcT4LUeOHhOLs4dskIi8tIUD6dRnkkH+BDfhMP2THZZgAB5EZ1h2IstpH3Jm
+         P/XmNllIkswMRJ54MBIYHlng1JuY8c9n8TM4vxqJqGzhKYRSJJRGqZ3jVlXJ27EW8XSs
+         CIku61I9dvWMt97n5iBHVGecVl77pJu69IpcJeuXFAFBj8OL7AABrE0BNwpgyPoSuNET
+         XUkA==
+X-Gm-Message-State: AOAM533rQnbFAxrciHKH33sZPQYNmzioqsgxpEiz/19WOLcqDjAetJG9
+	/JRuaiYoM9nJkoxPSTPuiPQ=
+X-Google-Smtp-Source: ABdhPJxFbI81zPf/uAPNLfJRkB+L70kdsFyGIUycg+TIHDrb1dg4HzXxm43HKvjPK5r2RpTdv3MlXA==
+X-Received: by 2002:a05:6638:2493:: with SMTP id x19mr1737083jat.219.1643700834029;
+        Mon, 31 Jan 2022 23:33:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:6d8d:: with SMTP id bc13ls6428184pgb.6.gmail; Mon, 31
- Jan 2022 23:33:36 -0800 (PST)
-X-Received: by 2002:a05:6a00:2402:: with SMTP id z2mr21849940pfh.42.1643700816472;
-        Mon, 31 Jan 2022 23:33:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1643700816; cv=none;
+Received: by 2002:a05:6e02:cc5:: with SMTP id c5ls3950902ilj.8.gmail; Mon, 31
+ Jan 2022 23:33:53 -0800 (PST)
+X-Received: by 2002:a05:6e02:1c8f:: with SMTP id w15mr14192316ill.69.1643700833625;
+        Mon, 31 Jan 2022 23:33:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1643700833; cv=none;
         d=google.com; s=arc-20160816;
-        b=J41lWy8unw62KLFi2Jl/sFYQkEL91BspIhp2ZhIjL8niaCoJdGsfixM01bSRcJey6c
-         avgv7kP58m7XODkt9+JJ/jWWe5HdbdO0o/JGMiVibM+ZEzvCIo4X4aa8AkV2BJbvGTIH
-         K8qPQQM5vbSXmmRzG/kYS0aZvJc1IaCATi1kmn2/Mbj62I4wY+iCRsIuQV06nr+aNNep
-         lyz7kXuStptzMMyomN52ET8ItRY32ejjG1/cAyYdL0Dm2QCBRaIIny9SqiM/+43Hdw1D
-         Buvbj/C//DF07VyVESvUgwP/vb9ewHAg3tXrCsEPCMWoK4itAbCYfJBVYTJjWOWugf/7
-         Rg1Q==
+        b=iXrPKajXB01HxbT1i0aufDKodiiF0nS7iCkkLgoZICGH1h5jBJxXU2h7mMLxWukBq8
+         FO3nrOKBHq8yy3gjprwTkn828gt+54lRnJbU0mlgwzjxnv3+wQmSSgGnPAGH4BU7h3g0
+         DklRqrtIDDGu507e6MPQT61oN1hlLRZDP6kXuip83rNoeHoi2Pq7Av7HKkwkwA8hqgak
+         mkXam5+PfDkcQ9z5CsX0tdawCx71PRJfoC1MjJZBaOlRgtWnAiIGdZPza8L2o71tqEBR
+         29ABJb3C56VSq5YOmzvSEHXcWApbtc4D0VROUqjcGFA0D5Hc9rKuH//PCUuv+Q9yA7jy
+         iZgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=I8UdammtyVx5EZAt87tg0T0RNHOojMP8yJWvr7M56iQ=;
-        b=cWYo5EQYxKS0LvaVS9Atr1+QXwYn32UeNo7tOUo/YE3+Jok0U3bIbpvtdDAuAj0oaR
-         HfoWuKCFCwWeND19LUHTGzsAbqrbj9R3FBkImCQATonQvH/yGF/yRWoaxad6d3PHlP4T
-         cdNcsFCRdGbna7peLW/Qa42tVhAoxrq9GX60tlucJsLgBORa9c0FgLf80DsCvLtdZGSQ
-         Iq8iSXc1op1G/k5cC9pCi4pY98OYbf0CPKs/nvuTCY1dAmWm98oULCeSxGbNrT2+Q5r8
-         zzPD38t/a1+hJVoh5XiB+mVaPMjgwOA77qcLfXcJC30X3t37oC43aifS7tP+qGuz48aC
-         C97A==
+        bh=Q58ni/O56sdIgVA2i/gi3EPNdebcIe5HTTwsxm8hE9U=;
+        b=C0wSB+2dY9Dl2CS03u6AcV2RVk3MPzrMKV/5Jieb5x6dFY9DBjlQD6LPBhlothnMY4
+         WfQFNMv4ZXrScJbktvDvXRONpMmloCou76MxvqHyo104KhH3iDjnyc4I+ATaz++q/8Ei
+         EOd3LajLHnB44O+ZQho9U/moZYh4mrIeZpRpH3/Xzy1/cJdB064ieQubxHxwfnoXgeW8
+         x9ZKvSgJWm6C+xE1zyXoPHCYMqLtTuyofYSFK4VHQCGiWjHBMfCb2IdBjBF7PpGGLI5K
+         82l/0wx14mtp+rbwLwVCLPRvypnbi5k5kMV6BNVcaqDN3f4Qp/UDpHoMozyciqJFotLM
+         HlFA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=haoGVsVQ;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::230 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=aNQ2P6FI;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22f as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com. [2607:f8b0:4864:20::230])
-        by gmr-mx.google.com with ESMTPS id ck20si160982pjb.0.2022.01.31.23.33.36
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com. [2607:f8b0:4864:20::22f])
+        by gmr-mx.google.com with ESMTPS id v3si2576943jat.0.2022.01.31.23.33.53
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 23:33:36 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::230 as permitted sender) client-ip=2607:f8b0:4864:20::230;
-Received: by mail-oi1-x230.google.com with SMTP id u13so15454686oie.5
-        for <kasan-dev@googlegroups.com>; Mon, 31 Jan 2022 23:33:36 -0800 (PST)
-X-Received: by 2002:a05:6808:1188:: with SMTP id j8mr395888oil.195.1643700815629;
- Mon, 31 Jan 2022 23:33:35 -0800 (PST)
+        Mon, 31 Jan 2022 23:33:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22f as permitted sender) client-ip=2607:f8b0:4864:20::22f;
+Received: by mail-oi1-x22f.google.com with SMTP id b186so25480610oif.1
+        for <kasan-dev@googlegroups.com>; Mon, 31 Jan 2022 23:33:53 -0800 (PST)
+X-Received: by 2002:a05:6808:1641:: with SMTP id az1mr440454oib.278.1643700833121;
+ Mon, 31 Jan 2022 23:33:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20220131103407.1971678-1-elver@google.com> <20220131103407.1971678-2-elver@google.com>
-In-Reply-To: <20220131103407.1971678-2-elver@google.com>
+References: <20220131103407.1971678-1-elver@google.com> <20220131103407.1971678-3-elver@google.com>
+In-Reply-To: <20220131103407.1971678-3-elver@google.com>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 1 Feb 2022 08:33:24 +0100
-Message-ID: <CACT4Y+b3cpG_L+UO=vvRtPdBh7Np5U4AA5_WuK7s7FUazuBvwQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] selftests/perf_events: Test modification of perf_event_attr::sig_data
+Date: Tue, 1 Feb 2022 08:33:42 +0100
+Message-ID: <CACT4Y+YfHGxCKOE179LzXkpeRqfEU8OO5zTh-BhLL7NxbNPGGg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] perf: uapi: Document perf_event_attr::sig_data
+ truncation on 32 bit architectures
 To: Marco Elver <elver@google.com>
 Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, 
 	Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
@@ -114,8 +115,8 @@ Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=haoGVsVQ;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::230
+ header.i=@google.com header.s=20210112 header.b=aNQ2P6FI;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22f
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -134,89 +135,40 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 On Mon, 31 Jan 2022 at 11:34, Marco Elver <elver@google.com> wrote:
 >
-> Test that PERF_EVENT_IOC_MODIFY_ATTRIBUTES correctly modifies
-> perf_event_attr::sig_data as well.
+> Due to the alignment requirements of siginfo_t, as described in
+> 3ddb3fd8cdb0 ("signal, perf: Fix siginfo_t by avoiding u64 on 32-bit
+> architectures"), siginfo_t::si_perf_data is limited to an unsigned long.
 >
+> However, perf_event_attr::sig_data is an u64, to avoid having to deal
+> with compat conversions. Due to being an u64, it may not immediately be
+> clear to users that sig_data is truncated on 32 bit architectures.
+>
+> Add a comment to explicitly point this out, and hopefully help some
+> users save time by not having to deduce themselves what's happening.
+>
+> Reported-by: Dmitry Vyukov <dvyukov@google.com>
 > Signed-off-by: Marco Elver <elver@google.com>
 
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 
 
 > ---
->  .../selftests/perf_events/sigtrap_threads.c     | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
+>  include/uapi/linux/perf_event.h | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/tools/testing/selftests/perf_events/sigtrap_threads.c b/tools/testing/selftests/perf_events/sigtrap_threads.c
-> index 8e83cf91513a..6d849dc2bee0 100644
-> --- a/tools/testing/selftests/perf_events/sigtrap_threads.c
-> +++ b/tools/testing/selftests/perf_events/sigtrap_threads.c
-> @@ -44,9 +44,10 @@ static struct {
->  } ctx;
->
->  /* Unique value to check si_perf_data is correctly set from perf_event_attr::sig_data. */
-> -#define TEST_SIG_DATA(addr) (~(unsigned long)(addr))
-> +#define TEST_SIG_DATA(addr, id) (~(unsigned long)(addr) + id)
->
-> -static struct perf_event_attr make_event_attr(bool enabled, volatile void *addr)
-> +static struct perf_event_attr make_event_attr(bool enabled, volatile void *addr,
-> +                                             unsigned long id)
->  {
->         struct perf_event_attr attr = {
->                 .type           = PERF_TYPE_BREAKPOINT,
-> @@ -60,7 +61,7 @@ static struct perf_event_attr make_event_attr(bool enabled, volatile void *addr)
->                 .inherit_thread = 1, /* ... but only cloned with CLONE_THREAD. */
->                 .remove_on_exec = 1, /* Required by sigtrap. */
->                 .sigtrap        = 1, /* Request synchronous SIGTRAP on event. */
-> -               .sig_data       = TEST_SIG_DATA(addr),
-> +               .sig_data       = TEST_SIG_DATA(addr, id),
->         };
->         return attr;
->  }
-> @@ -110,7 +111,7 @@ FIXTURE(sigtrap_threads)
->
->  FIXTURE_SETUP(sigtrap_threads)
->  {
-> -       struct perf_event_attr attr = make_event_attr(false, &ctx.iterate_on);
-> +       struct perf_event_attr attr = make_event_attr(false, &ctx.iterate_on, 0);
->         struct sigaction action = {};
->         int i;
->
-> @@ -165,7 +166,7 @@ TEST_F(sigtrap_threads, enable_event)
->         EXPECT_EQ(ctx.tids_want_signal, 0);
->         EXPECT_EQ(ctx.first_siginfo.si_addr, &ctx.iterate_on);
->         EXPECT_EQ(ctx.first_siginfo.si_perf_type, PERF_TYPE_BREAKPOINT);
-> -       EXPECT_EQ(ctx.first_siginfo.si_perf_data, TEST_SIG_DATA(&ctx.iterate_on));
-> +       EXPECT_EQ(ctx.first_siginfo.si_perf_data, TEST_SIG_DATA(&ctx.iterate_on, 0));
->
->         /* Check enabled for parent. */
->         ctx.iterate_on = 0;
-> @@ -175,7 +176,7 @@ TEST_F(sigtrap_threads, enable_event)
->  /* Test that modification propagates to all inherited events. */
->  TEST_F(sigtrap_threads, modify_and_enable_event)
->  {
-> -       struct perf_event_attr new_attr = make_event_attr(true, &ctx.iterate_on);
-> +       struct perf_event_attr new_attr = make_event_attr(true, &ctx.iterate_on, 42);
->
->         EXPECT_EQ(ioctl(self->fd, PERF_EVENT_IOC_MODIFY_ATTRIBUTES, &new_attr), 0);
->         run_test_threads(_metadata, self);
-> @@ -184,7 +185,7 @@ TEST_F(sigtrap_threads, modify_and_enable_event)
->         EXPECT_EQ(ctx.tids_want_signal, 0);
->         EXPECT_EQ(ctx.first_siginfo.si_addr, &ctx.iterate_on);
->         EXPECT_EQ(ctx.first_siginfo.si_perf_type, PERF_TYPE_BREAKPOINT);
-> -       EXPECT_EQ(ctx.first_siginfo.si_perf_data, TEST_SIG_DATA(&ctx.iterate_on));
-> +       EXPECT_EQ(ctx.first_siginfo.si_perf_data, TEST_SIG_DATA(&ctx.iterate_on, 42));
->
->         /* Check enabled for parent. */
->         ctx.iterate_on = 0;
-> @@ -204,7 +205,7 @@ TEST_F(sigtrap_threads, signal_stress)
->         EXPECT_EQ(ctx.tids_want_signal, 0);
->         EXPECT_EQ(ctx.first_siginfo.si_addr, &ctx.iterate_on);
->         EXPECT_EQ(ctx.first_siginfo.si_perf_type, PERF_TYPE_BREAKPOINT);
-> -       EXPECT_EQ(ctx.first_siginfo.si_perf_data, TEST_SIG_DATA(&ctx.iterate_on));
-> +       EXPECT_EQ(ctx.first_siginfo.si_perf_data, TEST_SIG_DATA(&ctx.iterate_on, 0));
->  }
->
->  TEST_HARNESS_MAIN
+> diff --git a/include/uapi/linux/perf_event.h b/include/uapi/linux/perf_event.h
+> index 1b65042ab1db..82858b697c05 100644
+> --- a/include/uapi/linux/perf_event.h
+> +++ b/include/uapi/linux/perf_event.h
+> @@ -465,6 +465,8 @@ struct perf_event_attr {
+>         /*
+>          * User provided data if sigtrap=1, passed back to user via
+>          * siginfo_t::si_perf_data, e.g. to permit user to identify the event.
+> +        * Note, siginfo_t::si_perf_data is long-sized, and sig_data will be
+> +        * truncated accordingly on 32 bit architectures.
+>          */
+>         __u64   sig_data;
+>  };
 > --
 > 2.35.0.rc2.247.g8bbb082509-goog
 >
@@ -224,4 +176,4 @@ Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bb3cpG_L%2BUO%3DvvRtPdBh7Np5U4AA5_WuK7s7FUazuBvwQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYfHGxCKOE179LzXkpeRqfEU8OO5zTh-BhLL7NxbNPGGg%40mail.gmail.com.
