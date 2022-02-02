@@ -1,131 +1,142 @@
-Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBPEJ5KHQMGQECNH2ZDY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LXIPCY4NRBSMY5KHQMGQEM57KY4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA574A715E
-	for <lists+kasan-dev@lfdr.de>; Wed,  2 Feb 2022 14:18:52 +0100 (CET)
-Received: by mail-wm1-x337.google.com with SMTP id n6-20020a05600c3b8600b00350f4349a19sf1216936wms.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Feb 2022 05:18:52 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1643807932; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8233D4A720B
+	for <lists+kasan-dev@lfdr.de>; Wed,  2 Feb 2022 14:51:05 +0100 (CET)
+Received: by mail-wm1-x339.google.com with SMTP id v190-20020a1cacc7000000b0034657bb6a66sf4538949wme.6
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Feb 2022 05:51:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1643809865; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DCdljeE7of5U3rXYUNNcK+gS8NZlR7BDQjlOKqHzkB3sSN87Cf52Gb+pidVaofXux+
-         cjvMvCd2XMU6qPzh+O9hAuUyQx8YbuIs8llAj7XTtsWwChnXJ4ULuzCi38bASIbDyHKd
-         Ti23Gw5AgEIqylcWlVEA+4SQtyOkkF5sq9uAdov4TVLufzwNNEMts6yVCxNq0DlFQDLb
-         fQeurdWFHYrOwdN/MYOgIXOEKGC22sN9BO0/+Mv3odrNFIXrfTx6VOudXbZXmfFuBeKm
-         YtvnILmpGE5B7zWKzpA5Q7FksJGd1ro6JwU+bnssuY96UvPMoR+lV/W9oSSN17YH88bh
-         mT0w==
+        b=cmDjR18h6GnsLVM0Hgn/CO7p/W175ZMTT86tfYi6BjVGaoTYQzv3d4+iPJdC1PxWpw
+         hLTMJ0OqL8ewbWaP5sPycN0uIseTR5UK8qle7HnCptZ8BVdeJ8IfLS+HdVUSb2wgzBg6
+         C6emt8IJB4HZa3dvXkrNGh2veUmvjUT9I7+XpraSCOtROJWW1xrWN4Cqo3AAuA/Bwzuo
+         R0xXuJLoihgzUaI5YiWHkHhd6jUbe9Rhk39Tw3cCHLKFHEd5XVj4QC8V8ho79GEFIuRl
+         c67uKKZsr6Athtsoj2wghHTggJJm6ZNpjukuUMOX3jMckitZ8+z9kctKABNhycQMU226
+         wrTA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=Sj2cxH6cNX5OY9lhJgmC23V8vZqOPC3feI9l7IwOUpg=;
-        b=HbaUTMB0/LFsZY3v5KMGq7d0qB2dERTHoUIXOsaZ8Eu1zIB9fMJT58rsZYlpkIClMy
-         3OwJwBbwcrQtITFXo7PNrgcH2pSuftmyRKuRVF5M0D8TBLqFo8bNpoltRR3hYzptMa7j
-         N6326NIPGijSnk2oUm+7QgF58sqbBbiSj1TbeKLFlHvucqns626A8GjRVMG8ELE7yhv9
-         7rEyvsfSCezQUQVv3eszBSdrcs66ofQSnOMyJIPD/gaHIvMxClDkNW+Wh7ddmoNNpA/6
-         0qLGG5uGgPRcDEaVNYMnMAl3Td/Qy2VmAYCOInbIKV4lFaWwaPLVT5/tECjwl9Yp40gI
-         uFVg==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=B6HgaRCkLnAcir7nmVCefFhHfUVszga1YNghA7+cSNo=;
+        b=rdvR8HQUvE3FGvKYOpOn4iQo+MPsg2BO+MBTmlXk2syBPV+lEkZwWqRgZq0+Koebmx
+         nU7DY+giV2+zKcL3uABoexnzzI24f/rndnPM4TZXtErCLS7zZC3SvGgdfriHX2mLhPa/
+         zXACs+SO7IidBpnOczHnGVdvvLboHn4J8uHCFcmVbYfs7SVKm4l+yR2rX2pHxb1+qJLc
+         3MywA/Ouq49vPQBJ+FwFDR2kqaRfPXAJqHvK00WMYNqv+eXkDAqNIDUadLKsRdASQjSk
+         4aO12/9ZYiAwe3fY5TuLQRI9Xi8CHHGM5TkiY6ZqX+gfI5QN6otFzZriI+Rp+huBar6z
+         KnNw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=BMuX1U50;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+       dkim=pass header.i=@intel.com header.s=Intel header.b=RUlYhVTH;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Sj2cxH6cNX5OY9lhJgmC23V8vZqOPC3feI9l7IwOUpg=;
-        b=cbSUcqEwuB7p/XtxuPbn4t0PAC6ExHZXD0W8n80Pnk8TKBJfIqKuDsPFFqYihs8SSM
-         D2P8sHaGd1VZ7Gx6Cgxtn4QoCDOCuNcBpxxV1BWypPtTHQD8vejRLLlvvuvDad0XJc15
-         kFf8f4dqLMvMdCae5gXXpAb0DEz2+7QcFjxVwQniAx2v3aBtueX/wiSgX1Bi2JFdK0/z
-         FX6CFR/UvXLTPHQ2LTCkjwH6eLeElxLsdWWtifUOrspNk5kmKPmmXVtFf9da7oPKemqq
-         J+YJcT2I2XrxE2LGTeyniJt+u6qheWbAugGm7PQiNavEEnbuWiJ3IhF9cEPNTmMzI9vh
-         vHrw==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=B6HgaRCkLnAcir7nmVCefFhHfUVszga1YNghA7+cSNo=;
+        b=pLg5qGSIVWe4gLtmveySZ9znb1Hv7IaP5K7hzY0+pRVSGsrarjsVjeDb+MRyvuL/Wy
+         NyGTLoHTHX0+4fmXxAqlQ5pYwiFJA13uewodO4ofWMGBl88ZDDU9crC6HTnxMmWozr1b
+         +zaaXJm5tMRPWaHDQk8Yy6VXTkD5lATOuUqHT0D7SPbBoThD4gtAHeEmuaoUnOOy9oxK
+         xPLUKM1NNWs2jrqlJH1Ms221qLWKCeghfb9u6isRKD8l1KPXoR+WCRdLO4rfwmUn8WVS
+         QAFnGnTLl2CFONYNcZ9gkv8DIU0qISh7vxZMuBfQVu9LWBCpHAqP0dj1xhpHuWwHdHVf
+         V9NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Sj2cxH6cNX5OY9lhJgmC23V8vZqOPC3feI9l7IwOUpg=;
-        b=gTX6bXDDUHHZxI35KFgVxfwTuGZDDaBxcY7yoDBgKK05L7RfLz2ztUVjOEVpjzyK4Y
-         O8gORlh10FwzcnV4fI3KXq2VbuaqcX6wGgVzRLKIDyEGLSTwt5G5/cvaVQ5r37JDJ5yp
-         /HO2RS7I90xiUXN2siPePbyMM/7dg085QfIqmd0DOYrg77TMKrNDYrecniC/zhyolGPb
-         K1wWf2hb/XDdESb7gjXc/KMYXlIxu1ZZi+2Oia1HJjNKb2IXXZowJTR6z9gLatNz5L6b
-         OgHA6eclT3gyCEIbeXxVOzagOnaIwxAk8f503hsmpdia6Uhqh4lQzQU4Z+TENcpOHr3X
-         jUYg==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=B6HgaRCkLnAcir7nmVCefFhHfUVszga1YNghA7+cSNo=;
+        b=csSjrntsPqn6dprzrHY6awk+p0eXLHayn3Vln+++NZOmE/4lSnUueuN8W9bORAWtgy
+         WnxiakTektHWz2kGCdJS4OAEhlwZ1x3EhyirzhuyM8Cf7fc8KDWdD9KpJ6dQvXezTMpk
+         geoLDJuJna4dx/2AszbFJ1Qd1/jYfFTasLmxTemj98ooFg324/5dUdeGdCq7iQvKvuAb
+         gun3iiF8Hs8zlgPBGsRg2VUyafH/pHrzZC+zrvX8S0cFrPebKjIxjl4XNf85ABibXXaD
+         Aty0riLamkA+vAE1ctPeK3QAXJzONepaZfiLWQ6CXkzuc/CSbnJmfWjkUZ9ZcmACFzhE
+         vg2A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5326U/TeevJYvaGIXTmPnDDA8r7pAlkozRQCyKsxlsOLzy9mEgPG
-	uaZKmYPC26cGscCQMBmBIcg=
-X-Google-Smtp-Source: ABdhPJx9L7BHr9lJS2zxTNurpQyH5lrnam/M/CLs1zJoAK2S9ZrODJ5hEx/Zyb3m2PON+sf2jqTV5Q==
-X-Received: by 2002:a05:6000:2c1:: with SMTP id o1mr2094322wry.258.1643807932181;
-        Wed, 02 Feb 2022 05:18:52 -0800 (PST)
+X-Gm-Message-State: AOAM533Pjy/Bpv4BM72/gkQgzmDNvpHC5/UKsU5k326ej3eoBYQzpe/x
+	zrs0u8svqqnqTkAllmUAESk=
+X-Google-Smtp-Source: ABdhPJwslPKFt4ul4bzebBPgctjjSMdgsKi0KQxz9kC4EOB0SCuUu9kHCpo1qGk04zHvKePc+HnKvQ==
+X-Received: by 2002:a05:6000:1081:: with SMTP id y1mr25579518wrw.660.1643809865268;
+        Wed, 02 Feb 2022 05:51:05 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:500e:: with SMTP id n14ls2949130wmr.0.canary-gmail;
- Wed, 02 Feb 2022 05:18:51 -0800 (PST)
-X-Received: by 2002:a05:600c:1443:: with SMTP id h3mr6159613wmi.37.1643807931297;
-        Wed, 02 Feb 2022 05:18:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1643807931; cv=none;
+Received: by 2002:a05:6000:3c8:: with SMTP id b8ls402563wrg.0.gmail; Wed, 02
+ Feb 2022 05:51:04 -0800 (PST)
+X-Received: by 2002:a5d:6da4:: with SMTP id u4mr25390684wrs.611.1643809864385;
+        Wed, 02 Feb 2022 05:51:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1643809864; cv=none;
         d=google.com; s=arc-20160816;
-        b=Clqeo4FUcdo44Lm/9xhlRu0siN1wGORRiLXyqAiLn4IHtXndsGxtr6q+kXGczd95hN
-         3pHFN3Y4F8S4aGmv3DM3ip7YsoMUnEJbeX7U+PrRu7Mz+y5QbdInDiSmZKOgjPtGzb5p
-         kPtrI0ofcUxc4RCMJxwXmHdXxrHbKpS6walXkAdL9Bhdh7A4VP5Ky11DncINJj3+atA0
-         QSNOhpwkSAZpZ0j8w6V8XHC2yzozRSU1LTJupkUDp2hlc3KhLW1HupqkbmJ2LPiURRlE
-         MukxM/sK63Seq6o9SOMyMFIFjiZCjcqk3UnUw+IKovPLGywgPvPIDKShrl+s0229MF13
-         9zCQ==
+        b=O+cEeQ9j5nfDqQyDJRW9Qtam+BDCzK1cwSZv78M6FEmmqFLOrrnpnA3vs35xxlYPaD
+         YTgMz7EqPJ5EvCha7uUx5NRNxW46x2OxuAadqR8lyV9VLqGNkr7wZIYMr1UavcAe3hKj
+         14H25bGoIvv+T1ZNPrWhbP0cYF/3MrVafiSq5vg/uMzKhkD4KnfoqZGoO5SCosxNHJPC
+         Na5tjO+5VvGfdDtLTPX0PVI3eYY7OhpGlFAAGKFbE4bEvonC1TMwL1we4dl33L3r7kqT
+         UpoIJt2AnSKRJpZvdJb+X4WvQBEi9Bkph58vE0P3I8LlmHBI2hPkunuJY5ghnNWB1C5x
+         K1WA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=snnqrCI4qkz8Hro6Gqsu3aM3hUykyWW5o1MMGnMsu4c=;
-        b=N/JCm6knzNOaYV1dmf+RXk5VB4/USsb3+EvpiYZLClW7ap/dBj4/Mr+rmP11+NHjh8
-         SaNdF9Swr80u5hFI4BHi316KzkInYSAKjiCZJ4B4UYhj71O0gStypW1WTIxll8lKclle
-         +d9lBCRc3M3RkvxWpqPdaDar/kcv3gBDzP1SVOX9/9f4kJymfwRbqzUsDyqFh0c0Xciq
-         QrxcaYd0O0juw2T+q19oG3ILCKxovBiIsH+di7bUSflr4VaXfc7Cmq8RXqeQzo8fUWo5
-         gpf48jcW0Unqv6zA5I7MKsO7HskCttP1b8tyoSELrGN6GhSTCyGaO5pe3WfpyqNuxMRH
-         K3jg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=5VQvBs0dgJkZ9fBMFcqRNaysDtzmeTDL8dwHPzpsbdQ=;
+        b=snLB+oFx4ORRLt7aDmbiNFnThIAX7n+P+uBP4jUHO/+XtyDmv/dTIa/5BINR7+edaO
+         fHZkmDMRkOOm2VGkH+bqMBwRtM75C93o7JRIBQTBq+G1EVqVNfLoYSpRYZI6G1xk7DXQ
+         0h03mFCeshOvBS3MtAvMqLz1atdNifubW1A+OSVOKQWvoo0NSHra0k86Z1vrzaqR9X2l
+         ZBYf1+/C/r+g5Wnu4rEWl7j2aG3624/EvgcZTUKJhULasIy3jbRwqKFpEVc0BeNtqx9R
+         iXd4EZtYVbZi1CQiSUpAS2UU/keU7pj8pu2T64V/2MKev/7cVeBx14IZXD/ao91lQP3K
+         lvQA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=BMuX1U50;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com. [185.125.188.122])
-        by gmr-mx.google.com with ESMTPS id h81si244696wmh.2.2022.02.02.05.18.51
+       dkim=pass header.i=@intel.com header.s=Intel header.b=RUlYhVTH;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga09.intel.com (mga09.intel.com. [134.134.136.24])
+        by gmr-mx.google.com with ESMTPS id c4si268181wmq.1.2022.02.02.05.51.03
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 05:18:51 -0800 (PST)
-Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) client-ip=185.125.188.122;
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 461163F339
-	for <kasan-dev@googlegroups.com>; Wed,  2 Feb 2022 13:18:49 +0000 (UTC)
-Received: by mail-ej1-f70.google.com with SMTP id gb4-20020a170907960400b0069d1ebc4538so8137915ejc.2
-        for <kasan-dev@googlegroups.com>; Wed, 02 Feb 2022 05:18:49 -0800 (PST)
-X-Received: by 2002:aa7:cd0b:: with SMTP id b11mr29885619edw.412.1643807928850;
-        Wed, 02 Feb 2022 05:18:48 -0800 (PST)
-X-Received: by 2002:aa7:cd0b:: with SMTP id b11mr29885596edw.412.1643807928661;
- Wed, 02 Feb 2022 05:18:48 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 02 Feb 2022 05:51:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted sender) client-ip=134.134.136.24;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="247686421"
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; 
+   d="scan'208";a="247686421"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 05:51:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; 
+   d="scan'208";a="534855601"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 02 Feb 2022 05:50:59 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1nFG2E-000Uek-Jm; Wed, 02 Feb 2022 13:50:58 +0000
+Date: Wed, 2 Feb 2022 21:50:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH 1/4] mm/kasan: Add CONFIG_KASAN_SOFTWARE
+Message-ID: <202202022149.BRH60mXN-lkp@intel.com>
+References: <a480ac6f31eece520564afd0230c277c78169aa5.1643791473.git.christophe.leroy@csgroup.eu>
 MIME-Version: 1.0
-References: <00000000000038779505d5d8b372@google.com> <CANp29Y7WjwXwgxPrNq0XXjXPu+wGFqTreh9gry=O6aE7+cKpLQ@mail.gmail.com>
-In-Reply-To: <CANp29Y7WjwXwgxPrNq0XXjXPu+wGFqTreh9gry=O6aE7+cKpLQ@mail.gmail.com>
-From: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Date: Wed, 2 Feb 2022 14:18:36 +0100
-Message-ID: <CA+zEjCvu76yW7zfM+qJUe+t5y23oPdzR4KDV1mOdqH8bB4GmTw@mail.gmail.com>
-Subject: Re: [syzbot] riscv/fixes boot error: can't ssh into the instance
-To: Aleksandr Nogikh <nogikh@google.com>
-Cc: linux-riscv@lists.infradead.org, kasan-dev <kasan-dev@googlegroups.com>, 
-	palmer@dabbelt.com, 
-	syzbot <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com>, 
-	LKML <linux-kernel@vger.kernel.org>, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: alexandre.ghiti@canonical.com
+Content-Disposition: inline
+In-Reply-To: <a480ac6f31eece520564afd0230c277c78169aa5.1643791473.git.christophe.leroy@csgroup.eu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: lkp@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@canonical.com header.s=20210705 header.b=BMuX1U50;       spf=pass
- (google.com: domain of alexandre.ghiti@canonical.com designates
- 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+ header.i=@intel.com header.s=Intel header.b=RUlYhVTH;       spf=pass
+ (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted
+ sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,82 +149,179 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Aleksandr,
+Hi Christophe,
 
-On Wed, Feb 2, 2022 at 12:08 PM Aleksandr Nogikh <nogikh@google.com> wrote:
->
-> Hello,
->
-> syzbot has already not been able to fuzz its RISC-V instance for 97
+I love your patch! Yet something to improve:
 
-That's a longtime, I'll take a look more regularly.
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on linus/master v5.17-rc2]
+[cannot apply to hnaz-mm/master next-20220202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> days now because the compiled kernel cannot boot. I bisected the issue
-> to the following commit:
->
-> commit 54c5639d8f507ebefa814f574cb6f763033a72a5
-> Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-> Date:   Fri Oct 29 06:59:27 2021 +0200
->
->     riscv: Fix asan-stack clang build
->
-> Apparently, the problem appears on GCC-built RISC-V kernels with KASAN
-> enabled. In the previous message syzbot mentions
-> "riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU
-> Binutils for Debian) 2.35.2", but the issue also reproduces finely on
-> a newer GCC compiler: "riscv64-linux-gnu-gcc (Debian 11.2.0-10)
-> 11.2.0, GNU ld (GNU Binutils for Debian) 2.37".
-> For convenience, I also duplicate the .config file from the bot's
-> message: https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
->
-> Can someone with KASAN and RISC-V expertise please take a look?
+url:    https://github.com/0day-ci/linux/commits/Christophe-Leroy/mm-kasan-Add-CONFIG_KASAN_SOFTWARE/20220202-164612
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git ec2444530612a886b406e2830d7f314d1a07d4bb
+config: x86_64-randconfig-a013-20220131 (https://download.01.org/0day-ci/archive/20220202/202202022149.BRH60mXN-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6b1e844b69f15bb7dffaf9365cd2b355d2eb7579)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/29c1001f88c380ea391fa5520f2ddcce35e35681
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Christophe-Leroy/mm-kasan-Add-CONFIG_KASAN_SOFTWARE/20220202-164612
+        git checkout 29c1001f88c380ea391fa5520f2ddcce35e35681
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-I'll take a look at that today.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Thanks for reporting the issue,
+All errors (new ones prefixed by >>):
 
-Alex
+   In file included from arch/x86/boot/compressed/cmdline.c:2:
+   In file included from arch/x86/boot/compressed/misc.h:32:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/resource_ext.h:11:
+   In file included from include/linux/slab.h:136:
+>> include/linux/kasan.h:56:41: error: use of undeclared identifier 'KASAN_SHADOW_SCALE_SHIFT'
+           return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
+                                                  ^
+>> include/linux/kasan.h:57:5: error: use of undeclared identifier 'KASAN_SHADOW_OFFSET'
+                   + KASAN_SHADOW_OFFSET;
+                     ^
+   2 errors generated.
+--
+   In file included from arch/x86/boot/compressed/pgtable_64.c:2:
+   In file included from arch/x86/boot/compressed/misc.h:32:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/resource_ext.h:11:
+   In file included from include/linux/slab.h:136:
+>> include/linux/kasan.h:56:41: error: use of undeclared identifier 'KASAN_SHADOW_SCALE_SHIFT'
+           return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
+                                                  ^
+>> include/linux/kasan.h:57:5: error: use of undeclared identifier 'KASAN_SHADOW_OFFSET'
+                   + KASAN_SHADOW_OFFSET;
+                     ^
+   In file included from arch/x86/boot/compressed/pgtable_64.c:3:
+   In file included from include/linux/efi.h:19:
+   In file included from include/linux/proc_fs.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                           ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/boot/compressed/pgtable_64.c:3:
+   In file included from include/linux/efi.h:19:
+   In file included from include/linux/proc_fs.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/boot/compressed/pgtable_64.c:3:
+   In file included from include/linux/efi.h:19:
+   In file included from include/linux/proc_fs.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:4: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                           set->sig[1] | set->sig[0]) == 0;
+                           ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/boot/compressed/pgtable_64.c:3:
+   In file included from include/linux/efi.h:19:
+   In file included from include/linux/proc_fs.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:100:11: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                   return (set->sig[1] | set->sig[0]) == 0;
+                           ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/boot/compressed/pgtable_64.c:3:
+   In file included from include/linux/efi.h:19:
+   In file included from include/linux/proc_fs.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                            ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/boot/compressed/pgtable_64.c:3:
+   In file included from include/linux/efi.h:19:
+   In file included from include/linux/proc_fs.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                                            ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/boot/compressed/pgtable_64.c:3:
+   In file included from include/linux/efi.h:19:
+   In file included from include/linux/proc_fs.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (which contains 1 element) [-Warray-bounds]
+                           (set1->sig[2] == set2->sig[2]) &&
+                            ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/boot/compressed/pgtable_64.c:3:
+   In file included from include/linux/efi.h:19:
+   In file included from include/linux/proc_fs.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
 
->
-> --
-> Best Regards,
-> Aleksandr
->
->
-> On Tue, Jan 18, 2022 at 11:26 AM syzbot
-> <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com> wrote:
-> >
-> > Hello,
-> >
-> > syzbot found the following issue on:
-> >
-> > HEAD commit:    f6f7fbb89bf8 riscv: dts: sifive unmatched: Link the tmp451..
-> > git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git fixes
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=1095f85bb00000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=330a558d94b58f7601be
-> > compiler:       riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> > userspace arch: riscv64
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com
-> >
-> >
-> >
-> > ---
-> > This report is generated by a bot. It may contain errors.
-> > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> >
-> > syzbot will keep track of this issue. See:
-> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> >
-> > --
-> > You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> > To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/00000000000038779505d5d8b372%40google.com.
+
+vim +/KASAN_SHADOW_SCALE_SHIFT +56 include/linux/kasan.h
+
+69786cdb379bbc Andrey Ryabinin  2015-08-13  50  
+9577dd74864877 Andrey Konovalov 2018-12-28  51  int kasan_populate_early_shadow(const void *shadow_start,
+69786cdb379bbc Andrey Ryabinin  2015-08-13  52  				const void *shadow_end);
+69786cdb379bbc Andrey Ryabinin  2015-08-13  53  
+0b24becc810dc3 Andrey Ryabinin  2015-02-13  54  static inline void *kasan_mem_to_shadow(const void *addr)
+0b24becc810dc3 Andrey Ryabinin  2015-02-13  55  {
+0b24becc810dc3 Andrey Ryabinin  2015-02-13 @56  	return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
+0b24becc810dc3 Andrey Ryabinin  2015-02-13 @57  		+ KASAN_SHADOW_OFFSET;
+0b24becc810dc3 Andrey Ryabinin  2015-02-13  58  }
+0b24becc810dc3 Andrey Ryabinin  2015-02-13  59  
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BzEjCvu76yW7zfM%2BqJUe%2Bt5y23oPdzR4KDV1mOdqH8bB4GmTw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202202022149.BRH60mXN-lkp%40intel.com.
