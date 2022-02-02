@@ -1,123 +1,143 @@
-Return-Path: <kasan-dev+bncBCXKTJ63SAARBG6M5GHQMGQENWHU3HI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LXIPCY4NRBPP35GHQMGQENKDYNAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0804A6F97
-	for <lists+kasan-dev@lfdr.de>; Wed,  2 Feb 2022 12:08:12 +0100 (CET)
-Received: by mail-yb1-xb39.google.com with SMTP id c7-20020a25a2c7000000b00613e4dbaf97sf38790339ybn.13
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Feb 2022 03:08:12 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1643800091; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A06A4A7108
+	for <lists+kasan-dev@lfdr.de>; Wed,  2 Feb 2022 13:49:02 +0100 (CET)
+Received: by mail-wr1-x439.google.com with SMTP id w7-20020adfbac7000000b001d6f75e4faesf6869189wrg.7
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Feb 2022 04:49:02 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1643806142; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KmP0mD0O33ZKvQ6kJncFERhO+73I6Yl3K0IK1LONidPm/iUgkiLh1xZOCwf/2nQXvN
-         5JOLLRo0Z0D2GUULIr04NBvqlrq322UCyWLoCeY6H6UwwXD51WINi8I2qBbgI5OCwCKH
-         0uIvUnbVLospJ2YlFdkkiVf87MHPMwaj9w4er/Uk5D0w/XHHbCJoAKR3chSqv6jA0Yql
-         Vk3Jr3RfnIlgtZVgYtoizhXdJDTgbQhLNHfZOe1u5Sm7XY51zxqGpjnNAo70eGxAMgeV
-         M2ISGh6SFvNnfiRP2jlK7pcMLEfZQKEIE5nnezMvwwIFd9W1HKz8fZPGl5gS52Wa21Xo
-         Ffyg==
+        b=gE95IqKIsYojVsPgUnro/EzvnNzt46T6+a9DbaHKTktFJRBKLYaEAvdDycPazXuRjf
+         d3GDO41gtZ1r+mFVeiMYGQTimSHSWmi/kKERPjYocDTXzz8QgMJcgbnF04X1xjkj3edJ
+         +fXEiBh7qfdrBWNW4OCVJjKsyiIlG4IAWCVRnaPUS+3JDGWPbmbZzDsRlfs4Uwt6ka5C
+         fagcpAxevU30503XnX8Ckxw9TgveEC0hS/T+n7h8j5EppZ8rhlWTwXrGY5BlxAt2VvsD
+         MlitN6/b13qYLPIvbUpVdW5DICEHhoVR+8sPlBGtxF6cmm1rqZbtnffKV9rdd6/6HFlg
+         N3gA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=395J0569LnaRWA472v3puXPnrDtJY+kjEZaMTdKvSBQ=;
-        b=ICSrk0XTZF18xRfWrEA9wzrIysx6al22LSQOqSEhbzsNLzWrL1DcGUtn0LCrTbrF0P
-         kicNTBtGF5vtavV7l/72rPK4HBxZMLBqHpgjWQjfj1gNVxGAsuHM6A4VzZh3/7Qr+bsx
-         6LKbkaPwlE6xYIblXIAyxtJU6xmB8makOIGRr+NlJ7OboAMp55LUhW6fmZhZjmEGbc36
-         Pyixz4x28CbSMoU8Bo7LHp3PZgJJ8HYwEFx9BWU1GbWV9cZttr+7h/6WG0qK6V4Y/4hM
-         1NgAAZLJu1xMZ9q33jtaT7nSmeiGS75OY/wDXoEWOJ9pS5RtPn9zLN9d4kN98sF3A4Ao
-         Klsw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=HMzlecq5gwB9a8nz7GRwaGAC0q0NTUAiJIDcNX0QWn8=;
+        b=SmRmR1tgN6zcPVIKih3who+BtJZksYJB3ZiY+WkVqYzNrStuf6Yms6rQK1vn+nbH7B
+         rrgJWWleKhbIJuZIlRR4pUSUeg30PDGMT1EeAyjcwObJAHGECgegJhJd6/g2lqBesO0z
+         RDcZNhqZyjmgGNJo3gGBL3NvZkwfyPmIpjH/uOa25CBTRQo9NNgYYRv3qU8YNM8Yom0/
+         UhkdwpCOnjig79db1L0z1nRykOKf3SIbFjI7zfRUUW7fTIPSTib/6HnBQ/Jn5sDxQo2s
+         X9r79X+cMIqtMvrE4QsEu397S1N65R0kPEhdJWW5bolErJmasjCxL0QNmERDGOZsfxr0
+         mtPQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=hkqcAskl;
-       spf=pass (google.com: domain of nogikh@google.com designates 2607:f8b0:4864:20::133 as permitted sender) smtp.mailfrom=nogikh@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@intel.com header.s=Intel header.b=Dzoi4e4K;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=395J0569LnaRWA472v3puXPnrDtJY+kjEZaMTdKvSBQ=;
-        b=qc5btSVzgQhnUNwTrwklMgsWeeZyPneqW8m36lfUwFtEYnXkJFaq1sNpoq5O9Evk5T
-         Ye+RJ4Zdu+guCgOagrGmBmGw+T5JW/gBJNg9+Xalr+IviHrmdSrN9lKAcORYUa0okxA1
-         VUfzm0EGXovh1ZmLExpxkyc5FfSEHAANU4hQZTjSY+k+DX9maiA5Y9zPTQ6G2nTXZ+2h
-         UKDSDY9QT+qyiTGhzM/l8TSgDPMHISy7P72+HyDMruqWRYI/JOjZ+Z875t/uuQd/tqnN
-         SNaaWCphJL9hBhNcUU4ibyqr6B/mUyHGwxLW507sZICimReYLY7mEOZquLU0nsIuuc/t
-         nwZg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=HMzlecq5gwB9a8nz7GRwaGAC0q0NTUAiJIDcNX0QWn8=;
+        b=Ri2J/PATffFR6EB8xPxjaRXscFnnlEckrI12QPUt8jjeokxgrwSQsTQkQppe84WiwG
+         4+TryYzxRt1O7+tYPo3ZJYj+sqt1xNRLyLY/0fLx+vdcfd/ShOoOhxOp3BpFWzPgd9qW
+         lu0W+R+hJTs736xJPLk/Eu7egt8TP5Ec3hgJqR4Mu/EOn4M74eVIDvNUeEoYPyt7sVFD
+         3IxLcxZ8NcjA6Gn+VKaYCB8xXciz0L0aRRXnIYdDfg8X4cpH5Gf92xN8W6jkJINj0P6V
+         tUWNjDGyJtOO2Fo8L0SSe1VB+Dev5Avf88dO2J+A2+X2nOVDNlRl0TlJkCQKNXEMun4I
+         78Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=395J0569LnaRWA472v3puXPnrDtJY+kjEZaMTdKvSBQ=;
-        b=3RSIZ6QU5EetpNLXH0wqQ8y13XeHD4t+odQ1neKc9UupCvE4Sz3M0PBjtIrBbT2TDK
-         gAK/yEKLO/nv8rwa3qmDqGoO7GOoD4HBeLyoVBdnuS5USMsIvFhAsJcq1mbEIYcUQ1hk
-         HOM9B0T9RRzWw/Ce3Yo8hVX/ZTtp77kyUV3tMhWFJSbKsBy5N0AURhmgnnUmiOyaZFS3
-         1bIlkWr9qonzJOwlUI2nsymRUxTZ2td7CDmBF9eWwU98EpeANWgk6PeIaflT6kmxwk8j
-         FRqChvCHY3gMyj+FwtZNevVcv02tPEc4V9gJsZOvxXY12Ifh0Cg+AzZXmnI0dRRuWDzI
-         D+0A==
-X-Gm-Message-State: AOAM531gvOQ5B3boi75GxmSEg9RVGstmikI9StpiJFcHScSe/+27OTxF
-	SBv5emYPvXgIngxFfppx+lI=
-X-Google-Smtp-Source: ABdhPJxVgsFO3rKY9OzRJNNROixvQzJshHDT8ewdwIw7yfkAHgBZQ1DauiCoNlWmGchIdGypbKmAQw==
-X-Received: by 2002:a25:4dd4:: with SMTP id a203mr45377370ybb.340.1643800091543;
-        Wed, 02 Feb 2022 03:08:11 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=HMzlecq5gwB9a8nz7GRwaGAC0q0NTUAiJIDcNX0QWn8=;
+        b=7NFropFOwOX/lAgBBi44AvWrEl6rbWOLxmBUKNSGK4x3NTEXh32Yo2fxGqA2JUMlKQ
+         BSPAMTOYiAM9OgkHydGymR3vh6qL2/SwJVqtuiZf86n5R7iErDN0Poz8lED0faQtDfBe
+         I+THPEBtLeZRN8OHwC5Uy5PHxoRRX9BeuiZc327F5O48t/OpLlrl2nuMwPhCw77ir0lS
+         5rki6opFjYp1lSAHHlvTB/hV3zop9wAHSDWg5/1wEuzR9zaLqyIGyFd9SeY3j/I68kAY
+         5pO64VoLXcF1GFZp6yKMghF+Pi2ww/IFLs/R2GyxwGNK33Z3X2NjFShOHFYc6cSfEEBm
+         a3MQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532oVI7ohL643eBhKfLqEvxLP2+iONA8d0fgQy8WCbN4h0rEdpM0
+	cPBC0+Afu+jNXq45QG4DB4w=
+X-Google-Smtp-Source: ABdhPJyM44nZGPz/1px17cHkdEcTP1aFcQxPOFv7IBRa8RNEP706UFn1/nCbu2kzPrbS5jWemU9XmQ==
+X-Received: by 2002:a05:6000:1a8c:: with SMTP id f12mr15160915wry.153.1643806142019;
+        Wed, 02 Feb 2022 04:49:02 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:684c:: with SMTP id d73ls15296839ybc.10.gmail; Wed, 02
- Feb 2022 03:08:11 -0800 (PST)
-X-Received: by 2002:a25:80d3:: with SMTP id c19mr41585355ybm.741.1643800091135;
-        Wed, 02 Feb 2022 03:08:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1643800091; cv=none;
+Received: by 2002:a5d:694d:: with SMTP id r13ls132482wrw.3.gmail; Wed, 02 Feb
+ 2022 04:49:01 -0800 (PST)
+X-Received: by 2002:a05:6000:2c6:: with SMTP id o6mr24665884wry.652.1643806141109;
+        Wed, 02 Feb 2022 04:49:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1643806141; cv=none;
         d=google.com; s=arc-20160816;
-        b=oB2V0D0h/wyJbuQXVN3EM39XS1A7Q/J+Fs7YRR4pLhi6yZ6V24aMHskYy4+xbWXk5H
-         vJDcywU9wVep7xHlVNrWPKRWS1sDfpJEQl2zHjWEjXW6Zbx6T50zX7lfMvEbNmuOcs9s
-         vtZNndLmVZ7mE97HcnkF63KPV+ND+pbzNdZNQ57QgtHS4038slginVDm0ut5uXB2cDeH
-         xDrQal6peRmcQb6gofkUKOjV3kNhT1KdXPVS220fAUM9/hRodxX2+61QN7nC6A/tqSNC
-         tjPZGAfyXo5qOuat0V14d/lY9UmjBW82e5VD9Oufft5D3+KczNn+KoBaNh1HUvOOqrcB
-         o6TQ==
+        b=VgQ5Edxm+rXPyGhq3r1WiWxgSPmNpglhbhjU/Gu+s6BZ8smAsdmZ2sY8Ucvlbsm0w6
+         WEWLahQ/Ddyq1k6QU1Eqb86B+Wyk9YkDLgZ64qgAr7rET/LmvmabuTbyPUsrkZjUk8K2
+         y5oTzObZnrmGiOxJy2MZIjDLRIMh2QOQOf39qe49PIjn4lduKzUSd//HPZCK8eUYbGmz
+         /n/wVxGnqwKbvDYT10yxuzeS5NY1BiF9+zr0ciKQ2GG/zS34vfYkrQqD80KC5Avcmnwc
+         ZZ24u8lsfxKHC/30wCAMgFT/NTgtfL6WL1aLA1sIg3iNqAobNI1FEa6EYzTvm1QZ+riB
+         tqkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=KvwP2pq0A69XLEtJRHQeT2K6fCrFL3jZAy9726cRZ/o=;
-        b=px5zeBmtpEViCtoyGYqFOO8EqyKCMDnj+rnMyZHr1J9jl4b8QDk+v9LAcFnDc0ythz
-         9POeWMgg/mst9amAXPvnXDmy0DvIKmQlgjXvFNLixFdp5q7NsSJYgTxEzig8Qmbw7DlX
-         9UeUIh9cyRzJWOOvcHyve+j516zuEBfNw+ciqOTKviIe1pjCUWLILDEE2ZefAmoXQpF5
-         vZ6fbpCKAQiozv3/n1dFXxXYkSAuASVoOq38CC1ieEiLHBYOuCCvLgGPVEQnkUpI+f+t
-         TmS5zcF5QsmSMOhwDAtOMznwGr0jYrUQhJ1hVH3INXVcszjVS6gNp6ZqTddbsPbvEPdG
-         EiXA==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=S8xFoYAKrReiu59zd7UrpcZcdCu8dsHolcjZ5jizCUM=;
+        b=o9a7oEQ5x9Rp703j3pmDZT5sXpIXlmPLObIrs3E3HvLDTX3Ha4wWMHQI7lVOQQF1qq
+         aasGvbDy7gPCk6wGqNj6swCDUOdbJyCy1KjJdiBAAt36EUNgYk00On7fSJ0MDNz3XG0m
+         O/beNuajUxWdISMmF3JjKyzZppUqs0/6PFRxzd8W2JzT/GSi4JBZPGz30BlRIWxNoQDh
+         n3Z8ll02/sbLelHcMRH3IoT6AxTpuH3T6nD2O73fGwwCIsRXQ352reA9z0xMNwmUWzwH
+         MrqF9X+VvF9JWYja6lL4/kmLmSG0OHUsRrDDxUTjbzDntyUijK52CXraaN9IIWhQcH78
+         EamA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=hkqcAskl;
-       spf=pass (google.com: domain of nogikh@google.com designates 2607:f8b0:4864:20::133 as permitted sender) smtp.mailfrom=nogikh@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com. [2607:f8b0:4864:20::133])
-        by gmr-mx.google.com with ESMTPS id f5si1239907ybf.2.2022.02.02.03.08.11
+       dkim=pass header.i=@intel.com header.s=Intel header.b=Dzoi4e4K;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga09.intel.com (mga09.intel.com. [134.134.136.24])
+        by gmr-mx.google.com with ESMTPS id l24si361445wmg.1.2022.02.02.04.49.00
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Feb 2022 03:08:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of nogikh@google.com designates 2607:f8b0:4864:20::133 as permitted sender) client-ip=2607:f8b0:4864:20::133;
-Received: by mail-il1-x133.google.com with SMTP id q11so8530798ild.11
-        for <kasan-dev@googlegroups.com>; Wed, 02 Feb 2022 03:08:11 -0800 (PST)
-X-Received: by 2002:a05:6e02:1a4f:: with SMTP id u15mr6037825ilv.245.1643800090714;
- Wed, 02 Feb 2022 03:08:10 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 02 Feb 2022 04:49:01 -0800 (PST)
+Received-SPF: pass (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted sender) client-ip=134.134.136.24;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="247676219"
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; 
+   d="scan'208";a="247676219"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 04:48:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; 
+   d="scan'208";a="480094065"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 02 Feb 2022 04:48:56 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1nFF4B-000UaO-M6; Wed, 02 Feb 2022 12:48:55 +0000
+Date: Wed, 2 Feb 2022 20:48:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: kbuild-all@lists.01.org,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH 2/4] mm/kasan: Move kasan_pXX_table() and
+ kasan_early_shadow_page_entry()
+Message-ID: <202202022041.mkJKLdPP-lkp@intel.com>
+References: <3fe9bf0867b2ffc7cd43fe7040ee18d245641ec1.1643791473.git.christophe.leroy@csgroup.eu>
 MIME-Version: 1.0
-References: <00000000000038779505d5d8b372@google.com>
-In-Reply-To: <00000000000038779505d5d8b372@google.com>
-From: "'Aleksandr Nogikh' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 2 Feb 2022 12:07:59 +0100
-Message-ID: <CANp29Y7WjwXwgxPrNq0XXjXPu+wGFqTreh9gry=O6aE7+cKpLQ@mail.gmail.com>
-Subject: Re: [syzbot] riscv/fixes boot error: can't ssh into the instance
-To: linux-riscv@lists.infradead.org, kasan-dev <kasan-dev@googlegroups.com>, 
-	palmer@dabbelt.com, alexandre.ghiti@canonical.com
-Cc: syzbot <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com>, 
-	LKML <linux-kernel@vger.kernel.org>, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: nogikh@google.com
+Content-Disposition: inline
+In-Reply-To: <3fe9bf0867b2ffc7cd43fe7040ee18d245641ec1.1643791473.git.christophe.leroy@csgroup.eu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: lkp@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=hkqcAskl;       spf=pass
- (google.com: domain of nogikh@google.com designates 2607:f8b0:4864:20::133 as
- permitted sender) smtp.mailfrom=nogikh@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Aleksandr Nogikh <nogikh@google.com>
-Reply-To: Aleksandr Nogikh <nogikh@google.com>
+ header.i=@intel.com header.s=Intel header.b=Dzoi4e4K;       spf=pass
+ (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted
+ sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,68 +150,153 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello,
+Hi Christophe,
 
-syzbot has already not been able to fuzz its RISC-V instance for 97
-days now because the compiled kernel cannot boot. I bisected the issue
-to the following commit:
+I love your patch! Yet something to improve:
 
-commit 54c5639d8f507ebefa814f574cb6f763033a72a5
-Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Date:   Fri Oct 29 06:59:27 2021 +0200
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on linus/master v5.17-rc2]
+[cannot apply to hnaz-mm/master next-20220202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-    riscv: Fix asan-stack clang build
+url:    https://github.com/0day-ci/linux/commits/Christophe-Leroy/mm-kasan-Add-CONFIG_KASAN_SOFTWARE/20220202-164612
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git ec2444530612a886b406e2830d7f314d1a07d4bb
+config: riscv-randconfig-r042-20220130 (https://download.01.org/0day-ci/archive/20220202/202202022041.mkJKLdPP-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/23eabd57613c3b304c1c54f1133ef5376cf5731d
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Christophe-Leroy/mm-kasan-Add-CONFIG_KASAN_SOFTWARE/20220202-164612
+        git checkout 23eabd57613c3b304c1c54f1133ef5376cf5731d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash kernel/
 
-Apparently, the problem appears on GCC-built RISC-V kernels with KASAN
-enabled. In the previous message syzbot mentions
-"riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU
-Binutils for Debian) 2.35.2", but the issue also reproduces finely on
-a newer GCC compiler: "riscv64-linux-gnu-gcc (Debian 11.2.0-10)
-11.2.0, GNU ld (GNU Binutils for Debian) 2.37".
-For convenience, I also duplicate the .config file from the bot's
-message: https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Can someone with KASAN and RISC-V expertise please take a look?
+All errors (new ones prefixed by >>):
 
+   In file included from include/linux/slab.h:136,
+                    from kernel/fork.c:16:
+>> include/linux/kasan.h:102:36: error: unknown type name 'p4d_t'; did you mean 'pgd_t'?
+     102 | static inline bool kasan_pud_table(p4d_t p4d)
+         |                                    ^~~~~
+         |                                    pgd_t
+>> include/linux/kasan.h:113:36: error: unknown type name 'pud_t'; did you mean 'pgd_t'?
+     113 | static inline bool kasan_pmd_table(pud_t pud)
+         |                                    ^~~~~
+         |                                    pgd_t
+>> include/linux/kasan.h:130:36: error: unknown type name 'pmd_t'; did you mean 'pgd_t'?
+     130 | static inline bool kasan_pte_table(pmd_t pmd)
+         |                                    ^~~~~
+         |                                    pgd_t
+   kernel/fork.c:162:13: warning: no previous prototype for 'arch_release_task_struct' [-Wmissing-prototypes]
+     162 | void __weak arch_release_task_struct(struct task_struct *tsk)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/fork.c:764:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
+     764 | void __init __weak arch_task_cache_init(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~
 --
-Best Regards,
-Aleksandr
+   In file included from include/linux/slab.h:136,
+                    from kernel/resource.c:17:
+>> include/linux/kasan.h:102:36: error: unknown type name 'p4d_t'; did you mean 'pgd_t'?
+     102 | static inline bool kasan_pud_table(p4d_t p4d)
+         |                                    ^~~~~
+         |                                    pgd_t
+>> include/linux/kasan.h:113:36: error: unknown type name 'pud_t'; did you mean 'pgd_t'?
+     113 | static inline bool kasan_pmd_table(pud_t pud)
+         |                                    ^~~~~
+         |                                    pgd_t
+>> include/linux/kasan.h:130:36: error: unknown type name 'pmd_t'; did you mean 'pgd_t'?
+     130 | static inline bool kasan_pte_table(pmd_t pmd)
+         |                                    ^~~~~
+         |                                    pgd_t
+--
+   In file included from include/linux/slab.h:136,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:14,
+                    from kernel/irq/irqdomain.c:5:
+>> include/linux/kasan.h:102:36: error: unknown type name 'p4d_t'; did you mean 'pgd_t'?
+     102 | static inline bool kasan_pud_table(p4d_t p4d)
+         |                                    ^~~~~
+         |                                    pgd_t
+>> include/linux/kasan.h:113:36: error: unknown type name 'pud_t'; did you mean 'pgd_t'?
+     113 | static inline bool kasan_pmd_table(pud_t pud)
+         |                                    ^~~~~
+         |                                    pgd_t
+>> include/linux/kasan.h:130:36: error: unknown type name 'pmd_t'; did you mean 'pgd_t'?
+     130 | static inline bool kasan_pte_table(pmd_t pmd)
+         |                                    ^~~~~
+         |                                    pgd_t
+   kernel/irq/irqdomain.c:1918:13: warning: no previous prototype for 'irq_domain_debugfs_init' [-Wmissing-prototypes]
+    1918 | void __init irq_domain_debugfs_init(struct dentry *root)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-On Tue, Jan 18, 2022 at 11:26 AM syzbot
-<syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following issue on:
->
-> HEAD commit:    f6f7fbb89bf8 riscv: dts: sifive unmatched: Link the tmp451..
-> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git fixes
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1095f85bb00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
-> dashboard link: https://syzkaller.appspot.com/bug?extid=330a558d94b58f7601be
-> compiler:       riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> userspace arch: riscv64
->
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com
->
->
->
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/00000000000038779505d5d8b372%40google.com.
+vim +102 include/linux/kasan.h
+
+    84	
+    85	#if defined(CONFIG_KASAN_SOFTWARE) && CONFIG_PGTABLE_LEVELS > 4
+    86	static inline bool kasan_p4d_table(pgd_t pgd)
+    87	{
+    88		return pgd_page(pgd) == virt_to_page(lm_alias(kasan_early_shadow_p4d));
+    89	}
+    90	#else
+    91	static inline bool kasan_p4d_table(pgd_t pgd)
+    92	{
+    93		return false;
+    94	}
+    95	#endif
+    96	#if defined(CONFIG_KASAN_SOFTWARE) && CONFIG_PGTABLE_LEVELS > 3
+    97	static inline bool kasan_pud_table(p4d_t p4d)
+    98	{
+    99		return p4d_page(p4d) == virt_to_page(lm_alias(kasan_early_shadow_pud));
+   100	}
+   101	#else
+ > 102	static inline bool kasan_pud_table(p4d_t p4d)
+   103	{
+   104		return false;
+   105	}
+   106	#endif
+   107	#if defined(CONFIG_KASAN_SOFTWARE) && CONFIG_PGTABLE_LEVELS > 2
+   108	static inline bool kasan_pmd_table(pud_t pud)
+   109	{
+   110		return pud_page(pud) == virt_to_page(lm_alias(kasan_early_shadow_pmd));
+   111	}
+   112	#else
+ > 113	static inline bool kasan_pmd_table(pud_t pud)
+   114	{
+   115		return false;
+   116	}
+   117	#endif
+   118	
+   119	#ifdef CONFIG_KASAN_SOFTWARE
+   120	static inline bool kasan_pte_table(pmd_t pmd)
+   121	{
+   122		return pmd_page(pmd) == virt_to_page(lm_alias(kasan_early_shadow_pte));
+   123	}
+   124	
+   125	static inline bool kasan_early_shadow_page_entry(pte_t pte)
+   126	{
+   127		return pte_page(pte) == virt_to_page(lm_alias(kasan_early_shadow_page));
+   128	}
+   129	#else
+ > 130	static inline bool kasan_pte_table(pmd_t pmd)
+   131	{
+   132		return false;
+   133	}
+   134	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANp29Y7WjwXwgxPrNq0XXjXPu%2BwGFqTreh9gry%3DO6aE7%2BcKpLQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202202022041.mkJKLdPP-lkp%40intel.com.
