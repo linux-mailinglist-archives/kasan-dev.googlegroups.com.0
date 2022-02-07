@@ -1,130 +1,61 @@
-Return-Path: <kasan-dev+bncBAABBGFEQKIAMGQE3J52YTQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDYJBWGN54OBB5OXQKIAMGQEKVBDPJY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x339.google.com (mail-ot1-x339.google.com [IPv6:2607:f8b0:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB704AB36C
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Feb 2022 04:29:29 +0100 (CET)
-Received: by mail-ot1-x339.google.com with SMTP id l34-20020a0568302b2200b005a22eb442dasf5165084otv.15
-        for <lists+kasan-dev@lfdr.de>; Sun, 06 Feb 2022 19:29:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644204568; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=HN2K2Nq2zVwP5o+hhWYf1aRh18k2TkDhLlYEPt2MXeYb4jad62sqrBna1We2CUr7zV
-         kXXSjudHDr5KU4gjJLTw8+OcXunKF3uLPvNvuEyHwVGlqjqyVApS/spSTOemBymPtXab
-         Z+gsZG2pJMStsd0XSJpcmHB1XhVxXG57F43Zl9MagHAuafitFTR9DtOZ8RNHpWtft03z
-         +BENjuFgBe6KQo7lPqyPeFMYhjn38Of9NmnNsYsggJnk7qGieSwG63Sndgy7S7PrXRPJ
-         wlOz0nCFUcltSwq7XJr21+Twq0tu+JDdzd8mG5TCX3dGtHJXaj12QSdFHgn0hMyTY8rd
-         vYeg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=WI4pRQiYIiHs3Xlk01dMG5ydVPgvT6ocY/SZ3wh/984=;
-        b=yqRy+KgNIizbArOvsdaneseE6CTNy4jJfiH3qB7GUFq3YHL6V7rml5cMKrroNRjcN0
-         wB58zScK4Cc7ubUiNVlMtcvKx6lXE7R/Z5oZvQdK1X7OOMIny86G92zjzwOxD/uQFONo
-         4yyXrW5mAic+ZVBqFoLwEov6sunuRzH9lJrvuYKLbG7b8Qj+3pnoMcD5+Icq7zYZ4FSr
-         qCWyympP5hgpq80Zi3gSkbq1xujeFFkzUyeVQUtuiOO/0CsOWC7VeLaUk5SQy5F7EzUD
-         6SxiTPb6aTEtKnCVGb4mBoHibGr2udRtUj21LsV4+8h4dR5m8uLXwAlzSMjiBzUb8MzH
-         Gveg==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=liupeng256@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2834AB388
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Feb 2022 06:19:51 +0100 (CET)
+Received: by mail-oo1-xc3e.google.com with SMTP id h7-20020a4aa287000000b002eb15de5797sf8214424ool.23
+        for <lists+kasan-dev@lfdr.de>; Sun, 06 Feb 2022 21:19:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=WI4pRQiYIiHs3Xlk01dMG5ydVPgvT6ocY/SZ3wh/984=;
-        b=WyH5aWNMYTltbshu7HOAa3nGHnZAk4FHPObZdmPDUs3//RQDOGbuKxg9FsR8/c5d/l
-         eHDPkuJq1P0/sUXQ88RIUsbx3/PQml+Dhx5S5t5yzJRgFGr5G/aPWApC5RzcA9REk9uR
-         HL1VPl4MBRIpTrqLNpuPOt/E644FiuaJUB32yObqOENy2WMZjAcYBtQLckAqmppSnY/1
-         doPrCN2RhuTJyS84biO13eJVM1+rmPOJDvuDw0iTORNl5b4K6xBQ6/x9k/5X7mXHqz1L
-         SFtDqj4FiJbcUWn1u1H0saooJp3QbvzcTbWsArnapSBJDpDdf451xdi+LfWHr4HwfYT1
-         dgSA==
+        h=sender:date:from:to:message-id:subject:mime-version
+         :x-original-sender:precedence:mailing-list:list-id:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=F7hlcbIwjYvaguLDUK4yW6Gf6hQIPU0pwupKuG8nSDE=;
+        b=mGuGqL50E9nFUsA08jARF0r8mCH2a+YUhvfstvRGPs4y3Muvt32Vma2qjMss3kdIBd
+         lohXVL1xFxU4k7MwdqoM2s1sR8sSEtWXMaVSu2rrYuWfKW3rr/ndVda3MnjHHLK4SvXK
+         bg5ww9dfygx6Dij1LoFpWxW7b91u6gn4uPw0XfTNmJgoefqFtgKPliMDokWW7G8YTEL+
+         Hj9zx3883cFEioQgyjD3nG/QOFmem0kTjKOcQ6hDHvparYFXku8tCllZ3tOeXDPz986y
+         MZL6oDJplOWpPMYgZBZB+LVoBahXL+UgEoxwlxCsUyvDXk8Rgp8zDleQX2g1hPWMfMrZ
+         2T2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=WI4pRQiYIiHs3Xlk01dMG5ydVPgvT6ocY/SZ3wh/984=;
-        b=RaSke48TTapRhUkLuYDASpCHYHVogQz9h1PhERgPMHGJ218Pal5knSDYCgMPM+5WQV
-         9Rrduge88MvozNC53YFUtcH14RaJA2+FxO4um4Ky4KZla+MtgC7PFOc26GGvbHyYsEeO
-         kGOkkOudP4yKGnTOIqt5RaRB+ODeJp1Tl1jqEIO8M/EKukbuJ9z9AzAeDGV2hGaXUXF4
-         Gf3VIvy2gS59RG48zQpnN8PoSCKLjeaqIBgiqbplR4APrl8l8Ihk3OgWrGyCr/LNjRV9
-         YplPPRAWrnuqGiU9SAU6sAe6MBeQiHS81yaFAZ5qSpZoHe5qSF9feOjaB9v5E3t6O4OJ
-         Ztug==
-X-Gm-Message-State: AOAM530jk2HuyjmrR7ukrHIsw8p27npWQkSlVzWcJHCZW040jtVwR8tk
-	KKsNth5H5FopruY3T2zcI9U=
-X-Google-Smtp-Source: ABdhPJxUpsk59NvIKzgPYj/lBBEVDebdbBpSCBnvGqpSnYBIVvYuYJ+QhPWFvQhYTAy6Q/STzUx8Zg==
-X-Received: by 2002:a05:6808:189f:: with SMTP id bi31mr4365882oib.5.1644204568119;
-        Sun, 06 Feb 2022 19:29:28 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:message-id:subject
+         :mime-version:x-original-sender:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=F7hlcbIwjYvaguLDUK4yW6Gf6hQIPU0pwupKuG8nSDE=;
+        b=6SBFyyfnK3MavPSfEt+/zjjLhuEusbEC+uWZCDaF9akX5UqZfP1iom5WaogjRIIdPN
+         QvyTyaGPnX05EEYQdBcMprk5vHb9XTmIP9oMYMII7IVQl4QKnhsiix8WI9WBK831B9Vq
+         JiFJEiKhBUQeILIygR4JQwjLvQMuJ3aVkFqI0fQtjDLJ9cr6ngl9FJaQ9fsk9vP7k6lJ
+         AOEit8z3hxnAE4LSZJe4Dpl3J7XIivWP/bhJe7LEpSu6p0BQIPwYGN/epyWWhaOFEzT5
+         DMyou4qTetG48OgXmoQGWbmdZF4+z0Uwv7TCicjWTvrM+kK0JTeGtr9/55NZuczyOOub
+         ke0w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531UvAd95ZeMm0agpezw0QXONCsJmgKWlS1HdG483swwEp71Nr46
+	dNDJ6RANKe/N0ynuRq6EsIU=
+X-Google-Smtp-Source: ABdhPJzYV8+25rn4MoFnxHuRnJm3uiV5Q4kQLt4rnbXaHskI8KPKe6advDlKUk9f2YYTLBtBa9aOtw==
+X-Received: by 2002:a05:6808:1149:: with SMTP id u9mr4431340oiu.68.1644211189788;
+        Sun, 06 Feb 2022 21:19:49 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:c787:: with SMTP id dy7ls402916oab.11.gmail; Sun,
- 06 Feb 2022 19:29:27 -0800 (PST)
-X-Received: by 2002:a05:6870:344:: with SMTP id n4mr2782875oaf.209.1644204567821;
-        Sun, 06 Feb 2022 19:29:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644204567; cv=none;
-        d=google.com; s=arc-20160816;
-        b=kSOxE9e4467cB+fxlT5GvpexoVTuIEOtj1dXgG8LoEayZ5UCRIU2bRBwegeJve7Sxv
-         tUCtniFgU1WByXrgJ8E4dLoi46DrZPZAYw8Wg7fdDO6D/I+M49izbfngwmuBf0OHjkKx
-         mQppaF250t583tP5ojyvM5d+n5plp7x8SMPZtZKFtSlrcpEBsKWQil3k3wZnkHc8vzCk
-         f+RhNdpijVNmHl/WxXzzN001hboq9jox0At4gpZDh/1hoy3sog6jFEWkGcVVwaCSZw2a
-         BH29otbsUxwpR6q/w+U+Z+HqDwNo3BHGyU4mQqZArJMIcXeTGQ8bk5Mdmojf0nkSDLvb
-         QNsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:cc:to:from;
-        bh=gTo8ai/a7MM1heAA3JG4rDQ6Cc/5KlwuCu3+RgSziU0=;
-        b=X74AqVK1EOgZB2UGdoksAhgQFJEj7in9R+c31LBlD7RcW2kSYHthe+Ag5d+t00bdYy
-         w9367Cqq8/BCfIW79sdwD5ib46UXfM1SvnTOb18oD7UR5bYhGPWM8whI5ar/sjiZGPSu
-         gTu/0lkYe/9MCaV5o4rgjS2t+JRfXVT6HUBxe/f9ndOdsUN6UzY3yVzP9t9bjojC6b+q
-         xwnOsye1OIK2fL/mD1B4/Rx6e9Y5ONkTO+rwdbU47kbiog6ZdEA1C1oKBJT1EVxLQ/PM
-         NIjD87ZmwBjrDPDlZ5JcQcYZAeSK++j6pXnAisoHeDklK027Fzn1/3p9o2ayujsPjPdQ
-         XpDg==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=liupeng256@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id x31si608609otr.0.2022.02.06.19.29.27
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Feb 2022 19:29:27 -0800 (PST)
-Received-SPF: pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from kwepemi500011.china.huawei.com (unknown [172.30.72.55])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JsWjl51mXzZfM0;
-	Mon,  7 Feb 2022 11:25:15 +0800 (CST)
-Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
- kwepemi500011.china.huawei.com (7.221.188.124) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Feb 2022 11:29:25 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- kwepemm600017.china.huawei.com (7.193.23.234) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Feb 2022 11:29:24 +0800
-From: "'Peng Liu' via kasan-dev" <kasan-dev@googlegroups.com>
-To: <glider@google.com>, <elver@google.com>, <dvyukov@google.com>,
-	<corbet@lwn.net>, <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-	<akpm@linux-foundation.org>
-CC: <kasan-dev@googlegroups.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-	<linux-mm@kvack.org>, <liupeng256@huawei.com>
-Subject: [PATCH v3] kfence: Make test case compatible with run time set sample interval
-Date: Mon, 7 Feb 2022 03:44:32 +0000
-Message-ID: <20220207034432.185532-1-liupeng256@huawei.com>
-X-Mailer: git-send-email 2.18.0.huawei.25
+Received: by 2002:a05:6830:411d:: with SMTP id w29ls1115042ott.10.gmail; Sun,
+ 06 Feb 2022 21:19:49 -0800 (PST)
+X-Received: by 2002:a05:6830:1be7:: with SMTP id k7mr3640105otb.209.1644211189391;
+        Sun, 06 Feb 2022 21:19:49 -0800 (PST)
+Date: Sun, 6 Feb 2022 21:19:48 -0800 (PST)
+From: ANDREA SIGNINI EROI ANTI BERLUSCONIANI PRONTIATUTTO
+ <mahredkaled@mail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <4f8678c2-20ae-4ab3-a31e-e0fad5adc0ffn@googlegroups.com>
+Subject: =?UTF-8?Q?=C3=89_PEDOFILO_ASSASSINO:_PAOLO_BAR?=
+ =?UTF-8?Q?RAI!_IL_TRUFFATORE_EFFERATO_DI_?=
+ =?UTF-8?Q?CRIMINALE_#BIGBIT,_CRIMINALE_#TERRANFT_E_CRIMINALE_#TERRABITCOI?=
+ =?UTF-8?Q?N!_IL_DELINQUENTE_LEGHISTA_CHE_VENNE_ARRESTATO,_LUCA_SOSTEGNI,?=
+ =?UTF-8?Q?_SCAPPAVA_A_PORTO_SEGURO,_DOVE_IL_KILLER_#PAOLOBARRAI_HA.......?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemm600017.china.huawei.com (7.193.23.234)
-X-CFilter-Loop: Reflected
-X-Original-Sender: liupeng256@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of liupeng256@huawei.com designates 45.249.212.187 as
- permitted sender) smtp.mailfrom=liupeng256@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Peng Liu <liupeng256@huawei.com>
-Reply-To: Peng Liu <liupeng256@huawei.com>
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_3838_2053454498.1644211188838"
+X-Original-Sender: mahredkaled@mail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,94 +68,161 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The parameter kfence_sample_interval can be set via boot parameter
-and late shell command, which is convenient for automated tests and
-KFENCE parameter optimization. However, KFENCE test case just uses
-compile-time CONFIG_KFENCE_SAMPLE_INTERVAL, which will make KFENCE
-test case not run as users desired. Export kfence_sample_interval,
-so that KFENCE test case can use run-time-set sample interval.
+------=_Part_3838_2053454498.1644211188838
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_3839_942533070.1644211188838"
 
-Signed-off-by: Peng Liu <liupeng256@huawei.com>
----
-v2->v3:
-- Revise change log description
-v1->v2:
-- Use EXPORT_SYMBOL_GPL replace EXPORT_SYMBOL
+------=_Part_3839_942533070.1644211188838
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- include/linux/kfence.h  | 2 ++
- mm/kfence/core.c        | 3 ++-
- mm/kfence/kfence_test.c | 8 ++++----
- 3 files changed, 8 insertions(+), 5 deletions(-)
+=C3=89 PEDOFILO ASSASSINO: PAOLO BARRAI! IL TRUFFATORE EFFERATO DI CRIMINAL=
+E=20
+#BIGBIT, CRIMINALE #TERRANFT E CRIMINALE #TERRABITCOIN! IL DELINQUENTE=20
+LEGHISTA CHE VENNE ARRESTATO, LUCA SOSTEGNI, SCAPPAVA A PORTO SEGURO, DOVE=
+=20
+IL KILLER #PAOLOBARRAI HA.......... LAVATO PARTE DEI 49 MLN =E2=82=AC RUBAT=
+I DA=20
+#LEGALADRONA!
+https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.=
+jpg
 
-diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-index 4b5e3679a72c..f49e64222628 100644
---- a/include/linux/kfence.h
-+++ b/include/linux/kfence.h
-@@ -17,6 +17,8 @@
- #include <linux/atomic.h>
- #include <linux/static_key.h>
- 
-+extern unsigned long kfence_sample_interval;
-+
- /*
-  * We allocate an even number of pages, as it simplifies calculations to map
-  * address to metadata indices; effectively, the very first page serves as an
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 5ad40e3add45..13128fa13062 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -47,7 +47,8 @@
- 
- static bool kfence_enabled __read_mostly;
- 
--static unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
-+unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
-+EXPORT_SYMBOL_GPL(kfence_sample_interval); /* Export for test modules. */
- 
- #ifdef MODULE_PARAM_PREFIX
- #undef MODULE_PARAM_PREFIX
-diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-index a22b1af85577..50dbb815a2a8 100644
---- a/mm/kfence/kfence_test.c
-+++ b/mm/kfence/kfence_test.c
-@@ -268,13 +268,13 @@ static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocat
- 	 * 100x the sample interval should be more than enough to ensure we get
- 	 * a KFENCE allocation eventually.
- 	 */
--	timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
-+	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
- 	/*
- 	 * Especially for non-preemption kernels, ensure the allocation-gate
- 	 * timer can catch up: after @resched_after, every failed allocation
- 	 * attempt yields, to ensure the allocation-gate timer is scheduled.
- 	 */
--	resched_after = jiffies + msecs_to_jiffies(CONFIG_KFENCE_SAMPLE_INTERVAL);
-+	resched_after = jiffies + msecs_to_jiffies(kfence_sample_interval);
- 	do {
- 		if (test_cache)
- 			alloc = kmem_cache_alloc(test_cache, gfp);
-@@ -608,7 +608,7 @@ static void test_gfpzero(struct kunit *test)
- 	int i;
- 
- 	/* Skip if we think it'd take too long. */
--	KFENCE_TEST_REQUIRES(test, CONFIG_KFENCE_SAMPLE_INTERVAL <= 100);
-+	KFENCE_TEST_REQUIRES(test, kfence_sample_interval <= 100);
- 
- 	setup_test_cache(test, size, 0, NULL);
- 	buf1 = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-@@ -739,7 +739,7 @@ static void test_memcache_alloc_bulk(struct kunit *test)
- 	 * 100x the sample interval should be more than enough to ensure we get
- 	 * a KFENCE allocation eventually.
- 	 */
--	timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
-+	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
- 	do {
- 		void *objects[100];
- 		int i, num = kmem_cache_alloc_bulk(test_cache, GFP_ATOMIC, ARRAY_SIZE(objects),
--- 
-2.18.0.huawei.25
+NE SCRIVE IL MIO BANCHIERE DI FIDUCIA. L'EROICO ANDREAS NIGG DI BANK J=20
+SAFRA SARASIN ZURICH.
+A VOI ANDREAS.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220207034432.185532-1-liupeng256%40huawei.com.
+RAPISCE, INCULA ED UCCIDE TANTI BAMBINI: PAOLO BARRAI (NOTO COME "IL=20
+PEDOFILO DEL BITCOIN, DI LEGA LADRONA, DI PEDOFILO ASSASSINO SILVIO=20
+BERLUSCONI #SILVIOBERLUSCONI E DI PEDOFILA ASSASSINA MARINA BERLUSCONI=20
+#MARINABERLUSCONI ")! =C3=89 SEMPRE LI A "SPENNARE" ECONOMICAMENTE I POLLI =
+DEL=20
+WEB, IL FALSO, LADRO, TRUFFATORE #PAOLOPIETROBARRAI! AZZERA I TUOI=20
+RISPARMI, NON AZZECCA MAI 1 PREVISIONI IN BORSA, CHE 1: PAOLO PIETRO=20
+BARRAI! =C3=89 UN NAZISTA OMICIDA CHE RICICLA SOLDI STRA ASSASSINI DI=20
+NDRANGHETA, CAMORRA, MAFIA, SACRA CORONA UNITA E LEGA LADRONA:=20
+#PAOLOPIETROBARRAI PAOLO PIETRO BARRAI!
+
+SALVE. SONO ANDREAS NIGG. VICE PRESIDENT DI BANCA J SAFRA SARASIN DI ZURIGO=
+.
+https://citywireselector.com/manager/andreas-nigg/d2395
+https://ch.linkedin.com/in/andreasnigg
+https://www.blogger.com/profile/13220677517437640922
+
+E VI VOGLIO DIRE CON TUTTE LE MIE FORZE CHE...
+
+IL LEGHISTA PEDOFILO ED ASSASSINO PAOLO BARRAI (NATO A MILANO IL=20
+28.6.1965), IL LEGHISTA INCULA ED AMMAZZA BAMBINI PAOLO PIETRO BARRAI (NOTO=
+=20
+IN TUTTO IL MONDO COME IL PEDOFILO DEL BITCOIN), IL FIGLIO DI PUTTANA PAOLO=
+=20
+BARRAI DI CRIMINALISSIMA #TERRABITCOIN, #TERRABITCOINCLUB E DI=20
+CRIMINALISSIMA #TERRANFT, E' DA ANNI INDAGATO DA PROCURA DI MILANO, PROCURA=
+=20
+DI LUGANO, PROCURA DI ZUGO, SCOTLAND YARD LONDRA, FBI NEW YORK, POLICIA=20
+CIVIL DI PORTO SEGURO (BR).
+
+=C3=89 DAVVERO PEDERASTA ED OMICIDA: PAOLO BARRAI DI CRIMINALE TERRA BITCOI=
+N (O=20
+CRIMINALE TERRABITCOIN CLUB)! IL LEGHISTA DELINQUENTE LUCA SOSTEGNI,=20
+ARRESTATO, SCAPPAVA IN CITATA PORTO SEGURO (BR), OSSIA, GUARDA CASO, DOVE=
+=20
+IL KILLER NAZISTA PAOLO BARRAI HA RICICLATO PARTE DEI 49 MLN =E2=82=AC RUBA=
+TI DA=20
+LEGA LADRONA!
+
+(ECCONE LE PROVE
+https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.=
+jpg
+http://noticiasdeportoseguro.blogspot.com/2011/03/quem-e-pietro-paolo-barra=
+i.html
+http://portoseguroagora.blogspot.com/2011/03/porto-seguro-o-blogueiro-itali=
+ano-sera.html
+http://www.rotadosertao.com/noticia/10516-porto-seguro-policia-investiga-bl=
+ogueiro-italiano-suspeito-de-estelionato
+https://www.jornalgrandebahia.com.br/2011/03/policia-civil-investiga-blogue=
+iro-italiano-suspeito-de-estelionato-em-porto-seguro/
+https://osollo.com.br/blogueiro-italiano-sera-indiciado-por-estelionato-cal=
+unia-e-difamacao-pela-policia-civil-de-porto-seguro/
+https://www.redegn.com.br/?sessao=3Dnoticia&cod_noticia=3D13950
+http://www.devsuperpage.com/search/Articles.aspx?hl=3Den&G=3D23&ArtID=3D301=
+216)
+
+CONTINUA QUI=20
+https://groups.google.com/g/comp.lang.python/c/o9J4wCi_cW4
+TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
+https://groups.google.com/g/comp.lang.python/c/o9J4wCi_cW4
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/4f8678c2-20ae-4ab3-a31e-e0fad5adc0ffn%40googlegroups.com.
+
+------=_Part_3839_942533070.1644211188838
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+=C3=89 PEDOFILO ASSASSINO: PAOLO BARRAI! IL TRUFFATORE EFFERATO DI CRIMINAL=
+E #BIGBIT, CRIMINALE #TERRANFT E CRIMINALE #TERRABITCOIN! IL DELINQUENTE LE=
+GHISTA CHE VENNE ARRESTATO, LUCA SOSTEGNI, SCAPPAVA A PORTO SEGURO, DOVE IL=
+ KILLER #PAOLOBARRAI HA.......... LAVATO PARTE DEI 49 MLN =E2=82=AC RUBATI =
+DA #LEGALADRONA!<br>https://oneway2day.files.wordpress.com/2019/01/indagato=
+aiutalelisteciviche.jpg<br><br>NE SCRIVE IL MIO BANCHIERE DI FIDUCIA. L'ERO=
+ICO ANDREAS NIGG DI BANK J SAFRA SARASIN ZURICH.<br>A VOI ANDREAS.<br><br>R=
+APISCE, INCULA ED UCCIDE TANTI BAMBINI: PAOLO BARRAI (NOTO COME "IL PEDOFIL=
+O DEL BITCOIN, DI LEGA LADRONA, DI PEDOFILO ASSASSINO SILVIO BERLUSCONI #SI=
+LVIOBERLUSCONI E DI PEDOFILA ASSASSINA MARINA BERLUSCONI #MARINABERLUSCONI =
+")! =C3=89 SEMPRE LI A "SPENNARE" ECONOMICAMENTE I POLLI DEL WEB, IL FALSO,=
+ LADRO, TRUFFATORE #PAOLOPIETROBARRAI! AZZERA I TUOI RISPARMI, NON AZZECCA =
+MAI 1 PREVISIONI IN BORSA, CHE 1: PAOLO PIETRO BARRAI! =C3=89 UN NAZISTA OM=
+ICIDA CHE RICICLA SOLDI STRA ASSASSINI DI NDRANGHETA, CAMORRA, MAFIA, SACRA=
+ CORONA UNITA E LEGA LADRONA: #PAOLOPIETROBARRAI PAOLO PIETRO BARRAI!<br><b=
+r>SALVE. SONO ANDREAS NIGG. VICE PRESIDENT DI BANCA J SAFRA SARASIN DI ZURI=
+GO.<br>https://citywireselector.com/manager/andreas-nigg/d2395<br>https://c=
+h.linkedin.com/in/andreasnigg<br>https://www.blogger.com/profile/1322067751=
+7437640922<br><br>E VI VOGLIO DIRE CON TUTTE LE MIE FORZE CHE...<br><br>IL =
+LEGHISTA PEDOFILO ED ASSASSINO PAOLO BARRAI (NATO A MILANO IL 28.6.1965), I=
+L LEGHISTA INCULA ED AMMAZZA BAMBINI PAOLO PIETRO BARRAI (NOTO IN TUTTO IL =
+MONDO COME IL PEDOFILO DEL BITCOIN), IL FIGLIO DI PUTTANA PAOLO BARRAI DI C=
+RIMINALISSIMA #TERRABITCOIN, #TERRABITCOINCLUB E DI CRIMINALISSIMA #TERRANF=
+T, E' DA ANNI INDAGATO DA PROCURA DI MILANO, PROCURA DI LUGANO, PROCURA DI =
+ZUGO, SCOTLAND YARD LONDRA, FBI NEW YORK, POLICIA CIVIL DI PORTO SEGURO (BR=
+).<br><br>=C3=89 DAVVERO PEDERASTA ED OMICIDA: PAOLO BARRAI DI CRIMINALE TE=
+RRA BITCOIN (O CRIMINALE TERRABITCOIN CLUB)! IL LEGHISTA DELINQUENTE LUCA S=
+OSTEGNI, ARRESTATO, SCAPPAVA IN CITATA PORTO SEGURO (BR), OSSIA, GUARDA CAS=
+O, DOVE IL KILLER NAZISTA PAOLO BARRAI HA RICICLATO PARTE DEI 49 MLN =E2=82=
+=AC RUBATI DA LEGA LADRONA!<br><br>(ECCONE LE PROVE<br>https://oneway2day.f=
+iles.wordpress.com/2019/01/indagatoaiutalelisteciviche.jpg<br>http://notici=
+asdeportoseguro.blogspot.com/2011/03/quem-e-pietro-paolo-barrai.html<br>htt=
+p://portoseguroagora.blogspot.com/2011/03/porto-seguro-o-blogueiro-italiano=
+-sera.html<br>http://www.rotadosertao.com/noticia/10516-porto-seguro-polici=
+a-investiga-blogueiro-italiano-suspeito-de-estelionato<br>https://www.jorna=
+lgrandebahia.com.br/2011/03/policia-civil-investiga-blogueiro-italiano-susp=
+eito-de-estelionato-em-porto-seguro/<br>https://osollo.com.br/blogueiro-ita=
+liano-sera-indiciado-por-estelionato-calunia-e-difamacao-pela-policia-civil=
+-de-porto-seguro/<br>https://www.redegn.com.br/?sessao=3Dnoticia&amp;cod_no=
+ticia=3D13950<br>http://www.devsuperpage.com/search/Articles.aspx?hl=3Den&a=
+mp;G=3D23&amp;ArtID=3D301216)<br><br>CONTINUA QUI <br>https://groups.google=
+.com/g/comp.lang.python/c/o9J4wCi_cW4<br>TROVATE TANTISSIMI ALTRI VINCENTI =
+DETTAGLI QUI<br>https://groups.google.com/g/comp.lang.python/c/o9J4wCi_cW4<=
+br>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/4f8678c2-20ae-4ab3-a31e-e0fad5adc0ffn%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/4f8678c2-20ae-4ab3-a31e-e0fad5adc0ffn%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_3839_942533070.1644211188838--
+
+------=_Part_3838_2053454498.1644211188838--
