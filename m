@@ -1,33 +1,33 @@
 Return-Path: <kasan-dev+bncBDHK3V5WYIERBFUWQ2IAMGQED74SJCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EEA4ACAF8
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 898644ACAF9
 	for <lists+kasan-dev@lfdr.de>; Mon,  7 Feb 2022 22:11:51 +0100 (CET)
-Received: by mail-wm1-x33a.google.com with SMTP id 130-20020a1c0288000000b0037bc5cbd027sf146830wmc.8
+Received: by mail-lj1-x240.google.com with SMTP id m13-20020a2e97cd000000b0023e09d49ce4sf5010133ljj.6
         for <lists+kasan-dev@lfdr.de>; Mon, 07 Feb 2022 13:11:51 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1644268311; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eZzNmFOIFwYq7noV+Bvpi3eSvujSkZh//kyCb8k4mDbdhTf2RR23VROOoaJchJP68m
-         QPkqo/wtKudwRmOSRXiRKXs/30Nl2eWLB0mRfiW+dvMNujKqqCoNA/nasrKiiXfRlH3A
-         NnK+ZR3I94AaWSlg/koVJnSSAKCJL+oiE9ven0offDO2r89cBs6ZNNSpGkZsVbqwzBfS
-         J8K1uLZqvnq/ge7LOzo/2IX1ZR3QyBx0jrP93ID1BUiv0xe6A7DD2ZRoH/8jL4oB9jy5
-         z9kLUcHfgjxD6ImSosReErk4TI+4Vzw8q7UgFxve/TjM6EQ6JD6/YJgoKs/tHUyqXvvB
-         RPHA==
+        b=TGzXlzweewGY0CKyFOP1l34XXR+ySGxKCtf1bG82AILsiZTdjeDnQP1yHTBTCLxrbO
+         f3U1ryKAixivSVSpeMDbuLPFxdohlYc8Lr5cIbSIlK3xjxvLIII+ye5JN4KUe67SLTwT
+         Gy3XE3D2QQyf25BaC7ZknmOUdTxd6NTYtQ2/+xap4d9oHLKaYybGYY4ACb01oV1+LJPT
+         0WiNWrcpY0M6tyQTTdg2hZO/7GQvApzo680JVVfbIyhS0yNooFgQVgI2MXkFtKAOInRg
+         qkmJEJ0/AjESoUerDRqFqbMAD+nLV0X0HR9mloJ3QOQ+H1QqSTQjwrFKs5bq33yMTHl2
+         crEA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=tSdDn79B95A8Ay4v6Rp8FUx8f/4JF5XpsdnZgI2uXdM=;
-        b=jZw1g/pnbKOclLktdSiyOL++YYlP46w2bNT04/HZv2HORfxwI9xI080XeL1XVavCD6
-         lBctqqTUizDPfOSfBRvnamVNh16fZjLh3Q2oAhToR9eMCCzL5YAY5sd1u8qABSQoJ+8b
-         oMu6Q53Ntw26AdK/qD7uciUfSF4BC9L8/M+t3R7dbu3FW8I1CsEH6OkijZlfgajS3Q35
-         cPogUz/1wkTFg3PU3eL2lbsAkIMH25RUEwmwlIVkG49OdH4eszO5j3Wr9zzf2A7+ORK5
-         qzLKOfFHk0OKZ2C427OFD0xDB9fYX9PIr6LQB4CTQS+AlOdqAIwGQ6nnLN/n6+a1j91C
-         rnnQ==
+        bh=JgG9TJ55dFym+o3Pu0BFsSCRWydDRINBeiWuxGFFBE0=;
+        b=Sv2geXDE5+ZoiuLJyK478Gb0mVcClTbe5ead3tGrf3YVBm6IQmxEdBjMwEc8am5rGy
+         oCdGUcXt+uyW99piBuwszGwwdmHXoDAYReTeyaikRVUf+GApEKWWrcnld5KOvwHDcVIv
+         5xKCScFnkYg1QXIA7IrVq1DtzKWfZ46VJcrosanFlL2H7OrRgtEGyMLybmAJX1SBrsiP
+         /6C7c02vFd6+LS/BeyrFyu7zMmhPq6ZtSkRSHrRaWmRgOHM+7dNYVB3rpWbsYcXnr9D3
+         BAqiTT1myKN6iJJmMMoNx+xRk3FOFzmzving608von15Ems6nW0AUglBF/+iP3L8XIOP
+         gMag==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=lWY1yE5w;
-       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::533 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=alaweuer;
+       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::535 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=tSdDn79B95A8Ay4v6Rp8FUx8f/4JF5XpsdnZgI2uXdM=;
-        b=brzjBnazRZ7VK7Pz4v7ViuQkNDph+IJ8xHTK89TlnOuJciyLKSPRCcfZaRaeXOJIYA
-         vPu0suNV/t8w2MLOAdIY39wAg7IjA8TS0CcM9ak4eX5R3bIvfmfKgBAdtb50lHf9joDh
-         3Ca5j7I+kaElZClRMPTpmsH/B6z4m6rMy0EocLvt0DCR4ARMZazkww6c9rfmkvUNNqeG
-         nKvqDUnrlRwFruUTAyZpupB1s9UDgxMPpHG2cseMfBUHVUxRQ33cAP6fuMs+j4aYzump
-         6md8UZ859A9ikWmPuACQZpI0FQj9Njvtj2Bprr6jJ7E1eJrRzrEfgtQazjNIVXNfiIUE
-         xrow==
+        bh=JgG9TJ55dFym+o3Pu0BFsSCRWydDRINBeiWuxGFFBE0=;
+        b=fkqacVBa+iHs8Uge7ac7okd8PcSikWj3VqNoJOP7RgLfaYb3CSLqYb7zupiVsP0wXZ
+         gVLbcd8MAmnYrYcKK5PVHTyqJnfMRVuTUiHZRqVFUEMUnQ0oNVGPxecYqbjvgkL6oHUN
+         YL9ZG4jRhj+DQcddLgC+9boS6fHim91VR3rJNps3aytQeKPC1RJw+cVJYh163Ya7X8y0
+         sJVwEyGeN5h8LQ1jf0daTMmFTJt8LcmSOsTDusAbrceklHSqF2PixUyiL3nroZzhxZpT
+         5Dofctb9uHb9z6MFxW2NewZaPkwQJjzJgc+QeIo9PHqfOPxhdgm7PiJkxyRCGgobY+Jz
+         qXVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,58 +49,58 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=tSdDn79B95A8Ay4v6Rp8FUx8f/4JF5XpsdnZgI2uXdM=;
-        b=7HcJdfTwWMkK7XSZUDtwPxin+tNnlugVhi4OpV4g9jKyFkoZpdEuf15f+I8jUs7U9I
-         meBOU5el25GMI/xnS/ssWtcpOMzT8/uUB5EXFRsi6wrMO+DmL6+Tnbji9JL69r+U0QUE
-         7DTODd+1ttUyXzNfbctA30eLPja3rWihfhJtyGufxOJ4bwIH+xZkS5jziXaiMxzVxqzr
-         0l8wo+XQV8dbtf7KN2o5h3IV9clHMZ4ruMhdE5djxsMbejUMuFh2Y55n+csWAMJJtg+d
-         mPpKVqyNZsAbacPk3P8+DyVX+UKI/cFbEvQvj3I1dQwUpTOtMt0riuDmS/rVC2QLblhI
-         vNqw==
+        bh=JgG9TJ55dFym+o3Pu0BFsSCRWydDRINBeiWuxGFFBE0=;
+        b=uNGdoc0uZG/JfPahYXoOddLVlb5UroWDxtgmqTg6imwUtDq1WXydShycvs2LAQIxRV
+         EW0LC9Eacs1ApQvcVVD2nE47YztrOl3rCHM6jnhjru7WDk+qZEbTJLWls2MaEBpAc65H
+         OIWQFH34xMhqsGiVF0dDhIKOMpRFbP5MAW7dGJvLEv0YMlrEV/OiTukZiZNPG9ahW6dp
+         jkdxZ5oFD9SgmvJfrK4IfQQg/lPzdA/wTZGjFKWPnbIkqcLKyellW5ER1QN+OK+09yt4
+         n9CmYN7GaSmw4oxW6NpP3Xf7D/L2PYNRe4/kK64aGTw3kwKhAkKMAcCS4CTSSiN+RWJK
+         /ulA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531AcgKYJJqNHqc4IPtVd9pizczYjQzGtWtAceXUX1NnRRWqgT1X
-	DmL9maakBikEmFP9cmKkB9Y=
-X-Google-Smtp-Source: ABdhPJxA+T8uACw4Er1L78M9ynCs1BTqJtg3qQFSeq2xdaby+BnOvqblcsR3usK4SXS/m8V0zuooWg==
-X-Received: by 2002:a5d:6d09:: with SMTP id e9mr1036388wrq.253.1644268310745;
-        Mon, 07 Feb 2022 13:11:50 -0800 (PST)
+X-Gm-Message-State: AOAM532ycL+AyNOotK7yy4bg6xDEK1c8OYtupck7khmo9WduWURaBClg
+	DWAyhR3nlx5i7D7sU1oxO2A=
+X-Google-Smtp-Source: ABdhPJzPdlXsjJnICM7M7LX2jPGc0c+Z/5EUuYd92GndN4TyeQQadtWKjTpvRF63Lxj9IuRszcHvdA==
+X-Received: by 2002:a2e:86d8:: with SMTP id n24mr851724ljj.344.1644268311126;
+        Mon, 07 Feb 2022 13:11:51 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1c20:: with SMTP id j32ls200186wms.1.gmail; Mon, 07
- Feb 2022 13:11:49 -0800 (PST)
-X-Received: by 2002:a05:600c:4ed3:: with SMTP id g19mr612069wmq.186.1644268309771;
-        Mon, 07 Feb 2022 13:11:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644268309; cv=none;
+Received: by 2002:a05:6512:3ba6:: with SMTP id g38ls6465179lfv.3.gmail; Mon,
+ 07 Feb 2022 13:11:50 -0800 (PST)
+X-Received: by 2002:a05:6512:1088:: with SMTP id j8mr911649lfg.350.1644268310319;
+        Mon, 07 Feb 2022 13:11:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644268310; cv=none;
         d=google.com; s=arc-20160816;
-        b=synu5KSQ4Kn5BLlv60dHWAYhSdfcqp4WLPOks63ww3Urs1HnzmISfndEOp/tsGb1b0
-         s5wm9lGjrKguJ4UeikVHwl7Jf3d4FvDP4/7omzYthtFsPW5CKidQqDqnocZThG6Jf16W
-         6IJIVomoRZOtDs7cO2rZWK5+faKhdXG/WPLkxqGxh0NOuJ6uRBSuNzNyePrDHAW1mDva
-         9WSdHvNCk9Qub2lPk5UXgEJGuYMyMFe5QVNK6wgD8G/x3IoksuNuI9ZDGbknnUqAo8nn
-         npmlkz2Oi7gUwzdL9gd1tPxadaeS2uDtbh9nwYaXSOYfg1UuupOZEocOmvra4NxHT+Qv
-         i1gg==
+        b=s5HBgiOvuUxQvFFsLlk59VONgjYPAOk1wD+TjOYmMaWMkNa/XeJbVQd0Ar/MdCneg8
+         /BfLv8FmBCLm/pl+wCpKqQUxdq3y5yF1zdi4porh0uqkpvmOwALu4OeBMIs2tWVQDseW
+         Lrka4a2FGq7dEQ9il1hoNr/Moz63KigBMpqEkNU/VOfbwmBZA6lAyqbJde5I7xRd/wGc
+         4A17BD0wceUY8NKNLjlz7ETMBixaQgwNUaaJiuchiSPoH8JPq+psgasl1rYosdrH1Fiw
+         Cv5eTsW0Sn/29BZ7aBNYlSXGeaTylj8vJx4z/kTI4p9hP/kv8QAAt1anI3zigCOmT3DQ
+         BQoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=COoBb1joui25djaKHvMRbQv4Mt4Thb8VpuVozeRERCg=;
-        b=cwqmmtKtuggaOuc+ilAQk5xffj84DVg8O8zpBjqYUCM45V/Zy79A0GcE7qq6004vLR
-         JZNxlPTJ1FoMopn+JS8XYGMcwuRrowVyYw3GiQOZ6qraj4Gy8iLt45Tzc8PDXv+DaFmw
-         1Clh5l0s1h/9MXWjFOPfhcHCMXRlbHY6G7rTcQ00Eph+bb2YWbw5TK5ubnnWoe9Zz4JJ
-         twGN6tMt8ePHXcJ7ybFtoXgFTVO90QhKTAJcRv0m4FnsAlSTM2JrZtFQHk2u7odGVRiV
-         XjqlbdIlbeIoC0D2C0LVJnY8NnuVM5dHkx/hoW90BFlgC095IIP6+P5/hLwBgwb9UF3I
-         b89A==
+        bh=sQV3FF5mFgBVe7Tg/aDZitfy1ByGgWInZOonbxaNvNg=;
+        b=onjFG5QqO2doIkxZu/7xZaf2F0VF6xX6Y4Q4oOn9n43+TpMJ2TG59IkY8SUq71Zpqm
+         HYj/G1xvzddS36Kcp6CLe8Ty/rwOOJzhCQM8UsSqcaeZnwEASwTwRN/L9x1Kb6Pndydw
+         H4ntD3G3t+H/7RHi79kpfsEcn9tJrasg5v0yhO+lEVZRAc5g8nr/Ct9tR6ielIHfM1v5
+         FAzlsQ7ySilkc36UjdkDSMsIrvrGJzkWtGv5YXd6Ek3Ghrdl/XzuMmeDbYLwvPK5wQ+z
+         sd5r0H5ACiNis6Ux1hIHBmoielv+0cGGuY/AF4RnvuQ9FpY3GgesfnPmXy+wBbtzZcsw
+         BMsQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=lWY1yE5w;
-       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::533 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=alaweuer;
+       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::535 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com. [2a00:1450:4864:20::533])
-        by gmr-mx.google.com with ESMTPS id ay37si22379wmb.2.2022.02.07.13.11.49
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com. [2a00:1450:4864:20::535])
+        by gmr-mx.google.com with ESMTPS id p12si533249lji.3.2022.02.07.13.11.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Feb 2022 13:11:49 -0800 (PST)
-Received-SPF: pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::533 as permitted sender) client-ip=2a00:1450:4864:20::533;
-Received: by mail-ed1-x533.google.com with SMTP id cn6so10236842edb.5
-        for <kasan-dev@googlegroups.com>; Mon, 07 Feb 2022 13:11:49 -0800 (PST)
-X-Received: by 2002:a05:6402:1651:: with SMTP id s17mr1370551edx.0.1644268309509;
-        Mon, 07 Feb 2022 13:11:49 -0800 (PST)
+        Mon, 07 Feb 2022 13:11:50 -0800 (PST)
+Received-SPF: pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::535 as permitted sender) client-ip=2a00:1450:4864:20::535;
+Received: by mail-ed1-x535.google.com with SMTP id u18so32607454edt.6
+        for <kasan-dev@googlegroups.com>; Mon, 07 Feb 2022 13:11:50 -0800 (PST)
+X-Received: by 2002:a05:6402:4256:: with SMTP id g22mr1394967edb.78.1644268310129;
+        Mon, 07 Feb 2022 13:11:50 -0800 (PST)
 Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id z4sm4047239ejd.39.2022.02.07.13.11.48
+        by smtp.gmail.com with ESMTPSA id z4sm4047239ejd.39.2022.02.07.13.11.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 07 Feb 2022 13:11:49 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
@@ -111,17 +111,17 @@ To: kunit-dev@googlegroups.com,
 	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Daniel Latypov <dlatypov@google.com>
 Cc: Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v3 5/6] mctp: test: Use NULL macros
-Date: Mon,  7 Feb 2022 22:11:43 +0100
-Message-Id: <20220207211144.1948690-5-ribalda@chromium.org>
+Subject: [PATCH v3 6/6] apparmor: test: Use NULL macros
+Date: Mon,  7 Feb 2022 22:11:44 +0100
+Message-Id: <20220207211144.1948690-6-ribalda@chromium.org>
 X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
 In-Reply-To: <20220207211144.1948690-1-ribalda@chromium.org>
 References: <20220207211144.1948690-1-ribalda@chromium.org>
 MIME-Version: 1.0
 X-Original-Sender: ribalda@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=lWY1yE5w;       spf=pass
- (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::533
+ header.i=@chromium.org header.s=google header.b=alaweuer;       spf=pass
+ (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::535
  as permitted sender) smtp.mailfrom=ribalda@chromium.org;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Content-Type: text/plain; charset="UTF-8"
@@ -137,40 +137,49 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Replace the PTR_EQ NULL checks wit the NULL macros. More idiomatic and
-specific.
+Replace the PTR_EQ NULL checks with the more idiomatic and specific NULL
+macros.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- net/mctp/test/route-test.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ security/apparmor/policy_unpack_test.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/net/mctp/test/route-test.c b/net/mctp/test/route-test.c
-index 750f9f9b4daf..eb70b524c78e 100644
---- a/net/mctp/test/route-test.c
-+++ b/net/mctp/test/route-test.c
-@@ -361,7 +361,7 @@ static void mctp_test_route_input_sk(struct kunit *test)
- 	} else {
- 		KUNIT_EXPECT_NE(test, rc, 0);
- 		skb2 = skb_recv_datagram(sock->sk, 0, 1, &rc);
--		KUNIT_EXPECT_PTR_EQ(test, skb2, NULL);
-+		KUNIT_EXPECT_NULL(test, skb2);
- 	}
+diff --git a/security/apparmor/policy_unpack_test.c b/security/apparmor/policy_unpack_test.c
+index 533137f45361..5c18d2f19862 100644
+--- a/security/apparmor/policy_unpack_test.c
++++ b/security/apparmor/policy_unpack_test.c
+@@ -313,7 +313,7 @@ static void policy_unpack_test_unpack_strdup_out_of_bounds(struct kunit *test)
+ 	size = unpack_strdup(puf->e, &string, TEST_STRING_NAME);
  
- 	__mctp_route_test_fini(test, dev, rt, sock);
-@@ -430,7 +430,7 @@ static void mctp_test_route_input_sk_reasm(struct kunit *test)
- 		skb_free_datagram(sock->sk, skb2);
+ 	KUNIT_EXPECT_EQ(test, size, 0);
+-	KUNIT_EXPECT_PTR_EQ(test, string, (char *)NULL);
++	KUNIT_EXPECT_NULL(test, string);
+ 	KUNIT_EXPECT_PTR_EQ(test, puf->e->pos, start);
+ }
  
- 	} else {
--		KUNIT_EXPECT_PTR_EQ(test, skb2, NULL);
-+		KUNIT_EXPECT_NULL(test, skb2);
- 	}
+@@ -409,7 +409,7 @@ static void policy_unpack_test_unpack_u16_chunk_out_of_bounds_1(
+ 	size = unpack_u16_chunk(puf->e, &chunk);
  
- 	__mctp_route_test_fini(test, dev, rt, sock);
+ 	KUNIT_EXPECT_EQ(test, size, (size_t)0);
+-	KUNIT_EXPECT_PTR_EQ(test, chunk, (char *)NULL);
++	KUNIT_EXPECT_NULL(test, chunk);
+ 	KUNIT_EXPECT_PTR_EQ(test, puf->e->pos, puf->e->end - 1);
+ }
+ 
+@@ -431,7 +431,7 @@ static void policy_unpack_test_unpack_u16_chunk_out_of_bounds_2(
+ 	size = unpack_u16_chunk(puf->e, &chunk);
+ 
+ 	KUNIT_EXPECT_EQ(test, size, (size_t)0);
+-	KUNIT_EXPECT_PTR_EQ(test, chunk, (char *)NULL);
++	KUNIT_EXPECT_NULL(test, chunk);
+ 	KUNIT_EXPECT_PTR_EQ(test, puf->e->pos, puf->e->start + TEST_U16_OFFSET);
+ }
+ 
 -- 
 2.35.0.263.gb82422642f-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220207211144.1948690-5-ribalda%40chromium.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220207211144.1948690-6-ribalda%40chromium.org.
