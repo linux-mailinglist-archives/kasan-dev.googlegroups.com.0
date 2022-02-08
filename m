@@ -1,140 +1,125 @@
-Return-Path: <kasan-dev+bncBAABBQGORGIAMGQEVRNLKRI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBW7ERGIAMGQERIEEV5Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x640.google.com (mail-pl1-x640.google.com [IPv6:2607:f8b0:4864:20::640])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A01D4AD874
-	for <lists+kasan-dev@lfdr.de>; Tue,  8 Feb 2022 13:51:14 +0100 (CET)
-Received: by mail-pl1-x640.google.com with SMTP id y13-20020a170902d64d00b0014cea2afd46sf7375192plh.12
-        for <lists+kasan-dev@lfdr.de>; Tue, 08 Feb 2022 04:51:14 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644324673; cv=pass;
+Received: from mail-pj1-x1037.google.com (mail-pj1-x1037.google.com [IPv6:2607:f8b0:4864:20::1037])
+	by mail.lfdr.de (Postfix) with ESMTPS id 825744ADA14
+	for <lists+kasan-dev@lfdr.de>; Tue,  8 Feb 2022 14:38:37 +0100 (CET)
+Received: by mail-pj1-x1037.google.com with SMTP id hi22-20020a17090b30d600b001b8b33cf0efsf2219880pjb.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 08 Feb 2022 05:38:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644327516; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FJ5IvWGS9/qvUQMcWPzxkvqp36CXospFb37IXxGqhhazeZcrWZJ3ZTZjF9LWho+trB
-         H8g63TZYnDXfWxBVUONfK4Vrh/DRxXcuNwHzjfTaYIs6Hu199f4Y1ZoKAQAa28k8dWUF
-         nboReDn+jAQuyoj0CXVrfiUxCD1ceQ67xAIU4i3FCliyCwkvzaglUJuXzjotNlpOF3My
-         1//P2O1y+ab4FtehXfWzKDxOtUK9djDy7YUPP7kTyY0Iv7jqXx3nlA8sGn8f0O9lLjqD
-         z7WKVmmUFdmZ36MWAozIfbxH9Rqlw4uxIJc0C2C4HFvj+T9ZdXqNHRMqwjEwFlFvnkkx
-         3vqA==
+        b=X/5Y7iuyTRWxvpJiVh5Nsp2ev8Z2Xecv9xRSead3WYrtn15mCzg4WgFG9apcnjTDKp
+         14MVFdlv5z4oTXJPurhbzOYndjSqfEBZM3WawHuO8wGkuVPI3pmTpFx8StogiY7Nrbfy
+         FSZd6n9CU0m1L6sECJJOM2TLqudQ269AaWNwfXYiP1W4v7Y/pf2O0VCT7B67eq/UkHFA
+         lKRJI9FRxbhIXx4LoH6ePHwdryjoefqqKfgmjbKjJ6r0CpZUPg+o/l+p7Pc7Qef1rdw8
+         70R2llEZ3uLdxjAYOJ88RFjldW8sXmufrdYOTXmKOAG5rt5TOpRcvovVs3UWLjnc9xST
+         CFfQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:in-reply-to:message-id
-         :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=wxzh+YiK/6oBbiHnTT0AxbV+QjrZpKftiHGMEFeGAdU=;
-        b=Lr5JqQPeneYiz+FX0QVKfWFpywM3z+3R7zKmbTepENGDXxSdGGwUbSWuMDcqJ7sg9j
-         IaJZuWUkbDoufXk9XVa2MCSZl95P3PL7Rn2XADYBPbVY+RhKSIxgJdrMY+CpBRrLEwgx
-         DlXhkRG1VZ5swcgO8Um0qg2aofOcwF6xdqCrYTR43XM742IM3Zf06w/khxw7JJYeo2/v
-         1ageyl4mpuVvOASy4IQ4zy3QhbTh7SlOZ2G4sOwAOG9NRBOb3oeFR8mDW7/bjDmWo1MB
-         xLcvAkTfZ8SaaT325+wtBPsCQQabsSUOJIknU548EdqXGumvy3nG5ZqFG5YJ2F41w0M3
-         Wt0g==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=t5bvTzoHFcgDA4okLw5wDliFo33ndihkFjheKw5Bue8=;
+        b=TmnHZf5H/kW3/c9Eq3y7gRnhgw0LHynF9ogCJLZ+I2YG6M80nEocExtXWtZkZn8v0f
+         w36CAJktxs/V17uy5xm5/CO5zLUP0dG+gH4pb8lpKiqzlBnxebk9/uE7ZR8shswc8RRp
+         u4cWBbsx3JEPjjgodCx909psDneuO7tVtD12zGDlrRS4v9P0lct2Rzv1qd8NVjuFDmuU
+         veSOW4LMy+CQwQy0DNi0W3r6N2BEmPx94gvV0PN18rBn7dSzg4rL8JDlU20p7ZxGG9Lq
+         836BM1/VEBZwkrD+vV2G1ua6g5EgJHsOPmU+PjtabC24MA/bzhfqCL7cQuhxLaw90uRL
+         /lHQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of yangtiezhu@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=yangtiezhu@loongson.cn
+       dkim=pass header.i=@google.com header.s=20210112 header.b=CuYzNlzS;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:from:to:cc:subject:date:message-id:in-reply-to
-         :references:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wxzh+YiK/6oBbiHnTT0AxbV+QjrZpKftiHGMEFeGAdU=;
-        b=OM6nZ1K4aSeFON046FvzbHn00E0ZwRrVN4dPz0u1bVK/A/xDrgBJu+LSed5YaxAF8t
-         831Sx+ZpbfEd4UOFaqh7kof2ajEdUvgbVq4smmky0Rc2cVerrzktXSviPqN48YO/Ebg9
-         6dpMGdcftIMFyyU9iTE6SP0vZCeCh8p+MojoPTrmrGzrDYfN2j7I7lvXOJisYIsdR6vY
-         YI/xtb44/fKPY68bQD8gHbGDoVUDA6vBvVGQJit0UiKRgxzvz2mHfgPi1szrH9JWZ0UG
-         MFQWJrKV/mlUd7O7xBTFUPwfXCYuIoXymf+sGQVE/p55FPnOMajCI/Dk0YHWrxvoLJ0o
-         +sZA==
+        bh=t5bvTzoHFcgDA4okLw5wDliFo33ndihkFjheKw5Bue8=;
+        b=cQ141tvBIcJlN3ecKecmmzpy55yS5CPGoKMIl4KY7pbIcxfaF9K4pHIoc9xxA+UJoe
+         BccIwK7WxajDMJxkkDM/ARYDAs1MDSjrk7V7wnv3pKZ7jjYBAc/+arGBqztIGnwXnHFD
+         H2aTGxISL9HYThan6L5prPwFGyvB4zkFWizbjVxraOTwFO2EyAr+Hv7nxe1JHNz5lw+q
+         0jokK9EfDoIdulI+9IUJPLgR5iyyPeCQNu3+Q3lbMKwsKmAOMTHUu34h9Tce3PBp16mc
+         3WNUwCFS5aHT/gqLAo/veoTzYy+PXGJKfQOQVTlFfwZjv5fSC5dXsyZUQNVmjmG0DDqW
+         RRiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
-         :message-id:in-reply-to:references:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wxzh+YiK/6oBbiHnTT0AxbV+QjrZpKftiHGMEFeGAdU=;
-        b=M8ITWfByepRL+cHWe5Xvhnl+z/QWsWvEPo8hG5U5hXTRhnfT8BL0ffWxjqsrOwEu2y
-         dG5+8+EaN7ykqFF8VB3jtBo9yP62ZdWJ3/JDCNm187Bpx2Le36WwchlmQUlLBgcfYqcf
-         Gnk3WVyrsia6i96LPso03PTXwW1DrAhJQCiFZ7VgvXyIeHBrxK2ZJJfG6+B54OFtBO4J
-         eOw4nAm2M5bsvkCnwFctaqtTfZ/hOkXW0ofwk81Tjb6hugOB4PQOeKzml24BhrgkbDF3
-         PJuutDBe0JxlnxaWxeYPllKyhzVPHaipJdcy8ZEvejHgUtRvqKvxjO2GKyaNiuyQwJ42
-         uWBA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530oMNhmLbLKqoDniXltYfMoXqSyje26wsR7Vl1k7IIEZMdICaeC
-	9IKo9xu21P8noY2CbnHBfPw=
-X-Google-Smtp-Source: ABdhPJwv8PBzSZQsML2cmsVqfec+9XOF2/FmsJbqrC5PAiTLJq311fitiYjuHtauXXGkA/8z+VAT+g==
-X-Received: by 2002:a17:902:b708:: with SMTP id d8mr4170894pls.86.1644324672943;
-        Tue, 08 Feb 2022 04:51:12 -0800 (PST)
-MIME-Version: 1.0
+        bh=t5bvTzoHFcgDA4okLw5wDliFo33ndihkFjheKw5Bue8=;
+        b=VJval70zJ+1/wUT0j2mfNA1PIbFTsDvjze1LPlhuccCT2BpoCjc1p0JOYUVBXJ6C+k
+         Sa4Aw0KKBm5cmOL1Qw3mPCWPuL8oyrMbulcwyDWBhUutnLl4ny9TfR+DUEIqFH1UInZl
+         DQxgpQPulFuznfEwWp2BBjXrwI0PQcqte8hAZhsq7rG3J7jIZt03ylVCZ1tghcJ426C+
+         eIZLiOxuEdMbRR81G43n+M0pl5ALP97UqthKTms1g5YYB0356t8jzGcjOt629A3QQFBV
+         aptwn2xkqLCEPnc+URSWxVIqnm6bDYl7K0szLu7iyzYG0gA2U0D0TY8grdMKE3a4ScuW
+         i+Mw==
+X-Gm-Message-State: AOAM530mxmhfEgqvsF+9fKY2w8WRB1/d5wmyU1M9B5UvjFMYGdmwrDzf
+	MhY5zOQFG58jdJSlDDG0j3Q=
+X-Google-Smtp-Source: ABdhPJwkboL/kitvKuZm8hNqHBGqq/XuLzGGkIUqBiSwr4lthFtVzx2tD+Kj6UmDgq/oxgMTi6IN8Q==
+X-Received: by 2002:a17:90a:af8c:: with SMTP id w12mr1433923pjq.153.1644327515822;
+        Tue, 08 Feb 2022 05:38:35 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:38cc:: with SMTP id nn12ls2000094pjb.1.canary-gmail;
- Tue, 08 Feb 2022 04:51:12 -0800 (PST)
-X-Received: by 2002:a17:90a:be0a:: with SMTP id a10mr1211856pjs.0.1644324672347;
-        Tue, 08 Feb 2022 04:51:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644324672; cv=none;
+Received: by 2002:a17:902:f542:: with SMTP id h2ls1961990plf.11.gmail; Tue, 08
+ Feb 2022 05:38:35 -0800 (PST)
+X-Received: by 2002:a17:90a:ea17:: with SMTP id w23mr1452153pjy.2.1644327514938;
+        Tue, 08 Feb 2022 05:38:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644327514; cv=none;
         d=google.com; s=arc-20160816;
-        b=N9zI0T6Y50k7Y1Sap2JwDE+VVKdXV0gHOyeFeekb/N2myunhw+0ob5/wfP/4mxsr8c
-         AyevAlLZ335SDLaACvrfiU5K8OPo6C1Mi5z6qZrj/xwzgR2VuabvV8tHn7QWyahgUXvF
-         dD6Pl4GOQkkhwIacoVCX9cXE/stdzANOeqnFMb+8Wzxmoh3ijiqlnmgm8f/wsBa52C6a
-         nC0xz5rN6cJK3H0KSevahWVzxIgfnGPM5TxtwIEdJaubf+m0OybM78D5y/PN1chrAqU1
-         FrKY2A56LFCYRGfltdCiA7/UWr03J4omHbfE3lyEHXL/AfMMa96Gfkwq6euMJhdpqqQi
-         bBYQ==
+        b=xTKo3evflR84BuEUfhucveqoZGUd9DWRZQa9WiWciHfSq6IHdK8eXaDSfBC/KEjHLr
+         c3tbB8BF7FPIb8nLHCtftBpheglW5U9Se1Ur5B/0OICS5UwTHyBW/a+ei8qC3nUcvjs5
+         Qq+Ph82eJpSLsCnALffeBG3FNq+BcE/B50kQ0fx28qTxRah27568TNki/ND2vp0uM5B5
+         0e+kDIHG6+5VC8HqSvXVNrvNhD/z4u6zftqyJ2K/GZ3ILG7wDmT9DQaH3jYG+zKhxTWF
+         22WhXv0jeVXDOoZkTPSicljA370OJSj2j41EdOcMzPqf6jeZ//QsJAIO1TYOxLG1+oJs
+         4yUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from;
-        bh=WYmBuiZ3Ug7ublOeUp9uLH7GqaFhglkXXFfk+H20NJ0=;
-        b=EKGBG1tUgsTcKpafWayHImwuDbrXMroBuplWn6417go1/854Xsc3mFCyLkLuFi5OJg
-         kHdY+rS2zLoOrKx1jm8GM/1hPCE+RKbvqJ9lTR69KU0fSpYFt9PT2SJCMwJBOJKB7x0a
-         FbMPaD2AhwVt/59ERCMvOns0oxy5NbkdA1SUgv22isrKRx9z0xq5ChT5HSUD9KuqcTMY
-         ZjDa4QYGJ7gWCth1juoQfvyiY67d2YDs13JWv6GuaW0zCFVbmfX9l9es7Pwu4usyYK4x
-         Y155EqTo1+3FbajBJfIC/dqA6VobcFop/b6SiCM3vy9RgcTPG3Ks6/Oo//yTah3usSBZ
-         75eA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aozwudC/vcOos+T4XrEal3CEC5loh3pS7gEJzCAbFj4=;
+        b=N/rQ4HXez3m3u1dvcFgJdmRKsW9xVVBZxj6HLbHxiIS3WuZDEdpVdnODFCQvc30iM1
+         6XAIunKU+7uPv4JV0ZI/YX2GobEqsjp+phyclaUu0/tDkE64lJbciggTprKsJuBBopZF
+         ZLCYhXfvgCSKaft4d2RWEgsRsu7WiSVAmouksTqsRZBkf6xx/iNGmap5kxvhUlE58Tnh
+         +w5X1DnIdurvu0utrXyEko/HyT7NZtLHE/B/mrhidFJ0PHg7+XCxyPTUuZyc7lLCtjcL
+         TzG2SxSVRYpoVocwfZ1hi4jmjx9dYVWFvHgN8fDQbhj0bn0o72twkaCpgtzJ/IBRCnkW
+         rtHA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of yangtiezhu@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=yangtiezhu@loongson.cn
-Received: from loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id k17si361161plk.10.2022.02.08.04.51.11
-        for <kasan-dev@googlegroups.com>;
-        Tue, 08 Feb 2022 04:51:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of yangtiezhu@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
-Received: from linux.localdomain (unknown [113.200.148.30])
-	by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL+M6ZwJik0oIAA--.26524S7;
-	Tue, 08 Feb 2022 20:51:09 +0800 (CST)
-From: Tiezhu Yang <yangtiezhu@loongson.cn>
-To: Baoquan He <bhe@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marco Elver <elver@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Xuefeng Li <lixuefeng@loongson.cn>,
-	kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
+       dkim=pass header.i=@google.com header.s=20210112 header.b=CuYzNlzS;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com. [2607:f8b0:4864:20::b2c])
+        by gmr-mx.google.com with ESMTPS id bx19si101477pjb.2.2022.02.08.05.38.34
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Feb 2022 05:38:34 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) client-ip=2607:f8b0:4864:20::b2c;
+Received: by mail-yb1-xb2c.google.com with SMTP id p5so49782910ybd.13
+        for <kasan-dev@googlegroups.com>; Tue, 08 Feb 2022 05:38:34 -0800 (PST)
+X-Received: by 2002:a25:cc54:: with SMTP id l81mr4366915ybf.236.1644327514316;
+ Tue, 08 Feb 2022 05:38:34 -0800 (PST)
+MIME-Version: 1.0
+References: <1644324666-15947-1-git-send-email-yangtiezhu@loongson.cn> <1644324666-15947-4-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1644324666-15947-4-git-send-email-yangtiezhu@loongson.cn>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 8 Feb 2022 14:38:22 +0100
+Message-ID: <CANpmjNOySkeK6u-JieNBQ4DmAO3LogdZ6gXv1Noz8jUOi3ThDA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] panic: unset panic_on_warn inside panic()
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Xuefeng Li <lixuefeng@loongson.cn>, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] kasan: no need to unset panic_on_warn in end_report()
-Date: Tue,  8 Feb 2022 20:51:06 +0800
-Message-Id: <1644324666-15947-6-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1644324666-15947-1-git-send-email-yangtiezhu@loongson.cn>
-References: <1644324666-15947-1-git-send-email-yangtiezhu@loongson.cn>
-X-CM-TRANSID: AQAAf9DxL+M6ZwJik0oIAA--.26524S7
-X-Coremail-Antispam: 1UD129KBjvJXoWrZF18urWkGr43CrW5uF1Dtrb_yoW8JrWxp3
-	ZrG3s2kr4xtryUXFs7Jw4UJr1jyrn8Ja4UGFy8Jr4rX3y5XF15GrWIgFy0qF45W3yxZF1Y
-	yw18try7WF1kJaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmj14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-	z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-	4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-	IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4U
-	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-	kIc2xKxwCY02Avz4vE14v_Xr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
-	Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
-	CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0
-	I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-	C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
-	nUUI43ZEXa7VUjAnY7UUUUU==
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Original-Sender: yangtiezhu@loongson.cn
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of yangtiezhu@loongson.cn designates 114.242.206.163 as
- permitted sender) smtp.mailfrom=yangtiezhu@loongson.cn
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=CuYzNlzS;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,40 +132,82 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-panic_on_warn is unset inside panic(), so no need to unset it
-before calling panic() in end_report().
+On Tue, 8 Feb 2022 at 13:51, Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+>
+> In the current code, the following three places need to unset
+> panic_on_warn before calling panic() to avoid recursive panics:
+>
+> kernel/kcsan/report.c: print_report()
+> kernel/sched/core.c: __schedule_bug()
+> mm/kfence/report.c: kfence_report_error()
+>
+> In order to avoid copy-pasting "panic_on_warn = 0" all over the
+> places, it is better to move it inside panic() and then remove
+> it from the other places.
+>
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- mm/kasan/report.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+Reviewed-by: Marco Elver <elver@google.com>
 
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 3ad9624..f141465 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -117,16 +117,8 @@ static void end_report(unsigned long *flags, unsigned long addr)
- 	pr_err("==================================================================\n");
- 	add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
- 	spin_unlock_irqrestore(&report_lock, *flags);
--	if (panic_on_warn && !test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags)) {
--		/*
--		 * This thread may hit another WARN() in the panic path.
--		 * Resetting this prevents additional WARN() from panicking the
--		 * system on this thread.  Other threads are blocked by the
--		 * panic_mutex in panic().
--		 */
--		panic_on_warn = 0;
-+	if (panic_on_warn && !test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
- 		panic("panic_on_warn set ...\n");
--	}
- 	if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
- 		panic("kasan.fault=panic set ...\n");
- 	kasan_enable_current();
--- 
-2.1.0
+
+> ---
+>  kernel/panic.c | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
+>
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index 55b50e0..95ba825 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -185,6 +185,16 @@ void panic(const char *fmt, ...)
+>         int old_cpu, this_cpu;
+>         bool _crash_kexec_post_notifiers = crash_kexec_post_notifiers;
+>
+> +       if (panic_on_warn) {
+> +               /*
+> +                * This thread may hit another WARN() in the panic path.
+
+Alas, this may actually fix another problem: doing a panic() not from
+a WARN(), but then hitting a WARN() along in the panic path. So
+"another WARN" is irrelevant, just "a WARN" would be enough to break
+things.
+
+> +                * Resetting this prevents additional WARN() from panicking the
+> +                * system on this thread.  Other threads are blocked by the
+> +                * panic_mutex in panic().
+> +                */
+> +               panic_on_warn = 0;
+> +       }
+> +
+>         /*
+>          * Disable local interrupts. This will prevent panic_smp_self_stop
+>          * from deadlocking the first cpu that invokes the panic, since
+> @@ -576,16 +586,8 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
+>         if (regs)
+>                 show_regs(regs);
+>
+> -       if (panic_on_warn) {
+> -               /*
+> -                * This thread may hit another WARN() in the panic path.
+> -                * Resetting this prevents additional WARN() from panicking the
+> -                * system on this thread.  Other threads are blocked by the
+> -                * panic_mutex in panic().
+> -                */
+> -               panic_on_warn = 0;
+> +       if (panic_on_warn)
+>                 panic("panic_on_warn set ...\n");
+> -       }
+>
+>         if (!regs)
+>                 dump_stack();
+> --
+> 2.1.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1644324666-15947-4-git-send-email-yangtiezhu%40loongson.cn.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1644324666-15947-6-git-send-email-yangtiezhu%40loongson.cn.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOySkeK6u-JieNBQ4DmAO3LogdZ6gXv1Noz8jUOi3ThDA%40mail.gmail.com.
