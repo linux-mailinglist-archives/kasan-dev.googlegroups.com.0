@@ -1,30 +1,30 @@
-Return-Path: <kasan-dev+bncBAABBP6ORGIAMGQEGHKSG4Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBQGORGIAMGQEVRNLKRI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658954AD86F
-	for <lists+kasan-dev@lfdr.de>; Tue,  8 Feb 2022 13:51:13 +0100 (CET)
-Received: by mail-il1-x13e.google.com with SMTP id o8-20020a056e0214c800b002bc2f9cffffsf11231907ilk.8
+Received: from mail-io1-xd40.google.com (mail-io1-xd40.google.com [IPv6:2607:f8b0:4864:20::d40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0067A4AD873
+	for <lists+kasan-dev@lfdr.de>; Tue,  8 Feb 2022 13:51:14 +0100 (CET)
+Received: by mail-io1-xd40.google.com with SMTP id n20-20020a6bed14000000b0060faa0aefd3sf11248612iog.20
         for <lists+kasan-dev@lfdr.de>; Tue, 08 Feb 2022 04:51:13 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1644324672; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XX4wamkdjrjgKtFEnQMJT7WI7IsdZuTJCyZOVE0yzbZQczT5z3UHpx9AF9eAuUa5gJ
-         r2+HKs8D6TTjiFsaImmkHl76tto7R+DE+7QS+UsmGpZmjTEOYDMyEw9o2hABTM5GE8so
-         4C0bfKDvawl2vtWcvNG64fK+z2spe0CDyrKv8dzlTpvI1cse7+YG6LfkWOHb+ivvKAzQ
-         4gmvQN+QZ9GurWIwAZhNNmrcw492gTRDD8CFud6w1SkVk36zKiUA0N1kX26ZzRf90xDb
-         V0nYPRg2SdUGd6WMZpxMvmIVlxjG00UdVT8RNJG2xgxLniBNA5LIvEr1OogpPQjq3bOH
-         dXLA==
+        b=TJRXuVkkLJuXeWuEvlsOViyKes7VUAhO62Zk3qYZ2kgPIwIQ4Y5WZSbVkbPVxv7DAV
+         7IRLIuTE0s9naBunxFn5rgWGjp74UEZbQ+ptPn0gx9EqgaPPTrmCb8qiyujVGtKpLhly
+         r3GWXI2s0O53h2Ghc++UyUu4tHJDQAydYIYPHmHy3bdcJ8cm+pHW4+0fV609Elz+Xu9w
+         asOq+W7EQt9VyBzalyrx17ytBSIjZ8vLa1r77ZybExjUgWuw/WeOGdod1HtayHJbDOA3
+         YPg4ZrpC+bYiNOIXfcBPAfpddhVtM9wiFxv6hxf8cw2bib0/l19/VuJnenOKtJCICb9I
+         BH6g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=va9tPCBwFtm3WT45jq4RQ6ZV/Z32tRENzqQhhQsfqP0=;
-        b=EU3hr1h3BptbvogUfQYe3jXS7u7gt9ZhLbYn0YjNisTdVaw9ttiG/m8EIaJozfUgCk
-         FdUSz3ItOLun2VLL2r7yT0caNxW8WzZxkRaNDeJ8inXPKaHEA0Oq9NyO3K+Ap+sl9Lof
-         f5Zd+oosN6y5Ft5UG/V7oegJkxvSqRsVaXK6t88kpk2o8P0PsJJqRjp2Ip40dR7QbLR0
-         aijnlmIoj2j1xBqpoEWpeGhQEUifK2rmI4+7C8T7Vukql+GGH9tA/WU4wlYInCeND6iU
-         iDbRXeleZgpeBSrtoTleEej+JQJHPqvCUN5sWQCZl2PI6Z/zPAKmB9CvWkb8qJShSnmS
-         0ySA==
+        bh=imESE5Io4NAimdLHlgV0WMdgyaT7p6Q66DlxgBijcKU=;
+        b=KghQNjMH37SLRrmzhdz/cGm/4UxzIU/RVaim6IqqKyYs19qayeVFIeES9p5pBl3Zc4
+         sEHjAz6RXIjP3cYyKNT/xIbjF1fMGGATlpKy3YxhRhSy2EivyscSyvNo5Dxav8FFvFM1
+         eUttQpny7U2Aca2DxEOJRonSZcVnxk/cF/pkhw+tdzwW70AB8ozM6eO6Ua8kkQNDCp9S
+         eVLqY8RHwFHxVQVRgOHPpMdBjKqipvUbhK0xCFiV9pEbEA8gnuCcJ2uFSol1VkaUkW9n
+         FIxHPE873hWmn8M79aqLdAPNX3wM1pj94HEOnAWOW6XyHnODdJXsKiBimUVyiktsGfO4
+         pF+w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of yangtiezhu@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=yangtiezhu@loongson.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -33,13 +33,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=va9tPCBwFtm3WT45jq4RQ6ZV/Z32tRENzqQhhQsfqP0=;
-        b=WAColF+sQxyO+qXPbrKkAor2/5DYYJuxKUp7ovA2YHtO9HxwPoA3AysyQbS6hj+HZY
-         P5x7jRjFjqA5bES6WGPXLG/6BAqEKaSCou4ROv/wUuFnm5GfEcu5vvRShW0aXdMSLvii
-         zyE9H683e335BTjFSRM1jlOwnqPetO9Z03ZZpJv7KNigtLgR8XuiSEcpifJMDcjzcXec
-         de2sUWUyVbJNzFJ1yt3OuS5WHchpI03X9YY5savgJqXq++SGRQAbcIx/+n9Kta9y6VFC
-         F66eD5yF7A/uCSkf8EfBZB9CIQZ9P+muXcxON8fcECvoKaXm1ftqYmBA+6FKL1Nusr2e
-         rDHw==
+        bh=imESE5Io4NAimdLHlgV0WMdgyaT7p6Q66DlxgBijcKU=;
+        b=H5M3l1Bac71LWfQ1P+S+WkSIifZ2K1PZIcTpaaZSD1NSjAU/d8gr8IZ0ZkP7Z0LwSh
+         9+2+eI2/OYS9WHNBAbwI+fWWo0fd7dE7PgzcUCUD/7E+6abwvOWpTudjgzV5hcnKXd3U
+         OMSAdUWcxBfdg1aVry5c7cDfXOXZp4YuuhqCkWUrRnwQqzmNjedy1gCUcWwYhrekqpLR
+         xcvhSohyIGBtGXrdKGv+sk+x8lnejIEKv84Of4djA8pRJ0iTkZnUnNX4zHmuMcA55q1Z
+         +UPHfF+gOswXQe4w4Foc9IbcDJnjGOZW5xP9QMigZB3aVsYEUnLotpoww0npZ0AVwiry
+         yxEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:mime-version:from:to:cc:subject:date
@@ -47,52 +47,52 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=va9tPCBwFtm3WT45jq4RQ6ZV/Z32tRENzqQhhQsfqP0=;
-        b=BrLRMtiRgxGB3bYNOEIpGfzlv4Atb3mwEjLSb31X2TPIuk9l4yUr6JWBbQUmW6XVrB
-         p+EfhAl9qrxtkmmTBqRAbQSzz5eXKgtm06lpE/DciwKBKLO6RPKTFHerCQoGSmzsEf1w
-         uHJxbIZW8BGaHY/98sUiV7LJkBxYQEsig8XRnetsdA2NXao3oEQ+JEBj57BA5z50vUub
-         gpiLEV+2Htq8y/2sRdZBKaT5g9ui85211xUl0HNGoycsO0HPCk1hLUaj7ODLZDo882pR
-         jOxgU0HZZ4aXfRF9WUA3Qua5Cfvw4rr1+rCf9AFFeL55n3NOp8Zo6TVC4ZNRn0QJTwxv
-         t8EA==
+        bh=imESE5Io4NAimdLHlgV0WMdgyaT7p6Q66DlxgBijcKU=;
+        b=GwWYqSnlcnnJhAgoA7LjtcWmh025kWtreRYU6JAFEVHp75AlDHgrly7YL19BlMzrba
+         qY3WsCB3YUyghq/e9XMwGURJQuUhs6zRzbVo5ik5O0/gwS1Y8ZgquoMgibysY9sFX+KE
+         p+ajFSAhdUalsPrJ9FEQlRdbo9rGpTxWLsCA6BK1238QvUyEuDpmeA9K9xAVAhb680NP
+         L9NzhU7FUNjW6VuZx8pKpPPy32f2r2Vigdkmrm+Cu60oX4ErBuU0M2G4ssjuKMfKOxiN
+         VrlXgCJNh/FexLA61VEZWSiBoVcrGstUKLBFlObUS/koixlkzcZB6RZ2jbi5tRKx8NN7
+         uX4w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532/mPAeP7NYk49Gk4X527IHifGbLiZIvQcchXnhO3KIPaDCZ0B3
-	Y+lGypcgXmcBGuufhwU5yAc=
-X-Google-Smtp-Source: ABdhPJxOt0e5wSa4RitQ5vIEtNxaXTW5XVCPe021Arr8++SDL7Ji0XBEIek7FCIlG9JH1mKLKQYzMQ==
-X-Received: by 2002:a02:3b67:: with SMTP id i39mr2144434jaf.32.1644324672173;
+X-Gm-Message-State: AOAM5324DIjTM4f8gVTtU10dB66oIVtll8PA+p6SF4cHVB3qjWdoK03b
+	4bt0LnNXIO6j4z31PlPaNnI=
+X-Google-Smtp-Source: ABdhPJxq1OSGGHy7ipCcKY518jFoHU1qExSeG1Qifc258aq2dl7gfHtBTbgWVeS5kKQnJaC6zoVMMQ==
+X-Received: by 2002:a92:cda2:: with SMTP id g2mr1899326ild.29.1644324672804;
         Tue, 08 Feb 2022 04:51:12 -0800 (PST)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1c8d:: with SMTP id w13ls2099801ill.4.gmail; Tue,
- 08 Feb 2022 04:51:11 -0800 (PST)
-X-Received: by 2002:a92:5208:: with SMTP id g8mr2082172ilb.310.1644324671621;
-        Tue, 08 Feb 2022 04:51:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644324671; cv=none;
+Received: by 2002:a05:6638:1ec:: with SMTP id t12ls131937jaq.10.gmail; Tue, 08
+ Feb 2022 04:51:12 -0800 (PST)
+X-Received: by 2002:a05:6638:a8d:: with SMTP id 13mr2150023jas.104.1644324672452;
+        Tue, 08 Feb 2022 04:51:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644324672; cv=none;
         d=google.com; s=arc-20160816;
-        b=MxRihXT3mSDUg5e+vpEwhV3X1ShS4oVI1DNzhW/l8z/JfIfjf9YGRO7KXIfIPCRMeB
-         0nAnGerd5zDSZKNhNgZn5Y+kCkJBSGei3Ssb/P80sacJjHxIUME9YCKsOlrwvhX6VIkx
-         /dB5FUhWdBk6PQA6TPThVa6h1xVxRu/NIsvBgxAHMPiP8G+wESbgTJNYrHg9TAZY6KVR
-         dKRvRDWumTQy0xlkrlUVYZGJGFfjYzTIRiArlfvG2kfmPvtuOObPu1dTdGjrPvPox0l3
-         qChd8SmeHqgc1j9ZGTDhi/AE08pnCMtZMiPr+jS9/btGCFYc8WXHngk5Fal7Tg+bTyx3
-         sGXA==
+        b=pbwFwW4Qai7kAn734yHbFaysIGo8uia00X76uUU2igSoJvBYjY2y+mQRTisscd5g49
+         fUvMTKbqbLiqJ8fEvYwljVLqUKpYuzMg7YMcvVXv2J/Zzqh1wbMGJfRRfqBF/Fr6xeY1
+         WHlWE+4QiKMcEtc+UUMwhILsULHmCJlc4tVxfj9mRtLaxGkr5NXP1B5Y1uGF+JUIaBb2
+         7TwSgwzjrbTGdy7BXa92XdByZfvgUaep7LQnvgUnW/ZnpDvw1SxB0tmyuGCwsCWZVbwM
+         L2UBxJd2unLEMh0Ci2iJHh46auyOtcT/9gExUoiDMQxqnDFusI6yXlggJu/UqC5mf35e
+         pBtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from;
-        bh=qGJnNbLPzK7UyDbI79WZ4oMXPkEl5Okr72aVK5OpkZU=;
-        b=B0AqcOYMHEAxSIrredsQ2rBkCzlMzpuI0naVtUzUcxbKGD+30O+r6+3ryUJLI84hMZ
-         i90W4OnjgmXz2QQIhrkaCdyyIsqYjSbVg7sz9agCJy7708qWP1rJugu05KwtKDkQfpCb
-         cY6onk9fr9Z2KSkfthqATzhQMtN4UR2EkM3jg6mLFDgUjzs6T9Z1zVs17Pp5Ca+cxVQG
-         bKojtd3SMeae3wDK1+w5RlvD+5gy0xqlsocngTYNcEC1CCcd2rCjdA6n0OjvQ+BgvEC2
-         GJJUYwKBCs+9gS1oCyI+mbhHgbsaDGwydcQfshcqql1pHCvvKm7lNOs5m0Xj7Xj3TrTQ
-         hdYA==
+        bh=2Q8GGwxOP3YVve+830JMFK+d5ayFOGiGaSg5RbYCCpw=;
+        b=FVI/DLs9ASvJEOPzvPBAZ0n+axapOYkeWmH9JdIE9xpVd3/W3U2rCJY65T8Hpulfvk
+         BFWuzJHdHkiknBMj2LCJiBidcWtmoIij6yq7J1rZsh/2kug9bL8kjq8QrTUFpFXwXgSu
+         Ln3+fO9o8fji+qrIZcQyuryvtZNXX1VO40NJddUlSOZHXr/+ObPWRagA+2GvXgl6W4CD
+         hQXhmlMwDHRfVCy5tKl8kNu46nUXv0GBJwuq8WLvRfHTZu2mvdpUnX24ncC5qjANHHlB
+         iHUxXOLueT58B6tj3mifCO2y1FfgWpncMfXpLJi4S4ivrPKxZ+olVInuVK/w94CFOmxN
+         eb8A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of yangtiezhu@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=yangtiezhu@loongson.cn
 Received: from loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id f2si411517ilu.4.2022.02.08.04.51.10
+        by gmr-mx.google.com with ESMTP id d15si1431690jak.1.2022.02.08.04.51.11
         for <kasan-dev@googlegroups.com>;
-        Tue, 08 Feb 2022 04:51:11 -0800 (PST)
+        Tue, 08 Feb 2022 04:51:12 -0800 (PST)
 Received-SPF: pass (google.com: domain of yangtiezhu@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
 Received: from linux.localdomain (unknown [113.200.148.30])
-	by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL+M6ZwJik0oIAA--.26524S5;
-	Tue, 08 Feb 2022 20:51:08 +0800 (CST)
+	by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL+M6ZwJik0oIAA--.26524S6;
+	Tue, 08 Feb 2022 20:51:09 +0800 (CST)
 From: Tiezhu Yang <yangtiezhu@loongson.cn>
 To: Baoquan He <bhe@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -105,30 +105,30 @@ Cc: Xuefeng Li <lixuefeng@loongson.cn>,
 	kasan-dev@googlegroups.com,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/5] panic: unset panic_on_warn inside panic()
-Date: Tue,  8 Feb 2022 20:51:04 +0800
-Message-Id: <1644324666-15947-4-git-send-email-yangtiezhu@loongson.cn>
+Subject: [PATCH v2 4/5] ubsan: no need to unset panic_on_warn in ubsan_epilogue()
+Date: Tue,  8 Feb 2022 20:51:05 +0800
+Message-Id: <1644324666-15947-5-git-send-email-yangtiezhu@loongson.cn>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <1644324666-15947-1-git-send-email-yangtiezhu@loongson.cn>
 References: <1644324666-15947-1-git-send-email-yangtiezhu@loongson.cn>
-X-CM-TRANSID: AQAAf9DxL+M6ZwJik0oIAA--.26524S5
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4UuFy7ury7WrWrWFW3Jrb_yoW8AryDpF
-	nxKFWDKr4kKr1rXa97Jw4vyryYvws5Xa4xCas7Ar4Fyan8tFn8JrZ7CFy2q34Yg34xXayY
-	vr1qqry3K3W8JaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
-	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-	8EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
-	xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
-	vE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
-	r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
-	v7MxkIecxEwVAFwVW5JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC2
-	0s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI
-	0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv2
-	0xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2js
-	IE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZF
-	pf9x0JUhBMNUUUUU=
+X-CM-TRANSID: AQAAf9DxL+M6ZwJik0oIAA--.26524S6
+X-Coremail-Antispam: 1UD129KBjvdXoWrZF18uF1rKFWfAr48Zw47Jwb_yoWfJrX_CF
+	yvgFs7KrWktr15uw4rKwsrZr9ru3429a109F4xWwsFk3y8ta40gF4kZr4kZFyYgw45AF9x
+	Aws8XFySyr4rCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbyAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
+	IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
+	F7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr
+	1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
+	e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
+	8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
+	jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
+	kIwI1lc2xSY4AK67AK6ryUMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
+	MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
+	AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
+	cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+	A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
+	0xZFpf9x0JUSjgxUUUUU=
 X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 X-Original-Sender: yangtiezhu@loongson.cn
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
@@ -147,46 +147,21 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-In the current code, the following three places need to unset
-panic_on_warn before calling panic() to avoid recursive panics:
-
-kernel/kcsan/report.c: print_report()
-kernel/sched/core.c: __schedule_bug()
-mm/kfence/report.c: kfence_report_error()
-
-In order to avoid copy-pasting "panic_on_warn = 0" all over the
-places, it is better to move it inside panic() and then remove
-it from the other places.
+panic_on_warn is unset inside panic(), so no need to unset it
+before calling panic() in ubsan_epilogue().
 
 Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 ---
- kernel/panic.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ lib/ubsan.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/kernel/panic.c b/kernel/panic.c
-index 55b50e0..95ba825 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -185,6 +185,16 @@ void panic(const char *fmt, ...)
- 	int old_cpu, this_cpu;
- 	bool _crash_kexec_post_notifiers = crash_kexec_post_notifiers;
+diff --git a/lib/ubsan.c b/lib/ubsan.c
+index bdc380f..36bd75e 100644
+--- a/lib/ubsan.c
++++ b/lib/ubsan.c
+@@ -154,16 +154,8 @@ static void ubsan_epilogue(void)
  
-+	if (panic_on_warn) {
-+		/*
-+		 * This thread may hit another WARN() in the panic path.
-+		 * Resetting this prevents additional WARN() from panicking the
-+		 * system on this thread.  Other threads are blocked by the
-+		 * panic_mutex in panic().
-+		 */
-+		panic_on_warn = 0;
-+	}
-+
- 	/*
- 	 * Disable local interrupts. This will prevent panic_smp_self_stop
- 	 * from deadlocking the first cpu that invokes the panic, since
-@@ -576,16 +586,8 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
- 	if (regs)
- 		show_regs(regs);
+ 	current->in_ubsan--;
  
 -	if (panic_on_warn) {
 -		/*
@@ -199,13 +174,13 @@ index 55b50e0..95ba825 100644
 +	if (panic_on_warn)
  		panic("panic_on_warn set ...\n");
 -	}
+ }
  
- 	if (!regs)
- 		dump_stack();
+ void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
 -- 
 2.1.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1644324666-15947-4-git-send-email-yangtiezhu%40loongson.cn.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1644324666-15947-5-git-send-email-yangtiezhu%40loongson.cn.
