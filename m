@@ -1,130 +1,132 @@
-Return-Path: <kasan-dev+bncBDHK3V5WYIERBW66TCIAMGQEFCBXBWI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCR45TXBS4JBBIHLTCIAMGQEMWU4TBA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BBD4B2243
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 10:41:48 +0100 (CET)
-Received: by mail-lj1-x23b.google.com with SMTP id p9-20020a2ea409000000b0023ced6b0f51sf3821806ljn.19
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 01:41:48 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644572507; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CD24B22C7
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 11:08:33 +0100 (CET)
+Received: by mail-lj1-x23d.google.com with SMTP id n9-20020a2e82c9000000b002435af2e8b9sf3826570ljh.20
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 02:08:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644574112; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ZzQoL9lv/hZehssCfp+iI7Du3On4fnHCvmjbPyt5LqRo2pOOciPIodZBiNNyK9bywW
-         C49eKrcGa69a5JkgkVefd79OdR4rlnjTS6d1dCmLp/OHxX7cJWrISwiRaiPKNmLQyNC3
-         8HrEy1qO5cIrpTooHLRHKQ6GuYMqIyHapBkaBb4PrMwnVmH1MORz2cslpFyKAHDV3oH9
-         OzEAWXMN1UGKRpNm96QT/dJ8tJfGsaLA9haC0Lbeq4xPG6XKk1oF7i7HobolRc4eJcnN
-         yMaBdH2NHkEe7vkO7PfGi2MiE6lxvoarHMLP+dcB4yW5PXWETS3y758pvByIJhFb7GO8
-         v+Gw==
+        b=VAlVhzNFfbJw3Nn5WLht+NoKSHRtFMcUeUcdjv8vZLqhR+Vuloik9eCPsHmc2Hoe2x
+         BysJLkbc3OMxvX1NoUjC9A6uGCiH0dgSOstS4slEhZF2ggQv+VSB4dgSAMqTs8tNJSeA
+         /Y65VtbibtUnqS9zJ4VXzudbLJdlxP5ZrlQFNOSEZIV0QWYk8To/ASEBvY/ZBCM2al5W
+         GM7NnzsHupXmdvL1Y4vrSqdSp32jI4X/Ef/MYeMsNGdi3QqL0R/1oDp8SdV32VL6H5yj
+         5U457733am+2EQgfAnNKLuQ2kqewA15C9XuZu2F5HHhTC5lYiExebtFfn25o6k/gKwZx
+         6kmw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=nF8VqRnM8XHxbUJIC8WffMo0EggfkBCa6/0Cdyo87q8=;
-        b=Kc2KwHoGMmju6p3C0sJvUn4Flge/wgOtVPeRQEDjR8yTpP1lLQiR7z/Suk+VsA+S1X
-         MEjU2CsNEgRTsOhC2iq/RwgErG/zAuylplP6vHxRz5eWe6hCWlWguOQ546Akg0YUOxFy
-         Wt4q5V/aH4+mm0Q+9KAnXzZb69yPSqWgesvzTFJD8RMgsMkQoScudoLYEvMGYdh5M1Vj
-         QlM31kpwN1ykhjUjyPVxG78g78+Pjfe5Quj65EX/BsMEO/AXz4SIQqxXuXTQckV4eRFu
-         GUqlXgMR8zFdiioJAjr5p67DB+o5Jj/F1ueqTiQ15wRdUSzWxZt5C5mlytpto270ChgE
-         ucyw==
+         :list-id:mailing-list:precedence:organization:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=FQJmEugObr7rSyFolm2+2SFcR3BnySWcrYh0q9i3qZw=;
+        b=x4+C+c8VAuiNwIi5V8Dd9hi8If3zNTElCiICZRgIwmoIO+q4zA2RlfM4bRMKVhHKk+
+         i9Hzo5m9yTfGV8ZnDWPzbO9kj3Vd/1zWRvWrGyEd9FHq/b1wwpEV4kSwA5bN/1XoVJzi
+         p46xx7s9HHKly4b+BnbhOqbYxh8r/0M1RpVQ6UspuKAAVQ4Zubg1nVbsGHYUCokIWZms
+         zV75HQYAOniE5UUSn4kqtd3ZWF9LmQSRyqJ6hf/hgIkOZUatDtLaNlCzUj4Q9R9O2hO+
+         zF2jD78sX/xc5SCI4rX0+7EWPnINYTAKQ462snhTJD88CvWBMtQ0wsDEFw9sfpKD41f5
+         V3Pg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b="P+snyK/K";
-       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::629 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@intel.com header.s=Intel header.b=hRqtaNLc;
+       spf=pass (google.com: best guess record for domain of mika.westerberg@linux.intel.com designates 192.55.52.151 as permitted sender) smtp.mailfrom=mika.westerberg@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=nF8VqRnM8XHxbUJIC8WffMo0EggfkBCa6/0Cdyo87q8=;
-        b=ocnVs1KoDKeMug4ypCcTM2WsfxFWgFAd9kXcL7kCMSDurtQHvsj479S+rj9PRdNODv
-         dAlxN4uJPV9udIxeA2BkJb+WOhmkaoM1pBPi5o6/5V8sIazNExuc/DtNVHKA+SQvU5v1
-         GITnxLlhWpDlRehmnPM9DXKQbI0yFx5/OhlT4k4yxRw9txzxkzBJtY04XSwYbMMBrER7
-         v+Ik6JanzbjMkmuc1Vg3w6FXiBGY/IjD3JhVSRiunbLWr/eN5tzze3dFcNKGIZ9AuOs2
-         LeC+iupO47I0E4klFa964AYWOOPLeZdEhsYAyVjUfaS+9+MsX+3VnGVsfMYl/MG+ehjV
-         qE2Q==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:organization:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=FQJmEugObr7rSyFolm2+2SFcR3BnySWcrYh0q9i3qZw=;
+        b=tS9RQBBGxDbJDhkvsj3mrpkh4NO1sRYQFzxRLSUHLmGtuec8WXrjnB5Ct4nuvWsYgq
+         H6cJQZWp4XGqTddV+B8DFDj4J8cIFcfYtApZKYopoS1vv1HISFo0OBm/xMQ4zeqNMXHI
+         T/8Yft+EHaOE5qlfh6yGu1X0KQ57Qe3H+M8zoQnl45/71G3jCYLBSL+oshVaNJF8VtMk
+         ltCm7w6z/e9Libb2EjByooQq/BIGkRYDUw9scnM3XMe741kX8uL560yX+9S6c7cXWYyP
+         ejnLCNPZufslEuarTTZ8e8BijJj5ryMqG6F2TtyNREifGHrW1R6Z5z7puwKBQyqJYUyw
+         YA/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=nF8VqRnM8XHxbUJIC8WffMo0EggfkBCa6/0Cdyo87q8=;
-        b=ndGsLNXh0xcsy5d5DrMiXrjKnUPNHEfhSNCV6iRzGJHo7q88mtYN/ru6rL1T8h4knE
-         JeYw3tfZvTDKwOGDIAazbGAx7kr7xSiQm969/rwmnbZopijdmPHVwWrIDuBYpfAJ+Ked
-         XaYdxUDYS5ZE4jNDnDKS/tG4pb6Qo9DIKzAZxWWAlXormTpL4zE2MZrYH9rEs4hKVNpg
-         wqzbuWwU+Q4Ei4BF3UnYnpFugfVgYasWeyws3UUk7nd4fwwQwj55T6VfdcNUFZa9v/Et
-         5Do5zmCjtWAby0CpQLWvJ65AxOKZ0rhm4LaLPePyD4NupqZU0i0tjlXyMGEJWLdFA7LG
-         utjg==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :organization:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=FQJmEugObr7rSyFolm2+2SFcR3BnySWcrYh0q9i3qZw=;
+        b=qhvaX9PXCI1UNHzp26wse/fVAXGtNZGknbckTZbHwOVlM/31bqQ1ibfGoGfNDWwuD8
+         GFrn/qHV4/m62m/jLNNKs9ib2yKARKBnTSei7gUmb5NxWGeS1bOa+d/g9lVKT+RFIGC9
+         aaRfzta01caEdhDyZFaDfs1b+OEGKImpCUoxLdKFi7UX2wREPyzA5jWg2pl8mHhprJBu
+         IbtTWkwra6K3YxihuF1JGECMAQxs1TgfcdAHn2OCfeZgpLUddr2k9DOl0gNCF5p9dQrF
+         cZz2gOvvoIBnmfuUtVLIsYf0Gbd4zQCpaKWUlGFvaaEZ7CXZKJbIQ7PzDQmsURV9LPef
+         0qLA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5334yX8gABg9cIOxBrDLmoG+TJzqbwT12ojMbB/YY8Ytw/5PQbRT
-	k5BbeNS3MB5+vz7Fh+ET5oY=
-X-Google-Smtp-Source: ABdhPJwC3qgZFcuwU2mHxB5zkdWhA5FAqE4+25xpYhqQ0hyPjTuPATtWvEGKnCOpFAmnXsvEKVGW9Q==
-X-Received: by 2002:ac2:5144:: with SMTP id q4mr661176lfd.206.1644572507497;
-        Fri, 11 Feb 2022 01:41:47 -0800 (PST)
+X-Gm-Message-State: AOAM533hFBX1M08gc0G9Nj99Y60Jgdf1mWfBKMvBJpd5bEDFJiv8/n0i
+	UbwbqW++MjsXFcU56xm1sQE=
+X-Google-Smtp-Source: ABdhPJxnNSrh99flcToIpp6QqpVDwWPhIWPQ+UwpCnoH1d5YVLSZ0eyP2SKSEWWQEkAcWgI5Q7nUBA==
+X-Received: by 2002:a2e:3903:: with SMTP id g3mr579539lja.76.1644574112509;
+        Fri, 11 Feb 2022 02:08:32 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3b0e:: with SMTP id f14ls5037469lfv.0.gmail; Fri,
- 11 Feb 2022 01:41:46 -0800 (PST)
-X-Received: by 2002:a05:6512:6d3:: with SMTP id u19mr619288lff.434.1644572506446;
-        Fri, 11 Feb 2022 01:41:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644572506; cv=none;
+Received: by 2002:a05:651c:98b:: with SMTP id b11ls1424199ljq.7.gmail; Fri, 11
+ Feb 2022 02:08:31 -0800 (PST)
+X-Received: by 2002:a05:651c:212a:: with SMTP id a42mr577693ljq.100.1644574111258;
+        Fri, 11 Feb 2022 02:08:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644574111; cv=none;
         d=google.com; s=arc-20160816;
-        b=NQgjczmDBIq4Y9q4Tz/mDupE8T/E2jYzw96FvhVNDrOJ5bH8oqqz+WjVIYk3kLmJL1
-         dKthmxl5w4EJMUvznrT5TmgcmbgdYE7EvSMIKIlv+mm/OHf4MpaDIkkaVpMDlrxRLSzE
-         TepCkezqwxQOEw9mvTfAyI48GSqx2tpsewSK+oVDJTcL/Lxrr+K1uUYzZezLeOMyBzuB
-         umpgroxfxq+MbfWN0A6OJ0SjQE6XgnGKGPG5AsEwXaTJwM4repuBK7Pfpmd4rpTBdzXT
-         yWfeDdUbKf4I/9m0HAqQVuFJ8fVrj+kXuXkpQ2TZ81q+ovwfZ1B0UNSuSS4fg8OQjEj6
-         BJdg==
+        b=A8OJ0VakXao5gv8JrEYgHixx9msmL0HVD9xk2czlPGOZsTZh2tcbLo6Xxivax1GlgL
+         h7pbXf8PUqqIatIsRkqqLMZXcAqXB6SndSt2Ao1zWESYK0HJP8XDxSiNjj+qpewZXOwd
+         6uGTkKWR3UpfqFzMVreczcLc4wAe8nznAlePRJx+0maEv+WF1wgJrS3vyRIR1tg+O0QG
+         8lodZ+H6jC5kLvfI9VjB5I3CTR3jv42KX38KFK+y2vpHyA4S+07hA6Nzq+2BQ92UGcr3
+         iz8tOnNG94OMZvyJB+Jj6T6Hkrw5ogxMLnGduKZQu5sh3XUzo8HPFwIIHahbHIlkIWBv
+         JwyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=rYp/F1vbxbLivUF65w2maaWuA20v5CCQAIJDPT6o8JY=;
-        b=TxuO1ta6gEXPfc4XA8rWUDV/IpBrY8pG4+gVQSWkJHbtrvan0Eqsb57fQppYH8Z37o
-         DlDuxfXNZnpILIhBFJbgpNyC9ZniWRojalAAUMhp8NvpfH5zI57cepeMO43RPb0guhmz
-         x5ToUf9RX3HaX6/ca7qso0vXtDtG72RT7iA1UBGWS1yLmE0qsfuAmv+wgSTgfCic2dx2
-         Wn0Z+tnpVC85ekOWtjYCK19EauMvubV9lzXWOs6UoE/zMClnrcW0Uh4lN2DY4P3fF2Rw
-         ngxniEXvVcRLz/E4qeH1obzdufncMjKf+FF161fQb1ASfNktggHSlpQlKypfvfVr+M7M
-         NUzA==
+        h=organization:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=pavljXryT1YJsVhMYkHrsX0h1v9vChGlrtlhEz5VPh4=;
+        b=Lymka+5wh9w7sfz2ApoPjGTWkAyONDLpITqWyjtQzXWtD2VDx+WQJvXRcNSNs8Liut
+         RrYZyR649FPhgTFg2W345FZW5bLpcRdWz1sxsPVudXb0wU4nvVXSISAUvzRek169bQLk
+         NVl5DkFRyF8IdCO+dD9+9jVdz6ly05dOJcI068behgkbwYaHharYyGU4gj6rTPphXo2W
+         ZKNb9cY3K+OTPX+i2sJwiA/bNpBtmTPwPURU+hWh+AajfsvZNcBYqOgzk4q4kf76HngB
+         VnozTJzum5xKWEYiezzhU9X+dMe7Wch7vWFugcULNq2fSnJQmV6zQaYkCDddOYqGPQkb
+         FG4g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b="P+snyK/K";
-       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::629 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com. [2a00:1450:4864:20::629])
-        by gmr-mx.google.com with ESMTPS id v26si311224lfo.10.2022.02.11.01.41.46
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Feb 2022 01:41:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::629 as permitted sender) client-ip=2a00:1450:4864:20::629;
-Received: by mail-ej1-x629.google.com with SMTP id p15so21594972ejc.7
-        for <kasan-dev@googlegroups.com>; Fri, 11 Feb 2022 01:41:46 -0800 (PST)
-X-Received: by 2002:a17:907:6d88:: with SMTP id sb8mr639925ejc.25.1644572506148;
-        Fri, 11 Feb 2022 01:41:46 -0800 (PST)
-Received: from alco.corp.google.com ([2620:0:1059:10:83e3:abbd:d188:2cc5])
-        by smtp.gmail.com with ESMTPSA id e8sm603196ejl.68.2022.02.11.01.41.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 01:41:45 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-To: kunit-dev@googlegroups.com,
-	kasan-dev@googlegroups.com,
+       dkim=pass header.i=@intel.com header.s=Intel header.b=hRqtaNLc;
+       spf=pass (google.com: best guess record for domain of mika.westerberg@linux.intel.com designates 192.55.52.151 as permitted sender) smtp.mailfrom=mika.westerberg@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga17.intel.com (mga17.intel.com. [192.55.52.151])
+        by gmr-mx.google.com with ESMTPS id g7si385344lfr.7.2022.02.11.02.08.30
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 11 Feb 2022 02:08:31 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of mika.westerberg@linux.intel.com designates 192.55.52.151 as permitted sender) client-ip=192.55.52.151;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="230347255"
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; 
+   d="scan'208";a="230347255"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 02:08:28 -0800
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; 
+   d="scan'208";a="483271617"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 02:08:25 -0800
+Received: by lahna (sSMTP sendmail emulation); Fri, 11 Feb 2022 12:08:23 +0200
+Date: Fri, 11 Feb 2022 12:08:23 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: kunit-dev@googlegroups.com, kasan-dev@googlegroups.com,
 	linux-kselftest@vger.kernel.org,
 	Brendan Higgins <brendanhiggins@google.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Daniel Latypov <dlatypov@google.com>
-Cc: Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v5 6/6] apparmor: test: Use NULL macros
-Date: Fri, 11 Feb 2022 10:41:33 +0100
-Message-Id: <20220211094133.265066-6-ribalda@chromium.org>
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
-In-Reply-To: <20220211094133.265066-1-ribalda@chromium.org>
+Subject: Re: [PATCH v5 3/6] thunderbolt: test: use NULL macros
+Message-ID: <YgY1lzA20zyFcVi3@lahna>
 References: <20220211094133.265066-1-ribalda@chromium.org>
+ <20220211094133.265066-3-ribalda@chromium.org>
 MIME-Version: 1.0
-X-Original-Sender: ribalda@chromium.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b="P+snyK/K";       spf=pass
- (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::629
- as permitted sender) smtp.mailfrom=ribalda@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20220211094133.265066-3-ribalda@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Original-Sender: mika.westerberg@linux.intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@intel.com header.s=Intel header.b=hRqtaNLc;       spf=pass
+ (google.com: best guess record for domain of mika.westerberg@linux.intel.com
+ designates 192.55.52.151 as permitted sender) smtp.mailfrom=mika.westerberg@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,50 +139,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Replace the PTR_EQ NULL checks with the more idiomatic and specific NULL
-macros.
+Hi,
 
-Acked-by: Daniel Latypov <dlatypov@google.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- security/apparmor/policy_unpack_test.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Fri, Feb 11, 2022 at 10:41:30AM +0100, Ricardo Ribalda wrote:
+> Replace the NULL checks with the more specific and idiomatic NULL macros.
+> 
+> Acked-by: Daniel Latypov <dlatypov@google.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
 
-diff --git a/security/apparmor/policy_unpack_test.c b/security/apparmor/policy_unpack_test.c
-index 533137f45361..5c18d2f19862 100644
---- a/security/apparmor/policy_unpack_test.c
-+++ b/security/apparmor/policy_unpack_test.c
-@@ -313,7 +313,7 @@ static void policy_unpack_test_unpack_strdup_out_of_bounds(struct kunit *test)
- 	size = unpack_strdup(puf->e, &string, TEST_STRING_NAME);
- 
- 	KUNIT_EXPECT_EQ(test, size, 0);
--	KUNIT_EXPECT_PTR_EQ(test, string, (char *)NULL);
-+	KUNIT_EXPECT_NULL(test, string);
- 	KUNIT_EXPECT_PTR_EQ(test, puf->e->pos, start);
- }
- 
-@@ -409,7 +409,7 @@ static void policy_unpack_test_unpack_u16_chunk_out_of_bounds_1(
- 	size = unpack_u16_chunk(puf->e, &chunk);
- 
- 	KUNIT_EXPECT_EQ(test, size, (size_t)0);
--	KUNIT_EXPECT_PTR_EQ(test, chunk, (char *)NULL);
-+	KUNIT_EXPECT_NULL(test, chunk);
- 	KUNIT_EXPECT_PTR_EQ(test, puf->e->pos, puf->e->end - 1);
- }
- 
-@@ -431,7 +431,7 @@ static void policy_unpack_test_unpack_u16_chunk_out_of_bounds_2(
- 	size = unpack_u16_chunk(puf->e, &chunk);
- 
- 	KUNIT_EXPECT_EQ(test, size, (size_t)0);
--	KUNIT_EXPECT_PTR_EQ(test, chunk, (char *)NULL);
-+	KUNIT_EXPECT_NULL(test, chunk);
- 	KUNIT_EXPECT_PTR_EQ(test, puf->e->pos, puf->e->start + TEST_U16_OFFSET);
- }
- 
--- 
-2.35.1.265.g69c8d7142f-goog
+...
+
+> @@ -2496,50 +2496,50 @@ static void tb_test_property_parse(struct kunit *test)
+>  	struct tb_property *p;
+>  
+>  	dir = tb_property_parse_dir(root_directory, ARRAY_SIZE(root_directory));
+> -	KUNIT_ASSERT_TRUE(test, dir != NULL);
+> +	KUNIT_ASSERT_NOT_NULL(test, dir);
+>  
+>  	p = tb_property_find(dir, "foo", TB_PROPERTY_TYPE_TEXT);
+> -	KUNIT_ASSERT_TRUE(test, !p);
+> +	KUNIT_ASSERT_NOT_NULL(test, p);
+
+This should be KUNIT_ASSERT_NULL(test, p) as we specifically want to
+check that the property does not exist (!p is same as p == NULL).
+
+>  	p = tb_property_find(dir, "vendorid", TB_PROPERTY_TYPE_TEXT);
+> -	KUNIT_ASSERT_TRUE(test, p != NULL);
+> +	KUNIT_ASSERT_NOT_NULL(test, p);
+>  	KUNIT_EXPECT_STREQ(test, p->value.text, "Apple Inc.");
+>  
+>  	p = tb_property_find(dir, "vendorid", TB_PROPERTY_TYPE_VALUE);
+> -	KUNIT_ASSERT_TRUE(test, p != NULL);
+> +	KUNIT_ASSERT_NOT_NULL(test, p);
+>  	KUNIT_EXPECT_EQ(test, p->value.immediate, 0xa27);
+>  
+>  	p = tb_property_find(dir, "deviceid", TB_PROPERTY_TYPE_TEXT);
+> -	KUNIT_ASSERT_TRUE(test, p != NULL);
+> +	KUNIT_ASSERT_NOT_NULL(test, p);
+>  	KUNIT_EXPECT_STREQ(test, p->value.text, "Macintosh");
+>  
+>  	p = tb_property_find(dir, "deviceid", TB_PROPERTY_TYPE_VALUE);
+> -	KUNIT_ASSERT_TRUE(test, p != NULL);
+> +	KUNIT_ASSERT_NOT_NULL(test, p);
+>  	KUNIT_EXPECT_EQ(test, p->value.immediate, 0xa);
+>  
+>  	p = tb_property_find(dir, "missing", TB_PROPERTY_TYPE_DIRECTORY);
+> -	KUNIT_ASSERT_TRUE(test, !p);
+> +	KUNIT_ASSERT_NOT_NULL(test, p);
+
+Ditto here.
+
+With those fixed (please also run the tests if possible to see that they
+still pass) you can add,
+
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+
+Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220211094133.265066-6-ribalda%40chromium.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YgY1lzA20zyFcVi3%40lahna.
