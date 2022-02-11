@@ -1,63 +1,127 @@
-Return-Path: <kasan-dev+bncBD4ONUMQZYEBBUVMS2IAMGQEQFU3DSQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDHK3V5WYIERBVO6TCIAMGQEZRWYQPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x240.google.com (mail-oi1-x240.google.com [IPv6:2607:f8b0:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3514B18C7
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Feb 2022 23:48:52 +0100 (CET)
-Received: by mail-oi1-x240.google.com with SMTP id bj38-20020a05680819a600b002d2f27f444fsf1981316oib.18
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Feb 2022 14:48:52 -0800 (PST)
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id C257A4B223E
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 10:41:41 +0100 (CET)
+Received: by mail-wm1-x339.google.com with SMTP id l20-20020a05600c1d1400b0035153bf34c3sf5656408wms.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 01:41:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644572501; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=jVQo2C8RZBMxGNaU0Lo3v0I9MNDdkaU1mMw9vCUtQzWOJUD7xMIx9NEyNKE5ESb6Z2
+         lEJB42rer0TekFGBNa6/qdyJYety2ZlfocdUZ0iT7cufCWlszwWKybOVefWaEAmFe9Ev
+         gS46RgynVjYlOZ2yCTvSQdwuf9N+X3AyI5W8VbvUQ4OLJku+BHZw/o1vfAJi/im/7QpG
+         UJSIEsGnKhVd4pgNEWJDuaJ9qNa9AQ4S9nc4tUINMg6u4+N0HhPH4O4KsBGgsEeHv08g
+         0kAz9apy1hFYHx0XL5HIZBVj+wwNMj/ZRnVytw0Dd4LPMveBAdIyr6rbTEq2FBpmiuOI
+         eYMA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=JPXHJ+a/cpxyBB8EzeBnNDFPbDIoFhnqn8wFinNAhjA=;
+        b=PrqBA4HUmXlCXGQfWkR9HxC6PST5gXzrkQNdsS6WusbBYxCCzGZ3QGJUAKEkBQu7Ze
+         nt9EBcOUOfUpOzDIkEJDtfWYYsRkJYFqY7CI2x2qV1gDLpDrLFZmBQSlRzQykJsw6ilb
+         haGeb3eP4wN7VLoCEjLdcgNgoluQE0LmLR5yZZEXfcB4GG6nYdO1Gidlg6X6vTE2C7Lc
+         fOfeXbrHRPSOemczWJ68cCwrFIkCuF+LR4Kr6QWLT02c7wWgA4EFG1Nw7z7ZRoWqed6R
+         iNxATCM0hIRk6T+UY7lLimGSG8wwECEu7Ettg1sZaIUmL4zwseJ1fVwxqgwrFyxTnBUM
+         gX2Q==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@chromium.org header.s=google header.b=aNwI2IxJ;
+       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::62f as permitted sender) smtp.mailfrom=ribalda@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:from:to:message-id:subject:mime-version:x-original-sender
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=tr0ftUeabN/pROba+JrPONEm1YhvYt7v4Xyd7wbRJwA=;
-        b=Uidfu8AF6Rfr7jf/UtK263CCDP8FIjLBm9Dfah2X7eAiKB9Un0wbcKuseh1mEj2RR0
-         0WdCOqNNhd60aUE0YKa+RoDlxw7b1gnIZKuyOYvkIH+8vj03eEzAuQRDGZCxfBgeOc+E
-         cGlrazrHClFADopVFEEL34WV6sTiZZbHx7hk0BR120luFhR4X022AyVnQJJsg4Fu03tS
-         EWCHsiSNyqJfzpSapE5Zvx9gGaZLlqBg/54VqpzAwTFxeQ8H2/3/0iaMWn1qD8oSuJFS
-         yB7uoQ/1/fO/d7Evc2SrWsfoAvrd8fafPYFkz0CW3jtaXSWiiEY0QOol9BTAhDtQWTTY
-         ny6w==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=JPXHJ+a/cpxyBB8EzeBnNDFPbDIoFhnqn8wFinNAhjA=;
+        b=GhFdns2Iw5Jyl6Dh0OcHZT/iSgA4RSeeprQe7IY1cZhmJxSQNvdjxD67dn7JHcBQUa
+         H9JHR8vt+xXbTQb6DbyaaSqjP0JyvbmXII3mJMG+KFlWMNpmjFpKqzfhiXRyePzDerN0
+         J8+Q4ucI4aXBNaZiRnt7uCfV4UA5tXeYRD9M8UtSQlLWXkdHaaggmh9Axrm4rmYbdaVs
+         ch6bY6zeMkQp79syJT2PbiQbU6Wso3sVe2ECMkWixNaHQu8PVVu/d568tgEyAezJ9MkW
+         0c1XgOMW+ZDF+DOjIB9xLTIjQHZHxi57xI/gwBe1ARCuiL64YTYocRmEWQJFVJ2raSuv
+         l4ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:message-id:subject:mime-version
-         :x-original-sender:reply-to:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=tr0ftUeabN/pROba+JrPONEm1YhvYt7v4Xyd7wbRJwA=;
-        b=k3kiLNbq12F11h/QyMkKrVlkOOO0GypONF3IzEFaCwBUwyNQ4ajhrxtT3+ZD1727Dn
-         qgRlpt/shRaLQtdh96rsvdLgx4mi5XO9qeIfDdGzRjLsz7NM3UhSkLQ7knkCdY5DpC2+
-         xCBBkKDfvGVOgYPkCOSIapuoDzTgpmzTNQcQJ6M+OQVuUMWOWI1P7/IkNKFzEhjSphl1
-         fVLQ8R4S/B+DqLU1YhytHJG1WzscbMT0D58TzBg0/1Xlzs0F+z4VCGmE6RK9TtdppOqu
-         JjlKnHUcqY5tjEMOQIQA24EwBHzmFePXyvWcR7NpOoHcEnu5D5LUYktqzddc/D8BFI7l
-         kHng==
-X-Gm-Message-State: AOAM530rUACO0pFW8xsDdDCRXh16CEJ3GHOjd183YwcQH5HU0kcH3x3z
-	U9eSJXej25FnboArH1/iL1E=
-X-Google-Smtp-Source: ABdhPJy7QP1quLeWG8qm1QJfS4XW4mRxbFqHOYSB2147i6oYCrpG7pXqAgc/hd6c/5tYBOfnunUOkA==
-X-Received: by 2002:a05:6808:1825:: with SMTP id bh37mr2048265oib.185.1644533330854;
-        Thu, 10 Feb 2022 14:48:50 -0800 (PST)
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=JPXHJ+a/cpxyBB8EzeBnNDFPbDIoFhnqn8wFinNAhjA=;
+        b=neHsAU7SRWXWdXPMBf5dN1iNggcK+JYJpsrGWppScFR0NYTH7+3haTC3ojd0GL/TUg
+         FfVN6kn54uG9ktm5iePbwuTID4mqzINGpab/9g3i0m8NTPIyuSaNRGPWP4Ftc/fjkx8w
+         cCOok+S2Ibhm7kdFBwmH2lk0HHvzsrpNX0uFM1kbVxx8pXQGEVbTau7Yt1G9FtRHa2wb
+         wA92tjmGps6H1gr8IuF4yrla11BM+jpCy8qXYaFx3oKg7FC21fMVBOALNoi0DHpFKo2s
+         lazXx1hv9Rulo8bOkfXSWJEQo85PwAOwbUWcaLtQfQIwcnlAxp0J+lbUQ3RxCGANj7aG
+         +HDA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533amKfkzLorEoJbg07pQPnZOHFJF+nacfYLMGVffPxxVQqGSrnf
+	A2pE2tlRbCcduGNcaH6yfko=
+X-Google-Smtp-Source: ABdhPJxqQgw8SPwZRsvwhh/YK0UpspVHu1oN1pKytfSEf4Zn1YOncDfxLJ9Oos6y+5i9dn6XfEK+dQ==
+X-Received: by 2002:a5d:5692:: with SMTP id f18mr683674wrv.285.1644572501361;
+        Fri, 11 Feb 2022 01:41:41 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:771c:: with SMTP id dw28ls1265066oab.4.gmail; Thu,
- 10 Feb 2022 14:48:50 -0800 (PST)
-X-Received: by 2002:a05:6870:73d5:: with SMTP id a21mr1429223oan.334.1644533330350;
-        Thu, 10 Feb 2022 14:48:50 -0800 (PST)
-Date: Thu, 10 Feb 2022 14:48:49 -0800 (PST)
-From: "'GIULIANO URBANI VADAINGALERA ILPEDOFILOBERLUSCONI' via kasan-dev" <kasan-dev@googlegroups.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <1fe30684-d6b7-40e4-9cfb-63d2bd76d125n@googlegroups.com>
-Subject: =?UTF-8?Q?PAOLO_BARRAI_=C3=89_UN_PEDOFILO_ASSA?=
- =?UTF-8?Q?SSINO!_SI,_=C3=88_PROPRIO_COS=C3=8C!_=C3=89_TR?=
- =?UTF-8?Q?UFFATORE,_NAZISTA,_LADRO,_ASSASSINO_E_PEDERASTA,_IL_BASTARDO_#P?=
- =?UTF-8?Q?AOLOBARRAI_DI_CRIMINALE_#BIGBIT,_CRIMINALE_#TERRANFT,_CRIMINAL?=
- =?UTF-8?Q?E_#TERRABITCOIN,_CRIMINALE_#MERCATOLIBERO,_ECT!_IL............D?=
+Received: by 2002:a1c:2787:: with SMTP id n129ls2135371wmn.2.gmail; Fri, 11
+ Feb 2022 01:41:40 -0800 (PST)
+X-Received: by 2002:a05:600c:3baa:: with SMTP id n42mr1377849wms.128.1644572500489;
+        Fri, 11 Feb 2022 01:41:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644572500; cv=none;
+        d=google.com; s=arc-20160816;
+        b=dw66DtL3B++IeoS4CSG1GsZ95yzgRWyn84BfTLSWxyR8YaLsTXdRyNxao88a4XqADx
+         MU1vosd8Fa4I/o7k3SV4z61HpR1X7UF3NrOqGNLGcxykCWTu0oBGyokFGmFO7Fr9x4uv
+         XWgbj2IX21dfrtZs9SV7b/9Gr6CJSfq0Igz5gomqxn5UIgPwJiAwc+f5aPtipMabaKF4
+         ZiGqxxJ2vBj+KB6Jd/ZQR0tSHqW9L/WzAthau4e7Gp12x1+3ZBXZU/XbM+yDYItuI+Tm
+         oOk5jjtWqVqJAj+rfJrHS/pLBVaeReLM7n8JMcsHhnhn6Xsc+KinieiUowwd2dUFtp12
+         ZmWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=vsf2QgtdatJ2wExDY4gvcboSixkFghVOFaraVlgt+kM=;
+        b=UAKQdrSpBR5eTCWIka2XzPS6MubUkd1tzvH3Zo/QBGLk9CTI/0B/N2dbLlx6mDj8mM
+         JHVbrDpBSUXFBWN9ZfaJ7izMXbjY1W7BPKblgWr/zIYiuG7e8Tz0RLY2JHOWCfEhm7Q4
+         3buyIz69HgCeexhD7d3AbTnXa9GB3jq9xTGbnSm6tcI6LYQ8IbjaD0y7DI14+gKSafJo
+         rpYw7IXd+Wb3zi9/6vHw8ZBNmROjXLFxZWE+ytBi0c6yfesxo6JaS9dY6mtQja9Rk0tB
+         xMQxLdXKmCUv2a1Of+mWrRbMUKCA+ik36AS4uLeb+gvQ8GGZOgEqwU4mWEiOZdqd21Ay
+         45oQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@chromium.org header.s=google header.b=aNwI2IxJ;
+       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::62f as permitted sender) smtp.mailfrom=ribalda@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com. [2a00:1450:4864:20::62f])
+        by gmr-mx.google.com with ESMTPS id v13si44535wro.0.2022.02.11.01.41.40
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Feb 2022 01:41:40 -0800 (PST)
+Received-SPF: pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::62f as permitted sender) client-ip=2a00:1450:4864:20::62f;
+Received: by mail-ej1-x62f.google.com with SMTP id a8so21610542ejc.8
+        for <kasan-dev@googlegroups.com>; Fri, 11 Feb 2022 01:41:40 -0800 (PST)
+X-Received: by 2002:a17:906:7948:: with SMTP id l8mr663890ejo.752.1644572500145;
+        Fri, 11 Feb 2022 01:41:40 -0800 (PST)
+Received: from alco.corp.google.com ([2620:0:1059:10:83e3:abbd:d188:2cc5])
+        by smtp.gmail.com with ESMTPSA id e8sm603196ejl.68.2022.02.11.01.41.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Feb 2022 01:41:39 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+To: kunit-dev@googlegroups.com,
+	kasan-dev@googlegroups.com,
+	linux-kselftest@vger.kernel.org,
+	Brendan Higgins <brendanhiggins@google.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Daniel Latypov <dlatypov@google.com>
+Cc: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v5 1/6] kunit: Introduce _NULL and _NOT_NULL macros
+Date: Fri, 11 Feb 2022 10:41:28 +0100
+Message-Id: <20220211094133.265066-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_1388_1797740496.1644533329712"
-X-Original-Sender: ginoginello6@protonmail.com
-X-Original-From: GIULIANO URBANI VADAINGALERA ILPEDOFILOBERLUSCONI
- <ginoginello6@protonmail.com>
-Reply-To: GIULIANO URBANI VADAINGALERA ILPEDOFILOBERLUSCONI
- <ginoginello6@protonmail.com>
+X-Original-Sender: ribalda@chromium.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@chromium.org header.s=google header.b=aNwI2IxJ;       spf=pass
+ (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::62f
+ as permitted sender) smtp.mailfrom=ribalda@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -70,164 +134,130 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_1388_1797740496.1644533329712
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_1389_477767675.1644533329712"
+Today, when we want to check if a pointer is NULL and not ERR we have
+two options:
 
-------=_Part_1389_477767675.1644533329712
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+KUNIT_EXPECT_TRUE(test, ptr == NULL);
 
-PAOLO BARRAI =C3=89 UN PEDOFILO ASSASSINO! SI, =C3=88 PROPRIO COS=C3=8C! =
-=C3=89 TRUFFATORE,=20
-NAZISTA, LADRO, ASSASSINO E PEDERASTA, IL BASTARDO #PAOLOBARRAI DI=20
-CRIMINALE #BIGBIT, CRIMINALE #TERRANFT, CRIMINALE #TERRABITCOIN, CRIMINALE=
-=20
-#MERCATOLIBERO, ECT! IL............DELINQUENTE LEGHISTA CHE VENNE=20
-ARRESTATO, LUCA SOSTEGNI, SCAPPAVA A PORTO SEGURO, DOVE IL KILLER=20
-#PAOLOBARRAI HA LAVATO PARTE DEI 49 MLN =E2=82=AC RUBATI DA #LEGALADRONA!
-https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.=
-jpg
+or
 
-NE SCRIVE IL MIO BANCHIERE DI FIDUCIA. L'EROICO ANDREAS NIGG DI BANK J=20
-SAFRA SARASIN ZURICH.
-A VOI ANDREAS.
+KUNIT_EXPECT_PTR_NE(test, ptr, (struct mystruct *)NULL);
 
-RAPISCE, INCULA ED UCCIDE TANTI BAMBINI: PAOLO BARRAI (NOTO COME "IL=20
-PEDOFILO DEL BITCOIN, DI LEGA LADRONA, DI PEDOFILO ASSASSINO SILVIO=20
-BERLUSCONI #SILVIOBERLUSCONI E DI PEDOFILA ASSASSINA MARINA BERLUSCONI=20
-#MARINABERLUSCONI ")! =C3=89 SEMPRE LI A "SPENNARE" ECONOMICAMENTE I POLLI =
-DEL=20
-WEB, IL FALSO, LADRO, TRUFFATORE #PAOLOPIETROBARRAI! AZZERA I TUOI=20
-RISPARMI, NON AZZECCA MAI 1 PREVISIONI IN BORSA, CHE 1: PAOLO PIETRO=20
-BARRAI! =C3=89 UN NAZISTA OMICIDA CHE RICICLA SOLDI STRA ASSASSINI DI=20
-NDRANGHETA, CAMORRA, MAFIA, SACRA CORONA UNITA E LEGA LADRONA:=20
-#PAOLOPIETROBARRAI PAOLO PIETRO BARRAI!
+Create a new set of macros that take care of NULL checks.
 
-SALVE. SONO ANDREAS NIGG. VICE PRESIDENT DI BANCA J SAFRA SARASIN DI ZURIGO=
-.
-https://citywireselector.com/manager/andreas-nigg/d2395
-https://ch.linkedin.com/in/andreasnigg
-https://www.blogger.com/profile/13220677517437640922
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Reviewed-by: Daniel Latypov <dlatypov@google.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ include/kunit/test.h | 84 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
 
-E VI VOGLIO DIRE CON TUTTE LE MIE FORZE CHE...
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 00b9ff7783ab..e6c18b609b47 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -1218,6 +1218,48 @@ do {									       \
+ 				   fmt,					       \
+ 				   ##__VA_ARGS__)
+ 
++/**
++ * KUNIT_EXPECT_NULL() - Expects that @ptr is null.
++ * @test: The test context object.
++ * @ptr: an arbitrary pointer.
++ *
++ * Sets an expectation that the value that @ptr evaluates to is null. This is
++ * semantically equivalent to KUNIT_EXPECT_PTR_EQ(@test, ptr, NULL).
++ * See KUNIT_EXPECT_TRUE() for more information.
++ */
++#define KUNIT_EXPECT_NULL(test, ptr)				               \
++	KUNIT_EXPECT_NULL_MSG(test,					       \
++			      ptr,					       \
++			      NULL)
++
++#define KUNIT_EXPECT_NULL_MSG(test, ptr, fmt, ...)	                       \
++	KUNIT_BINARY_PTR_ASSERTION(test,				       \
++				   KUNIT_EXPECTATION,			       \
++				   ptr, ==, NULL,			       \
++				   fmt,					       \
++				   ##__VA_ARGS__)
++
++/**
++ * KUNIT_EXPECT_NOT_NULL() - Expects that @ptr is not null.
++ * @test: The test context object.
++ * @ptr: an arbitrary pointer.
++ *
++ * Sets an expectation that the value that @ptr evaluates to is not null. This
++ * is semantically equivalent to KUNIT_EXPECT_PTR_NE(@test, ptr, NULL).
++ * See KUNIT_EXPECT_TRUE() for more information.
++ */
++#define KUNIT_EXPECT_NOT_NULL(test, ptr)			               \
++	KUNIT_EXPECT_NOT_NULL_MSG(test,					       \
++				  ptr,					       \
++				  NULL)
++
++#define KUNIT_EXPECT_NOT_NULL_MSG(test, ptr, fmt, ...)	                       \
++	KUNIT_BINARY_PTR_ASSERTION(test,				       \
++				   KUNIT_EXPECTATION,			       \
++				   ptr, !=, NULL,			       \
++				   fmt,					       \
++				   ##__VA_ARGS__)
++
+ /**
+  * KUNIT_EXPECT_NOT_ERR_OR_NULL() - Expects that @ptr is not null and not err.
+  * @test: The test context object.
+@@ -1485,6 +1527,48 @@ do {									       \
+ 				   fmt,					       \
+ 				   ##__VA_ARGS__)
+ 
++/**
++ * KUNIT_ASSERT_NULL() - Asserts that pointers @ptr is null.
++ * @test: The test context object.
++ * @ptr: an arbitrary pointer.
++ *
++ * Sets an assertion that the values that @ptr evaluates to is null. This is
++ * the same as KUNIT_EXPECT_NULL(), except it causes an assertion
++ * failure (see KUNIT_ASSERT_TRUE()) when the assertion is not met.
++ */
++#define KUNIT_ASSERT_NULL(test, ptr) \
++	KUNIT_ASSERT_NULL_MSG(test,					       \
++			      ptr,					       \
++			      NULL)
++
++#define KUNIT_ASSERT_NULL_MSG(test, ptr, fmt, ...) \
++	KUNIT_BINARY_PTR_ASSERTION(test,				       \
++				   KUNIT_ASSERTION,			       \
++				   ptr, ==, NULL,			       \
++				   fmt,					       \
++				   ##__VA_ARGS__)
++
++/**
++ * KUNIT_ASSERT_NOT_NULL() - Asserts that pointers @ptr is not null.
++ * @test: The test context object.
++ * @ptr: an arbitrary pointer.
++ *
++ * Sets an assertion that the values that @ptr evaluates to is not null. This
++ * is the same as KUNIT_EXPECT_NOT_NULL(), except it causes an assertion
++ * failure (see KUNIT_ASSERT_TRUE()) when the assertion is not met.
++ */
++#define KUNIT_ASSERT_NOT_NULL(test, ptr) \
++	KUNIT_ASSERT_NOT_NULL_MSG(test,					       \
++				  ptr,					       \
++				  NULL)
++
++#define KUNIT_ASSERT_NOT_NULL_MSG(test, ptr, fmt, ...) \
++	KUNIT_BINARY_PTR_ASSERTION(test,				       \
++				   KUNIT_ASSERTION,			       \
++				   ptr, !=, NULL,			       \
++				   fmt,					       \
++				   ##__VA_ARGS__)
++
+ /**
+  * KUNIT_ASSERT_NOT_ERR_OR_NULL() - Assertion that @ptr is not null and not err.
+  * @test: The test context object.
+-- 
+2.35.1.265.g69c8d7142f-goog
 
-IL LEGHISTA PEDOFILO ED ASSASSINO PAOLO BARRAI (NATO A MILANO IL=20
-28.6.1965), IL LEGHISTA INCULA ED AMMAZZA BAMBINI PAOLO PIETRO BARRAI (NOTO=
-=20
-IN TUTTO IL MONDO COME IL PEDOFILO DEL BITCOIN), IL FIGLIO DI PUTTANA PAOLO=
-=20
-BARRAI DI CRIMINALISSIMA #TERRABITCOIN, #TERRABITCOINCLUB E DI=20
-CRIMINALISSIMA #TERRANFT, E' DA ANNI INDAGATO DA PROCURA DI MILANO, PROCURA=
-=20
-DI LUGANO, PROCURA DI ZUGO, SCOTLAND YARD LONDRA, FBI NEW YORK, POLICIA=20
-CIVIL DI PORTO SEGURO (BR).
-
-=C3=89 DAVVERO PEDERASTA ED OMICIDA: PAOLO BARRAI DI CRIMINALE TERRA BITCOI=
-N (O=20
-CRIMINALE TERRABITCOIN CLUB)! IL LEGHISTA DELINQUENTE LUCA SOSTEGNI,=20
-ARRESTATO, SCAPPAVA IN CITATA PORTO SEGURO (BR), OSSIA, GUARDA CASO, DOVE=
-=20
-IL KILLER NAZISTA PAOLO BARRAI HA RICICLATO PARTE DEI 49 MLN =E2=82=AC RUBA=
-TI DA=20
-LEGA LADRONA!
-
-(ECCONE LE PROVE
-https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.=
-jpg
-http://noticiasdeportoseguro.blogspot.com/2011/03/quem-e-pietro-paolo-barra=
-i.html
-http://portoseguroagora.blogspot.com/2011/03/porto-seguro-o-blogueiro-itali=
-ano-sera.html
-http://www.rotadosertao.com/noticia/10516-porto-seguro-policia-investiga-bl=
-ogueiro-italiano-suspeito-de-estelionato
-https://www.jornalgrandebahia.com.br/2011/03/policia-civil-investiga-blogue=
-iro-italiano-suspeito-de-estelionato-em-porto-seguro/
-https://osollo.com.br/blogueiro-italiano-sera-indiciado-por-estelionato-cal=
-unia-e-difamacao-pela-policia-civil-de-porto-seguro/
-https://www.redegn.com.br/?sessao=3Dnoticia&cod_noticia=3D13950
-http://www.devsuperpage.com/search/Articles.aspx?hl=3Den&G=3D23&ArtID=3D301=
-216)
-
-CONTINUA QUI
-https://groups.google.com/g/comp.lang.python/c/tv0aRrS8bEE
-
-
-TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
-https://groups.google.com/g/comp.lang.python/c/tv0aRrS8bEE
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/1fe30684-d6b7-40e4-9cfb-63d2bd76d125n%40googlegroups.com.
-
-------=_Part_1389_477767675.1644533329712
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-PAOLO BARRAI =C3=89 UN PEDOFILO ASSASSINO! SI, =C3=88 PROPRIO COS=C3=8C! =
-=C3=89 TRUFFATORE, NAZISTA, LADRO, ASSASSINO E PEDERASTA, IL BASTARDO #PAOL=
-OBARRAI DI CRIMINALE #BIGBIT, CRIMINALE #TERRANFT, CRIMINALE #TERRABITCOIN,=
- CRIMINALE #MERCATOLIBERO, ECT! IL............DELINQUENTE LEGHISTA CHE VENN=
-E ARRESTATO, LUCA SOSTEGNI, SCAPPAVA A PORTO SEGURO, DOVE IL KILLER #PAOLOB=
-ARRAI HA LAVATO PARTE DEI 49 MLN =E2=82=AC RUBATI DA #LEGALADRONA!<br>https=
-://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.jpg<b=
-r><br>NE SCRIVE IL MIO BANCHIERE DI FIDUCIA. L'EROICO ANDREAS NIGG DI BANK =
-J SAFRA SARASIN ZURICH.<br>A VOI ANDREAS.<br><br>RAPISCE, INCULA ED UCCIDE =
-TANTI BAMBINI: PAOLO BARRAI (NOTO COME "IL PEDOFILO DEL BITCOIN, DI LEGA LA=
-DRONA, DI PEDOFILO ASSASSINO SILVIO BERLUSCONI #SILVIOBERLUSCONI E DI PEDOF=
-ILA ASSASSINA MARINA BERLUSCONI #MARINABERLUSCONI ")! =C3=89 SEMPRE LI A "S=
-PENNARE" ECONOMICAMENTE I POLLI DEL WEB, IL FALSO, LADRO, TRUFFATORE #PAOLO=
-PIETROBARRAI! AZZERA I TUOI RISPARMI, NON AZZECCA MAI 1 PREVISIONI IN BORSA=
-, CHE 1: PAOLO PIETRO BARRAI! =C3=89 UN NAZISTA OMICIDA CHE RICICLA SOLDI S=
-TRA ASSASSINI DI NDRANGHETA, CAMORRA, MAFIA, SACRA CORONA UNITA E LEGA LADR=
-ONA: #PAOLOPIETROBARRAI PAOLO PIETRO BARRAI!<br><br>SALVE. SONO ANDREAS NIG=
-G. VICE PRESIDENT DI BANCA J SAFRA SARASIN DI ZURIGO.<br>https://citywirese=
-lector.com/manager/andreas-nigg/d2395<br>https://ch.linkedin.com/in/andreas=
-nigg<br>https://www.blogger.com/profile/13220677517437640922<br><br>E VI VO=
-GLIO DIRE CON TUTTE LE MIE FORZE CHE...<br><br>IL LEGHISTA PEDOFILO ED ASSA=
-SSINO PAOLO BARRAI (NATO A MILANO IL 28.6.1965), IL LEGHISTA INCULA ED AMMA=
-ZZA BAMBINI PAOLO PIETRO BARRAI (NOTO IN TUTTO IL MONDO COME IL PEDOFILO DE=
-L BITCOIN), IL FIGLIO DI PUTTANA PAOLO BARRAI DI CRIMINALISSIMA #TERRABITCO=
-IN, #TERRABITCOINCLUB E DI CRIMINALISSIMA #TERRANFT, E' DA ANNI INDAGATO DA=
- PROCURA DI MILANO, PROCURA DI LUGANO, PROCURA DI ZUGO, SCOTLAND YARD LONDR=
-A, FBI NEW YORK, POLICIA CIVIL DI PORTO SEGURO (BR).<br><br>=C3=89 DAVVERO =
-PEDERASTA ED OMICIDA: PAOLO BARRAI DI CRIMINALE TERRA BITCOIN (O CRIMINALE =
-TERRABITCOIN CLUB)! IL LEGHISTA DELINQUENTE LUCA SOSTEGNI, ARRESTATO, SCAPP=
-AVA IN CITATA PORTO SEGURO (BR), OSSIA, GUARDA CASO, DOVE IL KILLER NAZISTA=
- PAOLO BARRAI HA RICICLATO PARTE DEI 49 MLN =E2=82=AC RUBATI DA LEGA LADRON=
-A!<br><br>(ECCONE LE PROVE<br>https://oneway2day.files.wordpress.com/2019/0=
-1/indagatoaiutalelisteciviche.jpg<br>http://noticiasdeportoseguro.blogspot.=
-com/2011/03/quem-e-pietro-paolo-barrai.html<br>http://portoseguroagora.blog=
-spot.com/2011/03/porto-seguro-o-blogueiro-italiano-sera.html<br>http://www.=
-rotadosertao.com/noticia/10516-porto-seguro-policia-investiga-blogueiro-ita=
-liano-suspeito-de-estelionato<br>https://www.jornalgrandebahia.com.br/2011/=
-03/policia-civil-investiga-blogueiro-italiano-suspeito-de-estelionato-em-po=
-rto-seguro/<br>https://osollo.com.br/blogueiro-italiano-sera-indiciado-por-=
-estelionato-calunia-e-difamacao-pela-policia-civil-de-porto-seguro/<br>http=
-s://www.redegn.com.br/?sessao=3Dnoticia&amp;cod_noticia=3D13950<br>http://w=
-ww.devsuperpage.com/search/Articles.aspx?hl=3Den&amp;G=3D23&amp;ArtID=3D301=
-216)<br><br>CONTINUA QUI<br>https://groups.google.com/g/comp.lang.python/c/=
-tv0aRrS8bEE<br><br><br>TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI<br>ht=
-tps://groups.google.com/g/comp.lang.python/c/tv0aRrS8bEE
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/1fe30684-d6b7-40e4-9cfb-63d2bd76d125n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/1fe30684-d6b7-40e4-9cfb-63d2bd76d125n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_1389_477767675.1644533329712--
-
-------=_Part_1388_1797740496.1644533329712--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220211094133.265066-1-ribalda%40chromium.org.
