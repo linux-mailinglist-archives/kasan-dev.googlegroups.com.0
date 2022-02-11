@@ -1,134 +1,127 @@
-Return-Path: <kasan-dev+bncBDHK3V5WYIERBYU7TKIAMGQE3LYEDTY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDHK3V5WYIERBCNETKIAMGQEQKHHVZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D5B4B2A6E
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 17:33:39 +0100 (CET)
-Received: by mail-wr1-x438.google.com with SMTP id h24-20020adfaa98000000b001e33eb81e71sf4056359wrc.9
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 08:33:39 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644597219; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF0B4B2AAA
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 17:42:50 +0100 (CET)
+Received: by mail-lf1-x137.google.com with SMTP id q12-20020ac25a0c000000b004389613e0f7sf2371475lfn.9
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 08:42:50 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644597770; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CkuJ4zNAn21Q08tz+9wIkY8eQkm+1LlNjb7K/Vp4wNFFCu6IBgzneFby5pAZFWKvAt
-         zoktaqj+Qm58+tGcFzf8E0/QitMOyZxL8jLK/yQ6DhkIZe5CvZlHovxaHKDBnj0vwzuB
-         xpPdIR9Oj/ZTB1yBpAGLwjA9wiZkXlOr4CCsTFuG3UmTYDQYf+aYhRL+thZzZT/iCDp0
-         0Gjedm/s5Fa5/j8EZnb+qTw4pzyF1uel6vxwzyXz/BojKgywhdLohJ/gl5PTkv+Iv5Uq
-         S/seph/b0sVW6H5OxprTCQhOgkOnaBEmDhE0ugc2W8XrUUsS8agtbBoItABprpS/sJFk
-         KUhQ==
+        b=OpD309cyQ/VA7ASJfO+dtsnImGGdvbH+wC3MRydTWY4BufrHeuzzoPRyEw5XfJnevG
+         JBj4xPw2Cxb7mxIr4qdWP8Qkide8/AryCI/jxOrU2mZuKEp01W+9PmAGjIJhdSExZ3aH
+         rE/AhRW7kDEFsObR9jj5XlI1QEXSEiuki12hgYaLe5khh6BMFf4ZHyJUEOGtew6VVlv9
+         IV1fgQw4yQApTBiCPP3TMLVyiecZ4TfnytK19ZTTvly+cYTHlWXh5dU8SujCU66twMke
+         crWXJZV97PiuONAqdGiXVRN25DrKO7NBzDGl5OiRkntNOtqiVMxv47UzfNPtmTqwjvXH
+         hbcw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=zFs/Dvkq1J215kmMmJwvMVLnITP/JdadAJ19A/Bpd8M=;
-        b=twu8qMG+jyuUUYjkw6l9WG5Aoj2mdy9EBS7vBCidMjyM5+gnGHMytwfyZfZzFKechb
-         3tUYrQGMIxph/ZGgq/+XJnW+ogzFFRG280TmW/hJDCYWg8bnnd8I78ObS7590I1e0EU/
-         dOgmp/NVgYNYiwz4Xzvb0XPIWiGEfpnFy24vTF4S2PCsmaFw7qxEtwTF9SsmI6GcxVAG
-         fmquZOatDs2MeGob+JqRPFZQcySz0sm6g+twtlQKTaT/W9vEXDFNk2AZhnHbXSxC6nbo
-         SvhP9MTjAMataNPKR1rTG1fKhII7eBNJ8RowNNBYGMLjxxqk4WdnPJm8WUWQDGezNNz2
-         gioA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=2wSUm+V9rqH9MGFfQdf+idrj8ibOxvRhxDe9hEjsDq8=;
+        b=eQQ/bzdzClATad/3Sz6VaWA0Qw+Yv7EOkCq9Q0jaJ+ak9oeoqvCkCKOE//vhqaI5UB
+         tU7/lEkCgH+i1BJELlF5mh597sZnV8lYkHu2xIBGubpr2FqT90/JdQk0/kJszRJJuE86
+         omNTaetfflunCa6vDDNN+3KoVb3ky/9T0SoIESLgy8S2XtlSFtOjRoT1BZjyXDFtQQPc
+         9326A6g0PLKJmH0Bv9p91m6LmE9QdMIz6c7IWxkZ44EZG8KKyW0tZlgarC85scNs6TAr
+         hur+0veJP84avw32u0LSmmhVviy6alDUqmamOjjIGNHKjclCrR7JiWPbV6EJvTeS93uT
+         2W9Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=AhUF7uzZ;
-       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::533 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=IuNoXsuK;
+       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::532 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zFs/Dvkq1J215kmMmJwvMVLnITP/JdadAJ19A/Bpd8M=;
-        b=Is8tA5+2hTNixq7fm3TDZMc9I33x+42TNc69iXfMIm5cT52foJHfIA+fcmdaTFubTQ
-         UShy+pdpLG643WXl4ystjm5EuRla1ZAeFU0jB7lBJm52nqWQYBONqzn+eTxMNWvJY9RS
-         QKNHMuZab3kSkYZN7VKZseYdEn0XBadmYoqE2QtzRzLZliePP9Zn+vlZKdm9GTYprkcU
-         wWHP24ybh8d+sjMvgDn2ltrgyEMEtxeGWNXpKjZ6HfKyehAGQTLqb20fCLXJtz/AEFyB
-         p5siY//9QFKhIsb1EycUI0zArfDtNDAZi9logROAQU9wrixqDLgIeMsAV8U6JsCyM9To
-         3aoQ==
+        bh=2wSUm+V9rqH9MGFfQdf+idrj8ibOxvRhxDe9hEjsDq8=;
+        b=Q3HbL8IC9IpVB87mwfFEBXgzMcdb+u6KE2A/6NyIxqKTN/owNINAeYL36rr2Lair7s
+         onSTcAEAOyKLBgLKlvwx4qssSdMFoTmH2zYNPo1O8uYlK9aH8sEzJRtX7OnhoJocGKve
+         mgmzCVXI1sh86XPHsq/uxwTUw+QbB75tBMYGvRzXgTdDPfROKV94aH1nMVZ3Qw6gDf9q
+         17JI0C21eTqWOROr8JqHgxZligR2W+fLtiUMJxukWO1uG7jrLQ8jBdU2CZZ9l3Y/ehRg
+         TSB5xNasTN9oWv1rMfqs+9Ehsxl7hn0Lu4pAb4iuoytm12igGa/3NnlxtdF3rsVDhOpC
+         f9qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=zFs/Dvkq1J215kmMmJwvMVLnITP/JdadAJ19A/Bpd8M=;
-        b=vUa2rqoReSARwM1sIUt+ahn80EtrJ9rfQBzh8MtehmToxGztIYpsz5c+SB28Hsul1M
-         d/4+6D+3AdBUIRPmybK7vM+B8FwKVy0UHrU9/VE/MWCU3PoYMXqnOXe3aaxfDbfPY6OQ
-         6yAY3HeBMiQrZwJ5YLXx8ymy3AlHwLhrzYuwaFan9sqLLw8Yyqzg21l5sAwFYJ2Kw4Wg
-         HBKRpivOU4h9eWl/gIo6TQ+2VlySLy3kO1dMj6yW085PHoXUou7dvY9UKhyvd1g4Ib1y
-         X+Tc9QoIElleEVqCyiWokggsbPcuVjiHtJKycUz2e7MrBzwWObgwmFrVWxONMWq1HgZZ
-         VFdQ==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=2wSUm+V9rqH9MGFfQdf+idrj8ibOxvRhxDe9hEjsDq8=;
+        b=CNBdnDeo48YKb5UMh+y/OhpczBAifbnwr86COOQuuS7JqcIo4QM+r9JRIix7pWECxz
+         jo9gdr49yWIwSHpRGDsft7ckk3nYsx7EB41gliDzgxicwyY8T5kPUGlCmqNvQx6Hsa9M
+         oldpEpzm+DUyIR8rj3xbliDolNKGxUinkSYN9qWSmEmlh+NTc3qQkHLBuAXy7gZFfQ1w
+         hEPXLt1x9g7OS9DX1/EOfW6taKA9CDEr5wHEIgWMNhkhU8F8tSVQwvbzzNydHhLpKTu2
+         OIJ5XuD8cxqPb/bDqxMmbZHvVM0kH9QW+9Jg19Mhvze04DuZr+pqK/tNcbfUxsxYsFL+
+         tJPQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM53220YxoZFjeiw+/ztuOu1hJK7WPJJ0nvotF1NeooohykvWlT9Y6
-	WDnAe4IEQGudXjoGvWpLbIU=
-X-Google-Smtp-Source: ABdhPJwsfJVoiif+srz7eIC4q5nRaBiO+PHN6rzN6kjb9TQZztRbEwJlvEarvijSaSI1QWmJPVzmYA==
-X-Received: by 2002:adf:e307:: with SMTP id b7mr2050323wrj.339.1644597218925;
-        Fri, 11 Feb 2022 08:33:38 -0800 (PST)
+X-Gm-Message-State: AOAM531PB8UN0za35f9qm2qGBH0VKpjWVt1V7VReowQUIqYV4SiXQHwG
+	cE/8oVWiU4y1yR/y+nWUpZs=
+X-Google-Smtp-Source: ABdhPJx5gzMo6f71XktSnKhyEG/6S8RkNY1lxfy0G3EvkigvtGQNz8Ift/30BLrb4EiVhyOdvBzFpg==
+X-Received: by 2002:a2e:8447:: with SMTP id u7mr1496516ljh.516.1644597769914;
+        Fri, 11 Feb 2022 08:42:49 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:a45e:: with SMTP id e30ls41136wra.2.gmail; Fri, 11 Feb
- 2022 08:33:38 -0800 (PST)
-X-Received: by 2002:a5d:6485:: with SMTP id o5mr367598wri.307.1644597218064;
-        Fri, 11 Feb 2022 08:33:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644597218; cv=none;
+Received: by 2002:a05:651c:2128:: with SMTP id a40ls1615772ljq.9.gmail; Fri,
+ 11 Feb 2022 08:42:49 -0800 (PST)
+X-Received: by 2002:a2e:a786:: with SMTP id c6mr1462102ljf.225.1644597768924;
+        Fri, 11 Feb 2022 08:42:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644597768; cv=none;
         d=google.com; s=arc-20160816;
-        b=a4CpWR93Epq1x6muBBjMdmGysXGHExWqr7Y8nYFMFjXHY4Lk6IbTY86argv3FmHHNU
-         TShK5stXft06Fobn+cVxoZkoK9AuuP4k0apYIYBqKrRbrvNEEjYOFiA9GKvKVFcbdMAn
-         76nH0QjpoeaK2zqyqx0mWbV1cFcKLGTKMkRSmF6REfyz7UEuyYX0XKo3UUG2ALD5tY/l
-         ZAK/Yy5TpehM6qauYGQB/MqfXN2ItY6otvF961Z9nvGxsz2ibYsdVvrSB58x246ZxvEK
-         FKvVOwMBcGv0rh/ebdr2r+6xmipHHxGaRbZxjW0sG5Ez2eNPXqmhIkSsyjEj0nCJpYrx
-         YJVw==
+        b=Vr+evhMQs8YI2PGD9beXsSCq0MKnC9OfMZR8epNhVTKAGDgYwVHo/D21GsTOJjjVVm
+         4Aytv6Hmu1Vqu11NVqqETDTQnXRcYLkcbd1yGVzo4RvK0G70kuT0u7XEhKKBJaF0wH2s
+         Sj3OPQF4VfLYlozpz1Mux3gutOzS6IKxRyIDKXaguPn/qu36c2Pmeap+UdNqzB2ighhk
+         hD0QwWTz5kMWFl72UG9YEo9MxoUx8X/Jz+sWPq6l1Y+pA6TmPlHya0mizG34RLSuHN3l
+         fNIWUaJMAl+J5IP2gbo9YAxGKPxwFZ4/oDbuR8JFH+YFezjatZo7K7pypVFfq1Y0VgZv
+         sI8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kH7nDg9vlUfZWnMGN6aHfMDBm40Pv48zIdTUyD3E5jE=;
-        b=l+MvtUi9lvrchmsX3ePUyTB4Go7ka03nnd8u2oyKxClp8KUWFnP3XBwTjWmXDIxPPA
-         sKVKqL4R+G8jR2xyZXTU++4zyEV9T0PSSR1/+GrrXcw50kRm4eFXSXWqmc49k+V/EFdy
-         IaYVNVja5t1/ikJtxvwA/w+MJtr8cVyIaL7nY4DTkg7ligZuihPSWQeMSGySST6/A0sn
-         ai9U50eGgdMZRPJPfEIIBnCClbdmezL8pLAPSS7HxaAVPRz8cItBvFxyu0FD4m3sRnSr
-         I1LMByHKM6qRJmEzb8aZzF0iadIjwb1cO0N9IXDng2e8KaiQgPtPz5ztJwsnE8mfOgwi
-         e5gQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=vsf2QgtdatJ2wExDY4gvcboSixkFghVOFaraVlgt+kM=;
+        b=SKLmXU0iKDWmK0pbq3dhwxy13CZyl4hOZY0UMsr9OJSAN4u6Z1QV0av/TcFMqpJySs
+         gUYCnjkBHSjpO8cUyiXzWMdL+B9wsXW0n/wXaW11yLGEzjochVgREZiA5JJWulOUJEfz
+         64PzYmy5BswT/kk0EWSrJm5UIFadgAO79nnsayBWng+xClqg6MYAdEp50bxCJPzgImBz
+         A08hh7s5MBdNJBTETkSXKfL2ObwPzYpXxnMGeXhrmv3UltPSc+K1MxFxyR4svBIN+ewj
+         sDO9710WDw9lWN7zA94oqF60iyai6C045zL+HCtK7IhHiUXa6PEZAdHr4Vf6OQbxWii/
+         3etg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=AhUF7uzZ;
-       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::533 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=IuNoXsuK;
+       spf=pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::532 as permitted sender) smtp.mailfrom=ribalda@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com. [2a00:1450:4864:20::533])
-        by gmr-mx.google.com with ESMTPS id j13si406917wrp.6.2022.02.11.08.33.38
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com. [2a00:1450:4864:20::532])
+        by gmr-mx.google.com with ESMTPS id z2si910827ljh.2.2022.02.11.08.42.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Feb 2022 08:33:38 -0800 (PST)
-Received-SPF: pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::533 as permitted sender) client-ip=2a00:1450:4864:20::533;
-Received: by mail-ed1-x533.google.com with SMTP id u18so17322533edt.6
-        for <kasan-dev@googlegroups.com>; Fri, 11 Feb 2022 08:33:38 -0800 (PST)
-X-Received: by 2002:a05:6402:12d5:: with SMTP id k21mr2843996edx.138.1644597217794;
-        Fri, 11 Feb 2022 08:33:37 -0800 (PST)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
-        by smtp.gmail.com with ESMTPSA id o20sm3434565edc.84.2022.02.11.08.33.37
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Feb 2022 08:33:37 -0800 (PST)
-Received: by mail-ed1-f54.google.com with SMTP id cf2so17238002edb.9
-        for <kasan-dev@googlegroups.com>; Fri, 11 Feb 2022 08:33:37 -0800 (PST)
-X-Received: by 2002:a05:6402:2947:: with SMTP id ed7mr2823276edb.141.1644597216925;
- Fri, 11 Feb 2022 08:33:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20220211094133.265066-1-ribalda@chromium.org> <20220211094133.265066-3-ribalda@chromium.org>
- <YgY1lzA20zyFcVi3@lahna> <CANiDSCs3+637REhtGjKy+MSnUm-Mh-k1S7Lk9UKqC8JY-k=zTw@mail.gmail.com>
- <YgaOS8BLz23k6JVq@lahna> <YgaPXhOr/lFny4IS@lahna>
-In-Reply-To: <YgaPXhOr/lFny4IS@lahna>
+        Fri, 11 Feb 2022 08:42:48 -0800 (PST)
+Received-SPF: pass (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::532 as permitted sender) client-ip=2a00:1450:4864:20::532;
+Received: by mail-ed1-x532.google.com with SMTP id b13so17513362edn.0
+        for <kasan-dev@googlegroups.com>; Fri, 11 Feb 2022 08:42:48 -0800 (PST)
+X-Received: by 2002:a05:6402:3608:: with SMTP id el8mr2759937edb.193.1644597768422;
+        Fri, 11 Feb 2022 08:42:48 -0800 (PST)
+Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id i24sm4981233edt.86.2022.02.11.08.42.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Feb 2022 08:42:48 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 11 Feb 2022 17:33:25 +0100
-X-Gmail-Original-Message-ID: <CANiDSCs7M_hSb2njr50_d3z=cx=N9gWHzVe-HkpCV1Au8yVwOw@mail.gmail.com>
-Message-ID: <CANiDSCs7M_hSb2njr50_d3z=cx=N9gWHzVe-HkpCV1Au8yVwOw@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] thunderbolt: test: use NULL macros
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
-	linux-kselftest@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>, 
+To: kunit-dev@googlegroups.com,
+	kasan-dev@googlegroups.com,
+	linux-kselftest@vger.kernel.org,
+	Brendan Higgins <brendanhiggins@google.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
 	Daniel Latypov <dlatypov@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v6 1/6] kunit: Introduce _NULL and _NOT_NULL macros
+Date: Fri, 11 Feb 2022 17:42:41 +0100
+Message-Id: <20220211164246.410079-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
+MIME-Version: 1.0
 X-Original-Sender: ribalda@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=AhUF7uzZ;       spf=pass
- (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::533
+ header.i=@chromium.org header.s=google header.b=IuNoXsuK;       spf=pass
+ (google.com: domain of ribalda@chromium.org designates 2a00:1450:4864:20::532
  as permitted sender) smtp.mailfrom=ribalda@chromium.org;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,86 +134,130 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Mika
+Today, when we want to check if a pointer is NULL and not ERR we have
+two options:
 
-On Fri, 11 Feb 2022 at 17:31, Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
->
-> On Fri, Feb 11, 2022 at 06:26:56PM +0200, Mika Westerberg wrote:
-> > > To test it I had enabled:
-> > > PCI, USB4 and USB4_KUNIT_TEST
-> > >
-> > > and then run it with
-> > >
-> > > ./tools/testing/kunit/kunit.py run --jobs=$(nproc) --arch=x86_64
-> > >
-> > > Unfortunately, kunit was not able to run the tests
-> > >
-> > > This hack did the trick:
-> > >
-> > >
-> > >  int tb_test_init(void)
-> > >  {
-> > > -       return __kunit_test_suites_init(tb_test_suites);
-> > > +       //return __kunit_test_suites_init(tb_test_suites);
-> > > +       return 0;
-> > >  }
-> > >
-> > >  void tb_test_exit(void)
-> > >  {
-> > > -       return __kunit_test_suites_exit(tb_test_suites);
-> > > +       //return __kunit_test_suites_exit(tb_test_suites);
-> > >  }
-> > > +
-> > > +kunit_test_suites(&tb_test_suite);
-> > >
-> > > I looked into why we do this and I found:
-> > >
-> > > thunderbolt: Allow KUnit tests to be built also when CONFIG_USB4=m
-> > >
-> > >
-> > > I am a bit confused. The patch talks about build coverage, but even
-> > > with that patch reverted if
-> > > USB4_KUNIT_TEST=m
-> > > then test.c is built.
-> > >
-> > > Shouldn't we simply revert that patch?
-> >
-> > Nah, either build it into the kernel or load the driver manually:
-> >
-> >   # modprobe thunderbolt
->
-> Forgot to explain why this does not run the tests (I think):
->
->  ./tools/testing/kunit/kunit.py run --jobs=$(nproc) --arch=x86_64
->
-> The driver depends on PCI and I don't think that's enabled on UML at
-> least. I typically run it inside QEMU.
+KUNIT_EXPECT_TRUE(test, ptr == NULL);
 
+or
 
-Could you try this out ?
+KUNIT_EXPECT_PTR_NE(test, ptr, (struct mystruct *)NULL);
 
-From a clean kernel dir:
+Create a new set of macros that take care of NULL checks.
 
-./tools/testing/kunit/kunit.py run --jobs=$(nproc) --arch=x86_64
-make ARCH=x86_64 menuconfig  O=.kunit
-# Enable PCI USB4 and USB4_KUNIT_TEST
-./tools/testing/kunit/kunit.py run --jobs=$(nproc) --arch=x86_64
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Reviewed-by: Daniel Latypov <dlatypov@google.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ include/kunit/test.h | 84 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
 
-And then I get plenty of:
-[16:31:57] [ERROR] Test property-entry: Expected test number N but found N+1
-
-If I revert the previous patch all works fine.
-
-Please note that --arch uses qemu
-
-Thanks!
-
-
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 00b9ff7783ab..e6c18b609b47 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -1218,6 +1218,48 @@ do {									       \
+ 				   fmt,					       \
+ 				   ##__VA_ARGS__)
+ 
++/**
++ * KUNIT_EXPECT_NULL() - Expects that @ptr is null.
++ * @test: The test context object.
++ * @ptr: an arbitrary pointer.
++ *
++ * Sets an expectation that the value that @ptr evaluates to is null. This is
++ * semantically equivalent to KUNIT_EXPECT_PTR_EQ(@test, ptr, NULL).
++ * See KUNIT_EXPECT_TRUE() for more information.
++ */
++#define KUNIT_EXPECT_NULL(test, ptr)				               \
++	KUNIT_EXPECT_NULL_MSG(test,					       \
++			      ptr,					       \
++			      NULL)
++
++#define KUNIT_EXPECT_NULL_MSG(test, ptr, fmt, ...)	                       \
++	KUNIT_BINARY_PTR_ASSERTION(test,				       \
++				   KUNIT_EXPECTATION,			       \
++				   ptr, ==, NULL,			       \
++				   fmt,					       \
++				   ##__VA_ARGS__)
++
++/**
++ * KUNIT_EXPECT_NOT_NULL() - Expects that @ptr is not null.
++ * @test: The test context object.
++ * @ptr: an arbitrary pointer.
++ *
++ * Sets an expectation that the value that @ptr evaluates to is not null. This
++ * is semantically equivalent to KUNIT_EXPECT_PTR_NE(@test, ptr, NULL).
++ * See KUNIT_EXPECT_TRUE() for more information.
++ */
++#define KUNIT_EXPECT_NOT_NULL(test, ptr)			               \
++	KUNIT_EXPECT_NOT_NULL_MSG(test,					       \
++				  ptr,					       \
++				  NULL)
++
++#define KUNIT_EXPECT_NOT_NULL_MSG(test, ptr, fmt, ...)	                       \
++	KUNIT_BINARY_PTR_ASSERTION(test,				       \
++				   KUNIT_EXPECTATION,			       \
++				   ptr, !=, NULL,			       \
++				   fmt,					       \
++				   ##__VA_ARGS__)
++
+ /**
+  * KUNIT_EXPECT_NOT_ERR_OR_NULL() - Expects that @ptr is not null and not err.
+  * @test: The test context object.
+@@ -1485,6 +1527,48 @@ do {									       \
+ 				   fmt,					       \
+ 				   ##__VA_ARGS__)
+ 
++/**
++ * KUNIT_ASSERT_NULL() - Asserts that pointers @ptr is null.
++ * @test: The test context object.
++ * @ptr: an arbitrary pointer.
++ *
++ * Sets an assertion that the values that @ptr evaluates to is null. This is
++ * the same as KUNIT_EXPECT_NULL(), except it causes an assertion
++ * failure (see KUNIT_ASSERT_TRUE()) when the assertion is not met.
++ */
++#define KUNIT_ASSERT_NULL(test, ptr) \
++	KUNIT_ASSERT_NULL_MSG(test,					       \
++			      ptr,					       \
++			      NULL)
++
++#define KUNIT_ASSERT_NULL_MSG(test, ptr, fmt, ...) \
++	KUNIT_BINARY_PTR_ASSERTION(test,				       \
++				   KUNIT_ASSERTION,			       \
++				   ptr, ==, NULL,			       \
++				   fmt,					       \
++				   ##__VA_ARGS__)
++
++/**
++ * KUNIT_ASSERT_NOT_NULL() - Asserts that pointers @ptr is not null.
++ * @test: The test context object.
++ * @ptr: an arbitrary pointer.
++ *
++ * Sets an assertion that the values that @ptr evaluates to is not null. This
++ * is the same as KUNIT_EXPECT_NOT_NULL(), except it causes an assertion
++ * failure (see KUNIT_ASSERT_TRUE()) when the assertion is not met.
++ */
++#define KUNIT_ASSERT_NOT_NULL(test, ptr) \
++	KUNIT_ASSERT_NOT_NULL_MSG(test,					       \
++				  ptr,					       \
++				  NULL)
++
++#define KUNIT_ASSERT_NOT_NULL_MSG(test, ptr, fmt, ...) \
++	KUNIT_BINARY_PTR_ASSERTION(test,				       \
++				   KUNIT_ASSERTION,			       \
++				   ptr, !=, NULL,			       \
++				   fmt,					       \
++				   ##__VA_ARGS__)
++
+ /**
+  * KUNIT_ASSERT_NOT_ERR_OR_NULL() - Assertion that @ptr is not null and not err.
+  * @test: The test context object.
 -- 
-Ricardo Ribalda
+2.35.1.265.g69c8d7142f-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANiDSCs7M_hSb2njr50_d3z%3Dcx%3DN9gWHzVe-HkpCV1Au8yVwOw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220211164246.410079-1-ribalda%40chromium.org.
