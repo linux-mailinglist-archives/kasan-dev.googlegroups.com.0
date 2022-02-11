@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCR45TXBS4JBBXE4TKIAMGQEINA7XJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCR45TXBS4JBBF47TKIAMGQEUVFDSJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2754B2A31
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 17:27:09 +0100 (CET)
-Received: by mail-lj1-x23b.google.com with SMTP id q17-20020a2e7511000000b0023c95987502sf4210766ljc.16
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 08:27:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644596828; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 099034B2A6D
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 17:32:24 +0100 (CET)
+Received: by mail-lf1-x139.google.com with SMTP id d14-20020a196b0e000000b0043a9be72315sf2363533lfa.22
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 08:32:24 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644597143; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dXDh+uVxB6iSiI8NWHwhiGwu1B6HbXFskSL8xy4+UZPiBNmVbWv83C+ge3bhj2a2Rm
-         MiW+Y/kZBCGraPm1AJhe2x0jwKem/2eOQr5k/gDj6SCMepSLQIJ42o4wTvvyt7VPA0wl
-         YGl32+v7piLloj38krjv5QBETzhywYFDErridFsyxjsLgB1WK9opIaHyaBVGEmDval7J
-         yu6749zGXMuNCe4PaNXtrJGi/PvqmIOPGerogOrtwjWUGMZ3rh/YwpM9OAUUpYHiBjBJ
-         2Ogon7Ii9E6qa9ZfTLJ3WdZo7RqRMEwqPo6RmO6/LQGN3woeXNv0h++bybvXFpMMqnYe
-         xGzg==
+        b=NX3Ma1Cd8UJATB3k0ZKfX5ubVnxwCg0ks/QnZOC6wuYmJJvC9rWmCCxC1HIMbJjEBc
+         YKjlovZSdrhaO4q0qUM1pj/lD7CG1+Xh6L7hFSw+bUSFAXer5hSenGwdI7gQW6hW1bsf
+         cDAOBCFvjgMUwvPS1OTefuNfdpKsSBiQq72c4KN5uc0GCYQHOtyXNiAqK3KPx9BQRGao
+         hUsdhurJo1Y7WwOCX26R6JzOARUhZ2Ug6yLmrs7iXXsudxkQ7b8IjjUuJvgWD+5e3nWm
+         PAIZGAj2NGCNc1I4xE9f5oqsH0HbdIb0f1tw6ciL5E925ETziipBPm3b4jhWLi9w6/VI
+         nkgA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:organization:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=/Fof8IQqMN8ZZNRIaf3zr1E12MAcGWoI3cf6tng1aC4=;
-        b=L92CdGCTO+ZIsA9oIXwvdmdpd0v5rMAakvUkdR8TxR1Vnv2hXsmEX/8mXzcgrYoQRz
-         ld6zrwo4YkXLTrvcRdjdV6UyfauxL5ogRx4ujiYFiCm+7xro9i37+Se+cqlq8BYdCO4k
-         woyyFcHTIezSidnQC6cauHONeJrXGFyndc8u+ggQEGYFzYAZ6PIBGAPFGoQ3uo3r/Awv
-         LyG3xGRzlzs+U4dk3p+6LvvYuB/7IrJMOctSG+UkTxsRT1RVLr3/ODyDI95pDmmkFm+D
-         huN49j4VX6AjUhIEorqQjg4/iwSS2OnLZgXV/51tZtg1r2OtjkfrWy5UWBAYyj6fkSD4
-         XLbg==
+        bh=KhHsXoT50ikLr8700KSyWf29Qxr/5w7R+NR4h43FfW8=;
+        b=gDZ4PEPcr2V2wWL8PuSOEj1pecYFTSGHcWjTbz42yELDkqizQbygnrXanPRMQZxPF/
+         j0g1iTK4eW7yO+4XuNNSaj0S98bMPj0P457IPqnxHUs71CxvcsrRw4WuEq/iMy7/9j83
+         vZS2hFh7czse62KctqhaS9P4A6f5aYkwfqT3GZeFqTOB/MuVIXujSj2TkTs2QwsvKPTk
+         d6vLCoRN0Fa8qXozLt6LIbhctEWPlSND4O1Bv5nYsLz7KbZ3YflUzJ8AQobq+aZVdRQM
+         bTiWWsUV0uCNhGwdkbvJz6D4pjz24HwLzWpvknQq6jN8+rsenuP04Ckvhvu4TBBKOt3S
+         eMmA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=gXj7DyL4;
-       spf=pass (google.com: best guess record for domain of mika.westerberg@linux.intel.com designates 134.134.136.65 as permitted sender) smtp.mailfrom=mika.westerberg@linux.intel.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=H66mfr2m;
+       spf=pass (google.com: best guess record for domain of mika.westerberg@linux.intel.com designates 134.134.136.100 as permitted sender) smtp.mailfrom=mika.westerberg@linux.intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:organization:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=/Fof8IQqMN8ZZNRIaf3zr1E12MAcGWoI3cf6tng1aC4=;
-        b=tzDF4EJOPKSoX6ltFVnT/PiweHMAsvj1F4+LNB6J4jdix4d+QhHz+A6bDBwdilIZkD
-         Gc6/Ff5O9hhH3K+g5ultCI7OnT0PNKYSWhhIxsgibLX5rvnR6iyIs3ga7lc8zGS0TYvc
-         QUZmRQhm4m/9MU+s5TkoL0g4zm7S+WIVBnR3nUjMldWUvlopgQEf1iTeb0X5TqcEtkKz
-         0rFhqqkgxVHQqU22fFyBwi7UO2AhpPAkEubkh0T1/xs4//uSzd7tj1qIcjQAnGW4P0A/
-         HOyRoAb/0lhnPjaaOqHML9DHyKW+YgfFOHMkF0rg9TVaZIGCzePmMrhYGouiHc8/hKVv
-         eZyQ==
+        bh=KhHsXoT50ikLr8700KSyWf29Qxr/5w7R+NR4h43FfW8=;
+        b=k0dhl6oajw32KQINkhDm8rY6ZxhWV+gy1gT5mqKs7AYCkv4f5bJWuLzr1IfE9bcsPW
+         mVOOQd0fxJvvf/b03vON1J7HfUXRZ6ErjE1TItEiBUlWQWsyYmh/psHVv/6sgyJt7QHs
+         ilzageFl27VYpyAJnZ8Vn+rY4kOLbJA4Fbc8uJxVHhD7ePBlWGj3bQIESFeYdPBmezu4
+         vj89gheW8aNf93Twt/CiZYOYvsnGpZ9iiV6d8CBzXIEiq44iWm0XKNrWcngaHdG7C4GW
+         JxBDSjt+LsViyKZuKjHoRGR48SJJgrW9Iwf4NmF2yGLZX++NCamJNzxaGSnpAPToZl+A
+         snlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,62 +50,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :organization:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=/Fof8IQqMN8ZZNRIaf3zr1E12MAcGWoI3cf6tng1aC4=;
-        b=WwpIVBNcSSxgUM12Hi7SgUBkHuU1nI7F7bt7Jqpj82qMQCN2C52y35zNH+RCNdZ/s6
-         b3fpXpg7CWDtCm460HZojFRP2YLejgVs2A4KByNwo1CUPPHZsAOQdSomeoDSgMLrgeik
-         pUi6UDgr3YwKsjMG3Tw6AZMRs8oDjDuiwy6OF8tRK5V8kSs+K3B0yvGMc9yoDKpryDIO
-         xRGSw6EogZsP3Xs+vMKA7BAjFV3EFZ9JU7j05nyDcWVn4fvn/xGWpaE8nOaGabbdpXWR
-         CTS9WHI3bgd/2mhbhNwg2NtAWqE7AAYIie2NW0NAA2WmKIH6L2stl8YThLt+jaaNvvAC
-         0hJQ==
+        bh=KhHsXoT50ikLr8700KSyWf29Qxr/5w7R+NR4h43FfW8=;
+        b=YbQA3YUrgflnf+0DgeAp1SfGs6Jigt1KpQeu0BdwwwIlS1BAmVFXqvgUP78s4l9i2g
+         lUX1k7J1HRAcKBc+KZdHJXo8lJp6TjnGHXE37GuYy7VtaBgdtySVKKLC85Ttm8zbAc1T
+         xw2sDzsb5LD2uCQYZGpCC28NZy4EHbJMGI1p1YJF4oSdHifDZYag0IExdq2ZcTBwdnMu
+         Ghq7rO2afo4JmwMV3f+xCrzvAAMJ/OJnMxMujnrv2Id0qrG7jVOgTIFL0kIO25i8AFIs
+         eQ3/kh+i7GPIWiWUsnfJGSz/wezpJvYmYIxmcRv952uUz46KO+YVK4g+SrQl8XH4iVNf
+         1Sxw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531wyBPOOv0f1YZzVc9FAjJqgZ0vWjZebWsKmUXsUPivn9g8Xqbn
-	OeAQn/y40qxEP43C0EL8ces=
-X-Google-Smtp-Source: ABdhPJxKURj1jxv4TkEr+ad6zN8bMNsk1cqNnGX7yNAYxKtCyQfKL1+HHNxV1HCFWI1iq9jHmN2YZg==
-X-Received: by 2002:a05:6512:6c5:: with SMTP id u5mr1666660lff.1.1644596828606;
-        Fri, 11 Feb 2022 08:27:08 -0800 (PST)
+X-Gm-Message-State: AOAM530FZJ1R4SYfMMIqZzNQn/tjgiEkw/R0j4M5C3DVWSZ5Y4PlG3tF
+	Jv6hOx+teTPbPBBMcW485Sc=
+X-Google-Smtp-Source: ABdhPJy2fVI8mf7JVi2nlIZYy7vqwM3cblN4JKqPIYHZX40NWu8TM6ta1UAJ+AHJqNMU9GBM9jiQjA==
+X-Received: by 2002:a05:6512:1054:: with SMTP id c20mr1666599lfb.654.1644597143595;
+        Fri, 11 Feb 2022 08:32:23 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:5ca:: with SMTP id 193ls1605754ljf.11.gmail; Fri, 11 Feb
- 2022 08:27:07 -0800 (PST)
-X-Received: by 2002:a05:651c:1a08:: with SMTP id by8mr1427862ljb.325.1644596827492;
-        Fri, 11 Feb 2022 08:27:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644596827; cv=none;
+Received: by 2002:a05:6512:3ba6:: with SMTP id g38ls285718lfv.3.gmail; Fri, 11
+ Feb 2022 08:32:22 -0800 (PST)
+X-Received: by 2002:ac2:43ad:: with SMTP id t13mr1743807lfl.8.1644597142514;
+        Fri, 11 Feb 2022 08:32:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644597142; cv=none;
         d=google.com; s=arc-20160816;
-        b=wMfRhoXXI1Wb8KWkiE4JtSx+cx/cM5OZctfZCC8tUAKpe+I/vKxhqUFh1ivuqFXFK0
-         83VWzOTlI6MOym1SK5YEuh9A4bLhzIJ+cBRqaDQWRF3vboGD7pusuS1+4ntCnVhPKoIA
-         eGkL7fhLc0SKHqywoPfXildZ0oCbmAYutpiM+N4oUeO2mrTC9eNabFXDNNnBCmA5nTGS
-         TSceqSI2Um4pz5dJ8Rc2p5kVSYkeuzZjlhQABshqIPGgf/9JAzHv/6Yq5KUvQhcRHG3C
-         KZOqXcJa0pqGTIjtpyV5KNz9uznEbIuEpy+qzdJc2zGOP5bT1f76LVj30z12eJnE0FQn
-         /Eyg==
+        b=sM6DNW9Ebei7DqBuCCo4RayvAdpRvnKqUOWttug2x7c4HiT4hk+4CTgO700v8ExgC3
+         7wa4BbDbfsWtYSXl9yHgiWBpz3HuEu5aKJGAoeVjyA6YX4sRihQyH9y7gBOJgTUgVPlW
+         2mlxjdGChYvaA3CvbrAiWDhdUGUxdQqWT9KT6pjwCuUcSh5SLZaHg7mwliS0DpDcWit0
+         1+EGmzzi2RgRM8TmRSOKtGS45kZTC4lRdf6AlosuRh+FDKqLUS8jO2vuCKhULRPGKEkp
+         0rMPM6/BFAnM5+ibNB4LE7MkPnBqUsrIWIb4+LjOIHljmHABY6JRvTDUmjUMKAYDfkWU
+         Gu9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=organization:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=vy/L5Wj0bExAIZzDH14fn4eI7xOo4GcuYXta2VwXm1s=;
-        b=SxwW/T/Uf920GG84MnOVNBILMjdCcHGnNJlANB8Git6NQceTm/DpGDSh1XRDQjccgH
-         Vo7qu7EYVn7nJuWVEQpsxFbqPzv9D0vfumyZAmq8hvmP2IclNfNnZAyvfn27QpNttleX
-         2q4s9dHbkVYATsRj0aIt0ZsnT8MovvZ+lPhPAzxwSCAJZeTiIJHUT1aVUYnLJ77Y+hHE
-         yOWbBlT3XKXhuGz7/Q32SqmuFlYKtVZYOYDOwF6A58keV4VUfW/YZdU4tOhCiwqUW30T
-         LP/AnfeDa/md39KDETjF4NHoUv7a4ORMbkQ/GARQsDQRgN/aPXWWP/15xV8Wc6IWFmqg
-         QeKw==
+        bh=r21QnenTQ7zrsd6KBNIjCckN0Ivh7BWaO0bOsnipYsc=;
+        b=aK/N8/Tp5EHOeinSDZnx5VwpSpxfoxOg3n50N/8sf3HrjC5OU9jzVkCgHws2b9aNGn
+         HAI4FlGmgkoXyzJIqVdbvxQqMuYWv8NdxmfIzd+5EK9chUSJeI8HPDSYPlR8CfbAs9oR
+         AuHYClTMZWNwZVtpVBb61Z13Rcmoo49dpBF2ZCfYs3IDC5v9m9heIqdzf9WoUJsmwXmF
+         jC9lSwyxL8bSGziz7XdiwtTqJJxk0hNtlldyxAGJtX58J/TW3rRSc4tjyOHS/fi8Spoc
+         EZztObnNR7/8pb0Du5kYp0czqoNR9sDcnciK/joIZsIQTjDe0fOcJ3I1oI4WSGHsVZA7
+         3bHw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=gXj7DyL4;
-       spf=pass (google.com: best guess record for domain of mika.westerberg@linux.intel.com designates 134.134.136.65 as permitted sender) smtp.mailfrom=mika.westerberg@linux.intel.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=H66mfr2m;
+       spf=pass (google.com: best guess record for domain of mika.westerberg@linux.intel.com designates 134.134.136.100 as permitted sender) smtp.mailfrom=mika.westerberg@linux.intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga03.intel.com (mga03.intel.com. [134.134.136.65])
-        by gmr-mx.google.com with ESMTPS id k15si336976ljq.0.2022.02.11.08.27.06
+Received: from mga07.intel.com (mga07.intel.com. [134.134.136.100])
+        by gmr-mx.google.com with ESMTPS id a24si1278506lfb.12.2022.02.11.08.32.21
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 11 Feb 2022 08:27:07 -0800 (PST)
-Received-SPF: pass (google.com: best guess record for domain of mika.westerberg@linux.intel.com designates 134.134.136.65 as permitted sender) client-ip=134.134.136.65;
-X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="249707650"
+        Fri, 11 Feb 2022 08:32:22 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of mika.westerberg@linux.intel.com designates 134.134.136.100 as permitted sender) client-ip=134.134.136.100;
+X-IronPort-AV: E=McAfee;i="6200,9189,10255"; a="313043034"
 X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="249707650"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 08:26:56 -0800
+   d="scan'208";a="313043034"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 08:31:31 -0800
 X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="586395242"
+   d="scan'208";a="623262525"
 Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 08:26:53 -0800
-Received: by lahna (sSMTP sendmail emulation); Fri, 11 Feb 2022 18:26:51 +0200
-Date: Fri, 11 Feb 2022 18:26:51 +0200
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 08:31:28 -0800
+Received: by lahna (sSMTP sendmail emulation); Fri, 11 Feb 2022 18:31:26 +0200
+Date: Fri, 11 Feb 2022 18:31:26 +0200
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: kunit-dev@googlegroups.com, kasan-dev@googlegroups.com,
@@ -113,21 +113,22 @@ Cc: kunit-dev@googlegroups.com, kasan-dev@googlegroups.com,
 	Brendan Higgins <brendanhiggins@google.com>,
 	Daniel Latypov <dlatypov@google.com>
 Subject: Re: [PATCH v5 3/6] thunderbolt: test: use NULL macros
-Message-ID: <YgaOS8BLz23k6JVq@lahna>
+Message-ID: <YgaPXhOr/lFny4IS@lahna>
 References: <20220211094133.265066-1-ribalda@chromium.org>
  <20220211094133.265066-3-ribalda@chromium.org>
  <YgY1lzA20zyFcVi3@lahna>
  <CANiDSCs3+637REhtGjKy+MSnUm-Mh-k1S7Lk9UKqC8JY-k=zTw@mail.gmail.com>
+ <YgaOS8BLz23k6JVq@lahna>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CANiDSCs3+637REhtGjKy+MSnUm-Mh-k1S7Lk9UKqC8JY-k=zTw@mail.gmail.com>
+In-Reply-To: <YgaOS8BLz23k6JVq@lahna>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Original-Sender: mika.westerberg@linux.intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=gXj7DyL4;       spf=pass
+ header.i=@intel.com header.s=Intel header.b=H66mfr2m;       spf=pass
  (google.com: best guess record for domain of mika.westerberg@linux.intel.com
- designates 134.134.136.65 as permitted sender) smtp.mailfrom=mika.westerberg@linux.intel.com;
+ designates 134.134.136.100 as permitted sender) smtp.mailfrom=mika.westerberg@linux.intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -141,113 +142,58 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Feb 11, 2022 at 04:49:21PM +0100, Ricardo Ribalda wrote:
-> Hi Mika
+On Fri, Feb 11, 2022 at 06:26:56PM +0200, Mika Westerberg wrote:
+> > To test it I had enabled:
+> > PCI, USB4 and USB4_KUNIT_TEST
+> > 
+> > and then run it with
+> > 
+> > ./tools/testing/kunit/kunit.py run --jobs=$(nproc) --arch=x86_64
+> > 
+> > Unfortunately, kunit was not able to run the tests
+> > 
+> > This hack did the trick:
+> > 
+> > 
+> >  int tb_test_init(void)
+> >  {
+> > -       return __kunit_test_suites_init(tb_test_suites);
+> > +       //return __kunit_test_suites_init(tb_test_suites);
+> > +       return 0;
+> >  }
+> > 
+> >  void tb_test_exit(void)
+> >  {
+> > -       return __kunit_test_suites_exit(tb_test_suites);
+> > +       //return __kunit_test_suites_exit(tb_test_suites);
+> >  }
+> > +
+> > +kunit_test_suites(&tb_test_suite);
+> > 
+> > I looked into why we do this and I found:
+> > 
+> > thunderbolt: Allow KUnit tests to be built also when CONFIG_USB4=m
+> > 
+> > 
+> > I am a bit confused. The patch talks about build coverage, but even
+> > with that patch reverted if
+> > USB4_KUNIT_TEST=m
+> > then test.c is built.
+> > 
+> > Shouldn't we simply revert that patch?
 > 
-> On Fri, 11 Feb 2022 at 11:08, Mika Westerberg
-> <mika.westerberg@linux.intel.com> wrote:
-> >
-> > Hi,
-> >
-> > On Fri, Feb 11, 2022 at 10:41:30AM +0100, Ricardo Ribalda wrote:
-> > > Replace the NULL checks with the more specific and idiomatic NULL macros.
-> > >
-> > > Acked-by: Daniel Latypov <dlatypov@google.com>
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> >
-> > ...
-> >
-> > > @@ -2496,50 +2496,50 @@ static void tb_test_property_parse(struct kunit *test)
-> > >       struct tb_property *p;
-> > >
-> > >       dir = tb_property_parse_dir(root_directory, ARRAY_SIZE(root_directory));
-> > > -     KUNIT_ASSERT_TRUE(test, dir != NULL);
-> > > +     KUNIT_ASSERT_NOT_NULL(test, dir);
-> > >
-> > >       p = tb_property_find(dir, "foo", TB_PROPERTY_TYPE_TEXT);
-> > > -     KUNIT_ASSERT_TRUE(test, !p);
-> > > +     KUNIT_ASSERT_NOT_NULL(test, p);
-> >
-> > This should be KUNIT_ASSERT_NULL(test, p) as we specifically want to
-> > check that the property does not exist (!p is same as p == NULL).
-> >
-> > >       p = tb_property_find(dir, "vendorid", TB_PROPERTY_TYPE_TEXT);
-> > > -     KUNIT_ASSERT_TRUE(test, p != NULL);
-> > > +     KUNIT_ASSERT_NOT_NULL(test, p);
-> > >       KUNIT_EXPECT_STREQ(test, p->value.text, "Apple Inc.");
-> > >
-> > >       p = tb_property_find(dir, "vendorid", TB_PROPERTY_TYPE_VALUE);
-> > > -     KUNIT_ASSERT_TRUE(test, p != NULL);
-> > > +     KUNIT_ASSERT_NOT_NULL(test, p);
-> > >       KUNIT_EXPECT_EQ(test, p->value.immediate, 0xa27);
-> > >
-> > >       p = tb_property_find(dir, "deviceid", TB_PROPERTY_TYPE_TEXT);
-> > > -     KUNIT_ASSERT_TRUE(test, p != NULL);
-> > > +     KUNIT_ASSERT_NOT_NULL(test, p);
-> > >       KUNIT_EXPECT_STREQ(test, p->value.text, "Macintosh");
-> > >
-> > >       p = tb_property_find(dir, "deviceid", TB_PROPERTY_TYPE_VALUE);
-> > > -     KUNIT_ASSERT_TRUE(test, p != NULL);
-> > > +     KUNIT_ASSERT_NOT_NULL(test, p);
-> > >       KUNIT_EXPECT_EQ(test, p->value.immediate, 0xa);
-> > >
-> > >       p = tb_property_find(dir, "missing", TB_PROPERTY_TYPE_DIRECTORY);
-> > > -     KUNIT_ASSERT_TRUE(test, !p);
-> > > +     KUNIT_ASSERT_NOT_NULL(test, p);
-> >
-> > Ditto here.
-> >
-> > With those fixed (please also run the tests if possible to see that they
-> > still pass) you can add,
-> >
+> Nah, either build it into the kernel or load the driver manually:
 > 
-> Thanks!
-> 
-> To test it I had enabled:
-> PCI, USB4 and USB4_KUNIT_TEST
-> 
-> and then run it with
-> 
-> ./tools/testing/kunit/kunit.py run --jobs=$(nproc) --arch=x86_64
-> 
-> Unfortunately, kunit was not able to run the tests
-> 
-> This hack did the trick:
-> 
-> 
->  int tb_test_init(void)
->  {
-> -       return __kunit_test_suites_init(tb_test_suites);
-> +       //return __kunit_test_suites_init(tb_test_suites);
-> +       return 0;
->  }
-> 
->  void tb_test_exit(void)
->  {
-> -       return __kunit_test_suites_exit(tb_test_suites);
-> +       //return __kunit_test_suites_exit(tb_test_suites);
->  }
-> +
-> +kunit_test_suites(&tb_test_suite);
-> 
-> I looked into why we do this and I found:
-> 
-> thunderbolt: Allow KUnit tests to be built also when CONFIG_USB4=m
-> 
-> 
-> I am a bit confused. The patch talks about build coverage, but even
-> with that patch reverted if
-> USB4_KUNIT_TEST=m
-> then test.c is built.
-> 
-> Shouldn't we simply revert that patch?
+>   # modprobe thunderbolt
 
-Nah, either build it into the kernel or load the driver manually:
+Forgot to explain why this does not run the tests (I think):
 
-  # modprobe thunderbolt
+ ./tools/testing/kunit/kunit.py run --jobs=$(nproc) --arch=x86_64
+
+The driver depends on PCI and I don't think that's enabled on UML at
+least. I typically run it inside QEMU.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YgaOS8BLz23k6JVq%40lahna.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YgaPXhOr/lFny4IS%40lahna.
