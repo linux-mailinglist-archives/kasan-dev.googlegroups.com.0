@@ -1,108 +1,109 @@
-Return-Path: <kasan-dev+bncBCN7B3VUS4CRBLWMTWIAMGQEIYAFBPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCN7B3VUS4CRBL6MTWIAMGQEHEOHEWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3e.google.com (mail-io1-xd3e.google.com [IPv6:2607:f8b0:4864:20::d3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82504B33A2
-	for <lists+kasan-dev@lfdr.de>; Sat, 12 Feb 2022 08:47:59 +0100 (CET)
-Received: by mail-io1-xd3e.google.com with SMTP id y124-20020a6bc882000000b0060fbfe14d03sf7973691iof.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 23:47:59 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644652078; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CBD4B33A4
+	for <lists+kasan-dev@lfdr.de>; Sat, 12 Feb 2022 08:48:01 +0100 (CET)
+Received: by mail-pf1-x440.google.com with SMTP id 204-20020a6214d5000000b004e0003cee84sf7880213pfu.17
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Feb 2022 23:48:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644652080; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LwpEcd2SyFvSkCVoy9BGQQnsXRrWeUQg0KNqgHjz+VRc0aZhzCHm9GtFqqw+6ElXGx
-         eGKDSiFWU2mLOnPBOKA58hCIm50tvhE+VhBmXt1x+jOb7vW9RbykD1V6vF4fMNrJO1LA
-         GHlMdU/Ii7W9BMqFOT4z6yDK0AsLRsPsVVflyZH+A+Gu3LKmHjwcqD7nwGznhndGsonM
-         aF7UxObnV1NuUu4Gf1KJACnV71Zp61Wfqim3h2MDx+H5ZmQfLfvt5UNWwFIDCiUJ4Hmh
-         u9c9rONk66mmdw5SgmseZzdMlOISAAq5a/jmU3QbaBShOp4Bl+tU8nxtttxfLtW4KBob
-         XUsw==
+        b=oTZt52yG67/v5rlTqYzeeGzkKgN/pthVl5Q9gfgvwY15lLP3xRaPDcIDhTsuIaTTyL
+         Onst3kdcZQQDGcYEV+xUzAKW1IKK6YDl/Wj1Mmpp3L0NPQ6UtbOmM/4sf7bJgcSTzQ+H
+         vjkSQU/qxr0aqVkO7kkHm511ZV5tN9S3xMtjj+DD0pjeWbGLBH2UK14zXpOocrWRto0Q
+         ytWbX4wbTBEpvHFPV8KXYLgGOiNNUUEJlSzHEWCXF3qopJihR+GS0JUma76OIfC7cFHl
+         ctUEDrcwXrs+R4+G09QQbiMP7z8cOaVVMx2oAKzxiAOj34KV3CGg1Q6P2V4Ryryc+Q8g
+         n+lg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=8hNRA5HefRN0Wy0xmu4bHxWFv2gGRSiWKIUfgthf4uE=;
-        b=C1VuykFDeirJUzGaH43hpI3EcxRHg5KgrAU8oVMz75FzLSqCHaQY4W/ICpukA96dYt
-         4WVUDcdsrI47SeMTzPdR7L3hPGkqAzSn5gvyTYaxyxoqYZk1GOZ0sjmE+aHCDsdxXoaz
-         zxyIS7skHQqA0jl4ibfcPo0YUFvf6awEacRL4NA2d/lctlhyMEyr43Vf4HpP77sYepZ+
-         0aFzVeSz6cogWbi6IKKM0aGWZPvO9jRvRL+VVYGAG56O79FFW+4A2fvz2v+GKibxGe2f
-         Y1WQKoz1XlU5uioKho3h+cDPYPRlos5hGfWMGni603G596aCAhahjT+PqELEns3zGNqJ
-         ykww==
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=KcEEK5+lSaLErEErybympcMz3JAkN1NkMwrI3Jfh99E=;
+        b=lWinGMXTrk2/b0n/f2LAPFCIvkdyCFVQ9DkNHWPiI0XdL29M0KZG4nDPOgb8XOLMJw
+         2gO8GfKExHwJ47fr7bVlbi4jRk2fPT1ifCwCiwxG3yDIHiDfxe+RSmnGqBsFFapzVWRk
+         ew9QULf/j9Ssq27bgPIQd55wC2jbkLEptn6UMIezz9S27+3g+yGM6o6W7+xMPwcPi1V8
+         LCmvjthZcCba+z5pW6AaZ1Q33GejOVk1IzCA8F3WSxlo5y7XfEnCu6CSqE6kN/wAmgk/
+         pETzlEFat3Jo/l5v2/hPqq3rO5bmwiYZpcdT07zJe3mL3SKoP1Chn7YKfszBXFWeJ20O
+         SvFQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=8hNRA5HefRN0Wy0xmu4bHxWFv2gGRSiWKIUfgthf4uE=;
-        b=ckxofr3rEIyp0XsPtxIz6NYVb3Ak4VoRphU4+gynoFer27DBzPo4CWERy1zDmfdJ9I
-         rfMutj7Ryiyqy74AKyyak83yLwZ/GQq91l2dIa0J1DVKTB657EtD/8AhRFZffVudd4u0
-         tOhVCLFkNdbSvIF4Y+5EAtm89AbK/w6jr0MD7ZRV7PJ3qhgg+EtXSa2F10f7FruGRQpC
-         C/Nt8zetFS0x0BlmqtesvfNNtazJB+y7eHnvtQD4jVClslc7lET8Wa+S1Qz93q7QPhFk
-         7Es6gLnb4NsiYbnSlHQhzbAhM9ybsrnbV4zk7/knaxUHE4w9zsz3h4GfzhGTMVkWeXvG
-         xaRA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :reply-to:precedence:mailing-list:list-id:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=KcEEK5+lSaLErEErybympcMz3JAkN1NkMwrI3Jfh99E=;
+        b=XchD7WUy06N+hnNtyhDJY2Rqei70FTYi5U0Mt/dA7JKs894fSDnF3GOAC1yCgn9fWm
+         GcYFes1yvdy9qGhvkxOGCLhnpXvvSzs2WNnEg1cABw4jM+ioUsEwrVJpoa7f7JKE+S6g
+         S11kOK8IBOe2Gpl25yHy7LDqYCx2xzKax9hr78KJs6Ij15xn+zDdrLM+sA8rVGPVnG6j
+         y1+DcTp4do4ChSytU+O0GRG9zpEdaglB9Wo/VeBNfFyumtymOBybOeaWi/Pjm27xPt/n
+         DiT86JCX9HRHWkqBJfIS999R0AFYxufqIv0+/kcXKJTDZasItUXu9AJoVb/XRTZrD5l1
+         C6rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=8hNRA5HefRN0Wy0xmu4bHxWFv2gGRSiWKIUfgthf4uE=;
-        b=twwUaXoyL4+tuTobmnrEGN3n1eOAaef6iAyDBa4NpAC0BfZpc4pTe50AQAnG6RldGh
-         2Qh1fniAUfv92MJd81iyEfJ14U+ca2HtiptFeR48zVrxARvNKp0WF9zqFAeAeOgTyDz4
-         6LWp/MMbM6+Z26XO8Ek/+nb+uhm2iz0+POFmFeX9VIqZjcitRvqe6g5HTw1XZkgJ58uz
-         s9VpxmxRPpy00hTClrarCyBj+kfah6RewtCiAm1hdUO1Ezc5UKrlOy4QEUmqbLaZi/oK
-         wzXP0aV2WyOSTa17Xv53Hnz1QrXjHMEw77MTSVAjKcqlU90jdpwldQZzmNumj8VK+YuC
-         gjIQ==
-X-Gm-Message-State: AOAM530YaEv3f3JPzz4KzRMZ8/4VJXp4qbibxfRt/Tw383AI9izfXHKt
-	NLh5Of8Y1UbwrErSp2AVUsQ=
-X-Google-Smtp-Source: ABdhPJxgw+fyeuJyoufWCk/cB8v/IEUf1fbXq3ghaNki0zCg+IseY3NDYUwi8O6peQJx6I9+GVsIXA==
-X-Received: by 2002:a05:6638:22ce:: with SMTP id j14mr2955698jat.225.1644652078585;
-        Fri, 11 Feb 2022 23:47:58 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=KcEEK5+lSaLErEErybympcMz3JAkN1NkMwrI3Jfh99E=;
+        b=RBM0MatdsGHYrIK2DRVFY3NxGAxn3JguUnevwosIWmHmh1g4u/blTWJcpaMbEqirwL
+         aYjpFKyanbY/peRA9yErq60ZP4d1KmKsm0Reux31guAY295l2oaZIYUanK3B/qTr1T22
+         hpHFvK/Nxjz2SY8eebZWC8RiuUzm4wYI7OWFm8FGdjNkR3lKW0dtMZ+r0svqhrfmofVC
+         O/y5fbS8V5dQyJ7/c6/LIbH17/EhRqzD0AULc6z0L2PsbsUWu/Ag4qO0AquKTc/ioyRh
+         2jeFJwM+732ptC5rA34T1d13ly6YkV+6lTTeBkflgF3DyD9pf4LBBNpsyK8FGSupzHSg
+         zBWw==
+X-Gm-Message-State: AOAM5316h0rAZ6SXmlX0+Cb4uKmIoWP/MRY0W/oahIXAwjGdjfk9sO/Q
+	wQxiLpghkxk+1IULHF18pw8=
+X-Google-Smtp-Source: ABdhPJzCss9Zhhy29ZsVQQbvF5I9Y2CuVOgwzGYgT4VKAovpy6m5ksEJqUl8ASPkJq+HbrJfQSvGbw==
+X-Received: by 2002:a63:6c01:: with SMTP id h1mr4331550pgc.118.1644652079707;
+        Fri, 11 Feb 2022 23:47:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6638:1447:: with SMTP id l7ls1997720jad.8.gmail; Fri, 11
- Feb 2022 23:47:58 -0800 (PST)
-X-Received: by 2002:a02:93c2:: with SMTP id z60mr2813058jah.211.1644652078123;
-        Fri, 11 Feb 2022 23:47:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644652078; cv=none;
+Received: by 2002:a17:902:a409:: with SMTP id p9ls7427505plq.3.gmail; Fri, 11
+ Feb 2022 23:47:59 -0800 (PST)
+X-Received: by 2002:a17:903:41ce:: with SMTP id u14mr4906633ple.49.1644652079056;
+        Fri, 11 Feb 2022 23:47:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644652079; cv=none;
         d=google.com; s=arc-20160816;
-        b=1EKsaRehB/5vPBaWcivXpgccXEijNCbdON9gxiN7+xdqq/TQeUa0qrwdfv7b8enroo
-         QuL5p+2JzzUn3xM/IBGD0VeWDG7A5RDxF8vCx9RdpzNpPaxKryL+g6USlivJHS97o7yA
-         czVD5MDGnRQOiUjJGLm6RlkSwkdOecWys3alPxkulzhBAL7sQIa8uWZiSOtt+nBmJ7AB
-         rFc1D2OtMnmLaNIJ/s8BZ7hb+++iXJPikxY6HgmqAzlqC2bYrb4/GR0q74OxUbQK8eY4
-         E2UO6DZ6H67WiG4WgCGV2JGg9hX8ep5bLjMk3+pjxpTfydskNFDGJbdDulhBdmYJICYR
-         2IkA==
+        b=iU/CYCsYo6COe3rjrux5pUzZaO4m37IU48vGbR6DG8UleIQ7ywpfWYEwbH73jMlTtT
+         feZQgbmegG5l223kI8fsB1XHn5HZbultrCDKCiZn41GAAtD3Hg3+aMBx9O5/ZVZ0cm8t
+         sEmpfjA/IcTuG/QIDKHKD8xMtV/ks33H3Ue1d5oLpXVgD4E8AP7xXKbeFMY4OHqG6QPF
+         540XAjgtwgexsHr6yCC+BzvI3kpJUSPUq9RREPbyJ1dPzDoJ09HOXt0jRy+Crb5HvJ4g
+         CP0YbFRBvSn8ZNsbXDdSM5HV0NyYJ9apxk0Um12yy/7xR6qQUjta7HOoHfQtz594s9pg
+         dEjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:cc:to:from;
-        bh=9AKIjLaKw6pxo7GO69IhHuC3pHcFDLcw+MZC6ypb8Xw=;
-        b=KafI9CfVPbQ7AbL9xW6NHkRMrOu3gqWw9MQFEefnTniAHSz6dIsCnc931fmv3STVJt
-         tLEi+D5N9QklgzgjulMQTQpi9KLj8tKD/ioctCfwjyu/jeOx+Ng1nl9jDrwMXlLMzgyr
-         Qy0cxgMpsZ0hdUgN6xP/w3x6SxGkdGPSEr4bvh4A24jNBiHjJ3FOa9i+e+gNb5/7GObD
-         ZSFvyeImoNLQsg/PSfThXq8CihKMOYjhI1KqsOlcaUAJmX9TxZZQiw+e5gdS//UfGn3j
-         8lXd+848Im72OeK4bDwsrM0jEcRDi+JUsgzx7kyfeoV2v32tdL/UdME+dE3UB6Uz62u3
-         ewiA==
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from;
+        bh=18gRPS1BDdtJ8Vdbc5lpaHk5iz5usrYUWIsO/gKYl10=;
+        b=0gUM62QocA3Bf30s/I+w/h6yPZmnw5F5uFjjUaP3QzUznYi1HLcimZwknsqATCA4dp
+         LzvEddq4emTEAdPWLcR+rZVIig48bBQeHXqXV6rHUzoUTtjzPPpC+fwgH48xIzvjn7IR
+         Ly6G+kq/L3VmwdyZcNViExvmli2Y4yN0Uj7u2DUZKTgPY2ngY5hZXaqQlRuTtCfLtoSx
+         sGED4GwNklmN9Iqsg4NO6fljG24pCupEiRMW620gy4SPEbZu19mukrtLKA805+JJ4PwA
+         zjTXJzCRaoKyVTTTfgGR6z80E0R+O58iYoPYvQ1s0+80QiFJvIX4ZfqyKR7GZnExGNyP
+         LsoQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
 Received: from mailgw01.mediatek.com ([60.244.123.138])
-        by gmr-mx.google.com with ESMTPS id q17si970662ilj.3.2022.02.11.23.47.56
+        by gmr-mx.google.com with ESMTPS id p12si844808pgk.2.2022.02.11.23.47.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 11 Feb 2022 23:47:56 -0800 (PST)
+        Fri, 11 Feb 2022 23:47:59 -0800 (PST)
 Received-SPF: pass (google.com: domain of lecopzer.chen@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
-X-UUID: 32076c34da7549a7a2be3e1cbf29f30d-20220212
-X-UUID: 32076c34da7549a7a2be3e1cbf29f30d-20220212
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+X-UUID: 21ae44ea32604625b45640a4808bc4dd-20220212
+X-UUID: 21ae44ea32604625b45640a4808bc4dd-20220212
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
 	(envelope-from <lecopzer.chen@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 319208344; Sat, 12 Feb 2022 15:47:51 +0800
+	with ESMTP id 1333138036; Sat, 12 Feb 2022 15:47:53 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Sat, 12 Feb 2022 15:47:50 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 12 Feb 2022 15:47:52 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 12 Feb 2022 15:47:50 +0800
+ Transport; Sat, 12 Feb 2022 15:47:52 +0800
 From: "'Lecopzer Chen' via kasan-dev" <kasan-dev@googlegroups.com>
 To: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
 CC: <lecopzer.chen@mediatek.com>, <andreyknvl@gmail.com>,
@@ -113,10 +114,12 @@ CC: <lecopzer.chen@mediatek.com>, <andreyknvl@gmail.com>,
 	<masahiroy@kernel.org>, <matthias.bgg@gmail.com>,
 	<rmk+kernel@armlinux.org.uk>, <ryabinin.a.a@gmail.com>,
 	<yj.chiang@mediatek.com>
-Subject: [PATCH v2 0/2] arm: kasan: support CONFIG_KASAN_VMALLOC
-Date: Sat, 12 Feb 2022 15:47:45 +0800
-Message-ID: <20220212074747.10849-1-lecopzer.chen@mediatek.com>
+Subject: [PATCH v2 1/2] arm: kasan: support CONFIG_KASAN_VMALLOC
+Date: Sat, 12 Feb 2022 15:47:46 +0800
+Message-ID: <20220212074747.10849-2-lecopzer.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220212074747.10849-1-lecopzer.chen@mediatek.com>
+References: <20220212074747.10849-1-lecopzer.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-MTK: N
@@ -139,38 +142,50 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Since the framework of KASAN_VMALLOC is well-developed,
-It's easy to support for ARM that simply not to map shadow of VMALLOC
-area on kasan_init.
+Simply make shadow of vmalloc area mapped on demand.
 
 This can fix ARM_MODULE_PLTS with KASAN and provide first step
 to support CONFIG_VMAP_STACK in ARM.
-    
 
-Patch base on v5.16
-
-Test on
-1. Qemu with memory 2G and vmalloc=500M for 3G/1G mapping.
-2. Qemu with memory 2G and vmalloc=500M for 3G/1G mapping + LPAE.
-3. Qemu with memory 2G and vmalloc=500M for 2G/2G mapping.
-
-
-v2:
-    rebase on 5.17-rc3
-
-
-Lecopzer Chen (2):
-  arm: kasan: support CONFIG_KASAN_VMALLOC
-  arm: kconfig: fix MODULE_PLTS for KASAN with KASAN_VMALLOC
-
- arch/arm/Kconfig         | 2 ++
+Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
+---
+ arch/arm/Kconfig         | 1 +
  arch/arm/mm/kasan_init.c | 6 +++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 4c97cb40eebb..78250e246cc6 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -72,6 +72,7 @@ config ARM
+ 	select HAVE_ARCH_KFENCE if MMU && !XIP_KERNEL
+ 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
+ 	select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
++	select HAVE_ARCH_KASAN_VMALLOC if HAVE_ARCH_KASAN
+ 	select HAVE_ARCH_MMAP_RND_BITS if MMU
+ 	select HAVE_ARCH_PFN_VALID
+ 	select HAVE_ARCH_SECCOMP
+diff --git a/arch/arm/mm/kasan_init.c b/arch/arm/mm/kasan_init.c
+index 5ad0d6c56d56..29caee9c79ce 100644
+--- a/arch/arm/mm/kasan_init.c
++++ b/arch/arm/mm/kasan_init.c
+@@ -236,7 +236,11 @@ void __init kasan_init(void)
+ 
+ 	clear_pgds(KASAN_SHADOW_START, KASAN_SHADOW_END);
+ 
+-	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
++	if (!IS_ENABLED(CONFIG_KASAN_VMALLOC))
++		kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
++					    kasan_mem_to_shadow((void *)VMALLOC_END));
++
++	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_END),
+ 				    kasan_mem_to_shadow((void *)-1UL) + 1);
+ 
+ 	for_each_mem_range(i, &pa_start, &pa_end) {
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220212074747.10849-1-lecopzer.chen%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220212074747.10849-2-lecopzer.chen%40mediatek.com.
