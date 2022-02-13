@@ -1,139 +1,130 @@
-Return-Path: <kasan-dev+bncBCN7B3VUS4CRBJ6ZUSIAMGQEWKL7XKQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBRE5UWIAMGQEEK5UMWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2AB4B3C36
-	for <lists+kasan-dev@lfdr.de>; Sun, 13 Feb 2022 17:07:04 +0100 (CET)
-Received: by mail-il1-x13e.google.com with SMTP id y6-20020a929506000000b002beffccab3bsf2952435ilh.22
-        for <lists+kasan-dev@lfdr.de>; Sun, 13 Feb 2022 08:07:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644768423; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB6D4B3CDD
+	for <lists+kasan-dev@lfdr.de>; Sun, 13 Feb 2022 19:32:37 +0100 (CET)
+Received: by mail-il1-x13e.google.com with SMTP id x6-20020a923006000000b002bea39c3974sf7779836ile.12
+        for <lists+kasan-dev@lfdr.de>; Sun, 13 Feb 2022 10:32:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644777156; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Nf7a1On8xbGuDSfAPy8fDGRPCanho1IO8N4W1cMiWWyGSzS13g+a42C4dPVAIPuQ9O
-         pvvnazbPZe/EYY+Fkir/bwT/uXMeMU4UxNNujMVnTU6hQkF/xzQks8mfxALKN5RkHMAg
-         xcsSQnHPth6h+mBPuDwGd+Os8VOndLu9iV+tdgG8Tfp2g2T9/x5LbCf+iOtr1it+icX0
-         0RtUugw6Nn42/uaVCyM843XgrobzulljfnXfxtuPJs2TclTnz5V4kRdMg+Ev+UDiG+NA
-         0FgboUkrhtnCJe0dXrn93T6VWww/p+wts2GcVIp31l+pqNprzRU+SqTNnPpYf108WTFY
-         fRsg==
+        b=S/f7ksge3q8nr6m4YECg1q4xD0cgvDgV/idStWtbi8Ss79kPI5cvDjva+Mv3WI9tWw
+         07UlVOWm/azaer/nyzSugpnlqqh8KJQ8H5ggWowBcRrmrg9zmgtzUdQfsG4GqsGG3v3d
+         oiUkziSx+Lq68xUhlSSAitxwI93/k/jF+fJhQyEQz+27rIodSZyqyikY5hCvrHrxg2hX
+         B4/m5GSr77+aCshf0qlztbDk9oA5z1lLqUNstR9XuqGrBL/p9n8Y4QZkfvjbAobACsT6
+         p9mWGcFABGo+UzUHxlLamOge1f3UcJtIaxdcnbDenRxXub2dGH9Ysu/VWThxHqFhIe6P
+         I/Ug==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=DwvLjlYdnojpxoGpAhZwNQPlMRHNEY1WeLeqAVZvIjA=;
-        b=nXJwPAe7uouJgN54ef7uNt9XufzAf6BZfpEsfP5AuPE2X1Cu4E71QwY8TE3JBFCWwm
-         iOIdUvHUSbzyiW8myGJtFLgBmEoMaAWCetyYwnDpdPBmPYi40kG6+gq6jTty5yU9pP+w
-         6vnrwDgtlRal0CEKMsl+8JtN25SJCKp6gvo5/sqsOUIdVHBXipdKa9MhEhmrV3Tm7J+j
-         gEKVHEjYAuQ79mMRBdvGkrU5QVe22ty4FXo6DvYhtUcQmMLClXiAN1glDVa8qPO4fPGX
-         lbCViZocxqpX1G6xkaBRVlo6l6Ud8GuNMgAsnHMHYQAtf+sHq/+Uvp5K95ZITz0uYB5J
-         Wa2Q==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=PyYnN5jn07XdPwVxEFbRRcnbulJnmRYmgVWfVUxvN8k=;
+        b=rtwk72jkaGMEBOkoWNact8j+KdrVG+TpN4+fHjJpRkCdUrZLqInze0DDg4kcRuaY60
+         FOdiGWBywCFnJe81Dl4cOQ2BNi7dS5B+mYd2NB4cjr/A4sgAh9U/RSlSlnZh6OuFmED8
+         Prc8/J2kE/MkRDkcnwIZlMSQrrfuyOG2F+V7Kqg1wxan491Gz4Tjy3biLB+keiuO5Cnc
+         2EF2Lx5k76qsfN6co9NESadBXztj8dsARAXYfODbmXzUti0hTABeiKJOXlek4zWhpu7g
+         3MgLq7YXJambzI6ECjntFVFMnZeursrtfBDMCBm55ak02nVTe97rp3q6WIosm+Ml0q5q
+         pUWg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+       dkim=pass header.i=@chromium.org header.s=google header.b=GAsZqZDa;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102a as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=DwvLjlYdnojpxoGpAhZwNQPlMRHNEY1WeLeqAVZvIjA=;
-        b=myCIkNHHc525Dcf4W4GoO/n3YAqAxvOP4JFgWub7MjbLiYKr4+YCOtPP+lsjmPHORU
-         JGyoGGrCGDNXmBeAmn4VCozdfjCizvkZYXdnwydPp9/6qbs+rIeN/fhdgptiAhQLsMP0
-         9nyw4epcBDCrYO+WvCMu1Qfp2ztlRbVb/P7rQDtqUGns5jGHRrgb0CyaudRZBGncxT7M
-         avBwklYijSlb7uGcFYWOKssrUqWLKlm1DZStrIiOHP4MeLJUEwmGDz5COu5wQDJZ4dO7
-         ZGYCDx6L/qj9AFQC4pTZfqsJvskT6LCnwqgSRrBXHM53JTIaSvNt1QiWEtd/p2A2m4A9
-         whRg==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=PyYnN5jn07XdPwVxEFbRRcnbulJnmRYmgVWfVUxvN8k=;
+        b=HjYgzBFiztQUu8W1P6l/fhS2Mrv7U8Hgj40lYdR0A8klo1X1kbbz8XkazfZ7gYUnnn
+         wKXd6NdcFmjW3Wf0fInJFEzweXOhF/0Pj/VmHEw4CNLASXT3CbEd4N5K+Uh0T3d5irJY
+         Eg2jYFwKj92qUSXsXV48ONLECfAuAAHzMUefmwdsHHQxK8h0+jx1WKy8ROkqkRgobDMj
+         HuY2noSTwIpV0U3gqS2ThkQEvaVzDfXz6JDHhx1yUmyJQ2nzeBPHzOmTyuyxhY8+3lbA
+         nq2XK+OwJULaDPcLuPM0M+csBvgJHk6gLiOPLVeLP0UHDgleWtHv4G+kl166JOOJbY/v
+         jLQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=DwvLjlYdnojpxoGpAhZwNQPlMRHNEY1WeLeqAVZvIjA=;
-        b=WQlBe7ACQpGHo5NTvkbW3DXsF4hO86UN2V9ZfdgF6v/J20HTBhQowMX65j11R96kRU
-         KNnjRc9PZIeogDv/Zi3KXyX/H6IaivaC1CXr7HvrTkY+3JDRd2EjpegALdYn+AszDiAn
-         LqgHEOAAfGcODnw8tlfyokXCQ5yftnH1E5Zun2YCXgY9NX7UqY/x9sObAaCpPgXDwZY0
-         BL9fqt0BRoWSrsPHL9NY/e4rj7NelOYrTTIQTMhfNe+SYVG5XlSKag1MAGRDmwdKn1Re
-         +VcErqq2+gvte92YELGGL03sVkyZ+W//8+l1o+BfuWIDjSOQBbJR9Dp+7uTfm1JQLLHR
-         qfig==
-X-Gm-Message-State: AOAM533ddRwh1P4yNOaCjIZGrlpPcYmLenHrwdblU/IdDzfHag0oszS+
-	2FySt0Xdb+Oxsv4J7Zj8gQE=
-X-Google-Smtp-Source: ABdhPJyOhOGQwcLFCC9O4FqPgln+1gGE9IDPLYgnSgbU2EPHYtFyQ1gfVHUjKFuDmpTNEXYIFQNAQg==
-X-Received: by 2002:a05:6638:260b:: with SMTP id m11mr5705231jat.55.1644768423220;
-        Sun, 13 Feb 2022 08:07:03 -0800 (PST)
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=PyYnN5jn07XdPwVxEFbRRcnbulJnmRYmgVWfVUxvN8k=;
+        b=Ttdl0O+TX3eNfjF1mYT9fij/JOjEBEDKahHcOKYeoK3WlExApsWeoFDw++lzE83iun
+         9d3b7XvCcxcuHWa+juvGBp1/od2S6b1VNZr34ygdFxIU/pkrAZ5s/+Fw+HEXZuIU0oLb
+         /rlhA3cdphvDu1a4TPjLewJaxpd8hQbwvudbnFPeZZy8huLdMyZLwNmx7m3bgLf8UqBh
+         A2kWWqHb+Ji5LH75RrUEdRxXHMijtaU2Y0OMBbRVx3MPCTFd4pHpd3qxKQKigDdm5S86
+         kqUOnBhNNV0bcdtjg0eCizq5kCvjs64V3nKOnDguEGFzkg1QjKAdEIDWTnc91kMnaQmO
+         vaNg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM533Vha3L1X/bzrWO5XQRfqXwrL3pKvryhuTekdECc45C8HKp27h8
+	O6MuE9uFtu06xNDbQaURtrA=
+X-Google-Smtp-Source: ABdhPJwltwh0tQ56+ds+X054MwM5L+KhSmM0tM6U+MxlTKzxleuF8OvbvhgJXIattHihJh48sKeL9A==
+X-Received: by 2002:a05:6e02:12c8:: with SMTP id i8mr5753584ilm.279.1644777156192;
+        Sun, 13 Feb 2022 10:32:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1808:: with SMTP id a8ls2303318ilv.11.gmail; Sun,
- 13 Feb 2022 08:07:02 -0800 (PST)
-X-Received: by 2002:a05:6e02:20ca:: with SMTP id 10mr5470240ilq.225.1644768422763;
-        Sun, 13 Feb 2022 08:07:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644768422; cv=none;
+Received: by 2002:a05:6638:2614:: with SMTP id m20ls2432917jat.1.gmail; Sun,
+ 13 Feb 2022 10:32:35 -0800 (PST)
+X-Received: by 2002:a05:6638:606:: with SMTP id g6mr2907964jar.20.1644777155769;
+        Sun, 13 Feb 2022 10:32:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644777155; cv=none;
         d=google.com; s=arc-20160816;
-        b=yLC4ZZGXbJIg7xlPIrouLl/nGU5bIQAKnOqJDV/iyn+1ZJarYijRzir1FQD1ArI9Et
-         Zw4z4AMfpS5wl3XzJH6tuJpT3ohhKQ+PX9NBGOz3J8nbNwCLpCrNiV/iXI3vEeAtAlLA
-         420lpM3kgat9thXPz0W4Lg3a4E9N1BqtcNu/FOvM9x/960joG9uvY/fggIGD8Xku28/S
-         5xg1JYXxbo8c+S0FbjzE/UwGLcFUL5t2/pK5cTqprdkhPKwsVwj1fJHOI5Mlvy0kwoxd
-         0TN36Qf2B6XQQtcCc8kDl0yKjBIeIXvsogjgResDwfVeG7pVU4cT1meuWv5o1bntU2Z5
-         HSpQ==
+        b=Tir0uzRxGHVJpL10blQwOrSrPFyM0jszGgXcuinlyzkV4GrKr0NF9t6S2kNbDcl+d7
+         rgTYXRr5zdpN68I7JOn2SHPlBfuEJKXEgFduGV0ALPAwQmx1on5RsRf9bVm9HePEdalO
+         OLUF+jfTzISIEu8o812nppF9Ku+hUuBiwLUD8qMBvMGK4PjqEMi/hKGlC6DdlBzaumGy
+         jB9ukGq6viXBCifhT/crB7x6FtO1W7dTRO2U3qqdG76EIrSbiLm9iXnFEh1YODShMV8J
+         b93hrQiJcqshLNxIh4UQ7jStAhSJTUcL+6YCysPbj8rzty1g9EOG5NAVw8A1VidKNhzJ
+         zgFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from;
-        bh=qICD7DWwu4VWEKDc8nUuBGGQ6cKdxNztGfxOOEeoSYE=;
-        b=iMW/t0xfZByuJC3HiRyWD9udyoj1rnj/f7fIeZep4Lo+lghGlayCgaRR7JfwLiJOnv
-         jxOO/oJ6kbWkjVv8m9tehrRQVxUGETnXClWpEoYO2ZsHO+SJ/sNInq+By//dhF3Nvg1u
-         C10xCIef+EHlykA3NZqkD+Eexvi77NRZ6LW24DGYluJwZtv0b8dMbd8LF+f61C/J+DYE
-         R+yGnsuyM6yAAtogC5F7xYJJGuRVT+64g7tFspes3fVdRcIJZvfH9B2UHp4IFCQXDnO2
-         P92oCUhL679IoHcGVycmzdgH0bQ/6HIy127P62b5baVOSwKlDwg1AewyHLO5WPyR1mDW
-         uzPw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=GbN1m5GjdzaYtEly7rnCE3vNXf0FkYK/naaa45R/epk=;
+        b=j8lv7ivlTpX2e2I+ojdk1iikWOnkXPq4sYzezMVfvHHABVdev6qbKFuGH0PWMkgbPw
+         aTLf0mEtUKHCVtQ+Wmz0o+Lvw+b7zHDEy2I0OqOw7/nHD5vCW45KKqJdYoArdekcr1gf
+         8Hf4RvZtKUqJm7awXqO7S10iw8YJbahd03h32obezb1iwsfZW2qBQJQcArM90ETDSSnd
+         tvpdfELM63VVQf8Y37pU5H/eLYod6VGyrrWrY2BalL+dcIrr9Z8gEQX/kBMqwX0ph0xK
+         uya7xzVIRFUe6RZuulcrVmvNp60R97moKt+7OIo2TbI670KhWfaNHKCnCr9wiBS1y/IE
+         lK1Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTPS id h18si4141046iow.2.2022.02.13.08.07.01
+       dkim=pass header.i=@chromium.org header.s=google header.b=GAsZqZDa;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102a as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com. [2607:f8b0:4864:20::102a])
+        by gmr-mx.google.com with ESMTPS id u13si2931923jad.2.2022.02.13.10.32.35
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Feb 2022 08:07:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: 7c26e1c48cb240c78db72cdf8cb77316-20220214
-X-UUID: 7c26e1c48cb240c78db72cdf8cb77316-20220214
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-	(envelope-from <lecopzer.chen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 757746491; Mon, 14 Feb 2022 00:06:57 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Mon, 14 Feb 2022 00:06:56 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 14 Feb
- 2022 00:06:56 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 14 Feb 2022 00:06:56 +0800
-From: "'Lecopzer Chen' via kasan-dev" <kasan-dev@googlegroups.com>
-To: <linus.walleij@linaro.org>
-CC: <andreyknvl@gmail.com>, <anshuman.khandual@arm.com>, <ardb@kernel.org>,
-	<arnd@arndb.de>, <dvyukov@google.com>, <geert+renesas@glider.be>,
-	<glider@google.com>, <kasan-dev@googlegroups.com>,
-	<lecopzer.chen@mediatek.com>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux@armlinux.org.uk>,
-	<lukas.bulwahn@gmail.com>, <mark.rutland@arm.com>, <masahiroy@kernel.org>,
-	<matthias.bgg@gmail.com>, <rmk+kernel@armlinux.org.uk>,
-	<ryabinin.a.a@gmail.com>, <yj.chiang@mediatek.com>
-Subject: Re: [PATCH v2 1/2] arm: kasan: support CONFIG_KASAN_VMALLOC
-Date: Mon, 14 Feb 2022 00:06:56 +0800
-Message-ID: <20220213160656.17605-1-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <CACRpkdYDg3saLpfHg=R1kYpnC_BBNgBbe7un-B4e8bgDYPq1Fg@mail.gmail.com>
-References: <CACRpkdYDg3saLpfHg=R1kYpnC_BBNgBbe7un-B4e8bgDYPq1Fg@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Feb 2022 10:32:35 -0800 (PST)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102a as permitted sender) client-ip=2607:f8b0:4864:20::102a;
+Received: by mail-pj1-x102a.google.com with SMTP id r64-20020a17090a43c600b001b8854e682eso13717137pjg.0
+        for <kasan-dev@googlegroups.com>; Sun, 13 Feb 2022 10:32:35 -0800 (PST)
+X-Received: by 2002:a17:90a:c7cf:: with SMTP id gf15mr10802631pjb.83.1644777155479;
+        Sun, 13 Feb 2022 10:32:35 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id j2sm33728429pfc.209.2022.02.13.10.32.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Feb 2022 10:32:35 -0800 (PST)
+From: Kees Cook <keescook@chromium.org>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Kees Cook <keescook@chromium.org>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] kasan: test: Silence allocation warnings from GCC 12
+Date: Sun, 13 Feb 2022 10:32:32 -0800
+Message-Id: <20220213183232.4038718-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2824; h=from:subject; bh=9u7Cd7ajn+8VmlBggVW9I93wUx5ifwsTV6OZFwgwhrM=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBiCU6/gcktGKuswV/wNYH+QUBfdaSH8kMaFAvY83FQ ph5DlX+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYglOvwAKCRCJcvTf3G3AJv+tD/ 0f4VQg7uhKWf8BVJWIrY90fqUSCg1jxlya8ImO4GTv7SnS2huBhD3gvcwvxMtKTBTaR66ijo2duyI7 6i/R4ysAKYnFzcVGZVlIwztISpnXG2aCDszH6/9vxsKZT0WArlKqRIqbQjeykzbCCaR8bxpEBAFin2 htLRBbiZeIK/7ITXcNa2EBwmcB3UjN+XLGKaARJgehBunT+W6VFR2H5xM0R3mLvM6vCCQtJ6VFienm PPMNaXG8ai3zXd5d4rN9qbWH9ie3xPjVRze8vKTKPzk16+A5EHP2to7DOWORwlSLLUi/SOcRDknkSw tQxGILWKjx7bLbEwtignkRLipkgt0twRlTP7p73Ss7JM55Kw08KlQRjE+S4aQyc/9tgwBwU5aYuExW 2At+7hE9R/6vEZ/gi1tKolhnItAeh/yHgR/vvCPmSfeaUjKrtDSQ6tkzpjEUPvwXWFIKA42c6xlQSL brzc35QiULxWnwydILbzuOvAUvNR1a4kqISFIADBcXJYELaLqe32E/Be3zIfR5DfTy9aQXQNJvIuR9 x1DBYfSET2fDsWASvaZqIfGYI5m7BqKiYDP9Y9E8r4O86SOvtvkfp81wVCamYcKvyx40Kp6SYdiLCd IWUuwzekAYY0r1WDsvsd3cBgfsOm+QaXU9FsSlbr7ofiVKO7H5ShRQwDBdOQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+X-Original-Sender: keescook@chromium.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@chromium.org header.s=google header.b=GAsZqZDa;       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102a
+ as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Content-Type: text/plain; charset="UTF-8"
-X-MTK: N
-X-Original-Sender: lecopzer.chen@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-X-Original-From: Lecopzer Chen <lecopzer.chen@mediatek.com>
-Reply-To: Lecopzer Chen <lecopzer.chen@mediatek.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,62 +137,77 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Linus
+GCC 12 is able to see more problems with allocation sizes at compile
+time, so these must be silenced so the runtime checks will still be
+available. Use OPTIMIZER_HIDE_VAR() to silence the new warnings:
+
+lib/test_kasan.c: In function 'ksize_uaf':
+lib/test_kasan.c:781:61: warning: array subscript 120 is outside array bounds of 'void[120]' [-Warray-bounds]
+  781 |         KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[size]);
+      |                                       ~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+lib/test_kasan.c:96:9: note: in definition of macro 'KUNIT_EXPECT_KASAN_FAIL'
+   96 |         expression;                                                     \
+      |         ^~~~~~~~~~
+In function 'kmalloc',
+    inlined from 'ksize_uaf' at lib/test_kasan.c:775:8:
+./include/linux/slab.h:581:24: note: at offset 120 into object of size 120 allocated by 'kmem_cache_alloc_trace'
+  581 |                 return kmem_cache_alloc_trace(
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~
+  582 |                                 kmalloc_caches[kmalloc_type(flags)][index],
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  583 |                                 flags, size);
+      |                                 ~~~~~~~~~~~~
+
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: kasan-dev@googlegroups.com
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ lib/test_kasan.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+index 26a5c9007653..a19b3d608e3e 100644
+--- a/lib/test_kasan.c
++++ b/lib/test_kasan.c
+@@ -124,6 +124,7 @@ static void kmalloc_oob_right(struct kunit *test)
  
-Thanks for your review.
+ 	ptr = kmalloc(size, GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
++	OPTIMIZER_HIDE_VAR(ptr);
  
-> > -       kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
-> > +       if (!IS_ENABLED(CONFIG_KASAN_VMALLOC))
-> > +               kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
-> > +                                           kasan_mem_to_shadow((void *)VMALLOC_END));
-> > +
-> > +       kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_END),
-> >                                     kasan_mem_to_shadow((void *)-1UL) + 1);
-> 
-> Where is this actually mapped?
-> 
-> Can you print out where
-> kasan_mem_to_shadow((void *)VMALLOC_START)
-> kasan_mem_to_shadow((void *)VMALLOC_END)
-> as well as KASAN_SHADOW_START and KASAN_SHADOW_END
-> points?
-> 
-> When I looked into this getting the shadow memory between
-> KASAN_SHADOW_START and KASAN_SHADOW_END
-> seemed like the big problem since this is static, so how is Kasan
-> solving this now?
-
-For quick answer:
-As I knwon, the definition of KASAN_SHADOW_START and END
-
-(@arch/arm/include/asm/kasan_def.h)
-* 1) KASAN_SHADOW_START
- *   This value begins with the MODULE_VADDR's shadow address. It is the
- *   start of kernel virtual space....
- *
- * 2) KASAN_SHADOW_END
- *   This value is the 0x100000000's shadow address: the mapping that would
- *   be after the end of the kernel memory at 0xffffffff....
-
-and the virt address of vmalloc for ARM32 is also between MODULE_VADDR and
-0x100000000 (ZONE_HIGHMEM), so nothing needs to do.
-
-If there is any cases may break this assumption, please correct me, thanks.
-
-> 
-> Please patch the picture in
-> include/asm/kasan_def.h
-> and the info in
-> Documentation/arm/memory.rst
-> so it clearly reflects where VMALLOC is shadowed.
-
-Thanks for suggestion, Yes, we really do need to update doc for memory layout.
-I'll study how to add it and provide in v3.
-
-
-
+ 	/*
+ 	 * An unaligned access past the requested kmalloc size.
+@@ -185,6 +186,7 @@ static void kmalloc_pagealloc_oob_right(struct kunit *test)
+ 	ptr = kmalloc(size, GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+ 
++	OPTIMIZER_HIDE_VAR(ptr);
+ 	KUNIT_EXPECT_KASAN_FAIL(test, ptr[size + OOB_TAG_OFF] = 0);
+ 
+ 	kfree(ptr);
+@@ -265,6 +267,7 @@ static void kmalloc_large_oob_right(struct kunit *test)
+ 	ptr = kmalloc(size, GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+ 
++	OPTIMIZER_HIDE_VAR(ptr);
+ 	KUNIT_EXPECT_KASAN_FAIL(test, ptr[size] = 0);
+ 	kfree(ptr);
+ }
+@@ -748,6 +751,7 @@ static void ksize_unpoisons_memory(struct kunit *test)
+ 
+ 	ptr = kmalloc(size, GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
++	OPTIMIZER_HIDE_VAR(ptr);
+ 	real_size = ksize(ptr);
+ 
+ 	/* This access shouldn't trigger a KASAN report. */
+-- 
+2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220213160656.17605-1-lecopzer.chen%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220213183232.4038718-1-keescook%40chromium.org.
