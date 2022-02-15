@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRBKPAWCIAMGQEWKNBRZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LXIPCY4NRBAXYWCIAMGQE2M5JN4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7044B7ADB
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 23:58:50 +0100 (CET)
-Received: by mail-lf1-x13d.google.com with SMTP id h6-20020ac25966000000b00442b0158d70sf78639lfp.12
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 14:58:50 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644965930; cv=pass;
+Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id D76D24B7B5C
+	for <lists+kasan-dev@lfdr.de>; Wed, 16 Feb 2022 00:49:22 +0100 (CET)
+Received: by mail-ed1-x53d.google.com with SMTP id y10-20020a056402358a00b00410deddea4csf382838edc.16
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 15:49:22 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644968962; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AmoaZMEUVPXRb3J/cn9/mKy08SuqE4+N+qmWa6IKFJe61b7kbpamYsq1OEhF/SKJcV
-         FUekxSbWW5ToTEbEVxVVMf2z5dGIRk/sVR05VZroHkizjdLd9gEF1qF/zZHog90VAwIn
-         ufjXYoPWj18c3KmbSWDZ2T3Ra/2jwtPOute44gAhkSDgVLoUPYpFzX1fVN5TQrDnJgiJ
-         XJIpkT8L8gDJ5HYoud/JBBroKMdtY7xZHVgBedWFNZ4/32fjQdxGKEi9lOBmH4DIpZJD
-         Zd16gg8yG2Fzl8LzgyRgT0N/RF8ANhAAl7ezDjB03o9GhtvEGtqbuYb7wrdD+vCkOaWR
-         wZWA==
+        b=fV2lzFzk+cInCIWfaTl+2TZEjNc2ZOaKIRjoA7048llyvvT9uPx1B0xk2OhLQPvf74
+         ZyI7c+NF9RamL3nGnMzwV8uUuSH9of5Gyg8ShRp34J7KkKIi38QEml+ArBhRmifTZM0G
+         HHO9ge+/UXnhk2OF9vlyrfwrHInN7hfbpBYEtPzTmSUvAV/QbYlyjDz2HeKQzIkfFuJn
+         zViLzowInGiS8CkySYHmgyNl0Zv3wr3c6T+Nme0QJdIJ3u2qhRx19IBWFpvbB+gMCdyE
+         6XRwQmApCcGR4OAyx0nCg91bEPSDmyuxt5+oKQ3BgckjbZTzLmlf2+x6mjZylvRm8Ub8
+         fz7Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=SSvTYUQTXjavFbx6WQztiXdjDDCUk6y/pKb/HLd81Jk=;
-        b=UhNssJ/JYw8ZPhwo4Hb9aJEA9VxylhHj6JCZPQB2u/unpyeJSE2IRtL9OmfKXa6/PW
-         AdQsl78D/iPd0LA5YObFVLRaH1VuLEqbp7IyU42/tuEzdPHQlA4n6/NL11K2jH72lHYd
-         Z6nDwZhd/uToHlQxSSP4Ua+cB+CSJRZZgTzUjCwfgbY9jim+UtXRpgeOO31tQHhjMtUF
-         /49mB7+Fad3pvpPH9wD43refp9VOKVR6pfG6yF+fETubkX9ZTo8RYIKSRQYJZmC65mYe
-         H3M2c2SUXemgU29MMfCMFwiqGv4l7Ux80aE6Bk5fra6usjIkDccg3xJavR71ZfWg7ugM
-         FzYQ==
+        bh=slplFmsDWhZP8q7ioUxnEDINWEguWXnAyjkSin4yum4=;
+        b=LDYXuN2cMmuN8A5OVAZXthE4hs/YiKCYknCmdBGQI/tV/EKo7iQME99HfCTvSn7MJI
+         lXAAMOjW8yyd2QeIwELXHg94pbFlnYpbiZYDQ3GElomSt8QaLG2t1tE1rxLE6iUYu9fO
+         urAfmH2f0no1BEj1HVLBN8vKzc9Bjoz0/O+ydI6b2Gk/XPAcqsdfKqBX35+SN0Pt+ZYy
+         UhzHN0iosDEksc4KCcw7mUTe0C3xoVC67FXFni04bqp9WXYztNV3d6hxygJO8h3zqhXP
+         JJ8usHm8v/ZJctHNnLgsCbHzRYGZsXPz/HEvtqU9vv9/HUKBnrfqqJMD/jzGGP6eCbyt
+         Lupg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=baqvXked;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.88 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b="PRRPLg/6";
+       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.120 as permitted sender) smtp.mailfrom=lkp@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:user-agent:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=SSvTYUQTXjavFbx6WQztiXdjDDCUk6y/pKb/HLd81Jk=;
-        b=Kvq4KKZSeDChOZ/lllJ0cYF4EBfgaso26LqEHLfttXjiGCIEVD6JJ5divsx0maSJYt
-         +PmQf0ccGmX6p5dE5cjzlWa+jOvJjrQpoazUkyenKi2/jMksJjTLfWgkY/JDA63PglEt
-         O1458z5cnpAcOf5xRG5FuqSuhGNmcbTWisoHb0AM7n1gtGBLs0alMwPZbc8oxGYT3o/n
-         iWo86dbNcWLZADHTJd+ucfqSKKlFDSfmtsKuLywcuhI7Kj/LL0AdjJYpqFqY8QfV163r
-         slU5GfIIRMEdSWoqkGJxRowTJSPBsK2+AYIoh9RH0FUl06UIMK8TgC1xIdW8gmdzcOSs
-         nt0A==
+        bh=slplFmsDWhZP8q7ioUxnEDINWEguWXnAyjkSin4yum4=;
+        b=FvyV9BkcxNRS7tbxz6WSrfy0p53f9jI4L06i1BGQl39j1fZsYuOFU1N2I4viMfF3MH
+         WTaz8lJm8m6fxrFUURFAfeBH8+iCbiouzmweUMi0UT8Wt/XuWyak3HdilZAI5k8QOakV
+         SHJ7GKT3/RY8rblRt0vZPian+kMPr3dcb9yimuKh5oXch+GjVd9grZHddfqW1q/wHegR
+         jktP1asJwfMuMIAPXbnjzjl9Hf3foKNkwvXRqi3pNh0WEdg5y/OkMYckBChDHc5gQN3x
+         U8accCN8CqMC7yf1ZSVps5irjVsoJliDPMiQELBCeUcx6fr5rzwlk/r4nFb5PEBgyyF1
+         j0FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,71 +50,71 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=SSvTYUQTXjavFbx6WQztiXdjDDCUk6y/pKb/HLd81Jk=;
-        b=ognpm+lcesmOjNAE5RU0fE2QP6kx00LmS54jTq2ARiCSWO0Hx7MQegWoLJw25tyLDu
-         FMjBPwlC3iI83jp91JSRh/hTtuWORgb1AC+ilKDR34yKmgxG09v3Pup3q70rsQxLIhns
-         KPjHP0WB1WcWRn9LBQ9ZcH6VuUivQlEAxtn93jKWuoCiP1MTBjeXg3a7au/souoa6H7I
-         bnwz+UnxlsbSDRif8xXhr7LV2z+Kc1rzFnsoEZNbTE7+xFw0pZuyK7GkxM018CJYFXb8
-         cUz5GigvbKcOO9BJncukIo/zm8T9HO4YxJ+lg0EBTpdLJTRbtVECPMf2p6YNTtTaLLtv
-         Uk/Q==
+        bh=slplFmsDWhZP8q7ioUxnEDINWEguWXnAyjkSin4yum4=;
+        b=4JTvgOn8eQh8Nf2SwWPjM8iTqNX50aUkdcZUpTjhVCmbWT0f+UOUQ1FxFg8Z3HA3VS
+         B3QTEA/h+KFKvcKhhnmhbWXkQrvq+HYqT5ssh2OTBD7JE0xhm66iheSY4o6pp1eDjSjy
+         CGZyVbTgQ8EU8xSTDO56LY20mobRQkJqHFq/MfMyOprkrgYqYmq74gvtwYZTJMnD4VpI
+         EZfIUV+HGra23Xvswh231Kp6fI1m214AKGZG4xzLXqsz1W8VZzGmwceS7fjnSYq8Jh3D
+         kYQR419b+pIB17iDgL6XYvLeqxEM0pEP8PnVsQC/Bqb4Oh4SHLmMD8Y93aLtOIMHJugd
+         oCoA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532NlCL8A7xEjuhXGs9iGk7ddj87RAm0f4+dPUH2fxvMZjhxgmJ6
-	kxYhtDnjRb1cM14TrfO3JjE=
-X-Google-Smtp-Source: ABdhPJzQ+ui+iFldruA8FkOh1RS9h/i9NLoQ8dcEWcKckX4BlcupCb5kr+m2ipbsxqE1YxbL1u4p6Q==
-X-Received: by 2002:a2e:aa18:0:b0:244:bb00:db39 with SMTP id bf24-20020a2eaa18000000b00244bb00db39mr3589ljb.341.1644965930129;
-        Tue, 15 Feb 2022 14:58:50 -0800 (PST)
+X-Gm-Message-State: AOAM532IDyBq2H3PV40NSNJONDp7yc1fE1p6cIxP9JRQ26JLWG5LjrAx
+	WhFXIBcvPR9nw2HLkbTdNeU=
+X-Google-Smtp-Source: ABdhPJxEf41JlKvLginlgqB01MDvrvejFFslooa+b3d6OK0Vvl5VPrY+gm0Cd7CfHwJ8gy8gSmzrIw==
+X-Received: by 2002:a50:b402:0:b0:410:836e:92f3 with SMTP id b2-20020a50b402000000b00410836e92f3mr252721edh.29.1644968962493;
+        Tue, 15 Feb 2022 15:49:22 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:43cc:: with SMTP id u12ls198197lfl.2.gmail; Tue, 15 Feb
- 2022 14:58:49 -0800 (PST)
-X-Received: by 2002:a05:6512:1028:: with SMTP id r8mr472138lfr.143.1644965929101;
-        Tue, 15 Feb 2022 14:58:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644965929; cv=none;
+Received: by 2002:a17:906:c01:: with SMTP id s1ls509611ejf.2.gmail; Tue, 15
+ Feb 2022 15:49:21 -0800 (PST)
+X-Received: by 2002:a17:907:234c:b0:6cd:7ca0:8423 with SMTP id we12-20020a170907234c00b006cd7ca08423mr334261ejb.218.1644968961535;
+        Tue, 15 Feb 2022 15:49:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644968961; cv=none;
         d=google.com; s=arc-20160816;
-        b=pGKQrgp0th/0yS0sgeEtPMJ3U6mYjjZzMBTqn/S3xIzbOJxkOJ85o6BbOkZ5w9Wbzw
-         L8dbBHGK1Lnotl756yNBHCsrUT0GxGlLXdGbskNPQayN7kK0kXUcQc9AY3OY5lweAzPb
-         Z2aFLG3Ja/VqfVhzb442RWbBa21F53Q7k/a+8Va9Zais/ANPOhuC0wlTMmEBjthBxZBf
-         7YvaQdQeDmu888xn12QoFRWw9fgYlvjI+GzVXqW4l6BVHvGGRxMmwLFZ3L5Kot5uNRwd
-         6LFaKIwtwhOW1k5lZecaAC1cw3L3BMpowhoy3MyovtVBxW/9OmnxDyItwf2Bvgu/RBI7
-         j3jA==
+        b=y9uONAn5pym4eUsp/oydRKMxn3QWTAshGNIqeyrtU6hZtq8ipZBGJry8QS/efDKk0p
+         nvVW1gHdVFy+5z04i0G1Z3JxdBvo3tjtHO0Cgl5P1GHIPJjftH12gF/YB1Ny26luaIlR
+         OGsW3ETGgu/8WUI6e2/b7FE3+quclmJeheQotWihsv6QtVDBeqL9mii+8Wm92Ok2B9Gk
+         CwY9TpEZbubMqAkI6xj9wJCHap+Liao/MO4J0MjZXjGFbv79nTJeERKX+A0UeusjYnut
+         aenI2Fp4OV/k5g09dPs31FqQiYP0ZHBuUqBlS6Qht0aWIEM5dT5K64AGw0UJ8BfrZWS7
+         Rq/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=Zm1YgvPDFhkhTgVNfD0a03KzIBP8CA/Y15THzRQcKZU=;
-        b=sE3MG5Kj8YTXUzP6G5ldALCSEE83hTr8ljMzUrPKCQ9HDyr8dZqJvokfbsvrlHbrjB
-         qDGw65XnfXfKwU3Y9WOyJ5R/bONmR9UH+Cbf4TE7SKXCatstPKds6H9DE9h6ydLO6r2w
-         UNJLiwqDbMNF5SJH/nNxOUG6LNFxoyty5b8iB6ZDkTjEK5utek5rcBYD8tAWaUsjh4Ql
-         x6rm4SyCmL1PZDKNvNOSGajzzJkdxVdfd42kBpyQ2HBm3xemJMnFzwxKQ1J7kU7LgWJ8
-         YPNIsRkvbdrOznTbbIvcxukbB+B+AcpDoh5G6OYuLT6HP3eqvIaDfLJeIZSbB/v8fvSp
-         j8lw==
+        bh=tt7nKxrh9jEpdHrHwsLGJO6mupbmUSsDCChB2h1NPXI=;
+        b=pdkiKVNOg/3D7OvVDkrEbW0K5QV+oO7jfNPs8nvxmkY+Iv4FQqZAF+GzhMNTG+/0ev
+         hHP60QTzLHA3rDx35PCw3xr93wO9W51RbCqG7Hx+LgCQ+LCpxDgpkqoLdCeBu68M69IC
+         9xe1+uPn2yFTO/ssuWMfD3AIFS7HbCbu9TJ7dWmRikhnDxjr8zEE7kp6eTBYCbM50s4V
+         wIpM7lBWpBHUq7wChz6KyBIwTNLQePLSCPUnjjZqpeOeWSP7N4ifFiS8URJ+K1JnCbMm
+         tPxOBx5iwEo1tyLMrSdg8NIjhmEU+gy5UsA6JeumDF1K3GixhTIpJxq5zxysheUIVgFv
+         4UQg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=baqvXked;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.88 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b="PRRPLg/6";
+       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.120 as permitted sender) smtp.mailfrom=lkp@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga01.intel.com (mga01.intel.com. [192.55.52.88])
-        by gmr-mx.google.com with ESMTPS id c24si234082lfc.0.2022.02.15.14.58.48
+Received: from mga04.intel.com (mga04.intel.com. [192.55.52.120])
+        by gmr-mx.google.com with ESMTPS id s15si1652633eji.1.2022.02.15.15.49.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Feb 2022 14:58:49 -0800 (PST)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 192.55.52.88 as permitted sender) client-ip=192.55.52.88;
-X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="275050979"
+        Tue, 15 Feb 2022 15:49:21 -0800 (PST)
+Received-SPF: pass (google.com: domain of lkp@intel.com designates 192.55.52.120 as permitted sender) client-ip=192.55.52.120;
+X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="249316493"
 X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
-   d="scan'208";a="275050979"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 14:58:46 -0800
+   d="scan'208";a="249316493"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 15:49:19 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
-   d="scan'208";a="636179010"
+   d="scan'208";a="588014904"
 Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 15 Feb 2022 14:58:10 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 15 Feb 2022 15:49:15 -0800
 Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
 	(envelope-from <lkp@intel.com>)
-	id 1nK6lt-000A8D-Mp; Tue, 15 Feb 2022 22:58:09 +0000
-Date: Wed, 16 Feb 2022 06:57:59 +0800
+	id 1nK7ZK-000A9l-SR; Tue, 15 Feb 2022 23:49:14 +0000
+Date: Wed, 16 Feb 2022 07:48:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: andrey.konovalov@linux.dev, Marco Elver <elver@google.com>,
 	Alexander Potapenko <glider@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+Cc: kbuild-all@lists.01.org,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
@@ -125,7 +125,7 @@ Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] kasan: test: support async (again) and asymm modes for
  HW_TAGS
-Message-ID: <202202160627.SICieucW-lkp@intel.com>
+Message-ID: <202202160721.IhkGJaXa-lkp@intel.com>
 References: <51ae4a56205a41953971113ab2c264c7e2e5d969.1644938763.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -134,8 +134,8 @@ In-Reply-To: <51ae4a56205a41953971113ab2c264c7e2e5d969.1644938763.git.andreyknvl
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Original-Sender: lkp@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=baqvXked;       spf=pass
- (google.com: domain of lkp@intel.com designates 192.55.52.88 as permitted
+ header.i=@intel.com header.s=Intel header.b="PRRPLg/6";       spf=pass
+ (google.com: domain of lkp@intel.com designates 192.55.52.120 as permitted
  sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
  dis=NONE) header.from=intel.com
 Precedence: list
@@ -163,256 +163,347 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/andrey-konovalov-linux-dev/kasan-test-support-async-again-and-asymm-modes-for-HW_TAGS/20220215-232923
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git d567f5db412ed52de0b3b3efca4a451263de6108
-config: arm64-randconfig-r036-20220214 (https://download.01.org/0day-ci/archive/20220216/202202160627.SICieucW-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 37f422f4ac31c8b8041c6b62065263314282dab6)
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20220216/202202160721.IhkGJaXa-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
         # https://github.com/0day-ci/linux/commit/50334edb33a25643468715fbfc0e6d4a7d594432
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review andrey-konovalov-linux-dev/kasan-test-support-async-again-and-asymm-modes-for-HW_TAGS/20220215-232923
         git checkout 50334edb33a25643468715fbfc0e6d4a7d594432
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash mm/kasan/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash lib// mm/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->report_found, true);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-                                          ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                                            ^
-   include/linux/compiler_types.h:313:10: note: expanded from macro '__native_word'
-           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-                   ^
-   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                               ^~~~~~~~~
-   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-                                ^~~~~~~~~
-   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
->> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->report_found, true);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-                                          ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                                            ^
-   include/linux/compiler_types.h:313:39: note: expanded from macro '__native_word'
-           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-                                                ^
-   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                               ^~~~~~~~~
-   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-                                ^~~~~~~~~
-   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
->> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->report_found, true);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-                                          ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                                            ^
-   include/linux/compiler_types.h:314:10: note: expanded from macro '__native_word'
-            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-                   ^
-   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                               ^~~~~~~~~
-   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-                                ^~~~~~~~~
-   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
->> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->report_found, true);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-                                          ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                                            ^
-   include/linux/compiler_types.h:314:38: note: expanded from macro '__native_word'
-            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-                                               ^
-   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                               ^~~~~~~~~
-   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-                                ^~~~~~~~~
-   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
->> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->report_found, true);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-                                          ^
-   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                                                         ^
-   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                               ^~~~~~~~~
-   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-                                ^~~~~~~~~
-   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
->> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->report_found, true);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-                        ^
-   include/asm-generic/rwonce.h:55:20: note: expanded from macro '__WRITE_ONCE'
-           *(volatile typeof(x) *)&(x) = (val);                            \
-                             ^
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
->> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->report_found, true);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-                        ^
-   include/asm-generic/rwonce.h:55:27: note: expanded from macro '__WRITE_ONCE'
-           *(volatile typeof(x) *)&(x) = (val);                            \
-                                    ^
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
-   mm/kasan/report.c:361:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->sync_fault, sync);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-                                          ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                                            ^
-   include/linux/compiler_types.h:313:10: note: expanded from macro '__native_word'
-           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-                   ^
-   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                               ^~~~~~~~~
-   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-                                ^~~~~~~~~
-   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
-   mm/kasan/report.c:361:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->sync_fault, sync);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-                                          ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                                            ^
-   include/linux/compiler_types.h:313:39: note: expanded from macro '__native_word'
-           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-                                                ^
-   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                               ^~~~~~~~~
-   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-                                ^~~~~~~~~
-   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
-   mm/kasan/report.c:361:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->sync_fault, sync);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-                                          ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                                            ^
-   include/linux/compiler_types.h:314:10: note: expanded from macro '__native_word'
-            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-                   ^
-   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                               ^~~~~~~~~
-   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-                                ^~~~~~~~~
-   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                         ^~~~~~~~~
-   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
-           struct kunit_kasan_status *status;
-                  ^
-   mm/kasan/report.c:361:19: error: incomplete definition of type 'struct kunit_kasan_status'
-           WRITE_ONCE(status->sync_fault, sync);
-                      ~~~~~~^
-   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-                                          ^
-   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                                            ^
-   include/linux/compiler_types.h:314:38: note: expanded from macro '__native_word'
-            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-                                               ^
-   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                               ^~~~~~~~~
-   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   In file included from <command-line>:
+   mm/kasan/report.c: In function 'kasan_update_kunit_status':
+>> mm/kasan/report.c:360:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/report.c:360:9: note: in expansion of macro 'WRITE_ONCE'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |         ^~~~~~~~~~
+>> mm/kasan/report.c:360:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/report.c:360:9: note: in expansion of macro 'WRITE_ONCE'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |         ^~~~~~~~~~
+>> mm/kasan/report.c:360:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/report.c:360:9: note: in expansion of macro 'WRITE_ONCE'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |         ^~~~~~~~~~
+>> mm/kasan/report.c:360:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/report.c:360:9: note: in expansion of macro 'WRITE_ONCE'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |         ^~~~~~~~~~
+>> mm/kasan/report.c:360:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/report.c:360:9: note: in expansion of macro 'WRITE_ONCE'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |         ^~~~~~~~~~
+   In file included from ./arch/arm/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:255,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/bits.h:22,
+                    from include/linux/bitops.h:6,
+                    from mm/kasan/report.c:12:
+>> mm/kasan/report.c:360:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |                          ^~
+   include/asm-generic/rwonce.h:55:27: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                           ^
+   mm/kasan/report.c:360:9: note: in expansion of macro 'WRITE_ONCE'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |         ^~~~~~~~~~
+>> mm/kasan/report.c:360:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |                          ^~
+   include/asm-generic/rwonce.h:55:34: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                  ^
+   mm/kasan/report.c:360:9: note: in expansion of macro 'WRITE_ONCE'
+     360 |         WRITE_ONCE(status->report_found, true);
+         |         ^~~~~~~~~~
+   In file included from <command-line>:
+   mm/kasan/report.c:361:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     361 |         WRITE_ONCE(status->sync_fault, sync);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/report.c:361:9: note: in expansion of macro 'WRITE_ONCE'
+     361 |         WRITE_ONCE(status->sync_fault, sync);
+         |         ^~~~~~~~~~
+   mm/kasan/report.c:361:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     361 |         WRITE_ONCE(status->sync_fault, sync);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/report.c:361:9: note: in expansion of macro 'WRITE_ONCE'
+     361 |         WRITE_ONCE(status->sync_fault, sync);
+         |         ^~~~~~~~~~
+   mm/kasan/report.c:361:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     361 |         WRITE_ONCE(status->sync_fault, sync);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/report.c:361:9: note: in expansion of macro 'WRITE_ONCE'
+     361 |         WRITE_ONCE(status->sync_fault, sync);
+         |         ^~~~~~~~~~
+   mm/kasan/report.c:361:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     361 |         WRITE_ONCE(status->sync_fault, sync);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/report.c:361:9: note: in expansion of macro 'WRITE_ONCE'
+     361 |         WRITE_ONCE(status->sync_fault, sync);
+         |         ^~~~~~~~~~
+   mm/kasan/report.c:361:26: error: invalid use of undefined type 'struct kunit_kasan_status'
+     361 |         WRITE_ONCE(status->sync_fault, sync);
+         |                          ^~
+   include/linux/compiler_types.h:326:23: note: in definition of macro '__compiletime_assert'
+     326 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+--
+   lib/test_kasan.c: In function 'kasan_test_init':
+>> lib/test_kasan.c:56:20: error: invalid use of undefined type 'struct kunit_kasan_status'
+      56 |         test_status.report_found = false;
+         |                    ^
+   lib/test_kasan.c:57:20: error: invalid use of undefined type 'struct kunit_kasan_status'
+      57 |         test_status.sync_fault = false;
+         |                    ^
+   In file included from lib/test_kasan.c:25:
+   lib/test_kasan.c: In function 'kasan_test_exit':
+   lib/test_kasan.c:66:45: error: invalid use of undefined type 'struct kunit_kasan_status'
+      66 |         KUNIT_EXPECT_FALSE(test, test_status.report_found);
+         |                                             ^
+   include/kunit/test.h:782:28: note: in definition of macro 'KUNIT_ASSERTION'
+     782 |                            pass,                                               \
+         |                            ^~~~
+   include/kunit/test.h:841:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     841 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:849:9: note: in expansion of macro 'KUNIT_FALSE_MSG_ASSERTION'
+     849 |         KUNIT_FALSE_MSG_ASSERTION(test, assert_type, condition, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1341:9: note: in expansion of macro 'KUNIT_FALSE_ASSERTION'
+    1341 |         KUNIT_FALSE_ASSERTION(test, KUNIT_EXPECTATION, condition)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:66:9: note: in expansion of macro 'KUNIT_EXPECT_FALSE'
+      66 |         KUNIT_EXPECT_FALSE(test, test_status.report_found);
+         |         ^~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c: In function 'kmalloc_oob_right':
+   lib/test_kasan.c:94:55: error: invalid use of undefined type 'struct kunit_kasan_status'
+      94 |         KUNIT_EXPECT_FALSE(test, READ_ONCE(test_status.report_found));  \
+         |                                                       ^
+   include/kunit/test.h:782:28: note: in definition of macro 'KUNIT_ASSERTION'
+     782 |                            pass,                                               \
+         |                            ^~~~
+   include/kunit/test.h:841:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     841 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:849:9: note: in expansion of macro 'KUNIT_FALSE_MSG_ASSERTION'
+     849 |         KUNIT_FALSE_MSG_ASSERTION(test, assert_type, condition, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1341:9: note: in expansion of macro 'KUNIT_FALSE_ASSERTION'
+    1341 |         KUNIT_FALSE_ASSERTION(test, KUNIT_EXPECTATION, condition)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:94:9: note: in expansion of macro 'KUNIT_EXPECT_FALSE'
+      94 |         KUNIT_EXPECT_FALSE(test, READ_ONCE(test_status.report_found));  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:334:9: note: in expansion of macro '__compiletime_assert'
+     334 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:94:34: note: in expansion of macro 'READ_ONCE'
+      94 |         KUNIT_EXPECT_FALSE(test, READ_ONCE(test_status.report_found));  \
+         |                                  ^~~~~~~~~
+   lib/test_kasan.c:138:17: note: in expansion of macro 'KUNIT_EXPECT_KASAN_FAIL'
+     138 |                 KUNIT_EXPECT_KASAN_FAIL(test, ptr[size] = 'x');
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:94:55: error: invalid use of undefined type 'struct kunit_kasan_status'
+      94 |         KUNIT_EXPECT_FALSE(test, READ_ONCE(test_status.report_found));  \
+         |                                                       ^
+   include/kunit/test.h:782:28: note: in definition of macro 'KUNIT_ASSERTION'
+     782 |                            pass,                                               \
+         |                            ^~~~
+   include/kunit/test.h:841:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
+     841 |         KUNIT_UNARY_ASSERTION(test,                                            \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:849:9: note: in expansion of macro 'KUNIT_FALSE_MSG_ASSERTION'
+     849 |         KUNIT_FALSE_MSG_ASSERTION(test, assert_type, condition, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1341:9: note: in expansion of macro 'KUNIT_FALSE_ASSERTION'
+    1341 |         KUNIT_FALSE_ASSERTION(test, KUNIT_EXPECTATION, condition)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:94:9: note: in expansion of macro 'KUNIT_EXPECT_FALSE'
+      94 |         KUNIT_EXPECT_FALSE(test, READ_ONCE(test_status.report_found));  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:334:9: note: in expansion of macro '__compiletime_assert'
+     334 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:346:9: note: in expansion of macro '_compiletime_assert'
+     346 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:94:34: note: in expansion of macro 'READ_ONCE'
+      94 |         KUNIT_EXPECT_FALSE(test, READ_ONCE(test_status.report_found));  \
 
 
 vim +360 mm/kasan/report.c
@@ -446,4 +537,4 @@ https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202202160627.SICieucW-lkp%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202202160721.IhkGJaXa-lkp%40intel.com.
