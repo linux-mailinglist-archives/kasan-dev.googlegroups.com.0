@@ -1,124 +1,126 @@
-Return-Path: <kasan-dev+bncBAABBRVUV6IAMGQE7GFS5HY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBJV6V6IAMGQE3IZ5WHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026914B73E3
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 17:52:23 +0100 (CET)
-Received: by mail-lf1-x13b.google.com with SMTP id h6-20020ac25966000000b00442b0158d70sf6324051lfp.12
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 08:52:22 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644943942; cv=pass;
+Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1384B73FE
+	for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 18:13:12 +0100 (CET)
+Received: by mail-oo1-xc3b.google.com with SMTP id n30-20020a4a611e000000b002e519f04f8csf12953578ooc.7
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 09:13:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644945191; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bJhiLFnGD0zKzvzADmtsZfYKxvvfe0MmgMY8fKyF8fworgg4rqp/nLpZp6C5Dou+bt
-         /Dw3lHPDtKZSmpTV58N8oVOdb3KUxIGcOOUEp2Tsih4dBnilwdbaBlBWLEQ+dLXX0VPw
-         qlf3MAAA4egD7MlIQ2epaAbTthEf23qnYePpa+ek06y3qB16SfoPeAylWCFsfjq/xSJV
-         rpJjEBS4Z6Wktfw65GFTRkO5FatQvrrJVci6cAjWbSlYcOo4/P1zhXYOdHbTQlq4PKZk
-         mcGo1PC8QJm77uwjx2EYTIngW6qc56/Wy4pg15ZoGAFUTbXaaFYnWjc3/JfXVakjFfUC
-         hKhA==
+        b=xJeLYR5D6oUguTksLlc1Rg8G0Fdav+2FOFJL8jvVZqPGah1U6fhxLU1DV/WZrS9u08
+         JdOH5EILk5JuIA+7509hHN5Qq0Y2Prk+4NRvIRcD8YFuNMbdrF1vpNoARy77Qtl7hfq3
+         fBQiw4/Ji3h7c+ZyBmu0Mo9Dqunq6MyhQwMc+77JOYI9YhLkUJsEr6+bLiLSfGvOZ9uX
+         /8lX2Q/Bu5r7FP8JKPebB9ZBL6uCk0OTR/yUI/kx7u921Ed0MgbaVplnUNmrRJFjSqIq
+         S1Z/s0zcfqPdw+2HGtlHqiaURmx2529wZ8CT3Q/EMq0FCuYNRgylJmsQ9pNvTG0uCHp1
+         KiYQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=JOD2mFWLB7F2bqiWG9Xh5lTqDZ2QJ56gf+YFhqJXxLE=;
-        b=Lfiqylvc+CtymfJzYLcSUKCcxyJnKy9B4+HGt0lhT9wY/dHRWgPNqtPFqcRl0P3IwJ
-         9BgwEiHScItRZZedtsZ6Z9XQkpk459jSqSWHVpaVsjw5Nf5k62q6gKi5IEXxp6WX04am
-         QxjJUX/u7+kwxe/SmloPUPsEc0rpIh/VVgeBL+gb9mMdilLJTYJYdF/ErLOCc/mA+UpB
-         964UK+01o7Bb2rVg+jdZkJY2jtrHTP6XMo5+3CBqddTVk/dPvNbVlo069bod+0rRdXO4
-         U4ITYbM4zUy8k2jnfU69b86LLIp4zwxIgaUgJvuL6vUAonIpY3KM0SOD0gkhylskgzFw
-         kM6A==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=Hc/wpM7bl+U6Eodvg5y6CAF9VeF49FnMat6zCGuD3Mc=;
+        b=B5oba1AFoV449hrp3w+HFAuC4wKATiyEjtW6K8FbyKTIaAs5LG8nE6t3dPdelnAS0d
+         m82K5Eiv8Bfh/IL7/z7sJkTvhKZHhPxCsJGS3+QB+U4EpCmfqOZZ4SN3yMQV1w1hSJHW
+         G0z/F6zYaWrakOGY6dm9Z2UR5apb9jiSK+qEld8KmvmaXQRpXp+QwmaRY2VGcnwcrUPJ
+         FE/2BP6BwGP9kaBiky/Ql1QJimvtDag8CCkTEcEnv7rMQty3THWpCpVRsVH4/0Rb6VUH
+         d2xIBklGSC4eNs/deBu0B3J5dBKc546j6f4GiU0euZ5QMNylhxtds0dvTPYA9jbuKg5d
+         cqQA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=hpIlGRiz;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Tl08YyyC;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JOD2mFWLB7F2bqiWG9Xh5lTqDZ2QJ56gf+YFhqJXxLE=;
-        b=k0rdey1vIy5PpxpU7m/EpOR9Xv3lFatNNZ5ijlXp7uM6kcy627YppwmBUdkimxr+97
-         mR/FvGrYPNrhCBDfUNlYCvhfqP8hPwZI+qkxfbvlNe00pfoRBTMKB7isnUNRHVqr5RC/
-         tPNOwEqrkreWmnCZPjhexmJke9rAhY3EYf+tjuXnAxlejf4DFuL/cy6DY1lGVUmUakn9
-         vLS5EmFasvfUTfO+pJ/KongTXHuWhOy7jmRY0kBxvqG3+p6boMR5YC9C4D4iByXyyNDr
-         jEgIB5C6eY+ugibXae3g3KY14nQWR3uPUYxPC1Tp+PcwSWqtytGIKuKwIMOdTvWnu2MN
-         qGSg==
+        bh=Hc/wpM7bl+U6Eodvg5y6CAF9VeF49FnMat6zCGuD3Mc=;
+        b=Ojn7WRWriykYswPRP6+EB9m4/u3lxz7dDUrgZWm7uP3oQsLzdcHKfl+nG6Ee4vT7aY
+         q2RzhdWz/Qg80QFqTvVpBgd9U/ZtvJvXc4Vev5Ar0C6tcuyt8I9+U7oSFg6lXTV2KQhl
+         Xt3Eryg05IuDaz/otr3nPsEw9V/qbWkzqb7DJZ+gQ3h10HtWsoxVll+ynYipg2ry3IGm
+         Zxzbe6rQDg1dbM38RTkk/ocgl7pT9ssQPX4mLNJu+ykqn0EqU2i2wSWIw1s/xBHQU3it
+         9qPbDnXSvSSJJvmQkMd5xIoZUmhzC7BxcuCWh5HFFgsS34ytqu53quIaXcE/C+gjg7Hi
+         sv2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=JOD2mFWLB7F2bqiWG9Xh5lTqDZ2QJ56gf+YFhqJXxLE=;
-        b=NBS+mhkwOu1lH7OgFP6RV4SIW3KFa0BL23CwlFUslKHYZTZNJw22BrJZ2HUFqMhCbP
-         pRMmgGG8QNzc6P85HDh7KgkmlhzzkWfp6RfSs/gZj2SyAYxWK9yXB2PReFizT80jcIRX
-         vBWaj/BqfUa/gEHVu+1dm0SkzSBaD2gpVT1DMv1r3n4e3B+kKow9Ujjpgoh/iZOj7jos
-         I8ufQ6MJUI6JyWdtjSkJixcnsa9/jNAVSzK0EagcJiwr6YEC4myQlAsGIaQCWiLeSHCi
-         0QdilD+CP5NdA9DyJGguoa8ITb73RWVydHHKLQND6D6vAVQFgWpBYcmMmHT0Br886fOq
-         NbQw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533pcjGOi9qRcSD39opzJXaiKHUZDom/lN+o1Omb3lmbBfX1Yn4f
-	7FdUfvGzvP5Jo+WMUgznTSE=
-X-Google-Smtp-Source: ABdhPJwsrFSQJHr9Phz8a0hSEaPLDlY8nHaLoEGskcKSqwJOKkyQOjyUtISmAsBu0Dk8Qqdq4+RLkQ==
-X-Received: by 2002:a05:6512:2205:: with SMTP id h5mr3858864lfu.614.1644943942405;
-        Tue, 15 Feb 2022 08:52:22 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=Hc/wpM7bl+U6Eodvg5y6CAF9VeF49FnMat6zCGuD3Mc=;
+        b=zaoFtwksogMJlXZLgD1UtrTPCE4+UM5eabKI3Zs6ffeS3K/TBh9BPvMbzkdeqVz3Zk
+         dCDbj8L2bwH6armn75NZ2/I3tuaL5zVtM4149KsXn6a9TbQ5arnH54NoE15GrZGilW84
+         bmn0pPw+t06zII9uJUfawWiVGQhzCkil2dGGZHzYuxflf7FkZFsjU2G4MovZD2qk52oV
+         VnuA1TTT5B5LA51ILeo8eMBeQy2QeIyhEtxpIihZ5HH7AdtB9LjRRnzHkObb1D0r39Ho
+         FlI2OOb8EQsdVBTIc1uRBTVk1A6udDYFJWZ//x7EmfjuRKMIvqr3hjRwo7CwWoZO0c5O
+         sdNA==
+X-Gm-Message-State: AOAM531VnMeB0OD6MwXeH+5shpVbisckU9gKWh+6wzXoJlN3t/oh6OIx
+	i0TGiSQo91vM02bgMVP/nZI=
+X-Google-Smtp-Source: ABdhPJykIwXnJb+a+bzXax+SDLGecBWN5Q3X23+ycUjcytDj19QqlSRnrq9CA7jGQ/7Tp9MwyW9M7g==
+X-Received: by 2002:a05:6830:1d72:: with SMTP id l18mr1669291oti.135.1644945191031;
+        Tue, 15 Feb 2022 09:13:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3ba6:: with SMTP id g38ls2957031lfv.3.gmail; Tue,
- 15 Feb 2022 08:52:21 -0800 (PST)
-X-Received: by 2002:ac2:4c4b:: with SMTP id o11mr3730424lfk.253.1644943941624;
-        Tue, 15 Feb 2022 08:52:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644943941; cv=none;
+Received: by 2002:a05:6871:a8:: with SMTP id u40ls893423oaa.6.gmail; Tue, 15
+ Feb 2022 09:13:10 -0800 (PST)
+X-Received: by 2002:a05:6870:514c:: with SMTP id z12mr19194oak.207.1644945190583;
+        Tue, 15 Feb 2022 09:13:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644945190; cv=none;
         d=google.com; s=arc-20160816;
-        b=Z0xIiob1z7a6UwvcjeL2CsYUnXxE3aH9tpTurGJkoZ0RUENErg/wUG6jztKuMGaHzp
-         LBXngVQv2kmefGPX9ARSZBJSYr+G5xCzBasr36098Hwbem7tl1sq2xxKBg+VcsOLJCGr
-         ptP+x6eire+NMpx5pOWaQyEeQjYKYYLyxv11If0odhF9+IP7kN1BDSkUe8/0Be0Nw7My
-         mx5aqrV3pA5m+cxpcd3SiczR7rdCl9a0bAYlyPDoiBrIoqdPSqioj2d4c2dvO6Z4cKS1
-         GXT4SAVJGI1pRhSZMzItIL9YXUEcwBDzkpQ1J4HQoi76aX7xhhgDlkPrUaIRvM1Wig4A
-         ykGA==
+        b=V9mq2h8XabmaNVgHqdZEZw+hX8tJWP+C/j5ygnnC0VQn8GrzCoYfjSIVli53CK3NM8
+         vIimYVQw7xH23aR/IweOmlrkPTzpLYP/RBxg4c4YqxlsWBo+O/jHMgRlH04nIN+KdgVP
+         LW4AoVc0j0Li2iuVhy8+J6DzAb3QC8nOzUWyDWudFQydTH7u+cthAoyTNHQO1YT3omYT
+         BByD8lTklBsg7+fdKdnDtCZnCowg8KMByTP0jP093wHGyINf7GAVtXp7QOQNDSqk8X/n
+         7cPGHMiaopg8A2eUQiS8uhrhFCRop/zgBIxOTSByhADZTZrNBjDK39cQpoJXsEhkBvbu
+         FKWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=x0WqM712H6kGeqw3TwDc06pcqFg5ecYp2OoNXB9nDtc=;
-        b=DA/Ea411dm2r1rfriFKtnYRLKYCol8xDIn8WRsIN/RmT5enC1m+DP8+7NmGfpb7TMi
-         l0xSv1VjVCFuGMlWJB7MX75QaTVyk8P7ZWOnikWhFKbTQzT9CvCqb7xkVYssc6V+kO7Y
-         WgfRCIC7pPh9X6JS9rNJFngEB8Sr7ASILVQslyUQlId3Z7pgDocDXKuEl/fzp4Vm+xnS
-         OikRZBrnKM7kNaC0pON9b1R3J6JewX+9c7RmHOuIt9sn6WNo+ZImSvk3Rsuw8C0vo5X7
-         6wCmEIdGgxXVzgr1rweUopn/iqlQeHuOUvJ9NcYXD5fFzWh4BhLdDbUvIsfIKqeIpVIb
-         rYAw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dkNaB6kzC0t6gTi2pQx30aeojCMITTvkle2ZzaYqdBM=;
+        b=imiXU+UHx5mwu2neJv3DIAHWc4VYSLInfLUPwiJV/ovnWDskCSWyu4UcAGW2jC/oGj
+         38xNzOty7nYOSMbrrYDi4tt9aw6qKYiBiM4hvBsCWc4APPzybKj///Fa7Lw7hrbCmkOT
+         Y0toCD0wJwZwbgLabdHqjK0XG8pLZnG2wpDx+7b8zmmUMo4dA4HXUE1KYS24fjSEAyxT
+         lfi2C/ph2PFrMBtnFg8TsrRtpcL0jOsmojVson7mu+VnlerQX9mDeMZ7uocxQ4lRZy+N
+         QGpxwEUgzyWp6IFyY3DhCFPVj3UER5xyfaWeVAC7OKAa4K8B0XNjxx3Nc1t/I2inDsmq
+         TZJg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=hpIlGRiz;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out0.migadu.com (out0.migadu.com. [2001:41d0:2:267::])
-        by gmr-mx.google.com with ESMTPS id i2si1741693lfb.3.2022.02.15.08.52.21
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Tl08YyyC;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com. [2607:f8b0:4864:20::22c])
+        by gmr-mx.google.com with ESMTPS id t25si3220973oao.1.2022.02.15.09.13.10
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 15 Feb 2022 08:52:21 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) client-ip=2001:41d0:2:267::;
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: andrey.konovalov@linux.dev
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>,
-	Marco Elver <elver@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH mm] fix for "kasan, fork: reset pointer tags of vmapped stacks"
-Date: Tue, 15 Feb 2022 17:52:17 +0100
-Message-Id: <f50c5f96ef896d7936192c888b0c0a7674e33184.1644943792.git.andreyknvl@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Feb 2022 09:13:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c as permitted sender) client-ip=2607:f8b0:4864:20::22c;
+Received: by mail-oi1-x22c.google.com with SMTP id o23so1992194oie.10
+        for <kasan-dev@googlegroups.com>; Tue, 15 Feb 2022 09:13:10 -0800 (PST)
+X-Received: by 2002:a05:6808:3021:b0:2d4:40f3:6b30 with SMTP id
+ ay33-20020a056808302100b002d440f36b30mr605011oib.31.1644945190003; Tue, 15
+ Feb 2022 09:13:10 -0800 (PST)
 MIME-Version: 1.0
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Original-Sender: andrey.konovalov@linux.dev
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=hpIlGRiz;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates
- 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+References: <00000000000038779505d5d8b372@google.com> <CANp29Y7WjwXwgxPrNq0XXjXPu+wGFqTreh9gry=O6aE7+cKpLQ@mail.gmail.com>
+ <CA+zEjCvu76yW7zfM+qJUe+t5y23oPdzR4KDV1mOdqH8bB4GmTw@mail.gmail.com>
+In-Reply-To: <CA+zEjCvu76yW7zfM+qJUe+t5y23oPdzR4KDV1mOdqH8bB4GmTw@mail.gmail.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 15 Feb 2022 18:12:58 +0100
+Message-ID: <CACT4Y+arufrRgwmN66wUU+_FGxMy-sTkjMQnRN8U2H2tQuhB7A@mail.gmail.com>
+Subject: Re: [syzbot] riscv/fixes boot error: can't ssh into the instance
+To: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Cc: Aleksandr Nogikh <nogikh@google.com>, linux-riscv@lists.infradead.org, 
+	kasan-dev <kasan-dev@googlegroups.com>, palmer@dabbelt.com, 
+	syzbot <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com>, 
+	LKML <linux-kernel@vger.kernel.org>, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=Tl08YyyC;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::22c
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,48 +133,75 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Andrey Konovalov <andreyknvl@google.com>
+On Wed, 2 Feb 2022 at 14:18, Alexandre Ghiti
+<alexandre.ghiti@canonical.com> wrote:
+>
+> Hi Aleksandr,
+>
+> On Wed, Feb 2, 2022 at 12:08 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+> >
+> > Hello,
+> >
+> > syzbot has already not been able to fuzz its RISC-V instance for 97
+>
+> That's a longtime, I'll take a look more regularly.
+>
+> > days now because the compiled kernel cannot boot. I bisected the issue
+> > to the following commit:
+> >
+> > commit 54c5639d8f507ebefa814f574cb6f763033a72a5
+> > Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+> > Date:   Fri Oct 29 06:59:27 2021 +0200
+> >
+> >     riscv: Fix asan-stack clang build
+> >
+> > Apparently, the problem appears on GCC-built RISC-V kernels with KASAN
+> > enabled. In the previous message syzbot mentions
+> > "riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU
+> > Binutils for Debian) 2.35.2", but the issue also reproduces finely on
+> > a newer GCC compiler: "riscv64-linux-gnu-gcc (Debian 11.2.0-10)
+> > 11.2.0, GNU ld (GNU Binutils for Debian) 2.37".
+> > For convenience, I also duplicate the .config file from the bot's
+> > message: https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
+> >
+> > Can someone with KASAN and RISC-V expertise please take a look?
+>
+> I'll take a look at that today.
+>
+> Thanks for reporting the issue,
 
-That patch didn't update the case when a stack is retrived from
-cached_stacks in alloc_thread_stack_node(). As cached_stacks stores
-vm_structs and not stack pointers themselves, the pointer tag needs
-to be reset there as well.
+Hi Alex,
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- kernel/fork.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Do you have any updates on this? This is still blocking syzbot:
+https://syzkaller.appspot.com/bug?extid=330a558d94b58f7601be
 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 57d624f05182..5e3ad2e7a756 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -226,15 +226,17 @@ static unsigned long *alloc_thread_stack_node(struct task_struct *tsk, int node)
- 		if (!s)
- 			continue;
- 
--		/* Mark stack accessible for KASAN. */
-+		/* Reset stack metadata. */
- 		kasan_unpoison_range(s->addr, THREAD_SIZE);
- 
-+		stack = kasan_reset_tag(s->addr);
-+
- 		/* Clear stale pointers from reused stack. */
--		memset(s->addr, 0, THREAD_SIZE);
-+		memset(stack, 0, THREAD_SIZE);
- 
- 		tsk->stack_vm_area = s;
--		tsk->stack = s->addr;
--		return s->addr;
-+		tsk->stack = stack;
-+		return stack;
- 	}
- 
- 	/*
--- 
-2.25.1
+Do you use KASAN with clang or gcc? We can't boot riscv kernel with neither.
+
+
+> > --
+> > Best Regards,
+> > Aleksandr
+> >
+> >
+> > On Tue, Jan 18, 2022 at 11:26 AM syzbot
+> > <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com> wrote:
+> > >
+> > > Hello,
+> > >
+> > > syzbot found the following issue on:
+> > >
+> > > HEAD commit:    f6f7fbb89bf8 riscv: dts: sifive unmatched: Link the tmp451..
+> > > git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git fixes
+> > > console output: https://syzkaller.appspot.com/x/log.txt?x=1095f85bb00000
+> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
+> > > dashboard link: https://syzkaller.appspot.com/bug?extid=330a558d94b58f7601be
+> > > compiler:       riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> > > userspace arch: riscv64
+> > >
+> > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > > Reported-by: syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f50c5f96ef896d7936192c888b0c0a7674e33184.1644943792.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BarufrRgwmN66wUU%2B_FGxMy-sTkjMQnRN8U2H2tQuhB7A%40mail.gmail.com.
