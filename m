@@ -1,63 +1,143 @@
-Return-Path: <kasan-dev+bncBCAIN6FFT4EBBQNNWCIAMGQELLFOQLI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LXIPCY4NRBKPAWCIAMGQEWKNBRZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4A64B7929
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 22:10:26 +0100 (CET)
-Received: by mail-oi1-x23e.google.com with SMTP id t3-20020acaaa03000000b002d4174a211esf197350oie.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 13:10:26 -0800 (PST)
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7044B7ADB
+	for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 23:58:50 +0100 (CET)
+Received: by mail-lf1-x13d.google.com with SMTP id h6-20020ac25966000000b00442b0158d70sf78639lfp.12
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 14:58:50 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644965930; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=AmoaZMEUVPXRb3J/cn9/mKy08SuqE4+N+qmWa6IKFJe61b7kbpamYsq1OEhF/SKJcV
+         FUekxSbWW5ToTEbEVxVVMf2z5dGIRk/sVR05VZroHkizjdLd9gEF1qF/zZHog90VAwIn
+         ufjXYoPWj18c3KmbSWDZ2T3Ra/2jwtPOute44gAhkSDgVLoUPYpFzX1fVN5TQrDnJgiJ
+         XJIpkT8L8gDJ5HYoud/JBBroKMdtY7xZHVgBedWFNZ4/32fjQdxGKEi9lOBmH4DIpZJD
+         Zd16gg8yG2Fzl8LzgyRgT0N/RF8ANhAAl7ezDjB03o9GhtvEGtqbuYb7wrdD+vCkOaWR
+         wZWA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=SSvTYUQTXjavFbx6WQztiXdjDDCUk6y/pKb/HLd81Jk=;
+        b=UhNssJ/JYw8ZPhwo4Hb9aJEA9VxylhHj6JCZPQB2u/unpyeJSE2IRtL9OmfKXa6/PW
+         AdQsl78D/iPd0LA5YObFVLRaH1VuLEqbp7IyU42/tuEzdPHQlA4n6/NL11K2jH72lHYd
+         Z6nDwZhd/uToHlQxSSP4Ua+cB+CSJRZZgTzUjCwfgbY9jim+UtXRpgeOO31tQHhjMtUF
+         /49mB7+Fad3pvpPH9wD43refp9VOKVR6pfG6yF+fETubkX9ZTo8RYIKSRQYJZmC65mYe
+         H3M2c2SUXemgU29MMfCMFwiqGv4l7Ux80aE6Bk5fra6usjIkDccg3xJavR71ZfWg7ugM
+         FzYQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=baqvXked;
+       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.88 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=65qFNShlEiybSFn6Hb0qSXNT5W7+eWzeytZbq3y0cUw=;
-        b=SOpcvMl3NvbGjQTEdtT/+3Ifdpfgyyj2M71f8CIrOuky4pcJjGU3E75T3pRMo4e32D
-         oz1d2n8Cg0G+S+56WHmqczw7vrlDnQSZWp97AZTQvuZoCeLmuiCNBuwVOMmYPmGO0Ncm
-         zBuo6h/orqRHHKUvqBaHvYTcTo3GKo/cEFib9gzfDpi0hGew/tHo7zvG99vYRpQEukhU
-         HdUL08Oj8D4iYS7eHkhrJx4FcK7dxLOo1D749dawZTdFOgi+bCUDngKq2XlS2wQlnPLL
-         c1k8RfdDZNd/QEArZGm7ZeEulUYP2LGHztU+AGJxCDJKdGHr0B9O8QpkNt1kFu8sTni5
-         v5zA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=SSvTYUQTXjavFbx6WQztiXdjDDCUk6y/pKb/HLd81Jk=;
+        b=Kvq4KKZSeDChOZ/lllJ0cYF4EBfgaso26LqEHLfttXjiGCIEVD6JJ5divsx0maSJYt
+         +PmQf0ccGmX6p5dE5cjzlWa+jOvJjrQpoazUkyenKi2/jMksJjTLfWgkY/JDA63PglEt
+         O1458z5cnpAcOf5xRG5FuqSuhGNmcbTWisoHb0AM7n1gtGBLs0alMwPZbc8oxGYT3o/n
+         iWo86dbNcWLZADHTJd+ucfqSKKlFDSfmtsKuLywcuhI7Kj/LL0AdjJYpqFqY8QfV163r
+         slU5GfIIRMEdSWoqkGJxRowTJSPBsK2+AYIoh9RH0FUl06UIMK8TgC1xIdW8gmdzcOSs
+         nt0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=65qFNShlEiybSFn6Hb0qSXNT5W7+eWzeytZbq3y0cUw=;
-        b=FP7GGuE0DAqVksTuC2/ZUTnt8Iny8tA/k+Q8DfczLF0NtDq1MQQXrVF0KzL6WkNgnk
-         yUxbV/c8kEohvCkGgoHhy+tPLpzLI0TPipcEYrtf6MXePTPKXoE6BG/OYXxWeQ2mHsN1
-         +Hu3K14D/j47ut5SvQ1RU8WKdu6Ju8FfZAPwni9A270O+ERcNsP/icti0IzWpOwZQwZV
-         C88hbQ1mQGKAYt6zXdwMhilzEFqS+2Q5wb3RCsyJ3dN4O1GRjfguq0bDZKicscY0Sle/
-         bWJHFuEtGeSQ/iCri+Tm53/8xVBvnw/MdnJjGrq1lXTpBeEmdONU+u4R317UR94sIN4a
-         l7AQ==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=SSvTYUQTXjavFbx6WQztiXdjDDCUk6y/pKb/HLd81Jk=;
+        b=ognpm+lcesmOjNAE5RU0fE2QP6kx00LmS54jTq2ARiCSWO0Hx7MQegWoLJw25tyLDu
+         FMjBPwlC3iI83jp91JSRh/hTtuWORgb1AC+ilKDR34yKmgxG09v3Pup3q70rsQxLIhns
+         KPjHP0WB1WcWRn9LBQ9ZcH6VuUivQlEAxtn93jKWuoCiP1MTBjeXg3a7au/souoa6H7I
+         bnwz+UnxlsbSDRif8xXhr7LV2z+Kc1rzFnsoEZNbTE7+xFw0pZuyK7GkxM018CJYFXb8
+         cUz5GigvbKcOO9BJncukIo/zm8T9HO4YxJ+lg0EBTpdLJTRbtVECPMf2p6YNTtTaLLtv
+         Uk/Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530zdtXY87jqWru6DEggUdfLJQ4yF5xawzeWcMcjXvRFqgA2lRDo
-	cYeQG7B6CgjmCaUDYgkUm3Q=
-X-Google-Smtp-Source: ABdhPJzEF04lGKhv4YN7TEan0HUwygTa+mf09sZa3v2UYO6/Vx33L1zPvTEVGYn6GNBAz6nvrh4cEQ==
-X-Received: by 2002:a05:6870:1298:b0:d1:5049:ca47 with SMTP id 24-20020a056870129800b000d15049ca47mr2143836oal.205.1644959425838;
-        Tue, 15 Feb 2022 13:10:25 -0800 (PST)
+X-Gm-Message-State: AOAM532NlCL8A7xEjuhXGs9iGk7ddj87RAm0f4+dPUH2fxvMZjhxgmJ6
+	kxYhtDnjRb1cM14TrfO3JjE=
+X-Google-Smtp-Source: ABdhPJzQ+ui+iFldruA8FkOh1RS9h/i9NLoQ8dcEWcKckX4BlcupCb5kr+m2ipbsxqE1YxbL1u4p6Q==
+X-Received: by 2002:a2e:aa18:0:b0:244:bb00:db39 with SMTP id bf24-20020a2eaa18000000b00244bb00db39mr3589ljb.341.1644965930129;
+        Tue, 15 Feb 2022 14:58:50 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:a702:: with SMTP id g2ls189242oam.7.gmail; Tue, 15
- Feb 2022 13:10:25 -0800 (PST)
-X-Received: by 2002:a05:6870:ec8f:: with SMTP id eo15mr387951oab.130.1644959425271;
-        Tue, 15 Feb 2022 13:10:25 -0800 (PST)
-Date: Tue, 15 Feb 2022 13:10:24 -0800 (PST)
-From: "DANIELA MARTANI. EX AMANTE DI MARINA BERLUSCONI"
- <gelsominocadebon@mail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <76cf0aae-111f-436e-add3-df0ea72b7242n@googlegroups.com>
-Subject: =?UTF-8?Q?#GIOELEMAGALDI_=C3=89_CORROTTO_DAL_N?=
- =?UTF-8?Q?AZI=E5=8D=90DITTATORE_#VLADIMIRPUTIN!_G?=
- =?UTF-8?Q?IOELE_MAGALDI_=C3=89_MASSONE_SATANIS?=
- =?UTF-8?Q?TA_ASSASSINO,_PEDOFILO,_LADRO,_B?=
- =?UTF-8?Q?ERLUSCO=E5=8D=90NAZISTA,_BERLU$$CORROTT?=
- =?UTF-8?Q?O,_BERLUSPUTINIANO,_TRUFFATORE,?=
- =?UTF-8?Q?_INFILTRATORE,_SPIONE,_COMPLOTTARDO,_PEDETASTA_CHE_PAGA........?=
+Received: by 2002:ac2:43cc:: with SMTP id u12ls198197lfl.2.gmail; Tue, 15 Feb
+ 2022 14:58:49 -0800 (PST)
+X-Received: by 2002:a05:6512:1028:: with SMTP id r8mr472138lfr.143.1644965929101;
+        Tue, 15 Feb 2022 14:58:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644965929; cv=none;
+        d=google.com; s=arc-20160816;
+        b=pGKQrgp0th/0yS0sgeEtPMJ3U6mYjjZzMBTqn/S3xIzbOJxkOJ85o6BbOkZ5w9Wbzw
+         L8dbBHGK1Lnotl756yNBHCsrUT0GxGlLXdGbskNPQayN7kK0kXUcQc9AY3OY5lweAzPb
+         Z2aFLG3Ja/VqfVhzb442RWbBa21F53Q7k/a+8Va9Zais/ANPOhuC0wlTMmEBjthBxZBf
+         7YvaQdQeDmu888xn12QoFRWw9fgYlvjI+GzVXqW4l6BVHvGGRxMmwLFZ3L5Kot5uNRwd
+         6LFaKIwtwhOW1k5lZecaAC1cw3L3BMpowhoy3MyovtVBxW/9OmnxDyItwf2Bvgu/RBI7
+         j3jA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=Zm1YgvPDFhkhTgVNfD0a03KzIBP8CA/Y15THzRQcKZU=;
+        b=sE3MG5Kj8YTXUzP6G5ldALCSEE83hTr8ljMzUrPKCQ9HDyr8dZqJvokfbsvrlHbrjB
+         qDGw65XnfXfKwU3Y9WOyJ5R/bONmR9UH+Cbf4TE7SKXCatstPKds6H9DE9h6ydLO6r2w
+         UNJLiwqDbMNF5SJH/nNxOUG6LNFxoyty5b8iB6ZDkTjEK5utek5rcBYD8tAWaUsjh4Ql
+         x6rm4SyCmL1PZDKNvNOSGajzzJkdxVdfd42kBpyQ2HBm3xemJMnFzwxKQ1J7kU7LgWJ8
+         YPNIsRkvbdrOznTbbIvcxukbB+B+AcpDoh5G6OYuLT6HP3eqvIaDfLJeIZSbB/v8fvSp
+         j8lw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=baqvXked;
+       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.88 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga01.intel.com (mga01.intel.com. [192.55.52.88])
+        by gmr-mx.google.com with ESMTPS id c24si234082lfc.0.2022.02.15.14.58.48
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 15 Feb 2022 14:58:49 -0800 (PST)
+Received-SPF: pass (google.com: domain of lkp@intel.com designates 192.55.52.88 as permitted sender) client-ip=192.55.52.88;
+X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="275050979"
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
+   d="scan'208";a="275050979"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 14:58:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
+   d="scan'208";a="636179010"
+Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 15 Feb 2022 14:58:10 -0800
+Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1nK6lt-000A8D-Mp; Tue, 15 Feb 2022 22:58:09 +0000
+Date: Wed, 16 Feb 2022 06:57:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: andrey.konovalov@linux.dev, Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kasan: test: support async (again) and asymm modes for
+ HW_TAGS
+Message-ID: <202202160627.SICieucW-lkp@intel.com>
+References: <51ae4a56205a41953971113ab2c264c7e2e5d969.1644938763.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_392_239183895.1644959424705"
-X-Original-Sender: gelsominocadebon@mail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <51ae4a56205a41953971113ab2c264c7e2e5d969.1644938763.git.andreyknvl@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: lkp@intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@intel.com header.s=Intel header.b=baqvXked;       spf=pass
+ (google.com: domain of lkp@intel.com designates 192.55.52.88 as permitted
+ sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -70,397 +150,300 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_392_239183895.1644959424705
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_393_670764329.1644959424705"
+Hi,
 
-------=_Part_393_670764329.1644959424705
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I love your patch! Yet something to improve:
 
-#GIOELEMAGALDI =C3=89 CORROTTO DAL NAZI=E5=8D=90DITTATORE #VLADIMIRPUTIN! G=
-IOELE MAGALDI=20
-=C3=89 MASSONE SATANISTA ASSASSINO, PEDOFILO, LADRO, BERLUSCO=E5=8D=90NAZIS=
-TA,=20
-BERLU$$CORROTTO, BERLUSPUTINIANO, TRUFFATORE, INFILTRATORE, SPIONE,=20
-COMPLOTTARDO, PEDETASTA CHE PAGA..........RAGAZZINI DI 13 ANNI PER FARE=20
-SESSO OMOSESSUALE, TRIPLA FACCIA, VILE, VISCIDO, BUGIARDISSIMO! SI, =C3=88=
-=20
-PROPRIO COS=C3=8D! =C3=89 PEDERASTA NON POCO OMICIDA: GIOELE MAGALDI DI CRI=
-MINALE=20
-#LEGALADRONA, CRIMINALE #GRANDEORIENTEDEMOCRATICO E CRIMINALE=20
-#MOVIMENTOROOSEVELT! IN LOGGE INTERNAZIONALI LO CHIAMIAMO TUTTI "IL LICIO=
-=20
-GELLI INCULA BAMBINI GIOELE MAGALDI"! HA ORGANIZZATO CENTINAIA DI OMICIDI=
-=20
-FATTI PASSARE X FINTI SUICIDI, INFARTI, INCIDENTI! ERA AMANTE OMOSESSUALE=
-=20
-DEI NAZI=E5=8D=90LEGHISTI #LUCAMORISI, #ALDOSTORTI, #PAOLOBARRAI, #GIULIOTR=
-EMONTI=20
-ED #ALEXANDERBOETTCHER (QUI TROVATE LA PROVA DELLA RELAZIONE=20
-NAZI=E5=8D=90OMOSESSUALE #ALEXANDERBOETTCHER: https://twitter.com/alexanboe=
-ttcher).=20
-ED HA QUINDI "VENDICATO" QUEST'ULTIMO, FACENDO METTERE SOTTO UN AUTO,=20
-L'OTTMIO PM CHE LO AVEVA CONDANNATO: #MARCELLOMUSSO".
-https://www.ilmessaggero.it/italia/morto_marcello_musso_pm_procura_milano-4=
-678870.html
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.17-rc4 next-20220215]
+[cannot apply to hnaz-mm/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-NE SCRIVE CHI LO CONOSCE MOLTO BENE, ESSENDO DA DECENNI DI SUA STESSA UR=20
-LODGE INTERNAZIONALE CHIAMATA THOMAS PAINE: MICHAEL CHINNICK, EX MORGAN=20
-STANLEY, NOTO COME "IL CHE GUEVARA DELLA CITY DI LONDRA"!
+url:    https://github.com/0day-ci/linux/commits/andrey-konovalov-linux-dev/kasan-test-support-async-again-and-asymm-modes-for-HW_TAGS/20220215-232923
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git d567f5db412ed52de0b3b3efca4a451263de6108
+config: arm64-randconfig-r036-20220214 (https://download.01.org/0day-ci/archive/20220216/202202160627.SICieucW-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 37f422f4ac31c8b8041c6b62065263314282dab6)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/50334edb33a25643468715fbfc0e6d4a7d594432
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review andrey-konovalov-linux-dev/kasan-test-support-async-again-and-asymm-modes-for-HW_TAGS/20220215-232923
+        git checkout 50334edb33a25643468715fbfc0e6d4a7d594432
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash mm/kasan/
 
-CIAO E SCUSATE PER MIO ITALIANO, SON MICHAEL CHINNICK DI GEAS GROUP
-http://geasgroup.com/our-team/
-EX DI NAZI=E5=8D=90KUKLUKLANISTA MORGAN STANLEY.
-SONO INGLESE. FACCIO PARTE DELLA UR LODGE INTERNAZIONALE #THOMASPAINE, DI=
-=20
-CUI FA PARTE PURE IL SATANISTA PEDERASTA, CHE FA RAPIRE, INCULARE ED=20
-UCCIDERE CENTINAIA DI BAMBINI, SIA PER VENDERNE GLI ORGANI, CHE PER RITI=20
-SATANICI: MASSONE PEDOFILO ED ASSASSINO #GIOELEMAGALDI
-https://twitter.com/PedofiloMagaldi
-https://twitter.com/MagaldiRapeKids
-https://twitter.com/GioeMag_Anal_Di
-(COSA ORRIBILISSIMA, DI CUI STO PEZZO DI MERDA, NONCH=C3=89 "QUADRUPLO=20
-GIOCHISTA", VIVE
-https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting=
--415x208.jpg=20
-). RAGLIA DI ESSERE DI CENTRO SINISTRA, MA =C3=89 UN ASSOLUTO NAZI=E5=8D=90=
-FASCISTA DI=20
-MERDA! GIOELE MAGALDI =C3=89 IL TIPICO TRASFORMISTA, ENORME FIGLIO DI PUTTA=
-NA,=20
-CHE QUANDO LA CASA BIANCA =C3=89 OTTIMAMENTE DEMOCRAT, COME ORA, STRA MENTE=
-,=20
-RAGLIANDO DI ESSER PROGRESSISTA. QUANDO LA CASA BIANCA DIVIENE CASA NERA,=
-=20
-OSSIA NAZIST=E5=8D=90ASSASSINA, COME AI TEMPI DEL PEZZO DI MERDA PEDOFILO E=
-=20
-GENOCIDA #DONALDTRUMP, IL CAMERATA #GIOELEMAGALDI NON RECITA PI=C3=9A E SI=
-=20
-MOSTRA PER IL FIGLIO DI CA=E5=8D=90NAZISTA CHE ALTRO NON =C3=89: VERO E PRO=
-PRIO=20
-#ADOLPHHITLER DENOANTRI! E POI, OGNI ANNO RAPISCE, INCULA ED AMMAZZA=20
-TANTISSIMI BAMBINI, CON SCRUPOLO SOTTO ZERO (IN ITALIA SCOMPAIONO 40.000=20
-BAMBINI OGNI ANNO: BEN 110 AL GIORNO), SIA PER SCHIFOSISSIMI RITI=20
-LUCIFERINI, CHE PER VENDERNE GLI ORGANI! AI TEMPI DI #OBAMABARACK,=20
-GIUSTISSIMAMENTE, IL PEDOFILO INCULA BAMBINI #GIOELEMAGALDI DICEVA CHE IL=
-=20
-PEDOFILO STRAGISTA #SILVIOBERLUSCONI ERA, E STRA =C3=89 TUTT'ORA, IL PI=C3=
-=9A GRANDE=20
-CRIMINALE IN CRAVATTA DI TUTTO IL MONDO E DI TUTTI I TEMPI. SGAMANDO I SUOI=
-=20
-SUPER RICICLAGGI DI SOLDI MAFIOSI ED IL SUO ESSERE MANDANTE DI TANTE STRAGI=
-=20
-ED OMICIDI, QUI
-https://www.youtube.com/watch?v=3DqOJF1jI_iBY
-ORA FA CANDIDARE SUOI MASSONCELLI BERLUSCONICCHI E SATANISTI DI MERDA,=20
-TUTT'UNO CON MAFIA, CAMORRA E NDRANGHETA, A ROMA, MILANO E SPECIALMENTE IN=
-=20
-CALABRIA (GIOELE MAGALDI =C3=89 PURE AFFILIATO ALLA #NDRANGETA, ESATTAMENTE=
- A=20
-COSENZA: COSCA PERNA), CON QUEL COCAINOMANE PEDOFILO E NAZISTA BASTARDO DI=
-=20
-#VITTORIOSGARBI (COCAINOMANE PEDOFILO E NAZISTA BASTARDO COME GIOELE=20
-MAGALDI)!
-ECCO DI CHE OMINICCHIO DI MERDA, DI CHE PEDERASTA CHE SI FA SBORRARE IN=20
-CULO DA RAGAZZINI CHE PAGA ALL'UOPO, PARLIAMO, QUANDO PARLIAMO DEL=20
-QUINTUPLO GIOCHISTA CRIMINALISSIMO, LADRO E TRUFFATORE #GIOELEMAGALDI (CHE=
-=20
-SUL WEB HA RUBATO 2 MILIONI DI EURO A TANTISSIMI FESSI, SOLDI SUDATI E DA=
-=20
-LUI FREGATI, DICENDO CHE VOLEVA FARE UN PARTITO POLITICO, PER POI FARE=20
-NULLA E SPENDERE QUESTI SOLDI, ORA, IN COCAINA E RAGAZZINI GAY CHE STECCA=
-=20
-AFFINCH=C3=89 LO INCULINO E GLI SBORRINO TUTTO DENTRO AL CULO, DOZZINE DI V=
-OLTE=20
-A SETTIMANA)! FA TUTTI QUESTI CRIMINI CON 2 AVVOCATI SATANISTI?=20
-NDRANGHETISTI, PEDOFILI ED ASSASSINI TANTO QUANTO
-1) IL NDRANGHETISTA, SUPER KILLER CARPEORO ALIAS GIANFRANCO PECORARO
-@CarpeorO_micida
-2)
-L'AVVOCATO MASSONE DI MERDA, SATANISTA, SUPER OMICIDA, LADRO, TRUFFATORE,=
-=20
-NAZI=E5=8D=8DSTALKER DANIELE MINOTTI DI GENOVA E DELINQUENTISSIMO STUDIO LE=
-GALE=20
-#LISI.
-https://twitter.com/MinottiPedofilo
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-SGAMER=C3=93 TANTISSIMI COSIDETTI "SEGRETI, INTRIGHI, MISTERI, CRIMINI, OMI=
-CIDI=20
-MASSONICI ALL'ITALIANA", DI CUI MI HAN DETTO TUTTO, IN UR LOGGIA THOMAS=20
-PAINE, UR LOGGIA POTENTISSIMA, CHE DELL'ITALIA DI TIPO ASSASSINO, S=C3=81 T=
-UTTO,=20
-GRAZIE A CIA E FBI OTTIMAMENTE DEMOCRAT!
+All errors (new ones prefixed by >>):
 
-SONO #MICHAELCHINNICK
-MICHAEL CHINNICK GEAS GROUP AND MANDARIN GROP. EX OF NAZI=E5=8D=90ASSASSIN=
-=20
-INVESTMENT BANK MORGAN STANLEY.
-SONO MASSONE DEMOCRAT DI UR LODGE THOMAS PAINE
-http://geasgroup.com/our-team/
-https://www.mdncapital.com/staff/hong-kong/michael-chinnick
+>> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->report_found, true);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:313:10: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                   ^
+   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+>> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->report_found, true);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:313:39: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                                                ^
+   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+>> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->report_found, true);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:314:10: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                   ^
+   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+>> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->report_found, true);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:314:38: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                                               ^
+   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+>> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->report_found, true);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:48: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                                         ^
+   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+>> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->report_found, true);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
+                        ^
+   include/asm-generic/rwonce.h:55:20: note: expanded from macro '__WRITE_ONCE'
+           *(volatile typeof(x) *)&(x) = (val);                            \
+                             ^
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+>> mm/kasan/report.c:360:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->report_found, true);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
+                        ^
+   include/asm-generic/rwonce.h:55:27: note: expanded from macro '__WRITE_ONCE'
+           *(volatile typeof(x) *)&(x) = (val);                            \
+                                    ^
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+   mm/kasan/report.c:361:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->sync_fault, sync);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:313:10: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                   ^
+   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+   mm/kasan/report.c:361:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->sync_fault, sync);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:313:39: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                                                ^
+   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+   mm/kasan/report.c:361:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->sync_fault, sync);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:314:10: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                   ^
+   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+                                ^~~~~~~~~
+   include/linux/compiler_types.h:326:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   mm/kasan/report.c:350:9: note: forward declaration of 'struct kunit_kasan_status'
+           struct kunit_kasan_status *status;
+                  ^
+   mm/kasan/report.c:361:19: error: incomplete definition of type 'struct kunit_kasan_status'
+           WRITE_ONCE(status->sync_fault, sync);
+                      ~~~~~~^
+   include/asm-generic/rwonce.h:60:33: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+                                          ^
+   include/asm-generic/rwonce.h:36:35: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                            ^
+   include/linux/compiler_types.h:314:38: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                                               ^
+   include/linux/compiler_types.h:346:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                               ^~~~~~~~~
+   include/linux/compiler_types.h:334:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
 
 
-E A PROPOSITO DEL PRIMA CITATO, AVVOCATO NAZI=E5=8D=8DPEDOFILO ASSASSINO=20
-#DANIELEMINOTTI DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI....
+vim +360 mm/kasan/report.c
 
+   345	
+   346	#if IS_ENABLED(CONFIG_KUNIT)
+   347	static void kasan_update_kunit_status(struct kunit *cur_test, bool sync)
+   348	{
+   349		struct kunit_resource *resource;
+   350		struct kunit_kasan_status *status;
+   351	
+   352		resource = kunit_find_named_resource(cur_test, "kasan_status");
+   353	
+   354		if (!resource) {
+   355			kunit_set_failure(cur_test);
+   356			return;
+   357		}
+   358	
+   359		status = (struct kunit_kasan_status *)resource->data;
+ > 360		WRITE_ONCE(status->report_found, true);
+   361		WRITE_ONCE(status->sync_fault, sync);
+   362		kunit_put_resource(resource);
+   363	}
+   364	#endif /* IS_ENABLED(CONFIG_KUNIT) */
+   365	
 
-=C3=89 DA ARRESTARE PRIMA CHE FACCIA UCCIDERE ANCORA, L'AVVOCATO PEDOFILO,=
-=20
-BERLUSCO=E5=8D=90NAZISTA, FASCIOLEGHISTA, ASSASSINO DANIELE MINOTTI (FACEBO=
-OK,=20
-TWITTER) DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI.
-=C3=89 DA FERMARE PER SEMPRE, L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90N=
-AZISTA,=20
-PEDERASTA, OMICIDA #DANIELEMINOTTI DI RAPALLO E GENOVA: RAPISCE, INCULA,=20
-UCCIDE TANTI BIMBI, SIA PER VENDERNE GLI ORGANI (COME DA QUESTA ABERRANTE=
-=20
-FOTO
-https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting=
--415x208.jpg),
-CHE PER RITI MASSONICO^SATANISTI, CHE FA IN MILLE SETTE!
-=C3=89 DI PERICOLO PUBBLICO ENORME, L'AVV ASSASSINO E PEDERASTA DANIELE MIN=
-OTTI=20
-(FACEBOOK) DI RAPALLO E GENOVA! AVVOCATO STUPRANTE INFANTI ED ADOLESCENTI,=
-=20
-COME PURE KILLER #DANIELEMINOTTI DI CRIMINALISSIMO #STUDIOLEGALELISI DI=20
-LECCE E MILANO (
-https://studiolegalelisi.it/team/daniele-minotti/
-STUDIO LEGALE MASSO^MAFIOSO LISI DI LECCE E MILANO, DA SEMPRE TUTT'UNO CON=
-=20
-MEGA KILLERS DI COSA NOSTRA, CAMORRA, NDRANGHETA, E, COME DA SUA=20
-SPECIALITA' PUGLIESE, ANCOR PI=C3=9A, DI SACRA CORONA UNITA, MAFIA BARESE, =
-MAFIA=20
-FOGGIANA, MAFIA DI SAN SEVERO)! =C3=89 STALKER DIFFAMATORE VIA INTERNET, NO=
-NCH=C3=89=20
-PEDERASTA CHE VIOLENTA ED UCCIDE BIMBI, QUESTO AVVOCATO OMICIDA CHIAMATO=20
-DANIELE MINOTTI! QUESTO AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA, =
-PEDOFILO=20
-E SANGUINARIO, DI RAPALLO E GENOVA (LO VEDETE A SINISTRA, SOPRA SCRITTA=20
-ECOMMERCE https://i.ytimg.com/vi/LDoNHVqzee8/maxresdefault.jpg)
-RAPALLO: OVE ORGANIZZA TRAME OMICIDA E TERRORISMO DI ESTREMA DESTRA,=20
-INSIEME "AL RAPALLESE" DI RESIDENZA, HITLERIANO, RAZZISTA, KU KLUK=20
-KLANISTA, MAFIOSO E RICICLA SOLDI MAFIOSI COME SUO PADRE: VI ASSICURO,=20
-ANCHE ASSASSINO #PIERSILVIOBERLUSCONI PIERSILVIO BERLUSCONI! SI, SI =C3=89=
-=20
-PROPRIO COS=C3=8D: =C3=89 DA ARRESTARE SUBITO L'AVVOCATO SATANISTA, NAZISTA=
-,=20
-SATA=E5=8D=90NAZISTA, PEDOFILO E KILLER DANIELE MINOTTI DI GENOVA E RAPALLO=
-!
-https://www.py.cz/pipermail/python/2017-March/012979.html
-OGNI SETTIMANA SGOZZA, OLTRE CHE GATTI E SERPENTI, TANTI BIMBI, IN RITI=20
-SATANICI. IN TUTTO NORD ITALIA (COME DA LINKS CHE QUI SEGUONO, I FAMOSI 5=
-=20
-STUDENTI SCOMPARSI NEL CUNEENSE FURONO UCCISI, FATTI A PEZZI E SOTTERRATI=
-=20
-IN VARI BOSCHI PIEMONTESI E LIGURI, PROPRIO DALL'AVVOCATO SATANISTA,=20
-PEDOFILO ED ASSASSINO DANIELE MINOTTI DI RAPALLO E GENOVA
-https://www.ilfattoquotidiano.it/2013/05/29/piemonte-5-ragazzi-suicidi-in-s=
-ette-anni-pm-indagano-sullombra-delle-sette-sataniche/608837/
-https://www.adnkronos.com/fatti/cronaca/2019/03/02/satanismo-oltre-mille-sc=
-omparsi-anni_QDnvslkFZt8H9H4pXziROO.html)
-E' DAVVERO DA ARRESTARE SUBITO, PRIMA CHE AMMAZZI ANCORA, L'AVVOCATO=20
-PEDOFILO, STUPRANTE ED UCCIDENTE BAMBINI: #DANIELEMINOTTI DI RAPALLO E=20
-GENOVA!
-https://www.studiominotti.it
-Studio Legale Minotti
-Address: Via della Libert=C3=A0, 4, 16035 Rapallo GE,
-Phone: +39 335 594 9904
-NON MOSTRATE MAI E POI MAI I VOSTRI FIGLI AL PEDOFIL-O-MOSESSUALE=20
-COCAINOMANE E KILLER DANIELE MINOTTI (QUI IN CHIARO SCURO MASSONICO, PER=20
-MANDARE OVVI MESSAGGI LUCIFERINI=20
-https://i.pinimg.com/280x280_RS/6d/04/4f/6d044f51fa89a71606e662cbb3346b7f.j=
-pg=20
-). PURE A CAPO, ANZI A KAP=C3=93 DI UNA SETTA ASSASSINA DAL NOME ELOQUENTE =
-: "=20
-AMMAZZIAMO PER NOSTRI SATANA IN TERRA: SILVIO BERLUSCONI, GIORGIA MELONI E=
-=20
-MATTEO SALVINI".
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-UNITO IN CI=C3=93, AL PARIMENTI AVVOCATO MASSONE, FASCISTA, LADRO, TRUFFATO=
-RE,=20
-RICICLA SOLDI MAFIOSI, OMICIDA E MOLTO PEDOFILO=20
-#FULVIOSARZANADISANTIPPOLITO FULVIO SARZANA DI SANT'IPPOLITO.
-
-ED INSIEME AL VERME SATA=E5=8D=90NAZISTA E COCAINOMANE #MARIOGIORDANO MARIO=
-=20
-GIORDANO. FOTO ELOQUENTE A PROPOSITO=20
-https://www.rollingstone.it/cultura/fenomenologia-delle-urla-di-mario-giord=
-ano/541979/
-MARIO GIORDANO =C3=89 NOTO MASSONE OMOSESSUALE DI TIPO ^OCCULTO^ (=C3=89=20
-FROCIO=E5=8D=90NAZISTA SEGRETO COME IL SEMPRE SCOPATO E SBORRATO IN CULO=20
-#LUCAMORISI), FA MIGLIAIA DI POMPINI E BEVE LITRI DI SPERMA DI RAGAZZINI,=
-=20
-PER QUESTO AMA TENERE LA BOCCA SEMPRE APERTA.
-
-IL TUTTO INSIEME AL MAFIOSO AFFILIATO A COSA NOSTRA #CLAUDIOCERASA, ANCHE=
-=20
-LUI NOTO PEDOFILO (AFFILIATO MAFIOSO CLAUDIO CERASA: PUNCIUTO PRESSO=20
-FAMIGLIA MEGA KILLER CIMINNA, MANDAMENTO DI CACCAMO).
-
-CONTINUA QUI
-https://groups.google.com/g/comp.lang.python/c/S-CCo03ULIs
-
-TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
-https://groups.google.com/g/comp.lang.python/c/S-CCo03ULIs
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/76cf0aae-111f-436e-add3-df0ea72b7242n%40googlegroups.com.
-
-------=_Part_393_670764329.1644959424705
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-#GIOELEMAGALDI =C3=89 CORROTTO DAL NAZI=E5=8D=90DITTATORE #VLADIMIRPUTIN! G=
-IOELE MAGALDI =C3=89 MASSONE SATANISTA ASSASSINO, PEDOFILO, LADRO, BERLUSCO=
-=E5=8D=90NAZISTA, BERLU$$CORROTTO, BERLUSPUTINIANO, TRUFFATORE, INFILTRATOR=
-E, SPIONE, COMPLOTTARDO, PEDETASTA CHE PAGA..........RAGAZZINI DI 13 ANNI P=
-ER FARE SESSO OMOSESSUALE, TRIPLA FACCIA, VILE, VISCIDO, BUGIARDISSIMO! SI,=
- =C3=88 PROPRIO COS=C3=8D! =C3=89 PEDERASTA NON POCO OMICIDA: GIOELE MAGALD=
-I DI CRIMINALE #LEGALADRONA, CRIMINALE #GRANDEORIENTEDEMOCRATICO E CRIMINAL=
-E #MOVIMENTOROOSEVELT! IN LOGGE INTERNAZIONALI LO CHIAMIAMO TUTTI "IL LICIO=
- GELLI INCULA BAMBINI GIOELE MAGALDI"! HA ORGANIZZATO CENTINAIA DI OMICIDI =
-FATTI PASSARE X FINTI SUICIDI, INFARTI, INCIDENTI! ERA AMANTE OMOSESSUALE D=
-EI NAZI=E5=8D=90LEGHISTI #LUCAMORISI, #ALDOSTORTI, #PAOLOBARRAI, #GIULIOTRE=
-MONTI ED #ALEXANDERBOETTCHER (QUI TROVATE LA PROVA DELLA RELAZIONE NAZI=E5=
-=8D=90OMOSESSUALE #ALEXANDERBOETTCHER: https://twitter.com/alexanboettcher)=
-. ED HA QUINDI "VENDICATO" QUEST'ULTIMO, FACENDO METTERE SOTTO UN AUTO, L'O=
-TTMIO PM CHE LO AVEVA CONDANNATO: #MARCELLOMUSSO".<br>https://www.ilmessagg=
-ero.it/italia/morto_marcello_musso_pm_procura_milano-4678870.html<br><br>NE=
- SCRIVE CHI LO CONOSCE MOLTO BENE, ESSENDO DA DECENNI DI SUA STESSA UR LODG=
-E INTERNAZIONALE CHIAMATA THOMAS PAINE: MICHAEL CHINNICK, EX MORGAN STANLEY=
-, NOTO COME "IL CHE GUEVARA DELLA CITY DI LONDRA"!<br><br>CIAO E SCUSATE PE=
-R MIO ITALIANO, SON MICHAEL CHINNICK DI GEAS GROUP<br>http://geasgroup.com/=
-our-team/<br>EX DI NAZI=E5=8D=90KUKLUKLANISTA MORGAN STANLEY.<br>SONO INGLE=
-SE. FACCIO PARTE DELLA UR LODGE INTERNAZIONALE #THOMASPAINE, DI CUI FA PART=
-E PURE IL SATANISTA PEDERASTA, CHE FA RAPIRE, INCULARE ED UCCIDERE CENTINAI=
-A DI BAMBINI, SIA PER VENDERNE GLI ORGANI, CHE PER RITI SATANICI: MASSONE P=
-EDOFILO ED ASSASSINO #GIOELEMAGALDI<br>https://twitter.com/PedofiloMagaldi<=
-br>https://twitter.com/MagaldiRapeKids<br>https://twitter.com/GioeMag_Anal_=
-Di<br>(COSA ORRIBILISSIMA, DI CUI STO PEZZO DI MERDA, NONCH=C3=89 "QUADRUPL=
-O GIOCHISTA", VIVE<br>https://www.newnotizie.it/wp-content/uploads/2016/07/=
-Egypt-Organ-Harvesting-415x208.jpg ). RAGLIA DI ESSERE DI CENTRO SINISTRA, =
-MA =C3=89 UN ASSOLUTO NAZI=E5=8D=90FASCISTA DI MERDA! GIOELE MAGALDI =C3=89=
- IL TIPICO TRASFORMISTA, ENORME FIGLIO DI PUTTANA, CHE QUANDO LA CASA BIANC=
-A =C3=89 OTTIMAMENTE DEMOCRAT, COME ORA, STRA MENTE, RAGLIANDO DI ESSER PRO=
-GRESSISTA. QUANDO LA CASA BIANCA DIVIENE CASA NERA, OSSIA NAZIST=E5=8D=90AS=
-SASSINA, COME AI TEMPI DEL PEZZO DI MERDA PEDOFILO E GENOCIDA #DONALDTRUMP,=
- IL CAMERATA #GIOELEMAGALDI NON RECITA PI=C3=9A E SI MOSTRA PER IL FIGLIO D=
-I CA=E5=8D=90NAZISTA CHE ALTRO NON =C3=89: VERO E PROPRIO #ADOLPHHITLER DEN=
-OANTRI! E POI, OGNI ANNO RAPISCE, INCULA ED AMMAZZA TANTISSIMI BAMBINI, CON=
- SCRUPOLO SOTTO ZERO (IN ITALIA SCOMPAIONO 40.000 BAMBINI OGNI ANNO: BEN 11=
-0 AL GIORNO), SIA PER SCHIFOSISSIMI RITI LUCIFERINI, CHE PER VENDERNE GLI O=
-RGANI! AI TEMPI DI #OBAMABARACK, GIUSTISSIMAMENTE, IL PEDOFILO INCULA BAMBI=
-NI #GIOELEMAGALDI DICEVA CHE IL PEDOFILO STRAGISTA #SILVIOBERLUSCONI ERA, E=
- STRA =C3=89 TUTT'ORA, IL PI=C3=9A GRANDE CRIMINALE IN CRAVATTA DI TUTTO IL=
- MONDO E DI TUTTI I TEMPI. SGAMANDO I SUOI SUPER RICICLAGGI DI SOLDI MAFIOS=
-I ED IL SUO ESSERE MANDANTE DI TANTE STRAGI ED OMICIDI, QUI<br>https://www.=
-youtube.com/watch?v=3DqOJF1jI_iBY<br>ORA FA CANDIDARE SUOI MASSONCELLI BERL=
-USCONICCHI E SATANISTI DI MERDA, TUTT'UNO CON MAFIA, CAMORRA E NDRANGHETA, =
-A ROMA, MILANO E SPECIALMENTE IN CALABRIA (GIOELE MAGALDI =C3=89 PURE AFFIL=
-IATO ALLA #NDRANGETA, ESATTAMENTE A COSENZA: COSCA PERNA), CON QUEL COCAINO=
-MANE PEDOFILO E NAZISTA BASTARDO DI #VITTORIOSGARBI (COCAINOMANE PEDOFILO E=
- NAZISTA BASTARDO COME GIOELE MAGALDI)!<br>ECCO DI CHE OMINICCHIO DI MERDA,=
- DI CHE PEDERASTA CHE SI FA SBORRARE IN CULO DA RAGAZZINI CHE PAGA ALL'UOPO=
-, PARLIAMO, QUANDO PARLIAMO DEL QUINTUPLO GIOCHISTA CRIMINALISSIMO, LADRO E=
- TRUFFATORE #GIOELEMAGALDI (CHE SUL WEB HA RUBATO 2 MILIONI DI EURO A TANTI=
-SSIMI FESSI, SOLDI SUDATI E DA LUI FREGATI, DICENDO CHE VOLEVA FARE UN PART=
-ITO POLITICO, PER POI FARE NULLA E SPENDERE QUESTI SOLDI, ORA, IN COCAINA E=
- RAGAZZINI GAY CHE STECCA AFFINCH=C3=89 LO INCULINO E GLI SBORRINO TUTTO DE=
-NTRO AL CULO, DOZZINE DI VOLTE A SETTIMANA)! FA TUTTI QUESTI CRIMINI CON 2 =
-AVVOCATI SATANISTI? NDRANGHETISTI, PEDOFILI ED ASSASSINI TANTO QUANTO<br>1)=
- IL NDRANGHETISTA, SUPER KILLER CARPEORO ALIAS GIANFRANCO PECORARO<br>@Carp=
-eorO_micida<br>2)<br>L'AVVOCATO MASSONE DI MERDA, SATANISTA, SUPER OMICIDA,=
- LADRO, TRUFFATORE, NAZI=E5=8D=8DSTALKER DANIELE MINOTTI DI GENOVA E DELINQ=
-UENTISSIMO STUDIO LEGALE #LISI.<br>https://twitter.com/MinottiPedofilo<br><=
-br>SGAMER=C3=93 TANTISSIMI COSIDETTI "SEGRETI, INTRIGHI, MISTERI, CRIMINI, =
-OMICIDI MASSONICI ALL'ITALIANA", DI CUI MI HAN DETTO TUTTO, IN UR LOGGIA TH=
-OMAS PAINE, UR LOGGIA POTENTISSIMA, CHE DELL'ITALIA DI TIPO ASSASSINO, S=C3=
-=81 TUTTO, GRAZIE A CIA E FBI OTTIMAMENTE DEMOCRAT!<br><br>SONO #MICHAELCHI=
-NNICK<br>MICHAEL CHINNICK GEAS GROUP AND MANDARIN GROP. EX OF NAZI=E5=8D=90=
-ASSASSIN INVESTMENT BANK MORGAN STANLEY.<br>SONO MASSONE DEMOCRAT DI UR LOD=
-GE THOMAS PAINE<br>http://geasgroup.com/our-team/<br>https://www.mdncapital=
-.com/staff/hong-kong/michael-chinnick<br><br><br>E A PROPOSITO DEL PRIMA CI=
-TATO, AVVOCATO NAZI=E5=8D=8DPEDOFILO ASSASSINO #DANIELEMINOTTI DI GENOVA, R=
-APALLO E CRIMINALISSIMO STUDIO LEGALE LISI....<br><br><br>=C3=89 DA ARRESTA=
-RE PRIMA CHE FACCIA UCCIDERE ANCORA, L'AVVOCATO PEDOFILO, BERLUSCO=E5=8D=90=
-NAZISTA, FASCIOLEGHISTA, ASSASSINO DANIELE MINOTTI (FACEBOOK, TWITTER) DI G=
-ENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI.<br>=C3=89 DA FERMARE PE=
-R SEMPRE, L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA, PEDERASTA, O=
-MICIDA #DANIELEMINOTTI DI RAPALLO E GENOVA: RAPISCE, INCULA, UCCIDE TANTI B=
-IMBI, SIA PER VENDERNE GLI ORGANI (COME DA QUESTA ABERRANTE FOTO<br>https:/=
-/www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting-415x20=
-8.jpg),<br>CHE PER RITI MASSONICO^SATANISTI, CHE FA IN MILLE SETTE!<br>=C3=
-=89 DI PERICOLO PUBBLICO ENORME, L'AVV ASSASSINO E PEDERASTA DANIELE MINOTT=
-I (FACEBOOK) DI RAPALLO E GENOVA! AVVOCATO STUPRANTE INFANTI ED ADOLESCENTI=
-, COME PURE KILLER #DANIELEMINOTTI DI CRIMINALISSIMO #STUDIOLEGALELISI DI L=
-ECCE E MILANO (<br>https://studiolegalelisi.it/team/daniele-minotti/<br>STU=
-DIO LEGALE MASSO^MAFIOSO LISI DI LECCE E MILANO, DA SEMPRE TUTT'UNO CON MEG=
-A KILLERS DI COSA NOSTRA, CAMORRA, NDRANGHETA, E, COME DA SUA SPECIALITA' P=
-UGLIESE, ANCOR PI=C3=9A, DI SACRA CORONA UNITA, MAFIA BARESE, MAFIA FOGGIAN=
-A, MAFIA DI SAN SEVERO)! =C3=89 STALKER DIFFAMATORE VIA INTERNET, NONCH=C3=
-=89 PEDERASTA CHE VIOLENTA ED UCCIDE BIMBI, QUESTO AVVOCATO OMICIDA CHIAMAT=
-O DANIELE MINOTTI! QUESTO AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA=
-, PEDOFILO E SANGUINARIO, DI RAPALLO E GENOVA (LO VEDETE A SINISTRA, SOPRA =
-SCRITTA ECOMMERCE https://i.ytimg.com/vi/LDoNHVqzee8/maxresdefault.jpg)<br>=
-RAPALLO: OVE ORGANIZZA TRAME OMICIDA E TERRORISMO DI ESTREMA DESTRA, INSIEM=
-E "AL RAPALLESE" DI RESIDENZA, HITLERIANO, RAZZISTA, KU KLUK KLANISTA, MAFI=
-OSO E RICICLA SOLDI MAFIOSI COME SUO PADRE: VI ASSICURO, ANCHE ASSASSINO #P=
-IERSILVIOBERLUSCONI PIERSILVIO BERLUSCONI! SI, SI =C3=89 PROPRIO COS=C3=8D:=
- =C3=89 DA ARRESTARE SUBITO L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZ=
-ISTA, PEDOFILO E KILLER DANIELE MINOTTI DI GENOVA E RAPALLO!<br>https://www=
-.py.cz/pipermail/python/2017-March/012979.html<br>OGNI SETTIMANA SGOZZA, OL=
-TRE CHE GATTI E SERPENTI, TANTI BIMBI, IN RITI SATANICI. IN TUTTO NORD ITAL=
-IA (COME DA LINKS CHE QUI SEGUONO, I FAMOSI 5 STUDENTI SCOMPARSI NEL CUNEEN=
-SE FURONO UCCISI, FATTI A PEZZI E SOTTERRATI IN VARI BOSCHI PIEMONTESI E LI=
-GURI, PROPRIO DALL'AVVOCATO SATANISTA, PEDOFILO ED ASSASSINO DANIELE MINOTT=
-I DI RAPALLO E GENOVA<br>https://www.ilfattoquotidiano.it/2013/05/29/piemon=
-te-5-ragazzi-suicidi-in-sette-anni-pm-indagano-sullombra-delle-sette-satani=
-che/608837/<br>https://www.adnkronos.com/fatti/cronaca/2019/03/02/satanismo=
--oltre-mille-scomparsi-anni_QDnvslkFZt8H9H4pXziROO.html)<br>E' DAVVERO DA A=
-RRESTARE SUBITO, PRIMA CHE AMMAZZI ANCORA, L'AVVOCATO PEDOFILO, STUPRANTE E=
-D UCCIDENTE BAMBINI: #DANIELEMINOTTI DI RAPALLO E GENOVA!<br>https://www.st=
-udiominotti.it<br>Studio Legale Minotti<br>Address: Via della Libert=C3=A0,=
- 4, 16035 Rapallo GE,<br>Phone: +39 335 594 9904<br>NON MOSTRATE MAI E POI =
-MAI I VOSTRI FIGLI AL PEDOFIL-O-MOSESSUALE COCAINOMANE E KILLER DANIELE MIN=
-OTTI (QUI IN CHIARO SCURO MASSONICO, PER MANDARE OVVI MESSAGGI LUCIFERINI h=
-ttps://i.pinimg.com/280x280_RS/6d/04/4f/6d044f51fa89a71606e662cbb3346b7f.jp=
-g ). PURE A CAPO, ANZI A KAP=C3=93 DI UNA SETTA ASSASSINA DAL NOME ELOQUENT=
-E : " AMMAZZIAMO PER NOSTRI SATANA IN TERRA: SILVIO BERLUSCONI, GIORGIA MEL=
-ONI E MATTEO SALVINI".<br><br>UNITO IN CI=C3=93, AL PARIMENTI AVVOCATO MASS=
-ONE, FASCISTA, LADRO, TRUFFATORE, RICICLA SOLDI MAFIOSI, OMICIDA E MOLTO PE=
-DOFILO #FULVIOSARZANADISANTIPPOLITO FULVIO SARZANA DI SANT'IPPOLITO.<br><br=
->ED INSIEME AL VERME SATA=E5=8D=90NAZISTA E COCAINOMANE #MARIOGIORDANO MARI=
-O GIORDANO. FOTO ELOQUENTE A PROPOSITO https://www.rollingstone.it/cultura/=
-fenomenologia-delle-urla-di-mario-giordano/541979/<br>MARIO GIORDANO =C3=89=
- NOTO MASSONE OMOSESSUALE DI TIPO ^OCCULTO^ (=C3=89 FROCIO=E5=8D=90NAZISTA =
-SEGRETO COME IL SEMPRE SCOPATO E SBORRATO IN CULO #LUCAMORISI), FA MIGLIAIA=
- DI POMPINI E BEVE LITRI DI SPERMA DI RAGAZZINI, PER QUESTO AMA TENERE LA B=
-OCCA SEMPRE APERTA.<br><br>IL TUTTO INSIEME AL MAFIOSO AFFILIATO A COSA NOS=
-TRA #CLAUDIOCERASA, ANCHE LUI NOTO PEDOFILO (AFFILIATO MAFIOSO CLAUDIO CERA=
-SA: PUNCIUTO PRESSO FAMIGLIA MEGA KILLER CIMINNA, MANDAMENTO DI CACCAMO).<b=
-r><br>CONTINUA QUI<br>https://groups.google.com/g/comp.lang.python/c/S-CCo0=
-3ULIs<br><br>TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI<br>https://grou=
-ps.google.com/g/comp.lang.python/c/S-CCo03ULIs
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/76cf0aae-111f-436e-add3-df0ea72b7242n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/76cf0aae-111f-436e-add3-df0ea72b7242n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_393_670764329.1644959424705--
-
-------=_Part_392_239183895.1644959424705--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202202160627.SICieucW-lkp%40intel.com.
