@@ -1,131 +1,124 @@
-Return-Path: <kasan-dev+bncBAABBAUUV6IAMGQE4MDCOFQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBRVUV6IAMGQE7GFS5HY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FD84B6FE9
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 16:43:00 +0100 (CET)
-Received: by mail-oi1-x239.google.com with SMTP id bf12-20020a056808190c00b002cf68d61ccfsf4830169oib.8
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 07:43:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1644939779; cv=pass;
+Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 026914B73E3
+	for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 17:52:23 +0100 (CET)
+Received: by mail-lf1-x13b.google.com with SMTP id h6-20020ac25966000000b00442b0158d70sf6324051lfp.12
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 08:52:22 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644943942; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rlAsCQmnAIEqJESbeYtcKnIGgytj5t9f5iRoUxhh9gJYLhquLm79tVAFADUkAnt3Sz
-         hMEcyrStwZGeOKnfq2CmkgT7zQ6OO8QDjqAG/tacAlVM+8laBYPzwfVv6F5RsJ+MW/qw
-         20sZj5rgTzU6SH3AjgjNWkctZrBqMZB9lHf7Dg0aXEFat71jDo/WXxHsjRCPNKk5xKnv
-         L94RoNuo4v9cW8eBAQRkINeL4CRppZjetuAeq3tpXbEBbCnaJ72gopBjSv4V27DV9EjG
-         qNqV96mT2FNOugJrrKOeHXoxQTe6wugc9yptbY7VSLwWhHDrJpJIj3ihLkiuGK9PVr3J
-         fKSA==
+        b=bJhiLFnGD0zKzvzADmtsZfYKxvvfe0MmgMY8fKyF8fworgg4rqp/nLpZp6C5Dou+bt
+         /Dw3lHPDtKZSmpTV58N8oVOdb3KUxIGcOOUEp2Tsih4dBnilwdbaBlBWLEQ+dLXX0VPw
+         qlf3MAAA4egD7MlIQ2epaAbTthEf23qnYePpa+ek06y3qB16SfoPeAylWCFsfjq/xSJV
+         rpJjEBS4Z6Wktfw65GFTRkO5FatQvrrJVci6cAjWbSlYcOo4/P1zhXYOdHbTQlq4PKZk
+         mcGo1PC8QJm77uwjx2EYTIngW6qc56/Wy4pg15ZoGAFUTbXaaFYnWjc3/JfXVakjFfUC
+         hKhA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=dNH/jO0CPQrAJR9Z2NjIZCazyAI2+SVzIfeGFdAgz2g=;
-        b=poCrlJK1ZaH+f9jalqQdepqOIjJ1AnsWTM5kgELt5z7DCFNOJLhFJuUHocv9VWCe3O
-         n+n73vJBkSzmHRgHau3UWZGB/nySv13s9uv+QdgGtAYdnet7QZgwAB7NBXQ63Nj/Fiu3
-         RgvNEkbS+zKNfqivccLslyrvXPEKqnXP0rqoPxIOr1gC7mGkl2fMV7j/tpFCMwT50B1s
-         CJi6JLAkc+mp/NIvtxQCNBIaJoisWWIiFzRfwKM0ONybOUVXP33B6sax7RojLU8dj6o7
-         FB/kS52FyxR6rVSdLrYcilU3Kzaea/zPQTHAj/UQP6Q3Hv9JR8Tr4m1pAw+A409uC3ht
-         gwpw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=JOD2mFWLB7F2bqiWG9Xh5lTqDZ2QJ56gf+YFhqJXxLE=;
+        b=Lfiqylvc+CtymfJzYLcSUKCcxyJnKy9B4+HGt0lhT9wY/dHRWgPNqtPFqcRl0P3IwJ
+         9BgwEiHScItRZZedtsZ6Z9XQkpk459jSqSWHVpaVsjw5Nf5k62q6gKi5IEXxp6WX04am
+         QxjJUX/u7+kwxe/SmloPUPsEc0rpIh/VVgeBL+gb9mMdilLJTYJYdF/ErLOCc/mA+UpB
+         964UK+01o7Bb2rVg+jdZkJY2jtrHTP6XMo5+3CBqddTVk/dPvNbVlo069bod+0rRdXO4
+         U4ITYbM4zUy8k2jnfU69b86LLIp4zwxIgaUgJvuL6vUAonIpY3KM0SOD0gkhylskgzFw
+         kM6A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=cNI7u7wC;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=hpIlGRiz;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=dNH/jO0CPQrAJR9Z2NjIZCazyAI2+SVzIfeGFdAgz2g=;
-        b=qnMhFl0JB/CQFfdiI2zA1F0SZ3yZoSzeGGT7ug/knWM/7TOxRW8gKKOf82jj1CC4qq
-         hNWlZlvOhm3BXFeoPrWfKn8o5UGWuStbV754DUG1s+HLh+/PnFatkI9IJjLgfareOEj8
-         lvscrAkYZ6brED1w2IaMNwo3xYZZOtcZKGoSj/2jbxtmj7Wy4nClVTAUE+3iG6dFquva
-         /M93dHJcBTJWDjttWQ3nUOCiHZJvUQr6Z3QkAFDuhfPLH3rerdOG7N8YCVXRmXuhXMwV
-         CPUBBzmHNRAtRYRZJ8LC7tJzPQ3+jNwblAnYYYWogyr+2mn8vofg5s0sM/vqp0aTjd49
-         OKkg==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=JOD2mFWLB7F2bqiWG9Xh5lTqDZ2QJ56gf+YFhqJXxLE=;
+        b=k0rdey1vIy5PpxpU7m/EpOR9Xv3lFatNNZ5ijlXp7uM6kcy627YppwmBUdkimxr+97
+         mR/FvGrYPNrhCBDfUNlYCvhfqP8hPwZI+qkxfbvlNe00pfoRBTMKB7isnUNRHVqr5RC/
+         tPNOwEqrkreWmnCZPjhexmJke9rAhY3EYf+tjuXnAxlejf4DFuL/cy6DY1lGVUmUakn9
+         vLS5EmFasvfUTfO+pJ/KongTXHuWhOy7jmRY0kBxvqG3+p6boMR5YC9C4D4iByXyyNDr
+         jEgIB5C6eY+ugibXae3g3KY14nQWR3uPUYxPC1Tp+PcwSWqtytGIKuKwIMOdTvWnu2MN
+         qGSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=dNH/jO0CPQrAJR9Z2NjIZCazyAI2+SVzIfeGFdAgz2g=;
-        b=DiF6rYUXJlp72anVf7Nexuk2xBSLQpRTC1vN0bY9l/q19kL7GXvkIAvlPhk+g7HiMY
-         cSXYjEoe1Oiku1TQ6XNB2ZsD3Mp3wjCKk6mS68Yoc6sf2ypn+p7cH8jBJqRNqKYdQeS/
-         3QBTE97HLv+VMIwGmUgWSi7PsLPpeA/4NP4gW69ZWrwflAMtb1XtFAoZ9xj7X6ICzhFX
-         oxqJT5Mn1DLclm5k6I0icFsv/zRcW2fHgxJnrpAFftrnOedDu5SF8ou6VEe3TZAwVEbd
-         Eh92dkJBVdu0Ami5T5G/rI/2z92PegPTTBcSuObdfsvavxSXXu8U4geBzKL2xzoP/M2S
-         BZGw==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=JOD2mFWLB7F2bqiWG9Xh5lTqDZ2QJ56gf+YFhqJXxLE=;
+        b=NBS+mhkwOu1lH7OgFP6RV4SIW3KFa0BL23CwlFUslKHYZTZNJw22BrJZ2HUFqMhCbP
+         pRMmgGG8QNzc6P85HDh7KgkmlhzzkWfp6RfSs/gZj2SyAYxWK9yXB2PReFizT80jcIRX
+         vBWaj/BqfUa/gEHVu+1dm0SkzSBaD2gpVT1DMv1r3n4e3B+kKow9Ujjpgoh/iZOj7jos
+         I8ufQ6MJUI6JyWdtjSkJixcnsa9/jNAVSzK0EagcJiwr6YEC4myQlAsGIaQCWiLeSHCi
+         0QdilD+CP5NdA9DyJGguoa8ITb73RWVydHHKLQND6D6vAVQFgWpBYcmMmHT0Br886fOq
+         NbQw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533MLKft4skANLfwWcNRXdj9vM/29bJ3D666vyhjj7AzgEXFEHJb
-	s3PNdX/qNWteO8yf3LBOHIk=
-X-Google-Smtp-Source: ABdhPJwhoohrQiqqyicrCe4JAlaEAMuCZw37RWvW2k1IZ3/dnuSBcJ771+TRkVNqjCqorgM8vOqukA==
-X-Received: by 2002:a05:6871:692:: with SMTP id l18mr1609546oao.61.1644939778830;
-        Tue, 15 Feb 2022 07:42:58 -0800 (PST)
+X-Gm-Message-State: AOAM533pcjGOi9qRcSD39opzJXaiKHUZDom/lN+o1Omb3lmbBfX1Yn4f
+	7FdUfvGzvP5Jo+WMUgznTSE=
+X-Google-Smtp-Source: ABdhPJwsrFSQJHr9Phz8a0hSEaPLDlY8nHaLoEGskcKSqwJOKkyQOjyUtISmAsBu0Dk8Qqdq4+RLkQ==
+X-Received: by 2002:a05:6512:2205:: with SMTP id h5mr3858864lfu.614.1644943942405;
+        Tue, 15 Feb 2022 08:52:22 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:1507:: with SMTP id u7ls913981oiw.5.gmail; Tue, 15
- Feb 2022 07:42:58 -0800 (PST)
-X-Received: by 2002:a05:6808:1912:: with SMTP id bf18mr1835778oib.199.1644939778541;
-        Tue, 15 Feb 2022 07:42:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1644939778; cv=none;
+Received: by 2002:a05:6512:3ba6:: with SMTP id g38ls2957031lfv.3.gmail; Tue,
+ 15 Feb 2022 08:52:21 -0800 (PST)
+X-Received: by 2002:ac2:4c4b:: with SMTP id o11mr3730424lfk.253.1644943941624;
+        Tue, 15 Feb 2022 08:52:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644943941; cv=none;
         d=google.com; s=arc-20160816;
-        b=rGmjkKDrmEzqi1+zVnaf1AWSmzYwdMIvSgXaCmTt7unJV46814SLpxh8MKmB3YQtDc
-         bTrbINrPfIGcBjmfwpploU4viB8nDMEfAnjgsVUH222wX3VCshZlsGTQrzbafFsFiBQv
-         +BzYy1auiMwBL30ULfPThYjIr7cf3vi7Y5yKSC04WOBoqCGF0ZN15tsLwsr5WbZxaEJq
-         oPafdbtKTZ/ZuNb7HMJEQkSk5CsQ+5i7s/2nL3zYl4ZeTF7ePBneJLjdw80JIFBH2BkH
-         UPY2UP3rpZthiHcYhJERDjgbSktfMt/nz4ySWvv3IEKEXbVBQdNhmxkVAkbxq4uPCk5P
-         pFrg==
+        b=Z0xIiob1z7a6UwvcjeL2CsYUnXxE3aH9tpTurGJkoZ0RUENErg/wUG6jztKuMGaHzp
+         LBXngVQv2kmefGPX9ARSZBJSYr+G5xCzBasr36098Hwbem7tl1sq2xxKBg+VcsOLJCGr
+         ptP+x6eire+NMpx5pOWaQyEeQjYKYYLyxv11If0odhF9+IP7kN1BDSkUe8/0Be0Nw7My
+         mx5aqrV3pA5m+cxpcd3SiczR7rdCl9a0bAYlyPDoiBrIoqdPSqioj2d4c2dvO6Z4cKS1
+         GXT4SAVJGI1pRhSZMzItIL9YXUEcwBDzkpQ1J4HQoi76aX7xhhgDlkPrUaIRvM1Wig4A
+         ykGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=JqxJCeFtX/Dd+E9JErS8oTLL0+ISFiM795Cz6beZ72c=;
-        b=qz9kGuU09t+DlwlEAoD3j5/P5Lo52fuzx01Ik8CecnJEXGrM4ZVWdAWtEIPWgCbX2N
-         8qh7XlF9ldYQBP7oepsQei5AahaaSURXHi0Q8v5qdPSHWBd4H5TonHWW4f1z5dgH+DeE
-         yYCVhLkLJ28fD3lqjeS8V+2gUQGXalI0qdjQ3fd1/3rUxb/MuAqBzkWZMNov9rCQRFDS
-         uGfoFgvq8ZQ3Z/yLytslfXThymCU0gKyN18ygV/y6xac/zLkw08uuXLDL20HleAunOWU
-         MIlpRS+eUJk4t7SBQhMsR35lwyXubPQ1P1RRsPGnt9d2JAGK9ruP25vsNJncUK3wxVCc
-         R9hw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=x0WqM712H6kGeqw3TwDc06pcqFg5ecYp2OoNXB9nDtc=;
+        b=DA/Ea411dm2r1rfriFKtnYRLKYCol8xDIn8WRsIN/RmT5enC1m+DP8+7NmGfpb7TMi
+         l0xSv1VjVCFuGMlWJB7MX75QaTVyk8P7ZWOnikWhFKbTQzT9CvCqb7xkVYssc6V+kO7Y
+         WgfRCIC7pPh9X6JS9rNJFngEB8Sr7ASILVQslyUQlId3Z7pgDocDXKuEl/fzp4Vm+xnS
+         OikRZBrnKM7kNaC0pON9b1R3J6JewX+9c7RmHOuIt9sn6WNo+ZImSvk3Rsuw8C0vo5X7
+         6wCmEIdGgxXVzgr1rweUopn/iqlQeHuOUvJ9NcYXD5fFzWh4BhLdDbUvIsfIKqeIpVIb
+         rYAw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=cNI7u7wC;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id x31si1920967otr.0.2022.02.15.07.42.58
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=hpIlGRiz;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out0.migadu.com (out0.migadu.com. [2001:41d0:2:267::])
+        by gmr-mx.google.com with ESMTPS id i2si1741693lfb.3.2022.02.15.08.52.21
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Feb 2022 07:42:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 43C2B61738;
-	Tue, 15 Feb 2022 15:42:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF950C340EB;
-	Tue, 15 Feb 2022 15:42:51 +0000 (UTC)
-Date: Tue, 15 Feb 2022 23:34:59 +0800
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Palmer Dabbelt <palmer@dabbelt.com>, Atish Patra <atishp@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-	ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-	dvyukov@google.com, alexandre.ghiti@canonical.com,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com
-Subject: Re: [PATCH 0/3] unified way to use static key and optimize
- pgtable_l4_enabled
-Message-ID: <YgvIIw1CV4gxn2lS@xhacker>
-References: <20220125165036.987-1-jszhang@kernel.org>
- <mhng-41f2520d-7583-41b3-ae7a-95e74117676a@palmer-ri-x1c9>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 15 Feb 2022 08:52:21 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) client-ip=2001:41d0:2:267::;
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: andrey.konovalov@linux.dev
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH mm] fix for "kasan, fork: reset pointer tags of vmapped stacks"
+Date: Tue, 15 Feb 2022 17:52:17 +0100
+Message-Id: <f50c5f96ef896d7936192c888b0c0a7674e33184.1644943792.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <mhng-41f2520d-7583-41b3-ae7a-95e74117676a@palmer-ri-x1c9>
-X-Original-Sender: jszhang@kernel.org
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
+X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=cNI7u7wC;       spf=pass
- (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1
- as permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@linux.dev header.s=key1 header.b=hpIlGRiz;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates
+ 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,86 +131,48 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Feb 14, 2022 at 03:52:44PM -0800, Palmer Dabbelt wrote:
-> On Tue, 25 Jan 2022 08:50:33 PST (-0800), jszhang@kernel.org wrote:
-> > Currently, riscv has several features why may not be supported on all
-> > riscv platforms, for example, FPU, SV48 and so on. To support unified
-> > kernel Image style, we need to check whether the feature is suportted
-> > or not. If the check sits at hot code path, then performance will be
-> > impacted a lot. static key can be used to solve the issue. In the
-> > past FPU support has been converted to use static key mechanism. I
-> > believe we will have similar cases in the future. For example, the
-> > SV48 support can take advantage of static key[1].
-> > 
-> > patch1 introduces an unified mechanism to use static key for riscv cpu
-> > features.
-> > patch2 converts has_cpu() to use the mechanism.
-> > patch3 uses the mechanism to optimize pgtable_l4_enabled.
-> > 
-> > [1] http://lists.infradead.org/pipermail/linux-riscv/2021-December/011164.html
-> > 
-> > Jisheng Zhang (3):
-> >   riscv: introduce unified static key mechanism for CPU features
-> >   riscv: replace has_fpu() with system_supports_fpu()
-> >   riscv: convert pgtable_l4_enabled to static key
-> 
-> I see some build failures from LKP, but I don't see a v2.  LMK if I missed
-> it.
+From: Andrey Konovalov <andreyknvl@google.com>
 
-Hi Palmer,
+That patch didn't update the case when a stack is retrived from
+cached_stacks in alloc_thread_stack_node(). As cached_stacks stores
+vm_structs and not stack pointers themselves, the pointer tag needs
+to be reset there as well.
 
-I also saw the build failure due to RV32, fixing it is easy but I have
-some thoughts/questions here after reading Atish's "fraemework for RISC-V
-ISA extensions" series. 
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ kernel/fork.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Hi All,
-
-I'm considering how to support cpu features or new ISA extensions.
-IMHO, we will need some static keys for ISA extenstions as well as
-the cpu features. for example:
-
-if (static_branch_likely(&has_isa_ext_foo))
-	do_something;
-
-So I have a big question here about CPU features VS. ISA extensions:
-
-1. Is CPU feature == ISA extension?
-If yes, then it seems we'd better rebase this series on the ISA
-extension series. If no, which is the super set? If CPU feature
-is the super set, then if one kind of future cpu feature is implemented
-via. the ISA extension, do we need to combine the cpu feature bitmap
-with the ISA extension bitmap? how?
-
-2. Is SV48 considered as riscv ISA extension?
-
-I will also comment in Atish's series.
-
-Thanks
-
-> 
-> > 
-> >  arch/riscv/Makefile                 |   3 +
-> >  arch/riscv/include/asm/cpufeature.h | 105 ++++++++++++++++++++++++++++
-> >  arch/riscv/include/asm/pgalloc.h    |   8 +--
-> >  arch/riscv/include/asm/pgtable-64.h |  21 +++---
-> >  arch/riscv/include/asm/pgtable.h    |   3 +-
-> >  arch/riscv/include/asm/switch_to.h  |   9 +--
-> >  arch/riscv/kernel/cpu.c             |   2 +-
-> >  arch/riscv/kernel/cpufeature.c      |  29 ++++++--
-> >  arch/riscv/kernel/process.c         |   2 +-
-> >  arch/riscv/kernel/signal.c          |   4 +-
-> >  arch/riscv/mm/init.c                |  23 +++---
-> >  arch/riscv/mm/kasan_init.c          |   6 +-
-> >  arch/riscv/tools/Makefile           |  22 ++++++
-> >  arch/riscv/tools/cpucaps            |   6 ++
-> >  arch/riscv/tools/gen-cpucaps.awk    |  40 +++++++++++
-> >  15 files changed, 234 insertions(+), 49 deletions(-)
-> >  create mode 100644 arch/riscv/include/asm/cpufeature.h
-> >  create mode 100644 arch/riscv/tools/Makefile
-> >  create mode 100644 arch/riscv/tools/cpucaps
-> >  create mode 100755 arch/riscv/tools/gen-cpucaps.awk
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 57d624f05182..5e3ad2e7a756 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -226,15 +226,17 @@ static unsigned long *alloc_thread_stack_node(struct task_struct *tsk, int node)
+ 		if (!s)
+ 			continue;
+ 
+-		/* Mark stack accessible for KASAN. */
++		/* Reset stack metadata. */
+ 		kasan_unpoison_range(s->addr, THREAD_SIZE);
+ 
++		stack = kasan_reset_tag(s->addr);
++
+ 		/* Clear stale pointers from reused stack. */
+-		memset(s->addr, 0, THREAD_SIZE);
++		memset(stack, 0, THREAD_SIZE);
+ 
+ 		tsk->stack_vm_area = s;
+-		tsk->stack = s->addr;
+-		return s->addr;
++		tsk->stack = stack;
++		return stack;
+ 	}
+ 
+ 	/*
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YgvIIw1CV4gxn2lS%40xhacker.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f50c5f96ef896d7936192c888b0c0a7674e33184.1644943792.git.andreyknvl%40google.com.
