@@ -1,64 +1,124 @@
-Return-Path: <kasan-dev+bncBCBIZ4OQ6IFRBGWAWGIAMGQEBHF4TTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC447XVYUEMRBPHUWGIAMGQEAMGPPFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20FF4B7D72
-	for <lists+kasan-dev@lfdr.de>; Wed, 16 Feb 2022 03:23:23 +0100 (CET)
-Received: by mail-oo1-xc3d.google.com with SMTP id t72-20020a4a3e4b000000b0031af9ab8cc6sf108036oot.18
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 18:23:23 -0800 (PST)
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id C08FD4B7F2D
+	for <lists+kasan-dev@lfdr.de>; Wed, 16 Feb 2022 05:14:52 +0100 (CET)
+Received: by mail-lj1-x240.google.com with SMTP id b17-20020a05651c0b1100b00244b873c6easf462492ljr.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Feb 2022 20:14:52 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1644984892; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=X3k0IlEEpUb+4C0q/Y+tnxrS0vxNRuJJ9ig9QdS5YKaFLTQmdJGDckMdf+uHBTNs2o
+         pgmwGgPr+p4eGVaPyLsTnGS5wNTfc/bDjipPetPl0SGmrNDgO8FfIgvVRpvfLjoH/d37
+         60tQQR0OyeTYYY1BEHZuqSyDVD9W8RjbYffmqm+e30OV/XoLYwXcl869lo4ueF41aZQG
+         PojTmsfgQamEzZZkKHe4chGwnXwgaijPSlmtizz0DMb4s7WvgepCJpI8efX63JLheHCS
+         NQ5CPruC9/wcErjrHm/9Pk+wCZU3uPfJfHzV2wIr8lfMXZ/Z77LWrChH2XJ1+c6f6xxC
+         bwEQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=YdV54mHHX7fYCtE7rAGwaSFuyN0vGTlZ6a5cTe5lA9A=;
+        b=XQc7k14bc9Lda4ctXv5XMrZknhqwwUnOQnATr/myzs+ejgR+i+m3oriKQ2Hs4g/4mJ
+         djNRMgvvnFZ57z1w+4iU7aHB1dYLl2VUd6zE/kuEn6hC35QiT43q0f6+Bo2zaXhTK+8J
+         y7qgS745lSDlZEdiTsd5E+XcOsN3FlhNWNTp3WWRm05A3CMmonWUrg0YYt4+Ey7jd0lO
+         5JToCLvK8ydowhyXU+zlE7fvAFcVkLLOgqCUwFwG1OlNDkGGCSViOomwiMy+hue9mmrP
+         jIkWkR8ifRCRCJH5ST29EdIH9msP2acck33mnpYaSiwfDKePGtacwTh8gyE7JAL20wmw
+         leIA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       spf=neutral (google.com: 217.70.183.193 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:from:to:message-id:subject:mime-version:x-original-sender
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=GF+KoE2Z7XEC8YX+Ioy8pWNw3NDhW7HY0DTOVPMeO08=;
-        b=luK38r/8vovv20ZDYtKeIDoKXHrUv9GuO6QTtIfFKuYdYp/J94AI8pgEVFAZonrBNX
-         pkhLG8ZUCKsW3TuEOrhaLwIrfbkgGWFbOfwc9Bjj6WtA5rMBOr47sD8s8mBGtY2JpTYh
-         u6QwEgSL7sSsUMmK1WpWY1c8H7pGbfqCuBfkvjjLpzVQV0QaiG5SSB5oCoWqv+awsSGZ
-         De+5CfTqDL+orcvy7Lh3mimVcIm2/istqKEzXpnrDjOPntxgWh+SlJ7aPOLtggezjhLR
-         Bfa8+2Ad8a+m4DndBtK52PP1GVTNkwJd2q1zTIcUY+xw4Q4LNoVz66Ps6t6IEhD4DV2n
-         MbGA==
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=YdV54mHHX7fYCtE7rAGwaSFuyN0vGTlZ6a5cTe5lA9A=;
+        b=Q0AwFIWVvgvvOi9JA3oFcvIj8evwesWPbBqaQxplwOWmh8fkqq+C3qtrpFXIPnHfVI
+         g4GFlRHaESxbEkbkuchyXSMbmzrr+FEOMmBrLJzQSOkXl9GCnIovqXJMqtIyP9td7iOG
+         LJbYKXySdd96Z/D3KPzkFs3RbK6ZCMzFMVohl9Ra1QoKh1DDAp6UlctiQ7KhFMYDVREG
+         PkK3Y8ooda8qjosj2PideWnwrcfc0FEPMODyAP4sF2PYg7Jfq33yTSIaPZCi3lA8y7eq
+         DYFfOxsyZzaWhvXNKdvxi5zLHWpmGsTx1BUkf/kiHh8J0cI8d2LiCG8R0WR+M6eGnIdq
+         XI/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:message-id:subject:mime-version
-         :x-original-sender:reply-to:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=GF+KoE2Z7XEC8YX+Ioy8pWNw3NDhW7HY0DTOVPMeO08=;
-        b=JpRdZ4eomAqzn+zW+dwwwRRbwF1cPvphPsspXlSPh6NrC4P2X5/cMh9nnMS+gpL7r0
-         E2dH/EgMZNLkkJ+8MWpWdJnMKHlz70OKKgwGWOWUEYB4WLxFHkxFlHLE9hy4zgCcfa/o
-         YwBj7bJz40y0GtWV06hYCj23/GZFE7L52sIZWMbRsEIh9gdmvx9dk9raNLbDbb9qMFU/
-         Gf7+lfSXUgGsWJdm+ChIv4hVQTXeDaw/fw8dP4G/gNEsfAIho1vsGASXzt1gWozt44mO
-         fh7C1DXWeOWU9buvTAjG1gbiaA9gOeZe9O23Asm49A7nvMv6dBj9FvTi1Ab1ItaYE+fR
-         O6yg==
-X-Gm-Message-State: AOAM5301dcbKkwkjkE2wQcZyIKLCwa7vj9/bjSPejBbjo70PcoKEkww9
-	lygPQpSSXWY+u0T+Sf8dLC0=
-X-Google-Smtp-Source: ABdhPJyPkMZIzqu/S2NZsyucW+T1X2XiCqu9YH8ObZtxlRdR4+UPPCy7jhRyfGgUC91IS/AhliHgyQ==
-X-Received: by 2002:a05:6870:1119:b0:d3:6905:5fb8 with SMTP id 25-20020a056870111900b000d369055fb8mr1579982oaf.48.1644978202682;
-        Tue, 15 Feb 2022 18:23:22 -0800 (PST)
+        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=YdV54mHHX7fYCtE7rAGwaSFuyN0vGTlZ6a5cTe5lA9A=;
+        b=1duW39O7Eg2kOyVoSJNEx9a5JV7+TGeBgPIXv+iqV70sj0Nl90iGy65/4xG2X0Xz7O
+         cCuBLcuJJssespDfSrHIuqEsDE7Nzh7KbbFYRQF7SfQ+gAm/KzW05wPoMYQane6K4TZh
+         7rtOgCNZyMl8cnTCoXLAEgJn1QbVxuvEXJkKSlGcPhp2fb81lQPUy6nI9AQBvwQ5RB/Z
+         c1OGQcy9o4CzDVDRXll6bFLCjNuSvPHXOpHmrTKDhK+78nAfyzh6FwyQMKvLJw+TADgn
+         uH+pfRcnvrm0WHhlf9Ct+Cd/pUc3Rt2k/gnoKVfx/6MQS+znzmZnbZjKdPu2XArsXZew
+         6AGQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532ZQsOxUNKjrYv/Gw/R0L7ZTE+s12YqEyrZ86zqmNUHkHkZs98E
+	epf8CBE3qtLoD8c/IAMrD80=
+X-Google-Smtp-Source: ABdhPJxKqkmmbkcgLup24dYPMFw0+XRjCuL8023BRX9OaT2TGAZ8328QqgQ/oNkITySWlOhDfPjMjg==
+X-Received: by 2002:a2e:b8d0:0:b0:241:875:3c60 with SMTP id s16-20020a2eb8d0000000b0024108753c60mr677081ljp.45.1644984892201;
+        Tue, 15 Feb 2022 20:14:52 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:16a6:: with SMTP id bb38ls55319oib.11.gmail; Tue,
- 15 Feb 2022 18:23:22 -0800 (PST)
-X-Received: by 2002:a05:6808:df2:b0:2cf:bcc:3fe9 with SMTP id g50-20020a0568080df200b002cf0bcc3fe9mr2897039oic.304.1644978202126;
-        Tue, 15 Feb 2022 18:23:22 -0800 (PST)
-Date: Tue, 15 Feb 2022 18:23:21 -0800 (PST)
-From: "'LUIGI LA DELFA / PORTAVO COCAINA A BERLUSCONI' via kasan-dev" <kasan-dev@googlegroups.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <5f175981-3601-40fa-bb0a-ff4d5e037f87n@googlegroups.com>
-Subject: =?UTF-8?Q?PAOLO_BARRAI_=C3=89_PEDOFILO_ASSASSI?=
- =?UTF-8?Q?NO!_SI,_SI,_=C3=88_PROPRIO_COS=C3=8C!_=C3=89_T?=
- =?UTF-8?Q?RUFFATORE,_NAZISTA,_LADRO,_FALSONE,_RICICLA_SOLDI_DI_NDRANGHETA?=
- =?UTF-8?Q?_E_LEGA_LADRONA_NONCH=C3=89_KILLER_E?=
- =?UTF-8?Q?_PEDERASTA_#PAOLOBARRAI_DI_CRIM?=
- =?UTF-8?Q?INALE_#BIGBIT,_CRIMINALE_#TERRANFT,_CRIMINALE_#TERRABITCOIN....?=
+Received: by 2002:a05:651c:b25:: with SMTP id b37ls967771ljr.8.gmail; Tue, 15
+ Feb 2022 20:14:51 -0800 (PST)
+X-Received: by 2002:a2e:bc11:0:b0:23a:b557:c092 with SMTP id b17-20020a2ebc11000000b0023ab557c092mr723317ljf.24.1644984891181;
+        Tue, 15 Feb 2022 20:14:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1644984891; cv=none;
+        d=google.com; s=arc-20160816;
+        b=TNUvG3D0YjV5iobn9Kd4NyTcWENIpAekNj+IoDW+QHWrxDANj1Z9xQkmcI6Vq4mR3X
+         MfjUaOgy2Uk6xQhJG8Z3qA2CyaUSp2N2G6cf9f19FWhjWhC6DAe3lOzfRgNO4CiUEflv
+         HEP6POFJ/Q7YqqM5Up9sgWa6tfwsi4xrXV1dU8CRkBQiQyKoPDSYDFUg/baUuA9+bwJS
+         m1NvVYstPGCXNxwh8WvT7cE4nSfK7v4N4hW4qbI0nZi+uZNmdpjgUKWQsBti7HKvmgW6
+         d9ZisdjWq25j3bOZf9yMcKw6Gf6BkHCqt1hJ3f4q9k2iBXN/JyQPNcrTgKAswg4yFf4e
+         wjrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=PfnnfczvLput4xLIeGD1xmz0Xq5uYuS0DeG0fP8K3Mw=;
+        b=bgoshC1N2mG0MjApoSc1oqtpwlWrHT9ylAJC+OP2eLOVYnldcz5tkWIpTsV8US1pRO
+         xy90V9RAAUs14Ym3sN1pG22SKJPR2Il4XMp6NiyiN8rNssSI9CJlCu11RG48g9Lgg6pN
+         HJubh75cbSnsDH5WGgTzjelmPD/8JeuB1tMHNtWgH5AapOWJPfLuk664lgz1ik7Et2zz
+         dFhx7JCZRsI02RG2AQGp73y/Dbm4xk8OisyKPRYgvDtDlNhczbyiUXnsJxcWOcTBf8m2
+         B89aWR5b4wIL/WCqNejqSB6HP5yHlt96tZRV3rjwfA811uyQbBHB6j3Wm8tOqepqeRQL
+         cPmQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=neutral (google.com: 217.70.183.193 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net. [217.70.183.193])
+        by gmr-mx.google.com with ESMTPS id c24si261922lfc.0.2022.02.15.20.14.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 15 Feb 2022 20:14:51 -0800 (PST)
+Received-SPF: neutral (google.com: 217.70.183.193 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.183.193;
+Received: (Authenticated sender: alex@ghiti.fr)
+	by mail.gandi.net (Postfix) with ESMTPSA id B6207240002;
+	Wed, 16 Feb 2022 04:14:48 +0000 (UTC)
+Message-ID: <a0769218-c84a-a1d3-71e7-aefd40bf54fe@ghiti.fr>
+Date: Wed, 16 Feb 2022 05:14:48 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_1614_998629428.1644978201479"
-X-Original-Sender: manessinjessin@protonmail.com
-X-Original-From: LUIGI LA DELFA / PORTAVO COCAINA A BERLUSCONI
- <manessinjessin@protonmail.com>
-Reply-To: LUIGI LA DELFA / PORTAVO COCAINA A BERLUSCONI
- <manessinjessin@protonmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [syzbot] riscv/fixes boot error: can't ssh into the instance
+Content-Language: en-US
+To: Dmitry Vyukov <dvyukov@google.com>,
+ Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Cc: Aleksandr Nogikh <nogikh@google.com>, linux-riscv@lists.infradead.org,
+ kasan-dev <kasan-dev@googlegroups.com>, palmer@dabbelt.com,
+ syzbot <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com>,
+ LKML <linux-kernel@vger.kernel.org>, syzkaller-bugs@googlegroups.com
+References: <00000000000038779505d5d8b372@google.com>
+ <CANp29Y7WjwXwgxPrNq0XXjXPu+wGFqTreh9gry=O6aE7+cKpLQ@mail.gmail.com>
+ <CA+zEjCvu76yW7zfM+qJUe+t5y23oPdzR4KDV1mOdqH8bB4GmTw@mail.gmail.com>
+ <CACT4Y+arufrRgwmN66wUU+_FGxMy-sTkjMQnRN8U2H2tQuhB7A@mail.gmail.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <CACT4Y+arufrRgwmN66wUU+_FGxMy-sTkjMQnRN8U2H2tQuhB7A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: alex@ghiti.fr
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 217.70.183.193 is neither permitted nor denied by best guess
+ record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -71,177 +131,82 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_1614_998629428.1644978201479
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_1615_2046671613.1644978201479"
+Hi Dmitry,
 
-------=_Part_1615_2046671613.1644978201479
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2/15/22 18:12, Dmitry Vyukov wrote:
+> On Wed, 2 Feb 2022 at 14:18, Alexandre Ghiti
+> <alexandre.ghiti@canonical.com> wrote:
+>> Hi Aleksandr,
+>>
+>> On Wed, Feb 2, 2022 at 12:08 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+>>> Hello,
+>>>
+>>> syzbot has already not been able to fuzz its RISC-V instance for 97
+>> That's a longtime, I'll take a look more regularly.
+>>
+>>> days now because the compiled kernel cannot boot. I bisected the issue
+>>> to the following commit:
+>>>
+>>> commit 54c5639d8f507ebefa814f574cb6f763033a72a5
+>>> Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+>>> Date:   Fri Oct 29 06:59:27 2021 +0200
+>>>
+>>>      riscv: Fix asan-stack clang build
+>>>
+>>> Apparently, the problem appears on GCC-built RISC-V kernels with KASAN
+>>> enabled. In the previous message syzbot mentions
+>>> "riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU
+>>> Binutils for Debian) 2.35.2", but the issue also reproduces finely on
+>>> a newer GCC compiler: "riscv64-linux-gnu-gcc (Debian 11.2.0-10)
+>>> 11.2.0, GNU ld (GNU Binutils for Debian) 2.37".
+>>> For convenience, I also duplicate the .config file from the bot's
+>>> message: https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
+>>>
+>>> Can someone with KASAN and RISC-V expertise please take a look?
+>> I'll take a look at that today.
+>>
+>> Thanks for reporting the issue,
+>
 
-PAOLO BARRAI =C3=89 PEDOFILO ASSASSINO! SI, SI, =C3=88 PROPRIO COS=C3=8C! =
-=C3=89 TRUFFATORE,=20
-NAZISTA, LADRO, FALSONE, RICICLA SOLDI DI NDRANGHETA E LEGA LADRONA NONCH=
-=C3=89=20
-KILLER E PEDERASTA #PAOLOBARRAI DI CRIMINALE #BIGBIT, CRIMINALE #TERRANFT,=
-=20
-CRIMINALE #TERRABITCOIN.......CRIMINALE #MERCATOLIBERO, ECT! IL MALAVITOSO=
-=20
-LEGHISTA CHE VENIVA ARRESTATO, LUCA SOSTEGNI, SCAPPAVA A PORTO SEGURO, DOVE=
-=20
-IL KILLER #PAOLOBARRAI AVEVA PURE LAVATO (CASPITA CHE COINCIDENZA), NEL=20
-2011, PARTE DEI 49 MLN =E2=82=AC RUBATI DA #LEGALADRONA!
-https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.=
-jpg
+I took a quick look, not enough to fix it but I know the issue comes 
+from the inline instrumentation, I have no problem with the outline 
+instrumentation. I need to find some cycles to work on this, my goal is 
+to fix this for 5.17.
+
+Sorry about the delay,
+
+Alex
 
 
-NE SCRIVE IL MIO BANCHIERE DI FIDUCIA. L'EROICO ANDREAS NIGG DI BANK J=20
-SAFRA SARASIN ZURICH.
-A VOI ANDREAS.
+>
+>
+>>> --
+>>> Best Regards,
+>>> Aleksandr
+>>>
+>>>
+>>> On Tue, Jan 18, 2022 at 11:26 AM syzbot
+>>> <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com> wrote:
+>>>> Hello,
+>>>>
+>>>> syzbot found the following issue on:
+>>>>
+>>>> HEAD commit:    f6f7fbb89bf8 riscv: dts: sifive unmatched: Link the tmp451..
+>>>> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git fixes
+>>>> console output: https://syzkaller.appspot.com/x/log.txt?x=1095f85bb00000
+>>>> kernel config:  https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
+>>>> dashboard link: https://syzkaller.appspot.com/bug?extid=330a558d94b58f7601be
+>>>> compiler:       riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+>>>> userspace arch: riscv64
+>>>>
+>>>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+>>>> Reported-by: syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-RAPISCE, INCULA ED UCCIDE TANTI BAMBINI: PAOLO BARRAI (NOTO COME "IL=20
-PEDOFILO DEL BITCOIN, DI LEGA LADRONA, DI PEDOFILO ASSASSINO SILVIO=20
-BERLUSCONI #SILVIOBERLUSCONI E DI PEDOFILA ASSASSINA MARINA BERLUSCONI=20
-#MARINABERLUSCONI ")! =C3=89 SEMPRE LI A "SPENNARE" ECONOMICAMENTE I POLLI =
-DEL=20
-WEB, IL FALSO, LADRO, TRUFFATORE #PAOLOPIETROBARRAI! AZZERA I TUOI=20
-RISPARMI, NON AZZECCA MAI 1 PREVISIONI IN BORSA, CHE 1: PAOLO PIETRO=20
-BARRAI! =C3=89 UN NAZISTA OMICIDA CHE RICICLA SOLDI STRA ASSASSINI DI=20
-NDRANGHETA, CAMORRA, MAFIA, SACRA CORONA UNITA E LEGA LADRONA:=20
-#PAOLOPIETROBARRAI PAOLO PIETRO BARRAI!
-
-SALVE. SONO ANDREAS NIGG. VICE PRESIDENT DI BANCA J SAFRA SARASIN DI ZURIGO=
-.
-https://citywireselector.com/manager/andreas-nigg/d2395
-https://ch.linkedin.com/in/andreasnigg
-https://www.blogger.com/profile/13220677517437640922
-
-E VI VOGLIO DIRE CON TUTTE LE MIE FORZE CHE...
-
-IL LEGHISTA PEDOFILO ED ASSASSINO PAOLO BARRAI (NATO A MILANO IL=20
-28.6.1965), IL LEGHISTA INCULA ED AMMAZZA BAMBINI PAOLO PIETRO BARRAI (NOTO=
-=20
-IN TUTTO IL MONDO COME IL PEDOFILO DEL BITCOIN), IL FIGLIO DI PUTTANA PAOLO=
-=20
-BARRAI DI CRIMINALISSIMA #TERRABITCOIN, #TERRABITCOINCLUB E DI=20
-CRIMINALISSIMA #TERRANFT, E' DA ANNI INDAGATO DA PROCURA DI MILANO, PROCURA=
-=20
-DI LUGANO, PROCURA DI ZUGO, SCOTLAND YARD LONDRA, FBI NEW YORK, POLICIA=20
-CIVIL DI PORTO SEGURO (BR).
-
-=C3=89 DAVVERO PEDERASTA ED OMICIDA: PAOLO BARRAI DI CRIMINALE TERRA BITCOI=
-N (O=20
-CRIMINALE TERRABITCOIN CLUB)! IL LEGHISTA DELINQUENTE LUCA SOSTEGNI,=20
-ARRESTATO, SCAPPAVA IN CITATA PORTO SEGURO (BR), OSSIA, GUARDA CASO, DOVE=
-=20
-IL KILLER NAZISTA PAOLO BARRAI HA RICICLATO PARTE DEI 49 MLN =E2=82=AC RUBA=
-TI DA=20
-LEGA LADRONA!
-
-(ECCONE LE PROVE
-https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.=
-jpg
-http://noticiasdeportoseguro.blogspot.com/2011/03/quem-e-pietro-paolo-barra=
-i.html
-http://portoseguroagora.blogspot.com/2011/03/porto-seguro-o-blogueiro-itali=
-ano-sera.html
-http://www.rotadosertao.com/noticia/10516-porto-seguro-policia-investiga-bl=
-ogueiro-italiano-suspeito-de-estelionato
-https://www.jornalgrandebahia.com.br/2011/03/policia-civil-investiga-blogue=
-iro-italiano-suspeito-de-estelionato-em-porto-seguro/
-https://osollo.com.br/blogueiro-italiano-sera-indiciado-por-estelionato-cal=
-unia-e-difamacao-pela-policia-civil-de-porto-seguro/
-https://www.redegn.com.br/?sessao=3Dnoticia&cod_noticia=3D13950
-http://www.devsuperpage.com/search/Articles.aspx?hl=3Den&G=3D23&ArtID=3D301=
-216)
-
-INDAGATO, AL MOMENTO, DALLA PROCURA DI MILANO. COME PURE DA PROCURA DI=20
-LUGANO, SCOTLAND YARD LONDRA, FBI NEW YORK, POLICIA CIVIL DI PORTO SEGURO=
-=20
-(BR).
-
-CONTINUA QUI
-https://groups.google.com/g/comp.lang.python/c/TG5agoDooOQ
-
-TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
-https://groups.google.com/g/comp.lang.python/c/TG5agoDooOQ
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/5f175981-3601-40fa-bb0a-ff4d5e037f87n%40googlegroups.com.
-
-------=_Part_1615_2046671613.1644978201479
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-PAOLO BARRAI =C3=89 PEDOFILO ASSASSINO! SI, SI, =C3=88 PROPRIO COS=C3=8C! =
-=C3=89 TRUFFATORE, NAZISTA, LADRO, FALSONE, RICICLA SOLDI DI NDRANGHETA E L=
-EGA LADRONA NONCH=C3=89 KILLER E PEDERASTA #PAOLOBARRAI DI CRIMINALE #BIGBI=
-T, CRIMINALE #TERRANFT, CRIMINALE #TERRABITCOIN.......CRIMINALE #MERCATOLIB=
-ERO, ECT! IL MALAVITOSO LEGHISTA CHE VENIVA ARRESTATO, LUCA SOSTEGNI, SCAPP=
-AVA A PORTO SEGURO, DOVE IL KILLER #PAOLOBARRAI AVEVA PURE LAVATO (CASPITA =
-CHE COINCIDENZA), NEL 2011, PARTE DEI 49 MLN =E2=82=AC RUBATI DA #LEGALADRO=
-NA!<br>https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelistec=
-iviche.jpg<br><br><br>NE SCRIVE IL MIO BANCHIERE DI FIDUCIA. L'EROICO ANDRE=
-AS NIGG DI BANK J SAFRA SARASIN ZURICH.<br>A VOI ANDREAS.<br><br>RAPISCE, I=
-NCULA ED UCCIDE TANTI BAMBINI: PAOLO BARRAI (NOTO COME "IL PEDOFILO DEL BIT=
-COIN, DI LEGA LADRONA, DI PEDOFILO ASSASSINO SILVIO BERLUSCONI #SILVIOBERLU=
-SCONI E DI PEDOFILA ASSASSINA MARINA BERLUSCONI #MARINABERLUSCONI ")! =C3=
-=89 SEMPRE LI A "SPENNARE" ECONOMICAMENTE I POLLI DEL WEB, IL FALSO, LADRO,=
- TRUFFATORE #PAOLOPIETROBARRAI! AZZERA I TUOI RISPARMI, NON AZZECCA MAI 1 P=
-REVISIONI IN BORSA, CHE 1: PAOLO PIETRO BARRAI! =C3=89 UN NAZISTA OMICIDA C=
-HE RICICLA SOLDI STRA ASSASSINI DI NDRANGHETA, CAMORRA, MAFIA, SACRA CORONA=
- UNITA E LEGA LADRONA: #PAOLOPIETROBARRAI PAOLO PIETRO BARRAI!<br><br>SALVE=
-. SONO ANDREAS NIGG. VICE PRESIDENT DI BANCA J SAFRA SARASIN DI ZURIGO.<br>=
-https://citywireselector.com/manager/andreas-nigg/d2395<br>https://ch.linke=
-din.com/in/andreasnigg<br>https://www.blogger.com/profile/13220677517437640=
-922<br><br>E VI VOGLIO DIRE CON TUTTE LE MIE FORZE CHE...<br><br>IL LEGHIST=
-A PEDOFILO ED ASSASSINO PAOLO BARRAI (NATO A MILANO IL 28.6.1965), IL LEGHI=
-STA INCULA ED AMMAZZA BAMBINI PAOLO PIETRO BARRAI (NOTO IN TUTTO IL MONDO C=
-OME IL PEDOFILO DEL BITCOIN), IL FIGLIO DI PUTTANA PAOLO BARRAI DI CRIMINAL=
-ISSIMA #TERRABITCOIN, #TERRABITCOINCLUB E DI CRIMINALISSIMA #TERRANFT, E' D=
-A ANNI INDAGATO DA PROCURA DI MILANO, PROCURA DI LUGANO, PROCURA DI ZUGO, S=
-COTLAND YARD LONDRA, FBI NEW YORK, POLICIA CIVIL DI PORTO SEGURO (BR).<br><=
-br>=C3=89 DAVVERO PEDERASTA ED OMICIDA: PAOLO BARRAI DI CRIMINALE TERRA BIT=
-COIN (O CRIMINALE TERRABITCOIN CLUB)! IL LEGHISTA DELINQUENTE LUCA SOSTEGNI=
-, ARRESTATO, SCAPPAVA IN CITATA PORTO SEGURO (BR), OSSIA, GUARDA CASO, DOVE=
- IL KILLER NAZISTA PAOLO BARRAI HA RICICLATO PARTE DEI 49 MLN =E2=82=AC RUB=
-ATI DA LEGA LADRONA!<br><br>(ECCONE LE PROVE<br>https://oneway2day.files.wo=
-rdpress.com/2019/01/indagatoaiutalelisteciviche.jpg<br>http://noticiasdepor=
-toseguro.blogspot.com/2011/03/quem-e-pietro-paolo-barrai.html<br>http://por=
-toseguroagora.blogspot.com/2011/03/porto-seguro-o-blogueiro-italiano-sera.h=
-tml<br>http://www.rotadosertao.com/noticia/10516-porto-seguro-policia-inves=
-tiga-blogueiro-italiano-suspeito-de-estelionato<br>https://www.jornalgrande=
-bahia.com.br/2011/03/policia-civil-investiga-blogueiro-italiano-suspeito-de=
--estelionato-em-porto-seguro/<br>https://osollo.com.br/blogueiro-italiano-s=
-era-indiciado-por-estelionato-calunia-e-difamacao-pela-policia-civil-de-por=
-to-seguro/<br>https://www.redegn.com.br/?sessao=3Dnoticia&amp;cod_noticia=
-=3D13950<br>http://www.devsuperpage.com/search/Articles.aspx?hl=3Den&amp;G=
-=3D23&amp;ArtID=3D301216)<br><br>INDAGATO, AL MOMENTO, DALLA PROCURA DI MIL=
-ANO. COME PURE DA PROCURA DI LUGANO, SCOTLAND YARD LONDRA, FBI NEW YORK, PO=
-LICIA CIVIL DI PORTO SEGURO (BR).<br><br>CONTINUA QUI<br>https://groups.goo=
-gle.com/g/comp.lang.python/c/TG5agoDooOQ<br><br>TROVATE TANTISSIMI ALTRI VI=
-NCENTI DETTAGLI QUI<br>https://groups.google.com/g/comp.lang.python/c/TG5ag=
-oDooOQ<br>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/5f175981-3601-40fa-bb0a-ff4d5e037f87n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/5f175981-3601-40fa-bb0a-ff4d5e037f87n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_1615_2046671613.1644978201479--
-
-------=_Part_1614_998629428.1644978201479--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/a0769218-c84a-a1d3-71e7-aefd40bf54fe%40ghiti.fr.
