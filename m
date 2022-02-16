@@ -1,138 +1,127 @@
-Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBLO2WSIAMGQE37DEBVI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBEHOWSIAMGQEN4FV7FA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C42A4B8EAA
-	for <lists+kasan-dev@lfdr.de>; Wed, 16 Feb 2022 17:58:22 +0100 (CET)
-Received: by mail-lj1-x238.google.com with SMTP id c31-20020a2ebf1f000000b0022d87a28911sf1214417ljr.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 16 Feb 2022 08:58:22 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1645030702; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id F15934B8F56
+	for <lists+kasan-dev@lfdr.de>; Wed, 16 Feb 2022 18:40:32 +0100 (CET)
+Received: by mail-wm1-x33c.google.com with SMTP id c7-20020a1c3507000000b0034a0dfc86aasf3176288wma.6
+        for <lists+kasan-dev@lfdr.de>; Wed, 16 Feb 2022 09:40:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1645033232; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GrcPa3e5cGJIjoH4DB7brVk++W37rHTe9IpAH8uU62j4CFNEMV1XYPMe+132WNHGuo
-         8L3Wen+kOXl04AIu9W4yLS94ZyTxiXf70puB5hoi3qBeyk19TulIc7KujIfPla89iSfT
-         BkrrzmfHjj3y5U5EWGzqIf1h2AwI7qA22sAvmp7rC8Elbmq/qW+U9fCLsvVak5IOF/Dz
-         lNyIOT6p5681vwZcsLS5cT3qOtY7G0Paid/TDthNifjwXi/sra3qHh+gAs7+CbGpCIpL
-         lL13ZNUToxX0LDkHia7AfiNxjjcI2J/Qykil6S4+4GTVQ6kzknYimS/0Cvj/bV00laTd
-         qT3w==
+        b=x2jZAiH5Q24bS68YyrPKjv670q5+GEN4nxb1354gxBd2xOsS9Qwmr7CZMmPrUd2VGm
+         i1ul0f1+9QlBPuq6hl01ulXdmv0XidcjONhZs6fhAGe/RkrXK6VihZtuASavNaqQk9Fo
+         kCTQER1Qy+214+5lJdsIlNt8ttSrJMjwnktuTHGnUWmr2k5WtFpTwgC3mwh29k44P/KF
+         4Al/WW5Enq9/BnA+bNsfDeeTYtbwfidMDuV3IjSqaMt3iFG2D9Ud7t893R2JaumYycBX
+         PsVErbVrq1j8m0kIVCCJesCjZ97QyM6hhF3KN6ZOXm9+lAPzJIr2WSVlMkVxaDXQT9oh
+         j59w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=U8L6oUiKz79G2K6T0SKI3g1a4PfB98/VtcSVRg+bvFc=;
-        b=b0PvgB9nawYBceMb/3Dk1kAGeSELWHQmjqRhMWbCEPWavecbzrQGZAhdAZgAH/oDN3
-         NrUivq77EiFS57EFGEUrVDMoKBc7U0DG08GKtRPnPAcoulQ0zjRSJuEvY+4hq4SNXrdl
-         7LHTaieVYxq+oBP1gDdzjkSjI4UcfJ/eVVrywMSzBHFwwE095RXDq9dc6Z/YO0kCH9Do
-         DyTsU7joqgHdk7fpK/3bxUXCVqUEf4tKEBZBhDfyZyBsCWhm02UCYrYE6Tcavugn1+fZ
-         QMqUpUHc19GGm0LEmMXzeC1g8RAlm+c21hKAaHH4Kt3IwvvebrTyE1NLDZH8ZurCiaGz
-         FI2g==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=NcaMkl1O/CidKUI0bDQjMH/cZUHtdQtyEK0tj6AULnE=;
+        b=Mc1h16HKTioa4aCn8AaIYNRnPU/Q8tR+mgI1RogFMJyj8AVrbk+4IRXgze3JkkMqNb
+         Jx7QRnIGIyE3I6SsFNIM+8s4hC9lFeNH+aUsAB1yjRx45b9Tc5CcW2TLYdJ5PHuIyByA
+         u++vViaduGqTmnTgGOGFaopJMm9KPMFS8HMgZVp4iA6Q3Nz6SyiLLPtEgpgyn9rbpOum
+         LTpMA310HqIMwHrcpI/x7I/Te/EcLWxzoL9aeanyxw1Z0XU/jzbQUjzJN+cF/l5uxcnX
+         ro8dzOV2m5TPvQ+KM99JmCAojYoK7Uxv6hhvRKVN/FKSotqLQ1aH7fYTRZhSZVH4/YiJ
+         QLow==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=sVGm7zX1;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=KFIxhOys;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=U8L6oUiKz79G2K6T0SKI3g1a4PfB98/VtcSVRg+bvFc=;
-        b=tMQc+rQmSXMunP5KpQ3B0sffGsfdlPkTMeXZJQdVj8k+xKL6Vo7AXdPgztL8pn8GFe
-         C5nvDSie6P1BMZSrxeBxDpxtOidXBdHJVJWjTdOiJgnxGbMqmTPIycpclcT887GoOmZg
-         WUpWA0B0BdS565EjCVdzf013Fh6qw3Q9OV/w83R3z8dTL34bq0WcP4+rwc9QM9ZLgt8t
-         kAEzvAF5SsR8hkH4AfrvgBfHfWPWUVt4mlT3uWraEDgG8Mb4nkXf+OKVkLBkmqEmR4iX
-         UkH2tq3RPrPRBceC62LDGcwlKf5mExVTbYasN5AdxzpxUPx4847d0CWfnwEM2NGZhXkS
-         nFYw==
+        bh=NcaMkl1O/CidKUI0bDQjMH/cZUHtdQtyEK0tj6AULnE=;
+        b=lTgG3Edf781BrZ3mYyJg52XPV5pKvgi3GZ/d+n8oSHZWJBu/HFxPWHoWj5U/mWgV0W
+         Qz8ivkfIA7iRCYmvRNX4dXE/inwUlpvjMNzXJDYRysXGQFm0vzhda5vy0wCrf7Tmropj
+         LdSNbbuO9Unh/OdDedgVIZKGLD7ndvg0UBJj71rWu1ZRZp5/sRSA5kC73Y8MZQnU6c4t
+         5lrqQunk84iPwJRVwcMCBLu4XqHelz7QCcjN36SoEdfxVFPiLQVM2v5LJEosjI4qIHgr
+         c5NNrbdCs8Lk4sSzkZdwRzVEhQmO8uG5XTDT0oPZw5O3s3DjNw1KQ1oKFouY+U8QGZq+
+         XWJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=U8L6oUiKz79G2K6T0SKI3g1a4PfB98/VtcSVRg+bvFc=;
-        b=F5nqiTFPqYgU3LKqkZMNDmGHi1iyod6XRQtqR6Qk7vKHNzkEtRyv73S9kBWmqzJo9m
-         HtES8XuufavTpQbN+L4kk3OEUiuhuorzYF2E2GVkiN6606bUlPEnXkgg2izMD/VEV91c
-         5EsHtEs1zs6nw9Fe/1NHBA7aBkdtBtDUKQFYWnnbJ6l/FIJGLz79JIKa1DdXwc3Cmx8r
-         M8KcER2uPOvmeXdZwhKVuVVhmnC+wFB+UCXFOI9gruXc2x+a3XyPfX++wZ+P1lUut86U
-         WFaMgioxm+QJ1NtpTc0wCrlI1i937zw09mODnGQqf8UdRDrji7iyqo2tuTrJMYBWlh7Y
-         y7zg==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=NcaMkl1O/CidKUI0bDQjMH/cZUHtdQtyEK0tj6AULnE=;
+        b=K/Ate/7MRe0XKILOGQj6KiZ5uA0Aq/vnQZoSrOaOI06FqKvoy3w0Bdnic1ySe9PYol
+         SYKOWuWc4E5c5BuTUKgm6W/1BZKlB3e4RntZRtwf7xXHn33a2JU7omvckqmo0pgix++g
+         2HYe18Dbfa3aDVd7OkbHy7cOEnVYzIzhOllYzlLEkodxpxc+smDMgP/iruFOi7D/TClR
+         YRXnn/yjTfM74zZYVYb+JFvFYt3nQlapV545C5+0LHdiEMaErJKF6aAQFHcLl4dVkN+u
+         6CSYOhILBGGHvMeXq4h4dpIGfhals3BFGpkVsfZ4uFHzXFi2bSjkBq+OXgMxEWtm95dn
+         r1ig==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5323FICbLwDUW0k3RQBF51jfm8n5nfr9BURzL3Fn2FShuFsPiDdD
-	9kqTVW3mVPWWbNLgMulMIlk=
-X-Google-Smtp-Source: ABdhPJw/bKKNPJ/jtS6OpnVDlj8oPhUGnGSzNyK1VV6MGeh7mfLN9aFGwS5aJNRXprbbNQ+5v/0zhA==
-X-Received: by 2002:a05:6512:2316:b0:443:7bba:e28d with SMTP id o22-20020a056512231600b004437bbae28dmr2527649lfu.331.1645030701789;
-        Wed, 16 Feb 2022 08:58:21 -0800 (PST)
+X-Gm-Message-State: AOAM533/dfSkKjauqqyE+mYKepYFk3uVwO1fVQszR6JaPbskm4ScYuQA
+	ZGyGV2WnGaYLvrr6Ei8ULIU=
+X-Google-Smtp-Source: ABdhPJzajp3GRMN6PNyl33+8rTOYwAYeykNRguwuNxnxrW9TFqryhVZhSEnxOVSDR0rFoGO2LMU8cA==
+X-Received: by 2002:a05:600c:4ed1:b0:37b:bb72:9ecd with SMTP id g17-20020a05600c4ed100b0037bbb729ecdmr2534846wmq.177.1645033232572;
+        Wed, 16 Feb 2022 09:40:32 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b8d2:0:b0:241:879:3666 with SMTP id s18-20020a2eb8d2000000b0024108793666ls66481ljp.7.gmail;
- Wed, 16 Feb 2022 08:58:20 -0800 (PST)
-X-Received: by 2002:a2e:a4d6:0:b0:246:e66:90ed with SMTP id p22-20020a2ea4d6000000b002460e6690edmr1597174ljm.389.1645030700775;
-        Wed, 16 Feb 2022 08:58:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1645030700; cv=none;
+Received: by 2002:a05:600c:3d9a:b0:37b:f94b:3486 with SMTP id
+ bi26-20020a05600c3d9a00b0037bf94b3486ls1811wmb.0.experimental-gmail; Wed, 16
+ Feb 2022 09:40:31 -0800 (PST)
+X-Received: by 2002:a05:600c:4888:b0:37b:c7ea:4cbd with SMTP id j8-20020a05600c488800b0037bc7ea4cbdmr2694671wmp.51.1645033231739;
+        Wed, 16 Feb 2022 09:40:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1645033231; cv=none;
         d=google.com; s=arc-20160816;
-        b=G4wCoEogdUJ/TBSXnVwaHPqXzRtYXaluoa5VjmkJXaJApeSYwZilre40tp+ps2636R
-         kiXDu/8m0+nplezGpxk7MI12CSfSVk5CRqaPih8CGbkb076Faq/EUD4TgAKpN1738mtY
-         LmVEsYTjw4/mpTNbKMfsT6L/n9YfNOuGZscBLMZzGAoi/Rgb5YFW4xZ74g7Fmc9dhpcc
-         /tCwl0BXbaeZCkyiYWj8LXtAiwLVCj0mBlZcoF5o/aFzvKbCMNZCvIW4c3DRH71jz/wZ
-         y+wQVgCjU3HWEvd+pWARr8clzpQ9k4Erqe5TXfaWShQBc4fvI2u3nQnCTyqC2apNQcRv
-         UuUw==
+        b=VR3INLD0qjQFNOBA4sCDKqN7Ch30cRfqq4eDggq1ItMUGih65uxFAbhj0ODFfPzrKG
+         f8H2npuVHILqvcw1BhxBjcBihtmdvokqsYgC2y71gdFh24HTBLjgkDMb96yfVbni4IHE
+         zU8V788S7wNshgax+0+SnMOP1xCzEktTwyQmRmU9HNjz7O+sjcpUaf4mNMJhjrVaTPNI
+         PqqAk3AlZNK/Jk6dWNE27YTgxRZPywe+Opg4ZANILLfpM0AG3j8y8uT1qBK9nRwOUYZL
+         EIUMRUeocMS85Kdvfl84F//vjX8IMBYEBquraz/L+ioHKmYqE4VFjCB0TeKFJxkVH6J8
+         EC2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=M5RLsO3qjhpfilL1JQ6gt3RIe8kV5S+RZ2jxfqQZ1pY=;
-        b=TcQtcPhJ9XYfHwVIn89MnytnfYULBuQIcf3X6Ofmx1v5G9cJOBLE6B68Y3IwoAm6xE
-         tqMLhVb7mlDMnVJ4O8nYF+cdHDf9nV/pGHpg2KeXtiNygTDVPqfuuHgz8coltGqDZGlG
-         ytQXJ9VJk9waRH+U6UYR5gzNTqkOE1y6ZFwgbY/JYOsDQgPMrYZXqh2nM+vELaW40pAg
-         ljrz4h+CVShxvCX7hZcZAfLB9bjpAfZxTrisTe71nJwf9V9NC4kkYRuzsDLTVwJJJw08
-         S9ZMH/+4Y0gbLICov1QxehiB88lz1zOVKM4+GF+hRcmiHdwXu0edbw5IrmjtRaOVqoYv
-         PVkg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=m4631CfCFoYR3Tqcbex/s0GntKYxT5FXEjdyP0a17Xs=;
+        b=EU2NehTST0sJ3ff09zE0fZaAn7Rd5j/qYYwkcCR0hAXC0620eO3hbLHEHMH1s1550E
+         86dbt95SzPjpSKY7swXtXzWb43KSYcKMj7VG0oBfN1i7PP7fnw4zqfMa71JqRlcUdc55
+         mVynb/p9ODg2sSK+2Uw59O1GNCD66d12tV8pjFeaVKldH5AlZmRniM9qs9xHy/i9f8Cc
+         2DQdF3ywE8BfV8LZ0SPt/AWl7KNhlQxo+d1pf2S4HbYD7AvAuuipfUni2PTaIlVk6KST
+         D+oV9UkIoFE9OhhtsOpJkXEbOUcPcM8+GGUFGPJsPfRLfBwVMe7ifb9JybgOvs+vj/rV
+         qWgg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@canonical.com header.s=20210705 header.b=sVGm7zX1;
-       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com. [185.125.188.123])
-        by gmr-mx.google.com with ESMTPS id i2si1884408lfb.3.2022.02.16.08.58.20
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=KFIxhOys;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out2.migadu.com (out2.migadu.com. [188.165.223.204])
+        by gmr-mx.google.com with ESMTPS id h81si1159545wmh.2.2022.02.16.09.40.31
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Feb 2022 08:58:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) client-ip=185.125.188.123;
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 7762240333
-	for <kasan-dev@googlegroups.com>; Wed, 16 Feb 2022 16:58:19 +0000 (UTC)
-Received: by mail-ed1-f71.google.com with SMTP id l24-20020a056402231800b00410f19a3103so1950846eda.5
-        for <kasan-dev@googlegroups.com>; Wed, 16 Feb 2022 08:58:19 -0800 (PST)
-X-Received: by 2002:a17:906:80c7:b0:6cf:9c76:1404 with SMTP id a7-20020a17090680c700b006cf9c761404mr2981229ejx.207.1645030698120;
-        Wed, 16 Feb 2022 08:58:18 -0800 (PST)
-X-Received: by 2002:a17:906:80c7:b0:6cf:9c76:1404 with SMTP id
- a7-20020a17090680c700b006cf9c761404mr2981216ejx.207.1645030697922; Wed, 16
- Feb 2022 08:58:17 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 16 Feb 2022 09:40:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204 as permitted sender) client-ip=188.165.223.204;
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: andrey.konovalov@linux.dev
+To: Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH v2] kasan: test: support async (again) and asymm modes for HW_TAGS
+Date: Wed, 16 Feb 2022 18:40:27 +0100
+Message-Id: <133970562ccacc93ba19d754012c562351d4a8c8.1645033139.git.andreyknvl@google.com>
 MIME-Version: 1.0
-References: <00000000000038779505d5d8b372@google.com> <CANp29Y7WjwXwgxPrNq0XXjXPu+wGFqTreh9gry=O6aE7+cKpLQ@mail.gmail.com>
- <CA+zEjCvu76yW7zfM+qJUe+t5y23oPdzR4KDV1mOdqH8bB4GmTw@mail.gmail.com>
- <CACT4Y+arufrRgwmN66wUU+_FGxMy-sTkjMQnRN8U2H2tQuhB7A@mail.gmail.com>
- <a0769218-c84a-a1d3-71e7-aefd40bf54fe@ghiti.fr> <CANp29Y4WMhsE_-VWvNbwq18+qvb1Qc-ES80h_j_G-N_hcAnRAw@mail.gmail.com>
- <CANp29Y4ujmz901aE9oiBDx9dYWHti4-Jw=6Ewtotm6ck6MN9FQ@mail.gmail.com>
- <CACT4Y+ZvStiHLYBOcPDoAJnk8hquXwm9BgjQTv=APwh7AvgEUQ@mail.gmail.com>
- <CANp29Y56Or0V1AG7rzBfV_ZTph2Crg4JKKHiuw1kcGFFxeWqiQ@mail.gmail.com> <CANp29Y5+MuhKAzVxzEDb_k9voXmKWrUFx8k4wnW5=2+5enVFVA@mail.gmail.com>
-In-Reply-To: <CANp29Y5+MuhKAzVxzEDb_k9voXmKWrUFx8k4wnW5=2+5enVFVA@mail.gmail.com>
-From: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Date: Wed, 16 Feb 2022 17:58:06 +0100
-Message-ID: <CA+zEjCtvaT0YsxxUgnEGM+V4b5sWuCAs3=3J+Xocf580uT3t1g@mail.gmail.com>
-Subject: Re: [syzbot] riscv/fixes boot error: can't ssh into the instance
-To: Aleksandr Nogikh <nogikh@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org, 
-	kasan-dev <kasan-dev@googlegroups.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	syzbot <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com>, 
-	LKML <linux-kernel@vger.kernel.org>, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: alexandre.ghiti@canonical.com
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
+X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@canonical.com header.s=20210705 header.b=sVGm7zX1;       spf=pass
- (google.com: domain of alexandre.ghiti@canonical.com designates
- 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+ header.i=@linux.dev header.s=key1 header.b=KFIxhOys;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204
+ as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,166 +134,283 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-First, thank you for working on this.
+From: Andrey Konovalov <andreyknvl@google.com>
 
-On Wed, Feb 16, 2022 at 5:17 PM Aleksandr Nogikh <nogikh@google.com> wrote:
->
-> If I use just defconfig + DEBUG_VIRTUAL, without any KASAN, it begins
-> to boot, but overwhelms me with tons of `virt_to_phys used for
-> non-linear address:` errors.
->
-> Like that
->
-> [    2.701271] virt_to_phys used for non-linear address:
-> 00000000b59e31b6 (0xffffffff806c2000)
-> [    2.701727] WARNING: CPU: 0 PID: 1 at arch/riscv/mm/physaddr.c:16
-> __virt_to_phys+0x7e/0x86
-> [    2.702207] Modules linked in:
-> [    2.702393] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G        W
->   5.17.0-rc1 #1
-> [    2.702806] Hardware name: riscv-virtio,qemu (DT)
-> [    2.703051] epc : __virt_to_phys+0x7e/0x86
-> [    2.703298]  ra : __virt_to_phys+0x7e/0x86
-> [    2.703547] epc : ffffffff80008448 ra : ffffffff80008448 sp :
-> ffff8f800021bde0
-> [    2.703977]  gp : ffffffff80ed9b30 tp : ffffaf8001230000 t0 :
-> ffffffff80eea56f
-> [    2.704704]  t1 : ffffffff80eea560 t2 : 0000000000000000 s0 :
-> ffff8f800021be00
-> [    2.705153]  s1 : ffffffff806c2000 a0 : 000000000000004f a1 :
-> ffffffff80e723d8
-> [    2.705555]  a2 : 0000000000000010 a3 : fffffffffffffffe a4 :
-> 0000000000000000
-> [    2.706027]  a5 : 0000000000000000 a6 : 0000000000000005 a7 :
-> ffffffffffffffff
-> [    2.706474]  s2 : ffffffff80b80b08 s3 : 00000000000000c2 s4 :
-> ffffffff806c2000
-> [    2.706891]  s5 : ffffffff80edba10 s6 : ffffffff80edb960 s7 :
-> 0000000000000001
-> [    2.707290]  s8 : 00000000000000ff s9 : ffffffff80b80b40 s10:
-> 00000000000000cc
-> [    2.707689]  s11: ffffaf807e1fcf00 t3 : 0000000000000076 t4 :
-> ffffffffffffffff
-> [    2.708092]  t5 : 00000000000001f2 t6 : ffff8f800021bb48
-> [    2.708433] status: 0000000000000120 badaddr: 0000000000000000
-> cause: 0000000000000003
-> [    2.708919] [<ffffffff8011416a>] free_reserved_area+0x72/0x19a
-> [    2.709296] [<ffffffff80003a5a>] free_initmem+0x6c/0x7c
-> [    2.709648] [<ffffffff805f60c8>] kernel_init+0x3a/0x10a
-> [    2.709993] [<ffffffff80002fda>] ret_from_exception+0x0/0xc
-> [    2.710310] ---[ end trace 0000000000000000 ]---
->
+Async mode support has already been implemented in commit
+e80a76aa1a91 ("kasan, arm64: tests supports for HW_TAGS async mode")
+but then got accidentally broken in
+commit 99734b535d9b ("kasan: detect false-positives in tests").
 
-I was able to reproduce this: the first one regarding init_zero_pfn is
-legit but not wrong, I have to check when it was introduced and how to
-fix this.
-Regarding the huge batch that follows, at first sight, I would say
-this is linked to my sv48 patchset but that does not seem important as
-the address is a kernel mapping address so the use of virt_to_phys is
-right.
+Restore the changes removed by the latter patch and adapt them for
+asymm mode: add a sync_fault flag to kunit_kasan_expectation that
+only get set if the MTE fault was synchronous, and reenable MTE
+on such faults in tests.
 
-> On Wed, Feb 16, 2022 at 5:09 PM Aleksandr Nogikh <nogikh@google.com> wrote:
-> >
-> > On Wed, Feb 16, 2022 at 12:56 PM Dmitry Vyukov <dvyukov@google.com> wrote:
-> > >
-> > > On Wed, 16 Feb 2022 at 12:47, Aleksandr Nogikh <nogikh@google.com> wrote:
-> > > >
-> > > > On Wed, Feb 16, 2022 at 11:37 AM Aleksandr Nogikh <nogikh@google.com> wrote:
-> > > > >
-> > > > > Hi Alex,
-> > > > >
-> > > > > On Wed, Feb 16, 2022 at 5:14 AM Alexandre Ghiti <alex@ghiti.fr> wrote:
-> > > > > >
-> > > > > > Hi Dmitry,
-> > > > > >
-> > > > > > On 2/15/22 18:12, Dmitry Vyukov wrote:
-> > > > > > > On Wed, 2 Feb 2022 at 14:18, Alexandre Ghiti
-> > > > > > > <alexandre.ghiti@canonical.com> wrote:
-> > > > > > >> Hi Aleksandr,
-> > > > > > >>
-> > > > > > >> On Wed, Feb 2, 2022 at 12:08 PM Aleksandr Nogikh <nogikh@google.com> wrote:
-> > > > > > >>> Hello,
-> > > > > > >>>
-> > > > > > >>> syzbot has already not been able to fuzz its RISC-V instance for 97
-> > > > > > >> That's a longtime, I'll take a look more regularly.
-> > > > > > >>
-> > > > > > >>> days now because the compiled kernel cannot boot. I bisected the issue
-> > > > > > >>> to the following commit:
-> > > > > > >>>
-> > > > > > >>> commit 54c5639d8f507ebefa814f574cb6f763033a72a5
-> > > > > > >>> Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-> > > > > > >>> Date:   Fri Oct 29 06:59:27 2021 +0200
-> > > > > > >>>
-> > > > > > >>>      riscv: Fix asan-stack clang build
-> > > > > > >>>
-> > > > > > >>> Apparently, the problem appears on GCC-built RISC-V kernels with KASAN
-> > > > > > >>> enabled. In the previous message syzbot mentions
-> > > > > > >>> "riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU
-> > > > > > >>> Binutils for Debian) 2.35.2", but the issue also reproduces finely on
-> > > > > > >>> a newer GCC compiler: "riscv64-linux-gnu-gcc (Debian 11.2.0-10)
-> > > > > > >>> 11.2.0, GNU ld (GNU Binutils for Debian) 2.37".
-> > > > > > >>> For convenience, I also duplicate the .config file from the bot's
-> > > > > > >>> message: https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
-> > > > > > >>>
-> > > > > > >>> Can someone with KASAN and RISC-V expertise please take a look?
-> > > > > > >> I'll take a look at that today.
-> > > > > > >>
-> > > > > > >> Thanks for reporting the issue,
-> > > > > > >
-> > > > > >
-> > > > > > I took a quick look, not enough to fix it but I know the issue comes
-> > > > > > from the inline instrumentation, I have no problem with the outline
-> > > > > > instrumentation. I need to find some cycles to work on this, my goal is
-> > > > > > to fix this for 5.17.
-> > > > >
-> > > > > Thanks for the update!
-> > > > >
-> > > > > Can you please share the .config with which you tested the outline
-> > > > > instrumentation?
-> > > > > I updated the syzbot config to use KASAN_OUTLINE instead of KASAN_INLINE,
-> > > > > but it still does not boot :(
-> > > > >
-> > > > > Here's what I used:
-> > > > > https://gist.github.com/a-nogikh/279c85c2d24f47efcc3e865c08844138
-> > > >
-> > > > Update: it doesn't boot with that big config, but boots if I generate
-> > > > a simple one with KASAN_OUTLINE:
-> > > >
-> > > > make defconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
-> > > > ./scripts/config -e KASAN -e KASAN_OUTLINE
-> > > > make olddefconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
-> > > >
-> > > > And it indeed doesn't work if I use KASAN_INLINE.
-> > >
-> > > It may be an issue with code size. Full syzbot config + KASAN + KCOV
-> > > produce hugely massive .text. It may be hitting some limitation in the
-> > > bootloader/kernel bootstrap code.
+Also rename kunit_kasan_expectation to kunit_kasan_status and move its
+definition to mm/kasan/kasan.h from include/linux/kasan.h, as this
+structure is only internally used by KASAN. Also put the structure
+definition under IS_ENABLED(CONFIG_KUNIT).
 
-I took a quick glance and it traps on a KASAN address that is not
-mapped, either because it is too soon or because the mapping failed
-somehow.
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-I'll definitely dive into that tomorrow, sorry for being slow here and
-thanks again for all your work, that helps a lot.
+---
 
-Thanks,
+Changes v1->v2:
+- Use CONFIG_KUNIT check for kunit_kasan_status instead of
+  CONFIG_KASAN_KUNIT_TEST.
+---
+ include/linux/kasan.h |  5 -----
+ lib/test_kasan.c      | 39 ++++++++++++++++++++++-----------------
+ mm/kasan/hw_tags.c    | 18 +++++++++---------
+ mm/kasan/kasan.h      | 14 ++++++++++++--
+ mm/kasan/report.c     | 17 +++++++++--------
+ 5 files changed, 52 insertions(+), 41 deletions(-)
 
-Alex
-
-> >
-> > I bisected the difference between the config we use on syzbot and the
-> > simple one that was generated like I described above.
-> > Turns out that it's the DEBUG_VIRTUAL config that makes the difference.
-> >
-> > make defconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
-> > ./scripts/config -e KASAN -e KASAN_OUTLINE -e DEBUG_VIRTUAL
-> > make olddefconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
-> >
-> > And the resulting kernel does not boot.
-> > My env: the `riscv/fixes` branch, commit
-> > 6df2a016c0c8a3d0933ef33dd192ea6606b115e3, qemu 6.2.0.
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index 3593c95d1fa5..562bf36fd6ec 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -18,11 +18,6 @@ struct task_struct;
+ #include <linux/linkage.h>
+ #include <asm/kasan.h>
+ 
+-/* kasan_data struct is used in KUnit tests for KASAN expected failures */
+-struct kunit_kasan_expectation {
+-	bool report_found;
+-};
+-
+ #endif
+ 
+ typedef unsigned int __bitwise kasan_vmalloc_flags_t;
+diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+index ef99d81fe8b3..8416161d5177 100644
+--- a/lib/test_kasan.c
++++ b/lib/test_kasan.c
+@@ -37,7 +37,7 @@ void *kasan_ptr_result;
+ int kasan_int_result;
+ 
+ static struct kunit_resource resource;
+-static struct kunit_kasan_expectation fail_data;
++static struct kunit_kasan_status test_status;
+ static bool multishot;
+ 
+ /*
+@@ -54,58 +54,63 @@ static int kasan_test_init(struct kunit *test)
+ 	}
+ 
+ 	multishot = kasan_save_enable_multi_shot();
+-	fail_data.report_found = false;
++	test_status.report_found = false;
++	test_status.sync_fault = false;
+ 	kunit_add_named_resource(test, NULL, NULL, &resource,
+-					"kasan_data", &fail_data);
++					"kasan_status", &test_status);
+ 	return 0;
+ }
+ 
+ static void kasan_test_exit(struct kunit *test)
+ {
+ 	kasan_restore_multi_shot(multishot);
+-	KUNIT_EXPECT_FALSE(test, fail_data.report_found);
++	KUNIT_EXPECT_FALSE(test, test_status.report_found);
+ }
+ 
+ /**
+  * KUNIT_EXPECT_KASAN_FAIL() - check that the executed expression produces a
+  * KASAN report; causes a test failure otherwise. This relies on a KUnit
+- * resource named "kasan_data". Do not use this name for KUnit resources
++ * resource named "kasan_status". Do not use this name for KUnit resources
+  * outside of KASAN tests.
+  *
+- * For hardware tag-based KASAN in sync mode, when a tag fault happens, tag
++ * For hardware tag-based KASAN, when a synchronous tag fault happens, tag
+  * checking is auto-disabled. When this happens, this test handler reenables
+  * tag checking. As tag checking can be only disabled or enabled per CPU,
+  * this handler disables migration (preemption).
+  *
+- * Since the compiler doesn't see that the expression can change the fail_data
++ * Since the compiler doesn't see that the expression can change the test_status
+  * fields, it can reorder or optimize away the accesses to those fields.
+  * Use READ/WRITE_ONCE() for the accesses and compiler barriers around the
+  * expression to prevent that.
+  *
+- * In between KUNIT_EXPECT_KASAN_FAIL checks, fail_data.report_found is kept as
+- * false. This allows detecting KASAN reports that happen outside of the checks
+- * by asserting !fail_data.report_found at the start of KUNIT_EXPECT_KASAN_FAIL
+- * and in kasan_test_exit.
++ * In between KUNIT_EXPECT_KASAN_FAIL checks, test_status.report_found is kept
++ * as false. This allows detecting KASAN reports that happen outside of the
++ * checks by asserting !test_status.report_found at the start of
++ * KUNIT_EXPECT_KASAN_FAIL and in kasan_test_exit.
+  */
+ #define KUNIT_EXPECT_KASAN_FAIL(test, expression) do {			\
+ 	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS) &&				\
+ 	    kasan_sync_fault_possible())				\
+ 		migrate_disable();					\
+-	KUNIT_EXPECT_FALSE(test, READ_ONCE(fail_data.report_found));	\
++	KUNIT_EXPECT_FALSE(test, READ_ONCE(test_status.report_found));	\
+ 	barrier();							\
+ 	expression;							\
+ 	barrier();							\
+-	if (!READ_ONCE(fail_data.report_found)) {			\
++	if (kasan_async_fault_possible())				\
++		kasan_force_async_fault();				\
++	if (!READ_ONCE(test_status.report_found)) {			\
+ 		KUNIT_FAIL(test, KUNIT_SUBTEST_INDENT "KASAN failure "	\
+ 				"expected in \"" #expression		\
+ 				 "\", but none occurred");		\
+ 	}								\
+-	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS)) {				\
+-		if (READ_ONCE(fail_data.report_found))			\
+-			kasan_enable_tagging_sync();			\
++	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS) &&				\
++	    kasan_sync_fault_possible()) {				\
++		if (READ_ONCE(test_status.report_found) &&		\
++		    READ_ONCE(test_status.sync_fault))			\
++			kasan_enable_tagging();				\
+ 		migrate_enable();					\
+ 	}								\
+-	WRITE_ONCE(fail_data.report_found, false);			\
++	WRITE_ONCE(test_status.report_found, false);			\
+ } while (0)
+ 
+ #define KASAN_TEST_NEEDS_CONFIG_ON(test, config) do {			\
+diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+index fad1887e54c0..07a76c46daa5 100644
+--- a/mm/kasan/hw_tags.c
++++ b/mm/kasan/hw_tags.c
+@@ -172,12 +172,7 @@ void kasan_init_hw_tags_cpu(void)
+ 	 * Enable async or asymm modes only when explicitly requested
+ 	 * through the command line.
+ 	 */
+-	if (kasan_arg_mode == KASAN_ARG_MODE_ASYNC)
+-		hw_enable_tagging_async();
+-	else if (kasan_arg_mode == KASAN_ARG_MODE_ASYMM)
+-		hw_enable_tagging_asymm();
+-	else
+-		hw_enable_tagging_sync();
++	kasan_enable_tagging();
+ }
+ 
+ /* kasan_init_hw_tags() is called once on boot CPU. */
+@@ -343,11 +338,16 @@ void __kasan_poison_vmalloc(const void *start, unsigned long size)
+ 
+ #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
+ 
+-void kasan_enable_tagging_sync(void)
++void kasan_enable_tagging(void)
+ {
+-	hw_enable_tagging_sync();
++	if (kasan_arg_mode == KASAN_ARG_MODE_ASYNC)
++		hw_enable_tagging_async();
++	else if (kasan_arg_mode == KASAN_ARG_MODE_ASYMM)
++		hw_enable_tagging_asymm();
++	else
++		hw_enable_tagging_sync();
+ }
+-EXPORT_SYMBOL_GPL(kasan_enable_tagging_sync);
++EXPORT_SYMBOL_GPL(kasan_enable_tagging);
+ 
+ void kasan_force_async_fault(void)
+ {
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index 4d67408e8407..d1e111b7d5d8 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -7,6 +7,16 @@
+ #include <linux/kfence.h>
+ #include <linux/stackdepot.h>
+ 
++#if IS_ENABLED(CONFIG_KUNIT)
++
++/* Used in KUnit-compatible KASAN tests. */
++struct kunit_kasan_status {
++	bool report_found;
++	bool sync_fault;
++};
++
++#endif
++
+ #ifdef CONFIG_KASAN_HW_TAGS
+ 
+ #include <linux/static_key.h>
+@@ -350,12 +360,12 @@ static inline const void *arch_kasan_set_tag(const void *addr, u8 tag)
+ 
+ #if defined(CONFIG_KASAN_HW_TAGS) && IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
+ 
+-void kasan_enable_tagging_sync(void);
++void kasan_enable_tagging(void);
+ void kasan_force_async_fault(void);
+ 
+ #else /* CONFIG_KASAN_HW_TAGS || CONFIG_KASAN_KUNIT_TEST */
+ 
+-static inline void kasan_enable_tagging_sync(void) { }
++static inline void kasan_enable_tagging(void) { }
+ static inline void kasan_force_async_fault(void) { }
+ 
+ #endif /* CONFIG_KASAN_HW_TAGS || CONFIG_KASAN_KUNIT_TEST */
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index f14146563d41..137c2c0b09db 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -336,20 +336,21 @@ static bool report_enabled(void)
+ }
+ 
+ #if IS_ENABLED(CONFIG_KUNIT)
+-static void kasan_update_kunit_status(struct kunit *cur_test)
++static void kasan_update_kunit_status(struct kunit *cur_test, bool sync)
+ {
+ 	struct kunit_resource *resource;
+-	struct kunit_kasan_expectation *kasan_data;
++	struct kunit_kasan_status *status;
+ 
+-	resource = kunit_find_named_resource(cur_test, "kasan_data");
++	resource = kunit_find_named_resource(cur_test, "kasan_status");
+ 
+ 	if (!resource) {
+ 		kunit_set_failure(cur_test);
+ 		return;
+ 	}
+ 
+-	kasan_data = (struct kunit_kasan_expectation *)resource->data;
+-	WRITE_ONCE(kasan_data->report_found, true);
++	status = (struct kunit_kasan_status *)resource->data;
++	WRITE_ONCE(status->report_found, true);
++	WRITE_ONCE(status->sync_fault, sync);
+ 	kunit_put_resource(resource);
+ }
+ #endif /* IS_ENABLED(CONFIG_KUNIT) */
+@@ -363,7 +364,7 @@ void kasan_report_invalid_free(void *object, unsigned long ip)
+ 
+ #if IS_ENABLED(CONFIG_KUNIT)
+ 	if (current->kunit_test)
+-		kasan_update_kunit_status(current->kunit_test);
++		kasan_update_kunit_status(current->kunit_test, true);
+ #endif /* IS_ENABLED(CONFIG_KUNIT) */
+ 
+ 	start_report(&flags);
+@@ -383,7 +384,7 @@ void kasan_report_async(void)
+ 
+ #if IS_ENABLED(CONFIG_KUNIT)
+ 	if (current->kunit_test)
+-		kasan_update_kunit_status(current->kunit_test);
++		kasan_update_kunit_status(current->kunit_test, false);
+ #endif /* IS_ENABLED(CONFIG_KUNIT) */
+ 
+ 	start_report(&flags);
+@@ -405,7 +406,7 @@ static void __kasan_report(unsigned long addr, size_t size, bool is_write,
+ 
+ #if IS_ENABLED(CONFIG_KUNIT)
+ 	if (current->kunit_test)
+-		kasan_update_kunit_status(current->kunit_test);
++		kasan_update_kunit_status(current->kunit_test, true);
+ #endif /* IS_ENABLED(CONFIG_KUNIT) */
+ 
+ 	disable_trace_on_warning();
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BzEjCtvaT0YsxxUgnEGM%2BV4b5sWuCAs3%3D3J%2BXocf580uT3t1g%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/133970562ccacc93ba19d754012c562351d4a8c8.1645033139.git.andreyknvl%40google.com.
