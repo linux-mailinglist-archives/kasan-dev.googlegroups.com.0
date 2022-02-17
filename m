@@ -1,130 +1,140 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBUHRXCIAMGQEIIBUL5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBFX3XGIAMGQEJ7F3VIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D9C4B9F79
-	for <lists+kasan-dev@lfdr.de>; Thu, 17 Feb 2022 13:00:17 +0100 (CET)
-Received: by mail-wr1-x43f.google.com with SMTP id h24-20020adfaa98000000b001e33eb81e71sf2210484wrc.9
-        for <lists+kasan-dev@lfdr.de>; Thu, 17 Feb 2022 04:00:17 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1645099217; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 469F44BA672
+	for <lists+kasan-dev@lfdr.de>; Thu, 17 Feb 2022 17:53:43 +0100 (CET)
+Received: by mail-wm1-x340.google.com with SMTP id u14-20020a05600c210e00b0037bddd0562esf1930341wml.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 17 Feb 2022 08:53:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1645116823; cv=pass;
         d=google.com; s=arc-20160816;
-        b=UkOYASZvqDCOPqB3mNckX2RGrIy2UzPa/wP3MU1qtfELON0SHbMxJgnQYLiIUYSKoc
-         szPQtv/PKIXNJtyQR0bhevNSxWycTmD5pAFyGEeaNDl1LsK4z/28AE5l/R1d5CZNQB9c
-         z2PDAHY7BIvDBGSlUiNI8Dubek6sDzzD6g1CkTgbQM+PAAplJ2pnMtJ9OgeIuE8WTh5p
-         bSQF90/3bQvZja6fgNcE1OuWs0/qjS/EAACTuqCgrtcoFOr3XXZ/+FqhPDife9FiymfM
-         aKoDpUVstZTeQJUTOdWQSpYXS1QxKdpE8pl/acc4RNBURjGtdoj3kPdT/VY2x4/JB7cI
-         36XA==
+        b=xNuHpVligJjenAL+ZiCW+nfqmPMaD/zC0X92NVVgnPFlvXs/hlf+Ku4R5rSzV9a0H/
+         yv779YFT6q+DyaUun7IZ00bAuvaBIRzYEtxIQNhXiUjKLVNshcaDKDjQ5VSeGPocpXgq
+         /J4Pru0I+qKPTw85WT9E8sFchkDBgLivHM3VzJDMacLR3t0cGtmsBmVCd52vUbAkTsgB
+         7KsKzqXW7h6I3uaTeEfd/P6MaNKeLo1sJrHgmgJX2B9w0JISWI7v1iU+H3R5IKig5bqW
+         OtFkUfV3Et62bAxkZSX7ZvLNlSoRtQlv0MIFomyMpnq/vetkPbqFTUfH6yTlTscXdS3S
+         2FkQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=VpLLfkJPR5ByrLhZKfY5cv52zkeMa8df3LmvWQ7cUYg=;
-        b=ayuMPe5bFZNtylUb5ZQrkNkJicSwze/m94rruv74SVORNGdhhtl2h6+bO+VjqX/deb
-         rKumbRO6z4qVySEyBMRZZcagUqp9yQNmx0c+UNOV4mGlXoka7D+b+TIQvgDTnTP6oQTF
-         lv/SnP4YS4OkS4eGnCefpRSiiaPejLpFYTEUVyM05Dca3Nz814af3kDnv7IprfBuFc2E
-         igNt4CRCpZxAyiHNLn710v8sLw4UbFdEok56dZostVEM9568MH2hY9Ct4rxG8m9hjLq+
-         gak9TN5WFXdPJM3vIOeOWvc2P59mFSW+/6NCLX5mhJHVGei93cW1YSaFpK/52pTkMeDX
-         XXxw==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=s+7/B0ZYMo+OMwJ7RLbE5B2XlPX4nF5+HQnEYnuHsNs=;
+        b=kDJQB8UNo5gR28bOU2n1kD2yxU5wu88f5srvnS0ubsixxAMNqiTd+YF0keWa8apjSg
+         3cSODrtgVMah3kAUAEDipNusje+FQ6aU3qisnZkpqVQWOgSLxWwXEWeNb9QKAQlzrb+q
+         86XozLH3dHOmDW8ZH//cmJOjauGaePFnxjX307DwE4NxuPvv38CemykymOEKkpEjNaQv
+         MNtiwB+48QoCEHo+AH2W2EdMzn6LV9KbJtNHuNezXcLXYhNqTiidOtlhsDjxSD+8MuAE
+         IgiEW+iP1pKUJE93JZ3NF5keC0UmbHnPMP8rLHwoNBbq585WEn/D04Xh/A78srJ+DSRd
+         xS6g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=YelvD+8r;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=VpLLfkJPR5ByrLhZKfY5cv52zkeMa8df3LmvWQ7cUYg=;
-        b=fxdAlQw8rJVomJm1cfe9naYmKC6pWLqwNqRYtLGOWEoOwe12vJjW9hZtlbCL2tCAey
-         NuS2kD0U3W5enZ7r1b/URcvlYhE+cGZtmHHdr2ZJQcx3E3qWlUE5xgjNYIfcJeXDZRyI
-         5jzOrv1UY5oO38r8EKhCUXSnsJDk5s1Xi4/oSbbNT/597Wb6ukFpBk3ThkJj95bEG1uv
-         Mrow915owo5XmVNf3v9HPJJLn+vA9VItgg8qAfG5QUfV1EiDa8gBnWGJjdxu1HwKXvfK
-         4zSdAlO/XODA3RjuNdL078f3r0ynHlyRfK9Ba5gFTIDSFQDbcM/qEA418HUHzV21LaqF
-         6AIw==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=s+7/B0ZYMo+OMwJ7RLbE5B2XlPX4nF5+HQnEYnuHsNs=;
+        b=RBKFO6oMwxmqOBMN7izKYkbwjA8QIk4Sl9Xgbf4J7H11maUZiYRp+936de3jzNDpfA
+         AxPkFQZcMrwNGnB5jrb8lrnVeCB8RbWunMovWmulskzixvJW83h0sgsvH0xOUAObRooU
+         61LwuZj23fBbR1IamdfJH7PaSrP8JkTMoIYJQJy5sGt1Lem2IZHkAhC+bAbZbPofXIT+
+         jpp3Bc1OE5x8SzsUg5zUonwDZUS3tQk5pF+0hIVwyW6eV35CfYZjAqRcmMeASedQ1uSD
+         I8C7REfHFN/8UMZmZSbBYEuscIyu8C6pVpu55suocN1J6NdjHOiJ7Wgkavycj3tG9hKr
+         ugLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=VpLLfkJPR5ByrLhZKfY5cv52zkeMa8df3LmvWQ7cUYg=;
-        b=mWFcJAwZShjPpcIgHbK+t03NhO+j7BThbHIaDuLQlt+8txXf8o5pS6pZ8SFG7vJrzC
-         cCOhSqT7ocPhCVprEEB8l5VXTTdn+kGinJTJtNLXIE15ZYe2K+bKsYU3msAmrEBsQJvy
-         W/oYU1j6gljAp/FJAENdXXsjw1zOCQNcY/E3F4nLHxIrSt0NDUt4tG/AZ4sKmkhM8muL
-         kLA7DzxFTlei7WT6iKnhMGMYEEG5q2YgzXLj/jduUJtrdQNM3s55TWWUTjot/Y7JW+gU
-         M21TjN0JIlygR8Ipd70LvezVdhmyTXD5UFkTjGvvDyCvYplhrpkymcsl/cUKXsoGP3ac
-         yNBA==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=s+7/B0ZYMo+OMwJ7RLbE5B2XlPX4nF5+HQnEYnuHsNs=;
+        b=FQAe5uGbSTJtu15mVLN1ppsLEYULnfoKn5RSRDD6wTQ/u0jVkQlrL38gtzVWOH0cFV
+         JHYLv1rXSazofEJ+gQZIRRrfpR1IX2WMZhtLAzGVf7ldOK6idt/WquX/3wScbGGnoKOs
+         0fBYrmk3QUHM7rlewoQ6BqKV/jhT5/4q4UMh62Z8CeVlpItbbILqu65YwQPDtw5T+tV0
+         Xf7YDsJ02r4YLHgopS86OAHa/MxYhPQs2tdV3CpWYtGJWh2Vu07ilCSVFng+g//UeqGl
+         N63e2v9pEdK7HNwXTc4fotfkzG/EyEyiB6WNnevagLNXfB6elHpFQfXYSXyO6vqBIU0M
+         HXKQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530g2cRF0bF18nTQwjXyWlFESHoQ69nOnHT+Kyyjn6/X0yYpgSE/
-	4Ind5sTiXmKUzmARHjaVqJs=
-X-Google-Smtp-Source: ABdhPJwKp3ck/0xOh+qcyZV0bSCRIPAlrJdcc6L7sE9WQslk+opPYyyTcPSb993kVj3tGNfkkY/3QA==
-X-Received: by 2002:a5d:40cc:0:b0:1e3:f41:b308 with SMTP id b12-20020a5d40cc000000b001e30f41b308mr2134773wrq.284.1645099216839;
-        Thu, 17 Feb 2022 04:00:16 -0800 (PST)
+X-Gm-Message-State: AOAM533Z/1JB72TJRs0II+nx3/Gb8vIWdmS8CoHNsWeT015wyn9J08Pc
+	LsvwrKPIRPFIx47epqEa0Ow=
+X-Google-Smtp-Source: ABdhPJzG6wzVfZEeiyvQQqZu5K/H8tdDAj8C/kUX+EL1cKafKQ/PwqIFIY8yxGbBvJSaVvT38phSHQ==
+X-Received: by 2002:a05:600c:4ed1:b0:37b:bb72:9ecd with SMTP id g17-20020a05600c4ed100b0037bbb729ecdmr3416279wmq.177.1645116822881;
+        Thu, 17 Feb 2022 08:53:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:1e12:b0:1e4:b617:bc85 with SMTP id
- bj18-20020a0560001e1200b001e4b617bc85ls1800wrb.0.gmail; Thu, 17 Feb 2022
- 04:00:15 -0800 (PST)
-X-Received: by 2002:adf:912e:0:b0:1e3:d88:bb46 with SMTP id j43-20020adf912e000000b001e30d88bb46mr2035320wrj.27.1645099215580;
-        Thu, 17 Feb 2022 04:00:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1645099215; cv=none;
+Received: by 2002:a05:600c:3d9a:b0:37b:f94b:3486 with SMTP id
+ bi26-20020a05600c3d9a00b0037bf94b3486ls78781wmb.0.experimental-gmail; Thu, 17
+ Feb 2022 08:53:41 -0800 (PST)
+X-Received: by 2002:a05:600c:4f03:b0:37c:b58:9c35 with SMTP id l3-20020a05600c4f0300b0037c0b589c35mr6731653wmq.118.1645116821833;
+        Thu, 17 Feb 2022 08:53:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1645116821; cv=none;
         d=google.com; s=arc-20160816;
-        b=dj1BJJxatCIww7vAA1B+XyBdO+GdYWUANDO85lL7NFuNtVfXvgfUNun+A+GKlrwpwG
-         eDwVJnPomxDtVZDnc3o0BH1xvqouCgftmoaEQ4v+x1VO3omhcQFWTmxE0OMyFZ+CpJ9H
-         6Gr+HF6+xaUys+9urKyukyZj7fP9fTHzq/8aIC/444Jdz7Efbxih6blUV7aDIjO8O2hX
-         2c2Z5zZzapmKNbajjNHbX9bac0rfq8D3ZAKQ1sij5GDUPqYOEgEZJnE4l7s8iNue5s9J
-         LT8DDUQgnw65NRs0o4k20sHsC08vq7uVPdxXNvhc+vuohyqdZhBZKpGOC6KKYs09VZMX
-         k63A==
+        b=w9tc4iAxnvNUx96flwIEYvy4R6AxHxqC4tV1qASAHFtPpOhtLQDFA3p4EbZgSua7Q4
+         oSEcvNDkqk3TGIi1n/3Vk1JxzIUC3qC/L4Ap3eLK+1KgEEHEO1+0emfuqCENUAqdgDQw
+         caOlLxCGeAYQk5nnGApBCZBT5ItQkfzoh+Xk/za51HtJmVwHUSHn4lkMBfltDiXIWjhF
+         QDA4s52wtq/++smoYW6Nfhnpnb9KoFEsFzy9Lt3do6PUXOdJcc+W/xSgE9ykWXlsVDgo
+         WeQo59nzyJtduEJN3j+NCrIEbdr2GbMajUbg9uuI3WlzO43Ag14KwcW70FrgN27f3C10
+         7CTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=wqjOKyX5mo72rmXkkW7lIDDgIvAz/bzzAnn/O4gcYFU=;
-        b=UVOHOTDuKhuztPfsOerEchG/gKJte1hq//F2hJkAtUszN3/NR3alS9HnzLw4bgCrKO
-         I3d+mROsNCXo/sAo8KCBiGP37EezBaeihK/rmU/zdWwzAbo1OPGrvqNESsIs03n9zXSN
-         fjaprTX6PAJuV86jENd7iKrt3RX8Sy1ZlDvelOgnnjB/EZQySOUsTu1HtIT8RpLRXp2h
-         RpgKPvRoVZnojjltyuADOYmJU9WcO1Czp91StK2pwpXXTsIOgs9hP12EntvdisqDukEj
-         68DKIA6TJ74wash9ioEJsTno57PSXyiyP4vT8/gKzRAHlXuae/li4xHZPXwW0XaXdyiD
-         vtZA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1Whof+L8GAE6TRZ8kVWtcGS7H+uijkpwIOjnhSmI6YY=;
+        b=pfXyKL0NMjdGjZ6T5/tr/03yYU4eU3ndJxgc75MM+yzUv1wPmu/M36nYSMZcnYoQtj
+         pj1I/2tFNKVAMuynSVn866ReNP/5mmCUdwPl5M4HUdOIC3DEw2fuDPW65nprcyRJ6MSa
+         rXCw+6G9pqWkzpL24Fc1/jLotbBspuygP3TzjNlWTXGfVUHrnLcD+a6dT0z2iySOyY+6
+         V1z808ZRYzF80ee5vSpOaIs174lFAQ64Kdy5w8mpvZpDA4qSICkKOQc9PLXN804QMWNS
+         si+IPUwwSyRcDONopNpe6LeGUsOhHq9XAJTtpfNUuTLzm9GBIgtM/p6fz1/WptpYRWP/
+         /NkQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id h81si77920wmh.2.2022.02.17.04.00.15
-        for <kasan-dev@googlegroups.com>;
-        Thu, 17 Feb 2022 04:00:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CC7DD113E;
-	Thu, 17 Feb 2022 04:00:14 -0800 (PST)
-Received: from lakrids (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65E833F66F;
-	Thu, 17 Feb 2022 04:00:12 -0800 (PST)
-Date: Thu, 17 Feb 2022 12:00:09 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: andrey.konovalov@linux.dev
-Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev@googlegroups.com,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH mm] kasan: print virtual mapping info in reports
-Message-ID: <Yg44yQJ9tQMgmiZq@lakrids>
-References: <5b120f7cadcc0e0d8d5f41fd0cff35981b3f7f3a.1645038022.git.andreyknvl@google.com>
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=YelvD+8r;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com. [185.125.188.123])
+        by gmr-mx.google.com with ESMTPS id y17si106634wmi.2.2022.02.17.08.53.41
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Feb 2022 08:53:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.123 as permitted sender) client-ip=185.125.188.123;
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 800F740338
+	for <kasan-dev@googlegroups.com>; Thu, 17 Feb 2022 16:53:41 +0000 (UTC)
+Received: by mail-ed1-f72.google.com with SMTP id m11-20020a056402430b00b00410678d119eso3854471edc.21
+        for <kasan-dev@googlegroups.com>; Thu, 17 Feb 2022 08:53:41 -0800 (PST)
+X-Received: by 2002:a05:6402:5110:b0:403:dbc0:2a47 with SMTP id m16-20020a056402511000b00403dbc02a47mr3685313edd.197.1645116820118;
+        Thu, 17 Feb 2022 08:53:40 -0800 (PST)
+X-Received: by 2002:a05:6402:5110:b0:403:dbc0:2a47 with SMTP id
+ m16-20020a056402511000b00403dbc02a47mr3685291edd.197.1645116819915; Thu, 17
+ Feb 2022 08:53:39 -0800 (PST)
 MIME-Version: 1.0
+References: <00000000000038779505d5d8b372@google.com> <CANp29Y7WjwXwgxPrNq0XXjXPu+wGFqTreh9gry=O6aE7+cKpLQ@mail.gmail.com>
+ <CA+zEjCvu76yW7zfM+qJUe+t5y23oPdzR4KDV1mOdqH8bB4GmTw@mail.gmail.com>
+ <CACT4Y+arufrRgwmN66wUU+_FGxMy-sTkjMQnRN8U2H2tQuhB7A@mail.gmail.com>
+ <a0769218-c84a-a1d3-71e7-aefd40bf54fe@ghiti.fr> <CANp29Y4WMhsE_-VWvNbwq18+qvb1Qc-ES80h_j_G-N_hcAnRAw@mail.gmail.com>
+ <CANp29Y4ujmz901aE9oiBDx9dYWHti4-Jw=6Ewtotm6ck6MN9FQ@mail.gmail.com>
+ <CACT4Y+ZvStiHLYBOcPDoAJnk8hquXwm9BgjQTv=APwh7AvgEUQ@mail.gmail.com>
+ <CANp29Y56Or0V1AG7rzBfV_ZTph2Crg4JKKHiuw1kcGFFxeWqiQ@mail.gmail.com>
+ <CANp29Y5+MuhKAzVxzEDb_k9voXmKWrUFx8k4wnW5=2+5enVFVA@mail.gmail.com> <CA+zEjCtvaT0YsxxUgnEGM+V4b5sWuCAs3=3J+Xocf580uT3t1g@mail.gmail.com>
+In-Reply-To: <CA+zEjCtvaT0YsxxUgnEGM+V4b5sWuCAs3=3J+Xocf580uT3t1g@mail.gmail.com>
+From: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Date: Thu, 17 Feb 2022 17:53:28 +0100
+Message-ID: <CA+zEjCs1FEUTcM+pgV+_MZnixSO5c2hexZFxGxuCQWc2ZMQiRg@mail.gmail.com>
+Subject: Re: [syzbot] riscv/fixes boot error: can't ssh into the instance
+To: Aleksandr Nogikh <nogikh@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>, Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org, 
+	kasan-dev <kasan-dev@googlegroups.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	syzbot <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com>, 
+	LKML <linux-kernel@vger.kernel.org>, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <5b120f7cadcc0e0d8d5f41fd0cff35981b3f7f3a.1645038022.git.andreyknvl@google.com>
-X-Original-Sender: mark.rutland@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: alexandre.ghiti@canonical.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@canonical.com header.s=20210705 header.b=YelvD+8r;       spf=pass
+ (google.com: domain of alexandre.ghiti@canonical.com designates
+ 185.125.188.123 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,66 +147,183 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Feb 16, 2022 at 08:01:37PM +0100, andrey.konovalov@linux.dev wrote:
-> From: Andrey Konovalov <andreyknvl@google.com>
-> 
-> Print virtual mapping range and its creator in reports affecting virtual
-> mappings.
-> 
-> Also get physical page pointer for such mappings, so page information
-> gets printed as well.
-> 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> 
-> ---
-> 
-> Note: no need to merge this patch into any of the KASAN vmalloc patches
-> that are already in mm, better to keep it separate.
-> ---
->  mm/kasan/report.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 137c2c0b09db..8002fb3c417d 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -260,8 +260,18 @@ static void print_address_description(void *addr, u8 tag)
->  		pr_err(" %pS\n", addr);
->  	}
->  
-> +	if (is_vmalloc_addr(addr)) {
-> +		struct vm_struct *va = find_vm_area(addr);
-> +
-> +		pr_err("The buggy address belongs to the virtual mapping at\n"
-> +		       " [%px, %px) created by:\n"
-> +		       " %pS\n", va->addr, va->addr + va->size, va->caller);
+Aleksandr,
 
-The return value of find_vm_area() needs a NULL check here;
-is_vmalloc_addr(addr) just checks that `addr` is within the vmalloc VA
-range, and doesn't guarantee that there is a vmap_area associated with
-that `addr`.
+On Wed, Feb 16, 2022 at 5:58 PM Alexandre Ghiti
+<alexandre.ghiti@canonical.com> wrote:
+>
+> First, thank you for working on this.
+>
+> On Wed, Feb 16, 2022 at 5:17 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+> >
+> > If I use just defconfig + DEBUG_VIRTUAL, without any KASAN, it begins
+> > to boot, but overwhelms me with tons of `virt_to_phys used for
+> > non-linear address:` errors.
+> >
+> > Like that
+> >
+> > [    2.701271] virt_to_phys used for non-linear address:
+> > 00000000b59e31b6 (0xffffffff806c2000)
+> > [    2.701727] WARNING: CPU: 0 PID: 1 at arch/riscv/mm/physaddr.c:16
+> > __virt_to_phys+0x7e/0x86
+> > [    2.702207] Modules linked in:
+> > [    2.702393] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G        W
+> >   5.17.0-rc1 #1
+> > [    2.702806] Hardware name: riscv-virtio,qemu (DT)
+> > [    2.703051] epc : __virt_to_phys+0x7e/0x86
+> > [    2.703298]  ra : __virt_to_phys+0x7e/0x86
+> > [    2.703547] epc : ffffffff80008448 ra : ffffffff80008448 sp :
+> > ffff8f800021bde0
+> > [    2.703977]  gp : ffffffff80ed9b30 tp : ffffaf8001230000 t0 :
+> > ffffffff80eea56f
+> > [    2.704704]  t1 : ffffffff80eea560 t2 : 0000000000000000 s0 :
+> > ffff8f800021be00
+> > [    2.705153]  s1 : ffffffff806c2000 a0 : 000000000000004f a1 :
+> > ffffffff80e723d8
+> > [    2.705555]  a2 : 0000000000000010 a3 : fffffffffffffffe a4 :
+> > 0000000000000000
+> > [    2.706027]  a5 : 0000000000000000 a6 : 0000000000000005 a7 :
+> > ffffffffffffffff
+> > [    2.706474]  s2 : ffffffff80b80b08 s3 : 00000000000000c2 s4 :
+> > ffffffff806c2000
+> > [    2.706891]  s5 : ffffffff80edba10 s6 : ffffffff80edb960 s7 :
+> > 0000000000000001
+> > [    2.707290]  s8 : 00000000000000ff s9 : ffffffff80b80b40 s10:
+> > 00000000000000cc
+> > [    2.707689]  s11: ffffaf807e1fcf00 t3 : 0000000000000076 t4 :
+> > ffffffffffffffff
+> > [    2.708092]  t5 : 00000000000001f2 t6 : ffff8f800021bb48
+> > [    2.708433] status: 0000000000000120 badaddr: 0000000000000000
+> > cause: 0000000000000003
+> > [    2.708919] [<ffffffff8011416a>] free_reserved_area+0x72/0x19a
+> > [    2.709296] [<ffffffff80003a5a>] free_initmem+0x6c/0x7c
+> > [    2.709648] [<ffffffff805f60c8>] kernel_init+0x3a/0x10a
+> > [    2.709993] [<ffffffff80002fda>] ret_from_exception+0x0/0xc
+> > [    2.710310] ---[ end trace 0000000000000000 ]---
+> >
+>
+> I was able to reproduce this: the first one regarding init_zero_pfn is
+> legit but not wrong, I have to check when it was introduced and how to
+> fix this.
+> Regarding the huge batch that follows, at first sight, I would say
+> this is linked to my sv48 patchset but that does not seem important as
+> the address is a kernel mapping address so the use of virt_to_phys is
+> right.
+>
+> > On Wed, Feb 16, 2022 at 5:09 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+> > >
+> > > On Wed, Feb 16, 2022 at 12:56 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+> > > >
+> > > > On Wed, 16 Feb 2022 at 12:47, Aleksandr Nogikh <nogikh@google.com> wrote:
+> > > > >
+> > > > > On Wed, Feb 16, 2022 at 11:37 AM Aleksandr Nogikh <nogikh@google.com> wrote:
+> > > > > >
+> > > > > > Hi Alex,
+> > > > > >
+> > > > > > On Wed, Feb 16, 2022 at 5:14 AM Alexandre Ghiti <alex@ghiti.fr> wrote:
+> > > > > > >
+> > > > > > > Hi Dmitry,
+> > > > > > >
+> > > > > > > On 2/15/22 18:12, Dmitry Vyukov wrote:
+> > > > > > > > On Wed, 2 Feb 2022 at 14:18, Alexandre Ghiti
+> > > > > > > > <alexandre.ghiti@canonical.com> wrote:
+> > > > > > > >> Hi Aleksandr,
+> > > > > > > >>
+> > > > > > > >> On Wed, Feb 2, 2022 at 12:08 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+> > > > > > > >>> Hello,
+> > > > > > > >>>
+> > > > > > > >>> syzbot has already not been able to fuzz its RISC-V instance for 97
+> > > > > > > >> That's a longtime, I'll take a look more regularly.
+> > > > > > > >>
+> > > > > > > >>> days now because the compiled kernel cannot boot. I bisected the issue
+> > > > > > > >>> to the following commit:
+> > > > > > > >>>
+> > > > > > > >>> commit 54c5639d8f507ebefa814f574cb6f763033a72a5
+> > > > > > > >>> Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+> > > > > > > >>> Date:   Fri Oct 29 06:59:27 2021 +0200
+> > > > > > > >>>
+> > > > > > > >>>      riscv: Fix asan-stack clang build
+> > > > > > > >>>
+> > > > > > > >>> Apparently, the problem appears on GCC-built RISC-V kernels with KASAN
+> > > > > > > >>> enabled. In the previous message syzbot mentions
+> > > > > > > >>> "riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU
+> > > > > > > >>> Binutils for Debian) 2.35.2", but the issue also reproduces finely on
+> > > > > > > >>> a newer GCC compiler: "riscv64-linux-gnu-gcc (Debian 11.2.0-10)
+> > > > > > > >>> 11.2.0, GNU ld (GNU Binutils for Debian) 2.37".
+> > > > > > > >>> For convenience, I also duplicate the .config file from the bot's
+> > > > > > > >>> message: https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
+> > > > > > > >>>
+> > > > > > > >>> Can someone with KASAN and RISC-V expertise please take a look?
+> > > > > > > >> I'll take a look at that today.
+> > > > > > > >>
+> > > > > > > >> Thanks for reporting the issue,
+> > > > > > > >
+> > > > > > >
+> > > > > > > I took a quick look, not enough to fix it but I know the issue comes
+> > > > > > > from the inline instrumentation, I have no problem with the outline
+> > > > > > > instrumentation. I need to find some cycles to work on this, my goal is
+> > > > > > > to fix this for 5.17.
+> > > > > >
+> > > > > > Thanks for the update!
+> > > > > >
+> > > > > > Can you please share the .config with which you tested the outline
+> > > > > > instrumentation?
+> > > > > > I updated the syzbot config to use KASAN_OUTLINE instead of KASAN_INLINE,
+> > > > > > but it still does not boot :(
+> > > > > >
+> > > > > > Here's what I used:
+> > > > > > https://gist.github.com/a-nogikh/279c85c2d24f47efcc3e865c08844138
+> > > > >
+> > > > > Update: it doesn't boot with that big config, but boots if I generate
+> > > > > a simple one with KASAN_OUTLINE:
+> > > > >
+> > > > > make defconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+> > > > > ./scripts/config -e KASAN -e KASAN_OUTLINE
+> > > > > make olddefconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+> > > > >
+> > > > > And it indeed doesn't work if I use KASAN_INLINE.
+> > > >
+> > > > It may be an issue with code size. Full syzbot config + KASAN + KCOV
+> > > > produce hugely massive .text. It may be hitting some limitation in the
+> > > > bootloader/kernel bootstrap code.
+>
+> I took a quick glance and it traps on a KASAN address that is not
+> mapped, either because it is too soon or because the mapping failed
+> somehow.
+>
+> I'll definitely dive into that tomorrow, sorry for being slow here and
+> thanks again for all your work, that helps a lot.
+>
+> Thanks,
+>
+> Alex
+>
+> > >
+> > > I bisected the difference between the config we use on syzbot and the
+> > > simple one that was generated like I described above.
+> > > Turns out that it's the DEBUG_VIRTUAL config that makes the difference.
+> > >
+> > > make defconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+> > > ./scripts/config -e KASAN -e KASAN_OUTLINE -e DEBUG_VIRTUAL
+> > > make olddefconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+> > >
+> > > And the resulting kernel does not boot.
+> > > My env: the `riscv/fixes` branch, commit
+> > > 6df2a016c0c8a3d0933ef33dd192ea6606b115e3, qemu 6.2.0.
 
-Without the NULL-check, we'll blow up on the `va->addr` dereference and
-will fail to make the report, which would be unfortunate.
+I fixed a few things today: KASAN + SPARSE_VMEMMAP, DEBUG_VIRTUAL and
+maybe KASAN  + KCOV.
 
-Thanks,
-Mark.
+With those small fixes, I was able to boot your large dotconfig with
+KASAN_OUTLINE, the inline version still fails, this is my next target
+:)
+I'll push that tomorrow!
 
-> +
-> +		page = vmalloc_to_page(page);
-> +	}
-> +
->  	if (page) {
-> -		pr_err("The buggy address belongs to the page:\n");
-> +		pr_err("The buggy address belongs to the physical page:\n");
->  		dump_page(page, "kasan: bad access detected");
->  	}
->  
-> -- 
-> 2.25.1
-> 
+Thanks again,
+
+Alex
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yg44yQJ9tQMgmiZq%40lakrids.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BzEjCs1FEUTcM%2BpgV%2B_MZnixSO5c2hexZFxGxuCQWc2ZMQiRg%40mail.gmail.com.
