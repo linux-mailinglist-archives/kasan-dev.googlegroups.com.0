@@ -1,131 +1,141 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBOGQ4OIAMGQEZT3DXZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ7NGWH7YJRBY6X4OIAMGQEXWGD54Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3944C477C
-	for <lists+kasan-dev@lfdr.de>; Fri, 25 Feb 2022 15:31:21 +0100 (CET)
-Received: by mail-pl1-x63a.google.com with SMTP id q14-20020a17090311ce00b001501afc15e2sf2524434plh.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 25 Feb 2022 06:31:21 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1645799480; cv=pass;
+Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4DF4C47DE
+	for <lists+kasan-dev@lfdr.de>; Fri, 25 Feb 2022 15:46:59 +0100 (CET)
+Received: by mail-wr1-x437.google.com with SMTP id v24-20020adf8b58000000b001eda5c5cf95sf957233wra.18
+        for <lists+kasan-dev@lfdr.de>; Fri, 25 Feb 2022 06:46:59 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1645800419; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zrNJPpmL6sOQ4EfEyiNFipbEPnjzMgxaOGKbathzvLxFupFnVIsWc1haw38uWHgYr+
-         4gpuraMQe9kNfQQopRvr8S1rExyRShkhyL6w8TlDphF3yDV/mHaFSAgJoHlP03rXTbSQ
-         r0y9eXbm+wXbj4XNKv0fkPg7jT0SaP0XO8sev9wcgCK0qYJqt9nYZYOXBthIHxbBqnXO
-         1KW+TgqCUGBeTLaL/U4L66emQFixfnWYTFb2fQc0rc+gZJhQseps6ECM5vPW+aQYD1kr
-         FUxLPfr8z6h5MfKaOkKHLGa4i1ht0K2GJ1++sjAV65clfBzjbIWbp9TLGMkZb/GVxKmI
-         6CpQ==
+        b=GQ6E3baU5ZHcq/KGYflvyzD+gT2+IC7Jg0Xeav/j2lIyqa2ZdKPAL8Mknp7UXtyzux
+         BMPKdSRgHRscYodvHj6nq7y3aFT+F720b+BBBJT8KPWrsC+Rcy50WtHJV58hL02CaSKc
+         H6WET9cRL2zh5sZ2f7H7afUyXOGsdDwJOXIDmfsNUWt6ir99Blld+9lOs5584RzC0iI8
+         vJL94cUfK47yAe5TWBSVWf1kraPXnqK6Rzl+Y+flLHR5DxzG7jCYFb09vJXnE2xNl0YW
+         QhBQVfBRjYcS4jOk8cJQPccKq6JIvnFejKv+eU4E2HkHf7Tik29Jwei4s/GdBNAPPXxS
+         EKJQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=QUYQvc3856IsQTSYooQoJ1rGlrieMI6ukhJ2iyVcx5A=;
-        b=UYyLGgV/0qbrX8pbN9nRwK4hVB5qxASv3c6XyPoQTuhivlZd15DPJu0/LwrbJf6NWo
-         FeF5/eXbC3vOb/EwboEiQl6kqFq2i3Kl6t7BKL1x1fP3IPayLt2LBOV2eSsQYY7lsqbq
-         Ya6vog7r/YiUSHzodmgswt5PxZXHVYXPzDi0FotNli5c419vpiohK1/e+sHvMIjnLMT/
-         79J10sa4YnqB8ExQMewkDIITDbNi3TCMYRwzQ06mCJfy/nf/xHvF01WoRG/kMs2qSwgl
-         ut3N6Q7BDJLCVKpklSN+OvoFXkkG3slOiM2WuUxXoA8j9wAXBvTpqlDU9jXI/JzxW6Sw
-         Knvg==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature;
+        bh=95lhVOmpmRFM4B3wzLDyVvu0QhvUuBl7CUgSVX1ay/s=;
+        b=0MpEkmXj9xQBVH2PmK/H8FigcEjPO+ey3IXpnmckHPcpvILGLlnG1ou6F5VkX9zQ2p
+         v4iW+c/VBRh9gwc5q8fC3hVPD4JNcIeLqZaQ4RFtxk7WbnZZnCLxPj1JiVFja26BPaQf
+         7cNEoGF7nSsmf0t15SfjqEgNlTijUxr6X6+77f2eZC1JhCVclsKo3E7I8lTwj4JHQ5cj
+         lh1jd8IfcRnIzKo2/hmJXK2YexKTAbCHYLjoSpW6Ggd5PL1KFNTOhQPFiPWw15AgUiNd
+         OYcnWQUdutojSOpt/2SgIXRMnzUyUl4vkLVrJ1xnzOI6tPS/XtXNQngecCwzSFCd/m9T
+         lYhw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=PifH5ZiI;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f34 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=a7TdkWuI;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=QUYQvc3856IsQTSYooQoJ1rGlrieMI6ukhJ2iyVcx5A=;
-        b=tUf7TjcsX/CnwZBjGwXpxhQA0ZdTky+3/Fo7jyb/5qd8YCRpafFdOqPIU04Q2sOGPA
-         0atlHj6rYajkmBEMVD9OxenlooaYSCvB3VGHHs35n085KeVUzksO+8PdI1IgyE/8cqBh
-         gjoIgy24LH9liwZdFXry/EZ3BKc+QGa7evp1nlNbac5+POq6UPp5tlrTL/n6tMpbuO+S
-         z8zYOeL3aFU1JS4RBxsgXIRg6uQiMSTvaPVKCXNQdM5MuMTwy9ZO/vrhwZcA7jwO2aOt
-         GRMMZM3vKD0vlQ9LhJb8xaAGkwyeqFGIoiHC+gZb48dJqt0Rp+daB2AcE/lIktY0xr6L
-         tZVw==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=95lhVOmpmRFM4B3wzLDyVvu0QhvUuBl7CUgSVX1ay/s=;
+        b=fDo0Mtsu+DesUzzucoFuC4kRfR7MOK7ZBa1bK7pPtr/sbzQIZLqqHUZBTlRhyE3Tdc
+         b/NuRJRajdS/8mbnsyLisg50BIympJYVxXccSNV/8pgiudYEHxeBqg30IUVepZs6Yhra
+         fNBQdtOiv1sS+RX1ZkDs4q5mcMZV0CVlYMWXD1g6MClG6lONpWKt9Zchx2c4h41BRtUI
+         aCLkv24rQ3PBXtYl8TWyqdrvtO7Pp27vr0EvWYjtU8Q0dSDL7EHkrDNAvjBPbxAj/I12
+         kg9fMA1GCvVEfO27sUS7GjcIAhVKUqjwYrbdL/RJs6yOSMFnLBS6Z/yasKnpBs7SX2AF
+         +T2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=QUYQvc3856IsQTSYooQoJ1rGlrieMI6ukhJ2iyVcx5A=;
-        b=uRUypBXHYsbBtzLeS220QK24R6wESzrIxMSZ+t3rDmW4OLUnsr28TntwF81OD4kY/V
-         7F3VjEVwSvnhD8sW+dwBVomwmC2qcMiji+zkHegSAJe055uKk7nu/bAzHrBv55smCUI3
-         wGngS+A0O2i8kGwXERKED7zZYgshPBTo/bDyH32mCNbR1JtAWZNe+smDqj7SOTc6L//l
-         V2MXSlTHabnflm8PeEh+xhaeASJG2rEGHRWWZJNg55B5BPgGNaARqZTpg99KfduMgmW/
-         IJ7q7X6599NCnEf4d5IQSlSqW3GMZeFqv6PxfvfU7Q+9M4nJwwyxO0++rsEImx3dD2Cz
-         b4nQ==
-X-Gm-Message-State: AOAM531DmM4n3iW2ByMFKDCS6LYhtSHCtJL7JnsTDwkHu1gIlN9+vqOD
-	pShHsZj2RbUTbdtqUw/h4Uo=
-X-Google-Smtp-Source: ABdhPJw9X4dzbugh+sZTx05JlONh5aHhPYmQDx4vHUo5LEfrm8WQkEm7hYp7UJhHxFNMievaXmEEHw==
-X-Received: by 2002:a17:902:8b8c:b0:14e:d959:7bdb with SMTP id ay12-20020a1709028b8c00b0014ed9597bdbmr8006815plb.41.1645799480377;
-        Fri, 25 Feb 2022 06:31:20 -0800 (PST)
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=95lhVOmpmRFM4B3wzLDyVvu0QhvUuBl7CUgSVX1ay/s=;
+        b=4TAZgTk/VmSFL1Nl0ri8893nKgEV5cuPRLOX9ZyIJhQqRvNW7G7+4wEZI1wK4kGqxh
+         Aj3j40TWH3UQlCsCkVS1II0vZ41RSWEIHRSa/jiJMgpIu+BhnrqCI9YbE6u49i5Y3TOI
+         5FiN9kbjP3QDEKZe2913qqXr659ErPIMPVgrtel6NjcLnNNANBt34OvZ2m9v31rvwVqw
+         d0YEPntztIJdZ4SkqgZ6PLBXTD487RcPloIECCB86aASDNqakkZdaDX/V4kZd6sod32N
+         Lk3VK9OC3sYq2oic3sqEN2XaID7FAkOmlKhNTYn+fRX+ENRPcVzthZEHpkSG6yPm7r08
+         DUrA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532ejqdjqavVG5DyR0/kCw1+ewbj5HWBFhEvh7yVPkZwZMFuBtf2
+	p0IVNOyIYiSTZEqt1LK+c3k=
+X-Google-Smtp-Source: ABdhPJzHI1SZkdPSXTUpYiCE1zR9tnxV2AZ2G1jJ2TX1HECkar/uintisABg5B14JR2rpuZES243Fw==
+X-Received: by 2002:a5d:6389:0:b0:1ed:bc35:cda4 with SMTP id p9-20020a5d6389000000b001edbc35cda4mr6630135wru.350.1645800419555;
+        Fri, 25 Feb 2022 06:46:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:d082:b0:1b8:a954:e0cc with SMTP id
- k2-20020a17090ad08200b001b8a954e0ccls1833250pju.3.gmail; Fri, 25 Feb 2022
- 06:31:19 -0800 (PST)
-X-Received: by 2002:a17:90a:5505:b0:1b8:ebd4:d602 with SMTP id b5-20020a17090a550500b001b8ebd4d602mr3392146pji.147.1645799479653;
-        Fri, 25 Feb 2022 06:31:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1645799479; cv=none;
+Received: by 2002:a05:600c:1d84:b0:37c:dec7:dbbf with SMTP id
+ p4-20020a05600c1d8400b0037cdec7dbbfls674793wms.3.canary-gmail; Fri, 25 Feb
+ 2022 06:46:58 -0800 (PST)
+X-Received: by 2002:adf:a4d7:0:b0:1ed:b579:eac7 with SMTP id h23-20020adfa4d7000000b001edb579eac7mr6196488wrb.623.1645800418551;
+        Fri, 25 Feb 2022 06:46:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1645800418; cv=none;
         d=google.com; s=arc-20160816;
-        b=RfJ5hvxXcjnyLpgkkP2Nyf3tiRPDSqA8YPt8qOlaQ6kDIZK7eXQCF0tKCeG55LAnsx
-         5bG2ej5n4VzB+aBbM94Wk4bfHfjkBtbO+FYIgLAoMjjKdWWBuSbEyLWojASGNQH2VRBP
-         RFs+pIDkEmvNM96qY1a3q3R0Wo6Qh0WKneyzPsCWhXRuj/WnvYziPvhVDxpgfqjjX8Xm
-         hgm7A83zZKDkIfBOGeuftJrWR86WT0/wVc/PbtqJWm9A86yt7AA7DDrsOzgkn90lp878
-         aA+ejk07jmt8W/Ow9WC9cC67tCZmqcjdDr/ExS4kckMVtyNp2NJm2blksXe8oSII+1J4
-         8K5g==
+        b=xPv2T/ZlL6TmXsPWVkpUyuhQNWXUwQKi19/+SbZTICohgBb9SfwKIsjqxTYThexsfc
+         ILr/vzkOVZj2sDZZ54iXjT/i5yLh1n4haoTNoyDS1Vw2MX/7ABZ87q1j1dV8W6HD7H74
+         KRJR+9w3ycPDTl+tCggVDyJ5cKNwNZDMRCqmM6qA1tDkJcJuYiV0ehNz3cczFW0fbpm6
+         21iCuExVdvPvSn9L4yPq2d/8aeyyLX6LzxzZe/ZuJPI8b78PKmWXB59fTPfOuOe0IH0S
+         6XB7g6+CWhYPKYK6Fr6ptuPF2hImoBmmnO1uRTcCslRoCmawHRYA/D4pINHFJ5oO62E7
+         G+dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Q3/pGJWT55wNTVWZyeUml4a5i1wfDKM71A95xWVO/MM=;
-        b=zxKozXFgnB8rXfI5ah7gGtDEXn9OdEGiC30oV0oExCcgbsuYGT8Dy3ambstMBe0Ttb
-         hJmPELG/y8nlGiQR1zNE4hFhfBX8gdgdLLUiN9Ie4mU+cPCvUmFJKswhAu5tVMgrN11I
-         Va1QVHeQ6Id/3UP5G1DPIzaYZsTFwXR6ZIp/9tJzoVjM1QPYPrWYgDgymuzQFltPNsk5
-         EHeFYNtmASs56dxWc9xdEpVSz533caKFASHSNq1ZwTmA7JBr7FyolmC3Nb1cybcj5KfE
-         w04LPsPSfOB+Dg9h5gcVKtq8LmgxJXKmrkGeZGLDjLl6le3ShI5oeTbi7flKoaLAAIJ2
-         vJwQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dOC9NztcOZs3DksWle8GHoaYwka1l2lDGqOy4HRLA/c=;
+        b=ekNRe+Xoh/c3ssqkv+KyvNoWhaGZPIA96/AHBnMRiU1OuLGYwTYy308vZLsBO0MTp2
+         PNEIjMaKbSIOoQRKPhM3B1wNKfmsvfzmXi8FqJB+Thdsc8/RLwu/0h2kjNKV9yFnCsxH
+         yARBRXcn35y8RAjz1ni3/GHVLAVrDIODx7a6r0YIob3H4tbFjH9+ckBKOegXuq4qV7+x
+         +OPbldyQWpNYVJfdCF8lJJe0ld9SsMDgHPpUZUwFnmW6jNiKdDBXCqSUH/LdEgNHOZvx
+         wfsh+KZfR5A/ohbSPxZJPpo/v4z4zzBse+rY4ucOrmT+3Wszib3YtORtkSDzF5gSbSHo
+         JOWQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=PifH5ZiI;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f34 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com. [2607:f8b0:4864:20::f34])
-        by gmr-mx.google.com with ESMTPS id p11-20020a17090a930b00b001b97a1bfec2si606575pjo.3.2022.02.25.06.31.19
+       dkim=pass header.i=@canonical.com header.s=20210705 header.b=a7TdkWuI;
+       spf=pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com. [185.125.188.122])
+        by gmr-mx.google.com with ESMTPS id t9-20020a5d42c9000000b001e9d3847897si130243wrr.8.2022.02.25.06.46.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Feb 2022 06:31:19 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f34 as permitted sender) client-ip=2607:f8b0:4864:20::f34;
-Received: by mail-qv1-xf34.google.com with SMTP id 8so6828707qvf.2
-        for <kasan-dev@googlegroups.com>; Fri, 25 Feb 2022 06:31:19 -0800 (PST)
-X-Received: by 2002:ad4:4e61:0:b0:42d:1b44:44c4 with SMTP id
- ec1-20020ad44e61000000b0042d1b4444c4mr5927507qvb.44.1645799478536; Fri, 25
- Feb 2022 06:31:18 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Feb 2022 06:46:58 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexandre.ghiti@canonical.com designates 185.125.188.122 as permitted sender) client-ip=185.125.188.122;
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 177323F33A
+	for <kasan-dev@googlegroups.com>; Fri, 25 Feb 2022 14:46:56 +0000 (UTC)
+Received: by mail-ed1-f69.google.com with SMTP id l24-20020a056402231800b00410f19a3103so2436850eda.5
+        for <kasan-dev@googlegroups.com>; Fri, 25 Feb 2022 06:46:56 -0800 (PST)
+X-Received: by 2002:a05:6402:1681:b0:410:a467:833b with SMTP id a1-20020a056402168100b00410a467833bmr7405668edv.412.1645800415656;
+        Fri, 25 Feb 2022 06:46:55 -0800 (PST)
+X-Received: by 2002:a05:6402:1681:b0:410:a467:833b with SMTP id
+ a1-20020a056402168100b00410a467833bmr7405642edv.412.1645800415364; Fri, 25
+ Feb 2022 06:46:55 -0800 (PST)
 MIME-Version: 1.0
 References: <20220225123953.3251327-1-alexandre.ghiti@canonical.com>
  <CANpmjNN304EZfFN2zobxKGXbXWXAfr92nP1KvtR7j-YqSFShvQ@mail.gmail.com>
  <CA+zEjCtuwnKdi8EuyGWaYNFa7KsYcH9B1mYke6YALo+C1Nq+Dw@mail.gmail.com>
- <CAG_fn=WYmkqPX_qCVmxv1dx87JkXHGF1-a6_8K0jwWuBWzRJfA@mail.gmail.com> <CA+zEjCsQPVYSV7CdhKnvjujXkMXuRQd=VPok1awb20xifYmidw@mail.gmail.com>
-In-Reply-To: <CA+zEjCsQPVYSV7CdhKnvjujXkMXuRQd=VPok1awb20xifYmidw@mail.gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 25 Feb 2022 15:30:42 +0100
-Message-ID: <CAG_fn=VZ3fS7ekmJknQ6sW5zC09iUT9mzWjEhyrn3NaAWfVP_Q@mail.gmail.com>
+ <CAG_fn=WYmkqPX_qCVmxv1dx87JkXHGF1-a6_8K0jwWuBWzRJfA@mail.gmail.com>
+ <CA+zEjCsQPVYSV7CdhKnvjujXkMXuRQd=VPok1awb20xifYmidw@mail.gmail.com> <CAG_fn=VZ3fS7ekmJknQ6sW5zC09iUT9mzWjEhyrn3NaAWfVP_Q@mail.gmail.com>
+In-Reply-To: <CAG_fn=VZ3fS7ekmJknQ6sW5zC09iUT9mzWjEhyrn3NaAWfVP_Q@mail.gmail.com>
+From: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Date: Fri, 25 Feb 2022 15:46:44 +0100
+Message-ID: <CA+zEjCuJw8N0dUmQNdFqDM96bzKqPDjRe4FUnOCbjhJtO0R8Hg@mail.gmail.com>
 Subject: Re: [PATCH -fixes v3 0/6] Fixes KASAN and other along the way
-To: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+To: Alexander Potapenko <glider@google.com>
 Cc: Marco Elver <elver@google.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
 	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, Aleksandr Nogikh <nogikh@google.com>, Nick Hu <nickhu@andestech.com>, 
 	linux-riscv@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>, 
 	kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: multipart/alternative; boundary="0000000000004abcc205d8d88dea"
-X-Original-Sender: glider@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: alexandre.ghiti@canonical.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=PifH5ZiI;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f34 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@canonical.com header.s=20210705 header.b=a7TdkWuI;       spf=pass
+ (google.com: domain of alexandre.ghiti@canonical.com designates
+ 185.125.188.122 as permitted sender) smtp.mailfrom=alexandre.ghiti@canonical.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=canonical.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,172 +148,181 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000004abcc205d8d88dea
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Feb 25, 2022 at 3:31 PM Alexander Potapenko <glider@google.com> wro=
+te:
+>
+>
+>
+> On Fri, Feb 25, 2022 at 3:15 PM Alexandre Ghiti <alexandre.ghiti@canonica=
+l.com> wrote:
+>>
+>> On Fri, Feb 25, 2022 at 3:10 PM Alexander Potapenko <glider@google.com> =
+wrote:
+>> >
+>> >
+>> >
+>> > On Fri, Feb 25, 2022 at 3:04 PM Alexandre Ghiti <alexandre.ghiti@canon=
+ical.com> wrote:
+>> >>
+>> >> On Fri, Feb 25, 2022 at 2:06 PM Marco Elver <elver@google.com> wrote:
+>> >> >
+>> >> > On Fri, 25 Feb 2022 at 13:40, Alexandre Ghiti
+>> >> > <alexandre.ghiti@canonical.com> wrote:
+>> >> > >
+>> >> > > As reported by Aleksandr, syzbot riscv is broken since commit
+>> >> > > 54c5639d8f50 ("riscv: Fix asan-stack clang build"). This commit a=
+ctually
+>> >> > > breaks KASAN_INLINE which is not fixed in this series, that will =
+come later
+>> >> > > when found.
+>> >> > >
+>> >> > > Nevertheless, this series fixes small things that made the syzbot
+>> >> > > configuration + KASAN_OUTLINE fail to boot.
+>> >> > >
+>> >> > > Note that even though the config at [1] boots fine with this seri=
+es, I
+>> >> > > was not able to boot the small config at [2] which fails because
+>> >> > > kasan_poison receives a really weird address 0x4075706301000000 (=
+maybe a
+>> >> > > kasan person could provide some hint about what happens below in
+>> >> > > do_ctors -> __asan_register_globals):
+>> >> >
+>> >> > asan_register_globals is responsible for poisoning redzones around
+>> >> > globals. As hinted by 'do_ctors', it calls constructors, and in thi=
+s
+>> >> > case a compiler-generated constructor that calls
+>> >> > __asan_register_globals with metadata generated by the compiler. Th=
+at
+>> >> > metadata contains information about global variables. Note, these
+>> >> > constructors are called on initial boot, but also every time a kern=
+el
+>> >> > module (that has globals) is loaded.
+>> >> >
+>> >> > It may also be a toolchain issue, but it's hard to say. If you're
+>> >> > using GCC to test, try Clang (11 or later), and vice-versa.
+>> >>
+>> >> I tried 3 different gcc toolchains already, but that did not fix the
+>> >> issue. The only thing that worked was setting asan-globals=3D0 in
+>> >> scripts/Makefile.kasan, but ok, that's not a fix.
+>> >> I tried to bisect this issue but our kasan implementation has been
+>> >> broken quite a few times, so it failed.
+>> >>
+>> >> I keep digging!
+>> >>
+>> >
+>> > The problem does not reproduce for me with GCC 11.2.0: kernels built w=
+ith both [1] and [2] are bootable.
+>>
+>> Do you mean you reach userspace? Because my image boots too, and fails
+>> at some point:
+>>
+>> [    0.000150] sched_clock: 64 bits at 10MHz, resolution 100ns, wraps
+>> every 4398046511100ns
+>> [    0.015847] Console: colour dummy device 80x25
+>> [    0.016899] printk: console [tty0] enabled
+>> [    0.020326] printk: bootconsole [ns16550a0] disabled
+>>
+>
+> In my case, QEMU successfully boots to the login prompt.
+> I am running QEMU 6.2.0 (Debian 1:6.2+dfsg-2) and an image Aleksandr shar=
+ed with me (guess it was built according to this instruction: https://githu=
+b.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_risc=
+v64-kernel.md)
+>
 
-On Fri, Feb 25, 2022 at 3:15 PM Alexandre Ghiti <
-alexandre.ghiti@canonical.com> wrote:
+Nice thanks guys! I always use the latest opensbi and not the one that
+is embedded in qemu, which is the only difference between your command
+line (which works) and mine (which does not work). So the issue is
+probably there, I really need to investigate that now.
 
-> On Fri, Feb 25, 2022 at 3:10 PM Alexander Potapenko <glider@google.com>
-> wrote:
-> >
-> >
-> >
-> > On Fri, Feb 25, 2022 at 3:04 PM Alexandre Ghiti <
-> alexandre.ghiti@canonical.com> wrote:
-> >>
-> >> On Fri, Feb 25, 2022 at 2:06 PM Marco Elver <elver@google.com> wrote:
-> >> >
-> >> > On Fri, 25 Feb 2022 at 13:40, Alexandre Ghiti
-> >> > <alexandre.ghiti@canonical.com> wrote:
-> >> > >
-> >> > > As reported by Aleksandr, syzbot riscv is broken since commit
-> >> > > 54c5639d8f50 ("riscv: Fix asan-stack clang build"). This commit
-> actually
-> >> > > breaks KASAN_INLINE which is not fixed in this series, that will
-> come later
-> >> > > when found.
-> >> > >
-> >> > > Nevertheless, this series fixes small things that made the syzbot
-> >> > > configuration + KASAN_OUTLINE fail to boot.
-> >> > >
-> >> > > Note that even though the config at [1] boots fine with this
-> series, I
-> >> > > was not able to boot the small config at [2] which fails because
-> >> > > kasan_poison receives a really weird address 0x4075706301000000
-> (maybe a
-> >> > > kasan person could provide some hint about what happens below in
-> >> > > do_ctors -> __asan_register_globals):
-> >> >
-> >> > asan_register_globals is responsible for poisoning redzones around
-> >> > globals. As hinted by 'do_ctors', it calls constructors, and in this
-> >> > case a compiler-generated constructor that calls
-> >> > __asan_register_globals with metadata generated by the compiler. Tha=
-t
-> >> > metadata contains information about global variables. Note, these
-> >> > constructors are called on initial boot, but also every time a kerne=
-l
-> >> > module (that has globals) is loaded.
-> >> >
-> >> > It may also be a toolchain issue, but it's hard to say. If you're
-> >> > using GCC to test, try Clang (11 or later), and vice-versa.
-> >>
-> >> I tried 3 different gcc toolchains already, but that did not fix the
-> >> issue. The only thing that worked was setting asan-globals=3D0 in
-> >> scripts/Makefile.kasan, but ok, that's not a fix.
-> >> I tried to bisect this issue but our kasan implementation has been
-> >> broken quite a few times, so it failed.
-> >>
-> >> I keep digging!
-> >>
-> >
-> > The problem does not reproduce for me with GCC 11.2.0: kernels built
-> with both [1] and [2] are bootable.
->
-> Do you mean you reach userspace? Because my image boots too, and fails
-> at some point:
->
-> [    0.000150] sched_clock: 64 bits at 10MHz, resolution 100ns, wraps
-> every 4398046511100ns
-> [    0.015847] Console: colour dummy device 80x25
-> [    0.016899] printk: console [tty0] enabled
-> [    0.020326] printk: bootconsole [ns16550a0] disabled
->
->
-In my case, QEMU successfully boots to the login prompt.
-I am running QEMU 6.2.0 (Debian 1:6.2+dfsg-2) and an image Aleksandr shared
-with me (guess it was built according to this instruction:
-https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host=
-_qemu-vm_riscv64-kernel.md
-)
+That means I only need to fix KASAN_INLINE and we're good.
 
+I imagine Palmer can add your Tested-by on the series then?
 
-> It traps here.
+Thanks again!
+
+Alex
+
+>>
+>> It traps here.
+>>
+>> > FWIW here is how I run them:
+>> >
+>> > qemu-system-riscv64 -m 2048 -smp 1 -nographic -no-reboot \
+>> >   -device virtio-rng-pci -machine virt -device \
+>> >   virtio-net-pci,netdev=3Dnet0 -netdev \
+>> >   user,id=3Dnet0,restrict=3Don,hostfwd=3Dtcp:127.0.0.1:12529-:22 -devi=
+ce \
+>> >   virtio-blk-device,drive=3Dhd0 -drive \
+>> >   file=3D${IMAGE},if=3Dnone,format=3Draw,id=3Dhd0 -snapshot \
+>> >   -kernel ${KERNEL_SRC_DIR}/arch/riscv/boot/Image -append "root=3D/dev=
+/vda
+>> >   console=3DttyS0 earlyprintk=3Dserial"
+>> >
+>> >
+>> >>
+>> >> Thanks for the tips,
+>> >>
+>> >> Alex
+>> >
+>> >
+>> >
+>> > --
+>> > Alexander Potapenko
+>> > Software Engineer
+>> >
+>> > Google Germany GmbH
+>> > Erika-Mann-Stra=C3=9Fe, 33
+>> > 80636 M=C3=BCnchen
+>> >
+>> > Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+>> > Registergericht und -nummer: Hamburg, HRB 86891
+>> > Sitz der Gesellschaft: Hamburg
+>> >
+>> > Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise e=
+rhalten haben sollten, leiten Sie diese bitte nicht an jemand anderes weite=
+r, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie mich =
+bitte wissen, dass die E-Mail an die falsche Person gesendet wurde.
+>> >
+>> >
+>> >
+>> > This e-mail is confidential. If you received this communication by mis=
+take, please don't forward it to anyone else, please erase all copies and a=
+ttachments, and please let me know that it has gone to the wrong person.
+>>
+>> --
+>> You received this message because you are subscribed to the Google Group=
+s "kasan-dev" group.
+>> To unsubscribe from this group and stop receiving emails from it, send a=
+n email to kasan-dev+unsubscribe@googlegroups.com.
+>> To view this discussion on the web visit https://groups.google.com/d/msg=
+id/kasan-dev/CA%2BzEjCsQPVYSV7CdhKnvjujXkMXuRQd%3DVPok1awb20xifYmidw%40mail=
+.gmail.com.
 >
-> > FWIW here is how I run them:
-> >
-> > qemu-system-riscv64 -m 2048 -smp 1 -nographic -no-reboot \
-> >   -device virtio-rng-pci -machine virt -device \
-> >   virtio-net-pci,netdev=3Dnet0 -netdev \
-> >   user,id=3Dnet0,restrict=3Don,hostfwd=3Dtcp:127.0.0.1:12529-:22 -devic=
-e \
-> >   virtio-blk-device,drive=3Dhd0 -drive \
-> >   file=3D${IMAGE},if=3Dnone,format=3Draw,id=3Dhd0 -snapshot \
-> >   -kernel ${KERNEL_SRC_DIR}/arch/riscv/boot/Image -append "root=3D/dev/=
-vda
-> >   console=3DttyS0 earlyprintk=3Dserial"
-> >
-> >
-> >>
-> >> Thanks for the tips,
-> >>
-> >> Alex
-> >
-> >
-> >
-> > --
-> > Alexander Potapenko
-> > Software Engineer
-> >
-> > Google Germany GmbH
-> > Erika-Mann-Stra=C3=9Fe, 33
-> > 80636 M=C3=BCnchen
-> >
-> > Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
-> > Registergericht und -nummer: Hamburg, HRB 86891
-> > Sitz der Gesellschaft: Hamburg
-> >
-> > Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise er=
-halten
-> haben sollten, leiten Sie diese bitte nicht an jemand anderes weiter,
-> l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie mich b=
-itte wissen,
-> dass die E-Mail an die falsche Person gesendet wurde.
-> >
-> >
-> >
-> > This e-mail is confidential. If you received this communication by
-> mistake, please don't forward it to anyone else, please erase all copies
-> and attachments, and please let me know that it has gone to the wrong
-> person.
+>
 >
 > --
-> You received this message because you are subscribed to the Google Groups
-> "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an
-> email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit
-> https://groups.google.com/d/msgid/kasan-dev/CA%2BzEjCsQPVYSV7CdhKnvjujXkM=
-XuRQd%3DVPok1awb20xifYmidw%40mail.gmail.com
-> .
+> Alexander Potapenko
+> Software Engineer
 >
-
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
-
-Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise erhalt=
-en
-haben sollten, leiten Sie diese bitte nicht an jemand anderes weiter,
+> Google Germany GmbH
+> Erika-Mann-Stra=C3=9Fe, 33
+> 80636 M=C3=BCnchen
+>
+> Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+> Registergericht und -nummer: Hamburg, HRB 86891
+> Sitz der Gesellschaft: Hamburg
+>
+> Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise erha=
+lten haben sollten, leiten Sie diese bitte nicht an jemand anderes weiter, =
 l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie mich bit=
-te wissen,
-dass die E-Mail an die falsche Person gesendet wurde.
-
-
-
-This e-mail is confidential. If you received this communication by mistake,
-please don't forward it to anyone else, please erase all copies and
-attachments, and please let me know that it has gone to the wrong person.
+te wissen, dass die E-Mail an die falsche Person gesendet wurde.
+>
+>
+>
+> This e-mail is confidential. If you received this communication by mistak=
+e, please don't forward it to anyone else, please erase all copies and atta=
+chments, and please let me know that it has gone to the wrong person.
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -311,193 +330,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DVZ3fS7ekmJknQ6sW5zC09iUT9mzWjEhyrn3NaAWfVP_Q%40mail.gmai=
+kasan-dev/CA%2BzEjCuJw8N0dUmQNdFqDM96bzKqPDjRe4FUnOCbjhJtO0R8Hg%40mail.gmai=
 l.com.
-
---0000000000004abcc205d8d88dea
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 25, 2022 at 3:15 PM Alexa=
-ndre Ghiti &lt;<a href=3D"mailto:alexandre.ghiti@canonical.com">alexandre.g=
-hiti@canonical.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Fri, Feb 25, 2022 at 3:10 PM Alexander Potapenko &lt;<=
-a href=3D"mailto:glider@google.com" target=3D"_blank">glider@google.com</a>=
-&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Fri, Feb 25, 2022 at 3:04 PM Alexandre Ghiti &lt;<a href=3D"mailto:=
-alexandre.ghiti@canonical.com" target=3D"_blank">alexandre.ghiti@canonical.=
-com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Fri, Feb 25, 2022 at 2:06 PM Marco Elver &lt;<a href=3D"mailto:=
-elver@google.com" target=3D"_blank">elver@google.com</a>&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; On Fri, 25 Feb 2022 at 13:40, Alexandre Ghiti<br>
-&gt;&gt; &gt; &lt;<a href=3D"mailto:alexandre.ghiti@canonical.com" target=
-=3D"_blank">alexandre.ghiti@canonical.com</a>&gt; wrote:<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; As reported by Aleksandr, syzbot riscv is broken since c=
-ommit<br>
-&gt;&gt; &gt; &gt; 54c5639d8f50 (&quot;riscv: Fix asan-stack clang build&qu=
-ot;). This commit actually<br>
-&gt;&gt; &gt; &gt; breaks KASAN_INLINE which is not fixed in this series, t=
-hat will come later<br>
-&gt;&gt; &gt; &gt; when found.<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; Nevertheless, this series fixes small things that made t=
-he syzbot<br>
-&gt;&gt; &gt; &gt; configuration + KASAN_OUTLINE fail to boot.<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; Note that even though the config at [1] boots fine with =
-this series, I<br>
-&gt;&gt; &gt; &gt; was not able to boot the small config at [2] which fails=
- because<br>
-&gt;&gt; &gt; &gt; kasan_poison receives a really weird address 0x407570630=
-1000000 (maybe a<br>
-&gt;&gt; &gt; &gt; kasan person could provide some hint about what happens =
-below in<br>
-&gt;&gt; &gt; &gt; do_ctors -&gt; __asan_register_globals):<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; asan_register_globals is responsible for poisoning redzones a=
-round<br>
-&gt;&gt; &gt; globals. As hinted by &#39;do_ctors&#39;, it calls constructo=
-rs, and in this<br>
-&gt;&gt; &gt; case a compiler-generated constructor that calls<br>
-&gt;&gt; &gt; __asan_register_globals with metadata generated by the compil=
-er. That<br>
-&gt;&gt; &gt; metadata contains information about global variables. Note, t=
-hese<br>
-&gt;&gt; &gt; constructors are called on initial boot, but also every time =
-a kernel<br>
-&gt;&gt; &gt; module (that has globals) is loaded.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; It may also be a toolchain issue, but it&#39;s hard to say. I=
-f you&#39;re<br>
-&gt;&gt; &gt; using GCC to test, try Clang (11 or later), and vice-versa.<b=
-r>
-&gt;&gt;<br>
-&gt;&gt; I tried 3 different gcc toolchains already, but that did not fix t=
-he<br>
-&gt;&gt; issue. The only thing that worked was setting asan-globals=3D0 in<=
-br>
-&gt;&gt; scripts/Makefile.kasan, but ok, that&#39;s not a fix.<br>
-&gt;&gt; I tried to bisect this issue but our kasan implementation has been=
-<br>
-&gt;&gt; broken quite a few times, so it failed.<br>
-&gt;&gt;<br>
-&gt;&gt; I keep digging!<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; The problem does not reproduce for me with GCC 11.2.0: kernels built w=
-ith both [1] and [2] are bootable.<br>
-<br>
-Do you mean you reach userspace? Because my image boots too, and fails<br>
-at some point:<br>
-<br>
-[=C2=A0 =C2=A0 0.000150] sched_clock: 64 bits at 10MHz, resolution 100ns, w=
-raps<br>
-every 4398046511100ns<br>
-[=C2=A0 =C2=A0 0.015847] Console: colour dummy device 80x25<br>
-[=C2=A0 =C2=A0 0.016899] printk: console [tty0] enabled<br>
-[=C2=A0 =C2=A0 0.020326] printk: bootconsole [ns16550a0] disabled<br>
-<br></blockquote><div><br></div><div>In my case, QEMU successfully boots to=
- the login prompt.</div><div>I am running QEMU 6.2.0 (Debian 1:6.2+dfsg-2) =
-and an image Aleksandr shared with me (guess it was built according to this=
- instruction:=C2=A0<a href=3D"https://github.com/google/syzkaller/blob/mast=
-er/docs/linux/setup_linux-host_qemu-vm_riscv64-kernel.md">https://github.co=
-m/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_riscv64-=
-kernel.md</a>)</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">
-It traps here.<br>
-<br>
-&gt; FWIW here is how I run them:<br>
-&gt;<br>
-&gt; qemu-system-riscv64 -m 2048 -smp 1 -nographic -no-reboot \<br>
-&gt;=C2=A0 =C2=A0-device virtio-rng-pci -machine virt -device \<br>
-&gt;=C2=A0 =C2=A0virtio-net-pci,netdev=3Dnet0 -netdev \<br>
-&gt;=C2=A0 =C2=A0user,id=3Dnet0,restrict=3Don,hostfwd=3Dtcp:127.0.0.1:12529=
--:22 -device \<br>
-&gt;=C2=A0 =C2=A0virtio-blk-device,drive=3Dhd0 -drive \<br>
-&gt;=C2=A0 =C2=A0file=3D${IMAGE},if=3Dnone,format=3Draw,id=3Dhd0 -snapshot =
-\<br>
-&gt;=C2=A0 =C2=A0-kernel ${KERNEL_SRC_DIR}/arch/riscv/boot/Image -append &q=
-uot;root=3D/dev/vda<br>
-&gt;=C2=A0 =C2=A0console=3DttyS0 earlyprintk=3Dserial&quot;<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Thanks for the tips,<br>
-&gt;&gt;<br>
-&gt;&gt; Alex<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; --<br>
-&gt; Alexander Potapenko<br>
-&gt; Software Engineer<br>
-&gt;<br>
-&gt; Google Germany GmbH<br>
-&gt; Erika-Mann-Stra=C3=9Fe, 33<br>
-&gt; 80636 M=C3=BCnchen<br>
-&gt;<br>
-&gt; Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian<br>
-&gt; Registergericht und -nummer: Hamburg, HRB 86891<br>
-&gt; Sitz der Gesellschaft: Hamburg<br>
-&gt;<br>
-&gt; Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise e=
-rhalten haben sollten, leiten Sie diese bitte nicht an jemand anderes weite=
-r, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie mich =
-bitte wissen, dass die E-Mail an die falsche Person gesendet wurde.<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; This e-mail is confidential. If you received this communication by mis=
-take, please don&#39;t forward it to anyone else, please erase all copies a=
-nd attachments, and please let me know that it has gone to the wrong person=
-.<br>
-<br>
--- <br>
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br>
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev%2Bunsubscribe@googlegroups.com" target=
-=3D"_blank">kasan-dev+unsubscribe@googlegroups.com</a>.<br>
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CA%2BzEjCsQPVYSV7CdhKnvjujXkMXuRQd%3DVPok1awb20xifYmid=
-w%40mail.gmail.com" rel=3D"noreferrer" target=3D"_blank">https://groups.goo=
-gle.com/d/msgid/kasan-dev/CA%2BzEjCsQPVYSV7CdhKnvjujXkMXuRQd%3DVPok1awb20xi=
-fYmidw%40mail.gmail.com</a>.<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Alexander Potapenko<br>Software=
- Engineer<br><br>Google Germany GmbH<br>Erika-Mann-Stra=C3=9Fe, 33<br>80636=
- M=C3=BCnchen<br><br>Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebasti=
-an<br>Registergericht und -nummer: Hamburg, HRB 86891<br>Sitz der Gesellsch=
-aft: Hamburg<br><br>Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4ls=
-chlicherweise erhalten haben sollten, leiten Sie diese bitte nicht an jeman=
-d anderes weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und l=
-assen Sie mich bitte wissen, dass die E-Mail an die falsche Person gesendet=
- wurde. <br><br>=C2=A0 =C2=A0 =C2=A0<br><br>This e-mail is confidential. If=
- you received this communication by mistake, please don&#39;t forward it to=
- anyone else, please erase all copies and attachments, and please let me kn=
-ow that it has gone to the wrong person.</div></div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CAG_fn%3DVZ3fS7ekmJknQ6sW5zC09iUT9mzWjEhyrn3NaAWfVP_Q%=
-40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
-gle.com/d/msgid/kasan-dev/CAG_fn%3DVZ3fS7ekmJknQ6sW5zC09iUT9mzWjEhyrn3NaAWf=
-VP_Q%40mail.gmail.com</a>.<br />
-
---0000000000004abcc205d8d88dea--
