@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBA6X72IAMGQEHVUUDCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBD6372IAMGQEYDEAIAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf38.google.com (mail-qv1-xf38.google.com [IPv6:2607:f8b0:4864:20::f38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D48B4CAC3E
-	for <lists+kasan-dev@lfdr.de>; Wed,  2 Mar 2022 18:38:13 +0100 (CET)
-Received: by mail-qv1-xf38.google.com with SMTP id fw9-20020a056214238900b0043522aa5b81sf1561011qvb.21
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Mar 2022 09:38:13 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1646242692; cv=pass;
+Received: from mail-pl1-x640.google.com (mail-pl1-x640.google.com [IPv6:2607:f8b0:4864:20::640])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BDF4CAC65
+	for <lists+kasan-dev@lfdr.de>; Wed,  2 Mar 2022 18:46:57 +0100 (CET)
+Received: by mail-pl1-x640.google.com with SMTP id l6-20020a170903120600b0014f43ba55f3sf1363301plh.11
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Mar 2022 09:46:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1646243216; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mDQ8TN/kFJpVFXBy0+P7hYFsxEWGF/4NPvczo02sUF77nD5PI7/SwbFEFPhTmtBRUu
-         +YcbYqbfdh0dS/driaisx3as1soKS7J84MMMA+Kit/Y3fmZ6YsVG4CJg4NGZ8pgulE1B
-         O9V/k+V6WUOTHT+IOkEKdsn3weFzTYpme65Q0OCCED+gn1IQ8WEyuZ3F6OsAX7lkgF54
-         v3N2mco391HwuRoLJFn0CjWi1ol9qT00PrmWz70fXBZBMsDXSpeWKHssrYCi90ARtR0C
-         FvHg8qrBgJOkwaGgmooISu5NGdUpYfpEe3QDIBxYIOg52E/57dYxldslR7EP0caVa0n2
-         SpCg==
+        b=dZLBDbz+N5GbOTUvcSkDuXf+TWw0ZPTTVzjtm9vzjoULdb3VsG6b9/zxrflnsIkdxU
+         ZC0EeChyOu0Srta67gyECqIy1yeefEENtPD+YKgr42MdDr7w8BDf5+r5+fGk5RJOoYqO
+         lmcM2pkKxs0rAfFN9jLb6/GL8EODKfUFbIWqIJMdukWmY2SWnnyQ5CvCwqDIk1fUVTnh
+         eVS7W/LJlGk/lQA9JiiH80eUaAWfq3JNo1zXWX0WbsRWik/oHdk+PqRTVwamJ6HTI9hv
+         P0gISxMAkItDommrGAVqxgMhmwbjYT9YRdrogjvQ7Jnv/DZaeczDEGMFVeqTXtYyqCqF
+         0E7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=EUD4zQpieJXi6hE30CGmrfACZF1i26ldUJYqPJxPOc0=;
-        b=r5uFpOKKLc20odE87VUnsQVz/XPKUs09WZCcV3dyR2b5nu9IuRCKTmAep04tvDT1So
-         TEW1oes8thlAh9VUMNQQyu/WEvc+ocjbwwzlcYO6pJRV6gUDHzaSZshrkkMPMfhVmie1
-         4UopwiWghzUzOeK0s1YI9uhXfG8+HnmWp1uMc5jRwFp22fRSCRjNE7ugMXb7OXDa2xPg
-         w99TWd8y6HTxVIvSOOIMT19FO/0e882nICQyWRDrzmQrXU6oRNO/6UEZZr/aI0y3xwIq
-         MChP4JbytXF3knu3B4QLexHkn1nogsxJ38F0eTpP7UypCUe0uXhDhFwn+lw3mzZWynw5
-         49pQ==
+        bh=WhYCkX8DShqghZlAjrbki+isn0Z0F+TKeMJ7nWEfnBA=;
+        b=GFab1hBxDnRnBcNveCGos5iQbEKHGAZtSuz7PhyPVDeWdfHXLkgO8lqyUmZ83GlBmL
+         5wBGzPiZc4RBulZq4YnPS+KAJxfJijEz0nrxW3pgC7mIflK/VoeCDGqAvXq7siB8SyH4
+         kzJW06Q2KqWWvUS8a9BfwxkaxcDbFZUq9MhZOOJTXXFJsBRD3qGtoxwe4wUes41nrOg5
+         4vZhNSTwPhanxjbfvuEkVd7qaKTH/1RUuCYTKq3Acxpn5GzYr99ARpQjSU2gojBuUsjk
+         BmFBty+BEBG/ownEFaokEhUNGMwxsCObBrF4aljVh8MviwdpqT9VLJMOsg6A49H4NtNE
+         trZw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=pMy31EiU;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f32 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=bomc0j4Z;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::82a as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=EUD4zQpieJXi6hE30CGmrfACZF1i26ldUJYqPJxPOc0=;
-        b=WhH+u8AN4SJCduDfwKFS0du4hVJ7aE+X+XYWMG9mmZauk9Q/AXAWEbegJHqoNj9v4f
-         gWkPRWAcY8NKG0E8qmVKufFVfPHbAB/UQPkH/+r3lmd+UtZzOPU5+4xdlZEbZmw1B8IQ
-         JmfFHWx0UdWBVgQhaDLyxpbAdxPxjwjW0u8iuJGhzDhlH9EtpI+rDs68Pk/9z5yWcjqF
-         l1qsC/qX58rG8NIaSVVTaFH4EE+HavI6+NR85Nspmjy5aKJRjjU8bPknU+Tup8PMuQkW
-         6sYReJPK92jzy0JWxh5nrAAqnSGCxNsdA0VFDIVDh1rrKOl8adbknbjmq6u3nQGv7Na8
-         2+VA==
+        bh=WhYCkX8DShqghZlAjrbki+isn0Z0F+TKeMJ7nWEfnBA=;
+        b=aKTVtjD4jbxKgvwAxB2HM8V2z8tO2wgsvNCeQvw14JHic/L/BYsAvOJVGEZxFXDqoC
+         kwGZw2j3kkRIBteROD3ELEXZkeYGHDLGflwoZ9Nxy/69dtREjuZ2mebn9uK/1KcGfXHO
+         OhB8HxGC1AFRy/N8fmdubMVQE97nDVUyv9HZ+kH+DFVvB7lbQ3VWLyon1psMXRcAK7em
+         QQH0YwKFEINTvrS2X1nGy94RAa55YaRLtNTFCABvmlkcDRgmx71vcLlkIm4xb9IgWl+E
+         CxgZ9L8KMKWH05k0BUyW8l8FMD3Iux9nEfBcg5mWKyQYj0apgtbiRgf+QT+JXuJDipcE
+         NtZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,74 +49,76 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=EUD4zQpieJXi6hE30CGmrfACZF1i26ldUJYqPJxPOc0=;
-        b=1QYgSoLaF7hDfVIVnztNm5nMaZcJov6b7vnXntNSlQBVXAJ1RfVTzxWp1RngScvREl
-         lo8UUTWCH5NIil/KeVC5P/TVxFCkp/kmJOdFJkDJUkhb2mDaDblg3tcnutYuD8Wz9Eop
-         xilraZ+/U7ksbdztc+Mw3+rwUR2bWqDTlRVZVEaEGD8oKbDCndJh9dMb3YP/tXbFjjkT
-         mRWOyNu2E++f+O6cqbvgPw9mrFToN9z1e6J3FFWidBHYlNF9XRYDrWe1xgMpCgthkwcy
-         oa+NaqrA4KMukUkxT6vvNUyeitxyX7lk0FJJIzJXSXZBgIUXt6asLsRcTGYQhoCzv3xy
-         OH8A==
-X-Gm-Message-State: AOAM531zOLNhTV2voB8fykuVnoiw+FJ63+qbdIQzfu4t5ODW10P3AlG+
-	OfErm4PU01fOcqVbKDjj014=
-X-Google-Smtp-Source: ABdhPJwIs0QTfzkQYM5scxbpwsh21LK124m1M00uymmPVtZ85PcrDmrIaLls+sVLA8CK7xQeFuQTww==
-X-Received: by 2002:a05:620a:48d:b0:47e:17f5:a33f with SMTP id 13-20020a05620a048d00b0047e17f5a33fmr17387279qkr.727.1646242691809;
-        Wed, 02 Mar 2022 09:38:11 -0800 (PST)
+        bh=WhYCkX8DShqghZlAjrbki+isn0Z0F+TKeMJ7nWEfnBA=;
+        b=zo91EB/EE+/I4TwidScUT6fTThw9pQGiqBfZMsZwPH02ttzDXbxcW1loe+PsWP68a2
+         rTigEF1zxofhgWCks0J0HEc7R5RteCgx2FlLkpdjed36XElH3zkVvIfNONFICa6Tagle
+         asOKQSH0qpRI5HjbrfYArgI9JubPqVp2kYwN5jbf2CGqvd/IFuIkZsXc00WxUsRtSDQv
+         6AXlA/jXWRXvJ5dO1DJZH/XxGbxAV4mb2+DUrSQAJh3PHXgV1HoYCgILm5vUiTpbDxJc
+         CW4tyfGR0G87ScvIrCk0lFwvB2nTF4SYdIv/+OcF3XGPwiI1LekOxXxPL2g6dSahVcgZ
+         M8+g==
+X-Gm-Message-State: AOAM5323MN7hZm7kivgw1FxUMHa8UiL+fwYt4XQgR3pjoZ6lwvJx9VpV
+	KEsfJMGmqEmDgQgrVX+Xov4=
+X-Google-Smtp-Source: ABdhPJymLBTudHupdh5if+/7CDOQxTKkwtjJSQlh+bIv/gmaaLORFuWltjbR8gYHdpgGWvjLLaP8bw==
+X-Received: by 2002:a17:902:ce09:b0:151:96e2:d4b5 with SMTP id k9-20020a170902ce0900b0015196e2d4b5mr4131362plg.3.1646243216067;
+        Wed, 02 Mar 2022 09:46:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:5c6d:0:b0:433:2c45:ff3 with SMTP id i13-20020ad45c6d000000b004332c450ff3ls3443672qvh.9.gmail;
- Wed, 02 Mar 2022 09:38:11 -0800 (PST)
-X-Received: by 2002:a05:6214:5188:b0:433:3463:709f with SMTP id kl8-20020a056214518800b004333463709fmr8531172qvb.59.1646242691380;
-        Wed, 02 Mar 2022 09:38:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1646242691; cv=none;
+Received: by 2002:a17:90a:bb92:b0:1bc:46ec:e156 with SMTP id
+ v18-20020a17090abb9200b001bc46ece156ls4723896pjr.2.gmail; Wed, 02 Mar 2022
+ 09:46:55 -0800 (PST)
+X-Received: by 2002:a17:90b:2243:b0:1bf:a3e:9b9a with SMTP id hk3-20020a17090b224300b001bf0a3e9b9amr88224pjb.64.1646243215447;
+        Wed, 02 Mar 2022 09:46:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1646243215; cv=none;
         d=google.com; s=arc-20160816;
-        b=d5Wi7stAgVBaVb5p5ekXahEsh9j/mPk/ERJtcSldONoM8MrxdpN/jkgJGDOTKoDDtV
-         2V+EoG4ZdD8wE2jOWJaCHMj1ceLpcOvvoa19fHbH4/bsiYcgG73poEUPBEXwHYV93xkx
-         84cMamDJzcrgIoeeFN9/uHgbcxtdUk7CCdTYl6WwBovCBCIvzCAcjZSH8yBO0kx3l3Ne
-         VzjHXz6Jxf4CoRerVZ0ueGm9+2ICnhezrqFOw+8KmW/XJnCZQ0hYoutrRLsyL0oe9n/Z
-         q0wj0E/ePi6803t+TKW/F67B/WsPkpsoR9WuB+h3lyZcEmXsuhWGlhiAGU8ZqSVv6J2z
-         ou1A==
+        b=iA0DiTmitrtuAt4GqRIkXt+4qqtHBos2/HANOPAMu1x7GD6kuy2+tnMnKWvMo5UhKZ
+         FW3v8v7oHKVZbzJeWLsBSSNjKYDmzBnkFwcQEfGI6U9M0f2ukmpG+jEEWauenSxgvnBW
+         YZrjr5P0QRzi6VpOFoL0dUmcdDymTW7LFb8XbIOTBHXWFP7ZKYI9CU2+RoaL2rQBTvf4
+         IQGDEfZ+rpcEfiB9LCI2PrBDP2WkeO4JiEADVOBp7kAyGUsGjkUVktRtIN/nhe33RpO3
+         lDz+/l74jKrhPvwyGwcM3qQEdy5bpwWVhV5fVjZXT0yGy0RJPyFV5YbDxYRAB0drlROR
+         s3mA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=3CWSfAWuGRM0DidB0ivDkq8AFKbglZjIAIWZXun6ksw=;
-        b=gJZCTNC4UCsEAXMKz7lCLkr8DkzBZ5ff2waHpDSebLLpo1+sAfFPon2XGr4by/frnp
-         8cIicrjeeIrqWQHj52kriWD0A0MG/s3GajZhFbdzIzI0PTHnV1BzfGi4CMBCqcicLlQe
-         Iw91/fPhPuVvk3kqyDl+488/JCBhHPzBeWG6f8zrjuvxjgdTRS2kSGMlW0Bxk3dnGyuf
-         uThzDYUUql1sRKR6G0wp1A4UKboHaKfJGbmTRYBne/Lc2EHB6xL5V2fEc12ThBRUj0XV
-         9sfrFogsMZg/OPDCIX3+xyxiHqV7Ppf8C4humnLZqESunauGtq00ejm3/f+8D0zb8eRx
-         RhRQ==
+        bh=fZWesjVlnNPom3VAQBATiQ2w4HQw0ODH2qGAjfL9wDI=;
+        b=k8Vb/pNm0xuuoI9oe3FmWpN/xRbSeWtOdMbWtnofPhnO1sEDSWvOAYOYWJq4uxVFjL
+         bFkQK3CqhrSp5VvLzQLAUU76m6zbswN2kKZa3ximkbBSonnM27J7DMfz9HnZ6HycSWoX
+         ZBPQ2d43xJgU9Mq7u4015W0xtFchhPtqblZv1f02h2IFh8wQWf3Pswx90daz7aQ6IUfh
+         Vb2ChmmDSfAi7ODPbaEwpokJSbhYSEQD4+65tFluvX9mYnL7VQzODU3GP/HNQqwKuI8G
+         H38L3YaN0uV4dX73kY6XJtpSgsrA+Y5ypm+MGt4a/AbSSCRBlkj4UasI+S2z/3PxfTtb
+         er8Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=pMy31EiU;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f32 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=bomc0j4Z;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::82a as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com. [2607:f8b0:4864:20::f32])
-        by gmr-mx.google.com with ESMTPS id j185-20020a37a0c2000000b0060dd7b1854bsi723426qke.1.2022.03.02.09.38.11
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com. [2607:f8b0:4864:20::82a])
+        by gmr-mx.google.com with ESMTPS id d24-20020a170902729800b001514a005025si589593pll.5.2022.03.02.09.46.55
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Mar 2022 09:38:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f32 as permitted sender) client-ip=2607:f8b0:4864:20::f32;
-Received: by mail-qv1-xf32.google.com with SMTP id b12so2089008qvk.1
-        for <kasan-dev@googlegroups.com>; Wed, 02 Mar 2022 09:38:11 -0800 (PST)
-X-Received: by 2002:ad4:5fcb:0:b0:432:d049:c6d with SMTP id
- jq11-20020ad45fcb000000b00432d0490c6dmr17548321qvb.39.1646242690905; Wed, 02
- Mar 2022 09:38:10 -0800 (PST)
+        Wed, 02 Mar 2022 09:46:55 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::82a as permitted sender) client-ip=2607:f8b0:4864:20::82a;
+Received: by mail-qt1-x82a.google.com with SMTP id a1so2298073qta.13
+        for <kasan-dev@googlegroups.com>; Wed, 02 Mar 2022 09:46:55 -0800 (PST)
+X-Received: by 2002:a05:622a:15d2:b0:2de:323e:e964 with SMTP id
+ d18-20020a05622a15d200b002de323ee964mr24949794qty.79.1646243214418; Wed, 02
+ Mar 2022 09:46:54 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1646237226.git.andreyknvl@google.com> <1c8ce43f97300300e62c941181afa2eb738965c5.1646237226.git.andreyknvl@google.com>
-In-Reply-To: <1c8ce43f97300300e62c941181afa2eb738965c5.1646237226.git.andreyknvl@google.com>
+References: <cover.1646237226.git.andreyknvl@google.com> <dac26d811ae31856c3d7666de0b108a3735d962d.1646237226.git.andreyknvl@google.com>
+In-Reply-To: <dac26d811ae31856c3d7666de0b108a3735d962d.1646237226.git.andreyknvl@google.com>
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 2 Mar 2022 18:37:34 +0100
-Message-ID: <CAG_fn=UX_hF4RYdCMy-NRC+=KySFLE4wOTiCmzFPBwhieWjz4w@mail.gmail.com>
-Subject: Re: [PATCH mm 06/22] kasan: simplify async check in end_report
+Date: Wed, 2 Mar 2022 18:46:17 +0100
+Message-ID: <CAG_fn=VSdymLH6sqeM41p0T8X1u4PrQqY6i6Us29mvJR--Z8Yg@mail.gmail.com>
+Subject: Re: [PATCH mm 07/22] kasan: simplify kasan_update_kunit_status and
+ call sites
 To: andrey.konovalov@linux.dev
 Cc: Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
 	kasan-dev <kasan-dev@googlegroups.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
 	Andrey Konovalov <andreyknvl@google.com>
-Content-Type: multipart/alternative; boundary="000000000000cecaad05d93fbe75"
+Content-Type: multipart/alternative; boundary="00000000000002c57105d93fde81"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=pMy31EiU;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f32 as
+ header.i=@google.com header.s=20210112 header.b=bomc0j4Z;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::82a as
  permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
@@ -133,7 +135,7 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---000000000000cecaad05d93fbe75
+--00000000000002c57105d93fde81
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -141,36 +143,118 @@ On Wed, Mar 2, 2022 at 5:37 PM <andrey.konovalov@linux.dev> wrote:
 
 > From: Andrey Konovalov <andreyknvl@google.com>
 >
-> Currently, end_report() does not call trace_error_report_end() for bugs
-> detected in either async or asymm mode (when kasan_async_fault_possible()
-> returns true), as the address of the bad access might be unknown.
+> - Rename kasan_update_kunit_status() to update_kunit_status()
+>   (the function is static).
 >
-> However, for asymm mode, the address is known for faults triggered by
-> read operations.
+> - Move the IS_ENABLED(CONFIG_KUNIT) to the function's
+>   definition instead of duplicating it at call sites.
 >
-> Instead of using kasan_async_fault_possible(), simply check that
-> the addr is not NULL when calling trace_error_report_end().
+> - Obtain and check current->kunit_test within the function.
 >
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  mm/kasan/report.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index d60ee8b81e2b..2d892ec050be 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -112,7 +112,7 @@ static void start_report(unsigned long *flags)
->
->  static void end_report(unsigned long *flags, unsigned long addr)
->  {
-> -       if (!kasan_async_fault_possible())
-> +       if (addr)
->                 trace_error_report_end(ERROR_DETECTOR_KASAN, addr);
 >
 
-What happens in the case of a NULL dereference? Don't we want to trigger
-the tracepoint as well?
+Reviewed-by: Alexander Potapenko <glider@google.com>
+
+
+> ---
+>  mm/kasan/report.c | 30 ++++++++++++++----------------
+>  1 file changed, 14 insertions(+), 16 deletions(-)
+>
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 2d892ec050be..59db81211b8a 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -357,24 +357,31 @@ static bool report_enabled(void)
+>  }
+>
+>  #if IS_ENABLED(CONFIG_KUNIT)
+> -static void kasan_update_kunit_status(struct kunit *cur_test, bool sync)
+> +static void update_kunit_status(bool sync)
+>  {
+> +       struct kunit *test;
+>         struct kunit_resource *resource;
+>         struct kunit_kasan_status *status;
+>
+> -       resource =3D kunit_find_named_resource(cur_test, "kasan_status");
+> +       test =3D current->kunit_test;
+> +       if (!test)
+> +               return;
+>
+> +       resource =3D kunit_find_named_resource(test, "kasan_status");
+>         if (!resource) {
+> -               kunit_set_failure(cur_test);
+> +               kunit_set_failure(test);
+>                 return;
+>         }
+>
+>         status =3D (struct kunit_kasan_status *)resource->data;
+>         WRITE_ONCE(status->report_found, true);
+>         WRITE_ONCE(status->sync_fault, sync);
+> +
+>         kunit_put_resource(resource);
+>  }
+> -#endif /* IS_ENABLED(CONFIG_KUNIT) */
+> +#else
+> +static void update_kunit_status(bool sync) { }
+> +#endif
+>
+>  void kasan_report_invalid_free(void *object, unsigned long ip)
+>  {
+> @@ -383,10 +390,7 @@ void kasan_report_invalid_free(void *object, unsigne=
+d
+> long ip)
+>
+>         object =3D kasan_reset_tag(object);
+>
+> -#if IS_ENABLED(CONFIG_KUNIT)
+> -       if (current->kunit_test)
+> -               kasan_update_kunit_status(current->kunit_test, true);
+> -#endif /* IS_ENABLED(CONFIG_KUNIT) */
+> +       update_kunit_status(true);
+>
+>         start_report(&flags);
+>         pr_err("BUG: KASAN: double-free or invalid-free in %pS\n", (void
+> *)ip);
+> @@ -402,10 +406,7 @@ void kasan_report_async(void)
+>  {
+>         unsigned long flags;
+>
+> -#if IS_ENABLED(CONFIG_KUNIT)
+> -       if (current->kunit_test)
+> -               kasan_update_kunit_status(current->kunit_test, false);
+> -#endif /* IS_ENABLED(CONFIG_KUNIT) */
+> +       update_kunit_status(false);
+>
+>         start_report(&flags);
+>         pr_err("BUG: KASAN: invalid-access\n");
+> @@ -424,10 +425,7 @@ static void __kasan_report(unsigned long addr, size_=
+t
+> size, bool is_write,
+>         void *untagged_addr;
+>         unsigned long flags;
+>
+> -#if IS_ENABLED(CONFIG_KUNIT)
+> -       if (current->kunit_test)
+> -               kasan_update_kunit_status(current->kunit_test, true);
+> -#endif /* IS_ENABLED(CONFIG_KUNIT) */
+> +       update_kunit_status(true);
+>
+>         disable_trace_on_warning();
+>
+> --
+> 2.25.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups
+> "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an
+> email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit
+> https://groups.google.com/d/msgid/kasan-dev/dac26d811ae31856c3d7666de0b10=
+8a3735d962d.1646237226.git.andreyknvl%40google.com
+> .
+>
 
 
 --=20
@@ -204,10 +288,10 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DUX_hF4RYdCMy-NRC%2B%3DKySFLE4wOTiCmzFPBwhieWjz4w%40mail.=
-gmail.com.
+kasan-dev/CAG_fn%3DVSdymLH6sqeM41p0T8X1u4PrQqY6i6Us29mvJR--Z8Yg%40mail.gmai=
+l.com.
 
---000000000000cecaad05d93fbe75
+--00000000000002c57105d93fde81
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -219,49 +303,140 @@ px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From:=
  Andrey Konovalov &lt;<a href=3D"mailto:andreyknvl@google.com" target=3D"_b=
 lank">andreyknvl@google.com</a>&gt;<br>
 <br>
-Currently, end_report() does not call trace_error_report_end() for bugs<br>
-detected in either async or asymm mode (when kasan_async_fault_possible()<b=
-r>
-returns true), as the address of the bad access might be unknown.<br>
+- Rename kasan_update_kunit_status() to update_kunit_status()<br>
+=C2=A0 (the function is static).<br>
 <br>
-However, for asymm mode, the address is known for faults triggered by<br>
-read operations.<br>
+- Move the IS_ENABLED(CONFIG_KUNIT) to the function&#39;s<br>
+=C2=A0 definition instead of duplicating it at call sites.<br>
 <br>
-Instead of using kasan_async_fault_possible(), simply check that<br>
-the addr is not NULL when calling trace_error_report_end().<br>
+- Obtain and check current-&gt;kunit_test within the function.<br>
 <br>
 Signed-off-by: Andrey Konovalov &lt;<a href=3D"mailto:andreyknvl@google.com=
-" target=3D"_blank">andreyknvl@google.com</a>&gt;<br>
+" target=3D"_blank">andreyknvl@google.com</a>&gt;<br></blockquote><div><br>=
+</div><div>Reviewed-by: Alexander Potapenko &lt;<a href=3D"mailto:glider@go=
+ogle.com">glider@google.com</a>&gt;</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0mm/kasan/report.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0mm/kasan/report.c | 30 ++++++++++++++----------------<br>
+=C2=A01 file changed, 14 insertions(+), 16 deletions(-)<br>
 <br>
 diff --git a/mm/kasan/report.c b/mm/kasan/report.c<br>
-index d60ee8b81e2b..2d892ec050be 100644<br>
+index 2d892ec050be..59db81211b8a 100644<br>
 --- a/mm/kasan/report.c<br>
 +++ b/mm/kasan/report.c<br>
-@@ -112,7 +112,7 @@ static void start_report(unsigned long *flags)<br>
+@@ -357,24 +357,31 @@ static bool report_enabled(void)<br>
+=C2=A0}<br>
 <br>
-=C2=A0static void end_report(unsigned long *flags, unsigned long addr)<br>
+=C2=A0#if IS_ENABLED(CONFIG_KUNIT)<br>
+-static void kasan_update_kunit_status(struct kunit *cur_test, bool sync)<b=
+r>
++static void update_kunit_status(bool sync)<br>
 =C2=A0{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!kasan_async_fault_possible())<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (addr)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_error_report_=
-end(ERROR_DETECTOR_KASAN, addr);<br></blockquote><div><br></div><div>What h=
-appens in the case of a NULL dereference? Don&#39;t we want to trigger the =
-tracepoint as well?</div></div><br clear=3D"all"><div><br></div>-- <br><div=
- dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr">Alexander Potapenko=
-<br>Software Engineer<br><br>Google Germany GmbH<br>Erika-Mann-Stra=C3=9Fe,=
- 33<br>80636 M=C3=BCnchen<br><br>Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, L=
-iana Sebastian<br>Registergericht und -nummer: Hamburg, HRB 86891<br>Sitz d=
-er Gesellschaft: Hamburg<br><br>Diese E-Mail ist vertraulich. Falls Sie die=
-se f=C3=A4lschlicherweise erhalten haben sollten, leiten Sie diese bitte ni=
-cht an jemand anderes weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge=
- davon und lassen Sie mich bitte wissen, dass die E-Mail an die falsche Per=
-son gesendet wurde. <br><br>=C2=A0 =C2=A0 =C2=A0<br><br>This e-mail is conf=
-idential. If you received this communication by mistake, please don&#39;t f=
-orward it to anyone else, please erase all copies and attachments, and plea=
-se let me know that it has gone to the wrong person.</div></div></div>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct kunit *test;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct kunit_resource *resource;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct kunit_kasan_status *status;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0resource =3D kunit_find_named_resource(cur_test=
+, &quot;kasan_status&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0test =3D current-&gt;kunit_test;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!test)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0resource =3D kunit_find_named_resource(test, &q=
+uot;kasan_status&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!resource) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kunit_set_failure(c=
+ur_test);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kunit_set_failure(t=
+est);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 status =3D (struct kunit_kasan_status *)resourc=
+e-&gt;data;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 WRITE_ONCE(status-&gt;report_found, true);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 WRITE_ONCE(status-&gt;sync_fault, sync);<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 kunit_put_resource(resource);<br>
+=C2=A0}<br>
+-#endif /* IS_ENABLED(CONFIG_KUNIT) */<br>
++#else<br>
++static void update_kunit_status(bool sync) { }<br>
++#endif<br>
+<br>
+=C2=A0void kasan_report_invalid_free(void *object, unsigned long ip)<br>
+=C2=A0{<br>
+@@ -383,10 +390,7 @@ void kasan_report_invalid_free(void *object, unsigned =
+long ip)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 object =3D kasan_reset_tag(object);<br>
+<br>
+-#if IS_ENABLED(CONFIG_KUNIT)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (current-&gt;kunit_test)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kasan_update_kunit_=
+status(current-&gt;kunit_test, true);<br>
+-#endif /* IS_ENABLED(CONFIG_KUNIT) */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0update_kunit_status(true);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 start_report(&amp;flags);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pr_err(&quot;BUG: KASAN: double-free or invalid=
+-free in %pS\n&quot;, (void *)ip);<br>
+@@ -402,10 +406,7 @@ void kasan_report_async(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long flags;<br>
+<br>
+-#if IS_ENABLED(CONFIG_KUNIT)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (current-&gt;kunit_test)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kasan_update_kunit_=
+status(current-&gt;kunit_test, false);<br>
+-#endif /* IS_ENABLED(CONFIG_KUNIT) */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0update_kunit_status(false);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 start_report(&amp;flags);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pr_err(&quot;BUG: KASAN: invalid-access\n&quot;=
+);<br>
+@@ -424,10 +425,7 @@ static void __kasan_report(unsigned long addr, size_t =
+size, bool is_write,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 void *untagged_addr;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long flags;<br>
+<br>
+-#if IS_ENABLED(CONFIG_KUNIT)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (current-&gt;kunit_test)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kasan_update_kunit_=
+status(current-&gt;kunit_test, true);<br>
+-#endif /* IS_ENABLED(CONFIG_KUNIT) */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0update_kunit_status(true);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 disable_trace_on_warning();<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+-- <br>
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br>
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev%2Bunsubscribe@googlegroups.com" target=
+=3D"_blank">kasan-dev+unsubscribe@googlegroups.com</a>.<br>
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/dac26d811ae31856c3d7666de0b108a3735d962d.1646237226.gi=
+t.andreyknvl%40google.com" rel=3D"noreferrer" target=3D"_blank">https://gro=
+ups.google.com/d/msgid/kasan-dev/dac26d811ae31856c3d7666de0b108a3735d962d.1=
+646237226.git.andreyknvl%40google.com</a>.<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Alexander Potapenko<br>Software=
+ Engineer<br><br>Google Germany GmbH<br>Erika-Mann-Stra=C3=9Fe, 33<br>80636=
+ M=C3=BCnchen<br><br>Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebasti=
+an<br>Registergericht und -nummer: Hamburg, HRB 86891<br>Sitz der Gesellsch=
+aft: Hamburg<br><br>Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4ls=
+chlicherweise erhalten haben sollten, leiten Sie diese bitte nicht an jeman=
+d anderes weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und l=
+assen Sie mich bitte wissen, dass die E-Mail an die falsche Person gesendet=
+ wurde. <br><br>=C2=A0 =C2=A0 =C2=A0<br><br>This e-mail is confidential. If=
+ you received this communication by mistake, please don&#39;t forward it to=
+ anyone else, please erase all copies and attachments, and please let me kn=
+ow that it has gone to the wrong person.</div></div></div>
 
 <p></p>
 
@@ -272,9 +447,9 @@ To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
 +unsubscribe@googlegroups.com</a>.<br />
 To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CAG_fn%3DUX_hF4RYdCMy-NRC%2B%3DKySFLE4wOTiCmzFPBwhieWj=
-z4w%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups=
-.google.com/d/msgid/kasan-dev/CAG_fn%3DUX_hF4RYdCMy-NRC%2B%3DKySFLE4wOTiCmz=
-FPBwhieWjz4w%40mail.gmail.com</a>.<br />
+om/d/msgid/kasan-dev/CAG_fn%3DVSdymLH6sqeM41p0T8X1u4PrQqY6i6Us29mvJR--Z8Yg%=
+40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
+gle.com/d/msgid/kasan-dev/CAG_fn%3DVSdymLH6sqeM41p0T8X1u4PrQqY6i6Us29mvJR--=
+Z8Yg%40mail.gmail.com</a>.<br />
 
---000000000000cecaad05d93fbe75--
+--00000000000002c57105d93fde81--
