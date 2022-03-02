@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBIGU72IAMGQE5FBPBCI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBPGV72IAMGQE5MLQR4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636F04CAC00
-	for <lists+kasan-dev@lfdr.de>; Wed,  2 Mar 2022 18:32:17 +0100 (CET)
-Received: by mail-oi1-x23d.google.com with SMTP id a3-20020acab103000000b002d4be2314a2sf1420504oif.14
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Mar 2022 09:32:17 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1646242336; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7B14CAC33
+	for <lists+kasan-dev@lfdr.de>; Wed,  2 Mar 2022 18:34:53 +0100 (CET)
+Received: by mail-pl1-x637.google.com with SMTP id b20-20020a170902d89400b0015171e56800sf1353677plz.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Mar 2022 09:34:53 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1646242492; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ha0YrdmqqHh9bamAHo6UKVydIwV9+B8MY5pCOkSMe+5JvswbUePqR3J7XERrx4shb+
-         6xUxIjRIUfbGcl0JMaEsA+QR3ATHhIzJTmH/m4LpwYQjYqFZ6eU8KOdyCJiV6SFU6d+S
-         Qc6zkgzbxhplXWFA8Yi3rIo95lbj7iy2eU4a548lfHmhPqA592d/pjBnAHaEjEwzgQCS
-         26NQ9QSuiCqB4HT4QATSxvZXk25bKDVsW1C0AzUkDwilcbj2R0OK1TBdsmFDTbJZ2lz4
-         YU4/XJOkVryudkP9fMkgOac8a4JSyEhui2sr4+97AzcvS0H0+Z46iE9JSd4/YrUVNAN3
-         0zfg==
+        b=PzjxzDJuRSr4pgLovw7wpTXLBxXMpwmiWAVS2CljA1aAObiB7zzR/41fahgsp5xP5p
+         lubhT7BsjnLhKIruM3GERPMfo5OqYvOZSdsgAmhDmR31fxwJUaEJId4XHJirJY8Z175N
+         MidighrNZAg+9zwtGPatJnjds8WrV3EgMnD52VsWhMF4jmBMgBd+hKL43ZJ5Zkrn3jlm
+         FxIc/uEXlODrD//+pe7DIJN1zkEc3mtfnrklL3+OI1pqpO5MOQs9G1QgtlMfoCM7JOcl
+         9Nnqh/y/78mDIeky8tNvCeMr9GwysNaa60Vk+myNf99YmQYc5n2a+jSWzKXTKFN9jCwE
+         2MGA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=p1Y7dtGrNRgo7daoTSQ0hfb44O7CMMON08dBtXwTXwg=;
-        b=K3hwMIhuYcHvyPtnNgzhOskqonK0n3gKMPtVtUIeeJI2Oq7GSctJm42zfbUAjF+eyo
-         7bgkXtxNFrzqJWR/p7koIQ/RlTBrtC4anntgGzOp5zVp3un8pB5Fxxhu/GdKoaxiBTYM
-         kdOwnVg+CiOWE0CUHAfCiAWXUeIMdBtHSsJDL2G9oX56FIfNEmgaR21ysMnV50Ay0le5
-         cUO3taP9ltJtaYxOhTfhuH44R2gTq7qkitDlWOKyL/Ho9wy0UeTyTXn7jCLj6gBe7ka0
-         2hX2BjTRHLL5Jt9KXCLEm9QHEQzvmBvDnW07PtORq2ZSA932PRddJjd7Q6ilxqRLNx5l
-         Amhg==
+        bh=DtB8cFj63kkbYlLPXve3Ea/D9yZCrh6MKed+8wlDStc=;
+        b=biDtixnxTkO+Y/oF/xqt7bRJ2jkNzZmTag3Z77BIgZk2zz4XnuY6sXjkKRBrMyp66n
+         xIy42z5qirzgUS+dTq3tz3esDj0uzJ9ST0QW71cpJn849jUpCOSrV6KiRD+OcITg6HfW
+         ayfaC+OWFxt4Z4Crrc67fpg6QrLKGAYiG8eaVhNWnM/v7FOGIWl9QfFKF9Pd/3rDqcbu
+         5i3LLd0VV4MlZlRptW6QGPe1vUFPTva4w5odVBeIa3L3pyYLZMoty3WDe7EtGCRMUgFY
+         l9mLqcAo1yzAtzw3t8uJPKwK+D9Rsj75utUUiWgt4a/MQlgKVDsl6E2GKQJW2bQh8WRO
+         6IkA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=rnKI3HVR;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72c as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Rx21fTDu;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::736 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=p1Y7dtGrNRgo7daoTSQ0hfb44O7CMMON08dBtXwTXwg=;
-        b=ggKCBRCXTZtLm3rC9Hsrp/TqToCFzx9f/Rb4k2SHNcaWqJlfOawOGsWbSWiDt5L3k9
-         00i8HqOCkREAIw03K5oAhjWK75WKLUYng0wyK3RIqwf6RXdg0MxIeA2VifCjpYsHVrMj
-         smXwjyCTXriytI/7/1EEGYUvCdxlXlPtQNP258uRtri7TS0lk4j+Pr/I+4W3mlEhEPSj
-         Ax/U1cCwAzkNXcFP6v325WBCppHDSRwtcOWCq4r7Hp1BRNwv43W+GtSilW8fT7Ga8hYK
-         471sNkkHg2gMmB409oMTQLWY5Hc6XSQTS2or0JS3/Hf7UvOK9M46fpTprbCvaPcxMgF6
-         TDBQ==
+        bh=DtB8cFj63kkbYlLPXve3Ea/D9yZCrh6MKed+8wlDStc=;
+        b=Oq6Zmd5f6ZCh9bMmNHCWp9vUyS5iUhBLqoKA2sC3bk96PlE+JN6XEiWju5kNfIQU2Y
+         ZDgxUVFTkkePIgSUblJlKBYgilHMiF/wq0Zi71cBJ/1OVBg5EJG0hIj2BVnPsJJzGlZQ
+         v2z9S65SIdvcB7jn+qhp3cV+RYWQiFOeeEMrRiVLEyBeET63rAbC06jaYT/kzBHKO1EZ
+         insyrYn/xwkfiWTD2Z85Mldq2BwKxPDLD8Hv0Wh4oH7qzkDU03BprYR0a6obEp6VZ4ea
+         FuqSvDwBU5qC+Mnyy6a6S/Ft+J213LjP/PQzzsf41lcCj9uhlqpW99jCPfPtFJvZZYYH
+         0uHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,75 +49,75 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=p1Y7dtGrNRgo7daoTSQ0hfb44O7CMMON08dBtXwTXwg=;
-        b=dvFCsFOhyyKQrB2/1mJD+yY25Gk9viCHoy96CI1V3SJRsMzkD/JQWwtjIqJVTxlKZj
-         gP7T5EvXH5oxOYZYMpneyO95AEneVzJ22wuSAiwYfg7TURoAs5HGtbbV13YsXIgRcr16
-         xKw4/ar3MWkHUXBvhPVT/GlNNVV1MJmnklpEDVjl5Zv5nVjC69mJZ56gHC8p5DymOtHw
-         OqHFHiU2mL7RgLc129IK0u8e91enkaRpkwLPBmXzL+KSvgdxBen6smjML8f58E47UfD6
-         rz0DDchFpnV15ux2OkiMEgboKdP1TI2q96y0I9gxEzlJy76XGhfwCsyL+DcFx8qrwL5X
-         +GtA==
-X-Gm-Message-State: AOAM533rW8T/zGReZo2nNZJy1nsf9iVUnLuUPHJSVzBfcwWTj3m1BpXD
-	Gn0aN677e/Lswibb6/RmG20=
-X-Google-Smtp-Source: ABdhPJyS2wvA8bWFwNfMuiJZDrmn6SI5ePrY5fAYHt+nUSHqtR7OWbD80+IDjrkv8LmmOxOwnR1TyQ==
-X-Received: by 2002:a05:6870:7c0c:b0:d6:c338:f5c3 with SMTP id je12-20020a0568707c0c00b000d6c338f5c3mr731350oab.63.1646242336362;
-        Wed, 02 Mar 2022 09:32:16 -0800 (PST)
+        bh=DtB8cFj63kkbYlLPXve3Ea/D9yZCrh6MKed+8wlDStc=;
+        b=ql2Qp5DBBcYA90tD0E2mGgzDXnMMvrTAotFn0ph8F29bsb23ViWUnCS5cGbnrPRh6l
+         y35LMblReyOoxlmoVVF7spWLfp9+o5lPgX/A3VKgA+gwt1QXcDSlmRkMB6/hVXOnSFUQ
+         O6w+arO1rxsnC5CIJbTnJxTGaHb60mrOTq7tPjIObBJHxhKMMyFbP6gJHfGHynVhRMGc
+         ZT8aYGch4CkYfr468sD6t9d8qX5aKathou0MHgu+YUrJxxf+fbHZZvhGk/Fi8FyVpOyq
+         9CZUyUQBm/KZFxRWIWs9PTZhYqOL8q+pIWV7GYom/2x4ajhAeNZf898bu3fTIKkWoIuK
+         3h0g==
+X-Gm-Message-State: AOAM530nJQw7ypHWZGHO+o8VO6A+zi6bcxRwLwh4OO6y5AnqfiD43kwp
+	1hzVArUnHR33UGSJo5kTF68=
+X-Google-Smtp-Source: ABdhPJxKivbQqLdFMx9nqU81fhaijAf/+GwNnV0o8zSlrXVHcgW5YojiJVFoOmBl7v15hSaZB6oLUQ==
+X-Received: by 2002:a17:903:192:b0:14f:ff7c:33db with SMTP id z18-20020a170903019200b0014fff7c33dbmr32044591plg.75.1646242492514;
+        Wed, 02 Mar 2022 09:34:52 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:a1a0:b0:d7:1d2b:ec1a with SMTP id
- a32-20020a056870a1a000b000d71d2bec1als2917245oaf.3.gmail; Wed, 02 Mar 2022
- 09:32:16 -0800 (PST)
-X-Received: by 2002:a05:6870:8290:b0:d7:d88:7112 with SMTP id q16-20020a056870829000b000d70d887112mr726528oae.29.1646242335994;
-        Wed, 02 Mar 2022 09:32:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1646242335; cv=none;
+Received: by 2002:a05:6a00:180b:b0:4e1:9065:eaf1 with SMTP id
+ y11-20020a056a00180b00b004e19065eaf1ls10190979pfa.7.gmail; Wed, 02 Mar 2022
+ 09:34:52 -0800 (PST)
+X-Received: by 2002:aa7:9f5b:0:b0:4cc:964c:99dd with SMTP id h27-20020aa79f5b000000b004cc964c99ddmr34249118pfr.42.1646242491821;
+        Wed, 02 Mar 2022 09:34:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1646242491; cv=none;
         d=google.com; s=arc-20160816;
-        b=veiVapp3Bm+MfHPfr7C8mp/AOxePriI8qqVZX307FmnfxJfwV9wSkboZu8nB0vhNft
-         za7gbsR6r5eq853VuwLnjwLQO1LMGmv4ykPQcsMFAbda6P1DV62v5LHWR4gcXUKAQhIT
-         Mbrqvi5b8aw0fFNJcZr/iiZ1IZrplY1aQ5sdgTpjk6GpYiW5kSyVOqtr9UgW3QOV0j01
-         U9vj28Di6mbd3DgMhaLLz9xVOUfWpsAiHuEEfdxb5ubND8Ai5QscvMcrWpusBp6xIPLX
-         MtK/b72XPnUd7C2TA+Q90FhtWXdmEkFXjg88y9syLCwRaNMsS3YN11xyFSIUTGANJ9h2
-         Rftw==
+        b=LUE45E0alTT8L1Wk7uShJ5PTTWV5qnGOo7qz3hMf+W8v2J164JNq0qWEhLqMcm3HbV
+         Q0lM04P6nriZtQRz5UXcoGl6EO9+EWkAmgJBZuFCuS0NQyxYrkNWG6fGln8qXsUW6z4i
+         BKoJwZvuQqmQfWIzFlhphGxsi6w7ZBvhzGwwHZZR/wflii5mqnvbO58i+8smMklKEl3J
+         lTnI9js9WAc+RjL+Y0Efm8VpeBpSbuBvIBI2UOXUuGbJXTNr4GVtaMrfuVBeInEPnsO+
+         vMFdtjybl93lmgCnfbAznCU1p1w2+6NCT5gANywvLsPZCm17faXBLJU0q9oRmZeEHsYz
+         4bQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=pIaLDYhEVyUGyAhkP9rhY6u4SsthLEVULPqNPjpQ14g=;
-        b=c7LtjRkXuTT6Ovfd+jxw+CBQmqscuwHZOJVCSXIGSaX+9cIHFRm7SopBMc1zKCi62y
-         /Ydl4gBSYeyYM3ASRW237w1PEQ4560jvPRo9na9mT2Zpm/qcq/lzeBWDbljcmktxCwiv
-         U6JhENg4IuDNxHsO+8gnmePM1PCm5k4kGlLUlWA2GS+QSIy9I2L206QCGi7PeeLxGROp
-         vkdnHvxiGECbUZ3SNGYYXCXmdlcDGjxrNu3Totw9AtgDzE2tWwNEU1ZsRF9+zW9w4068
-         XuqL1XpRMk8knDOlDGhwghF9Xbwtpb/HtDxQQ74DVxwbrNtCrqnhfHzWwEN83YoSPXVI
-         0wGg==
+        bh=XxTS9UIes1zHmwkf6XZt5n6dw7Gf4KhSZz97KwsDpNo=;
+        b=HRcKke849OlxKrPn8XR5UUh/j/BBJeZD+mFbxX3Lmn0X3Ho/EtWzkRu3oObjgUvEXV
+         KvUcDhlBf89TXb98W0GvdnqrOO1c3AyufOfoDsDl0qJ0+HLbx8WoNhKOvNwRmX/EdIuh
+         z7cu32sl3fv6cs+rKGMo7pc9sZSKz10doPF8jF8tsuLamF17yOHa4KPhiJjhCSQNo0jq
+         7Nzec5Qrpt4qw/CkUD9OZzLEk6qR3CTDJrLTAMOnE6qL6C8ymyZyNDYSeIkfK8fJ5xnb
+         4h36q6qJquPJOIs10qfeGqukkEWl6sUxHftK02ILODuTBv8Mvi5NVbVr6nX4qLhXJbbG
+         n08Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=rnKI3HVR;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72c as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Rx21fTDu;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::736 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com. [2607:f8b0:4864:20::72c])
-        by gmr-mx.google.com with ESMTPS id y24-20020a056830071800b005af3a0effdfsi2588225ots.0.2022.03.02.09.32.15
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com. [2607:f8b0:4864:20::736])
+        by gmr-mx.google.com with ESMTPS id e10-20020aa78c4a000000b004f65e89a348si50098pfd.0.2022.03.02.09.34.51
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Mar 2022 09:32:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72c as permitted sender) client-ip=2607:f8b0:4864:20::72c;
-Received: by mail-qk1-x72c.google.com with SMTP id g24so1890065qkl.3
-        for <kasan-dev@googlegroups.com>; Wed, 02 Mar 2022 09:32:15 -0800 (PST)
+        Wed, 02 Mar 2022 09:34:51 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::736 as permitted sender) client-ip=2607:f8b0:4864:20::736;
+Received: by mail-qk1-x736.google.com with SMTP id b20so1864584qkn.9
+        for <kasan-dev@googlegroups.com>; Wed, 02 Mar 2022 09:34:51 -0800 (PST)
 X-Received: by 2002:a37:a505:0:b0:60d:df5e:16c7 with SMTP id
- o5-20020a37a505000000b0060ddf5e16c7mr17131417qke.448.1646242335286; Wed, 02
- Mar 2022 09:32:15 -0800 (PST)
+ o5-20020a37a505000000b0060ddf5e16c7mr17138326qke.448.1646242491221; Wed, 02
+ Mar 2022 09:34:51 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1646237226.git.andreyknvl@google.com> <aa613f097c12f7b75efb17f2618ae00480fb4bc3.1646237226.git.andreyknvl@google.com>
-In-Reply-To: <aa613f097c12f7b75efb17f2618ae00480fb4bc3.1646237226.git.andreyknvl@google.com>
+References: <cover.1646237226.git.andreyknvl@google.com> <029aaa87ceadde0702f3312a34697c9139c9fb53.1646237226.git.andreyknvl@google.com>
+In-Reply-To: <029aaa87ceadde0702f3312a34697c9139c9fb53.1646237226.git.andreyknvl@google.com>
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 2 Mar 2022 18:31:39 +0100
-Message-ID: <CAG_fn=VzWe6eMbgWNE5wbp9p+NQhS87DULPoXmDWQV7Fk9KFLw@mail.gmail.com>
-Subject: Re: [PATCH mm 04/22] kasan: improve stack frame info in reports
+Date: Wed, 2 Mar 2022 18:34:14 +0100
+Message-ID: <CAG_fn=WE80ueUTC3EYjGNGJc8FvAG8Ph-La9cxBXGRBX17d-6w@mail.gmail.com>
+Subject: Re: [PATCH mm 05/22] kasan: print basic stack frame info for SW_TAGS
 To: andrey.konovalov@linux.dev
 Cc: Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
 	kasan-dev <kasan-dev@googlegroups.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
 	Andrey Konovalov <andreyknvl@google.com>
-Content-Type: multipart/alternative; boundary="0000000000009c7f1705d93fa9f5"
+Content-Type: multipart/alternative; boundary="000000000000e7d7de05d93fb216"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=rnKI3HVR;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::72c as
+ header.i=@google.com header.s=20210112 header.b=Rx21fTDu;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::736 as
  permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
@@ -134,7 +134,7 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000009c7f1705d93fa9f5
+--000000000000e7d7de05d93fb216
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -142,53 +142,57 @@ On Wed, Mar 2, 2022 at 5:36 PM <andrey.konovalov@linux.dev> wrote:
 
 > From: Andrey Konovalov <andreyknvl@google.com>
 >
-> - Print at least task name and id for reports affecting allocas
->   (get_address_stack_frame_info() does not support them).
->
-> - Capitalize first letter of each sentence.
+> Software Tag-Based mode tags stack allocations when CONFIG_KASAN_STACK
+> is enabled. Print task name and id in reports for stack-related bugs.
 >
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 >
 Reviewed-by: Alexander Potapenko <glider@google.com>
 
 > ---
->  mm/kasan/report_generic.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+>  mm/kasan/kasan.h          |  2 +-
+>  mm/kasan/report_sw_tags.c | 11 +++++++++++
+>  2 files changed, 12 insertions(+), 1 deletion(-)
 >
-> diff --git a/mm/kasan/report_generic.c b/mm/kasan/report_generic.c
-> index 3751391ff11a..7e03cca569a7 100644
-> --- a/mm/kasan/report_generic.c
-> +++ b/mm/kasan/report_generic.c
-> @@ -180,7 +180,7 @@ static void print_decoded_frame_descr(const char
-> *frame_descr)
->                 return;
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index d1e111b7d5d8..4447df0d7343 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -274,7 +274,7 @@ void *kasan_find_first_bad_addr(void *addr, size_t
+> size);
+>  const char *kasan_get_bug_type(struct kasan_access_info *info);
+>  void kasan_metadata_fetch_row(char *buffer, void *row);
 >
->         pr_err("\n");
-> -       pr_err("this frame has %lu %s:\n", num_objects,
-> +       pr_err("This frame has %lu %s:\n", num_objects,
->                num_objects =3D=3D 1 ? "object" : "objects");
+> -#if defined(CONFIG_KASAN_GENERIC) && defined(CONFIG_KASAN_STACK)
+> +#if defined(CONFIG_KASAN_STACK)
+>  void kasan_print_address_stack_frame(const void *addr);
+>  #else
+>  static inline void kasan_print_address_stack_frame(const void *addr) { }
+> diff --git a/mm/kasan/report_sw_tags.c b/mm/kasan/report_sw_tags.c
+> index d2298c357834..44577b8d47a7 100644
+> --- a/mm/kasan/report_sw_tags.c
+> +++ b/mm/kasan/report_sw_tags.c
+> @@ -51,3 +51,14 @@ void kasan_print_tags(u8 addr_tag, const void *addr)
 >
->         while (num_objects--) {
-> @@ -266,13 +266,14 @@ void kasan_print_address_stack_frame(const void
-> *addr)
->         if (WARN_ON(!object_is_on_stack(addr)))
->                 return;
->
+>         pr_err("Pointer tag: [%02x], memory tag: [%02x]\n", addr_tag,
+> *shadow);
+>  }
+> +
+> +#ifdef CONFIG_KASAN_STACK
+> +void kasan_print_address_stack_frame(const void *addr)
+> +{
+> +       if (WARN_ON(!object_is_on_stack(addr)))
+> +               return;
+> +
 > +       pr_err("The buggy address belongs to stack of task %s/%d\n",
 > +              current->comm, task_pid_nr(current));
-> +
->         if (!get_address_stack_frame_info(addr, &offset, &frame_descr,
->                                           &frame_pc))
->                 return;
 >
-> -       pr_err("\n");
-> -       pr_err("addr %px is located in stack of task %s/%d at offset %lu
-> in frame:\n",
-> -              addr, current->comm, task_pid_nr(current), offset);
-> +       pr_err(" and is located at offset %lu in frame:\n", offset);
->         pr_err(" %pS\n", frame_pc);
->
->         if (!frame_descr)
+This comm/pid pattern starts to appear often, maybe we could replace it
+with an inline function performing pr_cont()?
+
+
+> +}
+> +#endif
 > --
 > 2.25.1
 >
@@ -198,8 +202,8 @@ Reviewed-by: Alexander Potapenko <glider@google.com>
 > To unsubscribe from this group and stop receiving emails from it, send an
 > email to kasan-dev+unsubscribe@googlegroups.com.
 > To view this discussion on the web visit
-> https://groups.google.com/d/msgid/kasan-dev/aa613f097c12f7b75efb17f2618ae=
-00480fb4bc3.1646237226.git.andreyknvl%40google.com
+> https://groups.google.com/d/msgid/kasan-dev/029aaa87ceadde0702f3312a34697=
+c9139c9fb53.1646237226.git.andreyknvl%40google.com
 > .
 >
 
@@ -235,10 +239,10 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DVzWe6eMbgWNE5wbp9p%2BNQhS87DULPoXmDWQV7Fk9KFLw%40mail.gm=
-ail.com.
+kasan-dev/CAG_fn%3DWE80ueUTC3EYjGNGJc8FvAG8Ph-La9cxBXGRBX17d-6w%40mail.gmai=
+l.com.
 
---0000000000009c7f1705d93fa9f5
+--000000000000e7d7de05d93fb216
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -250,10 +254,8 @@ px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From:=
  Andrey Konovalov &lt;<a href=3D"mailto:andreyknvl@google.com" target=3D"_b=
 lank">andreyknvl@google.com</a>&gt;<br>
 <br>
-- Print at least task name and id for reports affecting allocas<br>
-=C2=A0 (get_address_stack_frame_info() does not support them).<br>
-<br>
-- Capitalize first letter of each sentence.<br>
+Software Tag-Based mode tags stack allocations when CONFIG_KASAN_STACK<br>
+is enabled. Print task name and id in reports for stack-related bugs.<br>
 <br>
 Signed-off-by: Andrey Konovalov &lt;<a href=3D"mailto:andreyknvl@google.com=
 " target=3D"_blank">andreyknvl@google.com</a>&gt;<br></blockquote><div>Revi=
@@ -262,53 +264,52 @@ r@google.com</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
 margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
 t:1ex">
 ---<br>
-=C2=A0mm/kasan/report_generic.c | 9 +++++----<br>
-=C2=A01 file changed, 5 insertions(+), 4 deletions(-)<br>
+=C2=A0mm/kasan/kasan.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0mm/kasan/report_sw_tags.c | 11 +++++++++++<br>
+=C2=A02 files changed, 12 insertions(+), 1 deletion(-)<br>
 <br>
-diff --git a/mm/kasan/report_generic.c b/mm/kasan/report_generic.c<br>
-index 3751391ff11a..7e03cca569a7 100644<br>
---- a/mm/kasan/report_generic.c<br>
-+++ b/mm/kasan/report_generic.c<br>
-@@ -180,7 +180,7 @@ static void print_decoded_frame_descr(const char *frame=
-_descr)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h<br>
+index d1e111b7d5d8..4447df0d7343 100644<br>
+--- a/mm/kasan/kasan.h<br>
++++ b/mm/kasan/kasan.h<br>
+@@ -274,7 +274,7 @@ void *kasan_find_first_bad_addr(void *addr, size_t size=
+);<br>
+=C2=A0const char *kasan_get_bug_type(struct kasan_access_info *info);<br>
+=C2=A0void kasan_metadata_fetch_row(char *buffer, void *row);<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pr_err(&quot;\n&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0pr_err(&quot;this frame has %lu %s:\n&quot;, nu=
-m_objects,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0pr_err(&quot;This frame has %lu %s:\n&quot;, nu=
-m_objects,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0num_objects =3D=3D 1=
- ? &quot;object&quot; : &quot;objects&quot;);<br>
+-#if defined(CONFIG_KASAN_GENERIC) &amp;&amp; defined(CONFIG_KASAN_STACK)<b=
+r>
++#if defined(CONFIG_KASAN_STACK)<br>
+=C2=A0void kasan_print_address_stack_frame(const void *addr);<br>
+=C2=A0#else<br>
+=C2=A0static inline void kasan_print_address_stack_frame(const void *addr) =
+{ }<br>
+diff --git a/mm/kasan/report_sw_tags.c b/mm/kasan/report_sw_tags.c<br>
+index d2298c357834..44577b8d47a7 100644<br>
+--- a/mm/kasan/report_sw_tags.c<br>
++++ b/mm/kasan/report_sw_tags.c<br>
+@@ -51,3 +51,14 @@ void kasan_print_tags(u8 addr_tag, const void *addr)<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 while (num_objects--) {<br>
-@@ -266,13 +266,14 @@ void kasan_print_address_stack_frame(const void *addr=
-)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (WARN_ON(!object_is_on_stack(addr)))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pr_err(&quot;Pointer tag: [%02x], memory tag: [=
+%02x]\n&quot;, addr_tag, *shadow);<br>
+=C2=A0}<br>
++<br>
++#ifdef CONFIG_KASAN_STACK<br>
++void kasan_print_address_stack_frame(const void *addr)<br>
++{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (WARN_ON(!object_is_on_stack(addr)))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
++<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0pr_err(&quot;The buggy address belongs to stack=
  of task %s/%d\n&quot;,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 current-&gt;comm, task_pi=
-d_nr(current));<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_address_stack_frame_info(addr, &amp;of=
-fset, &amp;frame_descr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
-amp;frame_pc))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0pr_err(&quot;\n&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0pr_err(&quot;addr %px is located in stack of ta=
-sk %s/%d at offset %lu in frame:\n&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr, current-&gt;comm, t=
-ask_pid_nr(current), offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0pr_err(&quot; and is located at offset %lu in f=
-rame:\n&quot;, offset);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pr_err(&quot; %pS\n&quot;, frame_pc);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!frame_descr)<br>
+d_nr(current));<br></blockquote><div>This comm/pid pattern starts to appear=
+ often, maybe we could replace it with an inline function performing pr_con=
+t()?</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
++}<br>
++#endif<br>
 -- <br>
 2.25.1<br>
 <br>
@@ -319,9 +320,9 @@ To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to <a href=3D"mailto:kasan-dev%2Bunsubscribe@googlegroups.com" target=
 =3D"_blank">kasan-dev+unsubscribe@googlegroups.com</a>.<br>
 To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/aa613f097c12f7b75efb17f2618ae00480fb4bc3.1646237226.gi=
+om/d/msgid/kasan-dev/029aaa87ceadde0702f3312a34697c9139c9fb53.1646237226.gi=
 t.andreyknvl%40google.com" rel=3D"noreferrer" target=3D"_blank">https://gro=
-ups.google.com/d/msgid/kasan-dev/aa613f097c12f7b75efb17f2618ae00480fb4bc3.1=
+ups.google.com/d/msgid/kasan-dev/029aaa87ceadde0702f3312a34697c9139c9fb53.1=
 646237226.git.andreyknvl%40google.com</a>.<br>
 </blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
  class=3D"gmail_signature"><div dir=3D"ltr">Alexander Potapenko<br>Software=
@@ -346,9 +347,9 @@ To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
 +unsubscribe@googlegroups.com</a>.<br />
 To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CAG_fn%3DVzWe6eMbgWNE5wbp9p%2BNQhS87DULPoXmDWQV7Fk9KFL=
-w%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.g=
-oogle.com/d/msgid/kasan-dev/CAG_fn%3DVzWe6eMbgWNE5wbp9p%2BNQhS87DULPoXmDWQV=
-7Fk9KFLw%40mail.gmail.com</a>.<br />
+om/d/msgid/kasan-dev/CAG_fn%3DWE80ueUTC3EYjGNGJc8FvAG8Ph-La9cxBXGRBX17d-6w%=
+40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
+gle.com/d/msgid/kasan-dev/CAG_fn%3DWE80ueUTC3EYjGNGJc8FvAG8Ph-La9cxBXGRBX17=
+d-6w%40mail.gmail.com</a>.<br />
 
---0000000000009c7f1705d93fa9f5--
+--000000000000e7d7de05d93fb216--
