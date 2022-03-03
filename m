@@ -1,101 +1,102 @@
-Return-Path: <kasan-dev+bncBAABBRXFQCIQMGQECRM45KI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBR7FQCIQMGQEROPQZQY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888324CB542
-	for <lists+kasan-dev@lfdr.de>; Thu,  3 Mar 2022 04:15:20 +0100 (CET)
-Received: by mail-pf1-x440.google.com with SMTP id v127-20020a622f85000000b004f3dfd386e8sf2371885pfv.16
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E31B4CB543
+	for <lists+kasan-dev@lfdr.de>; Thu,  3 Mar 2022 04:15:21 +0100 (CET)
+Received: by mail-pj1-x1038.google.com with SMTP id y1-20020a17090a644100b001bc901aba0dsf1786125pjm.8
         for <lists+kasan-dev@lfdr.de>; Wed, 02 Mar 2022 19:15:20 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1646277319; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nsmd9+HJ//s6yrFvNdDbWKFiQ9fE1dOYQdq0/u+dE5bqabRgle/p1k+yKTBU4M6Nmi
-         huSQWR1/NGSJHW2XHV9+NTcsNUYM7rtJHPODAYJ9UxIkQykvQmcNUdzgLTWEHFyd8Gr9
-         YxAo5R96ms/xxDCnwKJfXq0/epkoB6VbsyyicZtpu/FM/iYjD10RmvgyMonLknog8ijE
-         Wiv3e4DCldcRDvtgfIWK9WWYJ3KaenPRvyvA+6ex/4mdSDUJD2qhJIVPZIddcmXpbYKe
-         AwV4eWheyFMSZ0C244f1jzl+oUnHlLzddZxi68DcDF6/7ARs1ug6s3BepaqKCmEYfajz
-         D9sg==
+        b=pyT0CiAyeOtFxTLUq4lsYALbzpZV3CYIMRkGGL06yZVwPzs5g02igIKiFzhm8D0K84
+         Zxk/psRC16dv1ZMKcnaCdLhgbZdym1Zx/JzOR0DlI33JQyX680+Z7t8qqgSq/1DibQtS
+         LR3ovLeetEnR4Scb8R6gWScEi231EKoNR/TXHVt3zi37ARaliqHVaMnXv8oS9AKX+5Wv
+         XjTg52yS1+3gAZ0vy1jQqAWJisNii1udy61bUMOiZ/Qkoux6wVGLAtSoU5D9Mf6iR0u+
+         5Ihx0ci6nyVnoJN61bn89CbSMTEJBJDL4IM01qKmW9K9fDGu5LM8CrmIdfcUzkt/CIKC
+         ex2Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=8gZgbl2nw6rwZ+lAkueS4SXTUaNvH1j14DQoqPC7EPM=;
-        b=eXy8O8nD1WAGAy83lTuybprAhTCbWicgG67x3WhYEVa9X2G7tEbbLQZEiU6ihvSdpX
-         MxllT0i5nZfqsSZloApbZKv/uAbUcCdnlE5tDDlsb7AStm7qeTu75I3H6AIcJKakvFfa
-         EbGS4W8tH7ocTP/VAjKPg1sfVQ9cDoiQLkCNbWiiLWhNwCnCUZdyYGl5nf836RSqqtvw
-         jk7VgfMymdLgqG38o2VsRmB1k5f1qmKFFyV2f/v/DH3RPl78v9D2iNEjOI+kjTfSahip
-         yFeRQZ6eZVJN4ZQ6kSdkB13eZf9IYboQP/JcNKjd7BZuxZl7cehVCHHQioKh05JXbrT9
-         tEeA==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=DoK9HtuLi1MmlzHVTajutmRnTrX1n+iTNxrBv3e/1aM=;
+        b=EU1Vk4N6squDPBdet810nW/5dWDMY1XxXJOiUzIiYNcHYWDNhXAGltBMpUeh3zszLq
+         UT7gsP80Uz7tI031R1FJt5ArQWI+Z9asJfXi3AId8APWnmqD4nOkaaMOw/UhDCF4gSCu
+         /nQtLfZrowDopMu50u5HlQoEjowXukWhUMxx/ndLU7/JteVbO/eZUVND9NJKEsa8ydMO
+         LWngYlPvHW/6LvTicBC7J6rLCpZ8GLD7RcX3Ko6vUBf1YOOboU4YLnSEUp+Eiqr5xH3D
+         fsXEoUjU8GMnqJIyaiPIVOpk/Gg5VbASKMcMEO1S+sHU9uTeGHadkFe+PgYTWGmcQAJd
+         Tl9Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of dtcccc@linux.alibaba.com designates 115.124.30.42 as permitted sender) smtp.mailfrom=dtcccc@linux.alibaba.com;
+       spf=pass (google.com: domain of dtcccc@linux.alibaba.com designates 115.124.30.130 as permitted sender) smtp.mailfrom=dtcccc@linux.alibaba.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=8gZgbl2nw6rwZ+lAkueS4SXTUaNvH1j14DQoqPC7EPM=;
-        b=ryCRObZxdUqv2nfV2TyE/o3AKM5egiFdLSmMUhDCtaqTXEz+0Gr+Xc4uqBCPztyKDg
-         tqct+eOukKKMcb0d7ZF1ldv9s66hZZpeAENWlr4YGPRsx3GvsqEWD+tZ5XMGcK7xE/Z7
-         7brN9CEq9G+qMFzD+dXIxUxvSPeea+BPjQlQi3zVvQ6fbZAlof/3+EPvL2msSF6KfHTg
-         j/O3uRZZE91yumFzdLMNUh+WDXHKz5F7tH/qsin1JfwUk7CbFVjnb79mTtrlMJe7Wqhn
-         accon4kK5qQLhuLp1Re9AG1KeAox0A9lEFHUFBfwD0FbH14IZFza5B0HdyD9WCCzn2Vu
-         n3sA==
+        bh=DoK9HtuLi1MmlzHVTajutmRnTrX1n+iTNxrBv3e/1aM=;
+        b=VmvDD9adnKu6LU96XBne6sT5eR+5ym0fzuHsJzkdsoJPNy+YGzzQAXKTIJp0UFz3zW
+         1NeCXlX85VvFrZfgI//1ODtFK1qt+fxQQmzLmA8TUkbKIiHk7Oa4hmjpuUUtqijtRWNs
+         zyfAaU0UaF0iVO4lkbchCzb31qwPBj6FAykP3UhoBGr4+2ec/0KUcif7we6CGvqj1cfG
+         Wkcblc5OEJ2MPKMBEITz0ScYotMMygiGsBI+2ifrLP0Z9kPz4/AWLGEie8bINNuwfnui
+         TdMAcbslxU5tPRyn/uPD2sLu2SOH4Gn5tvB9ngwnktJq7mEa1uOs874nFUa/3djQFS7q
+         81+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=8gZgbl2nw6rwZ+lAkueS4SXTUaNvH1j14DQoqPC7EPM=;
-        b=pjvAuYRjZLSw9zMNWm5utiY6I055sTTtrS2Ur/LVT4k82eAXzzXaJhLq52rqHwZdMy
-         5SuuSHbbARPcjHKtMhr0FTs7RIPU4FLLySiiOg3532CQ2RlcxXlFU0wRzcrZd8dmZNT+
-         1iNPOqf7IKdZrrHUwkCyumiP5rgYU7TLOq78Gr3PTN7L44Zivco0spuQIibSOFLC8f7m
-         qxiIqLzoD0JSL4eFuyX/JvSE/RI0ek6bnobRYwF2Xw/lS0WjNpwL1fP2TRgyAg4zB2Fy
-         nHuLUjvJnUV/qr3G0Quco8w+SoOPqssV9lg8gLTfL+Ql9VwQPOsbDXVd3c69i+kXdScz
-         WNNA==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=DoK9HtuLi1MmlzHVTajutmRnTrX1n+iTNxrBv3e/1aM=;
+        b=JLgk7RdKq5/wjPEmw+Rm7zWPhF0KfeEXc9dlz4whb5FzJPyKlhbidiYzA5JPcZ8/1T
+         HBPHV+R00E3XtHM0VAeuSycZ0wWFlUDjAbTkdH9aloOmttxZYsbSWQ8fp03mD7gCO6D8
+         KlCwu9RBGXOr2z947DqxMXsU7GU+lCcflP/naJH3hSxFarctXdU9GPloDIm00uGMzPJX
+         8D/qIklGcSVCHeskUIzON+FmvaWHvpjByjERP6YHPg1Y8SwqNqBoc40cQ3k71PWcbvPD
+         JHX1+I9mfB4vkl7Ng0h9J7KAFk+h5OxlC35tXUg5B1AsB8ItQaeDC3pcX7QGXpY4eDu+
+         dlCw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532tehxdwq0zY1MXbqMReJoCht7LHKDYo06B2LDj7itYbZg9AJg9
-	mC1JVnyVDB6P4RwZbp0VPPE=
-X-Google-Smtp-Source: ABdhPJx4Klx8335DFUFGPLmmsYN/6qfLYGMhKXUa4noVjeCe+nFts5f8WPfXl4hNG50sGNhJ4tA2Xw==
-X-Received: by 2002:a63:6201:0:b0:372:d3d1:a684 with SMTP id w1-20020a636201000000b00372d3d1a684mr28422284pgb.523.1646277318931;
-        Wed, 02 Mar 2022 19:15:18 -0800 (PST)
+X-Gm-Message-State: AOAM530ysRPkWiOEhj/QJjnxb/yKHYJTBrXkP7g4pUQCLhwQWOWQbBqc
+	SJwidbU7qZ6lLOUs83iTYZI=
+X-Google-Smtp-Source: ABdhPJw72oScRPeG94/EmnAf7g25mfM9pbTMgNM8y8gkAzkhMNnmjDsYW51DRLeesB/Q6KY5DxeJdQ==
+X-Received: by 2002:a63:da44:0:b0:362:c3f6:973e with SMTP id l4-20020a63da44000000b00362c3f6973emr29020913pgj.236.1646277319380;
+        Wed, 02 Mar 2022 19:15:19 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a65:450d:0:b0:34e:5e5d:84db with SMTP id n13-20020a65450d000000b0034e5e5d84dbls479115pgq.7.gmail;
+Received: by 2002:a63:dd14:0:b0:375:8566:f8b7 with SMTP id t20-20020a63dd14000000b003758566f8b7ls486982pgg.1.gmail;
  Wed, 02 Mar 2022 19:15:18 -0800 (PST)
-X-Received: by 2002:a63:7d5d:0:b0:34c:17:6174 with SMTP id m29-20020a637d5d000000b0034c00176174mr25178612pgn.133.1646277318131;
+X-Received: by 2002:a63:5908:0:b0:372:a110:2049 with SMTP id n8-20020a635908000000b00372a1102049mr28198968pgb.393.1646277318863;
         Wed, 02 Mar 2022 19:15:18 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1646277318; cv=none;
         d=google.com; s=arc-20160816;
-        b=r3oWBAGxFASIjSxk5QIlKv1fUr8K7Wh56MMZR4SwmhKQKbF0NIQGphTmpP4yiqqXq+
-         yJRiU8d/1BGcAc1QNS58wIGv3sgScD66PFcf8m94UEdLLCyq8pSY8hHcxvrOKxYGhVLK
-         oK5qlC7481hpcZ4gyL9JrkNenfgfTe78jyTr4RkC2pfci7st4NCDJ56ba5BJJKIgL08o
-         R0xFvQfMIC86RUWwlNWsT9mLtccTR3MrU4NhOwKjyZOms/DQdby99KktVVserhCzrpNC
-         LQ3kYzAFep3ZSDvECP6YQkRF+c4DfqGEcvCg0YD1ME5wmkwWEUdKJsfXRywwjZgT85Lf
-         RWgw==
+        b=kZ8hudqpdA1t2/fjRidA666ejhdxktq1Y6US5vYlu8DcKtbGMDz9Ab6zx2wAEkBjZT
+         71puEKy/rIGYhEqaQMw+A8Lsgj2CfuXOlh2eCFD8WDLSUd6Nh8SUuS6xA2KAj6/zbBKE
+         yDTC6KhXoeECpPk9ybfMHM/4DLZzmEdH8RE+Is+LA1O+n7TZlKYOehdmhDhJspPe30gl
+         xQZ5y+o8eUSDqxnIObgEtx7NgUvuw4tTpPOHVjTvyRwLDrqiQ7Zg+RRKIu73s9xQHrc7
+         0x/6sD8LfQN1RpPB+JrmJ7fNR46EF9PayerAlQbQcYaXeqD2cQA34xdzOMOOJaBU4rqf
+         +i0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=+nktFMqBOuPmhd71Wom9B2aD6CzsyplNxR1u378XOkk=;
-        b=dpFaZ8h0OyJNvgZuGJHbeaZh4enMkDi1mCj7K5jGAYEl7m9RI9dmtzai1DY1aqHiuz
-         tONl4DYXKlPl/rdYZpX0I7mMkLFRIPrtAwhEo7dDkGsaBsA5mrM7yTtTmf61qmHecTDR
-         CPBgCWgqCL+bNmSra2OFcbeeNiZobH2JrFrHTcKXG6sGE8E36f2ZxUn1Q46wjTLnMXbK
-         K7bh3R1afLsRodnT0Nz/YrCIb9KvJxDYWY6NAIAz/7mAmM7EDqVZ8TiUMrVe+VgLY9oY
-         SdFzMF8IcCwoUvujXngbiJ8ZqiFgzOFPQMtaAvI/rlfsuglMfizoH957qxrO6fyLgxu8
-         xVLQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=/ijYYutsxUojOe1tELAQp7k0K7hU/iWlgmSloY8X9h4=;
+        b=FoIq+1rVzJONXvvwPQCWnL5X9k4eqMaIaay+07cAscuAS54FujwHBQRq8egNpbW9IE
+         5esG1ea1EDvi6dipX5KUn/bPqgfs/tXKJGKDwwyNPfGSWF8JrE8JvTcshfk0VCsJ32+T
+         ZDZRaErTRAWAVjZTgZLz4uKAkPlZq8fFUhIo32QSvmXQKm2AsIpTZ3X9fB7N8QYYtzkV
+         Cx6n9XI+FSGceIzTUXZvBJ19OrjwBrL+nd830BGBawEoWPPHSFImlkwsc7ZAvCabrRE4
+         sNRPk91xPFOPypzTPvEcy4cAdatkH5mtlREHxCQQ5GSgNGXpSKBsBj0tESRZwi7aT54o
+         5iEw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of dtcccc@linux.alibaba.com designates 115.124.30.42 as permitted sender) smtp.mailfrom=dtcccc@linux.alibaba.com;
+       spf=pass (google.com: domain of dtcccc@linux.alibaba.com designates 115.124.30.130 as permitted sender) smtp.mailfrom=dtcccc@linux.alibaba.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
-Received: from out30-42.freemail.mail.aliyun.com (out30-42.freemail.mail.aliyun.com. [115.124.30.42])
-        by gmr-mx.google.com with ESMTPS id jx5-20020a17090b46c500b001bede07ed67si299800pjb.1.2022.03.02.19.15.17
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com. [115.124.30.130])
+        by gmr-mx.google.com with ESMTPS id m17-20020a638c11000000b003758d1a4056si33539pgd.2.2022.03.02.19.15.17
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 02 Mar 2022 19:15:18 -0800 (PST)
-Received-SPF: pass (google.com: domain of dtcccc@linux.alibaba.com designates 115.124.30.42 as permitted sender) client-ip=115.124.30.42;
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R931e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=dtcccc@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0V650kF3_1646277305;
-Received: from localhost.localdomain(mailfrom:dtcccc@linux.alibaba.com fp:SMTPD_---0V650kF3_1646277305)
+Received-SPF: pass (google.com: domain of dtcccc@linux.alibaba.com designates 115.124.30.130 as permitted sender) client-ip=115.124.30.130;
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=dtcccc@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0V650kGS_1646277314;
+Received: from localhost.localdomain(mailfrom:dtcccc@linux.alibaba.com fp:SMTPD_---0V650kGS_1646277314)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 03 Mar 2022 11:15:14 +0800
+          Thu, 03 Mar 2022 11:15:15 +0800
 From: Tianchen Ding <dtcccc@linux.alibaba.com>
 To: Alexander Potapenko <glider@google.com>,
 	Marco Elver <elver@google.com>,
@@ -104,14 +105,16 @@ To: Alexander Potapenko <glider@google.com>,
 Cc: kasan-dev@googlegroups.com,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 0/2] Alloc kfence_pool after system startup
-Date: Thu,  3 Mar 2022 11:15:03 +0800
-Message-Id: <20220303031505.28495-1-dtcccc@linux.alibaba.com>
+Subject: [RFC PATCH 1/2] kfence: Allow re-enabling KFENCE after system startup
+Date: Thu,  3 Mar 2022 11:15:04 +0800
+Message-Id: <20220303031505.28495-2-dtcccc@linux.alibaba.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20220303031505.28495-1-dtcccc@linux.alibaba.com>
+References: <20220303031505.28495-1-dtcccc@linux.alibaba.com>
 MIME-Version: 1.0
 X-Original-Sender: dtcccc@linux.alibaba.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of dtcccc@linux.alibaba.com designates 115.124.30.42 as
+ (google.com: domain of dtcccc@linux.alibaba.com designates 115.124.30.130 as
  permitted sender) smtp.mailfrom=dtcccc@linux.alibaba.com;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=alibaba.com
 Content-Type: text/plain; charset="UTF-8"
@@ -127,32 +130,64 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-KFENCE aims at production environments, but it does not allow enabling
-after system startup because kfence_pool only alloc pages from memblock.
-Consider the following production scene:
-At first, for performance considerations, production machines do not
-enable KFENCE.
-However, after running for a while, the kernel is suspected to have
-memory errors. (e.g., a sibling machine crashed.)
-So other production machines need to enable KFENCE, but it's hard for
-them to reboot.
+If once KFENCE is disabled by:
+echo 0 > /sys/module/kfence/parameters/sample_interval
+KFENCE could never be re-enabled until next rebooting.
 
-The 1st patch allows re-enabling KFENCE if the pool is already
-allocated from memblock.
+Allow re-enabling it by writing a positive num to sample_interval.
 
-The 2nd patch applies the main part.
+Signed-off-by: Tianchen Ding <dtcccc@linux.alibaba.com>
+---
+ mm/kfence/core.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-Tianchen Ding (2):
-  kfence: Allow re-enabling KFENCE after system startup
-  kfence: Alloc kfence_pool after system startup
-
- mm/kfence/core.c | 106 ++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 87 insertions(+), 19 deletions(-)
-
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index 13128fa13062..19eb123c0bba 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -55,6 +55,7 @@ EXPORT_SYMBOL_GPL(kfence_sample_interval); /* Export for test modules. */
+ #endif
+ #define MODULE_PARAM_PREFIX "kfence."
+ 
++static int kfence_enable_late(void);
+ static int param_set_sample_interval(const char *val, const struct kernel_param *kp)
+ {
+ 	unsigned long num;
+@@ -65,10 +66,11 @@ static int param_set_sample_interval(const char *val, const struct kernel_param
+ 
+ 	if (!num) /* Using 0 to indicate KFENCE is disabled. */
+ 		WRITE_ONCE(kfence_enabled, false);
+-	else if (!READ_ONCE(kfence_enabled) && system_state != SYSTEM_BOOTING)
+-		return -EINVAL; /* Cannot (re-)enable KFENCE on-the-fly. */
+ 
+ 	*((unsigned long *)kp->arg) = num;
++
++	if (num && !READ_ONCE(kfence_enabled) && system_state != SYSTEM_BOOTING)
++		return kfence_enable_late();
+ 	return 0;
+ }
+ 
+@@ -787,6 +789,16 @@ void __init kfence_init(void)
+ 		(void *)(__kfence_pool + KFENCE_POOL_SIZE));
+ }
+ 
++static int kfence_enable_late(void)
++{
++	if (!__kfence_pool)
++		return -EINVAL;
++
++	WRITE_ONCE(kfence_enabled, true);
++	queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
++	return 0;
++}
++
+ void kfence_shutdown_cache(struct kmem_cache *s)
+ {
+ 	unsigned long flags;
 -- 
 2.27.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220303031505.28495-1-dtcccc%40linux.alibaba.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220303031505.28495-2-dtcccc%40linux.alibaba.com.
