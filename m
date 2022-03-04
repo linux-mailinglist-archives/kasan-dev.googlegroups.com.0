@@ -1,125 +1,125 @@
-Return-Path: <kasan-dev+bncBCRKNY4WZECBBJNDQ2IQMGQEYKKHMWY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB7VNRGIQMGQEQV6TTOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA584CCC7B
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Mar 2022 05:12:23 +0100 (CET)
-Received: by mail-yb1-xb3c.google.com with SMTP id k10-20020a056902070a00b0062469b00335sf6287569ybt.14
-        for <lists+kasan-dev@lfdr.de>; Thu, 03 Mar 2022 20:12:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1646367142; cv=pass;
+Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 551F14CDBEC
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Mar 2022 19:14:24 +0100 (CET)
+Received: by mail-ot1-x33a.google.com with SMTP id d3-20020a05683018e300b005ad2cb4db18sf6334669otf.7
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Mar 2022 10:14:24 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1646417663; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mW9wI91YRrtcSrEnCVEfzbjwm2KVppkEtHL/H1tCSvHFJUig68FDBU2BtTCKvxvbW/
-         J444AzfocTranuqNDjOMRPdQ7szmJbuJLxVEu/AX7saS2+wH+AAIY6wBSFszeeiUyu9t
-         oqOrPmrMrBkBPH4hyh+ZE5VrhPum8MMdkzoaNoasYdBmC4lm13ogZU9eOVQFOWrccp2D
-         djbbZQW/hg9OkuEF61ETynNrAfVpFEyedVxgmfQWKC+2g+wpRsoSl3TdSRou0KjuJ8HW
-         FAti4WPbystnuWs1RsnUxoQNKxmreSwiDUU+oTY5iybUQFT8NcaTllY2S0RusMIhDRgY
-         g05A==
+        b=UDdI/+ghMSsPYEfH08sFfQC3SXkWgDAHy0cnE0afkBmK8VAJcWqdnYCloaJ4STilVS
+         JkHO2b2J5O0JJjHoBj4GhO4sB6+KmLZRUIXJS9kt+uvXDXzAUrgmwd2We9rqwmAiwwhx
+         yNCz6qFpCDrWVj8aZHonuTZdHMfxvX4+bxs2rqLceqaIjIwEe3Yri+iQB0mf5/hjEj5/
+         9nKJWeHdvyfbeTd5WqEO/43OfrCv7/h7kB1S8/210TwsLBaehrQ43WPgJ1wwFJZTNUBF
+         Smlrq3q60U4tpwt/snS/ss+y6H9XIinIrKqYofX0dFJEJnCZZ89Cg9Pda8uilsEDmKxR
+         +ykA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :message-id:to:from:cc:in-reply-to:subject:date:mime-version:sender
-         :dkim-signature;
-        bh=CQY359AeWKnEe4wgZ7uvZnAsxOPURpXklf4E/Lnn5Og=;
-        b=F9FTb/UZ/N4aWardOrIsGW3A/NqU5FNiPrkhB5JYRabjjUdO9RipzMjcLhZDneZtaV
-         qhAHPOq5s69ivCT9b6ltXmtIcwEINcvXVGIqgMHDfHtcgOzSHfQbxfCGd4r9vvFRg1hA
-         EK18qNtWF9zgyFmaV7meG6TWVoVN3a/Gg93Mfj8hSEH8ZtYwCyGIjQFdIWQSm3QWuD/g
-         5DjHWXlz7DYCJbiTbo2wWKAsWbev46atpg6iIb77fPvjTFSwQwAei1iHkyQJ028v7EtT
-         EvM/mP5DpF0eeVSl+urVcsgxn5Z7Hhec6DnnqLNIxYxB6d8yImXCGKSu8m9LGICG1oBX
-         g41A==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=17jR7x4VYa83NgdcF/82Tl2G/+ODOdO7ujb/gVp5Ymg=;
+        b=pfsZI8FdtatRi8XrSPHNqeSiSrMemFS//KDDZxb7U8xAT/NT64jOJRVvQsGclIGZ1z
+         klG7z2Jj+N+9C9EIq375U2pGpcT1bviEit81w6qWfOxhqd5m3gbXSTh0hHyY355U0aDU
+         i76Ba4Tqdn+ijyNLNsS6/Zj2LTH8+20PSEqec+9SZx8noVU9LZAbAkGB1cpIX3Q8NLUR
+         v34l6jdFI/A+bPW3HzMG7UzOIdQkO9ugHdoxAjFjACxPdofUHgvFzBC1SjZZPIRQg69c
+         6bd5qwA0Yw0jcu+O9Q7saKO/iovnX5z3bBJlS5PzOM2V4xGg0mqBTuW6Ann+bnYFgj74
+         bUFg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b="CkkA0/mo";
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::102d as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=iVNEGaLs;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:date:subject:in-reply-to:cc:from:to:message-id
-         :x-original-sender:x-original-authentication-results
-         :content-transfer-encoding:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=CQY359AeWKnEe4wgZ7uvZnAsxOPURpXklf4E/Lnn5Og=;
-        b=es7fNNJeAch22203CeUeoq98Zv8+nGALsCX2N9m2psX7+lISujM1hGP2DcQCZm0hbf
-         dTEo5SgDzgzAqCwYq+BqqRvyufqX2p6z7zoOZMpeustymrSORNwgTG0bgtGldyyofnaJ
-         VArlKY5u8YSeVi7Dz3J/Mad5Gqotgyrmv8yz1oV+4a+WnMzcS2D4KNNUDotzXtNmZY1U
-         qqS6iDbbk/qH78g5YGlFENAsm0NAeaZq8pmZX9wUV/fdCLAdrnLjJ0pwhOsrM2Kh++ya
-         kHWlKnNGfycvqyTWxBllo/bhzTbb8PMG086StTbA9wKwuuVXR3RsS/mJGN1y3K/IA89W
-         fC9w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=17jR7x4VYa83NgdcF/82Tl2G/+ODOdO7ujb/gVp5Ymg=;
+        b=NtDZuQLHJC6R2gXJMI0ZZfGa2F0+mn2YTeg2tBI0Fb9ztO1W5qpfier/v+3ckiyBaA
+         jiue9rrHMxqxkJGvbLNnN6jPYg5bdyXUfv2h9hGm/7p1MPAbF/E+tn5LxkktoasALbVH
+         cdu7pyY9qMcve8NWyWbKoSewCK0QRkkGrE6ZZH0Er5tOHfS0mp2+Gys1dIFXOFj9N5iN
+         XB+M0xVm56LJ3dIVQBAwJnO+PEQKG61mRJihmR/QnZRiJmfWKqk5vY5m6PEQ4/cArN0k
+         ev52g5MiWs8gsgb5MtHnZGIS+NHBuvbrwd0nuDApLJS2DN8T8UDvYpFE9UAs+56uTig8
+         BHSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:date:subject:in-reply-to:cc
-         :from:to:message-id:x-original-sender
-         :x-original-authentication-results:content-transfer-encoding
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=CQY359AeWKnEe4wgZ7uvZnAsxOPURpXklf4E/Lnn5Og=;
-        b=A6b7xgXkbpDkENNJYArvQ9LgLQrbpPZUbk3F/4ce594SBZm2pFfit2Rt6DOBpHJyY9
-         pi0zYAcxOB7+OPC36g8JpNH3DSYh2vXItoMOm23cZzOqmbuOma7AOSwKTu9B/1bEMIcq
-         6G4WMlh8R3rTTnFsCCgXhWFH8k61kk0SXrwcOV7ecxV1kXOHqqr7b05AnHb+7WQLm2//
-         99I74CEV3Bp7nIGJpY3KIRQY/Dk76NL5AyPnPDdyPD6b/u3+xXmAE7+2oMIhb9i4S20S
-         CoFeVw7wZeD1hqt/cvcyOoXSnPgoC7+NIBaArYKcUjXUpLXnxwT5xjpNSzKRLXgvyLvd
-         NCTQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533S80/3NWcO5X6ql0Ym0DMto0u+fbC+yaLpeYMkKMz9CHaCSo/s
-	+PvRvRWJjbFNYR9lN+shcoQ=
-X-Google-Smtp-Source: ABdhPJzO5vQwfGOAtJlKXOe5DS0GRyYIZ8T31ZU1vo1UxGWbqKP06dSUy9FqI4AxRC33UoCXwj+B+A==
-X-Received: by 2002:a25:ab8e:0:b0:628:7c01:de65 with SMTP id v14-20020a25ab8e000000b006287c01de65mr16199487ybi.524.1646367141984;
-        Thu, 03 Mar 2022 20:12:21 -0800 (PST)
-MIME-Version: 1.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=17jR7x4VYa83NgdcF/82Tl2G/+ODOdO7ujb/gVp5Ymg=;
+        b=ZQ5/anpCJfSRAf7qhiuGOEpJMOaM0O534bZiKkvXTPp6nE5tXUhmhCOYXJ6/4EmGLl
+         Mh+MNixCOWKNEO8e2K7TWjzOd6xShYVUs025TLar/JOqfKc9VFmAnE0vfvxoqQSC8Rpg
+         uPbhPnUivzsYXAdfMyDcdjQ3rCNBa8CXfcDAUpDydaFrAIwfu6G020jWQ2NX2e+at3ee
+         TXlo6YORC+0810yWaptsAq4i1zmARHDmenlKfEJxHwZ8STQlWcMiOvhEGL/JFlWAfl8n
+         q3fJZtGYL9O0zlsn18fAafBRm8V1s3+8K8Pva7pOmzNmrMrKNsRLzm9G9/TsECUiwKdb
+         Ia0Q==
+X-Gm-Message-State: AOAM532NRB8ZTajl95ORBHK8bV6len96ivtrj71KnP9Zs9HVsVs3+2SW
+	T+1DN073NQCjJxZoeRzdUUs=
+X-Google-Smtp-Source: ABdhPJwLQH7TbyujDhwV45BVo9nfvq1RYanqhS0RrvonbfovxEPX0Fl3vIH4+LWZ986rcQ3j4P11qA==
+X-Received: by 2002:a05:6808:1646:b0:2d4:428c:659e with SMTP id az6-20020a056808164600b002d4428c659emr10672788oib.20.1646417662868;
+        Fri, 04 Mar 2022 10:14:22 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:1106:b0:628:9969:5026 with SMTP id
- o6-20020a056902110600b0062899695026ls3203991ybu.4.gmail; Thu, 03 Mar 2022
- 20:12:21 -0800 (PST)
-X-Received: by 2002:a25:7407:0:b0:628:97bf:39e5 with SMTP id p7-20020a257407000000b0062897bf39e5mr12200052ybc.597.1646367141395;
-        Thu, 03 Mar 2022 20:12:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1646367141; cv=none;
+Received: by 2002:a05:6808:2390:b0:2d4:a1bd:6b2e with SMTP id
+ bp16-20020a056808239000b002d4a1bd6b2els2338845oib.10.gmail; Fri, 04 Mar 2022
+ 10:14:22 -0800 (PST)
+X-Received: by 2002:a05:6808:f0e:b0:2d9:a01a:4bca with SMTP id m14-20020a0568080f0e00b002d9a01a4bcamr236135oiw.241.1646417662532;
+        Fri, 04 Mar 2022 10:14:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1646417662; cv=none;
         d=google.com; s=arc-20160816;
-        b=hUr93Hpgqw+hV/iYOrM0z6nCAfQfKkvlgGQTEfNjzs0fe1N69Hmh/qoxgUNfM9XnBS
-         s03f+kOPCWMP+0M7wgfHYg0GE1a6bDPK9zxawffuu/4GRpINj4U6fEzwdDRmfuu6aUxA
-         V53NhtujjSMS32uebDNOXvTxtmrYLMjLzn30QF2W6iZG+dDK2fL5EFIN24TztM4oBRLv
-         uMRNA9oqbDrHyolevkcJX1+JlazNOCMi/frM6c4+sLGS/Ctpm7b+sqhHWEZ5Jh2qowa9
-         /3xnuVAJ4zu9wMEF9JYZFLgMfSx8KmrTMyZ+sbEp2196z6085ZIC+cwc1QIIURxZYNNq
-         OxWg==
+        b=ZNH8sK6HU8zfTRfDP5SvVn3Ku9iyEhV779qICDymjJAJPWo3eMBqM9S4V6t6HkxuUy
+         lSLFvbAgqtXWPwLPh+F++jhe+NdOV6yL6zTpat9/J2/00p37J5HXts/nQsjGRD9mW8gW
+         TuOH8Wq4YznCNmTYLFr41l+qZAtJup53WENkbFu5JRzBGrIkNV5dxqudpJRV9N/39WZ2
+         mzBQXDfldv8NpP7cUgdC2gHODOtuksOnuEAKYFsQiAFOQwpmyBH5Fq0DbrKvUUk7rNH9
+         jwaYFA8PRfdWl0eXErN3hEhbYzE7mObV4fjjM1+1oyDcY5MnPX5rBTxrtH25R0stRioV
+         9lsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=message-id:to:from:cc:in-reply-to:subject:date:dkim-signature;
-        bh=+d5M5Lb/1zkG36m0uGpnpPesPt+KsHy1eBe0GK/XMwc=;
-        b=sZ5CAlTDCXn5Nznd2CtfIHRfKbxteKB4GrLsma3y0ZRMan024XeCL0RRXf2mV1FNxp
-         iwiZt2iQPsbdl9GoFnw4MutHVHb+r727nVEehhmXKUt53Jdc8F0FrbnZqq8D8ZzZH8of
-         8KIqjxuX1x9qDZyPM0PJ3FlTfqwzgBbrkUOSW0msMU8SLMvH0fNOsOHc4GpKf80EMpy6
-         VNMx6IwNiTv6C1E2f3H/OAIlMjA2iz6oxoNnEN+d4vN47Z+mWRY0CsfHujY/KHhABzFm
-         e+2WIKPWqDcyCvG30CCzzMweqlVQX3jJgGzNMjZ83Axr9G0TwVBmOjfyNss7J8kvPU+H
-         12vg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=roOvrpzRBBuu6X1VnPdwFDfTIg5X39LNxw0wRlde0q0=;
+        b=hOEwfNXa7UfcTWGp1aW1KfQjQpDcuZccS3bUvSlbOHINMnXPDbiQfh68y3mJgNhQZQ
+         H6dL837n/ZzFZlvtbvqlJCbpoeOr4fT7Ij9P4qg0ld4F0fj4z/vIKmUGPD3QIjNW+D2V
+         nVjgUiKgiZ98kAz34VNrSuY0BqhsKvud+QON7QVjm5BU87n3IowtmCqwXFB2n6qRh3RE
+         pu19m5SVfOUWVZXx8ijO/eGxHk+VtAikscw2DdwLCgUL3BtjIb7c76OYGuEyjEWGOyvt
+         XAXoJu6Qjx849gVSPkWUpVWv3Fn8dI4xzY13QxUnldTe83D38Er0+05+7fB3qa/78aoL
+         T5Pg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b="CkkA0/mo";
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::102d as permitted sender) smtp.mailfrom=palmer@dabbelt.com
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com. [2607:f8b0:4864:20::102d])
-        by gmr-mx.google.com with ESMTPS id bg7-20020a05690c030700b002d7da374fa6si271351ywb.2.2022.03.03.20.12.21
+       dkim=pass header.i=@google.com header.s=20210112 header.b=iVNEGaLs;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com. [2607:f8b0:4864:20::112d])
+        by gmr-mx.google.com with ESMTPS id q3-20020a05683031a300b005b1ec04cd07si846151ots.1.2022.03.04.10.14.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Mar 2022 20:12:21 -0800 (PST)
-Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::102d as permitted sender) client-ip=2607:f8b0:4864:20::102d;
-Received: by mail-pj1-x102d.google.com with SMTP id g7-20020a17090a708700b001bb78857ccdso9644200pjk.1
-        for <kasan-dev@googlegroups.com>; Thu, 03 Mar 2022 20:12:21 -0800 (PST)
-X-Received: by 2002:a17:90a:7385:b0:1b9:6492:c107 with SMTP id j5-20020a17090a738500b001b96492c107mr8682494pjg.103.1646367140345;
-        Thu, 03 Mar 2022 20:12:20 -0800 (PST)
-Received: from localhost ([12.3.194.138])
-        by smtp.gmail.com with ESMTPSA id z7-20020a056a00240700b004e1cde37bc1sm4075952pfh.84.2022.03.03.20.12.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 20:12:19 -0800 (PST)
-Date: Thu, 03 Mar 2022 20:12:19 -0800 (PST)
-Subject: Re: [PATCH -fixes v3 0/6] Fixes KASAN and other along the way
-In-Reply-To: <mhng-ffd5d5c5-9894-4dec-b332-5176d508bcf9@palmer-mbp2014>
-CC: elver@google.com, Paul Walmsley <paul.walmsley@sifive.com>,
-  aou@eecs.berkeley.edu, ryabinin.a.a@gmail.com, andreyknvl@gmail.com, dvyukov@google.com,
-  nogikh@google.com, nickhu@andestech.com, linux-riscv@lists.infradead.org,
-  linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: glider@google.com, alexandre.ghiti@canonical.com
-Message-ID: <mhng-ef0f4bac-b55e-471e-8e3d-8ea597081b74@palmer-ri-x1c9>
-X-Original-Sender: palmer@dabbelt.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112
- header.b="CkkA0/mo";       spf=pass (google.com: domain of palmer@dabbelt.com
- designates 2607:f8b0:4864:20::102d as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+        Fri, 04 Mar 2022 10:14:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as permitted sender) client-ip=2607:f8b0:4864:20::112d;
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-2d6d0cb5da4so100404377b3.10
+        for <kasan-dev@googlegroups.com>; Fri, 04 Mar 2022 10:14:22 -0800 (PST)
+X-Received: by 2002:a81:9ad7:0:b0:2db:f000:32e7 with SMTP id
+ r206-20020a819ad7000000b002dbf00032e7mr17923054ywg.412.1646417661910; Fri, 04
+ Mar 2022 10:14:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20220303031505.28495-1-dtcccc@linux.alibaba.com> <20220303031505.28495-2-dtcccc@linux.alibaba.com>
+In-Reply-To: <20220303031505.28495-2-dtcccc@linux.alibaba.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 4 Mar 2022 19:13:45 +0100
+Message-ID: <CANpmjNOOkg=OUmgwdcRus2gdPXT41Y7GkFrgzuBv+o8KHKXyEA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] kfence: Allow re-enabling KFENCE after system startup
+To: Tianchen Ding <dtcccc@linux.alibaba.com>
+Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=iVNEGaLs;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,278 +132,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 01 Mar 2022 09:39:54 PST (-0800), Palmer Dabbelt wrote:
-> On Fri, 25 Feb 2022 07:00:23 PST (-0800), glider@google.com wrote:
->> On Fri, Feb 25, 2022 at 3:47 PM Alexandre Ghiti <
->> alexandre.ghiti@canonical.com> wrote:
->>
->>> On Fri, Feb 25, 2022 at 3:31 PM Alexander Potapenko <glider@google.com>
->>> wrote:
->>> >
->>> >
->>> >
->>> > On Fri, Feb 25, 2022 at 3:15 PM Alexandre Ghiti <
->>> alexandre.ghiti@canonical.com> wrote:
->>> >>
->>> >> On Fri, Feb 25, 2022 at 3:10 PM Alexander Potapenko <glider@google.c=
-om>
->>> wrote:
->>> >> >
->>> >> >
->>> >> >
->>> >> > On Fri, Feb 25, 2022 at 3:04 PM Alexandre Ghiti <
->>> alexandre.ghiti@canonical.com> wrote:
->>> >> >>
->>> >> >> On Fri, Feb 25, 2022 at 2:06 PM Marco Elver <elver@google.com>
->>> wrote:
->>> >> >> >
->>> >> >> > On Fri, 25 Feb 2022 at 13:40, Alexandre Ghiti
->>> >> >> > <alexandre.ghiti@canonical.com> wrote:
->>> >> >> > >
->>> >> >> > > As reported by Aleksandr, syzbot riscv is broken since commit
->>> >> >> > > 54c5639d8f50 ("riscv: Fix asan-stack clang build"). This comm=
-it
->>> actually
->>> >> >> > > breaks KASAN_INLINE which is not fixed in this series, that w=
-ill
->>> come later
->>> >> >> > > when found.
->>> >> >> > >
->>> >> >> > > Nevertheless, this series fixes small things that made the sy=
-zbot
->>> >> >> > > configuration + KASAN_OUTLINE fail to boot.
->>> >> >> > >
->>> >> >> > > Note that even though the config at [1] boots fine with this
->>> series, I
->>> >> >> > > was not able to boot the small config at [2] which fails beca=
-use
->>> >> >> > > kasan_poison receives a really weird address 0x40757063010000=
-00
->>> (maybe a
->>> >> >> > > kasan person could provide some hint about what happens below=
- in
->>> >> >> > > do_ctors -> __asan_register_globals):
->>> >> >> >
->>> >> >> > asan_register_globals is responsible for poisoning redzones aro=
-und
->>> >> >> > globals. As hinted by 'do_ctors', it calls constructors, and in
->>> this
->>> >> >> > case a compiler-generated constructor that calls
->>> >> >> > __asan_register_globals with metadata generated by the compiler=
-.
->>> That
->>> >> >> > metadata contains information about global variables. Note, the=
-se
->>> >> >> > constructors are called on initial boot, but also every time a
->>> kernel
->>> >> >> > module (that has globals) is loaded.
->>> >> >> >
->>> >> >> > It may also be a toolchain issue, but it's hard to say. If you'=
-re
->>> >> >> > using GCC to test, try Clang (11 or later), and vice-versa.
->>> >> >>
->>> >> >> I tried 3 different gcc toolchains already, but that did not fix =
-the
->>> >> >> issue. The only thing that worked was setting asan-globals=3D0 in
->>> >> >> scripts/Makefile.kasan, but ok, that's not a fix.
->>> >> >> I tried to bisect this issue but our kasan implementation has bee=
-n
->>> >> >> broken quite a few times, so it failed.
->>> >> >>
->>> >> >> I keep digging!
->>> >> >>
->>> >> >
->>> >> > The problem does not reproduce for me with GCC 11.2.0: kernels bui=
-lt
->>> with both [1] and [2] are bootable.
->>> >>
->>> >> Do you mean you reach userspace? Because my image boots too, and fai=
-ls
->>> >> at some point:
->>> >>
->>> >> [    0.000150] sched_clock: 64 bits at 10MHz, resolution 100ns, wrap=
-s
->>> >> every 4398046511100ns
->>> >> [    0.015847] Console: colour dummy device 80x25
->>> >> [    0.016899] printk: console [tty0] enabled
->>> >> [    0.020326] printk: bootconsole [ns16550a0] disabled
->>> >>
->>> >
->>> > In my case, QEMU successfully boots to the login prompt.
->>> > I am running QEMU 6.2.0 (Debian 1:6.2+dfsg-2) and an image Aleksandr
->>> shared with me (guess it was built according to this instruction:
->>> https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-=
-host_qemu-vm_riscv64-kernel.md
->>> )
->>> >
->>>
->>> Nice thanks guys! I always use the latest opensbi and not the one that
->>> is embedded in qemu, which is the only difference between your command
->>> line (which works) and mine (which does not work). So the issue is
->>> probably there, I really need to investigate that now.
->>>
->>> Great to hear that!
->>
->>
->>> That means I only need to fix KASAN_INLINE and we're good.
->>>
->>> I imagine Palmer can add your Tested-by on the series then?
->>>
->> Sure :)
+On Thu, 3 Mar 2022 at 04:15, Tianchen Ding <dtcccc@linux.alibaba.com> wrote:
 >
-> Do you mind actually posting that (i, the Tested-by tag)?  It's less
-> likely to get lost that way.  I intend on taking this into fixes ASAP,
-> my builds have blown up for some reason (I got bounced between machines,
-> so I'm blaming that) so I need to fix that first.
-
-This is on fixes (with a "Tested-by: Alexander Potapenko=20
-<glider@google.com>"), along with some trivial commit message fixes.
-
-Thanks!
-
+> If once KFENCE is disabled by:
+> echo 0 > /sys/module/kfence/parameters/sample_interval
+> KFENCE could never be re-enabled until next rebooting.
 >
->>
->>>
->>> Thanks again!
->>>
->>> Alex
->>>
->>> >>
->>> >> It traps here.
->>> >>
->>> >> > FWIW here is how I run them:
->>> >> >
->>> >> > qemu-system-riscv64 -m 2048 -smp 1 -nographic -no-reboot \
->>> >> >   -device virtio-rng-pci -machine virt -device \
->>> >> >   virtio-net-pci,netdev=3Dnet0 -netdev \
->>> >> >   user,id=3Dnet0,restrict=3Don,hostfwd=3Dtcp:127.0.0.1:12529-:22 -=
-device \
->>> >> >   virtio-blk-device,drive=3Dhd0 -drive \
->>> >> >   file=3D${IMAGE},if=3Dnone,format=3Draw,id=3Dhd0 -snapshot \
->>> >> >   -kernel ${KERNEL_SRC_DIR}/arch/riscv/boot/Image -append
->>> "root=3D/dev/vda
->>> >> >   console=3DttyS0 earlyprintk=3Dserial"
->>> >> >
->>> >> >
->>> >> >>
->>> >> >> Thanks for the tips,
->>> >> >>
->>> >> >> Alex
->>> >> >
->>> >> >
->>> >> >
->>> >> > --
->>> >> > Alexander Potapenko
->>> >> > Software Engineer
->>> >> >
->>> >> > Google Germany GmbH
->>> >> > Erika-Mann-Stra=C3=9Fe, 33
->>> >> > 80636 M=C3=BCnchen
->>> >> >
->>> >> > Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
->>> >> > Registergericht und -nummer: Hamburg, HRB 86891
->>> >> > Sitz der Gesellschaft: Hamburg
->>> >> >
->>> >> > Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherwei=
-se
->>> erhalten haben sollten, leiten Sie diese bitte nicht an jemand anderes
->>> weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen =
-Sie mich bitte
->>> wissen, dass die E-Mail an die falsche Person gesendet wurde.
->>> >> >
->>> >> >
->>> >> >
->>> >> > This e-mail is confidential. If you received this communication by
->>> mistake, please don't forward it to anyone else, please erase all copie=
-s
->>> and attachments, and please let me know that it has gone to the wrong
->>> person.
->>> >>
->>> >> --
->>> >> You received this message because you are subscribed to the Google
->>> Groups "kasan-dev" group.
->>> >> To unsubscribe from this group and stop receiving emails from it, se=
-nd
->>> an email to kasan-dev+unsubscribe@googlegroups.com.
->>> >> To view this discussion on the web visit
->>> https://groups.google.com/d/msgid/kasan-dev/CA%2BzEjCsQPVYSV7CdhKnvjujX=
-kMXuRQd%3DVPok1awb20xifYmidw%40mail.gmail.com
->>> .
->>> >
->>> >
->>> >
->>> > --
->>> > Alexander Potapenko
->>> > Software Engineer
->>> >
->>> > Google Germany GmbH
->>> > Erika-Mann-Stra=C3=9Fe, 33
->>> > 80636 M=C3=BCnchen
->>> >
->>> > Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
->>> > Registergericht und -nummer: Hamburg, HRB 86891
->>> > Sitz der Gesellschaft: Hamburg
->>> >
->>> > Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise =
-erhalten
->>> haben sollten, leiten Sie diese bitte nicht an jemand anderes weiter,
->>> l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie mich=
- bitte wissen,
->>> dass die E-Mail an die falsche Person gesendet wurde.
->>> >
->>> >
->>> >
->>> > This e-mail is confidential. If you received this communication by
->>> mistake, please don't forward it to anyone else, please erase all copie=
-s
->>> and attachments, and please let me know that it has gone to the wrong
->>> person.
->>>
->>> --
->>> You received this message because you are subscribed to the Google Grou=
-ps
->>> "kasan-dev" group.
->>> To unsubscribe from this group and stop receiving emails from it, send =
-an
->>> email to kasan-dev+unsubscribe@googlegroups.com.
->>> To view this discussion on the web visit
->>> https://groups.google.com/d/msgid/kasan-dev/CA%2BzEjCuJw8N0dUmQNdFqDM96=
-bzKqPDjRe4FUnOCbjhJtO0R8Hg%40mail.gmail.com
->>> .
->>>
->>
->>
->> --
->> Alexander Potapenko
->> Software Engineer
->>
->> Google Germany GmbH
->> Erika-Mann-Stra=C3=9Fe, 33
->> 80636 M=C3=BCnchen
->>
->> Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
->> Registergericht und -nummer: Hamburg, HRB 86891
->> Sitz der Gesellschaft: Hamburg
->>
->> Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise erh=
-alten
->> haben sollten, leiten Sie diese bitte nicht an jemand anderes weiter,
->> l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie mich =
-bitte wissen,
->> dass die E-Mail an die falsche Person gesendet wurde.
->>
->>
->>
->> This e-mail is confidential. If you received this communication by mista=
-ke,
->> please don't forward it to anyone else, please erase all copies and
->> attachments, and please let me know that it has gone to the wrong person=
-.
+> Allow re-enabling it by writing a positive num to sample_interval.
+>
+> Signed-off-by: Tianchen Ding <dtcccc@linux.alibaba.com>
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/mhng-ef0f4bac-b55e-471e-8e3d-8ea597081b74%40palmer-ri-x1c9.
+The only problem I see with this is if KFENCE was disabled because of
+a KFENCE_WARN_ON(). See below.
+
+> ---
+>  mm/kfence/core.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index 13128fa13062..19eb123c0bba 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -55,6 +55,7 @@ EXPORT_SYMBOL_GPL(kfence_sample_interval); /* Export for test modules. */
+>  #endif
+>  #define MODULE_PARAM_PREFIX "kfence."
+>
+> +static int kfence_enable_late(void);
+>  static int param_set_sample_interval(const char *val, const struct kernel_param *kp)
+>  {
+>         unsigned long num;
+> @@ -65,10 +66,11 @@ static int param_set_sample_interval(const char *val, const struct kernel_param
+>
+>         if (!num) /* Using 0 to indicate KFENCE is disabled. */
+>                 WRITE_ONCE(kfence_enabled, false);
+> -       else if (!READ_ONCE(kfence_enabled) && system_state != SYSTEM_BOOTING)
+> -               return -EINVAL; /* Cannot (re-)enable KFENCE on-the-fly. */
+>
+>         *((unsigned long *)kp->arg) = num;
+> +
+> +       if (num && !READ_ONCE(kfence_enabled) && system_state != SYSTEM_BOOTING)
+
+Should probably have an 'old_sample_interval = *((unsigned long
+*)kp->arg)' somewhere before, and add a '&& !old_sample_interval',
+because if old_sample_interval!=0 then KFENCE was disabled due to a
+KFENCE_WARN_ON(). Also in this case, it should return -EINVAL. So you
+want a flow like this:
+
+old_sample_interval = ...;
+...
+if (num && !READ_ONCE(kfence_enabled) && system_state != SYSTEM_BOOTING)
+  return old_sample_interval ? -EINVAL : kfence_enable_late();
+...
+
+Thanks,
+-- Marco
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOOkg%3DOUmgwdcRus2gdPXT41Y7GkFrgzuBv%2Bo8KHKXyEA%40mail.gmail.com.
