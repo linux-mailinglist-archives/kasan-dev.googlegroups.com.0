@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB7FDTCIQMGQE4GPTDXI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBIFGTCIQMGQEGPBUMNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461A34D00BD
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Mar 2022 15:09:01 +0100 (CET)
-Received: by mail-oo1-xc3b.google.com with SMTP id n14-20020a4a848e000000b00320fa3f046csf1107653oog.23
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Mar 2022 06:09:01 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1646662140; cv=pass;
+Received: from mail-oo1-xc3f.google.com (mail-oo1-xc3f.google.com [IPv6:2607:f8b0:4864:20::c3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 286DE4D00D9
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Mar 2022 15:13:53 +0100 (CET)
+Received: by mail-oo1-xc3f.google.com with SMTP id u13-20020a4ab5cd000000b002e021ad5bbcsf11560004ooo.17
+        for <lists+kasan-dev@lfdr.de>; Mon, 07 Mar 2022 06:13:53 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1646662432; cv=pass;
         d=google.com; s=arc-20160816;
-        b=J4a9nrt/vhwODVzHoOlvgZm8yUiEvJ23DRhLqWOCMSK0QHGgLYFuyxI8IWu1E/o7LC
-         PHQEvOaYB7Ii631QlBV7MT4hHc3gqGvuiB0zqLINXnQNVxUrYRR+Ywz09cL0ZUQS1hlW
-         ARL3Vp7mdcenEW8ei96v2+KhDGg0AyyqfJ04Hp/2oQ+j4li3v3RfWE/GK+nQLgt3D9Z2
-         B7wH+qaiaF8TQIVzmx0+zsVt6OiAPg0aghMLgeG4+I3gs8dWNWiSZZFSC+rpxFx6onI/
-         FOJO7s/s4mL1L0MenhUrs5jr2/Hhj4XKU/joQBmL7FcVDS+IxjBpbwmGJL+D3Ex2howK
-         5wOA==
+        b=SCQO9G2ATX+vTsns04KVOemZe2MCSistJ9H3DWjKFB1c3MLgUxR1aTomJ4h/pRUTXS
+         idioqwoiFjCX+s/gPh85YGHErUTQsVQtjXxR8WojNIgZSOvUXgVuXMaDcImxZG2h1HjD
+         BHQN5UtNEW7Tmyy4e8RgYtT/0rXlTJ5MWTOSlgDsdGA+HaIIRi2myN9JyTJaHaHoqVPB
+         84ZyYEvMnblmnuIghQQx4ys1l1XgGxDyLkonscxZ51c3DhL8+XLbTDEu5wuSFahL7AbY
+         j0oON/VSSIA/cP0ZYo8Kz5ELi10wpIa7WEAE7D7Xq4q2y9Usub2y6YQuq2M20bDmcedw
+         K69A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=UPNeAn2Lr+WuB/35UMq0UOzloetjAoZecTH1plhX4sQ=;
-        b=VlAYbGqnXO3degf6JoNZxUqA/yhgFBZe20wW60DD0065n1R1+G3CWw2+FWbVw8AA1A
-         LNuRbWQi7xY1mD4M5Ljse5Oi7XVVOpxgjyweVMsR7Y90fI1ktnIVDBFsG/zTPhlHJvmz
-         5rxbVvIdSBv2znpEPie3mplcpA9wOWxriVsR2T+5XjbqZnIOFGYmvc2VlMoXdmecFfaS
-         WdAEt2I/hOo1/nazT9TNqU/VjfHnl5086QYyf2I++uJS/++57YUT+h9bU78uK8impwS4
-         BxEzOO74cqdrVtFoZQyFFAKiH2ddgXzV0hOVNb5fEIJZ5x2Myxc6RJ3bfhL5fPpohIeU
-         9n1A==
+        bh=0LBUblUPaT2fvKnxhLYAS2IzAdsz38+fe7xiomIojwk=;
+        b=t8koBOgvaBktX9q9h9J54FPJcgjoV7/95eXXRID76dkRZ7bGDj356zw9Bk2Fe/6rw7
+         HfGEAS1aNSo7+/ASoCRZDQRtN7LaeO3NdYXjrkRVijR0EcyY2EeYthTt8gwS6mo5t+PL
+         BabGUnzXKgefRUEbdNabYj3oyK65oQPeeB3pZ4cs7XDSpxljqGGxspG+XnF1kh5/a3qI
+         1vFNyaCpWAx83dqZ+ikkmCtUo8qA1WJ2Ukz4zH6uTcxu9ty0+9fgDDDnrMTjhsIrYl3n
+         173pmlC7OLmJjIUTwaQ7vNUxVXt/7nqQrRiwFsWkLA9J0qmvAZ0cLkyr+4FbW7Nbyfnm
+         PwLA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=B4g1Mvdp;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b32 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=goleXkes;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f35 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=UPNeAn2Lr+WuB/35UMq0UOzloetjAoZecTH1plhX4sQ=;
-        b=Dxxbzm7488umlFE+uhoZ6mTmy3vCEFUtBEPDgvZB+5vt5H3Ny4X3YZ/OlIzb/tpVGL
-         Hvc8ypokmoGo9v+jpWwMXMHEftMjJK5HrAlVRxaG4q3V2vu4Ql5/X7zCRgy/ibrV84VP
-         lhPgcJEsl4foar/BQBWNcXat5As1HyPAkJynpdXObW4xSoOW64dnIPCPr6q3F3m6hwWt
-         ZU4aSBxvvS6gMSN1YOBm/ErI/hwr1l/Y0/oLKIw9RNtQSwCH0wDnSf7zHhM0GMeP3x75
-         pJfY1tGDgBNpUQ+Tf6lDcOdKVAAIvLoE0LEPGOhQ3NSnGcrKo1KTIKHayjL7RGdSqrWy
-         1w3Q==
+        bh=0LBUblUPaT2fvKnxhLYAS2IzAdsz38+fe7xiomIojwk=;
+        b=DUdb6jZzXJ6kK96C4UdvFrtMK6jtvUb0L6hKdEQYVtqCKZNXR62b3prEcS0qQ8gxLZ
+         EOf80HrK8HgZcB732hDplNLKS/4hdAv5uVLkRwEGxtncbDssQF22TQeuCCXI/miDmOlu
+         OxFGSWTy+lhWUNCISoxPfRjaBF/JrY14QsVXBS/msY2t5RnCmkj6CLxXJCYolQKwcp34
+         irNLk1GlBi/E3tFSVv9N66awuyua2JQB7dxLWvWfxktqjvkfZIlRVLHFUD1SAzNLe68f
+         nRALKsnwafte2KI8x6w36KSKAvl/8pRrR1ui/oXY6X/LEylIGXvsTv9hIavsHbq5EDTW
+         9omg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,77 +49,78 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=UPNeAn2Lr+WuB/35UMq0UOzloetjAoZecTH1plhX4sQ=;
-        b=kQOmmYjd22F1IWSrI+oPBD7YNGTqqBArUE7IuXV8ueA/+wtTfP7BtYdAkCkTXEyO/Q
-         vHXuRsQ6oW0pBNvTMiQ3MDF4WVI71TXIpF+RMflKG+A8wMhhHwNPbZoBd2dTgDZaxNmH
-         6/9z0lcHo+fOX/AgfDk8ogUvO+DuF6D6mFlwMgfvta6F5psYm2LQLs16N/E0SuwYd3bj
-         qboqJqBO3fDBz9j3tMwRV0aZf4EmPRN+pH2mQJNl598VFrEFl9VclHuVuq6frwN4hStn
-         MtPJsv3cb+kJ9dnfbkkI4fsqsYnuZiOAyqxi+7NiG2La/Skic4CCNOq3mom2P9/wTeBy
-         qe6Q==
-X-Gm-Message-State: AOAM531VX91wtDY+iAqC/irCU+RBnwiVAVBp40jlaz+IBcNs2XVHtmcP
-	uKo+x7Rp3JXr3N5aZiuK+fc=
-X-Google-Smtp-Source: ABdhPJyIKEpLxipdBxjY5ppmRiKAq2uH+FYhMY14xvk4B53+upEDf5cfEbJOmxjfrvdNOJ+oh/H0vA==
-X-Received: by 2002:a05:6870:420f:b0:d9:a032:a120 with SMTP id u15-20020a056870420f00b000d9a032a120mr5708625oac.0.1646662140158;
-        Mon, 07 Mar 2022 06:09:00 -0800 (PST)
+        bh=0LBUblUPaT2fvKnxhLYAS2IzAdsz38+fe7xiomIojwk=;
+        b=wwjJw/+ryQ7/bVFSVN0852oDhtTth8++x8lttBpVkVWWCbacjRvUEpMsv5Oc4bIxRf
+         TA6xZf+5l0oxHrF5KZWvb1kOEFJXkaDOH71UL30QdWK2hsK+4o4vBg7VeDA5gv+IO+EI
+         TbLuueARqgsieh8XN1ptMTl3FqgAvWqvx00GeUKsvqLPW8O5cgNrTgUWj3sI0A38UwMY
+         CVQQltK3Kt2l4LML7hWYRajGtTLuP/KVl2EhNHTmkZ8U3SEsLau0srzOHJnknXUw0M/0
+         Yztvers4aM2uUcg5Sj2MtxREXIwzLHiRI9/Ujf1hRqYaCcTWT8uq2F6ei48CspEA0KNq
+         H2eg==
+X-Gm-Message-State: AOAM532FIHrquyaBge/iYI1hGh8LKGriahjgrGws0IniZUwq1pyuorl/
+	43nDM+Ai7OY7kI63BiRx6+Y=
+X-Google-Smtp-Source: ABdhPJwTBh3ZNcgBwS3AXlEaoSB4LpfTEp3jHMaZhW2jcq20rPtN3sAjl6H0AaIkRUu3wucYb0jcXQ==
+X-Received: by 2002:a05:6870:4998:b0:d7:5766:ae33 with SMTP id ho24-20020a056870499800b000d75766ae33mr5864351oab.67.1646662432180;
+        Mon, 07 Mar 2022 06:13:52 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:a1a0:b0:d7:1d2b:ec1a with SMTP id
- a32-20020a056870a1a000b000d71d2bec1als4179871oaf.3.gmail; Mon, 07 Mar 2022
- 06:08:59 -0800 (PST)
-X-Received: by 2002:a05:6870:8186:b0:da:b3f:2b2e with SMTP id k6-20020a056870818600b000da0b3f2b2emr6019540oae.205.1646662139748;
-        Mon, 07 Mar 2022 06:08:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1646662139; cv=none;
+Received: by 2002:a05:6808:2020:b0:2d9:f709:2c08 with SMTP id
+ q32-20020a056808202000b002d9f7092c08ls407817oiw.7.gmail; Mon, 07 Mar 2022
+ 06:13:51 -0800 (PST)
+X-Received: by 2002:aca:6548:0:b0:2d9:ce64:bead with SMTP id j8-20020aca6548000000b002d9ce64beadmr3622173oiw.109.1646662431841;
+        Mon, 07 Mar 2022 06:13:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1646662431; cv=none;
         d=google.com; s=arc-20160816;
-        b=c9hoD2DDBwFcpz1KuXvoq+axavZMY7GEPHMd5YQ4rPzBoZEzQml8PuyV+TSidgraQA
-         v69WaEn40oNbAor34VqkLRsLXt69lS9UFr0JgfWv3yBh96X9o/SeXYAViugw8iGbhxti
-         K6kwL7wg6gphXVtHtKvqLqywAbBm9tNGgBXNpI5gEUKyAvBfrRmPe9YX6pjWQEOtVv7W
-         OJQtVEnq0ADWTy9mA7pOYSEBDeNQvzL8v5wZdhl5SIgtQEZIAL001dT/c9fbKJWwUyq6
-         nkA3Gfy7DZ+aJUGxRWO3vp+YPEWOk0ESj95xKEUPFyI3LHg3gYHcszR6F6dat8YgBrIW
-         8lyw==
+        b=LeUSbg1mCU+yv+H4sgPNVABJY7tAh2ecRTPvjj7V27CAoveBUan+b92cL/XojAZ+Y7
+         KG9eS378zxIgN1xNGFTXbGYerVW4ZQ4KOMr4CRBUKCnwIAdisGMzMDX37EnJvghAloNd
+         XFzo2USZChnCz1mOxJi/3Z+RrH3xOyIgSNkUBx6vbmWYgUEEl21j/FW5AR/3d9CE40ml
+         mXDWydIoe8/1j6LaCavL3BQ1H0Zu2CDq8XP9wCgMR59XjqFXW54au2E1Y123MB+dy+mK
+         pjYHdmqslVZa2aeYoVAFmW2tGRhMfGvl7k8xzBYLsqqwNBev4buOLxbnpKIzNkrINrZ7
+         ODYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=0yk9BdGE0P4qhl7kTJOlzN4O3c8JJe4T1InJDUcBabo=;
-        b=bxnqh0O6ZBz61fqOxklTjtaiqqNJzBOWsQ5F3M3TxZJY1zjMwWdZ+CN19DE6bwcv8w
-         7GHT9PUTx+z8T8YTsaiOC0+OOgAHdzPNEz/j2KytFQLMqg+cECTeRTTUCkkke2bbH4Q5
-         vgnLGUkDEO19rCp0uvUcwQEdzzsCGv5RTaLEqrsQFgMQOAVu1kyI/Z/ISd72r7vxoBTY
-         koBHjnQykCS1/TJym0gEVZ1Y+aT4BkT833ujWbgX/dWSWniKl/D59WMdHvSr0o4FthMw
-         Ye7jRJva1NgQX46sEpnmLx7SiXNfG129LZqCUCYK1TknQ6W5xM2SWUjgWC0OFTuEjbH/
-         kjRA==
+        bh=gGmnx14YtQ+A7UsJQ2e9RGYf4zsmCH66jJ5hYBKHlHM=;
+        b=GfekacCa7GzOQY1yx2FeFuqK4Gir8zpxfFnnnbuahel4+dba0GqhhVsHL6kOaV9F9R
+         d6rEO1/NaUNuAHhNm7JEMQiTPfUyp3jATIvuTF29aRmbi0IZRO2QMR7ulgMio8SEmYFX
+         q9B8QcFIUG2zmCBTzw/bMZQy9yn90Vp9apaCPKXQ1/raKvRbijZ37g10ijIgL62vmouk
+         jOoqAG3QnXZPdjPkFkzcBgoD/PIUvp8ppTWsSCB+L7oYRSamywIjlsEQZwEuI9NhD2fN
+         vvuB92meM9gtf+4IrdM6Aw1KPxfd5vPeDRgjG66chAIQMPKL8Xy2P1+ZlAJNgpvlC6yp
+         Y7hA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=B4g1Mvdp;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b32 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=goleXkes;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f35 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com. [2607:f8b0:4864:20::b32])
-        by gmr-mx.google.com with ESMTPS id y24-20020a056830071800b005af3a0effdfsi2239024ots.0.2022.03.07.06.08.59
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com. [2607:f8b0:4864:20::f35])
+        by gmr-mx.google.com with ESMTPS id i3-20020a9d6103000000b005ad267a9a05si1710493otj.3.2022.03.07.06.13.51
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Mar 2022 06:08:59 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b32 as permitted sender) client-ip=2607:f8b0:4864:20::b32;
-Received: by mail-yb1-xb32.google.com with SMTP id g1so31176176ybe.4
-        for <kasan-dev@googlegroups.com>; Mon, 07 Mar 2022 06:08:59 -0800 (PST)
-X-Received: by 2002:a05:6902:203:b0:628:7b6f:2845 with SMTP id
- j3-20020a056902020300b006287b6f2845mr8118330ybs.533.1646662139111; Mon, 07
- Mar 2022 06:08:59 -0800 (PST)
+        Mon, 07 Mar 2022 06:13:51 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f35 as permitted sender) client-ip=2607:f8b0:4864:20::f35;
+Received: by mail-qv1-xf35.google.com with SMTP id f4so11717222qvd.0
+        for <kasan-dev@googlegroups.com>; Mon, 07 Mar 2022 06:13:51 -0800 (PST)
+X-Received: by 2002:a05:6214:212f:b0:42d:f8f0:fca7 with SMTP id
+ r15-20020a056214212f00b0042df8f0fca7mr8770443qvc.14.1646662431338; Mon, 07
+ Mar 2022 06:13:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20220307074516.6920-1-dtcccc@linux.alibaba.com> <20220307074516.6920-3-dtcccc@linux.alibaba.com>
-In-Reply-To: <20220307074516.6920-3-dtcccc@linux.alibaba.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 7 Mar 2022 15:08:22 +0100
-Message-ID: <CANpmjNPu+4VohTfFn6H-jBgL4zE2uexU3dqmks3LJy_chu34pg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] kfence: Alloc kfence_pool after system startup
-To: Tianchen Ding <dtcccc@linux.alibaba.com>
-Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+References: <tencent_D44A49FFB420EDCCBFB9221C8D14DFE12908@qq.com>
+In-Reply-To: <tencent_D44A49FFB420EDCCBFB9221C8D14DFE12908@qq.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 7 Mar 2022 15:13:14 +0100
+Message-ID: <CAG_fn=W02BVqA_JhCF=Xzs5VkTZm4Caf_rnusT-RPD_r6=0U9Q@mail.gmail.com>
+Subject: Re: [PATCH] lib/test_meminit: add checks for the allocation functions
+To: xkernel.wang@foxmail.com
+Cc: Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Marco Elver <elver@google.com>, Dmitriy Vyukov <dvyukov@google.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: multipart/alternative; boundary="000000000000497d9705d9a179fc"
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=B4g1Mvdp;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b32 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ header.i=@google.com header.s=20210112 header.b=goleXkes;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f35 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,222 +133,282 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 7 Mar 2022 at 08:45, Tianchen Ding <dtcccc@linux.alibaba.com> wrote:
+--000000000000497d9705d9a179fc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Mar 4, 2022 at 10:13 AM <xkernel.wang@foxmail.com> wrote:
+
+> From: Xiaoke Wang <xkernel.wang@foxmail.com>
 >
-> Allow enabling KFENCE after system startup by allocating its pool via the
-> page allocator. This provides the flexibility to enable KFENCE even if it
-> wasn't enabled at boot time.
+> alloc_pages(), kmalloc() and vmalloc() are all memory allocation
+> functions which can return NULL when some internal memory failures
+> happen. So it is better to check the return of them to catch the failure
+> in time for better test them.
 >
-> Signed-off-by: Tianchen Ding <dtcccc@linux.alibaba.com>
-
-This looks good, thanks!
-
-Reviewed-by: Marco Elver <elver@google.com>
-Tested-by: Marco Elver <elver@google.com>
-
+> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+>
+Reviewed-by: Alexander Potapenko <glider@google.com>
 
 > ---
->  mm/kfence/core.c | 111 ++++++++++++++++++++++++++++++++++++++---------
->  1 file changed, 90 insertions(+), 21 deletions(-)
+>  lib/test_meminit.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 >
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index caa4e84c8b79..f126b53b9b85 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -96,7 +96,7 @@ static unsigned long kfence_skip_covered_thresh __read_mostly = 75;
->  module_param_named(skip_covered_thresh, kfence_skip_covered_thresh, ulong, 0644);
+> diff --git a/lib/test_meminit.c b/lib/test_meminit.c
+> index e4f706a..2f4c4bc 100644
+> --- a/lib/test_meminit.c
+> +++ b/lib/test_meminit.c
+> @@ -67,17 +67,24 @@ static int __init do_alloc_pages_order(int order, int
+> *total_failures)
+>         size_t size =3D PAGE_SIZE << order;
 >
->  /* The pool of pages used for guard pages and objects. */
-> -char *__kfence_pool __ro_after_init;
-> +char *__kfence_pool __read_mostly;
->  EXPORT_SYMBOL(__kfence_pool); /* Export for test modules. */
+>         page =3D alloc_pages(GFP_KERNEL, order);
+> +       if (!page)
+> +               goto err;
+>         buf =3D page_address(page);
+>         fill_with_garbage(buf, size);
+>         __free_pages(page, order);
 >
->  /*
-> @@ -537,17 +537,19 @@ static void rcu_guarded_free(struct rcu_head *h)
->         kfence_guarded_free((void *)meta->addr, meta, false);
+>         page =3D alloc_pages(GFP_KERNEL, order);
+> +       if (!page)
+> +               goto err;
+>         buf =3D page_address(page);
+>         if (count_nonzero_bytes(buf, size))
+>                 (*total_failures)++;
+>         fill_with_garbage(buf, size);
+>         __free_pages(page, order);
+>         return 1;
+> +err:
+> +       (*total_failures)++;
+> +       return 1;
 >  }
 >
-> -static bool __init kfence_init_pool(void)
-> +/*
-> + * Initialization of the KFENCE pool after its allocation.
-> + * Returns 0 on success; otherwise returns the address up to
-> + * which partial initialization succeeded.
-> + */
-> +static unsigned long kfence_init_pool(void)
->  {
->         unsigned long addr = (unsigned long)__kfence_pool;
->         struct page *pages;
->         int i;
+>  /* Test the page allocator by calling alloc_pages with different orders.
+> */
+> @@ -100,15 +107,22 @@ static int __init do_kmalloc_size(size_t size, int
+> *total_failures)
+>         void *buf;
 >
-> -       if (!__kfence_pool)
-> -               return false;
-> -
->         if (!arch_kfence_init_pool())
-> -               goto err;
-> +               return addr;
+>         buf =3D kmalloc(size, GFP_KERNEL);
+> +       if (!buf)
+> +               goto err;
+>         fill_with_garbage(buf, size);
+>         kfree(buf);
 >
->         pages = virt_to_page(addr);
->
-> @@ -565,7 +567,7 @@ static bool __init kfence_init_pool(void)
->
->                 /* Verify we do not have a compound head page. */
->                 if (WARN_ON(compound_head(&pages[i]) != &pages[i]))
-> -                       goto err;
-> +                       return addr;
->
->                 __SetPageSlab(&pages[i]);
->         }
-> @@ -578,7 +580,7 @@ static bool __init kfence_init_pool(void)
->          */
->         for (i = 0; i < 2; i++) {
->                 if (unlikely(!kfence_protect(addr)))
-> -                       goto err;
-> +                       return addr;
->
->                 addr += PAGE_SIZE;
->         }
-> @@ -595,7 +597,7 @@ static bool __init kfence_init_pool(void)
->
->                 /* Protect the right redzone. */
->                 if (unlikely(!kfence_protect(addr + PAGE_SIZE)))
-> -                       goto err;
-> +                       return addr;
->
->                 addr += 2 * PAGE_SIZE;
->         }
-> @@ -608,9 +610,21 @@ static bool __init kfence_init_pool(void)
->          */
->         kmemleak_free(__kfence_pool);
->
-> -       return true;
-> +       return 0;
-> +}
-> +
-> +static bool __init kfence_init_pool_early(void)
-> +{
-> +       unsigned long addr;
-> +
-> +       if (!__kfence_pool)
-> +               return false;
-> +
-> +       addr = kfence_init_pool();
-> +
-> +       if (!addr)
-> +               return true;
->
-> -err:
->         /*
->          * Only release unprotected pages, and do not try to go back and change
->          * page attributes due to risk of failing to do so as well. If changing
-> @@ -623,6 +637,26 @@ static bool __init kfence_init_pool(void)
->         return false;
+>         buf =3D kmalloc(size, GFP_KERNEL);
+> +       if (!buf)
+> +               goto err;
+>         if (count_nonzero_bytes(buf, size))
+>                 (*total_failures)++;
+>         fill_with_garbage(buf, size);
+>         kfree(buf);
+>         return 1;
+> +err:
+> +       (*total_failures)++;
+> +       return 1;
 >  }
 >
-> +static bool kfence_init_pool_late(void)
-> +{
-> +       unsigned long addr, free_size;
-> +
-> +       addr = kfence_init_pool();
-> +
-> +       if (!addr)
-> +               return true;
-> +
-> +       /* Same as above. */
-> +       free_size = KFENCE_POOL_SIZE - (addr - (unsigned long)__kfence_pool);
-> +#ifdef CONFIG_CONTIG_ALLOC
-> +       free_contig_range(page_to_pfn(virt_to_page(addr)), free_size / PAGE_SIZE);
-> +#else
-> +       free_pages_exact((void *)addr, free_size);
-> +#endif
-> +       __kfence_pool = NULL;
-> +       return false;
-> +}
-> +
->  /* === DebugFS Interface ==================================================== */
+>  /* Test vmalloc() with given parameters. */
+> @@ -117,15 +131,22 @@ static int __init do_vmalloc_size(size_t size, int
+> *total_failures)
+>         void *buf;
 >
->  static int stats_show(struct seq_file *seq, void *v)
-> @@ -771,31 +805,66 @@ void __init kfence_alloc_pool(void)
->                 pr_err("failed to allocate pool\n");
+>         buf =3D vmalloc(size);
+> +       if (!buf)
+> +               goto err;
+>         fill_with_garbage(buf, size);
+>         vfree(buf);
+>
+>         buf =3D vmalloc(size);
+> +       if (!buf)
+> +               goto err;
+>         if (count_nonzero_bytes(buf, size))
+>                 (*total_failures)++;
+>         fill_with_garbage(buf, size);
+>         vfree(buf);
+>         return 1;
+> +err:
+> +       (*total_failures)++;
+> +       return 1;
 >  }
 >
-> +static void kfence_init_enable(void)
-> +{
-> +       if (!IS_ENABLED(CONFIG_KFENCE_STATIC_KEYS))
-> +               static_branch_enable(&kfence_allocation_key);
-> +       WRITE_ONCE(kfence_enabled, true);
-> +       queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
-> +       pr_info("initialized - using %lu bytes for %d objects at 0x%p-0x%p\n", KFENCE_POOL_SIZE,
-> +               CONFIG_KFENCE_NUM_OBJECTS, (void *)__kfence_pool,
-> +               (void *)(__kfence_pool + KFENCE_POOL_SIZE));
-> +}
-> +
->  void __init kfence_init(void)
->  {
-> +       stack_hash_seed = (u32)random_get_entropy();
-> +
->         /* Setting kfence_sample_interval to 0 on boot disables KFENCE. */
->         if (!kfence_sample_interval)
->                 return;
->
-> -       stack_hash_seed = (u32)random_get_entropy();
-> -       if (!kfence_init_pool()) {
-> +       if (!kfence_init_pool_early()) {
->                 pr_err("%s failed\n", __func__);
->                 return;
->         }
->
-> -       if (!IS_ENABLED(CONFIG_KFENCE_STATIC_KEYS))
-> -               static_branch_enable(&kfence_allocation_key);
-> -       WRITE_ONCE(kfence_enabled, true);
-> -       queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
-> -       pr_info("initialized - using %lu bytes for %d objects at 0x%p-0x%p\n", KFENCE_POOL_SIZE,
-> -               CONFIG_KFENCE_NUM_OBJECTS, (void *)__kfence_pool,
-> -               (void *)(__kfence_pool + KFENCE_POOL_SIZE));
-> +       kfence_init_enable();
-> +}
-> +
-> +static int kfence_init_late(void)
-> +{
-> +       const unsigned long nr_pages = KFENCE_POOL_SIZE / PAGE_SIZE;
-> +#ifdef CONFIG_CONTIG_ALLOC
-> +       struct page *pages;
-> +
-> +       pages = alloc_contig_pages(nr_pages, GFP_KERNEL, first_online_node, NULL);
-> +       if (!pages)
-> +               return -ENOMEM;
-> +       __kfence_pool = page_to_virt(pages);
-> +#else
-> +       if (nr_pages > MAX_ORDER_NR_PAGES) {
-> +               pr_warn("KFENCE_NUM_OBJECTS too large for buddy allocator\n");
-> +               return -EINVAL;
-> +       }
-> +       __kfence_pool = alloc_pages_exact(KFENCE_POOL_SIZE, GFP_KERNEL);
-> +       if (!__kfence_pool)
-> +               return -ENOMEM;
-> +#endif
-> +
-> +       if (!kfence_init_pool_late()) {
-> +               pr_err("%s failed\n", __func__);
-> +               return -EBUSY;
-> +       }
-> +
-> +       kfence_init_enable();
-> +       return 0;
->  }
->
->  static int kfence_enable_late(void)
->  {
->         if (!__kfence_pool)
-> -               return -EINVAL;
-> +               return kfence_init_late();
->
->         WRITE_ONCE(kfence_enabled, true);
->         queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
+>  /* Test kmalloc()/vmalloc() by allocating objects of different sizes. */
 > --
-> 2.27.0
 >
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPu%2B4VohTfFn6H-jBgL4zE2uexU3dqmks3LJy_chu34pg%40mail.gmail.com.
+
+--=20
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
+
+Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise erhalt=
+en
+haben sollten, leiten Sie diese bitte nicht an jemand anderes weiter,
+l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie mich bit=
+te wissen,
+dass die E-Mail an die falsche Person gesendet wurde.
+
+
+
+This e-mail is confidential. If you received this communication by mistake,
+please don't forward it to anyone else, please erase all copies and
+attachments, and please let me know that it has gone to the wrong person.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAG_fn%3DW02BVqA_JhCF%3DXzs5VkTZm4Caf_rnusT-RPD_r6%3D0U9Q%40mail.=
+gmail.com.
+
+--000000000000497d9705d9a179fc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 4, 2022 at 10:13 AM &lt;<=
+a href=3D"mailto:xkernel.wang@foxmail.com">xkernel.wang@foxmail.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Xi=
+aoke Wang &lt;<a href=3D"mailto:xkernel.wang@foxmail.com" target=3D"_blank"=
+>xkernel.wang@foxmail.com</a>&gt;<br>
+<br>
+alloc_pages(), kmalloc() and vmalloc() are all memory allocation<br>
+functions which can return NULL when some internal memory failures<br>
+happen. So it is better to check the return of them to catch the failure<br=
+>
+in time for better test them.<br>
+<br>
+Signed-off-by: Xiaoke Wang &lt;<a href=3D"mailto:xkernel.wang@foxmail.com" =
+target=3D"_blank">xkernel.wang@foxmail.com</a>&gt;<br></blockquote><div>Rev=
+iewed-by: Alexander Potapenko &lt;<a href=3D"mailto:glider@google.com">glid=
+er@google.com</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">
+---<br>
+=C2=A0lib/test_meminit.c | 21 +++++++++++++++++++++<br>
+=C2=A01 file changed, 21 insertions(+)<br>
+<br>
+diff --git a/lib/test_meminit.c b/lib/test_meminit.c<br>
+index e4f706a..2f4c4bc 100644<br>
+--- a/lib/test_meminit.c<br>
++++ b/lib/test_meminit.c<br>
+@@ -67,17 +67,24 @@ static int __init do_alloc_pages_order(int order, int *=
+total_failures)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t size =3D PAGE_SIZE &lt;&lt; order;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 page =3D alloc_pages(GFP_KERNEL, order);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!page)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D page_address(page);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fill_with_garbage(buf, size);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 __free_pages(page, order);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 page =3D alloc_pages(GFP_KERNEL, order);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!page)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D page_address(page);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (count_nonzero_bytes(buf, size))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (*total_failures)++=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fill_with_garbage(buf, size);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 __free_pages(page, order);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1;<br>
++err:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0(*total_failures)++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
+=C2=A0}<br>
+<br>
+=C2=A0/* Test the page allocator by calling alloc_pages with different orde=
+rs. */<br>
+@@ -100,15 +107,22 @@ static int __init do_kmalloc_size(size_t size, int *t=
+otal_failures)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 void *buf;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D kmalloc(size, GFP_KERNEL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!buf)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fill_with_garbage(buf, size);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 kfree(buf);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D kmalloc(size, GFP_KERNEL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!buf)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (count_nonzero_bytes(buf, size))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (*total_failures)++=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fill_with_garbage(buf, size);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 kfree(buf);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1;<br>
++err:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0(*total_failures)++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
+=C2=A0}<br>
+<br>
+=C2=A0/* Test vmalloc() with given parameters. */<br>
+@@ -117,15 +131,22 @@ static int __init do_vmalloc_size(size_t size, int *t=
+otal_failures)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 void *buf;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D vmalloc(size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!buf)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fill_with_garbage(buf, size);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vfree(buf);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D vmalloc(size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!buf)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (count_nonzero_bytes(buf, size))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (*total_failures)++=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fill_with_garbage(buf, size);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vfree(buf);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1;<br>
++err:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0(*total_failures)++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
+=C2=A0}<br>
+<br>
+=C2=A0/* Test kmalloc()/vmalloc() by allocating objects of different sizes.=
+ */<br>
+-- <br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Alexander Potapenko<br>Software=
+ Engineer<br><br>Google Germany GmbH<br>Erika-Mann-Stra=C3=9Fe, 33<br>80636=
+ M=C3=BCnchen<br><br>Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebasti=
+an<br>Registergericht und -nummer: Hamburg, HRB 86891<br>Sitz der Gesellsch=
+aft: Hamburg<br><br>Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4ls=
+chlicherweise erhalten haben sollten, leiten Sie diese bitte nicht an jeman=
+d anderes weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und l=
+assen Sie mich bitte wissen, dass die E-Mail an die falsche Person gesendet=
+ wurde. <br><br>=C2=A0 =C2=A0 =C2=A0<br><br>This e-mail is confidential. If=
+ you received this communication by mistake, please don&#39;t forward it to=
+ anyone else, please erase all copies and attachments, and please let me kn=
+ow that it has gone to the wrong person.</div></div></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/CAG_fn%3DW02BVqA_JhCF%3DXzs5VkTZm4Caf_rnusT-RPD_r6%3D0=
+U9Q%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups=
+.google.com/d/msgid/kasan-dev/CAG_fn%3DW02BVqA_JhCF%3DXzs5VkTZm4Caf_rnusT-R=
+PD_r6%3D0U9Q%40mail.gmail.com</a>.<br />
+
+--000000000000497d9705d9a179fc--
