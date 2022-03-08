@@ -1,126 +1,178 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBIWPTWIQMGQEVVBISQY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXKFB5SV4NRBBXHTWIQMGQEWLYTEXY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe39.google.com (mail-vs1-xe39.google.com [IPv6:2607:f8b0:4864:20::e39])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34AD4D1A6E
-	for <lists+kasan-dev@lfdr.de>; Tue,  8 Mar 2022 15:26:43 +0100 (CET)
-Received: by mail-vs1-xe39.google.com with SMTP id b123-20020a676781000000b003209539ae10sf844599vsc.13
-        for <lists+kasan-dev@lfdr.de>; Tue, 08 Mar 2022 06:26:43 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1646749602; cv=pass;
+Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B85FB4D1B7F
+	for <lists+kasan-dev@lfdr.de>; Tue,  8 Mar 2022 16:17:28 +0100 (CET)
+Received: by mail-pj1-x103b.google.com with SMTP id lp2-20020a17090b4a8200b001bc449ecbcesf1819520pjb.8
+        for <lists+kasan-dev@lfdr.de>; Tue, 08 Mar 2022 07:17:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1646752647; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ty1yEvg1RVN59aCNzyuR1X4E/MBvqx7eJFRj4T6lmY3S7Y1ktSfTp7Bt/MxRSK6Zzh
-         ZJnkrcOF5VFjdpejEZ35RvhfAbQV2aOcgu4wBpHwzKQZVaSOLBFUxmYPalvIFqZD1Hnl
-         VOSgWaKefljHPqVcLNO6t9gtcnXp0BeBLsUV5jl8n59P3upizX0zzha/zHxUM2oyEIxd
-         GPgEU3Tp5nvvlT88jiymZXk2uP3lctDgTnVW5Lu15sovS5agpv+I5VMTV7Kkm+Q8AsQj
-         86kGHv07yVVxyZ0a8bPwfKCEYTDdFNdY+Z4/uPfbwnTbcS+0jrndZYqV/Yr9dtTb43Jl
-         RVSA==
+        b=MIv5yC5r+HkloIi2Qgq6o8/GkhfH6krW/0QcMNTtzCrS5JlxSUwmMq9sghCnEthtXY
+         IG/Y4a/QCpUwubp/bv3njR7zmRYytwWiklq/o/siFSNM8wfUiIS0XaamTIFe7w9+0tjq
+         PPLQtwTUn5ZAnautq/VdriPfsq/Re2hp7UYOaQXOEZwC2b8D1YLoUWDGhro3XazOZrS1
+         ryPWXcmEkpylRThIlGPORt1VfRb/yTgU3nSgpk1Oxzxtz9CrPWoXexyzOQrZH3BnDpuI
+         5BmmHBqfShmA98Ou7NiiEpGwnRPXggbRVnWaAblXnRF082r1SqVUz4ghcfMr/fgprwys
+         QvKw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Knlf8af3DJnwSmS9yCtxdozarbOyHovdFJ1WbEXwF1w=;
-        b=djuafQJayIvrOQ+q17i0HYXeucHYT9LpkCdhESXouv/IDtWJ9nRROsgN8hktG4Kk+Z
-         8uanJkYrJr7rwivK8VDesHukut9D3702SdqNUZSF+U2of8B7J/e18zJ32cEDiWYPWNHd
-         i7mzJrvZzK1jaeu2ce0gitdMtPyAsQn5ME5m2hlnEddvuBd7EDmvEQ5mauq0Js220lN9
-         HdDp6bKpX+cmegUgsTsV9k9fdEGzPct2mblHvh9MLr1BAAQPm8vEoZu/XI572PxbLhnX
-         V+uJaT++21vsQkdedUB+NOc96jRjAUWp/39tfovBBiqski42dyNVpBMTTPul17yjl0wI
-         1eNg==
+         :list-id:mailing-list:precedence:mime-version:in-reply-to
+         :content-disposition:references:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=OkEDyBVB5bf6YOBJX5W7di6SLstYr9A2hAED61yvX2g=;
+        b=hxQwvRLISlh6j4BRRsqiBV3yIdAPlZWqXdJ3GMV7wqhpKuJBG9/sknlh3TVhrJA4FV
+         f7WGyh5N9brfbgNiSEnUJeMaiIdEEIiqO7nsOQv9ARx7uJzVKmeLDKmQpigiJbeRUfW4
+         SMIRE75yElFe8LSNNblDE7IGmpzsatlkBugEnY/vkuNicSEiSvwb4AT+x/UKpSz9QO5d
+         PsK1BTRc2HOydtEkje0IBFM9eA16uPeeGqFLFB3a8tmZ9ZYmaIdhiDrvmcjp9ipW7xU/
+         582BLPV+w59COZ+KCHiwfmtfjE71mY7TTbc5FLj4K8xPrtl9Np+DBtQuwf0aeKp4qgXW
+         i44A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="mm/r7zUm";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::833 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=WWymZ9cS;
+       spf=pass (google.com: domain of gor@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=gor@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Knlf8af3DJnwSmS9yCtxdozarbOyHovdFJ1WbEXwF1w=;
-        b=YZmstN9nbELo2ou+TQgtYbuKyu7xOFqD7otzfLqPaGfNkQYkJuXZNhYSRDtzyNaYjF
-         epAMuW3S/PgM9LOZLOt4R0qqJPLKQbCiwjRtZAdmRHX+X7SeEuZsgp8gAZGgwrRE8bPg
-         +Le8zBze8MJVGHn4hykqsBWFdJU6YjdaEBDQ8o9eEfYnkFffN7hnnr5wo8N5uSkwwFq1
-         sZBtmaKUIAaRJUHcjHL8nCA2tH5ao0bCbQhGfGGtydeRECPwxZq8S9Lfbx3f4bezuz2Q
-         As9dhaTcO0dloNjuYc2pjLYi8BZE3Q9yATcfJSnDGzXqYonkuiDK0vLEDQ19nA0DOWaD
-         jY4Q==
+        h=sender:date:from:to:cc:subject:message-id:references
+         :content-disposition:in-reply-to:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=OkEDyBVB5bf6YOBJX5W7di6SLstYr9A2hAED61yvX2g=;
+        b=qxrQMjo4p1pPLizIq+9UbVLiEB8Ww9PK5abgTsFif8y5/TuDxQticNcfxyuclXH5t0
+         EuGJELHTu+AY36YA/1+lD3T4eNR6RoHCH8/raowaVQXophT5L/VBtn6+M3ZazFQNoFyM
+         Ma2SYtrQATGNSttPk7ixQHssm8nlbhnmmmW7BA0dPqyr/yMVqjOAAWZ3PGeKPSgZI0Yb
+         V+bhjBSbdw3DKSxObD3icslVP0imvt2MZzvjxdFc4j7qrolZkrL/7KruiqTJKO1q7WLM
+         XcaUv37vkPGsLBbjGCFbjDH9wi4leGPHL7oJSP3yaEoPNM3qvQMQniPPLboNfDG+TY/3
+         0Wtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=Knlf8af3DJnwSmS9yCtxdozarbOyHovdFJ1WbEXwF1w=;
-        b=qHJSEOoWsbm/T7RYZcMRw4q08P1o9tAkYFW8o21iQA9MSzJhzh1kHSwMa6tHu8VJWw
-         QEnF9LPBSzyzxVSHuQuG5E9J12kqRu5jt6ODXYWTwMV8EjPFaPMCofriH891ISRvwaDz
-         pp26O8FSwwT+jndfu332TkO/4JKqSZHn9tUbYFVXHGcdBwZxKzqu8qDmSfqeet5BSh07
-         eS7LjRVdfVulB7QIbc7xHpi8WxIDVJUMjWt+nahEfVLndp8qhvuKtkGzghOl7ADq40xK
-         uHNw7jf6IN7hgJM8GYrGHHT1/WhcwUbe+9g0YCL+uI5a5yibejCE5Et1WVgS5rbTeUBi
-         LMug==
-X-Gm-Message-State: AOAM532RSwncPpr3ArtHS1kUv5c9M9Zg9/Wu+vE4hlzk0j4ay21xhGf+
-	TmcqW3BqyhiQP4tSaMRKZnU=
-X-Google-Smtp-Source: ABdhPJzjTiL+3OerfDikdFFaIRYAXhWQ2JsZ+J1RlEHxz7oYTBVDAhcmWFerNinlkJYyIsagrfjikQ==
-X-Received: by 2002:a67:1784:0:b0:320:c218:99cc with SMTP id 126-20020a671784000000b00320c21899ccmr4193937vsx.36.1646749602660;
-        Tue, 08 Mar 2022 06:26:42 -0800 (PST)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:content-disposition:in-reply-to:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=OkEDyBVB5bf6YOBJX5W7di6SLstYr9A2hAED61yvX2g=;
+        b=bH+kHBmNDESLF1Ey2xTHyAWiyxIASylkmPhyeLIBVAimw8D/T4oZs+v7j6W/htE72u
+         HvOpP4E+HrD1DwuaIlP8jnKkVvF9bCa4FidMUytYb5Kr7SrHaRQ1M26YQBLMYxqVnAdE
+         54itdaedZIhPPuF21T/hWt0PUe7cD+Md41qdq8PoMZcFNLW0PLG67Uy+aXusZ/FAc2Ou
+         id7SinAP5HAC2Lrly8uRWxiz9OXQqySxKLuyMG9hrzs/Kbbi1DdiuUShQSyn9qGDIXbX
+         DZgIyk/JkiYXchRD81uGKHUU6v5BfmsmHN9ehH7AQqHyua21ypZPP5VGGd6DVyScAq34
+         Q0hw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM532zlRDWcOhdwSF8SJx7mki1PB4/CorJO4Iym4g8vnvsl3Kjc62q
+	uHZrUAgozG+yHbjl2lb6YsI=
+X-Google-Smtp-Source: ABdhPJyFhBTv5kqfnsvuWHAgCwdPOxobqP0S0tugQO20s7zGGmiv0PDq/OwAtYKHEDolaPCc1khgHQ==
+X-Received: by 2002:a65:6794:0:b0:36c:460e:858d with SMTP id e20-20020a656794000000b0036c460e858dmr14434348pgr.418.1646752646990;
+        Tue, 08 Mar 2022 07:17:26 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:3098:b0:322:79fb:890e with SMTP id
- l24-20020a056102309800b0032279fb890els260823vsb.8.gmail; Tue, 08 Mar 2022
- 06:26:42 -0800 (PST)
-X-Received: by 2002:a05:6102:a90:b0:31b:6ed9:7702 with SMTP id n16-20020a0561020a9000b0031b6ed97702mr6905486vsg.70.1646749602114;
-        Tue, 08 Mar 2022 06:26:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1646749602; cv=none;
+Received: by 2002:a62:8f12:0:b0:4f6:db3a:5042 with SMTP id n18-20020a628f12000000b004f6db3a5042ls4302606pfd.2.gmail;
+ Tue, 08 Mar 2022 07:17:26 -0800 (PST)
+X-Received: by 2002:a63:4186:0:b0:378:b438:c7ac with SMTP id o128-20020a634186000000b00378b438c7acmr14148397pga.291.1646752646276;
+        Tue, 08 Mar 2022 07:17:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1646752646; cv=none;
         d=google.com; s=arc-20160816;
-        b=IYX+ckI9gZaFlimTqAfLwCAnQK5TgUTPbXmb+wtcwzaqJSJ7Ibp1UVT2Ev2C8FFN2G
-         zDWpA3tq9dKRSVJwjPdwxgjYWCC1Z6ufg1y0zEPhHlEJptJIKrqiswB4AakHE8O5YD4l
-         F2aVaygEEliZXy2Ag3xtUq8gpRDDbxrR28f+k/L+DF8mCOJYirnXEGc7ryODk4eDTrKu
-         +yBQ8kFywdSIl7ALd2NcRUozHSD22gaIRVFYvxKFBNQEDdFU6dSAUPFglosnufd/vVo/
-         e691GJWv2qHbt1O5yDlzyjEkJrcVmvwgJDx2VH1VuVh+hK6c9DcJpTm7b2udoGuAxIxN
-         cB0g==
+        b=FyxRLCmxKk8szPMEMowQyw0cZIlyWYty9iFOPxZWq2gecdw/GUQPI6MX2/01s2b+Et
+         htUzhyvXTuCzfc1xJnsI7oS5Y0O0q+hI4CZbzqRYZb1r8GTRBs1ApoZz0OuOQoNEpPoP
+         aHHubZ7UksMcQPfWnghB6CvpDcjo3iJ5d4DZ2TIE0uAWU3lwc48BTsv31SiyWieKXagn
+         03rvN1nY2k3CxsIRI8ZwrRkXIe3gC44bgmsHh6M7eT35fYJ+Y8E438K6nkh5c8DlTuMt
+         fvVYvUg4AF5T4cCBwIgJwUYvem/FpLeQ1i1FlWh0HfrTHSPTmUJ5n/l3lpuI2jCOhuJF
+         qSyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=O5s1Kk/lxO3O1i26XInZyMyYmKkC+n7Z3tXbuJ1ASrM=;
-        b=JyqI8whPrklli4i/Q54aWXwQxLllcqGDAtf7xGTPwnHXdWvBFyIBdguwu8nD6wIlw7
-         IDg1Bc3AWY495ghDDMQVTDbVttbHM7eGUWu+AcER/Yi3gbKjiKpd7f1xMgxdAXy+dHpa
-         NZNJNhqP/Y8etqXfZ4mBqq1mPAXpilnU0gigsMCAmRnrxEkKillZT51oa9ZSEPJPiPn+
-         rFKAJkhPBW/t8oG/W5hmjMSrxS3AHfBMEf+RDwCHlGQ0xN/HY2/LjlyEhBxsX2G3RrUt
-         B+W1hS6OwPIXirtwSe8vkt9IA0RmHd3qSKRZRfAH4voBZlJBf1e064O76SpUNlLJw+sk
-         rjLA==
+        h=mime-version:in-reply-to:content-disposition:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=LjyKfmfP7Vu839xRleqUuDgBE/97p6EYx1iD9+26bz4=;
+        b=mQk1TZjFaCtnMAM/p9u3Tce3X3mbWcK8iLkIsfHh6vmxjEkcIthuJa9GAqLsTenITn
+         cCzwLS67W9BVu7uT3KBJilxwe1AWThnqVpS5WNt31M1lgLAG0/C2XUhVX0gfxwj9z7rt
+         yafxuI4l0RuV740Wf06XZKrd+zt2KnMq5j2s5Gl56iwG+7J7y0rJDxCLK3LKx8eD0bS7
+         3w2JqIneswgknZps6uAa6RgFljHwAgny7Ox9nI5XLtHjImKpwLSeLB3HN+BiEpbtAP8x
+         7mgzMOC2yzP4YNF2DblqtHDYUR2BmmmtO6hZnx/g/GoSHdbqf1PJtU1T0R9b6wPEnO7B
+         vpTg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="mm/r7zUm";
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::833 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com. [2607:f8b0:4864:20::833])
-        by gmr-mx.google.com with ESMTPS id x8-20020a67e888000000b00320914873cfsi706866vsn.2.2022.03.08.06.26.42
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=WWymZ9cS;
+       spf=pass (google.com: domain of gor@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=gor@linux.ibm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
+        by gmr-mx.google.com with ESMTPS id q3-20020a17090a2e0300b001b9932741a2si225413pjd.0.2022.03.08.07.17.25
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 06:26:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::833 as permitted sender) client-ip=2607:f8b0:4864:20::833;
-Received: by mail-qt1-x833.google.com with SMTP id c4so16241494qtx.1
-        for <kasan-dev@googlegroups.com>; Tue, 08 Mar 2022 06:26:42 -0800 (PST)
-X-Received: by 2002:a05:622a:18a6:b0:2dd:2c5b:ca00 with SMTP id
- v38-20020a05622a18a600b002dd2c5bca00mr13533464qtc.549.1646749601587; Tue, 08
- Mar 2022 06:26:41 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 08 Mar 2022 07:17:26 -0800 (PST)
+Received-SPF: pass (google.com: domain of gor@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 228DhBWu012080;
+	Tue, 8 Mar 2022 15:17:22 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 3ep03vmc0c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 08 Mar 2022 15:17:22 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 228EMiv6023011;
+	Tue, 8 Mar 2022 15:17:21 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 3ep03vmby9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 08 Mar 2022 15:17:21 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+	by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 228F7aQ1010428;
+	Tue, 8 Mar 2022 15:17:19 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+	by ppma05fra.de.ibm.com with ESMTP id 3ekyg96s3t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 08 Mar 2022 15:17:18 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 228FHF6Z49611084
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 8 Mar 2022 15:17:15 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B139842041;
+	Tue,  8 Mar 2022 15:17:15 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 014B04203F;
+	Tue,  8 Mar 2022 15:17:15 +0000 (GMT)
+Received: from localhost (unknown [9.171.12.198])
+	by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+	Tue,  8 Mar 2022 15:17:14 +0000 (GMT)
+Date: Tue, 8 Mar 2022 16:17:13 +0100
+From: Vasily Gorbik <gor@linux.ibm.com>
+To: andrey.konovalov@linux.dev
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com,
+        linux-mm@kvack.org, Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Peter Collingbourne <pcc@google.com>,
+        Evgenii Stepanov <eugenis@google.com>, linux-kernel@vger.kernel.org,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: Re: [PATCH v6 31/39] kasan, vmalloc: only tag normal vmalloc
+ allocations
+Message-ID: <your-ad-here.call-01646752633-ext-6250@work.hours>
+References: <cover.1643047180.git.andreyknvl@google.com>
+ <fbfd9939a4dc375923c9a5c6b9e7ab05c26b8c6b.1643047180.git.andreyknvl@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <fbfd9939a4dc375923c9a5c6b9e7ab05c26b8c6b.1643047180.git.andreyknvl@google.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: iDBgHtSy0Ow09BuHd6Oj4wKSrRssGLUg
+X-Proofpoint-ORIG-GUID: WqPy8d8WPu5_9RZv83SYr5ei94IiJE9c
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20220308141415.3168078-1-elver@google.com>
-In-Reply-To: <20220308141415.3168078-1-elver@google.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 8 Mar 2022 15:26:05 +0100
-Message-ID: <CAG_fn=XafP3dDdbMeePghNWFvuHPhLXqx0ktwUeqVMC-LwPNYw@mail.gmail.com>
-Subject: Re: [PATCH v2] kfence: allow use of a deferrable timer
-To: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: multipart/alternative; boundary="00000000000009cd1405d9b5c5ce"
-X-Original-Sender: glider@google.com
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-08_05,2022-03-04_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
+ spamscore=0 clxscore=1011 malwarescore=0 bulkscore=0 priorityscore=1501
+ lowpriorityscore=0 adultscore=0 phishscore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203080081
+X-Original-Sender: gor@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="mm/r7zUm";       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::833 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@ibm.com header.s=pp1 header.b=WWymZ9cS;       spf=pass (google.com:
+ domain of gor@linux.ibm.com designates 148.163.156.1 as permitted sender)
+ smtp.mailfrom=gor@linux.ibm.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ibm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,413 +185,129 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---00000000000009cd1405d9b5c5ce
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jan 24, 2022 at 07:05:05PM +0100, andrey.konovalov@linux.dev wrote:
+> From: Andrey Konovalov <andreyknvl@google.com>
+> 
+> The kernel can use to allocate executable memory. The only supported way
+> to do that is via __vmalloc_node_range() with the executable bit set in
+> the prot argument. (vmap() resets the bit via pgprot_nx()).
+> 
+> Once tag-based KASAN modes start tagging vmalloc allocations, executing
+> code from such allocations will lead to the PC register getting a tag,
+> which is not tolerated by the kernel.
+> 
+> Only tag the allocations for normal kernel pages.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-On Tue, Mar 8, 2022 at 3:14 PM Marco Elver <elver@google.com> wrote:
+This breaks s390 and produce huge amount of false positives.
+I haven't been testing linux-next with KASAN for while, now tried it with
+next-20220308 and bisected false positives to this commit.
 
-> Allow the use of a deferrable timer, which does not force CPU wake-ups
-> when the system is idle. A consequence is that the sample interval
-> becomes very unpredictable, to the point that it is not guaranteed that
-> the KFENCE KUnit test still passes.
->
-> Nevertheless, on power-constrained systems this may be preferable, so
-> let's give the user the option should they accept the above trade-off.
->
-> Signed-off-by: Marco Elver <elver@google.com>
->
-Reviewed-by: Alexander Potapenko <glider@google.com>
+Any idea what is going wrong here?
 
-> ---
-> v2:
-> * Add more documentation.
-> * Remove 'if EXPERT' from Kconfig option since it's configurable via
->   kernel boot param anyway.
-> ---
->  Documentation/dev-tools/kfence.rst | 12 ++++++++++++
->  lib/Kconfig.kfence                 | 12 ++++++++++++
->  mm/kfence/core.c                   | 15 +++++++++++++--
->  3 files changed, 37 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kfence.rst
-> b/Documentation/dev-tools/kfence.rst
-> index ac6b89d1a8c3..936f6aaa75c8 100644
-> --- a/Documentation/dev-tools/kfence.rst
-> +++ b/Documentation/dev-tools/kfence.rst
-> @@ -41,6 +41,18 @@ guarded by KFENCE. The default is configurable via the
-> Kconfig option
->  ``CONFIG_KFENCE_SAMPLE_INTERVAL``. Setting ``kfence.sample_interval=3D0`=
-`
->  disables KFENCE.
->
-> +The sample interval controls a timer that sets up KFENCE allocations. By
-> +default, to keep the real sample interval predictable, the normal timer
-> also
-> +causes CPU wake-ups when the system is completely idle. This may be
-> undesirable
-> +on power-constrained systems. The boot parameter ``kfence.deferrable=3D1=
-``
-> +instead switches to a "deferrable" timer which does not force CPU
-> wake-ups on
-> +idle systems, at the risk of unpredictable sample intervals. The default
-> is
-> +configurable via the Kconfig option ``CONFIG_KFENCE_DEFERRABLE``.
-> +
-> +.. warning::
-> +   The KUnit test suite is very likely to fail when using a deferrable
-> timer
-> +   since it currently causes very unpredictable sample intervals.
-> +
->  The KFENCE memory pool is of fixed size, and if the pool is exhausted, n=
-o
->  further KFENCE allocations occur. With ``CONFIG_KFENCE_NUM_OBJECTS``
-> (default
->  255), the number of available guarded objects can be controlled. Each
-> object
-> diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
-> index 912f252a41fc..459dda9ef619 100644
-> --- a/lib/Kconfig.kfence
-> +++ b/lib/Kconfig.kfence
-> @@ -45,6 +45,18 @@ config KFENCE_NUM_OBJECTS
->           pages are required; with one containing the object and two
-> adjacent
->           ones used as guard pages.
->
-> +config KFENCE_DEFERRABLE
-> +       bool "Use a deferrable timer to trigger allocations"
-> +       help
-> +         Use a deferrable timer to trigger allocations. This avoids
-> forcing
-> +         CPU wake-ups if the system is idle, at the risk of a less
-> predictable
-> +         sample interval.
-> +
-> +         Warning: The KUnit test suite fails with this option enabled -
-> due to
-> +         the unpredictability of the sample interval!
-> +
-> +         Say N if you are unsure.
-> +
->  config KFENCE_STATIC_KEYS
->         bool "Use static keys to set up allocations" if EXPERT
->         depends on JUMP_LABEL
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index f126b53b9b85..2f9fdfde1941 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -95,6 +95,10 @@ module_param_cb(sample_interval,
-> &sample_interval_param_ops, &kfence_sample_inte
->  static unsigned long kfence_skip_covered_thresh __read_mostly =3D 75;
->  module_param_named(skip_covered_thresh, kfence_skip_covered_thresh,
-> ulong, 0644);
->
-> +/* If true, use a deferrable timer. */
-> +static bool kfence_deferrable __read_mostly =3D
-> IS_ENABLED(CONFIG_KFENCE_DEFERRABLE);
-> +module_param_named(deferrable, kfence_deferrable, bool, 0444);
-> +
->  /* The pool of pages used for guard pages and objects. */
->  char *__kfence_pool __read_mostly;
->  EXPORT_SYMBOL(__kfence_pool); /* Export for test modules. */
-> @@ -740,6 +744,8 @@ late_initcall(kfence_debugfs_init);
->
->  /* =3D=3D=3D Allocation Gate Timer
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
->
-> +static struct delayed_work kfence_timer;
-> +
->  #ifdef CONFIG_KFENCE_STATIC_KEYS
->  /* Wait queue to wake up allocation-gate timer task. */
->  static DECLARE_WAIT_QUEUE_HEAD(allocation_wait);
-> @@ -762,7 +768,6 @@ static DEFINE_IRQ_WORK(wake_up_kfence_timer_work,
-> wake_up_kfence_timer);
->   * avoids IPIs, at the cost of not immediately capturing allocations if
-> the
->   * instructions remain cached.
->   */
-> -static struct delayed_work kfence_timer;
->  static void toggle_allocation_gate(struct work_struct *work)
->  {
->         if (!READ_ONCE(kfence_enabled))
-> @@ -790,7 +795,6 @@ static void toggle_allocation_gate(struct work_struct
-> *work)
->         queue_delayed_work(system_unbound_wq, &kfence_timer,
->                            msecs_to_jiffies(kfence_sample_interval));
->  }
-> -static DECLARE_DELAYED_WORK(kfence_timer, toggle_allocation_gate);
->
->  /* =3D=3D=3D Public interface
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D */
->
-> @@ -809,8 +813,15 @@ static void kfence_init_enable(void)
->  {
->         if (!IS_ENABLED(CONFIG_KFENCE_STATIC_KEYS))
->                 static_branch_enable(&kfence_allocation_key);
-> +
-> +       if (kfence_deferrable)
-> +               INIT_DEFERRABLE_WORK(&kfence_timer,
-> toggle_allocation_gate);
-> +       else
-> +               INIT_DELAYED_WORK(&kfence_timer, toggle_allocation_gate);
-> +
->         WRITE_ONCE(kfence_enabled, true);
->         queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
-> +
->         pr_info("initialized - using %lu bytes for %d objects at
-> 0x%p-0x%p\n", KFENCE_POOL_SIZE,
->                 CONFIG_KFENCE_NUM_OBJECTS, (void *)__kfence_pool,
->                 (void *)(__kfence_pool + KFENCE_POOL_SIZE));
-> --
-> 2.35.1.616.g0bdcbb4464-goog
->
->
+I see 2 patterns:
 
---=20
-Alexander Potapenko
-Software Engineer
+[    1.123723] BUG: KASAN: vmalloc-out-of-bounds in ftrace_plt_init+0xb8/0xe0
+[    1.123740] Write of size 8 at addr 001bffff80000000 by task swapper/0/1
+[    1.123745]
+[    1.123749] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.17.0-rc7-118520-ga20d77ce812a #142
+[    1.123755] Hardware name: IBM 8561 T01 701 (KVM/Linux)
+[    1.123758] Call Trace:
+[    1.123761]  [<000000000218e5fe>] dump_stack_lvl+0xc6/0xf8
+[    1.123782]  [<0000000002176cb4>] print_address_description.constprop.0+0x64/0x2f0
+[    1.123793]  [<000000000086fd3e>] kasan_report+0x15e/0x1c8
+[    1.123802]  [<0000000000870f5c>] kasan_check_range+0x174/0x1c0
+[    1.123808]  [<0000000000871988>] memcpy+0x58/0x88
+[    1.123813]  [<000000000342cea8>] ftrace_plt_init+0xb8/0xe0
+[    1.123819]  [<0000000000101522>] do_one_initcall+0xc2/0x468
+[    1.123825]  [<000000000341ffc6>] do_initcalls+0x1be/0x1e8
+[    1.123830]  [<0000000003420504>] kernel_init_freeable+0x494/0x4e8
+[    1.123834]  [<0000000002196556>] kernel_init+0x2e/0x180
+[    1.123838]  [<000000000010625a>] __ret_from_fork+0x8a/0xe8
+[    1.123843]  [<00000000021b557a>] ret_from_fork+0xa/0x40
+[    1.123852]
+[    1.123854]
+[    1.123856] Memory state around the buggy address:
+[    1.123861]  001bffff7fffff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[    1.123865]  001bffff7fffff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[    1.123868] >001bffff80000000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+[    1.123872]                    ^
+[    1.123874]  001bffff80000080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+[    1.123878]  001bffff80000100: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+$ cat /sys/kernel/debug/kernel_page_tables
+---[ Modules Area Start ]---
+0x001bffff80000000-0x001bffff80001000         4K PTE RO X
+0x001bffff80001000-0x001bffff80002000         4K PTE I
+0x001bffff80002000-0x001bffff80003000         4K PTE RO X
+0x001bffff80003000-0x001bffff80004000         4K PTE I
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+[    1.409146] BUG: KASAN: vmalloc-out-of-bounds in bpf_jit_binary_alloc+0x138/0x170
+[    1.409154] Write of size 4 at addr 001bffff80002000 by task systemd/1
+[    1.409158]
+[    1.409160] CPU: 0 PID: 1 Comm: systemd Tainted: G    B   W         5.17.0-rc7-118520-ga20d77ce812a #141
+[    1.409166] Hardware name: IBM 8561 T01 701 (KVM/Linux)
+[    1.409169] Call Trace:
+[    1.409171]  [<000000000218e5fe>] dump_stack_lvl+0xc6/0xf8
+[    1.409176]  [<0000000002176cb4>] print_address_description.constprop.0+0x64/0x2f0
+[    1.409183]  [<000000000086fd3e>] kasan_report+0x15e/0x1c8
+[    1.409188]  [<0000000000588860>] bpf_jit_binary_alloc+0x138/0x170
+[    1.409192]  [<000000000019fa84>] bpf_int_jit_compile+0x814/0xca8
+[    1.409197]  [<000000000058b60e>] bpf_prog_select_runtime+0x286/0x3e8
+[    1.409202]  [<000000000059ac2e>] bpf_prog_load+0xe66/0x1a10
+[    1.409206]  [<000000000059ebd4>] __sys_bpf+0x8bc/0x1088
+[    1.409211]  [<000000000059f9e8>] __s390x_sys_bpf+0x98/0xc8
+[    1.409216]  [<000000000010ce74>] do_syscall+0x22c/0x328
+[    1.409221]  [<000000000219599c>] __do_syscall+0x94/0xf0
+[    1.409226]  [<00000000021b5542>] system_call+0x82/0xb0
+[    1.409232]
+[    1.409234]
+[    1.409235] Memory state around the buggy address:
+[    1.409238]  001bffff80001f00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+[    1.409242]  001bffff80001f80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+[    1.409246] >001bffff80002000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+[    1.409249]                    ^
+[    1.409251]  001bffff80002080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+[    1.409255]  001bffff80002100: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
 
-Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise erhalt=
-en
-haben sollten, leiten Sie diese bitte nicht an jemand anderes weiter,
-l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie mich bit=
-te wissen,
-dass die E-Mail an die falsche Person gesendet wurde.
+$ git bisect log
+git bisect start
+# good: [ea4424be16887a37735d6550cfd0611528dbe5d9] Merge tag 'mtd/fixes-for-5.17-rc8' of git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux
+git bisect good ea4424be16887a37735d6550cfd0611528dbe5d9
+# bad: [cb153b68ff91cbc434f3de70ac549e110543e1bb] Add linux-next specific files for 20220308
+git bisect bad cb153b68ff91cbc434f3de70ac549e110543e1bb
+# good: [1ce7aac49a7b73abbd691c6e6a1577a449d90bad] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
+git bisect good 1ce7aac49a7b73abbd691c6e6a1577a449d90bad
+# good: [08688e100b1b07ce178c1d3c6b9983e00cd85413] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git
+git bisect good 08688e100b1b07ce178c1d3c6b9983e00cd85413
+# good: [82a204646439657e5c2f94da5cad7ba96de10414] Merge branch 'togreg' of git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git
+git bisect good 82a204646439657e5c2f94da5cad7ba96de10414
+# good: [ac82bf337c937458bf4f75985857bf3a68cd7c16] Merge branch 'next' of git://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
+git bisect good ac82bf337c937458bf4f75985857bf3a68cd7c16
+# good: [a36f330518af9bd205451bedb4eb22a5245cf010] ipc/mqueue: use get_tree_nodev() in mqueue_get_tree()
+git bisect good a36f330518af9bd205451bedb4eb22a5245cf010
+# good: [339c1d0fb400ab3acd2da2d9990242f654689f6e] Merge branch 'for-next' of git://git.infradead.org/users/willy/pagecache.git
+git bisect good 339c1d0fb400ab3acd2da2d9990242f654689f6e
+# good: [b8a58fecbd4982211f528d405a9ded00ddc7d646] kasan: only apply __GFP_ZEROTAGS when memory is zeroed
+git bisect good b8a58fecbd4982211f528d405a9ded00ddc7d646
+# bad: [141e05389762bee5fb0eb54af9c4d5266ce11d26] kasan: drop addr check from describe_object_addr
+git bisect bad 141e05389762bee5fb0eb54af9c4d5266ce11d26
+# good: [97fedbc9a6bccd508c392b0e177380313dd9fcd2] kasan, page_alloc: allow skipping unpoisoning for HW_TAGS
+git bisect good 97fedbc9a6bccd508c392b0e177380313dd9fcd2
+# bad: [606c2ee3fabbf66594f39998be9b5a21c2bf5dff] arm64: select KASAN_VMALLOC for SW/HW_TAGS modes
+git bisect bad 606c2ee3fabbf66594f39998be9b5a21c2bf5dff
+# bad: [bd2c296805cff9572080bf56807c16d1dd382260] kasan, scs: support tagged vmalloc mappings
+git bisect bad bd2c296805cff9572080bf56807c16d1dd382260
+# good: [7b80fa947b3a3ee746115395d1c5f7157119b7d2] kasan, vmalloc: add vmalloc tagging for HW_TAGS
+git bisect good 7b80fa947b3a3ee746115395d1c5f7157119b7d2
+# bad: [f51c09448ea124622f8ebcfb41d06c809ee01bca] fix for "kasan, vmalloc: only tag normal vmalloc allocations"
+git bisect bad f51c09448ea124622f8ebcfb41d06c809ee01bca
+# bad: [a20d77ce812a3e11b3cf2cb4f411904bb5c6edaa] kasan, vmalloc: only tag normal vmalloc allocations
+git bisect bad a20d77ce812a3e11b3cf2cb4f411904bb5c6edaa
+# first bad commit: [a20d77ce812a3e11b3cf2cb4f411904bb5c6edaa] kasan, vmalloc: only tag normal vmalloc allocations
 
-
-This e-mail is confidential. If you received this communication by mistake,
-please don't forward it to anyone else, please erase all copies and
-attachments, and please let me know that it has gone to the wrong person.
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DXafP3dDdbMeePghNWFvuHPhLXqx0ktwUeqVMC-LwPNYw%40mail.gmai=
-l.com.
-
---00000000000009cd1405d9b5c5ce
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 8, 2022 at 3:14 PM Marco =
-Elver &lt;<a href=3D"mailto:elver@google.com">elver@google.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Allow the use=
- of a deferrable timer, which does not force CPU wake-ups<br>
-when the system is idle. A consequence is that the sample interval<br>
-becomes very unpredictable, to the point that it is not guaranteed that<br>
-the KFENCE KUnit test still passes.<br>
-<br>
-Nevertheless, on power-constrained systems this may be preferable, so<br>
-let&#39;s give the user the option should they accept the above trade-off.<=
-br>
-<br>
-Signed-off-by: Marco Elver &lt;<a href=3D"mailto:elver@google.com" target=
-=3D"_blank">elver@google.com</a>&gt;<br></blockquote><div>Reviewed-by: Alex=
-ander Potapenko &lt;<a href=3D"mailto:glider@google.com">glider@google.com<=
-/a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-v2:<br>
-* Add more documentation.<br>
-* Remove &#39;if EXPERT&#39; from Kconfig option since it&#39;s configurabl=
-e via<br>
-=C2=A0 kernel boot param anyway.<br>
----<br>
-=C2=A0Documentation/dev-tools/kfence.rst | 12 ++++++++++++<br>
-=C2=A0lib/Kconfig.kfence=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 12 ++++++++++++<br>
-=C2=A0mm/kfence/core.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 15 +++++++++++++--<br>
-=C2=A03 files changed, 37 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/k=
-fence.rst<br>
-index ac6b89d1a8c3..936f6aaa75c8 100644<br>
---- a/Documentation/dev-tools/kfence.rst<br>
-+++ b/Documentation/dev-tools/kfence.rst<br>
-@@ -41,6 +41,18 @@ guarded by KFENCE. The default is configurable via the K=
-config option<br>
-=C2=A0``CONFIG_KFENCE_SAMPLE_INTERVAL``. Setting ``kfence.sample_interval=
-=3D0``<br>
-=C2=A0disables KFENCE.<br>
-<br>
-+The sample interval controls a timer that sets up KFENCE allocations. By<b=
-r>
-+default, to keep the real sample interval predictable, the normal timer al=
-so<br>
-+causes CPU wake-ups when the system is completely idle. This may be undesi=
-rable<br>
-+on power-constrained systems. The boot parameter ``kfence.deferrable=3D1``=
-<br>
-+instead switches to a &quot;deferrable&quot; timer which does not force CP=
-U wake-ups on<br>
-+idle systems, at the risk of unpredictable sample intervals. The default i=
-s<br>
-+configurable via the Kconfig option ``CONFIG_KFENCE_DEFERRABLE``.<br>
-+<br>
-+.. warning::<br>
-+=C2=A0 =C2=A0The KUnit test suite is very likely to fail when using a defe=
-rrable timer<br>
-+=C2=A0 =C2=A0since it currently causes very unpredictable sample intervals=
-.<br>
-+<br>
-=C2=A0The KFENCE memory pool is of fixed size, and if the pool is exhausted=
-, no<br>
-=C2=A0further KFENCE allocations occur. With ``CONFIG_KFENCE_NUM_OBJECTS`` =
-(default<br>
-=C2=A0255), the number of available guarded objects can be controlled. Each=
- object<br>
-diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence<br>
-index 912f252a41fc..459dda9ef619 100644<br>
---- a/lib/Kconfig.kfence<br>
-+++ b/lib/Kconfig.kfence<br>
-@@ -45,6 +45,18 @@ config KFENCE_NUM_OBJECTS<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pages are required; with one containing =
-the object and two adjacent<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ones used as guard pages.<br>
-<br>
-+config KFENCE_DEFERRABLE<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0bool &quot;Use a deferrable timer to trigger al=
-locations&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0help<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Use a deferrable timer to trigger alloca=
-tions. This avoids forcing<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0CPU wake-ups if the system is idle, at t=
-he risk of a less predictable<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sample interval.<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Warning: The KUnit test suite fails with=
- this option enabled - due to<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0the unpredictability of the sample inter=
-val!<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Say N if you are unsure.<br>
-+<br>
-=C2=A0config KFENCE_STATIC_KEYS<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool &quot;Use static keys to set up allocation=
-s&quot; if EXPERT<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 depends on JUMP_LABEL<br>
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c<br>
-index f126b53b9b85..2f9fdfde1941 100644<br>
---- a/mm/kfence/core.c<br>
-+++ b/mm/kfence/core.c<br>
-@@ -95,6 +95,10 @@ module_param_cb(sample_interval, &amp;sample_interval_pa=
-ram_ops, &amp;kfence_sample_inte<br>
-=C2=A0static unsigned long kfence_skip_covered_thresh __read_mostly =3D 75;=
-<br>
-=C2=A0module_param_named(skip_covered_thresh, kfence_skip_covered_thresh, u=
-long, 0644);<br>
-<br>
-+/* If true, use a deferrable timer. */<br>
-+static bool kfence_deferrable __read_mostly =3D IS_ENABLED(CONFIG_KFENCE_D=
-EFERRABLE);<br>
-+module_param_named(deferrable, kfence_deferrable, bool, 0444);<br>
-+<br>
-=C2=A0/* The pool of pages used for guard pages and objects. */<br>
-=C2=A0char *__kfence_pool __read_mostly;<br>
-=C2=A0EXPORT_SYMBOL(__kfence_pool); /* Export for test modules. */<br>
-@@ -740,6 +744,8 @@ late_initcall(kfence_debugfs_init);<br>
-<br>
-=C2=A0/* =3D=3D=3D Allocation Gate Timer =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */<br>
-<br>
-+static struct delayed_work kfence_timer;<br>
-+<br>
-=C2=A0#ifdef CONFIG_KFENCE_STATIC_KEYS<br>
-=C2=A0/* Wait queue to wake up allocation-gate timer task. */<br>
-=C2=A0static DECLARE_WAIT_QUEUE_HEAD(allocation_wait);<br>
-@@ -762,7 +768,6 @@ static DEFINE_IRQ_WORK(wake_up_kfence_timer_work, wake_=
-up_kfence_timer);<br>
-=C2=A0 * avoids IPIs, at the cost of not immediately capturing allocations =
-if the<br>
-=C2=A0 * instructions remain cached.<br>
-=C2=A0 */<br>
--static struct delayed_work kfence_timer;<br>
-=C2=A0static void toggle_allocation_gate(struct work_struct *work)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!READ_ONCE(kfence_enabled))<br>
-@@ -790,7 +795,6 @@ static void toggle_allocation_gate(struct work_struct *=
-work)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 queue_delayed_work(system_unbound_wq, &amp;kfen=
-ce_timer,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0msecs_to_jiffies(kfence_sample_interval));<br>
-=C2=A0}<br>
--static DECLARE_DELAYED_WORK(kfence_timer, toggle_allocation_gate);<br>
-<br>
-=C2=A0/* =3D=3D=3D Public interface =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */<br>
-<br>
-@@ -809,8 +813,15 @@ static void kfence_init_enable(void)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!IS_ENABLED(CONFIG_KFENCE_STATIC_KEYS))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 static_branch_enabl=
-e(&amp;kfence_allocation_key);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (kfence_deferrable)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0INIT_DEFERRABLE_WOR=
-K(&amp;kfence_timer, toggle_allocation_gate);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0INIT_DELAYED_WORK(&=
-amp;kfence_timer, toggle_allocation_gate);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 WRITE_ONCE(kfence_enabled, true);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 queue_delayed_work(system_unbound_wq, &amp;kfen=
-ce_timer, 0);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pr_info(&quot;initialized - using %lu bytes for=
- %d objects at 0x%p-0x%p\n&quot;, KFENCE_POOL_SIZE,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CONFIG_KFENCE_NUM_O=
-BJECTS, (void *)__kfence_pool,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (void *)(__kfence_p=
-ool + KFENCE_POOL_SIZE));<br>
--- <br>
-2.35.1.616.g0bdcbb4464-goog<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Alexander Potapenko<br>Software=
- Engineer<br><br>Google Germany GmbH<br>Erika-Mann-Stra=C3=9Fe, 33<br>80636=
- M=C3=BCnchen<br><br>Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebasti=
-an<br>Registergericht und -nummer: Hamburg, HRB 86891<br>Sitz der Gesellsch=
-aft: Hamburg<br><br>Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4ls=
-chlicherweise erhalten haben sollten, leiten Sie diese bitte nicht an jeman=
-d anderes weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und l=
-assen Sie mich bitte wissen, dass die E-Mail an die falsche Person gesendet=
- wurde.<br><br><br>This e-mail is confidential. If you received this commun=
-ication by mistake, please don&#39;t forward it to anyone else, please eras=
-e all copies and attachments, and please let me know that it has gone to th=
-e wrong person.</div></div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CAG_fn%3DXafP3dDdbMeePghNWFvuHPhLXqx0ktwUeqVMC-LwPNYw%=
-40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
-gle.com/d/msgid/kasan-dev/CAG_fn%3DXafP3dDdbMeePghNWFvuHPhLXqx0ktwUeqVMC-Lw=
-PNYw%40mail.gmail.com</a>.<br />
-
---00000000000009cd1405d9b5c5ce--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/your-ad-here.call-01646752633-ext-6250%40work.hours.
