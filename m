@@ -1,127 +1,139 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBOEWUGIQMGQEJ4RTEMY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBG4XUGIQMGQEJL2Q4EA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5094D290A
-	for <lists+kasan-dev@lfdr.de>; Wed,  9 Mar 2022 07:37:45 +0100 (CET)
-Received: by mail-qv1-xf37.google.com with SMTP id d15-20020a0cb2cf000000b00432e2ddeefasf1380549qvf.23
-        for <lists+kasan-dev@lfdr.de>; Tue, 08 Mar 2022 22:37:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1646807864; cv=pass;
+Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 166A04D290E
+	for <lists+kasan-dev@lfdr.de>; Wed,  9 Mar 2022 07:39:25 +0100 (CET)
+Received: by mail-pj1-x103f.google.com with SMTP id e14-20020a17090a684e00b001bf09ac2385sf1021520pjm.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 08 Mar 2022 22:39:25 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1646807963; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vobfGZ/8chRr3LZ63S3rGtKQva/wOhhkwz73PWERjCxXbY42aLIuAIyBpOTIJCL/N7
-         gdIYeGtHwYm+c8AE4qD6+sRNWORoaX1MGCmJhWITpXRPfXYdQzXHc47Qe/1xoPTLGYEf
-         PmhQs9L7jm5lpepr3XBUeWxHg/GyAaarBRGLBa9JqnKKuN0Nstfj/ozbQHyYi5j6QNzj
-         x+5qZzUUFApHSe/F/SaHXwoHT2QtRip9blQu914/SfIP7sy5wrkoBkzPUILRLdzU6yh9
-         x2hKmSmlXeGtp8oZkEB9G3zKquEr4M5CuqSt6luBsEmtb5GQ+YTiYx2u+Zx4H5r30HH8
-         bpYg==
+        b=JHmM5Pn9CbqCWllqSZ50zl4EO3SnkFsg5+qgoennm4hkR397Wq1Ru6eEJdrp/UJS0n
+         3snDkwDbuYIhyM4hxiQgDzhld54QbirVdQbTS8UetCa9funKhwmZj1NZ+SMHduUssjCh
+         ClM6RiTi5Gs0t2nHJo8TITaa1VwOW17MbbFF4HKAM3Xdm9hBbajrYGTOC7WUQTEMTnrc
+         Xc32Y7o/EbC4DYD2aZRpq+2Xf1LY45ebIR61J8lfyiEA6mxN/sEEqlWYuc9dEFXNAMdq
+         TTcuDK16StTrQVgYGDTvKRUl1buW1Q+9fXz+rJMXsHJFGGaK2KCgpOwH1KYWNCplEWLu
+         fxSw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=g76maHZKXAaS1fFqUKQGDDD8kWXfgUO+Osc6vYqYMAs=;
-        b=pOEhXOqEPZAMVviOPwgCDCogVVpTpqA65VkjARn3AmTBCE6Gi1DTcB55tSEpdJ2mB0
-         QeYJAbGGNJkD+js+zbg5IEDpdT36Jlts5iprjtzjExn5Kit3fjIirb+7aaTfbwEeWcnp
-         UcZe7enHXTUGIWo115cWkwRKJ+B4WSlDWd5dJodw8Jx7oi/Gm1Jlvci7Q77j9Rbx258R
-         vPET1cDDMVH7KPjv7XoXpUgk2XI1b38SmEuHwj/KPPL7x2e46KB46ELr7QCzV5h31XmF
-         /S0TysKczyNYpxMGvIHfneh0xtOW2z0RX8qC4wukSD1yQ4w/fMTBrB+qft585sKk43PB
-         P0hg==
+         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
+         :references:cc:to:content-language:subject:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=S+NBhzzUyhPZdwYXGFBmK+pVA12wLAG5GNYUQg2mUpU=;
+        b=LCXBBXjQ6rwnMUJlTqi82DYVCQI2Jrk30qbmg4t2epbblkX9+ZdUCS6nueBuctfgY6
+         lhj0KQJm3zqinn7uaK1So7Ke0Zvty4uCuQZoNRGF6Sx75OzsjJs8RuNaZ1EH89A3sVtF
+         K+uLtu2Kmg9YOtkbcOmhOt/YXj+b6fWgc/xxsTgz1aKJ/OwiCbK4NzdGylpV89Iedmp3
+         YTlEExxGOslBb9awRRmzTobyAgY4ra42CdUiybK9+ykUd37bH2WqjucSoDHpzLreskpe
+         UCEfrQV5eahM/ahYrmcNBEcJhZuMuSwbblUnasZXzKpw69e/hcYE8aG0i0iLacmcJ6Xe
+         X1tw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=pL4xjYO6;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1134 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=liupeng256@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=g76maHZKXAaS1fFqUKQGDDD8kWXfgUO+Osc6vYqYMAs=;
-        b=dgwLlU8EFf3Ts8NwjXbI6w+qcs4OLf5vLJFxjPDGInLQuCdhAo8uA6M785F+KAN4N5
-         QbXIi+VDC4maOpuj8fEVAPvg3e1UrOhnaCsupNmnptOq81qYVutgmlNQrUe/jaSuzXEk
-         mC19myZFwiAp0T0YXGk+Oh5nGNaN9cIRgfUgoh5KR4hYaCSAKoxaES99k/Zhb6UbwMN8
-         h0xvKpKReny5ZH12Glqj9EQzH6+foFBpX/sCmWxw1oIhUlbhlZxm1tH/oLYU+FTmIf0h
-         38X++fhETf6JXQMTkPIA82rOimnHYZJQr9Hk9BMlr9o7VjFc3kwqmlzHB9zcnlDMrcke
-         pSrw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=S+NBhzzUyhPZdwYXGFBmK+pVA12wLAG5GNYUQg2mUpU=;
+        b=bpaA9TKxwYozjz3xcrggwztTpgN1SKIhVx/JsiDHY6AwKtoYqUgoRr6qo1zzlfpDQM
+         eieABBM64qj/Frgxpv8QGBljxZz+DydmRi+ezJ4rKO43z3Ye+/ZOV8LYZyWfhTi98T7X
+         SmLut39t5ozJr6v971h1orscKStrpOsgfUg6Rzv6iCIWqfgivHlwEDd3mgVDkcZGt4+v
+         D+DZSwfZCnXo3DB0aqlURwLrqDJXuACyDUt74IbiWZ//pTSb0dMYJoBlPTQq0rM/z9Pr
+         9puk3pg0DN4rdpzr9/tDJ2yf7w9oGTDT5e4HxUD1nNouR3zmk+DurDDuh0IxEGZO5Xui
+         uaaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=g76maHZKXAaS1fFqUKQGDDD8kWXfgUO+Osc6vYqYMAs=;
-        b=OU0fCp2OQT5JXRE3zwN7M2UmFqxrpk6KehyqDUFyudRBiHqogybaiq0rSg30S7qgZn
-         JOVhGmlVbAd68e6vlrQ4nwTeB5JxSeRC7DEC6Nz0BC1U0/2lRxeh9HqGFnoK42Putde8
-         Honyuuru2laLM9Sa7srfrAwaT/2aYCRBZepc14HgHlcn3GI+ipe0V3Ov4oCI/i20s360
-         Yh+PfREGfEyqpjrMub09cNujIFUDzUJSlGeaw/aUcyU8FB5G2i/53b/0CF0YHcwbl1A1
-         6gR5kABfe5s7IdsN/jbpf1GhHTRzwTtTW072c2WYRSQQi4aVesCI6GtKUW9x2U9C2QuV
-         fnvQ==
-X-Gm-Message-State: AOAM53177hckSINJ6zVyj0YMHfZ/rJylPgFUGIHERXyUL9aNJwE5D34i
-	51DPomQOA7468ofegWafh2Q=
-X-Google-Smtp-Source: ABdhPJytMBCPcGPAxqxgJda7IxmKVpVchvID+fPk/VGm/UFZGrtab9jH89ria6Cc1ZFWu2Bqd/vCkg==
-X-Received: by 2002:a05:620a:4093:b0:648:ed2a:8ea6 with SMTP id f19-20020a05620a409300b00648ed2a8ea6mr12885484qko.435.1646807864443;
-        Tue, 08 Mar 2022 22:37:44 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=S+NBhzzUyhPZdwYXGFBmK+pVA12wLAG5GNYUQg2mUpU=;
+        b=AsMtNP5BQKL1J8cyLJX2e8zgypZ0XEBGlenKm+9S5FvlPLTpeKr4Pe5ZxuaRnVDJD5
+         FLEufEw/8VBaRUEUGZA0Wz/xlYzhDvkj+8eVnaGZlTNTGzvkCU5weuMOiJiV65TAWQzJ
+         dyFYcgUd+npCbtJs2lYnBLvFTIZKrxyDmgVdpYzIRParzPI+939fpLPKtznKmGSrKGSK
+         7FSHFZJpE9X9dytaAtCZYHxlvLOGChRudKnhctX/WM8PwHoVIsvj/KvT9lTZjW2tgZTG
+         zN6tRRrn2c0M8aqczQewknEsIW44/a04SbXytUzLMLfV3ZejX5n6/MsPqrarYBDXXhRo
+         ufQw==
+X-Gm-Message-State: AOAM532tz3HAq4BJtbsNKEu5cXQtL9E+MUrT0V6O9o+RLVufbHVaJzTI
+	1wmUVcPs5Y3yhHtQdCw0g/g=
+X-Google-Smtp-Source: ABdhPJz9SOALgBa/l0PgH00YvaDGClYQUfGhXZCprFtdo/29mN8OEeQ9DJ6nBKnhGTh4PwAnwPYRAw==
+X-Received: by 2002:a17:903:4054:b0:151:be03:2994 with SMTP id n20-20020a170903405400b00151be032994mr21430986pla.77.1646807963650;
+        Tue, 08 Mar 2022 22:39:23 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:5f49:0:b0:435:b3e3:a56a with SMTP id p9-20020ad45f49000000b00435b3e3a56als558047qvg.4.gmail;
- Tue, 08 Mar 2022 22:37:44 -0800 (PST)
-X-Received: by 2002:ad4:5bc7:0:b0:435:8a4e:3afa with SMTP id t7-20020ad45bc7000000b004358a4e3afamr11138484qvt.16.1646807864067;
-        Tue, 08 Mar 2022 22:37:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1646807864; cv=none;
+Received: by 2002:a17:902:c202:b0:151:f2a1:8a5c with SMTP id
+ 2-20020a170902c20200b00151f2a18a5cls931112pll.10.gmail; Tue, 08 Mar 2022
+ 22:39:23 -0800 (PST)
+X-Received: by 2002:a17:902:a9cb:b0:151:f21c:2432 with SMTP id b11-20020a170902a9cb00b00151f21c2432mr12008416plr.158.1646807963117;
+        Tue, 08 Mar 2022 22:39:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1646807963; cv=none;
         d=google.com; s=arc-20160816;
-        b=fgoj+3Ugb9U+jfytIznrYCj23jmQQeXPquN5rc4GV/9vIdWnn1M8pQObItMihkAJn+
-         tXLfWRqeg1FBk5z098e5b+ecDVpK5ezeWhr9wnokiaaY7uQO/RbBJ/lGhZ+MY+821XOb
-         xL66fTJKuIfyXuPhMXfcl4czrm5XrvFVBjuRUHvBkWSo6ckirZzDOFczCsF7CrE9KhR1
-         6i+dvvFHAH4z8oqawy4JfeRXk9Edz5W89ZihM736zgVFfL3qu3F8+pwsAM2s0b51bPe0
-         asWGQCoFufUrEUXUg7GiQnQKbFTfIh0qnEPl4PiCCxLkIYeNE8v9S25XwrpJg+AX0P38
-         a+ew==
+        b=k4dTpwzytAvaw9FKSoamvTPnrdYHStkItKOSpS7Fk9q3lZq/LVsoVqoOA+0JlFgZ2K
+         HM99y9DT1/QdH5iUs2N3p0mu6AX7t6Y/jIm5OzCfgU4Frfr8rhqDpjw8PwSYTOzj5LeT
+         KsT2ch33oOWcOAkMLRZrPvQQAPP3Bycu7vom7RiUN7CNa+XdTY8DD8l5sInM30Mx0WfN
+         6YsXDsqJHQoUe96gi0hNDaWi/+WUZB6kWj2HRMXBgA+53mj1ZuJ0C/Ul03Xs6KIjnycz
+         lTNbaKCdJBUQvudJPXAOCZumxgwJEQMFWqSJMZKioeeVN6YBTLdresozFbzy7p/3esEz
+         ECKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0OpR5YHkvilOZNO+UTT2Vvr8SNVAoIkBjKa4z5Ar1Ok=;
-        b=0I8fzGbHMY6AI3u4baNWwwA8xjKiynk5Mfay0+qWAfozs/BBz4ONqrRfSFqwcKHluD
-         7urb6fM3V9vn3MOaA0QRCMbJS2HIuvqDZM8SqB8huFk50qXCgRFdlbt6h+lQaeozsaBP
-         FF/CT5ByBRKWIghHIkpdx3NO22TKTNQgHat8CUVmfBVzki/qrZ1yeKysivZr/u+MP2bW
-         5I++20NHNcqX5zMeSNzeeOH+qCwD+E61CpeR36eAwQwf/Tu+SYgaMIGzpXkIa0T7iBUa
-         WPUZegKlSnIbgBt7NgR/VBrmLBr7s+9JFsWYHRtn1gw5uMN06a69HjhATcoQZPecLH/a
-         YxHA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=5S+JA/dcgJz85Vyr+LREtD15K40ppg0rvXXvEMcrZJs=;
+        b=w4t67YUM8hQAUxpICT4oqWIv3rvZMTRADLR34r71BLTa8HCNS+YjBt1hLw+gMdUgrD
+         j0igh/+/J9tGmkjj3IlDIhxbvriCsU0twDas6NWqYZHNXPbEWpAvll95mhs+4Wg9GOiO
+         m828sUs4R+YdpgQtUoWSq7L1YdrZJXuGBgZfGK3nCNom3fQ/W5kZsHb1VMiRCE6IaamO
+         M03SKCIwdCQ1rvu63z56QALYtEofaAM16GUtPIi027b+4px8PmWm8PRfvxbNOS3Sur77
+         sNfuWXlzXpFtm853cMs1TbdpAIhVpejuWMmTez7tB2ivaO5OYRFgMf/K/+AtPcWjnJ7c
+         KADQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=pL4xjYO6;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1134 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com. [2607:f8b0:4864:20::1134])
-        by gmr-mx.google.com with ESMTPS id m17-20020a05622a119100b002dcec4472c3si69281qtk.5.2022.03.08.22.37.44
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 22:37:44 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1134 as permitted sender) client-ip=2607:f8b0:4864:20::1134;
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-2dc585dbb02so11691237b3.13
-        for <kasan-dev@googlegroups.com>; Tue, 08 Mar 2022 22:37:44 -0800 (PST)
-X-Received: by 2002:a0d:cac2:0:b0:2db:fc7f:7dfa with SMTP id
- m185-20020a0dcac2000000b002dbfc7f7dfamr16012861ywd.362.1646807863492; Tue, 08
- Mar 2022 22:37:43 -0800 (PST)
+       spf=pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=liupeng256@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com. [45.249.212.255])
+        by gmr-mx.google.com with ESMTPS id n4-20020a17090aab8400b001bf23a472c5si53924pjq.0.2022.03.08.22.39.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 08 Mar 2022 22:39:23 -0800 (PST)
+Received-SPF: pass (google.com: domain of liupeng256@huawei.com designates 45.249.212.255 as permitted sender) client-ip=45.249.212.255;
+Received: from kwepemi100017.china.huawei.com (unknown [172.30.72.57])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KD2VJ33G2z1GCG9;
+	Wed,  9 Mar 2022 14:34:32 +0800 (CST)
+Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
+ kwepemi100017.china.huawei.com (7.221.188.163) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 9 Mar 2022 14:39:21 +0800
+Received: from [10.174.179.19] (10.174.179.19) by
+ kwepemm600017.china.huawei.com (7.193.23.234) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 9 Mar 2022 14:39:20 +0800
+Message-ID: <832e7424-280c-d5e7-ae61-832f4f0a03b9@huawei.com>
+Date: Wed, 9 Mar 2022 14:39:19 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH 0/3] kunit: fix a UAF bug and do some optimization
+Content-Language: en-US
+To: Marco Elver <elver@google.com>
+CC: <brendanhiggins@google.com>, <glider@google.com>, <dvyukov@google.com>,
+	<akpm@linux-foundation.org>, <linux-kselftest@vger.kernel.org>,
+	<kunit-dev@googlegroups.com>, <linux-kernel@vger.kernel.org>,
+	<kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
+	<wangkefeng.wang@huawei.com>
 References: <20220309014705.1265861-1-liupeng256@huawei.com>
- <20220309014705.1265861-3-liupeng256@huawei.com> <CANpmjNOU+M1ZaRTMPMCFE7pm8JXLKsWcMpMAsDmJXZUga3N7=A@mail.gmail.com>
- <0423ef8e-bfd0-3a4b-78a5-17dc621660d2@huawei.com>
-In-Reply-To: <0423ef8e-bfd0-3a4b-78a5-17dc621660d2@huawei.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 9 Mar 2022 07:37:06 +0100
-Message-ID: <CANpmjNNQtODYy7wBuLAOm2GaHNGB10LP=X=xp04DCNiY+KM8ww@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kunit: make kunit_test_timeout compatible with comment
-To: "liupeng (DM)" <liupeng256@huawei.com>
-Cc: brendanhiggins@google.com, glider@google.com, dvyukov@google.com, 
-	akpm@linux-foundation.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, wangkefeng.wang@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=pL4xjYO6;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1134 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ <CANpmjNMfkUSUEihTc2u_v6fOhHiyNOAOs2QROjCMEROMTbaxLQ@mail.gmail.com>
+From: "'liupeng (DM)' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <CANpmjNMfkUSUEihTc2u_v6fOhHiyNOAOs2QROjCMEROMTbaxLQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Originating-IP: [10.174.179.19]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemm600017.china.huawei.com (7.193.23.234)
+X-CFilter-Loop: Reflected
+X-Original-Sender: liupeng256@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of liupeng256@huawei.com designates 45.249.212.255 as
+ permitted sender) smtp.mailfrom=liupeng256@huawei.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: "liupeng (DM)" <liupeng256@huawei.com>
+Reply-To: "liupeng (DM)" <liupeng256@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,55 +146,39 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 9 Mar 2022 at 07:32, liupeng (DM) <liupeng256@huawei.com> wrote:
->
-> Thank you for your advice.
->
-> On 2022/3/9 14:03, Marco Elver wrote:
-> > On Wed, 9 Mar 2022 at 02:29, 'Peng Liu' via kasan-dev
-> > <kasan-dev@googlegroups.com> wrote:
-> >> In function kunit_test_timeout, it is declared "300 * MSEC_PER_SEC"
-> >> represent 5min. However, it is wrong when dealing with arm64 whose
-> >> default HZ = 250, or some other situations. Use msecs_to_jiffies to
-> >> fix this, and kunit_test_timeout will work as desired.
-> >>
-> >> Signed-off-by: Peng Liu <liupeng256@huawei.com>
-> > Does this need a:
-> >
-> > Fixes: 5f3e06208920 ("kunit: test: add support for test abort")
-> >
-> > ?
->
-> Yes, I will add this description.
->
-> >> ---
-> >>   lib/kunit/try-catch.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
-> >> index 6b3d4db94077..f7825991d576 100644
-> >> --- a/lib/kunit/try-catch.c
-> >> +++ b/lib/kunit/try-catch.c
-> >> @@ -52,7 +52,7 @@ static unsigned long kunit_test_timeout(void)
-> >>           * If tests timeout due to exceeding sysctl_hung_task_timeout_secs,
-> >>           * the task will be killed and an oops generated.
-> >>           */
-> >> -       return 300 * MSEC_PER_SEC; /* 5 min */
-> >> +       return 300 * msecs_to_jiffies(MSEC_PER_SEC); /* 5 min */
-> > Why not just "300 * HZ" ?
->
-> Because I have seen patch
->
-> df3c30f6e904 ("staging: lustre: replace direct HZ access with kernel APIs").
->
-> Here, both "msecs_to_jiffies(MSEC_PER_SEC)" and "300 * HZ" is ok for me.
+Good, I will send a revised series latter.
 
-I see - let's keep as-is and use msecs_to_jiffies().
-
-Thanks,
--- Marco
+On 2022/3/9 14:12, Marco Elver wrote:
+> On Wed, 9 Mar 2022 at 02:29, 'Peng Liu' via kasan-dev
+> <kasan-dev@googlegroups.com> wrote:
+>> This series is to fix UAF when running kfence test case test_gfpzero,
+>> which is time costly. This UAF bug can be easily triggered by setting
+>> CONFIG_KFENCE_DYNAMIC_OBJECTS = 65535. Furthermore, some optimization
+>> for kunit tests has been done.
+> Yeah, I've observed this problem before, so thanks for fixing.
+>
+> It's CONFIG_KFENCE_NUM_OBJECTS (not "DYNAMIC") - please fix in all patches.
+>
+Sorry for this mistake, I will check it in all patches.
+>> Peng Liu (3):
+>>    kunit: fix UAF when run kfence test case test_gfpzero
+>>    kunit: make kunit_test_timeout compatible with comment
+>>    kfence: test: try to avoid test_gfpzero trigger rcu_stall
+>>
+>>   lib/kunit/try-catch.c   | 3 ++-
+>>   mm/kfence/kfence_test.c | 3 ++-
+>>   2 files changed, 4 insertions(+), 2 deletions(-)
+>>
+>> --
+>> 2.18.0.huawei.25
+>>
+>> --
+>> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+>> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+>> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220309014705.1265861-1-liupeng256%40huawei.com.
+> .
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNQtODYy7wBuLAOm2GaHNGB10LP%3DX%3Dxp04DCNiY%2BKM8ww%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/832e7424-280c-d5e7-ae61-832f4f0a03b9%40huawei.com.
