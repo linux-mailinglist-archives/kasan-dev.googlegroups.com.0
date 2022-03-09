@@ -1,127 +1,136 @@
-Return-Path: <kasan-dev+bncBD2OFJ5QSEDRB7PCUKIQMGQE7BYRY2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCZL45QXABBBE55USIQMGQEAO6P5XA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87CD4D3096
-	for <lists+kasan-dev@lfdr.de>; Wed,  9 Mar 2022 14:54:05 +0100 (CET)
-Received: by mail-wr1-x43e.google.com with SMTP id z1-20020adfec81000000b001f1f7e7ec99sf786524wrn.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 09 Mar 2022 05:54:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1646834045; cv=pass;
+Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 829E24D3C2F
+	for <lists+kasan-dev@lfdr.de>; Wed,  9 Mar 2022 22:39:32 +0100 (CET)
+Received: by mail-pj1-x103a.google.com with SMTP id e14-20020a17090a684e00b001bf09ac2385sf2189140pjm.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 09 Mar 2022 13:39:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1646861971; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YKQiY4cQfGw/1IvnT+3zTmkploMggOgnaWWFjVVqllJeFhFrz8zBaifv0jVDHO9j8A
-         qfB1EdjVcmquQgJZhwLIJ9xH925WTIG0RooHyeR/KQQ/3EyaYCjZysC95qIse4Etqoxw
-         Qpayun5tqMOlNzfMfLClRpB/cRIzmiXDMVkd3nzNT+aGQyw2Ai/CjdBlNY9T434aCpyA
-         dKX/PaxNxxL/CfNNEmCKaA14NLWQggivd9Xh2odI8JxpFF2BcTrmgekClqctPJ228yDC
-         bdn7ZNtc3uAsyURzW1eX2KM0U2PApMPWsMwuogJ2Ix61aP6d1v1bJtOCFIu/MWIiHBaC
-         cZww==
+        b=J5cN1maSMmnrjAjnYHezW9TBfOsvR8OZC82mCaHlKY13NBEf/TxANGPPAljpv3QyXu
+         ZdvtwVMKj2Vn7MxSxNVhkuJH7vFxWI8gLXl7IxKsdsmxvXSHFbiyy6pNtMR4RAP5l23M
+         Kv9CUTTdcKSGFhjKh87rb4FryW5NSIPfr11iXRhv1xBFD9b7B+4Q6AoZAFcgRdbz/yNR
+         aYglRCgMOG65tZ3MQ5z/cy4mZquWCbCrRs5xIaVFFyU9aYuTJsKt3B1VnoBBJF9846O4
+         IiiNzoGGLHo4bbqVV5fviNWnmE72b7+GQP1mOnfRpVC2J0oLrqJQuYfoBA1b/pqiXbsk
+         hcsw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=EHEkgkEfmpjit6PyRwVe8s9S4KYfVo/Lm+FP9hvT2ew=;
-        b=kvWFozuCHNJMp3HwYJK2FD4u6Rt0aR9qE4XZqRLNyUG11KsSheWQFPacttjBqONKsT
-         sUTObEcI7nzQceZ7Lk6225Kir42Pl9baXkZ8Lcs4SAV4KkXBIRbOdW+hMXeog6XY446u
-         d5FpP4jn0U3z28l5ZqgTG/oD9ZWPrLmQYzfLgkUHGg8s48xaG4i0gd6W2NOUQ0qb7W2+
-         7RtLzvq4e0ySYZURG28JCIa86+qiLMB6hxd1U151/pvLHq4k04NfKuVVwWDkp9BGpKqH
-         NwLHLIsNbzejgSecmNuCirImZvBUUkriRv1+qJ1xKvgaTP6oomkqOAvjw1fhwTPbZ6Kr
-         ay3Q==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :mime-version:user-agent:date:message-id:from:references:cc:to
+         :subject:sender:dkim-signature;
+        bh=Wca18LLqFdIVZ51XfKxmJkk7726nd93qBodgFVQcDA4=;
+        b=QCtWF3kHFhQLe0byDwaMxfXRR191Im82FJ+xzegiRbDQR5/KGSRbkzlw9UHc2+qLVn
+         Y/daPcCUgpJNjsZWOPRUJBTwoJ0FvNXAoJdTxokxLyUKQicfzKBmsAhkNgHHPq1YJXAd
+         tKVvdKUof72tm1nTb7RXoPlOeYQT/d2NiqjI/RoVfLm0iCrZYSnbjoMKyaj3+XzUwVsh
+         V2U3R7kLiyls3IB6ZjcRiUtQK8gb7QQT7yeVzjyGM47m15VF98ze8T0k6lGc4971448I
+         5BpGaKgayL2TooyAn7ymnouVxDhODo8mh4uHzxYVcRnoLokZxWa/hy3hxFIw3oxDxe8M
+         KgXA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=LYmpyqEh;
-       spf=pass (google.com: domain of dlatypov@google.com designates 2a00:1450:4864:20::52d as permitted sender) smtp.mailfrom=dlatypov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SwKsVqpx;
+       spf=pass (google.com: domain of skhan@linuxfoundation.org designates 2607:f8b0:4864:20::12a as permitted sender) smtp.mailfrom=skhan@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=EHEkgkEfmpjit6PyRwVe8s9S4KYfVo/Lm+FP9hvT2ew=;
-        b=LN7ILsdL9u3uCY/RKjG1IuvRjZVBXXwMq6jy9r4aNzF5i+c5dHtb5S97tmULmr7lfJ
-         lvOs8ypXCBhxjZ+0GZJS8zi7Gy0ATqe8Ks/67R/jUp9HD6OueUx6+FB7+GsZ9kOohNz+
-         bt1VfhG0BZ4bnUtLwl4BHH4qYyBZBezPpcX2TBVF29XYKOtLKv8HmobUPL4WXkZ40ufO
-         ibrP9xA2grzrQpF37vDNZwCamcH48i4BYcsauB8aYpwRYwxrALrKyG5w26DZxCUcAoe6
-         gZ+mBDXw/vohtoLg3mmyUDFFj4TMp6zrIggGklEQeyokgZZApOxm1ITqrqukCq5ZKHW/
-         8Ycg==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Wca18LLqFdIVZ51XfKxmJkk7726nd93qBodgFVQcDA4=;
+        b=IcLgsRO3oOTXxgW3IFs5OHI9/kbgSjMLvyQ4kPJrlq5AujjwR4DYUMtrbwo6s2wu/U
+         bM9QOQ8nkr73P0gnjgupyE+C/7Gh1Bi8FImdI/Nk85Agnwa9O1dI10B38F7f/frXUpgC
+         mv7SlGPwDo66VJsLcINTdxsFlLd0om+nOiopB9PCOsyFcnE0ro1LByaePHiV6+SxdwgZ
+         8T1KeX1kegra8SGd0vi/StG/eTWSLhTCryhvtWmsHuHZ7Nl0vFFESO5Q9V0CfRjOnhoO
+         WyyYiLlg1MAecbuKKm7S+7P/qD+tv8Xy1GfVLlCDK+khNUyTrpIKatRgptV0VWsmLAhc
+         H/PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=EHEkgkEfmpjit6PyRwVe8s9S4KYfVo/Lm+FP9hvT2ew=;
-        b=mBY5x+NFS/WFkoA59qxBGshb0yEXiVaWJXGm2DXdBR2lgeqAW3+F/+i3gFVO+yW9aZ
-         FNQ0T6ceoGdW7yJj9a0VdB81Rc9SlHY+BE5E/CodNPftThg8ZyyYgUGLq/dNmpes2aEY
-         8IbIGzeeWlI1/PfibvNqTdrGsMTYfyUpJFaNgqCt4S9xo+6aRNoxFCFdg47fmKFKa8bv
-         rKUeAHv9NEfTESRVABwlum+6GUpk+1EwqImkm+qwMRhxNfqUwtFDwRSSkOHl+kR57qVg
-         jdv16MhiDPrA0mdWOYRGPbwOrH7tnbtXPM/Am2BUNMJZhoCf7VVVzrN/uYWNkDfhL5lN
-         xHZw==
-X-Gm-Message-State: AOAM531cXnn7q60QthMItOh8+Gk0/OLhlceA+dUHsENsf2+Noicb342+
-	827+1zMfz2JQeD5Y93VhKh4=
-X-Google-Smtp-Source: ABdhPJx3sOU1z2ib3M2+VpI2KgRzHSbR7UnfxEXt9HPy0o69IYBhj9TSP+UCMbjdEKZ6emadg08KIw==
-X-Received: by 2002:a05:600c:4ed0:b0:389:d26a:3fd9 with SMTP id g16-20020a05600c4ed000b00389d26a3fd9mr2259878wmq.186.1646834045473;
-        Wed, 09 Mar 2022 05:54:05 -0800 (PST)
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=Wca18LLqFdIVZ51XfKxmJkk7726nd93qBodgFVQcDA4=;
+        b=OeaAiv4lvxonkPlGkFLNJdBmwi8muqBoY76JZRe4Bcs8V9igpLLOQ5ORvSh8rx/5FJ
+         llw+2zpI/c3rZPFW2RVB0QqvYWP6T2f6FSoqdbxx3cj13r9a53vOUBAD35qYQCPuJS6j
+         BVdt4M3lyreBvAE+f8XUTVCXx7pB/M1dyT5vXe7TG6sPyeEi994WDvzQRwVAZid6DYYx
+         j+e8mN9uCJDFI+9y6UbcIaLsCAiDKqKGHWOf60ofr/7Me0y/DaJ4rhpbvnnq5QdZieDm
+         nZKAotiZ6o6oHnGbTwz8g4wrfQ5PCLVlKWJ2mZ/du5PKc4wGfDF6P8s+X9t1q6+naKIp
+         3/BA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531hnmouUSgX5Ew+ZkZlBBQIbOjrWg5LM4Q1XXCblIEcndjQMni2
+	aNoXtjehXtuU34NOeyROJyk=
+X-Google-Smtp-Source: ABdhPJwsnW7xfPdIYowYtzujMkwruqbXpfqS+D+KbSMgcNEsCqWpagfFU6OA9M6jI9oVohuHH7ZD4A==
+X-Received: by 2002:a17:902:7207:b0:14d:938e:a88e with SMTP id ba7-20020a170902720700b0014d938ea88emr1564599plb.42.1646861971215;
+        Wed, 09 Mar 2022 13:39:31 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1f0b:b0:37b:e8d3:90a1 with SMTP id
- bd11-20020a05600c1f0b00b0037be8d390a1ls2764902wmb.0.canary-gmail; Wed, 09 Mar
- 2022 05:54:04 -0800 (PST)
-X-Received: by 2002:a05:600c:501e:b0:389:ab60:2f6e with SMTP id n30-20020a05600c501e00b00389ab602f6emr3419926wmr.2.1646834044613;
-        Wed, 09 Mar 2022 05:54:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1646834044; cv=none;
+Received: by 2002:a17:902:9b8c:b0:151:eadc:9992 with SMTP id
+ y12-20020a1709029b8c00b00151eadc9992ls2441494plp.8.gmail; Wed, 09 Mar 2022
+ 13:39:30 -0800 (PST)
+X-Received: by 2002:a17:90b:381:b0:1bf:50c7:a4e9 with SMTP id ga1-20020a17090b038100b001bf50c7a4e9mr1552461pjb.239.1646861970651;
+        Wed, 09 Mar 2022 13:39:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1646861970; cv=none;
         d=google.com; s=arc-20160816;
-        b=M2kL1xuHNM2XaB1bkAP0k3Wijfb0wi3PmYKC9d7iCgUsQjU5qKBRrfMyrx8JX2Skif
-         MAscSc+hmGvMH5dih747qp+aFbAsGZez8uenKjb4vpq20ekUUJMk2u77z3WsH35yrhd3
-         u8UF2hwG31ObezkFDFaiFI8QqRB6x3Qm7Bvh4Q0UWZDtYV/KVYjsQM9Wxev3ZqhwfGRh
-         nAOho8Uod1Z/5eWA/q/zvES7/hy7MoTOJZ+DB8pZuh68wd+7W+5ymaPlTseUDrtqrH1F
-         v6cr6fSuJWe3fxRu8n6uUArRXCshOWmPYpJCpJwvi9CyTz9/6NnPINIUrndauQ4mXl1K
-         5mmw==
+        b=h31FVbpWtEPgqcUAXVBUvBOJPHkFuA5u1hZy5zNSEZ4kavasQ9p9MgLkzFjXi9d6lF
+         rqLxHEHAV+nt/cZcLj2UEMqYoFyv1S0qInUokFhtgbIOA2hgdtAFKgQVIh5VVY0j3tdQ
+         5dXDGy87ydzKg9CYL1ozeZejwR2IWnuufvAYzlfiQoNb757AxdGwXZBH/fdoKZtakmxJ
+         wU7AvA+jSnx8vJzDRTZ0hg0wPK5GSJx7CaMTkNAzkqKuPYrdIu+huh4h3Szsepc6auqQ
+         Ir5yRiDNz07j5LI72yMYycE1VHQvqXaZH0ZgKCS0EQqUJZ74YZyPJ/lrGb1OdqMPpx4r
+         Yq1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=58ItMAXsny1L+anxiMU9T6c9Palwcv7/9rI4u4RF93Y=;
-        b=eUK78ZJq2h+aH1/YfFv89Sc/V97FcdbAtk4IV8zg3ZUE9ZXCcbOY+dz45+t1ZeR111
-         1+Us1tOEKUA7quLCfwxkghM1HCYJLfJXmds5wvO3LzQnNavDpa7Kwm7lA5syM8OrCNCn
-         YO2PViD8W4fTxh2UMap1xLEHvgyru5SmOHWmWSBa5I6zLFq8Qyma+r50oPW04gqFPCjP
-         SoEHTESedjZke2icHVfE4FCQzNQdKUSaMhhLdOyfgyRRftRRQN77g/98KhRQJrUmjgnA
-         KSdtjvz9TfEmcHhprt8U9TkyPOaxMTFVCZQBIqtsUxC6DLJeSrxH60Oy3JBtFA4IQWAj
-         +9tw==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :dkim-signature;
+        bh=zOnqPnT6Pa2ZicR2EFcXEDxd/ntBqJXzc8CY9w8hS4s=;
+        b=Oyr3TiwLtydINJ14ue13DFhw/JvgDZz29YP3cjZz60JEVggvS1OVo7sC5GrLmRiToQ
+         3+nU2za2nE3anhGaI2oP+WWbh0HYjV4bGBD1PPPJDFmuFgoDBURPIoiTn5Z2t7j7hCnE
+         NkxGxJ5zB5EeVF8r7sC9eZII1jYN9QDbLmdTKj4LdcWuNGEfGXuZUnHxn4tcrr5SuZ0e
+         A2Mgf2kLGXgWELeo6wJ1ZvlWSwneSgMPsrBLKnEWurwAPek0dqfe5IvQPnQh+hlkujVf
+         sw1X8GkpkCfkrtqyYGIsvjxFC5FUTVmUPpwjhxFvFd91Y46xRQnfj8A37FMx016mAllh
+         bSpw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=LYmpyqEh;
-       spf=pass (google.com: domain of dlatypov@google.com designates 2a00:1450:4864:20::52d as permitted sender) smtp.mailfrom=dlatypov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com. [2a00:1450:4864:20::52d])
-        by gmr-mx.google.com with ESMTPS id w15-20020a1cf60f000000b003497ca2a0f8si305278wmc.1.2022.03.09.05.54.04
+       dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SwKsVqpx;
+       spf=pass (google.com: domain of skhan@linuxfoundation.org designates 2607:f8b0:4864:20::12a as permitted sender) smtp.mailfrom=skhan@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com. [2607:f8b0:4864:20::12a])
+        by gmr-mx.google.com with ESMTPS id o64-20020a17090a0a4600b001bf0a82f880si277340pjo.2.2022.03.09.13.39.30
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Mar 2022 05:54:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of dlatypov@google.com designates 2a00:1450:4864:20::52d as permitted sender) client-ip=2a00:1450:4864:20::52d;
-Received: by mail-ed1-x52d.google.com with SMTP id m12so2909011edc.12
-        for <kasan-dev@googlegroups.com>; Wed, 09 Mar 2022 05:54:04 -0800 (PST)
-X-Received: by 2002:a05:6402:1747:b0:415:ee04:47e1 with SMTP id
- v7-20020a056402174700b00415ee0447e1mr21018226edx.229.1646834044075; Wed, 09
- Mar 2022 05:54:04 -0800 (PST)
+        Wed, 09 Mar 2022 13:39:30 -0800 (PST)
+Received-SPF: pass (google.com: domain of skhan@linuxfoundation.org designates 2607:f8b0:4864:20::12a as permitted sender) client-ip=2607:f8b0:4864:20::12a;
+Received: by mail-il1-x12a.google.com with SMTP id j12so2497492ils.0
+        for <kasan-dev@googlegroups.com>; Wed, 09 Mar 2022 13:39:30 -0800 (PST)
+X-Received: by 2002:a05:6e02:1a4a:b0:2c6:6a0d:b8f0 with SMTP id u10-20020a056e021a4a00b002c66a0db8f0mr1189404ilv.85.1646861969934;
+        Wed, 09 Mar 2022 13:39:29 -0800 (PST)
+Received: from [192.168.1.128] ([71.205.29.0])
+        by smtp.gmail.com with ESMTPSA id c6-20020a056e020bc600b002c6731e7cb8sm1158182ilu.31.2022.03.09.13.39.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Mar 2022 13:39:29 -0800 (PST)
+Subject: Re: [PATCH 3/3] kfence: test: try to avoid test_gfpzero trigger
+ rcu_stall
+To: Peng Liu <liupeng256@huawei.com>, brendanhiggins@google.com,
+ glider@google.com, elver@google.com, dvyukov@google.com,
+ akpm@linux-foundation.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org
+Cc: wangkefeng.wang@huawei.com, Shuah Khan <skhan@linuxfoundation.org>
+References: <20220309014705.1265861-1-liupeng256@huawei.com>
+ <20220309014705.1265861-4-liupeng256@huawei.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <1dfeea09-cd4a-39fc-18f4-775bec99afa4@linuxfoundation.org>
+Date: Wed, 9 Mar 2022 14:39:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20220309083753.1561921-1-liupeng256@huawei.com> <20220309083753.1561921-3-liupeng256@huawei.com>
-In-Reply-To: <20220309083753.1561921-3-liupeng256@huawei.com>
-From: "'Daniel Latypov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 9 Mar 2022 07:53:52 -0600
-Message-ID: <CAGS_qxp_aaWEhuKQ9P897HHndRqbNpdS-vUsJooikQiOXrqL7g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] kunit: make kunit_test_timeout compatible with comment
-To: Peng Liu <liupeng256@huawei.com>
-Cc: brendanhiggins@google.com, glider@google.com, elver@google.com, 
-	dvyukov@google.com, akpm@linux-foundation.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
-	wangkefeng.wang@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dlatypov@google.com
+In-Reply-To: <20220309014705.1265861-4-liupeng256@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+X-Original-Sender: skhan@linuxfoundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=LYmpyqEh;       spf=pass
- (google.com: domain of dlatypov@google.com designates 2a00:1450:4864:20::52d
- as permitted sender) smtp.mailfrom=dlatypov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Daniel Latypov <dlatypov@google.com>
-Reply-To: Daniel Latypov <dlatypov@google.com>
+ header.i=@linuxfoundation.org header.s=google header.b=SwKsVqpx;
+       spf=pass (google.com: domain of skhan@linuxfoundation.org designates
+ 2607:f8b0:4864:20::12a as permitted sender) smtp.mailfrom=skhan@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,47 +143,66 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 9, 2022 at 2:19 AM 'Peng Liu' via KUnit Development
-<kunit-dev@googlegroups.com> wrote:
->
-> In function kunit_test_timeout, it is declared "300 * MSEC_PER_SEC"
-> represent 5min. However, it is wrong when dealing with arm64 whose
-> default HZ = 250, or some other situations. Use msecs_to_jiffies to
-> fix this, and kunit_test_timeout will work as desired.
->
-> Fixes: 5f3e06208920 ("kunit: test: add support for test abort")
+On 3/8/22 6:47 PM, Peng Liu wrote:
+> When CONFIG_KFENCE_DYNAMIC_OBJECTS is set to a big number, kfence
+> kunit-test-case test_gfpzero will eat up nearly all the CPU's
+> resources and rcu_stall is reported as the following log which is
+> cut from a physical server.
+> 
+>    rcu: INFO: rcu_sched self-detected stall on CPU
+>    rcu: 	68-....: (14422 ticks this GP) idle=6ce/1/0x4000000000000002
+>    softirq=592/592 fqs=7500 (t=15004 jiffies g=10677 q=20019)
+>    Task dump for CPU 68:
+>    task:kunit_try_catch state:R  running task
+>    stack:    0 pid: 9728 ppid:     2 flags:0x0000020a
+>    Call trace:
+>     dump_backtrace+0x0/0x1e4
+>     show_stack+0x20/0x2c
+>     sched_show_task+0x148/0x170
+>     ...
+>     rcu_sched_clock_irq+0x70/0x180
+>     update_process_times+0x68/0xb0
+>     tick_sched_handle+0x38/0x74
+>     ...
+>     gic_handle_irq+0x78/0x2c0
+>     el1_irq+0xb8/0x140
+>     kfree+0xd8/0x53c
+>     test_alloc+0x264/0x310 [kfence_test]
+>     test_gfpzero+0xf4/0x840 [kfence_test]
+>     kunit_try_run_case+0x48/0x20c
+>     kunit_generic_run_threadfn_adapter+0x28/0x34
+>     kthread+0x108/0x13c
+>     ret_from_fork+0x10/0x18
+> 
+> To avoid rcu_stall and unacceptable latency, a schedule point is
+> added to test_gfpzero.
+> 
 > Signed-off-by: Peng Liu <liupeng256@huawei.com>
-
-Reviewed-by: Daniel Latypov <dlatypov@google.com>
-
-Thanks for catching this!
-
 > ---
->  lib/kunit/try-catch.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
-> index 6b3d4db94077..f7825991d576 100644
-> --- a/lib/kunit/try-catch.c
-> +++ b/lib/kunit/try-catch.c
-> @@ -52,7 +52,7 @@ static unsigned long kunit_test_timeout(void)
->          * If tests timeout due to exceeding sysctl_hung_task_timeout_secs,
->          * the task will be killed and an oops generated.
->          */
-> -       return 300 * MSEC_PER_SEC; /* 5 min */
-> +       return 300 * msecs_to_jiffies(MSEC_PER_SEC); /* 5 min */
->  }
->
->  void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
-> --
-> 2.18.0.huawei.25
->
-> --
-> You received this message because you are subscribed to the Google Groups "KUnit Development" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20220309083753.1561921-3-liupeng256%40huawei.com.
+>   mm/kfence/kfence_test.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+> index caed6b4eba94..1b50f70a4c0f 100644
+> --- a/mm/kfence/kfence_test.c
+> +++ b/mm/kfence/kfence_test.c
+> @@ -627,6 +627,7 @@ static void test_gfpzero(struct kunit *test)
+>   			kunit_warn(test, "giving up ... cannot get same object back\n");
+>   			return;
+>   		}
+> +		cond_resched();
+
+This sounds like a band-aid - is there a better way to fix this?
+
+>   	}
+>   
+>   	for (i = 0; i < size; i++)
+> 
+
+thanks,
+-- Shuah
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAGS_qxp_aaWEhuKQ9P897HHndRqbNpdS-vUsJooikQiOXrqL7g%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1dfeea09-cd4a-39fc-18f4-775bec99afa4%40linuxfoundation.org.
