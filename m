@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBJOYXOIQMGQEIBD3A4I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBEMHXSIQMGQEBEOWSJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386454D7B6D
-	for <lists+kasan-dev@lfdr.de>; Mon, 14 Mar 2022 08:17:59 +0100 (CET)
-Received: by mail-pj1-x1038.google.com with SMTP id p15-20020a17090a748f00b001bf3ba2ae95sf9346535pjk.9
-        for <lists+kasan-dev@lfdr.de>; Mon, 14 Mar 2022 00:17:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1647242278; cv=pass;
+Received: from mail-pf1-x437.google.com (mail-pf1-x437.google.com [IPv6:2607:f8b0:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9F94D7DEE
+	for <lists+kasan-dev@lfdr.de>; Mon, 14 Mar 2022 09:57:54 +0100 (CET)
+Received: by mail-pf1-x437.google.com with SMTP id l138-20020a628890000000b004f7cb47178csf1310116pfd.12
+        for <lists+kasan-dev@lfdr.de>; Mon, 14 Mar 2022 01:57:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1647248273; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Yv9yBzik3+CC3EctaEjgVes+lFUm7zMw4e9O1v2MD0IOQp5mF/n7gXhR73VMXu/Ch7
-         vB+mP/IPm14uXCzq+2WSIFgAGgZyX3cdUfGblbaeSHp5zO/bNzJ5HskD0QZlw/HyEp17
-         L++yWvNSz2Faj/L2XeumQj7925ohcA73zKlBZWYqFKJY4MByCv6JzYuheR+P5w2xpmqs
-         3wbejKaNWljy7WGLZInPgz7Mjj4jg6VRIOyX4SR0mifqxgSdmlcR7boCFTjELnWuuFLt
-         ML8JU+v3rkjCnHKNeFwdQ5RUjS/P6iiBgqfkOAj68CBU4ke/CLgXUi9gNRGCAx5IkCiq
-         sYyg==
+        b=gli4m2BZnCqVuTPO+dn2VRu/N8iFjPbtFRWPjPtkFyzIJBWjMRN2fcZPK413ehajP2
+         T0dLVBEZQgdwKw8b54Q3jwSmQfM+NMoelmBaCB+lClT4ll1smBNzN0Agf47Pdo6+XhLN
+         vvXl3cSKpLpf4uBAQhn0TnQe9jZQb5o5CInafXxx5NJfWXXzPeVp2C2auxVKuNq1xgCA
+         NN0EyJ8IzcL2LZqQ/AnaMBgueSfkRzWBxqJg5eAexX4ScAbAzD4TtlGQyUfSSWq94rg7
+         3FXgNCs1cw9B/UoAWDfd7zvyy3/Too7f2xoPRifhGOX3xEnF31DnQnClYtVKG7FIZ1ap
+         Lylg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=HpozNCNc1BElEXWai289GpG9IL2yJV6JSywhmxFoe1k=;
-        b=haH9HylB/h9h+tNCR6KqOXHcEHjEQj/Dfq2d02EZroZ87s/2q0zTYjSuQdRwMtwm/l
-         3xpFMan7d/bnIamURPRyVJGMKTukh4RxzAsPNZ7Fu4SF21CiLKjH4Ky7TGzP/x+bpRKw
-         mP5AE3v1+DDgoGSaUl7vXaqbjHEGWdBDKIXRrPMhDhjq5AAhjTmRPzkMGrFb3/oYe1OA
-         6mSKtTBk89eXYTeiwOAzYjpkqv/RIt8gyPLun7kbcS4xjz5/Oh6Q8txZMDaevLV/mxIV
-         KfTGRGtpqn2GYLefyowbY4N516We4bQbUzfZLoEToP5OPt2ApJ9vQkj2/jwVx/gxoo+1
-         I8cA==
+        bh=F/Lh/zW/cQAZtDMcIu0U6VJcX2QJNPdPsqMm6yitX8g=;
+        b=kx8psjYTpJaqsrlxqzXMxhoepNuGvoTsC4eqwBhy/gO03RfKx+6Tj7LlEzAzH2UydU
+         K8mTLKDh6hLbJJnYHvmr+WN7OLgxKv2t+qParjZ1jRLxXliYw3ByDji+RpjUp/KJ/Deb
+         i9PgnCw/44tuWIuIKBivUj/GfqDB4TAWUM4hjjVapU78y0Zs2mDqcew0zGMegUvR8AEX
+         xkDTBTf6ODEVUNOLqCYLN69w1V9MkzInB6js8c6a5y1n9DbiOFfYyQG20sFbOreVFerx
+         e1sPO51VhPS4rT8sIZo9A1n7kNL21cCYutbcrF6+zhs//0xcuakB943yDiIlJwIIL7pL
+         U7WQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=D8uyMk8E;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c34 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=dq218i3q;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2a as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=HpozNCNc1BElEXWai289GpG9IL2yJV6JSywhmxFoe1k=;
-        b=LCWaeW+/u/B7wUnCmYbEr88AFD9JVe2hRnrL8MS6yJvA1ouJt5lSF2ooV79mQiuKqk
-         N1+zMBt86BM2+uvFQ6aV3q3Q2+2B0aSAitUO6zVSE+hoIhrvpT1Si/pJmHc0jpu8CKdC
-         tBdbAXTj3aIZUIMUzLrIpWopZCoSyKgcdvODX5vQqdT5Xwme/rShvcgJM20w14trzrx2
-         CUsO/R0A1IDD4bdk74+tr/7oEU6WcMFANvhzclISOoH8n9rO2D2REqsMBWRdCttP28Ss
-         reZNf9SCLPMpYTpU56bUomByN2Zs0xbFx8x8CKFSRIAGpVeCMFEYERx+4csP7k0gwMWW
-         ttNg==
+        bh=F/Lh/zW/cQAZtDMcIu0U6VJcX2QJNPdPsqMm6yitX8g=;
+        b=hDkBjrEdabogNow/GgHQLo8vG5JmwEkcya5uCNbHVPYR/9PursHtM2AyfYFdBg2IV3
+         1bAgpSUP13YWceLdqaHjJcIHnMivy+960QfrZNnfL619NkUgY5N+OLnpvXF9nrq6iIQ+
+         SgCjmOQ/fwAhA+ATyDlJhNZGiU16lsIRq3Xwwv1TspOVoAFR2sihG4cuc9yKgnpDDUXb
+         XjI2ws6ily/rkMBypd5VokccLTaN+c2tc/GKcolDx9KduDBhGWTiTCcKZNYo6bhOWl6+
+         aNtb/UUbnsnKoAVxhMu4hG2NdRny6YiHnZzc55SsYTLIjwwJLGNFSLoCj516PAKAGFJ+
+         7KYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,82 +49,84 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=HpozNCNc1BElEXWai289GpG9IL2yJV6JSywhmxFoe1k=;
-        b=AW1uiItmVjMJAba0O6GUEWYZvBHFsnOvmOrd3cQKIKD2Y77J2sOIJx1fS01GZp2z6d
-         aU88CkJIe/R52iUl3Bs9MIlUQ+azhUElmrhPyU0B+tSSzyOOCZM9BkR5gTxls2HoluZK
-         1+WhD85aSM4kLb+xh/MPRsTkdDpd60WlXxYDf1bS+msFEHBk7BuCNiG90HpjMKqKK9YQ
-         php6AfIiucFevlEIHRorqcpWupePgnJoyumNbWDNNg3myGFP8F+I1BH6AVlgPnEe5azt
-         kUVAaW707TMt/cUrI2BEguRJhBGE7e8rGjJ9LDMfxp+wWRBtwq03os114p1bQg+14mgH
-         VXwg==
-X-Gm-Message-State: AOAM531S8XwNQeWAk4XcmEuudCGUoPvbjhE6qU3vsyYpmEMJFsmF34/p
-	b18hcyNW4hXs1H4ghWbPIHA=
-X-Google-Smtp-Source: ABdhPJzNf8yEyP2i9QCt6ehmQJJ+vYUmhKSte1P+/WoSjyN3cMD1ZEqd6cZ52kQcHKV6U8hVuy/6nA==
-X-Received: by 2002:a62:644a:0:b0:4f6:d760:caa4 with SMTP id y71-20020a62644a000000b004f6d760caa4mr22568545pfb.61.1647242277988;
-        Mon, 14 Mar 2022 00:17:57 -0700 (PDT)
+        bh=F/Lh/zW/cQAZtDMcIu0U6VJcX2QJNPdPsqMm6yitX8g=;
+        b=3vYekPKLiQrdxNiRKWgS2ZG84YGJEAQIRH/NCy6H0Uy35tv1iz2JWFE1AVMC3XMyOb
+         YuAOR2Q5gin7U/YgFKWaifUkh5iKmrBUvh/RNfscRMdh2LcJS5pyNcNy9RQ7qzOIT0rr
+         x6eewTIoOOUOEdoATjINhI7zCStMDYGnAdCHNiKcrfbCyr6qmLnYWIs9QU77gDdX1On9
+         i3/2h8Veb8O6m9INkD1K9Rhc2n9hMtrL6vnMsg2tf50DmcnlSvwJYPG2tAUw0DuVUAM8
+         7r9RvWkkSTKxSUaTcS5WyWBe6fMWOoJHNa7NyvsTp2XuPoSjTrMC2kJYWAEFl27UmeGB
+         rL9Q==
+X-Gm-Message-State: AOAM532WZ1L7nHU7cvciSn4f0kkhdonzt4exZPA5fZWTwtPWTQu7IuOw
+	JIu37bXnEHtUw8N+hNF+BiQ=
+X-Google-Smtp-Source: ABdhPJwP7u6p297MYQCh6UkxIiWKxh6Ps3MRmeUMWtpOn1qo+ftL8Dp2KX0oa+UPc1HnX0GDwZfa5A==
+X-Received: by 2002:a17:90b:4f4b:b0:1bf:bd24:263f with SMTP id pj11-20020a17090b4f4b00b001bfbd24263fmr24177067pjb.228.1647248273147;
+        Mon, 14 Mar 2022 01:57:53 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:1cd:b0:14f:eb8d:b29f with SMTP id
- e13-20020a17090301cd00b0014feb8db29fls5782499plh.9.gmail; Mon, 14 Mar 2022
- 00:17:57 -0700 (PDT)
-X-Received: by 2002:a17:902:c9cb:b0:153:78a6:9de4 with SMTP id q11-20020a170902c9cb00b0015378a69de4mr3137838pld.66.1647242277215;
-        Mon, 14 Mar 2022 00:17:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1647242277; cv=none;
+Received: by 2002:a17:90a:8c0e:b0:1bf:1a38:d505 with SMTP id
+ a14-20020a17090a8c0e00b001bf1a38d505ls6232205pjo.3.gmail; Mon, 14 Mar 2022
+ 01:57:52 -0700 (PDT)
+X-Received: by 2002:a17:903:32c3:b0:151:f021:74c7 with SMTP id i3-20020a17090332c300b00151f02174c7mr22048947plr.48.1647248272462;
+        Mon, 14 Mar 2022 01:57:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1647248272; cv=none;
         d=google.com; s=arc-20160816;
-        b=peqph+QRLynL8FlsG3TMKnInIDIZoD1yb6VYzEYwxXbTJbUmB5s+d+eRVjTm9l47JS
-         SEuS1fXUHRfkDm0y4AFJRtDteX6O/GUcW8chvZ0zZkoRnWiHJLUxob79/5tO/TqIbcCl
-         NOKYHas4QT6s5rrnbc3WK3rSG5GPW1+N/+Z7GjjuliBae+aou5xHXZ8u94hN1iPLqBtk
-         UL6ZhKMFGYC+Z1eJNRu6emuQzd9no/7FaIaISVIS5nXxFcD6kX25kpi+0e9Wok1KbA5k
-         3O6immcxQFE6iFDVGJ0K5YAXU0mwuIcF298JPEt5cdP+KTscodU4A97DlVipto4gKyQb
-         mYoQ==
+        b=E37Gh6kdp/2m1O1h0GhjwFBjvGNSVSti2cMFLhp3h9f9oGQVIydo6q4UoWYE9PqNtG
+         ZxWOgsvrej8O9DzLMOZqrs1aAYIsTh+A6YB2bWhfLhEGj0nFOBrNiKbUKZc4h55xVbkZ
+         GqtQz5w8gno0yia0AIC/Cyrh6SCOhnL6MIlxJZ9L0OkNmw/J4QRULr0Y1eQFNZEqUGGE
+         /ggyWopjCTQOxrC/+8+asmODo6Bcd2eBaYAJEjj2Opvuw9AhM4oAXylTgXm+EVKg3xIb
+         SxQ1FY81T4mmOe6iiUU2M1fR1B29Zz4oYXcXJXEuXDXVso5DZdko6tr+w4HML6vWdjFL
+         iMcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=jHOQpg8FkWZ2D9kBQlZqUsUw9/chXLkk2DroGgT0P6g=;
-        b=W9yl9nhb/AGeWdAY2nQg5xQEYW2GxZFy4JwZXxwEMEMrAcuJl1NPEt0LwdeZExWCfp
-         zbS0GrSH84YnU3mQYOoMzOCqO6hxp5D77u7y+iReCanqPAIvX4gn+Bm05p1JWDienEp9
-         enDcd+3gprHZj+SZugom3bHU+DbayLsQq46xbLGiJsG+/k8fgF2hR6mxsYlkF3V2XHvn
-         Zn7n5n4xIF+uIdCb3pChp+QnnaVbykZPvTIaFxWfDL5oD+Es2Csuq4Cz/TJfyTBOyatW
-         c2nvCtW00L7AbjTLFqqmp29Bdt0yovwZkZ25yRrp2Rm2X1YR01MzBXT2SK84PIemDDJV
-         evFA==
+        bh=dnStb81zNfCbHNpdfKDavCPptqLqSaSsDRJFANgLx8A=;
+        b=TX3NfkkNDVznriH0rjgquzcWNG7zm+FCNWVJDli2pu34iJvqX4XkURxWEe2eNoKOZi
+         m12YMCaS1zRxMG0JIEjlqOO7NNWMqcWhzMUyaXlSd2GgIg0YMAWUyAXFR/SQ9zzMCUVH
+         NQO5lh2rJ6mVJjhqNG/9FEYmSCS5RRNd2h2LxGr7kZt6n5XnuwmgwFK5+h8ZV6hnrm25
+         h1haDSjop/7W/A9ogqrhiAIRqasifnXS8Ow7XfyURdsB++BrKTyPBhC4qWvJamMVBcu7
+         4Z8tLX2ZF1WdBhnd2sOF+WALE5MhUVuRkjyLWybUtf2/7zrt4vrsNwtX9/jsPUZE3xbj
+         GCGg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=D8uyMk8E;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c34 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=dq218i3q;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2a as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com. [2607:f8b0:4864:20::c34])
-        by gmr-mx.google.com with ESMTPS id b12-20020a17090a990c00b001bc2f04b85esi1053362pjp.1.2022.03.14.00.17.57
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com. [2607:f8b0:4864:20::b2a])
+        by gmr-mx.google.com with ESMTPS id o64-20020a17090a0a4600b001bf0a82f880si810365pjo.2.2022.03.14.01.57.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Mar 2022 00:17:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c34 as permitted sender) client-ip=2607:f8b0:4864:20::c34;
-Received: by mail-oo1-xc34.google.com with SMTP id k13-20020a4a948d000000b003172f2f6bdfso19070386ooi.1
-        for <kasan-dev@googlegroups.com>; Mon, 14 Mar 2022 00:17:57 -0700 (PDT)
-X-Received: by 2002:a05:6870:9619:b0:d9:a25e:ed55 with SMTP id
- d25-20020a056870961900b000d9a25eed55mr10310764oaq.163.1647242276344; Mon, 14
- Mar 2022 00:17:56 -0700 (PDT)
+        Mon, 14 Mar 2022 01:57:52 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2a as permitted sender) client-ip=2607:f8b0:4864:20::b2a;
+Received: by mail-yb1-xb2a.google.com with SMTP id g1so29342686ybe.4
+        for <kasan-dev@googlegroups.com>; Mon, 14 Mar 2022 01:57:52 -0700 (PDT)
+X-Received: by 2002:a25:6994:0:b0:629:1e05:b110 with SMTP id
+ e142-20020a256994000000b006291e05b110mr17250131ybc.425.1647248271489; Mon, 14
+ Mar 2022 01:57:51 -0700 (PDT)
 MIME-Version: 1.0
 References: <57133fafc4d74377a4a08d98e276d58fe4a127dc.1647115974.git.andreyknvl@google.com>
-In-Reply-To: <57133fafc4d74377a4a08d98e276d58fe4a127dc.1647115974.git.andreyknvl@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 14 Mar 2022 08:17:45 +0100
-Message-ID: <CACT4Y+ZtahUje36PKfGYLVkb2SawMXOC9aPNwgfNgZ1ujCAVBA@mail.gmail.com>
+ <CA+fCnZe-zj8Xqi5ACz0FjRX92b5KnnP=qKCjEck0=mAjV0nohA@mail.gmail.com>
+In-Reply-To: <CA+fCnZe-zj8Xqi5ACz0FjRX92b5KnnP=qKCjEck0=mAjV0nohA@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 14 Mar 2022 09:57:15 +0100
+Message-ID: <CANpmjNN-UPGOwkYWiOWX5DeSBWnYcobWb+M1ZyWMuSbzJQcFsg@mail.gmail.com>
 Subject: Re: [PATCH] kasan, scs: collect stack traces from shadow stack
-To: andrey.konovalov@linux.dev
-Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com, 
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: andrey.konovalov@linux.dev, Alexander Potapenko <glider@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev <kasan-dev@googlegroups.com>, 
 	Vincenzo Frascino <vincenzo.frascino@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
 	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
 	Sami Tolvanen <samitolvanen@google.com>, Peter Collingbourne <pcc@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Andrey Konovalov <andreyknvl@google.com>
+	Evgenii Stepanov <eugenis@google.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	LKML <linux-kernel@vger.kernel.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Florian Mayer <fmayer@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=D8uyMk8E;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2607:f8b0:4864:20::c34
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@google.com header.s=20210112 header.b=dq218i3q;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2a as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,119 +139,118 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, 12 Mar 2022 at 21:14, <andrey.konovalov@linux.dev> wrote:
+On Mon, 14 Mar 2022 at 00:44, Andrey Konovalov <andreyknvl@gmail.com> wrote:
 >
-> From: Andrey Konovalov <andreyknvl@google.com>
+> On Sat, Mar 12, 2022 at 9:14 PM <andrey.konovalov@linux.dev> wrote:
+> >
+> > From: Andrey Konovalov <andreyknvl@google.com>
+> >
+> > Currently, KASAN always uses the normal stack trace collection routines,
+> > which rely on the unwinder, when saving alloc and free stack traces.
+> >
+> > Instead of invoking the unwinder, collect the stack trace by copying
+> > frames from the Shadow Call Stack whenever it is enabled. This reduces
+> > boot time by 30% for all KASAN modes when Shadow Call Stack is enabled.
+> >
+> > To avoid potentially leaking PAC pointer tags, strip them when saving
+> > the stack trace.
+> >
+> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> >
+> > ---
+> >
+> > Things to consider:
+> >
+> > We could integrate shadow stack trace collection into kernel/stacktrace.c
+> > as e.g. stack_trace_save_shadow(). However, using stack_trace_consume_fn
+> > leads to invoking a callback on each saved from, which is undesirable.
+> > The plain copy loop is faster.
+> >
+> > We could add a command line flag to switch between stack trace collection
+> > modes. I noticed that Shadow Call Stack might be missing certain frames
+> > in stacks originating from a fault that happens in the middle of a
+> > function. I am not sure if this case is important to handle though.
+> >
+> > Looking forward to thoughts and comments.
+> >
+> > Thanks!
+> >
+> > ---
+> >  mm/kasan/common.c | 36 +++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 35 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> > index d9079ec11f31..65a0723370c7 100644
+> > --- a/mm/kasan/common.c
+> > +++ b/mm/kasan/common.c
+> > @@ -9,6 +9,7 @@
+> >   *        Andrey Konovalov <andreyknvl@gmail.com>
+> >   */
+> >
+> > +#include <linux/bits.h>
+> >  #include <linux/export.h>
+> >  #include <linux/init.h>
+> >  #include <linux/kasan.h>
+> > @@ -21,6 +22,7 @@
+> >  #include <linux/printk.h>
+> >  #include <linux/sched.h>
+> >  #include <linux/sched/task_stack.h>
+> > +#include <linux/scs.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/stacktrace.h>
+> >  #include <linux/string.h>
+> > @@ -30,12 +32,44 @@
+> >  #include "kasan.h"
+> >  #include "../slab.h"
+> >
+> > +#ifdef CONFIG_SHADOW_CALL_STACK
+> > +
+> > +#ifdef CONFIG_ARM64_PTR_AUTH
+> > +#define PAC_TAG_RESET(x) (x | GENMASK(63, CONFIG_ARM64_VA_BITS))
+> > +#else
+> > +#define PAC_TAG_RESET(x) (x)
+> > +#endif
+> > +
+> > +static unsigned int save_shadow_stack(unsigned long *entries,
+> > +                                     unsigned int nr_entries)
+> > +{
+> > +       unsigned long *scs_sp = task_scs_sp(current);
+> > +       unsigned long *scs_base = task_scs(current);
+> > +       unsigned long *frame;
+> > +       unsigned int i = 0;
+> > +
+> > +       for (frame = scs_sp - 1; frame >= scs_base; frame--) {
+> > +               entries[i++] = PAC_TAG_RESET(*frame);
+> > +               if (i >= nr_entries)
+> > +                       break;
+> > +       }
+> > +
+> > +       return i;
+> > +}
+> > +#else /* CONFIG_SHADOW_CALL_STACK */
+> > +static inline unsigned int save_shadow_stack(unsigned long *entries,
+> > +                                       unsigned int nr_entries) { return 0; }
+> > +#endif /* CONFIG_SHADOW_CALL_STACK */
+> > +
+> >  depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc)
+> >  {
+> >         unsigned long entries[KASAN_STACK_DEPTH];
+> >         unsigned int nr_entries;
+> >
+> > -       nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
+> > +       if (IS_ENABLED(CONFIG_SHADOW_CALL_STACK))
+> > +               nr_entries = save_shadow_stack(entries, ARRAY_SIZE(entries));
+> > +       else
+> > +               nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
+> >         return __stack_depot_save(entries, nr_entries, flags, can_alloc);
 >
-> Currently, KASAN always uses the normal stack trace collection routines,
-> which rely on the unwinder, when saving alloc and free stack traces.
->
-> Instead of invoking the unwinder, collect the stack trace by copying
-> frames from the Shadow Call Stack whenever it is enabled. This reduces
-> boot time by 30% for all KASAN modes when Shadow Call Stack is enabled.
->
-> To avoid potentially leaking PAC pointer tags, strip them when saving
-> the stack trace.
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->
-> ---
->
-> Things to consider:
->
-> We could integrate shadow stack trace collection into kernel/stacktrace.c
-> as e.g. stack_trace_save_shadow(). However, using stack_trace_consume_fn
-> leads to invoking a callback on each saved from, which is undesirable.
-> The plain copy loop is faster.
->
-> We could add a command line flag to switch between stack trace collection
-> modes. I noticed that Shadow Call Stack might be missing certain frames
-> in stacks originating from a fault that happens in the middle of a
-> function. I am not sure if this case is important to handle though.
->
-> Looking forward to thoughts and comments.
->
-> Thanks!
->
-> ---
->  mm/kasan/common.c | 36 +++++++++++++++++++++++++++++++++++-
->  1 file changed, 35 insertions(+), 1 deletion(-)
->
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index d9079ec11f31..65a0723370c7 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -9,6 +9,7 @@
->   *        Andrey Konovalov <andreyknvl@gmail.com>
->   */
->
-> +#include <linux/bits.h>
->  #include <linux/export.h>
->  #include <linux/init.h>
->  #include <linux/kasan.h>
-> @@ -21,6 +22,7 @@
->  #include <linux/printk.h>
->  #include <linux/sched.h>
->  #include <linux/sched/task_stack.h>
-> +#include <linux/scs.h>
->  #include <linux/slab.h>
->  #include <linux/stacktrace.h>
->  #include <linux/string.h>
-> @@ -30,12 +32,44 @@
->  #include "kasan.h"
->  #include "../slab.h"
->
-> +#ifdef CONFIG_SHADOW_CALL_STACK
-> +
-> +#ifdef CONFIG_ARM64_PTR_AUTH
-> +#define PAC_TAG_RESET(x) (x | GENMASK(63, CONFIG_ARM64_VA_BITS))
-> +#else
-> +#define PAC_TAG_RESET(x) (x)
-> +#endif
-> +
-> +static unsigned int save_shadow_stack(unsigned long *entries,
-> +                                     unsigned int nr_entries)
-> +{
-> +       unsigned long *scs_sp = task_scs_sp(current);
-> +       unsigned long *scs_base = task_scs(current);
+> Another option here is to instruct stack depot to get the stack from
+> the Shadow Call Stack. This would avoid copying the frames twice.
 
-Just to double-check: interrupt frames are also appended to the the
-current task buffer, right?
-
-> +       unsigned long *frame;
-> +       unsigned int i = 0;
-> +
-> +       for (frame = scs_sp - 1; frame >= scs_base; frame--) {
-> +               entries[i++] = PAC_TAG_RESET(*frame);
-> +               if (i >= nr_entries)
-> +                       break;
-> +       }
-> +
-> +       return i;
-> +}
-> +#else /* CONFIG_SHADOW_CALL_STACK */
-> +static inline unsigned int save_shadow_stack(unsigned long *entries,
-> +                                       unsigned int nr_entries) { return 0; }
-> +#endif /* CONFIG_SHADOW_CALL_STACK */
-> +
->  depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc)
->  {
->         unsigned long entries[KASAN_STACK_DEPTH];
->         unsigned int nr_entries;
->
-> -       nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
-> +       if (IS_ENABLED(CONFIG_SHADOW_CALL_STACK))
-> +               nr_entries = save_shadow_stack(entries, ARRAY_SIZE(entries));
-> +       else
-> +               nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
->         return __stack_depot_save(entries, nr_entries, flags, can_alloc);
->  }
->
-> --
-> 2.25.1
->
+Yes, I think a stack_depot_save_shadow() would be appropriate if it
+saves a copy.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZtahUje36PKfGYLVkb2SawMXOC9aPNwgfNgZ1ujCAVBA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN-UPGOwkYWiOWX5DeSBWnYcobWb%2BM1ZyWMuSbzJQcFsg%40mail.gmail.com.
