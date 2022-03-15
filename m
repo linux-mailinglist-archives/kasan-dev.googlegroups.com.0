@@ -1,107 +1,111 @@
-Return-Path: <kasan-dev+bncBCN7B3VUS4CRBE5MYGIQMGQE2RO4OCQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCN7B3VUS4CRBFVMYGIQMGQEAFQV3RA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73d.google.com (mail-qk1-x73d.google.com [IPv6:2607:f8b0:4864:20::73d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83FC14D96FB
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Mar 2022 10:02:12 +0100 (CET)
-Received: by mail-qk1-x73d.google.com with SMTP id 207-20020a3703d8000000b0067b14f0844dsf13762726qkd.22
-        for <lists+kasan-dev@lfdr.de>; Tue, 15 Mar 2022 02:02:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1647334931; cv=pass;
+Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07ABF4D96FC
+	for <lists+kasan-dev@lfdr.de>; Tue, 15 Mar 2022 10:02:16 +0100 (CET)
+Received: by mail-yb1-xb40.google.com with SMTP id n66-20020a254045000000b0062883b59ddbsf16221479yba.12
+        for <lists+kasan-dev@lfdr.de>; Tue, 15 Mar 2022 02:02:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1647334934; cv=pass;
         d=google.com; s=arc-20160816;
-        b=JDw+w3Q3ClXhd1I/m0Ee2DJiE5o9dRKDTmUJeVlPRLNcEhg/iNza7OzkNe+E6PMvNj
-         2XpHqn1RAqC0sfr1q4emUwPly1CejNq4ahj1GJbdu7wFXjjfrenAbxsv0pc/U69G+h96
-         WQUbAdPaCXWpXxXi4L/zgmT2i0ggiVypq1rLXMR+AH83gnm2Gj+bbsZ9vjizE3fz/dtU
-         co8JuzS1yDBJ8QqOXeX8eKXIY+AnwEvoQt81T6H6gOn05LMZDlhs3MGGU5q56k13LKJg
-         Y3Gm2PKTR91VIrKNvn5rd7sw0Db+ihfrikqspcTiJhMfBZlh0qU4hVASJASRpkRmlgTY
-         GAMw==
+        b=xNs0Vj4HOTMVE5pWrr5+0jMquGYgiOsaZ1DpYNJkqz+h792AFeFe3ueJ6FUwbGxSPM
+         V+6IIGmfLfGVX3Xak2azKvniK6rl5ZK7v9knz/Zszb5PXxdZLtp3k6VRULPZnIPj54Xx
+         OwfOktHNSf9CrbKaS1eqhgz9i6SVjubW+XL3B9aWjk5rh+pI71eUi00202aWFfIYtcAM
+         h2K0VTroVy1m1W0TvcahYnCDr4loUAewdJt/Gn3SPMNEpeoXVR7tw85INoF86w2hZHvk
+         KHBtaDFHSrOPVYv3wxXXwAj8mcAUnJ5kLEa0FXR7FAGL4VVyDvnVKqPtlSo0qSqlXTGt
+         4vDQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=DIkQZ1H3fyMQFEe2lFmLfBuZeZKW5h7U51kFfH65Yxk=;
-        b=r4UT0A4vj7CNbQigker0O7R6WQ1IWpFKabxlcyJZ6D+BadeW32uilFdXLUjbeJty0m
-         gfTPnD18hhds89tfR0N4sRio9Yq/OCPXTHW0QsItQwNajG/m1vSQ4ytp6lJhUeCmZYJr
-         5oyTF7wz+RyCpwSh1CgSy10mI3E9pz7KPUiREyaYiPsXjMdHBUkt6WSo7TrTJpFcBuMI
-         aDGQvDvGQZzC4pNPCxUYfY0YWSG+0r8RJh181bg3njPhwXs4fCLKUj5Qu+nDkSnPtwC9
-         aGNvi/lX6aks9M6UyfTZOvqJCIE6ca+qpc/PKD3PrvSolnMKxQj5sj14gFZhIDq8Xell
-         tsJQ==
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=GeecDFQuDyyhCPxc0H4FdjUZQiAM6gR6SoN888kIv1s=;
+        b=ITaMaKIdhrvTU7/mBZZntnjAoV+VBxKhxZfmCk++jyUM+7h4vVFYWNTS2jWEEnonx2
+         7pCcy2KjDzMA4PCmSHGtTswAw1Q4ZMf+CLCvNsN2Huk6eF4iIYWmJ2jCX+WcSMkaMi+u
+         70Vuba2wxS4HN8fJUXlyG0xeiOiNa+iB8iVfjLDSnnr7zXcYOBjlEuZ0Zx6mnZ0d13nQ
+         86sNPfIAg2wwFg5tdNojoaUr4rrubF5Y67stKfS5E9o/4gl/9TJgDUe+Yx/Y3K2tpYt4
+         WLSYeusEpu2+sXCj09XNZboQk6ITWv4O8cMsSmWRdbXKE6+bbDVwmUD7rH7B0TsaxtXV
+         PmQw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
+       spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=DIkQZ1H3fyMQFEe2lFmLfBuZeZKW5h7U51kFfH65Yxk=;
-        b=CQ+0F8gk8lZSrAUb/8g2H5mFx+/eOb2hvHk6G8H75Ya4iJlWFnMADu26mQ23G5h5Nr
-         el50IANFFR2gCHcFHkGZuQgqZ+c17jwW+fdadxLZi4CSz/T/mLXaLgFVSIcWkehkAux9
-         tivCc3GxJOmwpfpsevyqO2kWh+tU6YRzarBCftPqq0Ep05/P2BZR5OfjOVeHfRAnkPAJ
-         mjkornkhO9atSwIELy3EB2B+/B+HWSd6cdqtkKya0XWuBljQlWthmHRMLee68YU8R0Pn
-         Im6lXUqVKNiy/czaf0w1jHr9CZv9wGRpExmc/vv0bd80LAiZQd2dCJcUtvqHcWZ/Sy32
-         OBoA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :reply-to:precedence:mailing-list:list-id:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=GeecDFQuDyyhCPxc0H4FdjUZQiAM6gR6SoN888kIv1s=;
+        b=XU7nVTudtifkfqfb+oDUFmL06aQAW64Vt7PGKb+QYRP2KUKh50Cp2sWgjchubzMq08
+         ga5vjmkrzrGiP7IL66GDYnso+PtG0SKpfG2jok6ELWcbFRly9hqdoI3ydfSCh3ffTqcY
+         mXVCgm0XgT6FwveYhRtuoWZuQCzv26HcH+jLpZXraCmgjYgb1TowmjyIoY/bf8HqNtv1
+         5KFfqDOOWoOeAv/sQAyb4cUY62Ks/wk2y+x7cp4JnaGIA11l6HsdoQr9iugJ5CyOctvs
+         Ix+IwwPpuuZE0FM9VPcTg5tf1yhZy1SBqTr2Y/nF5TNCcPr+mSC0DrVfmMXaLo7cdg8+
+         OjpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=DIkQZ1H3fyMQFEe2lFmLfBuZeZKW5h7U51kFfH65Yxk=;
-        b=FrTE/C5MZLE/kqRqNx9k0KoXnn7hZIpUWMn9FMEg4e/QtNQCw2RRiHMkkdkZaFhBJz
-         U0IMuQYqAwxbgWXUYOQ/Lc9R8aE6dYo8NTTmOxQYUh86uukTvizMIVyc8bOAQirE7wjr
-         tiSsiSZltSuadtqJl1EYPeFbD5xOVeFsgQ+XB2hIYsx6F7aYTpBNMLpVLVyzS0gu6aPj
-         1umWlTAYQGf9Woh46QCB+VAUaaYzmBEfto2AOM9CtjnTxhrGua5AM4uN3i6pwwlgxTa0
-         eG6ODvVv+CCxKjrCyGdUye4iLWGQxHGyHoXrHxk6MFk3vnRpu5JqLDjC/+HuV9sdgnOE
-         6URg==
-X-Gm-Message-State: AOAM530L+NbDBdj/2WgfLksfBmle551eFoUM3aI5TlkBF3WhD4IpTbel
-	TuUv9/EDDrSas5u5ZUJigdU=
-X-Google-Smtp-Source: ABdhPJwTEJ3S8ZEPcgsyWnlZ30E/Q2jbEZ8KR3N0U3+LOC9qcEOzc/bhXqJHDK7cZbJ0X46kD8fLtg==
-X-Received: by 2002:a05:6214:1c5:b0:42c:1227:c542 with SMTP id c5-20020a05621401c500b0042c1227c542mr20949501qvt.11.1647334931321;
-        Tue, 15 Mar 2022 02:02:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=GeecDFQuDyyhCPxc0H4FdjUZQiAM6gR6SoN888kIv1s=;
+        b=Xg5tizMOfE4gezSCC6CvOnvh4/v+WN/kiy9H/lXnkgLlDszc1bRg9OhWVKAbpV0UOJ
+         nm+Kg7M2bwEiLg7cwDkb3bXTKEOR5OITQhQT04f42LANlKgAUXVA2z0ldDEqo+mvumRV
+         jO2At8fyz4X6oa4OuL4QvJdIhmkYsPiTXjJrc4fny/WAbykomC9tim42jYPGFlYv8kii
+         VErvude8+x2ymDYS9kVISmzMerY0X9KeZ+BO8UR5/3ueVt3RLM/sOlMF/0su5ddJlPRb
+         CwEOXyg+XiegvOYfcXtMWeJz3U5ivztzmcGzcb/y7ENLHdflOR52RKUFn/4NKpJc9Mkg
+         oXAg==
+X-Gm-Message-State: AOAM530Sgup29cBR/VbXrg9wbp5AMZAAc3CWPIKPOx00ANhkaoxayo4A
+	BAyC829IMSjcvCOOc5gsrtM=
+X-Google-Smtp-Source: ABdhPJxBClaoAm9/hn9723pjNpspqObGLsg/Ab4tdB68bUzLjO44+jItMK2+3I9WT2StX6XnJj6pgw==
+X-Received: by 2002:a81:af21:0:b0:2d6:f5c2:44f4 with SMTP id n33-20020a81af21000000b002d6f5c244f4mr22789255ywh.353.1647334934363;
+        Tue, 15 Mar 2022 02:02:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:5745:0:b0:435:33cc:9ec0 with SMTP id q5-20020ad45745000000b0043533cc9ec0ls4932720qvx.6.gmail;
- Tue, 15 Mar 2022 02:02:10 -0700 (PDT)
-X-Received: by 2002:ad4:5c6a:0:b0:440:c74a:20e with SMTP id i10-20020ad45c6a000000b00440c74a020emr1249288qvh.129.1647334930772;
-        Tue, 15 Mar 2022 02:02:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1647334930; cv=none;
+Received: by 2002:a05:6902:110c:b0:629:2656:4307 with SMTP id
+ o12-20020a056902110c00b0062926564307ls7095814ybu.4.gmail; Tue, 15 Mar 2022
+ 02:02:13 -0700 (PDT)
+X-Received: by 2002:a5b:c7:0:b0:633:7f15:9729 with SMTP id d7-20020a5b00c7000000b006337f159729mr75002ybp.98.1647334933903;
+        Tue, 15 Mar 2022 02:02:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1647334933; cv=none;
         d=google.com; s=arc-20160816;
-        b=R2e0G5gscfentN848YnulahYulBkLtILcOg+Edo8MIlv0aWAb8AYPv9E58RqwwVyok
-         5oVfbeh/bQDKGD5o/JlfTFYfq5wmPptizBufjFctjH/mkvVgkFv4zGIufwwWa4YYPzr7
-         iD2yj6ToH6uULqBQTTNYcTPzEBzh1xHSxuSdEdXOr4NZNTQA8q/cLyHBWo0KLtfdZWJp
-         mcc7Tir8PtYroUcbAOlLKr15ZMHDKMuI+XxHucen7Y5uk7m79a/oIwpDNS9tWt1YoOY/
-         k8hivEYt6XrYvkzQvkZHa/A4ISssy7PK7AhdWwVUH6xTTT5fyRu+vgLqo9BNrm0DAGo5
-         rREw==
+        b=tIsRePU0E3drsksVlbzakCl1DqyYio5mIsp/mCcP2YB9S8evMQ2UENqYDe1xOsWP/o
+         NpPSxpa1DA3F6L1vHbLM/sD4yZ22z6paRHb99LHKBWZUw06BHLXqvKKZOQahP8Ge60qm
+         9X6+63x49snOux5HXJs9GbIZG6ZmFJRGXQRVnf+cF1FYb75aok4YrrGjHmsKvphdw0NT
+         EW58/uOOWQDCmxnq+yK2FwDZMzPdqgbox3J9naDNRyX9H3106fP0uYYA+vCzJ3/ZdJYG
+         GWPTFiGvVn1qRMxxbt1Huo27HGKeMwzHz4lg8iPbZawjvQWOSyWVRCwCInPi0gWL59uo
+         utHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:cc:to:from;
-        bh=IqmS0UfL+pq7UoP4HCaZEH1BRTsnBL3JU+RVP8Ofs98=;
-        b=oM9155CxPeotCRPcebQBuePBredurwn3jWGZbLS3QP+SAf0LBlyY3C987wEpIO1UyU
-         ffXB4OphArNO9WVd5Lwu1WiZ267Zzaip9h/4Kk574YMWQydNhDP3ZVWmnK2xFsQ+6zkQ
-         gESO0P1oKFtf24Bpt6zPRDyZqUwvsNYyx6Nytbt6wH8A3cGl5pKCvmDHGfKxanMa6cb4
-         Xr/y2e/GPHLHk5D4vHOtKqx9y/ZoT/jMMVdqRbVUZTXwJa2qCstC1DjQ69L0aPT2M7+l
-         fx3GGVnqxrW6ip0ojVJ6zl/IrA+RXHOHcxXqhzrtFBmBzZqIXGYXEPye6nV0MLGx5exv
-         HS6A==
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from;
+        bh=SCz55rx5ChBdS+x/O2bwXlHBwxIbSKW/q9fOiscTHpU=;
+        b=jZnyx3441fGL5/1he/RICpaPnvFtj0ZbPVjoTaUlSxjPzITGqtzN243OomTE3JBM1s
+         0lhH8HbyUMl5aS30NtI1TSgR9eklq228FxyuQyXbjkYgucl8p9zgjfFSJei38ooC2S6A
+         QUK7VMkNg7u/qtybXwtXpoWgymCp16fkwxuzNHptx6M2rrHaRPNG3huVre4LcnI9DJjv
+         oeAiRf1X7fIAwqNvNo+AlMjau+58y21gmwO7IUd4OQmrhFhaVX95OKo6OlX9dsfdsCS6
+         hOZq1MwWMpk2XRzzFqPjx2bewnb7vK4zS6gWytDXhE0cO3mM8q9pvFC3rpr5BHiAvCoI
+         bI/w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
+       spf=pass (google.com: domain of lecopzer.chen@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTPS id x18-20020ac87012000000b002e1b3636527si750759qtm.4.2022.03.15.02.02.09
+Received: from mailgw01.mediatek.com ([60.244.123.138])
+        by gmr-mx.google.com with ESMTPS id be16-20020a05690c009000b002e58bb7f75dsi40718ywb.2.2022.03.15.02.02.13
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Mar 2022 02:02:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: 54457aaeeeae4d3aad0dffd452a40eb0-20220315
-X-UUID: 54457aaeeeae4d3aad0dffd452a40eb0-20220315
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        Tue, 15 Mar 2022 02:02:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of lecopzer.chen@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
+X-UUID: a990be5c12d74a1c96fc4f13e96d0be7-20220315
+X-UUID: a990be5c12d74a1c96fc4f13e96d0be7-20220315
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
 	(envelope-from <lecopzer.chen@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 914556803; Tue, 15 Mar 2022 17:02:04 +0800
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 556387979; Tue, 15 Mar 2022 17:02:06 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 15 Mar 2022 17:02:02 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Tue, 15 Mar 2022 17:02:05 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 15 Mar 2022 17:02:02 +0800
+ Transport; Tue, 15 Mar 2022 17:02:04 +0800
 From: "'Lecopzer Chen' via kasan-dev" <kasan-dev@googlegroups.com>
 To: <linux-kernel@vger.kernel.org>, <linux@armlinux.org.uk>
 CC: <lecopzer.chen@mediatek.com>, <andreyknvl@gmail.com>,
@@ -112,18 +116,20 @@ CC: <lecopzer.chen@mediatek.com>, <andreyknvl@gmail.com>,
 	<mark.rutland@arm.com>, <masahiroy@kernel.org>, <matthias.bgg@gmail.com>,
 	<rmk+kernel@armlinux.org.uk>, <ryabinin.a.a@gmail.com>,
 	<yj.chiang@mediatek.com>
-Subject: [PATCH v4 0/2] arm: kasan: support CONFIG_KASAN_VMALLOC
-Date: Tue, 15 Mar 2022 17:01:55 +0800
-Message-ID: <20220315090157.27001-1-lecopzer.chen@mediatek.com>
+Subject: [PATCH v4 1/2] arm: kasan: support CONFIG_KASAN_VMALLOC
+Date: Tue, 15 Mar 2022 17:01:56 +0800
+Message-ID: <20220315090157.27001-2-lecopzer.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220315090157.27001-1-lecopzer.chen@mediatek.com>
+References: <20220315090157.27001-1-lecopzer.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-MTK: N
 X-Original-Sender: lecopzer.chen@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of lecopzer.chen@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+ (google.com: domain of lecopzer.chen@mediatek.com designates 60.244.123.138
+ as permitted sender) smtp.mailfrom=lecopzer.chen@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
 X-Original-From: Lecopzer Chen <lecopzer.chen@mediatek.com>
 Reply-To: Lecopzer Chen <lecopzer.chen@mediatek.com>
 Precedence: list
@@ -138,10 +144,7 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-Since the framework of KASAN_VMALLOC is well-developed,
-It's easy to support for ARM that simply not to map shadow of VMALLOC
-area on kasan_init.
+Simply make shadow of vmalloc area mapped on demand.
 
 Since the virtual address of vmalloc for Arm is also between
 MODULE_VADDR and 0x100000000 (ZONE_HIGHMEM), which means the shadow
@@ -151,41 +154,48 @@ Thus we need to change nothing for memory map of Arm.
 
 This can fix ARM_MODULE_PLTS with KASan, support KASan for higmem
 and support CONFIG_VMAP_STACK with KASan.
-    
 
-Test on
-1. Qemu with memory 2G and vmalloc=500M for 3G/1G mapping.
-2. Qemu with memory 2G and vmalloc=500M for 3G/1G mapping + LPAE.
-3. Qemu with memory 2G and vmalloc=500M for 2G/2G mapping.
-
-v4:
-    rebase on 5.17-rc8.
-    remove simple doc for "arm: kasan: support CONFIG_KASAN_VMALLOC"
-    rewrite the description for VMAP_STACK
-
-v3:
-    rebase on 5.17-rc5.
-    Add simple doc for "arm: kasan: support CONFIG_KASAN_VMALLOC"
-    Tweak commit message.
-
-https://lore.kernel.org/lkml/20220227134726.27584-1-lecopzer.chen@mediatek.com/
-
-v2:
-    rebase on 5.17-rc3
-
-
-Lecopzer Chen (2):
-  arm: kasan: support CONFIG_KASAN_VMALLOC
-  arm: kconfig: fix MODULE_PLTS for KASAN with KASAN_VMALLOC
-
- arch/arm/Kconfig         | 2 ++
+Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
+Tested-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ arch/arm/Kconfig         | 1 +
  arch/arm/mm/kasan_init.c | 6 +++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 4c97cb40eebb..78250e246cc6 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -72,6 +72,7 @@ config ARM
+ 	select HAVE_ARCH_KFENCE if MMU && !XIP_KERNEL
+ 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
+ 	select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
++	select HAVE_ARCH_KASAN_VMALLOC if HAVE_ARCH_KASAN
+ 	select HAVE_ARCH_MMAP_RND_BITS if MMU
+ 	select HAVE_ARCH_PFN_VALID
+ 	select HAVE_ARCH_SECCOMP
+diff --git a/arch/arm/mm/kasan_init.c b/arch/arm/mm/kasan_init.c
+index 5ad0d6c56d56..29caee9c79ce 100644
+--- a/arch/arm/mm/kasan_init.c
++++ b/arch/arm/mm/kasan_init.c
+@@ -236,7 +236,11 @@ void __init kasan_init(void)
+ 
+ 	clear_pgds(KASAN_SHADOW_START, KASAN_SHADOW_END);
+ 
+-	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
++	if (!IS_ENABLED(CONFIG_KASAN_VMALLOC))
++		kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
++					    kasan_mem_to_shadow((void *)VMALLOC_END));
++
++	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_END),
+ 				    kasan_mem_to_shadow((void *)-1UL) + 1);
+ 
+ 	for_each_mem_range(i, &pa_start, &pa_end) {
 -- 
 2.18.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220315090157.27001-1-lecopzer.chen%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220315090157.27001-2-lecopzer.chen%40mediatek.com.
