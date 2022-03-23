@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCA2BG6MWAHBBTM452IQMGQEQGLL36Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCA2BG6MWAHBBG4552IQMGQEV4BHP7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6AD84E5A83
-	for <lists+kasan-dev@lfdr.de>; Wed, 23 Mar 2022 22:17:01 +0100 (CET)
-Received: by mail-wm1-x337.google.com with SMTP id z16-20020a05600c0a1000b0038bebbd8548sf3280127wmp.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 23 Mar 2022 14:17:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1648070221; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6914E5A8C
+	for <lists+kasan-dev@lfdr.de>; Wed, 23 Mar 2022 22:18:19 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id h14-20020a056512220e00b0044a1337e409sf1013350lfu.12
+        for <lists+kasan-dev@lfdr.de>; Wed, 23 Mar 2022 14:18:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1648070299; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uH/vhJdlB95wSXXT579ao4w4bLgMF7HKbSJASPoawxy/SffLCeixHH6/ZCh6m60YU+
-         kA+7ZO8yuYi4JjDa1/wgf6nbpg6QWf990TDcvF0E3868ln8VHjCVOQQeFkKgqAjXZwdE
-         hHf+q8snl6Mr7yZ+Lmeb0BFfoAHLugVorZOO1X9LAVApkfEkgZaSUjMunPtK1EThDkvy
-         QtyyiW945weUDMUV0rYc0WXVyV1DnMA04BFomdK1dxErJIUu4fgSENQyO1oiLpfrBen2
-         qnin5OqEojoo5EsP8lkKQmL/QdXVYkEK9NpEemOtCSuERVGDJlevixyxSB8vhe3SkM8M
-         tdbQ==
+        b=UoXqC1De+d2vqJ0dLiPCKbA+/RBJqdCnFDoRdoMaVWsHzgPtplPQ8z5ShS8eSQppbt
+         e/H5POpuOi/TqosAfT0/8TTFzB7Q2kgMo9K+m3UftB4NLBzhqxFKAaP77rsLqjoi00ri
+         NhImQ3TQfJbraZohWGz6TUREHymyem1GauLfLT+fjLCuQ4p4DKD6+2XloQ2t8LiYxS5L
+         t3lShSQgnnS9VpvJFPsBC2qBm1jLdft7/8Pnj6HG/p97o0A/OzI3Q2vFIxFQ505ysmfg
+         jDfwLkP8xq0SMEKfVZPReUCgAFRiWt/lju7aGjGfU5OLOW5f8oQsiJMkBxdUeilQv7oh
+         QlbQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=YsgNJtg2fpTlZ32hZawr6adjyM39mk0hxjCBoCDp2aw=;
-        b=mGn3Mayds5+DWU+kwj6RJKvp3hb8vgRbMubg1LXdbH6UUsXjNiLZ8FHiZtSP30WXV9
-         GYgE9mIcxh677WDpAJ2zjBaahE1J9ZkK3Ug1Tyjrqax0Z9GYYC9CRNEYYdPnO4vRrWu+
-         vV0dIOLr6FEER60tNGeHaPiZ+OesWwknvR0fXm+cC2Rr3xbBJsnXkwbCJVcs+9HIigBi
-         tfh+E3diY4JvYsWwRF/J8TlzghyW1UXLqVrYVFWmKwBMY0uGEG6OtRGGyE1CmeK27Vt+
-         pVLaE5UTVWDQCWJZhgnd7VZ5O3vtKOmMjGdpH+tO7cbL5otdB+zddhZeMi6wSy6GLyAu
-         vpbQ==
+        bh=erw36YCFfASVp7J2EkPRr0L+jvLoVUSqEltvlstekac=;
+        b=ZtvDkRjKqjaW1f8t8UdX+HqP00kK4KA9LykCyKvl7BN4pDLTHzJc2dGRbZqvpiMmqb
+         9PRlrnI742oZYDSKj6G2eOFsAA7GIh8zdg17qGavq9b7GC/RZQwZ2d94CDjM7I+Y95nD
+         C2JYFAA8lNKLcnx/Ay9rH6/MrowTKlqmTAfa4Un6PAGooXLGNd+BGwcDjClisSfyTx7l
+         V6K8cbLzXGb9SH4mBQeuP1+9FtsovCFBpCmHc8+6ch/MKoCp3texGDP7PXQEU07KEQIu
+         8F/+Z0Pug3yhC/L4qxL7f7JLNx96AQgPhD1//vn+w2gxv/mdvZnTfrzVJg7a+/eVe3HM
+         WvSw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=TH81aSeE;
-       spf=pass (google.com: domain of brendanhiggins@google.com designates 2a00:1450:4864:20::529 as permitted sender) smtp.mailfrom=brendanhiggins@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=UbU3Ichq;
+       spf=pass (google.com: domain of brendanhiggins@google.com designates 2a00:1450:4864:20::635 as permitted sender) smtp.mailfrom=brendanhiggins@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=YsgNJtg2fpTlZ32hZawr6adjyM39mk0hxjCBoCDp2aw=;
-        b=TgZmcipFPC7y8JMWvwiMNMDvt2aC1Zt/3ZPkuwIeJlw9U3FtAJ1C0Xi0i62bciwGYq
-         Efp3fvOQhAFo1wnfb58JXg6DvTaZRrmGPcxJmZkDdkSp7UkSAJ1ATS9T/ggiRzlQdqhR
-         EmQyyNauOu/qYtfPDCsjunFC1+Xh+YNtblxSkJOr8PBwF9xMHduLlLui2Fxu5b+6gpfH
-         DJBZt4u++VjoIfyyDIKNuJMl2W77Uv0OD9A72XmedyMEkd4X7+oZtfxg6J+HY87likwx
-         Z6lJf50o/LDLv9Dt6Bn66+bP6fgNcecfwaUtIEIxTbt1FAlcIBikzTp3vumLnAObfiGw
-         IpKA==
+        bh=erw36YCFfASVp7J2EkPRr0L+jvLoVUSqEltvlstekac=;
+        b=aIw3I65d4vQnt0Qd4N+zvgsUQ+PeJNsIC4xnQF+sAZ39edaDbGCI1G/k9WPUVlu2u9
+         1rrKRzWXOylkYED/yWMKy3EhDMK/llhX0gqmz0++VDyS7RCfX4m+2ZSbiFsAcp5Z9k5g
+         FS0kDvgh7qtf6Mhc6ns6paZAX+T1ndS0SkR/IJ/OFHguCjHxgwmQt7sst4k9RVSNsiG5
+         chWiAYIKa8XX/jmAOwYcPO/qVsHReel5muORp2qPjtYsDfXyfZa4n8zkhHbxydWW5qqt
+         eJxC5OwetHUQrCeqgnR3R4PdSwSLTM/SKTK3kx0wrKAlmBuGBoczNsbDy+maE7euFLLg
+         PF6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,63 +49,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=YsgNJtg2fpTlZ32hZawr6adjyM39mk0hxjCBoCDp2aw=;
-        b=Bjm9Su+SZaNglH4rPfK6BeYpwK5Svd11B3kNA68wXtTs0NP2mH8mMzt9r7X9ldCujd
-         /C4rGAsAv76TT3HDbRwIJMz1o9ONadnLxftum+V3n+qJDs5HtCJu9BSo+jQzLsEwYyW2
-         Yl2KgbTN8L2HxVChb7uQrTpzz+x9hp87qFT4DyoRwnAVFVaCEQeK2FkP6MSK1Z2LPymO
-         8cozV3ykmtpgQO8yd21ma3i5Mhmc65DDKTemQbR8qP+3N6WF6OEG/PThmSKoQ8UkHO0h
-         DCl3YSVSh8wAWDFR806AFTfbCeGJEdPpVa4tslu7/zsZks+Q6rDz6EmUmm2bK+QErcsU
-         6FoA==
-X-Gm-Message-State: AOAM53362g2NpGvcH3BiUmSqnKUCFBIx70pGyV8BscL4f83HP8aQ6qVv
-	SBFfg67e+WoaCIe0ZJc5e/s=
-X-Google-Smtp-Source: ABdhPJxpuXwkCnr8v+C+I9ItTQ1zvneIvPRy3/vzckUedg140EUaDzfx6oRvjSOWEcoixjhYPvZuOw==
-X-Received: by 2002:a5d:6a45:0:b0:204:597:2708 with SMTP id t5-20020a5d6a45000000b0020405972708mr1840410wrw.2.1648070221375;
-        Wed, 23 Mar 2022 14:17:01 -0700 (PDT)
+        bh=erw36YCFfASVp7J2EkPRr0L+jvLoVUSqEltvlstekac=;
+        b=IfGRMTy1a68k6SSSDufZW9aesGR29JZEuCpE/k6K5LtG6qR3UNVDdowTaVcgfvjNrr
+         rpsndIRuLql+tixwEE/CvBYEW5DQeY76RyfHzI4aKmOCVKHFtW+zkFvRxGqFkdpYYdBD
+         /Di24yF07boW/1RO9LqAtLi9qodUD6eYqryXulQTQdTIEZ4J/BObOqGSFdOUTpGvhWKy
+         eiGIdK1GfkNUo+P0jMkyczMdNE8BfvepHvrit++fZVxvaCcJz9nCq1PzQvhTRyqwh8YW
+         sMEgn3KSfAUQZdtFWAenSYf6MMt3MPdqvfRQLD9sD8jYGMp9b9iX/cP9MWQ/8FI1WaSZ
+         p4qg==
+X-Gm-Message-State: AOAM531EWmTFu8htc8y4AeMHfdI9M5vPaZgh5yJAbY2Jb8JM4tyvPD8B
+	0d7VSXKvd/rvQC1Y/iEuawM=
+X-Google-Smtp-Source: ABdhPJwd6fuglUXlDYN1iCZJWflPpGLpwtvrg/9raAKoueBTBAKBtiIawhH0kZyKZ8WgSgXLfeKMMQ==
+X-Received: by 2002:a19:ac04:0:b0:448:7cf8:c5a3 with SMTP id g4-20020a19ac04000000b004487cf8c5a3mr1375955lfc.65.1648070299333;
+        Wed, 23 Mar 2022 14:18:19 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:6f11:0:b0:205:92ad:ce90 with SMTP id ay17-20020a5d6f11000000b0020592adce90ls230921wrb.0.gmail;
- Wed, 23 Mar 2022 14:17:00 -0700 (PDT)
-X-Received: by 2002:a5d:4204:0:b0:203:d794:93e0 with SMTP id n4-20020a5d4204000000b00203d79493e0mr1747285wrq.136.1648070220601;
-        Wed, 23 Mar 2022 14:17:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1648070220; cv=none;
+Received: by 2002:a05:6512:3f16:b0:449:f5bf:6f6a with SMTP id
+ y22-20020a0565123f1600b00449f5bf6f6als50242lfa.2.gmail; Wed, 23 Mar 2022
+ 14:18:18 -0700 (PDT)
+X-Received: by 2002:a05:6512:2307:b0:44a:5f5c:3d6f with SMTP id o7-20020a056512230700b0044a5f5c3d6fmr241492lfu.307.1648070298408;
+        Wed, 23 Mar 2022 14:18:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1648070298; cv=none;
         d=google.com; s=arc-20160816;
-        b=PmFHYIKS92kBq8H7g4RXs4BSO8txUxQl0LM0yTQGNgugNxMxp9cfeRxY4vzRjubpAl
-         3y8rhazBBHlPuqAoHFmOCyeVSrdViXovCMUPIzAfqSCKd8ixQhlwfPjBMvQAt58s67ae
-         dwRpwFue6NEsnTFvitm0EWTl/cV6APW2aT0x+WHtXYII25KAb8xcpcJAtfgdUynbBGT7
-         MYCX/49XGwOXX9kAo7TeGSwHNM9Qx3ECO8tjEeQ9BdBbr5m/n6OHLAfpRorqaIRqK7ar
-         McRrcU6CX7PgBsTrJUemLO4MdFwtXOMBkyuQYby+TCCykacgg6obzsMAetmXzNPCOGAk
-         H+tQ==
+        b=guVzZPbPAATBQLzDRNI08TwhadGeA4/VHYi4ZacTUaSn25hJ94VUpGJ4XDUZjaWA7i
+         ZsaGDjdhTdKaE7w1AW7jM7s/PlQOz4ilTllDsYgeFqegGOwu5FN51AS9M26ZBfWjDNdp
+         5zQe8zbHzuEy8qPuWYLNtgJI43EErbIkfg6Eqj8hbs5oR7U06qQauq2FWWVKdQyRRhQt
+         DHozCGVwLF8M1Bxo5r6RRueQ+R3GP+vaY/Q6lyrfbEy2/EVzzYH+Utpb3iZRvHyv7bcr
+         IXuUSpd9PoYOB4A5Uiha4xULN/20kdpRm3+OSSrd98e8NCVGb0matcwIqYLAI2rbKrnY
+         ln7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=n9Hg8/L/wr7RnygS3OokjP5227FjsrevJV37KK/fvWQ=;
-        b=Ghm2zs5wVWx9FhqKxquHZUVS0LJrRLPtEaduRzdqenkpSdzYKpMVgAv4kBeVnrEMCg
-         q1+XV5P7b024EY4Mi36+mnEAV2idrMzUn4SYgFR61gp3BMkcf3f1cJxHXrN29dAatp0A
-         N5uO13hTG6db52aZ6gc+loXKsAieqfuZLAXQEbr9bwgzvQxxYsU3hzpH4u51u2hW0Uxy
-         dMnl4u+7fK1uVYyYUbpT0NFR5kcRYwepObiTEbO6wwZMHhhVJVl92/lIu77IsQNpkDQp
-         o9CT2Ui9sJPH2DWi6QgfniEg7LMwSoAcOSlDjUIz9YN9Qdlpxm8Z5RzKYwGYy/gd3DHI
-         A9Iw==
+        bh=Z1Qm/xWajAQvpOZlmnrukkZ7JdrDgtUoxCQlGKyuh5U=;
+        b=UdVsX8ZC3fz/doFhxfyUGw5zICW1/sxtdH/7ZCKLW6SJLJ96vC0sSXDRKn0hv6YrCX
+         WmvaDte/3/NNF1B0E67I1KRShq3BZnZLVaST/g4NtZyJMT0krLyuUF2KZY0G6NZA60uf
+         bEsOp6SJlvMcUG7SZxesC7H/Tvu2a5hczgwT4fHEun02z7s7XkPUCAXeU9EBpQecFnp1
+         n0hi8MkKmc6zxguzEsqgTDtTzirB86C+XdHw6zPMjaYwlsrxP7yEX7Tuic/8FR/tcbgA
+         rysas8eCRfVW9V4fEFvZVT+05O0RFr82B2qcBxIiBriUWk5GE6WtD4yWD2L/D3rBMyeR
+         3Mvw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=TH81aSeE;
-       spf=pass (google.com: domain of brendanhiggins@google.com designates 2a00:1450:4864:20::529 as permitted sender) smtp.mailfrom=brendanhiggins@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=UbU3Ichq;
+       spf=pass (google.com: domain of brendanhiggins@google.com designates 2a00:1450:4864:20::635 as permitted sender) smtp.mailfrom=brendanhiggins@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com. [2a00:1450:4864:20::529])
-        by gmr-mx.google.com with ESMTPS id g15-20020adfd1ef000000b002040bf7c81csi75726wrd.7.2022.03.23.14.17.00
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com. [2a00:1450:4864:20::635])
+        by gmr-mx.google.com with ESMTPS id v7-20020ac258e7000000b0044a5dd2be52si29274lfo.13.2022.03.23.14.18.18
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Mar 2022 14:17:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of brendanhiggins@google.com designates 2a00:1450:4864:20::529 as permitted sender) client-ip=2a00:1450:4864:20::529;
-Received: by mail-ed1-x529.google.com with SMTP id w25so3365083edi.11
-        for <kasan-dev@googlegroups.com>; Wed, 23 Mar 2022 14:17:00 -0700 (PDT)
-X-Received: by 2002:a05:6402:1cc1:b0:413:2b12:fc49 with SMTP id
- ds1-20020a0564021cc100b004132b12fc49mr2750389edb.118.1648070220127; Wed, 23
- Mar 2022 14:17:00 -0700 (PDT)
+        Wed, 23 Mar 2022 14:18:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of brendanhiggins@google.com designates 2a00:1450:4864:20::635 as permitted sender) client-ip=2a00:1450:4864:20::635;
+Received: by mail-ej1-x635.google.com with SMTP id p15so5390537ejc.7
+        for <kasan-dev@googlegroups.com>; Wed, 23 Mar 2022 14:18:18 -0700 (PDT)
+X-Received: by 2002:a17:906:c14b:b0:6da:b30d:76a0 with SMTP id
+ dp11-20020a170906c14b00b006dab30d76a0mr2199044ejc.279.1648070297760; Wed, 23
+ Mar 2022 14:18:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220211164246.410079-1-ribalda@chromium.org> <20220211164246.410079-5-ribalda@chromium.org>
-In-Reply-To: <20220211164246.410079-5-ribalda@chromium.org>
+References: <20220211164246.410079-1-ribalda@chromium.org> <20220211164246.410079-6-ribalda@chromium.org>
+In-Reply-To: <20220211164246.410079-6-ribalda@chromium.org>
 From: "'Brendan Higgins' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 23 Mar 2022 17:16:49 -0400
-Message-ID: <CAFd5g46fAbfgWdJD5Fcjn2v3nnQ0d_qXqQBZ_Cuk7WqRLnzEpQ@mail.gmail.com>
-Subject: Re: [PATCH v6 5/6] mctp: test: Use NULL macros
+Date: Wed, 23 Mar 2022 17:18:06 -0400
+Message-ID: <CAFd5g44Rcb9bJyehjqW29wAvaY0hQyDmPWH+XJfN_Hu+=2Yrcg@mail.gmail.com>
+Subject: Re: [PATCH v6 6/6] apparmor: test: Use NULL macros
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
 	linux-kselftest@vger.kernel.org, 
@@ -113,9 +114,9 @@ Cc: kunit-dev@googlegroups.com, kasan-dev@googlegroups.com,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: brendanhiggins@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=TH81aSeE;       spf=pass
+ header.i=@google.com header.s=20210112 header.b=UbU3Ichq;       spf=pass
  (google.com: domain of brendanhiggins@google.com designates
- 2a00:1450:4864:20::529 as permitted sender) smtp.mailfrom=brendanhiggins@google.com;
+ 2a00:1450:4864:20::635 as permitted sender) smtp.mailfrom=brendanhiggins@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Brendan Higgins <brendanhiggins@google.com>
 Reply-To: Brendan Higgins <brendanhiggins@google.com>
@@ -133,8 +134,8 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 On Fri, Feb 11, 2022 at 11:42 AM Ricardo Ribalda <ribalda@chromium.org> wrote:
 >
-> Replace the PTR_EQ NULL checks wit the NULL macros. More idiomatic and
-> specific.
+> Replace the PTR_EQ NULL checks with the more idiomatic and specific NULL
+> macros.
 >
 > Acked-by: Daniel Latypov <dlatypov@google.com>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
@@ -144,4 +145,4 @@ Acked-by: Brendan Higgins <brendanhiggins@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAFd5g46fAbfgWdJD5Fcjn2v3nnQ0d_qXqQBZ_Cuk7WqRLnzEpQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAFd5g44Rcb9bJyehjqW29wAvaY0hQyDmPWH%2BXJfN_Hu%2B%3D2Yrcg%40mail.gmail.com.
