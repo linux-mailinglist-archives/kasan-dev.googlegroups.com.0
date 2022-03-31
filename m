@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBV7GSWJAMGQESZBHW7I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBRHKSWJAMGQEHBC4EXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id E259F4ED6BA
-	for <lists+kasan-dev@lfdr.de>; Thu, 31 Mar 2022 11:24:39 +0200 (CEST)
-Received: by mail-wr1-x437.google.com with SMTP id d17-20020adfc3d1000000b00203e2ff73a6sf6296289wrg.8
-        for <lists+kasan-dev@lfdr.de>; Thu, 31 Mar 2022 02:24:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1648718679; cv=pass;
+Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D5124ED703
+	for <lists+kasan-dev@lfdr.de>; Thu, 31 Mar 2022 11:32:53 +0200 (CEST)
+Received: by mail-lj1-x23b.google.com with SMTP id c12-20020a2ebf0c000000b0024af8f2794bsf612881ljr.12
+        for <lists+kasan-dev@lfdr.de>; Thu, 31 Mar 2022 02:32:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1648719172; cv=pass;
         d=google.com; s=arc-20160816;
-        b=aJshV5Z55Xjnds+pMSG7eJe53OQNn2Ai183tLU8qJ9txc84y4Bvy8BgCLufvM+T7WB
-         sISp+BlyqHKA9TJGrZIwY/QMkTRaoRQWQjfR1BYnjqpLdsbm55EtuVigiNTI/7DGbPHN
-         1xESXVHnkbGiPcl3QN5OAz/P/ZHbs2gBEUPPfc4Hy0oA36O8bmNYp15LMa1VbrMX3lBW
-         Xxd0JlY/Gq3uPJBh7v8tp0cJToR7jhf+b6Yzt2UsaC8C9gaoAxuEECWOyew3HYSoSk07
-         EOj5+lIk3VBUi25Ad1Pgkkoj6/uzB6M535y54LWIBquyB1HTw31vY4HqCVddJPEoep8R
-         6k/g==
+        b=JI/9N+ZEkpRo1pgpP8Fti7O0F8rrfpbIpGnzSUnU9a0Meyew7tzwyMnETfNOoj0AOA
+         uwO/VjzkN3u1hocKHrcZaEthAtuCIRxBfrHV/vs40H7hsTCVHLnYGAZQvgFq/XsuC6rN
+         hVF/U+v1qP5gspNUiu2xxy3WUcMINILWlgQ/0YmCfHY0SMO387h3OvestPRBMLXM0yuU
+         6z79bhAu10QaecAaVfz04/hJ7/nM8rs2oFMWcX5gWHnNSTe7JG2sG29SHQZmK+1KyYhV
+         1fTwIlkKqIGPzPAPy4lVwkWsMBRQeP/DaFF8KFdYpr9NhHtUVjfl4IU3UAbLD0Nedg7q
+         j50Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=EyQXWnGu13J61X73s7YVnoAJiSl4ZgiMvlxBta5iFAs=;
-        b=i8xw+Chy+NcE5QOUja+B5B55wZxEGvilrJHMnOgqExHd05JysmUhSxJHZcl9opqrIe
-         FppAtEmvnq3CP24KuM/eitMKY76XGGnjYJVr/3Z54NfK/Qr5JjWQyFVyPqEtjXJ7OPKE
-         v1LNXnBVDGEI/Djj+FI239ZbFEbpZA1XG8ngO/cxNxmIRmU3KZ6W8B9k2cnaKia5kEtu
-         lU/EREvHG+I3th3wSR5mWR0Wpzi9yXy0G7+wiS4y/wNAYmbnNxS41Nm6MhS1mC5Eigue
-         Sd0ioH7L846ZAOR2WyXv7uTw9jyaQK/MKMxmOcEhu5KzeeL/Uxi0ZDaV6cv9Ro+DpT34
-         2K0Q==
+        bh=lAG0VhOTMDX7zXDOs720D2S3sgaPM4RcKgR5tSQqJNQ=;
+        b=CxRgDj0RCJBmm0SOLUQ2zWnBtIou0q9drsjnagw1JEPuSHSSBbowNobxh2NthU5HAc
+         j4fKuOwoLGeIfkmIbMrY9Bnr5BGwdV2rNbvyAxZw8DgaE+VUOzjUhQNb3fiPTgy5YwFu
+         qr9zVLjg3bifvty4jlGGChJlJdFBsz4zsKgBePR3krmsbcUX0ZGXiPku8tXj1qEE0zXU
+         H01xFCJ1SamtYEoVB8/kyq4WgcRhBHxq4jJNeE7Oq3rmN4Hz7NO1AL71KrN8q2pIwPaE
+         mumSOQLSh5nqo7+X9amxIRmegsRUhkSUJhUktVnoWo/OaLzmzOLLnnNkMYKfVTj+/FOt
+         /0EQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=EyQXWnGu13J61X73s7YVnoAJiSl4ZgiMvlxBta5iFAs=;
-        b=nvuT6ny/mJkqwXktUyqdeqdLvltLpFD50o91CLh4ri6xNfJ+TfKxEI1QOt+1tqXy1y
-         N6zxP0mpwdkch6oHKLO05/dpDxwDjRaXovQ5QVpVTYOSZtadpBRAPTumzIuxHfJcux5F
-         u28do8fA1kKRsdASzUnc49wVKPLfR74Nbe7FoOX1AsTtzuwNyh+QGGsv+UWGaZHhGPsB
-         e+f+rL3YWYe65CJvp75vH/Z15KYUN5dPVWfXbtSQwGerrI1ikNgNLIIw8cD9fxfh3TQV
-         wA59AtuKyoIbHLS0/s8dsoKuDuJk3YLtXOxGh8jFx7+/5h8C+QDkyzg56SZ2aqMYSHar
-         W6eQ==
+        bh=lAG0VhOTMDX7zXDOs720D2S3sgaPM4RcKgR5tSQqJNQ=;
+        b=XrMihNmwOTeBTj79FKpHXWV6rZF+dJkrvrMx6/9I5AJR2j+rE2uK1brSAv8hoewwWi
+         UTK9WADeym/Bfz4tuVAwP0NHE0M36RLeH+Xbq5ZOtWAmjhutVjpueChEwVy50ly7NYHl
+         ibThUkg1pOKeZnknembYFTzc5EWmVDDKsKME//2S4ERW89lFHM8ra7VP9w3J95vocAcz
+         51DasuHEtEnKoBCRVZowuibH28ZrDwN6UsznHm80dJAig9kod5k8S8Ab4J/9hrDZGWz2
+         W1fCWbSNkUAezinWNayeTpP5cLP3gMGTiRwxJSuXqqi6yK57l31Rdy4qniu1jWgIWK4O
+         3Uyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -49,58 +49,57 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=EyQXWnGu13J61X73s7YVnoAJiSl4ZgiMvlxBta5iFAs=;
-        b=Ilvu1F5qu0TDOZOsGQW8eW8plNFlCu2Tp+ger7Roj1+jqQRilCgQ5VQzfzzrEI9+Zm
-         d6jTsGLZbhhSJAsi7fs2xOKD0aFEm9l2t8FC5Q74uti2V2gvqnvdXNGelvjSxY8Xy9Xg
-         HSrrd2d48mRSSjCo7ZHgSArJaxbtjLZxlQCPTN60ilPSJloASJvEM1bF0C2LAaOxh4+s
-         aFTvqJHaE+uSOTH2fHxK+lDWp05TE6CwdDuC5jBOBSVe1AMJjW84BWwpt80a3G0LgERR
-         kEYp0qlKNUL2+UvrRm5rBIMWspdf51dnhWVbWe+XHlp4241RDVj9FOARAFNkJW9yq+Qz
-         3knQ==
+        bh=lAG0VhOTMDX7zXDOs720D2S3sgaPM4RcKgR5tSQqJNQ=;
+        b=2HAQw9ttTuugRyEnJCpF8hD0uUvqM9WqjsxqNUazahrb6nK2esEj86zRnII0dYf1d5
+         rWKalvpdE1ZdRbB7ag6NRGjGPnu+IEf2CRiVO2DWCEw1mjoHyEYEAe0mTE4dUtR4w7A7
+         DUU1lqWfbTEftYm532uZYZ5FugI76fHTu2rjWiiSBcxzlQ/mVciSrtlfwiwWj6uEXFVV
+         o1EngnSa3de46gs8Z1OfhOYu145XT2ASn2GC/H6punOBOHPecEY/O9o77c7EzNP6Yxw1
+         rJlMjFu688kWvZbIa2CVDXUKqxQ9/2HmC9NRnOc0ZC8HNVnd25hsVh7a7bRzf4Jh/0aH
+         +fgw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533rB3U75N34aaAlRyei7uS1Q0yHUD/aeao/JmOJusC6CpcrA1K/
-	GwJ+YGG13Hnq6vB4efRYp7Q=
-X-Google-Smtp-Source: ABdhPJwqBO3K5Lb7ILhLCo2RhpGghFNg6P/Eczfbd2R7U3ewz0eFUBryc6mwC7tuYi5hU9hk5Ok2UA==
-X-Received: by 2002:a05:600c:3b08:b0:38c:c8f1:16ca with SMTP id m8-20020a05600c3b0800b0038cc8f116camr3987001wms.192.1648718679540;
-        Thu, 31 Mar 2022 02:24:39 -0700 (PDT)
+X-Gm-Message-State: AOAM532VciM8g7fbc0St9FsevsNtYH2XlCL+72ztDrGZ+5wgYM5x8Qrv
+	57B4KvaZdZC5t1WA/vNttOE=
+X-Google-Smtp-Source: ABdhPJwiXI3z+BRL71MetdUXsaI4196twcryZSKaWfFY6xzjeA1qWlqL+awAaCTIKf19yIReB0jC4Q==
+X-Received: by 2002:a2e:a7c7:0:b0:249:8273:b488 with SMTP id x7-20020a2ea7c7000000b002498273b488mr10268185ljp.238.1648719172553;
+        Thu, 31 Mar 2022 02:32:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:15ce:b0:1f1:dc97:d9c4 with SMTP id
- y14-20020a05600015ce00b001f1dc97d9c4ls580578wry.3.gmail; Thu, 31 Mar 2022
- 02:24:38 -0700 (PDT)
-X-Received: by 2002:adf:f7c7:0:b0:205:abbb:a455 with SMTP id a7-20020adff7c7000000b00205abbba455mr3467907wrq.429.1648718678531;
-        Thu, 31 Mar 2022 02:24:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1648718678; cv=none;
+Received: by 2002:ac2:5285:0:b0:44a:94d2:1d8f with SMTP id q5-20020ac25285000000b0044a94d21d8fls4240483lfm.0.gmail;
+ Thu, 31 Mar 2022 02:32:51 -0700 (PDT)
+X-Received: by 2002:a19:dc13:0:b0:448:3735:776b with SMTP id t19-20020a19dc13000000b004483735776bmr9961404lfg.77.1648719171384;
+        Thu, 31 Mar 2022 02:32:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1648719171; cv=none;
         d=google.com; s=arc-20160816;
-        b=QSQP+eHjtFU6iHq7VD+r6/zQmdn1rfr/RiQAEUhDOJb9F6Iv/wDYVuzH2PszG7J1XD
-         Jw4LD0TY4vted7wzXsQ8yj4YBpRD1Scu4Tf1E2Tz9sWBNbCtcZ+mj3GM6540PUzMl9ut
-         6bXuF0S7LlAKr0hibNcvgE+ik+YFR9tRxuv9FpoqxfbY9qoG2hwErze7Ir9voglx/401
-         C1Ihc7Z9jh1AkUoHlNEwV8SGB7yCahyKXXJ0ZUonZksltEUhgEfJGoroR5cCmHYW7AlT
-         kmORXpnWTRsDO5JjtHJQAVidVRd01yBhhuuR44B+w0wql43LwjiZft9ys0PxpVwFlcug
-         AOKQ==
+        b=TFOVPkco3U4c1yk8Cn+3snMkgFbOwZYWc0yrlSTKgZ6LNW1vmU29zKsKSao1znA7or
+         GORKRISjARzv5PKNjuYR2T5LPhiVBy63/wsmvQO9jb/1zoHwO1kbmwGRZQ0x9QcqIIP3
+         ZmB4PH3mUURjKqWlM+40iaczx0G6WWZQn++dZY47CtSZdpQaaE2ddeSK3zzUMUyd3Z6f
+         of6ANQ0kGggnfKlvIfY2O3O4Uqqxbq3h/xeDsTshU+hd1OZ56t5iz3Y0mIuqed3xYEKl
+         07Hod1DzV7O+xzyQARgGyv6bdjdtogvu0KirTIKLkxuzwPQbFDgKI9DeSYgfl0gAWf2C
+         6Fhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date;
-        bh=T7U0We7pYK0IOOdtOV6mbGk2ngHkrzqqC1EIyZeTNKM=;
-        b=vEH6deXZIF4MxFI6Ps3Gu7FQiJBSb0ZGhLiuHyGyW1Z7AXHX9DdAKttUVnzkh1MnQU
-         u7e0kf9htdYIEXFDDhIXn2CXXS7H0MVFtHRBVJEj3NzhzNowGwZeLQqwS/AwGm8hkI6s
-         zxxFtd99oLCB1vuP877zHH4eFE5ldNa+o0G4aMYZmbfn1l8OVKP1ZDD7NhAXfqX1/wne
-         zC/nzwwm7le0DsmZcdhsOpPeTNluspAuvnFHnoebD/NAdl6xOY3UjZvlR5eFoBwieQyf
-         KsFg5V47jBmzGOBbXHGgAeJArDmDPYwVPG9plDxFAGN8rsmOfmbbcPb3gLowcfod5CGh
-         MYzw==
+        bh=elONmd/Ehy9uWW1lbKER4jTkktfzY3h6QrrkTEe6J3M=;
+        b=EO8uy0yprW34mHcXLg5KlMCp18/ysHt0waCQrsMDr420E6FOeI19Hd8V9L9zJJ9/vl
+         lWEBOfCHEGkA6fIYgGhlQyqCnNEsp/oes56cIXymGw1uH0FuPE1M9sFGezNXU5gfbY5d
+         Tr9K+Nj/hoWVvmEYoZWxSyk6CHgb2xPR42afRfrJwRg6rsvROYt7LMrngXWGgI72FwXt
+         VL/moI7lez3Fa894pSrN4PO8GHhWiwCSY1qNQU6F7eRXxARd4tYrbm3za6VAz6xGqBiD
+         i0eZWtgTPj3Re4pds1lcXuXqWgWvLR7m8QXU7NqI0rUNGLJd0sK51F5GDA/GOZtuzREK
+         Cg7A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id d14-20020a5d644e000000b00205d2ebbae8si367319wrw.7.2022.03.31.02.24.38
+        by gmr-mx.google.com with ESMTP id bu30-20020a056512169e00b0044842a98a98si1176276lfb.2.2022.03.31.02.32.51
         for <kasan-dev@googlegroups.com>;
-        Thu, 31 Mar 2022 02:24:38 -0700 (PDT)
+        Thu, 31 Mar 2022 02:32:51 -0700 (PDT)
 Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ADE1223A;
-	Thu, 31 Mar 2022 02:24:37 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1AF6923A;
+	Thu, 31 Mar 2022 02:32:50 -0700 (PDT)
 Received: from FVFF77S0Q05N (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D258A3F718;
-	Thu, 31 Mar 2022 02:24:34 -0700 (PDT)
-Date: Thu, 31 Mar 2022 10:24:29 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B0083F718;
+	Thu, 31 Mar 2022 02:32:47 -0700 (PDT)
+Date: Thu, 31 Mar 2022 10:32:41 +0100
 From: Mark Rutland <mark.rutland@arm.com>
 To: andrey.konovalov@linux.dev
 Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
@@ -118,15 +117,14 @@ Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
 	Florian Mayer <fmayer@google.com>, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH v2 2/4] arm64, scs: save scs_sp values per-cpu when
- switching stacks
-Message-ID: <YkVzTbafttTHWETU@FVFF77S0Q05N>
+Subject: Re: [PATCH v2 3/4] arm64: implement stack_trace_save_shadow
+Message-ID: <YkV1ORaR97g45Fag@FVFF77S0Q05N>
 References: <cover.1648049113.git.andreyknvl@google.com>
- <f75c58b17bfaa419f84286cd174e3a08f971b779.1648049113.git.andreyknvl@google.com>
+ <0bb72ea8fa88ef9ae3508c23d993952a0ae6f0f9.1648049113.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <f75c58b17bfaa419f84286cd174e3a08f971b779.1648049113.git.andreyknvl@google.com>
+In-Reply-To: <0bb72ea8fa88ef9ae3508c23d993952a0ae6f0f9.1648049113.git.andreyknvl@google.com>
 X-Original-Sender: mark.rutland@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
@@ -144,203 +142,170 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 23, 2022 at 04:32:53PM +0100, andrey.konovalov@linux.dev wrote:
+On Wed, Mar 23, 2022 at 04:32:54PM +0100, andrey.konovalov@linux.dev wrote:
 > From: Andrey Konovalov <andreyknvl@google.com>
 > 
-> When an interrupt happens, the current Shadow Call Stack (SCS) pointer
-> is switched to a per-interrupt one stored in a per-CPU variable. The old
-> pointer is then saved on the normal stack and restored when the interrupt
-> is handled.
+> Implement the stack_trace_save_shadow() interface that collects stack
+> traces based on the Shadow Call Stack (SCS) for arm64.
 > 
-> To collect the current stack trace based on SCS when the interrupt is
-> being handled, we need to know the SCS pointers that belonged to the
-> task and potentially other interrupts that were interrupted.
+> The implementation walks through available SCS pointers (the per-task one
+> and the per-interrupt-type ones) and copies the frames.
 > 
-> Instead of trying to retrieve the SCS pointers from the stack, change
-> interrupt handlers (for hard IRQ, Normal and Critical SDEI) to save the
-> previous SCS pointer in a per-CPU variable.
+> Note that the frame of the interrupted function is not included into
+> the stack trace, as it is not yet saved on the SCS when an interrupt
+> happens.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  arch/arm64/Kconfig             |  1 +
+>  arch/arm64/kernel/stacktrace.c | 83 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 84 insertions(+)
+> 
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index a659e238f196..d89cecf6c923 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -201,6 +201,7 @@ config ARM64
+>  	select MMU_GATHER_RCU_TABLE_FREE
+>  	select HAVE_RSEQ
+>  	select HAVE_RUST
+> +	select HAVE_SHADOW_STACKTRACE
+>  	select HAVE_STACKPROTECTOR
+>  	select HAVE_SYSCALL_TRACEPOINTS
+>  	select HAVE_KPROBES
+> diff --git a/arch/arm64/kernel/stacktrace.c b/arch/arm64/kernel/stacktrace.c
+> index e4103e085681..89daa710d91b 100644
+> --- a/arch/arm64/kernel/stacktrace.c
+> +++ b/arch/arm64/kernel/stacktrace.c
+> @@ -12,9 +12,11 @@
+>  #include <linux/sched/debug.h>
+>  #include <linux/sched/task_stack.h>
+>  #include <linux/stacktrace.h>
+> +#include <linux/scs.h>
+>  
+>  #include <asm/irq.h>
+>  #include <asm/pointer_auth.h>
+> +#include <asm/scs.h>
+>  #include <asm/stack_pointer.h>
+>  #include <asm/stacktrace.h>
+>  
+> @@ -210,3 +212,84 @@ noinline notrace void arch_stack_walk(stack_trace_consume_fn consume_entry,
+>  
+>  	walk_stackframe(task, &frame, consume_entry, cookie);
+>  }
+> +
+> +static const struct {
+> +	unsigned long ** __percpu saved;
+> +	unsigned long ** __percpu base;
+> +} scs_parts[] = {
+> +#ifdef CONFIG_ARM_SDE_INTERFACE
+> +	{
+> +		.saved = &sdei_shadow_call_stack_critical_saved_ptr,
+> +		.base = &sdei_shadow_call_stack_critical_ptr,
+> +	},
+> +	{
+> +		.saved = &sdei_shadow_call_stack_normal_saved_ptr,
+> +		.base = &sdei_shadow_call_stack_normal_ptr,
+> +	},
+> +#endif /* CONFIG_ARM_SDE_INTERFACE */
+> +	{
+> +		.saved = &irq_shadow_call_stack_saved_ptr,
+> +		.base = &irq_shadow_call_stack_ptr,
+> +	},
+> +};
+> +
+> +static inline bool walk_shadow_stack_part(
+> +				unsigned long *scs_top, unsigned long *scs_base,
+> +				unsigned long *store, unsigned int size,
+> +				unsigned int *skipnr, unsigned int *len)
+> +{
+> +	unsigned long *frame;
+> +
+> +	for (frame = scs_top; frame >= scs_base; frame--) {
+> +		if (*skipnr > 0) {
+> +			(*skipnr)--;
+> +			continue;
+> +		}
+> +		/*
+> +		 * Do not leak PTR_AUTH tags in stack traces.
+> +		 * Use READ_ONCE_NOCHECK as SCS is poisoned with Generic KASAN.
+> +		 */
+> +		store[(*len)++] =
+> +			ptrauth_strip_insn_pac(READ_ONCE_NOCHECK(*frame));
+> +		if (*len >= size)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
 
-I'm *really* not keen on *always* poking this in the entry code for the
-uncommon case of unwind. It complicates the entry code and means we're always
-paying a cost for potentially no benefit. At a high-level, I don't think this
-is the right approach.
+This doesn't do any of the trampoline repatinting (e.g. for kretprobes or
+ftrace graph caller) that the regular unwinder does, so if either of those are
+in use this is going to produce bogus results.
 
-For the regular unwinder, I want to rework things such that we can identify
-exception boundaries and look into the regs (e.g. so that we can recover the
-PC+LR+FP and avoid duplicating part of this in a frame record), and I'd much
-prefer that we did the same here.
+I really don't want to have to duplicate this logic.
+
+> +
+> +noinline notrace int arch_stack_walk_shadow(unsigned long *store,
+> +					    unsigned int size,
+> +					    unsigned int skipnr)
+> +{
+> +	unsigned long *scs_top, *scs_base, *scs_next;
+> +	unsigned int len = 0, part;
+> +
+> +	preempt_disable();
+
+This doesn't look necessary; it's certinaly not needed for the regular unwinder.
+
+Critically, in the common case of unwinding just the task stack, we don't need
+to look at any of the per-cpu stacks, and so there's no need to disable
+preemption. See the stack nesting logic in the regular unwinder.
+
+If we *do* need to unwind per-cpu stacks, we figure that out and verify our
+countext *at* the transition point.
+
+> +
+> +	/* Get the SCS pointer. */
+> +	asm volatile("mov %0, x18" : "=&r" (scs_top));
+
+Does the compiler guarantee where this happens relative to any prologue
+manipulation of x18?
+
+This seems like something we should be using a compilar intrinsic for, or have
+a wrapper that passes this in if necessary.
+
+> +
+> +	/* The top SCS slot is empty. */
+> +	scs_top -= 1;
+> +
+> +	/* Handle SDEI and hardirq frames. */
+> +	for (part = 0; part < ARRAY_SIZE(scs_parts); part++) {
+> +		scs_next = *this_cpu_ptr(scs_parts[part].saved);
+> +		if (scs_next) {
+> +			scs_base = *this_cpu_ptr(scs_parts[part].base);
+> +			if (walk_shadow_stack_part(scs_top, scs_base, store,
+> +						   size, &skipnr, &len))
+> +				goto out;
+> +			scs_top = scs_next;
+> +		}
+> +	}
+
+We have a number of portential stack nesting orders (and may need to introduce
+more stacks in future), so I think we need to be more careful with this. The
+regular unwinder handles that dynamically.
 
 Thanks,
 Mark.
 
-> Note that interrupts stack. A task can be interrupted by a hard IRQ,
-> which then can interrupted by a normal SDEI, etc. This is handled by
-> using a separate per-CPU variable for each interrupt type.
-> 
-> Also reset the saved SCS pointer when exiting the interrupt. This allows
-> checking whether we should include any interrupt frames when collecting
-> the stack trace. While we could use in_hardirq(), there seems to be no
-> easy way to check whether we are in an SDEI handler. Directly checking
-> the per-CPU variables for being non-zero is more resilient.
-> 
-> Also expose both the the added saved SCS variables and the existing SCS
-> base variables in arch/arm64/include/asm/scs.h so that the stack trace
-> collection impementation can use them.
-> 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  arch/arm64/include/asm/assembler.h | 12 ++++++++++++
->  arch/arm64/include/asm/scs.h       | 13 ++++++++++++-
->  arch/arm64/kernel/entry.S          | 28 ++++++++++++++++++++++++----
->  arch/arm64/kernel/irq.c            |  4 +---
->  arch/arm64/kernel/sdei.c           |  5 ++---
->  5 files changed, 51 insertions(+), 11 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/assembler.h b/arch/arm64/include/asm/assembler.h
-> index 8c5a61aeaf8e..ca018e981d13 100644
-> --- a/arch/arm64/include/asm/assembler.h
-> +++ b/arch/arm64/include/asm/assembler.h
-> @@ -270,6 +270,18 @@ alternative_endif
->  	ldr	\dst, [\dst, \tmp]
->  	.endm
->  
-> +	/*
-> +	 * @src: Register whose value gets stored in sym
-> +	 * @sym: The name of the per-cpu variable
-> +	 * @tmp0: Scratch register
-> +	 * @tmp1: Another scratch register
-> +	 */
-> +	.macro str_this_cpu src, sym, tmp0, tmp1
-> +	adr_l	\tmp0, \sym
-> +	get_this_cpu_offset \tmp1
-> +	str	\src, [\tmp0, \tmp1]
-> +	.endm
 > +
->  /*
->   * vma_vm_mm - get mm pointer from vma pointer (vma->vm_mm)
->   */
-> diff --git a/arch/arm64/include/asm/scs.h b/arch/arm64/include/asm/scs.h
-> index 8297bccf0784..2bb2b32f787b 100644
-> --- a/arch/arm64/include/asm/scs.h
-> +++ b/arch/arm64/include/asm/scs.h
-> @@ -24,6 +24,17 @@
->  	.endm
->  #endif /* CONFIG_SHADOW_CALL_STACK */
->  
-> -#endif /* __ASSEMBLY __ */
-> +#else /* __ASSEMBLY__ */
+> +	/* Handle task and softirq frames. */
+> +	scs_base = task_scs(current);
+> +	walk_shadow_stack_part(scs_top, scs_base, store, size, &skipnr, &len);
 > +
-> +#include <linux/percpu.h>
-> +
-> +DECLARE_PER_CPU(unsigned long *, irq_shadow_call_stack_ptr);
-> +DECLARE_PER_CPU(unsigned long *, irq_shadow_call_stack_saved_ptr);
-> +DECLARE_PER_CPU(unsigned long *, sdei_shadow_call_stack_normal_ptr);
-> +DECLARE_PER_CPU(unsigned long *, sdei_shadow_call_stack_normal_saved_ptr);
-> +DECLARE_PER_CPU(unsigned long *, sdei_shadow_call_stack_critical_ptr);
-> +DECLARE_PER_CPU(unsigned long *, sdei_shadow_call_stack_critical_saved_ptr);
-> +
-> +#endif /* __ASSEMBLY__ */
->  
->  #endif /* _ASM_SCS_H */
-> diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
-> index ede028dee81b..1c62fecda172 100644
-> --- a/arch/arm64/kernel/entry.S
-> +++ b/arch/arm64/kernel/entry.S
-> @@ -880,7 +880,8 @@ NOKPROBE(ret_from_fork)
->   */
->  SYM_FUNC_START(call_on_irq_stack)
->  #ifdef CONFIG_SHADOW_CALL_STACK
-> -	stp	scs_sp, xzr, [sp, #-16]!
-> +	/* Save the current SCS pointer and load the per-IRQ one. */
-> +	str_this_cpu scs_sp, irq_shadow_call_stack_saved_ptr, x15, x17
->  	ldr_this_cpu scs_sp, irq_shadow_call_stack_ptr, x17
->  #endif
->  	/* Create a frame record to save our LR and SP (implicit in FP) */
-> @@ -902,7 +903,9 @@ SYM_FUNC_START(call_on_irq_stack)
->  	mov	sp, x29
->  	ldp	x29, x30, [sp], #16
->  #ifdef CONFIG_SHADOW_CALL_STACK
-> -	ldp	scs_sp, xzr, [sp], #16
-> +	/* Restore saved SCS pointer and reset the saved value. */
-> +	ldr_this_cpu scs_sp, irq_shadow_call_stack_saved_ptr, x17
-> +	str_this_cpu xzr, irq_shadow_call_stack_saved_ptr, x15, x17
->  #endif
->  	ret
->  SYM_FUNC_END(call_on_irq_stack)
-> @@ -1024,11 +1027,16 @@ SYM_CODE_START(__sdei_asm_handler)
->  #endif
->  
->  #ifdef CONFIG_SHADOW_CALL_STACK
-> -	/* Use a separate shadow call stack for normal and critical events */
-> +	/*
-> +	 * Use a separate shadow call stack for normal and critical events.
-> +	 * Save the current SCS pointer and load the per-SDEI one.
-> +	 */
->  	cbnz	w4, 3f
-> +	str_this_cpu src=scs_sp, sym=sdei_shadow_call_stack_normal_saved_ptr, tmp0=x5, tmp1=x6
->  	ldr_this_cpu dst=scs_sp, sym=sdei_shadow_call_stack_normal_ptr, tmp=x6
->  	b	4f
-> -3:	ldr_this_cpu dst=scs_sp, sym=sdei_shadow_call_stack_critical_ptr, tmp=x6
-> +3:	str_this_cpu src=scs_sp, sym=sdei_shadow_call_stack_critical_saved_ptr, tmp0=x5, tmp1=x6
-> +	ldr_this_cpu dst=scs_sp, sym=sdei_shadow_call_stack_critical_ptr, tmp=x6
->  4:
->  #endif
->  
-> @@ -1062,6 +1070,18 @@ SYM_CODE_START(__sdei_asm_handler)
->  	ldp	lr, x1, [x4, #SDEI_EVENT_INTREGS + S_LR]
->  	mov	sp, x1
->  
-> +#ifdef CONFIG_SHADOW_CALL_STACK
-> +	/* Restore saved SCS pointer and reset the saved value. */
-> +	ldrb	w5, [x4, #SDEI_EVENT_PRIORITY]
-> +	cbnz	w5, 5f
-> +	ldr_this_cpu dst=scs_sp, sym=sdei_shadow_call_stack_normal_saved_ptr, tmp=x6
-> +	str_this_cpu src=xzr, sym=sdei_shadow_call_stack_normal_saved_ptr, tmp0=x5, tmp1=x6
-> +	b	6f
-> +5:	ldr_this_cpu dst=scs_sp, sym=sdei_shadow_call_stack_critical_saved_ptr, tmp=x6
-> +	str_this_cpu src=xzr, sym=sdei_shadow_call_stack_critical_saved_ptr, tmp0=x5, tmp1=x6
-> +6:
-> +#endif
-> +
->  	mov	x1, x0			// address to complete_and_resume
->  	/* x0 = (x0 <= SDEI_EV_FAILED) ?
->  	 * EVENT_COMPLETE:EVENT_COMPLETE_AND_RESUME
-> diff --git a/arch/arm64/kernel/irq.c b/arch/arm64/kernel/irq.c
-> index bda49430c9ea..4199f900714a 100644
-> --- a/arch/arm64/kernel/irq.c
-> +++ b/arch/arm64/kernel/irq.c
-> @@ -28,11 +28,9 @@ DEFINE_PER_CPU(struct nmi_ctx, nmi_contexts);
->  
->  DEFINE_PER_CPU(unsigned long *, irq_stack_ptr);
->  
-> -
-> -DECLARE_PER_CPU(unsigned long *, irq_shadow_call_stack_ptr);
-> -
->  #ifdef CONFIG_SHADOW_CALL_STACK
->  DEFINE_PER_CPU(unsigned long *, irq_shadow_call_stack_ptr);
-> +DEFINE_PER_CPU(unsigned long *, irq_shadow_call_stack_saved_ptr);
->  #endif
->  
->  static void init_irq_scs(void)
-> diff --git a/arch/arm64/kernel/sdei.c b/arch/arm64/kernel/sdei.c
-> index d20620a1c51a..269adcb9e854 100644
-> --- a/arch/arm64/kernel/sdei.c
-> +++ b/arch/arm64/kernel/sdei.c
-> @@ -39,12 +39,11 @@ DEFINE_PER_CPU(unsigned long *, sdei_stack_normal_ptr);
->  DEFINE_PER_CPU(unsigned long *, sdei_stack_critical_ptr);
->  #endif
->  
-> -DECLARE_PER_CPU(unsigned long *, sdei_shadow_call_stack_normal_ptr);
-> -DECLARE_PER_CPU(unsigned long *, sdei_shadow_call_stack_critical_ptr);
-> -
->  #ifdef CONFIG_SHADOW_CALL_STACK
->  DEFINE_PER_CPU(unsigned long *, sdei_shadow_call_stack_normal_ptr);
-> +DEFINE_PER_CPU(unsigned long *, sdei_shadow_call_stack_normal_saved_ptr);
->  DEFINE_PER_CPU(unsigned long *, sdei_shadow_call_stack_critical_ptr);
-> +DEFINE_PER_CPU(unsigned long *, sdei_shadow_call_stack_critical_saved_ptr);
->  #endif
->  
->  static void _free_sdei_stack(unsigned long * __percpu *ptr, int cpu)
+> +out:
+> +	preempt_enable();
+> +	return len;
+> +}
 > -- 
 > 2.25.1
 > 
@@ -348,4 +313,4 @@ Mark.
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YkVzTbafttTHWETU%40FVFF77S0Q05N.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YkV1ORaR97g45Fag%40FVFF77S0Q05N.
