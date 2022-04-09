@@ -1,63 +1,132 @@
-Return-Path: <kasan-dev+bncBDDKXGE5TIFBBHFLYKJAMGQEL5HMJOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDSNT4HYQUIRBJXRYWJAMGQEGAH5UBQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9334F9DF7
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Apr 2022 22:05:49 +0200 (CEST)
-Received: by mail-oi1-x239.google.com with SMTP id s21-20020a056808009500b002d9b146c8d6sf2503624oic.5
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Apr 2022 13:05:49 -0700 (PDT)
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7CF4FA78D
+	for <lists+kasan-dev@lfdr.de>; Sat,  9 Apr 2022 14:14:31 +0200 (CEST)
+Received: by mail-wm1-x339.google.com with SMTP id 10-20020a1c020a000000b0038eb5cb35ecsf205432wmc.9
+        for <lists+kasan-dev@lfdr.de>; Sat, 09 Apr 2022 05:14:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1649506471; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=qO6+um4jB7anEuJZGi7KG6A2Hu1/kb5Z7Lbahd4NBboSRXa+F3vJFWKHHO4Wjlm8ED
+         KUIeSeBWjxIa3uxmLCPdT3K/z8QMCGN4HrTsmSe+1q6z+wjKZ0J6BNQL1nTYRYPrQgbX
+         nmOeQ91sQyenrfsBfnVC+1aemTxZMdTce8NPTd1qt8M9qu32UUY0kiVl4d/DYEdwceOa
+         NNOIAb17CPY41vA/+8lRfOynO1hEPg181xK3i5B2p0yFi8PJBxEcRTrsbc5Eh/QWj61k
+         aRl3fJdaJ7VDvps+K3lEANt6Rz0LUE9SOynOYM8isMnevLm4Q0+xHbGVKb7G3smY+F10
+         RFCQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:to:subject:message-id:date:from
+         :reply-to:mime-version:sender:dkim-signature:dkim-signature;
+        bh=BXjwjeViWsS5lpV3fOdQ7c9k1AlhJ1u4571yLKKQ+gM=;
+        b=PpqrTGuEAPQJkEvBE6T2byMNG2mZB6VXvz8oWCRRK31htRx6Kgu3/ydeN2jMIsgn+k
+         SoRGKh/3Pole+9q4nUGNUJSc5KTH4Ywp2rA6qac2apv/SW1V8XAy97LQ2taXmEIWfrBQ
+         kbYZqR0a2IJ6sLZGuljheiAwV4klHJsoIA+Vutw4CxEKB+DV9pS3tjGANPBH+0/Z4EUm
+         UbIUZUkPFDUGNETdk5sjJIhv3RHfS2K19sKqhPHjn8lTNNQNUF2j3y2pXL7wPg8TdS9f
+         U0sHLT6syBA1DJUkTAlvTbCDlrppDGcVt3zFCk5mvaB+A/Tblm300BPVEJU/t3blsdIL
+         ZDJA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=dIaK5YMC;
+       spf=pass (google.com: domain of chibuikejoe429@gmail.com designates 2a00:1450:4864:20::544 as permitted sender) smtp.mailfrom=chibuikejoe429@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:message-id:subject:mime-version
-         :x-original-sender:precedence:mailing-list:list-id:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=xLZlJDruoIgl2l/bedX4KtTtvmOHjspW0TXhIOLotZE=;
-        b=KCPUQhtiYFPviDC2Yz3iryxD/Wjnxk01/gD0/NB1UJhzqiCp+zyaLjJuFwjCogR8If
-         9XLhCv3ryCup0RwLvYedNyTwK5J20ulWRSmHhu7FzDBcR2x4RzpJaHwq2TMuIz827R+t
-         VBZ5U9Cuwe+4viXJvG8caG5rnkCWoOVpiTQwIVYeHIsBgHm0cs8g/i8+iGx6vFY2eflR
-         WySEcFjNhWFITEU+WMsUwwaTcGDwRCGJ9j76sUDJYSUwVwNqxehRSehCIM3wQQPv49AF
-         aiJW92Fi5vmarQkeBVrM42s28TLMsHkH+n37CUHcBdv+T7NSHMCt+UAuNCaBfqAsfnHi
-         JJmw==
+        h=sender:mime-version:reply-to:from:date:message-id:subject:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=BXjwjeViWsS5lpV3fOdQ7c9k1AlhJ1u4571yLKKQ+gM=;
+        b=VxXMtOi9A5dfxWTDg748/BhbaJZaxtxNx9tRuB0QbY0DfSCEqYzyymJL2SAjgf3HeG
+         pmTqRq0RSkMIdCDgQGjAbWKAfAqxatuoU23HbrS7z8c3yePf4eGF5h2keFtUuujHF8KK
+         fibL8t8Xz8ZSLpzuAIhXdc95xlEx/HCqZDm/97sBM52m+/4WBh3Rls0vRmLd+9gaa9WX
+         zQgnbh0oKxWOv8vRrJ7rfdD4qyaVK2DYf5q1h6IcvCKP72P/+S2BshbVgjV4samVk7iY
+         XMJZ71/QNclOSW/Q5QwFErz99QA4aLCUehnt47lll3jegQ+vWLwnupvPH9YJmwZsPo1A
+         CLbw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=BXjwjeViWsS5lpV3fOdQ7c9k1AlhJ1u4571yLKKQ+gM=;
+        b=PXKWjZ4macJboPAuRwQnTy7NsJs4F9sRaWpNB2Xj85VlrL09jsjHJ5ESImpxrzzG0Z
+         GJ9n07jo/mVddKXx834dcZS6sVSdNmr9cwvNLFnl+yfU+8OYlcvuZtv+sTjw1Lu2IYdA
+         QTNXjgOM71fw/R2BFMyxEeae98HtdCeu52a0GJCsxVEwVTI8bZxm59aQmlJQRPP1CUKK
+         Iqdd4SYxzSr2A8iGTNO4BkPAcn3586W9GWH1iOvkD+jk9HI0uckBCc1bV8pIF0RITof9
+         jcikQoXFwkQWbHC0qz68xCzLJfLuM7Uz+D3nUzzQFoPv4ouGgQ+m95vJbaGvgCJxN4Px
+         8Dcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:message-id:subject
-         :mime-version:x-original-sender:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:mime-version:reply-to:from:date
+         :message-id:subject:to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=xLZlJDruoIgl2l/bedX4KtTtvmOHjspW0TXhIOLotZE=;
-        b=cUXaeX1p0tpoDqYhapuvBySOEIqcVTcaINuGjJB0/Rn3OecygQhuo1I5YWlniLAYJ6
-         Q1Mb31f3wmrKHRS02jhPX3qVUt0seA26ktIP7guQy14ZxpjjUBy/afO15hldbug7iUgS
-         q69NcTolMqg4c3n67z9UkP4XFpsSiTQ/yZ+UNHeBLyRHSx+D2u/OtYUELBsn5k+eXSah
-         Ev3baJR7NDUfcJ7CtXeeoilf4kR/yCSa3s1M47OEGPlXPfRTIge6KRdKGVucy/BHUlyI
-         AR5XjWL/x72Re8OEycWQnkuXttuIeXzl1ad/l6rADLr2a+7uMJ6DWOgr8xoZXQw1z52Z
-         TsRw==
+        bh=BXjwjeViWsS5lpV3fOdQ7c9k1AlhJ1u4571yLKKQ+gM=;
+        b=WgVI2ws1UtpzKar9dUVrtoJeYKNKGTeEfwHNdRxRtw6+r9r7sALlRL4dfv1SDMtmZf
+         PaX/c5+lYx4ZTeFNGpFcGPTK++MNeWZu4YaUg7xnY6Ri7jCWDRuJskXZY0zfcSmsmH2z
+         Djv51dDHfna+WgNiZUcsVf+ktmrPCNmCMT8O1R6NeTLn7TpTVJ6EzYgsGQ6hEEwNWL+i
+         fG3v7icb6S0F49HBTa9AHs22lValsCE84+LI7HSa0fkicFyyssWnz6rWre7Z44yhIoHS
+         jKcfJVT88ewPo1NB2KibYEA0dbSGTcciq1yXIXXZywzRsW7qA/nqUD0UZGmUm7yP9UN4
+         C+gA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533ysILy33u/NGqn3DNG5LCL+/twSW1rRbd0lK2A4+RM5rklnjD3
-	zf+0HHwp+3+ItoXb/MTnB8Y=
-X-Google-Smtp-Source: ABdhPJxFLa3QIL7IaG3jPEpeiS7aM5AJ9GdrWhJHLfl6eep93dVxQ0MCnRMfiiCA55ZI3ID57OazAg==
-X-Received: by 2002:a05:6870:4151:b0:e2:9ff4:49ac with SMTP id r17-20020a056870415100b000e29ff449acmr1158776oad.296.1649448348385;
-        Fri, 08 Apr 2022 13:05:48 -0700 (PDT)
+X-Gm-Message-State: AOAM531WPOBc8q/xLQeeBAFhI4TundFD2kG/oAfKjtNY7CZ6/t81mftd
+	24787gxkK/z09wEww6kC83M=
+X-Google-Smtp-Source: ABdhPJwtmArH1Z2nRiSElv7yuj1LPKMxfJDaxwVeB/19TdK/x3jcJJiUCpC1vfFmB2L2Wwm3RSGq1Q==
+X-Received: by 2002:a05:600c:1c10:b0:38c:c0fc:d5d5 with SMTP id j16-20020a05600c1c1000b0038cc0fcd5d5mr21166334wms.142.1649506470991;
+        Sat, 09 Apr 2022 05:14:30 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:181e:b0:2ec:c26b:8117 with SMTP id
- bh30-20020a056808181e00b002ecc26b8117ls1430999oib.1.gmail; Fri, 08 Apr 2022
- 13:05:48 -0700 (PDT)
-X-Received: by 2002:a05:6808:2024:b0:2f9:6119:d6ec with SMTP id q36-20020a056808202400b002f96119d6ecmr680136oiw.203.1649448347958;
-        Fri, 08 Apr 2022 13:05:47 -0700 (PDT)
-Date: Fri, 8 Apr 2022 13:05:47 -0700 (PDT)
-From: ANDREAS NIGG BANK J SAFRA SARASIN ZURICH <jackpapeck@mail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <5fd1c2c7-c0c9-44d6-91ec-fbfa78f426ban@googlegroups.com>
-Subject: =?UTF-8?Q?PAOLO_PIETRO_BARRAI_=C3=89_UN_PEDOFI?=
- =?UTF-8?Q?LO,_ASSASSINO!_SI,_SI,_=C3=88_PROPRI?=
- =?UTF-8?Q?O_COS=C3=8C!_=C3=89_TRUFFATORE,_LADRO,_FA?=
- =?UTF-8?Q?LSO,_RICICLA_SOLDI_DI_NDRANGHETA?=
- =?UTF-8?Q?_E_LEGA_LADRONA,_NONCH=C3=89_KILLER_?=
- =?UTF-8?Q?E_PEDERASTA:_#PAOLOBARRAI_DI_CR?=
- =?UTF-8?Q?IMINALE_#BIGBIT,_CRIMINALE_#TERRANFT,_CRIMINALE_#TERRABITCOIN..?=
+Received: by 2002:adf:f950:0:b0:205:dbf5:72d8 with SMTP id q16-20020adff950000000b00205dbf572d8ls1083546wrr.0.gmail;
+ Sat, 09 Apr 2022 05:14:30 -0700 (PDT)
+X-Received: by 2002:adf:82ee:0:b0:207:9bec:ee5d with SMTP id 101-20020adf82ee000000b002079becee5dmr3299404wrc.634.1649506470065;
+        Sat, 09 Apr 2022 05:14:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1649506470; cv=none;
+        d=google.com; s=arc-20160816;
+        b=qEOIKnqAKNbS/s2p6gLeY0XK4Jvef0QcLZtZfuE6waZ84hjlNGZURNelYyMIXdeiFI
+         Q36xTa6cRR8SgTHj+ww5Hj1lGWsQHS1g4yOTgo4GUl+767pu2jIh023/Pw3v1p9GEAC7
+         2yQvY9baZZXDWf8emEgqBQQAHbW7PzazhD+ypAgnXjrWZ5ZY1Ac3Jtcmp8eaq8/A2pBL
+         Fhpib/Qm+Vr99nvlw+mhgu/eZvlExqu09t1UWvr8VBhA5zTbtd6n9WShPVFz1lyzv8Ox
+         Hru6jnf92vGlGE7YMRXrGn4NBqeGNfoaNhXw5N2CJsPCOB4p5V0/uGQ3w+FHSpsc/Zsv
+         K9Eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=KD+7LUh13xay2TU7PrGW0N3xGt/fvIfFeTpBoeANRG8=;
+        b=V9L65CMg3i41oSa97eklFu38sCHte8qPBrMWDSHv8CrfqmglOhKS4RlZN5WZdM0v7i
+         1h7UvuOFX71VKipmscZTmkrC3oYDwec9PtekJrFxfvHOsVCoqA/Hv/ikVW8YvCkCO5GL
+         JTkxLwudqQdBkK9VHj9qJv86yb6DhfZe2m9oFhJ+IrA4ONzMKYfQPOopA+0GgEr9a9Uu
+         RPqcTCWWzmd6mMj/WPrGNHO90egfWHvUOiHEIhD6vHNGVd1XVJuaFJsOwk/HizoPSx8h
+         L5pPpef6PD2TEBFodOfO8bbNZFYkSvCR9Ut4To8B7ECK30M+iCxkF80/92Fr8nWNgNfz
+         AbWw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=dIaK5YMC;
+       spf=pass (google.com: domain of chibuikejoe429@gmail.com designates 2a00:1450:4864:20::544 as permitted sender) smtp.mailfrom=chibuikejoe429@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com. [2a00:1450:4864:20::544])
+        by gmr-mx.google.com with ESMTPS id v13-20020a5d4b0d000000b002078c87e21bsi174296wrq.6.2022.04.09.05.14.30
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Apr 2022 05:14:30 -0700 (PDT)
+Received-SPF: pass (google.com: domain of chibuikejoe429@gmail.com designates 2a00:1450:4864:20::544 as permitted sender) client-ip=2a00:1450:4864:20::544;
+Received: by mail-ed1-x544.google.com with SMTP id z99so4220310ede.5
+        for <kasan-dev@googlegroups.com>; Sat, 09 Apr 2022 05:14:30 -0700 (PDT)
+X-Received: by 2002:aa7:ce11:0:b0:41d:5b84:eecd with SMTP id
+ d17-20020aa7ce11000000b0041d5b84eecdmr5015058edv.15.1649506469514; Sat, 09
+ Apr 2022 05:14:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_1220_1854686534.1649448347455"
-X-Original-Sender: jackpapeck@mail.com
+Reply-To: anhthuong554@gmail.com
+From: Joe Chibuike <chibuikejoe429@gmail.com>
+Date: Sat, 9 Apr 2022 16:14:17 +0400
+Message-ID: <CANP9YKPCQU-nAHRSaq1Fmh7z1cqsjenXtCNnOG=iJM7MnADiLA@mail.gmail.com>
+Subject: contact me
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="0000000000002b95b605dc37a719"
+X-Original-Sender: chibuikejoe429@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20210112 header.b=dIaK5YMC;       spf=pass
+ (google.com: domain of chibuikejoe429@gmail.com designates
+ 2a00:1450:4864:20::544 as permitted sender) smtp.mailfrom=chibuikejoe429@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -70,159 +139,25 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_1220_1854686534.1649448347455
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_1221_2143453598.1649448347455"
-
-------=_Part_1221_2143453598.1649448347455
+--0000000000002b95b605dc37a719
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-PAOLO PIETRO BARRAI =C3=89 UN PEDOFILO, ASSASSINO! SI, SI, =C3=88 PROPRIO C=
-OS=C3=8C! =C3=89=20
-TRUFFATORE, LADRO, FALSO, RICICLA SOLDI DI NDRANGHETA E LEGA LADRONA,=20
-NONCH=C3=89 KILLER E PEDERASTA: #PAOLOBARRAI DI CRIMINALE #BIGBIT, CRIMINAL=
-E=20
-#TERRANFT, CRIMINALE #TERRABITCOIN.... CRIMINALE #CRYPTONOMIST, CRIMINALE=
-=20
-#WMO SA PANAMA, CRIMINALE #MERCATOLIBERO, ECT! IL MALAVITOSO LEGHISTA CHE=
-=20
-VENIVA ARRESTATO, LUCA SOSTEGNI #LUCASOSTEGNI, SCAPPAVA A PORTO SEGURO,=20
-DOVE IL KILLER PAOLO PIETRO BARRAI AVEVA PURE LAVATO (CASPITERINA CHE=20
-COINCIDENZA), NEL 2011, PARTE DEI 49 MLN =E2=82=AC RUBATI DA #LEGALADRONA!
-https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.=
-jpg
+There's something important I would like us to discuss, if you don't mind
+reply
 
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANP9YKPCQU-nAHRSaq1Fmh7z1cqsjenXtCNnOG%3DiJM7MnADiLA%40mail.gmail.com.
 
-RAPISCE, INCULA ED UCCIDE TANTI BAMBINI: PAOLO BARRAI (NOTO COME "IL=20
-PEDOFILO DEL BITCOIN", COME PURE DI LEGA LADRONA, DI PEDOFILO ASSASSINO=20
-SILVIO BERLUSCONI #SILVIOBERLUSCONI E DI PEDOFILA ASSASSINA MARINA=20
-BERLUSCONI #MARINABERLUSCONI)! =C3=89 SEMPRE LI A "SPENNARE" ECONOMICAMENTE=
- I=20
-POLLI DEL WEB, IL FALSO, LADRO, TRUFFATORE #PAOLOPIETROBARRAI! AZZERA I=20
-TUOI RISPARMI, NON AZZECCA MAI 1 PREVISIONI IN BORSA, CHE 1: PAOLO PIETRO=
-=20
-BARRAI! =C3=89 UN NAZISTA OMICIDA CHE RICICLA SOLDI STRA ASSASSINI DI=20
-NDRANGHETA, CAMORRA, MAFIA, SACRA CORONA UNITA E LEGA LADRONA:=20
-#PAOLOPIETROBARRAI PAOLO PIETRO BARRAI!
-
-SALVE. SONO ANDREAS NIGG. VICE PRESIDENT DI BANCA J SAFRA SARASIN DI ZURIGO=
-.
-https://citywireselector.com/manager/andreas-nigg/d2395
-https://ch.linkedin.com/in/andreasnigg
-https://www.blogger.com/profile/13220677517437640922
-
-E VI VOGLIO DIRE CON TUTTE LE MIE FORZE CHE...
-
-IL LEGHISTA PEDOFILO ED ASSASSINO PAOLO BARRAI (NATO A MILANO IL=20
-28.6.1965), IL LEGHISTA INCULA ED AMMAZZA BAMBINI PAOLO PIETRO BARRAI (NOTO=
-=20
-IN TUTTO IL MONDO COME IL PEDOFILO DEL BITCOIN), IL FIGLIO DI PUTTANA PAOLO=
-=20
-PIETRO BARRAI DI CRIMINALISSIMA #TERRABITCOIN, #TERRABITCOINCLUB E DI=20
-CRIMINALISSIMA #TERRANFT, E' DA ANNI INDAGATO DA PROCURA DI MILANO, PROCURA=
-=20
-DI LUGANO, PROCURA DI ZUGO, SCOTLAND YARD LONDRA, FBI NEW YORK, POLICIA=20
-CIVIL DI PORTO SEGURO (BR).
-
-=C3=89 DAVVERO PEDERASTA ED OMICIDA: PAOLO BARRAI DI CRIMINALE TERRA BITCOI=
-N (O=20
-CRIMINALE TERRABITCOIN CLUB)! IL LEGHISTA DELINQUENTE LUCA SOSTEGNI,=20
-ARRESTATO, SCAPPAVA IN CITATA PORTO SEGURO (BR), OSSIA, GUARDA CASO, DOVE=
-=20
-IL KILLER NAZISTA PAOLO BARRAI HA RICICLATO PARTE DEI 49 MLN =E2=82=AC RUBA=
-TI DA=20
-LEGA LADRONA!
-
-(ECCONE LE PROVE
-https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.=
-jpg
-http://noticiasdeportoseguro.blogspot.com/2011/03/quem-e-pietro-paolo-barra=
-i.html
-http://portoseguroagora.blogspot.com/2011/03/porto-seguro-o-blogueiro-itali=
-ano-sera.html
-http://www.rotadosertao.com/noticia/10516-porto-seguro-policia-investiga-bl=
-ogueiro-italiano-suspeito-de-estelionato
-https://www.jornalgrandebahia.com.br/2011/03/policia-civil-investiga-blogue=
-iro-italiano-suspeito-de-estelionato-em-porto-seguro/
-https://osollo.com.br/blogueiro-italiano-sera-indiciado-por-estelionato-cal=
-unia-e-difamacao-pela-policia-civil-de-porto-seguro/
-https://www.redegn.com.br/?sessao=3Dnoticia&cod_noticia=3D13950
-http://www.devsuperpage.com/search/Articles.aspx?hl=3Den&G=3D23&ArtID=3D301=
-216)
-
-INDAGATO, AL MOMENTO, DALLA PROCURA DI MILANO. COME PURE DA PROCURA DI=20
-LUGANO, SCOTLAND YARD LONDRA, FBI NEW YORK, POLICIA CIVIL DI PORTO SEGURO=
-=20
-(BR).
-
-
-CONTINUA QUI
-https://groups.google.com/g/comp.lang.python/c/ToBxjyPoheo
-
-TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
-https://groups.google.com/g/comp.lang.python/c/ToBxjyPoheo
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/5fd1c2c7-c0c9-44d6-91ec-fbfa78f426ban%40googlegroups.com.
-
-------=_Part_1221_2143453598.1649448347455
+--0000000000002b95b605dc37a719
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-PAOLO PIETRO BARRAI =C3=89 UN PEDOFILO, ASSASSINO! SI, SI, =C3=88 PROPRIO C=
-OS=C3=8C! =C3=89 TRUFFATORE, LADRO, FALSO, RICICLA SOLDI DI NDRANGHETA E LE=
-GA LADRONA, NONCH=C3=89 KILLER E PEDERASTA: #PAOLOBARRAI DI CRIMINALE #BIGB=
-IT, CRIMINALE #TERRANFT, CRIMINALE #TERRABITCOIN.... CRIMINALE #CRYPTONOMIS=
-T, CRIMINALE #WMO SA PANAMA, CRIMINALE #MERCATOLIBERO, ECT! IL MALAVITOSO L=
-EGHISTA CHE VENIVA ARRESTATO, LUCA SOSTEGNI #LUCASOSTEGNI, SCAPPAVA A PORTO=
- SEGURO, DOVE IL KILLER PAOLO PIETRO BARRAI AVEVA PURE LAVATO (CASPITERINA =
-CHE COINCIDENZA), NEL 2011, PARTE DEI 49 MLN =E2=82=AC RUBATI DA #LEGALADRO=
-NA!<br>https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelistec=
-iviche.jpg<br><br><br>RAPISCE, INCULA ED UCCIDE TANTI BAMBINI: PAOLO BARRAI=
- (NOTO COME "IL PEDOFILO DEL BITCOIN", COME PURE DI LEGA LADRONA, DI PEDOFI=
-LO ASSASSINO SILVIO BERLUSCONI #SILVIOBERLUSCONI E DI PEDOFILA ASSASSINA MA=
-RINA BERLUSCONI #MARINABERLUSCONI)! =C3=89 SEMPRE LI A "SPENNARE" ECONOMICA=
-MENTE I POLLI DEL WEB, IL FALSO, LADRO, TRUFFATORE #PAOLOPIETROBARRAI! AZZE=
-RA I TUOI RISPARMI, NON AZZECCA MAI 1 PREVISIONI IN BORSA, CHE 1: PAOLO PIE=
-TRO BARRAI! =C3=89 UN NAZISTA OMICIDA CHE RICICLA SOLDI STRA ASSASSINI DI N=
-DRANGHETA, CAMORRA, MAFIA, SACRA CORONA UNITA E LEGA LADRONA: #PAOLOPIETROB=
-ARRAI PAOLO PIETRO BARRAI!<br><br>SALVE. SONO ANDREAS NIGG. VICE PRESIDENT =
-DI BANCA J SAFRA SARASIN DI ZURIGO.<br>https://citywireselector.com/manager=
-/andreas-nigg/d2395<br>https://ch.linkedin.com/in/andreasnigg<br>https://ww=
-w.blogger.com/profile/13220677517437640922<br><br>E VI VOGLIO DIRE CON TUTT=
-E LE MIE FORZE CHE...<br><br>IL LEGHISTA PEDOFILO ED ASSASSINO PAOLO BARRAI=
- (NATO A MILANO IL 28.6.1965), IL LEGHISTA INCULA ED AMMAZZA BAMBINI PAOLO =
-PIETRO BARRAI (NOTO IN TUTTO IL MONDO COME IL PEDOFILO DEL BITCOIN), IL FIG=
-LIO DI PUTTANA PAOLO PIETRO BARRAI DI CRIMINALISSIMA #TERRABITCOIN, #TERRAB=
-ITCOINCLUB E DI CRIMINALISSIMA #TERRANFT, E' DA ANNI INDAGATO DA PROCURA DI=
- MILANO, PROCURA DI LUGANO, PROCURA DI ZUGO, SCOTLAND YARD LONDRA, FBI NEW =
-YORK, POLICIA CIVIL DI PORTO SEGURO (BR).<br><br>=C3=89 DAVVERO PEDERASTA E=
-D OMICIDA: PAOLO BARRAI DI CRIMINALE TERRA BITCOIN (O CRIMINALE TERRABITCOI=
-N CLUB)! IL LEGHISTA DELINQUENTE LUCA SOSTEGNI, ARRESTATO, SCAPPAVA IN CITA=
-TA PORTO SEGURO (BR), OSSIA, GUARDA CASO, DOVE IL KILLER NAZISTA PAOLO BARR=
-AI HA RICICLATO PARTE DEI 49 MLN =E2=82=AC RUBATI DA LEGA LADRONA!<br><br>(=
-ECCONE LE PROVE<br>https://oneway2day.files.wordpress.com/2019/01/indagatoa=
-iutalelisteciviche.jpg<br>http://noticiasdeportoseguro.blogspot.com/2011/03=
-/quem-e-pietro-paolo-barrai.html<br>http://portoseguroagora.blogspot.com/20=
-11/03/porto-seguro-o-blogueiro-italiano-sera.html<br>http://www.rotadoserta=
-o.com/noticia/10516-porto-seguro-policia-investiga-blogueiro-italiano-suspe=
-ito-de-estelionato<br>https://www.jornalgrandebahia.com.br/2011/03/policia-=
-civil-investiga-blogueiro-italiano-suspeito-de-estelionato-em-porto-seguro/=
-<br>https://osollo.com.br/blogueiro-italiano-sera-indiciado-por-estelionato=
--calunia-e-difamacao-pela-policia-civil-de-porto-seguro/<br>https://www.red=
-egn.com.br/?sessao=3Dnoticia&amp;cod_noticia=3D13950<br>http://www.devsuper=
-page.com/search/Articles.aspx?hl=3Den&amp;G=3D23&amp;ArtID=3D301216)<br><br=
->INDAGATO, AL MOMENTO, DALLA PROCURA DI MILANO. COME PURE DA PROCURA DI LUG=
-ANO, SCOTLAND YARD LONDRA, FBI NEW YORK, POLICIA CIVIL DI PORTO SEGURO (BR)=
-.<br><br><br>CONTINUA QUI<br>https://groups.google.com/g/comp.lang.python/c=
-/ToBxjyPoheo<br><br>TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI<br>https=
-://groups.google.com/g/comp.lang.python/c/ToBxjyPoheo<br>
+<div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_sig=
+nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>There&#39;=
+s something important I would like us to discuss, if you don&#39;t mind rep=
+ly</div><div><br></div></div></div></div></div>
 
 <p></p>
 
@@ -233,11 +168,9 @@ To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
 +unsubscribe@googlegroups.com</a>.<br />
 To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/5fd1c2c7-c0c9-44d6-91ec-fbfa78f426ban%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/5fd1c2c7-c0c9-44d6-91ec-fbfa78f426ban%40googlegroups.com</a>.<b=
-r />
+om/d/msgid/kasan-dev/CANP9YKPCQU-nAHRSaq1Fmh7z1cqsjenXtCNnOG%3DiJM7MnADiLA%=
+40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
+gle.com/d/msgid/kasan-dev/CANP9YKPCQU-nAHRSaq1Fmh7z1cqsjenXtCNnOG%3DiJM7MnA=
+DiLA%40mail.gmail.com</a>.<br />
 
-------=_Part_1221_2143453598.1649448347455--
-
-------=_Part_1220_1854686534.1649448347455--
+--0000000000002b95b605dc37a719--
