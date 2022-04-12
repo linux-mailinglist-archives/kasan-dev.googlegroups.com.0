@@ -1,128 +1,128 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBONX2WJAMGQELWLLWJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT6537ZTEKRBJ4T22JAMGQEIZXY2UA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa40.google.com (mail-vk1-xa40.google.com [IPv6:2607:f8b0:4864:20::a40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5964FDBF4
-	for <lists+kasan-dev@lfdr.de>; Tue, 12 Apr 2022 13:00:10 +0200 (CEST)
-Received: by mail-vk1-xa40.google.com with SMTP id g63-20020a1f5242000000b0033f4c7f7561sf2185322vkb.18
-        for <lists+kasan-dev@lfdr.de>; Tue, 12 Apr 2022 04:00:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1649761209; cv=pass;
+Received: from mail-vs1-xe3c.google.com (mail-vs1-xe3c.google.com [IPv6:2607:f8b0:4864:20::e3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id B57294FE38A
+	for <lists+kasan-dev@lfdr.de>; Tue, 12 Apr 2022 16:16:08 +0200 (CEST)
+Received: by mail-vs1-xe3c.google.com with SMTP id w5-20020a67c905000000b00324c7bafd3asf1238409vsk.16
+        for <lists+kasan-dev@lfdr.de>; Tue, 12 Apr 2022 07:16:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1649772967; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XVuv7pCl4VKfQOkmHoq1s441F8kewopNcujnBLPLWQqT7tMsh3hSKs/CDZ3eo2AGF1
-         2TnBeApKmomrl0T6nMdMR/JEVMjL4Y/qLp54MXEmo3DUkKjdJIqrj5rkYrJjbEPjo3lO
-         Td7u4GrTjCfJ3ZVxQe/bDKEUra7u0w0DBMtvU2nS/EJCrMY6KvOJ4vs7Ix+4u4Kj+U9P
-         hI9S+wL3RGEFoZ4TgxEF0kI46yWEyTuacyWzeHPKZf5MN44zBLVwrVyOtS15g4Pj9Ijl
-         NsENxJVAidj4+idUcX/NofYfts0BHuQTnZN/fDXPmQ23GfrorLp7qNkdGpQE6RLbNxEI
-         93qg==
+        b=e2t7xNhzce5S934aUJksKeJmkWoarxcbU+hltIspkcHxpdqO9anevfox2anlWakwlc
+         5CssnjGtX8hgUQXMP/SSXeQvUkKEnZQ6+NFv9mlwwbUgFn4gtDArX/A1dV9xid11MOxh
+         7g1a4KI6IScF9OE9ziTIVosRByrLYPUWVIY+iAKkRZ8iDSrAzoIKlnwsaqHjIkGI0hO9
+         iZtRbeOzSjn6UrVp1zD4cEksb2gbVyHerEKWQZYCWzsPpd4FYmKBB3kVP7aFQ6/2R3eq
+         dkz4jpPm2SjU441Oadj/rgxuNiiLn/4b4wigfAz2G2L2WjKGaIP7O7eDzYnB5IwGJw1d
+         /qRQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Rabp2xwb2UaXOdEjJ+5uP/qfbiDWnAvU1UNzsJm85So=;
-        b=wfT6vpEGBhMMs6E2poK/eh1UmAMo1jj0H42Rawct0kVFzPSEXFy1iajKftZDUZrbLk
-         nHqRm3/yuVCdE1GOxb10TiDjj7r43cbShhNvXZM29pi4oWXWIAvWmdFqNmWjCIQu161R
-         g3ecWRbKpWCxHuKTF7WGgpntrfPDB5AcGKF5U+FyTZdVIwql8oper4xdqJYdv7p1HQg/
-         OrPF5e62ROR6wBwYUKS+/3xByozJqWQdZysnrewtg0Uwh7SgR5jeWnkEbKvqKlIdqOHs
-         jz+kJphdBUGftEfaq2keWR3sIaztq1pP+QzChhMRJyKd5paDYbndoIesUxLxBnCkLGCY
-         ZGlA==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=VU9DFXWLNKENVXbf+eKPUreu44XimblO0UtqHpe5+LI=;
+        b=nGrzwIjbKa68aQ4oD9Zv3VTBGp9P6pprDiQiuvJypaM3rtY9LIDMYwbJVjA2ll1BMd
+         EywQR37/F/AcNcSIak3aopJE55okDVTnMaUD7W3wDJBB4/sOgA4QXgTGpgJm6mobojVn
+         hO+69rQsD3Lhr5LB70DOdJzYECYiEJ5iHqQUMZXANycql4VZSIZv6T8uuA6das+oGDM2
+         qmrdzLiQtzfkS4CCRgISvBoaa4xLyvqwjTLUf6/qjm4zdnzb9bFfoL7QA+D9gnfdRNg5
+         lZSK2VModI7uRQkYh5gysRjfRZWJVIw70FRp08SxcAn5r+eQFrl8961DTP1f59ZaEhQs
+         TP/w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=b4v6GqYx;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112a as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linaro.org header.s=google header.b=IJSMbnG8;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::b36 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Rabp2xwb2UaXOdEjJ+5uP/qfbiDWnAvU1UNzsJm85So=;
-        b=HqyL+d3DHalT4GKodcJxcv5Y4kW1vajtB0SAz/SpA7YOzT3eB49nWMqAR5GexoOlgO
-         18h6KhcURWFqzGeek1mwqilBClD7CIZbpB5E/L4/tG4WQF4eu82COW3sRUE1IbVCZbws
-         G/qDRXw7MFumCo5CymCAPT8xmNq0bQ3tOXAgyaDbrze+mcHGztOr22Er5OuZOwsNlRtq
-         RwmKd/PT5dcoyB2Y6P5tTxA6Qm91Af1MuPqcEac2F5G+qldt8OsJIaQGhiiP3YA1c4K4
-         /kQM+REGUTpl0XbWSJAl+EMfqjZC3bP2Tt+EdBDmY81p0TBljZSwn6v6HgPeTg0f/a+5
-         J+zg==
+        bh=VU9DFXWLNKENVXbf+eKPUreu44XimblO0UtqHpe5+LI=;
+        b=qi87iEeZraYJc0cFapHJcsH8cqyYV5/A3zsrjXxllkKwnRhWXhYvAeMcvlmVwK8enS
+         BcR2xMc/vbjZ0rehZo3/87/xA3CWFbHB1DBtN37PISzOtEDTcPgYWueNWPDvT/ZCjT/8
+         5eC5bEaTc3qY4tGaiwNo0Jqi7trrbUKibai8xcL00dkxWDzYxjABNk42JA9Skn3Pv44r
+         bqiTqkAJJCAWDlbmp9/RXpx3rvFH0P76dRUThUlnN9IESnCaaqqNKfB0rqvmKj0DFfGS
+         pE5vLabWqb0PD7P2I/cYGqHk0Nu2NWkAVp+OBs1MaydCgzVCE6QDwRWnBO0K/EAwj8XX
+         iTkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Rabp2xwb2UaXOdEjJ+5uP/qfbiDWnAvU1UNzsJm85So=;
-        b=QFDAWzBWl8UkQluF0EgrMthd+jy4Cvju97bBV4jrDWTO4muc4Ch+0GtHC6N/dH9T93
-         tZxKpQkLrMa+x0Yj/IcNH0qC9taaxLwzePh90BuJNunDdbtZxc+Grv8HKqJVK/AmJHgB
-         F7mfLh0xuqN6JGX/5eTzP7/EUoZ7/j0sA321Tysn/ZfMee2XFoscKZy0Z5r6gbn4L/Q+
-         SVDRF3ICTlC/TrU7zEIxZ+CF0xmicJ68qBA611ScM0/O+Kk09IhxsvYqsw+G7EznWo0U
-         6IfIZxX21Dr8sp0IIxL3xidhjnIktC7xuKQPaO03ZheN4zt9ttUav0TBrwuPhg4sqTMj
-         yP/Q==
-X-Gm-Message-State: AOAM530PhwHuEFkw5P/bkAsh2XLAMK+uY2/FnoHRdH2LqutV6UFOahzh
-	S8hCIQ/InS5btpMReqIVSKw=
-X-Google-Smtp-Source: ABdhPJxaDS7wZzo7A+uF3Kl8CY42/Sjq86znmzy9x7ml1kJPH8b4WfjKuAv49Cgiw7v5sul3XlMw8w==
-X-Received: by 2002:a67:f958:0:b0:325:5698:52c1 with SMTP id u24-20020a67f958000000b00325569852c1mr11455857vsq.67.1649761209415;
-        Tue, 12 Apr 2022 04:00:09 -0700 (PDT)
+        bh=VU9DFXWLNKENVXbf+eKPUreu44XimblO0UtqHpe5+LI=;
+        b=oq6YQQXyxW31ceorvY3sy/dF7NGci9yY1dJK6c0W1KDlKwkj25v05Ar/BW8tsbKi7Y
+         DGE+KfiTsBSJw3JVOq2046darvzUZEDVXOGxkFl8vEEg3i+4iVqCqx8I8Ws1xdaRf0YH
+         5N255dfDgQ+5RBRPs/8xFUGsqVtyNjTWVgVaHLHu8hdnv0gPhUwPpSa3a4Cbpqedqmw0
+         oMHxZk0wYOVfVuwCClhYEWzYZB/4JsRWourkOWGHHtJCy7rTleYnxekn7VKvEPWaRsay
+         pJDkvAP/eydi+FwB+tD3jUJOCZCuyNOPgONJ/l9sc0sDrs5tcQuiI1lxo79cHCRJxs7i
+         cOeg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530ow5+DJqD2sFDdyzOWWDt4kch3NQm7ScRAF4ZhS6t0l1ciuTj6
+	eqSEy5uwHF3+O7VgxCQr05Y=
+X-Google-Smtp-Source: ABdhPJz6udotla6tGz+O0ENasfTY65NR7X9pvbngG7mR9k6EjWCVD2hxayAATdSP4QuBFqz/8Y0tWQ==
+X-Received: by 2002:a67:cb81:0:b0:328:da1:312b with SMTP id h1-20020a67cb81000000b003280da1312bmr8794532vsl.6.1649772967449;
+        Tue, 12 Apr 2022 07:16:07 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6122:1809:b0:345:426e:1969 with SMTP id
- ay9-20020a056122180900b00345426e1969ls2775413vkb.9.gmail; Tue, 12 Apr 2022
- 04:00:08 -0700 (PDT)
-X-Received: by 2002:a05:6122:d98:b0:331:47bf:b437 with SMTP id bc24-20020a0561220d9800b0033147bfb437mr11821563vkb.29.1649761208707;
-        Tue, 12 Apr 2022 04:00:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1649761208; cv=none;
+Received: by 2002:a05:6102:3ca4:b0:328:415a:878d with SMTP id
+ c36-20020a0561023ca400b00328415a878dls4676827vsv.3.gmail; Tue, 12 Apr 2022
+ 07:16:06 -0700 (PDT)
+X-Received: by 2002:a05:6102:c2:b0:328:6313:a07c with SMTP id u2-20020a05610200c200b003286313a07cmr2465445vsp.41.1649772966716;
+        Tue, 12 Apr 2022 07:16:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1649772966; cv=none;
         d=google.com; s=arc-20160816;
-        b=Zdt+TBiHif2VHkAJhu6cOM4LlvAQ2226CQrWSVbCr0B9CYEYgYs7sNYLBcFqy+A3D7
-         YzZICOuahH5lfoi1cdOsXS+JOlPZK2dv7j77/2u595a3RloxRrch/CFRNjTveGEuhVzy
-         XP2f2NSAYNDwWSjTLJ3u6Zt4RoMvMXmRK1ZkXfGMff1XjGEFaXLKjZ+lHW8/cLfgMXW3
-         OZDXS2xTjvK+EOn0ey/5pbPfAOKjllK2cVbPTTR4Yx+72f2o/matAr6dEdW9hoowICwE
-         lo3dWMPWweKVQ5NFQUTBwhZO7jqluz9yoG4oGsYP9IfxXylRVf745F9ea25bfEHPWJRP
-         FD1Q==
+        b=s2vuxbZ01ljPXQ4X/Q/oRg/um4tWO6OVinJ+J3eOOmm8cQIQsJRU9kcAn9OK5lO0bk
+         JTdiWMPMOOG79jKoGg8Agg0UNxZ2+5drib1tYuabT1RNR72E2+6Cq1hRvgWh+0MRpcUC
+         AFSdjCoCAbEbEohOVac/fy0QRpQ4vqTiLwBS8MyEpSzEOHGtGZ5TwcL4/9IwxXsORZwi
+         inVG9CF5ad0Ej9Z13QHern8G03acH86NsusmdWggRW6qs37qHLpX9MFv6sP+HAc/xFIf
+         frvgUSTKSGQa4MM3ivr4jwQPeYu1i90f1ZOBFo4xezWGRGnHFh+MymgMm331Mk8DUXLy
+         F62A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=v2zi2giavZdO2HMDfrc7yK4A4aR/ngLsqIJD3W77LNs=;
-        b=On1QvKMxhQXxJoxtytL3uXfGhjAz6bVkTFGjMjrSiB/C0cbQ+oChxXszzu3i2C4eEY
-         GGUfwA76uJb7TB1837n8yL2alZKMCqh8xcwSO4QgGjXXBPgx/o0q+RnnGt93fVQcRaK9
-         gdDWpQ/0HPH84KwM+gWGW3+hodj6ZEEPiJAPLCs7gITHkUclA9UsBsMJz5pJMRVV6qpH
-         60U//MnhgRJHjGx85a//GgSDGORN1qW1qXoR6e215cNx6qUxgF9AjkFIssdcgU7rpSUZ
-         GVFSXzS91deWY358KkarRTWSGMJdSWhibmPdGpG+CBlofVaR5UGNigElL+N84nJgbyTr
-         KGyQ==
+        bh=VZmM9EPcGSQlgz+kYS2izYo6zL5xWSQuZ08uT1qVjbw=;
+        b=xDl4tW7aQxarqOgMmnqU3cBJC59VCQDsHmA4xuDQHt1xiGVmI/MaLmFv+M6J1dkLFe
+         itFlqNNjRDJ/BvB93RibqgRZOGJFo51fuB6/fFSgZUUF3mfTT3XLwLmonHKR/EdKvcCv
+         2eQNsjS4xUEYgGQqfY/1Tj/wIFkx0TfPCK5A4i3PveQD16JwX2LwR67TistH0DwS5McN
+         sBoyCerB7qdCw7ta1MD8hRfre69HX1xk/Jt/MooF2tVP72qTiYhw/dujbgL4nhvZpyCt
+         dmD9oD1CxretYHtnE1e/aSo7UeaDevLTYNgiEosg396g3B5qstFenJTKanJQAyGjHsuN
+         03XA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=b4v6GqYx;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112a as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com. [2607:f8b0:4864:20::112a])
-        by gmr-mx.google.com with ESMTPS id b11-20020a05612202eb00b0032cd88afa9asi1335161vko.3.2022.04.12.04.00.08
+       dkim=pass header.i=@linaro.org header.s=google header.b=IJSMbnG8;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::b36 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com. [2607:f8b0:4864:20::b36])
+        by gmr-mx.google.com with ESMTPS id e2-20020a056102224200b0031b82c6b2c2si966538vsb.0.2022.04.12.07.16.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Apr 2022 04:00:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112a as permitted sender) client-ip=2607:f8b0:4864:20::112a;
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-2ed65e63afcso37232807b3.9
-        for <kasan-dev@googlegroups.com>; Tue, 12 Apr 2022 04:00:08 -0700 (PDT)
-X-Received: by 2002:a0d:e743:0:b0:2eb:3106:9b32 with SMTP id
- q64-20020a0de743000000b002eb31069b32mr30496791ywe.512.1649761208158; Tue, 12
- Apr 2022 04:00:08 -0700 (PDT)
+        Tue, 12 Apr 2022 07:16:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::b36 as permitted sender) client-ip=2607:f8b0:4864:20::b36;
+Received: by mail-yb1-xb36.google.com with SMTP id q19so2308731ybd.6
+        for <kasan-dev@googlegroups.com>; Tue, 12 Apr 2022 07:16:06 -0700 (PDT)
+X-Received: by 2002:a25:c094:0:b0:641:10e0:cfd8 with SMTP id
+ c142-20020a25c094000000b0064110e0cfd8mr12836500ybf.88.1649772966219; Tue, 12
+ Apr 2022 07:16:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220404111204.935357-1-elver@google.com> <CACT4Y+YiDhmKokuqD3dhtj67HxZpTumiQvvRp35X-sR735qjqQ@mail.gmail.com>
-In-Reply-To: <CACT4Y+YiDhmKokuqD3dhtj67HxZpTumiQvvRp35X-sR735qjqQ@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 12 Apr 2022 13:00:00 +0200
-Message-ID: <CANpmjNPQ9DWzPRx4QWDnZatKGU96xLhb2qN-wgbD84zyZ6_Mig@mail.gmail.com>
-Subject: Re: [PATCH] signal: Deliver SIGTRAP on perf event asynchronously if blocked
-To: Dmitry Vyukov <dvyukov@google.com>, "Eric W. Biederman" <ebiederm@xmission.com>, 
-	Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, x86@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-m68k@lists.linux-m68k.org, 
-	sparclinux@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org
+References: <20220412062942.022903016@linuxfoundation.org>
+In-Reply-To: <20220412062942.022903016@linuxfoundation.org>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Tue, 12 Apr 2022 19:45:55 +0530
+Message-ID: <CA+G9fYseyeNoxQwEWtiiU8dLs_1coNa+sdV-1nqoif6tER_46Q@mail.gmail.com>
+Subject: Re: [PATCH 5.15 000/277] 5.15.34-rc1 review
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Marco Elver <elver@google.com>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	torvalds@linux-foundation.org, akpm@linux-foundation.org, linux@roeck-us.net, 
+	shuah@kernel.org, patches@kernelci.org, lkft-triage@lists.linaro.org, 
+	pavel@denx.de, jonathanh@nvidia.com, f.fainelli@gmail.com, 
+	sudipm.mukherjee@gmail.com, slade@sladewatkins.com, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, linux-mm <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: naresh.kamboju@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=b4v6GqYx;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112a as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@linaro.org header.s=google header.b=IJSMbnG8;       spf=pass
+ (google.com: domain of naresh.kamboju@linaro.org designates
+ 2607:f8b0:4864:20::b36 as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,75 +135,58 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 5 Apr 2022 at 15:30, Dmitry Vyukov <dvyukov@google.com> wrote:
-> On Mon, 4 Apr 2022 at 13:12, Marco Elver <elver@google.com> wrote:
-> > With SIGTRAP on perf events, we have encountered termination of
-> > processes due to user space attempting to block delivery of SIGTRAP.
-> > Consider this case:
-> >
-> >     <set up SIGTRAP on a perf event>
-> >     ...
-> >     sigset_t s;
-> >     sigemptyset(&s);
-> >     sigaddset(&s, SIGTRAP | <and others>);
-> >     sigprocmask(SIG_BLOCK, &s, ...);
-> >     ...
-> >     <perf event triggers>
-> >
-> > When the perf event triggers, while SIGTRAP is blocked, force_sig_perf()
-> > will force the signal, but revert back to the default handler, thus
-> > terminating the task.
-> >
-> > This makes sense for error conditions, but not so much for explicitly
-> > requested monitoring. However, the expectation is still that signals
-> > generated by perf events are synchronous, which will no longer be the
-> > case if the signal is blocked and delivered later.
-> >
-> > To give user space the ability to clearly distinguish synchronous from
-> > asynchronous signals, introduce siginfo_t::si_perf_flags and
-> > TRAP_PERF_FLAG_ASYNC (opted for flags in case more binary information is
-> > required in future).
-> >
-> > The resolution to the problem is then to (a) no longer force the signal
-> > (avoiding the terminations), but (b) tell user space via si_perf_flags
-> > if the signal was synchronous or not, so that such signals can be
-> > handled differently (e.g. let user space decide to ignore or consider
-> > the data imprecise).
-> >
-> > The alternative of making the kernel ignore SIGTRAP on perf events if
-> > the signal is blocked may work for some usecases, but likely causes
-> > issues in others that then have to revert back to interception of
-> > sigprocmask() (which we want to avoid). [ A concrete example: when using
-> > breakpoint perf events to track data-flow, in a region of code where
-> > signals are blocked, data-flow can no longer be tracked accurately.
-> > When a relevant asynchronous signal is received after unblocking the
-> > signal, the data-flow tracking logic needs to know its state is
-> > imprecise. ]
-> >
-> > Link: https://lore.kernel.org/all/Yjmn%2FkVblV3TdoAq@elver.google.com/
-> > Fixes: 97ba62b27867 ("perf: Add support for SIGTRAP on perf events")
-> > Reported-by: Dmitry Vyukov <dvyukov@google.com>
-> > Signed-off-by: Marco Elver <elver@google.com>
+On Tue, 12 Apr 2022 at 12:11, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> Tested-by: Dmitry Vyukov <dvyukov@google.com>
+> This is the start of the stable review cycle for the 5.15.34 release.
+> There are 277 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
 >
-> I've tested delivery of SIGTRAPs when it's blocked with sigprocmask,
-> it does not kill the process now.
+> Responses should be made by Thu, 14 Apr 2022 06:28:59 +0000.
+> Anything received after that time might be too late.
 >
-> And tested the case where previously I was getting infinite recursion
-> and stack overflow (SIGTRAP handler causes another SIGTRAP recursively
-> before being able to detect recursion and return). With this patch it
-> can be handled by blocking recursive SIGTRAPs (!SA_NODEFER).
+> The whole patch series can be found in one patch at:
+>         https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.15.34-rc1.gz
+> or in the git tree and branch at:
+>         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.15.y
+> and the diffstat can be found below.
+>
+> thanks,
+>
+> greg k-h
 
-Thanks!
+
+On linux stable-rc 5.15 x86 and i386 builds failed due to below error [1]
+with config [2].
+
+The finding is when kunit config is enabled the builds pass.
+CONFIG_KUNIT=y
+
+But with CONFIG_KUNIT not set the builds failed.
+
+x86_64-linux-gnu-ld: mm/kfence/core.o: in function `__kfence_alloc':
+core.c:(.text+0x901): undefined reference to `filter_irq_stacks'
+make[1]: *** [/builds/linux/Makefile:1183: vmlinux] Error 1
+
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+
+I see these three commits, I will bisect and get back to you
+
+2f222c87ceb4 kfence: limit currently covered allocations when pool nearly full
+e25487912879 kfence: move saving stack trace of allocations into
+__kfence_alloc()
+d99355395380 kfence: count unexpectedly skipped allocations
 
 
-Should there be any further comments, please shout.
+--
+Linaro LKFT
+https://lkft.linaro.org
 
-Thanks,
--- Marco
+[1] https://builds.tuxbuild.com/27h6Ztu4T35pY178Xg8EyAj7gIW/
+[2] https://builds.tuxbuild.com/27h6Ztu4T35pY178Xg8EyAj7gIW/config
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPQ9DWzPRx4QWDnZatKGU96xLhb2qN-wgbD84zyZ6_Mig%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BG9fYseyeNoxQwEWtiiU8dLs_1coNa%2BsdV-1nqoif6tER_46Q%40mail.gmail.com.
