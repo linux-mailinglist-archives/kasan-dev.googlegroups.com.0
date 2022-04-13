@@ -1,136 +1,147 @@
-Return-Path: <kasan-dev+bncBAABBUWI3SJAMGQE2TCXVQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBTGI3SJAMGQEEQW2NFQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id A310E4FFF45
-	for <lists+kasan-dev@lfdr.de>; Wed, 13 Apr 2022 21:28:19 +0200 (CEST)
-Received: by mail-lf1-x13e.google.com with SMTP id w34-20020a0565120b2200b0044adfdd1570sf1301314lfu.23
-        for <lists+kasan-dev@lfdr.de>; Wed, 13 Apr 2022 12:28:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1649878099; cv=pass;
+Received: from mail-ot1-x33c.google.com (mail-ot1-x33c.google.com [IPv6:2607:f8b0:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4224FFF41
+	for <lists+kasan-dev@lfdr.de>; Wed, 13 Apr 2022 21:28:13 +0200 (CEST)
+Received: by mail-ot1-x33c.google.com with SMTP id s13-20020a9d58cd000000b005f2caecdeeasf447647oth.20
+        for <lists+kasan-dev@lfdr.de>; Wed, 13 Apr 2022 12:28:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1649878092; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CUuDthv6oBrLvuvWRtw4osI70je72U8oyuuSQ4JPhw20sYhOuW8GyfAQxC/GinEgrD
-         2lWCbSFgpgt8HQ/1RswB+1j5G4qWpcs5fVJt+oEHZA1WoNMQSpYEPY05wmO0DJrH5+j/
-         WRS7QX7bJ/mhca10+kOWRI0eOlPbQxP/mtlj7bOib2Sf/ualdHUHBD555hpemugPuzHM
-         443iDIgFCeI+0cj3+d0JDQboUFEzR0S7aneMwdSWjULeu1sCDtYbZeSmEwOVZwmDdwVQ
-         v44azEffrUh926Uzf+YL52NbLFRtpRb1KcaFcQg39w6pHNUVVdIOmtgqD5unD4JUvYZ/
-         8Rbw==
+        b=L2TU9Xmj2CKE7vxn5NKG2h017UtAUByWs3OC+w2baP8In1kSP8q73xaIy6dUaZU+BA
+         VPyECggbdq2Xf2h62CFHWEY4F01kU3EinuCbcIhtUsKMzn3GJGDADrJ0jgfLIIWeTlQD
+         VxqAMkL79VfGu1/vk2+KZGi6YnVbB4wxMGdSMJkLRRwQONVOGxpaK6Qb4QujNG6CZ80V
+         aZI+/rwsaeMQzJPgEHnj6No6fj1kKkd4EMXwL/vz+zecXb27SQOOB0FDtTOhePpfLDEW
+         OF1rI0j96Q1bYtRS+0ZOtit9tlj0xxEGF+vBC1zLh6oS4ar55YwtaWd35Bs9xMzgX6NU
+         tk/Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=Nrt79YRKkNvx0ig/3oyUPs6MRTdvcIDEmOLzdK5N3kQ=;
-        b=mz+x4bQWa8SsZFfJ4UXzVGMpBQmze/XIMKku69rWO3ybggFUJmFgbrMTvhhLjCNEcj
-         9/LTPJuecVB4dziat5gj9XtKdXx1vUp0yg4Z+8Va00MZtrimBr9AhLM6EsXuaxA9P/an
-         VMMnQYKy6Xo2DB0DvpS/gy4QqwxIhZL2h3vX5jfPif4M7ZAesnVKavqwqi4qiJGOXIR6
-         6MtMKTVirZtGQJlDXvfEkSJSutoN0k9JMGHbxQoO2Op3T9sVZSw8S8iQDBt3ScRI5qq5
-         ZKxo1yyhcK+Wm12nETBnKk4wv7ADq6J4srGGJDLX8q+/zlU0/b1pVGRe20CQiU09VC0w
-         woqQ==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=rr9tG7oxY7dGwnfsKatfFSjWY5T583eGgWxQ4y+THoo=;
+        b=Kk1A4Njavl94PyYLW1/NOeq0pYkqJFFyd/SnVoGXGOzE6xwhxQe8tGcm9x/4U9leMt
+         XLK/GsZxv85lGsb6KtUy9GKWZAViNKIzhtHotu7r25KMjZoPfjtd61r/UFBIoQAuO4/k
+         NRh9bY5Qxtz7si9VsqvxwCg5PfF9Q1y1gutDcsCk7zM5Y+Dh9E1SGDTrxIL6cKe36L40
+         vwQR4+n6VnXuYr8mopT0X6UpuX9mb1je/KE3867sFHC2ZQyOwbrrteGljBNEBN1qDnSD
+         DIx7OY70V/ciSKyADBGP8RB5vqvc9rgQPOFhHxP740asYBXnLbmEAQaroyl4+27T5TAm
+         DtNg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=sgF7TidZ;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b="ZL69/Zor";
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Nrt79YRKkNvx0ig/3oyUPs6MRTdvcIDEmOLzdK5N3kQ=;
-        b=Ssl1cT/kPjL9zzhzt7n/GgAp5DesKO7qA52ysQrD0WAgeE0n6myEBukYWFcIAEPhYH
-         SHNvqSQGBMA1HS6pj2pnwCHqUNyta6tythRvB/e82N8aanJ8IZJTwHFngu46Ibgq0rU8
-         JwM0UiJNAEzIcVbDjrgZeW7HC+wE5G7zWu3snhawhUKnZBhdFxydLwFOLtYu+z+wo08f
-         nPo7Cr4FH3UQVOrUAQj4vym18Zz5CvR31aR6Pp5PmrKqQSUxEGaGpuyZ5grL7CVpPpqe
-         96b1mLOMLhPawEFxEj73GizKuqoea06ozYunB6KjTfBqBQVYnVOsR9BsVRt2srkfOzf6
-         MzNw==
+        bh=rr9tG7oxY7dGwnfsKatfFSjWY5T583eGgWxQ4y+THoo=;
+        b=kjA62wWb7Tl1IdX5dWXZuSuNO30ex0K8IGs4liRuwHFEc3+EcD1NEZ7Ws7rGihmP31
+         oG77HIJI0ilzJJfY4bU/yjl8/jFcBhxCK+HWCA13swyLF9vDqdrTdDvu9kvLfqHp1k33
+         sPa4LAo9SK8Y2XVmyhtxF15Ya9I0/HL34C0ZhWz4rqeXjzYyjasYkslEbmpXwexxiey4
+         b4ozsylZrqIZiO1S9QPRiwpy7cdrS6OEfPxQp7aBRsqGmYyMwlRV9S7QiMoSMBIVk7Ac
+         lvP2CGHTNsDSPLLWb1tHjnOYdNp04BnPeoE9FgLCWuW9inHJVaxBvgCrXI3IKt292gMJ
+         pNYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=rr9tG7oxY7dGwnfsKatfFSjWY5T583eGgWxQ4y+THoo=;
+        b=UfUwYitNFatULBoWoqLm0/PAeMFL8V9UNP1QiFSbhjtwya1d37Oeyxxus+Yc5T35wX
+         T8JMR/Ca3WKc5U7va52tw2cdxfUKX0Wyog7bnB5apqFo9ABz8xpq/78lQro0z0yj3z1D
+         jUf0ihQw32QZzD38/LebKcH3+YrUqOi9xdsfEfCG5zN8xCGvylcIcmHZx39U9uEFGNik
+         JMT7POKELbdmADi+XuQlnA+b2GgPvkyL7zrI8ZF7VswmRN531XnsyvgoMBd2VeI3O6GP
+         /7r00QRVpa2khfXbAseyLE0fUVhktQlFsS6pqvr9HneQpWON3BXZHpOCeh3WcguKUt8+
+         6JOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Nrt79YRKkNvx0ig/3oyUPs6MRTdvcIDEmOLzdK5N3kQ=;
-        b=dBoQa1bsxoLHiwA0GdQphGb2u9Vw58hau96GYIlk4k1iWLl8BGqEciJKfJGth+z60z
-         ypDiM+SEO4eT53ktDpBGhnmPSOD9AstUbVHXe2hqXIBRD7wEXmkwZcmAQyJwVoelLdAR
-         bfRnEqcuPNJh8fk00p732WCt5ETDy1sdaFPfYJkdZx8By+DcO0B5H+Kby8nIYPe/13/A
-         TziHiBhNJiG9Z0AHflwmGtx0OAWcrEWw5H8aVowdwutt6RWYLmuxxlEshi1vWItSxjqg
-         axk9FasL4LnJSV+LfiqIyl8U31r0Rfnl47WmlMJX5WfNEITymeS8KxHG/LN4L5/5jMxW
-         dpcw==
+        bh=rr9tG7oxY7dGwnfsKatfFSjWY5T583eGgWxQ4y+THoo=;
+        b=qiu+iby6A7vPtPEg1AbZwbyws/IyAlGVPQE3r6WZygoviS1D0b6nc1UGrHA6aBwsoh
+         x+CpPuYG7m02ENBb7Yx16LHusVl/pWGhv7+Q1CQ+q81GVOOYQlrNw6+qkLtanuZ5SxSR
+         Xj4Lsf73Uyn0PdmqIllMc/fFf2CJKGx3mGOpN1wEs85tBGfGAkmEx2WVsClK1yGZj2h1
+         07Af6bvfq64lBBy5iNJfr0Pg+xD/BWZ4t44EMYrA/MZgUhm/SR8nqhGsEPfVeH4CYYjg
+         Fu0/A7K4aFEVUL1EDPW2tUYD9rtdwsnucfJjS+ORR6LYRbwoLVoBIaNaQTTPnWjTIFQK
+         x68w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533tcIorQhQniHTULy4/O/Bm7LKs6R2z0v8JwxOjBcdMjwiYHGQO
-	HMpLlgTBMBoRARrOUatNH2o=
-X-Google-Smtp-Source: ABdhPJwnkRNmn0qXbkEOzSTb6aTenfhgGR7387HhHSUR0KTPCm1Pm68tSIjqkSXgQhTPs6HYjvVDEg==
-X-Received: by 2002:a05:6512:3d08:b0:46b:a03f:6896 with SMTP id d8-20020a0565123d0800b0046ba03f6896mr13713552lfv.120.1649878099238;
-        Wed, 13 Apr 2022 12:28:19 -0700 (PDT)
+X-Gm-Message-State: AOAM531FPBZouk3kXRy8BqU9ZyedWsdzgpqiRruWkac2npqpPVzsEHUv
+	xAdamb+8TFS5bnyrGtwgyQk=
+X-Google-Smtp-Source: ABdhPJy8pmglRV3e6uEe9N6M+ASlcYs0444j8S5BhZy3BVHe4LRCHnW3KGIbCnUOVHwJp2wRsPpVfQ==
+X-Received: by 2002:a05:6870:73cd:b0:e2:c762:da6b with SMTP id a13-20020a05687073cd00b000e2c762da6bmr120991oan.282.1649878092487;
+        Wed, 13 Apr 2022 12:28:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:4e0a:0:b0:46c:56e3:aa04 with SMTP id e10-20020ac24e0a000000b0046c56e3aa04ls2617660lfr.3.gmail;
- Wed, 13 Apr 2022 12:28:18 -0700 (PDT)
-X-Received: by 2002:a05:6512:b18:b0:44a:9a1f:dcf6 with SMTP id w24-20020a0565120b1800b0044a9a1fdcf6mr29624704lfu.4.1649878098495;
-        Wed, 13 Apr 2022 12:28:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1649878098; cv=none;
+Received: by 2002:a05:6830:3489:b0:5cd:c661:8d79 with SMTP id
+ c9-20020a056830348900b005cdc6618d79ls995291otu.1.gmail; Wed, 13 Apr 2022
+ 12:28:12 -0700 (PDT)
+X-Received: by 2002:a05:6830:2b13:b0:5c9:467b:3d8 with SMTP id l19-20020a0568302b1300b005c9467b03d8mr15323584otv.13.1649878092120;
+        Wed, 13 Apr 2022 12:28:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1649878092; cv=none;
         d=google.com; s=arc-20160816;
-        b=QO1L019k2HXL7NA2XJ4+FLaYdUV1AK4DyfJ7L06GS4pwGukTdY1Pk3Wwza2vNCW6r4
-         BEYsEuwEViYlSTcmWLUKz/1M+t4eDhQ+AFixdH7j+JF7fvdn/0g4v//i9usZmLmUTYBQ
-         BPJhpJkqu7ywRo6pnLznCS01tfTi+ArrT08kvkKEPH673BqCHTMD0go/Bt9dtIiVigSi
-         UeAdAbBtG7NwUgUzEwq4wuCrvhNHj5Cxd0+xZmItWzrQF2/OEFCTKdM4dKCKEqi9SHIz
-         wW/dKo1wu2aVA60C+WZw95JUNM+C/SyBJ3AARCXJQIFgBdRgOooqNy4N9mBe7zhULthh
-         EXHQ==
+        b=cS7Cq/iJbhm1QV9LHkaJRJdQg35BBPlIKTy4C40ahhRCC4mI349evmkzlWorykTLJ9
+         SFxl4kVFSHxNco1I8/uurLHL3N3whOpL/vkuuIL6aLSu4oRrXfi1tlQn/FXJSzFCqxFl
+         qiNTv0v/lvh/SYIS/MhIFmF2ZlY13GvoA61eeXRfQu3DHI+u0dgMP3+v7ZrmxzEZi1tZ
+         L5OSQUCQTa4sgBXdalZoU9jnSzXFBqqqg8kvWzP6oYssHCx5rzo0cQrPdizxx5XKSnin
+         hJZaEwx9vOt3mv4PRzps4CK6b0IbIeQMbQEZ6r8eekjrmQxdsTZufewjVS5uHhJQNnUd
+         +MUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=JDSn48VO/uynw53/sb4SAMVT5nBlYcr9rW/XWz8GxpM=;
-        b=JTnBe+ydJjjiLmN9n2GJNWygBxQcdjWazPWIDKiLAAibiUeUuJF4A38OcMlVxapjqp
-         9Oi9Fnf5c2LoayC1Vza8ebgLZfpKo6LXv55UAgKZpnl/SOPNherDgsnd4wlLnzS1xKdA
-         tzo5gvq8rVXIrDIkptANAnz4cJv0mc4XqkTcpDhMws1o1VBMubYE4ua/OmlZ6Tj7xhVY
-         88/r6FLixyxW4DZfDwTcg7E+rVtgh+55cfXe4UrIle5OYiw1QkcN3kVjeAseo9kec7gZ
-         +KLsUBYSfaRloWMSm1jC65E+LAV6DkIe8hyAbmQTXqxh3wK6Aj6LUPvI8yQ70HlH2kfV
-         chfA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=hGxcoipwWUtIXq1n/IgG8Z+lNTNMbXErzkobqsYlE2I=;
+        b=CEEcb5Yvj5Sm+lM20pwieuyNMkk9TICZUXAQ/Gg6M4+je5NwFmGp7lFpD+8dj6us0C
+         Lqp825EfFUbL5GzdTckXwd5ffENabFY2GJ4C/UEWvlzTh26tnEPIXkY8vGWuEOvzFXMe
+         y1GKNd8P5gaEM+/O6QGYoR9cNXe9J8PABHz6GmbKP/7eq2GtjLORFGoUAqfavRW8E3Sy
+         lR+hUYIKSIoZ6ej6eXIyYSWaGxbgXebcJeukUXtPLVa1WA+wfMU3e9yxPEBVGNl+6Hy8
+         kFhSMpxBiGJtXcZQySzUuS6U6vDp8BIKwks0tJI4Ik1/1uOqimGpfDXaCOLN8lUJMW68
+         T6nw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=sgF7TidZ;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out2.migadu.com (out2.migadu.com. [2001:41d0:2:aacc::])
-        by gmr-mx.google.com with ESMTPS id n10-20020a2e904a000000b0024b54b241c1si641042ljg.1.2022.04.13.12.28.18
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b="ZL69/Zor";
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com. [2607:f8b0:4864:20::d33])
+        by gmr-mx.google.com with ESMTPS id bh31-20020a056808181f00b002f9e6687adesi2078915oib.5.2022.04.13.12.28.12
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 13 Apr 2022 12:28:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) client-ip=2001:41d0:2:aacc::;
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: andrey.konovalov@linux.dev
-To: Marco Elver <elver@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Mark Rutland <mark.rutland@arm.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev@googlegroups.com,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Peter Collingbourne <pcc@google.com>,
-	Evgenii Stepanov <eugenis@google.com>,
-	Florian Mayer <fmayer@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v3 3/3] kasan: use stack_trace_save_shadow
-Date: Wed, 13 Apr 2022 21:26:46 +0200
-Message-Id: <05fb7a41510f471f82aa1f3930ed3aac8abe2410.1649877511.git.andreyknvl@google.com>
-In-Reply-To: <cover.1649877511.git.andreyknvl@google.com>
-References: <cover.1649877511.git.andreyknvl@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Apr 2022 12:28:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) client-ip=2607:f8b0:4864:20::d33;
+Received: by mail-io1-xd33.google.com with SMTP id p21so3056457ioj.4
+        for <kasan-dev@googlegroups.com>; Wed, 13 Apr 2022 12:28:12 -0700 (PDT)
+X-Received: by 2002:a05:6602:2b8e:b0:5e9:74e7:6b01 with SMTP id
+ r14-20020a0566022b8e00b005e974e76b01mr19051650iov.127.1649878091766; Wed, 13
+ Apr 2022 12:28:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Original-Sender: andrey.konovalov@linux.dev
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=sgF7TidZ;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates
- 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+References: <cover.1648049113.git.andreyknvl@google.com> <YkV6QG+VtO7b0H7g@FVFF77S0Q05N>
+ <YkWg5dCulxknhyZn@FVFF77S0Q05N> <CA+fCnZeQ6UnpM9qEQ4q5Y95U3XVwrsD-g7OX=Qxr1U1OR_KCsQ@mail.gmail.com>
+ <Yk8wbx7/4+9pMLGE@FVFF77S0Q05N>
+In-Reply-To: <Yk8wbx7/4+9pMLGE@FVFF77S0Q05N>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Wed, 13 Apr 2022 21:28:00 +0200
+Message-ID: <CA+fCnZcv6PtR5eT-hbJ54hkH7Kr+CUM4DU2S5nbU4Lp2OnG8dQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] kasan, arm64, scs, stacktrace: collect stack
+ traces from Shadow Call Stack
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: andrey.konovalov@linux.dev, Marco Elver <elver@google.com>, 
+	Alexander Potapenko <glider@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Peter Collingbourne <pcc@google.com>, 
+	Evgenii Stepanov <eugenis@google.com>, Florian Mayer <fmayer@google.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: andreyknvl@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20210112 header.b="ZL69/Zor";       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,36 +154,157 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Andrey Konovalov <andreyknvl@google.com>
+On Thu, Apr 7, 2022 at 8:42 PM Mark Rutland <mark.rutland@arm.com> wrote:
+>
+> I'm afraid from local testing (atop v5.18-rc1), with your config, I still can't
+> get anywhere near your figures. I've tried to match toolchain versions with
+> what was in your .config file, so I'm using clang 12.0.0 from the llvm.org
+> binary releases, and binutils from the kernel.org crosstool 11.1.0 release.
+>
+> I took baselines with defconfig and defconfig + SHADOW_CALL_STACK, with console
+> output completely suppressed with 'quiet loglevel=0':
+>
+> | [mark@gravadlaks:~/repro]% taskset -c 64 ./vmboot.sh --perf-trials 50 -s -k ~/kernel-images/andrey-unwind-v5.18-rc1-defconfig/Image
+> |
+> |  Performance counter stats for
+> |  '/home/mark/.opt/apps/qemu/bin/qemu-system-aarch64 -m 2048 -smp 1 -nographic
+> |  -no-reboot -machine virt,accel=kvm,gic-version=host -cpu host -kernel
+> |  /home/mark/kernel-images/andrey-unwind-v5.18-rc1-defconfig/Image -append
+> |  loglevel=9 earlycon panic=-1 quiet loglevel=0' (50 runs):
+> |
+> |        0.512626031 seconds time elapsed                                          ( +-  0.26% )
+> |
+> | [mark@gravadlaks:~/repro]% taskset -c 64 ./vmboot.sh --perf-trials 50 -s -k ~/kernel-images/andrey-unwind-v5.18-rc1-defconfig+scs/Image
+> |
+> |  Performance counter stats for
+> |  '/home/mark/.opt/apps/qemu/bin/qemu-system-aarch64 -m 2048 -smp 1 -nographic
+> |  -no-reboot -machine virt,accel=kvm,gic-version=host -cpu host -kernel
+> |  /home/mark/kernel-images/andrey-unwind-v5.18-rc1-defconfig+scs/Image -append
+> |  loglevel=9 earlycon panic=-1 quiet loglevel=0' (50 runs):
+> |
+> |        0.523245952 seconds time elapsed                                          ( +-  0.18% )
+>
+> Then I tried the same with your config, without your patches:
+>
+> | [mark@gravadlaks:~/repro]% taskset -c 64 ./vmboot.sh --perf-trials 50 -s -k ~/kernel-images/andrey-unwind-v5.18-rc1-andrey.config/Image
+> |
+> |  Performance counter stats for
+> |  '/home/mark/.opt/apps/qemu/bin/qemu-system-aarch64 -m 2048 -smp 1 -nographic
+> |  -no-reboot -machine virt,accel=kvm,gic-version=host -cpu host -kernel
+> |  /home/mark/kernel-images/andrey-unwind-v5.18-rc1-andrey.config/Image -append
+> |  loglevel=9 earlycon panic=-1 quiet loglevel=0' (50 runs):
+> |
+> |        1.994692366 seconds time elapsed                                          ( +-  0.05% )
+>
+> Then with your config, without your patches, with the stacktrace hacked out:
+>
+> | [mark@gravadlaks:~/repro]% taskset -c 64 ./vmboot.sh --perf-trials 50 -s -k ~/kernel-images/andrey-unwind-v5.18-rc1-andrey.config-nostacktrace/Image
+> |
+> |  Performance counter stats for
+> | '/home/mark/.opt/apps/qemu/bin/qemu-system-aarch64 -m 2048 -smp 1 -nographic
+> | -no-reboot -machine virt,accel=kvm,gic-version=host -cpu host -kernel
+> | /home/mark/kernel-images/andrey-unwind-v5.18-rc1-andrey.config-nostacktrace/Image
+> | -append loglevel=9 earlycon panic=-1 quiet loglevel=0' (50 runs):
+> |
+> |        1.861823869 seconds time elapsed                                          ( +-  0.05% )
+>
+> If I use those number to estimate the proportion of time spent stacktracing,
+> with the baseline SCS number discounted to remove the hypervisor+VMM overheads,
+> I get:
+>
+>         (1.994692366 - 0.523245952) - (1.861823869 - 0.523245952)
+>         ---------------------------------------------------------  = 0.09029788358
+>         (1.994692366 - 0.523245952)
+>
+> So roughly 9% when I try to maximize that figure. When actually poking hardware
+> and doing real work, that figure goes down. For example, if just using "quiet":
+>
+> | [mark@gravadlaks:~/repro]% taskset -c 64 ./vmboot.sh --perf-trials 50 -q -k ~/kernel-images/andrey-unwind-v5.18-rc1-andrey.config/Image > /dev/null
+> |
+> |  Performance counter stats for
+> | '/home/mark/.opt/apps/qemu/bin/qemu-system-aarch64 -m 2048 -smp 1 -nographic
+> | -no-reboot -machine virt,accel=kvm,gic-version=host -cpu host -kernel
+> | /home/mark/kernel-images/andrey-unwind-v5.18-rc1-andrey.config/Image -append
+> | loglevel=9 earlycon panic=-1 quiet' (50 runs):
+> |
+> |        4.653286475 seconds time elapsed                                          ( +-  0.06% )
+>
+> | [mark@gravadlaks:~/repro]% taskset -c 64 ./vmboot.sh --perf-trials 50 -q -k ~/kernel-images/andrey-unwind-v5.18-rc1-andrey.config-nostacktrace/Image > /dev/null
+> |
+> |  Performance counter stats for
+> |  '/home/mark/.opt/apps/qemu/bin/qemu-system-aarch64 -m 2048 -smp 1 -nographic
+> |  -no-reboot -machine virt,accel=kvm,gic-version=host -cpu host -kernel
+> |  /home/mark/kernel-images/andrey-unwind-v5.18-rc1-andrey.config-nostacktrace/Image
+> |  -append loglevel=9 earlycon panic=-1 quiet' (50 runs):
+> |
+> |        4.585750154 seconds time elapsed                                          ( +-  0.05% )
+>
+> Which gives an estimate of:
+>
+>         (4.653286475 - 0.523245952) - (4.585750154 - 0.523245952)
+>         ---------------------------------------------------------  = 0.01635245964
+>         (4.653286475 - 0.523245952)
+>
+> ... or ~1.6% time spent backtracing:
+>
+> FWIW, applying your patches do show some benefit, but not as drastic as I was
+> expecting:
+>
+> With console output suprressed:
+>
+> | [mark@gravadlaks:~/repro]% taskset -c 64 ./vmboot.sh --perf-trials 50 -s -k ~/kernel-images/andrey-unwind-v5.18-rc1+scs-unwind-andrey.config/Image
+> |
+> |  Performance counter stats for
+> | '/home/mark/.opt/apps/qemu/bin/qemu-system-aarch64 -m 2048 -smp 1 -nographic
+> | -no-reboot -machine virt,accel=kvm,gic-version=host -cpu host -kernel
+> | /home/mark/kernel-images/andrey-unwind-v5.18-rc1+scs-unwind-andrey.config/Image
+> | -append loglevel=9 earlycon panic=-1 quiet loglevel=0' (50 runs):
+> |
+> |        1.920300410 seconds time elapsed                                          ( +-  0.05% )
+>
+> ... down from ~9% to ~4%
+>
+> With console output merely reduced:
+>
+> | [mark@gravadlaks:~/repro]% taskset -c 64 ./vmboot.sh --perf-trials 50 -q -k ~/kernel-images/andrey-unwind-v5.18-rc1+scs-unwind-andrey.config/Image > /dev/null
+> |
+> |  Performance counter stats for
+> | '/home/mark/.opt/apps/qemu/bin/qemu-system-aarch64 -m 2048 -smp 1 -nographic
+> | -no-reboot -machine virt,accel=kvm,gic-version=host -cpu host -kernel
+> | /home/mark/kernel-images/andrey-unwind-v5.18-rc1+scs-unwind-andrey.config/Image
+> | -append loglevel=9 earlycon panic=-1 quiet' (50 runs):
+> |
+> |        4.611277833 seconds time elapsed                                          ( +-  0.04% )
+>
+> ... down from 1.6% to 0.6%
+>
+> Given the above I still think we need to understand this a bit better before we
+> consider pursuing the SCS unwinder, given the issues I laid out in my prior mails.
+>
+> My hope is that we can improve the regular unwinder or other code such that
+> this becomes moot. I'm aware of a few things we could try, but given it's very
+> easy to sink a lot of time and effort into this, I'd like to first get some
+> more details, as above.
 
-Use stack_trace_save_shadow() to collect stack traces whenever
-CONFIG_HAVE_SHADOW_STACKTRACE is enabled. This improves the
-boot time of a defconfig build by ~30% for all KASAN modes.
+Hi Mark,
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- mm/kasan/common.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I'm about to publish v3, where I'll include a detailed description of
+how I measured the performance.
 
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 23b30fa6e270..00fef2e5fe90 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -97,7 +97,9 @@ depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc)
- 	unsigned long entries[KASAN_STACK_DEPTH];
- 	unsigned int nr_entries;
- 
--	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
-+	nr_entries = stack_trace_save_shadow(entries, ARRAY_SIZE(entries));
-+	if (nr_entries < 0)
-+		nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
- 	return __stack_depot_save(entries, nr_entries, flags, can_alloc);
- }
- 
--- 
-2.25.1
+Perhaps we see different performance numbers because you're using
+KVM-enabled VM on an Arm host and I'm using QEMU on x86-64 host.
+Although, it's suspicious that the difference is so drastic. I'll try
+to get my hands on some Arm hardware in the next few days and do the
+measurements there.
+
+This new version also will not be making any changes to the entry
+code, as these changes add unwanted additional slowdown. That would be
+great, if you could check the performance impact of v3 with your
+setup.
+
+Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/05fb7a41510f471f82aa1f3930ed3aac8abe2410.1649877511.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZcv6PtR5eT-hbJ54hkH7Kr%2BCUM4DU2S5nbU4Lp2OnG8dQ%40mail.gmail.com.
