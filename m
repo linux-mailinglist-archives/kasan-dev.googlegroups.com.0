@@ -1,138 +1,124 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBTGI4CJAMGQENNSZUOQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBLNC4KJAMGQEZLXGLTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A6F500FAD
-	for <lists+kasan-dev@lfdr.de>; Thu, 14 Apr 2022 15:40:28 +0200 (CEST)
-Received: by mail-ed1-x53c.google.com with SMTP id n4-20020a5099c4000000b00418ed58d92fsf3079909edb.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 14 Apr 2022 06:40:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1649943628; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB34C501D62
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 Apr 2022 23:25:01 +0200 (CEST)
+Received: by mail-wm1-x33a.google.com with SMTP id h65-20020a1c2144000000b0038e9ce3b29csf5115643wmh.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 14 Apr 2022 14:25:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1649971501; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dr5bUD9aFASb1YAe+1/5HKAW40ao2mx3Rli8Ex6zQmN4Z1XsaPdDYCHkx7I0g9R8Cm
-         fntZ2cRfNnMAB5k/RoLMggaeaHfqvuRPGDo1tqAi+HRTAV9/X372xBj7FuXCYwejKWtm
-         0PA4Q0fPElNjJhGs/nfYeexgNeaiV3Vzu2LpWkSX3yXBpAZe6P7Et3DBfkEnAEdo+0nB
-         6gNZVw6zOSDEJUAXSoPGc4K5RGwUmKpfOeQjdYyqC92l4vwcSX8Lk/8Y5vwjubcqht6r
-         +6qMJ91sDykljM82+coxdg+NsPEmv/qlauD10LlgJPX1ZVDot+lHotMmUP6+GxWde/fc
-         O7DQ==
+        b=ix094TWPyqAUDklBDduqHgHB3vvKJiLFqtFu5DKGuOQeGqgW6kFVotiGgiwwbhJO9z
+         kuowWz8HEUvI6Imy1gM7FJIK7VMV1Vf8Z/UiQy4FROk0ntt0WlA4zrvUmQTNn1w5GIu/
+         Zr+Z0NIgGd4BNILy6vKj3bPtgiIUKFzlAeVoAQiVBMtfN3lYD24XuMfp4ZrahaZmzCZ/
+         /kvrgETG3XzkWCAULZGTDSPHYdbz27jTtQvu+pIX8lRFikB/ttviyc7mfUQ6ATtyCgCM
+         ck0DyoKXaOGAhIa5oVKinvErP46XfXuVS8Bdiklx/R/GJlYusTjrKz8fbLuyv4lxsceS
+         1VNg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=gAv1JQqVoi5OnjIOX1gorQyBwqQ3xkgD7lys5WHqXdw=;
-        b=tM6D1Ld11MHbLNvToA+BzBXVZft+1JIGPDJFHgo3tO6v0anqi/5NIAZh35iY+mowav
-         WRBoc8wzryTF7lHgYrqoHh0AZXf6N23Lz5377ixujJMy7+Yu0gXsaz6i+leEPAHXHz8t
-         cQqdtk4NdCKBUco0BB2lhYsQj8KuEPdz6tRgww7nj1g3HzgBmnhUrPSh18HjYYq+n6QC
-         Mhcx3PCW0F7LgJgkqsufjBElNKstfQdlPhqGCnPA8LPfiTJvljCL7o2JKS2MUNBZ+Iqh
-         d0pHI5+Xe7SF8KTFaKSKERAFSGnL3SI86Pwt4LYDQ8nLhw/rZQubKbIlvipurCl+uL+8
-         kaFw==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=+kKeATiiVwBmkxjY5/OUnIWDnH1EZGG9rB1uyciIK4A=;
+        b=ztg8ejSHOFiKe9HHBOqpLSnZEZlmatqrnEtyFHKYurdGA1Rl2X4PDJ0woEZZ2rz+OZ
+         OIta0moisnItrwAfpsm8rtUYRIcnaRTSZGdgrlyS8QEh6mD6u5cAYW2gqQSFuuVra+o+
+         37V01CiWh8o1/O0hJik7H85lBniST4sIv1BK5FHK+cCClXWZrx67fAJ+NF2np8AWm0N7
+         +91QHlJBjcBN3bHAwnqV6EUSDnHnvXk1BnMA5Ik8seQ5+AnyiEYiIiVUKY8zj3OWOC7Y
+         RTr8rYQlL4EAiPKz/5TvEcLYT0j+9zI0j8ZbzPrSwVlzfUYNbfzebH5H88wbhrxnZ13E
+         uY+g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="Y/4dWiF0";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=gAv1JQqVoi5OnjIOX1gorQyBwqQ3xkgD7lys5WHqXdw=;
-        b=EWEqoHQ8yTWLS+unRKUndqTjsIsq401yMGIPyJrU2VqmXJrNmD+DRm1awmWhaLo8Rl
-         apqfIuKeSP4p2OUu3zALLhhzpNQ0vmt8oswkYvnQNMbBdRyDRE/1pMERA2kJcIbDNXXO
-         Hp2KEQPJVAlGUBwF/5DmZSZXCQfX60+uWvCqxHRWvzEWgkMRza6oFNLyZ7edHwsy3s/r
-         FP1OK1yK8Q9H94bcMZZ7YboLG2Q0UPUH1mbKrOS5CHm4KK1DWBOcAXKG1BqakBPmbPTe
-         wP23A2X7WTpK9jfAVzk34w0SnxsH7ng7W4V9S6mOefuvBVk+IA50vjIbVFk1GFb+cnuq
-         WVlg==
+        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=+kKeATiiVwBmkxjY5/OUnIWDnH1EZGG9rB1uyciIK4A=;
+        b=rtUC80Xg1/aFVGITaz+BHi8/JY1lpJoW4wc2rIjmwwf7/VDLStsv22l7eIRtcxWGxD
+         SmFfZK7CRW2NlznAhfT9FPsObCORNtKCVO4wjCopmcseFlHPdx4BqqF71mbaBQfloGAe
+         0Ic7ondAvbZbE1Pqjgy8kfTHQYwkEYGrm6eM8shAi5H8gftahWeJofnv8eKUOp1J/cDQ
+         ENK8iAIXGAKXyyEDJdW4bXThJ2a/M8w/q62r3L4LfDjG6aS+khvJqe1mVHuvZdIZa1Kg
+         mgUMnF2fIZlmxmI+Dtv3O/rJ9FH9q5HocFDAsKTTYZKVFL2+R0Ubq3tTJfF54Z3gZ9eU
+         dkFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=gAv1JQqVoi5OnjIOX1gorQyBwqQ3xkgD7lys5WHqXdw=;
-        b=o2MIUx9jjR6aK/8Whue1+pO/kYZcyR3yy8sTrmPh3iX7C6Vv5A0RbO72jiDSZHEku2
-         PmuqiQuPjdmuw/guObR2mFIi22FKkHYunKGz/Lx64lgwZ3CG5aqlHCdhIDOA7qFCBhV3
-         f+VE3/hegKR9UEhyvU6QdUoPvmMonwHtR/orpqDDiL9/kb2JOVhc7duZA/Id5cfB1phd
-         Q4HzgHw+SyZ3Jb/ZRE6O4Vk3fMHA8GeecKctvTvRSYYbErO7752nA+QO0YzVGgyz6V96
-         TGHQIkzaK8qMN1XuTjF5tMw3NC707Go38j9HYvBM/g4Nn1UZfycSAKH1kTJ1lRtDDcad
-         WlfA==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=+kKeATiiVwBmkxjY5/OUnIWDnH1EZGG9rB1uyciIK4A=;
+        b=Q1PH/+NheGHkzEDHXKwkZg+/b1/nw+4ZXZYo+e3KpIaxa9j4ou/2tZLcprPASx99KK
+         jgeWDQTbaAgPWRAOc28JCy79S9MkWj/V3MH9hzNkPVW1KkB595fW+dK7RiTPN4eu4RrR
+         LULdRvQbPEG8lhDra7N6Jpe0N04mU5E0gxc0g4iCoXJv8pGRzP2vt4Glb3DGmwWTG6zb
+         BDPoX6zxje3qJTnf4AuM/a8KvKBv64wdS9/AdLKtg96bPwYNZ8EQPPakvq7yzfIxGyUM
+         jfpWt0lbiEAjldvyRIFlbNz6CW4cKKXSTASb6xuqjGlhFuaYZQ2QuQwahIjKFYCs6hdX
+         2CxA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531DZ/5IpZjNfx+muhvWQ2OB0gCVINnYXcT4l7IW1+54+XO8MjlG
-	mZcdJrjeIaMOPdLp5QSwEXE=
-X-Google-Smtp-Source: ABdhPJxS3XZUoojxD7IkIAIrQvK6yjxfAZ5TKf8OgaUp+4XX8PbsOSpcZ4ICnPqcUk8CsoYwTk9kQA==
-X-Received: by 2002:aa7:d497:0:b0:41d:6fed:9f90 with SMTP id b23-20020aa7d497000000b0041d6fed9f90mr3070548edr.325.1649943628368;
-        Thu, 14 Apr 2022 06:40:28 -0700 (PDT)
+X-Gm-Message-State: AOAM532tny3/CU6Vu4bHOr5UvefFQY+hjamknIFRyniBThyR/N0KCKPr
+	xcYKG/Ce66LwRGUNiTjOyjs=
+X-Google-Smtp-Source: ABdhPJylopnyPXWRENpda6WMAaSm/Ka2SyR2YpgXdpbAv2OVbm4e921b5q4otJm+j/dwNGcqjLgAHg==
+X-Received: by 2002:adf:ff8d:0:b0:207:a0e2:4487 with SMTP id j13-20020adfff8d000000b00207a0e24487mr3377962wrr.570.1649971501542;
+        Thu, 14 Apr 2022 14:25:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:8a0d:b0:6e8:c7a3:5746 with SMTP id
- sc13-20020a1709078a0d00b006e8c7a35746ls2640066ejc.6.gmail; Thu, 14 Apr 2022
- 06:40:27 -0700 (PDT)
-X-Received: by 2002:a17:906:694f:b0:6e8:b720:594 with SMTP id c15-20020a170906694f00b006e8b7200594mr2349235ejs.404.1649943627189;
-        Thu, 14 Apr 2022 06:40:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1649943627; cv=none;
+Received: by 2002:adf:f950:0:b0:205:dbf5:72d8 with SMTP id q16-20020adff950000000b00205dbf572d8ls1760868wrr.0.gmail;
+ Thu, 14 Apr 2022 14:25:00 -0700 (PDT)
+X-Received: by 2002:a5d:528b:0:b0:203:d928:834c with SMTP id c11-20020a5d528b000000b00203d928834cmr3404336wrv.500.1649971500366;
+        Thu, 14 Apr 2022 14:25:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1649971500; cv=none;
         d=google.com; s=arc-20160816;
-        b=vBc4VZTF1r4cUccVGPoSDkSxS03AIxNRImSeMwtJdF+6QyhjY7KBsBytSTKi13/iG9
-         nZ51B96WecGd7s+PQ2o5Mpy7cyDt6wPp2LGTJMqpB4Py9whsgVZj9STPI8ETJs/+7eRN
-         CR4sLSYL1AJ4lTmIZuO+yaGu4vyoLlD7zIULPO9j1FlDh9FENpn8a+SUQ8AbUNsRsO+4
-         4ZSVG3Bco0ja4xYIjjz7OiN2cnwGs2zgrh9Arpc3FggjIAKQl9NH0t2iEtHlEaBeunjX
-         2XPjFOiNJYGs1rGCxzQHrWIPEwIZ8FzhwDIdO5H036u/LC3yVX233QObtoG1YDJFA//I
-         qZwQ==
+        b=Ymiu9ktzsHi5HWIXnr4OZu71QTcdOXEbuWp6uVTwrPWO8mndFmloww2w+RvurJTJ2F
+         eLmgkrW1ESeM4QzxSmBAZoN3pe6F4tJG/AzsVyDQs9+Bw9A0KD7UxOEIYGXvAwDeaQs1
+         OJXqESPSoSuUzrEwyG/iglyUPlUtbyT18uSi4BR9WSEb+1d7vcUQKtUVr3uX8MAY1uM8
+         9hlQ85nUMJeAWB/PSTLIKyuq0xypUpLxGvnsAptu8Ki7vAij3HJTM1oDenFp4NrPkUC7
+         AZQqIUiDYBP8TFq10LKsU4Qkf4NkuxR3Ud/SEY8CWFUZldE0Xpqpo0f4NJveh30q1udN
+         oJCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=2VuuKot0bT7dX0fRQ2vxJZG5Y0C9VmUmWbJPaW2UK1Y=;
-        b=QRVaw49lo+D79NoPNGMuKGE5MeqBNuawN3/ZKGPbR2/QCAWiGNv9Qx6oL8t4CeEYx2
-         l0IRYCmVjYKNO2WqE+3gOIq+fObTlHWEpxMjWUKTN+UPHXcMwyapM9b5N8DxlFkMMkQd
-         9Y7GCtZVZV3lNifmNcKJ2p0Vz6bFiB05NGFkgjOQ7W7FMhI5P6ERzILpctvI5pVCh/wm
-         /y4IFy+V3Zg1JisbIlL7Pe9Zng0p1oxEKY2RESXUgwFOuAqbf/oh2HplpSWHx1mnUKzN
-         GAhwuSa7qoAhjprzQPJIVxqwpGTbvqeKAdZcAinR6kRN7+lo8gV7uvCOrC5gDocPQVIp
-         g1fg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=LvxHOjjPSqDfEIERe8vY9wM8Pb/QDf7DRQ3tKHSDPtE=;
+        b=Dln9JuMwuBSCaobDd5agibt69sRLvmwsP5LCUYeU1A/96xXVTsVjH678tc77qpSClr
+         xa7+e0Z+mpSwDgfLw1oZSvkMspgkZDGAk+HcUCYGIihwqD3h2sXgHg6zZNQkf4p3CMAl
+         NXcCb9zDoDEJBdAdUFZKSvCZ+X29pmuYhlqOSI5CrMz/Pt4wDF+7EvChQnjorgRAiHWf
+         xr756Ji42HLCA2/eUSlgu6EnAqy7N2jp2JPhS69TKb+yK46y/u2rbqLWX7Bf8ENVzB1d
+         zXQ8LdP/w6ukrRzQutCzVJEwqn71BNn9yPQh/PzjYQjbE71OmCacjykkZ0g1N0++WYl1
+         19pw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id y5-20020a056402440500b0041b5ea4060asi267912eda.5.2022.04.14.06.40.27
-        for <kasan-dev@googlegroups.com>;
-        Thu, 14 Apr 2022 06:40:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E8F9139F;
-	Thu, 14 Apr 2022 06:40:26 -0700 (PDT)
-Received: from lakrids (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2CA933F70D;
-	Thu, 14 Apr 2022 06:40:24 -0700 (PDT)
-Date: Thu, 14 Apr 2022 14:40:21 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: andrey.konovalov@linux.dev
-Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev@googlegroups.com,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Peter Collingbourne <pcc@google.com>,
-	Evgenii Stepanov <eugenis@google.com>,
-	Florian Mayer <fmayer@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH v3 0/3] kasan, arm64, scs: collect stack traces from
- Shadow Call Stack
-Message-ID: <YlgkRXkCLeQ5IcaD@lakrids>
-References: <cover.1649877511.git.andreyknvl@google.com>
- <YlgVa+AP0g4IYvzN@lakrids>
-MIME-Version: 1.0
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="Y/4dWiF0";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
+        by gmr-mx.google.com with ESMTPS id bh5-20020a05600c3d0500b0038dbb60f155si302wmb.1.2022.04.14.14.25.00
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 14 Apr 2022 14:25:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 0776FB82BB2;
+	Thu, 14 Apr 2022 21:25:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 613D2C385A5;
+	Thu, 14 Apr 2022 21:24:58 +0000 (UTC)
+Date: Thu, 14 Apr 2022 14:24:57 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Aleksandr Nogikh <nogikh@google.com>
+Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ dvyukov@google.com, andreyknvl@gmail.com, elver@google.com,
+ glider@google.com, tarasmadan@google.com, bigeasy@linutronix.de
+Subject: Re: [PATCH v3] kcov: don't generate a warning on vm_insert_page()'s
+ failure
+Message-Id: <20220414142457.d22ce3a11920dc943001d737@linux-foundation.org>
+In-Reply-To: <20220401182512.249282-1-nogikh@google.com>
+References: <20220401182512.249282-1-nogikh@google.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <YlgVa+AP0g4IYvzN@lakrids>
-X-Original-Sender: mark.rutland@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: akpm@linux-foundation.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linux-foundation.org header.s=korg header.b="Y/4dWiF0";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates
+ 145.40.68.75 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,65 +131,26 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Apr 14, 2022 at 01:36:59PM +0100, Mark Rutland wrote:
-> As I suspected, you're hitting a known performance oddity with QEMU TCG
-> mode where pointer authentication is *incredibly* slow when using the
-> architected QARMA5 algorithm (enabled by default with `-cpu max`).
+On Fri,  1 Apr 2022 18:25:12 +0000 Aleksandr Nogikh <nogikh@google.com> wrote:
 
-> This overhead has nothing to do with the *nature* of the unwinder, and
-> is an artifact of the *platform* and the *structure* of the code.
-> There's plenty that can be done to avoid that overhead
-
-FWIW, from a quick look, disabling KASAN instrumentation for the
-stacktrace object alone (with no other changes) has a significant impact
-(compounded by the TCG QARMA5 slowdown), and I note that x86 doesn't
-both instrumenting its stacktrace code anyway, so we could consider
-doing likewise.
-
-Atop that, replacing set_bit() with __set_bit() brings the regular
-unwinder *really* close to the earlier SCS unwinder figures. I know that
-the on_accessible_stack() calculations and checks could be ammortized
-with some refactoring (which I'd planned to do anyway), so I think it's
-plausible that with some changes to the existing unwinder we can bring
-the difference into the noise.
-
-> generic kasan w/ `-cpu max`
-> ---------------------------
+> vm_insert_page()'s failure is not an unexpected condition, so don't do
+> WARN_ONCE() in such a case.
 > 
-> master-no-stack-traces: 12.66
-> master:                 18.39 (+45.2%)
-> master-no-stack-depot:  17.85 (+40.1%)
-> up-scs-stacks-v3:       13.54 (+7.0%)
+> Instead, print a kernel message and just return an error code.
 
-master-noasan:            15.67 (+23.8%)
-master-noasan-__set_bit:  14.61 (+15.5%)
+(hm, I thought I asked this before but I can't find it)
 
-> Generic KASAN w/ `-cpu max,pauth-impdef=true`
-> ---------------------------------------------
-> 
-> master-no-stack-traces: 2.69
-> master:                 3.35 (+24.5%)
-> master-no-stack-depot:  3.54 (+31.5%)
-> up-scs-stacks-v3:       2.80 (+4.1%)
+Under what circumstances will this failure occur?
 
-master-noasan:            3.05 (+13.0%)
-master-noasan-__set_bit:  2.96 (+10.0%)
+Why do we emit a message at all?  What action can the user take upon
+seeing the message?
 
-> Generic KASAN w/ `-cpu max,pauth=false`
-> ---------------------------------------
-> 
-> master-no-stack-traces: 1.92
-> master:                 2.27  (+18.2%)
-> master-no-stack-depot:  2.22  (+15.6%)
-> up-scs-stacks-v3:       2.06  (+7.3%)
+Do we have a Fixes: for this?
 
-master-noasan:             2.14 (+11.4%)
-master-noasan-__set_bit:   2.10 (+9.4%)
-
-Thanks,
-Mark.
+From the info provided thus far I'm unable to determine whether a
+-stable backport is needed.  What are your thoughts on this?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YlgkRXkCLeQ5IcaD%40lakrids.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220414142457.d22ce3a11920dc943001d737%40linux-foundation.org.
