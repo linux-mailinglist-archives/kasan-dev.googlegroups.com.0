@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRB5VK4CJAMGQELILRHSY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBENP4CJAMGQEVPPM7SA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0253500DB5
-	for <lists+kasan-dev@lfdr.de>; Thu, 14 Apr 2022 14:37:10 +0200 (CEST)
-Received: by mail-lf1-x138.google.com with SMTP id z20-20020a19e214000000b0046d1726edd8sf416961lfg.13
-        for <lists+kasan-dev@lfdr.de>; Thu, 14 Apr 2022 05:37:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1649939830; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id E21E6500DF3
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 Apr 2022 14:46:09 +0200 (CEST)
+Received: by mail-lf1-x13c.google.com with SMTP id w34-20020a0565120b2200b0044adfdd1570sf2278442lfu.23
+        for <lists+kasan-dev@lfdr.de>; Thu, 14 Apr 2022 05:46:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1649940369; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yoHgzCentYTSxX0/BuSfd1KCJWqVC2FjC0QdNjHDsStj/KjxrWysZT1njjtBS6zvkb
-         NJUGoDr256BdHQ6pF4Pq5u2RY0bwMYLElf7KCMGW9zHYU5zjxyKrVyBnopaa2yPmMsbu
-         U9SZK7EoqGk06tg2met/ImeQhSdpDPlCMu6NJPyfxLb05zSSFeEy8DHkJuS/mLR7M6Hm
-         T/MC5bffdj8kKBvpBEF4SldXH/tHK4AqG5LcWoBh6fwKbyl+UaKD1Bz6zcb1l0FGzFYL
-         rQkq8f8U/53wbf2LAEzr5eRiyjX1uYxo/WGXMAQmtKrn8iApOWUpxnt/Xa9g6MObsFPz
-         d+Rw==
+        b=G9kMBHSzK9lvKYU2ErdR0nItygTORRAmwmtazQVtOyssrsINZuWUIi0TiZ+EkgUYFy
+         MpzzscGmqwfTRDUR2SlENuhKekOJup+u4PcjVZDx3rjUe33rWpeD4WCKNySGtZe51VfY
+         5rBZk93YLpddaDyM+rOS6QdxaoSfx8cOhaaKnLXmK1IVSIy0InT0rzDe+QB7z1ME9W7x
+         1yRtGZv5CRD6NNIZBoNCHOEXkEVLtyrQcCLF3vdR0koZaGTy2J7ZO1xBuDAG+wWv3pws
+         F481I3qIbJwK15cOTSmU0zvshXwL/A9irLy7NcnoogBVAXvhb0GNO5P3ZOpr7gtQPill
+         YUAg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=N3CwDcj42c7+7TNZiHcb45/6DAOTI5pqGGmiMZ0mH9E=;
-        b=mHPXlUfkBamFZb/SUJ7b+Qj5ySvnJWl2Fyns2bhp3UPACQksnEIJXym5LBXGQI/Ra5
-         k42bcbdH4nUs+alhcGzd56RsxbS3sGjQASRyQ/NmrPLKhP/1Yg9BUjFgkYxLboU3VjTs
-         HqiXJwh6CxqnRa7taVwdDz9pmgdEt2S3UZNzelLwjy7IgDE4oQUCsWFXIusgRsdtv+Cv
-         yJleCCakdTXSzDzr49hd7etBJHEOA83wgpnRpivXjG3886ij2MXUDYUd0bTyozKKPX/0
-         EOuIPIrUDZ0ijiVSOZkfjYGSM6WpL8h8hrqCfE3L3HBWItI3CnWQ1IYgkBZnduOPRs0F
-         s17Q==
+        bh=qksJVtRpjaxa81xF+ho0VZc43eoYE5U7+2ZMR9xrD20=;
+        b=lfaAMtxgVLZfmKemUBxvxzkSb8/F/YsbIFPe/wv88D9B7nOIYA1ZQKd39hfkpanSLH
+         vzRMxa+MZoyqAsS7OL+RGfP9wCzwKECAm4m2AFUl3WG9/yeX2FXZpLfeC3IGuI/ZQH9e
+         gTFyPHkfTDXrcB7Rh698ojHXl2JfsQydWvl0wFE4qyHOgj5KbfOoLFWsVavNrBC9Yt1X
+         GJq/8LVPWT1GD4WSHhtTyi0BnTG/cbAQgNrVcOxECcJtD8RI6yvXwtEXAUK+B2sHOWfL
+         TNGRhwJ/dw5A/Tn6Ya6JIy1tG1YRtiRSMCfs5GU9dl0O61sJcWQ75KNLOcgyjTINQgLg
+         xgcg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=N3CwDcj42c7+7TNZiHcb45/6DAOTI5pqGGmiMZ0mH9E=;
-        b=HduKaps4fzAuE6cYDKgtYTZZm5TYAJHquCEqzE+UJ7JxwFEI40NKaULcXlHiBmR185
-         zcVbrt3peYsNBkRRoB9KcjaDFD7vEhMk8JVZRn8j+WKpBjX4uXuQRZHPXb2/+Uh7LnLG
-         ZoC+W5r8E7vIN23+4kzb0oD5QeiEbeMF+dqkrykOM45usN3l5VYMVrwD9Qx2B7he8QQc
-         XwiJjZ5EznX8VnbA3pWbAk/1LdG4d7Rxnj7d+/oJecpOiIiHQhEipzNRh3xLKajCePSC
-         y90iTU3cxgiuEId+rKLIJGiFbv1n8cMOiHTvlZk8mjnAOCxXyCcNOnbgCgnfNJTqLLR+
-         aCSA==
+        bh=qksJVtRpjaxa81xF+ho0VZc43eoYE5U7+2ZMR9xrD20=;
+        b=eZ5A1w/wWchGBidMVIMz12jvyNVC35GBSfQI6sl0/KbSNiXZErUXs+yEWQ1vrZM/fQ
+         EFYUuh/A5hFKDF45gpZRoyanwe5Fmn8+Tqa14hS3IvnAaT9I4PBHQXvLn4cl/kawfj5a
+         KDUOK3D+W2dbCV9i0OzlAR/0ZKRiQeVYr7MK2mRyBySy7FDRZARMTjUHl4iAKcMwEV+h
+         WIgU2s+tXAEhPhHtAoYaYqVJSTYQ9G/URkMqsP8FjLf9Fvq9fcD1Dpg2UTBBse2O3BTp
+         VE7xwOTOyT0V6UzF7s43d44cuvJsstIDRYHV9TYWluftleb/4TQCRuDh1NlHrlCNdOdF
+         3mWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -49,58 +49,57 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=N3CwDcj42c7+7TNZiHcb45/6DAOTI5pqGGmiMZ0mH9E=;
-        b=KAwRHiln6HpJw4/wfgw47PTRxasxN+Fi7LR7QhPIdgNTvNQoOnpNL0/wucJnek7AaK
-         FcmDWEeerRIPQwpyljnkqzT6s0ED12M99lfppg6hEwcwIMdn+TDhKI36cNEw1oZpLW8O
-         JIXqoPP2Mriabh10OuITD5Q32yOFCt1FrJcaVMsX14LmrO48YJ4eRytUnStzz5VANMDy
-         2UTZcaFQaO02Gplo5BfY6mmrelurHqI2dhDSdbX62CwwEkUbLg4FS3cX4CA86AA1XG1B
-         VhpPhqlM1dp7a/DV17FfdfhrGqE+ZNmZkO9r26z5Zb7b7V6TFaeVxs2rSdXQseS6/R4a
-         xC7Q==
+        bh=qksJVtRpjaxa81xF+ho0VZc43eoYE5U7+2ZMR9xrD20=;
+        b=xfpr10Qh7PM0KJusalcmI9ZSp2i5YnBBcjz280zwiT63N+GjqwQmrXHOsV4cIp4+Ju
+         Dtpi5cqGkMVZPP6Y9iyLBlGmSzz60gOzVr6NL7ZKvBTlfoQNeqSfBa9pVqnGqr28N/bB
+         11w6cD4JAkhB6UvoF8ddSoeew+/fQDUfIYGRgDdTZKV93ePSLqSIl6mx1Ih8ZgFN+jSx
+         WwMbnH7iUbdRSugf6qOqHVppDAfh1TRBIXBALA2AMwxXsv2ItcHdkH5BydcvQ35bFR2e
+         Q1aWpXUjrlOe1ITtigUsgjlt9+Nqy+wf+G5qk8VUC5QBW/MLzcYVjdoqfeKuBF+TkJ5r
+         T3yQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530H/fLmX3h10N3syu0ZbbBI6HyKeg9W3G6nKDC6yG7xlfwMadKi
-	SrWvkjCch6MTsIQ0brrFPuE=
-X-Google-Smtp-Source: ABdhPJy2pMSt5AYc0q5lOt3h4puo+bmeVxY5aTv7Zg66+efdqTK4xATebg8rXBkajH4Au9Dznj6+mw==
-X-Received: by 2002:a05:6512:1090:b0:46b:825b:88c6 with SMTP id j16-20020a056512109000b0046b825b88c6mr1803797lfg.363.1649939830344;
-        Thu, 14 Apr 2022 05:37:10 -0700 (PDT)
+X-Gm-Message-State: AOAM5338SN2XWo6F8a/LYhJ8qQE8DILuPuCKZ/mIKR0ao6OX7BIAbITA
+	dmhs5CaD4vEV9JBH3ewa3cE=
+X-Google-Smtp-Source: ABdhPJxhdNSo8P8bPa+FKFXYmw8gmx1uxoMymFWQSWPLTRkuy7bH6CgKO6N2RUScAoPEJwlboRjxjA==
+X-Received: by 2002:a05:651c:160b:b0:24d:a0fa:26cc with SMTP id f11-20020a05651c160b00b0024da0fa26ccmr428338ljq.150.1649940369282;
+        Thu, 14 Apr 2022 05:46:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:1693:b0:448:3742:2320 with SMTP id
- bu19-20020a056512169300b0044837422320ls4386079lfb.1.gmail; Thu, 14 Apr 2022
- 05:37:09 -0700 (PDT)
-X-Received: by 2002:a05:6512:3d0a:b0:46d:94f:b0b6 with SMTP id d10-20020a0565123d0a00b0046d094fb0b6mr1828099lfv.486.1649939828922;
-        Thu, 14 Apr 2022 05:37:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1649939828; cv=none;
+Received: by 2002:a2e:a7c3:0:b0:24a:fddc:ed41 with SMTP id x3-20020a2ea7c3000000b0024afddced41ls981242ljp.9.gmail;
+ Thu, 14 Apr 2022 05:46:07 -0700 (PDT)
+X-Received: by 2002:a2e:95d2:0:b0:24b:59a5:21ba with SMTP id y18-20020a2e95d2000000b0024b59a521bamr1487734ljh.439.1649940367781;
+        Thu, 14 Apr 2022 05:46:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1649940367; cv=none;
         d=google.com; s=arc-20160816;
-        b=mQmWABslX5AcQnOliZgBrdIgmaO/o1poYoKZfwhxWTRJ9Vjk544NOOApo1u5KIGDY5
-         Cu1DuPozW86hBTXnbM5j3w1ZW/uxpER0NG2/WgHZ+XaeMZosavTMSuuhVP0254ad+qY5
-         SI57pLKAStDJ27M0IyjJAOBt2BjDUT9+Z6ncGd1U7P6fj3snEfXiWI+7qleZwQNUgcjQ
-         iqclMxgpHNHc68BXZCE20k3JOiNKBJ4X8MbNU6LtJZUVdawHe9o0U/+8hebuyoBtOR6g
-         TsPosvFovmSDoVBT7f2h+89pkAF2zVlcOtGVedwVdl6l6nstwyZmkub0aGkATkq3452u
-         9ExQ==
+        b=ycbzpy66A53NJl808ctNw50SfvyrBowcRTwemkB+RYr/+hWYcI2OHs5SXKc1Sk/W+G
+         YkQv8V+ncUBmNx8vmAGl/nvaHStHMcegDYK/RrpfzQnmy9lSlzduLdOp/N/PP7Ujcske
+         Pp2sy60lRuNWW7UPrctDTuG4rDPwwSc0/mDKm/Tcu+X0KXsp1LS4r3dtcgt5VFz02qM9
+         1UVIGFVCuFFM50ZfH+QUJ1DMIWqnYSE3TuWTbHyLbQbmk9r2rgiCJQHQvcvMQErQZHNR
+         EV3sFrphN2DV8RE8qYKI7o4EnBbY6ihYgDPl3i+Tvf8LDzvt4LLClF/IF9LOmvJYsQCW
+         bIjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date;
-        bh=4EF5Tgb5j0BM7sWKb61MgBi/L5BwSadZvMPwhXzpxlE=;
-        b=PMb4G+UNJwGz6g7nC+074F7JLi8X4X4TDc/R4liiLD4W70atN9Uq0qXF+4q9dBP8dt
-         X/aZNZQWl4FRBpVPGKLCOhdw8+ICnsKvbfG2Pkco3M++s9PUUNYA5jOumtxnYW5OB0gP
-         VGite4YsqlIPbX4n42yQCsky/z8OiieKb1NywhtAV05n8M3D8GQOJBA4P0LSXzb9LAy3
-         56KJU1qsWEKnso5bhX4fDthnXKSiayZPD0ANtnSLswQzXtWcQeZglL2rFFtJ3tpeFYDZ
-         Yi1MEPvbIfXYKaYRfVTFIcm0wwp1zFqI4gmhcRqceBXZM7jSb6OX7QpoushDhwt4oNsW
-         ah8A==
+        bh=6KFOwKoPEIsZwPb2uiiRkr1OqP8mZh6A0ZzLiM9xZxc=;
+        b=iKXjC4R0v7mH5J46wFNwwkf4WdTziUGQTfYAjHxASwm3SXBeupe045FqHSzQRT9HBh
+         Bgo3tTMEWulgkl+zXHywY46qoqZCIDRnWolAKW97f7uIV5j/mDWEzAwes1NvXHpNLpcH
+         Z+mDMBA6DtObIvSsEj6Xu8GSW+8eh6SSYIUQD5qvzy/GqMpYnbM0JTEL37CplaeBqLlt
+         PiRnRPISjtBifPJ/LRPx6RMbuarhUqZssvsVp2/3iva6DLqX43T5HhQwZBtUrIOyQv+/
+         daRKk3H5KrHNV6QmnowmXaw09x3QD4ULiE3Heol8QbptdyxQg/4LE138HuTMvCEwmFe+
+         unOA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id s27-20020ac2465b000000b0046c9d290537si259899lfo.9.2022.04.14.05.37.08
+        by gmr-mx.google.com with ESMTP id bx33-20020a05651c19a100b0024da01a8c6dsi22561ljb.1.2022.04.14.05.46.07
         for <kasan-dev@googlegroups.com>;
-        Thu, 14 Apr 2022 05:37:08 -0700 (PDT)
+        Thu, 14 Apr 2022 05:46:07 -0700 (PDT)
 Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7DD25139F;
-	Thu, 14 Apr 2022 05:37:07 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 62BBC1424;
+	Thu, 14 Apr 2022 05:46:06 -0700 (PDT)
 Received: from lakrids (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31D4D3F70D;
-	Thu, 14 Apr 2022 05:37:05 -0700 (PDT)
-Date: Thu, 14 Apr 2022 13:36:59 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 133923F70D;
+	Thu, 14 Apr 2022 05:46:03 -0700 (PDT)
+Date: Thu, 14 Apr 2022 13:46:01 +0100
 From: Mark Rutland <mark.rutland@arm.com>
 To: andrey.konovalov@linux.dev
 Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
@@ -119,14 +118,14 @@ Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH v3 0/3] kasan, arm64, scs: collect stack traces from
- Shadow Call Stack
-Message-ID: <YlgVa+AP0g4IYvzN@lakrids>
+Subject: Re: [PATCH v3 2/3] kasan, arm64: implement stack_trace_save_shadow
+Message-ID: <YlgXiddhNAQxzmTC@lakrids>
 References: <cover.1649877511.git.andreyknvl@google.com>
+ <78cd352296ceb14da1d0136ff7d0a6818e594ab7.1649877511.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <cover.1649877511.git.andreyknvl@google.com>
+In-Reply-To: <78cd352296ceb14da1d0136ff7d0a6818e594ab7.1649877511.git.andreyknvl@google.com>
 X-Original-Sender: mark.rutland@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
@@ -144,255 +143,133 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Apr 13, 2022 at 09:26:43PM +0200, andrey.konovalov@linux.dev wrote:
+On Wed, Apr 13, 2022 at 09:26:45PM +0200, andrey.konovalov@linux.dev wrote:
 > From: Andrey Konovalov <andreyknvl@google.com>
 > 
-> Currently, when saving alloc and free stack traces, KASAN uses the normal
-> stack trace collection routines, which rely on the unwinder.
+> Implement stack_trace_save_shadow() that collects stack traces based on
+> the Shadow Call Stack (SCS) for arm64 by copiing the frames from SCS.
 > 
-> Instead of invoking the unwinder, collect the stack trace by copying
-> frames from the Shadow Call Stack. This reduces boot time by ~30% for
-> all KASAN modes when Shadow Call Stack is enabled. See below for the
-> details of how the measurements were performed.
+> The implementation is best-effort and thus has limitations.
 > 
-> Stack staces are collected from the Shadow Call Stack via a new
-> stack_trace_save_shadow() interface.
+> stack_trace_save_shadow() fully handles task and softirq contexts, which
+> are both processed on the per-task SCS.
 > 
-> Note that the implementation is best-effort and only works in certain
-> contexts. See patch #3 for details.
+> For hardirqs, the support is limited: stack_trace_save_shadow() does not
+> collect the task part of the stack trace. For KASAN, this is not a problem,
+> as stack depot only saves the interrupt part of the stack anyway.
 > 
+> Otherwise, stack_trace_save_shadow() also takes a best-effort approach
+> with a focus on performance. Thus, it:
+> 
+> - Does not try to collect stack traces from other exceptions like SDEI.
+> - Does not try to recover frames modified by KRETPROBES or by FTRACE.
+> 
+> However, stack_trace_save_shadow() does strip PTR_AUTH tags to avoid
+> leaking them in stack traces.
+> 
+> The -ENOSYS return value is deliberatly used to match
+> stack_trace_save_tsk_reliable().
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 > ---
-> 
-> Changes
-> =======
-> 
-> v2->v3:
-> - Limit hardirq and drop SDEI support for performance and simplicity.
-> - Move stack_trace_save_shadow() implementation back to mm/kasan:
->   it's not mature enough to be used as a system-wide stack trace
->   collection replacement.
-> - Clarify -ENOSYS return value from stack_trace_save_shadow().
-> - Don't rename nr_entries to size in kasan_save_stack().
-> - Check return value of stack_trace_save_shadow() instead of checking
->   CONFIG_HAVE_SHADOW_STACKTRACE in kasan_save_stack().
-> 
-> v1->v2:
-> - Provide a kernel-wide stack_trace_save_shadow() interface for collecting
->   stack traces from shadow stack.
-> - Use ptrauth_strip_insn_pac() and READ_ONCE_NOCHECK, see the comments.
-> - Get SCS pointer from x18, as per-task value is meant to save the SCS
->   value on CPU switches.
-> - Collect stack frames from SDEI and IRQ contexts.
-> 
-> Perf
-> ====
-> 
-> To measure performance impact, I used QEMU in full system emulation mode
-> on an x86-64 host.
+>  mm/kasan/common.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
 
-Just to be clear: QEMU TCG mode is *in no way* representative of HW
-performance, and has drastically different performance characteristics
-compared to real HW. Please be very clear when you are quoting
-performance figures from QEMU TCG mode.
+As things stand, NAK to this patch, for the reasons I have laid out in
+my replies to earlier postings and to my reply to the cover letter of
+this posting.
 
-Previously you said you were trying to optimize this so that some
-version of KASAN could be enabled in production builds, and the above is
-not a suitable benchmark system for that.
+To be clear, that NAK applies regardless of where this is placed within
+the kernel tree. If we *really* need to have a special unwinder, that
+should live under arch/arm64/, but my first objection is that it is not
+necessary.
 
-Is that *actually* what you're trying to enable, or are you just trying
-to speed up running instances under QEMU (e.g. for arm64 Syzkaller runs
-on GCE)?
-
-> As proposed by Mark, I passed no filesystem to QEMU and booted with panic=-1:
-> 
-> qemu-system-aarch64 \
-> 	-machine virt,mte=on -cpu max \
-> 	-m 2G -smp 1 -nographic \
-> 	-kernel ./xbins/Image \
-> 	-append "console=ttyAMA0 earlyprintk=serial panic=-1" \
-> 	-no-shutdown -no-reboot
-> 
-> Just in case, the QEMU version is:
-> 
-> $ qemu-system-aarch64 --version
-> QEMU emulator version 6.2.94 (v5.2.0-rc3-12124-g81c7ed41a1)
-
-Thanks for this information, this makes it *much* easier to see what's
-going on here.
-
-As I suspected, you're hitting a known performance oddity with QEMU TCG
-mode where pointer authentication is *incredibly* slow when using the
-architected QARMA5 algorithm (enabled by default with `-cpu max`).
-
-Practically speaking, when using TCG mode with `-cpu max`, PACIASP and
-AUTIASP instructions in function prologues/epilogues take much longer
-than they would on real hardware, and this means that those skew
-performance with an overhead whcih scales with the number of function
-calls. The regular unwinder is hit pretty bad by this because it has a
-few function calls (including KASAN instrumentation), and the overhead
-of this dominates the cost of the actual unwind logic. Your SCS unwinder
-isn't as badly hit by that because it has fewer function calls.
-
-This overhead has nothing to do with the *nature* of the unwinder, and
-is an artifact of the *platform* and the *structure* of the code.
-There's plenty that can be done to avoid that overhead, including basic
-QEMU options which don't require kernel changes.
-
-For example, if you replace:
-
-	-cpu max
-
-With:
-
-	-cpu max,pauth-impdef=true
-
-... QEMU will use an IMPLEMENTATION DEFINED pointer authentication
-algorithm which is *much* faster than its implementation of QARMA5 (and
-tests below show that make the kernel reach the panic in ~1/6 the time).
-
-Since you're testing with shadow call stack, you could decide to disable
-pointer authentication entirely. You can tell QEMU to not provide that
-with:
-
-	-cpu max,pauth=false
-
-... which in tests below makes the kernel reach the panic in 1/9 the
-time.
-
-You could instead change your config to have
-CONFIG_ARM64_PTR_AUTH_KERNEL=n, which would cause the kernel to be built
-without the instructions which are causing the slowdown.
-
-For comparisons below, I've built the same version of QEMU as you're
-using. The numbering in that version string is a bit confusing, so I've
-gone by the git commit ID:
-
-| commit 81c7ed41a1b33031f3e4fe24191a998a492044b8 (HEAD, tag: v7.0.0-rc4, origin/master, origin/HEAD)
-| Author:     Peter Maydell <peter.maydell@linaro.org>
-| AuthorDate: Tue Apr 12 17:01:34 2022 +0100
-| Commit:     Peter Maydell <peter.maydell@linaro.org>
-| CommitDate: Tue Apr 12 17:01:34 2022 +0100
-| 
-|     Update version for v7.0.0-rc4 release
-|     
-|     Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-| 
-| diff --git a/VERSION b/VERSION
-| index 80d0afb063..9c57137cdf 100644
-| --- a/VERSION
-| +++ b/VERSION
-| @@ -1 +1 @@
-| -6.2.93
-| +6.2.94
-
-My host machine is an Intel Xeon E5-2660.
-
-> Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
-> 
-> Then, I recorded the timestamp of when the "Kernel panic" line was printed
-> to the kernel log.
-> 
-> The measurements were done on 5 kernel flavors:
-> 
-> master                 (mainline commit a19944809fe99):
-> master-no-stack-traces (stack trace collection commented out)
-> master-no-stack-depot  (saving to stack depot commented out)
-> up-scs-stacks-v3       (collecting stack traces from SCS)
-> up-scs-stacks-v3-noscs (up-scs-stacks-v3 with __noscs marking)
-> 
-> (The last flavor is included just for the record: it produces an unexpected
->  slowdown. The likely reason is that helper functions stop getting inlined.)
-
-As above, that case is hitting the overhead of QEMU TCG mode's
-incredibly slow pointer authentication.
-
-> All the branches can be found here:
-> 
-> https://github.com/xairy/linux/branches/all
-> 
-> The measurements were performed for Generic and HW_TAGS KASAN modes.
-> 
-> The .configs are here (essentially, defconfig + SCS + KASAN):
-> 
-> Generic KASAN: https://gist.github.com/xairy/d527ad31c0b54898512c92898d62beed
-> HW_TAGS KASAN: https://gist.github.com/xairy/390e4ef0140de3f4f9a49efe20708d21
-> 
-> The results:
-> 
-> Generic KASAN
-> -------------
-> 
-> master-no-stack-traces: 8.03
-> master:                 11.55 (+43.8%)
-> master-no-stack-depot:  11.53 (+43.5%)
-> up-scs-stacks-v3:       8.31  (+3.4%)
-> up-scs-stacks-v3-noscs: 9.11  (+13.4%)
-
-I made the same measurements, reading the timestamp on the panic
-message. From my local results, the performance oddity with pointer
-authentication dominates everything else, and by changing QEMU options
-to minimize or eliminate that overhead the difference in unwinder
-overhead becomes far less pronouced and the overall boot time is reduced
-to a fraction of the time taken when the incredibly slow imlpementation
-of pointer authentication is used:
-
-Generic KASAN w/ `-cpu max`
----------------------------
-
-master-no-stack-traces: 12.66
-master:                 18.39 (+45.2%)
-master-no-stack-depot:  17.85 (+40.1%)
-up-scs-stacks-v3:       13.54 (+7.0%)
-
-Generic KASAN w/ `-cpu max,pauth-impdef=true`
----------------------------------------------
-
-master-no-stack-traces: 2.69
-master:                 3.35 (+24.5%)
-master-no-stack-depot:  3.54 (+31.5%)
-up-scs-stacks-v3:       2.80 (+4.1%)
-
-All results are 5x to 6x faster; the regular unwinder overhead is
-reduced by ~20% relative to `-cpu max`.
-
-Generic KASAN w/ `-cpu max,pauth=false`
----------------------------------------
-
-master-no-stack-traces: 1.92
-master:                 2.27  (+18.2%)
-master-no-stack-depot:  2.22  (+15.6%)
-up-scs-stacks-v3:       2.06  (+7.3%)
-
-All results are 6x to 9x faster; the regular unwinder overhead is
-reduced by 27% relative to `-cpu max`.
-
-To speed up your QEMU runs, there are a couple of trivial options
-available to you which'll improve your runs by ~6x to ~9x, which vastly
-outstrips any benefit gained from changing the unwinder. I'd recommend
-you at least consider moving to `pauth-impdef=true`.
-
-While the SCS unwinder is still faster, the difference is nowhere near
-as pronounced. As I mentioned before, there are changes that we can make
-to the regular unwinder to close that gap somewhat, some of which I
-intend to make as part of ongoing cleanup/rework in that area.
-
-I haven't bothered testing HW_TAGS, because the performance
-characteristics of emulated MTE are also nothing like that of a real HW
-implementation.
-
-So, given that and the problems I mentioned before, I don't think
-there's a justification for adding a separate SCS unwinder. As before,
-I'm still happy to try to make the regular unwinder faster (and I'm
-happy to make changes which benefit QEMU TCG mode if those don't harm
-the maintainability of the unwinder).
-
-NAK to adding an SCS-specific unwinder, regardless of where in the
-source tree that is placed.
+I am more than happy to extend the existing unwinder with some options
+to minimize overhead (e.g. to stop dumping at an exception boundary),
+since that sounds useful to you, and I know is relatively simple to
+implement.
 
 Thanks,
 Mark.
 
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index d9079ec11f31..23b30fa6e270 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -30,6 +30,68 @@
+>  #include "kasan.h"
+>  #include "../slab.h"
+>  
+> +#ifdef CONFIG_SHADOW_CALL_STACK
+> +#include <linux/scs.h>
+> +#include <asm/scs.h>
+> +
+> +/*
+> + * Collect the stack trace from the Shadow Call Stack in a best-effort manner:
+> + *
+> + * - Do not collect the task part of the stack trace when in a hardirq.
+> + * - Do not collect stack traces from other exception levels like SDEI.
+> + * - Do not recover frames modified by KRETPROBES or by FTRACE.
+> + *
+> + * Note that marking the function with __noscs leads to unnacceptable
+> + * performance impact, as helper functions stop being inlined.
+> + */
+> +static inline int stack_trace_save_shadow(unsigned long *store,
+> +					  unsigned int size)
+> +{
+> +	unsigned long *scs_top, *scs_base, *frame;
+> +	unsigned int len = 0;
+> +
+> +	/* Get the SCS base. */
+> +	if (in_task() || in_serving_softirq()) {
+> +		/* Softirqs reuse the task SCS area. */
+> +		scs_base = task_scs(current);
+> +	} else if (in_hardirq()) {
+> +		/* Hardirqs use a per-CPU SCS area. */
+> +		scs_base = *this_cpu_ptr(&irq_shadow_call_stack_ptr);
+> +	} else {
+> +		/* Ignore other exception levels. */
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * Get the SCS pointer.
+> +	 *
+> +	 * Note that this assembly might be placed before the function's
+> +	 * prologue. In this case, the last stack frame will be lost. This is
+> +	 * acceptable: the lost frame will correspond to an internal KASAN
+> +	 * function, which is not relevant to identify the external call site.
+> +	 */
+> +	asm volatile("mov %0, x18" : "=&r" (scs_top));
+> +
+> +	/* The top SCS slot is empty. */
+> +	scs_top -= 1;
+> +
+> +	for (frame = scs_top; frame >= scs_base; frame--) {
+> +		if (len >= size)
+> +			break;
+> +		/* Do not leak PTR_AUTH tags in stack traces. */
+> +		store[len++] = ptrauth_strip_insn_pac(*frame);
+> +	}
+> +
+> +	return len;
+> +}
+> +#else /* CONFIG_SHADOW_CALL_STACK */
+> +static inline int stack_trace_save_shadow(unsigned long *store,
+> +					  unsigned int size)
+> +{
+> +	return -ENOSYS;
+> +}
+> +#endif /* CONFIG_SHADOW_CALL_STACK */
+> +
+>  depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc)
+>  {
+>  	unsigned long entries[KASAN_STACK_DEPTH];
+> -- 
+> 2.25.1
+> 
+
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YlgVa%2BAP0g4IYvzN%40lakrids.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YlgXiddhNAQxzmTC%40lakrids.
