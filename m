@@ -1,150 +1,128 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBUU4QWJQMGQE4GA364A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRB35NQWJQMGQEINT67FI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B13A509FAC
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Apr 2022 14:30:12 +0200 (CEST)
-Received: by mail-io1-xd3d.google.com with SMTP id q5-20020a0566022f0500b00654a56b1dfbsf3187675iow.8
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Apr 2022 05:30:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1650544211; cv=pass;
+Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F56E50A059
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Apr 2022 15:06:57 +0200 (CEST)
+Received: by mail-pg1-x53d.google.com with SMTP id a15-20020a63cd4f000000b003a9f17da993sf2771884pgj.13
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Apr 2022 06:06:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1650546416; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yy60wsSVGPP5Dgd0Ea18Z6o0zOwH/Y2tA2vElCKRehl2dwq1GkYdA9JzaI6ZkiOKQc
-         Nb3WfXnIgAN37TLMHHp21Te98X86tj9UqD+9H48SHkCn71n4GVC83TjilsVVOExDmOZP
-         Fp24pBLXWOvAFtGYdgzDZqZe1PQT7I0ukeThp1CTtVt7raQ6YG7J+dHkDkTyMqQSpQvy
-         v61L662JrxIp0axnKvS84dGaI7CxTW8VHGZH2R1RypQhyPseicOlLGV9cvQbxG3rgZF0
-         ZTncNs/A4YgSJXKsQL35HtH8imEI6pnNZ1HVq4tFwNHQn3FeKp4bhTpG7q5ANEbdv8MJ
-         j0PQ==
+        b=GOrgpCbFujQnIMVpruZ8x0fLFMamuInye6u59qyXDzPHaAWjUezoX5faPffiVvWvXa
+         9sHJ40S7sYKSnygnHfdZAFrk2UaBsY+7n5tEbxm9u4uAVQPoAQYA/edAj6y0MBRZ30Dc
+         la/YIx9NKhi9EWMO3s+umAnnLS4rgdpxu5Gjlm/kHfJ9VU9zeTHicACC0TkMG/iPGv4i
+         YsJpYlkSTxUFbAXR+Gw7lxwvYrg/k1IG6AXYiS6o2JbVq/p3VWvNYHQhFlYn1BoQm7N9
+         rzEQfEfyQbdgVJiZOjZ0fqMxNQtnfLBIp3Qwe0ZkQKzM2hkE19D4v/pwiYlhz9iF+g36
+         aO7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature:dkim-signature;
-        bh=KXYdRFfjkMe+QlH+FsUyUQIPmP5MzyTGWGTei/7D9JM=;
-        b=k/ymWgY01Uv2IgEURELd76G7Aj/ZKy/8fuRdCOaem0sXv8XSTqLs2aQH8eNr1m8MwI
-         ELL7NbLGKmv7tdCBbhqP6saxUOvfh8JhD4e4Ldf/4kTKRtwm0qwXDYp4NEk4aS8I7NvD
-         TOo4gLe4oUbcmAA5D84YHX6gkKgXamfhAmr+aARFGcaB4HbpYq3t6AftqppyzQEMjLJ5
-         CIjmSz8X7KBUWrVEeLJK3Le8ODU+Vo23valT9WvTxYfxoYFY9PdbiNLxbZHpT9dTEsXy
-         p0qUdIy2slz3Vw44vofvrmbgOJijrtUL3LU+5hYMAPVA4HxKWWppK1EpXSmuz90AlBkb
-         qh6Q==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=BpreNlbrY9ZlxK0E/8Nz8WWtmseHK49DkF/kiOmuDLs=;
+        b=zetd1Mc50X0gVyt30n5QLaCwd9Glntc41NatTNsXIw9ZXzjlQeyqMiHgS1QplOpMOV
+         zZOHnLCfIei2iviPYN+nShJq30M3f83ztAeJsIf+86wPyocB9gKROoLv/0ojNmnnYBqL
+         0ZMH5u/0zjRjHtao7BwDA4rCxYdmmkXzT9HAjkaTI7EeGi2RsgD04nkFDNEoxT5BkOvz
+         /2IIO6ufQrW5k0jA9LuHubVVjIdfCI5YC0U3yr5jJqBf1nfaGLZFhy2MzmHnNNSOT6D4
+         xwbFT0E7JSOnrsSuE4uA54LUq8W40ywNtFQKDcm6F/Qb0ir8Mzrh/HPzP4JQVOKjuvjR
+         hsbg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=omd3y+6m;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52f as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=N+bbZtE9;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=KXYdRFfjkMe+QlH+FsUyUQIPmP5MzyTGWGTei/7D9JM=;
-        b=Lpxxy5O/gFrnv2hY/tPAUAb0G3aGDp4NV2bemwZBwmE0eECUBmC3GRzthtn5YvQFbL
-         d81Nhx9V8cYqyXpkxle8TY1mM21gtT/85UTMHqbpFMNPcqIAmNFA8ohAzYOSYuKC4hrA
-         wa3OBUo8XCOYwtuRME+n6Mbtt02l7hjSWBAxYRig5bk/7a+woiQlQh1ji4x/bWchHNmh
-         C8rYyg1J5B+sIecGRzFwg6pUhW4vznlLLMnWAivK023kY/Gu7T7LrHUXijmwCQvCgMpG
-         Lzdb3TUR5ABwFQJurD1gGr9FR6Tp2v5vAYW0yFqaX/A7DM+2EEN0CSlDGreIoic/B6kT
-         Z9PA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=KXYdRFfjkMe+QlH+FsUyUQIPmP5MzyTGWGTei/7D9JM=;
-        b=kvIWlcx45WjVR6Op2Fc0tEj3iJtHJaemT/8nE02zN4mNf+MBlbNe1ZAl8cub1ExVjO
-         r5EgTzgEoz0sOOtKLT2bWdEFlnPG4idiPPqIdeWUmJwXNkv65Lv/Ki8pdD3zVnum6XCl
-         xTDq+IieTN1JukiG/m+aM1xzndueSb+t/jGy+YF31JOX1zYCDKO7jBbDallz89aI/VG1
-         cq9q+as2HniCukRGWMtpXJouxpWVuTo6FDMMjfuEfjjtc9iaklVkIqG9G7J4l9T+Zi4N
-         JJ9b7B5DGOv+u1Sr+Vg/A52aqtRBZq9xmL74PNC9ALUKWhUwCbadmacrwJSTwoWHg3S4
-         Q8sw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=BpreNlbrY9ZlxK0E/8Nz8WWtmseHK49DkF/kiOmuDLs=;
+        b=OqknsLS306+LtJa3XEdHOYwTtNGMPfLIFBvYh4e8IoGQcx3VFPrySguIGfHa6u/BCc
+         5iqRJMAYJJ4O3W9ynVdY8XDW54p1c54dG33+lqTcH7oRqu5gmdNor2DPFh8Afe38WkB6
+         1BGTSO/9qayPff2Zdlybnl4Dkp2lH08qjVS0EQwOw1/RXMrFg/SvHz1DsrFUwuYKm6RD
+         dr4Sy+BDs3GbKcsDRsrxVDySEx5oGEgNoYKx85k7UT2R0gCf7z1w/hA6R5D0gNxAgG3U
+         +3MZr5xA0z5dZWqmC8MzhLI3Gxp/xDxhIsFtEjH4dMu4qjeaF6TzuYeMPLxYTqrnVuuN
+         qBiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=KXYdRFfjkMe+QlH+FsUyUQIPmP5MzyTGWGTei/7D9JM=;
-        b=EKrYtK7QhMyXeSfNJBClJZh4QpsJmmu+TnEn0g3m1KWdg56zszNWvZS7m2j3S5rjMq
-         xervDuyno8NHJQdlhlg5t6cdSpvHJlnsKZtf+N934lEG+fxroDMcGtnCIfcCprtc8LQl
-         qrr3cWyVaJgPCrJOnwJ6dLumnLTLUPR0a3QugsE5xOpcLYBUq0tc8QQRMI+qwEoy4B8C
-         KXM0y0Pgn7YxiFmInDyIqBoP8AG9b8XKP2YZQTg66wQ7TfKGJ8KLUgFRG/oYZppCMCCC
-         QHZQ5LEDp83BGPO0miOzNibJA9/hPV8c1u3Y072iUSsDcCEtffFQ1jqMHAAIyRmKTF4I
-         9b3Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533xNln1e0PAnCzY843Xgveo2U2WOmvBeADfWjqA/SxG1T0n2nh0
-	DjfawQG4pf3sOnF2wJj5mVg=
-X-Google-Smtp-Source: ABdhPJyU13mvIRWMyO/g468oM6GSIcv+UdTMkyVIPcfAQ7se2Gm6PQz6/w5EaTeFo/GU4CgWj5is5A==
-X-Received: by 2002:a05:6602:2d0d:b0:654:b31f:2585 with SMTP id c13-20020a0566022d0d00b00654b31f2585mr6451856iow.104.1650544210995;
-        Thu, 21 Apr 2022 05:30:10 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=BpreNlbrY9ZlxK0E/8Nz8WWtmseHK49DkF/kiOmuDLs=;
+        b=UphKuKAIrH6+eR7/HZIvjVP01B/omYLlelE+AlZo6bgXOaxVi3oHnGrOAPQQlONBGk
+         s6H87iFfvpwpJvNo07C4L4R8o9YSLN9FvuurF3+Wr42fLjI30yOZPDetQCtf1n7Kqz7K
+         HEmAX0yjeY4kFctx2qpaiE2VBxJL9//1/epfKfH9fNii9uoGiT4qt41V6l+NphIur2Wo
+         OvWjjfzF2UuNLVxL+gqG/fOzoB/F8Oi+YgKrEdbRDu/QmfWJ5lLbSW0/5ZLNtUhICbp3
+         wdQRvAE+Bj5DhdNyTFkzEOs97LJO4idrOiJPJ5bcXlltvhvLZW4FyDybaIJVBgJj5/0P
+         XtXw==
+X-Gm-Message-State: AOAM531c8ekdOu+GIydEZ2TDxoNSaOJqoDr1M2WRIUiTLpa48nKlgYPd
+	RlUk2PS8/7pJBvv/nnvksjE=
+X-Google-Smtp-Source: ABdhPJxvWJ8DuEM09XGl763las/g2LnOCcNnccx+d7PChtoy2/C9FTjoxC71xZhGAuShLFM3bTFjQg==
+X-Received: by 2002:a63:9203:0:b0:386:3b37:76b5 with SMTP id o3-20020a639203000000b003863b3776b5mr24266308pgd.234.1650546415890;
+        Thu, 21 Apr 2022 06:06:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:ca4a:0:b0:2cc:2449:1fe2 with SMTP id q10-20020a92ca4a000000b002cc24491fe2ls703085ilo.0.gmail;
- Thu, 21 Apr 2022 05:30:09 -0700 (PDT)
-X-Received: by 2002:a05:6e02:194e:b0:2cc:4e4c:fc9a with SMTP id x14-20020a056e02194e00b002cc4e4cfc9amr5062764ilu.178.1650544209723;
-        Thu, 21 Apr 2022 05:30:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1650544209; cv=none;
+Received: by 2002:a63:fc44:0:b0:3a9:f988:c0cb with SMTP id r4-20020a63fc44000000b003a9f988c0cbls2720718pgk.0.gmail;
+ Thu, 21 Apr 2022 06:06:55 -0700 (PDT)
+X-Received: by 2002:a62:7b53:0:b0:50a:d3a5:f747 with SMTP id w80-20020a627b53000000b0050ad3a5f747mr4775631pfc.12.1650546415135;
+        Thu, 21 Apr 2022 06:06:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1650546415; cv=none;
         d=google.com; s=arc-20160816;
-        b=bbtXA3y+yPxF/gobKwE+u2Ta3/7ab3hUi+9MwD3LmV8k3LRICq0w+Ujz4QrKCUoyr8
-         kXkoh/aHKdTIhVE53yAYqekBdMTi5HtxtC4LqGEToONRWmkdKyUAKfKRx1UfJDzaV4Mb
-         iS+lxFa3efsmAnXl5tDW5jzkMIR/pxfA1xMoIc3plndnXAS8Vd+NkaxW2VNQ/Y6WVFdX
-         T7y259+GWeZZAdpuqkEVWjXsOA4lG6RxSIO4KTbYSWcHIlD7BUn0TEJtyc+R2WN1CzVn
-         cMQ1hsZ49alnOi1hiP9kxSmod0Z5SXc6JLjGVv8yBCTXgyP8BGw4VPJwDEgE/4B93Z19
-         z3bw==
+        b=dOlXM+glKF3VnV2cr8N666LxhnIZlIgZ+hBGJ8rhbA4Mk1i1Sz6iocr15CN9COubOY
+         yWtHBHdkPjrintAobwfthFBl4WlE5aVr8B+0lassULcsR4f5UhJZJ+RFSuKyRJghABSu
+         5uQ6Zj8zS/TPbaZEcf0m7uQ7gnZGI89q6EQyMulWe45dsKN8e3wU6OMXZK6tp0IGat8w
+         0nOOKHbkPg+uju6Q2E1nSnHuxYLyAncIjk/6PtPTWMbgB/zkYp43BsmrhrDweC6+FetA
+         tIWyNIMWLrXBFhF0KBTEoDHTbv3NukNhRm/Sy+m4MsSpz2R+ZKvbHJ0wKxzxFxWGfbNP
+         vCKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=OT2aW10PJgZ40KFWgNO7vzgAZM1fsO2q4Q/P9UtJWtw=;
-        b=y8Lfbo9uVLvZeLvRpT0EI/l2eYe/Kgs3jYNNVEI9lU0+A5PE6tkMRZklD4V69vk6KJ
-         BsT86Zo/Tv6ctAdRqzC9+4UejEa4Gkommv2ZbeJghd/7YMmD7ISJrSkNPK6GuioGK71S
-         kDzjKTUDQiwgeXmmDvsljDJrbdyqFl2kGnSGd+p2ZqzE/rDWimUdQR2zQMd0AStYgRjy
-         cb4FIzTtFkbY2lmqAUGg1W1CYO3MuJHoIMg5u9xtELMyLkR9cd9lStB8fhUvxYV6KI19
-         ic3fbjFlRAmVO34tTWm34yBjj/PYww2pGPRT/LFv5DhdF02CGiiTUqk/dEJNco1Em86e
-         p7ow==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=CPNtVPMGS6n30NXy9Kmuz6m/u8UhzbZkV2pRi1jdkeY=;
+        b=jaQS6BT0XIutSxLeCKRzcvbFajzoDakQjVWoRcKsyicmSc4zE+5TuQXfAZZ3C6jktl
+         vCOruX9Wxu71Lf6JtHGWZQc8F/WlEmmoUBSiMNVF2ZCJpWZgoTXEhCkyLHQDDjP9u9gO
+         Tp5BsI0mMn68g/GwvqgR9ZTKbtr35dV4xOWB8yE8mo3FUY4iiOkMq/KSPWy1HO+tVPZf
+         Kb5E3Jrr71wIUO5bXD0gpfQoC7wmdntlt0UQuqekrmtGySCOcfiLnCHv+fl8aqNmCr9B
+         cFPLDgYUCvtKkHoS2mthYqQPbnsmyaZr3NIfiGNkxaD9k+au8illx4NbBHriEIph/N/w
+         X4Lg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=omd3y+6m;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52f as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com. [2607:f8b0:4864:20::52f])
-        by gmr-mx.google.com with ESMTPS id f15-20020a056e020b4f00b002ca3e929b6csi374086ilu.2.2022.04.21.05.30.09
+       dkim=pass header.i=@google.com header.s=20210112 header.b=N+bbZtE9;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com. [2607:f8b0:4864:20::b2d])
+        by gmr-mx.google.com with ESMTPS id p4-20020a170903248400b00157192fc8c6si393032plw.0.2022.04.21.06.06.55
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Apr 2022 05:30:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52f as permitted sender) client-ip=2607:f8b0:4864:20::52f;
-Received: by mail-pg1-x52f.google.com with SMTP id g3so3894291pgg.3
-        for <kasan-dev@googlegroups.com>; Thu, 21 Apr 2022 05:30:09 -0700 (PDT)
-X-Received: by 2002:a63:2b0b:0:b0:39d:890a:ab68 with SMTP id r11-20020a632b0b000000b0039d890aab68mr23558186pgr.247.1650544208210;
-        Thu, 21 Apr 2022 05:30:08 -0700 (PDT)
-Received: from hyeyoo ([114.29.24.243])
-        by smtp.gmail.com with ESMTPSA id w4-20020a056a0014c400b004fb0c7b3813sm24338190pfu.134.2022.04.21.05.30.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 05:30:06 -0700 (PDT)
-Date: Thu, 21 Apr 2022 21:29:57 +0900
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To: Peter Collingbourne <pcc@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, vbabka@suse.cz, penberg@kernel.org,
-	cl@linux.org, roman.gushchin@linux.dev, iamjoonsoo.kim@lge.com,
-	rientjes@google.com, Catalin Marinas <catalin.marinas@arm.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
-	Eric Biederman <ebiederm@xmission.com>,
-	Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH] mm: make minimum slab alignment a runtime property
-Message-ID: <YmFORWyMAVacycu5@hyeyoo>
-References: <20220421031738.3168157-1-pcc@google.com>
+        Thu, 21 Apr 2022 06:06:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2d as permitted sender) client-ip=2607:f8b0:4864:20::b2d;
+Received: by mail-yb1-xb2d.google.com with SMTP id f17so8603528ybj.10
+        for <kasan-dev@googlegroups.com>; Thu, 21 Apr 2022 06:06:55 -0700 (PDT)
+X-Received: by 2002:a25:b19b:0:b0:641:af55:af7 with SMTP id
+ h27-20020a25b19b000000b00641af550af7mr25456838ybj.5.1650546408935; Thu, 21
+ Apr 2022 06:06:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20220421031738.3168157-1-pcc@google.com>
-X-Original-Sender: 42.hyeyoo@gmail.com
+References: <CAG_fn=Xs-OqpVCW5KyQLYKXNmQ4aH-KDjY0BrWpqMfPKcu-dug@mail.gmail.com>
+ <20220421121018.60860-1-huangshaobo6@huawei.com>
+In-Reply-To: <20220421121018.60860-1-huangshaobo6@huawei.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 21 Apr 2022 15:06:10 +0200
+Message-ID: <CAG_fn=UxSwgO8D2dCkM3vWPwcz0-rjvFdwr37cxYUt4awT3crA@mail.gmail.com>
+Subject: Re: [PATCH] kfence: check kfence canary in panic and reboot
+To: Shaobo Huang <huangshaobo6@huawei.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, chenzefeng2@huawei.com, 
+	Dmitriy Vyukov <dvyukov@google.com>, Marco Elver <elver@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, nixiaoming@huawei.com, wangbing6@huawei.com, 
+	wangfangpeng1@huawei.com, young.liuyang@huawei.com, zengweilin@huawei.com, 
+	zhongjubin@huawei.com
+Content-Type: multipart/alternative; boundary="00000000000069dfc805dd29c821"
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=omd3y+6m;       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52f
- as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20210112 header.b=N+bbZtE9;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2d as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,348 +135,259 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Apr 20, 2022 at 08:17:38PM -0700, Peter Collingbourne wrote:
-> When CONFIG_KASAN_HW_TAGS is enabled we currently increase the minimum
-> slab alignment to 16. This happens even if MTE is not supported in
-> hardware or disabled via kasan=off, which creates an unnecessary
-> memory overhead in those cases. Eliminate this overhead by making
-> the minimum slab alignment a runtime property and only aligning to
-> 16 if KASAN is enabled at runtime.
-> 
-> On a DragonBoard 845c (non-MTE hardware) with a kernel built with
-> CONFIG_KASAN_HW_TAGS, waiting for quiescence after a full Android
-> boot I see the following Slab measurements in /proc/meminfo (median
-> of 3 reboots):
-> 
-> Before: 169020 kB
-> After:  167304 kB
-> 
-> Link: https://linux-review.googlesource.com/id/I752e725179b43b144153f4b6f584ceb646473ead
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> ---
->  arch/arc/include/asm/cache.h        |  4 ++--
->  arch/arm/include/asm/cache.h        |  2 +-
->  arch/arm64/include/asm/cache.h      | 19 +++++++++++++------
->  arch/microblaze/include/asm/page.h  |  2 +-
->  arch/riscv/include/asm/cache.h      |  2 +-
->  arch/sparc/include/asm/cache.h      |  2 +-
->  arch/xtensa/include/asm/processor.h |  2 +-
->  fs/binfmt_flat.c                    |  9 ++++++---
->  include/crypto/hash.h               |  2 +-
->  include/linux/slab.h                | 22 +++++++++++++++++-----
->  mm/slab.c                           |  7 +++----
->  mm/slab_common.c                    |  3 +--
->  mm/slob.c                           |  6 +++---
->  13 files changed, 51 insertions(+), 31 deletions(-)
+--00000000000069dfc805dd29c821
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[+Cc slab people, Catalin and affected subsystems' folks]
+On Thu, Apr 21, 2022 at 2:10 PM Shaobo Huang <huangshaobo6@huawei.com>
+wrote:
 
-just FYI, There is similar discussion about kmalloc caches' alignment.
-https://lore.kernel.org/linux-mm/20220405135758.774016-1-catalin.marinas@arm.com/
+> > > From: huangshaobo <huangshaobo6@huawei.com>
+> > >
+> > > when writing out of bounds to the red zone, it can only be detected a=
+t
+> > > kfree. However, there were many scenarios before kfree that caused th=
+is
+> > > out-of-bounds write to not be detected. Therefore, it is necessary to
+> > > provide a method for actively detecting out-of-bounds writing to the
+> red
+> > > zone, so that users can actively detect, and can be detected in the
+> > > system reboot or panic.
+> > >
+> > >
+> > After having analyzed a couple of KFENCE memory corruption reports in t=
+he
+> > wild, I have doubts that this approach will be helpful.
+> >
+> > Note that KFENCE knows nothing about the memory access that performs th=
+e
+> > actual corruption.
+> >
+> > It's rather easy to investigate corruptions of short-living objects, e.=
+g.
+> > those that are allocated and freed within the same function. In that
+> case,
+> > one can examine the region of the code between these two events and try
+> to
+> > understand what exactly caused the corruption.
+> >
+> > But for long-living objects checked at panic/reboot we'll effectively
+> have
+> > only the allocation stack and will have to check all the places where t=
+he
+> > corrupted object was potentially used.
+> > Most of the time, such reports won't be actionable.
+>
+> The detection mechanism of kfence is probabilistic. It is not easy to fin=
+d
+> a bug.
+> It is a pity to catch a bug without reporting it. and the cost of panic
+> detection
+> is not large, so panic detection is still valuable.
+>
+>
+I am also a big fan of showing as much information as possible to help the
+developers debug a memory corruption.
+But I am still struggling to understand how the proposed patch helps.
+Assume we have some generic allocation of an skbuff, so the reports looks
+like this:
 
-It seems this is another demand for runtime resolution of slab
-alignment, But slightly different from kmalloc as there is no requirement
-for DMA alignment.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+BUG: KFENCE: memory corruption in <frame that triggered reboot>
+Corrupted memory at <end+1>
+<stack trace of reboot event>
 
-> 
-> diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
-> index f0f1fc5d62b6..b6a7763fd5d6 100644
-> --- a/arch/arc/include/asm/cache.h
-> +++ b/arch/arc/include/asm/cache.h
-> @@ -55,11 +55,11 @@
->   * Make sure slab-allocated buffers are 64-bit aligned when atomic64_t uses
->   * ARCv2 64-bit atomics (LLOCKD/SCONDD). This guarantess runtime 64-bit
->   * alignment for any atomic64_t embedded in buffer.
-> - * Default ARCH_SLAB_MINALIGN is __alignof__(long long) which has a relaxed
-> + * Default ARCH_SLAB_MIN_MINALIGN is __alignof__(long long) which has a relaxed
->   * value of 4 (and not 8) in ARC ABI.
->   */
->  #if defined(CONFIG_ARC_HAS_LL64) && defined(CONFIG_ARC_HAS_LLSC)
-> -#define ARCH_SLAB_MINALIGN	8
-> +#define ARCH_SLAB_MIN_MINALIGN	8
->  #endif
-> 
+kfence-#59: <start>-<end>,size=3D100,cache=3Dkmalloc-128  allocated by task=
+ 77
+on cpu 0 at 28.018073s:
+kmem_cache_alloc
+__alloc_skb
+alloc_skb_with_frags
+sock_alloc_send_pskb
+unix_stream_sendmsg
+sock_sendmsg
+__sys_sendto
+__x64_sys_sendto
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Why isn't it just ARCH_SLAB_MINALIGN?
+This report will denote that in a system that could have been running for
+days a particular skbuff was corrupted by some unknown task at some unknown
+point in time.
+How do we figure out what exactly caused this corruption?
 
->  extern int ioc_enable;
-> diff --git a/arch/arm/include/asm/cache.h b/arch/arm/include/asm/cache.h
-> index e3ea34558ada..3e1018bb9805 100644
-> --- a/arch/arm/include/asm/cache.h
-> +++ b/arch/arm/include/asm/cache.h
-> @@ -21,7 +21,7 @@
->   * With EABI on ARMv5 and above we must have 64-bit aligned slab pointers.
->   */
->  #if defined(CONFIG_AEABI) && (__LINUX_ARM_ARCH__ >= 5)
-> -#define ARCH_SLAB_MINALIGN 8
-> +#define ARCH_SLAB_MIN_MINALIGN 8
->  #endif
->  
->  #define __read_mostly __section(".data..read_mostly")
-> diff --git a/arch/arm64/include/asm/cache.h b/arch/arm64/include/asm/cache.h
-> index a074459f8f2f..38f171591c3f 100644
-> --- a/arch/arm64/include/asm/cache.h
-> +++ b/arch/arm64/include/asm/cache.h
-> @@ -6,6 +6,7 @@
->  #define __ASM_CACHE_H
->  
->  #include <asm/cputype.h>
-> +#include <asm/mte-def.h>
->  
->  #define CTR_L1IP_SHIFT		14
->  #define CTR_L1IP_MASK		3
-> @@ -49,15 +50,21 @@
->   */
->  #define ARCH_DMA_MINALIGN	(128)
->  
-> -#ifdef CONFIG_KASAN_SW_TAGS
-> -#define ARCH_SLAB_MINALIGN	(1ULL << KASAN_SHADOW_SCALE_SHIFT)
-> -#elif defined(CONFIG_KASAN_HW_TAGS)
-> -#define ARCH_SLAB_MINALIGN	MTE_GRANULE_SIZE
-> -#endif
-> -
->  #ifndef __ASSEMBLY__
->  
->  #include <linux/bitops.h>
-> +#include <linux/kasan-enabled.h>
-> +
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +#define ARCH_SLAB_MIN_MINALIGN	(1ULL << KASAN_SHADOW_SCALE_SHIFT)
-> +#elif defined(CONFIG_KASAN_HW_TAGS)
-> +static inline size_t arch_slab_minalign(void)
-> +{
-> +	return kasan_hw_tags_enabled() ? MTE_GRANULE_SIZE :
-> +					 __alignof__(unsigned long long);
-> +}
-> +#define arch_slab_minalign() arch_slab_minalign()
-> +#endif
+When we deploy KFENCE at scale, it is rarely possible for the kernel
+developer to get access to the host that reported the bug and try to
+reproduce it.
+With that in mind, the report (plus the kernel source) must contain all the
+necessary information to address the bug, otherwise reporting it will
+result in wasting the developer's time.
+Moreover, if we report such bugs too often, our tool loses the credit,
+which is hard to regain.
+
+> > for example, if the application memory is out of bounds and written to
+> > > the red zone in the kfence object, the system suddenly panics, and th=
+e
+> > > following log can be seen during system reset:
+> > > BUG: KFENCE: memory corruption in atomic_notifier_call_chain+0x49/0x7=
+0
+> [...]
+>
+> thanks,
+> ShaoBo Huang
 >
 
-kasan_hw_tags_enabled() is also false when kasan is just not initialized yet.
-What about writing a new helper something like kasan_is_disabled()
-instead?
 
->  #define ICACHEF_ALIASING	0
->  #define ICACHEF_VPIPT		1
-> diff --git a/arch/microblaze/include/asm/page.h b/arch/microblaze/include/asm/page.h
-> index 4b8b2fa78fc5..ccdbc1da3c3e 100644
-> --- a/arch/microblaze/include/asm/page.h
-> +++ b/arch/microblaze/include/asm/page.h
-> @@ -33,7 +33,7 @@
->  /* MS be sure that SLAB allocates aligned objects */
->  #define ARCH_DMA_MINALIGN	L1_CACHE_BYTES
->  
-> -#define ARCH_SLAB_MINALIGN	L1_CACHE_BYTES
-> +#define ARCH_SLAB_MIN_MINALIGN	L1_CACHE_BYTES
->  
->  /*
->   * PAGE_OFFSET -- the first address of the first page of memory. With MMU
-> diff --git a/arch/riscv/include/asm/cache.h b/arch/riscv/include/asm/cache.h
-> index 9b58b104559e..7beb3b5d27c7 100644
-> --- a/arch/riscv/include/asm/cache.h
-> +++ b/arch/riscv/include/asm/cache.h
-> @@ -16,7 +16,7 @@
->   * the flat loader aligns it accordingly.
->   */
->  #ifndef CONFIG_MMU
-> -#define ARCH_SLAB_MINALIGN	16
-> +#define ARCH_SLAB_MIN_MINALIGN	16
->  #endif
->  
->  #endif /* _ASM_RISCV_CACHE_H */
-> diff --git a/arch/sparc/include/asm/cache.h b/arch/sparc/include/asm/cache.h
-> index e62fd0e72606..9d8cb4687b7e 100644
-> --- a/arch/sparc/include/asm/cache.h
-> +++ b/arch/sparc/include/asm/cache.h
-> @@ -8,7 +8,7 @@
->  #ifndef _SPARC_CACHE_H
->  #define _SPARC_CACHE_H
->  
-> -#define ARCH_SLAB_MINALIGN	__alignof__(unsigned long long)
-> +#define ARCH_SLAB_MIN_MINALIGN	__alignof__(unsigned long long)
->  
->  #define L1_CACHE_SHIFT 5
->  #define L1_CACHE_BYTES 32
-> diff --git a/arch/xtensa/include/asm/processor.h b/arch/xtensa/include/asm/processor.h
-> index 4489a27d527a..e3ea278e3fcf 100644
-> --- a/arch/xtensa/include/asm/processor.h
-> +++ b/arch/xtensa/include/asm/processor.h
-> @@ -18,7 +18,7 @@
->  #include <asm/types.h>
->  #include <asm/regs.h>
->  
-> -#define ARCH_SLAB_MINALIGN XTENSA_STACK_ALIGNMENT
-> +#define ARCH_SLAB_MIN_MINALIGN XTENSA_STACK_ALIGNMENT
->  
->  /*
->   * User space process size: 1 GB.
-> diff --git a/fs/binfmt_flat.c b/fs/binfmt_flat.c
-> index 626898150011..8ff1bf7d1e87 100644
-> --- a/fs/binfmt_flat.c
-> +++ b/fs/binfmt_flat.c
-> @@ -64,7 +64,10 @@
->   * Here we can be a bit looser than the data sections since this
->   * needs to only meet arch ABI requirements.
->   */
-> -#define FLAT_STACK_ALIGN	max_t(unsigned long, sizeof(void *), ARCH_SLAB_MINALIGN)
-> +static size_t flat_stack_align(void)
-> +{
-> +	return max_t(unsigned long, sizeof(void *), arch_slab_minalign());
-> +}
->  
->  #define RELOC_FAILED 0xff00ff01		/* Relocation incorrect somewhere */
->  #define UNLOADED_LIB 0x7ff000ff		/* Placeholder for unused library */
-> @@ -148,7 +151,7 @@ static int create_flat_tables(struct linux_binprm *bprm, unsigned long arg_start
->  		sp -= 2; /* argvp + envp */
->  	sp -= 1;  /* &argc */
->  
-> -	current->mm->start_stack = (unsigned long)sp & -FLAT_STACK_ALIGN;
-> +	current->mm->start_stack = (unsigned long)sp & -flat_stack_align();
->  	sp = (unsigned long __user *)current->mm->start_stack;
->  
->  	if (put_user(bprm->argc, sp++))
-> @@ -966,7 +969,7 @@ static int load_flat_binary(struct linux_binprm *bprm)
->  #endif
->  	stack_len += (bprm->argc + 1) * sizeof(char *);   /* the argv array */
->  	stack_len += (bprm->envc + 1) * sizeof(char *);   /* the envp array */
-> -	stack_len = ALIGN(stack_len, FLAT_STACK_ALIGN);
-> +	stack_len = ALIGN(stack_len, flat_stack_align());
->  
->  	res = load_flat_file(bprm, &libinfo, 0, &stack_len);
->  	if (res < 0)
-> diff --git a/include/crypto/hash.h b/include/crypto/hash.h
-> index f140e4643949..442c290f458c 100644
-> --- a/include/crypto/hash.h
-> +++ b/include/crypto/hash.h
-> @@ -149,7 +149,7 @@ struct ahash_alg {
->  
->  struct shash_desc {
->  	struct crypto_shash *tfm;
-> -	void *__ctx[] __aligned(ARCH_SLAB_MINALIGN);
-> +	void *__ctx[] __aligned(ARCH_SLAB_MIN_MINALIGN);
->  };
->  
->  #define HASH_MAX_DIGESTSIZE	 64
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index 373b3ef99f4e..80e517593372 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -201,21 +201,33 @@ void kmem_dump_obj(void *object);
->  #endif
->  
->  /*
-> - * Setting ARCH_SLAB_MINALIGN in arch headers allows a different alignment.
-> + * Setting ARCH_SLAB_MIN_MINALIGN in arch headers allows a different alignment.
->   * Intended for arches that get misalignment faults even for 64 bit integer
->   * aligned buffers.
->   */
-> -#ifndef ARCH_SLAB_MINALIGN
-> -#define ARCH_SLAB_MINALIGN __alignof__(unsigned long long)
-> +#ifndef ARCH_SLAB_MIN_MINALIGN
-> +#define ARCH_SLAB_MIN_MINALIGN __alignof__(unsigned long long)
-> +#endif
-> +
-> +/*
-> + * Arches can define this function if they want to decide the minimum slab
-> + * alignment at runtime. The value returned by the function must be
-> + * >= ARCH_SLAB_MIN_MINALIGN.
-> + */
+--=20
+Alexander Potapenko
+Software Engineer
 
-Not only the value should be bigger than or equal to ARCH_SLAB_MIN_MINALIGN,
-it should be compatible with ARCH_SLAB_MIN_MINALIGN.
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
 
-> +#ifndef arch_slab_minalign
-> +static inline size_t arch_slab_minalign(void)
-> +{
-> +	return ARCH_SLAB_MIN_MINALIGN;
-> +}
->  #endif
->  
->  /*
->   * kmalloc and friends return ARCH_KMALLOC_MINALIGN aligned
-> - * pointers. kmem_cache_alloc and friends return ARCH_SLAB_MINALIGN
-> + * pointers. kmem_cache_alloc and friends return ARCH_SLAB_MIN_MINALIGN
->   * aligned pointers.
->   */
->  #define __assume_kmalloc_alignment __assume_aligned(ARCH_KMALLOC_MINALIGN)
-> -#define __assume_slab_alignment __assume_aligned(ARCH_SLAB_MINALIGN)
-> +#define __assume_slab_alignment __assume_aligned(ARCH_SLAB_MIN_MINALIGN)
->  #define __assume_page_alignment __assume_aligned(PAGE_SIZE)
->  
->  /*
-> diff --git a/mm/slab.c b/mm/slab.c
-> index 0edb474edef1..97b756976c8b 100644
-> --- a/mm/slab.c
-> +++ b/mm/slab.c
-> @@ -3009,10 +3009,9 @@ static void *cache_alloc_debugcheck_after(struct kmem_cache *cachep,
->  	objp += obj_offset(cachep);
->  	if (cachep->ctor && cachep->flags & SLAB_POISON)
->  		cachep->ctor(objp);
-> -	if (ARCH_SLAB_MINALIGN &&
-> -	    ((unsigned long)objp & (ARCH_SLAB_MINALIGN-1))) {
-> -		pr_err("0x%px: not aligned to ARCH_SLAB_MINALIGN=%d\n",
-> -		       objp, (int)ARCH_SLAB_MINALIGN);
-> +	if ((unsigned long)objp & (arch_slab_minalign() - 1)) {
-> +		pr_err("0x%px: not aligned to arch_slab_minalign()=%d\n", objp,
-> +		       (int)arch_slab_minalign());
->  	}
->  	return objp;
->  }
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 2b3206a2c3b5..33cc49810a54 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -154,8 +154,7 @@ static unsigned int calculate_alignment(slab_flags_t flags,
->  		align = max(align, ralign);
->  	}
->  
-> -	if (align < ARCH_SLAB_MINALIGN)
-> -		align = ARCH_SLAB_MINALIGN;
-> +	align = max_t(size_t, align, arch_slab_minalign());
->  
->  	return ALIGN(align, sizeof(void *));
->  }
-> diff --git a/mm/slob.c b/mm/slob.c
-> index 40ea6e2d4ccd..3bd2669bd690 100644
-> --- a/mm/slob.c
-> +++ b/mm/slob.c
-> @@ -478,7 +478,7 @@ static __always_inline void *
->  __do_kmalloc_node(size_t size, gfp_t gfp, int node, unsigned long caller)
->  {
->  	unsigned int *m;
-> -	int minalign = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
-> +	int minalign = max_t(size_t, ARCH_KMALLOC_MINALIGN, arch_slab_minalign());
->  	void *ret;
->  
->  	gfp &= gfp_allowed_mask;
-> @@ -555,7 +555,7 @@ void kfree(const void *block)
->  
->  	sp = virt_to_folio(block);
->  	if (folio_test_slab(sp)) {
-> -		int align = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
-> +		int align = max_t(size_t, ARCH_KMALLOC_MINALIGN, arch_slab_minalign());
->  		unsigned int *m = (unsigned int *)(block - align);
->  		slob_free(m, *m + align);
->  	} else {
-> @@ -584,7 +584,7 @@ size_t __ksize(const void *block)
->  	if (unlikely(!folio_test_slab(folio)))
->  		return folio_size(folio);
->  
-> -	align = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
-> +	align = max_t(size_t, ARCH_KMALLOC_MINALIGN, arch_slab_minalign());
->  	m = (unsigned int *)(block - align);
->  	return SLOB_UNITS(*m) * SLOB_UNIT;
->  }
-> -- 
-> 2.36.0.rc0.470.gd361397f0d-goog
-> 
-> 
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
 
--- 
-Thanks,
-Hyeonggon
+Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise erhalt=
+en
+haben sollten, leiten Sie diese bitte nicht an jemand anderes weiter,
+l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie mich bit=
+te wissen,
+dass die E-Mail an die falsche Person gesendet wurde.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YmFORWyMAVacycu5%40hyeyoo.
+
+This e-mail is confidential. If you received this communication by mistake,
+please don't forward it to anyone else, please erase all copies and
+attachments, and please let me know that it has gone to the wrong person.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAG_fn%3DUxSwgO8D2dCkM3vWPwcz0-rjvFdwr37cxYUt4awT3crA%40mail.gmai=
+l.com.
+
+--00000000000069dfc805dd29c821
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 21, 2022 at 2:10 PM Shaob=
+o Huang &lt;<a href=3D"mailto:huangshaobo6@huawei.com">huangshaobo6@huawei.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">&gt; &gt; From: huangshaobo &lt;<a href=3D"mailto:huangshaobo6@huawei.co=
+m" target=3D"_blank">huangshaobo6@huawei.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; when writing out of bounds to the red zone, it can only be detect=
+ed at<br>
+&gt; &gt; kfree. However, there were many scenarios before kfree that cause=
+d this<br>
+&gt; &gt; out-of-bounds write to not be detected. Therefore, it is necessar=
+y to<br>
+&gt; &gt; provide a method for actively detecting out-of-bounds writing to =
+the red<br>
+&gt; &gt; zone, so that users can actively detect, and can be detected in t=
+he<br>
+&gt; &gt; system reboot or panic.<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; After having analyzed a couple of KFENCE memory corruption reports in =
+the<br>
+&gt; wild, I have doubts that this approach will be helpful.<br>
+&gt; <br>
+&gt; Note that KFENCE knows nothing about the memory access that performs t=
+he<br>
+&gt; actual corruption.<br>
+&gt; <br>
+&gt; It&#39;s rather easy to investigate corruptions of short-living object=
+s, e.g.<br>
+&gt; those that are allocated and freed within the same function. In that c=
+ase,<br>
+&gt; one can examine the region of the code between these two events and tr=
+y to<br>
+&gt; understand what exactly caused the corruption.<br>
+&gt; <br>
+&gt; But for long-living objects checked at panic/reboot we&#39;ll effectiv=
+ely have<br>
+&gt; only the allocation stack and will have to check all the places where =
+the<br>
+&gt; corrupted object was potentially used.<br>
+&gt; Most of the time, such reports won&#39;t be actionable.<br>
+<br>
+The detection mechanism of kfence is probabilistic. It is not easy to find =
+a bug.<br>
+It is a pity to catch a bug without reporting it. and the cost of panic det=
+ection<br>
+is not large, so panic detection is still valuable.<br>
+<br></blockquote><div><br></div><div>I am also a big fan of showing as much=
+ information as possible to help the developers debug a memory corruption.<=
+/div><div>But I am still struggling to understand how the proposed patch he=
+lps.</div><div>Assume we have some generic allocation of an skbuff, so the =
+reports looks like this:</div><div><br></div><div>=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</div><div>BUG: KFENCE: memory corrupti=
+on in &lt;frame that triggered reboot&gt;</div><div>Corrupted memory at &lt=
+;end+1&gt;</div><div>&lt;stack trace of reboot event&gt;</div><div><br></di=
+v>kfence-#59: &lt;start&gt;-&lt;end&gt;,size=3D100,cache=3Dkmalloc-128=C2=
+=A0=C2=A0allocated by task 77 on cpu 0 at 28.018073s:<br>kmem_cache_alloc<b=
+r>__alloc_skb<br>alloc_skb_with_frags<br>sock_alloc_send_pskb<br>unix_strea=
+m_sendmsg<br>sock_sendmsg<br>__sys_sendto<br>__x64_sys_sendto<br><div>=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</div><div>=C2=A0<=
+/div><div>This report will denote that in a system that could have been run=
+ning for days a particular skbuff was corrupted by some unknown task at som=
+e unknown point in time.</div><div>How do we figure out what exactly caused=
+ this corruption?</div><div><br></div><div>When we deploy KFENCE at scale, =
+it is rarely possible for the kernel developer to get access to the host th=
+at reported the bug and try to reproduce it.</div><div>With that in mind, t=
+he report (plus the kernel source) must contain all the necessary informati=
+on to address the bug, otherwise reporting it will result in wasting the de=
+veloper&#39;s time.</div><div>Moreover, if we report such bugs too often, o=
+ur tool loses the credit, which is hard to regain.</div><div><br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">&gt; &gt; for example, if the=
+ application memory is out of bounds and written to<br>
+&gt; &gt; the red zone in the kfence object, the system suddenly panics, an=
+d the<br>
+&gt; &gt; following log can be seen during system reset:<br>
+&gt; &gt; BUG: KFENCE: memory corruption in atomic_notifier_call_chain+0x49=
+/0x70<br>
+[...]<br>
+<br>
+thanks,<br>
+ShaoBo Huang<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Alexander Potapenko<br>Software=
+ Engineer<br><br>Google Germany GmbH<br>Erika-Mann-Stra=C3=9Fe, 33<br>80636=
+ M=C3=BCnchen<br><br>Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebasti=
+an<br>Registergericht und -nummer: Hamburg, HRB 86891<br>Sitz der Gesellsch=
+aft: Hamburg<br><br>Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4ls=
+chlicherweise erhalten haben sollten, leiten Sie diese bitte nicht an jeman=
+d anderes weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und l=
+assen Sie mich bitte wissen, dass die E-Mail an die falsche Person gesendet=
+ wurde.<br><br><br>This e-mail is confidential. If you received this commun=
+ication by mistake, please don&#39;t forward it to anyone else, please eras=
+e all copies and attachments, and please let me know that it has gone to th=
+e wrong person.</div></div></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/CAG_fn%3DUxSwgO8D2dCkM3vWPwcz0-rjvFdwr37cxYUt4awT3crA%=
+40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
+gle.com/d/msgid/kasan-dev/CAG_fn%3DUxSwgO8D2dCkM3vWPwcz0-rjvFdwr37cxYUt4awT=
+3crA%40mail.gmail.com</a>.<br />
+
+--00000000000069dfc805dd29c821--
