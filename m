@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBEVUQSJQMGQEFSHVFBQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZ5VQSJQMGQEBCWL2YQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344FD509AF5
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Apr 2022 10:47:16 +0200 (CEST)
-Received: by mail-io1-xd3f.google.com with SMTP id n9-20020a056602340900b006572c443316sf1818212ioz.23
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Apr 2022 01:47:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1650530835; cv=pass;
+Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8427B509B0C
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Apr 2022 10:50:51 +0200 (CEST)
+Received: by mail-qv1-xf40.google.com with SMTP id jz13-20020a0562140e6d00b0044c50829dbdsf1053837qvb.19
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Apr 2022 01:50:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1650531049; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lMZ1eC4SQhpSfrVXn48pT2jbTDG0bNe2QIQcYy0ywcDbq6RrYgjnOEBPj7qRVSFGcr
-         6WvILYazHecMdp8wMjCX2tQSQBn5sTH/t4e8cqe54LkSse+Kiki0UHo5NbfUqe1+IALH
-         hrl+OGL8yq01I9f9ORZrEMqPsx7mnrvXrvN+LpdvNks4pukEvGvH9T7QP+/2OmUu8yxq
-         9FzwXwX5YOyf1vzVnfzqJMibVxLb/nw5nWd+yM/FhaGoAnFRlnTvyogkh8lV9hSC6447
-         0/qLumg1jsnVuZ16xKUDxfm9ETfsH8y5httxwy2xuZ2td273KcqxjqhPDJxhHWy4alCH
-         OSgA==
+        b=sqHY6Dphb7+eqXGu0Xq2thB16gE6cAt3qZB0LBOPqkrYqg6NKmBDCb2ZI8jYktKtOA
+         +m6t0iNL5w+EewWfHk98/4DhJZlHlKUVyxd6sDAtS/NL0hY4DEf2OPo1aeFXa6B0CF+9
+         BxhAIxaFplu415c+MaWYHt1NF57N6mGy5HKci4WIJI/JSrPO08gImt45oBrvr8VRe+aZ
+         zZT9znHXhV4mYZnAc0auBozH+/h7pTtI4LUgGr8p86vE1Ljegf8iWVnILNYzCxI8hnhM
+         vzwRRvNgI65M3c7OBx9uou3fZ+wfsQ102RxsHqn9IZvoYEMgjkatscmAKFyXnsJBj8HA
+         5jYA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=qkHrAaRgLb8zBHtsfGkZN7zK6HjIq+YItCEXxnslooQ=;
-        b=GQ1n8sx6LObu5NFlUGyvnXq9RUCM11/WMFXiuPr6FIBSP7uVO3T6tPmZADq/g7l8Kx
-         zer3ac8MoHbKfEA3Cd9q0fKup2R9GbrR9Q/Ex4EMX4eaIh6yaF7mCyby7vuiig5zA5nU
-         PrcalJJizKXcCfD1i25PFobY5P0wp4lGfTWSTOe8P8HM5d87lu7PjWzG1zHXwPC1oxAI
-         tvUIb5ipiNo+d97nvnNJvSRO/NRkvxoVPh79Adw2N9KxvzV82/AdplIORyed+BUeE66E
-         Ub+Nm3N0Dxg9kiqY5l7MhlQvXNjemdEz7+wobAUs0XXiLQtnJjnsW66OWVfIIY6iERxD
-         T5Vg==
+        bh=mcjg6tuFPFHb6rP8afDmvnHyO7OiQX0wmQhwICTsiOo=;
+        b=nsHhlblTCTfVVxlMnhnFnAQv+H5pLZpXdrDTNxBx2YES8537yZ28v/LyIJdiDJE0zK
+         BjWZhJs4uOkqP+Nts63Jl+ys79X6aN3+laEql8mPoOe52rJK8/ykxZ1zOui22wCVbPY3
+         i9yhRGG5ZZ548Ipn9pp/6F263CgwIBNq1i0ZIBiixuNV4krATI7UNtC8WAH8N7utbOSp
+         rXjZfGUfRNfKqrF+cbLW7PCicGSUx7PCsJSq93rO233SxZ8RtXPYBKFq/dNj6GJp+9IS
+         pB/+cswquHKdgUDoZ8bJZQ3Gst1x1YNbbhwVBGeMfhYgmEESU7w+PH0ESpRweMp2p2xv
+         asGQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=HQ6BuTHE;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=srOPHl+S;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1132 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=qkHrAaRgLb8zBHtsfGkZN7zK6HjIq+YItCEXxnslooQ=;
-        b=AYQAzJ3TkFIe52SbTafNi1a/zk/Kgdw0WPRnFc5NudjeZA+Arfg+z7bASpTJojK4Uj
-         IVzgTVxlHWraTGYDDg7kZ+xvKE3kZlueCW7zjknQYsJEqnDv8wi4sxYSS+5cfwaRFdcM
-         7DUgVeMTJG7NeYujbopWzCvCZoXWkgkaVAbZPnv9YIrvMA54ptcb7UV5TDXj1fr4nBqB
-         TvByuAJxdIQN3j0+8TGNibd4HM2tgaJ80jCYT5klAyH4V225mOhMvYlkV4a4qbAxZ6xA
-         sWCuUmrLit3jmuEKeeCytrs9vupYXadccBtOSP96cj2FVAgf0Gt3FeOfCZCxUizw9tHm
-         shfw==
+        bh=mcjg6tuFPFHb6rP8afDmvnHyO7OiQX0wmQhwICTsiOo=;
+        b=OfUpxXKJZ4t0FPKat3XXESMQKo9G12eyWUYWvuu51WMgNYG7y1UU7zO9aBzAvNWa/T
+         ZJfT1dYSq+7vNBhNHJ4HogoNFR+is1ugklzs/iFY6ujwF0Zf+WU4B07pcGC98Q88lLQQ
+         c3KR52VtrF+wFSFgGk256oFtMU71k9b1MHieoHhTmr5ADrXcWPK40aC8jS02j1RAq99T
+         KVqrBWQc13KheXNyQ6suTTZFFLO4Vuv20SU8ZdaldL7vFDn4lrJ1L1k8Rl7UoK4FOXTr
+         NAEgjvxXZFKrLxzdqqXkiH0q+pINkNKpW8XMz684/fvj/G4hMB+Q9+o9BUFtKcsqclFB
+         EW2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,72 +49,75 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=qkHrAaRgLb8zBHtsfGkZN7zK6HjIq+YItCEXxnslooQ=;
-        b=SyLMe4KV6u9Jab6ng2SuphhkGLczOxYY7XuGzzQkc25+KLvB767Tle32Uow69oEIia
-         3O25ZU4L2ZJz4wN/bXuxl0MHwsVC/hmtWYOZYX6JNozFICGjQpF8VXimNeX5prOExQpc
-         byUgNh4hLcmPWqsTw6lD/ziw90q2xlbEFXCU4qNOrP0Wu2kcDPOR6wEErX/B7kJD254F
-         74GjFiPC5gXeOy2s1DVuNhCkjtWiEncx4lHNGhNV9sGw/P5jNm9knfypy/hhiquVlLwn
-         U8L7esnRmTNvJ2rpq7dQ8PiJ7JYqPwNlirxPtxwBt8fzRxKvNr9XEhXms7YwZ+13d+sd
-         JsOg==
-X-Gm-Message-State: AOAM533DWne8xkfKz8ZOHXp3C5DNxoW4mrOh9uf9oNOeBzgMHAKgFlQ9
-	4glboa1Sta4U92d6EkG3SdQ=
-X-Google-Smtp-Source: ABdhPJxamTt1mpsHlm8ohYQ+xJ2f1/3oqXKVnzGYy1tYeB/9J3l1bPFZntTiNjjNltUYWcIiLSUE7A==
-X-Received: by 2002:a92:130f:0:b0:2cc:2590:766d with SMTP id 15-20020a92130f000000b002cc2590766dmr8398803ilt.270.1650530834871;
-        Thu, 21 Apr 2022 01:47:14 -0700 (PDT)
+        bh=mcjg6tuFPFHb6rP8afDmvnHyO7OiQX0wmQhwICTsiOo=;
+        b=GXEf6aPSrFsZUuM2ZtI17Hr399/bwDCm7XszScTOKglsnr4AVcFuKp2t5dKa65m0bn
+         IZ3HDRywoMER0o5JXasALlPMNzQv4lqghIQxD1cg4RxXyT5YM+cne0MKdp7jQf6m8nme
+         22YFdyFzFcwLCvVbkXbC+CLzlPXQfflnhkHoBuKgwbHN1xAZG2ng+ggZHOy4FYuk8eJD
+         JfLQ2Pn2UqOboB2MNgzbIClrM6EibBtK7VimjZhbxbwVjbpU+msDHMLBwL3iVOojeuoH
+         +UoMECv9h8r6zhVHI/Y75S/9G9EqJy9kYoQikUGuHpHfB7g2+awYbXFr/OrEbpakeQdE
+         qvgQ==
+X-Gm-Message-State: AOAM53080fbK4GMWt4PD0o0gxHwhsElHyEAG/WSjUO+2ecJP+Eks9grN
+	0i22A5qEdNsYMqkiQ5M/L0k=
+X-Google-Smtp-Source: ABdhPJxChTR6XvtjKOKX+NFass4gvr1TZbOXHegcgEv/Kz5LotZsC6WC1Z6cMRMLNC8Hpbt/rI60Yg==
+X-Received: by 2002:ac8:5f4a:0:b0:2f3:34b7:56e8 with SMTP id y10-20020ac85f4a000000b002f334b756e8mr8748333qta.110.1650531047290;
+        Thu, 21 Apr 2022 01:50:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a02:6f4d:0:b0:326:5851:8cdf with SMTP id b13-20020a026f4d000000b0032658518cdfls1235593jae.11.gmail;
- Thu, 21 Apr 2022 01:47:14 -0700 (PDT)
-X-Received: by 2002:a05:6638:258e:b0:32a:7db9:e769 with SMTP id s14-20020a056638258e00b0032a7db9e769mr4880833jat.113.1650530834388;
-        Thu, 21 Apr 2022 01:47:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1650530834; cv=none;
+Received: by 2002:a05:622a:1a28:b0:2f2:47a:2ea8 with SMTP id
+ f40-20020a05622a1a2800b002f2047a2ea8ls2640893qtb.8.gmail; Thu, 21 Apr 2022
+ 01:50:46 -0700 (PDT)
+X-Received: by 2002:a05:622a:594:b0:2e1:d59e:68ed with SMTP id c20-20020a05622a059400b002e1d59e68edmr16741271qtb.204.1650531046731;
+        Thu, 21 Apr 2022 01:50:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1650531046; cv=none;
         d=google.com; s=arc-20160816;
-        b=gEyFMUsqYqL6pnbuWVIBn2HXkODpWRHNc9+aXJtnbJSsgaQH1uP4ayguXoc3pIG7dl
-         Mm1PIFuFdZvY53QzDgC7IesUmTu4hTBdTD81k/jqXPTTat3wnne2a5DfuaFdZlLhET4h
-         LWn1tLf5PeJs2PmH93n7VAZYpI6FgQ9/7C2tjMbByxGsRVquMCWwraSDvL4Ha8Mzn0zI
-         DOyJwXmuXDtLuSLtTfQ5y7eCFussGoDYq4BzSdxAv7+UVIMhnE7zSI4yhBmD6Io+8FFg
-         ZCneb4752nabio1Epr1jR83LrK/xGsBzUmohWPUv9kUNkN0jaVa8uuvrMXlYL2Jq2YcR
-         n7Zw==
+        b=vggyg2wr10a2WH7Z8zUxGfuHCc8NP01OmAi85q0w2Fj3Wjbovf7RVi7uPxAA1Uq7dq
+         /jNKiRYLyE0ZDPgc5fQOUBhzRXOOq1TW3mw55K0qd/u4gxLi9VIdH8gxIEnP89Ed/FUz
+         EldVH/g/vfl8sLshuUx8j53xur6CfxDzKygorNoioZ3nCzSlOeGdDYb6QU73GFc8QxkY
+         dLWsTYAlP42yawKl+jQz+vDAO5HKdITuilvjJjcoTGtr1OhGHC30VIJoU4BoLt6vbQtl
+         /VL59SbgzCotioa4voZ75tg3upq0lYokRmtDLFIJrjxWJQcYsMcvkrRTNI7bBIZnuELk
+         ZGEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=AAlP0SwMAgEokpC45b/8A58tbYCJ2ulOw6rDhTTZvu8=;
-        b=doB5CmK62T56RBESWRpV8xTNdPGZRD/itojT2IqcbRDmTpwtiroe8Tds2PIU4oH7Kf
-         gNQamrzbXQ+oof2YsjVq0AEcUlmQ2qHsUssZyUUQT3eqGivTfWjOBZjbRq57a3bCMpAS
-         v7i6NHJbMv2CK0vpF8Kpq7Ldrv/VKTyOHqM7u01Ixpmy2tvA22PI+Qfu4KEzX03DeAao
-         ky56+0prdBHRR3hTDGH1mGChZdW/BKCzNq3JWpmwvXwCZNydVn/9Wd3fJunsEapL4B3h
-         2fjki+AVg/jRR25YGRAHZ4zpLKX12XrsnKMXYzsiyglScYn1XIsAO5EUW8hv04k1p4zr
-         +e0Q==
+        bh=2+Tn3N0Fvpk4WLUjDImpMjWVuIM4JomwqBL2Nlcl6w4=;
+        b=XMOx6oFPk+S9gf+ISRN7Qzz6S9UQG6ea3nwBuEAmIkTz954uZz3cZApM4m4Uq0KPtI
+         bt0t9YjUgtnNG+8vgGe+WFy55d/4r73a2tqGuQwZ+sHbvVq2An9XcZc08ZAHUq5kkjHq
+         qQRZeuXdEp+1t/ohzIwQ9Ld3Pnj2OGPqmAeypTsna64BhD2/IJB20ROHH/FmCHEl9Idj
+         9bI8soX6awG7ILt095li2IMwWpM3ARy3ZWOqEUHrBUWi3BEj5cRQF2DrNxR6oINGbblj
+         PVvMg8HV7LC+pLM//4V2hffzV6oR6UwOEWKzhYfx9IkDld0geJ0Ni0XpOPkk+/PT2CLo
+         icHw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=HQ6BuTHE;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=srOPHl+S;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1132 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com. [2607:f8b0:4864:20::b31])
-        by gmr-mx.google.com with ESMTPS id v6-20020a056e02164600b002cc062dcde7si336990ilu.0.2022.04.21.01.47.14
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com. [2607:f8b0:4864:20::1132])
+        by gmr-mx.google.com with ESMTPS id y18-20020a05620a44d200b0069a1403b083si475824qkp.7.2022.04.21.01.50.46
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Apr 2022 01:47:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b31 as permitted sender) client-ip=2607:f8b0:4864:20::b31;
-Received: by mail-yb1-xb31.google.com with SMTP id b26so1872308ybj.13
-        for <kasan-dev@googlegroups.com>; Thu, 21 Apr 2022 01:47:14 -0700 (PDT)
-X-Received: by 2002:a25:aaa4:0:b0:641:3506:900 with SMTP id
- t33-20020a25aaa4000000b0064135060900mr23664506ybi.87.1650530833852; Thu, 21
- Apr 2022 01:47:13 -0700 (PDT)
+        Thu, 21 Apr 2022 01:50:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1132 as permitted sender) client-ip=2607:f8b0:4864:20::1132;
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-2eafabbc80aso44511177b3.11
+        for <kasan-dev@googlegroups.com>; Thu, 21 Apr 2022 01:50:46 -0700 (PDT)
+X-Received: by 2002:a81:6c89:0:b0:2f1:c84a:55d with SMTP id
+ h131-20020a816c89000000b002f1c84a055dmr12785051ywc.333.1650531046192; Thu, 21
+ Apr 2022 01:50:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220420190805.152533-1-jcmvbkbc@gmail.com>
-In-Reply-To: <20220420190805.152533-1-jcmvbkbc@gmail.com>
+References: <Yl/qa2w3q9kyXcQl@elver.google.com> <20220421083715.45380-1-huangshaobo6@huawei.com>
+In-Reply-To: <20220421083715.45380-1-huangshaobo6@huawei.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 21 Apr 2022 10:46:37 +0200
-Message-ID: <CANpmjNO4nXfqFYcS3xBREZ3TCTe_feOsBFqQ46YJUjSvLWUqGQ@mail.gmail.com>
-Subject: Re: [PATCH v2] xtensa: enable KCSAN
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: linux-xtensa@linux-xtensa.org, Chris Zankel <chris@zankel.net>, 
-	linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev@googlegroups.com
+Date: Thu, 21 Apr 2022 10:50:10 +0200
+Message-ID: <CANpmjNMAT_DaiOoz=k6Z13nVR_2A_5fck12h0JKQSmNQRSKwGg@mail.gmail.com>
+Subject: Re: [PATCH] kfence: check kfence canary in panic and reboot
+To: Shaobo Huang <huangshaobo6@huawei.com>
+Cc: akpm@linux-foundation.org, chenzefeng2@huawei.com, dvyukov@google.com, 
+	glider@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, nixiaoming@huawei.com, wangbing6@huawei.com, 
+	wangfangpeng1@huawei.com, young.liuyang@huawei.com, zengweilin@huawei.com, 
+	zhongjubin@huawei.com
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=HQ6BuTHE;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b31 as
+ header.i=@google.com header.s=20210112 header.b=srOPHl+S;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1132 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -131,209 +134,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 20 Apr 2022 at 21:08, Max Filippov <jcmvbkbc@gmail.com> wrote:
+On Thu, 21 Apr 2022 at 10:37, Shaobo Huang <huangshaobo6@huawei.com> wrote:
+[...]
+> > >  static int __init kfence_debugfs_init(void)
+> > >  {
+> > >     struct dentry *kfence_dir = debugfs_create_dir("kfence", NULL);
+> > > @@ -806,6 +832,8 @@ static void kfence_init_enable(void)
+> > >
+> > >     WRITE_ONCE(kfence_enabled, true);
+> > >     queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
+> > > +   register_reboot_notifier(&kfence_check_canary_notifier);
+> > > +   atomic_notifier_chain_register(&panic_notifier_list, &kfence_check_canary_notifier);
+> >
+> > Executing this on panic is reasonable. However,
+> > register_reboot_notifier() tells me this is being executed on *every*
+> > reboot (not just panic). I think that's not what we want, because that
+> > may increase reboot latency depending on how many KFENCE objects we
+> > have. Is it possible to *only* do the check on panic?
 >
-> Prefix arch-specific barrier macros with '__' to make use of instrumented
-> generic macros.
-> Prefix arch-specific bitops with 'arch_' to make use of instrumented
-> generic functions.
-> Provide stubs for 64-bit atomics when building with KCSAN.
-> Disable KCSAN instrumentation in arch/xtensa/boot.
->
-> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+> if oob occurs before reboot, reboot can also detect it, if not, the detection will be missing in this scenario.
+> reboot and panic are two scenarios of system reset, so I think both scenarios need to be added.
 
-Acked-by: Marco Elver <elver@google.com>
-
-> ---
-> Changes v1->v2:
->
-> - fix __wmb definition to use __mb instead of mb
-> - provide __smp_{,r,w}mb definitions because definitions from the
->   asm-generic use mb/rmb/wmb instead of __mb/__rmb/__wmb, thus
->   doubling KCSAN instrumentation.
->
->   Both changes fix a few failures in the KCSAN testsuite.
->
->  arch/xtensa/Kconfig               |  1 +
->  arch/xtensa/boot/lib/Makefile     |  1 +
->  arch/xtensa/include/asm/barrier.h | 12 +++++--
->  arch/xtensa/include/asm/bitops.h  | 10 +++---
->  arch/xtensa/lib/Makefile          |  2 ++
->  arch/xtensa/lib/kcsan-stubs.c     | 54 +++++++++++++++++++++++++++++++
->  6 files changed, 73 insertions(+), 7 deletions(-)
->  create mode 100644 arch/xtensa/lib/kcsan-stubs.c
->
-> diff --git a/arch/xtensa/Kconfig b/arch/xtensa/Kconfig
-> index 797355c142b3..c87f5ab493d9 100644
-> --- a/arch/xtensa/Kconfig
-> +++ b/arch/xtensa/Kconfig
-> @@ -29,6 +29,7 @@ config XTENSA
->         select HAVE_ARCH_AUDITSYSCALL
->         select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL
->         select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
-> +       select HAVE_ARCH_KCSAN
->         select HAVE_ARCH_SECCOMP_FILTER
->         select HAVE_ARCH_TRACEHOOK
->         select HAVE_CONTEXT_TRACKING
-> diff --git a/arch/xtensa/boot/lib/Makefile b/arch/xtensa/boot/lib/Makefile
-> index e3d717c7bfa1..162d10af36f3 100644
-> --- a/arch/xtensa/boot/lib/Makefile
-> +++ b/arch/xtensa/boot/lib/Makefile
-> @@ -16,6 +16,7 @@ CFLAGS_REMOVE_inffast.o = -pg
->  endif
->
->  KASAN_SANITIZE := n
-> +KCSAN_SANITIZE := n
->
->  CFLAGS_REMOVE_inflate.o += -fstack-protector -fstack-protector-strong
->  CFLAGS_REMOVE_zmem.o += -fstack-protector -fstack-protector-strong
-> diff --git a/arch/xtensa/include/asm/barrier.h b/arch/xtensa/include/asm/barrier.h
-> index d6f8d4ddc2bc..898ea397e9bc 100644
-> --- a/arch/xtensa/include/asm/barrier.h
-> +++ b/arch/xtensa/include/asm/barrier.h
-> @@ -11,9 +11,15 @@
->
->  #include <asm/core.h>
->
-> -#define mb()  ({ __asm__ __volatile__("memw" : : : "memory"); })
-> -#define rmb() barrier()
-> -#define wmb() mb()
-> +#define __mb()  ({ __asm__ __volatile__("memw" : : : "memory"); })
-> +#define __rmb() barrier()
-> +#define __wmb() __mb()
-> +
-> +#ifdef CONFIG_SMP
-> +#define __smp_mb() __mb()
-> +#define __smp_rmb() __rmb()
-> +#define __smp_wmb() __wmb()
-> +#endif
->
->  #if XCHAL_HAVE_S32C1I
->  #define __smp_mb__before_atomic()              barrier()
-> diff --git a/arch/xtensa/include/asm/bitops.h b/arch/xtensa/include/asm/bitops.h
-> index cd225896c40f..e02ec5833389 100644
-> --- a/arch/xtensa/include/asm/bitops.h
-> +++ b/arch/xtensa/include/asm/bitops.h
-> @@ -99,7 +99,7 @@ static inline unsigned long __fls(unsigned long word)
->  #if XCHAL_HAVE_EXCLUSIVE
->
->  #define BIT_OP(op, insn, inv)                                          \
-> -static inline void op##_bit(unsigned int bit, volatile unsigned long *p)\
-> +static inline void arch_##op##_bit(unsigned int bit, volatile unsigned long *p)\
->  {                                                                      \
->         unsigned long tmp;                                              \
->         unsigned long mask = 1UL << (bit & 31);                         \
-> @@ -119,7 +119,7 @@ static inline void op##_bit(unsigned int bit, volatile unsigned long *p)\
->
->  #define TEST_AND_BIT_OP(op, insn, inv)                                 \
->  static inline int                                                      \
-> -test_and_##op##_bit(unsigned int bit, volatile unsigned long *p)       \
-> +arch_test_and_##op##_bit(unsigned int bit, volatile unsigned long *p)  \
->  {                                                                      \
->         unsigned long tmp, value;                                       \
->         unsigned long mask = 1UL << (bit & 31);                         \
-> @@ -142,7 +142,7 @@ test_and_##op##_bit(unsigned int bit, volatile unsigned long *p)    \
->  #elif XCHAL_HAVE_S32C1I
->
->  #define BIT_OP(op, insn, inv)                                          \
-> -static inline void op##_bit(unsigned int bit, volatile unsigned long *p)\
-> +static inline void arch_##op##_bit(unsigned int bit, volatile unsigned long *p)\
->  {                                                                      \
->         unsigned long tmp, value;                                       \
->         unsigned long mask = 1UL << (bit & 31);                         \
-> @@ -163,7 +163,7 @@ static inline void op##_bit(unsigned int bit, volatile unsigned long *p)\
->
->  #define TEST_AND_BIT_OP(op, insn, inv)                                 \
->  static inline int                                                      \
-> -test_and_##op##_bit(unsigned int bit, volatile unsigned long *p)       \
-> +arch_test_and_##op##_bit(unsigned int bit, volatile unsigned long *p)  \
->  {                                                                      \
->         unsigned long tmp, value;                                       \
->         unsigned long mask = 1UL << (bit & 31);                         \
-> @@ -205,6 +205,8 @@ BIT_OPS(change, "xor", )
->  #undef BIT_OP
->  #undef TEST_AND_BIT_OP
->
-> +#include <asm-generic/bitops/instrumented-atomic.h>
-> +
->  #include <asm-generic/bitops/le.h>
->
->  #include <asm-generic/bitops/ext2-atomic-setbit.h>
-> diff --git a/arch/xtensa/lib/Makefile b/arch/xtensa/lib/Makefile
-> index 5848c133f7ea..d4e9c397e3fd 100644
-> --- a/arch/xtensa/lib/Makefile
-> +++ b/arch/xtensa/lib/Makefile
-> @@ -8,3 +8,5 @@ lib-y   += memcopy.o memset.o checksum.o \
->            divsi3.o udivsi3.o modsi3.o umodsi3.o mulsi3.o \
->            usercopy.o strncpy_user.o strnlen_user.o
->  lib-$(CONFIG_PCI) += pci-auto.o
-> +lib-$(CONFIG_KCSAN) += kcsan-stubs.o
-> +KCSAN_SANITIZE_kcsan-stubs.o := n
-> diff --git a/arch/xtensa/lib/kcsan-stubs.c b/arch/xtensa/lib/kcsan-stubs.c
-> new file mode 100644
-> index 000000000000..2b08faa62b86
-> --- /dev/null
-> +++ b/arch/xtensa/lib/kcsan-stubs.c
-> @@ -0,0 +1,54 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/bug.h>
-> +#include <linux/types.h>
-> +
-> +void __atomic_store_8(volatile void *p, u64 v, int i)
-> +{
-> +       BUG();
-> +}
-> +
-> +u64 __atomic_load_8(const volatile void *p, int i)
-> +{
-> +       BUG();
-> +}
-> +
-> +u64 __atomic_exchange_8(volatile void *p, u64 v, int i)
-> +{
-> +       BUG();
-> +}
-> +
-> +bool __atomic_compare_exchange_8(volatile void *p1, void *p2, u64 v, bool b, int i1, int i2)
-> +{
-> +       BUG();
-> +}
-> +
-> +u64 __atomic_fetch_add_8(volatile void *p, u64 v, int i)
-> +{
-> +       BUG();
-> +}
-> +
-> +u64 __atomic_fetch_sub_8(volatile void *p, u64 v, int i)
-> +{
-> +       BUG();
-> +}
-> +
-> +u64 __atomic_fetch_and_8(volatile void *p, u64 v, int i)
-> +{
-> +       BUG();
-> +}
-> +
-> +u64 __atomic_fetch_or_8(volatile void *p, u64 v, int i)
-> +{
-> +       BUG();
-> +}
-> +
-> +u64 __atomic_fetch_xor_8(volatile void *p, u64 v, int i)
-> +{
-> +       BUG();
-> +}
-> +
-> +u64 __atomic_fetch_nand_8(volatile void *p, u64 v, int i)
-> +{
-> +       BUG();
-> +}
-> --
-> 2.30.2
->
+That doesn't quite answer my question, why do you want to run the
+check during normal reboot? As I understand it right now it will run
+on any normal reboot, and also on panics. I have concerns adding these
+checks to normal reboots because it may increase normal reboot
+latency, which we do not want.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO4nXfqFYcS3xBREZ3TCTe_feOsBFqQ46YJUjSvLWUqGQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMAT_DaiOoz%3Dk6Z13nVR_2A_5fck12h0JKQSmNQRSKwGg%40mail.gmail.com.
