@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBD52JJ7JXILRB64LRSJQMGQEMHL2QMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD52JJ7JXILRBQMWRSJQMGQEJQEYBXI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x939.google.com (mail-ua1-x939.google.com [IPv6:2607:f8b0:4864:20::939])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDC650C080
-	for <lists+kasan-dev@lfdr.de>; Fri, 22 Apr 2022 21:46:04 +0200 (CEST)
-Received: by mail-ua1-x939.google.com with SMTP id w11-20020ab076cb000000b0035cc6b29920sf3646241uaq.12
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 Apr 2022 12:46:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1650656763; cv=pass;
+Received: from mail-pg1-x539.google.com (mail-pg1-x539.google.com [IPv6:2607:f8b0:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC7850C09D
+	for <lists+kasan-dev@lfdr.de>; Fri, 22 Apr 2022 22:08:34 +0200 (CEST)
+Received: by mail-pg1-x539.google.com with SMTP id z18-20020a631912000000b003a392265b64sf5594007pgl.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 22 Apr 2022 13:08:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1650658113; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LfpVX0VpWlSGDEJIjGp2tdxj7ksXIcxV7FyqAi5xKaEVK0l/T/g9YnGletoF6FIBUc
-         En5SVsC4n6Me41SO2tj4XDdL2OLG3Vy417JKd+smbK6bW8R6zpW4R4fBc+u7tjvTkkJe
-         lVpOrXmEmrWZDe+shfNqECY2NxamqxY5Gmtqs82iFvVlOEq6WO7slv+kv96OFJr1EzTH
-         pfRNKJCv1/5Ouf+aRvogvTTnTTnfw+CJ/yvglWFZhcviPX9KDCog1vKeN4nRPMGmzWIJ
-         xFZo/GCe1Im8I07zTZvtnR53R0xF9s0+95H8JQkMTJ9LlFvUEo1dfIUVUlEOZ0awERDs
-         /vKw==
+        b=OFyrXtelTTnBz2xOZ9y1Jf3+fNBfDvbvQ3DSg9O5Z3lxrDSWKnlTi1ay9uRlH+/f1H
+         BbD/kOLHXPI78Mgo93D4XwDNhrtB8qocNM8j3InupUuWxZNV4eX+BLRO5Pc9CoNKM38P
+         WaCh7mtU3aypNbFF+aOR6JpBRgliOySQJYR069Ck+lpgduReR5qtvNlGhdBVMeib+q/W
+         sZXtiXOkMqkEwFop0n+in7zmfjaYxdrTWzwNaVyO/UygsC03VLu4LQk0xJ7mAPX/yDxe
+         zkIQvJybcQq2eoJUisiYhUuj3vVGy6k7CeHQqZhCWkg4oa67iuEHRAPEVedcB7ZJTaAC
+         D9XQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=zk0J4m9G+M+8/vkV20d84Bpdj8RGz+l5vaM0cRrAZf4=;
-        b=yhmmIjl++JJMM1cxZEK0oMI8NiLJIWPII6lTYojX4JRkCcsf4BHH/jepOUk4He8cyl
-         u7HmwsM2deLPSYh7s9Xovx48wnw5/+zcOg0zT36OKpoIo/iGjnNuWNWqwknHB5eN/0eY
-         jK/hx+yaFv6VZy2zxMNIlcmdweHRwrARRsLFtPV8LicL+Q/OI0HsuOmRcCuur5hH/rf3
-         7k+EvmGofYd2631EBc1HK/maC2JPCiwAed4feYLxPawSAtKieyeFGAZiTIvPndI7JYxL
-         IAul4vspSgYhx5gKYkXY6bvK0NwzQSAR51xgO8/Bunv0plfYmFUFxrZXASIAm/oTzvII
-         ZWXQ==
+        bh=Ldid8panXO1lTZt6Y+QBMsk36ebcjiJW7hI01WkdFDU=;
+        b=QR8jA4jW08/xT76KY5Ix9GZPyvgHFp4E3/WE+Nq+VwlvI+sdTRU7NGK/99IWpDXB9O
+         vVUKhMtkwNeUvxkYpdLrcaKehFP6N5MiCk42gKSV0kKwodxW2dvlMi/OEL5Xj/OwKaXc
+         /j9qrv21cJHPzIZqkEltLzsPC3hrfHZPXpWKX2YV20yKwiPBgUA1RASwpXueQdQV6l3P
+         pnnLzdZ41R5Qhgmj930LyGbulpLcKN9ly+hqLiyr/pCTRaEPc9LJJ9MT+h026IeZPNyx
+         08ElQRvCYfjXwwxwdoYqnuQkUaf/kqgYbz6+jH7GUYUZic8NLlhV7iGRQzNHRH5S5Kk7
+         gwEg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=TLtW1qg6;
-       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2f as permitted sender) smtp.mailfrom=pcc@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=n5x2XicX;
+       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2c as permitted sender) smtp.mailfrom=pcc@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zk0J4m9G+M+8/vkV20d84Bpdj8RGz+l5vaM0cRrAZf4=;
-        b=ULxcbLNNMOm5jxjaXEEC387XWhmhiIcj44dVWcntesUXikFQT8AOGFIiyY5/MNFdPV
-         VNGDSNVzI0A5b4YO+004vKfyXZBalbM9hRtYzAGQukI3ux8enhKezEk0Q6W0E1KwFA/5
-         rTYrkZyipqq5C7BprODg7hJrjhCY4gpUvfxEyZKU3lc3JVXsGxXe7mfprguUWNn/6EoQ
-         GwVOE1R9jjsNhZ+XgtZD6EbQ98s8FzKMbemURmJD0IjzsnZ0WYkA+T/YvhJYqaKnsGMW
-         lcVSZ8+X/gIDoZmonbf4jS5qSODOtCU1FHWF3i+plUP9xGWKRoM+pEzWxxf/zxMOgCQy
-         PZVw==
+        bh=Ldid8panXO1lTZt6Y+QBMsk36ebcjiJW7hI01WkdFDU=;
+        b=h0Q3kAeJhKHu/6XGekJO0KiGpcjRvU5NTmk/fqs5LosnvP/ZFZwwuRa2EB4FGgb2pu
+         AvbBmHQ58y/OWiAxNMljKAARN8S9Ze698YDIX+QjfFGIw8F3w/8PbdIftqEhw58ySHX+
+         8AX96XEbWVE/YVycL1L686XVl3ivBzh0v5LE2PAWm86sPALPAXIm7AVp9P1/N4a09lwU
+         tG2EMzEmM5CrFBclevhUNOHp3+fyrII0GZWFc2CDkwfM9fjpeNfMTwRW6rIsCNQkVHCV
+         2J43TsCDaoKjAYKP4ydmtjbIGW28pD/XM8DR+o3X0iJPJEJBD90cDm6nLH3m0gVzs42q
+         98Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,67 +49,68 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=zk0J4m9G+M+8/vkV20d84Bpdj8RGz+l5vaM0cRrAZf4=;
-        b=xVo8spbarJMN9XE4BL5WXbXPuDiXoqdhYYEa9PWMuE+gD0rVGU8/v9i0LGOnoyrvud
-         PUZwnDftqwGCLcYwkep/DJ3c0ksCowXvwu6a5E4aejosgDRx1q5qEBdTRMc28W9oDI0A
-         UlMR/MrKad0OpLKrtdVc3NN8/UrheYtEOUxM3b47dZvpETB7sBcSro94E//VX8A+ArCB
-         /F+aUqAr2iygQZqa5gi/+xmCUDuRz+k/NmuwZxv6EsT1t7vow2JgOe5n1NRWWUatorCP
-         4jDaNH4oF4OkbzCDuJomfkw+KKdStKzLC7Xp19gywWdpghB7/GlPN9juvI7VWGHjc0lR
-         jn8g==
-X-Gm-Message-State: AOAM531CZ6+OhPQ5om5s4Fhyqqu63XkCh7zumkC2OMLuGVZk6iCkPYtU
-	DCJYNlwsDD/eQShohE7bAf4=
-X-Google-Smtp-Source: ABdhPJwNP65xzKAjbwWU4XvMT34VTKrajOnYqB2nAKY4YkttY6Z1ToY9Vt5XZD1uSk+P0n9hrlAqqA==
-X-Received: by 2002:a05:6102:15a1:b0:32a:4c67:644b with SMTP id g33-20020a05610215a100b0032a4c67644bmr2123195vsv.83.1650656763699;
-        Fri, 22 Apr 2022 12:46:03 -0700 (PDT)
+        bh=Ldid8panXO1lTZt6Y+QBMsk36ebcjiJW7hI01WkdFDU=;
+        b=GWECSBOSJMhSn4P575VljG+Jb0ItulXu0D/Szb0dJbHWcM98m+tBiSALZeOZiGgqLw
+         fpOQ177dc8jUxaaZL6Sbawuk7dB1q03vz8eJ0hGGTIiDzJTShFgiVGdWwAbsUyLigL9p
+         k0WmsDO0M0SQJxv2XC836t3aI2oRNbEOKe2PgigCJ9ff4RsWZtvB70g+RUFD0Fa5j/fC
+         decnv7CWaxtUyUUu+rdGeYej1+jYdohuL+wa6v9kp5kETPg+LdSdYajwgNqhikWDKhho
+         Glq3fxZzGwxTfX6ePuna68pFWLQOHs+w4yeI0sxrb2xu+xYPozkYTI4k2rrGA7YvEN9X
+         D78w==
+X-Gm-Message-State: AOAM530XIYJ7ovBsXJdBzvPAFHWuhntOsR/N8IX4JH2tzWd83k7WqZA+
+	1N2TO9ToqJjQPfrsrjzfHIA=
+X-Google-Smtp-Source: ABdhPJyDlCcZ6bqwxqV30pu26g8NsL47gly3Tb4zwu/wXbyuXv1uUTotliS9o84wEA0texyUBec2iQ==
+X-Received: by 2002:a17:902:7795:b0:158:def5:526 with SMTP id o21-20020a170902779500b00158def50526mr6296795pll.0.1650658113421;
+        Fri, 22 Apr 2022 13:08:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:2e6:b0:32a:4ac5:3c7f with SMTP id
- j6-20020a05610202e600b0032a4ac53c7fls2696853vsj.2.gmail; Fri, 22 Apr 2022
- 12:46:02 -0700 (PDT)
-X-Received: by 2002:a67:c593:0:b0:328:6c97:d9ec with SMTP id h19-20020a67c593000000b003286c97d9ecmr1884956vsk.25.1650656762171;
-        Fri, 22 Apr 2022 12:46:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1650656762; cv=none;
+Received: by 2002:a17:90a:c4f:b0:1c6:8749:f769 with SMTP id
+ u15-20020a17090a0c4f00b001c68749f769ls8549123pje.3.gmail; Fri, 22 Apr 2022
+ 13:08:32 -0700 (PDT)
+X-Received: by 2002:a17:902:cf0a:b0:156:39c9:4c44 with SMTP id i10-20020a170902cf0a00b0015639c94c44mr5962971plg.124.1650658112795;
+        Fri, 22 Apr 2022 13:08:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1650658112; cv=none;
         d=google.com; s=arc-20160816;
-        b=oBqu4OgQP1RunMytfto4jxQ8B9w4cnUMMn/Bvoh82eR7oohKqqDNauJuCwXhDAK+bz
-         YpykbvdwC/o9lWf9N/98gB1z4coUhi2azUDfDNygIZRFeYBhdNzjlyDeR+Zsg8+AtygM
-         yJ1apIo4FCzNBqF5sIQb2bwFkvmR5G9dur3xBZr/HNQDTJuygE4unAoqApn2joEmOzFw
-         IODDFV0GLZ9F77B0Y+XShzrBQoAFJFbGEaj9O8yToZ4tF9SR2dRJCEVWSBkvefL1ONKm
-         ambi6foNW6H29c7vs+4Siqqaky0TVdPML0LUEp1YXANLAjjEUXncGnQ6ZFE5HJiAz9Dk
-         jIXA==
+        b=sbkGSr95KSOsvV1G3dx5AApEk4bP58JKhu9DzIRBXf7HLnmXvXjvXEy0eC1krTs50B
+         H6g0BO1G1V8vQl1ofo4HRCkKbGZXYUB+3vOznGaobVPriNryzf1FQMys/yyK5+DQl5No
+         CYT2BeAnPgpzl7TSu0K8b07wi493irL3wjaZcHedHtQ7e6K16EKDKJm3FtCispfquxW7
+         wLdKDvSkcQJskK2gHkcavsajhHVVJbxYZ+nnN8tDicPYXVQC3sFv5Rk/Qse6WGYK9xDS
+         vZ/qsI5Ul//9J50G9ClaEE6YKDEZh1fNReEXuYEyyjtEG8g0pUeMzdecajzKVTdDCHOF
+         YUaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=NDEqcBhWfl+VEeADqX1cuVP35Bwxo39I117kMXuRP20=;
-        b=Vq9YBO8EamzpumAFTaIvsC8y/zkS7zwTNpYFjsmzWDj4LV3Qglo0LBINCYQ2F8Ip7J
-         fI2R33JNhDv78Dt2cizkQYQnLncYxyVGPQ9KkBDOiwaJEeGCzvCJ16ZcgK5D6F44ejFr
-         l0+ryDQvvRip8GanYulsfgrJvaoRLpaJb1zPFY1fsPfDqf2kKqumptO0DV00cxok5z0T
-         ynvbtHYJ0Pc+ruVmWpIZk22j2yMBofH+LiPVENR0ByJ+vlARvF9LJdMexyPCfZDJ7535
-         s9NASIAN4QJBbGR1uN/7+rBl7SH98+ZBFasZz/DZJ7VJu+vy4q0P9RbX0PKxWgwnsPnp
-         gGWw==
+        bh=oe1v+8HKmPN5xE9lG49dcb7rjaDAxWTXKsNw822YQmM=;
+        b=mWHwK/P9rzE5kdLaNIWUjcZOX0Ma65PGKA992IU+Oxe9MMHNCGw6Vjw1qwBesaRLEw
+         lUS2L+gcZX9IK9wcLdoNKgfRuetpoDPMMSAdtLim944QQDvwRvy0ETBK/sJtTW+avHEe
+         O9evx5ftmGXheHptOiK83SuMLjhoewgunhgjqCzXcWG2GX2sOMVbBRqAO6/YFH2+PWQN
+         joHvVvXklT3oa9qE9o6gODGI4MwaqBv7KycGO/cv6NVuW0Ue23fRBJyyPzsOP+aWvRtx
+         88HVfgcrdiahPJe0yPtKRfmrblQ3Fe1mRNAPmhV2H7/0XVtGe9ldQn81m/eTQ82/kWet
+         VetA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=TLtW1qg6;
-       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2f as permitted sender) smtp.mailfrom=pcc@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=n5x2XicX;
+       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2c as permitted sender) smtp.mailfrom=pcc@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com. [2607:f8b0:4864:20::a2f])
-        by gmr-mx.google.com with ESMTPS id j13-20020ac5c64d000000b0034911e6ef9fsi951711vkl.4.2022.04.22.12.46.02
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com. [2607:f8b0:4864:20::a2c])
+        by gmr-mx.google.com with ESMTPS id q21-20020a056a0002b500b0050ad2fd0312si705059pfs.5.2022.04.22.13.08.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Apr 2022 12:46:02 -0700 (PDT)
-Received-SPF: pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2f as permitted sender) client-ip=2607:f8b0:4864:20::a2f;
-Received: by mail-vk1-xa2f.google.com with SMTP id bc42so4304844vkb.12
-        for <kasan-dev@googlegroups.com>; Fri, 22 Apr 2022 12:46:02 -0700 (PDT)
-X-Received: by 2002:a1f:314b:0:b0:331:fff6:a89e with SMTP id
- x72-20020a1f314b000000b00331fff6a89emr2323548vkx.26.1650656761610; Fri, 22
- Apr 2022 12:46:01 -0700 (PDT)
+        Fri, 22 Apr 2022 13:08:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2c as permitted sender) client-ip=2607:f8b0:4864:20::a2c;
+Received: by mail-vk1-xa2c.google.com with SMTP id bc42so4331511vkb.12
+        for <kasan-dev@googlegroups.com>; Fri, 22 Apr 2022 13:08:32 -0700 (PDT)
+X-Received: by 2002:ac5:c899:0:b0:349:33e8:d676 with SMTP id
+ n25-20020ac5c899000000b0034933e8d676mr2382122vkl.0.1650658111910; Fri, 22 Apr
+ 2022 13:08:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220421211549.3884453-1-pcc@google.com> <CA+fCnZdouu-v1MKndMbeOw96pknGN=77=8B=_K4kedRROrL9pw@mail.gmail.com>
-In-Reply-To: <CA+fCnZdouu-v1MKndMbeOw96pknGN=77=8B=_K4kedRROrL9pw@mail.gmail.com>
+References: <20220421211549.3884453-1-pcc@google.com> <YmLt0s/KdSJlSSPk@arm.com>
+In-Reply-To: <YmLt0s/KdSJlSSPk@arm.com>
 From: "'Peter Collingbourne' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 22 Apr 2022 12:45:50 -0700
-Message-ID: <CAMn1gO5GXVJ37wgpvnxymWGBhWn=HjopviPC6zd=K4cBkzuTbA@mail.gmail.com>
+Date: Fri, 22 Apr 2022 13:08:20 -0700
+Message-ID: <CAMn1gO77+Smgezkx0o5t+MnLJK9KUNpEb+xiJ3Pkoj4pFD1JfQ@mail.gmail.com>
 Subject: Re: [PATCH v2] mm: make minimum slab alignment a runtime property
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
 	Linux Memory Management List <linux-mm@kvack.org>, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
 	Pekka Enberg <penberg@kernel.org>, roman.gushchin@linux.dev, 
@@ -121,8 +122,8 @@ Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>, Andrew Morton <akpm@linux-foundation.or
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: pcc@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=TLtW1qg6;       spf=pass
- (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2f as
+ header.i=@google.com header.s=20210112 header.b=n5x2XicX;       spf=pass
+ (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2c as
  permitted sender) smtp.mailfrom=pcc@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Peter Collingbourne <pcc@google.com>
@@ -139,228 +140,10 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Apr 22, 2022 at 9:04 AM Andrey Konovalov <andreyknvl@gmail.com> wrote:
+On Fri, Apr 22, 2022 at 11:03 AM Catalin Marinas
+<catalin.marinas@arm.com> wrote:
 >
-> On Thu, Apr 21, 2022 at 11:16 PM Peter Collingbourne <pcc@google.com> wrote:
-> >
-> > When CONFIG_KASAN_HW_TAGS is enabled we currently increase the minimum
-> > slab alignment to 16. This happens even if MTE is not supported in
-> > hardware or disabled via kasan=off, which creates an unnecessary
-> > memory overhead in those cases. Eliminate this overhead by making
-> > the minimum slab alignment a runtime property and only aligning to
-> > 16 if KASAN is enabled at runtime.
-> >
-> > On a DragonBoard 845c (non-MTE hardware) with a kernel built with
-> > CONFIG_KASAN_HW_TAGS, waiting for quiescence after a full Android
-> > boot I see the following Slab measurements in /proc/meminfo (median
-> > of 3 reboots):
-> >
-> > Before: 169020 kB
-> > After:  167304 kB
->
-> Thanks for the improvement, Peter!
->
-> Overall, the patch looks good to me:
->
-> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-
-Thanks!
-
-> While looking at the code, I noticed a couple of issues in the already
-> existing comments. Not sure if they are worth fixing, but I'll point
-> them out just in case.
->
-> > Link: https://linux-review.googlesource.com/id/I752e725179b43b144153f4b6f584ceb646473ead
-> > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > ---
-> > v2:
-> > - use max instead of max_t in flat_stack_align()
-> >
-> >  arch/arc/include/asm/cache.h        |  4 ++--
-> >  arch/arm/include/asm/cache.h        |  2 +-
-> >  arch/arm64/include/asm/cache.h      | 19 +++++++++++++------
-> >  arch/microblaze/include/asm/page.h  |  2 +-
-> >  arch/riscv/include/asm/cache.h      |  2 +-
-> >  arch/sparc/include/asm/cache.h      |  2 +-
-> >  arch/xtensa/include/asm/processor.h |  2 +-
-> >  fs/binfmt_flat.c                    |  9 ++++++---
-> >  include/crypto/hash.h               |  2 +-
-> >  include/linux/slab.h                | 22 +++++++++++++++++-----
-> >  mm/slab.c                           |  7 +++----
-> >  mm/slab_common.c                    |  3 +--
-> >  mm/slob.c                           |  6 +++---
-> >  13 files changed, 51 insertions(+), 31 deletions(-)
-> >
-> > diff --git a/arch/arc/include/asm/cache.h b/arch/arc/include/asm/cache.h
-> > index f0f1fc5d62b6..b6a7763fd5d6 100644
-> > --- a/arch/arc/include/asm/cache.h
-> > +++ b/arch/arc/include/asm/cache.h
-> > @@ -55,11 +55,11 @@
-> >   * Make sure slab-allocated buffers are 64-bit aligned when atomic64_t uses
-> >   * ARCv2 64-bit atomics (LLOCKD/SCONDD). This guarantess runtime 64-bit
-> >   * alignment for any atomic64_t embedded in buffer.
-> > - * Default ARCH_SLAB_MINALIGN is __alignof__(long long) which has a relaxed
-> > + * Default ARCH_SLAB_MIN_MINALIGN is __alignof__(long long) which has a relaxed
-> >   * value of 4 (and not 8) in ARC ABI.
-> >   */
-> >  #if defined(CONFIG_ARC_HAS_LL64) && defined(CONFIG_ARC_HAS_LLSC)
-> > -#define ARCH_SLAB_MINALIGN     8
-> > +#define ARCH_SLAB_MIN_MINALIGN 8
-> >  #endif
-> >
-> >  extern int ioc_enable;
-> > diff --git a/arch/arm/include/asm/cache.h b/arch/arm/include/asm/cache.h
-> > index e3ea34558ada..3e1018bb9805 100644
-> > --- a/arch/arm/include/asm/cache.h
-> > +++ b/arch/arm/include/asm/cache.h
-> > @@ -21,7 +21,7 @@
-> >   * With EABI on ARMv5 and above we must have 64-bit aligned slab pointers.
-> >   */
-> >  #if defined(CONFIG_AEABI) && (__LINUX_ARM_ARCH__ >= 5)
-> > -#define ARCH_SLAB_MINALIGN 8
-> > +#define ARCH_SLAB_MIN_MINALIGN 8
-> >  #endif
-> >
-> >  #define __read_mostly __section(".data..read_mostly")
-> > diff --git a/arch/arm64/include/asm/cache.h b/arch/arm64/include/asm/cache.h
-> > index a074459f8f2f..38f171591c3f 100644
-> > --- a/arch/arm64/include/asm/cache.h
-> > +++ b/arch/arm64/include/asm/cache.h
-> > @@ -6,6 +6,7 @@
-> >  #define __ASM_CACHE_H
-> >
-> >  #include <asm/cputype.h>
-> > +#include <asm/mte-def.h>
-> >
-> >  #define CTR_L1IP_SHIFT         14
-> >  #define CTR_L1IP_MASK          3
-> > @@ -49,15 +50,21 @@
-> >   */
-> >  #define ARCH_DMA_MINALIGN      (128)
-> >
-> > -#ifdef CONFIG_KASAN_SW_TAGS
-> > -#define ARCH_SLAB_MINALIGN     (1ULL << KASAN_SHADOW_SCALE_SHIFT)
-> > -#elif defined(CONFIG_KASAN_HW_TAGS)
-> > -#define ARCH_SLAB_MINALIGN     MTE_GRANULE_SIZE
-> > -#endif
-> > -
-> >  #ifndef __ASSEMBLY__
-> >
-> >  #include <linux/bitops.h>
-> > +#include <linux/kasan-enabled.h>
-> > +
-> > +#ifdef CONFIG_KASAN_SW_TAGS
-> > +#define ARCH_SLAB_MIN_MINALIGN (1ULL << KASAN_SHADOW_SCALE_SHIFT)
-> > +#elif defined(CONFIG_KASAN_HW_TAGS)
-> > +static inline size_t arch_slab_minalign(void)
-> > +{
-> > +       return kasan_hw_tags_enabled() ? MTE_GRANULE_SIZE :
-> > +                                        __alignof__(unsigned long long);
-> > +}
-> > +#define arch_slab_minalign() arch_slab_minalign()
-> > +#endif
-> >
-> >  #define ICACHEF_ALIASING       0
-> >  #define ICACHEF_VPIPT          1
-> > diff --git a/arch/microblaze/include/asm/page.h b/arch/microblaze/include/asm/page.h
-> > index 4b8b2fa78fc5..ccdbc1da3c3e 100644
-> > --- a/arch/microblaze/include/asm/page.h
-> > +++ b/arch/microblaze/include/asm/page.h
-> > @@ -33,7 +33,7 @@
-> >  /* MS be sure that SLAB allocates aligned objects */
-> >  #define ARCH_DMA_MINALIGN      L1_CACHE_BYTES
-> >
-> > -#define ARCH_SLAB_MINALIGN     L1_CACHE_BYTES
-> > +#define ARCH_SLAB_MIN_MINALIGN L1_CACHE_BYTES
-> >
-> >  /*
-> >   * PAGE_OFFSET -- the first address of the first page of memory. With MMU
-> > diff --git a/arch/riscv/include/asm/cache.h b/arch/riscv/include/asm/cache.h
-> > index 9b58b104559e..7beb3b5d27c7 100644
-> > --- a/arch/riscv/include/asm/cache.h
-> > +++ b/arch/riscv/include/asm/cache.h
-> > @@ -16,7 +16,7 @@
-> >   * the flat loader aligns it accordingly.
-> >   */
-> >  #ifndef CONFIG_MMU
-> > -#define ARCH_SLAB_MINALIGN     16
-> > +#define ARCH_SLAB_MIN_MINALIGN 16
-> >  #endif
-> >
-> >  #endif /* _ASM_RISCV_CACHE_H */
-> > diff --git a/arch/sparc/include/asm/cache.h b/arch/sparc/include/asm/cache.h
-> > index e62fd0e72606..9d8cb4687b7e 100644
-> > --- a/arch/sparc/include/asm/cache.h
-> > +++ b/arch/sparc/include/asm/cache.h
-> > @@ -8,7 +8,7 @@
-> >  #ifndef _SPARC_CACHE_H
-> >  #define _SPARC_CACHE_H
-> >
-> > -#define ARCH_SLAB_MINALIGN     __alignof__(unsigned long long)
-> > +#define ARCH_SLAB_MIN_MINALIGN __alignof__(unsigned long long)
-> >
-> >  #define L1_CACHE_SHIFT 5
-> >  #define L1_CACHE_BYTES 32
-> > diff --git a/arch/xtensa/include/asm/processor.h b/arch/xtensa/include/asm/processor.h
-> > index 4489a27d527a..e3ea278e3fcf 100644
-> > --- a/arch/xtensa/include/asm/processor.h
-> > +++ b/arch/xtensa/include/asm/processor.h
-> > @@ -18,7 +18,7 @@
-> >  #include <asm/types.h>
-> >  #include <asm/regs.h>
-> >
-> > -#define ARCH_SLAB_MINALIGN XTENSA_STACK_ALIGNMENT
-> > +#define ARCH_SLAB_MIN_MINALIGN XTENSA_STACK_ALIGNMENT
-> >
-> >  /*
-> >   * User space process size: 1 GB.
-> > diff --git a/fs/binfmt_flat.c b/fs/binfmt_flat.c
-> > index 626898150011..23ce3439eafa 100644
-> > --- a/fs/binfmt_flat.c
-> > +++ b/fs/binfmt_flat.c
-> > @@ -64,7 +64,10 @@
-> >   * Here we can be a bit looser than the data sections since this
-> >   * needs to only meet arch ABI requirements.
-> >   */
-> > -#define FLAT_STACK_ALIGN       max_t(unsigned long, sizeof(void *), ARCH_SLAB_MINALIGN)
-> > +static size_t flat_stack_align(void)
-> > +{
-> > +       return max(sizeof(void *), arch_slab_minalign());
-> > +}
-> >
-> >  #define RELOC_FAILED 0xff00ff01                /* Relocation incorrect somewhere */
-> >  #define UNLOADED_LIB 0x7ff000ff                /* Placeholder for unused library */
-> > @@ -148,7 +151,7 @@ static int create_flat_tables(struct linux_binprm *bprm, unsigned long arg_start
-> >                 sp -= 2; /* argvp + envp */
-> >         sp -= 1;  /* &argc */
-> >
-> > -       current->mm->start_stack = (unsigned long)sp & -FLAT_STACK_ALIGN;
-> > +       current->mm->start_stack = (unsigned long)sp & -flat_stack_align();
-> >         sp = (unsigned long __user *)current->mm->start_stack;
-> >
-> >         if (put_user(bprm->argc, sp++))
-> > @@ -966,7 +969,7 @@ static int load_flat_binary(struct linux_binprm *bprm)
-> >  #endif
-> >         stack_len += (bprm->argc + 1) * sizeof(char *);   /* the argv array */
-> >         stack_len += (bprm->envc + 1) * sizeof(char *);   /* the envp array */
-> > -       stack_len = ALIGN(stack_len, FLAT_STACK_ALIGN);
-> > +       stack_len = ALIGN(stack_len, flat_stack_align());
-> >
-> >         res = load_flat_file(bprm, &libinfo, 0, &stack_len);
-> >         if (res < 0)
-> > diff --git a/include/crypto/hash.h b/include/crypto/hash.h
-> > index f140e4643949..442c290f458c 100644
-> > --- a/include/crypto/hash.h
-> > +++ b/include/crypto/hash.h
-> > @@ -149,7 +149,7 @@ struct ahash_alg {
-> >
-> >  struct shash_desc {
-> >         struct crypto_shash *tfm;
-> > -       void *__ctx[] __aligned(ARCH_SLAB_MINALIGN);
-> > +       void *__ctx[] __aligned(ARCH_SLAB_MIN_MINALIGN);
-> >  };
-> >
-> >  #define HASH_MAX_DIGESTSIZE     64
+> On Thu, Apr 21, 2022 at 02:15:48PM -0700, Peter Collingbourne wrote:
 > > diff --git a/include/linux/slab.h b/include/linux/slab.h
 > > index 373b3ef99f4e..80e517593372 100644
 > > --- a/include/linux/slab.h
@@ -379,44 +162,19 @@ Thanks!
 > > +#ifndef ARCH_SLAB_MIN_MINALIGN
 > > +#define ARCH_SLAB_MIN_MINALIGN __alignof__(unsigned long long)
 > > +#endif
-> > +
-> > +/*
-> > + * Arches can define this function if they want to decide the minimum slab
-> > + * alignment at runtime. The value returned by the function must be
-> > + * >= ARCH_SLAB_MIN_MINALIGN.
-> > + */
-> > +#ifndef arch_slab_minalign
-> > +static inline size_t arch_slab_minalign(void)
-> > +{
-> > +       return ARCH_SLAB_MIN_MINALIGN;
-> > +}
-> >  #endif
-> >
-> >  /*
-> >   * kmalloc and friends return ARCH_KMALLOC_MINALIGN aligned
-> > - * pointers. kmem_cache_alloc and friends return ARCH_SLAB_MINALIGN
-> > + * pointers. kmem_cache_alloc and friends return ARCH_SLAB_MIN_MINALIGN
-> >   * aligned pointers.
 >
-> This comment is not precise: kmalloc relies on kmem_cache_alloc, so
-> kmalloc technically returns pointers aligned to
-> max(ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MIN_MINALIGN). See
-> create_kmalloc_cache()->create_boot_cache()->calculate_alignment() for
-> SLAB and SLUB and __do_kmalloc_node() for SLOB. This alignment is
-> stronger than the one is specified for __assume_kmalloc_alignment
-> below, so the code should be fine. However, the comment is confusing.
->
-> Also, the comment next to the ARCH_KMALLOC_MINALIGN definition says
-> "Setting ARCH_KMALLOC_MINALIGN in arch headers" while it should say
-> "Setting ARCH_DMA_MINALIGN in arch headers".
+> Sorry, only a drive-by comment, I'll look at the arm64 parts next week.
+> I've seen it mentioned in the first version, what's the point of MIN_MIN
+> and not just MIN?
 
-Good catches. Let's fix these issues separately (especially since I
-reverted the ARCH_SLAB_MIN_MINALIGN change so the patches shouldn't
-conflict). Would you like to send patches? I can if not.
+I tried to explain it here:
+https://lore.kernel.org/all/CAMn1gO5xHZvFSSsW5sTVaUBN_gS-cYYNMG3PnpgCmh7kk_Zx7Q@mail.gmail.com/
+
+In the end I decided to go back to MIN so this is moot.
 
 Peter
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAMn1gO5GXVJ37wgpvnxymWGBhWn%3DHjopviPC6zd%3DK4cBkzuTbA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAMn1gO77%2BSmgezkx0o5t%2BMnLJK9KUNpEb%2BxiJ3Pkoj4pFD1JfQ%40mail.gmail.com.
