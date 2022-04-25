@@ -1,136 +1,149 @@
-Return-Path: <kasan-dev+bncBAABB74MTCJQMGQE7B3RMJY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LXIPCY4NRBAO4TCJQMGQEL4YZR2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1139.google.com (mail-yw1-x1139.google.com [IPv6:2607:f8b0:4864:20::1139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012F350D6F3
-	for <lists+kasan-dev@lfdr.de>; Mon, 25 Apr 2022 04:25:05 +0200 (CEST)
-Received: by mail-yw1-x1139.google.com with SMTP id 00721157ae682-2f4d9e92a0asf85781367b3.9
-        for <lists+kasan-dev@lfdr.de>; Sun, 24 Apr 2022 19:25:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1650853503; cv=pass;
+Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E7D50D8B2
+	for <lists+kasan-dev@lfdr.de>; Mon, 25 Apr 2022 07:13:38 +0200 (CEST)
+Received: by mail-wr1-x43e.google.com with SMTP id y13-20020adfc7cd000000b0020ac7c7bf2esf1547744wrg.9
+        for <lists+kasan-dev@lfdr.de>; Sun, 24 Apr 2022 22:13:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1650863617; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WiF4SDlWSRjvCEsI8pPQKXkhzLmO+x+48YSP1et0mdcNZCW3cN5aSa/ntPwCKjajvZ
-         f3KReF71k4GHxJb7MgNGUHiLYQMciR1h5oSr9vfhQun+t0ckpmdtbnIdmUz79TLFVHhf
-         IxTCvrkiZ1jPHljIyUvDIpLED1/bMMbAp8R8VFiynXMEknzpo6EC3RodMOPeKkvODJVg
-         pzQi0eDAzClcGqBDmN4Nc6wpvhxiwKAUfoLQYTE2LxdSZ/Pwlfa3sZm3j0ih4PTsxlRU
-         g1xTO30XAm6UUizs/g0SLQnpuLRwHTH0hnSdIGBkLxbp1uWw9l7zD3Oo7YV/nSINliwT
-         pETg==
+        b=BzzQZTtaH2bmUFX2Q41UkMtV+MAxK+Ij6ns50rgOowUzzkHftQBTXGEXPFnsN/1uEq
+         DUAztZpGevou/rHaiQTNhvqM7YyMzwnI31qm6bv+PwZXhDnbL1vYc7QLPADCkvT6GKc5
+         QsZpYEiC7G0etk0bSpU00tg+BmTN2BKBMGdVwJklkzEzrrIfbdbxZj+QYxV9KNdVRelO
+         SJF8U000SRTllA32AGbQluZwqg23M5iOy5YJTvKMpnyfNLqEOCu3BoLztQeftMlOtuSR
+         5dre9oGCpRyUiimJkBRi26lW3MoPVHg3F9qC05AWeG9VrjTolKORT08pQpuCwk6o3Pv7
+         4g3Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=5ABHIUgCQJebXaKpFNIx6jOezHcwg/mJSwEN0frKvHY=;
-        b=Lq+mp1M57PW5DjKLwHXy2EsZLX9LWercIPALfDmkTgGm4T/qNskPJZrpMCOJokt0ir
-         9gH3beYw0YNBWkBfhyFJ6NKGEq2/NeZgNfvSi70SPCmAeQAMNUS4yR5lJqwXqGU9c6W+
-         qlGJCAnEtV2RoMaxhUu0cmMDeR67BpL2/N8qc3NiTbeLl40OZtBXOmt2faRVX+TBUsef
-         FwpyJ3aeV5FcI4BX9X/F4/DkTbvW9e0bL9FwL95s3SjP5Mq/ntMlXhZyuc7fWpwY9bnj
-         vABxdkOwpmQqeoh4XXSksm39B3/+Krsq04xVWeATllTIAmAKVI1KX9DXfmmYOy2KkQXO
-         ezLA==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=8kq1tFvjEKEZKRlGriqOY0ERYgOBn4yzo7BNHIYZo7U=;
+        b=f2vf0UpMEdIfH+kE1mBWpxPjAieKtwC7zNXR8AuC1ikTWmHUozATZApX1MOg/ZtXfM
+         B9e/71pr1A2wih2fBXzylqg0PbM/Hc3TvSVspZo6mQRi9CoEXb/MnN96FeaFEDTHXpoE
+         IfgkTrsXNSAAsX+E5QvPu3M6j8XFAtI1DXnEUqI1GeQ3i+iH66PxJv8FZ5lMkyXMs6Qn
+         cOMTjLYQVJSgpTNAn+5jF+fC4wHfupf/bcw6jf1QhjFdSDfXsIXQz8orQGIWeXyOhO5t
+         YHVuQ9FKC4ziPfgu7QspFiyDzHxXaJUVx6egj6LvWbYzzUollISF/3gYWCJI4LDO+7Lm
+         GFXw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of huangshaobo6@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=huangshaobo6@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@intel.com header.s=Intel header.b=L20EUhNz;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.31 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=5ABHIUgCQJebXaKpFNIx6jOezHcwg/mJSwEN0frKvHY=;
-        b=Tym65geW8dFGcyWGhfL9C/7Vc8JXXxiXy7ggR/qBvdbkDbkNhiSNvzx4YmLX/Cyv6h
-         7EppQH9TrgYPm8kprWsMsTKT1IryZqbPs57zWQCurh9rYqshXtZRCyP8AEgaFHoW3vTQ
-         av6T+cACzVsIumncrHf5WLO8rg9YWgSOaBRE5EoX8RU5tB2b6lzZMDgBe2sDu2trCjoF
-         eDYKP9SLuRWYYPSCcgIeaveUKl2SIvzxPItg0uCQktPrkWrtJiz6t4TGD8jfFPfrZmlO
-         EPJzWznwjSFe17Zkz+E9bHPBdTouEpkP4p7HAu5qvTVFDlWYfUW6LjPxTOgNjO6yEDRE
-         EfJA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=8kq1tFvjEKEZKRlGriqOY0ERYgOBn4yzo7BNHIYZo7U=;
+        b=T4J5tAGOLewCfYZ0YptVN9ulXkGwfmRKBWcec4GclkAGnu7O7sr53YwxAKLvGg/Il3
+         mIJBSTSogmqB+ARX013phEHEuxLem0JzOPzA7KfpCi+bQOcDO/0G8EeAGL2OFidhUrUw
+         Zr3Fbh1ElwOvWb610zqWu/zM9WYpt8eMqeubAwnjDjjqaHHTKSZQiWWB8vmypAfnrzif
+         u3m4aXBrBROFe3BKSSVXPIyJYWYNfcaULdn1K0xO6SsapJYr+2dcgqw4xN9BWXg5C7Dy
+         aNwCFLinwm/JGvQj289K8JQL0AS38i49IUwTnLspExi3hd2IMFhc9RYbDKR2M5YYi/+u
+         qucA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5ABHIUgCQJebXaKpFNIx6jOezHcwg/mJSwEN0frKvHY=;
-        b=DKN+RwvtRatZS3PFqsACIE+G9u1tKKAuCyzv/LbZwB+ikdwmGhdt4+En/w+fgFwqFI
-         kA3KmWDG+51+7UaWIfJUbGI0k/vbaOWoYYiiHICWtLoP491J0UXIy3bR0E5NAnnxi4yV
-         XGj8dcnnDD+GyHn0p1YbEKflC8ZldJw6ov95fhwxeCSAhmp+835aNunu4pbEw29j8i2d
-         HAQ9KuIpLden1WQOCSa9dpwUg5wx9hfgqAytlhp6kS2rD/9XsByj+511UbaeheY0gF6S
-         6O2vNp07X2dPvfUsnLojDfAvcyao5KrS3nr2Vudd8BwsCv5jxdnSchIpcmcIDvau0Vin
-         QA+w==
-X-Gm-Message-State: AOAM5307FgQcnMHPuR4Pk0H7q1GhrGyVKBYC2BqBQinO/zasU+Tzw6gi
-	+IfsNTnyNvhPNfLBPFqGeoc=
-X-Google-Smtp-Source: ABdhPJy/NjbRirryT429tMNPwbIG5hbc6sE6jZuIEk7XCo65gyQOrv+ra/s7f6n66pDzfEI0h6N2Kw==
-X-Received: by 2002:a5b:f87:0:b0:62b:f9d8:ed5 with SMTP id q7-20020a5b0f87000000b0062bf9d80ed5mr13951488ybh.467.1650853503702;
-        Sun, 24 Apr 2022 19:25:03 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=8kq1tFvjEKEZKRlGriqOY0ERYgOBn4yzo7BNHIYZo7U=;
+        b=W/Io0tyA78tZu6diJdfDjcpwGaEtK6mIRvH4TQyLLtN7dmfZpau2squA+7WeQDMwP2
+         zRbonI3V0i3gVihUbDDEu7KZUtwksoCJH4mtOaN/3B4E12/c66HTbDoviw+YP97/TlND
+         qlZwp7jJZh1ZfBCYi7p4dQn3mtrhqYuTVzhw7r8vQTrz8WGdFc60DTaSAlnoetx+2cLF
+         z5pfrMu4yOBAHXDOTTu7XpAjPK1B4sv4QJnvb7VAeQjVk+Ps13Oo+t/n2IlPcfX617Az
+         01FYB7p72/YUj8nBnWeotyqaaAOnulDt94UybbINIi+t10R0+73+xFn4ZUJMqwMnrnQz
+         HrDA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530GW5IN1YscElBA5bcrKoGN2FmUcD3T7QLDuY0fnBlIpXb+pF1n
+	OPCH1sZvTIcprlqTnyA1N/E=
+X-Google-Smtp-Source: ABdhPJzz7Akt/nucKuCVZpi+HyNmnvHeBQ6++kluBvIcDznj0gZxMzm5dm6ZCmrW02InKNVoHRjkFw==
+X-Received: by 2002:a05:600c:35c6:b0:393:ebf0:d530 with SMTP id r6-20020a05600c35c600b00393ebf0d530mr3154147wmq.34.1650863617481;
+        Sun, 24 Apr 2022 22:13:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:1547:b0:645:7c0e:4bba with SMTP id
- r7-20020a056902154700b006457c0e4bbals7752093ybu.5.gmail; Sun, 24 Apr 2022
- 19:25:03 -0700 (PDT)
-X-Received: by 2002:a25:4f0a:0:b0:644:b519:1022 with SMTP id d10-20020a254f0a000000b00644b5191022mr13462974ybb.564.1650853503296;
-        Sun, 24 Apr 2022 19:25:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1650853503; cv=none;
+Received: by 2002:a5d:59a4:0:b0:20a:d221:a277 with SMTP id p4-20020a5d59a4000000b0020ad221a277ls250604wrr.2.gmail;
+ Sun, 24 Apr 2022 22:13:36 -0700 (PDT)
+X-Received: by 2002:adf:ec03:0:b0:20a:d0b5:a06f with SMTP id x3-20020adfec03000000b0020ad0b5a06fmr8113502wrn.669.1650863616443;
+        Sun, 24 Apr 2022 22:13:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1650863616; cv=none;
         d=google.com; s=arc-20160816;
-        b=MiGfWJ+84btBebZ4BpYkvagF+NX2MNloCSaYjhrDYC/O1dNc0vnNfVRK9e1xPthNAz
-         baMuCsPs0Ki92e7Ze2F9dQ4Pkryre+PrvG2ZmhLVJCI3HcGwmCQ4NSMYYiVXdOt5uO5q
-         gAGNPGueyRy3NWQp8HGNLWbv22N7qC86AFEm3ZHTx5amt/LOKd20s8t6CscrmYJgZ71n
-         7V3HHoCYU3hXOW1UfDzt0mh9Bz0cKCpMEkJ94l3z+Iv+2Upd0Annr0fKGT/VRQHUEHuu
-         rLdA/GLgKEdTOvxH/1hcgyxagqqTsBJhm2W1YKekvR/NStWWJR4vTlfSgBaSjaSqG/mW
-         2EQg==
+        b=kcIMiYUjrSd+ZsEjCvVCQrZLb50Jns+hmP8E1PR+oNmazKvIJQwMbj5eJWS/DzzDT3
+         baRvD4rXskCtAwDY3359z4G5e6qVBpgV7zHilnk5tZLnWXoYDZEytUxihJuSuzI+Zabl
+         6KuaLrSpfctM5mRPVzKoOakpYNWu5ldNtytP+g8ofBesFm6TRgvmUtLzYO9I1jT8u/WL
+         A43A9xTTaLndyO9qTgRcDSkFsNxSMHISQ+jZvIYlduyC7ztlmbd1W4dCTd61qeZ9gi6t
+         HrDGwyqAkglHfxEKgtUjznougUp99Gpbupkw8JoQQ25q1Qs9eGQsKCSeKyHjnw/RS2Fl
+         +HwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=ycPZlYasdPQRvzETITwR9Sy6fn5bVlARmDpjcFCaN/k=;
-        b=ULFhBKtxNG5MGK9dsEZ+iVHhRHV2Ozoi9mboo7cqhNGd4rNVBuYLYqm4qrIP3AYqzc
-         jtU4SBNz6IBxpqXeBlmdDOUlx6JTyAaJCIdu/Tyz0gbdODrxt+opx+5kE01b4PBIDX/Q
-         ezQVsJZVoelVQbC0RYJMLrjvtVqgtHdpcw8CvMT44Ba6l0lC1iQQqIt54/M4MdSK04QD
-         GZsonkrgG4M1i5gHaoqYevjMgE0vgwS9ed862iLLE2AlQyJd6f0QSDlmqu2vjzxdra5v
-         K2wxkLFcGD2FWS0AsRV34iv0PMUt7yB8vpgMvFOsRCh2fI1AtBirnIJQJeLH4oQTurtZ
-         6gnA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=BzFcH+9HxnED02i/GxtlfKbsgMleMbKnvE/TTAKlSdI=;
+        b=Ckq+9sCiD/enyCA8GijTyVDtfWBrlwjLYPudEsW7AnnL6qIq1uX2+FDZrvGFetnl9+
+         yhOQQX8VquoZ/kz0UxHj5Hu0LU6fMkmPbqkl3q7fkIP1TvvIqxeySktCXh4wrb8lDFWV
+         HsDk4Y6pA0h7X3VpjiaG9N7UtgchCW/QAcPKvHBF7pQ5xdUkW8cgbDbyiwYYX0GMBylP
+         WRZ7qfeEljdH2ndMWz67N0LybAG38UGGp4jPcikEMvp92nN5G2b/QKC5zgAeiyDvuFdH
+         IDVpqYqMAoItfKCfOsULdDPA7e0TIEbJgXp/sRfJxgpZbPqQMGCc+KaWSnPSQTSvJYln
+         o5qA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of huangshaobo6@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=huangshaobo6@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
-        by gmr-mx.google.com with ESMTPS id y125-20020a813283000000b002f654f4c062si926524ywy.1.2022.04.24.19.25.03
+       dkim=pass header.i=@intel.com header.s=Intel header.b=L20EUhNz;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.31 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga06.intel.com (mga06b.intel.com. [134.134.136.31])
+        by gmr-mx.google.com with ESMTPS id g9-20020a05600c4ec900b00393eb6edf83si87119wmq.0.2022.04.24.22.13.35
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 24 Apr 2022 19:25:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of huangshaobo6@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
-Received: from kwepemi500015.china.huawei.com (unknown [172.30.72.53])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KmpkP4LRbzhYj7;
-	Mon, 25 Apr 2022 10:24:45 +0800 (CST)
-Received: from kwepemm600020.china.huawei.com (7.193.23.147) by
- kwepemi500015.china.huawei.com (7.221.188.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 25 Apr 2022 10:25:00 +0800
-Received: from DESKTOP-E0KHRBE.china.huawei.com (10.67.111.5) by
- kwepemm600020.china.huawei.com (7.193.23.147) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 25 Apr 2022 10:24:59 +0800
-From: "'Shaobo Huang' via kasan-dev" <kasan-dev@googlegroups.com>
-To: <glider@google.com>, <elver@google.com>, <dvyukov@google.com>,
-	<akpm@linux-foundation.org>, <kasan-dev@googlegroups.com>,
-	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
-CC: <young.liuyang@huawei.com>, <zengweilin@huawei.com>,
-	<chenzefeng2@huawei.com>, <nixiaoming@huawei.com>, <wangbing6@huawei.com>,
-	<huangshaobo6@huawei.com>, <wangfangpeng1@huawei.com>,
-	<zhongjubin@huawei.com>
-Subject: [PATCH v3] kfence: enable check kfence canary on panic via boot param
-Date: Mon, 25 Apr 2022 10:24:56 +0800
-Message-ID: <20220425022456.44300-1-huangshaobo6@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20220424105949.50016-1-huangshaobo6@huawei.com>
-References: <20220424105949.50016-1-huangshaobo6@huawei.com>
+        Sun, 24 Apr 2022 22:13:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of lkp@intel.com designates 134.134.136.31 as permitted sender) client-ip=134.134.136.31;
+X-IronPort-AV: E=McAfee;i="6400,9594,10327"; a="325625896"
+X-IronPort-AV: E=Sophos;i="5.90,287,1643702400"; 
+   d="scan'208";a="325625896"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2022 22:13:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,287,1643702400"; 
+   d="scan'208";a="704401579"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 24 Apr 2022 22:13:29 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1nir2P-0002AF-3Q;
+	Mon, 25 Apr 2022 05:13:29 +0000
+Date: Mon, 25 Apr 2022 13:12:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Collingbourne <pcc@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Catalin Marinas <catalin.marinas@arm.com>
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Peter Collingbourne <pcc@google.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	vbabka@suse.cz, penberg@kernel.org, roman.gushchin@linux.dev,
+	iamjoonsoo.kim@lge.com, rientjes@google.com,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH v3] mm: make minimum slab alignment a runtime property
+Message-ID: <202204251346.WbwgrNZw-lkp@intel.com>
+References: <20220422201830.288018-1-pcc@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.67.111.5]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemm600020.china.huawei.com (7.193.23.147)
-X-CFilter-Loop: Reflected
-X-Original-Sender: huangshaobo6@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of huangshaobo6@huawei.com designates 45.249.212.188 as
- permitted sender) smtp.mailfrom=huangshaobo6@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Shaobo Huang <huangshaobo6@huawei.com>
-Reply-To: Shaobo Huang <huangshaobo6@huawei.com>
+Content-Disposition: inline
+In-Reply-To: <20220422201830.288018-1-pcc@google.com>
+X-Original-Sender: lkp@intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@intel.com header.s=Intel header.b=L20EUhNz;       spf=pass
+ (google.com: domain of lkp@intel.com designates 134.134.136.31 as permitted
+ sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,114 +156,131 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: huangshaobo <huangshaobo6@huawei.com>
+Hi Peter,
 
-Out-of-bounds accesses that aren't caught by a guard page will result
-in corruption of canary memory. In pathological cases, where an object
-has certain alignment requirements, an out-of-bounds access might
-never be caught by the guard page. Such corruptions, however, are only
-detected on kfree() normally. If the bug causes the kernel to panic
-before kfree(), KFENCE has no opportunity to report the issue. Such
-corruptions may also indicate failing memory or other faults.
+Thank you for the patch! Yet something to improve:
 
-To provide some more information in such cases, add the option to
-check canary bytes on panic. This might help narrow the search for the
-panic cause; but, due to only having the allocation stack trace, such
-reports are difficult to use to diagnose an issue alone. In most
-cases, such reports are inactionable, and is therefore an opt-in
-feature (disabled by default).
+[auto build test ERROR on hnaz-mm/master]
 
-Suggested-by: chenzefeng <chenzefeng2@huawei.com>
-Signed-off-by: huangshaobo <huangshaobo6@huawei.com>
----
-v3:
-- use Marco's description replace the commit message
-- keep these includes sorted alphabetically
-- "in panic" replaced with "on panic" in title and comments
-- Blank line between /* === ... */ and function.
-v2:
-- it is only detected in panic.
-- it is disabled by default.
-- can only be enabled via boot parameter.
-- the code is moved to the specified partition.
-  https://lore.kernel.org/all/20220424105949.50016-1-huangshaobo6@huawei.com/
-v1:
-  https://lore.kernel.org/all/20220420104927.59056-1-huangshaobo6@huawei.com/
-Thanks again Marco for the suggestion.
----
- mm/kfence/core.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Collingbourne/mm-make-minimum-slab-alignment-a-runtime-property/20220423-042024
+base:   https://github.com/hnaz/linux-mm master
+config: arm64-buildonly-randconfig-r002-20220425 (https://download.01.org/0day-ci/archive/20220425/202204251346.WbwgrNZw-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcfdc3c683b393df1a5c9063252eb60e52818)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/3aef97055dd4a480e05dff758164f153aaddbb49
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Peter-Collingbourne/mm-make-minimum-slab-alignment-a-runtime-property/20220423-042024
+        git checkout 3aef97055dd4a480e05dff758164f153aaddbb49
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 prepare
 
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 9b2b5f56f4ae..06232d51e021 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -21,6 +21,8 @@
- #include <linux/log2.h>
- #include <linux/memblock.h>
- #include <linux/moduleparam.h>
-+#include <linux/notifier.h>
-+#include <linux/panic_notifier.h>
- #include <linux/random.h>
- #include <linux/rcupdate.h>
- #include <linux/sched/clock.h>
-@@ -99,6 +101,10 @@ module_param_named(skip_covered_thresh, kfence_skip_covered_thresh, ulong, 0644)
- static bool kfence_deferrable __read_mostly = IS_ENABLED(CONFIG_KFENCE_DEFERRABLE);
- module_param_named(deferrable, kfence_deferrable, bool, 0444);
- 
-+/* If true, check all canary bytes on panic. */
-+static bool kfence_check_on_panic;
-+module_param_named(check_on_panic, kfence_check_on_panic, bool, 0444);
-+
- /* The pool of pages used for guard pages and objects. */
- char *__kfence_pool __read_mostly;
- EXPORT_SYMBOL(__kfence_pool); /* Export for test modules. */
-@@ -727,6 +733,31 @@ static int __init kfence_debugfs_init(void)
- 
- late_initcall(kfence_debugfs_init);
- 
-+/* === Panic Notifier ====================================================== */
-+
-+static void kfence_check_all_canary(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < CONFIG_KFENCE_NUM_OBJECTS; i++) {
-+		struct kfence_metadata *meta = &kfence_metadata[i];
-+
-+		if (meta->state == KFENCE_OBJECT_ALLOCATED)
-+			for_each_canary(meta, check_canary_byte);
-+	}
-+}
-+
-+static int kfence_check_canary_callback(struct notifier_block *nb,
-+					unsigned long reason, void *arg)
-+{
-+	kfence_check_all_canary();
-+	return NOTIFY_OK;
-+}
-+
-+static struct notifier_block kfence_check_canary_notifier = {
-+	.notifier_call = kfence_check_canary_callback,
-+};
-+
- /* === Allocation Gate Timer ================================================ */
- 
- static struct delayed_work kfence_timer;
-@@ -804,6 +835,9 @@ static void kfence_init_enable(void)
- 	else
- 		INIT_DELAYED_WORK(&kfence_timer, toggle_allocation_gate);
- 
-+	if (kfence_check_on_panic)
-+		atomic_notifier_chain_register(&panic_notifier_list, &kfence_check_canary_notifier);
-+
- 	WRITE_ONCE(kfence_enabled, true);
- 	queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
- 
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/bounds.c:10:
+   In file included from include/linux/page-flags.h:10:
+   In file included from include/linux/bug.h:5:
+   In file included from arch/arm64/include/asm/bug.h:26:
+   In file included from include/asm-generic/bug.h:22:
+   In file included from include/linux/printk.h:9:
+   In file included from include/linux/cache.h:6:
+   In file included from arch/arm64/include/asm/cache.h:56:
+   In file included from include/linux/kasan-enabled.h:5:
+   In file included from include/linux/static_key.h:1:
+>> include/linux/jump_label.h:285:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           STATIC_KEY_CHECK_USE(key);
+           ^
+   include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
+   #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
+                                     ^
+   include/linux/jump_label.h:291:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           STATIC_KEY_CHECK_USE(key);
+           ^
+   include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
+   #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
+                                     ^
+   include/linux/jump_label.h:313:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           STATIC_KEY_CHECK_USE(key);
+           ^
+   include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
+   #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
+                                     ^
+>> include/linux/jump_label.h:316:3: error: call to undeclared function 'WARN_ON_ONCE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   WARN_ON_ONCE(atomic_read(&key->enabled) != 1);
+                   ^
+   include/linux/jump_label.h:324:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           STATIC_KEY_CHECK_USE(key);
+           ^
+   include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
+   #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
+                                     ^
+   include/linux/jump_label.h:327:3: error: call to undeclared function 'WARN_ON_ONCE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   WARN_ON_ONCE(atomic_read(&key->enabled) != 0);
+                   ^
+   6 errors generated.
+   make[2]: *** [scripts/Makefile.build:122: kernel/bounds.s] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1283: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/WARN +285 include/linux/jump_label.h
+
+bf5438fca2950b Jason Baron     2010-09-17  282  
+c5905afb0ee655 Ingo Molnar     2012-02-24  283  static inline void static_key_slow_inc(struct static_key *key)
+d430d3d7e646eb Jason Baron     2011-03-16  284  {
+5cdda5117e125e Borislav Petkov 2017-10-18 @285  	STATIC_KEY_CHECK_USE(key);
+d430d3d7e646eb Jason Baron     2011-03-16  286  	atomic_inc(&key->enabled);
+d430d3d7e646eb Jason Baron     2011-03-16  287  }
+bf5438fca2950b Jason Baron     2010-09-17  288  
+c5905afb0ee655 Ingo Molnar     2012-02-24  289  static inline void static_key_slow_dec(struct static_key *key)
+bf5438fca2950b Jason Baron     2010-09-17  290  {
+5cdda5117e125e Borislav Petkov 2017-10-18  291  	STATIC_KEY_CHECK_USE(key);
+d430d3d7e646eb Jason Baron     2011-03-16  292  	atomic_dec(&key->enabled);
+bf5438fca2950b Jason Baron     2010-09-17  293  }
+bf5438fca2950b Jason Baron     2010-09-17  294  
+ce48c146495a1a Peter Zijlstra  2018-01-22  295  #define static_key_slow_inc_cpuslocked(key) static_key_slow_inc(key)
+ce48c146495a1a Peter Zijlstra  2018-01-22  296  #define static_key_slow_dec_cpuslocked(key) static_key_slow_dec(key)
+ce48c146495a1a Peter Zijlstra  2018-01-22  297  
+4c3ef6d79328c0 Jason Baron     2010-09-17  298  static inline int jump_label_text_reserved(void *start, void *end)
+4c3ef6d79328c0 Jason Baron     2010-09-17  299  {
+4c3ef6d79328c0 Jason Baron     2010-09-17  300  	return 0;
+4c3ef6d79328c0 Jason Baron     2010-09-17  301  }
+4c3ef6d79328c0 Jason Baron     2010-09-17  302  
+91bad2f8d30574 Jason Baron     2010-10-01  303  static inline void jump_label_lock(void) {}
+91bad2f8d30574 Jason Baron     2010-10-01  304  static inline void jump_label_unlock(void) {}
+91bad2f8d30574 Jason Baron     2010-10-01  305  
+d430d3d7e646eb Jason Baron     2011-03-16  306  static inline int jump_label_apply_nops(struct module *mod)
+d430d3d7e646eb Jason Baron     2011-03-16  307  {
+d430d3d7e646eb Jason Baron     2011-03-16  308  	return 0;
+d430d3d7e646eb Jason Baron     2011-03-16  309  }
+b202952075f626 Gleb Natapov    2011-11-27  310  
+e33886b38cc82a Peter Zijlstra  2015-07-24  311  static inline void static_key_enable(struct static_key *key)
+e33886b38cc82a Peter Zijlstra  2015-07-24  312  {
+5cdda5117e125e Borislav Petkov 2017-10-18  313  	STATIC_KEY_CHECK_USE(key);
+e33886b38cc82a Peter Zijlstra  2015-07-24  314  
+1dbb6704de91b1 Paolo Bonzini   2017-08-01  315  	if (atomic_read(&key->enabled) != 0) {
+1dbb6704de91b1 Paolo Bonzini   2017-08-01 @316  		WARN_ON_ONCE(atomic_read(&key->enabled) != 1);
+1dbb6704de91b1 Paolo Bonzini   2017-08-01  317  		return;
+1dbb6704de91b1 Paolo Bonzini   2017-08-01  318  	}
+1dbb6704de91b1 Paolo Bonzini   2017-08-01  319  	atomic_set(&key->enabled, 1);
+e33886b38cc82a Peter Zijlstra  2015-07-24  320  }
+e33886b38cc82a Peter Zijlstra  2015-07-24  321  
+
 -- 
-2.12.3
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220425022456.44300-1-huangshaobo6%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202204251346.WbwgrNZw-lkp%40intel.com.
