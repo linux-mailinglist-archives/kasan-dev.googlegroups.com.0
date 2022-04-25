@@ -1,138 +1,135 @@
-Return-Path: <kasan-dev+bncBDH7RNXZVMORBSWDS2JQMGQE3YCFJLY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBG7QS6JQMGQEOYQ43AI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3e.google.com (mail-io1-xd3e.google.com [IPv6:2607:f8b0:4864:20::d3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB4550D4C5
-	for <lists+kasan-dev@lfdr.de>; Sun, 24 Apr 2022 21:15:23 +0200 (CEST)
-Received: by mail-io1-xd3e.google.com with SMTP id r17-20020a0566022b9100b00654b99e71dbsf10020482iov.3
-        for <lists+kasan-dev@lfdr.de>; Sun, 24 Apr 2022 12:15:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1650827722; cv=pass;
+Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id C837450D684
+	for <lists+kasan-dev@lfdr.de>; Mon, 25 Apr 2022 03:23:40 +0200 (CEST)
+Received: by mail-oo1-xc3b.google.com with SMTP id z5-20020a4a8705000000b00324936534b6sf7911491ooh.9
+        for <lists+kasan-dev@lfdr.de>; Sun, 24 Apr 2022 18:23:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1650849819; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RqBnO91427U3HtG031Qum+Aj2vi6o9jiGuWc9PH8um9PDzas0YzlGoLmqI7705ozV7
-         5owohGqGUbR+CoylXHFi8/Ue4mjLNDsmwvu/5hoDonXXdB+u7rAEwAy24yrtO+6czUp3
-         SEOsEPOrfVUA1oOBBwEQc8Dka6plQ5lB6HkOLbjcDxv19VgMKryqQXFEaico+RUrPWOT
-         db7fLcaYNDTKUR9qhQvXdcu7hKCMaVmqBW7d+kp71y37zrB+usOo4Cweqiq7M3UW1aHo
-         gwh4lFDy+DEPW4J+FJSqGb5j0BIseRG67OLWOmP43YQXv7UU7OImkzhdOqx4rfcHsyW3
-         C3fw==
+        b=dFqwtTKv97DTCWCR1RULx0yicLo2LKU1vRzuW26VtlM5AbfgcOZt1x4S6/FBHAd6k1
+         TT6y00uFjBcVp50ZL3Y4ara4woMeB5aRbncJSipQWYNOR+Kf8GPNPzrm2boEg/pRn9cl
+         CVQ1AU9OfQ+yLwDbbnz4EC/6dc7+F8oza1J4p9D8bzImHijGXxGiqPZKzHl2g9/Em4pC
+         NcMPR+r3UE/A62EqnCpqdgNUsc2aKqSQFj7eJrrh0heN3f+bjhsiIEd8nhc7X0dO7nCl
+         Lwpnw26HCQrebM4a95NNJCCSDTHPUu0CB4zoOlrk+q5GOxbtQlLMloM8iDUWdxDS3/9q
+         n3dg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :message-id:in-reply-to:subject:cc:to:from:date:dkim-signature;
-        bh=MZs8ozGZJnvIPcITMWzFY8mly+P27TElSCA4HIgLdZs=;
-        b=yQwFLB6s/Gf3rsv6M5XhNq7KmuzUlrslKNM1dFE0JHbGQQcRKFr3PSG0VcMk0oEL0r
-         wfaazbgZCf5myTrXdn83nS4nXU2IgBS7wwG2NAktxiVpJ1ccGM/gA38MryWoHipTF4Cs
-         Q3z45FpeOTYeQw/36fhCPVOScLzz7bFbBPDjXnVG3dq0TkmToRx9oNGMiJoDyNOOV70u
-         mZV6gldhV98FyHdnHiOn0L/oia1odmZx9IWWWVMY7GQJ2o9ZvWsE5erg7vetP7Nj1Imw
-         0j6DYxYHXxP/3/hgF1r2acwnS6uJy6n340UkRK7Lra2jYvat6y/JtS9WV19ByIoQJTyk
-         +7pQ==
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=2Vmcb50RI3qJ7sWHtICn8v5A5x2+tm5gHsPRi0nKP2E=;
+        b=ZNAutkiyE5ttKxP/eJDJmXdwEi525paco6WUbzrc4rLeroc+OfHWS94h7FK/xMfGU6
+         IU+Zp/T1fhNZFwAxAlCddyJORltyP1D9VPKU57b9CDxzyQ5jJmltYAvKyDGcACcwwnx1
+         eY8lAMLfy/1rFjpth3teG7vwvVTniCE0+BQPUE+LftKB1HvPK3cs3kDYC646oQ0LHmWj
+         rlkuHSA7ieL+cqWu8xNJsp44k838AERFn1+7n9io8wQn6TueHatMBGjc2P9R/f9k+foy
+         KAPWh9sMoCLgBpVWlTT/lakvFXcU15llE1PNHk/rEw82iiBbXDbqtLQGENM1cS9rqDgy
+         ARtQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Wo51Oxn2;
-       spf=pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::635 as permitted sender) smtp.mailfrom=rientjes@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of huangshaobo6@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=huangshaobo6@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:x-original-sender:x-original-authentication-results
          :reply-to:precedence:mailing-list:list-id:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=MZs8ozGZJnvIPcITMWzFY8mly+P27TElSCA4HIgLdZs=;
-        b=Pk6oN6StSftAl0hD5lZ0HpXC/t7/LERvEuz7M18JRikeNPqdQwFNWDSKDepSGnkeuL
-         o6QOt36qcw6o1y3cKRWtAYyF90O+V/cc0n4iy1w1Z8Iee2QQ8BoLd3sxYl8+y7fqIcq2
-         Ia+zJJad4Hs49pC8sNeCTFlbAOC3KPSOCrN43bf/LAIiBmdouZ4YmvY3jUF1IDuEb5f1
-         d5FbY7/m2EiqKwW8aA2sqNi+2q/295g0QJ15/WoTufB9R6177pLurWMX44+Bcw2z14zt
-         weMi3seGr/9XKKdnCyZ3L236AZpQZQMq0Z3WW36ioR6k8wAldJWsdyWd2PapYKvH0J9Z
-         3rFw==
+        bh=2Vmcb50RI3qJ7sWHtICn8v5A5x2+tm5gHsPRi0nKP2E=;
+        b=M4ixr3+eYPSGjlAqkV0ebCI2QCj4uTI9gcpt+7DT6+gSMdqqy3jpgL332bnGYQW2o0
+         yTXW8x3eWePjdyer9fVeX7F5AiGCt3I8T94ptFoNdMJcsnVwIQkgg33s4MvwxNT8/uRW
+         ikubsI5DYbPEhVsXN9fK7e4j8wyqGFsVIjQdO59t8+bRQb43q16C1qvqm8CQmuatdWuP
+         wdKqSzSacIa91RQ5JBueZGg0LgAUADLKAwa3wVAEz5GyKge2Qah3QxEE9T2cuLGgxAhj
+         gEvntwIYI+GKi+21obBOgj2EghAQ+PMyJjYVHNr9z21iGIfOhmVWqi7TJ7nIxQaRIHia
+         KHPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=MZs8ozGZJnvIPcITMWzFY8mly+P27TElSCA4HIgLdZs=;
-        b=3KYkiWB4IgoE+2idd2YsbqDx5Z6aYSQQdtzshOOAPJ0gVeCTVOaAmrPw5dln0svFFF
-         UXkAePAVUw0logzBhtlB1J8QzXP58Ld1w6hnHqPvtm4sF77Kq+neR246WC0LzeD/veAl
-         qZSUEI5MzI/RatfZRk5bbK/0dlDfmYErx8c29o+1qXScj8Wo2eFjR4DTJ/ROxqjbChep
-         iA4N/dvCBDh/+HRq0UMqbyElCEoFMEkzVlPi5EpkduCclN6V9LKtz5XASFD/7ulRLU4Y
-         iP/Q4NfISnv8sd24aQOnHtKkvPxAuFeAOMV5DyY4ZCo759msg6GsGymqgpP2phMq0Cp2
-         /tkg==
-X-Gm-Message-State: AOAM531PAfXi58HnGCI+1jtwqqw0JQQSHDVqK8hS/nLDtVVk8jc1z9KJ
-	6u6fWYUN9npOavmedrFixpA=
-X-Google-Smtp-Source: ABdhPJzX2ca6jE9ANG6+0YrnpYghcrByDpoYUrrWSFztOLGjpry1W40MJiPpQxIEFGZpcm34rk8FDQ==
-X-Received: by 2002:a05:6602:2b0d:b0:649:b2f:6290 with SMTP id p13-20020a0566022b0d00b006490b2f6290mr6069403iov.94.1650827722077;
-        Sun, 24 Apr 2022 12:15:22 -0700 (PDT)
+        bh=2Vmcb50RI3qJ7sWHtICn8v5A5x2+tm5gHsPRi0nKP2E=;
+        b=PznI85xLEC43FJGAmwoebJz1szL7PgAaluiSqjj7DLc37uaold6ZvpKmL9ARAFR95l
+         MYmR4y7tk7zHeR94p6oLqggIg3D6yFn0NfOqUtCn0UIJGx5DERQ5RF0B/3HCoWjAXTiH
+         qZdXovJSbv9fyYZtdszbXvRek1OIRQK2lCsLQWqIhaX+mNLOFha1dPUcHfhuv03aqziZ
+         LOQ+RtdfRNeB1Wcw+3/3xJ/9U3sHUtsRqw01B5/D/W4dwMXP1+SySpgidYZEeJfd6l33
+         kncj2X6aJ8pcJzdu2S0UwvDeVco+I3tGM6niBxhDlTYP6xkW/RraS2cvzuqAKFibM+xd
+         SDHg==
+X-Gm-Message-State: AOAM531C0QdpnBg+w0MW2pDnG3ctR39pXx6/18e9VxPdnzZELQTK91Tn
+	7Ihzb8AgImEXPgtqi1jIGiU=
+X-Google-Smtp-Source: ABdhPJz5IikGuBhtSPIw4eCHMICwdZV256k59zEA+MTdrJBujQdldSrbf4jkLhvTpB4sTtHdy4YxyQ==
+X-Received: by 2002:a05:6870:8327:b0:dd:b065:6a80 with SMTP id p39-20020a056870832700b000ddb0656a80mr6021526oae.167.1650849819471;
+        Sun, 24 Apr 2022 18:23:39 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6638:3720:b0:32a:ad88:c33f with SMTP id
- k32-20020a056638372000b0032aad88c33fls2003535jav.10.gmail; Sun, 24 Apr 2022
- 12:15:21 -0700 (PDT)
-X-Received: by 2002:a05:6638:dce:b0:32a:e5e6:a98b with SMTP id m14-20020a0566380dce00b0032ae5e6a98bmr1372253jaj.307.1650827721302;
-        Sun, 24 Apr 2022 12:15:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1650827721; cv=none;
+Received: by 2002:a9d:6a13:0:b0:605:7fbe:4520 with SMTP id g19-20020a9d6a13000000b006057fbe4520ls1661173otn.3.gmail;
+ Sun, 24 Apr 2022 18:23:39 -0700 (PDT)
+X-Received: by 2002:a05:6830:2461:b0:604:349e:b8ba with SMTP id x33-20020a056830246100b00604349eb8bamr5768457otr.339.1650849819076;
+        Sun, 24 Apr 2022 18:23:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1650849819; cv=none;
         d=google.com; s=arc-20160816;
-        b=nxbQMJ9VY8DiuIiusTeAYeW/vIkYIe6gRTwA4ixFQEYJ2RuH3yaeQnBSHouGI3pvXO
-         VTAs5IJvEM6ObraRTgF5MySMpKQTRxjZJ2DfzK/4MiJ+l9lgCzgswOkIM9/bAkwMrqqW
-         zq7AT7iPPxo8ksFol0bRoBdYtKDS41BdqkIUo0jlpRcXb4JgGSdVGsVD6uv8FSk5S/Vt
-         LhKV25M3XeAw5U/SZiEwmcYd7hx0uop5R1K+TaLaOfBEaJ/t0/+M8e3Zm7u8QstTg2Gu
-         IYheXYvLTDPmiIEnr6YiCptYOj5dYJd4deO2GEewWYGjPJ3iA3ovr9/jECVkMUl4igwS
-         v4fg==
+        b=Kdkt9NSYOexe26hRAl1rMNqpQky0cpA4rU7ljA81y4SrSXU/Zqwb4JHBkuSd0CyQyN
+         DLF1nFFogvPfI/3jNbHmPCZk/qpQAxuMWjBZ6Avsf1aMBF9ewraysGezd01mePHhjlXa
+         pkzuHHvbraV9rvA8sLyTUbTPaXYdKR5iiKzwym2xVsMacGGR2iIFsf1HUqMDq4eyL6ww
+         YTCnJAobnL9ItQtb/UnEotz4mA3w5zq4PsTLELcEralPvY7sUt+kS2kbLrbmkoTgn3mJ
+         xgKiqWyUtUsXdWubnv9uHtMAJH4vpTA8ILtHGq5U7Xy3hLbj3CJjwd2fnnUzHCzEKWi5
+         bCXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:dkim-signature;
-        bh=jsx4mhumyN262gUb7FrEPxMNx1chS7GsJEszWuM5D/A=;
-        b=TaMG8gv1gYtmuZ1e3Sr9H5o95fDcBjZ8WNrbwRrhzLgZ8FdL7WZgzrY4KzeA5Vec60
-         ccJOQurU7ts1A19BnEics4B6PlkY8Ri/udXHZMYCpVUDDX04FBrz0C2+lEDl3xZT3J3b
-         GlJOmF4lsbGgWOZWmaQE6hS8R9LiOWHXb9QVg8Sen11y4eCNcdy1O2PSF4Bf6V1StWsh
-         X0VKSkv1n3NwgEKP3PnewV063kZi4RGAPrIS4rCU6AkRjI6NaiKEibCwl6peEK23TE4A
-         5ygc6582j3DrkHaFa5NcyRSjVMoFyAEBcEQGCru6wkesOXopCsBi3niNmiz++NvzxecW
-         AJSw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=gnNnns2O0civrmjFz4szfFflY9glkzlEAvPz+SeLb6Y=;
+        b=eyZyN3PyGVortbMRsXThgMYsGtsvOPYF4CNllwTew6mgTLqtTY5hLjeA4w1IZYjVVB
+         +FSA+4Lz2UGH7Cf92UIyQhL0RPMo1EYbYcLTFNT43UHhdnGjbl0pIAQF2pLZW0AYkZGd
+         5mi/hkvWnxqdNrCIaV0Ve2mkiPQRJqaqq3hADKs1kZxuTsnfUMbq3qBIzYFe/+W5dFgQ
+         ROlCzJrBC6ZaUkJ2Z1c7bJLZrOWoQmhAAEWEE8f8AeqtRXQ1P0B0BoydMoJp0QONAfQp
+         q2E4wK2hPaXUE+Wr8sFmvIVH4iB+8fv1Hiw7fsCsuay4bqy7DcnSKR0jtdAQnFTGc44r
+         3Pcw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Wo51Oxn2;
-       spf=pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::635 as permitted sender) smtp.mailfrom=rientjes@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com. [2607:f8b0:4864:20::635])
-        by gmr-mx.google.com with ESMTPS id i15-20020a023b4f000000b0032660e40519si822714jaf.5.2022.04.24.12.15.21
+       spf=pass (google.com: domain of huangshaobo6@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=huangshaobo6@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
+        by gmr-mx.google.com with ESMTPS id bh39-20020a056808182700b002ef895edb85si2081178oib.2.2022.04.24.18.23.38
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Apr 2022 12:15:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::635 as permitted sender) client-ip=2607:f8b0:4864:20::635;
-Received: by mail-pl1-x635.google.com with SMTP id k4so10872033plk.7
-        for <kasan-dev@googlegroups.com>; Sun, 24 Apr 2022 12:15:21 -0700 (PDT)
-X-Received: by 2002:a17:90b:1e49:b0:1d2:9d82:8bb1 with SMTP id pi9-20020a17090b1e4900b001d29d828bb1mr27937373pjb.226.1650827720436;
-        Sun, 24 Apr 2022 12:15:20 -0700 (PDT)
-Received: from [2620:15c:29:204:d4fc:f95c:4d79:861f] ([2620:15c:29:204:d4fc:f95c:4d79:861f])
-        by smtp.gmail.com with ESMTPSA id c9-20020a63a409000000b0039912d50806sm7313352pgf.87.2022.04.24.12.15.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 12:15:20 -0700 (PDT)
-Date: Sun, 24 Apr 2022 12:15:19 -0700 (PDT)
-From: "'David Rientjes' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Peter Collingbourne <pcc@google.com>
-cc: Andrey Konovalov <andreyknvl@gmail.com>, 
-    Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
-    Andrew Morton <akpm@linux-foundation.org>, 
-    Catalin Marinas <catalin.marinas@arm.com>, 
-    Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-    Linux Memory Management List <linux-mm@kvack.org>, 
-    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, vbabka@suse.cz, 
-    penberg@kernel.org, roman.gushchin@linux.dev, iamjoonsoo.kim@lge.com, 
-    Herbert Xu <herbert@gondor.apana.org.au>, 
-    Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-    Alexander Potapenko <glider@google.com>, 
-    Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-    Eric Biederman <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH v3] mm: make minimum slab alignment a runtime property
-In-Reply-To: <20220422201830.288018-1-pcc@google.com>
-Message-ID: <5cb2b96c-4f5e-d278-534a-d9e1ea989cf@google.com>
-References: <20220422201830.288018-1-pcc@google.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 24 Apr 2022 18:23:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of huangshaobo6@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
+Received: from kwepemi500013.china.huawei.com (unknown [172.30.72.54])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KmnMd32KSzhYf0;
+	Mon, 25 Apr 2022 09:23:25 +0800 (CST)
+Received: from kwepemm600020.china.huawei.com (7.193.23.147) by
+ kwepemi500013.china.huawei.com (7.221.188.120) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 25 Apr 2022 09:23:36 +0800
+Received: from DESKTOP-E0KHRBE.china.huawei.com (10.67.111.5) by
+ kwepemm600020.china.huawei.com (7.193.23.147) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 25 Apr 2022 09:23:35 +0800
+From: "'Shaobo Huang' via kasan-dev" <kasan-dev@googlegroups.com>
+To: <elver@google.com>
+CC: <akpm@linux-foundation.org>, <chenzefeng2@huawei.com>,
+	<dvyukov@google.com>, <glider@google.com>, <huangshaobo6@huawei.com>,
+	<kasan-dev@googlegroups.com>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <nixiaoming@huawei.com>, <wangbing6@huawei.com>,
+	<wangfangpeng1@huawei.com>, <young.liuyang@huawei.com>,
+	<zengweilin@huawei.com>, <zhongjubin@huawei.com>
+Subject: Re: [PATCH v2] kfence: enable check kfence canary in panic via boot param
+Date: Mon, 25 Apr 2022 09:23:34 +0800
+Message-ID: <20220425012334.46364-1-huangshaobo6@huawei.com>
+X-Mailer: git-send-email 2.21.0.windows.1
+In-Reply-To: <CANpmjNPEErc2mZMSB=QyT3wq08Q4yGyTGiU3BrOBGV3R5rNw-w@mail.gmail.com>
+References: <CANpmjNPEErc2mZMSB=QyT3wq08Q4yGyTGiU3BrOBGV3R5rNw-w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: rientjes@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=Wo51Oxn2;       spf=pass
- (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::635
- as permitted sender) smtp.mailfrom=rientjes@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: David Rientjes <rientjes@google.com>
-Reply-To: David Rientjes <rientjes@google.com>
+X-Originating-IP: [10.67.111.5]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemm600020.china.huawei.com (7.193.23.147)
+X-CFilter-Loop: Reflected
+X-Original-Sender: huangshaobo6@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of huangshaobo6@huawei.com designates 45.249.212.187 as
+ permitted sender) smtp.mailfrom=huangshaobo6@huawei.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: Shaobo Huang <huangshaobo6@huawei.com>
+Reply-To: Shaobo Huang <huangshaobo6@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,39 +142,66 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 22 Apr 2022, Peter Collingbourne wrote:
-
-> When CONFIG_KASAN_HW_TAGS is enabled we currently increase the minimum
-> slab alignment to 16. This happens even if MTE is not supported in
-> hardware or disabled via kasan=off, which creates an unnecessary
-> memory overhead in those cases. Eliminate this overhead by making
-> the minimum slab alignment a runtime property and only aligning to
-> 16 if KASAN is enabled at runtime.
+On Sun, 24 Apr 2022 15:31:42 +0200, Marco Elver <elver@google.com> wrote:
+> On Sun, 24 Apr 2022 at 13:00, Shaobo Huang <huangshaobo6@huawei.com> wrote:
+> >
+> > From: huangshaobo <huangshaobo6@huawei.com>
+> >
+> > when writing out of bounds to the red zone, it can only be
+> > detected at kfree. However, the system may have been reset
+> > before freeing the memory, which would result in undetected
+> > oob. Therefore, it is necessary to detect oob behavior in
+> > panic. Since only the allocated mem call stack is available,
+> > it may be difficult to find the oob maker. Therefore, this
+> > feature is disabled by default and can only be enabled via
+> > boot parameter.
 > 
-> On a DragonBoard 845c (non-MTE hardware) with a kernel built with
-> CONFIG_KASAN_HW_TAGS, waiting for quiescence after a full Android
-> boot I see the following Slab measurements in /proc/meminfo (median
-> of 3 reboots):
+> This description is still not telling the full story or usecase. The
+> story goes something like:
+> """
+> Out-of-bounds accesses that aren't caught by a guard page will result
+> in corruption of canary memory. In pathological cases, where an object
+> has certain alignment requirements, an out-of-bounds access might
+> never be caught by the guard page. Such corruptions, however, are only
+> detected on kfree() normally. If the bug causes the kernel to panic
+> before kfree(), KFENCE has no opportunity to report the issue. Such
+> corruptions may also indicate failing memory or other faults.
 > 
-> Before: 169020 kB
-> After:  167304 kB
+> To provide some more information in such cases, add the option to
+> check canary bytes on panic. This might help narrow the search for the
+> panic cause; but, due to only having the allocation stack trace, such
+> reports are difficult to use to diagnose an issue alone. In most
+> cases, such reports are inactionable, and is therefore an opt-in
+> feature (disabled by default).
+> """
 > 
-> Link: https://linux-review.googlesource.com/id/I752e725179b43b144153f4b6f584ceb646473ead
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+> Please feel free to copy or take pieces above to complete the commit message.
+>
+> [...]
+> >  #include <linux/slab.h>
+> >  #include <linux/spinlock.h>
+> >  #include <linux/string.h>
+> > +#include <linux/notifier.h>
+> > +#include <linux/panic_notifier.h>
+> 
+> Please keep these includes sorted alphabetically.
+> 
+> [...]
+> > +/* If true, check kfence canary in panic. */
+> 
+> It should be "on panic". E.g. "If true, check all canary bytes on panic."
+> 
+> [...]
+> > +/* === Panic Notifier ====================================================== */
+> 
+> Blank line between /* === ... */ and function.
 
-Acked-by: David Rientjes <rientjes@google.com>
+thank you so much for your suggestion!
 
-The command line options are described by 
-Documentation/dev-tools/kasan.rst but it doesn't look like a update is 
-necessary.  I think the assumption today is that if we're using kasan=off 
-then we aren't doing the alignment.
-
-I do wonder why kasan=off is not at least mentioned in 
-Documentation/admin-guide/kernel-parameters.txt and perhaps for all other 
-kasan options point the reader to Documentation/dev-tools/kasan.rst.
+thanks,
+ShaoBo Huang
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5cb2b96c-4f5e-d278-534a-d9e1ea989cf%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220425012334.46364-1-huangshaobo6%40huawei.com.
