@@ -1,150 +1,134 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBY4XUCJQMGQERP46LTQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBZOCUCJQMGQE6WNAKDQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F14951017D
-	for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 17:12:36 +0200 (CEST)
-Received: by mail-lf1-x13d.google.com with SMTP id f19-20020a0565123b1300b004720c485b64sf2324254lfv.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 08:12:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1650985956; cv=pass;
+Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id C500E5103D6
+	for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 18:44:22 +0200 (CEST)
+Received: by mail-lf1-x13e.google.com with SMTP id c11-20020a056512104b00b00471f86be758sf4028016lfb.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 09:44:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1650991462; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gpztguqySdJkH9qA2I27AGVp37w6Bap7vxTKIEnU4d6AKYwPXDtnGy1OrRcI/O6hfp
-         1VMCVvXmpBxABm0ZwDYPawYlYNPH6r1RvKISI8AM9cyr21tjoGumnR3jhTHfOZkzQ3Z2
-         +tUrIkSoS4oy1VcExylUyhHGK9psobnX/+OqMzljbw7jdyKyHGUKtGI4x/wvovU8Q6Us
-         13sDJj3NyIe11ppk618dd7R1XZ2vMf7kbHGzg++lNSOHFzBMq6OSSSP7MxxiCmycUfrM
-         jPLDPmfZ3nnhPCUMCYdrTAYMVR4cJhQhNVTG5gorEBX3REzlvL5qh+yfFRRWqNh2oXPE
-         EV/w==
+        b=H9Nkk1ZPGQmkgR3S1GYmK4ZBZLAC6VDKwI/HbzLRgmF4vqUXFAGFfPDGsikpsMdXjH
+         K+qh370eTH/D/1omJ/nB4NBfQBcCcaJKppMXvFTDiCH6XLCYdmRAVCHURmlYMKjEO9MY
+         OsN2JQNjoPPjLclmWoau6uLr/hAHQWFj63JgXjjkdJC/ZFGkpH4w0vG+LxTdASh6Hl+j
+         EOhDTQJch24ouHbMKBHaAJRnEIQCeOJICilFzIfk8Rdw/YIfOpVyTK3T1FU6ynoTSd1k
+         1TI1YShtNEbuK5VycBoF/PQMUjYBLRDANwTXDlCYPlQcOt8ab463C/gnf/s0iZV8CO1Z
+         BsbA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:subject:from:references
-         :cc:to:content-language:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=TWXg5lo4P1scSnj7meIlPQ0frvjlNzQgfnvZyI8mpa4=;
-        b=VGjm1UqSBoSD74p8MEbK9YdA9sgv2j6QKD5yoxpdU3m+ZMJMawXgedPQQDHITWOIZu
-         z5KEUfhSx/1RjkrlTL03upDDJ9f3V0TZXjW+mFjvM2R70LXMrrQelTvSAB0LFjxKXRfm
-         jx2NfDBQNBtcEr67n2Q7Q/QT/xKDvkems3jkvrvxKhktV0Jiep8IEfwSIBRXtLDbOGRj
-         Kvik72Gz7XRhvj9FG6Bafmynu3g5JeL6U1j4IAJLKURBxWVaCEorDfoFTEGMra9Yg+yO
-         S26r/xeHl0wY8Lcpg/Ww/E3qhVZsEuuJpqsMDc1UEfoBgevf1lzri4WzKmvu8DB3fYoh
-         x7Dw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:dkim-signature;
+        bh=J4XJOqRcsZiWbje69Fpt6fkxV8Qg2eKW2MxPnXe3ZM8=;
+        b=VIk5wTRrunrAfYpkP1w2zhAN5qSmUpjLut8qhSZgUVGmV0rV26EcdunMvc8k5EGf7F
+         W+9mpDIBcSSAV098XLVvQ6xRuoOGqZG9xvgDjngaqhnbFsIDFwqezADhn/Vz6c3bu8xi
+         WAlsTP751NXL/UJaQhQrbKWzh2UHb/ZhEvqPaxUwFfWmcWEswPBcIsz3FyjXDYGJqq9O
+         NAmJmodCKPFFNmYOgNvCBoPfB5fMHEW018cRS6bvwNdbjZPpUL710csGdX7WKSKfazj/
+         vqCDsw4bApY2gBR3YucCyw+HFG3zv/kj+iXdTmnT3aAyxXli2joAwgT28SUd+4JAp/iz
+         +iwg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=mdJ1KGIH;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@google.com header.s=20210112 header.b=H02YMRXj;
+       spf=pass (google.com: domain of 3zcfoygykcwefkhcdqfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3ZCFoYgYKCWEFKHCDQFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--glider.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:content-language:to
-         :cc:references:from:subject:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=TWXg5lo4P1scSnj7meIlPQ0frvjlNzQgfnvZyI8mpa4=;
-        b=snVssIfutxsDgEm/Xc7f9dfMBjBwNobncdp5khHVHQDTOu6yFCd/Riwk4rA4DAY5OH
-         f4Ba3NLbuR5kwG6lEJgVw+YfGFqNT5xQWVF5+1tpCM7i8sU4xJwtnVqrHOKQx/d+gxIt
-         BHCoqgL3IuKEXN+YbAJof1KYN9MlEBYxaLr7oGH15f1ocB7FsCXRNseWRTP9cJdsW/GV
-         WsCTPhcg2iSNTtcbVe5cTjeWsP5i9xsmdgflf5JwyjVQf0A7TODqk9D285rxmhZWK4Fe
-         aDtvFTUkO1YxAkHDToQrg15mFXDPL44jeyO5rhpIdOlzgquIoqFaTdIuVVEqQd+IOfiJ
-         oQ1w==
+        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=J4XJOqRcsZiWbje69Fpt6fkxV8Qg2eKW2MxPnXe3ZM8=;
+        b=mR0rauNVuRHfAy+jLwSX6dZDjj59z0BpASqb3jJuzh5LveBdjSuxNFVSD/LUlSJx8e
+         TzZHAu/JEvIf4Psu6MQbxY7QbrnbOJyI0xy9T2pfpo3vApbr7qDv2nSV+2KXkl3DGDwJ
+         DYvpJt0NO0TLefzZdYi9MTaX4WY5VWod64XFkkdEQMWmwAMZnxUJZ83fwLS0s7kkIcyj
+         gXNO9RqVtc7Bo9Z8diXInQc7tlDzR2+XToHNpJmT+LlyRpW5dZdtB5VTCkEwPV+1mUMc
+         mPMoU9ZU4WcFMUKz2CRsxcMs4S+eZh+/QQ64dr3uTnRz9Lkmg6E3sa+iHes1miAy/fps
+         Aniw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=TWXg5lo4P1scSnj7meIlPQ0frvjlNzQgfnvZyI8mpa4=;
-        b=cNLAJDPaiA3pwIRgUmDpwjXC7Zx/FgS/nVKNbr3iFC49iPunRt7PkWcs7zwIo70Jt/
-         kc+NrqE5wKvvjoeuGw1qt14XIzu2+vt3LxpGlqKqkC+Zb3x9bfW9gAhFRImns8SPnri3
-         Y6zKXdBYnDF8GPSAtVWR9plpemmTIfeiUKJd7PMO539S3i5XOg+FPEAQt1/UpMXUXC8p
-         KaVOhWFFu/8mRa4nxZqllXdIge74RO6HYoIqEmyy7svfS9t1Pj49hMfK9iVY+kF+93l8
-         re0VyWGyPV5AO7tmBw3ZBx0gsuV7NHTDlFnNIJOAW0gTIQiHCyWXYjJNevnP5DFtswJn
-         Cseg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532nodCgJNGlkOQs+fhd2LI2D0ZGQk4HwEzqfEbMpvt/ogLXsWh8
-	Bx49oxavO7pv+NlUdjGNDjc=
-X-Google-Smtp-Source: ABdhPJwmyfpikeAyH4QSIfPESW3RA0cifTvB9sXSMaAQ7DkGwOhQ4HMdoy/4w0onGewYavjtHYYNmw==
-X-Received: by 2002:a05:6512:139f:b0:44b:36e:b50f with SMTP id p31-20020a056512139f00b0044b036eb50fmr16930477lfa.594.1650985955814;
-        Tue, 26 Apr 2022 08:12:35 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=J4XJOqRcsZiWbje69Fpt6fkxV8Qg2eKW2MxPnXe3ZM8=;
+        b=AoDAXvgQ79y8C2/JOUQOSIXxC4POVvQtYqjhZRAKoxY6VI5KOt69/EKzgMlhAVHZiY
+         KUEKgzxyl9JtqpYwlq3c/90fzy7Bqa2WqWQ1P5pJneSdEXpyRqrNa0FwWvZvyYH8ZQ2b
+         o5J2G6kHPztLYrN73VU6CJq2yIFE/egWUjfkGCh0H7aLWfohOYgp5GPkTOAF2ZmXfOsj
+         Ojf3HIEaw7IevIUkQZL9yGPVNNJLX/qWzRK9eYKcmSuftB23q9rXcovtbKBFxHmPhC80
+         z1F+v5D4TPGNA3Pk2ZTbo/O0sUlG1g/Xmc4KBJ5hSjZjPEL9CUJTPYe9aenWofC89bja
+         KniA==
+X-Gm-Message-State: AOAM530h1q79f3xOorr7lTPh8WCpLJVyzWiv/TClIHqgZInG4KSZpw7w
+	50TrD4AoxnzR+CJVJ+9VJ+o=
+X-Google-Smtp-Source: ABdhPJyDsr1LnzPPw5lTirJ8eE1D+8xjQg3D3Esq4d1ILBjnlcBLLHe//BkDHqidmWMxC2hX4V5Xsw==
+X-Received: by 2002:a05:6512:1108:b0:471:a7b3:829c with SMTP id l8-20020a056512110800b00471a7b3829cmr17020349lfg.107.1650991462239;
+        Tue, 26 Apr 2022 09:44:22 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:1a22:b0:24f:170c:7b29 with SMTP id
- by34-20020a05651c1a2200b0024f170c7b29ls879823ljb.9.gmail; Tue, 26 Apr 2022
- 08:12:34 -0700 (PDT)
-X-Received: by 2002:a05:651c:1191:b0:24f:155d:1f26 with SMTP id w17-20020a05651c119100b0024f155d1f26mr4796505ljo.421.1650985954344;
-        Tue, 26 Apr 2022 08:12:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1650985954; cv=none;
+Received: by 2002:a2e:bc0c:0:b0:24f:1432:3be with SMTP id b12-20020a2ebc0c000000b0024f143203bels1213665ljf.8.gmail;
+ Tue, 26 Apr 2022 09:44:20 -0700 (PDT)
+X-Received: by 2002:a2e:b888:0:b0:24e:f119:8fce with SMTP id r8-20020a2eb888000000b0024ef1198fcemr14654357ljp.48.1650991460731;
+        Tue, 26 Apr 2022 09:44:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1650991460; cv=none;
         d=google.com; s=arc-20160816;
-        b=FtxnnsBMlq2d0B/5TQ89qyXANwuNIN7TQF+hY5fn8Ds4iV0t3vV0DQbaVxWFtEvdz0
-         5ZWZ1m0WSHxr9FVxsEkcAWaByGS5gsJkIO0aywHsZyfKlyyLlNbyTvlTuv0xYhFBlFtl
-         P62wwLxI/Y0A62n12O0Nn84Q/H5uImlTY7vxyJeTiizxmvVuKA5zQ9CNfsusumod1f+e
-         Wk8fHQIGlwiIQRAck8X3zWCuLHZM2zsat9chw2ybkU6/fxXJxbs99/m2nWS/DpoNcusg
-         x+mUAAWa2tkIDSQnCmhYa3FMZjXUfseKkdpRDnzYD6P6EeeBwNgLtbMIDT6vKyP3sib0
-         8gEQ==
+        b=eHWqKPoOp99kpY/yB2E2zq9jRKQaHbfc9WgO4/VJgpJ1UvIAXObhZFqpZCrOE8Zgy4
+         hrR/naMPsqJlhivizX2Ts+6Qf5m4DLAWwggoOSKThBjMHnBScG5tPtKdbj+WLi84xK8r
+         mt2X6uDQP8WFqCjUotSFV1YLclwx0KfrDqx1Y1Za+VCkKYbhJ2ncJFE8SnM+ogzNx995
+         87bGbE96AC565lD7m+/WsssVVlR47dfRW0eQm6OBKNsoH5TXor5HY+Do9ojjmr0OHURO
+         T3NmdxXO3Dr5itZA3bZHzNuYlosf65UD/LuXQtVfZ9E7QciFQ8K2qLP6EU0AFDRcIdyi
+         T3ig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=ilqNI6bkLcv0GvaJ4q+HJDdDtII/9oekltf7dQ89U9Q=;
-        b=U63JD5AT51n2dmiueo3mHUhD0zKgmjf7ekKWAcGSdhX8jlM9WKaAQpB2hHIYNbkjNx
-         b6Z9tCfY5PC3UbVfYPdkfnZgNLWBy8oK8gXm0BEhpzembeQ1vlrhUK9G9D3dhrwIEi1J
-         j8wX8yV2JNWAyxekzEjgBzdCK1Z9eos8BHuYQ7HvWpjR0XQGfr4Wpb9yP/9MfyUR/K/q
-         5f8lbvo7urCmOna2PQfhInAKBYnHhnlyKZZQ16xI2h66z1G7WEOoSu6frX0/obISslFm
-         B/GGzq8lMuKAkdRjLkoW2hG3zF1ACrxyiZYdB1YP0gKQ1UAmN2sFDZ2r41wZoQpJXzaB
-         ayJA==
+        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
+        bh=1G8xzyhN/6cC/oSos2efdoQedsBkWbUJY6WrTftKsiQ=;
+        b=y235vOX1P6GpYY0q6ZfhCQ9LWJQU4BdCF2I3NRl2nh0jWfW/mALdCSfJhUgMuYmsLP
+         kcO9q32DN9VNr7+LAF+1CxTBMqZs08UNzRKxtvxw0WsFSSQJDEhyI3HNbJPihCCfR15b
+         nlJLy9VylFRyPLGeGok4kKAjerFIouQQaFTlxJM9o/BcCPTyGQDf1Fz0R8aZ9jaBwYwK
+         WIzxUUFVLHr1p+Rbg1kLziSDyC2IMeK1PVX/PWofT57ArqRcIrDNtrWliRnyScsnylcu
+         2i9V5l/XKrh05rKjWrugP1MQBWQP8Y/REuhvlfCe+9pFDW0Ux2jyci0ZlmQpHUu3iw1D
+         E9cQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=mdJ1KGIH;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
-        by gmr-mx.google.com with ESMTPS id e9-20020a2e8189000000b0024eee872899si527830ljg.0.2022.04.26.08.12.34
+       dkim=pass header.i=@google.com header.s=20210112 header.b=H02YMRXj;
+       spf=pass (google.com: domain of 3zcfoygykcwefkhcdqfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3ZCFoYgYKCWEFKHCDQFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--glider.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
+        by gmr-mx.google.com with ESMTPS id t8-20020a19dc08000000b004719503b360si829890lfg.13.2022.04.26.09.44.20
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 08:12:34 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 884381F388;
-	Tue, 26 Apr 2022 15:12:33 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 335FF13AD5;
-	Tue, 26 Apr 2022 15:12:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id IIraC+ELaGIkXwAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Tue, 26 Apr 2022 15:12:33 +0000
-Message-ID: <147b11c3-dbce-ccd3-3b0c-c5971135f949@suse.cz>
-Date: Tue, 26 Apr 2022 17:12:32 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Peter Collingbourne <pcc@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Hyeonggon Yoo
- <42.hyeyoo@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- penberg@kernel.org, roman.gushchin@linux.dev, iamjoonsoo.kim@lge.com,
- rientjes@google.com, Herbert Xu <herbert@gondor.apana.org.au>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
- kasan-dev <kasan-dev@googlegroups.com>,
- Eric Biederman <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>
-References: <20220422201830.288018-1-pcc@google.com>
- <202204251346.WbwgrNZw-lkp@intel.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v3] mm: make minimum slab alignment a runtime property
-In-Reply-To: <202204251346.WbwgrNZw-lkp@intel.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Apr 2022 09:44:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3zcfoygykcwefkhcdqfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
+Received: by mail-ed1-x54a.google.com with SMTP id co27-20020a0564020c1b00b00425ab566200so8062934edb.6
+        for <kasan-dev@googlegroups.com>; Tue, 26 Apr 2022 09:44:20 -0700 (PDT)
+X-Received: from glider.muc.corp.google.com ([2a00:79e0:15:13:d580:abeb:bf6d:5726])
+ (user=glider job=sendgmr) by 2002:aa7:cb93:0:b0:415:d57a:4603 with SMTP id
+ r19-20020aa7cb93000000b00415d57a4603mr25274990edt.62.1650991460014; Tue, 26
+ Apr 2022 09:44:20 -0700 (PDT)
+Date: Tue, 26 Apr 2022 18:42:29 +0200
+Message-Id: <20220426164315.625149-1-glider@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.0.rc2.479.g8af0fa9b8e-goog
+Subject: [PATCH v3 00/46] Add KernelMemorySanitizer infrastructure
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+To: glider@google.com
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Matthew Wilcox <willy@infradead.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: vbabka@suse.cz
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=mdJ1KGIH;       dkim=neutral
- (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
- vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@google.com header.s=20210112 header.b=H02YMRXj;       spf=pass
+ (google.com: domain of 3zcfoygykcwefkhcdqfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3ZCFoYgYKCWEFKHCDQFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--glider.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,137 +141,273 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 4/25/22 07:12, kernel test robot wrote:
-> Hi Peter,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on hnaz-mm/master]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Collingbourne/mm-make-minimum-slab-alignment-a-runtime-property/20220423-042024
-> base:   https://github.com/hnaz/linux-mm master
-> config: arm64-buildonly-randconfig-r002-20220425 (https://download.01.org/0day-ci/archive/20220425/202204251346.WbwgrNZw-lkp@intel.com/config)
-> compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcfdc3c683b393df1a5c9063252eb60e52818)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm64 cross compiling tool for clang build
->         # apt-get install binutils-aarch64-linux-gnu
->         # https://github.com/intel-lab-lkp/linux/commit/3aef97055dd4a480e05dff758164f153aaddbb49
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Peter-Collingbourne/mm-make-minimum-slab-alignment-a-runtime-property/20220423-042024
->         git checkout 3aef97055dd4a480e05dff758164f153aaddbb49
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 prepare
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from kernel/bounds.c:10:
->    In file included from include/linux/page-flags.h:10:
->    In file included from include/linux/bug.h:5:
->    In file included from arch/arm64/include/asm/bug.h:26:
->    In file included from include/asm-generic/bug.h:22:
->    In file included from include/linux/printk.h:9:
->    In file included from include/linux/cache.h:6:
->    In file included from arch/arm64/include/asm/cache.h:56:
->    In file included from include/linux/kasan-enabled.h:5:
->    In file included from include/linux/static_key.h:1:
+KernelMemorySanitizer (KMSAN) is a detector of errors related to uses of
+uninitialized memory. It relies on compile-time Clang instrumentation
+(similar to MSan in the userspace [1]) and tracks the state of every bit
+of kernel memory, being able to report an error if uninitialized value is
+used in a condition, dereferenced, or escapes to userspace, USB or DMA.
 
-Hmm looks like a circular include, cache.h is too "low-level" in the
-hierarchy to bring in kasan->static_key->jump_label.h definitions?
-jump_label.h does include bug.h, but we have it above already and have
-already passed #define _LINUX_BUG_H.
+KMSAN has reported more than 300 bugs in the past few years (recently
+fixed bugs: [2]), most of them with the help of syzkaller. Such bugs
+keep getting introduced into the kernel despite new compiler warnings and
+other analyses (the 5.16 cycle already resulted in several KMSAN-reported
+bugs, e.g. [3]). Mitigations like total stack and heap initialization are
+unfortunately very far from being deployable.
 
-So, a different kind of header with arm64-specific variant?
+The proposed patchset contains KMSAN runtime implementation together with
+small changes to other subsystems needed to make KMSAN work.
 
->>> include/linux/jump_label.h:285:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->            STATIC_KEY_CHECK_USE(key);
->            ^
->    include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
->    #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
->                                      ^
->    include/linux/jump_label.h:291:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->            STATIC_KEY_CHECK_USE(key);
->            ^
->    include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
->    #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
->                                      ^
->    include/linux/jump_label.h:313:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->            STATIC_KEY_CHECK_USE(key);
->            ^
->    include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
->    #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
->                                      ^
->>> include/linux/jump_label.h:316:3: error: call to undeclared function 'WARN_ON_ONCE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->                    WARN_ON_ONCE(atomic_read(&key->enabled) != 1);
->                    ^
->    include/linux/jump_label.h:324:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->            STATIC_KEY_CHECK_USE(key);
->            ^
->    include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
->    #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
->                                      ^
->    include/linux/jump_label.h:327:3: error: call to undeclared function 'WARN_ON_ONCE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->                    WARN_ON_ONCE(atomic_read(&key->enabled) != 0);
->                    ^
->    6 errors generated.
->    make[2]: *** [scripts/Makefile.build:122: kernel/bounds.s] Error 1
->    make[2]: Target '__build' not remade because of errors.
->    make[1]: *** [Makefile:1283: prepare0] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:226: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
-> 
-> 
-> vim +/WARN +285 include/linux/jump_label.h
-> 
-> bf5438fca2950b Jason Baron     2010-09-17  282  
-> c5905afb0ee655 Ingo Molnar     2012-02-24  283  static inline void static_key_slow_inc(struct static_key *key)
-> d430d3d7e646eb Jason Baron     2011-03-16  284  {
-> 5cdda5117e125e Borislav Petkov 2017-10-18 @285  	STATIC_KEY_CHECK_USE(key);
-> d430d3d7e646eb Jason Baron     2011-03-16  286  	atomic_inc(&key->enabled);
-> d430d3d7e646eb Jason Baron     2011-03-16  287  }
-> bf5438fca2950b Jason Baron     2010-09-17  288  
-> c5905afb0ee655 Ingo Molnar     2012-02-24  289  static inline void static_key_slow_dec(struct static_key *key)
-> bf5438fca2950b Jason Baron     2010-09-17  290  {
-> 5cdda5117e125e Borislav Petkov 2017-10-18  291  	STATIC_KEY_CHECK_USE(key);
-> d430d3d7e646eb Jason Baron     2011-03-16  292  	atomic_dec(&key->enabled);
-> bf5438fca2950b Jason Baron     2010-09-17  293  }
-> bf5438fca2950b Jason Baron     2010-09-17  294  
-> ce48c146495a1a Peter Zijlstra  2018-01-22  295  #define static_key_slow_inc_cpuslocked(key) static_key_slow_inc(key)
-> ce48c146495a1a Peter Zijlstra  2018-01-22  296  #define static_key_slow_dec_cpuslocked(key) static_key_slow_dec(key)
-> ce48c146495a1a Peter Zijlstra  2018-01-22  297  
-> 4c3ef6d79328c0 Jason Baron     2010-09-17  298  static inline int jump_label_text_reserved(void *start, void *end)
-> 4c3ef6d79328c0 Jason Baron     2010-09-17  299  {
-> 4c3ef6d79328c0 Jason Baron     2010-09-17  300  	return 0;
-> 4c3ef6d79328c0 Jason Baron     2010-09-17  301  }
-> 4c3ef6d79328c0 Jason Baron     2010-09-17  302  
-> 91bad2f8d30574 Jason Baron     2010-10-01  303  static inline void jump_label_lock(void) {}
-> 91bad2f8d30574 Jason Baron     2010-10-01  304  static inline void jump_label_unlock(void) {}
-> 91bad2f8d30574 Jason Baron     2010-10-01  305  
-> d430d3d7e646eb Jason Baron     2011-03-16  306  static inline int jump_label_apply_nops(struct module *mod)
-> d430d3d7e646eb Jason Baron     2011-03-16  307  {
-> d430d3d7e646eb Jason Baron     2011-03-16  308  	return 0;
-> d430d3d7e646eb Jason Baron     2011-03-16  309  }
-> b202952075f626 Gleb Natapov    2011-11-27  310  
-> e33886b38cc82a Peter Zijlstra  2015-07-24  311  static inline void static_key_enable(struct static_key *key)
-> e33886b38cc82a Peter Zijlstra  2015-07-24  312  {
-> 5cdda5117e125e Borislav Petkov 2017-10-18  313  	STATIC_KEY_CHECK_USE(key);
-> e33886b38cc82a Peter Zijlstra  2015-07-24  314  
-> 1dbb6704de91b1 Paolo Bonzini   2017-08-01  315  	if (atomic_read(&key->enabled) != 0) {
-> 1dbb6704de91b1 Paolo Bonzini   2017-08-01 @316  		WARN_ON_ONCE(atomic_read(&key->enabled) != 1);
-> 1dbb6704de91b1 Paolo Bonzini   2017-08-01  317  		return;
-> 1dbb6704de91b1 Paolo Bonzini   2017-08-01  318  	}
-> 1dbb6704de91b1 Paolo Bonzini   2017-08-01  319  	atomic_set(&key->enabled, 1);
-> e33886b38cc82a Peter Zijlstra  2015-07-24  320  }
-> e33886b38cc82a Peter Zijlstra  2015-07-24  321  
-> 
+The latter changes fall into several categories:
+
+1. Changes and refactorings of existing code required to add KMSAN:
+ - [1/46] x86: add missing include to sparsemem.h
+ - [2/46] stackdepot: reserve 5 extra bits in depot_stack_handle_t
+ - [3/46] kasan: common: adapt to the new prototype of __stack_depot_save()
+ - [4/46] instrumented.h: allow instrumenting both sides of copy_from_user()
+ - [5/46] x86: asm: instrument usercopy in get_user() and __put_user_size()
+ - [6/46] asm-generic: instrument usercopy in cacheflush.h
+ - [11/46] libnvdimm/pfn_dev: increase MAX_STRUCT_PAGE_SIZE
+
+2. KMSAN-related declarations in generic code, KMSAN runtime library,
+   docs and configs:
+ - [7/46] kmsan: add ReST documentation
+ - [8/46] kmsan: introduce __no_sanitize_memory and __no_kmsan_checks
+ - [10/46] x86: kmsan: pgtable: reduce vmalloc space
+ - [12/46] kmsan: add KMSAN runtime core
+ - [15/46] MAINTAINERS: add entry for KMSAN
+ - [29/46] kmsan: add tests for KMSAN
+ - [36/46] objtool: kmsan: list KMSAN API functions as uaccess-safe
+ - [41/46] x86: kmsan: use __msan_ string functions where possible.
+ - [46/46] x86: kmsan: enable KMSAN builds for x86
+
+3. Adding hooks from different subsystems to notify KMSAN about memory
+   state changes:
+ - [16/46] kmsan: mm: maintain KMSAN metadata for page operations
+ - [17/46] kmsan: mm: call KMSAN hooks from SLUB code
+ - [18/46] kmsan: handle task creation and exiting
+ - [19/46] kmsan: init: call KMSAN initialization routines
+ - [20/46] instrumented.h: add KMSAN support
+ - [22/46] kmsan: add iomap support
+ - [23/46] Input: libps2: mark data received in __ps2_command() as initialized
+ - [24/46] kmsan: dma: unpoison DMA mappings
+ - [40/46] x86: kmsan: handle open-coded assembly in lib/iomem.c
+ - [42/46] x86: kmsan: sync metadata pages on page fault
+
+4. Changes that prevent false reports by explicitly initializing memory,
+   disabling optimized code that may trick KMSAN, selectively skipping
+   instrumentation:
+ - [13/46] kmsan: implement kmsan_init(), initialize READ_ONCE_NOCHECK()
+ - [14/46] kmsan: disable instrumentation of unsupported common kernel code
+ - [21/46] kmsan: unpoison @tlb in arch_tlb_gather_mmu()
+ - [25/46] kmsan: virtio: check/unpoison scatterlist in vring_map_one_sg()
+ - [26/46] kmsan: handle memory sent to/from USB
+ - [30/46] kmsan: disable strscpy() optimization under KMSAN
+ - [31/46] crypto: kmsan: disable accelerated configs under KMSAN
+ - [32/46] kmsan: disable physical page merging in biovec
+ - [33/46] kmsan: block: skip bio block merging logic for KMSAN
+ - [34/46] kmsan: kcov: unpoison area->list in kcov_remote_area_put()
+ - [35/46] security: kmsan: fix interoperability with auto-initialization
+ - [37/46] x86: kmsan: make READ_ONCE_TASK_STACK() return initialized values
+ - [38/46] x86: kmsan: disable instrumentation of unsupported code
+ - [39/46] x86: kmsan: skip shadow checks in __switch_to()
+ - [43/46] x86: kasan: kmsan: support CONFIG_GENERIC_CSUM on x86, enable it for KASAN/KMSAN
+ - [44/46] x86: fs: kmsan: disable CONFIG_DCACHE_WORD_ACCESS
+
+5. Noinstr handling:
+ - [9/46] kmsan: mark noinstr as __no_sanitize_memory
+ - [27/46] kmsan: instrumentation.h: add instrumentation_begin_with_regs()
+ - [28/46] kmsan: entry: handle register passing from uninstrumented code
+ - [45/46] x86: kmsan: handle register passing from uninstrumented code
+
+This patchset allows one to boot and run a defconfig+KMSAN kernel on a
+QEMU without known false positives. It however doesn't guarantee there
+are no false positives in drivers of certain devices or less tested
+subsystems, although KMSAN is actively tested on syzbot with a large
+config.
+
+The patchset was generated relative to Linux v5.18-rc4. The most
+up-to-date KMSAN tree currently resides at
+https://github.com/google/kmsan/.
+One may find it handy to review these patches in Gerrit:
+https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/12604/25
+
+A huge thanks goes to the reviewers of the RFC patch series sent to LKML
+in 2020
+(https://lore.kernel.org/all/20200325161249.55095-1-glider@google.com/).
+
+[1] https://clang.llvm.org/docs/MemorySanitizer.html
+[2] https://syzkaller.appspot.com/upstream/fixed?manager=ci-upstream-kmsan-gce
+[3] https://lore.kernel.org/all/20211126124746.761278-1-glider@google.com/
+
+
+Alexander Potapenko (45):
+  stackdepot: reserve 5 extra bits in depot_stack_handle_t
+  kasan: common: adapt to the new prototype of __stack_depot_save()
+  instrumented.h: allow instrumenting both sides of copy_from_user()
+  x86: asm: instrument usercopy in get_user() and __put_user_size()
+  asm-generic: instrument usercopy in cacheflush.h
+  kmsan: add ReST documentation
+  kmsan: introduce __no_sanitize_memory and __no_kmsan_checks
+  kmsan: mark noinstr as __no_sanitize_memory
+  x86: kmsan: pgtable: reduce vmalloc space
+  libnvdimm/pfn_dev: increase MAX_STRUCT_PAGE_SIZE
+  kmsan: add KMSAN runtime core
+  kmsan: implement kmsan_init(), initialize READ_ONCE_NOCHECK()
+  kmsan: disable instrumentation of unsupported common kernel code
+  MAINTAINERS: add entry for KMSAN
+  kmsan: mm: maintain KMSAN metadata for page operations
+  kmsan: mm: call KMSAN hooks from SLUB code
+  kmsan: handle task creation and exiting
+  kmsan: init: call KMSAN initialization routines
+  instrumented.h: add KMSAN support
+  kmsan: unpoison @tlb in arch_tlb_gather_mmu()
+  kmsan: add iomap support
+  Input: libps2: mark data received in __ps2_command() as initialized
+  kmsan: dma: unpoison DMA mappings
+  kmsan: virtio: check/unpoison scatterlist in vring_map_one_sg()
+  kmsan: handle memory sent to/from USB
+  kmsan: instrumentation.h: add instrumentation_begin_with_regs()
+  kmsan: entry: handle register passing from uninstrumented code
+  kmsan: add tests for KMSAN
+  kmsan: disable strscpy() optimization under KMSAN
+  crypto: kmsan: disable accelerated configs under KMSAN
+  kmsan: disable physical page merging in biovec
+  kmsan: block: skip bio block merging logic for KMSAN
+  kmsan: kcov: unpoison area->list in kcov_remote_area_put()
+  security: kmsan: fix interoperability with auto-initialization
+  objtool: kmsan: list KMSAN API functions as uaccess-safe
+  x86: kmsan: make READ_ONCE_TASK_STACK() return initialized values
+  x86: kmsan: disable instrumentation of unsupported code
+  x86: kmsan: skip shadow checks in __switch_to()
+  x86: kmsan: handle open-coded assembly in lib/iomem.c
+  x86: kmsan: use __msan_ string functions where possible.
+  x86: kmsan: sync metadata pages on page fault
+  x86: kasan: kmsan: support CONFIG_GENERIC_CSUM on x86, enable it for
+    KASAN/KMSAN
+  x86: fs: kmsan: disable CONFIG_DCACHE_WORD_ACCESS
+  x86: kmsan: handle register passing from uninstrumented code
+  x86: kmsan: enable KMSAN builds for x86
+
+Dmitry Vyukov (1):
+  x86: add missing include to sparsemem.h
+
+ Documentation/dev-tools/index.rst       |   1 +
+ Documentation/dev-tools/kmsan.rst       | 414 ++++++++++++++++++
+ MAINTAINERS                             |  12 +
+ Makefile                                |   1 +
+ arch/x86/Kconfig                        |   9 +-
+ arch/x86/boot/Makefile                  |   1 +
+ arch/x86/boot/compressed/Makefile       |   1 +
+ arch/x86/entry/common.c                 |   3 +-
+ arch/x86/entry/vdso/Makefile            |   3 +
+ arch/x86/include/asm/checksum.h         |  16 +-
+ arch/x86/include/asm/idtentry.h         |  10 +-
+ arch/x86/include/asm/page_64.h          |  13 +
+ arch/x86/include/asm/pgtable_64_types.h |  41 +-
+ arch/x86/include/asm/sparsemem.h        |   2 +
+ arch/x86/include/asm/string_64.h        |  23 +-
+ arch/x86/include/asm/uaccess.h          |   7 +
+ arch/x86/include/asm/unwind.h           |  23 +-
+ arch/x86/kernel/Makefile                |   2 +
+ arch/x86/kernel/cpu/Makefile            |   1 +
+ arch/x86/kernel/cpu/mce/core.c          |   2 +-
+ arch/x86/kernel/kvm.c                   |   2 +-
+ arch/x86/kernel/nmi.c                   |   2 +-
+ arch/x86/kernel/process_64.c            |   1 +
+ arch/x86/kernel/sev.c                   |   4 +-
+ arch/x86/kernel/traps.c                 |  14 +-
+ arch/x86/lib/Makefile                   |   2 +
+ arch/x86/lib/iomem.c                    |   5 +
+ arch/x86/mm/Makefile                    |   2 +
+ arch/x86/mm/fault.c                     |  25 +-
+ arch/x86/mm/init_64.c                   |   2 +-
+ arch/x86/mm/ioremap.c                   |   3 +
+ arch/x86/realmode/rm/Makefile           |   1 +
+ block/bio.c                             |   2 +
+ block/blk.h                             |   7 +
+ crypto/Kconfig                          |  30 ++
+ drivers/firmware/efi/libstub/Makefile   |   1 +
+ drivers/input/serio/libps2.c            |   5 +-
+ drivers/net/Kconfig                     |   1 +
+ drivers/nvdimm/nd.h                     |   2 +-
+ drivers/nvdimm/pfn_devs.c               |   2 +-
+ drivers/usb/core/urb.c                  |   2 +
+ drivers/virtio/virtio_ring.c            |  10 +-
+ include/asm-generic/cacheflush.h        |   9 +-
+ include/asm-generic/rwonce.h            |   5 +-
+ include/linux/compiler-clang.h          |  23 +
+ include/linux/compiler-gcc.h            |   6 +
+ include/linux/compiler_types.h          |   3 +-
+ include/linux/fortify-string.h          |   2 +
+ include/linux/highmem.h                 |   3 +
+ include/linux/instrumentation.h         |   6 +
+ include/linux/instrumented.h            |  26 +-
+ include/linux/kmsan-checks.h            | 123 ++++++
+ include/linux/kmsan.h                   | 359 ++++++++++++++++
+ include/linux/mm_types.h                |  12 +
+ include/linux/sched.h                   |   5 +
+ include/linux/stackdepot.h              |   8 +
+ include/linux/uaccess.h                 |  19 +-
+ init/main.c                             |   3 +
+ kernel/Makefile                         |   1 +
+ kernel/dma/mapping.c                    |   9 +-
+ kernel/entry/common.c                   |  22 +-
+ kernel/exit.c                           |   2 +
+ kernel/fork.c                           |   2 +
+ kernel/kcov.c                           |   7 +
+ kernel/locking/Makefile                 |   3 +-
+ lib/Kconfig.debug                       |   1 +
+ lib/Kconfig.kmsan                       |  39 ++
+ lib/Makefile                            |   3 +
+ lib/iomap.c                             |  40 ++
+ lib/iov_iter.c                          |   9 +-
+ lib/stackdepot.c                        |  29 +-
+ lib/string.c                            |   8 +
+ lib/usercopy.c                          |   3 +-
+ mm/Makefile                             |   1 +
+ mm/internal.h                           |   6 +
+ mm/kasan/common.c                       |   2 +-
+ mm/kmsan/Makefile                       |  26 ++
+ mm/kmsan/annotations.c                  |  28 ++
+ mm/kmsan/core.c                         | 468 +++++++++++++++++++++
+ mm/kmsan/hooks.c                        | 384 +++++++++++++++++
+ mm/kmsan/init.c                         | 240 +++++++++++
+ mm/kmsan/instrumentation.c              | 267 ++++++++++++
+ mm/kmsan/kmsan.h                        | 188 +++++++++
+ mm/kmsan/kmsan_test.c                   | 536 ++++++++++++++++++++++++
+ mm/kmsan/report.c                       | 211 ++++++++++
+ mm/kmsan/shadow.c                       | 336 +++++++++++++++
+ mm/memory.c                             |   2 +
+ mm/mmu_gather.c                         |  10 +
+ mm/page_alloc.c                         |  18 +
+ mm/slab.h                               |   1 +
+ mm/slub.c                               |  21 +-
+ mm/vmalloc.c                            |  20 +-
+ scripts/Makefile.kmsan                  |   1 +
+ scripts/Makefile.lib                    |   9 +
+ security/Kconfig.hardening              |   4 +
+ tools/objtool/check.c                   |  19 +
+ 96 files changed, 4211 insertions(+), 87 deletions(-)
+ create mode 100644 Documentation/dev-tools/kmsan.rst
+ create mode 100644 include/linux/kmsan-checks.h
+ create mode 100644 include/linux/kmsan.h
+ create mode 100644 lib/Kconfig.kmsan
+ create mode 100644 mm/kmsan/Makefile
+ create mode 100644 mm/kmsan/annotations.c
+ create mode 100644 mm/kmsan/core.c
+ create mode 100644 mm/kmsan/hooks.c
+ create mode 100644 mm/kmsan/init.c
+ create mode 100644 mm/kmsan/instrumentation.c
+ create mode 100644 mm/kmsan/kmsan.h
+ create mode 100644 mm/kmsan/kmsan_test.c
+ create mode 100644 mm/kmsan/report.c
+ create mode 100644 mm/kmsan/shadow.c
+ create mode 100644 scripts/Makefile.kmsan
+
+-- 
+2.36.0.rc2.479.g8af0fa9b8e-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/147b11c3-dbce-ccd3-3b0c-c5971135f949%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220426164315.625149-1-glider%40google.com.
