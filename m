@@ -1,162 +1,150 @@
-Return-Path: <kasan-dev+bncBCG7TL6TWUIRBTMTT2JQMGQENXUP5PQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBY4XUCJQMGQERP46LTQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id C702F50F082
-	for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 07:57:33 +0200 (CEST)
-Received: by mail-wm1-x337.google.com with SMTP id az19-20020a05600c601300b003914ac8efb8sf425434wmb.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 25 Apr 2022 22:57:33 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1650952653; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F14951017D
+	for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 17:12:36 +0200 (CEST)
+Received: by mail-lf1-x13d.google.com with SMTP id f19-20020a0565123b1300b004720c485b64sf2324254lfv.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 08:12:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1650985956; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yrmA/lNYpdF3kM8Udmxoh16+bKJ7jn7HEs+31lkM7A1aaNXuwIOg7DKgf12Qic6cgM
-         10gQSo+yH8Th7lRYk7nVN5Y8oyZJ8X1eu/GLG8eaMo/foGDryggqjLwuyimKKDMxE04m
-         O0Q/anVyAFgE4nHYLxzCKyEw4Am7nYu2CIwuJi063rd3yaSb6r2Pxzh4Cj6CxF+pXUd3
-         v1ZfDcfJU2MAqc5em39e8PKg+lfAXsx7mmnE/TRd2bl2M5WCwDvYgpXp1pLhXv1HVoM8
-         4uFvzeIUISF8p1GPo8IN3DASP1ysSVkZWKgNpfT7gwV+NSpP+Bm0ewZUwSYmb5VIZgDc
-         zluQ==
+        b=gpztguqySdJkH9qA2I27AGVp37w6Bap7vxTKIEnU4d6AKYwPXDtnGy1OrRcI/O6hfp
+         1VMCVvXmpBxABm0ZwDYPawYlYNPH6r1RvKISI8AM9cyr21tjoGumnR3jhTHfOZkzQ3Z2
+         +tUrIkSoS4oy1VcExylUyhHGK9psobnX/+OqMzljbw7jdyKyHGUKtGI4x/wvovU8Q6Us
+         13sDJj3NyIe11ppk618dd7R1XZ2vMf7kbHGzg++lNSOHFzBMq6OSSSP7MxxiCmycUfrM
+         jPLDPmfZ3nnhPCUMCYdrTAYMVR4cJhQhNVTG5gorEBX3REzlvL5qh+yfFRRWqNh2oXPE
+         EV/w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+         :list-id:mailing-list:precedence:in-reply-to:subject:from:references
+         :cc:to:content-language:user-agent:mime-version:date:message-id
          :sender:dkim-signature;
-        bh=HH2J3AlHPXWn/x+3PoELYHzMGeUb57kaQVY7nBsmxI4=;
-        b=ZCNnUU5p95jVqPsTWuZDVlyC9gUjmr1900Z7hwPi8o63aNFp6Gk4e1pFk9SDRZwZIr
-         nOdKCzdr71ecaLeTbBuXC4OhncqTgj3SD/LY8mffNzmCa8eShWUqvRbWfxXT0bZM9Qsn
-         xepBz3jL1T3ToeYm1i6ujvSw6+eQBRG8uUOdrN9bYbf27mrq+aemGz3nXXEDKfD+vAp3
-         8VOljqI1U9Ds9X/fTffUuoUK5BsqTVrHJde9jrhe1S5iydFCyznczSSBsyH0472BXtGV
-         V9A0lIYJ+BHWUD/lqgD00e1977s6Ndrq8yoe32tr//uGT5BziQzhHyVUggS6+mPJtF28
-         4cAg==
+        bh=TWXg5lo4P1scSnj7meIlPQ0frvjlNzQgfnvZyI8mpa4=;
+        b=VGjm1UqSBoSD74p8MEbK9YdA9sgv2j6QKD5yoxpdU3m+ZMJMawXgedPQQDHITWOIZu
+         z5KEUfhSx/1RjkrlTL03upDDJ9f3V0TZXjW+mFjvM2R70LXMrrQelTvSAB0LFjxKXRfm
+         jx2NfDBQNBtcEr67n2Q7Q/QT/xKDvkems3jkvrvxKhktV0Jiep8IEfwSIBRXtLDbOGRj
+         Kvik72Gz7XRhvj9FG6Bafmynu3g5JeL6U1j4IAJLKURBxWVaCEorDfoFTEGMra9Yg+yO
+         S26r/xeHl0wY8Lcpg/Ww/E3qhVZsEuuJpqsMDc1UEfoBgevf1lzri4WzKmvu8DB3fYoh
+         x7Dw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass (test mode) header.i=@ics.forth.gr header.s=av header.b=gTsKG8h0;
-       spf=pass (google.com: domain of mick@ics.forth.gr designates 139.91.1.2 as permitted sender) smtp.mailfrom=mick@ics.forth.gr;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ics.forth.gr
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=mdJ1KGIH;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to:x-original-sender
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=HH2J3AlHPXWn/x+3PoELYHzMGeUb57kaQVY7nBsmxI4=;
-        b=hRrLFf22kP2u3fXP1cM3CoAsrZtC1st/ohUfZK1z3rvOLg8wWdfWfJyjCUxoj92hS+
-         8K2ocskp3FuGWbyqcoG9OY1eXL40ocJO+We+/OfHjk4kA7KCleHzQCLjyTdCZajleo90
-         U/HpOz0L89TDysKODBLG6tzMgqlyD6J/m1pvG5q4YGKoY5AtBiMTh8tYW9NNynHMxXyK
-         WiqC61jMmMiZHNJ4qLaBy+lm/v4WnbjxqyVMJki4PtdrooyK8kORBB2uShQC4JDx9JKQ
-         ne26GJH0uUUn4lOAtR0hoXfMMQ2b9ocxPMZqExdI20eQcSRa4qZVnwiEn4KF9go8FWtb
-         o7lQ==
+        bh=TWXg5lo4P1scSnj7meIlPQ0frvjlNzQgfnvZyI8mpa4=;
+        b=snVssIfutxsDgEm/Xc7f9dfMBjBwNobncdp5khHVHQDTOu6yFCd/Riwk4rA4DAY5OH
+         f4Ba3NLbuR5kwG6lEJgVw+YfGFqNT5xQWVF5+1tpCM7i8sU4xJwtnVqrHOKQx/d+gxIt
+         BHCoqgL3IuKEXN+YbAJof1KYN9MlEBYxaLr7oGH15f1ocB7FsCXRNseWRTP9cJdsW/GV
+         WsCTPhcg2iSNTtcbVe5cTjeWsP5i9xsmdgflf5JwyjVQf0A7TODqk9D285rxmhZWK4Fe
+         aDtvFTUkO1YxAkHDToQrg15mFXDPL44jeyO5rhpIdOlzgquIoqFaTdIuVVEqQd+IOfiJ
+         oQ1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
-         :subject:content-language:to:references:from:in-reply-to
+         :content-language:to:cc:references:from:subject:in-reply-to
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=HH2J3AlHPXWn/x+3PoELYHzMGeUb57kaQVY7nBsmxI4=;
-        b=UH18fFoJHHeCPcVr59TP5Nv4i0cUKU2LXcJN7/PAt/nCchueCFFAlwxMpFu6XBWUH2
-         ZquccGrwEff02YLcrSmy13NJB2JGy2OFURhQnQ8x1M/1GD94PbJLePOfsKJpjgXul1Bl
-         yUPE1cLMM3Vkb15nnQbMu8SJ3fyUF/4dBCRZc8241KRpdad+8Q00iI6wP79/HuG3QG6O
-         9t4nL/gCUvB5dNblxUKvQjVPAPEV1tDdlvdGEDgXROId1j/+zRdMt8r5A5hi+nzfhmCd
-         crK7SICbVHw2T7WwuCxV7QlpAmP2zOAXqT/GJMhctDSbcX1e4tO3UJ5cg/TufQrMOk/M
-         4avg==
+        bh=TWXg5lo4P1scSnj7meIlPQ0frvjlNzQgfnvZyI8mpa4=;
+        b=cNLAJDPaiA3pwIRgUmDpwjXC7Zx/FgS/nVKNbr3iFC49iPunRt7PkWcs7zwIo70Jt/
+         kc+NrqE5wKvvjoeuGw1qt14XIzu2+vt3LxpGlqKqkC+Zb3x9bfW9gAhFRImns8SPnri3
+         Y6zKXdBYnDF8GPSAtVWR9plpemmTIfeiUKJd7PMO539S3i5XOg+FPEAQt1/UpMXUXC8p
+         KaVOhWFFu/8mRa4nxZqllXdIge74RO6HYoIqEmyy7svfS9t1Pj49hMfK9iVY+kF+93l8
+         re0VyWGyPV5AO7tmBw3ZBx0gsuV7NHTDlFnNIJOAW0gTIQiHCyWXYjJNevnP5DFtswJn
+         Cseg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533oh8XgYuuDIYw5czweKLADv9TOSRlv2a1SqETOWXSCLmfTnXsA
-	p2Et7/stGGv3tn57WlEScdE=
-X-Google-Smtp-Source: ABdhPJx442ac3PGdtUrGYIGyTOpRXx53AFkCYG24O+3tQhud71LKAJbAdHJXKviruF4E+bN4wqiCSQ==
-X-Received: by 2002:a05:600c:22d2:b0:393:f4be:ea1f with SMTP id 18-20020a05600c22d200b00393f4beea1fmr1943855wmg.51.1650952653425;
-        Mon, 25 Apr 2022 22:57:33 -0700 (PDT)
+X-Gm-Message-State: AOAM532nodCgJNGlkOQs+fhd2LI2D0ZGQk4HwEzqfEbMpvt/ogLXsWh8
+	Bx49oxavO7pv+NlUdjGNDjc=
+X-Google-Smtp-Source: ABdhPJwmyfpikeAyH4QSIfPESW3RA0cifTvB9sXSMaAQ7DkGwOhQ4HMdoy/4w0onGewYavjtHYYNmw==
+X-Received: by 2002:a05:6512:139f:b0:44b:36e:b50f with SMTP id p31-20020a056512139f00b0044b036eb50fmr16930477lfa.594.1650985955814;
+        Tue, 26 Apr 2022 08:12:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:1447:b0:20a:dc13:2578 with SMTP id
- v7-20020a056000144700b0020adc132578ls340147wrx.1.gmail; Mon, 25 Apr 2022
- 22:57:32 -0700 (PDT)
-X-Received: by 2002:adf:ec08:0:b0:20a:d39d:6ab6 with SMTP id x8-20020adfec08000000b0020ad39d6ab6mr11240909wrn.442.1650952652219;
-        Mon, 25 Apr 2022 22:57:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1650952652; cv=none;
+Received: by 2002:a05:651c:1a22:b0:24f:170c:7b29 with SMTP id
+ by34-20020a05651c1a2200b0024f170c7b29ls879823ljb.9.gmail; Tue, 26 Apr 2022
+ 08:12:34 -0700 (PDT)
+X-Received: by 2002:a05:651c:1191:b0:24f:155d:1f26 with SMTP id w17-20020a05651c119100b0024f155d1f26mr4796505ljo.421.1650985954344;
+        Tue, 26 Apr 2022 08:12:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1650985954; cv=none;
         d=google.com; s=arc-20160816;
-        b=JF94ptZ3nhvzn2O7/SnSqBIYWqKsLoUlHfOLYXD8ditBvUiiqzmWwZgwrBPPkLrHWw
-         tdk3qf0etOxk4zKE4luCpejVH12piQuwovZq6yOxIN7+CcYiaEnNHIxr7hdbsTLtpR5Q
-         JVf0NSf6WuDECqQpVdFCZl1R9aW8rlnXphh81ux9yrjJeFckmzOJEbG4o6MzN0YAKetA
-         Isl6GGPIBfkuMJkZbu758guDf+TOI6GLxjDzOEzR5ECRremDQRg+VYuDA990rvFdjIy0
-         5d/FieKQPvRCun4mb3cC7RnqnFoziyjWYh5rr3QEEDSh7hoQfcPiPpByb0zZkEN+X089
-         VdWg==
+        b=FtxnnsBMlq2d0B/5TQ89qyXANwuNIN7TQF+hY5fn8Ds4iV0t3vV0DQbaVxWFtEvdz0
+         5ZWZ1m0WSHxr9FVxsEkcAWaByGS5gsJkIO0aywHsZyfKlyyLlNbyTvlTuv0xYhFBlFtl
+         P62wwLxI/Y0A62n12O0Nn84Q/H5uImlTY7vxyJeTiizxmvVuKA5zQ9CNfsusumod1f+e
+         Wk8fHQIGlwiIQRAck8X3zWCuLHZM2zsat9chw2ybkU6/fxXJxbs99/m2nWS/DpoNcusg
+         x+mUAAWa2tkIDSQnCmhYa3FMZjXUfseKkdpRDnzYD6P6EeeBwNgLtbMIDT6vKyP3sib0
+         8gEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=CSX5HYMpGPTmA7bcNj4BIyo3lCOgWDW3hqhIRdTxhTA=;
-        b=JyIZEEaOwkk7g1BGxjNnCHmhnSpwsSO0XkH61Qw/f0jO2A9dFxX3+oTARg7d22FX+t
-         A2TjHclyQabSGoVWDgdxyWdK7XpaV+PVZ4rYMM8BhnAodeSTJoUcqNjn64bJuVY1xAGU
-         W9LMlMqPi5odfhpigvmm9TtdklryR9RGXswrdMps1kV6JtqWXl1JucQ6DbtfNI1DdVAx
-         A8M/Sx5R/vaslB+7uNLXqg71Vc7p2J/lXeEO+r2uEINy76AkfsWoC+vVsOomgBetZlhr
-         vVZdrvrxYHj3FxTgsCPDAIlJND+/GvUJCsOox3F/4vWlNWj7b/1DYHaE/7PKeQs/YbWW
-         s0GA==
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature;
+        bh=ilqNI6bkLcv0GvaJ4q+HJDdDtII/9oekltf7dQ89U9Q=;
+        b=U63JD5AT51n2dmiueo3mHUhD0zKgmjf7ekKWAcGSdhX8jlM9WKaAQpB2hHIYNbkjNx
+         b6Z9tCfY5PC3UbVfYPdkfnZgNLWBy8oK8gXm0BEhpzembeQ1vlrhUK9G9D3dhrwIEi1J
+         j8wX8yV2JNWAyxekzEjgBzdCK1Z9eos8BHuYQ7HvWpjR0XQGfr4Wpb9yP/9MfyUR/K/q
+         5f8lbvo7urCmOna2PQfhInAKBYnHhnlyKZZQ16xI2h66z1G7WEOoSu6frX0/obISslFm
+         B/GGzq8lMuKAkdRjLkoW2hG3zF1ACrxyiZYdB1YP0gKQ1UAmN2sFDZ2r41wZoQpJXzaB
+         ayJA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass (test mode) header.i=@ics.forth.gr header.s=av header.b=gTsKG8h0;
-       spf=pass (google.com: domain of mick@ics.forth.gr designates 139.91.1.2 as permitted sender) smtp.mailfrom=mick@ics.forth.gr;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=ics.forth.gr
-Received: from mailgate.ics.forth.gr (mailgate.ics.forth.gr. [139.91.1.2])
-        by gmr-mx.google.com with ESMTPS id x20-20020a05600c21d400b0038c73e87e1asi107908wmj.0.2022.04.25.22.57.32
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=mdJ1KGIH;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
+        by gmr-mx.google.com with ESMTPS id e9-20020a2e8189000000b0024eee872899si527830ljg.0.2022.04.26.08.12.34
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 25 Apr 2022 22:57:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mick@ics.forth.gr designates 139.91.1.2 as permitted sender) client-ip=139.91.1.2;
-Received: from av3.ics.forth.gr (av3in.ics.forth.gr [139.91.1.77])
-	by mailgate.ics.forth.gr (8.15.2/ICS-FORTH/V10-1.8-GATE) with ESMTP id 23Q5vV19063353
-	for <kasan-dev@googlegroups.com>; Tue, 26 Apr 2022 08:57:31 +0300 (EEST)
-X-AuditID: 8b5b014d-f2ab27000000641e-1f-626789c58245
-Received: from enigma.ics.forth.gr (enigma.ics.forth.gr [139.91.151.35])
-	by av3.ics.forth.gr (Symantec Messaging Gateway) with SMTP id C3.C0.25630.5C987626; Tue, 26 Apr 2022 08:57:25 +0300 (EEST)
-X-ICS-AUTH-INFO: Authenticated user: mick at ics.forth.gr
-Message-ID: <ff85cdc4-b1e3-06a3-19fc-a7e1acf99d40@ics.forth.gr>
-Date: Tue, 26 Apr 2022 08:57:19 +0300
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Apr 2022 08:12:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 884381F388;
+	Tue, 26 Apr 2022 15:12:33 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 335FF13AD5;
+	Tue, 26 Apr 2022 15:12:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id IIraC+ELaGIkXwAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Tue, 26 Apr 2022 15:12:33 +0000
+Message-ID: <147b11c3-dbce-ccd3-3b0c-c5971135f949@suse.cz>
+Date: Tue, 26 Apr 2022 17:12:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v3 07/13] riscv: Implement sv48 support
-Content-Language: el-en
-To: Alexandre Ghiti <alexandre.ghiti@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
-        Atish Patra <Atish.Patra@rivosinc.com>, Christoph Hellwig <hch@lst.de>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Kees Cook <keescook@chromium.org>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>,
-        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
-        linux-arch@vger.kernel.org
-References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
- <20211206104657.433304-8-alexandre.ghiti@canonical.com>
-From: Nick Kossifidis <mick@ics.forth.gr>
-In-Reply-To: <20211206104657.433304-8-alexandre.ghiti@canonical.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Rf0yMcRzH973n6Xmezo5vV/jKsF0MISw/vtTC2HpMfi3ze+Oqx/VL9HQ1
-	vx3ydN1hV6R5dPTjSsVC59JdIlnESlcNpd24MnNNhAiN0cXWf6993p/3+/3ZPgwhf0n6MjEJ
-	ao5PUMYrKCmp35btN6suXRUx5+a5QFyWb/fA/RnZNE7t/eCBLQMijX/0fQT4V+ZDGuutWgK/
-	qUkD2OAUaJz2qZrAjzptJC65WifB9mPtNC5++0qCG/S7sdb2lcR5gonEgvMlwK22HApXfEml
-	cFZ9F4ldracIfPlTL4UFcRR+ZLlF4F7HRWqpLzvwMxOwWQMNJCtqTlPsRU0zyb53uUj2gbaP
-	Zq2ig2Zzy5PZOxmPKfZupRmw5aXpFGt1LmLNpqNsVbuGYgvOnPVg28TN67y3SoOjuPiYFI6f
-	HbJTGv3678F7NfJ9TelGWgNKR+qAJ4PgPNR2wkDpgJSRwzqAclL7wJCwCJk/u8hBlsElqKtM
-	oAeZhFNQY3kHMTT3Qo8vvHHvjIabUZEty83eMAjdtJjdOQQci2wtOslggQ+sYVB9r9EdJIeH
-	kenJOzdTcDq63HL/r5lhPOEKlP5NPeRdgHQW3b+cSeh2Tw5hAKPEYdXisApxmEUcZskFZCmA
-	ypTAgJjIpIBde3h1dICKLwfu94PVlaDD3BNQCyQMqAWIIRQ+sqwpuyLksijl/gMcv2cHnxzP
-	JdWC8QypGCuj326KkEOVUs3Fcdxejv+vShhPX40ERDqrT9pvREQvb6yyLR7Zlg8tE88fmqCI
-	LNqy9nl/Siq89O1glDT8Wr598tQSR2PIVB+bv/lHN0z0exrkLxRKqrbLuaYKXWhlact0LdR3
-	tJnzjBmGLV1SU0H1jnFHRqwpenB//k/HEiGxInZOdzOZ2KrqDj/F+7vCus9Vh60MNlQCB0Gk
-	5RbeE7zM9jFN1lDvS2vHnS0JWv9bMiK3+Pv+1/mynuvqbGeB/vO7muCBhNiqkMS40ECDX/8R
-	r9irB7XWmZ2zjM9ySmQ+T6c9+74hLlJV1t5wRedYMSNPWmesCd8YVhy7bKewynQ32WPiws4X
-	25ufK3+tmly/5rhYOLu/RUEmRSvn+hN8kvIP4RAOL20DAAA=
-X-Original-Sender: mick@ics.forth.gr
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass (test
- mode) header.i=@ics.forth.gr header.s=av header.b=gTsKG8h0;       spf=pass
- (google.com: domain of mick@ics.forth.gr designates 139.91.1.2 as permitted
- sender) smtp.mailfrom=mick@ics.forth.gr;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=ics.forth.gr
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Peter Collingbourne <pcc@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Hyeonggon Yoo
+ <42.hyeyoo@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ penberg@kernel.org, roman.gushchin@linux.dev, iamjoonsoo.kim@lge.com,
+ rientjes@google.com, Herbert Xu <herbert@gondor.apana.org.au>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ kasan-dev <kasan-dev@googlegroups.com>,
+ Eric Biederman <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>
+References: <20220422201830.288018-1-pcc@google.com>
+ <202204251346.WbwgrNZw-lkp@intel.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH v3] mm: make minimum slab alignment a runtime property
+In-Reply-To: <202204251346.WbwgrNZw-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: vbabka@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@suse.cz header.s=susede2_rsa header.b=mdJ1KGIH;       dkim=neutral
+ (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
+ vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,75 +157,137 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello Alex,
-
-On 12/6/21 12:46, Alexandre Ghiti wrote:
+On 4/25/22 07:12, kernel test robot wrote:
+> Hi Peter,
 > 
-> +#ifdef CONFIG_64BIT
-> +static void __init disable_pgtable_l4(void)
-> +{
-> +	pgtable_l4_enabled = false;
-> +	kernel_map.page_offset = PAGE_OFFSET_L3;
-> +	satp_mode = SATP_MODE_39;
-> +}
-> +
-> +/*
-> + * There is a simple way to determine if 4-level is supported by the
-> + * underlying hardware: establish 1:1 mapping in 4-level page table mode
-> + * then read SATP to see if the configuration was taken into account
-> + * meaning sv48 is supported.
-> + */
-> +static __init void set_satp_mode(void)
-> +{
-> +	u64 identity_satp, hw_satp;
-> +	uintptr_t set_satp_mode_pmd;
-> +
-> +	set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
-> +	create_pgd_mapping(early_pg_dir,
-> +			   set_satp_mode_pmd, (uintptr_t)early_pud,
-> +			   PGDIR_SIZE, PAGE_TABLE);
-> +	create_pud_mapping(early_pud,
-> +			   set_satp_mode_pmd, (uintptr_t)early_pmd,
-> +			   PUD_SIZE, PAGE_TABLE);
-> +	/* Handle the case where set_satp_mode straddles 2 PMDs */
-> +	create_pmd_mapping(early_pmd,
-> +			   set_satp_mode_pmd, set_satp_mode_pmd,
-> +			   PMD_SIZE, PAGE_KERNEL_EXEC);
-> +	create_pmd_mapping(early_pmd,
-> +			   set_satp_mode_pmd + PMD_SIZE,
-> +			   set_satp_mode_pmd + PMD_SIZE,
-> +			   PMD_SIZE, PAGE_KERNEL_EXEC);
-> +
-> +	identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
-> +
-> +	local_flush_tlb_all();
-> +	csr_write(CSR_SATP, identity_satp);
-> +	hw_satp = csr_swap(CSR_SATP, 0ULL);
-> +	local_flush_tlb_all();
-> +
-> +	if (hw_satp != identity_satp)
-> +		disable_pgtable_l4();
-> +
-> +	memset(early_pg_dir, 0, PAGE_SIZE);
-> +	memset(early_pud, 0, PAGE_SIZE);
-> +	memset(early_pmd, 0, PAGE_SIZE);
-> +}
-> +#endif
-> +
+> Thank you for the patch! Yet something to improve:
+> 
+> [auto build test ERROR on hnaz-mm/master]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Collingbourne/mm-make-minimum-slab-alignment-a-runtime-property/20220423-042024
+> base:   https://github.com/hnaz/linux-mm master
+> config: arm64-buildonly-randconfig-r002-20220425 (https://download.01.org/0day-ci/archive/20220425/202204251346.WbwgrNZw-lkp@intel.com/config)
+> compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcfdc3c683b393df1a5c9063252eb60e52818)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install arm64 cross compiling tool for clang build
+>         # apt-get install binutils-aarch64-linux-gnu
+>         # https://github.com/intel-lab-lkp/linux/commit/3aef97055dd4a480e05dff758164f153aaddbb49
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Peter-Collingbourne/mm-make-minimum-slab-alignment-a-runtime-property/20220423-042024
+>         git checkout 3aef97055dd4a480e05dff758164f153aaddbb49
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 prepare
+> 
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from kernel/bounds.c:10:
+>    In file included from include/linux/page-flags.h:10:
+>    In file included from include/linux/bug.h:5:
+>    In file included from arch/arm64/include/asm/bug.h:26:
+>    In file included from include/asm-generic/bug.h:22:
+>    In file included from include/linux/printk.h:9:
+>    In file included from include/linux/cache.h:6:
+>    In file included from arch/arm64/include/asm/cache.h:56:
+>    In file included from include/linux/kasan-enabled.h:5:
+>    In file included from include/linux/static_key.h:1:
 
-When doing the 1:1 mapping you don't take into account the limitation 
-that all bits above 47 need to have the same value as bit 47. If the 
-kernel exists at a high physical address with bit 47 set the 
-corresponding virtual address will be invalid, resulting an instruction 
-fetch fault as the privilege spec mandates. We verified this bug on our 
-prototype. I suggest we re-write this in assembly and do a proper satp 
-switch like we do on head.S, so that we don't need the 1:1 mapping and 
-we also have a way to recover in case this fails.
+Hmm looks like a circular include, cache.h is too "low-level" in the
+hierarchy to bring in kasan->static_key->jump_label.h definitions?
+jump_label.h does include bug.h, but we have it above already and have
+already passed #define _LINUX_BUG_H.
 
-Regards,
-Nick
+So, a different kind of header with arm64-specific variant?
+
+>>> include/linux/jump_label.h:285:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>            STATIC_KEY_CHECK_USE(key);
+>            ^
+>    include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
+>    #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
+>                                      ^
+>    include/linux/jump_label.h:291:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>            STATIC_KEY_CHECK_USE(key);
+>            ^
+>    include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
+>    #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
+>                                      ^
+>    include/linux/jump_label.h:313:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>            STATIC_KEY_CHECK_USE(key);
+>            ^
+>    include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
+>    #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
+>                                      ^
+>>> include/linux/jump_label.h:316:3: error: call to undeclared function 'WARN_ON_ONCE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>                    WARN_ON_ONCE(atomic_read(&key->enabled) != 1);
+>                    ^
+>    include/linux/jump_label.h:324:2: error: call to undeclared function 'WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>            STATIC_KEY_CHECK_USE(key);
+>            ^
+>    include/linux/jump_label.h:81:35: note: expanded from macro 'STATIC_KEY_CHECK_USE'
+>    #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
+>                                      ^
+>    include/linux/jump_label.h:327:3: error: call to undeclared function 'WARN_ON_ONCE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>                    WARN_ON_ONCE(atomic_read(&key->enabled) != 0);
+>                    ^
+>    6 errors generated.
+>    make[2]: *** [scripts/Makefile.build:122: kernel/bounds.s] Error 1
+>    make[2]: Target '__build' not remade because of errors.
+>    make[1]: *** [Makefile:1283: prepare0] Error 2
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:226: __sub-make] Error 2
+>    make: Target 'prepare' not remade because of errors.
+> 
+> 
+> vim +/WARN +285 include/linux/jump_label.h
+> 
+> bf5438fca2950b Jason Baron     2010-09-17  282  
+> c5905afb0ee655 Ingo Molnar     2012-02-24  283  static inline void static_key_slow_inc(struct static_key *key)
+> d430d3d7e646eb Jason Baron     2011-03-16  284  {
+> 5cdda5117e125e Borislav Petkov 2017-10-18 @285  	STATIC_KEY_CHECK_USE(key);
+> d430d3d7e646eb Jason Baron     2011-03-16  286  	atomic_inc(&key->enabled);
+> d430d3d7e646eb Jason Baron     2011-03-16  287  }
+> bf5438fca2950b Jason Baron     2010-09-17  288  
+> c5905afb0ee655 Ingo Molnar     2012-02-24  289  static inline void static_key_slow_dec(struct static_key *key)
+> bf5438fca2950b Jason Baron     2010-09-17  290  {
+> 5cdda5117e125e Borislav Petkov 2017-10-18  291  	STATIC_KEY_CHECK_USE(key);
+> d430d3d7e646eb Jason Baron     2011-03-16  292  	atomic_dec(&key->enabled);
+> bf5438fca2950b Jason Baron     2010-09-17  293  }
+> bf5438fca2950b Jason Baron     2010-09-17  294  
+> ce48c146495a1a Peter Zijlstra  2018-01-22  295  #define static_key_slow_inc_cpuslocked(key) static_key_slow_inc(key)
+> ce48c146495a1a Peter Zijlstra  2018-01-22  296  #define static_key_slow_dec_cpuslocked(key) static_key_slow_dec(key)
+> ce48c146495a1a Peter Zijlstra  2018-01-22  297  
+> 4c3ef6d79328c0 Jason Baron     2010-09-17  298  static inline int jump_label_text_reserved(void *start, void *end)
+> 4c3ef6d79328c0 Jason Baron     2010-09-17  299  {
+> 4c3ef6d79328c0 Jason Baron     2010-09-17  300  	return 0;
+> 4c3ef6d79328c0 Jason Baron     2010-09-17  301  }
+> 4c3ef6d79328c0 Jason Baron     2010-09-17  302  
+> 91bad2f8d30574 Jason Baron     2010-10-01  303  static inline void jump_label_lock(void) {}
+> 91bad2f8d30574 Jason Baron     2010-10-01  304  static inline void jump_label_unlock(void) {}
+> 91bad2f8d30574 Jason Baron     2010-10-01  305  
+> d430d3d7e646eb Jason Baron     2011-03-16  306  static inline int jump_label_apply_nops(struct module *mod)
+> d430d3d7e646eb Jason Baron     2011-03-16  307  {
+> d430d3d7e646eb Jason Baron     2011-03-16  308  	return 0;
+> d430d3d7e646eb Jason Baron     2011-03-16  309  }
+> b202952075f626 Gleb Natapov    2011-11-27  310  
+> e33886b38cc82a Peter Zijlstra  2015-07-24  311  static inline void static_key_enable(struct static_key *key)
+> e33886b38cc82a Peter Zijlstra  2015-07-24  312  {
+> 5cdda5117e125e Borislav Petkov 2017-10-18  313  	STATIC_KEY_CHECK_USE(key);
+> e33886b38cc82a Peter Zijlstra  2015-07-24  314  
+> 1dbb6704de91b1 Paolo Bonzini   2017-08-01  315  	if (atomic_read(&key->enabled) != 0) {
+> 1dbb6704de91b1 Paolo Bonzini   2017-08-01 @316  		WARN_ON_ONCE(atomic_read(&key->enabled) != 1);
+> 1dbb6704de91b1 Paolo Bonzini   2017-08-01  317  		return;
+> 1dbb6704de91b1 Paolo Bonzini   2017-08-01  318  	}
+> 1dbb6704de91b1 Paolo Bonzini   2017-08-01  319  	atomic_set(&key->enabled, 1);
+> e33886b38cc82a Peter Zijlstra  2015-07-24  320  }
+> e33886b38cc82a Peter Zijlstra  2015-07-24  321  
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ff85cdc4-b1e3-06a3-19fc-a7e1acf99d40%40ics.forth.gr.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/147b11c3-dbce-ccd3-3b0c-c5971135f949%40suse.cz.
