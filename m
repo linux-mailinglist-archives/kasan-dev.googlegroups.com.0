@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBGODUCJQMGQE3LEVBOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBHODUCJQMGQEKWGYZ3Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53e.google.com (mail-ed1-x53e.google.com [IPv6:2a00:1450:4864:20::53e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1130A5103F5
-	for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 18:45:14 +0200 (CEST)
-Received: by mail-ed1-x53e.google.com with SMTP id cw28-20020a056402229c00b00425dda4b67dsf3947135edb.10
-        for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 09:45:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1650991513; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF8B5103F6
+	for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 18:45:18 +0200 (CEST)
+Received: by mail-lf1-x137.google.com with SMTP id v13-20020a056512096d00b004487e1503d0sf7882790lft.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 26 Apr 2022 09:45:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1650991518; cv=pass;
         d=google.com; s=arc-20160816;
-        b=O71m7SDdN2qZLjZ0386FwXplToo/uxvcFRRxYaI4sjZuR9rZq+bRsYDOMUrIJTGEi9
-         PgXfNGWKJ8q9ukb61hEwabcGxGSl8OXMDouw4Z4+7W65+4xpkYid0JPXtckBK7q31xPf
-         G1RgqulG8CCynr2Mg1oTHqs99Zradij4abqTAj8DQfQjy5i5NvZXKN2kU6In7MQXmTVM
-         qbahNSZNzhWUTIz17B9kf8i4E8kfyiBgK0espDckm9SHVfj48TWZtXdIOoSMntuit/8c
-         XBHnqyQJp3VvchQ9ClukgmoAfdeu+BjP9/m2vBatpRn1jXmW+7Rqj1pJJefKhnmXp6oy
-         vxLw==
+        b=N9PFMA58fhnxtvp3ncGj2pHVre5P3WveiuD+MFoD4+QUjn4wdbn2bkACP6sGMDcO2i
+         PDJXM0ehp6cGDzIJ5msGmJL0dByfURBfeM6wZ8hi3sjUK5sgAbeFzBIzSbt4ZlxPmfdi
+         q5cDHR107sThHL3NFEuCWsTZQGcGFnsEKOdrXI6Kon20Fl3THoP3AzInf3V/a45oVzF4
+         0GNMX64313rGhQWM/AiqOs6JpOvNMI5+4CS+T+z+0eogM70IfJbUElQyRuA91wLWKO3o
+         lvT7iGDwRLTAopfNl8cw5Qd5UhDau62TSCfd4fPCclqvtwwQo+l1WiLIVbXiddMEX5D/
+         xHag==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=m5h04m0rvfQl+yZEHBNgyCt43rmbIftAwHe+O7i8b5I=;
-        b=O+LerIa85ZBPjHpMJPys31vYKuuwZBGvqSfyJh2J1vLFFsac/aONdW/kY89OSdQ6ds
-         HWOYQneUhldllZcASAZH/FvadCQe1B4H5UnghRDC+Tk/MjTSP9XUm3O5asbteft6tFM3
-         cnk/hMoEUyfg24ee2p/QNIoEMkzOONzhBb4GsgKV9ONXg0KTBeJOAI1uuoX/pFirEuGs
-         4I8YxuRW3LU0k2FuI8t9G+K/NbYaHz9UdgVETZPhpKgBCiz03nGD9bWf6thdBh9mRZBN
-         yQXmleV/BQ1ilSuTW4ZdzGWjac3Ky9JKLV8dRctrrAlnnFVM4aEoaJ7MHWCybU7ujmWw
-         xmBw==
+        bh=3yUsXI1BAeF1iuRPpowoDJQgz0kzBN0YhrJklOeuByE=;
+        b=edPVEuasjZulNMqACDehMTx5YoENTG+L+xX0JxALOTEZJkKv1u9ktqTnfgLh9UAkUm
+         fy5jRuwyDYBmV365mC0SCIfpHAU9aKNUTj/rjOz2cftnd0OJ9IRmcJq2jSjY2jw6G9l8
+         xC5NHWnA4MlYMWd+aihU3CvwK2P8lshN4CxI3jkV95iqBGuZ/7mLMRLclrKsyjaDevGJ
+         ATmaY5ndb4JX8ipyoewe+ABaPTXi3fLfigZB3B/NSZPPaIkzSGUL691oYreMAaWUsV4O
+         oFBobpuDNZRiL7NYYXRWLIVf/M+wp5wNolhMur5uFWU9Nv/Xt+NnwAKP3rmffbp8wPWG
+         8EZg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=UzHbOhn2;
-       spf=pass (google.com: domain of 3mcfoygykczu5a723g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3mCFoYgYKCZU5A723G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="eaD4tCJ/";
+       spf=pass (google.com: domain of 3myfoygykczg8da56j8gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--glider.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3myFoYgYKCZg8DA56J8GG8D6.4GEC2K2F-56N8GG8D68JGMHK.4GE@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=m5h04m0rvfQl+yZEHBNgyCt43rmbIftAwHe+O7i8b5I=;
-        b=KHI/LPe18F4BN1TH/RHzncTNUhX8fYphY5a6R+TaRfp9LOC6mMmIdbFKNmvyBFdQa2
-         Vw1C9CafsvKJ+NcshnvL28rFSXK5AzsgMtkkKzLawYRSW0ihYksXOE6/x5idXLv8C7EN
-         y4SKETapjR+cFLDxY5ZIZggJLL4m3+y+TUef/tzFubIHClV2tHzksW/3fdg7OcLWI1V6
-         UXbb744nJBcdhQzz0CNo8/ZhzHuZ60iUIV8tdtUxihp9z2GGGhaRCA7ZdzrnRFdtna22
-         lBYm4JZkI9T5f0/aUS35JkRcqUsSQUCkmCJfcEhNkp5j8sv/vedrQC51YNn3ar4jelUq
-         sojw==
+        bh=3yUsXI1BAeF1iuRPpowoDJQgz0kzBN0YhrJklOeuByE=;
+        b=mx3B/zT9lgCnVcitYa/3QYF1SZa7zWIuJv4Ek65sw7bCr6o3dvplpTzLdysuMSHhWk
+         dKdbYN65WxjrjTiswaQuZEhFHDVG800NsgSDlYrhtB0NJrlINbMtx+xOMp3TT+PJrtVw
+         Iok7Q2udMdSzYXLtf+hb376B2XSCLraUfG1MhxoapO/1Sdss4/LielJn+nDC/waKNXxu
+         pi2CsGtaCh9pnQnLwuA1oCW55fEzztc24Q/F+gveHojRLZz+SbBIBQXCefFWu7sNy1dX
+         UlUSedpbvwCIEsk/W3+xIRuM7w/eGd+S7w2znMKr8X4Wz9sHm/ZtC3AuaF7NJGQYF16x
+         090w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,65 +49,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=m5h04m0rvfQl+yZEHBNgyCt43rmbIftAwHe+O7i8b5I=;
-        b=z1D3RY0TdeoO0T0PhN2cb7nx6+JBGcw72p13jormFUCsIz5RlsUHTWdrgruz5byBmP
-         23M0Xg8csPBrJsze5xIGlL82JEHKXVMAZ5o6ehI4Mx+fSIrVcpxwY8qKDIvquPR+K5j2
-         +w8y/vHLetPEcFfltHl0IqfjVaueeE3rsflv9/H5RkDVpsXs7Ay94y/vMSQKaN0qQvLD
-         Hl9oWQmkBdsCB+r+TIUPK0sBYpnGbGZY711lAmMNz7fs4GKydpsfkCu9rLkAR2DOWaCI
-         AHVuGhA6oYg88xiykrFzu/joMB34pOx+jT305ZglPaw7NLVz+XrkDiSwXh+Pt8Tg2M0s
-         yqeA==
-X-Gm-Message-State: AOAM533vKOTmCCOOajUuw0XwBZTxRHLZ3/nZHmXONZm7ECG/zgyDs/iw
-	0SNBDfcGBPZq3ONWuzrkgEE=
-X-Google-Smtp-Source: ABdhPJweZjxcqUgR1TW3TSutDXoiLGVX686XyaZg5Mp1pg9YeqzH4A/Izv9nSyhMxMI+oxcdieUwsw==
-X-Received: by 2002:a17:907:c18:b0:6f3:9c23:20fd with SMTP id ga24-20020a1709070c1800b006f39c2320fdmr8986475ejc.740.1650991513767;
-        Tue, 26 Apr 2022 09:45:13 -0700 (PDT)
+        bh=3yUsXI1BAeF1iuRPpowoDJQgz0kzBN0YhrJklOeuByE=;
+        b=EsDF1tsg1pu5UmywJl9P8CaZUsN06X3PLgjwrHqT/9FaX4TcwVEAxhHRr3HXOFby6b
+         VY/ou0SbgL0/pHI/9KaCXlJl9Aro3+E1zBkfF651AmvIipixRU8URyZspoqezlSFr/ws
+         gdiqRBia+zaqqwx/savMZjuxXf/c0sVKDC8t6BMW52eyYvEYW+lS5Z11YKJMDZ1ZaxB2
+         DWx1yLaml+/Lk3UaJJHkBySnOTBhcy1lhsDvo/DB4/bfDqfBCsAosYJ4SbDw3pxP21uC
+         Ottsnx0uggInNdQrAhGIXd3pYXd9/4R4uOHF3nnod/SZo5lmTU/tmFIvOySEz9yHAaOX
+         9MQA==
+X-Gm-Message-State: AOAM533A5Whf9IYrELMp4c/i0h0HO0uo1k9RpFm4SyZDcI0dh6uUlSQc
+	HyxgE3wUdh6WcKc/ifbSIEY=
+X-Google-Smtp-Source: ABdhPJwK2cWYXpard/71aFXrZwJiE11N/pqvbohLIXDeTJ23ClJQXcWVsBmsAZ83U7moZDqskzefjQ==
+X-Received: by 2002:ac2:5101:0:b0:471:fdd7:4c9c with SMTP id q1-20020ac25101000000b00471fdd74c9cmr10884656lfb.49.1650991517712;
+        Tue, 26 Apr 2022 09:45:17 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:478d:b0:6e8:95ff:b734 with SMTP id
- cw13-20020a170906478d00b006e895ffb734ls5358397ejc.5.gmail; Tue, 26 Apr 2022
- 09:45:12 -0700 (PDT)
-X-Received: by 2002:a17:907:1625:b0:6f0:28f2:f0f with SMTP id hb37-20020a170907162500b006f028f20f0fmr22101939ejc.330.1650991512870;
-        Tue, 26 Apr 2022 09:45:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1650991512; cv=none;
+Received: by 2002:a2e:bf11:0:b0:24a:fdc1:7af4 with SMTP id c17-20020a2ebf11000000b0024afdc17af4ls2132907ljr.1.gmail;
+ Tue, 26 Apr 2022 09:45:16 -0700 (PDT)
+X-Received: by 2002:a05:651c:1988:b0:24d:b60b:c20d with SMTP id bx8-20020a05651c198800b0024db60bc20dmr14886215ljb.410.1650991516064;
+        Tue, 26 Apr 2022 09:45:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1650991516; cv=none;
         d=google.com; s=arc-20160816;
-        b=mhfoqbo+f3GS+v0W2g2CSsWTAfs38Ru58aJFuKo1sKvmiX6sIe84jIPrmEJ4EOooYB
-         lIInDFrkahF+MJh1ajrt3KX/QMYaLrdUpaV4sTJJu9ZnQQe+nxj3iHZ//th/xqUG4xgc
-         Lcbd2OVGhjWSnR9WgeJ95su5tJ683N6rhnw7ZRoBqEn6we01sRY4OyH0zLDldJiizTe3
-         BNosIHi64j5yK9ubT1BM52JcdfJodX5zuc8ON/OFQwatIqCGl2iaKixd0690bXHFAfqE
-         /gBNrqSWEJ0bwsjHnPYXrsz7mCRpvuMJ9Evgpk4C7ePYNs2RaNLNytbYgvX2fgOOsQ6G
-         1w7Q==
+        b=oKw6bIOo4uru8deXEGuXbBkvn/3hcWMBgTJymYdpCZh1ztMGpVdM2dlv4YUSM8BdpT
+         RtXc/JAQTVUkOztL5r6mVApeBXsCDoO2aiy6xGC0InQVUQFG7AnLHBvThGr59dqXDCEV
+         inmq087TmDCbRAHqVC94T1699R5H450aAKPqd8NWYuN/D1iSi9D3qmAVxEkSFYBQd9eU
+         xBaRjBv+aYf/9Qn6yY6dYDQUYDtn72ps9a397FDdHTaiuX0YBsC32ABhsNkmy/MBXk0z
+         7FHGLD27XBF2Joiy5Y50Bk2oPstqsheP+RoUgJyOwPOs/6V0ZVkB/bEJujSu/1wzhTmK
+         yGjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=PbBXRuKFLbtHp5AyM4yBRHn0ZnsWI8OdvT0jRFW7dGk=;
-        b=0bpIC6T5yopZUs+FHKIWUsJ4xKinoNFxj/LdzOGHTLdAi+FWXoLp+SlDcPZlW+VnAj
-         uEyNAHE7y2fjv4TASj5/vLMZ7xEK4Z/claYsaxeAOFgw0dFW8wgo4tnMdMlFWhglsJkE
-         N3VWRMvPLSSu+zBNc//4Ljx7IBzfUmPVs03aEMkA9FY49CTO9r1mIoQjEMaqbVXXV3V8
-         /qhD32Bfiupugo3wBYXx5fW3Ok4nN+k3I8vMWtkJ+1dv839yohGVR6I6HcH32fHn0lsc
-         fGIOmv8wLoFhLNp8NSgspsHUgluwatXNMJV90bMXiyPGcEBDcNCb9o2QBmjqDTBN4lOO
-         Qx3A==
+        bh=vFqZ9iNZJAVQIjd7MnY5jhYV4PJ/+WpYoNR2VRSWpiM=;
+        b=k508mLBO0/0O8dIxnRNtz8Zc4K7fgBU1ZWD6TB6nsp8eaUSJDEW4Vg/r7JS8dYszKT
+         rGbuAlGQtshN3T3sEJOI4qn1cAlwNcQmCszbJTVVpNwNPO4n5tkMzQEZBv+18SJvOOxi
+         T+v8AKNR5U9/LqjGM4yJ4DzKXszjVhi04I576xdTG3g0913dZ3G/pTIZWqRxC79zsX+m
+         +yEOKOmBj9L4wqGgKSRtyhpjVSUflag7/yh/kg7pfbknI5Vk8lUs+S7GVWkyjpYtDvMB
+         x4/5Fc2KKqPbeqacUzj0MFEp1xoz+PqXz9vt8Lt81vltVjZUk4tjNqljNa0R9il10OZm
+         tplA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=UzHbOhn2;
-       spf=pass (google.com: domain of 3mcfoygykczu5a723g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3mCFoYgYKCZU5A723G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="eaD4tCJ/";
+       spf=pass (google.com: domain of 3myfoygykczg8da56j8gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--glider.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3myFoYgYKCZg8DA56J8GG8D6.4GEC2K2F-56N8GG8D68JGMHK.4GE@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
-        by gmr-mx.google.com with ESMTPS id m10-20020a17090679ca00b006e4026d0ab7si809763ejo.0.2022.04.26.09.45.12
+Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
+        by gmr-mx.google.com with ESMTPS id bx6-20020a05651c198600b0024d9eb39428si780292ljb.7.2022.04.26.09.45.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Apr 2022 09:45:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3mcfoygykczu5a723g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
-Received: by mail-ed1-x54a.google.com with SMTP id n4-20020a5099c4000000b00418ed58d92fso10617774edb.0
-        for <kasan-dev@googlegroups.com>; Tue, 26 Apr 2022 09:45:12 -0700 (PDT)
+        Tue, 26 Apr 2022 09:45:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3myfoygykczg8da56j8gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--glider.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
+Received: by mail-ej1-x649.google.com with SMTP id x2-20020a1709065ac200b006d9b316257fso9386773ejs.12
+        for <kasan-dev@googlegroups.com>; Tue, 26 Apr 2022 09:45:15 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:15:13:d580:abeb:bf6d:5726])
- (user=glider job=sendgmr) by 2002:a05:6402:400b:b0:425:f59a:c221 with SMTP id
- d11-20020a056402400b00b00425f59ac221mr7821838eda.307.1650991512487; Tue, 26
- Apr 2022 09:45:12 -0700 (PDT)
-Date: Tue, 26 Apr 2022 18:42:49 +0200
+ (user=glider job=sendgmr) by 2002:a17:906:3e05:b0:6f3:a14a:fd3f with SMTP id
+ k5-20020a1709063e0500b006f3a14afd3fmr7558438eji.640.1650991515225; Tue, 26
+ Apr 2022 09:45:15 -0700 (PDT)
+Date: Tue, 26 Apr 2022 18:42:50 +0200
 In-Reply-To: <20220426164315.625149-1-glider@google.com>
-Message-Id: <20220426164315.625149-21-glider@google.com>
+Message-Id: <20220426164315.625149-22-glider@google.com>
 Mime-Version: 1.0
 References: <20220426164315.625149-1-glider@google.com>
 X-Mailer: git-send-email 2.36.0.rc2.479.g8af0fa9b8e-goog
-Subject: [PATCH v3 20/46] instrumented.h: add KMSAN support
+Subject: [PATCH v3 21/46] kmsan: unpoison @tlb in arch_tlb_gather_mmu()
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
@@ -128,9 +127,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundati
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=UzHbOhn2;       spf=pass
- (google.com: domain of 3mcfoygykczu5a723g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3mCFoYgYKCZU5A723G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b="eaD4tCJ/";       spf=pass
+ (google.com: domain of 3myfoygykczg8da56j8gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3myFoYgYKCZg8DA56J8GG8D6.4GEC2K2F-56N8GG8D68JGMHK.4GE@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -146,149 +145,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-To avoid false positives, KMSAN needs to unpoison the data copied from
-the userspace. To detect infoleaks - check the memory buffer passed to
-copy_to_user().
+This is a hack to reduce stackdepot pressure.
+
+struct mmu_gather contains 7 1-bit fields packed into a 32-bit unsigned
+int value. The remaining 25 bits remain uninitialized and are never used,
+but KMSAN updates the origin for them in zap_pXX_range() in mm/memory.c,
+thus creating very long origin chains. This is technically correct, but
+consumes too much memory.
+
+Unpoisoning the whole structure will prevent creating such chains.
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
 ---
-v2:
- -- move implementation of kmsan_copy_to_user() here
-
-Link: https://linux-review.googlesource.com/id/I43e93b9c02709e6be8d222342f1b044ac8bdbaaf
+Link: https://linux-review.googlesource.com/id/I76abee411b8323acfdbc29bc3a60dca8cff2de77
 ---
- include/linux/instrumented.h |  5 ++++-
- include/linux/kmsan-checks.h | 19 ++++++++++++++++++
- mm/kmsan/hooks.c             | 38 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 61 insertions(+), 1 deletion(-)
+ mm/mmu_gather.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/include/linux/instrumented.h b/include/linux/instrumented.h
-index ee8f7d17d34f5..c73c1b19e9227 100644
---- a/include/linux/instrumented.h
-+++ b/include/linux/instrumented.h
-@@ -2,7 +2,7 @@
- 
- /*
-  * This header provides generic wrappers for memory access instrumentation that
-- * the compiler cannot emit for: KASAN, KCSAN.
-+ * the compiler cannot emit for: KASAN, KCSAN, KMSAN.
-  */
- #ifndef _LINUX_INSTRUMENTED_H
- #define _LINUX_INSTRUMENTED_H
-@@ -10,6 +10,7 @@
- #include <linux/compiler.h>
- #include <linux/kasan-checks.h>
- #include <linux/kcsan-checks.h>
+diff --git a/mm/mmu_gather.c b/mm/mmu_gather.c
+index afb7185ffdc45..2f3821268b311 100644
+--- a/mm/mmu_gather.c
++++ b/mm/mmu_gather.c
+@@ -1,6 +1,7 @@
+ #include <linux/gfp.h>
+ #include <linux/highmem.h>
+ #include <linux/kernel.h>
 +#include <linux/kmsan-checks.h>
- #include <linux/types.h>
- 
- /**
-@@ -117,6 +118,7 @@ instrument_copy_to_user(void __user *to, const void *from, unsigned long n)
+ #include <linux/mmdebug.h>
+ #include <linux/mm_types.h>
+ #include <linux/mm_inline.h>
+@@ -253,6 +254,15 @@ void tlb_flush_mmu(struct mmu_gather *tlb)
+ static void __tlb_gather_mmu(struct mmu_gather *tlb, struct mm_struct *mm,
+ 			     bool fullmm)
  {
- 	kasan_check_read(from, n);
- 	kcsan_check_read(from, n);
-+	kmsan_copy_to_user(to, from, n, 0);
- }
- 
- /**
-@@ -151,6 +153,7 @@ static __always_inline void
- instrument_copy_from_user_after(const void *to, const void __user *from,
- 				unsigned long n, unsigned long left)
- {
-+	kmsan_unpoison_memory(to, n - left);
- }
- 
- #endif /* _LINUX_INSTRUMENTED_H */
-diff --git a/include/linux/kmsan-checks.h b/include/linux/kmsan-checks.h
-index ecd8336190fc0..aabaf1ba7c251 100644
---- a/include/linux/kmsan-checks.h
-+++ b/include/linux/kmsan-checks.h
-@@ -84,6 +84,21 @@ void kmsan_unpoison_memory(const void *address, size_t size);
-  */
- void kmsan_check_memory(const void *address, size_t size);
- 
-+/**
-+ * kmsan_copy_to_user() - Notify KMSAN about a data transfer to userspace.
-+ * @to:      destination address in the userspace.
-+ * @from:    source address in the kernel.
-+ * @to_copy: number of bytes to copy.
-+ * @left:    number of bytes not copied.
-+ *
-+ * If this is a real userspace data transfer, KMSAN checks the bytes that were
-+ * actually copied to ensure there was no information leak. If @to belongs to
-+ * the kernel space (which is possible for compat syscalls), KMSAN just copies
-+ * the metadata.
-+ */
-+void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
-+			size_t left);
-+
- #else
- 
- #define kmsan_init(value) (value)
-@@ -98,6 +113,10 @@ static inline void kmsan_unpoison_memory(const void *address, size_t size)
- static inline void kmsan_check_memory(const void *address, size_t size)
- {
- }
-+static inline void kmsan_copy_to_user(void __user *to, const void *from,
-+				      size_t to_copy, size_t left)
-+{
-+}
- 
- #endif
- 
-diff --git a/mm/kmsan/hooks.c b/mm/kmsan/hooks.c
-index 43a529569053d..1cdb4420977f1 100644
---- a/mm/kmsan/hooks.c
-+++ b/mm/kmsan/hooks.c
-@@ -212,6 +212,44 @@ void kmsan_iounmap_page_range(unsigned long start, unsigned long end)
- }
- EXPORT_SYMBOL(kmsan_iounmap_page_range);
- 
-+void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
-+			size_t left)
-+{
-+	unsigned long ua_flags;
-+
-+	if (!kmsan_enabled || kmsan_in_runtime())
-+		return;
 +	/*
-+	 * At this point we've copied the memory already. It's hard to check it
-+	 * before copying, as the size of actually copied buffer is unknown.
++	 * struct mmu_gather contains 7 1-bit fields packed into a 32-bit
++	 * unsigned int value. The remaining 25 bits remain uninitialized
++	 * and are never used, but KMSAN updates the origin for them in
++	 * zap_pXX_range() in mm/memory.c, thus creating very long origin
++	 * chains. This is technically correct, but consumes too much memory.
++	 * Unpoisoning the whole structure will prevent creating such chains.
 +	 */
-+
-+	/* copy_to_user() may copy zero bytes. No need to check. */
-+	if (!to_copy)
-+		return;
-+	/* Or maybe copy_to_user() failed to copy anything. */
-+	if (to_copy <= left)
-+		return;
-+
-+	ua_flags = user_access_save();
-+	if ((u64)to < TASK_SIZE) {
-+		/* This is a user memory access, check it. */
-+		kmsan_internal_check_memory((void *)from, to_copy - left, to,
-+					    REASON_COPY_TO_USER);
-+		user_access_restore(ua_flags);
-+		return;
-+	}
-+	/* Otherwise this is a kernel memory access. This happens when a compat
-+	 * syscall passes an argument allocated on the kernel stack to a real
-+	 * syscall.
-+	 * Don't check anything, just copy the shadow of the copied bytes.
-+	 */
-+	kmsan_internal_memmove_metadata((void *)to, (void *)from,
-+					to_copy - left);
-+	user_access_restore(ua_flags);
-+}
-+EXPORT_SYMBOL(kmsan_copy_to_user);
-+
- /* Functions from kmsan-checks.h follow. */
- void kmsan_poison_memory(const void *address, size_t size, gfp_t flags)
- {
++	kmsan_unpoison_memory(tlb, sizeof(*tlb));
+ 	tlb->mm = mm;
+ 	tlb->fullmm = fullmm;
+ 
 -- 
 2.36.0.rc2.479.g8af0fa9b8e-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220426164315.625149-21-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220426164315.625149-22-glider%40google.com.
