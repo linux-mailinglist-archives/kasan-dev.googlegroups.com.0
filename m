@@ -1,109 +1,113 @@
-Return-Path: <kasan-dev+bncBD52JJ7JXILRBYOAU2JQMGQEXH4SWRA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD52JJ7JXILRBZGAU2JQMGQEHS3O5GI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9B7512330
-	for <lists+kasan-dev@lfdr.de>; Wed, 27 Apr 2022 21:58:26 +0200 (CEST)
-Received: by mail-ot1-x33b.google.com with SMTP id f8-20020a9d5f08000000b005cb3a6c4c1csf758132oti.21
-        for <lists+kasan-dev@lfdr.de>; Wed, 27 Apr 2022 12:58:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1651089505; cv=pass;
+Received: from mail-pl1-x640.google.com (mail-pl1-x640.google.com [IPv6:2607:f8b0:4864:20::640])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DBE512331
+	for <lists+kasan-dev@lfdr.de>; Wed, 27 Apr 2022 21:58:29 +0200 (CEST)
+Received: by mail-pl1-x640.google.com with SMTP id l5-20020a170902ec0500b0015cf1cfa4eesf1495746pld.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 27 Apr 2022 12:58:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1651089508; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dIWRb8wzhIWq+jZc4RKB0noHVQ+RYGS18WZw/MAJA5lTCg0SK93MCYz1u1ZH9WF6Ni
-         spQzzHgp8vGFJJkhObS60ksTe6mpaRFEQpbPVZQo+hUHkdNH58mqXMsvLOywBlM/ADk2
-         3yNs2nby5Q6mchGltK+Oh9g9k86c1bkAOdGZfz6yuNZ5ERJZDsu0mQ9gJfNuVvDKswmV
-         /DqzcECgdT2cI+pqBeqjoCXZEq8mDw+mekVbMUYWWdU7wSnpjlqs0RbD1bjTEw8suhL4
-         esTid50qLp/ITlVOg8hic/IjJ8wyvAVpQW907GWcObDBs8BeuLxMGdSsakuJcCtlcwL8
-         Hn9Q==
+        b=jzR1C1Z4+K98GgrnPZUznsQcrITCHMrnn+z2CxxSPgT6wgitpe1GD4fBP/8CpeYTj4
+         VUrfT3Hvo0qpi0cHp107ARE4g1kuAzSw1gnDKRdVhsNYkIkew1uiXel/VIDay5vJ2VHT
+         bpGa8JDvyT/5U+4dSJVKQ9FiGc/e9s5psBs7+8s+JojILBJYqL0fYaBkojhtL2g9Vveg
+         EWXYHM9kZ2hSedU4o3XoXzja8b2nD01hgmHkwV9FPj981Sg4co1icQN1DxSlk5YPmUFX
+         OJ9bWOIxFCm3pZTI9ptj8nQyyyltL7b80W+YaFUBBrMGzwYOBnnZOs1Pz8H4L1n1MzQN
+         T3/g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=REwbjCmOc55UVl1VeMX04ZElEHzAGuzQWm4+3RgW+9U=;
-        b=WglK8J0Ytzf0o0vOpGeJEsCmfnmzMKqQeb6TXWijQOHJhYOe2UQcpWsG9XEdzAl5Sd
-         Kdb2zZJbWtdR6K7HfX/hO/sLIfGtUJ+actpYPn93kVMRxHb60rF4oq1fwvWYcqkwyF8Y
-         bTLw4EFsJEDfR1XGiT1US0pu8lrZgnSynnZCu1GR9Ha51+Yj1KNUx9CfZxdgzceVRnc5
-         wZrN7Wivq5hhAspmMXnUA11fYlTu55ZhUfjIQsl8OTQvNUIdHcKglKhApW4WSgVeXZrv
-         A2T5UPlipe7Ji3IG0A8nK8MAE9x98cqmPdpkPCdw/z+hPD//oU+yx7ydaZuZddJ5t+kr
-         lcvA==
+         :references:mime-version:message-id:in-reply-to:date:dkim-signature;
+        bh=EB6E7fP9bwrsqgGYYvyfgDttoeJUQfEvL5DstWeF6cg=;
+        b=RMM7g7sdCMOywXwWnjyBJcAGkUMGyAcxagO318alNNl8fUSCNs4W4xJUyjX4cOED2d
+         O9NoVcl3RyVDRnROQqr7jvKkY1zebv4xyV1dqUOLhokOGMIwbBnmrtgCnmIGGYdN4e7K
+         lNiHuPsa5MBQ09ySFM3UimSvM84hgEFNhJkL/GM6EdeJ1OA2xib1Shxf43xqjRNay+0C
+         Dnl1L0EZZa02BJmTF3XpuFuz5FhttBkH7tL0QsU+JY4tq81hUL2j27UoUAOD+wG5vliz
+         H5Xpl5Djr2zhX2So0OGqkeOEux1dx6umt/U6XX62ZE4uJwbopjF+JrOTx0PX0n1vAFgr
+         lxoA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=s02dGKNs;
-       spf=pass (google.com: domain of 3ykbpygmkcweobbfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3YKBpYgMKCWEOBBFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--pcc.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Ybb+mu0N;
+       spf=pass (google.com: domain of 3y6bpygmkcwqreeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3Y6BpYgMKCWQREEIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--pcc.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=REwbjCmOc55UVl1VeMX04ZElEHzAGuzQWm4+3RgW+9U=;
-        b=UBtG2nyVrmVrV4JZTXL+WmDgfTI8/gq+CRjT3I0/nLcArcxRPyKMiFG85ZKX8tA0Cs
-         y5KTUb58GZyS5cLAKCTNbzd2v25OIbabDyfIuiWBy0KF5vR1HbyJOPoVV1I19MKNi4yt
-         0TUv7Xwy1bbrdLJsRDlBIZijkiUC6wNS9IQ5nhfKiVBVgF04Dtnk6qeT3aXoT7YUwzzT
-         ISAUqPBvuD/uq5DSqKjT5wP0OaS7h45Og0k/NarZoPbiljxfpzjxAjqG243mzR9zlykz
-         +/BnwCYQWUCi3rWV0Pi1cSA2E7tG9zreIWLodBSzZRvEQMVkW73qxbQ58I99DhqmI0va
-         5f0w==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=EB6E7fP9bwrsqgGYYvyfgDttoeJUQfEvL5DstWeF6cg=;
+        b=cOhddeadbM0un7EUk7wf28IutshHXTB91uEAtJbb693onXYa97lCGO2xgcTfIHcpZp
+         I4Op4EN3taint/j9mNyDht1SZKSuKpZ2R9tvICC1eAsd3nt1zyebICSExvf1I+dnuil0
+         Wg709QGq2mjmNxA+IOoTx9oxzWDJoK89tNGSS9Yfu9Qc/eImAqldKVL2lSpge1eESK7z
+         Ylxn6fhxGrXFaulfAd0OzAUiJhUXym5lme54loFdhx7iWolt/Vtv4rGfeWRtUNMPULeS
+         ngtkmcHufVrDrXMl433KLt0I8HEU7Cz/N16KLa28UDV3RpV4TQ5JG7TXjsm2K0qFO8R3
+         /jaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=REwbjCmOc55UVl1VeMX04ZElEHzAGuzQWm4+3RgW+9U=;
-        b=K/XGMqVavMFYQFMfypsboD2OpilLRjD+lSA6to22YEbu8SOpck7n8IlM7t0vLkPL8G
-         vY+9Stoo2GYdLPHx00NGkOP1yR1//h/J1jCmuW9oaa9rD2hTK1kVZyB7nxaSbf4g+Jsl
-         851dlwPvO6VtZsxu8P5ROMN7we6T1CW/lOxv6yVNe6ztbQMalglzBvf8vEtHb+GdO5Hz
-         DaNaanEL3l4VxSEv8z7RoHIjNMuxWix49V6hvvrLwjidjSWrThkVMwUxAULXOASRpcsG
-         rLGqC2fbB6NYxfexwKYk65T7ie1bucfl6zFqYabHYB5HAjR/3OHok0xTfpurOOMx99gt
-         O04w==
-X-Gm-Message-State: AOAM533W8p2zFcGZZZNpPiLseJBX2AJwqrnYyHJ+e/eukoK6ZWzHhlG6
-	OjaQM07S3o+UtfQFRCJhBos=
-X-Google-Smtp-Source: ABdhPJwnMHQLCU3aMxonxvBSf16lC0QhsE40h8eIkMGxf/UmIayAvKyx+H4acoYCtWg6wkJYSTanuw==
-X-Received: by 2002:a05:6830:2ea:b0:605:e0ab:931 with SMTP id r10-20020a05683002ea00b00605e0ab0931mr1124609ote.117.1651089505504;
-        Wed, 27 Apr 2022 12:58:25 -0700 (PDT)
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=EB6E7fP9bwrsqgGYYvyfgDttoeJUQfEvL5DstWeF6cg=;
+        b=a8D5ySshMA53tAC5/rcmMxSnNIwrO7KOwymMQdLBslfFB+Jf7fbZvn21nLm7wWB96q
+         V/q0EVnQ5ZMexeOadJUAOwrIHdXrX/EsiJNoHXq5o/bnH4kKPShX3fTL4+OawZnaZoGN
+         nYqUTg7H/34/LPJ1/KuntsUN0ax5saBcy+NJVuEu50AAxb/N5mGw42KWvgQTy04rS92S
+         SL1t8CnZrHvdy5FZbfwu980p+J/xv76JGEcPVWcHkiZgg6XLGb2busEXnb6sa/UIymI8
+         W2vWVkCRfnioLlD1YAtmTPCspkNQ5aEVMD+ba0vHgvvKl/tEjSQoQRQ+XnhjlcU3gRQg
+         TJ9Q==
+X-Gm-Message-State: AOAM533aJ3Ke2LhTUfF60S40iPnlVpuCw0yg5lwnzssjToFlr4Wl0GxV
+	QE85PoXEFs8BBx9RZ5C6B0Y=
+X-Google-Smtp-Source: ABdhPJy5LWQW2UvBLvLSjfwUeTHcB46f4X1l9C2w85/OK+tKLK5xKhAZn6jzc9kMjMx5v9tHMY5VxQ==
+X-Received: by 2002:a17:90b:4b84:b0:1d2:ae96:6c27 with SMTP id lr4-20020a17090b4b8400b001d2ae966c27mr45874442pjb.70.1651089508675;
+        Wed, 27 Apr 2022 12:58:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:1987:b0:322:7c28:7409 with SMTP id
- bj7-20020a056808198700b003227c287409ls6907811oib.5.gmail; Wed, 27 Apr 2022
- 12:58:25 -0700 (PDT)
-X-Received: by 2002:aca:f1d7:0:b0:2ef:b62:646 with SMTP id p206-20020acaf1d7000000b002ef0b620646mr18743018oih.154.1651089505126;
-        Wed, 27 Apr 2022 12:58:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1651089505; cv=none;
+Received: by 2002:a17:90a:4f82:b0:1db:302d:bc3e with SMTP id
+ q2-20020a17090a4f8200b001db302dbc3els880956pjh.1.gmail; Wed, 27 Apr 2022
+ 12:58:28 -0700 (PDT)
+X-Received: by 2002:a17:90b:38ca:b0:1da:4df6:a000 with SMTP id nn10-20020a17090b38ca00b001da4df6a000mr3227138pjb.188.1651089507889;
+        Wed, 27 Apr 2022 12:58:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1651089507; cv=none;
         d=google.com; s=arc-20160816;
-        b=GDwcaAG/42pNcNgrUVozhBFMQQY2KTOw2FByYrR+nfcaP71jQBRmwFKlyo6TKdojiI
-         GM2pfiKF4D2pe0BEBdL/ADPDpn6u2e7TtQpUsrt050h9lfK060otvyX0ogNPF6JO5Vv+
-         dr2l+P0vzDKVcU/eKCIApyFYv3kNNnQcOAi0O2e9j10gxuNxVElGLzQP3c0kx8AItAq3
-         fu+TkpLEJhXIcgogRvV2marA9UjHiOu/HLOSCKUSYAfJNXqG9f+crYG4hgIwOuYeN4Q+
-         1iXm0/iXcSwMzGwYGQ/Q/eNp6tsV9q++0DQrjcywm3p6PJA+VyU4482nsWjcoUP46iSq
-         kVOA==
+        b=CKuG0ffYArRKEfrygtit3oCXrRnNcI42oGA2RdjP/botKeLukvsXn7y0pIiuCa0z7U
+         8/rfVwuTcYw0ZSJIVy+cPADvpAz2vib0Is0nn390Sisn95RTF0NZmSw6Fi1SWtj1i2t7
+         l2D+plovzhIwFE3+XNQiUDcNRKNZSFxElwxele2JMx26+5Jb1cCqMF0RC5/uyT1XwTRu
+         M6wXh84AWas19XQ9a5N7P0s3snTomA8rZ5q0Y72ZpQpe+is/BaVNYveC7v3oHnCWmgJG
+         A0uJ5RKRVatvROd44CoMBXRhQpVC7eQSYxiGDJ+XFvGAjnF97MpxLmGB8G7kZlNDJyan
+         WmqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=XcyimqZCgzNKPz0n6jeYchV2A0CiM03dMGsti55IHHA=;
-        b=QtFC7RoOfHutJD6npYJBIsOV59hq5w3+693MNzYd7dLDdb6DOseJWjjggdDHBOD5Qk
-         5hkydgdxoLzl/pB75BPZLWPeLJxuodxZV8UTxX1hz913ZAz0gdT4ApzQ3e1Nig1Ld8/t
-         NLWxXpRDZTRRBGZep5A/NYiK9LJJIJf3FSaywK55HtcwB+ZK7w6nXa86k3Uw1a1qsteT
-         7hIB1hPwDLktxL2h3H5MbjvwO8pv4NHUkeRTyQ0xaxcExA61nT6wuw92cOZPmtYEDrfv
-         6YbROJpZv30tf4/tbNAGdMTstaxKFaUUmGPQg/zCsyVpJ7Dhc+dqzsVYMa1qosO7h4HU
-         Bqfg==
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:dkim-signature;
+        bh=KO6mnAXGVtsbAsRrqxqkdvUTskd4INz5fQ2/DuC94GY=;
+        b=DWhE9fliHItSOU1Ay8rS1kJahBbjoAy5iq18EGQy68lXdkx4SIlc46L8VMFERaOEqj
+         aw/kRLTkQowKWHnGV+6hTS53CqZNvWs0AReMV3t2Ix/CFxh5VazlzNqy4+qeKFpgHAux
+         FR3cp9OOdPp2FT/gic1T96+yVXK7TFdKhOiPoWfJmfGZA4XukBlIQTpNme8rV+uCA33f
+         LaNVSUWuTcTzUcrpSeoRmSwLDUb1B/3VbsZInNYyzUYPqyB5VIg1YQDRnJbkuO3VS6of
+         G0wYd7VNYdSHiegz90y/5nY6DMeGIi/M4d9FIVVCUWV8Y7e/gzXrOLkkCc8OJmdDXnkl
+         ltlQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=s02dGKNs;
-       spf=pass (google.com: domain of 3ykbpygmkcweobbfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3YKBpYgMKCWEOBBFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--pcc.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Ybb+mu0N;
+       spf=pass (google.com: domain of 3y6bpygmkcwqreeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3Y6BpYgMKCWQREEIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--pcc.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
-        by gmr-mx.google.com with ESMTPS id du27-20020a0568703a1b00b000ddbc266799si248256oab.2.2022.04.27.12.58.25
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
+        by gmr-mx.google.com with ESMTPS id pi2-20020a17090b1e4200b001c62073e04asi237095pjb.2.2022.04.27.12.58.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 12:58:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3ykbpygmkcweobbfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2f198b4e2d1so25946357b3.14
-        for <kasan-dev@googlegroups.com>; Wed, 27 Apr 2022 12:58:25 -0700 (PDT)
+        Wed, 27 Apr 2022 12:58:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3y6bpygmkcwqreeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
+Received: by mail-yb1-xb4a.google.com with SMTP id b6-20020a253406000000b006484c081280so2632189yba.5
+        for <kasan-dev@googlegroups.com>; Wed, 27 Apr 2022 12:58:27 -0700 (PDT)
 X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:200:7bf6:862b:86da:9ce1])
- (user=pcc job=sendgmr) by 2002:a81:38d4:0:b0:2ea:ad04:a284 with SMTP id
- f203-20020a8138d4000000b002eaad04a284mr29122079ywa.139.1651089504681; Wed, 27
- Apr 2022 12:58:24 -0700 (PDT)
-Date: Wed, 27 Apr 2022 12:58:19 -0700
-Message-Id: <20220427195820.1716975-1-pcc@google.com>
+ (user=pcc job=sendgmr) by 2002:a25:7796:0:b0:645:7353:637a with SMTP id
+ s144-20020a257796000000b006457353637amr26817851ybc.446.1651089507164; Wed, 27
+ Apr 2022 12:58:27 -0700 (PDT)
+Date: Wed, 27 Apr 2022 12:58:20 -0700
+In-Reply-To: <20220427195820.1716975-1-pcc@google.com>
+Message-Id: <20220427195820.1716975-2-pcc@google.com>
 Mime-Version: 1.0
+References: <20220427195820.1716975-1-pcc@google.com>
 X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
-Subject: [PATCH v5 1/2] printk: stop including cache.h from printk.h
+Subject: [PATCH v5 2/2] mm: make minimum slab alignment a runtime property
 From: "'Peter Collingbourne' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Andrey Konovalov <andreyknvl@gmail.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
 	Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>
@@ -118,9 +122,9 @@ Cc: Peter Collingbourne <pcc@google.com>, Linux ARM <linux-arm-kernel@lists.infr
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: pcc@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=s02dGKNs;       spf=pass
- (google.com: domain of 3ykbpygmkcweobbfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--pcc.bounces.google.com
- designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3YKBpYgMKCWEOBBFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--pcc.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=Ybb+mu0N;       spf=pass
+ (google.com: domain of 3y6bpygmkcwqreeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com
+ designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3Y6BpYgMKCWQREEIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--pcc.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Peter Collingbourne <pcc@google.com>
 Reply-To: Peter Collingbourne <pcc@google.com>
@@ -136,116 +140,177 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-An inclusion of cache.h in printk.h was added in 2014 in
-commit c28aa1f0a847 ("printk/cache: mark printk_once test variable
-__read_mostly") in order to bring in the definition of __read_mostly. The
-usage of __read_mostly was later removed in commit 3ec25826ae33 ("printk:
-Tie printk_once / printk_deferred_once into .data.once for reset")
-which made the inclusion of cache.h unnecessary, so remove it.
+When CONFIG_KASAN_HW_TAGS is enabled we currently increase the minimum
+slab alignment to 16. This happens even if MTE is not supported in
+hardware or disabled via kasan=off, which creates an unnecessary
+memory overhead in those cases. Eliminate this overhead by making
+the minimum slab alignment a runtime property and only aligning to
+16 if KASAN is enabled at runtime.
 
-We have a small amount of code that depended on the inclusion of cache.h
-from printk.h; fix that code to include the appropriate header.
+On a DragonBoard 845c (non-MTE hardware) with a kernel built with
+CONFIG_KASAN_HW_TAGS, waiting for quiescence after a full Android
+boot I see the following Slab measurements in /proc/meminfo (median
+of 3 reboots):
 
-This fixes a circular inclusion on arm64 (linux/printk.h -> linux/cache.h
--> asm/cache.h -> linux/kasan-enabled.h -> linux/static_key.h ->
-linux/jump_label.h -> linux/bug.h -> asm/bug.h -> linux/printk.h) that
-would otherwise be introduced by the next patch.
+Before: 169020 kB
+After:  167304 kB
 
-Build tested using {allyesconfig,defconfig} x {arm64,x86_64}.
-
-Link: https://linux-review.googlesource.com/id/I8fd51f72c9ef1f2d6afd3b2cbc875aa4792c1fba
+Link: https://linux-review.googlesource.com/id/I752e725179b43b144153f4b6f584ceb646473ead
 Signed-off-by: Peter Collingbourne <pcc@google.com>
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Acked-by: David Rientjes <rientjes@google.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 ---
-v5:
-- fixes for arm randconfig and (tentatively) csky
+v4:
+- add a dependent patch to fix the build with CONFIG_JUMP_LABEL disabled
 
- arch/arm64/include/asm/mte-kasan.h | 1 +
- arch/arm64/include/asm/percpu.h    | 1 +
- arch/csky/include/asm/processor.h  | 2 +-
- drivers/firmware/smccc/kvm_guest.c | 1 +
- include/linux/printk.h             | 1 -
- kernel/bpf/bpf_lru_list.h          | 1 +
- 6 files changed, 5 insertions(+), 2 deletions(-)
+v3:
+- go back to ARCH_SLAB_MINALIGN
+- revert changes to fs/binfmt_flat.c
+- update arch_slab_minalign() comment to say that it must be a power of two
 
-diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
-index a857bcacf0fe..9f79425fc65a 100644
---- a/arch/arm64/include/asm/mte-kasan.h
-+++ b/arch/arm64/include/asm/mte-kasan.h
+v2:
+- use max instead of max_t in flat_stack_align()
+
+ arch/arm64/include/asm/cache.h | 17 ++++++++++++-----
+ include/linux/slab.h           | 12 ++++++++++++
+ mm/slab.c                      |  7 +++----
+ mm/slab_common.c               |  3 +--
+ mm/slob.c                      |  6 +++---
+ 5 files changed, 31 insertions(+), 14 deletions(-)
+
+diff --git a/arch/arm64/include/asm/cache.h b/arch/arm64/include/asm/cache.h
+index a074459f8f2f..22b22dc1b1b5 100644
+--- a/arch/arm64/include/asm/cache.h
++++ b/arch/arm64/include/asm/cache.h
 @@ -6,6 +6,7 @@
- #define __ASM_MTE_KASAN_H
+ #define __ASM_CACHE_H
  
- #include <asm/compiler.h>
-+#include <asm/cputype.h>
- #include <asm/mte-def.h>
+ #include <asm/cputype.h>
++#include <asm/mte-def.h>
  
- #ifndef __ASSEMBLY__
-diff --git a/arch/arm64/include/asm/percpu.h b/arch/arm64/include/asm/percpu.h
-index 8f1661603b78..b9ba19dbdb69 100644
---- a/arch/arm64/include/asm/percpu.h
-+++ b/arch/arm64/include/asm/percpu.h
-@@ -10,6 +10,7 @@
- #include <asm/alternative.h>
- #include <asm/cmpxchg.h>
- #include <asm/stack_pointer.h>
-+#include <asm/sysreg.h>
+ #define CTR_L1IP_SHIFT		14
+ #define CTR_L1IP_MASK		3
+@@ -49,16 +50,22 @@
+  */
+ #define ARCH_DMA_MINALIGN	(128)
  
- static inline void set_my_cpu_offset(unsigned long off)
++#ifndef __ASSEMBLY__
++
++#include <linux/bitops.h>
++#include <linux/kasan-enabled.h>
++
+ #ifdef CONFIG_KASAN_SW_TAGS
+ #define ARCH_SLAB_MINALIGN	(1ULL << KASAN_SHADOW_SCALE_SHIFT)
+ #elif defined(CONFIG_KASAN_HW_TAGS)
+-#define ARCH_SLAB_MINALIGN	MTE_GRANULE_SIZE
++static inline size_t arch_slab_minalign(void)
++{
++	return kasan_hw_tags_enabled() ? MTE_GRANULE_SIZE :
++					 __alignof__(unsigned long long);
++}
++#define arch_slab_minalign() arch_slab_minalign()
+ #endif
+ 
+-#ifndef __ASSEMBLY__
+-
+-#include <linux/bitops.h>
+-
+ #define ICACHEF_ALIASING	0
+ #define ICACHEF_VPIPT		1
+ extern unsigned long __icache_flags;
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index 373b3ef99f4e..2c7190db4cc0 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -209,6 +209,18 @@ void kmem_dump_obj(void *object);
+ #define ARCH_SLAB_MINALIGN __alignof__(unsigned long long)
+ #endif
+ 
++/*
++ * Arches can define this function if they want to decide the minimum slab
++ * alignment at runtime. The value returned by the function must be a power
++ * of two and >= ARCH_SLAB_MINALIGN.
++ */
++#ifndef arch_slab_minalign
++static inline size_t arch_slab_minalign(void)
++{
++	return ARCH_SLAB_MINALIGN;
++}
++#endif
++
+ /*
+  * kmalloc and friends return ARCH_KMALLOC_MINALIGN aligned
+  * pointers. kmem_cache_alloc and friends return ARCH_SLAB_MINALIGN
+diff --git a/mm/slab.c b/mm/slab.c
+index 0edb474edef1..97b756976c8b 100644
+--- a/mm/slab.c
++++ b/mm/slab.c
+@@ -3009,10 +3009,9 @@ static void *cache_alloc_debugcheck_after(struct kmem_cache *cachep,
+ 	objp += obj_offset(cachep);
+ 	if (cachep->ctor && cachep->flags & SLAB_POISON)
+ 		cachep->ctor(objp);
+-	if (ARCH_SLAB_MINALIGN &&
+-	    ((unsigned long)objp & (ARCH_SLAB_MINALIGN-1))) {
+-		pr_err("0x%px: not aligned to ARCH_SLAB_MINALIGN=%d\n",
+-		       objp, (int)ARCH_SLAB_MINALIGN);
++	if ((unsigned long)objp & (arch_slab_minalign() - 1)) {
++		pr_err("0x%px: not aligned to arch_slab_minalign()=%d\n", objp,
++		       (int)arch_slab_minalign());
+ 	}
+ 	return objp;
+ }
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 2b3206a2c3b5..33cc49810a54 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -154,8 +154,7 @@ static unsigned int calculate_alignment(slab_flags_t flags,
+ 		align = max(align, ralign);
+ 	}
+ 
+-	if (align < ARCH_SLAB_MINALIGN)
+-		align = ARCH_SLAB_MINALIGN;
++	align = max_t(size_t, align, arch_slab_minalign());
+ 
+ 	return ALIGN(align, sizeof(void *));
+ }
+diff --git a/mm/slob.c b/mm/slob.c
+index 40ea6e2d4ccd..3bd2669bd690 100644
+--- a/mm/slob.c
++++ b/mm/slob.c
+@@ -478,7 +478,7 @@ static __always_inline void *
+ __do_kmalloc_node(size_t size, gfp_t gfp, int node, unsigned long caller)
  {
-diff --git a/arch/csky/include/asm/processor.h b/arch/csky/include/asm/processor.h
-index 688c7548b559..9638206bc44f 100644
---- a/arch/csky/include/asm/processor.h
-+++ b/arch/csky/include/asm/processor.h
-@@ -4,9 +4,9 @@
- #define __ASM_CSKY_PROCESSOR_H
+ 	unsigned int *m;
+-	int minalign = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
++	int minalign = max_t(size_t, ARCH_KMALLOC_MINALIGN, arch_slab_minalign());
+ 	void *ret;
  
- #include <linux/bitops.h>
-+#include <linux/cache.h>
- #include <asm/ptrace.h>
- #include <asm/current.h>
--#include <asm/cache.h>
- #include <abi/reg_ops.h>
- #include <abi/regdef.h>
- #include <abi/switch_context.h>
-diff --git a/drivers/firmware/smccc/kvm_guest.c b/drivers/firmware/smccc/kvm_guest.c
-index 2d3e866decaa..89a68e7eeaa6 100644
---- a/drivers/firmware/smccc/kvm_guest.c
-+++ b/drivers/firmware/smccc/kvm_guest.c
-@@ -4,6 +4,7 @@
+ 	gfp &= gfp_allowed_mask;
+@@ -555,7 +555,7 @@ void kfree(const void *block)
  
- #include <linux/arm-smccc.h>
- #include <linux/bitmap.h>
-+#include <linux/cache.h>
- #include <linux/kernel.h>
- #include <linux/string.h>
+ 	sp = virt_to_folio(block);
+ 	if (folio_test_slab(sp)) {
+-		int align = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
++		int align = max_t(size_t, ARCH_KMALLOC_MINALIGN, arch_slab_minalign());
+ 		unsigned int *m = (unsigned int *)(block - align);
+ 		slob_free(m, *m + align);
+ 	} else {
+@@ -584,7 +584,7 @@ size_t __ksize(const void *block)
+ 	if (unlikely(!folio_test_slab(folio)))
+ 		return folio_size(folio);
  
-diff --git a/include/linux/printk.h b/include/linux/printk.h
-index 1522df223c0f..8e8d74edf121 100644
---- a/include/linux/printk.h
-+++ b/include/linux/printk.h
-@@ -6,7 +6,6 @@
- #include <linux/init.h>
- #include <linux/kern_levels.h>
- #include <linux/linkage.h>
--#include <linux/cache.h>
- #include <linux/ratelimit_types.h>
- #include <linux/once_lite.h>
- 
-diff --git a/kernel/bpf/bpf_lru_list.h b/kernel/bpf/bpf_lru_list.h
-index 6b12f06ee18c..4ea227c9c1ad 100644
---- a/kernel/bpf/bpf_lru_list.h
-+++ b/kernel/bpf/bpf_lru_list.h
-@@ -4,6 +4,7 @@
- #ifndef __BPF_LRU_LIST_H_
- #define __BPF_LRU_LIST_H_
- 
-+#include <linux/cache.h>
- #include <linux/list.h>
- #include <linux/spinlock_types.h>
- 
+-	align = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
++	align = max_t(size_t, ARCH_KMALLOC_MINALIGN, arch_slab_minalign());
+ 	m = (unsigned int *)(block - align);
+ 	return SLOB_UNITS(*m) * SLOB_UNIT;
+ }
 -- 
 2.36.0.464.gb9c8b46e94-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220427195820.1716975-1-pcc%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220427195820.1716975-2-pcc%40google.com.
