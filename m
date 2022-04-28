@@ -1,147 +1,125 @@
-Return-Path: <kasan-dev+bncBCSMHHGWUEMBBDX2VKJQMGQEBZYORJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBJX6VKJQMGQE2B4CUPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17197513972
-	for <lists+kasan-dev@lfdr.de>; Thu, 28 Apr 2022 18:13:04 +0200 (CEST)
-Received: by mail-oi1-x23b.google.com with SMTP id c3-20020acab303000000b003226fc84078sf2840876oif.8
-        for <lists+kasan-dev@lfdr.de>; Thu, 28 Apr 2022 09:13:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1651162382; cv=pass;
+Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id 740365139A1
+	for <lists+kasan-dev@lfdr.de>; Thu, 28 Apr 2022 18:21:59 +0200 (CEST)
+Received: by mail-wr1-x438.google.com with SMTP id l7-20020adfa387000000b0020acc61dbaesf2122955wrb.7
+        for <lists+kasan-dev@lfdr.de>; Thu, 28 Apr 2022 09:21:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1651162919; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SP6697kGVeDhP+kyYRAxvm5HbhBe5YnylNmqKZaHX1tB9EF9ZkoUaNdaJPN9DMGQ+Z
-         77Jrvo6T/klos7jFWOm/mRDsGWoCPrkd7eB1SDiAD9uSmtfg5ocnJ/V/nW21S4Kx7MR6
-         DIiVdeHLJWjxrvW3eSMJwRF4oouGiZfYPI3siadbJ1Cm4txRz7VZPRVPlplMwoP0BJ7S
-         CkioIrhXYl8fX1k9BGGqqmREkrtr7OKHoQYQpdga2wE5IsKOrFedDxxmI4rE8c8WN7rq
-         HR7ro5PcV0XxuV6TOdiBmxz3dEv5n0FrNVy2B1cXiOPiLO1s+dgO3Nerje3NxxfC4/S9
-         Aguw==
+        b=OofE3xGWG7BNzXu11VMB/dIrQCiXycwnpdC759MRf44nJn9J8E07Mm6CY0VP6YL0b8
+         dfF6NxpXId+x2T1SBymCEHILgTlkf3/0l6EMYBpzH4yMnP8FkeTH48UrE94Rw9A3lUFk
+         9Xgazd+cNcg+a66F3rfe1PPo9QnUV17mPTtVk4KlMFW/Jngm1sO8PYAVqj4bNp1hLS4S
+         JCZxBoCJxIEEhlVQ9IzmSPW4WT0Jg2ILLIdg3avugE6Vhq4IhP8jcF9JMFyvMYWrk3u6
+         KfZo54rp4WY2ffVyUkjX7ExfrwSk6XGNom353HqfyLVCJrdABzieW66Rgl1lz/gmg1mB
+         fuRg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=KpPHtmcXxSD+g5JyHB6IE5Z89keNuiwOIoeirZoQDyk=;
-        b=n1ZiPzK1/f6T3WB5BVXHoLBEBOV0tvVuzCt4IEG2SdEQoHb9wFCFex4qrhkqZDl+Jb
-         BjEyfBEtf0qwZCWgjcZy/X56tWDvPv1nigTM04BjgPGeZGeTmAPXRL8pChCkTInw27W4
-         9pBm5/dHjXs361OJ7PzolVQHxdgUOuqrTmFqkUgkx4tJicF1iFeOZWK8FG9ODi5oUw46
-         Sd4/72gGrxOTRLN/nIi4Jg3WNJVKlhG1nLkjkgr1ewCmg1FlcTCtNv3giNeoMQJP7DbU
-         BmUb3HDkDvVzDkV94dbB0Vc6a0XzK08o93lctXVQUDi9ISP1sIKWGnbuWU9BCg1LddPR
-         TYFQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=vN4zCu6KtHEc0d4yZO6rHzoVLn4erTs/vZQ6i7+7Xjg=;
+        b=pS8oz7xuwGpOInNSD40kZX5JAWFcHC2scp1jqASpuQ2eZDPw5s4fNn06oJ+LQT5TfR
+         GD61vUItbC7yps5LofazSrnX0w1QcCvk2J2whtnq1jkutfHoFSWhtNY3vLdg0vAchhiU
+         fP0IUeL5si85OYxfDYNUGc5oIcajEKqJWcf26XVEthUmsAjxPzyAtIXOzAvdA8wKT3fq
+         X+1cgYsPMtZERUtJZybJbGRMDIjMEQ+TArMpHbVjehuRUjV94v+96yUmkSpxGHdo/B7H
+         Nixj0gaXm8Ww/xargz+edypXVrnBRWNl/b2ZNoHKGCuQgkGSTD0qjR42E6OVRbHvieMm
+         BaAg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcdkim header.b=wsKFhs4F;
-       spf=pass (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.39 as permitted sender) smtp.mailfrom=quic_qiancai@quicinc.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="scASAs6/";
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=KpPHtmcXxSD+g5JyHB6IE5Z89keNuiwOIoeirZoQDyk=;
-        b=cG/rz5/xiSIFGJuQGpg/9fTAhDAq+9RDQvN6/P4Dptl8Gw4P9J3BKjV+HB2FqcR1zk
-         K3tbOjrlw36nqT7o5i3WmRY1dD/WBLfW8wsgGidfulSEepC1DtknP0YUWzOrnPjizO1G
-         WV1VT3CLJYNfD4FSuniGWV8E4mSk7aHXWit9wdStkbdw9xarJc7EumwjNTElTfiMA21Z
-         qy4Hmuh457a8QlfIoVbGP7X+pz00lepX1o0uDJIZZAs8+AjzBQHeKVjXwyLenDUqXVD5
-         h1jExCZsuEf3ihK3AF4d0EQXJl6P7DDdBsOVVONikD/ogTrLJ54HYTtvdmxFSvWjT01O
-         5cYA==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=vN4zCu6KtHEc0d4yZO6rHzoVLn4erTs/vZQ6i7+7Xjg=;
+        b=Zmm0nN3/hC+zCnLFym0YA2ahBOwWRjKu/ltVMoh2NC2FL7yjKnb3YdpQZcMyO0uFyD
+         hWmOij7WO1nF/Dk+Q7FkCChQHMOvNU5YnAQyc7Wk1m97XID5RzfV017Q5Oqj/biM71xK
+         UINHnc0/aUEjG1GfXtpsK7idllAQIGWdXOsQAOIGUw0FffG+4l3Lw6lpQf0ZaZLHoccQ
+         2g+057cGcZ9L07e92DPdzWjWWsD3eG1XAuWhyBcigp/Tcx8mBMR9VdnTs2EVOeqNXJpY
+         DJN2vjNYiG1nvtjXm41joRmYh0av6UAr8onGEmpxwL4r993JQR+cpi3Y8zTaaAUw5c2X
+         HHpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=KpPHtmcXxSD+g5JyHB6IE5Z89keNuiwOIoeirZoQDyk=;
-        b=tr/aGf5WR8UwH4Ql9sSdaPSdGh60yMKabaz4Aa0IKjO+RiVCZPM88vuzu9vd1qwnd/
-         BraDXiEulQIscOpWFvm85RhzjZplVxf5w3svJ1S4bg+onBh3Ev16UbAuswdy35nkIVLY
-         bNMZe6xdlh4j0CLCfRGurDUiz9bKUwMWM6BDKVkV/qm+tVs17Bu+pk2+ofikXvM256z0
-         Axxj7zOOXG1iCPt3KGceDriOIqgxB8PfyI/uxraWqI9W1/fTzqT4p3ylbnlrlVsLbXmX
-         lnEaERNC3TEeAcrQUIMLHHtcS80lnTix46FIkyJ783HCicldGHHL1PLa8umRsansPB5Q
-         mwWQ==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=vN4zCu6KtHEc0d4yZO6rHzoVLn4erTs/vZQ6i7+7Xjg=;
+        b=R0Rgu+Z6tYEVsfd61m8SMUaZTzYKoIMcPCnaH8DXGHiPpKUDasLzltoetlK0LSaLRs
+         EkCn/rNaSEvFtWRhwJ7WEtVksK/KopEQIAdGNqElHpkfT0ju2PoT3jxpEyGmEESAESrp
+         VZK8Jicfxwtzp+M3L1cXVSTZTjB8CjtWIyMZU/DLhCfoKHdqDitfEZId6XBmBizlac+r
+         wFHhd+5MZZ+lK3Juk3UitYEpcHFwqtHEFjT4xpWm7BCqWZ9MycCPYJd2fxwoEVhejYMx
+         71q5Dcg1sPvvma0LDO1+DFpZYA0NmDycEJIpQUtlRJE8DyoSZOVYohUeGVfQAGN7VniH
+         cC3A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531dn9tviOujHMTLbzsmRMpdYEYVnHajuc0zvbw8OywpsRrYDp8C
-	kJspHUUaXBu/GXeDep6PYLA=
-X-Google-Smtp-Source: ABdhPJwpSoDGtiAeNmQ86Tq34f8sTDAQE85ilG6GZjsU3gHEHdr4TpvRGA6Gd+X43fASFWx3+B9TpA==
-X-Received: by 2002:a05:6870:b024:b0:e9:a3eb:a57a with SMTP id y36-20020a056870b02400b000e9a3eba57amr1949900oae.23.1651162382599;
-        Thu, 28 Apr 2022 09:13:02 -0700 (PDT)
+X-Gm-Message-State: AOAM5320mZt3ZEh9YeKL2Dk1EZQhY1UqoLKHG4czu8ZT/dBFVuSEscPw
+	wG39lj7jO1EcpYpYbuFNqU8=
+X-Google-Smtp-Source: ABdhPJz6lhp/l/sgxCeskGAu170iZ8pv4bL7u3AN7qg9eG8LzsyXsJAFY+tU1CG3FSpPbLIh7I0/8Q==
+X-Received: by 2002:a05:6000:1688:b0:20c:45c1:237a with SMTP id y8-20020a056000168800b0020c45c1237amr38582wrd.362.1651162918970;
+        Thu, 28 Apr 2022 09:21:58 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:d296:b0:e2:fa0:dca4 with SMTP id
- d22-20020a056870d29600b000e20fa0dca4ls129546oae.6.gmail; Thu, 28 Apr 2022
- 09:13:02 -0700 (PDT)
-X-Received: by 2002:a05:6870:5620:b0:e9:ff1:c8e8 with SMTP id m32-20020a056870562000b000e90ff1c8e8mr11947748oao.8.1651162382140;
-        Thu, 28 Apr 2022 09:13:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1651162382; cv=none;
+Received: by 2002:a05:600c:1c9a:b0:393:e698:3558 with SMTP id
+ k26-20020a05600c1c9a00b00393e6983558ls244753wms.0.gmail; Thu, 28 Apr 2022
+ 09:21:58 -0700 (PDT)
+X-Received: by 2002:a05:600c:b47:b0:394:1200:957b with SMTP id k7-20020a05600c0b4700b003941200957bmr3188546wmr.2.1651162918270;
+        Thu, 28 Apr 2022 09:21:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1651162918; cv=none;
         d=google.com; s=arc-20160816;
-        b=EkMlHpcTGuRAi/w24pSw8oHokguQSCl1Omb9lR2RrTgm+et6n3tUIIL4ZtnjfP1yk2
-         Lh3SHW8K/kOVEP0oWpcHLr2qjcdTbw08JLmYXTro/746WUAUKpCMQQTAuzuAiZ9RyHyi
-         G4HWnU7vfTfpiFrne2lPeOC5zZc1STZzr3jlXjsT0JYD7emyFLsLrk3CQHErlP1ZNt79
-         Yt4a9e4Flu0ySz9gMixbbDlCmT9FA/fZMAXrzeyGJ39lN3OYBoi5auu5Ppfcteu4Cfgj
-         CBF92/KfXujZWP3tjTJNxMYcd7OjSNfAQmkLesm5f9ELxelN1msE2ePvpBsnxuldpUwJ
-         0/nA==
+        b=FDxCCtXzBBBHRJZth7gC3yVuxNNYyXdfnDxY39LKShLC2wsdgmO+rk03Wz0NLMyuw5
+         6txAFGrdAS6uHVv3TaCVFl+BnG+GjTTdXxfH+SXkUrMg5Phi39CEwyMIsu+bWgzgIyQj
+         j6HKOwFqnv8o1eWS+h6vzlhxrJLlGVmcqcfE26thSKs6bfQD/KiH9srWlaflzGeYgtHO
+         KUxLVjf+4C73U2P8dEz3wD5jDWqe+u+WVJxLBRZncO4an4rw89wwst7AaCBRzpnfYny2
+         x2lvtDJjgxetTBeffYLRYbkp7raJF3EGkACIojViiYG/WJgugblDH9+D7PX4NVm0SbwX
+         Yb0g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=FrfyPGyrRql3+c1AJp/BIgQHA9i1fgkYU3oOQT+9KWw=;
-        b=PXeYokOmP1bwp0BxFUOVN/7McbaFujA+qQ1IccMM/8ecA3c4M60RPz7id/uOCZjhfF
-         o6aRjdQ0fOIqh/acmjDaNKMcdVQhjUKo7NqXDHvou4hcN1dKvf4Mt/LgJ5CX4akmyOIi
-         ahxX7m1p1jLAFAadzY5drU+z1A+hIgK9HrP/qqVcXNEaMk94CLyOCLIUJ+LjQL7BTSE4
-         EKZ3sVGBMVOuFhuojacvGn6KIL6VRGhyeHzoCM3c+kDLshAYlyG0UnLgJytXMW0v0RGQ
-         6qrJjuZGDKALkb0VQy95NS6a2uncgDGVwMY8ndXrXpN/TrEm0f6E/h1re2p4+UEsLPDX
-         pPFQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=cbOwwdKzIP/GSDsAkRZ0QuBwdx3oi7IvMcPM3Ptuuw8=;
+        b=RcsoGEVG/MR0N/VdqkxTP0xfqHqJDglOerSClDzg5gjW2jwn0aZaOlHJahcL3wyyNW
+         DBUOWyH9unvuLPIviWqBN49IwtNoytkdlxBG6jRdmIh8QaKvaRpIMLhK9UmeYFfyF0Sx
+         X5ntW/iFe/+bgyqbWNcj/U52FMZ1J8w+4B0n5YMcPRPaScM4E5olyKIBPDm/BrXrbhHC
+         N2nJBCcm/LaAm2GSj8/mwnQGjam126c/VuYIT3xiz/JrCANhYreIYPruZk3sWKOG1pKA
+         xqyuKxBqFRUkkLzs2mhijHJnxQ4432nFkwysnFGkje8Oa11SayNENaSy/kkIHovn+EYb
+         Q/9g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcdkim header.b=wsKFhs4F;
-       spf=pass (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.39 as permitted sender) smtp.mailfrom=quic_qiancai@quicinc.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com. [199.106.114.39])
-        by gmr-mx.google.com with ESMTPS id i16-20020a056870d41000b000e2b65e71efsi616654oag.4.2022.04.28.09.13.01
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="scASAs6/";
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out2.migadu.com (out2.migadu.com. [2001:41d0:2:aacc::])
+        by gmr-mx.google.com with ESMTPS id b12-20020a05600018ac00b00207a792d70fsi297792wri.6.2022.04.28.09.21.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 Apr 2022 09:13:02 -0700 (PDT)
-Received-SPF: pass (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.39 as permitted sender) client-ip=199.106.114.39;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 28 Apr 2022 09:13:01 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2022 09:13:00 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 28 Apr 2022 09:13:00 -0700
-Received: from qian (10.80.80.8) by nalasex01a.na.qualcomm.com (10.47.209.196)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 28 Apr
- 2022 09:12:57 -0700
-Date: Thu, 28 Apr 2022 12:12:54 -0400
-From: Qian Cai <quic_qiancai@quicinc.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-CC: <andrey.konovalov@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
-	Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev <kasan-dev@googlegroups.com>, Linux Memory Management List
-	<linux-mm@kvack.org>, Vincenzo Frascino <vincenzo.frascino@arm.com>, "Catalin
- Marinas" <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "Mark
- Rutland" <mark.rutland@arm.com>, Linux ARM
-	<linux-arm-kernel@lists.infradead.org>, Peter Collingbourne <pcc@google.com>,
-	Evgenii Stepanov <eugenis@google.com>, LKML <linux-kernel@vger.kernel.org>,
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 28 Apr 2022 09:21:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) client-ip=2001:41d0:2:aacc::;
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: andrey.konovalov@linux.dev
+To: Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH v6 00/39] kasan, vmalloc, arm64: add vmalloc tagging
- support for SW/HW_TAGS
-Message-ID: <20220428161254.GA182@qian>
-References: <cover.1643047180.git.andreyknvl@google.com>
- <20220428141356.GB71@qian>
- <CA+fCnZesRG_WLi2fEHtG=oNLt2oJ7RrZuwuCm_rQDPZLoZr-3g@mail.gmail.com>
+Subject: [PATCH 1/3] kasan: clean up comments in internal kasan.h
+Date: Thu, 28 Apr 2022 18:21:50 +0200
+Message-Id: <3167cbec7a82704c1ed2c6bfe85b77534a836fdc.1651162840.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CA+fCnZesRG_WLi2fEHtG=oNLt2oJ7RrZuwuCm_rQDPZLoZr-3g@mail.gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-Original-Sender: quic_qiancai@quicinc.com
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
+X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@quicinc.com header.s=qcdkim header.b=wsKFhs4F;       spf=pass
- (google.com: domain of quic_qiancai@quicinc.com designates 199.106.114.39 as
- permitted sender) smtp.mailfrom=quic_qiancai@quicinc.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
+ header.i=@linux.dev header.s=key1 header.b="scASAs6/";       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates
+ 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,115 +132,197 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Apr 28, 2022 at 05:28:12PM +0200, Andrey Konovalov wrote:
-> No ideas so far.
-> 
-> Looks like the page has reserved tag set when it's being freed.
-> 
-> Does this crash only happen with the SW_TAGS mode?
+From: Andrey Konovalov <andreyknvl@google.com>
 
-No, the system is running exclusively with CONFIG_KASAN_GENERIC=y
+Clean up comments in mm/kasan/kasan.h: clarify, unify styles, fix
+punctuation, etc.
 
-> Does this crash only happen when loading modules?
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ mm/kasan/kasan.h | 71 +++++++++++++++++++++---------------------------
+ 1 file changed, 31 insertions(+), 40 deletions(-)
 
-Yes. Here is another sligtly different path at the bottom.
-
-> Does your system have any hot-plugged memory?
-
-No.
-
- BUG: Bad page state in process systemd-udevd  pfn:403fc007c
- page:fffffd00fd001f00 refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x403fc007c
- flags: 0x1bfffc0000001000(reserved|node=1|zone=2|lastcpupid=0xffff)
- raw: 1bfffc0000001000 fffffd00fd001f08 fffffd00fd001f08 0000000000000000
- raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
- page dumped because: PAGE_FLAGS_CHECK_AT_FREE flag(s) set
- CPU: 101 PID: 2004 Comm: systemd-udevd Not tainted 5.17.0-rc8-next-20220317-dirty #39
- Call trace:
-  dump_backtrace
-  show_stack
-  dump_stack_lvl
-  dump_stack
-  bad_page
-  free_pcp_prepare
-  free_pages_prepare at mm/page_alloc.c:1348
-  (inlined by) free_pcp_prepare at mm/page_alloc.c:1403
-  free_unref_page
-  __free_pages
-  free_pages.part.0
-  free_pages
-  kasan_depopulate_vmalloc_pte
-  (inlined by) kasan_depopulate_vmalloc_pte at mm/kasan/shadow.c:359
-  apply_to_pte_range
-  apply_to_pte_range at mm/memory.c:2547
-  apply_to_pmd_range
-  apply_to_pud_range
-  __apply_to_page_range
-  apply_to_existing_page_range
-  kasan_release_vmalloc
-  (inlined by) kasan_release_vmalloc at mm/kasan/shadow.c:469
-  __purge_vmap_area_lazy
-  _vm_unmap_aliases.part.0
-  __vunmap
-  __vfree
-  vfree
-  module_memfree
-  free_module
-  do_init_module
-  load_module
-  __do_sys_finit_module
-  __arm64_sys_finit_module
-  invoke_syscall
-  el0_svc_common.constprop.0
-  do_el0_svc
-  el0_svc
-  el0t_64_sync_handler
-  el0t_64_sync
- Disabling lock debugging due to kernel taint
- BUG: Bad page state in process systemd-udevd  pfn:403fc007b
- page:fffffd00fd001ec0 refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x403fc007b
- flags: 0x1bfffc0000001000(reserved|node=1|zone=2|lastcpupid=0xffff)
- raw: 1bfffc0000001000 fffffd00fd001ec8 fffffd00fd001ec8 0000000000000000
- raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
- page dumped because: PAGE_FLAGS_CHECK_AT_FREE flag(s) set
- CPU: 101 PID: 2004 Comm: systemd-udevd Tainted: G    B             5.17.0-rc8-next-20220317-dirty #39
- Call trace:
-  dump_backtrace
-  show_stack
-  dump_stack_lvl
-  dump_stack
-  bad_page
-  free_pcp_prepare
-  free_unref_page
-  __free_pages
-  free_pages.part.0
-  free_pages
-  kasan_depopulate_vmalloc_pte
-  apply_to_pte_range
-  apply_to_pmd_range
-  apply_to_pud_range
-  __apply_to_page_range
-  apply_to_existing_page_range
-  kasan_release_vmalloc
-  __purge_vmap_area_lazy
-  _vm_unmap_aliases.part.0
-  __vunmap
-  __vfree
-  vfree
-  module_memfree
-  free_module
-  do_init_module
-  load_module
-  __do_sys_finit_module
-  __arm64_sys_finit_module
-  invoke_syscall
-  el0_svc_common.constprop.0
-  do_el0_svc
-  el0_svc
-  el0t_64_sync_handler
-  el0t_64_sync
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index b01b4bbe0409..13681516dc08 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -42,6 +42,7 @@ static inline bool kasan_sync_fault_possible(void)
+ {
+ 	return kasan_mode == KASAN_MODE_SYNC || kasan_mode == KASAN_MODE_ASYMM;
+ }
++
+ #else
+ 
+ static inline bool kasan_stack_collection_enabled(void)
+@@ -73,47 +74,41 @@ static inline bool kasan_sync_fault_possible(void)
+ #define KASAN_MEMORY_PER_SHADOW_PAGE	(KASAN_GRANULE_SIZE << PAGE_SHIFT)
+ 
+ #ifdef CONFIG_KASAN_GENERIC
+-#define KASAN_FREE_PAGE         0xFF  /* page was freed */
+-#define KASAN_PAGE_REDZONE      0xFE  /* redzone for kmalloc_large allocations */
+-#define KASAN_KMALLOC_REDZONE   0xFC  /* redzone inside slub object */
+-#define KASAN_KMALLOC_FREE      0xFB  /* object was freed (kmem_cache_free/kfree) */
+-#define KASAN_VMALLOC_INVALID   0xF8  /* unallocated space in vmapped page */
++#define KASAN_FREE_PAGE         0xFF  /* freed page */
++#define KASAN_PAGE_REDZONE      0xFE  /* redzone for kmalloc_large allocation */
++#define KASAN_KMALLOC_REDZONE   0xFC  /* redzone for slab object */
++#define KASAN_KMALLOC_FREE      0xFB  /* freed slab object */
++#define KASAN_VMALLOC_INVALID   0xF8  /* inaccessible space in vmap area */
+ #else
+ #define KASAN_FREE_PAGE         KASAN_TAG_INVALID
+ #define KASAN_PAGE_REDZONE      KASAN_TAG_INVALID
+ #define KASAN_KMALLOC_REDZONE   KASAN_TAG_INVALID
+ #define KASAN_KMALLOC_FREE      KASAN_TAG_INVALID
+-#define KASAN_VMALLOC_INVALID   KASAN_TAG_INVALID /* only for SW_TAGS */
++#define KASAN_VMALLOC_INVALID   KASAN_TAG_INVALID /* only used for SW_TAGS */
+ #endif
+ 
+ #ifdef CONFIG_KASAN_GENERIC
+ 
+-#define KASAN_KMALLOC_FREETRACK 0xFA  /* object was freed and has free track set */
++#define KASAN_KMALLOC_FREETRACK 0xFA  /* freed slab object with free track */
+ #define KASAN_GLOBAL_REDZONE    0xF9  /* redzone for global variable */
+ 
+-/*
+- * Stack redzone shadow values
+- * (Those are compiler's ABI, don't change them)
+- */
++/* Stack redzone shadow values. Compiler's ABI, do not change. */
+ #define KASAN_STACK_LEFT        0xF1
+ #define KASAN_STACK_MID         0xF2
+ #define KASAN_STACK_RIGHT       0xF3
+ #define KASAN_STACK_PARTIAL     0xF4
+ 
+-/*
+- * alloca redzone shadow values
+- */
++/* alloca redzone shadow values. */
+ #define KASAN_ALLOCA_LEFT	0xCA
+ #define KASAN_ALLOCA_RIGHT	0xCB
+ 
++/* alloca redzone size. Compiler's ABI, do not change. */
+ #define KASAN_ALLOCA_REDZONE_SIZE	32
+ 
+-/*
+- * Stack frame marker (compiler ABI).
+- */
++/* Stack frame marker. Compiler's ABI, do not change. */
+ #define KASAN_CURRENT_STACK_FRAME_MAGIC 0x41B58AB3
+ 
+-/* Don't break randconfig/all*config builds */
++/* Dummy value to avoid breaking randconfig/all*config builds. */
+ #ifndef KASAN_ABI_VERSION
+ #define KASAN_ABI_VERSION 1
+ #endif
+@@ -141,21 +136,21 @@ struct kasan_report_info {
+ 	unsigned long ip;
+ };
+ 
+-/* The layout of struct dictated by compiler */
++/* Do not change the struct layout: compiler's ABI. */
+ struct kasan_source_location {
+ 	const char *filename;
+ 	int line_no;
+ 	int column_no;
+ };
+ 
+-/* The layout of struct dictated by compiler */
++/* Do not change the struct layout: compiler's ABI. */
+ struct kasan_global {
+ 	const void *beg;		/* Address of the beginning of the global variable. */
+ 	size_t size;			/* Size of the global variable. */
+-	size_t size_with_redzone;	/* Size of the variable + size of the red zone. 32 bytes aligned */
++	size_t size_with_redzone;	/* Size of the variable + size of the redzone. 32 bytes aligned. */
+ 	const void *name;
+ 	const void *module_name;	/* Name of the module where the global variable is declared. */
+-	unsigned long has_dynamic_init;	/* This needed for C++ */
++	unsigned long has_dynamic_init;	/* This needed for C++. */
+ #if KASAN_ABI_VERSION >= 4
+ 	struct kasan_source_location *location;
+ #endif
+@@ -164,9 +159,7 @@ struct kasan_global {
+ #endif
+ };
+ 
+-/**
+- * Structures to keep alloc and free tracks *
+- */
++/* Structures for keeping alloc and free tracks. */
+ 
+ #define KASAN_STACK_DEPTH 64
+ 
+@@ -183,11 +176,8 @@ struct kasan_track {
+ 
+ struct kasan_alloc_meta {
+ 	struct kasan_track alloc_track;
++	/* Generic mode stores free track in kasan_free_meta. */
+ #ifdef CONFIG_KASAN_GENERIC
+-	/*
+-	 * The auxiliary stack is stored into struct kasan_alloc_meta.
+-	 * The free stack is stored into struct kasan_free_meta.
+-	 */
+ 	depot_stack_handle_t aux_stack[2];
+ #else
+ 	struct kasan_track free_track[KASAN_NR_FREE_STACKS];
+@@ -203,18 +193,18 @@ struct qlist_node {
+ };
+ 
+ /*
+- * Generic mode either stores free meta in the object itself or in the redzone
+- * after the object. In the former case free meta offset is 0, in the latter
+- * case it has some sane value smaller than INT_MAX. Use INT_MAX as free meta
+- * offset when free meta isn't present.
++ * Free meta is stored either in the object itself or in the redzone after the
++ * object. In the former case, free meta offset is 0. In the latter case, the
++ * offset is between 0 and INT_MAX. INT_MAX marks that free meta is not present.
+  */
+ #define KASAN_NO_FREE_META INT_MAX
+ 
++/*
++ * Free meta is only used by Generic mode while the object is in quarantine.
++ * After that, slab allocator stores the freelist pointer in the object.
++ */
+ struct kasan_free_meta {
+ #ifdef CONFIG_KASAN_GENERIC
+-	/* This field is used while the object is in the quarantine.
+-	 * Otherwise it might be used for the allocator freelist.
+-	 */
+ 	struct qlist_node quarantine_link;
+ 	struct kasan_track free_track;
+ #endif
+@@ -417,9 +407,9 @@ static inline void kasan_unpoison(const void *addr, size_t size, bool init)
+ 		return;
+ 	/*
+ 	 * Explicitly initialize the memory with the precise object size to
+-	 * avoid overwriting the SLAB redzone. This disables initialization in
++	 * avoid overwriting the slab redzone. This disables initialization in
+ 	 * the arch code and may thus lead to performance penalty. The penalty
+-	 * is accepted since SLAB redzones aren't enabled in production builds.
++	 * is accepted since slab redzones aren't enabled in production builds.
+ 	 */
+ 	if (__slub_debug_enabled() &&
+ 	    init && ((unsigned long)size & KASAN_GRANULE_MASK)) {
+@@ -503,8 +493,9 @@ void kasan_restore_multi_shot(bool enabled);
+ 
+ /*
+  * Exported functions for interfaces called from assembly or from generated
+- * code. Declarations here to avoid warning about missing declarations.
++ * code. Declared here to avoid warnings about missing declarations.
+  */
++
+ asmlinkage void kasan_unpoison_task_stack_below(const void *watermark);
+ void __asan_register_globals(struct kasan_global *globals, size_t size);
+ void __asan_unregister_globals(struct kasan_global *globals, size_t size);
+@@ -573,4 +564,4 @@ void __hwasan_storeN_noabort(unsigned long addr, size_t size);
+ 
+ void __hwasan_tag_memory(unsigned long addr, u8 tag, unsigned long size);
+ 
+-#endif
++#endif /* __MM_KASAN_KASAN_H */
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220428161254.GA182%40qian.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3167cbec7a82704c1ed2c6bfe85b77534a836fdc.1651162840.git.andreyknvl%40google.com.
