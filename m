@@ -1,133 +1,151 @@
-Return-Path: <kasan-dev+bncBD52JJ7JXILRB442VSJQMGQEYM4OQZQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBUXMV2JQMGQECEDB4GY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83013513E3D
-	for <lists+kasan-dev@lfdr.de>; Thu, 28 Apr 2022 23:56:04 +0200 (CEST)
-Received: by mail-qv1-xf3a.google.com with SMTP id s19-20020ad44b33000000b00456107e1120sf4774435qvw.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 28 Apr 2022 14:56:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1651182963; cv=pass;
+Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D64514616
+	for <lists+kasan-dev@lfdr.de>; Fri, 29 Apr 2022 11:56:35 +0200 (CEST)
+Received: by mail-qt1-x83d.google.com with SMTP id i12-20020ac85e4c000000b002f3914cb0c7sf2221857qtx.15
+        for <lists+kasan-dev@lfdr.de>; Fri, 29 Apr 2022 02:56:35 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1651226194; cv=pass;
         d=google.com; s=arc-20160816;
-        b=O0rp8GcSlULFKqECrnc+BXBVvDAijoYRCOyPEGG+kUGhT4vAXLw9F7Br/9dRy/suX/
-         Tfw0YEn+Bie+lC1xqmy+DRELvUG5Ow5Q063q3kPXX/r6tN7Fvg54Rv5V6ib8nVtW0kJH
-         ceQJJQ2F6LTCW8KuJeqeJLeOmD6hPf6PBs3dRujN360hArwuIpv4X6GBHP8eoQiIAJ+Y
-         3R6s2syeh4DrQnIBBimqTu/WYx+2FYzTXw38w3OzRp9XajuFrwNK1RSpgX3xvaqPaob7
-         fUUH9Db6OlfKQUs134XqhrXl/dw2a0HvOr1wmdQfeCoTkxns0cdaQd8DZ2Kqsneo8Ld3
-         PoIw==
+        b=EVxBYOVqfwZQOE8fihA0BTGxyRD7bLUntW49l2MaTDz2KcdCKvVb5fX36TmVacVkD9
+         cCWMpM7QoVlQdW82gnhjn+Vri+y/wXs5HoP/UkiFdjKmWRfJtL3n7wJdFVghqcGY5cL2
+         KWKHTAWpJSpOOpi+ye1SD9ysnL+pirOq8zOu7gsEUhyMcsEllmXNzP/d1SPYPz6zzJG9
+         GW5LkyNMyQsQZoMqS4RkvW+oWI8+p2To4QDhb9pic+qXetdwIfzNhch8tifhbujJyUS0
+         vN6AgjWK/wUfISpi0KQ7Cm6+pKukKzv9ROFtkVkloLC6T3EdyDETvKF7mXvOo5R+8piB
+         Salw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=f9zIrDRFa0r7MmdxSHvVuUA7v5LDbruK3iccoKGrVPA=;
-        b=ko09MFEevV/j9p4m+j/cELvlO802WpMCc7lNCkgUEPEzD58zglT/h5EbIpULueZOJo
-         BzgWZApKZM89r7mrLH3KgtsDGIRC0HVLd4peXzXY/iMaDgvzCWOyMtvY93dNCqR05WoB
-         FxsDW4HCGkx/PRlH2QwL06AYIH6yDSp7Ra5W+9ycCNe6bbHE15c8g1RniBZ2rGTitUes
-         yQ96Pm9Px/kAHvcj4cpjJtiGHt+39euT4Q0/mUUCuWVlDuvDyoxiUjDEgXhrxwpe2se/
-         1iCWUnBDhgkFru8WIVHO5dHcwLBFelORPrboJgYESjzDtMxwQ9OEBlofbw54OHmLsKlH
-         +Msw==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=oYn9/0zFJDZNbTY5ZzpLlTEHD7wriNONuhSyX/XyUiY=;
+        b=LYyXc079wFMZ8vy386iBmJ8Uz9hg+DVMuC6wYH+XAMRnfxjz4pALkA3dY7lhu5jGEj
+         +FZYJ7MfFCHoNi1wmAZULBMUJrSRJZQZqatk+0VTjx+MMOxNlY8EEXK82RKHBLn5JqDl
+         L1l7UDC4HUgPMSLYr5uu2dcsVLC5eDQ2xE3XeQ30umduoFAAxj+1pArfQ2+jzuAPGr7m
+         UWjiQ7V5Cj778oWSFCsFlGKSgELRkxKd20bJYC3fT7eKY3F6TODXOpi8UXuHT/2kai85
+         dhcxWTIhfok/DqYPxxfL0K+Rt9GApIT/VGEruZ8jhM2oPbtdnah51nDrCUlKyB9+aZ29
+         Lu8w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=OYu5UJio;
-       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::92e as permitted sender) smtp.mailfrom=pcc@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=ljEEUfWi;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=UlkbKJTm;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=f9zIrDRFa0r7MmdxSHvVuUA7v5LDbruK3iccoKGrVPA=;
-        b=eaClPMujbMSm00fm4FyCdBG11bk4aoXISB0OoQNUP9LVN/OL+8tBnGy28hJm1EzPMm
-         PjZxHkWa0NmhU+kFXy6txZ5nAjWDZro76+r78emPlK69IRWEUPNeDb/4VylZKbfUwKPT
-         7nZ8XfA0cc6rY+skLXB2JSIYlPrMlLTRHUFSjJ+uYZjCX9agkyzMF9N5xheboc2WLdoj
-         qE5JZKA5neUamYgL65YjdJfSOk7VP13VCiLfvII48kwRFclXqfPKdjCAo6KM7BYgcIZE
-         Q0LpNgNWBOzcGbqw+zTaiJ0+B6n+sifbFd40N1WxWbYGkWW8Q/t5QV20rRr97nHGlCVV
-         pR5Q==
+        bh=oYn9/0zFJDZNbTY5ZzpLlTEHD7wriNONuhSyX/XyUiY=;
+        b=kLHrxdM72SEvZMzE493wRRIDXtzha9AI/+/nwSNis/54cR27VHOdHcoe1kP8H6nYjI
+         IxA/XMX0rXMNZ/2rbws9+tOD+jcgdfPB8jTzDP4aW1hTxN83LqoyZ83E7n7N+7veYAS8
+         eDPtS+WuA1MXzdqLNlBk32E/4mYbIv3wu3eYI95gjkBxpF7bfF/ARVgXiJMJJNGTx36s
+         mpaYzBQ8/w3bg5BqokwJlj/WcdTCN1bYu4Nu/x0uB0sXqZBLp+P1oy+kUvlEAypyO+br
+         6KYXjvaaCu8LX9lqnXXg63ZBxkLORPwlaQ52kw+ZEMETr/4DpAcW811na4ypupYRWcjq
+         EMoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=f9zIrDRFa0r7MmdxSHvVuUA7v5LDbruK3iccoKGrVPA=;
-        b=GonL1j0hdJjqz/Rd/87uDnXzhDFFAFi3nI9zxZ8QGCgGmpWN6tZGvGaG/FB3ahQ5N0
-         tddts+of6wsOPrGznEtEsKEBsDia6u3BGkwmNNaEdkculysbZd4wYM7eSnDfBghaCE/x
-         OXvtm2YQA/uJ0wlEcZodwBhxbNtxJq+4/a2l5cC358Kku1G77XnmFXNE5TsPNe1SjnyG
-         06aR/PhTlC6S4s7+xoDsEFZAfu77m3F7wStnc9QaPKO7Ipptdsq2xg1VjLWwDiWChizd
-         9KWPtow72lQ60DTVjPqWAazUeBzt+k5q3clo92gfW8WGhf0RvjB4FBTPrNyPO6rAV0Ir
-         Cp5Q==
-X-Gm-Message-State: AOAM530PSoHXhsRu95VNb0c/+HLEEZid6qvovB5Md/UtbhYrCW2z7459
-	nEFqeFwbarPKCBop6lurxsc=
-X-Google-Smtp-Source: ABdhPJyF6OYwHEg5geF5tXzYHluOFOVp+eFIDjOMLqOsyyceTnUHZdihwSRcHZ6rINnTrQSyYlkOoA==
-X-Received: by 2002:a0c:facd:0:b0:456:5186:de3e with SMTP id p13-20020a0cfacd000000b004565186de3emr7602134qvo.71.1651182963461;
-        Thu, 28 Apr 2022 14:56:03 -0700 (PDT)
+        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=oYn9/0zFJDZNbTY5ZzpLlTEHD7wriNONuhSyX/XyUiY=;
+        b=RSZYo082GIrxeL1IKj734D3mmBdE0+AFqg10PW898i9vyH9JnZjlbDlotICW3JD9Yu
+         YMQX7+X5rTwt7ka4GjYdU1TNqeyoHs8aZyQjDDQ3MxpfBmssB37p/bnxIxgT0x/tJ1Oq
+         d1xd58jmHjkxjTmf92/Uv7BjwQM7RCqQGGBbx8pq2NbF8aLFfEAHA3soJgBzNYKHxsXB
+         MtR7YmIFGjDNSHzGLz2O6enT7/yImJlWNuTqSrVAnDHmliQMhai0CUHl4r+y4AmJq02a
+         jteJrakvAVpsk5SFrJuzaeRyoN+g1OY/LE02NOE1O94u2HSNusSDN5IbaZXmmNIpxQzL
+         1PQg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM53072RcNwAhEVPhw5hIaQlpCtXnVetkJaPlV7lUegZa+mkWzJhcj
+	TpyBF2005ezLwpTZ8g8Tg74=
+X-Google-Smtp-Source: ABdhPJxMT+YIo0KDtxelKfAVfgfBzGFf3tJajYB/zmXiV7/xwv7MP6yX+ZZVCxRi88Ynk8p8IlNBOA==
+X-Received: by 2002:a05:6214:500f:b0:458:51c0:ac8e with SMTP id jo15-20020a056214500f00b0045851c0ac8emr454954qvb.3.1651226194326;
+        Fri, 29 Apr 2022 02:56:34 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:f14:b0:69b:dd23:cc12 with SMTP id
- v20-20020a05620a0f1400b0069bdd23cc12ls659803qkl.9.gmail; Thu, 28 Apr 2022
- 14:56:03 -0700 (PDT)
-X-Received: by 2002:a05:620a:6c8:b0:69c:7adc:7370 with SMTP id 8-20020a05620a06c800b0069c7adc7370mr20592070qky.49.1651182962969;
-        Thu, 28 Apr 2022 14:56:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1651182962; cv=none;
+Received: by 2002:a05:620a:2556:b0:699:fc29:e657 with SMTP id
+ s22-20020a05620a255600b00699fc29e657ls1323874qko.6.gmail; Fri, 29 Apr 2022
+ 02:56:33 -0700 (PDT)
+X-Received: by 2002:a37:a853:0:b0:69f:7f28:d90f with SMTP id r80-20020a37a853000000b0069f7f28d90fmr10291575qke.385.1651226193728;
+        Fri, 29 Apr 2022 02:56:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1651226193; cv=none;
         d=google.com; s=arc-20160816;
-        b=0SZ39EN9RRJL0Q17p0mvesG0C8qBiGQBgyg817tPzcMcsY0XVj3U6qWGMsKr7pnuqb
-         wdPnwrxajN9obXOAhkzE4XSCIFmJXaL/1D8BGA7oWbWY0F/fcVhPSxqvTIzba0j5wEPn
-         i9W2qPW2Ug/kRGrvWISEuDxfQPH6+oJ9p/cR/lt9ScnGYj3JwlQMSb6yY6Oni5CkUWCU
-         KJvDAUCYSAtLdDNO/Dfm/jcRBaLGVrHxHQF3s2gRdOcVaYwAjiATJiX6xybTe4QKWaSd
-         9O/CrwOlGUEy+G9QDs+yUL95FZP2S/8wq3lOe8cYaV/1SVtbF91p+GC4lsF2X/1RJrWY
-         Yx+Q==
+        b=KQATSMa35k98MzPf1QvRry3p7L4ORMOoEWSo7qbcgP/DwssBYNjswpY42fx4F+O5ru
+         lIZlkbM4nED+4bpUK6fC5f2gsox2/D3x0Wq9pbFtkDYZ3qwph9MkZOnDDdpPZd3CWzU/
+         tjqf5Gkbylzrs3a+8FvnieMhUGjrgPHULNAyJVe1xpcz0hkpuU9LnHJMulwGGGEewYq3
+         esP5he6zwn0KO70ahavYP/nmOVH7RjnxImOyfd9rLYS1RoPaYS8ZcFd61lioB0nWW4mL
+         KIhEC0ftrheF4XqWnL335RLRcBDoCZHzjIN1sDaLs9/9E/beTq2UtOVFD+wkNtNjBxWR
+         6IoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ykl24436SaU3yo8134eJXPByhNLIxnoisxRIQCMfPNU=;
-        b=O98PXzYu7aM6sZbwAZ2T+t6bR+b1IPcswEF10h2M9gKdqn0PbhJNv+L/R7QJ6/5DV0
-         DklQIkZ7QdVzNugWXWwgqX1VR2uW53kEKZBbvsbbqiQak+rlOyDozrBB3G+dc/jF6R8S
-         FWJ0x0UAUxYZh5rT6M53WmZ+3to5BbCWwgHFgKDXtrbWPEcDlfCH02J38DAcHyGQzz7E
-         a+Nt//+n+/CyNUOy18LPKEBQRPMPHdwNBaK7nWBPvyC/SIa5A/CSRlZSOfE6kcIBgJy8
-         rEFDRyNyCKdRg4tzHcCVwjIPkwAt56vHjWJS2qiTO1lmBGs/ZeHTufwDKrx+V0/rJJru
-         +pOA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature;
+        bh=c50DF01aKj1CW75/eNJw3BumKm0+zPFfK1oMV+pk24I=;
+        b=B6AnL5E584nEN37TE8Ohy8L4fwZX8dS7GYd6KuFMaFsok3IhCVd9hcENKH5+Yccm3I
+         XkSZmDb6JCWuCHrHwjMQjs0h+FfPs80QAQtnrActpIt+oQuIQ19YlRrZY1JERnRxfXp9
+         WtIm6nqJEyjt1lRlHiwkRvZ2YLQvx8kgj+wbXt83vr7NK1O6F4TRUI/YENGeGkZe+kgd
+         G0JUGQqoIdl70EfRdGz8IB+GzW33seFto2Du1XwiGV0JoRXDBpGkVj5ygL4BG+Z7YdBp
+         GEFG/628z+8YCMrWKiCOyGKUec2mTgBGEcsA7GtW/xOSvhjzeAzEyuDn7b5/Balh8t/E
+         k11A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=OYu5UJio;
-       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::92e as permitted sender) smtp.mailfrom=pcc@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com. [2607:f8b0:4864:20::92e])
-        by gmr-mx.google.com with ESMTPS id 79-20020a370752000000b0069f92e9a004si452549qkh.3.2022.04.28.14.56.02
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=ljEEUfWi;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=UlkbKJTm;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
+        by gmr-mx.google.com with ESMTPS id z12-20020ac8710c000000b002f36f4c45dfsi565985qto.3.2022.04.29.02.56.33
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Apr 2022 14:56:02 -0700 (PDT)
-Received-SPF: pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::92e as permitted sender) client-ip=2607:f8b0:4864:20::92e;
-Received: by mail-ua1-x92e.google.com with SMTP id 63so2252320uaw.10
-        for <kasan-dev@googlegroups.com>; Thu, 28 Apr 2022 14:56:02 -0700 (PDT)
-X-Received: by 2002:ab0:7308:0:b0:35f:acfb:c011 with SMTP id
- v8-20020ab07308000000b0035facfbc011mr10636031uao.51.1651182962546; Thu, 28
- Apr 2022 14:56:02 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 02:56:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5490D21877;
+	Fri, 29 Apr 2022 09:56:32 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1953C13AE0;
+	Fri, 29 Apr 2022 09:56:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id UNF3BVC2a2IZEQAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Fri, 29 Apr 2022 09:56:32 +0000
+Message-ID: <2408e290-e016-250c-9e54-350fb923d162@suse.cz>
+Date: Fri, 29 Apr 2022 11:56:31 +0200
 MIME-Version: 1.0
-References: <20220427195820.1716975-1-pcc@google.com> <20220427195820.1716975-2-pcc@google.com>
- <20220427132738.fdca02736b5d067c92185c5b@linux-foundation.org>
-In-Reply-To: <20220427132738.fdca02736b5d067c92185c5b@linux-foundation.org>
-From: "'Peter Collingbourne' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 28 Apr 2022 14:55:51 -0700
-Message-ID: <CAMn1gO4sdaqZDoa0CErkTOaP=z2Y_ZitPck9opdXNbexdLaVOg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
 Subject: Re: [PATCH v5 2/2] mm: make minimum slab alignment a runtime property
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	Pekka Enberg <penberg@kernel.org>, roman.gushchin@linux.dev, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, David Rientjes <rientjes@google.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Eric Biederman <ebiederm@xmission.com>, 
-	Kees Cook <keescook@chromium.org>
+Content-Language: en-US
+To: Peter Collingbourne <pcc@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Hyeonggon Yoo
+ <42.hyeyoo@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ penberg@kernel.org, roman.gushchin@linux.dev, iamjoonsoo.kim@lge.com,
+ rientjes@google.com, Herbert Xu <herbert@gondor.apana.org.au>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ kasan-dev <kasan-dev@googlegroups.com>,
+ Eric Biederman <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>
+References: <20220427195820.1716975-1-pcc@google.com>
+ <20220427195820.1716975-2-pcc@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20220427195820.1716975-2-pcc@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: pcc@google.com
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=OYu5UJio;       spf=pass
- (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::92e as
- permitted sender) smtp.mailfrom=pcc@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Peter Collingbourne <pcc@google.com>
-Reply-To: Peter Collingbourne <pcc@google.com>
+ header.i=@suse.cz header.s=susede2_rsa header.b=ljEEUfWi;       dkim=neutral
+ (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=UlkbKJTm;
+       spf=pass (google.com: domain of vbabka@suse.cz designates
+ 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,74 +158,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Apr 27, 2022 at 1:27 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Wed, 27 Apr 2022 12:58:20 -0700 Peter Collingbourne <pcc@google.com> wrote:
->
-> > When CONFIG_KASAN_HW_TAGS is enabled we currently increase the minimum
-> > slab alignment to 16. This happens even if MTE is not supported in
-> > hardware or disabled via kasan=off, which creates an unnecessary
-> > memory overhead in those cases. Eliminate this overhead by making
-> > the minimum slab alignment a runtime property and only aligning to
-> > 16 if KASAN is enabled at runtime.
-> >
-> > On a DragonBoard 845c (non-MTE hardware) with a kernel built with
-> > CONFIG_KASAN_HW_TAGS, waiting for quiescence after a full Android
-> > boot I see the following Slab measurements in /proc/meminfo (median
-> > of 3 reboots):
-> >
-> > ...
-> >
-> > --- a/mm/slab.c
-> > +++ b/mm/slab.c
-> > @@ -3009,10 +3009,9 @@ static void *cache_alloc_debugcheck_after(struct kmem_cache *cachep,
-> >       objp += obj_offset(cachep);
-> >       if (cachep->ctor && cachep->flags & SLAB_POISON)
-> >               cachep->ctor(objp);
-> > -     if (ARCH_SLAB_MINALIGN &&
-> > -         ((unsigned long)objp & (ARCH_SLAB_MINALIGN-1))) {
-> > -             pr_err("0x%px: not aligned to ARCH_SLAB_MINALIGN=%d\n",
-> > -                    objp, (int)ARCH_SLAB_MINALIGN);
-> > +     if ((unsigned long)objp & (arch_slab_minalign() - 1)) {
-> > +             pr_err("0x%px: not aligned to arch_slab_minalign()=%d\n", objp,
-> > +                    (int)arch_slab_minalign());
->
-> printf/printk know about size_t.  Use %zu, no cast needed.  But...
->
-> >       }
-> >       return objp;
-> >  }
-> > diff --git a/mm/slab_common.c b/mm/slab_common.c
-> > index 2b3206a2c3b5..33cc49810a54 100644
-> > --- a/mm/slab_common.c
-> > +++ b/mm/slab_common.c
-> > @@ -154,8 +154,7 @@ static unsigned int calculate_alignment(slab_flags_t flags,
-> >               align = max(align, ralign);
-> >       }
-> >
-> > -     if (align < ARCH_SLAB_MINALIGN)
-> > -             align = ARCH_SLAB_MINALIGN;
-> > +     align = max_t(size_t, align, arch_slab_minalign());
->
-> max_t/min_t are nature's way of telling us "you screwed up the types".
->
-> So what type _is_ slab alignment?  size_t seems sensible, but the code
-> prefers unsigned int.  So how about we stick with that?
->
->
-> This compiles.  Still some max_t's in slob.c because I was too lazy to
-> go fix the type of ARCH_KMALLOC_MINALIGN.
->
-> Shrug, I don't know if we can be bothered.   You decide :)
+On 4/27/22 21:58, Peter Collingbourne wrote:
+> When CONFIG_KASAN_HW_TAGS is enabled we currently increase the minimum
+> slab alignment to 16. This happens even if MTE is not supported in
+> hardware or disabled via kasan=off, which creates an unnecessary
+> memory overhead in those cases. Eliminate this overhead by making
+> the minimum slab alignment a runtime property and only aligning to
+> 16 if KASAN is enabled at runtime.
+> 
+> On a DragonBoard 845c (non-MTE hardware) with a kernel built with
+> CONFIG_KASAN_HW_TAGS, waiting for quiescence after a full Android
+> boot I see the following Slab measurements in /proc/meminfo (median
+> of 3 reboots):
+> 
+> Before: 169020 kB
+> After:  167304 kB
+> 
+> Link: https://linux-review.googlesource.com/id/I752e725179b43b144153f4b6f584ceb646473ead
+> Signed-off-by: Peter Collingbourne <pcc@google.com>
+> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+> Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> Tested-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> Acked-by: David Rientjes <rientjes@google.com>
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 
-Hi Andrew,
-
-No strong opinions here. I'm happy with the fixup that you added to
-your tree on top of my patch.
-
-Peter
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+Andrew's fixup LGTM too.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAMn1gO4sdaqZDoa0CErkTOaP%3Dz2Y_ZitPck9opdXNbexdLaVOg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2408e290-e016-250c-9e54-350fb923d162%40suse.cz.
