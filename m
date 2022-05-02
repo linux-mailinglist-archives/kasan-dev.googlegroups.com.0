@@ -1,143 +1,140 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBUM4YCJQMGQENKJ27SI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAMN6NI5EERBBVJYGJQMGQEUHPWSWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71CCC517542
-	for <lists+kasan-dev@lfdr.de>; Mon,  2 May 2022 19:01:06 +0200 (CEST)
-Received: by mail-qt1-x840.google.com with SMTP id x10-20020ac8700a000000b002c3ef8fc44csf11372438qtm.8
-        for <lists+kasan-dev@lfdr.de>; Mon, 02 May 2022 10:01:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1651510865; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id C90D1517999
+	for <lists+kasan-dev@lfdr.de>; Tue,  3 May 2022 00:00:39 +0200 (CEST)
+Received: by mail-lf1-x13d.google.com with SMTP id h12-20020a05651211cc00b00471af04ec12sf7252490lfr.15
+        for <lists+kasan-dev@lfdr.de>; Mon, 02 May 2022 15:00:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1651528839; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cCDuWRcTK84N/cAssx/gA5Icf4SdnVFZ2B1qwmbtHkM1K3gc4Tr1Qa5vX3bpwVCujv
-         lg7hry/8VUoTMO7tq6qRTNcic93Id7pPd1ltcOHgK+xbuZNAcamo555TPhcMy5i/ca7R
-         JyYOB4BPjo+TFVn+Y3YVCDx7t6Z5ppQoSK7bYV2uanG2TpAtbFDkjTeVcsIsVTrOpiwh
-         d+1ahJPk55tCT9Y94gJ4aBjcPZZPKv7XitzJ3N40xa7jW6LRy6e4WM0jw/sxr1/wKy/c
-         I3rBAZ9nB070VE3733Nv/XYgRuVb6vHu+g0QsZcbBIx7D3D5mcfo4pBt1k+987Eb6g23
-         mT2A==
+        b=sh6aYA5Yo+sd4ykacZQ79uwb8CpbK+p5XIrDFly1TZ9mru3ctw0r36aWxOLoNuvCBC
+         GSJswQqyQF4uNnbmlKdfAAnZrdkh5MFuvcC0ow9eKA/iN7PSr1GojBMI1gFtfQXqwtOu
+         8/mG0zYL3i0FyFRUk+utNdFU0zCfZFt874AqC5IAuqS39VyIR0enuUzxoGOVCUtWmHNL
+         JT1zh1/74R48XhkaIBb7533o6JhyNx/lKS3qTdo+DRzMuFX/3K8fdGgDkRKsBKOzFhsW
+         KK7bmb3wGmXv41TGq97UCccZXU/2YbOUxIyKN6qmzWqPU2umrsFuLvssS73KeS6RZ7QE
+         Mzuw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kw/oT8LRzfVqJue3Mn0A8I5dv4lJMZBPKn0OaVzJQKo=;
-        b=v9FMmLKWQ3xX8U7UFdAyHvDmKhiFron3ScNU0QMg+LBoel5A376YfKNvzdN1FjTRfb
-         1OJ7l0dv5J5jH50VozOP+iteF62g7vZm9iyuKBwofJJbsxX4TYqaOPMFDU7GKI35NKGO
-         +8VtMFE5XHhgCNHJv1Ny4IXXcof+kRQcfmwFkZvqkttU9i0vCjVlj2o74x7jNIBWommb
-         pNSEFNx211Zfag2SobC7u4LUM4zsiGbCUFu3jpIXs30A46oaEcQssVv9409hKbYoo/hi
-         /P83sErFXi4NZnFhUguWSclg3O2U2mdjQMZEjaj5DGULf57G8PjNQm1SfEIo46BTx92O
-         h19g==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=s2jKF8je2bjV1/WD0URFhxmixIp9ZsVIlCWbtpdLtFc=;
+        b=POD2q1XIvEgCdCTuY3YbYYljvi+PeAwO4Ug41vCGmmLbFtz0mXFTeK5VCQ2TZfKVHl
+         UdjuoQ68rvp6kAMKlA3cmsWCB7ttiTvcUH5qPwapbuP9qW+hYsenYXMD+B9i7g4qUPJq
+         wMjhtlD6TL9JumaLPwwk9OgRK3P56mo1Ki9TmLvpntUb9JPtAiYD0D6AK70kUkG+fdAo
+         k6iS60UeNHr9LlQlgKjvyWbUKcWCJvQpXyPz8a3vr88PzebgPNc10YWJABT5XouCBwdY
+         MvMrsDmjSYoqOo8ub9LUEl3kyqY8yhrDruLXKqnlSCLp+Mda5h2isJi1tWhQQG+FpKna
+         zUEQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=JgdYu4i8;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::112d as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=J4ag3vPs;
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=kw/oT8LRzfVqJue3Mn0A8I5dv4lJMZBPKn0OaVzJQKo=;
-        b=VCAUaOtPJMGrRjQ+PT/wxGhkjExCCpTew70jEwJrJnVIFuvXUzMNniliI4FcKOuBZa
-         EDbonaNNllxg/Ms5TGrS728B18zVOsf6gc4XMnNVgzBgjLSmqmn+tO5lmNq6gM2T9uGO
-         SKC2akaQOkPVZxBziZsthMD0l9+vGDtz1tHoHhsEBG3PDszIRvUmB8xzke5YC663Dnx1
-         4qm2e1EXpZujYYrpxPk+ear6CyeZsBy2VU206z9tqWp/yULMe8klA/Z5rSZBGpw73o4+
-         NBv5ThjK9CxPmWDeDtqqlgUGY5kfIEYDpE8AFhxv3Po2vnIr5+ox3ghL3StJRimzwwAx
-         Uplg==
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=s2jKF8je2bjV1/WD0URFhxmixIp9ZsVIlCWbtpdLtFc=;
+        b=IZ6LyF1guwxC3SR3TKIyXnd9A5Y6FdZ234SV/ETFm+v/Fq42VC+jAPv3vzJUOE3Bsu
+         h9RNxHWytW1a2X8iuqzuRed39r19WtzbsaEzyYnvb/eZ8T4DRaTOnz0TtzZgRzo33/GF
+         sjU7qzxP1Uunrn3qmuw7xJ1PT+yl3ULTucTwhnLrnITpPEEi9gQa830Z2R/nAIJPLTd3
+         EIEmCWqHfoE1KeaYJqBInOTiysce8AwNOu9JQ2lkVmQdcvw/SYEEHVT6oOdrJEADoL0T
+         xuJUU/2/VOQ+nCn74dxA2g8cWI9EnfppOrzudDjaHne1a+xoWD3tjtg9JusHpSUrtoKO
+         EiJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=kw/oT8LRzfVqJue3Mn0A8I5dv4lJMZBPKn0OaVzJQKo=;
-        b=lcehPRrAiPoq75GCBGCOHLeXf9cGOthccPAUTEinTZsT8x2cC40TmoDLqHj64vwWiu
-         6ZFvMZK1PN0HhEIgNLrcKp3ia8zxUndp+1bWDhcOfAiFWjZGXKId/RndDqr55IkhMIV2
-         PtJQbo+7EBGKSxA81/aymjcadAPAvuxSbjJtLJntd1DpInwjFDKOzEPxc1ZBkLc8nUK2
-         wjs8ilQYgUPbDyFHo/KckigQ61/gSs5ssuJqSXKvH+6laMWSBXgkRRXLefQ/HUUaXIJp
-         fCx618ot/myzSeGOddXtbfOvczC+na43C5mNLDazxsMX/zmskNTRcZFXta9SpQOfClBk
-         Oh7A==
-X-Gm-Message-State: AOAM532GSjUXUQpdWODBwhpZjuIjeGzaT+SP0GAvfq3nfvwQ/MBtvhyC
-	JpxcuL8RPqxZGrlQ5hgVXys=
-X-Google-Smtp-Source: ABdhPJzVizzGFSfiFXArLJT2xRuek8dB/1Q76ACbUgz5w3F76rgCWLTMyr59q1mfhlo9d2XN/neeow==
-X-Received: by 2002:a05:620a:795:b0:69f:d074:6067 with SMTP id 21-20020a05620a079500b0069fd0746067mr5900892qka.527.1651510865228;
-        Mon, 02 May 2022 10:01:05 -0700 (PDT)
+        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=s2jKF8je2bjV1/WD0URFhxmixIp9ZsVIlCWbtpdLtFc=;
+        b=EFuFE5JEU9GrAQji08dmXHJZmCNp2peU9+78RQ2t+wk7RYFhgSDh2jwWLE/3ONrvG/
+         gdRy37e7f+RYCE34Y9bmNUL0aSmCxE+dwYoKyi68msSVhyCvy5WwEsRv9Iv7KbzS5e8C
+         1RBS8AjBoPkNGmn9p4Ir7lzCwdzpDT92+PDKri3UYCzXX6Bbl51k5uNd0cNjxPdByXTM
+         DmKXo77RsBYUKaHx9hIJaD3jbUHvcKd3PEoRDRckw6dZIq9T6HNg1m1g7RHeLs4KwZQf
+         eU8dKtUPzYPtQKSE/TVXaTBbsWZ6AcICMLAnHGIRZk4QV8gpbUSkHSLyXYbtpc0rU7pE
+         pefg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM531Ij7yB6TXYinUQYDz8zgws9K8Xq/HluPklnNX4R9TZMAlHzCqO
+	Om0sPY4Cg7093R+xe2oOhfE=
+X-Google-Smtp-Source: ABdhPJxo1uvPNL8JG6k7Ki4c3AqKL6eBY2vfTUfIu0Yr0glVMH3N6IRtnBLPSfxkQ9n7XL7utl12TQ==
+X-Received: by 2002:a05:6512:3047:b0:472:5e5f:e1c7 with SMTP id b7-20020a056512304700b004725e5fe1c7mr7334268lfb.554.1651528839056;
+        Mon, 02 May 2022 15:00:39 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:3005:b0:443:e715:9e9f with SMTP id
- ke5-20020a056214300500b00443e7159e9fls4850127qvb.6.gmail; Mon, 02 May 2022
- 10:01:04 -0700 (PDT)
-X-Received: by 2002:ad4:4f26:0:b0:456:3800:7b76 with SMTP id fc6-20020ad44f26000000b0045638007b76mr10424415qvb.106.1651510864720;
-        Mon, 02 May 2022 10:01:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1651510864; cv=none;
+Received: by 2002:a05:6512:1693:b0:448:3742:2320 with SMTP id
+ bu19-20020a056512169300b0044837422320ls2140652lfb.1.gmail; Mon, 02 May 2022
+ 15:00:38 -0700 (PDT)
+X-Received: by 2002:a05:6512:131c:b0:44b:5b7:75bf with SMTP id x28-20020a056512131c00b0044b05b775bfmr9658998lfu.652.1651528837916;
+        Mon, 02 May 2022 15:00:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1651528837; cv=none;
         d=google.com; s=arc-20160816;
-        b=O1upsxa51IPXvc+Yzk7msJ83qdSgFwUHlNND/DU+XkwDAWwasY7DCSGcLcJhJK+u4+
-         nSV716PjInk8ogRrgZXhKE/orM37t/nSswm9ziln+I2UV8Ph934mfqfqntktRD6JlFpg
-         sSCSblzHm5o8JvveyLI0WmkoZsCWSRV92/zqN/sJvH9FEDJMQnt3Ny457Krs8gvAJbyO
-         xpJ5QMTRU/mvmN3NcaC48iNdQPhkuLe/8yRyq3sw1X3pWLvlBe5pcuVS3iSZaw0TuYRZ
-         2kiBcgE8WhWmidUKKyEissN7WLFKbhYRb8KgFdzQpDmBRclLiFGFNcUcOjTo01I5Uezu
-         KrPQ==
+        b=w2TJngunLaiaGY9tAzrCvNfYAxJ6NLzg5JbbL+wbKbf7YmXwHt2RDy7KOoxxzEsmTC
+         /sxiDtysL9DqYg00Zks+rxAVGB1urYdJXFTWh8iOfKKMB1ElF1+Gnm6k/4JU7xQBADIZ
+         CsCm/9JJwrGFGX3TcP4Bd5SL+2lhrrmS+nu3ppf9D+c71czlDAA3nCaQvRJDyIuX0NR+
+         8D0w079lZeQF6LHJJ4gU5yjfO7cJ2c22nAI7PWUJeu8dTVmdW2pqSBEn9hn2dSlwUGFg
+         zP0Jm4a8mXD1hwvZwNuFbx7f8Bpe7rAHjmEcuNRPtxCmM3e2tPhi48XSiNosQZlJttcC
+         vbNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZDNXgBhMz20++Q4yigO612T0eYygF7r9J92FIVtim7Y=;
-        b=d2J/XK1qWKniTy9gqdhGZ43nH3uAQWD2fwzG9aZnsTMznYVCGMwkXSq33OaHnVhLgd
-         HO3efp3DSgdTT08E3eK1+EAfZAp5wtGkzJCWFO40IqIHsOvGcynjWliyM7yIoLfP0Xm7
-         OFUQ8w71+GXCT+oapB/SAbt33uZ1VQ0d/+ziWCkNJTO2vVG7xGWCbeb6/jh/WZvFz6aI
-         yA7+aV7hRNVhOmCnEB4lR1qSdi6RWXQ6uXuBtJqFAJ6nYZe0oHxDvoIEwZb3woIl2Exm
-         FGV0+0G1KRgVs+c0V7NdRTLtng5zvbn8fYm0xbdlIfirKnfc35uMLqDh9J+hkX0RNeyY
-         e2GA==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :dkim-signature:dkim-signature:from;
+        bh=S+6N0/e64EIdyK+q6LMgUsbq+bhYAt3HjkhVHWMdsus=;
+        b=xeDAT8zw6mxMsAUpY62xrkogZ8SgRiIJzJxEthOmGBbwwB3SRq3aQaM1Rp4BorkHPb
+         tbZON7ItkGBU1IURCLU28lDs9XlTgAbQiNnFMNtPbEZlCxXpN9ayjNkxtY9VjlGbl+pK
+         YTG2QXtxcEaiw5ZuiLUhUhCjHBNr9hh7VZajNYh3pw8K/dl0WlrpG01lsMg0gEV77gVn
+         gfGU3XALVpNG3JW5xaVS/51ZkdpQ/GqMqTlap6lYOCyVCje+l7CD1EjeV/QHb3Eh+XFc
+         26n/DOLsEQjXJUQXMqxQOyLoem8Zh1Bkqpl7qwTN9RfTE8kPnpKxwxVTAngsJYJ9gVS9
+         Xt+g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=JgdYu4i8;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::112d as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com. [2607:f8b0:4864:20::112d])
-        by gmr-mx.google.com with ESMTPS id x6-20020ac86b46000000b002eba0cb25f3si1039664qts.4.2022.05.02.10.01.04
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=J4ag3vPs;
+       dkim=neutral (no key) header.i=@linutronix.de;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
+        by gmr-mx.google.com with ESMTPS id p9-20020a056512138900b0047208583d26si726240lfa.11.2022.05.02.15.00.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 May 2022 10:01:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::112d as permitted sender) client-ip=2607:f8b0:4864:20::112d;
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-2f7d621d1caso154226387b3.11
-        for <kasan-dev@googlegroups.com>; Mon, 02 May 2022 10:01:04 -0700 (PDT)
-X-Received: by 2002:a81:1f8b:0:b0:2f8:5846:445e with SMTP id
- f133-20020a811f8b000000b002f85846445emr11776773ywf.50.1651510864112; Mon, 02
- May 2022 10:01:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220426164315.625149-1-glider@google.com> <20220426164315.625149-29-glider@google.com>
- <87a6c6y7mg.ffs@tglx>
-In-Reply-To: <87a6c6y7mg.ffs@tglx>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 2 May 2022 19:00:28 +0200
-Message-ID: <CAG_fn=U7PPBmmkgxFcWFQUCqZitzMizr1e69D9f26sGGzeitLQ@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 May 2022 15:00:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
+From: Thomas Gleixner <tglx@linutronix.de>
+To: Alexander Potapenko <glider@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton
+ <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>,
+ Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav
+ Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter
+ <cl@linux.com>, David Rientjes <rientjes@google.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu
+ <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, Ingo
+ Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim
+ <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, Marco Elver
+ <elver@google.com>, Mark Rutland <mark.rutland@arm.com>, Matthew Wilcox
+ <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg
+ <penberg@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Vasily Gorbik
+ <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil
+ Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, Linux
+ Memory Management List <linux-mm@kvack.org>, Linux-Arch
+ <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v3 28/46] kmsan: entry: handle register passing from
  uninstrumented code
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, 
-	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Matthew Wilcox <willy@infradead.org>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Linux-Arch <linux-arch@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <CAG_fn=U7PPBmmkgxFcWFQUCqZitzMizr1e69D9f26sGGzeitLQ@mail.gmail.com>
+References: <20220426164315.625149-1-glider@google.com>
+ <20220426164315.625149-29-glider@google.com> <87a6c6y7mg.ffs@tglx>
+ <CAG_fn=U7PPBmmkgxFcWFQUCqZitzMizr1e69D9f26sGGzeitLQ@mail.gmail.com>
+Date: Tue, 03 May 2022 00:00:36 +0200
+Message-ID: <87y1zjlhmj.ffs@tglx>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Original-Sender: tglx@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=JgdYu4i8;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::112d
- as permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@linutronix.de header.s=2020 header.b=J4ag3vPs;       dkim=neutral
+ (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
+ tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender)
+ smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
+ dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,156 +147,177 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Apr 27, 2022 at 3:32 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+Alexander,
+
+On Mon, May 02 2022 at 19:00, Alexander Potapenko wrote:
+> On Wed, Apr 27, 2022 at 3:32 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>> > --- a/kernel/entry/common.c
+>> > +++ b/kernel/entry/common.c
+>> > @@ -23,7 +23,7 @@ static __always_inline void __enter_from_user_mode(struct pt_regs *regs)
+>> >       CT_WARN_ON(ct_state() != CONTEXT_USER);
+>> >       user_exit_irqoff();
+>> >
+>> > -     instrumentation_begin();
+>> > +     instrumentation_begin_with_regs(regs);
+>>
+>> I can see what you are trying to do, but this will end up doing the same
+>> thing over and over. Let's just look at a syscall.
+>>
+>> __visible noinstr void do_syscall_64(struct pt_regs *regs, int nr)
+>> {
+>>         ...
+>>         nr = syscall_enter_from_user_mode(regs, nr)
+>>
+>>                 __enter_from_user_mode(regs)
+>>                         .....
+>>                         instrumentation_begin_with_regs(regs);
+>>                         ....
+>>
+>>                 instrumentation_begin_with_regs(regs);
+>>                 ....
+>>
+>>         instrumentation_begin_with_regs(regs);
+>>
+>>         if (!do_syscall_x64(regs, nr) && !do_syscall_x32(regs, nr) && nr != -1) {
+>>                 /* Invalid system call, but still a system call. */
+>>                 regs->ax = __x64_sys_ni_syscall(regs);
+>>         }
+>>
+>>         instrumentation_end();
+>>
+>>         syscall_exit_to_user_mode(regs);
+>>                 instrumentation_begin_with_regs(regs);
+>>                 __syscall_exit_to_user_mode_work(regs);
+>>         instrumentation_end();
+>>         __exit_to_user_mode();
+>>
+>> That means you memset state four times and unpoison regs four times. I'm
+>> not sure whether that's desired.
 >
-> On Tue, Apr 26 2022 at 18:42, Alexander Potapenko wrote:
+> Regarding the regs, you are right. It should be enough to unpoison the
+> regs at idtentry prologue instead.
+> I tried that initially, but IIRC it required patching each of the
+> DEFINE_IDTENTRY_XXX macros, which already use instrumentation_begin().
+
+Exactly 4 instances :)
+
+> This decision can probably be revisited.
+
+It has to be revisited because the whole thing is incomplete if this is
+not addressed.
+
+> As for the state, what we are doing here is still not enough, although
+> it appears to work.
 >
-> Can you please use 'entry:' as prefix. Slapping kmsan in front of
-> everything does not really make sense.
-Sure, will do.
-
-> > Replace instrumentation_begin()       with instrumentation_begin_with_r=
-egs()
-> > to let KMSAN handle the non-instrumented code and unpoison pt_regs
-> > passed from the instrumented part.
+> Every time an instrumented function calls another function, it sets up
+> the metadata for the function arguments in the per-task struct
+> kmsan_context_state.
+> Similarly, every instrumented function expects its caller to put the
+> metadata into that structure.
+> Now, if a non-instrumented function (e.g. every `noinstr` function)
+> calls an instrumented one (which happens inside the
+> instrumentation_begin()/instrumentation_end() region), nobody sets up
+> the state for that instrumented function, so it may report false
+> positives when accessing its arguments, if there are leftover poisoned
+> values in the state.
 >
-> That should be:
+> To overcome this problem, ideally we need to wipe kmsan_context_state
+> every time a call from the non-instrumented function occurs.
+> But this cannot be done automatically exactly because we cannot
+> instrument the named function :)
 >
->      from the non-instrumented part
-> or
->      passed to the instrumented part
->
-> right?
+> We therefore apply an approximation, wiping the state at the point of
+> the first transition between instrumented and non-instrumented code.
+> Because poison values are generally rare, and instrumented regions
+> tend to be short, it is unlikely that further calls from the same
+> non-instrumented function will result in false positives.
+> Yet it is not completely impossible, so wiping the state for the
+> second/third etc. time won't hurt.
 
-That should be "from the non-instrumented part", you are right.
+Understood. But if I understand you correctly:
 
-> > --- a/kernel/entry/common.c
-> > +++ b/kernel/entry/common.c
-> > @@ -23,7 +23,7 @@ static __always_inline void __enter_from_user_mode(st=
-ruct pt_regs *regs)
-> >       CT_WARN_ON(ct_state() !=3D CONTEXT_USER);
-> >       user_exit_irqoff();
-> >
-> > -     instrumentation_begin();
-> > +     instrumentation_begin_with_regs(regs);
->
-> I can see what you are trying to do, but this will end up doing the same
-> thing over and over. Let's just look at a syscall.
->
-> __visible noinstr void do_syscall_64(struct pt_regs *regs, int nr)
-> {
->         ...
->         nr =3D syscall_enter_from_user_mode(regs, nr)
->
->                 __enter_from_user_mode(regs)
->                         .....
->                         instrumentation_begin_with_regs(regs);
->                         ....
->
->                 instrumentation_begin_with_regs(regs);
->                 ....
->
->         instrumentation_begin_with_regs(regs);
->
->         if (!do_syscall_x64(regs, nr) && !do_syscall_x32(regs, nr) && nr =
-!=3D -1) {
->                 /* Invalid system call, but still a system call. */
->                 regs->ax =3D __x64_sys_ni_syscall(regs);
->         }
->
->         instrumentation_end();
->
->         syscall_exit_to_user_mode(regs);
->                 instrumentation_begin_with_regs(regs);
->                 __syscall_exit_to_user_mode_work(regs);
->         instrumentation_end();
->         __exit_to_user_mode();
->
-> That means you memset state four times and unpoison regs four times. I'm
-> not sure whether that's desired.
+> Similarly, every instrumented function expects its caller to put the
+> metadata into that structure.
 
-Regarding the regs, you are right. It should be enough to unpoison the
-regs at idtentry prologue instead.
-I tried that initially, but IIRC it required patching each of the
-DEFINE_IDTENTRY_XXX macros, which already use instrumentation_begin().
-This decision can probably be revisited.
+then
 
-As for the state, what we are doing here is still not enough, although
-it appears to work.
+     instrumentation_begin();
+     foo(fargs...);
+     bar(bargs...);
+     instrumentation_end();
 
-Every time an instrumented function calls another function, it sets up
-the metadata for the function arguments in the per-task struct
-kmsan_context_state.
-Similarly, every instrumented function expects its caller to put the
-metadata into that structure.
-Now, if a non-instrumented function (e.g. every `noinstr` function)
-calls an instrumented one (which happens inside the
-instrumentation_begin()/instrumentation_end() region), nobody sets up
-the state for that instrumented function, so it may report false
-positives when accessing its arguments, if there are leftover poisoned
-values in the state.
+is a source of potential false positives because the state is not
+guaranteed to be correct, neither for foo() nor for bar(), even if you
+wipe the state in instrumentation_begin(), right?
 
-To overcome this problem, ideally we need to wipe kmsan_context_state
-every time a call from the non-instrumented function occurs.
-But this cannot be done automatically exactly because we cannot
-instrument the named function :)
+This approximation approach smells fishy and it's inevitably going to be
+a constant source of 'add yet another kmsan annotation/fixup' patches,
+which I'm not interested in at all.
 
-We therefore apply an approximation, wiping the state at the point of
-the first transition between instrumented and non-instrumented code.
-Because poison values are generally rare, and instrumented regions
-tend to be short, it is unlikely that further calls from the same
-non-instrumented function will result in false positives.
-Yet it is not completely impossible, so wiping the state for the
-second/third etc. time won't hurt.
+As this needs compiler support anyway, then why not doing the obvious:
 
->
-> instrumentation_begin()/end() are not really suitable IMO. They were
-> added to allow objtool to validate that nothing escapes into
-> instrumentable code unless annotated accordingly.
+#define noinstr                                 \
+        .... __kmsan_conditional
 
-An alternative to this would be adding some extra code unpoisoning the
-state to every non-instrumented function that contains an instrumented
-region.
-That code would have to precede the first instrumentation_begin()
-anyway, so I thought it would be reasonable to piggyback on the
-existing annotation.
+#define instrumentation_begin()                 \
+        ..... __kmsan_cond_begin
 
->
-> Thanks,
->
->         tglx
+#define instrumentation_end()                   \
+        __kmsan_cond_end .......
 
+and let the compiler stick whatever is required into that code section
+between instrumentation_begin() and instrumentation_end()?
 
+That's not violating any of the noinstr constraints at all. In fact we
+allow _any_ instrumentation to be placed between this two points. We
+have tracepoints there today.
 
---=20
-Alexander Potapenko
-Software Engineer
+We could also allow breakpoints, kprobes or whatever, but handling this
+at that granularity level for a production kernel is just overkill and
+the code in those instrumentable sections is usually not that
+interesting as it's mostly function calls.
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+But if the compiler converts
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+     instrumentation_begin();
+     foo(fargs...);
+     bar(bargs...);
+     instrumentation_end();
 
-Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise
-erhalten haben sollten, leiten Sie diese bitte nicht an jemand anderes
-weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie =
-mich
-bitte wissen, dass die E-Mail an die falsche Person gesendet wurde.
+to
 
+     instrumentation_begin();
+     kmsan_instr_begin_magic();
+     kmsan_magic(fargs...);
+     foo(fargs...);
+     kmsan_magic(bargs...);
+     bar(bargs...);
+     kmsan_instr_end_magic();
+     instrumentation_end();
 
-This e-mail is confidential. If you received this communication by
-mistake, please don't forward it to anyone else, please erase all
-copies and attachments, and please let me know that it has gone to the
-wrong person.
+for the kmsan case and leaves anything outside of these sections alone,
+then you have:
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DU7PPBmmkgxFcWFQUCqZitzMizr1e69D9f26sGGzeitLQ%40mail.gmai=
-l.com.
+   - a minimal code change
+   - the best possible coverage
+   - the least false positive crap to chase and annotate
+
+IOW, a solution which is solid and future proof.
+
+I'm all for making use of advanced instrumentation, validation and
+debugging features, but this mindset of 'make the code comply to what
+the tool of today provides' is fundamentally wrong. Tools have to
+provide value to the programmer and not the other way round.
+
+Yes, it's more work on the tooling side, but the tooling side is mostly
+a one time effort while chasing the false positives is a long term
+nightmare.
+
+Thanks,
+
+        tglx
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87y1zjlhmj.ffs%40tglx.
