@@ -1,140 +1,127 @@
-Return-Path: <kasan-dev+bncBDAMN6NI5EERBBVJYGJQMGQEUHPWSWA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBGFYYOJQMGQEN6ZFCFQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90D1517999
-	for <lists+kasan-dev@lfdr.de>; Tue,  3 May 2022 00:00:39 +0200 (CEST)
-Received: by mail-lf1-x13d.google.com with SMTP id h12-20020a05651211cc00b00471af04ec12sf7252490lfr.15
-        for <lists+kasan-dev@lfdr.de>; Mon, 02 May 2022 15:00:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1651528839; cv=pass;
+Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23732517F0F
+	for <lists+kasan-dev@lfdr.de>; Tue,  3 May 2022 09:39:05 +0200 (CEST)
+Received: by mail-wm1-x337.google.com with SMTP id 26-20020a05600c021a00b003940660c053sf5349897wmi.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 03 May 2022 00:39:05 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1651563544; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sh6aYA5Yo+sd4ykacZQ79uwb8CpbK+p5XIrDFly1TZ9mru3ctw0r36aWxOLoNuvCBC
-         GSJswQqyQF4uNnbmlKdfAAnZrdkh5MFuvcC0ow9eKA/iN7PSr1GojBMI1gFtfQXqwtOu
-         8/mG0zYL3i0FyFRUk+utNdFU0zCfZFt874AqC5IAuqS39VyIR0enuUzxoGOVCUtWmHNL
-         JT1zh1/74R48XhkaIBb7533o6JhyNx/lKS3qTdo+DRzMuFX/3K8fdGgDkRKsBKOzFhsW
-         KK7bmb3wGmXv41TGq97UCccZXU/2YbOUxIyKN6qmzWqPU2umrsFuLvssS73KeS6RZ7QE
-         Mzuw==
+        b=Yn5yJZemDSf92ioUZ4aPUw4rEqT/UbHz5Q+ktlBXLI5NizhicKyf2FECtdMuVAbcri
+         4CqPDSREvPSXC/DgKVaX1Rxgb/Mp133erw71NQe+wmqxW0ZWeyfvZr/6itEYV9BTqNjO
+         E5BXtJMzDaVzc5J1Ll/9xCxSsV1WsJrfg9Lx7BCzMb/fUa//U8RPfvjaJuRWEcGd9Dqk
+         Qye19H3pAz6OKIDpg5uZTiVtq6vXCHKRaSyzWILFnxj+/J1s1ciwvcpco+PQhJpw9tKA
+         nk+EwtcSXSmxM3orC1fsgWFungbV8MeOqc0oJSlo+Q2kmE3MGOvXX2sXiFTmokjPoJ/C
+         X/PQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
-        bh=s2jKF8je2bjV1/WD0URFhxmixIp9ZsVIlCWbtpdLtFc=;
-        b=POD2q1XIvEgCdCTuY3YbYYljvi+PeAwO4Ug41vCGmmLbFtz0mXFTeK5VCQ2TZfKVHl
-         UdjuoQ68rvp6kAMKlA3cmsWCB7ttiTvcUH5qPwapbuP9qW+hYsenYXMD+B9i7g4qUPJq
-         wMjhtlD6TL9JumaLPwwk9OgRK3P56mo1Ki9TmLvpntUb9JPtAiYD0D6AK70kUkG+fdAo
-         k6iS60UeNHr9LlQlgKjvyWbUKcWCJvQpXyPz8a3vr88PzebgPNc10YWJABT5XouCBwdY
-         MvMrsDmjSYoqOo8ub9LUEl3kyqY8yhrDruLXKqnlSCLp+Mda5h2isJi1tWhQQG+FpKna
-         zUEQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :mime-version:message-id:date:dkim-signature;
+        bh=yMi+AfOFC/Gyr8XKIFTc+TuYMBD99AoDN54eGB6lON8=;
+        b=gE/mMtOUkbhpFA17nbwBhktys3/6V7XECtJ3ZYgiXQ/pATWY8R2zN/QRBxNoMNJONo
+         GtBaqcydY22cLrKtDul/CaGKHvUBoMbTRwe5MO3xMCIWFNwN+GoPXdP06cKorfB+zOli
+         RKH1vzbJ+6tsTvvUNAOv2mmaJcxM6SBWlGuFy7XG058wVJOUuJcmM1ghTJZ5muk/DH91
+         hiXREEsQcfYoHZna/Qv8s1YoLXC09o3j0iEBZ6aZQwhSoPtHHyhFsfMemPDArMo4UEwD
+         aHTg00dGWNx756D9umGe1qq0QkfZUMnfyr28o2v4Xrct48/mWEt9/lcoTV9CJR49hvH9
+         YFXw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=J4ag3vPs;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       dkim=pass header.i=@google.com header.s=20210112 header.b=WL2UUkfw;
+       spf=pass (google.com: domain of 3ftxwygukcaspwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3FtxwYgUKCasPWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=s2jKF8je2bjV1/WD0URFhxmixIp9ZsVIlCWbtpdLtFc=;
-        b=IZ6LyF1guwxC3SR3TKIyXnd9A5Y6FdZ234SV/ETFm+v/Fq42VC+jAPv3vzJUOE3Bsu
-         h9RNxHWytW1a2X8iuqzuRed39r19WtzbsaEzyYnvb/eZ8T4DRaTOnz0TtzZgRzo33/GF
-         sjU7qzxP1Uunrn3qmuw7xJ1PT+yl3ULTucTwhnLrnITpPEEi9gQa830Z2R/nAIJPLTd3
-         EIEmCWqHfoE1KeaYJqBInOTiysce8AwNOu9JQ2lkVmQdcvw/SYEEHVT6oOdrJEADoL0T
-         xuJUU/2/VOQ+nCn74dxA2g8cWI9EnfppOrzudDjaHne1a+xoWD3tjtg9JusHpSUrtoKO
-         EiJQ==
+        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=yMi+AfOFC/Gyr8XKIFTc+TuYMBD99AoDN54eGB6lON8=;
+        b=HfEPjemYZxwbUM9jb+Jn96jejTqoWQYb2/vOadWsxGQhMauQj7F+D/7IWqVxUIiXz2
+         fdrNoUZI5DYZBgiNnYCfaCAGJqDw8qMv/NUpyjTEoRypqspi6GOaShntXDM+LycqSJTE
+         DnMpnUsqS8wXYphs8qoJ4wuKmPNABhVKaUyQ5a/7JPi+zbKMIv13tEgj+QxSR86u0tX4
+         fXTABBPBfXC3g4LTgkJldnjEWbbS0av77cyU/bcfoVEOrZK44xXY535sLKvLCfaM51mP
+         bXOuA0PMuo++ejrzThi9+bJ1m7AurUpohBzHdWPxl9DDXY+AeonSbMiHXSgCqrlIiMuv
+         YFRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=s2jKF8je2bjV1/WD0URFhxmixIp9ZsVIlCWbtpdLtFc=;
-        b=EFuFE5JEU9GrAQji08dmXHJZmCNp2peU9+78RQ2t+wk7RYFhgSDh2jwWLE/3ONrvG/
-         gdRy37e7f+RYCE34Y9bmNUL0aSmCxE+dwYoKyi68msSVhyCvy5WwEsRv9Iv7KbzS5e8C
-         1RBS8AjBoPkNGmn9p4Ir7lzCwdzpDT92+PDKri3UYCzXX6Bbl51k5uNd0cNjxPdByXTM
-         DmKXo77RsBYUKaHx9hIJaD3jbUHvcKd3PEoRDRckw6dZIq9T6HNg1m1g7RHeLs4KwZQf
-         eU8dKtUPzYPtQKSE/TVXaTBbsWZ6AcICMLAnHGIRZk4QV8gpbUSkHSLyXYbtpc0rU7pE
-         pefg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531Ij7yB6TXYinUQYDz8zgws9K8Xq/HluPklnNX4R9TZMAlHzCqO
-	Om0sPY4Cg7093R+xe2oOhfE=
-X-Google-Smtp-Source: ABdhPJxo1uvPNL8JG6k7Ki4c3AqKL6eBY2vfTUfIu0Yr0glVMH3N6IRtnBLPSfxkQ9n7XL7utl12TQ==
-X-Received: by 2002:a05:6512:3047:b0:472:5e5f:e1c7 with SMTP id b7-20020a056512304700b004725e5fe1c7mr7334268lfb.554.1651528839056;
-        Mon, 02 May 2022 15:00:39 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=yMi+AfOFC/Gyr8XKIFTc+TuYMBD99AoDN54eGB6lON8=;
+        b=MZVwOwiUj6pyEHEveiKLksUlWj6PEuMZTXcA7UViT3iAqpxJ62FDEv8HtMkNG3wND4
+         8u8yL+bDF0+fNdvFl7E06LLY0dpDnUWyi90wAKn9sOC1+CoieG51p2FeEngRWVYpJ785
+         1Q1RDZbC3/8oaCx5igPMREf7AcQPS8zhMAxwrCif1zMl2W8v2x3dNCF7qP/sn0tp/udD
+         /FnJBdjUiaOeSA+Em+7WtyvRaecXrJWYExW2+1x0lGIJzVE2rhLLJK+GQmDBR+I8ya5v
+         Lq568/nFqOhk3TgTRvRZefWK9J6gEOtFaDsQNlHbtTuR2eSk1aDhCrHMsVTypijaepob
+         qFIg==
+X-Gm-Message-State: AOAM531vVWV51iBdVhm5u68wTJjY1zitWzQNBUmwtvCGtqSA2MaeUdpY
+	PUuuSr2D88Fnoi1iNMf6i2k=
+X-Google-Smtp-Source: ABdhPJw79fOQfp7u/xzvLddjyzY9/x3VmsEGYo7U0Dv3OcQ6l9x89xFT9J47grEttBK3NjvNr+AkxQ==
+X-Received: by 2002:a7b:cb47:0:b0:393:dd9f:e64a with SMTP id v7-20020a7bcb47000000b00393dd9fe64amr2163191wmj.170.1651563544726;
+        Tue, 03 May 2022 00:39:04 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:1693:b0:448:3742:2320 with SMTP id
- bu19-20020a056512169300b0044837422320ls2140652lfb.1.gmail; Mon, 02 May 2022
- 15:00:38 -0700 (PDT)
-X-Received: by 2002:a05:6512:131c:b0:44b:5b7:75bf with SMTP id x28-20020a056512131c00b0044b05b775bfmr9658998lfu.652.1651528837916;
-        Mon, 02 May 2022 15:00:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1651528837; cv=none;
+Received: by 2002:a05:6000:1567:b0:20c:5e04:8d9e with SMTP id
+ 7-20020a056000156700b0020c5e048d9els575132wrz.1.gmail; Tue, 03 May 2022
+ 00:39:03 -0700 (PDT)
+X-Received: by 2002:a05:6000:186f:b0:20c:5f3d:44a4 with SMTP id d15-20020a056000186f00b0020c5f3d44a4mr7275275wri.152.1651563543523;
+        Tue, 03 May 2022 00:39:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1651563543; cv=none;
         d=google.com; s=arc-20160816;
-        b=w2TJngunLaiaGY9tAzrCvNfYAxJ6NLzg5JbbL+wbKbf7YmXwHt2RDy7KOoxxzEsmTC
-         /sxiDtysL9DqYg00Zks+rxAVGB1urYdJXFTWh8iOfKKMB1ElF1+Gnm6k/4JU7xQBADIZ
-         CsCm/9JJwrGFGX3TcP4Bd5SL+2lhrrmS+nu3ppf9D+c71czlDAA3nCaQvRJDyIuX0NR+
-         8D0w079lZeQF6LHJJ4gU5yjfO7cJ2c22nAI7PWUJeu8dTVmdW2pqSBEn9hn2dSlwUGFg
-         zP0Jm4a8mXD1hwvZwNuFbx7f8Bpe7rAHjmEcuNRPtxCmM3e2tPhi48XSiNosQZlJttcC
-         vbNw==
+        b=lrdmUTBMPehAWKIuLVZGgp1khCn3iR2Cr/vct7RqFLZjN0KIDxVMB/KfF+e3OurW/7
+         9oVdUSwwXnafYUgWH33nj3apWcLY6xSsgmufaWcFKCWb5BCJXqTKDseMEdsINN4B5EjZ
+         p6ja86L8850mxC+PmT7Qc3qF8m1uBxEQ+iY3TlmVQqXri+4KtGgte5Rp58kzXK4qHX0Q
+         G4dXs59kct4FEEngQGpvy/ppF1tV7YCU7v/iRRmscLk8aigp2SZIlcYXw09QiQidV+j1
+         cA4CVrmUwhfJwcAL/g2c1inrHi8h4v6Mr9jmxHiowOD0CTclkYYvr5nexswyCrDpeU3I
+         q+hQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :dkim-signature:dkim-signature:from;
-        bh=S+6N0/e64EIdyK+q6LMgUsbq+bhYAt3HjkhVHWMdsus=;
-        b=xeDAT8zw6mxMsAUpY62xrkogZ8SgRiIJzJxEthOmGBbwwB3SRq3aQaM1Rp4BorkHPb
-         tbZON7ItkGBU1IURCLU28lDs9XlTgAbQiNnFMNtPbEZlCxXpN9ayjNkxtY9VjlGbl+pK
-         YTG2QXtxcEaiw5ZuiLUhUhCjHBNr9hh7VZajNYh3pw8K/dl0WlrpG01lsMg0gEV77gVn
-         gfGU3XALVpNG3JW5xaVS/51ZkdpQ/GqMqTlap6lYOCyVCje+l7CD1EjeV/QHb3Eh+XFc
-         26n/DOLsEQjXJUQXMqxQOyLoem8Zh1Bkqpl7qwTN9RfTE8kPnpKxwxVTAngsJYJ9gVS9
-         Xt+g==
+        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
+        bh=kkO/dWNNM89/72XXalUPVAWHtnC41R6OkxWseT3mGWc=;
+        b=gjx0ZVA+Q6cjTde5F5C4nXJasSGx9spMpoa2xv3DrTfZHWtdo1IFuChzO4Nl9jkCPC
+         Wu2xqt2t+y5Rh0dXsfpq/bWbvyiXiFxeVvZ6qI3Bh9Cdurpf2VoVGWuPRPza/+PKssYl
+         EZ2CVlWxWuY0cBwlx500GCDk7MS6bg3hMn5avPXMegmwhVmGn6fSXoXfd3KoU8pkrwXX
+         7Dd4NdnkIp94VSfmIhJNImAR02UfcOlJeIqSJ93lK6nIamLERIe5x28YQk+58p/Xmg5K
+         7C1gdSNlzaCyARAqjMZuE5Cd6RVNtqZ+ocE4dwl58lVSvy39LLXjm5ToDUBymqLPfVhy
+         R7pQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=J4ag3vPs;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
-        by gmr-mx.google.com with ESMTPS id p9-20020a056512138900b0047208583d26si726240lfa.11.2022.05.02.15.00.37
+       dkim=pass header.i=@google.com header.s=20210112 header.b=WL2UUkfw;
+       spf=pass (google.com: domain of 3ftxwygukcaspwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3FtxwYgUKCasPWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
+        by gmr-mx.google.com with ESMTPS id bg13-20020a05600c3c8d00b00393e80e70c9si76856wmb.1.2022.05.03.00.39.03
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 15:00:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
-From: Thomas Gleixner <tglx@linutronix.de>
-To: Alexander Potapenko <glider@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton
- <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>,
- Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav
- Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter
- <cl@linux.com>, David Rientjes <rientjes@google.com>, Dmitry Vyukov
- <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu
- <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, Ingo
- Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim
- <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, Marco Elver
- <elver@google.com>, Mark Rutland <mark.rutland@arm.com>, Matthew Wilcox
- <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg
- <penberg@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Vasily Gorbik
- <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil
- Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, Linux
- Memory Management List <linux-mm@kvack.org>, Linux-Arch
- <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 28/46] kmsan: entry: handle register passing from
- uninstrumented code
-In-Reply-To: <CAG_fn=U7PPBmmkgxFcWFQUCqZitzMizr1e69D9f26sGGzeitLQ@mail.gmail.com>
-References: <20220426164315.625149-1-glider@google.com>
- <20220426164315.625149-29-glider@google.com> <87a6c6y7mg.ffs@tglx>
- <CAG_fn=U7PPBmmkgxFcWFQUCqZitzMizr1e69D9f26sGGzeitLQ@mail.gmail.com>
-Date: Tue, 03 May 2022 00:00:36 +0200
-Message-ID: <87y1zjlhmj.ffs@tglx>
-MIME-Version: 1.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 May 2022 00:39:03 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3ftxwygukcaspwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
+Received: by mail-ej1-x649.google.com with SMTP id sc20-20020a1709078a1400b006f4a358c817so63515ejc.16
+        for <kasan-dev@googlegroups.com>; Tue, 03 May 2022 00:39:03 -0700 (PDT)
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:bdb8:d8d3:6904:292f])
+ (user=elver job=sendgmr) by 2002:a17:906:c0e:b0:6f0:2b1e:9077 with SMTP id
+ s14-20020a1709060c0e00b006f02b1e9077mr14448413ejf.411.1651563542771; Tue, 03
+ May 2022 00:39:02 -0700 (PDT)
+Date: Tue,  3 May 2022 09:38:44 +0200
+Message-Id: <20220503073844.4148944-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
+Subject: [PATCH -printk] printk, tracing: fix console tracepoint
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, John Ogness <john.ogness@linutronix.de>, 
+	Petr Mladek <pmladek@suse.com>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	Thomas Gleixner <tglx@linutronix.de>, Johannes Berg <johannes.berg@intel.com>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Naresh Kamboju <naresh.kamboju@linaro.org>, 
+	Linux Kernel Functional Testing <lkft@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: tglx@linutronix.de
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=J4ag3vPs;       dkim=neutral
- (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
- tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender)
- smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
- dis=NONE) header.from=linutronix.de
+ header.i=@google.com header.s=20210112 header.b=WL2UUkfw;       spf=pass
+ (google.com: domain of 3ftxwygukcaspwgpcrzzrwp.nzxvldly-opgrzzrwprczfad.nzx@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3FtxwYgUKCasPWgPcRZZRWP.NZXVLdLY-OPgRZZRWPRcZfad.NZX@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,177 +134,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Alexander,
+The original intent of the 'console' tracepoint per 95100358491a
+("printk/tracing: Add console output tracing") had been to "[...] record
+any printk messages into the trace, regardless of the current console
+loglevel. This can help correlate (existing) printk debugging with other
+tracing."
 
-On Mon, May 02 2022 at 19:00, Alexander Potapenko wrote:
-> On Wed, Apr 27, 2022 at 3:32 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->> > --- a/kernel/entry/common.c
->> > +++ b/kernel/entry/common.c
->> > @@ -23,7 +23,7 @@ static __always_inline void __enter_from_user_mode(struct pt_regs *regs)
->> >       CT_WARN_ON(ct_state() != CONTEXT_USER);
->> >       user_exit_irqoff();
->> >
->> > -     instrumentation_begin();
->> > +     instrumentation_begin_with_regs(regs);
->>
->> I can see what you are trying to do, but this will end up doing the same
->> thing over and over. Let's just look at a syscall.
->>
->> __visible noinstr void do_syscall_64(struct pt_regs *regs, int nr)
->> {
->>         ...
->>         nr = syscall_enter_from_user_mode(regs, nr)
->>
->>                 __enter_from_user_mode(regs)
->>                         .....
->>                         instrumentation_begin_with_regs(regs);
->>                         ....
->>
->>                 instrumentation_begin_with_regs(regs);
->>                 ....
->>
->>         instrumentation_begin_with_regs(regs);
->>
->>         if (!do_syscall_x64(regs, nr) && !do_syscall_x32(regs, nr) && nr != -1) {
->>                 /* Invalid system call, but still a system call. */
->>                 regs->ax = __x64_sys_ni_syscall(regs);
->>         }
->>
->>         instrumentation_end();
->>
->>         syscall_exit_to_user_mode(regs);
->>                 instrumentation_begin_with_regs(regs);
->>                 __syscall_exit_to_user_mode_work(regs);
->>         instrumentation_end();
->>         __exit_to_user_mode();
->>
->> That means you memset state four times and unpoison regs four times. I'm
->> not sure whether that's desired.
->
-> Regarding the regs, you are right. It should be enough to unpoison the
-> regs at idtentry prologue instead.
-> I tried that initially, but IIRC it required patching each of the
-> DEFINE_IDTENTRY_XXX macros, which already use instrumentation_begin().
+Petr points out [1] that calling trace_console_rcuidle() in
+call_console_driver() had been the wrong thing for a while, because
+"printk() always used console_trylock() and the message was flushed to
+the console only when the trylock succeeded. And it was always deferred
+in NMI or when printed via printk_deferred()."
 
-Exactly 4 instances :)
+With 09c5ba0aa2fc ("printk: add kthread console printers"), things only
+got worse, and calls to call_console_driver() no longer happen with
+typical printk() calls but always appear deferred [2].
 
-> This decision can probably be revisited.
+As such, the tracepoint can no longer serve its purpose to clearly
+correlate printk() calls and other tracing, as well as breaks usecases
+that expect every printk() call to result in a callback of the console
+tracepoint. Notably, the KFENCE and KCSAN test suites, which want to
+capture console output and assume a printk() immediately gives us a
+callback to the console tracepoint.
 
-It has to be revisited because the whole thing is incomplete if this is
-not addressed.
+Fix the console tracepoint by moving it into printk_sprint() [3].
 
-> As for the state, what we are doing here is still not enough, although
-> it appears to work.
->
-> Every time an instrumented function calls another function, it sets up
-> the metadata for the function arguments in the per-task struct
-> kmsan_context_state.
-> Similarly, every instrumented function expects its caller to put the
-> metadata into that structure.
-> Now, if a non-instrumented function (e.g. every `noinstr` function)
-> calls an instrumented one (which happens inside the
-> instrumentation_begin()/instrumentation_end() region), nobody sets up
-> the state for that instrumented function, so it may report false
-> positives when accessing its arguments, if there are leftover poisoned
-> values in the state.
->
-> To overcome this problem, ideally we need to wipe kmsan_context_state
-> every time a call from the non-instrumented function occurs.
-> But this cannot be done automatically exactly because we cannot
-> instrument the named function :)
->
-> We therefore apply an approximation, wiping the state at the point of
-> the first transition between instrumented and non-instrumented code.
-> Because poison values are generally rare, and instrumented regions
-> tend to be short, it is unlikely that further calls from the same
-> non-instrumented function will result in false positives.
-> Yet it is not completely impossible, so wiping the state for the
-> second/third etc. time won't hurt.
+One notable difference is that by moving tracing into printk_sprint(),
+the 'text' will no longer include the "header" (loglevel and timestamp),
+but only the raw message. Arguably this is less of a problem now that
+the console tracepoint happens on the printk() call and isn't delayed.
 
-Understood. But if I understand you correctly:
+Link: https://lore.kernel.org/all/Ym+WqKStCg%2FEHfh3@alley/ [1]
+Link: https://lore.kernel.org/all/CA+G9fYu2kS0wR4WqMRsj2rePKV9XLgOU1PiXnMvpT+Z=c2ucHA@mail.gmail.com/ [2]
+Link: https://lore.kernel.org/all/87fslup9dx.fsf@jogness.linutronix.de/ [3]
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Signed-off-by: Marco Elver <elver@google.com>
+Cc: John Ogness <john.ogness@linutronix.de>
+Cc: Petr Mladek <pmladek@suse.com>
+---
+ kernel/printk/printk.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Similarly, every instrumented function expects its caller to put the
-> metadata into that structure.
-
-then
-
-     instrumentation_begin();
-     foo(fargs...);
-     bar(bargs...);
-     instrumentation_end();
-
-is a source of potential false positives because the state is not
-guaranteed to be correct, neither for foo() nor for bar(), even if you
-wipe the state in instrumentation_begin(), right?
-
-This approximation approach smells fishy and it's inevitably going to be
-a constant source of 'add yet another kmsan annotation/fixup' patches,
-which I'm not interested in at all.
-
-As this needs compiler support anyway, then why not doing the obvious:
-
-#define noinstr                                 \
-        .... __kmsan_conditional
-
-#define instrumentation_begin()                 \
-        ..... __kmsan_cond_begin
-
-#define instrumentation_end()                   \
-        __kmsan_cond_end .......
-
-and let the compiler stick whatever is required into that code section
-between instrumentation_begin() and instrumentation_end()?
-
-That's not violating any of the noinstr constraints at all. In fact we
-allow _any_ instrumentation to be placed between this two points. We
-have tracepoints there today.
-
-We could also allow breakpoints, kprobes or whatever, but handling this
-at that granularity level for a production kernel is just overkill and
-the code in those instrumentable sections is usually not that
-interesting as it's mostly function calls.
-
-But if the compiler converts
-
-     instrumentation_begin();
-     foo(fargs...);
-     bar(bargs...);
-     instrumentation_end();
-
-to
-
-     instrumentation_begin();
-     kmsan_instr_begin_magic();
-     kmsan_magic(fargs...);
-     foo(fargs...);
-     kmsan_magic(bargs...);
-     bar(bargs...);
-     kmsan_instr_end_magic();
-     instrumentation_end();
-
-for the kmsan case and leaves anything outside of these sections alone,
-then you have:
-
-   - a minimal code change
-   - the best possible coverage
-   - the least false positive crap to chase and annotate
-
-IOW, a solution which is solid and future proof.
-
-I'm all for making use of advanced instrumentation, validation and
-debugging features, but this mindset of 'make the code comply to what
-the tool of today provides' is fundamentally wrong. Tools have to
-provide value to the programmer and not the other way round.
-
-Yes, it's more work on the tooling side, but the tooling side is mostly
-a one time effort while chasing the false positives is a long term
-nightmare.
-
-Thanks,
-
-        tglx
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index f66d6e72a642..a3e1035929b0 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -2064,8 +2064,6 @@ static void call_console_driver(struct console *con, const char *text, size_t le
+ {
+ 	size_t dropped_len;
+ 
+-	trace_console_rcuidle(text, len);
+-
+ 	if (con->dropped && dropped_text) {
+ 		dropped_len = snprintf(dropped_text, DROPPED_TEXT_MAX,
+ 				       "** %lu printk messages dropped **\n",
+@@ -2240,6 +2238,8 @@ static u16 printk_sprint(char *text, u16 size, int facility,
+ 		}
+ 	}
+ 
++	trace_console_rcuidle(text, text_len);
++
+ 	return text_len;
+ }
+ 
+-- 
+2.36.0.464.gb9c8b46e94-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87y1zjlhmj.ffs%40tglx.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220503073844.4148944-1-elver%40google.com.
