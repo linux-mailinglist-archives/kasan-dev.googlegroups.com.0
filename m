@@ -1,142 +1,179 @@
-Return-Path: <kasan-dev+bncBDAMN6NI5EERB74P2GJQMGQEZBY2BKA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJZ5QGEQAFBBOHT2KJQMGQENGPXMCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x63d.google.com (mail-ej1-x63d.google.com [IPv6:2a00:1450:4864:20::63d])
-	by mail.lfdr.de (Postfix) with ESMTPS id F261B51CBAD
-	for <lists+kasan-dev@lfdr.de>; Thu,  5 May 2022 23:56:15 +0200 (CEST)
-Received: by mail-ej1-x63d.google.com with SMTP id sd38-20020a1709076e2600b006f3e54b1dbcsf1416928ejc.4
-        for <lists+kasan-dev@lfdr.de>; Thu, 05 May 2022 14:56:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1651787775; cv=pass;
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D8E51D0F5
+	for <lists+kasan-dev@lfdr.de>; Fri,  6 May 2022 08:01:29 +0200 (CEST)
+Received: by mail-wm1-x33f.google.com with SMTP id e9-20020a05600c4e4900b00394779649b1sf908352wmq.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 05 May 2022 23:01:29 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1651816889; cv=pass;
         d=google.com; s=arc-20160816;
-        b=E3rOUOEaAIIOcxgaXhJcdt18dEPeNhBf+kwrKU6K7r6qCJeOXKLhwG56mmYAIQJ0bt
-         pRxwkaWcsVjfj3IxmHTbmUJDSAfVijiJnAOFz26HvOaCPd/lpXq+04Hdp7sk7SG2/Wh5
-         3tasAuzOxf39HDTeAh/AVACMNPAGUlb/cZ33x1QYH1QK0v465Y7y+VsW1KQdmsejml+f
-         5YXAB5zKc13F+qW1/OcYzNl1TSvwHIqQEw7DHkq24Onm7008uKGQBMbC9f+A3aNjWPFb
-         KuyTyZMdAtla97OMq5Vg0ljiiYNBIbSWuVT1MoAqsYQDHwtCFvXuHOjQA6f9Ux5sDH5R
-         DuDA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=sdZakwD1kpwr5vI1fmNUAu4Qqx8yMF1M05wDLoNov4D4Cf5Gc2Hxj/PBRvEAeEDDw1
+         ZLPFLpo7sVh++e2QG6dLiVwti60KP696Y0HmBuRV36htHaYh0KrJudE1btrz4mUCXsQO
+         0dxMVaz0a2Ro3AaDa/8aw89NIXilRNTARN19IhDIhYOqg0H67FTE51ulfS7NSMyz1nRr
+         HrKQbRopdacBmxM7mtqFo+2mS3y9KzijyEKri5RGAOLOdGlhtIEn4NOjPzpsT4tF/EO+
+         TPuIbsnn0E5Nq3eUdaRAgO/9/3lMwQXU+7R01KbzFCo/RXhpRU9Kx0vVtFH+5/sLCBuY
+         +q0A==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
-        bh=3hy94FCqG17f+ys9ZU+wn2Qv+RutszEQPQeMO3Me8vQ=;
-        b=k+E9CBCPMwtvNb+3NWj8y7cUht6P6Imd2gfLYsu4RDK71gwjcBnqKGeEjVByjsl042
-         OMHDe09qfsg0X/lSO9LTGgUny4WXHRJ210O6QQ5FO+9ahHfFL4/DGGF2w/g67zofoV+g
-         zlYb4hQ0IbczFKig30h03mMnNQxxAlmSNDm+iePSkcyYGJFVL0FemXEpxCTfBMK1+M43
-         VONz2C2dz7gI41vtn2N9yd70tulx0XRdg42r8CjmG/X6MUqI5m1BYmY3sumeGHwMisfq
-         GSMI72FaNEza7dkN/Lsn+ieCr+mlc+X7ixAm53VrIsRbLbEDbigbJ6u6XUR7dhk0qT6P
-         5l5g==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=PSrYskSY;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=Z9Ai5inAqyZeVQE5sd+M+QWZCAh1dleLHNwaNb7N1uA=;
+        b=EX+RYj8Y2sLH5uTFKCPd6r42+pjvdurET4MlywzHgPSoe//GiTu1AuGt0G2+rQP1rA
+         zcGRP5e2LEPC5lwZe67/aqP3AkhfdlW++mjdTSHCcymF/1vjbOxIOXscAXOwNWU/60l4
+         5fce+hEfeMW9j7ge6y9NawP2CzoZruk4dMEf7+zCYKIUbB6P+KWuXfeyQyTU2cYPBlpD
+         hAP+kZrjh+iVFwiSxCliQVL5d/mARi+tI7pIlo3z6fCWz6mbDzdGg+j/Mtm3JBgstr5k
+         B+N0J+KMgnN/ehPg3bVdVkzmO5frX/Gi0XA9heNGRn3NCsTVjTEvprpGQ23f5a3gQP/d
+         sYzQ==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@nokia.onmicrosoft.com header.s=selector1-nokia-onmicrosoft-com header.b=yqvyLYXp;
+       arc=pass (i=1 spf=pass spfdomain=nokia.com dmarc=pass fromdomain=nokia.com);
+       spf=pass (google.com: domain of alexander.sverdlin@nokia.com designates 2a01:111:f400:fe02::72b as permitted sender) smtp.mailfrom=alexander.sverdlin@nokia.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nokia.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=3hy94FCqG17f+ys9ZU+wn2Qv+RutszEQPQeMO3Me8vQ=;
-        b=huRM+BbP8wIugUlFfbMr6Gcwta3Ne26V7CL+EDi4u64mx8kYwKbdkvCv5SezQl4ja9
-         /orRTe+KF1tVoDyQadXvJotDRhfHG0LT+1gDL8CYieMRcaChdlcbPzBdjWRwHRe241H5
-         /tlp6C3SAWwsf3DHbPurvIzOmHQo7PV9cHGZzGy7f534OWbJMJAhhID4KjenHW1ACG0n
-         Ti9dSYWTPTFTZaSIm76HCqUw5zGFve9JpUEWlstKO28A/CIu8vuPFCQcl+Kig45FKttF
-         OCx+zBtHj7x9asAwPIu69z/FXU31vkN3r8b4bH8aAIR6NO2r2xOFo1l1Op7r8fVYB3pN
-         cJ+w==
+        bh=Z9Ai5inAqyZeVQE5sd+M+QWZCAh1dleLHNwaNb7N1uA=;
+        b=Vv4KASh3+hr+j9izIwhpHnrKZc4ebXNxBvF89pca+K6a8tCkTAh7k/k+WIPURbTwuL
+         mH+WojjkjZUxKrcEWI/j0XH2KayKQz1/ATgrWHco0k3TXNqzmYqEzZ6M5aR1eloACp45
+         2AOpBuCB8NY/4yfGo+T8AnDHAB+SrBuXbbIf9OdlWoZxUp6igwymck7JA2v2v5U9aXZ9
+         OHCl8Ggnf9BaPRLcGw9gAEiNLos3S1VLV3dSyGPMjd8+yjuhzKOiwcAOfNa04o33XgcE
+         gQaoq/rdIZ69OxiPHyqtX36CwGD1i2nb24NytIUSvjuBVBZrzOOKTHa8IdlIbSY4IZQ1
+         x+3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=3hy94FCqG17f+ys9ZU+wn2Qv+RutszEQPQeMO3Me8vQ=;
-        b=w+Bz3i2akHZ07o76QPCCWYs+dRkCX6lhU341MvyEQMHTJSMChQns/ftgu3gzzGvAjd
-         Fdp1k0H5QQLRf+Ect9Vxhkv7fYVF3APg75CrqR5eSimoZIUEs8rmwY5ou9+vDDfoD9dQ
-         IpsLl3LhnuFY5GPfiz5QpmHu0e4DQFDJv9uLSkQ/hIIn3CM6fotu7fxFE/WWrIV8iQm9
-         rOrcdHlrP+hOPPwl9Il5NKn3ma3wd2oRax8SX9ASL2/UbiDqSa84c3CJL50NiBFuEIQh
-         Fp6P9biMWwTuEf02YaRTR6TCBf8SjZO/KfnuKwsQwszp9IGznvEfY06ELRI4EOZaF/Iy
-         pqSA==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Z9Ai5inAqyZeVQE5sd+M+QWZCAh1dleLHNwaNb7N1uA=;
+        b=S0B3qdWPF5GGLoGRrBlVm/b7bKmTettikAE5ujkeeoKLYF3/v/C0dc69nr/76JWWTJ
+         +ZZ56HdSAZApom5MqXG+FE8+b4/gPIf1a5NRoS8x/fxnliiUyyjqLNM7+Kpcp20PBDqe
+         rXojnQ2E4C3xDLTWAotMVYlN+F3V6z9F/N7m5jwYRpdfyNsTcG+WUjqna2L9yS5Aqi8o
+         qEobq5HeAu1i1xuePCcig+Nfm2hpnaPGO5jmZliw9RlRGTbOxW8N+fp2OVNwc+fgCWUz
+         P1wbht1hNG3sMJGAUItzheQFNfPyGxcpiAC6j07URQzGC5ba5HW21VYcwVdYBweqSRIx
+         vgug==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533M+LiLmYKRwyOW5A7fQTjeFyqyhlYAPYP2tW6/nq86O+IvIEQ+
-	bzlMp50kRFszhNozcRmapKA=
-X-Google-Smtp-Source: ABdhPJzXyAglsxgVpg2vG83ad5o56l6vOB8UVjfEZl/C7Ptk0vdtiAy0/IiXoHTCX5QVivE3TW25kQ==
-X-Received: by 2002:a17:906:a5b:b0:6f4:55f6:78af with SMTP id x27-20020a1709060a5b00b006f455f678afmr238089ejf.238.1651787775502;
-        Thu, 05 May 2022 14:56:15 -0700 (PDT)
+X-Gm-Message-State: AOAM531sFGdOqNF8GgbpQ+Por7SbYBZV4HjyEdMaUW3RU9jNe+1iVbSl
+	2CARsKqfpLX4NXHuOo/DdI8=
+X-Google-Smtp-Source: ABdhPJy4RRSYtEhZ6D+diw3nfR9EJGg0E0EZ+tfSgvow4Oj+34Qh0sRaPWrev5uQlE0sH21r60joqQ==
+X-Received: by 2002:a05:600c:a45:b0:346:5e67:cd54 with SMTP id c5-20020a05600c0a4500b003465e67cd54mr8271162wmq.127.1651816888414;
+        Thu, 05 May 2022 23:01:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:26d2:b0:428:f87:ccd8 with SMTP id
- x18-20020a05640226d200b004280f87ccd8ls6329740edd.1.gmail; Thu, 05 May 2022
- 14:56:14 -0700 (PDT)
-X-Received: by 2002:a50:cd55:0:b0:428:5101:b729 with SMTP id d21-20020a50cd55000000b004285101b729mr261028edj.361.1651787774442;
-        Thu, 05 May 2022 14:56:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1651787774; cv=none;
+Received: by 2002:a05:6000:1567:b0:20c:5e04:8d9e with SMTP id
+ 7-20020a056000156700b0020c5e048d9els455467wrz.1.gmail; Thu, 05 May 2022
+ 23:01:27 -0700 (PDT)
+X-Received: by 2002:a5d:47cc:0:b0:20c:6b7c:8a19 with SMTP id o12-20020a5d47cc000000b0020c6b7c8a19mr1214913wrc.608.1651816887532;
+        Thu, 05 May 2022 23:01:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1651816887; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GpCJf7LzchA4SSrBPCjK3NLTEj6fIiBdNBedQguTWOOp4hlwTeCZr/SElV30Cmub73
-         haUWmIGEc4JXsWGLTG0D9HzknJeMYHo1paDBOvyZQnYiG0+COwQ6dhuWj61YUWYCptpS
-         eeLZoHu5KIcCk0ObPwKPOCP2ulB34n2P2q4YpQUEJpTBlUwhRX4SzIPMfsVCM3lDNAOa
-         M1NJF1uQEknLfyX2DsInFxkRWR6DNfFpo+q0wmbz74OdrCFzp4ePli2Vkr1iSDLfPi2B
-         cCW+kIxittOIQqWDMHSZgTvQFRRZ2QWTJePOjLUlDGAT/xuCPLNBcVeSEB+toLBRQbmX
-         fF3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :dkim-signature:dkim-signature:from;
-        bh=Xigc7SGokGXaGXENHUlGV+lz8hEFE/+jKrwKMtiGA38=;
-        b=ELI8MMJwyKUh1mOxOeiyGYVjOu4vF6QzW1e7IzFg6Bs/CL+d38Mg+c9lNqlM86lWPZ
-         XcxRUI5Y7ndtgrw7Vf51OXJ65yFcnxE9exzx8pjok3VJ+8eWlRX1VduCBdAXXZ6N+Af6
-         2Wf4ScY5WPIkjQDyd31DLgURtYb7whrVE77JbhxvoM1T0RjYFpnwv54G65xK/NAtnBrs
-         aBl+sWOqKUZDfQ47fRbJlW4fC+pK1mp43SGYXjHTcZ4DmIyuekG/d6zazPDXi+r4Alzs
-         YzZpgrx5ZEL+iaOmBmbKrJso7n33BsxgYAluy+/CCQazg01OZ9Hm4rAr9MXLrmGrVEZK
-         Or3Q==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=PSrYskSY;
-       dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
-        by gmr-mx.google.com with ESMTPS id c19-20020a05640227d300b00418d53b44b8si105176ede.0.2022.05.05.14.56.14
+        b=oQVlFLqh9vNGmDDA9xwqlmjqteEEfQytyb01gOXj1XNVxvZPek4fBEKNDjAU0WKLuH
+         XCwMdzfcsh8nZ3xuAtmXe+mHJY8DrQnbAhWZAeYKSHJx0CTpYRccNd44eWpBDBXZWP8y
+         SDWqSGCS7cQ4hgEcK1wfZYwrzmUQsj47GBsimYUvQ3YiWf/lkHtCeq1aMIqzSQniFWUD
+         6ZkEcuus+KYuikevjRxm0WoXFkUe1oI3XPZLqyGbJjFQrOmTb33fc5rIQrgiJgr2+UT/
+         DL7F6O0tEp0Dmwglib0xIj81jhpmS1fU3zev6qWsU8UI+8FlG5k6ym+Ow39Z7eLe4u1g
+         m+Iw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=El7Nc3mtKX+LWr3Br1RKEhRC/VMyrNOKCfkT1H7wHB4=;
+        b=Me826VUQ35tdPaAAVVq5M8wyAwiOqzbWw/uett+2/xPBRZeX7cpemG3aaPDnlJSwa6
+         fdI2vanN82AkPyrWXI6EIDd3FcKIBcwvGOhPSVR19RH9Z1FHd00guEO9Hg5LNk/Q9nqg
+         36lr0CG0dvqBpoY1fEcrlho46fSyWYrqSXLJWzI8y4UPicSnb/bkbUy2EDabqe369zWq
+         AWSuQhi0wz1LOLPE5qz3DNIUkO/4hGWsfNg6TlH0rW93kk/93oNxX+i2lrtEYGwCEbH2
+         0XTy3rHrELHOrtBHv2G3tIZyB1S28v8p4yxHmtEFKToaBuiwDwt06soo8VGjAFcNvazw
+         W52w==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@nokia.onmicrosoft.com header.s=selector1-nokia-onmicrosoft-com header.b=yqvyLYXp;
+       arc=pass (i=1 spf=pass spfdomain=nokia.com dmarc=pass fromdomain=nokia.com);
+       spf=pass (google.com: domain of alexander.sverdlin@nokia.com designates 2a01:111:f400:fe02::72b as permitted sender) smtp.mailfrom=alexander.sverdlin@nokia.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nokia.com
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on072b.outbound.protection.outlook.com. [2a01:111:f400:fe02::72b])
+        by gmr-mx.google.com with ESMTPS id a11-20020a05600c348b00b00393eb6edf83si260831wmq.0.2022.05.05.23.01.27
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 14:56:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
-From: Thomas Gleixner <tglx@linutronix.de>
-To: Alexander Potapenko <glider@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton
- <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>,
- Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav
- Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter
- <cl@linux.com>, David Rientjes <rientjes@google.com>, Dmitry Vyukov
- <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu
- <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, Ingo
- Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim
- <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, Marco Elver
- <elver@google.com>, Mark Rutland <mark.rutland@arm.com>, Matthew Wilcox
- <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg
- <penberg@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Vasily Gorbik
- <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil
- Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, Linux
- Memory Management List <linux-mm@kvack.org>, Linux-Arch
- <linux-arch@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 28/46] kmsan: entry: handle register passing from
- uninstrumented code
-In-Reply-To: <CAG_fn=XxAhBEBP2KJvahinbaxLAd1xvqTfRJdAu1Tk5r8=01jw@mail.gmail.com>
-References: <20220426164315.625149-1-glider@google.com>
- <20220426164315.625149-29-glider@google.com> <87a6c6y7mg.ffs@tglx>
- <CAG_fn=U7PPBmmkgxFcWFQUCqZitzMizr1e69D9f26sGGzeitLQ@mail.gmail.com>
- <87y1zjlhmj.ffs@tglx>
- <CAG_fn=XxAhBEBP2KJvahinbaxLAd1xvqTfRJdAu1Tk5r8=01jw@mail.gmail.com>
-Date: Thu, 05 May 2022 23:56:12 +0200
-Message-ID: <878rrfiqyr.ffs@tglx>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 05 May 2022 23:01:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alexander.sverdlin@nokia.com designates 2a01:111:f400:fe02::72b as permitted sender) client-ip=2a01:111:f400:fe02::72b;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j9TH530hMOko4y+a3OZixMLL4FSUZTCGFVxsekcbEMpMBv24cmxpAs9+46/Ufve5cme+FAGrvm+6TgGmLHimymN1NelysnQYG/QMEGQYIOUJtmh3/HV/K5qbNaDVo5tTJ7JCKsuEPgvrZt5/pAn1rOHDtzx+3+ZRIy7KPCD1G5nxvYHia/QYfYqC3/ts+3adckH/ytdgQckyzUAHcgtSqZyk2dEAm5uHy9Tzo3LCPmPGoBYhY5YwaYU9bvOdxyRPYX55POv3xkTSrHhGKMcaQm5mMteX1/xAHzSaB9fWumUYsE/BlJEID6NwJTFJ2MM9GFiuS+nk1KFltO9pW2KbRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=El7Nc3mtKX+LWr3Br1RKEhRC/VMyrNOKCfkT1H7wHB4=;
+ b=i3/IQ2t8UADmh/R/TUGJ0uWl8JvzTvFFGOcKj2/FGr3gGFiqFa07y66k+OXg89qzOPb/JZeuEp9XrxPzTKNCS+b/PXdwTX/4nSj8Gs2p6bJ5BssmhVOy/pkAockWmAjd17HOtcEmDrI1PyClHLQypkWrpGvHI7kJZXYcvBs9mRPKORfZWwPVoJrFOiL9b+vgqHdbWv13jD4sHWaHvJ6Jpawzx5SSVyM4gX3pRSOs9FFkow4keEH6prZUztS5sRNbXQK/jVxBL20BhyBmNlatIJem8kE4YdlVJ3izr9DvVAm+CqrljM6uIKg80zolrqvqHIs8FVkN3/ukJOzR5/beTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 131.228.2.8) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nokia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nokia.com;
+ dkim=none (message not signed); arc=none
+Received: from DU2PR04CA0267.eurprd04.prod.outlook.com (2603:10a6:10:28e::32)
+ by HE1PR0701MB2345.eurprd07.prod.outlook.com (2603:10a6:3:6c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.18; Fri, 6 May
+ 2022 06:01:25 +0000
+Received: from DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:28e:cafe::74) by DU2PR04CA0267.outlook.office365.com
+ (2603:10a6:10:28e::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.27 via Frontend
+ Transport; Fri, 6 May 2022 06:01:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 131.228.2.8)
+ smtp.mailfrom=nokia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nokia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nokia.com designates
+ 131.228.2.8 as permitted sender) receiver=protection.outlook.com;
+ client-ip=131.228.2.8; helo=fihe3nok0734.emea.nsn-net.net;
+Received: from fihe3nok0734.emea.nsn-net.net (131.228.2.8) by
+ DBAEUR03FT012.mail.protection.outlook.com (100.127.142.126) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5227.15 via Frontend Transport; Fri, 6 May 2022 06:01:24 +0000
+Received: from ulegcparamis.emea.nsn-net.net (ulegcparamis.emea.nsn-net.net [10.151.74.146])
+	by fihe3nok0734.emea.nsn-net.net (GMO) with ESMTP id 24661GKm018644;
+	Fri, 6 May 2022 06:01:16 GMT
+From: Alexander A Sverdlin <alexander.sverdlin@nokia.com>
+To: kasan-dev@googlegroups.com
+Cc: Alexander Sverdlin <alexander.sverdlin@nokia.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] ARM: kasan: Support CONFIG_KASAN_VMALLOC
+Date: Fri,  6 May 2022 08:01:12 +0200
+Message-Id: <20220506060113.14881-1-alexander.sverdlin@nokia.com>
+X-Mailer: git-send-email 2.10.2
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: tglx@linutronix.de
+X-MS-Office365-Filtering-Correlation-Id: 713b2b9f-6663-482e-3fe7-08da2f25da59
+X-MS-TrafficTypeDiagnostic: HE1PR0701MB2345:EE_
+X-Microsoft-Antispam-PRVS: <HE1PR0701MB23452F77D62B50C75F5E170F88C59@HE1PR0701MB2345.eurprd07.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LCndEZ7kDQgrKM6WQIG7+/l6CITyedr4GCGis7nNQ8mUqgXk/w3rsgHZIDK8y9W/k5x8lxAUD6hxqBTBoCCGXH54oMSwNaMqL34N7j5O1Rl61yNtNjc75TDeX/H4by/O8ozeuPwmBJ/6QD6rIDDdsXCcfnx1r4UHCxzk3PVpGHw4H0PVu9JcMp4xdeFGUxl4HOlX8SjBGsND2sQUZOAihsELFWps1Ssqx2nTW8CIuSF2LOEwuautBHVbkpi5aFgI3hGygrtQYomL6cBPnJO9LzG1gXb85xWGMKUyfW/PjjzIq2dJmDCNbbx6Mwj4s3LkUC3lhtogAULkjz+yRytCBgjfMmQFt9SVc1ELeg8dmGtmoY1DHZzLTRdRx25bsUOfVUK6QjbudDtQn44QNweiru2MpF6BTyebu0NSL48vOmW6Lp1CDEI41l5VzdrtWvSM2IQId38BhVzleNXMnpVGANg7ZH3OkMfvaB7yVrPTkhPFErJ2/5j3m5QaWv+YBpP7qLY6lyqOGwbjWCkEZg5Mko8c/5YRqiBkDyRsYAgqzdRpb8bHTaOnsTEbvIhvbCw3RzhTvKqRFTdnsNg3YxGZadBMIESPPXPo6LKid4KPVnAvmGTHhiKmvFZr9wLoUlh3q2zlWv0h0PyDeDLkSekNuZvxSHZOBv4IAkvRo+nXYWH7CBXpIi2oqqKivL7O6vEoPt07OzfC79LERn5/Lc5u9PvESeol36M8NS1i+A8j/3B9eQlLnyHWPNPTyIQYcR15
+X-Forefront-Antispam-Report: CIP:131.228.2.8;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:fihe3nok0734.emea.nsn-net.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(36756003)(26005)(82960400001)(81166007)(36860700001)(47076005)(336012)(83380400001)(2906002)(508600001)(40460700003)(5660300002)(86362001)(8936002)(186003)(316002)(2616005)(6666004)(356005)(82310400005)(70206006)(70586007)(8676002)(4326008)(6916009)(54906003)(1076003)(36900700001);DIR:OUT;SFP:1102;
+X-OriginatorOrg: nokia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2022 06:01:24.8986
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 713b2b9f-6663-482e-3fe7-08da2f25da59
+X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5d471751-9675-428d-917b-70f44f9630b0;Ip=[131.228.2.8];Helo=[fihe3nok0734.emea.nsn-net.net]
+X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0701MB2345
+X-Original-Sender: alexander.sverdlin@nokia.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=PSrYskSY;       dkim=neutral
- (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
- tglx@linutronix.de designates 193.142.43.55 as permitted sender)
- smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
- dis=NONE) header.from=linutronix.de
+ header.i=@nokia.onmicrosoft.com header.s=selector1-nokia-onmicrosoft-com
+ header.b=yqvyLYXp;       arc=pass (i=1 spf=pass spfdomain=nokia.com
+ dmarc=pass fromdomain=nokia.com);       spf=pass (google.com: domain of
+ alexander.sverdlin@nokia.com designates 2a01:111:f400:fe02::72b as permitted
+ sender) smtp.mailfrom=alexander.sverdlin@nokia.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=nokia.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,107 +186,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Alexander,
+From: Alexander Sverdlin <alexander.sverdlin@nokia.com>
 
-On Thu, May 05 2022 at 20:04, Alexander Potapenko wrote:
-> On Tue, May 3, 2022 at 12:00 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->> > Regarding the regs, you are right. It should be enough to unpoison the
->> > regs at idtentry prologue instead.
->> > I tried that initially, but IIRC it required patching each of the
->> > DEFINE_IDTENTRY_XXX macros, which already use instrumentation_begin().
->>
->> Exactly 4 instances :)
->>
->
-> Not really, I had to add a call to `kmsan_unpoison_memory(regs,
-> sizeof(*regs));` to the following places in
-> arch/x86/include/asm/idtentry.h:
-> - DEFINE_IDTENTRY()
-> - DEFINE_IDTENTRY_ERRORCODE()
-> - DEFINE_IDTENTRY_RAW()
-> - DEFINE_IDTENTRY_RAW_ERRORCODE()
-> - DEFINE_IDTENTRY_IRQ()
-> - DEFINE_IDTENTRY_SYSVEC()
-> - DEFINE_IDTENTRY_SYSVEC_SIMPLE()
-> - DEFINE_IDTENTRY_DF()
->
-> , but even that wasn't enough. For some reason I also had to unpoison
-> pt_regs directly in
-> DEFINE_IDTENTRY_SYSVEC(sysvec_apic_timer_interrupt) and
-> DEFINE_IDTENTRY_IRQ(common_interrupt).
-> In the latter case, this could have been caused by
-> asm_common_interrupt being entered from irq_entries_start(), but I am
-> not sure what is so special about sysvec_apic_timer_interrupt().
->
-> Ideally, it would be great to find that single point where pt_regs are
-> set up before being passed to all IDT entries.
-> I used to do that by inserting calls to kmsan_unpoison_memory right
-> into arch/x86/entry/entry_64.S
-> (https://github.com/google/kmsan/commit/3b0583f45f74f3a09f4c7e0e0588169cef918026),
-> but that required storing/restoring all GP registers. Maybe there's a
-> better way?
+Create KASAN mapping between VMALLOC_START and VMALLOC_END instead of
+early shadow if KASAN_VMALLOC is configured.
 
-Yes. Something like this should cover all exceptions and syscalls before
-anything instrumentable can touch @regs. Anything up to those points is
-either off-limit for instrumentation or does not deal with @regs.
+Signed-off-by: Alexander Sverdlin <alexander.sverdlin@nokia.com>
+---
+ arch/arm/Kconfig         | 1 +
+ arch/arm/mm/kasan_init.c | 7 ++++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
---- a/kernel/entry/common.c
-+++ b/kernel/entry/common.c
-@@ -24,6 +24,7 @@ static __always_inline void __enter_from
- 	user_exit_irqoff();
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 2e8091e..f440cf5 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -75,6 +75,7 @@ config ARM
+ 	select HAVE_ARCH_KFENCE if MMU && !XIP_KERNEL
+ 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
+ 	select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
++	select HAVE_ARCH_KASAN_VMALLOC if HAVE_ARCH_KASAN
+ 	select HAVE_ARCH_MMAP_RND_BITS if MMU
+ 	select HAVE_ARCH_PFN_VALID
+ 	select HAVE_ARCH_SECCOMP
+diff --git a/arch/arm/mm/kasan_init.c b/arch/arm/mm/kasan_init.c
+index 5ad0d6c5..c2f49f7 100644
+--- a/arch/arm/mm/kasan_init.c
++++ b/arch/arm/mm/kasan_init.c
+@@ -236,7 +236,12 @@ void __init kasan_init(void)
  
- 	instrumentation_begin();
-+	unpoison(regs);
- 	trace_hardirqs_off_finish();
- 	instrumentation_end();
- }
-@@ -352,6 +353,7 @@ noinstr irqentry_state_t irqentry_enter(
- 		lockdep_hardirqs_off(CALLER_ADDR0);
- 		rcu_irq_enter();
- 		instrumentation_begin();
-+		unpoison(regs);
- 		trace_hardirqs_off_finish();
- 		instrumentation_end();
+ 	clear_pgds(KASAN_SHADOW_START, KASAN_SHADOW_END);
  
-@@ -367,6 +369,7 @@ noinstr irqentry_state_t irqentry_enter(
- 	 */
- 	lockdep_hardirqs_off(CALLER_ADDR0);
- 	instrumentation_begin();
-+	unpoison(regs);
- 	rcu_irq_enter_check_tick();
- 	trace_hardirqs_off_finish();
- 	instrumentation_end();
-@@ -452,6 +455,7 @@ irqentry_state_t noinstr irqentry_nmi_en
- 	rcu_nmi_enter();
+-	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
++	if (IS_ENABLED(CONFIG_KASAN_VMALLOC))
++		create_mapping((void *)VMALLOC_START, (void *)VMALLOC_END);
++	else
++		kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_START),
++					    kasan_mem_to_shadow((void *)VMALLOC_END));
++	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)VMALLOC_END),
+ 				    kasan_mem_to_shadow((void *)-1UL) + 1);
  
- 	instrumentation_begin();
-+	unpoison(regs);
- 	trace_hardirqs_off_finish();
- 	ftrace_nmi_enter();
- 	instrumentation_end();
-
-As I said: 4 places :)
-
-> Fortunately, I don't think we need to insert extra instrumentation
-> into instrumentation_begin()/instrumentation_end() regions.
->
-> What I have in mind is adding a bool flag to kmsan_context_state, that
-> the instrumentation sets to true before the function call.
-> When entering an instrumented function, KMSAN would check that flag
-> and set it to false, so that the context state can be only used once.
-> If a function is called from another instrumented function, the
-> context state is properly set up, and there is nothing to worry about.
-> If it is called from non-instrumented code (either noinstr or the
-> skipped files that have KMSAN_SANITIZE:=n), KMSAN would detect that
-> and wipe the context state before use.
-
-Sounds good.
-
-Thanks,
-
-	tglx
+ 	for_each_mem_range(i, &pa_start, &pa_end) {
+-- 
+2.10.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/878rrfiqyr.ffs%40tglx.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220506060113.14881-1-alexander.sverdlin%40nokia.com.
