@@ -1,107 +1,108 @@
-Return-Path: <kasan-dev+bncBAABBWGZ36JQMGQEG2PA2DQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBX6Z36JQMGQED33IIYQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BFB51EEE2
-	for <lists+kasan-dev@lfdr.de>; Sun,  8 May 2022 18:16:26 +0200 (CEST)
-Received: by mail-pf1-x440.google.com with SMTP id z34-20020a056a001da200b0050e057fdd7esf3756860pfw.12
-        for <lists+kasan-dev@lfdr.de>; Sun, 08 May 2022 09:16:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1652026585; cv=pass;
+Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
+	by mail.lfdr.de (Postfix) with ESMTPS id F062B51EEE3
+	for <lists+kasan-dev@lfdr.de>; Sun,  8 May 2022 18:16:32 +0200 (CEST)
+Received: by mail-pj1-x103e.google.com with SMTP id t15-20020a17090a3b4f00b001d67e27715dsf9230678pjf.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 08 May 2022 09:16:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1652026591; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qA1cEhf2FoQ4BpvspetVlAtRdFdFcz3qDRiPlECKh3czIcOF0WIPUCkxJiStZSLoUc
-         0Wx2k+tY+Zw5en45feQ08jiPEjj3+484kuKv5Ylmd/VLglBfhJWN8+VLQR5uMR0zWfZg
-         vhrgzSILVvaiBQnVI9D0qb9zG/1bWjFL1s/waxdb+dPF7Dl49WXKgcs8GgYchQMnblFv
-         aSw/9ZuAJomsquUd9Pal8p6fRhq7Xpciniz+sCApjzMd2rrRlHXmjJIs6IJCXJenEdXK
-         hqVNhjcxcSmkWQKAG4UpoxtP9GI93eY2+3x5K+cOCQoR3dKUOLcUpTanb/O02q3uUBRz
-         D6AA==
+        b=hIxMK9y59MRjJ5aZJ2Y7gXYdC1gD9tLypVsPiwLz0vTSXj1qVleBrBX2K5XVt4zm7k
+         55A6dTXh2Fx4M0uX2ODVBitO1qDqDtPHjRnsvXQbHPL+MN8N2Necznbv1gGgmMN3fHs9
+         P8hdMl2NNvSZ+0Cxx0EyhGLFRy6jsPFeEkUZ9UYtngETQKCDx7B+1vBI7Tdia+95FOg1
+         flzHG42f0c0iwxfuiONaGrKGfwXjwirYkNvMyiS1spzkHlGOQ38KZoeAXHQzUVBrvWQJ
+         rovUXCdIbaRjrrdupQQVDXoDaz4qp0uie3fKt0YN96SNubEaq1A+UzZD4dfPD/6YiEPO
+         DWWQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=Z0wfZ+wS9IatD8pIw+SSjd/HIlnpwlZHYhqMLu4LTEg=;
-        b=YgFmzAzQLwOaw35481E98Urmq3zL593/XZhUSu1fRLAvLBisxV3k+3t02ECDYpqHzQ
-         ooDfYqJSf+NsLYNqtUeNyw3/azwuABN44Y0NYjS/lds6q4sweWro/1gdP+hUBZsYVUhj
-         L5WM7Aq6Ua1uhJ7Te+vXNQZ4G38AiRf/vWPjot8LGd2UEvA9et/llThwPsV0IQ0FteHI
-         ORbKjEHgApiuI4K5upbFupJu7X0lJ1KdnmYBxiPVwA4MzqIe91m7gmr8yKtxOq+dUZmj
-         iBFDRsMIt20uxaprOMQ/YypY0yAuCz3Mpe/mHd3nHSFHukO1eCE2qR5MheRZz+BvsKIB
-         Fz7w==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=kiv4dhicOiB1Up6mMyzbOV8WiyzjQOmn+L1vWflfot4=;
+        b=XV75yvdylQiNXcW8TngB7zVdDEDtmPLN2YfWrZMgiCGbcE/ojdGZtg/6GyaZ1PQ6ao
+         WhtgYEdIGYy3fOKhnn8wMY8cKhs4GJdAzBtW9s2ZltL3+g6AmBss1EdejQOiUBBjdiFa
+         2hqOtX5PstUTbm40MSVpITnegogRzMDyflqG6Z4/gSpaSDjeCS1EBvl13SE/6XuimjtB
+         Y28bWXXQbKsuPEWW31tZBIg3Tb3XxffmQTFEP3M9tS4EjLEGoBniEzi8ibXH0dt7xVdY
+         24ni93hDHP5qlUoZCl6V1F3pcy2NhhHRYFhrj1iNPGATpafnusSmXHzv3LYYxTS0ahC9
+         30fA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JGdlu0gL;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=mdPAo0t5;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=Z0wfZ+wS9IatD8pIw+SSjd/HIlnpwlZHYhqMLu4LTEg=;
-        b=KA86UDgmRtppboH2BH5UqH7J43hRhtX5ryE1JFaxsWXNdJJ3YfNei9lkUqP8MKOaNA
-         ahFBsZccpe4eUwQhYRSm+6ajGrFDwKMDibV+1d4pna5TKCp3+wWnMg5zyHE2WhPcQhfz
-         1DoC0salU7fKMGCZ912N6ZPJtrEN9IkUApHzMSJMrJNVtfsGaPLh1SRnl3l4+MN/I1vs
-         ZehF9zAKHcSn5tPa6DAwLk9qrZjMsLWkPaY3tbIkcSMwKG+nSU6SJyN0d/04jHW2WZts
-         KujbZb7BbVyt9GY9ql1f1rZC/nMK9lbvlgH4NXBMWzqMjheqo94LSVAzrgUiaWWer8ag
-         HITA==
+        bh=kiv4dhicOiB1Up6mMyzbOV8WiyzjQOmn+L1vWflfot4=;
+        b=aWrbutgG+HjG4jqDwDwFrdsu3uQ1ppMidnClOgt1AOV1PRXEKEJoHm0vYkELp2mDKw
+         SVVrlN0xEo7hw9WVI/lXlCZFXfDN+4a4kCbjyG98exOtgpWM4FbVjH6X2XLlYu0HpdtL
+         0KwIJtuciXbkUk9cI2PLT40yXK3Wad18a+swpPShczmDLUnuWPX5CD1DIjmX2VyuS1EE
+         trs8VumSJt+zBBuqRL9gXbpMm4Hmr2H1PfZciPm6vr23aJFaSvyCLAxmQYJs0x/caALH
+         cTdM7lFs7DLlXQGG2eX7Sg7AjN61+2tPSazTlVdlltQ05BvA9kSXMjcje8MT5nO+Xem/
+         MYzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Z0wfZ+wS9IatD8pIw+SSjd/HIlnpwlZHYhqMLu4LTEg=;
-        b=kQggD9lh+DNnEO4Kggb8a/TEJ+M9fU1Gds1KNipl3wh4Jgq+UFEZeGNYHSMjTIXpzo
-         cfo/E3yK/6XWZoSoPIm5vOluAX07e6Qxfu1mh/KO7AhRDgNBm0sDY5YNbPGou4xLCsjO
-         U7vj7AZtjUroge7LtUx2cVxVeR5q/lr/mFm8+Jri6oxmbZ+sifnojfSbCWHoG3KzwCMQ
-         iQPu0YzAxL2RDQJvbmSGANfzGYL7z6/1TGX0I2iAMpsegcg9JODjeEPzEHff9pGATmzs
-         nw3fkO+yhBGDAvYJCTuWfSMAsTi4VHOxYmNQIuoph1K6eHCXjYS9NHfaa3+vvL5/LQi0
-         /E/A==
+         :in-reply-to:references:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=kiv4dhicOiB1Up6mMyzbOV8WiyzjQOmn+L1vWflfot4=;
+        b=lx6dUb4Enehv2O9ElCxn3CDLH3pMIpLp6Ovmg5L4xjjTsFnDMaiaqb/QNPBxIESOKJ
+         8AUre7OTB7y/Z7/kt9ExaGP5a3iuQFnemejAYpa98KbmyqBxG7avl6oi0L1xrXQUjDIz
+         UvJTmWttltcpvbHKBXqzOLNJuFb+Bgd/rrkfZCmD/UIjCzTVG/+11a0jwhHNg5HYfGfC
+         aCjOzJeheltpo2vPY5518YeYKCJEWYBR3/66n/2GkQUJFwensg/g424/bRd5f95BbcJT
+         us0pKKQi9YwFq//Zw7a/LcoQJaftcbd6HTDD47xkz64eoKznjZig7Pgz2zjysUmH/qf8
+         T5DQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531PHp6ci0Kdgy0aq5aY9zQXU6wYcMUHEAR/JRPESxr5KarjqQ73
-	iJkDT4enQ8GI6C55/+kw5Y4=
-X-Google-Smtp-Source: ABdhPJy0UK7LAcrWAkocSbG+Ne6cQ0/DcabDi0IOHUhIFSVCABPiK9Ko475Ag9FDlLs9M13S6ZM9Bw==
-X-Received: by 2002:aa7:84cf:0:b0:50d:d25a:5d37 with SMTP id x15-20020aa784cf000000b0050dd25a5d37mr12524642pfn.84.1652026584849;
-        Sun, 08 May 2022 09:16:24 -0700 (PDT)
+X-Gm-Message-State: AOAM530tX2CaublOse59MYqYy3QhFPJJIZR0DFrSKqzjfRGt7VqxcmmI
+	+0hKOJoQUsyTcEhHt0xwdwg=
+X-Google-Smtp-Source: ABdhPJz1ZjEh+XTxEUMg1cmhOHoQTGyojDfBBzVqyqHX/IesQHGz74csbu+t1Yn5kcKCb/KPBYzIkA==
+X-Received: by 2002:a05:6a00:150d:b0:510:3a9c:3eed with SMTP id q13-20020a056a00150d00b005103a9c3eedmr12284989pfu.86.1652026591226;
+        Sun, 08 May 2022 09:16:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:b90:b0:510:7b21:1280 with SMTP id
- g16-20020a056a000b9000b005107b211280ls3310205pfj.7.gmail; Sun, 08 May 2022
- 09:16:24 -0700 (PDT)
-X-Received: by 2002:a63:5551:0:b0:3ab:84c3:1a0 with SMTP id f17-20020a635551000000b003ab84c301a0mr10279332pgm.604.1652026584392;
-        Sun, 08 May 2022 09:16:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652026584; cv=none;
+Received: by 2002:a17:90a:be0e:b0:1da:2690:904d with SMTP id
+ a14-20020a17090abe0e00b001da2690904dls9660933pjs.2.gmail; Sun, 08 May 2022
+ 09:16:30 -0700 (PDT)
+X-Received: by 2002:a17:90a:fd10:b0:1d9:2a41:6fe6 with SMTP id cv16-20020a17090afd1000b001d92a416fe6mr22328199pjb.196.1652026590798;
+        Sun, 08 May 2022 09:16:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1652026590; cv=none;
         d=google.com; s=arc-20160816;
-        b=MJYZYpNiDXug9+ctaP7E8AI8Ehk14go+QvyjYLKS/k6+Ba0OBGhJr8pFSihAwEwgqa
-         OVaUBbu+ssBdAP/tPgU++79eLgKNCYbzGLrdg8MAa9d6JgWTKktWhxmSPSd4Y7nSptBj
-         Xig6qYH6WTfvoMHQAqew2uQzMvjQwdFiK0yRWr15UPDsj9fV4Wa00pPXewLY/8uJl5fw
-         H7oi/9HIJMf0u5ABKGssbAXmVBIMZGPCjHsFV/5IgsxbKXWB91CoFkQTYyJyxAyDkmqX
-         S4P+fU4pCwV7CrOclXoyoYtvNVkeZfUMow1YBfYRWoK2LHAJh82uv+dvr6/oQ5gEmsVU
-         D3xw==
+        b=WrsKlcwFDSZ/D10cUAYTTb6LM1IDwaf1UEyIxr4+JQ36ry2b/tr2vdW2VSPURAVBwa
+         B/YDyUWnJZYOKo7Dn57R5AcTzQhA56NV9iaAHXm8OF74iBMXYw9lI2OsM/Ysrq0ZUzhG
+         ONxbcjauIi18KKN3JGI7biNZVJQcTKcaJOLLLwhMnUFaS7dQ42PKzWjje+KiG8lYip6q
+         wPPEPCGqTcFZ9rJNz49Fumq9XmBOD8rcYmQTrDNvZqhkImab+Dv7T4IoTvbE6RofXWco
+         K+aYviliBuuv7ui913zRoV6p+JPISeyiAIRtqeD2MCZMtwhxYo3LkVxK6T7sFZsIbmb2
+         85qg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=B19DiMbLsCNNTRla+mHgo37faAgif0bXsP1qBO+fYf8=;
-        b=sMeM3dV01koMHQIxJCHYRql5bErh8HeDY5KQNH4VuSHW5+AtrHsS6YLzr9O10MzsOu
-         J7M91cbftLVGxA28D5JuG+lVUSNR8ToHZ+c0VAw7cVYwkhmZ+8Wblfctt/PaFLLtaml6
-         j0OHH39/72W1V7SKNdzeES7m66xSKHhNwvis+KqUvnXmOoKUbZt86hODuhAo0G+1EPem
-         DgjAQJJ4KAu5N2KjwkcEEZipLVILR7FJDMop/3lkUpy2ObqiKpCaftnH/RJD9i3HOqxn
-         5WwzbZeBjZV2tzANNDGuNcsJup4paUO+oz7/KEJwdih46DGa6RDbWWftrZseOeBOiOWc
-         tcKA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=mUybj7H/UOKVedWyWATy5/DDOeXg+iw2T9QAXkaf4Ko=;
+        b=qCM6psGQKjNti9Eb5aclDLEN/kKhdapRuwEc+xkLFsJaoCjGevmWph4vhaeBHHNjdb
+         Bqzf1D4mkAq20g3HhkXX1x8/zFspWtt68WnReIMXkgfIvPzVc7wPg+G1af0G28zgFRt5
+         bZpMrzJ2+kNPnfy7ixT7P4VoCCF38jkgbO4RzWoG2u12gAumaZ3UoY7SdRAymy3h0Qep
+         UisNotp+CQCg9ZTI83HpsIwaHc0f80FSulgLiFqteh+7/qpM7FENxBQ/T8xe34pbqSo6
+         z+8rF3ooz8MahyUxUVQCAQTunXQZ5HLcokg7vibTr0rWB+YyiFDCIun0kWV7UN+2f2OY
+         XT+g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JGdlu0gL;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=mdPAo0t5;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id m1-20020a17090aab0100b001cb5c591f9asi966723pjq.1.2022.05.08.09.16.24
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id s1-20020a17090302c100b00156542d2adbsi408799plk.13.2022.05.08.09.16.30
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 08 May 2022 09:16:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Sun, 08 May 2022 09:16:30 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id CB41E611F3;
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 507696121C;
+	Sun,  8 May 2022 16:16:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCB75C385A4;
 	Sun,  8 May 2022 16:16:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21AFC385AC;
-	Sun,  8 May 2022 16:16:15 +0000 (UTC)
 From: Jisheng Zhang <jszhang@kernel.org>
 To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -115,17 +116,19 @@ To: Paul Walmsley <paul.walmsley@sifive.com>,
 Cc: linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com
-Subject: [PATCH v2 0/4] unified way to use static key and optimize pgtable_l4_enabled
-Date: Mon,  9 May 2022 00:07:45 +0800
-Message-Id: <20220508160749.984-1-jszhang@kernel.org>
+Subject: [PATCH v2 1/4] riscv: mm: init: make pt_ops_set_[early|late|fixmap] static
+Date: Mon,  9 May 2022 00:07:46 +0800
+Message-Id: <20220508160749.984-2-jszhang@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220508160749.984-1-jszhang@kernel.org>
+References: <20220508160749.984-1-jszhang@kernel.org>
 MIME-Version: 1.0
 X-Original-Sender: jszhang@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=JGdlu0gL;       spf=pass
- (google.com: domain of jszhang@kernel.org designates 2604:1380:4641:c500::1
- as permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=mdPAo0t5;       spf=pass
+ (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -139,60 +142,54 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Currently, riscv has several features which may not be supported on all
-riscv platforms, for example, FPU, SV48, SV57 and so on. To support
-unified kernel Image style, we need to check whether the feature is
-suportted or not. If the check sits at hot code path, then performance
-will be impacted a lot. static key can be used to solve the issue. In
-the past, FPU support has been converted to use static key mechanism.
-I believe we will have similar cases in the future. For example, the
-SV48 support can take advantage of static key[1].
+These three functions are only used in init.c, so make them static.
+Fix W=1 warnings like below:
 
-patch1 is a simple W=1 warning fix.
-patch2 introduces an unified mechanism to use static key for riscv cpu
-features.
-patch3 converts has_cpu() to use the mechanism.
-patch4 uses the mechanism to optimize pgtable_l4|[l5]_enabled.
+arch/riscv/mm/init.c:721:13: warning: no previous prototype for function
+'pt_ops_set_early' [-Wmissing-prototypes]
+   void __init pt_ops_set_early(void)
+               ^
 
-[1] http://lists.infradead.org/pipermail/linux-riscv/2021-December/011164.html
+Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+---
+ arch/riscv/mm/init.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Since v1:
- - Add a W=1 warning fix
- - Fix W=1 error
- - Based on v5.18-rcN, since SV57 support is added, so convert
-   pgtable_l5_enabled as well.
-
-Jisheng Zhang (4):
-  riscv: mm: init: make pt_ops_set_[early|late|fixmap] static
-  riscv: introduce unified static key mechanism for CPU features
-  riscv: replace has_fpu() with system_supports_fpu()
-  riscv: convert pgtable_l4|[l5]_enabled to static key
-
- arch/riscv/Makefile                 |   3 +
- arch/riscv/include/asm/cpufeature.h | 110 ++++++++++++++++++++++++++++
- arch/riscv/include/asm/pgalloc.h    |  16 ++--
- arch/riscv/include/asm/pgtable-64.h |  40 +++++-----
- arch/riscv/include/asm/pgtable.h    |   5 +-
- arch/riscv/include/asm/switch_to.h  |   9 +--
- arch/riscv/kernel/cpu.c             |   4 +-
- arch/riscv/kernel/cpufeature.c      |  29 ++++++--
- arch/riscv/kernel/process.c         |   2 +-
- arch/riscv/kernel/signal.c          |   4 +-
- arch/riscv/mm/init.c                |  52 ++++++-------
- arch/riscv/mm/kasan_init.c          |  16 ++--
- arch/riscv/tools/Makefile           |  22 ++++++
- arch/riscv/tools/cpucaps            |   7 ++
- arch/riscv/tools/gen-cpucaps.awk    |  40 ++++++++++
- 15 files changed, 274 insertions(+), 85 deletions(-)
- create mode 100644 arch/riscv/include/asm/cpufeature.h
- create mode 100644 arch/riscv/tools/Makefile
- create mode 100644 arch/riscv/tools/cpucaps
- create mode 100755 arch/riscv/tools/gen-cpucaps.awk
-
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index 05ed641a1134..5f3f26dd9f21 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -849,7 +849,7 @@ static void __init create_fdt_early_page_table(pgd_t *pgdir, uintptr_t dtb_pa)
+  * MMU is not enabled, the page tables are allocated directly using
+  * early_pmd/pud/p4d and the address returned is the physical one.
+  */
+-void __init pt_ops_set_early(void)
++static void __init pt_ops_set_early(void)
+ {
+ 	pt_ops.alloc_pte = alloc_pte_early;
+ 	pt_ops.get_pte_virt = get_pte_virt_early;
+@@ -871,7 +871,7 @@ void __init pt_ops_set_early(void)
+  * Note that this is called with MMU disabled, hence kernel_mapping_pa_to_va,
+  * but it will be used as described above.
+  */
+-void __init pt_ops_set_fixmap(void)
++static void __init pt_ops_set_fixmap(void)
+ {
+ 	pt_ops.alloc_pte = kernel_mapping_pa_to_va((uintptr_t)alloc_pte_fixmap);
+ 	pt_ops.get_pte_virt = kernel_mapping_pa_to_va((uintptr_t)get_pte_virt_fixmap);
+@@ -889,7 +889,7 @@ void __init pt_ops_set_fixmap(void)
+  * MMU is enabled and page table setup is complete, so from now, we can use
+  * generic page allocation functions to setup page table.
+  */
+-void __init pt_ops_set_late(void)
++static void __init pt_ops_set_late(void)
+ {
+ 	pt_ops.alloc_pte = alloc_pte_late;
+ 	pt_ops.get_pte_virt = get_pte_virt_late;
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220508160749.984-1-jszhang%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220508160749.984-2-jszhang%40kernel.org.
