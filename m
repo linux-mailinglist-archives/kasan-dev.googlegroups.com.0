@@ -1,135 +1,126 @@
-Return-Path: <kasan-dev+bncBAABB5GZ36JQMGQEWFCZIXY@googlegroups.com>
+Return-Path: <kasan-dev+bncBD5L3BOATYFRBSU54KJQMGQEEGNOAEI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3a.google.com (mail-oa1-x3a.google.com [IPv6:2001:4860:4864:20::3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC40951EEE6
-	for <lists+kasan-dev@lfdr.de>; Sun,  8 May 2022 18:16:53 +0200 (CEST)
-Received: by mail-oa1-x3a.google.com with SMTP id 586e51a60fabf-edfba5fa89sf4742479fac.7
-        for <lists+kasan-dev@lfdr.de>; Sun, 08 May 2022 09:16:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1652026612; cv=pass;
+Received: from mail-ed1-x53e.google.com (mail-ed1-x53e.google.com [IPv6:2a00:1450:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8ECC51F304
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 May 2022 05:47:23 +0200 (CEST)
+Received: by mail-ed1-x53e.google.com with SMTP id b65-20020a509f47000000b00427b34634d3sf7542230edf.20
+        for <lists+kasan-dev@lfdr.de>; Sun, 08 May 2022 20:47:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1652068043; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CCvehLqmJNo0xBNBOvDS2bJMMlAvPAvSa2xk0N/AJQrAifDdGOwJ987+ik2LVhZuDv
-         2qV6V/Vem8W8SYWNjZUAZXFhH9vseCMIt/GeJY4KSMCot0QzJT+StzJpwILs6xCm0iaQ
-         t52J0HaxR/DhTJ3Wgd3nN1WPMUq6muDb8EHqw2Q+M3W2KybdMuqpsTnHtpXX5W7N90G6
-         PzXP4zpvJIhwW99dGTpMbQkMNPN2BViMQbtNmlLkD4LJiPojRPGgowSJyM0qUF3GzhSH
-         XMTlVo3+jmrlnAUFjBUJDm1luPPpbRVceIxFB2F+uPJ82dcLZAZlQryheFlBWxCzktF0
-         hpeg==
+        b=XBjsOfcDz0viyK5Zm4c9DINU5leghe0/9t5qCmQHDFTahTqenah8szczna1wIVeGEo
+         LxsWT+vDVvbmCyRy17ln0RKSN5sDN7iYU8sZewvbns/YmZG4L5ncfk3IHkD97gn4bG4D
+         uk5Aqhi3A5YAJ4H7kRzoMCFSiJ+dGIQlKOBxDnr0ytCVnQVT6IJH6Vp/tzNkyg9dN7bQ
+         SOfRkaum4tFWTFlxXhPiiY/eC20rc+7Nv6tQV9ens7aCmO+VFy8HvsIEdLNbDFCnsXk0
+         Oturw1YZfm4/fDaczqXlcx0EaHb2ihkVslHCFiwMk/x3CoAarULeMdDVMh3ns+zAkxJq
+         4D7g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=kWZjkADxzuNsPnlzv1rmz97SUSwOpiy/tExxgcsKieo=;
-        b=RVkVEc9qgxr0OP5ErPOkT6HHbN+w5g20H/5VN1+3+4M2SxPuIkqkugNhlx4hrON0Rq
-         d6cge2Ym2iGZP4bpvgUfjf31eLFYKNifz04SO20LjWWfl8GfFoSjBAHSI1PqYHDtKDwS
-         BY/wNoIwpP8auArY5nEdLhQp2V0NKfh1xebVE3tcWZUYZ+iK1Ru+TicVy2fSTkwbpBHo
-         k/449uriI+NdQXGAOsTr+/5cuyrsmfBpMOycw75zvSY8IoNek1gfHXq8waUDmy9+72Vq
-         iWdJd+lcAMPSd2KeyFDeeQcUsbe9vZnohZH47NgmNYhikMRzkNvDRfDuHoKM416N5qe0
-         otCw==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=fjSm1rwcVfMfMxnnL7Pe2VtOQyONadIgKiU3IBaoSeg=;
+        b=k0OCdq+yDYtOvRmINA+aU493Q0fXQmLfDOMTitZ6ymmxJrRJe1BRNYpVkWXRCFsuzu
+         yZdBRkoaSfM45jT2U8WoqHEuXZceIYiy3tzkZYdCRKSj039XFpk5DijD6SjNfXt7B7Zy
+         F4TFZJW7vP7fI/SqEM0un8rNNqMYGGRELeEFs0tmVvO/eH/ERgvZ28WQ2dqwgXAm0Xt9
+         vGd7vFAnVK+m4C+VW18rmdTEYPERotAIriK8Bqj2L/OGPViOQ+IOup3ybAEUBSDDD/n0
+         n2czBwgVCxyeU3fFobC0Njtpk3oY923OacZY6kEBLFWvsAGNBcslbuq7DdjAnC2G737b
+         4fMA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=WkoeFI5V;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@ventanamicro.com header.s=google header.b=FGQqvl29;
+       spf=pass (google.com: domain of apatel@ventanamicro.com designates 2a00:1450:4864:20::129 as permitted sender) smtp.mailfrom=apatel@ventanamicro.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=kWZjkADxzuNsPnlzv1rmz97SUSwOpiy/tExxgcsKieo=;
-        b=nX77rZBFVUqt0ITJzrWqg0LM1JVTsnlrVNkwFMLIFChfvopPDcA8mxE0vbytyOY5CP
-         zxsXTEJJ4+iQH9D5ePZFQxAd8tJ1stUNowIMfDYys2wIq4REfO1NvqYzhtufLQJxXpAC
-         k7NaoLbNvmLvJFWZjEYo3CAzGsYaJDloPkT1eRdWfC2tqeJl1sOzn7JXrAydsBKYXwKj
-         xOjwW2cicx+U7Km4qfJLNZeKfSjoRR6Nb4s10i9jEHGIRc3TGOL2xXBC7St5hWu/hgt9
-         JGA+dhiTHF0di8sRxi6sH1keEPBTv9eWWw5wwK8RouYgxnBRVJzrRbbHylfAzRAmm+fH
-         Guag==
+        bh=fjSm1rwcVfMfMxnnL7Pe2VtOQyONadIgKiU3IBaoSeg=;
+        b=Vd+eO3zIDaNs3bsxNHW9mEPxq616uUmUkcQwmr/jxAwIl/+Bo0oRX7d2gGRHVOs29b
+         KFVdiM2Qo6wcWnziNnVH5CFTCdGhdtKcr/9m4P1Rc6AHa89UUj6vZUYiK4X1Mf2FZfvA
+         +WNZXbxFOxGRpwhn4POdNVlragvguh53aIvXwXRWGRMNdJYhWevEC5KL6sqtB6lcWy9y
+         n7KimVEvN4RzIcD3hwAQZpd2WdWob3MYMAOPHMQCwFH62c/55N6WykaEjPPC0CEW2FA3
+         XvdsbDYxo4I54lxDHaEGhZA6xlcq18bhEfzJlxodRiC7HjmhGCr2MIv4mRZoCIKr6JFo
+         +R3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=kWZjkADxzuNsPnlzv1rmz97SUSwOpiy/tExxgcsKieo=;
-        b=VNf4qLWBrf8DAADqMyHeGJBuCNFRyGEWEid+F4bS5eq6JV3pLXwdGaESj8LTDrlxsp
-         Ls4XC2tBO1CyFzKLRxcEl8etELPLgGo3ILyQ6r+9Q1JsuA2LLyUcS4tSKRTSIdrVLKnY
-         q2AbLGPvY/W/5H+sXpzs60QY1+6aoXVOJpIGEpIh1s3DnrS9kIBXPnlFGEGM2GFynAfT
-         dwi1X0EbEL5py2IglXgFzv7nAFVj+RaMxE6BU+c3OO993PHhi1+Ycok7xaTtUpO12zt1
-         7GG9fDd/xisiNrmBodrIGxc04HkYdcLBWBofzXTWN7vSQR0De7fxO/X6mBZu0912+lbq
-         ln2Q==
+        bh=fjSm1rwcVfMfMxnnL7Pe2VtOQyONadIgKiU3IBaoSeg=;
+        b=eADczJiZpquqRw35/3Cme/fnrq5mSedALaMq4XP5oqbX+ZNnpIdiPi/EvmeUWK/G4n
+         9Lil/dc8idAOiN+Bs42msRjAvUXlhp3oki2K31BaR6RpRc7n+Khe2X8/LVvsE8rM9hih
+         GAF3cp2nFI7M89QLYV3b4HH2ar3QKy6hJCxO7IbKyU7sidh4XI47QgNlykMhgN+DiwRW
+         cJjxmPRcvlrU/z23t4i5KlEw9eeq4BvIaaTCZkHoriJqh8Dm+J3x84ngYVJKp4Q0e19q
+         jpTIBLRayg7p3FLk1nkDIAKqf6zuOpJmz6eLkhURcE7UWJWLYzkiZgdvxAKirRuLI/B9
+         Vjqg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531fNEK9iDs7ei//FEu5uLHYYWfp6TBWQGMd2QJH5w9ck6Y9YMor
-	RiBR4Uvm2RpamnmR9s/OwGI=
-X-Google-Smtp-Source: ABdhPJzylHw5wtJpstwsziic0tP5PLbfsstvYdadF9DNXSQ2SAx+GclbX/gD1im6/KDgG8Ndse3XYA==
-X-Received: by 2002:a05:6870:8896:b0:ed:a31a:fbf7 with SMTP id m22-20020a056870889600b000eda31afbf7mr4986012oam.273.1652026612667;
-        Sun, 08 May 2022 09:16:52 -0700 (PDT)
+X-Gm-Message-State: AOAM532zE/2I9L8zTXRZsYk+O6WHKqYf48+eh1yRUI3urgjDkaj0abQV
+	rEPi23Yd/xk/F0PbKyHJv4w=
+X-Google-Smtp-Source: ABdhPJxJtp819sQXABp0q+Yc6vwA8K/2Dmnw6jXsCLUy5ps1dEt4yVYWW1JgWfDkt+EZzzXYqeHsSw==
+X-Received: by 2002:a17:907:3e8e:b0:6f4:ff62:a399 with SMTP id hs14-20020a1709073e8e00b006f4ff62a399mr13423451ejc.298.1652068043180;
+        Sun, 08 May 2022 20:47:23 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:15a4:b0:326:bf2d:d4a6 with SMTP id
- t36-20020a05680815a400b00326bf2dd4a6ls547350oiw.1.gmail; Sun, 08 May 2022
- 09:16:52 -0700 (PDT)
-X-Received: by 2002:aca:ad41:0:b0:326:b520:b982 with SMTP id w62-20020acaad41000000b00326b520b982mr2312225oie.67.1652026612343;
-        Sun, 08 May 2022 09:16:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652026612; cv=none;
+Received: by 2002:a17:907:1c9e:b0:6f4:52da:cc01 with SMTP id
+ nb30-20020a1709071c9e00b006f452dacc01ls3213096ejc.10.gmail; Sun, 08 May 2022
+ 20:47:22 -0700 (PDT)
+X-Received: by 2002:a17:907:a06f:b0:6f4:d336:6baa with SMTP id ia15-20020a170907a06f00b006f4d3366baamr12810495ejc.638.1652068042238;
+        Sun, 08 May 2022 20:47:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1652068042; cv=none;
         d=google.com; s=arc-20160816;
-        b=QaJKkBYgW//3IrNP41iulucuiJkaPbwC6NyNsh4gMD8DMx09JTnLcSs5vMKv2f8n49
-         8f0SsMbVNVeQzwlaLea4FbVxMSHAT1sGO7m+Cwa/yCNx6BS7+/Az6DbGyUvDkF1oM0Oj
-         YvgUe5xzp6wWhiTJH4HDVbLDtNJJ+g0SwgMWfOnx3olm5Z8tGWn+pKqwCFRvw/gEkSD4
-         ZK0g1RgLJb4gMmfJCtciIBnfazKiTumuRN6SjBNejQGs0Vdfq0vHI34J045etfqptbnE
-         B+HujiErzTiw3+33PUBpYzgBFApmu+H2p+7vRv1uQO2WvGhV01IT4sHp3wy8pY0xn5X4
-         0AEQ==
+        b=HbGr0aRNfJJc8PdYFU376qBGKGZeHlPWNtCZml0C1DKU9rOQfDaKvM5Znurs9CBeAh
+         IQZspZ6uQ9AB80rylkuDx9EHQHg3nZhrNqjxMDmdCjrId7VnalbAeDKpOfMcXwH9L01d
+         AmkmDJhCBUvefT6B7VYXPEIFTRwB1vE8u0bR22bYUw6xuudOYSdxk1bYKjhSFCm52+Jr
+         w6OFVIUm6mGMcVjvMTVR+F/OuWt0ZBd7XKiEBB+xGtcDvero6IOSdNs5uLvyl+YXlK1o
+         3C32QRCVf/2XlnIl6plixg2jwMXtALgweSo5hatO2NTal0N2uwuWqkzIBsYLMHMt5Cu9
+         iEkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=YvQQftq8LBsyDgtEK9RR8SdaKJ5ShmKbQZtVPx+Enyk=;
-        b=IcCf2tmMYfLmL3eaiLexB61RJMWygdgEZMvvdWCP1Z5+MURHUyz8m52YzBZG3Vcnay
-         k6SmotrqfVgd5QY5kt1k0UCNnz58J5fJrVCdv3iTZMMFrsEt3a6mB+4eH3iljXeqWLnK
-         /i48mgIXTBqYcJl4gicihx2dGBeOXYx7jE26zQj1zPqCs/j2MRsoQaqtBCdn7sQm6iot
-         sFVMKW+X57ZTT2Bqyc3a7sfIRcUxO+zR64HJBzPNw0vXhQTGGrQPLzM24rJULSimIBer
-         oSq56Y/CJ8CEdGd69J82yli7lUzRp8nNCDJnQyOKamQeo/zQU7UVdLUyIlH8evQZpgWN
-         JBaw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Sgeqc5+6lUb+9xfdT4wfaAHvYTUYEwM44Jw+nzAyvBo=;
+        b=QhuePrlzaaoMYOUUHxLFcWcKYf/ehfX9VIpDC5lGovhYFUEkcJFSYNl86vp4/kFI49
+         sFy7gl7fE1/PT+mRv3oN7uOyXw6hbIL4VM0nyoHbhgupXeqNhVR25hUpujTYw+U1knqg
+         2kQ5dl53matUOVzDieUEq/8zGfCt2hoKD+TOpFoThR0r4sHnvA/QKNL86B6+NVdtVsda
+         zrVGQarqP9jELd4yIrfZTDP1gPC68wI3SSGus4w+EHW3DbxhpBH/sQeP58edPSWwLFUo
+         lK9grNuzqU1MQ2dzVO+XlFzzFpgOd0q/qxvNSo3mIbV03x0EsCoczyWszpL1loIz8CQK
+         UKFQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=WkoeFI5V;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id eg4-20020a056870988400b000ddac42441esi666474oab.0.2022.05.08.09.16.52
+       dkim=pass header.i=@ventanamicro.com header.s=google header.b=FGQqvl29;
+       spf=pass (google.com: domain of apatel@ventanamicro.com designates 2a00:1450:4864:20::129 as permitted sender) smtp.mailfrom=apatel@ventanamicro.com
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com. [2a00:1450:4864:20::129])
+        by gmr-mx.google.com with ESMTPS id s3-20020aa7cb03000000b0042888ee8cfdsi188828edt.5.2022.05.08.20.47.22
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 08 May 2022 09:16:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 1E2EF60F60;
-	Sun,  8 May 2022 16:16:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EA36C385AF;
-	Sun,  8 May 2022 16:16:43 +0000 (UTC)
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Cc: linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com
-Subject: [PATCH v2 4/4] riscv: convert pgtable_l4|[l5]_enabled to static key
-Date: Mon,  9 May 2022 00:07:49 +0800
-Message-Id: <20220508160749.984-5-jszhang@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220508160749.984-1-jszhang@kernel.org>
-References: <20220508160749.984-1-jszhang@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 May 2022 20:47:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of apatel@ventanamicro.com designates 2a00:1450:4864:20::129 as permitted sender) client-ip=2a00:1450:4864:20::129;
+Received: by mail-lf1-x129.google.com with SMTP id p26so8375390lfh.10
+        for <kasan-dev@googlegroups.com>; Sun, 08 May 2022 20:47:22 -0700 (PDT)
+X-Received: by 2002:a05:6512:e9e:b0:473:be54:ba7b with SMTP id
+ bi30-20020a0565120e9e00b00473be54ba7bmr11177760lfb.419.1652068041785; Sun, 08
+ May 2022 20:47:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: jszhang@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=WkoeFI5V;       spf=pass
- (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as
- permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+References: <20220508160749.984-1-jszhang@kernel.org> <20220508160749.984-3-jszhang@kernel.org>
+In-Reply-To: <20220508160749.984-3-jszhang@kernel.org>
+From: Anup Patel <apatel@ventanamicro.com>
+Date: Mon, 9 May 2022 09:17:10 +0530
+Message-ID: <CAK9=C2Xinc6Y9ue+3ZOvKOOgru7wvJNcEPLvO4aZGuQqETXi2w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] riscv: introduce unified static key mechanism for
+ CPU features
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Alexandre Ghiti <alexandre.ghiti@canonical.com>, 
+	linux-riscv <linux-riscv@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: apatel@ventanamicro.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@ventanamicro.com header.s=google header.b=FGQqvl29;       spf=pass
+ (google.com: domain of apatel@ventanamicro.com designates 2a00:1450:4864:20::129
+ as permitted sender) smtp.mailfrom=apatel@ventanamicro.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,513 +133,391 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On a specific HW platform, pgtable_l4|[l5]_enabled won't change after
-boot, and the check sits at hot code path, this characteristic makes it
-suitable for optimization with static key.
+On Sun, May 8, 2022 at 9:47 PM Jisheng Zhang <jszhang@kernel.org> wrote:
+>
+> Currently, riscv has several features why may not be supported on all
+> riscv platforms, for example, FPU, SV48 and so on. To support unified
+> kernel Image style, we need to check whether the feature is suportted
+> or not. If the check sits at hot code path, then performance will be
+> impacted a lot. static key can be used to solve the issue. In the past
+> FPU support has been converted to use static key mechanism. I believe
+> we will have similar cases in the future.
 
-Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
----
- arch/riscv/include/asm/cpufeature.h | 11 +++++++
- arch/riscv/include/asm/pgalloc.h    | 16 +++++-----
- arch/riscv/include/asm/pgtable-64.h | 40 ++++++++++++-------------
- arch/riscv/include/asm/pgtable.h    |  5 ++--
- arch/riscv/kernel/cpu.c             |  4 +--
- arch/riscv/mm/init.c                | 46 +++++++++++++----------------
- arch/riscv/mm/kasan_init.c          | 16 +++++-----
- arch/riscv/tools/cpucaps            |  2 ++
- 8 files changed, 73 insertions(+), 67 deletions(-)
+It's not just FPU and Sv48. There are several others such as Svinval,
+Vector, Svnapot, Svpbmt, and many many others.
 
-diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-index 634a653c7fa2..a51f2602a0e3 100644
---- a/arch/riscv/include/asm/cpufeature.h
-+++ b/arch/riscv/include/asm/cpufeature.h
-@@ -96,4 +96,15 @@ static inline bool system_supports_fpu(void)
- 	return IS_ENABLED(CONFIG_FPU) && !cpus_have_final_cap(RISCV_HAS_NO_FPU);
- }
- 
-+static inline bool system_supports_sv48(void)
-+{
-+	return IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL) &&
-+		!cpus_have_const_cap(RISCV_HAS_NO_SV48);
-+}
-+
-+static inline bool system_supports_sv57(void)
-+{
-+	return IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL) &&
-+		!cpus_have_const_cap(RISCV_HAS_NO_SV57);
-+}
- #endif
-diff --git a/arch/riscv/include/asm/pgalloc.h b/arch/riscv/include/asm/pgalloc.h
-index 947f23d7b6af..f49233ca696a 100644
---- a/arch/riscv/include/asm/pgalloc.h
-+++ b/arch/riscv/include/asm/pgalloc.h
-@@ -41,7 +41,7 @@ static inline void pud_populate(struct mm_struct *mm, pud_t *pud, pmd_t *pmd)
- 
- static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4d, pud_t *pud)
- {
--	if (pgtable_l4_enabled) {
-+	if (system_supports_sv48()) {
- 		unsigned long pfn = virt_to_pfn(pud);
- 
- 		set_p4d(p4d, __p4d((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
-@@ -51,7 +51,7 @@ static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4d, pud_t *pud)
- static inline void p4d_populate_safe(struct mm_struct *mm, p4d_t *p4d,
- 				     pud_t *pud)
- {
--	if (pgtable_l4_enabled) {
-+	if (system_supports_sv48()) {
- 		unsigned long pfn = virt_to_pfn(pud);
- 
- 		set_p4d_safe(p4d,
-@@ -61,7 +61,7 @@ static inline void p4d_populate_safe(struct mm_struct *mm, p4d_t *p4d,
- 
- static inline void pgd_populate(struct mm_struct *mm, pgd_t *pgd, p4d_t *p4d)
- {
--	if (pgtable_l5_enabled) {
-+	if (system_supports_sv57()) {
- 		unsigned long pfn = virt_to_pfn(p4d);
- 
- 		set_pgd(pgd, __pgd((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
-@@ -71,7 +71,7 @@ static inline void pgd_populate(struct mm_struct *mm, pgd_t *pgd, p4d_t *p4d)
- static inline void pgd_populate_safe(struct mm_struct *mm, pgd_t *pgd,
- 				     p4d_t *p4d)
- {
--	if (pgtable_l5_enabled) {
-+	if (system_supports_sv57()) {
- 		unsigned long pfn = virt_to_pfn(p4d);
- 
- 		set_pgd_safe(pgd,
-@@ -82,7 +82,7 @@ static inline void pgd_populate_safe(struct mm_struct *mm, pgd_t *pgd,
- #define pud_alloc_one pud_alloc_one
- static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long addr)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		return __pud_alloc_one(mm, addr);
- 
- 	return NULL;
-@@ -91,7 +91,7 @@ static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long addr)
- #define pud_free pud_free
- static inline void pud_free(struct mm_struct *mm, pud_t *pud)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		__pud_free(mm, pud);
- }
- 
-@@ -100,7 +100,7 @@ static inline void pud_free(struct mm_struct *mm, pud_t *pud)
- #define p4d_alloc_one p4d_alloc_one
- static inline p4d_t *p4d_alloc_one(struct mm_struct *mm, unsigned long addr)
- {
--	if (pgtable_l5_enabled) {
-+	if (system_supports_sv57()) {
- 		gfp_t gfp = GFP_PGTABLE_USER;
- 
- 		if (mm == &init_mm)
-@@ -120,7 +120,7 @@ static inline void __p4d_free(struct mm_struct *mm, p4d_t *p4d)
- #define p4d_free p4d_free
- static inline void p4d_free(struct mm_struct *mm, p4d_t *p4d)
- {
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		__p4d_free(mm, p4d);
- }
- 
-diff --git a/arch/riscv/include/asm/pgtable-64.h b/arch/riscv/include/asm/pgtable-64.h
-index 7e246e9f8d70..9ee4abf0f528 100644
---- a/arch/riscv/include/asm/pgtable-64.h
-+++ b/arch/riscv/include/asm/pgtable-64.h
-@@ -7,17 +7,15 @@
- #define _ASM_RISCV_PGTABLE_64_H
- 
- #include <linux/const.h>
--
--extern bool pgtable_l4_enabled;
--extern bool pgtable_l5_enabled;
-+#include <asm/cpufeature.h>
- 
- #define PGDIR_SHIFT_L3  30
- #define PGDIR_SHIFT_L4  39
- #define PGDIR_SHIFT_L5  48
- #define PGDIR_SIZE_L3   (_AC(1, UL) << PGDIR_SHIFT_L3)
- 
--#define PGDIR_SHIFT     (pgtable_l5_enabled ? PGDIR_SHIFT_L5 : \
--		(pgtable_l4_enabled ? PGDIR_SHIFT_L4 : PGDIR_SHIFT_L3))
-+#define PGDIR_SHIFT     (system_supports_sv57() ? PGDIR_SHIFT_L5 : \
-+		(system_supports_sv48() ? PGDIR_SHIFT_L4 : PGDIR_SHIFT_L3))
- /* Size of region mapped by a page global directory */
- #define PGDIR_SIZE      (_AC(1, UL) << PGDIR_SHIFT)
- #define PGDIR_MASK      (~(PGDIR_SIZE - 1))
-@@ -119,7 +117,7 @@ static inline struct page *pud_page(pud_t pud)
- #define mm_p4d_folded  mm_p4d_folded
- static inline bool mm_p4d_folded(struct mm_struct *mm)
- {
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		return false;
- 
- 	return true;
-@@ -128,7 +126,7 @@ static inline bool mm_p4d_folded(struct mm_struct *mm)
- #define mm_pud_folded  mm_pud_folded
- static inline bool mm_pud_folded(struct mm_struct *mm)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		return false;
- 
- 	return true;
-@@ -159,7 +157,7 @@ static inline unsigned long _pmd_pfn(pmd_t pmd)
- 
- static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		*p4dp = p4d;
- 	else
- 		set_pud((pud_t *)p4dp, (pud_t){ p4d_val(p4d) });
-@@ -167,7 +165,7 @@ static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
- 
- static inline int p4d_none(p4d_t p4d)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		return (p4d_val(p4d) == 0);
- 
- 	return 0;
-@@ -175,7 +173,7 @@ static inline int p4d_none(p4d_t p4d)
- 
- static inline int p4d_present(p4d_t p4d)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		return (p4d_val(p4d) & _PAGE_PRESENT);
- 
- 	return 1;
-@@ -183,7 +181,7 @@ static inline int p4d_present(p4d_t p4d)
- 
- static inline int p4d_bad(p4d_t p4d)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		return !p4d_present(p4d);
- 
- 	return 0;
-@@ -191,7 +189,7 @@ static inline int p4d_bad(p4d_t p4d)
- 
- static inline void p4d_clear(p4d_t *p4d)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		set_p4d(p4d, __p4d(0));
- }
- 
-@@ -207,7 +205,7 @@ static inline unsigned long _p4d_pfn(p4d_t p4d)
- 
- static inline pud_t *p4d_pgtable(p4d_t p4d)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		return (pud_t *)pfn_to_virt(p4d_val(p4d) >> _PAGE_PFN_SHIFT);
- 
- 	return (pud_t *)pud_pgtable((pud_t) { p4d_val(p4d) });
-@@ -224,7 +222,7 @@ static inline struct page *p4d_page(p4d_t p4d)
- #define pud_offset pud_offset
- static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
- {
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		return p4d_pgtable(*p4d) + pud_index(address);
- 
- 	return (pud_t *)p4d;
-@@ -232,7 +230,7 @@ static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
- 
- static inline void set_pgd(pgd_t *pgdp, pgd_t pgd)
- {
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		*pgdp = pgd;
- 	else
- 		set_p4d((p4d_t *)pgdp, (p4d_t){ pgd_val(pgd) });
-@@ -240,7 +238,7 @@ static inline void set_pgd(pgd_t *pgdp, pgd_t pgd)
- 
- static inline int pgd_none(pgd_t pgd)
- {
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		return (pgd_val(pgd) == 0);
- 
- 	return 0;
-@@ -248,7 +246,7 @@ static inline int pgd_none(pgd_t pgd)
- 
- static inline int pgd_present(pgd_t pgd)
- {
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		return (pgd_val(pgd) & _PAGE_PRESENT);
- 
- 	return 1;
-@@ -256,7 +254,7 @@ static inline int pgd_present(pgd_t pgd)
- 
- static inline int pgd_bad(pgd_t pgd)
- {
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		return !pgd_present(pgd);
- 
- 	return 0;
-@@ -264,13 +262,13 @@ static inline int pgd_bad(pgd_t pgd)
- 
- static inline void pgd_clear(pgd_t *pgd)
- {
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		set_pgd(pgd, __pgd(0));
- }
- 
- static inline p4d_t *pgd_pgtable(pgd_t pgd)
- {
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		return (p4d_t *)pfn_to_virt(pgd_val(pgd) >> _PAGE_PFN_SHIFT);
- 
- 	return (p4d_t *)p4d_pgtable((p4d_t) { pgd_val(pgd) });
-@@ -288,7 +286,7 @@ static inline struct page *pgd_page(pgd_t pgd)
- #define p4d_offset p4d_offset
- static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
- {
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		return pgd_pgtable(*pgd) + p4d_index(address);
- 
- 	return (p4d_t *)pgd;
-diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index 046b44225623..ef2a1654100a 100644
---- a/arch/riscv/include/asm/pgtable.h
-+++ b/arch/riscv/include/asm/pgtable.h
-@@ -63,8 +63,8 @@
-  * position vmemmap directly below the VMALLOC region.
-  */
- #ifdef CONFIG_64BIT
--#define VA_BITS		(pgtable_l5_enabled ? \
--				57 : (pgtable_l4_enabled ? 48 : 39))
-+#define VA_BITS		(system_supports_sv57() ? \
-+				57 : (system_supports_sv48() ? 48 : 39))
- #else
- #define VA_BITS		32
- #endif
-@@ -738,7 +738,6 @@ extern uintptr_t _dtb_early_pa;
- #define dtb_early_pa	_dtb_early_pa
- #endif /* CONFIG_XIP_KERNEL */
- extern u64 satp_mode;
--extern bool pgtable_l4_enabled;
- 
- void paging_init(void);
- void misc_mem_init(void);
-diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-index ccb617791e56..c8f3989b08f3 100644
---- a/arch/riscv/kernel/cpu.c
-+++ b/arch/riscv/kernel/cpu.c
-@@ -141,9 +141,9 @@ static void print_mmu(struct seq_file *f)
- #if defined(CONFIG_32BIT)
- 	strncpy(sv_type, "sv32", 5);
- #elif defined(CONFIG_64BIT)
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		strncpy(sv_type, "sv57", 5);
--	else if (pgtable_l4_enabled)
-+	else if (system_supports_sv48())
- 		strncpy(sv_type, "sv48", 5);
- 	else
- 		strncpy(sv_type, "sv39", 5);
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 5f3f26dd9f21..b6a59a5d1a7f 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -21,6 +21,7 @@
- #include <linux/crash_dump.h>
- #include <linux/hugetlb.h>
- 
-+#include <asm/cpufeature.h>
- #include <asm/fixmap.h>
- #include <asm/tlbflush.h>
- #include <asm/sections.h>
-@@ -44,11 +45,6 @@ u64 satp_mode __ro_after_init = SATP_MODE_32;
- #endif
- EXPORT_SYMBOL(satp_mode);
- 
--bool pgtable_l4_enabled = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
--bool pgtable_l5_enabled = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
--EXPORT_SYMBOL(pgtable_l4_enabled);
--EXPORT_SYMBOL(pgtable_l5_enabled);
--
- phys_addr_t phys_ram_base __ro_after_init;
- EXPORT_SYMBOL(phys_ram_base);
- 
-@@ -555,26 +551,26 @@ static void __init create_p4d_mapping(p4d_t *p4dp,
- }
- 
- #define pgd_next_t		p4d_t
--#define alloc_pgd_next(__va)	(pgtable_l5_enabled ?			\
--		pt_ops.alloc_p4d(__va) : (pgtable_l4_enabled ?		\
-+#define alloc_pgd_next(__va)	(system_supports_sv57() ?		\
-+		pt_ops.alloc_p4d(__va) : (system_supports_sv48() ?	\
- 		pt_ops.alloc_pud(__va) : pt_ops.alloc_pmd(__va)))
--#define get_pgd_next_virt(__pa)	(pgtable_l5_enabled ?			\
--		pt_ops.get_p4d_virt(__pa) : (pgd_next_t *)(pgtable_l4_enabled ?	\
-+#define get_pgd_next_virt(__pa)	(system_supports_sv57() ?		\
-+		pt_ops.get_p4d_virt(__pa) : (pgd_next_t *)(system_supports_sv48() ?	\
- 		pt_ops.get_pud_virt(__pa) : (pud_t *)pt_ops.get_pmd_virt(__pa)))
- #define create_pgd_next_mapping(__nextp, __va, __pa, __sz, __prot)	\
--				(pgtable_l5_enabled ?			\
-+				(system_supports_sv57() ?		\
- 		create_p4d_mapping(__nextp, __va, __pa, __sz, __prot) : \
--				(pgtable_l4_enabled ?			\
-+				(system_supports_sv48() ?		\
- 		create_pud_mapping((pud_t *)__nextp, __va, __pa, __sz, __prot) :	\
- 		create_pmd_mapping((pmd_t *)__nextp, __va, __pa, __sz, __prot)))
--#define fixmap_pgd_next		(pgtable_l5_enabled ?			\
--		(uintptr_t)fixmap_p4d : (pgtable_l4_enabled ?		\
-+#define fixmap_pgd_next		(system_supports_sv57() ?		\
-+		(uintptr_t)fixmap_p4d : (system_supports_sv48() ?	\
- 		(uintptr_t)fixmap_pud : (uintptr_t)fixmap_pmd))
--#define trampoline_pgd_next	(pgtable_l5_enabled ?			\
--		(uintptr_t)trampoline_p4d : (pgtable_l4_enabled ?	\
-+#define trampoline_pgd_next	(system_supports_sv57() ?		\
-+		(uintptr_t)trampoline_p4d : (system_supports_sv48() ?	\
- 		(uintptr_t)trampoline_pud : (uintptr_t)trampoline_pmd))
--#define early_dtb_pgd_next	(pgtable_l5_enabled ?			\
--		(uintptr_t)early_dtb_p4d : (pgtable_l4_enabled ?	\
-+#define early_dtb_pgd_next	(system_supports_sv57() ?		\
-+		(uintptr_t)early_dtb_p4d : (system_supports_sv48() ?	\
- 		(uintptr_t)early_dtb_pud : (uintptr_t)early_dtb_pmd))
- #else
- #define pgd_next_t		pte_t
-@@ -680,14 +676,14 @@ static __init pgprot_t pgprot_from_va(uintptr_t va)
- #ifdef CONFIG_64BIT
- static void __init disable_pgtable_l5(void)
- {
--	pgtable_l5_enabled = false;
-+	cpus_set_cap(RISCV_HAS_NO_SV57);
- 	kernel_map.page_offset = PAGE_OFFSET_L4;
- 	satp_mode = SATP_MODE_48;
- }
- 
- static void __init disable_pgtable_l4(void)
- {
--	pgtable_l4_enabled = false;
-+	cpus_set_cap(RISCV_HAS_NO_SV48);
- 	kernel_map.page_offset = PAGE_OFFSET_L3;
- 	satp_mode = SATP_MODE_39;
- }
-@@ -816,11 +812,11 @@ static void __init create_fdt_early_page_table(pgd_t *pgdir, uintptr_t dtb_pa)
- 			   PGDIR_SIZE,
- 			   IS_ENABLED(CONFIG_64BIT) ? PAGE_TABLE : PAGE_KERNEL);
- 
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		create_p4d_mapping(early_dtb_p4d, DTB_EARLY_BASE_VA,
- 				   (uintptr_t)early_dtb_pud, P4D_SIZE, PAGE_TABLE);
- 
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		create_pud_mapping(early_dtb_pud, DTB_EARLY_BASE_VA,
- 				   (uintptr_t)early_dtb_pmd, PUD_SIZE, PAGE_TABLE);
- 
-@@ -961,11 +957,11 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
- 
- #ifndef __PAGETABLE_PMD_FOLDED
- 	/* Setup fixmap P4D and PUD */
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		create_p4d_mapping(fixmap_p4d, FIXADDR_START,
- 				   (uintptr_t)fixmap_pud, P4D_SIZE, PAGE_TABLE);
- 	/* Setup fixmap PUD and PMD */
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		create_pud_mapping(fixmap_pud, FIXADDR_START,
- 				   (uintptr_t)fixmap_pmd, PUD_SIZE, PAGE_TABLE);
- 	create_pmd_mapping(fixmap_pmd, FIXADDR_START,
-@@ -973,10 +969,10 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
- 	/* Setup trampoline PGD and PMD */
- 	create_pgd_mapping(trampoline_pg_dir, kernel_map.virt_addr,
- 			   trampoline_pgd_next, PGDIR_SIZE, PAGE_TABLE);
--	if (pgtable_l5_enabled)
-+	if (system_supports_sv57())
- 		create_p4d_mapping(trampoline_p4d, kernel_map.virt_addr,
- 				   (uintptr_t)trampoline_pud, P4D_SIZE, PAGE_TABLE);
--	if (pgtable_l4_enabled)
-+	if (system_supports_sv48())
- 		create_pud_mapping(trampoline_pud, kernel_map.virt_addr,
- 				   (uintptr_t)trampoline_pmd, PUD_SIZE, PAGE_TABLE);
- #ifdef CONFIG_XIP_KERNEL
-diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-index a22e418dbd82..7b662661f7a9 100644
---- a/arch/riscv/mm/kasan_init.c
-+++ b/arch/riscv/mm/kasan_init.c
-@@ -209,15 +209,15 @@ static void __init kasan_populate_p4d(pgd_t *pgd,
- 		set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_p4d)), PAGE_TABLE));
- }
- 
--#define kasan_early_shadow_pgd_next			(pgtable_l5_enabled ?	\
-+#define kasan_early_shadow_pgd_next		(system_supports_sv57() ?	\
- 				(uintptr_t)kasan_early_shadow_p4d :		\
--							(pgtable_l4_enabled ?	\
-+						(system_supports_sv48() ?	\
- 				(uintptr_t)kasan_early_shadow_pud :		\
- 				(uintptr_t)kasan_early_shadow_pmd))
- #define kasan_populate_pgd_next(pgdp, vaddr, next, early)			\
--		(pgtable_l5_enabled ?						\
-+		(system_supports_sv57() ?					\
- 		kasan_populate_p4d(pgdp, vaddr, next, early) :			\
--		(pgtable_l4_enabled ?						\
-+		(system_supports_sv48() ?					\
- 			kasan_populate_pud(pgdp, vaddr, next, early) :		\
- 			kasan_populate_pmd((pud_t *)pgdp, vaddr, next)))
- 
-@@ -274,7 +274,7 @@ asmlinkage void __init kasan_early_init(void)
- 				(__pa((uintptr_t)kasan_early_shadow_pte)),
- 				PAGE_TABLE));
- 
--	if (pgtable_l4_enabled) {
-+	if (system_supports_sv48()) {
- 		for (i = 0; i < PTRS_PER_PUD; ++i)
- 			set_pud(kasan_early_shadow_pud + i,
- 				pfn_pud(PFN_DOWN
-@@ -282,7 +282,7 @@ asmlinkage void __init kasan_early_init(void)
- 					PAGE_TABLE));
- 	}
- 
--	if (pgtable_l5_enabled) {
-+	if (system_supports_sv57()) {
- 		for (i = 0; i < PTRS_PER_P4D; ++i)
- 			set_p4d(kasan_early_shadow_p4d + i,
- 				pfn_p4d(PFN_DOWN
-@@ -393,9 +393,9 @@ static void __init kasan_shallow_populate_p4d(pgd_t *pgdp,
- }
- 
- #define kasan_shallow_populate_pgd_next(pgdp, vaddr, next)			\
--		(pgtable_l5_enabled ?						\
-+		(system_supports_sv57() ?					\
- 		kasan_shallow_populate_p4d(pgdp, vaddr, next) :			\
--		(pgtable_l4_enabled ?						\
-+		(system_supports_sv48() ?					\
- 		kasan_shallow_populate_pud(pgdp, vaddr, next) :			\
- 		kasan_shallow_populate_pmd(pgdp, vaddr, next)))
- 
-diff --git a/arch/riscv/tools/cpucaps b/arch/riscv/tools/cpucaps
-index cb1ff2747859..0b9e19ec8371 100644
---- a/arch/riscv/tools/cpucaps
-+++ b/arch/riscv/tools/cpucaps
-@@ -3,3 +3,5 @@
- # Internal CPU capabilities constants, keep this list sorted
- 
- HAS_NO_FPU
-+HAS_NO_SV48
-+HAS_NO_SV57
--- 
-2.34.1
+Overall, I agree with the approach of using static key array but I
+disagree with the semantics and the duplicate stuff being added.
+
+Please see more comments below ..
+
+>
+> Similar as arm64 does(in fact, some code is borrowed from arm64), this
+> patch tries to add an unified mechanism to use static keys for all
+> the cpu features by implementing an array of default-false static keys
+> and enabling them when detected. The cpus_have_*_cap() check uses the
+> static keys if riscv_const_caps_ready is finalized, otherwise the
+> compiler generates the bitmap test.
+
+First of all, we should stop calling this a feature (like ARM does). Rather,
+we should call these as isa extensions ("isaext") to align with the RISC-V
+priv spec and RISC-V profiles spec. For all the ISA optionalities which do
+not have distinct extension name, the RISC-V profiles spec is assigning
+names to all such optionalities.
+
+Another issue with semantics is that this patch assumes all features are
+enabled by default and we selectively disable it. This contrary to the
+approach taken by existing arch/riscv/kernel/cpufeature.c which assumes
+nothing is enabled by default and we selectively enable it.
+
+>
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+> ---
+>  arch/riscv/Makefile                 |  3 +
+>  arch/riscv/include/asm/cpufeature.h | 94 +++++++++++++++++++++++++++++
+>  arch/riscv/kernel/cpufeature.c      | 23 +++++++
+>  arch/riscv/tools/Makefile           | 22 +++++++
+>  arch/riscv/tools/cpucaps            |  5 ++
+>  arch/riscv/tools/gen-cpucaps.awk    | 40 ++++++++++++
+>  6 files changed, 187 insertions(+)
+>  create mode 100644 arch/riscv/include/asm/cpufeature.h
+>  create mode 100644 arch/riscv/tools/Makefile
+>  create mode 100644 arch/riscv/tools/cpucaps
+>  create mode 100755 arch/riscv/tools/gen-cpucaps.awk
+>
+> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> index 7d81102cffd4..f4df67369d84 100644
+> --- a/arch/riscv/Makefile
+> +++ b/arch/riscv/Makefile
+> @@ -154,3 +154,6 @@ PHONY += rv64_randconfig
+>  rv64_randconfig:
+>         $(Q)$(MAKE) KCONFIG_ALLCONFIG=$(srctree)/arch/riscv/configs/64-bit.config \
+>                 -f $(srctree)/Makefile randconfig
+> +
+> +archprepare:
+> +       $(Q)$(MAKE) $(build)=arch/riscv/tools kapi
+> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
+> new file mode 100644
+> index 000000000000..d80ddd2f3b49
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/cpufeature.h
+
+We don't need a separate header for this.
+
+All this belongs to arch/riscv/include/asm/hwcap.h
+
+> @@ -0,0 +1,94 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2014 Linaro Ltd. <ard.biesheuvel@linaro.org>
+> + * Copyright (C) 2022 Jisheng Zhang <jszhang@kernel.org>
+> + */
+> +
+> +#ifndef __ASM_CPUFEATURE_H
+> +#define __ASM_CPUFEATURE_H
+> +
+> +#include <asm/cpucaps.h>
+> +
+> +#include <linux/bug.h>
+> +#include <linux/jump_label.h>
+> +#include <linux/kernel.h>
+> +
+> +extern DECLARE_BITMAP(cpu_hwcaps, RISCV_NCAPS);
+
+This is a redundant bitmap. Please re-use "riscv_isa" bitmap for this
+the ISA extensions.
+
+> +extern struct static_key_false cpu_hwcap_keys[RISCV_NCAPS];
+
+This should be called "riscv_isa_keys"
+
+> +extern struct static_key_false riscv_const_caps_ready;
+
+This should be called "riscv_isa_keys_ready".
+
+> +
+> +static __always_inline bool system_capabilities_finalized(void)
+
+Another misaligned name. This should be called
+"riscv_isa_keys_finalized()".
+
+> +{
+> +       return static_branch_likely(&riscv_const_caps_ready);
+> +}
+> +
+> +/*
+> + * Test for a capability with a runtime check.
+> + *
+> + * Before the capability is detected, this returns false.
+> + */
+> +static inline bool cpus_have_cap(unsigned int num)
+> +{
+> +       if (num >= RISCV_NCAPS)
+> +               return false;
+> +       return test_bit(num, cpu_hwcaps);
+> +}
+
+This should be called riscv_isa_have_extension() and it should
+internally call "__riscv_isa_extension_available(NULL, num)".
+
+> +
+> +/*
+> + * Test for a capability without a runtime check.
+> + *
+> + * Before capabilities are finalized, this returns false.
+> + * After capabilities are finalized, this is patched to avoid a runtime check.
+> + *
+> + * @num must be a compile-time constant.
+> + */
+> +static __always_inline bool __cpus_have_const_cap(int num)
+
+This should be named "__riscv_isa_have_const_extension()"
+
+> +{
+> +       if (num >= RISCV_NCAPS)
+> +               return false;
+> +       return static_branch_unlikely(&cpu_hwcap_keys[num]);
+> +}
+> +
+> +/*
+> + * Test for a capability without a runtime check.
+> + *
+> + * Before capabilities are finalized, this will BUG().
+> + * After capabilities are finalized, this is patched to avoid a runtime check.
+> + *
+> + * @num must be a compile-time constant.
+> + */
+> +static __always_inline bool cpus_have_final_cap(int num)
+
+This should be called "riscv_isa_have_final_extension()"
+
+> +{
+> +       if (system_capabilities_finalized())
+> +               return __cpus_have_const_cap(num);
+> +       else
+> +               BUG();
+> +}
+> +
+> +/*
+> + * Test for a capability, possibly with a runtime check.
+> + *
+> + * Before capabilities are finalized, this behaves as cpus_have_cap().
+> + * After capabilities are finalized, this is patched to avoid a runtime check.
+> + *
+> + * @num must be a compile-time constant.
+> + */
+> +static __always_inline bool cpus_have_const_cap(int num)
+
+Same comment as above.
+
+> +{
+> +       if (system_capabilities_finalized())
+> +               return __cpus_have_const_cap(num);
+> +       else
+> +               return cpus_have_cap(num);
+> +}
+> +
+> +static inline void cpus_set_cap(unsigned int num)
+
+Same comment as above.
+
+> +{
+> +       if (num >= RISCV_NCAPS) {
+> +               pr_warn("Attempt to set an illegal CPU capability (%d >= %d)\n",
+> +                       num, RISCV_NCAPS);
+> +       } else {
+> +               __set_bit(num, cpu_hwcaps);
+> +       }
+> +}
+> +
+> +#endif
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> index 1b2d42d7f589..e6c72cad0c1c 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/bitmap.h>
+>  #include <linux/ctype.h>
+>  #include <linux/of.h>
+> +#include <asm/cpufeature.h>
+>  #include <asm/processor.h>
+>  #include <asm/hwcap.h>
+>  #include <asm/smp.h>
+> @@ -25,6 +26,15 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
+>  __ro_after_init DEFINE_STATIC_KEY_FALSE(cpu_hwcap_fpu);
+>  #endif
+>
+> +DECLARE_BITMAP(cpu_hwcaps, RISCV_NCAPS);
+> +EXPORT_SYMBOL(cpu_hwcaps);
+
+Just like the previous comment. This is a redundant bitmap.
+Please use "riscv_isa" bitmap for this purpose.
+
+> +
+> +DEFINE_STATIC_KEY_ARRAY_FALSE(cpu_hwcap_keys, RISCV_NCAPS);
+> +EXPORT_SYMBOL(cpu_hwcap_keys);
+> +
+> +DEFINE_STATIC_KEY_FALSE(riscv_const_caps_ready);
+> +EXPORT_SYMBOL(riscv_const_caps_ready);
+
+Please see comments above.
+
+> +
+>  /**
+>   * riscv_isa_extension_base() - Get base extension word
+>   *
+> @@ -62,6 +72,17 @@ bool __riscv_isa_extension_available(const unsigned long *isa_bitmap, int bit)
+>  }
+>  EXPORT_SYMBOL_GPL(__riscv_isa_extension_available);
+>
+> +static void __init enable_cpu_capabilities(void)
+> +{
+> +       int i;
+> +
+> +       for (i = 0; i < RISCV_NCAPS; i++) {
+> +               if (!cpus_have_cap(i))
+> +                       continue;
+> +               static_branch_enable(&cpu_hwcap_keys[i]);
+> +       }
+> +}
+> +
+>  void __init riscv_fill_hwcap(void)
+>  {
+>         struct device_node *node;
+> @@ -236,4 +257,6 @@ void __init riscv_fill_hwcap(void)
+>         if (elf_hwcap & (COMPAT_HWCAP_ISA_F | COMPAT_HWCAP_ISA_D))
+>                 static_branch_enable(&cpu_hwcap_fpu);
+>  #endif
+> +       enable_cpu_capabilities();
+> +       static_branch_enable(&riscv_const_caps_ready);
+>  }
+> diff --git a/arch/riscv/tools/Makefile b/arch/riscv/tools/Makefile
+> new file mode 100644
+> index 000000000000..932b4fe5c768
+> --- /dev/null
+> +++ b/arch/riscv/tools/Makefile
+> @@ -0,0 +1,22 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +gen := arch/$(ARCH)/include/generated
+> +kapi := $(gen)/asm
+> +
+> +kapi-hdrs-y := $(kapi)/cpucaps.h
+> +
+> +targets += $(addprefix ../../../,$(gen-y) $(kapi-hdrs-y))
+> +
+> +PHONY += kapi
+> +
+> +kapi:   $(kapi-hdrs-y) $(gen-y)
+> +
+> +# Create output directory if not already present
+> +_dummy := $(shell [ -d '$(kapi)' ] || mkdir -p '$(kapi)')
+> +
+> +quiet_cmd_gen_cpucaps = GEN     $@
+> +      cmd_gen_cpucaps = mkdir -p $(dir $@) && \
+> +                     $(AWK) -f $(filter-out $(PHONY),$^) > $@
+> +
+> +$(kapi)/cpucaps.h: $(src)/gen-cpucaps.awk $(src)/cpucaps FORCE
+> +       $(call if_changed,gen_cpucaps)
+> diff --git a/arch/riscv/tools/cpucaps b/arch/riscv/tools/cpucaps
+> new file mode 100644
+> index 000000000000..cb1ff2747859
+> --- /dev/null
+> +++ b/arch/riscv/tools/cpucaps
+> @@ -0,0 +1,5 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Internal CPU capabilities constants, keep this list sorted
+> +
+> +HAS_NO_FPU
+
+How can "No FPU" be a CPU capability ?
+
+We have ISA extensions 'F' and 'D' which tells us whether an FPU is available
+or not.
+
+I think this file should be a table with two columns
+"<lower_case_extension_name> <parsed_from_isa_string_yes_no>"
+I this this file should look like this:
+
+i yes
+m yes
+a yes
+c yes
+f yes
+d yes
+h yes
+sv48 no
+sv57 no
+sstc yes
+svinval yes
+svpbmt yes
+svnapot yes
+sscofpmf yes
+...
+
+> diff --git a/arch/riscv/tools/gen-cpucaps.awk b/arch/riscv/tools/gen-cpucaps.awk
+> new file mode 100755
+> index 000000000000..52a1e1b064ad
+> --- /dev/null
+> +++ b/arch/riscv/tools/gen-cpucaps.awk
+> @@ -0,0 +1,40 @@
+> +#!/bin/awk -f
+> +# SPDX-License-Identifier: GPL-2.0
+> +# gen-cpucaps.awk: riscv cpucaps header generator
+> +#
+> +# Usage: awk -f gen-cpucaps.awk cpucaps.txt
+> +
+> +# Log an error and terminate
+> +function fatal(msg) {
+> +       print "Error at line " NR ": " msg > "/dev/stderr"
+> +       exit 1
+> +}
+> +
+> +# skip blank lines and comment lines
+> +/^$/ { next }
+> +/^#/ { next }
+> +
+> +BEGIN {
+> +       print "#ifndef __ASM_CPUCAPS_H"
+> +       print "#define __ASM_CPUCAPS_H"
+> +       print ""
+> +       print "/* Generated file - do not edit */"
+> +       cap_num = 0
+> +       print ""
+> +}
+> +
+> +/^[vA-Z0-9_]+$/ {
+> +       printf("#define RISCV_%-30s\t%d\n", $0, cap_num++)
+> +       next
+> +}
+> +
+> +END {
+> +       printf("#define RISCV_NCAPS\t\t\t\t%d\n", cap_num)
+> +       print ""
+> +       print "#endif /* __ASM_CPUCAPS_H */"
+> +}
+
+This script need to change refer capabilities as extensions.
+
+For every extension, there should be two defines.
+For e.g. "sstc" extension should have following defines
+#define RISCV_ISA_EXT_sstc <#num>
+#define RISCV_ISA_EXT_FROMSTR_sstc <1|0>
+
+> +
+> +# Any lines not handled by previous rules are unexpected
+> +{
+> +       fatal("unhandled statement")
+> +}
+> --
+> 2.34.1
+>
+
+Regards,
+Anup
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220508160749.984-5-jszhang%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAK9%3DC2Xinc6Y9ue%2B3ZOvKOOgru7wvJNcEPLvO4aZGuQqETXi2w%40mail.gmail.com.
