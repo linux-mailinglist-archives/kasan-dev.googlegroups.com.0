@@ -1,46 +1,46 @@
-Return-Path: <kasan-dev+bncBDFJHU6GRMBBBN5E4KJQMGQEMVFUBKA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDFJHU6GRMBBBCFV4KJQMGQEYAQ7SWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE7A51F322
-	for <lists+kasan-dev@lfdr.de>; Mon,  9 May 2022 06:02:00 +0200 (CEST)
-Received: by mail-wr1-x43b.google.com with SMTP id u26-20020adfb21a000000b0020ac48a9aa4sf5296557wra.5
-        for <lists+kasan-dev@lfdr.de>; Sun, 08 May 2022 21:02:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1652068920; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id A558051F381
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 May 2022 06:37:29 +0200 (CEST)
+Received: by mail-lf1-x139.google.com with SMTP id bp17-20020a056512159100b00472631eb445sf5292231lfb.13
+        for <lists+kasan-dev@lfdr.de>; Sun, 08 May 2022 21:37:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1652071049; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BpnO+51p1nmwhWJrrGYuFaaDg3tG9FezEQXYbr1ItcZhtEyigs/kDtVz3W5Wq4mjA6
-         p27GyFc6I0rJpkIEckOTOs37DJ48+AX+tVh8hdGZmZK+bEqgws0isA9RzeWF3LnoM+eF
-         Dj2731KUpsmrYJntGMIZeyfp0Ipz1gSyTcbKP0DHyyUgRciKRx0aMJc7KRup5mEOo6C2
-         Sx0S1j8cj4qQWhHcC3cLal8LNOIagzsBgcY1IUoXzsln6GHHs1083vnrIQA0xl6P4IBy
-         KoyoKM2uEic9qTovjW7G6pWk7b4EzuJWfvZW+nqyAWlgXI8IvikIlkn2xzuhzZmpyvsT
-         jo0Q==
+        b=kmmoF6jKu33/JkIt16BMmwJ1JBK25U/ruzEYeioh9YlVieXj8aD1g40VU7AwSoyu2i
+         0pC1fbJ+yAFnFPbFuwYQ1S2izf1ZP+u7tsoI8PEQ8l9Os5/Lk4gzbJ4Zit3QPzIjuyiW
+         U46r4X220gqdYsNI2WlU2pHWGFU80F15HP8amqLQ0J4NO3mBbM2k/IEbbVMpw09s4L2t
+         XEweUOO3UMqCQfSrEBqjFueJYGG9UOeRtQNBVgqWoOpC79b9Q0IO0ZbMhNMWxsywkbAw
+         3BNANGVFx5V9gA9rA+SBq9VauIafeMGPvUMGEENIkmILf92wxw5OW0fpg6kVB0Gvb/6j
+         Q4tg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=1qEaaMn16OooUPu12khw9f9LGAFzPdB4oUFvMPo5McE=;
-        b=LjhffxyMOuv5VnAwQqbvSz2HjvJ1UbHenEd/gJnTErZBVSq1jp8VkClPPzS6gEvCSA
-         hiQTTGi68UB36GqoPkg4qDFtKFh/LeoO/3w4iOhKeMb8h0Xx6bHHZT3zwMEx+7TT7pkx
-         +Zo0jojlh3wnuQ+rc06M6QJB6nPRRNVdotZpUphmgMclVNlACbKUgNUj1FErE6IP0f63
-         00hyPv8xFSzDBrfhBart8fdiqye5DENuFeZcHabmyYhEE5Y416QqZKh80jhGNS0Yytjc
-         TNsm3hVtws8S62XHlCJGNtdR2/cge8MDhNM/1A1iqsErvKLEmY5dMbpHy5ynhw0k5T8m
-         Mwzw==
+        bh=oq7KsbEv8KERxXpWlLOn4ngUcAedLkoMDcfGe+B7QPc=;
+        b=cBwkNJZAhwupczIdqaVjSCSne1srKkfYDpPgsuwtuOQNQuuU1USCf9+8nP5cJEjiEq
+         LyoLAiijcHX1eNdkXlVwx9NVlCOODTkGqrYWfGx3xZ6mediauEs1xTSV05H/y6a4xiBv
+         /T2/sxwNhnDqkwtBDNK78xpacdBOEOR6jDHlcm9xlfkCx3MFSIUhXL2qAoUQKJaOvUR2
+         uxc4XfZcP/HUuyAQ2tb4dozNsoJGJsLUcqlYB0XiDunCg4/JCqbaBaPpgRzIwGh9I/V7
+         V3KZJOm7XPqp/5JHfNsEad0eIwNoNee22w3sHwKggy7YIvEuANbmcC3h+VUTYKskWZuo
+         qdzg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112 header.b="IX/c5ofu";
-       spf=neutral (google.com: 2a00:1450:4864:20::429 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
+       dkim=pass header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112 header.b=CIUvEXQy;
+       spf=neutral (google.com: 2a00:1450:4864:20::336 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=sender:mime-version:references:in-reply-to:from:date:message-id
          :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=1qEaaMn16OooUPu12khw9f9LGAFzPdB4oUFvMPo5McE=;
-        b=HwBZvlW7xP1KP41GCrDmfP3gN21XPW6qbNWOELru4julbB87z7/DnkYvy3xWlbzm/z
-         gWXEB5BKCum77Wy9nYRKbh6Rdp6Y/+lbppu6x/PGC42Qbxaww0oJt3g9iMF1cF4GyRz4
-         Ojx4iKwuvzimf7W7wQgfPr1tcu08BY+P9aJFq04gkrnVeOkVCcdxCQiNDdeHlsp4RGNJ
-         IVrIJcXZJ/gLgcy1b7ZropSkVgcm6QJAEbjDAmFLrDBuGxAUq0WUcL5iF+EnEe/pLMEG
-         9L+stiqWMNEEzb+IorLn8vT/MEpZbp0H/8iR9Fzb/dQEE1IxU3q1sCUFeoOgwqXVUR/8
-         j1jA==
+        bh=oq7KsbEv8KERxXpWlLOn4ngUcAedLkoMDcfGe+B7QPc=;
+        b=Z4u3m03dL+Xl1cisc3bDdjJXA89KqaGvaLm0ILBY8pd2L/3vLN7XVQ11UykpfKHvVW
+         maf7Hso8v7hq9ZJQRw/l9IMxTgr79VoxN3Iy2ma+4JI0f/lrdZP041a7Amt37rlTDtJF
+         ZfUn06mNJHuju8C0L+99e3xaZdS42SErooZqYxodoEqnHH9SEDxYjMeNbHHpX+dtdf1p
+         nhwBT4qjKbCuQNcsPLVzjXCCjuF9i7xvx9zN5KbpKRWAz+/SE3EwKf917fT4FPRWPzvI
+         lJFCiPRfL/mlP6LbMQI0UUo8VIQ0gztjX2Bwkd4VJO4BcvCSiKjnSvCbgAYiN/YeCTLS
+         qreQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
@@ -48,63 +48,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=1qEaaMn16OooUPu12khw9f9LGAFzPdB4oUFvMPo5McE=;
-        b=MBv6vpGRV+M0hjruH70ebJrCVar9A9M6sZ3LnS+XsxD1SWm5neKbMg0TBA++vjkMXe
-         TO15k6fTwI9JgHtnXilFENgJ7nTp9PA0QN02p5yluixvQzcRyCLlY4cvjP6pVZ6br3kz
-         4iUz8PPkrq5suxeR04c6rHZpswLjqAPbnWxkGMjMQ0dPpXNqyrYkYTYc8FlumTmTtEba
-         gUcdTs/71413TuVi8hEGB1wEG8pIpxVvtzkLj646opJuQLVGlQrcEyONanYckCzj/xqH
-         252x0ZqfTe3TD9vxZG9IM1vwFYUKFiWEGe8E68hu3ghYdlw44PDd+kID5uufKGdn/fk2
-         MfBg==
+        bh=oq7KsbEv8KERxXpWlLOn4ngUcAedLkoMDcfGe+B7QPc=;
+        b=Jap4A7lKciUyQ7degRWBInNkWJy86cps6Ei8OcK1BCIKz0vlXBmymYzJW1Xo6qarjA
+         rkV5Jg6xWnxr3HgXm34f48hrocaTKL2pfNOh0kBE3lESVkK4Qm+tYjboGmAPkCsi20Wy
+         BIlJD8fhL/N4dihDVbJw6oDd7/jCkP2HBZQc4nXMX+GiSsxd7OKnckuFcagoCKQxGrE7
+         /DY5FdDXn63I/GK1s1drrpIS5rTPfFNMFzPoFfuI51W7QZyLwmdch0TxB5aM6b1dPCZn
+         J7FsGrHfeU5Voup/dovM9+y5hAYWFGRQEBJ6vwz0M+YDXkFOPK+MVrxIQaq50KxbA2kO
+         uYQA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530Nd2vThY9RlKzNDBDXBgD4XYrirAT523esD7y/R3XTNjjHd3H9
-	BkvNmnw8Xtu3p2MmXhK38zQ=
-X-Google-Smtp-Source: ABdhPJwvIR7dj8DFBkAIcGCQqyZ9f27nVkq6UI/oiPiA38nt/TSJ3W5ZZHKWC915pbgkiujcHJkqgg==
-X-Received: by 2002:a5d:4b0d:0:b0:20a:f3d9:336e with SMTP id v13-20020a5d4b0d000000b0020af3d9336emr12733552wrq.467.1652068920131;
-        Sun, 08 May 2022 21:02:00 -0700 (PDT)
+X-Gm-Message-State: AOAM530SGKFkG+NMLsXNW4MOA2rgc6/ZBoXLmuZrz1I+zZ14dUBcfZHH
+	sbE4XQ8TLhn2diAfKxMjxLo=
+X-Google-Smtp-Source: ABdhPJzf78QCOMnyI4ZQLMMJEGGKR3PhjvNGAumVSmXj86SF36tqepIm57hyA681ffXkI0EPKYWH3A==
+X-Received: by 2002:a19:500e:0:b0:472:2b9c:7471 with SMTP id e14-20020a19500e000000b004722b9c7471mr10907801lfb.209.1652071049052;
+        Sun, 08 May 2022 21:37:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:64ca:0:b0:20c:bb44:bd7 with SMTP id f10-20020a5d64ca000000b0020cbb440bd7ls143990wri.0.gmail;
- Sun, 08 May 2022 21:01:59 -0700 (PDT)
-X-Received: by 2002:adf:ec03:0:b0:20a:d0b5:a06f with SMTP id x3-20020adfec03000000b0020ad0b5a06fmr11785924wrn.669.1652068919220;
-        Sun, 08 May 2022 21:01:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652068919; cv=none;
+Received: by 2002:a2e:a596:0:b0:250:5d3e:5653 with SMTP id m22-20020a2ea596000000b002505d3e5653ls2608995ljp.9.gmail;
+ Sun, 08 May 2022 21:37:28 -0700 (PDT)
+X-Received: by 2002:a2e:9108:0:b0:24f:1301:6697 with SMTP id m8-20020a2e9108000000b0024f13016697mr9372225ljg.94.1652071048043;
+        Sun, 08 May 2022 21:37:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1652071048; cv=none;
         d=google.com; s=arc-20160816;
-        b=XD9cdbe07ErPEBMScWgQsJa3zEoXqQ+Ok8O7wBevlB8SwDda/QzHFgnvw+aRy97VNt
-         e47AFyMaGmQ3uDV/SGpqTPysEB03sIptLVBoyWiurqOlk6qCXSEcuiGcGsKWjWyBBXFi
-         gS/raZ4XZYl8PgJVPrkAwk2Pd/4/+CvMKrLdHQ9DcpqGW4qyaYo9l5AClSXwDVeEEBm5
-         47tB1ex+nOpotG/+jGUVZQ4lmSTXMeeVseXwlc+SGrSxQHPeuyewIbycRSIXMs3l+RzL
-         jpULT019Sm97yQK8INeWQ9e4C3BZ8knfJ+3QNTm++zl5wcszS5tZAKtsGlGoc5kxCCCz
-         nRGw==
+        b=EhSg0929mdbGC1+Flxe41MBiFiKdU78gle4EbT9gsyhi/DcIOYVYzuaOkCMezMEFFR
+         wyQMljsEEy2IBnQ4rKnP7y2SxPFFupWuXJK6bX4DwK+2hRGr5gdKUFYX4ZD3664m4MwJ
+         BzgHVZgz9U2tqfWkrDI3GKZN6MqxqxwW/diz/GtjL88FIZBesRetzSkQ+oZCDpZc813K
+         XHk8DMbp/NKs19Hz69QOzdOn8sJJ9YLPxW0lKtbLRWooZB7YCdXUVVAJw0zF/y2VVNYg
+         5Jed37n48waZQFfBo+xG8i0DhJ6xsN+QsqjOoEZ7IelqDrao+/BW78qs/CdG60qtNsx6
+         e2bw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=SJ8dF+QuMh/vx+O3NBUHJR6SAWNkIGtKyfjSID7EqTw=;
-        b=pQpcWJF6Wj0pCIwdA6hSVXoPnL7StQr53NNSKbXdM7u9X2XJjsXz6Y70POHkB2vfaS
-         TuH+K/u7pR9OcgW3C2NzPziCdeFrZvJyZ2O72AOnYf28BkPKRLBFRbB0+1O1ZoAxCTHq
-         P1yVlTnSjsPWUPe1Nu0+d5mRC4svxZf4Ov7cjTTKW9pjsz4GOtZE/fw+ZgN/boYs4C/4
-         I9mJ8avHWyiBKoYM/OftxplqRQmVJ35+/3/xSrFxS4FQeMf/24jIeuKyGrIFjdVI5A/h
-         w6nio5d05QiE6EJT9A91pnmr/QMI34QszUvO7oFsmHnuvlACunLE7ZKa+p3YV42lzBWC
-         HWtQ==
+        bh=ov4p0XX7tQqCu3BT1O07xpESNC6AFz/oTsF1DSF1DeY=;
+        b=qpGIiYjS6ADUGLxfDcRapd+hxdGxy9diq/3QAPzrP/aFrIXCju7GhfcjaFhDVYhttm
+         jOm1mJ1M1UIqSxksrZ1J4LJXxA8dlBBcVj4WOt+HRfnLBrTOFbVPtSon4Voe0JdX3FrS
+         6+u8ctLE1KN783ItmvDUVbBw8wa3Z8HvKcHCiZsV791GFW/xHMync2XVwUaQw3uHdbS2
+         DVonqFDBAAnotXzPqhTh5BmDROfwcvUax9gIAV4HthhmMJzK/fyuEoRKrr5oe96NK7Fu
+         gou8l/GVeWvURY8l4FpDUfaBfl1CyPYQA00zRPh84WFlm6D+AQ/RLeAGV8/LvqaAor52
+         686g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112 header.b="IX/c5ofu";
-       spf=neutral (google.com: 2a00:1450:4864:20::429 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com. [2a00:1450:4864:20::429])
-        by gmr-mx.google.com with ESMTPS id bg21-20020a05600c3c9500b00394803e5756si279879wmb.0.2022.05.08.21.01.59
+       dkim=pass header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112 header.b=CIUvEXQy;
+       spf=neutral (google.com: 2a00:1450:4864:20::336 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com. [2a00:1450:4864:20::336])
+        by gmr-mx.google.com with ESMTPS id s1-20020a056512214100b00471902f5be2si509071lfr.3.2022.05.08.21.37.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 May 2022 21:01:59 -0700 (PDT)
-Received-SPF: neutral (google.com: 2a00:1450:4864:20::429 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2a00:1450:4864:20::429;
-Received: by mail-wr1-x429.google.com with SMTP id x18so17669107wrc.0
-        for <kasan-dev@googlegroups.com>; Sun, 08 May 2022 21:01:59 -0700 (PDT)
-X-Received: by 2002:a5d:6d0d:0:b0:20c:530c:1681 with SMTP id
- e13-20020a5d6d0d000000b0020c530c1681mr11940881wrq.214.1652068918822; Sun, 08
- May 2022 21:01:58 -0700 (PDT)
+        Sun, 08 May 2022 21:37:28 -0700 (PDT)
+Received-SPF: neutral (google.com: 2a00:1450:4864:20::336 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2a00:1450:4864:20::336;
+Received: by mail-wm1-x336.google.com with SMTP id m62so7672675wme.5
+        for <kasan-dev@googlegroups.com>; Sun, 08 May 2022 21:37:27 -0700 (PDT)
+X-Received: by 2002:a05:600c:1d08:b0:394:54ee:c994 with SMTP id
+ l8-20020a05600c1d0800b0039454eec994mr13927419wms.137.1652071047349; Sun, 08
+ May 2022 21:37:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220508160749.984-1-jszhang@kernel.org> <20220508160749.984-4-jszhang@kernel.org>
-In-Reply-To: <20220508160749.984-4-jszhang@kernel.org>
+References: <20220508160749.984-1-jszhang@kernel.org>
+In-Reply-To: <20220508160749.984-1-jszhang@kernel.org>
 From: Anup Patel <anup@brainfault.org>
-Date: Mon, 9 May 2022 09:31:47 +0530
-Message-ID: <CAAhSdy32C59ULdP7KNNgy08jF5vUbvYoF6_n+kAopJfiLsJQFw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] riscv: replace has_fpu() with system_supports_fpu()
+Date: Mon, 9 May 2022 10:07:16 +0530
+Message-ID: <CAAhSdy1qri5L9pVcZO8areB=TXMSJBg2+cTNMZGQ3g+3Qhxmfg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] unified way to use static key and optimize pgtable_l4_enabled
 To: Jisheng Zhang <jszhang@kernel.org>
 Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
 	Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
@@ -117,7 +117,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: anup@brainfault.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112
- header.b="IX/c5ofu";       spf=neutral (google.com: 2a00:1450:4864:20::429 is
+ header.b=CIUvEXQy;       spf=neutral (google.com: 2a00:1450:4864:20::336 is
  neither permitted nor denied by best guess record for domain of
  anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
 Precedence: list
@@ -134,145 +134,70 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 On Sun, May 8, 2022 at 9:46 PM Jisheng Zhang <jszhang@kernel.org> wrote:
 >
-> This is to use the unified cpus_have_{final|const}_cap() instead of
-> putting static key related here and there.
+> Currently, riscv has several features which may not be supported on all
+> riscv platforms, for example, FPU, SV48, SV57 and so on. To support
+> unified kernel Image style, we need to check whether the feature is
+> suportted or not. If the check sits at hot code path, then performance
+> will be impacted a lot. static key can be used to solve the issue. In
+> the past, FPU support has been converted to use static key mechanism.
+> I believe we will have similar cases in the future. For example, the
+> SV48 support can take advantage of static key[1].
 >
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
-> ---
->  arch/riscv/include/asm/cpufeature.h | 5 +++++
->  arch/riscv/include/asm/switch_to.h  | 9 ++-------
->  arch/riscv/kernel/cpufeature.c      | 8 ++------
->  arch/riscv/kernel/process.c         | 2 +-
->  arch/riscv/kernel/signal.c          | 4 ++--
->  5 files changed, 12 insertions(+), 16 deletions(-)
+> patch1 is a simple W=1 warning fix.
+> patch2 introduces an unified mechanism to use static key for riscv cpu
+> features.
+> patch3 converts has_cpu() to use the mechanism.
+> patch4 uses the mechanism to optimize pgtable_l4|[l5]_enabled.
 >
-> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-> index d80ddd2f3b49..634a653c7fa2 100644
-> --- a/arch/riscv/include/asm/cpufeature.h
-> +++ b/arch/riscv/include/asm/cpufeature.h
-> @@ -91,4 +91,9 @@ static inline void cpus_set_cap(unsigned int num)
->         }
->  }
->
-> +static inline bool system_supports_fpu(void)
-> +{
-> +       return IS_ENABLED(CONFIG_FPU) && !cpus_have_final_cap(RISCV_HAS_NO_FPU);
+> [1] http://lists.infradead.org/pipermail/linux-riscv/2021-December/011164.html
 
-This should be checking for "f" and "d" ISA extensions since "FPU" is
-not an ISA extension name.
-
-> +}
-> +
->  #endif
-> diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/switch_to.h
-> index 0a3f4f95c555..362cb18d12d5 100644
-> --- a/arch/riscv/include/asm/switch_to.h
-> +++ b/arch/riscv/include/asm/switch_to.h
-> @@ -8,6 +8,7 @@
->
->  #include <linux/jump_label.h>
->  #include <linux/sched/task_stack.h>
-> +#include <asm/cpufeature.h>
->  #include <asm/processor.h>
->  #include <asm/ptrace.h>
->  #include <asm/csr.h>
-> @@ -56,13 +57,7 @@ static inline void __switch_to_aux(struct task_struct *prev,
->         fstate_restore(next, task_pt_regs(next));
->  }
->
-> -extern struct static_key_false cpu_hwcap_fpu;
-> -static __always_inline bool has_fpu(void)
-> -{
-> -       return static_branch_likely(&cpu_hwcap_fpu);
-> -}
->  #else
-> -static __always_inline bool has_fpu(void) { return false; }
->  #define fstate_save(task, regs) do { } while (0)
->  #define fstate_restore(task, regs) do { } while (0)
->  #define __switch_to_aux(__prev, __next) do { } while (0)
-> @@ -75,7 +70,7 @@ extern struct task_struct *__switch_to(struct task_struct *,
->  do {                                                   \
->         struct task_struct *__prev = (prev);            \
->         struct task_struct *__next = (next);            \
-> -       if (has_fpu())                                  \
-> +       if (system_supports_fpu())                                      \
->                 __switch_to_aux(__prev, __next);        \
->         ((last) = __switch_to(__prev, __next));         \
->  } while (0)
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index e6c72cad0c1c..1edf3c3f8f62 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -22,10 +22,6 @@ unsigned long elf_hwcap __read_mostly;
->  /* Host ISA bitmap */
->  static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
->
-> -#ifdef CONFIG_FPU
-> -__ro_after_init DEFINE_STATIC_KEY_FALSE(cpu_hwcap_fpu);
-> -#endif
-> -
->  DECLARE_BITMAP(cpu_hwcaps, RISCV_NCAPS);
->  EXPORT_SYMBOL(cpu_hwcaps);
->
-> @@ -254,8 +250,8 @@ void __init riscv_fill_hwcap(void)
->         pr_info("riscv: ELF capabilities %s\n", print_str);
->
->  #ifdef CONFIG_FPU
-> -       if (elf_hwcap & (COMPAT_HWCAP_ISA_F | COMPAT_HWCAP_ISA_D))
-> -               static_branch_enable(&cpu_hwcap_fpu);
-> +       if (!(elf_hwcap & (COMPAT_HWCAP_ISA_F | COMPAT_HWCAP_ISA_D)))
-> +               cpus_set_cap(RISCV_HAS_NO_FPU);
->  #endif
->         enable_cpu_capabilities();
->         static_branch_enable(&riscv_const_caps_ready);
-> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
-> index 504b496787aa..c9cd0b42299e 100644
-> --- a/arch/riscv/kernel/process.c
-> +++ b/arch/riscv/kernel/process.c
-> @@ -88,7 +88,7 @@ void start_thread(struct pt_regs *regs, unsigned long pc,
->         unsigned long sp)
->  {
->         regs->status = SR_PIE;
-> -       if (has_fpu()) {
-> +       if (system_supports_fpu()) {
->                 regs->status |= SR_FS_INITIAL;
->                 /*
->                  * Restore the initial value to the FP register
-> diff --git a/arch/riscv/kernel/signal.c b/arch/riscv/kernel/signal.c
-> index 9f4e59f80551..96aa593a989e 100644
-> --- a/arch/riscv/kernel/signal.c
-> +++ b/arch/riscv/kernel/signal.c
-> @@ -90,7 +90,7 @@ static long restore_sigcontext(struct pt_regs *regs,
->         /* sc_regs is structured the same as the start of pt_regs */
->         err = __copy_from_user(regs, &sc->sc_regs, sizeof(sc->sc_regs));
->         /* Restore the floating-point state. */
-> -       if (has_fpu())
-> +       if (system_supports_fpu())
->                 err |= restore_fp_state(regs, &sc->sc_fpregs);
->         return err;
->  }
-> @@ -143,7 +143,7 @@ static long setup_sigcontext(struct rt_sigframe __user *frame,
->         /* sc_regs is structured the same as the start of pt_regs */
->         err = __copy_to_user(&sc->sc_regs, regs, sizeof(sc->sc_regs));
->         /* Save the floating-point state. */
-> -       if (has_fpu())
-> +       if (system_supports_fpu())
->                 err |= save_fp_state(regs, &sc->sc_fpregs);
->         return err;
->  }
-> --
-> 2.34.1
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Overall, using a script to generate CPU capabilities seems a bit
+over-engineered to me. We already have RISC-V ISA extension
+parsing infrastructure which can be easily extended to support
+static key arrays.
 
 Regards,
 Anup
 
+>
+> Since v1:
+>  - Add a W=1 warning fix
+>  - Fix W=1 error
+>  - Based on v5.18-rcN, since SV57 support is added, so convert
+>    pgtable_l5_enabled as well.
+>
+> Jisheng Zhang (4):
+>   riscv: mm: init: make pt_ops_set_[early|late|fixmap] static
+>   riscv: introduce unified static key mechanism for CPU features
+>   riscv: replace has_fpu() with system_supports_fpu()
+>   riscv: convert pgtable_l4|[l5]_enabled to static key
+>
+>  arch/riscv/Makefile                 |   3 +
+>  arch/riscv/include/asm/cpufeature.h | 110 ++++++++++++++++++++++++++++
+>  arch/riscv/include/asm/pgalloc.h    |  16 ++--
+>  arch/riscv/include/asm/pgtable-64.h |  40 +++++-----
+>  arch/riscv/include/asm/pgtable.h    |   5 +-
+>  arch/riscv/include/asm/switch_to.h  |   9 +--
+>  arch/riscv/kernel/cpu.c             |   4 +-
+>  arch/riscv/kernel/cpufeature.c      |  29 ++++++--
+>  arch/riscv/kernel/process.c         |   2 +-
+>  arch/riscv/kernel/signal.c          |   4 +-
+>  arch/riscv/mm/init.c                |  52 ++++++-------
+>  arch/riscv/mm/kasan_init.c          |  16 ++--
+>  arch/riscv/tools/Makefile           |  22 ++++++
+>  arch/riscv/tools/cpucaps            |   7 ++
+>  arch/riscv/tools/gen-cpucaps.awk    |  40 ++++++++++
+>  15 files changed, 274 insertions(+), 85 deletions(-)
+>  create mode 100644 arch/riscv/include/asm/cpufeature.h
+>  create mode 100644 arch/riscv/tools/Makefile
+>  create mode 100644 arch/riscv/tools/cpucaps
+>  create mode 100755 arch/riscv/tools/gen-cpucaps.awk
+>
+> --
+> 2.34.1
+>
+
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAhSdy32C59ULdP7KNNgy08jF5vUbvYoF6_n%2BkAopJfiLsJQFw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAhSdy1qri5L9pVcZO8areB%3DTXMSJBg2%2BcTNMZGQ3g%2B3Qhxmfg%40mail.gmail.com.
