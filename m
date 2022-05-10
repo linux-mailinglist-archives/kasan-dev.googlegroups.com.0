@@ -1,142 +1,124 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBX555KJQMGQEDUYR2TQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBMF65KJQMGQE4EURWAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E7A52223F
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 May 2022 19:20:33 +0200 (CEST)
-Received: by mail-oo1-xc38.google.com with SMTP id x21-20020a4ac595000000b0035e6f78ae62sf8867848oop.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 10 May 2022 10:20:33 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1652203232; cv=pass;
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A82B52224E
+	for <lists+kasan-dev@lfdr.de>; Tue, 10 May 2022 19:21:53 +0200 (CEST)
+Received: by mail-lj1-x23f.google.com with SMTP id l13-20020a2e868d000000b0024f078d7ea0sf5349045lji.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 10 May 2022 10:21:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1652203313; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dpRBxehKtaZAp9mkOvYb+sVtDbvyj8wkZlZoV5no9qmAHy3RN6MzQZIsO87DvOu8p9
-         vCEr2/tKphwD3A7LMZ1wmfGyUNUUabRgj7604A0MVnBSN2Cj/Khg5JzubYRv+ISCZtzq
-         aqFx9Pm2N0YxKSbeSbrUb8O6Th87s2SPdzRLJ1snetHTBw7eOLtqy7psZ1/MtB7WpWzc
-         GcU95FJKSsmKmcBcE9OncZhIFd2UpBBAUzRxlPwHys5z5xNkToD0xw4K+tG2VDXZBP7O
-         Nf2EgJS/oF80GSDILBog9kM35qkHPBCXiz/q0RtMjNsv+2GSHldrJxF7teSC5LAtAldW
-         4Evg==
+        b=1AbMM3D7bZSLACNiPC5H0w4CdF3mSJDbNHLRnTzlO9mDglv116onCzxZQKc+FM79eE
+         dKEDcpjgwbQbbWZGASYx+EzYmCB132rau9GO4tp3xFHg3V81zqZGxFg7EGQkDNS1XdIx
+         u781jjIcKR+41aL32/eeG0+zQfUtRmf6BS08rrTerHYHF/do+G7C+6yGBrkcZNlQFWbW
+         E9antg8bfUHlcX4dk1IdHQXXTPOKLSQmfqbBbRtOGKOaRePe4XnBWvCPC5GdnmNuSH+b
+         5j4dCwIroRUmTIa9k0Y1OYg1cVF8l3Wvxei2LRmFIMeaBdjW0LtmyLjkKuGQ3NyXIGET
+         i6wA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=4Wx30usIz01HOs35T55D1lEnPqyGIA7i23YAP3P/ZFc=;
-        b=sabpLlt4GQCDPv2eU5GetBhHcvvQbZHO3w2IMmUvkyWJaRQx9wgBAt3p/mfY1tibyQ
-         V4BWNC+YVprc/EnFQKAKtgdX6ya3B8tkhGLFLCJcpdd2XysIkwi/lMbLP+lV9YEyH0Z7
-         CqZri4rLJ39gXNdBZK155giiZxnZET9kOjmYKdzPZV3/nCndWbcvp65FkZpzbbVExnXG
-         v72bV452nrjgnADy5ip6yJ0QYA0KNKm28c36Q3/Wa+39SXZ3jcKuGOhjOJmj0wEyc7y8
-         rjg+yBsqZqki5fNCi+3u0s/ZJ/Z2qj5X5VQu15bQwQvpNsuUO4rIBce9XNFt+HniF/xC
-         vnIw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=hjaVjbXc2gnXUgQZu0NiuqY6i92BLIIdC7Grkb7wvq8=;
+        b=Slm8uVVhcHGMsI5E4h/g+7Pt+IQO2uDKAaIVAp320KPdNwY48IqsQzs0GAX7UDP++x
+         8B7lOeMKU63R/0LgDVwyPXYVHYOVX4N6Tfk/qr++OGV7IckSV26bvTFe4DKJVtqkNoix
+         D8jJe5piZGJYQVnn7xXCD4FL/ixlPwXuO0tGw9Cta9zsCJGoVe1uPFiTJs8Ns0lE5FoL
+         5xrkJS4KPTtQzpg22hfo3uFB5aJ6lj0EI3nX3gcH+NhRnbjW/YETDSBRbFVqygqlK4Im
+         ugYJXHDb0TJkdjvXC+vKoVvhQb9p0z1HOxeJAPvnzknOqP5RzMb25A/8H5CSicXLzx43
+         mDAw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lt7mUYnn;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::132 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=f2Wdt4rQ;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=4Wx30usIz01HOs35T55D1lEnPqyGIA7i23YAP3P/ZFc=;
-        b=XGgvK2j/zB+jf9bpkoRi5X3of86Kq0zl3TbQiUtXsbLUsPYGKTEQ7vbeXD8v843WPi
-         VOY7em2PPWNwcQad9Y1YDRjyCpUOKQtdjlwyvfomYYxifKc8AkMHuxRxOe6hNgdeiLWw
-         i7mBFXkueSOMO30LrinwOjkqtZKNwRNSMChCQXffNDwSSMuKAsuyvjqt7ucv6/aOFw73
-         a5QqRJjqd+7gFcnjAjFJ0G/zjoyQuThkkviLgypcW0NjOaWRAvE84DEBIxI3miyasuJc
-         43MC7hXXHiQ4cJfUMf5dyuabgCK63SYP3A6JVU+nrc5v92K5UnWtYONdXAJ7TvsFCgXT
-         PReA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=4Wx30usIz01HOs35T55D1lEnPqyGIA7i23YAP3P/ZFc=;
-        b=WzTEE5RTOCJAhPvDUu3C5X80ALC1JO4erA7KGRzRPor3K61j4+IdS5MXg1Z/62YcH6
-         UONM5/+UOUJdOL3YRCHcu8ipfPtXNCnp5v3csWcrnfKJ4wAJjX6ryeq7HuxNm8KX6mD3
-         +TYh+f2hMl8K44hBOkA1tL9B6jnSJrlFc87jHlxrtBxteF1/R1sOai5IBK+IhZqQVIeX
-         CCUq/3qazIA74Th42j57JH4uQWB3+gbI4amKLU1RIiL3qWap0Kf9E3YggUAI2IpEaRP6
-         rVH4omoL+J3+Ti5sQn73nKAfo0FgJE62D5H2n7BTXUUsY9HE8G4qDcq7aIrou5GM9Cmx
-         8BYw==
+        bh=hjaVjbXc2gnXUgQZu0NiuqY6i92BLIIdC7Grkb7wvq8=;
+        b=smYvcFUyEXOE5+DKWss2kc7+vC0u8IBaqQ0JSsPcai8439/Tn0btawI069HGrUxJ1R
+         QqMdye/qrjo4hL+YMyaqupibXxJlxtan4IB8cN0IJjpzZT3YI2NIOlztTPwJipQnDWjT
+         vYp9eAWH5zkEjlvl4qMsoRCCpOLE59Iq6BgRJJme93KF5CII7APyLaS+19q1U0fkF1y5
+         Qpvb0Ab2XqqstKNs2FyZJrTxrntjX7/QtcfATd8uqaabWbGCR40PbMMMoNdWwz7ZeL04
+         p8AIB4J8fFypWUWouelBkcYQCu4bNFZBGLukNKuMASAXcV/DEVkbveigpQoiODz4UeXq
+         RXcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=4Wx30usIz01HOs35T55D1lEnPqyGIA7i23YAP3P/ZFc=;
-        b=V+C7DuWCkgIOwjOeXzHlqBJT0fvRbjOLMX8KERhIeD1/B+IokjA6Kzqd4metf1lg7i
-         ejZnhBE4EIh2OjnBG6NUO4CUkhQTg9aX7OmFOQpUF66rhvxlO0jjD9hUk6DpzhpN6uqq
-         NXxx1Wr2mlw0Uvt6I+qZOcHAIuODwkcxMfib8lEQLp1wgUZeh3lYR8FotW2Oail5gtlH
-         PkyXImV23s+4Z4Xe3x0J53jVxAphTVyzYoC+uxNM72JXbxxDte0JzbzSGlvPbd2QqSg+
-         8b0ZqanqmPZqVgV/+/9kJs123BR0SrnDrcTqmOqfF3v6vVwqLVNc0ycnpHjuJJXlpgAJ
-         aVWA==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=hjaVjbXc2gnXUgQZu0NiuqY6i92BLIIdC7Grkb7wvq8=;
+        b=nQhcciVjeiYY2YdiDXxOdEpP4lzILmjtsMNRpGYGh+jXUwLun/G36TPLrT+hMNkuwD
+         /i9+xBQ5uI/vAALPf9OrjaZrdUNwJkVF9R0TBsrknYy7jGFDD2fzmMuvdh/cgscE3Uzp
+         Vab7XLu9//vgNrQ1nt6YzD19oOOiukAvQJMBg8vrrAnCi3EM55J46c8H1cfVu0QfRI6F
+         3LzsYmzTlch2KRqxGLqxEwWV5qy313NmlR8RM41imN6bu92KAqPSN8KrB//Amm4aL/7q
+         0nIkklej5u8l7dxuYsUfhHwrUdERB+svPt5P7OVAyvptr/a46kVhHthmdiSdb6pRndCD
+         tllg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530kNmCfs3IJLeNuTLLS4rGhZzupTa4csEgy6Kv+KCO7IoSMKP4E
-	FtfCoeu4dooraGveYsW/WSo=
-X-Google-Smtp-Source: ABdhPJzAHexUGpIh0oQQL++1IijxStxQSQafBGrrYzOu1+3jGApJUq+DxD564JTfa29Kcf6e1LdEPQ==
-X-Received: by 2002:a05:6870:3c8e:b0:ee:561b:2458 with SMTP id gl14-20020a0568703c8e00b000ee561b2458mr661864oab.206.1652203231925;
-        Tue, 10 May 2022 10:20:31 -0700 (PDT)
+X-Gm-Message-State: AOAM531E9Na+613ROyEHSlv16sbJmLzbmfIssnPoyVwtbs22qA82Deri
+	kDPbvMOTUUDox+08opFbBN0=
+X-Google-Smtp-Source: ABdhPJzzMNYpBWw/q/aZgLIbwLnwhlkOdrqJzBeW1+L4zybJ/9Kjt7ZrF3FW2kQoTJGQuza8GFo3qw==
+X-Received: by 2002:a05:6512:3d89:b0:473:9e0e:8c4c with SMTP id k9-20020a0565123d8900b004739e0e8c4cmr17352294lfv.160.1652203312828;
+        Tue, 10 May 2022 10:21:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:f693:b0:e2:1a68:2965 with SMTP id
- el19-20020a056870f69300b000e21a682965ls7243033oab.2.gmail; Tue, 10 May 2022
- 10:20:31 -0700 (PDT)
-X-Received: by 2002:a05:6870:b4a0:b0:ed:a0a2:4ec7 with SMTP id y32-20020a056870b4a000b000eda0a24ec7mr690776oap.120.1652203231685;
-        Tue, 10 May 2022 10:20:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652203231; cv=none;
+Received: by 2002:a2e:b888:0:b0:250:638a:caae with SMTP id r8-20020a2eb888000000b00250638acaaels3685283ljp.2.gmail;
+ Tue, 10 May 2022 10:21:52 -0700 (PDT)
+X-Received: by 2002:a2e:8887:0:b0:24f:10d8:4603 with SMTP id k7-20020a2e8887000000b0024f10d84603mr14386094lji.191.1652203311920;
+        Tue, 10 May 2022 10:21:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1652203311; cv=none;
         d=google.com; s=arc-20160816;
-        b=x5U4mwMP04UL71D57Et3od25RmG52CXMcH/z90/dW+kCmb2PLrjVooLHtg523BVT23
-         uEyMnKeSM9WysEYMgM8vgi4jqAvmuXFM2WI2xtk84TuCX6P5wKhQP7M/UvY56U2EdCuw
-         G2rSQ4tRLVNv7Ln+0k2w6+wWrYVuZA3flfd9ZG/N2e+xiM+6wIril/bsy9b6yBDhTey6
-         +0Gx7khYlcTMlDqh6JV+AMX6rSGg0yKHKAaRWTWf9i/P3snS4EylBFs8pddSIzc6Q5t8
-         Jp6dB1KUUTLAxua6PrKtq7PkUIK8e7D5q21zmafM7g5somw9NrxtMszcKBlzv0O+VCLA
-         GsGA==
+        b=DvVbm8Cwb/Y+GcyDuapJ+UPZ9iDeWseu8Vj5Htte8iyMiaNE1sEigqSgPtmGdVqW/N
+         D2dORkCNJBvP155e5wusyYhB6b0qEGIRiyJ4Z0RjlTfxkohoizt8bh7XqpnakU5mUaG/
+         KZOEFhkdoWH+JkfC02Qoq/W//cuFavTnOPyg7qx+IhXVLv5pa5+Fv2SwxA6MQITd5P1Q
+         nJage32QumkrMwZoLLAZrucFg+KIbFTNmcdhmot/0xplif4xcBePfTd22zS9LatL/hK2
+         kmMPbExVXSVs+e3latB7ae8fv4x8LyaV5C5Q9N0TIKRD1vGas2ROGiIcrnmN2F7ecUpN
+         TKvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qBpP6H1QXIcItowN4taveL7xKKbFDSnKJ/RJbBSFPLc=;
-        b=uUHgcpFZzQMPFIf/2yekWxPZuOuEDuBzoDNU3Uqb6jCYLKMjJGUO+L/J1nAJ2GEkc1
-         BBWE8mzbglG1MgqB4HiKT5O+JTrhNGk98QmVeMzSSkkTNKDL9MoZhgoEhcszY8bfVY9F
-         vJMQEmtdJTZF2PvVne7Fh0liPXMzpaLhi/HjpZ8btumIKxQybI8r9kwK2Y84MF/Ec/aO
-         kM2jCLyduwOsEqvK5hGB9iKQtNya6zfJY+GNfYxFspAzUv6NAac2d04UpRjGG2HF4ipn
-         PodwV7x9kYj23aRIVJ+OrxCe3R74qilxdnYu7502xXdy23OkZ8A2X6gvisvt53mjKNLE
-         Gkpg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=TdNiqWhpZufDoMx0oKIsYQnIokRP5yv39jDeARXG8jk=;
+        b=U4hDgFhiiikQHH5uSE5b9ax0HTKfVeGbSDvWelWs9Asz+cNyeGIo8YchEdeYZpNXJN
+         9wDVsxoquLxZREfQqexv8Q+wbj5JQ8Gl6tBXz+i1VPjMxbFQDz5N2lu4ObcaiqhWkPv1
+         fhzKmEImi8LR7rOghDt0uwrVq5U+qu73/kPgIvqo8WmKT/aAZ/iua8ugzL+vGMNs7r5s
+         TJu0qrlOhFZu7v6yKGBJQ8he6tFu0Ph4zGrDaEMSVKyDKXwpbYBHUK+hnvIOj8zF03oc
+         9lsp/LB+GIug2X2rJej1gxGkqisabqkddMbIhGAgrTv5V6FnM1YiGVAKl1I1wHBnY5iY
+         aApg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lt7mUYnn;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::132 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com. [2607:f8b0:4864:20::132])
-        by gmr-mx.google.com with ESMTPS id l13-20020a056830268d00b00605f6345a99si937756otu.3.2022.05.10.10.20.31
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=f2Wdt4rQ;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out1.migadu.com (out1.migadu.com. [91.121.223.63])
+        by gmr-mx.google.com with ESMTPS id c19-20020ac25f73000000b00473a7dd2de1si647130lfc.5.2022.05.10.10.21.51
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 May 2022 10:20:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::132 as permitted sender) client-ip=2607:f8b0:4864:20::132;
-Received: by mail-il1-x132.google.com with SMTP id r17so11780080iln.9
-        for <kasan-dev@googlegroups.com>; Tue, 10 May 2022 10:20:31 -0700 (PDT)
-X-Received: by 2002:a92:3609:0:b0:2c6:3595:2a25 with SMTP id
- d9-20020a923609000000b002c635952a25mr9876403ila.233.1652203231521; Tue, 10
- May 2022 10:20:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <5bd58ebebf066593ce0e1d265d60278b5f5a1874.1652123204.git.andreyknvl@google.com>
- <47afaecec29221347bee49f58c258ac1ced3b429.1652123204.git.andreyknvl@google.com>
- <YnpTJR177vJ5G+HW@elver.google.com>
-In-Reply-To: <YnpTJR177vJ5G+HW@elver.google.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Tue, 10 May 2022 19:20:20 +0200
-Message-ID: <CA+fCnZcCOFR-E_HFjgpz1GqPbtnothC1+cTK6Nu2fOua_1-iuQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] kasan: clean-up kconfig options descriptions
-To: Marco Elver <elver@google.com>
-Cc: andrey.konovalov@linux.dev, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 10 May 2022 10:21:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as permitted sender) client-ip=91.121.223.63;
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: andrey.konovalov@linux.dev
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+Subject: [PATCH v2 1/3] kasan: update documentation
+Date: Tue, 10 May 2022 19:21:46 +0200
+Message-Id: <896b2d914d6b50d677fd7b38f76967cc705c01ba.1652203271.git.andreyknvl@google.com>
+MIME-Version: 1.0
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
+X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=Lt7mUYnn;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::132
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@linux.dev header.s=key1 header.b=f2Wdt4rQ;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 91.121.223.63 as
+ permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,29 +131,288 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 10, 2022 at 1:57 PM Marco Elver <elver@google.com> wrote:
->
-> > -       Currently CONFIG_KASAN_GENERIC doesn't work with CONFIG_DEBUG_SLAB
-> > -       (the resulting kernel does not boot).
-> > +       (Incompatible with CONFIG_DEBUG_SLAB: the kernel does not boot.)
->
-> Why aren't they made mutually exclusive via Kconfig constraints? Does it
-> work these days?
->
-> Either KASAN_GENERIC and KASAN_SW_TAGS do "depends on !DEBUG_SLAB ||
-> COMPILE_TEST", or DEBUG_SLAB does "depends on !(KASAN_GENERIC || KASAN_SW_TAGS) || COMPILE_TEST".
->
-> I feel DEBUG_SLAB might not be used very much these days, so perhaps
-> DEBUG_SLAB should add the constraint, also given KASAN is the better
-> debugging aid.
+From: Andrey Konovalov <andreyknvl@google.com>
 
-They are made exclusive: it's the KASAN option that depends on
-!DEBUG_SLAB. And KASAN_HW_TAGS doesn't have this note, as it doesn't
-work with SLAB at all at the moment. Moving the constraint to
-DEBUG_SLAB might make sense, but let's keep this patchset as a
-non-functional change. Thanks!
+Do assorted clean-ups and improvements to KASAN documentation, including:
+
+- Describe each mode in a dedicated paragraph.
+- Split out a Support section that describes in details which compilers,
+  architectures and memory types each mode requires/supports.
+- Capitalize the first letter in the names of each KASAN mode.
+
+Reviewed-by: Marco Elver <elver@google.com>
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ Documentation/dev-tools/kasan.rst | 150 ++++++++++++++++++------------
+ 1 file changed, 90 insertions(+), 60 deletions(-)
+
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index 7614a1fc30fa..2ed0b77d1db6 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -4,39 +4,76 @@ The Kernel Address Sanitizer (KASAN)
+ Overview
+ --------
+ 
+-KernelAddressSANitizer (KASAN) is a dynamic memory safety error detector
+-designed to find out-of-bound and use-after-free bugs. KASAN has three modes:
++Kernel Address Sanitizer (KASAN) is a dynamic memory safety error detector
++designed to find out-of-bounds and use-after-free bugs.
+ 
+-1. generic KASAN (similar to userspace ASan),
+-2. software tag-based KASAN (similar to userspace HWASan),
+-3. hardware tag-based KASAN (based on hardware memory tagging).
++KASAN has three modes:
+ 
+-Generic KASAN is mainly used for debugging due to a large memory overhead.
+-Software tag-based KASAN can be used for dogfood testing as it has a lower
+-memory overhead that allows using it with real workloads. Hardware tag-based
+-KASAN comes with low memory and performance overheads and, therefore, can be
+-used in production. Either as an in-field memory bug detector or as a security
+-mitigation.
++1. Generic KASAN
++2. Software Tag-Based KASAN
++3. Hardware Tag-Based KASAN
+ 
+-Software KASAN modes (#1 and #2) use compile-time instrumentation to insert
+-validity checks before every memory access and, therefore, require a compiler
+-version that supports that.
++Generic KASAN, enabled with CONFIG_KASAN_GENERIC, is the mode intended for
++debugging, similar to userspace ASan. This mode is supported on many CPU
++architectures, but it has significant performance and memory overheads.
+ 
+-Generic KASAN is supported in GCC and Clang. With GCC, it requires version
+-8.3.0 or later. Any supported Clang version is compatible, but detection of
+-out-of-bounds accesses for global variables is only supported since Clang 11.
++Software Tag-Based KASAN or SW_TAGS KASAN, enabled with CONFIG_KASAN_SW_TAGS,
++can be used for both debugging and dogfood testing, similar to userspace HWASan.
++This mode is only supported for arm64, but its moderate memory overhead allows
++using it for testing on memory-restricted devices with real workloads.
+ 
+-Software tag-based KASAN mode is only supported in Clang.
++Hardware Tag-Based KASAN or HW_TAGS KASAN, enabled with CONFIG_KASAN_HW_TAGS,
++is the mode intended to be used as an in-field memory bug detector or as a
++security mitigation. This mode only works on arm64 CPUs that support MTE
++(Memory Tagging Extension), but it has low memory and performance overheads and
++thus can be used in production.
+ 
+-The hardware KASAN mode (#3) relies on hardware to perform the checks but
+-still requires a compiler version that supports memory tagging instructions.
+-This mode is supported in GCC 10+ and Clang 12+.
++For details about the memory and performance impact of each KASAN mode, see the
++descriptions of the corresponding Kconfig options.
+ 
+-Both software KASAN modes work with SLUB and SLAB memory allocators,
+-while the hardware tag-based KASAN currently only supports SLUB.
++The Generic and the Software Tag-Based modes are commonly referred to as the
++software modes. The Software Tag-Based and the Hardware Tag-Based modes are
++referred to as the tag-based modes.
+ 
+-Currently, generic KASAN is supported for the x86_64, arm, arm64, xtensa, s390,
+-and riscv architectures, and tag-based KASAN modes are supported only for arm64.
++Support
++-------
++
++Architectures
++~~~~~~~~~~~~~
++
++Generic KASAN is supported on x86_64, arm, arm64, powerpc, riscv, s390, and
++xtensa, and the tag-based KASAN modes are supported only on arm64.
++
++Compilers
++~~~~~~~~~
++
++Software KASAN modes use compile-time instrumentation to insert validity checks
++before every memory access and thus require a compiler version that provides
++support for that. The Hardware Tag-Based mode relies on hardware to perform
++these checks but still requires a compiler version that supports the memory
++tagging instructions.
++
++Generic KASAN requires GCC version 8.3.0 or later
++or any Clang version supported by the kernel.
++
++Software Tag-Based KASAN requires GCC 11+
++or any Clang version supported by the kernel.
++
++Hardware Tag-Based KASAN requires GCC 10+ or Clang 12+.
++
++Memory types
++~~~~~~~~~~~~
++
++Generic KASAN supports finding bugs in all of slab, page_alloc, vmap, vmalloc,
++stack, and global memory.
++
++Software Tag-Based KASAN supports slab, page_alloc, vmalloc, and stack memory.
++
++Hardware Tag-Based KASAN supports slab, page_alloc, and non-executable vmalloc
++memory.
++
++For slab, both software KASAN modes support SLUB and SLAB allocators, while
++Hardware Tag-Based KASAN only supports SLUB.
+ 
+ Usage
+ -----
+@@ -45,13 +82,13 @@ To enable KASAN, configure the kernel with::
+ 
+ 	  CONFIG_KASAN=y
+ 
+-and choose between ``CONFIG_KASAN_GENERIC`` (to enable generic KASAN),
+-``CONFIG_KASAN_SW_TAGS`` (to enable software tag-based KASAN), and
+-``CONFIG_KASAN_HW_TAGS`` (to enable hardware tag-based KASAN).
++and choose between ``CONFIG_KASAN_GENERIC`` (to enable Generic KASAN),
++``CONFIG_KASAN_SW_TAGS`` (to enable Software Tag-Based KASAN), and
++``CONFIG_KASAN_HW_TAGS`` (to enable Hardware Tag-Based KASAN).
+ 
+-For software modes, also choose between ``CONFIG_KASAN_OUTLINE`` and
++For the software modes, also choose between ``CONFIG_KASAN_OUTLINE`` and
+ ``CONFIG_KASAN_INLINE``. Outline and inline are compiler instrumentation types.
+-The former produces a smaller binary while the latter is 1.1-2 times faster.
++The former produces a smaller binary while the latter is up to 2 times faster.
+ 
+ To include alloc and free stack traces of affected slab objects into reports,
+ enable ``CONFIG_STACKTRACE``. To include alloc and free stack traces of affected
+@@ -146,7 +183,7 @@ is either 8 or 16 aligned bytes depending on KASAN mode. Each number in the
+ memory state section of the report shows the state of one of the memory
+ granules that surround the accessed address.
+ 
+-For generic KASAN, the size of each memory granule is 8. The state of each
++For Generic KASAN, the size of each memory granule is 8. The state of each
+ granule is encoded in one shadow byte. Those 8 bytes can be accessible,
+ partially accessible, freed, or be a part of a redzone. KASAN uses the following
+ encoding for each shadow byte: 00 means that all 8 bytes of the corresponding
+@@ -181,14 +218,14 @@ By default, KASAN prints a bug report only for the first invalid memory access.
+ With ``kasan_multi_shot``, KASAN prints a report on every invalid access. This
+ effectively disables ``panic_on_warn`` for KASAN reports.
+ 
+-Alternatively, independent of ``panic_on_warn`` the ``kasan.fault=`` boot
++Alternatively, independent of ``panic_on_warn``, the ``kasan.fault=`` boot
+ parameter can be used to control panic and reporting behaviour:
+ 
+ - ``kasan.fault=report`` or ``=panic`` controls whether to only print a KASAN
+   report or also panic the kernel (default: ``report``). The panic happens even
+   if ``kasan_multi_shot`` is enabled.
+ 
+-Hardware tag-based KASAN mode (see the section about various modes below) is
++Hardware Tag-Based KASAN mode (see the section about various modes below) is
+ intended for use in production as a security mitigation. Therefore, it supports
+ additional boot parameters that allow disabling KASAN or controlling features:
+ 
+@@ -250,49 +287,46 @@ outline-instrumented kernel.
+ Generic KASAN is the only mode that delays the reuse of freed objects via
+ quarantine (see mm/kasan/quarantine.c for implementation).
+ 
+-Software tag-based KASAN
++Software Tag-Based KASAN
+ ~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-Software tag-based KASAN uses a software memory tagging approach to checking
++Software Tag-Based KASAN uses a software memory tagging approach to checking
+ access validity. It is currently only implemented for the arm64 architecture.
+ 
+-Software tag-based KASAN uses the Top Byte Ignore (TBI) feature of arm64 CPUs
++Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm64 CPUs
+ to store a pointer tag in the top byte of kernel pointers. It uses shadow memory
+ to store memory tags associated with each 16-byte memory cell (therefore, it
+ dedicates 1/16th of the kernel memory for shadow memory).
+ 
+-On each memory allocation, software tag-based KASAN generates a random tag, tags
++On each memory allocation, Software Tag-Based KASAN generates a random tag, tags
+ the allocated memory with this tag, and embeds the same tag into the returned
+ pointer.
+ 
+-Software tag-based KASAN uses compile-time instrumentation to insert checks
++Software Tag-Based KASAN uses compile-time instrumentation to insert checks
+ before each memory access. These checks make sure that the tag of the memory
+ that is being accessed is equal to the tag of the pointer that is used to access
+-this memory. In case of a tag mismatch, software tag-based KASAN prints a bug
++this memory. In case of a tag mismatch, Software Tag-Based KASAN prints a bug
+ report.
+ 
+-Software tag-based KASAN also has two instrumentation modes (outline, which
++Software Tag-Based KASAN also has two instrumentation modes (outline, which
+ emits callbacks to check memory accesses; and inline, which performs the shadow
+ memory checks inline). With outline instrumentation mode, a bug report is
+ printed from the function that performs the access check. With inline
+ instrumentation, a ``brk`` instruction is emitted by the compiler, and a
+ dedicated ``brk`` handler is used to print bug reports.
+ 
+-Software tag-based KASAN uses 0xFF as a match-all pointer tag (accesses through
++Software Tag-Based KASAN uses 0xFF as a match-all pointer tag (accesses through
+ pointers with the 0xFF pointer tag are not checked). The value 0xFE is currently
+ reserved to tag freed memory regions.
+ 
+-Software tag-based KASAN currently only supports tagging of slab, page_alloc,
+-and vmalloc memory.
+-
+-Hardware tag-based KASAN
++Hardware Tag-Based KASAN
+ ~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-Hardware tag-based KASAN is similar to the software mode in concept but uses
++Hardware Tag-Based KASAN is similar to the software mode in concept but uses
+ hardware memory tagging support instead of compiler instrumentation and
+ shadow memory.
+ 
+-Hardware tag-based KASAN is currently only implemented for arm64 architecture
++Hardware Tag-Based KASAN is currently only implemented for arm64 architecture
+ and based on both arm64 Memory Tagging Extension (MTE) introduced in ARMv8.5
+ Instruction Set Architecture and Top Byte Ignore (TBI).
+ 
+@@ -302,21 +336,18 @@ access, hardware makes sure that the tag of the memory that is being accessed is
+ equal to the tag of the pointer that is used to access this memory. In case of a
+ tag mismatch, a fault is generated, and a report is printed.
+ 
+-Hardware tag-based KASAN uses 0xFF as a match-all pointer tag (accesses through
++Hardware Tag-Based KASAN uses 0xFF as a match-all pointer tag (accesses through
+ pointers with the 0xFF pointer tag are not checked). The value 0xFE is currently
+ reserved to tag freed memory regions.
+ 
+-Hardware tag-based KASAN currently only supports tagging of slab, page_alloc,
+-and VM_ALLOC-based vmalloc memory.
+-
+-If the hardware does not support MTE (pre ARMv8.5), hardware tag-based KASAN
++If the hardware does not support MTE (pre ARMv8.5), Hardware Tag-Based KASAN
+ will not be enabled. In this case, all KASAN boot parameters are ignored.
+ 
+ Note that enabling CONFIG_KASAN_HW_TAGS always results in in-kernel TBI being
+ enabled. Even when ``kasan.mode=off`` is provided or when the hardware does not
+ support MTE (but supports TBI).
+ 
+-Hardware tag-based KASAN only reports the first found bug. After that, MTE tag
++Hardware Tag-Based KASAN only reports the first found bug. After that, MTE tag
+ checking gets disabled.
+ 
+ Shadow memory
+@@ -414,19 +445,18 @@ generic ``noinstr`` one.
+ Note that disabling compiler instrumentation (either on a per-file or a
+ per-function basis) makes KASAN ignore the accesses that happen directly in
+ that code for software KASAN modes. It does not help when the accesses happen
+-indirectly (through calls to instrumented functions) or with the hardware
+-tag-based mode that does not use compiler instrumentation.
++indirectly (through calls to instrumented functions) or with Hardware
++Tag-Based KASAN, which does not use compiler instrumentation.
+ 
+ For software KASAN modes, to disable KASAN reports in a part of the kernel code
+ for the current task, annotate this part of the code with a
+ ``kasan_disable_current()``/``kasan_enable_current()`` section. This also
+ disables the reports for indirect accesses that happen through function calls.
+ 
+-For tag-based KASAN modes (include the hardware one), to disable access
+-checking, use ``kasan_reset_tag()`` or ``page_kasan_tag_reset()``. Note that
+-temporarily disabling access checking via ``page_kasan_tag_reset()`` requires
+-saving and restoring the per-page KASAN tag via
+-``page_kasan_tag``/``page_kasan_tag_set``.
++For tag-based KASAN modes, to disable access checking, use
++``kasan_reset_tag()`` or ``page_kasan_tag_reset()``. Note that temporarily
++disabling access checking via ``page_kasan_tag_reset()`` requires saving and
++restoring the per-page KASAN tag via ``page_kasan_tag``/``page_kasan_tag_set``.
+ 
+ Tests
+ ~~~~~
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZcCOFR-E_HFjgpz1GqPbtnothC1%2BcTK6Nu2fOua_1-iuQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/896b2d914d6b50d677fd7b38f76967cc705c01ba.1652203271.git.andreyknvl%40google.com.
