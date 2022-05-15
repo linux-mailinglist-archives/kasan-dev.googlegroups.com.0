@@ -1,143 +1,131 @@
-Return-Path: <kasan-dev+bncBAABBGWVQKKAMGQECVQZHJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDFJHU6GRMBBBD5GQSKAMGQE37X5J4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EDB352763F
-	for <lists+kasan-dev@lfdr.de>; Sun, 15 May 2022 09:24:12 +0200 (CEST)
-Received: by mail-lj1-x23d.google.com with SMTP id l26-20020a2e99da000000b0024f02d881cdsf2955926ljj.6
-        for <lists+kasan-dev@lfdr.de>; Sun, 15 May 2022 00:24:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1652599451; cv=pass;
+Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1D152783A
+	for <lists+kasan-dev@lfdr.de>; Sun, 15 May 2022 16:49:52 +0200 (CEST)
+Received: by mail-ed1-x53c.google.com with SMTP id z20-20020a50f154000000b0042815e3008csf8103815edl.15
+        for <lists+kasan-dev@lfdr.de>; Sun, 15 May 2022 07:49:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1652626191; cv=pass;
         d=google.com; s=arc-20160816;
-        b=waivvUmMr/DnJQtaS2pYm/h5cjUTN7IPnSuz6nTbs9B/+tXfvb+HPRbpnGF0BLUTav
-         Vwderob9KW3Kp6SfLdLLgb9zN4/SLzGE05A5L/kjKAsafQdmkSjuHlduuFmPHy7lYZoE
-         MEw3DsXUmgsDK3ohZaKtWrpx8RhluOsgwPji7haYJnwxaMSKNl90K9IqbYXyFIw9g1UZ
-         gO2H5FRVr/PcLEnh9nQ9YV0XUqY8MTgrntEf16mviJ5SBqbTvCgS3+OOrGXQC46aVrWv
-         4w8HLmL9BFXOQijnT/xTn2QLMdR5paNW9C8+dwDW683M+TecCsCx7M+6rqKCBwQHIiiY
-         PBhg==
+        b=Ocsxi44lBlQur04UfBlGKBNINM6tr/QeJE0jkNK5t1pZpZ3BN7ojflxQn5xqxnGs3F
+         ilvbj6bo/HF0u1o4GVQBGOq20jW5/rZIh2oYeNa5i1kVxhswyubugAYAEQGIfEPa6xOu
+         9FBDtOKcvCi8r4XZxB8Z1JyICP/LIcnTJG8tpZniE7Lmd5K+yJjPyTcymu2wTUbQiE6Z
+         pRLir2WC+GpksHBKP0EOR4oxl604zSG1z9dc6qlPLbYrNGKNIwMUIWV08Lqi1qp5y/Zo
+         KqleVVnWlpuX7WsSNFW1HODtf/t8z0abHa1dMvLowXiYgVBlfRx82cstyxKaJ3M2KOVW
+         Razg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=ZlmghvyTETx/vNdMe/9Y7B/OTMP+73qCjWXAmUZNebQ=;
-        b=Tpsc00mpxj0/1LShf0p7wZRV+YYQP8XMzow1kRWP97CNbkYodOME5dEmptiAa10N2H
-         r3o3EP5pM4kaLDFgHt67fh5CaC4szTsHG3gxu3bE4QFpDbFEXl7+bSvs8Jh5PCq5u/GS
-         gJKSa4Pata/vTWKxaF/c1VcLoDPKZ5YH+Ems0wExixB722nqlB/7IOH7dUEySw7cSBZN
-         D6J7q19uJXGg7nPX0/ChNCSH0bGnmDZpYy6NbbwbB5ioCMLQR03mgNQipqSJ1URF/Kfa
-         TnxubvibRqaDqHUk/iYjRtW8Xn4EnQerVqARAb+AkC7pmSxPsBGymivutPHLKtLl64/F
-         FwWA==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=S0+Foh6lv2lsiPi6y9pcjLoqyKqSANWMwVyal8opTY8=;
+        b=u0ExZmIbNC9AAkrmODLOi97F62QSNZH8/oKexQ4VI7UNBB33QywCITe0myVczme61E
+         ZiYSR16gMux3Wdqo9Q5CtBkdb6LOlrVjaTtzAsMFaZdPC6VNy4JeeAabzbLrdzMF2wXk
+         +1HT0mpPKg/IlW1y6xqZm6em3SPdCGH8ik9EhqPSPoITo0aqBjGiLkViQSuOW4bduiYU
+         vxIAx6/b3sYgNuLhTj2xJSdj1HgmOHJ71q43dafdAEFD4WyO5ZbATjN7cKGyr50rk4yr
+         LtfglGyEorn1wtwVxwVkiW7tX+GwdnHklDHB9hrT1IeczuAsjQBLLLEfk1vAxNDp2xPy
+         c4Ug==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=SX3l+6L+;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112 header.b=C+eq1A7H;
+       spf=neutral (google.com: 2a00:1450:4864:20::42e is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=ZlmghvyTETx/vNdMe/9Y7B/OTMP+73qCjWXAmUZNebQ=;
-        b=SHFZk5UE0ye22cLX6rEGUTpaT8p3IT5p8U/APAoNJARn/r3lgueQbUNEULnA2KavoO
-         hnkgXIBfSRyPqwu4RG/QRCUqwxI+KM7Un6pjPEO+wESIiCBddgWLiy8BlhJ74MrmIJH3
-         0WWxPj7VBJ41Xb5HgcpFRE1Alk0qp0rbQL6fwqa901V6tG1I0kthKmfvkqFeM4PTWzph
-         4GprDUP7D2XDxdcZiNFgUf/WrAjmdkU1ZTiL/s2zXOBtZuHkU9GTzvV/N94ydQM76FJf
-         thbMPiJxGoI/7JEsWmJK293J7Qg/MnbarexUodqf76fx3KvXyJl6aNyu1BAgGxUUg0x4
-         xkXA==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=S0+Foh6lv2lsiPi6y9pcjLoqyKqSANWMwVyal8opTY8=;
+        b=NNpIIlV+/cySdV+XM9zUiXbFTeMDHbIThBV0gytCeRi1omMYYGgVrlnlc4+KjoP01n
+         jW/n4mvgMbIHxQAx1vaEfg2lkvGzj9Cf1j6gH5PyfdjPLtqes1h0nM9gg01YO/2qqWlF
+         xT6di5Ni37xgovVtfHF15Ja4qgTy6fWeQEpWHhCxloWpem1qDwj+Ss3JoGgFwtayKFvo
+         t0er7GcRomHFe1KCYXitL2vt6K/4L54vUXHlNde1YL7EWVgac9UmzZuGgyty0QwGIrpw
+         03c9E+xgxy6/argGprDy8uioklMNjPT7Mx+ydMd/ylH+qk4krYziN5kimgkvvvWYMNIW
+         cn/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=ZlmghvyTETx/vNdMe/9Y7B/OTMP+73qCjWXAmUZNebQ=;
-        b=wJSZdcp3+XMLUO0EXKgS36Prm8qQpqShgZFsVQofPdOVJYFB589kASqr+uX3voxhr0
-         tfAWRd7Jtk5U3BGbHTPjOxehn4nuKe+7CJaubhWs9JHwSw41M+k9LGuW/KD9TwDdg6te
-         sRhPA8RTAf6YgoCuScxbBrCoPJn+BMa8axe+q774Mum/OIV5eYu9bWyZDzJcA6kR1m33
-         j1uIsQwb2VgRidet/6E7xHW5/nZQRe9c7rUEsVvVnkOqT9FIR6kXkP/bfWAX0TzZ//pa
-         VqZzqD4337a5UY+gnbQ+k+iaFjcobRn3gG62pRvwB/xk5NUtln+OMn7KlyAsvaGVAEzb
-         46/g==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=S0+Foh6lv2lsiPi6y9pcjLoqyKqSANWMwVyal8opTY8=;
+        b=sXIShBhTcxxBRiIB0I/qya5c2gRxHsuom6JdkNWeKQHepKGTY7ZRY6G4YE7Cx4jnP6
+         uDuGeLdCrTPVrlJREPUg+W3mIRlfr4PEtuVVFSP1QfbuSKJm4K5AXvcWPOh0Ct8TF9b+
+         dH0piSZeGqT11COtOOnH6H7aIUhxDiX+Ueo1U5ONarDuW+IutaRRZGECXmQSaSXa5xLR
+         DlSSZJqqu2WGzPGJesLqd/jUe2r9YgLluWXYEfsW7p4Wti8U3soAosuP5FLTTzxfJm5t
+         y8EHqFoyO/jL8W8m3sHKYUlymSp5Z8g8Bg7PgNwK78OBeYDrzSw+O2Cfi6e0DtXHVFLB
+         Xz3Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530qDPpvvO2RD6x2FBMN0digJUU7a6kzGs7W3tz7h+xQ51M4LHOH
-	vK8TtBxnQiHUhATmK4wC634=
-X-Google-Smtp-Source: ABdhPJyfMwZA5LtOpwLxw6XaPu4IyHJGKs1XZMKdSRatZfi8E8sXfvCjACSNfK+tuWbxxXpXEbtJGA==
-X-Received: by 2002:a05:6512:1095:b0:473:bf36:b6b with SMTP id j21-20020a056512109500b00473bf360b6bmr9253550lfg.479.1652599451218;
-        Sun, 15 May 2022 00:24:11 -0700 (PDT)
+X-Gm-Message-State: AOAM533bmFTzAKW5tkyKmG4Uz7acd6mYvwAbUDzE/+SzAj5e/pJ5SCba
+	Nc2y8AgPe1eZDeB1lu46H+0=
+X-Google-Smtp-Source: ABdhPJyb5HuSK1KleeJxzcdTmURnrAtB0XgJpeXpcYjlSPhx3bZQQ7B4esH82ElXBGHksn+aUVlIww==
+X-Received: by 2002:a17:906:29c2:b0:6f3:da29:8304 with SMTP id y2-20020a17090629c200b006f3da298304mr11819105eje.569.1652626191533;
+        Sun, 15 May 2022 07:49:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:4ca:b0:24f:f52e:16e0 with SMTP id
- e10-20020a05651c04ca00b0024ff52e16e0ls2070032lji.3.gmail; Sun, 15 May 2022
- 00:24:10 -0700 (PDT)
-X-Received: by 2002:a2e:8247:0:b0:249:8615:4242 with SMTP id j7-20020a2e8247000000b0024986154242mr7642547ljh.108.1652599450291;
-        Sun, 15 May 2022 00:24:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652599450; cv=none;
+Received: by 2002:a17:907:3e11:b0:6f5:1321:37ec with SMTP id
+ hp17-20020a1709073e1100b006f5132137ecls6133991ejc.11.gmail; Sun, 15 May 2022
+ 07:49:50 -0700 (PDT)
+X-Received: by 2002:a17:907:6089:b0:6f8:5933:7062 with SMTP id ht9-20020a170907608900b006f859337062mr11573814ejc.169.1652626190524;
+        Sun, 15 May 2022 07:49:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1652626190; cv=none;
         d=google.com; s=arc-20160816;
-        b=ptJONsCHgZJoVsE1au07H+aBa1lvRE3M7OfeP7z6jT9QDzz6YEXJTtu1kMMFT2KBDY
-         XG9bVzUMc5Bx362YVu1WlR2RfL1n5H6XAQyKr99HXLtUvGpzmswmRgKHFK9FfxtGiKJg
-         1lPfNvrqGNOp5+2+C4bMMbaNAg3FVRJOZDPYWPeZNFkvEoatNcnO5DvBqCCJ1YPhPn2T
-         Xv3MzVWFMIhOelZva0sTtVS8ZuB5vUxJbqbLKfd+xPiAq1XbcPy4dYBzXIiCsSkGP5Bo
-         0UQOP6j5P15fL3EpV+1Q5q/DkpzOf6JrDy0RjbFGpVclJ8uXHRzkWzVduReRNs4SnNDU
-         nmGg==
+        b=rJONPHopSm7um0O6RhTjmgr6jeNvlY9JxEDLWuSz6EY65euj5aIVYP7Gxj2IlOUJ62
+         5d6JvLU4ePjvqx4Ks83ffTXePPtoFj0PLS5MCKZ+k7VGe+4ZNpeLAgJk1vX3vZlgYF9s
+         N5+ShA6KeEWqcsOUoPR5ut3qlwMYwpkc8WduCq3yhB1EedJzxVRbUHpikagJSQH5hGq4
+         a30Rj5XQYu+fI3XvbhDtXTq3uNI8ICQCP57fmshhqr0eliKWwANnVEe9wGxRyTug+sYY
+         3NwKdr/W5jT+kSagvjYM9VUNsUF92KgXYLgnsX0oytd/USKSfQ/b9kEGeF09ZC4TKQF1
+         3lhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=QvExm+tMUmaKc7qlA+TmenKI1CiWuA8Uw+heVaVZmfg=;
-        b=VaguO7R7E/sb1Kowhd/fHeTLnogTEGCgXvwBXtTdUbCFVzaqdOJ+ZEiA6kRSsHegPh
-         TYItad10EN2JXzXxy2Ez8p7iK04sBIPAj5i5OpG0qZ7syGTCihXQLvBBvZ8+wqETZaTb
-         AM1sT3e2kSLS4Qw33B5ZdtErC3Y7sZX2A8aWY7dQHlbbvylMO49OG043rW4w4SfiMogL
-         OEDYXSWJoUWeO2AQuhYAUQQCfOoK4A2/W5jnd7s2zFtBWVyYLJa5VA5JcudG5/Iupni8
-         ZLtuXDoVszDE8YzrqN37hU1omm3S+zZoghagUPEvWZa/zRR3Q13Yzc8Zox1gl0RcOEVZ
-         U/nQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=zVVOCTvJRX3Olou6oLL+JZw4cMsITWwHrp/zHjilPa0=;
+        b=M7vrJAuuJ2Ws2tnk4FzbzkMdaW2v8zzzF+3QEcMYVJsqdnonA6vW6qhTuVqnhGEFCG
+         IUzoYIYLI3Vl0VPuFLttoIFzEcHtFB04KBUVQU8sl8Vc6X4mdF+V27CzEF6TO12Nzqjc
+         QZiMSl6FikN+DZIxXq8DlHm/Zhw98n9tCqoNkgC9gXBYbcBQ2oe8xXWan4sMIlKadawc
+         10Vz08+f/7q8ORcTd2OVsZKTL+BAvpKuK4p65npvLGP0/ad5F8gcz6DaLR2pcJt36uzT
+         PPruPs8sA8o+UzLV3kOg0rzy/f/EKtN2MXWq9i8ERzLnLGx1s+GUJY6bDCiA8fZqRh+u
+         yFLQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=SX3l+6L+;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id e13-20020a05651c04cd00b0024f0dcb32f8si277777lji.5.2022.05.15.00.24.10
+       dkim=pass header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112 header.b=C+eq1A7H;
+       spf=neutral (google.com: 2a00:1450:4864:20::42e is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com. [2a00:1450:4864:20::42e])
+        by gmr-mx.google.com with ESMTPS id g9-20020a50d5c9000000b00425adbac75dsi373361edj.2.2022.05.15.07.49.50
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 15 May 2022 00:24:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 64C4CB80AC5;
-	Sun, 15 May 2022 07:24:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4741C385B8;
-	Sun, 15 May 2022 07:24:04 +0000 (UTC)
-Date: Sun, 15 May 2022 15:15:34 +0800
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Atish Patra <atishp@atishpatra.org>
-Cc: Anup Patel <apatel@ventanamicro.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Alexandre Ghiti <alexandre.ghiti@canonical.com>,
-	linux-riscv <linux-riscv@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-	kasan-dev@googlegroups.com
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 May 2022 07:49:50 -0700 (PDT)
+Received-SPF: neutral (google.com: 2a00:1450:4864:20::42e is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2a00:1450:4864:20::42e;
+Received: by mail-wr1-x42e.google.com with SMTP id j25so16402216wrc.9
+        for <kasan-dev@googlegroups.com>; Sun, 15 May 2022 07:49:50 -0700 (PDT)
+X-Received: by 2002:adf:f001:0:b0:20d:22b:183c with SMTP id
+ j1-20020adff001000000b0020d022b183cmr4176252wro.313.1652626190014; Sun, 15
+ May 2022 07:49:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220508160749.984-1-jszhang@kernel.org> <20220508160749.984-3-jszhang@kernel.org>
+ <CAK9=C2Xinc6Y9ue+3ZOvKOOgru7wvJNcEPLvO4aZGuQqETXi2w@mail.gmail.com>
+ <YnkoKxaPbrTnZPQv@xhacker> <CAOnJCU+XR5mtqKBQLMj3JgsTPgvAQdO_jj2FWqcu7f9MezNCKA@mail.gmail.com>
+ <YoCollqhS93NJZjL@xhacker>
+In-Reply-To: <YoCollqhS93NJZjL@xhacker>
+From: Anup Patel <anup@brainfault.org>
+Date: Sun, 15 May 2022 20:19:37 +0530
+Message-ID: <CAAhSdy3_av5H-V_d5ynwgfeZYsCnCSd5pFSEKCzDSDBbD+pGLA@mail.gmail.com>
 Subject: Re: [PATCH v2 2/4] riscv: introduce unified static key mechanism for
  CPU features
-Message-ID: <YoCollqhS93NJZjL@xhacker>
-References: <20220508160749.984-1-jszhang@kernel.org>
- <20220508160749.984-3-jszhang@kernel.org>
- <CAK9=C2Xinc6Y9ue+3ZOvKOOgru7wvJNcEPLvO4aZGuQqETXi2w@mail.gmail.com>
- <YnkoKxaPbrTnZPQv@xhacker>
- <CAOnJCU+XR5mtqKBQLMj3JgsTPgvAQdO_jj2FWqcu7f9MezNCKA@mail.gmail.com>
-MIME-Version: 1.0
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <apatel@ventanamicro.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Alexandre Ghiti <alexandre.ghiti@canonical.com>, 
+	linux-riscv <linux-riscv@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAOnJCU+XR5mtqKBQLMj3JgsTPgvAQdO_jj2FWqcu7f9MezNCKA@mail.gmail.com>
-X-Original-Sender: jszhang@kernel.org
+X-Original-Sender: anup@brainfault.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=SX3l+6L+;       spf=pass
- (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as
- permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112
+ header.b=C+eq1A7H;       spf=neutral (google.com: 2a00:1450:4864:20::42e is
+ neither permitted nor denied by best guess record for domain of
+ anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,101 +138,120 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, May 11, 2022 at 11:29:32PM -0700, Atish Patra wrote:
-> On Mon, May 9, 2022 at 7:50 AM Jisheng Zhang <jszhang@kernel.org> wrote:
-> >
-> > On Mon, May 09, 2022 at 09:17:10AM +0530, Anup Patel wrote:
-> > > On Sun, May 8, 2022 at 9:47 PM Jisheng Zhang <jszhang@kernel.org> wrote:
-> > > >
-> > > > Currently, riscv has several features why may not be supported on all
-> > > > riscv platforms, for example, FPU, SV48 and so on. To support unified
-> > > > kernel Image style, we need to check whether the feature is suportted
-> > > > or not. If the check sits at hot code path, then performance will be
-> > > > impacted a lot. static key can be used to solve the issue. In the past
-> > > > FPU support has been converted to use static key mechanism. I believe
-> > > > we will have similar cases in the future.
-> > >
-> > > It's not just FPU and Sv48. There are several others such as Svinval,
-> > > Vector, Svnapot, Svpbmt, and many many others.
-> > >
-> > > Overall, I agree with the approach of using static key array but I
-> > > disagree with the semantics and the duplicate stuff being added.
-> > >
-> > > Please see more comments below ..
-> > >
-> > > >
-> > > > Similar as arm64 does(in fact, some code is borrowed from arm64), this
-> > > > patch tries to add an unified mechanism to use static keys for all
-> > > > the cpu features by implementing an array of default-false static keys
-> > > > and enabling them when detected. The cpus_have_*_cap() check uses the
-> > > > static keys if riscv_const_caps_ready is finalized, otherwise the
-> > > > compiler generates the bitmap test.
-> > >
-> > > First of all, we should stop calling this a feature (like ARM does). Rather,
-> > > we should call these as isa extensions ("isaext") to align with the RISC-V
-> > > priv spec and RISC-V profiles spec. For all the ISA optionalities which do
-> > > not have distinct extension name, the RISC-V profiles spec is assigning
-> > > names to all such optionalities.
-> >
-> > Same as the reply a few minutes ago, the key problem here is do all
-> > CPU features belong to *ISA* extensions? For example, SV48, SV57 etc.
-> > I agree with Atish's comments here:
-> >
-> > "I think the cpu feature is a superset of the ISA extension.
-> > cpu feature != ISA extension"
-> >
-> 
-> It seems to be accurate at that point in time. However, the latest
-> profile spec seems to
-> define everything as an extension including sv48.
-> 
-> https://github.com/riscv/riscv-profiles/blob/main/profiles.adoc#623-rva22s64-supported-optional-extensions
-> 
-> It may be a redundant effort and confusing to create two sets i.e.
-> feature and extension in this case.
-> But this specification is not frozen yet and may change in the future.
-> We at least know that that is the current intention.
-> 
-> Array of static keys is definitely useful and should be used for all
-> well defined ISA extensions by the ratified priv spec.
-> This will simplify this patch as well. For any feature/extensions
-> (i.e. sv48/sv57) which was never defined as an extension
-> in the priv spec but profile seems to define it now, I would leave it
-> alone for the time being. Converting the existing code
-> to static key probably has value but please do not include it in the
-> static key array setup.
-> 
-> Once the profile spec is frozen, we can decide which direction the
-> Linux kernel should go.
+On Sun, May 15, 2022 at 12:54 PM Jisheng Zhang <jszhang@kernel.org> wrote:
 >
+> On Wed, May 11, 2022 at 11:29:32PM -0700, Atish Patra wrote:
+> > On Mon, May 9, 2022 at 7:50 AM Jisheng Zhang <jszhang@kernel.org> wrote:
+> > >
+> > > On Mon, May 09, 2022 at 09:17:10AM +0530, Anup Patel wrote:
+> > > > On Sun, May 8, 2022 at 9:47 PM Jisheng Zhang <jszhang@kernel.org> wrote:
+> > > > >
+> > > > > Currently, riscv has several features why may not be supported on all
+> > > > > riscv platforms, for example, FPU, SV48 and so on. To support unified
+> > > > > kernel Image style, we need to check whether the feature is suportted
+> > > > > or not. If the check sits at hot code path, then performance will be
+> > > > > impacted a lot. static key can be used to solve the issue. In the past
+> > > > > FPU support has been converted to use static key mechanism. I believe
+> > > > > we will have similar cases in the future.
+> > > >
+> > > > It's not just FPU and Sv48. There are several others such as Svinval,
+> > > > Vector, Svnapot, Svpbmt, and many many others.
+> > > >
+> > > > Overall, I agree with the approach of using static key array but I
+> > > > disagree with the semantics and the duplicate stuff being added.
+> > > >
+> > > > Please see more comments below ..
+> > > >
+> > > > >
+> > > > > Similar as arm64 does(in fact, some code is borrowed from arm64), this
+> > > > > patch tries to add an unified mechanism to use static keys for all
+> > > > > the cpu features by implementing an array of default-false static keys
+> > > > > and enabling them when detected. The cpus_have_*_cap() check uses the
+> > > > > static keys if riscv_const_caps_ready is finalized, otherwise the
+> > > > > compiler generates the bitmap test.
+> > > >
+> > > > First of all, we should stop calling this a feature (like ARM does). Rather,
+> > > > we should call these as isa extensions ("isaext") to align with the RISC-V
+> > > > priv spec and RISC-V profiles spec. For all the ISA optionalities which do
+> > > > not have distinct extension name, the RISC-V profiles spec is assigning
+> > > > names to all such optionalities.
+> > >
+> > > Same as the reply a few minutes ago, the key problem here is do all
+> > > CPU features belong to *ISA* extensions? For example, SV48, SV57 etc.
+> > > I agree with Atish's comments here:
+> > >
+> > > "I think the cpu feature is a superset of the ISA extension.
+> > > cpu feature != ISA extension"
+> > >
+> >
+> > It seems to be accurate at that point in time. However, the latest
+> > profile spec seems to
+> > define everything as an extension including sv48.
+> >
+> > https://github.com/riscv/riscv-profiles/blob/main/profiles.adoc#623-rva22s64-supported-optional-extensions
+> >
+> > It may be a redundant effort and confusing to create two sets i.e.
+> > feature and extension in this case.
+> > But this specification is not frozen yet and may change in the future.
+> > We at least know that that is the current intention.
+> >
+> > Array of static keys is definitely useful and should be used for all
+> > well defined ISA extensions by the ratified priv spec.
+> > This will simplify this patch as well. For any feature/extensions
+> > (i.e. sv48/sv57) which was never defined as an extension
+> > in the priv spec but profile seems to define it now, I would leave it
+> > alone for the time being. Converting the existing code
+> > to static key probably has value but please do not include it in the
+> > static key array setup.
+> >
+> > Once the profile spec is frozen, we can decide which direction the
+> > Linux kernel should go.
+> >
+>
+> Hi Atish, Anup,
+>
+> I see your points and thanks for the information of the profile
+> spec. Now, I have other two points about isa VS features:
+>
+> 1. Not all isa extenstions need static key mechanism, so if we
+> make a static key array with 1:1 riscv_isa <-> static key relationship
+> there may be waste.
+>
+> For example, the 'a', 'c', 'i', 'm' and so on don't have static
+> key usage.
 
-Hi Atish, Anup,
+Not all isa extensions but a large number of them will need a static
+key. It's better to always have one static key per ISA extension
+defined in cpufeatures.c
 
-I see your points and thanks for the information of the profile
-spec. Now, I have other two points about isa VS features:
+For example, F, D, V, Sstc, Svinval, Ssofpmt, Zb*, AIA, etc.
 
-1. Not all isa extenstions need static key mechanism, so if we
-make a static key array with 1:1 riscv_isa <-> static key relationship
-there may be waste.
+>
+> 2.We may need riscv architecture static keys for non-isa, this is
+> usually related with the linux os itself, for example
+> a static key for "unmap kernelspace at userspace".
+> static keys for "spectre CVE mitigations"
+> etc.
 
-For example, the 'a', 'c', 'i', 'm' and so on don't have static
-key usage.
+These things look more like errata or workarounds so better
+to use that framework instead of ISA extensions (or features).
 
-2.We may need riscv architecture static keys for non-isa, this is
-usually related with the linux os itself, for example
-a static key for "unmap kernelspace at userspace".
-static keys for "spectre CVE mitigations"
-etc.
+Some of these things might even use ALTERNATIVEs instead
+of static keys.
 
-In summary, I can see riscv_isa doesn't cover features which need static
-keys, and vice vesa.
+>
+> In summary, I can see riscv_isa doesn't cover features which need static
+> keys, and vice vesa.
+>
+> Could you please comment?
+>
+> Thanks in advance,
+> Jisheng
 
-Could you please comment?
-
-Thanks in advance,
-Jisheng
+Regards,
+Anup
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YoCollqhS93NJZjL%40xhacker.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAhSdy3_av5H-V_d5ynwgfeZYsCnCSd5pFSEKCzDSDBbD%2BpGLA%40mail.gmail.com.
