@@ -1,131 +1,151 @@
-Return-Path: <kasan-dev+bncBD4NDKWHQYDRBE66R6KAMGQEWP3N7II@googlegroups.com>
+Return-Path: <kasan-dev+bncBCWJVL6L2QLBBNM4SCKAMGQE534F7IA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x63e.google.com (mail-ej1-x63e.google.com [IPv6:2a00:1450:4864:20::63e])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF78352AB3D
-	for <lists+kasan-dev@lfdr.de>; Tue, 17 May 2022 20:53:27 +0200 (CEST)
-Received: by mail-ej1-x63e.google.com with SMTP id ga27-20020a1709070c1b00b006f43c161da4sf7810118ejc.7
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 May 2022 11:53:27 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1652813587; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC32852AD4F
+	for <lists+kasan-dev@lfdr.de>; Tue, 17 May 2022 23:06:06 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id b13-20020a92c56d000000b002d125a2ab95sf137593ilj.13
+        for <lists+kasan-dev@lfdr.de>; Tue, 17 May 2022 14:06:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1652821558; cv=pass;
         d=google.com; s=arc-20160816;
-        b=C/tutgJMncPhQsvuFDhxdvR+VLrIQwjihncrRPH7hhoWg3iSUpwC2MCOlVVKuqAZ/P
-         cep9X3CX4uguOsvTqHZN6J1UXR6nCyIXdC9sky+G1rsPe7s6/0/dgn+RwExXtU86E/bw
-         YTa4uS4r7o5B6Qdxi7wbYxZLTQoGCZTxMMnwpA99EnjSt71IUpaAYrXGfhdCcJMiDuym
-         fwCO2SWhDp8+wVtCTOp0cUJR7cT07ORA4Vdxxuew1VBnpOv2Y4486dYzfmOsmX7Eewvx
-         miXzLKFtft1P76z8xJB8lAClM8xlWtXzkZfd/S21jlOzEF/74kT67xz2b61QvMArwvMy
-         97Zg==
+        b=CtRtKfvv9qSGSIMznyOmjIq2hYdOgXwX+RwSjHyXRFSL9cBeagJm0l2elPSOME61GB
+         TGyGYgD9EwD7VbEP0BPthxtcyiW4GqEyrccFVvi8wemVoNFWs9ja9cVPhMTqfLwd2z3O
+         r7gc8PQnF1E0YJ8K51yaeobACeQTxt/Qo4bxKBL85QIlHMPj9+4e5BGIdjwTvcfGMten
+         qL+VbJGYbAdCyeUXidZDpx7jt/cRAem+QQud+bk0i9x7/RAUEZ0bDyFSmQI8fV+Fg5eF
+         S3jCuTJbudL+/1ZJuRPZ5lS43bQ5UMMJRv21hp57roTXKheR2FUnu4HTlpMdPb7l4yXM
+         XN8Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=75TVE93ON0Y6GnKXYpNsxq+70ybG3XJac/b58s40nVo=;
-        b=JQGxoU2BIpSQWcaKCfYB6pyTMhMrOH6DaDSskNxXqV/xJJ2b6DpkVrFzncvtoB6TmO
-         smBcc1uvjbGZYWvwCAh+4uM8OJ8Ex5AH3StB3nDT9kZf0LaFOw/I7dN4/325fJZPXpJp
-         Q5TOp/jstXoPigLku1dT0RRqPKVsZ/F/WcnAPrrJD2kxVFx3M9zuiS0k+STH4gy+gRFu
-         Pct6ArmqOWy0WOcxI0P46W6VvuVxsvI0tKm8uf8tk8WkQz8+nxfeY9AQw1jAXskwr2s2
-         f6MmR5u2eJmSRE3IlGOPcZt0ybu4ioTN5waexTHoN5mrx9FpSW1Ya5yKUxpJZ9KhohAi
-         g7hA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:ironport-hdrordr:ironport-data:ironport-sdr
+         :sender:dkim-signature;
+        bh=1T7st5sGF/Pnmv/HkmvUnBHBDLIJ6J6GRYTmJyKHJuI=;
+        b=SHO1lw5ZGOcmWTITRe1l8uCb9czCanJtzwgQLNZvoZ3itNktA8gZBYK7S+AutCucKc
+         o9Yc1MP19AuW4eXa6x0iBrCkN8lbF0LsnnvyyKRDYacnxybmoFj7DpUTgk2m8DUv+60Z
+         tpEQFTqHgZ9hfkbX0YWLX5lNj4mWf474Hhh2OZKMwnD4uZe3iJET5VFmm8xxRV8mKnoa
+         2AiHvwDvKwuRZc1nKkXqstFKuWkgs72aLt7Bxaukcwnk2jqJvUPLP44hkJvIHug9VL+n
+         Q0PublOKNmHge1GO1Zl7Kysco1o+I3kb12u+t4axTCsJQhbcCYZLD+T9h6ozibWuWhop
+         XvAA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nn3siSFS;
-       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of liu3101@purdue.edu designates 128.210.1.216 as permitted sender) smtp.mailfrom=liu3101@purdue.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=purdue.edu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
+        h=sender:ironport-sdr:ironport-data:ironport-hdrordr:from:to:cc
+         :subject:date:message-id:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=75TVE93ON0Y6GnKXYpNsxq+70ybG3XJac/b58s40nVo=;
-        b=bXQ7sIo0GuS+hAJ+qEN097dmf2C4qtmRhvgF8NMalP9kCzwOgn9s2Phg9OfEC+a7x+
-         n2C2KBZsiFPfAZ17ZwiotXuUKJ/dF8qlHxhsy//vXr2lVYN5qEuYFHrFQwSb1xgBtDgX
-         rPduqFPwqdl4KU67+QHJ8N+WjyRlYTqcBlaHGwzz03H5cbHJQ+11Tl2Lde5HBG/29jUd
-         5IvIKAoQUNkRzgo1zg4rZoavcFY9N7k0x0xlfx07tRvt3A6qcUF4zNOSpbrowXBV+ANc
-         WLDMvPVc7C7Vm1xi7G9jBhG2fV53DA48yg1i8BzWmssAQG7JU/fwk8azOKwlZY4MX2bw
-         TaNg==
+        bh=1T7st5sGF/Pnmv/HkmvUnBHBDLIJ6J6GRYTmJyKHJuI=;
+        b=n1xZiw42pOL/Xcl5jkBC6Q7e8Vsfae9YUA7Jl81TNQxU7p2BEuntNsscmc6ADz4zmA
+         vI0FRrE3aDmhRKI/+GVihBZfmvrCL36d72sZSdiNzL+tftcoUgtLy2a2nwylGZff3oO+
+         N5R871ksJQxL/AF001eyoEs++pb+edPYKcmrfOn6qhJSkOsV0/LnKEFujHOF/BFmGcvs
+         0uWdKeK9svufQ8THEpyBo+bcD3sMGGeHNLFX2bSIoqHLXU9dys4t3mLYwgdJcon/kF6j
+         hwASsGXxzEVPtY2yiCFU9rs3FrN1YoZo4RH3dcqXp7+CdzWd+VCTpG+nAJoIjNBIwMXg
+         NluQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
+        h=sender:x-gm-message-state:ironport-sdr:ironport-data
+         :ironport-hdrordr:from:to:cc:subject:date:message-id:mime-version
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=75TVE93ON0Y6GnKXYpNsxq+70ybG3XJac/b58s40nVo=;
-        b=eHsonYnbtcTYODYRrum4TymZlCZn1yT65L0fGP4rZ0L69jioG6kR1lUaAUHMZ1kS8M
-         WCo5plG2cnONcaw692ai7IJzrcjxyADLY9Y1LCMaMbkcoms6JJL6wPhnCXVFT4XgkBFW
-         siJZcKGohwS21bhFHg2HLrAHgKgqPjD+wBBHsrg/6n6Z4chXTn8/I+PpguP0XirA1a7L
-         TGkTurdZpYG4YV5Xau/AVtf6qLLEi4CVwG7ZyAsUrBtfVcQUmODhOMm82hr8LblkrBaW
-         9uJb5V98xLtiHQPDV9ICXvrduzz6U0D3DOrgmbtTOlJ/KoV58RhEm8RnM4gYyKZ/AC81
-         ou1Q==
+        bh=1T7st5sGF/Pnmv/HkmvUnBHBDLIJ6J6GRYTmJyKHJuI=;
+        b=1bBBYOS9Ha7biNVCv+Q6QQqVn0IDzJYYa8wbWogxIFe8A92ZQr9xUtVTmCT2Rojwd/
+         lwekSFRiLpRHU33NzW2B/A0knGZReeEQnQ5LoshIcEgEDM1i1LeZ1KXUtwRXUBmaJ3wp
+         eGjSvzw0bbtVEmZc6ZSRUYMXAsUeuZSaQ0HHWgB146fE0kCGuFSdjpQNx58GeBFVWfi+
+         LWz4QCa5E0Ct1AMi3YgPqNQEtSUhpEkAzQtjbFK4pz5NNLx/GW6op+Iyojflugs/Hq/7
+         gjPRzC8ycTe4QxNks7ph1JCfjD1jUVwPR20SMhyFMkCSifmQRjph5cOlN8aNZjXyl/ou
+         +a4A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531GgcSFkyWMu1DR8uYp5sKbYsKmt4Srk8f6MXOfaX/2QUDN8o1l
-	4brl7jDkOmpEdMhFYfQchpQ=
-X-Google-Smtp-Source: ABdhPJwHSUq/suFRr3IfmrLQTVM7jE39S4vqZY2bScjg3v7HnSqTucl4yYXSjhUnQ69m99wXk3Zheg==
-X-Received: by 2002:a17:907:215b:b0:6f4:d91c:ef53 with SMTP id rk27-20020a170907215b00b006f4d91cef53mr20454987ejb.175.1652813587482;
-        Tue, 17 May 2022 11:53:07 -0700 (PDT)
+X-Gm-Message-State: AOAM530N3J/F8d64ZFdt3NDS7z3TwI7aSFYa8eeh/WwI2fG6GFHipLK4
+	grvVKsPF+xXSBX13b1Ezxik=
+X-Google-Smtp-Source: ABdhPJzPItjGQb6F6/bo1oEeYY760bohlDmGC3YJUHRan9oNBER+DbcI0IpR2eksrJphoOLvJWJBPg==
+X-Received: by 2002:a05:6638:490b:b0:32e:51f8:85b9 with SMTP id cx11-20020a056638490b00b0032e51f885b9mr3412456jab.294.1652821557809;
+        Tue, 17 May 2022 14:05:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:8a10:b0:6f4:91cc:ac07 with SMTP id
- sc16-20020a1709078a1000b006f491ccac07ls1465817ejc.0.gmail; Tue, 17 May 2022
- 11:53:06 -0700 (PDT)
-X-Received: by 2002:a17:907:1b28:b0:6f0:836:89b0 with SMTP id mp40-20020a1709071b2800b006f0083689b0mr20251382ejc.379.1652813586441;
-        Tue, 17 May 2022 11:53:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652813586; cv=none;
+Received: by 2002:a05:6638:1913:b0:32b:ca33:6c9a with SMTP id
+ p19-20020a056638191300b0032bca336c9als3424719jal.11.gmail; Tue, 17 May 2022
+ 14:05:57 -0700 (PDT)
+X-Received: by 2002:a05:6638:2603:b0:32b:a724:2b8c with SMTP id m3-20020a056638260300b0032ba7242b8cmr12500534jat.278.1652821557353;
+        Tue, 17 May 2022 14:05:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1652821557; cv=none;
         d=google.com; s=arc-20160816;
-        b=bTwvfSsGxDGNNuoiOjvrRAFylT7iQuZw7svNZArKDRwbsotXwoJfxYciZlAOA7nj0t
-         K5n1d0dfNykbHLeuTfP8Cp/GZ+g3daJuZneQhwmI61Nks3pOiezCasHCLmCfSjb8I/mP
-         bN2OPCQXEyxXTpCWleqPXkatVe/BQ3tCiIec1ds7c9R+vS0yf9+ohr1l4WK6tDiQvKKZ
-         mHHrAqzWUoCeqWHdBx0PlL3dAX6lkhd8ofMlOK4AQ3iCQfRcgxNGK8O2yz8eVO8aT+uT
-         pXpK+ZIyUEbMZ9ec9ZidX4zCHJD/QhKb1QzlQnOH80JKskH0ugBgSsj2kSFTC82+iyeP
-         59jA==
+        b=jF1FaHxt7V7ouB1zlvY2erSa9EkTiqYpTOQwSOqLOwB9hSysr38A3iOtdS+HNzr7Hw
+         yoOPT9KDbDRWEgpfZEPV+v4hPafd1IVk+QQcpO1+i0+alsRxtE9xOi1IvJwH1NzrXhje
+         ce8HT2oUclpoG5wqYRzmBY+aeB31mPEhTU9vwZQfNoFqmbQkEQcY62P0Zl3RyYfDS9DD
+         W+Qtb6e/LYfe/kcoYjO8Pv7mLaX7uhPMASvfNaY0K3NnmkQBJIZ2UaQnXO7ySyu+7Z2W
+         aNIZBVf96K/noGtbfisv3uqLIfG6Zbw3Tn8GieXD8lCfF7os0L/Bv7Ydw8ZMgEdOomRK
+         JBcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=7ql2S5UkfchxmzkMsoSjgsPgVXHBYrRN3Pc0CjgdGZc=;
-        b=Boekugwm/Mym7uHsvy5T1LZu0cFemzI4+QcfTM9XIyPDl+SthkYRYI7rtx1AY+03nJ
-         D68IAxI5GVdP9FqkFMolBedGecbtkGjXbHNpCw2VWMhHPZcugk76ywsEkFeqYv1KN0zw
-         6y3aooTaFLxmDRMrfA6/IgtoX/rKTEkHId8LOsf11iTN8cZhXx7cNpfomAYlgoxR5jFq
-         yJghphMV8XrLRspc06z7rNmUugg4JYU6LhbM+5+pViGge1OkoG+yikbroszhuWsz44SW
-         OrckiteBrk5yL6+zf+0iYulCsb6rSrFVEDu+GMsUN657N4HBBf/EgcEFstokByCsMyA4
-         b46Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:ironport-hdrordr:ironport-data:ironport-sdr;
+        bh=dMH1bUxeRQhhldvkLxx1ZXn5m8NCYB26+WJk7qgYmgE=;
+        b=Gysaogmg8BpRq1WRBndtd6PUF3pAGXbj1r19I6rrROu0o+nuNcQvuFbHYul5QxdJrA
+         30Yu+CdkSuCPvTEWS00SUf1EY7qqeDlClGev98UHwEss5e8GODwm0LvXlA62PDynZg0f
+         L36N3Z6OuS3mQ4TcV9VMl5G1uylYNNVCqtp9DMZdHc/19HLEPoSWod73A267mFy1lzFX
+         LMroSqspQU6FIilTxtmTd/utXw7rN52GVxaVw+lSAZtrs5SvNJBjOVEgPVwYV0h4D34G
+         J+EuABWQl+zhmSQMhcvK+F1b2933dBSGUaJFYRPqpH2rAKJ/AgXn67MqdlNdcIqx8VRz
+         pSIQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nn3siSFS;
-       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
-        by gmr-mx.google.com with ESMTPS id rv14-20020a17090710ce00b006f4639cc02dsi3286ejb.2.2022.05.17.11.53.06
+       spf=pass (google.com: domain of liu3101@purdue.edu designates 128.210.1.216 as permitted sender) smtp.mailfrom=liu3101@purdue.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=purdue.edu
+Received: from xppmailspam12.itap.purdue.edu (xppmailspam12.itap.purdue.edu. [128.210.1.216])
+        by gmr-mx.google.com with ESMTPS id t8-20020a028788000000b0032b603bf16esi7575jai.2.2022.05.17.14.05.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 17 May 2022 11:53:06 -0700 (PDT)
-Received-SPF: pass (google.com: domain of nathan@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 2DF49B81B92;
-	Tue, 17 May 2022 18:53:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727CEC385B8;
-	Tue, 17 May 2022 18:53:04 +0000 (UTC)
-Date: Tue, 17 May 2022 11:53:02 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: objtool "no non-local symbols" error with tip of tree LLVM
-Message-ID: <YoPvDn0Nb2fBtJCs@dev-arch.thelio-3990X>
-References: <YoK4U9RgQ9N+HhXJ@dev-arch.thelio-3990X>
- <20220516214005.GQ76023@worktop.programming.kicks-ass.net>
- <YoPAZ6JfsF0LrQNc@hirez.programming.kicks-ass.net>
- <YoPCTEYjoPqE4ZxB@hirez.programming.kicks-ass.net>
+        Tue, 17 May 2022 14:05:57 -0700 (PDT)
+Received-SPF: pass (google.com: domain of liu3101@purdue.edu designates 128.210.1.216 as permitted sender) client-ip=128.210.1.216;
+IronPort-SDR: EcolU3GOREYZm/yLvCkxnMomZ4P2+F8XKSTXJZwD7ykZzATvIXRq0ND6JFHoTju0qgPOocEOFw
+ 3izNZ5cAw4zGVlFzAY/yqXE6hfboe8ZhQ=
+X-Ironport-AuthID: liu3101@purdue.edu
+IronPort-Data: =?us-ascii?q?A9a23=3A4FZru6rMG9kMKZqXIALiJi0rfWleBmIbZRIvg?=
+ =?us-ascii?q?KrLsJaIsI4StFCztgarIBnUPf+PZDb8eownadnj90MD7Z7UytRgTwo6qSsxQ?=
+ =?us-ascii?q?SwRouPIVI+TRqvS04J+DSFhoHqKZ6zyU/GYRCztZnOD9BqrLJb7qnxwifOBS?=
+ =?us-ascii?q?rbmUbaWIj1rSRJpDiotlEs7yeI+h4dph/m/Ah+M5YOp+pGPaAf91m4mKH8Q5?=
+ =?us-ascii?q?oKCtAhr4Kb4tgQeswFsfvtMplLfyyQYActHd6G8Jnf1WKdOGeu+S7qRxb215?=
+ =?us-ascii?q?DqBrQ8wEN+4n/D2flBTGuzeOg2Hi3x3Xam+g0QS/XVugvZjbPdFMBVZkTSEm?=
+ =?us-ascii?q?dx12e5hj53oRFd7JLDIlcQcTwJcT3N0M5pA9eKVOnO4q8GSkxDLfnawkfVjC?=
+ =?us-ascii?q?EY6Yd8R9uptWzkc9PoUOWhQKBuYwfqr2r6mR69hitl6dJvnO4YWu3dByzDFD?=
+ =?us-ascii?q?Kp2GsmfE/WSvdIIji0tgs1uHOrFY5ZLYzRYahmdMQZEPU0aCc5jker01GPzd?=
+ =?us-ascii?q?SZU9ACcqaYtuTCBzQp9weCwdtHOPMSXX8lIkwCVqn+fpzb1BRQTNdq+zzuZ8?=
+ =?us-ascii?q?y783baTzXOjAI9CRqel8vNKgUGIwjBBAhMhU1bm8+KyjVSzWo4CJkEZksb0Q?=
+ =?us-ascii?q?XPez2T2CIikN/GEiCTc5EREBoMPS7dSBDylk8I43S7IXgDocRYeMLTKhOduL?=
+ =?us-ascii?q?dAb/gfhc+HBXFSDg5XJIZ6pzYp4mBvpUcQjBTJYOXVUHVNtD+7L++nfhjqXJ?=
+ =?us-ascii?q?jpq/TXcYtfdQVkcyBjSxMQyail6YWfmCsyGEV77bzKE/vAlTyY04AnGBj/j5?=
+ =?us-ascii?q?Rg/fJO/a5Glr1XX8J6sLq7AFAnH5SBCwpPGqrlQUvlhlwTUKAkJNLWo+q3ca?=
+ =?us-ascii?q?GT0mUN1E4QssTmh5hZPeKgMvmgvex41bJpslTjBJRW7VRlqzJNNLWaparFfb?=
+ =?us-ascii?q?IW2BMAni6PnELzNX/bYdNdfYZ5vcCeI+ShvYQib2GWFuEsliqg5fJuWb+6jC?=
+ =?us-ascii?q?nEVDalo1j2rX/xb2rgurgg6xGXOVdX4wg6h3L62enGYU/EGPUGIY+R/67mLy?=
+ =?us-ascii?q?C3R8ssEbpPT4w1CSuHjb2/a/ZN7ELygBRDXHrj3rcBGLrPFKREgAHw7B+Lch?=
+ =?us-ascii?q?74tZuRYc21uvr+g1hmAtoVwkTITXUH6FDg=3D?=
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AkbjXja00TIewCBBEiw4LAAqjBAokLtp133?=
+ =?us-ascii?q?Aq2lEZdPU1SKOlfq+V7Y0mPHPP+U4ssTQb9+xoW5PtfZqjz+8S3WB5B97LNz?=
+ =?us-ascii?q?UO01HEEGgN1+Hf6gylPCHi++ZB3eNJdqRkFZnWBVx35Pyb3CCIV/Et3dSO7a?=
+ =?us-ascii?q?jtr+bX1GoFd3AIV4hQqyB0FwuSD0UzbgxPH4A4G5qX7tdGoT3IQwVzUu2LQl?=
+ =?us-ascii?q?4IQuXKutWOu5rjYRsXbiRXijWmvHeO5KP2GwWRmjYZSS4n+8ZHzUH11yv0+6?=
+ =?us-ascii?q?iqrvn+8RnY2wbonvNrseqk7ddfCcSQgowuJirhkQa0dO1aOoG/gA=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.91,233,1647316800"; 
+   d="scan'208";a="461971464"
+Received: from indy05.cs.purdue.edu ([128.10.130.167])
+  by xppmailspam12.itap.purdue.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 May 2022 17:05:54 -0400
+From: Congyu Liu <liu3101@purdue.edu>
+To: dvyukov@google.com,
+	andreyknvl@gmail.com
+Cc: kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	Congyu Liu <liu3101@purdue.edu>
+Subject: [PATCH] kcov: fix race caused by unblocked interrupt
+Date: Tue, 17 May 2022 21:05:32 +0000
+Message-Id: <20220517210532.1506591-1-liu3101@purdue.edu>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+X-Original-Sender: liu3101@purdue.edu
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of liu3101@purdue.edu designates 128.210.1.216 as
+ permitted sender) smtp.mailfrom=liu3101@purdue.edu;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=purdue.edu
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <YoPCTEYjoPqE4ZxB@hirez.programming.kicks-ass.net>
-X-Original-Sender: nathan@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=nn3siSFS;       spf=pass
- (google.com: domain of nathan@kernel.org designates 2604:1380:4601:e00::1 as
- permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,292 +158,102 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 17, 2022 at 05:42:04PM +0200, Peter Zijlstra wrote:
-> On Tue, May 17, 2022 at 05:33:59PM +0200, Peter Zijlstra wrote:
-> > On Mon, May 16, 2022 at 11:40:06PM +0200, Peter Zijlstra wrote:
-> > > Does something simple like this work? If not, I'll try and reproduce
-> > > tomorrow, it shouldn't be too hard to fix.
-> > 
-> > Oh, man, I so shouldn't have said that :/
-> > 
-> > I have something that almost works, except it now mightly upsets
-> > modpost.
-> > 
-> > I'm not entirely sure how the old code worked as well as it did. Oh
-> > well, I'll get it sorted.
-> 
-> Pff, it's been a *long* day.. here this works.
+Some code runs in interrupts cannot be blocked by `in_task()` check.
+In some unfortunate interleavings, such interrupt is raised during
+serializing trace data and the incoming nested trace functionn could
+lead to loss of previous trace data. For instance, in
+`__sanitizer_cov_trace_pc`, if such interrupt is raised between
+`area[pos] = ip;` and `WRITE_ONCE(area[0], pos);`, then trace data in
+`area[pos]` could be replaced.
 
-Thanks a lot for the quick fix! It resolves the error I see on 5.17 and
-I don't see any new issues on mainline.
+The fix is done by adding a flag indicating if the trace buffer is being
+updated. No modification to trace buffer is allowed when the flag is set.
 
-Tested-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Congyu Liu <liu3101@purdue.edu>
+---
+ include/linux/sched.h |  3 +++
+ kernel/kcov.c         | 16 ++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-> ---
->  tools/objtool/elf.c | 191 ++++++++++++++++++++++++++++++++++------------------
->  1 file changed, 125 insertions(+), 66 deletions(-)
-> 
-> diff --git a/tools/objtool/elf.c b/tools/objtool/elf.c
-> index ebf2ba5755c1..a9c3e27527de 100644
-> --- a/tools/objtool/elf.c
-> +++ b/tools/objtool/elf.c
-> @@ -600,24 +600,24 @@ static void elf_dirty_reloc_sym(struct elf *elf, struct symbol *sym)
->  }
->  
->  /*
-> - * Move the first global symbol, as per sh_info, into a new, higher symbol
-> - * index. This fees up the shndx for a new local symbol.
-> + * The libelf API is terrible; gelf_update_sym*() takes a data block relative
-> + * index value. As such, iterate the data blocks and adjust index until it fits.
-> + *
-> + * If no data block is found, allow adding a new data block provided the index
-> + * is only one past the end.
->   */
-> -static int elf_move_global_symbol(struct elf *elf, struct section *symtab,
-> -				  struct section *symtab_shndx)
-> +static int elf_update_symbol(struct elf *elf, struct section *symtab,
-> +			     struct section *symtab_shndx, struct symbol *sym)
->  {
-> -	Elf_Data *data, *shndx_data = NULL;
-> -	Elf32_Word first_non_local;
-> -	struct symbol *sym;
-> -	Elf_Scn *s;
-> +	Elf_Data *symtab_data = NULL, *shndx_data = NULL;
-> +	Elf32_Word shndx = sym->sec->idx;
-> +	Elf_Scn *s, *t = NULL;
-> +	int size, idx = sym->idx;
->  
-> -	first_non_local = symtab->sh.sh_info;
-> -
-> -	sym = find_symbol_by_index(elf, first_non_local);
-> -	if (!sym) {
-> -		WARN("no non-local symbols !?");
-> -		return first_non_local;
-> -	}
-> +	if (elf->ehdr.e_ident[EI_CLASS] == ELFCLASS32)
-> +		size = sizeof(Elf32_Sym);
-> +	else
-> +		size = sizeof(Elf64_Sym);
->  
->  	s = elf_getscn(elf->elf, symtab->idx);
->  	if (!s) {
-> @@ -625,79 +625,120 @@ static int elf_move_global_symbol(struct elf *elf, struct section *symtab,
->  		return -1;
->  	}
->  
-> -	data = elf_newdata(s);
-> -	if (!data) {
-> -		WARN_ELF("elf_newdata");
-> -		return -1;
-> +	if (symtab_shndx) {
-> +		t = elf_getscn(elf->elf, symtab_shndx->idx);
-> +		if (!t) {
-> +			WARN_ELF("elf_getscn");
-> +			return -1;
-> +		}
->  	}
->  
-> -	data->d_buf = &sym->sym;
-> -	data->d_size = sizeof(sym->sym);
-> -	data->d_align = 1;
-> -	data->d_type = ELF_T_SYM;
-> +	for (;;) {
-> +		symtab_data = elf_getdata(s, symtab_data);
-> +		if (t)
-> +			shndx_data = elf_getdata(t, shndx_data);
->  
-> -	sym->idx = symtab->sh.sh_size / sizeof(sym->sym);
-> -	elf_dirty_reloc_sym(elf, sym);
-> +		if (!symtab_data) {
-> +			if (!idx) {
-> +				void *buf;
->  
-> -	symtab->sh.sh_info += 1;
-> -	symtab->sh.sh_size += data->d_size;
-> -	symtab->changed = true;
-> +				symtab_data = elf_newdata(s);
-> +				if (t)
-> +					shndx_data = elf_newdata(t);
->  
-> -	if (symtab_shndx) {
-> -		s = elf_getscn(elf->elf, symtab_shndx->idx);
-> -		if (!s) {
-> -			WARN_ELF("elf_getscn");
-> +				buf = calloc(1, size);
-> +				if (!buf) {
-> +					WARN("malloc");
-> +					return -1;
-> +				}
-> +
-> +				symtab_data->d_buf = buf;
-> +				symtab_data->d_size = size;
-> +				symtab_data->d_align = 1;
-> +				symtab_data->d_type = ELF_T_SYM;
-> +
-> +				symtab->sh.sh_size += size;
-> +				symtab->changed = true;
-> +
-> +				if (t) {
-> +					shndx_data->d_buf = &sym->sec->idx;
-> +					shndx_data->d_size = sizeof(Elf32_Word);
-> +					shndx_data->d_align = 4;
-> +					shndx_data->d_type = ELF_T_WORD;
-> +
-> +					symtab_shndx->sh.sh_size += 4;
-> +					symtab_shndx->changed = true;
-> +				}
-> +
-> +				break;
-> +			}
-> +
-> +			WARN("index out of range");
->  			return -1;
->  		}
->  
-> -		shndx_data = elf_newdata(s);
-> -		if (!shndx_data) {
-> -			WARN_ELF("elf_newshndx_data");
-> +		if (!symtab_data->d_size) {
-> +			WARN("zero size data");
->  			return -1;
->  		}
->  
-> -		shndx_data->d_buf = &sym->sec->idx;
-> -		shndx_data->d_size = sizeof(Elf32_Word);
-> -		shndx_data->d_align = 4;
-> -		shndx_data->d_type = ELF_T_WORD;
-> +		if (idx * size < symtab_data->d_size)
-> +			break;
->  
-> -		symtab_shndx->sh.sh_size += 4;
-> -		symtab_shndx->changed = true;
-> +		idx -= symtab_data->d_size / size;
->  	}
->  
-> -	return first_non_local;
-> +	if (idx < 0) {
-> +		WARN("negative index");
-> +		return -1;
-> +	}
-> +
-> +	if (shndx >= SHN_UNDEF && shndx < SHN_LORESERVE) {
-> +		sym->sym.st_shndx = shndx;
-> +		if (!shndx_data)
-> +			shndx = 0;
-> +	} else {
-> +		sym->sym.st_shndx = SHN_XINDEX;
-> +		if (!shndx_data) {
-> +			WARN("no .symtab_shndx");
-> +			return -1;
-> +		}
-> +	}
-> +
-> +	if (!gelf_update_symshndx(symtab_data, shndx_data, idx, &sym->sym, shndx)) {
-> +		WARN_ELF("gelf_update_symshndx");
-> +		return -1;
-> +	}
-> +
-> +	return 0;
->  }
->  
->  static struct symbol *
->  elf_create_section_symbol(struct elf *elf, struct section *sec)
->  {
->  	struct section *symtab, *symtab_shndx;
-> -	Elf_Data *shndx_data = NULL;
-> -	struct symbol *sym;
-> -	Elf32_Word shndx;
-> +	Elf32_Word first_non_local, new;
-> +	struct symbol *sym, *old;
-> +	int size;
-> +
-> +	if (elf->ehdr.e_ident[EI_CLASS] == ELFCLASS32)
-> +		size = sizeof(Elf32_Sym);
-> +	else
-> +		size = sizeof(Elf64_Sym);
->  
->  	symtab = find_section_by_name(elf, ".symtab");
->  	if (symtab) {
->  		symtab_shndx = find_section_by_name(elf, ".symtab_shndx");
-> -		if (symtab_shndx)
-> -			shndx_data = symtab_shndx->data;
->  	} else {
->  		WARN("no .symtab");
->  		return NULL;
->  	}
->  
-> -	sym = malloc(sizeof(*sym));
-> +	sym = calloc(1, sizeof(*sym));
->  	if (!sym) {
->  		perror("malloc");
->  		return NULL;
->  	}
-> -	memset(sym, 0, sizeof(*sym));
-> -
-> -	sym->idx = elf_move_global_symbol(elf, symtab, symtab_shndx);
-> -	if (sym->idx < 0) {
-> -		WARN("elf_move_global_symbol");
-> -		return NULL;
-> -	}
->  
->  	sym->name = sec->name;
->  	sym->sec = sec;
-> @@ -707,24 +748,42 @@ elf_create_section_symbol(struct elf *elf, struct section *sec)
->  	// st_other 0
->  	// st_value 0
->  	// st_size 0
-> -	shndx = sec->idx;
-> -	if (shndx >= SHN_UNDEF && shndx < SHN_LORESERVE) {
-> -		sym->sym.st_shndx = shndx;
-> -		if (!shndx_data)
-> -			shndx = 0;
-> -	} else {
-> -		sym->sym.st_shndx = SHN_XINDEX;
-> -		if (!shndx_data) {
-> -			WARN("no .symtab_shndx");
-> +
-> +	new = symtab->sh.sh_size / size;
-> +
-> +	/*
-> +	 * Move the first global symbol, as per sh_info, into a new, higher
-> +	 * symbol index. This fees up a spot for a new local symbol.
-> +	 */
-> +	first_non_local = symtab->sh.sh_info;
-> +	old = find_symbol_by_index(elf, first_non_local);
-> +	if (old) {
-> +		old->idx = new;
-> +
-> +		hlist_del(&old->hash);
-> +		elf_hash_add(symbol, &old->hash, old->idx);
-> +
-> +		elf_dirty_reloc_sym(elf, old);
-> +
-> +		if (elf_update_symbol(elf, symtab, symtab_shndx, old)) {
-> +			WARN("elf_update_symbol move");
->  			return NULL;
->  		}
-> +
-> +		new = first_non_local;
->  	}
->  
-> -	if (!gelf_update_symshndx(symtab->data, shndx_data, sym->idx, &sym->sym, shndx)) {
-> -		WARN_ELF("gelf_update_symshndx");
-> +	sym->idx = new;
-> +	if (elf_update_symbol(elf, symtab, symtab_shndx, sym)) {
-> +		WARN("elf_update_symbol");
->  		return NULL;
->  	}
->  
-> +	/*
-> +	 * Either way, we added a LOCAL symbol.
-> +	 */
-> +	symtab->sh.sh_info += 1;
-> +
->  	elf_add_symbol(elf, sym);
->  
->  	return sym;
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index a8911b1f35aa..d06cedd9595f 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1408,6 +1408,9 @@ struct task_struct {
+ 
+ 	/* Collect coverage from softirq context: */
+ 	unsigned int			kcov_softirq;
++
++	/* Flag of if KCOV area is being written: */
++	bool				kcov_writing;
+ #endif
+ 
+ #ifdef CONFIG_MEMCG
+diff --git a/kernel/kcov.c b/kernel/kcov.c
+index b3732b210593..a595a8ad5d8a 100644
+--- a/kernel/kcov.c
++++ b/kernel/kcov.c
+@@ -165,6 +165,8 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
+ 	 */
+ 	if (!in_task() && !(in_serving_softirq() && t->kcov_softirq))
+ 		return false;
++	if (READ_ONCE(t->kcov_writing))
++		return false;
+ 	mode = READ_ONCE(t->kcov_mode);
+ 	/*
+ 	 * There is some code that runs in interrupts but for which
+@@ -201,12 +203,19 @@ void notrace __sanitizer_cov_trace_pc(void)
+ 		return;
+ 
+ 	area = t->kcov_area;
++
++	/* Prevent race from unblocked interrupt. */
++	WRITE_ONCE(t->kcov_writing, true);
++	barrier();
++
+ 	/* The first 64-bit word is the number of subsequent PCs. */
+ 	pos = READ_ONCE(area[0]) + 1;
+ 	if (likely(pos < t->kcov_size)) {
+ 		area[pos] = ip;
+ 		WRITE_ONCE(area[0], pos);
+ 	}
++	barrier();
++	WRITE_ONCE(t->kcov_writing, false);
+ }
+ EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
+ 
+@@ -230,6 +239,10 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+ 	area = (u64 *)t->kcov_area;
+ 	max_pos = t->kcov_size * sizeof(unsigned long);
+ 
++	/* Prevent race from unblocked interrupt. */
++	WRITE_ONCE(t->kcov_writing, true);
++	barrier();
++
+ 	count = READ_ONCE(area[0]);
+ 
+ 	/* Every record is KCOV_WORDS_PER_CMP 64-bit words. */
+@@ -242,6 +255,8 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+ 		area[start_index + 3] = ip;
+ 		WRITE_ONCE(area[0], count + 1);
+ 	}
++	barrier();
++	WRITE_ONCE(t->kcov_writing, false);
+ }
+ 
+ void notrace __sanitizer_cov_trace_cmp1(u8 arg1, u8 arg2)
+@@ -335,6 +350,7 @@ static void kcov_start(struct task_struct *t, struct kcov *kcov,
+ 	t->kcov_size = size;
+ 	t->kcov_area = area;
+ 	t->kcov_sequence = sequence;
++	t->kcov_writing = false;
+ 	/* See comment in check_kcov_mode(). */
+ 	barrier();
+ 	WRITE_ONCE(t->kcov_mode, mode);
+-- 
+2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YoPvDn0Nb2fBtJCs%40dev-arch.thelio-3990X.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220517210532.1506591-1-liu3101%40purdue.edu.
