@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBAABBB65SSKAMGQEYNFJ5LA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBMPKSSKAMGQEC5IWKAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C38D52C0FE
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 May 2022 19:36:09 +0200 (CEST)
-Received: by mail-oi1-x23e.google.com with SMTP id o8-20020acad708000000b00322487ea641sf1296342oig.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 May 2022 10:36:08 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1652895368; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3972452C1B7
+	for <lists+kasan-dev@lfdr.de>; Wed, 18 May 2022 20:04:34 +0200 (CEST)
+Received: by mail-lf1-x13f.google.com with SMTP id g2-20020a0565123b8200b004725c7af360sf1374040lfv.19
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 May 2022 11:04:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1652897073; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NhrZVUmu63m8XbjM/Jgrduc4K4tFiliX1892nGOSFJLXzzbLIN0g6NbbVhcy1lJWiR
-         AbVC1+r9pzx7XMD3xFQzWlMiZbrBU7bBlsYTrjWZmLyT5ps6kyIoCBFYw8kOOmtUfxy4
-         D7LNaf39Ka9Q06MQAnTtKYmmaQAtaUQPUV3sK4Ly+8BuTcPv3Vm49WN1Ah1rdmAHvKHT
-         UpOOM/ya6BneoeN3xSlEwzQMXX0kdnrZkn0efZeQfl64e+f7763Pg3jsnG2rTMTwPeKA
-         x5SF1qfb0kuEIHmB+lwD3I+umr9i/ULj6VPckrTcX7hgkaXgYIslR3qR4sYo75D0UrEH
-         1llw==
+        b=i+DrhvYK6PxR2Ae71jkoeVxTStSjPP0uv9Xi7h6m5KtRTMlOL4cmHFpOjvsgYDQ+eG
+         XJX713fDAazJJSsxlncpW51ALwTVV8DM15LwB6ssztXUsKu1xVwbxHTFLoYtHCnn3btR
+         ka5sPYz80ELTmBFt6mCtfUyicQ1migpQlX0iZt5VCT6FpNL4Wm0S+AAEzjIyKPZUJPog
+         j5ZlCAZcrOYhCypRpyGl8/Ir2b3tRqrKIU69QB/ts5IZoBr5rpcwwF9NWr3tlo8WnCCJ
+         +8xnwxaSIoDXuO6VOciDl5j82AKxe1f4SZjzaG6vmTUdAR/b07B49MK39bXm3+Ij+Fn/
+         u6Ow==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=BYSawePUPsm2cyp/UqmcDJwhrj1UYquKX/xET9AQFiI=;
-        b=fpVyHFpgscJes5xfowa0dekp2AutOwIUoq6p5dI8Gmr0jeguq9UGZQQmh0lsAI/Reo
-         LLyA5CHOvHXh+VYtoDX4YCODho2rlIOqior4EByWkBS6mPMHsZXzjsZlSkNlPHxAjkPj
-         Tj6wyvjRGK6PDPZwPs82G5C5fhn5xnwxkmlLvE8LB9wQufzyEHdR0eP8r6OD0/WDNJrs
-         WPnTgxhq9nKzJ6VSlQEyAWTXrEKHtTfS1+azTX27q9CVbf5bgBmziPK75PlHvNmET0o9
-         CabxVVfUJUTvjGA4+ChDZI22gTwR0/v2i8MOpYitPsjPAR1Vc4NduVVypDd0fnLTe3I0
-         a2mQ==
+        bh=LD6O4QqDOUOxIl7YnGPzhhKQ+qjENZeAnzs6yXJ+TbM=;
+        b=mGq7C3JO6HNU5vCHdmMdi1B08kYI5bRfh7HqshnW9U/QoI949XY0zx4P5xJtFTNSGy
+         NTNofGOIGJSY7RPfGtA4jiCVCSyv4yQ73ldmZWatyG/rsY3zQhOsq5UaQCjdTtB0pBH0
+         HdfcyurAL0icxPhYcoEZTXgi1ncaFqUcCBN2nEY4MMZzrBhM2vindwb0mSFGprc2INdC
+         g6NnTNDJgyB7j9SWnN92hgs5FQRC5XEXOOICGsyV4CNro+1eOD53XEzkrtsCzYRp/Hsw
+         UIQ0+KMP/K1iXYmOdYBWMJSgjhfUdvNqoJuKtgL6I17fZCrNLih5Df1hkymxUGoYf/hp
+         XEOA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=gcq+AsyW;
-       spf=pass (google.com: domain of jpoimboe@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=jpoimboe@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=aRY8v8BQ;
+       spf=pass (google.com: domain of jpoimboe@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jpoimboe@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=BYSawePUPsm2cyp/UqmcDJwhrj1UYquKX/xET9AQFiI=;
-        b=E1KzLxuZyIBWtSvZeSfkBsXqOE2BrOd+SunOHGYJHBXpzovzDYn5KyAzecEzOXBN/L
-         EhLl2Z4+IeaBcnZuBYs69SNTTI7BSDypT7GxBA0i+3K4Y27obzPyB4oKGM7ru61GNLeW
-         GQQAKSkiznOivLUZTN3IAWvyEbpG82e3NDcmyb00YkMBjPWFCZtzx3Gx0lFrAKs3Pob4
-         GPzXoer/T5cYsKLPC6oUF1ATyJ264WoknPObwaRW1JilU5QBz1zO6MY3ScyZ5HziPEbk
-         g5G/ymFg1+/24TK7G4DsXwNQgvv+m0/ctoTSS1kaYsKxdjxwIO3D+Sfo+lI3rcccZKQg
-         eoqA==
+        bh=LD6O4QqDOUOxIl7YnGPzhhKQ+qjENZeAnzs6yXJ+TbM=;
+        b=Yolv9sfSJNgE5eSf/C2DxoFrNjjWPlrjlI6rA9l26GyNtxN4AKsTeqqBIsqMHFwmOj
+         GmXmqHjN/OwBVyjXb982YCO+clNMBbqQnqgKzg24U0ruVFX5h/xhSk+cssvowevK/tzi
+         XXpmrd5JrX242H7AX5vrVG9hjUukLIsEoJSXUqKYDDalftkk1CKa5NVawpx4YFPaL23l
+         nDU5fkw1NJElcTLsIho+aOKWKkBG7xzUom0YakwZBdnXYgk+9nN5tdqsa3N/hRo64n8+
+         iIPSosTvS9Bv2sSaguR90HO9ElCcqwYamjKv/scEfhh8PEsCDtZIwsiEdCjR4lwTugIV
+         awrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
@@ -50,82 +50,84 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=BYSawePUPsm2cyp/UqmcDJwhrj1UYquKX/xET9AQFiI=;
-        b=We+nx0lwR6JejUMXHu92VJHSTDh0BkGIzQ2y7Lwn0ove0aaKwsMZ/HpSRHB7GjaW83
-         +0akUnioxRhz2kAEVMOjpBfWQgcnR9sXV7tb4YhVUGR5gLbqA6GlpuaHgnbvweUx/7+R
-         laaBQME0sQRgqR7lwT26O/3ENfL1QlEae+x5JkqUq7YQRPBMJ15AP38hcVwK2n5n54tH
-         TjCocW5uIKMyDmsznhEeEW7U76LX3QRs9fROrnpc3pYkfdSJ26LDXIrPLb1NDkoYwE4j
-         ksYFXEMP7p1zPbu97PFGiiXbfhOjV7Kr9ETOZB4dOS8Wi4S04sCtjuzZhgVR9pFMsbvM
-         487w==
+        bh=LD6O4QqDOUOxIl7YnGPzhhKQ+qjENZeAnzs6yXJ+TbM=;
+        b=jQW6ZxtjPjAcu9TSlGCoz7ub/DRvcBd9dYs+mWAejXWa9FQ7BsARNE6qtdr4AxK9DD
+         2847PdWv41weCiHNsO0XGMpOg5e9dVnapO9jAXtXo2kw9EhyGQjuasgq6WIsCba0jNXg
+         xlB7kkZgPrEKCskKOlL3oJRzq8Mj0CBLJtdKkRoijqHqkb7zOSCiIuQNUkCm+5wCKUhI
+         6AtPBKVs730F7FLxbfVPojfxlHxiiCFGvNyxUPcYVf2LAsSs9IWZxuuJ5jELcAAuzWrf
+         /RU2SK5qthgIBcHNkK/t9evf8rvsg0shGV2GjhIEw7Ol9TsZpSFl/eoyt7wc5VciDUh9
+         rqkg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531tV3MFVeh45OWb3tditncuXU7BR4p2yFc0zo8HFPxtVb3LlSiA
-	5pJeMjNPIFWP2cdzdF3GgkI=
-X-Google-Smtp-Source: ABdhPJwlVgGbiNJhOlVVB+q6U8BAQUE/NjQTCDLgrnN4mFS47tLkHyZII8bRSdeyf41umdAKP+dp2g==
-X-Received: by 2002:a05:6808:210a:b0:326:77be:466f with SMTP id r10-20020a056808210a00b0032677be466fmr451115oiw.184.1652895367961;
-        Wed, 18 May 2022 10:36:07 -0700 (PDT)
+X-Gm-Message-State: AOAM5332KMK0CVfswg4URZjUlSq45Y7gXjmtJ7CX931MyFc5OocvSGAO
+	hucxV48H/KZLob6QTAQDzUk=
+X-Google-Smtp-Source: ABdhPJyyoiDSnC1n2f/WaLDJl3nBJN4VtxhIrfE2aON72h1/FIZPdjEDaQ8/okO1TQeHyaqERJaPXg==
+X-Received: by 2002:a05:6512:2312:b0:472:5de2:ddf0 with SMTP id o18-20020a056512231200b004725de2ddf0mr481527lfu.134.1652897073467;
+        Wed, 18 May 2022 11:04:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:1807:b0:328:f127:fbaf with SMTP id
- bh7-20020a056808180700b00328f127fbafls118159oib.4.gmail; Wed, 18 May 2022
- 10:36:07 -0700 (PDT)
-X-Received: by 2002:a05:6808:1a20:b0:326:9023:f7b1 with SMTP id bk32-20020a0568081a2000b003269023f7b1mr399979oib.171.1652895367605;
-        Wed, 18 May 2022 10:36:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652895367; cv=none;
+Received: by 2002:a05:651c:210e:b0:250:5bd1:6dab with SMTP id
+ a14-20020a05651c210e00b002505bd16dabls81372ljq.6.gmail; Wed, 18 May 2022
+ 11:04:32 -0700 (PDT)
+X-Received: by 2002:a05:651c:542:b0:24f:51da:6d8b with SMTP id q2-20020a05651c054200b0024f51da6d8bmr348585ljp.181.1652897072581;
+        Wed, 18 May 2022 11:04:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1652897072; cv=none;
         d=google.com; s=arc-20160816;
-        b=HljBB/K6HQdvDH9XTOe8y3kU0vguxBUMoNZhaU5qUU1MgXGIgFNnQLgbcvq+QcCvwa
-         RLhg3mSe6GYX4JQnTOVYqY+qKVAT+JwNoetIZckRgTOoemV3IFsFkYE66S9YrVvyXFhy
-         V0cy5SrpgBSeC4EpF5IT0TfI19fa2k0O9N/bkWiloBpUoe9GojKUaafXJxXJvJSjHLJ9
-         mB60BhiJ8Q+19HOihjKeR/ewu3lsbRzSg9ZFTgLPFZ+TLnPQoovbh6INqOlrMQZHPTII
-         uV9z/VMblFc6ks2A+9D7l1evljFAw27i1lgBzxwxC7LuHICyYYaj4M/mLv75aVheseSl
-         YXBw==
+        b=wICyshRHST6Fa8pyef7IsA92Y9BQgCVZS6Rb0W724AmoCN32QUrhk58sRjSeYhKXGX
+         RlE1kUQbEIlsvUYIM16KC03/gBSCoBKXGKTDKrqTBr1xr3VQTY/9YPjVz1CmJMQ1/ToT
+         g1T1LDbAnV9Qs3L6uH4Md3Uql83O/aML40/2lz1VQ7mcZ9DWVH2rgbscwN8OmzZbO1m+
+         rOTSqUC1jNp78FGfeDpvQHZZiwFE6LIk1luiL98TccQymUkoCncW9/oqAZVrexIElq3D
+         UoiX8TMK19ZRgigQBYktBn85QzIuPSERzCRsJ++ipqAr8MgFMuYDqBLNoGperyCgBpjn
+         yRtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=gPoro/Lzx0t0O03C6+f+LNbsi9Gj9UgbL0r5VXsgoZQ=;
-        b=wr1vJ9TjVK3UCrsmEhw0m+Tn9ioqFloCjlQ4RXsSaz0NclocJiAXjQpGJhhRWjoA23
-         eZts+jVjL1c5uIE2SnnwP2YIez8guTijLZie2/fonT7l9clLjm7Y/vJuwBCG/1iVagZC
-         ehRWGQVfWJhr8J8mrzEkiQMdm92JKW2qRuWwz0J8/ffIYL5bkpc+sqHDkTbhW5gCONJv
-         DTcWcBHSbn66nC73Ib4eVXJGxYhvp+Tz+NFGahr0Vqhi84Fn5NhdpddHArrhrV2FJ45i
-         JzodJC45OH9Vz2aEpN9aZ2mLNusnPvEVF/7Z4zYJ3v67nKMvOHV4J1Y2P2vUV4j3zLZn
-         SwcA==
+        bh=j4NYBIJ7hPaBQPWRUlhiZtptdk3k6Y0xddcRShIJCVg=;
+        b=Dl3Mrk1vqe8n4VrCm/bcHsz7NPfxPIBW+NuME/9Ch5CXx+mYZMX/PoMIdEHj1tnor1
+         SCdHoq3xBkrCPlaKhOp6wbNijgWGUnGFvGL7+ppcXTY8249AneTJ/Ws49m2hNqCD5ZVh
+         WBaQpoRM06rZtfMVnTNly2mi3KZ7dSMVsI40RbrpiLViSoA3QcGrTxprYtrsCVK95ZPw
+         QcCXTCL380dbt8Z4xD4vLNeNf7RoDsVF5A6WhHKav/H6EJ9nEuLaX1k2tP+3ndTWecev
+         EMoCGncOc8ux5V/G8YewF7ibqx4q3fKSTnAg0+zwB9W8XLf/tevQfrOl5koNsuFFjL6i
+         5+zQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=gcq+AsyW;
-       spf=pass (google.com: domain of jpoimboe@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=jpoimboe@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=aRY8v8BQ;
+       spf=pass (google.com: domain of jpoimboe@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jpoimboe@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id fo13-20020a0568709a0d00b000ddbc266799si342396oab.2.2022.05.18.10.36.07
+Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
+        by gmr-mx.google.com with ESMTPS id i25-20020a2e8659000000b0024c7f087105si141167ljj.8.2022.05.18.11.04.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 May 2022 10:36:07 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jpoimboe@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+        Wed, 18 May 2022 11:04:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jpoimboe@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 5D05F60C81;
-	Wed, 18 May 2022 17:36:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82D27C385A9;
-	Wed, 18 May 2022 17:36:06 +0000 (UTC)
-Date: Wed, 18 May 2022 10:36:04 -0700
+	by ams.source.kernel.org (Postfix) with ESMTPS id 15FB0B82180;
+	Wed, 18 May 2022 18:04:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E90C385A9;
+	Wed, 18 May 2022 18:04:30 +0000 (UTC)
+Date: Wed, 18 May 2022 11:04:28 -0700
 From: Josh Poimboeuf <jpoimboe@kernel.org>
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev,
 	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH] objtool: Fix symbol creation
-Message-ID: <20220518173604.7gcrjjum6fo2m2ub@treble>
+Subject: Re: objtool "no non-local symbols" error with tip of tree LLVM
+Message-ID: <20220518180428.6yxf6tcqvzdvtfxb@treble>
 References: <YoK4U9RgQ9N+HhXJ@dev-arch.thelio-3990X>
  <20220516214005.GQ76023@worktop.programming.kicks-ass.net>
  <YoPAZ6JfsF0LrQNc@hirez.programming.kicks-ass.net>
  <YoPCTEYjoPqE4ZxB@hirez.programming.kicks-ass.net>
  <20220518012429.4zqzarvwsraxivux@treble>
- <20220518074152.GB10117@worktop.programming.kicks-ass.net>
+ <YoSEXii2v0ob/8db@hirez.programming.kicks-ass.net>
+ <20220518161725.2bkzavre2bg4xu72@treble>
+ <20220518172513.GH10117@worktop.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20220518074152.GB10117@worktop.programming.kicks-ass.net>
+In-Reply-To: <20220518172513.GH10117@worktop.programming.kicks-ass.net>
 X-Original-Sender: jpoimboe@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=gcq+AsyW;       spf=pass
- (google.com: domain of jpoimboe@kernel.org designates 139.178.84.217 as
+ header.i=@kernel.org header.s=k20201202 header.b=aRY8v8BQ;       spf=pass
+ (google.com: domain of jpoimboe@kernel.org designates 145.40.68.75 as
  permitted sender) smtp.mailfrom=jpoimboe@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
@@ -140,54 +142,18 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, May 18, 2022 at 09:41:52AM +0200, Peter Zijlstra wrote:
-> +static int elf_update_symbol(struct elf *elf, struct section *symtab,
-> +			     struct section *symtab_shndx, struct symbol *sym)
->  {
-> -	Elf_Data *data, *shndx_data = NULL;
-> -	Elf32_Word first_non_local;
-> -	struct symbol *sym;
-> -	Elf_Scn *s;
-> -
-> -	first_non_local = symtab->sh.sh_info;
-> -
-> -	sym = find_symbol_by_index(elf, first_non_local);
-> -	if (!sym) {
-> -		WARN("no non-local symbols !?");
-> -		return first_non_local;
-> -	}
-> +	Elf_Data *symtab_data = NULL, *shndx_data = NULL;
-> +	Elf64_Xword entsize = symtab->sh.sh_entsize;
-> +	Elf32_Word shndx = sym->sec->idx;
+On Wed, May 18, 2022 at 07:25:13PM +0200, Peter Zijlstra wrote:
+> So while writing the global symbol can always use the new data section,
+> writing the new symbol can need arbitrary iteration of the data blocks.
+> 
+> Something somewhat similar is when there's no global symbols, then the
+> new symbol needs to go in the new data block instead of the old.
+> 
+> So it all became a tangled mess and I ended up with the one generic
+> function that could do it all (which is both simpler and less code than
+> trying to deal with all the weird cases).
 
-So if it's a global UNDEF symbol then I think 'sym->sec' can be NULL and
-this blows up?
-
-> +	for (;;) {
-> +		/* get next data descriptor for the relevant sections */
-> +		symtab_data = elf_getdata(s, symtab_data);
-> +		if (t)
-> +			shndx_data = elf_getdata(t, shndx_data);
-> +
-> +		/* end-of-list */
-> +		if (!symtab_data) {
-> +			/* if @idx == 0, it's the next contiguous entry, create it */
-> +			if (!idx) {
-> +				void *buf;
-
-Could just do the "index out of range warning" here to reduce the
-indentation level.
-
-> +	/* setup extended section index magic and write the symbol */
-> +	if (shndx >= SHN_UNDEF && shndx < SHN_LORESERVE) {
-
-> +		sym->sym.st_shndx = shndx;
-> +		if (!shndx_data)
-> +			shndx = 0;
-
-I think this '0' is SHN_UNDEF?
-
-Also shouldn't 'sym->sym.st_shndx' get the same value?
+Makes sense, and matches my post-bike-ride insights.  Thanks :-)
 
 -- 
 Josh
@@ -195,4 +161,4 @@ Josh
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220518173604.7gcrjjum6fo2m2ub%40treble.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220518180428.6yxf6tcqvzdvtfxb%40treble.
