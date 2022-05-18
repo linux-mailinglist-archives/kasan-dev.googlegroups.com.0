@@ -1,123 +1,127 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB3V6SKKAMGQEGXS4HHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBRF7SKKAMGQEQVBN4PI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb38.google.com (mail-yb1-xb38.google.com [IPv6:2607:f8b0:4864:20::b38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302A852B330
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 May 2022 09:25:36 +0200 (CEST)
-Received: by mail-yb1-xb38.google.com with SMTP id r206-20020a2576d7000000b0064d82e5b692sf1155192ybc.11
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 May 2022 00:25:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1652858735; cv=pass;
+Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7790152B332
+	for <lists+kasan-dev@lfdr.de>; Wed, 18 May 2022 09:27:01 +0200 (CEST)
+Received: by mail-lf1-x13e.google.com with SMTP id x36-20020a056512132400b0044b07b24746sf706996lfu.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 May 2022 00:27:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1652858821; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gousVrjur8m3BUGulfXlhZA1XshJbxmNN8pKSARKd+/Hi60+u1zuZWaxkMR4FS8+F1
-         eWznnBd08ZJjPfcszE6pxpM6ZKB+v7ngxjnBwznhlFRg7k9GsRMqg8I7YcnwryLGUOQV
-         bEHQbh6K5kVhr6pPBOHqvPYYrn2zYl9JFEVcz+F+m01Wov7VksD2q9JIwkrS4dQRbNpr
-         WJGFnpgMK/cO1FvbLPpSDOVQ4pu6W+GOwKGsHtoWBZVs2TFE5sqWHKwov0Zjd3knuHYM
-         7NA6kLQRCqQFMyAQIob1HjzHxNmLjoYhPtJFRp3o2HuA61JGLt+q1/C/hZjCVy2cmcPt
-         v6oA==
+        b=y/A2KP9tq+Ajut6u6OwmVAsiP2YOJ7L7z8pJzkDJLXkKt6bPjaz4um4AW9MizGJbgj
+         wA3yaeoO6oaG2oNWrMKPNwaBuA6PTSkAs/tueu0kdYd6oUjj6pO4zfDeWXoIbMq8pTdQ
+         6JgApZRZblK31z9KswgCYoUCdeA630kHp4MZpyAAbGiN6yqIgyJPlcg9AMtWg9qgo263
+         RQ25Cc0K+NtIySdyAhuBb+Ue/TBoOZFSOULJDDgC+PK+yPEqos+nIMndGOirTXUCkhwb
+         TuS6gU+gGogJZcReC1+gQmFjrOCb2illBsAxAsFZf49T0qYTzp1/9hFF1sY6I525syJt
+         iYzg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=J/unwTaDs9LSVCG58cCVKYf45tyahJKUt875pl84+Ds=;
-        b=i9ehq4tZiFxJAy/tCr930ErZl9gfjh8Do4pYDINS/f3AMQ/Y37OFr67UI08RucHC9f
-         ssaB09HmjMG8C85Jl/YGK0CzaGqloFV78rnCPpfOk0AbJWYmGAIHzIEh6we3eDQIPHoG
-         kiMGXCx/SSL2kas4VJ1+cZhWq1kmyc8OUNhO5PpXv4ZUOf5sgCPzCD2y1J5J44XZXkKk
-         znI5oNLMyixBJr7n7UddqPKL/+ruyRUnnKjtLVrG64hLWsbz85nocMz76UzxQXT5Iqow
-         OY0fgHhVrryVT/dHrPbVaejTFBli+HybnwNRc3OP/uzcvCVUrfxhBjA7SuiEMXmVjJfr
-         fbgw==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:date:message-id:from
+         :references:cc:to:subject:sender:dkim-signature;
+        bh=pxWRuvLB9cx+9tlRAlFcv1zcnBZ8CIpQ+lZ3tP+8Oew=;
+        b=HYIJ2JM5bXRF0jREYOJQN4GIJ7eYsEVIcDFe6gWe5PGLrKs/Zvik5kvb1fZjNUxbuF
+         CfJGwfoAo9eAEDdm4HIUU6EM3oweIoH9P13o1lvtUj1DSq2AXhYcNFWGcEd/sEi0D5qa
+         kEQapMLJm+vL2ZA6TcJHgFUvnu0AZizXft8t8PHa6S9ACYxWbqZ5rmQaz8QyZ68iOGq5
+         nxK4/pnDUATgI/pukCYzt0XVOdXbznOMBxS+KwDKqiRsmxmsi1/2pfWyXVXbAlLzyqg3
+         5WfrhJ+kD/XJsMw3fryQKj4F46Xb3VAVG0ib/rCbqpcDpw6LXLPkpDjgQ1TY8MmVteoz
+         FOyw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=eVrGmjEL;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=ZtfLMMXk;
+       spf=pass (google.com: domain of liu.yun@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=liu.yun@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:subject:to:cc:references:from:message-id:date:mime-version
+         :in-reply-to:content-language:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=J/unwTaDs9LSVCG58cCVKYf45tyahJKUt875pl84+Ds=;
-        b=lltdonnm92ZcWwAQ+JDfi7rfE87C6mCtsiYS2AgP7is3mu6JAwmhKorexIHi76Xg+/
-         nLluX2ebJjilOupdpoCUM/k/z2m0i8r8pRvlxWHLmL1CesK+P4hx1ieSAJiwTAXhQ7FY
-         nHf3OTlma4qsCowUtz6ku5XkpofwqTZOyDrJU/X0+pWB13dRSl/z8lYBHRtHA3YpdkK0
-         DserURLCKxMRqis7XupaGqoa3GCaSeO35jvH3oFkptCJ1INbV1h2lv5vwVGbzG0hsGuz
-         dd/ShWuCQYT0ECUybiUVlyuABr9em149eUn7SNopcx8l6oKS5+lu9olhfRYKJ4hqsDBF
-         xUnw==
+        bh=pxWRuvLB9cx+9tlRAlFcv1zcnBZ8CIpQ+lZ3tP+8Oew=;
+        b=S7JCZVXvejJpvx807UTzBQrR645Q7e5NeVFvyQHn7OckVCY58oiY9yzFuJGXbNhfTb
+         Q9AUgmUv1ayrC3amqWI3PrzLtblcmzxOdki1iu+O8Ep6xzIZhC1M4Qkxt7NESNi0AE16
+         rHlubpvQiL+hk7hM8UeqL1koNo4jv3SYtfDBoxsAcaEoXLZYReJ7RH5qabNxJNGpQMxH
+         CGwsE8TStd1p3wY7VYiB47CisY6pMbnZodxE92oatyUZycwrJYUgbLO6Ym4PizMotzyP
+         yC1Vdit1R52my6xSqf2NJXwHyd/l1uesPaBg8cTBJJQWiTzhUXk8ar/y3Ct5/lSwTZ6A
+         HL4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:subject:to:cc:references:from:message-id
+         :date:mime-version:in-reply-to:content-language
+         :content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=J/unwTaDs9LSVCG58cCVKYf45tyahJKUt875pl84+Ds=;
-        b=hS6ohTKPluAwSmpU0BtNs0sk5eFI/09DEArnja+wizyi8SUAah6NGWmFnXB5DXL4jp
-         lxQuMht7vuFyOlc9SNL+NJFIQOJ8WA0cLTCevk8Exi20tyYRasw51vDO5Sv/lTQGHIHm
-         CVBiWKYGsNuHcgN0nlwmD/iX1fuEeEKJkYOx7CgfQ/jj/brEGDycajt6gJLvCWhVvoE0
-         1+iXcFg8HpRN3k8nSsqtK6l6sFsiImyGLLjnHV6almm87fgkPDt8xfMI00E7wiVJyKMq
-         SZbqsMfI9KL1iILd/rLBXDrcge//5Le/98Umlnc8ETuh/YL95cvHWcCku4XdThWYmMMn
-         pyeA==
-X-Gm-Message-State: AOAM533JMJax+oCWkQOzBkTy7YA2NEHOWZH9zkm8vb+oatpzd89Y/X3J
-	tLkVt7+atyeNq0GocHJFIhg=
-X-Google-Smtp-Source: ABdhPJwvlGk1bMgwGmRQHMPaDjlDzqNfD9Qiqvd7Txlj2Vbm73Ygb+UijLPRFz4gjykhqPvg+5kUyA==
-X-Received: by 2002:a25:ab05:0:b0:64d:bc6d:b06d with SMTP id u5-20020a25ab05000000b0064dbc6db06dmr11742252ybi.76.1652858735074;
-        Wed, 18 May 2022 00:25:35 -0700 (PDT)
+        bh=pxWRuvLB9cx+9tlRAlFcv1zcnBZ8CIpQ+lZ3tP+8Oew=;
+        b=u5Ved3L05TGOK84zdSOpNkOm7Sv7qkE/9xxds+Ne2wO7cN2kJuIXTEZPpx1zx2wfBR
+         ak46zWVbB8pFOTT/mi46gTLpgAwtoR1GNIYI2J6se9taF4cw6I0sBi+y/BBRhBZqZMDH
+         ah2bI2WTQJ6MNCkSALCd9cpbk1RZ73rEAAXJU2c/cm3yyBb2Lzx/K366MOnyw4UairUt
+         sjyEJXFfDRUHsQNpP2tavCcWQUXTecpShT2vUHJMWrm9UDlfJvYX/1hguO6Ns0eKHLdD
+         cB62K9BrMiA7Z3lbhp9wwtrBtDGMsBhj1DFfLzKp9kvZvRDp/H505M/ep1adBytZtPSG
+         kAXA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530ZpNBQKJsjR/of0Ba0ug6GPoWV9jDIBpjBz13h+UgVmxmejRn2
+	InqPqzWMG5DRotPPLXRLxgA=
+X-Google-Smtp-Source: ABdhPJwOLAkgCac1uXonfkg1ZmZ18KtiNIJevjvEPpJxKH1lSHVML8csjUuY0/v2VM5rmGLB/Ctt4Q==
+X-Received: by 2002:a2e:b0f7:0:b0:253:c5da:2357 with SMTP id h23-20020a2eb0f7000000b00253c5da2357mr1747588ljl.395.1652858820622;
+        Wed, 18 May 2022 00:27:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:4409:0:b0:64d:efa3:4f55 with SMTP id r9-20020a254409000000b0064defa34f55ls3166080yba.9.gmail;
- Wed, 18 May 2022 00:25:34 -0700 (PDT)
-X-Received: by 2002:a25:2483:0:b0:64e:2389:424b with SMTP id k125-20020a252483000000b0064e2389424bmr1823907ybk.521.1652858734395;
-        Wed, 18 May 2022 00:25:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652858734; cv=none;
+Received: by 2002:a05:6512:3b0e:b0:477:a45c:ee09 with SMTP id
+ f14-20020a0565123b0e00b00477a45cee09ls3459620lfv.3.gmail; Wed, 18 May 2022
+ 00:26:59 -0700 (PDT)
+X-Received: by 2002:a05:6512:3d91:b0:472:5f7a:28a7 with SMTP id k17-20020a0565123d9100b004725f7a28a7mr19363955lfv.429.1652858819794;
+        Wed, 18 May 2022 00:26:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1652858819; cv=none;
         d=google.com; s=arc-20160816;
-        b=UW2HiBVoG6bftvH0OETth2rOjK2icmcN036DwqzsQpxSRmc9a4cYSUWK+CnXvjPEwE
-         bQC+Rlo5FafKfa8l4oXGQIGidT9ogS0KJRGh8mBrwSsl2wQclvW+K+ABYwrIMAx9D3U1
-         qXxo3XeoK4x7PkOpuwhY7ygL5nRc/XX1kAe3OOlA6wkTvL+2JtqazYTgSNqH4A3ThrmE
-         1cMTVi0keB42cPz2bAh2nnPay+2NZydkEKsfj9PyJjV6DLpvCMHSgDPx1typaekWhqAZ
-         tYiVb99CPlYmChxja/QMwBsnaXGcaKXVFVYUeoicIrF7GD/wGly2MBH3O5utFGmTaxWf
-         3D/w==
+        b=usFqvpuV5tX5JFLKRmoX1GIIXroyfZHhYnhrd0DVG1NGWRAaFATFwOwxa7eLILCbM8
+         f+e6RcLvjIPrJJsr+Dmw/3o9OK4AV7trRKAFHPng4xSFD/t/ttbf0d/sHbkrPeBZXYlZ
+         en5mgZ2ceBRfFPPOfnyxxRRtPpf+ER97tzFbBKOwxjYvo5qmuoqvBdizS8iDAxwtF1gD
+         SRaXmydaZDV8+RJc3nAxvJqn8o7n10MiG/OCZWvfqCHDJV/oqdsuSTeJiVz1+07I/rag
+         NjRPXsLio4WMZFk6PCv/81/YaRTk86U2ktT3T/8+w4q71DL2eeMVN3KALyBz2L+UQdgT
+         9VFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=2qE8WnR47trg0BtZ98Z7WOsDD1VTZmk3mutfVHzqGE8=;
-        b=UB9+1A7LasmdMAZORWSmACDMe+Xtqg7G/5Tyv5qKxZQr4fOhflcpFwxFF7oay1v2Qq
-         1HPHeVsdXO3vl5AZ1rBTwzX4oVe9xeFZyenJKI1iDZfbrEFtJfIjl/AGHN0Oqmeq+YXx
-         xzV/B2ls0V7lSfGjxOx/OXLy8I8AsaGmAm0mJyCLFAZbFS4Ubf3dNneQwHIXMiTv/5VH
-         2awy6nyFGcyQXmUm862kE12yrL4sGcTRKxgQdfHJK8X7v7t8VKatjz4U4/lhe3cvhzum
-         2iGRcN47UeIKuOxIHJ2XOuGL/4o3bLlzyL7NhsKdzm5ewhCNBSYxMsGX2Ne0jt+95L6m
-         8RmA==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :date:message-id:from:references:cc:to:dkim-signature:subject;
+        bh=ZqfBdkcmlkwWYIyfRhtrFzKDZTsuUSEPNTrzwyKaxFg=;
+        b=gCI5NIPnVKlP/dh3UeL+r0LK8/Sc3ojymk4puskUaqzvdCM+gKHcUD64xLdeLiI/gC
+         igwekRzWI9jd10LSox8ZHDtFaGnwf8EZ2yghZU+j2+8nZ/AzK89mHY9UJrkdBAUtpnAn
+         2a5nW1NR2lSdQvMI/cvJAEDsLiFsqixrdClDzqq/Fafa61xTxiBryTalwYx7t5of59ce
+         36a8uu1ZEYGb8TM8fkhj8Ma4giDlXeP+HjQoRnnL0e5hcztbJrK5jiG2PhB/5mw2jN+i
+         sV4wxhnlKmvKnAkqpnlh66dOIDZfAWHvNhqgluQi2FTlYtvpBIpD7zX7OsuxRA1snl8I
+         UZ6Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=eVrGmjEL;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com. [2607:f8b0:4864:20::b2c])
-        by gmr-mx.google.com with ESMTPS id i12-20020a056902128c00b00634581eb904si81176ybu.2.2022.05.18.00.25.34
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=ZtfLMMXk;
+       spf=pass (google.com: domain of liu.yun@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=liu.yun@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out0.migadu.com (out0.migadu.com. [94.23.1.103])
+        by gmr-mx.google.com with ESMTPS id c5-20020a056512238500b00473a659879csi53680lfv.13.2022.05.18.00.26.59
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 May 2022 00:25:34 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) client-ip=2607:f8b0:4864:20::b2c;
-Received: by mail-yb1-xb2c.google.com with SMTP id o80so2250197ybg.1
-        for <kasan-dev@googlegroups.com>; Wed, 18 May 2022 00:25:34 -0700 (PDT)
-X-Received: by 2002:a5b:691:0:b0:64d:ab44:f12e with SMTP id
- j17-20020a5b0691000000b0064dab44f12emr13404828ybq.533.1652858733954; Wed, 18
- May 2022 00:25:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220518010319.4161482-1-liu.yun@linux.dev>
-In-Reply-To: <20220518010319.4161482-1-liu.yun@linux.dev>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 18 May 2022 09:24:57 +0200
-Message-ID: <CANpmjNMSnvKVYOwof1WSxVX+qRsKUK3QPjPuWk5KdNjwMkEfPQ@mail.gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 18 May 2022 00:26:59 -0700 (PDT)
+Received-SPF: pass (google.com: domain of liu.yun@linux.dev designates 94.23.1.103 as permitted sender) client-ip=94.23.1.103;
 Subject: Re: [PATCH v3] mm/kfence: print disabling or re-enabling message
-To: Jackie Liu <liu.yun@linux.dev>
-Cc: glider@google.com, dvyukov@google.com, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+To: Marco Elver <elver@google.com>
+Cc: glider@google.com, dvyukov@google.com, kasan-dev@googlegroups.com,
+ linux-mm@kvack.org
+References: <20220518010319.4161482-1-liu.yun@linux.dev>
+ <CANpmjNMSnvKVYOwof1WSxVX+qRsKUK3QPjPuWk5KdNjwMkEfPQ@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jackie Liu <liu.yun@linux.dev>
+Message-ID: <baee3714-65fa-c768-83ff-f1448323dfc5@linux.dev>
+Date: Wed, 18 May 2022 15:26:48 +0800
+MIME-Version: 1.0
+In-Reply-To: <CANpmjNMSnvKVYOwof1WSxVX+qRsKUK3QPjPuWk5KdNjwMkEfPQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
+X-Original-Sender: liu.yun@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=eVrGmjEL;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@linux.dev header.s=key1 header.b=ZtfLMMXk;       spf=pass
+ (google.com: domain of liu.yun@linux.dev designates 94.23.1.103 as permitted
+ sender) smtp.mailfrom=liu.yun@linux.dev;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=linux.dev
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,63 +134,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 18 May 2022 at 03:03, Jackie Liu <liu.yun@linux.dev> wrote:
->
-> From: Jackie Liu <liuyun01@kylinos.cn>
->
-> By printing information, we can friendly prompt the status change
-> information of kfence by dmesg and record by syslog.
->
-> Co-developed-by: Marco Elver <elver@google.com>
-> Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
-> ---
->  v1->v2:
->    fixup by Marco Elver <elver@google.com>
->  v2->v3:
->    write kfence_enabled=false only true before
->
->  mm/kfence/core.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 11a954763be9..41840b8d9cb3 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -67,8 +67,13 @@ static int param_set_sample_interval(const char *val, const struct kernel_param
->         if (ret < 0)
->                 return ret;
->
-> -       if (!num) /* Using 0 to indicate KFENCE is disabled. */
-> -               WRITE_ONCE(kfence_enabled, false);
-> +       /* Using 0 to indicate KFENCE is disabled. */
-> +       if (!num) {
-> +               if (READ_ONCE(kfence_enabled)) {
 
-Now you could just write
 
-  if (!num && READ_ONCE(kfence_enabled)) {
-    ....
+=E5=9C=A8 2022/5/18 =E4=B8=8B=E5=8D=883:24, Marco Elver =E5=86=99=E9=81=93:
+> On Wed, 18 May 2022 at 03:03, Jackie Liu <liu.yun@linux.dev> wrote:
+>>
+>> From: Jackie Liu <liuyun01@kylinos.cn>
+>>
+>> By printing information, we can friendly prompt the status change
+>> information of kfence by dmesg and record by syslog.
+>>
+>> Co-developed-by: Marco Elver <elver@google.com>
+>> Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
+>> ---
+>>   v1->v2:
+>>     fixup by Marco Elver <elver@google.com>
+>>   v2->v3:
+>>     write kfence_enabled=3Dfalse only true before
+>>
+>>   mm/kfence/core.c | 10 ++++++++--
+>>   1 file changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+>> index 11a954763be9..41840b8d9cb3 100644
+>> --- a/mm/kfence/core.c
+>> +++ b/mm/kfence/core.c
+>> @@ -67,8 +67,13 @@ static int param_set_sample_interval(const char *val,=
+ const struct kernel_param
+>>          if (ret < 0)
+>>                  return ret;
+>>
+>> -       if (!num) /* Using 0 to indicate KFENCE is disabled. */
+>> -               WRITE_ONCE(kfence_enabled, false);
+>> +       /* Using 0 to indicate KFENCE is disabled. */
+>> +       if (!num) {
+>> +               if (READ_ONCE(kfence_enabled)) {
+>=20
+> Now you could just write
+>=20
+>    if (!num && READ_ONCE(kfence_enabled)) {
 
-> +                       pr_info("disabled\n");
-> +                       WRITE_ONCE(kfence_enabled, false);
-> +               }
-> +       }
->
->         *((unsigned long *)kp->arg) = num;
->
-> @@ -874,6 +879,7 @@ static int kfence_enable_late(void)
->
->         WRITE_ONCE(kfence_enabled, true);
->         queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
-> +       pr_info("re-enabled\n");
->         return 0;
->  }
->
-> --
-> 2.25.1
->
+Sure.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMSnvKVYOwof1WSxVX%2BqRsKUK3QPjPuWk5KdNjwMkEfPQ%40mail.gmail.com.
+>      ....
+>=20
+>> +                       pr_info("disabled\n");
+>> +                       WRITE_ONCE(kfence_enabled, false);
+>> +               }
+>> +       }
+>>
+>>          *((unsigned long *)kp->arg) =3D num;
+>>
+>> @@ -874,6 +879,7 @@ static int kfence_enable_late(void)
+>>
+>>          WRITE_ONCE(kfence_enabled, true);
+>>          queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
+>> +       pr_info("re-enabled\n");
+>>          return 0;
+>>   }
+>>
+>> --
+>> 2.25.1
+>>
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/baee3714-65fa-c768-83ff-f1448323dfc5%40linux.dev.
