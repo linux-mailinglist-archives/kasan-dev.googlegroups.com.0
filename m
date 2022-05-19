@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC6OLHHDVUOBBEMITGKAMGQE2HU34LY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC6OLHHDVUOBBFEITGKAMGQEHBEXFHQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151EB52D3C5
-	for <lists+kasan-dev@lfdr.de>; Thu, 19 May 2022 15:20:18 +0200 (CEST)
-Received: by mail-lf1-x13c.google.com with SMTP id k15-20020a192d0f000000b004743fcaf464sf2658989lfj.17
-        for <lists+kasan-dev@lfdr.de>; Thu, 19 May 2022 06:20:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1652966417; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3842052D3C7
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 May 2022 15:20:21 +0200 (CEST)
+Received: by mail-lf1-x138.google.com with SMTP id u13-20020a05651206cd00b00477c7503103sf1075298lff.15
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 May 2022 06:20:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1652966420; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Xj5m5kZYYTRI4IBy9UcS9efJqIKNo/332LFlY2EqezeUSmIdsMq5Vs9g6URm2t9/RL
-         my6igZI/HA0q74ZxLOl8SnM0KyZ+W7hjYsZu1hmCSILByds+Ael59hSZ/T/tsrnx/zTl
-         51kcf0ehIvly0UVT0mDsghcD2NYh966gmDTzVIfRarlUNU2jPudiY510ULu1nNQ2kOz3
-         UWtOBml73njRhX5gupLOOiZ8y7xMIv5Iz95RXUDBeqpyaCib5jfpHud7KUYQIWOc9+RW
-         rAA3b7NneD74GQqKwm4L4nHslRIoYdMrCzchC1sX4E9BYMQOO//CV4aW38jIl8hi0c5M
-         q5uQ==
+        b=BOXTVNdn6j2kD8lsNqVGZgT0ffrLlnk1KGmIwm/sOph1JlDjwSw9QTdocnTxWQXoyw
+         sKJbNyQRJ2Ah6Ys/4z6opFm3ShnQQt/xP9PsypS59qVii8wVCYWK+M6xsVx8y1qpfL/2
+         AxU6OljXJ+6VHyeew4mz4SDaAVpCTBmYZS80V0pAvzR/rpNbPqWpANHQPKHrg7PY6ZGY
+         6B+38czEDfAEkDtCN4tFlGeyzvkqYHtBrPHghas9NN6+BkAfSYBSW54v/I59A2W0U0Xk
+         fqzVLUiuvl0Y3lkBtliKc7XoSZn183EzEP0H3aSMOCoO+R477SQzYO5Z6V/DRQSKEwTt
+         BNjA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=wY8ks1WXvNvoYieTRYPV0bLn1jthZlzGbU/CYF84tNY=;
-        b=WOcltze2zDuQp+p6lYnvfW9i2rdEW39hTzm7XI0tul3OxbbV+Mwv1RxuMHXM6Iaqzh
-         PRLSk79KgNbKlit1AuPxofKHLLuU6po0IMs56O2NoyOGlmoEqOpyechju2v8bDoo9pHt
-         eZO5yErqlH0R0nQziRfmF4VyB+VG2YfQZPsF9C8L2P5COexELWhn5EU00vSy6WEZsFHU
-         vawstDenQr+zkfeZPtItuQ1C0gGD1UOctn3XPqVK+f/KzH8IHcj0HuS2m0uNBYBZqw2d
-         CLuDuVgXBRh2wu+Mc4qGn8/sYXYjI8ut+KEIDHL5+WGN8OQFzixozFzGXq7K0UbzSgV9
-         kY0g==
+        bh=UbLQ8AA/lQuiS7iVNr1w1q1PXNgyfVozCwJKtXYXfog=;
+        b=oKHR+5o7u3fl+wKIIfZkhHKeSbTalE0Et+YKNdcXafny1Nei4AiCfa4T8xwm1RGjLm
+         RG2U03BMjDUrAHLnazUiAyoFHQ07HoWqVKTrkp21aaX5Vv526Ey7lC8lmFQnrK7zDHPL
+         dlEap/FRxB4haVsQfxWS8hvK7X/FMhya3sIbk1Jztjz3Vt599r2cluSkiXMXBcc9LfQC
+         elXxv2GRXFZCKDACiSelNb/keR1IBy2wO/LEh5r2wkErKGvBOv0/oCBzv8R0wsjJ+9zf
+         Kx9ei//IQVRYWglTVeGy8IPkQox/D4nbNqP8fMtw6Ote967lucEsXIaNQqpz5Pbnabla
+         WHBA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=bq6rWevK;
-       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::42f as permitted sender) smtp.mailfrom=davidgow@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=VpEic86E;
+       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::434 as permitted sender) smtp.mailfrom=davidgow@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wY8ks1WXvNvoYieTRYPV0bLn1jthZlzGbU/CYF84tNY=;
-        b=YsPYl1KhFUAcVN2S2lsk9GCYPBej1u4ikkW4ZcSg2RUvYVCQZXDUZm5r+JNvsA3DNR
-         1G/aMLdV6FW/H7YkXPMi1+EIOHlBgkM8+DXWTkaxn1SJjWgjgnBssAPIc5UxifMfY/eY
-         tDdyrxYTFSngRS3H5jfFFGR6k5q9CbwmDadNdO2xvTV7SMYlJrPNiZQSc/3To6rxqiQC
-         Bd52Gr0Koj8zf7MOVx8pLFrLfvHMapeFUQZQpfqiy0oxLHzdG8GwUbktxVCPSukGvaWR
-         Dh3vjJe1pZLCbQLHF8k3iZMJqdnSyGgt0k3KUR3lsMbx75v6LvHcDw0u6w3ieXws4oc7
-         styg==
+        bh=UbLQ8AA/lQuiS7iVNr1w1q1PXNgyfVozCwJKtXYXfog=;
+        b=IVBDVrYh74jZSGF50Sk0MVl88thcnGw36AcjoHLUR1/Cg9LyliPLn071OrXZCMqwMx
+         t0FDoJ5meT7hPBIqOsAkf3Dq3kM/p+b4XSqSY/k7w6WViJ3hvCEZlDgYwTc9Z+pL8Ww/
+         EdMAvuwoCxDrC0yVuNkhDxVIS02i8IOkU+nuez+Y0vKLLV0V8joSarHOPs56RwRJzEeC
+         PCj2jW/SKSuZkie4OqP+xwUqkOaTv0DuasHcXS7ta01dIvH9aotsG11Q+4yLyaQ0w3qm
+         1EIB4mFi9aqgDj2THrNWUVhACKn2B0eS/k6h5pb2lnVffsTz6TOgyX+mwqVYBD0257mB
+         iZtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,76 +49,75 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=wY8ks1WXvNvoYieTRYPV0bLn1jthZlzGbU/CYF84tNY=;
-        b=sZFUkqyh1Fy4PasfMsOeOBLn2N2BxPDYGHXpSqqHkISQxzItU2ym0mTqktF6DRPS1g
-         ou5vNlmPP4AvekZw5eSasRA590XDv0IIfSDzloEjoh49dkVNy456BxNg9D/Dwaz4sy3a
-         5rThWHf9PWGN8sjCoSiZd7XJAzXguqAmBPY+2/CCLqjj7m6U10vvyzda5K5TnFLN1/NG
-         88k8IvPUxBlpv/Z1qmgjiiJmmLtohYsdQoubVn836T+GXVH9OcpI5rcUCxJPkezzKiq+
-         LwEGgkshz07RTzVmFDOk6ku7NazII/IMvMnKoWDK/3ShM/AQc5vxVfXeJ+oClw9s9Une
-         RyBg==
-X-Gm-Message-State: AOAM533dW4Ys+nsewTPfTVGHZR2y3EK/oIlHuBwpCyGUbyJ3IP3pDrjO
-	giitL3UPUHqhYNfj8AoKYxs=
-X-Google-Smtp-Source: ABdhPJyju5LkbGbCUzlAIqEcick+JgqG+2SGo2dwGcz+Ql741JaXYSokgHmXs/mj9lZI55jdneWuCQ==
-X-Received: by 2002:a05:6512:2607:b0:477:96ea:d387 with SMTP id bt7-20020a056512260700b0047796ead387mr3466975lfb.79.1652966417316;
-        Thu, 19 May 2022 06:20:17 -0700 (PDT)
+        bh=UbLQ8AA/lQuiS7iVNr1w1q1PXNgyfVozCwJKtXYXfog=;
+        b=JbYiBEZa0JXWGbtlN4TWamN44Yw+CFGRRmJ4YMZvypMHXOL0MN9GKa7Z8BX6GMENTL
+         FRThtyCPonV0DBtoWQ19G1hSpiJZDCRsOC54uFZfS1TDr4dt5/Xa7QdjB49tUAiHSQwe
+         EEm8wxtQC5g5z3IntaeN20VsE5hZwE2KCqlsqz7eOd+RR0lW+Al8Yq7cMNNijhMHwcuM
+         2AlVRTAVUEERWavcwR9UgEKJ4ApkCAP5fgLbUpuG5i8g/9h8yCBgmVI1nziZEkjdpb/q
+         QSRRbVQQrFSUtJBbx15qH5MNFtZWonQxZ3WkMKAUTvojUny/wRgCheRaFznoylOcBrRl
+         3TCA==
+X-Gm-Message-State: AOAM532+PO18AcZzuMPWSr8X9bE5A2bsITzYuEBdj9CzVCkIIgFVw2wo
+	r7fJBc+lFX5sDxC42dVNhTs=
+X-Google-Smtp-Source: ABdhPJxyiDcQG7HKpDyvGsC1q61Fo8lA/kX/Z0T84Okww/UVQQIaKHYD4qaCTB7PmfhK0WPeMmwNnA==
+X-Received: by 2002:a05:6512:280e:b0:473:a0c9:5bdf with SMTP id cf14-20020a056512280e00b00473a0c95bdfmr3300620lfb.337.1652966420654;
+        Thu, 19 May 2022 06:20:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
 Received: by 2002:a05:651c:210e:b0:250:5bd1:6dab with SMTP id
- a14-20020a05651c210e00b002505bd16dabls509662ljq.6.gmail; Thu, 19 May 2022
- 06:20:15 -0700 (PDT)
-X-Received: by 2002:a2e:885a:0:b0:253:cd9d:9a78 with SMTP id z26-20020a2e885a000000b00253cd9d9a78mr2746677ljj.186.1652966415784;
-        Thu, 19 May 2022 06:20:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652966415; cv=none;
+ a14-20020a05651c210e00b002505bd16dabls509703ljq.6.gmail; Thu, 19 May 2022
+ 06:20:19 -0700 (PDT)
+X-Received: by 2002:a2e:7006:0:b0:253:cda3:1e72 with SMTP id l6-20020a2e7006000000b00253cda31e72mr2746782ljc.161.1652966419387;
+        Thu, 19 May 2022 06:20:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1652966419; cv=none;
         d=google.com; s=arc-20160816;
-        b=skGJwiIMh8FbMVsg23pmgofM1e9XXSQrF8hRoPnh3OEOD1zfoyTu8GQm2vjsJiXgmS
-         f5DaBs51HaG7987jLjHWgkzqsdSuNk4x5B/FhWKab0WhzsXP//VpTL6ZmIGjN1JafhT7
-         dZ9uGutqu/V57t2ZkTqC0wbcDL/7tjydBy31h2U0UDXCeNGb0TnRUqX+S7JiewXCZ/0H
-         Jj/0jhIqHA7pt+iajE/VJl8uxqW8LpNpF4NauVMVC7X2VIPLymMK8fusyDNQTpniwNEn
-         OQxDtOKQc4TMAlkRItatLkcj7hlVv+Es3OjQYHM5P/StHPRlkx5qkSNJIsd/WIsP+f1U
-         SsHg==
+        b=vqLRY6S+2ghfRXoYUhSK3NPSv/7eQnZRzVO7wdthcs/13GbRPCZrF0MFkHa9bPfM3L
+         GZbtOBvs+L+RA/nKUVnY1QPrLP55FSlqzAVGDkzTAXElE+j+QoSnnUz3gts1HR9gBC8B
+         LV0vYy2bIXlHnr3xj/wIwpgcrDE1fQxMw4ehi09mhdtov0bYiWSHihYRTSdLXggzt5dV
+         vv4nIKyDGVCxtzF5+mv1DWLPgu90LlFBhp/JOWbAXroRVNyo1pTUuLqoq1YfF4dQlxI1
+         mVaZRxS8WdhJqZPUrtYj3z7Hw9dER12ooXe4gOyfbyvzVlQsr1vwStsqL+N/g0n+3Zs8
+         /MJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=R3VSqVVhWPxWKga+7qn+Fyy7FUIxPT1uyCPS1Lnr7bI=;
-        b=SjkefcMDpt1fClM3t3p2z1oT1kojLNg/OdEjH02nyaWGqy7QFn1FbmvIdItp+PLSis
-         uEA7czNBTlJxUZb7NN7lT9py9d57eCbCc3T5s0yXP5AjomRQdcGqoea8RI2KySFeoHo6
-         Q98DfRdkzm+4hUAbe7mbSuD/zvKJfcKA+ARkmdK7EzXHdZA0GeLVCHkHUiqJqKsx8q4D
-         3QOTRnom59OBnqC1/G5SVl4ON9AWUemtJKTFZ4bzdxom77umIyiUyLCE8btrzwpTTflf
-         XTDHGNq13GLwMitJAMC7SA3f/3mUS1M0f60CPKFxQhNWNLSbPNn6YGOl87H8Fvylrb7K
-         xFdA==
+        bh=fD8qm5kUtQpX1BSPLXADK2KMPDY/21OwEg9mplFq9D8=;
+        b=hhGWFSLiNKaJO7/hptu5Lfc2Wek/+EttB4ssDLa7CQvmBrF1VymHQRQh2/v8upGzME
+         1xd+O2i/hhGlWe3GowwZErfLFkToRqZm2H/Fc30iwYc3Xr2SABfcMmg2iVxWWDYhYwWD
+         EWW2So4hKelxjkYh7m5c0Vmr1mTj0bL2HxR5Y00GyDl2mqOkavBRbcG9S5lESEGWmp7f
+         LiJTYaQ3wy7M4xqISHOcKSuZ0yXlqGUixBvXfbco+hz6ExiQvAXbbAAZHtshC3hnU+Wc
+         /jEoyxi/4IcQXM7ikcZKe7BxQ0JV3oKOG3pV7R0+7dtRNgSOE7BTX5OCiCEKm5MAkD/t
+         2jFA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=bq6rWevK;
-       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::42f as permitted sender) smtp.mailfrom=davidgow@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=VpEic86E;
+       spf=pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::434 as permitted sender) smtp.mailfrom=davidgow@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com. [2a00:1450:4864:20::42f])
-        by gmr-mx.google.com with ESMTPS id be31-20020a05651c171f00b0024eee872899si304583ljb.0.2022.05.19.06.20.15
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com. [2a00:1450:4864:20::434])
+        by gmr-mx.google.com with ESMTPS id be31-20020a05651c171f00b0024eee872899si304662ljb.0.2022.05.19.06.20.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 06:20:15 -0700 (PDT)
-Received-SPF: pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::42f as permitted sender) client-ip=2a00:1450:4864:20::42f;
-Received: by mail-wr1-x42f.google.com with SMTP id u27so6323567wru.8
-        for <kasan-dev@googlegroups.com>; Thu, 19 May 2022 06:20:15 -0700 (PDT)
-X-Received: by 2002:a05:6000:1549:b0:20c:7183:439 with SMTP id
- 9-20020a056000154900b0020c71830439mr4086990wry.104.1652966415239; Thu, 19 May
- 2022 06:20:15 -0700 (PDT)
+        Thu, 19 May 2022 06:20:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::434 as permitted sender) client-ip=2a00:1450:4864:20::434;
+Received: by mail-wr1-x434.google.com with SMTP id s28so7023460wrb.7
+        for <kasan-dev@googlegroups.com>; Thu, 19 May 2022 06:20:19 -0700 (PDT)
+X-Received: by 2002:a5d:6041:0:b0:20d:8e4:7bb8 with SMTP id
+ j1-20020a5d6041000000b0020d08e47bb8mr4018587wrt.652.1652966418564; Thu, 19
+ May 2022 06:20:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220518170124.2849497-1-dlatypov@google.com> <20220518170124.2849497-2-dlatypov@google.com>
-In-Reply-To: <20220518170124.2849497-2-dlatypov@google.com>
+References: <20220518170124.2849497-1-dlatypov@google.com> <20220518170124.2849497-3-dlatypov@google.com>
+In-Reply-To: <20220518170124.2849497-3-dlatypov@google.com>
 From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 19 May 2022 21:20:03 +0800
-Message-ID: <CABVgOSnsZU1jnVbPuredPkDcxbJnq+1ojDU300yXV7jApj0=XQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] Documentation: kunit: fix example run_kunit func to
- allow spaces in args
+Date: Thu, 19 May 2022 21:20:07 +0800
+Message-ID: <CABVgOSmgxYtA0cudjHy130gMQAYBp27C8D_i2u3Zb+Jahd1toQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kunit: tool: simplify creating LinuxSourceTreeOperations
 To: Daniel Latypov <dlatypov@google.com>
 Cc: Brendan Higgins <brendanhiggins@google.com>, Marco Elver <elver@google.com>, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
 	KUnit Development <kunit-dev@googlegroups.com>, 
 	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, Shuah Khan <skhan@linuxfoundation.org>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000008aa3305df5d3c1f"
+	boundary="0000000000003bb69f05df5d3c61"
 X-Original-Sender: davidgow@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=bq6rWevK;       spf=pass
- (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::42f
+ header.i=@google.com header.s=20210112 header.b=VpEic86E;       spf=pass
+ (google.com: domain of davidgow@google.com designates 2a00:1450:4864:20::434
  as permitted sender) smtp.mailfrom=davidgow@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: David Gow <davidgow@google.com>
@@ -135,43 +134,74 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---00000000000008aa3305df5d3c1f
+--0000000000003bb69f05df5d3c61
 Content-Type: text/plain; charset="UTF-8"
 
 On Thu, May 19, 2022 at 1:01 AM Daniel Latypov <dlatypov@google.com> wrote:
 >
-> Without the quoting, the example will mess up invocations like
-> $ run_kunit "Something with spaces"
+> Drop get_source_tree_ops() and just call what used to be
+> get_source_tree_ops_from_qemu_config() in both cases.
 >
-> Note: this example isn't valid, but if ever a usecase arises where a
-> flag argument might have spaces in it, it'll break.
+> Also rename the functions to have shorter names and add a "_" prefix to
+> note they're not meant to be used outside this function.
 >
 > Signed-off-by: Daniel Latypov <dlatypov@google.com>
 > ---
-
-Looks correct to me, though I'm not a bash _expert_.
 
 Reviewed-by: David Gow <davidgow@google.com>
 
 
 -- David
 
->  Documentation/dev-tools/kunit/running_tips.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tools/testing/kunit/kunit_kernel.py | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 >
-> diff --git a/Documentation/dev-tools/kunit/running_tips.rst b/Documentation/dev-tools/kunit/running_tips.rst
-> index c36f6760087d..da8677c32aee 100644
-> --- a/Documentation/dev-tools/kunit/running_tips.rst
-> +++ b/Documentation/dev-tools/kunit/running_tips.rst
-> @@ -15,7 +15,7 @@ It can be handy to create a bash function like:
->  .. code-block:: bash
+> diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+> index 8bc8305ba817..e93f07ac0af1 100644
+> --- a/tools/testing/kunit/kunit_kernel.py
+> +++ b/tools/testing/kunit/kunit_kernel.py
+> @@ -178,19 +178,16 @@ def get_old_kunitconfig_path(build_dir: str) -> str:
+>  def get_outfile_path(build_dir: str) -> str:
+>         return os.path.join(build_dir, OUTFILE_PATH)
 >
->         function run_kunit() {
-> -         ( cd "$(git rev-parse --show-toplevel)" && ./tools/testing/kunit/kunit.py run $@ )
-> +         ( cd "$(git rev-parse --show-toplevel)" && ./tools/testing/kunit/kunit.py run "$@" )
->         }
+> -def get_source_tree_ops(arch: str, cross_compile: Optional[str]) -> LinuxSourceTreeOperations:
+> +def _default_qemu_config_path(arch: str) -> str:
+>         config_path = os.path.join(QEMU_CONFIGS_DIR, arch + '.py')
+> -       if arch == 'um':
+> -               return LinuxSourceTreeOperationsUml(cross_compile=cross_compile)
+>         if os.path.isfile(config_path):
+> -               return get_source_tree_ops_from_qemu_config(config_path, cross_compile)[1]
+> +               return config_path
 >
->  .. note::
+>         options = [f[:-3] for f in os.listdir(QEMU_CONFIGS_DIR) if f.endswith('.py')]
+>         raise ConfigError(arch + ' is not a valid arch, options are ' + str(sorted(options)))
+>
+> -def get_source_tree_ops_from_qemu_config(config_path: str,
+> -                                        cross_compile: Optional[str]) -> Tuple[
+> -                                                        str, LinuxSourceTreeOperations]:
+> +def _get_qemu_ops(config_path: str,
+> +                 cross_compile: Optional[str]) -> Tuple[str, LinuxSourceTreeOperations]:
+>         # The module name/path has very little to do with where the actual file
+>         # exists (I learned this through experimentation and could not find it
+>         # anywhere in the Python documentation).
+> @@ -226,11 +223,14 @@ class LinuxSourceTree:
+>               qemu_config_path=None) -> None:
+>                 signal.signal(signal.SIGINT, self.signal_handler)
+>                 if qemu_config_path:
+> -                       self._arch, self._ops = get_source_tree_ops_from_qemu_config(
+> -                                       qemu_config_path, cross_compile)
+> +                       self._arch, self._ops = _get_qemu_ops(qemu_config_path, cross_compile)
+>                 else:
+>                         self._arch = 'um' if arch is None else arch
+> -                       self._ops = get_source_tree_ops(self._arch, cross_compile)
+> +                       if self._arch == 'um':
+> +                               self._ops = LinuxSourceTreeOperationsUml(cross_compile=cross_compile)
+> +                       else:
+> +                               qemu_config_path = _default_qemu_config_path(self._arch)
+> +                               _, self._ops = _get_qemu_ops(qemu_config_path, cross_compile)
+>
+>                 if kunitconfig_path:
+>                         if os.path.isdir(kunitconfig_path):
 > --
 > 2.36.1.124.g0e6072fb45-goog
 >
@@ -179,9 +209,9 @@ Reviewed-by: David Gow <davidgow@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CABVgOSnsZU1jnVbPuredPkDcxbJnq%2B1ojDU300yXV7jApj0%3DXQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CABVgOSmgxYtA0cudjHy130gMQAYBp27C8D_i2u3Zb%2BJahd1toQ%40mail.gmail.com.
 
---00000000000008aa3305df5d3c1f
+--0000000000003bb69f05df5d3c61
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -248,14 +278,14 @@ jZstNF/BUnI3864fATiXSbnNqBwlJS3YkoaCTpbI9qNTrf5VIvnbryT69xJ6f25yfmxrXNJJe5OG
 ncB34Cwnb7xQyk+uRLZ465yUBkbjk9pC/yamL0O7SOGYUclrQl2c5zzGuVBD84YcQGDOK6gSPj6w
 QuBfOooZPOyZZZ8AMih7J980MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
 R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDk
-5uI6beIgArWk6wkAKW7hyYSzj6AiewLNB4QlrmrnODAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA1MTkxMzIwMTVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCS
++4L4X841OFguBpDzYW6T3+kArPb2TgVQu00u9g6PhDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA1MTkxMzIwMTlaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
 BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAnioYNKDDIjk1oTk2pDX7
-3DxVzPNutS0xlaB4q6ONc1OdsgioN5ZeCftDuDJ02htT9xdQyT9xcrlavyR4CoQAeu+HxzXJF6NG
-BqX72wrTPnHWwWbL1NJSp1gXsfDjiPiTiUbVIhv72jX6EdhuQvQ+XNsjk249WvzZEbwDsoCBCigI
-f379X3aEHxhikmV+ToSi1d2Ob3L64lhPezH47/zcHNpF/72ub8Ppn9uJKorWjz78CA7LRH5CZJ8o
-8ztaQjpdeRbwFlQzswmBMSC+bLnyrEYtZW5bUR1XE/NTcSyTu1k4ulyLLollOYmT5HWCUkqbFqYe
-whEmN/WkT1oVi6a82Q==
---00000000000008aa3305df5d3c1f--
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAi+fKwkMOBkX9ie7pFvMY
+WbzrQkSX+xiM1XbYVLXgNmycbwnmmDKXbZH7A+y5qfg4TYAAXa6xXNNAimSUesa9ycPVfI+SoW4S
+618se3HPWJb4Vl1b4Flo1P2XIhVbGKLc0gztWuQz6/2Enrzy8Sba53XIFqlZ/pDgXL+6IMOq9G0U
+y4KeZHfThnpWoOwT/bOfDQs5s5JQvfMPX6q+2z0ee94SClIx5RMEUwj3fhMyUqKQ1tOXMVWw+DqF
+d4xXUPZ3NzRkjBh9J+4jJIDM8y5cPu1YY5iebRplsXfw8Y0QUCr8pO4JQRNUyzGPo6IgoP/03pWC
+brSHtWEfvU8/vecI9Q==
+--0000000000003bb69f05df5d3c61--
