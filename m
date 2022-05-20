@@ -1,145 +1,131 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRBFVYTOKAMGQEFKZCJGQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKFI7J2AJRBDXQTOKAMGQEJEM2V7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56BC852E0F9
-	for <lists+kasan-dev@lfdr.de>; Fri, 20 May 2022 02:08:55 +0200 (CEST)
-Received: by mail-wm1-x338.google.com with SMTP id bi5-20020a05600c3d8500b0039489e1d18dsf5247389wmb.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 19 May 2022 17:08:55 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1653005335; cv=pass;
+Received: from mail-il1-x139.google.com (mail-il1-x139.google.com [IPv6:2607:f8b0:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1336F52E25B
+	for <lists+kasan-dev@lfdr.de>; Fri, 20 May 2022 04:08:15 +0200 (CEST)
+Received: by mail-il1-x139.google.com with SMTP id q6-20020a056e0215c600b002c2c4091914sf4183473ilu.14
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 May 2022 19:08:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1653012494; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AEbH1jImJbMUCr++8Y/9mcdb0yMkldFSSoCZiHkUyztuVM8Gp/2A0DfFa+5aBUMs7i
-         P9rqThI+a0ehy0Q4iPkOTy60yX9MJ5FqG+rcnNDZcHIP/wWWd83kbQnN0754SLM6mVCG
-         wCG/X4lyXX7AdupmyN7W1jS7bH3B2r4zbLQD4a3zzRq/K1+vhk0Bq260QX/ND4rgouSk
-         r/ZPIpBHn/9eK7gY72Xj7swxhg38g7psC+ozqlXkUZP4jrwWCrBXfLlxNkyyW5kL5Vqd
-         1JEVt+s7I+2ZzxYoaDdKkGaRLhLKsMosi+GcgijBUSNkL+kT+GxmvB1YsPFK+0H0sqzB
-         8pLg==
+        b=sV4VPGfNHYyVi9TfL92G7jo3umoAEpVVPEfXDGCJFjU2SQs0o46lBmr0nW0JXjzCt3
+         Hy0bvoK4qYR6BEPSympGTQC6pRyixFVpMn7WDRPT1VZ2ZCbWOwKhd9h4o+sQU6i5SOPt
+         N1m5HP9oDshotoNf5yMx7ykbzcBUPnJVPFJsPvlFVZ40nZdU4cgLComwUzVNEY+Gq7WW
+         cQUGjbUQyCvgTtkG8S3FPmC7uCXMh1fPaFymXshVKCGOvecOJoWNr1PHHL5ZfaYzTvCh
+         glezLltxxjmi8tGEZi9NMUeFPO2y7Hg5CEQtFD7TmyvcoPMc6vYVB/BG3o179G3oF3D4
+         MMpg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=Zmr+8AWl+1jxk84WOYtRJG/q7tTR8jElqAMFnbPICTk=;
-        b=jmvTIBXIf82U1ndKWw2ZxXtBWfDw38WLAz3BXudhtX1LEfgjNXyo4NvOa/DSE5PZe3
-         hQxLn8J5ciAMnvQbpuKjsfhUrQOX33JNGvs3CehkiSKSDH6CxQ238/K8VH7Edca47oVq
-         ePkRV94EzMJonNXqEBKvVP7sNs+g5byLTxn62GhGbG2YaAuSLcBbb9sD4/XhCIMJ0tBI
-         R7lejpSLzjEpxeOYs9MKfUsW2hBPetxuOpL4q/hs3okIepkFCXN2RFYvo00letnxRD+M
-         zBLVv/1o7GXk3Fb5CSNcETbMpVg3pu0Dr+oOURlFnDyyKVXagmJQknWIqId5x+31y39o
-         XrFA==
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=XCaCB2FBMZugz88TOeVLqMyYJPNmIQucZSdajtsz/NA=;
+        b=wA746umdOlLDpYL5LUE3EWl9y56uSHSP9jDR76o23BFMNORqHbxRodmzOm75q5b/AR
+         QJtpX9FVSO4TunUVnmFb5Te1fqKkPTcjpR8swWYWrU+ySRMj2S8pZRyHkb5+rCgkIevc
+         Pf47JMuxKlcHWkNpJi2XWzHTib0DdWYXYguqF57v1BN8nx+tBN6LoVef5kmQWlGfRke2
+         y+bBVV33ECbtEnNQKW4N41sGfRNM6VwKlAjV7uhFu/LOJIhm5MdgGLASI9xVOfO+WWWI
+         zjnL5LW2zttThU+MmBEgEoNOQzx6Vo2r8d8eITDEYOd9ceDrv6qt+dx2iEXmHXxmECHT
+         kbiA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=RGinbJMi;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=Zmr+8AWl+1jxk84WOYtRJG/q7tTR8jElqAMFnbPICTk=;
-        b=rsN5OyFAj1ySoU8J40hlKn/A5MSIAK/7LtvqiSBe9vlfcsZA9ZrRmaGiMJLPxAQ4/M
-         0Oq3ITOOrF+aEpapfyiEthA7DHf7jkZGoE3L52wpiVB8bNWnefooZidycOkQavRs+zpJ
-         7plnniCn97xfIh8DM+OpZ7somzPH0I9yfNKhM49c52PZvXNBhw24hoByARsHP+qyhY+G
-         2WrOLB6//3o0eZiwHwxgxNllYNAeVW6DnMo+lZq5mRfGBSZyvDNm8NcSBmBQiRvsOnHj
-         gGVEdOlqqBgb7oCeubTtQ0E4SUDdGp5Ql549XIoKVbXKUfYuB15UGeblpCiiDX9sdQY8
-         KerQ==
+        h=from:to:cc:subject:date:message-id:mime-version:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=XCaCB2FBMZugz88TOeVLqMyYJPNmIQucZSdajtsz/NA=;
+        b=n+iDMTg8PE6fHrD/j7e8TrnXkr1jbbQII5Yxow/2LC2k1yT28mMub4D9zrsptonPJ+
+         vyEMROeuQGKg0dafHhF8/sdqCYKCldzN/TetmI22aWxXuQ7HFrs2l5C/MaBH81bGASh8
+         PzZma2rZJbJ/N+KU2a6aDhrQcNtcFQnrcppOAqxzrO4IE1gzrb5BoKCMpJlVWkRp2nQQ
+         5CSRJ/EjT17km73KtV/cwcXT8aqOUKKYV3QgdiqFSrSUEydPzuNJlGu7c/EQFFdR4vvr
+         Kzt8F1QW934Rh384kjsk/i9qStVFAKcDUy2cE1xqbc40NNDEN4aXGTMJPKVCrOWTREND
+         edNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=Zmr+8AWl+1jxk84WOYtRJG/q7tTR8jElqAMFnbPICTk=;
-        b=QC/783DrvGdIaby6ezaWA4tmmHnrFJ+owJE2jDOZcyxZ6h27ZUacEABqsh8Euh19cs
-         PO7G/lMzWJH6aq7rmEwMUeGWMj174RhrbVpwc/+1Zk88IpyfoVVSmM4Aq6xDiowM3GV8
-         PgpxcyX9AY3/HKCHcojNcHrHo0V6WHx4GoVlSrdgXlluNwoRxm0Xb5DcTFL6AkGjmwYk
-         enSXwvuFam87nvaYsrZwtfEDuapCs+xBfiinaYrgom1E78XPsch3WSdgk6qosvljRLZ+
-         LmnECJ4QuHT+7GHab+TeTC9eZKnMZRHj3XSJYeJfhJ1eCcuSKVkLltqhQ/PeoKAj9B6B
-         hlUw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM533MfCj/fZpzwVwQxSE2KidawrsEuNqbmf6PPEVUAZVe92oRHy3w
-	ETQcYeEXXqk0T8UhbLOOgsE=
-X-Google-Smtp-Source: ABdhPJxzuDdauQT4LSH2QdbLJ5iWhuXDVAqc+m4IPe8k0wqCEQtQLW3zKpze4y/8/AJQIGwaJ352BQ==
-X-Received: by 2002:a05:600c:3ba5:b0:394:6a82:8dbe with SMTP id n37-20020a05600c3ba500b003946a828dbemr5725008wms.185.1653005334842;
-        Thu, 19 May 2022 17:08:54 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=XCaCB2FBMZugz88TOeVLqMyYJPNmIQucZSdajtsz/NA=;
+        b=zi9mx8Sf7R1FAlAA97cvzAvXwIHIaOOX0hVoFb1M3lA25+/slLLVhescKzlO/vY188
+         pOq+I1KQDL05O+Gy932QUYZhJx5icWcQSIdRc1M5TIQhdXOK22YutiiroZ51W1CApP39
+         NM9rVDu9S8hJWTtCunVq457RV4S+GkKvP1bjKDrYN41JEZmr1fyDs0FutPY1SsuzquKg
+         cdZ3S80mCRiA1ACaNc220uJkyGAUF+ITxTvjGn+5vhby1uGg2MOMQ6CjxZ+NHqP/xA1A
+         3jYXu1V/Vz1fW+cH0eC42DP398V2chAsO3NXoTfqVEQw92GtQZE+qt2gngrnKONc53a5
+         iC8g==
+X-Gm-Message-State: AOAM531HIseWBJg4oud5cRjJR34Poh+HVc54z2HAJK2CTHFdJ7AoV5Rr
+	Rn+AnDYo9VOHq4V3mwCRD0g=
+X-Google-Smtp-Source: ABdhPJw84PIw4/baRG/XDWJn1u/80cDfTE2l9/TlsB/Gsd9fL0CyqEs4M4zLBhpfhI24irX9cLGyTg==
+X-Received: by 2002:a6b:ed06:0:b0:649:d35f:852c with SMTP id n6-20020a6bed06000000b00649d35f852cmr3880321iog.186.1653012494339;
+        Thu, 19 May 2022 19:08:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3b0f:b0:394:7348:9f2b with SMTP id
- m15-20020a05600c3b0f00b0039473489f2bls1854959wms.2.gmail; Thu, 19 May 2022
- 17:08:53 -0700 (PDT)
-X-Received: by 2002:a05:600c:4e91:b0:394:89c9:a4bf with SMTP id f17-20020a05600c4e9100b0039489c9a4bfmr6489365wmq.81.1653005333859;
-        Thu, 19 May 2022 17:08:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1653005333; cv=none;
+Received: by 2002:a05:6e02:1a82:b0:2d1:10c8:10cf with SMTP id
+ k2-20020a056e021a8200b002d110c810cfls763912ilv.11.gmail; Thu, 19 May 2022
+ 19:08:13 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1bc3:b0:2d1:32b7:97ef with SMTP id x3-20020a056e021bc300b002d132b797efmr4208531ilv.166.1653012493878;
+        Thu, 19 May 2022 19:08:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1653012493; cv=none;
         d=google.com; s=arc-20160816;
-        b=FXDimS+ZdYBp9ZWVBEBJOrBr+5vcLypAOZ+3d5EDemACliKiSjbeg5rrB8MtWThHTU
-         nroEauqtMCw0gYnAtKoZHmQUrUuP0lgtv/WR4ir5IzIkBEJlnKtYfxpTuRKLVpi4tNOO
-         jKBOl2CX0y872cSnWj5Js7ZdMbPexNbAY/kpJCwc8ygNQ7S1ovk6fok1sfbvUnao1lkE
-         t05E4wNefu41PYZgLclUTkdoojPxHKoaZfVdA6aIoStThFe0yltAXuRhhjHF3e+tThVb
-         fg9Wbl7ZeWBUrJKM7py1PHC8CL9uZSRxSW51755Gm7Wizdj/FgC95TrhX5OnTaAi6AxU
-         ucLA==
+        b=PdZCI+zGGDxDSPeiw9SHSJStcAx6pTu6dlTcjxw+J2HvKuwAscNl4Tka5j49pNeH+6
+         XjqedQAMd40kweOND2p5xKp2A13wlfLoGItQX+VDAQ8Eg+XTUPpHFDAya1+burBeNppx
+         aONwF5ZdojSyxlzBNqJI6nFfx1C9jhYLiLU+u8b8YEZ19vMIWuNzWlb3MvyVt6ln9TKy
+         OYKgOQAVCXkFSYx2uXoQkg1ZTgkGTCaho9BaBHhXL+n/ezR6xDTlA48S9Tzhbqv0PiAC
+         SrlOJ3/CjY/+tE/SlXkliXzzLw36WsW/7c7kBONx5BBBVOuLp6qa8Jbl67mhfM6fitW0
+         o93Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=u2Fw+rmLZIS6tt41Hu45URyg55lczs6vNe/MHvCqx18=;
-        b=wJJ9sPI2Y88XA6qkMTr6hPyQRRS9rMEXd9uggBdCvtGy17QM7Mxq3pVxG/YFiYx0Cn
-         PHyLSQd5OOABG6cuyskC2CdTYPx3OX+ZY37ERRyj1Cs0Wxzowc5Sj9c8jpJOw6CJ2F7V
-         9ikjuw3bgre8uNsCeiv801vG8pdrWFsvmrjfYc6aYgcDHUwOIWsOMJ4plUXNTVDVo+pp
-         YsN30YamqVN5PWYGn7q4VwJYZ8moIF74EVyKaaqq9f4q+xSXlnZPpsy5R2YvGJheBRRr
-         EGc1Vd1ZuLuwgOaHOe0qab0EbwCibr96KNfx1UqwNQJ8S/sJKDkobTHvXyEOB/NgUTvQ
-         1bgA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=8iXOkphluPt+9RVDFc2DABzEKIc5ur3K8HWyvlOCY1M=;
+        b=m+os1JVJnB0qlxr9Lkz3gjueS1YBLB8NHqxpfJJgR/4kBSwSBGRqpkHbqiVKWuJlU2
+         TGrZ1/DgAX5egA1YTcpL4ntv3KI+ynf4cl0uyBe1wEri3h5TODznlB5PMzXBk1yuO0Qf
+         207axDpCxVq2+kq6Ub7VLQn08h0KJ8hqYqYSuCk/+vMSTxstQXYUNHgODXkNyWaHjqXp
+         ezA/ysvpCufsVTqycDjxmEDNadC/W7eX0rlR8uuKJ2bmGdxxEBHt261wG3RIDv4wu5Y5
+         kS9e/Nhvy4dOWhdOcMo2Rs10uL+HSCcB8RzGr2NNPOiyfOfISokDMdD7xPaB9UN9wXCR
+         jdbw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=RGinbJMi;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga11.intel.com (mga11.intel.com. [192.55.52.93])
-        by gmr-mx.google.com with ESMTPS id h15-20020adffa8f000000b0020d02df3017si36887wrr.6.2022.05.19.17.08.53
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
+        by gmr-mx.google.com with ESMTPS id q17-20020a5d8511000000b006495f98f57asi184221ion.1.2022.05.19.19.08.13
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 May 2022 17:08:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted sender) client-ip=192.55.52.93;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="270014775"
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; 
-   d="scan'208";a="270014775"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 17:08:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; 
-   d="scan'208";a="743203165"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 19 May 2022 17:08:47 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nrqCE-00044d-Q7;
-	Fri, 20 May 2022 00:08:46 +0000
-Date: Fri, 20 May 2022 08:08:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jisheng Zhang <jszhang@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Alexandre Ghiti <alexandre.ghiti@canonical.com>,
-	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@rivosinc.com>
-Cc: kbuild-all@lists.01.org, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v3 2/2] riscv: turn pgtable_l4|[l5]_enabled to static key
- for RV64
-Message-ID: <202205200851.XPf3TixK-lkp@intel.com>
-References: <20220519155918.3882-3-jszhang@kernel.org>
+        Thu, 19 May 2022 19:08:13 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.55])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L496M2hPbzQkM9;
+	Fri, 20 May 2022 10:05:15 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 20 May 2022 10:08:11 +0800
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 20 May 2022 10:08:10 +0800
+From: "'Kefeng Wang' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
+	<akpm@linux-foundation.org>, <linux-mm@kvack.org>,
+	<kasan-dev@googlegroups.com>
+CC: Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: [PATCH] mm: kfence: Use PAGE_ALIGNED helper
+Date: Fri, 20 May 2022 10:18:33 +0800
+Message-ID: <20220520021833.121405-1-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20220519155918.3882-3-jszhang@kernel.org>
-X-Original-Sender: lkp@intel.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=RGinbJMi;       spf=pass
- (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+X-Originating-IP: [10.175.113.25]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
+X-Original-Sender: wangkefeng.wang@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.188
+ as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: Kefeng Wang <wangkefeng.wang@huawei.com>
+Reply-To: Kefeng Wang <wangkefeng.wang@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,131 +138,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Jisheng,
+Use PAGE_ALIGNED macro instead of IS_ALIGNED and passing PAGE_SIZE.
 
-I love your patch! Yet something to improve:
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ mm/kfence/kfence_test.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v5.18-rc7]
-[cannot apply to next-20220519]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/use-static-key-to-optimize-pgtable_l4_enabled/20220520-001459
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git f993aed406eaf968ba3867a76bb46c95336a33d0
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20220520/202205200851.XPf3TixK-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d052c69ebaf48ac2925d6f9fa033d9e394da1074
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jisheng-Zhang/use-static-key-to-optimize-pgtable_l4_enabled/20220520-001459
-        git checkout d052c69ebaf48ac2925d6f9fa033d9e394da1074
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash fs/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/riscv/include/asm/pgtable.h:112,
-                    from arch/riscv/include/asm/uaccess.h:12,
-                    from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from fs/char_dev.c:9:
-   arch/riscv/include/asm/pgtable-64.h: In function 'pgtable_l5_enabled':
->> arch/riscv/include/asm/pgtable-64.h:19:13: error: implicit declaration of function 'static_branch_likely' [-Werror=implicit-function-declaration]
-      19 |         if (static_branch_likely(&_pgtable_lx_ready))
-         |             ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/riscv/include/asm/pgtable.h:112,
-                    from arch/riscv/include/asm/uaccess.h:12,
-                    from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/uapi/linux/aio_abi.h:31,
-                    from include/linux/syscalls.h:77,
-                    from fs/d_path.c:2:
-   arch/riscv/include/asm/pgtable-64.h: In function 'pgtable_l5_enabled':
->> arch/riscv/include/asm/pgtable-64.h:19:13: error: implicit declaration of function 'static_branch_likely' [-Werror=implicit-function-declaration]
-      19 |         if (static_branch_likely(&_pgtable_lx_ready))
-         |             ^~~~~~~~~~~~~~~~~~~~
-   fs/d_path.c: At top level:
-   fs/d_path.c:318:7: warning: no previous prototype for 'simple_dname' [-Wmissing-prototypes]
-     318 | char *simple_dname(struct dentry *dentry, char *buffer, int buflen)
-         |       ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/riscv/include/asm/pgtable.h:112,
-                    from arch/riscv/include/asm/uaccess.h:12,
-                    from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/uapi/linux/aio_abi.h:31,
-                    from include/linux/syscalls.h:77,
-                    from fs/io_uring.c:45:
-   arch/riscv/include/asm/pgtable-64.h: In function 'pgtable_l5_enabled':
->> arch/riscv/include/asm/pgtable-64.h:19:13: error: implicit declaration of function 'static_branch_likely' [-Werror=implicit-function-declaration]
-      19 |         if (static_branch_likely(&_pgtable_lx_ready))
-         |             ^~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c: In function '__io_submit_flush_completions':
-   fs/io_uring.c:2660:40: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
-    2660 |         struct io_wq_work_node *node, *prev;
-         |                                        ^~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/riscv/include/asm/pgtable.h:112,
-                    from arch/riscv/include/asm/uaccess.h:12,
-                    from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from fs/proc/meminfo.c:2:
-   arch/riscv/include/asm/pgtable-64.h: In function 'pgtable_l5_enabled':
->> arch/riscv/include/asm/pgtable-64.h:19:13: error: implicit declaration of function 'static_branch_likely' [-Werror=implicit-function-declaration]
-      19 |         if (static_branch_likely(&_pgtable_lx_ready))
-         |             ^~~~~~~~~~~~~~~~~~~~
-   fs/proc/meminfo.c: At top level:
-   fs/proc/meminfo.c:22:28: warning: no previous prototype for 'arch_report_meminfo' [-Wmissing-prototypes]
-      22 | void __attribute__((weak)) arch_report_meminfo(struct seq_file *m)
-         |                            ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/static_branch_likely +19 arch/riscv/include/asm/pgtable-64.h
-
-    16	
-    17	static __always_inline bool pgtable_l5_enabled(void)
-    18	{
-  > 19		if (static_branch_likely(&_pgtable_lx_ready))
-    20			return static_branch_likely(&_pgtable_l5_enabled);
-    21		else
-    22			return _pgtable_l5_enabled_early;
-    23	}
-    24	
-
+diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+index 96206a4ee9ab..a97bffe0cc3e 100644
+--- a/mm/kfence/kfence_test.c
++++ b/mm/kfence/kfence_test.c
+@@ -296,10 +296,9 @@ static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocat
+ 
+ 			if (policy == ALLOCATE_ANY)
+ 				return alloc;
+-			if (policy == ALLOCATE_LEFT && IS_ALIGNED((unsigned long)alloc, PAGE_SIZE))
++			if (policy == ALLOCATE_LEFT && PAGE_ALIGNED(alloc))
+ 				return alloc;
+-			if (policy == ALLOCATE_RIGHT &&
+-			    !IS_ALIGNED((unsigned long)alloc, PAGE_SIZE))
++			if (policy == ALLOCATE_RIGHT && !PAGE_ALIGNED(alloc))
+ 				return alloc;
+ 		} else if (policy == ALLOCATE_NONE)
+ 			return alloc;
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.3
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202205200851.XPf3TixK-lkp%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220520021833.121405-1-wangkefeng.wang%40huawei.com.
