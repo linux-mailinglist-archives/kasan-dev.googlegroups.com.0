@@ -1,130 +1,211 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRBR5CT2KAMGQEP44RW6Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCWJVL6L2QLBBJWHUGKAMGQE6R7P7KA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id B375252ECCD
-	for <lists+kasan-dev@lfdr.de>; Fri, 20 May 2022 15:02:01 +0200 (CEST)
-Received: by mail-lj1-x238.google.com with SMTP id h14-20020a2eb0ee000000b00253ca8c5c87sf1732959ljl.9
-        for <lists+kasan-dev@lfdr.de>; Fri, 20 May 2022 06:02:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1653051721; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB03652F833
+	for <lists+kasan-dev@lfdr.de>; Sat, 21 May 2022 05:59:34 +0200 (CEST)
+Received: by mail-wm1-x340.google.com with SMTP id v124-20020a1cac82000000b003948b870a8dsf7123705wme.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 20 May 2022 20:59:34 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1653105574; cv=pass;
         d=google.com; s=arc-20160816;
-        b=OfoXWhzrUhxvCY3k70Ldhb80RDkwHnoGj2bnr9A9dVS6AIFdMwBqbb08Anjf/WVj8f
-         XguLKGWJWtkwTKDbNeKn9Vks0d8IKBndTtWgfkpJjIKtUgYqMYxDc2C7CLONxvX7G/2J
-         TIV+bDYHA/Ps7RdnKxcZOK7zg7rJC5h5u7EwwmQQNGbYkFYSpS8ZkfmPATpzcmBpidc6
-         pkf1ZrVp36l5eL+nspOt8hRlVanBt9SE2tNDrvO+f+ZmAJ9SUqQg1xF8ob3rPw6mhtgU
-         15lomzGp+atKo9bW69PXTFAi3RiOSmJd1ERxT4/EUGzURkqwJlHEsk4UYWZKwg4cD9oG
-         WGwg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=vnw1bSqcQOlUFg42pc8YHLfw3b6MO9adjk/b0kU7xh1hHeu76e4mL/cj/64DYnM3Ch
+         M8cUICPqJYFz0tRGfdlmEllRxSlzF79Pxf37quEu5GM3vO9al+r0mIhb4QZYVU1DOvu0
+         ho0WccoSbEF4Fz6U/AiJeJwEgvVUhhRL488cytGeJQfmuEQqDx+RCi5cYfYUurqyjhzB
+         sABWYI4ljImYVUTIT3Y9jETPniFQhVoBwGGbbbr9G46tRPXdbp3rt31j+5XEJFYZrUPe
+         U+oeYgihsA6B5kiiavKbEDFmCrOdfGkzCanV9mjTjkkO4zv/+kUJKa6zevooVYtTWj6C
+         oDAQ==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :list-id:mailing-list:precedence:mime-version
+         :content-transfer-encoding:suggested_attachment_session_id
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:cc:to:from:sender
          :dkim-signature;
-        bh=iCmEkifdvS9cYu2wFnHsF8KrRpvsMhvhs8f7WcYrWCA=;
-        b=vhF4S84lk+ObPZQ7rTnjH+4OS717abbBr45ch4QGv6/fIU7SeYBrIBBFXjlXCON2qY
-         9SgODVGx0a9/19GLopnScK34LqOLASfyQYQ1VhWHvan9/hR4wM42GaqITRtNaQ3bU5et
-         9bRPPLt+f8FUgF/ScSktSLIdnzvxxn6k949AjMoMFE8viHzzxb9KOLKBvyuemollcHjH
-         iQZkz8/YftX0iNstMHu7QHMZnf8Q0lDEhNCdmhdn7IguME/yLJv+gRL9+IO6M9x3Twey
-         f6tTvmkEs+ojM8xUEHOhuR97U/71nECnQI7S5YIX3zr6uWB7fqI0zbTuAG1jLKg3fbck
-         1NyA==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+        bh=3L6dbwqz5NXSrNSs5S9/96HYMqYwLhHA1P+4mlWhz4c=;
+        b=pRi7gp358xiLpFkpqS6XLZ3D11LvXm8oliWjy8ObNtS9T6DoxhQk4VBXGUOrcMoQXE
+         827EZDxgJGMxDDZnWFa6b7RgJ08QsrMmy/fg3cNcGLnG8IBZwopIB6T5L0U49SG0dc2+
+         5qXAP3vNDSo+nR6bkSY5h2vxQ1xm8/OW1fczQyq4mmc7XK/ZjZQ61YU84P0wijQAGoXa
+         3T0fhBU387gPSdIMHAaEWHU7JPs3exgrmroccGCBvLs3BaSOgNX9tl2gvUZ6GX9BT8yy
+         JOBbsUoJIy6K8pPKdlXI1DfyzM8VuKHqAIhKI2mczESuFFyJkJj3fNEcslNblYoieakb
+         W1LQ==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@purdue0.onmicrosoft.com header.s=selector2-purdue0-onmicrosoft-com header.b=sup8Q42P;
+       arc=pass (i=1 spf=pass spfdomain=purdue.edu dkim=pass dkdomain=purdue.edu dmarc=pass fromdomain=purdue.edu);
+       spf=pass (google.com: domain of liu3101@purdue.edu designates 2a01:111:f400:7eab::725 as permitted sender) smtp.mailfrom=liu3101@purdue.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=purdue.edu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=iCmEkifdvS9cYu2wFnHsF8KrRpvsMhvhs8f7WcYrWCA=;
-        b=asaaNRsjyrqMt18Ul9ar51iTq9yA8v/ESao/hpFxdNEv3J7fCctsQytHeWZxuti5Wr
-         PVHC+XrHEA23/AWo1ZWCYaqLh/rmJbAhdn2ec3mbOCIXo+OykrIdJf2SK1JmuObIspt/
-         HfZ0tFr+/qLrpO8kGaaUpp35mPEdSwzldt97lITRj8fWZlb9zoYYSr832lZ9EIBX9ERQ
-         sCVkMEcYG4X+sG1mjycmq/VHu0zh/s+b2ytnFIgMR055MKdD/BEfZDruAKiRgNAqWPgY
-         SY+PGNi09neTgh0kWy8gP/LI3pGQ+q7hleIXeQn8UqkbqcFsEiTLg3ohscn2DYJ9a6Am
-         p1mw==
+        h=sender:from:to:cc:subject:thread-topic:thread-index:date:message-id
+         :references:in-reply-to:accept-language:content-language
+         :suggested_attachment_session_id:content-transfer-encoding
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=3L6dbwqz5NXSrNSs5S9/96HYMqYwLhHA1P+4mlWhz4c=;
+        b=AOc/ODkn2e3Rvjl0vacK08JihbYNy1TTa2OjAxA1BSMD27KcUTZ9u8Rof3QXQfFNVC
+         jg758KTZhpstEAaB9MaEBMDWvFRXHi11xz1bk4HiKS29IEGbgY1tvUXjmi/9sRrg0zEb
+         4/INlzCen3hQ0gDzpb7XycgFemwpegSGDIb2ZDt39AWbNfu+enuNfWd0ds5aMfVoRyQN
+         MKf0vPyYRxAK1LXBlzOIZYdEzzi9jLgIlZY3N7FeLCsEuHLS3AETI9RL4rbwjrLcUMSa
+         5h2G7HkO0nnVUnzldSFKX7SZXFserpeb5xerQqPdlwiz7VIiTmCd4cxD/x8G2ZSiPv7a
+         Nzeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=iCmEkifdvS9cYu2wFnHsF8KrRpvsMhvhs8f7WcYrWCA=;
-        b=2MAWGSxfsTkRfToZS/UMk1ca9+YIvon1x/lcFcqHQeiYd4DEKOrpEvy9ulquWN2ot6
-         QSzda5TG5UzIaKFX0o7tgWrX9EGgnG8ci5Wdu7Iurbg8Lgi2jS79DiEsQv+xkXTkeoGt
-         bBhgmMtfStAdkR416LBxtKeWw3qzijk2/kom4UxN4ZfD2snks2Iy1hKxLV/J5xKPnmTr
-         Gq/oNhKxkfB3Qr8ScQnjx3mwhLJQ4ICqZQITf4b2f3ncPH5MFW59ghaA+fc3s+RMU+Wi
-         /vypyEO5PDsxpulZUMctICNf3y5p4enCD8918+8fvrSAsWZLkNGRCuXSwVVcc6lNJFvb
-         Pqpg==
+        h=sender:x-gm-message-state:from:to:cc:subject:thread-topic
+         :thread-index:date:message-id:references:in-reply-to:accept-language
+         :content-language:suggested_attachment_session_id
+         :content-transfer-encoding:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=3L6dbwqz5NXSrNSs5S9/96HYMqYwLhHA1P+4mlWhz4c=;
+        b=TSHtPJWOFAysSYbIDjUEc1h57yPdI0/ICUpW/vHgVju8EXytt3i3TL+afDxQsYJHhQ
+         LzbTkTmI8LVVA6RrKdxzMRCVbdkILlKM71kga339xX+Wi7B3k4TM0ikM+5Z+KsNA79rv
+         eBQFHZ0U/44FbKelQg+lOBy/ECv1lopJOiln6vapDw5l/e7dcnfBxe8v+sP/b+1NGvGu
+         MdDkehm1wIp8kGH96nVAl+G28O4Px60Ji0PGP/ekja3vKwrLwY4/sIygPkHCaD96wAlZ
+         lc8BNJd1sjj/2QnpA2ju1YRxheMc7wfAt8v47qi/MjreXgef4p+KV7C/LwB+pfHuqcbH
+         92QA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532NJ34LB6Fq72guBUDZFuHT9YxAugHI0ED3/PN8mSSO/aJYjIuX
-	MJi83fMxn6v0iUmiW1gg1Xw=
-X-Google-Smtp-Source: ABdhPJzUo6gW9hHLVopKgU6V8s+y+Yr0vRvsSL4sHTdL5lY2gyHOxhIPDOihu8cF7Eb53+P0PKgJYw==
-X-Received: by 2002:a05:6512:3047:b0:473:cf43:6d8f with SMTP id b7-20020a056512304700b00473cf436d8fmr7243687lfb.380.1653051719498;
-        Fri, 20 May 2022 06:01:59 -0700 (PDT)
+X-Gm-Message-State: AOAM530/PIoDlRH80T5Bm57IFchAXVO98xB5NAwR1GaqK6IxSExBlhRA
+	+XluROELhoQ6Mzlf++iHHo8=
+X-Google-Smtp-Source: ABdhPJxnaY3gdjiKwOLbhEWjyeGDOUFCLq23QLWa5avyOD20P6mPREDB92ch4NwTS9ODeYlL7NoEiw==
+X-Received: by 2002:a5d:4b92:0:b0:20e:5d73:7546 with SMTP id b18-20020a5d4b92000000b0020e5d737546mr10930934wrt.322.1653105574260;
+        Fri, 20 May 2022 20:59:34 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3f16:b0:449:f5bf:6f6a with SMTP id
- y22-20020a0565123f1600b00449f5bf6f6als1321235lfa.2.gmail; Fri, 20 May 2022
- 06:01:56 -0700 (PDT)
-X-Received: by 2002:a05:6512:398a:b0:477:b81e:cb52 with SMTP id j10-20020a056512398a00b00477b81ecb52mr6947652lfu.102.1653051716088;
-        Fri, 20 May 2022 06:01:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1653051716; cv=none;
+Received: by 2002:a05:6000:1e0b:b0:20e:7a8a:8c81 with SMTP id
+ bj11-20020a0560001e0b00b0020e7a8a8c81ls4458138wrb.1.gmail; Fri, 20 May 2022
+ 20:59:33 -0700 (PDT)
+X-Received: by 2002:a05:6000:18a2:b0:20e:6698:924 with SMTP id b2-20020a05600018a200b0020e66980924mr10370708wri.385.1653105573299;
+        Fri, 20 May 2022 20:59:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1653105573; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HhLZTjM7JeWmDaKqunuVmzq359VbG013DvxwEKFKZg2VQTN4c2vxOrGTYHno5qRUJP
-         9xUG3BzxWJGvfSUqht4RwnH0bgLxSsss417Xitl5bxXQpxrUCBn9Oy+JUEV7zrQELd7p
-         ZyEm9JOQMi4OSVk4X96nwDz1NghUowNc7T6qLvtbsShWNtciErb8KbGliHtO7Uz9Knud
-         9zbHhfDLwXPw638jivEzNIrGf0WRHzPoP905zT9ZNUMJTZc38CF/wmPSaX/fusODbo1P
-         G41T6zEiJH8J48HkPyQZkaLHbtb6uiXFm2W0K/jAI1LM42ABEDInEBmhBVAEf973h4jp
-         Da/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=uGPSYvDR5gVhqEIal4vChkKMO5ksGnVBqsDHbWwrhCE=;
-        b=XehusAyiZa+BQSyBRMDPyJ7ccTNrGJY5p96jBgb1rA1hSSygGFGFRww4p2rO76HEft
-         UGp4/bQm2fLLQk6oaMHF7apqqFDVtLlS4LQ74R7KhzPbzgG0fWGQUBVynFk4PL5NQRnb
-         5ApfqX6DGBXqsw5+bHwXPTD+J5Jxu2cpv/SfZxuJ6BnT8b1GQVvi1riXOiC0FdD1DVv3
-         1DxgIGwjElSmD+36naCabVfM5EaeNFD09er4vb9U+cwgFowDEU07a0sZ7LPuaEaCTal+
-         w+DTzV6AjdDw6shhZq781wGuCld3kvCI7I4EJY7EdwofdlfZA7vyVvwYMsMbZF2816no
-         p0VQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
-        by gmr-mx.google.com with ESMTPS id m2-20020a0565120a8200b00473b906027fsi263337lfu.4.2022.05.20.06.01.54
+        b=mbZmYi2GT4QBT5eyBZD7JRAstxRE3Q/pDhhL7Lf3tZQVsD5qLg6p6E2ZuKj//83Mu9
+         l4skTOvsUGQINgwaU46mHZp+c2tLe9feIZb5mHUkuZjLX2KcB54K4Y1mKc1DcHuYo2Ng
+         6Z+DxpVxmALh5MFrzi2PRogRvqILfXY9jchzglQECnObE1veLinuD9lSQ1N6sgVbSJeG
+         m7M5SysMq01nmEup5Hw12dTdyrqoR/K5kRGxJdVDwAfOcWUwWwXCWVlu/jeDwxSqcwCQ
+         sJqnBTolFy//iuceV+vBFgBxN6PTLa0FQ4YjCSVviJlL9oqaL5JkCOjCHjj9LgbClA69
+         YNjQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding
+         :suggested_attachment_session_id:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:dkim-signature;
+        bh=f1fk+VS7vZY/YdCR5d8x3fPkjxvFwwedu3VhuJfmTPY=;
+        b=CpDyhFzhERSB3uxcCvddjG4Ph0F88KGNRCNOVnek4Op3W1EFpPDTqHqwPfgj/y2Lnt
+         XHivLubb3LhXo+42ETU0R9Jt1mvI+oblnJ7AiqiMylhuuM48pE4OcE7u1kNfMtp5bj5F
+         YxFuMnDdntoXaWw4s1El4AXFNGGWiCHhd0GpzUURsohwJBvwSK14VYbpAD6yCadI/DDM
+         3drCVerMEwa+9EJo/ykntaw1lBrXHvUzxP5H6Rfq1lh8NC+dpdr10v35UcQD4wB8P+UN
+         +LgBSOtnvWxbxM3o6mZi2ONbFkytrpqMOxmA/Hujh+QqRXwrnSLlBMa5i8wE6UbSzVRz
+         ry2A==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@purdue0.onmicrosoft.com header.s=selector2-purdue0-onmicrosoft-com header.b=sup8Q42P;
+       arc=pass (i=1 spf=pass spfdomain=purdue.edu dkim=pass dkdomain=purdue.edu dmarc=pass fromdomain=purdue.edu);
+       spf=pass (google.com: domain of liu3101@purdue.edu designates 2a01:111:f400:7eab::725 as permitted sender) smtp.mailfrom=liu3101@purdue.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=purdue.edu
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on20725.outbound.protection.outlook.com. [2a01:111:f400:7eab::725])
+        by gmr-mx.google.com with ESMTPS id 190-20020a1c19c7000000b00396f5233248si209428wmz.0.2022.05.20.20.59.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 May 2022 06:01:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 4E9CDB82A78;
-	Fri, 20 May 2022 13:01:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A18C385A9;
-	Fri, 20 May 2022 13:01:51 +0000 (UTC)
-Date: Fri, 20 May 2022 14:01:47 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Will Deacon <will@kernel.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Peter Collingbourne <pcc@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 0/3] kasan: Fix ordering between MTE tag colouring and
- page->flags
-Message-ID: <YoeROxju/rzTyyod@arm.com>
-References: <20220517180945.756303-1-catalin.marinas@arm.com>
- <CA+fCnZf7bYRP7SBvXNvdhtTN8scXJuz9WJRRjB9CyHFqvRBE6Q@mail.gmail.com>
-MIME-Version: 1.0
+        Fri, 20 May 2022 20:59:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of liu3101@purdue.edu designates 2a01:111:f400:7eab::725 as permitted sender) client-ip=2a01:111:f400:7eab::725;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vs7CqCHh+gMM4HXAhIaxRCEXBNjz5JF/+6yt6RDqxWc4/F811OmR2O2T0yIxtsV18j9Vm487lAY4vj6aoZXkKjN013m2Tu8LiqdraFRGu2/yKLiiDAfZUMC7C3n9cSRIK1DUdpMCopXkKATPaREIstgLdScELaE9BZzCX77v7NnQi8ZQp8N7oHFrrXMwOHRvRnOXr33u+6vS+vqLiiJyFMA5fVrFA1U4Qz575rYdOliTRJrfZRuytCzbjZisG0q3JjF3vEyrRqY9/QnLZCIOeyJSp0uJOkgS8n1tqs2YaWaxGYu37//Ekbe4AfV7hXcRuWcmZ5Yy7n2IfTVgUZcMIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f1fk+VS7vZY/YdCR5d8x3fPkjxvFwwedu3VhuJfmTPY=;
+ b=C0hLIpo98YWbCteTIJ4jdzJZIKEUGrIxgcWSAUtxvyDNqo+EpuvXERzY72GfMfvTuOC5cEXVauiS2eBLokV0bSiZ9v1AEb6dd4tZYG20DbXOUcpuwNVRVjqpDi9vmGVy9pgoeKdl+XkpCV0gt7Y/wyFNLkhUgX1qJ83yQtttmoChbSC+kiQIkCpUntIElC0MF6SGKp4UOtEOmL4tvLZcqBSRPjQ3kwTw0bZIGvzWwiL/+rDO4jMkiN0YQfk5HP7ojWt9fOkXrzLDNmb4ISwBI4Gz0NoH6d9yTiBLHH3mPa1szwklEPspMZ+qGoS3Zrn6qypBi5w5x8zl+sjjz7C39w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=purdue.edu; dmarc=pass action=none header.from=purdue.edu;
+ dkim=pass header.d=purdue.edu; arc=none
+Received: from MWHPR2201MB1072.namprd22.prod.outlook.com
+ (2603:10b6:301:33::18) by DM6PR22MB1899.namprd22.prod.outlook.com
+ (2603:10b6:5:22c::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.19; Sat, 21 May
+ 2022 03:59:29 +0000
+Received: from MWHPR2201MB1072.namprd22.prod.outlook.com
+ ([fe80::a9e9:b100:2a55:23aa]) by MWHPR2201MB1072.namprd22.prod.outlook.com
+ ([fe80::a9e9:b100:2a55:23aa%3]) with mapi id 15.20.5273.017; Sat, 21 May 2022
+ 03:59:28 +0000
+From: "Liu, Congyu" <liu3101@purdue.edu>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] kcov: fix race caused by unblocked interrupt
+Thread-Topic: [PATCH] kcov: fix race caused by unblocked interrupt
+Thread-Index: AQHYajHoHiVYwAN8JUi5UTY5PvyBWK0kVeGAgAAA0wCABFjckw==
+Date: Sat, 21 May 2022 03:59:28 +0000
+Message-ID: <MWHPR2201MB10724669E6D80EDFDB749478D0D29@MWHPR2201MB1072.namprd22.prod.outlook.com>
+References: <20220517210532.1506591-1-liu3101@purdue.edu>
+ <CACT4Y+Z+HtUttrd+btEWLj5Nut4Gv++gzCOL3aDjvRTNtMDEvg@mail.gmail.com>
+ <CACT4Y+bAGVLU5QEUeQEHth6SZDOSzy0CRKEJQioC0oKHSPaAbA@mail.gmail.com>
+In-Reply-To: <CACT4Y+bAGVLU5QEUeQEHth6SZDOSzy0CRKEJQioC0oKHSPaAbA@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+suggested_attachment_session_id: 23f74e33-808c-ea5a-2a90-797ae0dfa15e
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f96429ef-c813-4230-ebb5-08da3ade4dc4
+x-ms-traffictypediagnostic: DM6PR22MB1899:EE_
+x-microsoft-antispam-prvs: <DM6PR22MB1899890D9DD90900E8573DB2D0D29@DM6PR22MB1899.namprd22.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Q5zgBk3YBdJUEggLAhIqdhAXIJlh+cf/kFaLXCmYFNFpfD1db6tKWUuXhpZSSQ1qyTaUxtO2szaBqG5YNfaRlueDf9vEthdwgSC5G66buPLFgLUz8Y3YhkxfafEjc5oW2idS+EvJ6lwvhps4Doljx0rhsmQGZuPKTWYeJkIA1BW+W7W3DvqIOp17yp7vD2y2BRFFm+aP9zxREmXyZTAlsnBSx1U9cxklJcMN4wWmSdl6fHL6d6fT5HYWQAC9O88TQls1kgduGnHS2Mqs2nAAM+ZqCTHcflk0EiAHJICg5sokVI1tgmGiRR6dvOchdC21oYPmVxAgRAbaNNboQeZq9swoEjpWFcqLgDwcbQI3ossuJZ0/taMPqT0FIrLsKFob8CbyNPvHDFdHjFQ4O35qojcM0VI3ogweXQwTtIgrTl1hv472HJGJR712lp1nHHz2PIz8PuVDbUPKJ+pRBNNQcONmH409cc6zN0hZZ0VLyi6RkgpyM+1U/1AKyfF76/pgRHYtv5tguT/HSUPzbGm1i5imT2Wupeu2KgI/rVNUvA/pjS399aWVKFjSsHKmHmFcvxbE8KoC003+aOoYPxFTvzlgwxb2FxwCQ6Uf1L/rUnoTCDUnYeqBJ2ajfO1YMEGdnWv0J4v8E03PCnFzca7oEKIU8MXAuku4O9nOoBwM6sCRvGkCQF55CTQVgUbf7kwdmOuUgJHGVSBwMVwlGuaOzg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR2201MB1072.namprd22.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(64756008)(66556008)(71200400001)(66446008)(66476007)(66946007)(4326008)(6916009)(786003)(316002)(76116006)(54906003)(53546011)(86362001)(7696005)(9686003)(6506007)(26005)(33656002)(55016003)(91956017)(508600001)(122000001)(52536014)(186003)(83380400001)(8936002)(38070700005)(38100700002)(2906002)(75432002)(5660300002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?y/vqZzgxopixNtScHkiH+lxeTTk7e58D5t6dE/Q9B6F1luBc6o7GyTuydFJA?=
+ =?us-ascii?Q?RwDUPx7il9LwABQAvG3BgqbyWTBVmOL7YleT4CVgxC7I+CDKKu7BwJ3SwTmN?=
+ =?us-ascii?Q?dXoXHeu66AOsQbMPdMBNhFD+RtW6miKJ1BD52JY/RwXAMFw78VyTeqTyd7lA?=
+ =?us-ascii?Q?PFs9U+jRXu4TRbrBhQ8PcupjgMHI3XzBxBzuivjGz5FcxYo1yVLaEhLMK8zA?=
+ =?us-ascii?Q?BD+PRM00gJCgF+cy8Za6CqLKGd0RP/Pa/rMlMqHs0SSPxwMxVIaPz76jSGV3?=
+ =?us-ascii?Q?k0QmALdlLzyqY1/CgDPYINUmQgA2e3I9kkCZ5Galfh7NjBOGs/ZFeCu8u63p?=
+ =?us-ascii?Q?gouHLJRhrY7guX9/4vQt7yYMMnQTH7gq1jv51ykBpYYXUNEcWTABlQpFPG1A?=
+ =?us-ascii?Q?1N4OFicfg9Lv/GPcWkf/DLlnfdiGyZgR5G7eBKlEu+cPzhmV850s5r+WyNdr?=
+ =?us-ascii?Q?MsoNVezU73nq57EPIUPURtN3Avc2iyorBBGce0k1TmnLdIf62NUmaEI4sHJb?=
+ =?us-ascii?Q?+8S7Ft2rHnNIMj3rzFQJV7MFzZMV4SpWJxCsq1r1NKxnO6dOM5GVlJCpjHIg?=
+ =?us-ascii?Q?RIMxNqchCDiQrWShz1yJCWGFI4cLo1aveV3xlZL9N6NFCmRz4r7WDmQBWUQA?=
+ =?us-ascii?Q?Ax0Qx30Acg5ijF1NifPLkdSGwtDcuv+Ssxj1GGebSirHLv+EIuKjs2lYF8q3?=
+ =?us-ascii?Q?unnTJBFHP49OVfgqSFIXNR4CKADoIAL9yQDVzDiwV1zwr5ZnQHCt26B88P0E?=
+ =?us-ascii?Q?S1CoGZu72tkboeNJn6TqZjW4udGrlAMaMcf9BK1YJkqEkenVu5AHloibbSAF?=
+ =?us-ascii?Q?TqS2P3rrR9F1waUMZiMhRYrJXETSf7l+rEeHSeMS/lAmfQmaj8Ne0KwlVpiE?=
+ =?us-ascii?Q?wRbPcaN+Ess0qL+68+Rd270nfMf6ts7/cvIAJNOZ585SQREtpbbwBzM0cquq?=
+ =?us-ascii?Q?rhmFQ927L9/pQ0ucpTP0D5psADjuAZaRYsfXdTZy4g12j44Xs7E7KnFJpilm?=
+ =?us-ascii?Q?sEj6x7QCFGwgj9SN/69ek4XoZ3O9EyX4AbjomntknPitRt7lpmdI2zpKhSt+?=
+ =?us-ascii?Q?njmZALVlHtMfl1G3kop7msfph4AEJ1CiqA8UVdC3fK+VWPPUIOXZ/7z7o0ua?=
+ =?us-ascii?Q?tBRsSaP93Y1cWb1ScXiiY/D3PB7JqaFR05TYuvv87uQLjA8oY2NCTBQlIKc7?=
+ =?us-ascii?Q?Y/ZqwF8FGmt4XArkf2/9RC8YNwU3SIxouw22YTWMlBLB4wyoMDgXwjOSUcj5?=
+ =?us-ascii?Q?3BCAp6ssBnKGqPGDVhLXUMXXE47FC6E49Hq8nRwOhXuxN7xrkXx9RU40+A9q?=
+ =?us-ascii?Q?tOfNhYsppYW3O4+OAFyUBSY3ORliHEql73pBfuDt4EZxD0HpJnCx2XxQIyEA?=
+ =?us-ascii?Q?j5/0UB6VmS4n1lI+kWwf22uwgpjWRAuLXRh0TIpWYJ6Or+jJ+TJXurgix5JH?=
+ =?us-ascii?Q?+1QMpnYO+U4tdjDt7cCyVZynAhZoTfoSsiQW1upFSpZPKe7oVcTloSJ0BFLn?=
+ =?us-ascii?Q?XP39AW6FFS1QZnsjYmOq1qw+lYnjNo1JG8R8O4c4YspM1+xOEK+vu6XkjbWY?=
+ =?us-ascii?Q?Y4mDQsXSaCIfojQstLHTqg8LwmgzpX7A9CX8eSM01qA5ccCOg5IpNE32y4mw?=
+ =?us-ascii?Q?pk2zGbddJiM9Z141CiPHUamlBGjsn5xxGfCRjArfC9bsh3wWrg+dVzpvRHDb?=
+ =?us-ascii?Q?DzWStGMtVS8qEQWMrU1Bne/JdSvlerl5oIjnTfF6cA+F0+KD?=
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CA+fCnZf7bYRP7SBvXNvdhtTN8scXJuz9WJRRjB9CyHFqvRBE6Q@mail.gmail.com>
-X-Original-Sender: catalin.marinas@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 2604:1380:4601:e00::1
- as permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: purdue.edu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR2201MB1072.namprd22.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f96429ef-c813-4230-ebb5-08da3ade4dc4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2022 03:59:28.7935
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4130bd39-7c53-419c-b1e5-8758d6d63f21
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: prKMpB+k3U2XJlXWBz6S0pToymLrjM7/U36C9lTWdD0UqhDK2j/LbUz0tG0XAPD9P86HjHWagegdoNzMD8mPeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR22MB1899
+X-Original-Sender: liu3101@purdue.edu
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@purdue0.onmicrosoft.com header.s=selector2-purdue0-onmicrosoft-com
+ header.b=sup8Q42P;       arc=pass (i=1 spf=pass spfdomain=purdue.edu
+ dkim=pass dkdomain=purdue.edu dmarc=pass fromdomain=purdue.edu);
+       spf=pass (google.com: domain of liu3101@purdue.edu designates
+ 2a01:111:f400:7eab::725 as permitted sender) smtp.mailfrom=liu3101@purdue.edu;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=purdue.edu
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,102 +218,167 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, May 19, 2022 at 11:45:04PM +0200, Andrey Konovalov wrote:
-> On Tue, May 17, 2022 at 8:09 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > That's more of an RFC to get a discussion started. I plan to eventually
-> > apply the third patch reverting the page_kasan_tag_reset() calls under
-> > arch/arm64 since they don't cover all cases (the race is rare and we
-> > haven't hit anything yet but it's possible).
+Hi Dmitry,
+
+Sorry for the late reply. I did some experiments and hopefully they could b=
+e helpful.
+
+To get the PC of the code that tampered with the buffer, I added some code =
+between `area[pos] =3D ip;` and `WRITE_ONCE(area[0], pos);`: First, some co=
+de to delay for a while (e.g. for loop to write something). Then read `area=
+[0]` and compare it with `pos`. If they are different, then `area[pos]` is =
+tampered. A mask is then added to `area[pos]` so I can identify and retriev=
+e it later.
+
+In this way, I ran some test cases then get a list of PCs that tampered wit=
+h the kcov buffer, e.g., ./include/linux/rcupdate.h:rcu_read_lock, arch/x86=
+/include/asm/current.h:get_current, include/sound/pcm.h:hw_is_interval, net=
+/core/neighbour.c:neigh_flush_dev, net/ipv6/addrconf.c:__ipv6_dev_get_saddr=
+, mm/mempolicy.c:__get_vma_policy...... It seems that they are not from the=
+ early interrupt code. Do you think they should not be instrumented?
+
+I think reordering `area[pos] =3D ip;` and `WRITE_ONCE(area[0], pos);` is a=
+lso a smart solution since PC will be written to buffer only after the buff=
+er is reserved.
+
+Thanks,
+Congyu
+
+________________________________________
+From: Dmitry Vyukov <dvyukov@google.com>
+Sent: Wednesday, May 18, 2022 4:59
+To: Liu, Congyu
+Cc: andreyknvl@gmail.com; kasan-dev@googlegroups.com; linux-kernel@vger.ker=
+nel.org
+Subject: Re: [PATCH] kcov: fix race caused by unblocked interrupt
+
+On Wed, 18 May 2022 at 10:56, Dmitry Vyukov <dvyukov@google.com> wrote:
+>
+> On Tue, 17 May 2022 at 23:05, Congyu Liu <liu3101@purdue.edu> wrote:
 > >
-> > On a system with MTE and KASAN_HW_TAGS enabled, when a page is allocated
-> > kasan_unpoison_pages() sets a random tag and saves it in page->flags so
-> > that page_to_virt() re-creates the correct tagged pointer. We need to
-> > ensure that the in-memory tags are visible before setting the
-> > page->flags:
+> > Some code runs in interrupts cannot be blocked by `in_task()` check.
+> > In some unfortunate interleavings, such interrupt is raised during
+> > serializing trace data and the incoming nested trace functionn could
+> > lead to loss of previous trace data. For instance, in
+> > `__sanitizer_cov_trace_pc`, if such interrupt is raised between
+> > `area[pos] =3D ip;` and `WRITE_ONCE(area[0], pos);`, then trace data in
+> > `area[pos]` could be replaced.
 > >
-> > P0 (__kasan_unpoison_range):    P1 (access via virt_to_page):
-> >   Wtags=x                         Rflags=x
-> >     |                               |
-> >     | DMB                           | address dependency
-> >     V                               V
-> >   Wflags=x                        Rtags=x
-> 
-> This is confusing: the paragraph mentions page_to_virt() and the
-> diagram - virt_to_page(). I assume it should be page_to_virt().
+> > The fix is done by adding a flag indicating if the trace buffer is bein=
+g
+> > updated. No modification to trace buffer is allowed when the flag is se=
+t.
+>
+> Hi Congyu,
+>
+> What is that interrupt code? What interrupts PCs do you see in the trace.
+> I would assume such early interrupt code should be in asm and/or not
+> instrumented. The presence of instrumented traced interrupt code is
+> problematic for other reasons (add random stray coverage to the
+> trace). So if we make it not traced, it would resolve both problems at
+> once and without the fast path overhead that this change adds.
 
-Yes, it should be page_to_virt().
+Also thinking if reordering `area[pos] =3D ip;` and `WRITE_ONCE(area[0], po=
+s);`
+will resolve the problem without adding fast path overhead.
+However, not instrumenting early interrupt code still looks more preferable=
+.
 
-> alloc_pages(), which calls kasan_unpoison_pages(), has to return
-> before page_to_virt() can be called. So they only can race if the tags
-> don't get propagated to memory before alloc_pages() returns, right?
-> This is why you say that the race is rare?
 
-Yeah, it involves another CPU getting the pfn or page address and trying
-to access it before the tags are propagated (not necessarily to DRAM, it
-can be some some cache level or they are just stuck in a writebuffer).
-It's unlikely but still possible.
-
-See a somewhat related recent memory ordering fix, it was found in
-actual testing:
-
-https://git.kernel.org/arm64/c/1d0cb4c8864a
-
-> > If such page is mapped in user-space with PROT_MTE, the architecture
-> > code will set the tag to 0 and a subsequent page_to_virt() dereference
-> > will fault. We currently try to fix this by resetting the tag in
-> > page->flags so that it is 0xff (match-all, not faulting). However,
-> > setting the tags and flags can race with another CPU reading the flags
-> > (page_to_virt()) and barriers can't help, e.g.:
+ > Signed-off-by: Congyu Liu <liu3101@purdue.edu>
+> > ---
+> >  include/linux/sched.h |  3 +++
+> >  kernel/kcov.c         | 16 ++++++++++++++++
+> >  2 files changed, 19 insertions(+)
 > >
-> > P0 (mte_sync_page_tags):        P1 (memcpy from virt_to_page):
-> >                                   Rflags!=0xff
-> >   Wflags=0xff
-> >   DMB (doesn't help)
-> >   Wtags=0
-> >                                   Rtags=0   // fault
-> 
-> So this change, effectively, makes the tag in page->flags for GFP_USER
-> pages to be reset at allocation time. And the current approach of
-> resetting the tag when the kernel is about to access these pages is
-> not good because: 1. it's inconvenient to track all places where this
-> should be done and 2. the tag reset can race with page_to_virt() even
-> with patch #1 applied. Is my understanding correct?
+> > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > index a8911b1f35aa..d06cedd9595f 100644
+> > --- a/include/linux/sched.h
+> > +++ b/include/linux/sched.h
+> > @@ -1408,6 +1408,9 @@ struct task_struct {
+> >
+> >         /* Collect coverage from softirq context: */
+> >         unsigned int                    kcov_softirq;
+> > +
+> > +       /* Flag of if KCOV area is being written: */
+> > +       bool                            kcov_writing;
+> >  #endif
+> >
+> >  #ifdef CONFIG_MEMCG
+> > diff --git a/kernel/kcov.c b/kernel/kcov.c
+> > index b3732b210593..a595a8ad5d8a 100644
+> > --- a/kernel/kcov.c
+> > +++ b/kernel/kcov.c
+> > @@ -165,6 +165,8 @@ static notrace bool check_kcov_mode(enum kcov_mode =
+needed_mode, struct task_stru
+> >          */
+> >         if (!in_task() && !(in_serving_softirq() && t->kcov_softirq))
+> >                 return false;
+> > +       if (READ_ONCE(t->kcov_writing))
+> > +               return false;
+> >         mode =3D READ_ONCE(t->kcov_mode);
+> >         /*
+> >          * There is some code that runs in interrupts but for which
+> > @@ -201,12 +203,19 @@ void notrace __sanitizer_cov_trace_pc(void)
+> >                 return;
+> >
+> >         area =3D t->kcov_area;
+> > +
+> > +       /* Prevent race from unblocked interrupt. */
+> > +       WRITE_ONCE(t->kcov_writing, true);
+> > +       barrier();
+> > +
+> >         /* The first 64-bit word is the number of subsequent PCs. */
+> >         pos =3D READ_ONCE(area[0]) + 1;
+> >         if (likely(pos < t->kcov_size)) {
+> >                 area[pos] =3D ip;
+> >                 WRITE_ONCE(area[0], pos);
+> >         }
+> > +       barrier();
+> > +       WRITE_ONCE(t->kcov_writing, false);
+> >  }
+> >  EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
+> >
+> > @@ -230,6 +239,10 @@ static void notrace write_comp_data(u64 type, u64 =
+arg1, u64 arg2, u64 ip)
+> >         area =3D (u64 *)t->kcov_area;
+> >         max_pos =3D t->kcov_size * sizeof(unsigned long);
+> >
+> > +       /* Prevent race from unblocked interrupt. */
+> > +       WRITE_ONCE(t->kcov_writing, true);
+> > +       barrier();
+> > +
+> >         count =3D READ_ONCE(area[0]);
+> >
+> >         /* Every record is KCOV_WORDS_PER_CMP 64-bit words. */
+> > @@ -242,6 +255,8 @@ static void notrace write_comp_data(u64 type, u64 a=
+rg1, u64 arg2, u64 ip)
+> >                 area[start_index + 3] =3D ip;
+> >                 WRITE_ONCE(area[0], count + 1);
+> >         }
+> > +       barrier();
+> > +       WRITE_ONCE(t->kcov_writing, false);
+> >  }
+> >
+> >  void notrace __sanitizer_cov_trace_cmp1(u8 arg1, u8 arg2)
+> > @@ -335,6 +350,7 @@ static void kcov_start(struct task_struct *t, struc=
+t kcov *kcov,
+> >         t->kcov_size =3D size;
+> >         t->kcov_area =3D area;
+> >         t->kcov_sequence =3D sequence;
+> > +       t->kcov_writing =3D false;
+> >         /* See comment in check_kcov_mode(). */
+> >         barrier();
+> >         WRITE_ONCE(t->kcov_mode, mode);
+> > --
+> > 2.34.1
+> >
 
-Yes. Regarding (1), it's pretty impractical. There are some clear places
-like copy_user_highpage() where we could untag the page address. In
-others others it may not be as simple. We could try to reset the page
-flags when we do a get_user_pages() to cover another class. But we still
-have swap, page migration that may read a page with a mismatched tag.
-
-> This will reset the tags for all kinds of GFP_USER allocations, not
-> only for the ones intended for MAP_ANONYMOUS and RAM-based file
-> mappings, for which userspace can set tags, right? This will thus
-> weaken in-kernel MTE for pages whose tags can't even be set by
-> userspace. Is there a way to deal with this?
-
-That's correct, it will weaken some of the allocations where the user
-doesn't care about MTE. And TBH, I'm not sure it covers all cases
-either (can we have an anonymous or memfd page mapped in user space that
-was not allocated with GFP_USER?).
-
-Another option would be to lock the page but set_pte_at() seems to be
-called for pages both locked and unlocked.
-
-Any suggestions are welcomed.
-
-> > Since clearing the flags in the arch code doesn't work, try to do this
-> > at page allocation time by a new flag added to GFP_USER. Could we
-> > instead add __GFP_SKIP_KASAN_UNPOISON rather than a new flag?
-> 
-> Why do we need a new flag? Can we just check & GFP_USER instead?
-
-GFP_USER is not a flag as such but a combination of flags, none of which
-says explicitly it's meant for user.
-
--- 
-Catalin
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YoeROxju/rzTyyod%40arm.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/MWHPR2201MB10724669E6D80EDFDB749478D0D29%40MWHPR2201MB1072.namprd=
+22.prod.outlook.com.
