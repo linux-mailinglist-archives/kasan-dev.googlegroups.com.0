@@ -1,153 +1,139 @@
-Return-Path: <kasan-dev+bncBCWJVL6L2QLBBI6UVSKAMGQEKQ7T4PA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKFI7J2AJRBH6VVSKAMGQERLQ6PDY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194A9530990
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 May 2022 08:31:01 +0200 (CEST)
-Received: by mail-oo1-xc3c.google.com with SMTP id 65-20020a4a1d44000000b0040e8fbc7720sf715908oog.4
-        for <lists+kasan-dev@lfdr.de>; Sun, 22 May 2022 23:31:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1653287459; cv=pass;
+Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D8B530994
+	for <lists+kasan-dev@lfdr.de>; Mon, 23 May 2022 08:33:04 +0200 (CEST)
+Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-f26c00595fsf1497439fac.6
+        for <lists+kasan-dev@lfdr.de>; Sun, 22 May 2022 23:33:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1653287583; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ncD5pVpodEJuHWKYXUZ6oe4zlU9I9kA9d1ZpOrGAoiHHj2NFD3JA1dMan44WT9lekk
-         PdxkvHX2WFdGkpLFN40GEiDyGrqLsHeigrhf0CcBBv3M04eGgQ/54AW+Zn6ZjQaVKDai
-         10ZjJA0v6IzQ32BqxMoCVidrRSYZxelVXaDvVrLjbh+ZImbIdeigtaK4Zxdf2py4LOLQ
-         gNa63mB3vyHY6d4/AXfhm9gQpuVOlpjrcfSczdlRnyQZwbMHCGOXbKE6UfQ330lQO9MW
-         U9r6e/fmKonuNNNapfkhm06qfbAqBTIbahymBj2id7LTSchgmUrrGjaXJuxbPKapS3i0
-         jbNw==
+        b=ER8O5f3iRczihlLhj57tBjXcQ8kIte80u30aAtCRpeUOk9OHSktOrtfoBnyjQfvsnZ
+         PCtAfM073k74YFGY5P2FmPduVVDk1VQDvj8RJOmYKXaotydpYuElknukqGqTqsEZzIy8
+         GlABZhjUp0eSjd4ZeP7AUTC1eqRZ2vUteEIH+mN04fqxXDZEDa3LJ1EcClw9elqeibzV
+         +71bfGowK3p2DxYndlmGlJxRE0BznwJvN3BtynXTQpla/cYryEp3v0k2Oyxd6Kfo8Kix
+         cYD3uHiJt6b9cCzhlm3vmQ/BPhdNNVBcwffldysLIilfj2utJUvKhwoz9gx+ws1p6ddk
+         gZUA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:ironport-hdrordr:ironport-data:ironport-sdr
-         :sender:dkim-signature;
-        bh=spZYs6S7G7mF/VcQPxolfExIUOgH/UyAPxcjU1nZ+SU=;
-        b=Lbn2MaB5oeOjXF/KBQ1u+bB2fmfzt5rmkER1h77YccfcHTgm5B3vX4fr2EntvbhnLm
-         85DsWDL9WU3Ch7YBe1NjQESMBWELm91oMhQULxUm6SwFYrjETtjI84VeZ73x7NQ+8wPW
-         NkKXhsr/rYF65/qtt5/anzIljiIAGs97sf5Bp2C5rMc/erDCmMLghJGOTXcavMlPEIJF
-         svn1phb8loAvGSxhHkpIsHZw+7K8MSv2760cjnmq6AOiYbjP/oenZPoj7h8qgUIVvCK8
-         dpb4D8mCUyR88cqGceXqidn2ODSxlm23Bu80a4YgFyRkqor53GJufJJXCJGc6CVDm9v1
-         dBaw==
+         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
+         :references:cc:to:content-language:subject:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=oF7JrTqj5EcMpRdbZSB2dA8xVByt5m+qJwQ3yQX+aN4=;
+        b=k63VrI3R7BvNJuxX14a/5ED7TKV1Xqd2BHmkXzlHOZRYArItV1x6R0P062Snch1/p3
+         EBSWy8ZKzejT596sLcfLhoKtw6c9yZ2Jqfng0uAfzX8pZ85aUSlt5jGRnGYilMFa++9n
+         USrvu8u/cPZWyOoxsslHJtHIQLmx6dO8UN2cIQ2vIu4EDK9Zrh79FqNFRLCzXPahmASa
+         1dZI5u3mQzMgpRJjSw1V/KE22j67WWt6JKpAHfoeEhFyRr9f/HFtf8ID+TkQo2NmabXB
+         TCK8nGOoGMk3UEtOJBXeFXA7U+4u5cGn6m+drVsP34dAhdACtjkMB315sCRydukYTwUT
+         uubg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of liu3101@purdue.edu designates 128.210.1.215 as permitted sender) smtp.mailfrom=liu3101@purdue.edu;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=purdue.edu
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:ironport-sdr:ironport-data:ironport-hdrordr:from:to:cc
-         :subject:date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=spZYs6S7G7mF/VcQPxolfExIUOgH/UyAPxcjU1nZ+SU=;
-        b=FdvgiUATtSERfzcemV2OW3i4U7NeiDV3LX/kd8avPqhgOQc32vMlcyhsXMeqJH2IGY
-         16KECfu3bUQB3fwHL65bCL5n5R67ZUI9LZGAvYTsoi9O8SWmWlOFrCoH3js2QKNV1rem
-         OIjZ66i/qjl0/fb3WV59flditEA3PymtgcP9K+ODH+Cx/B7NpDYqwurON+bnr9aFjCFw
-         a0y/8URVtkbWgYBuwnr0MgEDQbPwOtJl5DIhrrCA4KBc6u+sITm/Pps6dqGa7cCbGQRq
-         /7bZfz205kAiv87892ykWctbzBSDD36R1ND5/2Jvkv9oqYEaUYeMGdJueWq2fnzdwU3b
-         cAGQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=oF7JrTqj5EcMpRdbZSB2dA8xVByt5m+qJwQ3yQX+aN4=;
+        b=qeTH5lKOoYHbhCR8J8SS7ksSlA5X5XLy9JMRMRZ4rbdBApj9ZhdlzEYJsb7JYtx2Cz
+         aCjsyiwyUhV6ZJ65AYIyCfGA0K4PjcDT5ms17CuK+FttVtMIv4psb6UPPy8C/maSWBKw
+         Euy6wndO0q39kv2gJsIvi6zId/OPF/ad8qzuEponTfnMTprPcCc0f2PqKDZdCgqaG1T8
+         9BrS/X98liLutwzcagyeoFg3uGyMFw7Nyp6sxJgQUZKYmrDQJdA9KTzACN5Ie2gMaFN+
+         dce8ABbEsT6h+V8iL0QjfQHSG+tZ3UODM/78u5Xv62y0MBlq/Wx00eLoi1Q5IE4aDAus
+         O4xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:ironport-sdr:ironport-data
-         :ironport-hdrordr:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=spZYs6S7G7mF/VcQPxolfExIUOgH/UyAPxcjU1nZ+SU=;
-        b=Uax2vMAuFYomNDWHq2ueFDUeIDCe5HlAqaRjA3yX4jqKz6aMOGwtdi+RZJDz9IDggR
-         14BFTwMYqndwJhZNkBMKV6yenc3x9KaZeKIEjc8Cy0t1GsciFvmjw1GtQVVzpIdIQh4D
-         OQkX4MSC+EnqqQy8NRNoU5Kzp1dWC8iOzjdbTO90ot8+XyepKqmv5Gy044Pw0MaQ7jeK
-         /4E//c0GuC9USOKg9YZQ7kq4wmFived8NOF+v8yBD3cYu7V0Ef/zquWNw7mKACTL0/AM
-         j83XkZawctziE9RuTsXiB4ecc8hU6wYN8SRM820u7hrHD8E+MY5sgGgQ9zZaDuDpRv8Q
-         1QxQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531HuqJNT50QUo7sxtXwIO7aA6MX3mGhysSqrLdewhdh4UStmJdo
-	cBRLyb8oy/oopn32sxLAL2k=
-X-Google-Smtp-Source: ABdhPJxkA8hfUDS2Qn7KhBtB7Jkx6/tK3So5Jjg10eEQC4lEsO/zBK6n5QGBBqZ/KIdnkc8tUIP73w==
-X-Received: by 2002:a05:6870:4288:b0:f1:b413:8ca9 with SMTP id y8-20020a056870428800b000f1b4138ca9mr12105463oah.197.1653287459770;
-        Sun, 22 May 2022 23:30:59 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=oF7JrTqj5EcMpRdbZSB2dA8xVByt5m+qJwQ3yQX+aN4=;
+        b=bl0h62XhdS8SVqX0fDynikdAmDo9JPvZ3E+keFFAKEExUso6HGRMmZr9PRH4mKqI4g
+         ztBcaz5tT5YMoB6bFsc5Hj80D/w062hkZnptHmL0fLtz+iYKtAtulDu0eA68DtfnMVrk
+         qRYBmk/SM1LnzsaYXwcUGvjsMm63E35qQp4eZzQrLwZKl203giWDgHS7Hzjq2V24MjSz
+         ymWBy2txiB4E5QpOjpsd0SGIMF0dczEKMUW8eDdPj60WyAyXIeKV6cs2ITko7MDeQaIG
+         1Qfu+u1SE/CgWxy7Sw6rPUA6HkRedn1gL6lurzLCJRmrS906Emf8ioEqLWc5vm6yP1AE
+         6RFg==
+X-Gm-Message-State: AOAM533HmrUY+eWu3jM7nxOPxjZbs9dDniAieO8xF0mRBlRoqESX/Z7Z
+	pBqCf20mjexcl0oKfjuiFPk=
+X-Google-Smtp-Source: ABdhPJwGQwKsAxNUOr9gJxWe3w4Ye7k8ybG0zE8sevTdAwwLdNtSDCjetvevgpCdEEdnIIZIJ+Apiw==
+X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id v29-20020a056870311d00b000de9b6c362bmr11103456oaa.200.1653287583321;
+        Sun, 22 May 2022 23:33:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:4e1b:0:b0:5c9:3fe6:39de with SMTP id p27-20020a9d4e1b000000b005c93fe639dels2466959otf.4.gmail;
- Sun, 22 May 2022 23:30:59 -0700 (PDT)
-X-Received: by 2002:a05:6830:25cd:b0:605:c92c:967a with SMTP id d13-20020a05683025cd00b00605c92c967amr8018048otu.306.1653287459421;
-        Sun, 22 May 2022 23:30:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1653287459; cv=none;
+Received: by 2002:a05:6870:9a03:b0:e2:adb7:ef12 with SMTP id
+ fo3-20020a0568709a0300b000e2adb7ef12ls4731958oab.10.gmail; Sun, 22 May 2022
+ 23:33:03 -0700 (PDT)
+X-Received: by 2002:a05:6870:3306:b0:f1:8b45:bb31 with SMTP id x6-20020a056870330600b000f18b45bb31mr10927076oae.210.1653287582994;
+        Sun, 22 May 2022 23:33:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1653287582; cv=none;
         d=google.com; s=arc-20160816;
-        b=dt1xg5KXq+cmf7PFG/isBEGYFlLFqYKLn5OvOIQyMSr9/vCUBRUhtlurdo1/JypeE4
-         L517opG8naifW/augjWkepw7SK3LkGlW9k1131pNjq6Sj0kKd5IP7V24er9qNTmYRFvu
-         zcnH9zhkUIHLyir+y0n4OpDKMrQo11Xu2ce3keMmHbJs4lz+vbJ7V/ZQVVbW98/FBQGQ
-         2gdgWZ57RwP93ZLIBsMe74JyRG2HnS3UU2pPL7khzZfGa9b72HMggUV4lveaGUfJD8ID
-         tVAMCDOs+EF+/221v0OsxUs879XfCfC1QDwY1AtWbZaKCshRWJt5zvCUVbHq0n4YxFLo
-         uJcg==
+        b=TS3tqGt4oVs1lxHzf215x0F2UsjwqUCdvDS4hpwOyOo6uSvo1zhoCM2uy1lDESHUhU
+         /cnSAGPhPNTwfbu8zcnEvp+D/82SRYHovB23GG1vQ8ZwYr0lMYC5lSmiCZGWvPwpsndo
+         5HyWWTuzvFe+gsY9DSUe1ju9nzkYnVantmND39XsR8Tqjeq7F6xoSGUD9prXrRf8dcyq
+         yqPt+7SdBzmho1K4nfuUtLQKySeBaaQVofkFY+x2woJgBzvwl+cIIOzcF+vKCaPmAqpu
+         ihaf+/T+7qAqWSgSSAEHhy2k+eoC189kFvICKIfAt0QEF6SuRQKutyTvd9xC4SXlUJ9n
+         3Njw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:ironport-hdrordr:ironport-data:ironport-sdr;
-        bh=U2T5JCpt22wtoz/m3BNhNSi8oqLGu6brVcFGsmM9QGU=;
-        b=a4UJLGZk8Yi28bqRMGW8slRtl7Kb0O6UEfXY6J3b/x3eJ4r3fmcEDXuPlKZFDiVzVM
-         8G81UbB779lulPDVNTQ3t4jkPU8jrnExOjS5OX8IAB4Hya/GMRz+eNQ6ZRrL2wI0PLtW
-         mrUm46Jn6sPae3L1nIBpy9YllkllwXMtI9nmqlB2daGJu358hkTY6px7xP5znAFZjg9w
-         b5gJB5PSNWY2y76rYAbznowE+bnHrraOG1uJN0zHzSiWAwPhN+BoBxf0poaauUS7Oooj
-         V+RaAV2wcq2Ck3pUoPFoAA33djahJYDNBvof7TcPBCvwle1QZjBrpW8kU5HHY9AmnWY2
-         VDxQ==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=UySkrngpyxlqFXuXvAuuyWJoHZM4/VJBqsuofm9PV2o=;
+        b=ssyuNgT5kw5XtcIzEuWMd8WXUvJ0sQMYdSmDwFwhVuknbQED7tswNjGUcyufSsh/gs
+         Bbvnc3u6vgmvhhBPIKDsnoJJGR2t6ucMtNbwrC9kgjOG7gYUjSEfRLDcYcZYUrMOUQIR
+         eEwZYjMvK8xNRqAEjlvR16upFFRoD5WgF71Fsq2koEot9+ioeCgO0TuPZY1aVFuLtXyo
+         /Otum6tkfioVXVJqb6CEtAtBklqMKt9RmXNVl8LtT3Ix2fnQrn+5sT3N8cuOlG4IauxO
+         m2gjwNwjy1hrZRfRuAHuCIbms8/B2wSypoWVJBrjk/DvCRUxpCiqGCJ1R679W1vOCF0l
+         U5Sg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of liu3101@purdue.edu designates 128.210.1.215 as permitted sender) smtp.mailfrom=liu3101@purdue.edu;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=purdue.edu
-Received: from xppmailspam11.itap.purdue.edu (xppmailspam11.itap.purdue.edu. [128.210.1.215])
-        by gmr-mx.google.com with ESMTPS id h24-20020a9d6018000000b00605f6345a99si482464otj.3.2022.05.22.23.30.59
+       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com. [45.249.212.189])
+        by gmr-mx.google.com with ESMTPS id fq38-20020a0568710b2600b000e217d47668si1360980oab.5.2022.05.22.23.33.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 22 May 2022 23:30:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of liu3101@purdue.edu designates 128.210.1.215 as permitted sender) client-ip=128.210.1.215;
-IronPort-SDR: nnbxmAp3WC2w9hxp4UzB735Hd5mv9U4/fEVDZqIBp1zykMV6eu9D2T+Z0TZmNWhqWva1O872n1
- qEDrSkFFmUof2e5AvFAqgO4Fm64vuOOOY=
-X-Ironport-AuthID: liu3101@purdue.edu
-IronPort-Data: =?us-ascii?q?A9a23=3ASeMQq6MmfktlJivvrR2Nl8FynXyQoLVcMsEvi?=
- =?us-ascii?q?/4bfWQNrUolhmEEyjMYWG+CaPyKN2Hwfoh+OYnlp0wBuJSExtI1QHM5pCpnJ?=
- =?us-ascii?q?55oRWspJjg7wn8dt0p+F+WbJK6+x8lBONTGMu4uSXrQ+kWkPrT79CEuzbySS?=
- =?us-ascii?q?qfxTuPIJ3kpFwNjTS4gjzNlmvI43t4z2ITpU1vVtIOgudDbNX+kxyVwbjAe5?=
- =?us-ascii?q?ZWFpU49p//1oj4Z4gEzaKkT7l/TnnUYFrwFIqS1IyeqS4VYBLfiFf7e1r2k8?=
- =?us-ascii?q?yXU8wp0UoGplbPyc0srRL/OPFTe0SMKC/j62hUb/348yKc2MvYYeHx7sTTRk?=
- =?us-ascii?q?oAj0shJuLyxVRwtYv/GltMbXkQKCCp5J6BHpOLKLHXj48yey0rKLynlz/l0V?=
- =?us-ascii?q?hlkPIsU674qR2pVs+QFMjwQY1aOi//vmOC3Texlh8ICKsj3Pd9P4Sg8nWGBV?=
- =?us-ascii?q?ft2E4reR6jq5MND2GtijM55G/uDNdESbiBibUidbhATaE0bDokywLWhinXlK?=
- =?us-ascii?q?WUKqVSZtPJqpWPIihRsyrTwPZzYdsHTHZdZmUORp2Tn+WXlA01Kb4XDmWrdq?=
- =?us-ascii?q?n/81PXSmS7bWZ4JEOHq/PBdhlDOlHcYDwcbVAfmrPS04qJktwmzEGRJvHt3x?=
- =?us-ascii?q?UQO3BbzFIOlAkfi+CTsUiM0ArK8LcVrsGlh9YKLu251NkBcJtJwQIROWP0eH?=
- =?us-ascii?q?FTG5XfV9z/dPgGDhZXOIZ6r3urO8WniaXB9wVgqPkfoRSNdizXqTRpaYhjnF?=
- =?us-ascii?q?r6PG4bt5jH59K2ZL5lncUEDa7svYc4jj81X/HjGhT69/sWPRRVz/hjNUn+oq?=
- =?us-ascii?q?A51eeZJZaTxswidtK4Gdd3BCADf4xDomODHhAwKJZWMiXfUGLwlBKyz6+uId?=
- =?us-ascii?q?jDQnDaDGrF9qW/2oCb/Jdk4DDZWYR0B3tw/UTP3cVLQvh1565hUM3+nK6RwZ?=
- =?us-ascii?q?uqZAsIm16XxFtL7Utjba9NPZt56cwrv1DtpflKd03zFn08rnaQ+ItGca8nEJ?=
- =?us-ascii?q?XMbD6tg5CC7S+cUzfkgwSVW7WDaXpn9ihiqz5KRY3maTboKKlyTdvt/56SBy?=
- =?us-ascii?q?C3R8tBCJ46Jxg9ZXenWfCba68gQIEoMIHx9Aor5w+RTd/PYe1I/MHk8EfPMz?=
- =?us-ascii?q?PUsd5ENokj/vo8k5Vm8XENJkAe5jmaBMRiQZm1uLr7jQP5CQbsAFXREFT6VN?=
- =?us-ascii?q?7ILOO5DNJsiSqY=3D?=
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AT6cH8q4Ny7Mp8E7PBwPXwHDXdLJyesId70?=
- =?us-ascii?q?hD6qkRc3Nom6Oj5rmTdZggpGfJYXMqNk3I+urtBED/ewK7yXcd2+B4VotKNz?=
- =?us-ascii?q?OKhILHFutfxLqn5DH8FiXi/qp00Kt6buxYANn9ZGIbse/KpC61Dtsp3dHC2q?=
- =?us-ascii?q?Ghnvq29QYPcShaL4Zt8gpwFw7eOEh/XhNHCpoyHIed4M0vnUvERV0nKuO2G3?=
- =?us-ascii?q?QMQuCGiNXOlJf3CCR2ZSIP2U2ogS6k4KPzVzmfxAp2aUIq/Z4StU/IjgHw+6?=
- =?us-ascii?q?3miPe/xnbnpgjuxqUTv9f9x9NfDIi3htcYMTXwmm+TBbhcZw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.91,245,1647316800"; 
-   d="scan'208";a="463330401"
-Received: from indy05.cs.purdue.edu ([128.10.130.167])
-  by xppmailspam11.itap.purdue.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 May 2022 02:30:58 -0400
-From: Congyu Liu <liu3101@purdue.edu>
-To: dvyukov@google.com,
-	andreyknvl@gmail.com,
-	rostedt@goodmis.org,
-	mingo@redhat.com
-Cc: kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org,
-	Congyu Liu <liu3101@purdue.edu>
-Subject: [PATCH] tracing: disable kcov on trace_preemptirq.c
-Date: Mon, 23 May 2022 06:30:33 +0000
-Message-Id: <20220523063033.1778974-1-liu3101@purdue.edu>
-X-Mailer: git-send-email 2.34.1
+        Sun, 22 May 2022 23:33:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189 as permitted sender) client-ip=45.249.212.189;
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4L66p848wkzDqL6;
+	Mon, 23 May 2022 14:28:00 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 23 May 2022 14:33:00 +0800
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 23 May 2022 14:33:00 +0800
+Message-ID: <20d731fd-f7f9-4c93-d851-01972dc04cb9@huawei.com>
+Date: Mon, 23 May 2022 14:32:59 +0800
 MIME-Version: 1.0
-X-Original-Sender: liu3101@purdue.edu
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH] mm: kfence: Use PAGE_ALIGNED helper
+Content-Language: en-US
+To: Muchun Song <songmuchun@bytedance.com>
+CC: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
+	<akpm@linux-foundation.org>, <linux-mm@kvack.org>,
+	<kasan-dev@googlegroups.com>
+References: <20220520021833.121405-1-wangkefeng.wang@huawei.com>
+ <Yods867HAh5NH2kN@FVFYT0MHHV2J.usts.net>
+From: "'Kefeng Wang' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <Yods867HAh5NH2kN@FVFYT0MHHV2J.usts.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Originating-IP: [10.174.177.243]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
+X-Original-Sender: wangkefeng.wang@huawei.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of liu3101@purdue.edu designates 128.210.1.215 as
- permitted sender) smtp.mailfrom=liu3101@purdue.edu;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=purdue.edu
-Content-Type: text/plain; charset="UTF-8"
+ (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189
+ as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: Kefeng Wang <wangkefeng.wang@huawei.com>
+Reply-To: Kefeng Wang <wangkefeng.wang@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,34 +146,27 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Functions in trace_preemptirq.c could be invoked from early interrupt
-code that bypasses kcov trace function's in_task() check. Disable kcov
-on this file to reduce random code coverage.
 
-Signed-off-by: Congyu Liu <liu3101@purdue.edu>
----
- kernel/trace/Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
+On 2022/5/20 18:26, Muchun Song wrote:
+> On Fri, May 20, 2022 at 10:18:33AM +0800, Kefeng Wang wrote:
+>> Use PAGE_ALIGNED macro instead of IS_ALIGNED and passing PAGE_SIZE.
+>>
+>> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> Acked-by: Muchun Song <songmuchun@bytedance.com>
+Thanks,
+>
+> BTW, there is a similar case in page_fixed_fake_head(), woule you like to
+> improve that as well?
 
-diff --git a/kernel/trace/Makefile b/kernel/trace/Makefile
-index d77cd8032213..0d261774d6f3 100644
---- a/kernel/trace/Makefile
-+++ b/kernel/trace/Makefile
-@@ -31,6 +31,10 @@ ifdef CONFIG_GCOV_PROFILE_FTRACE
- GCOV_PROFILE := y
- endif
- 
-+# Functions in this file could be invoked from early interrupt
-+# code and produce random code coverage.
-+KCOV_INSTRUMENT_trace_preemptirq.o := n
-+
- CFLAGS_bpf_trace.o := -I$(src)
- 
- CFLAGS_trace_benchmark.o := -I$(src)
--- 
-2.34.1
+IS_ALIGNED is defined in include/linux/align.h, but PAGE_ALIGNED is in include/linux/mm.h,
+so better to keep unchanged in include/linux/page-flags.h.
+
+>
+> Thanks.
+>
+> .
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220523063033.1778974-1-liu3101%40purdue.edu.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20d731fd-f7f9-4c93-d851-01972dc04cb9%40huawei.com.
