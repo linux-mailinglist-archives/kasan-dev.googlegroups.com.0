@@ -1,139 +1,61 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBQGVXGKAMGQEYSLCWVA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDKXGE5TIFBBGPKXGKAMGQEL4L453A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x113f.google.com (mail-yw1-x113f.google.com [IPv6:2607:f8b0:4864:20::113f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501D6534254
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 May 2022 19:43:30 +0200 (CEST)
-Received: by mail-yw1-x113f.google.com with SMTP id 00721157ae682-3004ae6bfffsf24239037b3.20
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 May 2022 10:43:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1653500609; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=IULQdb4o+MLjvN/tjBdyy9efXQf98VQBuRzPb23lh0dBDIf46CbRZOPRGOBUF1pnV8
-         tA9MzZQnf9iyTIp0TSO9ZQmZWgdepTsG+EwHUwB9df94Zh8w0oqbgvQVRemSUnO0YjzP
-         oP7AI6FXtLDNZtpsJf/6b8GJmppAW5JQScDqSKFntDDQYmMqXWFbCVs6XRo+dCLywecx
-         C5Kw5VPLLSx0efq9UF9D/MTXy42NIVpXzBi6HFtRE0EaLbuK5g9ifxZXN6ubCj3vBWyq
-         csnFENNQQMzue+I/pZbyHuXHNz03VjcQG+ZV9DoGqhrTKXSJe9NV3221ToQfuf0Ny/eW
-         iJmA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=y5GCN/fDjdgfHrCwIPMlKTbsEUYbSuLJVhzKuoysR4A=;
-        b=K4m2CuId32IfXFSrAqi+DeNGl7rQLE+DWjoXf95KIS5rw/g9lI+wu4IiKD3SDMGzI4
-         0ZxFBbjnhzzx8h0aTNHDNuqsoK7HeE/qHwOXLE3jsWuqO8Tuq19SH5jAEnui0kvLmda1
-         BH83OtuhFdTmOoM3QTWb/Ku7xd0KtvbHe+hwYBdbF0LNfYvseGAoVgJEZt6z7/NNnAJ+
-         Z01jAlCWbw49vp2EId/WPsGFYIjTZxCf+jt2yUXfgoscGyqhzUf6vATSI99AL5luZ/R/
-         h/5P9sSury8yPr+DEUZ0cRu/o3BLqXrAaXVC9eTiYi8GdlZ+SFmaRZ1cle2+2CQ0+Okn
-         0lTA==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lz+Il6Th;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::131 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-oa1-x3e.google.com (mail-oa1-x3e.google.com [IPv6:2001:4860:4864:20::3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9D35342F5
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 May 2022 20:27:39 +0200 (CEST)
+Received: by mail-oa1-x3e.google.com with SMTP id 586e51a60fabf-f1310d298csf11389474fac.4
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 May 2022 11:27:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=y5GCN/fDjdgfHrCwIPMlKTbsEUYbSuLJVhzKuoysR4A=;
-        b=UfBwCF1Vn+N00saw1tkA+kNVx3yZZ1xlKgwk2ublK7gLCuqQ71CVRjNQF4duJwMHkD
-         YGuJ5deVOA7FUpoOF4meIO8hruBbbscGJl1ZBiKX4W/9LjjKiry+WAzUshyw2WgZS4WD
-         KiufF18er8skTwiKET4D6CC7A0z/xVfBUWFQIMWVCZd+SsYKNWzlUrG6gJ6O+hBNArT0
-         fXhBJ68liPvb4oje5VFHQ86rK9J2lqFc7lKsxDLdSifwvyW9Udm8rHoDz3tJn3dhW+JJ
-         w/2cFSGj7WvUa4LS1VGoy2DeEkwvLJ+CkvDxaaQQkHbz1KqqLidWigi7B5NtiiTcxLQL
-         85kw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=y5GCN/fDjdgfHrCwIPMlKTbsEUYbSuLJVhzKuoysR4A=;
-        b=KpVuZFyFLDJ1s8DonwGMEbJrNv7KXpP7JJNwASqGm5x+ZhhezFKPhwECnPtxyIR2Gj
-         XG0xZtkIsX+z4P5U/ThZuxcx2tGgmbcbtrbCxxIC13z2EbKuOX0yjxNfZwtT6tqXZOhP
-         RtCL0GnItTe6ii/VFB8bcGSqBI3Wcy5xdgAIFvM+nETP+hTO7IQ6AqVfO95DD/jrVikJ
-         U/5WIfFKZ/KJfX6QfqEULGS+8pKD8LXc76fHyGbpnVha7xqEjdwsVMzBmY8sPlAJwecJ
-         CruhWjG3s0JaFfnGzwLk9OfKirm8wx1Du3MoHjdRIWp3PdY1ZdvJxHVgo6V7J/LWMxoo
-         Fw+A==
+        h=sender:date:from:to:message-id:subject:mime-version
+         :x-original-sender:precedence:mailing-list:list-id:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=IqibljAUL9I+V5SePZCse0cfkCa4Jr/qGG6iZNu10NM=;
+        b=rVTbmkZnPe9QKlKg/gBcz790kZVxCMKEYX+rV2k78yWRsr3t6jHiTueHrW+mMxZF9N
+         Bzy2D4dbvGGw2r+JCgwjOcQAThaLnuA6uYATelDxUvxsJzDgae1fqySk6Ey3jwarAlUL
+         v5HpP2g32/7Wq+QAX99OTtJ4ovjcM/MHXjh/WHNBm8LF2Sqso94hFkVP3P8b6wCMD/XB
+         xH1Qa98bVuDS6VZLt37zWBLfqaGkvqM25kOhH3YAanJLFlMRBy+mc2MuzzBetBcZ6TMA
+         JdAhQDX+rc3viB24d/8pT3LbGWRE4FjP3cdeDz1Hoga9VvVO6AfB46k7n7MSv058MJvU
+         aKzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
+        h=sender:x-gm-message-state:date:from:to:message-id:subject
+         :mime-version:x-original-sender:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=y5GCN/fDjdgfHrCwIPMlKTbsEUYbSuLJVhzKuoysR4A=;
-        b=iYWEQ33jpxsLhN98zxU9hLv57P9NbQiMk+y40CDr4hdil6f2+9zN8NZ0V8L+fLpB89
-         husl8jscfuakB++do9QfsRW+l3pT2J8tX8MXE5hQjLyNMgKGiuce7KpJB7UCOx9nIUND
-         kwj4bP6xA2TORwHws1nBOXZow8wO4LmDW4jW1t+/79vYzlhwkYjGUW2X7FiOtXASG5fJ
-         Z/zADWnjqcXfnzu7DP5JwKgpU7EyEuNRxM4tYQjNABcHvO5mLDLjVIW7dl4lup3+vwNT
-         P1dGTlSZ57XCdd2/HrIwO1E/RBbGygrwKIKOjCEaZZCcZw2/8m0r1b/BF/MXBTvC7vNK
-         L9nw==
+        bh=IqibljAUL9I+V5SePZCse0cfkCa4Jr/qGG6iZNu10NM=;
+        b=MFzxeGr76Vtsc3x+aWr3kGUt77nVjNvnDzLAdFZ8Y/D3W2mPHPC0yKmrnm5xqDPn2E
+         vK8uv2gViYA36PIU7At2HuMpGjBLir3kno9IVk+OUmqcR6EZ26y0ijDZYduAL1nH+SyC
+         yYmNBQgae0QrZpln4bW4TkKHDU9ews2kCvBZihuR7abxerq1SdQkVUKNQ30AKS00Rdc5
+         iQvdIhKqWXPd4ObE/VYmc51UAY2u9Qkw+ojGtvztmImu6RvzaCayI9+exfhKBKFqqeoC
+         FczQMqj4GJTDzaKSBv2lAjrfp+NcerxMA3B5UtIYOniTSQZNEzgCgEd61UTSvNDQEzhe
+         ndaQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM5334LuDRUeXG5diXijsAhFMdPF2ywXye29v6uhuEKanRi1niRdcm
-	Uxh8pmFnL9nUhXLom7KwuNo=
-X-Google-Smtp-Source: ABdhPJylMARLbicYrahln3A43RD95WD9T6YE0JkuXFwT225QIvptiUTi2d/8debDcF/4PYw1fqRp2w==
-X-Received: by 2002:a81:138a:0:b0:300:6018:5336 with SMTP id 132-20020a81138a000000b0030060185336mr2720694ywt.97.1653500608978;
-        Wed, 25 May 2022 10:43:28 -0700 (PDT)
+X-Gm-Message-State: AOAM53112ikV+Q9j2Wp7C57vefPoe7/YB+Z2muDMAYNDD7WVIbTaUXkX
+	r1qmZH2OlQz6NNRLl2COBrw=
+X-Google-Smtp-Source: ABdhPJwQZwfte0ApmQGOwbBAtF3rCGUM21YcCyWnKbGbTcdVq0PUTvhiMFzFTf1xNJUvf9lFkfr5Yg==
+X-Received: by 2002:a05:6870:2053:b0:ec:d66d:d9d0 with SMTP id l19-20020a056870205300b000ecd66dd9d0mr6258177oad.196.1653503257742;
+        Wed, 25 May 2022 11:27:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a81:7015:0:b0:2fe:ffc2:2e83 with SMTP id l21-20020a817015000000b002feffc22e83ls4379523ywc.3.gmail;
- Wed, 25 May 2022 10:43:28 -0700 (PDT)
-X-Received: by 2002:a81:980c:0:b0:2f8:be8d:5100 with SMTP id p12-20020a81980c000000b002f8be8d5100mr35459845ywg.52.1653500608489;
-        Wed, 25 May 2022 10:43:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1653500608; cv=none;
-        d=google.com; s=arc-20160816;
-        b=zgawfnMhtMHi1JEp3labA1wP1NGEL78QedGRE4EaxIfsopKskpzx8Ukfk9ZzSsvsjq
-         z1tkMIdlsuF01vTx8l7vDSaxG7mvCPbzp6GOGegl6l4fF+4b3h960FcFAHporRQmATWH
-         JzitH08l75vPUgvG3ymLxbGn8bH2xIG4ABHzTCgXky2uwF74MDCcjV4uM5/OYK36ZQMZ
-         Yxla1l6AIh/Uruv4hqalk/78efN33oWRzTxEA3m6vwsaa4QOuso5hRSE3TcC0VI32IB1
-         SIvuLhfIPHSPH02wWISL809ThYkP0Xq0hnJixbRgWEmCPDLuYIUiy0EB77YuidSC69G0
-         7CIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9Y1ppk7B46JVKK7NkaOrpQ5493dk2qksQrupKiexSz0=;
-        b=dRJh+dxUZZnEjRs34pFO9vGetflgNq2B5hJqGJY5O+i0FkkztiDJEdXLnXYGJhmzzN
-         kWqc6U2hhoMmkDgHCCOloDoxqvEqZGCtxR3dWjNtQVfp434m19qQsLJSIw3BXRjOGAem
-         BcqA47t6adKhtAIdwWGJFzGUaT9pjRFZD2uv9d8nEomlKM2y8dmmXduwbix3LboHc+U9
-         nqn+dbB8RZCbfs4lM5Hfs/U1kCU91AxuPXllL1DJCS+ufH9mMfguDxcAb6GdD1cpNtAK
-         g6jqCZlK+/YBHelg6oqhXpJLir6SJbLJSOgfMIv5h8sXhym7E7W3kks4AYu7Jmt5mKNU
-         4xFQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lz+Il6Th;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::131 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com. [2607:f8b0:4864:20::131])
-        by gmr-mx.google.com with ESMTPS id m145-20020a25d497000000b0064ddc44f675si228847ybf.4.2022.05.25.10.43.28
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 May 2022 10:43:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::131 as permitted sender) client-ip=2607:f8b0:4864:20::131;
-Received: by mail-il1-x131.google.com with SMTP id q2so5910082ils.0
-        for <kasan-dev@googlegroups.com>; Wed, 25 May 2022 10:43:28 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1be2:b0:2d1:5818:a454 with SMTP id
- y2-20020a056e021be200b002d15818a454mr18036546ilv.248.1653500608130; Wed, 25
- May 2022 10:43:28 -0700 (PDT)
+Received: by 2002:a05:6808:10c5:b0:32b:492a:3b40 with SMTP id
+ s5-20020a05680810c500b0032b492a3b40ls4165755ois.0.gmail; Wed, 25 May 2022
+ 11:27:37 -0700 (PDT)
+X-Received: by 2002:aca:2b0a:0:b0:32b:46e2:1dd8 with SMTP id i10-20020aca2b0a000000b0032b46e21dd8mr5707956oik.170.1653503257332;
+        Wed, 25 May 2022 11:27:37 -0700 (PDT)
+Date: Wed, 25 May 2022 11:27:36 -0700 (PDT)
+From: ANDREAS NIGG BANK J SAFRA SARASIN ZURICH <jackpapeck@mail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <f0766dfb-6d4f-4964-8ff7-956511e1ea5bn@googlegroups.com>
+Subject: =?UTF-8?Q?=C3=89_PEDOFILO_ASSASSINO_PAOLO_BAR?=
+ =?UTF-8?Q?RAI_#PAOLOBARRAI:_UN_CRIMINALE?=
+ =?UTF-8?Q?_EFFERATO_A_DUBAI!_L'ASSASSINO_PEDOFILO_PAOLO_PIETRO_BARRAI_#?=
+ =?UTF-8?Q?PAOLOPIETROBARRAI_LAVA_SOLDI_MAFIOSI,_TRAMA_NAZISTAMENTE,_STU?=
+ =?UTF-8?Q?PRA_BAMBINI,_LI_UCCIDE_E_NE_VENDE_GLI_ORGANI,_A_DUBAI_#DUBAI!?=
 MIME-Version: 1.0
-References: <20220525120804.38155-1-wangkefeng.wang@huawei.com>
-In-Reply-To: <20220525120804.38155-1-wangkefeng.wang@huawei.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Wed, 25 May 2022 19:43:17 +0200
-Message-ID: <CA+fCnZf_Aphbje1aJCyp0Sarz3DgbfGLXHLisiHjT=ttS6pjWg@mail.gmail.com>
-Subject: Re: [PATCH] mm: kasan: Fix input of vmalloc_to_page()
-To: Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=Lz+Il6Th;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::131
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_1898_667666813.1653503256774"
+X-Original-Sender: jackpapeck@mail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,39 +68,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, May 25, 2022 at 1:58 PM Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
->
-> When print virtual mapping info for vmalloc address, it should pass
-> the addr not page, fix it.
->
-> Fixes: c056a364e954 ("kasan: print virtual mapping info in reports")
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> ---
->  mm/kasan/report.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 199d77cce21a..b341a191651d 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -347,7 +347,7 @@ static void print_address_description(void *addr, u8 tag)
->                                va->addr, va->addr + va->size, va->caller);
->                         pr_err("\n");
->
-> -                       page = vmalloc_to_page(page);
-> +                       page = vmalloc_to_page(addr);
->                 }
->         }
->
-> --
-> 2.35.3
->
+------=_Part_1898_667666813.1653503256774
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_1899_1379643146.1653503256775"
 
-Nice catch, thanks!
+------=_Part_1899_1379643146.1653503256775
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+=C3=89 PEDOFILO ASSASSINO PAOLO BARRAI #PAOLOBARRAI: UN CRIMINALE EFFERATO =
+A=20
+DUBAI! L'ASSASSINO PEDOFILO PAOLO PIETRO BARRAI #PAOLOPIETROBARRAI LAVA=20
+SOLDI MAFIOSI, TRAMA NAZISTAMENTE, STUPRA BAMBINI, LI UCCIDE E NE VENDE GLI=
+=20
+ORGANI, A DUBAI #DUBAI!
+https://twitter.com/UglyBarraiDubai
+https://twitter.com/BarraiScamDubai
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZf_Aphbje1aJCyp0Sarz3DgbfGLXHLisiHjT%3DttS6pjWg%40mail.gmail.com.
+PAOLO BARRAI #PAOPLOBARRAI =C3=89 PEDOFILO ED ASSASSINO! SI, =C3=88 PROPRIO=
+ COS=C3=8C! =C3=89=20
+LADRO, TRUFFATORE, FALSO, RICICLA SOLDI DI NDRANGHETA E LEGA LADRONA,=20
+NONCH=C3=89 KILLER E PEDERASTA: PAOLO PIETRO BARRAI #PAOLOPIETROBARRAI DI=
+=20
+CRIMINALE #BIGBIT, CRIMINALE #TERRANFT, CRIMINALE #TERRABITCOIN, CRIMINALE=
+=20
+#CRYPTONOMIST, CRIMINALE #WMO SA PANAMA, CRIMINALE #MERCATOLIBERO, ECT! IL=
+=20
+MALAVITOSO LEGHISTA CHE VENIVA ARRESTATO, LUCA SOSTEGNI #LUCASOSTEGNI,=20
+SCAPPAVA A PORTO SEGURO, DOVE IL KILLER PAOLO PIETRO BARRAI AVEVA PURE=20
+LAVATO (CASPITERINA CHE COINCIDENZA), NEL 2011, PARTE DEI 49 MLN =E2=82=AC =
+RUBATI=20
+DA #LEGALADRONA!
+https://oneway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.=
+jpg
+https://twitter.com/UglyBarraiDubai
+https://twitter.com/BarraiScamDubai
+
+TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
+https://groups.google.com/g/comp.lang.python/c/frqS8yotvDg
+
+CONTINUA QUI
+https://groups.google.com/g/comp.lang.python/c/frqS8yotvDg
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/f0766dfb-6d4f-4964-8ff7-956511e1ea5bn%40googlegroups.com.
+
+------=_Part_1899_1379643146.1653503256775
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+=C3=89 PEDOFILO ASSASSINO PAOLO BARRAI #PAOLOBARRAI: UN CRIMINALE EFFERATO =
+A DUBAI! L'ASSASSINO PEDOFILO PAOLO PIETRO BARRAI #PAOLOPIETROBARRAI LAVA S=
+OLDI MAFIOSI, TRAMA NAZISTAMENTE, STUPRA BAMBINI, LI UCCIDE E NE VENDE GLI =
+ORGANI, A DUBAI #DUBAI!<br>https://twitter.com/UglyBarraiDubai<br>https://t=
+witter.com/BarraiScamDubai<br><br>PAOLO BARRAI #PAOPLOBARRAI =C3=89 PEDOFIL=
+O ED ASSASSINO! SI, =C3=88 PROPRIO COS=C3=8C! =C3=89 LADRO, TRUFFATORE, FAL=
+SO, RICICLA SOLDI DI NDRANGHETA E LEGA LADRONA, NONCH=C3=89 KILLER E PEDERA=
+STA: PAOLO PIETRO BARRAI #PAOLOPIETROBARRAI DI CRIMINALE #BIGBIT, CRIMINALE=
+ #TERRANFT, CRIMINALE #TERRABITCOIN, CRIMINALE #CRYPTONOMIST, CRIMINALE #WM=
+O SA PANAMA, CRIMINALE #MERCATOLIBERO, ECT! IL MALAVITOSO LEGHISTA CHE VENI=
+VA ARRESTATO, LUCA SOSTEGNI #LUCASOSTEGNI, SCAPPAVA A PORTO SEGURO, DOVE IL=
+ KILLER PAOLO PIETRO BARRAI AVEVA PURE LAVATO (CASPITERINA CHE COINCIDENZA)=
+, NEL 2011, PARTE DEI 49 MLN =E2=82=AC RUBATI DA #LEGALADRONA!<br>https://o=
+neway2day.files.wordpress.com/2019/01/indagatoaiutalelisteciviche.jpg<br>ht=
+tps://twitter.com/UglyBarraiDubai<br>https://twitter.com/BarraiScamDubai<br=
+><br>TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI<br>https://groups.googl=
+e.com/g/comp.lang.python/c/frqS8yotvDg<br><br>CONTINUA QUI<br>https://group=
+s.google.com/g/comp.lang.python/c/frqS8yotvDg
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/f0766dfb-6d4f-4964-8ff7-956511e1ea5bn%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/f0766dfb-6d4f-4964-8ff7-956511e1ea5bn%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_1899_1379643146.1653503256775--
+
+------=_Part_1898_667666813.1653503256774--
