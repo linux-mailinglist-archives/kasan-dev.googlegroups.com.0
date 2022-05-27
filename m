@@ -1,134 +1,128 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRB5HCXWKAMGQE7O6FSJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBKGEYGKAMGQESVZZWRQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FD6534F0E
-	for <lists+kasan-dev@lfdr.de>; Thu, 26 May 2022 14:24:22 +0200 (CEST)
-Received: by mail-oi1-x23e.google.com with SMTP id w3-20020acadf03000000b0032b02f1a1a0sf639793oig.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 26 May 2022 05:24:22 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1653567861; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 886DD5358C3
+	for <lists+kasan-dev@lfdr.de>; Fri, 27 May 2022 07:31:22 +0200 (CEST)
+Received: by mail-lf1-x13d.google.com with SMTP id b2-20020a0565120b8200b00477a4532448sf1486947lfv.22
+        for <lists+kasan-dev@lfdr.de>; Thu, 26 May 2022 22:31:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1653629482; cv=pass;
         d=google.com; s=arc-20160816;
-        b=UaG80UH+0hZWAvBxxJy50RTLM/x4RszmLg/XJFcXb5pMlTav2pA6Kgk9gpml+dwSc4
-         a8oFv3/qp9EbWbAoNOUqFJjG+cNgSnpUIh4aG/e2Or8s3MzmSbrWWFaJ3F+ppeLpcDDf
-         JbMyiOYZ3Gx+AcydWCIpXOvktsdIVPPpm03KaPZZgDIB8BODsm1Uew4Of47iZTVYwE1/
-         ppB6lmAL1j8LWKvAEG9xrs58MHpWg/7krTj0b1VH2TG+EJk7SbVNsDODFNO5svu2r6D1
-         sNy3zryvjGIJVJdTrONNxULhHV6zWbJ+k9nUBxIL2sNV0nYHhIOmedMogdfnZyFKuIM6
-         vNOw==
+        b=O7YwAu3s7mGfpa/l3+ylLNYmq4SK5hNHgN6XJmQGZHb+XtHE3oIMxifQYpwRRz/pcP
+         0QUQDV27m3/UG71URktmYZqX6MMxfIltp3Aviozckf29SSTZHUgm1/3C2EiV43SEJh57
+         CeIDYcl33i6hpWspK6BcIFy3CCtv+xMoPApqJ/1MJgN2xabraFh7vVRkqk0GrmtJFqpi
+         5uvVIUCnez9XqH90InJZLEi29mBdVPlG6aHj5OY4RMUHdMYwRsF8Dlys+raRqmhF3Wf0
+         iynUs77q7cwxo/2x+7j07mYQX/frvDTvKhLUcErstzKSuFCSHMotu9pZzP+OLbg7ZJHC
+         y7wA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=MsyHlOHQnbC1w7nU7IXjNpgM/RYa6D18G79oJF7Y2ak=;
-        b=pMf89iVDFjl01BbUXqxsDpV/XQY6ZU+clh3rskLgkQvzHus8vb6C+hEs/G57s2CRf2
-         2TWNCmUCciRTD09Ch75YU3oNR2/N5DJ6LPvlVzVuzIJMh90j0dcky+bXv3a+W/ExPIEr
-         WF1WqR5T4DsbUUShPd3I2IFQ2g2zvKHELQhaW6Dmz8uC1MSSRn5JwzfqqNLNXIwVc0J0
-         S+fuV0zJF992vSvugFpGicMpfuXYCRoGQCH3YezWsEAS6ZFaHdPSxBb0cbGdgBAydTo+
-         8nMqT/+XtoiypIxkl1W2GICAzy0iobq+8S7Txc8NHI8cpeJgIxxCee+30OHB6Mc07NoV
-         YAhg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=VuCMc2JO01cAjY2EIlCoN8TReUfKM8g3NZLgLj3vdaw=;
+        b=LFciBPalzzRg50rx0cxoYsfrfXLGTAG+v4yj5mMxhZXQMD5JkcjM/n7ibA+yg7DVd0
+         SDvDxdhHc3U6iaPpBj3ab2NuYY1BMIXd7m7oZvNngL66b0XWRZ34OMB/Cfeu/8/DWnC/
+         NcvpwPEqOI5wgREezThVDJMZSEzaBsAeuSGNkuTlWd+zcvnYTti5yiq7SIMMuRBcRfpv
+         Hze6hXThtiyXMmuZH/ZwQ9j3ERmjvk/Y2fRDM4kIxahn3/2q63KHeA2t1hgQVlMrFov5
+         3kYTSVjzyp9MMJFLYWAHlXtAqlaH5Axi5vKNMriz2fcixwwO0kacsanmUkP7IenXnC4L
+         tYww==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=TvxRlvu5;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=MsyHlOHQnbC1w7nU7IXjNpgM/RYa6D18G79oJF7Y2ak=;
-        b=EF9Mh6YBmf7BXJGnvsadn+Ds9/oDGtIs+F/98v1Z+xlzl7xRiXe1lotHXAEONdGCC/
-         voR8W+Em6ECAqQeZMKD/E4Cl+b3zHRPCnYwF8fGWx6GDmy370Ec6r/cGHpCqgJE5TY6a
-         YL7EX0F9aeTM+ufZk/sEN9sX0SrdHs7Mb0bnXAZsaBmEuFTmJ3pzFIh1LVuxlYujricN
-         uOvcP1qVD3PmVcXSFgr/U+QNresjNUM0vWd0AVRU5NfTyASy9cr7F1CRH4Vbc5TjIyYi
-         0ddhtDpW8fPrPzY0Qr/JYsQ6nQJu+RIPMn3gcNiSSMwdvwKhulEhyKZ6NmepxSE0Ccxu
-         r2CQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=VuCMc2JO01cAjY2EIlCoN8TReUfKM8g3NZLgLj3vdaw=;
+        b=ZLZZ2tZV1cdfQpQDnHfz/HWawfi62ebm3oA206Z64vWWkWJ3LjiC09QIlqOK6qRXdG
+         5ChTUNl2kwYVztLfBi7HoAWbbgPZ/5RurrqB6IyhNRrdnY292ZB9Oun/8Z/qJPaMKJN7
+         aL8c5mjWmjZEqlg5c7zVjFj1NHHmHIZj0W8LduCrL82y5W4EBs2t/4ecoVFwDpZnHaQk
+         UdBzmsGl6kkdeBVgsk3PF4TLx3VOIpxHfOctO0qrJ/pJ1OGtGOsndXUseTgj1izkt4OQ
+         qraujThMqWBgYgprSjhCzRQegIc8dakykUw6cKfZjeQfXwRR0G5y7DAlY5qdYkyfJTEz
+         TaIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=MsyHlOHQnbC1w7nU7IXjNpgM/RYa6D18G79oJF7Y2ak=;
-        b=YySU3IEwkRjVK13/kbQMn8YQfl9ITLEFE5vY+OblxlByG8Oay//kCqfkSu/K2xC1RA
-         C4ZZ+MghvNTFeFv4fPUZhSWMP1CHsdVq9aCfi6DRiSMYA91yGlpdp2rpoK52TwxKR8bD
-         VzSVh7x5oq9YEH6y2owYHQP7N+3vmHuVv7waCnntn/CKBaCqIWCRZoO1XnD5yot37A1X
-         z+ERpjcO+0wpzpoMN01cWj1+xFj2ttcZ6BwgWzwm3mQvWf/vJrR3KA9uOjViEeqLwh4d
-         SfuJZqlhFG1lHbcDundTuoxNA2CfkLqjW5hbM7+5txQeXfb/WWuV0ZgbBALO0CBuFlbI
-         Ytrg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532y1UA7G14n+BPvQ1WyolNP16uBDj5iHrpCoW3obCG56zLqsPQ2
-	iU2EIAb0jER2v3aa76ew9Qw=
-X-Google-Smtp-Source: ABdhPJyjqT74X2QTlDM7/F2FV/rD4iDR8FrII+PakRAYvn9yuvdU9la2PXxz3+yopEC5cYKlEt1HXw==
-X-Received: by 2002:a9d:5506:0:b0:60b:1f4c:85b5 with SMTP id l6-20020a9d5506000000b0060b1f4c85b5mr6163336oth.174.1653567861010;
-        Thu, 26 May 2022 05:24:21 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=VuCMc2JO01cAjY2EIlCoN8TReUfKM8g3NZLgLj3vdaw=;
+        b=eRLuD8WcbNLzWLi/zIafB2fJKugD+8ZRa2niiZYPDZzEY36JQJAIlXyXsufPO3bhXO
+         u8pqCHNoLQyTxgX5FU9G9izCw4BRCeA6G/OsRLo6MQTpc0sRgfMgv6pZ6d3/TBx0pJet
+         AVJD9tAi7rJAbbPO/25i3RRGAVVGKTbzzHfPCc9T3iEcsCMH0WRL7mp7OKZSOTemx7VH
+         b8GAziDW+7mJTmpUbZ9MEDqOJ8NU4BMYx2Z8XZuwwJIWP+KHrc/LikzHqTwMnlT1G3Qe
+         xHRZkb77liRSjCu+N2svbpcJ1l1x/T3dIPAbpX8906uCFk2M+q6iBVw0a/9RaIzayC4F
+         CzEg==
+X-Gm-Message-State: AOAM532O8hzZm4DnByxrU0CjXlKyDiAtnCCgLipwZIgPncyEwzhlk3ze
+	XdM7W3pNbaxDnjY4jBxy9xA=
+X-Google-Smtp-Source: ABdhPJzXHEKqBnuD7uS62HzIJEuCEXTZAadmKHXtxo6EDEeOg36+pNJXsTMxvMuJTxQKyNmhs/rdCA==
+X-Received: by 2002:a2e:b0c1:0:b0:254:1fc5:3122 with SMTP id g1-20020a2eb0c1000000b002541fc53122mr3731762ljl.114.1653629481407;
+        Thu, 26 May 2022 22:31:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:815:b0:60b:18ee:64dc with SMTP id
- r21-20020a056830081500b0060b18ee64dcls2560796ots.3.gmail; Thu, 26 May 2022
- 05:24:20 -0700 (PDT)
-X-Received: by 2002:a9d:1b09:0:b0:606:e384:138e with SMTP id l9-20020a9d1b09000000b00606e384138emr14388152otl.141.1653567860601;
-        Thu, 26 May 2022 05:24:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1653567860; cv=none;
+Received: by 2002:a05:6512:b1c:b0:472:38f0:bc75 with SMTP id
+ w28-20020a0565120b1c00b0047238f0bc75ls338380lfu.0.gmail; Thu, 26 May 2022
+ 22:31:20 -0700 (PDT)
+X-Received: by 2002:a05:6512:3502:b0:474:21a5:8d41 with SMTP id h2-20020a056512350200b0047421a58d41mr29255129lfs.570.1653629479947;
+        Thu, 26 May 2022 22:31:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1653629479; cv=none;
         d=google.com; s=arc-20160816;
-        b=QG/SeBq76JtLAMDOqBC1Ac13T41L46r8Hhh5RB54Vb5LGrycbDHkQcMV0OmXk52r4J
-         4B3bVit/kbVbCciiLb6Dga6Tzt0cjp0Vn11m0WcNBm/xtzRHPpiZlOvIS2JXRa6/d4NP
-         e/b3wBV4Q5v5ZlRNxWwIPcVMk6Gj6uGKUKO6+oMDlZhhe3HdE23zZ2vTZvsstRVv4hbK
-         v0ocJ5V3wj40NX9RZR9nkQEpDcY9Ke6yAq1hBsELJQLBtJfIr3N0PCwH/RmMdgyRbgoF
-         FyKhgrvvudU13wDuASfYQg+3RrGBu8SurkZ09MjnaAKW/Q5Ai/4GNDA1b+gpuytdj/WR
-         4tFw==
+        b=swW7njPw83Ouo8lNmF0V0/G5r29oE+JSi3prlCmHxxis97F8hXbONY7Ip/5KTL/jL5
+         cq7jDAMmzqqJDXl0zalMZbMKk/IZr3wWlo7suQz9BnUHh0NkeZK8tN2YPWvQjFfCuhhx
+         nZC8cInlIal0rZGC6nxCqotBzGpLFEr3GQAqJcqPQZki1og/Kudv6hrVbqVUkEkSgJUT
+         TsbE4amrJ3gr0JrifpN9KNXuNyGlXtcmsp1oywQnYQeSr/zkp3ZdDh7RxRlQEocDxV+J
+         yCcvvJGZZUmX9s2iCuaIrYpCPCDwuNxCOjUTUKg31G8DSPhxOXoaYr8kwESsjCcU/NM8
+         j7CA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=GfaF+v1mp4GSMGZQrFdv1tqXIyE3BI+P6UNVXmeS2+w=;
-        b=dzVa4GM8Kv4y8Vb7rJ6LSTthvKwc6pSCROVlMucbWUzEmzYDpbe5zibYYrZmwYaQz5
-         ov7DLrFuU7dTS9dOFCZQoXEu4DOCdM78zvbwsSQdY7M8rn0+hra802boQ3b2TpRojjJz
-         reLWh9jFscDHYXzD7qErJKAvYrElkdTmvIs5/D5UZScUSF2OHZWxbmp81sDOy1Xybo0D
-         sbvf7Wi/oWNIgxP+3XjFYXHNmvJQ8MmbPjKmEkTzsyyNt3u+bs4zVt2+CEPIakX/1Cee
-         jG3hTFN98b7/mZs6xdoeKJWuhFC8bNjNoTSFN969cL1/Xaxmn+QADgoIZC1Hs8wQho6e
-         1BwQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FXpXFDqSJSH7QNVAUYO8Ygf0XCIT9cNVqP2wBQ1nUX4=;
+        b=j10gPgdcPN0fZpBwXhibfmiJz+QEArVZqYqoEr6nluNVgujbbTX82EGAVXtLlqxZwS
+         UzLOG0Ae3+GPihXVF3w6+Y6oyPGUwxez/7bSNN7Bx6QpK208KWP/PYqxHeHcRVMod51K
+         GKlZ9hq2E842ffnL20C2gF1saUsYWBugNdS6NnbQ48055H1vEpzcJwOHpngHOrdmUMkt
+         FCJEI3Vj2QTtb7anJavJxW4I4SJUqbBN/bVJUgCFewittBbi7bPBlujw19MdO+bSj98i
+         Lphu7ooE0hCdyuzRQMLWAGMgDtj93LMqHdToDBl6KIZOTdCxfdFDTy7BU++f3Q7KbA/B
+         RTow==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id f10-20020a05680814ca00b003222fdff9aesi74917oiw.0.2022.05.26.05.24.20
+       dkim=pass header.i=@google.com header.s=20210112 header.b=TvxRlvu5;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com. [2a00:1450:4864:20::130])
+        by gmr-mx.google.com with ESMTPS id a6-20020ac25e66000000b00472523f3a8esi152202lfr.6.2022.05.26.22.31.19
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 26 May 2022 05:24:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 5D0886199F;
-	Thu, 26 May 2022 12:24:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FD7FC34113;
-	Thu, 26 May 2022 12:24:18 +0000 (UTC)
-Date: Thu, 26 May 2022 13:24:14 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Will Deacon <will@kernel.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Peter Collingbourne <pcc@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 0/3] kasan: Fix ordering between MTE tag colouring and
- page->flags
-Message-ID: <Yo9xbkyfj0zkc1qa@arm.com>
-References: <20220517180945.756303-1-catalin.marinas@arm.com>
- <CA+fCnZf7bYRP7SBvXNvdhtTN8scXJuz9WJRRjB9CyHFqvRBE6Q@mail.gmail.com>
- <YoeROxju/rzTyyod@arm.com>
- <CA+fCnZe0t_P_crBLaNJHMqTM1ip1PeR9CNK40REg7vyOW+ViOA@mail.gmail.com>
- <Yo5PAJTI7CwxVZ/q@arm.com>
- <CA+fCnZc1CUatXbp=KVSD3s71k1GcoPdNCFF1rSxfyPaY4e0qaQ@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 May 2022 22:31:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::130 as permitted sender) client-ip=2a00:1450:4864:20::130;
+Received: by mail-lf1-x130.google.com with SMTP id br17so5312988lfb.2
+        for <kasan-dev@googlegroups.com>; Thu, 26 May 2022 22:31:19 -0700 (PDT)
+X-Received: by 2002:a05:6512:3d0:b0:478:9aca:4a06 with SMTP id
+ w16-20020a05651203d000b004789aca4a06mr9088099lfp.410.1653629479269; Thu, 26
+ May 2022 22:31:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220525111756.GA15955@axis.com> <20220526010111.755166-1-davidgow@google.com>
+In-Reply-To: <20220526010111.755166-1-davidgow@google.com>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 27 May 2022 07:31:00 +0200
+Message-ID: <CACT4Y+a191xbPi_0w6imTAYHDeAoudrxbWiuERBOk41e5q_K_Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v3] UML: add support for KASAN under x86_64
+To: David Gow <davidgow@google.com>
+Cc: Vincent Whitchurch <vincent.whitchurch@axis.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Patricia Alfonso <trishalfonso@google.com>, Jeff Dike <jdike@addtoit.com>, 
+	Richard Weinberger <richard@nod.at>, anton.ivanov@cambridgegreys.com, 
+	Brendan Higgins <brendanhiggins@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	linux-um@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>, 
+	Daniel Latypov <dlatypov@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CA+fCnZc1CUatXbp=KVSD3s71k1GcoPdNCFF1rSxfyPaY4e0qaQ@mail.gmail.com>
-X-Original-Sender: catalin.marinas@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as
- permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
- sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=TvxRlvu5;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::130
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,134 +135,396 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, May 25, 2022 at 07:41:08PM +0200, Andrey Konovalov wrote:
-> On Wed, May 25, 2022 at 5:45 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > > Adding __GFP_SKIP_KASAN_UNPOISON makes sense, but we still need to
-> > > reset the tag in page->flags.
-> >
-> > My thought was to reset the tag in page->flags based on 'unpoison'
-> > alone without any extra flags. We use this flag for vmalloc() pages but
-> > it seems we don't reset the page tags (as we do via
-> > kasan_poison_slab()).
-> 
-> I just realized that we already have __GFP_ZEROTAGS that initializes
-> both in-memory and page->flags tags.
+On Thu, 26 May 2022 at 03:02, David Gow <davidgow@google.com> wrote:
+>
+> From: Patricia Alfonso <trishalfonso@google.com>
+>
+> Make KASAN run on User Mode Linux on x86_64.
+>
+> The UML-specific KASAN initializer uses mmap to map the roughly 2.25TB
+> of shadow memory to the location defined by KASAN_SHADOW_OFFSET.
+> kasan_init() utilizes constructors to initialize KASAN before main().
+>
+> The location of the KASAN shadow memory, starting at
+> KASAN_SHADOW_OFFSET, can be configured using the KASAN_SHADOW_OFFSET
+> option. UML uses roughly 18TB of address space, and KASAN requires 1/8th
+> of this. The default location of this offset is 0x100000000000, which
+> keeps it out-of-the-way even on UML setups with more "physical" memory.
+>
+> For low-memory setups, 0x7fff8000 can be used instead, which fits in an
+> immediate and is therefore faster, as suggested by Dmitry Vyukov. There
+> is usually enough free space at this location; however, it is a config
+> option so that it can be easily changed if needed.
+>
+> Note that, unlike KASAN on other architectures, vmalloc allocations
+> still use the shadow memory allocated upfront, rather than allocating
+> and free-ing it per-vmalloc allocation.
+>
+> Signed-off-by: Patricia Alfonso <trishalfonso@google.com>
+> Co-developed-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
+> Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+>
+> This is a new RFC for the KASAN/UML port, based on the patch v1:
+> https://lore.kernel.org/all/20200226004608.8128-1-trishalfonso@google.com/
+>
+> With several fixes by Vincent Whitchurch:
+> https://lore.kernel.org/all/20220525111756.GA15955@axis.com/
+>
+> That thread describes the differences from the v1 (and hence the
+> previous RFCs better than I can here), but the gist of it is:
+> - Support for KASAN_VMALLOC, by changing the way
+>   kasan_{populate,release}_vmalloc work to update existing shadow
+>   memory, rather than allocating anything new.
+> - A similar fix for modules' shadow memory.
+> - Support for KASAN_STACK
+>   - This requires the bugfix here:
+> https://lore.kernel.org/lkml/20220523140403.2361040-1-vincent.whitchurch@axis.com/
+>   - Plus a couple of files excluded from KASAN.
+> - Revert the default shadow offset to 0x100000000000
+>   - This was breaking when mem=1G for me, at least.
+> - A few minor fixes to linker sections and scripts.
+>   - I've added one to dyn.lds.S on top of the ones Vincent added.
 
-IIUC it only zeroes the tags and skips the unpoisoning but
-page_kasan_tag() remains unchanged.
+Excited to see this revived!
 
-> Currently only used for user
-> pages allocated via alloc_zeroed_user_highpage_movable(). Perhaps we
-> can add this flag to GFP_HIGHUSER_MOVABLE?
+> There are still a few things to be sorted out before this is ready to go
+> upstream, in particular:
+> - We've got a bunch of checks for CONFIG_UML, where a more specific
+>   config option might be better. For example: CONFIG_KASAN_NO_SHADOW_ALLOC.
 
-I wouldn't add __GFP_ZEROTAGS to GFP_HIGHUSER_MOVABLE as we only need it
-if the page is mapped with PROT_MTE. Clearing a page without tags may be
-marginally faster.
+Probably. But with 1 arch setting it, I am fine either way.
 
-> We'll also need to change the behavior of __GFP_ZEROTAGS to work even
-> when GFP_ZERO is not set, but this doesn't seem to be a problem.
+> - Alternatively, the vmalloc (and module) shadow memory allocators could
+>   support per-architecture replacements.
 
-Why? We'd get unnecessary tag zeroing. We have these cases for
-anonymous, private pages:
+Humm... again hard to say while we have only 1 arch doing this.
+Another option: leave a comment on the first CONFIG_UML check listing
+these alternatives. When another arch needs something similar, then we
+can switch to one of these options.
 
-1. Zeroed page allocation without PROT_MTE: we need GFP_ZERO and
-   page_kasan_tag_reset() in case of later mprotect(PROT_MTE).
+> - Do we want to the alignment before or after the __memset() in
+>   kasan_populate_vmalloc()?
 
-2. Zeroed page allocation with PROT_MTE: we need GFP_ZERO,
-   __GFP_ZEROTAGS and page_kasan_tag_reset().
+I think you did it correctly (alignment after).
+8 normal pages map to 1 shadow page. For the purposes of mapping pages
+lazily on other arches, we want to over-map. But for the memset, we
+want to clear only the shadow that relates to the current region.
 
-3. CoW page allocation without PROT_MTE: copy data and we only need
-   page_kasan_tag_reset() in case of later mprotect(PROT_MTE).
 
-4. CoW page allocation with PROT_MTE: copy data and tags together with
-   page_kasan_tag_reset().
+> - This doesn't seem to work when CONFIG_STATIC_LINK is enabled (because
+>   libc crt0 code calls memory functions, which expect the shadow memory
+>   to already exist, due to multiple symbols being resolved.
+>   - I think we should just make this depend on dynamic UML.
+>   - For that matter, I think static UML is actually broken at the
+>     moment. I'll send a patch out tomorrow.
 
-So basically we always need page_kasan_tag_reset() for pages mapped in
-user space even if they are not PROT_MTE, in case of a later
-mprotect(PROT_MTE). For (1), (3) and (4) we don't need to zero the tags.
-For (1) maybe we could do it as part of data zeroing (subject to some
-benchmarks) but for (3) and (4) they'd be overridden by the copy anyway.
+I don't know how important the static build is for UML.
+Generally I prefer to build things statically b/c e.g. if a testing
+system builds on one machine but runs tests on another, dynamic link
+may be a problem. Or, say, if a testing system provides binary
+artifacts, and then nobody can run it locally.
 
-> And, at this point, we can probably combine __GFP_ZEROTAGS with
-> __GFP_SKIP_KASAN_POISON, as they both would target user pages.
+One potential way to fix it is to require outline KASAN
+instrumentation for static build and then make kasan_arch_is_ready()
+return false until the shadow is mapped. I see kasan_arch_is_ready()
+is checked at the beginning of all KASAN runtime entry points.
+But it would be nice if the dynamic build also supports inline and
+does not add kasan_arch_is_ready() check overhead.
 
-For user pages, I think we should skip unpoisoning as well. We can keep
-unpoisoning around but if we end up calling page_kasan_tag_reset(),
-there's not much value, at least in page_address() accesses since the
-pointer would match all tags. That's unless you want to detect other
-stray pointers to such pages but we already skip the poisoning on free,
-so it doesn't seem to be a use-case.
+> - And there's a checkpatch complaint about a long __memset() line.
+>
+> Thanks again to everyone who's contributed and looked at these patches!
+> Note that I removed the Reviewed-by tags, as I think this version has
+> enough changes to warrant a re-review.
+>
+> -- David
+>
+> ---
+>  arch/um/Kconfig                  | 15 +++++++++++++++
+>  arch/um/Makefile                 |  6 ++++++
+>  arch/um/include/asm/common.lds.S |  2 ++
+>  arch/um/kernel/Makefile          |  3 +++
+>  arch/um/kernel/dyn.lds.S         |  6 +++++-
+>  arch/um/kernel/mem.c             | 18 ++++++++++++++++++
+>  arch/um/os-Linux/mem.c           | 22 ++++++++++++++++++++++
+>  arch/um/os-Linux/user_syms.c     |  4 ++--
+>  arch/x86/um/Makefile             |  3 ++-
+>  arch/x86/um/vdso/Makefile        |  3 +++
+>  mm/kasan/shadow.c                | 20 +++++++++++++++++++-
+>  11 files changed, 97 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/um/Kconfig b/arch/um/Kconfig
+> index 4d398b80aea8..c28ea5c89381 100644
+> --- a/arch/um/Kconfig
+> +++ b/arch/um/Kconfig
+> @@ -11,6 +11,8 @@ config UML
+>         select ARCH_HAS_STRNLEN_USER
+>         select ARCH_NO_PREEMPT
+>         select HAVE_ARCH_AUDITSYSCALL
+> +       select HAVE_ARCH_KASAN if X86_64
+> +       select HAVE_ARCH_KASAN_VMALLOC if HAVE_ARCH_KASAN
+>         select HAVE_ARCH_SECCOMP_FILTER
+>         select HAVE_ASM_MODVERSIONS
+>         select HAVE_UID16
+> @@ -219,6 +221,19 @@ config UML_TIME_TRAVEL_SUPPORT
+>
+>           It is safe to say Y, but you probably don't need this.
+>
+> +config KASAN_SHADOW_OFFSET
+> +       hex
+> +       depends on KASAN
+> +       default 0x100000000000
+> +       help
+> +         This is the offset at which the ~2.25TB of shadow memory is
+> +         mapped and used by KASAN for memory debugging. This can be any
+> +         address that has at least KASAN_SHADOW_SIZE(total address space divided
+> +         by 8) amount of space so that the KASAN shadow memory does not conflict
+> +         with anything. The default is 0x100000000000, which works even if mem is
+> +         set to a large value. On low-memory systems, try 0x7fff8000, as it fits
+> +         into the immediate of most instructions, improving performance.
+> +
+>  endmenu
+>
+>  source "arch/um/drivers/Kconfig"
+> diff --git a/arch/um/Makefile b/arch/um/Makefile
+> index f2fe63bfd819..a98405f4ecb8 100644
+> --- a/arch/um/Makefile
+> +++ b/arch/um/Makefile
+> @@ -75,6 +75,12 @@ USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
+>                 -D_FILE_OFFSET_BITS=64 -idirafter $(srctree)/include \
+>                 -idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__
+>
+> +# Kernel config options are not included in USER_CFLAGS, but the option for KASAN
+> +# should be included if the KASAN config option was set.
+> +ifdef CONFIG_KASAN
+> +       USER_CFLAGS+=-DCONFIG_KASAN=y
+> +endif
+> +
+>  #This will adjust *FLAGS accordingly to the platform.
+>  include $(srctree)/$(ARCH_DIR)/Makefile-os-$(OS)
+>
+> diff --git a/arch/um/include/asm/common.lds.S b/arch/um/include/asm/common.lds.S
+> index eca6c452a41b..fd481ac371de 100644
+> --- a/arch/um/include/asm/common.lds.S
+> +++ b/arch/um/include/asm/common.lds.S
+> @@ -83,6 +83,8 @@
+>    }
+>    .init_array : {
+>         __init_array_start = .;
+> +       *(.kasan_init)
+> +       *(.init_array.*)
+>         *(.init_array)
+>         __init_array_end = .;
+>    }
+> diff --git a/arch/um/kernel/Makefile b/arch/um/kernel/Makefile
+> index 1c2d4b29a3d4..a089217e2f0e 100644
+> --- a/arch/um/kernel/Makefile
+> +++ b/arch/um/kernel/Makefile
+> @@ -27,6 +27,9 @@ obj-$(CONFIG_EARLY_PRINTK) += early_printk.o
+>  obj-$(CONFIG_STACKTRACE) += stacktrace.o
+>  obj-$(CONFIG_GENERIC_PCI_IOMAP) += ioport.o
+>
+> +KASAN_SANITIZE_stacktrace.o := n
+> +KASAN_SANITIZE_sysrq.o := n
+> +
+>  USER_OBJS := config.o
+>
+>  include arch/um/scripts/Makefile.rules
+> diff --git a/arch/um/kernel/dyn.lds.S b/arch/um/kernel/dyn.lds.S
+> index 2f2a8ce92f1e..2b7fc5b54164 100644
+> --- a/arch/um/kernel/dyn.lds.S
+> +++ b/arch/um/kernel/dyn.lds.S
+> @@ -109,7 +109,11 @@ SECTIONS
+>       be empty, which isn't pretty.  */
+>    . = ALIGN(32 / 8);
+>    .preinit_array     : { *(.preinit_array) }
+> -  .init_array     : { *(.init_array) }
+> +  .init_array     : {
+> +    *(.kasan_init)
+> +    *(.init_array.*)
+> +    *(.init_array)
+> +  }
+>    .fini_array     : { *(.fini_array) }
+>    .data           : {
+>      INIT_TASK_DATA(KERNEL_STACK_SIZE)
+> diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
+> index 15295c3237a0..a32cfce53efb 100644
+> --- a/arch/um/kernel/mem.c
+> +++ b/arch/um/kernel/mem.c
+> @@ -18,6 +18,24 @@
+>  #include <kern_util.h>
+>  #include <mem_user.h>
+>  #include <os.h>
+> +#include <linux/sched/task.h>
+> +
+> +#ifdef CONFIG_KASAN
+> +void kasan_init(void)
+> +{
+> +       /*
+> +        * kasan_map_memory will map all of the required address space and
+> +        * the host machine will allocate physical memory as necessary.
+> +        */
+> +       kasan_map_memory((void *)KASAN_SHADOW_START, KASAN_SHADOW_SIZE);
+> +       init_task.kasan_depth = 0;
+> +       os_info("KernelAddressSanitizer initialized\n");
+> +}
+> +
+> +static void (*kasan_init_ptr)(void)
+> +__section(".kasan_init") __used
+> += kasan_init;
+> +#endif
+>
+>  /* allocated in paging_init, zeroed in mem_init, and unchanged thereafter */
+>  unsigned long *empty_zero_page = NULL;
+> diff --git a/arch/um/os-Linux/mem.c b/arch/um/os-Linux/mem.c
+> index 3c1b77474d2d..8530b2e08604 100644
+> --- a/arch/um/os-Linux/mem.c
+> +++ b/arch/um/os-Linux/mem.c
+> @@ -17,6 +17,28 @@
+>  #include <init.h>
+>  #include <os.h>
+>
+> +/*
+> + * kasan_map_memory - maps memory from @start with a size of @len.
+> + * The allocated memory is filled with zeroes upon success.
+> + * @start: the start address of the memory to be mapped
+> + * @len: the length of the memory to be mapped
+> + *
+> + * This function is used to map shadow memory for KASAN in uml
+> + */
+> +void kasan_map_memory(void *start, size_t len)
+> +{
+> +       if (mmap(start,
+> +                len,
+> +                PROT_READ|PROT_WRITE,
+> +                MAP_FIXED|MAP_ANONYMOUS|MAP_PRIVATE|MAP_NORESERVE,
+> +                -1,
+> +                0) == MAP_FAILED) {
+> +               os_info("Couldn't allocate shadow memory: %s\n.",
+> +                       strerror(errno));
+> +               exit(1);
+> +       }
+> +}
+> +
+>  /* Set by make_tempfile() during early boot. */
+>  static char *tempdir = NULL;
+>
+> diff --git a/arch/um/os-Linux/user_syms.c b/arch/um/os-Linux/user_syms.c
+> index 715594fe5719..cb667c9225ab 100644
+> --- a/arch/um/os-Linux/user_syms.c
+> +++ b/arch/um/os-Linux/user_syms.c
+> @@ -27,10 +27,10 @@ EXPORT_SYMBOL(strstr);
+>  #ifndef __x86_64__
+>  extern void *memcpy(void *, const void *, size_t);
+>  EXPORT_SYMBOL(memcpy);
+> -#endif
+> -
+>  EXPORT_SYMBOL(memmove);
+>  EXPORT_SYMBOL(memset);
+> +#endif
+> +
+>  EXPORT_SYMBOL(printf);
+>
+>  /* Here, instead, I can provide a fake prototype. Yes, someone cares: genksyms.
+> diff --git a/arch/x86/um/Makefile b/arch/x86/um/Makefile
+> index ba5789c35809..f778e37494ba 100644
+> --- a/arch/x86/um/Makefile
+> +++ b/arch/x86/um/Makefile
+> @@ -28,7 +28,8 @@ else
+>
+>  obj-y += syscalls_64.o vdso/
+>
+> -subarch-y = ../lib/csum-partial_64.o ../lib/memcpy_64.o ../entry/thunk_64.o
+> +subarch-y = ../lib/csum-partial_64.o ../lib/memcpy_64.o ../entry/thunk_64.o \
+> +       ../lib/memmove_64.o ../lib/memset_64.o
+>
+>  endif
+>
+> diff --git a/arch/x86/um/vdso/Makefile b/arch/x86/um/vdso/Makefile
+> index 5943387e3f35..8c0396fd0e6f 100644
+> --- a/arch/x86/um/vdso/Makefile
+> +++ b/arch/x86/um/vdso/Makefile
+> @@ -3,6 +3,9 @@
+>  # Building vDSO images for x86.
+>  #
+>
+> +# do not instrument on vdso because KASAN is not compatible with user mode
+> +KASAN_SANITIZE                 := n
+> +
+>  # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
+>  KCOV_INSTRUMENT                := n
+>
+> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+> index a4f07de21771..d8c518bd0e7d 100644
+> --- a/mm/kasan/shadow.c
+> +++ b/mm/kasan/shadow.c
+> @@ -295,8 +295,14 @@ int kasan_populate_vmalloc(unsigned long addr, unsigned long size)
+>                 return 0;
+>
+>         shadow_start = (unsigned long)kasan_mem_to_shadow((void *)addr);
+> -       shadow_start = ALIGN_DOWN(shadow_start, PAGE_SIZE);
+>         shadow_end = (unsigned long)kasan_mem_to_shadow((void *)addr + size);
+> +
+> +       if (IS_ENABLED(CONFIG_UML)) {
+> +               __memset(kasan_mem_to_shadow((void *)addr), KASAN_VMALLOC_INVALID, shadow_end - shadow_start);
 
-If we skip unpoisoning (not just poisoning as we already do) for user
-pages, we should reset the tags in page->flags. Whether __GFP_ZEROTAGS
-is passed is complementary, depending on the reason for allocation.
-Currently if __GFP_ZEROTAGS is passed, the unpoisoning is skipped but I
-think we should have just added __GFP_SKIP_KASAN_UNPOISON instead and
-not add a new argument to should_skip_kasan_unpoison(). If we decide to
-always skip unpoisoning, something like below on top of the vanilla
-kernel:
+"kasan_mem_to_shadow((void *)addr)" can be replaced with shadow_start.
 
--------------8<-----------------
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 3e3d36fc2109..df0ec30524fb 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -348,7 +348,7 @@ struct vm_area_struct;
- #define GFP_DMA32	__GFP_DMA32
- #define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
- #define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | \
--			 __GFP_SKIP_KASAN_POISON)
-+			 __GFP_SKIP_KASAN_POISON | __GFP_SKIP_KASAN_UNPOISON)
- #define GFP_TRANSHUGE_LIGHT	((GFP_HIGHUSER_MOVABLE | __GFP_COMP | \
- 			 __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
- #define GFP_TRANSHUGE	(GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 0e42038382c1..3173e8f0e69a 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -2346,7 +2346,7 @@ static inline bool check_new_pcp(struct page *page, unsigned int order)
- }
- #endif /* CONFIG_DEBUG_VM */
 
--static inline bool should_skip_kasan_unpoison(gfp_t flags, bool init_tags)
-+static inline bool should_skip_kasan_unpoison(gfp_t flags)
- {
- 	/* Don't skip if a software KASAN mode is enabled. */
- 	if (IS_ENABLED(CONFIG_KASAN_GENERIC) ||
-@@ -2358,12 +2358,10 @@ static inline bool should_skip_kasan_unpoison(gfp_t flags, bool init_tags)
- 		return true;
+> +               return 0;
+> +       }
+> +
+> +       shadow_start = ALIGN_DOWN(shadow_start, PAGE_SIZE);
+>         shadow_end = ALIGN(shadow_end, PAGE_SIZE);
 
- 	/*
--	 * With hardware tag-based KASAN enabled, skip if either:
--	 *
--	 * 1. Memory tags have already been cleared via tag_clear_highpage().
--	 * 2. Skipping has been requested via __GFP_SKIP_KASAN_UNPOISON.
-+	 * With hardware tag-based KASAN enabled, skip if this was requested
-+	 * via __GFP_SKIP_KASAN_UNPOISON.
- 	 */
--	return init_tags || (flags & __GFP_SKIP_KASAN_UNPOISON);
-+	return flags & __GFP_SKIP_KASAN_UNPOISON;
- }
+There is no new fancy PAGE_ALIGN macro for this. And I've seen people
+sending clean up patches with replacements.
+But unfortunately no PAGE_ALIGN_DOWN :(
 
- static inline bool should_skip_init(gfp_t flags)
-@@ -2416,7 +2414,7 @@ inline void post_alloc_hook(struct page *page, unsigned int order,
- 		/* Note that memory is already initialized by the loop above. */
- 		init = false;
- 	}
--	if (!should_skip_kasan_unpoison(gfp_flags, init_tags)) {
-+	if (!should_skip_kasan_unpoison(gfp_flags)) {
- 		/* Unpoison shadow memory or set memory tags. */
- 		kasan_unpoison_pages(page, order, init);
- 
--------------8<-----------------
 
-With the above, we can wire up page_kasan_tag_reset() to the
-__GFP_SKIP_KASAN_UNPOISON check without any additional flags.
 
--- 
-Catalin
+>
+>         ret = apply_to_page_range(&init_mm, shadow_start,
+> @@ -466,6 +472,10 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+>
+>         if (shadow_end > shadow_start) {
+>                 size = shadow_end - shadow_start;
+> +               if (IS_ENABLED(CONFIG_UML)) {
+> +                       __memset(shadow_start, KASAN_SHADOW_INIT, shadow_end - shadow_start);
+> +                       return;
+> +               }
+>                 apply_to_existing_page_range(&init_mm,
+>                                              (unsigned long)shadow_start,
+>                                              size, kasan_depopulate_vmalloc_pte,
+> @@ -531,6 +541,11 @@ int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
+>         if (WARN_ON(!PAGE_ALIGNED(shadow_start)))
+>                 return -EINVAL;
+>
+> +       if (IS_ENABLED(CONFIG_UML)) {
+> +               __memset((void *)shadow_start, KASAN_SHADOW_INIT, shadow_size);
+> +               return 0;
+> +       }
+> +
+>         ret = __vmalloc_node_range(shadow_size, 1, shadow_start,
+>                         shadow_start + shadow_size,
+>                         GFP_KERNEL,
+> @@ -554,6 +569,9 @@ int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
+>
+>  void kasan_free_module_shadow(const struct vm_struct *vm)
+>  {
+> +       if (IS_ENABLED(CONFIG_UML))
+> +               return;
+> +
+>         if (vm->flags & VM_KASAN)
+>                 vfree(kasan_mem_to_shadow(vm->addr));
+>  }
+> --
+> 2.36.1.124.g0e6072fb45-goog
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yo9xbkyfj0zkc1qa%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Ba191xbPi_0w6imTAYHDeAoudrxbWiuERBOk41e5q_K_Q%40mail.gmail.com.
