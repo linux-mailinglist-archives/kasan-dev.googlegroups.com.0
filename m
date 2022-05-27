@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB3H3YKKAMGQE4KXRRWY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRB4MYYOKAMGQEZCZLZ4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF7B53616D
-	for <lists+kasan-dev@lfdr.de>; Fri, 27 May 2022 14:02:53 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id d2-20020a2e8902000000b00253bba7ce10sf1225104lji.12
-        for <lists+kasan-dev@lfdr.de>; Fri, 27 May 2022 05:02:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1653652972; cv=pass;
+Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FF4536325
+	for <lists+kasan-dev@lfdr.de>; Fri, 27 May 2022 15:04:50 +0200 (CEST)
+Received: by mail-ed1-x53d.google.com with SMTP id r8-20020a056402018800b00428b43999fesf3031814edv.5
+        for <lists+kasan-dev@lfdr.de>; Fri, 27 May 2022 06:04:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1653656690; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Mg0trjaelEU0evOyEHNuLoAv1W4JTTfvxYC2ykX+apHw9DMYZB8DX0KbixuxEH/xwt
-         uXnknlf5EUiRd+PKox0gseSkugk54W0Pn8YDu2/U6Y/Zk0D35N70MLLaWs2pEgFBBqdr
-         fJLZ8jphK+qkaZ10flfOFmHVEgW0dBcTT/dldKCV1/Loe831h4kDilLU+JqiMAsIymlZ
-         9Uz/TujHeYU6SR+DaiMAVqGxH9yVJRm7+qnq/dZo9YlDg/+Y+njbz7kS2mGp9B7JmVlD
-         ctd8PPK24nXnalpNbONE3TlIo5kjydOG7KMkciwGUGV+zkHh7lHeBZau9wtp7mZUyqoV
-         p0Ow==
+        b=Ywxz91kni65/Zf0zWgOdjuKXiybGx4yHjaC+ZhgDY5yOnD9G1PmIU2KkM5+Jqr0kdb
+         YU7/lQgxnrqqmG2u92FkpoHfWDdqonkNEOkZIcgY9epfORoLGq2c6f9Bn9ajUWQpskzv
+         wEringt3abAwq/nBpDN3L30Bq6p0bdkrBhb9WrGerAE1t2ty8BFAuhNb136U0NsScmF7
+         R5eUikDH4Ne3vW160Wfi4ge4ez9/RX2tG3vPC5op3dGNOAz2LWG1v73wxdpuriuZPFmj
+         A1fiuf6nzrBTbFxWHlk57CcCAbLRCe2d6h9gzYhMCMQ9RYy/8Mm0zR5AggiDRtnFn50M
+         xbXw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=2fdpCiXonQl5LVbmL0nn4T7+l0jzomDEG6z9VDmML4M=;
-        b=GF0RQ7FkRsCIwIBlDnOOIKgLsKXUcJeJKybhQ5SOvMLfo0VD2++TezWHB4D2eA0SGA
-         RLK+oWvW322Ryy4GDuvLedF3SvUK+sFNIjVPSvktiVamtQOUzXA2sjbSz/Sc73vQoSlf
-         4el53RWpq50MXl87cwPoyAH/PEtr6Hccd/eshOqv9rTqsYWKDWsedna9CKvDhfC/w2ZN
-         iluQHSKoN3/hVcOB6UxF2lHnV0GM3ucDFuYxa8sHptGk/MFtogp99jDDJrmjEmNvygXt
-         FBQweHJJ1AE1E62rxS7fX4iumFXtO2DdmVWV2n8LyIzYuPJ+7ssxbIU5g6i8gaBQHcU7
-         djxw==
+        bh=mKq5gYImpxStko5fhkTNpKDBCWw5NBHkqSfrCnxGrbk=;
+        b=nvM1GK662TmJoB7R3ICqIIFtSztQs+em2iJxIhWDC/ODJx9wyev32dp5HD6Mg01RSq
+         GZ4Rc5SJIb3GYgjCERtBkMrQh21A8T2WqQEh73bvMhJo3XSX9dUYt5uX/sDcBOQow89J
+         QTybrubpr8yePtw4KL1vmTgCGBL4iA6xQoWr37wKuydfKRJpHTzgoJXh3bKrfO2/w8in
+         YB+O7HgrMuvYlutqRJ6BVG3JuqoDTCG5mBt6ZcnQ+5RaOm+XT+N99yGTmLAHV90zqbTt
+         SIsrUigu43nw+q2Q8kBgkDkJeRxi5/oFCBoDV4xfEOltJcCd1bukPJrc2Npa2kG4cHGq
+         bA1Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Q0LhMW8Q;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::235 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="N6O/fB2x";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=2fdpCiXonQl5LVbmL0nn4T7+l0jzomDEG6z9VDmML4M=;
-        b=K/6aqVsiztIAil8H9DRwqRfu4pQK8iaevULHdEMXE25Tixi20uSE8dXX618l7qwmPj
-         nBvRUVJleJQQ9v5pTrZnmdufBAvWal6K1w9eqvFtFIjuZsqwzrwR9Ft7Mcu+GhDqP9TL
-         Gh2QYs6enYu14xzAzTmYLIqn26bCIhWIciA1ET1R4vjSi4PDCnPypovRZrBMg+/5Bfxk
-         OmGa1P9csllgh2M40gMY2EKfOHD3DF5vK5/aYmorA5D//HX6OcUXJLsdWNkT0NXFEuCD
-         79QCd8kwcQQC2vOgZk59pRI+Sg2M3HeSTUptvG+vJ0D/QWkmYlix8HV6Ytp4Ddndw9cx
-         HdoQ==
+        bh=mKq5gYImpxStko5fhkTNpKDBCWw5NBHkqSfrCnxGrbk=;
+        b=Pz59NA805N2qrtWNVfY4XEsY9LFrUlNfAVa64DJWmf4/ieiyw8Xknri4PhcAxrx7en
+         GAz9/B5NiPvH2ni0W9d5VrbI6c0n+qkYnOiPZgVAd3vZm6dTDw7Sd96Di/5ZGl85hitQ
+         f7tdxqjyH+4tqDXRdJ/XcE+FEea96H0tsR63Rz2l521z3hdj+Pz0vPnUTPkAG2L84w0Z
+         Gyx20TIjE+ViNeXum9Ta9ZTIkSKlX5gekUETqC+yKjxLAgaB6UZp3ByFDH6lFnTsampJ
+         ucvRragDOj3AyrnKzPmDCsJK4Cd1vY95SpgGBu0wvwg7vuLEh7EpSyRw/FeoNSEwsrnT
+         X/xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,75 +49,89 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=2fdpCiXonQl5LVbmL0nn4T7+l0jzomDEG6z9VDmML4M=;
-        b=iEuSNNynauR5a5okRKwR4hUndhrYTi4c2dDNcC0kin9T+Lp5cdVdv2Ai5E8+drRy2l
-         SULEk3eePy6zc/MDTMgqcPoJUo0UZhb45u68ZvjwoTG1O2fWDQEfjLOX+umJ17sRKbMP
-         3g7kDh+85V3id8UM9F30Zo78Ee1noGWhETo1U4I1Pjm6dMkkfTLN1uVGHjR1U8PnIhFh
-         KVf9wE0DBpvzUnJrcEwK+2gCa+5BsIjR+KFoihrFl8gxGkIb1/F7rpD9pH2j6hmfJxSI
-         qTBgMqEpKCRTItj4W8SFSgoFBDboycaIwKywuZOsPN7sI4Vq8hNGPBskDr7PSGJKwdm6
-         qWvw==
-X-Gm-Message-State: AOAM533c4RlPmUkFT+pCXKdnv5N8aMXI3E1AWYgRNQGDHMt69O9RoLqY
-	LgYStaNrgG/yY3h1BfL5i2o=
-X-Google-Smtp-Source: ABdhPJxv7mliGOCofjhkGiveenH21HhvpPhuEgNWx70KJhdm4sASd2LGvUPNN2JZ690MG1ZMMmaW6A==
-X-Received: by 2002:a2e:9097:0:b0:253:c84e:e4a6 with SMTP id l23-20020a2e9097000000b00253c84ee4a6mr24392514ljg.529.1653652972427;
-        Fri, 27 May 2022 05:02:52 -0700 (PDT)
+        bh=mKq5gYImpxStko5fhkTNpKDBCWw5NBHkqSfrCnxGrbk=;
+        b=Rkue7koHtxDrLvzSjH/oXwbq6FDC3H55Kt3YFTDT8PjVHacRSWdMJGx41KJlbePwQG
+         bAOCeR5b88GHmF/gU3xlAYFg/yUuEX5dcJarP/lZmTcDXhZRjmSEG7+eujqBjMhWMf+D
+         XjOFIaRKiRviQypnIhqo57KHVoY+qkz1OqfGQ29Fh0bX9ixlOsbcx1xFbP+VR47MKO+7
+         cNkOgvGpJpebUL93hdamxv6xJs/b6Lc91ddBZPOPO7iJpTQe8Ye+Sk4EyITE57832wFq
+         faMGPZOsbIkbWBncc8F9bF+hIMvL4EI7+jnPCUQdMaCmC2lKHxKgF60dbesxgXNj5sEI
+         ibqA==
+X-Gm-Message-State: AOAM530nM22zulHaSFrhofQ/Y68hawdj+pPQLQL3O7AEXgaU1/EGSB+U
+	q597wWYAHABv/3yIG15RNQY=
+X-Google-Smtp-Source: ABdhPJxYw3JIvS3dRS2ecDZWEAyYZxhM3SHNrNZY5sBvUalbVTRoNaXWbBHjpEIejt5LYiLHGbtf7g==
+X-Received: by 2002:a17:907:2d91:b0:6fe:e517:7356 with SMTP id gt17-20020a1709072d9100b006fee5177356mr22841895ejc.328.1653656690227;
+        Fri, 27 May 2022 06:04:50 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3f16:b0:449:f5bf:6f6a with SMTP id
- y22-20020a0565123f1600b00449f5bf6f6als1054609lfa.2.gmail; Fri, 27 May 2022
- 05:02:51 -0700 (PDT)
-X-Received: by 2002:a05:6512:209:b0:478:99dd:2d2 with SMTP id a9-20020a056512020900b0047899dd02d2mr10569929lfo.44.1653652971153;
-        Fri, 27 May 2022 05:02:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1653652971; cv=none;
+Received: by 2002:a17:907:6e11:b0:6ff:232a:2406 with SMTP id
+ sd17-20020a1709076e1100b006ff232a2406ls2952916ejc.0.gmail; Fri, 27 May 2022
+ 06:04:49 -0700 (PDT)
+X-Received: by 2002:a17:907:2167:b0:6ff:8ed:db67 with SMTP id rl7-20020a170907216700b006ff08eddb67mr14855386ejb.764.1653656688978;
+        Fri, 27 May 2022 06:04:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1653656688; cv=none;
         d=google.com; s=arc-20160816;
-        b=A17d/DnTgqsA5NsUiATxHn0Pxcy+Yqudg1iLi2Q8jYgYzI7iJJbh/IAKCxAX1EkVPy
-         TUyyWDHa5O5/dev6qRtfWv95sOFMEjVGNycxNQkDtfO8d4n/mf4yX2fF/7YHuHfedydI
-         F85B+U/KX891IdMeYHIeyCAbYJw/H1Q5rEKLmPqUDw9Uz4tlxqRd1H7n94JHKq45HIf9
-         RrCVtznVzMnotnSZ7scLTpe0c/BhyoqUuz/6QJvx6M7Ncp4367jTev+1YVuSIn5i8i6L
-         rdhjgmSvQvMJgmnvpLkqMBb/gcPxk7b2dl7SfDRoDvOezbXYIGfU7leKj6RovRQzdLBr
-         0l8Q==
+        b=DxhIZCsvw+qOev7+AAozGmS6NJ/8ouy7Mhik+9R5z8R8pD674KV8WdNQPQpqADmhju
+         Tb8o4YbQo1a3RjqId9YXaz9PplA1tBR5uQqqsAP2NWDomV1vjKf4iluJNSXE7cLd24tZ
+         jj3HVh5YW4MpUYymr8xnptKrVkxG+xCLkaBzPNrQck7+tuLyc52tOdsN0a3VmYATq5+i
+         QzvRmCjL9IcpWCICI4Tk5tkqwljPu9Z/143kpvbyTy2RuZRCV/69Du1saSVBmkDffO3n
+         KlXMW7s847NUzXWwziANvnE7Uhz3PArF/IyN53MpvG6MHHHSyOPcUXVCOWlxIOopYhrD
+         rt7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=aqvudJmTK1NuR+GVwPWW+sM4XNkpoIxtq49HohR+1C0=;
-        b=tKRWwyO8WFvvBkFDG64+34UEw8I/CrVIFkZAVqJfdiLuhMEpv+0ABDTmmOhDDb71mk
-         OcQrYt3YfVUuwMAGOtDVFYYBYY2DK76fFRhtCorMoSejVoB4pW4aObKDdd2qOTGuIVlL
-         B3R7TpOqf8DR0CuQ8Wr3/2mkHUVxiJc/7DSy8/eHBCBR+HJ5yVn3DjbDEa9K80jwsrQM
-         evmk/9PpZqRBsTBcpvbgJc/2hohgdfC7W+Wh33i/zYB8sqycVjldC85K0Iqv48EoWm0E
-         sEn+Hc+5KL5Eiex6qly+6XMRDO1zZ0/zlqOmWnXsKuMKVGHYed6ZBZGjbfG6S+UrbpmU
-         /g9w==
+        bh=YjJnblK4U3NCIbGYCswwX+gF+Gis3UKa2COyN188bL4=;
+        b=eHhXow+bKcI31RQOV9syyufZruOJbmqw9C7x3OLp/uvFyglfysHzaJHYe1cMElz9ND
+         gOtjB2xY4p/6dqLS9CJdxpyF3qVLyptVfENe5nrIUKfdA2roI6oo8KXA6KHV5oWpekCf
+         lHiQwwyHHc74YAJ2g8j45RxhUDP4M185IaUHupqvrtdpyOvfFqfbefkC0zbrL0O+lXfX
+         6e1wXrJUuUsAnN6tfndEGxb+1SZCeSft/kWbNoeP/jgnYu8RxjbK2EoMdWD/vk8LDVel
+         HHQmAD+GgT2PXy/0S7dIbAktZ5WkF8vG/hufmeoBHeBG15RiFNKDGxxHvcCzMYJht4t1
+         e9eQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Q0LhMW8Q;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::235 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="N6O/fB2x";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com. [2a00:1450:4864:20::235])
-        by gmr-mx.google.com with ESMTPS id bi20-20020a05651c231400b0024c7f087105si192020ljb.8.2022.05.27.05.02.51
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com. [2a00:1450:4864:20::136])
+        by gmr-mx.google.com with ESMTPS id w8-20020aa7cb48000000b0042af0958d51si199546edt.5.2022.05.27.06.04.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 May 2022 05:02:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::235 as permitted sender) client-ip=2a00:1450:4864:20::235;
-Received: by mail-lj1-x235.google.com with SMTP id v9so4692561lja.12
-        for <kasan-dev@googlegroups.com>; Fri, 27 May 2022 05:02:51 -0700 (PDT)
-X-Received: by 2002:a05:651c:1797:b0:254:1a3a:801a with SMTP id
- bn23-20020a05651c179700b002541a3a801amr5727591ljb.363.1653652970506; Fri, 27
- May 2022 05:02:50 -0700 (PDT)
+        Fri, 27 May 2022 06:04:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::136 as permitted sender) client-ip=2a00:1450:4864:20::136;
+Received: by mail-lf1-x136.google.com with SMTP id l30so1684835lfj.3
+        for <kasan-dev@googlegroups.com>; Fri, 27 May 2022 06:04:48 -0700 (PDT)
+X-Received: by 2002:a05:6512:3c94:b0:477:ba25:de54 with SMTP id
+ h20-20020a0565123c9400b00477ba25de54mr30098024lfv.137.1653656688036; Fri, 27
+ May 2022 06:04:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220527113706.24870-1-vbabka@suse.cz> <20220527113706.24870-2-vbabka@suse.cz>
-In-Reply-To: <20220527113706.24870-2-vbabka@suse.cz>
+References: <00000000000038779505d5d8b372@google.com> <CANp29Y7WjwXwgxPrNq0XXjXPu+wGFqTreh9gry=O6aE7+cKpLQ@mail.gmail.com>
+ <CA+zEjCvu76yW7zfM+qJUe+t5y23oPdzR4KDV1mOdqH8bB4GmTw@mail.gmail.com>
+ <CACT4Y+arufrRgwmN66wUU+_FGxMy-sTkjMQnRN8U2H2tQuhB7A@mail.gmail.com>
+ <a0769218-c84a-a1d3-71e7-aefd40bf54fe@ghiti.fr> <CANp29Y4WMhsE_-VWvNbwq18+qvb1Qc-ES80h_j_G-N_hcAnRAw@mail.gmail.com>
+ <CANp29Y4ujmz901aE9oiBDx9dYWHti4-Jw=6Ewtotm6ck6MN9FQ@mail.gmail.com>
+ <CACT4Y+ZvStiHLYBOcPDoAJnk8hquXwm9BgjQTv=APwh7AvgEUQ@mail.gmail.com>
+ <CANp29Y56Or0V1AG7rzBfV_ZTph2Crg4JKKHiuw1kcGFFxeWqiQ@mail.gmail.com>
+ <CANp29Y5+MuhKAzVxzEDb_k9voXmKWrUFx8k4wnW5=2+5enVFVA@mail.gmail.com>
+ <CA+zEjCtvaT0YsxxUgnEGM+V4b5sWuCAs3=3J+Xocf580uT3t1g@mail.gmail.com>
+ <CA+zEjCs1FEUTcM+pgV+_MZnixSO5c2hexZFxGxuCQWc2ZMQiRg@mail.gmail.com>
+ <CANp29Y4rDSjrfTOxcQqwh+Qm+ocR0v6Oxr7EkFxScf+24M1tNA@mail.gmail.com>
+ <CA+zEjCtB0rTuNAJkrM2q3JQL7D-9fAXBo0Ud0w__gy9CAfo_Ag@mail.gmail.com>
+ <CACT4Y+Z=3MWEhVUH3mAH150XpOmhdjsGPOHoP1nvBcBwU_sphQ@mail.gmail.com>
+ <5e702296-9ce0-f1e6-dae8-cc719bc040b9@ghiti.fr> <CAOnJCULgP_-D3cY2m39k9N912Q55FS7X9JcrRVoUt0GC92tx7w@mail.gmail.com>
+ <CAOnJCUKBWx+wEKaq8WOPC1j7jgn38iWcrTh4gO+FzfF-mhPkQg@mail.gmail.com> <CA+zEjCuK7NitU_tdjBo+qmhkN_qmH=NCryffb466E7ebVq0GDw@mail.gmail.com>
+In-Reply-To: <CA+zEjCuK7NitU_tdjBo+qmhkN_qmH=NCryffb466E7ebVq0GDw@mail.gmail.com>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 27 May 2022 14:02:38 +0200
-Message-ID: <CACT4Y+Y4GZfXOru2z5tFPzFdaSUd+GFc6KVL=bsa0+1m197cQQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/1] lib/stackdepot: replace CONFIG_STACK_HASH_ORDER
- with automatic sizing
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@gmail.com>, 
-	kasan-dev@googlegroups.com
+Date: Fri, 27 May 2022 15:04:36 +0200
+Message-ID: <CACT4Y+Y7tS+OnEaZMFPh73tTmTVY1X2TZ4vfd2S2THwReBF97w@mail.gmail.com>
+Subject: Re: [syzbot] riscv/fixes boot error: can't ssh into the instance
+To: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Cc: Atish Patra <atishp@atishpatra.org>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Aleksandr Nogikh <nogikh@google.com>, linux-riscv <linux-riscv@lists.infradead.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	syzbot <syzbot+330a558d94b58f7601be@syzkaller.appspotmail.com>, 
+	LKML <linux-kernel@vger.kernel.org>, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=Q0LhMW8Q;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::235
+ header.i=@google.com header.s=20210112 header.b="N6O/fB2x";       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::136
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -134,189 +148,276 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 27 May 2022 at 13:37, Vlastimil Babka <vbabka@suse.cz> wrote:
+On Fri, 27 May 2022 at 09:33, Alexandre Ghiti
+<alexandre.ghiti@canonical.com> wrote:
 >
-> As Linus explained [1], setting the stackdepot hash table size as a
-> config option is suboptimal, especially as stackdepot becomes a
-> dependency of less specialized subsystems than initially (e.g. DRM,
-> networking, SLUB_DEBUG):
+> Hi Atish,
+> > > > On 5/12/22 13:48, Dmitry Vyukov wrote:
+> > > > > On Fri, 18 Feb 2022 at 14:45, Alexandre Ghiti
+> > > > > <alexandre.ghiti@canonical.com> wrote:
+> > > > >> Hi Aleksandr,
+> > > > >>
+> > > > >> On Thu, Feb 17, 2022 at 6:08 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+> > > > >>> Hi Alex,
+> > > > >>>
+> > > > >>> On Thu, Feb 17, 2022 at 5:53 PM Alexandre Ghiti
+> > > > >>> <alexandre.ghiti@canonical.com> wrote:
+> > > > >>>> Aleksandr,
+> > > > >>>>
+> > > > >>>> On Wed, Feb 16, 2022 at 5:58 PM Alexandre Ghiti
+> > > > >>>> <alexandre.ghiti@canonical.com> wrote:
+> > > > >>>>> First, thank you for working on this.
+> > > > >>>>>
+> > > > >>>>> On Wed, Feb 16, 2022 at 5:17 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+> > > > >>>>>> If I use just defconfig + DEBUG_VIRTUAL, without any KASAN, it begins
+> > > > >>>>>> to boot, but overwhelms me with tons of `virt_to_phys used for
+> > > > >>>>>> non-linear address:` errors.
+> > > > >>>>>>
+> > > > >>>>>> Like that
+> > > > >>>>>>
+> > > > >>>>>> [    2.701271] virt_to_phys used for non-linear address:
+> > > > >>>>>> 00000000b59e31b6 (0xffffffff806c2000)
+> > > > >>>>>> [    2.701727] WARNING: CPU: 0 PID: 1 at arch/riscv/mm/physaddr.c:16
+> > > > >>>>>> __virt_to_phys+0x7e/0x86
+> > > > >>>>>> [    2.702207] Modules linked in:
+> > > > >>>>>> [    2.702393] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G        W
+> > > > >>>>>>    5.17.0-rc1 #1
+> > > > >>>>>> [    2.702806] Hardware name: riscv-virtio,qemu (DT)
+> > > > >>>>>> [    2.703051] epc : __virt_to_phys+0x7e/0x86
+> > > > >>>>>> [    2.703298]  ra : __virt_to_phys+0x7e/0x86
+> > > > >>>>>> [    2.703547] epc : ffffffff80008448 ra : ffffffff80008448 sp :
+> > > > >>>>>> ffff8f800021bde0
+> > > > >>>>>> [    2.703977]  gp : ffffffff80ed9b30 tp : ffffaf8001230000 t0 :
+> > > > >>>>>> ffffffff80eea56f
+> > > > >>>>>> [    2.704704]  t1 : ffffffff80eea560 t2 : 0000000000000000 s0 :
+> > > > >>>>>> ffff8f800021be00
+> > > > >>>>>> [    2.705153]  s1 : ffffffff806c2000 a0 : 000000000000004f a1 :
+> > > > >>>>>> ffffffff80e723d8
+> > > > >>>>>> [    2.705555]  a2 : 0000000000000010 a3 : fffffffffffffffe a4 :
+> > > > >>>>>> 0000000000000000
+> > > > >>>>>> [    2.706027]  a5 : 0000000000000000 a6 : 0000000000000005 a7 :
+> > > > >>>>>> ffffffffffffffff
+> > > > >>>>>> [    2.706474]  s2 : ffffffff80b80b08 s3 : 00000000000000c2 s4 :
+> > > > >>>>>> ffffffff806c2000
+> > > > >>>>>> [    2.706891]  s5 : ffffffff80edba10 s6 : ffffffff80edb960 s7 :
+> > > > >>>>>> 0000000000000001
+> > > > >>>>>> [    2.707290]  s8 : 00000000000000ff s9 : ffffffff80b80b40 s10:
+> > > > >>>>>> 00000000000000cc
+> > > > >>>>>> [    2.707689]  s11: ffffaf807e1fcf00 t3 : 0000000000000076 t4 :
+> > > > >>>>>> ffffffffffffffff
+> > > > >>>>>> [    2.708092]  t5 : 00000000000001f2 t6 : ffff8f800021bb48
+> > > > >>>>>> [    2.708433] status: 0000000000000120 badaddr: 0000000000000000
+> > > > >>>>>> cause: 0000000000000003
+> > > > >>>>>> [    2.708919] [<ffffffff8011416a>] free_reserved_area+0x72/0x19a
+> > > > >>>>>> [    2.709296] [<ffffffff80003a5a>] free_initmem+0x6c/0x7c
+> > > > >>>>>> [    2.709648] [<ffffffff805f60c8>] kernel_init+0x3a/0x10a
+> > > > >>>>>> [    2.709993] [<ffffffff80002fda>] ret_from_exception+0x0/0xc
+> > > > >>>>>> [    2.710310] ---[ end trace 0000000000000000 ]---
+> > > > >>>>>>
+> > > > >>>>> I was able to reproduce this: the first one regarding init_zero_pfn is
+> > > > >>>>> legit but not wrong, I have to check when it was introduced and how to
+> > > > >>>>> fix this.
+> > > > >>>>> Regarding the huge batch that follows, at first sight, I would say
+> > > > >>>>> this is linked to my sv48 patchset but that does not seem important as
+> > > > >>>>> the address is a kernel mapping address so the use of virt_to_phys is
+> > > > >>>>> right.
+> > > > >>>>>
+> > > > >>>>>> On Wed, Feb 16, 2022 at 5:09 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+> > > > >>>>>>> On Wed, Feb 16, 2022 at 12:56 PM Dmitry Vyukov <dvyukov@google.com> wrote:
+> > > > >>>>>>>> On Wed, 16 Feb 2022 at 12:47, Aleksandr Nogikh <nogikh@google.com> wrote:
+> > > > >>>>>>>>> On Wed, Feb 16, 2022 at 11:37 AM Aleksandr Nogikh <nogikh@google.com> wrote:
+> > > > >>>>>>>>>> Hi Alex,
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>> On Wed, Feb 16, 2022 at 5:14 AM Alexandre Ghiti <alex@ghiti.fr> wrote:
+> > > > >>>>>>>>>>> Hi Dmitry,
+> > > > >>>>>>>>>>>
+> > > > >>>>>>>>>>> On 2/15/22 18:12, Dmitry Vyukov wrote:
+> > > > >>>>>>>>>>>> On Wed, 2 Feb 2022 at 14:18, Alexandre Ghiti
+> > > > >>>>>>>>>>>> <alexandre.ghiti@canonical.com> wrote:
+> > > > >>>>>>>>>>>>> Hi Aleksandr,
+> > > > >>>>>>>>>>>>>
+> > > > >>>>>>>>>>>>> On Wed, Feb 2, 2022 at 12:08 PM Aleksandr Nogikh <nogikh@google.com> wrote:
+> > > > >>>>>>>>>>>>>> Hello,
+> > > > >>>>>>>>>>>>>>
+> > > > >>>>>>>>>>>>>> syzbot has already not been able to fuzz its RISC-V instance for 97
+> > > > >>>>>>>>>>>>> That's a longtime, I'll take a look more regularly.
+> > > > >>>>>>>>>>>>>
+> > > > >>>>>>>>>>>>>> days now because the compiled kernel cannot boot. I bisected the issue
+> > > > >>>>>>>>>>>>>> to the following commit:
+> > > > >>>>>>>>>>>>>>
+> > > > >>>>>>>>>>>>>> commit 54c5639d8f507ebefa814f574cb6f763033a72a5
+> > > > >>>>>>>>>>>>>> Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+> > > > >>>>>>>>>>>>>> Date:   Fri Oct 29 06:59:27 2021 +0200
+> > > > >>>>>>>>>>>>>>
+> > > > >>>>>>>>>>>>>>       riscv: Fix asan-stack clang build
+> > > > >>>>>>>>>>>>>>
+> > > > >>>>>>>>>>>>>> Apparently, the problem appears on GCC-built RISC-V kernels with KASAN
+> > > > >>>>>>>>>>>>>> enabled. In the previous message syzbot mentions
+> > > > >>>>>>>>>>>>>> "riscv64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU
+> > > > >>>>>>>>>>>>>> Binutils for Debian) 2.35.2", but the issue also reproduces finely on
+> > > > >>>>>>>>>>>>>> a newer GCC compiler: "riscv64-linux-gnu-gcc (Debian 11.2.0-10)
+> > > > >>>>>>>>>>>>>> 11.2.0, GNU ld (GNU Binutils for Debian) 2.37".
+> > > > >>>>>>>>>>>>>> For convenience, I also duplicate the .config file from the bot's
+> > > > >>>>>>>>>>>>>> message: https://syzkaller.appspot.com/x/.config?x=522544a2e0ef2a7d
+> > > > >>>>>>>>>>>>>>
+> > > > >>>>>>>>>>>>>> Can someone with KASAN and RISC-V expertise please take a look?
+> > > > >>>>>>>>>>>>> I'll take a look at that today.
+> > > > >>>>>>>>>>>>>
+> > > > >>>>>>>>>>>>> Thanks for reporting the issue,
+> > > > >>>>>>>>>>> I took a quick look, not enough to fix it but I know the issue comes
+> > > > >>>>>>>>>>> from the inline instrumentation, I have no problem with the outline
+> > > > >>>>>>>>>>> instrumentation. I need to find some cycles to work on this, my goal is
+> > > > >>>>>>>>>>> to fix this for 5.17.
+> > > > >>>>>>>>>> Thanks for the update!
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>> Can you please share the .config with which you tested the outline
+> > > > >>>>>>>>>> instrumentation?
+> > > > >>>>>>>>>> I updated the syzbot config to use KASAN_OUTLINE instead of KASAN_INLINE,
+> > > > >>>>>>>>>> but it still does not boot :(
+> > > > >>>>>>>>>>
+> > > > >>>>>>>>>> Here's what I used:
+> > > > >>>>>>>>>> https://gist.github.com/a-nogikh/279c85c2d24f47efcc3e865c08844138
+> > > > >>>>>>>>> Update: it doesn't boot with that big config, but boots if I generate
+> > > > >>>>>>>>> a simple one with KASAN_OUTLINE:
+> > > > >>>>>>>>>
+> > > > >>>>>>>>> make defconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+> > > > >>>>>>>>> ./scripts/config -e KASAN -e KASAN_OUTLINE
+> > > > >>>>>>>>> make olddefconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+> > > > >>>>>>>>>
+> > > > >>>>>>>>> And it indeed doesn't work if I use KASAN_INLINE.
+> > > > >>>>>>>> It may be an issue with code size. Full syzbot config + KASAN + KCOV
+> > > > >>>>>>>> produce hugely massive .text. It may be hitting some limitation in the
+> > > > >>>>>>>> bootloader/kernel bootstrap code.
+> > > > >>>>> I took a quick glance and it traps on a KASAN address that is not
+> > > > >>>>> mapped, either because it is too soon or because the mapping failed
+> > > > >>>>> somehow.
+> > > > >>>>>
+> > > > >>>>> I'll definitely dive into that tomorrow, sorry for being slow here and
+> > > > >>>>> thanks again for all your work, that helps a lot.
+> > > > >>>>>
+> > > > >>>>> Thanks,
+> > > > >>>>>
+> > > > >>>>> Alex
+> > > > >>>>>
+> > > > >>>>>>> I bisected the difference between the config we use on syzbot and the
+> > > > >>>>>>> simple one that was generated like I described above.
+> > > > >>>>>>> Turns out that it's the DEBUG_VIRTUAL config that makes the difference.
+> > > > >>>>>>>
+> > > > >>>>>>> make defconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+> > > > >>>>>>> ./scripts/config -e KASAN -e KASAN_OUTLINE -e DEBUG_VIRTUAL
+> > > > >>>>>>> make olddefconfig ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+> > > > >>>>>>>
+> > > > >>>>>>> And the resulting kernel does not boot.
+> > > > >>>>>>> My env: the `riscv/fixes` branch, commit
+> > > > >>>>>>> 6df2a016c0c8a3d0933ef33dd192ea6606b115e3, qemu 6.2.0.
+> > > > >>>> I fixed a few things today: KASAN + SPARSE_VMEMMAP, DEBUG_VIRTUAL and
+> > > > >>>> maybe KASAN  + KCOV.
+> > > > >>>>
+> > > > >>>> With those small fixes, I was able to boot your large dotconfig with
+> > > > >>>> KASAN_OUTLINE, the inline version still fails, this is my next target
+> > > > >>>> :)
+> > > > >>>> I'll push that tomorrow!
+> > > > >>> Awesome, thank you very much!
+> > > > >>> Looking forward to finally seeing the instance run :)
+> > > > >> I sent a patchset which should fix your config with *outline* instrumentation.
+> > > > > Was this fix merged? The riscv instance still does not boot:
+> > > > > https://syzkaller.appspot.com/bug?id=5f2ff52ad42cba9f222202219baebd4e63e35127
+> > > >
+> > > >
+> > > > Yes it has been in Linus tree since 5.18-rc1. I'll take a look at that
+> > > > this week.
+> > > >
+> > >
+> > > Are you seeing this error or a different one ? I used the
+> > > syzkaller_defconfig from the patch below on v5.18.
+> > >
+> > > https://lore.kernel.org/all/20220419174952.699-1-palmer@rivosinc.com/
+> > >
+> > > [   15.076116][    T1] Mandatory Access Control activated.
+> > > [   15.158241][    T1] AppArmor: AppArmor Filesystem Enabled
+> > > [   16.150870][    T1] NET: Registered PF_INET protocol family
+> > > [   16.166167][    T1] IP idents hash table entries: 32768 (order: 6,
+> > > 262144 bytes, linear)
+> > > [   16.188727][    T1] Unable to handle kernel paging request at
+> > > virtual address ffebfffeffff2000
+> > > [   16.192727][    T1] Oops [#1]
+> > > [   16.193479][    T1] Modules linked in:
+> > > [   16.194687][    T1] CPU: 3 PID: 1 Comm: swapper/0 Not tainted
+> > > 5.18.0-00001-g37ac279268bf-dirty #9
+> > > [   16.196486][    T1] Hardware name: riscv-virtio,qemu (DT)
+> > > [   16.197836][    T1] epc : kasan_check_range+0x9e/0x14e
+> > > [   16.199104][    T1]  ra : memset+0x1e/0x4c
+> > > [   16.200091][    T1] epc : ffffffff804787e0 ra : ffffffff80478f30 sp
+> > > : ff600000073ffb70
+> > > [   16.201420][    T1]  gp : ffffffff85879e80 tp : ff600000073f0000 t0
+> > > : 7300000000000000
+> > > [   16.202762][    T1]  t1 : ffebfffeffff21ff t2 : 73746e6564692050 s0
+> > > : ff600000073ffba0
+> > > [   16.204047][    T1]  s1 : 0000000000001000 a0 : ffebfffeffff2200 a1
+> > > : 0000000000001000
+> > > [   16.205312][    T1]  a2 : 0000000000000001 a3 : ffffffff803a4f32 a4
+> > > : ff5ffffffff90000
+> > > [   16.206592][    T1]  a5 : ffebfffeffff2000 a6 : 0000004000000000 a7
+> > > : ff5ffffffff90fff
+> > > [   16.207865][    T1]  s2 : ff5ffffffff90000 s3 : 0000000000000000 s4
+> > > : ffffffff8467ea90
+> > > [   16.209134][    T1]  s5 : 0000000000000000 s6 : ff5ffffffff90000 s7
+> > > : 0000000000000000
+> > > [   16.210394][    T1]  s8 : 0000000000001000 s9 : ffffffff8587ca40
+> > > s10: 0000000000000004
+> > > [   16.211952][    T1]  s11: ffffffff858a03a0 t3 : 0000000000000000 t4
+> > > : 0000000000000040
+> > > [   16.213469][    T1]  t5 : ffebfffeffff2200 t6 : ff600000073ff738
+> > > [   16.214853][    T1] status: 0000000200000120 badaddr:
+> > > ffebfffeffff2000 cause: 000000000000000d
+> > > [   16.216910][    T1] Call Trace:
+> > > [   16.217816][    T1] [<ffffffff803a4f32>] pcpu_alloc+0x844/0x1254
+> > > [   16.219110][    T1] [<ffffffff803a59a0>] __alloc_percpu+0x28/0x34
+> > > [   16.220244][    T1] [<ffffffff8328824a>] ip_rt_init+0x17e/0x382
+> > > [   16.221606][    T1] [<ffffffff8328861c>] ip_init+0x18/0x30
+> > > [   16.222719][    T1] [<ffffffff8328a0ee>] inet_init+0x2a6/0x550
+> > > [   16.223863][    T1] [<ffffffff80003204>] do_one_initcall+0x130/0x7dc
+> > > [   16.225002][    T1] [<ffffffff83201fbc>] kernel_init_freeable+0x510/0x5b4
+> > > [   16.226273][    T1] [<ffffffff8319842a>] kernel_init+0x28/0x21c
+> > > [   16.227337][    T1] [<ffffffff80005818>] ret_from_exception+0x0/0x10
+> > > [   16.229910][    T1] ---[ end trace 0000000000000000 ]---
+> > > [   16.231880][    T1] Kernel panic - not syncing: Fatal exception
+> > >
+> > >
+> >
+> > Enabling CONFIG_KASAN_VMALLOC=y solves the issue and I am able to boot
+> > to the userspace.
+> > I have tried enabling/disabling CONFIG_VMAP_STACK as well. Both works fine.
+> >
+> > Looking at the ARM64 Kconfig, KASAN_VMALLOC is enabled if KASAN is enabled.
+> > This diff seems to work for me.
+> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > index 00fd9c548f26..cbf0fe227c77 100644
+> > --- a/arch/riscv/Kconfig
+> > +++ b/arch/riscv/Kconfig
+> > @@ -122,6 +122,7 @@ config RISCV
+> >         select TRACE_IRQFLAGS_SUPPORT
+> >         select UACCESS_MEMCPY if !MMU
+> >         select ZONE_DMA32 if 64BIT
+> > +       select KASAN_VMALLOC if KASAN
+> >
+> > I am not a kasan expert so I am not sure if this is the correct fix or
+> > just hides the real issue. pcpu_alloc seems to use vmalloc though.
 >
-> : (a) it introduces a new compile-time question that isn't sane to ask
-> : a regular user, but is now exposed to regular users.
+> When this type of thing happens, generally this is because of an error
+> in the kasan page table, I'll take a look this time, sorry I did not
+> do this before.
 >
-> : (b) this by default uses 1MB of memory for a feature that didn't in
-> : the past, so now if you have small machines you need to make sure you
-> : make a special kernel config for them.
+> Thanks for finding this,
 >
-> Ideally we would employ rhashtable for fully automatic resizing, which
-> should be feasible for many of the new users, but problematic for the
-> original users with restricted context that call __stack_depot_save()
-> with can_alloc == false, i.e. KASAN.
->
-> However we can easily remove the config option and scale the hash table
-> automatically with system memory. The STACK_HASH_MASK constant becomes
-> stack_hash_mask variable and is used only in one mask operation, so the
-> overhead should be negligible to none. For early allocation we can
-> employ the existing alloc_large_system_hash() function and perform
-> similar scaling for the late allocation.
->
-> The existing limits of the config option (between 4k and 1M buckets)
-> are preserved, and scaling factor is set to one bucket per 16kB memory
-> so on 64bit the max 1M buckets (8MB memory) is achieved with 16GB
-> system, while a 1GB system will use 512kB.
+> Alex
 
-Hi Vlastimil,
-
-We use KASAN with VMs with 2GB of memory.
-If I did the math correctly this will result in 128K entries, while
-currently we have CONFIG_STACK_HASH_ORDER=20 even for arm32.
-I am actually not sure how full the table gets, but we can fuzz a
-large kernel for up to an hour, so we can get lots of stacks (we were
-the only known users who routinely overflowed default LOCKDEP tables
-:)).
-
-I am not opposed to this in general. And I understand that KASAN Is
-different from the other users.
-What do you think re allowing CONFIG_STACK_HASH_ORDER=0/is not set
-which will mean auto-size, but keeping ability to set exact size as
-well?
-Or alternatively auto-size if KASAN is not enabled and use a large
-table otherwise? But I am not sure if anybody used
-CONFIG_STACK_HASH_ORDER to reduce the default size with KASAN...
-
-
-
-> If needed, the automatic scaling could be complemented with a boot-time
-> kernel parameter, but it feels pointless to add it without a specific
-> use case.
->
-> [1] https://lore.kernel.org/all/CAHk-=wjC5nS+fnf6EzRD9yQRJApAhxx7gRB87ZV+pAWo9oVrTg@mail.gmail.com/
->
-> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  lib/Kconfig      |  9 ---------
->  lib/stackdepot.c | 47 ++++++++++++++++++++++++++++++++++++-----------
->  2 files changed, 36 insertions(+), 20 deletions(-)
->
-> diff --git a/lib/Kconfig b/lib/Kconfig
-> index 6a843639814f..1e7cf7c76ae6 100644
-> --- a/lib/Kconfig
-> +++ b/lib/Kconfig
-> @@ -682,15 +682,6 @@ config STACKDEPOT_ALWAYS_INIT
->         bool
->         select STACKDEPOT
->
-> -config STACK_HASH_ORDER
-> -       int "stack depot hash size (12 => 4KB, 20 => 1024KB)"
-> -       range 12 20
-> -       default 20
-> -       depends on STACKDEPOT
-> -       help
-> -        Select the hash size as a power of 2 for the stackdepot hash table.
-> -        Choose a lower value to reduce the memory impact.
-> -
->  config REF_TRACKER
->         bool
->         depends on STACKTRACE_SUPPORT
-> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-> index 5ca0d086ef4a..f7b73ddfca77 100644
-> --- a/lib/stackdepot.c
-> +++ b/lib/stackdepot.c
-> @@ -145,10 +145,15 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
->         return stack;
->  }
->
-> -#define STACK_HASH_SIZE (1L << CONFIG_STACK_HASH_ORDER)
-> -#define STACK_HASH_MASK (STACK_HASH_SIZE - 1)
-> +/* one hash table bucket entry per 16kB of memory */
-> +#define STACK_HASH_SCALE       14
-> +/* limited between 4k and 1M buckets */
-> +#define STACK_HASH_ORDER_MIN   12
-> +#define STACK_HASH_ORDER_MAX   20
->  #define STACK_HASH_SEED 0x9747b28c
->
-> +static unsigned int stack_hash_mask;
-> +
->  static bool stack_depot_disable;
->  static struct stack_record **stack_table;
->
-> @@ -175,8 +180,6 @@ void __init stack_depot_want_early_init(void)
->
->  int __init stack_depot_early_init(void)
->  {
-> -       size_t size;
-> -
->         /* This is supposed to be called only once, from mm_init() */
->         if (WARN_ON(__stack_depot_early_init_passed))
->                 return 0;
-> @@ -186,10 +189,15 @@ int __init stack_depot_early_init(void)
->         if (!__stack_depot_want_early_init || stack_depot_disable)
->                 return 0;
->
-> -       size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
-> -       pr_info("Stack Depot early init allocating hash table with memblock_alloc, %zu bytes\n",
-> -               size);
-> -       stack_table = memblock_alloc(size, SMP_CACHE_BYTES);
-> +       stack_table = alloc_large_system_hash("stackdepot",
-> +                                               sizeof(struct stack_record *),
-> +                                               0,
-> +                                               STACK_HASH_SCALE,
-> +                                               HASH_EARLY | HASH_ZERO,
-> +                                               NULL,
-> +                                               &stack_hash_mask,
-> +                                               1UL << STACK_HASH_ORDER_MIN,
-> +                                               1UL << STACK_HASH_ORDER_MAX);
->
->         if (!stack_table) {
->                 pr_err("Stack Depot hash table allocation failed, disabling\n");
-> @@ -207,13 +215,30 @@ int stack_depot_init(void)
->
->         mutex_lock(&stack_depot_init_mutex);
->         if (!stack_depot_disable && !stack_table) {
-> -               pr_info("Stack Depot allocating hash table with kvcalloc\n");
-> -               stack_table = kvcalloc(STACK_HASH_SIZE, sizeof(struct stack_record *), GFP_KERNEL);
-> +               unsigned long entries;
-> +
-> +               entries = nr_free_buffer_pages();
-> +               entries = roundup_pow_of_two(entries);
-> +
-> +               if (STACK_HASH_SCALE > PAGE_SHIFT)
-> +                       entries >>= (STACK_HASH_SCALE - PAGE_SHIFT);
-> +               else
-> +                       entries <<= (PAGE_SHIFT - STACK_HASH_SCALE);
-> +
-> +               if (entries < 1UL << STACK_HASH_ORDER_MIN)
-> +                       entries = 1UL << STACK_HASH_ORDER_MIN;
-> +               if (entries > 1UL << STACK_HASH_ORDER_MAX)
-> +                       entries = 1UL << STACK_HASH_ORDER_MAX;
-> +
-> +               pr_info("Stack Depot allocating hash table of %lu entries with kvcalloc\n",
-> +                               entries);
-> +               stack_table = kvcalloc(entries, sizeof(struct stack_record *), GFP_KERNEL);
->                 if (!stack_table) {
->                         pr_err("Stack Depot hash table allocation failed, disabling\n");
->                         stack_depot_disable = true;
->                         ret = -ENOMEM;
->                 }
-> +               stack_hash_mask = entries - 1;
->         }
->         mutex_unlock(&stack_depot_init_mutex);
->         return ret;
-> @@ -386,7 +411,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
->                 goto fast_exit;
->
->         hash = hash_stack(entries, nr_entries);
-> -       bucket = &stack_table[hash & STACK_HASH_MASK];
-> +       bucket = &stack_table[hash & stack_hash_mask];
->
->         /*
->          * Fast path: look the stack trace up without locking.
-> --
-> 2.36.1
->
+Unfortunately riscv still does not work for syzbot, other bugs piled up.
+Something has changes wrt user-space pointers:
+https://groups.google.com/g/syzkaller-bugs/c/lU0GQTZoNQQ/m/iuRBTgU3AAAJ
+https://syzkaller.appspot.com/bug?extid=2c5da6a0a16a0c4f34aa
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BY4GZfXOru2z5tFPzFdaSUd%2BGFc6KVL%3Dbsa0%2B1m197cQQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BY7tS%2BOnEaZMFPh73tTmTVY1X2TZ4vfd2S2THwReBF97w%40mail.gmail.com.
