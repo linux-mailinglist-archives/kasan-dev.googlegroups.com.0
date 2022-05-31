@@ -1,142 +1,141 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBD4O2SKAMGQEDRUNLRY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBTXO26KAMGQE7L6PYIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206265386FA
-	for <lists+kasan-dev@lfdr.de>; Mon, 30 May 2022 20:04:01 +0200 (CEST)
-Received: by mail-pj1-x103b.google.com with SMTP id o8-20020a17090a9f8800b001dc9f554c7fsf6623825pjp.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 30 May 2022 11:04:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1653933839; cv=pass;
+Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 521B8538F73
+	for <lists+kasan-dev@lfdr.de>; Tue, 31 May 2022 13:09:04 +0200 (CEST)
+Received: by mail-oo1-xc3b.google.com with SMTP id y12-20020a4a86cc000000b00324cb8287a4sf7141088ooh.19
+        for <lists+kasan-dev@lfdr.de>; Tue, 31 May 2022 04:09:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1653995343; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FXFw5g/xolo+ekGWzg8i7mDD/NdFeRCQIMDGuXlbIqU1q0o2RZWqMqUEEyBm8Bctez
-         mMOg2ztlN9MkOrqTuKo2tqcqKBulVN5DTz92t33i1ewuegIpfES9GMRG85mDFkFVO2S8
-         IS8BZyJ544ak6/3n6bhCeSL1BZnANVd6MY++ptRE6C+WM0tu74DPSztU96zK5D03jdeh
-         pRQoj2glEkg2d/1zioL638qt/NJHCxb3CzqWfYayQx38dKIuG8YYj+THn8m9ay004SCC
-         PCfWOxE/mLRPYA05pmTGMT1VGqZJwSqc7ClaZmswK4r3I6i3Be+dFEdb12F97+UDgvwq
-         tZ0w==
+        b=f8WArppzQ4WKX75DbX6G/TDnO4b97RChaenS2NYVwkUtxY6OlepwLVPdMo5H1CKlft
+         CbkbbnBcsZ9bg5V4RFzrxfhGZsYKvDBEVz/2rrYsQeMdPNQKi4YnXfFg4+GE/LxOfNVw
+         OtKV8U6LGdxL5MdTXzMxcx+3TKU1CQkBBmEvwvcdXUUSJ63wiLR0du2tNdkVRse+VSHk
+         M16Vvq21E4dfD6L9x8LG3Qo44x+ctcM0Q/PeDWAaH3SuHZCJKDGgLEqrpFOi3wK0Qh6O
+         +xcpTlXtW9pdlsVQkOSdwnCsZRCCk1DsW/JOnWL8KdOHrTVJxfLTU8x/iLGRUEyOA8Q9
+         DNZw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=5yyLXwmThBqfJejsOslKdTke3L2cidzn/L6MUtXnQH8=;
-        b=NOGxyLl/IaUmUOmQjZVk+WQn9auTdJV3h4GTDioN9ZpWhus/aRONT8zubD8lDuW0f1
-         kfzT2XBMsl8PqMToTXGeYx5hv64aB7hADpew97oxHJAWmr/M2HHrDlib0OkSyMraU7cJ
-         eIB3xk5WM55/vL4O3b7YGYqd3cW1Uo4A7VscfE2Cm7aBg1uNyuIRQuP9hqhEK4hbqqhb
-         yijrfGmfFsyGebpClkvo/lchAXaH0sVMu1MlyJSYu8J8JCq7WTR+ScuMuX9Y7EL84dAl
-         0JsBiTvbl0PTO265H27sVE7chxzgNF6Y34aOsEuBfugfqrLUwl0QgnskcyE1r0A7owwb
-         irAw==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=gWx5+a/rYt65yU1v+Xhj/k23ixwhATz60Rl47bFs1XQ=;
+        b=Sbsp990Em/yGebuMpnOlXLomGG59sZboGN0oW/VivhWdiTKBDrbVtRMQu4uvGK6D6e
+         COKK9+3YmhNYMfQ0jPkNIySzAzt/Lr8RS0/jrU8602CKCyQHdT15pAb3cNXsyQ2qY1Z6
+         qnzwQ2JTvHUJ7pciEzXGNXOLtGodLyWiG6x8CGa6qzhOH/6XpFrRe1U4TC33OPorc6BZ
+         9IofPELBFMtbAGk47uoz5op0ju18O/8nyYVcmqEQs8O0YUAaGN+DmJBa4r6ZmMfW+4Mx
+         Dwqf8hQtxtqDKZQ/e6wK3W9EBfLMPK450HTaeMgpIpL+51XiZ2gkvZJbuJWaO1rhMmcs
+         U3hQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=GTWyyPNR;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12c as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=WH6nv9XG;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5yyLXwmThBqfJejsOslKdTke3L2cidzn/L6MUtXnQH8=;
-        b=R/A2O498JvBS+ZqJrBoCYZHZdNIzis8FZ0m/q527TpSZRtE4wB9fx/cV4wTgFipHPL
-         uSHP19kgOvMXWcp5hsB8F+8zjDIAZZ4D6okHxs8hi/Lc0sokWowH4UT3o6mLC1v7r9g8
-         4EB5LUwB7CgTrr78Fm4eFZ4iHceHMfqwQGq1YNsvbIvP32AsroILCY8a2V78HJHDvNXd
-         WCjxwmfBovQ6QrvxkrERl3nZDIoLSoh/XzN6P5gApOdEXxS6cqTEaLr6b5dwynBA3w5m
-         IkhCTDptYvZ03leX3OD50K5A/adf1cTsjZgd2T5FOxjRD4XOroaOtNKc95nPOLLvTV8O
-         up/A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5yyLXwmThBqfJejsOslKdTke3L2cidzn/L6MUtXnQH8=;
-        b=Y62/SERtkhNeV5pCbJa/QhU3bJ5yP4fIYcOhpOxqd+hxuvuNy7lHfqYCBSiFBf/+pa
-         QElWHnnvLtZIalfFVM+nHFiH1ReRD7FXue7QsGs9bpTH51JRnTdjPAhGiK6ypV7h3m2T
-         aLkn7eEObcqtuWl80xxFleBBFnGka+PuKtltBk9JQ36OUvFgGmSspk3O2VaTt79wUSnX
-         05z3C9bqsxu4yE1VoBxm6HmvDvWx08mVXXwVo9o27i8TsDEkfyQFrtziZgIs0sb8tos0
-         +i3r4B6PG1V9+zD8yspoMbVaZIVQHhBOnTc10zKPfpdO522vGcr2jG2RA3BngOew+i7y
-         4Mwg==
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=gWx5+a/rYt65yU1v+Xhj/k23ixwhATz60Rl47bFs1XQ=;
+        b=B4b6b/KTI1+WRRxWb+J0dSoXR18Op25rv30z+CE2iSmbi5t5JUQsOA01wIF/7aYosZ
+         MicIDFM01AvwXkjy+Zs90aEQPeFOkdlp5ujR2ETRmezn667eR31dbM9WhiKxepMJJx+N
+         sfJAI8GE1z30DXtH/eqL62RzqIqnFSJ1+X6aBm5ZN6iAU+k101fSzCU94L3ZmbXja58x
+         rf8AE4BleZpQmOSy9YGMUEwiTqCqmicOVq818p54HHDkKfkbB+q1u/YS9MpqG5VXRTDQ
+         jjAl6Fk+LS4A40bOV3uTLfk8pU3xEhs7KiPb68Ut3/FMfrLRdHPigJzMHEy3U21+bDUn
+         MthQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5yyLXwmThBqfJejsOslKdTke3L2cidzn/L6MUtXnQH8=;
-        b=rus+Wdp0F56L/dJJryQ7nWmvjAfxkZF6lfYKUr6HydsyJ9L2AxBV99XfaNbRl3yTEk
-         n5zSNmSQjRaWd6yZzzLBIAgUzdpIAboAbKJ4+U5ls9azY8VgJbMC/cyhNHTtIEulG6pF
-         LFL1RFqNfaEm+mYzKf9tvrTVDs0uuiGtbgLbD3mn61lWfg293aLlipzv2GyShUDrEo77
-         bmP9m1HvYlGMjqWefYXj9hTWC0I2Ks7VFTyO4Yq1pGxFDPhHdjC5Zw8dKi4UK7n43xRj
-         oxQ9s7GtgfJAFMBdvVfwXw1Ymgy4L2Y8tYWTgaquiWIlrNPftDBEdCWmv6oNs4LLocnf
-         FRXg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532jYDo6VWavebdiWVHKjzVODDFa1/9EXi8VMC4lQ2QmPSJemsMM
-	B+u2EuaWG1+ZSH8JfolX23Q=
-X-Google-Smtp-Source: ABdhPJwIP43m0iliztoaKoSVP1T07oMzSbevfEZ/n4YOEIl8+3f2M07RoC0/HdAKPeH8M5zYgAOuYQ==
-X-Received: by 2002:a17:902:db07:b0:163:5374:6732 with SMTP id m7-20020a170902db0700b0016353746732mr20539715plx.15.1653933839302;
-        Mon, 30 May 2022 11:03:59 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=gWx5+a/rYt65yU1v+Xhj/k23ixwhATz60Rl47bFs1XQ=;
+        b=LwQCqjeiNM35HGzyafKuMxF0AzRh+oMc2565d6irOe3CyEM7NtE290ViIZ0/8kG1OE
+         rWbdYiQoLb5xRUDpZt441CaiVqSdxrNDP7FDErRSMX5AHJtQg1/koEhF7IFhMouvThAc
+         wcUEpfRRH6mH9sEuuiQCYVref9shOWX0zNnO6oOdY3SAvhC/ukFq5PDtV/rdb8dHkcQy
+         CF6Mnba+/U1UedhiTZEWc7CkC6wQBOjLOhI/y1IuTkZsD2unDZIYVYQzyxDXLsVlqKoX
+         d4nucIhA9SU42P3EpXcAoVykrUWyVflks01vAQliWcSCHQBvh8AZnWORByJi30yHSfVh
+         /krg==
+X-Gm-Message-State: AOAM533dQ2+nS0ZGShqy0ZbrdtyW04bgxHpYiB9E/z9uquIKRGvJa38T
+	16Os2pOeZytR8/CXb7tIGJo=
+X-Google-Smtp-Source: ABdhPJwWQQzd0R29Ce0a85OT9YlcMomjHbdpO6fPg+uWtksM5bUEfgPSCUBV+pTu7hh8rRjDoBggLg==
+X-Received: by 2002:a05:6830:4391:b0:60b:4149:babe with SMTP id s17-20020a056830439100b0060b4149babemr9272415otv.248.1653995342796;
+        Tue, 31 May 2022 04:09:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:544e:0:b0:3fb:cd6e:c7b2 with SMTP id e14-20020a63544e000000b003fbcd6ec7b2ls2557429pgm.5.gmail;
- Mon, 30 May 2022 11:03:58 -0700 (PDT)
-X-Received: by 2002:a63:f158:0:b0:3db:8563:e8f5 with SMTP id o24-20020a63f158000000b003db8563e8f5mr50275842pgk.191.1653933838641;
-        Mon, 30 May 2022 11:03:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1653933838; cv=none;
+Received: by 2002:a05:6870:a9a4:b0:f2:dc5c:8024 with SMTP id
+ ep36-20020a056870a9a400b000f2dc5c8024ls5373151oab.0.gmail; Tue, 31 May 2022
+ 04:09:02 -0700 (PDT)
+X-Received: by 2002:a05:6870:960d:b0:f1:28b4:41ff with SMTP id d13-20020a056870960d00b000f128b441ffmr13147672oaq.51.1653995342347;
+        Tue, 31 May 2022 04:09:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1653995342; cv=none;
         d=google.com; s=arc-20160816;
-        b=hsrG1xvziXDbjAXe8UwKA1NxAvg0lZqvtU++L8Kw6G/50Y8OnCMX0r5fOp3pG0NZUV
-         BIhhMtVqwYKe1tKRFKuMdwKZbuh4OYxcB3pBEkk2eHh8qbe3SpFoDeX7gq0cRPZDWr0d
-         HQhHb7jtUR16mK5qxL7YfJ8t00NVab4k6O/HOBNBFzB/tPuuibByk9BBSWwT/GjbfWQc
-         X0fAmNEdPS0ta17S5sjeCPsHyYXTnI6WVYjaZf8Q9c53WqmrFJJRKpzf3IQ+caw9NKJE
-         V3D2Pt9kIrAkVFtUc6Z3n4ypAnK/uzQNmY+jOeVfL+D02woe0Nx4d+qLHTbHefVIeL8X
-         v7NA==
+        b=tW18cVYEzxvmn0buRS5V70XU0cdrLaArzfcnfUvFkScPOCTwc8H2Qzkk44EPVTcO3Y
+         mLTYfTI5cJfUtYS9lX3nfgrf6pXcjUGxAMNbClId5llhw0K8x19OH+GI8OXhcLL8bKrJ
+         HBanXnZtEWEqiB/zQnAC/H4V8PHkC9WQ8Y9L2LfR/ydEbCxLvgA7Yw5Ht8p/w2808uzf
+         joLeSyUGVpEvDufyI8JYuJDcopR4Z2yn5L4/AZrso9dyLC3/vccc+PuFuHtKCocEi5ZE
+         UgBvwA0xqgJYv/cQSXtf10/XHqsWAOx9tPJeqLnBfOg6JMjwFiiVXXDhkZigGJuv3oSC
+         Cd9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1ZeR0nN/1eFyuWwXvp0L7EiUsdKyoUpqzB7kyH/D/WM=;
-        b=Z1Z8rhUGbKOFsXXX3m1RsqfaX52Kkl1E7IRgUg5tfoQscjHTRgGdFL2crBV84KSQd7
-         dWVMAf9/PXE2BVYlM76N6ImXBaK17Z54izVnAeyO6l790kzS9VK8kf3aWtoRx73O3mVV
-         IZSgbl9v0WMUA3xc9w19cOAAltIx0AbKH2Rd8nXGIy7s2fPVvrWM51p43yqa7tIL5PY1
-         qg9ke8Li+vbz1CbZFzn+eKD7YqhnDgc4GbwVszrqg6VW3ZmIF57niTMKHBAdSR87iUJo
-         AwlOpRCcO3tuDdmzdNNEUW6cetSGlfbTfFm9TXU/qqCtcNBarf3A/p//XWQqZGSazXaK
-         y4Hw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=89pC4XAY/z7UFh8pChBVS1ZQvKsoUeUASgbw5YbK0vc=;
+        b=s//yf/UgI5sDNsgcJ6kL9zW/yZTwrJ8QC9ghWHmbxwGT3/IgSWe/VVZSmEXwIUALtO
+         UoZgRJlSnIKj2MJOTXPEquevDAgwJejhM03hrTFE1n4bDtOJnGQb5py6JhXfXCuJTg/P
+         Jn5bUf9nsFBkPVh37/x/JKYteKuIA3M1JM3fJq8tfIQHV7CJgGJsi2n+C+yiqf58pSAU
+         /zo5q3Qek+WOg7fVdBOs609g90c/MbhxqiHZdFxC4j6KeSZG+FSu/I61RriO1fjMwiLT
+         GMx47/r0BiilYz2foG7rI6jD2K1EqGKm//S3c8dgsxB6+bUg4y3oRBwR0SxIOTX5xrJJ
+         GQuA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=GTWyyPNR;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12c as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com. [2607:f8b0:4864:20::12c])
-        by gmr-mx.google.com with ESMTPS id h17-20020a17090aea9100b001e08670c3d9si2368pjz.0.2022.05.30.11.03.58
+       dkim=pass header.i=@google.com header.s=20210112 header.b=WH6nv9XG;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com. [2607:f8b0:4864:20::b2e])
+        by gmr-mx.google.com with ESMTPS id x10-20020a056808144a00b003222fdff9aesi928066oiv.0.2022.05.31.04.09.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 May 2022 11:03:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12c as permitted sender) client-ip=2607:f8b0:4864:20::12c;
-Received: by mail-il1-x12c.google.com with SMTP id y17so2871952ilj.11
-        for <kasan-dev@googlegroups.com>; Mon, 30 May 2022 11:03:58 -0700 (PDT)
-X-Received: by 2002:a92:3609:0:b0:2c6:3595:2a25 with SMTP id
- d9-20020a923609000000b002c635952a25mr29189046ila.233.1653933838071; Mon, 30
- May 2022 11:03:58 -0700 (PDT)
+        Tue, 31 May 2022 04:09:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) client-ip=2607:f8b0:4864:20::b2e;
+Received: by mail-yb1-xb2e.google.com with SMTP id a64so13010484ybg.11
+        for <kasan-dev@googlegroups.com>; Tue, 31 May 2022 04:09:02 -0700 (PDT)
+X-Received: by 2002:a25:4585:0:b0:65d:49fc:7949 with SMTP id
+ s127-20020a254585000000b0065d49fc7949mr1914785yba.307.1653995341430; Tue, 31
+ May 2022 04:09:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220527185600.1236769-1-davidgow@google.com> <20220527185600.1236769-2-davidgow@google.com>
-In-Reply-To: <20220527185600.1236769-2-davidgow@google.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Mon, 30 May 2022 20:03:47 +0200
-Message-ID: <CA+fCnZe63vugPRbD3fVNGnTWbSvjd08g8coG3D71-=NtqpjOvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] UML: add support for KASAN under x86_64
-To: David Gow <davidgow@google.com>
-Cc: Vincent Whitchurch <vincent.whitchurch@axis.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Patricia Alfonso <trishalfonso@google.com>, Jeff Dike <jdike@addtoit.com>, 
-	Richard Weinberger <richard@nod.at>, anton.ivanov@cambridgegreys.com, 
-	Dmitry Vyukov <dvyukov@google.com>, Brendan Higgins <brendanhiggins@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, linux-um@lists.infradead.org, 
-	LKML <linux-kernel@vger.kernel.org>, Daniel Latypov <dlatypov@google.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>
+References: <20220426164315.625149-1-glider@google.com> <20220426164315.625149-13-glider@google.com>
+ <YmlOrxYCbAnVrV7r@elver.google.com>
+In-Reply-To: <YmlOrxYCbAnVrV7r@elver.google.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 31 May 2022 13:08:25 +0200
+Message-ID: <CAG_fn=XvG5atw4qEOKRB0ZmBf5uMutFEV1zVVv6fUTtV_2+bBw@mail.gmail.com>
+Subject: Re: [PATCH v3 12/46] kmsan: add KMSAN runtime core
+To: Marco Elver <elver@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	Kees Cook <keescook@chromium.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Matthew Wilcox <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux-Arch <linux-arch@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=GTWyyPNR;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12c
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20210112 header.b=WH6nv9XG;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,131 +148,583 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, May 27, 2022 at 8:56 PM David Gow <davidgow@google.com> wrote:
+On Wed, Apr 27, 2022 at 4:10 PM Marco Elver <elver@google.com> wrote:
 >
-> From: Patricia Alfonso <trishalfonso@google.com>
+> On Tue, Apr 26, 2022 at 06:42PM +0200, Alexander Potapenko wrote:
+> > For each memory location KernelMemorySanitizer maintains two types of
+> > metadata:
+> > 1. The so-called shadow of that location - =D0=B0 byte:byte mapping des=
+cribing
+> >    whether or not individual bits of memory are initialized (shadow is =
+0)
+> >    or not (shadow is 1).
+> > 2. The origins of that location - =D0=B0 4-byte:4-byte mapping containi=
+ng
+> >    4-byte IDs of the stack traces where uninitialized values were
+> >    created.
+> >
+> > Each struct page now contains pointers to two struct pages holding
+> > KMSAN metadata (shadow and origins) for the original struct page.
+> > Utility routines in mm/kmsan/core.c and mm/kmsan/shadow.c handle the
+> > metadata creation, addressing, copying and checking.
+> > mm/kmsan/report.c performs error reporting in the cases an uninitialize=
+d
+> > value is used in a way that leads to undefined behavior.
+> >
+> > KMSAN compiler instrumentation is responsible for tracking the metadata
+> > along with the kernel memory. mm/kmsan/instrumentation.c provides the
+> > implementation for instrumentation hooks that are called from files
+> > compiled with -fsanitize=3Dkernel-memory.
+> >
+> > To aid parameter passing (also done at instrumentation level), each
+> > task_struct now contains a struct kmsan_task_state used to track the
+> > metadata of function parameters and return values for that task.
+> >
+> > Finally, this patch provides CONFIG_KMSAN that enables KMSAN, and
+> > declares CFLAGS_KMSAN, which are applied to files compiled with KMSAN.
+> > The KMSAN_SANITIZE:=3Dn Makefile directive can be used to completely
+> > disable KMSAN instrumentation for certain files.
+> >
+> > Similarly, KMSAN_ENABLE_CHECKS:=3Dn disables KMSAN checks and makes new=
+ly
+> > created stack memory initialized.
+> >
+> > Users can also use functions from include/linux/kmsan-checks.h to mark
+> > certain memory regions as uninitialized or initialized (this is called
+> > "poisoning" and "unpoisoning") or check that a particular region is
+> > initialized.
+> >
+> > Signed-off-by: Alexander Potapenko <glider@google.com>
+> > ---
+> > v2:
+> >  -- as requested by Greg K-H, moved hooks for different subsystems to r=
+espective patches,
+> >     rewrote the patch description;
+> >  -- addressed comments by Dmitry Vyukov;
+> >  -- added a note about KMSAN being not intended for production use.
+> >  -- fix case of unaligned dst in kmsan_internal_memmove_metadata()
+> >
+> > v3:
+> >  -- print build IDs in reports where applicable
+> >  -- drop redundant filter_irq_stacks(), unpoison the local passed to __=
+stack_depot_save()
+> >  -- remove a stray BUG()
+> >
+> > Link: https://linux-review.googlesource.com/id/I9b71bfe3425466c97159f9d=
+e0062e5e8e4fec866
+> > ---
+> >  Makefile                     |   1 +
+> >  include/linux/kmsan-checks.h |  64 +++++
+> >  include/linux/kmsan.h        |  47 ++++
+> >  include/linux/mm_types.h     |  12 +
+> >  include/linux/sched.h        |   5 +
+> >  lib/Kconfig.debug            |   1 +
+> >  lib/Kconfig.kmsan            |  23 ++
+> >  mm/Makefile                  |   1 +
+> >  mm/kmsan/Makefile            |  18 ++
+> >  mm/kmsan/core.c              | 458 +++++++++++++++++++++++++++++++++++
+> >  mm/kmsan/hooks.c             |  66 +++++
+> >  mm/kmsan/instrumentation.c   | 267 ++++++++++++++++++++
+> >  mm/kmsan/kmsan.h             | 183 ++++++++++++++
+> >  mm/kmsan/report.c            | 211 ++++++++++++++++
+> >  mm/kmsan/shadow.c            | 186 ++++++++++++++
+> >  scripts/Makefile.kmsan       |   1 +
+> >  scripts/Makefile.lib         |   9 +
+> >  17 files changed, 1553 insertions(+)
+> >  create mode 100644 include/linux/kmsan-checks.h
+> >  create mode 100644 include/linux/kmsan.h
+> >  create mode 100644 lib/Kconfig.kmsan
+> >  create mode 100644 mm/kmsan/Makefile
+> >  create mode 100644 mm/kmsan/core.c
+> >  create mode 100644 mm/kmsan/hooks.c
+> >  create mode 100644 mm/kmsan/instrumentation.c
+> >  create mode 100644 mm/kmsan/kmsan.h
+> >  create mode 100644 mm/kmsan/report.c
+> >  create mode 100644 mm/kmsan/shadow.c
+> >  create mode 100644 scripts/Makefile.kmsan
+> >
+> > diff --git a/Makefile b/Makefile
+> > index c3ec1ea423797..d3c7dcd9f0fea 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1009,6 +1009,7 @@ include-y                       :=3D scripts/Make=
+file.extrawarn
+> >  include-$(CONFIG_DEBUG_INFO) +=3D scripts/Makefile.debug
+> >  include-$(CONFIG_KASAN)              +=3D scripts/Makefile.kasan
+> >  include-$(CONFIG_KCSAN)              +=3D scripts/Makefile.kcsan
+> > +include-$(CONFIG_KMSAN)              +=3D scripts/Makefile.kmsan
+> >  include-$(CONFIG_UBSAN)              +=3D scripts/Makefile.ubsan
+> >  include-$(CONFIG_KCOV)               +=3D scripts/Makefile.kcov
+> >  include-$(CONFIG_GCC_PLUGINS)        +=3D scripts/Makefile.gcc-plugins
+> > diff --git a/include/linux/kmsan-checks.h b/include/linux/kmsan-checks.=
+h
+> > new file mode 100644
+> > index 0000000000000..a6522a0c28df9
+> > --- /dev/null
+> > +++ b/include/linux/kmsan-checks.h
+> > @@ -0,0 +1,64 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * KMSAN checks to be used for one-off annotations in subsystems.
+> > + *
+> > + * Copyright (C) 2017-2022 Google LLC
+> > + * Author: Alexander Potapenko <glider@google.com>
+> > + *
+> > + */
+> > +
+> > +#ifndef _LINUX_KMSAN_CHECKS_H
+> > +#define _LINUX_KMSAN_CHECKS_H
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +#ifdef CONFIG_KMSAN
+> > +
+> > +/**
+> > + * kmsan_poison_memory() - Mark the memory range as uninitialized.
+> > + * @address: address to start with.
+> > + * @size:    size of buffer to poison.
+> > + * @flags:   GFP flags for allocations done by this function.
+> > + *
+> > + * Until other data is written to this range, KMSAN will treat it as
+> > + * uninitialized. Error reports for this memory will reference the cal=
+l site of
+> > + * kmsan_poison_memory() as origin.
+> > + */
+> > +void kmsan_poison_memory(const void *address, size_t size, gfp_t flags=
+);
+> > +
+> > +/**
+> > + * kmsan_unpoison_memory() -  Mark the memory range as initialized.
+> > + * @address: address to start with.
+> > + * @size:    size of buffer to unpoison.
+> > + *
+> > + * Until other data is written to this range, KMSAN will treat it as
+> > + * initialized.
+> > + */
+> > +void kmsan_unpoison_memory(const void *address, size_t size);
+> > +
+> > +/**
+> > + * kmsan_check_memory() - Check the memory range for being initialized=
+.
+> > + * @address: address to start with.
+> > + * @size:    size of buffer to check.
+> > + *
+> > + * If any piece of the given range is marked as uninitialized, KMSAN w=
+ill report
+> > + * an error.
+> > + */
+> > +void kmsan_check_memory(const void *address, size_t size);
+> > +
+> > +#else
+> > +
+> > +static inline void kmsan_poison_memory(const void *address, size_t siz=
+e,
+> > +                                    gfp_t flags)
+> > +{
+> > +}
+> > +static inline void kmsan_unpoison_memory(const void *address, size_t s=
+ize)
+> > +{
+> > +}
+> > +static inline void kmsan_check_memory(const void *address, size_t size=
+)
+> > +{
+> > +}
+> > +
+> > +#endif
+> > +
+> > +#endif /* _LINUX_KMSAN_CHECKS_H */
+> > diff --git a/include/linux/kmsan.h b/include/linux/kmsan.h
+> > new file mode 100644
+> > index 0000000000000..4e35f43eceaa9
+> > --- /dev/null
+> > +++ b/include/linux/kmsan.h
+> > @@ -0,0 +1,47 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * KMSAN API for subsystems.
+> > + *
+> > + * Copyright (C) 2017-2022 Google LLC
+> > + * Author: Alexander Potapenko <glider@google.com>
+> > + *
+> > + */
+> > +#ifndef _LINUX_KMSAN_H
+> > +#define _LINUX_KMSAN_H
+> > +
+> > +#include <linux/gfp.h>
+> > +#include <linux/kmsan-checks.h>
+> > +#include <linux/stackdepot.h>
+> > +#include <linux/types.h>
+> > +#include <linux/vmalloc.h>
+> > +
+> > +struct page;
+> > +
+> > +#ifdef CONFIG_KMSAN
+> > +
+> > +/* These constants are defined in the MSan LLVM instrumentation pass. =
+*/
+> > +#define KMSAN_RETVAL_SIZE 800
+> > +#define KMSAN_PARAM_SIZE 800
+> > +
+> > +struct kmsan_context_state {
+> > +     char param_tls[KMSAN_PARAM_SIZE];
+> > +     char retval_tls[KMSAN_RETVAL_SIZE];
+> > +     char va_arg_tls[KMSAN_PARAM_SIZE];
+> > +     char va_arg_origin_tls[KMSAN_PARAM_SIZE];
+> > +     u64 va_arg_overflow_size_tls;
+> > +     char param_origin_tls[KMSAN_PARAM_SIZE];
+> > +     depot_stack_handle_t retval_origin_tls;
+> > +};
+> > +
+> > +#undef KMSAN_PARAM_SIZE
+> > +#undef KMSAN_RETVAL_SIZE
+> > +
+> > +struct kmsan_ctx {
+> > +     struct kmsan_context_state cstate;
+> > +     int kmsan_in_runtime;
+> > +     bool allow_reporting;
+> > +};
+> > +
+> > +#endif
+> > +
+> > +#endif /* _LINUX_KMSAN_H */
+> > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> > index 8834e38c06a4f..85c97a2145f7e 100644
+> > --- a/include/linux/mm_types.h
+> > +++ b/include/linux/mm_types.h
+> > @@ -218,6 +218,18 @@ struct page {
+> >                                          not kmapped, ie. highmem) */
+> >  #endif /* WANT_PAGE_VIRTUAL */
+> >
+> > +#ifdef CONFIG_KMSAN
+> > +     /*
+> > +      * KMSAN metadata for this page:
+> > +      *  - shadow page: every bit indicates whether the corresponding
+> > +      *    bit of the original page is initialized (0) or not (1);
+> > +      *  - origin page: every 4 bytes contain an id of the stack trace
+> > +      *    where the uninitialized value was created.
+> > +      */
+> > +     struct page *kmsan_shadow;
+> > +     struct page *kmsan_origin;
+> > +#endif
+> > +
+> >  #ifdef LAST_CPUPID_NOT_IN_PAGE_FLAGS
+> >       int _last_cpupid;
+> >  #endif
+> > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > index a8911b1f35aad..9e53624cd73ac 100644
+> > --- a/include/linux/sched.h
+> > +++ b/include/linux/sched.h
+> > @@ -14,6 +14,7 @@
+> >  #include <linux/pid.h>
+> >  #include <linux/sem.h>
+> >  #include <linux/shm.h>
+> > +#include <linux/kmsan.h>
+> >  #include <linux/mutex.h>
+> >  #include <linux/plist.h>
+> >  #include <linux/hrtimer.h>
+> > @@ -1352,6 +1353,10 @@ struct task_struct {
+> >  #endif
+> >  #endif
+> >
+> > +#ifdef CONFIG_KMSAN
+> > +     struct kmsan_ctx                kmsan_ctx;
+> > +#endif
+> > +
+> >  #if IS_ENABLED(CONFIG_KUNIT)
+> >       struct kunit                    *kunit_test;
+> >  #endif
+> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> > index 075cd25363ac3..b81670878acae 100644
+> > --- a/lib/Kconfig.debug
+> > +++ b/lib/Kconfig.debug
+> > @@ -996,6 +996,7 @@ config DEBUG_STACKOVERFLOW
+> >
+> >  source "lib/Kconfig.kasan"
+> >  source "lib/Kconfig.kfence"
+> > +source "lib/Kconfig.kmsan"
+> >
+> >  endmenu # "Memory Debugging"
+> >
+> > diff --git a/lib/Kconfig.kmsan b/lib/Kconfig.kmsan
+> > new file mode 100644
+> > index 0000000000000..199f79d031f94
+> > --- /dev/null
+> > +++ b/lib/Kconfig.kmsan
+> > @@ -0,0 +1,23 @@
 >
-> Make KASAN run on User Mode Linux on x86_64.
->
-> The UML-specific KASAN initializer uses mmap to map the roughly 2.25TB
-> of shadow memory to the location defined by KASAN_SHADOW_OFFSET.
-> kasan_init() utilizes constructors to initialize KASAN before main().
->
-> The location of the KASAN shadow memory, starting at
-> KASAN_SHADOW_OFFSET, can be configured using the KASAN_SHADOW_OFFSET
-> option. UML uses roughly 18TB of address space, and KASAN requires 1/8th
-> of this. The default location of this offset is 0x100000000000, which
-> keeps it out-of-the-way even on UML setups with more "physical" memory.
->
-> For low-memory setups, 0x7fff8000 can be used instead, which fits in an
-> immediate and is therefore faster, as suggested by Dmitry Vyukov. There
-> is usually enough free space at this location; however, it is a config
-> option so that it can be easily changed if needed.
->
-> Note that, unlike KASAN on other architectures, vmalloc allocations
-> still use the shadow memory allocated upfront, rather than allocating
-> and free-ing it per-vmalloc allocation.
->
-> Also note that, while UML supports both KASAN in inline mode
-> (CONFIG_KASAN_INLINE) and static linking (CONFIG_STATIC_LINK), it does
-> not support both at the same time.
->
-> Signed-off-by: Patricia Alfonso <trishalfonso@google.com>
-> Co-developed-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
-> Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
-> Signed-off-by: David Gow <davidgow@google.com>
+> Missing SPDX-License-Identifier.
+Will do in v4, thanks!
 
-Hi David,
-
-Thanks for working on this!
-
-> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-> index a4f07de21771..c993d99116f2 100644
-> --- a/mm/kasan/shadow.c
-> +++ b/mm/kasan/shadow.c
-> @@ -295,9 +295,29 @@ int kasan_populate_vmalloc(unsigned long addr, unsigned long size)
->                 return 0;
+> > +config KMSAN
+> > +     bool "KMSAN: detector of uninitialized values use"
+> > +     depends on HAVE_ARCH_KMSAN && HAVE_KMSAN_COMPILER
+> > +     depends on SLUB && DEBUG_KERNEL && !KASAN && !KCSAN
+> > +     depends on CC_IS_CLANG && CLANG_VERSION >=3D 140000
 >
->         shadow_start = (unsigned long)kasan_mem_to_shadow((void *)addr);
-> -       shadow_start = ALIGN_DOWN(shadow_start, PAGE_SIZE);
->         shadow_end = (unsigned long)kasan_mem_to_shadow((void *)addr + size);
-> -       shadow_end = ALIGN(shadow_end, PAGE_SIZE);
-> +
-> +       /*
-> +        * User Mode Linux maps enough shadow memory for all of physical memory
-> +        * at boot, so doesn't need to allocate more on vmalloc, just clear it.
+> Shouldn't the "CC_IS_CLANG && CLANG_VERSION ..." check be a "depends on"
+> in HAVE_KMSAN_COMPILER? That way all the compiler-related checks are
+> confined to HAVE_KMSAN_COMPILER.
+Good point, thanks!
+I also think I can drop the excessive CC_IS_CLANG in the definition of
+HAVE_KMSAN_COMPILER.
 
-Should this say "for all of _virtual_ memory"?
+> I guess, it might also be worth mentioning why the version check is
+> required at all (something about older compilers supporting
+> fsanitize=3Dkernel-memory, but not having all features we need).
+Done.
 
-Otherwise, this is confusing. All KASAN-enabled architectures map
-shadow for physical memory. And they still need map shadow for
-vmalloc() separately. This is what kasan_populate_vmalloc() is for.
-
-> +        *
-> +        * If another architecture chooses to go down the same path, we should
-> +        * replace this check for CONFIG_UML with something more generic, such
-> +        * as:
-> +        * - A CONFIG_KASAN_NO_SHADOW_ALLOC option, which architectures could set
-> +        * - or, a way of having architecture-specific versions of these vmalloc
-> +        *   and module shadow memory allocation options.
-
-I think this part above and the first sentence below belong to the
-commit changelog, not to a comment.
-
-> +        *
-> +        * For the time being, though, this check works. The remaining CONFIG_UML
-> +        * checks in this file exist for the same reason.
-> +        */
-> +       if (IS_ENABLED(CONFIG_UML)) {
-> +               __memset((void *)shadow_start, KASAN_VMALLOC_INVALID, shadow_end - shadow_start);
-> +               return 0;
-> +       }
-> +
-> +       shadow_start = PAGE_ALIGN_DOWN(shadow_start);
-> +       shadow_end = PAGE_ALIGN(shadow_end);
+> > index 0000000000000..a80dde1de7048
+> > --- /dev/null
+> > +++ b/mm/kmsan/Makefile
+> > @@ -0,0 +1,18 @@
 >
->         ret = apply_to_page_range(&init_mm, shadow_start,
->                                   shadow_end - shadow_start,
-> @@ -466,6 +486,10 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
->
->         if (shadow_end > shadow_start) {
->                 size = shadow_end - shadow_start;
-> +               if (IS_ENABLED(CONFIG_UML)) {
-> +                       __memset(shadow_start, KASAN_SHADOW_INIT, shadow_end - shadow_start);
-> +                       return;
-> +               }
->                 apply_to_existing_page_range(&init_mm,
->                                              (unsigned long)shadow_start,
->                                              size, kasan_depopulate_vmalloc_pte,
-> @@ -531,6 +555,11 @@ int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
->         if (WARN_ON(!PAGE_ALIGNED(shadow_start)))
->                 return -EINVAL;
->
-> +       if (IS_ENABLED(CONFIG_UML)) {
-> +               __memset((void *)shadow_start, KASAN_SHADOW_INIT, shadow_size);
-> +               return 0;
-> +       }
-> +
->         ret = __vmalloc_node_range(shadow_size, 1, shadow_start,
->                         shadow_start + shadow_size,
->                         GFP_KERNEL,
-> @@ -554,6 +583,9 @@ int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
->
->  void kasan_free_module_shadow(const struct vm_struct *vm)
->  {
-> +       if (IS_ENABLED(CONFIG_UML))
-> +               return;
-> +
->         if (vm->flags & VM_KASAN)
->                 vfree(kasan_mem_to_shadow(vm->addr));
->  }
-> --
-> 2.36.1.124.g0e6072fb45-goog
->
+> Makefile needs a SPDX-License-Identifier.
+Done.
 
-Thanks!
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZe63vugPRbD3fVNGnTWbSvjd08g8coG3D71-%3DNtqpjOvQ%40mail.gmail.com.
+> > +     shadow_dst =3D kmsan_get_metadata(dst, KMSAN_META_SHADOW);
+> > +     if (!shadow_dst)
+> > +             return;
+> > +     KMSAN_WARN_ON(!kmsan_metadata_is_contiguous(dst, n));
+> > +
+> > +     shadow_src =3D kmsan_get_metadata(src, KMSAN_META_SHADOW);
+> > +     if (!shadow_src) {
+> > +             /*
+> > +              * |src| is untracked: zero out destination shadow, ignor=
+e the
+>
+> Probably doesn't matter too much, but for consistency elsewhere - @src?
+Fixed here and in other places where |var| is used.
+
+> > +                      * If |src| isn't aligned on KMSAN_ORIGIN_SIZE, d=
+on't
+> > +                      * look at the first |src % KMSAN_ORIGIN_SIZE| by=
+tes
+> > +                      * of the first shadow slot.
+> > +                      */
+E.g. here
+
+> > +                     /*
+> > +                      * If |src + n| isn't aligned on
+> > +                      * KMSAN_ORIGIN_SIZE, don't look at the last
+> > +                      * |(src + n) % KMSAN_ORIGIN_SIZE| bytes of the
+> > +                      * last shadow slot.
+> > +                      */
+and here.
+
+
+
+> > +
+> > +extern bool kmsan_enabled;
+> > +extern int panic_on_kmsan;
+> > +
+> > +/*
+> > + * KMSAN performs a lot of consistency checks that are currently enabl=
+ed by
+> > + * default. BUG_ON is normally discouraged in the kernel, unless used =
+for
+> > + * debugging, but KMSAN itself is a debugging tool, so it makes little=
+ sense to
+> > + * recover if something goes wrong.
+> > + */
+> > +#define KMSAN_WARN_ON(cond)                                           =
+         \
+> > +     ({                                                               =
+      \
+> > +             const bool __cond =3D WARN_ON(cond);                     =
+        \
+> > +             if (unlikely(__cond)) {                                  =
+      \
+> > +                     WRITE_ONCE(kmsan_enabled, false);                =
+      \
+> > +                     if (panic_on_kmsan) {                            =
+      \
+> > +                             /* Can't call panic() here because */    =
+      \
+> > +                             /* of uaccess checks.*/                  =
+      \
+>
+> space after '.'
+Done; also reformatted the macro to use tabs instead of spaces.
+
+
+> > +void kmsan_report(depot_stack_handle_t origin, void *address, int size=
+,
+> > +               int off_first, int off_last, const void *user_addr,
+> > +               enum kmsan_bug_reason reason)
+> > +{
+> > +     unsigned long stack_entries[KMSAN_STACK_DEPTH];
+> > +     int num_stack_entries, skipnr;
+> > +     char *bug_type =3D NULL;
+> > +     unsigned long flags, ua_flags;
+> > +     bool is_uaf;
+> > +
+> > +     if (!kmsan_enabled)
+> > +             return;
+> > +     if (!current->kmsan_ctx.allow_reporting)
+> > +             return;
+> > +     if (!origin)
+> > +             return;
+> > +
+> > +     current->kmsan_ctx.allow_reporting =3D false;
+> > +     ua_flags =3D user_access_save();
+> > +     spin_lock_irqsave(&kmsan_report_lock, flags);
+>
+> I think this might want to be a raw_spin_lock, since the reporting can
+> be called from any context, including from within other raw_spin_lock'd
+> critical sections (practically this will only matter in RT kernels).
+(Marco elaborated off-list that lockdep will complain if a spin_lock
+critical section is nested inside raw_spin_lock)
+Thanks, done.
+
+> Also, do you have to do lockdep_off/on() (like kernel/kcsan/report.c
+> does, see comment there)?
+
+I don't see lockdep reports from within mm/kmsan/report.c
+However there's one boot-time report that I am struggling to comprehend:
+
+DEBUG_LOCKS_WARN_ON(lockdep_hardirqs_enabled())
+WARNING: CPU: 0 PID: 0 at kernel/locking/lockdep.c:5481 check_flags+0x63/0x=
+180
+...
+ <TASK>
+ lock_acquire+0x85/0x1c0 kernel/locking/lockdep.c:5638
+ __raw_spin_lock_irqsave ./include/linux/spinlock_api_smp.h:110
+ _raw_spin_lock_irqsave+0x129/0x220 kernel/locking/spinlock.c:162
+ __stack_depot_save+0x1b1/0x4b0 lib/stackdepot.c:417
+ stack_depot_save+0x13/0x20 lib/stackdepot.c:471
+ __msan_poison_alloca+0x100/0x1a0 mm/kmsan/instrumentation.c:228
+ _raw_spin_unlock_irqrestore ??:?
+ arch_local_save_flags ./arch/x86/include/asm/irqflags.h:70
+ arch_irqs_disabled ./arch/x86/include/asm/irqflags.h:130
+ __raw_spin_unlock_irqrestore ./include/linux/spinlock_api_smp.h:151
+ _raw_spin_unlock_irqrestore+0xc6/0x190 kernel/locking/spinlock.c:194
+ tty_register_ldisc+0x15e/0x1c0 drivers/tty/tty_ldisc.c:68
+ n_tty_init+0x2f/0x32 drivers/tty/n_tty.c:2418
+ console_init+0x20/0x10d kernel/printk/printk.c:3220
+ start_kernel+0x6f0/0xd23 init/main.c:1071
+ x86_64_start_reservations+0x2a/0x2c arch/x86/kernel/head64.c:546
+ x86_64_start_kernel+0xf5/0xfa arch/x86/kernel/head64.c:527
+ secondary_startup_64_no_verify+0xc4/0xcb ??:?
+ </TASK>
+
+Perhaps we need to disable lockdep in stackdepot as well?
+
+> > + */
+> > +static int kmsan_phys_addr_valid(unsigned long addr)
+>
+> int -> bool ? (it already deviates from the original by using IS_ENABLED
+> instead of #ifdef)
+
+Makes sense.
+
+> > + * Taken from arch/x86/mm/physaddr.c to avoid using an instrumented ve=
+rsion.
+> > + */
+> > +static bool kmsan_virt_addr_valid(void *addr)
+> > +{
+> > +     unsigned long x =3D (unsigned long)addr;
+> > +     unsigned long y =3D x - __START_KERNEL_map;
+> > +
+> > +     /* use the carry flag to determine if x was < __START_KERNEL_map =
+*/
+> > +     if (unlikely(x > y)) {
+> > +             x =3D y + phys_base;
+> > +
+> > +             if (y >=3D KERNEL_IMAGE_SIZE)
+> > +                     return false;
+> > +     } else {
+> > +             x =3D y + (__START_KERNEL_map - PAGE_OFFSET);
+> > +
+> > +             /* carry flag will be set if starting x was >=3D PAGE_OFF=
+SET */
+> > +             if ((x > y) || !kmsan_phys_addr_valid(x))
+> > +                     return false;
+> > +     }
+> > +
+> > +     return pfn_valid(x >> PAGE_SHIFT);
+> > +}
+>
+> These seem quite x86-specific - to ease eventual porting to other
+> architectures, it would make sense to introduce <asm/kmsan.h> which will
+> have these 2 functions (and if there's anything else arch-specific like
+> this, moving to <asm/kmsan.h> would help eventual ports).
+
+Good idea, will do!
+This part will probably need to go into "x86: kmsan: enable KMSAN
+builds for x86"
+
+
+> > +     if (is_origin && !IS_ALIGNED(addr, KMSAN_ORIGIN_SIZE)) {
+> > +             pad =3D addr % KMSAN_ORIGIN_SIZE;
+> > +             addr -=3D pad;
+> > +     }
+> > +     address =3D (void *)addr;
+> > +     if (kmsan_internal_is_vmalloc_addr(address) ||
+> > +         kmsan_internal_is_module_addr(address))
+> > +             return (void *)vmalloc_meta(address, is_origin);
+> > +
+> > +     page =3D virt_to_page_or_null(address);
+> > +     if (!page)
+> > +             return NULL;
+> > +     if (!page_has_metadata(page))
+> > +             return NULL;
+> > +     off =3D addr % PAGE_SIZE;
+> > +
+> > +     ret =3D (is_origin ? origin_ptr_for(page) : shadow_ptr_for(page))=
+ + off;
+>
+> Just return this and avoid 'ret'?
+Good catch. There was some debugging code in the middle, but now we
+don't need ret.
+
+>
+> > +     return ret;
+> > +}
+> > diff --git a/scripts/Makefile.kmsan b/scripts/Makefile.kmsan
+> > new file mode 100644
+> > index 0000000000000..9793591f9855c
+> > --- /dev/null
+> > +++ b/scripts/Makefile.kmsan
+> > @@ -0,0 +1 @@
+>
+> Makefile.kmsan needs SPDX-License-Identifier.
+Done.
+
+
+
+
+
+--
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
+
+Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise
+erhalten haben sollten, leiten Sie diese bitte nicht an jemand anderes
+weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie =
+mich
+bitte wissen, dass die E-Mail an die falsche Person gesendet wurde.
+
+
+This e-mail is confidential. If you received this communication by
+mistake, please don't forward it to anyone else, please erase all
+copies and attachments, and please let me know that it has gone to the
+wrong person.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAG_fn%3DXvG5atw4qEOKRB0ZmBf5uMutFEV1zVVv6fUTtV_2%2BbBw%40mail.gm=
+ail.com.
