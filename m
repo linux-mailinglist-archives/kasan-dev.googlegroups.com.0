@@ -1,127 +1,146 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBWXF3SKAMGQEJXNVOEI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBYM23WKAMGQEIITI7WI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1F153A091
-	for <lists+kasan-dev@lfdr.de>; Wed,  1 Jun 2022 11:35:23 +0200 (CEST)
-Received: by mail-lf1-x139.google.com with SMTP id u2-20020ac258c2000000b00478e5471097sf678401lfo.8
-        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jun 2022 02:35:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1654076122; cv=pass;
+Received: from mail-oi1-x23c.google.com (mail-oi1-x23c.google.com [IPv6:2607:f8b0:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AE353A40D
+	for <lists+kasan-dev@lfdr.de>; Wed,  1 Jun 2022 13:28:34 +0200 (CEST)
+Received: by mail-oi1-x23c.google.com with SMTP id a64-20020acab143000000b0032be948df74sf930210oif.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jun 2022 04:28:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1654082913; cv=pass;
         d=google.com; s=arc-20160816;
-        b=k0Soi9haxpR6UdR9sDqVxJ0gWpeNRO6zqGgYv0yhgUKwbFSBqEpZbXLQp+Gdpltrnq
-         wv1MUYHEhp9J2ePdOQRYC9inm/LdsXO9ZwyFmfaGyqOYRL/XZC3zpSPNjZwXjitZpDZ4
-         0wWt/AlKr/23HuCJGEG+0eKCedYPwSAQmzxtJkEDsDQdEtTzpLz6v+kyfkEIizg5b6/P
-         uQtfnpl639FpAlCrRDbuZYbT/DmgyE9rufJufaQpLR39dN6PSwWlTkhtJ3Xl5F37LVak
-         u8GyVq1yd1Fgj2LCfMSNbl4vKQiUzuDUGzvQQ0QbpRO9hJJ7hSrkCuA/BiWZ1nQvfxCi
-         f3bA==
+        b=soMxHAZRBq/z6DfY//iK0THQQRuJ5kZaQJ5RKm/5mGqgVM1R0BYk4cqkq2fx22ZbRT
+         XU2kse6ALQQixS6BE1hVPCm7c2ASxhuWpb9dPzcK2YiWQ2SWf2c0I8Bc4GjouqCl8X9Q
+         A6oh5ZuqgEj6TUSyQbl2GaZBJVtfATB1iCYaiD+JjGOKYeqwaEBFmcEbskExb9kVqlOG
+         zWGaB8NS7tIvL+RXHc6VSWBlhmWVA7oFtPH4NAVtFsGgvceGkfVeEyHPA+sKfQfna98T
+         GejQzMk8KcHtMsZzMfDmbOtBjijG1gSY6fUhtr9KMWE1mf7+4dOuqCRfmZRvMsI7Yq7i
+         3adQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=FUcyJcgAz+Fwyws93IHk5KZmyCneevKMGDH+H3t/iF0=;
-        b=RJSjCgLODIN+/KdT12k51NoZinqXJrax6B6LNj08jV5Qb64q+qa5YIJ/f5CREKk8Dd
-         DkCbqaTt5ieFNN65j1eev54ugDL9OEDgx4PUJTsWMTMfmWh+3ZPECNLFI0KhQ0HEBW6i
-         EJUiNf4C2phg6cV+suqXLl7VPB9Rn0q7fQXnvjDjFaP+7Rra8EwLpQ/w1ADE0KzfpUcY
-         Kj68wVg0ouGpzsq1cnQ+8jJAIHd+z/fWCiQehQWhchP2bJRQCBwqg2/hQit5cRo3g16Q
-         aiBoFECMNHf9K3PGL1esOFx7FnqtZfp+I9oIRepJVyZ3l7meqOm6dAHY3RSSoICKSIjO
-         Z+fA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=0Sd0O1+TAd9s2jwQ7cnEyj5ZErKhnEhzgLfPNkP9gCQ=;
+        b=VEHBbTYU8zZOYuD7cxHQy6FbfeQ72e+OFfQlg8IeBbMzEHhGWaAcdrSZ+D4n75s53S
+         hP8N5DPFtyMDf8jiaM/nXNEo2maEQRty2NTg1GYTxK0evWUyM8v1MEb8Vi5yQxiRQIt2
+         /sir9usV2VjBubkPM4sJSku1EuKB1D4Akek3l0GGXkY4ALwZQE5f/Dn5m3ZkQZXbN/gG
+         dlKQtxBQVE86TnMY3mILXmP5AYggr2Ta6Ptnx/lqiaGENbJJF++kwrTH505FCBkdSolm
+         bll92TREUGmrrdKMQ89kF8EYxJTb+ZN7M1QfSixRwb0Hfog3B0APj0SLbtATNCYcv580
+         LogQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=fU3U+u9o;
-       spf=pass (google.com: domain of 32dkxygukcbuzgqzmbjjbgz.xjhfvnvi-yzqbjjbgzbmjpkn.xjh@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=32DKXYgUKCbUZgqZmbjjbgZ.XjhfVnVi-YZqbjjbgZbmjpkn.Xjh@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=qZ4wk7dY;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1129 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=FUcyJcgAz+Fwyws93IHk5KZmyCneevKMGDH+H3t/iF0=;
-        b=Hzpu5xndDJv3BtPjxGt1mR6QnMUZI4CRMM6WynKxSalsgq/dSR/ddwGJ7BlI/Zs7We
-         1+5DEUCqVrWb23g6AldsXYqZ/t47bPMbyJ8cdyVTZIhjjFjaeMDDruul1rcbntgZQ55O
-         y/YKaMOohlpdbViY1WIljRvHBjFcgFqBCg1eUchu7DQfJsRGzxdAWgK9P5n8W9ctqArD
-         YCRwFXVuly+6/BdNYTUOYlgqgT07o5XdNV7NHOtAQmHm8qydG9Ky5lAwxAJopcE7kkWP
-         DZwdmbvsdyR/TieLqNWj+yQPqrg/smCFV86s6q0bQQwWjcw4in+OdHRwqFKkopVaVzdq
-         9beA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=0Sd0O1+TAd9s2jwQ7cnEyj5ZErKhnEhzgLfPNkP9gCQ=;
+        b=WiI8Q9/chvtkGmM5LemXN4peM0GV015JGvGkM0NV6BJlz6jpO2Ou/5GsdCInSratcm
+         +emdb/WjwYw62/os3VSA+jYJ7HKHzFk+I9SiNJ2ARsocI6IV1zbaayL4xxN428HY+kef
+         jfstYJvPNAIc3F4H9KcFnmP+p3iW1IefElZxaTLLFSf0S2jsqs12kIRbZVS4OFat6Ykw
+         kRItPd+QYtK0R6HsdykDeqwp0ebsqzltjt87vEJz4DEdgvaKibPr9P96XdkbBo6LbZWm
+         AqgBjlg/KmZf4P54ABTu1Y3fjBsytZz482gZSctE8ITwpV3RAgNfI1uCzW77Hi8yCwW4
+         YlEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=FUcyJcgAz+Fwyws93IHk5KZmyCneevKMGDH+H3t/iF0=;
-        b=rJxh/KBzns/7e5CBs3W9H18fYzltZ474UsNk1sveP+3SXEBmPLvtFGzuxL1zXKegFR
-         PBZWqmk+ySKyZb07dMaF9bqyr4C+0FW+JCld/L7FTeXVwK8wqXD+urLTohw1meDG9US3
-         NV5VZJjdoQhY9bvDGBRfsRK2nXnUFDqtBb6daVYWoQ0kSuB8/eewiLk/tLo7J+B8jiTF
-         uTcadUxu2VMM9jEmKDYFYRcDemsBZDSTe9J7yEvgqO+/+d62qhmMIgpYdqzbnEQ4wpmt
-         UToasATY7DwTTidLjbk77S6aNm+3xV7WrgpcmDKNWE8t+bFi6XY+0hZLVSeiqfHMl/iR
-         E3ww==
-X-Gm-Message-State: AOAM530ANp44pCOyyjalQJP4GAsZGoal4RVxVCwRGuq56mTYPzVHuRt3
-	96930/LPk7rZsvjK70in/Nw=
-X-Google-Smtp-Source: ABdhPJyXHV+CWIe5vD/9SMkqIkaUxWm3PzxVCAs/LIcbdy/8kOwZWohuVNTkmmbpEu3Xebza4hGOAA==
-X-Received: by 2002:a05:6512:239f:b0:478:5c6c:ee0a with SMTP id c31-20020a056512239f00b004785c6cee0amr41265020lfv.664.1654076122402;
-        Wed, 01 Jun 2022 02:35:22 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=0Sd0O1+TAd9s2jwQ7cnEyj5ZErKhnEhzgLfPNkP9gCQ=;
+        b=Y/QKGUSjOxOhwR5QFdfsfGx0suwWIAx1mpSKZc5tg9QSsTtBVev6yH1Dor2/zSgO8b
+         bDB0o9cbpegi4pxf0T2TRS/EOsqYz46jAbir797tVsz9Zk+4w9TivttWNPCFjD/5XCFg
+         Gh6vrJRHU/2TjGvWa5rvY+c1AD25zNB2v7tB7CY1U9UNluy0j8NRcnsvwXQyMgK324FO
+         BeLm6r3yq5DQWsBtSUaoO6FX6d5JY/mjHCIJHXXaVhbblI9L2bH4Ed1odsvc4JnLhz5t
+         QSbxOwDQg3FVksT4ddEKXRIMFrltq2IrRS7JdAUsdvVf0bgvAe/giPs1PY0vZAdblJmE
+         8ZZw==
+X-Gm-Message-State: AOAM5334O7dsu+e5syKS2lfcHDc9j+VryRjMy9Kw/iuo/XNZY6q0IWQC
+	vIZe3os+tro6VzPjSVUNZ0M=
+X-Google-Smtp-Source: ABdhPJwtgw8NDJwAfk7/G1EwtwAxKn/0mlyxQyXE3538bUegxyGQjtGL8syFCDaZ5/rtqG1pLmEVLQ==
+X-Received: by 2002:a05:6870:79e:b0:e1:f5bb:4627 with SMTP id en30-20020a056870079e00b000e1f5bb4627mr16383052oab.74.1654082913350;
+        Wed, 01 Jun 2022 04:28:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:10cb:b0:478:7256:822a with SMTP id
- k11-20020a05651210cb00b004787256822als1324742lfg.3.gmail; Wed, 01 Jun 2022
- 02:35:20 -0700 (PDT)
-X-Received: by 2002:a05:6512:39c1:b0:44a:e25d:47fd with SMTP id k1-20020a05651239c100b0044ae25d47fdmr46164236lfu.580.1654076120889;
-        Wed, 01 Jun 2022 02:35:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654076120; cv=none;
+Received: by 2002:a05:6870:a9a4:b0:f2:dc5c:8024 with SMTP id
+ ep36-20020a056870a9a400b000f2dc5c8024ls1195396oab.0.gmail; Wed, 01 Jun 2022
+ 04:28:33 -0700 (PDT)
+X-Received: by 2002:a05:6870:339a:b0:f2:d065:be1f with SMTP id w26-20020a056870339a00b000f2d065be1fmr15938726oae.69.1654082912899;
+        Wed, 01 Jun 2022 04:28:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1654082912; cv=none;
         d=google.com; s=arc-20160816;
-        b=P4kfdD1EDLqA3C+Ii0KA9JECxtf7FY9JR6rTNC3fPVjNS6eRZk0Vl85ZR0/zlI3inY
-         fOWMjI/xdX5dVqpomwDHFoW76oYVpUpCaGXpTw8HJPq7IMXkVriO/D+qIurJp+dzdbTU
-         mUpH3nHkFH/ayG8tjEFm1BOBY12GieLKnDUh0rGkAPtJVuxbFp0rahan2L8z7iBTcneT
-         +o57Ld72fk5pWCexRuMOQGGmRQGogv3xflCMDj7oE8f/f8+m3l3qzqEr/y0jhknItDKP
-         2X6sQHSjFAbZYVPSYuhMriKMLegMoJ9Q+aC5ctqZUJx7DUT4UsXAsGJBJbmVTJJMZlJL
-         +qTg==
+        b=tfpVGdjAOyIa4ODVPoddxsXygCFRhUPMUGTqjmWLnF0FJiEqsCIWFYug4yudwL++Ns
+         GDzEAR1FLd1wQrNR2jMRJvlpzHeuZ62L3aYgL5Yq8UorF/NaEihVw4ck9Ecq8xSk5zza
+         iVn81a+CHCDltdQG12vl8KDrBQDFlJ2VMJpi0BG1LaUKQR3Vqd3ifzvMVmPAOAAphzjv
+         00IXtqTDqLVURZ/yFtb8ZsB60ll6eIv12OVlVDHKCSUv9b6oeZJJy8/G819DneA+OCje
+         oi/9g6RU4llxADHDb+1c+DdoXMBytw8Clc9r3hHlUc3dtMMUtiYVlcvEaKdCOoDtQwQG
+         b7QQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=nAAyFhVOk4u65vleHIjgu+W4rGODUec3akAhRLx+y9I=;
-        b=nA7qf/hojW8i+2Q6d2g5DA2rG+9kheuaOK57uyQaS9UVRx8TizLuLVuUL5LSZ8uGHq
-         MVgh3K3/FqzN9Mz2DWFuxj7W9H2CBbWkxcv1Gxp1bCyq6jwm7W/MrHIY+Oaz6O/GlQ3Z
-         S0cp4F4KMv7L/vpPCVSQjsznF4LD+swWVkLFrMMRVAM/ZI0t51HhQl1jeP0cCfFaD27z
-         nt5eTJqPky3Y0PfnN0f3AUk93cUxqZs9Ipl5T7sJoN9UP+Bze0Ff49h0Q1s/61QvNvRh
-         uHt+2SPf2LI/VusgmnwM2V0oWnG2jcYNDHpH1LgA1tBC7fhBHf6BP2Xo+IKxAtVUy9Yi
-         5dGw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=tDA6PuH6NICvxSpkxUN08aIv7E1lLbWtwbYMOmp3DFc=;
+        b=AogO1CE4Z1AsRdqlQVH5GKq8nwGOglKPBYI/D8N22cmGnRJ6oJiCaztGraRhbMa+hW
+         PxbpcM5cywR8HXlhhyXgt9053J+IIn9VldQS6wjsY4TG++YfXx4kLF5AMaXH+ZxiGSUZ
+         JCWX8ceZWBVJrDpFGv8ppugzPltqSyY4IMofNtLv87Sa5ZUT694f9y9NaiD1mCANRRGM
+         TUJkOoSEDkmicxOgBWPxzJYsC+VPSgB46bIsbTp2D4SEM4cc0BnxkDUohIxXAsnN8UFw
+         NKwc3e/LcHqfKrovDJrt0FCYp6bhiVwOIPlc+wEsuB8aAhg5eLnIAz3K0NBtW04hIy7w
+         OTqg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=fU3U+u9o;
-       spf=pass (google.com: domain of 32dkxygukcbuzgqzmbjjbgz.xjhfvnvi-yzqbjjbgzbmjpkn.xjh@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=32DKXYgUKCbUZgqZmbjjbgZ.XjhfVnVi-YZqbjjbgZbmjpkn.Xjh@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=qZ4wk7dY;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1129 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com. [2a00:1450:4864:20::64a])
-        by gmr-mx.google.com with ESMTPS id bp22-20020a056512159600b0047866dddb47si52921lfb.2.2022.06.01.02.35.20
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com. [2607:f8b0:4864:20::1129])
+        by gmr-mx.google.com with ESMTPS id m29-20020a056870059d00b000e217d47668si99616oap.5.2022.06.01.04.28.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jun 2022 02:35:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 32dkxygukcbuzgqzmbjjbgz.xjhfvnvi-yzqbjjbgzbmjpkn.xjh@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) client-ip=2a00:1450:4864:20::64a;
-Received: by mail-ej1-x64a.google.com with SMTP id m20-20020a170906849400b006ff296bb911so660216ejx.6
-        for <kasan-dev@googlegroups.com>; Wed, 01 Jun 2022 02:35:20 -0700 (PDT)
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:ed43:9390:62cb:50ee])
- (user=elver job=sendgmr) by 2002:a05:6402:2211:b0:42d:cb9e:cbf with SMTP id
- cq17-20020a056402221100b0042dcb9e0cbfmr18833360edb.76.1654076120249; Wed, 01
- Jun 2022 02:35:20 -0700 (PDT)
-Date: Wed,  1 Jun 2022 11:35:02 +0200
-Message-Id: <20220601093502.364142-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-Subject: [PATCH RFC] perf: Allow restricted kernel breakpoints on user addresses
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, linux-perf-users@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	Thomas Gleixner <tglx@linutronix.de>, Jann Horn <jannh@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>
+        Wed, 01 Jun 2022 04:28:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1129 as permitted sender) client-ip=2607:f8b0:4864:20::1129;
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-30ec2aa3b6cso14694087b3.11
+        for <kasan-dev@googlegroups.com>; Wed, 01 Jun 2022 04:28:32 -0700 (PDT)
+X-Received: by 2002:a81:1f8b:0:b0:2f8:5846:445e with SMTP id
+ f133-20020a811f8b000000b002f85846445emr69247959ywf.50.1654082912126; Wed, 01
+ Jun 2022 04:28:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220426164315.625149-1-glider@google.com> <20220426164315.625149-29-glider@google.com>
+ <87a6c6y7mg.ffs@tglx> <CAG_fn=U7PPBmmkgxFcWFQUCqZitzMizr1e69D9f26sGGzeitLQ@mail.gmail.com>
+ <87y1zjlhmj.ffs@tglx> <CAG_fn=XxAhBEBP2KJvahinbaxLAd1xvqTfRJdAu1Tk5r8=01jw@mail.gmail.com>
+ <878rrfiqyr.ffs@tglx> <CAG_fn=XVchXCcOhFt+rP=vinRhkyrXJSP46cyvcZeHJWaDquGg@mail.gmail.com>
+ <87k0ayhc43.ffs@tglx> <CAG_fn=UpcXMqJiZvho6_G3rjvjQA-3Ax6X8ONVO0D+4Pttc9dA@mail.gmail.com>
+ <87h762h5c2.ffs@tglx> <CAG_fn=UroTgp0jt77X_E-b1DPJ+32Cye6dRL4DOZ8MRf+XSokg@mail.gmail.com>
+ <871qx2r09k.ffs@tglx> <CAG_fn=VtQw1gL_UVONHi=OJakOuMa3wKfkzP0jWcuvGQEmV9Vw@mail.gmail.com>
+ <87h75uvi7s.ffs@tglx> <87ee0yvgrd.ffs@tglx>
+In-Reply-To: <87ee0yvgrd.ffs@tglx>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 1 Jun 2022 13:27:56 +0200
+Message-ID: <CAG_fn=XP9uFKA+zvCp_txBO_xGwH10=hhF9FDQL107b4YUh6sA@mail.gmail.com>
+Subject: Re: [PATCH v3 28/46] kmsan: entry: handle register passing from
+ uninstrumented code
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Matthew Wilcox <willy@infradead.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux-Arch <linux-arch@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=fU3U+u9o;       spf=pass
- (google.com: domain of 32dkxygukcbuzgqzmbjjbgz.xjhfvnvi-yzqbjjbgzbmjpkn.xjh@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=32DKXYgUKCbUZgqZmbjjbgZ.XjhfVnVi-YZqbjjbgZbmjpkn.Xjh@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@google.com header.s=20210112 header.b=qZ4wk7dY;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1129
+ as permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,131 +153,106 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Allow the creation of restricted breakpoint perf events that also fire
-in the kernel (!exclude_kernel), if:
+On Thu, May 12, 2022 at 6:48 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> On Thu, May 12 2022 at 18:17, Thomas Gleixner wrote:
+> > On Thu, May 12 2022 at 14:24, Alexander Potapenko wrote:
+> >> We could try to figure out the places in idtentry code where normal
+> >> kmsan_unpoison_memory() can be called in IRQ context, but as far as I
+> >> can see it will depend on the type of the entry point.
+> >
+> > NMI is covered as it increments before it invokes the unpoison().
+> >
+> > Let me figure out why we increment the preempt count late for
+> > interrupts. IIRC it's for symmetry reasons related to softirq processing
+> > on return, but let me double check.
+>
+> It's even documented:
+>
+>  https://www.kernel.org/doc/html/latest/core-api/entry.html#interrupts-and-regular-exceptions
+>
+> But who reads documentation? :)
+>
+> So, I think the simplest and least intrusive solution is to have special
+> purpose unpoison functions. See the patch below for illustration.
 
-  1. No sample information is requested; samples may contain IPs,
-     registers, or other information that may disclose kernel addresses.
+This patch works well and I am going to adopt it for my series.
+But the problem with occasional calls of instrumented functions from
+noinstr still persists: if there is a noinstr function foo() and an
+instrumented function bar() called from foo() with one or more
+arguments, bar() must wipe its kmsan_context_state before using the
+arguments.
 
-  2. The breakpoint (viz. data watchpoint) is on a user address.
+I have a solution for this problem described in https://reviews.llvm.org/D126385
+The plan is to pass __builtin_return_address(0) to
+__msan_get_context_state_caller() at the beginning of each
+instrumented function.
+Then KMSAN runtime can check the passed return address and wipe the
+context if it belongs to the .noinstr code section.
 
-The rules constrain the allowable perf events such that no sensitive
-kernel information can be disclosed.
+Alternatively, we could employ MSan's -fsanitize-memory-param-retval
+flag, that will report supplying uninitialized parameters when calling
+functions.
+Doing so is currently allowed in the kernel, but Clang aggressively
+applies the noundef attribute (see https://llvm.org/docs/LangRef.html)
+to function arguments, which effectively makes passing uninit values
+as function parameters an UB.
+So if we make KMSAN detect such cases as well, we can ultimately get
+rid of all cases when uninits are passed to functions.
+As a result, kmsan_context_state will become unnecessary, because it
+will never contain nonzero values.
 
-Despite no explicit kernel information disclosure, the following
-questions may need answers:
 
-	1. Is obtaining information that the kernel accessed a
-	   particular user's known memory location revealing new
-	   information? Given the kernel's user space ABI, there should
-	   be no "surprise accesses" to user space memory in the first
-	   place.
-
-	2. Does causing breakpoints on user memory accesses by the
-	   kernel potentially impact timing in a sensitive way? Given
-	   that hardware breakpoints trigger regardless of the state of
-	   perf_event_attr::exclude_kernel, but are filtered in the perf
-	   subsystem, this possibility already exists independent of the
-	   proposed change.
-
-Signed-off-by: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
----
-
-RFC:
-
-We are looking to identify a set of constraints on perf events that
-would allow them to safely be created by unprivileged users when
-perf_event_paranoid > 1 && !perfmon_capable().
-
-Our current (and only) event type of interest is PERF_TYPE_BREAKPOINT.
-
-Any thoughts?
-
----
- include/linux/perf_event.h |  8 +-------
- kernel/events/core.c       | 38 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+), 7 deletions(-)
-
-diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-index af97dd427501..06c2ed46cbf9 100644
---- a/include/linux/perf_event.h
-+++ b/include/linux/perf_event.h
-@@ -1348,13 +1348,7 @@ static inline int perf_is_paranoid(void)
- 	return sysctl_perf_event_paranoid > -1;
- }
- 
--static inline int perf_allow_kernel(struct perf_event_attr *attr)
--{
--	if (sysctl_perf_event_paranoid > 1 && !perfmon_capable())
--		return -EACCES;
--
--	return security_perf_event_open(attr, PERF_SECURITY_KERNEL);
--}
-+extern int perf_allow_kernel(struct perf_event_attr *attr);
- 
- static inline int perf_allow_cpu(struct perf_event_attr *attr)
- {
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 6eafb1b0ad4a..f37047cfcb2f 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -3266,6 +3266,12 @@ static int perf_event_modify_attr(struct perf_event *event,
- 		return -EOPNOTSUPP;
- 	}
- 
-+	if (!event->attr.exclude_kernel) {
-+		err = perf_allow_kernel(attr);
-+		if (err)
-+			return err;
-+	}
-+
- 	WARN_ON_ONCE(event->ctx->parent_ctx);
- 
- 	mutex_lock(&event->child_mutex);
-@@ -12104,6 +12110,38 @@ perf_check_permission(struct perf_event_attr *attr, struct task_struct *task)
- 	return is_capable || ptrace_may_access(task, ptrace_mode);
- }
- 
-+/*
-+ * Check if unprivileged users are allowed to set up breakpoints on user
-+ * addresses that also count when the kernel accesses them.
-+ */
-+static bool perf_allow_kernel_breakpoint(struct perf_event_attr *attr)
-+{
-+	if (attr->type != PERF_TYPE_BREAKPOINT)
-+		return false;
-+
-+	/*
-+	 * The sample may contain IPs, registers, or other information that may
-+	 * disclose kernel addresses or timing information. Disallow any kind of
-+	 * additional sample information.
-+	 */
-+	if (attr->sample_type)
-+		return false;
-+
-+	/*
-+	 * Only allow kernel breakpoints on user addresses.
-+	 */
-+	return access_ok((void __user *)(unsigned long)attr->bp_addr, attr->bp_len);
-+}
-+
-+int perf_allow_kernel(struct perf_event_attr *attr)
-+{
-+	if (sysctl_perf_event_paranoid > 1 && !perfmon_capable() &&
-+	    !perf_allow_kernel_breakpoint(attr))
-+		return -EACCES;
-+
-+	return security_perf_event_open(attr, PERF_SECURITY_KERNEL);
-+}
-+
- /**
-  * sys_perf_event_open - open a performance event, associate it to a task/cpu
-  *
--- 
-2.36.1.255.ge46751e96f-goog
+> The reasons why I used specific ones:
+>
+>   1) User entry
+>
+>      Whether that's a syscall or interrupt/exception does not
+>      matter. It's always on the task stack and your machinery cannot be
+>      running at that point because it came from user space.
+>
+>   2) Interrupt/exception/NMI entry kernel
+>
+>      Those can nest into an already active context, so you really want
+>      to unpoison @regs.
+>
+>      Also while regular interrupts cannot nest because of interrupts
+>      staying disabled, exceptions triggered in the interrupt handler and
+>      NMIs can nest.
+>
+>      -> device interrupt()
+>            irqentry_enter(regs)
+>
+>         -> NMI()
+>            irqentry_nmi_enter(regs)
+>
+>            -> fault()
+>               irqentry_enter(regs)
+>
+>               --> debug_exception()
+>                   irqentry_nmi_enter(regs)
+>
+>      Soft interrupt processing on return from interrupt makes it more
+>      interesting:
+>
+>      interrupt()
+>        handler()
+>        do_softirq()
+>          local_irq_enable()
+>             interrupt()
+>               NMI
+>                 ....
+>
+>      And everytime you get a new @regs pointer to deal with.
+>
+> Wonderful, isn't it?
+>
+> Thanks,
+>
+>         tglx
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220601093502.364142-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DXP9uFKA%2BzvCp_txBO_xGwH10%3DhhF9FDQL107b4YUh6sA%40mail.gmail.com.
