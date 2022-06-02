@@ -1,138 +1,127 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBCFX3WKAMGQES2MQ36I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCRKNY4WZECBBAPE4CKAMGQEVH7USTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0EED53A4F1
-	for <lists+kasan-dev@lfdr.de>; Wed,  1 Jun 2022 14:28:57 +0200 (CEST)
-Received: by mail-lf1-x139.google.com with SMTP id bi27-20020a0565120e9b00b004786caccc7dsf871826lfb.11
-        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jun 2022 05:28:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1654086537; cv=pass;
+Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 000A453B232
+	for <lists+kasan-dev@lfdr.de>; Thu,  2 Jun 2022 05:44:02 +0200 (CEST)
+Received: by mail-ot1-x33e.google.com with SMTP id l2-20020a9d7342000000b0060ae5f9fb40sf1040323otk.7
+        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jun 2022 20:44:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1654141441; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EKa+BYSVU/gAH93HWYm3z4fgokfmf/Ye0a+vgb+sCg4XY5ypoKUUN1iVe4VYq7K+M8
-         7lVidg74GckozwVl5/IuVONqetGOwWwnqEGKwzXmZ7dLQjacGpZfD/OKaa2VhvNfkphb
-         orUhL/pCfNq+iVRjXGp8uzXHQ1EU5v/YFBIsEnV6UCyU5kGR3D8DbvWM2LQvAKzwdD0L
-         aaP51T0pdcZ9mXcU+sib3dY7YeJPQxHgm/JjWR8MlaC+2PRz2kpx1M9Iwg3xIKqqyKjd
-         owfjM7tAkT45Z/tdJ0t20SIaSV+q47B9iD40tEykemNa4evmQhDPovbifFoAXA/PaWJE
-         uEzA==
+        b=Wgq9U7nHkfcOlynGhb2EImIeZ5CbLHhMFFthMcYfP1Z0LsjOEjBQEpqOJE3u2ejnrj
+         88cqZRiKgdTup9n0yYpHZo2zf+svfv0ItzWfBMXhUDBXuF2PcPrmqhWe1emH2hFojB95
+         yypjBoesgMNjPPna3u0ymXmQ/ue+977t+2Q8nL1Jk+dncYUzc4mCs6P3W/eC5NqEgnnd
+         556ilcAnLx9BSGPI4AyZwNJ/70kjd66kxH1C+8fkx6Y+S5dv7ceAFFBaI5k+r6Cv6ycN
+         K2mB4FqY2/A7qZKVRY2JybJjKQ9zHxpyXO/87G7BUn1XIsUNU4cVENZoRO7g3qSGN6el
+         x4Gg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=aWYkL+Onc4y9cpwpxngo2FGYc6bd3FiFEhEsI/RvYKY=;
-        b=cIw2brnBxSvLWsHH/Xo+dYfWT5aDYBagofTbQlJ0dfEv02p2nuZRT5PB3ekB/4/Unu
-         M4xmspYxWQRfEOcSN5x1lrswSfgxEKtGE39+w3VL2IXiFDUxqkvagIQ0UINirZR9qMJO
-         6EMtm+atg4l/p6voKEachO+yOnKdCrvdtQa2il4pY6ZXzipZgvRDIzsAxVlHiPY9Rsnd
-         oY3/YbL0AVqhTEiVuZnp7E+B9Te+GTJPy6uyN+uBvsLGX+v47PXCj95GVm5c4n/11erN
-         Jlr9tn44fAWm4LwlNq0GqrCcpqw+h+Gzlf35xwW/Eu2RtbJE5zFuTXOaOAsfq6l1pboH
-         9MlQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:sender:dkim-signature;
+        bh=6HZA3XYURV68jSXEHX+DDNxUbIc36Urp3iNyd6XUQ6w=;
+        b=TCTus5wdk1+GKZZHSsJEE6rnhl/kgxqQEK0u723tGyJ5u5lzZ/AYaYZrrChFqpqIfu
+         NN90vghupwR5EyOos6jup8tfCbobUXPexnjvmV8AaO3qTxTFPD2l87g7WitCA1MTMPUd
+         hhB+poihaw6j20PrikyJh19sTCG4CRipk00xN6VKB6McepU3ZIIyfnmhwXztAMARbhKe
+         kxlmoOYtoTEY1acYYs50zuJxlkHe4v7GJ8tqZMSGvhxsuwW+1XI7u9AkZMI5KglRC/1L
+         alS/5bu9xDRlLfUFkGnpDV8gcx09U3INGFxo2LIQb6MFVt/msVdW66CFFLozUDSnRXpo
+         310w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Xa5y6uuL;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=xlIUxlaB;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::42c as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=aWYkL+Onc4y9cpwpxngo2FGYc6bd3FiFEhEsI/RvYKY=;
-        b=EPMyuNPy/jrZWH1iYL7lOUodhaFlaA1hMzHLs+tbb0lmonrsmkC5D+/WUV813PJAcY
-         bmm2WFOaHzpvbW9LWQNA+10EnyIv0D/D9+O4VvlqogiIUxVeT7Wii9HGF7DIqb+1i0SR
-         czzzWLwgSrCwBEiB+v6OBpjYu2EeEizhG77/ZjxE9RsEZFGF83PbVqWzgMASJIqhscQk
-         OLQm7CoynJYMGRmhdUr0X2yxByNAOD7sidRgse74hkEqNNBy10cO5l2t1x6+eE0FbuPr
-         uLoFIxfVAlmmfIWt2kYPt/FhMQDaLb7yzO3212KVOQI6pMRLYAkcC4ZkS3DlIXsTgSUG
-         t0Dw==
+        h=sender:date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=6HZA3XYURV68jSXEHX+DDNxUbIc36Urp3iNyd6XUQ6w=;
+        b=m+n3ZfD/nZNk8WRiyKU9LVkfCTkT2w71/ZKaDzRVJlml3rsHM/CfQzpQRvDuP8WDcU
+         V1rVVrWT29DiA9zSnyWMI5T1FljKwZlUcA4BlQpR7kzKOjJFmylubPwJJLA7XNad/Qw2
+         lGyvCck3sacnzlSHgytCLGsunJ1fLyJ87i/U8DZ4Ihong4bFwmZBGmqWPe2Qmes02XSb
+         oSvaUL3nxGVihMJb65Wk17hq05Fjb2HyGfBKIplRlGDEcSUVYNXu3/QFZ7MnIZG3A+z4
+         YcR1ZxuSjIyGbHtHtBXHNWFq1nSQnKdWPq5ON0xsvPE0Dq7pCOqikh/KTvvRtUWZI4ZB
+         wcdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=aWYkL+Onc4y9cpwpxngo2FGYc6bd3FiFEhEsI/RvYKY=;
-        b=4vU5X8u/N6yX/6mSGhunUldPezlPZYuYbR/1c9oLoNswQZmXISegCQHAmcFk0DXCC8
-         tOzb/2+3gC8rv588gqQMLikRyvKRaoK9qzyPwpiPYrwBZ7AbjluCux7KY6iMOW1nLbmv
-         58yQl3PzWUFx1Bi115TRtSbX1tthP0lx57+mVw5ltiyeRCfRo9L2VfU/tx/c6BhCZ7Y1
-         2m+OVXRU6ojz4koknvufbm3UhAeKAH0quOF2oFN5H7QMlG9RW2ijnQV6V45F42952JLN
-         1fsKO6UcVfsb+n4aphX7xTOHEohks2K5A6qvmHhOq9Ni2s9Yov6f8Hm7Hc628KrQA48t
-         OiWg==
-X-Gm-Message-State: AOAM532pNmNY8lD1MmR8oeuyiza/1yez8vXmJKk5EqMWV9YK4lMCOHph
-	1pb4F2TK2xkiw3ziK/APhYw=
-X-Google-Smtp-Source: ABdhPJy0n9VmdPBcgv+YPpJIGpu0sOY57mcjzlO/vxwD3Jl3x34YJgfCpz9n/QlwFYqt7ibv2ik89g==
-X-Received: by 2002:ac2:5301:0:b0:477:a96f:6221 with SMTP id c1-20020ac25301000000b00477a96f6221mr48719000lfh.449.1654086537113;
-        Wed, 01 Jun 2022 05:28:57 -0700 (PDT)
+        h=sender:x-gm-message-state:date:subject:in-reply-to:cc:from:to
+         :message-id:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=6HZA3XYURV68jSXEHX+DDNxUbIc36Urp3iNyd6XUQ6w=;
+        b=FUxEkLS06JIKxsJWASAG6uFh7mWtV/PtSNDcdhQFxj3A3Qvz7FCM2zWyOZIJxkK+wD
+         q+RTUFiQXOPk9DwgFWRHfwlp+d9RXv/1pfAtp5KXy81QWsXy+lak3pcUQ97c3VplUnfa
+         r0OpPRQnVc4qt5beFgX5cBfuSL1JUOAS2VGllyZJdrPa73yd58w5tRxlS/PFHMLT2d4G
+         sEHV2w1QPA+6iLSSxIRDq2reivcSKA3dxWRrG3jMX4PjUaYK8fuSFjtHrX72Y3khQIA9
+         muPRZBPmRrW2W8iFnzLin5GkvkMU8uPJ0Lt9VjcA4US+P1lMvz+rjmLHEWNbgnsWr6iZ
+         DKAg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOAM530LN3J3LiaRHtclZdYMlHNhaUf8NjgmoXu6b1ZlteOMxtgzVEOT
+	BVJncIfTzDHsXZXxV3/INDc=
+X-Google-Smtp-Source: ABdhPJw5yJC61gJUy/oDgHzWhi48NS+7VCMArLC5G75+30SgnyJoyYI17VQVXZuuAuV59mp061OWXw==
+X-Received: by 2002:a05:6808:1411:b0:32b:ca21:ba08 with SMTP id w17-20020a056808141100b0032bca21ba08mr1616300oiv.124.1654141441419;
+        Wed, 01 Jun 2022 20:44:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:10cb:b0:478:7256:822a with SMTP id
- k11-20020a05651210cb00b004787256822als1676215lfg.3.gmail; Wed, 01 Jun 2022
- 05:28:55 -0700 (PDT)
-X-Received: by 2002:a05:6512:2348:b0:478:5ad6:af37 with SMTP id p8-20020a056512234800b004785ad6af37mr41350864lfu.26.1654086535599;
-        Wed, 01 Jun 2022 05:28:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654086535; cv=none;
+Received: by 2002:a05:6808:23d2:b0:326:98c2:25a8 with SMTP id
+ bq18-20020a05680823d200b0032698c225a8ls2123728oib.11.gmail; Wed, 01 Jun 2022
+ 20:44:01 -0700 (PDT)
+X-Received: by 2002:a05:6808:148a:b0:326:c71a:f33c with SMTP id e10-20020a056808148a00b00326c71af33cmr16479035oiw.153.1654141440984;
+        Wed, 01 Jun 2022 20:44:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1654141440; cv=none;
         d=google.com; s=arc-20160816;
-        b=Jsp0pYXja1uBC9Q/ZJoybSV0nsih+sl0F+s2CSHXOMmf519mQDB3EF7ibipSRZKcWT
-         a6Lc2u3nRZsGRnT2bg9YYH3M582QX0btaUD6F5ZxKF8vK3TVdVHgqFW7/jO7ST88p75V
-         tVQm98ZtK4X4ADD/Qy5v0Zz/BwGRDB888L1T5cnXUMDRfgU6ARp3sAH9MX0EBQwokfFm
-         6QKsS4Q+NStVXI5UnCmUR8lDms/A8ooz8xT7cKgIwGDVq0qeE9eHc5lwDbphpadNoKXY
-         8le0b/udvWapKi7DdoSb9hIi/q5P7D8hSuMH9V5wzZRp4YFPkYiIaNXgWNxOuPHQ7jTg
-         3F1w==
+        b=ubYsSp2c/IBUWuQ3lM/BnCtLNKsR2EG7Il3B2T8mvOljlD8vI+wfEBXqtHQlokcqBI
+         DIXKyy+srQe6ntDc3h3KEBxDCh+JHc0qsQ61Wh8KYOYRW67iybwpaAKrRSAizlABCm1F
+         UOfZR985GNp0EeJ6j9jLsikWEae4dHbRkXE02r4zqHtXh2Q+V/n5nq3TgmKdpfoa+bN6
+         QLvFMxdZxX4X4L3Io5CAsqKF4cwY3RbpLk0qK/TIVDkpY6kNnkL4mJm8HQQueKGu7Y51
+         onqGafJPrC69cI+KRVfR2M8f6zyYPgbpStgcgVgeigk7Gc8m6NBiy/6z1rGqNu/ookEr
+         4Mrg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=IelEAvxuftzpFUTjVmjDc8U27FXmxMCPT7XI/4vcyT8=;
-        b=eximDevV74tYcnTWOAao4j46pbtOjED7fIeOgLqQ3R7JtVTOH24DwKZ212iAqNSvTj
-         OjZdjYOCE8njraDbr/NzKii9RbiD8OLM0iTzeHfTC/xiySK6xyh6bBdYBq/kf9hJrqIs
-         QYrvEs9jWjd5NEzYr1muWzslqCivy8EK5GbQBNzJFAhGsb7JjupwEhM95q0jXfa10e0s
-         ger6+R/EqyyuW2ELtw74zDnwKRt48NsKoxUU1cOUgIHtcqQvS+Vgr8r/t15ckBPW6cge
-         /8sgJlRFHFrigGaGDMK/fxYjZ5STeOXvNLR/CyS7OMsRXNe2tEAPOAhbwV/PAJuybRdB
-         SZaA==
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:dkim-signature;
+        bh=41Cix8/wz/98CXmQSSNUVoc/eGMSQu30WNS71XR8dIw=;
+        b=YzCR+OA6ejlJo6pF8l7rx2f/329RLcGsHENpmsPXIMfzXXfu17xuYSbQoiZURFUcxV
+         BUaH81jY0uDoR2m4CrI5a6rnHlFuEwTkKUjPLyK6JDO0yIIIflkXSIpkvlzaQNnm9dYc
+         P7INKgSbCBCHAUxKxhorABVE9GzfaC3AwL986bTIEvOVdOhxnvBk4tkELHXELy8vjzhe
+         4o6Kke9tXTGdlxr/eroV/hAcTW1NcR+Berx1a+xkNqNxoS2SG8E6z9qVep0DeqSr8Aqs
+         6t8G/jt1rCB1qcm1EQSGyAipqBMOz6V9Cx9fUKknIVK77iejJ6sAhk5fCG0qyRU+2gYj
+         hqjg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Xa5y6uuL;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com. [2a00:1450:4864:20::42d])
-        by gmr-mx.google.com with ESMTPS id g1-20020a0565123b8100b00472523f3a8esi79614lfv.6.2022.06.01.05.28.55
+       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=xlIUxlaB;
+       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::42c as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com. [2607:f8b0:4864:20::42c])
+        by gmr-mx.google.com with ESMTPS id ed47-20020a056870b7af00b000f5d73c60c3si444402oab.3.2022.06.01.20.44.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jun 2022 05:28:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42d as permitted sender) client-ip=2a00:1450:4864:20::42d;
-Received: by mail-wr1-x42d.google.com with SMTP id q21so2154876wra.2
-        for <kasan-dev@googlegroups.com>; Wed, 01 Jun 2022 05:28:55 -0700 (PDT)
-X-Received: by 2002:a05:6000:16cb:b0:20e:63aa:7a31 with SMTP id h11-20020a05600016cb00b0020e63aa7a31mr54674152wrf.253.1654086534694;
-        Wed, 01 Jun 2022 05:28:54 -0700 (PDT)
-Received: from elver.google.com ([2a00:79e0:9c:201:ed43:9390:62cb:50ee])
-        by smtp.gmail.com with ESMTPSA id l10-20020a5d410a000000b0020fc6590a12sm1447145wrp.41.2022.06.01.05.28.53
+        Wed, 01 Jun 2022 20:44:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::42c as permitted sender) client-ip=2607:f8b0:4864:20::42c;
+Received: by mail-pf1-x42c.google.com with SMTP id p8so3668312pfh.8
+        for <kasan-dev@googlegroups.com>; Wed, 01 Jun 2022 20:44:00 -0700 (PDT)
+X-Received: by 2002:a63:6b02:0:b0:3fb:da5e:42a1 with SMTP id g2-20020a636b02000000b003fbda5e42a1mr2388919pgc.273.1654141439808;
+        Wed, 01 Jun 2022 20:43:59 -0700 (PDT)
+Received: from localhost ([12.3.194.138])
+        by smtp.gmail.com with ESMTPSA id g2-20020aa79f02000000b005185407eda5sm2254092pfr.44.2022.06.01.20.43.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 05:28:54 -0700 (PDT)
-Date: Wed, 1 Jun 2022 14:28:48 +0200
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: andrey.konovalov@linux.dev
-Cc: Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev@googlegroups.com,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH 3/3] kasan: fix zeroing vmalloc memory with HW_TAGS
-Message-ID: <YpdbgGjjz954Us/y@elver.google.com>
-References: <4c76a95aff79723de76df146a10888a5a9196faf.1654011120.git.andreyknvl@google.com>
- <bbc30451228f670abeaf1b8aad678b9f6dda4ad3.1654011120.git.andreyknvl@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <bbc30451228f670abeaf1b8aad678b9f6dda4ad3.1654011120.git.andreyknvl@google.com>
-User-Agent: Mutt/2.1.4 (2021-12-11)
-X-Original-Sender: elver@google.com
+        Wed, 01 Jun 2022 20:43:59 -0700 (PDT)
+Date: Wed, 01 Jun 2022 20:43:59 -0700 (PDT)
+Subject: Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
+In-Reply-To: <mhng-f386a42e-77d9-4644-914f-552a8e721f5c@palmer-ri-x1c9>
+CC: corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+  zong.li@sifive.com, anup@brainfault.org, Atish.Patra@rivosinc.com, Christoph Hellwig <hch@lst.de>,
+  ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, dvyukov@google.com, ardb@kernel.org,
+  Arnd Bergmann <arnd@arndb.de>, keescook@chromium.org, guoren@linux.alibaba.com,
+  heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com, panqinglin2020@iscas.ac.cn,
+  linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+  kasan-dev@googlegroups.com, linux-efi@vger.kernel.org, linux-arch@vger.kernel.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: alexandre.ghiti@canonical.com
+Message-ID: <mhng-2ff855c7-1f97-46c9-b692-84ea3735eb05@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: palmer@dabbelt.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=Xa5y6uuL;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42d as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112
+ header.b=xlIUxlaB;       spf=pass (google.com: domain of palmer@dabbelt.com
+ designates 2607:f8b0:4864:20::42c as permitted sender) smtp.mailfrom=palmer@dabbelt.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,110 +134,195 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 31, 2022 at 05:43PM +0200, andrey.konovalov@linux.dev wrote:
-> From: Andrey Konovalov <andreyknvl@google.com>
-> 
-> HW_TAGS KASAN skips zeroing page_alloc allocations backing vmalloc
-> mappings via __GFP_SKIP_ZERO. Instead, these pages are zeroed via
-> kasan_unpoison_vmalloc() by passing the KASAN_VMALLOC_INIT flag.
-> 
-> The problem is that __kasan_unpoison_vmalloc() does not zero pages
-> when either kasan_vmalloc_enabled() or is_vmalloc_or_module_addr() fail.
-> 
-> Thus:
-> 
-> 1. Change __vmalloc_node_range() to only set KASAN_VMALLOC_INIT when
->    __GFP_SKIP_ZERO is set.
-> 
-> 2. Change __kasan_unpoison_vmalloc() to always zero pages when the
->    KASAN_VMALLOC_INIT flag is set.
-> 
-> 3. Add WARN_ON() asserts to check that KASAN_VMALLOC_INIT cannot be set
->    in other early return paths of __kasan_unpoison_vmalloc().
-> 
-> Also clean up the comment in __kasan_unpoison_vmalloc.
-> 
-> Fixes: 23689e91fb22 ("kasan, vmalloc: add vmalloc tagging for HW_TAGS")
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  mm/kasan/hw_tags.c | 30 ++++++++++++++++++++++--------
->  mm/vmalloc.c       | 10 +++++-----
->  2 files changed, 27 insertions(+), 13 deletions(-)
-> 
-> diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-> index 9e1b6544bfa8..c0ec01eadf20 100644
-> --- a/mm/kasan/hw_tags.c
-> +++ b/mm/kasan/hw_tags.c
-> @@ -263,21 +263,31 @@ void *__kasan_unpoison_vmalloc(const void *start, unsigned long size,
->  	u8 tag;
->  	unsigned long redzone_start, redzone_size;
->  
-> -	if (!kasan_vmalloc_enabled())
-> -		return (void *)start;
-> +	if (!kasan_vmalloc_enabled() || !is_vmalloc_or_module_addr(start)) {
-> +		struct page *page;
-> +		const void *addr;
-> +
-> +		/* Initialize memory if required. */
-> +
+On Fri, 22 Apr 2022 18:50:47 PDT (-0700), Palmer Dabbelt wrote:
+> On Fri, 01 Apr 2022 05:56:30 PDT (-0700), alexandre.ghiti@canonical.com wrote:
+>> On Fri, Feb 18, 2022 at 11:45 AM Alexandre Ghiti
+>> <alexandre.ghiti@canonical.com> wrote:
+>>>
+>>> Hi Palmer,
+>>>
+>>> On Thu, Jan 20, 2022 at 11:05 AM Alexandre Ghiti
+>>> <alexandre.ghiti@canonical.com> wrote:
+>>> >
+>>> > On Thu, Jan 20, 2022 at 8:30 AM Alexandre Ghiti
+>>> > <alexandre.ghiti@canonical.com> wrote:
+>>> > >
+>>> > > On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>>> > > >
+>>> > > > On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
+>>> > > > > * Please note notable changes in memory layouts and kasan population *
+>>> > > > >
+>>> > > > > This patchset allows to have a single kernel for sv39 and sv48 without
+>>> > > > > being relocatable.
+>>> > > > >
+>>> > > > > The idea comes from Arnd Bergmann who suggested to do the same as x86,
+>>> > > > > that is mapping the kernel to the end of the address space, which allows
+>>> > > > > the kernel to be linked at the same address for both sv39 and sv48 and
+>>> > > > > then does not require to be relocated at runtime.
+>>> > > > >
+>>> > > > > This implements sv48 support at runtime. The kernel will try to
+>>> > > > > boot with 4-level page table and will fallback to 3-level if the HW does not
+>>> > > > > support it. Folding the 4th level into a 3-level page table has almost no
+>>> > > > > cost at runtime.
+>>> > > > >
+>>> > > > > Note that kasan region had to be moved to the end of the address space
+>>> > > > > since its location must be known at compile-time and then be valid for
+>>> > > > > both sv39 and sv48 (and sv57 that is coming).
+>>> > > > >
+>>> > > > > Tested on:
+>>> > > > >   - qemu rv64 sv39: OK
+>>> > > > >   - qemu rv64 sv48: OK
+>>> > > > >   - qemu rv64 sv39 + kasan: OK
+>>> > > > >   - qemu rv64 sv48 + kasan: OK
+>>> > > > >   - qemu rv32: OK
+>>> > > > >
+>>> > > > > Changes in v3:
+>>> > > > >   - Fix SZ_1T, thanks to Atish
+>>> > > > >   - Fix warning create_pud_mapping, thanks to Atish
+>>> > > > >   - Fix k210 nommu build, thanks to Atish
+>>> > > > >   - Fix wrong rebase as noted by Samuel
+>>> > > > >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
+>>> > > > >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
+>>> > > > >
+>>> > > > > Changes in v2:
+>>> > > > >   - Rebase onto for-next
+>>> > > > >   - Fix KASAN
+>>> > > > >   - Fix stack canary
+>>> > > > >   - Get completely rid of MAXPHYSMEM configs
+>>> > > > >   - Add documentation
+>>> > > > >
+>>> > > > > Alexandre Ghiti (13):
+>>> > > > >   riscv: Move KASAN mapping next to the kernel mapping
+>>> > > > >   riscv: Split early kasan mapping to prepare sv48 introduction
+>>> > > > >   riscv: Introduce functions to switch pt_ops
+>>> > > > >   riscv: Allow to dynamically define VA_BITS
+>>> > > > >   riscv: Get rid of MAXPHYSMEM configs
+>>> > > > >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
+>>> > > > >   riscv: Implement sv48 support
+>>> > > > >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
+>>> > > > >   riscv: Explicit comment about user virtual address space size
+>>> > > > >   riscv: Improve virtual kernel memory layout dump
+>>> > > > >   Documentation: riscv: Add sv48 description to VM layout
+>>> > > > >   riscv: Initialize thread pointer before calling C functions
+>>> > > > >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
+>>> > > > >
+>>> > > > >  Documentation/riscv/vm-layout.rst             |  48 ++-
+>>> > > > >  arch/riscv/Kconfig                            |  37 +-
+>>> > > > >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
+>>> > > > >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
+>>> > > > >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
+>>> > > > >  arch/riscv/include/asm/csr.h                  |   3 +-
+>>> > > > >  arch/riscv/include/asm/fixmap.h               |   1
+>>> > > > >  arch/riscv/include/asm/kasan.h                |  11 +-
+>>> > > > >  arch/riscv/include/asm/page.h                 |  20 +-
+>>> > > > >  arch/riscv/include/asm/pgalloc.h              |  40 ++
+>>> > > > >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
+>>> > > > >  arch/riscv/include/asm/pgtable.h              |  47 +-
+>>> > > > >  arch/riscv/include/asm/sparsemem.h            |   6 +-
+>>> > > > >  arch/riscv/kernel/cpu.c                       |  23 +-
+>>> > > > >  arch/riscv/kernel/head.S                      |   4 +-
+>>> > > > >  arch/riscv/mm/context.c                       |   4 +-
+>>> > > > >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
+>>> > > > >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
+>>> > > > >  drivers/firmware/efi/libstub/efi-stub.c       |   2
+>>> > > > >  drivers/pci/controller/pci-xgene.c            |   2 +-
+>>> > > > >  include/asm-generic/pgalloc.h                 |  24 +-
+>>> > > > >  include/linux/sizes.h                         |   1
+>>> > > > >  22 files changed, 833 insertions(+), 209 deletions(-)
+>>> > > >
+>>> > > > Sorry this took a while.  This is on for-next, with a bit of juggling: a
+>>> > > > handful of trivial fixes for configs that were failing to build/boot and
+>>> > > > some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
+>>> > > > it'd be easier to backport.  This is bigger than something I'd normally like to
+>>> > > > take late in the cycle, but given there's a lot of cleanups, likely some fixes,
+>>> > > > and it looks like folks have been testing this I'm just going to go with it.
+>>> > > >
+>>> > >
+>>> > > Yes yes yes! That's fantastic news :)
+>>> > >
+>>> > > > Let me know if there's any issues with the merge, it was a bit hairy.
+>>> > > > Probably best to just send along a fixup patch at this point.
+>>> > >
+>>> > > I'm going to take a look at that now, and I'll fix anything that comes
+>>> > > up quickly :)
+>>> >
+>>> > I see in for-next that you did not take the following patches:
+>>> >
+>>> >   riscv: Improve virtual kernel memory layout dump
+>>> >   Documentation: riscv: Add sv48 description to VM layout
+>>> >   riscv: Initialize thread pointer before calling C functions
+>>> >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
+>>> >
+>>> > I'm not sure this was your intention. If it was, I believe that at
+>>> > least the first 2 patches are needed in this series, the 3rd one is a
+>>> > useful fix and we can discuss the 4th if that's an issue for you.
+>>>
+>>> Can you confirm that this was intentional and maybe explain the
+>>> motivation behind it? Because I see value in those patches.
+>>
+>> Palmer,
+>>
+>> I read that you were still taking patches for 5.18, so I confirm again
+>> that the patches above are needed IMO.
+>
+> It was too late for this when it was sent (I saw it then, but just got
+> around to actually doing the work to sort it out).
+>
+> It took me a while to figure out exactly what was going on here, but I
+> think I remember now: that downgrade patch (and the follow-on I just
+> sent) is broken for medlow, because mm/init.c must be built medany
+> (which we're using for the mostly-PIC qualities).  I remember being in
+> the middle of rebasing/debugging this a while ago, I must have forgotten
+> I was in the middle of that and accidentally merged the branch as-is.
+> Certainly wasn't trying to silently take half the patch set and leave
+> the rest in limbo, that's the wrong way to do things.
+>
+> I'm not sure what the right answer is here, but I just sent a patch to
+> drop support for medlow.  We'll have to talk about that, for now I
+> cleaned up some other minor issues, rearranged that docs and fix to come
+> first, and put this at palmer/riscv-sv48.  I think that fix is
+> reasonable to take the doc and fix into fixes, then the dump improvement
+> on for-next.  We'll have to see what folks think about the medany-only
+> kernels, the other option would be to build FDT as medany which seems a
+> bit awkward.
 
-This whole block of code looks out-of-place in this function, since it's
-not at all related to unpoisoning but a fallback if KASAN-vmalloc is off
-but we still want to initialize the memory.
+All but the last one are on for-next, there's some discussion on that 
+last one that pointed out some better ways to do it.
 
-Maybe to ease readability here I'd change it to look like:
-
-
-diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-index 11f661a2494b..227c20d09258 100644
---- a/mm/kasan/hw_tags.c
-+++ b/mm/kasan/hw_tags.c
-@@ -257,6 +257,21 @@ static void unpoison_vmalloc_pages(const void *addr, u8 tag)
- 	}
- }
- 
-+/*
-+ * Explicit initialization of pages if KASAN does not handle VM_ALLOC
-+ * allocations.
-+ */
-+static void init_vmalloc_pages_explicit(const void *start, unsigned long size)
-+{
-+	const void *addr;
-+
-+	for (addr = start; addr < start + size; addr += PAGE_SIZE) {
-+		struct page *page = virt_to_page(addr);
-+
-+		clear_highpage_kasan_tagged(page);
-+	}
-+}
-+
- void *__kasan_unpoison_vmalloc(const void *start, unsigned long size,
- 				kasan_vmalloc_flags_t flags)
- {
-@@ -264,19 +279,8 @@ void *__kasan_unpoison_vmalloc(const void *start, unsigned long size,
- 	unsigned long redzone_start, redzone_size;
- 
- 	if (!kasan_vmalloc_enabled() || !is_vmalloc_or_module_addr(start)) {
--		struct page *page;
--		const void *addr;
--
--		/* Initialize memory if required. */
--
--		if (!(flags & KASAN_VMALLOC_INIT))
--			return (void *)start;
--
--		for (addr = start; addr < start + size; addr += PAGE_SIZE) {
--			page = virt_to_page(addr);
--			clear_highpage_kasan_tagged(page);
--		}
--
-+		if (flags & KASAN_VMALLOC_INIT)
-+			init_vmalloc_pages_explicit(start, size);
- 		return (void *)start;
- 	}
- 
+>
+>> Maybe even the relocatable series?
+>
+> Do you mind giving me a pointer?  I'm not sure why I'm so drop-prone
+> with your patches, I promise I'm not doing it on purpose.
+>
+>>
+>> Thanks,
+>>
+>> Alex
+>>
+>>>
+>>> Thanks,
+>>>
+>>> Alex
+>>>
+>>> >
+>>> > I tested for-next on both sv39 and sv48 successfully, I took a glance
+>>> > at the code and noticed you fixed the PTRS_PER_PGD error, thanks for
+>>> > that. Otherwise nothing obvious has popped.
+>>> >
+>>> > Thanks again,
+>>> >
+>>> > Alex
+>>> >
+>>> > >
+>>> > > Thanks!
+>>> > >
+>>> > > Alex
+>>> > >
+>>> > > >
+>>> > > > Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YpdbgGjjz954Us/y%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/mhng-2ff855c7-1f97-46c9-b692-84ea3735eb05%40palmer-ri-x1c9.
