@@ -1,127 +1,140 @@
-Return-Path: <kasan-dev+bncBCRKNY4WZECBBAPE4CKAMGQEVH7USTI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBFN24KKAMGQE2DWMA7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000A453B232
-	for <lists+kasan-dev@lfdr.de>; Thu,  2 Jun 2022 05:44:02 +0200 (CEST)
-Received: by mail-ot1-x33e.google.com with SMTP id l2-20020a9d7342000000b0060ae5f9fb40sf1040323otk.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jun 2022 20:44:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1654141441; cv=pass;
+Received: from mail-oa1-x3a.google.com (mail-oa1-x3a.google.com [IPv6:2001:4860:4864:20::3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED83253B7AE
+	for <lists+kasan-dev@lfdr.de>; Thu,  2 Jun 2022 13:20:55 +0200 (CEST)
+Received: by mail-oa1-x3a.google.com with SMTP id 586e51a60fabf-f2db7440d8sf2881941fac.9
+        for <lists+kasan-dev@lfdr.de>; Thu, 02 Jun 2022 04:20:55 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1654168854; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Wgq9U7nHkfcOlynGhb2EImIeZ5CbLHhMFFthMcYfP1Z0LsjOEjBQEpqOJE3u2ejnrj
-         88cqZRiKgdTup9n0yYpHZo2zf+svfv0ItzWfBMXhUDBXuF2PcPrmqhWe1emH2hFojB95
-         yypjBoesgMNjPPna3u0ymXmQ/ue+977t+2Q8nL1Jk+dncYUzc4mCs6P3W/eC5NqEgnnd
-         556ilcAnLx9BSGPI4AyZwNJ/70kjd66kxH1C+8fkx6Y+S5dv7ceAFFBaI5k+r6Cv6ycN
-         K2mB4FqY2/A7qZKVRY2JybJjKQ9zHxpyXO/87G7BUn1XIsUNU4cVENZoRO7g3qSGN6el
-         x4Gg==
+        b=W5PWfw5jiRg1nB1DaqkNPqWhKBW/gyQaLG6YM7g4h0zaA4OtBxGSzPspWwWhNZ8mU/
+         IpRtZa/CIRD9pMQgIYa/jrNY7UqoQhfQzZZHyHetTJtQzUFqTFoyAHWjXyAXBNgy2nwC
+         749z0h5szytKXNOyqrDAo6+QqH50xrveJzY+zIptZo0mCNEe2ggPnQWxjdiKs/l19GqG
+         /+Erj/X5Jdl5baUJsGlaVDTMzYKH8yG8GxYAlnWdyOD+UDjauWAb3DstdSanvIJB7lc0
+         95NEbtm/MMogb/OZdQd6bqHaPcCXZbhkTh08/z7iToeAGnZzrHpW9eWWO+fxy2pTe0yW
+         VdZw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:sender:dkim-signature;
-        bh=6HZA3XYURV68jSXEHX+DDNxUbIc36Urp3iNyd6XUQ6w=;
-        b=TCTus5wdk1+GKZZHSsJEE6rnhl/kgxqQEK0u723tGyJ5u5lzZ/AYaYZrrChFqpqIfu
-         NN90vghupwR5EyOos6jup8tfCbobUXPexnjvmV8AaO3qTxTFPD2l87g7WitCA1MTMPUd
-         hhB+poihaw6j20PrikyJh19sTCG4CRipk00xN6VKB6McepU3ZIIyfnmhwXztAMARbhKe
-         kxlmoOYtoTEY1acYYs50zuJxlkHe4v7GJ8tqZMSGvhxsuwW+1XI7u9AkZMI5KglRC/1L
-         alS/5bu9xDRlLfUFkGnpDV8gcx09U3INGFxo2LIQb6MFVt/msVdW66CFFLozUDSnRXpo
-         310w==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aVOyTrcSigFr56vWWVoxbVBEIweZZnc2LAPTODU7ESY=;
+        b=LjngCmXl0Qbw9CtuNafO7q8+HUhxSizJXdiNOcdtM4ZEWPjzBXTKNyt8CbEvNoKDgL
+         xpkmwp/BQSf2u3SomoSt+Prl8tSCQwjkAy7z756etFWy9nl9fxnprqyABDUtp1HuiODX
+         kY442U+clqMYv9Y4e9NF+/l4e2AgKZwd25FVtxSSfvlxWTLne2dYvnokmyMy78VwLbpB
+         HQNabrxsxNCxpxAyEcnS4UOK+le+S5OK4j9Tbs7M3u72cDL5aLgrxtUq4a/OlWs8QObC
+         yAodpASDG97+QzuD1aMMRZvOsJWUy7a1leO+CzJ9s2cx5N4I5oL02ZSD6DHr3Tngnvv8
+         8Fjg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=xlIUxlaB;
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::42c as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=m0OEpK59;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=6HZA3XYURV68jSXEHX+DDNxUbIc36Urp3iNyd6XUQ6w=;
-        b=m+n3ZfD/nZNk8WRiyKU9LVkfCTkT2w71/ZKaDzRVJlml3rsHM/CfQzpQRvDuP8WDcU
-         V1rVVrWT29DiA9zSnyWMI5T1FljKwZlUcA4BlQpR7kzKOjJFmylubPwJJLA7XNad/Qw2
-         lGyvCck3sacnzlSHgytCLGsunJ1fLyJ87i/U8DZ4Ihong4bFwmZBGmqWPe2Qmes02XSb
-         oSvaUL3nxGVihMJb65Wk17hq05Fjb2HyGfBKIplRlGDEcSUVYNXu3/QFZ7MnIZG3A+z4
-         YcR1ZxuSjIyGbHtHtBXHNWFq1nSQnKdWPq5ON0xsvPE0Dq7pCOqikh/KTvvRtUWZI4ZB
-         wcdg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:list-post:list-help:list-archive:list-subscribe
+         :list-unsubscribe;
+        bh=aVOyTrcSigFr56vWWVoxbVBEIweZZnc2LAPTODU7ESY=;
+        b=LOoNW8WxugTfMzGW4q8i/WTMp0TDuBqN/mipH2CkPKRmirLTJco5kvW2Qn2fxfc89D
+         +2H6kzJi20UKofiEkq8GQ4bl9Rryo5inkNXAMYL9NzuKN3ORYO+GnwsapxXGz9HUUX0V
+         +e24egoOCKQnwrU4EuIG7WembPlTZm7lfmp0gcXyt28aXa4fYZIJL+Y7fCNDH1duhZAQ
+         6j/VrvzcbUqjnyf8pBkBio8GZfT+hiVmpmvFzrQuO2eZd8P2CpmollvZGJavo6DEwgUc
+         aS/PEcftY5uq5nMR9TPW0K5O6BeeTK0VN1wXqzNWEkoykFUx6jvaFcVP6sXeME1By4HD
+         WSJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:subject:in-reply-to:cc:from:to
-         :message-id:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=6HZA3XYURV68jSXEHX+DDNxUbIc36Urp3iNyd6XUQ6w=;
-        b=FUxEkLS06JIKxsJWASAG6uFh7mWtV/PtSNDcdhQFxj3A3Qvz7FCM2zWyOZIJxkK+wD
-         q+RTUFiQXOPk9DwgFWRHfwlp+d9RXv/1pfAtp5KXy81QWsXy+lak3pcUQ97c3VplUnfa
-         r0OpPRQnVc4qt5beFgX5cBfuSL1JUOAS2VGllyZJdrPa73yd58w5tRxlS/PFHMLT2d4G
-         sEHV2w1QPA+6iLSSxIRDq2reivcSKA3dxWRrG3jMX4PjUaYK8fuSFjtHrX72Y3khQIA9
-         muPRZBPmRrW2W8iFnzLin5GkvkMU8uPJ0Lt9VjcA4US+P1lMvz+rjmLHEWNbgnsWr6iZ
-         DKAg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM530LN3J3LiaRHtclZdYMlHNhaUf8NjgmoXu6b1ZlteOMxtgzVEOT
-	BVJncIfTzDHsXZXxV3/INDc=
-X-Google-Smtp-Source: ABdhPJw5yJC61gJUy/oDgHzWhi48NS+7VCMArLC5G75+30SgnyJoyYI17VQVXZuuAuV59mp061OWXw==
-X-Received: by 2002:a05:6808:1411:b0:32b:ca21:ba08 with SMTP id w17-20020a056808141100b0032bca21ba08mr1616300oiv.124.1654141441419;
-        Wed, 01 Jun 2022 20:44:01 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding
+         :x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=aVOyTrcSigFr56vWWVoxbVBEIweZZnc2LAPTODU7ESY=;
+        b=0Ep9j3f0eEA6ZFzzsNJ6cUPPyixQ+HYddTWF9tK6V48HK/nf8pX2AfSWDiZVOoskMR
+         808anREMfqPuO/A/tMkNInPdCRCgOO2lBIjACxUe81t33QeB3aTjyqfBAm/2gqUF8UdB
+         dlbSs44+RYwvPu1ZJEDPsF5IxGZ8gYQCjVY8QntrZP2lUH0LIHkJk1N6Al53Aq0qt8Cq
+         +HnQ969d2oWmpXkDOIHWyzeaOmJioJaWEwgiJcAYIDoijCxbfsjhaDMcPQxlQRdkcUVN
+         s3Nzb4jnkFskN7KHSK/otmfPSIERVJ0tDlaD5yHdtvAj09GbmSd5nKL9zqRdDYXT+YCS
+         MUtA==
+X-Gm-Message-State: AOAM532SV88hFEa3zV0dsuez5D+PZ7TEyeydrthjDu5/vcnEL2iQLjlo
+	nRhGsevC8WzYTD8GG9qg6So=
+X-Google-Smtp-Source: ABdhPJx0CKzrqIEQXtYc1nt7WSijL7Gno3QXhRBH7paBLqWZ3CC3Py8xSYYBDsn5bkKyZfhp10ZBIQ==
+X-Received: by 2002:a05:6808:347:b0:32b:b968:6ff8 with SMTP id j7-20020a056808034700b0032bb9686ff8mr2199759oie.243.1654168853341;
+        Thu, 02 Jun 2022 04:20:53 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:23d2:b0:326:98c2:25a8 with SMTP id
- bq18-20020a05680823d200b0032698c225a8ls2123728oib.11.gmail; Wed, 01 Jun 2022
- 20:44:01 -0700 (PDT)
-X-Received: by 2002:a05:6808:148a:b0:326:c71a:f33c with SMTP id e10-20020a056808148a00b00326c71af33cmr16479035oiw.153.1654141440984;
-        Wed, 01 Jun 2022 20:44:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654141440; cv=none;
+Received: by 2002:a05:6870:a1a0:b0:d7:1d2b:ec1a with SMTP id
+ a32-20020a056870a1a000b000d71d2bec1als2581088oaf.3.gmail; Thu, 02 Jun 2022
+ 04:20:53 -0700 (PDT)
+X-Received: by 2002:a05:6870:355:b0:f3:14f4:dd0 with SMTP id n21-20020a056870035500b000f314f40dd0mr2389156oaf.258.1654168852968;
+        Thu, 02 Jun 2022 04:20:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1654168852; cv=none;
         d=google.com; s=arc-20160816;
-        b=ubYsSp2c/IBUWuQ3lM/BnCtLNKsR2EG7Il3B2T8mvOljlD8vI+wfEBXqtHQlokcqBI
-         DIXKyy+srQe6ntDc3h3KEBxDCh+JHc0qsQ61Wh8KYOYRW67iybwpaAKrRSAizlABCm1F
-         UOfZR985GNp0EeJ6j9jLsikWEae4dHbRkXE02r4zqHtXh2Q+V/n5nq3TgmKdpfoa+bN6
-         QLvFMxdZxX4X4L3Io5CAsqKF4cwY3RbpLk0qK/TIVDkpY6kNnkL4mJm8HQQueKGu7Y51
-         onqGafJPrC69cI+KRVfR2M8f6zyYPgbpStgcgVgeigk7Gc8m6NBiy/6z1rGqNu/ookEr
-         4Mrg==
+        b=Ra586uf9M1iLbX0I1xnZDYLlWNQ0FIcYEReOjulEgormuQ12bhLtkim8h8CocNylG5
+         xNuXWbTeVI1WjXW+xBM4+GnaP5drRzwBAznszT4zELAgfjpchYYU+tr4a8Xs5LIo7mej
+         QoN4F0C53sZguD0zoOYQb/G/LZ87rzLD7YMG+Q7BrsmUePKskW6ZG24xnIGXUlV28soW
+         0eJUVUXyWgFaXcpkIwbb4woYLiS9GoW0Ruin53/SSDb6rAJpmRPY0YBvQCyN1LljxyRh
+         U76KXuXJj7xHjgS8RBYtY54nJp9wq2hJ/4twsgNQIV1kL8Qpf/fF/HVxT8pK8YEKcW9+
+         CD0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:dkim-signature;
-        bh=41Cix8/wz/98CXmQSSNUVoc/eGMSQu30WNS71XR8dIw=;
-        b=YzCR+OA6ejlJo6pF8l7rx2f/329RLcGsHENpmsPXIMfzXXfu17xuYSbQoiZURFUcxV
-         BUaH81jY0uDoR2m4CrI5a6rnHlFuEwTkKUjPLyK6JDO0yIIIflkXSIpkvlzaQNnm9dYc
-         P7INKgSbCBCHAUxKxhorABVE9GzfaC3AwL986bTIEvOVdOhxnvBk4tkELHXELy8vjzhe
-         4o6Kke9tXTGdlxr/eroV/hAcTW1NcR+Berx1a+xkNqNxoS2SG8E6z9qVep0DeqSr8Aqs
-         6t8G/jt1rCB1qcm1EQSGyAipqBMOz6V9Cx9fUKknIVK77iejJ6sAhk5fCG0qyRU+2gYj
-         hqjg==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6r6Vaw+wZvpxvKWw2pORFiU+DbCU4N7wdhOQeTbklfc=;
+        b=f1b0i1HtHUZjIVLE/p9BnYlJjz93A3wncDpIFKKVAsV0+mVg+WtDqtI86V+a+43Gc/
+         ZF6ObUoXDHuRpk+6MNj20b+XPtyRMyyMtrfFVIefvVrCKqMlY+x43ebD08F5ZiraSYGt
+         Ixtzj+ewJkE/6ZDx2GVkbnShhVq+BVnfR1OecUAmemLxPpmqc2EDPQmoGNuzMukd9NBn
+         RLV3bx/gS+6zAr/DDlkW/e2Y3yYX6RO4JdyI3trDJgaxA7qYBNG4vLvwquSZB8EIyW0K
+         ULwVzukyRiHLImZKuDXkej1wQNtZLw2/pqzs6pWNSMqvuI5lKMpJ3yh2bawu4wAgK7Qi
+         qOyg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=xlIUxlaB;
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::42c as permitted sender) smtp.mailfrom=palmer@dabbelt.com
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com. [2607:f8b0:4864:20::42c])
-        by gmr-mx.google.com with ESMTPS id ed47-20020a056870b7af00b000f5d73c60c3si444402oab.3.2022.06.01.20.44.00
+       dkim=pass header.i=@google.com header.s=20210112 header.b=m0OEpK59;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com. [2607:f8b0:4864:20::b2e])
+        by gmr-mx.google.com with ESMTPS id e1-20020a4a9b41000000b0035e8a81e5fcsi325463ook.2.2022.06.02.04.20.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jun 2022 20:44:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::42c as permitted sender) client-ip=2607:f8b0:4864:20::42c;
-Received: by mail-pf1-x42c.google.com with SMTP id p8so3668312pfh.8
-        for <kasan-dev@googlegroups.com>; Wed, 01 Jun 2022 20:44:00 -0700 (PDT)
-X-Received: by 2002:a63:6b02:0:b0:3fb:da5e:42a1 with SMTP id g2-20020a636b02000000b003fbda5e42a1mr2388919pgc.273.1654141439808;
-        Wed, 01 Jun 2022 20:43:59 -0700 (PDT)
-Received: from localhost ([12.3.194.138])
-        by smtp.gmail.com with ESMTPSA id g2-20020aa79f02000000b005185407eda5sm2254092pfr.44.2022.06.01.20.43.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 20:43:59 -0700 (PDT)
-Date: Wed, 01 Jun 2022 20:43:59 -0700 (PDT)
-Subject: Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
-In-Reply-To: <mhng-f386a42e-77d9-4644-914f-552a8e721f5c@palmer-ri-x1c9>
-CC: corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-  zong.li@sifive.com, anup@brainfault.org, Atish.Patra@rivosinc.com, Christoph Hellwig <hch@lst.de>,
-  ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, dvyukov@google.com, ardb@kernel.org,
-  Arnd Bergmann <arnd@arndb.de>, keescook@chromium.org, guoren@linux.alibaba.com,
-  heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com, panqinglin2020@iscas.ac.cn,
-  linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-  kasan-dev@googlegroups.com, linux-efi@vger.kernel.org, linux-arch@vger.kernel.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: alexandre.ghiti@canonical.com
-Message-ID: <mhng-2ff855c7-1f97-46c9-b692-84ea3735eb05@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: palmer@dabbelt.com
+        Thu, 02 Jun 2022 04:20:52 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) client-ip=2607:f8b0:4864:20::b2e;
+Received: by mail-yb1-xb2e.google.com with SMTP id v22so7746105ybd.5
+        for <kasan-dev@googlegroups.com>; Thu, 02 Jun 2022 04:20:52 -0700 (PDT)
+X-Received: by 2002:a5b:4c7:0:b0:65d:313:6270 with SMTP id u7-20020a5b04c7000000b0065d03136270mr4614359ybp.363.1654168852326;
+ Thu, 02 Jun 2022 04:20:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220426164315.625149-1-glider@google.com> <20220426164315.625149-6-glider@google.com>
+ <CAK8P3a2eDDAAQ8RiQi0B+Jk4KvGeMk+pe78RB+bB9qwTTyhuag@mail.gmail.com>
+In-Reply-To: <CAK8P3a2eDDAAQ8RiQi0B+Jk4KvGeMk+pe78RB+bB9qwTTyhuag@mail.gmail.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 2 Jun 2022 13:20:16 +0200
+Message-ID: <CAG_fn=X601D5RtbkOMjZEKL+ZyQZG5Ddw7Uv=MOivbceAxPBAg@mail.gmail.com>
+Subject: Re: [PATCH v3 05/46] x86: asm: instrument usercopy in get_user() and __put_user_size()
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>, 
+	Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Ilya Leoshkevich <iii@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, 
+	Marco Elver <elver@google.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Matthew Wilcox <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux-MM <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112
- header.b=xlIUxlaB;       spf=pass (google.com: domain of palmer@dabbelt.com
- designates 2607:f8b0:4864:20::42c as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+ header.i=@google.com header.s=20210112 header.b=m0OEpK59;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,195 +147,118 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 22 Apr 2022 18:50:47 PDT (-0700), Palmer Dabbelt wrote:
-> On Fri, 01 Apr 2022 05:56:30 PDT (-0700), alexandre.ghiti@canonical.com wrote:
->> On Fri, Feb 18, 2022 at 11:45 AM Alexandre Ghiti
->> <alexandre.ghiti@canonical.com> wrote:
->>>
->>> Hi Palmer,
->>>
->>> On Thu, Jan 20, 2022 at 11:05 AM Alexandre Ghiti
->>> <alexandre.ghiti@canonical.com> wrote:
->>> >
->>> > On Thu, Jan 20, 2022 at 8:30 AM Alexandre Ghiti
->>> > <alexandre.ghiti@canonical.com> wrote:
->>> > >
->>> > > On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->>> > > >
->>> > > > On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
->>> > > > > * Please note notable changes in memory layouts and kasan population *
->>> > > > >
->>> > > > > This patchset allows to have a single kernel for sv39 and sv48 without
->>> > > > > being relocatable.
->>> > > > >
->>> > > > > The idea comes from Arnd Bergmann who suggested to do the same as x86,
->>> > > > > that is mapping the kernel to the end of the address space, which allows
->>> > > > > the kernel to be linked at the same address for both sv39 and sv48 and
->>> > > > > then does not require to be relocated at runtime.
->>> > > > >
->>> > > > > This implements sv48 support at runtime. The kernel will try to
->>> > > > > boot with 4-level page table and will fallback to 3-level if the HW does not
->>> > > > > support it. Folding the 4th level into a 3-level page table has almost no
->>> > > > > cost at runtime.
->>> > > > >
->>> > > > > Note that kasan region had to be moved to the end of the address space
->>> > > > > since its location must be known at compile-time and then be valid for
->>> > > > > both sv39 and sv48 (and sv57 that is coming).
->>> > > > >
->>> > > > > Tested on:
->>> > > > >   - qemu rv64 sv39: OK
->>> > > > >   - qemu rv64 sv48: OK
->>> > > > >   - qemu rv64 sv39 + kasan: OK
->>> > > > >   - qemu rv64 sv48 + kasan: OK
->>> > > > >   - qemu rv32: OK
->>> > > > >
->>> > > > > Changes in v3:
->>> > > > >   - Fix SZ_1T, thanks to Atish
->>> > > > >   - Fix warning create_pud_mapping, thanks to Atish
->>> > > > >   - Fix k210 nommu build, thanks to Atish
->>> > > > >   - Fix wrong rebase as noted by Samuel
->>> > > > >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
->>> > > > >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
->>> > > > >
->>> > > > > Changes in v2:
->>> > > > >   - Rebase onto for-next
->>> > > > >   - Fix KASAN
->>> > > > >   - Fix stack canary
->>> > > > >   - Get completely rid of MAXPHYSMEM configs
->>> > > > >   - Add documentation
->>> > > > >
->>> > > > > Alexandre Ghiti (13):
->>> > > > >   riscv: Move KASAN mapping next to the kernel mapping
->>> > > > >   riscv: Split early kasan mapping to prepare sv48 introduction
->>> > > > >   riscv: Introduce functions to switch pt_ops
->>> > > > >   riscv: Allow to dynamically define VA_BITS
->>> > > > >   riscv: Get rid of MAXPHYSMEM configs
->>> > > > >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
->>> > > > >   riscv: Implement sv48 support
->>> > > > >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
->>> > > > >   riscv: Explicit comment about user virtual address space size
->>> > > > >   riscv: Improve virtual kernel memory layout dump
->>> > > > >   Documentation: riscv: Add sv48 description to VM layout
->>> > > > >   riscv: Initialize thread pointer before calling C functions
->>> > > > >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
->>> > > > >
->>> > > > >  Documentation/riscv/vm-layout.rst             |  48 ++-
->>> > > > >  arch/riscv/Kconfig                            |  37 +-
->>> > > > >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
->>> > > > >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
->>> > > > >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
->>> > > > >  arch/riscv/include/asm/csr.h                  |   3 +-
->>> > > > >  arch/riscv/include/asm/fixmap.h               |   1
->>> > > > >  arch/riscv/include/asm/kasan.h                |  11 +-
->>> > > > >  arch/riscv/include/asm/page.h                 |  20 +-
->>> > > > >  arch/riscv/include/asm/pgalloc.h              |  40 ++
->>> > > > >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
->>> > > > >  arch/riscv/include/asm/pgtable.h              |  47 +-
->>> > > > >  arch/riscv/include/asm/sparsemem.h            |   6 +-
->>> > > > >  arch/riscv/kernel/cpu.c                       |  23 +-
->>> > > > >  arch/riscv/kernel/head.S                      |   4 +-
->>> > > > >  arch/riscv/mm/context.c                       |   4 +-
->>> > > > >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
->>> > > > >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
->>> > > > >  drivers/firmware/efi/libstub/efi-stub.c       |   2
->>> > > > >  drivers/pci/controller/pci-xgene.c            |   2 +-
->>> > > > >  include/asm-generic/pgalloc.h                 |  24 +-
->>> > > > >  include/linux/sizes.h                         |   1
->>> > > > >  22 files changed, 833 insertions(+), 209 deletions(-)
->>> > > >
->>> > > > Sorry this took a while.  This is on for-next, with a bit of juggling: a
->>> > > > handful of trivial fixes for configs that were failing to build/boot and
->>> > > > some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
->>> > > > it'd be easier to backport.  This is bigger than something I'd normally like to
->>> > > > take late in the cycle, but given there's a lot of cleanups, likely some fixes,
->>> > > > and it looks like folks have been testing this I'm just going to go with it.
->>> > > >
->>> > >
->>> > > Yes yes yes! That's fantastic news :)
->>> > >
->>> > > > Let me know if there's any issues with the merge, it was a bit hairy.
->>> > > > Probably best to just send along a fixup patch at this point.
->>> > >
->>> > > I'm going to take a look at that now, and I'll fix anything that comes
->>> > > up quickly :)
->>> >
->>> > I see in for-next that you did not take the following patches:
->>> >
->>> >   riscv: Improve virtual kernel memory layout dump
->>> >   Documentation: riscv: Add sv48 description to VM layout
->>> >   riscv: Initialize thread pointer before calling C functions
->>> >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
->>> >
->>> > I'm not sure this was your intention. If it was, I believe that at
->>> > least the first 2 patches are needed in this series, the 3rd one is a
->>> > useful fix and we can discuss the 4th if that's an issue for you.
->>>
->>> Can you confirm that this was intentional and maybe explain the
->>> motivation behind it? Because I see value in those patches.
->>
->> Palmer,
->>
->> I read that you were still taking patches for 5.18, so I confirm again
->> that the patches above are needed IMO.
+On Wed, Apr 27, 2022 at 9:15 AM Arnd Bergmann <arnd@arndb.de> wrote:
 >
-> It was too late for this when it was sent (I saw it then, but just got
-> around to actually doing the work to sort it out).
+> On Tue, Apr 26, 2022 at 6:42 PM Alexander Potapenko <glider@google.com> w=
+rote:
+> > @@ -99,11 +100,13 @@ extern int __get_user_bad(void);
+> >         int __ret_gu;                                                  =
+ \
+> >         register __inttype(*(ptr)) __val_gu asm("%"_ASM_DX);           =
+ \
+> >         __chk_user_ptr(ptr);                                           =
+ \
+> > +       instrument_copy_from_user_before((void *)&(x), ptr, sizeof(*(pt=
+r))); \
+> >         asm volatile("call __" #fn "_%P4"                              =
+ \
+> >                      : "=3Da" (__ret_gu), "=3Dr" (__val_gu),           =
+     \
+> >                         ASM_CALL_CONSTRAINT                            =
+ \
+> >                      : "0" (ptr), "i" (sizeof(*(ptr))));               =
+ \
+> >         (x) =3D (__force __typeof__(*(ptr))) __val_gu;                 =
+   \
+> > +       instrument_copy_from_user_after((void *)&(x), ptr, sizeof(*(ptr=
+)), 0); \
 >
-> It took me a while to figure out exactly what was going on here, but I
-> think I remember now: that downgrade patch (and the follow-on I just
-> sent) is broken for medlow, because mm/init.c must be built medany
-> (which we're using for the mostly-PIC qualities).  I remember being in
-> the middle of rebasing/debugging this a while ago, I must have forgotten
-> I was in the middle of that and accidentally merged the branch as-is.
-> Certainly wasn't trying to silently take half the patch set and leave
-> the rest in limbo, that's the wrong way to do things.
+> Isn't "ptr" the original pointer here? I think what happened with the
+> reported warning is that you get one output line for every instance this
+> is used in. There should probably be a
 >
-> I'm not sure what the right answer is here, but I just sent a patch to
-> drop support for medlow.  We'll have to talk about that, for now I
-> cleaned up some other minor issues, rearranged that docs and fix to come
-> first, and put this at palmer/riscv-sv48.  I think that fix is
-> reasonable to take the doc and fix into fixes, then the dump improvement
-> on for-next.  We'll have to see what folks think about the medany-only
-> kernels, the other option would be to build FDT as medany which seems a
-> bit awkward.
+>       __auto_type __ptr =3D (ptr);
+>
+> at the beginning of the macro to ensure that 'ptr' is only evaluated once=
+.
+>
+> >>> arch/x86/kernel/signal.c:360:9: sparse: sparse: incorrect type in arg=
+ument 1 (different address spaces) @@     expected void [noderef] __user *t=
+o @@     got unsigned long long [usertype] * @@
+>
+> It would also make sense to add the missing __user annotation in this lin=
+e, but
+> I suspect there are others like it in drivers.
+>
+>       Arnd
 
-All but the last one are on for-next, there's some discussion on that 
-last one that pointed out some better ways to do it.
+I ran sparse locally, and it is actually the missing __user
+annotations in signal.c that cause these reports.
 
->
->> Maybe even the relocatable series?
->
-> Do you mind giving me a pointer?  I'm not sure why I'm so drop-prone
-> with your patches, I promise I'm not doing it on purpose.
->
->>
->> Thanks,
->>
->> Alex
->>
->>>
->>> Thanks,
->>>
->>> Alex
->>>
->>> >
->>> > I tested for-next on both sv39 and sv48 successfully, I took a glance
->>> > at the code and noticed you fixed the PTRS_PER_PGD error, thanks for
->>> > that. Otherwise nothing obvious has popped.
->>> >
->>> > Thanks again,
->>> >
->>> > Alex
->>> >
->>> > >
->>> > > Thanks!
->>> > >
->>> > > Alex
->>> > >
->>> > > >
->>> > > > Thanks!
+The following patch:
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/mhng-2ff855c7-1f97-46c9-b692-84ea3735eb05%40palmer-ri-x1c9.
+diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+index e439eb14325fa..68537dbffa545 100644
+--- a/arch/x86/kernel/signal.c
++++ b/arch/x86/kernel/signal.c
+@@ -355,7 +355,7 @@ __setup_frame(int sig, struct ksignal *ksig, sigset_t *=
+set,
+         * reasons and because gdb uses it as a signature to notice
+         * signal handler stack frames.
+         */
+-       unsafe_put_user(*((u64 *)&retcode), (u64 *)frame->retcode, Efault);
++       unsafe_put_user(*((u64 *)&retcode), (__user u64
+*)frame->retcode, Efault);
+        user_access_end();
+
+        /* Set up registers for signal handler */
+@@ -415,7 +415,7 @@ static int __setup_rt_frame(int sig, struct ksignal *ks=
+ig,
+         * reasons and because gdb uses it as a signature to notice
+         * signal handler stack frames.
+         */
+-       unsafe_put_user(*((u64 *)&rt_retcode), (u64 *)frame->retcode, Efaul=
+t);
++       unsafe_put_user(*((u64 *)&rt_retcode), (__user u64
+*)frame->retcode, Efault);
+        unsafe_put_sigcontext(&frame->uc.uc_mcontext, fp, regs, set, Efault=
+);
+        unsafe_put_sigmask(set, frame, Efault);
+        user_access_end();
+
+appears to fix sparse warnings.
+
+
+
+--=20
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
+
+Diese E-Mail ist vertraulich. Falls Sie diese f=C3=A4lschlicherweise
+erhalten haben sollten, leiten Sie diese bitte nicht an jemand anderes
+weiter, l=C3=B6schen Sie alle Kopien und Anh=C3=A4nge davon und lassen Sie =
+mich
+bitte wissen, dass die E-Mail an die falsche Person gesendet wurde.
+
+
+This e-mail is confidential. If you received this communication by
+mistake, please don't forward it to anyone else, please erase all
+copies and attachments, and please let me know that it has gone to the
+wrong person.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAG_fn%3DX601D5RtbkOMjZEKL%2BZyQZG5Ddw7Uv%3DMOivbceAxPBAg%40mail.=
+gmail.com.
