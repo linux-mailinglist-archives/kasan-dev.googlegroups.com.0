@@ -1,140 +1,65 @@
-Return-Path: <kasan-dev+bncBAABBQ4W6GKAMGQEQPYUX4Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCI33JWSZICRBKEL6OKAMGQE2SIZG4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A0A53DA62
-	for <lists+kasan-dev@lfdr.de>; Sun,  5 Jun 2022 08:20:52 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id e3-20020a2e9303000000b00249765c005csf1699575ljh.17
-        for <lists+kasan-dev@lfdr.de>; Sat, 04 Jun 2022 23:20:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1654410052; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=u1fxxFIeDIvAKxDPmhQynvkfmS+8iQdZVbiHQT8v4/lkhAuzZyB8op8hEfoTpuknRm
-         vQTvgIGcqln/xhiYb6XriBvRjOFr82ry1E5Im7lLmIteEQWwp7ZG+auhJHai2E8qfgZN
-         Nj4sLOqRFQw/NIvE/IseyqvvwiHlB8qrS1QtZuxd4+6HrZGtWjjEkzl3zMQw26WBQVYY
-         bkhbQyMKfChhriUnO8ZNFueG5sHXnRPlig5Wq8wQbiFUGBlY3MUiz3MC67GV4tYUfgsa
-         FQtF7qOyKK89qROSBKrNdZx/TSLJ3/FIVyJ7445r8dV1iREUea2BbyaAHU9uwC30u98M
-         eR9w==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=jT04Sb14e9fjookqIkafb9P4M56hme+DJaZrhStLtIg=;
-        b=nSaUEwdbIyUKq86lXJgUobUMxbmARllddzMNBk0cstiDIXOz/sLhjrMddSpEjbcYuD
-         o65htvDEPYEx0NFuFMva7XCq1Vg9Rsho/2SQf+bV72dDMdDXWfSrOzixml42lkLnC8pt
-         8fOeqNiUsQQkkbOgR3ZYvw5jOhHWOrLgs51fsZPz9xzNNAkxovI2eZHRAiiXGaDZF0lh
-         Sn2/yZYgXaUoONkJwcxuGh5doNXWJLjadxaVVi58wzl1PedELCAqCINRetjqZav5urhK
-         euhlCveYBKE1z12OWEv1dwfTnjh8luH7N8jH5gtDiGohSl1Hj+wLTjAz0P8eT4Rvq+mn
-         P5tQ==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JT+d31vg;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail-oi1-x240.google.com (mail-oi1-x240.google.com [IPv6:2607:f8b0:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF44B53DC6B
+	for <lists+kasan-dev@lfdr.de>; Sun,  5 Jun 2022 17:03:05 +0200 (CEST)
+Received: by mail-oi1-x240.google.com with SMTP id p83-20020acaf156000000b0032bef7ddf13sf6849719oih.16
+        for <lists+kasan-dev@lfdr.de>; Sun, 05 Jun 2022 08:03:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=jT04Sb14e9fjookqIkafb9P4M56hme+DJaZrhStLtIg=;
-        b=Ot3R7UvcRNrtE7BpS+ufX/10ugO+/acBG9rZTu/BT2CdFnPa8n23XRd+ZWphAmVsi9
-         L7G2EKPs2Du6dnIWOj0fqoge/GoeZw7rr+BCaBCRhcu8ZrgayQ+5zd+C976SihqRk8+H
-         rupZhHz2fDNilx+DjqYy/x4kYUUvUaTkF3sEgNopP1VY+EPOL1fhifLL3MKN5btHKRc6
-         EY5kypVmV3noJ4yTxNW+pPNNaid4F4VKBDUGpTtGfsOAWFBNUh523eUy4NYAuHbhM4me
-         d4q1WNcoQ9zWHfCNUnkJl82SEewozzX4iiwonK7Q3t6mbdKDEe6OOc6Z9EV4iaSlMI9Y
-         DlBw==
+        h=date:from:to:message-id:subject:mime-version:x-original-sender
+         :reply-to:precedence:mailing-list:list-id:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=SIe8l0XRYpC9qI8uv0xh1olVVnH64IRJ/aX3saXXRt4=;
+        b=j0UW5w/Zw4yC2/7PSHanmi06tKZmcdCgsCocY459HiKZpR/8bX0uo8lj/3Z+n5bgz2
+         fBsXHVKupaT1G8I28FpJkTj4v3GuSw6Xh0UqxTQownoCGRwSJAf5GKWgA9h+JJYV+vvr
+         K34fFLuvktIPgDkc+eOyDg1g9zZE6v5RkzCxJUhB3pG64anmvd3fCbFZtK6fszjfV+CI
+         0Xjbv17nK4ZdfmRf7PWB7/R9mzr1eqOxWJ7QU9z6J7Fr33thMfPNrHtiwL/qqAG5BvgI
+         1MQqdEQ9drG399LhPQHS4whlB5mH87ssimfRsyGMeoUbhMDU8sBuWiwiojt6Y5PMnz4g
+         lzTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=jT04Sb14e9fjookqIkafb9P4M56hme+DJaZrhStLtIg=;
-        b=336javbEbsBRHhhxrXnQwIvGqrj5pCQUP5p0AAuzdKGNQe+FslTyY9BZ25aNpHFfoM
-         DQ/f+k3JEaSBxazdjFeq2UW/QBvL5T/syQBMw68eEawnM9msol0Zbvto5WMQ8s9ClRSo
-         /fnqtmnccvr+eQL3bNNqkryhDALxiEooiBDSQTO4hQ2z4aDXsQ/vOEyKXl2JHd9nJ1+3
-         Qo+Gu8cMyAaQgUcHE0kv2eFbE0k7pwUH6oOMREyCRP7dEpmDA5MzfR+Ild+NuJ5025el
-         7Vi4MEgJcQdqACUxYiczaFBvELVsCjc5O7NwwVOROjhoHLoPJZqOjc7LpUa/s76jsMtO
-         OQrg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531c6cMQU3SXpZRyze5yvOxXsTCGrhv314V3cgxBK3lA/6M2rr4h
-	3ZNKvk379jaXCHIiasb0kFk=
-X-Google-Smtp-Source: ABdhPJwxBkEDWNY0y812OFW2ION2LGemrpv5qSeXHEScIB3zT0YbHj3e5Q74nvr3d6Twl5opP874kQ==
-X-Received: by 2002:a2e:93c6:0:b0:24d:422f:f8f0 with SMTP id p6-20020a2e93c6000000b0024d422ff8f0mr49351327ljh.469.1654410052219;
-        Sat, 04 Jun 2022 23:20:52 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:message-id:subject:mime-version
+         :x-original-sender:reply-to:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=SIe8l0XRYpC9qI8uv0xh1olVVnH64IRJ/aX3saXXRt4=;
+        b=YmAnbSHCwHAbkxamgb2wjSE1Mh8+kP7cJKy8YUC9JSAqr3pJrx8Uf+Vz3swFos3TMS
+         do2exFS8S57NBquujzqB11FCNF9hmdOaC+yTtWhlcmIy6rnXKJt3E5RX0i3OmuxCobLg
+         6Op8JYLUPd/sX/pBFRcQE190JvvEACGeFWVTHo1Rf5TqZm0nf8h4DlXb2OKKdmWC0cUo
+         uRTVM28GzW/yjfUAInODJoMtMkcG2+4p6992gQcEt2diID8qYW8/Ej7i8kAjD5z03arF
+         2FCzm1fAYT9yI1n+BrJDaQv6O4mn7JL7ebiJLiTbBxzKIIWaWZZGDa7hDAT/pbYWrvS1
+         zyGQ==
+X-Gm-Message-State: AOAM533D6uKJ+wWjlgFQEomgC6POy5IQxsJkjtrwQ32HYkt0k3XJtXxH
+	QExv7w1LUiDyq3mffYrXkhY=
+X-Google-Smtp-Source: ABdhPJxdDrKDGR6YO4J7luD5nV9f/m9iL6DA4nrmFq5aQGBobB1JYJ6Zf3732VlrRYaQCvrYpSph3Q==
+X-Received: by 2002:a05:6808:574:b0:32e:53f0:c9bc with SMTP id j20-20020a056808057400b0032e53f0c9bcmr6911641oig.275.1654441384240;
+        Sun, 05 Jun 2022 08:03:04 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:b1c:b0:472:38f0:bc75 with SMTP id
- w28-20020a0565120b1c00b0047238f0bc75ls2675364lfu.0.gmail; Sat, 04 Jun 2022
- 23:20:51 -0700 (PDT)
-X-Received: by 2002:a05:6512:1288:b0:479:40f2:d885 with SMTP id u8-20020a056512128800b0047940f2d885mr550559lfs.660.1654410051102;
-        Sat, 04 Jun 2022 23:20:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654410051; cv=none;
-        d=google.com; s=arc-20160816;
-        b=tVwoRN9rkYCR0J+peSmADaHZhGTXJhvh7D/ddT+vw5M4SqzHYxwYwhhqMXzqzVaVWF
-         DxiH7afJsJiTVsr3h7xDiXtYWzwao66I7My4aHduOiHgxzFMZFiUbCjvk0APY0aE4rvo
-         4ejceEozPpjAB3LQbUzC90VUhC79m9Wr1ZSJUsNl6bbbHxE9HJKwuXBPZVOwfKEU7Y60
-         4NUdnfx0j8jDmAvjjeVsc9IZCHLzsK81UiPvYsIvnpjhuLzmkoMVHbFioBa8xpf0BrkS
-         mb2tg60x7B5q2yYLQSOpGOnUwCGKqP8u/6U8Ys7MZuaX+njx65YsJJ0YZYHe5egA0kJc
-         brCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=oVFLOAekByO/Ed7InKSS0vhTtHNm4mSSDUKlfIEuzv4=;
-        b=XFixL74lpa5CC9HJz0RK071fCsfLQXddk0oiecVJ4z5TOJk7gdUznOOVTgZDAJbRs6
-         i1vzzsVbZNqgoJaB4SO5OxekOU5YeAyJXWH+QVX7iXvv1V/Jx2fL6WuNljxXzjumdt/O
-         XNp8UAuIezYpcgwZ8Pq7fx5k+RKkYom4HN7VfWQwe+YWi8iDuzIqmqX2rCuw3MuVALme
-         X1z4vd4jTFUIf/uNKPe9ZET4AyPbRJD1l6KpCX260SAsj+2VGaP1jNpCAj+/gccdP8r4
-         l74MEjG9lWFe6ycfp3dBOim78YHdsC6+K8G6EChcQqvfszDHUXkt62hDItk//zaUTMUT
-         Nsjg==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JT+d31vg;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id b14-20020a0565120b8e00b004785b6eac92si565568lfv.7.2022.06.04.23.20.50
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 04 Jun 2022 23:20:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 35822B80749;
-	Sun,  5 Jun 2022 06:20:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFBD0C385A5;
-	Sun,  5 Jun 2022 06:20:45 +0000 (UTC)
-Date: Sun, 5 Jun 2022 14:12:07 +0800
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Anup Patel <anup@brainfault.org>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Alexandre Ghiti <alexandre.ghiti@canonical.com>,
-	Atish Patra <atishp@rivosinc.com>,
-	linux-riscv <linux-riscv@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-	kasan-dev@googlegroups.com
-Subject: Re: [PATCH v4 2/2] riscv: turn pgtable_l4|[l5]_enabled to static key
- for RV64
-Message-ID: <YpxJN6d5l2b6ZTVr@xhacker>
-References: <20220521143456.2759-1-jszhang@kernel.org>
- <20220521143456.2759-3-jszhang@kernel.org>
- <CAAhSdy0xVy8-UnNAKdCHRz8QANbTRwGiotFWCjPOiPuDMo+YTQ@mail.gmail.com>
+Received: by 2002:a05:6870:a9a4:b0:f2:dc5c:8024 with SMTP id
+ ep36-20020a056870a9a400b000f2dc5c8024ls2832746oab.0.gmail; Sun, 05 Jun 2022
+ 08:03:03 -0700 (PDT)
+X-Received: by 2002:a05:6870:9a08:b0:e5:bae1:86d6 with SMTP id fo8-20020a0568709a0800b000e5bae186d6mr10781285oab.98.1654441383616;
+        Sun, 05 Jun 2022 08:03:03 -0700 (PDT)
+Date: Sun, 5 Jun 2022 08:03:02 -0700 (PDT)
+From: "'ANGELA AZZARO EX AMANTE DI MARINA BERLUSCONI' via kasan-dev" <kasan-dev@googlegroups.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <24d4374a-ea38-4879-b830-74a80a9c35a2n@googlegroups.com>
+Subject: =?UTF-8?Q?#MARINABERLUSCONI_MARINA_BERLUS?=
+ =?UTF-8?Q?CONI_=C3=89_LESBICA_PEDOFILA_ED_ASSA?=
+ =?UTF-8?Q?SSINA!_SI,_=C3=89_PROPRIO_COS=C3=8D!_=C3=89_CO?=
+ =?UTF-8?Q?CAINOMANE,_KILLER,_LECCA_ED_INCU?=
+ =?UTF-8?Q?LA_BAMBINE_COME_IL_PADRE:_MARINA_BERLUSCONI_DI_CRIMINALISSIMA_?=
+ =?UTF-8?Q?#MONDADORI_MONDADORI,_CRIMINALISSIMA_#FININVEST_FININVEST......?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAAhSdy0xVy8-UnNAKdCHRz8QANbTRwGiotFWCjPOiPuDMo+YTQ@mail.gmail.com>
-X-Original-Sender: jszhang@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=JT+d31vg;       spf=pass
- (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as
- permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_1932_208428840.1654441382972"
+X-Original-Sender: giannicipolla@protonmail.com
+X-Original-From: ANGELA AZZARO EX AMANTE DI MARINA BERLUSCONI
+ <giannicipolla@protonmail.com>
+Reply-To: ANGELA AZZARO EX AMANTE DI MARINA BERLUSCONI
+ <giannicipolla@protonmail.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,561 +72,614 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 24, 2022 at 09:29:04PM +0530, Anup Patel wrote:
-> On Sat, May 21, 2022 at 8:13 PM Jisheng Zhang <jszhang@kernel.org> wrote:
-> >
-> > On a specific HW platform, pgtable_l4|[l5]_enabled won't change after
-> > boot, and the check sits at hot code path, this characteristic makes it
-> > suitable for optimization with static key.
-> >
-> > _pgtable_l4|[l5]_enabled is used very early during boot, even is used
-> > with MMU off, so the static key mechanism isn't ready. For this case,
-> > we use another static key _pgtable_lx_ready to indicate whether we
-> > have finalised pgtable_l4|[l5]_enabled or not, then fall back to
-> > _pgtable_l4|[l5]_enabled_early bool.
-> >
-> > Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+------=_Part_1932_208428840.1654441382972
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_1933_1476386536.1654441382972"
 
-Hi Palmer,
+------=_Part_1933_1476386536.1654441382972
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This series is missing for riscv v5.19 part2. Or Is there anything I
-can do to improve the series?
+#MARINABERLUSCONI MARINA BERLUSCONI =C3=89 LESBICA PEDOFILA ED ASSASSINA! S=
+I, =C3=89=20
+PROPRIO COS=C3=8D! =C3=89 COCAINOMANE, KILLER, LECCA ED INCULA BAMBINE COME=
+ IL PADRE:=20
+MARINA BERLUSCONI DI
+CRIMINALISSIMA #MONDADORI MONDADORI, CRIMINALISSIMA #FININVEST=20
+FININVEST.....................
+CRIMINALISSIMA #MFE MFE,
+CRIMINALISSIMA #MEDIASET MEDIASET, CRIMINALISSIMA #MEDIASETESPANA MEDIASET=
+=20
+ESPANA,
+CRIMINALISSIMO
+#MONZA MONZA,
+CRIMINALISSIMO #ACMONZA AC MONZA,
+CRIMINALISSIMO MILAN MILAN,
+CRIMINALISSIMO #ACMILAN AC MILAN,
+CRIMINALISSIMA #BANCAMEDIOLANUM BANCA MEDIOLANUM, CRIMINALISSIMA=20
+#MEDIOLANUM MEDIOLANUM! ASSASSINA COME SUO PADRE: IL NAZISTA, MAFIOSO,=20
+SBAUSCIA BAMBINE ED ADOLESCENTI, STRA MANDANTE DI OMICIDI E STRAGI:=20
+#SILVIOBERLUSCONI! E POI, IL FIGLIO DI PUTTANA #PIERSILVIOBERLUSCONI (ANCOR=
+=20
+PI=C3=9A FIGLIO DI PEDOFILO MACELLA MAGISTRATI SILVIO BERLUSCONI) RICICLA=
+=20
+MONTAGNE DI SOLDI MAFIOSI. COME HA FATTO SUO PEZZO DI MERDA NONNO=20
+#LUIGIBERLUSCONI IN #BANCARASINI! E COME HA FATTO PER MEZZO SECOLO, IL=20
+LECCA FIGHE DI BAMBINE E RAGAZZINE, BASTARDO STRAGISTA, FIGLIO, MARITO E=20
+PADRE DI PUTTANE: #SILVIOBERLUSCONI! SOLDI ASSASSINI, ESATTAMENTE DI=20
+#COSANOSTRA, #CAMORRA, #NDRANGHETA, #SACRACORONAUNITA, #SOCIETAFOGGIANA,=20
+#MAFIA RUSSA, MAFIA CINESE, MAFIA COLOMBIANA, MAFIA MESSICANA, MAFIA=20
+MAROCCHINA, MAFIA ALBANESE, MAFIA SLAVA, MAFIA RUMENA, MAFIE DI TUTTO IL=20
+PIANETA TERRA, COME ANCOR PI=C3=9A, MASSONERIE CRIMINALISSIME DI TUTTO IL=
+=20
+MONDO)! NE SCRIVE IL MIO BANCHIERE PREFERITO, #ANDREASNIGG DI BANK J SAFRA=
+=20
+SARASIN ZURIGO! CHE TANTE VOLTE SI =C3=89 SENTITO PROPORRE DAL PEGGIORE=20
+CRIMINALE IN CRAVATTA DI TUTTO IL PIANETA TERRA E DI TUTTI I TEMPI, SILVIO=
+=20
+BERLUSCONI, COME DAL NAZIST=E5=8D=8DASSASSINO PIERSILVIO BERLUSCONI E DALLA=
+ LECCA=20
+FIGHE PEDOFILA, SATA=E5=8D=8DNAZISTA E FALSA DA FARE SCHIFO, MARINA BERLUSC=
+ONI, DI=20
+RICICLARE PER LORO, CENTINAIA DI MILIONI DI EURO MAFIOSI, DA DESTINARE AL=
+=20
+CORROMPERE CHIUNQUE, COME A FINANZIARE STRAGI ED OMICIDI FASCISTI, IN=20
+ITALIA! SEMPRE EROICAMENTE RIFIUTANDO! A VOI IL GRANDISSIMO ANDREAS NIGG DI=
+=20
+BANK J SAFRA SARASIN ZURIGO.
 
-Thanks in advance
+CIAO A TUTTI. SON SEMPRE IO, ANDREAS NIGG, EX MANAGER IN BANK VONTOBEL=20
+ZURIGO ED ORA MANAGER IN BANK J SAFRA SARASIN ZURIGO. SCHIFO CON TUTTE LE=
+=20
+FORZE I PEDOFILI BASTARDI, SATANISTI, NAZISTI, SATA=E5=8D=90NAZISTI, MAFIOS=
+I,=20
+ASSASSINI #BERLUSCONI! SON DEI FIGLI DI PUTTANE E PEDOFILI! SON #HITLER,=20
+#PINOCHET E #PUTIN MISTI AD AL CAPONE, TOTO RIINA E PASQUALE BARRA DETTO "O=
+=20
+ANIMALE"! SI PRENDONO LA NAZIONE INTERA, INTRECCIANDO POTERE ECONOMICO,=20
+POTERE DI CORROMPERE CHIUNQUE, POTERE MEDIATICO, POTERE EDITORIALE, POTERE=
+=20
+SATANICO, POTERE FASCIOCIELLINO, POTERE MASSO^MAFIOSO =E2=98=A0, POTERE DI=
+=20
+TERRORISTI NAZI=E5=8D=90FASCISTI =E2=98=A0, POTERE RICATTATORIO, POTERE ASS=
+ASSINO =E2=98=A0, POTERE=20
+STRAGISTA =E2=98=A0, POTERE DI INTELLIGENCE FOTOCOPIA DI BEN NOTE OVRA E GE=
+STAPO =E2=98=A0,=20
+ADDIRITURA PURE POTERE CALCISTICO ED IL POTERE DEI POTERI: IL POTERE=20
+POLITICO (OSSIA OGNI TIPO DI POTERE: OGNI)! CREANDO DITTATURA STRA OMICIDA!=
+=20
+I TOPI DI FOGNA KILLER #SILVIOBERLUSCONI, #PIERSILVIOBERLUSCONI E=20
+#MARINABERLUSCONI HAN FATTO UCCIDERE IN VITA LORO, ALMENO 900 PERSONE,=20
+QUASI SEMPRE PER BENISSIMO! LA LORO SPECIALIT=C3=81 =C3=89 ORGANIZZARE OMIC=
+IDI=20
+MASSONICI! OSSIA DA FAR PASSARE PER FINTI SUICIDI, MALORI, INCIDENTI (VEDI=
+=20
+COME HANNO UCCISO LENTAMENTE, IN MANIERA MASSONICISSIMA, LA GRANDE=20
+#IMANEFADIL, MA PURE GLI AVVOCATI VICINI A IMANE FADIL, #EGIDIOVERZINI E=20
+#MAURORUFFFINI, MA ANCHE TANTISSIMI MAGISTRATI GIOVANI CHE LI STAVANO=20
+INDAGANDO SEGRETAMENTE O NON, COME #GABRIELECHELAZZI, #ALBERTOCAPERNA,=20
+#PIETROSAVIOTTI, #MARCELLOMUSSO, #FRANKDIMAIO, PER NON DIRE DI COME HAN=20
+MACELLATO GLI EROI #GIOVANNIFALCONE E #PAOLOBORSELLINO)! IL TUTTO IN=20
+COMBUTTA CON SERVIZI SEGRETI NAZI=E5=8D=90FASCISTI, BASTARDA MASSONERIA DI =
+ESTREMA=20
+DESTRA (VEDI #P2 P2 O #LOGGIADELDRAGO LOGGIA DEL DRAGO, OSSIA LOGGIA=20
+PERSONALE DEL PEZZO DI MERDA PEDOFILO E STRAGISTA #SILVIOBERLUSCONI). OLTRE=
+=20
+CHE IN STRA COMBUTTA CON LORO VARIE COSA NOSTRA, CAMORRA, NDRANGHETA, MAFIA=
+=20
+RUSSA, MAFIA CINESE, MAFIA COLOMBIANA, MAFIE DI TUTTO IL PIANETA TERRA.
 
-> 
-> Looks good to me.
-> 
-> Reviewed-by: Anup Patel <anup@brainfault.org>
-> 
-> Regards,
-> Anup
-> 
-> > ---
-> >  arch/riscv/include/asm/pgalloc.h    | 16 ++++----
-> >  arch/riscv/include/asm/pgtable-32.h |  3 ++
-> >  arch/riscv/include/asm/pgtable-64.h | 60 ++++++++++++++++++---------
-> >  arch/riscv/include/asm/pgtable.h    |  5 +--
-> >  arch/riscv/kernel/cpu.c             |  4 +-
-> >  arch/riscv/mm/init.c                | 64 ++++++++++++++++++-----------
-> >  arch/riscv/mm/kasan_init.c          | 16 ++++----
-> >  7 files changed, 103 insertions(+), 65 deletions(-)
-> >
-> > diff --git a/arch/riscv/include/asm/pgalloc.h b/arch/riscv/include/asm/pgalloc.h
-> > index 947f23d7b6af..0280eeb4756f 100644
-> > --- a/arch/riscv/include/asm/pgalloc.h
-> > +++ b/arch/riscv/include/asm/pgalloc.h
-> > @@ -41,7 +41,7 @@ static inline void pud_populate(struct mm_struct *mm, pud_t *pud, pmd_t *pmd)
-> >
-> >  static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4d, pud_t *pud)
-> >  {
-> > -       if (pgtable_l4_enabled) {
-> > +       if (pgtable_l4_enabled()) {
-> >                 unsigned long pfn = virt_to_pfn(pud);
-> >
-> >                 set_p4d(p4d, __p4d((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
-> > @@ -51,7 +51,7 @@ static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4d, pud_t *pud)
-> >  static inline void p4d_populate_safe(struct mm_struct *mm, p4d_t *p4d,
-> >                                      pud_t *pud)
-> >  {
-> > -       if (pgtable_l4_enabled) {
-> > +       if (pgtable_l4_enabled()) {
-> >                 unsigned long pfn = virt_to_pfn(pud);
-> >
-> >                 set_p4d_safe(p4d,
-> > @@ -61,7 +61,7 @@ static inline void p4d_populate_safe(struct mm_struct *mm, p4d_t *p4d,
-> >
-> >  static inline void pgd_populate(struct mm_struct *mm, pgd_t *pgd, p4d_t *p4d)
-> >  {
-> > -       if (pgtable_l5_enabled) {
-> > +       if (pgtable_l5_enabled()) {
-> >                 unsigned long pfn = virt_to_pfn(p4d);
-> >
-> >                 set_pgd(pgd, __pgd((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
-> > @@ -71,7 +71,7 @@ static inline void pgd_populate(struct mm_struct *mm, pgd_t *pgd, p4d_t *p4d)
-> >  static inline void pgd_populate_safe(struct mm_struct *mm, pgd_t *pgd,
-> >                                      p4d_t *p4d)
-> >  {
-> > -       if (pgtable_l5_enabled) {
-> > +       if (pgtable_l5_enabled()) {
-> >                 unsigned long pfn = virt_to_pfn(p4d);
-> >
-> >                 set_pgd_safe(pgd,
-> > @@ -82,7 +82,7 @@ static inline void pgd_populate_safe(struct mm_struct *mm, pgd_t *pgd,
-> >  #define pud_alloc_one pud_alloc_one
-> >  static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long addr)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 return __pud_alloc_one(mm, addr);
-> >
-> >         return NULL;
-> > @@ -91,7 +91,7 @@ static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long addr)
-> >  #define pud_free pud_free
-> >  static inline void pud_free(struct mm_struct *mm, pud_t *pud)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 __pud_free(mm, pud);
-> >  }
-> >
-> > @@ -100,7 +100,7 @@ static inline void pud_free(struct mm_struct *mm, pud_t *pud)
-> >  #define p4d_alloc_one p4d_alloc_one
-> >  static inline p4d_t *p4d_alloc_one(struct mm_struct *mm, unsigned long addr)
-> >  {
-> > -       if (pgtable_l5_enabled) {
-> > +       if (pgtable_l5_enabled()) {
-> >                 gfp_t gfp = GFP_PGTABLE_USER;
-> >
-> >                 if (mm == &init_mm)
-> > @@ -120,7 +120,7 @@ static inline void __p4d_free(struct mm_struct *mm, p4d_t *p4d)
-> >  #define p4d_free p4d_free
-> >  static inline void p4d_free(struct mm_struct *mm, p4d_t *p4d)
-> >  {
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 __p4d_free(mm, p4d);
-> >  }
-> >
-> > diff --git a/arch/riscv/include/asm/pgtable-32.h b/arch/riscv/include/asm/pgtable-32.h
-> > index 5b2e79e5bfa5..8af36d76b70d 100644
-> > --- a/arch/riscv/include/asm/pgtable-32.h
-> > +++ b/arch/riscv/include/asm/pgtable-32.h
-> > @@ -16,4 +16,7 @@
-> >
-> >  #define MAX_POSSIBLE_PHYSMEM_BITS 34
-> >
-> > +#define pgtable_l5_enabled() 0
-> > +#define pgtable_l4_enabled() 0
-> > +
-> >  #endif /* _ASM_RISCV_PGTABLE_32_H */
-> > diff --git a/arch/riscv/include/asm/pgtable-64.h b/arch/riscv/include/asm/pgtable-64.h
-> > index 7e246e9f8d70..d14a3a8f1f4b 100644
-> > --- a/arch/riscv/include/asm/pgtable-64.h
-> > +++ b/arch/riscv/include/asm/pgtable-64.h
-> > @@ -7,17 +7,37 @@
-> >  #define _ASM_RISCV_PGTABLE_64_H
-> >
-> >  #include <linux/const.h>
-> > +#include <linux/jump_label.h>
-> >
-> > -extern bool pgtable_l4_enabled;
-> > -extern bool pgtable_l5_enabled;
-> > +extern bool _pgtable_l5_enabled_early;
-> > +extern bool _pgtable_l4_enabled_early;
-> > +extern struct static_key_false _pgtable_l5_enabled;
-> > +extern struct static_key_false _pgtable_l4_enabled;
-> > +extern struct static_key_false _pgtable_lx_ready;
-> > +
-> > +static __always_inline bool pgtable_l5_enabled(void)
-> > +{
-> > +       if (static_branch_likely(&_pgtable_lx_ready))
-> > +               return static_branch_likely(&_pgtable_l5_enabled);
-> > +       else
-> > +               return _pgtable_l5_enabled_early;
-> > +}
-> > +
-> > +static __always_inline bool pgtable_l4_enabled(void)
-> > +{
-> > +       if (static_branch_likely(&_pgtable_lx_ready))
-> > +               return static_branch_likely(&_pgtable_l4_enabled);
-> > +       else
-> > +               return _pgtable_l4_enabled_early;
-> > +}
-> >
-> >  #define PGDIR_SHIFT_L3  30
-> >  #define PGDIR_SHIFT_L4  39
-> >  #define PGDIR_SHIFT_L5  48
-> >  #define PGDIR_SIZE_L3   (_AC(1, UL) << PGDIR_SHIFT_L3)
-> >
-> > -#define PGDIR_SHIFT     (pgtable_l5_enabled ? PGDIR_SHIFT_L5 : \
-> > -               (pgtable_l4_enabled ? PGDIR_SHIFT_L4 : PGDIR_SHIFT_L3))
-> > +#define PGDIR_SHIFT     (pgtable_l5_enabled() ? PGDIR_SHIFT_L5 : \
-> > +               (pgtable_l4_enabled() ? PGDIR_SHIFT_L4 : PGDIR_SHIFT_L3))
-> >  /* Size of region mapped by a page global directory */
-> >  #define PGDIR_SIZE      (_AC(1, UL) << PGDIR_SHIFT)
-> >  #define PGDIR_MASK      (~(PGDIR_SIZE - 1))
-> > @@ -119,7 +139,7 @@ static inline struct page *pud_page(pud_t pud)
-> >  #define mm_p4d_folded  mm_p4d_folded
-> >  static inline bool mm_p4d_folded(struct mm_struct *mm)
-> >  {
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 return false;
-> >
-> >         return true;
-> > @@ -128,7 +148,7 @@ static inline bool mm_p4d_folded(struct mm_struct *mm)
-> >  #define mm_pud_folded  mm_pud_folded
-> >  static inline bool mm_pud_folded(struct mm_struct *mm)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 return false;
-> >
-> >         return true;
-> > @@ -159,7 +179,7 @@ static inline unsigned long _pmd_pfn(pmd_t pmd)
-> >
-> >  static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 *p4dp = p4d;
-> >         else
-> >                 set_pud((pud_t *)p4dp, (pud_t){ p4d_val(p4d) });
-> > @@ -167,7 +187,7 @@ static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
-> >
-> >  static inline int p4d_none(p4d_t p4d)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 return (p4d_val(p4d) == 0);
-> >
-> >         return 0;
-> > @@ -175,7 +195,7 @@ static inline int p4d_none(p4d_t p4d)
-> >
-> >  static inline int p4d_present(p4d_t p4d)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 return (p4d_val(p4d) & _PAGE_PRESENT);
-> >
-> >         return 1;
-> > @@ -183,7 +203,7 @@ static inline int p4d_present(p4d_t p4d)
-> >
-> >  static inline int p4d_bad(p4d_t p4d)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 return !p4d_present(p4d);
-> >
-> >         return 0;
-> > @@ -191,7 +211,7 @@ static inline int p4d_bad(p4d_t p4d)
-> >
-> >  static inline void p4d_clear(p4d_t *p4d)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 set_p4d(p4d, __p4d(0));
-> >  }
-> >
-> > @@ -207,7 +227,7 @@ static inline unsigned long _p4d_pfn(p4d_t p4d)
-> >
-> >  static inline pud_t *p4d_pgtable(p4d_t p4d)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 return (pud_t *)pfn_to_virt(p4d_val(p4d) >> _PAGE_PFN_SHIFT);
-> >
-> >         return (pud_t *)pud_pgtable((pud_t) { p4d_val(p4d) });
-> > @@ -224,7 +244,7 @@ static inline struct page *p4d_page(p4d_t p4d)
-> >  #define pud_offset pud_offset
-> >  static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
-> >  {
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 return p4d_pgtable(*p4d) + pud_index(address);
-> >
-> >         return (pud_t *)p4d;
-> > @@ -232,7 +252,7 @@ static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
-> >
-> >  static inline void set_pgd(pgd_t *pgdp, pgd_t pgd)
-> >  {
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 *pgdp = pgd;
-> >         else
-> >                 set_p4d((p4d_t *)pgdp, (p4d_t){ pgd_val(pgd) });
-> > @@ -240,7 +260,7 @@ static inline void set_pgd(pgd_t *pgdp, pgd_t pgd)
-> >
-> >  static inline int pgd_none(pgd_t pgd)
-> >  {
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 return (pgd_val(pgd) == 0);
-> >
-> >         return 0;
-> > @@ -248,7 +268,7 @@ static inline int pgd_none(pgd_t pgd)
-> >
-> >  static inline int pgd_present(pgd_t pgd)
-> >  {
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 return (pgd_val(pgd) & _PAGE_PRESENT);
-> >
-> >         return 1;
-> > @@ -256,7 +276,7 @@ static inline int pgd_present(pgd_t pgd)
-> >
-> >  static inline int pgd_bad(pgd_t pgd)
-> >  {
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 return !pgd_present(pgd);
-> >
-> >         return 0;
-> > @@ -264,13 +284,13 @@ static inline int pgd_bad(pgd_t pgd)
-> >
-> >  static inline void pgd_clear(pgd_t *pgd)
-> >  {
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 set_pgd(pgd, __pgd(0));
-> >  }
-> >
-> >  static inline p4d_t *pgd_pgtable(pgd_t pgd)
-> >  {
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 return (p4d_t *)pfn_to_virt(pgd_val(pgd) >> _PAGE_PFN_SHIFT);
-> >
-> >         return (p4d_t *)p4d_pgtable((p4d_t) { pgd_val(pgd) });
-> > @@ -288,7 +308,7 @@ static inline struct page *pgd_page(pgd_t pgd)
-> >  #define p4d_offset p4d_offset
-> >  static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
-> >  {
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 return pgd_pgtable(*pgd) + p4d_index(address);
-> >
-> >         return (p4d_t *)pgd;
-> > diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> > index 046b44225623..ae01a9b83ac4 100644
-> > --- a/arch/riscv/include/asm/pgtable.h
-> > +++ b/arch/riscv/include/asm/pgtable.h
-> > @@ -63,8 +63,8 @@
-> >   * position vmemmap directly below the VMALLOC region.
-> >   */
-> >  #ifdef CONFIG_64BIT
-> > -#define VA_BITS                (pgtable_l5_enabled ? \
-> > -                               57 : (pgtable_l4_enabled ? 48 : 39))
-> > +#define VA_BITS                (pgtable_l5_enabled() ? \
-> > +                               57 : (pgtable_l4_enabled() ? 48 : 39))
-> >  #else
-> >  #define VA_BITS                32
-> >  #endif
-> > @@ -738,7 +738,6 @@ extern uintptr_t _dtb_early_pa;
-> >  #define dtb_early_pa   _dtb_early_pa
-> >  #endif /* CONFIG_XIP_KERNEL */
-> >  extern u64 satp_mode;
-> > -extern bool pgtable_l4_enabled;
-> >
-> >  void paging_init(void);
-> >  void misc_mem_init(void);
-> > diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-> > index ccb617791e56..29bb0ef75248 100644
-> > --- a/arch/riscv/kernel/cpu.c
-> > +++ b/arch/riscv/kernel/cpu.c
-> > @@ -141,9 +141,9 @@ static void print_mmu(struct seq_file *f)
-> >  #if defined(CONFIG_32BIT)
-> >         strncpy(sv_type, "sv32", 5);
-> >  #elif defined(CONFIG_64BIT)
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 strncpy(sv_type, "sv57", 5);
-> > -       else if (pgtable_l4_enabled)
-> > +       else if (pgtable_l4_enabled())
-> >                 strncpy(sv_type, "sv48", 5);
-> >         else
-> >                 strncpy(sv_type, "sv39", 5);
-> > diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-> > index 05ed641a1134..42c79388e6fd 100644
-> > --- a/arch/riscv/mm/init.c
-> > +++ b/arch/riscv/mm/init.c
-> > @@ -44,10 +44,16 @@ u64 satp_mode __ro_after_init = SATP_MODE_32;
-> >  #endif
-> >  EXPORT_SYMBOL(satp_mode);
-> >
-> > -bool pgtable_l4_enabled = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
-> > -bool pgtable_l5_enabled = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
-> > -EXPORT_SYMBOL(pgtable_l4_enabled);
-> > -EXPORT_SYMBOL(pgtable_l5_enabled);
-> > +DEFINE_STATIC_KEY_FALSE(_pgtable_l4_enabled);
-> > +DEFINE_STATIC_KEY_FALSE(_pgtable_l5_enabled);
-> > +DEFINE_STATIC_KEY_FALSE(_pgtable_lx_ready);
-> > +EXPORT_SYMBOL(_pgtable_l4_enabled);
-> > +EXPORT_SYMBOL(_pgtable_l5_enabled);
-> > +EXPORT_SYMBOL(_pgtable_lx_ready);
-> > +bool _pgtable_l4_enabled_early = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
-> > +bool _pgtable_l5_enabled_early = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
-> > +EXPORT_SYMBOL(_pgtable_l4_enabled_early);
-> > +EXPORT_SYMBOL(_pgtable_l5_enabled_early);
-> >
-> >  phys_addr_t phys_ram_base __ro_after_init;
-> >  EXPORT_SYMBOL(phys_ram_base);
-> > @@ -555,26 +561,26 @@ static void __init create_p4d_mapping(p4d_t *p4dp,
-> >  }
-> >
-> >  #define pgd_next_t             p4d_t
-> > -#define alloc_pgd_next(__va)   (pgtable_l5_enabled ?                   \
-> > -               pt_ops.alloc_p4d(__va) : (pgtable_l4_enabled ?          \
-> > +#define alloc_pgd_next(__va)   (pgtable_l5_enabled() ?                 \
-> > +               pt_ops.alloc_p4d(__va) : (pgtable_l4_enabled() ?        \
-> >                 pt_ops.alloc_pud(__va) : pt_ops.alloc_pmd(__va)))
-> > -#define get_pgd_next_virt(__pa)        (pgtable_l5_enabled ?                   \
-> > -               pt_ops.get_p4d_virt(__pa) : (pgd_next_t *)(pgtable_l4_enabled ? \
-> > +#define get_pgd_next_virt(__pa)        (pgtable_l5_enabled() ?                 \
-> > +               pt_ops.get_p4d_virt(__pa) : (pgd_next_t *)(pgtable_l4_enabled() ?       \
-> >                 pt_ops.get_pud_virt(__pa) : (pud_t *)pt_ops.get_pmd_virt(__pa)))
-> >  #define create_pgd_next_mapping(__nextp, __va, __pa, __sz, __prot)     \
-> > -                               (pgtable_l5_enabled ?                   \
-> > +                               (pgtable_l5_enabled() ?                 \
-> >                 create_p4d_mapping(__nextp, __va, __pa, __sz, __prot) : \
-> > -                               (pgtable_l4_enabled ?                   \
-> > +                               (pgtable_l4_enabled() ?                 \
-> >                 create_pud_mapping((pud_t *)__nextp, __va, __pa, __sz, __prot) :        \
-> >                 create_pmd_mapping((pmd_t *)__nextp, __va, __pa, __sz, __prot)))
-> > -#define fixmap_pgd_next                (pgtable_l5_enabled ?                   \
-> > -               (uintptr_t)fixmap_p4d : (pgtable_l4_enabled ?           \
-> > +#define fixmap_pgd_next                (pgtable_l5_enabled() ?                 \
-> > +               (uintptr_t)fixmap_p4d : (pgtable_l4_enabled() ?         \
-> >                 (uintptr_t)fixmap_pud : (uintptr_t)fixmap_pmd))
-> > -#define trampoline_pgd_next    (pgtable_l5_enabled ?                   \
-> > -               (uintptr_t)trampoline_p4d : (pgtable_l4_enabled ?       \
-> > +#define trampoline_pgd_next    (pgtable_l5_enabled() ?                 \
-> > +               (uintptr_t)trampoline_p4d : (pgtable_l4_enabled() ?     \
-> >                 (uintptr_t)trampoline_pud : (uintptr_t)trampoline_pmd))
-> > -#define early_dtb_pgd_next     (pgtable_l5_enabled ?                   \
-> > -               (uintptr_t)early_dtb_p4d : (pgtable_l4_enabled ?        \
-> > +#define early_dtb_pgd_next     (pgtable_l5_enabled() ?                 \
-> > +               (uintptr_t)early_dtb_p4d : (pgtable_l4_enabled() ?      \
-> >                 (uintptr_t)early_dtb_pud : (uintptr_t)early_dtb_pmd))
-> >  #else
-> >  #define pgd_next_t             pte_t
-> > @@ -680,14 +686,14 @@ static __init pgprot_t pgprot_from_va(uintptr_t va)
-> >  #ifdef CONFIG_64BIT
-> >  static void __init disable_pgtable_l5(void)
-> >  {
-> > -       pgtable_l5_enabled = false;
-> > +       _pgtable_l5_enabled_early = false;
-> >         kernel_map.page_offset = PAGE_OFFSET_L4;
-> >         satp_mode = SATP_MODE_48;
-> >  }
-> >
-> >  static void __init disable_pgtable_l4(void)
-> >  {
-> > -       pgtable_l4_enabled = false;
-> > +       _pgtable_l4_enabled_early = false;
-> >         kernel_map.page_offset = PAGE_OFFSET_L3;
-> >         satp_mode = SATP_MODE_39;
-> >  }
-> > @@ -816,11 +822,11 @@ static void __init create_fdt_early_page_table(pgd_t *pgdir, uintptr_t dtb_pa)
-> >                            PGDIR_SIZE,
-> >                            IS_ENABLED(CONFIG_64BIT) ? PAGE_TABLE : PAGE_KERNEL);
-> >
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 create_p4d_mapping(early_dtb_p4d, DTB_EARLY_BASE_VA,
-> >                                    (uintptr_t)early_dtb_pud, P4D_SIZE, PAGE_TABLE);
-> >
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 create_pud_mapping(early_dtb_pud, DTB_EARLY_BASE_VA,
-> >                                    (uintptr_t)early_dtb_pmd, PUD_SIZE, PAGE_TABLE);
-> >
-> > @@ -961,11 +967,11 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
-> >
-> >  #ifndef __PAGETABLE_PMD_FOLDED
-> >         /* Setup fixmap P4D and PUD */
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 create_p4d_mapping(fixmap_p4d, FIXADDR_START,
-> >                                    (uintptr_t)fixmap_pud, P4D_SIZE, PAGE_TABLE);
-> >         /* Setup fixmap PUD and PMD */
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 create_pud_mapping(fixmap_pud, FIXADDR_START,
-> >                                    (uintptr_t)fixmap_pmd, PUD_SIZE, PAGE_TABLE);
-> >         create_pmd_mapping(fixmap_pmd, FIXADDR_START,
-> > @@ -973,10 +979,10 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
-> >         /* Setup trampoline PGD and PMD */
-> >         create_pgd_mapping(trampoline_pg_dir, kernel_map.virt_addr,
-> >                            trampoline_pgd_next, PGDIR_SIZE, PAGE_TABLE);
-> > -       if (pgtable_l5_enabled)
-> > +       if (pgtable_l5_enabled())
-> >                 create_p4d_mapping(trampoline_p4d, kernel_map.virt_addr,
-> >                                    (uintptr_t)trampoline_pud, P4D_SIZE, PAGE_TABLE);
-> > -       if (pgtable_l4_enabled)
-> > +       if (pgtable_l4_enabled())
-> >                 create_pud_mapping(trampoline_pud, kernel_map.virt_addr,
-> >                                    (uintptr_t)trampoline_pmd, PUD_SIZE, PAGE_TABLE);
-> >  #ifdef CONFIG_XIP_KERNEL
-> > @@ -1165,8 +1171,18 @@ static void __init reserve_crashkernel(void)
-> >         crashk_res.end = crash_base + crash_size - 1;
-> >  }
-> >
-> > +static void __init riscv_finalise_pgtable_lx(void)
-> > +{
-> > +       if (_pgtable_l5_enabled_early)
-> > +               static_branch_enable(&_pgtable_l5_enabled);
-> > +       if (_pgtable_l4_enabled_early)
-> > +               static_branch_enable(&_pgtable_l4_enabled);
-> > +       static_branch_enable(&_pgtable_lx_ready);
-> > +}
-> > +
-> >  void __init paging_init(void)
-> >  {
-> > +       riscv_finalise_pgtable_lx();
-> >         setup_bootmem();
-> >         setup_vm_final();
-> >  }
-> > diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
-> > index a22e418dbd82..356044498e8a 100644
-> > --- a/arch/riscv/mm/kasan_init.c
-> > +++ b/arch/riscv/mm/kasan_init.c
-> > @@ -209,15 +209,15 @@ static void __init kasan_populate_p4d(pgd_t *pgd,
-> >                 set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_p4d)), PAGE_TABLE));
-> >  }
-> >
-> > -#define kasan_early_shadow_pgd_next                    (pgtable_l5_enabled ?   \
-> > +#define kasan_early_shadow_pgd_next                    (pgtable_l5_enabled() ? \
-> >                                 (uintptr_t)kasan_early_shadow_p4d :             \
-> > -                                                       (pgtable_l4_enabled ?   \
-> > +                                                       (pgtable_l4_enabled() ? \
-> >                                 (uintptr_t)kasan_early_shadow_pud :             \
-> >                                 (uintptr_t)kasan_early_shadow_pmd))
-> >  #define kasan_populate_pgd_next(pgdp, vaddr, next, early)                      \
-> > -               (pgtable_l5_enabled ?                                           \
-> > +               (pgtable_l5_enabled() ?                                         \
-> >                 kasan_populate_p4d(pgdp, vaddr, next, early) :                  \
-> > -               (pgtable_l4_enabled ?                                           \
-> > +               (pgtable_l4_enabled() ?                                         \
-> >                         kasan_populate_pud(pgdp, vaddr, next, early) :          \
-> >                         kasan_populate_pmd((pud_t *)pgdp, vaddr, next)))
-> >
-> > @@ -274,7 +274,7 @@ asmlinkage void __init kasan_early_init(void)
-> >                                 (__pa((uintptr_t)kasan_early_shadow_pte)),
-> >                                 PAGE_TABLE));
-> >
-> > -       if (pgtable_l4_enabled) {
-> > +       if (pgtable_l4_enabled()) {
-> >                 for (i = 0; i < PTRS_PER_PUD; ++i)
-> >                         set_pud(kasan_early_shadow_pud + i,
-> >                                 pfn_pud(PFN_DOWN
-> > @@ -282,7 +282,7 @@ asmlinkage void __init kasan_early_init(void)
-> >                                         PAGE_TABLE));
-> >         }
-> >
-> > -       if (pgtable_l5_enabled) {
-> > +       if (pgtable_l5_enabled()) {
-> >                 for (i = 0; i < PTRS_PER_P4D; ++i)
-> >                         set_p4d(kasan_early_shadow_p4d + i,
-> >                                 pfn_p4d(PFN_DOWN
-> > @@ -393,9 +393,9 @@ static void __init kasan_shallow_populate_p4d(pgd_t *pgdp,
-> >  }
-> >
-> >  #define kasan_shallow_populate_pgd_next(pgdp, vaddr, next)                     \
-> > -               (pgtable_l5_enabled ?                                           \
-> > +               (pgtable_l5_enabled() ?                                         \
-> >                 kasan_shallow_populate_p4d(pgdp, vaddr, next) :                 \
-> > -               (pgtable_l4_enabled ?                                           \
-> > +               (pgtable_l4_enabled() ?                                         \
-> >                 kasan_shallow_populate_pud(pgdp, vaddr, next) :                 \
-> >                 kasan_shallow_populate_pmd(pgdp, vaddr, next)))
-> >
-> > --
-> > 2.34.1
-> >
+OGGI VORREI SCRIVERE PURE, DI QUEL TOPO DI FOGNA CORROTTISSIMO, ANZI=20
+"BERLU$$$CORROTTISSIMO", CHE =C3=89 IL GIUDICE PI=C3=9A STECCATO DEL MONDO:=
+=20
+#MARCOTREMOLADA DEL #RUBYTER! MASSONE DI MILLE LOGGE D'UNGHERIA (MA PURE DI=
+=20
+BULGARIA, CECOSLOVACCHIA E CAMBOGIA DI POL POT, TANTO CHE CI SIAMO, MEGLIO=
+=20
+IRONIZZARCI SOPRA UN POCO, PLEASE). FOGNA STUPRA GIUSTIZIA MARCO TREMOLADA=
+=20
+DEL RUBY TER, MASSONE SATANISTA NAZI=E5=8D=90FASCISTA CORROTTISSIMO DA SILV=
+IO=20
+BERLUSCONI, PIERSILVIO BERLUSCONI E MARINA BERLUSCONI! STO BERLU$$$CORROTTO=
+=20
+SGOZZA GIUSTIZIA DI #MARCOTREMOLADA (LO VEDETE QUI
+https://l450v.alamy.com/450vfr/2ded6pm/milan-italie-30-novembre-2020-milan-=
+ruby-ter-proces-a-la-foire-president-marco-tremolada-usage-editorial-seulem=
+ent-credit-agence-de-photo-independante-alamy-live-news-2ded6pm.jpg=20
+) =C3=89 IL NUOVO #CORRADOCARNEVALE MISTO A #RENATOSQUILLANTE E #VITTORIOME=
+TTA.=20
+ESSENDO IO, ANDREAS NIGG DI BANK J SAFRA SARASIN, STATO DEFINITO BANCHIERE=
+=20
+SVIZZERO DELL'ANNO, SIA NEL 2018, 2019 E 2020, E CON MIA GRAN EMOZIONE,=20
+PURE NEL 2021, HO FATTO LE MIE INDAGINI E S=C3=93 PER STRA CERTO, CHE STO=
+=20
+MASSONE NAZI=E5=8D=90FASCISTA PREZZOLATO A PALLONE, DI #MARCOTREMOLADA DEL=
+=20
+#RUBYTER, HA GI=C3=81 A DISPOSIZIONE, PRESSO 7 DIVERSI FIDUCIARI ELVETICI, =
+3 MLN=20
+DI =E2=82=AC, RICEVUTI AL FINE DI INIZIARE AD AZZOPPARE IL PROCESSO RUBY TE=
+R (COME=20
+PUNTUALISSIMAMENTE ACCADUTO IL 3/11/2021). ALTRI 7 MLN DI =E2=82=AC GLI=20
+ARRIVEREBBERO A PROCESSO COMPLETAMENTE MORTO. MI HA CONFERMATO CI=C3=93, PU=
+RE IL=20
+VERTICE DEI SERVIZI SEGRETI SVIZZERI (CHE ESSENDO SEGRETI, MI HAN IMPOSTO=
+=20
+DI NON SCRIVERE NOMI E COGNOMI, COSA CHE DA BANCHIERE SPECCHIATO, RISPETTO)=
+=20
+ED IL GRAN MAESTRO DELLA GRAN LOGGIA SVIZZERA: #DOMINIQUEJUILLAND.=20
+D'ALTRONDE, SE ASCOLTATE SU #RADIORADICALE, TUTTE LE UDIENZE DEL PROCESSO,=
+=20
+AHIM=C3=89 FARSA, #RUBYTER, VEDRETE CHE STA MERDA CORROTTA, NAZISTA E NEO=
+=20
+PIDUISTA DI #MARCOTREMOLADA DEL #RUBYTER STESSO (GIUDICE CORROTTO DA=20
+SCHIFO, DI 1000 LOGGE D'UNGHERIA, BULGARIA, CECOSLOVACCHIA E PURE DI=20
+CAMBOGIA DI POL POT, TANTO CHE CI SIAMO, MEGLIO IRONIZZARCI SOPRA UN POCO,=
+=20
+PLEASE), SLINGUA INTELLETTUALMENTE (E FORSE, STILE OMOSESSUALE NAZISTA E=20
+COCAINOMANE #LUCAMORISI, NON SOLO INTELLETTUALMENTE), TUTTE LE VOLTE, CON=
+=20
+QUEL FIGLIO DI CANE BERLU$$$CORRUTTORE CHE =C3=89 L'AVVOCATO CRIMINALISSIMO=
+,=20
+DAVVERO PEZZO DI MERDA, DAVVERO SGOZZATORE BASTARDO DI GIUSTIZIA,=20
+DEMOCRAZIA E LIBERT=C3=81: #FEDERICOCECCONI. OGNI VOLTA CHE VI =C3=89 STATO=
+ UN=20
+CONTRASTO FRA GLI EROICI PM #TIZIANASICILIANO E #LUCAGAGLIO E STO FIGLIO DI=
+=20
+PUTTANONA MASSOMAFIOSO E DELINQUENTE, CHE =C3=89 L'AVVOCATO BASTARDO FEDERI=
+CO=20
+CECCONI, IL GIUDICE MASSONE E NAZIFASCISTA, TANTO QUANTO STRA CORROTTO,=20
+ALIAS IL BERLUSCONICCHIO DI MERDA #MARCOTREMOLADA, COSTUI HA SEMPRE DATO=20
+RAGIONE AL SECONDO. QUESTO APPARE EVIDENTE PURE ALLE MURA DEL TRIBUNALE=20
+MENEGHINO. CHE MI FACCIA AMMAZZARE PURE, STA MERDA PREZZOLATA, STO GIUDICE=
+=20
+VENDUTISSIMO, CORROTTISSIMO, STO TOPO DI FOGNA DI ARCORE^HARDCORE ( ^ STA=
+=20
+PER MASSONERIA SATANICA, MA PURE PER VAGINA DISPONIBILE A GO GO... VISTO=20
+CHE SCRIVO DI ARCORE^HARDCORE), CHE =C3=89 IL GIUDICE CRIMINALISSIMO MARCO=
+=20
+TREMOLADA DEL RUBY TER. MA IO, AL MALE BERLUSCONICCHIO, NON MI PIEGO E=20
+PIEGHER=C3=93 MAI, MEGLIO MORTO PIUTTOSTO. HO POCO TEMPO, DEVO PRODURRE PER=
+ LA=20
+MIA BANCA, J SAFRA SARASIN ZURICH. MA QUESTO =C3=89 SOLO UN MINI MINI MINI=
+=20
+ANTIPASTO. MILIARDI DI MIEI POSTS E PROFILI DI OGNI TIPO INVADERANNO TUTTI=
+=20
+I SITI DEL MONDO, FINO A CHE LEGGER=C3=93 CHE TUTTI I BASTARDI MEGA ASSASSI=
+NI=20
+#BERLUSCONI HAN FATTO UNA FINE MOLTO PEGGIORE DEI #LIGRESTI O #TANZI, CHE A=
+=20
+DIFFERENZA DEI FIGLI DI PEDOFILI E TROIONE BERLUSCONI, NON HAN MAI=20
+PARTICOLARMENTE FATTO UCCIDERE NESSUNO, E CHE QUINDI, A LORO CONFRONTO, SON=
+=20
+ANGELINI (NON ANGELUCCI, MA ANGELINI, NON #ANTONIOANGELUCCI, QUELLO =C3=89 =
+UN=20
+PEDOFILO FASCISTA, UN MASSONE SATANISTISSIMO, UN PEZZO DI MERDA=20
+SATA=E5=8D=90NAZISTA, MAFIOSO ED ASSASSINO COME SILVIO BERLUSCONI). VENIAMO=
+ AI=20
+FATTI, NOW, PLEASE. IL COCAINOMANE NAZIST=E5=8D=8DASSASSINO #PIERSILVIOBERL=
+USCONI,=20
+IL PEDOFILO MACELLA MAGISTRATI #SILVIOBERLUSCONI E LA LESBICA LECCA FIGHE=
+=20
+DI BAMBINE E RAGAZZINE #MARINABERLUSCONI,
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YpxJN6d5l2b6ZTVr%40xhacker.
+- INSIEME AL FASCISTASSASSINO #ROBERTOJONGHILAVARINI ROBERTO JONGHI=20
+LAVARINI DI CRIMINALISSIMO ISTITUTO GANASSINI DI RICERCHE BIOMEDICHE E=20
+CRIMINALISSIMO MOVIMENTO #FAREFRONTE FARE FRONTE
+
+- INSIEME AL FASCISTASSASSINO #GIANFRANCOSTEFANIZZI (PURE PEDOFILO E FILO=
+=20
+NDRANGHETISTA) DI CRIMINALISSIMO STUDIO MOAI #MOAI #STUDIOMOAI #MOAISTUDIO
+
+- INSIEME AL FASCISTASSASSINO, CORROTTO DI MERDA, PAPPA TANGENTI, LADRONE=
+=20
+#CARLOFIDANZA DI FRATELLI (MASSONI E SPECIALMENTE NDRANGHETISTI) D'ITALIA
+
+-INSIEME AL TRIONE SCOPATO IN CULO DA 1000 MAFIOSI E NAZISTI #SILVIASARDONE=
+=20
+DI #LEGALADRONA
+
+- INSIEME AL FASCISTASSASSINO #PAOLO PARRAI ALIAS #PAOLOPIETROBARRAI (PURE=
+=20
+PEDOFILO ED AFFILIATO ALLA NDRANGHETA) DI CRIMINALE TERRANFT E TERRABITCOIN=
+=20
+#TERRANFT E CRIMINALE #TERRABITCOIN
+
+-INSIEME AL FIGLIO DI PUTTANA PEDOFILO ED ASSASSINO #LEOZAGAMI, SI, SCRIVO=
+=20
+PROPRIO DEL MONARCHICO DI MIA GROSSO CAZZO, NAZISTA, RAZZISTA, ANTI SEMITA,=
+=20
+FILO MAFIOSO, TERRORISTA NERO (E CHE INCASSA IN NERO), FROCIONE SEMPRE=20
+SBORRATO DA TUTTI IN CULO: LEO ZAGAMI. TRA L'ALTRO, PURE NOTO CORNUTONE=20
+#LEOZAGAMI (LA SUA TROIONA MOGLIE #CHRISTYZAGAMI CHRISTY ZAGAMI SE LA=20
+SCOPANO IN TANTISSIMI, IN TANTI CLUB PER SCAMBISTI DI MEZZO MONDO, PRESTO=
+=20
+NE DETTAGLIEREMO A RAFFICA)
+
+-INSIEME AL MASSONE ROSACROCIANO NDRANGHETISTA OMICIDA GIANFRANCO PECORARO=
+=20
+#GIANFRANCOPECORARO NOTO COME PEDOFILO ASSASSINO #CARPEORO CARPEORO
+
+-INSIEME AL MASSONI OMOSESSUALI DI TIPO PEDERASTA #GIOELEMAGALDI E=20
+#MARCOMOISO, 2 MASSONI NAZISTI CHE PAGANO RAGAZZINI DI 13/15 ANNI, AFFINCH=
+=C3=89=20
+LI SODOMIZZANO IN ORGE SATANICHE, DA LORO DEFINITE, " PIENE DI MAGIA=20
+SESSUALE BERLUSCONIANA"
+
+QUESTO GRUPPO DI MASSONI DI TIPO CRIMINAMISSIMO, SON VENUTI SPESSO A=20
+CHIEDERMI DI RICICLARE CENTINAIA DI MILIONI DI EURO, DI MAFIE DI TUTTO IL=
+=20
+MONDO, CHE, MI HAN DETTO, HAN SOTTO TERRA, IN VARIE VILLE LORO, COME PURE=
+=20
+UN ALTRE VILLE DI LORO SODALI ASSASSINI. HO SEMPRE SBATTUTO LORO LA PORTA=
+=20
+IN FACCIA. SIA A LORO, CHE A UN LORO AVVOCATO MASSONE, SATANISTA, PEDOFILO,=
+=20
+SPECIALISTA NEL RAPIRE, INCULARE ED UCCIDERE BAMBINI PER VENDERNE GLI=20
+ORGANI: #DANIELEMINOTTI DI GENOVA RAPALLO (E A RAPALLO, "GUARDA CASO", HA=
+=20
+RESIDENZA IL TESTA DI CAZZO STRA ASSASSINO #PIERSILVIOBERLUSCONI). SCRIVER=
+=C3=93=20
+DETTAGLI A PROPOSITO DI QUESTO, IN MILIARDI DI MIEI PROSSIMI POSTS. PER IL=
+=20
+MOMENTO, ORA, INIZIAMO AD ESAMINARE LA FIGURA DI QUESTO AVVOCATO PEDOFILO,=
+=20
+NAZI=E5=8D=90FASCISTA, MASSO=E5=8D=90NAZISTA, SATA=E5=8D=90NAZISTA, ASSASSI=
+NO DANIELE MINOTTI DI=20
+CRIMINALISSIMO STUDIO LEGALE LISI. SONO ANDREAS NIGG DI BANK J SAFRA=20
+SARASIN ZURICH. PREMIATO NEL 2018, 2019, 2020 E 2021 COME BANCHIERE=20
+SVIZZERO DELL'ANNO, A BASILEA. IN OGNI CASO, IL MIO MOTTO =C3=89 MASSIMA UM=
+ILT=C3=80,=20
+FAME ESTREMA DI VITTORIE E PIEDI PER TERRA! SON LE UNICHE CHIAVI PER FARE=
+=20
+LA STORIA!
+LEGGETE QUESTO TESTO, ORA, PLEASE, DOVE INIZIO A SCRIVERE PROPRIO DEL=20
+MASSONE SATANISTA NAZISTA SATA=E5=8D=8DNAZISTA BERLUSCONICCHIO DANIELE MINO=
+TTI:=20
+AVVOCATO ASSASSINO DI GENOVA E CRIMINALE STUDIO LEGALE LISI, NOTO PER=20
+RAPIRE, SODOMIZZARE ED UCCIDERE TANTISSIMI BAMBINI OGNI ANNO. CIAO A TUTTI.
+https://citywireselector.com/manager/andreas-nigg/d2395
+https://ch.linkedin.com/in/andreasnigg
+https://www.blogger.com/profile/13220677517437640922
+
+=C3=89 DA ARRESTARE PRIMA CHE FACCIA UCCIDERE ANCORA, L'AVVOCATO PEDOFILO,=
+=20
+BERLUSCO=E5=8D=90NAZISTA, FASCIOLEGHISTA, ASSASSINO DANIELE MINOTTI (FACEBO=
+OK,=20
+TWITTER) DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI.
+=C3=89 DA FERMARE PER SEMPRE, L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90N=
+AZISTA,=20
+PEDERASTA, OMICIDA #DANIELEMINOTTI DI RAPALLO E GENOVA: RAPISCE, INCULA,=20
+UCCIDE TANTI BIMBI, SIA PER VENDERNE GLI ORGANI (COME DA QUESTA ABERRANTE=
+=20
+FOTO
+https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-Harvesting=
+-415x208.jpg),
+CHE PER RITI MASSONICO^SATANISTI, CHE FA IN MILLE SETTE!
+=C3=89 DI PERICOLO PUBBLICO ENORME, L'AVV ASSASSINO E PEDERASTA DANIELE MIN=
+OTTI=20
+(FACEBOOK) DI RAPALLO E GENOVA! AVVOCATO STUPRANTE INFANTI ED ADOLESCENTI,=
+=20
+COME PURE KILLER #DANIELEMINOTTI DI CRIMINALISSIMO #STUDIOLEGALELISI DI=20
+LECCE E MILANO (
+https://studiolegalelisi.it/team/daniele-minotti/
+STUDIO LEGALE MASSO^MAFIOSO LISI DI LECCE E MILANO, DA SEMPRE TUTT'UNO CON=
+=20
+MEGA KILLERS DI COSA NOSTRA, CAMORRA, NDRANGHETA, E, COME DA SUA=20
+SPECIALITA' PUGLIESE, ANCOR PI=C3=9A, DI SACRA CORONA UNITA, MAFIA BARESE, =
+MAFIA=20
+FOGGIANA, MAFIA DI SAN SEVERO)! =C3=89 STALKER DIFFAMATORE VIA INTERNET, NO=
+NCH=C3=89=20
+PEDERASTA CHE VIOLENTA ED UCCIDE BIMBI, QUESTO AVVOCATO OMICIDA CHIAMATO=20
+DANIELE MINOTTI! QUESTO AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZISTA, =
+PEDOFILO=20
+E SANGUINARIO, DI RAPALLO E GENOVA (LO VEDETE A SINISTRA, SOPRA SCRITTA=20
+ECOMMERCE https://i.ytimg.com/vi/LDoNHVqzee8/maxresdefault.jpg)
+RAPALLO: OVE ORGANIZZA TRAME OMICIDA E TERRORISMO DI ESTREMA DESTRA,=20
+INSIEME "AL RAPALLESE" DI RESIDENZA, HITLERIANO, RAZZISTA, KU KLUK=20
+KLANISTA, MAFIOSO E RICICLA SOLDI MAFIOSI COME SUO PADRE: VI ASSICURO,=20
+ANCHE ASSASSINO #PIERSILVIOBERLUSCONI PIERSILVIO BERLUSCONI! SI, SI =C3=89=
+=20
+PROPRIO COS=C3=8D: =C3=89 DA ARRESTARE SUBITO L'AVVOCATO SATANISTA, NAZISTA=
+,=20
+SATA=E5=8D=90NAZISTA, PEDOFILO E KILLER DANIELE MINOTTI DI GENOVA E RAPALLO=
+!
+https://www.py.cz/pipermail/python/2017-March/012979.html
+OGNI SETTIMANA SGOZZA, OLTRE CHE GATTI E SERPENTI, TANTI BIMBI, IN RITI=20
+SATANICI. IN TUTTO NORD ITALIA (COME DA LINKS CHE QUI SEGUONO, I FAMOSI 5=
+=20
+STUDENTI SCOMPARSI NEL CUNEENSE FURONO UCCISI, FATTI A PEZZI E SOTTERRATI=
+=20
+IN VARI BOSCHI PIEMONTESI E LIGURI, PROPRIO DALL'AVVOCATO SATANISTA,=20
+PEDOFILO ED ASSASSINO DANIELE MINOTTI DI RAPALLO E GENOVA
+https://www.ilfattoquotidiano.it/2013/05/29/piemonte-5-ragazzi-suicidi-in-s=
+ette-anni-pm-indagano-sullombra-delle-sette-sataniche/608837/
+https://www.adnkronos.com/fatti/cronaca/2019/03/02/satanismo-oltre-mille-sc=
+omparsi-anni_QDnvslkFZt8H9H4pXziROO.html)
+E' DAVVERO DA ARRESTARE SUBITO, PRIMA CHE AMMAZZI ANCORA, L'AVVOCATO=20
+PEDOFILO, STUPRANTE ED UCCIDENTE BAMBINI: #DANIELEMINOTTI DI RAPALLO E=20
+GENOVA!
+https://www.studiominotti.it
+Studio Legale Minotti
+Address: Via della Libert=C3=A0, 4, 16035 Rapallo GE,
+Phone: +39 335 594 9904
+NON MOSTRATE MAI E POI MAI I VOSTRI FIGLI AL PEDOFIL-O-MOSESSUALE=20
+COCAINOMANE E KILLER DANIELE MINOTTI (QUI IN CHIARO SCURO MASSONICO, PER=20
+MANDARE OVVI MESSAGGI LUCIFERINI=20
+https://i.pinimg.com/280x280_RS/6d/04/4f/6d044f51fa89a71606e662cbb3346b7f.j=
+pg=20
+). PURE A CAPO, ANZI A KAP=C3=93 DI UNA SETTA ASSASSINA DAL NOME ELOQUENTE =
+: "=20
+AMMAZZIAMO PER NOSTRI SATANA IN TERRA: SILVIO BERLUSCONI, GIORGIA MELONI E=
+=20
+MATTEO SALVINI".
+
+UNITO IN CI=C3=93, AL PARIMENTI AVVOCATO MASSONE, FASCISTA, LADRO, TRUFFATO=
+RE,=20
+RICICLA SOLDI MAFIOSI, OMICIDA E MOLTO PEDOFILO=20
+#FULVIOSARZANADISANTIPPOLITO FULVIO SARZANA DI SANT'IPPOLITO.
+
+ED INSIEME AL VERME SATA=E5=8D=90NAZISTA E COCAINOMANE #MARIOGIORDANO MARIO=
+=20
+GIORDANO. FOTO ELOQUENTE A PROPOSITO=20
+https://www.rollingstone.it/cultura/fenomenologia-delle-urla-di-mario-giord=
+ano/541979/
+MARIO GIORDANO =C3=89 NOTO MASSONE OMOSESSUALE DI TIPO ^OCCULTO^ (=C3=89=20
+FROCIO=E5=8D=90NAZISTA SEGRETO COME IL SEMPRE SCOPATO E SBORRATO IN CULO=20
+#LUCAMORISI), FA MIGLIAIA DI POMPINI E BEVE LITRI DI SPERMA DI RAGAZZINI,=
+=20
+PER QUESTO AMA TENERE LA BOCCA SEMPRE APERTA.
+
+IL TUTTO INSIEME AL MAFIOSO AFFILIATO A COSA NOSTRA #CLAUDIOCERASA, ANCHE=
+=20
+LUI NOTO PEDOFILO (AFFILIATO MAFIOSO CLAUDIO CERASA: PUNCIUTO PRESSO=20
+FAMIGLIA MEGA KILLER CIMINNA, MANDAMENTO DI CACCAMO).
+
+CONTINUA QUI
+https://groups.google.com/g/comp.lang.python/c/b1BubQhGZYc
+
+TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
+https://groups.google.com/g/comp.lang.python/c/b1BubQhGZYc
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/24d4374a-ea38-4879-b830-74a80a9c35a2n%40googlegroups.com.
+
+------=_Part_1933_1476386536.1654441382972
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+#MARINABERLUSCONI MARINA BERLUSCONI =C3=89 LESBICA PEDOFILA ED ASSASSINA! S=
+I, =C3=89 PROPRIO COS=C3=8D! =C3=89 COCAINOMANE, KILLER, LECCA ED INCULA BA=
+MBINE COME IL PADRE: MARINA BERLUSCONI DI<br>CRIMINALISSIMA #MONDADORI MOND=
+ADORI, CRIMINALISSIMA #FININVEST FININVEST.....................<br>CRIMINAL=
+ISSIMA #MFE MFE,<br>CRIMINALISSIMA #MEDIASET MEDIASET, CRIMINALISSIMA #MEDI=
+ASETESPANA MEDIASET ESPANA,<br>CRIMINALISSIMO<br>#MONZA MONZA,<br>CRIMINALI=
+SSIMO #ACMONZA AC MONZA,<br>CRIMINALISSIMO MILAN MILAN,<br>CRIMINALISSIMO #=
+ACMILAN AC MILAN,<br>CRIMINALISSIMA #BANCAMEDIOLANUM BANCA MEDIOLANUM, CRIM=
+INALISSIMA #MEDIOLANUM MEDIOLANUM! ASSASSINA COME SUO PADRE: IL NAZISTA, MA=
+FIOSO, SBAUSCIA BAMBINE ED ADOLESCENTI, STRA MANDANTE DI OMICIDI E STRAGI: =
+#SILVIOBERLUSCONI! E POI, IL FIGLIO DI PUTTANA #PIERSILVIOBERLUSCONI (ANCOR=
+ PI=C3=9A FIGLIO DI PEDOFILO MACELLA MAGISTRATI SILVIO BERLUSCONI) RICICLA =
+MONTAGNE DI SOLDI MAFIOSI. COME HA FATTO SUO PEZZO DI MERDA NONNO #LUIGIBER=
+LUSCONI IN #BANCARASINI! E COME HA FATTO PER MEZZO SECOLO, IL LECCA FIGHE D=
+I BAMBINE E RAGAZZINE, BASTARDO STRAGISTA, FIGLIO, MARITO E PADRE DI PUTTAN=
+E: #SILVIOBERLUSCONI! SOLDI ASSASSINI, ESATTAMENTE DI #COSANOSTRA, #CAMORRA=
+, #NDRANGHETA, #SACRACORONAUNITA, #SOCIETAFOGGIANA, #MAFIA RUSSA, MAFIA CIN=
+ESE, MAFIA COLOMBIANA, MAFIA MESSICANA, MAFIA MAROCCHINA, MAFIA ALBANESE, M=
+AFIA SLAVA, MAFIA RUMENA, MAFIE DI TUTTO IL PIANETA TERRA, COME ANCOR PI=C3=
+=9A, MASSONERIE CRIMINALISSIME DI TUTTO IL MONDO)! NE SCRIVE IL MIO BANCHIE=
+RE PREFERITO, #ANDREASNIGG DI BANK J SAFRA SARASIN ZURIGO! CHE TANTE VOLTE =
+SI =C3=89 SENTITO PROPORRE DAL PEGGIORE CRIMINALE IN CRAVATTA DI TUTTO IL P=
+IANETA TERRA E DI TUTTI I TEMPI, SILVIO BERLUSCONI, COME DAL NAZIST=E5=8D=
+=8DASSASSINO PIERSILVIO BERLUSCONI E DALLA LECCA FIGHE PEDOFILA, SATA=E5=8D=
+=8DNAZISTA E FALSA DA FARE SCHIFO, MARINA BERLUSCONI, DI RICICLARE PER LORO=
+, CENTINAIA DI MILIONI DI EURO MAFIOSI, DA DESTINARE AL CORROMPERE CHIUNQUE=
+, COME A FINANZIARE STRAGI ED OMICIDI FASCISTI, IN ITALIA! SEMPRE EROICAMEN=
+TE RIFIUTANDO! A VOI IL GRANDISSIMO ANDREAS NIGG DI BANK J SAFRA SARASIN ZU=
+RIGO.<br><br>CIAO A TUTTI. SON SEMPRE IO, ANDREAS NIGG, EX MANAGER IN BANK =
+VONTOBEL ZURIGO ED ORA MANAGER IN BANK J SAFRA SARASIN ZURIGO. SCHIFO CON T=
+UTTE LE FORZE I PEDOFILI BASTARDI, SATANISTI, NAZISTI, SATA=E5=8D=90NAZISTI=
+, MAFIOSI, ASSASSINI #BERLUSCONI! SON DEI FIGLI DI PUTTANE E PEDOFILI! SON =
+#HITLER, #PINOCHET E #PUTIN MISTI AD AL CAPONE, TOTO RIINA E PASQUALE BARRA=
+ DETTO "O ANIMALE"! SI PRENDONO LA NAZIONE INTERA, INTRECCIANDO POTERE ECON=
+OMICO, POTERE DI CORROMPERE CHIUNQUE, POTERE MEDIATICO, POTERE EDITORIALE, =
+POTERE SATANICO, POTERE FASCIOCIELLINO, POTERE MASSO^MAFIOSO =E2=98=A0, POT=
+ERE DI TERRORISTI NAZI=E5=8D=90FASCISTI =E2=98=A0, POTERE RICATTATORIO, POT=
+ERE ASSASSINO =E2=98=A0, POTERE STRAGISTA =E2=98=A0, POTERE DI INTELLIGENCE=
+ FOTOCOPIA DI BEN NOTE OVRA E GESTAPO =E2=98=A0, ADDIRITURA PURE POTERE CAL=
+CISTICO ED IL POTERE DEI POTERI: IL POTERE POLITICO (OSSIA OGNI TIPO DI POT=
+ERE: OGNI)! CREANDO DITTATURA STRA OMICIDA! I TOPI DI FOGNA KILLER #SILVIOB=
+ERLUSCONI, #PIERSILVIOBERLUSCONI E #MARINABERLUSCONI HAN FATTO UCCIDERE IN =
+VITA LORO, ALMENO 900 PERSONE, QUASI SEMPRE PER BENISSIMO! LA LORO SPECIALI=
+T=C3=81 =C3=89 ORGANIZZARE OMICIDI MASSONICI! OSSIA DA FAR PASSARE PER FINT=
+I SUICIDI, MALORI, INCIDENTI (VEDI COME HANNO UCCISO LENTAMENTE, IN MANIERA=
+ MASSONICISSIMA, LA GRANDE #IMANEFADIL, MA PURE GLI AVVOCATI VICINI A IMANE=
+ FADIL, #EGIDIOVERZINI E #MAURORUFFFINI, MA ANCHE TANTISSIMI MAGISTRATI GIO=
+VANI CHE LI STAVANO INDAGANDO SEGRETAMENTE O NON, COME #GABRIELECHELAZZI, #=
+ALBERTOCAPERNA, #PIETROSAVIOTTI, #MARCELLOMUSSO, #FRANKDIMAIO, PER NON DIRE=
+ DI COME HAN MACELLATO GLI EROI #GIOVANNIFALCONE E #PAOLOBORSELLINO)! IL TU=
+TTO IN COMBUTTA CON SERVIZI SEGRETI NAZI=E5=8D=90FASCISTI, BASTARDA MASSONE=
+RIA DI ESTREMA DESTRA (VEDI #P2 P2 O #LOGGIADELDRAGO LOGGIA DEL DRAGO, OSSI=
+A LOGGIA PERSONALE DEL PEZZO DI MERDA PEDOFILO E STRAGISTA #SILVIOBERLUSCON=
+I). OLTRE CHE IN STRA COMBUTTA CON LORO VARIE COSA NOSTRA, CAMORRA, NDRANGH=
+ETA, MAFIA RUSSA, MAFIA CINESE, MAFIA COLOMBIANA, MAFIE DI TUTTO IL PIANETA=
+ TERRA.<br><br>OGGI VORREI SCRIVERE PURE, DI QUEL TOPO DI FOGNA CORROTTISSI=
+MO, ANZI "BERLU$$$CORROTTISSIMO", CHE =C3=89 IL GIUDICE PI=C3=9A STECCATO D=
+EL MONDO: #MARCOTREMOLADA DEL #RUBYTER! MASSONE DI MILLE LOGGE D'UNGHERIA (=
+MA PURE DI BULGARIA, CECOSLOVACCHIA E CAMBOGIA DI POL POT, TANTO CHE CI SIA=
+MO, MEGLIO IRONIZZARCI SOPRA UN POCO, PLEASE). FOGNA STUPRA GIUSTIZIA MARCO=
+ TREMOLADA DEL RUBY TER, MASSONE SATANISTA NAZI=E5=8D=90FASCISTA CORROTTISS=
+IMO DA SILVIO BERLUSCONI, PIERSILVIO BERLUSCONI E MARINA BERLUSCONI! STO BE=
+RLU$$$CORROTTO SGOZZA GIUSTIZIA DI #MARCOTREMOLADA (LO VEDETE QUI<br>https:=
+//l450v.alamy.com/450vfr/2ded6pm/milan-italie-30-novembre-2020-milan-ruby-t=
+er-proces-a-la-foire-president-marco-tremolada-usage-editorial-seulement-cr=
+edit-agence-de-photo-independante-alamy-live-news-2ded6pm.jpg ) =C3=89 IL N=
+UOVO #CORRADOCARNEVALE MISTO A #RENATOSQUILLANTE E #VITTORIOMETTA. ESSENDO =
+IO, ANDREAS NIGG DI BANK J SAFRA SARASIN, STATO DEFINITO BANCHIERE SVIZZERO=
+ DELL'ANNO, SIA NEL 2018, 2019 E 2020, E CON MIA GRAN EMOZIONE, PURE NEL 20=
+21, HO FATTO LE MIE INDAGINI E S=C3=93 PER STRA CERTO, CHE STO MASSONE NAZI=
+=E5=8D=90FASCISTA PREZZOLATO A PALLONE, DI #MARCOTREMOLADA DEL #RUBYTER, HA=
+ GI=C3=81 A DISPOSIZIONE, PRESSO 7 DIVERSI FIDUCIARI ELVETICI, 3 MLN DI =E2=
+=82=AC, RICEVUTI AL FINE DI INIZIARE AD AZZOPPARE IL PROCESSO RUBY TER (COM=
+E PUNTUALISSIMAMENTE ACCADUTO IL 3/11/2021). ALTRI 7 MLN DI =E2=82=AC GLI A=
+RRIVEREBBERO A PROCESSO COMPLETAMENTE MORTO. MI HA CONFERMATO CI=C3=93, PUR=
+E IL VERTICE DEI SERVIZI SEGRETI SVIZZERI (CHE ESSENDO SEGRETI, MI HAN IMPO=
+STO DI NON SCRIVERE NOMI E COGNOMI, COSA CHE DA BANCHIERE SPECCHIATO, RISPE=
+TTO) ED IL GRAN MAESTRO DELLA GRAN LOGGIA SVIZZERA: #DOMINIQUEJUILLAND. D'A=
+LTRONDE, SE ASCOLTATE SU #RADIORADICALE, TUTTE LE UDIENZE DEL PROCESSO, AHI=
+M=C3=89 FARSA, #RUBYTER, VEDRETE CHE STA MERDA CORROTTA, NAZISTA E NEO PIDU=
+ISTA DI #MARCOTREMOLADA DEL #RUBYTER STESSO (GIUDICE CORROTTO DA SCHIFO, DI=
+ 1000 LOGGE D'UNGHERIA, BULGARIA, CECOSLOVACCHIA E PURE DI CAMBOGIA DI POL =
+POT, TANTO CHE CI SIAMO, MEGLIO IRONIZZARCI SOPRA UN POCO, PLEASE), SLINGUA=
+ INTELLETTUALMENTE (E FORSE, STILE OMOSESSUALE NAZISTA E COCAINOMANE #LUCAM=
+ORISI, NON SOLO INTELLETTUALMENTE), TUTTE LE VOLTE, CON QUEL FIGLIO DI CANE=
+ BERLU$$$CORRUTTORE CHE =C3=89 L'AVVOCATO CRIMINALISSIMO, DAVVERO PEZZO DI =
+MERDA, DAVVERO SGOZZATORE BASTARDO DI GIUSTIZIA, DEMOCRAZIA E LIBERT=C3=81:=
+ #FEDERICOCECCONI. OGNI VOLTA CHE VI =C3=89 STATO UN CONTRASTO FRA GLI EROI=
+CI PM #TIZIANASICILIANO E #LUCAGAGLIO E STO FIGLIO DI PUTTANONA MASSOMAFIOS=
+O E DELINQUENTE, CHE =C3=89 L'AVVOCATO BASTARDO FEDERICO CECCONI, IL GIUDIC=
+E MASSONE E NAZIFASCISTA, TANTO QUANTO STRA CORROTTO, ALIAS IL BERLUSCONICC=
+HIO DI MERDA #MARCOTREMOLADA, COSTUI HA SEMPRE DATO RAGIONE AL SECONDO. QUE=
+STO APPARE EVIDENTE PURE ALLE MURA DEL TRIBUNALE MENEGHINO. CHE MI FACCIA A=
+MMAZZARE PURE, STA MERDA PREZZOLATA, STO GIUDICE VENDUTISSIMO, CORROTTISSIM=
+O, STO TOPO DI FOGNA DI ARCORE^HARDCORE ( ^ STA PER MASSONERIA SATANICA, MA=
+ PURE PER VAGINA DISPONIBILE A GO GO... VISTO CHE SCRIVO DI ARCORE^HARDCORE=
+), CHE =C3=89 IL GIUDICE CRIMINALISSIMO MARCO TREMOLADA DEL RUBY TER. MA IO=
+, AL MALE BERLUSCONICCHIO, NON MI PIEGO E PIEGHER=C3=93 MAI, MEGLIO MORTO P=
+IUTTOSTO. HO POCO TEMPO, DEVO PRODURRE PER LA MIA BANCA, J SAFRA SARASIN ZU=
+RICH. MA QUESTO =C3=89 SOLO UN MINI MINI MINI ANTIPASTO. MILIARDI DI MIEI P=
+OSTS E PROFILI DI OGNI TIPO INVADERANNO TUTTI I SITI DEL MONDO, FINO A CHE =
+LEGGER=C3=93 CHE TUTTI I BASTARDI MEGA ASSASSINI #BERLUSCONI HAN FATTO UNA =
+FINE MOLTO PEGGIORE DEI #LIGRESTI O #TANZI, CHE A DIFFERENZA DEI FIGLI DI P=
+EDOFILI E TROIONE BERLUSCONI, NON HAN MAI PARTICOLARMENTE FATTO UCCIDERE NE=
+SSUNO, E CHE QUINDI, A LORO CONFRONTO, SON ANGELINI (NON ANGELUCCI, MA ANGE=
+LINI, NON #ANTONIOANGELUCCI, QUELLO =C3=89 UN PEDOFILO FASCISTA, UN MASSONE=
+ SATANISTISSIMO, UN PEZZO DI MERDA SATA=E5=8D=90NAZISTA, MAFIOSO ED ASSASSI=
+NO COME SILVIO BERLUSCONI). VENIAMO AI FATTI, NOW, PLEASE. IL COCAINOMANE N=
+AZIST=E5=8D=8DASSASSINO #PIERSILVIOBERLUSCONI, IL PEDOFILO MACELLA MAGISTRA=
+TI #SILVIOBERLUSCONI E LA LESBICA LECCA FIGHE DI BAMBINE E RAGAZZINE #MARIN=
+ABERLUSCONI,<br><br>- INSIEME AL FASCISTASSASSINO #ROBERTOJONGHILAVARINI RO=
+BERTO JONGHI LAVARINI DI CRIMINALISSIMO ISTITUTO GANASSINI DI RICERCHE BIOM=
+EDICHE E CRIMINALISSIMO MOVIMENTO #FAREFRONTE FARE FRONTE<br><br>- INSIEME =
+AL FASCISTASSASSINO #GIANFRANCOSTEFANIZZI (PURE PEDOFILO E FILO NDRANGHETIS=
+TA) DI CRIMINALISSIMO STUDIO MOAI #MOAI #STUDIOMOAI #MOAISTUDIO<br><br>- IN=
+SIEME AL FASCISTASSASSINO, CORROTTO DI MERDA, PAPPA TANGENTI, LADRONE #CARL=
+OFIDANZA DI FRATELLI (MASSONI E SPECIALMENTE NDRANGHETISTI) D'ITALIA<br><br=
+>-INSIEME AL TRIONE SCOPATO IN CULO DA 1000 MAFIOSI E NAZISTI #SILVIASARDON=
+E DI #LEGALADRONA<br><br>- INSIEME AL FASCISTASSASSINO #PAOLO PARRAI ALIAS =
+#PAOLOPIETROBARRAI (PURE PEDOFILO ED AFFILIATO ALLA NDRANGHETA) DI CRIMINAL=
+E TERRANFT E TERRABITCOIN #TERRANFT E CRIMINALE #TERRABITCOIN<br><br>-INSIE=
+ME AL FIGLIO DI PUTTANA PEDOFILO ED ASSASSINO #LEOZAGAMI, SI, SCRIVO PROPRI=
+O DEL MONARCHICO DI MIA GROSSO CAZZO, NAZISTA, RAZZISTA, ANTI SEMITA, FILO =
+MAFIOSO, TERRORISTA NERO (E CHE INCASSA IN NERO), FROCIONE SEMPRE SBORRATO =
+DA TUTTI IN CULO: LEO ZAGAMI. TRA L'ALTRO, PURE NOTO CORNUTONE #LEOZAGAMI (=
+LA SUA TROIONA MOGLIE #CHRISTYZAGAMI CHRISTY ZAGAMI SE LA SCOPANO IN TANTIS=
+SIMI, IN TANTI CLUB PER SCAMBISTI DI MEZZO MONDO, PRESTO NE DETTAGLIEREMO A=
+ RAFFICA)<br><br>-INSIEME AL MASSONE ROSACROCIANO NDRANGHETISTA OMICIDA GIA=
+NFRANCO PECORARO #GIANFRANCOPECORARO NOTO COME PEDOFILO ASSASSINO #CARPEORO=
+ CARPEORO<br><br>-INSIEME AL MASSONI OMOSESSUALI DI TIPO PEDERASTA #GIOELEM=
+AGALDI E #MARCOMOISO, 2 MASSONI NAZISTI CHE PAGANO RAGAZZINI DI 13/15 ANNI,=
+ AFFINCH=C3=89 LI SODOMIZZANO IN ORGE SATANICHE, DA LORO DEFINITE, " PIENE =
+DI MAGIA SESSUALE BERLUSCONIANA"<br><br>QUESTO GRUPPO DI MASSONI DI TIPO CR=
+IMINAMISSIMO, SON VENUTI SPESSO A CHIEDERMI DI RICICLARE CENTINAIA DI MILIO=
+NI DI EURO, DI MAFIE DI TUTTO IL MONDO, CHE, MI HAN DETTO, HAN SOTTO TERRA,=
+ IN VARIE VILLE LORO, COME PURE UN ALTRE VILLE DI LORO SODALI ASSASSINI. HO=
+ SEMPRE SBATTUTO LORO LA PORTA IN FACCIA. SIA A LORO, CHE A UN LORO AVVOCAT=
+O MASSONE, SATANISTA, PEDOFILO, SPECIALISTA NEL RAPIRE, INCULARE ED UCCIDER=
+E BAMBINI PER VENDERNE GLI ORGANI: #DANIELEMINOTTI DI GENOVA RAPALLO (E A R=
+APALLO, "GUARDA CASO", HA RESIDENZA IL TESTA DI CAZZO STRA ASSASSINO #PIERS=
+ILVIOBERLUSCONI). SCRIVER=C3=93 DETTAGLI A PROPOSITO DI QUESTO, IN MILIARDI=
+ DI MIEI PROSSIMI POSTS. PER IL MOMENTO, ORA, INIZIAMO AD ESAMINARE LA FIGU=
+RA DI QUESTO AVVOCATO PEDOFILO, NAZI=E5=8D=90FASCISTA, MASSO=E5=8D=90NAZIST=
+A, SATA=E5=8D=90NAZISTA, ASSASSINO DANIELE MINOTTI DI CRIMINALISSIMO STUDIO=
+ LEGALE LISI. SONO ANDREAS NIGG DI BANK J SAFRA SARASIN ZURICH. PREMIATO NE=
+L 2018, 2019, 2020 E 2021 COME BANCHIERE SVIZZERO DELL'ANNO, A BASILEA. IN =
+OGNI CASO, IL MIO MOTTO =C3=89 MASSIMA UMILT=C3=80, FAME ESTREMA DI VITTORI=
+E E PIEDI PER TERRA! SON LE UNICHE CHIAVI PER FARE LA STORIA!<br>LEGGETE QU=
+ESTO TESTO, ORA, PLEASE, DOVE INIZIO A SCRIVERE PROPRIO DEL MASSONE SATANIS=
+TA NAZISTA SATA=E5=8D=8DNAZISTA BERLUSCONICCHIO DANIELE MINOTTI: AVVOCATO A=
+SSASSINO DI GENOVA E CRIMINALE STUDIO LEGALE LISI, NOTO PER RAPIRE, SODOMIZ=
+ZARE ED UCCIDERE TANTISSIMI BAMBINI OGNI ANNO. CIAO A TUTTI.<br>https://cit=
+ywireselector.com/manager/andreas-nigg/d2395<br>https://ch.linkedin.com/in/=
+andreasnigg<br>https://www.blogger.com/profile/13220677517437640922<br><br>=
+=C3=89 DA ARRESTARE PRIMA CHE FACCIA UCCIDERE ANCORA, L'AVVOCATO PEDOFILO, =
+BERLUSCO=E5=8D=90NAZISTA, FASCIOLEGHISTA, ASSASSINO DANIELE MINOTTI (FACEBO=
+OK, TWITTER) DI GENOVA, RAPALLO E CRIMINALISSIMO STUDIO LEGALE LISI.<br>=C3=
+=89 DA FERMARE PER SEMPRE, L'AVVOCATO SATANISTA, NAZISTA, SATA=E5=8D=90NAZI=
+STA, PEDERASTA, OMICIDA #DANIELEMINOTTI DI RAPALLO E GENOVA: RAPISCE, INCUL=
+A, UCCIDE TANTI BIMBI, SIA PER VENDERNE GLI ORGANI (COME DA QUESTA ABERRANT=
+E FOTO<br>https://www.newnotizie.it/wp-content/uploads/2016/07/Egypt-Organ-=
+Harvesting-415x208.jpg),<br>CHE PER RITI MASSONICO^SATANISTI, CHE FA IN MIL=
+LE SETTE!<br>=C3=89 DI PERICOLO PUBBLICO ENORME, L'AVV ASSASSINO E PEDERAST=
+A DANIELE MINOTTI (FACEBOOK) DI RAPALLO E GENOVA! AVVOCATO STUPRANTE INFANT=
+I ED ADOLESCENTI, COME PURE KILLER #DANIELEMINOTTI DI CRIMINALISSIMO #STUDI=
+OLEGALELISI DI LECCE E MILANO (<br>https://studiolegalelisi.it/team/daniele=
+-minotti/<br>STUDIO LEGALE MASSO^MAFIOSO LISI DI LECCE E MILANO, DA SEMPRE =
+TUTT'UNO CON MEGA KILLERS DI COSA NOSTRA, CAMORRA, NDRANGHETA, E, COME DA S=
+UA SPECIALITA' PUGLIESE, ANCOR PI=C3=9A, DI SACRA CORONA UNITA, MAFIA BARES=
+E, MAFIA FOGGIANA, MAFIA DI SAN SEVERO)! =C3=89 STALKER DIFFAMATORE VIA INT=
+ERNET, NONCH=C3=89 PEDERASTA CHE VIOLENTA ED UCCIDE BIMBI, QUESTO AVVOCATO =
+OMICIDA CHIAMATO DANIELE MINOTTI! QUESTO AVVOCATO SATANISTA, NAZISTA, SATA=
+=E5=8D=90NAZISTA, PEDOFILO E SANGUINARIO, DI RAPALLO E GENOVA (LO VEDETE A =
+SINISTRA, SOPRA SCRITTA ECOMMERCE https://i.ytimg.com/vi/LDoNHVqzee8/maxres=
+default.jpg)<br>RAPALLO: OVE ORGANIZZA TRAME OMICIDA E TERRORISMO DI ESTREM=
+A DESTRA, INSIEME "AL RAPALLESE" DI RESIDENZA, HITLERIANO, RAZZISTA, KU KLU=
+K KLANISTA, MAFIOSO E RICICLA SOLDI MAFIOSI COME SUO PADRE: VI ASSICURO, AN=
+CHE ASSASSINO #PIERSILVIOBERLUSCONI PIERSILVIO BERLUSCONI! SI, SI =C3=89 PR=
+OPRIO COS=C3=8D: =C3=89 DA ARRESTARE SUBITO L'AVVOCATO SATANISTA, NAZISTA, =
+SATA=E5=8D=90NAZISTA, PEDOFILO E KILLER DANIELE MINOTTI DI GENOVA E RAPALLO=
+!<br>https://www.py.cz/pipermail/python/2017-March/012979.html<br>OGNI SETT=
+IMANA SGOZZA, OLTRE CHE GATTI E SERPENTI, TANTI BIMBI, IN RITI SATANICI. IN=
+ TUTTO NORD ITALIA (COME DA LINKS CHE QUI SEGUONO, I FAMOSI 5 STUDENTI SCOM=
+PARSI NEL CUNEENSE FURONO UCCISI, FATTI A PEZZI E SOTTERRATI IN VARI BOSCHI=
+ PIEMONTESI E LIGURI, PROPRIO DALL'AVVOCATO SATANISTA, PEDOFILO ED ASSASSIN=
+O DANIELE MINOTTI DI RAPALLO E GENOVA<br>https://www.ilfattoquotidiano.it/2=
+013/05/29/piemonte-5-ragazzi-suicidi-in-sette-anni-pm-indagano-sullombra-de=
+lle-sette-sataniche/608837/<br>https://www.adnkronos.com/fatti/cronaca/2019=
+/03/02/satanismo-oltre-mille-scomparsi-anni_QDnvslkFZt8H9H4pXziROO.html)<br=
+>E' DAVVERO DA ARRESTARE SUBITO, PRIMA CHE AMMAZZI ANCORA, L'AVVOCATO PEDOF=
+ILO, STUPRANTE ED UCCIDENTE BAMBINI: #DANIELEMINOTTI DI RAPALLO E GENOVA!<b=
+r>https://www.studiominotti.it<br>Studio Legale Minotti<br>Address: Via del=
+la Libert=C3=A0, 4, 16035 Rapallo GE,<br>Phone: +39 335 594 9904<br>NON MOS=
+TRATE MAI E POI MAI I VOSTRI FIGLI AL PEDOFIL-O-MOSESSUALE COCAINOMANE E KI=
+LLER DANIELE MINOTTI (QUI IN CHIARO SCURO MASSONICO, PER MANDARE OVVI MESSA=
+GGI LUCIFERINI https://i.pinimg.com/280x280_RS/6d/04/4f/6d044f51fa89a71606e=
+662cbb3346b7f.jpg ). PURE A CAPO, ANZI A KAP=C3=93 DI UNA SETTA ASSASSINA D=
+AL NOME ELOQUENTE : " AMMAZZIAMO PER NOSTRI SATANA IN TERRA: SILVIO BERLUSC=
+ONI, GIORGIA MELONI E MATTEO SALVINI".<br><br>UNITO IN CI=C3=93, AL PARIMEN=
+TI AVVOCATO MASSONE, FASCISTA, LADRO, TRUFFATORE, RICICLA SOLDI MAFIOSI, OM=
+ICIDA E MOLTO PEDOFILO #FULVIOSARZANADISANTIPPOLITO FULVIO SARZANA DI SANT'=
+IPPOLITO.<br><br>ED INSIEME AL VERME SATA=E5=8D=90NAZISTA E COCAINOMANE #MA=
+RIOGIORDANO MARIO GIORDANO. FOTO ELOQUENTE A PROPOSITO https://www.rollings=
+tone.it/cultura/fenomenologia-delle-urla-di-mario-giordano/541979/<br>MARIO=
+ GIORDANO =C3=89 NOTO MASSONE OMOSESSUALE DI TIPO ^OCCULTO^ (=C3=89 FROCIO=
+=E5=8D=90NAZISTA SEGRETO COME IL SEMPRE SCOPATO E SBORRATO IN CULO #LUCAMOR=
+ISI), FA MIGLIAIA DI POMPINI E BEVE LITRI DI SPERMA DI RAGAZZINI, PER QUEST=
+O AMA TENERE LA BOCCA SEMPRE APERTA.<br><br>IL TUTTO INSIEME AL MAFIOSO AFF=
+ILIATO A COSA NOSTRA #CLAUDIOCERASA, ANCHE LUI NOTO PEDOFILO (AFFILIATO MAF=
+IOSO CLAUDIO CERASA: PUNCIUTO PRESSO FAMIGLIA MEGA KILLER CIMINNA, MANDAMEN=
+TO DI CACCAMO).<br><br>CONTINUA QUI<br>https://groups.google.com/g/comp.lan=
+g.python/c/b1BubQhGZYc<br><br>TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QU=
+I<br>https://groups.google.com/g/comp.lang.python/c/b1BubQhGZYc<br>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/24d4374a-ea38-4879-b830-74a80a9c35a2n%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/24d4374a-ea38-4879-b830-74a80a9c35a2n%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_1933_1476386536.1654441382972--
+
+------=_Part_1932_208428840.1654441382972--
