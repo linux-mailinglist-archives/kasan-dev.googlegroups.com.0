@@ -1,138 +1,131 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBRH2RCKQMGQEIJXZVRQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB5P3RCKQMGQEIZVBPWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55DF7545434
-	for <lists+kasan-dev@lfdr.de>; Thu,  9 Jun 2022 20:34:45 +0200 (CEST)
-Received: by mail-ot1-x33e.google.com with SMTP id y21-20020a0568302a1500b0060bd96d084dsf7695292otu.15
-        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jun 2022 11:34:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1654799684; cv=pass;
+Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DCF54543C
+	for <lists+kasan-dev@lfdr.de>; Thu,  9 Jun 2022 20:37:42 +0200 (CEST)
+Received: by mail-ot1-x33a.google.com with SMTP id y6-20020a9d6346000000b0060c2a6ed978sf751444otk.8
+        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jun 2022 11:37:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1654799861; cv=pass;
         d=google.com; s=arc-20160816;
-        b=aB8SNMaTlScSRlyQav8hHWSBqPqnDTuJJeWo9zm9SGRQHM1hlGGdDRBmm2McmB3sce
-         nQHnX//sHpS/8TcR8KWOvrAS/4gTdDTfAFa+xRPe4393hhuwJiY1hHnwrsgRcUZX0y46
-         pxhJNhE3HjqKpT9VhUVjGFeVdg06b9RY204ZKv2yShF4tgppaKVYLMG1WYdpXsU6ZfL5
-         8kfMge1LQgTRY8NYddUy3J4jlpL0zEuNsO0FLoiSYrR4quFwvVihojWM1EAELch5yHwx
-         qwK4wHvETxP8l0YMAruP9X4kv4f0ILA5/h3X7eV3fGMLxahTyIbS9VHnWZNsSEdLi0xO
-         pLZw==
+        b=GOUEzLL1v3UcI3M0wqDQfBpRn6VOjDZ+sArCOhXX44vhoRB/iI6A4FuF6ONlPTkCSS
+         1I27Zb/hmXx8uwJEskLoo8mL3ApYeY31mke0AbF6ZteSWKr7CXkGKhUBpRjd3liIlhLJ
+         TFel56v8SCpD//TWr8luKrG9dJgIe+GmKhlxg1NrWiQu8cpaLEGvmyPH1/y5xtonTLZL
+         SEvALTQy8Jnp6s+uIcdKewuPyaRzzYRh6uWC6KedbZKlgwEnkVzZNYfRzekOvHtj2zq/
+         h02VvM3cBWuBBQhWH0+fmo32OI8flmp75SdvMBGpBbxTKpFWrq7Bq/majntKgnqg9hUu
+         KOiw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=m7C67HCXWWVG4dCiPjQTf2zS78Z9DguJnYv0UP2f5W4=;
-        b=OaYalPKGQuc0x+mb29YRMYDP8C7EuWyJAYgFr+6TP9hQa0WMSFsTXB37ix8He8qOUM
-         0QvRl64Uv0d3JdP/V1VD6vC+QYZlm18EU/CXW+HH21w889wppuplgdDG6yrpP7Af+cNe
-         2R4M88QzlbZ0i8pxysUxmxYTQy2k7R4GNyQaw5RRAzphVZID+OMHrP9UpcCOc/jYqaHI
-         P9SC/40XpkMvxa5WRvXIGkr7Bky74p82LNM02SI3Ez24WOqqXWllarliZNCg4bNMf9Br
-         SZwNac8amq2lhECUupsB3887TahVoZCzl5oU9IqUU6n8ZLdexVHUQ2R6+uaK4gMv99AP
-         aCrQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=s/Bl7cTYHJ+Z5WI02Gh1SPKDSSKWS8ds6ZylYFJSM74=;
+        b=ttMuUT2LYVo1ESwUqTud5Edq+M80AIYiXvXCjyI50ixj3i5gM2/E33bm4rBa8tgW+i
+         8xEUEhizYKi+JF05yeleWl2yj7soUn952UyemUpWv5i96JskEUlBHDEBAShJJzmKz60m
+         7P/orXdHdWXXlNjBC2rJ0h0u+Wjq0fmjV4U0PJGCdpkaq6MGDPBUY2Srn+hCkgbbQ8NL
+         g38yylxfOmAAKLbGESG+Mn45iqkp1PhCPcVVWG33s0fdATjGW5uSG8n1XGl8j1kAUzoS
+         hIlRva/aI2Xh5MNEUgwKGA9m30v+I5SP0UF+SQyNAKoz1bUsY9iows0rXKx+vYPwzuKO
+         zOKQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y7L1oYc4;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=RXSLJN2r;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1130 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=m7C67HCXWWVG4dCiPjQTf2zS78Z9DguJnYv0UP2f5W4=;
-        b=oxSrowZDl47/MtQsoQnNpeIX2KuVoCzJKLIrtvMzBFPSEgRISRR2DvP+TQ65fdcjQM
-         F1ud3SaQjrEJrs1DWJ/7vyAXHg+akQiSc6FOGTR0DRIu0EbtTm6n3/WPRsNBxzVu8IA1
-         j8nlFcqpZslmF6eM+Y041+Hkd/UPN4xmNfl6TnZXESwglRjaN2ce8dsd9JefrlSE6niy
-         /AlxPmeWcsZcFU9KI6u/ZMRYnqCP53by6Gjf+HuXFykNveOQ5an3ivlb5OUmI0VWjJ2a
-         g5KK5B2x5Didf4C00m9VGOiSfNyKdYWI9s1QtUwM2w4t0immoNXBwJOVCcg3L/1GnDfT
-         hG8g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=m7C67HCXWWVG4dCiPjQTf2zS78Z9DguJnYv0UP2f5W4=;
-        b=Dd8n8hOVzp70aDd9bvOfWNKSceqkU8wNELhRO43PC+39iq5wa7JLf6Nr0yywon93pC
-         rO4IFaT3y54LusCQakWgNdkOGAsDTnCmI2S7rYViGEww4K1JkkLCDTMMItx4T6Lx3oL1
-         VBlGH/35GVbBUL4C9h7HeuJK9ixJ/DwYex/u+l+eSzQKCRTTmWrgOstvxcid4Nofn2X1
-         PJ5CDNP7uYLUSLx+58uHN3z5w+eq/tulBvHyJUWJu8o1mzVLF0P14rWWXZItWyfX+uQo
-         y5LpJmswYdPVqB2axRb2JyuCobQWDk1m/BtECTb8QXV2mYsifdVqCoEpBopoX5+acE6k
-         bh6w==
+        bh=s/Bl7cTYHJ+Z5WI02Gh1SPKDSSKWS8ds6ZylYFJSM74=;
+        b=EA4KW2j+Jkn5s/MhpNmRzTnNpzVwq4kx1rl1c2ZuJBOnkVSr3w3SFRQ/fIr8jpJPU5
+         6e4wQ7/FjeSeQO7ppyjvMAS4uRpVCl7DfIhu6bM3kWUf5WBVowFdthWbLbuwDd4LUxAv
+         XaVV5A7R+uSiIVKraw7m7s7Q+DIws8nuFz7kNI3jkEz+c+k652iiumOG0UPwCMKNjGrp
+         JznIpk7HpYhoNM4cwbhphMOKqpJzYs3shrtMmI74OQH4O/W/e6ccH6R3j3FwlCOR++K1
+         FVuBniqjL+EGXFq3zGpDyON3bi3X8Q2119t2excIVzrt3Dx/FESgu3Xg6R5zI/CPl8Kq
+         IeTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=m7C67HCXWWVG4dCiPjQTf2zS78Z9DguJnYv0UP2f5W4=;
-        b=LFV6Sle2CztPS6mjPuyCSm6T2bw/9ZIFVGj2iRI5mNiOFw+eGMP7I6RooW5OdJD5+l
-         cfdbO5GmbiKJtixju/CIJXogkaOKAoK58BuB7AXKJADsV4he8V631D0C2g/eQfOm6EN2
-         MutHYzbM4vPxaSQ+mqlYTi5H61mK5ZM4itajq5lPDvSYu2FCnS7C9mhb2u22bTLMgl3i
-         X2PuzjCN2rw2JQn1usnz7Rq8PnxvqxujicLf9fXvvmfbrmcvxEvvX+JelqxDwemyTukH
-         6zf8XaCGX3DX88MWJiQlYS1Ngxmd2GA2N64WEAW6qhI6428xgfuh9PRDHvicQ2W1JFq4
-         EIFg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM532zqisQ8FtAURN3ZPINuO/FyMBhjsvM207nwmSILQTKDtYR0xuf
-	0712UFC/L+MMGXyzRGVbzJo=
-X-Google-Smtp-Source: ABdhPJxEwCc5EY7PiIBpHHGjWzmQ9VawlaISweGcujxvimW2BuN2hlsONLDzkgkxelNicIJIBcfvJA==
-X-Received: by 2002:a05:6808:138c:b0:32e:714f:35e4 with SMTP id c12-20020a056808138c00b0032e714f35e4mr2501870oiw.229.1654799684104;
-        Thu, 09 Jun 2022 11:34:44 -0700 (PDT)
+        bh=s/Bl7cTYHJ+Z5WI02Gh1SPKDSSKWS8ds6ZylYFJSM74=;
+        b=Jb9zPLPnvScSihX83qvbIY/mbrZa57uYCDljDhI/uiCsokETCDYllKpReVUiMgAjzw
+         CfCvyZtBRb/rONyUVcqHE0tzrwOAcPBhUAXXMxohfUclVi06U+GoMg7eNBma1vysTlH5
+         o9l4CJCly6EuSUXVdevKcTjUd5jLlhMcr/0cw+UI3lESia6DTuZo7A7GT81DRLRakVPQ
+         wZWReUR2JoLGChS+az2t6aQJN5OK2BtM1cYgj1S3sMoRWNZNaLUhR5I6LEWMUTpEmSS1
+         SxzUSh5J2IaxPz27bOVRDfRRqnvaf7+eL57+85cvQTgqjB4qNj7Dg/0Ijww537QDV3Lt
+         F0yw==
+X-Gm-Message-State: AOAM530veQACHfN2PWMwFO0Kp/vs+Q/lNCljqpOMxcXk2JSwDsNgb1LL
+	gZNqS5wRpNC+RfxvZHjjxqI=
+X-Google-Smtp-Source: ABdhPJy/uwmve1nw952VfWWb9utrBrEo191pH16CBqTYQe7RqeTpNaY5SIhC4goLNpraihJqMZne/w==
+X-Received: by 2002:a05:6820:1686:b0:40e:ae28:643 with SMTP id bc6-20020a056820168600b0040eae280643mr17167283oob.69.1654799861806;
+        Thu, 09 Jun 2022 11:37:41 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:d78a:b0:f3:426e:e97a with SMTP id
- bd10-20020a056870d78a00b000f3426ee97als7859999oab.2.gmail; Thu, 09 Jun 2022
- 11:34:43 -0700 (PDT)
-X-Received: by 2002:a05:6870:d154:b0:f3:24ec:3332 with SMTP id f20-20020a056870d15400b000f324ec3332mr2506263oac.172.1654799683753;
-        Thu, 09 Jun 2022 11:34:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654799683; cv=none;
+Received: by 2002:a05:6808:2224:b0:32e:c693:1736 with SMTP id
+ bd36-20020a056808222400b0032ec6931736ls2981907oib.7.gmail; Thu, 09 Jun 2022
+ 11:37:41 -0700 (PDT)
+X-Received: by 2002:a05:6808:3089:b0:32e:f7fd:627d with SMTP id bl9-20020a056808308900b0032ef7fd627dmr967390oib.181.1654799861370;
+        Thu, 09 Jun 2022 11:37:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1654799861; cv=none;
         d=google.com; s=arc-20160816;
-        b=Y+ojbiAw5JqlcAm8vzNpFNY1h984WvodTuBKGlyUXuS+n6HVnyX4U6uVucj9gGO2xP
-         1Lu2E1mv0MtOHWDhnSPdJaF13Y0F6o9rhDNwGjeFQ/N4d3kZRt3AaL9Dg5RGwCo4gQ7u
-         hzXHZS5/49PpyR2pKPKCD8L3o4Y06JDJGmMf3zOvPvpHfGXQyHPyR8NddDr7+11H0X7d
-         J4Axl32t9VilPpvrp14H7Nt1/DV0l7el178dC1fq72BmQ33TGh2MtVHCXYXaCtDbV9Lr
-         WlxdpHwOv6J5Wo/aewpMKzmRt1C/1hyNt9HwI43udiSPE1/88lCNGEVXUSsLZA6Y5xLD
-         NXUQ==
+        b=vUQq5DXbW7FP+kRxcAtZxsvTu4oV+F9HM1njC/Bja2LomAC9VTH32F+KCAic009kho
+         dkWBE1ZRGrVr3s/+GmKPx4O1dpqf4cheBCKXh3RWyfYyTQuX2xXuh3PisWGnRH6vvmao
+         dBQFVcoeq/7+nWkZZDCretPBoe/rL79sKvNiwOuMCcEdd6EEtKncPOrgLvw5eLpuiUGE
+         D2Q9r9RmQimb8KTuBJsurX5uzDZI50k46Ub1B8hhkMEwsaC+SjrJRdbAVjgj6FP8obKK
+         nDp2XKM6bs4VCj89V+HQ4+NX4tJG14vDVgSHgspeCTx+VxhBQjtel/uWO3cfbtPJWFAw
+         z4Yw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=h+QoQcZlBQcgjaXTtPpLAq3kb9O2sEKS7YuulaGYrdM=;
-        b=nq7CHVpXu198Mw55wsgKjC88oIRBl29w0EV+BCuf3q96dwI86Ok33gNZ2rcOp0nQ/S
-         zrGjpXx2QPUwFJDUbP8ulqZF3x0FmMy/HllJ5erHTB360yQDA3LCLBQlcYb2AM4afE/u
-         Mqydx7jdrO6WJKP6x9/2z4C0rUXyRvr0P8FufqQrWV6hUgWtp6u8yNFeiHgghDFMfQy0
-         8GWiv6mVfecOpsEIym4XkHHcRA3S2mDNWbZUn4jD6QPnq+L6jB/J6NDNUQAuFiWG92ow
-         2Ure7303YeIBwwNZcjsoOm4Ne7vwb527wDeMAI8kVbIN3zTAL+SyWbqYb6u8h0Tf0HHz
-         Dl/Q==
+        bh=8Hj76BK0VwQ76C6uNuhyu2UOiDef16x6n+WhyTwiuL8=;
+        b=GJw8dPsioYe34CcQYXHu2/O9v0CN4WuiVnf7smGBTroGOA3DD86W4W4wWgZkFT/M+R
+         g/V9Ykc3FDDc1rFkvV723YTwbNxUK8q0Na1kleAAiRT1vPGdhWsjygX6aUoJq8WIL4Rx
+         E6w5UEF3mZM5IJwzSQLTNhZZNnwSzUj4cQBlSlchRw1yMErvIDifEZhR07mFqi08s1OQ
+         qnLFM4OCf2aubuh2XOtH0ZfZHsRBwDZ8RSRR/yHXDnOkblYBxm9T8pGvcyerqFflbJzR
+         HVvE3yF/FPTjLuGPwiy3bMLlnuQOk9g0GKDcgTSB4quqJ9Gu6xkuoSg7+HjL8N05Zpy/
+         6law==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y7L1oYc4;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com. [2607:f8b0:4864:20::d33])
-        by gmr-mx.google.com with ESMTPS id u125-20020aca6083000000b0032ec87f4accsi398892oib.4.2022.06.09.11.34.43
+       dkim=pass header.i=@google.com header.s=20210112 header.b=RXSLJN2r;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1130 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com. [2607:f8b0:4864:20::1130])
+        by gmr-mx.google.com with ESMTPS id bq10-20020a05680823ca00b003222fdff9aesi1832806oib.0.2022.06.09.11.37.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 11:34:43 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) client-ip=2607:f8b0:4864:20::d33;
-Received: by mail-io1-xd33.google.com with SMTP id e80so1560652iof.3
-        for <kasan-dev@googlegroups.com>; Thu, 09 Jun 2022 11:34:43 -0700 (PDT)
-X-Received: by 2002:a5d:9817:0:b0:65a:f20b:db2c with SMTP id
- a23-20020a5d9817000000b0065af20bdb2cmr20052140iol.118.1654799683559; Thu, 09
- Jun 2022 11:34:43 -0700 (PDT)
+        Thu, 09 Jun 2022 11:37:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1130 as permitted sender) client-ip=2607:f8b0:4864:20::1130;
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-3137316bb69so55648197b3.10
+        for <kasan-dev@googlegroups.com>; Thu, 09 Jun 2022 11:37:41 -0700 (PDT)
+X-Received: by 2002:a81:9b0c:0:b0:2f4:c522:7d3c with SMTP id
+ s12-20020a819b0c000000b002f4c5227d3cmr44383963ywg.316.1654799860756; Thu, 09
+ Jun 2022 11:37:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220607113150.55140-1-vincenzo.frascino@arm.com>
-In-Reply-To: <20220607113150.55140-1-vincenzo.frascino@arm.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Thu, 9 Jun 2022 20:34:32 +0200
-Message-ID: <CA+fCnZcZcoOz+SVXdVOsrC_pR_PJUoCQnJe3B2u=D_K7=J79+Q@mail.gmail.com>
-Subject: Re: [PATCH] mte: Initialize tag storage to KASAN_TAG_INVALID
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+References: <20220609113046.780504-1-elver@google.com> <20220609113046.780504-2-elver@google.com>
+ <CACT4Y+bOFmCyqfSgWS0b5xuwnPqP4V9v2ooJRmFCn0YAtOPmhQ@mail.gmail.com>
+ <CANpmjNNtV_6kgoLv=VX3z_oM6ZEvWJNAOj9z4ADcymqmhc+crw@mail.gmail.com> <CACT4Y+Zq-1nczM2JH7Sr4mZo84gsCRd83RAwwnHwmap-wCOLTQ@mail.gmail.com>
+In-Reply-To: <CACT4Y+Zq-1nczM2JH7Sr4mZo84gsCRd83RAwwnHwmap-wCOLTQ@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 9 Jun 2022 20:37:04 +0200
+Message-ID: <CANpmjNNC7ry59OXsJrPMf56Xi63chexaDfnP4t8_4MG7S5ZgCg@mail.gmail.com>
+Subject: Re: [PATCH 1/8] perf/hw_breakpoint: Optimize list of per-task breakpoints
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Frederic Weisbecker <frederic@kernel.org>, 
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@redhat.com>, 
+	Namhyung Kim <namhyung@kernel.org>, linux-perf-users@vger.kernel.org, x86@kernel.org, 
+	linux-sh@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=Y7L1oYc4;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20210112 header.b=RXSLJN2r;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1130 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,137 +138,100 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jun 7, 2022 at 1:32 PM Vincenzo Frascino
-<vincenzo.frascino@arm.com> wrote:
+On Thu, 9 Jun 2022 at 18:53, Dmitry Vyukov <dvyukov@google.com> wrote:
 >
-> When the kernel is entered on aarch64, the MTE allocation tags are in an
-> UNKNOWN state.
+> .
+> /On Thu, 9 Jun 2022 at 16:56, Marco Elver <elver@google.com> wrote:
+> > > > On a machine with 256 CPUs, running the recently added perf breakpoint
+> > > > benchmark results in:
+> > > >
+> > > >  | $> perf bench -r 30 breakpoint thread -b 4 -p 64 -t 64
+> > > >  | # Running 'breakpoint/thread' benchmark:
+> > > >  | # Created/joined 30 threads with 4 breakpoints and 64 parallelism
+> > > >  |      Total time: 236.418 [sec]
+> > > >  |
+> > > >  |   123134.794271 usecs/op
+> > > >  |  7880626.833333 usecs/op/cpu
+> > > >
+> > > > The benchmark tests inherited breakpoint perf events across many
+> > > > threads.
+> > > >
+> > > > Looking at a perf profile, we can see that the majority of the time is
+> > > > spent in various hw_breakpoint.c functions, which execute within the
+> > > > 'nr_bp_mutex' critical sections which then results in contention on that
+> > > > mutex as well:
+> > > >
+> > > >     37.27%  [kernel]       [k] osq_lock
+> > > >     34.92%  [kernel]       [k] mutex_spin_on_owner
+> > > >     12.15%  [kernel]       [k] toggle_bp_slot
+> > > >     11.90%  [kernel]       [k] __reserve_bp_slot
+> > > >
+> > > > The culprit here is task_bp_pinned(), which has a runtime complexity of
+> > > > O(#tasks) due to storing all task breakpoints in the same list and
+> > > > iterating through that list looking for a matching task. Clearly, this
+> > > > does not scale to thousands of tasks.
+> > > >
+> > > > While one option would be to make task_struct a breakpoint list node,
+> > > > this would only further bloat task_struct for infrequently used data.
+> > >
+> > > task_struct already has:
+> > >
+> > > #ifdef CONFIG_PERF_EVENTS
+> > >   struct perf_event_context *perf_event_ctxp[perf_nr_task_contexts];
+> > >   struct mutex perf_event_mutex;
+> > >   struct list_head perf_event_list;
+> > > #endif
+> > >
+> > > Wonder if it's possible to use perf_event_mutex instead of the task_sharded_mtx?
+> > > And possibly perf_event_list instead of task_bps_ht? It will contain
+> > > other perf_event types, so we will need to test type as well, but on
+> > > the positive side, we don't need any management of the separate
+> > > container.
+> >
+> > Hmm, yes, I looked at that but then decided against messing the
+> > perf/core internals. The main issue I have with using perf_event_mutex
+> > is that we might interfere with perf/core's locking rules as well as
+> > interfere with other concurrent perf event additions. Using
+> > perf_event_list is very likely a no-go because it requires reworking
+> > perf/core as well.
+> >
+> > I can already hear Peter shouting, but maybe I'm wrong. :-)
 >
-> With MTE enabled, the tags are initialized:
->  - When a page is allocated and the user maps it with PROT_MTE.
->  - On allocation, with in-kernel MTE enabled (KHWASAN).
+> Let's wait for Peter to shout then :)
+> A significant part of this change is having per-task data w/o having
+> per-task data.
+>
+> The current perf-related data in task_struct is already multiple words
+> and it's also not used in lots of production cases.
+> Maybe we could have something like:
+>
+>   struct perf_task_data* lazily_allocated_perf_data;
+>
+> that's lazily allocated on first use instead of the current
+> perf_event_ctxp/perf_event_mutex/perf_event_list.
+> This way we could both reduce task_size when perf is not used and have
+> more perf-related data (incl breakpoints) when it's used.
 
-Hi Vincenzo,
+I don't mind either option, so keeping task_struct bloat in mind, we have:
 
-I think we should move away from the KHWASAN name - it was used during
-the early prototyping days for SW_TAGS KASAN. What you mean here is
-HW_TAGS KASAN.
+  1. rhashtable option, no changes to task_struct.
 
-Thanks!
+  2. add the breakpoint mutex + list to task_struct.
 
+  3. add something like hw_breakpoint_task_data* and allocate lazily.
 
->
-> If the tag pool is zeroed by the hardware at reset, it makes it
-> difficult to track potential places where the initialization of the
-> tags was missed.
->
-> This can be observed under QEMU for aarch64, which initializes the MTE
-> allocation tags to zero.
->
-> Initialize to tag storage to KASAN_TAG_INVALID to catch potential
-> places where the initialization of the tags was missed.
->
-> This is done introducing a new kernel command line parameter
-> "mte.tags_init" that enables the debug option.
->
-> Note: The proposed solution should be considered a debug option because
-> it might have performance impact on large machines at boot.
->
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> ---
->  arch/arm64/kernel/mte.c | 47 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
->
-> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-> index 57b30bcf9f21..259a826363f1 100644
-> --- a/arch/arm64/kernel/mte.c
-> +++ b/arch/arm64/kernel/mte.c
-> @@ -6,6 +6,7 @@
->  #include <linux/bitops.h>
->  #include <linux/cpu.h>
->  #include <linux/kernel.h>
-> +#include <linux/memblock.h>
->  #include <linux/mm.h>
->  #include <linux/prctl.h>
->  #include <linux/sched.h>
-> @@ -35,6 +36,8 @@ DEFINE_STATIC_KEY_FALSE(mte_async_or_asymm_mode);
->  EXPORT_SYMBOL_GPL(mte_async_or_asymm_mode);
->  #endif
->
-> +static bool mte_tags_init __ro_after_init;
-> +
->  static void mte_sync_page_tags(struct page *page, pte_t old_pte,
->                                bool check_swap, bool pte_is_tagged)
->  {
-> @@ -107,6 +110,48 @@ int memcmp_pages(struct page *page1, struct page *page2)
->         return ret;
->  }
->
-> +/* mte.tags_init=off/on */
-> +static int __init early_mte_tags_init(char *arg)
-> +{
-> +       if (!arg)
-> +               return -EINVAL;
-> +
-> +       if (!strcmp(arg, "off"))
-> +               mte_tags_init = false;
-> +       else if (!strcmp(arg, "on"))
-> +               mte_tags_init = true;
-> +       else
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +early_param("mte.tags_init", early_mte_tags_init);
-> +
-> +static inline void __mte_tag_storage_init(void)
-> +{
-> +       static bool mte_tags_uninitialized = true;
-> +       phys_addr_t pa_start, pa_end;
-> +       u64 index;
-> +
-> +       if (mte_tags_init && !mte_tags_uninitialized)
-> +               return;
-> +
-> +       for_each_mem_range(index, &pa_start, &pa_end) {
-> +               void *va_start = (void *)__phys_to_virt(pa_start);
-> +               void *va_end = (void *)__phys_to_virt(pa_end);
-> +               size_t va_size = (u64)va_end - (u64)va_start;
-> +
-> +               if (va_start >= va_end)
-> +                       break;
-> +
-> +               mte_set_mem_tag_range(va_start, va_size, KASAN_TAG_INVALID, false);
-> +       }
-> +
-> +       /* Tags are now initialized to KASAN_TAG_INVALID */
-> +       mte_tags_uninitialized = false;
-> +       pr_info("MTE: Tag Storage Initialized\n");
-> +}
-> +
->  static inline void __mte_enable_kernel(const char *mode, unsigned long tcf)
->  {
->         /* Enable MTE Sync Mode for EL1. */
-> @@ -114,6 +159,8 @@ static inline void __mte_enable_kernel(const char *mode, unsigned long tcf)
->                          SYS_FIELD_PREP(SCTLR_EL1, TCF, tcf));
->         isb();
->
-> +       __mte_tag_storage_init();
-> +
->         pr_info_once("MTE: enabled in %s mode at EL1\n", mode);
->  }
->
-> --
-> 2.36.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220607113150.55140-1-vincenzo.frascino%40arm.com.
+  4. (your proposal) move all of perf data into a new struct (+add
+hw_breakpoint things in there) that is lazily allocated.
+
+I don't think perf is that infrequently used, and I can't estimate
+performance impact, so I don't like #4 too much personally. My
+preferred compromise would be #3, but at the same time I'd rather not
+bloat task_struct even with 8 extra infrequently used bytes. Am I too
+paranoid?
+
+Preferences?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZcZcoOz%2BSVXdVOsrC_pR_PJUoCQnJe3B2u%3DD_K7%3DJ79%2BQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNC7ry59OXsJrPMf56Xi63chexaDfnP4t8_4MG7S5ZgCg%40mail.gmail.com.
