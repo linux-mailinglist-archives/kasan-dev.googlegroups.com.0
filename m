@@ -1,135 +1,138 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRBVHZRCKQMGQEPOO4XKA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBRH2RCKQMGQEIJXZVRQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D02E54542B
-	for <lists+kasan-dev@lfdr.de>; Thu,  9 Jun 2022 20:32:53 +0200 (CEST)
-Received: by mail-wm1-x337.google.com with SMTP id k5-20020a05600c1c8500b003974c5d636dsf59672wms.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jun 2022 11:32:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1654799573; cv=pass;
+Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DF7545434
+	for <lists+kasan-dev@lfdr.de>; Thu,  9 Jun 2022 20:34:45 +0200 (CEST)
+Received: by mail-ot1-x33e.google.com with SMTP id y21-20020a0568302a1500b0060bd96d084dsf7695292otu.15
+        for <lists+kasan-dev@lfdr.de>; Thu, 09 Jun 2022 11:34:45 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1654799684; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EkBnuOfsXiXECBTQZaOle4w6mCqdVmag7mTJK29BrOeWGyJ5CBhbSSY6c+2qSPpwOS
-         1m52UO79AZxIPE4+g/lb2+YW7tbfMrhbIX/njVWhKWn7RmZfYwdudN2sdvsLTrHN2peJ
-         GyLVjHsHLQmfh8t0pzyoL3e+4ULNeYXQyObcIwTPPAE3qrf3JeVapFLhDr9z5SPnRWaH
-         Bs59sO7woX7KgCsm54zyxGORG49dE/8d8CVkLXyUcxb0/JXJoGtawCT7/SsnzkxAGOKv
-         yKLu5aoQ/+s4z141kgeo4MDxxryYAn1Pliws8VdVEoEtUhzrK0ZwLu8US47YsEWhzfHi
-         3+ZQ==
+        b=aB8SNMaTlScSRlyQav8hHWSBqPqnDTuJJeWo9zm9SGRQHM1hlGGdDRBmm2McmB3sce
+         nQHnX//sHpS/8TcR8KWOvrAS/4gTdDTfAFa+xRPe4393hhuwJiY1hHnwrsgRcUZX0y46
+         pxhJNhE3HjqKpT9VhUVjGFeVdg06b9RY204ZKv2yShF4tgppaKVYLMG1WYdpXsU6ZfL5
+         8kfMge1LQgTRY8NYddUy3J4jlpL0zEuNsO0FLoiSYrR4quFwvVihojWM1EAELch5yHwx
+         qwK4wHvETxP8l0YMAruP9X4kv4f0ILA5/h3X7eV3fGMLxahTyIbS9VHnWZNsSEdLi0xO
+         pLZw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
          :dkim-signature;
-        bh=/2mGinuhDAYC1UoUafSrXB4JFxn+R8+iYCgeQxrm39s=;
-        b=UXv1jynzzwAexvfpSy7T3oOQnzcKbh4cfuJGwYtGB1PY4Hm7QUUuF2iw5MhqLrKqWk
-         E3Tpqx1vhfvz3Mmyn24BIv7MOzPnSkfshzF/QqWC5zIixbRKIrXJG8aOKItmDG2GkYpR
-         2kALX4ouLxys8iEgmWGf3ZzeOuJqKPNXOldth7esZUdZP9JS564jdjrf7MoWKghvQ8d/
-         K0Xf1ebfn656dO6LF6aQ4R2GKNGI+VgSJPSshlayK5jR8krG99fy9OkIeeY7gcPmUGJF
-         JHj5rnOIhB3pYqMh777HVFBMQYxN78tY6XNRSkfY780PI5BTE1YaoV4Ll6Vp2BI6eS2k
-         GGlg==
+        bh=m7C67HCXWWVG4dCiPjQTf2zS78Z9DguJnYv0UP2f5W4=;
+        b=OaYalPKGQuc0x+mb29YRMYDP8C7EuWyJAYgFr+6TP9hQa0WMSFsTXB37ix8He8qOUM
+         0QvRl64Uv0d3JdP/V1VD6vC+QYZlm18EU/CXW+HH21w889wppuplgdDG6yrpP7Af+cNe
+         2R4M88QzlbZ0i8pxysUxmxYTQy2k7R4GNyQaw5RRAzphVZID+OMHrP9UpcCOc/jYqaHI
+         P9SC/40XpkMvxa5WRvXIGkr7Bky74p82LNM02SI3Ez24WOqqXWllarliZNCg4bNMf9Br
+         SZwNac8amq2lhECUupsB3887TahVoZCzl5oU9IqUU6n8ZLdexVHUQ2R6+uaK4gMv99AP
+         aCrQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y7L1oYc4;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=/2mGinuhDAYC1UoUafSrXB4JFxn+R8+iYCgeQxrm39s=;
-        b=jIG+42k1dRbT0JfKYcf8AiVV/iFbnwV6qudMP+YkzhWvOqxMdzoHEmOkJVrBK/MZyU
-         ukBWxvLVU0iYRmJY1VpJajO7wy8yQlU2xKdA0SVC1InVWytJCkvvzPXaZP9K2BG15qfR
-         T8mSqSQCmPfcvhdCqJPDGPilHu7gfW/e1FGHEl+MUyKAeHWxtJX3Cd/BgBi6WG0ZKeYB
-         8D104FJnCYSq9c+gHlrnGtKI8X1sw/P7zu8fJSLWOWtpnYhFp+gpjlCKVH3bGFS+VJi9
-         ADdi6ZXuU4qMWoS4gJXwPcJEBP8RYuO2I/TiRnSWJHKLCpxv1opqGZhQWWRkmeb4GtNK
-         FWUw==
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=m7C67HCXWWVG4dCiPjQTf2zS78Z9DguJnYv0UP2f5W4=;
+        b=oxSrowZDl47/MtQsoQnNpeIX2KuVoCzJKLIrtvMzBFPSEgRISRR2DvP+TQ65fdcjQM
+         F1ud3SaQjrEJrs1DWJ/7vyAXHg+akQiSc6FOGTR0DRIu0EbtTm6n3/WPRsNBxzVu8IA1
+         j8nlFcqpZslmF6eM+Y041+Hkd/UPN4xmNfl6TnZXESwglRjaN2ce8dsd9JefrlSE6niy
+         /AlxPmeWcsZcFU9KI6u/ZMRYnqCP53by6Gjf+HuXFykNveOQ5an3ivlb5OUmI0VWjJ2a
+         g5KK5B2x5Didf4C00m9VGOiSfNyKdYWI9s1QtUwM2w4t0immoNXBwJOVCcg3L/1GnDfT
+         hG8g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=m7C67HCXWWVG4dCiPjQTf2zS78Z9DguJnYv0UP2f5W4=;
+        b=Dd8n8hOVzp70aDd9bvOfWNKSceqkU8wNELhRO43PC+39iq5wa7JLf6Nr0yywon93pC
+         rO4IFaT3y54LusCQakWgNdkOGAsDTnCmI2S7rYViGEww4K1JkkLCDTMMItx4T6Lx3oL1
+         VBlGH/35GVbBUL4C9h7HeuJK9ixJ/DwYex/u+l+eSzQKCRTTmWrgOstvxcid4Nofn2X1
+         PJ5CDNP7uYLUSLx+58uHN3z5w+eq/tulBvHyJUWJu8o1mzVLF0P14rWWXZItWyfX+uQo
+         y5LpJmswYdPVqB2axRb2JyuCobQWDk1m/BtECTb8QXV2mYsifdVqCoEpBopoX5+acE6k
+         bh6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=/2mGinuhDAYC1UoUafSrXB4JFxn+R8+iYCgeQxrm39s=;
-        b=bNsW6wP/sWlVGUluABJvY5cqaDC8KS8S0m86gRIsTjIP6KsNajPiuqgq0j+IeMT6TN
-         RJFv9FVu5VgViVBXHLjLTUkdkGL3AjQBUeiO7YdZNOlXtoxkfM577dMB3PN9tUfLAye/
-         /BdXuCFiIvLpCzVX7lWhMzPECn/UDBMnUV7WEyMN+y5fGG9ExIKjgCG49a/c1GXnPD3s
-         tzHyJYIH6sQC05RD8XCdtHPE+25IrJdL7dZi39m1e2HrvxRbI4g+6DFfE0Ba3aCbOBUV
-         gycOXf1dnTl8OcQrorpoHl6/eOBY5tD0UWzbwqC3FRD5zDRCxHvaeah56AQ3gv9F6fDG
-         mLIw==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=m7C67HCXWWVG4dCiPjQTf2zS78Z9DguJnYv0UP2f5W4=;
+        b=LFV6Sle2CztPS6mjPuyCSm6T2bw/9ZIFVGj2iRI5mNiOFw+eGMP7I6RooW5OdJD5+l
+         cfdbO5GmbiKJtixju/CIJXogkaOKAoK58BuB7AXKJADsV4he8V631D0C2g/eQfOm6EN2
+         MutHYzbM4vPxaSQ+mqlYTi5H61mK5ZM4itajq5lPDvSYu2FCnS7C9mhb2u22bTLMgl3i
+         X2PuzjCN2rw2JQn1usnz7Rq8PnxvqxujicLf9fXvvmfbrmcvxEvvX+JelqxDwemyTukH
+         6zf8XaCGX3DX88MWJiQlYS1Ngxmd2GA2N64WEAW6qhI6428xgfuh9PRDHvicQ2W1JFq4
+         EIFg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOAM531smTC5fk8VaL4qtrPcPFHoEKOeaSdJq9ODv+rf6hII6EEWJBU1
-	OqIFRTLMKitr6zT939DZORw=
-X-Google-Smtp-Source: ABdhPJyeDfR0yaLZJOXiubnXOIdXpQc+YQgMcKqemopu/cw9c8sZ1oUtJ6OOg6M708suCM4b2DJ//w==
-X-Received: by 2002:adf:fd0f:0:b0:210:32d7:4cb5 with SMTP id e15-20020adffd0f000000b0021032d74cb5mr40025536wrr.565.1654799573123;
-        Thu, 09 Jun 2022 11:32:53 -0700 (PDT)
+X-Gm-Message-State: AOAM532zqisQ8FtAURN3ZPINuO/FyMBhjsvM207nwmSILQTKDtYR0xuf
+	0712UFC/L+MMGXyzRGVbzJo=
+X-Google-Smtp-Source: ABdhPJxEwCc5EY7PiIBpHHGjWzmQ9VawlaISweGcujxvimW2BuN2hlsONLDzkgkxelNicIJIBcfvJA==
+X-Received: by 2002:a05:6808:138c:b0:32e:714f:35e4 with SMTP id c12-20020a056808138c00b0032e714f35e4mr2501870oiw.229.1654799684104;
+        Thu, 09 Jun 2022 11:34:44 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:5848:0:b0:219:b7ea:18e1 with SMTP id i8-20020a5d5848000000b00219b7ea18e1ls2843437wrf.2.gmail;
- Thu, 09 Jun 2022 11:32:51 -0700 (PDT)
-X-Received: by 2002:a5d:64c5:0:b0:218:3fcb:d909 with SMTP id f5-20020a5d64c5000000b002183fcbd909mr22910221wri.308.1654799571806;
-        Thu, 09 Jun 2022 11:32:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1654799571; cv=none;
+Received: by 2002:a05:6870:d78a:b0:f3:426e:e97a with SMTP id
+ bd10-20020a056870d78a00b000f3426ee97als7859999oab.2.gmail; Thu, 09 Jun 2022
+ 11:34:43 -0700 (PDT)
+X-Received: by 2002:a05:6870:d154:b0:f3:24ec:3332 with SMTP id f20-20020a056870d15400b000f324ec3332mr2506263oac.172.1654799683753;
+        Thu, 09 Jun 2022 11:34:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1654799683; cv=none;
         d=google.com; s=arc-20160816;
-        b=ccKv6OoP0LPHGghf2k6eeXkzWP+tzA6ksQDGwU/1uBYrBRm/nTZW/iM8P2bFtaj+oc
-         HgXvj0q2CzjZayviXvx0m1TgG5LLyfLxM56zPP1InpSO8m5zh0exrvnEVWjCXzIIq124
-         diO6ueWP0H7a8RU0zwGhK0FJAu0DcsjBPvEtQLpVtye4O3/vgpFdlujzSnwmFFO/hOYd
-         r8tihy4oRqHTEdZLw+kMz5pVYVJsSQXd+3W+33MJpJzAzBq0AOYUnABMZExFwdcgFhTl
-         DlPGoHYq8tDrC7+dOp8sFi1AQgqum30ItBq7yox+XRYHbGKP4bHVrw0kPV2lk/3dz8zm
-         4ypA==
+        b=Y+ojbiAw5JqlcAm8vzNpFNY1h984WvodTuBKGlyUXuS+n6HVnyX4U6uVucj9gGO2xP
+         1Lu2E1mv0MtOHWDhnSPdJaF13Y0F6o9rhDNwGjeFQ/N4d3kZRt3AaL9Dg5RGwCo4gQ7u
+         hzXHZS5/49PpyR2pKPKCD8L3o4Y06JDJGmMf3zOvPvpHfGXQyHPyR8NddDr7+11H0X7d
+         J4Axl32t9VilPpvrp14H7Nt1/DV0l7el178dC1fq72BmQ33TGh2MtVHCXYXaCtDbV9Lr
+         WlxdpHwOv6J5Wo/aewpMKzmRt1C/1hyNt9HwI43udiSPE1/88lCNGEVXUSsLZA6Y5xLD
+         NXUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=W3NEPlZRtdoJE5gZr//+f3onrus2x6Ltw/Knl3Z38go=;
-        b=p9A/Uer+eue6YL6UOKj5TemizeI0e45Qp/olYSP7rRT6ervNoRp1vtcyUhxk39Jv+b
-         gszcNMl88hOCQTLSG9zzT5REepMh9Lr/34kBmL65St+4V/oI10QnzuQwA9txwO/v+zZ0
-         ef2Y6JdRc1MjpHas5iaUzZwJSuUWZSEqlUiORmCUNVte6NrjqKzkSGACnQH8ZWxrVnUF
-         081DSmdjjyYTA/p6DbElAqjltJGf3A20nq9AiAvkHxtkWCOybMpmAaHM6egYYUAkpt6s
-         fwhfljmclqa4J0X3c96NaXU0dNnC0+hyDA16GJLnROlwy/03Wejoz/UyAbNTMmMadmiN
-         nw2g==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=h+QoQcZlBQcgjaXTtPpLAq3kb9O2sEKS7YuulaGYrdM=;
+        b=nq7CHVpXu198Mw55wsgKjC88oIRBl29w0EV+BCuf3q96dwI86Ok33gNZ2rcOp0nQ/S
+         zrGjpXx2QPUwFJDUbP8ulqZF3x0FmMy/HllJ5erHTB360yQDA3LCLBQlcYb2AM4afE/u
+         Mqydx7jdrO6WJKP6x9/2z4C0rUXyRvr0P8FufqQrWV6hUgWtp6u8yNFeiHgghDFMfQy0
+         8GWiv6mVfecOpsEIym4XkHHcRA3S2mDNWbZUn4jD6QPnq+L6jB/J6NDNUQAuFiWG92ow
+         2Ure7303YeIBwwNZcjsoOm4Ne7vwb527wDeMAI8kVbIN3zTAL+SyWbqYb6u8h0Tf0HHz
+         Dl/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id x13-20020a5d60cd000000b0020c6d76cc7fsi919066wrt.7.2022.06.09.11.32.51
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y7L1oYc4;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com. [2607:f8b0:4864:20::d33])
+        by gmr-mx.google.com with ESMTPS id u125-20020aca6083000000b0032ec87f4accsi398892oib.4.2022.06.09.11.34.43
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 Jun 2022 11:32:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 74E07B82FC7;
-	Thu,  9 Jun 2022 18:32:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B3DC34114;
-	Thu,  9 Jun 2022 18:32:48 +0000 (UTC)
-Date: Thu, 9 Jun 2022 19:32:44 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Will Deacon <will@kernel.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Peter Collingbourne <pcc@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 0/3] kasan: Fix ordering between MTE tag colouring and
- page->flags
-Message-ID: <YqI8zGRKa6GE+K1A@arm.com>
-References: <20220517180945.756303-1-catalin.marinas@arm.com>
- <CA+fCnZf7bYRP7SBvXNvdhtTN8scXJuz9WJRRjB9CyHFqvRBE6Q@mail.gmail.com>
- <YoeROxju/rzTyyod@arm.com>
- <CA+fCnZe0t_P_crBLaNJHMqTM1ip1PeR9CNK40REg7vyOW+ViOA@mail.gmail.com>
- <Yo5PAJTI7CwxVZ/q@arm.com>
- <CA+fCnZc1CUatXbp=KVSD3s71k1GcoPdNCFF1rSxfyPaY4e0qaQ@mail.gmail.com>
- <Yo9xbkyfj0zkc1qa@arm.com>
- <CA+fCnZfZv3Q-2Xj1X6wEN13R6kJQbE_3EgzYMyZ8ZmWogf28Ww@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jun 2022 11:34:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) client-ip=2607:f8b0:4864:20::d33;
+Received: by mail-io1-xd33.google.com with SMTP id e80so1560652iof.3
+        for <kasan-dev@googlegroups.com>; Thu, 09 Jun 2022 11:34:43 -0700 (PDT)
+X-Received: by 2002:a5d:9817:0:b0:65a:f20b:db2c with SMTP id
+ a23-20020a5d9817000000b0065af20bdb2cmr20052140iol.118.1654799683559; Thu, 09
+ Jun 2022 11:34:43 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220607113150.55140-1-vincenzo.frascino@arm.com>
+In-Reply-To: <20220607113150.55140-1-vincenzo.frascino@arm.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Thu, 9 Jun 2022 20:34:32 +0200
+Message-ID: <CA+fCnZcZcoOz+SVXdVOsrC_pR_PJUoCQnJe3B2u=D_K7=J79+Q@mail.gmail.com>
+Subject: Re: [PATCH] mte: Initialize tag storage to KASAN_TAG_INVALID
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	LKML <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CA+fCnZfZv3Q-2Xj1X6wEN13R6kJQbE_3EgzYMyZ8ZmWogf28Ww@mail.gmail.com>
-X-Original-Sender: catalin.marinas@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 145.40.68.75 as
- permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
- sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: andreyknvl@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20210112 header.b=Y7L1oYc4;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::d33
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,60 +145,137 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Andrey,
+On Tue, Jun 7, 2022 at 1:32 PM Vincenzo Frascino
+<vincenzo.frascino@arm.com> wrote:
+>
+> When the kernel is entered on aarch64, the MTE allocation tags are in an
+> UNKNOWN state.
+>
+> With MTE enabled, the tags are initialized:
+>  - When a page is allocated and the user maps it with PROT_MTE.
+>  - On allocation, with in-kernel MTE enabled (KHWASAN).
 
-Sorry, I got distracted by the merging window.
+Hi Vincenzo,
 
-On Tue, May 31, 2022 at 07:16:03PM +0200, Andrey Konovalov wrote:
-> On Thu, May 26, 2022 at 2:24 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > If we skip unpoisoning (not just poisoning as we already do) for user
-> > pages, we should reset the tags in page->flags. Whether __GFP_ZEROTAGS
-> > is passed is complementary, depending on the reason for allocation.
-> 
-> [...]
-> 
-> > Currently if __GFP_ZEROTAGS is passed, the unpoisoning is skipped but I
-> > think we should have just added __GFP_SKIP_KASAN_UNPOISON instead and
-> > not add a new argument to should_skip_kasan_unpoison(). If we decide to
-> > always skip unpoisoning, something like below on top of the vanilla
-> > kernel:
-> 
-> [...]
-> 
-> > With the above, we can wire up page_kasan_tag_reset() to the
-> > __GFP_SKIP_KASAN_UNPOISON check without any additional flags.
-> 
-> This would make __GFP_SKIP_KASAN_UNPOISON do two logically unrelated
-> things: skip setting memory tags and reset page tags. This seems
-> weird.
+I think we should move away from the KHWASAN name - it was used during
+the early prototyping days for SW_TAGS KASAN. What you mean here is
+HW_TAGS KASAN.
 
-Not entirely weird, it depends on how you look at it. After allocation,
-you expect the accesses to page_address() to work, irrespective of the
-GFP flags. __kasan_unpoison_pages() ensures that the page->flags match
-the written tag without a new GFP flag to set the page->flags. If you
-skip the unpoisoning something should reset the page->flags tag to
-ensure an accessible page_address(). I find it weirder that you need
-another GFP flag to pretty much say 'give me an accessible page'.
+Thanks!
 
-> I think it makes more sense to split __GFP_ZEROTAGS into
-> __GFP_ZERO_MEMORY_TAGS and __GFP_ZERO_PAGE_TAGS: the first one does
-> tag_clear_highpage() without page_kasan_tag_reset() and the second one
-> does page_kasan_tag_reset() in post_alloc_hook(). Then, add
-> __GFP_ZERO_PAGE_TAGS to GFP_HIGHUSER_MOVABLE along with
-> __GFP_SKIP_KASAN_UNPOISON and __GFP_SKIP_KASAN_POISON. And replace
-> __GFP_ZEROTAGS with __GFP_ZERO_MEMORY_TAGS in
-> alloc_zeroed_user_highpage_movable().
 
-As above, my preference would be to avoid a new flag, just wire this up
-to __GFP_SKIP_KASAN_UNPOISON. But if you do want fine-grained control, I
-can add the above.
-
-Thanks.
-
--- 
-Catalin
+>
+> If the tag pool is zeroed by the hardware at reset, it makes it
+> difficult to track potential places where the initialization of the
+> tags was missed.
+>
+> This can be observed under QEMU for aarch64, which initializes the MTE
+> allocation tags to zero.
+>
+> Initialize to tag storage to KASAN_TAG_INVALID to catch potential
+> places where the initialization of the tags was missed.
+>
+> This is done introducing a new kernel command line parameter
+> "mte.tags_init" that enables the debug option.
+>
+> Note: The proposed solution should be considered a debug option because
+> it might have performance impact on large machines at boot.
+>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> ---
+>  arch/arm64/kernel/mte.c | 47 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>
+> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+> index 57b30bcf9f21..259a826363f1 100644
+> --- a/arch/arm64/kernel/mte.c
+> +++ b/arch/arm64/kernel/mte.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/bitops.h>
+>  #include <linux/cpu.h>
+>  #include <linux/kernel.h>
+> +#include <linux/memblock.h>
+>  #include <linux/mm.h>
+>  #include <linux/prctl.h>
+>  #include <linux/sched.h>
+> @@ -35,6 +36,8 @@ DEFINE_STATIC_KEY_FALSE(mte_async_or_asymm_mode);
+>  EXPORT_SYMBOL_GPL(mte_async_or_asymm_mode);
+>  #endif
+>
+> +static bool mte_tags_init __ro_after_init;
+> +
+>  static void mte_sync_page_tags(struct page *page, pte_t old_pte,
+>                                bool check_swap, bool pte_is_tagged)
+>  {
+> @@ -107,6 +110,48 @@ int memcmp_pages(struct page *page1, struct page *page2)
+>         return ret;
+>  }
+>
+> +/* mte.tags_init=off/on */
+> +static int __init early_mte_tags_init(char *arg)
+> +{
+> +       if (!arg)
+> +               return -EINVAL;
+> +
+> +       if (!strcmp(arg, "off"))
+> +               mte_tags_init = false;
+> +       else if (!strcmp(arg, "on"))
+> +               mte_tags_init = true;
+> +       else
+> +               return -EINVAL;
+> +
+> +       return 0;
+> +}
+> +early_param("mte.tags_init", early_mte_tags_init);
+> +
+> +static inline void __mte_tag_storage_init(void)
+> +{
+> +       static bool mte_tags_uninitialized = true;
+> +       phys_addr_t pa_start, pa_end;
+> +       u64 index;
+> +
+> +       if (mte_tags_init && !mte_tags_uninitialized)
+> +               return;
+> +
+> +       for_each_mem_range(index, &pa_start, &pa_end) {
+> +               void *va_start = (void *)__phys_to_virt(pa_start);
+> +               void *va_end = (void *)__phys_to_virt(pa_end);
+> +               size_t va_size = (u64)va_end - (u64)va_start;
+> +
+> +               if (va_start >= va_end)
+> +                       break;
+> +
+> +               mte_set_mem_tag_range(va_start, va_size, KASAN_TAG_INVALID, false);
+> +       }
+> +
+> +       /* Tags are now initialized to KASAN_TAG_INVALID */
+> +       mte_tags_uninitialized = false;
+> +       pr_info("MTE: Tag Storage Initialized\n");
+> +}
+> +
+>  static inline void __mte_enable_kernel(const char *mode, unsigned long tcf)
+>  {
+>         /* Enable MTE Sync Mode for EL1. */
+> @@ -114,6 +159,8 @@ static inline void __mte_enable_kernel(const char *mode, unsigned long tcf)
+>                          SYS_FIELD_PREP(SCTLR_EL1, TCF, tcf));
+>         isb();
+>
+> +       __mte_tag_storage_init();
+> +
+>         pr_info_once("MTE: enabled in %s mode at EL1\n", mode);
+>  }
+>
+> --
+> 2.36.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220607113150.55140-1-vincenzo.frascino%40arm.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YqI8zGRKa6GE%2BK1A%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZcZcoOz%2BSVXdVOsrC_pR_PJUoCQnJe3B2u%3DD_K7%3DJ79%2BQ%40mail.gmail.com.
