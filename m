@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABBIFYT2KQMGQE7NCAIEI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBINYT2KQMGQEYKKYMEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CC5549EED
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1687549EEE
 	for <lists+kasan-dev@lfdr.de>; Mon, 13 Jun 2022 22:20:49 +0200 (CEST)
-Received: by mail-wm1-x340.google.com with SMTP id p42-20020a05600c1daa00b0039c62488f7esf6401649wms.7
+Received: by mail-wm1-x33c.google.com with SMTP id z13-20020a7bc7cd000000b0039c4a238eadsf2961004wmk.9
         for <lists+kasan-dev@lfdr.de>; Mon, 13 Jun 2022 13:20:49 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1655151649; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oc1vSG159r9Pvry9pqNymWtNHmmXHrAaXnc2Et4pJawFW8+Pk2l80iVsyjjM8I2Z+c
-         /mZEVyebgIoOH6zalTy9S9+YOVwLd44cLgzzL9ao1d5ufI3LhJV4ZGteopcex1BQeZ2A
-         cvgoAzw5YWRPLoPHV69zT3zQuOa/dzhzN/c2f3djIqw2IhwmpaUBjj58Z5Op0YGjYS57
-         C0cca0gKTTtvTvt10WFHbdLy1Pcl7pqNYIP6cgj6FOU1wfhtDhKiYTnv7ah5qIOx0Idh
-         hDJuQ3qB7746xa1j21GTCXyE8mNc1Aw/K9ySkv288yXqrSn318GtusypXNE+JoWBqIwg
-         F3lg==
+        b=kRBADUG+0ilmAJv0VS7/b8JwMkBq/2QzWgMjR6JkwVmiGD6Mzi6jUVRXzmUhhMahou
+         dtvUMSooVw0OmC39Ms5XiDv5XZqrGRiV1jctAY7re4OoMPWibnKuo5lF6uDrQFF66tkZ
+         LycE9Ui/2r3bqOdZv9csZ4DUqIjTA5j0AJZvbzmFTiZP6O/qEsth+4CBW9xBVxERaHAp
+         Zzg7GkcdguJiqI+PSs/OaLkvcektSVG/zTvpi39Z2omEcu66MTHJ/jYavsMqGXlS+ZTB
+         4Hi5SyFgWxDcVfGVLJV4LWLFq6b74OO+YafTh6qOggA4JkDk3V/fsoQx4HoMmr+Kb/vc
+         4HEw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=JxqXFxZlMCRDoIDYidM1NInLDLBdHmySEfWjggcX+G4=;
-        b=yrlAax4HrH/akr2EHo4st8ZOFwBVybp8KoSAEQpFwISViSTBKz7FPPXNB5UDRG4IMJ
-         nfOgJG4xDy30jy316PCmLr4LVMq2x0ap4AEBMzlNx5PeOE+lomUXdP9xcssgXXAYo7+z
-         bkM2P+qk7NrLeSG66d1a0gFA0FEDkTjCbbKqDyGT/2xUuWaHnYZzEA+6r/nMz3x8GjDV
-         1x9HbTPG6DiXCipdxo7Fpzkyy5F6C3aM5TD/B5Acw0/syCznYrP7B+MndYTdsGn1pdlQ
-         HgbQ3ol/94p2pVyUEfhM6dGqpEY6usiw5qgx62F3EeKHmM2/LoKyy7wzUNa3aSNh6mIO
-         NeYQ==
+        bh=2lpnBqDJcfUJDEtZCimEJrUy9otBw/Hopy6zhtW4PjY=;
+        b=eUNfX/ex73HNxNaRRXVHDKsbDSMQxQ0NiGZQPFH6OVbNPZS7qGZJSnbWSDxp1g8kZQ
+         D+fkJ+D7wQ3jTDUFKhH2303Q0YdzlqebNFkCSTioNNj+s0xNN9xZujrhKqVoZs/kpEYu
+         pYHyzigTqWSI7wkD6rOiQTgmcL3WrM43fmzaJxHx7qec/DwUQg85XcVIFDYCai0+1oj8
+         bmqBhXP9pWHR1vtcXEiNh4ctLg99ZkZiQ9UE4gvP0TP6BURjXTMZaZ+ZAIlbIKZpqftB
+         8QwN8j3EpbJHL6FAE+SaNVk1YndPAPW9Vt+m/6CGiwuRsBb57EF2LLGN83GLYE5eQiSO
+         Ixuw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="f5d/7XtU";
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Hws0kYch;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JxqXFxZlMCRDoIDYidM1NInLDLBdHmySEfWjggcX+G4=;
-        b=oadrJsxYRi/O6Jq8FTg7ZoIzf5Q78cjBm7NIFDkzL1GLRwHpi4QFIE0vxPWZe2yCmT
-         YEJBTVNBWk4+T7rPZuaxQLyX0a9dXwZxCvGp6d1j+7IBj621iuZ6YCfCn4+vuLx+/hbq
-         9064G3AcMoKDDR9Jv5VXjecbHXMNdszSRsbuC6yIyxEHkfX3X3XfI5PnFmgu5oX+2tnW
-         OlhZLG8f1kWusl49rnV1M4kxO4uiYjs9M7cgd6ZRXtIubODhCGzQ40vEQ+c/XUcy3Eec
-         tIuxcZtFvrqhvXT3kceg2aTC8e+1BwucEb9+qhvZCC6QE8pm1aUdj1wKWuW3h5FS3cr0
-         Z6Ew==
+        bh=2lpnBqDJcfUJDEtZCimEJrUy9otBw/Hopy6zhtW4PjY=;
+        b=OgLBHO2yZh0wCBIm81VBrw76MPzd39bfG+qiGPGy/paM6TKPPW818xCHyrOSaI55g7
+         351FC7d0Tk9JINBQKpFCpYHoXBFOeeT9LpcKf1l5/25cpDThr35QIe5gWM7q/A5Sys8F
+         3IakaHYmidLONph0DlwJFVMezeA3L6VZFHrn1cV7JUn0BIL1sYijrNgSCrvIAh9FQJqm
+         5NsDvh7gVfveYsUhbxqEeIsJ9hdP/xeLZ4f1cg/hTaSlDZIhRUGJK3O3MA81Vpwu0sFj
+         8seT5xtG87tnnWbF8liUzjkWm9Rk/IcOgHnMMJXuI4q5/AFDrYSiMVKFbK7kpilMi7iP
+         7JAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,52 +49,53 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=JxqXFxZlMCRDoIDYidM1NInLDLBdHmySEfWjggcX+G4=;
-        b=aXnVij2lehWwe1W9dLJM45wzpYfNST2x+o2TRpjufJw70pvonFqa4ajvEtOxIfHu3M
-         jA4cfXcB8VHVCuGkQz12ChPsbHq0xD6c4FMsIUC3TwqMOtXkP/CcEFC5Nn9Errph1CV+
-         8XEmO/0Pt8EXSL1vLYlwrAEHa7VXmEpa2O3n7ZFPqvhWCqxem8hhsen2q+s+UJLu96HM
-         7eCw3L48q2t3axxRE//EovtgzesDm7jRIDQxXxEmSQWmiZVBq5lHDHw7X5fPIT0lGtWd
-         uneddlNhsNfgVbIJvULs7hXtlkCJqtSUx79CN4V5S5/Uope+yvsRplild7QOPlvGRLSb
-         knxg==
+        bh=2lpnBqDJcfUJDEtZCimEJrUy9otBw/Hopy6zhtW4PjY=;
+        b=J7bFvvtdkHFrFBiI3N5DbN2LYUbs4DkGUyQ2MfAyf2a/AbyO7RYlAq9/BF9zmeuoVq
+         Do6HSGduP4tTxbwQ5b6d0Z1iFRtxCxmxu+7jRZ14J3BpnhaGVkNl4yo1hqm9Yucgh4MI
+         2CE5iU+7lmOXhDLhE9wAJwi3c2X1ss3DTTVVPDyEemo4Ndn0JJgvzSqHtajVwyBPJLiP
+         r8Um8X5QtgKyZvBAFI6Dk6lHNSysAqWa2tXDe5f491LThk+bkGZ4NIxA2BHMrKpEMzY5
+         xoo1lEibAq5K6av/KLyajF7KKfoMJYVD3g+1HfXYS3kFykO/rzbX4djrtUIipevNP8sK
+         dZxw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora+tu2sH+FnCh1QWnEqPCiBY1u21oB3C9aSD5asGA5SqGKeFWmHd
-	xVr2LoSF4fL3j5jBcujikN0=
-X-Google-Smtp-Source: AGRyM1sXy/A6mDwG/FsuwFwGq7pIvVxxXp9rNuOsEqbytOG8I8QacRaPfIUqsSN2ce4NLGP9vvPXmw==
-X-Received: by 2002:adf:fb46:0:b0:210:2316:dd02 with SMTP id c6-20020adffb46000000b002102316dd02mr1382890wrs.557.1655151648967;
-        Mon, 13 Jun 2022 13:20:48 -0700 (PDT)
+X-Gm-Message-State: AJIora94vu6FsdmrdDfjZsHTlefrbB+KOCUwgwsNWhAFi5VbIlpWLuRG
+	xuc8C4U/i2E2dSQfSZcMbN8=
+X-Google-Smtp-Source: AGRyM1tJvFyXApcHuANZIZnCAiwJXtB8EevjTt29YJLMpxO28Pn7xfs+kU1MTuXmQLMrI8LIDg4GmA==
+X-Received: by 2002:adf:ed82:0:b0:213:1315:1dbb with SMTP id c2-20020adfed82000000b0021313151dbbmr1390752wro.484.1655151649716;
+        Mon, 13 Jun 2022 13:20:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:6dab:0:b0:212:d9db:a98 with SMTP id u11-20020a5d6dab000000b00212d9db0a98ls7058868wrs.3.gmail;
- Mon, 13 Jun 2022 13:20:48 -0700 (PDT)
-X-Received: by 2002:adf:d1c6:0:b0:218:4fc3:a805 with SMTP id b6-20020adfd1c6000000b002184fc3a805mr1442371wrd.228.1655151648377;
-        Mon, 13 Jun 2022 13:20:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1655151648; cv=none;
+Received: by 2002:a05:600c:1d20:b0:39c:4b30:51b4 with SMTP id
+ l32-20020a05600c1d2000b0039c4b3051b4ls123855wms.3.canary-gmail; Mon, 13 Jun
+ 2022 13:20:49 -0700 (PDT)
+X-Received: by 2002:a05:600c:4c06:b0:39c:975a:a548 with SMTP id d6-20020a05600c4c0600b0039c975aa548mr430053wmp.99.1655151649047;
+        Mon, 13 Jun 2022 13:20:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1655151649; cv=none;
         d=google.com; s=arc-20160816;
-        b=LASDSvtHMxT4+T0Dqy1MbRhmaZbb6jDUUX+nTcGcg4hWn46DzP4Z4RQNsJ1ZPcRm4N
-         yiNv4aaeQSm3tBnezFnV5T0RzHiNn21PqlkzASZme1zaKIAGtORc07PbQpyqNirILCnv
-         lB4WeAo/AEzS+5+UGPdk70YDYZGA1alFCZJ5s//QWPxJ/omVjYDTyRRGQ7rCEhXfxe1v
-         E8VzyvkB65NondVppLaEFzl3JDN4zGz3QfAo/UosgGLc0+m+vYMxbN6wM8mpua3mtiPK
-         9664datbDAGQ3KHKTRuVoIkEx4ed1W4VbaciYILzmRWiAp35h8dsyX7iYhliKTtiHEev
-         9lhA==
+        b=YVDPP+mM13luhZy/3mDTJGre84gRf7r5uXYF/3eg5G70vffyHnQsGV57g9PZLvU4AS
+         18EtXH5yPjS5SPBfqihAc3JeCTnYl6QCvvj/H2XRBsTmZSfJGjD/MdAaTtmHOAnbXBDT
+         UIlkwX5E8sY5KuNcMNg2Zw6TqdfPdWTaiVk14OFhJ59E6c0Nk8fbCHRd/t94yzj9p6SC
+         LD11KO696PnEOoePcPcMO7RXYAX4VIGFf2wWeoussb4xWnd0QJEkc3bUb1foxPqKFCJX
+         hl0m46Fv9tgwvC7OaNMTlQQqCxbW7Q9y/CrnG4hKxgwkM+9aXrajtS2MPgQIfCbR6Fdi
+         T2UA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=OqOHaer4kC3Iywced9lKgHi/whHdzXvvFFVWcKJPrko=;
-        b=B70vdUfWhKZYoO6HJEg6zpoQ15ipeUZIRqrmC1qII0qcgtF4rgG+8h1jMn2HnwZ2E/
-         KDa9YyTxI8mXJKwoo60CNrE4ACMAF/p4xndKbxWwYfbeyZRCbrXGHVipV1cNi0Ilp9jq
-         QxJJ+sA0VXN2ozN8Ov4o4udn77qX3EIQ33b06mayk2LYoUMaXAvJI1pmAyphuT1hDynK
-         FMbMaQLLwSH6ZKPDgHrehJm4MRKzlzsfqHVe/qyXoC8tNsyOI51Xhzdakcqa6uNtqA2M
-         QOke4FRF6GU8krPcm4k32KZUtpsyLHlWTbvFjO6QSBXlAtexmlfWYD5T9eocpgchgbrO
-         O2rQ==
+        bh=GpOGtaNQnKD78CBtw46te33KktguHzhzP5BMdoXtyCA=;
+        b=Tm5iMm/ZPM5X1wstaxtIN0C30q0Npj5gRa5gFcWwEB/F6C55J2td0f71UH2wgYRUQh
+         a/7geWLUANv+t9/9l/JuO4l+26oz7Qw5lf/Qtl+tsXUS/bgbs8lXmh59au4bdgkq+7cm
+         rWfVzTDY9nn+O6gBI2yUMCvLEceFkAS+gyaHvUt7h60IFgIgMEBiCqhZDYKvbNSygh4W
+         JM33s0TxCdJ2qgEPoey8UHP598ko36qJh65ZSA1aUcXndsv9LJFarmLkJ2aZmQgsZmHM
+         YkqGrQg5VOnC3nHZ2YP1UCg3lJfxsu86S3OY8CQHmdYeCjJm1Tjy/5Q1N3SqndFCCT8O
+         Vd6g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="f5d/7XtU";
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Hws0kYch;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out2.migadu.com (out2.migadu.com. [2001:41d0:2:aacc::])
-        by gmr-mx.google.com with ESMTPS id s10-20020a05600c384a00b00394803e5756si245474wmr.0.2022.06.13.13.20.48
+Received: from out2.migadu.com (out2.migadu.com. [188.165.223.204])
+        by gmr-mx.google.com with ESMTPS id ba29-20020a0560001c1d00b0021a07a20517si178397wrb.7.2022.06.13.13.20.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 13 Jun 2022 13:20:48 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) client-ip=2001:41d0:2:aacc::;
+        Mon, 13 Jun 2022 13:20:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204 as permitted sender) client-ip=188.165.223.204;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -110,9 +111,9 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH 31/32] kasan: implement stack ring for tag-based modes
-Date: Mon, 13 Jun 2022 22:14:22 +0200
-Message-Id: <3cd76121903de13713581687ffa45e668ef1475a.1655150842.git.andreyknvl@google.com>
+Subject: [PATCH 32/32] kasan: better identify bug types for tag-based modes
+Date: Mon, 13 Jun 2022 22:14:23 +0200
+Message-Id: <89492159bd43c01f7b13a72b050ff15f35e04973.1655150842.git.andreyknvl@google.com>
 In-Reply-To: <cover.1655150842.git.andreyknvl@google.com>
 References: <cover.1655150842.git.andreyknvl@google.com>
 MIME-Version: 1.0
@@ -120,9 +121,9 @@ X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b="f5d/7XtU";       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates
- 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+ header.i=@linux.dev header.s=key1 header.b=Hws0kYch;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204
+ as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -139,205 +140,79 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Implement storing stack depot handles for alloc/free stack traces for
-slab objects for the tag-based KASAN modes in a ring buffer.
+Identify the bug type for the tag-based modes based on the stack trace
+entries found in the stack ring.
 
-This ring buffer is referred to as the stack ring.
+If a free entry is found first (meaning that it was added last), mark the
+bug as use-after-free. If an alloc entry is found first, mark the bug as
+slab-out-of-bounds. Otherwise, assign the common bug type.
 
-On each alloc/free of a slab object, the tagged address of the object and
-the current stack trace are recorded in the stack ring.
-
-On each bug report, if the accessed address belongs to a slab object, the
-stack ring is scanned for matching entries. The newest entries are used to
-print the alloc/free stack traces in the report: one entry for alloc and
-one for free.
-
-The ring buffer is lock-free.
+This change returns the functionalify of the previously dropped
+CONFIG_KASAN_TAGS_IDENTIFY.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-
 ---
+ mm/kasan/report_tags.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
-The number of entries in the stack ring is fixed in this version of the
-patch. We could either implement it as a config option or a command-line
-argument. I tilt towards the latter option and will implement it in v2
-unless there are objections.
----
- mm/kasan/kasan.h       | 20 ++++++++++++++
- mm/kasan/report_tags.c | 61 ++++++++++++++++++++++++++++++++++++++++++
- mm/kasan/tags.c        | 30 +++++++++++++++++++++
- 3 files changed, 111 insertions(+)
-
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index c51cea31ced0..da9a3c56ef4b 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -2,6 +2,7 @@
- #ifndef __MM_KASAN_KASAN_H
- #define __MM_KASAN_KASAN_H
- 
-+#include <linux/atomic.h>
- #include <linux/kasan.h>
- #include <linux/kasan-tags.h>
- #include <linux/kfence.h>
-@@ -227,6 +228,25 @@ struct kasan_free_meta {
- 
- #endif /* CONFIG_KASAN_GENERIC */
- 
-+#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
-+
-+struct kasan_stack_ring_entry {
-+	atomic64_t ptr;		/* void * */
-+	atomic64_t size;	/* size_t */
-+	atomic_t pid;		/* u32 */
-+	atomic_t stack;		/* depot_stack_handle_t */
-+	atomic_t is_free;	/* bool */
-+};
-+
-+#define KASAN_STACK_RING_ENTRIES (32 << 10)
-+
-+struct kasan_stack_ring {
-+	atomic64_t pos;
-+	struct kasan_stack_ring_entry entries[KASAN_STACK_RING_ENTRIES];
-+};
-+
-+#endif /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS */
-+
- #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
- /* Used in KUnit-compatible KASAN tests. */
- struct kunit_kasan_status {
 diff --git a/mm/kasan/report_tags.c b/mm/kasan/report_tags.c
-index 5cbac2cdb177..21911d1883d3 100644
+index 21911d1883d3..dc1f8fc0327f 100644
 --- a/mm/kasan/report_tags.c
 +++ b/mm/kasan/report_tags.c
-@@ -4,8 +4,12 @@
-  * Copyright (c) 2020 Google, Inc.
-  */
+@@ -10,7 +10,7 @@
  
-+#include <linux/atomic.h>
-+
- #include "kasan.h"
+ extern struct kasan_stack_ring stack_ring;
  
-+extern struct kasan_stack_ring stack_ring;
-+
- static const char *get_bug_type(struct kasan_report_info *info)
+-static const char *get_bug_type(struct kasan_report_info *info)
++static const char *get_common_bug_type(struct kasan_report_info *info)
  {
  	/*
-@@ -24,5 +28,62 @@ static const char *get_bug_type(struct kasan_report_info *info)
+ 	 * If access_size is a negative number, then it has reason to be
+@@ -36,10 +36,10 @@ void kasan_complete_mode_report_info(struct kasan_report_info *info)
+ 	bool is_free;
+ 	bool alloc_found = false, free_found = false;
  
- void kasan_complete_mode_report_info(struct kasan_report_info *info)
- {
-+	u64 pos;
-+	struct kasan_stack_ring_entry *entry;
-+	void *object;
-+	u32 pid;
-+	depot_stack_handle_t stack;
-+	bool is_free;
-+	bool alloc_found = false, free_found = false;
-+
- 	info->bug_type = get_bug_type(info);
-+
-+	if (!info->cache || !info->object)
-+		return;
-+
-+	pos = atomic64_read(&stack_ring.pos);
-+
-+	for (u64 i = pos - 1; i != pos - 1 - KASAN_STACK_RING_ENTRIES; i--) {
-+		if (alloc_found && free_found)
-+			break;
-+
-+		entry = &stack_ring.entries[i % KASAN_STACK_RING_ENTRIES];
-+
-+		/* Paired with atomic64_set_release() in save_stack_info(). */
-+		object = (void *)atomic64_read_acquire(&entry->ptr);
-+
-+		if (kasan_reset_tag(object) != info->object ||
-+		    get_tag(object) != get_tag(info->access_addr))
-+			continue;
-+
-+		pid = atomic_read(&entry->pid);
-+		stack = atomic_read(&entry->stack);
-+		is_free = atomic_read(&entry->is_free);
-+
-+		/* Try detecting if the entry was changed while being read. */
-+		smp_mb();
-+		if (object != (void *)atomic64_read(&entry->ptr))
-+			continue;
-+
-+		if (is_free) {
-+			/*
-+			 * Second free of the same object.
-+			 * Give up on trying to find the alloc entry.
-+			 */
-+			if (free_found)
-+				break;
-+
-+			info->free_track.pid = pid;
-+			info->free_track.stack = stack;
-+			free_found = true;
-+		} else {
-+			/* Second alloc of the same object. Give up. */
-+			if (alloc_found)
-+				break;
-+
-+			info->alloc_track.pid = pid;
-+			info->alloc_track.stack = stack;
-+			alloc_found = true;
-+		}
+-	info->bug_type = get_bug_type(info);
+-
+-	if (!info->cache || !info->object)
++	if (!info->cache || !info->object) {
++		info->bug_type = get_common_bug_type(info);
+ 		return;
 +	}
- }
-diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-index 39a0481e5228..286011307695 100644
---- a/mm/kasan/tags.c
-+++ b/mm/kasan/tags.c
-@@ -6,6 +6,7 @@
-  * Copyright (c) 2020 Google, Inc.
-  */
  
-+#include <linux/atomic.h>
- #include <linux/init.h>
- #include <linux/kasan.h>
- #include <linux/kernel.h>
-@@ -16,11 +17,40 @@
- #include <linux/types.h>
+ 	pos = atomic64_read(&stack_ring.pos);
  
- #include "kasan.h"
-+#include "../slab.h"
+@@ -76,6 +76,13 @@ void kasan_complete_mode_report_info(struct kasan_report_info *info)
+ 			info->free_track.pid = pid;
+ 			info->free_track.stack = stack;
+ 			free_found = true;
 +
-+struct kasan_stack_ring stack_ring;
++			/*
++			 * If a free entry is found first, the bug is likely
++			 * a use-after-free.
++			 */
++			if (!info->bug_type)
++				info->bug_type = "use-after-free";
+ 		} else {
+ 			/* Second alloc of the same object. Give up. */
+ 			if (alloc_found)
+@@ -84,6 +91,17 @@ void kasan_complete_mode_report_info(struct kasan_report_info *info)
+ 			info->alloc_track.pid = pid;
+ 			info->alloc_track.stack = stack;
+ 			alloc_found = true;
 +
-+void save_stack_info(struct kmem_cache *cache, void *object,
-+			gfp_t flags, bool is_free)
-+{
-+	u64 pos;
-+	struct kasan_stack_ring_entry *entry;
-+	depot_stack_handle_t stack;
++			/*
++			 * If an alloc entry is found first, the bug is likely
++			 * an out-of-bounds.
++			 */
++			if (!info->bug_type)
++				info->bug_type = "slab-out-of-bounds";
+ 		}
+ 	}
 +
-+	stack = kasan_save_stack(flags, true);
-+
-+	pos = atomic64_fetch_add(1, &stack_ring.pos);
-+	entry = &stack_ring.entries[pos % KASAN_STACK_RING_ENTRIES];
-+
-+	atomic64_set(&entry->size, cache->object_size);
-+	atomic_set(&entry->pid, current->pid);
-+	atomic_set(&entry->stack, stack);
-+	atomic_set(&entry->is_free, is_free);
-+
-+	/*
-+	 * Paired with atomic64_read_acquire() in
-+	 * kasan_complete_mode_report_info().
-+	 */
-+	atomic64_set_release(&entry->ptr, (s64)object);
-+}
- 
- void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags)
- {
-+	save_stack_info(cache, object, flags, false);
- }
- 
- void kasan_save_free_info(struct kmem_cache *cache, void *object)
- {
-+	save_stack_info(cache, object, GFP_NOWAIT, true);
++	/* Assign the common bug type if no entries were found. */
++	if (!info->bug_type)
++		info->bug_type = get_common_bug_type(info);
  }
 -- 
 2.25.1
@@ -345,4 +220,4 @@ index 39a0481e5228..286011307695 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3cd76121903de13713581687ffa45e668ef1475a.1655150842.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/89492159bd43c01f7b13a72b050ff15f35e04973.1655150842.git.andreyknvl%40google.com.
