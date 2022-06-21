@@ -1,148 +1,126 @@
-Return-Path: <kasan-dev+bncBDY7XDHKR4OBBJ7BYWKQMGQE4M662TQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBOXKYWKQMGQEZDPFPOQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC24A552B99
-	for <lists+kasan-dev@lfdr.de>; Tue, 21 Jun 2022 09:18:01 +0200 (CEST)
-Received: by mail-ot1-x33f.google.com with SMTP id c8-20020a9d67c8000000b0060bf699241csf6826505otn.16
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Jun 2022 00:18:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1655795880; cv=pass;
+Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D012552C29
+	for <lists+kasan-dev@lfdr.de>; Tue, 21 Jun 2022 09:37:31 +0200 (CEST)
+Received: by mail-ed1-x538.google.com with SMTP id b14-20020a056402278e00b004359006fd49sf2052324ede.8
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Jun 2022 00:37:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1655797050; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dhfn6je7VBH9O1n8z5IQ+DguSTW/qDPoZQshyO8xp/j1VQfLYW1sHZlQnFWaHNzFdR
-         v4U4ECGkOy9vMY7Npk0pUweiwj0OLOlSyc62RGKrVvNLPPTlExV44JCtMha5ot7FR71r
-         z+zkdrfa7BiFZnd409HK2ttWZObQ+uVcTjk+1AnNvTWa8vcsdC2OmYV1VpR9XUqjKGN8
-         xQWWkgRYYyZRDJo7mleb98g4jqieuSuAEUXv8QJrmsD1hzQlAn3EuLYOApjpY9caRGb1
-         icmCzcXFIdQ5oBGK82GtBTmgSNeE0roFRBJCM+r+Evga6q7ecyggtcsN3h4F2NPmEYy1
-         7RcA==
+        b=Dj4ItG9m48yArM/R5vg09Co7mrVi/ujPjG2UfPoSTKM8jdUaZ9fvLIBsHio9Qak6+D
+         V30fWs2/P2AI/0eRuWXffEDMUvI8ko/B4IwrvQaIsVe642m7HznyUttjSFSen/4ilJpX
+         3n9GhJPrsqt2Ra6pMj46UqyBjRj7L0YgiyULmVrRvyVAeJyrt8Jg7eotWdPcrR0Pk2DM
+         nG+zCQV8+yhR+bhwlx1SQFuiEgMjCiQnpPVQqnJPvmfY6TSh/zXUYxFCY70STArNqtgd
+         z7NCnz62o7sVDyqmasEMuT50dxkb6e7T3SIMTbi2aTkM5uGrimF/Md6KG9XDgy+jPIv/
+         61Jw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:date:cc:to:from:subject:message-id:dkim-signature;
-        bh=G01XjkLR7s1UO69KMcmw8OPLVox8bv+p4NhoY1SxEKo=;
-        b=hOtacGBzYexggSyifd/3+eWlYZGejF83qLKIZ9Z0MBFS47DFnGVwfHbrM2UoscgsCP
-         blgmEi0NyVRimnUnFDhON2oOiOhPA38kepmLwnII83ej1H4tTvgnwh6OiQNQFBcdhSwr
-         YnYUI9r2fjOIllKvyjWw2/ImcoquwjmCULLFVMSiUtJuK0qSTRlVmmHH4WLGfMit03gJ
-         lk37nfaLxjCjKJnD5Px3y1AlAZszdNlrtvtFozBCZxYxXP9jDtA+Gv6PYS7pTYSfUjTS
-         /SvMu2WA8R9DILi/GRM/qTxGQeWYnoSnKZEa1F85jFC0A7MhHGwot0A0ZKHVf8vY1AZW
-         bFgA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=T/dzhRlW8uHlbS2x15N6d/4Gjdqd0kw7c0Mb3BBzM9k=;
+        b=MZQon4Gn3ieP3DCG+lUT47SoqlDnhMaguJ8bEB7SQihXsZBxlQu3hUH4IgwNOeh+Dd
+         jExukhT7Roj/4kjepKWpbCbsPAPJkw++ogHX/+XhfOKPmA7urLJxgd16vUaQHAmf2IOx
+         8hqys/k0iHe85n2neO8ULrhcr2jONBW0Y0BQwsZtpePS0QW4al7x539w9ZAtJuspTv++
+         El4ZyhmRiVteJnkL0MLzCOhKmeGp+H8BClHtDonY0hU1u8tnhKqIhsT85jkHfR9bich3
+         xv/0Xs3elsohAbERh8EvJ3O7cDGwKAlLoIiZoA0XcL6TuvwJo1elSGaln+yR8WiJ31dW
+         WrYQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=DsougCXd;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22e as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :reply-to:precedence:mailing-list:list-id:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=G01XjkLR7s1UO69KMcmw8OPLVox8bv+p4NhoY1SxEKo=;
-        b=jQ6iZKYpfbVicqJs8gRC+luYPf7uRJI5fQsnlAi2JmwGZLbr9eXNDWgwXZuc48FvJw
-         cdfhavSI7zZK/q+p7QzEvxAGIkYHxDR3SgSZaZDdDOC/iNhPNIB11j5FkySW9iKaXe7Q
-         WveIJut2mYlcVyrq4LDgyElJJBJq8jy0l9patTfS/JBqtBarJ2k3o75wuhroGPzo0aTU
-         ExzKteRNyilY7Z3MQnwAnseDmRJwX/UFdVGd1dlfdPCdLmbQnkV8Je/O1hySwqG5Whum
-         HHdPMoq0VaG3UOzQy/ndD8YnREkWkxodIrbkSvj2youRZB3XS3Bxf4sJmrT5gdEVQHsm
-         +euA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=T/dzhRlW8uHlbS2x15N6d/4Gjdqd0kw7c0Mb3BBzM9k=;
+        b=nI0xa8bgfqtYb28BZWDudcN1sdNuWmaKlr6j1nRrB6/Fg01yID/tkLLXBjUAWwT1Mo
+         vpnvlN50yUEOmf4W9HbTnHeF95Uew0ik5E0EklMlzKV3poftoIWn+ip38Z3IV/JMGKfR
+         w/XPAshv0QUc1jcR/yqMze8f5+vk9MOhDS91+vFOJ5/LQBdnh2VcbY8txk55Flr9e6a9
+         jotaUhzevC4JGb8Mhii8AgGlW7na41xTlI8O43c0vf0YzE80aXYS7WoFBWAYZ740XQUA
+         HxmsKVEOEDjxhXCWAD/wpov2Wm22dfjT32ow4d75Bom7n7j+1xCpcYuNNKHm/IuKRmHE
+         7XsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:mime-version:x-original-sender
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=G01XjkLR7s1UO69KMcmw8OPLVox8bv+p4NhoY1SxEKo=;
-        b=Zm2+l/HRgjNmUmc91X7OFQMokuBYPByG14qdfzWvDDFHyL3QV0FLXpH1rm/T3gB10m
-         C1PSaoyfHbLktaJgnQ9LQgvCicVNz+QCDaBGmoYsccO+R4OKZ6GLu3udbbS2oSJ7pzRm
-         CNYsZJ6N+ACmt9h2mC1d722RFAudzpCdeDBAWWXJQe8gIOTHqkWXGvaVl0qxXvQiiJuL
-         DqDgd/niYoP7y8AO/WlafNVB/quPfj+QpN/suGModqmTfMFw/ruHQn4eo+8ypy6R7ykS
-         DV2Kar8BKU7f4BLy3+uMr80V5BaXVNvLg03eqPImEWyuuIaFcK056uYtNJf7PZGC3cev
-         Tfbw==
-X-Gm-Message-State: AJIora+gR5+/IrQPUShEAEdnx2x7jmFTcHmhVy27diZ76yyep0xmMctW
-	d2YeEy3wnVLAi6LUKsXitic=
-X-Google-Smtp-Source: AGRyM1tDnbULfSdjQd0ur65UrmGAQVf6aNynm0id3FjjvhdFKfAs5SkomnR/iRFa3F50Fd+013dkYw==
-X-Received: by 2002:a05:6870:d59c:b0:101:7e59:d723 with SMTP id u28-20020a056870d59c00b001017e59d723mr15827865oao.165.1655795880023;
-        Tue, 21 Jun 2022 00:18:00 -0700 (PDT)
+        bh=T/dzhRlW8uHlbS2x15N6d/4Gjdqd0kw7c0Mb3BBzM9k=;
+        b=ucX7l43CYfYMWLSyC/RqTIFFLQ1Vd3DuinTww81SNJ3UkxP921zUp8Ml9rRiXoUKfK
+         9jxksTOw2LEnN6CghQRy9Fsi4ldzd5iJwf8y7gKO+g0MKy3y6IVXLWGD0bbb3fT7geh7
+         qiCqp9XZP7+ddRxxaWtjNsGOvOB7DPNGy4w5I2YqFtB5VDtDAINRkemwLYN74d9K8vUg
+         WxmkqhR88WJtWMan6yh5vqsD+rL0DQcc0YK3uuKAYo+18+3PS1/f9D8tlNsVosOeOmLx
+         gVdiZbMSbdRqL49eiSz3RzBsAIFlBj8LPqCpU0lIL8XDhpCo2oGQTMbCpgrAyPtBKVcG
+         pr5Q==
+X-Gm-Message-State: AJIora/Mst1Lyn87stmONQozaDACAzvI+tChurh48Ko6g8Ad0Sqy+Y6B
+	N8CcsDQJNwN2LsTl3c+Fr6Q=
+X-Google-Smtp-Source: AGRyM1vZI5fJaxzvjM1kcKruANACL+WXNIWzTguCZZNFd+Lm6ryvBDQ74pdjiKeWkPoZ2dsL/GUvAw==
+X-Received: by 2002:a05:6402:3807:b0:435:20fb:318d with SMTP id es7-20020a056402380700b0043520fb318dmr34241952edb.272.1655797050507;
+        Tue, 21 Jun 2022 00:37:30 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:a9a4:b0:f2:dc5c:8024 with SMTP id
- ep36-20020a056870a9a400b000f2dc5c8024ls4875514oab.0.gmail; Tue, 21 Jun 2022
- 00:17:59 -0700 (PDT)
-X-Received: by 2002:a05:6870:9586:b0:f1:d7f9:f0da with SMTP id k6-20020a056870958600b000f1d7f9f0damr19620785oao.259.1655795879492;
-        Tue, 21 Jun 2022 00:17:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1655795879; cv=none;
+Received: by 2002:a17:906:5ac1:b0:6ff:ab8:e8f with SMTP id x1-20020a1709065ac100b006ff0ab80e8fls5000620ejs.6.gmail;
+ Tue, 21 Jun 2022 00:37:29 -0700 (PDT)
+X-Received: by 2002:a17:907:6d91:b0:711:ec13:b7d8 with SMTP id sb17-20020a1709076d9100b00711ec13b7d8mr24559483ejc.565.1655797049390;
+        Tue, 21 Jun 2022 00:37:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1655797049; cv=none;
         d=google.com; s=arc-20160816;
-        b=NTW70BzCFD4hMzbEKRPUzHof2nXZxLHW57Zy9cn7wJrBfx/UZ/3jG1KFO5uIVl1Vpn
-         bnXiZboNriDOeITTUG/JDoGTVsWC/rvQgKOoQDGQS2WFKIdcc8MqDtaFEWJ9Grc651jT
-         ncue0wJU50g9vuKfMIhwQ6DSvg3DxD7Wy0aKb02MTQrYQDfKdlCjgqke/lkZS8IZp5hm
-         y/uE74q1O5/aGKovcs6A0kiL6vsLVymFv77NqUCZrFpU3mpb0D12rWNcfvgIhXagBq3x
-         6gJmt9Xk/Nfgm800W04RVeaWu5HrrV6FW8ha7z2Tsz0qgAt1w9ybN+F7CPR3DbGHTB7C
-         SZeg==
+        b=z+VvCoI3KHoU4sEXahyKvOXBr1RYah0Hix79YYENYDA4WaK87LdGs64kdm7x5ODXl4
+         Hyy84XzLVUqM94Ey07d5anE2qvaB8MM7cJBa5YbRNAtHe9IoePsrpNSgDUKEfkSlIMci
+         TSgDSd7NYacM33SvIfMjLz+1qYu43549dFX06lGZdT9iPdY+Na4IFE0uTKvUx41vpvPB
+         ZuStfqF7E9VF+TZTr6DcGUJh71vInvdhWH8Ok4n79319bhI40WlxFsRSI9rUsA12fhbw
+         xuSZef89u1gB+o7eW2DS6ce/hg66t6rDYk+pKXovVIMp/L1J5uyEgVOOH+o1SuplBMVN
+         IONA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id;
-        bh=DJ/mLScYgkYxk9E1YtLasukRocJZ/IoTGvxSUZS9gXY=;
-        b=GKhW3Z/dORAYpPuvOJ7TGouM83SAsKR6xMLfeTaWSa3JKsu3H8jVL87F7O+9UZ/phg
-         749q+HGZ8bo4TnT7y8uGLOXJ+tdrFuTTOg3ReqowLouzGyLMIKAeq+lAMPJiY++SYdsQ
-         Vm0q7wuEILTZKmbhcTq4fQcRyLtm4SDjMgg4cl4GZ0xGMPApjx88faHE2AjqxfDm1Udb
-         yByUQ1al75tAiA2ZuR11tIQEeZDo2zTEFJmV57Mw4bME5I2Z2Qc5xj3BVpvbaEb5xM7m
-         jFtQCCnQFrDb19wqovKpYgMJjVNTPPT4JsRpFB6BHSw+LXaolaatkSos3zNDVW8NFRbb
-         f4zw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=CyheJD4bAlrZUyrOZt+A8Zzf01u3nd0p7PNq0BkSQPg=;
+        b=gDTzlElxBbMN5cSPGhfDzmMr4b7cYfciABBEDyISyxK91jHyzbxrESSYjEiRNLKbdi
+         7oZh5TymW+9m8I1/Anbt64C1pUkUv6ntj/EUyNe/KIArBj4zAITXWoSvDiv6LLD63Zrh
+         mqOur2RfpMSQ8wnsng7BvMT4LG601ceikykbnUjQTNbRLOzW19MLtxpGFed9PQcA35ed
+         3WAQ/86arTOsljuG6CaqQXvEszZYLDSEb127LKMWuN5/RKPn29oRpT/4wA6YAUhueVqh
+         W8lq2UJtQgl/HMbZpJZpA5OJ9B9p5ULVXZ0+1yPfbdFOu4oaIJuErXxRHwWxz+SQDzhB
+         XDKg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-Received: from mailgw01.mediatek.com ([60.244.123.138])
-        by gmr-mx.google.com with ESMTPS id l18-20020a056830055200b0060bfeb3a0c0si732067otb.2.2022.06.21.00.17.58
+       dkim=pass header.i=@google.com header.s=20210112 header.b=DsougCXd;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22e as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com. [2a00:1450:4864:20::22e])
+        by gmr-mx.google.com with ESMTPS id z16-20020a056402275000b00435732e1fdesi283269edd.5.2022.06.21.00.37.29
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 Jun 2022 00:17:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
-X-UUID: 073fb03cba0f492da81bfb9d16a26fae-20220621
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6,REQID:f4cf376d-e335-4209-9b4a-1699ca9b5cce,OB:0,LO
-	B:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,AC
-	TION:release,TS:51
-X-CID-INFO: VERSION:1.1.6,REQID:f4cf376d-e335-4209-9b4a-1699ca9b5cce,OB:0,LOB:
-	10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,ACTI
-	ON:release,TS:51
-X-CID-META: VersionHash:b14ad71,CLOUDID:278e16ea-f7af-4e69-92ee-0fd74a0c286c,C
-	OID:801f2789e3b7,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 073fb03cba0f492da81bfb9d16a26fae-20220621
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-	(envelope-from <kuan-ying.lee@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 866569992; Tue, 21 Jun 2022 15:17:53 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Tue, 21 Jun 2022 15:17:52 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 21 Jun 2022 15:17:52 +0800
-Message-ID: <5949bc710889be1324d5dada995a263fd3c29cb5.camel@mediatek.com>
-Subject: Re: [PATCH 21/32] kasan: simplify invalid-free reporting
-From: "'Kuan-Ying Lee' via kasan-dev" <kasan-dev@googlegroups.com>
-To: "andrey.konovalov@linux.dev" <andrey.konovalov@linux.dev>, Marco Elver
-	<elver@google.com>, Alexander Potapenko <glider@google.com>
-CC: Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
-	<dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, "Peter
- Collingbourne" <pcc@google.com>, Evgenii Stepanov <eugenis@google.com>,
-	Florian Mayer <fmayer@google.com>, Andrew Morton <akpm@linux-foundation.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Andrey Konovalov <andreyknvl@google.com>
-Date: Tue, 21 Jun 2022 15:17:52 +0800
-In-Reply-To: <f7f5cfc5eb8f1a1f849665641b9dd2cfb4a62c3c.1655150842.git.andreyknvl@google.com>
-References: <cover.1655150842.git.andreyknvl@google.com>
-	 <f7f5cfc5eb8f1a1f849665641b9dd2cfb4a62c3c.1655150842.git.andreyknvl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jun 2022 00:37:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22e as permitted sender) client-ip=2a00:1450:4864:20::22e;
+Received: by mail-lj1-x22e.google.com with SMTP id n15so2784142ljg.8
+        for <kasan-dev@googlegroups.com>; Tue, 21 Jun 2022 00:37:29 -0700 (PDT)
+X-Received: by 2002:a05:651c:1988:b0:255:b2ef:6a5b with SMTP id
+ bx8-20020a05651c198800b00255b2ef6a5bmr13840428ljb.465.1655797048804; Tue, 21
+ Jun 2022 00:37:28 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK: N
-X-Original-Sender: Kuan-Ying.Lee@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138
- as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-X-Original-From: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-Reply-To: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+References: <20220527113706.24870-1-vbabka@suse.cz> <20220620150249.16814-1-vbabka@suse.cz>
+In-Reply-To: <20220620150249.16814-1-vbabka@suse.cz>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 21 Jun 2022 09:37:17 +0200
+Message-ID: <CACT4Y+btgY8-GYZbQOoghgfCEHMTd_S=BmNnMQxMTgCU5JztPQ@mail.gmail.com>
+Subject: Re: [PATCH] lib/stackdepot: replace CONFIG_STACK_HASH_ORDER with
+ automatic sizing
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=DsougCXd;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22e
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,125 +133,197 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 2022-06-14 at 04:14 +0800, andrey.konovalov@linux.dev wrote:
-> From: Andrey Konovalov <andreyknvl@google.com>
-> 
-> Right now, KASAN uses the kasan_report_type enum to describe report
-> types.
-> 
-> As this enum only has two options, replace it with a bool variable.
-> 
-> Also, unify printing report header for invalid-free and other bug
-> types
-> in print_error_description().
-> 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+On Mon, 20 Jun 2022 at 17:03, Vlastimil Babka <vbabka@suse.cz> wrote:
+>
+> As Linus explained [1], setting the stackdepot hash table size as a
+> config option is suboptimal, especially as stackdepot becomes a
+> dependency of less "expert" subsystems than initially (e.g. DRM,
+> networking, SLUB_DEBUG):
+>
+> : (a) it introduces a new compile-time question that isn't sane to ask
+> : a regular user, but is now exposed to regular users.
+>
+> : (b) this by default uses 1MB of memory for a feature that didn't in
+> : the past, so now if you have small machines you need to make sure you
+> : make a special kernel config for them.
+>
+> Ideally we would employ rhashtable for fully automatic resizing, which
+> should be feasible for many of the new users, but problematic for the
+> original users with restricted context that call __stack_depot_save()
+> with can_alloc == false, i.e. KASAN.
+>
+> However we can easily remove the config option and scale the hash table
+> automatically with system memory. The STACK_HASH_MASK constant becomes
+> stack_hash_mask variable and is used only in one mask operation, so the
+> overhead should be negligible to none. For early allocation we can
+> employ the existing alloc_large_system_hash() function and perform
+> similar scaling for the late allocation.
+>
+> The existing limits of the config option (between 4k and 1M buckets)
+> are preserved, and scaling factor is set to one bucket per 16kB memory
+> so on 64bit the max 1M buckets (8MB memory) is achieved with 16GB
+> system, while a 1GB system will use 512kB.
+>
+> Because KASAN is reported to need the maximum number of buckets even
+> with smaller amounts of memory [2], set it as such when kasan_enabled().
+>
+> If needed, the automatic scaling could be complemented with a boot-time
+> kernel parameter, but it feels pointless to add it without a specific
+> use case.
+>
+> [1] https://lore.kernel.org/all/CAHk-=wjC5nS+fnf6EzRD9yQRJApAhxx7gRB87ZV+pAWo9oVrTg@mail.gmail.com/
+> [2] https://lore.kernel.org/all/CACT4Y+Y4GZfXOru2z5tFPzFdaSUd+GFc6KVL=bsa0+1m197cQQ@mail.gmail.com/
+>
+> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+
+Acked-by: Dmitry Vyukov <dvyukov@google.com>
+
 > ---
->  mm/kasan/kasan.h  |  7 +------
->  mm/kasan/report.c | 16 +++++++---------
->  2 files changed, 8 insertions(+), 15 deletions(-)
-> 
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index e8329935fbfb..f696d50b09fb 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -146,16 +146,11 @@ static inline bool kasan_requires_meta(void)
->  #define META_MEM_BYTES_PER_ROW (META_BYTES_PER_ROW *
-> KASAN_GRANULE_SIZE)
->  #define META_ROWS_AROUND_ADDR 2
-> 
-> -enum kasan_report_type {
-> -       KASAN_REPORT_ACCESS,
-> -       KASAN_REPORT_INVALID_FREE,
-> -};
+>  lib/Kconfig      |  9 --------
+>  lib/stackdepot.c | 59 ++++++++++++++++++++++++++++++++++++++++--------
+>  2 files changed, 49 insertions(+), 19 deletions(-)
+>
+> diff --git a/lib/Kconfig b/lib/Kconfig
+> index eaaad4d85bf2..986ea474836c 100644
+> --- a/lib/Kconfig
+> +++ b/lib/Kconfig
+> @@ -685,15 +685,6 @@ config STACKDEPOT_ALWAYS_INIT
+>         bool
+>         select STACKDEPOT
+>
+> -config STACK_HASH_ORDER
+> -       int "stack depot hash size (12 => 4KB, 20 => 1024KB)"
+> -       range 12 20
+> -       default 20
+> -       depends on STACKDEPOT
+> -       help
+> -        Select the hash size as a power of 2 for the stackdepot hash table.
+> -        Choose a lower value to reduce the memory impact.
 > -
->  struct kasan_report_info {
-> -       enum kasan_report_type type;
->         void *access_addr;
->         void *first_bad_addr;
->         size_t access_size;
-> +       bool is_free;
->         bool is_write;
->         unsigned long ip;
->  };
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index f951fd39db74..7269b6249488 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -175,14 +175,12 @@ static void end_report(unsigned long *flags,
-> void *addr)
-> 
-
-Hi Andrey,
-
-Do we need to distinguish "double free" case from "invalid free" or
-we just print "double-free or invalid-free"?
-
-I sent a patch[1] to separate double free case from invalid
-free last week and I saw it has been merged into akpm tree.
-
-[1] 
-https://lore.kernel.org/linux-mm/20220615062219.22618-1-Kuan-Ying.Lee@mediatek.com/
-
-Thanks,
-Kuan-Ying Lee
-
->  static void print_error_description(struct kasan_report_info *info)
+>  config REF_TRACKER
+>         bool
+>         depends on STACKTRACE_SUPPORT
+> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> index 5ca0d086ef4a..e73fda23388d 100644
+> --- a/lib/stackdepot.c
+> +++ b/lib/stackdepot.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/string.h>
+>  #include <linux/types.h>
+>  #include <linux/memblock.h>
+> +#include <linux/kasan-enabled.h>
+>
+>  #define DEPOT_STACK_BITS (sizeof(depot_stack_handle_t) * 8)
+>
+> @@ -145,10 +146,16 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
+>         return stack;
+>  }
+>
+> -#define STACK_HASH_SIZE (1L << CONFIG_STACK_HASH_ORDER)
+> -#define STACK_HASH_MASK (STACK_HASH_SIZE - 1)
+> +/* one hash table bucket entry per 16kB of memory */
+> +#define STACK_HASH_SCALE       14
+> +/* limited between 4k and 1M buckets */
+> +#define STACK_HASH_ORDER_MIN   12
+> +#define STACK_HASH_ORDER_MAX   20
+>  #define STACK_HASH_SEED 0x9747b28c
+>
+> +static unsigned int stack_hash_order;
+> +static unsigned int stack_hash_mask;
+> +
+>  static bool stack_depot_disable;
+>  static struct stack_record **stack_table;
+>
+> @@ -175,7 +182,7 @@ void __init stack_depot_want_early_init(void)
+>
+>  int __init stack_depot_early_init(void)
 >  {
-> -       if (info->type == KASAN_REPORT_INVALID_FREE) {
-> -               pr_err("BUG: KASAN: double-free or invalid-free in
-> %pS\n",
-> -                      (void *)info->ip);
-> -               return;
-> -       }
-> +       const char *bug_type = info->is_free ?
-> +               "double-free or invalid-free" :
-> kasan_get_bug_type(info);
-> 
-> -       pr_err("BUG: KASAN: %s in %pS\n",
-> -               kasan_get_bug_type(info), (void *)info->ip);
-> +       pr_err("BUG: KASAN: %s in %pS\n", bug_type, (void *)info-
-> >ip);
-> +       if (info->is_free)
-> +               return;
->         if (info->access_size)
->                 pr_err("%s of size %zu at addr %px by task %s/%d\n",
->                         info->is_write ? "Write" : "Read", info-
-> >access_size,
-> @@ -435,11 +433,11 @@ void kasan_report_invalid_free(void *ptr,
-> unsigned long ip)
-> 
->         start_report(&flags, true);
-> 
-> -       info.type = KASAN_REPORT_INVALID_FREE;
->         info.access_addr = ptr;
->         info.first_bad_addr = kasan_reset_tag(ptr);
->         info.access_size = 0;
->         info.is_write = false;
-> +       info.is_free = true;
->         info.ip = ip;
-> 
->         print_report(&info);
-> @@ -468,11 +466,11 @@ bool kasan_report(unsigned long addr, size_t
-> size, bool is_write,
-> 
->         start_report(&irq_flags, true);
-> 
-> -       info.type = KASAN_REPORT_ACCESS;
->         info.access_addr = ptr;
->         info.first_bad_addr = kasan_find_first_bad_addr(ptr, size);
->         info.access_size = size;
->         info.is_write = is_write;
-> +       info.is_free = false;
->         info.ip = ip;
-> 
->         print_report(&info);
+> -       size_t size;
+> +       unsigned long entries = 0;
+>
+>         /* This is supposed to be called only once, from mm_init() */
+>         if (WARN_ON(__stack_depot_early_init_passed))
+> @@ -183,13 +190,23 @@ int __init stack_depot_early_init(void)
+>
+>         __stack_depot_early_init_passed = true;
+>
+> +       if (kasan_enabled() && !stack_hash_order)
+> +               stack_hash_order = STACK_HASH_ORDER_MAX;
+> +
+>         if (!__stack_depot_want_early_init || stack_depot_disable)
+>                 return 0;
+>
+> -       size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
+> -       pr_info("Stack Depot early init allocating hash table with memblock_alloc, %zu bytes\n",
+> -               size);
+> -       stack_table = memblock_alloc(size, SMP_CACHE_BYTES);
+> +       if (stack_hash_order)
+> +               entries = 1UL <<  stack_hash_order;
+> +       stack_table = alloc_large_system_hash("stackdepot",
+> +                                               sizeof(struct stack_record *),
+> +                                               entries,
+> +                                               STACK_HASH_SCALE,
+> +                                               HASH_EARLY | HASH_ZERO,
+> +                                               NULL,
+> +                                               &stack_hash_mask,
+> +                                               1UL << STACK_HASH_ORDER_MIN,
+> +                                               1UL << STACK_HASH_ORDER_MAX);
+>
+>         if (!stack_table) {
+>                 pr_err("Stack Depot hash table allocation failed, disabling\n");
+> @@ -207,13 +224,35 @@ int stack_depot_init(void)
+>
+>         mutex_lock(&stack_depot_init_mutex);
+>         if (!stack_depot_disable && !stack_table) {
+> -               pr_info("Stack Depot allocating hash table with kvcalloc\n");
+> -               stack_table = kvcalloc(STACK_HASH_SIZE, sizeof(struct stack_record *), GFP_KERNEL);
+> +               unsigned long entries;
+> +               int scale = STACK_HASH_SCALE;
+> +
+> +               if (stack_hash_order) {
+> +                       entries = 1UL << stack_hash_order;
+> +               } else {
+> +                       entries = nr_free_buffer_pages();
+> +                       entries = roundup_pow_of_two(entries);
+> +
+> +                       if (scale > PAGE_SHIFT)
+> +                               entries >>= (scale - PAGE_SHIFT);
+> +                       else
+> +                               entries <<= (PAGE_SHIFT - scale);
+> +               }
+> +
+> +               if (entries < 1UL << STACK_HASH_ORDER_MIN)
+> +                       entries = 1UL << STACK_HASH_ORDER_MIN;
+> +               if (entries > 1UL << STACK_HASH_ORDER_MAX)
+> +                       entries = 1UL << STACK_HASH_ORDER_MAX;
+> +
+> +               pr_info("Stack Depot allocating hash table of %lu entries with kvcalloc\n",
+> +                               entries);
+> +               stack_table = kvcalloc(entries, sizeof(struct stack_record *), GFP_KERNEL);
+>                 if (!stack_table) {
+>                         pr_err("Stack Depot hash table allocation failed, disabling\n");
+>                         stack_depot_disable = true;
+>                         ret = -ENOMEM;
+>                 }
+> +               stack_hash_mask = entries - 1;
+>         }
+>         mutex_unlock(&stack_depot_init_mutex);
+>         return ret;
+> @@ -386,7 +425,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+>                 goto fast_exit;
+>
+>         hash = hash_stack(entries, nr_entries);
+> -       bucket = &stack_table[hash & STACK_HASH_MASK];
+> +       bucket = &stack_table[hash & stack_hash_mask];
+>
+>         /*
+>          * Fast path: look the stack trace up without locking.
 > --
-> 2.25.1
-> 
-> 
+> 2.36.1
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5949bc710889be1324d5dada995a263fd3c29cb5.camel%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbtgY8-GYZbQOoghgfCEHMTd_S%3DBmNnMQxMTgCU5JztPQ%40mail.gmail.com.
