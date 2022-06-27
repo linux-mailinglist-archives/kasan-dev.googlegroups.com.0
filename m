@@ -1,143 +1,126 @@
-Return-Path: <kasan-dev+bncBC63TR5BXECBBFND4KKQMGQE5YDXOCQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDFKDBGSFYIJFJPFSUDBUBCTMYEAO@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1138.google.com (mail-yw1-x1138.google.com [IPv6:2607:f8b0:4864:20::1138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDBF55B305
-	for <lists+kasan-dev@lfdr.de>; Sun, 26 Jun 2022 19:04:22 +0200 (CEST)
-Received: by mail-yw1-x1138.google.com with SMTP id 00721157ae682-31814f7654dsf61088017b3.15
-        for <lists+kasan-dev@lfdr.de>; Sun, 26 Jun 2022 10:04:22 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656263061; cv=pass;
+Received: from mail-ua1-x93b.google.com (mail-ua1-x93b.google.com [IPv6:2607:f8b0:4864:20::93b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAA655B7FE
+	for <lists+kasan-dev@lfdr.de>; Mon, 27 Jun 2022 08:47:48 +0200 (CEST)
+Received: by mail-ua1-x93b.google.com with SMTP id q13-20020ab0264d000000b00381d36210c3sf1060132uao.9
+        for <lists+kasan-dev@lfdr.de>; Sun, 26 Jun 2022 23:47:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656312466; cv=pass;
         d=google.com; s=arc-20160816;
-        b=S6wMTpE7YgfTxKMld017vYtXEYA+DoH+9K44J6oqOeoZb0bayyEubay7UF3sMgj2ey
-         APLngtXtXDwB8PI3GlB++T9LFJzRLxFq/6MbKrb9/csIki+/iOwXgaSIrNGM2/L8qKmw
-         YsoRFpzcsKQ3lbqBYBtdVYhCDKwkVpUb2lZfOOc/VzrDlKJmhl+fjdnit1D9ySDLT4od
-         cu3Mif3pNty1qkOo4YdZVzbIbi59NsBm4LppMh6PC8Ag79DfUEgaV80k407ZDUP5H6ym
-         0IVRdWr6/mTCFykI9zTnS7W+y4BcOAPyHh+6eyRgFnUxrlZlwEIKXF3GOn+rNg3dogYf
-         FrUQ==
+        b=D44HlKBcui2k7BKnuSimzWGbIsno9WOpWG4JVDLIKfJuDOXnvh1sSEhw6dZGj7ixhX
+         PhkxMTfDUnIrNxQ68nrQddptT46/xqJLc2c1O9z1UjYsvOhYeC4HSgU0I96ElE3K9oq9
+         IFwDMZS43EFGkk2M/w80OuFhhwAwTuk0weW5KLDcRK0qwsqIP0lTaResW6Buv87NU4ma
+         40Lv6Js+yHDHjO0ooV2vy/ktoCAzZkQfSXRzusIPlSXxAl7/IR5oV+7VAy26ItKi/DDo
+         bN4hWMmhbdQihvUrzMlKrErTNZOKUEteh0cdXZUt6yLL0JVtyjnu+5M3QDvpbZYxiwjm
+         58aw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature:dkim-signature;
-        bh=7LtySwGGy+uFzyuls3VQIbnRyiFuoIvMMcVCvYNSNUQ=;
-        b=ygkCfvWX2BSBQGytoIdIvg24WNQQCYqVveZz8q+sbxik79ROncylROCJT3+6Hpj5jn
-         PS/ItqnVjZsEiY9swypqNyCiasgQlGkqLr/xWpAtBo6xRnK/+I/y7dDxkm270dD/uJSX
-         5fuKQEa6ybYagbpNqww91IkC8TqmQNtFIRMydrdp+2gIwfLqBndnVInMS1uUV4HL6kAw
-         qXoZwsT9dICBCTmcdniCKGZJ4k2G8b/hI4DmtNCRo7+A2cNFKQ2lU/FA4lmE5HWWto61
-         CLXMkioFrGBdkCUdTwOU9fxjSqF2Ck6ZJ+pBpCrGL2pUxS3naY3xXzXHDMPQJ3u3KNZu
-         ulZA==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=aaC3cr5DTXcJ437bh8kAXOPMN6JvGvHqoy+tEdfrElw=;
+        b=A/EwA7SlnF8u3Dbv0K+0RxqER9DonO+G5XYcNEQc/7cfOrV94oQ99qYhfpCBqGS9qn
+         x1h4qelFTTTSAL4Gz44T1SVAl02GHzgQwv+L2nYeORhIBcr96D1zbHpmMN6s5sUC24fY
+         T4kSYLWE1QR0FVSdO9qcDevuamXCUqlPsAyq/FQoeG+FoJ0riu4BvcosYTFHTYbyJ3HV
+         Af1ZUofZVF3wVJXUi+dlyFWsAvyHCBxln0qLmpFrKwpx9c2CGeMBjhe6dt/e7ohEl2YJ
+         61EWchwBtYs/jJcoJKyftOpLjiRB5mV+3U9oNKSjXDspQghvjUjIVj1Fdj1GTmdiJo+v
+         zY1w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=AAAVJXiW;
-       spf=pass (google.com: domain of gautammenghani201@gmail.com designates 2607:f8b0:4864:20::62a as permitted sender) smtp.mailfrom=gautammenghani201@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@atishpatra.org header.s=google header.b=RUqSR0Aq;
+       spf=pass (google.com: domain of atishp@atishpatra.org designates 2607:f8b0:4864:20::112e as permitted sender) smtp.mailfrom=atishp@atishpatra.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=7LtySwGGy+uFzyuls3VQIbnRyiFuoIvMMcVCvYNSNUQ=;
-        b=OrdUoY7627XRWUeLNTR8gabpgLGF80dKaUcSBz7TbNMNp0+EDJm/JtR0cEnEO0Urd6
-         XHbVR89w/jJXHipomSNEiy1BBjqp53S/qNZE7j3jh0PqA9aFtOfZtadd3TRs65kyDlgx
-         zk7xsF77yPsM0YbpWXCJpKCNs1ui8NTZUW3rL45OOe3Zn/yt4zPSsVgnAiwUTmoj8fAC
-         Azh6KyrGlwJfrrXsLOAUpW/a8hkIz8makjoKZqbsvlRCJ17Ire+S15+re9pxIMU3X4JZ
-         gKkv1Eb1rMze7abomRZp9RKV6Wz+gAU/cevYxkVAfbJB7cf7Zl+7ZjyBDTWGIgWiKKrv
-         ABXQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=7LtySwGGy+uFzyuls3VQIbnRyiFuoIvMMcVCvYNSNUQ=;
-        b=e+KJFex03g1e6tD4yF1o8cYtM8viz1fh1kOU+UgtV2LyowpWIQht942D52fRrFu6tN
-         3v1yzS/+V5LJPwraFvA8AwUYpTVEf/xepM8LMOLXcgxETuLe4rNY/J50zUpN0amiNSkh
-         rC7K8cOB/UmGxWEZ9y+mWQ180YPOcSyZgE5a9fkfYOGvzfjXBj9ioaKUeUrWa7F0K6OQ
-         8E6i2PwfSQZmhOEiobHVRvXdYjqvcYzBZ21VFyYVRBIUGM81lql3lAXpE9CNWCdzrBkk
-         2P7LUwHOcWP9FA9sDdAbgu9R7B+/lDUmZYDFwYtRn7rMzqqOuAV2pTPAXHHIf8pAZNAk
-         RNLg==
+        bh=aaC3cr5DTXcJ437bh8kAXOPMN6JvGvHqoy+tEdfrElw=;
+        b=kgErq1UlF8D7px1QRUpnm4i4AQ4cM4m2xmj0lJb2a0NWVeGcayDjqxjLbiL/dsqQVj
+         XgvmOmPYxkTUiUTKEt+RMlS0KDLZbkl27TyvYFqCJzMO9iecuGxsqGi4gYY6akMGtmu1
+         2eKAJZFecsnzcCy21gAJcgICtzxeegvjlrhyQjzsmBEgZ7pcAhzAIfS7zd00km/NBwLk
+         b9b/ssU8AF1lCGn2SHdA7CTYtE9IIYKKMHNs2gu9bW2ER80ggAaQOvTcqUnmXC4PO1DK
+         q0K+g3Em0uvC3NB7hzOAOl0cIXFaZGzWd0XWjPTfS4rQJ3Krc9TmWxRiEbRibLHBklYC
+         3Bvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=7LtySwGGy+uFzyuls3VQIbnRyiFuoIvMMcVCvYNSNUQ=;
-        b=SuDSESviY2h1koiazdVGGHS1CetDToQysLr4GfN1wzy95GsPOlSCvzmfow8Xn86pCD
-         UFW0HwbYgJEDZn4ZG3JpFf4DL+p2Vo1fqOc9TRLpTk0aWIXFPNtoUjpDgsJioPFBatH4
-         fVuH4xx9nhRJrWJJzmm7NZTx9gTr+IYFXVSGsJYgXQmlxaytEa2PATmijWOGTS5guvy/
-         OMOqsII5gM3h1esYhty6C9EVVSddXesZCmJvrWXKMxygoJanCiM4uMAO3Kq0rvReAIeI
-         1iTk0+oNmSYjUBDiWBXGCVT3llt4Xk0JeD8OL2rEew3jPm/9YK5v7b0Ien9JG/+G++K9
-         V0Fw==
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=aaC3cr5DTXcJ437bh8kAXOPMN6JvGvHqoy+tEdfrElw=;
+        b=g3IQBFDQnLIGCuDI7rj5d+TpRr8XhBvni3dR18i4BQPLLmiJyr6rMCyrZHvU6QQzcD
+         tzszJT9c0G9sSH7cEdXdPtjdDE5ceqgWM28rLgj5xvmsTnwoSybPVd/4APmiB5dg1/x7
+         oy1VU/L9XrrCgfGWY0DlvCZprf/KulrUqJRCGDaw+5sTdLa2alsrRaf55MrgYC6+s0lx
+         JNZUOtQvpjPcwvzTUX3WuwLExnNYcBi/B5Byb3P2xQqMb9Pn8dc+/nQIyuhj+EQCca99
+         35hpmCnzOwXwQAplP+9toOGM4twP9BYUCJsFpT5oEQf1yKp1938iKdsnVkv2/jOEua5d
+         /oaA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora9uSDscT8cVFts5EXB4F7uyDQcYAzBq0q8ShHVKzcHjTrm3UCW6
-	MjVaBPbvWdkDo+0pYrr4osY=
-X-Google-Smtp-Source: AGRyM1twhQEMHFwdCvnEi8MVIXxTLT90nR1ouKixzxJHYanj+Pqebqtk4EgjPjCdG0M696aQo7F4NA==
-X-Received: by 2002:a05:690c:316:b0:314:2147:2b90 with SMTP id bg22-20020a05690c031600b0031421472b90mr9878523ywb.318.1656263061241;
-        Sun, 26 Jun 2022 10:04:21 -0700 (PDT)
+X-Gm-Message-State: AJIora9HBlSUYx34Dg8H17nC0mdmfieeR3rX6tN5Ty90FewdLHgxWiHI
+	dt4AoIteHbEMz6/wPRR9jLA=
+X-Google-Smtp-Source: AGRyM1uCi8fGITq7ZOGp8OI++xRQb1SrFKCNy+ZrYkZyjHvOnaXOeO94AMaD2lZQNCt+5T+EoMSv6g==
+X-Received: by 2002:a1f:cb07:0:b0:36c:6de6:8d3 with SMTP id b7-20020a1fcb07000000b0036c6de608d3mr3624689vkg.25.1656312466669;
+        Sun, 26 Jun 2022 23:47:46 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a81:9b0e:0:b0:317:7fe0:b30 with SMTP id s14-20020a819b0e000000b003177fe00b30ls12627600ywg.4.gmail;
- Sun, 26 Jun 2022 10:04:20 -0700 (PDT)
-X-Received: by 2002:a81:1113:0:b0:317:a2d9:3cef with SMTP id 19-20020a811113000000b00317a2d93cefmr10239302ywr.207.1656263060724;
-        Sun, 26 Jun 2022 10:04:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656263060; cv=none;
+Received: by 2002:a1f:f4cd:0:b0:36c:5380:9471 with SMTP id s196-20020a1ff4cd000000b0036c53809471ls1522070vkh.6.gmail;
+ Sun, 26 Jun 2022 23:47:46 -0700 (PDT)
+X-Received: by 2002:ac5:c205:0:b0:35e:88f6:7338 with SMTP id m5-20020ac5c205000000b0035e88f67338mr3718955vkk.12.1656312465940;
+        Sun, 26 Jun 2022 23:47:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656312465; cv=none;
         d=google.com; s=arc-20160816;
-        b=eS8KJw11805SNM2yHNLcHAFoi5PJaPuHs+qzAHDB8H1afx1Y27sXwlKklXxhD3nqUO
-         lhDeJCZ3cPOwvJlcC5mhIBYGgUEO/i5UGkToDFE4p6AevJf+TBnuOoBcGS7C0XGBgPdM
-         6xPrXSS4+b3FTtwSHnLSjc6beQAS/b1c7gKVc+5wJWr/ItS7iAnOtIe/XsZ1zmYTzL1u
-         jot2cZFtbGNYmf/2BfiTNaOFWIO7jRbEhke+rtw5+vXc6m6FMPT0UXrOU992FuT3jkyj
-         qS/s+ChWFEtja+rGjqAM3cpl6OfckdsVLrBHPTrTfsJ35n3DtaG67WYZuMPk+Ws1V41I
-         BWzg==
+        b=mnnOV+TtJEfXUR+xUSFbbSZDVg7SMP215iibogT1psMDZZe5qIx+Bg87dQx6NXeGYG
+         6TFnzwsWF7raRLHdrL/FKVoJv65f7xaYG5TWZaXtYdFblNhl6GdhWHwQwcORNUBSVe0Q
+         EoemyqBCUQoSCrtXEfTXgNlQOGrQiQNAu6qf7wDiR0QfMBXLR7QR6yDWjNUrVtZlmiAJ
+         7oNKC2cbJntnWyec9CULNV5vH75ekulnluML9/euCe92eYIkZQOQUawmAdHLeaSQ/duA
+         rRjBmUicgnjMaFE7dTGenPI1guAmMi2W0oP2Fhi34316bXjoRktyXMA9M4eBtGpCM5B1
+         DTzg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=oFSj1F+cvrzuMgRbVJtsNeMg49O8qOKUhwSEI2b4t3A=;
-        b=D0N28XIbQaw932a9ZDQPO9/ooTAMviwKpx1gX63uu5mVhTfzqtmhduAEgb6LXs/Xuv
-         YPQNpSs3KMrXWEZlfsyiREPPzX6LgvqoHuDlSTz9mfFy0rfxkykenYU7gmMfXBYyqbPt
-         uwhRhH97xlICbBEY/BS7fj7p6CIFpJNfl5zA2MSU4b8Wl8TKTMRmcsQHOtbZaLvwLYJ9
-         MsMWVd+qrDfHxHYu+Iurp8fsWUlJSEbCDp9RWUG13Ghzcf/PuWElv/g1E5Jx3E4kuXQ2
-         fA4lp+bMylCl+zYg0jHgRICeNN4lndCMRSJkjc247uTpAFf8GabAG0Ay0Ij1eNIqEQyD
-         Qteg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=RpPnU8MehDqKJsWHhgDuy79jEz+vPYFTumDLAwjvYYg=;
+        b=VkJaKAoyHBTNaxsfo6R6uiEPZtZNuPPpT1BDM+3kg3Djx3wnIkphaQvdTpBXR1+Wfg
+         9NKtQwhyPTcf2Zpp4nzROyWQl7jey8xltG8dJL2Ump4H8cbL2Z+6u8gnI9f4oYBXosYS
+         xpzAI4T0doyxPnFkW1bzdxLUACi5HQ/XSHydu3ofSysu3RvzWX7+jdViV4/qr29qOBPq
+         ttWUw5d/GZz3mJo2+ww6+M52ebqwDPbhzoDb3dcFtyqblKQfkE0UdJKx9VKHoi3lJ17o
+         4RO4aH3Gk+Trf0FQjzp/eY82SBTcIFRrZlbLe3Rz6AVdNs9L3KWZg6xVh7SasxAyBXeB
+         7yZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=AAAVJXiW;
-       spf=pass (google.com: domain of gautammenghani201@gmail.com designates 2607:f8b0:4864:20::62a as permitted sender) smtp.mailfrom=gautammenghani201@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com. [2607:f8b0:4864:20::62a])
-        by gmr-mx.google.com with ESMTPS id f10-20020a25cf0a000000b00669b1eaf58dsi365424ybg.2.2022.06.26.10.04.20
+       dkim=pass header.i=@atishpatra.org header.s=google header.b=RUqSR0Aq;
+       spf=pass (google.com: domain of atishp@atishpatra.org designates 2607:f8b0:4864:20::112e as permitted sender) smtp.mailfrom=atishp@atishpatra.org
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com. [2607:f8b0:4864:20::112e])
+        by gmr-mx.google.com with ESMTPS id e24-20020a05610211f800b0032cddd78670si325560vsg.2.2022.06.26.23.47.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 10:04:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of gautammenghani201@gmail.com designates 2607:f8b0:4864:20::62a as permitted sender) client-ip=2607:f8b0:4864:20::62a;
-Received: by mail-pl1-x62a.google.com with SMTP id n10so6281448plp.0
-        for <kasan-dev@googlegroups.com>; Sun, 26 Jun 2022 10:04:20 -0700 (PDT)
-X-Received: by 2002:a17:90a:5b0d:b0:1ea:d1ed:186e with SMTP id o13-20020a17090a5b0d00b001ead1ed186emr10676962pji.240.1656263059833;
-        Sun, 26 Jun 2022 10:04:19 -0700 (PDT)
-Received: from fedora.. ([103.230.148.188])
-        by smtp.gmail.com with ESMTPSA id ms3-20020a17090b234300b001ead46e77e2sm5450642pjb.13.2022.06.26.10.04.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jun 2022 10:04:18 -0700 (PDT)
-From: Gautam Menghani <gautammenghani201@gmail.com>
-To: ryabinin.a.a@gmail.com,
-	glider@google.com,
-	andreyknvl@gmail.com,
-	dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	akpm@linux-foundation.org
-Cc: Gautam Menghani <gautammenghani201@gmail.com>,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: [PATCH] mm/kasan: Fix null pointer dereference warning in qlink_to_cache()
-Date: Sun, 26 Jun 2022 22:33:55 +0530
-Message-Id: <20220626170355.198913-1-gautammenghani201@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        Sun, 26 Jun 2022 23:47:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of atishp@atishpatra.org designates 2607:f8b0:4864:20::112e as permitted sender) client-ip=2607:f8b0:4864:20::112e;
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-3176b6ed923so75551937b3.11
+        for <kasan-dev@googlegroups.com>; Sun, 26 Jun 2022 23:47:45 -0700 (PDT)
+X-Received: by 2002:a81:6ad7:0:b0:31b:a0f1:c093 with SMTP id
+ f206-20020a816ad7000000b0031ba0f1c093mr6336295ywc.400.1656312465509; Sun, 26
+ Jun 2022 23:47:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: gautammenghani201@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=AAAVJXiW;       spf=pass
- (google.com: domain of gautammenghani201@gmail.com designates
- 2607:f8b0:4864:20::62a as permitted sender) smtp.mailfrom=gautammenghani201@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+References: <20220521143456.2759-1-jszhang@kernel.org> <20220521143456.2759-2-jszhang@kernel.org>
+ <CAAhSdy2yT26QournxS4Zf6L8oMj5Bs6BEjuW56NHapq=cXOEww@mail.gmail.com>
+In-Reply-To: <CAAhSdy2yT26QournxS4Zf6L8oMj5Bs6BEjuW56NHapq=cXOEww@mail.gmail.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Sun, 26 Jun 2022 23:47:34 -0700
+Message-ID: <CAOnJCU+2QXdCkf7g_cnQ+yMoFABc7bfKZ8=5sOJk2uQhS8+Uww@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] riscv: move sbi_init() earlier before jump_label_init()
+To: Anup Patel <anup@brainfault.org>
+Cc: Jisheng Zhang <jszhang@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Alexandre Ghiti <alexandre.ghiti@canonical.com>, 
+	Atish Patra <atishp@rivosinc.com>, linux-riscv <linux-riscv@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Sunil V L <sunilvl@ventanamicro.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: atishp@atishpatra.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@atishpatra.org header.s=google header.b=RUqSR0Aq;       spf=pass
+ (google.com: domain of atishp@atishpatra.org designates 2607:f8b0:4864:20::112e
+ as permitted sender) smtp.mailfrom=atishp@atishpatra.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,40 +133,155 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The function virt_to_slab() declared in slab.h can return NULL if the
-address does not belong to a slab. This case is not handled in the
-function qlink_to_cache() in the file quarantine.c, which can cause a
-NULL pointer dereference in "virt_to_slab(qlink)->slab_cache". 
-This issue was discovered by fanalyzer (my gcc version: 12.1.1 20220507)
+On Sat, Jun 25, 2022 at 9:33 PM Anup Patel <anup@brainfault.org> wrote:
+>
+> On Sat, May 21, 2022 at 8:13 PM Jisheng Zhang <jszhang@kernel.org> wrote:
+> >
+> > We call jump_label_init() in setup_arch() is to use static key
+> > mechanism earlier, but riscv jump label relies on the sbi functions,
+> > If we enable static key before sbi_init(), the code path looks like:
+> >   static_branch_enable()
+> >     ..
+> >       arch_jump_label_transform()
+> >         patch_text_nosync()
+> >           flush_icache_range()
+> >             flush_icache_all()
+> >               sbi_remote_fence_i() for CONFIG_RISCV_SBI case
+> >                 __sbi_rfence()
+> >
+> > Since sbi isn't initialized, so NULL deference! Here is a typical
+> > panic log:
+> >
+> > [    0.000000] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+> > [    0.000000] Oops [#1]
+> > [    0.000000] Modules linked in:
+> > [    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.18.0-rc7+ #79
+> > [    0.000000] Hardware name: riscv-virtio,qemu (DT)
+> > [    0.000000] epc : 0x0
+> > [    0.000000]  ra : sbi_remote_fence_i+0x1e/0x26
+> > [    0.000000] epc : 0000000000000000 ra : ffffffff80005826 sp : ffffffff80c03d50
+> > [    0.000000]  gp : ffffffff80ca6178 tp : ffffffff80c0ad80 t0 : 6200000000000000
+> > [    0.000000]  t1 : 0000000000000000 t2 : 62203a6b746e6972 s0 : ffffffff80c03d60
+> > [    0.000000]  s1 : ffffffff80001af6 a0 : 0000000000000000 a1 : 0000000000000000
+> > [    0.000000]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : 0000000000000000
+> > [    0.000000]  a5 : 0000000000000000 a6 : 0000000000000000 a7 : 0000000000080200
+> > [    0.000000]  s2 : ffffffff808b3e48 s3 : ffffffff808bf698 s4 : ffffffff80cb2818
+> > [    0.000000]  s5 : 0000000000000001 s6 : ffffffff80c9c345 s7 : ffffffff80895aa0
+> > [    0.000000]  s8 : 0000000000000001 s9 : 000000000000007f s10: 0000000000000000
+> > [    0.000000]  s11: 0000000000000000 t3 : ffffffff80824d08 t4 : 0000000000000022
+> > [    0.000000]  t5 : 000000000000003d t6 : 0000000000000000
+> > [    0.000000] status: 0000000000000100 badaddr: 0000000000000000 cause: 000000000000000c
+> > [    0.000000] ---[ end trace 0000000000000000 ]---
+> > [    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
+> > [    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the idle task! ]---
+> >
+> > Fix this issue by moving sbi_init() earlier before jump_label_init()
+> >
+> > Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+>
+> We are seeing a similar crash when booting kernel via EDK2 with RNG enabled.
+>
+> Shell> fs0:\Image root=/dev/vda2 rootwait console=ttyS0
+> earlycon=uart8250,mmio,0x10000000 initrd=\initramfs.cp
+> EFI stub: Booting Linux Kernel...
+> EFI stub: Using DTB from configuration table
+> EFI stub: Exiting boot services...
+> [    0.000000] Linux version 5.19.0-rc3 (oe-user@oe-host)
+> (riscv64-unknown-linux-gnu-gcc (Ventana-2022.05.16) 12.1.0, GNU ld
+> (Ventana-2022.05.16) 2.37.90.20220201) #1 SMP Thu Jun 23 05:33:13 UTC
+> 2022
+> [    0.000000] OF: fdt: Ignoring memory range 0x80000000 - 0x81200000
+> [    0.000000] earlycon: uart8250 at MMIO 0x0000000010000000 (options '')
+> [    0.000000] printk: bootconsole [uart8250] enabled
+> [    0.000000] efi: EFI v2.70 by EDK II
+> [    0.000000] efi: RNG=0xff94fd98 MEMRESERVE=0xfe658f18
+> [    0.000000] efi: seeding entropy pool
+> [    0.000000] Unable to handle kernel NULL pointer dereference at
+> virtual address 0000000000000000
+> [    0.000000] Oops [#1]
+> [    0.000000] Modules linked in:
+> [    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.19.0-rc3 #1
+> [    0.000000] epc : 0x0
+> [    0.000000]  ra : sbi_remote_fence_i+0x1e/0x26
+> [    0.000000] epc : 0000000000000000 ra : ffffffff800080f8 sp :
+> ffffffff81203cd0
+> [    0.000000]  gp : ffffffff812f1d40 tp : ffffffff8120da80 t0 :
+> 0000000000cb8266
+> [    0.000000]  t1 : 000000006d5e5146 t2 : 0000000058000000 s0 :
+> ffffffff81203ce0
+> [    0.000000]  s1 : ffffffff8047586a a0 : 0000000000000000 a1 :
+> 0000000000000000
+> [    0.000000]  a2 : 0000000000000000 a3 : 0000000000000000 a4 :
+> 0000000000000000
+> [    0.000000]  a5 : 0000000000000000 a6 : 0000000000000000 a7 :
+> 0000000000000000
+> [    0.000000]  s2 : ffffffff80dea320 s3 : ffffffff80deabb0 s4 :
+> ffffffff81353d48
+> [    0.000000]  s5 : 0000000000000001 s6 : 00000000fffde848 s7 :
+> 0000000000000004
+> [    0.000000]  s8 : 0000000081021714 s9 : 000000008101e6f0 s10:
+> 00000000fffde780
+> [    0.000000]  s11: 0000000000000004 t3 : 000000001467a415 t4 :
+> 0000000000000000
+> [    0.000000]  t5 : 00000000007627e0 t6 : ffffffffbc865574
+> [    0.000000] status: 0000000200000100 badaddr: 0000000000000000
+> cause: 000000000000000c
+> [    0.000000] ---[ end trace 0000000000000000 ]---
+> [    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
+> [    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill
+> the idle task! ]---
+>
+> This patch fixes the above crash as well.
+>
 
-Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
----
- mm/kasan/quarantine.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Thanks for the confirmation.
 
-diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
-index 75585077eb6d..c7554f5b9fb6 100644
---- a/mm/kasan/quarantine.c
-+++ b/mm/kasan/quarantine.c
-@@ -128,7 +128,13 @@ static unsigned long quarantine_batch_size;
- 
- static struct kmem_cache *qlink_to_cache(struct qlist_node *qlink)
- {
--	return virt_to_slab(qlink)->slab_cache;
-+	struct slab *folio_slab = virt_to_slab(qlink);
-+
-+	if (!folio_slab) {
-+		pr_warn("The address %p does not belong to a slab", qlink);
-+		return NULL;
-+	}
-+	return folio_slab->slab_cache;
- }
- 
- static void *qlink_to_object(struct qlist_node *qlink, struct kmem_cache *cache)
+> Reviewed-by: Anup Patel <anup@brainfault.org>
+>
+> Thanks,
+> Anup
+>
+> > ---
+> >  arch/riscv/kernel/setup.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> > index 834eb652a7b9..d150cedeb7e0 100644
+> > --- a/arch/riscv/kernel/setup.c
+> > +++ b/arch/riscv/kernel/setup.c
+> > @@ -268,6 +268,7 @@ void __init setup_arch(char **cmdline_p)
+> >         *cmdline_p = boot_command_line;
+> >
+> >         early_ioremap_setup();
+> > +       sbi_init();
+> >         jump_label_init();
+> >         parse_early_param();
+> >
+> > @@ -284,7 +285,6 @@ void __init setup_arch(char **cmdline_p)
+> >         misc_mem_init();
+> >
+> >         init_resources();
+> > -       sbi_init();
+> >
+> >  #ifdef CONFIG_KASAN
+> >         kasan_init();
+> > --
+> > 2.34.1
+> >
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
+
 -- 
-2.36.1
+Regards,
+Atish
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220626170355.198913-1-gautammenghani201%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAOnJCU%2B2QXdCkf7g_cnQ%2ByMoFABc7bfKZ8%3D5sOJk2uQhS8%2BUww%40mail.gmail.com.
