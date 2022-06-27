@@ -1,126 +1,141 @@
-Return-Path: <kasan-dev+bncBDFKDBGSFYIJFJPFSUDBUBCTMYEAO@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBGN34WKQMGQEGHXDIDA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93b.google.com (mail-ua1-x93b.google.com [IPv6:2607:f8b0:4864:20::93b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AAA655B7FE
-	for <lists+kasan-dev@lfdr.de>; Mon, 27 Jun 2022 08:47:48 +0200 (CEST)
-Received: by mail-ua1-x93b.google.com with SMTP id q13-20020ab0264d000000b00381d36210c3sf1060132uao.9
-        for <lists+kasan-dev@lfdr.de>; Sun, 26 Jun 2022 23:47:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656312466; cv=pass;
+Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF92055B83B
+	for <lists+kasan-dev@lfdr.de>; Mon, 27 Jun 2022 09:34:50 +0200 (CEST)
+Received: by mail-wm1-x33b.google.com with SMTP id m17-20020a05600c3b1100b003a04a2f4936sf1175411wms.6
+        for <lists+kasan-dev@lfdr.de>; Mon, 27 Jun 2022 00:34:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656315290; cv=pass;
         d=google.com; s=arc-20160816;
-        b=D44HlKBcui2k7BKnuSimzWGbIsno9WOpWG4JVDLIKfJuDOXnvh1sSEhw6dZGj7ixhX
-         PhkxMTfDUnIrNxQ68nrQddptT46/xqJLc2c1O9z1UjYsvOhYeC4HSgU0I96ElE3K9oq9
-         IFwDMZS43EFGkk2M/w80OuFhhwAwTuk0weW5KLDcRK0qwsqIP0lTaResW6Buv87NU4ma
-         40Lv6Js+yHDHjO0ooV2vy/ktoCAzZkQfSXRzusIPlSXxAl7/IR5oV+7VAy26ItKi/DDo
-         bN4hWMmhbdQihvUrzMlKrErTNZOKUEteh0cdXZUt6yLL0JVtyjnu+5M3QDvpbZYxiwjm
-         58aw==
+        b=Wz/s/kGDs1rqlYxQZF4kgE41awm8A486QWsFTQwdse6k/ELLCE84lAhXqmSrB0EHuR
+         aELCu2/HjYDPkTd3Jah5s1F4yxf6/QMD1kgl0SyAKeEUMD3RJZ5AOFyLBxr8WXJXUOXA
+         UPo+Z9wqdHUSXijVILm9erVj6S4mVIMyMKYCYj9VG0i2U3uSvGA59rC7KZN8qjc8fc/H
+         g5Tzhea0loUJVphDQadNrmfkAy9LqgtU4bEhko4iUV5o8V0ONB+2vGt15iRdbPO+I18m
+         /FZ9KNYIxAfu3PoREhLJnoLmj6cAW2IZ5ZvsXiyGPmRftoacsspX4R7H0mntmWhFtPaU
+         HKOQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=aaC3cr5DTXcJ437bh8kAXOPMN6JvGvHqoy+tEdfrElw=;
-        b=A/EwA7SlnF8u3Dbv0K+0RxqER9DonO+G5XYcNEQc/7cfOrV94oQ99qYhfpCBqGS9qn
-         x1h4qelFTTTSAL4Gz44T1SVAl02GHzgQwv+L2nYeORhIBcr96D1zbHpmMN6s5sUC24fY
-         T4kSYLWE1QR0FVSdO9qcDevuamXCUqlPsAyq/FQoeG+FoJ0riu4BvcosYTFHTYbyJ3HV
-         Af1ZUofZVF3wVJXUi+dlyFWsAvyHCBxln0qLmpFrKwpx9c2CGeMBjhe6dt/e7ohEl2YJ
-         61EWchwBtYs/jJcoJKyftOpLjiRB5mV+3U9oNKSjXDspQghvjUjIVj1Fdj1GTmdiJo+v
-         zY1w==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :message-id:date:subject:to:from:sender:dkim-signature;
+        bh=DieN311Lyyvidtu36IC3jnl0nHHUBgcQBAND1Rr0L24=;
+        b=Ok7JsZitbDPtAPOZMKP90dkqTZEQvL9+JRTm/gTcCk6J2UUVDpBgU5Zf+5LRHSkGfm
+         Nk7c33lsN4//wtxg9s7SoUKk/tYpyLxXkqfuBzKDmcFZ5igazdb6rn5zOEjThAmIU5bn
+         DqFZwxn/IjbFQ3M/HETEA+1B5e5t1soiCd9MVTTCj54EXj8Gree42ltdHrTKvn6cEzhu
+         d4BJmBXBt8wrR0AcTTCSrucmHdc6mQ01LoFu5i9voR+zeEDeII0Uut2CwOYuFU5RWj2v
+         xQMQOUbLfuzydz8esoREwaDRsqxPAAPh8ffGuZJlxQeDu6W4m6gQSbp5o42jhiZKgrr/
+         kV9w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@atishpatra.org header.s=google header.b=RUqSR0Aq;
-       spf=pass (google.com: domain of atishp@atishpatra.org designates 2607:f8b0:4864:20::112e as permitted sender) smtp.mailfrom=atishp@atishpatra.org
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=LSiBxu+D;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:subject:date:message-id:auto-submitted:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=aaC3cr5DTXcJ437bh8kAXOPMN6JvGvHqoy+tEdfrElw=;
-        b=kgErq1UlF8D7px1QRUpnm4i4AQ4cM4m2xmj0lJb2a0NWVeGcayDjqxjLbiL/dsqQVj
-         XgvmOmPYxkTUiUTKEt+RMlS0KDLZbkl27TyvYFqCJzMO9iecuGxsqGi4gYY6akMGtmu1
-         2eKAJZFecsnzcCy21gAJcgICtzxeegvjlrhyQjzsmBEgZ7pcAhzAIfS7zd00km/NBwLk
-         b9b/ssU8AF1lCGn2SHdA7CTYtE9IIYKKMHNs2gu9bW2ER80ggAaQOvTcqUnmXC4PO1DK
-         q0K+g3Em0uvC3NB7hzOAOl0cIXFaZGzWd0XWjPTfS4rQJ3Krc9TmWxRiEbRibLHBklYC
-         3Bvg==
+        bh=DieN311Lyyvidtu36IC3jnl0nHHUBgcQBAND1Rr0L24=;
+        b=Md7WMIUllHD37KgAXd7rfhuWC0H4V8FYRRxh6nNWCtX+1KUcBEAhvEru5dPYM9qHhS
+         ZTZ3mqjWEWCOWrv5OK255Z153rEowvpr3xOgeLeajzvtHTvPj9GDEWBHyMLMCDhSmYBT
+         3zgWh2cpzbekG6F8a1MLPiPlChYIDgguytcINnF24lE6Pe2Ygd2tplugv4TXKhyUh6gS
+         GK4/6CyC+zRePuTTcvdJlqCNzYcBQyVE87l7ATfxLDTUDP3hcR6+/UZCH9lzMScfqmeO
+         eWhVxNj+K5C6kF8XtaoueasgopnKfZRJ6S8iL7u05BLFuxLi/jqgpgMdzyF16w4OyoiC
+         5iLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
+        h=sender:x-gm-message-state:from:to:subject:date:message-id
+         :auto-submitted:mime-version:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=aaC3cr5DTXcJ437bh8kAXOPMN6JvGvHqoy+tEdfrElw=;
-        b=g3IQBFDQnLIGCuDI7rj5d+TpRr8XhBvni3dR18i4BQPLLmiJyr6rMCyrZHvU6QQzcD
-         tzszJT9c0G9sSH7cEdXdPtjdDE5ceqgWM28rLgj5xvmsTnwoSybPVd/4APmiB5dg1/x7
-         oy1VU/L9XrrCgfGWY0DlvCZprf/KulrUqJRCGDaw+5sTdLa2alsrRaf55MrgYC6+s0lx
-         JNZUOtQvpjPcwvzTUX3WuwLExnNYcBi/B5Byb3P2xQqMb9Pn8dc+/nQIyuhj+EQCca99
-         35hpmCnzOwXwQAplP+9toOGM4twP9BYUCJsFpT5oEQf1yKp1938iKdsnVkv2/jOEua5d
-         /oaA==
+        bh=DieN311Lyyvidtu36IC3jnl0nHHUBgcQBAND1Rr0L24=;
+        b=v0E0IL2kUT82uyPUOz4osarwfWoMnNg9ahnpPwnw1b+WeNHs1KneNqJd8a1KXeLi3P
+         JoEYSwEWXxrvVgbCP3lHDRvZhs2vKANuwpu7Zfo45AHNKg+ZgeXBvYLDOMhRNN11HRgu
+         qPlwmGEZyBKzviCJMrwG3CeeXTA/D9SN1oe9Lz7Y4eN5CQMIu9N52TdTex8LhQLAJUdF
+         Qdn9Di6GxHAXjG+72OVcgcjggzaXOoj2//gxo6a1E+Ayr7s7MTfeSihg5DMNWcqKyRtv
+         iaXMiNdviDEgOpm3Av20vxpAjzp5caXjeDd3Q8YiK0wLA3eVPuLn3fX1rQ6QUuCfHXXi
+         3VAQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora9HBlSUYx34Dg8H17nC0mdmfieeR3rX6tN5Ty90FewdLHgxWiHI
-	dt4AoIteHbEMz6/wPRR9jLA=
-X-Google-Smtp-Source: AGRyM1uCi8fGITq7ZOGp8OI++xRQb1SrFKCNy+ZrYkZyjHvOnaXOeO94AMaD2lZQNCt+5T+EoMSv6g==
-X-Received: by 2002:a1f:cb07:0:b0:36c:6de6:8d3 with SMTP id b7-20020a1fcb07000000b0036c6de608d3mr3624689vkg.25.1656312466669;
-        Sun, 26 Jun 2022 23:47:46 -0700 (PDT)
+X-Gm-Message-State: AJIora8ayjy7+BTPraApAHGV5LIr42MODBFpa2HfZ4LDFJIJaMc8LALh
+	K0XqdZDqRUXIJRoZyaMFOW0=
+X-Google-Smtp-Source: AGRyM1vmmxMdnUcz46onTcVXNHkFj5YKAfE6FE0tFILozwUp6JBIGC+ovZ2GThfecvfh66MCv1IUKg==
+X-Received: by 2002:a5d:5887:0:b0:21b:c5d0:fd4b with SMTP id n7-20020a5d5887000000b0021bc5d0fd4bmr7195770wrf.244.1656315290157;
+        Mon, 27 Jun 2022 00:34:50 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:f4cd:0:b0:36c:5380:9471 with SMTP id s196-20020a1ff4cd000000b0036c53809471ls1522070vkh.6.gmail;
- Sun, 26 Jun 2022 23:47:46 -0700 (PDT)
-X-Received: by 2002:ac5:c205:0:b0:35e:88f6:7338 with SMTP id m5-20020ac5c205000000b0035e88f67338mr3718955vkk.12.1656312465940;
-        Sun, 26 Jun 2022 23:47:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656312465; cv=none;
+Received: by 2002:adf:eb04:0:b0:21b:b3cc:1640 with SMTP id s4-20020adfeb04000000b0021bb3cc1640ls11569184wrn.1.gmail;
+ Mon, 27 Jun 2022 00:34:49 -0700 (PDT)
+X-Received: by 2002:a5d:584e:0:b0:21c:ea0c:3746 with SMTP id i14-20020a5d584e000000b0021cea0c3746mr2685284wrf.199.1656315289439;
+        Mon, 27 Jun 2022 00:34:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656315289; cv=none;
         d=google.com; s=arc-20160816;
-        b=mnnOV+TtJEfXUR+xUSFbbSZDVg7SMP215iibogT1psMDZZe5qIx+Bg87dQx6NXeGYG
-         6TFnzwsWF7raRLHdrL/FKVoJv65f7xaYG5TWZaXtYdFblNhl6GdhWHwQwcORNUBSVe0Q
-         EoemyqBCUQoSCrtXEfTXgNlQOGrQiQNAu6qf7wDiR0QfMBXLR7QR6yDWjNUrVtZlmiAJ
-         7oNKC2cbJntnWyec9CULNV5vH75ekulnluML9/euCe92eYIkZQOQUawmAdHLeaSQ/duA
-         rRjBmUicgnjMaFE7dTGenPI1guAmMi2W0oP2Fhi34316bXjoRktyXMA9M4eBtGpCM5B1
-         DTzg==
+        b=DCQQOiuNzw0Nkl3K7gFDXRR9doFaSp/M2aFphjqAjH6tRLGfozlcHO771U/2aYDHNm
+         gPB9xVa+4qFC58zUZV/cZ0Nkc1E58eHR74hgF974WYfB4cWBbs7sL26lQFCMFS3+ZNWD
+         WHNsRcVNViG0lJRjy9YEtPFEzDDYJmzc689kp8a8G1oei6EAkw2+fLLcVHqvtwmnUqT9
+         xzE7tSIm32/cOXrBtYc9wsk+k7tfZWY3yp3czzJDZhttOocF5rBrLK/pCiYeW3NIwSt3
+         BsZBH+j4wS7Dv2rUvPbk5TvNS0MCeDCWF05JXlz8q/FUoltYTC6B504SdicBxk2f8BxI
+         Pxdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=RpPnU8MehDqKJsWHhgDuy79jEz+vPYFTumDLAwjvYYg=;
-        b=VkJaKAoyHBTNaxsfo6R6uiEPZtZNuPPpT1BDM+3kg3Djx3wnIkphaQvdTpBXR1+Wfg
-         9NKtQwhyPTcf2Zpp4nzROyWQl7jey8xltG8dJL2Ump4H8cbL2Z+6u8gnI9f4oYBXosYS
-         xpzAI4T0doyxPnFkW1bzdxLUACi5HQ/XSHydu3ofSysu3RvzWX7+jdViV4/qr29qOBPq
-         ttWUw5d/GZz3mJo2+ww6+M52ebqwDPbhzoDb3dcFtyqblKQfkE0UdJKx9VKHoi3lJ17o
-         4RO4aH3Gk+Trf0FQjzp/eY82SBTcIFRrZlbLe3Rz6AVdNs9L3KWZg6xVh7SasxAyBXeB
-         7yZQ==
+        h=mime-version:auto-submitted:content-transfer-encoding:message-id
+         :date:subject:to:from:dkim-signature;
+        bh=+YOi6aathT4D+xno+DDZY8vuujVIN9YVOX/O9RLgitg=;
+        b=UGyaO+wlbXLJzqpGvn7C1D7QCpulaFb94dGL7Yl+f9HfJ3W4In3TQflgK9y70Re5K0
+         KqcerZkp1TjaGRlYIpe7NmR/WsCQVRqEWyel35RGptxoMNduyUH8L8Z1V1yt3Y7SWam/
+         E6YNUlahIDHI8i3MznusaMBJ3SPmHh8vzepY4uLrvhL4DHUijguYmFRkHvL/uvEhn6je
+         aXAjRWd4nfeFyEG4uaLLKa6g1nWdHBjn9UL7bcM3qJCv5J/4l05DdowPVanApdeMofdL
+         tNjEJGj5jX4wI3kg+myN5jLC9XcTh4uvVo9Lawe3zkjdrcxchNyubd1Tc6+7oiLaIYFX
+         1Ekg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@atishpatra.org header.s=google header.b=RUqSR0Aq;
-       spf=pass (google.com: domain of atishp@atishpatra.org designates 2607:f8b0:4864:20::112e as permitted sender) smtp.mailfrom=atishp@atishpatra.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com. [2607:f8b0:4864:20::112e])
-        by gmr-mx.google.com with ESMTPS id e24-20020a05610211f800b0032cddd78670si325560vsg.2.2022.06.26.23.47.45
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=LSiBxu+D;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
+        by gmr-mx.google.com with ESMTPS id bg3-20020a05600c3c8300b0039c51c2da24si501119wmb.1.2022.06.27.00.34.49
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 23:47:45 -0700 (PDT)
-Received-SPF: pass (google.com: domain of atishp@atishpatra.org designates 2607:f8b0:4864:20::112e as permitted sender) client-ip=2607:f8b0:4864:20::112e;
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-3176b6ed923so75551937b3.11
-        for <kasan-dev@googlegroups.com>; Sun, 26 Jun 2022 23:47:45 -0700 (PDT)
-X-Received: by 2002:a81:6ad7:0:b0:31b:a0f1:c093 with SMTP id
- f206-20020a816ad7000000b0031ba0f1c093mr6336295ywc.400.1656312465509; Sun, 26
- Jun 2022 23:47:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220521143456.2759-1-jszhang@kernel.org> <20220521143456.2759-2-jszhang@kernel.org>
- <CAAhSdy2yT26QournxS4Zf6L8oMj5Bs6BEjuW56NHapq=cXOEww@mail.gmail.com>
-In-Reply-To: <CAAhSdy2yT26QournxS4Zf6L8oMj5Bs6BEjuW56NHapq=cXOEww@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Sun, 26 Jun 2022 23:47:34 -0700
-Message-ID: <CAOnJCU+2QXdCkf7g_cnQ+yMoFABc7bfKZ8=5sOJk2uQhS8+Uww@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] riscv: move sbi_init() earlier before jump_label_init()
-To: Anup Patel <anup@brainfault.org>
-Cc: Jisheng Zhang <jszhang@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Alexandre Ghiti <alexandre.ghiti@canonical.com>, 
-	Atish Patra <atishp@rivosinc.com>, linux-riscv <linux-riscv@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Sunil V L <sunilvl@ventanamicro.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 27 Jun 2022 00:34:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 24B45B80F98
+	for <kasan-dev@googlegroups.com>; Mon, 27 Jun 2022 07:34:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D10B7C341C8
+	for <kasan-dev@googlegroups.com>; Mon, 27 Jun 2022 07:34:47 +0000 (UTC)
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id BDB61C05FD5; Mon, 27 Jun 2022 07:34:47 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 216180] New: KASAN: some memset's are not intercepted
+Date: Mon, 27 Jun 2022 07:34:47 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: dvyukov@google.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cc cf_regression attachments.created
+Message-ID: <bug-216180-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: atishp@atishpatra.org
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@atishpatra.org header.s=google header.b=RUqSR0Aq;       spf=pass
- (google.com: domain of atishp@atishpatra.org designates 2607:f8b0:4864:20::112e
- as permitted sender) smtp.mailfrom=atishp@atishpatra.org
+ header.i=@kernel.org header.s=k20201202 header.b=LSiBxu+D;       spf=pass
+ (google.com: domain of bugzilla-daemon@kernel.org designates 145.40.68.75 as
+ permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,155 +148,54 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, Jun 25, 2022 at 9:33 PM Anup Patel <anup@brainfault.org> wrote:
->
-> On Sat, May 21, 2022 at 8:13 PM Jisheng Zhang <jszhang@kernel.org> wrote:
-> >
-> > We call jump_label_init() in setup_arch() is to use static key
-> > mechanism earlier, but riscv jump label relies on the sbi functions,
-> > If we enable static key before sbi_init(), the code path looks like:
-> >   static_branch_enable()
-> >     ..
-> >       arch_jump_label_transform()
-> >         patch_text_nosync()
-> >           flush_icache_range()
-> >             flush_icache_all()
-> >               sbi_remote_fence_i() for CONFIG_RISCV_SBI case
-> >                 __sbi_rfence()
-> >
-> > Since sbi isn't initialized, so NULL deference! Here is a typical
-> > panic log:
-> >
-> > [    0.000000] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-> > [    0.000000] Oops [#1]
-> > [    0.000000] Modules linked in:
-> > [    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.18.0-rc7+ #79
-> > [    0.000000] Hardware name: riscv-virtio,qemu (DT)
-> > [    0.000000] epc : 0x0
-> > [    0.000000]  ra : sbi_remote_fence_i+0x1e/0x26
-> > [    0.000000] epc : 0000000000000000 ra : ffffffff80005826 sp : ffffffff80c03d50
-> > [    0.000000]  gp : ffffffff80ca6178 tp : ffffffff80c0ad80 t0 : 6200000000000000
-> > [    0.000000]  t1 : 0000000000000000 t2 : 62203a6b746e6972 s0 : ffffffff80c03d60
-> > [    0.000000]  s1 : ffffffff80001af6 a0 : 0000000000000000 a1 : 0000000000000000
-> > [    0.000000]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : 0000000000000000
-> > [    0.000000]  a5 : 0000000000000000 a6 : 0000000000000000 a7 : 0000000000080200
-> > [    0.000000]  s2 : ffffffff808b3e48 s3 : ffffffff808bf698 s4 : ffffffff80cb2818
-> > [    0.000000]  s5 : 0000000000000001 s6 : ffffffff80c9c345 s7 : ffffffff80895aa0
-> > [    0.000000]  s8 : 0000000000000001 s9 : 000000000000007f s10: 0000000000000000
-> > [    0.000000]  s11: 0000000000000000 t3 : ffffffff80824d08 t4 : 0000000000000022
-> > [    0.000000]  t5 : 000000000000003d t6 : 0000000000000000
-> > [    0.000000] status: 0000000000000100 badaddr: 0000000000000000 cause: 000000000000000c
-> > [    0.000000] ---[ end trace 0000000000000000 ]---
-> > [    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
-> > [    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the idle task! ]---
-> >
-> > Fix this issue by moving sbi_init() earlier before jump_label_init()
-> >
-> > Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
->
-> We are seeing a similar crash when booting kernel via EDK2 with RNG enabled.
->
-> Shell> fs0:\Image root=/dev/vda2 rootwait console=ttyS0
-> earlycon=uart8250,mmio,0x10000000 initrd=\initramfs.cp
-> EFI stub: Booting Linux Kernel...
-> EFI stub: Using DTB from configuration table
-> EFI stub: Exiting boot services...
-> [    0.000000] Linux version 5.19.0-rc3 (oe-user@oe-host)
-> (riscv64-unknown-linux-gnu-gcc (Ventana-2022.05.16) 12.1.0, GNU ld
-> (Ventana-2022.05.16) 2.37.90.20220201) #1 SMP Thu Jun 23 05:33:13 UTC
-> 2022
-> [    0.000000] OF: fdt: Ignoring memory range 0x80000000 - 0x81200000
-> [    0.000000] earlycon: uart8250 at MMIO 0x0000000010000000 (options '')
-> [    0.000000] printk: bootconsole [uart8250] enabled
-> [    0.000000] efi: EFI v2.70 by EDK II
-> [    0.000000] efi: RNG=0xff94fd98 MEMRESERVE=0xfe658f18
-> [    0.000000] efi: seeding entropy pool
-> [    0.000000] Unable to handle kernel NULL pointer dereference at
-> virtual address 0000000000000000
-> [    0.000000] Oops [#1]
-> [    0.000000] Modules linked in:
-> [    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.19.0-rc3 #1
-> [    0.000000] epc : 0x0
-> [    0.000000]  ra : sbi_remote_fence_i+0x1e/0x26
-> [    0.000000] epc : 0000000000000000 ra : ffffffff800080f8 sp :
-> ffffffff81203cd0
-> [    0.000000]  gp : ffffffff812f1d40 tp : ffffffff8120da80 t0 :
-> 0000000000cb8266
-> [    0.000000]  t1 : 000000006d5e5146 t2 : 0000000058000000 s0 :
-> ffffffff81203ce0
-> [    0.000000]  s1 : ffffffff8047586a a0 : 0000000000000000 a1 :
-> 0000000000000000
-> [    0.000000]  a2 : 0000000000000000 a3 : 0000000000000000 a4 :
-> 0000000000000000
-> [    0.000000]  a5 : 0000000000000000 a6 : 0000000000000000 a7 :
-> 0000000000000000
-> [    0.000000]  s2 : ffffffff80dea320 s3 : ffffffff80deabb0 s4 :
-> ffffffff81353d48
-> [    0.000000]  s5 : 0000000000000001 s6 : 00000000fffde848 s7 :
-> 0000000000000004
-> [    0.000000]  s8 : 0000000081021714 s9 : 000000008101e6f0 s10:
-> 00000000fffde780
-> [    0.000000]  s11: 0000000000000004 t3 : 000000001467a415 t4 :
-> 0000000000000000
-> [    0.000000]  t5 : 00000000007627e0 t6 : ffffffffbc865574
-> [    0.000000] status: 0000000200000100 badaddr: 0000000000000000
-> cause: 000000000000000c
-> [    0.000000] ---[ end trace 0000000000000000 ]---
-> [    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
-> [    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill
-> the idle task! ]---
->
-> This patch fixes the above crash as well.
->
+https://bugzilla.kernel.org/show_bug.cgi?id=216180
 
-Thanks for the confirmation.
+            Bug ID: 216180
+           Summary: KASAN: some memset's are not intercepted
+           Product: Memory Management
+           Version: 2.5
+    Kernel Version: ALL
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: enhancement
+          Priority: P1
+         Component: Sanitizers
+          Assignee: mm_sanitizers@kernel-bugs.kernel.org
+          Reporter: dvyukov@google.com
+                CC: kasan-dev@googlegroups.com
+        Regression: No
 
-> Reviewed-by: Anup Patel <anup@brainfault.org>
->
-> Thanks,
-> Anup
->
-> > ---
-> >  arch/riscv/kernel/setup.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > index 834eb652a7b9..d150cedeb7e0 100644
-> > --- a/arch/riscv/kernel/setup.c
-> > +++ b/arch/riscv/kernel/setup.c
-> > @@ -268,6 +268,7 @@ void __init setup_arch(char **cmdline_p)
-> >         *cmdline_p = boot_command_line;
-> >
-> >         early_ioremap_setup();
-> > +       sbi_init();
-> >         jump_label_init();
-> >         parse_early_param();
-> >
-> > @@ -284,7 +285,6 @@ void __init setup_arch(char **cmdline_p)
-> >         misc_mem_init();
-> >
-> >         init_resources();
-> > -       sbi_init();
-> >
-> >  #ifdef CONFIG_KASAN
-> >         kasan_init();
-> > --
-> > 2.34.1
-> >
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Created attachment 301283
+  --> https://bugzilla.kernel.org/attachment.cgi?id=301283&action=edit
+.config
 
+syzkaller produced the following report on commit 92f20ff72066:
 
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
+BUG: unable to handle page fault for address: ffff8880789a6005
+#PF: supervisor write access in kernel mode
+#PF: error_code(0x0002) - not-present page
+RIP: 0010:memset_erms+0x9/0x10 arch/x86/lib/memset_64.S:64
+Call Trace:
+ <TASK>
+ zero_user_segments include/linux/highmem.h:272 [inline]
+ folio_zero_range include/linux/highmem.h:428 [inline]
+ truncate_inode_partial_folio+0x76a/0xdf0 mm/truncate.c:237
+
+KASAN should have been intercepted memset, checked the range and produced a
+KASAN report with more info.
+
+Is there something special about this memset call?
+Does it affect KCSAN/KMSAN?
 
 -- 
-Regards,
-Atish
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAOnJCU%2B2QXdCkf7g_cnQ%2ByMoFABc7bfKZ8%3D5sOJk2uQhS8%2BUww%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-216180-199747%40https.bugzilla.kernel.org/.
