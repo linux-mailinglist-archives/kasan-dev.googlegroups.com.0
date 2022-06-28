@@ -1,197 +1,152 @@
-Return-Path: <kasan-dev+bncBDZYPUPHYEJBBWO75CKQMGQEAPFERIY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUO3AHUWUIRBF445GKQMGQEWG72OBI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1A855BC4B
-	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 00:31:54 +0200 (CEST)
-Received: by mail-wm1-x33f.google.com with SMTP id h125-20020a1c2183000000b003a0374f1eb8sf6864309wmh.8
-        for <lists+kasan-dev@lfdr.de>; Mon, 27 Jun 2022 15:31:54 -0700 (PDT)
+Received: from mail-yw1-x113e.google.com (mail-yw1-x113e.google.com [IPv6:2607:f8b0:4864:20::113e])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9C655BCBC
+	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 02:40:56 +0200 (CEST)
+Received: by mail-yw1-x113e.google.com with SMTP id 00721157ae682-31814f7654dsf90503167b3.15
+        for <lists+kasan-dev@lfdr.de>; Mon, 27 Jun 2022 17:40:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656376856; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Uujl1wH5VIH0uWjmI/LEl08gejTBBoQV2wNBsBmeHF0TJYKu90VlFu5QxTziURy0mT
+         unHDU4WFLIxxvEFYaIfgQb21Chv6NCFyMde6fHqH4S3oLKn+dGnCIUCjXFU23FlFRtV2
+         ALnWyGOt0NEte3B7ZQzdByg9z4c8YZ16mtXhSMc4dURpEdl9ko2KFc9sceDFWRW73L29
+         wb9BahC9aq6wfI0H20V4o0i6x+X3tt5pZWooVxuwRIhVtMUbpslMIO0wM4F9qToAeRJ+
+         BcYPjtOLW8U5CWyfyQWdkWMFXe+XSx6lxSmYSNZK7pgLycuGeid5rO1qmsO21cceQ2rj
+         A7pA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=1myvbqNc/O78snpDyJxDeAcb4FuG0sMypXMpyJr6IcM=;
+        b=0q5bTFkKXGglXEgoZxtMnKXvp2J47T7f2Texilcao60O7cfayprq7wB1Fw97pGanTi
+         FRUWUf6+aKaMhmAJr8tW/jHSIugAY/oV5CTCjoooC0Cmw5mqQVaYZbzDsnnwx2e5mR+y
+         HGPMzLxMI/75aoLsyZdmrsMiExScSVXuy9oFJIIrcJGf08V1NUOZdaGOapY9c4tpfrXW
+         NUDyVQ/PiQ0nmj0CzVa7nswbV2GM3RfDTS5ZUzBrw8d62InLTREeWvGb8G9BqTL6o89F
+         N4rsMZ19QVlcd3YQRa837+EgviDWMWAvvFSyfK9gNa/WDYu32JShwjZ/pkn0ahKVFu3C
+         P0qw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@ziepe.ca header.s=google header.b=QGfGz2Xe;
+       spf=pass (google.com: domain of jgg@ziepe.ca designates 2607:f8b0:4864:20::732 as permitted sender) smtp.mailfrom=jgg@ziepe.ca
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=77xrxk16bmR/9G4MYE1LGMENa5V0LAIk+jbL3mAvOM4=;
-        b=K9mbu6QSmYlZhmTCmik4kNweb+4I7sgGke36yMIj/1gPCBU9/D+4HCESFbvBk9GSNU
-         P5hYLLNQkLukxiss0HpubaL1thwz10iISviwaKWFQAHZykRlpHS7bdb1McdsJEu/q6Ze
-         QukloewO5hosGe/xFVyp1mtZNjppIEaa+vvqLzr45sSVuiiwSbSAvxaTBFRvhlFbua63
-         eszXU2j+kYVX3HY5XVt8gHsthmmUYnPOa79kthjBKV7LyiwqHAkzj+myPuLGwlBYSaok
-         tybFBCs5D6SKEq2Mb7t1Ox6HQhvZIPtbgIGR8TWaikfPa+S7vxDY99R1vkFWtkIcprPe
-         l6IQ==
+        bh=1myvbqNc/O78snpDyJxDeAcb4FuG0sMypXMpyJr6IcM=;
+        b=XZIF0Er2/M1rOKmHIc9c2phdnqb3as86JjUs7RvAPFkZNtG448KTYdYfTPHJpV04gF
+         pokN32GdM4pe1W7Cz0GY13A7jNwR6i8QTbxYIzZjYsUiv10frI7/dQm79pJFQ5u8umdq
+         hf8t0NuWFmLX7ODzMGiWU31I/FcQiObZMyRDKPBow9pV9iHM38JsnyE5ThPGiOPusxOa
+         eTf9pgjSW6aDGw1/Xr3L8pmWYMQ0/1EmD49/8Upe8m3RewnDxP9TrjBhEP2LouHU4kaV
+         sUnEG/CsWg0TNXgLszucStDpPsgQg7tYKpFEMnajAiORtTYNwRht+dNObytet/sjdqdo
+         nV0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:content-disposition:content-transfer-encoding
-         :in-reply-to:mime-version:x-original-sender
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=77xrxk16bmR/9G4MYE1LGMENa5V0LAIk+jbL3mAvOM4=;
-        b=FnsQzSAcIw7LbRNL/xZmzfWYcTySXr+36oa+o0dlXxQHZ/mfL4v2UojXxv+M+dDLB4
-         +d913IQ0gMxRWcqezlRtb6KjTg4tzBKEAJt/cLwnnbHQiM5r0t2EcOv068eJT+fEvfWL
-         BNANoRtX8nRTVi3ncGgGGVvfpqbu9QozLBVmysKnjgahNnz/q84bor7QRo9LexGf5Bxp
-         DD05OQIiZ7ILo05W4aM9TJLTa+gHBYn/4i8Ws5FawcAgkS7d68YUMq3fY/5fBKil77Lq
-         o9vTlVxLeCgG6kHJIufDO9FbIZ8SP+mXgbuMgbOn8WjshdKsbrQ3Fmnjhy/ULBrl6P4K
-         I/Cg==
+        bh=1myvbqNc/O78snpDyJxDeAcb4FuG0sMypXMpyJr6IcM=;
+        b=E7xKlzH/RMZax8RBE5kHm8n1+a9NLRDljjuqOHyBKZYio6jk7VKM2kbGwmUgBRpPaL
+         yCV/4k7IGrYZb4GccJIgNFRukyUARhjEaylBiLEvA3YPhT6NlgFjBpkj/Xlud2vV2sll
+         +TIoMU8jptRDbEVVN5qQaqOPHeTX5tAVzjc+11v0lONrlyMCAN6RPECUY3jhk9a2h++L
+         ajHtlsCtXxrlDVsgOfXqK10BVCAhKPXNzR01AssarfOPn0iIulw2KgPDUHl277EaicyD
+         iCNtQxhItNZ9W1B28DHrmHcPRI2bSaWiAWMMqhvqfE/ix2HaaQkI5s3VmVDDK0B8n3N4
+         8etw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora9VPA5jYPd3OOFJyBB+P9AbyIWkhuRiGI+e/JBzqFUtoYsPwY6B
-	1LoH5Wyl84UEzvyGVVegIak=
-X-Google-Smtp-Source: AGRyM1tipD0ARiWXXM5YIEme6SVEfPr9zzr5p87rn1WQtnrgkaHHr6pjEdWTFtyCbM/58KpxdsJ5VQ==
-X-Received: by 2002:a05:6000:18d:b0:21b:901e:9b27 with SMTP id p13-20020a056000018d00b0021b901e9b27mr14751059wrx.389.1656369114131;
-        Mon, 27 Jun 2022 15:31:54 -0700 (PDT)
+X-Gm-Message-State: AJIora+qBSRXW22qz1Q50FHBEcwbmI67X5udahtILxkVDqqXlGR9d3U/
+	rSxud1m8wJzKtmkrzpcptgI=
+X-Google-Smtp-Source: AGRyM1vryyXF5/Nkbyv4WlSuDmk3L0wkCahddplShJIlSB+a7uRb7msPi1uSdBs4YRAe2k3ZCH3YJg==
+X-Received: by 2002:a81:101:0:b0:314:5477:aae0 with SMTP id 1-20020a810101000000b003145477aae0mr18565026ywb.253.1656376855926;
+        Mon, 27 Jun 2022 17:40:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:2204:b0:3a0:4611:be94 with SMTP id
- z4-20020a05600c220400b003a04611be94ls3115879wml.3.gmail; Mon, 27 Jun 2022
- 15:31:52 -0700 (PDT)
-X-Received: by 2002:a05:600c:35d2:b0:39c:8490:abbf with SMTP id r18-20020a05600c35d200b0039c8490abbfmr23623226wmq.86.1656369112784;
-        Mon, 27 Jun 2022 15:31:52 -0700 (PDT)
-Received: from mga03.intel.com (mga03.intel.com. [134.134.136.65])
-        by gmr-mx.google.com with ESMTPS id w15-20020adff9cf000000b0021b95bcfb2asi463594wrr.0.2022.06.27.15.31.52
+Received: by 2002:a25:be54:0:b0:668:a643:5b48 with SMTP id d20-20020a25be54000000b00668a6435b48ls20778938ybm.7.gmail;
+ Mon, 27 Jun 2022 17:40:55 -0700 (PDT)
+X-Received: by 2002:a05:6902:100d:b0:66d:1ccf:a5e with SMTP id w13-20020a056902100d00b0066d1ccf0a5emr2750728ybt.340.1656376855085;
+        Mon, 27 Jun 2022 17:40:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656376855; cv=none;
+        d=google.com; s=arc-20160816;
+        b=pSzIcpXy6sJhkiX2vhP6qEBqpCg8asPgfwhsExB0T98I6mcsLlQMdl3PrFOPsIA38Y
+         4BfVZx5PTP5/YsMyY2OAhZWSO2pH6m6L1AgDEaulhzmIxDFCjgJubvn4FIDM3vJ+4hKS
+         OHyxqYUmBGLQy7UNOfGLDRh0fIeSwO5BasJcEY91cKQPKfTfsEZBxMhTXap09t+eG/6I
+         +Czwt2St4hLPY6lsk1bKGUMGLI4+WPEYeBXJRf63dOx1xzOJZ9eykL9Ei4jPnNM94rwD
+         vXr25aCzoAVRwJU56nAx9wUA0gkN2mG16a2/1K+LQfwXHJA4r7WwzlUHSfRoCVHvL2t0
+         fKRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=nrCjPCGAs4MTUiLBt7Ijf/MJPuIyH6lM8yqPhdyhJD8=;
+        b=WS205hrPX/2xBCwILidqnhyyofDdLvSe1v9jQywJ2Z/aDuO/Q28dZtGWqcQ0pzEP4J
+         87NZnaGtMIgdZoWgX2gmfUABVK5oPmpoTqmfATPXhnb6UYoOqvcFfOdDqd2uAOlw5pFQ
+         kTc8MF1pMvFMRMhKMAjmjmuDPme9YOHvRGoHQk3yJ5ReicLndKamGRjM2Quw2VPLROtT
+         0hwSbUVzIVKn1+Mh8s4dXPwbpx+hSzw7GjNw9CoP0nJbyaKMEBOEXQNiYkiSROe6OYMu
+         NUy9GVb+ir2AHmdFyfRUh5/b619AuNpTBeGOMlYyRIvRsuJ20zmzkUfmBf098uNrZesJ
+         AYJA==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@ziepe.ca header.s=google header.b=QGfGz2Xe;
+       spf=pass (google.com: domain of jgg@ziepe.ca designates 2607:f8b0:4864:20::732 as permitted sender) smtp.mailfrom=jgg@ziepe.ca
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com. [2607:f8b0:4864:20::732])
+        by gmr-mx.google.com with ESMTPS id w67-20020a25df46000000b0066ccd85e4b8si213246ybg.1.2022.06.27.17.40.55
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 27 Jun 2022 15:31:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dan.j.williams@intel.com designates 134.134.136.65 as permitted sender) client-ip=134.134.136.65;
-X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="282668438"
-X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
-   d="scan'208";a="282668438"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2022 15:31:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
-   d="scan'208";a="594502569"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga007.fm.intel.com with ESMTP; 27 Jun 2022 15:31:49 -0700
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 27 Jun 2022 15:31:48 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 27 Jun 2022 15:31:48 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 27 Jun 2022 15:31:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bgbRU5ZSJ+1Njs1Ls5+mrC2TiMXDi6j+q1nXEW35T0vgGO9W6aK0KqFw8sLIpVNW5OEYewvET37n7OLnzZJzrdoAPvuBbKl2gKhhbMESYILsmLYunOjlbKIBJepwvrBGTXlteBN4XqKcJA3F5ktTDOcARc7D/BEWm1ouxrRANeHu7u58sV/HAAoNgfi/egYKuQLeez6w+8vyf6/t3bVzALpXu4HHE9Zu0zqEJk2ju0blX3YtecrfUxzHj/CVnr40PS3z1w1ZMy8GJZzHL7fpiQznoZJDug/Y+NOh43a03VPTMQQvWz4AoCcRi+x91siT0uSwWDqDOh7397up6lUgLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fk+tjoSHkPKT19HAXvoo/zCR1SLEsyiUuNU6CruvzGM=;
- b=QI0iafA/bjqr3Gx/f278cS7Oe2x/WkoQMqIGtb6F5Dxfd8KGUdN0WY+LZsBdW5DuG/IkEiGDaJLunvc+wYSbILqxZb12Aer3pTYr7w8s46PErQpET6TL3qYW29h2Ov9/EnK7F8GH22u1w5GbZgtfq5oQQYIpUatlbQe4GzlKUmVSPR6hRnIesSOW9Vyo4AYmxRthVk7LvEDo8N/e0qC5Yke05/8T1b32FiLPtXodGmdngB9bhvjeeKmMTiW3Gs6/1vEACeKhtxeUnT3KCN0/cetAqByvXQUerrK00rSjds9UgCkj018UeCPxBTH+mSq7QbJmqLlZKctqU5S1D0VuOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR1101MB2126.namprd11.prod.outlook.com
- (2603:10b6:301:50::20) by MN2PR11MB3615.namprd11.prod.outlook.com
- (2603:10b6:208:ec::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.16; Mon, 27 Jun
- 2022 22:31:46 +0000
-Received: from MWHPR1101MB2126.namprd11.prod.outlook.com
- ([fe80::f50c:6e72:c8aa:8dbf]) by MWHPR1101MB2126.namprd11.prod.outlook.com
- ([fe80::f50c:6e72:c8aa:8dbf%7]) with mapi id 15.20.5373.018; Mon, 27 Jun 2022
- 22:31:46 +0000
-Date: Mon, 27 Jun 2022 15:31:42 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>, Kees Cook
-	<keescook@chromium.org>, <linux-kernel@vger.kernel.org>
-CC: <x86@kernel.org>, <dm-devel@redhat.com>,
-	<linux-m68k@lists.linux-m68k.org>, <linux-mips@vger.kernel.org>,
-	<linux-s390@vger.kernel.org>, <kvm@vger.kernel.org>,
-	<intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<netdev@vger.kernel.org>, <bpf@vger.kernel.org>,
-	<linux-btrfs@vger.kernel.org>, <linux-can@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux1394-devel@lists.sourceforge.net>,
-	<io-uring@vger.kernel.org>, <lvs-devel@vger.kernel.org>,
-	<linux-mtd@lists.infradead.org>, <kasan-dev@googlegroups.com>,
-	<linux-mmc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>,
-	<linux-perf-users@vger.kernel.org>, <linux-raid@vger.kernel.org>,
-	<linux-sctp@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-scsi@vger.kernel.org>,
-	<target-devel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-	<virtualization@lists.linux-foundation.org>,
-	<v9fs-developer@lists.sourceforge.net>, <linux-rdma@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	<linux-hardening@vger.kernel.org>
-Subject: RE: [PATCH][next] treewide: uapi: Replace zero-length arrays with
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jun 2022 17:40:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jgg@ziepe.ca designates 2607:f8b0:4864:20::732 as permitted sender) client-ip=2607:f8b0:4864:20::732;
+Received: by mail-qk1-x732.google.com with SMTP id n10so5147648qkn.10
+        for <kasan-dev@googlegroups.com>; Mon, 27 Jun 2022 17:40:55 -0700 (PDT)
+X-Received: by 2002:a05:620a:1450:b0:6af:1999:5f4c with SMTP id i16-20020a05620a145000b006af19995f4cmr7538467qkl.301.1656376854703;
+        Mon, 27 Jun 2022 17:40:54 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id x11-20020a05620a448b00b006a768c699adsm10335849qkp.125.2022.06.27.17.40.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 17:40:53 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1o5zHg-002iu4-9Z; Mon, 27 Jun 2022 21:40:52 -0300
+Date: Mon, 27 Jun 2022 21:40:52 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
+	x86@kernel.org, dm-devel@redhat.com,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-s390@vger.kernel.org, kvm@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	netdev@vger.kernel.org, bpf@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-can@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net, io-uring@vger.kernel.org,
+	lvs-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	kasan-dev@googlegroups.com, linux-mmc@vger.kernel.org,
+	nvdimm@lists.linux.dev, netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org, linux-perf-users@vger.kernel.org,
+	linux-raid@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	v9fs-developer@lists.sourceforge.net, linux-rdma@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] treewide: uapi: Replace zero-length arrays with
  flexible-array members
-Message-ID: <62ba2fced98ed_103a0e29448@dwillia2-xfh.notmuch>
+Message-ID: <20220628004052.GM23621@ziepe.ca>
 References: <20220627180432.GA136081@embeddedor>
+ <6bc1e94c-ce1d-a074-7d0c-8dbe6ce22637@iogearbox.net>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220627180432.GA136081@embeddedor>
-X-ClientProxiedBy: MW4PR03CA0348.namprd03.prod.outlook.com
- (2603:10b6:303:dc::23) To MWHPR1101MB2126.namprd11.prod.outlook.com
- (2603:10b6:301:50::20)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 09857533-95a6-4ce5-821a-08da588cd147
-X-MS-TrafficTypeDiagnostic: MN2PR11MB3615:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I8QxY2dRCssS1nOBaKo6XXukRWcQnmTJH2CTvS1oBWI5m88TdZyePC8+8Y0lOy5CTi+gHMca0W8aiZ/N99wYfzWDT4IwVc4nlPrt+m+R4p2eDFjRwAp5zJ0VpYLntAd+8A00LZQoJik2rjbu5yVMxLfzdAE/sViq6QR/ukrAYU6UH00hT/qjTfq5KJ6RNmBJjkE9wR8YlchdCVQfclNLDMwBRKAceVhlApanN3Kun5MvZcVR3nAEDzee42+78vAUhiTD75bcuXHURf9mM6NWettdBNB+fgoFRuSIfNbpFulswaXgt+/W3zFI5GI6s+IO6P7PaIkaHL5ETfxVXF7R5o8CyVUDydZpe+Wo6FiGJLus4dot7TeZ2i7BumDmuP2aPbFZpX0GbQZu4hursUXqRwE2dMGw5Mf+B4E0s5mE8SNKEUgUaTQbQGCJ+39EGCF8oMg/hVKoYY9RhxhEhjLKAozVDeQ4YIGG0uJOByhFexDi/CUzss4zWm3FPSVVNx4WelTO8Eiasy/iNjTp8PznOSLGYIo42iw/Hjo++nvz4kH45aIuzAYBtK24nNuwNzMbw4sZoThoJKGKwgdXb5MUKX0VZNuO4cSKb3qG94N5aRCJ56Wdc/+RlFCaggvApnHVcVb8WZ2tBa7ELxVh5io/heAz/fk/UX+HQSPPeKz2L/y2wd5VLtSoLAK+t2RnWXIknFIHsQEtJpjJCc3Z5XS3bsdpx9Mhe7/ar6cHw6C6qj10wOiolEM6AzvfHFUUlo6+4Fm/bKWXrtwiCf23irh7lEh8H2PSKKbYuEuqvEmBbfU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1101MB2126.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(136003)(376002)(396003)(346002)(39860400002)(366004)(6666004)(7416002)(6506007)(41300700001)(38100700002)(8936002)(83380400001)(66946007)(66476007)(7406005)(66556008)(82960400001)(9686003)(26005)(6512007)(5660300002)(6486002)(110136005)(478600001)(8676002)(966005)(2906002)(316002)(4326008)(186003)(86362001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TG81TEp2bjd5Ui8vcXRBOE1oT2o4aFh0aE1Ma1hEaHNzOWFKMEpVOEdjc0I3?=
- =?utf-8?B?SWNnYkVSZ2gxcDgwU2twTjF4ZW5PbFcwZHpEZlc3WnBtOXhsVUNMcVhTb2hw?=
- =?utf-8?B?Z1UvTFZkSXdjc3lZU1JpbGhXSDExS2RTcUhFanJHbitxYk5nSzB2TitnUTB1?=
- =?utf-8?B?d3Npa2lreGhFanpCS2Z6WGhuaWtsYldmWXB4eVAyaE9lSG5JNHV0SG9FTG40?=
- =?utf-8?B?elVLZEpIUWZ0K0ZFamlxcHU1Qmw3T1J1VU9CK29Ib0VzanNEK0xad2VyeFM5?=
- =?utf-8?B?c1dUZzh5RE9UR0Y3Wk1mOHpMdS9FUjRTU0VKT0ErU0tGd1pvdng5Wk92WmVP?=
- =?utf-8?B?aGhLVHE5QitoeUVFSmRYd3I1UEJVckw5SXNobnQ3VkNFYzFGM0VWMjR6NHZE?=
- =?utf-8?B?MW5hbUVZR3Q1TGRXQnRIbEYyU3BuRHRzbjFoN25iQ3ZsRkRwTUNiZWpLRGwy?=
- =?utf-8?B?dUlDcnNJZlRWNjZqYzNJY1RPQnhEWTJMN056dkJtK3FMS3NNL1paZ1dtQXQ2?=
- =?utf-8?B?c2toU3JpelZQMm1yVkNiTnZReUROU2thMlN0K3ptc3lqSFpGQTc5dFZ5ZkZH?=
- =?utf-8?B?M1dRNjhzT1NSOHFBRm9lV01xSExNeWJmM0d3L3hoVXNZSVc0N0dTZ1RKSnBZ?=
- =?utf-8?B?T3l5WDhrTlVZTWNYZHI3U2V3TFFTc1hKUGxZTXFNVm1Ga2hFYTNnZmZCcWZV?=
- =?utf-8?B?d29rZjJmN2NUbGh0Y29KR2hBUkdIRHpJc2FCRHkzZjZiMkJMRExhRGtPOWZK?=
- =?utf-8?B?N3VjaFU3aEpNZHFnUC9qY0RJZGwwcUgzT2crTlVnWHI3NEdGanZPVTlna1NY?=
- =?utf-8?B?ZWdsU200UjJWTVBSWW1ENTRUWTFVMmFSbDliV0FTVlJQRCs3UFI2L0JRK2pH?=
- =?utf-8?B?Z1NWQjZGdFh2aGg0ay9FV1paWmtram9tK1M4ZzgwN3h5TThkNis1bHVXTDVP?=
- =?utf-8?B?czlJK1NnR0tNcDQvOXJrdnN6YnEyRHkyNzdiMzA5SWhGV0J0a1h2Q2poc2F3?=
- =?utf-8?B?Ri9DYkJjVm9nQWVjME1ndnFtT3Q3RjFyVEVDM0U1VFd0elBCRnlXUHJWR3Zx?=
- =?utf-8?B?S3kzV3dOM0NqSjRnOUVWdGhTN0hnbTRBOUpnT3cwc3hhTkZEMzBNbkpzbEtJ?=
- =?utf-8?B?Vm5lVE0wbUN4UEdlTHBVWG9QdzRobWdCWStjb2QvcGlPd1JhUnY1UUtHcUUx?=
- =?utf-8?B?blp4NGRWbE5SYTRrRjN1Uy80ZWJoZXBvdnRDWFpMNTZBU2NCci9McTlMelJC?=
- =?utf-8?B?VTlHaGR3cGF5UlEzR3BrSVdRalM3TnJtMXhaQnBnSXNISE9aL1lHS29qQ3RV?=
- =?utf-8?B?dFd6TytkMkVUNmNMa0Z5eHBOSGJ2UXVoZFR1dHdXemhDK29MWXBBQkowaUta?=
- =?utf-8?B?NGVZZnZmOVBaK000TUQzWXk0eG1SazBONFVrYjBuVWcrdmJtK0lQSU80RGpD?=
- =?utf-8?B?YlIwdFZvcTZIMmdyK3diQ25wRWgvV1kzZkZ4U2VyYS84eDBhZHlCYkVPbngx?=
- =?utf-8?B?VUt1WHc0NjNqR0dWM0dEbnZ4cXVscHVlOEF2V2w5Vkw0UnVrNzVjL0h0a1oz?=
- =?utf-8?B?TFlFWWhIWEI3eXFVczlqa2Juc3JZVUZ0ZUtIbHhXWGV6bkloMmw4TXVXK2hm?=
- =?utf-8?B?UDBYQjI4TVB4QlVlcDRQclZ3OFBoeDVPTTNGQnVIZ2VmZE9zcXA0M3M0cHVv?=
- =?utf-8?B?dHRETGgzWFRSQTd1ZHVkRnJiOER6WWFMb2RJbWF1T2RzYXQ1YVd4Zmh3RkFZ?=
- =?utf-8?B?M0NTTVlTdEZmT1FDUm1KRzMwZFh1SWJGMlF2SXpJUmFCTmpEN21jWU90TTNO?=
- =?utf-8?B?OEVTa29FempFTmpYeFdFMTkxa2hrL3hSWUtrUldHZUhxVTRIZVQ4WlhwUUtn?=
- =?utf-8?B?YS92UWZzL21Fc09vRE81TXZaUngzTm93L2tqOENTdHUybUtLYzlPSFozR0NG?=
- =?utf-8?B?VkJZeTlQMHQ2MnVqUEJneFVaNDFEQ3VCdXIvb0dhYnVNcmx4Z2I3dWR2ZWFr?=
- =?utf-8?B?U3FFVHNwb3VmbWxUMUY4TFFCTURWcE1hQmxVUlZzNkJaT241OEJ3Zk5vS2tw?=
- =?utf-8?B?ZlZEU1FmY3BiaG9iUDZIS0lPK1FVTnZOSVU4L2h5bE1qaXZ3ZWYrdXBtMFVw?=
- =?utf-8?B?N2RnT3VrY0Rkc1VYM3BIamw2bDJ1TnRabHlKcXdORXhocDlnWWhBdlBuc0FJ?=
- =?utf-8?B?VFE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09857533-95a6-4ce5-821a-08da588cd147
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2126.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2022 22:31:45.8792
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tff1Ajm5j5IjP8nC+pmHruh1VBM1HYz+iFkTnXnCZrfcWvUa1L/3YXcaJpJFmczORKhoOnLDiSvurI/2Snl4amoFHffRXHppNmqfZrAlNU4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB3615
-X-OriginatorOrg: intel.com
-X-Original-Sender: dan.j.williams@intel.com
+In-Reply-To: <6bc1e94c-ce1d-a074-7d0c-8dbe6ce22637@iogearbox.net>
+X-Original-Sender: jgg@ziepe.ca
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=jQVSu6ht;       arc=fail
- (signature failed);       spf=pass (google.com: domain of dan.j.williams@intel.com
- designates 134.134.136.65 as permitted sender) smtp.mailfrom=dan.j.williams@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@ziepe.ca header.s=google header.b=QGfGz2Xe;       spf=pass
+ (google.com: domain of jgg@ziepe.ca designates 2607:f8b0:4864:20::732 as
+ permitted sender) smtp.mailfrom=jgg@ziepe.ca
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -204,64 +159,105 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Gustavo A. R. Silva wrote:
-> There is a regular need in the kernel to provide a way to declare
-> having a dynamically sized set of trailing elements in a structure.
-> Kernel code should always use =E2=80=9Cflexible array members=E2=80=9D[1]=
- for these
-> cases. The older style of one-element or zero-length arrays should
-> no longer be used[2].
+On Mon, Jun 27, 2022 at 08:27:37PM +0200, Daniel Borkmann wrote:
+> On 6/27/22 8:04 PM, Gustavo A. R. Silva wrote:
+> > There is a regular need in the kernel to provide a way to declare
+> > having a dynamically sized set of trailing elements in a structure.
+> > Kernel code should always use =E2=80=9Cflexible array members=E2=80=9D[=
+1] for these
+> > cases. The older style of one-element or zero-length arrays should
+> > no longer be used[2].
+> >=20
+> > This code was transformed with the help of Coccinelle:
+> > (linux-5.19-rc2$ spatch --jobs $(getconf _NPROCESSORS_ONLN) --sp-file s=
+cript.cocci --include-headers --dir . > output.patch)
+> >=20
+> > @@
+> > identifier S, member, array;
+> > type T1, T2;
+> > @@
+> >=20
+> > struct S {
+> >    ...
+> >    T1 member;
+> >    T2 array[
+> > - 0
+> >    ];
+> > };
+> >=20
+> > -fstrict-flex-arrays=3D3 is coming and we need to land these changes
+> > to prevent issues like these in the short future:
+> >=20
+> > ../fs/minix/dir.c:337:3: warning: 'strcpy' will always overflow; destin=
+ation buffer has size 0,
+> > but the source string has length 2 (including NUL byte) [-Wfortify-sour=
+ce]
+> > 		strcpy(de3->name, ".");
+> > 		^
+> >=20
+> > Since these are all [0] to [] changes, the risk to UAPI is nearly zero.=
+ If
+> > this breaks anything, we can use a union with a new member name.
+> >=20
+> > [1] https://en.wikipedia.org/wiki/Flexible_array_member
+> > [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-=
+length-and-one-element-arrays
+> >=20
+> > Link: https://github.com/KSPP/linux/issues/78
+> > Build-tested-by: https://lore.kernel.org/lkml/62b675ec.wKX6AOZ6cbE71vtF=
+%25lkp@intel.com/
+> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> > ---
+> > Hi all!
+> >=20
+> > JFYI: I'm adding this to my -next tree. :)
 >=20
-> This code was transformed with the help of Coccinelle:
-> (linux-5.19-rc2$ spatch --jobs $(getconf _NPROCESSORS_ONLN) --sp-file scr=
-ipt.cocci --include-headers --dir . > output.patch)
+> Fyi, this breaks BPF CI:
 >=20
-> @@
-> identifier S, member, array;
-> type T1, T2;
-> @@
+> https://github.com/kernel-patches/bpf/runs/7078719372?check_suite_focus=
+=3Dtrue
 >=20
-> struct S {
->   ...
->   T1 member;
->   T2 array[
-> - 0
->   ];
-> };
->=20
-> -fstrict-flex-arrays=3D3 is coming and we need to land these changes
-> to prevent issues like these in the short future:
->=20
-> ../fs/minix/dir.c:337:3: warning: 'strcpy' will always overflow; destinat=
-ion buffer has size 0,
-> but the source string has length 2 (including NUL byte) [-Wfortify-source=
-]
-> 		strcpy(de3->name, ".");
-> 		^
->=20
-> Since these are all [0] to [] changes, the risk to UAPI is nearly zero. I=
-f
-> this breaks anything, we can use a union with a new member name.
->=20
-> [1] https://en.wikipedia.org/wiki/Flexible_array_member
-> [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-le=
-ngth-and-one-element-arrays
->=20
-> Link: https://github.com/KSPP/linux/issues/78
-> Build-tested-by: https://lore.kernel.org/lkml/62b675ec.wKX6AOZ6cbE71vtF%2=
-5lkp@intel.com/
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> ---
-> Hi all!
->=20
-> JFYI: I'm adding this to my -next tree. :)
->=20
-[..]
->  include/uapi/linux/ndctl.h                    | 10 +--
+>   [...]
+>   progs/map_ptr_kern.c:314:26: error: field 'trie_key' with variable size=
+d type 'struct bpf_lpm_trie_key' not at the end of a struct or class is a G=
+NU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>           struct bpf_lpm_trie_key trie_key;
+>                                   ^
 
-For ndctl.h
+This will break the rdma-core userspace as well, with a similar
+error:
 
-Acked-by: Dan Williams <dan.j.williams@intel.com>
+/usr/bin/clang-13 -DVERBS_DEBUG -Dibverbs_EXPORTS -Iinclude -I/usr/include/=
+libnl3 -I/usr/include/drm -g -O2 -fdebug-prefix-map=3D/__w/1/s=3D. -fstack-=
+protector-strong -Wformat -Werror=3Dformat-security -Wdate-time -D_FORTIFY_=
+SOURCE=3D2 -Wmissing-prototypes -Wmissing-declarations -Wwrite-strings -Wfo=
+rmat=3D2 -Wcast-function-type -Wformat-nonliteral -Wdate-time -Wnested-exte=
+rns -Wshadow -Wstrict-prototypes -Wold-style-definition -Werror -Wredundant=
+-decls -g -fPIC   -std=3Dgnu11 -MD -MT libibverbs/CMakeFiles/ibverbs.dir/cm=
+d_flow.c.o -MF libibverbs/CMakeFiles/ibverbs.dir/cmd_flow.c.o.d -o libibver=
+bs/CMakeFiles/ibverbs.dir/cmd_flow.c.o   -c ../libibverbs/cmd_flow.c
+In file included from ../libibverbs/cmd_flow.c:33:
+In file included from include/infiniband/cmd_write.h:36:
+In file included from include/infiniband/cmd_ioctl.h:41:
+In file included from include/infiniband/verbs.h:48:
+In file included from include/infiniband/verbs_api.h:66:
+In file included from include/infiniband/ib_user_ioctl_verbs.h:38:
+include/rdma/ib_user_verbs.h:436:34: error: field 'base' with variable size=
+d type 'struct ib_uverbs_create_cq_resp' not at the end of a struct or clas=
+s is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+        struct ib_uverbs_create_cq_resp base;
+                                        ^
+include/rdma/ib_user_verbs.h:644:34: error: field 'base' with variable size=
+d type 'struct ib_uverbs_create_qp_resp' not at the end of a struct or clas=
+s is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+        struct ib_uverbs_create_qp_resp base;
+
+Which is why I gave up trying to change these..
+
+Though maybe we could just switch off -Wgnu-variable-sized-type-not-at-end =
+ during configuration ?
+
+Jason
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -269,4 +265,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/62ba2fced98ed_103a0e29448%40dwillia2-xfh.notmuch.
+kasan-dev/20220628004052.GM23621%40ziepe.ca.
