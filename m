@@ -1,125 +1,142 @@
-Return-Path: <kasan-dev+bncBDQ2L75W5QGBBR735OKQMGQEE32YZCQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBPH55OKQMGQEK6T4J2I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23FA655D234
-	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 15:10:33 +0200 (CEST)
-Received: by mail-oi1-x23b.google.com with SMTP id w1-20020aca3001000000b00335750b9a50sf3129125oiw.10
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 06:10:33 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656421832; cv=pass;
+Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C9B55D4E6
+	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 15:14:37 +0200 (CEST)
+Received: by mail-yb1-xb37.google.com with SMTP id b7-20020a251b07000000b0066c8f97b0f9sf7285152ybb.23
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 06:14:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656422076; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HPEr+Ez3C2Yeu3WmIpv5b8GhoPD9VVnwug9dgW5gSd/VkTADv+krNkWLh9GlKKvpxM
-         vTvNClLEb1nCfg2324QdBnqlCd1IZdllUHWm9bWt71TDpCsCbr8iFOn4zW3TpK6vPHIm
-         fLY5zxdH4mkVWl8YMrxu7MwT2HhnAwG6rEURIoukXT+wNMXWzTcyPDGJJuRVIHdTPwnj
-         0LdLOaOO+bpAn51PgvAEC90wlYHLAADxlt8POaql9CBwEBAaL3AqNoU4bYMW0sm0qIG2
-         gEHtwoikgmucMmipndZv6bFBL3vRJr1sbFOzv2d7VPxDjfWBRmtEvX7h2GDRgLWS7WUv
-         sy5w==
+        b=n2sAxxBmkpLoI55yVGo8+em0lX9ZEGNDcaJj82nGbR6W3inFGo7u4nJn3YSr5moKmE
+         FUQq1I/o+8mC7scLZTxh6WDt7OK6U2eG9OPXgNhHVEkrvi2UrYQMXHa+FaXHCbpDgTmy
+         t9Agj6BP8PtSW0EJifqJVaJD3iEgAtui8ChMZ5rBHUl6YN+7W+WSyn3KsoO9ySouMJ8k
+         gYeODQ/XKEmi4oZVIV0a6pAEzTHbVOAT5uIQe+m79Lc80buNUbaqXUcXmqYvfKy/gnOF
+         3WiEji1f64PCADUW9U5jOTqC1mIaHmvIt61xZUPCx2K/wRJWVwkBy6iRNoVA0a4P+MMP
+         lRuw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:date:message-id
-         :subject:references:in-reply-to:cc:to:from:sender:dkim-signature;
-        bh=q8nhHbIAwfWyn59wAdOzrmBTa5vKV8DMfNQGrB+XcpU=;
-        b=D+lNGpxzE7ElWyNdbOCDSahy8TsRoT/KbUaq1z/oVVYndOr7FAZmf6+cHQot0AcIac
-         FTp2M2IOlJbwl99l3esrmygs+fed9k9usXaoWhphC7LFc7wFa7PmXqFsfEm5ORPaU+2Q
-         0BsAG3fe69VNAWdjV3QX/gTEwhj9Nu0xsz/vDbIARqWwm/C8GHqMAi+Kq/EYkyP/ZGqI
-         kU0RQgtepPo1iVh4hAFqCcbGP1NpkSVKcCn8Md/XLoXogvvX7SHGJXNGabbH2kBWeEgT
-         b6f7P/vMvurjiCSt7wm7YMtXL6ttP1DLv6nekE6dSAl4wzvytYU+4ytzE07mgW6FwUf5
-         IjNg==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=0mSvGJZ+PvGbGSyoPYTkAla05Pt9QgJKZD5F0Jz8jAA=;
+        b=pk34oiWU4K54B22NpzaTVBymocT6dERf6WjJLiAgrtyF+lpAqVz9NLT5qqrK+KDi6I
+         kMvSeE+NNcTrJ4a/Onrql7ls6xUmJHvJMlGZr11zFjOqL2WcXiU0OKe5mZHy0AOGrwSG
+         TOCMB2OQCJ/LFVArshK2W6v5ChMMpVpCo3AYXcLV9OY+U/0OnELFvIGSC8Xz9ieei8ex
+         9yQJ2P5eJjOjfK71ckB0mTfuuK7AnAPz8eUnu2JuyGzDhzR9EIyJrTuMUGbut3dLrS3U
+         NrtWhYstI5xkQU23BGVtHtc/KrxsGGbCAlADdFxhcBvAgRY9DP65HAD77l8pVXpa0foX
+         GCDA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=fail header.i=@kernel.org header.s=k20201202 header.b="lZBjp0/a";
-       spf=pass (google.com: domain of broonie@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=broonie@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=e3IN4akW;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:in-reply-to:references:subject:message-id:date
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=sender:mime-version:references:in-reply-to:from:date:message-id
+         :subject:to:cc:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=q8nhHbIAwfWyn59wAdOzrmBTa5vKV8DMfNQGrB+XcpU=;
-        b=oNVeyZrjCGqE3Zz7dgqW/NouQ5o85Lv1VFpHmXd/MXOTKiaNNyOLXiy7l49vMHDVz3
-         5SiegPD/f5Bzm4l8uoYGiMHF9L2er8Gedx/WMoHAiL0ano6vhlBtMEJmjvgX1ZSYZfdS
-         avM4ZsL6RdgySt0j7qKoAKWRL9iTEjQy9Dn4oydLH8Ntd7pF9MCnMFt7ir3wjru/Cg2o
-         tjsKvat3sjnOggZiyyhXVZ307PeaEn9eOi+4/OzMMna13FIIByGL3Jt+827Ku5m+lppk
-         FVyyf8MBLp7HlJTwgDRkgXReB0o8QzksvD1gT0xQN2FEpPGg7QqrTcBUoopLN+R+Ukoe
-         hkgQ==
+        bh=0mSvGJZ+PvGbGSyoPYTkAla05Pt9QgJKZD5F0Jz8jAA=;
+        b=HNQhCwONkp6mpbZpCMVQJuulsesMgUoaYiE6B7bw0RfJEMsjjVg27aC2XLD5l296S7
+         GW8b5pu1xz98Xkjk3RsV44JqcEOBrt2UHcART+JAWC2YqP9vqR6Mopmgm6ttXIKZzsZ9
+         sMv2Mvtu0Lw1VlfhkIo/jzoRIMr5Xce0FMj8RB7obmQA8iI24NvcM+u2Sp9eCr1SinoA
+         biHZIsiJXg+a7LzPKHaAulKi8jaOvKZ9E7QMjtnSsGY79zytuMkPzkqh4o5PILFSdRq1
+         PJ+hLw5nvwTdCNz4bIklukBpSh4YhMmOyB4DgBlJDUcXeCu6s0Txcos6a+8yfjC3V7IR
+         RqtQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=0mSvGJZ+PvGbGSyoPYTkAla05Pt9QgJKZD5F0Jz8jAA=;
+        b=pwazvG872TC8t0HCAi5/imKxrsJASTKaVcWeYQfDhkfQDDEN9RAxgHXUcvQmLFp4cT
+         AE8qhDKpLF5yZ1nw4m0PUSVCJ8UYTBWuTjuhAsJMAHsVaSEljAPljTB6fYrkyv16hnhP
+         qIT/cwFPQR5pph1QodoO66Z3p4JpS6AtJDD3jWNP1XVmszy8ZiBYTPiFw+sineToN9rd
+         RR1xNw8mlYTS8Onfm6Umm/fxyqhbXSHJzHyDlugAYSMfidKtTj/gtHY5FKOokAAolHXP
+         GkS+X9KRS7ICIqxv5aRllea1qhhxxwnJU2ZE7tY97wVjmwRell1mRc1kBkzBfQ73AcX5
+         mb8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:in-reply-to:references:subject
-         :message-id:date:mime-version:x-original-sender
+        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
+         :date:message-id:subject:to:cc:x-original-sender
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=q8nhHbIAwfWyn59wAdOzrmBTa5vKV8DMfNQGrB+XcpU=;
-        b=7MXeqoqHVguWfLwuvCGaRhKd96D7Y6ilu3n7L9YgWH0tz8S+bBEb3I72R7Efd81M8D
-         mHkKlOgOxJO/R4Rr0QTt6aR/JmRPyRU79TsFS6K/6Vvf397NtYTI56gUea26svlbaU0V
-         HwEWmJLrW/70rSKn6Ua5sAQGOlMGq9jKBXgSZvKbQttfztxDY8GoVlYnF/K66CbmTlr/
-         Jqgk34XfRVOKBSKPTwSBMnkEl+MOgVWFeAPJ+sHXAUz6smkGoaL5GSiuj4vUck+0y1Cr
-         zNpNlK1DUDI1WrAIjrEvNTxKZ3k4Y71IUySos5Ak74RDDfOoNvd102zmeWUnl6MzXA7p
-         5lyA==
+        bh=0mSvGJZ+PvGbGSyoPYTkAla05Pt9QgJKZD5F0Jz8jAA=;
+        b=pwBfj5UziWZjzlxRwBRpqA1zIrYEuE1T3f+vENrgejwERo8dAD2FPKxfif2OzAO5ot
+         PmO/6Cf9qkOQzy+JdBpED1kuGFNpZq4yzUiLoWqXAVMGVv+JxyrHLrv97aXgdL1JQy/P
+         n84KrjSBGwIyp+5AM/s/HDvMSqh8Sn0PVd6wbzqtxiod11PqDtOeVvpxAnwOplHZnOaI
+         Dpx+4s2gAn//a+wNXecp8VD/AOfaQAaNBpPH2ZuaenlV7vIFGGc8flQ1T3u0aUxbdKLE
+         17N3ID9biIt82Fz0Mekc2a91rMxGOvhDj8SR3mXc//sI7s66e4wONO1hFuOG7MOUau6a
+         WwvA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora/P3+lVMlTxvoQJ2dxmumCHUobIBpZpMq4jjZr1cduPsxHLucnp
-	0RS+4f8+iFvxmhi3RdqNmNQ=
-X-Google-Smtp-Source: AGRyM1t8MbQIDu61QyhO6rCVZvKTA981NcEbRWFbKCr655SC+ihOo9VZNQ5Zyee6iX2qodBjUtEbXg==
-X-Received: by 2002:a05:6808:1889:b0:32f:65e3:be98 with SMTP id bi9-20020a056808188900b0032f65e3be98mr13986130oib.160.1656421831884;
-        Tue, 28 Jun 2022 06:10:31 -0700 (PDT)
+X-Gm-Message-State: AJIora8nhSmICTqpLYjiaVQrca3VIeZQZ6Bocz0elwAbd7/pccPuUKWD
+	oeKOPHBLFII4Wo/sQibQW/4=
+X-Google-Smtp-Source: AGRyM1vVrDvEkU3z0lan2HgfHCw+gcL5UYU/kIy/XMd+BXie8iRZp3JLbwlNPMPJ75Un81I48LD7gw==
+X-Received: by 2002:a81:ac17:0:b0:317:6e98:1f63 with SMTP id k23-20020a81ac17000000b003176e981f63mr21203045ywh.303.1656422076656;
+        Tue, 28 Jun 2022 06:14:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:1b2a:b0:335:1841:b2c6 with SMTP id
- bx42-20020a0568081b2a00b003351841b2c6ls6446052oib.9.gmail; Tue, 28 Jun 2022
- 06:10:31 -0700 (PDT)
-X-Received: by 2002:aca:3b02:0:b0:335:2d22:dbf4 with SMTP id i2-20020aca3b02000000b003352d22dbf4mr12838309oia.185.1656421831375;
-        Tue, 28 Jun 2022 06:10:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656421831; cv=none;
+Received: by 2002:a25:a488:0:b0:66d:24b5:fd75 with SMTP id g8-20020a25a488000000b0066d24b5fd75ls1347373ybi.10.gmail;
+ Tue, 28 Jun 2022 06:14:36 -0700 (PDT)
+X-Received: by 2002:a25:5092:0:b0:66c:810c:e520 with SMTP id e140-20020a255092000000b0066c810ce520mr19213804ybb.649.1656422076083;
+        Tue, 28 Jun 2022 06:14:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656422076; cv=none;
         d=google.com; s=arc-20160816;
-        b=sFIH8PX2YERO5EkVFfuV7cCYmV4E8nXMUOGAZC5VmhgtPi7I65/ZrVJRC5pzhhZ0s5
-         qEort2/PsPGPnKEQPqQtdkL7H3UHDqQ8efM261vBep1b49Koiu/QLg3Hv0MBdnVcfudI
-         NBt8z0xSU2IEmKo0LjRW0i4YLuU5Bk3IcWzgwdgLX/w6Hv9cDv3gpAIYhv17LES5RTQL
-         +ehSsxX8GM3xOMe6b8++t7VtNDquU/YGtNz5gCjXilHdGDt+aNdL/GJwahZf/F7sWibp
-         YEMDrb3oxOfsYbAvGRNWo9ktObtBMRrrb3LskS/6g+qQ0fdD2uekroDnd8a9xAvCavRB
-         wTnA==
+        b=hA24at1hd0g7HBn+YfmW4CDynvGdR72J9UsWejh+8/jiTSKO2J7tUWkca1HBc9gyXs
+         6o1gvtxdC4khP4VAeW6kSfpwfAOM0sMnQ6yYBI2QiK5qsrBYhzet1g0hMEv1UAat5Gkc
+         YVLZRmEL3oHf8KU2TtA8M+3n6aKqUzuWHAbcZrTktRIWxpIfATOkboNP+W3BJxe8NkVU
+         Q47sVr2msImzVQVab7YvYIzHqXGjyvdAPcNWz2dgv7KA/2u8Y/sAYdOxA9HzDTMQVAdy
+         lsgJVef/yxXOBlisC8fiYgU15URQMYuNkcIzQPzMtctRZlZcQImZBiYgb0n942VjJTrH
+         hXTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:dkim-signature;
-        bh=wBxoUG0Lj09ekTXFxsIUOaAPUB4KUKIamPgSZFxhVu8=;
-        b=M5C6axWg6zWYrWM04FUl7w7h3yQwwXRuHpC90IgITbnyIddUGAt+zw89a6wag725xy
-         8Cai1UHAh3Uzatx63FoDqLngf19Tfy3NeGcNGPhLD4t7S2q7U9N2sFtmWGV8F2f7Y0zE
-         TB+TkiI2xEjjUm9gZ/LABGG26fTB5D7lkCvt/QhhYxkoQ4Jtl66ghMI0Pj9IxfYhEzYl
-         3/Lod9labiOh/3Yq6fyjgqVfOoo3GXoqy/wTo2MJZo9oUKO5YsRS2i57l51W+QhLGEQE
-         Qac1lQvgtTuAaXjd7fNYAAUIfog7wfWX/OCG8c9oJt+Ooww71ztJfs4Yc71RN24zhrFb
-         EVKA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DsbdvFQeUqASiOkCBKpg+u5M35Pu57mB+0bBgUEwlQ0=;
+        b=WDVdmyq2Rmq9NqGZ/2GZ5hXwo5DlBbVSovy5pVibDLgeGbxapO9eK9SPRV3YrIFjOs
+         mOlt6RKe4Jz91v5oqUsFgQcQkVx5n+mSsUbm6L7lA/6YN/wHw14LtWfHnOQoztvbLi3l
+         t6qiw7HrJE/91R/VjoxeZGzFzMBmTjy33nsVggwTA052xw+6MgN6r0LkO1+2okF+1Ey0
+         LLlei5RCid8hDipZA75852b2aV6E1Un3lvr/9a/GG4pHyXSkDDvvmh1nU07OYRSdDSeY
+         8CV3ieE8dLmJjX3kfGQDlDECeCknv5ldNYGyVbFhUl7+89rLHTX9bq8yfpn2/+vIhqHo
+         xhlg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=fail header.i=@kernel.org header.s=k20201202 header.b="lZBjp0/a";
-       spf=pass (google.com: domain of broonie@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=broonie@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id g5-20020a056870c14500b00101c9597c72si1808238oad.1.2022.06.28.06.10.31
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=e3IN4akW;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com. [2607:f8b0:4864:20::12e])
+        by gmr-mx.google.com with ESMTPS id r9-20020a819a09000000b0031332987bdasi577213ywg.3.2022.06.28.06.14.36
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Jun 2022 06:10:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of broonie@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 148126170D;
-	Tue, 28 Jun 2022 13:10:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86553C3411D;
-	Tue, 28 Jun 2022 13:10:22 +0000 (UTC)
-From: Mark Brown <broonie@kernel.org>
-To: mchehab@kernel.org, linux-doc@vger.kernel.org
-Cc: heikki.krogerus@linux.intel.com, daniel@ffwll.ch, mingo@redhat.com, bp@alien8.de, netdev@vger.kernel.org, pabeni@redhat.com, linux-fsdevel@vger.kernel.org, sumit.semwal@linaro.org, mchehab+huawei@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, christian.koenig@amd.com, airlied@linux.ie, corbet@lwn.net, hpa@zytor.com, linux-mm@kvack.org, linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, tglx@linutronix.de, myungjoo.ham@samsung.com, glider@google.com, balbi@kernel.org, davem@davemloft.net, johannes@sipsolutions.net, linux-cachefs@redhat.com, x86@kernel.org, dave.hansen@linux.intel.com, linux-wireless@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, kuba@kernel.org, dri-devel@lists.freedesktop.org, linux-sgx@vger.kernel.org, andrey.grodzovsky@amd.com, cw00.choi@samsung.com, dvyukov@google.com, elver@google.com, Andrew Morton <akpm@linux-foundation.org>, amd-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org, edumazet@go
- ogle.com, kyungmin.park@samsung.com
-In-Reply-To: <cover.1656409369.git.mchehab@kernel.org>
-References: <cover.1656409369.git.mchehab@kernel.org>
-Subject: Re: (subset) [PATCH 00/22] Fix kernel-doc warnings at linux-next
-Message-Id: <165642182225.1205882.7217075149410531618.b4-ty@kernel.org>
-Date: Tue, 28 Jun 2022 14:10:22 +0100
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jun 2022 06:14:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12e as permitted sender) client-ip=2607:f8b0:4864:20::12e;
+Received: by mail-il1-x12e.google.com with SMTP id n14so8102322ilt.10
+        for <kasan-dev@googlegroups.com>; Tue, 28 Jun 2022 06:14:36 -0700 (PDT)
+X-Received: by 2002:a92:b10e:0:b0:2d8:d8a7:8b29 with SMTP id
+ t14-20020a92b10e000000b002d8d8a78b29mr10510693ilh.233.1656422075643; Tue, 28
+ Jun 2022 06:14:35 -0700 (PDT)
 MIME-Version: 1.0
+References: <c4c944a2a905e949760fbeb29258185087171708.1653317461.git.andreyknvl@google.com>
+ <165599625020.2988777.9370908523559678089.b4-ty@kernel.org>
+In-Reply-To: <165599625020.2988777.9370908523559678089.b4-ty@kernel.org>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 28 Jun 2022 15:14:24 +0200
+Message-ID: <CA+fCnZcLsGVpP_bJ=OLkPe=DXwAzyzv2eS2jsMv9RZV58sjGZA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: kasan: do not instrument stacktrace.c
+To: Will Deacon <will@kernel.org>
+Cc: andrey.konovalov@linux.dev, Catalin Marinas <catalin.marinas@arm.com>, 
+	kernel-team@android.com, Alexander Potapenko <glider@google.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Andrey Konovalov <andreyknvl@google.com>, Marco Elver <elver@google.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: broonie@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=fail
- header.i=@kernel.org header.s=k20201202 header.b="lZBjp0/a";       spf=pass
- (google.com: domain of broonie@kernel.org designates 139.178.84.217 as
- permitted sender) smtp.mailfrom=broonie@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+X-Original-Sender: andreyknvl@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20210112 header.b=e3IN4akW;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::12e
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -132,103 +149,35 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 28 Jun 2022 10:46:04 +0100, Mauro Carvalho Chehab wrote:
-> As we're currently discussing about making kernel-doc issues fatal when
-> CONFIG_WERROR is enable, let's fix all 60 kernel-doc warnings
-> inside linux-next:
-> 
-> 	arch/x86/include/uapi/asm/sgx.h:19: warning: Enum value 'SGX_PAGE_MEASURE' not described in enum 'sgx_page_flags'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rdi' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rsi' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rdx' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rsp' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'r8' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'r9' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:124: warning: Function parameter or member 'reserved' not described in 'sgx_enclave_run'
-> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'val' not described in 'qos_min_notifier_call'
-> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'ptr' not described in 'qos_min_notifier_call'
-> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'val' not described in 'qos_max_notifier_call'
-> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'ptr' not described in 'qos_max_notifier_call'
-> 	drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5095: warning: expecting prototype for amdgpu_device_gpu_recover_imp(). Prototype was for amdgpu_device_gpu_recover() instead
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_outbox_params' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'num_of_edps' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'disable_hpd_irq' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_aux_transfer_done' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'delayed_hpd_wq' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/include/amd_shared.h:224: warning: Enum value 'PP_GFX_DCS_MASK' not described in enum 'PP_FEATURE_MASK'
-> 	drivers/gpu/drm/scheduler/sched_main.c:999: warning: Function parameter or member 'dev' not described in 'drm_sched_init'
-> 	drivers/usb/dwc3/core.h:1328: warning: Function parameter or member 'async_callbacks' not described in 'dwc3'
-> 	drivers/usb/dwc3/gadget.c:675: warning: Function parameter or member 'mult' not described in 'dwc3_gadget_calc_tx_fifo_size'
-> 	fs/attr.c:36: warning: Function parameter or member 'ia_vfsuid' not described in 'chown_ok'
-> 	fs/attr.c:36: warning: Excess function parameter 'uid' description in 'chown_ok'
-> 	fs/attr.c:63: warning: Function parameter or member 'ia_vfsgid' not described in 'chgrp_ok'
-> 	fs/attr.c:63: warning: Excess function parameter 'gid' description in 'chgrp_ok'
-> 	fs/namei.c:649: warning: Function parameter or member 'mnt' not described in 'path_connected'
-> 	fs/namei.c:649: warning: Function parameter or member 'dentry' not described in 'path_connected'
-> 	fs/namei.c:1089: warning: Function parameter or member 'inode' not described in 'may_follow_link'
-> 	include/drm/gpu_scheduler.h:463: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
-> 	include/linux/dcache.h:309: warning: expecting prototype for dget, dget_dlock(). Prototype was for dget_dlock() instead
-> 	include/linux/fscache.h:270: warning: Function parameter or member 'cookie' not described in 'fscache_use_cookie'
-> 	include/linux/fscache.h:270: warning: Excess function parameter 'object' description in 'fscache_use_cookie'
-> 	include/linux/fscache.h:287: warning: Function parameter or member 'cookie' not described in 'fscache_unuse_cookie'
-> 	include/linux/fscache.h:287: warning: Excess function parameter 'object' description in 'fscache_unuse_cookie'
-> 	include/linux/genalloc.h:54: warning: Function parameter or member 'start_addr' not described in 'genpool_algo_t'
-> 	include/linux/kfence.h:221: warning: Function parameter or member 'slab' not described in '__kfence_obj_info'
-> 	include/linux/regulator/driver.h:434: warning: Function parameter or member 'n_ramp_values' not described in 'regulator_desc'
-> 	include/linux/textsearch.h:51: warning: Function parameter or member 'list' not described in 'ts_ops'
-> 	include/linux/usb/typec_altmode.h:132: warning: Function parameter or member 'altmode' not described in 'typec_altmode_get_orientation'
-> 	include/net/cfg80211.h:391: warning: Function parameter or member 'bw' not described in 'ieee80211_eht_mcs_nss_supp'
-> 	include/net/cfg80211.h:437: warning: Function parameter or member 'eht_cap' not described in 'ieee80211_sband_iftype_data'
-> 	include/net/cfg80211.h:507: warning: Function parameter or member 's1g' not described in 'ieee80211_sta_s1g_cap'
-> 	include/net/cfg80211.h:1390: warning: Function parameter or member 'counter_offset_beacon' not described in 'cfg80211_color_change_settings'
-> 	include/net/cfg80211.h:1390: warning: Function parameter or member 'counter_offset_presp' not described in 'cfg80211_color_change_settings'
-> 	include/net/cfg80211.h:1430: warning: Enum value 'STATION_PARAM_APPLY_STA_TXPOWER' not described in enum 'station_parameters_apply_mask'
-> 	include/net/cfg80211.h:2195: warning: Function parameter or member 'dot11MeshConnectedToAuthServer' not described in 'mesh_config'
-> 	include/net/cfg80211.h:2341: warning: Function parameter or member 'short_ssid' not described in 'cfg80211_scan_6ghz_params'
-> 	include/net/cfg80211.h:3328: warning: Function parameter or member 'kck_len' not described in 'cfg80211_gtk_rekey_data'
-> 	include/net/cfg80211.h:3698: warning: Function parameter or member 'ftm' not described in 'cfg80211_pmsr_result'
-> 	include/net/cfg80211.h:3828: warning: Function parameter or member 'global_mcast_stypes' not described in 'mgmt_frame_regs'
-> 	include/net/cfg80211.h:4977: warning: Function parameter or member 'ftm' not described in 'cfg80211_pmsr_capabilities'
-> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'u' not described in 'wireless_dev'
-> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'links' not described in 'wireless_dev'
-> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'valid_links' not described in 'wireless_dev'
-> 	include/net/cfg80211.h:6076: warning: Function parameter or member 'is_amsdu' not described in 'ieee80211_data_to_8023_exthdr'
-> 	include/net/cfg80211.h:6949: warning: Function parameter or member 'sig_dbm' not described in 'cfg80211_notify_new_peer_candidate'
-> 	include/net/mac80211.h:6250: warning: Function parameter or member 'vif' not described in 'ieee80211_channel_switch_disconnect'
-> 	mm/memory.c:1729: warning: Function parameter or member 'mt' not described in 'unmap_vmas'
-> 	net/mac80211/sta_info.h:569: warning: Function parameter or member 'cur_max_bandwidth' not described in 'link_sta_info'
-> 
-> [...]
+On Thu, Jun 23, 2022 at 9:31 PM Will Deacon <will@kernel.org> wrote:
+>
+> On Mon, 23 May 2022 16:51:51 +0200, andrey.konovalov@linux.dev wrote:
+> > From: Andrey Konovalov <andreyknvl@google.com>
+> >
+> > Disable KASAN instrumentation of arch/arm64/kernel/stacktrace.c.
+> >
+> > This speeds up Generic KASAN by 5-20%.
+> >
+> > As a side-effect, KASAN is now unable to detect bugs in the stack trace
+> > collection code. This is taken as an acceptable downside.
+> >
+> > [...]
+>
+> Applied to arm64 (for-next/stacktrace), thanks! I had to fix conflicts
+> in both of the patches, so please can you take a quick look at the result?
+>
+> [1/2] arm64: kasan: do not instrument stacktrace.c
+>       https://git.kernel.org/arm64/c/802b91118d11
+> [2/2] arm64: stacktrace: use non-atomic __set_bit
+>       https://git.kernel.org/arm64/c/446297b28a21
 
-Applied to
+Hi Will,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+The updated patches look good.
 
 Thanks!
-
-[18/22] regulator: fix a kernel-doc warning
-        commit: 0e584d46218e3b9dc12a98e18e81a0cd3e0d5419
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/165642182225.1205882.7217075149410531618.b4-ty%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZcLsGVpP_bJ%3DOLkPe%3DDXwAzyzv2eS2jsMv9RZV58sjGZA%40mail.gmail.com.
