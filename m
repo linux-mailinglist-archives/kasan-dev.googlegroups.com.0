@@ -1,109 +1,112 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZFB5OKQMGQE57NY4JY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZ5B5OKQMGQEK56E4MA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647B055BFF2
-	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 11:59:01 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id i23-20020a2e9417000000b0025a739223d1sf1518682ljh.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 02:59:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656410340; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C2555BFF3
+	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 11:59:03 +0200 (CEST)
+Received: by mail-lj1-x23e.google.com with SMTP id m8-20020a2eb6c8000000b0025aa0530107sf1466645ljo.6
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 02:59:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656410343; cv=pass;
         d=google.com; s=arc-20160816;
-        b=t8oMLkR6rFI7xSJVYUXY8MTvgL3yzeUMhClPC3wmPugOxZWYwAJuqOuG/SvmtrYeJe
-         vdRtB+KKkUwDtAUnbdc2hZ4AuOCcBhdb0Xr0XvUJBEhUaY9PvQzV9hcskIvsQ02a5C48
-         +I2+qPo4i/iKdIZpjVMosUbSKGy+GE8KqJswFU2Y8fBxlNQzMHO9u0j4NCNVklZHgvQG
-         wEH60/YUznwQBwu17pr7wTJ4KcmHTSRUfPkMbWncVsJ65H3nhVmsjXwKhuaQ38nWWN7y
-         0uhdJM1MhOsQ4R1S1OojheuT4DMght9VNZj9EktlGv+sYYB1V5C9m+dVavKW95viHm81
-         824w==
+        b=nnk3zUFr2twwOQSn5tR/MJKiJ5WU7iquTsRVCLlhPhXNPJSCx3Np33xh8HdPw3Jv6s
+         x+oOAawtYobIt+nhui4izUA7cQnycBPw+a9SwWrx6r7Vrwcg0yAUloofypp+cbi2L5W6
+         sxt7xRmsZO8rIZ+LtVU/hHnZGaajf4jbDERcqgIwlyCq7UjlMN1ZUI4eq2xwjkH10yTo
+         OJapNv3JbpJOVqBYlqk7StYJFXxVR69Z2wA/6Fg1DzUTWn9JvzE3BAZm/Yd+aGE66sbT
+         NHGaCuokvJX4XaadjmviwsEX5lUZ9ntgPTdU7xAWoPNGo7PFFMlitlEyyvIBTCFoJTrj
+         9f6g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=s+SFm2RYIRPOdq13vqKnpg7NUmnQZETuOOcYMZdebVI=;
-        b=lmzl3rQFF+qb9zduJKKyFc7SN+9aArWQ5iF/aT9YpAWhpZniOkXZI/d02Jir/h4G21
-         6nNtV2Z6xkNMul6a4iWU2OvEMqQlhug0KXHnhAlrdmf7y7uitmyQcn5RUxC/j5YEblJm
-         mVgZj65te6QygPlqA7MvfjbNFYN5peYXyF5xSfA5SguCnZMH3d303eSOfDIamJDQCt/p
-         9cJbYvi94ksGCbzvM6D9aoYTQMpLkXf6Ee3RmlmXo4K26U2CtjqK5onbgdpDjSl1keuZ
-         3fUH6wyl4ZBkSXtReHDz2iG951QiXYWaKfY3IR15VIbFqK4BC0Bn62CTILAjKNG5zk75
-         rsmg==
+         :references:mime-version:message-id:in-reply-to:date:dkim-signature;
+        bh=R33fTpFjEgyICkVIHGAYjn82ytz2ceb9zWRv/XfdF7Q=;
+        b=TucZVPWJraObyAtz4zwtMZBQr3irPOX7AfAxDVrpNIkc+JRG0xbOdju+ptAfEB4HuA
+         JsacTSPo68grUaYEOM5qbHBQ/dnAKzrkfwsDzUL3n1Xzx6fn5ZVpR2yoAr8Ehu6ti4LC
+         vCIqG9kTL19XslCfKs4hBA4cXCnjwzo/R9+xuEyzuH+r8zqwoEfhCYKOXsiVUHMBlYnG
+         er5oznX6pMGBRQyRNL9LrotjHmSIgn82Inuwctbr35Nq2uLn+W+ZNjZIyzkQWOltJ80H
+         kSaui174+F1xIKZQCIHwdjZoHjWqVcr15F3b3s0yxcKJDzNtspvoHhv8KpZKwhmMVozS
+         iq9Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kpac3JTW;
-       spf=pass (google.com: domain of 34tc6ygukcyst0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=34tC6YgUKCYst0At6v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=VJizrG6i;
+       spf=pass (google.com: domain of 35dc6ygukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=35dC6YgUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=s+SFm2RYIRPOdq13vqKnpg7NUmnQZETuOOcYMZdebVI=;
-        b=EifUtiMVbS10zjOq3M42UmqcxKda2CV03bDrLT13AzHyzlqCY1oorF4RGf9WN/4bxM
-         9L/b88gtSSdaV69OkNxOIa+mvkbthCpjxVkpLp7DFpwXdK+cSSBitU7eMShDGIyqL6/X
-         hWTQq+0M1wi6OukB3Yl7UhmRPjUW/5XB7wWX2MlZZuWPvy3Xve1V9OzchKTwwca+GQCN
-         7vECUbdB3orI0mgqA2KzGYuxXhwV3u/B/CRGbQ144aYMHIJ17Z+YDyMMJ07F3T5ZTvVU
-         IGD1wbhGooBbA89fxXqiw6kyU4q2ZvWqvltM/IPgJB6I++dI/gt1SZwwRQdqGYOjmeLK
-         PaMw==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=R33fTpFjEgyICkVIHGAYjn82ytz2ceb9zWRv/XfdF7Q=;
+        b=Ma+SX0CpvgUzD5wuC5yzHrFjtlGtXNHQAD9nC6+8UI6GJrVQPEo3vrlUj3oSMLYgSr
+         hxf3JMW+jWkUijE0a+I8lnlIpfnSIzhwDEmqapTyYdgplOVxPP2WcAgezQzNBz3gtNQq
+         x5VO2es0MJntZUuiv8cwg8A/Bvx2OZWbGbxL8e5HAdXeAuD4lPhBEy9NhioJ2efd82N4
+         /YICumqUmtcM7WZSDdMmSGIJbP6dbgdzrUh/LqmojsT4TAZzxFgKYevfq+QxAa1QPBik
+         3MmP2BFDm0DEbsoY3bc1ObLtI44GnRoAyIXMp+ix1lTjvqe1peVFbocF9qfGGzBNMqUm
+         AT/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=s+SFm2RYIRPOdq13vqKnpg7NUmnQZETuOOcYMZdebVI=;
-        b=pN41/mWU2KPCxHj/0mSOOCt3eJp8L17VJQ0LDUgmO2GxPzRXj/bbPy3l3uOje9CLIS
-         VuimhPffLqmaRBLUcAvcB3geil0wH4RduicTuqzj6c/uhc5mKDxaQjN9sn31Slc51UqN
-         dYkZ74emLuzu0VemBSqDb7ud/SuPWqpC3loFpIJRIqvnHeRnG++3OxwOpU64OrVw+GFe
-         c7GRlsQkEGsDOz6OOyPZ0qNUCoQtlJp0u2itf8FD1uppskmmtZYTZN39ynIS6I0ZJCMr
-         MSZLbpH8P7T9Qqj9Rjd+5yiXjn2+r0o+ee221Ev4i/e3hjkmRPG7WEfFgHhCSTxnFpeT
-         0ohA==
-X-Gm-Message-State: AJIora9t0DlNVCRj5Ct1fjLc0AwJt46qTIKg+lqCgOW5/mW001MN9xqA
-	t1escMQU5LLtILiQmy5NtUI=
-X-Google-Smtp-Source: AGRyM1vSh73wA043UkJf6UjqifHPWKntNsTRtxDlZPK+Akj4dCnKD04spIkOHyZtnliuDsaQVDKckQ==
-X-Received: by 2002:a05:6512:6d4:b0:47f:74b4:4ec4 with SMTP id u20-20020a05651206d400b0047f74b44ec4mr10664918lff.654.1656410340538;
-        Tue, 28 Jun 2022 02:59:00 -0700 (PDT)
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=R33fTpFjEgyICkVIHGAYjn82ytz2ceb9zWRv/XfdF7Q=;
+        b=p8ePlZSTrHn1T50o9wtw9CpitfEhT5rJIPXQwxHP09oImBgmEt9tBvjQVAKdHfmGIx
+         DVYD78Ofc+4fe4P+Iu+6QUIW3GrNjc0vDY3GSX2mnr9j5AUDBqZG+ueB26tCVPqj5KwQ
+         rotFz37HIF1OEw6/coq9qRByusLTuFYllqKYODgO2aBqh7D1eOaLhpY8jUdlBrmHT3LC
+         iQNK5LDJU3E2uRVeIRMAzSwNgNTqwgRQDUrbePxIQ5+h4Hlfn6PLhsKfD3tyS5ailIMy
+         Fa4fy9KS+0jGs9wEErXPuQ3PJR1GWVxzdwaBEoSZY2XhA7abOsdZJJavr1wKMjHz4bPU
+         jHmQ==
+X-Gm-Message-State: AJIora+Top4jZNrdPRw4z/3292AMDEJwBorNHeD7vUDRkN79dMSZ6x0g
+	hC3P5MFOAL0lsh4OADOwSGA=
+X-Google-Smtp-Source: AGRyM1tDlDIoVkQhmz2c5+ttxpzXRdh8HYkld1eY68lcxQbMjolJGGgYA8qNwVjOir5ux8cece7HVQ==
+X-Received: by 2002:a2e:a7c7:0:b0:25b:b72d:aa3c with SMTP id x7-20020a2ea7c7000000b0025bb72daa3cmr7091832ljp.318.1656410343288;
+        Tue, 28 Jun 2022 02:59:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3b0c:b0:47f:9907:2b50 with SMTP id
- f12-20020a0565123b0c00b0047f99072b50ls288487lfv.3.gmail; Tue, 28 Jun 2022
- 02:58:59 -0700 (PDT)
-X-Received: by 2002:ac2:5d31:0:b0:47d:c71c:50d5 with SMTP id i17-20020ac25d31000000b0047dc71c50d5mr10724946lfb.665.1656410339064;
-        Tue, 28 Jun 2022 02:58:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656410339; cv=none;
+Received: by 2002:a2e:81d1:0:b0:25b:c342:b0dd with SMTP id s17-20020a2e81d1000000b0025bc342b0ddls901298ljg.5.gmail;
+ Tue, 28 Jun 2022 02:59:01 -0700 (PDT)
+X-Received: by 2002:a2e:390e:0:b0:25a:9763:d2dd with SMTP id g14-20020a2e390e000000b0025a9763d2ddmr8950310lja.210.1656410341853;
+        Tue, 28 Jun 2022 02:59:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656410341; cv=none;
         d=google.com; s=arc-20160816;
-        b=dk0KLXa4lQf4P5OIyweo9NelZ0zNoIzDaTwYQ/iA/syZtiVeIY43Ne7MnQVlfFuX8G
-         kPz6m0RmWkPco7sr6z0VSmj9cmi0+6j/XIc2+bqykge3n+JoZj2llLBC4w1gLB/BOB9w
-         DXh4LdaRdnd7s/AGkA7J5Ehbj03FgJdnCVxGrc1AZadfaBbamFQeFC0sv0wTAzkdDr8+
-         J5hCzWsjVXS+92X/0MMx91HEFL+hjCtKvPFwOU4iqEH4a3gc/8HRbQD/fXqInxu92J+f
-         9khUu72n46kUjnLnyFwv7ySg3T0zcu/WJvbcDn5jhC35FWRsKZNeGPGp8tftD+sNaxbO
-         vaiw==
+        b=RVsP5d8MirpTdxCpv6JFTz+wlHKCuvYgt3EW3dJVp6Bknbmok4ar3hCffrS3PnWUHt
+         lUBeMdRQryoDRQ9qQrdEOTOAonaMuR3alW+2gyEAs5N5Xo0qtg9ehsQAKmvFE+kBgUJ3
+         vwk5XzA9HBVCe8KUeXTykWo6Uu1bZuLXMeE8KPZuNux30IRu+5b8hoB6N6CU0ZjlkNRR
+         ur07ZNesOXrKHvYAMgAjwrOH4gwAgWT8hlnqyUkW7OHfUxXeirPFxvLljHp2bo12tdzy
+         j1e+bW/xmV1A7F9JDIcSr/ATArVKnMh/SBANV3YUyFJrkFK3dwd2ANZIzOr0YSDls643
+         nrYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=MrF5aaShEN6B7UjaZWC1TSqA3Z20kM5d1l/pRL2xCe0=;
-        b=GqgaVR/YEHEDs06WScJeP3WFS7ovnDU1BkpUh/shMgrRyZsCTPaCCKr5xKeiZjToBu
-         0lDQNVUHVo6tQQ4Pq6PuFrJL2XzTwJTL+L4EOUi2ITfkIh/ooGKPTut5eaVPu3ju2/O1
-         bqChWZxyeaXvHzgQ4oE36ODOvlO+eRupNNCr7kHISypiaC8OmTkiP96ULehwsYlxuQGj
-         21nKtjHqBABbskJSslzCdpGSD+qIa0MrhOJgtNjX+IsTruXhVCGNfpenLK7V+p40+gXR
-         YX7m3tMDf7nkrUUAPDJLJkHBSu+0mb48X4Sefs0j/cgzzKRUgBKsB2RlhH8l9bntBgDs
-         Mm3g==
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:dkim-signature;
+        bh=xK4e9VEyJDIzbUo67C06P/12U8vcat3CTuB5T8upBGY=;
+        b=lOzA5UOCZYN/e1Ug0drubyUk/3GS42BOLl0VYSzF7c89an+WisrlJ20tDo4g/VB7ib
+         kISQM0umtK9CWjFiC29xWPNXJHg7Phk93mgG7f7smKmNDXOVfrBsrijFaTAF4TrJNtrz
+         SGuMT0+Uiu8LB8sM5Wy+H1CnPUGI+ji+e9s3EJMM7o+JzNtSW7Y88zb1mxPHo/JMrirr
+         5ZU8VvCMiFGHhDL4pBN3BOiptmJsqthpl7LcxcEOErGO6EqAnobIW95WrD1zRXNoDt9R
+         zz7W4xyLmYxPiCShBI23wEobmyc51B4XrdjIQqg7l+p05j+AG+KiYWsUxwtARX52fGBU
+         PDDg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kpac3JTW;
-       spf=pass (google.com: domain of 34tc6ygukcyst0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=34tC6YgUKCYst0At6v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=VJizrG6i;
+       spf=pass (google.com: domain of 35dc6ygukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=35dC6YgUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com. [2a00:1450:4864:20::64a])
-        by gmr-mx.google.com with ESMTPS id bd10-20020a05651c168a00b0025a72c1807dsi530984ljb.2.2022.06.28.02.58.59
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
+        by gmr-mx.google.com with ESMTPS id o9-20020ac25e29000000b0047f8e0add59si611221lfg.10.2022.06.28.02.59.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jun 2022 02:58:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 34tc6ygukcyst0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) client-ip=2a00:1450:4864:20::64a;
-Received: by mail-ej1-x64a.google.com with SMTP id qk8-20020a1709077f8800b00722fcbfdcf7so3408110ejc.2
-        for <kasan-dev@googlegroups.com>; Tue, 28 Jun 2022 02:58:59 -0700 (PDT)
+        Tue, 28 Jun 2022 02:59:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 35dc6ygukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
+Received: by mail-ed1-x54a.google.com with SMTP id g7-20020a056402424700b00435ac9c7a8bso9201163edb.14
+        for <kasan-dev@googlegroups.com>; Tue, 28 Jun 2022 02:59:01 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:3496:744e:315a:b41b])
- (user=elver job=sendgmr) by 2002:a05:6402:1c09:b0:435:6562:e70d with SMTP id
- ck9-20020a0564021c0900b004356562e70dmr21782463edb.203.1656410338427; Tue, 28
- Jun 2022 02:58:58 -0700 (PDT)
-Date: Tue, 28 Jun 2022 11:58:20 +0200
-Message-Id: <20220628095833.2579903-1-elver@google.com>
+ (user=elver job=sendgmr) by 2002:a17:906:3f09:b0:712:466:e04a with SMTP id
+ c9-20020a1709063f0900b007120466e04amr16934750ejj.719.1656410341300; Tue, 28
+ Jun 2022 02:59:01 -0700 (PDT)
+Date: Tue, 28 Jun 2022 11:58:21 +0200
+In-Reply-To: <20220628095833.2579903-1-elver@google.com>
+Message-Id: <20220628095833.2579903-2-elver@google.com>
 Mime-Version: 1.0
+References: <20220628095833.2579903-1-elver@google.com>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-Subject: [PATCH v2 00/13] perf/hw_breakpoint: Optimize for thousands of tasks
+Subject: [PATCH v2 01/13] perf/hw_breakpoint: Add KUnit test for constraints accounting
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>
@@ -117,9 +120,9 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Arnaldo Carvalho de Melo <acme@kernel.
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=kpac3JTW;       spf=pass
- (google.com: domain of 34tc6ygukcyst0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=34tC6YgUKCYst0At6v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=VJizrG6i;       spf=pass
+ (google.com: domain of 35dc6ygukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=35dC6YgUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -135,114 +138,387 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The hw_breakpoint subsystem's code has seen little change in over 10
-years. In that time, systems with >100s of CPUs have become common,
-along with improvements to the perf subsystem: using breakpoints on
-thousands of concurrent tasks should be a supported usecase.
+Add KUnit test for hw_breakpoint constraints accounting, with various
+interesting mixes of breakpoint targets (some care was taken to catch
+interesting corner cases via bug-injection).
 
-The breakpoint constraints accounting algorithm is the major bottleneck
-in doing so:
+The test cannot be built as a module because it requires access to
+hw_breakpoint_slots(), which is not inlinable or exported on all
+architectures.
 
-  1. toggle_bp_slot() and fetch_bp_busy_slots() are O(#cpus * #tasks):
-     Both iterate through all CPUs and call task_bp_pinned(), which is
-     O(#tasks).
-
-  2. Everything is serialized on a global mutex, 'nr_bp_mutex'.
-
-The series progresses with the simpler optimizations and finishes with
-the more complex optimizations:
-
- 1. We first optimize task_bp_pinned() to only take O(1) on average.
-
- 2. Rework synchronization to allow concurrency when checking and
-    updating breakpoint constraints for tasks.
-
- 3. Eliminate the O(#cpus) loops in the CPU-independent case.
-
-Along the way, smaller micro-optimizations and cleanups are done as they
-seemed obvious when staring at the code (but likely insignificant).
-
-The result is (on a system with 256 CPUs) that we go from:
-
- | $> perf bench -r 30 breakpoint thread -b 4 -p 64 -t 64
-	 	[ ^ more aggressive benchmark parameters took too long ]
- | # Running 'breakpoint/thread' benchmark:
- | # Created/joined 30 threads with 4 breakpoints and 64 parallelism
- |      Total time: 236.418 [sec]
- |
- |   123134.794271 usecs/op
- |  7880626.833333 usecs/op/cpu
-
-... to the following with all optimizations:
-
- | $> perf bench -r 30 breakpoint thread -b 4 -p 64 -t 64
- |      Total time: 0.067 [sec]
- |
- |       35.292187 usecs/op
- |     2258.700000 usecs/op/cpu
-
-On the used test system, that's an effective speedup of ~3490x per op.
-
-Which is on par with the theoretical ideal performance through
-optimizations in hw_breakpoint.c (constraints accounting disabled), and
-only 12% slower than no breakpoints at all.
-
-Changelog
----------
-
+Signed-off-by: Marco Elver <elver@google.com>
+---
 v2:
- * Add KUnit test suite.
- * Remove struct bp_busy_slots and simplify functions.
- * Add "powerpc/hw_breakpoint: Avoid relying on caller synchronization".
- * Add "locking/percpu-rwsem: Add percpu_is_write_locked() and percpu_is_read_locked()".
- * Use percpu-rwsem instead of rwlock.
- * Use task_struct::perf_event_mutex instead of sharded mutex.
- * Drop v1 "perf/hw_breakpoint: Optimize task_bp_pinned() if CPU-independent".
- * Add "perf/hw_breakpoint: Introduce bp_slots_histogram".
- * Add "perf/hw_breakpoint: Optimize max_bp_pinned_slots() for CPU-independent task targets".
- * Add "perf/hw_breakpoint: Optimize toggle_bp_slot() for CPU-independent task targets".
- * Apply Acked-by/Reviewed-by given in v1 for unchanged patches.
-==> Speedup of ~3490x (vs. ~3315x in v1).
-
-v1: https://lore.kernel.org/all/20220609113046.780504-1-elver@google.com/
-
-Marco Elver (13):
-  perf/hw_breakpoint: Add KUnit test for constraints accounting
-  perf/hw_breakpoint: Clean up headers
-  perf/hw_breakpoint: Optimize list of per-task breakpoints
-  perf/hw_breakpoint: Mark data __ro_after_init
-  perf/hw_breakpoint: Optimize constant number of breakpoint slots
-  perf/hw_breakpoint: Make hw_breakpoint_weight() inlinable
-  perf/hw_breakpoint: Remove useless code related to flexible
-    breakpoints
-  powerpc/hw_breakpoint: Avoid relying on caller synchronization
-  locking/percpu-rwsem: Add percpu_is_write_locked() and
-    percpu_is_read_locked()
-  perf/hw_breakpoint: Reduce contention with large number of tasks
-  perf/hw_breakpoint: Introduce bp_slots_histogram
-  perf/hw_breakpoint: Optimize max_bp_pinned_slots() for CPU-independent
-    task targets
-  perf/hw_breakpoint: Optimize toggle_bp_slot() for CPU-independent task
-    targets
-
- arch/powerpc/kernel/hw_breakpoint.c  |  53 ++-
- arch/sh/include/asm/hw_breakpoint.h  |   5 +-
- arch/x86/include/asm/hw_breakpoint.h |   5 +-
- include/linux/hw_breakpoint.h        |   1 -
- include/linux/percpu-rwsem.h         |   6 +
- include/linux/perf_event.h           |   3 +-
- kernel/events/Makefile               |   1 +
- kernel/events/hw_breakpoint.c        | 594 ++++++++++++++++++++-------
- kernel/events/hw_breakpoint_test.c   | 321 +++++++++++++++
- kernel/locking/percpu-rwsem.c        |   6 +
- lib/Kconfig.debug                    |  10 +
- 11 files changed, 826 insertions(+), 179 deletions(-)
+* New patch.
+---
+ kernel/events/Makefile             |   1 +
+ kernel/events/hw_breakpoint_test.c | 321 +++++++++++++++++++++++++++++
+ lib/Kconfig.debug                  |  10 +
+ 3 files changed, 332 insertions(+)
  create mode 100644 kernel/events/hw_breakpoint_test.c
 
+diff --git a/kernel/events/Makefile b/kernel/events/Makefile
+index 8591c180b52b..91a62f566743 100644
+--- a/kernel/events/Makefile
++++ b/kernel/events/Makefile
+@@ -2,4 +2,5 @@
+ obj-y := core.o ring_buffer.o callchain.o
+ 
+ obj-$(CONFIG_HAVE_HW_BREAKPOINT) += hw_breakpoint.o
++obj-$(CONFIG_HW_BREAKPOINT_KUNIT_TEST) += hw_breakpoint_test.o
+ obj-$(CONFIG_UPROBES) += uprobes.o
+diff --git a/kernel/events/hw_breakpoint_test.c b/kernel/events/hw_breakpoint_test.c
+new file mode 100644
+index 000000000000..747a0249a606
+--- /dev/null
++++ b/kernel/events/hw_breakpoint_test.c
+@@ -0,0 +1,321 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KUnit test for hw_breakpoint constraints accounting logic.
++ *
++ * Copyright (C) 2022, Google LLC.
++ */
++
++#include <kunit/test.h>
++#include <linux/cpumask.h>
++#include <linux/hw_breakpoint.h>
++#include <linux/kthread.h>
++#include <linux/perf_event.h>
++#include <asm/hw_breakpoint.h>
++
++#define TEST_REQUIRES_BP_SLOTS(test, slots)						\
++	do {										\
++		if ((slots) > get_test_bp_slots()) {					\
++			kunit_skip((test), "Requires breakpoint slots: %d > %d", slots,	\
++				   get_test_bp_slots());				\
++		}									\
++	} while (0)
++
++#define TEST_EXPECT_NOSPC(expr) KUNIT_EXPECT_EQ(test, -ENOSPC, PTR_ERR(expr))
++
++#define MAX_TEST_BREAKPOINTS 512
++
++static char break_vars[MAX_TEST_BREAKPOINTS];
++static struct perf_event *test_bps[MAX_TEST_BREAKPOINTS];
++static struct task_struct *__other_task;
++
++static struct perf_event *register_test_bp(int cpu, struct task_struct *tsk, int idx)
++{
++	struct perf_event_attr attr = {};
++
++	if (WARN_ON(idx < 0 || idx >= MAX_TEST_BREAKPOINTS))
++		return NULL;
++
++	hw_breakpoint_init(&attr);
++	attr.bp_addr = (unsigned long)&break_vars[idx];
++	attr.bp_len = HW_BREAKPOINT_LEN_1;
++	attr.bp_type = HW_BREAKPOINT_RW;
++	return perf_event_create_kernel_counter(&attr, cpu, tsk, NULL, NULL);
++}
++
++static void unregister_test_bp(struct perf_event **bp)
++{
++	if (WARN_ON(IS_ERR(*bp)))
++		return;
++	if (WARN_ON(!*bp))
++		return;
++	unregister_hw_breakpoint(*bp);
++	*bp = NULL;
++}
++
++static int get_test_bp_slots(void)
++{
++	static int slots;
++
++	if (!slots)
++		slots = hw_breakpoint_slots(TYPE_DATA);
++
++	return slots;
++}
++
++static void fill_one_bp_slot(struct kunit *test, int *id, int cpu, struct task_struct *tsk)
++{
++	struct perf_event *bp = register_test_bp(cpu, tsk, *id);
++
++	KUNIT_ASSERT_NOT_NULL(test, bp);
++	KUNIT_ASSERT_FALSE(test, IS_ERR(bp));
++	KUNIT_ASSERT_NULL(test, test_bps[*id]);
++	test_bps[(*id)++] = bp;
++}
++
++/*
++ * Fills up the given @cpu/@tsk with breakpoints, only leaving @skip slots free.
++ *
++ * Returns true if this can be called again, continuing at @id.
++ */
++static bool fill_bp_slots(struct kunit *test, int *id, int cpu, struct task_struct *tsk, int skip)
++{
++	for (int i = 0; i < get_test_bp_slots() - skip; ++i)
++		fill_one_bp_slot(test, id, cpu, tsk);
++
++	return *id + get_test_bp_slots() <= MAX_TEST_BREAKPOINTS;
++}
++
++static int dummy_kthread(void *arg)
++{
++	return 0;
++}
++
++static struct task_struct *get_other_task(struct kunit *test)
++{
++	struct task_struct *tsk;
++
++	if (__other_task)
++		return __other_task;
++
++	tsk = kthread_create(dummy_kthread, NULL, "hw_breakpoint_dummy_task");
++	KUNIT_ASSERT_FALSE(test, IS_ERR(tsk));
++	__other_task = tsk;
++	return __other_task;
++}
++
++static int get_other_cpu(void)
++{
++	int cpu;
++
++	for_each_online_cpu(cpu) {
++		if (cpu != raw_smp_processor_id())
++			break;
++	}
++
++	return cpu;
++}
++
++/* ===== Test cases ===== */
++
++static void test_one_cpu(struct kunit *test)
++{
++	int idx = 0;
++
++	fill_bp_slots(test, &idx, raw_smp_processor_id(), NULL, 0);
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++}
++
++static void test_many_cpus(struct kunit *test)
++{
++	int idx = 0;
++	int cpu;
++
++	/* Test that CPUs are independent. */
++	for_each_online_cpu(cpu) {
++		bool do_continue = fill_bp_slots(test, &idx, cpu, NULL, 0);
++
++		TEST_EXPECT_NOSPC(register_test_bp(cpu, NULL, idx));
++		if (!do_continue)
++			break;
++	}
++}
++
++static void test_one_task_on_all_cpus(struct kunit *test)
++{
++	int idx = 0;
++
++	fill_bp_slots(test, &idx, -1, current, 0);
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++	/* Remove one and adding back CPU-target should work. */
++	unregister_test_bp(&test_bps[0]);
++	fill_one_bp_slot(test, &idx, raw_smp_processor_id(), NULL);
++}
++
++static void test_two_tasks_on_all_cpus(struct kunit *test)
++{
++	int idx = 0;
++
++	/* Test that tasks are independent. */
++	fill_bp_slots(test, &idx, -1, current, 0);
++	fill_bp_slots(test, &idx, -1, get_other_task(test), 0);
++
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(-1, get_other_task(test), idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), get_other_task(test), idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++	/* Remove one from first task and adding back CPU-target should not work. */
++	unregister_test_bp(&test_bps[0]);
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++}
++
++static void test_one_task_on_one_cpu(struct kunit *test)
++{
++	int idx = 0;
++
++	fill_bp_slots(test, &idx, raw_smp_processor_id(), current, 0);
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++	/*
++	 * Remove one and adding back CPU-target should work; this case is
++	 * special vs. above because the task's constraints are CPU-dependent.
++	 */
++	unregister_test_bp(&test_bps[0]);
++	fill_one_bp_slot(test, &idx, raw_smp_processor_id(), NULL);
++}
++
++static void test_one_task_mixed(struct kunit *test)
++{
++	int idx = 0;
++
++	TEST_REQUIRES_BP_SLOTS(test, 3);
++
++	fill_one_bp_slot(test, &idx, raw_smp_processor_id(), current);
++	fill_bp_slots(test, &idx, -1, current, 1);
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++
++	/* Transition from CPU-dependent pinned count to CPU-independent. */
++	unregister_test_bp(&test_bps[0]);
++	unregister_test_bp(&test_bps[1]);
++	fill_one_bp_slot(test, &idx, raw_smp_processor_id(), NULL);
++	fill_one_bp_slot(test, &idx, raw_smp_processor_id(), NULL);
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++}
++
++static void test_two_tasks_on_one_cpu(struct kunit *test)
++{
++	int idx = 0;
++
++	fill_bp_slots(test, &idx, raw_smp_processor_id(), current, 0);
++	fill_bp_slots(test, &idx, raw_smp_processor_id(), get_other_task(test), 0);
++
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(-1, get_other_task(test), idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), get_other_task(test), idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++	/* Can still create breakpoints on some other CPU. */
++	fill_bp_slots(test, &idx, get_other_cpu(), NULL, 0);
++}
++
++static void test_two_tasks_on_one_all_cpus(struct kunit *test)
++{
++	int idx = 0;
++
++	fill_bp_slots(test, &idx, raw_smp_processor_id(), current, 0);
++	fill_bp_slots(test, &idx, -1, get_other_task(test), 0);
++
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(-1, get_other_task(test), idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), get_other_task(test), idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++	/* Cannot create breakpoints on some other CPU either. */
++	TEST_EXPECT_NOSPC(register_test_bp(get_other_cpu(), NULL, idx));
++}
++
++static void test_task_on_all_and_one_cpu(struct kunit *test)
++{
++	int tsk_on_cpu_idx, cpu_idx;
++	int idx = 0;
++
++	TEST_REQUIRES_BP_SLOTS(test, 3);
++
++	fill_bp_slots(test, &idx, -1, current, 2);
++	/* Transitioning from only all CPU breakpoints to mixed. */
++	tsk_on_cpu_idx = idx;
++	fill_one_bp_slot(test, &idx, raw_smp_processor_id(), current);
++	fill_one_bp_slot(test, &idx, -1, current);
++
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++
++	/* We should still be able to use up another CPU's slots. */
++	cpu_idx = idx;
++	fill_one_bp_slot(test, &idx, get_other_cpu(), NULL);
++	TEST_EXPECT_NOSPC(register_test_bp(get_other_cpu(), NULL, idx));
++
++	/* Transitioning back to task target on all CPUs. */
++	unregister_test_bp(&test_bps[tsk_on_cpu_idx]);
++	/* Still have a CPU target breakpoint in get_other_cpu(). */
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	/* Remove it and try again. */
++	unregister_test_bp(&test_bps[cpu_idx]);
++	fill_one_bp_slot(test, &idx, -1, current);
++
++	TEST_EXPECT_NOSPC(register_test_bp(-1, current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), current, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(raw_smp_processor_id(), NULL, idx));
++	TEST_EXPECT_NOSPC(register_test_bp(get_other_cpu(), NULL, idx));
++}
++
++static struct kunit_case hw_breakpoint_test_cases[] = {
++	KUNIT_CASE(test_one_cpu),
++	KUNIT_CASE(test_many_cpus),
++	KUNIT_CASE(test_one_task_on_all_cpus),
++	KUNIT_CASE(test_two_tasks_on_all_cpus),
++	KUNIT_CASE(test_one_task_on_one_cpu),
++	KUNIT_CASE(test_one_task_mixed),
++	KUNIT_CASE(test_two_tasks_on_one_cpu),
++	KUNIT_CASE(test_two_tasks_on_one_all_cpus),
++	KUNIT_CASE(test_task_on_all_and_one_cpu),
++	{},
++};
++
++static int test_init(struct kunit *test)
++{
++	/* Most test cases want 2 distinct CPUs. */
++	return num_online_cpus() < 2 ? -EINVAL : 0;
++}
++
++static void test_exit(struct kunit *test)
++{
++	for (int i = 0; i < MAX_TEST_BREAKPOINTS; ++i) {
++		if (test_bps[i])
++			unregister_test_bp(&test_bps[i]);
++	}
++
++	if (__other_task) {
++		kthread_stop(__other_task);
++		__other_task = NULL;
++	}
++}
++
++static struct kunit_suite hw_breakpoint_test_suite = {
++	.name = "hw_breakpoint",
++	.test_cases = hw_breakpoint_test_cases,
++	.init = test_init,
++	.exit = test_exit,
++};
++
++kunit_test_suites(&hw_breakpoint_test_suite);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Marco Elver <elver@google.com>");
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 2e24db4bff19..4c87a6edf046 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2513,6 +2513,16 @@ config STACKINIT_KUNIT_TEST
+ 	  CONFIG_GCC_PLUGIN_STRUCTLEAK, CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF,
+ 	  or CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF_ALL.
+ 
++config HW_BREAKPOINT_KUNIT_TEST
++	bool "Test hw_breakpoint constraints accounting" if !KUNIT_ALL_TESTS
++	depends on HAVE_HW_BREAKPOINT
++	depends on KUNIT=y
++	default KUNIT_ALL_TESTS
++	help
++	  Tests for hw_breakpoint constraints accounting.
++
++	  If unsure, say N.
++
+ config TEST_UDELAY
+ 	tristate "udelay test driver"
+ 	help
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220628095833.2579903-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220628095833.2579903-2-elver%40google.com.
