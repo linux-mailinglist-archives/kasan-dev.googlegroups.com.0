@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBJWE5SKQMGQEOZUX72I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSGL5SKQMGQE3MHAU5Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07E055E5C6
-	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 17:45:42 +0200 (CEST)
-Received: by mail-wr1-x439.google.com with SMTP id s1-20020a5d69c1000000b0021b9f3abfebsf1899410wrw.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 08:45:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656431142; cv=pass;
+Received: from mail-yw1-x1138.google.com (mail-yw1-x1138.google.com [IPv6:2607:f8b0:4864:20::1138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FEDC55E5DA
+	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 18:01:14 +0200 (CEST)
+Received: by mail-yw1-x1138.google.com with SMTP id 00721157ae682-2eb7d137101sf107317307b3.12
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 09:01:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656432073; cv=pass;
         d=google.com; s=arc-20160816;
-        b=JatReifnsBFgz3p+T/Vtg3XMCp1kxc+xqSridJQK2YYz3uduqOuKnfqN3DkymzZNba
-         V7/YZNdzI55OP3kwkGvXt36AMazQZVvhrS1nngiCV2LxGvjn+Z+OnTrde6J7CYZWNGMw
-         DUNWxdVlYdB/b70iWudKM5dfh4C7PU/VraWDFKc6X9RDgdx03cZWCtJAFJ6aEhOyOGIV
-         R1rJM3BMJduDcD2UBztOdihofqeWLyZNkhHQwhkANGgZ1GBxVcg+mPfxZA7IH46n/+6s
-         AWsP+lyHLQduYYxvHP0CAccp1YnTjw4oqOmmXGR9e7lFE2wuuCg+lYYC/mqOFpq4rQed
-         IcBA==
+        b=kfg+KO96JxIHzKGXdD2YX81puDhnK5Knwgd2yCHXVtKolnOEEc/P/XeJNes1rB8vkD
+         NGMT9NhqhfehI5HOrXGo6yQt8pTmlvYfISDz973ciV8uhVcAwU3YEZNeQ9mAwzbMDtlo
+         zVeEZeq/Xgqtk6D7mWL1OW7A37S5pbjPVf9iC8NC+eTNk8zd+m8B9HoSgyaB7EAhdzvt
+         Bwz7o3JjZAahYfh4TajiCbnOszFacRBndAQiH9VwcASK/m9INAL4pWJEb0qBiy/niUaU
+         n4aSwjuDgYi+JHCeqhgHwANRXIqfkXE2y7lhD3+PbUh5AZRBj/te88xJ73jAUme/oYUw
+         YsLg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=3CTLIYA2AHVZ2Sjs3x8bKqN96aSNlXUblkSnkcQRq5I=;
-        b=c1lARR0L+0YzgUJsxezSfcz4M9nyDGm1aC1rBpLY9XOCRW5uvGi0VksHq3Z7VA4n3v
-         wNisPljkUGZsRTVbFkIZGvJQlUJLMErzUhiF6izTDA6lC4YZ83PwzgngjmXsvEzJ7NXg
-         jkOivc7/4T8evlhgeKQZ0lrPHTFAQG/PNnEl+4NVoz9inzLU3P3TSd3aJnvcfzwGeln8
-         AzqOsb18DJrvRia8pJJY3vecGxX1ls78W0VPhTuizN9dqLBKZe5xWDLqgy1iCgX3z46E
-         O2Simhlkf+Wye5VXbZjSDdEOp6m5VT4KdlABn3zZR3ToWkzfaq3PjLpR2Fe13zDHdm4b
-         06fA==
+        bh=oEOAkVi1fJYGKVS+HKZe2toj+n6HvKco82edjrL8Z9A=;
+        b=DSDNVyQ41T5sBrad0GMoSfpfAGDDrLuY/R7NWlY/CENVqvbuXz0mPAjZgSzIrZNPl6
+         4H6x+w/9KIV/347sYRg+Hnjq0awwgEH+2sRlDcCZeciTTyyLsdpAJaFCj8yysY0AieOA
+         y/hLds7ZOExARCORGzP0ddpuAUqcmysksgo4AKR5FshsGb+8LBiTsx9gJq368eX82LA7
+         HxZW8Sx3Bl6tkfc72Jq3GhTe8O2WzH5Wv4KZNDes38i31OFdomhlQkiyV6TazrnBd/Qp
+         Bjf98rdVYHsma3N8E/Sl/FI3aJZmIomVBihNGU1zxM7xZl56E9nWn5uE+/X2xc/8pQMt
+         G4Ow==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=IK9851jT;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::134 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=dD7Wqxrx;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=3CTLIYA2AHVZ2Sjs3x8bKqN96aSNlXUblkSnkcQRq5I=;
-        b=Zcmln5NbNbJh+HpSsxBLQHdDpEUZ+1uxuNBk37V1dWU2DM9iXyl4FuqQRSDJGjvYWX
-         LH3/ouesRM1ICAnpb7vqM4Tikpzj+tbI9rXIXlf3m4vqkAAqtC0d2mkdFS8zxPpwwL4c
-         f4S/aJGOCa/pknZ/MS4LCLpljPDkwligBPsf7nQcXafO0eRhDyzOBYcOqawvQuU/t5GZ
-         /hO9QfMvJhW2IwPmoD+L3x+FkRIunYExqRo8sRO7VJC6rKeJ8RJpfHs1SAhMyffq2Gzq
-         ZzH5XBYo+HlRiMcoFuqGvoI/7+ftgNpU4hkiGB0o8vJxdT1jJr0gHiq5B06HaaagP2zL
-         BNKg==
+        bh=oEOAkVi1fJYGKVS+HKZe2toj+n6HvKco82edjrL8Z9A=;
+        b=c/aR8nQR4rfy4XJMQxlod1FRk4WV7jlxMHDjGHw11WXNQOFrdL/uKVG4Tysn+OSu9i
+         yAF+y5vB4ql4iCYcb1JgnlnlWDW7L/xgodpZCUHE0fwtK1pm5DDTBV0jru9qpgiF9+45
+         uatLcb/VYjV34QDLQYDieHjOjgfWFZT9zY2METGEyiHCO0xyKLB2zjcCpjFSdhPr1RVI
+         kkl7HNO+paBrETZkyDl48upsZlLDnTQHJY2I3l4cqtyDvZkGzPtg+quBF7UnCxs0wrpF
+         m3nuGGcYV5M5VbjhPUIqpLvWl3RisKAgDZxKDb8nrIXlgNrHxR5ewwr6AOtnap6fSPEC
+         nMZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,66 +49,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=3CTLIYA2AHVZ2Sjs3x8bKqN96aSNlXUblkSnkcQRq5I=;
-        b=fqGgV/ofhew7p1z/SHWewsTBJ6jj1I6+iCM95AmbBeXrIHObqP0G/J7kQiMySDaRQ9
-         pPVU5H+5AjRxvB8udxgxCuk83I4vDjXpTJwvK5hRjbPSQs4gOqL9m+i5yrEX4gxoIkJu
-         IJDdAlq49100R9uOf+2ZSsIa89Xt+j2c5MuCQpwicWlKkYDZ0T0RPkp+axWFpUWRb8iM
-         UMd8edCm85lt2O9HxGEjWmLN6GKsZAp54ZMmQMI/444coAJsCO1N2204s7fNYbdRJFB+
-         0RvFBQHMnzYoYC5EBgLSnuorehCAzxeepJxzf8eYfQdV1G1o0udXTVsRYHStO6zqctkt
-         vflA==
-X-Gm-Message-State: AJIora+bqDnIHFFwjmXeIHtqCLPnFz1QWau8juE/AqDQfe7I0TMM6UwQ
-	HS+qnuJpsYHVIcrksliPXr0=
-X-Google-Smtp-Source: AGRyM1tAOhPZLR3EdIa3lNV6tqa1mIcDev3MLGXxAnnvEg1CmgDLvuLppfAvNqsdi670q3ZedTFz4Q==
-X-Received: by 2002:a05:6000:1a8d:b0:21b:bc45:9c3e with SMTP id f13-20020a0560001a8d00b0021bbc459c3emr18280211wry.390.1656431142498;
-        Tue, 28 Jun 2022 08:45:42 -0700 (PDT)
+        bh=oEOAkVi1fJYGKVS+HKZe2toj+n6HvKco82edjrL8Z9A=;
+        b=m1VP4eNNN3nKUI1pGmC8E9AjTgiqG0jfk8793/b8PshfpP6/iV8Ty/VVlMfN1ciX7m
+         pTsDEdGMnA/v4SUwW8/2hgNhECFyDCATMWw9fMvW068TkUaedJKOvt1S6DBXKAIO3Pdz
+         YPzNDUPiqzh7nnYtctUyKqNt/SSuVsZn8FE02J/lbaYn8wHQzPQTDeAvjxf1U9BUyu/s
+         seM2rmJHUj2/4KH3H4kgoC8sVApQ270vWQiI+Ypwh82g7GF82qR83QcQ5c/CDcRoqWIO
+         Va8EP0ovJ+QXjAIhh4t/rreL2c5HFun2Ar9jhWzO8yRsJPOI+ly/THUF9DZDfJZWu40S
+         JdBw==
+X-Gm-Message-State: AJIora9B8Guqmamfhx22+SjH3VxNy4G0tDX6Zj2fhZlBLgalt+rQO3ig
+	U/ShjKYTqeP+RDt8AYCS9WU=
+X-Google-Smtp-Source: AGRyM1tB9dVm52lJcIDt+FsMItqo+iHk9G3mBwDWudwTW63tySlgJNVF8LTX+DI9PXGh8oBBV13H/A==
+X-Received: by 2002:a5b:98c:0:b0:64a:d5c3:4422 with SMTP id c12-20020a5b098c000000b0064ad5c34422mr20482236ybq.638.1656432072947;
+        Tue, 28 Jun 2022 09:01:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3b17:b0:3a0:2da0:3609 with SMTP id
- m23-20020a05600c3b1700b003a02da03609ls84791wms.1.gmail; Tue, 28 Jun 2022
- 08:45:41 -0700 (PDT)
-X-Received: by 2002:a1c:cc1a:0:b0:3a0:39b1:3408 with SMTP id h26-20020a1ccc1a000000b003a039b13408mr237568wmb.157.1656431141392;
-        Tue, 28 Jun 2022 08:45:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656431141; cv=none;
+Received: by 2002:a25:40c7:0:b0:66d:4bcf:a1f9 with SMTP id n190-20020a2540c7000000b0066d4bcfa1f9ls400633yba.3.gmail;
+ Tue, 28 Jun 2022 09:01:12 -0700 (PDT)
+X-Received: by 2002:a25:9ac8:0:b0:64d:fee6:1c8 with SMTP id t8-20020a259ac8000000b0064dfee601c8mr20966957ybo.344.1656432072310;
+        Tue, 28 Jun 2022 09:01:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656432072; cv=none;
         d=google.com; s=arc-20160816;
-        b=LmUDLppl90g6Wa0YrRTxJaSBGsUCqxQCKdgTBF+VNEy6fPtOVZPN2O6Ubbsxg5NBP1
-         k/t04V2RU8+blDOBtDcTtn2wdXXrKDdonoIww7+FGdGO3mgCpKfIWAQQnDoXWwNkh53Z
-         rfkCC1ZHP/Q5kBgUmU8sRvQe0vsFeGngzp7+sdGvbfzfraWrBc+KQj5l+KJi8wOKMdd3
-         V/oa2Luehs/032mg9cdId7o3hlM5+P+icwqHF5b8oXZaoPbeVocSZm1YbjjV2vCIpocv
-         pfJj1PBUyrn3cjrl8eJkSQhDI5NIyMc8V2L06KUmAtk5Fp8+leC/sX1VwH4iAuGTnNNa
-         9Duw==
+        b=m4IcuF62RPZrssHvGPaGtNG7qK+ByFbw+w6oLvqboG3jRK7yqqOsbrhXfwivB/4PlQ
+         R3Tvgf0P6PxGJ2NhG36oMIj1rsZpQ/lkgtdB2MnsiZznZj5Y40N/nXbtnuM6qHOqL92E
+         +oqLp1aCoo/7A6V4tQ9mFMUaRfDYd1MJwfWYFex//qTo/Gtmk3f/3IKxWg3fJPNAGDnZ
+         AY9bh6VJkPgiKZwhL25jDVFNZ1kpwU1O5a6jB/MfHEhWmOo5I0YCXHdkflRuZtwq1lAA
+         lTGxmH+e93tyHvcvI0sVYUwjn//gk4nJlGLyAadM13rbfhFxFJbkNnBAQG0+VxfE15MF
+         6n+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=4W7G4HHn4e0MzSigkgQjmcxAYL0f3Ih5AyaRGznr2IM=;
-        b=IW639uLsG9gHoRx6tzp1OfbFR0f9Ddhlt/1adwj9fmsaQ0tSvDVzwRNbHhOi3dz0yw
-         luVHnOhIUXJxfejloOc0TVTeBhKC9DyOOGIPk0+jTnD3R6OxgYGIBuEOSLgO53rQ3eP6
-         blwobhrqRAFbPv/7Wq/R2tha5KjMfaVMz01EEAi8GpJLBaJbPXIxQwFFd2BO6NG5CCsm
-         68xViMbP2IoPmXHXSCbZEw8VPMUSRhwl+voSMntqXAOqlBEg3WffM7Xxq7IvUI6RJAPV
-         Oibm8fNPH8YkEqC8FJ3CPSkoHjgpJdUblftVnhPwEP01e65RmnnsQbIiz/GtnYcANHZc
-         4iSQ==
+        bh=JSgkWuUAADlOM6Jw2JGSpNYb73+UZZR8Ny928REi7Do=;
+        b=q8ywRcZYm8zLodBMx2+OE9BmB/UHVTKml2hNtQXxX5aB0x7cB0vFFE4AfxBl+FGnzB
+         1OrSMOItUm7NdzxAyGE09ptdbaeOXZiHTRS+pp+zBvzv4QwA2isipa8SDiP4fUZRD1Ov
+         TP1GVNwW5SdLaDR7Jn3fa2aRGWznDpF22ZgguHtqflsFWDODBhtc8EMtbpMFknPfFl95
+         NxNvLjhMFZyMG0v3lYtxHmENgZWKEF0anRHmKu6i1SO1OVQs2yUbaaFr3ClUMJ8Ssfp4
+         Dr3V1wJ1UYyNnauiXovlBKS6IEx0k+cAw23hsE8SxA8QoShOzafJgymiNBh01NpSqrCt
+         iarA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=IK9851jT;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::134 as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=dD7Wqxrx;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com. [2a00:1450:4864:20::134])
-        by gmr-mx.google.com with ESMTPS id w15-20020adff9cf000000b0021b95bcfb2asi548611wrr.0.2022.06.28.08.45.41
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com. [2607:f8b0:4864:20::b2c])
+        by gmr-mx.google.com with ESMTPS id n68-20020a254047000000b0066472d2d476si436108yba.4.2022.06.28.09.01.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jun 2022 08:45:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::134 as permitted sender) client-ip=2a00:1450:4864:20::134;
-Received: by mail-lf1-x134.google.com with SMTP id a13so23010321lfr.10
-        for <kasan-dev@googlegroups.com>; Tue, 28 Jun 2022 08:45:41 -0700 (PDT)
-X-Received: by 2002:a05:6512:39ce:b0:481:31e4:1e06 with SMTP id
- k14-20020a05651239ce00b0048131e41e06mr2237865lfu.376.1656431140732; Tue, 28
- Jun 2022 08:45:40 -0700 (PDT)
+        Tue, 28 Jun 2022 09:01:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) client-ip=2607:f8b0:4864:20::b2c;
+Received: by mail-yb1-xb2c.google.com with SMTP id q132so22940499ybg.10
+        for <kasan-dev@googlegroups.com>; Tue, 28 Jun 2022 09:01:12 -0700 (PDT)
+X-Received: by 2002:a25:cc56:0:b0:66c:d0f6:2f0e with SMTP id
+ l83-20020a25cc56000000b0066cd0f62f0emr12156904ybf.168.1656432071758; Tue, 28
+ Jun 2022 09:01:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220628095833.2579903-1-elver@google.com> <20220628095833.2579903-14-elver@google.com>
-In-Reply-To: <20220628095833.2579903-14-elver@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 28 Jun 2022 17:45:29 +0200
-Message-ID: <CACT4Y+aJZzkYHc+YJRApOLG-NYe8zXMaqxpQgQQFAy5WY97Ttg@mail.gmail.com>
+ <CACT4Y+aJZzkYHc+YJRApOLG-NYe8zXMaqxpQgQQFAy5WY97Ttg@mail.gmail.com>
+In-Reply-To: <CACT4Y+aJZzkYHc+YJRApOLG-NYe8zXMaqxpQgQQFAy5WY97Ttg@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 28 Jun 2022 18:00:34 +0200
+Message-ID: <CANpmjNOh9gzzC7sOOOk1q7Ssj2dFxczj1bmufarYS2KupZQthg@mail.gmail.com>
 Subject: Re: [PATCH v2 13/13] perf/hw_breakpoint: Optimize toggle_bp_slot()
  for CPU-independent task targets
-To: Marco Elver <elver@google.com>
+To: Dmitry Vyukov <dvyukov@google.com>
 Cc: Peter Zijlstra <peterz@infradead.org>, Frederic Weisbecker <frederic@kernel.org>, 
 	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
 	Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
@@ -117,14 +117,14 @@ Cc: Peter Zijlstra <peterz@infradead.org>, Frederic Weisbecker <frederic@kernel.
 	linux-perf-users@vger.kernel.org, x86@kernel.org, linux-sh@vger.kernel.org, 
 	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=IK9851jT;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::134
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@google.com header.s=20210112 header.b=dD7Wqxrx;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2c as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,313 +137,89 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 28 Jun 2022 at 11:59, Marco Elver <elver@google.com> wrote:
+On Tue, 28 Jun 2022 at 17:45, Dmitry Vyukov <dvyukov@google.com> wrote:
 >
-> We can still see that a majority of the time is spent hashing task pointers:
+> On Tue, 28 Jun 2022 at 11:59, Marco Elver <elver@google.com> wrote:
+> >
+> > We can still see that a majority of the time is spent hashing task pointers:
+> >
+> >     ...
+> >     16.98%  [kernel]       [k] rhashtable_jhash2
+> >     ...
+> >
+> > Doing the bookkeeping in toggle_bp_slots() is currently O(#cpus),
+> > calling task_bp_pinned() for each CPU, even if task_bp_pinned() is
+> > CPU-independent. The reason for this is to update the per-CPU
+> > 'tsk_pinned' histogram.
+> >
+> > To optimize the CPU-independent case to O(1), keep a separate
+> > CPU-independent 'tsk_pinned_all' histogram.
+> >
+> > The major source of complexity are transitions between "all
+> > CPU-independent task breakpoints" and "mixed CPU-independent and
+> > CPU-dependent task breakpoints". The code comments list all cases that
+> > require handling.
+> >
+> > After this optimization:
+> >
+> >  | $> perf bench -r 100 breakpoint thread -b 4 -p 128 -t 512
+> >  |      Total time: 1.758 [sec]
+> >  |
+> >  |       34.336621 usecs/op
+> >  |     4395.087500 usecs/op/cpu
+> >
+> >     38.08%  [kernel]       [k] queued_spin_lock_slowpath
+> >     10.81%  [kernel]       [k] smp_cfm_core_cond
+> >      3.01%  [kernel]       [k] update_sg_lb_stats
+> >      2.58%  [kernel]       [k] osq_lock
+> >      2.57%  [kernel]       [k] llist_reverse_order
+> >      1.45%  [kernel]       [k] find_next_bit
+> >      1.21%  [kernel]       [k] flush_tlb_func_common
+> >      1.01%  [kernel]       [k] arch_install_hw_breakpoint
+> >
+> > Showing that the time spent hashing keys has become insignificant.
+> >
+> > With the given benchmark parameters, that's an improvement of 12%
+> > compared with the old O(#cpus) version.
+> >
+> > And finally, using the less aggressive parameters from the preceding
+> > changes, we now observe:
+> >
+> >  | $> perf bench -r 30 breakpoint thread -b 4 -p 64 -t 64
+> >  |      Total time: 0.067 [sec]
+> >  |
+> >  |       35.292187 usecs/op
+> >  |     2258.700000 usecs/op/cpu
+> >
+> > Which is an improvement of 12% compared to without the histogram
+> > optimizations (baseline is 40 usecs/op). This is now on par with the
+> > theoretical ideal (constraints disabled), and only 12% slower than no
+> > breakpoints at all.
+> >
+> > Signed-off-by: Marco Elver <elver@google.com>
 >
->     ...
->     16.98%  [kernel]       [k] rhashtable_jhash2
->     ...
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 >
-> Doing the bookkeeping in toggle_bp_slots() is currently O(#cpus),
-> calling task_bp_pinned() for each CPU, even if task_bp_pinned() is
-> CPU-independent. The reason for this is to update the per-CPU
-> 'tsk_pinned' histogram.
+> I don't see any bugs. But the code is quite complex. Does it make
+> sense to add some asserts to the histogram type? E.g. counters don't
+> underflow, weight is not negative (e.g. accidentally added -1 returned
+> from task_bp_pinned()). Not sure if it will be enough to catch all
+> types of bugs, though.
+> Could kunit tests check that histograms are all 0's at the end?
 >
-> To optimize the CPU-independent case to O(1), keep a separate
-> CPU-independent 'tsk_pinned_all' histogram.
->
-> The major source of complexity are transitions between "all
-> CPU-independent task breakpoints" and "mixed CPU-independent and
-> CPU-dependent task breakpoints". The code comments list all cases that
-> require handling.
->
-> After this optimization:
->
->  | $> perf bench -r 100 breakpoint thread -b 4 -p 128 -t 512
->  |      Total time: 1.758 [sec]
->  |
->  |       34.336621 usecs/op
->  |     4395.087500 usecs/op/cpu
->
->     38.08%  [kernel]       [k] queued_spin_lock_slowpath
->     10.81%  [kernel]       [k] smp_cfm_core_cond
->      3.01%  [kernel]       [k] update_sg_lb_stats
->      2.58%  [kernel]       [k] osq_lock
->      2.57%  [kernel]       [k] llist_reverse_order
->      1.45%  [kernel]       [k] find_next_bit
->      1.21%  [kernel]       [k] flush_tlb_func_common
->      1.01%  [kernel]       [k] arch_install_hw_breakpoint
->
-> Showing that the time spent hashing keys has become insignificant.
->
-> With the given benchmark parameters, that's an improvement of 12%
-> compared with the old O(#cpus) version.
->
-> And finally, using the less aggressive parameters from the preceding
-> changes, we now observe:
->
->  | $> perf bench -r 30 breakpoint thread -b 4 -p 64 -t 64
->  |      Total time: 0.067 [sec]
->  |
->  |       35.292187 usecs/op
->  |     2258.700000 usecs/op/cpu
->
-> Which is an improvement of 12% compared to without the histogram
-> optimizations (baseline is 40 usecs/op). This is now on par with the
-> theoretical ideal (constraints disabled), and only 12% slower than no
-> breakpoints at all.
->
-> Signed-off-by: Marco Elver <elver@google.com>
+> I am not just about the current code (which may be correct), but also
+> future modifications to this code.
 
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+I'll think of some more options.
 
-I don't see any bugs. But the code is quite complex. Does it make
-sense to add some asserts to the histogram type? E.g. counters don't
-underflow, weight is not negative (e.g. accidentally added -1 returned
-from task_bp_pinned()). Not sure if it will be enough to catch all
-types of bugs, though.
-Could kunit tests check that histograms are all 0's at the end?
+bp_slots_histogram_max*() already has asserts (WARN about underflow;
+some with KCSAN help).
 
-I am not just about the current code (which may be correct), but also
-future modifications to this code.
-
-
-> ---
-> v2:
-> * New patch.
-> ---
->  kernel/events/hw_breakpoint.c | 152 +++++++++++++++++++++++++++-------
->  1 file changed, 121 insertions(+), 31 deletions(-)
->
-> diff --git a/kernel/events/hw_breakpoint.c b/kernel/events/hw_breakpoint.c
-> index b5180a2ccfbf..31b24e42f2b5 100644
-> --- a/kernel/events/hw_breakpoint.c
-> +++ b/kernel/events/hw_breakpoint.c
-> @@ -66,6 +66,8 @@ static struct bp_cpuinfo *get_bp_info(int cpu, enum bp_type_idx type)
->
->  /* Number of pinned CPU breakpoints globally. */
->  static struct bp_slots_histogram cpu_pinned[TYPE_MAX];
-> +/* Number of pinned CPU-independent task breakpoints. */
-> +static struct bp_slots_histogram tsk_pinned_all[TYPE_MAX];
->
->  /* Keep track of the breakpoints attached to tasks */
->  static struct rhltable task_bps_ht;
-> @@ -200,6 +202,8 @@ static __init int init_breakpoint_slots(void)
->         for (i = 0; i < TYPE_MAX; i++) {
->                 if (!bp_slots_histogram_alloc(&cpu_pinned[i], i))
->                         goto err;
-> +               if (!bp_slots_histogram_alloc(&tsk_pinned_all[i], i))
-> +                       goto err;
->         }
->
->         return 0;
-> @@ -210,8 +214,10 @@ static __init int init_breakpoint_slots(void)
->                 if (err_cpu == cpu)
->                         break;
->         }
-> -       for (i = 0; i < TYPE_MAX; i++)
-> +       for (i = 0; i < TYPE_MAX; i++) {
->                 bp_slots_histogram_free(&cpu_pinned[i]);
-> +               bp_slots_histogram_free(&tsk_pinned_all[i]);
-> +       }
->
->         return -ENOMEM;
->  }
-> @@ -245,6 +251,26 @@ bp_slots_histogram_max(struct bp_slots_histogram *hist, enum bp_type_idx type)
->         return 0;
->  }
->
-> +static int
-> +bp_slots_histogram_max_merge(struct bp_slots_histogram *hist1, struct bp_slots_histogram *hist2,
-> +                            enum bp_type_idx type)
-> +{
-> +       for (int i = hw_breakpoint_slots_cached(type) - 1; i >= 0; i--) {
-> +               const int count1 = atomic_read(&hist1->count[i]);
-> +               const int count2 = atomic_read(&hist2->count[i]);
-> +
-> +               /* Catch unexpected writers; we want a stable snapshot. */
-> +               ASSERT_EXCLUSIVE_WRITER(hist1->count[i]);
-> +               ASSERT_EXCLUSIVE_WRITER(hist2->count[i]);
-> +               if (count1 + count2 > 0)
-> +                       return i + 1;
-> +               WARN(count1 < 0, "inconsistent breakpoint slots histogram");
-> +               WARN(count2 < 0, "inconsistent breakpoint slots histogram");
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  #ifndef hw_breakpoint_weight
->  static inline int hw_breakpoint_weight(struct perf_event *bp)
->  {
-> @@ -273,7 +299,7 @@ static unsigned int max_task_bp_pinned(int cpu, enum bp_type_idx type)
->          * toggle_bp_task_slot() to tsk_pinned, and we get a stable snapshot.
->          */
->         lockdep_assert_held_write(&bp_cpuinfo_sem);
-> -       return bp_slots_histogram_max(tsk_pinned, type);
-> +       return bp_slots_histogram_max_merge(tsk_pinned, &tsk_pinned_all[type], type);
->  }
->
->  /*
-> @@ -366,40 +392,22 @@ max_bp_pinned_slots(struct perf_event *bp, enum bp_type_idx type)
->         return pinned_slots;
->  }
->
-> -/*
-> - * Add a pinned breakpoint for the given task in our constraint table
-> - */
-> -static void toggle_bp_task_slot(struct perf_event *bp, int cpu,
-> -                               enum bp_type_idx type, int weight)
-> -{
-> -       struct bp_slots_histogram *tsk_pinned = &get_bp_info(cpu, type)->tsk_pinned;
-> -
-> -       /*
-> -        * If bp->hw.target, tsk_pinned is only modified, but not used
-> -        * otherwise. We can permit concurrent updates as long as there are no
-> -        * other uses: having acquired bp_cpuinfo_sem as a reader allows
-> -        * concurrent updates here. Uses of tsk_pinned will require acquiring
-> -        * bp_cpuinfo_sem as a writer to stabilize tsk_pinned's value.
-> -        */
-> -       lockdep_assert_held_read(&bp_cpuinfo_sem);
-> -       bp_slots_histogram_add(tsk_pinned, task_bp_pinned(cpu, bp, type), weight);
-> -}
-> -
->  /*
->   * Add/remove the given breakpoint in our constraint table
->   */
->  static int
-> -toggle_bp_slot(struct perf_event *bp, bool enable, enum bp_type_idx type,
-> -              int weight)
-> +toggle_bp_slot(struct perf_event *bp, bool enable, enum bp_type_idx type, int weight)
->  {
-> -       const struct cpumask *cpumask = cpumask_of_bp(bp);
-> -       int cpu;
-> +       int cpu, next_tsk_pinned;
->
->         if (!enable)
->                 weight = -weight;
->
-> -       /* Pinned counter cpu profiling */
->         if (!bp->hw.target) {
-> +               /*
-> +                * Update the pinned CPU slots, in per-CPU bp_cpuinfo and in the
-> +                * global histogram.
-> +                */
->                 struct bp_cpuinfo *info = get_bp_info(bp->cpu, type);
->
->                 lockdep_assert_held_write(&bp_cpuinfo_sem);
-> @@ -408,9 +416,91 @@ toggle_bp_slot(struct perf_event *bp, bool enable, enum bp_type_idx type,
->                 return 0;
->         }
->
-> -       /* Pinned counter task profiling */
-> -       for_each_cpu(cpu, cpumask)
-> -               toggle_bp_task_slot(bp, cpu, type, weight);
-> +       /*
-> +        * If bp->hw.target, tsk_pinned is only modified, but not used
-> +        * otherwise. We can permit concurrent updates as long as there are no
-> +        * other uses: having acquired bp_cpuinfo_sem as a reader allows
-> +        * concurrent updates here. Uses of tsk_pinned will require acquiring
-> +        * bp_cpuinfo_sem as a writer to stabilize tsk_pinned's value.
-> +        */
-> +       lockdep_assert_held_read(&bp_cpuinfo_sem);
-> +
-> +       /*
-> +        * Update the pinned task slots, in per-CPU bp_cpuinfo and in the global
-> +        * histogram. We need to take care of 5 cases:
-> +        *
-> +        *  1. This breakpoint targets all CPUs (cpu < 0), and there may only
-> +        *     exist other task breakpoints targeting all CPUs. In this case we
-> +        *     can simply update the global slots histogram.
-> +        *
-> +        *  2. This breakpoint targets a specific CPU (cpu >= 0), but there may
-> +        *     only exist other task breakpoints targeting all CPUs.
-> +        *
-> +        *     a. On enable: remove the existing breakpoints from the global
-> +        *        slots histogram and use the per-CPU histogram.
-> +        *
-> +        *     b. On disable: re-insert the existing breakpoints into the global
-> +        *        slots histogram and remove from per-CPU histogram.
-> +        *
-> +        *  3. Some other existing task breakpoints target specific CPUs. Only
-> +        *     update the per-CPU slots histogram.
-> +        */
-> +
-> +       if (!enable) {
-> +               /*
-> +                * Remove before updating histograms so we can determine if this
-> +                * was the last task breakpoint for a specific CPU.
-> +                */
-> +               int ret = rhltable_remove(&task_bps_ht, &bp->hw.bp_list, task_bps_ht_params);
-> +
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +       /*
-> +        * Note: If !enable, next_tsk_pinned will not count the to-be-removed breakpoint.
-> +        */
-> +       next_tsk_pinned = task_bp_pinned(-1, bp, type);
-> +
-> +       if (next_tsk_pinned >= 0) {
-> +               if (bp->cpu < 0) { /* Case 1: fast path */
-> +                       if (!enable)
-> +                               next_tsk_pinned += hw_breakpoint_weight(bp);
-> +                       bp_slots_histogram_add(&tsk_pinned_all[type], next_tsk_pinned, weight);
-> +               } else if (enable) { /* Case 2.a: slow path */
-> +                       /* Add existing to per-CPU histograms. */
-> +                       for_each_possible_cpu(cpu) {
-> +                               bp_slots_histogram_add(&get_bp_info(cpu, type)->tsk_pinned,
-> +                                                      0, next_tsk_pinned);
-> +                       }
-> +                       /* Add this first CPU-pinned task breakpoint. */
-> +                       bp_slots_histogram_add(&get_bp_info(bp->cpu, type)->tsk_pinned,
-> +                                              next_tsk_pinned, weight);
-> +                       /* Rebalance global task pinned histogram. */
-> +                       bp_slots_histogram_add(&tsk_pinned_all[type], next_tsk_pinned,
-> +                                              -next_tsk_pinned);
-> +               } else { /* Case 2.b: slow path */
-> +                       /* Remove this last CPU-pinned task breakpoint. */
-> +                       bp_slots_histogram_add(&get_bp_info(bp->cpu, type)->tsk_pinned,
-> +                                              next_tsk_pinned + hw_breakpoint_weight(bp), weight);
-> +                       /* Remove all from per-CPU histograms. */
-> +                       for_each_possible_cpu(cpu) {
-> +                               bp_slots_histogram_add(&get_bp_info(cpu, type)->tsk_pinned,
-> +                                                      next_tsk_pinned, -next_tsk_pinned);
-> +                       }
-> +                       /* Rebalance global task pinned histogram. */
-> +                       bp_slots_histogram_add(&tsk_pinned_all[type], 0, next_tsk_pinned);
-> +               }
-> +       } else { /* Case 3: slow path */
-> +               const struct cpumask *cpumask = cpumask_of_bp(bp);
-> +
-> +               for_each_cpu(cpu, cpumask) {
-> +                       next_tsk_pinned = task_bp_pinned(cpu, bp, type);
-> +                       if (!enable)
-> +                               next_tsk_pinned += hw_breakpoint_weight(bp);
-> +                       bp_slots_histogram_add(&get_bp_info(cpu, type)->tsk_pinned,
-> +                                              next_tsk_pinned, weight);
-> +               }
-> +       }
->
->         /*
->          * Readers want a stable snapshot of the per-task breakpoint list.
-> @@ -419,8 +509,8 @@ toggle_bp_slot(struct perf_event *bp, bool enable, enum bp_type_idx type,
->
->         if (enable)
->                 return rhltable_insert(&task_bps_ht, &bp->hw.bp_list, task_bps_ht_params);
-> -       else
-> -               return rhltable_remove(&task_bps_ht, &bp->hw.bp_list, task_bps_ht_params);
-> +
-> +       return 0;
->  }
->
->  __weak int arch_reserve_bp_slot(struct perf_event *bp)
-> --
-> 2.37.0.rc0.161.g10f37bed90-goog
->
+The main thing I did to raise my own confidence in the code is inject
+bugs and see if the KUnit test catches it. If it didn't I extended the
+tests. I'll do that some more maybe.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BaJZzkYHc%2BYJRApOLG-NYe8zXMaqxpQgQQFAy5WY97Ttg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOh9gzzC7sOOOk1q7Ssj2dFxczj1bmufarYS2KupZQthg%40mail.gmail.com.
