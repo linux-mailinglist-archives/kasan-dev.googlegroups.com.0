@@ -1,128 +1,125 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBRP25OKQMGQEUWPUKTQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDQ2L75W5QGBBR735OKQMGQEE32YZCQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD9B55D0B7
-	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 15:08:22 +0200 (CEST)
-Received: by mail-lj1-x239.google.com with SMTP id g3-20020a2e9cc3000000b00253cc2b5ab5sf1639393ljj.19
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 06:08:22 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656421702; cv=pass;
+Received: from mail-oi1-x23b.google.com (mail-oi1-x23b.google.com [IPv6:2607:f8b0:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FA655D234
+	for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 15:10:33 +0200 (CEST)
+Received: by mail-oi1-x23b.google.com with SMTP id w1-20020aca3001000000b00335750b9a50sf3129125oiw.10
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Jun 2022 06:10:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656421832; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pnDnwHdJXZG8LOTnDb9h6kUFKKk+F5/nZv2daY09UAK8KXQdUd7ry5fkyKoUdjmxxy
-         KkQGir522MZVgek4HTImM+3Y4DxomJHUR7eqnSWmVZKI7nA1cZd90WW8nPfB1smAhs+Y
-         550xmin4DkMqizwnhc4uaP5Um2RrhG2aORfaS6ZFJ2n55vsNcIxI3uq2rpu9HAdHC1Wm
-         AcSoAlus4aTn8PvQwgFVhnWGHdnXmLyFSb75CvOCIFE8oOWu4cE1KafNsnIIkuNAitU7
-         PlQJMJHR1cBxW0jvhsIJIp03v8AKsCfA4q8sm+BuqbnxJywXA3UI4hXvp/LZBY/JV6sg
-         f+vQ==
+        b=HPEr+Ez3C2Yeu3WmIpv5b8GhoPD9VVnwug9dgW5gSd/VkTADv+krNkWLh9GlKKvpxM
+         vTvNClLEb1nCfg2324QdBnqlCd1IZdllUHWm9bWt71TDpCsCbr8iFOn4zW3TpK6vPHIm
+         fLY5zxdH4mkVWl8YMrxu7MwT2HhnAwG6rEURIoukXT+wNMXWzTcyPDGJJuRVIHdTPwnj
+         0LdLOaOO+bpAn51PgvAEC90wlYHLAADxlt8POaql9CBwEBAaL3AqNoU4bYMW0sm0qIG2
+         gEHtwoikgmucMmipndZv6bFBL3vRJr1sbFOzv2d7VPxDjfWBRmtEvX7h2GDRgLWS7WUv
+         sy5w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=SbQrcJNY2HTSL6qzjDtkJNs6VTYFrZJtml8Bv/PPVZU=;
-        b=jNbvSsy1gb6h5DW9hNme1qr0jGtgTX98r+nhCZnZmNAbCoZUbImKGEUjvN/845Xe+W
-         JSioCz3DahYQxcRx80soCJ7UrAzY4y6GQXRiiL3sY6M/15AB3suHFEDzCZ/YfJnydDjT
-         j+G3bl1bMO5mbTm4kQYZmQs3rjiUHS2EAApQZ77TOuqqnU8Pu08IMK/8Ar0rqAcsDIKY
-         bF8Nx7qPZ0gJvvV0IF0QdhIh1pTEOUV52nLuU8shFHuVokqfjECjlRMb+cnHBMrHAYgF
-         O3ABf2YWJsLbojlc0iqhD8E9RY+qIL20TW4sv5pI9d/yMTotMpClkwVcpRunZqnMgbjK
-         M4ww==
+         :list-id:mailing-list:precedence:mime-version:date:message-id
+         :subject:references:in-reply-to:cc:to:from:sender:dkim-signature;
+        bh=q8nhHbIAwfWyn59wAdOzrmBTa5vKV8DMfNQGrB+XcpU=;
+        b=D+lNGpxzE7ElWyNdbOCDSahy8TsRoT/KbUaq1z/oVVYndOr7FAZmf6+cHQot0AcIac
+         FTp2M2IOlJbwl99l3esrmygs+fed9k9usXaoWhphC7LFc7wFa7PmXqFsfEm5ORPaU+2Q
+         0BsAG3fe69VNAWdjV3QX/gTEwhj9Nu0xsz/vDbIARqWwm/C8GHqMAi+Kq/EYkyP/ZGqI
+         kU0RQgtepPo1iVh4hAFqCcbGP1NpkSVKcCn8Md/XLoXogvvX7SHGJXNGabbH2kBWeEgT
+         b6f7P/vMvurjiCSt7wm7YMtXL6ttP1DLv6nekE6dSAl4wzvytYU+4ytzE07mgW6FwUf5
+         IjNg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Dyb0kRO5;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::232 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=fail header.i=@kernel.org header.s=k20201202 header.b="lZBjp0/a";
+       spf=pass (google.com: domain of broonie@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=broonie@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
+        h=sender:from:to:cc:in-reply-to:references:subject:message-id:date
+         :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=SbQrcJNY2HTSL6qzjDtkJNs6VTYFrZJtml8Bv/PPVZU=;
-        b=tZi7MMnvBeXYFWmoAmxdcOp+87rOdCAzLuFjPLmT8ux2WvU6eg3xk3x1rekQ+fghAo
-         v0QY6sYXc20hJ12roUA8KLtzMjDr8WSr15b4iIyT9atma2OsGfwvGfbAlt1uc8aNU2mN
-         kw7CquFS196Y4fj+Y66oeTlQZECFvQN83jtgNMqToLZO0yZadZoKVd4sWrkg56Nvw32K
-         Y+DXhcm7kGFG883WTGiNsteYHqcq8kLTv4Php1saABHuQeVuBoynZsQb0mq8PCgKtWiQ
-         HM1uY64Q1c/ZChIFIfJj0qDV638/QGPbDJzAHISgy7H2VyVimcYxSBtlbyFWp6cDRoj7
-         YoqA==
+        bh=q8nhHbIAwfWyn59wAdOzrmBTa5vKV8DMfNQGrB+XcpU=;
+        b=oNVeyZrjCGqE3Zz7dgqW/NouQ5o85Lv1VFpHmXd/MXOTKiaNNyOLXiy7l49vMHDVz3
+         5SiegPD/f5Bzm4l8uoYGiMHF9L2er8Gedx/WMoHAiL0ano6vhlBtMEJmjvgX1ZSYZfdS
+         avM4ZsL6RdgySt0j7qKoAKWRL9iTEjQy9Dn4oydLH8Ntd7pF9MCnMFt7ir3wjru/Cg2o
+         tjsKvat3sjnOggZiyyhXVZ307PeaEn9eOi+4/OzMMna13FIIByGL3Jt+827Ku5m+lppk
+         FVyyf8MBLp7HlJTwgDRkgXReB0o8QzksvD1gT0xQN2FEpPGg7QqrTcBUoopLN+R+Ukoe
+         hkgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+        h=sender:x-gm-message-state:from:to:cc:in-reply-to:references:subject
+         :message-id:date:mime-version:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=SbQrcJNY2HTSL6qzjDtkJNs6VTYFrZJtml8Bv/PPVZU=;
-        b=G5KjRjAYUWxeQ3+7tVSB24zC4LE5v/hw8oti2k65b4Fqy/+ijfnmoJjfgchIJax6o2
-         5cFGBocgXMY5lVi3qAjcPMWIZi+nEy2w6PK9EMESL6I/vzlclOV9bXsAN3VsUfC2FSnh
-         2gyyUD/MDgKK+X1Y0e+1DW+1pdRE4fcO2XGIOVJvqgToz6cz9juo533p9apOnXbMGa8f
-         sLx8h9uWbKVldnSDxyATYxsFyImhYZsNiQKmgPIvNT+jtCkUju8L9xwx9de4ENA+IIE8
-         OW0MRSEJuTA5FQjR1IZymNRh/MDBvIPc68jGs/F/bAdi5q9uqE9r1DpLXkD4SdIeJgh6
-         s0dQ==
-X-Gm-Message-State: AJIora9Xys45/Mi6nYtkWrNfHUmHGYLZIRSyGFMctEApAI+GUuHpMc1A
-	PfuH04WqxXlFGmUPm+c6rus=
-X-Google-Smtp-Source: AGRyM1v4iG3fcsT6T0T0HvIYy3fn/v4HrSM7lbNhr6HZQm0psfjXrxFCvxePgeQa6TMryXFEwfdxaQ==
-X-Received: by 2002:a05:651c:a12:b0:25b:ce61:374e with SMTP id k18-20020a05651c0a1200b0025bce61374emr3152957ljq.165.1656421702164;
-        Tue, 28 Jun 2022 06:08:22 -0700 (PDT)
+        bh=q8nhHbIAwfWyn59wAdOzrmBTa5vKV8DMfNQGrB+XcpU=;
+        b=7MXeqoqHVguWfLwuvCGaRhKd96D7Y6ilu3n7L9YgWH0tz8S+bBEb3I72R7Efd81M8D
+         mHkKlOgOxJO/R4Rr0QTt6aR/JmRPyRU79TsFS6K/6Vvf397NtYTI56gUea26svlbaU0V
+         HwEWmJLrW/70rSKn6Ua5sAQGOlMGq9jKBXgSZvKbQttfztxDY8GoVlYnF/K66CbmTlr/
+         Jqgk34XfRVOKBSKPTwSBMnkEl+MOgVWFeAPJ+sHXAUz6smkGoaL5GSiuj4vUck+0y1Cr
+         zNpNlK1DUDI1WrAIjrEvNTxKZ3k4Y71IUySos5Ak74RDDfOoNvd102zmeWUnl6MzXA7p
+         5lyA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AJIora/P3+lVMlTxvoQJ2dxmumCHUobIBpZpMq4jjZr1cduPsxHLucnp
+	0RS+4f8+iFvxmhi3RdqNmNQ=
+X-Google-Smtp-Source: AGRyM1t8MbQIDu61QyhO6rCVZvKTA981NcEbRWFbKCr655SC+ihOo9VZNQ5Zyee6iX2qodBjUtEbXg==
+X-Received: by 2002:a05:6808:1889:b0:32f:65e3:be98 with SMTP id bi9-20020a056808188900b0032f65e3be98mr13986130oib.160.1656421831884;
+        Tue, 28 Jun 2022 06:10:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:81d1:0:b0:25b:c342:b0dd with SMTP id s17-20020a2e81d1000000b0025bc342b0ddls995410ljg.5.gmail;
- Tue, 28 Jun 2022 06:08:21 -0700 (PDT)
-X-Received: by 2002:a05:651c:210f:b0:25a:8eec:1217 with SMTP id a15-20020a05651c210f00b0025a8eec1217mr9613735ljq.528.1656421700980;
-        Tue, 28 Jun 2022 06:08:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656421700; cv=none;
+Received: by 2002:a05:6808:1b2a:b0:335:1841:b2c6 with SMTP id
+ bx42-20020a0568081b2a00b003351841b2c6ls6446052oib.9.gmail; Tue, 28 Jun 2022
+ 06:10:31 -0700 (PDT)
+X-Received: by 2002:aca:3b02:0:b0:335:2d22:dbf4 with SMTP id i2-20020aca3b02000000b003352d22dbf4mr12838309oia.185.1656421831375;
+        Tue, 28 Jun 2022 06:10:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656421831; cv=none;
         d=google.com; s=arc-20160816;
-        b=AeJQYjRyxmloUPFc9NK5EfkyotLtgUlngZK8l/JGRRfxleiCZRUlBPNyUFJ68HLqSY
-         Hwrnd+Rina1ai+OcDSRGp+muVJVX3rKht1k12vH4Zh6PPF3taHPh2IG+DyK353gL44uj
-         kDVz7VTbyPaSQ8jXboB7eZSVex2DEsww8xwuM6vGUkExBZB4RJGLASnHQvVKwj6dUKTI
-         iveJyf+Cu8TTS+sCyp+vzFkbBDVsgnacWZ0VROf2EdDyJynnIbIl4QZylnWTl+ulbvTL
-         50rnREBcy95h5WYzjL91QRzqBHCQM9i5/UelLa1RDMD8+ueu+kfOVmIY/pTpFaw3IGqo
-         tnjA==
+        b=sFIH8PX2YERO5EkVFfuV7cCYmV4E8nXMUOGAZC5VmhgtPi7I65/ZrVJRC5pzhhZ0s5
+         qEort2/PsPGPnKEQPqQtdkL7H3UHDqQ8efM261vBep1b49Koiu/QLg3Hv0MBdnVcfudI
+         NBt8z0xSU2IEmKo0LjRW0i4YLuU5Bk3IcWzgwdgLX/w6Hv9cDv3gpAIYhv17LES5RTQL
+         +ehSsxX8GM3xOMe6b8++t7VtNDquU/YGtNz5gCjXilHdGDt+aNdL/GJwahZf/F7sWibp
+         YEMDrb3oxOfsYbAvGRNWo9ktObtBMRrrb3LskS/6g+qQ0fdD2uekroDnd8a9xAvCavRB
+         wTnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=aeUiRngewZvVOC/Ws+kiYpWX0PNqIg9bWynr1VvD7h0=;
-        b=LS2LacJQDtPVH1JgJxUSIkujY+DjE8MIYhERvOzZsaSTniFAq/9hvoiyKvDL0d5/tj
-         v6eLJpx1sIBDrePYaowxHJ+9ZNMM5+DUSLeNTi9IymsnHYIGA9oCqXwKwA6LoZsBt04v
-         xONOV1XoWC65Qs5IyTMFdV76zKbPiLy47wZbTXcaECu+x0o4VoZfTGJtH2WP7JbtNsB7
-         fmMkpEQfUOYsvbVpi1lKHhdlrfHaSt3+PHgJC52gf00ZHLvWAcviCpG3nLW9MRcjNpta
-         7JEtmc5KIvxxa8zszvMSTmnjSvC06q2AapEtgBOATQiAJmpokIIO6QS2ia0tQMoxXvGr
-         OFdw==
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:dkim-signature;
+        bh=wBxoUG0Lj09ekTXFxsIUOaAPUB4KUKIamPgSZFxhVu8=;
+        b=M5C6axWg6zWYrWM04FUl7w7h3yQwwXRuHpC90IgITbnyIddUGAt+zw89a6wag725xy
+         8Cai1UHAh3Uzatx63FoDqLngf19Tfy3NeGcNGPhLD4t7S2q7U9N2sFtmWGV8F2f7Y0zE
+         TB+TkiI2xEjjUm9gZ/LABGG26fTB5D7lkCvt/QhhYxkoQ4Jtl66ghMI0Pj9IxfYhEzYl
+         3/Lod9labiOh/3Yq6fyjgqVfOoo3GXoqy/wTo2MJZo9oUKO5YsRS2i57l51W+QhLGEQE
+         Qac1lQvgtTuAaXjd7fNYAAUIfog7wfWX/OCG8c9oJt+Ooww71ztJfs4Yc71RN24zhrFb
+         EVKA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Dyb0kRO5;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::232 as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com. [2a00:1450:4864:20::232])
-        by gmr-mx.google.com with ESMTPS id p15-20020a2eb98f000000b0025a8d717b7dsi640419ljp.5.2022.06.28.06.08.20
+       dkim=fail header.i=@kernel.org header.s=k20201202 header.b="lZBjp0/a";
+       spf=pass (google.com: domain of broonie@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=broonie@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id g5-20020a056870c14500b00101c9597c72si1808238oad.1.2022.06.28.06.10.31
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jun 2022 06:08:20 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::232 as permitted sender) client-ip=2a00:1450:4864:20::232;
-Received: by mail-lj1-x232.google.com with SMTP id bx13so6233581ljb.1
-        for <kasan-dev@googlegroups.com>; Tue, 28 Jun 2022 06:08:20 -0700 (PDT)
-X-Received: by 2002:a2e:9f42:0:b0:25b:5649:1331 with SMTP id
- v2-20020a2e9f42000000b0025b56491331mr9293742ljk.268.1656421700299; Tue, 28
- Jun 2022 06:08:20 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 28 Jun 2022 06:10:31 -0700 (PDT)
+Received-SPF: pass (google.com: domain of broonie@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 148126170D;
+	Tue, 28 Jun 2022 13:10:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86553C3411D;
+	Tue, 28 Jun 2022 13:10:22 +0000 (UTC)
+From: Mark Brown <broonie@kernel.org>
+To: mchehab@kernel.org, linux-doc@vger.kernel.org
+Cc: heikki.krogerus@linux.intel.com, daniel@ffwll.ch, mingo@redhat.com, bp@alien8.de, netdev@vger.kernel.org, pabeni@redhat.com, linux-fsdevel@vger.kernel.org, sumit.semwal@linaro.org, mchehab+huawei@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, christian.koenig@amd.com, airlied@linux.ie, corbet@lwn.net, hpa@zytor.com, linux-mm@kvack.org, linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, tglx@linutronix.de, myungjoo.ham@samsung.com, glider@google.com, balbi@kernel.org, davem@davemloft.net, johannes@sipsolutions.net, linux-cachefs@redhat.com, x86@kernel.org, dave.hansen@linux.intel.com, linux-wireless@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, kuba@kernel.org, dri-devel@lists.freedesktop.org, linux-sgx@vger.kernel.org, andrey.grodzovsky@amd.com, cw00.choi@samsung.com, dvyukov@google.com, elver@google.com, Andrew Morton <akpm@linux-foundation.org>, amd-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org, edumazet@go
+ ogle.com, kyungmin.park@samsung.com
+In-Reply-To: <cover.1656409369.git.mchehab@kernel.org>
+References: <cover.1656409369.git.mchehab@kernel.org>
+Subject: Re: (subset) [PATCH 00/22] Fix kernel-doc warnings at linux-next
+Message-Id: <165642182225.1205882.7217075149410531618.b4-ty@kernel.org>
+Date: Tue, 28 Jun 2022 14:10:22 +0100
 MIME-Version: 1.0
-References: <20220628095833.2579903-1-elver@google.com> <20220628095833.2579903-4-elver@google.com>
-In-Reply-To: <20220628095833.2579903-4-elver@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 28 Jun 2022 15:08:08 +0200
-Message-ID: <CACT4Y+bh06ZF5s4Mfq+CJ8RJ+Fm41NeXt=C8Kkx11t9hgABpYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/13] perf/hw_breakpoint: Optimize list of per-task breakpoints
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Frederic Weisbecker <frederic@kernel.org>, 
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@redhat.com>, 
-	Namhyung Kim <namhyung@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org, 
-	linux-perf-users@vger.kernel.org, x86@kernel.org, linux-sh@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=Dyb0kRO5;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::232
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+X-Original-Sender: broonie@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=fail
+ header.i=@kernel.org header.s=k20201202 header.b="lZBjp0/a";       spf=pass
+ (google.com: domain of broonie@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=broonie@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,257 +132,103 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
- On Tue, 28 Jun 2022 at 11:59, Marco Elver <elver@google.com> wrote:
->
-> On a machine with 256 CPUs, running the recently added perf breakpoint
-> benchmark results in:
->
->  | $> perf bench -r 30 breakpoint thread -b 4 -p 64 -t 64
->  | # Running 'breakpoint/thread' benchmark:
->  | # Created/joined 30 threads with 4 breakpoints and 64 parallelism
->  |      Total time: 236.418 [sec]
->  |
->  |   123134.794271 usecs/op
->  |  7880626.833333 usecs/op/cpu
->
-> The benchmark tests inherited breakpoint perf events across many
-> threads.
->
-> Looking at a perf profile, we can see that the majority of the time is
-> spent in various hw_breakpoint.c functions, which execute within the
-> 'nr_bp_mutex' critical sections which then results in contention on that
-> mutex as well:
->
->     37.27%  [kernel]       [k] osq_lock
->     34.92%  [kernel]       [k] mutex_spin_on_owner
->     12.15%  [kernel]       [k] toggle_bp_slot
->     11.90%  [kernel]       [k] __reserve_bp_slot
->
-> The culprit here is task_bp_pinned(), which has a runtime complexity of
-> O(#tasks) due to storing all task breakpoints in the same list and
-> iterating through that list looking for a matching task. Clearly, this
-> does not scale to thousands of tasks.
->
-> Instead, make use of the "rhashtable" variant "rhltable" which stores
-> multiple items with the same key in a list. This results in average
-> runtime complexity of O(1) for task_bp_pinned().
->
-> With the optimization, the benchmark shows:
->
->  | $> perf bench -r 30 breakpoint thread -b 4 -p 64 -t 64
->  | # Running 'breakpoint/thread' benchmark:
->  | # Created/joined 30 threads with 4 breakpoints and 64 parallelism
->  |      Total time: 0.208 [sec]
->  |
->  |      108.422396 usecs/op
->  |     6939.033333 usecs/op/cpu
->
-> On this particular setup that's a speedup of ~1135x.
->
-> While one option would be to make task_struct a breakpoint list node,
-> this would only further bloat task_struct for infrequently used data.
-> Furthermore, after all optimizations in this series, there's no evidence
-> it would result in better performance: later optimizations make the time
-> spent looking up entries in the hash table negligible (we'll reach the
-> theoretical ideal performance i.e. no constraints).
->
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
-> v2:
-> * Commit message tweaks.
-> ---
->  include/linux/perf_event.h    |  3 +-
->  kernel/events/hw_breakpoint.c | 56 ++++++++++++++++++++++-------------
->  2 files changed, 37 insertions(+), 22 deletions(-)
->
-> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-> index 01231f1d976c..e27360436dc6 100644
-> --- a/include/linux/perf_event.h
-> +++ b/include/linux/perf_event.h
-> @@ -36,6 +36,7 @@ struct perf_guest_info_callbacks {
->  };
->
->  #ifdef CONFIG_HAVE_HW_BREAKPOINT
-> +#include <linux/rhashtable-types.h>
->  #include <asm/hw_breakpoint.h>
->  #endif
->
-> @@ -178,7 +179,7 @@ struct hw_perf_event {
->                          * creation and event initalization.
->                          */
->                         struct arch_hw_breakpoint       info;
-> -                       struct list_head                bp_list;
-> +                       struct rhlist_head              bp_list;
->                 };
->  #endif
->                 struct { /* amd_iommu */
-> diff --git a/kernel/events/hw_breakpoint.c b/kernel/events/hw_breakpoint.c
-> index 1b013968b395..add1b9c59631 100644
-> --- a/kernel/events/hw_breakpoint.c
-> +++ b/kernel/events/hw_breakpoint.c
-> @@ -26,10 +26,10 @@
->  #include <linux/irqflags.h>
->  #include <linux/kdebug.h>
->  #include <linux/kernel.h>
-> -#include <linux/list.h>
->  #include <linux/mutex.h>
->  #include <linux/notifier.h>
->  #include <linux/percpu.h>
-> +#include <linux/rhashtable.h>
->  #include <linux/sched.h>
->  #include <linux/slab.h>
->
-> @@ -54,7 +54,13 @@ static struct bp_cpuinfo *get_bp_info(int cpu, enum bp_type_idx type)
->  }
->
->  /* Keep track of the breakpoints attached to tasks */
-> -static LIST_HEAD(bp_task_head);
-> +static struct rhltable task_bps_ht;
-> +static const struct rhashtable_params task_bps_ht_params = {
-> +       .head_offset = offsetof(struct hw_perf_event, bp_list),
-> +       .key_offset = offsetof(struct hw_perf_event, target),
-> +       .key_len = sizeof_field(struct hw_perf_event, target),
-> +       .automatic_shrinking = true,
-> +};
->
->  static int constraints_initialized;
->
-> @@ -103,17 +109,23 @@ static unsigned int max_task_bp_pinned(int cpu, enum bp_type_idx type)
->   */
->  static int task_bp_pinned(int cpu, struct perf_event *bp, enum bp_type_idx type)
->  {
-> -       struct task_struct *tsk = bp->hw.target;
-> +       struct rhlist_head *head, *pos;
->         struct perf_event *iter;
->         int count = 0;
->
-> -       list_for_each_entry(iter, &bp_task_head, hw.bp_list) {
-> -               if (iter->hw.target == tsk &&
-> -                   find_slot_idx(iter->attr.bp_type) == type &&
-> +       rcu_read_lock();
-> +       head = rhltable_lookup(&task_bps_ht, &bp->hw.target, task_bps_ht_params);
-> +       if (!head)
-> +               goto out;
-> +
-> +       rhl_for_each_entry_rcu(iter, pos, head, hw.bp_list) {
-> +               if (find_slot_idx(iter->attr.bp_type) == type &&
->                     (iter->cpu < 0 || cpu == iter->cpu))
->                         count += hw_breakpoint_weight(iter);
->         }
->
-> +out:
-> +       rcu_read_unlock();
->         return count;
->  }
->
-> @@ -186,7 +198,7 @@ static void toggle_bp_task_slot(struct perf_event *bp, int cpu,
->  /*
->   * Add/remove the given breakpoint in our constraint table
->   */
-> -static void
-> +static int
->  toggle_bp_slot(struct perf_event *bp, bool enable, enum bp_type_idx type,
->                int weight)
->  {
-> @@ -199,7 +211,7 @@ toggle_bp_slot(struct perf_event *bp, bool enable, enum bp_type_idx type,
->         /* Pinned counter cpu profiling */
->         if (!bp->hw.target) {
->                 get_bp_info(bp->cpu, type)->cpu_pinned += weight;
-> -               return;
-> +               return 0;
->         }
->
->         /* Pinned counter task profiling */
-> @@ -207,9 +219,9 @@ toggle_bp_slot(struct perf_event *bp, bool enable, enum bp_type_idx type,
->                 toggle_bp_task_slot(bp, cpu, type, weight);
->
->         if (enable)
-> -               list_add_tail(&bp->hw.bp_list, &bp_task_head);
-> +               return rhltable_insert(&task_bps_ht, &bp->hw.bp_list, task_bps_ht_params);
->         else
-> -               list_del(&bp->hw.bp_list);
-> +               return rhltable_remove(&task_bps_ht, &bp->hw.bp_list, task_bps_ht_params);
->  }
->
->  __weak int arch_reserve_bp_slot(struct perf_event *bp)
-> @@ -307,9 +319,7 @@ static int __reserve_bp_slot(struct perf_event *bp, u64 bp_type)
->         if (ret)
->                 return ret;
->
-> -       toggle_bp_slot(bp, true, type, weight);
-> -
-> -       return 0;
-> +       return toggle_bp_slot(bp, true, type, weight);
->  }
->
->  int reserve_bp_slot(struct perf_event *bp)
-> @@ -334,7 +344,7 @@ static void __release_bp_slot(struct perf_event *bp, u64 bp_type)
->
->         type = find_slot_idx(bp_type);
->         weight = hw_breakpoint_weight(bp);
-> -       toggle_bp_slot(bp, false, type, weight);
-> +       WARN_ON(toggle_bp_slot(bp, false, type, weight));
->  }
->
->  void release_bp_slot(struct perf_event *bp)
-> @@ -678,7 +688,7 @@ static struct pmu perf_breakpoint = {
->  int __init init_hw_breakpoint(void)
->  {
->         int cpu, err_cpu;
-> -       int i;
-> +       int i, ret;
->
->         for (i = 0; i < TYPE_MAX; i++)
->                 nr_slots[i] = hw_breakpoint_slots(i);
-> @@ -689,18 +699,24 @@ int __init init_hw_breakpoint(void)
->
->                         info->tsk_pinned = kcalloc(nr_slots[i], sizeof(int),
->                                                         GFP_KERNEL);
-> -                       if (!info->tsk_pinned)
-> -                               goto err_alloc;
-> +                       if (!info->tsk_pinned) {
-> +                               ret = -ENOMEM;
-> +                               goto err;
-> +                       }
->                 }
->         }
->
-> +       ret = rhltable_init(&task_bps_ht, &task_bps_ht_params);
-> +       if (ret)
-> +               goto err;
-> +
->         constraints_initialized = 1;
->
->         perf_pmu_register(&perf_breakpoint, "breakpoint", PERF_TYPE_BREAKPOINT);
->
->         return register_die_notifier(&hw_breakpoint_exceptions_nb);
+On Tue, 28 Jun 2022 10:46:04 +0100, Mauro Carvalho Chehab wrote:
+> As we're currently discussing about making kernel-doc issues fatal when
+> CONFIG_WERROR is enable, let's fix all 60 kernel-doc warnings
+> inside linux-next:
+> 
+> 	arch/x86/include/uapi/asm/sgx.h:19: warning: Enum value 'SGX_PAGE_MEASURE' not described in enum 'sgx_page_flags'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rdi' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rsi' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rdx' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rsp' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'r8' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'r9' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:124: warning: Function parameter or member 'reserved' not described in 'sgx_enclave_run'
+> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'val' not described in 'qos_min_notifier_call'
+> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'ptr' not described in 'qos_min_notifier_call'
+> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'val' not described in 'qos_max_notifier_call'
+> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'ptr' not described in 'qos_max_notifier_call'
+> 	drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5095: warning: expecting prototype for amdgpu_device_gpu_recover_imp(). Prototype was for amdgpu_device_gpu_recover() instead
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_outbox_params' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'num_of_edps' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'disable_hpd_irq' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_aux_transfer_done' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'delayed_hpd_wq' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/include/amd_shared.h:224: warning: Enum value 'PP_GFX_DCS_MASK' not described in enum 'PP_FEATURE_MASK'
+> 	drivers/gpu/drm/scheduler/sched_main.c:999: warning: Function parameter or member 'dev' not described in 'drm_sched_init'
+> 	drivers/usb/dwc3/core.h:1328: warning: Function parameter or member 'async_callbacks' not described in 'dwc3'
+> 	drivers/usb/dwc3/gadget.c:675: warning: Function parameter or member 'mult' not described in 'dwc3_gadget_calc_tx_fifo_size'
+> 	fs/attr.c:36: warning: Function parameter or member 'ia_vfsuid' not described in 'chown_ok'
+> 	fs/attr.c:36: warning: Excess function parameter 'uid' description in 'chown_ok'
+> 	fs/attr.c:63: warning: Function parameter or member 'ia_vfsgid' not described in 'chgrp_ok'
+> 	fs/attr.c:63: warning: Excess function parameter 'gid' description in 'chgrp_ok'
+> 	fs/namei.c:649: warning: Function parameter or member 'mnt' not described in 'path_connected'
+> 	fs/namei.c:649: warning: Function parameter or member 'dentry' not described in 'path_connected'
+> 	fs/namei.c:1089: warning: Function parameter or member 'inode' not described in 'may_follow_link'
+> 	include/drm/gpu_scheduler.h:463: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
+> 	include/linux/dcache.h:309: warning: expecting prototype for dget, dget_dlock(). Prototype was for dget_dlock() instead
+> 	include/linux/fscache.h:270: warning: Function parameter or member 'cookie' not described in 'fscache_use_cookie'
+> 	include/linux/fscache.h:270: warning: Excess function parameter 'object' description in 'fscache_use_cookie'
+> 	include/linux/fscache.h:287: warning: Function parameter or member 'cookie' not described in 'fscache_unuse_cookie'
+> 	include/linux/fscache.h:287: warning: Excess function parameter 'object' description in 'fscache_unuse_cookie'
+> 	include/linux/genalloc.h:54: warning: Function parameter or member 'start_addr' not described in 'genpool_algo_t'
+> 	include/linux/kfence.h:221: warning: Function parameter or member 'slab' not described in '__kfence_obj_info'
+> 	include/linux/regulator/driver.h:434: warning: Function parameter or member 'n_ramp_values' not described in 'regulator_desc'
+> 	include/linux/textsearch.h:51: warning: Function parameter or member 'list' not described in 'ts_ops'
+> 	include/linux/usb/typec_altmode.h:132: warning: Function parameter or member 'altmode' not described in 'typec_altmode_get_orientation'
+> 	include/net/cfg80211.h:391: warning: Function parameter or member 'bw' not described in 'ieee80211_eht_mcs_nss_supp'
+> 	include/net/cfg80211.h:437: warning: Function parameter or member 'eht_cap' not described in 'ieee80211_sband_iftype_data'
+> 	include/net/cfg80211.h:507: warning: Function parameter or member 's1g' not described in 'ieee80211_sta_s1g_cap'
+> 	include/net/cfg80211.h:1390: warning: Function parameter or member 'counter_offset_beacon' not described in 'cfg80211_color_change_settings'
+> 	include/net/cfg80211.h:1390: warning: Function parameter or member 'counter_offset_presp' not described in 'cfg80211_color_change_settings'
+> 	include/net/cfg80211.h:1430: warning: Enum value 'STATION_PARAM_APPLY_STA_TXPOWER' not described in enum 'station_parameters_apply_mask'
+> 	include/net/cfg80211.h:2195: warning: Function parameter or member 'dot11MeshConnectedToAuthServer' not described in 'mesh_config'
+> 	include/net/cfg80211.h:2341: warning: Function parameter or member 'short_ssid' not described in 'cfg80211_scan_6ghz_params'
+> 	include/net/cfg80211.h:3328: warning: Function parameter or member 'kck_len' not described in 'cfg80211_gtk_rekey_data'
+> 	include/net/cfg80211.h:3698: warning: Function parameter or member 'ftm' not described in 'cfg80211_pmsr_result'
+> 	include/net/cfg80211.h:3828: warning: Function parameter or member 'global_mcast_stypes' not described in 'mgmt_frame_regs'
+> 	include/net/cfg80211.h:4977: warning: Function parameter or member 'ftm' not described in 'cfg80211_pmsr_capabilities'
+> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'u' not described in 'wireless_dev'
+> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'links' not described in 'wireless_dev'
+> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'valid_links' not described in 'wireless_dev'
+> 	include/net/cfg80211.h:6076: warning: Function parameter or member 'is_amsdu' not described in 'ieee80211_data_to_8023_exthdr'
+> 	include/net/cfg80211.h:6949: warning: Function parameter or member 'sig_dbm' not described in 'cfg80211_notify_new_peer_candidate'
+> 	include/net/mac80211.h:6250: warning: Function parameter or member 'vif' not described in 'ieee80211_channel_switch_disconnect'
+> 	mm/memory.c:1729: warning: Function parameter or member 'mt' not described in 'unmap_vmas'
+> 	net/mac80211/sta_info.h:569: warning: Function parameter or member 'cur_max_bandwidth' not described in 'link_sta_info'
+> 
+> [...]
 
-It seems there is a latent bug here:
-if register_die_notifier() fails we also need to execute the err: label code.
+Applied to
 
-Otherwise the patch looks good.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+Thanks!
 
-> - err_alloc:
-> +err:
->         for_each_possible_cpu(err_cpu) {
->                 for (i = 0; i < TYPE_MAX; i++)
->                         kfree(get_bp_info(err_cpu, i)->tsk_pinned);
-> @@ -708,7 +724,5 @@ int __init init_hw_breakpoint(void)
->                         break;
->         }
->
-> -       return -ENOMEM;
-> +       return ret;
->  }
-> -
-> -
-> --
-> 2.37.0.rc0.161.g10f37bed90-goog
->
+[18/22] regulator: fix a kernel-doc warning
+        commit: 0e584d46218e3b9dc12a98e18e81a0cd3e0d5419
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bbh06ZF5s4Mfq%2BCJ8RJ%2BFm41NeXt%3DC8Kkx11t9hgABpYQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/165642182225.1205882.7217075149410531618.b4-ty%40kernel.org.
