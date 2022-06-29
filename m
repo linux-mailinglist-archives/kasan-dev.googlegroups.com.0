@@ -1,153 +1,131 @@
-Return-Path: <kasan-dev+bncBCVJF6GBUAARBHME6OKQMGQEU2AF5EQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBG4N6OKQMGQEANFH4NQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FA1560B92
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Jun 2022 23:20:30 +0200 (CEST)
-Received: by mail-lf1-x13a.google.com with SMTP id e8-20020ac24e08000000b0047fad5770d2sf8223860lfr.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Jun 2022 14:20:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656537630; cv=pass;
+Received: from mail-yw1-x113e.google.com (mail-yw1-x113e.google.com [IPv6:2607:f8b0:4864:20::113e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6532B560BE1
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Jun 2022 23:39:41 +0200 (CEST)
+Received: by mail-yw1-x113e.google.com with SMTP id 00721157ae682-317765eb7ccsf139099477b3.13
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Jun 2022 14:39:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656538780; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Igj7xsG2L1z8bH8VsEK9fgyVeFLx/iP63zY79GnV8wTXxpUPIT1qXgZNeu+T/yOuBy
-         p7IZ+hTr2LKVGqW3oARS2MhGv91iGNGQF3fQF6u2VmS8TXsn1t7QTvXvawUkjQQP2bUv
-         FbYIIhgCFTRG8Q7PYC4VIzrtFth00HW8pPpHnD41/I/xm2prFm+R2KtI5af3HfaWUEJO
-         JwhYPHm77imcPHW5yWJsODRCrPW6iYWW0cSTfcI9Rr5kFz1aclaw8WKs36dCwdQ7yfNU
-         Irpe6esa1mLKy1TEOK7CgwTdibVHCzMSwVTM3w1aMg/3Sexf0ZWmIe+e/fDTWmfEFGmh
-         6K2A==
+        b=FglnPphUFTNIXPr9I/0SzfadaRT9SVPpPUhHGlkA/NbES+AyDAFqb3RZSlxpNgL2JB
+         JRmrYriu89kZXT4oIIHkvxoNOrNDcyhD6/03pcUBGNcB2xBcInJStlOZytV/NC6mBbbC
+         q9RDY7+5h6+rQNiK09LwBSNwfU4URv3tdUQ8DV40ulgs2AiuQPMrbYbuUj4UB2zCgCDB
+         +4oLjRITeFTG7Ih65N7ZW+lRQ0+I5oamJWKfHEvQaVt29e2JbalQ92lzbew6uxrb2UVj
+         6A6dsZqDs3iTYYMNe3CAizp7JNCGO63QNNNdvzoZS8NsThFA/1jY10zMdUd/3iXPUl97
+         hkQQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:content-language:references:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:sender:dkim-signature;
-        bh=WApYBOhm65lASQnQJ15e81V0oYa6W0dhm/BtIiF1Ujg=;
-        b=Wd2r8KGt+rMx2adJiWtParTjxoJXwr2Vyacz1XU9v1Yn070m9kF4mFZBsQf4JXK57f
-         IOUJzXGr/eBO0SUe/UDY6flP721Iyu2XJEMP/S1X+QIiim2pxm24msbXnNMUkEyFVFeV
-         OpQJNLG0cB6+taSIJulbvjs49t+i3kEKv1ArkTLJ2xYbL6LP1wfnIUpYoNP6Nk9UcWgu
-         6V2Vtrw9rztnTam6UA9Vs3oD35AuM9XjLJsebA5ee2wE2xkBhVXIWdqhuI8EBLZBDRcv
-         hhLlvum5arnB/uUQ2UqbfNkgILeMNPPNpEnCCPk6KBp8yldWyveHt6K4YvDb0B+J2Obl
-         zmRw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=s8yWHK57zjYOT7xXd5K8juC+kYclu36rS2STLUX9FeM=;
+        b=NF07v/m8jxuKyBPc2m93AVYGjCYP06UseGZk76gJT/54YH225pWSs0N/OizNU1P0tu
+         66bSd5mruPhQAGjhIXqOXQiZd4Eks+p6wz6wPYLoPHnQpm5NR/FBakC2voRssu3sO9ic
+         4qA36VBqDJRJH0oWYIaaCv9ih8Nu0/FRtkA2u9B8UjOMcmJ5jvhIpm7fOqNYvn28xiAd
+         jNFX1Sg568vWs+QRV55XcXD8yakYQDtuD9xEJPnobTlQ/2y2MANGhgQktt2qJSWmEZxp
+         3pBO4weuw2F8a6IGCr61fSOPRhi9ILKVyCTgGEDAQiMF9w0r2LyUF7hk4pRL4t2yVuID
+         T0Gg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of luca@lucaceresoli.net designates 89.40.174.40 as permitted sender) smtp.mailfrom=luca@lucaceresoli.net
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:from:subject:to:cc
-         :references:content-language:in-reply-to:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WApYBOhm65lASQnQJ15e81V0oYa6W0dhm/BtIiF1Ujg=;
-        b=WuPp8j1T68wnEiL2mL4QtPTRPYXHCVdDXLscgYqXCdZv5/sVSqC+/ThXzA/0TRP8Dv
-         EeFPI9rSdTeQqHbtHFL3s3pze1bWsRiZzth35TDF2j18F6cHAxSBFSUqU3TZaox1KKuj
-         t9LAasswo3YGNQ8iqVqggtbdh6M3KGa82PkR7IhzGHG/nKTRv1XbGxR8/TT/otyNR7AR
-         VI3gKUKIGEScpQOSGWU0XqhRC0SWQ3cuxwxN5fhyJrNcHaLRusyvL8nnsmRJaEnNtpks
-         F494VndGRwM/xK/aGrXgd5X9FYy1yiwgo36Pf+X7YQJmnFucap3PJYPA/z3WjFebkTCX
-         L/FQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=s8yWHK57zjYOT7xXd5K8juC+kYclu36rS2STLUX9FeM=;
+        b=lVkPK0SVCeDrgWepxbZgltGa8EfrdzCVeqeKHdVs70rYzRiccXE9cJ4ApytMjjy9YY
+         W0yEHv21DQhxPztI6vhxiz0PLBb3RqZfcJZFwjYZrvtN3aVgeCnaU1OXlSoV26o+g6aM
+         t5N5438ctEoSnDXNCz1RKxwn7y5FqM44au2EG4waxJ2WyN7AzbPZrLyjdUkgDKJadD+G
+         ltp1ATP/jsI0/M4ByWGdRoSetAqDuXbqjQlcuExJTMqwoaQp+bhuHwMKQqIyna8+QKms
+         PwcTd4Il/XnUq2esy4Rl1fVU4F9al2L/QMTIIhx0Bs0owslTJpMrp3SjStqKAmLAhb/W
+         iqZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:message-id:date:mime-version:user-agent
-         :from:subject:to:cc:references:content-language:in-reply-to
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WApYBOhm65lASQnQJ15e81V0oYa6W0dhm/BtIiF1Ujg=;
-        b=sMgR2n7kEdtF6n2LQjhQKv/ii+YUEVxHV/nLiRrWo2VsfDjBe3o4hBJw/65PzJ4acw
-         OQUoM5a6YLCPlUeaAjXj4w2nE4VXSJNY5sJk1Dynu/jOx4BboF5UOOI7PzrSusoX21Q9
-         GwnVec7/k+mgPVktCf5emtOp/o6wFdM96Xr6leG4fx2FR2Zl5HHbI4dsMILnvte9r8Qy
-         p2YZpKf9YY8hOVAauMjfv/JjUJXmV3CMXJhWj3IUWP2hov+MKvbZajXlT9ReW3rpLRD/
-         ybTgLN46B/1rUyneWnf6KFoNDBhUylEUSa4+/tk/hfybl22zLkPqKpuMR8uDvRbCxmw9
-         Tdsg==
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=s8yWHK57zjYOT7xXd5K8juC+kYclu36rS2STLUX9FeM=;
+        b=BbB+ES3pFcZu4nc9Hp8rms6kou8rFWpfq1ASITNxEAipYT/WJqRPZT+9ftGkZ8aj83
+         9NQM8ojdpjIuE1LQZjO7hydhyhhIbFdlouD8oA5BTK/OjoqlmhU2Pzq6LLQYJmAbDFMU
+         Syx84B9iDMNJJN6tsqW8Da00Wigl9WfYm5YrTPLSdYYjNDLdt069r7oRy8vT/wd87mwH
+         rkaGENb/PTGRTD9FCtlQhx8LJhl33gGJnpP7J2XphJIQjtav/rAC68HbnOqWIiIKo2B1
+         cfImnPhSWJ+lOtSff7F96mo2pbfvbZggeqOjzHVfBZlgCGLzBN5ivKhJWpZOFSuo3y1L
+         POuQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora9K3gbyx/jd5NPzl+M7tDldAMBn0gkjTUibWnNgi+0eUoi0evKV
-	co/Iq1UwNo6C3KETB95Hb7k=
-X-Google-Smtp-Source: AGRyM1v4yfTu5fzqVO5qA9WxjYmLAtDiHAVRgQtiEmz8dY4XkPjX1V/hmhaL4pn+JnEnXHnyptGikA==
-X-Received: by 2002:a2e:a793:0:b0:25a:74f4:b377 with SMTP id c19-20020a2ea793000000b0025a74f4b377mr3057755ljf.177.1656537629852;
-        Wed, 29 Jun 2022 14:20:29 -0700 (PDT)
+X-Gm-Message-State: AJIora9iZvW5vtALxFetT8yiPlQ17kLNI3oehZ4YT2Ze9sp0nwAeVTeV
+	cuVQ8UX2jkeg6U3/2T+BDjc=
+X-Google-Smtp-Source: AGRyM1t5xPzbVpod8cmSvDALJZD5H20KS2tX/WiPUPa6+17uGlolp9gH189zmDCnEiF4PthkRcFl5w==
+X-Received: by 2002:a81:488f:0:b0:317:7514:ecd0 with SMTP id v137-20020a81488f000000b003177514ecd0mr6554857ywa.412.1656538780070;
+        Wed, 29 Jun 2022 14:39:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3b0c:b0:47f:9907:2b50 with SMTP id
- f12-20020a0565123b0c00b0047f99072b50ls318827lfv.3.gmail; Wed, 29 Jun 2022
- 14:20:28 -0700 (PDT)
-X-Received: by 2002:a05:6512:31d1:b0:47f:5d39:1d9d with SMTP id j17-20020a05651231d100b0047f5d391d9dmr3405937lfe.140.1656537628351;
-        Wed, 29 Jun 2022 14:20:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656537628; cv=none;
+Received: by 2002:a81:7dd4:0:b0:318:81e7:91f6 with SMTP id y203-20020a817dd4000000b0031881e791f6ls8758001ywc.5.gmail;
+ Wed, 29 Jun 2022 14:39:39 -0700 (PDT)
+X-Received: by 2002:a81:844f:0:b0:31c:3c50:d69a with SMTP id u76-20020a81844f000000b0031c3c50d69amr802862ywf.269.1656538779413;
+        Wed, 29 Jun 2022 14:39:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656538779; cv=none;
         d=google.com; s=arc-20160816;
-        b=vnvDGf1W3qBk9Nv3XN4+aRWYJWRT+ySbFQzYKsVmrCOR2iG7UDGS3U2EcL5+NPUA+c
-         XK//oMHME7IdsJCFrTaETRCGSxt9dduGX8MXXQ6Jpng728sRiUrRyHBGVrGbD1bbb3iD
-         rGMwXYuyezMoGDpN9cryHefjrzno9w3yU/q3Dkdm28SACTVlwLwd+Cn+0K0YeXCvJK66
-         k0F9Ks1VlJrz9LCH7U2eLUO5cf7YDlIagK11BaOuu/tfZXvfqIfmsJnrsmro2LWVgKaf
-         GSN1qPcHD2Jgij22wI9+XS/hDpV5LK+dt4RG/vFExierRUloKSBt2NWs4+mzt0e2UtRM
-         KBLA==
+        b=Hie1cNdNL+tsReCGk53FvqRVWNP3T/DThJ8Pb8N3/c/3DkIbRisfYJIhGCWNvI/QKr
+         QX8E4IUlyLpaY+/+/311b7O0gT7H4MQRORxIdk7ytZ6qL6SMaNyFhp4oiMEgoUNCUSaI
+         LyEVDQJQ45HhloKLFyqdgE2p8bahvRbRyegMA2JqkVJ6qD8k2JomNe/2d8HPpMQqlYOX
+         kAXhr15hOcW7mimi2XdZobFlyLGEOVKi4PpQSbtkzOFf96Xeuzs3I6vsd1ibiQZlx991
+         AQg2TPqZyl172eBLj49CpjO71tSxjIn0MynYg3PaR9PUkYm/eNreWmAbWMz0fJ+est+v
+         aTxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id;
-        bh=oz6GKw8BpKrDIGgvnV9242qGIiYTvSr9/fjEazC9jI8=;
-        b=lwCGMOYggEiYJsqX1UrAbU035xzNOKOM98Yy1bPAqZnUQiauHG5/8rW7PCZKat0f7a
-         HAR9ocHS5BeGwKizUYhNRv75uXS7fQqAlt6hYWx96rcifdaWrJ6pc50YLoThZrmCvkC4
-         vfoMMhkZhmhQV1tb4yVIkqa7p+DbW+NMjISIhkbWOiu8x2KclQpeaoZ6MbhLjahVuSyL
-         2cSdpcFXARsU/B2pcZ8EtgkeK2YT9ozgAIYYWFAEQdXrOwTWVsXBejDSMdOZgGOzbqye
-         TKtIg0A/BkTLErib/bpeIcUngBZM6+plvhhcmrOvN9kw69/qsxVy/82DQM63jYhv892s
-         RVkw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=bslPby+Ydb7eJ2PfH2XQCc1VYqpL9TKCaQhHZ8Wf9gU=;
+        b=ZA4VlY8D0vb6nZltNXHwgcEvbD02dxsS9ElkL82bzVqO0m2Z6pfTtrHgaDbZNi/wMg
+         Y9KGk9pGKwSyJV4tDPgzjcI8/6HWYSHd1DwTGyaUGfXop3bVluYaQL8uCXUlanCCj81O
+         yeUwFFtnu52uuFO9Z5pz2DxqwzLdo4HDG6PR7Dysf55np7h1fFTeEyuoYyjv+qWAdYPM
+         UV/176ugu0b6yzD0ocszqnjX6qTPtIZIMkzuEZpJEF/ZjU6W0MPOGbc2k1GvmJmPVdFt
+         Rwc8HKoGVIz7KTDX5b7i3DUo24M3Ht3ngqPjXigsZH0hT+SSkyYxXtGTG7EAx/WR/HX6
+         P/0A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of luca@lucaceresoli.net designates 89.40.174.40 as permitted sender) smtp.mailfrom=luca@lucaceresoli.net
-Received: from hostingweb31-40.netsons.net (hostingweb31-40.netsons.net. [89.40.174.40])
-        by gmr-mx.google.com with ESMTPS id o9-20020ac25e29000000b0047f8e0add59si827070lfg.10.2022.06.29.14.20.28
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id w67-20020a25df46000000b0066ccd85e4b8si413749ybg.1.2022.06.29.14.39.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 Jun 2022 14:20:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of luca@lucaceresoli.net designates 89.40.174.40 as permitted sender) client-ip=89.40.174.40;
-Received: from [37.161.29.0] (port=43545 helo=[192.168.131.30])
-	by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
-	(envelope-from <luca@lucaceresoli.net>)
-	id 1o6f6m-000BzC-Qd;
-	Wed, 29 Jun 2022 23:20:25 +0200
-Message-ID: <d682fb60-c254-f89e-5d6d-cdf7aa752939@lucaceresoli.net>
-Date: Wed, 29 Jun 2022 23:20:04 +0200
+        Wed, 29 Jun 2022 14:39:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id F2058616B2;
+	Wed, 29 Jun 2022 21:39:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41930C341C8;
+	Wed, 29 Jun 2022 21:39:36 +0000 (UTC)
+Date: Wed, 29 Jun 2022 22:39:33 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: yee.lee@mediatek.com
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	"open list:KFENCE" <kasan-dev@googlegroups.com>,
+	"open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
+	"moderated list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>,
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH v2 1/1] mm: kfence: apply kmemleak_ignore_phys on early
+ allocated pool
+Message-ID: <YrzGlSUtnXuiuUEK@arm.com>
+References: <20220628113714.7792-1-yee.lee@mediatek.com>
+ <20220628113714.7792-2-yee.lee@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-From: Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Wolfram Sang <wsa@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, openipmi-developer@lists.sourceforge.net,
- linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org,
- linux-media@vger.kernel.org, patches@opensource.cirrus.com,
- alsa-devel@alsa-project.org, linux-omap@vger.kernel.org,
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-mediatek@lists.infradead.org
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-Content-Language: en-US
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - googlegroups.com
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Original-Sender: luca@lucaceresoli.net
+Content-Disposition: inline
+In-Reply-To: <20220628113714.7792-2-yee.lee@mediatek.com>
+X-Original-Sender: catalin.marinas@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of luca@lucaceresoli.net designates 89.40.174.40 as
- permitted sender) smtp.mailfrom=luca@lucaceresoli.net
+ (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,61 +138,25 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
+On Tue, Jun 28, 2022 at 07:37:11PM +0800, yee.lee@mediatek.com wrote:
+> From: Yee Lee <yee.lee@mediatek.com>
+> 
+> This patch solves two issues.
+> 
+> (1) The pool allocated by memblock needs to unregister from
+> kmemleak scanning. Apply kmemleak_ignore_phys to replace the
+> original kmemleak_free as its address now is stored in the phys tree.
+> 
+> (2) The pool late allocated by page-alloc doesn't need to unregister.
+> Move out the freeing operation from its call path.
+> 
+> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+> Suggested-by: Marco Elver <elver@google.com>
+> Signed-off-by: Yee Lee <yee.lee@mediatek.com>
 
-[keeping only individuals and lists in Cc to avoid bounces]
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 
-On 28/06/22 16:03, Uwe Kleine-K=C3=B6nig wrote:
-> From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
->=20
-> The value returned by an i2c driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
->=20
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-
-For versaclock:
-
-> diff --git a/drivers/clk/clk-versaclock5.c b/drivers/clk/clk-versaclock5.=
-c
-> index e7be3e54b9be..657493ecce4c 100644
-> --- a/drivers/clk/clk-versaclock5.c
-> +++ b/drivers/clk/clk-versaclock5.c
-> @@ -1138,7 +1138,7 @@ static int vc5_probe(struct i2c_client *client)
->  	return ret;
->  }
-> =20
-> -static int vc5_remove(struct i2c_client *client)
-> +static void vc5_remove(struct i2c_client *client)
->  {
->  	struct vc5_driver_data *vc5 =3D i2c_get_clientdata(client);
-> =20
-> @@ -1146,8 +1146,6 @@ static int vc5_remove(struct i2c_client *client)
-> =20
->  	if (vc5->chip_info->flags & VC5_HAS_INTERNAL_XTAL)
->  		clk_unregister_fixed_rate(vc5->pin_xin);
-> -
-> -	return 0;
->  }
-> =20
->  static int __maybe_unused vc5_suspend(struct device *dev)
-
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
---=20
-Luca
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/d682fb60-c254-f89e-5d6d-cdf7aa752939%40lucaceresoli.net.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YrzGlSUtnXuiuUEK%40arm.com.
