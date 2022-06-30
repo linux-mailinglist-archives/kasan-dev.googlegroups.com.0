@@ -1,131 +1,124 @@
-Return-Path: <kasan-dev+bncBDE6RCFOWIARBS6E6WKQMGQENRM7Y2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBO6X6WKQMGQEJV63XHY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE1D561558
-	for <lists+kasan-dev@lfdr.de>; Thu, 30 Jun 2022 10:43:55 +0200 (CEST)
-Received: by mail-lj1-x23a.google.com with SMTP id u23-20020a2ea177000000b0025baf70f8a9sf2529589ljl.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 30 Jun 2022 01:43:55 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656578635; cv=pass;
+Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61664561640
+	for <lists+kasan-dev@lfdr.de>; Thu, 30 Jun 2022 11:24:13 +0200 (CEST)
+Received: by mail-pj1-x103b.google.com with SMTP id b24-20020a17090ae39800b001ecd48d4b29sf1184588pjz.4
+        for <lists+kasan-dev@lfdr.de>; Thu, 30 Jun 2022 02:24:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656581052; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lhHt0Zpti36vcEu3u2ogoa04WoWU0qhfyTBVW5WeGCC7raPajtlYw8gJ/eLjZuXzMd
-         /D7UogBL64cKsDqu4MT1D0wRq3Fds68j9wNmpokEFmRdCBUJ9tYxl6E6kX9NxaxXFKKT
-         jZ5+KZkZZCEG6YctcP5QxAxswH4AiFPUtqC3QzioWlL6U0Q3KCDhc9fKvQavbxo+/9h4
-         HVDK+70PjZrRrmiTcuryqNj8F/I05ZZoMKjzqOt/ObO8L3V4Gb2sUXHs38BlitBGJCBx
-         XVLMlFzbYUJw3ceVuqeDiy411gBLNubYRs5RfKGEk9qG5mJrRENcV1AeIZomfU/o5Bqp
-         vCzQ==
+        b=A4KhFQUCHqWWX4J3Y1qH3i62HgLSNwzNdxPRxa6slBibxPFfS57eXrcD1yDEdpItRp
+         gPNDPlRHvWGdHuZr5C/JoGY1jZSHdPr97S0QyaNfI1rm73wO7wnSAnj4IkQ8frz3hfAp
+         zlzfJu3X54QcmodB7mbeOyuEHsX439hgrmci5pKn0Wy1IExprglGKosjBbdqas1svZ44
+         zXSotI1MrkTYK4Oph0rJb9CqIBaJhtHi23NLWfsDIzFYIrGKvcuj9iYr6HmElBYbheMo
+         +waMFFtRum7XZbdB82qgs8cj6xrBo0HzoNV1UbblE5qzhh0BlULywWosheRqoKuJq0O9
+         vUJw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=p9Qe9IBYpNFYPmqziqksn0e3TvRGFaUoekiJUFNM1jg=;
-        b=o+YuAivGBrh1UXUUsXES281vq50YKGdc4IuhqaJs6J75V3sBA+jVofemV/3ocksKQv
-         C76Gov/ikwlmwjR9djh+d3AjEN6nO/g1MkEFG6MFq0nqxncAraOhwyYOmj08xdCA1FME
-         gxitTlDp2k8GNuBmx4gN9iq5igin9b5HKwjWnb6jsldm3vvQMCZXvl+KHEWx4pKyBD7e
-         Qy9Y7f3OZZBGgussvy5BwTCVuISGjkZMVM+RKiaNB651bwZUYfg9mzRR5W7HvqbAi96S
-         l0rMVf88fPkB5xY1+gTlnIXVyqsQV5msWry/Hc8DCx0Kq/pfEq63xepNuHXPSLo20YYL
-         aPwg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=5kaQO+ff2cSdx491nz7RMNmu8RkhLT/xhIrJse/ccFs=;
+        b=K+CENg/mDRM+ohjtDbaAD11+4i9v00jDQ9YYjSeoBoKOLBgzaXt3epNxeoAf/JOLWG
+         msVBNMzX+IT1Mu4v8Zg8LKIQ13tL06i3GlNfl+35BJg7y7KxnbqZoHdmw/SA7hZRhYAc
+         0prQt3kxjkpfb1cGUFLe4y4WhHjCca5NH8ay2bc8KAwASBa9acTH7QQQCujn6VZSuo+4
+         YxCKL30jFJ/aZslkSV8eMRqGx6qmFODATrw4Hj3rOKmowj+Rjw8cqmt3ZS5Rm9ZQ4FFI
+         LTmHhs0ysLuqTR9pXB3zZlcl7Eo9yT8a+QRkr0kLVNVHy8elgyOZc3U5IgwatN7Cg2GH
+         Zc2Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=OSmDR7wa;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::234 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Okonep8o;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b32 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=p9Qe9IBYpNFYPmqziqksn0e3TvRGFaUoekiJUFNM1jg=;
-        b=bOxBnJHyyptWsKYi6Fq6/kG0KzPUFzm7eQxW5KbkfUeMNI9Dm/EAEZtTZJ2tkB6pGu
-         yTF+1vm3eRMWSTj27Y1zwXk99qZgyqHeC8huo2sO3XFhwuhWfNKaWuvJ6FQSBXCMqsvo
-         8bnwUhZlCrLLvcrLmiXN4D4oLmsYU3AUn3lyyBZeIUvFeTGh3SmJvtoCHWG4DQxoYYJ3
-         ssr4IhL6m6zYrHpis9rxXKAgGICvRIxzhM28AZrAge+qJWzyF7TFKc9RON4YSsTDiEXU
-         tTDbCvFJIOCt/hwUcw3DJrXNOxjcN4y/Hw2C2wkNGp9lEYWWxy1JdomSY/ldgi5AC3uU
-         aneg==
+        bh=5kaQO+ff2cSdx491nz7RMNmu8RkhLT/xhIrJse/ccFs=;
+        b=SoixUCFO6lcTgcxjJRAoX10lhMXLHEhgFg1e4xhuuGlgd1wdTVm0bu/Kk02sRTQoR9
+         DEddub6JboIpRJdxjoCViwukKy/gby3UYb1VB6eVeLHaXQEogWLEU10vURv/fg9mSQ1U
+         zawnyDLKkcx4MaAqlR7qO8yWjXD9qClXJuKVh7P3Todq1xKJjdKjrtqhINaZwEmX3WnC
+         865eEM5j1RnXwwbveuwY3XhdSsoZJG8lxrN76UYk7enM/GAS+qiD9bkUOsE1ova7Ib9O
+         yYkDraPp7XTg3v+z0Tr2kL5NemXf7Y8BBB+546asLhVqfhnV0w6o7bEU2z0MOb6MOwag
+         au2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=p9Qe9IBYpNFYPmqziqksn0e3TvRGFaUoekiJUFNM1jg=;
-        b=ddysJh+Mf16b6xTAWWwesXj5EAPFsHbCa2V4X3v9xvJBafVNLCwgiBR4xb8A9jQw1D
-         OX8gvEmkfWEnpBqyn1MSWPZ/xdjjQ+ze+z2bEPx/ooAzXyWH5y4VqTSNBuRBvOIl+F0i
-         3OcagNYBQNFF10KwevrPTnbLHhhIbAifJtRF8qaLZeN1kWdQ1xeTrdifXluBP6Pvc82p
-         gy11C49lPVuti5Bb5U6tvww5QD/IUN1yCzuOpuDnh7LFh5KIA5akbN/+lIPV0gp33nb5
-         aFYtqQOusWL6EWMVSD/5lGE0ifvK5j+JBdFm5MHTo8DFj/BlcDXgpGH8tMo0WLHtkLVo
-         TncQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora8YxixFxABgBW6oJfYpj0FWKC9tJbe8S7znQwY0HtspBGv9uzmp
-	NkgtneVHKbmos2EvX/FwxYo=
-X-Google-Smtp-Source: AGRyM1tdQ4H5xqQaOGShqi4HDpeojP+4G02mxZ/jJbQT0wqDOkxw9L5dXYBoLJn3qRBKTnT+bjPjTw==
-X-Received: by 2002:a05:6512:3085:b0:481:182e:a06c with SMTP id z5-20020a056512308500b00481182ea06cmr4871314lfd.374.1656578635244;
-        Thu, 30 Jun 2022 01:43:55 -0700 (PDT)
+        bh=5kaQO+ff2cSdx491nz7RMNmu8RkhLT/xhIrJse/ccFs=;
+        b=IpSq2keVbgnX5pesUBfXM0fljCiBgNr5NsXGn/UsQHY/kmrPx1+ViFGKTVvfiTUMqI
+         ichwdLbkmjUC7im0mL1Z8YHTgYLD052Q3jYfM1eb4mrwwd66CSf2i4GD/ClSSMus0cNN
+         uZb2M/q+jFeOEeKYQGoREazK0zy4qo08Y2QYs73OiQW+jMW4jYrIMnNqgUD1ErmiJJML
+         Kg6vYEZ8Ni6gvhCSTXRe5aJeXXIIsMq1des6GYPAxmWJombOv9hVcJdkyrHiR7OVlEei
+         ubvlr7rrkaoneBQ4E3yqD0P2Xwznw31Q4HzD8nBRLNIz1nh6EgMWC5pB/Y0RYZw/Cf96
+         P4YA==
+X-Gm-Message-State: AJIora/W3XvqltJv7/2afJ2nzxkVkjjDp8VkdY4GV8R6hV+GW7EXJC1f
+	zGr0YgmSyCinHnPfZ9PYUWQ=
+X-Google-Smtp-Source: AGRyM1uMW99rlg2ZgipCcnx2cFWFKk95FCG/CrE9C6+EsLEkfQqXLR6oZGxVE+2Z2A0mAQoDx5JgGA==
+X-Received: by 2002:a05:6a00:16ca:b0:525:a5d5:d16f with SMTP id l10-20020a056a0016ca00b00525a5d5d16fmr14829899pfc.9.1656581051906;
+        Thu, 30 Jun 2022 02:24:11 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:1693:b0:448:3742:2320 with SMTP id
- bu19-20020a056512169300b0044837422320ls237070lfb.1.gmail; Thu, 30 Jun 2022
- 01:43:54 -0700 (PDT)
-X-Received: by 2002:a05:6512:23a5:b0:481:d0e:ab00 with SMTP id c37-20020a05651223a500b004810d0eab00mr4948629lfv.89.1656578633718;
-        Thu, 30 Jun 2022 01:43:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656578633; cv=none;
+Received: by 2002:a05:6a00:ace:b0:505:bb88:8eb0 with SMTP id
+ c14-20020a056a000ace00b00505bb888eb0ls17551816pfl.10.gmail; Thu, 30 Jun 2022
+ 02:24:11 -0700 (PDT)
+X-Received: by 2002:a05:6a00:2395:b0:525:8980:5dc7 with SMTP id f21-20020a056a00239500b0052589805dc7mr14965789pfc.8.1656581050967;
+        Thu, 30 Jun 2022 02:24:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656581050; cv=none;
         d=google.com; s=arc-20160816;
-        b=sPdgnpKlv1gGqkJuMFVi/MKZfr6WjHmwP4ckE+u1NWXDikANmLL4vX0cagD5k0O5Us
-         dXJLi5mZrwvGS6uQsCndUcrD2Ek9P6gfq2c42X8BOOSEFHjEUEUvdsPRrPxtq+vsrmP4
-         xiC2Do3p9iAvQ1u45G5wQZvEM4xAaiTLnsX5w0Puh3JJv/0a8lFpprM0A7jlLAUmMKcU
-         GcotMcs3s1hInyR9u4Ysi9xNPFOU1pSP1mvG2NHNtGD0t92rwB/9WM+8exzpNFehT1ZG
-         5sJExKORDOLNODIzBmKPR8pDT3tpaeIyuCZzc2sq0cAEJBVHNiCZ2n9Vkiwk8DTXkJ41
-         fNmw==
+        b=U3l7Jb4YPrjWuqxcGV1/tWC1MP4yeHnmeK4o91ih5w1rDVCVIDQdmdnp2s4UfDQQ3T
+         vDs51lDRkaSnA6ORrjGU3dN6Z8Qxwj9bfWTaki1CTHiPzs7SK/97vl0OM5rHhTGMzRyq
+         lUadrIpNa1Gwuc2k19Hl2vLt5kPzFXxwBMlBW6fZn9mwBXNUecAA4e8asL2zqctNccrB
+         CrfqbZ08BgqQTpmSTeQEIGKUwtQcpTywoRH7BXwll7Al3dakqmufhJCs87rIrjpmMiG2
+         Ivg5jbW8Vi1QgtJR7eecy/kH4uCT/M9N+Zlgqkjt1ZNcWr3drmu6rqbrsJjA8M0ea5ZG
+         gYXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=R+x4xUlXaoDhtuO4AscHrz+MJh/LM6gsUwNc9kO1v+E=;
-        b=DHjFYIYzAUyS8b+aFdVHyuuIt5Fwmery3Vino9QEPQFtnL2VWXjnHkoK0Tgv1J1UBl
-         wvxBOSd4STm0voySy+N8+yG9/dAG6ifzuhT3OUzpT1qKZFOynno95gIKndMFmInhgRWr
-         aeji3G1C108m8nv8/jckHgrTR50w/FUDQs+R/3201TTEyYdzkFZGWhoUgChsiFtVS6RM
-         AnUj3skfFk8P+jJ94hXFbHHJADPlZBMkwx24/MAcyLd6OMWRWrpjy2weHIBN3zkQZQ6B
-         j6o4M4mD5IbL8LrgOtArDMdCAdWPMQvzoI9R+XWvyfdkSI8ICiIPoM8tvJnGv4JXq/UJ
-         ghzA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=BiBmHGa2ClhXtCQ51AGcLtCso1fCDbCqVOHmA5sybi8=;
+        b=gg4DxIs0i7BCMKrm+Jes93RSd1nRhnuPqMiold91uja8+bpOI/4RVq33kiaO/zLiHA
+         zKDNjcYJyVqo5hkaA7f7kfszA6Ca+Ec4UGV/wijFY3vrbrqpObAzgJKTjpFm2DSR3qek
+         0f4Tx48016TsCP+eLwoLggcYf0mTPJeEVBKBELa7zmVNVv2qAHijtkP4U8xtGPWjtHDi
+         86+Tm7EEPhgaiIID/LWJUaspVofz/l/s6mZXn7iCxbVii46JdSszYI3LnaFh1NuzbRnm
+         +BrEymCx8lHX4sif+l3WCGZW46/1I3ImPxUAgqBZ+tlDiPFqJyej8cntZFkC3Z1Z+3Eu
+         YaGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=OSmDR7wa;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::234 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com. [2a00:1450:4864:20::234])
-        by gmr-mx.google.com with ESMTPS id bd10-20020a05651c168a00b0025a72c1807dsi798646ljb.2.2022.06.30.01.43.53
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Okonep8o;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b32 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com. [2607:f8b0:4864:20::b32])
+        by gmr-mx.google.com with ESMTPS id g14-20020a056a00078e00b00522cc5c7b21si697660pfu.6.2022.06.30.02.24.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jun 2022 01:43:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::234 as permitted sender) client-ip=2a00:1450:4864:20::234;
-Received: by mail-lj1-x234.google.com with SMTP id s10so22138303ljh.12
-        for <kasan-dev@googlegroups.com>; Thu, 30 Jun 2022 01:43:53 -0700 (PDT)
-X-Received: by 2002:a05:651c:231f:b0:25a:66c3:c213 with SMTP id bi31-20020a05651c231f00b0025a66c3c213mr4221114ljb.288.1656578633145;
-        Thu, 30 Jun 2022 01:43:53 -0700 (PDT)
-Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
-        by smtp.gmail.com with ESMTPSA id o23-20020a05651205d700b0047f62762100sm2973023lfo.138.2022.06.30.01.43.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 01:43:52 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev@googlegroups.com
-Subject: [PATCH 3/5] mm: kfence: Pass a pointer to virt_to_page()
-Date: Thu, 30 Jun 2022 10:41:22 +0200
-Message-Id: <20220630084124.691207-4-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220630084124.691207-1-linus.walleij@linaro.org>
-References: <20220630084124.691207-1-linus.walleij@linaro.org>
+        Thu, 30 Jun 2022 02:24:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b32 as permitted sender) client-ip=2607:f8b0:4864:20::b32;
+Received: by mail-yb1-xb32.google.com with SMTP id d5so32673766yba.5
+        for <kasan-dev@googlegroups.com>; Thu, 30 Jun 2022 02:24:10 -0700 (PDT)
+X-Received: by 2002:a25:3497:0:b0:66c:c013:4bea with SMTP id
+ b145-20020a253497000000b0066cc0134beamr8274918yba.625.1656581050492; Thu, 30
+ Jun 2022 02:24:10 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: linus.walleij@linaro.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=OSmDR7wa;       spf=pass
- (google.com: domain of linus.walleij@linaro.org designates
- 2a00:1450:4864:20::234 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+References: <20220630084124.691207-1-linus.walleij@linaro.org> <20220630084124.691207-4-linus.walleij@linaro.org>
+In-Reply-To: <20220630084124.691207-4-linus.walleij@linaro.org>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 30 Jun 2022 11:23:34 +0200
+Message-ID: <CANpmjNMWfERo-jF772e9XM=8GxhdYODsHrmg5xQ56aw_1OD7tw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] mm: kfence: Pass a pointer to virt_to_page()
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=Okonep8o;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b32 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,62 +131,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Functions that work on a pointer to virtual memory such as
-virt_to_pfn() and users of that function such as
-virt_to_page() are supposed to pass a pointer to virtual
-memory, ideally a (void *) or other pointer. However since
-many architectures implement virt_to_pfn() as a macro,
-this function becomes polymorphic and accepts both a
-(unsigned long) and a (void *).
+On Thu, 30 Jun 2022 at 10:43, Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> Functions that work on a pointer to virtual memory such as
+> virt_to_pfn() and users of that function such as
+> virt_to_page() are supposed to pass a pointer to virtual
+> memory, ideally a (void *) or other pointer. However since
+> many architectures implement virt_to_pfn() as a macro,
+> this function becomes polymorphic and accepts both a
+> (unsigned long) and a (void *).
+>
+> If we instead implement a proper virt_to_pfn(void *addr)
+> function the following happens (occurred on arch/arm):
+>
+> mm/kfence/core.c:558:30: warning: passing argument 1
+>   of 'virt_to_pfn' makes pointer from integer without a
+>   cast [-Wint-conversion]
+>
+> In one case we can refer to __kfence_pool directly (and
+> that is a proper (char *) pointer) and in the other call
+> site we use an explicit cast.
+>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: kasan-dev@googlegroups.com
+> Cc: linux-mm@kvack.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-If we instead implement a proper virt_to_pfn(void *addr)
-function the following happens (occurred on arch/arm):
+Reviewed-by: Marco Elver <elver@google.com>
 
-mm/kfence/core.c:558:30: warning: passing argument 1
-  of 'virt_to_pfn' makes pointer from integer without a
-  cast [-Wint-conversion]
-
-In one case we can refer to __kfence_pool directly (and
-that is a proper (char *) pointer) and in the other call
-site we use an explicit cast.
-
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: kasan-dev@googlegroups.com
-Cc: linux-mm@kvack.org
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- mm/kfence/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 4e7cd4c8e687..153cde62ad72 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -543,7 +543,7 @@ static unsigned long kfence_init_pool(void)
- 	if (!arch_kfence_init_pool())
- 		return addr;
- 
--	pages = virt_to_page(addr);
-+	pages = virt_to_page(__kfence_pool);
- 
- 	/*
- 	 * Set up object pages: they must have PG_slab set, to avoid freeing
-@@ -657,7 +657,7 @@ static bool kfence_init_pool_late(void)
- 	/* Same as above. */
- 	free_size = KFENCE_POOL_SIZE - (addr - (unsigned long)__kfence_pool);
- #ifdef CONFIG_CONTIG_ALLOC
--	free_contig_range(page_to_pfn(virt_to_page(addr)), free_size / PAGE_SIZE);
-+	free_contig_range(page_to_pfn(virt_to_page((void *)addr)), free_size / PAGE_SIZE);
- #else
- 	free_pages_exact((void *)addr, free_size);
- #endif
--- 
-2.36.1
+> ---
+>  mm/kfence/core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index 4e7cd4c8e687..153cde62ad72 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -543,7 +543,7 @@ static unsigned long kfence_init_pool(void)
+>         if (!arch_kfence_init_pool())
+>                 return addr;
+>
+> -       pages = virt_to_page(addr);
+> +       pages = virt_to_page(__kfence_pool);
+>
+>         /*
+>          * Set up object pages: they must have PG_slab set, to avoid freeing
+> @@ -657,7 +657,7 @@ static bool kfence_init_pool_late(void)
+>         /* Same as above. */
+>         free_size = KFENCE_POOL_SIZE - (addr - (unsigned long)__kfence_pool);
+>  #ifdef CONFIG_CONTIG_ALLOC
+> -       free_contig_range(page_to_pfn(virt_to_page(addr)), free_size / PAGE_SIZE);
+> +       free_contig_range(page_to_pfn(virt_to_page((void *)addr)), free_size / PAGE_SIZE);
+>  #else
+>         free_pages_exact((void *)addr, free_size);
+>  #endif
+> --
+> 2.36.1
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220630084124.691207-4-linus.walleij%40linaro.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMWfERo-jF772e9XM%3D8GxhdYODsHrmg5xQ56aw_1OD7tw%40mail.gmail.com.
