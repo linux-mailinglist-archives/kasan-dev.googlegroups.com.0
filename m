@@ -1,109 +1,112 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBVMG7SKQMGQEHECHVMQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBWEG7SKQMGQEZSK2SDY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB20563504
-	for <lists+kasan-dev@lfdr.de>; Fri,  1 Jul 2022 16:23:18 +0200 (CEST)
-Received: by mail-lj1-x240.google.com with SMTP id i23-20020a2e9417000000b0025a739223d1sf503925ljh.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 01 Jul 2022 07:23:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656685398; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93946563505
+	for <lists+kasan-dev@lfdr.de>; Fri,  1 Jul 2022 16:23:21 +0200 (CEST)
+Received: by mail-lf1-x137.google.com with SMTP id r28-20020ac25c1c000000b004809e9d21e5sf1176798lfp.18
+        for <lists+kasan-dev@lfdr.de>; Fri, 01 Jul 2022 07:23:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656685401; cv=pass;
         d=google.com; s=arc-20160816;
-        b=J3B+khDvjJfqDdVEKgM5ZL4F5VXLSuaXvQ+LLrxegSIsFdoL0vsYdp83g23XUopcZa
-         HVHox4iN0vZkGAqX34Cb27qQv8TqxoS3FszjKOCBmmtqcCztbXeDDsAO1m3oJD8aLt8J
-         1XaMxb9xsMYyW57qYkei2G0Nanw8Ulvn4GSMDZGbfF1lKmLm5wUNT9RoQnU17DswAL1a
-         gSoRPb0znkN1PnI8WbK1MgrOAAG80UPhE38sHWPoKN5ZhPHajzd+pyuvneJWgGF1gZ5r
-         L8FcVYEKQ/OKHf/ZOHMmhyCnfXx1n3ahykmzuAvMZQK1B6MEuPoPi+tIswjcII6fGasM
-         ECCQ==
+        b=JOEIyn5L1flpaD+O9kNxWgAaGceRrEc9FErhJYfPEk+lX11QjQMafSw0zXnPSS8MvR
+         vWjVHELx1A5HbTVDwK0r/SPoF3liHDhHtGFkaQb+/d6B12Ilk+7igxxhqNo1iCrCkgFB
+         4E6VZHXSBgFesBTHCRana1oOE4FjXsFTzKKj8E3J/KMNQc7pfQ2gfQKXeU6yWpbs9GG0
+         hBCkhGzmtL+0eNVp6zeY9dDVSpskOTL0uwhedEUSThbUWU7IUNPZOTOhB5ufGR+odJw4
+         fJ2VhxU0muqHLJGA18ejB4L2q18H3X8lhptRX+GpxDjwSm1fF/GGdFIFJ6A2zCEy+aDP
+         gFxw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=hmM9Zt8M7EnFfDaRtWTvHKhC/6BrHEp1A6RXCYSOuaA=;
-        b=d4RkFJjOjeSY9ERsAbSKYNKUgGk1JMRgUalvqDEmVmsYa49ktpNO7VyBHlzktvAReh
-         Xse4+H207f6nVr1JCsatY9u8tBN7aeOKwhOPZ75VSq4QhGlMQzvwhWbGDR2X8HIq2+kb
-         ER/Luc99WrXFFKdFmzO85ACs6AYBOy5Qqj/6mL/ALq1g4SazCW+vFIR5Bnmp3GEAGDEV
-         MFqkOSIPVSoZlPos//do4+jZZpz6uOJJ/AfAQ3Vty8Xtiov6QpTFzWw3EJv/J1UXaOpA
-         anFcm7iD0m22jMLtaybqdcNFHwMLyvmsSrsZJ/sBZ/gjRlYCGbkGH2qtEWRc+T0Sl4MV
-         X/+w==
+         :references:mime-version:message-id:in-reply-to:date:dkim-signature;
+        bh=/awHf9l6rLQ8Bk7+jZeh2n52pRVC1Hqbw2WLzn/T3YQ=;
+        b=M/DX00GVcYjFe3a2zmOm5b4C0JY4AWIZN9DVbgYVF8HRAsQUw7jSlOoHRaUh8T3dAf
+         UQ6aDOi81fgUK51TrHNBnTENyudLAp/N2CyIPqHK8xqzMlm1vzpsY7fGTZVyP4zC+OvE
+         MICcCGmNREMfmr//3oabRpxTD6UBUCokJSteHJaZw1CVRbN4ZTfQrJXL1RyU/Gd7y015
+         cVeBqHKHxagROdEjitrvM3Hkn4QjgNpsRPG/O/jvL/OIP5wr81ayGWWWT74tY4ffCaw9
+         a8tvvzobiMklQVMEaWqYbO31fVbL/vr2FVjFQmZoOHG3UYkc4LUi7XDEpQtBDGSgN7Bt
+         XBtQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="rRH/DJ0i";
-       spf=pass (google.com: domain of 3vao_ygykcxmxczuvixffxcv.tfdbrjre-uvmxffxcvxiflgj.tfd@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3VAO_YgYKCXMXcZUViXffXcV.TfdbRjRe-UVmXffXcVXiflgj.Tfd@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=RMeY6Ur3;
+       spf=pass (google.com: domain of 3vgo_ygykcxuzebwxkzhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--glider.bounces.google.com designates 2a00:1450:4864:20::24a as permitted sender) smtp.mailfrom=3VgO_YgYKCXUZebWXkZhhZeX.VhfdTlTg-WXoZhhZeXZkhnil.Vhf@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:list-post:list-help:list-archive:list-subscribe
-         :list-unsubscribe;
-        bh=hmM9Zt8M7EnFfDaRtWTvHKhC/6BrHEp1A6RXCYSOuaA=;
-        b=o76XCTRsMcAuRuyNrMNlYE0olZBC587VjdKLZDz5J8p9rtuYvVWEC31UxSVauSqXBh
-         9EjPWJz3c06rDRRVbJJ0J9f6kNBL6yd0iXVJRWITttfXy5wy/PAJtYnUXn9xtHjOrWer
-         zMGwd9bFZwWQL9X/m0xmfeN8ZobZQ1kGgma1OFu4zEOxHJCt+Z6xcC1gC6hM61GiyM50
-         KVaYG5yua4J3UsdtW6UdM1H2VJs33CIC4d7n+as3IlsHyayuTEZTDnpsUn73N+MoFoyM
-         /U15XuiUYXTl9US9/hQP92Wrm1IeekV19FXpVhKeIITcL54YwDPIHNdjCVOGL6PdPIXK
-         bPIA==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc:x-original-sender:x-original-authentication-results:reply-to
+         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=/awHf9l6rLQ8Bk7+jZeh2n52pRVC1Hqbw2WLzn/T3YQ=;
+        b=F+yc8HoMNPBtRMaTkxCmWXGew4kp/Lw1xrqnpOfj+ROzKfXsLJLGHIbiDc30SBZ5Ke
+         0G4+rQNr2cKp66nulVgCpHSIJjQnF9AILJqxU4lEdsMqsmcIyOJdzRCB4R2hCCBLDgYW
+         R7EBwM1CmjLUewuw8Sv42eL6eSClU3LfEzmbX9KGbe1lpFg5eRftjazVUukMhRYr5y12
+         AXw+rxQrKDesCTo89kAp1RPuFmlmAvpOxMWJyNXb+YDMWdBN+LqsQuzc4qz48xaQkthE
+         J/va4X76leq4+tZc5E9zOKWji9cLEMh6ce4CmzNRBuhznXYxfmC4Uh1CReTD/fqkxzTt
+         PimA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
-         :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=hmM9Zt8M7EnFfDaRtWTvHKhC/6BrHEp1A6RXCYSOuaA=;
-        b=vzkMr1xkHZCo7eXnkovpSQ0o25CaNoDqxUZ63W96md9YEADoMZOUTD324ptBReRCVt
-         rray6z3cs/dpc9N1VdWK18pOU8QJkyl0QhPAdTz7WrIS+WfGgFRvXBKamxNOoc2r7SaK
-         c2CmGA0LHOwgfJD9uCLCFWgk5Gk1ZgZ5Cm3LCwCCmi8NjlHwsSOkmL4uuPz8Xv/Z1GV7
-         +IwKzFjnkD4nNOshR4+DGqZjc1bspyQBoQ7+sG2oIh8C5b71msr8WlvR2TRBbQjYGKMU
-         HynQAnDCZqlU0iM44nXsjjayH5OW1Du3ahKrrlhhHqWnz/ZAMBtjs57FUbl6W1f8sqpc
-         U61A==
-X-Gm-Message-State: AJIora+XTu1fj/6TgaanlBvr4x03i4YUUV/wW4NKeQC5z9CekIY6L/1e
-	2XjPLju50N/SD8Zd8K3GW30=
-X-Google-Smtp-Source: AGRyM1tcTnRPxUzokAgbOgP6hW5klCn1MWip1C2dQBO1x3PBCV7H5BeVWVpuj6JG6OI5cnk03Cbjlg==
-X-Received: by 2002:a05:6512:3d1a:b0:47f:79df:2ea8 with SMTP id d26-20020a0565123d1a00b0047f79df2ea8mr10356628lfv.610.1656685397897;
-        Fri, 01 Jul 2022 07:23:17 -0700 (PDT)
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:x-original-sender
+         :x-original-authentication-results:reply-to:precedence:mailing-list
+         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=/awHf9l6rLQ8Bk7+jZeh2n52pRVC1Hqbw2WLzn/T3YQ=;
+        b=NJTHWSbZAVhx18Fc6ouCasFbsC3Am0vmSOPw1281y4gB19TZleQ64phuw7JMoz67CO
+         TXVF9BKNv6ndwhSKtVLYiGC7Z32J4aIYy2sxs2d4kTJsehyObjfwsaem/katnq2zWC76
+         ifKOhpo6yHB1N05VfNb0CPLfL+R5ANTP8In7kmF9yuUI0AMTzv9huwfecGG3JZpIZbMg
+         vZCYe+EpxF9VqNVLOw1ofv/nQc/yVwpnpKQgMh30TbdqyCsYZndMt5YJLiE9xRhcAqfr
+         3YnoReVLKsR2GPDBdHZ6kY5h71dh9WbfTkwv+4x0o8lxQPVdUpw+8+Og8dbQZIvuqPvh
+         /rfA==
+X-Gm-Message-State: AJIora8RuVxRpoS6luusDxUHcPb8aiPR+AwAvUHoFxTl0rtdHK/GP6Hr
+	iUG6b9INvaFJ+M6KJQhSE+8=
+X-Google-Smtp-Source: AGRyM1uEJq17hUnszE583W8RyPxKW0rznbeEHNPdr4EZIPMnmxaLvhten5rpAeZ9/GcSZawi0bcSAw==
+X-Received: by 2002:a05:651c:88f:b0:253:f747:2fd8 with SMTP id d15-20020a05651c088f00b00253f7472fd8mr8399532ljq.496.1656685401127;
+        Fri, 01 Jul 2022 07:23:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:1693:b0:448:3742:2320 with SMTP id
- bu19-20020a056512169300b0044837422320ls85766lfb.1.gmail; Fri, 01 Jul 2022
- 07:23:16 -0700 (PDT)
-X-Received: by 2002:ac2:4906:0:b0:47f:6c71:6de5 with SMTP id n6-20020ac24906000000b0047f6c716de5mr10028089lfi.137.1656685396647;
-        Fri, 01 Jul 2022 07:23:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656685396; cv=none;
+Received: by 2002:ac2:5a41:0:b0:481:3963:1222 with SMTP id r1-20020ac25a41000000b0048139631222ls85552lfn.2.gmail;
+ Fri, 01 Jul 2022 07:23:19 -0700 (PDT)
+X-Received: by 2002:a05:6512:3d1a:b0:47f:79df:2ea8 with SMTP id d26-20020a0565123d1a00b0047f79df2ea8mr10356683lfv.610.1656685399172;
+        Fri, 01 Jul 2022 07:23:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656685399; cv=none;
         d=google.com; s=arc-20160816;
-        b=Pe3OTvRsaFvsibMUTdqnQdvFg9Fpi3PvOeFZK40vh86L/O90Suk2opZkOiqI/OtjiY
-         pYd3fXpOZ+AibBxTjASXEmEWShSvOhjBOftNLwCKX8dFVagh6c/ctvMQwMwFXtThrnzQ
-         gEznoxx1vtKOlbUayoY8mOEdAK6vDK3L0om+2sU16ZQXuXx8s+MXi2+lwByBVoARkyl1
-         GdWgYoKa1P5JRx/Yiev9dolKylhOcOtpeqIWKqx1Is9qenCTiwzaJcEpvI3Ezzpj7RUF
-         9wk63fjX3Nn0oBtejsQNj/AUjzO5IU3n3Q7ZuTf3jJ1ATwMYWEhmczzYRSSIRFoSuRDF
-         UzlQ==
+        b=z3tXAX6FSNW8nXaTb07vyp3gyUVPo3vhHke28cqjIH2AjLaGWQCx9iOrhjS7m/JxpZ
+         kSJHJdcMprktnodN6BsstNljchiOHZ6I1kaLs7fNxYEPCAaxN5vJzfFGUoTllQhNOCTu
+         fXZjvotB17hALGuAvEctSbX6mrmWvvKQh4CzEgdNPYaTO6yAywgEnHiX6MryOwhzjRBX
+         0cjAY8UQxIo8AbUAYanPRNGPuBt0+/7VUQ+jKsT48bGpPdoHm+62sGzljduUISUiemTp
+         Q5ziHoG5egWNzkZdcj1nI6MhL/blH61YxgPfuQGElVRYysL69U3FFpiR50Dn0RgEqV8R
+         4Ocw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=hq/yXGoN0Uko6++mgqy4oyVuT+D1D64+d8ukuTyOF7Y=;
-        b=nKs0sOZQDLuOOiP6sTujkpND9T6mzKTkv2kz2eP5O1pxIyEUZM4t7tYhFc3fRyM6Jb
-         Qd15MaB/UZeVO7DO6sz2kFKK9e1rTI9C4DL8xAqPZkFvVSxa/qdxuXO74zPV+bM/w+HM
-         xvFxLPRcdn9sgUG8eNHT8mRgqPezQo8GKLVQb6zVCmuU4SwSiW0Ii98wnXifiQ2y+tKp
-         mg23qsk7xNuWCE9dSenadCYIJGgIHPtAtcfGGwVOKROEC/POxh/v8LX9FeucKdf27Fdy
-         cxEwOkgZrRPQH11Wvn6z47d1nM05viZGdjJQzhn6vUZsV8nUKj3wjnsovANOXAJs4/zX
-         t8OA==
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:dkim-signature;
+        bh=/yIHROt1QYP0boO+vuzmQ126QU/rx8ZuEvPrfW89F9Y=;
+        b=iln4I93jv282Z8EnJRbP3Tg2MQ5O1Bs29Ngaj/qFPr4hnaVoLhLgeC7h4hiaWF4RgD
+         cpCEZ166glZ6VJ1pnenuk4PbS0ToEKVvjTN54yhFo8S6Sg5J0tZ9mdRzGRT/tDumbSVB
+         62LhT6M1oltYvuja5M1t5zSEVoX6+9NlkRCuJdE2K57/lUK5yXW+Hdoiu/JZZ+jY/IY4
+         2kPdl3IlBBzQRyajTClBzfxRYEoW8xLI7hBrBbrqda61SKdQf+ugf6enPfgOsXL/cjQX
+         jxAE69FiCNImxzMR12XxphkniqsCWIzVZbopwRFpGiSNKtERCCQmxmD+bjFJ5OE3ZwpW
+         /LmA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="rRH/DJ0i";
-       spf=pass (google.com: domain of 3vao_ygykcxmxczuvixffxcv.tfdbrjre-uvmxffxcvxiflgj.tfd@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3VAO_YgYKCXMXcZUViXffXcV.TfdbRjRe-UVmXffXcVXiflgj.Tfd@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=RMeY6Ur3;
+       spf=pass (google.com: domain of 3vgo_ygykcxuzebwxkzhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--glider.bounces.google.com designates 2a00:1450:4864:20::24a as permitted sender) smtp.mailfrom=3VgO_YgYKCXUZebWXkZhhZeX.VhfdTlTg-WXoZhhZeXZkhnil.Vhf@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
-        by gmr-mx.google.com with ESMTPS id c38-20020a05651223a600b004811cb1ed75si648446lfv.13.2022.07.01.07.23.16
+Received: from mail-lj1-x24a.google.com (mail-lj1-x24a.google.com. [2a00:1450:4864:20::24a])
+        by gmr-mx.google.com with ESMTPS id c38-20020a05651223a600b004811cb1ed75si648451lfv.13.2022.07.01.07.23.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Jul 2022 07:23:16 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3vao_ygykcxmxczuvixffxcv.tfdbrjre-uvmxffxcvxiflgj.tfd@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
-Received: by mail-ed1-x549.google.com with SMTP id r12-20020a05640251cc00b00435afb01d7fso1869426edd.18
-        for <kasan-dev@googlegroups.com>; Fri, 01 Jul 2022 07:23:16 -0700 (PDT)
+        Fri, 01 Jul 2022 07:23:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3vgo_ygykcxuzebwxkzhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--glider.bounces.google.com designates 2a00:1450:4864:20::24a as permitted sender) client-ip=2a00:1450:4864:20::24a;
+Received: by mail-lj1-x24a.google.com with SMTP id d24-20020a2eb058000000b0025a7f5ccae6so501250ljl.14
+        for <kasan-dev@googlegroups.com>; Fri, 01 Jul 2022 07:23:19 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:a6f5:f713:759c:abb6])
- (user=glider job=sendgmr) by 2002:a17:906:5343:b0:722:ea54:fe67 with SMTP id
- j3-20020a170906534300b00722ea54fe67mr14451273ejo.181.1656685396004; Fri, 01
- Jul 2022 07:23:16 -0700 (PDT)
-Date: Fri,  1 Jul 2022 16:22:25 +0200
-Message-Id: <20220701142310.2188015-1-glider@google.com>
+ (user=glider job=sendgmr) by 2002:a05:6512:1588:b0:481:1a00:4f10 with SMTP id
+ bp8-20020a056512158800b004811a004f10mr9629583lfb.435.1656685398820; Fri, 01
+ Jul 2022 07:23:18 -0700 (PDT)
+Date: Fri,  1 Jul 2022 16:22:26 +0200
+In-Reply-To: <20220701142310.2188015-1-glider@google.com>
+Message-Id: <20220701142310.2188015-2-glider@google.com>
 Mime-Version: 1.0
+References: <20220701142310.2188015-1-glider@google.com>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-Subject: [PATCH v4 00/45] Add KernelMemorySanitizer infrastructure
+Subject: [PATCH v4 01/45] x86: add missing include to sparsemem.h
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -124,9 +127,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="rRH/DJ0i";       spf=pass
- (google.com: domain of 3vao_ygykcxmxczuvixffxcv.tfdbrjre-uvmxffxcvxiflgj.tfd@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3VAO_YgYKCXMXcZUViXffXcV.TfdbRjRe-UVmXffXcVXiflgj.Tfd@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=RMeY6Ur3;       spf=pass
+ (google.com: domain of 3vgo_ygykcxuzebwxkzhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::24a as permitted sender) smtp.mailfrom=3VgO_YgYKCXUZebWXkZhhZeX.VhfdTlTg-WXoZhhZeXZkhnil.Vhf@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -142,279 +145,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-KernelMemorySanitizer (KMSAN) is a detector of errors related to uses of
-uninitialized memory. It relies on compile-time Clang instrumentation
-(similar to MSan in the userspace [1]) and tracks the state of every bit
-of kernel memory, being able to report an error if uninitialized value
-is used in a condition, dereferenced, or escapes to userspace, USB or
-DMA.
+From: Dmitry Vyukov <dvyukov@google.com>
 
-KMSAN has reported more than 300 bugs in the past few years (recently
-fixed bugs: [2]), most of them with the help of syzkaller. Such bugs
-keep getting introduced into the kernel despite new compiler warnings
-and other analyses (the 5.16 cycle already resulted in several
-KMSAN-reported bugs, e.g. [3]). Mitigations like total stack and heap
-initialization are unfortunately very far from being deployable.
+Including sparsemem.h from other files (e.g. transitively via
+asm/pgtable_64_types.h) results in compilation errors due to unknown
+types:
 
-The proposed patchset contains KMSAN runtime implementation together
-with small changes to other subsystems needed to make KMSAN work.
+sparsemem.h:34:32: error: unknown type name 'phys_addr_t'
+extern int phys_to_target_node(phys_addr_t start);
+                               ^
+sparsemem.h:36:39: error: unknown type name 'u64'
+extern int memory_add_physaddr_to_nid(u64 start);
+                                      ^
 
-The latter changes fall into several categories:
+Fix these errors by including linux/types.h from sparsemem.h
+This is required for the upcoming KMSAN patches.
 
-1. Changes and refactorings of existing code required to add KMSAN:
- - [01/45] x86: add missing include to sparsemem.h
- - [02/45] stackdepot: reserve 5 extra bits in depot_stack_handle_t
- - [03/45] instrumented.h: allow instrumenting both sides of copy_from_user()
- - [04/45] x86: asm: instrument usercopy in get_user() and __put_user_size()
- - [05/45] asm-generic: instrument usercopy in cacheflush.h
- - [10/45] libnvdimm/pfn_dev: increase MAX_STRUCT_PAGE_SIZE
+Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
+Signed-off-by: Alexander Potapenko <glider@google.com>
+---
+Link: https://linux-review.googlesource.com/id/Ifae221ce85d870d8f8d17173bd44d5cf9be2950f
+---
+ arch/x86/include/asm/sparsemem.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-2. KMSAN-related declarations in generic code, KMSAN runtime library,
-   docs and configs:
- - [06/45] kmsan: add ReST documentation
- - [07/45] kmsan: introduce __no_sanitize_memory and __no_kmsan_checks
- - [09/45] x86: kmsan: pgtable: reduce vmalloc space
- - [11/45] kmsan: add KMSAN runtime core
- - [13/45] MAINTAINERS: add entry for KMSAN
- - [25/45] kmsan: add tests for KMSAN
- - [32/45] objtool: kmsan: list KMSAN API functions as uaccess-safe
- - [36/45] x86: kmsan: use __msan_ string functions where possible
- - [45/45] x86: kmsan: enable KMSAN builds for x86
-
-3. Adding hooks from different subsystems to notify KMSAN about memory
-   state changes:
- - [14/45] mm: kmsan: maintain KMSAN metadata for page
- - [15/45] mm: kmsan: call KMSAN hooks from SLUB code
- - [16/45] kmsan: handle task creation and exiting
- - [17/45] init: kmsan: call KMSAN initialization routines
- - [18/45] instrumented.h: add KMSAN support
- - [20/45] kmsan: add iomap support
- - [21/45] Input: libps2: mark data received in __ps2_command() as initialized
- - [22/45] dma: kmsan: unpoison DMA mappings
- - [35/45] x86: kmsan: handle open-coded assembly in lib/iomem.c
- - [37/45] x86: kmsan: sync metadata pages on page fault
-
-4. Changes that prevent false reports by explicitly initializing memory,
-   disabling optimized code that may trick KMSAN, selectively skipping
-   instrumentation:
- - [08/45] kmsan: mark noinstr as __no_sanitize_memory
- - [12/45] kmsan: disable instrumentation of unsupported common kernel code
- - [19/45] kmsan: unpoison @tlb in arch_tlb_gather_mmu()
- - [23/45] virtio: kmsan: check/unpoison scatterlist in vring_map_one_sg()
- - [24/45] kmsan: handle memory sent to/from USB
- - [26/45] kmsan: disable strscpy() optimization under KMSAN
- - [27/45] crypto: kmsan: disable accelerated configs under KMSAN
- - [28/45] kmsan: disable physical page merging in biovec
- - [29/45] block: kmsan: skip bio block merging logic for KMSAN
- - [30/45] kcov: kmsan: unpoison area->list in kcov_remote_area_put()
- - [31/45] security: kmsan: fix interoperability with auto-initialization
- - [33/45] x86: kmsan: disable instrumentation of unsupported code
- - [34/45] x86: kmsan: skip shadow checks in __switch_to()
- - [38/45] x86: kasan: kmsan: support CONFIG_GENERIC_CSUM on x86, enable it for KASAN/KMSAN
- - [39/45] x86: fs: kmsan: disable CONFIG_DCACHE_WORD_ACCESS
- - [40/45] x86: kmsan: don't instrument stack walking functions
- - [41/45] entry: kmsan: introduce kmsan_unpoison_entry_regs()
-
-5. Fixes for bugs detected with CONFIG_KMSAN_CHECK_PARAM_RETVAL:
- - [42/45] bpf: kmsan: initialize BPF registers with zeroes
- - [43/45] namei: initialize parameters passed to step_into()
- - [44/45] mm: fs: initialize fsdata passed to write_begin/write_end interface
-
-
-This patchset allows one to boot and run a defconfig+KMSAN kernel on a
-QEMU without known false positives. It however doesn't guarantee there
-are no false positives in drivers of certain devices or less tested
-subsystems, although KMSAN is actively tested on syzbot with a large
-config.
-
-The biggest difference between this patch series and v3 is the
-introduction of CONFIG_KMSAN_CHECK_PARAM_RETVAL, which maps to the
--fsanitize-memory-param-retval compiler flag and enforces conservative
-checks of most kernel function parameters passed by value. As discussed
-in [4], passing uninitialized values as function parameters is
-considered undefined behavior, therefore KMSAN now reports such cases as
-errors. Several newly added patches fix known manifestations of these
-errors.
-
-The patchset was generated relative to Linux v5.19-rc4. The most
-up-to-date KMSAN tree currently resides at
-https://github.com/google/kmsan/. One may find it handy to review these
-patches in Gerrit [5].
-
-A huge thanks goes to the reviewers of the RFC patch series sent to LKML
-in 2020 ([6]).
-
-[1] https://clang.llvm.org/docs/MemorySanitizer.html
-[2] https://syzkaller.appspot.com/upstream/fixed?manager=ci-upstream-kmsan-gce
-[3] https://lore.kernel.org/all/20211126124746.761278-1-glider@google.com/
-[4] https://lore.kernel.org/all/20220614144853.3693273-1-glider@google.com/ 
-[5] https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/12604/ 
-[6] https://lore.kernel.org/all/20200325161249.55095-1-glider@google.com/
-
-Alexander Potapenko (44):
-  stackdepot: reserve 5 extra bits in depot_stack_handle_t
-  instrumented.h: allow instrumenting both sides of copy_from_user()
-  x86: asm: instrument usercopy in get_user() and __put_user_size()
-  asm-generic: instrument usercopy in cacheflush.h
-  kmsan: add ReST documentation
-  kmsan: introduce __no_sanitize_memory and __no_kmsan_checks
-  kmsan: mark noinstr as __no_sanitize_memory
-  x86: kmsan: pgtable: reduce vmalloc space
-  libnvdimm/pfn_dev: increase MAX_STRUCT_PAGE_SIZE
-  kmsan: add KMSAN runtime core
-  kmsan: disable instrumentation of unsupported common kernel code
-  MAINTAINERS: add entry for KMSAN
-  mm: kmsan: maintain KMSAN metadata for page operations
-  mm: kmsan: call KMSAN hooks from SLUB code
-  kmsan: handle task creation and exiting
-  init: kmsan: call KMSAN initialization routines
-  instrumented.h: add KMSAN support
-  kmsan: unpoison @tlb in arch_tlb_gather_mmu()
-  kmsan: add iomap support
-  Input: libps2: mark data received in __ps2_command() as initialized
-  dma: kmsan: unpoison DMA mappings
-  virtio: kmsan: check/unpoison scatterlist in vring_map_one_sg()
-  kmsan: handle memory sent to/from USB
-  kmsan: add tests for KMSAN
-  kmsan: disable strscpy() optimization under KMSAN
-  crypto: kmsan: disable accelerated configs under KMSAN
-  kmsan: disable physical page merging in biovec
-  block: kmsan: skip bio block merging logic for KMSAN
-  kcov: kmsan: unpoison area->list in kcov_remote_area_put()
-  security: kmsan: fix interoperability with auto-initialization
-  objtool: kmsan: list KMSAN API functions as uaccess-safe
-  x86: kmsan: disable instrumentation of unsupported code
-  x86: kmsan: skip shadow checks in __switch_to()
-  x86: kmsan: handle open-coded assembly in lib/iomem.c
-  x86: kmsan: use __msan_ string functions where possible
-  x86: kmsan: sync metadata pages on page fault
-  x86: kasan: kmsan: support CONFIG_GENERIC_CSUM on x86, enable it for
-    KASAN/KMSAN
-  x86: fs: kmsan: disable CONFIG_DCACHE_WORD_ACCESS
-  x86: kmsan: don't instrument stack walking functions
-  entry: kmsan: introduce kmsan_unpoison_entry_regs()
-  bpf: kmsan: initialize BPF registers with zeroes
-  namei: initialize parameters passed to step_into()
-  mm: fs: initialize fsdata passed to write_begin/write_end interface
-  x86: kmsan: enable KMSAN builds for x86
-
-Dmitry Vyukov (1):
-  x86: add missing include to sparsemem.h
-
- Documentation/dev-tools/index.rst       |   1 +
- Documentation/dev-tools/kmsan.rst       | 422 ++++++++++++++++++
- MAINTAINERS                             |  12 +
- Makefile                                |   1 +
- arch/s390/lib/uaccess.c                 |   3 +-
- arch/x86/Kconfig                        |   9 +-
- arch/x86/boot/Makefile                  |   1 +
- arch/x86/boot/compressed/Makefile       |   1 +
- arch/x86/entry/vdso/Makefile            |   3 +
- arch/x86/include/asm/checksum.h         |  16 +-
- arch/x86/include/asm/kmsan.h            |  55 +++
- arch/x86/include/asm/page_64.h          |  12 +
- arch/x86/include/asm/pgtable_64_types.h |  41 +-
- arch/x86/include/asm/sparsemem.h        |   2 +
- arch/x86/include/asm/string_64.h        |  23 +-
- arch/x86/include/asm/uaccess.h          |   7 +
- arch/x86/kernel/Makefile                |   2 +
- arch/x86/kernel/cpu/Makefile            |   1 +
- arch/x86/kernel/dumpstack.c             |   6 +
- arch/x86/kernel/process_64.c            |   1 +
- arch/x86/kernel/unwind_frame.c          |  11 +
- arch/x86/lib/Makefile                   |   2 +
- arch/x86/lib/iomem.c                    |   5 +
- arch/x86/mm/Makefile                    |   2 +
- arch/x86/mm/fault.c                     |  23 +-
- arch/x86/mm/init_64.c                   |   2 +-
- arch/x86/mm/ioremap.c                   |   3 +
- arch/x86/realmode/rm/Makefile           |   1 +
- block/bio.c                             |   2 +
- block/blk.h                             |   7 +
- crypto/Kconfig                          |  30 ++
- drivers/firmware/efi/libstub/Makefile   |   1 +
- drivers/input/serio/libps2.c            |   5 +-
- drivers/net/Kconfig                     |   1 +
- drivers/nvdimm/nd.h                     |   2 +-
- drivers/nvdimm/pfn_devs.c               |   2 +-
- drivers/usb/core/urb.c                  |   2 +
- drivers/virtio/virtio_ring.c            |  10 +-
- fs/buffer.c                             |   4 +-
- fs/namei.c                              |  10 +-
- include/asm-generic/cacheflush.h        |   9 +-
- include/linux/compiler-clang.h          |  23 +
- include/linux/compiler-gcc.h            |   6 +
- include/linux/compiler_types.h          |   3 +-
- include/linux/fortify-string.h          |   2 +
- include/linux/highmem.h                 |   3 +
- include/linux/instrumented.h            |  26 +-
- include/linux/kmsan-checks.h            |  83 ++++
- include/linux/kmsan.h                   | 362 ++++++++++++++++
- include/linux/mm_types.h                |  12 +
- include/linux/sched.h                   |   5 +
- include/linux/stackdepot.h              |   8 +
- include/linux/uaccess.h                 |  19 +-
- init/main.c                             |   3 +
- kernel/Makefile                         |   1 +
- kernel/bpf/core.c                       |   2 +-
- kernel/dma/mapping.c                    |   9 +-
- kernel/entry/common.c                   |   5 +
- kernel/exit.c                           |   2 +
- kernel/fork.c                           |   2 +
- kernel/kcov.c                           |   7 +
- kernel/locking/Makefile                 |   3 +-
- lib/Kconfig.debug                       |   1 +
- lib/Kconfig.kmsan                       |  62 +++
- lib/Makefile                            |   3 +
- lib/iomap.c                             |  44 ++
- lib/iov_iter.c                          |   9 +-
- lib/stackdepot.c                        |  29 +-
- lib/string.c                            |   8 +
- lib/usercopy.c                          |   3 +-
- mm/Makefile                             |   1 +
- mm/filemap.c                            |   2 +-
- mm/internal.h                           |   6 +
- mm/kasan/common.c                       |   2 +-
- mm/kmsan/Makefile                       |  28 ++
- mm/kmsan/core.c                         | 468 ++++++++++++++++++++
- mm/kmsan/hooks.c                        | 395 +++++++++++++++++
- mm/kmsan/init.c                         | 238 ++++++++++
- mm/kmsan/instrumentation.c              | 271 ++++++++++++
- mm/kmsan/kmsan.h                        | 195 +++++++++
- mm/kmsan/kmsan_test.c                   | 552 ++++++++++++++++++++++++
- mm/kmsan/report.c                       | 211 +++++++++
- mm/kmsan/shadow.c                       | 297 +++++++++++++
- mm/memory.c                             |   2 +
- mm/mmu_gather.c                         |  10 +
- mm/page_alloc.c                         |  18 +
- mm/slab.h                               |   1 +
- mm/slub.c                               |  18 +
- mm/vmalloc.c                            |  20 +-
- scripts/Makefile.kmsan                  |   8 +
- scripts/Makefile.lib                    |   9 +
- security/Kconfig.hardening              |   4 +
- tools/objtool/check.c                   |  20 +
- 93 files changed, 4222 insertions(+), 52 deletions(-)
- create mode 100644 Documentation/dev-tools/kmsan.rst
- create mode 100644 arch/x86/include/asm/kmsan.h
- create mode 100644 include/linux/kmsan-checks.h
- create mode 100644 include/linux/kmsan.h
- create mode 100644 lib/Kconfig.kmsan
- create mode 100644 mm/kmsan/Makefile
- create mode 100644 mm/kmsan/core.c
- create mode 100644 mm/kmsan/hooks.c
- create mode 100644 mm/kmsan/init.c
- create mode 100644 mm/kmsan/instrumentation.c
- create mode 100644 mm/kmsan/kmsan.h
- create mode 100644 mm/kmsan/kmsan_test.c
- create mode 100644 mm/kmsan/report.c
- create mode 100644 mm/kmsan/shadow.c
- create mode 100644 scripts/Makefile.kmsan
-
+diff --git a/arch/x86/include/asm/sparsemem.h b/arch/x86/include/asm/sparsemem.h
+index 6a9ccc1b2be5d..64df897c0ee30 100644
+--- a/arch/x86/include/asm/sparsemem.h
++++ b/arch/x86/include/asm/sparsemem.h
+@@ -2,6 +2,8 @@
+ #ifndef _ASM_X86_SPARSEMEM_H
+ #define _ASM_X86_SPARSEMEM_H
+ 
++#include <linux/types.h>
++
+ #ifdef CONFIG_SPARSEMEM
+ /*
+  * generic non-linear memory support:
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220701142310.2188015-1-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220701142310.2188015-2-glider%40google.com.
