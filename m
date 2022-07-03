@@ -1,146 +1,148 @@
-Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBIX6QGLAMGQED7IPIMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC42V7FQ3YARB5FIQSLAMGQELSMWDHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47965641D5
-	for <lists+kasan-dev@lfdr.de>; Sat,  2 Jul 2022 19:23:47 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id k12-20020a05651c10ac00b0025a73553415sf920306ljn.5
-        for <lists+kasan-dev@lfdr.de>; Sat, 02 Jul 2022 10:23:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656782627; cv=pass;
+Received: from mail-wm1-f62.google.com (mail-wm1-f62.google.com [209.85.128.62])
+	by mail.lfdr.de (Postfix) with ESMTPS id 171A25643EF
+	for <lists+kasan-dev@lfdr.de>; Sun,  3 Jul 2022 06:00:53 +0200 (CEST)
+Received: by mail-wm1-f62.google.com with SMTP id n18-20020a05600c501200b003a050cc39a0sf2743043wmr.7
+        for <lists+kasan-dev@lfdr.de>; Sat, 02 Jul 2022 21:00:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656820852; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VTD6ZTK8+ni3o0Ipd4qADpZltYZu7oCKMUMoTRuoKiPy2bopr925kZY4+mRgdHJHVL
-         XWXw5E7f1n+lcB7LegZcsUDFYOKrInENblsZYDUYLYJQVboUyfUTnLSULtpMDUA6+laX
-         XzbVJU0V/YprF+KnLhSymVeOLO3RqviV3WxbLnGaXMu2O/SHQe7pW6b71BKd9SGljK7O
-         NuKFWG/MHPeF+I4u3iOHYUZIVOVgicsp99nBhNbXGBhO16EW/yW+C4DuUlZ/a/Eu3qp2
-         HKg8ahQhSWaZsH+hO5653iUxC06pmTtHCFLsOj5a+VKbDR4JClcJ3RxSg00JcaBKa/6c
-         iVww==
+        b=OuW64t7VzAfIT9SbbPLVnGuw3wZxUHZSLs4OpcNCYPd9rD8Ud8skGn1hcpmzmnsBDJ
+         aY/F+V5oV6K9DBKvaCZo4y1h56LTtagmexeGcGaa2AYATws/zVmOVbEO/scsGqsz1EEi
+         Wk9vQzWy/0UViyjxokz0rHyEP8LKWwhrHDlsEfazgo8krACaYIAfhkVRK7ANltf6mZu5
+         wqqsaBl0KFB83BC+Zj8B31znSQDN3a7KOgJ/WwKWj3oWCXD48Mm8DUmTFEYbdg63VgcL
+         qtxcuQOnEu94F6cWgQkbAUtKK5gXuSGKCLNaMqA/k3iKSLlxoUZ63Kce/wVnr9RtSKUJ
+         gZ3g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=o7gjfzpAHsiR3rBTMVwn65JJgtz+Trd2+5AYR/uFguE=;
-        b=sPjDhxSB7peUY7XSUouvCZFMEUQf+jYfJDNfWpQlJUj0nfXPgCEQHllrc9zSTIrnNw
-         EooS8spcIUX7rDgs2C7xuQDQJA8d2dKml7GZPWZW6Mg5xniFO1OrLDodaSHsbHZhvS+C
-         zUZXpfFqCph1WLEdBOrP+NzRUnJIU6jbbGzEr4o+69ykrcPufc6nUfmQubfvHKq8yEaH
-         6/GBSuH5nYyD1WGEzHYLgWEiUGF9tZL+P5UoQtqp0SNNZ7oWivbeFAT++rfKhBXAy2ns
-         v7l/czItYKjYdvJZ/6h+cIKawoGrlU2OTr7+iJODOuPSowwwD8eoDNwq3CJmz9AxLpUM
-         vnsA==
+         :list-id:mailing-list:precedence:sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date;
+        bh=C0+nU90oaNY+lIuRQUSSaowlj9IH3Y8WlvzAyjVmwu4=;
+        b=hQwJGcgfdAQ10L3KnGbKs3chy7ej6a4QztPIbu8K8Lk5vDaNH3q3fp/AzY5A/VAeRO
+         mKHH13dqF2Byo/WrkgIjdxCoqEfa6XObsMlntwdYhGLhUEGIYFDTgxz1yCjqkEMWl045
+         PJZQ1YfQxJ1l7/hW+/FDbkcsqYe4LE2E7DKNB4Li6zpqoNG8kEeBJTNg+zd96q2nCTwg
+         tQ45WDGDw7AU3OSYwXgzpn+OkDepBfKkzEz8y9glvEXG52t8NWiweaHrPZljvjbiCTSD
+         rd734NIDFKDlsLnIUBKscNFrfcEXxv08+PudM061zUdV9pSGTH9cOSFjS1tEAJ8rL3hK
+         F3tA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=AvpeJ2y3;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::133 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=o7gjfzpAHsiR3rBTMVwn65JJgtz+Trd2+5AYR/uFguE=;
-        b=SOlEaiCrSBoXQ+nVZ7KewB1dC9MGd8xL4i2qeRpKebPM3DNkjvUjdd+oJg1l4avNDh
-         UXjl78/ETwh09LUGSgtVIRmJ47uNMch2eWeYRkyuSBmZO28TC1hG4+/k9Hp1g2+PgGJl
-         Q5dpYwueaeCx8HJqe2Qr/IFm3lE13dBq72Gw64iwY0OLwpwZnuPRzsFV/jTR6tZRtgeW
-         i6lpW/rGKUeLoyLfrcuDMxItD+Kjshkt6ezG1UTTKw1gnP0ZWo7FKndM7uV8d9Bce/bU
-         9L+BPt9A04xqnwy8wX2Kl76EAx1GJSRn90x9lYksVtpDUm82eMBcbrMSbWSNYKbGAlrC
-         hEHg==
+       dkim=pass header.i=@linux.org.uk header.s=zeniv-20220401 header.b=SlO+fKNy;
+       spf=pass (google.com: best guess record for domain of viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted sender) smtp.mailfrom=viro@ftp.linux.org.uk;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zeniv.linux.org.uk
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=o7gjfzpAHsiR3rBTMVwn65JJgtz+Trd2+5AYR/uFguE=;
-        b=XPYpndrxJdNiO8AayXzM95Kc8IsK8gfJ/6BtnOy5G+lcwB5O9XEg/SEhfP1hO9kfj3
-         jvyk3DoLLqmj3JyGiZ7aqCoIRfVp+6ig/7x5LRhKeLGMYQ+AXwaFuHdaMvflOu3Cy4cO
-         hrNQZiLZ5uVmTiM+uTrbom/U1Zxjt2sQ5Fn4hxL3mHXDdsgYVsLryC9e++aIdTP+Gc1n
-         gnO8xjW8lfnWi5FVwQCi1PEIz/4zsSqJTQhxRqWloDq73kxCGGMw0PXTWhSLbqfMzsYM
-         uHtSkfD5vIqB254mi8wcOgaKPBvEzYcxKfSwI17Hp5nY1GVE2py6JznUaV8rUPCkLsmh
-         Q9uw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora/aIdE4pUJpIf7xOc8oERWFIXx73uvGKgQdm2tSw0/GkEmZDBjS
-	Qe5hMlVi26Uw7UeyZIOtzGQ=
-X-Google-Smtp-Source: AGRyM1tmnEi6OoRo8gPrx0xiuHC6u7fDu0dk6bwH3oZ3fACcwCR9/u/A6rjnR5brqFfSqGOYyipJ5Q==
-X-Received: by 2002:a05:6512:23a4:b0:47f:79df:2ea9 with SMTP id c36-20020a05651223a400b0047f79df2ea9mr13003869lfv.498.1656782626844;
-        Sat, 02 Jul 2022 10:23:46 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:sender
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=C0+nU90oaNY+lIuRQUSSaowlj9IH3Y8WlvzAyjVmwu4=;
+        b=sJassC6w6Tv97UWE4nuiGO6zn2WdCnaX+2RolSil4LNoy8yw/lATrFZLsBWcGNONgL
+         85KX53j8GYBco9qlC1TBuICOcS5KSwN0cGv4DDqNMTMSjFZvP4evFVJfRy8mOFskrZWF
+         PYXv4R4nFQeMf9Bgn07XzepatOxzX5fmgnel+pMmFnbsMHTpRrej6MBI6GridrDiq2/c
+         b4a9OB1jNJIY6LzzMUOiPqHKLe8TrnV/0XuOfBapYNwEG6J/8KJZYavfB7ZqsJXRNIMV
+         Sdtx3kqMt2F4LQnroYm42iVPSZ8BU3yst19XX1VE0ZDtS2m4CAIhCrYVnc1YeuqW9bj2
+         7BIA==
+X-Gm-Message-State: AJIora8pek4AjkFkHWX8yB8lBMpnXKk66RlCq+SY/idMaHIfmAV39+N4
+	g593XGLZvopNlXvfgeb2eiQ=
+X-Google-Smtp-Source: AGRyM1sDMD5YLb+7DFf7dQjfyPcY7X6sda7FHT1hjDaHau0cOEHxDbVWNuswERMBTb9QCEqq0yAs0Q==
+X-Received: by 2002:a5d:6752:0:b0:21d:6400:6b4b with SMTP id l18-20020a5d6752000000b0021d64006b4bmr3318851wrw.396.1656820852525;
+        Sat, 02 Jul 2022 21:00:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5a41:0:b0:481:3963:1222 with SMTP id r1-20020ac25a41000000b0048139631222ls1658658lfn.2.gmail;
- Sat, 02 Jul 2022 10:23:45 -0700 (PDT)
-X-Received: by 2002:ac2:48b5:0:b0:482:a0bb:7602 with SMTP id u21-20020ac248b5000000b00482a0bb7602mr2723556lfg.61.1656782625447;
-        Sat, 02 Jul 2022 10:23:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656782625; cv=none;
+Received: by 2002:a5d:47ce:0:b0:21d:339f:dc1 with SMTP id o14-20020a5d47ce000000b0021d339f0dc1ls15255505wrc.0.gmail;
+ Sat, 02 Jul 2022 21:00:51 -0700 (PDT)
+X-Received: by 2002:adf:f503:0:b0:21a:3d9c:b355 with SMTP id q3-20020adff503000000b0021a3d9cb355mr19893226wro.623.1656820851351;
+        Sat, 02 Jul 2022 21:00:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656820851; cv=none;
         d=google.com; s=arc-20160816;
-        b=JA1B/vXwQZXLTcEY6elRLawi422cHfjmY7rUPJs7hhAyDgYglWbVhlr2WaodG/aryc
-         s6Cr5/ayp1QhOyawP4htOsSkA1hGHVbdRFDbkklpCUuixFOwjWCrqE3DCBmkZFEggRsP
-         uV0MGmNf9HWf6bnmi6gRIX3suSJe/R7bLeBUD01RNrS/FbrG7Pk+053RHvN3NYvTkWGV
-         5Qs/YF3NsYFsZni9bKAN+kA7e77MRxY34hIebD14HNMmdCnsa6NLegU7QtKBWW52oL0E
-         ErfbD6abVkQuNgsR0kT3mb0wzbj5APWVPigLzGuLpDzMyNsTvwoda4E94tW/gK7o0Iv9
-         luKg==
+        b=Q/pIwf1nmhADmBAT16ciKApjhE8iiWVbaGMxf+6g6w1fJUjSYPSMIcDMioNdDJBD0s
+         2jU6Oaeb6JZeOGbxsPjUiE5QYM1CY4cdoesMFapz6+TYQ+MCN4P4Apy+rFu6pErp0Kn7
+         qsiwwpY5IMFTZNsexfoTgHl0msZ6GfM/c2lkSTBvCiTsQZXLoMp05MsjcGFVmPJca/bh
+         xY8r36k2A6zY9trdAALyrUSqQBT8vVvUOAZiGMzVeesP5WKvDWfBiDfA4xjCedaxwtdS
+         iKmNoFP7ysjsuN942UdMUKjOJsB6o0/4KIVS77VEj4F0SojsGJO6m9QVI3XmeMM/lpg6
+         Qq8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=il+ZyDBxn0EXlULxf75c3oKM6Oz9Nzs2kT9ulcG3ntg=;
-        b=IMFYfzLzwLEM7gceXMyl4T9xVF54nlTfoD1cj63tEqm4SpHyCOQ2bgamf1gPAZqrsD
-         YLNE7jtM40QcvBl3GyJh/X340m7q/OzwjAMOI2PAnhoaEHLj8dRRKrqdY4EcNGaBp31x
-         hFGzdEg0+bhUtQAzR3g8Lhb4lPKQk/rHJFRYp3eVsHodyB0BmbH6HZdRzEP+WoWMGEQV
-         gpfdMhRQ3t0qFFhag+agoQjwHO4yzsI5mHf67sXDrqwUMGBGgvZ3vqymnLhouV5HVUxX
-         L/n1DzkGrvFI8bKf07YC2o3ct44sIbOAJNxRj5IMb1X9tzVn17SMZR9JDxYezpDJyKxQ
-         GI8A==
+        h=sender:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=LQzNJSrqoKMb8FMCvc/7lp2Km4cof1d6Hftc45fNj1g=;
+        b=0sQ1f3wrOB7GUZeLR/uThhBePxC8iwaE+wnALPu2lU8w6+lLRhjD7Wm8pQMk5R/w9c
+         9UzEKExlbw7rgKvGL8CvniGhdf66BaOVffv4v+E94iB0Y/k3GAm0mqeArdQY1vwwN+NE
+         p65/8fdPmjzNozGABrPXy6wCEJqNT90InmWujY65g6uA0+q96go0MHFvkkhGQskei2je
+         50rzHg+oei29HkiFzYvikvLHKiifoJtYMx3YWCwMMSjNNgdAPAVVOU7D4DIdOko+v4BK
+         Hnnz0fCyLHAj+NN6tUTIyRPX1Z0E/kXPM7V+XQufVGpeVDLrS1YsSsk7srEsj/m0BmMU
+         klpg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=AvpeJ2y3;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::133 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com. [2a00:1450:4864:20::133])
-        by gmr-mx.google.com with ESMTPS id bj25-20020a2eaa99000000b0024da01a8c6dsi893791ljb.1.2022.07.02.10.23.45
+       dkim=pass header.i=@linux.org.uk header.s=zeniv-20220401 header.b=SlO+fKNy;
+       spf=pass (google.com: best guess record for domain of viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted sender) smtp.mailfrom=viro@ftp.linux.org.uk;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zeniv.linux.org.uk
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk. [2a03:a000:7:0:5054:ff:fe1c:15ff])
+        by gmr-mx.google.com with ESMTPS id az26-20020a05600c601a00b003a033946319si477081wmb.0.2022.07.02.21.00.51
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Jul 2022 10:23:45 -0700 (PDT)
-Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::133 as permitted sender) client-ip=2a00:1450:4864:20::133;
-Received: by mail-lf1-x133.google.com with SMTP id j21so8897525lfe.1
-        for <kasan-dev@googlegroups.com>; Sat, 02 Jul 2022 10:23:45 -0700 (PDT)
-X-Received: by 2002:ac2:4a70:0:b0:47f:a18e:ae6c with SMTP id q16-20020ac24a70000000b0047fa18eae6cmr12325468lfp.344.1656782624497;
-        Sat, 02 Jul 2022 10:23:44 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
-        by smtp.gmail.com with ESMTPSA id s4-20020a056512214400b0048109845ab8sm804546lfr.50.2022.07.02.10.23.43
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Jul 2022 10:23:44 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id z13so8779004lfj.13
-        for <kasan-dev@googlegroups.com>; Sat, 02 Jul 2022 10:23:43 -0700 (PDT)
-X-Received: by 2002:a5d:64e7:0:b0:21b:ad72:5401 with SMTP id
- g7-20020a5d64e7000000b0021bad725401mr18424110wri.442.1656782613069; Sat, 02
- Jul 2022 10:23:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-44-glider@google.com>
-In-Reply-To: <20220701142310.2188015-44-glider@google.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 2 Jul 2022 10:23:16 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgbpot7nt966qvnSR25iea3ueO90RwC2DwHH=7ZyeZzvQ@mail.gmail.com>
-Message-ID: <CAHk-=wgbpot7nt966qvnSR25iea3ueO90RwC2DwHH=7ZyeZzvQ@mail.gmail.com>
-Subject: Re: [PATCH v4 43/45] namei: initialize parameters passed to step_into()
-To: Alexander Potapenko <glider@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>, 
-	Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Ilya Leoshkevich <iii@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, 
-	Marco Elver <elver@google.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Matthew Wilcox <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux-MM <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Evgenii Stepanov <eugenis@google.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Segher Boessenkool <segher@kernel.crashing.org>, Vitaly Buka <vitalybuka@google.com>, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Jul 2022 21:00:51 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted sender) client-ip=2a03:a000:7:0:5054:ff:fe1c:15ff;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.95 #2 (Red Hat Linux))
+	id 1o7qlz-007YYP-Mg;
+	Sun, 03 Jul 2022 03:59:51 +0000
+Date: Sun, 3 Jul 2022 04:59:51 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>,
+	Christoph Lameter <cl@linux.com>,
+	David Rientjes <rientjes@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ilya Leoshkevich <iii@linux.ibm.com>,
+	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Linux-MM <linux-mm@kvack.org>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Segher Boessenkool <segher@kernel.crashing.org>,
+	Vitaly Buka <vitalybuka@google.com>,
 	linux-toolchains <linux-toolchains@vger.kernel.org>
+Subject: Re: [PATCH v4 43/45] namei: initialize parameters passed to
+ step_into()
+Message-ID: <YsEUNyKcIiSowfIR@ZenIV>
+References: <20220701142310.2188015-1-glider@google.com>
+ <20220701142310.2188015-44-glider@google.com>
+ <CAHk-=wgbpot7nt966qvnSR25iea3ueO90RwC2DwHH=7ZyeZzvQ@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: torvalds@linux-foundation.org
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgbpot7nt966qvnSR25iea3ueO90RwC2DwHH=7ZyeZzvQ@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Original-Sender: viro@zeniv.linux.org.uk
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=google header.b=AvpeJ2y3;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
- 2a00:1450:4864:20::133 as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
+ header.i=@linux.org.uk header.s=zeniv-20220401 header.b=SlO+fKNy;
+       spf=pass (google.com: best guess record for domain of
+ viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted
+ sender) smtp.mailfrom=viro@ftp.linux.org.uk;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=zeniv.linux.org.uk
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,91 +155,72 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jul 1, 2022 at 7:25 AM Alexander Potapenko <glider@google.com> wrote:
->
-> Under certain circumstances initialization of `unsigned seq` and
-> `struct inode *inode` passed into step_into() may be skipped.
-> In particular, if the call to lookup_fast() in walk_component()
-> returns NULL, and lookup_slow() returns a valid dentry, then the
-> `seq` and `inode` will remain uninitialized until the call to
-> step_into() (see [1] for more info).
+On Sat, Jul 02, 2022 at 10:23:16AM -0700, Linus Torvalds wrote:
+> On Fri, Jul 1, 2022 at 7:25 AM Alexander Potapenko <glider@google.com> wrote:
+> >
+> > Under certain circumstances initialization of `unsigned seq` and
+> > `struct inode *inode` passed into step_into() may be skipped.
+> > In particular, if the call to lookup_fast() in walk_component()
+> > returns NULL, and lookup_slow() returns a valid dentry, then the
+> > `seq` and `inode` will remain uninitialized until the call to
+> > step_into() (see [1] for more info).
 
-So while I think this needs to be fixed, I think I'd really prefer to
-make the initialization and/or usage rules stricter or at least
-clearer.
+> So while I think this needs to be fixed, I think I'd really prefer to
+> make the initialization and/or usage rules stricter or at least
+> clearer.
 
-For example, looking around, I think "handle_dotdot()" has the exact
-same kind of issue, where follow_dotdot[_rcu|() doesn't initialize
-seq/inode for certain cases, and it's *really* hard to see exactly
-what the rules are.
+Disclaimer: the bits below are nowhere near what I consider a decent
+explanation; this might serve as the first approximation, but I really
+need to get some sleep before I get it into coherent shape.  4 hours
+of sleep today...
 
-It turns out that the rules are that seq/inode only get initialized if
-these routines return a non-NULL and non-error result.
+The rules are
+	* no pathname resolution without successful path_init().
+IOW, path_init() failure is an instant fuck off.
+	* path_init() success sets nd->inode.  In all cases.
+	* nd->inode must be set - LOOKUP_RCU or not, we simply cannot
+proceed without it.
 
-Now, that is true for all of these cases - both follow_dotdot*() and
-lookup_fast(). Possibly others.
+	* in non-RCU mode nd->inode must be equal to nd->path.dentry->d_inode.
+	* in RCU mode nd->inode must be equal to a value observed in
+nd->path.dentry->d_inode while nd->path.dentry->d_seq had been equal to
+nd->seq.
 
-But the reason follow_dotdot*() doesn't cause the same issue is that
-the caller actually does the checks that avoid it, and doesn't pass
-down the uninitialized cases.
+	* step_into() gets a dentry/inode/seq triple.  In non-RCU
+mode inode and seq are ignored; in RCU mode they must satisfy the
+same relationship we have for nd->path.dentry/nd->inode/nd->seq.
 
-Now, the other part of the rule is that they only get _used_ for
-LOOKUP_RCU cases, where they are used to validate the lookup after
-we've finalized things.
+> Of course, sometimes the "only get used for LOOKUP_RCU" is very very
+> unclear, because even without being an RCU lookup, step_into() will
+> save it into nd->inode/seq. So the values were "used", and
+> initializing them makes them valid, but then *that* copy must not then
+> be used unless RCU was set.
 
-Of course, sometimes the "only get used for LOOKUP_RCU" is very very
-unclear, because even without being an RCU lookup, step_into() will
-save it into nd->inode/seq. So the values were "used", and
-initializing them makes them valid, but then *that* copy must not then
-be used unless RCU was set.
+You are misreading that (and I admit that it badly needs documentation).
+The whole point of step_into() is to move over to new place.  nd->inode
+*MUST* be set on success, no matter what.
 
-Also, sometimes the LOOKUP_RCU check is in the caller, and has
-actually been cleared, so by the time the actual use comes around, you
-just have to trust that it was a RCU lookup (ie
-legitimize_links/root()).
+>  - I look at that follow_dotdot*() caller case, and think "that looks
+> very similar to the lookup_fast() case, but then we have *very*
+> different initialization rules".
 
-So it all seems to work, and this patch then gets rid of one
-particular odd case, but I think this patch basically hides the
-compiler warning without really clarifying the code or the rules.
+follow_dotdot() might as well lose inodep and seqp arguments - everything
+would've worked just as well without those.  We would've gotten the same
+complaints about uninitialized values passed to step_into(), though.
 
-Anyway, what I'm building up to here is that I think we should
-*document* this a bit more. and then make those initializations then
-be about that documentation. I also get the feeling that
-"nd->inode/nd->seq" should also be initialized.
+This
+                if (unlikely(!parent))
+                        error = step_into(nd, WALK_NOFOLLOW,
+                                         nd->path.dentry, nd->inode, nd->seq);
+in handle_dots() probably contributes to confusion - it's the "we
+have stepped on .. in the root, just jump into whatever's mounted on
+it" case.  In non-RCU case it looks like a use of nd->seq in non-RCU
+mode; however, in that case step_into() will end up ignoring the
+last two arguments.
 
-Right now we have those quite subtle rules about "set vs use", and
-while a lot of the uses are conditional on LOOKUP_RCU, that makes the
-code correct, but doesn't solve the "pass uninitialized values as
-arguments" case.
-
-I also think it's very unclear when nd->inode/nd->seq are initialized,
-and the compiler warning only caught the case where they were *set*
-(but by arguments that weren't initialized), but didn't necessarily
-catch the case where they weren't set at all in the first place and
-then passed around.
-
-End result:
-
- - I think I'd like path_init() (or set_nameidata) to actually
-initialize nd->inode and nd->seq unconditionally too.
-
-   Right now, they get initialized only for that LOOKUP_RCU case.
-Pretty much exactly the same issue as the one this patch tries to
-solve, except the compiler didn't notice because it's all indirect
-through those structure fields and it just didn't track far enough.
-
- - I suspect it would be good to initialize them to actual invalid
-values (rather than NULL/0 - particularly the sequence number)
-
- - I look at that follow_dotdot*() caller case, and think "that looks
-very similar to the lookup_fast() case, but then we have *very*
-different initialization rules".
-
-Al - can you please take a quick look?
-
-                    Linus
+I'll post something more coherent after I get some sleep.  Sorry... ;-/
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3Dwgbpot7nt966qvnSR25iea3ueO90RwC2DwHH%3D7ZyeZzvQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YsEUNyKcIiSowfIR%40ZenIV.
