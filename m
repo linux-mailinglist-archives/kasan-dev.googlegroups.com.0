@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB3UDRSLAMGQEYVOHTNA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB4MDRSLAMGQEVPDUQRY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B44565943
-	for <lists+kasan-dev@lfdr.de>; Mon,  4 Jul 2022 17:06:22 +0200 (CEST)
-Received: by mail-ed1-x53d.google.com with SMTP id q18-20020a056402519200b004358ce90d97sf7260386edd.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 04 Jul 2022 08:06:22 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656947182; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id D851D565944
+	for <lists+kasan-dev@lfdr.de>; Mon,  4 Jul 2022 17:06:25 +0200 (CEST)
+Received: by mail-lj1-x23c.google.com with SMTP id c12-20020a2ebf0c000000b00258e5e6e125sf2865976ljr.17
+        for <lists+kasan-dev@lfdr.de>; Mon, 04 Jul 2022 08:06:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656947185; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uUEtALzCLrtNXfFSgpuoFtjag/yM2Y6nrKKn4tvcs4TTBWzc8GBI+dZpxQtXYBRclU
-         Xiqh/ByoDJ3ddenfQqTcVr6GVcHieNUNtWTl21wrTy+JN5LAtK2+poBWJGRzlIDxTjy/
-         P0KeHTSCKw1/kbjbJNpx7ECGD95hoJ1AM7ZJu4mzmkHTcU4SmbcJqMowdJQ2wfuUmBF+
-         0i503axjD2l3gdozPp91OGNLtrGVhpes2qz9l04svCun9KOZm2euFDZ7VgFWowvKLmAG
-         w3f08JRGmwnlTnsH/Yb16J1Y6sHkK4a+UC+u/NxYOML1Tw+eZJZWwUzJqvOjmpnk/3o3
-         P1yA==
+        b=v6S3HZhd7MpD2lDaMgBhRx0HA60PR/PR1gUn4jhfv/2ROsarU7kcO9n/tGkmdx9uVZ
+         40sPAOviwzeiVJ5g3lFzXbwXfAOZirc6d9e2keU81PWH50HAMKo9VC88jfFg6EVHJfE/
+         DuUHBk8aoNW7Cg8jdQdmOgqqhsk8du2eBuajvQffLkrw6QtBm/uuucaBVNwTo3IVTh5a
+         trhfvm4HojB2pncp7aLvad3vai4S0eLUcoAw05ZOG5s4PRgNXVnQDQ5Mj9hN/Vr9AVje
+         JDYW39oTdWm5SldACemfWp9VDhqE4moJPD8Rf3xSqnq/8uu4vAvpg8VT4ikHGFr/ei14
+         Y7FQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :references:mime-version:message-id:in-reply-to:date:dkim-signature;
-        bh=A+36yqBuNhXf+j1hr/4BmHYemJ3aa7YCA/fcAOtLvM8=;
-        b=sBlNiSkE2b43ROWDqq/hndFQsvbCw9wIa2Szguj39ICvtFG1OUDU4z30KRJOdY7K37
-         hmbxJo+wTRDhZwzKfqYGlg1tUegOT7pJ6z5ASkrVi5s1duZ7JMW7uFjIMe+tLpm78vgp
-         7xMgxoMj0NsDY7eyLJITSy/nhSjDDLbC0OZMoF+tdBzTq4q2A9abVJAaGdrPXa8pfjw+
-         B36XMxesHWGEtPmPk63fobb31rAGLkOZt4NBreuN44vpBYyIrfpyUbiy21dWS9N2mQqU
-         sdffFjiVVbbcxJ3ABo0YrXsjVDu8H1aaI3Z7UeOwX/gFhPgy5f1dTIAlVP+P/UOwdHnM
-         KFew==
+        bh=L17W8U6nWlAsZ4bi6wD4G0q4Xupafbx/j0tbNmUtqn8=;
+        b=ZU5k2P2RFamkm8XuSB2/QkvUSTuW/IhghPh8nGpSAdPdGG3BUChVA6v4FVQnjyO1G7
+         jrDtJpHarstIzMI1f4pCJYEjk9o781wlIRhzEwNsdxIIx9qcAFinu+KORsyl1lAr6fA7
+         rg9Fwhp2Kk3TgcZqP25wkYHutR2GzellAfrCyaM7Cy4Sso0t4uSAo2DqBSaXk8O5Dc46
+         5Ht4OpCkBnw+b4b+5v4FLXEYFvoqPjnEg6WoM+2G9Uo71wSce2fcVjUTtohE67cKDJi7
+         Roz0pCVEHIpmVXfotu9Mj0rqz21Ic02nFcfJBcgPR2sRL7Qsr/eTcQRNd8QVP5huE+Vn
+         QYRg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=VH8XGPdq;
-       spf=pass (google.com: domain of 37ahdygukcrk3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=37AHDYgUKCRk3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Ph8b8+BR;
+       spf=pass (google.com: domain of 37whdygukcrw6dn6j8gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=37wHDYgUKCRw6DN6J8GG8D6.4GEC2K2F-56N8GG8D68JGMHK.4GE@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=A+36yqBuNhXf+j1hr/4BmHYemJ3aa7YCA/fcAOtLvM8=;
-        b=qm7TW4ujGvEinEC2pTnU1sTVB8wupdOHJsPmZfXZjNI9iF7wTgStDEeWLCveyleFaF
-         Rigp6kfMHseHwXqnEXfi4uipm4FCPielhPseh14WdNEg4OsFDvI0ePpYpqLefDXHC3La
-         nK7eOEeaU3PBhfUxXPBfhqLTP9dE+rHstwRsx42oZ4A9VMxm0eZeqIbjGRa4G/NvCurZ
-         kqWmLxhR21jrPbvmHnzK/34Lk2tj7Osq3CbK3K+sDWYMhzyWWv2JS7Cqfhl9s1mqwNJh
-         G7dFfdJdNMCDF5F2QIEkLNyjGkGb4TB3FzOs6bDB2//23xftM/Wo3VeZh2YvlNtZ8aU7
-         uwNA==
+        bh=L17W8U6nWlAsZ4bi6wD4G0q4Xupafbx/j0tbNmUtqn8=;
+        b=RFZE2EsmodyB74Zv3rDlqrFQZrzN5DZO5GrOW0khdwxR2TiDnIrkQ2Q+TyUhNCu4o9
+         0yiY2o78VL97vSYdSKFQ4MvkYN0vqZEwLdEq8AMRuvls/vAcboiyqWJuYgVoTGb0WzMz
+         A96J8KLQ9qfuJpkhpRwyuEJlaEOiqauS+sB59X69crMQ5aB0Ku9txdx8hCmDzNRGejzm
+         /suzKtWc+D9tp5qZDySHZuxkaomPK2s7LmBGlxqS7c88rIZqWEjecQR80uKAVMdodAyY
+         KkwUQVLCogv3DJXsi1VPALkjtpwModifH93z+qDiLNpdk5niYBvyXRrF/DJD1TMfetRg
+         7rhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
@@ -49,65 +49,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=A+36yqBuNhXf+j1hr/4BmHYemJ3aa7YCA/fcAOtLvM8=;
-        b=GI6QYbQarDHiphCkxCceVbjhBxFuJ1EYoxizGuTVoN3eIBROIWoG/rTCXE61ed7aq1
-         zUUUOyAKJEc60rKOe3+teCVFoLzluCNmNpCI5+KxI0iYJPRDEMfwM4pu2RkEC0vUWLPr
-         LGkEOvzP5KFcfHVFKXjHzgATdtG63X+UFWWBLJuJelja16InI+E2YRHGv6FnBB+j1jzH
-         2abHhMmAUNCJ9i2x2eBmQonAHvwr26tjZLSIr3PT6ohOZYBq/bHVR406Hg3T9KpbiXxt
-         SMfIEknMUWOgccXgSmyn87jGp7bp2pmVx3fjg7U12I+4J+2jU7sAOk5psYCiIqQaHJMP
-         eo5g==
-X-Gm-Message-State: AJIora9GZs1rlsGjBnDe/y15fP6YzsggB4E+wibiKxTdNICvAFUQJhVk
-	u016L0VOTZ5w/Z4vEIqa76k=
-X-Google-Smtp-Source: AGRyM1uQ7IIdnHHKlvQkt9eF6xpBr8UACNil9XUAWXWb4ecymVQ2Wp3LF2xqaw1NB2URe+8w3lqDEQ==
-X-Received: by 2002:a05:6402:528f:b0:42a:c778:469e with SMTP id en15-20020a056402528f00b0042ac778469emr39108869edb.404.1656947182284;
-        Mon, 04 Jul 2022 08:06:22 -0700 (PDT)
+        bh=L17W8U6nWlAsZ4bi6wD4G0q4Xupafbx/j0tbNmUtqn8=;
+        b=MxipltrpB9BJFRwSPfluIAK2z5ddUTPd85P2T6OtPkul8g4IDwqbgvxYCk1jJJ/l2W
+         gG1rvkdLu8qjJMw608awcUkDD3TXlAelDiUfzmSvalV9iLhOyasNm0GaRVcdY0A5ElMF
+         hk+7ZKrRhC2gyWnbkB1fhf5lT6KfxZ4Gpi0FfVm3lZFbuPW5QiahNhoFrlYxCRZVywpx
+         lXD6QQcHhib6vXNPOIHhcnME78+3+dHOGNi9xvvfnNisVW8UXu1xi8NeJxPQkzEhrL/P
+         1HDtjJnvkVOUgyn3NBsQVIQ5ASrcXThBnZFdAe6Fusp4stoBshMSqbE0FBqma+pFCCuI
+         dVjQ==
+X-Gm-Message-State: AJIora+OndxFJHNZPDB/d0i9bWrzhLDMq0hqfZi/6puwCywblYAqzC7Q
+	0b02iG1cJL5/0u/hGbh/pUY=
+X-Google-Smtp-Source: AGRyM1sBQiJNxSWcoS0KBCffabFCZg+0T9nXfDWIdrfE15RNlVaspeR6S91wmkCjFwwp+N8Bg6wohA==
+X-Received: by 2002:a05:6512:260b:b0:47f:b04e:3116 with SMTP id bt11-20020a056512260b00b0047fb04e3116mr19940412lfb.474.1656947185246;
+        Mon, 04 Jul 2022 08:06:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:6d05:b0:726:a6bb:94ac with SMTP id
- sa5-20020a1709076d0500b00726a6bb94acls6333156ejc.10.gmail; Mon, 04 Jul 2022
- 08:06:21 -0700 (PDT)
-X-Received: by 2002:a17:907:1b1c:b0:6fe:f1a9:ef5a with SMTP id mp28-20020a1709071b1c00b006fef1a9ef5amr29964901ejc.233.1656947181044;
-        Mon, 04 Jul 2022 08:06:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656947181; cv=none;
+Received: by 2002:a2e:b041:0:b0:25a:7050:86fb with SMTP id d1-20020a2eb041000000b0025a705086fbls6796714ljl.10.gmail;
+ Mon, 04 Jul 2022 08:06:23 -0700 (PDT)
+X-Received: by 2002:a2e:9a8f:0:b0:25a:7f54:a82e with SMTP id p15-20020a2e9a8f000000b0025a7f54a82emr17051072lji.8.1656947183842;
+        Mon, 04 Jul 2022 08:06:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656947183; cv=none;
         d=google.com; s=arc-20160816;
-        b=KO1sBlc+J0GL40iDPEncCtfjswFOpccpZgGXt1SZCyQrlAbyGqqg7VvcmOg5cXB/6v
-         C0JvC0i9uE33jHeYkq7tQgk/ILe6KAMyAZLnhKXjp2i9+62rTmh+n4hPRqvpecXIQXwQ
-         EgitMxIJHa9Og4FPU3+kau6wcN9S1NUk2G4QqN2XWfH2Jv6G6enuVk1BzwK6PTy0TA61
-         fCpv/AUNQWMKT3GOLRg14t4zitJbKET0P+KcYNBVCa5i1SIlr4VMa2OosfmdkFcWGzf0
-         EKAoHvgpvI9ZKOIuZ4YoWzLcWm+p72lAzVYtrrnd5i7+ku6VQO+zyy2ahzm5q72urNc0
-         gRqQ==
+        b=GC5qUuw2Axeh3zfVmqIJpXHBPrRFvIRvSsC4EYTi4sKkJs7lusaAfp20VqpYrb0EFU
+         JeH0Sk6y0yWdhGJUiMlobp2yxpP1Lj17ciBgEXmPYkFCGEPooZj62sCF2z/R9GTNO6K5
+         y1iwmJPKWvz/2Y/z+0ouwK/0u4fNBNrFW7WEn+O41USbsufQ4sIVRItteuRKzNuYkNlA
+         ks+vw3dXdPz2q++5+IFA79br/K+bJHOb9UjZWH6KZdUmvNy0+aIU4ZywKizUr1OMRbNN
+         c1bN2gfFw71MqLOCdp6ruQjD25nv/eIyumh9u7DqJOf/+kr8/Ocj+7aSxfF82cRF1CdG
+         WXoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:dkim-signature;
-        bh=JfXu58z7UaUBjps4RoWkmcCG0rF85BXMjQyAUe0XzyE=;
-        b=ct1/QatZBp2PnfurQtseKlljBxTgSk39S19LTOFQ87nt2oct/3xLW21Dxk22CZmEA3
-         UozG+aZ80v+HbFG64/eqv71sAm1RWevz6yOOoV22dqpGbwmXFS11reRe0BOdbb21yYCI
-         0bMLxxoK5mQ6+rLFyG4wzbcC9V8fWj2GmIXrh9sJpiNi5j2kvusbLEXhF6S5aJYs7UBL
-         xWZUM/0CvZcR1X6aWruAhbxdHjs33mbglCgjhfVwCohB2Yaskt+50QBXGRofbcbbV92Z
-         gfg3BEx5wZvFNtJHiG+9X0WzbqxCAfht5CoxnbwyW4xvEg9piTwCLgx5qpAw27t04yaZ
-         sY3g==
+        bh=yKHd4+xECY7NKN85fGWY0KF6Qb94v9CyhlLOvS2S1lk=;
+        b=HuVVHSXThxn4YO8FW0ZtV0ElfsEjq4fpxOdBvmrH4VeteKB6OUHp6B4/+mJ1uylNH+
+         JX1xz3M5yuupn9KCpUB6k69YlhMbaukdjsq2AzURC666ZJrSVl2PhDSgcRjYLXDz4VXc
+         XxFcqFDPotC9GpMGXuKQELcSEM4frnjdtoGdaW2N3BxJ5JP9q3WEf6efl6gxwKyqIk/R
+         KI9VpQ5ZbD0wR9EVtfHPHnfGBKOTGAtR0WvXJRdZPwVmrtVR/hBh09iKsfpybTxOfKm6
+         mz0BRdbEUs24knGJZ9nq/+33JmBLy4BZHJW84BIBNcSuvgY8Xd/PjkvKOaAHrxlA3SXn
+         q3QA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=VH8XGPdq;
-       spf=pass (google.com: domain of 37ahdygukcrk3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=37AHDYgUKCRk3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Ph8b8+BR;
+       spf=pass (google.com: domain of 37whdygukcrw6dn6j8gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=37wHDYgUKCRw6DN6J8GG8D6.4GEC2K2F-56N8GG8D68JGMHK.4GE@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
-        by gmr-mx.google.com with ESMTPS id i24-20020a0564020f1800b004319ce84356si1199860eda.4.2022.07.04.08.06.21
+Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com. [2a00:1450:4864:20::64a])
+        by gmr-mx.google.com with ESMTPS id h6-20020a05651c124600b0025a45f568e9si1121049ljh.0.2022.07.04.08.06.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 08:06:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 37ahdygukcrk3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
-Received: by mail-ed1-x549.google.com with SMTP id v16-20020a056402349000b00435a1c942a9so7412941edc.15
-        for <kasan-dev@googlegroups.com>; Mon, 04 Jul 2022 08:06:21 -0700 (PDT)
+        Mon, 04 Jul 2022 08:06:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 37whdygukcrw6dn6j8gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) client-ip=2a00:1450:4864:20::64a;
+Received: by mail-ej1-x64a.google.com with SMTP id hp8-20020a1709073e0800b0072629757566so2117644ejc.0
+        for <kasan-dev@googlegroups.com>; Mon, 04 Jul 2022 08:06:23 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:6edf:e1bc:9a92:4ad0])
- (user=elver job=sendgmr) by 2002:a05:6402:4446:b0:43a:3f52:4172 with SMTP id
- o6-20020a056402444600b0043a3f524172mr9836137edb.417.1656947180619; Mon, 04
- Jul 2022 08:06:20 -0700 (PDT)
-Date: Mon,  4 Jul 2022 17:05:09 +0200
+ (user=elver job=sendgmr) by 2002:a17:907:6ea7:b0:726:41de:78ac with SMTP id
+ sh39-20020a1709076ea700b0072641de78acmr30061092ejc.452.1656947183301; Mon, 04
+ Jul 2022 08:06:23 -0700 (PDT)
+Date: Mon,  4 Jul 2022 17:05:10 +0200
 In-Reply-To: <20220704150514.48816-1-elver@google.com>
-Message-Id: <20220704150514.48816-10-elver@google.com>
+Message-Id: <20220704150514.48816-11-elver@google.com>
 Mime-Version: 1.0
 References: <20220704150514.48816-1-elver@google.com>
 X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-Subject: [PATCH v3 09/14] powerpc/hw_breakpoint: Avoid relying on caller synchronization
+Subject: [PATCH v3 10/14] locking/percpu-rwsem: Add percpu_is_write_locked()
+ and percpu_is_read_locked()
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>
@@ -121,9 +121,9 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Arnaldo Carvalho de Melo <acme@kernel.
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=VH8XGPdq;       spf=pass
- (google.com: domain of 37ahdygukcrk3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=37AHDYgUKCRk3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=Ph8b8+BR;       spf=pass
+ (google.com: domain of 37whdygukcrw6dn6j8gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=37wHDYgUKCRw6DN6J8GG8D6.4GEC2K2F-56N8GG8D68JGMHK.4GE@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -139,187 +139,60 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Internal data structures (cpu_bps, task_bps) of powerpc's hw_breakpoint
-implementation have relied on nr_bp_mutex serializing access to them.
+Implement simple accessors to probe percpu-rwsem's locked state:
+percpu_is_write_locked(), percpu_is_read_locked().
 
-Before overhauling synchronization of kernel/events/hw_breakpoint.c,
-introduce 2 spinlocks to synchronize cpu_bps and task_bps respectively,
-thus avoiding reliance on callers synchronizing powerpc's hw_breakpoint.
-
-Reported-by: Dmitry Vyukov <dvyukov@google.com>
 Signed-off-by: Marco Elver <elver@google.com>
-Acked-by: Dmitry Vyukov <dvyukov@google.com>
+Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 ---
 v2:
 * New patch.
 ---
- arch/powerpc/kernel/hw_breakpoint.c | 53 ++++++++++++++++++++++-------
- 1 file changed, 40 insertions(+), 13 deletions(-)
+ include/linux/percpu-rwsem.h  | 6 ++++++
+ kernel/locking/percpu-rwsem.c | 6 ++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/arch/powerpc/kernel/hw_breakpoint.c b/arch/powerpc/kernel/hw_breakpoint.c
-index 2669f80b3a49..8db1a15d7acb 100644
---- a/arch/powerpc/kernel/hw_breakpoint.c
-+++ b/arch/powerpc/kernel/hw_breakpoint.c
-@@ -15,6 +15,7 @@
- #include <linux/kernel.h>
- #include <linux/sched.h>
- #include <linux/smp.h>
-+#include <linux/spinlock.h>
- #include <linux/debugfs.h>
- #include <linux/init.h>
- 
-@@ -129,7 +130,14 @@ struct breakpoint {
- 	bool ptrace_bp;
- };
- 
-+/*
-+ * While kernel/events/hw_breakpoint.c does its own synchronization, we cannot
-+ * rely on it safely synchronizing internals here; however, we can rely on it
-+ * not requesting more breakpoints than available.
-+ */
-+static DEFINE_SPINLOCK(cpu_bps_lock);
- static DEFINE_PER_CPU(struct breakpoint *, cpu_bps[HBP_NUM_MAX]);
-+static DEFINE_SPINLOCK(task_bps_lock);
- static LIST_HEAD(task_bps);
- 
- static struct breakpoint *alloc_breakpoint(struct perf_event *bp)
-@@ -174,7 +182,9 @@ static int task_bps_add(struct perf_event *bp)
- 	if (IS_ERR(tmp))
- 		return PTR_ERR(tmp);
- 
-+	spin_lock(&task_bps_lock);
- 	list_add(&tmp->list, &task_bps);
-+	spin_unlock(&task_bps_lock);
- 	return 0;
+diff --git a/include/linux/percpu-rwsem.h b/include/linux/percpu-rwsem.h
+index 5fda40f97fe9..36b942b67b7d 100644
+--- a/include/linux/percpu-rwsem.h
++++ b/include/linux/percpu-rwsem.h
+@@ -121,9 +121,15 @@ static inline void percpu_up_read(struct percpu_rw_semaphore *sem)
+ 	preempt_enable();
  }
  
-@@ -182,6 +192,7 @@ static void task_bps_remove(struct perf_event *bp)
- {
- 	struct list_head *pos, *q;
++extern bool percpu_is_read_locked(struct percpu_rw_semaphore *);
+ extern void percpu_down_write(struct percpu_rw_semaphore *);
+ extern void percpu_up_write(struct percpu_rw_semaphore *);
  
-+	spin_lock(&task_bps_lock);
- 	list_for_each_safe(pos, q, &task_bps) {
- 		struct breakpoint *tmp = list_entry(pos, struct breakpoint, list);
++static inline bool percpu_is_write_locked(struct percpu_rw_semaphore *sem)
++{
++	return atomic_read(&sem->block);
++}
++
+ extern int __percpu_init_rwsem(struct percpu_rw_semaphore *,
+ 				const char *, struct lock_class_key *);
  
-@@ -191,6 +202,7 @@ static void task_bps_remove(struct perf_event *bp)
- 			break;
- 		}
- 	}
-+	spin_unlock(&task_bps_lock);
- }
+diff --git a/kernel/locking/percpu-rwsem.c b/kernel/locking/percpu-rwsem.c
+index 5fe4c5495ba3..213d114fb025 100644
+--- a/kernel/locking/percpu-rwsem.c
++++ b/kernel/locking/percpu-rwsem.c
+@@ -192,6 +192,12 @@ EXPORT_SYMBOL_GPL(__percpu_down_read);
+ 	__sum;								\
+ })
  
++bool percpu_is_read_locked(struct percpu_rw_semaphore *sem)
++{
++	return per_cpu_sum(*sem->read_count) != 0;
++}
++EXPORT_SYMBOL_GPL(percpu_is_read_locked);
++
  /*
-@@ -200,12 +212,17 @@ static void task_bps_remove(struct perf_event *bp)
- static bool all_task_bps_check(struct perf_event *bp)
- {
- 	struct breakpoint *tmp;
-+	bool ret = false;
- 
-+	spin_lock(&task_bps_lock);
- 	list_for_each_entry(tmp, &task_bps, list) {
--		if (!can_co_exist(tmp, bp))
--			return true;
-+		if (!can_co_exist(tmp, bp)) {
-+			ret = true;
-+			break;
-+		}
- 	}
--	return false;
-+	spin_unlock(&task_bps_lock);
-+	return ret;
- }
- 
- /*
-@@ -215,13 +232,18 @@ static bool all_task_bps_check(struct perf_event *bp)
- static bool same_task_bps_check(struct perf_event *bp)
- {
- 	struct breakpoint *tmp;
-+	bool ret = false;
- 
-+	spin_lock(&task_bps_lock);
- 	list_for_each_entry(tmp, &task_bps, list) {
- 		if (tmp->bp->hw.target == bp->hw.target &&
--		    !can_co_exist(tmp, bp))
--			return true;
-+		    !can_co_exist(tmp, bp)) {
-+			ret = true;
-+			break;
-+		}
- 	}
--	return false;
-+	spin_unlock(&task_bps_lock);
-+	return ret;
- }
- 
- static int cpu_bps_add(struct perf_event *bp)
-@@ -234,6 +256,7 @@ static int cpu_bps_add(struct perf_event *bp)
- 	if (IS_ERR(tmp))
- 		return PTR_ERR(tmp);
- 
-+	spin_lock(&cpu_bps_lock);
- 	cpu_bp = per_cpu_ptr(cpu_bps, bp->cpu);
- 	for (i = 0; i < nr_wp_slots(); i++) {
- 		if (!cpu_bp[i]) {
-@@ -241,6 +264,7 @@ static int cpu_bps_add(struct perf_event *bp)
- 			break;
- 		}
- 	}
-+	spin_unlock(&cpu_bps_lock);
- 	return 0;
- }
- 
-@@ -249,6 +273,7 @@ static void cpu_bps_remove(struct perf_event *bp)
- 	struct breakpoint **cpu_bp;
- 	int i = 0;
- 
-+	spin_lock(&cpu_bps_lock);
- 	cpu_bp = per_cpu_ptr(cpu_bps, bp->cpu);
- 	for (i = 0; i < nr_wp_slots(); i++) {
- 		if (!cpu_bp[i])
-@@ -260,19 +285,25 @@ static void cpu_bps_remove(struct perf_event *bp)
- 			break;
- 		}
- 	}
-+	spin_unlock(&cpu_bps_lock);
- }
- 
- static bool cpu_bps_check(int cpu, struct perf_event *bp)
- {
- 	struct breakpoint **cpu_bp;
-+	bool ret = false;
- 	int i;
- 
-+	spin_lock(&cpu_bps_lock);
- 	cpu_bp = per_cpu_ptr(cpu_bps, cpu);
- 	for (i = 0; i < nr_wp_slots(); i++) {
--		if (cpu_bp[i] && !can_co_exist(cpu_bp[i], bp))
--			return true;
-+		if (cpu_bp[i] && !can_co_exist(cpu_bp[i], bp)) {
-+			ret = true;
-+			break;
-+		}
- 	}
--	return false;
-+	spin_unlock(&cpu_bps_lock);
-+	return ret;
- }
- 
- static bool all_cpu_bps_check(struct perf_event *bp)
-@@ -286,10 +317,6 @@ static bool all_cpu_bps_check(struct perf_event *bp)
- 	return false;
- }
- 
--/*
-- * We don't use any locks to serialize accesses to cpu_bps or task_bps
-- * because are already inside nr_bp_mutex.
-- */
- int arch_reserve_bp_slot(struct perf_event *bp)
- {
- 	int ret;
+  * Return true if the modular sum of the sem->read_count per-CPU variable is
+  * zero.  If this sum is zero, then it is stable due to the fact that if any
 -- 
 2.37.0.rc0.161.g10f37bed90-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220704150514.48816-10-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220704150514.48816-11-elver%40google.com.
