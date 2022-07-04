@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC42V7FQ3YARB5HJRWLAMGQENRIYPZY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC42V7FQ3YARBE7KRWLAMGQEBAWCESA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-f56.google.com (mail-wm1-f56.google.com [209.85.128.56])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895E0565FA9
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 Jul 2022 01:17:08 +0200 (CEST)
-Received: by mail-wm1-f56.google.com with SMTP id j35-20020a05600c1c2300b003a167dfa0ecsf5961644wms.5
-        for <lists+kasan-dev@lfdr.de>; Mon, 04 Jul 2022 16:17:08 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656976628; cv=pass;
+Received: from mail-lf1-f55.google.com (mail-lf1-f55.google.com [209.85.167.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E279565FAD
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 Jul 2022 01:17:40 +0200 (CEST)
+Received: by mail-lf1-f55.google.com with SMTP id y8-20020ac24208000000b0047f9fc8f632sf3383086lfh.11
+        for <lists+kasan-dev@lfdr.de>; Mon, 04 Jul 2022 16:17:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656976660; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gLRu5LzOjm/Zjj2tJH11Puy6vB2JC01t/3CNY0dfmCz6PapRjwuwwi4dZVsFjookUs
-         1wykvc0IaMhobvKFfIDpMKBuBuXylMCFAm5JPxGbPE48XHUZp+GArHk9spDN2QHem2ox
-         +SZGHzFtoan48aO+PkPOTJAzzDLfK9IoqPchKETEtZ88cwyzh1HydtBfPvlWXCdU87CS
-         B8z/wKpemTa4AQS/KfQjAJdqV4t4Kptc3xRwRcU9CoZkzeq7HyIERMEJ45vjtBYBZ1+6
-         bsTkBMtMqGIx0ZsXQirD6NEVvAUX3u9YbcWv+6X6e+ifSH/oUoV37JijfuzdIIFlykLS
-         I40Q==
+        b=nipWDr5RuoqRDi+bqUI9rGre3XGeqio6OVKAve2WAl7oSWJAaiH0KXPxA8o40INUk7
+         QPb+zxf+a5MgJ3wLyIRdMS4BQAwQQOXMcwRix4DossUp3brS+rc8b6wYtaQx0vwbAo2V
+         cfTJkP4nOKxVb6ya+YSRcKsRkWdjgr6ABMq1hPgVkM8FfqzCpLE0UQ6A0N9boqPV3pge
+         uCzTVTPH7Lkpq0Vpjm/0GoBFQm4XaZdovxfrZTI/BrMxQ854lyb5MORtcUnvz2fyaEAy
+         u2FqTBbbNyl19sdyHrn0EmN+zmKonMXzgG8iM+3y9pbYdYwU3pY9lKmN29Xy1Hk8Ypm/
+         yleg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date;
-        bh=sULxh/0y/YRwtWnLbHBHkAdquiZxhY3nZiw1NUIGdJ0=;
-        b=rXStuHU9+bBkoiAFu5xx18aBp5+5D7PJLmgnuevkhTk3wOQdSDsYG3mRufF/I2qPlQ
-         ycYudFoKHmsInQH0iJ0VNtOTdt3C3QXQ2dEvbkVB4CfznDD5smHd9+2UNsBhTA81Ovi5
-         NVOVgujesM2ICWsZkMaVxBhCh+8OM+9AlJARbUe6uCXA5H6z7A8dg/5hUmjZ7jj2zl3Z
-         HzorpDYDQMhNVA0hlAp8C3V5XYBdYPLCnxMI4XweB8KUWrk+2rU2J+2ztwvhyYaFX+M8
-         DdChUKDoOVDtJrULHRN6Qwr+Ew4a6cFw/5visnA2DMcc82CsGVD5Ts90rbtAiSjHFU7O
-         ifHA==
+        bh=P1jxrIZYR1wHSUHZwKhhnsBFs+52yPANDa+Y54uA2ww=;
+        b=TL+/SG7CHW2Mt5IEoqPJjVEW+RVb6U04JVxDeyfZc0WAoXFGSmNLSAMiKum9d+Wjjv
+         J1SXtxg9CJy9eUEb4ypxVj2kUeuXI+M4pA432LOic1cOdV0LJ+6+RtAVeINx4ZJwr/h1
+         FhsM3b56vX6wVYF4EGI0xGNAXzkbm3IappIAXv10oWZwt71r2fX+JbGXm+TId+EdtotJ
+         na2yOf6JAwPbJo9W2d82mAbQCvyMxVmi00A2pAmShcVrBxiNwC7Q8sAeHJmio2WzNgHu
+         q6NXKlhk1cPEt/XMReY1SbS98VDfwVQChspxWYZTSxPFW9agqp+4HGSXOVYU4ifx/aVl
+         bptA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.org.uk header.s=zeniv-20220401 header.b=uElzEPYg;
+       dkim=pass header.i=@linux.org.uk header.s=zeniv-20220401 header.b=XMq6en3D;
        spf=pass (google.com: best guess record for domain of viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted sender) smtp.mailfrom=viro@ftp.linux.org.uk;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zeniv.linux.org.uk
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -37,56 +37,55 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
          :list-archive:list-subscribe:list-unsubscribe;
-        bh=sULxh/0y/YRwtWnLbHBHkAdquiZxhY3nZiw1NUIGdJ0=;
-        b=F3LoI4NEwst6EkolmMqfHk33q1YkprX4MyR6cwRPIdxJcSO/IXtRFEJFVebPG66AfQ
-         s59eIsDu8i0perrrDBwhOR3/taujUimh8uXAG1plrrenbE9sEsPPwAjyBSb14ouQYG5B
-         w7dgkq4UPoX12TxCrm3ZHW1pAOD0VikxfgPOLN1Kwzq1ASj+ZGJJj1L9SqCE05pKDwBt
-         CEWC7s7vwhpH+CkU2ucmJyayQ8H1TjrWlEQnHVMrhKsfFXwMkr/+ZOzHCOS8vsWiObaG
-         B3SNatuVLZt7HrTRVLIAiSxjOdeL2JMpGnczot0J+uK2Ci5g2uAFLn9Ug0wSvxi2s6Wu
-         HnDQ==
-X-Gm-Message-State: AJIora9qAsBGv94S/P5kEknyNm+SizAms2n8UGmd+BrmVs4M1ZMO33G4
-	hr00iqOlsd7Cgn4DkfwBy38=
-X-Google-Smtp-Source: AGRyM1v78JUauyQ9Rp4wmM//1HNb8EYSdS7LwaEAnUGUGrmbhmLwzLnNayhVhPZcF/2oNTVXx31wBg==
-X-Received: by 2002:a7b:cd0d:0:b0:3a1:8f1e:cb2f with SMTP id f13-20020a7bcd0d000000b003a18f1ecb2fmr18864491wmj.10.1656976628335;
-        Mon, 04 Jul 2022 16:17:08 -0700 (PDT)
+        bh=P1jxrIZYR1wHSUHZwKhhnsBFs+52yPANDa+Y54uA2ww=;
+        b=5scPweVtRUKrg017S8MIJ3ANSxkQqW7czo405f+j/toHp7ej8GhChPgiNs0JZzFRlb
+         aVNrEwunqxdWe1UC3LUZp4B/SyVuv6hGK9ZB6JbTQlXn9Q9ooGhgbTjaIkwpIuknfxoE
+         +jhwktwPxcL/plnliRoNlDzifs6534QPeu6R4zuwCuD83+ng9jwKqnhY3xgNQfcbUtYG
+         80dzb1p+svxt4vxGxV7iu/kgHOnMRa/2BHOnmxcwicaizaNoeo1LeFz9cB1Kar8f/Qh+
+         rcfEhyL5W/hnbZAOswCr3wb+r0lu0VmGWaceMYmeEEwRgFNKQlkZZTWYfiNfWilKhfbq
+         QNwg==
+X-Gm-Message-State: AJIora+yAi7noqRL9BNqoCOG9GIFxjMyBkr2B3JNxL5TAJM7lRtjXXz9
+	P2B/mR0/1pNd9bNP8tnShOI=
+X-Google-Smtp-Source: AGRyM1sYc2Wuid4IT9FNOg9URrFZb5YwC6fdDNBZaKqkt3DSmksXqapX8y2bmE1zpirpsBQAEkop9g==
+X-Received: by 2002:a2e:95ce:0:b0:25a:6c99:e863 with SMTP id y14-20020a2e95ce000000b0025a6c99e863mr17352283ljh.337.1656976659767;
+        Mon, 04 Jul 2022 16:17:39 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1da7:b0:3a0:3b20:d119 with SMTP id
- p39-20020a05600c1da700b003a03b20d119ls7795492wms.1.canary-gmail; Mon, 04 Jul
- 2022 16:17:07 -0700 (PDT)
-X-Received: by 2002:a05:600c:4fd0:b0:3a2:b57b:2200 with SMTP id o16-20020a05600c4fd000b003a2b57b2200mr2827844wmq.197.1656976627323;
-        Mon, 04 Jul 2022 16:17:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656976627; cv=none;
+Received: by 2002:ac2:5a41:0:b0:481:3963:1222 with SMTP id r1-20020ac25a41000000b0048139631222ls200302lfn.2.gmail;
+ Mon, 04 Jul 2022 16:17:38 -0700 (PDT)
+X-Received: by 2002:a05:6512:2610:b0:47f:74dc:3205 with SMTP id bt16-20020a056512261000b0047f74dc3205mr19281351lfb.429.1656976658427;
+        Mon, 04 Jul 2022 16:17:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656976658; cv=none;
         d=google.com; s=arc-20160816;
-        b=RknJcX/8l+jLnstdaW57SA5/JW4EZFAQWH+DB7xZevFogimilO2nSmpG5p48cKSPYb
-         KH8y2Za4d4hyX4xvDTHYItkF9PVpq214ONSdD5MrtYqXCbliIQ++bXBqakfloL/JSHk3
-         3FNZWiaqNxGXt3F6Mx7JKj4+nlZVpuQImEihCqe0pZ4RK8SIMsFKNrJqlomMyq/fj05y
-         Tf1Bhaza9SpwKNmFpTfV3BVKOtep79pZF8nBpRxnjWaj1wlNWAT5zKh1v/fiDMzWgE/M
-         YWdYjz8RXholybg4nG9dAxmOOOyEayyoSySlKLwPdQPaS5UrHdMGIdS0E8cb3m3AETkm
-         tB6g==
+        b=F2K0Sf5CKQiDa4hYvRMy1NrMT276vh1BOyyccmX1FCD6yPa1kRgFxTRObX33u+ouhM
+         MijIi8OpYrGOfE5At2A7f8zJJ0lkwDRsq83h4qUw/2XkXguObtM8fE2MpOstr9W/9ijZ
+         nCvd90bkPTrSwzYnFEZDKvTNDZxrEZdLj0wPaayIx3lQaHYsu4cJnLgqz3dqqGcDgByC
+         cmPy7gBhvxQvG69jNv3t9JnldZX10cT4pnf+ZXHw+fPjNxZk+bLXOUGGe+yGUUx7/2fL
+         v/C+AFyJ9fvx7Ozkll/9m6xpQTTEvasjVRjEq7NqTN+Gm/pnFEZX2rZJCuhrXZV+O4yc
+         R6Xg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=sender:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=3Krii5I77Jw+hei/sBgWu8KHpDCvwQjbHpsrcFH98j0=;
-        b=QY32CuqqeX17Ypj4bPbPmb0m/0T07qiPIzWE9G294qk1AolcVbiGB6kyDGwrebHV6a
-         ZbtqaOD7IQdnjsYNvbycDfgNCaO8A7O8NyRQ/lps2FjvBNqum19qCxjnrmuK5P6PiLtA
-         ulOwAngtl03oNoat/PcGhuIRiPXbJm00rkENMZt62KeNSxGzotPomDsQosafcGFrBE7Q
-         7OqVRu66FL7i/W5wvKIS8V2pxABVy9G4y+Qm5RllC4PZfJ9TTyHP85Y+Mhzcp0tOrnPx
-         l2jv4+YKxEcwcCqaR967d8/EfZ+GLyLX2z94S0OQb0br0OgmP0CNhMCLHuXMyUfr3ulN
-         g/tA==
+        bh=NqVApc9I2DDH/ifQWSRH221HRDI5UWBJClZrnVtHcvg=;
+        b=wS5160xW28XSWNgSr7rzHAioZoerhc5JxFr1/+9duJmxtBNBxINQGDv+VNwJO4tA/n
+         bdDnWklo1hlo7O+KUxY3RNhyiTfiJTD4DdCjBPw8oD4qezy0ulMKUeDc8rEuIsOJ5Xzy
+         oYiVvgjOfx6zx5DSLYjk2wU1pqFbr485hYLj9b5hJLsoKM2+NVIhHOfgm6umt7uSd43t
+         Ynz5Ng58VOsqqZKZ+44hMP08YluE3ShAJeo4GAXkKZ/zZVY4F0DfK2kWFM1NkE0kLa8g
+         chvOVgfHYZzZowGWBNrhSPdXAs/tx51wMNJDEoFuynaKBzf1xXFPv68RqvVNXleQwAw2
+         tH3Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.org.uk header.s=zeniv-20220401 header.b=uElzEPYg;
+       dkim=pass header.i=@linux.org.uk header.s=zeniv-20220401 header.b=XMq6en3D;
        spf=pass (google.com: best guess record for domain of viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted sender) smtp.mailfrom=viro@ftp.linux.org.uk;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zeniv.linux.org.uk
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk. [2a03:a000:7:0:5054:ff:fe1c:15ff])
-        by gmr-mx.google.com with ESMTPS id j32-20020a05600c1c2000b003a03ade6826si357939wms.0.2022.07.04.16.17.07
+        by gmr-mx.google.com with ESMTPS id t28-20020a05651c205c00b00258ed232ee9si1146727ljo.8.2022.07.04.16.17.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 16:17:07 -0700 (PDT)
+        Mon, 04 Jul 2022 16:17:38 -0700 (PDT)
 Received-SPF: pass (google.com: best guess record for domain of viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted sender) client-ip=2a03:a000:7:0:5054:ff:fe1c:15ff;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.95 #2 (Red Hat Linux))
-	id 1o8VIs-008AbM-Q3;
-	Mon, 04 Jul 2022 23:16:31 +0000
-Date: Tue, 5 Jul 2022 00:16:30 +0100
+	id 1o8VJP-008AcR-HB;
+	Mon, 04 Jul 2022 23:17:03 +0000
+Date: Tue, 5 Jul 2022 00:17:03 +0100
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Alexander Potapenko <glider@google.com>,
@@ -126,8 +125,8 @@ Cc: Alexander Potapenko <glider@google.com>,
 	Segher Boessenkool <segher@kernel.crashing.org>,
 	Vitaly Buka <vitalybuka@google.com>,
 	linux-toolchains <linux-toolchains@vger.kernel.org>
-Subject: [PATCH 6/7] lookup_fast(): don't bother with inode
-Message-ID: <YsN0zovcB+d26OcT@ZenIV>
+Subject: [PATCH 7/7] step_into(): move fetching ->d_inode past handle_mounts()
+Message-ID: <YsN07/fVcHSbDDlm@ZenIV>
 References: <YsJWCREA5xMfmmqx@ZenIV>
  <CAHk-=wjxqKYHu2-m1Y1EKVpi5bvrD891710mMichfx_EjAjX4A@mail.gmail.com>
  <YsM5XHy4RZUDF8cR@ZenIV>
@@ -145,7 +144,7 @@ In-Reply-To: <YsN0GURKuaAqXB/e@ZenIV>
 Sender: Al Viro <viro@ftp.linux.org.uk>
 X-Original-Sender: viro@zeniv.linux.org.uk
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.org.uk header.s=zeniv-20220401 header.b=uElzEPYg;
+ header.i=@linux.org.uk header.s=zeniv-20220401 header.b=XMq6en3D;
        spf=pass (google.com: best guess record for domain of
  viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted
  sender) smtp.mailfrom=viro@ftp.linux.org.uk;       dmarc=pass (p=NONE sp=NONE
@@ -162,91 +161,101 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Note that validation of ->d_seq after ->d_inode fetch is gone, along
-with fetching of ->d_inode itself.
+... and lose messing with it in __follow_mount_rcu()
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/namei.c | 24 +++++-------------------
- 1 file changed, 5 insertions(+), 19 deletions(-)
+ fs/namei.c | 31 +++++++++++--------------------
+ 1 file changed, 11 insertions(+), 20 deletions(-)
 
 diff --git a/fs/namei.c b/fs/namei.c
-index fe95fe39634c..cdb61d09df79 100644
+index cdb61d09df79..f2c99e75b578 100644
 --- a/fs/namei.c
 +++ b/fs/namei.c
-@@ -1617,8 +1617,7 @@ static struct dentry *__lookup_hash(const struct qstr *name,
- 	return dentry;
+@@ -1470,8 +1470,7 @@ EXPORT_SYMBOL(follow_down);
+  * Try to skip to top of mountpoint pile in rcuwalk mode.  Fail if
+  * we meet a managed dentry that would need blocking.
+  */
+-static bool __follow_mount_rcu(struct nameidata *nd, struct path *path,
+-			       struct inode **inode)
++static bool __follow_mount_rcu(struct nameidata *nd, struct path *path)
+ {
+ 	struct dentry *dentry = path->dentry;
+ 	unsigned int flags = dentry->d_flags;
+@@ -1501,13 +1500,6 @@ static bool __follow_mount_rcu(struct nameidata *nd, struct path *path,
+ 				dentry = path->dentry = mounted->mnt.mnt_root;
+ 				nd->state |= ND_JUMPED;
+ 				nd->next_seq = read_seqcount_begin(&dentry->d_seq);
+-				*inode = dentry->d_inode;
+-				/*
+-				 * We don't need to re-check ->d_seq after this
+-				 * ->d_inode read - there will be an RCU delay
+-				 * between mount hash removal and ->mnt_root
+-				 * becoming unpinned.
+-				 */
+ 				flags = dentry->d_flags;
+ 				// makes sure that non-RCU pathwalk could reach
+ 				// this state.
+@@ -1523,7 +1515,7 @@ static bool __follow_mount_rcu(struct nameidata *nd, struct path *path,
  }
  
--static struct dentry *lookup_fast(struct nameidata *nd,
--				  struct inode **inode)
-+static struct dentry *lookup_fast(struct nameidata *nd)
+ static inline int handle_mounts(struct nameidata *nd, struct dentry *dentry,
+-			  struct path *path, struct inode **inode)
++			  struct path *path)
  {
- 	struct dentry *dentry, *parent = nd->path.dentry;
- 	int status = 1;
-@@ -1636,22 +1635,11 @@ static struct dentry *lookup_fast(struct nameidata *nd,
- 			return NULL;
- 		}
- 
--		/*
--		 * This sequence count validates that the inode matches
--		 * the dentry name information from lookup.
--		 */
--		*inode = d_backing_inode(dentry);
--		if (unlikely(read_seqcount_retry(&dentry->d_seq, nd->next_seq)))
--			return ERR_PTR(-ECHILD);
--
--		/*
-+	        /*
- 		 * This sequence count validates that the parent had no
- 		 * changes while we did the lookup of the dentry above.
--		 *
--		 * The memory barrier in read_seqcount_begin of child is
--		 *  enough, we can use __read_seqcount_retry here.
- 		 */
--		if (unlikely(__read_seqcount_retry(&parent->d_seq, nd->seq)))
-+		if (unlikely(read_seqcount_retry(&parent->d_seq, nd->seq)))
- 			return ERR_PTR(-ECHILD);
- 
- 		status = d_revalidate(dentry, nd->flags);
-@@ -1993,7 +1981,6 @@ static const char *handle_dots(struct nameidata *nd, int type)
- static const char *walk_component(struct nameidata *nd, int flags)
- {
- 	struct dentry *dentry;
--	struct inode *inode;
- 	/*
- 	 * "." and ".." are special - ".." especially so because it has
- 	 * to be able to know about the current root directory and
-@@ -2004,7 +1991,7 @@ static const char *walk_component(struct nameidata *nd, int flags)
- 			put_link(nd);
- 		return handle_dots(nd, nd->last_type);
+ 	bool jumped;
+ 	int ret;
+@@ -1532,12 +1524,7 @@ static inline int handle_mounts(struct nameidata *nd, struct dentry *dentry,
+ 	path->dentry = dentry;
+ 	if (nd->flags & LOOKUP_RCU) {
+ 		unsigned int seq = nd->next_seq;
+-		*inode = dentry->d_inode;
+-		if (read_seqcount_retry(&dentry->d_seq, seq))
+-			return -ECHILD;
+-		if (unlikely(!*inode))
+-			return -ENOENT;
+-		if (likely(__follow_mount_rcu(nd, path, inode)))
++		if (likely(__follow_mount_rcu(nd, path)))
+ 			return 0;
+ 		// *path and nd->next_seq might've been clobbered
+ 		path->mnt = nd->path.mnt;
+@@ -1557,8 +1544,6 @@ static inline int handle_mounts(struct nameidata *nd, struct dentry *dentry,
+ 		dput(path->dentry);
+ 		if (path->mnt != nd->path.mnt)
+ 			mntput(path->mnt);
+-	} else {
+-		*inode = d_backing_inode(path->dentry);
  	}
--	dentry = lookup_fast(nd, &inode);
-+	dentry = lookup_fast(nd);
- 	if (IS_ERR(dentry))
- 		return ERR_CAST(dentry);
- 	if (unlikely(!dentry)) {
-@@ -3392,7 +3379,6 @@ static const char *open_last_lookups(struct nameidata *nd,
- 	struct dentry *dir = nd->path.dentry;
- 	int open_flag = op->open_flag;
- 	bool got_write = false;
--	struct inode *inode;
- 	struct dentry *dentry;
- 	const char *res;
+ 	return ret;
+ }
+@@ -1839,15 +1824,21 @@ static const char *step_into(struct nameidata *nd, int flags,
+ {
+ 	struct path path;
+ 	struct inode *inode;
+-	int err = handle_mounts(nd, dentry, &path, &inode);
++	int err = handle_mounts(nd, dentry, &path);
  
-@@ -3408,7 +3394,7 @@ static const char *open_last_lookups(struct nameidata *nd,
- 		if (nd->last.name[nd->last.len])
- 			nd->flags |= LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
- 		/* we _can_ be in RCU mode here */
--		dentry = lookup_fast(nd, &inode);
-+		dentry = lookup_fast(nd);
- 		if (IS_ERR(dentry))
- 			return ERR_CAST(dentry);
- 		if (likely(dentry))
+ 	if (err < 0)
+ 		return ERR_PTR(err);
++	inode = path.dentry->d_inode;
+ 	if (likely(!d_is_symlink(path.dentry)) ||
+ 	   ((flags & WALK_TRAILING) && !(nd->flags & LOOKUP_FOLLOW)) ||
+ 	   (flags & WALK_NOFOLLOW)) {
+ 		/* not a symlink or should not follow */
+-		if (!(nd->flags & LOOKUP_RCU)) {
++		if (nd->flags & LOOKUP_RCU) {
++			if (read_seqcount_retry(&path.dentry->d_seq, nd->next_seq))
++				return ERR_PTR(-ECHILD);
++			if (unlikely(!inode))
++				return ERR_PTR(-ENOENT);
++		} else {
+ 			dput(nd->path.dentry);
+ 			if (nd->path.mnt != path.mnt)
+ 				mntput(nd->path.mnt);
 -- 
 2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YsN0zovcB%2Bd26OcT%40ZenIV.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YsN07/fVcHSbDDlm%40ZenIV.
