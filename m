@@ -1,161 +1,152 @@
-Return-Path: <kasan-dev+bncBDD45AWIUUARBOE3SCLAMGQEVLDPI3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCX3TTWUQMPRB3FISCLAMGQEFWHHOOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0A4566756
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 Jul 2022 12:08:58 +0200 (CEST)
-Received: by mail-lj1-x23d.google.com with SMTP id k3-20020a2ea283000000b0025bcd580d43sf3408973lja.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 05 Jul 2022 03:08:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1657015737; cv=pass;
+Received: from mail-ej1-x63c.google.com (mail-ej1-x63c.google.com [IPv6:2a00:1450:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A39566823
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 Jul 2022 12:37:32 +0200 (CEST)
+Received: by mail-ej1-x63c.google.com with SMTP id l2-20020a170906078200b006fed42bfeacsf2628887ejc.16
+        for <lists+kasan-dev@lfdr.de>; Tue, 05 Jul 2022 03:37:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1657017452; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sI97AZv08rMUQn8b+Jk7OdqCceNl1nT4yhn5CCJyuhjuZdbAlyTqNQ7UDp72CoOOZk
-         VEW/yfTcRpDi+vCgzdzce6Gw4Lonf/gGdGl7dpWw6M8VAVWnGQush5WLlOoZkYjJbhJR
-         +gYs1IOtzrLyTlE7Ipq4JHnKlDrLS6xC3IuBHyTlEiT0mhONMS2lDWgkN6wMtlveeH1B
-         xB7tTfB3oxuzAsaJw7CQy8Q7a7+cujhBV4iPlHzJz2yObLIiZm2rPbE7UzpWhhyUrIbt
-         rnOGIOtGx1julkFGnJBDkzHqR/0S6QA77+zSp8tYd1AASrhXX+z7qNZiGPfbEWJExUTM
-         kwNQ==
+        b=OwUOJ7NGVnqLDIRweEv7dFBgVmCRAXlIG/mh0YFjIVR+83G8UuQ3YeNxTxz9PnCxIe
+         ZtthaBM6AUHnTyM3c5QzMc4cmiqQ9rw3g6woe5CybGGa7LPms9vL3q1LqcKGS5Fsdbzp
+         ewenA4Gcf/eUa/HVeWZYYri46yB9FT8B/3gq8nV2UICfvg2wHrhLx9RFzFIQc0R9zC90
+         DHZkICUWNFT/GoW0Eu7Lo04W2r6yefQdWn2DfHt2E5BeyA7emqy14fnepWf/cr3Vvm7T
+         oqwelHHgRB0ad0HL8hqO38++L9Bo2LG4lo/vi6TcUTnWZj2AoBkze/8WYaIArPvRRiWw
+         SY5w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:organization:references:in-reply-to:message-id:subject
-         :cc:to:from:date:sender:dkim-signature;
-        bh=TexIAFyfFNw+eklYmsOK3E/aL4JR0MvAKSzj1xkbngQ=;
-        b=w2+Z+N23XQZxvYHoR9pOzn71axX+GLLTMSt5IJTErFejS5p9L7cM2zA6BftKwXQlNe
-         gLtAw0RNeFEnKPwKY9lglqMZ7Qxj4pT6+NrbemHs2Fg6TH+3dQnZJQx/l1VJzZflJKr+
-         8/5lopWSU9TZW5MbUp39ie+Ytugi1JOVH7e5r6mb7ZpbPLgqg8khdUwKK/ecFf7EUsWo
-         NPnt4qTa6bjQYIJCboxwWce/ikS55RBqTAmBwbUi9ZW8KP/vE63GIx96saRHj/qDM1qd
-         kByxe7RmGczR7dR0sMSTSc2gH+ZLBs8Jhzdhd2GGIqHTOmbPFbXVeTtYV/2JB6NoTdYx
-         82WQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=QFQyRVf29ILLvwQmyJuMsYUAhe7NVTUebfVMUrixAco=;
+        b=U5KVpFAoIKI9pKaKJe0Ag7zw+ilpwyw3sy2KvwNkExn5hUM/O279ycwc3QahrYLBjB
+         dDc/UPOThPScTOXE7UiK04RvBNeahWgomMPUyKLpaUgFgiCeXEX2ViU8qlao0KqG+uOR
+         5oAC/W9zj3NFArTLZNIvTe1GGnPq0wDwYV4QvDcu++dTlC4TPxUJ+6qhjXMdL2xJY9Lt
+         DLhfpgV6azon5zQaJjAaDSBLnk1pK5VV7HtEABdOH1s6iJo2401X4/xl9jLFbzZu1TKV
+         +ZgRm4c+J7ZA85hAjHraJATIN9rr1TRNzdULj74VFDP25QODOQD8JYUNpu7b98FI5CaR
+         y1QA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=eByb4sSP;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       spf=pass (google.com: domain of jdelvare@suse.de designates 195.135.220.29 as permitted sender) smtp.mailfrom=jdelvare@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+       spf=pass (google.com: domain of ukl@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=ukl@pengutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TexIAFyfFNw+eklYmsOK3E/aL4JR0MvAKSzj1xkbngQ=;
-        b=XMYA9Nuhsl5N4wd3+A7vJrxgYx7k9AshPXl763OhHTi0ESvU/1E8FhFaTWwRM5tygc
-         XchLqNa6+yrEU3HytdgjzSmVWZywdZGDNgwowlBoF+O6cuXUfdliJd1mWkdeqnm3kK0K
-         dULhoJcIMCG02wvCs1erd3QpgJeSm4f5VcZ3As0F6QBwln5YiW5oIg0Nu/MlTB0+TbiP
-         Ms+pmOdqM/s05dCh4QZwte+cJ51JI0KH/7fKSLn3LYYkw9XFfhaDiRr23g7ok2crAA8U
-         PbMnQ7ofD4RPuBSmWer4NjN10Uuy2Y+abY8SH2xirMtQXHCcbaL/zq8lXO1q6r/PnzRO
-         Bs3g==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=QFQyRVf29ILLvwQmyJuMsYUAhe7NVTUebfVMUrixAco=;
+        b=WgZ7pIa/PEyc1wgQI9YSfl6TxzmU8udu7KgyOlSLnjIkR/w+oNrn9+fBRMO7kat16f
+         AJH4R7B0rlXmuKYwvDJ/+/lzNEvBViI4j0NbwXu2IwrLtdYH01CgqdTBKue3WZSlfdQ4
+         VB7JWTxGw+AkGeQI5tSR89NRtJlS+3zAa8gcdtccqY6l+ZcRXI+Qn1XAwXkmaRLIRWD0
+         8ecgiHt6T/sJ+ZZVou+LylBvAGBPEPkvPFdcwk+qD6d/1e8Nr3iHgfPICJC9B2L/XZAK
+         Wkb8doROpSZZHh0ApoYWxgpylKubCQJMDtFfaSi2RG3BgZefxiqhhEE7L7qvWAz1ZLCk
+         uI/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :in-reply-to:references:organization:mime-version
-         :content-transfer-encoding:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=TexIAFyfFNw+eklYmsOK3E/aL4JR0MvAKSzj1xkbngQ=;
-        b=Cr0cweHXD9de7Rl7IjoVymZikzbYWYMFkNLX4rtjkJ17M/fb7MT94F4Q0JNSyW9Diu
-         a62V2VillbjNEUJHRjY04xHScp0vLrrS6d1uWmn/AgTrwcccFh0eYM9VYuAMYyiyrxtS
-         m59eRQDs0S5cwmbzctUWMiRFBdQQS0ZCn+POD2ED9Kr2qf6QSmJPYkGj7la+F6K8yx9Q
-         OdpltGu9PVPaPUxMwcXh5AcVvcU3iONikJNIG6GAzaAkJPkyjlGiLY3gssU8g8bQ5mWU
-         /i1DqJlyvzVV2kLNpANrZ+ZXLVho6d0j9hjpp4zUbd3pLPg3Y5IFXwDVRn6VQxft/FMe
-         5KuA==
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=QFQyRVf29ILLvwQmyJuMsYUAhe7NVTUebfVMUrixAco=;
+        b=7HQpUNc6c4wXjbzvDd7FJIDQ6rEHI0QKm8WiDtFh08hHoymcA60K6KsEM7hnVBtHVM
+         b8EmIfxCcGtGQ9XkOp3b8OFxfQBmk9jvWiZGHxcxcKuYY5GS0Tu/BS6tAPCLl+kWik4q
+         I40aiA04CRSebgsyInDqLCVoLujAdOg688wNuhjrDPDnpg74BTcU7kczwCV5VgSzTF6B
+         dRcsG+s8IcsKf3Sx4i/KEUt/Ae85yry1dRAG2X07fVf1koDH5Lh7UTq+KBFsTLORSiak
+         mRLN5wE4uC1+W2NybFYSazA8czKu/nEGjGao/UwWf/ZiHIPnBlkZPAYythvhrFVv6FRY
+         pC7A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora8p6CXnT1mrpMgKt/hS5N+6bqJVC9bNxQ+9DaUE82vUuCs5WCZc
-	JzMc0d1kYH6IhPlqEFK/apQ=
-X-Google-Smtp-Source: AGRyM1vGn5wPANzy9ZMnQS6Dm41+QFHzeKgCrw9lRUAMr2E+PRIf+NQtd+grccIwuqx14CY/fn0Jhg==
-X-Received: by 2002:a2e:544b:0:b0:25d:33ea:f3f1 with SMTP id y11-20020a2e544b000000b0025d33eaf3f1mr1333353ljd.354.1657015737116;
-        Tue, 05 Jul 2022 03:08:57 -0700 (PDT)
+X-Gm-Message-State: AJIora8UDPdzfJToROf+u2+oZTj8UW42MKWmZX5dwHqb8EXp8klGVSTA
+	YeFjoyoZoxL+4hGs89xCpjE=
+X-Google-Smtp-Source: AGRyM1uqSxGZF5TZAog1T8uBzfJ96VYHm9e0U6meIdSeWzCqZl/mLt/S2DL5bhbeHY11sdYc95kjpg==
+X-Received: by 2002:a17:907:b13:b0:72a:e5f9:1f2f with SMTP id h19-20020a1709070b1300b0072ae5f91f2fmr2163722ejl.106.1657017452314;
+        Tue, 05 Jul 2022 03:37:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:bc13:0:b0:25d:380e:3d5 with SMTP id b19-20020a2ebc13000000b0025d380e03d5ls160815ljf.10.gmail;
- Tue, 05 Jul 2022 03:08:56 -0700 (PDT)
-X-Received: by 2002:a2e:8558:0:b0:25a:742f:d7 with SMTP id u24-20020a2e8558000000b0025a742f00d7mr19155625ljj.178.1657015735963;
-        Tue, 05 Jul 2022 03:08:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1657015735; cv=none;
+Received: by 2002:a17:907:9603:b0:6ff:232a:2406 with SMTP id
+ gb3-20020a170907960300b006ff232a2406ls8579564ejc.0.gmail; Tue, 05 Jul 2022
+ 03:37:31 -0700 (PDT)
+X-Received: by 2002:a17:907:c1b:b0:726:d677:eb51 with SMTP id ga27-20020a1709070c1b00b00726d677eb51mr33343748ejc.6.1657017451001;
+        Tue, 05 Jul 2022 03:37:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1657017450; cv=none;
         d=google.com; s=arc-20160816;
-        b=e1zwExSWZr/aAzvuMRMVDbP7rXTXhUsfcIoin7CjoQ0Q2wvyZ81Mtdgma4Vxl+pa/d
-         +1QdoGZsH0FlF6lQw/cwHfjFqo6ovYWFucCwY0EVY7CQZSRx90FT2ydkhiGEPZMgrixN
-         QfKyeGW99DD9ACV16rZvsYydt3hjup5nnEhUiQogfUgCjNxhgTyfcco0zl3xGv+BfuvF
-         smyi+Sr+Yo7ZKU5uDXpEMAce7ZwhA9QE1RFiqOUWfbVnq3YoojW0zUAQpRU70v8iTwRm
-         PhWK8b5n05LiEQ7PWC+YQ5CXVuAwXg948I7d7N50h/SJ+mu3xG6yqm8xg/Q03xnkoyQv
-         9gHA==
+        b=HIJJ3AaOgIbBI0ZXeTfVO9y0boNlHL1FChsJiGN2a5Hm5lmVlP8voeU06L8z7hTfDE
+         9Yl4rkuGRuaODSLCy1y0gUXPASkvBmqtuvzz1yC80DDMBUKxYuXXKzyk38SLzCJRhMRQ
+         HmyOMA94mEFCAQY8HKxABYTcsmrwdYdRb7buxGtP3avPmAZqTjw2hdWJStmHlioKrDhB
+         bGMf4UC3uvv6mHsfLyxcuYLJyJ2KErcdwq4tvPKhesqMdC/N23S2CAFP+BhEIGfQpHYH
+         J/Dn8jJ2Qb1z+JdoSMcFbFPyXFQAdL13hKJOZ0cbypv30XO2W3TCrTQT/e36oMComwQB
+         K0Uw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:organization:references
-         :in-reply-to:message-id:subject:cc:to:from:date:dkim-signature
-         :dkim-signature;
-        bh=qvMJ4J1/LuqJ2bm7BlZIoOLJOYmWh+4Rpvkk33SZGOA=;
-        b=R7IyiHT8oWp3jGiPdVtJtDWkzcXIBFgt1jq/CiHGyr38hfZotpiMLW+DKBcyhMnAgb
-         7zHgaRIptuZnH6Fr30DJV2iUH7HO+JR/kJEQ4seRUqkd1XbU79Pi73irEmxYctHQepfL
-         Gj2TBTWdYavhN6aA9/V3n64RHqJmXZFFgqrzYlLPtb7td6hns7o1OqASWkU2nIrfNJhx
-         V0TLp87MoCA66GNs/JY3Y83meVxIt3c9iDb8e1n1YkbCUkmqnuLYiyfNFkgMXwDCJWXe
-         bZQ9dXNzP86G3st6D78CqrVO92vcT76D+2T3z4hcmiAVohAvuZ256cZHHwOglP9gvItH
-         wbDQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=mEjtMakiW0EySpcbbvi4iHxAbsgXIOf2nckHkAxDFJs=;
+        b=abfmmpx4Uvqb3irR5E+oCv3OHxY/y3ntyg6yBUKArhNzXUOjZ1TfZ0zIKwkg/HWRlJ
+         OjK3S0m/70kQaWU651hVt4/3hpnCb7ffwAoZgqIXLB8hOmNNgkr90eKk+RfGCmMG907d
+         589dbJXvHMAWjQDat/y2Z2qXuE9cDK7+vaj2DBOWo8ILhDeAZ34ZLy4lPVX845JVVPeP
+         HVtp8RfXBlWpSKsSuGdhAIIJ53welw41aDtsrH/8b6iUaYhsOiIMQvLPYmi1npvN0s5W
+         umyqGsPApDkIbNKK6N7dyH1UhCLBrzDqqgz8iPmwz1IHHQJld4LS8c7RfeMiCdWr/C2w
+         nlZA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=eByb4sSP;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       spf=pass (google.com: domain of jdelvare@suse.de designates 195.135.220.29 as permitted sender) smtp.mailfrom=jdelvare@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
-        by gmr-mx.google.com with ESMTPS id c7-20020ac25f67000000b0047faa025f65si556199lfc.12.2022.07.05.03.08.55
+       spf=pass (google.com: domain of ukl@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=ukl@pengutronix.de
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de. [2001:67c:670:201:290:27ff:fe1d:cc33])
+        by gmr-mx.google.com with ESMTPS id k24-20020a05640212d800b0043a6dd6b3e8si194065edx.5.2022.07.05.03.37.30
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 03:08:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jdelvare@suse.de designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4BB4A1F91F;
-	Tue,  5 Jul 2022 10:08:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2E2AF1339A;
-	Tue,  5 Jul 2022 10:08:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id VBGsCbYNxGK1BQAAMHmgww
-	(envelope-from <jdelvare@suse.de>); Tue, 05 Jul 2022 10:08:54 +0000
-Date: Tue, 5 Jul 2022 12:08:52 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+        Tue, 05 Jul 2022 03:37:30 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ukl@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o8fuq-0001LC-19; Tue, 05 Jul 2022 12:36:24 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o8fue-004XxA-J7; Tue, 05 Jul 2022 12:36:16 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o8fuh-0038F6-8t; Tue, 05 Jul 2022 12:36:15 +0200
+Date: Tue, 5 Jul 2022 12:36:15 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jean Delvare <jdelvare@suse.de>
 Cc: Wolfram Sang <wsa@kernel.org>, Guenter Roeck <groeck@chromium.org>,
- linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, openipmi-developer@lists.sourceforge.net,
- linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org,
- linux-media@vger.kernel.org, patches@opensource.cirrus.com,
- alsa-devel@alsa-project.org, linux-omap@vger.kernel.org,
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-mediatek@lists.infradead.org
+	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+	patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
+	linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-mediatek@lists.infradead.org
 Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220705120852.049dc235@endymion.delvare>
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+Message-ID: <20220705103615.ceeq7rku53x743ps@pengutronix.de>
 References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
-	<20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+ <20220705120852.049dc235@endymion.delvare>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: jdelvare@suse.de
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.de header.s=susede2_rsa header.b=eByb4sSP;       dkim=neutral
- (no key) header.i=@suse.de header.s=susede2_ed25519;       spf=pass
- (google.com: domain of jdelvare@suse.de designates 195.135.220.29 as
- permitted sender) smtp.mailfrom=jdelvare@suse.de;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=suse.de
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gut2agzhpaayxotv"
+Content-Disposition: inline
+In-Reply-To: <20220705120852.049dc235@endymion.delvare>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: kasan-dev@googlegroups.com
+X-Original-Sender: u.kleine-koenig@pengutronix.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of ukl@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33
+ as permitted sender) smtp.mailfrom=ukl@pengutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -168,60 +159,79 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 28 Jun 2022 16:03:12 +0200, Uwe Kleine-K=C3=B6nig wrote:
-> From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
->=20
-> The value returned by an i2c driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
->=20
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
 
-That's a huge change for a relatively small benefit, but if this is
-approved by the I2C core maintainer then fine with me. For:
+--gut2agzhpaayxotv
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->  drivers/hwmon/adc128d818.c                                | 4 +---
->  drivers/hwmon/adt7470.c                                   | 3 +--
->  drivers/hwmon/asb100.c                                    | 6 ++----
->  drivers/hwmon/asc7621.c                                   | 4 +---
->  drivers/hwmon/dme1737.c                                   | 4 +---
->  drivers/hwmon/f75375s.c                                   | 5 ++---
->  drivers/hwmon/fschmd.c                                    | 6 ++----
->  drivers/hwmon/ftsteutates.c                               | 3 +--
->  drivers/hwmon/ina209.c                                    | 4 +---
->  drivers/hwmon/ina3221.c                                   | 4 +---
->  drivers/hwmon/jc42.c                                      | 3 +--
->  drivers/hwmon/mcp3021.c                                   | 4 +---
->  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
->  drivers/hwmon/pcf8591.c                                   | 3 +--
->  drivers/hwmon/smm665.c                                    | 3 +--
->  drivers/hwmon/tps23861.c                                  | 4 +---
->  drivers/hwmon/w83781d.c                                   | 4 +---
->  drivers/hwmon/w83791d.c                                   | 6 ++----
->  drivers/hwmon/w83792d.c                                   | 6 ++----
->  drivers/hwmon/w83793.c                                    | 6 ++----
->  drivers/hwmon/w83795.c                                    | 4 +---
->  drivers/hwmon/w83l785ts.c                                 | 6 ++----
->  drivers/i2c/i2c-core-base.c                               | 6 +-----
->  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
->  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
->  drivers/i2c/i2c-smbus.c                                   | 3 +--
->  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
->  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
->  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
+On Tue, Jul 05, 2022 at 12:08:52PM +0200, Jean Delvare wrote:
+> On Tue, 28 Jun 2022 16:03:12 +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
+> >=20
+> > The value returned by an i2c driver's remove function is mostly ignored=
+.
+> > (Only an error message is printed if the value is non-zero that the
+> > error is ignored.)
+> >=20
+> > So change the prototype of the remove function to return no value. This
+> > way driver authors are not tempted to assume that passing an error to
+> > the upper layer is a good idea. All drivers are adapted accordingly.
+> > There is no intended change of behaviour, all callbacks were prepared t=
+o
+> > return 0 before.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+>=20
+> That's a huge change for a relatively small benefit, but if this is
+> approved by the I2C core maintainer then fine with me. For:
 
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
+Agreed, it's huge. The benefit isn't really measureable, the motivation
+is to improve the situation for driver authors who with the change
+cannot make wrong assumptions about what to return in .remove(). During
+the preparation this uncovered a few bugs. See for example
+bbc126ae381cf0a27822c1f822d0aeed74cc40d9.
+
+> >  drivers/hwmon/adc128d818.c                                | 4 +---
+> >  drivers/hwmon/adt7470.c                                   | 3 +--
+> >  drivers/hwmon/asb100.c                                    | 6 ++----
+> >  drivers/hwmon/asc7621.c                                   | 4 +---
+> >  drivers/hwmon/dme1737.c                                   | 4 +---
+> >  drivers/hwmon/f75375s.c                                   | 5 ++---
+> >  drivers/hwmon/fschmd.c                                    | 6 ++----
+> >  drivers/hwmon/ftsteutates.c                               | 3 +--
+> >  drivers/hwmon/ina209.c                                    | 4 +---
+> >  drivers/hwmon/ina3221.c                                   | 4 +---
+> >  drivers/hwmon/jc42.c                                      | 3 +--
+> >  drivers/hwmon/mcp3021.c                                   | 4 +---
+> >  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
+> >  drivers/hwmon/pcf8591.c                                   | 3 +--
+> >  drivers/hwmon/smm665.c                                    | 3 +--
+> >  drivers/hwmon/tps23861.c                                  | 4 +---
+> >  drivers/hwmon/w83781d.c                                   | 4 +---
+> >  drivers/hwmon/w83791d.c                                   | 6 ++----
+> >  drivers/hwmon/w83792d.c                                   | 6 ++----
+> >  drivers/hwmon/w83793.c                                    | 6 ++----
+> >  drivers/hwmon/w83795.c                                    | 4 +---
+> >  drivers/hwmon/w83l785ts.c                                 | 6 ++----
+> >  drivers/i2c/i2c-core-base.c                               | 6 +-----
+> >  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
+> >  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
+> >  drivers/i2c/i2c-smbus.c                                   | 3 +--
+> >  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
+> >  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
+> >  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
+>=20
+> Reviewed-by: Jean Delvare <jdelvare@suse.de>
+
+Thanks
+Uwe
 
 --=20
-Jean Delvare
-SUSE L3 Support
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -229,4 +239,21 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20220705120852.049dc235%40endymion.delvare.
+kasan-dev/20220705103615.ceeq7rku53x743ps%40pengutronix.de.
+
+--gut2agzhpaayxotv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLEFBwACgkQwfwUeK3K
+7AkavggAgLmynakXX/rOF4Jwy2OuBXH29kecKqPd6xj4yHsu3ggy8kd/hlU4jJib
+vV0H9ioq69hhMqjme5AHJJsueLFi/t/iwuQwuWUKluCBBlx0RXBsVx8qxV7A0uWa
+mdKU3ApPaN7y0cS1jccdN7ydsL3H2ayzIwfQuNqx1G3P/uqXfkusV0fjwQ/rQct3
+qs4t2/QiHUd0tStlGw2eSKxp1z5KRrDMstK17fiZSsw/SYoMyldV8Ame6+gaxx0X
+e93FqM5jj67ovjD3jJanfOwI5vesu4+szu4GK6vHRWvpsieHsSeyS+GNgfM5oLA7
+iguZ0rauzy0je3hrHuKgp1maJ59ibQ==
+=fYiS
+-----END PGP SIGNATURE-----
+
+--gut2agzhpaayxotv--
