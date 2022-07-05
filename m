@@ -1,151 +1,156 @@
-Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBF4BR2LAMGQEJLGVBGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC42V7FQ3YARBX7JR2LAMGQEY3YUB4I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62F1565FFD
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 Jul 2022 02:06:48 +0200 (CEST)
-Received: by mail-lj1-x237.google.com with SMTP id w23-20020a2e9bd7000000b0025bd31b7fe7sf3118955ljj.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 04 Jul 2022 17:06:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1656979608; cv=pass;
+Received: from mail-wm1-f62.google.com (mail-wm1-f62.google.com [209.85.128.62])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB2C5661FC
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 Jul 2022 05:49:52 +0200 (CEST)
+Received: by mail-wm1-f62.google.com with SMTP id az40-20020a05600c602800b003a048edf007sf4731104wmb.5
+        for <lists+kasan-dev@lfdr.de>; Mon, 04 Jul 2022 20:49:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1656992992; cv=pass;
         d=google.com; s=arc-20160816;
-        b=imKi0fUTu77ZzNykqE5OoPAHz5CVWbQ51lIcs7JeJqIa+EMcRcPFpP48NMjYO4LfeA
-         B/OIcrqrPYYoNfPZtLHhJP19MSu2MbDj55r7OKDUhFLeiTZBQXeYjTXnn3q82mzXszk0
-         BVYcyKzEISJ/ovTzhtQdsHmFhnHAZg1zFjcgBf/IngrHFjxsSul9qZG3y1piNN/yBXQ4
-         jcv9Ax+41Ib6bHIWkFolBMuqeECBs9IdreLM/fC2jXU851eaXzbfwK/z1FzhMaTIOR/2
-         7Jo3FU3QUqy0Cr9K0eoI/IoxMRhSF4xExrmLErQowAToG6Fv2ZVAGXPTjAsY+3sW3ghX
-         yZSQ==
+        b=0SAXYyx+/qdUc9VXOOsbgZ0qTc2zSQjdc0KXutqsp4Cj4oC6XQzXQF8Bb9pybVJJG4
+         UdSDHZL4I81lE46BZilM9ymawsKHPa6aW7I2PRRR9GuAkbBMDfVRkMLETKrjD1nzDtU5
+         vKa4X8i4mehE8SOPK605nA1YUp4R5n3N7p6unWRc6DivSnTaLoYynRWPH2T6W7Bmg0zl
+         yCCGfpmiSYgGmerNzR9tSVDy82PQ9owPiRSfTN3fg97EK9u45vDPkoyMoki1P02WLQfC
+         Qybfv/77jI2iOZfffdnjl7TldNYYE7K53qe5Q+fyIMC5tGTlJXNHxUfvNQKrNXxdqS6+
+         xuNA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=ZHmD5ZxsA5vwQor7ti7HmfOmqnjpNgZ2OFFfhP+PaSY=;
-        b=lmqJC0PH2WxaenNgrVCPFUquXyvYJHgn4M3fw8AcEdCPD8OXeqAOaUxskv0kQ/QkFJ
-         sdeoRa3/OkWPs1kEKC/PNZ5zUXEdi36k2MPLIMnSlViiVt7oO8UHMlThb8Q0EY6qkWhs
-         OWaPr/g5Gwg7DJcnTEh7lppSpUS7J5zeLSXC2waCmCVqEJVlKCK6BjzLboo/Snag5h/L
-         zvglvMOhNx6vtEopQwVIWnXJ5pNMsxr1sDsRuQ9UatI5onuRYe8WLkg4QmIMFjeC8fIi
-         lqg/Ifv1pQvARSlbA+D+6cjVdJ+vsfPg/8KrBRPwJpzaVhzRQEfgXvpehbH91TjWzadj
-         gYDA==
+         :list-id:mailing-list:precedence:sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date;
+        bh=wQ0R5yEA8eO0KpvrOPAUGa0iMKa8ZtnK4yq965Y5P2Q=;
+        b=KAFAzrfPLQc3lrVugAwiEOsSSd8/04xTDjWfKcCG4UG53exkiDDKLwf0FDjXU5znj8
+         ZcnohGqcS9D1X/nvr0rLy0WsrxfCWcJakt233fMhSQcadokKECDgjC1fysc2FvUco53j
+         VYuoQAqtpx4VxldeCFCZaJU+zMfhsjMRh8YGArW5kJu14pDakUvLbH0SskILVJqVuVw9
+         ovERQ3r5F+yhCgSBZxFMWKkB3wipyvHNuD7AmuoM1ShN043vLbh9oFOdqSyQdI8mXFdm
+         1/ZrYl5EVIxcQB2CRlJfQ9z6s1R8TAnz7c9S6xDRihtNE+Jl3RAz6WMME5VLjYnCFdX4
+         2BMQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=DIX8InJ6;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=ZHmD5ZxsA5vwQor7ti7HmfOmqnjpNgZ2OFFfhP+PaSY=;
-        b=m+DdOkSA8NCY7YPTh43DnDT76vTyJPQc1sSRH7aB86lHtPGFwieqHbAnE9bPy8cb4Y
-         pbBrfq555aepNsSdje2RCAemszKWyC++cKFDgf7a7E/aH47SPhvCVOUfhz3oz9NW1ULJ
-         1NPfnyIyf24+4kqWYnRJyJ3wKQbjKmEygFAQr+nCiEmnWPENOfRNNuTKzTZke89w/pDx
-         InijVS2L13VpaOzRL3GdDNZOunMChoAteNC9cjzqcA0R2h2PfiaDvldkNkabSvjNE/vF
-         vQrL9OsREahLtm9G73lQ8qABJdKgKuOr5BVpHxXZiXF30EaCx4EVg43Jy78R+2R+FpXn
-         bcjA==
+       dkim=pass header.i=@linux.org.uk header.s=zeniv-20220401 header.b="A6t/lG34";
+       spf=pass (google.com: best guess record for domain of viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted sender) smtp.mailfrom=viro@ftp.linux.org.uk;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zeniv.linux.org.uk
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=ZHmD5ZxsA5vwQor7ti7HmfOmqnjpNgZ2OFFfhP+PaSY=;
-        b=hK+BSnLWkmyhdTO7iBYBQ+6hXGJ8bS7NKsx5AxUk7bguGy9qeJNnMrgLabC2vi2av9
-         3kQmf4qXmDhoj/HA8U8HsfqUcurVlzqMyTBawMnkoLb+vqXz2sMyblGdbJCXnAR0UD7x
-         huVoy8Bn9ECMxAY9ivFwc749+4lBALfqHybeVXxriutJw2FsWV6p/b32DchVtPU0mE8n
-         APFPv/twU4I/VzimuCx0RJR0CXCnpe9KknXrvcs3j3hFsk17S1CAFoLVd03H1XRweHe2
-         GJnuWTIfW8NqDDjBMWnGyikCTU4H2waZPYB+pO+1tEGm6zZd9zvvPJAG6+nnmvdXvKjy
-         rXEw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora/8KpJllRs/YkpuLQuDfUNLSOAB/T88N8XHqDfRxNRjdRejSwvr
-	actUcI85coq7YLrSCaUL1Qo=
-X-Google-Smtp-Source: AGRyM1thQa2XBoUqXfi6X7H3+m8sRZJSAvme5W9HQ5OepA3FJXH/8IniOXHCwJbC9Ma5h3RfjCMLjA==
-X-Received: by 2002:ac2:5594:0:b0:47f:8ea8:5798 with SMTP id v20-20020ac25594000000b0047f8ea85798mr22089657lfg.614.1656979608057;
-        Mon, 04 Jul 2022 17:06:48 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:sender
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=wQ0R5yEA8eO0KpvrOPAUGa0iMKa8ZtnK4yq965Y5P2Q=;
+        b=N/FMcKoRQCndVTPKM2HBKOKD5TA8j2knP/0OPDyN7TQtOZa/E7j5ipQtYYu6XgfzJC
+         K9PFEAMFVr3UTRmHwSF3h8h3IDfedJtH6cvCSU5DoR1F916z00GU8+ZRon1TDtba4Q16
+         LNkNVqQ4EmuZe+ziP/Xa7lQrIpJ2MAdOLnUWEBkQXJ8d1IkqD53y43S1XRxGcKsUhRhQ
+         5+CPwHdxxTEzdtqJisW0Kip+x3qSR9sqR9RqUI+OYc0zYRxcyd+xuRQhEr2AzmX+mvF1
+         MVg3ituI41aZXx6p427CtqBlBfJQFb40B2B4SDh9MpmRp8aty+VHFrvqAufwVQKdl3st
+         vtoQ==
+X-Gm-Message-State: AJIora9wklmukEDVtD6ayx66llszAWrUv9sK9Vhl1GYRAPAVotijN6lt
+	hWU1BxHFpB/F6n7iDOhGyc8=
+X-Google-Smtp-Source: AGRyM1th1+urkXmp1YBUe/67iChD4JXba2ayhVoEflnYMf+wE6J0t6DXQ5lkXu5saldfAm7IHJqO8w==
+X-Received: by 2002:adf:dc0d:0:b0:21d:ea5:710f with SMTP id t13-20020adfdc0d000000b0021d0ea5710fmr29881919wri.48.1656992992160;
+        Mon, 04 Jul 2022 20:49:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3b0c:b0:47f:9907:2b50 with SMTP id
- f12-20020a0565123b0c00b0047f99072b50ls240321lfv.3.gmail; Mon, 04 Jul 2022
- 17:06:46 -0700 (PDT)
-X-Received: by 2002:a05:6512:39ce:b0:481:31e4:1e06 with SMTP id k14-20020a05651239ce00b0048131e41e06mr20818864lfu.376.1656979606752;
-        Mon, 04 Jul 2022 17:06:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1656979606; cv=none;
+Received: by 2002:a05:6000:156e:b0:21d:2eb7:c707 with SMTP id
+ 14-20020a056000156e00b0021d2eb7c707ls24994889wrz.3.gmail; Mon, 04 Jul 2022
+ 20:49:50 -0700 (PDT)
+X-Received: by 2002:adf:e112:0:b0:21d:7195:3a8d with SMTP id t18-20020adfe112000000b0021d71953a8dmr1407787wrz.371.1656992990841;
+        Mon, 04 Jul 2022 20:49:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1656992990; cv=none;
         d=google.com; s=arc-20160816;
-        b=mQv2vvCOZo4KM2em8e76JyLrSg0XZunwNO5TRgJ5usME8hXBg6hus4pAJGyFM/FEO3
-         rMcP5SGuaDFfkCVY+5XHvFxM6h9jBO9eN83cw6FRiydTgxnUf2kCY3ZV+hSgzFQPYPCi
-         aMHELvH3f/WT55nVRCA5gjJQ3UE2dVGCdmB4ewEF4HdnFC0nIfnXMgd9VHlyL3CLrZeL
-         77I5x6G0sNMtqnkwIG8sSl6CYLRzckY2F5ztgiUApi6Xle9OnU++tVucd3fOAkwT1/EO
-         kGBfTB6sxu2cMhpZLclefgn5rwSCC3BwAAfjg9zaJiEF1Ey5m+lDCBV/qvgZDphO2Cug
-         MLdA==
+        b=ovhFF6QevQoE5Ql8a39OhXOEebIIXIgdOf6cBFtIFrw8QN8S9/YfZiU5diRERePdSp
+         xvoAW3F0Of6/HvmyHrwvNJTirrI+Xaj6kh4tqgxOCxA71U73gLZPARfQNWH7apKoevB6
+         gj1cL7Pnz/k16U3M8y4L/vLAupLXFlzFvRqicIQBRbCpnj7JRYgri/udE/mTd0mCNq+0
+         jVZo6lpGr47sWOGdpqy6xMYOPpkPglXrbDeg/UlFEYSNLchts1ZuXEQogRYmMPJJ8lhG
+         nyTU/gTUIgt3lk+GeTZhCCK0GOLAAP8qIVmdJ806aurZwis1xSWd4u1K3WL6cju4Gfy8
+         78+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Qmr+F6QyjrWZ2ZNhmVLeAUEKN7hzojbkjvHu88aEdVo=;
-        b=sGS4+1G7ikYSl7/JCh+OvD60BWQeEyUqZzderT69Ow5gnSopcBUux9jwKH2Nb11T6b
-         hkVpJz/fmU+dSwhoikuj631dwR4sCGPYTBmCiM9E4irdRsettQaAQbKSgs3CYfX6Ze+r
-         9yiJA/ipr4WXtKlS1ZrKDZ7bh6d+U/rbAiirTQbVUaL2FMmIAW/iK95t3azJtRTlkPRA
-         qkKoqArQRcuMwOsJE0yZtsopIKy6x8LVg6at5PhuL6SjJixcMhDhyZAGUy1Ef8JexJPK
-         U+DadIOGAImaQPHXP7Pl460aE3P0igxfskjez5IND/ZTGp6YM+nscDDFTdhQoXRki5JO
-         5OYQ==
+        h=sender:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=WiklvS9k0el8XhEQTp2AsFsJfZTmp2j5g87JdjG5LuY=;
+        b=gGloQG8KpBFPSlVxg3mrtQUqjLlIQoEsSkpzbRMZaA0MpDPWvl+LwTroc02kCYrQCr
+         tS8THOXWxwItPOVRpWRzIfp5p7m7eLYvBjUju2RTzpDJxvBfXF+5cuJL0bLaZUdFw8RS
+         zJqNFq/tzKcvEzVX/1FUKcDnPGaeMvgl77HxZNhdxAt7dydEkJTBrgZjyIJm+Ss4wftI
+         87hFRepF5EVgjUA/uUQuXg/5pP1s45DA5g1pasyJkE656ChTtIin/2JglTXCWsDmeBp5
+         deS2JfqwY/H8TGVNazmcHhxtlSgL8BRyE1Qz/ckfDELYj1QNAfdU3LmNFKZ1G9dd28+W
+         RkAw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=DIX8InJ6;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com. [2a00:1450:4864:20::22a])
-        by gmr-mx.google.com with ESMTPS id u17-20020a197911000000b0047fae47ce32si1234644lfc.9.2022.07.04.17.06.46
+       dkim=pass header.i=@linux.org.uk header.s=zeniv-20220401 header.b="A6t/lG34";
+       spf=pass (google.com: best guess record for domain of viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted sender) smtp.mailfrom=viro@ftp.linux.org.uk;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zeniv.linux.org.uk
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk. [2a03:a000:7:0:5054:ff:fe1c:15ff])
+        by gmr-mx.google.com with ESMTPS id bn26-20020a056000061a00b0021d6e648fd1si102265wrb.1.2022.07.04.20.49.50
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 17:06:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::22a as permitted sender) client-ip=2a00:1450:4864:20::22a;
-Received: by mail-lj1-x22a.google.com with SMTP id a11so12622748ljb.5
-        for <kasan-dev@googlegroups.com>; Mon, 04 Jul 2022 17:06:46 -0700 (PDT)
-X-Received: by 2002:a2e:b0cd:0:b0:25a:a2eb:e5d0 with SMTP id g13-20020a2eb0cd000000b0025aa2ebe5d0mr18708178ljl.164.1656979606269;
-        Mon, 04 Jul 2022 17:06:46 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id x2-20020a19f602000000b004834770e37csm122442lfe.73.2022.07.04.17.06.44
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 17:06:45 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id z13so17872987lfj.13
-        for <kasan-dev@googlegroups.com>; Mon, 04 Jul 2022 17:06:44 -0700 (PDT)
-X-Received: by 2002:a5d:64e7:0:b0:21b:ad72:5401 with SMTP id
- g7-20020a5d64e7000000b0021bad725401mr27990729wri.442.1656979593298; Mon, 04
- Jul 2022 17:06:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <YsJWCREA5xMfmmqx@ZenIV> <CAHk-=wjxqKYHu2-m1Y1EKVpi5bvrD891710mMichfx_EjAjX4A@mail.gmail.com>
- <YsM5XHy4RZUDF8cR@ZenIV> <CAHk-=wjeEre7eeWSwCRy2+ZFH8js4u22+3JTm6n+pY-QHdhbYw@mail.gmail.com>
- <YsNFoH0+N+KCt5kg@ZenIV> <CAHk-=whp8Npc+vMcgbpM9mrPEXkhV4YnhsPxbPXSu9gfEhKWmA@mail.gmail.com>
- <YsNRsgOl04r/RCNe@ZenIV> <CAHk-=wih_JHVPvp1qyW4KNK0ctTc6e+bDj4wdTgNkyND6tuFoQ@mail.gmail.com>
- <YsNVyLxrNRFpufn8@ZenIV> <YsN0GURKuaAqXB/e@ZenIV> <YsN1kfBsfMdH+eiU@ZenIV>
-In-Reply-To: <YsN1kfBsfMdH+eiU@ZenIV>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 4 Jul 2022 17:06:17 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjmD7BgykuZYDOH-fmvfE3VMXm3qSoRjGShjKKdiiPDtA@mail.gmail.com>
-Message-ID: <CAHk-=wjmD7BgykuZYDOH-fmvfE3VMXm3qSoRjGShjKKdiiPDtA@mail.gmail.com>
-Subject: Re: [PATCH 1/7] __follow_mount_rcu(): verify that mount_lock remains unchanged
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Alexander Potapenko <glider@google.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>, 
-	Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Ilya Leoshkevich <iii@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, 
-	Marco Elver <elver@google.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Matthew Wilcox <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux-MM <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Evgenii Stepanov <eugenis@google.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Segher Boessenkool <segher@kernel.crashing.org>, Vitaly Buka <vitalybuka@google.com>, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jul 2022 20:49:50 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted sender) client-ip=2a03:a000:7:0:5054:ff:fe1c:15ff;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.95 #2 (Red Hat Linux))
+	id 1o8ZYY-008EUH-Gz;
+	Tue, 05 Jul 2022 03:48:58 +0000
+Date: Tue, 5 Jul 2022 04:48:58 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>,
+	Christoph Lameter <cl@linux.com>,
+	David Rientjes <rientjes@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ilya Leoshkevich <iii@linux.ibm.com>,
+	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Linux-MM <linux-mm@kvack.org>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Segher Boessenkool <segher@kernel.crashing.org>,
+	Vitaly Buka <vitalybuka@google.com>,
 	linux-toolchains <linux-toolchains@vger.kernel.org>
+Subject: Re: [PATCH 1/7] __follow_mount_rcu(): verify that mount_lock remains
+ unchanged
+Message-ID: <YsO0qu97PYZos2G1@ZenIV>
+References: <YsM5XHy4RZUDF8cR@ZenIV>
+ <CAHk-=wjeEre7eeWSwCRy2+ZFH8js4u22+3JTm6n+pY-QHdhbYw@mail.gmail.com>
+ <YsNFoH0+N+KCt5kg@ZenIV>
+ <CAHk-=whp8Npc+vMcgbpM9mrPEXkhV4YnhsPxbPXSu9gfEhKWmA@mail.gmail.com>
+ <YsNRsgOl04r/RCNe@ZenIV>
+ <CAHk-=wih_JHVPvp1qyW4KNK0ctTc6e+bDj4wdTgNkyND6tuFoQ@mail.gmail.com>
+ <YsNVyLxrNRFpufn8@ZenIV>
+ <YsN0GURKuaAqXB/e@ZenIV>
+ <YsN1kfBsfMdH+eiU@ZenIV>
+ <CAHk-=wjmD7BgykuZYDOH-fmvfE3VMXm3qSoRjGShjKKdiiPDtA@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: torvalds@linux-foundation.org
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjmD7BgykuZYDOH-fmvfE3VMXm3qSoRjGShjKKdiiPDtA@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Original-Sender: viro@zeniv.linux.org.uk
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=google header.b=DIX8InJ6;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
- 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
+ header.i=@linux.org.uk header.s=zeniv-20220401 header.b="A6t/lG34";
+       spf=pass (google.com: best guess record for domain of
+ viro@ftp.linux.org.uk designates 2a03:a000:7:0:5054:ff:fe1c:15ff as permitted
+ sender) smtp.mailfrom=viro@ftp.linux.org.uk;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=zeniv.linux.org.uk
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,76 +163,74 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jul 4, 2022 at 4:19 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+On Mon, Jul 04, 2022 at 05:06:17PM -0700, Linus Torvalds wrote:
+
+> I wonder if the solution might not be to create a new structure like
+> 
+>         struct rcu_dentry {
+>                 struct dentry *dentry;
+>                 unsigned seq;
+>         };
+> 
+> and in fact then we could make __d_lookup_rcu() return one of these
+> things (we already rely on that "returning a two-word structure is
+> efficient" elsewhere).
 >
-> -       unsigned        seq, m_seq, r_seq;
-> +       unsigned        seq, next_seq, m_seq, r_seq;
+> That would then make that "this dentry goes with this sequence number"
+> be a very clear thing, and I actually thjink that it would make
+> __d_lookup_rcu() have a cleaner calling convention too, ie we'd go
+> from
+> 
+>         dentry = __d_lookup_rcu(parent, &nd->last, &nd->next_seq);
+> 
+> rto
+> 
+>        dseq = __d_lookup_rcu(parent, &nd->last);
+> 
+> and it would even improve code generation because it now returns the
+> dentry and the sequence number in registers, instead of returning one
+> in a register and one in memory.
+> 
+> I did *not* look at how it would change some of the other places, but
+> I do like the notion of "keep the dentry and the sequence number that
+> goes with it together".
+> 
+> That "keep dentry as a local, keep the sequence number that goes with
+> it as a field in the 'nd'" really does seem an odd thing. So I'm
+> throwing the above out as a "maybe we could do this instead..".
 
-So the main thing I react to here is how "next_seq" is in the "struct
-nameidata", but then it always goes together with a "struct dentry"
-that you end up having to pass separately (and that is *not* in that
-"struct nameidata").
+I looked into that; turns out to be quite messy, unfortunately.  For one
+thing, the distance between the places where we get the seq count and
+the place where we consume it is large; worse, there's a bunch of paths
+where we are in non-RCU mode converging to the same consumer and those
+need a 0/1/-1/whatever paired with dentry.  Gets very clumsy...
 
-Now, saving the associated dentry (as "next_dentry") in the nd would
-solve that, but ends up benign ugly since everything then wants to
-look at the dentry anyway, so while it would solve the inconsistency,
-it would be ugly.
+There might be a clever way to deal with pairs cleanly, but I don't see it
+at the moment.  I'll look into that some more, but...
 
-I wonder if the solution might not be to create a new structure like
+BTW, how good gcc and clang are at figuring out that e.g.
 
-        struct rcu_dentry {
-                struct dentry *dentry;
-                unsigned seq;
-        };
+static int foo(int n)
+{
+	if (likely(n >= 0))
+		return 0;
+	....
+}
 
-and in fact then we could make __d_lookup_rcu() return one of these
-things (we already rely on that "returning a two-word structure is
-efficient" elsewhere).
+....
+	if (foo(n))
+		whatever();
 
-That would then make that "this dentry goes with this sequence number"
-be a very clear thing, and I actually thjink that it would make
-__d_lookup_rcu() have a cleaner calling convention too, ie we'd go
-from
+should be treated as
+	if (unlikely(foo(n)))
+		whatever();
 
-        dentry = __d_lookup_rcu(parent, &nd->last, &nd->next_seq);
-
-rto
-
-       dseq = __d_lookup_rcu(parent, &nd->last);
-
-and it would even improve code generation because it now returns the
-dentry and the sequence number in registers, instead of returning one
-in a register and one in memory.
-
-I did *not* look at how it would change some of the other places, but
-I do like the notion of "keep the dentry and the sequence number that
-goes with it together".
-
-That "keep dentry as a local, keep the sequence number that goes with
-it as a field in the 'nd'" really does seem an odd thing. So I'm
-throwing the above out as a "maybe we could do this instead..".
-
-Not a huge deal. That oddity or not, I think the patch series is an improvement.
-
-I do have a minor gripe with this too:
-
-> +       nd->seq = nd->next_seq = 0;
-
-I'm not convinced "0" is a good value.
-
-It's not supposed to match anything, but it *could* match a valid
-sequence number. Wouldn't it be better to pick something that is
-explicitly invalid and has the low bit set (ie 1 or -1).
-
-We don't seem to have a SEQ_INVAL or anything like that, but it does
-seem that if the intent is to make it clear it's not a real sequence
-number any more at that point, then 0 isn't great.
-
-But again, this is more of a stylistic detail thing than a real complaint.
-
-             Linus
+They certainly do it just fine if the damn thing is inlined (e.g.
+all those unlikely(read_seqcount_retry(....)) can and should lose
+unlikely), but do they manage that for non-inlined functions in
+the same compilation unit?  Relatively recent gcc seems to...
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3DwjmD7BgykuZYDOH-fmvfE3VMXm3qSoRjGShjKKdiiPDtA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YsO0qu97PYZos2G1%40ZenIV.
