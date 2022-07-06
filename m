@@ -1,131 +1,112 @@
-Return-Path: <kasan-dev+bncBCU77JVZ7MCBBMFESWLAMGQEYO7FS3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCX3TTWUQMPRBM5NSWLAMGQEML73M2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8A756830F
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Jul 2022 11:13:21 +0200 (CEST)
-Received: by mail-lj1-x237.google.com with SMTP id b23-20020a2e8497000000b0025d4590922csf504102ljh.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Jul 2022 02:13:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1657098801; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9490C568384
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Jul 2022 11:32:36 +0200 (CEST)
+Received: by mail-lf1-x139.google.com with SMTP id j7-20020a056512398700b004811ba582d2sf4860042lfu.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 06 Jul 2022 02:32:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1657099956; cv=pass;
         d=google.com; s=arc-20160816;
-        b=R+dJIJ9+u7zRUxfG4zfi1bQCHeiKX0Rl95nGYNQKA0KkAnGbR4aqCuLzEfflJrhOVU
-         AusDfbnetbkrnezUWqk1G1/QB67h3WSVqZFB4Res+pP+zzVPjqGpBTonGtbv3p0qybVf
-         kFfjQsDpfqs/CY3fvOKytvcl/R7lO7AlO9K4xzWffc1eiNoQDuTM3ScNwQlCgd5QVmEh
-         ybLuDogVUKGHFuiFzZfH0i1perD2Q5x6wnMm7iqYamtutZtpRl0L3V/k5WyQ/9i3H243
-         Q5+2+nhUOtvZcgkFDLJRJfd5MRwuLOWKRkxj8JM3cBneaY5Cw1A38GA/a+/lN/pYvJlO
-         BfLA==
+        b=F25CXxMskeywvTo3nD2I4SGvhAcLEKXlQd4u7TsUbeqNf6Uon2sTRAt+fkruDPd2W2
+         sw+cjPbvBaF/VStaqk6hj0pyJiqvJARSZ8vutsU5XQVv4Kz+IOHHF4dTyrx1Sy3m+Uw0
+         SeQq7t9uUFwxxEloGBvAXJbIzdUMUglLlcACCTeXwgzQS/gmF+PvWKJ/FcWNq+Bqo6Uj
+         Joom5/MFjLeHBbvjsr2VOsR1lsw9Heco77HRMwTJLn5RHH0frBpX7mUMz7zB1aPgzA3i
+         /1RaUVl9dRYgKNKRrz9On1Oh0JXHRCe5nGGjHvHmZKIl+YL/t6VlH/w5OJd7FHGNkWUm
+         LrSA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=MI8OmFU2j/QhPkGs2sWUfS3vQrwDIjzx4W71H9/GUD8=;
-        b=y6lnaRiJgq+pPYnDMzsX1aM0a8qVZmnNxKtknQFHVHSa+xoru44/uTFFBCVtsr9Gbv
-         tdolIBRNAm2XqGTgfLqO5Fch7ayTYeMINjDRqoi9v6XS68ui0uo+Zswus/I65DAnXHHj
-         XZE2NAkImY+BFOI+By7UrTPKiLuptdYdU7QkiE5YIQATqZDIXDRrp0Y6L/Olmd0qp2vB
-         ZDdOIvandvN5y4kvs04k/HI7kDrhLn3lIgBwvJcLV7AaHPuOuPpeEoplyREK2a8N02oU
-         59xQ2+bTciASJvxrA7sWO6/xCBh51acWCvfD4MBC2Nto/eeh1GXio7HUqu5Zee9fYNYF
-         3P9A==
+        bh=oFWt4fCSdH3C+ZuPI7Kojfl46AtV0/hpN27Bg/OAHaU=;
+        b=ZYwuQ4DnyL4cEnNXWemOp8TL27RX2PvVdGlGW3nHh/N30XQdRw6dZtKP6hRp5S2TWt
+         lqkPnNTBwi5nwAMxhVa/ZqXS729xAd7LUKcXTgFTMpJtw8vqteJoStZ7JJx8lzOpgHIX
+         Bp+muVOWjf5ONx/v7bVN9HIeKQTj0UVWX5VBzNWzrtG8b+Br5q+oKRqW/yMPW8HeUYM+
+         zujEAYqhzlD8NyI8nA1OS/EJUcsS/ormA+/NrU9fQEm0AFY2OXEBPUeFyV4jLEXZWDC2
+         hDFmr2cURb8uirBuvJ2GXFEccsRwMIR9PA+XsIcjlwVil8uVT8th4IKm7ec+ILoBq/TZ
+         U59g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UyINPEp8;
-       spf=pass (google.com: domain of olteanv@gmail.com designates 2a00:1450:4864:20::531 as permitted sender) smtp.mailfrom=olteanv@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of ukl@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=ukl@pengutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=MI8OmFU2j/QhPkGs2sWUfS3vQrwDIjzx4W71H9/GUD8=;
-        b=HfXJUrZke0AlGmFdXXG0PAkaffIcO/fGVfdm03+2Q62MbzU8DTytwiwwfBUZZQ1nfm
-         iG2UGaiVFUi3Z2hIv4Jcv/NJbJenDTcNmliraoWnQXpNDG4c0zYkOZFePCHPHc1AnhOq
-         mlX3Rkzg3qnv/ZbvLYwcvxtvmfOaoMZiLnN1S6t3w1mY8xg9+xbjofYRbiZBH6SfwQ18
-         N3DXuQ8g8fYBQIlmWu1yZ8UrEjNwH5isOM+q9TQRUC4yKRfXV2CguyXK4gnYS0NU866c
-         O10ejrtq0M+fHOwPLJIgPMrN53BiCqcQPPLf2dIDU4FI7VGH3HmkHxg/pQe0tCZUqLZq
-         Yowg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=MI8OmFU2j/QhPkGs2sWUfS3vQrwDIjzx4W71H9/GUD8=;
-        b=CugHNwSj+jty7mTjXLGI9EkOvaU2FeD7Ct8o5YpP/xp2O3wQ1j5h4gkKkIe3yoqKqH
-         qdQ6LRtIriI2S1lZnBQtPH1IVPwyyR+uJwTSaEttEqR6MERt/x8Kc4e8kmEeEI4A+Zf1
-         52VGJ7bgFMJHjE+nQ+gXuJPtq+2wJcZqDX7vHddIBfMaFs1m1S0ibOR1eORc8iBohFMc
-         qjuaXGc8KiMHRSurZ8zj5jYBq70/rZXJUSYlBda5scOp/sZ9rMmFqYDMMLX4T9XDYGsf
-         FViTR1cab71IRMqVzhgLHaZKexJM5kJtJN05XvHNbMGrA4qYH94GyAI42Rxn8d3xjst0
-         q0gg==
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=oFWt4fCSdH3C+ZuPI7Kojfl46AtV0/hpN27Bg/OAHaU=;
+        b=bvooBE4UIUpFKagIMVVrmBwHi5LiI2UYoWsGUz4BcdwaKRU7gRJhi1aTA13ytXJJUD
+         3/kyhKZO2GKzALgzOkEJzEt5kHbtda4IvsR8d9rDoQb+gAjVcycnRqAxqOROYiiGdpkv
+         Td24MRKBQ1uBn/NsjH6P1QuBbIw1WLtgerk0oI/ioWn+L8mZTCo9DLV9dusZkHmnKTmB
+         5hoc5/d7euHeA5dQUAjCgqfVsi9+DKntc7TPnJNuLn0N5deMMlLkrG/aQ4xhVn5ppvck
+         v1c4ttKbyu0gvnK4/uPECrENe08wKSaYfVNXT1FV136b/VEYuIk3QNAP92DhhCLMSNCd
+         szHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=MI8OmFU2j/QhPkGs2sWUfS3vQrwDIjzx4W71H9/GUD8=;
-        b=wlLxwHyhzHWfaXB9gPNiDSBqC7oSoNs/vh784XuuO6isBCmOhCaF6CpFYKlaTHXrlv
-         9WilfSsUhykkOqR6ByfFDekJSTWPqYG95XnzC51vWnb/jNwAamt27U1Wnpn7FOnCVaFp
-         LYnt8IYRyhrwu4iGV4LNJ71/qx97BAdbY3PV17DdDEgP/kcInJ9kBSqeF9onivmzgC09
-         FynwYORprF6jaKBme1K092Rkv9vgqoCxS9FPfiPppMRM3k2y4C8Jq3vfpLnvf/Px/vJ2
-         d9E0ZGebzPggJDchQRUEIJks6aXsHbquligbaR6+Khu5Z1cTOaTN8KJsvJQpWZV7F5uk
-         CZrQ==
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=oFWt4fCSdH3C+ZuPI7Kojfl46AtV0/hpN27Bg/OAHaU=;
+        b=6/oquZONa5HSTPBMPzVvsulWSIzrT/Ed5mj0uO0SWVKubmiQ8nK98kPRCEU8almsuH
+         gOYVyvCLXq/NmEXJgNxvmmnIUJyRWUgALTnGIK2GTeEu/YOYvjx4BaIxBtG/G92EOCzO
+         gbhtaVL/AyzdYjuzwv5fE/DbabWVlq2jtJWHVYbURlGyYomkPrCKCskeQROoJKP0Xaim
+         JV60uSiiNqHTiE7GktlCcTqzqBN0+zH6ZSRpLuGo2tvONcHBlq5Fv5IYBtD0vi6CIUqt
+         yaAHwH0j04lzx6rJUYiuxWtibwkE9mfmBKesPH7F6dcMpZWJsQPk/xXAtvSYtn782Hkw
+         Vvcg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora9dBoYQco8lxNUHJIySsh29PtdKw7nqLZIvO/UCWq6AoIWkjrEp
-	SqSDStxi18BUBnDWW5RlULo=
-X-Google-Smtp-Source: AGRyM1tLHfQlVukK5Z66u/aJSc6Z/bbls5V7y8kXcL0Ue3Qi2NNwXruLX07vSwWE2mKwd1qWJut5JA==
-X-Received: by 2002:a05:6512:1684:b0:47f:5f27:b006 with SMTP id bu4-20020a056512168400b0047f5f27b006mr25887169lfb.225.1657098800856;
-        Wed, 06 Jul 2022 02:13:20 -0700 (PDT)
+X-Gm-Message-State: AJIora/Q/qUzqfXqvsdw52epsT41v402jXLLoYrFTixmsF1kM3s8+Hke
+	fIAGJuQJ+1+tWiLQD1n9OyM=
+X-Google-Smtp-Source: AGRyM1s/uWGnWaK9KJV9nMTAmS/azm4tM92GbMuJzP5RatXT9V2L5Xf7mNjEc/L5ZqbKXXYkI7OqVA==
+X-Received: by 2002:a2e:3001:0:b0:25d:2c0b:3e15 with SMTP id w1-20020a2e3001000000b0025d2c0b3e15mr6078067ljw.302.1657099955878;
+        Wed, 06 Jul 2022 02:32:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3b0c:b0:47f:9907:2b50 with SMTP id
- f12-20020a0565123b0c00b0047f99072b50ls333889lfv.3.gmail; Wed, 06 Jul 2022
- 02:13:19 -0700 (PDT)
-X-Received: by 2002:a05:6512:22c2:b0:485:8c7a:530d with SMTP id g2-20020a05651222c200b004858c7a530dmr2215596lfu.459.1657098799507;
-        Wed, 06 Jul 2022 02:13:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1657098799; cv=none;
+Received: by 2002:a2e:99c6:0:b0:25a:89ff:c693 with SMTP id l6-20020a2e99c6000000b0025a89ffc693ls6612477ljj.9.gmail;
+ Wed, 06 Jul 2022 02:32:34 -0700 (PDT)
+X-Received: by 2002:a2e:9f16:0:b0:25d:48a9:4f2a with SMTP id u22-20020a2e9f16000000b0025d48a94f2amr351112ljk.454.1657099954366;
+        Wed, 06 Jul 2022 02:32:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1657099954; cv=none;
         d=google.com; s=arc-20160816;
-        b=wiqRcQ47VR/dtyN31eudiQihBTsJMlm8Xs6+7QeuhxvcGMJN74OhigI7IUU89gc0pm
-         CeVLztQxF1MswXB0aEelBg7v3YGrMp5GfjGb08FlR1Zq5e+3Z5t27H/K1sRStzFITFki
-         co5jrULqoCIdyiDyP3bomywzz3JdyYaJ9qHWdwZMkS/HFrLPDGH/jrSs0VUJSl8+0zpk
-         g20Ya5OSodg/9rZVsiUhDB69Mf3AP8DC+QN0iffQr65PsqYXc383hNjm7nwpS0JAWAZC
-         aBzRawjOdBrMELg9CvAziNwl4d2+dPBunLnSClqvntksB601FVqADYbcDu+8Cm3irE1P
-         w3fg==
+        b=QV2kj2p2csDdH+b9xR3MpWp2tzIhKSnwM8bwv3KgMM4N0KG0dKqoozLYDXg4yqY+6x
+         3vaNRUOEJj8acuzQutjHi0Tr7YL4BNEUEWEuc2ZJA/UYzNfL2buR2VDBYbgTAB5abLM0
+         1o8IWl/wTWZbyJ0Q9hrfFoTRh6RMqxL0My+IZXK5SNlZypfLaftQ8Tta20SsMg4/zRMJ
+         FPFKotT0hnFzjJKn+mLmmW1gW3BPY6dU9IKnaquLGyayi/qnECSfGwsuLe3POsPxeVuV
+         tEbUswWeUvJ20gn1Oy/GjkyPGm76IASUs2mjwOQCH/6ds9/T//Ist31NOCqcIfeb9oN8
+         Jtew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=WKlacHhWVR2IblvCAgYMcCw7cvtmo7gBzlhxFpijOWM=;
-        b=em9XtJ8s8RyHgWGiDC8kBvKsKWjT2hvbj+Vhl3v5uEn5K16xDuyQs9/SfsaGej8wbz
-         TWtVFrbNN+BCPiOKP9dHWz4qTp6bInjElj085bDvtcULSdEOBIAbFOW0mOgboetTavmB
-         n+jvZrhcD0fGnetTBx08vmY9I21EzEX/4I6g3C5jYi559NMcg/jIdMUGKCjbIhE5Uy37
-         kowIs/L4GZhYmmj0ShT+R6omnh+MQjL/xAU6H8RVZiOuxFvVwFgeicPDS1pd9BiI2HwA
-         HGBRXulwRxJGBAQpFBBsoYsDZ/AqmiSRWgUM4ffDfaEp0bvgcyC6SnBgjNsHUzmLTEYD
-         fycg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=tMU3E4eYksx+zNdAVlL51uq6GohePbaqlSk6+eyDGGY=;
+        b=YQDTPU4bNiLmfziOfp9483+4SYz2IhOIgZO3vRIWxLlLk73Hf2elx5j5IzqQKKPFwX
+         42Q3WZu7ynUrgXXht8BotzTLMX9/wFrIqqXCWDU2Ppoyo6OdhykM3UtHUJNnrt0kn1lV
+         edHqrdbl6cvduoFEP9KCJWDJ4XbqkMwoLwmXnsFWWeMlrZOiffA7q1c1p9cRdBnQ7Cxy
+         X1h+iz2eLPazPfGDYmZb1fITHUcgqgUzoqzAYzcNjaEBPhwUtFdd+8OcUWm+BtPx6YoD
+         xd1xKjuAIgfd1epjqhLo6VJfIVXnbvBGqSAHZyXx4hEHeTxgCjO6p9JHUvm8TKBxdu58
+         nv0g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UyINPEp8;
-       spf=pass (google.com: domain of olteanv@gmail.com designates 2a00:1450:4864:20::531 as permitted sender) smtp.mailfrom=olteanv@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com. [2a00:1450:4864:20::531])
-        by gmr-mx.google.com with ESMTPS id g14-20020a0565123b8e00b004810be25317si1183171lfv.4.2022.07.06.02.13.19
+       spf=pass (google.com: domain of ukl@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) smtp.mailfrom=ukl@pengutronix.de
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de. [2001:67c:670:201:290:27ff:fe1d:cc33])
+        by gmr-mx.google.com with ESMTPS id c38-20020a05651223a600b004811cb1ed75si1139309lfv.13.2022.07.06.02.32.34
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 02:13:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of olteanv@gmail.com designates 2a00:1450:4864:20::531 as permitted sender) client-ip=2a00:1450:4864:20::531;
-Received: by mail-ed1-x531.google.com with SMTP id e40so18444164eda.2
-        for <kasan-dev@googlegroups.com>; Wed, 06 Jul 2022 02:13:19 -0700 (PDT)
-X-Received: by 2002:a05:6402:350a:b0:435:df44:30aa with SMTP id b10-20020a056402350a00b00435df4430aamr51209856edd.403.1657098799156;
-        Wed, 06 Jul 2022 02:13:19 -0700 (PDT)
-Received: from skbuf ([188.26.185.61])
-        by smtp.gmail.com with ESMTPSA id er13-20020a056402448d00b0043a5bcf80a2sm6350790edb.60.2022.07.06.02.13.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 02:13:18 -0700 (PDT)
-Date: Wed, 6 Jul 2022 12:13:15 +0300
-From: Vladimir Oltean <olteanv@gmail.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+        Wed, 06 Jul 2022 02:32:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ukl@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33 as permitted sender) client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o91Nj-0005lo-Ss; Wed, 06 Jul 2022 11:31:39 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o91Na-004jSK-Sg; Wed, 06 Jul 2022 11:31:34 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o91Nd-003KbY-Gm; Wed, 06 Jul 2022 11:31:33 +0200
+Date: Wed, 6 Jul 2022 11:31:30 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Vladimir Oltean <olteanv@gmail.com>
 Cc: Wolfram Sang <wsa@kernel.org>,
 	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
 	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -149,20 +130,23 @@ Cc: Wolfram Sang <wsa@kernel.org>,
 	linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
 	linux-mediatek@lists.infradead.org
 Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220706091315.p5k2jck3rmyjhvqw@skbuf>
+Message-ID: <20220706093130.cet7y7upl76rp6ug@pengutronix.de>
 References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
  <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+ <20220706091315.p5k2jck3rmyjhvqw@skbuf>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yp3ilhvx53xygi7l"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-X-Original-Sender: OlteanV@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=UyINPEp8;       spf=pass
- (google.com: domain of olteanv@gmail.com designates 2a00:1450:4864:20::531 as
- permitted sender) smtp.mailfrom=olteanv@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com
+In-Reply-To: <20220706091315.p5k2jck3rmyjhvqw@skbuf>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: kasan-dev@googlegroups.com
+X-Original-Sender: u.kleine-koenig@pengutronix.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of ukl@pengutronix.de designates 2001:67c:670:201:290:27ff:fe1d:cc33
+ as permitted sender) smtp.mailfrom=ukl@pengutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -175,25 +159,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
->=20
-> The value returned by an i2c driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
->=20
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
 
-Assuming you remove the spurious kasan change:
+--yp3ilhvx53xygi7l
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
+On Wed, Jul 06, 2022 at 12:13:15PM +0300, Vladimir Oltean wrote:
+> On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
+> >=20
+> > The value returned by an i2c driver's remove function is mostly ignored=
+.
+> > (Only an error message is printed if the value is non-zero that the
+> > error is ignored.)
+> >=20
+> > So change the prototype of the remove function to return no value. This
+> > way driver authors are not tempted to assume that passing an error to
+> > the upper layer is a good idea. All drivers are adapted accordingly.
+> > There is no intended change of behaviour, all callbacks were prepared t=
+o
+> > return 0 before.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+>=20
+> Assuming you remove the spurious kasan change:
+
+It's already gone in my tree, see
+https://git.pengutronix.de/cgit/ukl/linux/commit/?h=3Di2c-remove-void
+
+> Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
+
+Thanks
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -201,4 +205,21 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20220706091315.p5k2jck3rmyjhvqw%40skbuf.
+kasan-dev/20220706093130.cet7y7upl76rp6ug%40pengutronix.de.
+
+--yp3ilhvx53xygi7l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLFVmcACgkQwfwUeK3K
+7AkOwAgAkt7aZ38n1lpOoBzXslSDQyp/lKc47Ehs+a1LTESfOP6+4frSHSJhaIMw
+WX2bIAZO2kfHd2GJJ1+miP0YO3eys+YJus7vlVp9LsZCtTrR7uUlJ9PhG4eVmYxD
+ZPZMbP533Mkp9Tj201PJRSbnOlhRhKnwpl4kQfj9nXD478yP1zbT/7CDh4Im1isE
+dOUnNdPTAnT17u0fIRREu6TIC/hKy5Lh772ukCBsHwkBWQD4WTtLmdL1uZrspPa3
+fKxI4tIGoKufFCNMNNzK8li/dghhpkn4uy8iNwyjkkmjfCXAkNdwNJiCDlo6qPwb
+idJ3DvpJEEx44L8KdcjzBYUHdSNUkQ==
+=ZnQL
+-----END PGP SIGNATURE-----
+
+--yp3ilhvx53xygi7l--
