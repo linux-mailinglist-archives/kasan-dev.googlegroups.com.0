@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBPX7WWLAMGQEKGBRVOQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZUEW2LAMGQE46XMWQA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1037.google.com (mail-pj1-x1037.google.com [IPv6:2607:f8b0:4864:20::1037])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE3B571BEB
-	for <lists+kasan-dev@lfdr.de>; Tue, 12 Jul 2022 16:05:52 +0200 (CEST)
-Received: by mail-pj1-x1037.google.com with SMTP id i15-20020a17090a2a0f00b001ef826b921dsf5041762pjd.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 12 Jul 2022 07:05:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1657634751; cv=pass;
+Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA12571C14
+	for <lists+kasan-dev@lfdr.de>; Tue, 12 Jul 2022 16:17:11 +0200 (CEST)
+Received: by mail-pj1-x103d.google.com with SMTP id n14-20020a17090a2bce00b001ef85fef37fsf5052544pje.7
+        for <lists+kasan-dev@lfdr.de>; Tue, 12 Jul 2022 07:17:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1657635430; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sB+u04ABsj16At6M6T4f14IKlTpcs51qU2ptmj+1IkJHXzNcfdXKmMZkp4DR3BkILQ
-         0tdLnbMsxw11UhmZMbVPk8BjYOJN4HuhRkJp/rli3F6A++APa5vmhPxFRa/YI8X4vOCt
-         U3BrJL8JFcu+/ifxh8TEErAR31xw8Vh9yAQN3aPELDy6gWaPL6WwljOKvJ2br0OuBJoS
-         qN4oRQ+kmZ1OpvEfoEsVSE3nujYgcutAJTu/BbmxTsy745GDxfX50gi85L3y5a4gPWMe
-         ArjXutJa1+pg3HoumVhmTU1y30JyZ87nzJ70NRjje+/3r+y0M6gXxDH1Wn1d7eeEvbqw
-         QTlA==
+        b=BYCf/XLGGNww9j3q0m3CNRihTFZf1fBoRm5RH9KrTsGDwFHoOLdD8HCw8bD3Dx8sER
+         gM2NogtdiSI4y65j69DyiWMPqOkIh5hoYSSZajX+G13LM30OvVlu9prGdFEcuv/7jy9F
+         OZx/S1wLFLSt4ervOF6yGgz16tUiTxDYWBZOvyVEuPk38kWetVHBEI2SIE9R7mH0dzFA
+         EFL2Gco4mY7HMZsJJHo4h0rxQJ6iqfu7etmH+dU4W/Sah2xkQCaXbmyUSO9lXAu0epqd
+         tse107jzSxcBN7iyhTfpmW4YnwWB/QSRh+JU8tXzaa6oIwWUpeXeAGRdrBkvHsol5CaT
+         SoOg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=W5KWIKRLicAYkIYkhKjGNiJP3Qttvu4UVyh7lNPIj0o=;
-        b=sEmUIKXhGUlpOM1YIDZv5FKdvJ3dmnjtSog4f7DbvQCP6uPXcl5F50Si4u1hs2OZUV
-         oSfFxQdPd/AnBmuLBdrVbYbNO8iYIZe+EkTyLx/urgOVSHVdj/c+nKDgTAiUCgyZOvrw
-         h4EJAgX0oggBNuW4i6G45CbPdZGAB4o25ijyTH44jnkWgAKpzWKDCZ26X3V4tHpMkKUJ
-         +nqeok0YC1pRp8lQz5/1sF1Vygk15ibmqhj0EdF86vSgszPPbxZtxTt6m4RlnVQZrVET
-         UbfqjF7gGLnGmDddr9cip9O3PmdfIRUSp5y2sB0hN7mcF1X5FEp5m7R5qBJePIuWfrZa
-         RY1g==
+        bh=14FeX2zc6tx7o9WXG3p7jf3GCJefuLAmZclFFwkZw28=;
+        b=cWXAv0ThqAZNUB/rwJhlkRvIDDvZ5r4jB5AB56amwc6XLr8x3C0IBpnvvtMV4zM0Rw
+         d1kGPuZzoJMWtvEmtF83WjjmUpKgvkuFpLG/Q5YWAqshdN5ColY6q7oOfZkmTY348HZZ
+         BfFieQC1LT2gR3WOvbILZGU/3bDZCIVCbltsS9Hb1rspzsI6SsCl+/onAZUfTf9speyw
+         i+iMvqZBzbvMUqJ26MhEFaTP47gtkGyGGsFS6qMJ365kW62eWpeXPoy0nWBjNHsUF65f
+         HSYqKiAj6MjIRR1WcGYnLqZ7O4QWXa78sYjh7ww4FwWc1++1yhWfWOAM/hyKjP0VtpvZ
+         mDjA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="DMb/e8q7";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b35 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=fHYf0v6V;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1136 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :cc:x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=W5KWIKRLicAYkIYkhKjGNiJP3Qttvu4UVyh7lNPIj0o=;
-        b=MfFvuovOnipgZqWtnT+IwtsMM2JHQiH4ZV6QSy4jeBgMj6Xqri0Fv5AmyblfyV0r8J
-         xVHuKeuoLecUV8/v7vsXi888vshESNNEVjhdTY2P36hyeAwe6YK5acPNGIC0hxNTSxJB
-         Slxm8S3spnacvzPgPfo7fGjYpS6LN7d+iIMww7E8+msrHApszJMJ5Di5wM9DNO/5pneN
-         b4lbTocItt8vprisxj1+OCY83jngQ8F1xjhMkhQG2W9fM1UgKJm/jTQjXgLkxkKwLNoA
-         ED6VWIaZGRPHKbq8dkGx/GHb8KyqzEAjmUu3Xn9KOECdiUIqomNkP7woVGw/Zd03l9GS
-         1SDg==
+        bh=14FeX2zc6tx7o9WXG3p7jf3GCJefuLAmZclFFwkZw28=;
+        b=hKtWXVtgDBFjd12QM6vAemJCY0rD7Z2ggn/Snarh9vMpIm24Co+GP+LlzsBpCoSo53
+         qETHRSwJEyhWHVMigklQLuVyX3C8kiZOCw4FSeZULFpJdYL6OhB5p0UYY2iPzCGh1zES
+         effIHXVcDCGI4c7t789CURtMIpSN1STT5OjlX+aLh21fufhry/FxwR3jS4G3fJV1Nx8e
+         /DZSuVuGriwdYkkMPOHx9qQEVt3Oa9AMA0KL1QRia6V3vKAPmXX/NKYf959Mhb1yZCjr
+         hfOK1EWGO6N1ykd4XBTlMaK6EPLFyPDJvcv57U/kRT3jDJ9FRbDu+AZvX6fexHinMQR5
+         EZdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -49,64 +49,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=W5KWIKRLicAYkIYkhKjGNiJP3Qttvu4UVyh7lNPIj0o=;
-        b=LEDqw8F8AjaBuLLeCJohByPxOVfOAf3H75L/h44lzCgaSGsM4v+pXmss4SMImxKGRX
-         Hc29uvtP85N+CFHWNLx3ve6FDp+kMaJ5ZJ41CmIuiCR0K1D3dCI5bHwKd2lW5OeSu96L
-         6rLD/15s6yDiQESHHG1EADDFfCi1GFHwxIb2ROuTphIML8frm3cazGRyq8VRM7i/LZy0
-         JYOGsl8Rr7sRaPxmURpfl6ynfGITxXb7p+drIywYK0o41fLPyEf+eocc3Fk7B8CQvHyt
-         GV5LlWAMgXDyAOeBPNs5kQGUscj1YSQPE8p9N9XZCxoONJ4E+HeOkCh8lQLpHwDdWAUG
-         QwXg==
-X-Gm-Message-State: AJIora+QWsk9Gn648w9yEmj47kzer4TCt7EITHGSrohH7l1XCeaWWxPv
-	C5ZiBJmSD7ntJfQlQrBJLqA=
-X-Google-Smtp-Source: AGRyM1uzH1K5t/xkKI3CvfjPsmAZ4J5WtYS2SYXVH6Mb0KuvK0Wt37cRJgfM7IZJ68zZcXQgy0Wz0A==
-X-Received: by 2002:a17:902:cccf:b0:168:c4c3:e8ca with SMTP id z15-20020a170902cccf00b00168c4c3e8camr24740054ple.40.1657634750633;
-        Tue, 12 Jul 2022 07:05:50 -0700 (PDT)
+        bh=14FeX2zc6tx7o9WXG3p7jf3GCJefuLAmZclFFwkZw28=;
+        b=QC0/HtsHi5POcs29d+sZWkxmZVx0m181iFrvoZFrkMp/qcLR4t8GVMy7CxgJD+9JBa
+         9aBtgMY+zP3nm0pRKBPd0XFCX7bcK8zhu52//ys/NE7ZKwql7VAFVtaDm4ootLHu/C4d
+         8KeQWSseM7xqNT7gd5tGCR9OOnrNQFuJyoY2r3FFi1MoY39tz9NbiA3sH20tcebP7F57
+         dEQVd7SYgkOElT5RC3XiS5Z/dNUJFCUk8b1odmjtD6WPuP9xL8uaKCSkyV11ybe327h6
+         3cqiI02rxKw9pAY9qfCDI5ytapoJb+0o4FzwMvwz+eNHLt7PTPTetKf/AE1qblCjp2NC
+         3pUA==
+X-Gm-Message-State: AJIora807m5DDQatEL/Yuw5meFGFwZJaemItTpjIIwdEAIqsVH7c4Gee
+	PGhu0TUiD/EGxx0XH3+RR44=
+X-Google-Smtp-Source: AGRyM1tUf/jPum0qOFZtIit+4F9MTdYAX0HTmr4zAbM8ZsY1zA1KVCVejzj8zCtsCyf8WT9XuTtlCA==
+X-Received: by 2002:a65:5803:0:b0:419:65ba:6b66 with SMTP id g3-20020a655803000000b0041965ba6b66mr2612308pgr.436.1657635430506;
+        Tue, 12 Jul 2022 07:17:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:ecc6:b0:16c:474:d5c6 with SMTP id
- a6-20020a170902ecc600b0016c0474d5c6ls1506685plh.2.gmail; Tue, 12 Jul 2022
- 07:05:49 -0700 (PDT)
-X-Received: by 2002:a17:903:24e:b0:16b:a02d:41fc with SMTP id j14-20020a170903024e00b0016ba02d41fcmr24390172plh.121.1657634749848;
-        Tue, 12 Jul 2022 07:05:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1657634749; cv=none;
+Received: by 2002:a17:90a:b010:b0:1ef:7a6c:c19d with SMTP id
+ x16-20020a17090ab01000b001ef7a6cc19dls1324731pjq.2.-pod-control-gmail; Tue,
+ 12 Jul 2022 07:17:09 -0700 (PDT)
+X-Received: by 2002:a17:902:d405:b0:16b:f1ee:27c0 with SMTP id b5-20020a170902d40500b0016bf1ee27c0mr23546389ple.10.1657635429589;
+        Tue, 12 Jul 2022 07:17:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1657635429; cv=none;
         d=google.com; s=arc-20160816;
-        b=dw7IE1JOErP1BOxg1gUm09/sjV8Q6aXaScsg+43j4ru3sOmsVso7AkhsgZjduuww1c
-         oe0jjMtM6KPgUh2juvAOJOv/fisTU05fPHXTZD30JAHO/AdAgckmMiCwjjtVtdn9QKPg
-         ER3hsZvA7lWarQs6STzOyqqesXhIi303uPluxVd7p4kNQArERAD4+bva+p/Ybic7x21V
-         AFZOdfCItawHZWHIl2paLwG4HIivUDJEmLOmaGgMtlkIYZD4ry9ZFCNecNoKEgQGkExO
-         Fbyik8rPmxxzkYc3W8od3Mk0+CFNUmV9MqUfk4e7TGQDDF4qn4/Q0MggN13sWzUgq+6e
-         3ntA==
+        b=Ln6Rx0mpSefNLjMWFXdN+y9hFWC4H8X2/Bc5StBQws/3DWOEhAGwPxT3zTnASPC8fL
+         qaTP15ILC0l2Eck/nJtErrOuqgriX9x3gzn7JYlK/S97GlMcA5PVS6FJnzzn4PWYK56P
+         052B6RLYlI5MTCxnygEUfHA7jiA58Fz9KnShoBegLhN5Hz17KEKlTN/Mnxh8wJcSBVv+
+         f3O3nChA2kKFrQRDqOkfO7MaX7/SH85bsQSOOb0zza67YtKB7Z6ZiBK+cVTi5VxeQfmX
+         lvGwetC9pHvgvplwRTAiynNXhdaY/q1DaNP+fa0bYb9zd8oXfFCseNM6bzdr8LNZLeng
+         XYiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=vd6O28VewSFhRewX03WzTG5J3zTXvR/VFa5UjMf0N0Y=;
-        b=zxOPXXXOWmQRJWmCGUQUg37a9M01CWXsOemmW3kw+GQce0uxwEsc96Y9N/GXY5Eqhh
-         InZQsL/CRQ/aFqWsJ/i8y/dVc/mM85j0fv1HyaxtmnQzFGqPb4syfeSbEG5geY1BN0jx
-         5Met/NEEQWZ8i6f4oQ9LDGB78lt7UVydCCKYC6xKgQ0LGj9vKG5wpz3RkArEhmLOnWf9
-         KAZMJGp4J7YaIldqDQtMqxBHaASoMRdCtFbmccWsI7YB3JU1aT0+7Q6h0IKATyvSwmyy
-         42GadO3uNiHTs9XW72YEbrk6d8upyBEcT/0dfK3pfBxwF0LrG0vdY6ydRmmxPzzEXaEO
-         6r/g==
+        bh=l4GUvbGLjvnpkFWbexrKoGMQGV0OrZF271TYQZ6JqLk=;
+        b=R1dl5xESgSaYXKZp4G05t5BqyCAdPTF/Tk5fF02ALjMIsJq3xMUkBGKnqBEzu4bs+H
+         0ZKm1kSRZRyg0J6OKxQHcev3KZONxmGHFDrr6OoRoEues+NA35MFGngGUoeOHvn8YpJb
+         aVYYwZRyvQ8mgfSQ5EO2Q/salOxFa2IqaNuAZ56/0O9NoJMZAXHxW8pjg2wW7TyNDBB+
+         RpJErALq+ANDLAazpOQTM1ZCG0vccf9AYt64Fssid8rzzSurddJ+hAT2bjNSvnYIgN8D
+         wVuKwqc8iVWCsrsmBlXdZvct7P3S1hE4k+Me3BMjyZKb00CQLGDj6I5E7oknN2lpyUBY
+         NEgQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="DMb/e8q7";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b35 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=fHYf0v6V;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1136 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com. [2607:f8b0:4864:20::b35])
-        by gmr-mx.google.com with ESMTPS id s19-20020a17090aad9300b001ef9c90c4afsi478451pjq.3.2022.07.12.07.05.49
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com. [2607:f8b0:4864:20::1136])
+        by gmr-mx.google.com with ESMTPS id z2-20020a63ac42000000b00412b2ea1f91si350067pgn.1.2022.07.12.07.17.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jul 2022 07:05:49 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b35 as permitted sender) client-ip=2607:f8b0:4864:20::b35;
-Received: by mail-yb1-xb35.google.com with SMTP id g4so14089080ybg.9
-        for <kasan-dev@googlegroups.com>; Tue, 12 Jul 2022 07:05:49 -0700 (PDT)
-X-Received: by 2002:a25:94a:0:b0:668:df94:fdf4 with SMTP id
- u10-20020a25094a000000b00668df94fdf4mr21754860ybm.425.1657634748762; Tue, 12
- Jul 2022 07:05:48 -0700 (PDT)
+        Tue, 12 Jul 2022 07:17:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1136 as permitted sender) client-ip=2607:f8b0:4864:20::1136;
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-2ef5380669cso82259357b3.9
+        for <kasan-dev@googlegroups.com>; Tue, 12 Jul 2022 07:17:09 -0700 (PDT)
+X-Received: by 2002:a81:5a0a:0:b0:31d:ad7c:8fa5 with SMTP id
+ o10-20020a815a0a000000b0031dad7c8fa5mr1740204ywb.512.1657635428513; Tue, 12
+ Jul 2022 07:17:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-18-glider@google.com>
-In-Reply-To: <20220701142310.2188015-18-glider@google.com>
+References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-26-glider@google.com>
+In-Reply-To: <20220701142310.2188015-26-glider@google.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 12 Jul 2022 16:05:12 +0200
-Message-ID: <CANpmjNNh0SP53s0kg_Lj2HUVnY_9k_grm==q4w6Bbq4hLmKtHA@mail.gmail.com>
-Subject: Re: [PATCH v4 17/45] init: kmsan: call KMSAN initialization routines
+Date: Tue, 12 Jul 2022 16:16:32 +0200
+Message-ID: <CANpmjNPeW=pQ_rU5ACTpBX8W4TH4vdcDn=hqPhHGtYU96iHF0A@mail.gmail.com>
+Subject: Re: [PATCH v4 25/45] kmsan: add tests for KMSAN
 To: Alexander Potapenko <glider@google.com>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>, 
@@ -126,8 +126,8 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="DMb/e8q7";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b35 as
+ header.i=@google.com header.s=20210112 header.b=fHYf0v6V;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1136 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -144,494 +144,642 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 1 Jul 2022 at 16:24, Alexander Potapenko <glider@google.com> wrote:
+)
+
+On Fri, 1 Jul 2022 at 16:24, 'Alexander Potapenko' via kasan-dev
+<kasan-dev@googlegroups.com> wrote:
 >
-> kmsan_init_shadow() scans the mappings created at boot time and creates
-> metadata pages for those mappings.
->
-> When the memblock allocator returns pages to pagealloc, we reserve 2/3
-> of those pages and use them as metadata for the remaining 1/3. Once KMSAN
-> starts, every page allocated by pagealloc has its associated shadow and
-> origin pages.
->
-> kmsan_initialize() initializes the bookkeeping for init_task and enables
-> KMSAN.
+> The testing module triggers KMSAN warnings in different cases and checks
+> that the errors are properly reported, using console probes to capture
+> the tool's output.
 >
 > Signed-off-by: Alexander Potapenko <glider@google.com>
 > ---
 > v2:
->  -- move mm/kmsan/init.c and kmsan_memblock_free_pages() to this patch
->  -- print a warning that KMSAN is a debugging tool (per Greg K-H's
->     request)
+>  -- add memcpy tests
 >
 > v4:
 >  -- change sizeof(type) to sizeof(*ptr)
->  -- replace occurrences of |var| with @var
->  -- swap init: and kmsan: in the subject
->  -- do not export __init functions
+>  -- add test expectations for CONFIG_KMSAN_CHECK_PARAM_RETVAL
 >
-> Link: https://linux-review.googlesource.com/id/I7bc53706141275914326df2345881ffe0cdd16bd
+> Link: https://linux-review.googlesource.com/id/I49c3f59014cc37fd13541c80beb0b75a75244650
 > ---
->  include/linux/kmsan.h |  48 +++++++++
->  init/main.c           |   3 +
->  mm/kmsan/Makefile     |   3 +-
->  mm/kmsan/init.c       | 238 ++++++++++++++++++++++++++++++++++++++++++
->  mm/kmsan/kmsan.h      |   3 +
->  mm/kmsan/shadow.c     |  36 +++++++
->  mm/page_alloc.c       |   3 +
->  7 files changed, 333 insertions(+), 1 deletion(-)
->  create mode 100644 mm/kmsan/init.c
+>  lib/Kconfig.kmsan     |  12 +
+>  mm/kmsan/Makefile     |   4 +
+>  mm/kmsan/kmsan_test.c | 552 ++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 568 insertions(+)
+>  create mode 100644 mm/kmsan/kmsan_test.c
 >
-> diff --git a/include/linux/kmsan.h b/include/linux/kmsan.h
-> index b71e2032222e9..82fd564cc72e7 100644
-> --- a/include/linux/kmsan.h
-> +++ b/include/linux/kmsan.h
-> @@ -51,6 +51,40 @@ void kmsan_task_create(struct task_struct *task);
->   */
->  void kmsan_task_exit(struct task_struct *task);
+> diff --git a/lib/Kconfig.kmsan b/lib/Kconfig.kmsan
+> index 8f768d4034e3c..f56ed7f7c7090 100644
+> --- a/lib/Kconfig.kmsan
+> +++ b/lib/Kconfig.kmsan
+> @@ -47,4 +47,16 @@ config KMSAN_CHECK_PARAM_RETVAL
+>           may potentially report errors in corner cases when non-instrumented
+>           functions call instrumented ones.
 >
-> +/**
-> + * kmsan_init_shadow() - Initialize KMSAN shadow at boot time.
-> + *
-> + * Allocate and initialize KMSAN metadata for early allocations.
-> + */
-> +void __init kmsan_init_shadow(void);
+> +config KMSAN_KUNIT_TEST
+> +       tristate "KMSAN integration test suite" if !KUNIT_ALL_TESTS
+> +       default KUNIT_ALL_TESTS
+> +       depends on TRACEPOINTS && KUNIT
+> +       help
+> +         Test suite for KMSAN, testing various error detection scenarios,
+> +         and checking that reports are correctly output to console.
 > +
-> +/**
-> + * kmsan_init_runtime() - Initialize KMSAN state and enable KMSAN.
-> + */
-> +void __init kmsan_init_runtime(void);
+> +         Say Y here if you want the test to be built into the kernel and run
+> +         during boot; say M if you want the test to build as a module; say N
+> +         if you are unsure.
 > +
-> +/**
-> + * kmsan_memblock_free_pages() - handle freeing of memblock pages.
-> + * @page:      struct page to free.
-> + * @order:     order of @page.
-> + *
-> + * Freed pages are either returned to buddy allocator or held back to be used
-> + * as metadata pages.
-> + */
-> +bool __init kmsan_memblock_free_pages(struct page *page, unsigned int order);
-> +
-> +/**
-> + * kmsan_task_create() - Initialize KMSAN state for the task.
-> + * @task: task to initialize.
-> + */
-> +void kmsan_task_create(struct task_struct *task);
-> +
-> +/**
-> + * kmsan_task_exit() - Notify KMSAN that a task has exited.
-> + * @task: task about to finish.
-> + */
-> +void kmsan_task_exit(struct task_struct *task);
-
-Something went wrong with patch shuffling here I think,
-kmsan_task_create + kmsan_task_exit decls are duplicated by this
-patch.
-
->  /**
->   * kmsan_alloc_page() - Notify KMSAN about an alloc_pages() call.
->   * @page:  struct page pointer returned by alloc_pages().
-> @@ -172,6 +206,20 @@ void kmsan_iounmap_page_range(unsigned long start, unsigned long end);
->
->  #else
->
-> +static inline void kmsan_init_shadow(void)
-> +{
-> +}
-> +
-> +static inline void kmsan_init_runtime(void)
-> +{
-> +}
-> +
-> +static inline bool kmsan_memblock_free_pages(struct page *page,
-> +                                            unsigned int order)
-> +{
-> +       return true;
-> +}
-> +
->  static inline void kmsan_task_create(struct task_struct *task)
->  {
->  }
-> diff --git a/init/main.c b/init/main.c
-> index 0ee39cdcfcac9..7ba48a9ff1d53 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -34,6 +34,7 @@
->  #include <linux/percpu.h>
->  #include <linux/kmod.h>
->  #include <linux/kprobes.h>
-> +#include <linux/kmsan.h>
->  #include <linux/vmalloc.h>
->  #include <linux/kernel_stat.h>
->  #include <linux/start_kernel.h>
-> @@ -835,6 +836,7 @@ static void __init mm_init(void)
->         init_mem_debugging_and_hardening();
->         kfence_alloc_pool();
->         report_meminit();
-> +       kmsan_init_shadow();
->         stack_depot_early_init();
->         mem_init();
->         mem_init_print_info();
-> @@ -852,6 +854,7 @@ static void __init mm_init(void)
->         init_espfix_bsp();
->         /* Should be run after espfix64 is set up. */
->         pti_init();
-> +       kmsan_init_runtime();
->  }
->
->  #ifdef CONFIG_RANDOMIZE_KSTACK_OFFSET
+>  endif
 > diff --git a/mm/kmsan/Makefile b/mm/kmsan/Makefile
-> index 550ad8625e4f9..401acb1a491ce 100644
+> index 401acb1a491ce..98eab2856626f 100644
 > --- a/mm/kmsan/Makefile
 > +++ b/mm/kmsan/Makefile
-> @@ -3,7 +3,7 @@
->  # Makefile for KernelMemorySanitizer (KMSAN).
->  #
->  #
-> -obj-y := core.o instrumentation.o hooks.o report.o shadow.o
-> +obj-y := core.o instrumentation.o init.o hooks.o report.o shadow.o
->
->  KMSAN_SANITIZE := n
->  KCOV_INSTRUMENT := n
-> @@ -18,6 +18,7 @@ CFLAGS_REMOVE.o = $(CC_FLAGS_FTRACE)
->
->  CFLAGS_core.o := $(CC_FLAGS_KMSAN_RUNTIME)
->  CFLAGS_hooks.o := $(CC_FLAGS_KMSAN_RUNTIME)
-> +CFLAGS_init.o := $(CC_FLAGS_KMSAN_RUNTIME)
+> @@ -22,3 +22,7 @@ CFLAGS_init.o := $(CC_FLAGS_KMSAN_RUNTIME)
 >  CFLAGS_instrumentation.o := $(CC_FLAGS_KMSAN_RUNTIME)
 >  CFLAGS_report.o := $(CC_FLAGS_KMSAN_RUNTIME)
 >  CFLAGS_shadow.o := $(CC_FLAGS_KMSAN_RUNTIME)
-> diff --git a/mm/kmsan/init.c b/mm/kmsan/init.c
+> +
+> +obj-$(CONFIG_KMSAN_KUNIT_TEST) += kmsan_test.o
+> +KMSAN_SANITIZE_kmsan_test.o := y
+> +CFLAGS_kmsan_test.o += $(call cc-disable-warning, uninitialized)
+> diff --git a/mm/kmsan/kmsan_test.c b/mm/kmsan/kmsan_test.c
 > new file mode 100644
-> index 0000000000000..abbf595a1e359
+> index 0000000000000..1b8da71ae0d4f
 > --- /dev/null
-> +++ b/mm/kmsan/init.c
-> @@ -0,0 +1,238 @@
+> +++ b/mm/kmsan/kmsan_test.c
+> @@ -0,0 +1,552 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * KMSAN initialization routines.
+> + * Test cases for KMSAN.
+> + * For each test case checks the presence (or absence) of generated reports.
+> + * Relies on 'console' tracepoint to capture reports as they appear in the
+> + * kernel log.
 > + *
-> + * Copyright (C) 2017-2021 Google LLC
+> + * Copyright (C) 2021-2022, Google LLC.
 > + * Author: Alexander Potapenko <glider@google.com>
 > + *
 > + */
 > +
+> +#include <kunit/test.h>
 > +#include "kmsan.h"
 > +
-> +#include <asm/sections.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/kernel.h>
+> +#include <linux/kmsan.h>
 > +#include <linux/mm.h>
-> +#include <linux/memblock.h>
+> +#include <linux/random.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/string.h>
+> +#include <linux/tracepoint.h>
+> +#include <trace/events/printk.h>
 > +
-> +#include "../internal.h"
+> +static DEFINE_PER_CPU(int, per_cpu_var);
 > +
-> +#define NUM_FUTURE_RANGES 128
-> +struct start_end_pair {
-> +       u64 start, end;
+> +/* Report as observed from console. */
+> +static struct {
+> +       spinlock_t lock;
+> +       bool available;
+> +       bool ignore; /* Stop console output collection. */
+> +       char header[256];
+> +} observed = {
+> +       .lock = __SPIN_LOCK_UNLOCKED(observed.lock),
 > +};
 > +
-> +static struct start_end_pair start_end_pairs[NUM_FUTURE_RANGES] __initdata;
-> +static int future_index __initdata;
-> +
-> +/*
-> + * Record a range of memory for which the metadata pages will be created once
-> + * the page allocator becomes available.
-> + */
-> +static void __init kmsan_record_future_shadow_range(void *start, void *end)
+> +/* Probe for console output: obtains observed lines of interest. */
+> +static void probe_console(void *ignore, const char *buf, size_t len)
 > +{
-> +       u64 nstart = (u64)start, nend = (u64)end, cstart, cend;
-> +       bool merged = false;
-> +       int i;
+> +       unsigned long flags;
 > +
-> +       KMSAN_WARN_ON(future_index == NUM_FUTURE_RANGES);
-> +       KMSAN_WARN_ON((nstart >= nend) || !nstart || !nend);
-> +       nstart = ALIGN_DOWN(nstart, PAGE_SIZE);
-> +       nend = ALIGN(nend, PAGE_SIZE);
-> +
-> +       /*
-> +        * Scan the existing ranges to see if any of them overlaps with
-> +        * [start, end). In that case, merge the two ranges instead of
-> +        * creating a new one.
-> +        * The number of ranges is less than 20, so there is no need to organize
-> +        * them into a more intelligent data structure.
-> +        */
-> +       for (i = 0; i < future_index; i++) {
-> +               cstart = start_end_pairs[i].start;
-> +               cend = start_end_pairs[i].end;
-> +               if ((cstart < nstart && cend < nstart) ||
-> +                   (cstart > nend && cend > nend))
-> +                       /* ranges are disjoint - do not merge */
-> +                       continue;
-> +               start_end_pairs[i].start = min(nstart, cstart);
-> +               start_end_pairs[i].end = max(nend, cend);
-> +               merged = true;
-> +               break;
-> +       }
-> +       if (merged)
+> +       if (observed.ignore)
 > +               return;
-> +       start_end_pairs[future_index].start = nstart;
-> +       start_end_pairs[future_index].end = nend;
-> +       future_index++;
-> +}
+> +       spin_lock_irqsave(&observed.lock, flags);
 > +
-> +/*
-> + * Initialize the shadow for existing mappings during kernel initialization.
-> + * These include kernel text/data sections, NODE_DATA and future ranges
-> + * registered while creating other data (e.g. percpu).
-> + *
-> + * Allocations via memblock can be only done before slab is initialized.
-> + */
-> +void __init kmsan_init_shadow(void)
-> +{
-> +       const size_t nd_size = roundup(sizeof(pg_data_t), PAGE_SIZE);
-> +       phys_addr_t p_start, p_end;
-> +       int nid;
-> +       u64 i;
-> +
-> +       for_each_reserved_mem_range(i, &p_start, &p_end)
-> +               kmsan_record_future_shadow_range(phys_to_virt(p_start),
-> +                                                phys_to_virt(p_end));
-> +       /* Allocate shadow for .data */
-> +       kmsan_record_future_shadow_range(_sdata, _edata);
-> +
-> +       for_each_online_node(nid)
-> +               kmsan_record_future_shadow_range(
-> +                       NODE_DATA(nid), (char *)NODE_DATA(nid) + nd_size);
-> +
-> +       for (i = 0; i < future_index; i++)
-> +               kmsan_init_alloc_meta_for_range(
-> +                       (void *)start_end_pairs[i].start,
-> +                       (void *)start_end_pairs[i].end);
-> +}
-> +
-> +struct page_pair {
-
-'struct shadow_origin_pages' for a more descriptive name?
-
-> +       struct page *shadow, *origin;
-> +};
-> +static struct page_pair held_back[MAX_ORDER] __initdata;
-> +
-> +/*
-> + * Eager metadata allocation. When the memblock allocator is freeing pages to
-> + * pagealloc, we use 2/3 of them as metadata for the remaining 1/3.
-> + * We store the pointers to the returned blocks of pages in held_back[] grouped
-> + * by their order: when kmsan_memblock_free_pages() is called for the first
-> + * time with a certain order, it is reserved as a shadow block, for the second
-> + * time - as an origin block. On the third time the incoming block receives its
-> + * shadow and origin ranges from the previously saved shadow and origin blocks,
-> + * after which held_back[order] can be used again.
-> + *
-> + * At the very end there may be leftover blocks in held_back[]. They are
-> + * collected later by kmsan_memblock_discard().
-> + */
-> +bool kmsan_memblock_free_pages(struct page *page, unsigned int order)
-> +{
-> +       struct page *shadow, *origin;
-
-Can this just be 'struct page_pair'?
-
-> +       if (!held_back[order].shadow) {
-> +               held_back[order].shadow = page;
-> +               return false;
+> +       if (strnstr(buf, "BUG: KMSAN: ", len)) {
+> +               /*
+> +                * KMSAN report and related to the test.
+> +                *
+> +                * The provided @buf is not NUL-terminated; copy no more than
+> +                * @len bytes and let strscpy() add the missing NUL-terminator.
+> +                */
+> +               strscpy(observed.header, buf,
+> +                       min(len + 1, sizeof(observed.header)));
+> +               WRITE_ONCE(observed.available, true);
+> +               observed.ignore = true;
 > +       }
-> +       if (!held_back[order].origin) {
-> +               held_back[order].origin = page;
-> +               return false;
-> +       }
-> +       shadow = held_back[order].shadow;
-> +       origin = held_back[order].origin;
-> +       kmsan_setup_meta(page, shadow, origin, order);
-> +
-> +       held_back[order].shadow = NULL;
-> +       held_back[order].origin = NULL;
-> +       return true;
+> +       spin_unlock_irqrestore(&observed.lock, flags);
 > +}
 > +
-> +#define MAX_BLOCKS 8
-> +struct smallstack {
-> +       struct page *items[MAX_BLOCKS];
-> +       int index;
-> +       int order;
-> +};
-> +
-> +static struct smallstack collect = {
-> +       .index = 0,
-> +       .order = MAX_ORDER,
-> +};
-> +
-> +static void smallstack_push(struct smallstack *stack, struct page *pages)
+> +/* Check if a report related to the test exists. */
+> +static bool report_available(void)
 > +{
-> +       KMSAN_WARN_ON(stack->index == MAX_BLOCKS);
-> +       stack->items[stack->index] = pages;
-> +       stack->index++;
+> +       return READ_ONCE(observed.available);
 > +}
-> +#undef MAX_BLOCKS
 > +
-> +static struct page *smallstack_pop(struct smallstack *stack)
+> +/* Information we expect in a report. */
+> +struct expect_report {
+> +       const char *error_type; /* Error type. */
+> +       /*
+> +        * Kernel symbol from the error header, or NULL if no report is
+> +        * expected.
+> +        */
+> +       const char *symbol;
+> +};
+> +
+> +/* Check observed report matches information in @r. */
+> +static bool report_matches(const struct expect_report *r)
 > +{
-> +       struct page *ret;
+> +       typeof(observed.header) expected_header;
+> +       unsigned long flags;
+> +       bool ret = false;
+> +       const char *end;
+> +       char *cur;
 > +
-> +       KMSAN_WARN_ON(stack->index == 0);
-> +       stack->index--;
-> +       ret = stack->items[stack->index];
-> +       stack->items[stack->index] = NULL;
+> +       /* Doubled-checked locking. */
+> +       if (!report_available() || !r->symbol)
+> +               return (!report_available() && !r->symbol);
+> +
+> +       /* Generate expected report contents. */
+> +
+> +       /* Title */
+> +       cur = expected_header;
+> +       end = &expected_header[sizeof(expected_header) - 1];
+> +
+> +       cur += scnprintf(cur, end - cur, "BUG: KMSAN: %s", r->error_type);
+> +
+> +       scnprintf(cur, end - cur, " in %s", r->symbol);
+> +       /* The exact offset won't match, remove it; also strip module name. */
+> +       cur = strchr(expected_header, '+');
+> +       if (cur)
+> +               *cur = '\0';
+> +
+> +       spin_lock_irqsave(&observed.lock, flags);
+> +       if (!report_available())
+> +               goto out; /* A new report is being captured. */
+> +
+> +       /* Finally match expected output to what we actually observed. */
+> +       ret = strstr(observed.header, expected_header);
+> +out:
+> +       spin_unlock_irqrestore(&observed.lock, flags);
+> +
 > +       return ret;
 > +}
 > +
-> +static void do_collection(void)
-> +{
-> +       struct page *page, *shadow, *origin;
+> +/* ===== Test cases ===== */
 > +
-> +       while (collect.index >= 3) {
-> +               page = smallstack_pop(&collect);
-> +               shadow = smallstack_pop(&collect);
-> +               origin = smallstack_pop(&collect);
-> +               kmsan_setup_meta(page, shadow, origin, collect.order);
-> +               __free_pages_core(page, collect.order);
-> +       }
+> +/* Prevent replacing branch with select in LLVM. */
+> +static noinline void check_true(char *arg)
+> +{
+> +       pr_info("%s is true\n", arg);
 > +}
 > +
-> +static void collect_split(void)
+> +static noinline void check_false(char *arg)
 > +{
-> +       struct smallstack tmp = {
-> +               .order = collect.order - 1,
-> +               .index = 0,
-> +       };
-> +       struct page *page;
+> +       pr_info("%s is false\n", arg);
+> +}
 > +
-> +       if (!collect.order)
-> +               return;
-> +       while (collect.index) {
-> +               page = smallstack_pop(&collect);
-> +               smallstack_push(&tmp, &page[0]);
-> +               smallstack_push(&tmp, &page[1 << tmp.order]);
+> +#define USE(x)                                                                 \
+> +       do {                                                                   \
+> +               if (x)                                                         \
+> +                       check_true(#x);                                        \
+> +               else                                                           \
+> +                       check_false(#x);                                       \
+> +       } while (0)
+> +
+> +#define EXPECTATION_ETYPE_FN(e, reason, fn)                                    \
+> +       struct expect_report e = {                                             \
+> +               .error_type = reason,                                          \
+> +               .symbol = fn,                                                  \
 > +       }
-> +       __memcpy(&collect, &tmp, sizeof(tmp));
+> +
+> +#define EXPECTATION_NO_REPORT(e) EXPECTATION_ETYPE_FN(e, NULL, NULL)
+> +#define EXPECTATION_UNINIT_VALUE_FN(e, fn)                                     \
+> +       EXPECTATION_ETYPE_FN(e, "uninit-value", fn)
+> +#define EXPECTATION_UNINIT_VALUE(e) EXPECTATION_UNINIT_VALUE_FN(e, __func__)
+> +#define EXPECTATION_USE_AFTER_FREE(e)                                          \
+> +       EXPECTATION_ETYPE_FN(e, "use-after-free", __func__)
+> +
+> +/* Test case: ensure that kmalloc() returns uninitialized memory. */
+> +static void test_uninit_kmalloc(struct kunit *test)
+> +{
+> +       EXPECTATION_UNINIT_VALUE(expect);
+> +       int *ptr;
+> +
+> +       kunit_info(test, "uninitialized kmalloc test (UMR report)\n");
+> +       ptr = kmalloc(sizeof(*ptr), GFP_KERNEL);
+> +       USE(*ptr);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
 > +}
 > +
 > +/*
-> + * Memblock is about to go away. Split the page blocks left over in held_back[]
-> + * and return 1/3 of that memory to the system.
+> + * Test case: ensure that kmalloc'ed memory becomes initialized after memset().
 > + */
-> +static void kmsan_memblock_discard(void)
+> +static void test_init_kmalloc(struct kunit *test)
 > +{
-> +       int i;
+> +       EXPECTATION_NO_REPORT(expect);
+> +       int *ptr;
 > +
+> +       kunit_info(test, "initialized kmalloc test (no reports)\n");
+> +       ptr = kmalloc(sizeof(*ptr), GFP_KERNEL);
+> +       memset(ptr, 0, sizeof(*ptr));
+> +       USE(*ptr);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/* Test case: ensure that kzalloc() returns initialized memory. */
+> +static void test_init_kzalloc(struct kunit *test)
+> +{
+> +       EXPECTATION_NO_REPORT(expect);
+> +       int *ptr;
+> +
+> +       kunit_info(test, "initialized kzalloc test (no reports)\n");
+> +       ptr = kzalloc(sizeof(*ptr), GFP_KERNEL);
+> +       USE(*ptr);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/* Test case: ensure that local variables are uninitialized by default. */
+> +static void test_uninit_stack_var(struct kunit *test)
+> +{
+> +       EXPECTATION_UNINIT_VALUE(expect);
+> +       volatile int cond;
+> +
+> +       kunit_info(test, "uninitialized stack variable (UMR report)\n");
+> +       USE(cond);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/* Test case: ensure that local variables with initializers are initialized. */
+> +static void test_init_stack_var(struct kunit *test)
+> +{
+> +       EXPECTATION_NO_REPORT(expect);
+> +       volatile int cond = 1;
+> +
+> +       kunit_info(test, "initialized stack variable (no reports)\n");
+> +       USE(cond);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +static noinline void two_param_fn_2(int arg1, int arg2)
+> +{
+> +       USE(arg1);
+> +       USE(arg2);
+> +}
+> +
+> +static noinline void one_param_fn(int arg)
+> +{
+> +       two_param_fn_2(arg, arg);
+> +       USE(arg);
+> +}
+> +
+> +static noinline void two_param_fn(int arg1, int arg2)
+> +{
+> +       int init = 0;
+> +
+> +       one_param_fn(init);
+> +       USE(arg1);
+> +       USE(arg2);
+> +}
+> +
+> +static void test_params(struct kunit *test)
+> +{
+> +#ifdef CONFIG_KMSAN_CHECK_PARAM_RETVAL
+
+if (IS_ENABLED(...))
+
 > +       /*
-> +        * For each order=N:
-> +        *  - push held_back[N].shadow and .origin to @collect;
-> +        *  - while there are >= 3 elements in @collect, do garbage collection:
-> +        *    - pop 3 ranges from @collect;
-> +        *    - use two of them as shadow and origin for the third one;
-> +        *    - repeat;
-> +        *  - split each remaining element from @collect into 2 ranges of
-> +        *    order=N-1,
-> +        *  - repeat.
+> +        * With eager param/retval checking enabled, KMSAN will report an error
+> +        * before the call to two_param_fn().
 > +        */
-> +       collect.order = MAX_ORDER - 1;
-> +       for (i = MAX_ORDER - 1; i >= 0; i--) {
-> +               if (held_back[i].shadow)
-> +                       smallstack_push(&collect, held_back[i].shadow);
-> +               if (held_back[i].origin)
-> +                       smallstack_push(&collect, held_back[i].origin);
-> +               held_back[i].shadow = NULL;
-> +               held_back[i].origin = NULL;
-> +               do_collection();
-> +               collect_split();
-> +       }
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "test_params");
+> +#else
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "two_param_fn");
+> +#endif
+> +       volatile int uninit, init = 1;
+> +
+> +       kunit_info(test,
+> +                  "uninit passed through a function parameter (UMR report)\n");
+> +       two_param_fn(uninit, init);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
 > +}
 > +
-> +void __init kmsan_init_runtime(void)
+> +static int signed_sum3(int a, int b, int c)
 > +{
-> +       /* Assuming current is init_task */
-> +       kmsan_internal_task_create(current);
-> +       kmsan_memblock_discard();
-> +       pr_info("Starting KernelMemorySanitizer\n");
-> +       pr_info("ATTENTION: KMSAN is a debugging tool! Do not use it on production machines!\n");
-> +       kmsan_enabled = true;
-> +}
-> diff --git a/mm/kmsan/kmsan.h b/mm/kmsan/kmsan.h
-> index c7fb8666607e2..2f17912ef863f 100644
-> --- a/mm/kmsan/kmsan.h
-> +++ b/mm/kmsan/kmsan.h
-> @@ -66,6 +66,7 @@ struct shadow_origin_ptr {
->  struct shadow_origin_ptr kmsan_get_shadow_origin_ptr(void *addr, u64 size,
->                                                      bool store);
->  void *kmsan_get_metadata(void *addr, bool is_origin);
-> +void __init kmsan_init_alloc_meta_for_range(void *start, void *end);
->
->  enum kmsan_bug_reason {
->         REASON_ANY,
-> @@ -188,5 +189,7 @@ bool kmsan_internal_is_module_addr(void *vaddr);
->  bool kmsan_internal_is_vmalloc_addr(void *addr);
->
->  struct page *kmsan_vmalloc_to_page_or_null(void *vaddr);
-> +void kmsan_setup_meta(struct page *page, struct page *shadow,
-> +                     struct page *origin, int order);
->
->  #endif /* __MM_KMSAN_KMSAN_H */
-> diff --git a/mm/kmsan/shadow.c b/mm/kmsan/shadow.c
-> index 416cb85487a1a..7b254c30d42cc 100644
-> --- a/mm/kmsan/shadow.c
-> +++ b/mm/kmsan/shadow.c
-> @@ -259,3 +259,39 @@ void kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
->         kfree(s_pages);
->         kfree(o_pages);
->  }
-> +
-> +/* Allocate metadata for pages allocated at boot time. */
-> +void __init kmsan_init_alloc_meta_for_range(void *start, void *end)
-> +{
-> +       struct page *shadow_p, *origin_p;
-> +       void *shadow, *origin;
-> +       struct page *page;
-> +       u64 addr, size;
-> +
-> +       start = (void *)ALIGN_DOWN((u64)start, PAGE_SIZE);
-> +       size = ALIGN((u64)end - (u64)start, PAGE_SIZE);
-> +       shadow = memblock_alloc(size, PAGE_SIZE);
-> +       origin = memblock_alloc(size, PAGE_SIZE);
-> +       for (addr = 0; addr < size; addr += PAGE_SIZE) {
-> +               page = virt_to_page_or_null((char *)start + addr);
-> +               shadow_p = virt_to_page_or_null((char *)shadow + addr);
-> +               set_no_shadow_origin_page(shadow_p);
-> +               shadow_page_for(page) = shadow_p;
-> +               origin_p = virt_to_page_or_null((char *)origin + addr);
-> +               set_no_shadow_origin_page(origin_p);
-> +               origin_page_for(page) = origin_p;
-> +       }
+> +       return a + b + c;
 > +}
 > +
-> +void kmsan_setup_meta(struct page *page, struct page *shadow,
-> +                     struct page *origin, int order)
+> +/*
+> + * Test case: ensure that uninitialized values are tracked through function
+> + * arguments.
+> + */
+> +static void test_uninit_multiple_params(struct kunit *test)
 > +{
+> +       EXPECTATION_UNINIT_VALUE(expect);
+> +       volatile char b = 3, c;
+> +       volatile int a;
+> +
+> +       kunit_info(test, "uninitialized local passed to fn (UMR report)\n");
+> +       USE(signed_sum3(a, b, c));
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/* Helper function to make an array uninitialized. */
+> +static noinline void do_uninit_local_array(char *array, int start, int stop)
+> +{
+> +       volatile char uninit;
 > +       int i;
 > +
-> +       for (i = 0; i < (1 << order); i++) {
-
-Noticed this in many places, but we can just make these "for (int i =.." now.
-
-> +               set_no_shadow_origin_page(&shadow[i]);
-> +               set_no_shadow_origin_page(&origin[i]);
-> +               shadow_page_for(&page[i]) = &shadow[i];
-> +               origin_page_for(&page[i]) = &origin[i];
-> +       }
+> +       for (i = start; i < stop; i++)
+> +               array[i] = uninit;
 > +}
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 785459251145e..e8d5a0b2a3264 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -1731,6 +1731,9 @@ void __init memblock_free_pages(struct page *page, unsigned long pfn,
->  {
->         if (early_page_uninitialised(pfn))
->                 return;
-> +       if (!kmsan_memblock_free_pages(page, order))
-> +               /* KMSAN will take care of these pages. */
-> +               return;
+> +
+> +/*
+> + * Test case: ensure kmsan_check_memory() reports an error when checking
+> + * uninitialized memory.
+> + */
+> +static void test_uninit_kmsan_check_memory(struct kunit *test)
+> +{
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "test_uninit_kmsan_check_memory");
+> +       volatile char local_array[8];
+> +
+> +       kunit_info(
+> +               test,
+> +               "kmsan_check_memory() called on uninit local (UMR report)\n");
+> +       do_uninit_local_array((char *)local_array, 5, 7);
+> +
+> +       kmsan_check_memory((char *)local_array, 8);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/*
+> + * Test case: check that a virtual memory range created with vmap() from
+> + * initialized pages is still considered as initialized.
+> + */
+> +static void test_init_kmsan_vmap_vunmap(struct kunit *test)
+> +{
+> +       EXPECTATION_NO_REPORT(expect);
+> +       const int npages = 2;
+> +       struct page **pages;
+> +       void *vbuf;
+> +       int i;
+> +
+> +       kunit_info(test, "pages initialized via vmap (no reports)\n");
+> +
+> +       pages = kmalloc_array(npages, sizeof(*pages), GFP_KERNEL);
+> +       for (i = 0; i < npages; i++)
+> +               pages[i] = alloc_page(GFP_KERNEL);
+> +       vbuf = vmap(pages, npages, VM_MAP, PAGE_KERNEL);
+> +       memset(vbuf, 0xfe, npages * PAGE_SIZE);
+> +       for (i = 0; i < npages; i++)
+> +               kmsan_check_memory(page_address(pages[i]), PAGE_SIZE);
+> +
+> +       if (vbuf)
+> +               vunmap(vbuf);
+> +       for (i = 0; i < npages; i++)
 
-Add {} because the then-statement is not right below the if.
+add { }
+
+> +               if (pages[i])
+> +                       __free_page(pages[i]);
+> +       kfree(pages);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/*
+> + * Test case: ensure that memset() can initialize a buffer allocated via
+> + * vmalloc().
+> + */
+> +static void test_init_vmalloc(struct kunit *test)
+> +{
+> +       EXPECTATION_NO_REPORT(expect);
+> +       int npages = 8, i;
+> +       char *buf;
+> +
+> +       kunit_info(test, "vmalloc buffer can be initialized (no reports)\n");
+> +       buf = vmalloc(PAGE_SIZE * npages);
+> +       buf[0] = 1;
+> +       memset(buf, 0xfe, PAGE_SIZE * npages);
+> +       USE(buf[0]);
+> +       for (i = 0; i < npages; i++)
+> +               kmsan_check_memory(&buf[PAGE_SIZE * i], PAGE_SIZE);
+> +       vfree(buf);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/* Test case: ensure that use-after-free reporting works. */
+> +static void test_uaf(struct kunit *test)
+> +{
+> +       EXPECTATION_USE_AFTER_FREE(expect);
+> +       volatile int value;
+> +       volatile int *var;
+> +
+> +       kunit_info(test, "use-after-free in kmalloc-ed buffer (UMR report)\n");
+> +       var = kmalloc(80, GFP_KERNEL);
+> +       var[3] = 0xfeedface;
+> +       kfree((int *)var);
+> +       /* Copy the invalid value before checking it. */
+> +       value = var[3];
+> +       USE(value);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/*
+> + * Test case: ensure that uninitialized values are propagated through per-CPU
+> + * memory.
+> + */
+> +static void test_percpu_propagate(struct kunit *test)
+> +{
+> +       EXPECTATION_UNINIT_VALUE(expect);
+> +       volatile int uninit, check;
+> +
+> +       kunit_info(test,
+> +                  "uninit local stored to per_cpu memory (UMR report)\n");
+> +
+> +       this_cpu_write(per_cpu_var, uninit);
+> +       check = this_cpu_read(per_cpu_var);
+> +       USE(check);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/*
+> + * Test case: ensure that passing uninitialized values to printk() leads to an
+> + * error report.
+> + */
+> +static void test_printk(struct kunit *test)
+> +{
+> +#ifdef CONFIG_KMSAN_CHECK_PARAM_RETVAL
+
+if (IS_ENABLED(CONFIG_KMSAN_CHECK_PARAM_RETVAL))
+
+> +       /*
+> +        * With eager param/retval checking enabled, KMSAN will report an error
+> +        * before the call to pr_info().
+> +        */
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "test_printk");
+> +#else
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "number");
+> +#endif
+> +       volatile int uninit;
+> +
+> +       kunit_info(test, "uninit local passed to pr_info() (UMR report)\n");
+> +       pr_info("%px contains %d\n", &uninit, uninit);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/*
+> + * Test case: ensure that memcpy() correctly copies uninitialized values between
+> + * aligned `src` and `dst`.
+> + */
+> +static void test_memcpy_aligned_to_aligned(struct kunit *test)
+> +{
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_aligned_to_aligned");
+> +       volatile int uninit_src;
+> +       volatile int dst = 0;
+> +
+> +       kunit_info(test, "memcpy()ing aligned uninit src to aligned dst (UMR report)\n");
+> +       memcpy((void *)&dst, (void *)&uninit_src, sizeof(uninit_src));
+> +       kmsan_check_memory((void *)&dst, sizeof(dst));
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/*
+> + * Test case: ensure that memcpy() correctly copies uninitialized values between
+> + * aligned `src` and unaligned `dst`.
+> + *
+> + * Copying aligned 4-byte value to an unaligned one leads to touching two
+> + * aligned 4-byte values. This test case checks that KMSAN correctly reports an
+> + * error on the first of the two values.
+> + */
+> +static void test_memcpy_aligned_to_unaligned(struct kunit *test)
+> +{
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_aligned_to_unaligned");
+> +       volatile int uninit_src;
+> +       volatile char dst[8] = {0};
+> +
+> +       kunit_info(test, "memcpy()ing aligned uninit src to unaligned dst (UMR report)\n");
+> +       memcpy((void *)&dst[1], (void *)&uninit_src, sizeof(uninit_src));
+> +       kmsan_check_memory((void *)dst, 4);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +/*
+> + * Test case: ensure that memcpy() correctly copies uninitialized values between
+> + * aligned `src` and unaligned `dst`.
+> + *
+> + * Copying aligned 4-byte value to an unaligned one leads to touching two
+> + * aligned 4-byte values. This test case checks that KMSAN correctly reports an
+> + * error on the second of the two values.
+> + */
+> +static void test_memcpy_aligned_to_unaligned2(struct kunit *test)
+> +{
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_aligned_to_unaligned2");
+> +       volatile int uninit_src;
+> +       volatile char dst[8] = {0};
+> +
+> +       kunit_info(test, "memcpy()ing aligned uninit src to unaligned dst - part 2 (UMR report)\n");
+> +       memcpy((void *)&dst[1], (void *)&uninit_src, sizeof(uninit_src));
+> +       kmsan_check_memory((void *)&dst[4], sizeof(uninit_src));
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+> +static struct kunit_case kmsan_test_cases[] = {
+> +       KUNIT_CASE(test_uninit_kmalloc),
+> +       KUNIT_CASE(test_init_kmalloc),
+> +       KUNIT_CASE(test_init_kzalloc),
+> +       KUNIT_CASE(test_uninit_stack_var),
+> +       KUNIT_CASE(test_init_stack_var),
+> +       KUNIT_CASE(test_params),
+> +       KUNIT_CASE(test_uninit_multiple_params),
+> +       KUNIT_CASE(test_uninit_kmsan_check_memory),
+> +       KUNIT_CASE(test_init_kmsan_vmap_vunmap),
+> +       KUNIT_CASE(test_init_vmalloc),
+> +       KUNIT_CASE(test_uaf),
+> +       KUNIT_CASE(test_percpu_propagate),
+> +       KUNIT_CASE(test_printk),
+> +       KUNIT_CASE(test_memcpy_aligned_to_aligned),
+> +       KUNIT_CASE(test_memcpy_aligned_to_unaligned),
+> +       KUNIT_CASE(test_memcpy_aligned_to_unaligned2),
+> +       {},
+> +};
+> +
+> +/* ===== End test cases ===== */
+> +
+> +static int test_init(struct kunit *test)
+> +{
+> +       unsigned long flags;
+> +
+> +       spin_lock_irqsave(&observed.lock, flags);
+> +       observed.header[0] = '\0';
+> +       observed.ignore = false;
+> +       observed.available = false;
+> +       spin_unlock_irqrestore(&observed.lock, flags);
+> +
+> +       return 0;
+> +}
+> +
+> +static void test_exit(struct kunit *test)
+> +{
+> +}
+> +
+> +static struct kunit_suite kmsan_test_suite = {
+> +       .name = "kmsan",
+> +       .test_cases = kmsan_test_cases,
+> +       .init = test_init,
+> +       .exit = test_exit,
+> +};
+> +static struct kunit_suite *kmsan_test_suites[] = { &kmsan_test_suite, NULL };
+> +
+> +static void register_tracepoints(struct tracepoint *tp, void *ignore)
+> +{
+> +       check_trace_callback_type_console(probe_console);
+> +       if (!strcmp(tp->name, "console"))
+> +               WARN_ON(tracepoint_probe_register(tp, probe_console, NULL));
+> +}
+> +
+> +static void unregister_tracepoints(struct tracepoint *tp, void *ignore)
+> +{
+> +       if (!strcmp(tp->name, "console"))
+> +               tracepoint_probe_unregister(tp, probe_console, NULL);
+> +}
+> +
+> +/*
+> + * We only want to do tracepoints setup and teardown once, therefore we have to
+> + * customize the init and exit functions and cannot rely on kunit_test_suite().
+> + */
+
+This is no longer true. See a recent version of
+mm/kfence/kfence_test.c which uses the new suite_init/exit.
+
+> +static int __init kmsan_test_init(void)
+> +{
+> +       /*
+> +        * Because we want to be able to build the test as a module, we need to
+> +        * iterate through all known tracepoints, since the static registration
+> +        * won't work here.
+> +        */
+> +       for_each_kernel_tracepoint(register_tracepoints, NULL);
+> +       return __kunit_test_suites_init(kmsan_test_suites);
+> +}
+> +
+> +static void kmsan_test_exit(void)
+> +{
+> +       __kunit_test_suites_exit(kmsan_test_suites);
+> +       for_each_kernel_tracepoint(unregister_tracepoints, NULL);
+> +       tracepoint_synchronize_unregister();
+> +}
+> +
+> +late_initcall_sync(kmsan_test_init);
+> +module_exit(kmsan_test_exit);
+> +
+> +MODULE_LICENSE("GPL v2");
+
+A recent version of checkpatch should complain about this, wanting
+only "GPL" instead of "GPL v2".
+
+> +MODULE_AUTHOR("Alexander Potapenko <glider@google.com>");
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNh0SP53s0kg_Lj2HUVnY_9k_grm%3D%3Dq4w6Bbq4hLmKtHA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPeW%3DpQ_rU5ACTpBX8W4TH4vdcDn%3DhqPhHGtYU96iHF0A%40mail.gmail.com.
