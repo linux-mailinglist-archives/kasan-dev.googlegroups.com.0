@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABBZHEYWLAMGQEWQOH44A@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB2PEYWLAMGQEQOL2WIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5402576336
-	for <lists+kasan-dev@lfdr.de>; Fri, 15 Jul 2022 15:57:57 +0200 (CEST)
-Received: by mail-lf1-x13b.google.com with SMTP id w8-20020a197b08000000b00489e72a3025sf1808789lfc.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 15 Jul 2022 06:57:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1657893477; cv=pass;
+Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD21576337
+	for <lists+kasan-dev@lfdr.de>; Fri, 15 Jul 2022 15:58:02 +0200 (CEST)
+Received: by mail-il1-x13f.google.com with SMTP id n13-20020a056e021bad00b002dc0580da61sf2849178ili.21
+        for <lists+kasan-dev@lfdr.de>; Fri, 15 Jul 2022 06:58:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1657893481; cv=pass;
         d=google.com; s=arc-20160816;
-        b=szHKQMEGevEjJ4JQu2efBGfVED9UJy17ld3ZmxCkbfd/FRffSCEqjE/rejTPcLmO6s
-         imPtib10DGr1wv0+gKePqoDsctEApTwiwLsMLPm1bdeVZx1riB2w5vEEcykk6Zq3/ScW
-         wkQw8VaEvFRuB8eOqU0vENgSlBxbDXgZ9xm1TTI358vFDATaRl0DS0PAhHBRXvakDVZo
-         mXAPaEiMhmxags86HSZY3hA4FAecTYP5mIuhf+IZhAQVVAn/LRCLejhEgOIBVHhCafE+
-         Ch5LobLRSKBhPJkQwFboLo6ogaQAIUuSo9Dtz0PLcV79Ck2eTXZANWk5fdoeF9XGNXQd
-         SGXw==
+        b=z6CRreva7HXAmdIIXRHXBzpkvuH7eJhG5hTmK40y56WFTEWooUHPvRhLE3UH0CwuH3
+         j7TynWWnfqqXCqtgUM8993FYsyCocho/lr53w6kcPSsyryTsJ7bx9fVeKe1OJR16gUAt
+         dPSEJBuqMJdmZFR4EsDG3FmPMps1Id5jqHcXNbF2IP8fqYmX6sTwCcbix/oOL09wG12P
+         WUeQn8FEg8BFrAgcC+3aSkaWgKBEscTAN8G99y2Ta9u0dObvYQDEbOsq/ioqMKFPGZNO
+         8ul4aOvKNNlgZK79QOZN+d6SB02l9uYGxtnbdUJblEAnERz4A2LmFjIOtIdO09PA48XO
+         wBzQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=5Ncb7oYLzNyr5aCp1lR+q1kWxsvNPDUvybJ4SMByJEk=;
-        b=Iyy432v8bFVELFyo3/pkh1RBLI29v9ztPJlDR454zkEzdmVR4K3pHxroMT3LeIH3ZL
-         5gAvq5eX+I26NYWYmuJGxAcMqwz+ALMhpO5U5avhC52GoPtxSwshcMfGj/ikK7ts/A3/
-         8AH+PZ1Z/CCuq/SmjxJVvTNUGSV914PFXLKal91KC/vlV7MvJgDWnkq2yPV3K3o7OAOU
-         JSAv9F65Nc6kzOU+15K4merFVhY77OjeTxC75yDrOpG7z6pVEAHnqyaxcwLHziuIUl04
-         HTSuOJriceEttwneifTIOShYP1H/c4eiRS/iNhmiHGNKPdXfFzDF/VM8FVYQMlCaYWvG
-         xTDQ==
+        bh=JWb4Ne10Vu1lQyKUA3Y+RJibv8jHfzxkf08bmIbDEdw=;
+        b=clwJdj4W3yAMbWu2lOiYFfinImLtHFG/nhH/T49H/Ar0BYQHBsoGferVKjIiBweCxd
+         9WRrRXcZnUbjrxf6Ts6W4hpClt+N9bmEjq5BiWkOZFu6mmanwGWV7VIlA8RShFDrOw0Z
+         zowFZ2YcQTFwoPbD11WTrJ4gjAhKg4b/a22KvYd/6Byitakv7fhnF9wy8WQWM3iw0aA5
+         tI2w5jt8ph1mrbGM4gG0zhwzHMBKXaegCrILmKd+4Utd3JECcUSluO63SE3/EMkWkxih
+         Eu+rCMYYQp1RZbiAXt9udpJGYvWUcNi/hqLjDZn4JpwRiMnJBpsthINfJi1C+wi2L6Zz
+         JmjQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=YPbRBCi4;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=qFq8gGt3;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :mime-version:x-original-sender:x-original-authentication-results
          :precedence:mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=5Ncb7oYLzNyr5aCp1lR+q1kWxsvNPDUvybJ4SMByJEk=;
-        b=bPgK1mXcUGVmSfzymP8JEd7WZhm/e7XWpfM/lReaknCPPL+HjtFO/Ga1vq0tkE0dGv
-         fLzQpEAgHk7AhawhL29vOWNoJtCdhZVnsVD22Y4o1yW0cwhhXS7ptVfkZA3u+4iH1izg
-         Y9/h6roGwSGQ68UBRZercWQ1AgMzeEgGM2dgvnzeqp+85QqGd+ueQ9gwNv/lAclGI/bO
-         zDCADYwKdKZKJI13PjW7W2jHbuq5FvEzNqzrBHpScTYPL4hK2AaqWnwQFKw5LbT73zFG
-         Cpbr+oBdMN5xCeXqEf8FrE5Y7nkgequAbrV7UjWLKVREys+gTBD0KjuV/WFsnCdHzu6m
-         mngw==
+        bh=JWb4Ne10Vu1lQyKUA3Y+RJibv8jHfzxkf08bmIbDEdw=;
+        b=GnP4sVbTajvJ6NVlMdTDFJ0usceD3lIJkwGY4A9FdRFgW7/vuBezCu5wdK8/gkGu1l
+         Y6HBLcf7fWEMdax6vAb3XWbTrvD6JhLuh2OmMaX9tg9bNnXOzI/aXAa4O3zvCfliG5DE
+         WE4hhJ2uBYt7qjXbok/hREC3g7hR382F0bMhBLQuJGU1EprIAYiy3oWCICF0bwWH8OwQ
+         bJm7fawq4kryCTqA6VjwWcjNefrb/4+04ELLiIYq9XvY8LjQ1OPv/12WLwBTowynelY0
+         la7Hc1PqkN3CbfJSbDQ5GBpO1nG6pMp3KvaeDySne3VNZB6MHYAaT73Eoum6Wb8INDuT
+         YT5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
@@ -49,60 +49,59 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:precedence:mailing-list:list-id
          :x-spam-checked-in-group:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=5Ncb7oYLzNyr5aCp1lR+q1kWxsvNPDUvybJ4SMByJEk=;
-        b=ynBGygA2ykJ+m0f3ZuL0qFZcYTy+x5xHtR6Vj1nX7OA6Nz6BqSDZFnaTQxfqwkMrGB
-         1SYrRIzFT+20bZ1aI+DAd+l8KqxloXTJOgbMfN4dUOlfhKxbiyzcVGWSooQerqpTl3oI
-         3c49n75PtqreiPWNBoFzcgvKyW1PlAaI9cLhJccyMr+ci5HDNiHGpZTyVynuXTL+xA8R
-         YPHsdyhpGjVAnmFYCvsb51JMw0Q9oXxKRCvaWat0WfvZqiV+hNx45UgYajUCf2qMU/WS
-         BZHBuh6DSuNHY9VbV9xYURMJAsepd6MeN58CzXnubpyzPSQ7QfeFgZOsLcDSEgldzylx
-         7wLQ==
+        bh=JWb4Ne10Vu1lQyKUA3Y+RJibv8jHfzxkf08bmIbDEdw=;
+        b=dKs1CVK134CahsTnC7Vn9jIJ2k/WEqRxe5wxi0DZwwBHC5Odu5PPTYocm+TslDVLfT
+         b/Nz/+TloIYJVZB+73YmlEASH67/zh+apDHjKr26CXf8shrLwJ7v7lLy0d+O89hSQRVu
+         mMmaCD3dEComnu3p68o/YrhBo8NkyRkgBNhsNAIaGWC9QCTkEnaazNEP+US4pfnV4zFW
+         iGYkMem7ZtObJlYU5Jmn4eJGyvEg4CTBggCLmzIQHyT7B5NnUM12Ma1lVXgCxEj/MWRX
+         Yb2QZSCt1s/+Dt8pD9HpPScHmm1NjpeZQbwBQMc/IONhhVhue0YXgimlUwiSoM66rXGo
+         3BkQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora/igGIldrooxkx/PPvNE+3k4NU20rVcoqeEJdfC/KI07l1S0UaE
-	s8QaLJXmUcTUw9IVpCKEOr0=
-X-Google-Smtp-Source: AGRyM1vPb95NpRGFa142lPbkq2dQfCbBNyYJjiFSAEflj/LLawBeOe2DB7Qw4gBKVIbyLtxN1/G9ug==
-X-Received: by 2002:a05:6512:308c:b0:48a:22a5:f3d0 with SMTP id z12-20020a056512308c00b0048a22a5f3d0mr1858438lfd.494.1657893477118;
-        Fri, 15 Jul 2022 06:57:57 -0700 (PDT)
+X-Gm-Message-State: AJIora+Rcf9PzRi05BMHR6MHVejjrlXkmZ4XkCY/4LXSfz236ZKV8MOf
+	gLWxUNRsDnGF9yZUBF/MMJA=
+X-Google-Smtp-Source: AGRyM1uRUhcMQbFy1pqH9QRyLKAB8Uo7/COrFSKNJImtO1nk+HN8X3CZCS1KbzvLboQCp3WKPAZRhg==
+X-Received: by 2002:a05:6602:2110:b0:67b:d825:31c6 with SMTP id x16-20020a056602211000b0067bd82531c6mr3271026iox.6.1657893481205;
+        Fri, 15 Jul 2022 06:58:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3e14:b0:487:cd81:f0e6 with SMTP id
- i20-20020a0565123e1400b00487cd81f0e6ls1216141lfv.0.gmail; Fri, 15 Jul 2022
- 06:57:56 -0700 (PDT)
-X-Received: by 2002:a05:6512:3b0a:b0:489:da13:180a with SMTP id f10-20020a0565123b0a00b00489da13180amr8251922lfv.489.1657893476268;
-        Fri, 15 Jul 2022 06:57:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1657893476; cv=none;
+Received: by 2002:a02:946f:0:b0:339:ce78:5b30 with SMTP id a102-20020a02946f000000b00339ce785b30ls359414jai.0.-pod-prod-gmail;
+ Fri, 15 Jul 2022 06:58:00 -0700 (PDT)
+X-Received: by 2002:a05:6638:2196:b0:33f:8313:1013 with SMTP id s22-20020a056638219600b0033f83131013mr7191217jaj.43.1657893480848;
+        Fri, 15 Jul 2022 06:58:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1657893480; cv=none;
         d=google.com; s=arc-20160816;
-        b=dX3qFSK0MF0LLcHAaULtazBZ3Fndr7WU32J0xTeWkvp3uXTndNSTEMTC3eDWweojVF
-         1kPZ7hF68fnhDpr03DLRO9uGozNi39MW8r3W29Ri6DwBt6bjXOiWt7NfNtisjP7a0IkZ
-         Dk7qISA2DZgdD9g8bTq/pMCq/vF7Ze6UN2gvBDeHJ6Abs+3FXWZtiGArpyfhMf+lzeTz
-         +izyR2+0+H671vqkvWiAqmI80xMVQZh7Se+i4gtLv21gpIDWOXQeChZV3pCQpEPHslOQ
-         t99iOy4RgIfMBP5PBJ7W21OQMYw666AfeT/IY6JISkeQ5qCWg+sA2uHoGfuU0toZUaaa
-         VZ3Q==
+        b=v/4Q4/FnZAH6dnSJk7Yxi8Axl7v5ogJ6yzSmxxMNmILXNhDeQ4EnjnT0L8U5EF0DXZ
+         PQUyFIwstabdmNtHXaSfpq2veYj7WAaAiE/8+oSlVw2vndiF6a1ztAoZSkLiZCaYy6S2
+         gSxdquK4vh/QAjr4vyx+ftSn6hOnYucYSWmCPtJZgjzRLteQb65lv9oORF3c5+Hqm1Yi
+         Dc+TgNOUSUAIXgY0gYX3OORRY08WQd0IuB4IDyFMnfVclX8b62BF1iB77KMXNrr6H07p
+         Nyc0/Nn1rwbQpKOvLhY1rfMJgvdAWwPwbM5D0WtbMb9apJkb0u5HBg4hfGV+j5eFCePi
+         IhiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=eMXBf7KhZsXe8C6gWPYl/qlwrLsAnBlpMpGYf9/z1fA=;
-        b=M6t+jFMGJbNSQ4zymtm03sNREt2pOLU/zubJSYNgEBCHel9BmXrUTQKbPGWusPWOwb
-         YQyvkG60NmdEeZc11KwVZfYcWIJCVcibxp7UTgL4Ax3S5oaHAuh/nyjZux4SlloNwUOo
-         xzZi7nYjwmCQEwuQVjmFNsPcNDY2vEQ+ZuN0dIfRxcJTpA+nfjvjVfiUwyMuLiu95wrL
-         kr4otLNhsfyMg+5ZZWXUDSmCv5w/HlJY/l8Lm7yWYhav51/teeFuxrUUE/TZ8zqpPsuK
-         Zr7Ws4hazU5Twja+aW+vHMNUKbVUVJTvVeIzp/fmOwyKYP4LpNSKdAG/k+49dv+CzPx6
-         ewaA==
+        bh=8urn4RSKgsnVWAs/+gzRyL+hJChHOv4aFIPpIXu7sLw=;
+        b=b2M2bmSCLuOeICcQggitiJg3sfzKvNibXL3q/aELjNu6cgxglpMC0WxruCete/j4kb
+         WZ+LJ/E4pGUm/GOs5DF0oE4dHvn1ozkyPTwmdMjjzjkSvvYF5Cs2B7pEJamnlNAF/tVk
+         jFJ2yBJ7W+XCnB+c3w/Q4Y6gT2VptQivUB7imyJW96+sEYzwrTboNIRcnh8Nt8xf6q4V
+         YDgAlFsnRUJGvYUkh1hx1n/zH+yeUYIpnLaNFNS32GX4cusVHduTyy//1FOpWyOUyOtJ
+         Sd89GV9PW863e2Lc87KosTj/ZSgm1+gipiuTgsyWZK6yOXoNAb561YdczFvs+WkyTH4y
+         dq1Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=YPbRBCi4;
-       spf=pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=qFq8gGt3;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id z20-20020a05651c11d400b0025a8d717b7dsi136382ljo.5.2022.07.15.06.57.56
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id g19-20020a056602073300b00675593cc6acsi175416iox.4.2022.07.15.06.58.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 15 Jul 2022 06:57:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+        Fri, 15 Jul 2022 06:58:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id BB9B6B82C6E;
-	Fri, 15 Jul 2022 13:57:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D00EC3411E;
-	Fri, 15 Jul 2022 13:57:49 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 642C76241A;
+	Fri, 15 Jul 2022 13:58:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDBF2C341C6;
+	Fri, 15 Jul 2022 13:57:54 +0000 (UTC)
 From: Jisheng Zhang <jszhang@kernel.org>
 To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -116,19 +115,18 @@ To: Paul Walmsley <paul.walmsley@sifive.com>,
 Cc: linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
-	Anup Patel <anup@brainfault.org>,
-	Atish Patra <atishp@rivosinc.com>
-Subject: [PATCH v5 1/2] riscv: move sbi_init() earlier before jump_label_init()
-Date: Fri, 15 Jul 2022 21:48:46 +0800
-Message-Id: <20220715134847.2190-2-jszhang@kernel.org>
+	Anup Patel <anup@brainfault.org>
+Subject: [PATCH v5 2/2] riscv: turn pgtable_l4|[l5]_enabled to static key for RV64
+Date: Fri, 15 Jul 2022 21:48:47 +0800
+Message-Id: <20220715134847.2190-3-jszhang@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220715134847.2190-1-jszhang@kernel.org>
 References: <20220715134847.2190-1-jszhang@kernel.org>
 MIME-Version: 1.0
 X-Original-Sender: jszhang@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=YPbRBCi4;       spf=pass
- (google.com: domain of jszhang@kernel.org designates 145.40.68.75 as
+ header.i=@kernel.org header.s=k20201202 header.b=qFq8gGt3;       spf=pass
+ (google.com: domain of jszhang@kernel.org designates 139.178.84.217 as
  permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -144,77 +142,550 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-We call jump_label_init() in setup_arch() is to use static key
-mechanism earlier, but riscv jump label relies on the sbi functions,
-If we enable static key before sbi_init(), the code path looks like:
-  static_branch_enable()
-    ..
-      arch_jump_label_transform()
-        patch_text_nosync()
-          flush_icache_range()
-            flush_icache_all()
-              sbi_remote_fence_i() for CONFIG_RISCV_SBI case
-                __sbi_rfence()
+On a specific HW platform, pgtable_l4|[l5]_enabled won't change after
+boot, and the check sits at hot code path, this characteristic makes it
+suitable for optimization with static key.
 
-Since sbi isn't initialized, so NULL deference! Here is a typical
-panic log:
-
-[    0.000000] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-[    0.000000] Oops [#1]
-[    0.000000] Modules linked in:
-[    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.18.0-rc7+ #79
-[    0.000000] Hardware name: riscv-virtio,qemu (DT)
-[    0.000000] epc : 0x0
-[    0.000000]  ra : sbi_remote_fence_i+0x1e/0x26
-[    0.000000] epc : 0000000000000000 ra : ffffffff80005826 sp : ffffffff80c03d50
-[    0.000000]  gp : ffffffff80ca6178 tp : ffffffff80c0ad80 t0 : 6200000000000000
-[    0.000000]  t1 : 0000000000000000 t2 : 62203a6b746e6972 s0 : ffffffff80c03d60
-[    0.000000]  s1 : ffffffff80001af6 a0 : 0000000000000000 a1 : 0000000000000000
-[    0.000000]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : 0000000000000000
-[    0.000000]  a5 : 0000000000000000 a6 : 0000000000000000 a7 : 0000000000080200
-[    0.000000]  s2 : ffffffff808b3e48 s3 : ffffffff808bf698 s4 : ffffffff80cb2818
-[    0.000000]  s5 : 0000000000000001 s6 : ffffffff80c9c345 s7 : ffffffff80895aa0
-[    0.000000]  s8 : 0000000000000001 s9 : 000000000000007f s10: 0000000000000000
-[    0.000000]  s11: 0000000000000000 t3 : ffffffff80824d08 t4 : 0000000000000022
-[    0.000000]  t5 : 000000000000003d t6 : 0000000000000000
-[    0.000000] status: 0000000000000100 badaddr: 0000000000000000 cause: 000000000000000c
-[    0.000000] ---[ end trace 0000000000000000 ]---
-[    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
-[    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the idle task! ]---
-
-Fix this issue by moving sbi_init() earlier before jump_label_init()
+_pgtable_l4|[l5]_enabled is used very early during boot, even is used
+with MMU off, so the static key mechanism isn't ready. For this case,
+we use another static key _pgtable_lx_ready to indicate whether we
+have finalised pgtable_l4|[l5]_enabled or not, then fall back to
+_pgtable_l4|[l5]_enabled_early bool.
 
 Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 Reviewed-by: Anup Patel <anup@brainfault.org>
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
 ---
- arch/riscv/kernel/setup.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/riscv/include/asm/pgalloc.h    | 16 ++++----
+ arch/riscv/include/asm/pgtable-32.h |  3 ++
+ arch/riscv/include/asm/pgtable-64.h | 60 ++++++++++++++++++---------
+ arch/riscv/include/asm/pgtable.h    |  5 +--
+ arch/riscv/kernel/cpu.c             |  4 +-
+ arch/riscv/mm/init.c                | 64 ++++++++++++++++++-----------
+ arch/riscv/mm/kasan_init.c          | 16 ++++----
+ 7 files changed, 103 insertions(+), 65 deletions(-)
 
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index f0f36a4a0e9b..f5762f7b982d 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -269,6 +269,7 @@ void __init setup_arch(char **cmdline_p)
- 	*cmdline_p = boot_command_line;
+diff --git a/arch/riscv/include/asm/pgalloc.h b/arch/riscv/include/asm/pgalloc.h
+index 947f23d7b6af..0280eeb4756f 100644
+--- a/arch/riscv/include/asm/pgalloc.h
++++ b/arch/riscv/include/asm/pgalloc.h
+@@ -41,7 +41,7 @@ static inline void pud_populate(struct mm_struct *mm, pud_t *pud, pmd_t *pmd)
  
- 	early_ioremap_setup();
-+	sbi_init();
- 	jump_label_init();
- 	parse_early_param();
+ static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4d, pud_t *pud)
+ {
+-	if (pgtable_l4_enabled) {
++	if (pgtable_l4_enabled()) {
+ 		unsigned long pfn = virt_to_pfn(pud);
  
-@@ -285,7 +286,6 @@ void __init setup_arch(char **cmdline_p)
- 	misc_mem_init();
+ 		set_p4d(p4d, __p4d((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
+@@ -51,7 +51,7 @@ static inline void p4d_populate(struct mm_struct *mm, p4d_t *p4d, pud_t *pud)
+ static inline void p4d_populate_safe(struct mm_struct *mm, p4d_t *p4d,
+ 				     pud_t *pud)
+ {
+-	if (pgtable_l4_enabled) {
++	if (pgtable_l4_enabled()) {
+ 		unsigned long pfn = virt_to_pfn(pud);
  
- 	init_resources();
--	sbi_init();
+ 		set_p4d_safe(p4d,
+@@ -61,7 +61,7 @@ static inline void p4d_populate_safe(struct mm_struct *mm, p4d_t *p4d,
  
- #ifdef CONFIG_KASAN
- 	kasan_init();
+ static inline void pgd_populate(struct mm_struct *mm, pgd_t *pgd, p4d_t *p4d)
+ {
+-	if (pgtable_l5_enabled) {
++	if (pgtable_l5_enabled()) {
+ 		unsigned long pfn = virt_to_pfn(p4d);
+ 
+ 		set_pgd(pgd, __pgd((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
+@@ -71,7 +71,7 @@ static inline void pgd_populate(struct mm_struct *mm, pgd_t *pgd, p4d_t *p4d)
+ static inline void pgd_populate_safe(struct mm_struct *mm, pgd_t *pgd,
+ 				     p4d_t *p4d)
+ {
+-	if (pgtable_l5_enabled) {
++	if (pgtable_l5_enabled()) {
+ 		unsigned long pfn = virt_to_pfn(p4d);
+ 
+ 		set_pgd_safe(pgd,
+@@ -82,7 +82,7 @@ static inline void pgd_populate_safe(struct mm_struct *mm, pgd_t *pgd,
+ #define pud_alloc_one pud_alloc_one
+ static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long addr)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		return __pud_alloc_one(mm, addr);
+ 
+ 	return NULL;
+@@ -91,7 +91,7 @@ static inline pud_t *pud_alloc_one(struct mm_struct *mm, unsigned long addr)
+ #define pud_free pud_free
+ static inline void pud_free(struct mm_struct *mm, pud_t *pud)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		__pud_free(mm, pud);
+ }
+ 
+@@ -100,7 +100,7 @@ static inline void pud_free(struct mm_struct *mm, pud_t *pud)
+ #define p4d_alloc_one p4d_alloc_one
+ static inline p4d_t *p4d_alloc_one(struct mm_struct *mm, unsigned long addr)
+ {
+-	if (pgtable_l5_enabled) {
++	if (pgtable_l5_enabled()) {
+ 		gfp_t gfp = GFP_PGTABLE_USER;
+ 
+ 		if (mm == &init_mm)
+@@ -120,7 +120,7 @@ static inline void __p4d_free(struct mm_struct *mm, p4d_t *p4d)
+ #define p4d_free p4d_free
+ static inline void p4d_free(struct mm_struct *mm, p4d_t *p4d)
+ {
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		__p4d_free(mm, p4d);
+ }
+ 
+diff --git a/arch/riscv/include/asm/pgtable-32.h b/arch/riscv/include/asm/pgtable-32.h
+index 59ba1fbaf784..1ef52079179a 100644
+--- a/arch/riscv/include/asm/pgtable-32.h
++++ b/arch/riscv/include/asm/pgtable-32.h
+@@ -17,6 +17,9 @@
+ 
+ #define MAX_POSSIBLE_PHYSMEM_BITS 34
+ 
++#define pgtable_l5_enabled() 0
++#define pgtable_l4_enabled() 0
++
+ /*
+  * rv32 PTE format:
+  * | XLEN-1  10 | 9             8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0
+diff --git a/arch/riscv/include/asm/pgtable-64.h b/arch/riscv/include/asm/pgtable-64.h
+index 5c2aba5efbd0..edfff00d8ca3 100644
+--- a/arch/riscv/include/asm/pgtable-64.h
++++ b/arch/riscv/include/asm/pgtable-64.h
+@@ -8,18 +8,38 @@
+ 
+ #include <linux/bits.h>
+ #include <linux/const.h>
++#include <linux/jump_label.h>
+ #include <asm/errata_list.h>
+ 
+-extern bool pgtable_l4_enabled;
+-extern bool pgtable_l5_enabled;
++extern bool _pgtable_l5_enabled_early;
++extern bool _pgtable_l4_enabled_early;
++extern struct static_key_false _pgtable_l5_enabled;
++extern struct static_key_false _pgtable_l4_enabled;
++extern struct static_key_false _pgtable_lx_ready;
++
++static __always_inline bool pgtable_l5_enabled(void)
++{
++	if (static_branch_likely(&_pgtable_lx_ready))
++		return static_branch_likely(&_pgtable_l5_enabled);
++	else
++		return _pgtable_l5_enabled_early;
++}
++
++static __always_inline bool pgtable_l4_enabled(void)
++{
++	if (static_branch_likely(&_pgtable_lx_ready))
++		return static_branch_likely(&_pgtable_l4_enabled);
++	else
++		return _pgtable_l4_enabled_early;
++}
+ 
+ #define PGDIR_SHIFT_L3  30
+ #define PGDIR_SHIFT_L4  39
+ #define PGDIR_SHIFT_L5  48
+ #define PGDIR_SIZE_L3   (_AC(1, UL) << PGDIR_SHIFT_L3)
+ 
+-#define PGDIR_SHIFT     (pgtable_l5_enabled ? PGDIR_SHIFT_L5 : \
+-		(pgtable_l4_enabled ? PGDIR_SHIFT_L4 : PGDIR_SHIFT_L3))
++#define PGDIR_SHIFT     (pgtable_l5_enabled() ? PGDIR_SHIFT_L5 : \
++		(pgtable_l4_enabled() ? PGDIR_SHIFT_L4 : PGDIR_SHIFT_L3))
+ /* Size of region mapped by a page global directory */
+ #define PGDIR_SIZE      (_AC(1, UL) << PGDIR_SHIFT)
+ #define PGDIR_MASK      (~(PGDIR_SIZE - 1))
+@@ -191,7 +211,7 @@ static inline struct page *pud_page(pud_t pud)
+ #define mm_p4d_folded  mm_p4d_folded
+ static inline bool mm_p4d_folded(struct mm_struct *mm)
+ {
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		return false;
+ 
+ 	return true;
+@@ -200,7 +220,7 @@ static inline bool mm_p4d_folded(struct mm_struct *mm)
+ #define mm_pud_folded  mm_pud_folded
+ static inline bool mm_pud_folded(struct mm_struct *mm)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		return false;
+ 
+ 	return true;
+@@ -235,7 +255,7 @@ static inline unsigned long _pmd_pfn(pmd_t pmd)
+ 
+ static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		*p4dp = p4d;
+ 	else
+ 		set_pud((pud_t *)p4dp, (pud_t){ p4d_val(p4d) });
+@@ -243,7 +263,7 @@ static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
+ 
+ static inline int p4d_none(p4d_t p4d)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		return (p4d_val(p4d) == 0);
+ 
+ 	return 0;
+@@ -251,7 +271,7 @@ static inline int p4d_none(p4d_t p4d)
+ 
+ static inline int p4d_present(p4d_t p4d)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		return (p4d_val(p4d) & _PAGE_PRESENT);
+ 
+ 	return 1;
+@@ -259,7 +279,7 @@ static inline int p4d_present(p4d_t p4d)
+ 
+ static inline int p4d_bad(p4d_t p4d)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		return !p4d_present(p4d);
+ 
+ 	return 0;
+@@ -267,7 +287,7 @@ static inline int p4d_bad(p4d_t p4d)
+ 
+ static inline void p4d_clear(p4d_t *p4d)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		set_p4d(p4d, __p4d(0));
+ }
+ 
+@@ -283,7 +303,7 @@ static inline unsigned long _p4d_pfn(p4d_t p4d)
+ 
+ static inline pud_t *p4d_pgtable(p4d_t p4d)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		return (pud_t *)pfn_to_virt(p4d_val(p4d) >> _PAGE_PFN_SHIFT);
+ 
+ 	return (pud_t *)pud_pgtable((pud_t) { p4d_val(p4d) });
+@@ -300,7 +320,7 @@ static inline struct page *p4d_page(p4d_t p4d)
+ #define pud_offset pud_offset
+ static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+ {
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		return p4d_pgtable(*p4d) + pud_index(address);
+ 
+ 	return (pud_t *)p4d;
+@@ -308,7 +328,7 @@ static inline pud_t *pud_offset(p4d_t *p4d, unsigned long address)
+ 
+ static inline void set_pgd(pgd_t *pgdp, pgd_t pgd)
+ {
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		*pgdp = pgd;
+ 	else
+ 		set_p4d((p4d_t *)pgdp, (p4d_t){ pgd_val(pgd) });
+@@ -316,7 +336,7 @@ static inline void set_pgd(pgd_t *pgdp, pgd_t pgd)
+ 
+ static inline int pgd_none(pgd_t pgd)
+ {
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		return (pgd_val(pgd) == 0);
+ 
+ 	return 0;
+@@ -324,7 +344,7 @@ static inline int pgd_none(pgd_t pgd)
+ 
+ static inline int pgd_present(pgd_t pgd)
+ {
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		return (pgd_val(pgd) & _PAGE_PRESENT);
+ 
+ 	return 1;
+@@ -332,7 +352,7 @@ static inline int pgd_present(pgd_t pgd)
+ 
+ static inline int pgd_bad(pgd_t pgd)
+ {
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		return !pgd_present(pgd);
+ 
+ 	return 0;
+@@ -340,13 +360,13 @@ static inline int pgd_bad(pgd_t pgd)
+ 
+ static inline void pgd_clear(pgd_t *pgd)
+ {
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		set_pgd(pgd, __pgd(0));
+ }
+ 
+ static inline p4d_t *pgd_pgtable(pgd_t pgd)
+ {
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		return (p4d_t *)pfn_to_virt(pgd_val(pgd) >> _PAGE_PFN_SHIFT);
+ 
+ 	return (p4d_t *)p4d_pgtable((p4d_t) { pgd_val(pgd) });
+@@ -364,7 +384,7 @@ static inline struct page *pgd_page(pgd_t pgd)
+ #define p4d_offset p4d_offset
+ static inline p4d_t *p4d_offset(pgd_t *pgd, unsigned long address)
+ {
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		return pgd_pgtable(*pgd) + p4d_index(address);
+ 
+ 	return (p4d_t *)pgd;
+diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+index 1d1be9d9419c..3eaa01d880b9 100644
+--- a/arch/riscv/include/asm/pgtable.h
++++ b/arch/riscv/include/asm/pgtable.h
+@@ -63,8 +63,8 @@
+  * position vmemmap directly below the VMALLOC region.
+  */
+ #ifdef CONFIG_64BIT
+-#define VA_BITS		(pgtable_l5_enabled ? \
+-				57 : (pgtable_l4_enabled ? 48 : 39))
++#define VA_BITS		(pgtable_l5_enabled() ? \
++				57 : (pgtable_l4_enabled() ? 48 : 39))
+ #else
+ #define VA_BITS		32
+ #endif
+@@ -834,7 +834,6 @@ extern uintptr_t _dtb_early_pa;
+ #define dtb_early_pa	_dtb_early_pa
+ #endif /* CONFIG_XIP_KERNEL */
+ extern u64 satp_mode;
+-extern bool pgtable_l4_enabled;
+ 
+ void paging_init(void);
+ void misc_mem_init(void);
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index fba9e9f46a8c..9b3697a97e41 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -143,9 +143,9 @@ static void print_mmu(struct seq_file *f)
+ #if defined(CONFIG_32BIT)
+ 	strncpy(sv_type, "sv32", 5);
+ #elif defined(CONFIG_64BIT)
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		strncpy(sv_type, "sv57", 5);
+-	else if (pgtable_l4_enabled)
++	else if (pgtable_l4_enabled())
+ 		strncpy(sv_type, "sv48", 5);
+ 	else
+ 		strncpy(sv_type, "sv39", 5);
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index d466ec670e1f..11708cdb7094 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -44,10 +44,16 @@ u64 satp_mode __ro_after_init = SATP_MODE_32;
+ #endif
+ EXPORT_SYMBOL(satp_mode);
+ 
+-bool pgtable_l4_enabled = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
+-bool pgtable_l5_enabled = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
+-EXPORT_SYMBOL(pgtable_l4_enabled);
+-EXPORT_SYMBOL(pgtable_l5_enabled);
++DEFINE_STATIC_KEY_FALSE(_pgtable_l4_enabled);
++DEFINE_STATIC_KEY_FALSE(_pgtable_l5_enabled);
++DEFINE_STATIC_KEY_FALSE(_pgtable_lx_ready);
++EXPORT_SYMBOL(_pgtable_l4_enabled);
++EXPORT_SYMBOL(_pgtable_l5_enabled);
++EXPORT_SYMBOL(_pgtable_lx_ready);
++bool _pgtable_l4_enabled_early = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
++bool _pgtable_l5_enabled_early = IS_ENABLED(CONFIG_64BIT) && !IS_ENABLED(CONFIG_XIP_KERNEL);
++EXPORT_SYMBOL(_pgtable_l4_enabled_early);
++EXPORT_SYMBOL(_pgtable_l5_enabled_early);
+ 
+ phys_addr_t phys_ram_base __ro_after_init;
+ EXPORT_SYMBOL(phys_ram_base);
+@@ -585,26 +591,26 @@ static void __init create_p4d_mapping(p4d_t *p4dp,
+ }
+ 
+ #define pgd_next_t		p4d_t
+-#define alloc_pgd_next(__va)	(pgtable_l5_enabled ?			\
+-		pt_ops.alloc_p4d(__va) : (pgtable_l4_enabled ?		\
++#define alloc_pgd_next(__va)	(pgtable_l5_enabled() ?			\
++		pt_ops.alloc_p4d(__va) : (pgtable_l4_enabled() ?		\
+ 		pt_ops.alloc_pud(__va) : pt_ops.alloc_pmd(__va)))
+-#define get_pgd_next_virt(__pa)	(pgtable_l5_enabled ?			\
+-		pt_ops.get_p4d_virt(__pa) : (pgd_next_t *)(pgtable_l4_enabled ?	\
++#define get_pgd_next_virt(__pa)	(pgtable_l5_enabled() ?			\
++		pt_ops.get_p4d_virt(__pa) : (pgd_next_t *)(pgtable_l4_enabled() ?	\
+ 		pt_ops.get_pud_virt(__pa) : (pud_t *)pt_ops.get_pmd_virt(__pa)))
+ #define create_pgd_next_mapping(__nextp, __va, __pa, __sz, __prot)	\
+-				(pgtable_l5_enabled ?			\
++				(pgtable_l5_enabled() ?			\
+ 		create_p4d_mapping(__nextp, __va, __pa, __sz, __prot) : \
+-				(pgtable_l4_enabled ?			\
++				(pgtable_l4_enabled() ?			\
+ 		create_pud_mapping((pud_t *)__nextp, __va, __pa, __sz, __prot) :	\
+ 		create_pmd_mapping((pmd_t *)__nextp, __va, __pa, __sz, __prot)))
+-#define fixmap_pgd_next		(pgtable_l5_enabled ?			\
+-		(uintptr_t)fixmap_p4d : (pgtable_l4_enabled ?		\
++#define fixmap_pgd_next		(pgtable_l5_enabled() ?			\
++		(uintptr_t)fixmap_p4d : (pgtable_l4_enabled() ?		\
+ 		(uintptr_t)fixmap_pud : (uintptr_t)fixmap_pmd))
+-#define trampoline_pgd_next	(pgtable_l5_enabled ?			\
+-		(uintptr_t)trampoline_p4d : (pgtable_l4_enabled ?	\
++#define trampoline_pgd_next	(pgtable_l5_enabled() ?			\
++		(uintptr_t)trampoline_p4d : (pgtable_l4_enabled() ?	\
+ 		(uintptr_t)trampoline_pud : (uintptr_t)trampoline_pmd))
+-#define early_dtb_pgd_next	(pgtable_l5_enabled ?			\
+-		(uintptr_t)early_dtb_p4d : (pgtable_l4_enabled ?	\
++#define early_dtb_pgd_next	(pgtable_l5_enabled() ?			\
++		(uintptr_t)early_dtb_p4d : (pgtable_l4_enabled() ?	\
+ 		(uintptr_t)early_dtb_pud : (uintptr_t)early_dtb_pmd))
+ #else
+ #define pgd_next_t		pte_t
+@@ -710,14 +716,14 @@ static __init pgprot_t pgprot_from_va(uintptr_t va)
+ #if defined(CONFIG_64BIT) && !defined(CONFIG_XIP_KERNEL)
+ static void __init disable_pgtable_l5(void)
+ {
+-	pgtable_l5_enabled = false;
++	_pgtable_l5_enabled_early = false;
+ 	kernel_map.page_offset = PAGE_OFFSET_L4;
+ 	satp_mode = SATP_MODE_48;
+ }
+ 
+ static void __init disable_pgtable_l4(void)
+ {
+-	pgtable_l4_enabled = false;
++	_pgtable_l4_enabled_early = false;
+ 	kernel_map.page_offset = PAGE_OFFSET_L3;
+ 	satp_mode = SATP_MODE_39;
+ }
+@@ -846,11 +852,11 @@ static void __init create_fdt_early_page_table(pgd_t *pgdir, uintptr_t dtb_pa)
+ 			   PGDIR_SIZE,
+ 			   IS_ENABLED(CONFIG_64BIT) ? PAGE_TABLE : PAGE_KERNEL);
+ 
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		create_p4d_mapping(early_dtb_p4d, DTB_EARLY_BASE_VA,
+ 				   (uintptr_t)early_dtb_pud, P4D_SIZE, PAGE_TABLE);
+ 
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		create_pud_mapping(early_dtb_pud, DTB_EARLY_BASE_VA,
+ 				   (uintptr_t)early_dtb_pmd, PUD_SIZE, PAGE_TABLE);
+ 
+@@ -992,11 +998,11 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 
+ #ifndef __PAGETABLE_PMD_FOLDED
+ 	/* Setup fixmap P4D and PUD */
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		create_p4d_mapping(fixmap_p4d, FIXADDR_START,
+ 				   (uintptr_t)fixmap_pud, P4D_SIZE, PAGE_TABLE);
+ 	/* Setup fixmap PUD and PMD */
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		create_pud_mapping(fixmap_pud, FIXADDR_START,
+ 				   (uintptr_t)fixmap_pmd, PUD_SIZE, PAGE_TABLE);
+ 	create_pmd_mapping(fixmap_pmd, FIXADDR_START,
+@@ -1004,10 +1010,10 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+ 	/* Setup trampoline PGD and PMD */
+ 	create_pgd_mapping(trampoline_pg_dir, kernel_map.virt_addr,
+ 			   trampoline_pgd_next, PGDIR_SIZE, PAGE_TABLE);
+-	if (pgtable_l5_enabled)
++	if (pgtable_l5_enabled())
+ 		create_p4d_mapping(trampoline_p4d, kernel_map.virt_addr,
+ 				   (uintptr_t)trampoline_pud, P4D_SIZE, PAGE_TABLE);
+-	if (pgtable_l4_enabled)
++	if (pgtable_l4_enabled())
+ 		create_pud_mapping(trampoline_pud, kernel_map.virt_addr,
+ 				   (uintptr_t)trampoline_pmd, PUD_SIZE, PAGE_TABLE);
+ #ifdef CONFIG_XIP_KERNEL
+@@ -1196,6 +1202,15 @@ static void __init reserve_crashkernel(void)
+ 	crashk_res.end = crash_base + crash_size - 1;
+ }
+ 
++static void __init riscv_finalise_pgtable_lx(void)
++{
++	if (_pgtable_l5_enabled_early)
++		static_branch_enable(&_pgtable_l5_enabled);
++	if (_pgtable_l4_enabled_early)
++		static_branch_enable(&_pgtable_l4_enabled);
++	static_branch_enable(&_pgtable_lx_ready);
++}
++
+ void __init paging_init(void)
+ {
+ 	setup_bootmem();
+@@ -1207,6 +1222,7 @@ void __init misc_mem_init(void)
+ 	early_memtest(min_low_pfn << PAGE_SHIFT, max_low_pfn << PAGE_SHIFT);
+ 	arch_numa_init();
+ 	sparse_init();
++	riscv_finalise_pgtable_lx();
+ 	zone_sizes_init();
+ 	reserve_crashkernel();
+ 	memblock_dump_all();
+diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+index a22e418dbd82..356044498e8a 100644
+--- a/arch/riscv/mm/kasan_init.c
++++ b/arch/riscv/mm/kasan_init.c
+@@ -209,15 +209,15 @@ static void __init kasan_populate_p4d(pgd_t *pgd,
+ 		set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_p4d)), PAGE_TABLE));
+ }
+ 
+-#define kasan_early_shadow_pgd_next			(pgtable_l5_enabled ?	\
++#define kasan_early_shadow_pgd_next			(pgtable_l5_enabled() ?	\
+ 				(uintptr_t)kasan_early_shadow_p4d :		\
+-							(pgtable_l4_enabled ?	\
++							(pgtable_l4_enabled() ?	\
+ 				(uintptr_t)kasan_early_shadow_pud :		\
+ 				(uintptr_t)kasan_early_shadow_pmd))
+ #define kasan_populate_pgd_next(pgdp, vaddr, next, early)			\
+-		(pgtable_l5_enabled ?						\
++		(pgtable_l5_enabled() ?						\
+ 		kasan_populate_p4d(pgdp, vaddr, next, early) :			\
+-		(pgtable_l4_enabled ?						\
++		(pgtable_l4_enabled() ?						\
+ 			kasan_populate_pud(pgdp, vaddr, next, early) :		\
+ 			kasan_populate_pmd((pud_t *)pgdp, vaddr, next)))
+ 
+@@ -274,7 +274,7 @@ asmlinkage void __init kasan_early_init(void)
+ 				(__pa((uintptr_t)kasan_early_shadow_pte)),
+ 				PAGE_TABLE));
+ 
+-	if (pgtable_l4_enabled) {
++	if (pgtable_l4_enabled()) {
+ 		for (i = 0; i < PTRS_PER_PUD; ++i)
+ 			set_pud(kasan_early_shadow_pud + i,
+ 				pfn_pud(PFN_DOWN
+@@ -282,7 +282,7 @@ asmlinkage void __init kasan_early_init(void)
+ 					PAGE_TABLE));
+ 	}
+ 
+-	if (pgtable_l5_enabled) {
++	if (pgtable_l5_enabled()) {
+ 		for (i = 0; i < PTRS_PER_P4D; ++i)
+ 			set_p4d(kasan_early_shadow_p4d + i,
+ 				pfn_p4d(PFN_DOWN
+@@ -393,9 +393,9 @@ static void __init kasan_shallow_populate_p4d(pgd_t *pgdp,
+ }
+ 
+ #define kasan_shallow_populate_pgd_next(pgdp, vaddr, next)			\
+-		(pgtable_l5_enabled ?						\
++		(pgtable_l5_enabled() ?						\
+ 		kasan_shallow_populate_p4d(pgdp, vaddr, next) :			\
+-		(pgtable_l4_enabled ?						\
++		(pgtable_l4_enabled() ?						\
+ 		kasan_shallow_populate_pud(pgdp, vaddr, next) :			\
+ 		kasan_shallow_populate_pmd(pgdp, vaddr, next)))
+ 
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220715134847.2190-2-jszhang%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220715134847.2190-3-jszhang%40kernel.org.
