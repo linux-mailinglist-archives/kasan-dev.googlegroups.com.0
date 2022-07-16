@@ -1,135 +1,132 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBBNPSY6LAMGQEZBBWMNQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBQOQZKLAMGQEQMOXOOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1E9576ABF
-	for <lists+kasan-dev@lfdr.de>; Sat, 16 Jul 2022 01:33:09 +0200 (CEST)
-Received: by mail-wm1-x33b.google.com with SMTP id v123-20020a1cac81000000b003a02a3f0beesf4956703wme.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 15 Jul 2022 16:33:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1657927989; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 767BC576DAB
+	for <lists+kasan-dev@lfdr.de>; Sat, 16 Jul 2022 14:00:02 +0200 (CEST)
+Received: by mail-lf1-x139.google.com with SMTP id o9-20020ac24e89000000b00489c7acd6cbsf2772258lfr.13
+        for <lists+kasan-dev@lfdr.de>; Sat, 16 Jul 2022 05:00:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1657972802; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WWK6Eyibos5jcWJUWyG++Zos4gLdx6TiyjhkG6/pbnvBOx+YytxJfgMBMgg9Mmn3QL
-         hYF5hbPRLqCShrN/i57pzdM8QmJx4Yb2I85ciUhaohH1XWTEhkGLUQflVeZgyO2d64mJ
-         rzcj+gq3DlCxkuF7//bx28Fge8eFwHxbX3ghfJJW2vrTpmmwps3xE2ROrf+Dn85Il8+l
-         2jGLGq//yroIz6jDDcYP/vfIpGs0aO+faH2OcPF+UZCcGi5cQzBtkbHO0C6BrKjGDQuK
-         hdhK48Ny9ZeA0kiWiJSKB53/ZiTIPcKbq7bzPXGYD+a5Q4zqwsDYDeC8rfBMtiqox/g6
-         GAKA==
+        b=Vg4fmVuz+Ug1YUINwQDoN1cERsetiGNA2TtwQJs39xVluhXWrB5lp7wIgUrW4WFc7R
+         gXkW1g6VYObNbRz1FNfN2PSSosrdQzN4NcdBC6kkBBecwlIBs/w2TD4bjoTqiPJEn1lq
+         VeOnvZgMYDV12UIbituFnj8u5I/HD1BSClzRLd53ApAxeKBwb3HUNlFX7DHdIYqgZlM9
+         86Bq071SM6BqFRu6qvwa3EDAdlSAGgXwFgmhEk+JTunZghLP+N4Xy/f9nLkMPUui/kVj
+         OJjVD9dazXel2Y3Bp8w+kfhueNSIhQVLrCB7t79YG4tfnqRvw3NZTDo0ZBisqggR+JGX
+         Rf7A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=srsqoqbdFe5iCOIAQACmsm1PqyELz49hkXWP3UyVbRA=;
-        b=U4Y/oyPNZkL3CshC7aBfayOD8s5cM8i1p0oX4kUPV90bvLz9/E4vkGaaXhjSloPWbw
-         fwoem2b4fAv5S9mZSrV+KGYMdYkQn7XyY1rvOvlsjh+UhJ8E+/d/V6ZsozK5YG4dlrcn
-         f3mLJt/E8jRs0FTybexPVW+Fd687kxqP/K/OdaS6I22hkj5pOSL0TPCaYssQC1ogwzgi
-         jgZrzVjohwCgF/oNaqq0bweNvnSr4kPrDnU18nxSugJHsKbuWQAVpxJpRRx0++w2uoTA
-         MuiLkyXDf2gvGQ0p+V/khvDAHtKelilOvHpmQ9fNYpipV9xnc4cvBVmInq4Hz70ulIZf
-         WoPQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=cL9ezgfOeqbwSK8N/Ri5hHyEiChAle7t2tHmjI8ZCGE=;
+        b=oEOebHnreCazzlb2cjh9Z9ZVZfGezarLyKhR+LE4ulTdvXxHZZILRCprE+W3Enmlof
+         2fTugT3IIYczE4wNcHx9q5uYyals0fb74lOgMlABiIjOn6xPyxIkhDs0jfju/3LErnto
+         M6Y6rk0gzYdAopRO0sH/opTJ4AbXEtFF4fFmUvsv2nZ6Z4uQGosjN+SLLvnerFJ3gMMS
+         R8iqLeGjRNOMVsWf9/vMCRh1GN21mzul8dlP/zQ/9wTyfLNvdpBfXv3Sv5CfFj+iO/JJ
+         jRKJrExpYPAuOgCDr2+g7knAxYS7tNztw1Wjg/fm5T5GIQX+cSdP2rDkrwnFXWkNgdyl
+         n6CA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="FEnapZq/";
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=foj8ufD3;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=srsqoqbdFe5iCOIAQACmsm1PqyELz49hkXWP3UyVbRA=;
-        b=Xlc0P69RWJb6C4iUgw9Pv36Zvd7RbjBaPuNDUbnllZHszEy5LFdxIKHKK7KzNAI7X2
-         2FJlyinVz2HH5YA6PnMN3Sc/xXLyw0JfczWv08mP2316FSzQwFv2xJOTUp1nWkZEjORj
-         gAl2T1vi4S+4O9N18w2LT9hZmlrbVgWxBkwOucjKCY+3DnHiR3eRPDtbDUxSKLVzmqSx
-         RBh2RIMPsQYaN8carA3wnEcC/QD1C7rj1XoE2aUDg/sYcyTGdPBV1LQegUyvq6D/oqXt
-         LI58mkJeUaSpR6+1Yq5EDGafHVDkZFVjtJKVpWyhBfQRRHgl4EuhlH6HTaC24OdVt4jv
-         N3XA==
+        bh=cL9ezgfOeqbwSK8N/Ri5hHyEiChAle7t2tHmjI8ZCGE=;
+        b=kTKUwkbFoyAeH31q0r+P2xwdFuFBT6mPG9IXFUDHs7qAqCEud3JVC8kNkheev4BRfx
+         j7Yfw361x4pfnwJNsUojf1NTMPBGcimWSP4/rgkrn1tsHM/pp5dTh8qhN+DXfGNaN83j
+         ELTTz1aiuLiAvlUaJ5y2kvsyypDnF4Q000SAkMNsZREszpeHcT9OqTl46R/3vci6nOnY
+         Knj0ZLZmoRyeeKX0NKyJVWwZyk4pbENzw8RcU6cz+MuJfbkuZcifcWRtX2haHFlI9A2T
+         CQzAR3iLj7mm5W2kVOTrS8c2lZoFrlBUD7W8mRFvcdwH2hPyqPhpM9H+BgdDiHeA8V/s
+         IN5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :in-reply-to:references:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=srsqoqbdFe5iCOIAQACmsm1PqyELz49hkXWP3UyVbRA=;
-        b=5+QhiU3qNImq8IGffiZ4A2ogWCtnFJz7WwarPtNGc8COGQDKebEybrY62ymxtGKz3b
-         N/j2lqwyGB8DOCm7c9jSK4lUq7Zs54LMvdcqqZ7jIxFTwbOXgvSfC9Mv9eA7YMy3yQdt
-         wMlpJ7TZWX2lkbR86sfU/LfSO/G6RyOxapFFG8P7XSiZPn2eYqAFgSiYVg3Ty4Tx5ZFw
-         MlqGE6ZINN3TB/zFjDeZ1KbZMw245qwLjryxL5Qfsk91o0kAtvszWQRIXwkrrzqpTSoY
-         0CO5/7rCqEDOVNi4A164JUkHVWX+Xzg5zOGQK1qAlEO6+V7LX+O8RRb1C6411ENudHTN
-         gfzw==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=cL9ezgfOeqbwSK8N/Ri5hHyEiChAle7t2tHmjI8ZCGE=;
+        b=Jtv9dc9+0P2XECC19hRS8Vsdk6JF05nNSIy3NHgxmyCLGMmsOHwVbC3xovOr6EST/1
+         dWMYhCkkt+JHL7vzBuDBkj7ilfjrgzyAkNj0Jw4d4GwQzWeH8xlfQvuqYYZaf1zZGseq
+         9lyTB+VmUgdxkSWJoWI+9PnIWuZ4d+EVzd+fRWwcpi4KRkNzEV9MaS3cWh4IMF2G9HZX
+         /XQd4xPgXyj2L7oYuh+5NLLFB1dqYKLi3RUwYPejCuMRgDMsNEKFNKr8HhxdW3lqrS0a
+         9oZXCSyHWCWyRAlGu+OBKRvWkn41keS53s+jHy7ePjhRsAKbMtNoxy+mqjeBdP3kikry
+         dGww==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora+OsXs/ZYK4Fn/AmROYGckg/IEhWfsmZsL/j8OExomY20AwsVuM
-	UedafhncRPQffCW6296rlyQ=
-X-Google-Smtp-Source: AGRyM1ukHtmmMXJ4KvTYQ4egLPjTFzMD8q9hCBWYmIiDBw8FFe7gWT5xjuPg/VPsvGlUm1hGCFUR9w==
-X-Received: by 2002:a05:6000:2cc:b0:21d:76d8:1f2c with SMTP id o12-20020a05600002cc00b0021d76d81f2cmr14316427wry.471.1657927989295;
-        Fri, 15 Jul 2022 16:33:09 -0700 (PDT)
+X-Gm-Message-State: AJIora/FYMLEabvVduxI0lpyh1G4mx8lvHrKBQFQn7V0WQWBIoRCTHR8
+	zE4SO+A7znN12NSu7rp7TgE=
+X-Google-Smtp-Source: AGRyM1voO9HKuY5PC8OSISMlphrVMhmmLWOSnwiX0k3qZHLv8tFdVNnxrSDrAJJFZGyf43Wu9+KHhQ==
+X-Received: by 2002:a05:6512:10c3:b0:48a:b6d:41d with SMTP id k3-20020a05651210c300b0048a0b6d041dmr10322748lfg.679.1657972801674;
+        Sat, 16 Jul 2022 05:00:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:1ac7:b0:21d:ab25:25ba with SMTP id
- i7-20020a0560001ac700b0021dab2525bals350281wry.2.gmail; Fri, 15 Jul 2022
- 16:33:08 -0700 (PDT)
-X-Received: by 2002:a5d:6d0e:0:b0:21d:6d4c:e0e4 with SMTP id e14-20020a5d6d0e000000b0021d6d4ce0e4mr14947797wrq.355.1657927987988;
-        Fri, 15 Jul 2022 16:33:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1657927987; cv=none;
+Received: by 2002:a2e:b8d1:0:b0:25d:64aa:955a with SMTP id s17-20020a2eb8d1000000b0025d64aa955als2441526ljp.5.gmail;
+ Sat, 16 Jul 2022 05:00:00 -0700 (PDT)
+X-Received: by 2002:a2e:9f4a:0:b0:25d:7502:e18 with SMTP id v10-20020a2e9f4a000000b0025d75020e18mr8983178ljk.201.1657972800570;
+        Sat, 16 Jul 2022 05:00:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1657972800; cv=none;
         d=google.com; s=arc-20160816;
-        b=merHiqv5qxuQmMZzT1a5ZTFqGwh1qIu3vKV2riZDxDIso5uaVTO7LbEr/kpHfN+jYS
-         l4gOzYEmhTrQX6bNxNS0uOGF9mmc2cKwZ7j1ASWHanXSQHjak4R2Odz84KoVe/BcHWhB
-         CkBwtKJnL9r81zFTAooAxWupqINEBNEEWWvbARylfTWAlzGmwxTkp0QQ8jYhOizyhhGI
-         pc9J/13POly225anT7nGNyDWrGFNIOqXvkS+3wkW6rQSLSeRpLRPD2aSEwGVL3bBvzI5
-         IAqLjGTfIh0F7HkN2SeUImCAwphJDHjOJhY5ijLN6wiijVCeeiGVIhMXDqlJvtj6hlSZ
-         ZzLg==
+        b=1ApUwERtjDBT7ECaJu0f5+3J74k5kGdPboyelDJe1X9ARGMYsd6o+I81O/703fzO4U
+         fauBhc8NrYaifEo9u9zYr8DsU/0Wvh98yqD7tRRK2CsaLEPHwPSW0YNjkoXvQC4sVhv/
+         T0x4VlHIWSQhDNA70AMXJA7uwMDYkVhhg0WOGsFej600kO6M+BWXwpjzN+c0KHYxm+Cs
+         /+zYPfg8V9Gdnfjt339YO8p+b//oJblynEw9GSJYznVAq5++qi7v9lzKLY1VUe1DfJ4C
+         FCAraBMWEAKXN3HFdtpSoatQ/qIzlMJ/DpFIn7BpSJSq7g4whASOjHm66lgY8qwjmzsQ
+         YIRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=wsCJf+W80m4JnOYQTNwvFXoXyL6yxh+A6mqqU7DJVBs=;
-        b=OAh5Ml/M5CcEeUNwuLf9PclJ1+k8b6pJuRnk5AqimQJaWvp5iYmZ2Zk5i15fuWPHwU
-         ker8mPYl7nMZVkslHIXZLFE4iXfY2LfDy9QztHJ9YWEt9cGCWh9gomrj2yadLyXDGlop
-         4m6nt0l79gortDwjnxbj6K0i+1xQa8JPLOX8QZVxtSUKL3Vt8AdAh5Bk/NUP1P07y/4E
-         ueJb7hpi0oPiiXfa1kgJY6KvNRSJO550TADOTWxXpGQn02QZJCNZX/OTNMUcCA1oWvgJ
-         FglJ5iiXQMs3YJPVg0NR0xSSUp5k20higBqBRx6J3IfunC49f5tCQ+oH60gsqmaGksy+
-         aeCA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=cwAKxMSCN9QgWP7bt7zYcETt2/T5IBJSYsyYP2BJNds=;
+        b=iQgyym+wokrZUapP90/2qy+RMDfeiF0B/eeGeRomlywx14Inr0yti5uYf80DZW5g9V
+         OPbLIFLhdape06MhitIxIK5zPUic62LvU233lgcNSw9OSjiFlqqCHHwrtw5ZYDb6MoNu
+         FNOBI0J02/UgiD2mEhY5eDfM5jWcLXv0jdlhqaFK/0wFvkviIlMoqt3sNJyXUcNEPJJg
+         nRujkF2KNORrt4ZI4cD2I+jLe2B/e6gVNoCJfeD0kLO0YMtWbEl/wXLHLhmZj7l4KZ8d
+         EWdcqYF+F9/i3T6AzA03W9Uj3UkbkJvNSy2/UI062HgbrCFmuIhiC/47WvpLlcg+fakN
+         DfTQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="FEnapZq/";
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id 1-20020a1c1901000000b003a301c8876fsi166730wmz.2.2022.07.15.16.33.07
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=foj8ufD3;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
+        by gmr-mx.google.com with ESMTPS id be19-20020a05651c171300b0025d5ca4448esi94443ljb.3.2022.07.16.05.00.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 15 Jul 2022 16:33:07 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+        Sat, 16 Jul 2022 05:00:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 96AAAB82F01;
-	Fri, 15 Jul 2022 23:33:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5B59C34115;
-	Fri, 15 Jul 2022 23:33:05 +0000 (UTC)
-Date: Fri, 15 Jul 2022 16:33:05 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: yee.lee@mediatek.com, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, "open list:KFENCE" <kasan-dev@googlegroups.com>,
- "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-mediatek@lists.infradead.org>, Marco Elver <elver@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v2 1/1] mm: kfence: apply kmemleak_ignore_phys on early
- allocated pool
-Message-Id: <20220715163305.e70c8542d5e7d96c5fd87185@linux-foundation.org>
-In-Reply-To: <CAMuHMdX=MTsmo5ZVa8ya3xmr4Mx7f0PB3gvFF42pdaTYB6-u5A@mail.gmail.com>
-References: <20220628113714.7792-1-yee.lee@mediatek.com>
-	<20220628113714.7792-2-yee.lee@mediatek.com>
-	<CAMuHMdX=MTsmo5ZVa8ya3xmr4Mx7f0PB3gvFF42pdaTYB6-u5A@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: akpm@linux-foundation.org
+	by ams.source.kernel.org (Postfix) with ESMTPS id C50B7B800C1;
+	Sat, 16 Jul 2022 11:59:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60E2AC34114;
+	Sat, 16 Jul 2022 11:59:55 +0000 (UTC)
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Cc: linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com
+Subject: [PATCH v6 0/2] use static key to optimize pgtable_l4_enabled
+Date: Sat, 16 Jul 2022 19:50:57 +0800
+Message-Id: <20220716115059.3509-1-jszhang@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+X-Original-Sender: jszhang@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b="FEnapZq/";
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 145.40.68.75 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ header.i=@kernel.org header.s=k20201202 header.b=foj8ufD3;       spf=pass
+ (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as
+ permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,43 +139,61 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 15 Jul 2022 10:17:43 +0200 Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+The pgtable_l4|[l5]_enabled check sits at hot code path, performance
+is impacted a lot. Since pgtable_l4|[l5]_enabled isn't changed after
+boot, so static key can be used to solve the performance issue[1].
 
-> On Tue, Jun 28, 2022 at 1:42 PM <yee.lee@mediatek.com> wrote:
-> > From: Yee Lee <yee.lee@mediatek.com>
-> >
-> > This patch solves two issues.
-> >
-> > (1) The pool allocated by memblock needs to unregister from
-> > kmemleak scanning. Apply kmemleak_ignore_phys to replace the
-> > original kmemleak_free as its address now is stored in the phys tree.
-> >
-> > (2) The pool late allocated by page-alloc doesn't need to unregister.
-> > Move out the freeing operation from its call path.
-> >
-> > Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
-> > Suggested-by: Marco Elver <elver@google.com>
-> > Signed-off-by: Yee Lee <yee.lee@mediatek.com>
-> 
-> Thank you, this fixes the storm of
-> 
->     BUG: KFENCE: invalid read in scan_block+0x78/0x130
->     BUG: KFENCE: use-after-free read in scan_block+0x78/0x130
->     BUG: KFENCE: out-of-bounds read in scan_block+0x78/0x130
-> 
-> messages I was seeing on arm64.
+An unified way static key was introduced in [2], but it only targets
+riscv isa extension. We dunno whether SV48 and SV57 will be considered
+as isa extension, so the unified solution isn't used for
+pgtable_l4[l5]_enabled now.
 
-Thanks, but...
+patch1 fixes a NULL pointer deference if static key is used a bit earlier.
+patch2 uses the static key to optimize pgtable_l4|[l5]_enabled.
 
-- It would be great if we could identify a Fixes: for this.
+[1] http://lists.infradead.org/pipermail/linux-riscv/2021-December/011164.html
+[2] https://lore.kernel.org/linux-riscv/20220517184453.3558-1-jszhang@kernel.org/T/#t
 
-- This patch has been accused of crashing the kernel:
+Since v5:
+ - Use DECLARE_STATIC_KEY_FALSE
 
-	https://lkml.kernel.org/r/YsFeUHkrFTQ7T51Q@xsang-OptiPlex-9020
+Since v4:
+ - rebased on v5.19-rcN
+ - collect Reviewed-by tags
+ - Fix kernel panic issue if SPARSEMEM is enabled by moving the
+   riscv_finalise_pgtable_lx() after sparse_init()
 
-  Do we think that report is bogus?
+Since v3:
+ - fix W=1 call to undeclared function 'static_branch_likely' error
+
+Since v2:
+ - move the W=1 warning fix to a separate patch
+ - move the unified way to use static key to a new patch series.
+
+Since v1:
+ - Add a W=1 warning fix
+ - Fix W=1 error
+ - Based on v5.18-rcN, since SV57 support is added, so convert
+   pgtable_l5_enabled as well.
+
+Jisheng Zhang (2):
+  riscv: move sbi_init() earlier before jump_label_init()
+  riscv: turn pgtable_l4|[l5]_enabled to static key for RV64
+
+ arch/riscv/include/asm/pgalloc.h    | 16 ++++----
+ arch/riscv/include/asm/pgtable-32.h |  3 ++
+ arch/riscv/include/asm/pgtable-64.h | 60 ++++++++++++++++++---------
+ arch/riscv/include/asm/pgtable.h    |  5 +--
+ arch/riscv/kernel/cpu.c             |  4 +-
+ arch/riscv/kernel/setup.c           |  2 +-
+ arch/riscv/mm/init.c                | 64 ++++++++++++++++++-----------
+ arch/riscv/mm/kasan_init.c          | 16 ++++----
+ 8 files changed, 104 insertions(+), 66 deletions(-)
+
+-- 
+2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220715163305.e70c8542d5e7d96c5fd87185%40linux-foundation.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220716115059.3509-1-jszhang%40kernel.org.
