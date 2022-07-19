@@ -1,142 +1,128 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBROD26LAMGQEZ54KECQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB27M26LAMGQENLEDFTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19284578DAD
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jul 2022 00:42:15 +0200 (CEST)
-Received: by mail-ot1-x33f.google.com with SMTP id w33-20020a056830412100b0061c790f13b5sf7152985ott.17
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 Jul 2022 15:42:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1658184134; cv=pass;
+Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB1E578EBE
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jul 2022 02:10:20 +0200 (CEST)
+Received: by mail-ed1-x53d.google.com with SMTP id j6-20020a05640211c600b0043a8ea2c138sf8804720edw.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 18 Jul 2022 17:10:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1658189420; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rg+xxz2beCJlSqIS7Yk6DTCWI1HYVwniXkkcjMQLV2J6EgYHuQE4f028WDWbJ9O0XV
-         fNKR9Jn0cC11n5fhHcbIzRVfEU4dctuEuCrqjXUeBMYFM0GwliB/d2FsO/FuksPNM9Aq
-         jxOVB8+LHkXCNQrSB+Azu0guUx8GnYHrmX7v3R2QBBrKz2lJkCZSCUOI+h7RgLVcIJoK
-         GoZnkGhQ2pQyd0J2M57ge7uwElpE+FDHTmT/nMDSDxIL53izgmnZN8J+X8y3d+vX2vI9
-         xliJwW0OE67DcgoT9TJf0jkUEJbW8FteGzptFjT0m12RgYz72EiIlsbEiiJgG6FBAItE
-         gsRQ==
+        b=AJHNEsaGVeFcen+zYmee6Q52Sl6DSKgSTO8RQShpsDko6eoiglIu1Z5URU2Li/p/6J
+         /rRbQws4QKO+yewb8h/lWoctlzNIJYisWxrS55SGi2TpsEVpQUVmxniwAbi955S493I9
+         grg6wgsLm3W8xsNLqVzODJ/7ycyy2y5LRANskHQbWven/l3NE1c0tIzw4RqYzWqlZGiS
+         xVZ69CKz03+7yT9H0G+9Qvk2liEXmFyXQwRQqLFLr97cyBSdNB9qA2dZ/sfp56q1exI0
+         N13Q/NoHIETVV7A0qI2++EnlcU1E/Twggqcjs6WyQz742PNufhPNlCRKImElTz0LxP17
+         0a+A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=5OH0s5zdgkvCpUWLDymfKIAGml6O58+KPe+wYOmKl2A=;
-        b=o5pgt9JY444D+qF9BX+GuY//JNyvTuPIUC2e3H0uVbwM1WLqZjZqdXl9l5msoBDbXE
-         oW4m0QQdQMNFaC9gweEdpY1h0gdHv0aBW/IEwRro/ctIyXns4wI7Y9sSyzOXAAw3e3Ga
-         a6xjA9N0mA0YkGxn7LuGRuuXvk1nn7YJ99uaRkxvB/VhvdrCxPUVv5XCpRrDhn52gkjb
-         TeUpZyDQjkc325/O+a4S1R/oqEAqiyFP2YuNcXnD6icZEFUPLBuo356vObflxgtqANXZ
-         qSMkN0CbhKJcblOwd5CwMj1qNRC60EdcMYmFud5cE9Blvdzi9uSu6MvHvKZ1j+YeTup/
-         k7yA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=vrmndMfKtK5gcMOhA4BeraudMRhwyB08hfD5xvH+OCI=;
+        b=zTzNqVHxJdw/3z1bzn+2Yr91uyNu3MrS87Cyz11JPiYPxc61l+9Gz0u6R/0kIzLYyE
+         JoIJ9QabKgi+ppKPFVdKlx/4tdgQ59B6RK5xB6kubvajZGlMoZNuqvlcCX3WRZNdkuzx
+         cyOCgS9EERFBzWfmOmOmJPI34ZxjuyNVeNALSSVi9e5Pyzod+4P7W/uobdCjlzz/IRsW
+         PtopRYpGMhQbgPZxg1eui6bfEZJUWN13Cpxt8ZrXM001ekE5u5arbHzVwWgaznvwob1J
+         u9v9OVkKxQh3ZGrLjEhTnmxqnJlw3jGNuh70R0xVjSNMirqRHWeFqEWACYClGf3PmZab
+         DX8w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=TMkZVh5c;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::733 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=AQGV5pN4;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:mime-version:references:in-reply-to:from:date:message-id
-         :subject:to:cc:x-original-sender:x-original-authentication-results
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5OH0s5zdgkvCpUWLDymfKIAGml6O58+KPe+wYOmKl2A=;
-        b=L5IJN4Hob0+cA0G3P9Ia640rnAoNpkwaaxbzKIV2NFCdzRYFeaJt5wvcls8Ge0Oafp
-         zE+ktVrQAZfZBWhqSiX1pNrvihn8OXkYcSVWIFg7gp9J2L133473TwgiglxbZgHsJCcl
-         GR3upSwoKbBGj7kL+sYz9g/eIeToj0MYhF/WCT6heUvVSl5fLKMmVlzwO6In6j6nIrG4
-         NcIFfs20rn6QBy02piLbHQXVcnDkSdXAuY7AHllm3/zfxUQ2BAEAljJ/IwlOTvrYjwfc
-         wL59gkfDwZeaBTpw9Fdo6Q8rJB/3ydGSzBEeiCmhmZo+9Xi5SDX7rY4qvWFQnDlWmmTG
-         DTiQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:precedence
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :x-original-sender:x-original-authentication-results:precedence
          :mailing-list:list-id:list-post:list-help:list-archive
          :list-subscribe:list-unsubscribe;
-        bh=5OH0s5zdgkvCpUWLDymfKIAGml6O58+KPe+wYOmKl2A=;
-        b=hhmh/rsr+DNBAuwV3bO8xhlHzJPhPf+v2zeSMdzVT37+3FxDshDXJbRlDXFpga2yX8
-         hxKith3hUR1je8Cw4ZSgqJo2wgZVlANpZh7+HXsKpIJDMUbiTSFGwkbNVzGOoYdKFLhy
-         f6HrqvRXX9ls9+AkrjrkEfoPePBsKcRCLYroD9cAUhwktjNuf4MKyp7lp17C/0fD3zFP
-         Zoixz/MuO+nF67B3LIMT/wcvQJzF9E4d9CBA7BBPT10gyGAwVygcdaa27KCj5ZRtDuSM
-         0PdwOSd0Hlm7bAHJcsNvobwxwZtE+/VMvZvQQYKuvwMGs1ztl956dCw+8clT2y3gp/Ak
-         AF/A==
+        bh=vrmndMfKtK5gcMOhA4BeraudMRhwyB08hfD5xvH+OCI=;
+        b=YgGA+DJz++8X0QnkHu+G0JBZQiEeLZ3O7ZZcjvIo/578Zz9dvdKjaQ2Mc0j8ayn/Kk
+         9LXheKjGnqDb9xBgbUVjrqyRn60cDb+B6uZmF5Wt4gDgOiB0rDS8crC9xfxbAzXazqiZ
+         87GmoKHfj4SWyHmU/TuWa5sN+WAWXm9h6SzNJTllPF4I05IBxqZSc+60mq8XhY1DQmrf
+         v3gv1AWT5t57PVLbHDU5P/hh7Ae70FdqH712Wpwa3+O2b9gbXPy7aWrdsZwV4wp4C+Kq
+         QZQ6kpEQR/OxkhXfIIcXyPkXwiZrJPOVrpu+kbLAQ2azkAnCG+5OM3hHf6IHt2N7TdI8
+         FhjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:mime-version:references:in-reply-to:from
-         :date:message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=5OH0s5zdgkvCpUWLDymfKIAGml6O58+KPe+wYOmKl2A=;
-        b=Gud7UaHD4J/OIQ0q4CPMR9ZAeGd03rPPSiMK8yAA7U9Rmu9/SxN+sBiUP7pMV3v7c3
-         PLPOL4/wlBAy6Bh9z5e+VI2cxFBnk2mbo2azrdlFMHckBliyxls7Shi1N1ZUSi4ydQhx
-         MryVOqiOE9SHvM9Y5EC5eGCw+EIpwbYi3E545CXAORw5P2iMFTP9861oDXNyiqruHBDG
-         MmgyukvcT0iCDIQoNj2jOozK8ybh3dF20pm+oDF07rHB1/RzwiLRlmO9CljneQYYo74q
-         yFrUcj4Sxyl3dlHGtSHLCFMjeb1g01abiflIwuh6etpYEnZAebyNBjG6gumOBx/WRMc+
-         7Juw==
+        h=sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :mime-version:x-original-sender:x-original-authentication-results
+         :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=vrmndMfKtK5gcMOhA4BeraudMRhwyB08hfD5xvH+OCI=;
+        b=0X/U290cbtBGaaNSL2feNLn6x4VoqXg/YsDjG+u9yJq16BIO03JneIAFBkuWZ/oaSE
+         ef3y/UJRT9/yuoI2jG1uuzBuMApqULvhSQcYUNdM+oo10mI19NT11QWC1VV0cc+NkbJw
+         sXAN9dbcMhjqRa8x+KN9MnSgtkZrEGdyYUhtqcH2u0bCFObHKuNf371iGLE/PfwttICI
+         3rAGeVxUfyUbNjSiDsOoFgeAywVVQ7y/aPak5MFvR7c4z8oduNLj/rXrFkW9+DXE6d5Q
+         Om8dk5VHvYBc3VpJIz1CGF0P/LWZEgfWhJ+zDoSZMZ6PDgOXMYz8PBHMuHaexiS78IER
+         gYtA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AJIora8HB8WeLFoBcx4Dphqw/UM2MlESIVrWT9kDzLCm4/Elm9k1MPTy
-	Vd4v1AxFs15Qch/hMYrw5CA=
-X-Google-Smtp-Source: AGRyM1tfZgGnXtIXE3sCzr+RnLyqyyOxHG8NYHGZKtYjsa2e5eMMtZ236tBeF27Sdp0l8f1Er89hWg==
-X-Received: by 2002:a9d:4e8:0:b0:61c:565d:2c6b with SMTP id 95-20020a9d04e8000000b0061c565d2c6bmr11481726otm.264.1658184134034;
-        Mon, 18 Jul 2022 15:42:14 -0700 (PDT)
+X-Gm-Message-State: AJIora8YgZ6dOgsC0hwjU9fSnf2OoFIbwUVU5CbkVIu8+pmkfa9wpGoM
+	s/dVJJQkTqeqz/6mILfbWqs=
+X-Google-Smtp-Source: AGRyM1smkUdUvqFG6+6ezldpDn7IDx0IYPv7Ezk1sCjKYZHRm2yfSEeTXkbEFihgnG4LkDrkpfQjOA==
+X-Received: by 2002:a17:907:7f94:b0:72b:47da:4bf3 with SMTP id qk20-20020a1709077f9400b0072b47da4bf3mr28447298ejc.157.1658189420037;
+        Mon, 18 Jul 2022 17:10:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:829:0:b0:61c:8fed:3912 with SMTP id 38-20020a9d0829000000b0061c8fed3912ls1167999oty.2.gmail;
- Mon, 18 Jul 2022 15:42:13 -0700 (PDT)
-X-Received: by 2002:a05:6830:2705:b0:618:ba52:86fb with SMTP id j5-20020a056830270500b00618ba5286fbmr12266282otu.202.1658184133662;
-        Mon, 18 Jul 2022 15:42:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1658184133; cv=none;
+Received: by 2002:a05:6402:34cc:b0:43a:7c1c:8981 with SMTP id
+ w12-20020a05640234cc00b0043a7c1c8981ls73461edc.0.-pod-prod-gmail; Mon, 18 Jul
+ 2022 17:10:19 -0700 (PDT)
+X-Received: by 2002:a05:6402:35d1:b0:43a:cb5b:208b with SMTP id z17-20020a05640235d100b0043acb5b208bmr40053768edc.275.1658189419314;
+        Mon, 18 Jul 2022 17:10:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1658189419; cv=none;
         d=google.com; s=arc-20160816;
-        b=ZFWf3fWXlEqA3Y+ZuyMXqK7VE98wvbtChPTQtRPC7R+xQno6wUUjWJtGGzlVJKvMuX
-         2RDiclULHRZZZDFCfPnbNvs/ypjo+4xYn2iyjkdJxXkHC5BPbx8tj3XQJNHmc+T+Rcqp
-         gg6Be4ha2wM2NTM/rFKMWXjmtR8XBvWy40WkDIHApTS82KHRPF4seoPzVrLytecrukjs
-         ncvUKeRQM4O8fO9diSKVqWijjoPyZ82mvYFazdXfTAJ6URKW1kFJqMFygEM9dxoI0niY
-         vI1xxySWL3fu5Z6kdBgqF+heF8NigcBDyjX8gZnwuqfx0pUKma0j3q2weM1SFz2trMUK
-         ukvQ==
+        b=wPcmNMDCMr7DgeZtM2CHnK5CH5bihVf4OPTX3sL3YFr+eflh1I6gimjbC2sZMkzGOY
+         W8tWCOZ/CHKjJFgpRVya4tDS7l7sE8+IDGkC6TQCwHmWcwxe/cgv3NuWYTss1/8aRty0
+         wzD8mPnvH8R4Z7GhHHORNG3E8bcx+Bpp1PfQJ6PoOnud45K8nzrdMWQ14BknnoV81JMj
+         /8Q+QTLe1uf0wM7MeUJpI9u1/iKpdgVGuQaFSy8CjfoPZ7/rTYy+KcIOHRmte6MBgwd4
+         cdjFeDImV9MRF5/um1HW1yvZuphGEPQXwyIZ+aYhqcMFVYlfALdYqx814p3PvlQi5pqD
+         nJOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Srf+AYvhoPZ4SANiE5r//Mtt56L7Cxm65IjKMxEOpbM=;
-        b=w090gOqe1CVlBxR3+fAcIs3r2lVHY3EKbHrpi3oNy/87L6bMatqr35ko/WbboeMf1H
-         ZlWBgTn8mWXAQomSIYmlqtTqOPjdnjnF97r0tq+npyIUDQux4tG5mdAG4visYQgwBzWn
-         Dfuznv0sh4/bspFvcG9kkkbwGBFSqzUrTQ/6NztMRxQCVwkptoj9Zvk+DdxYUVYOm3pt
-         2WTFU6ejQBAJ2X8rR8zUH2NlAvCdEkmCnmF/5mOrqohrozV2WTOnnZRnBOZh5aLgB2GE
-         NiYrqOT375TFNSwUWTSTtJsmyDA4YguWV1CiQv6lk+mTxQvOxVBaFLYAEqVmrYoYE1RM
-         oYjA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=W6bMOfDQQrC3t+AXklBVrLreFIQ/eHKpGdhG0Mq/jjQ=;
+        b=ImBZc3va8UnzlKcahMXCQN1p8Sw5082c7E2KXODYBa2VvpanYMgwLTCixVs5BS+SQ2
+         siN8zfd+phCc9tHDGTL1bxQKdGlXqR+z6cPVfWhOQ/uAB1f/4GlNMLVqkJf9Ela8AuU6
+         J/t/TkCCubkhiRLepx8t5FU4ptnBcl+GgHYumG0jIyoQaP9yf5+U3CNVsUM+2ES/DwYj
+         FzI2kTGoLPPrl5FCggh4XCo+6GUNWP9JU2iag2rcJPn49l+RtxyiSXC4OGf6JvywN1Sk
+         n5uf9Ca7ni5Gi81OFlmlLaMoJSbazm+WC6Bs4L74kezkzoO8Kv/ZXymXFBck6JWxmLXY
+         x7AA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=TMkZVh5c;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::733 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com. [2607:f8b0:4864:20::733])
-        by gmr-mx.google.com with ESMTPS id l125-20020acabb83000000b0032b08d1cffbsi670950oif.1.2022.07.18.15.42.13
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=AQGV5pN4;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out0.migadu.com (out0.migadu.com. [2001:41d0:2:267::])
+        by gmr-mx.google.com with ESMTPS id n26-20020aa7c45a000000b004359bd2b6c9si366411edr.3.2022.07.18.17.10.19
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jul 2022 15:42:13 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::733 as permitted sender) client-ip=2607:f8b0:4864:20::733;
-Received: by mail-qk1-x733.google.com with SMTP id f14so9987984qkm.0
-        for <kasan-dev@googlegroups.com>; Mon, 18 Jul 2022 15:42:13 -0700 (PDT)
-X-Received: by 2002:a37:4644:0:b0:6af:271e:a510 with SMTP id
- t65-20020a374644000000b006af271ea510mr20013693qka.515.1658184133183; Mon, 18
- Jul 2022 15:42:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1655150842.git.andreyknvl@google.com> <3cd76121903de13713581687ffa45e668ef1475a.1655150842.git.andreyknvl@google.com>
- <YrB3l6A4hJmvsFp3@elver.google.com>
-In-Reply-To: <YrB3l6A4hJmvsFp3@elver.google.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Tue, 19 Jul 2022 00:42:02 +0200
-Message-ID: <CA+fCnZd5iataHnyBv9CVaXKN-2Ac=yLdODweMDiQB70nHZtpOA@mail.gmail.com>
-Subject: Re: [PATCH 31/32] kasan: implement stack ring for tag-based modes
-To: Marco Elver <elver@google.com>
-Cc: andrey.konovalov@linux.dev, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	kasan-dev <kasan-dev@googlegroups.com>, Peter Collingbourne <pcc@google.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Florian Mayer <fmayer@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 18 Jul 2022 17:10:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) client-ip=2001:41d0:2:267::;
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: andrey.konovalov@linux.dev
+To: Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com,
+	Peter Collingbourne <pcc@google.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Florian Mayer <fmayer@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+Subject: [PATCH mm v2 00/33] kasan: switch tag-based modes to stack ring from per-object metadata
+Date: Tue, 19 Jul 2022 02:09:40 +0200
+Message-Id: <cover.1658189199.git.andreyknvl@google.com>
+MIME-Version: 1.0
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
+X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=TMkZVh5c;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::733
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@linux.dev header.s=key1 header.b=AQGV5pN4;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates
+ 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,197 +135,138 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jun 20, 2022 at 3:35 PM Marco Elver <elver@google.com> wrote:
->
-> > The number of entries in the stack ring is fixed in this version of the
-> > patch. We could either implement it as a config option or a command-line
-> > argument. I tilt towards the latter option and will implement it in v2
-> > unless there are objections.
->
-> Yes, that'd be good, along with just not allocating if no stacktraces
-> are requested per kasan.stacktrace=.
+From: Andrey Konovalov <andreyknvl@google.com>
 
-Sounds good, will do in v2.
+This series makes the tag-based KASAN modes use a ring buffer for storing
+stack depot handles for alloc/free stack traces for slab objects instead
+of per-object metadata. This ring buffer is referred to as the stack ring.
 
-> > +struct kasan_stack_ring_entry {
-> > +     atomic64_t ptr;         /* void * */
-> > +     atomic64_t size;        /* size_t */
-> > +     atomic_t pid;           /* u32 */
-> > +     atomic_t stack;         /* depot_stack_handle_t */
-> > +     atomic_t is_free;       /* bool */
->
-> Per comments below, consider making these non-atomic.
+On each alloc/free of a slab object, the tagged address of the object and
+the current stack trace are recorded in the stack ring.
 
-Will do in v2.
+On each bug report, if the accessed address belongs to a slab object, the
+stack ring is scanned for matching entries. The newest entries are used to
+print the alloc/free stack traces in the report: one entry for alloc and
+one for free.
 
-> >  void kasan_complete_mode_report_info(struct kasan_report_info *info)
-> >  {
-> > +     u64 pos;
-> > +     struct kasan_stack_ring_entry *entry;
-> > +     void *object;
-> > +     u32 pid;
-> > +     depot_stack_handle_t stack;
-> > +     bool is_free;
->
-> If you switch away from atomic for kasan_stack_ring_entry members, you
-> can just replace the above with a 'struct kasan_stack_ring_entry' and
-> READ_ONCE() each entry into it below.
+The advantages of this approach over storing stack trace handles in
+per-object metadata with the tag-based KASAN modes:
 
-It would be a bit confusing to have two kasan_stack_ring_entry-based
-variable in the function. I'll keep the current code if you don't
-mind.
+- Allows to find relevant stack traces for use-after-free bugs without
+  using quarantine for freed memory. (Currently, if the object was
+  reallocated multiple times, the report contains the latest alloc/free
+  stack traces, not necessarily the ones relevant to the buggy allocation.)
+- Allows to better identify and mark use-after-free bugs, effectively
+  making the CONFIG_KASAN_TAGS_IDENTIFY functionality always-on.
+- Has fixed memory overhead.
 
-> > +     bool alloc_found = false, free_found = false;
-> > +
-> >       info->bug_type = get_bug_type(info);
-> > +
-> > +     if (!info->cache || !info->object)
-> > +             return;
-> > +
-> > +     pos = atomic64_read(&stack_ring.pos);
-> > +
-> > +     for (u64 i = pos - 1; i != pos - 1 - KASAN_STACK_RING_ENTRIES; i--) {
-> > +             if (alloc_found && free_found)
-> > +                     break;
-> > +
-> > +             entry = &stack_ring.entries[i % KASAN_STACK_RING_ENTRIES];
-> > +
-> > +             /* Paired with atomic64_set_release() in save_stack_info(). */
-> > +             object = (void *)atomic64_read_acquire(&entry->ptr);
-> > +
-> > +             if (kasan_reset_tag(object) != info->object ||
-> > +                 get_tag(object) != get_tag(info->access_addr))
-> > +                     continue;
-> > +
-> > +             pid = atomic_read(&entry->pid);
-> > +             stack = atomic_read(&entry->stack);
-> > +             is_free = atomic_read(&entry->is_free);
-> > +
-> > +             /* Try detecting if the entry was changed while being read. */
-> > +             smp_mb();
-> > +             if (object != (void *)atomic64_read(&entry->ptr))
-> > +                     continue;
->
-> What if the object was changed, but 'ptr' is the same? It might very
-> well be possible to then read half of the info of the previous object,
-> and half of the new object (e.g. pid is old, stack is new).
->
-> Is the assumption that it is extremely unlikely that this will happen
-> where 1) address is the same, and 2) tags are the same? And if it does
-> happen, it is unlikely that there'll be a bug on that address?
->
-> It might be worth stating this in comments.
+The disadvantage:
 
-This part will be removed in v2 due to the addition of an rwlock, but
-I'll add a comment about the stack ring being best-effort anyway.
+- If the affected object was allocated/freed long before the bug happened
+  and the stack trace events were purged from the stack ring, the report
+  will have no stack traces.
 
-> Another thing is, if there's a bug, but concurrently you have tons of
-> allocations/frees that change the ring's entries at a very high rate,
-> how likely is it that the entire ring will have been wiped before the
-> entry of interest is found again?
->
-> One way to guard against this is to prevent modifications of the ring
-> while the ring is searched. This could be implemented with a
-> percpu-rwsem, which is almost free for read-lockers but very expensive
-> for write-lockers. Insertions only acquire a read-lock, but on a bug
-> when searching the ring, you have to acquire a write-lock. Although you
-> currently take the contention hit for incrementing 'pos', so a plain
-> rwlock might also be ok.
+Discussion
+==========
 
-Will add an rwlock in v2.
+The proposed implementation of the stack ring uses a single ring buffer for
+the whole kernel. This might lead to contention due to atomic accesses to
+the ring buffer index on multicore systems.
 
-> It would be good to understand the probabilities of these corner cases
-> with some average to worst case workloads, and optimize based on that.
+At this point, it is unknown whether the performance impact from this
+contention would be significant compared to the slowdown introduced by
+collecting stack traces due to the planned changes to the latter part,
+see the section below.
 
-With the new synchronizations and checks added in v2, the only
-problematic issue is when the stack ring overflows. Please see my
-response to your cover letter comment wrt this.
+For now, the proposed implementation is deemed to be good enough, but this
+might need to be revisited once the stack collection becomes faster.
 
-> > +struct kasan_stack_ring stack_ring;
->
-> This is a very large struct. Can it be allocated by memblock_alloc()
-> very early on only if required (kasan.stacktrace= can still switch it
-> off, right?).
+A considered alternative is to keep a separate ring buffer for each CPU
+and then iterate over all of them when printing a bug report. This approach
+requires somehow figuring out which of the stack rings has the freshest
+stack traces for an object if multiple stack rings have them.
 
-Will do in v2.
+Further plans
+=============
 
-> > +void save_stack_info(struct kmem_cache *cache, void *object,
-> > +                     gfp_t flags, bool is_free)
->
-> static void save_stack_info(...)
+This series is a part of an effort to make KASAN stack trace collection
+suitable for production. This requires stack trace collection to be fast
+and memory-bounded.
 
-Right, will do in v2.
+The planned steps are:
 
-> > +{
-> > +     u64 pos;
-> > +     struct kasan_stack_ring_entry *entry;
-> > +     depot_stack_handle_t stack;
-> > +
-> > +     stack = kasan_save_stack(flags, true);
-> > +
-> > +     pos = atomic64_fetch_add(1, &stack_ring.pos);
-> > +     entry = &stack_ring.entries[pos % KASAN_STACK_RING_ENTRIES];
-> > +
-> > +     atomic64_set(&entry->size, cache->object_size);
-> > +     atomic_set(&entry->pid, current->pid);
-> > +     atomic_set(&entry->stack, stack);
-> > +     atomic_set(&entry->is_free, is_free);
-> > +
->
-> I don't see the point of these being atomic. You can make them normal
-> variables with the proper types, and use READ_ONCE() / WRITE_ONCE().
->
-> The only one where you truly need the atomic type is 'pos'.
+1. Speed up stack trace collection (potentially, by using SCS;
+   patches on-hold until steps #2 and #3 are completed).
+2. Keep stack trace handles in the stack ring (this series).
+3. Add a memory-bounded mode to stack depot or provide an alternative
+   memory-bounded stack storage.
+4. Potentially, implement stack trace collection sampling to minimize
+   the performance impact.
 
-Will do in v2.
+Thanks!
 
-> > +     /*
-> > +      * Paired with atomic64_read_acquire() in
-> > +      * kasan_complete_mode_report_info().
-> > +      */
-> > +     atomic64_set_release(&entry->ptr, (s64)object);
->
-> This could be smp_store_release() and 'ptr' can be just a normal pointer.
+---
 
-Will do in v2.
+Changes v1->v2:
+- Rework synchronization in the stack ring implementation.
+- Dynamically allocate stack ring based on the kasan.stack_ring_size
+  command-line parameter.
+- Multiple less significant changes, see the notes in patches for details.
 
-> One thing that is not entirely impossible though (vs. re-reading same
-> pointer but inconsistent fields I mentioned above), is if something
-> wants to write to the ring, but stalls for a very long time before the
-> release of 'ptr', giving 'pos' the chance to wrap around and another
-> writer writing the same entry. Something like:
->
->   T0                                    | T1
->   --------------------------------------+--------------------------------
->   WRITE_ONCE(entry->size, ..)           |
->   WRITE_ONCE(entry->pid, ..)            |
->                                         | WRITE_ONCE(entry->size, ..)
->                                         | WRITE_ONCE(entry->pid, ..)
->                                         | WRITE_ONCE(entry->stack, ..)
->                                         | WRITE_ONCE(entry->is_free, ..)
->                                         | smp_store_release(entry->ptr, ...)
->   WRITE_ONCE(entry->stack, ..)          |
->   WRITE_ONCE(entry->is_free, ..)        |
->   smp_store_release(entry->ptr, ...)    |
->
-> Which results in some mix of T0's and T1's data.
->
-> The way to solve this is to implement a try-lock using 'ptr':
->
->         #define BUSY_PTR ((void*)1)  // non-zero because initial values are 0
->         old_ptr = READ_ONCE(entry->ptr);
->         if (old_ptr == BUSY_PTR)
->                 goto next; /* Busy slot. */
->         if (!try_cmpxchg(&entry->ptr, &old_ptr, BUSY_PTR))
->                 goto next; /* Busy slot. */
->         ... set fields as before ...
->         smp_store_release(&entry->ptr, object);
+Andrey Konovalov (33):
+  kasan: check KASAN_NO_FREE_META in __kasan_metadata_size
+  kasan: rename kasan_set_*_info to kasan_save_*_info
+  kasan: move is_kmalloc check out of save_alloc_info
+  kasan: split save_alloc_info implementations
+  kasan: drop CONFIG_KASAN_TAGS_IDENTIFY
+  kasan: introduce kasan_print_aux_stacks
+  kasan: introduce kasan_get_alloc_track
+  kasan: introduce kasan_init_object_meta
+  kasan: clear metadata functions for tag-based modes
+  kasan: move kasan_get_*_meta to generic.c
+  kasan: introduce kasan_requires_meta
+  kasan: introduce kasan_init_cache_meta
+  kasan: drop CONFIG_KASAN_GENERIC check from kasan_init_cache_meta
+  kasan: only define kasan_metadata_size for Generic mode
+  kasan: only define kasan_never_merge for Generic mode
+  kasan: only define metadata offsets for Generic mode
+  kasan: only define metadata structs for Generic mode
+  kasan: only define kasan_cache_create for Generic mode
+  kasan: pass tagged pointers to kasan_save_alloc/free_info
+  kasan: move kasan_get_alloc/free_track definitions
+  kasan: cosmetic changes in report.c
+  kasan: use virt_addr_valid in kasan_addr_to_page/slab
+  kasan: use kasan_addr_to_slab in print_address_description
+  kasan: make kasan_addr_to_page static
+  kasan: simplify print_report
+  kasan: introduce complete_report_info
+  kasan: fill in cache and object in complete_report_info
+  kasan: rework function arguments in report.c
+  kasan: introduce kasan_complete_mode_report_info
+  kasan: implement stack ring for tag-based modes
+  kasan: support kasan.stacktrace for SW_TAGS
+  kasan: dynamically allocate stack ring entries
+  kasan: better identify bug types for tag-based modes
 
-Sounds good, will do in v2.
+ Documentation/dev-tools/kasan.rst |  15 ++-
+ include/linux/kasan.h             |  55 ++++------
+ include/linux/slab.h              |   2 +-
+ lib/Kconfig.kasan                 |   8 --
+ mm/kasan/common.c                 | 175 +++---------------------------
+ mm/kasan/generic.c                | 154 ++++++++++++++++++++++++--
+ mm/kasan/hw_tags.c                |  39 +------
+ mm/kasan/kasan.h                  | 173 ++++++++++++++++++++---------
+ mm/kasan/report.c                 | 117 +++++++++-----------
+ mm/kasan/report_generic.c         |  45 +++++++-
+ mm/kasan/report_tags.c            | 128 +++++++++++++++++-----
+ mm/kasan/sw_tags.c                |   5 +-
+ mm/kasan/tags.c                   | 138 ++++++++++++++++++-----
+ 13 files changed, 620 insertions(+), 434 deletions(-)
 
-Thank you, Marco!
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZd5iataHnyBv9CVaXKN-2Ac%3DyLdODweMDiQB70nHZtpOA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cover.1658189199.git.andreyknvl%40google.com.
