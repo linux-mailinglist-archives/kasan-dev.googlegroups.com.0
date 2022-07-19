@@ -1,126 +1,136 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB5NQ3KLAMGQEVWQSJXI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBE5V3KLAMGQEYEET3SQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9045798A8
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jul 2022 13:41:43 +0200 (CEST)
-Received: by mail-pl1-x63a.google.com with SMTP id e11-20020a17090301cb00b0016c3375abd3sf8437498plh.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jul 2022 04:41:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1658230902; cv=pass;
+Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id B454F5798C2
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Jul 2022 13:50:44 +0200 (CEST)
+Received: by mail-il1-x13d.google.com with SMTP id h11-20020a92c26b000000b002dd0139d9dasf658111ild.20
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Jul 2022 04:50:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1658231443; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CbLURwbYREVNNL864HkW2ft0InAZV7CIuSBtpl1oM/JZcejBRghNlaSKixiXMhQoLh
-         nFsfl8BM3j+p9+57169BOVBb76XIAxoXLJu+S1XiNcHRNlUnYWy/Tq9nKtA35k6AN9Ol
-         4TKkwf124nXbjGgZWL8HZY++tuCn5XpfLGcom/vVE6LQeIwchVbGrXgCYT6BLgH8mUUE
-         QBdJ6SXQw/vD/27cd072FYDcyA5XvMleYXbMJIlv2NJb4yRcB9Sz4xkTFrerG/dQGn6L
-         GqaKvDP3AfJFR1ekLpwH1e7yWTPUlVsWODbIoGORq7yOMsOen8yUfbu503GUXmmu1+FZ
-         wtNQ==
+        b=pTVUD7cA4ArEXVjrXW5J+4iKoyBsV8Jbu5/kq3vepiT3xuRranklro/A4sAZrQ9xAw
+         d6cjZWv3H3FZzm9OdGvzUWFzxjSPwrxA4eoBG1hNvKP6aSHfUyJGSBjgTuBfBBx3rSyP
+         LAGae7A3wYmjbgcVvVx92nDw6iY5rAd8gX7LCRebpH67LIuNwPKpRNreRfSWraoPZntv
+         fvzh+nH5JqsGs9n0uId35g+cOmx89LWWWlCK10L3xF5aoz1egf5Ffr0p5ePrIZ51qcL5
+         cYNwCikyHxtsADwZnkyjn7vK5yG1YUZ01/PlquCkYYZY52n2vqn0/mtLzodaVPRPp0ew
+         8KqQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=GxiX2gKATU8V5/WO37MOxpWN8WbYo5Z6tS/fvGQCMAQ=;
-        b=yg4QHf00Y0rsH2mh+o9PG4j+yVvRZYQlopFVQFNAgQh4oS/EOUSPAA3PTU9nrR2KrW
-         KZys1yic22kS1mdK7K11LHLvqakIRowEkEmfDSKWOIVE0vHgXVSaTLZXpBRfRiXL5qsQ
-         ImdVmSMpISMk66J/mMgOZHwmmi4ts3wUX52EuKMvDexL7K2wqoGLlPdZpPQdCuk83C9U
-         Hj4+/Z8Otom+uwXXbY4/tAXvP6y6tjIaJYuOdrzsWwLfJ8PGK2Q0NS2y9YDkiQbFNRY9
-         eEaSEzvJvA7n6MULvuwf5ayyZsXR6SznoQKL4Qhz7imfPYutM8mLnUh6ySFcbHz5RwT/
-         KF1w==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=Fg15PXPRGuqKRYWj2DijQPVrazWUN08sSznLaJa9TW4=;
+        b=hBz0OPE3B2ipTOmxgJGGUT+NizMiSIS56cgFJes1+7UPPyEezgj0UJwgtGskjeTg4c
+         aFnzWJ7CIASg+csicFRv9pqXYVD9BBl1sHYFcORNFUWCUk7sDFPYBOhFxNpxCK1srXVq
+         SOcYs4qJS8ioijWl+ktAKNzuJTWvp+ssFSQaAX398YyiWOUQWvnU18SX505BczJ1Bx5Q
+         cS9bdBeggMT0h7EyGPXCIBGnGrAnAg1zAHyeuoNUcE7cfdei2easCANmpQgGQPVKgkaC
+         uFeLfKGtk1tqZIvlS4dxQ+StUD+0DvYe+mU44r+eSgk53u50XoXv9SDYcaXGBKg8wiuA
+         NQ0A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=mXoGlvDq;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1134 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=GxiX2gKATU8V5/WO37MOxpWN8WbYo5Z6tS/fvGQCMAQ=;
-        b=nrRb4k8zHul6T/NrHyz1h572yNDN0O/DBlQd71enlwTV8ks8SdWzER9A9V/ZCr2Xdv
-         ItGFhPX0diC4MPBnh09wZBW7hWDs4Qj+SVcee8iz8mSLUiiqUKiehEmyp/vIyKxPFdwT
-         jFjOOZLzEmE+yFgGJ4W7wEFE/0hQM3XYawGGX914fWekR/FV6lZRTcFBARaIsYEi4RRw
-         815LDfacS8cfeeCLjGf1sUzgZp1WX0eWR9sv+HiVzn6O238oOlcKiIZ9/m88M1TFungh
-         qcb0EKE0Zp+jT/EDMIIqxkU4lSY/O7XWjzzljgovZh8+CKZoCxvyli7kaiXggocXkiKY
-         FR4g==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=Fg15PXPRGuqKRYWj2DijQPVrazWUN08sSznLaJa9TW4=;
+        b=XiyiejS5lyYAlp4BXz8Vjpf3rWTWbd3yXQArawd6Z5no6KWUMXjKhowzLvH5dS0miJ
+         0f2lC8X18ZUKalrR63KQMJYbIvSXS+uVTsDcdA691fke+gIMNlTtLOzmvCibzMeAN+nK
+         bcbnTO/DI6l/LywRPCruyODAnWQcLinUkjHqVjdokgYvGq1UoQyn4uv6/86b4yiowcuJ
+         3BQXaUKjxKlib09l6Mke1CFS9H/QsUeJBmIk94Atz11b8fu4I5353ykCjr1po7PsyF4Y
+         Q1tdabLnIxZZZaxuXnG7hxPBAASgCVPRsPqqKczWmvbdisV489eUZVbU81pUH4HM2A9x
+         baXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=GxiX2gKATU8V5/WO37MOxpWN8WbYo5Z6tS/fvGQCMAQ=;
-        b=yvCWwD15xC5tEFuakXs5/Wq+FyHsiFXzVkvxARAh7bn8veSd7AfhHk5MOK3BlPIuSx
-         jNKKxWIn1TQ6+DpNngoowFRAWyL+KMa/Q/Ki8cWipF+7qQlSKuJT7tirpfB9WiUmhxJS
-         sEgB/V6n9MZX3NmJG312uZQYZkFgMBRgQjm8xARJr4C3b0FHb5z29tRJ3hz+K0P1TI7m
-         Y7iEJ9KFdfS71+/t9yjsF7uFZxpnogVGDH97sKzDYpa42qjjebgESWCeygR2EaehWCjz
-         eqKyInoA38MK5zzpF55LMVKe8SPuXslCJFoq84o9h5GVny9NMe4v8SDSl8GcFG9fBvI1
-         htSw==
-X-Gm-Message-State: AJIora9Nvnh4LSWoFSASspfn84YsITKm4OdZS9Blxq15wUNdMUnv3YtF
-	bp12z+AvIPr8Urv1vaIF6Bo=
-X-Google-Smtp-Source: AGRyM1uQD3ubo15wTaJvYHyoG5h4ciiQxMZG9MopDcQbWqY1LY8QjwqgPROzPr8E3yWicxpX4jrkmw==
-X-Received: by 2002:a17:90b:2241:b0:1f0:2fa5:184f with SMTP id hk1-20020a17090b224100b001f02fa5184fmr44340951pjb.97.1658230901589;
-        Tue, 19 Jul 2022 04:41:41 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=Fg15PXPRGuqKRYWj2DijQPVrazWUN08sSznLaJa9TW4=;
+        b=X1Jzx6SwM1+DAbvMVboyIEm25ypHx0jStaUO0MyutawOltP5VYsXVW2iTgyJ25ENF3
+         c2+tas34IGYZIZOFe0L8rbLe4tFBYFGr2yTK3b06o5BXTHCEffd12P+dihGnN9exEgVF
+         ZrXNrkrgZi85FbHnFGJpdjhtHnyNhCNuqw6kR0QGxz+rcBosczJGY1+sXJCOA0lzpLjn
+         hSDy3xlzn7ixfYCN0j1mI4hPrljK+xHpzul8XWJidNcm3yg2ccRUPpxDwaKt1KbaSBbU
+         180ewl5XV422gq0YgB4PPSSrEgFRuXSB3H3LCFBytiMFV+qoK/q5NM7VYMrgYCWd+uSw
+         Tc6g==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AJIora+9q/rBDJgGliCInOsFhhhaFwt/NXSp7gEhqzKKKo5a0sTszNfy
+	Xw4aMZrUI30gKNaEjVzim10=
+X-Google-Smtp-Source: AGRyM1uwDYtO+5wUOY1AYbwsFunI37Waf7s2V9lFKF0sKyo48gPPPC3zKGMIPbsummhGYKQIqDZLsA==
+X-Received: by 2002:a05:6e02:1a0a:b0:2dc:7a5e:5869 with SMTP id s10-20020a056e021a0a00b002dc7a5e5869mr16111867ild.90.1658231443285;
+        Tue, 19 Jul 2022 04:50:43 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:864a:0:b0:419:d02c:289b with SMTP id x71-20020a63864a000000b00419d02c289bls4695262pgd.9.gmail;
- Tue, 19 Jul 2022 04:41:40 -0700 (PDT)
-X-Received: by 2002:a05:6a00:1d26:b0:528:3a25:ea3c with SMTP id a38-20020a056a001d2600b005283a25ea3cmr33030337pfx.67.1658230900690;
-        Tue, 19 Jul 2022 04:41:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1658230900; cv=none;
+Received: by 2002:a05:6e02:1106:b0:2dd:613:6330 with SMTP id
+ u6-20020a056e02110600b002dd06136330ls31951ilk.3.-pod-prod-gmail; Tue, 19 Jul
+ 2022 04:50:42 -0700 (PDT)
+X-Received: by 2002:a05:6e02:17c6:b0:2dc:1d37:5133 with SMTP id z6-20020a056e0217c600b002dc1d375133mr16808573ilu.297.1658231442765;
+        Tue, 19 Jul 2022 04:50:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1658231442; cv=none;
         d=google.com; s=arc-20160816;
-        b=cMa/7SpC+unhWqFfwogbOYXU2ct1FYNAlzbzL1JTnRxk/KlIViLym2XJzy5uUR3Vm4
-         n+BhVU4/E6f1UEh6ObExExff/Z31Bqru+p3MQ3R4moPOc0dTZSXWGzb5i3j4UQlh6ypF
-         puCArrlT4Q9aIdGenvWqi9rK85wRXdM+FgV9/Q1TP2PDw0zEjeuAoYQw1Lsl9NUueDxI
-         ISDe4HIePFarHvTKlbXkjAcwWCGyT4vVxSt0T6lZFoAyaVxGv4+CD5aztcSr1oX0IhM/
-         PMfIr8I0rrps//QWzb+CZxp9YvKUaUU64b1sS7iJ+2Jnt1yCM97UixN2mqSgOIg9EszG
-         dZQw==
+        b=b5fLkMUsQGz1C2RzMlVoIKwizZa8h9OQurLWc0nC/ur0to4Xa4Y7ck98D0u8c6sl7H
+         dx9eQIoX5ScGVe3hUz2OHjuGss0i1U129CiWub5qv8cTjOtANPVK9nyjIVnZkgaD3tvE
+         zKq9+zk6ZtI+oPS4IqzhGrHkxrp8z493FXVRYXmp3RPes5SoxNcxGpHiSm4LKX3WEiKu
+         BO0T23s/EoeWoQKOwfFDGVoGqE61rDcXdxfC99ri2i6QG9PcEYQVxkopfvsss3WvRpFr
+         D3rM+hi6bng1vic9pRNua7+GCfJRj2RShdeREAulrlVfsjLSzGD23K9KPG9GSp273IRP
+         Ad3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=xi609iWd+t1xpxJ70rNlw8Yfb5LgcoJNw18fVkapUSc=;
-        b=a2Huuw2+suH+VAAViF/h6bdH4/fAz+n3gImXg203owOaMO0b2ZcBRfxQ7jN+pUVpZU
-         DWOJwnatEzoCzobsK6H8ekE5SL7p89S320lda1vDgnT0LDZji4VtEGiW9gnmmh88ekU2
-         kZoT+Q/B67U9/c6z3Xn3V0CwVJcV3hK8uR8PYbckthI3mW5hzeUDfqXFDgyUfv7EYGRq
-         iod8btfpi9ZfZugbPi+guL7bORXnceCiup3nxKQEvfRNXljVjqIZPAEyGR4bC4Q9oOXZ
-         fDFaqUmud/W14ndEnaE66+sEaPwZxJY3oueSYLdgYdehzIAn/wa0FZVGUZEAH/M/M3GZ
-         rV3g==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=OLuSjFfvcEuEmaQo9SbJ+jxYDKXN8EVDEVD/m4JEzVU=;
+        b=lQ559+hcFUgmvfJGum4rFE/ALzyVcL7nYpF1W5pIzhZXeTegQzm65+fkli/NBEX51U
+         xDai9XWhk4noBByZZ3t6Opw4IQC/hd00s1Uj/RfmJwy4yXZ5vzzoKWO//PZAQnbVLu9d
+         YqyUHqDS6yGaawVecvTFBHkyTC1YY6kzRgDIDozdNAkgjllzAx+eb+C73SiwZTikEKeh
+         DDEWs7ugwLxdyNf2XWP2QTVD7BYj0GRpfoyZ3ihrpPLu2cvuk2m714OSUtqjGRfyVqZF
+         fwGcBZcahbAOTxs2jVEGNLLooMtIqcyJL1hMbQvjTuiOikw0r6DMhgo1c4R3e0N1w6SK
+         0lGw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=mXoGlvDq;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1134 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com. [2607:f8b0:4864:20::1134])
-        by gmr-mx.google.com with ESMTPS id p28-20020a056a0026dc00b0052b62393657si272971pfw.4.2022.07.19.04.41.40
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id g18-20020a92c7d2000000b002dcda4e18bfsi432196ilk.5.2022.07.19.04.50.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jul 2022 04:41:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1134 as permitted sender) client-ip=2607:f8b0:4864:20::1134;
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-31d85f82f0bso137427187b3.7
-        for <kasan-dev@googlegroups.com>; Tue, 19 Jul 2022 04:41:40 -0700 (PDT)
-X-Received: by 2002:a0d:e60d:0:b0:31c:8046:8ff with SMTP id
- p13-20020a0de60d000000b0031c804608ffmr36027909ywe.412.1658230900185; Tue, 19
- Jul 2022 04:41:40 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 Jul 2022 04:50:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 4A3DF6162A;
+	Tue, 19 Jul 2022 11:50:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A21C341C6;
+	Tue, 19 Jul 2022 11:50:39 +0000 (UTC)
+Date: Tue, 19 Jul 2022 12:50:35 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, yee.lee@mediatek.com,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	"open list:KFENCE" <kasan-dev@googlegroups.com>,
+	"open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
+	"moderated list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>,
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH v2 1/1] mm: kfence: apply kmemleak_ignore_phys on early
+ allocated pool
+Message-ID: <Ytaai+yWz0JG4a6O@arm.com>
+References: <20220628113714.7792-1-yee.lee@mediatek.com>
+ <20220628113714.7792-2-yee.lee@mediatek.com>
+ <CAMuHMdX=MTsmo5ZVa8ya3xmr4Mx7f0PB3gvFF42pdaTYB6-u5A@mail.gmail.com>
+ <20220715163305.e70c8542d5e7d96c5fd87185@linux-foundation.org>
+ <CAMuHMdWSsibmL=LauLm+OTn0SByLA4tGsbhbMsnvSRdb381RTQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1658189199.git.andreyknvl@google.com> <0e910197bfbcf505122f6dae2ee9b90ff8ee31f7.1658189199.git.andreyknvl@google.com>
-In-Reply-To: <0e910197bfbcf505122f6dae2ee9b90ff8ee31f7.1658189199.git.andreyknvl@google.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 19 Jul 2022 13:41:04 +0200
-Message-ID: <CANpmjNMrwXxU0YCwvHo59RFDkoxA-MtdrRCSPoRW+KYG2ez-NQ@mail.gmail.com>
-Subject: Re: [PATCH mm v2 30/33] kasan: implement stack ring for tag-based modes
-To: andrey.konovalov@linux.dev
-Cc: Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com, 
-	Peter Collingbourne <pcc@google.com>, Evgenii Stepanov <eugenis@google.com>, Florian Mayer <fmayer@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=mXoGlvDq;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1134 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWSsibmL=LauLm+OTn0SByLA4tGsbhbMsnvSRdb381RTQ@mail.gmail.com>
+X-Original-Sender: catalin.marinas@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of cmarinas@kernel.org designates 2604:1380:4641:c500::1
+ as permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,261 +143,54 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 19 Jul 2022 at 02:15, <andrey.konovalov@linux.dev> wrote:
->
-> From: Andrey Konovalov <andreyknvl@google.com>
->
-> Implement storing stack depot handles for alloc/free stack traces for
-> slab objects for the tag-based KASAN modes in a ring buffer.
->
-> This ring buffer is referred to as the stack ring.
->
-> On each alloc/free of a slab object, the tagged address of the object and
-> the current stack trace are recorded in the stack ring.
->
-> On each bug report, if the accessed address belongs to a slab object, the
-> stack ring is scanned for matching entries. The newest entries are used to
-> print the alloc/free stack traces in the report: one entry for alloc and
-> one for free.
->
-> The number of entries in the stack ring is fixed in this patch, but one of
-> the following patches adds a command-line argument to control it.
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->
-> ---
->
-> Changes v1->v2:
-> - Only use the atomic type for pos, use READ/WRITE_ONCE() for the rest.
-> - Rename KASAN_STACK_RING_ENTRIES to KASAN_STACK_RING_SIZE.
-> - Rename object local variable in kasan_complete_mode_report_info() to
->   ptr to match the name in kasan_stack_ring_entry.
-> - Detect stack ring entry slots that are being written to.
-> - Use read-write lock to disallow reading half-written stack ring entries.
-> - Add a comment about the stack ring being best-effort.
-> ---
->  mm/kasan/kasan.h       | 21 ++++++++++++
->  mm/kasan/report_tags.c | 76 ++++++++++++++++++++++++++++++++++++++++++
->  mm/kasan/tags.c        | 50 +++++++++++++++++++++++++++
->  3 files changed, 147 insertions(+)
->
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 7df107dc400a..cfff81139d67 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -2,6 +2,7 @@
->  #ifndef __MM_KASAN_KASAN_H
->  #define __MM_KASAN_KASAN_H
->
-> +#include <linux/atomic.h>
->  #include <linux/kasan.h>
->  #include <linux/kasan-tags.h>
->  #include <linux/kfence.h>
-> @@ -233,6 +234,26 @@ struct kasan_free_meta {
->
->  #endif /* CONFIG_KASAN_GENERIC */
->
-> +#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
-> +
-> +struct kasan_stack_ring_entry {
-> +       void *ptr;
-> +       size_t size;
-> +       u32 pid;
-> +       depot_stack_handle_t stack;
-> +       bool is_free;
-> +};
-> +
-> +#define KASAN_STACK_RING_SIZE (32 << 10)
-> +
-> +struct kasan_stack_ring {
-> +       rwlock_t lock;
-> +       atomic64_t pos;
-> +       struct kasan_stack_ring_entry entries[KASAN_STACK_RING_SIZE];
-> +};
-> +
-> +#endif /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS */
-> +
->  #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
->  /* Used in KUnit-compatible KASAN tests. */
->  struct kunit_kasan_status {
-> diff --git a/mm/kasan/report_tags.c b/mm/kasan/report_tags.c
-> index 5cbac2cdb177..a996489e6dac 100644
-> --- a/mm/kasan/report_tags.c
-> +++ b/mm/kasan/report_tags.c
-> @@ -4,8 +4,12 @@
->   * Copyright (c) 2020 Google, Inc.
->   */
->
-> +#include <linux/atomic.h>
-> +
->  #include "kasan.h"
->
-> +extern struct kasan_stack_ring stack_ring;
-> +
->  static const char *get_bug_type(struct kasan_report_info *info)
->  {
->         /*
-> @@ -24,5 +28,77 @@ static const char *get_bug_type(struct kasan_report_info *info)
->
->  void kasan_complete_mode_report_info(struct kasan_report_info *info)
->  {
-> +       unsigned long flags;
-> +       u64 pos;
-> +       struct kasan_stack_ring_entry *entry;
-> +       void *ptr;
-> +       u32 pid;
-> +       depot_stack_handle_t stack;
-> +       bool is_free;
-> +       bool alloc_found = false, free_found = false;
-> +
->         info->bug_type = get_bug_type(info);
-> +
-> +       if (!info->cache || !info->object)
-> +               return;
-> +       }
-> +
-> +       write_lock_irqsave(&stack_ring.lock, flags);
-> +
-> +       pos = atomic64_read(&stack_ring.pos);
-> +
-> +       /*
-> +        * The loop below tries to find stack ring entries relevant to the
-> +        * buggy object. This is a best-effort process.
-> +        *
-> +        * First, another object with the same tag can be allocated in place of
-> +        * the buggy object. Also, since the number of entries is limited, the
-> +        * entries relevant to the buggy object can be overwritten.
-> +        */
-> +
-> +       for (u64 i = pos - 1; i != pos - 1 - KASAN_STACK_RING_SIZE; i--) {
-> +               if (alloc_found && free_found)
-> +                       break;
-> +
-> +               entry = &stack_ring.entries[i % KASAN_STACK_RING_SIZE];
-> +
-> +               /* Paired with smp_store_release() in save_stack_info(). */
-> +               ptr = (void *)smp_load_acquire(&entry->ptr);
-> +
-> +               if (kasan_reset_tag(ptr) != info->object ||
-> +                   get_tag(ptr) != get_tag(info->access_addr))
-> +                       continue;
-> +
-> +               pid = READ_ONCE(entry->pid);
-> +               stack = READ_ONCE(entry->stack);
-> +               is_free = READ_ONCE(entry->is_free);
-> +
-> +               /* Try detecting if the entry was changed while being read. */
-> +               smp_mb();
-> +               if (ptr != (void *)READ_ONCE(entry->ptr))
-> +                       continue;
+On Sat, Jul 16, 2022 at 08:43:06PM +0200, Geert Uytterhoeven wrote:
+> On Sat, Jul 16, 2022 at 1:33 AM Andrew Morton <akpm@linux-foundation.org> wrote:
+> > On Fri, 15 Jul 2022 10:17:43 +0200 Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Tue, Jun 28, 2022 at 1:42 PM <yee.lee@mediatek.com> wrote:
+> > > > From: Yee Lee <yee.lee@mediatek.com>
+> > > >
+> > > > This patch solves two issues.
+> > > >
+> > > > (1) The pool allocated by memblock needs to unregister from
+> > > > kmemleak scanning. Apply kmemleak_ignore_phys to replace the
+> > > > original kmemleak_free as its address now is stored in the phys tree.
+> > > >
+> > > > (2) The pool late allocated by page-alloc doesn't need to unregister.
+> > > > Move out the freeing operation from its call path.
+> > > >
+> > > > Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+> > > > Suggested-by: Marco Elver <elver@google.com>
+> > > > Signed-off-by: Yee Lee <yee.lee@mediatek.com>
+> > >
+> > > Thank you, this fixes the storm of
+> > >
+> > >     BUG: KFENCE: invalid read in scan_block+0x78/0x130
+> > >     BUG: KFENCE: use-after-free read in scan_block+0x78/0x130
+> > >     BUG: KFENCE: out-of-bounds read in scan_block+0x78/0x130
+> > >
+> > > messages I was seeing on arm64.
+> >
+> > Thanks, but...
+> >
+> > - It would be great if we could identify a Fixes: for this.
+> 
+> IIRC, I started seeing the issue with "[PATCH v4 3/4] mm:
+> kmemleak: add rbtree and store physical address for objects
+> allocated with PA" (i.e. commit 0c24e061196c21d5 ("mm: kmemleak:
+> add rbtree and store physical address for objects allocated
+> with PA")) of series "[PATCH v4 0/4] mm: kmemleak: store objects
+> allocated with physical address separately and check when scan"
+> (https://lore.kernel.org/all/20220611035551.1823303-1-patrick.wang.shcn@gmail.com),
+> in an arm64 config that had enabled kfence.
 
-I thought the re-validation is no longer needed because of the rwlock
-protection?
+Yes, I think it fixes 0c24e061196c21d5 since after that commit, the
+kmemleak_free() no longer worked as expected on physically allocated
+objects.
 
-The rest looks fine now.
-
-> +               if (is_free) {
-> +                       /*
-> +                        * Second free of the same object.
-> +                        * Give up on trying to find the alloc entry.
-> +                        */
-> +                       if (free_found)
-> +                               break;
-> +
-> +                       info->free_track.pid = pid;
-> +                       info->free_track.stack = stack;
-> +                       free_found = true;
-> +               } else {
-> +                       /* Second alloc of the same object. Give up. */
-> +                       if (alloc_found)
-> +                               break;
-> +
-> +                       info->alloc_track.pid = pid;
-> +                       info->alloc_track.stack = stack;
-> +                       alloc_found = true;
-> +               }
-> +       }
-> +
-> +       write_unlock_irqrestore(&stack_ring.lock, flags);
->  }
-> diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-> index 39a0481e5228..07828021c1f5 100644
-> --- a/mm/kasan/tags.c
-> +++ b/mm/kasan/tags.c
-> @@ -6,6 +6,7 @@
->   * Copyright (c) 2020 Google, Inc.
->   */
->
-> +#include <linux/atomic.h>
->  #include <linux/init.h>
->  #include <linux/kasan.h>
->  #include <linux/kernel.h>
-> @@ -16,11 +17,60 @@
->  #include <linux/types.h>
->
->  #include "kasan.h"
-> +#include "../slab.h"
-> +
-> +/* Non-zero, as initial pointer values are 0. */
-> +#define STACK_RING_BUSY_PTR ((void *)1)
-> +
-> +struct kasan_stack_ring stack_ring;
-> +
-> +static void save_stack_info(struct kmem_cache *cache, void *object,
-> +                       gfp_t gfp_flags, bool is_free)
-> +{
-> +       unsigned long flags;
-> +       depot_stack_handle_t stack;
-> +       u64 pos;
-> +       struct kasan_stack_ring_entry *entry;
-> +       void *old_ptr;
-> +
-> +       stack = kasan_save_stack(gfp_flags, true);
-> +
-> +       /*
-> +        * Prevent save_stack_info() from modifying stack ring
-> +        * when kasan_complete_mode_report_info() is walking it.
-> +        */
-> +       read_lock_irqsave(&stack_ring.lock, flags);
-> +
-> +next:
-> +       pos = atomic64_fetch_add(1, &stack_ring.pos);
-> +       entry = &stack_ring.entries[pos % KASAN_STACK_RING_SIZE];
-> +
-> +       /* Detect stack ring entry slots that are being written to. */
-> +       old_ptr = READ_ONCE(entry->ptr);
-> +       if (old_ptr == STACK_RING_BUSY_PTR)
-> +               goto next; /* Busy slot. */
-> +       if (!try_cmpxchg(&entry->ptr, &old_ptr, STACK_RING_BUSY_PTR))
-> +               goto next; /* Busy slot. */
-> +
-> +       WRITE_ONCE(entry->size, cache->object_size);
-> +       WRITE_ONCE(entry->pid, current->pid);
-> +       WRITE_ONCE(entry->stack, stack);
-> +       WRITE_ONCE(entry->is_free, is_free);
-> +
-> +       /*
-> +        * Paired with smp_load_acquire() in kasan_complete_mode_report_info().
-> +        */
-> +       smp_store_release(&entry->ptr, (s64)object);
-> +
-> +       read_unlock_irqrestore(&stack_ring.lock, flags);
-> +}
->
->  void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags)
->  {
-> +       save_stack_info(cache, object, flags, false);
->  }
->
->  void kasan_save_free_info(struct kmem_cache *cache, void *object)
->  {
-> +       save_stack_info(cache, object, GFP_NOWAIT, true);
->  }
-> --
-> 2.25.1
->
+-- 
+Catalin
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMrwXxU0YCwvHo59RFDkoxA-MtdrRCSPoRW%2BKYG2ez-NQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Ytaai%2ByWz0JG4a6O%40arm.com.
