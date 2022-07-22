@@ -1,133 +1,144 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBIHZ5GLAMGQEZQ3QYTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAZZCVNSYPBB44H5KLAMGQEHGKVN7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DA857DFDA
-	for <lists+kasan-dev@lfdr.de>; Fri, 22 Jul 2022 12:32:01 +0200 (CEST)
-Received: by mail-lf1-x13d.google.com with SMTP id d41-20020a0565123d2900b00489ed34ed26sf1709174lfv.15
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 Jul 2022 03:32:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1658485921; cv=pass;
+Received: from mail-ua1-x938.google.com (mail-ua1-x938.google.com [IPv6:2607:f8b0:4864:20::938])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2AB57E063
+	for <lists+kasan-dev@lfdr.de>; Fri, 22 Jul 2022 13:03:16 +0200 (CEST)
+Received: by mail-ua1-x938.google.com with SMTP id k36-20020ab04327000000b00382d2589eb2sf1962489uak.8
+        for <lists+kasan-dev@lfdr.de>; Fri, 22 Jul 2022 04:03:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1658487795; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wrAlrNPr39tcjAy8/skaKpUoqJSecZq8MapSXgsGgYIc5H5J6YJIJNNcijpYRFI9HS
-         k2Cyg3kEJ7JGgngJEewuXaU7i7g5ny7N52ClR2MoAZ6oa/4aAN7a0b6sVcFQkI0KQs4W
-         N8LR4uSiujsTlRrmUj9u6wh+gEaWoLrDGeMI/DOUM1Ahtv0+ykS3GJF8M+MPNTd+Y6hM
-         QMA3sv7xTbAuldmA6jnSm7h3vmsbQpBadHLywHgl6w46H+xF+KRLd6eP79WtU63QGU9r
-         SHKe69pNazUleyEKLEwR5LMqTCznqvkYjRRNPc0gp3WJAN070KM/M66yYJgrb/GIRXap
-         E4MA==
+        b=cKqRo0Gjhmjc216Cz/kjXEt+TlmU5h11cdD0gdRkB/yW5mD+8v2ky6J4uGKFF1h6SH
+         HpFIsgPl3K4OGIcZ4rVI5CBJn3WziRwYTkfw9C/ViTp4q22ykmag9tlTfx6XL+3pvYyV
+         vthlbcFE7ma1kN5CGIJmhYrPFF/NHEqqUnJuroP/VYcZGJwmJk0TzYP7/huANRhPwRUA
+         vgWak8CbApZwmhwn2g+F8d/4ZG+S7c9g0ZSdQM80IqlULR3vsDH5aUH/OSLoJFT6HhQj
+         EKyc2paIfXgWXkspX6l/qH7HJWWmnM7vrrSH0Qj5Odzr1FGN0x+USoOtKuKLLS8j0NfM
+         a+ZQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=WoZH5C5NrRv5vRsMu97op/fA201SfKEJg7kkiXHoayo=;
-        b=y+Ng47By7rZ6gAXkjB0In81FedTEto2ell2tXdPXScunbRpdGSd3YS+h/3XBzh1+vK
-         3+Zk9tQyvc2Sc8Kr7dmmQAJqCSMdvPOafQlRQhrmglhcU4whPLds5r9bKBhvwIAnoew9
-         tTahh/WmzgWTrnmR1cM2ZFgdmbg0bW9qTC/AHmB+73n5I1LGLCjjSbRRDinV5Ihpfkwo
-         vquF/rRXey7yqnAgBo6hDd6/w5dSjma1hNX8aLoQzvRtmEeRv7Ey88WosxuJEuiuho2v
-         DdtN0dVg3AMTguG6WB2AOSOBe4YsSXA5LoYTfYvIvDROSKYRKea9pxRfgfo+RsAqqITa
-         4+ww==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=lUGhrn9sprwwyRMpe04qwjG67jrSrcc3Mm6m10UBKqw=;
+        b=PtAgky2/1LtoIyhc/zgAChnGIOvqmigajd3Z78xrRnOiFn1djRWvZYYOhrSQ+zHLO2
+         dkO6w+mE2avHz+B3FlTWSYbIgYY2sYE3ECpsl5gmvTwQX1Eol7/o0N6KpLogvamdeHbW
+         xdqLdmu6WhonjrQgBD2AcnrM8ZHYHru0w8jdBl5GeXKgtDaB3M960hEIP8CXBW3Ueh6A
+         jw6vfl/1EnDWMl8TjJbSmnQu8FWrdWfN8RKHTRAlRX+GYqn0bz2Xwy/ny3H9urNYvEvw
+         VV6pZly2tJIrMywaM1IN72xTD7CVhXEn7JLHdZhI5hjST+CpfMGl3ZBTJIKkciiiYYta
+         /+3A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=pnVwjwP2;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=FLZZhI4A;
+       spf=pass (google.com: domain of will@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:x-original-sender:x-original-authentication-results:reply-to
-         :precedence:mailing-list:list-id:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WoZH5C5NrRv5vRsMu97op/fA201SfKEJg7kkiXHoayo=;
-        b=lTMP99M8RYiL2xS0kS629ydMJR/bSr2U/Y+S60y3pWg0OG7eWREAINJBDs8T+CSzk3
-         OxrKSCSEppQvJ7nFUH+nrEX0VMSy2NEjjlUDVPnmOPw50lNoIvo47qOH7wZpZ0KsqO+h
-         E0nHd4lEPRvwxgtJi57/LaDzAhk5doS+PJKGlyf6T9fdtElYefzx/3inrRkBkULu1XDh
-         H+5geVkTVLE+b2e8P7yOwPlOKz7VHt4RHK20PU3Syn/k4dzqVrNbeFc33aZiEJFFf8BL
-         1pOa7aKK1Sa09856iHxXs1+ksbcXiCuZDhPgmMJzqqyHa/rlff7/tsptKMmmdRh7G/Tf
-         aGOQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent:x-original-sender
+         :x-original-authentication-results:precedence:mailing-list:list-id
+         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=lUGhrn9sprwwyRMpe04qwjG67jrSrcc3Mm6m10UBKqw=;
+        b=GbGmvkrr5zNk9KbmR+N7reUfyS0WPoIdyrbp4z7UpcEP6fzOi51KFLZjSKD1P4r6zY
+         jFH6HtphuJ3ZUGlygJjF0WLy5mF10ZBWoK2EzNF8llO4buH3WHQ9x4xI2z/4+WnoXDxN
+         TJCBM5lkshVPgAINhzG8a0dbGjTQCC771sHOPHrOEbsWS9p1Kl0KeniZz71GLZtUBesr
+         mL7pUO/IlX4WPNJmZJRqvnnBKRNmgzBaUl6WAWLcHfQRREXwwokA4z41q6lZwji6jlz6
+         8DVuCXrKdH3B1WGZmUnZ4sCuXaeWpT/i1aI1aEyQqnr5TEXf/RuTB58KbZVirJHm0WMb
+         Oc2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:x-original-sender
-         :x-original-authentication-results:reply-to:precedence:mailing-list
-         :list-id:x-spam-checked-in-group:list-post:list-help:list-archive
-         :list-subscribe:list-unsubscribe;
-        bh=WoZH5C5NrRv5vRsMu97op/fA201SfKEJg7kkiXHoayo=;
-        b=tYq4JKiUCsLfd4p4Kk/uSIrM/gziFGOrhRKkuvC9jsMSlqGIyBGm3+ep5eIsMRWx7H
-         n6sLal9s1g6bZw/gDoBjEK+7cVOZdS5MpMuxOc5sgS0PFdlE7ukBAfdpHuyRFglhjNp9
-         WbOG3lahe0MdbKbN+sCfrUkypOm4D/H2bh8AZP6QflBwFXGoZDwigJScd2eZchCvOdac
-         4dYo4+KJ5FzBJS/0ByHp2yX++CIUgXJ/Foo2ChKLH0nWGw03Y7DlDlh3eYS8maiyFP8l
-         8R2NnbQtFL1aG1pi7UNxTqn9+5taxSB0xDf2HjUWNDFlo3BEgBJIxH19+pNVnXuKZp6z
-         wjWg==
-X-Gm-Message-State: AJIora/hc6eaIQJX0OFCshjZw6WNBXMru5M9R9cAfpj8xhC04LqszR5/
-	Tibxe7B5UMwghKjEVeXEpug=
-X-Google-Smtp-Source: AGRyM1uO35S9RHVwr4rvGgonUTRBuJWkgbVCm1wkURi6pczXt7o4UahjFLi79v5U9wZDSH8m2upvRA==
-X-Received: by 2002:a05:6512:c02:b0:48a:80f:b92d with SMTP id z2-20020a0565120c0200b0048a080fb92dmr1145731lfu.675.1658485920823;
-        Fri, 22 Jul 2022 03:32:00 -0700 (PDT)
+        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent
+         :x-original-sender:x-original-authentication-results:precedence
+         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
+         :list-archive:list-subscribe:list-unsubscribe;
+        bh=lUGhrn9sprwwyRMpe04qwjG67jrSrcc3Mm6m10UBKqw=;
+        b=v35ttXrlAJZGeRrD9LCB7d8OBS7rPv562sCnoU9aGk95KPdNPooR6Ye+AG+Vc3LSWc
+         dLP/Pdf8CXpQlp/qbAQEPp64mjuwlE7nzy++ojaG+gG+cC4Y/lSJJd5sokrMC0hzVowY
+         HRFuCnP49v/e5vJ1aNaww7ANiJzp3VFLf3DbzFoqTXil4DcabJ0i4YCB7BhGTJqvAJ4w
+         aoQSjcwIibsOSt5CH7hijm4o1sftReOmUFxG5vnSqrJhYzOWl7ses0pxqd3b4JF2GTap
+         j31BP7nvOU24a+8OIkASkiil1sMb9WqeNgOV4FUy3YY03mmaH7h0qIMrJfV0OPOTg4/g
+         9mBw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AJIora+OTpr4Pf4a0FH2+l5G9nKk1VS06QwGPjWfP//a/IgwhlJplqyz
+	Q4YB+OPWMBSXnWCnA/R1NoY=
+X-Google-Smtp-Source: AGRyM1unvQXW7yN2P+vJT9Gl0u5s+fZs9dIMNE8PeyAVllkL7hB/kmfH3y7JnYQdp2Qe4XcPH7tgig==
+X-Received: by 2002:a05:6130:10b:b0:37f:a52:99fd with SMTP id h11-20020a056130010b00b0037f0a5299fdmr875339uag.96.1658487795438;
+        Fri, 22 Jul 2022 04:03:15 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:78f:b0:488:e60f:2057 with SMTP id
- x15-20020a056512078f00b00488e60f2057ls1160905lfr.2.-pod-prod-gmail; Fri, 22
- Jul 2022 03:31:59 -0700 (PDT)
-X-Received: by 2002:a05:6512:3404:b0:48a:29b9:f069 with SMTP id i4-20020a056512340400b0048a29b9f069mr1212432lfr.296.1658485919595;
-        Fri, 22 Jul 2022 03:31:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1658485919; cv=none;
+Received: by 2002:ab0:308e:0:b0:384:421b:56b8 with SMTP id h14-20020ab0308e000000b00384421b56b8ls316557ual.9.-pod-prod-gmail;
+ Fri, 22 Jul 2022 04:03:14 -0700 (PDT)
+X-Received: by 2002:ab0:4973:0:b0:37f:27c2:59fb with SMTP id a48-20020ab04973000000b0037f27c259fbmr879185uad.80.1658487794825;
+        Fri, 22 Jul 2022 04:03:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1658487794; cv=none;
         d=google.com; s=arc-20160816;
-        b=Gp/qyDBVFQKxcMMCjXGlhvuEupCRiIdm1+lODUxZ8OFao78rolAqzKyZc0kAFR+zS5
-         v6q2ANewf7vh5dfn8kExg/G7nGxflhJlgcEMPKWfte2xHaAIpE6EDP/cXB3no3EvBifG
-         Wc7zMVQKAQ93Dxl4/ibcTQMgCJsuo0r6w14q4/36HhCwzOITUrT4molr9PkULOei2ecz
-         0PrKUXl258oEt8W8w59N9goPcGTVr/ypQ/IXiM4AxKMFgenLBblLxPhkNTXJOeTlWqen
-         Kat0Zx+h7aJTekzDEjaU1iXs55p4rGHji+XhV5bmNIVDE8MYxO9LSZDuZRV45pEolqDo
-         wxQw==
+        b=uN8CNaTYFYenNDEL7XCZ8Ko24eGhf2p+t/qQQ43vCF7VeYjGIJvs5FWCw/HQwDHlEU
+         DsUKZLp8ZQ3LGjJBEyi1bnx36gXeyY8jegoFQANcMSKFyTq/q/QlMaDvvT8u6bhcZPKP
+         l7VIj/BAR52PWpfgYaEUhq2pH7d4V6VAJAU1eWUemZj8W3KVgBK2H8dfbDO7A/IgBbae
+         Mi9b8bFyfAoCum7TcDsgryW+rGTSpMaH27QH+l9LTwCjJkK0aUDY69Nz9p9xSLu+AK+m
+         TCgxtanNP0CF18asxRnFVu1ZDx4ylrnd38C0dHiI715DERsDvL0Nirmr8a7KSLYQTwXo
+         84Ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=eXqhKXWkyJJg9+g/9EohedHzzZKAjuqa2sFmi97JD9Y=;
-        b=vcK5EpZBa6rSsnyjm1uK2hnMRC0rcavThRvb4fh2YiJo33CwcLNs8ww3cJDveQC8mJ
-         PWMGIjnZg6MX5XrhvU5C7v2fCgraOhcEknmy0fMMEyME0hBNcF2aDmKKopegDljiLj4y
-         iluf4q7w/b0hrijWW6ri7mwAJtCF2d+qzWnqjTP1z63wLs/eWUKFlAAhzMmJy5Yuag15
-         wx6hDwPHwNPJbUS57AZTtlAieFJGN+NsM6iuSs3OuD2gKbB72RelwHgL0vqShyqD+faF
-         DwVBLGXX9tAuQEBim8C93LuyO3CSSMNjM9MyhRzUEmTqbVPk4rmv/z48Zaum4WN0/2xT
-         K/TQ==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=osVvsZ7wSzKK1NdKqI7D8rpMNqgA8kgi1cP/l+IILXg=;
+        b=LnJVyyWbLP0ZWrzU72HqelZpSUvlLNP1JSRDm1UrBshEtlY2/HhbK5KuKLzzaRHdrU
+         d/clNHIdtKhhb5r5vZ+LEJD3/R4RbPHKDYjPQm6ca0tnRQMpbKCedMDRscJTIk1Eip8r
+         58HU6XXIXgJpEnDBFTe5nS54/2kWxY6gf2RdKM2HcaLBQj0HjYTNJTttbyMsWbgoa5n3
+         0eUbz9P1fap8O8WxknsduEWDnnkEcvQV9R110j7zVPS1wkiUkDGFOIRNz3oj59ZNjIK8
+         sRAovy1BlHpheqiE+j/RsqqHystMmj/Pr8vTWG13b6YEagZtVWxErxOSGjRLvWl152Or
+         ElcA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=pnVwjwP2;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com. [2a00:1450:4864:20::22a])
-        by gmr-mx.google.com with ESMTPS id o22-20020ac25e36000000b0047fae47ce32si96366lfg.9.2022.07.22.03.31.59
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=FLZZhI4A;
+       spf=pass (google.com: domain of will@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id c7-20020ab06ec7000000b00383f50be320si500293uav.1.2022.07.22.04.03.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jul 2022 03:31:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a as permitted sender) client-ip=2a00:1450:4864:20::22a;
-Received: by mail-lj1-x22a.google.com with SMTP id e11so4945257ljl.4
-        for <kasan-dev@googlegroups.com>; Fri, 22 Jul 2022 03:31:59 -0700 (PDT)
-X-Received: by 2002:a05:651c:1310:b0:25d:efe5:109d with SMTP id
- u16-20020a05651c131000b0025defe5109dmr742781lja.465.1658485917645; Fri, 22
- Jul 2022 03:31:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220704150514.48816-1-elver@google.com> <20220704150514.48816-2-elver@google.com>
- <Ytl9L0Zn1PVuL1cB@FVFF77S0Q05N.cambridge.arm.com> <20220722091044.GC18125@willie-the-truck>
- <CACT4Y+ZOXXqxhe4U3ZtQPCj2yrf6Qtjg1q0Kfq8+poAOxGgUew@mail.gmail.com> <20220722101053.GA18284@willie-the-truck>
-In-Reply-To: <20220722101053.GA18284@willie-the-truck>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 22 Jul 2022 12:31:45 +0200
-Message-ID: <CACT4Y+Z0imEHF0jM-f-uYdpfSpfzMpa+bFZfPeQW1ECBDjD9fA@mail.gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 22 Jul 2022 04:03:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of will@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 660556137B;
+	Fri, 22 Jul 2022 11:03:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 583BEC341C6;
+	Fri, 22 Jul 2022 11:03:10 +0000 (UTC)
+Date: Fri, 22 Jul 2022 12:03:06 +0100
+From: Will Deacon <will@kernel.org>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Marco Elver <elver@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	linuxppc-dev@lists.ozlabs.org, linux-perf-users@vger.kernel.org,
+	x86@kernel.org, linux-sh@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 01/14] perf/hw_breakpoint: Add KUnit test for
  constraints accounting
-To: Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, Marco Elver <elver@google.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Frederic Weisbecker <frederic@kernel.org>, 
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org, 
-	linux-perf-users@vger.kernel.org, x86@kernel.org, linux-sh@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+Message-ID: <20220722110305.GA18336@willie-the-truck>
+References: <20220704150514.48816-1-elver@google.com>
+ <20220704150514.48816-2-elver@google.com>
+ <Ytl9L0Zn1PVuL1cB@FVFF77S0Q05N.cambridge.arm.com>
+ <20220722091044.GC18125@willie-the-truck>
+ <CACT4Y+ZOXXqxhe4U3ZtQPCj2yrf6Qtjg1q0Kfq8+poAOxGgUew@mail.gmail.com>
+ <20220722101053.GA18284@willie-the-truck>
+ <CACT4Y+Z0imEHF0jM-f-uYdpfSpfzMpa+bFZfPeQW1ECBDjD9fA@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+Z0imEHF0jM-f-uYdpfSpfzMpa+bFZfPeQW1ECBDjD9fA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Original-Sender: will@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=pnVwjwP2;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=FLZZhI4A;       spf=pass
+ (google.com: domain of will@kernel.org designates 2604:1380:4641:c500::1 as
+ permitted sender) smtp.mailfrom=will@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,95 +151,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 22 Jul 2022 at 12:11, Will Deacon <will@kernel.org> wrote:
-> > > > [adding Will]
+On Fri, Jul 22, 2022 at 12:31:45PM +0200, Dmitry Vyukov wrote:
+> On Fri, 22 Jul 2022 at 12:11, Will Deacon <will@kernel.org> wrote:
+> > > > > On Mon, Jul 04, 2022 at 05:05:01PM +0200, Marco Elver wrote:
+> > > > > I'm not immediately sure what would be necessary to support per-task kernel
+> > > > > breakpoints, but given a lot of that state is currently per-cpu, I imagine it's
+> > > > > invasive.
 > > > >
-> > > > On Mon, Jul 04, 2022 at 05:05:01PM +0200, Marco Elver wrote:
-> > > > > Add KUnit test for hw_breakpoint constraints accounting, with various
-> > > > > interesting mixes of breakpoint targets (some care was taken to catch
-> > > > > interesting corner cases via bug-injection).
-> > > > >
-> > > > > The test cannot be built as a module because it requires access to
-> > > > > hw_breakpoint_slots(), which is not inlinable or exported on all
-> > > > > architectures.
-> > > > >
-> > > > > Signed-off-by: Marco Elver <elver@google.com>
-> > > >
-> > > > As mentioned on IRC, I'm seeing these tests fail on arm64 when applied atop
-> > > > v5.19-rc7:
-> > > >
-> > > > | TAP version 14
-> > > > | 1..1
-> > > > |     # Subtest: hw_breakpoint
-> > > > |     1..9
-> > > > |     ok 1 - test_one_cpu
-> > > > |     ok 2 - test_many_cpus
-> > > > |     # test_one_task_on_all_cpus: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
-> > > > |     Expected IS_ERR(bp) to be false, but is true
-> > > > |     not ok 3 - test_one_task_on_all_cpus
-> > > > |     # test_two_tasks_on_all_cpus: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
-> > > > |     Expected IS_ERR(bp) to be false, but is true
-> > > > |     not ok 4 - test_two_tasks_on_all_cpus
-> > > > |     # test_one_task_on_one_cpu: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
-> > > > |     Expected IS_ERR(bp) to be false, but is true
-> > > > |     not ok 5 - test_one_task_on_one_cpu
-> > > > |     # test_one_task_mixed: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
-> > > > |     Expected IS_ERR(bp) to be false, but is true
-> > > > |     not ok 6 - test_one_task_mixed
-> > > > |     # test_two_tasks_on_one_cpu: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
-> > > > |     Expected IS_ERR(bp) to be false, but is true
-> > > > |     not ok 7 - test_two_tasks_on_one_cpu
-> > > > |     # test_two_tasks_on_one_all_cpus: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
-> > > > |     Expected IS_ERR(bp) to be false, but is true
-> > > > |     not ok 8 - test_two_tasks_on_one_all_cpus
-> > > > |     # test_task_on_all_and_one_cpu: ASSERTION FAILED at kernel/events/hw_breakpoint_test.c:70
-> > > > |     Expected IS_ERR(bp) to be false, but is true
-> > > > |     not ok 9 - test_task_on_all_and_one_cpu
-> > > > | # hw_breakpoint: pass:2 fail:7 skip:0 total:9
-> > > > | # Totals: pass:2 fail:7 skip:0 total:9
-> > > >
-> > > > ... which seems to be becasue arm64 currently forbids per-task
-> > > > breakpoints/watchpoints in hw_breakpoint_arch_parse(), where we have:
-> > > >
-> > > >         /*
-> > > >          * Disallow per-task kernel breakpoints since these would
-> > > >          * complicate the stepping code.
-> > > >          */
-> > > >         if (hw->ctrl.privilege == AARCH64_BREAKPOINT_EL1 && bp->hw.target)
-> > > >                 return -EINVAL;
-> > > >
-> > > > ... which has been the case since day one in commit:
-> > > >
-> > > >   478fcb2cdb2351dc ("arm64: Debugging support")
-> > > >
-> > > > I'm not immediately sure what would be necessary to support per-task kernel
-> > > > breakpoints, but given a lot of that state is currently per-cpu, I imagine it's
-> > > > invasive.
+> > > > I would actually like to remove HW_BREAKPOINT completely for arm64 as it
+> > > > doesn't really work and causes problems for other interfaces such as ptrace
+> > > > and kgdb.
 > > >
-> > > I would actually like to remove HW_BREAKPOINT completely for arm64 as it
-> > > doesn't really work and causes problems for other interfaces such as ptrace
-> > > and kgdb.
+> > > Will it be a localized removal of code that will be easy to revert in
+> > > future? Or will it touch lots of code here and there?
+> > > Let's say we come up with a very important use case for HW_BREAKPOINT
+> > > and will need to make it work on arm64 as well in future.
 > >
-> > Will it be a localized removal of code that will be easy to revert in
-> > future? Or will it touch lots of code here and there?
-> > Let's say we come up with a very important use case for HW_BREAKPOINT
-> > and will need to make it work on arm64 as well in future.
->
-> My (rough) plan is to implement a lower-level abstraction for handling the
-> underlying hardware resources, so we can layer consumers on top of that
-> instead of funneling through hw_breakpoint. So if we figure out how to make
-> bits of hw_breakpoint work on arm64, then it should just go on top.
->
-> The main pain point for hw_breakpoint is kernel-side {break,watch}points
-> and I think there are open design questions about how they should work
-> on arm64, particularly when considering the interaction with user
-> watchpoints triggering on uaccess routines and the possibility of hitting
-> a kernel watchpoint in irq context.
+> > My (rough) plan is to implement a lower-level abstraction for handling the
+> > underlying hardware resources, so we can layer consumers on top of that
+> > instead of funneling through hw_breakpoint. So if we figure out how to make
+> > bits of hw_breakpoint work on arm64, then it should just go on top.
+> >
+> > The main pain point for hw_breakpoint is kernel-side {break,watch}points
+> > and I think there are open design questions about how they should work
+> > on arm64, particularly when considering the interaction with user
+> > watchpoints triggering on uaccess routines and the possibility of hitting
+> > a kernel watchpoint in irq context.
+> 
+> I see. Our main interest would be break/watchpoints on user addresses
+> firing from both user-space and kernel (uaccess), so at least on irqs.
 
-I see. Our main interest would be break/watchpoints on user addresses
-firing from both user-space and kernel (uaccess), so at least on irqs.
+Interesting. Do other architectures report watchpoint hits on user
+addresses from kernel uaccess? It feels like this might be surprising to
+some users, and it opens up questions about accesses using different virtual
+aliases (e.g. via GUP) or from other entities as well (e.g. firmware,
+KVM guests, DMA).
+
+Will
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZ0imEHF0jM-f-uYdpfSpfzMpa%2BbFZfPeQW1ECBDjD9fA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220722110305.GA18336%40willie-the-truck.
