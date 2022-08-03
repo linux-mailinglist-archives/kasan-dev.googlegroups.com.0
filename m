@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBF4HVGLQMGQEH2EBM5Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBY44VGLQMGQEG2KP7NQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35FD588996
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Aug 2022 11:44:56 +0200 (CEST)
-Received: by mail-ot1-x33a.google.com with SMTP id w89-20020a9d3662000000b0061d33226869sf6179325otb.21
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Aug 2022 02:44:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1659519895; cv=pass;
+Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 667B1588A8C
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Aug 2022 12:31:01 +0200 (CEST)
+Received: by mail-il1-x13a.google.com with SMTP id c14-20020a056e020bce00b002dd1cb7ce4dsf10323453ilu.22
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Aug 2022 03:31:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1659522659; cv=pass;
         d=google.com; s=arc-20160816;
-        b=h4oNQeQvtMXvJDSeKEwZKEUN4rR3RKO36POJaJhljdovCq+19G/24Md+assd30/wk4
-         U4a19tQnLd4XIb1hraDAg0YDMFhu8A9EEdj4pq3MjKRwkqsrmfMWaHvsxNxhywA3Naub
-         CUq0S5mK4BBEDPMS2VTF3n938Dc6uwSknKLg9om6Qq34MHqWKFkceUoUmjVcy9lXSzOH
-         VV+g6iwKAafQUB1XyVJPMUk3OtVXbwl5eoaQ9BE5L6JgFXjuoF/dHH5EhmGPTpLq3+Q6
-         cmURDPxTvO7OROyfAY99eHpwryLMwUdsS7BlBftrak9O77NCIs/Ht+EC2m2j1+//wq8s
-         4/yA==
+        b=we2x76jHF+PMR7JEkfXFRRKDjBDTDps+EAXaW1ii+EseIo5HA5+v1joCzqZ7PG2oRr
+         ADbvMz2QgUS2jVbFtYL/s7EC6Yh/Sa0T6URw8IwpQTzgd73AsyuuGHdukC6uOzbQCYt6
+         Gd1nB9oFW3eZNmPiuiDRsO/flkE3HaRkqWKeIVTjv+VgtwMTz4MvGSOGx4HGXO5BRx74
+         pA/8tRBknR00wm6XYlK9A6TRY0zO1F/P513Keu4ewB7EotesgoH8t6AFUwMSOk9HXB1G
+         ebftPq4OB0XCSFZT4eJI9FG/Ustp6i0vfOHrcTNBXDjU7JokMkYz88XHSEz8vgbm0rzd
+         MZ2w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=HBMWYeacCrh/OJKa/u18v5vxCWuMay5GwCAp6s3Dm4Y=;
-        b=yBtO/H5oxagUTbO4BiBQxlqgR0nVnn5yHaDTCoxFHK3Rb5HiRZmqXoptP92nrRSTXq
-         EQKGIC7f2po5SR6hMdNf2LQQxNOeFZ469sS8wmkCwhDUUNuDlKFmP6JRbuxtQY+yZ0c/
-         wmLppZUh9misrn3ZATctsNCVqyN/1wPzGey/IPR0QV3MYrpnJ/KKRQoMHsX/eRzcXaQ8
-         53Y8UKQJ6XNkg3trTDW91gGfFMxd2z0kQ3l4o7/iVLObkVWYzBsRBmokhpegHagUhvmr
-         ARt1aaNGv6O+KAKOd5vW10Ih/Cuiddw+iv7sBFrnTRYEVOupa9Iq7zVyvXKtyOu0qSPm
-         GFDg==
+        bh=p6jRRe/eQ1nLQu75ZzvVAVfWjOU1jzMk2eHQ2D9U7fM=;
+        b=fafPdO0ZVr60qp3h7nUgzyQ6YZ8KI98r7Dt70iFperqEzk4Onrp1DFS2wKTDDuRTVe
+         Mpt2+9k1YzhxPfLTQ21JLqxZSEnJPavjpGtsY7ZY01lLoLTi5A6U8W3Gu71X1FqQHmhQ
+         We/m5Kqc4PUrtR3ZMfenLabuOihGzkYDX1za78OG1Rly2uzBuVatTL6GQAlJRJzLORNC
+         5I9VBh9iyxjDeLJeakz3PivQC0BgepC9i5PpWnOCdeIeIIGQL2IBfV6Dg8SZ0u4AQj+X
+         h2wWet4hKnmw59/n+K4yYy/KKgTVEGHd7MhXh8qtsNYkr+qpTDSEhIwB14HSdzBmDzoh
+         1bRA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=FPrKKTFm;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1135 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=bTMMrVHL;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:reply-to:precedence:mailing-list
          :list-id:list-post:list-help:list-archive:list-subscribe
          :list-unsubscribe;
-        bh=HBMWYeacCrh/OJKa/u18v5vxCWuMay5GwCAp6s3Dm4Y=;
-        b=ZA8UuxQkuJF5PjswTzry9OZQllTSzs2+e8Y6KP/z37PwtZbqGKT1gwXgJ4jTHVAkDW
-         gQWItHyvVf1oUzLOzbguXEuSmKWFwbonArYQbDTyjzJByBX58SNh7jANsxd6Q47iT2Tc
-         SgJFfT7KEW2vsO/CQuYi7h8eS4YQDu6qLUg6uOCybJuWrc1lFXH5aZLYz5fNa5XQIo0P
-         hc1d3emjhVQ6bRYcskT/pd4p6zv37N4+LrgYBYEHsUQQRhg8X+Ywu7N1kMQPZUJXrQH2
-         h0tFsUrX8s0aQoaE8eaxPg09klstwMsUoU7yHVrXIH2oXZ94ZLi0h52krkEAMteO7JD3
-         nXug==
+        bh=p6jRRe/eQ1nLQu75ZzvVAVfWjOU1jzMk2eHQ2D9U7fM=;
+        b=OjbRAgir8RSxNxAMmORNl2/N8eAcue+GFmmpS2ECljMiSlGr1daBcSUx9BNY+FjEmu
+         KwZIR5vPY7Odp1+GVk53cffseEsPFkWC7jrlMrpJC6X0OIvV5nCX2iVsdOhSuIh+KWZp
+         F1rYtFsu6HxHDlB5V+2ZxCnax1nnpvQBSxyliBYv+DF5r/EVVQZR6PUOLpNrw+0K3sx7
+         G+gGmTSF56AVBCxIjqIy1BLyf4+98M21/ZHAjvsBG3E23cSQPxo7O2+b4lxL25z0RvuZ
+         we0uCWzVgCI2IrAWuMCwEJKTaescfm3CVjfFFjuhAd84CjN56JmvwFF5e6Z8ukZazgQv
+         rlOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
@@ -51,66 +51,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:x-original-authentication-results:reply-to
          :precedence:mailing-list:list-id:x-spam-checked-in-group:list-post
          :list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=HBMWYeacCrh/OJKa/u18v5vxCWuMay5GwCAp6s3Dm4Y=;
-        b=cx00Ykbb73Tle4cPEZpzOslc0BT5VhFaP9+cKN0qCsnHdEC0rz6J9d1WhsOfA8wNL1
-         8hrdrZMFS0f7r9L0axQINLFXV35+zKMrLl9hCq6sBDp4pwHkSHTE9hRlCtrt8BGWP82j
-         uuwwhzDUbW7x2UOPyNdrRiy249ILAXSzy6ldtv2+q5E0efcg/Gg7cu0pROyd91htO47q
-         rkude1qJhN3jvXHhwelUxX1CYJGP5Cl8/qvY7aO6q8LVFXuiNIdZyNCVLD7vs1GmPl3I
-         nqW7yw2YoppVlApZOpfkWYa8GkcWH4Nl/bbLbBkttld7c/bGTJCENxHplzDMZUnER9q9
-         YZZw==
-X-Gm-Message-State: ACgBeo3NIQBgkuFJzvln93HUvYCRHu6Qe6PpjlRZEfCp+lJmmlumqa2w
-	g+wZMnlNZvwOR171Um0eBiI=
-X-Google-Smtp-Source: AA6agR5+qup574opH1PQBg7K8UA6c29K9inLQNHY3x+NytIvYQ+9nq2XvljBpd+ONf6on7IJJoCrKg==
-X-Received: by 2002:a05:6870:344c:b0:10c:236a:79f8 with SMTP id i12-20020a056870344c00b0010c236a79f8mr1615002oah.24.1659519895772;
-        Wed, 03 Aug 2022 02:44:55 -0700 (PDT)
+        bh=p6jRRe/eQ1nLQu75ZzvVAVfWjOU1jzMk2eHQ2D9U7fM=;
+        b=TwDVCu11UkIhJFZWUjZxLgyVZAV5fUgx2PS+EnijtAO2X81QaXdWSKQ1eyuVBhdl1T
+         mjcLax8nASj/9YqsIqlHxBRh6jgdRZ/pnUL2jBJ/c8haOrGszfBhGLP0SusOwhhtKkIS
+         KsjEopI3LdPbGZPsyE9+By9d4exZazwydNYIfBd2eWKExBPFaGK8t5GJNtLzAYmMfNEw
+         hPwIgIaonbys+6F/xluZZuufx3hlGTNX+n98GwSn2RmeHd/rlUrVXUT1d8GCSwlwmvzh
+         lKaS2WD9d9uQYTdhYkW7FvCSa0mnWqtUzfV+kPpSZ18p/wD1VufLWkd9EcDyIhtGp+lh
+         JQWA==
+X-Gm-Message-State: AJIora8u4ht32JY+aTlY4zNEn5Ht2kAzcvfRf4wlMF2f2AGGdpbCSq81
+	njtBulVHgYXXDI0zk65kDCs=
+X-Google-Smtp-Source: AGRyM1uAn7T/fPVDIPNBVIDULOYQTLMQK5t04+yacqe6fi2numWFheWFmiwu5DGBA23xVsMnOUd6pQ==
+X-Received: by 2002:a05:6638:38a4:b0:33f:74b8:ede4 with SMTP id b36-20020a05663838a400b0033f74b8ede4mr10107894jav.276.1659522659703;
+        Wed, 03 Aug 2022 03:30:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:1992:b0:342:6547:bf34 with SMTP id
- bj18-20020a056808199200b003426547bf34ls1133212oib.2.-pod-prod-gmail; Wed, 03
- Aug 2022 02:44:55 -0700 (PDT)
-X-Received: by 2002:a05:6808:f8e:b0:33b:2156:e741 with SMTP id o14-20020a0568080f8e00b0033b2156e741mr1290302oiw.256.1659519895208;
-        Wed, 03 Aug 2022 02:44:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1659519895; cv=none;
+Received: by 2002:a5e:c30f:0:b0:678:7dec:344c with SMTP id a15-20020a5ec30f000000b006787dec344cls1645074iok.3.-pod-prod-gmail;
+ Wed, 03 Aug 2022 03:30:58 -0700 (PDT)
+X-Received: by 2002:a5e:da03:0:b0:67f:ba0a:e5d2 with SMTP id x3-20020a5eda03000000b0067fba0ae5d2mr2029692ioj.88.1659522658740;
+        Wed, 03 Aug 2022 03:30:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1659522658; cv=none;
         d=google.com; s=arc-20160816;
-        b=q8wIs2KP7d1Hd4IQHhg61lLG4rtCms3+3HCwi2NsACK0Tfw+vD09Vku9WAz0BmQdc1
-         RzRhliEz29Qq4YIY94gjAMhcuTUcOowo/cun5lm88Z8HWWOZIZX/fq6KJKaVpPZmo1WJ
-         Gu5dqvNjrO2DeZ32Yi8Rf6GUigcJQNFN24hpzlBzqw7cOnFtfRxkXQFw9QWFj7WEIv2E
-         fQLyXQZjJlsiyhKhr9uEib1zF6CMriO98R1q6LBefRy/ryiSS3jxrKxqStuNONw/qb9u
-         /3CJHvPrxwJjxR1iNcMyFEsHeNOvEC7xYSQXsevutBQeF6XK7zUWxR1bv23Kh98Q+QXu
-         IGcg==
+        b=FM2eKswM+dYaI4NS/FCLYSWmrywrGpY90HdEqSZRkGqDK7AevdOJBCUmqzPtps3Omg
+         wmG/q4QlxUiXyqLQPkUAlTCUKjGbz/A7gSPXNYSB2/SryE5OE7AjLI6TUPr5Y9wsaJ4p
+         uRCOYs3nNT5++59Zk6cDpRSpg4Qzl2frhwBIDTzn70PAZe38T3yomRdBEj16PttPwUvu
+         6pRm73yDhz7+jiVx+OtRPoYZGQWyb8XytYuLMvYNUERqwH66O8PPZWVCkKWqZ+MLGLym
+         TkW95y+uuc9ScR3xkqd7snAphh6aslnT+971ljYULK/Y+xq1uS+9ijnkA/TRu+AnxWj+
+         AkpA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Y5TvyICc8d9t41nnsu7puTvMuWTSp2+6bN2hR6XdoD8=;
-        b=oKze5dQ0CuhidrSBzZQE32qFn9qtesmnCk5KEKXe+zuAoGtf9HPsiEKkytsWhIb7gi
-         DfN3/6Snw6u5QLV8612PdTcrFXJTUc3H/TKGj2iTYYcP5/xYVSFfCYG71aUPc5JjOMJw
-         Nd9CuBVbs32aeymnK6KX8u23+RGNo/WaPzHESVm04yCChSw0+7GrT3GyD8f4GLzROG6D
-         AWjqjo/1LxLwleNPZbb/4IOk2fqSwYDhuPKEqKexk28lXd48k9ZkryML150rqwu0My5O
-         3hpQ7egz2IvxRES6HcmUIx/hKyFH7RbaH426Ipo8oXf37T815SYBCPGmEWG2jrTc9TvR
-         8oKg==
+        bh=BnCISkt/rTW8As5S0Z1/CmUKmWtp6KufxVc54xAHFLs=;
+        b=n2J8Ez2CrMoZyuZ8hWFqN4VhEFuQdk9vsKwqzY9DsSrAtu8awKTKGqszHvNi31a4EY
+         tzLf+TEpkeV7+CtUFyfAc0anDZF3vdUYIYip74fb3kZmUIIqKxdNPkaMgjTnbFvasEXX
+         LvLe+HI/7mSUsQ6bF+ACneWjSzPUwLgFAqpTZZ/6QSH8aJp4bFST58BUr6RjFmzAirtc
+         5H8ryNwxv5Tn4y1qFPgJEi70BUZIioM0E8oWWKBG3cEB7L53nJkrIn4QYTCtHpbZDZ6o
+         P04QE/qx3G1aXJIEJct1YIL3/3Sixh8uqX1KZ8lr0KWQzf37Pg6KgpdVmxDbG+sD5qSw
+         6i8A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=FPrKKTFm;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1135 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=bTMMrVHL;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com. [2607:f8b0:4864:20::1135])
-        by gmr-mx.google.com with ESMTPS id u16-20020a0568301f5000b0061c81be91e8si842316oth.4.2022.08.03.02.44.55
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com. [2607:f8b0:4864:20::b33])
+        by gmr-mx.google.com with ESMTPS id k13-20020a02cccd000000b00331ed76f344si700515jaq.4.2022.08.03.03.30.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Aug 2022 02:44:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1135 as permitted sender) client-ip=2607:f8b0:4864:20::1135;
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-32194238c77so165879257b3.4
-        for <kasan-dev@googlegroups.com>; Wed, 03 Aug 2022 02:44:55 -0700 (PDT)
-X-Received: by 2002:a0d:d40d:0:b0:322:d4c0:c6f6 with SMTP id
- w13-20020a0dd40d000000b00322d4c0c6f6mr23100302ywd.428.1659519894650; Wed, 03
- Aug 2022 02:44:54 -0700 (PDT)
+        Wed, 03 Aug 2022 03:30:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) client-ip=2607:f8b0:4864:20::b33;
+Received: by mail-yb1-xb33.google.com with SMTP id r3so27692228ybr.6
+        for <kasan-dev@googlegroups.com>; Wed, 03 Aug 2022 03:30:58 -0700 (PDT)
+X-Received: by 2002:a05:6902:1348:b0:671:78a4:471f with SMTP id
+ g8-20020a056902134800b0067178a4471fmr19280596ybu.242.1659522658125; Wed, 03
+ Aug 2022 03:30:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-11-glider@google.com>
- <CANpmjNOYqXSw5+Sxt0+=oOUQ1iQKVtEYHv20=sh_9nywxXUyWw@mail.gmail.com>
-In-Reply-To: <CANpmjNOYqXSw5+Sxt0+=oOUQ1iQKVtEYHv20=sh_9nywxXUyWw@mail.gmail.com>
+References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-15-glider@google.com>
+ <CANpmjNP8kmZYRsdpHCni33W-Yjgy-ajCAuTE94zwUniyYt7WQw@mail.gmail.com>
+In-Reply-To: <CANpmjNP8kmZYRsdpHCni33W-Yjgy-ajCAuTE94zwUniyYt7WQw@mail.gmail.com>
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 3 Aug 2022 11:44:18 +0200
-Message-ID: <CAG_fn=W2EUjS8AX1Odunq1==dV178s_-w3hQpyrFBr=Auo-Q-A@mail.gmail.com>
-Subject: Re: [PATCH v4 10/45] libnvdimm/pfn_dev: increase MAX_STRUCT_PAGE_SIZE
-To: Marco Elver <elver@google.com>, Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Aug 2022 12:30:21 +0200
+Message-ID: <CAG_fn=X8zV2j9aPviz23UH8tsbRTqefGoZOCRgJeVtcivdhKVA@mail.gmail.com>
+Subject: Re: [PATCH v4 14/45] mm: kmsan: maintain KMSAN metadata for page operations
+To: Marco Elver <elver@google.com>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>, 
 	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>, 
@@ -131,10 +130,10 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=FPrKKTFm;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1135
- as permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20210112 header.b=bTMMrVHL;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b33 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
@@ -149,77 +148,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-(+ Dan Williams)
-(resending with patch context included)
-
-On Mon, Jul 11, 2022 at 6:27 PM Marco Elver <elver@google.com> wrote:
+On Tue, Jul 12, 2022 at 2:21 PM Marco Elver <elver@google.com> wrote:
 >
 > On Fri, 1 Jul 2022 at 16:23, Alexander Potapenko <glider@google.com> wrot=
 e:
 > >
-> > KMSAN adds extra metadata fields to struct page, so it does not fit int=
-o
-> > 64 bytes anymore.
->
-> Does this somehow cause extra space being used in all kernel configs?
-> If not, it would be good to note this in the commit message.
->
-I actually couldn't verify this on QEMU, because the driver never got loade=
-d.
-Looks like this increases the amount of memory used by the nvdimm
-driver in all kernel configs that enable it (including those that
-don't use KMSAN), but I am not sure how much is that.
-
-Dan, do you know how bad increasing MAX_STRUCT_PAGE_SIZE can be?
-
->
+> > Insert KMSAN hooks that make the necessary bookkeeping changes:
+> >  - poison page shadow and origins in alloc_pages()/free_page();
+> >  - clear page shadow and origins in clear_page(), copy_user_highpage();
+> >  - copy page metadata in copy_highpage(), wp_page_copy();
+> >  - handle vmap()/vunmap()/iounmap();
+> >
 > > Signed-off-by: Alexander Potapenko <glider@google.com>
->
-> Reviewed-by: Marco Elver <elver@google.com>
->
 > > ---
-> > Link: https://linux-review.googlesource.com/id/I353796acc6a850bfd7bb342=
-aa1b63e616fc614f1
+> > v2:
+> >  -- move page metadata hooks implementation here
+> >  -- remove call to kmsan_memblock_free_pages()
+> >
+> > v3:
+> >  -- use PAGE_SHIFT in kmsan_ioremap_page_range()
+> >
+> > v4:
+> >  -- change sizeof(type) to sizeof(*ptr)
+> >  -- replace occurrences of |var| with @var
+> >  -- swap mm: and kmsan: in the subject
+> >  -- drop __no_sanitize_memory from clear_page()
+> >
+> > Link: https://linux-review.googlesource.com/id/I6d4f53a0e7eab46fa29f034=
+8f3095d9f2e326850
 > > ---
-> >  drivers/nvdimm/nd.h       | 2 +-
-> >  drivers/nvdimm/pfn_devs.c | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >  arch/x86/include/asm/page_64.h |  12 ++++
+> >  arch/x86/mm/ioremap.c          |   3 +
+> >  include/linux/highmem.h        |   3 +
+> >  include/linux/kmsan.h          | 123 +++++++++++++++++++++++++++++++++
+> >  mm/internal.h                  |   6 ++
+> >  mm/kmsan/hooks.c               |  87 +++++++++++++++++++++++
+> >  mm/kmsan/shadow.c              | 114 ++++++++++++++++++++++++++++++
+> >  mm/memory.c                    |   2 +
+> >  mm/page_alloc.c                |  11 +++
+> >  mm/vmalloc.c                   |  20 +++++-
+> >  10 files changed, 379 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/drivers/nvdimm/nd.h b/drivers/nvdimm/nd.h
-> > index ec5219680092d..85ca5b4da3cf3 100644
-> > --- a/drivers/nvdimm/nd.h
-> > +++ b/drivers/nvdimm/nd.h
-> > @@ -652,7 +652,7 @@ void devm_namespace_disable(struct device *dev,
-> >                 struct nd_namespace_common *ndns);
-> >  #if IS_ENABLED(CONFIG_ND_CLAIM)
-> >  /* max struct page size independent of kernel config */
-> > -#define MAX_STRUCT_PAGE_SIZE 64
-> > +#define MAX_STRUCT_PAGE_SIZE 128
-> >  int nvdimm_setup_pfn(struct nd_pfn *nd_pfn, struct dev_pagemap *pgmap)=
-;
-> >  #else
-> >  static inline int nvdimm_setup_pfn(struct nd_pfn *nd_pfn,
-> > diff --git a/drivers/nvdimm/pfn_devs.c b/drivers/nvdimm/pfn_devs.c
-> > index 0e92ab4b32833..61af072ac98f9 100644
-> > --- a/drivers/nvdimm/pfn_devs.c
-> > +++ b/drivers/nvdimm/pfn_devs.c
-> > @@ -787,7 +787,7 @@ static int nd_pfn_init(struct nd_pfn *nd_pfn)
-> >                  * when populating the vmemmap. This *should* be equal =
-to
-> >                  * PMD_SIZE for most architectures.
-> >                  *
-> > -                * Also make sure size of struct page is less than 64. =
-We
-> > +                * Also make sure size of struct page is less than 128.=
- We
-> >                  * want to make sure we use large enough size here so t=
-hat
-> >                  * we don't have a dynamic reserve space depending on
-> >                  * struct page size. But we also want to make sure we n=
-otice
-> > --
-> > 2.37.0.rc0.161.g10f37bed90-goog
+> > diff --git a/arch/x86/include/asm/page_64.h b/arch/x86/include/asm/page=
+_64.h
+> > index baa70451b8df5..227dd33eb4efb 100644
+> > --- a/arch/x86/include/asm/page_64.h
+> > +++ b/arch/x86/include/asm/page_64.h
+> > @@ -45,14 +45,26 @@ void clear_page_orig(void *page);
+> >  void clear_page_rep(void *page);
+> >  void clear_page_erms(void *page);
 > >
+> > +/* This is an assembly header, avoid including too much of kmsan.h */
+>
+> All of this code is under an "#ifndef __ASSEMBLY__" guard, does it matter=
+?
+Actually, the comment is a bit outdated. kmsan-checks.h doesn't
+introduce any unnecessary declarations and can be used here.
+
+> > +#ifdef CONFIG_KMSAN
+> > +void kmsan_unpoison_memory(const void *addr, size_t size);
+> > +#endif
+> >  static inline void clear_page(void *page)
+> >  {
+> > +#ifdef CONFIG_KMSAN
+> > +       /* alternative_call_2() changes @page. */
+> > +       void *page_copy =3D page;
+> > +#endif
+> >         alternative_call_2(clear_page_orig,
+> >                            clear_page_rep, X86_FEATURE_REP_GOOD,
+> >                            clear_page_erms, X86_FEATURE_ERMS,
+> >                            "=3DD" (page),
+> >                            "0" (page)
+> >                            : "cc", "memory", "rax", "rcx");
+> > +#ifdef CONFIG_KMSAN
+> > +       /* Clear KMSAN shadow for the pages that have it. */
+> > +       kmsan_unpoison_memory(page_copy, PAGE_SIZE);
+>
+> What happens if this is called before the alternative-call? Could this
+> (in the interest of simplicity) be moved above it? And if you used the
+> kmsan-checks.h header, it also doesn't need any "ifdef CONFIG_KMSAN"
+> anymore.
+
+Good idea, that'll work.
+
+> > +#endif
+> >  }
 
 
 
@@ -241,5 +254,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DW2EUjS8AX1Odunq1%3D%3DdV178s_-w3hQpyrFBr%3DAuo-Q-A%40mai=
-l.gmail.com.
+kasan-dev/CAG_fn%3DX8zV2j9aPviz23UH8tsbRTqefGoZOCRgJeVtcivdhKVA%40mail.gmai=
+l.com.
