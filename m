@@ -1,189 +1,61 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBBRXUV2LQMGQEZD7RUIQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJLHM7G6YHBBNUYV6LQMGQEHB3XOQI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0994589BA4
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Aug 2022 14:23:34 +0200 (CEST)
-Received: by mail-wm1-x340.google.com with SMTP id 84-20020a1c0257000000b003a511239973sf637068wmc.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Aug 2022 05:23:34 -0700 (PDT)
+Received: from mail-oi1-x23c.google.com (mail-oi1-x23c.google.com [IPv6:2607:f8b0:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5C0589CE8
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Aug 2022 15:40:11 +0200 (CEST)
+Received: by mail-oi1-x23c.google.com with SMTP id s136-20020acaa98e000000b00342ac29ca1csf449619oie.21
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Aug 2022 06:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references
-         :content-disposition:in-reply-to:mime-version:x-original-sender
-         :x-original-authentication-results:precedence:mailing-list:list-id
-         :list-post:list-help:list-archive:list-subscribe:list-unsubscribe;
-        bh=EtZ4C+waR6Z92ANVSg5ZaALdcbflugtw62KthqSamBA=;
-        b=NUSYVd5qS3gNWaaFgkhNW1cdUO4PIzf6QJWJQjsI155LG5/6Z3UebBdD2+eftFlBVf
-         hrbMK722Ag/Ts+O1Fx/xPZ+UkIUBaNbohlabkd63VQn8j9XNK7SLJPm+JSD0xjMnVOmu
-         yWZwT9ka5lb1FE/+FbAOAWBrr50QwTsBt4cUrUl2gk+mrKBWCfN8SN/XUFIop52buWgK
-         w1CBJaN3xu046/2SQy3UYcuV6t+abeq5iRYjFclPiz3lfd9LRPwgaQCDpUE4EH5bRnWM
-         piYeq2jXCUMakK3VlLDOC3/ycKJC6NFOI9S5/TMwA2BuqcQMXzGABtchEHy9P0uw/+X4
-         Q6nA==
+        h=sender:date:from:to:message-id:subject:mime-version
+         :x-original-sender:precedence:mailing-list:list-id:list-post
+         :list-help:list-archive:list-subscribe:list-unsubscribe;
+        bh=ND01xT8q7B4sK2GdOKMkdLtYNZNVAtMPOal9F1cxFWE=;
+        b=E7qMxrupp3O6xtHKuARNferEjmEkksJ7KJpV5D4p4bn51D8J1+sKhq66kgVxji8Uf7
+         9gngf/vNSKLsTfLFXUNKgdzjrAYQ6gAxz7PNzHpYMFZ4T7+vyGiFqiNzVaE607O6Mmkf
+         bMFkFPmxMwwRE7wtpgKY8XcbDIdl9SoD+dV4FDqiEBjefH6z2dZul3PD0KHYGVbkb/Kf
+         2Kc7VL67INv6wFto7G8PBAuxJCiBx38p7RkVBh1+CkZjZxRUUo8JB9NTZIRfpTJQSEtp
+         gIAusA7ayPJvK7r6e0gIkYlexfDJn+wEUnAwqzoL4abQzViMYnlsdGWh9OBxiPqBwNIV
+         4U3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=sender:x-gm-message-state:date:from:to:cc:subject:message-id
-         :references:content-disposition:in-reply-to:mime-version
-         :x-original-sender:x-original-authentication-results:precedence
-         :mailing-list:list-id:x-spam-checked-in-group:list-post:list-help
-         :list-archive:list-subscribe:list-unsubscribe;
-        bh=EtZ4C+waR6Z92ANVSg5ZaALdcbflugtw62KthqSamBA=;
-        b=HM6H81CVeJg5rgwyQpH4nciZTLfyxJkqs0h6eq19rJZQC1RmKu0/bV/dv/dZrYLT/V
-         GmH6KqLElME5V9CnC4XCkHZuaKXX+gl5oaDP/3a4U3Nnz8yEHy+I8i0QnfNxqUTadFGB
-         S+izvIiharJtNdE08llgtCA/FPzWV4OcoeWvudnvonLxcevgNhW5v8Pwc6/3NdbPELZb
-         theptRhbVc4zTuLJdHwSdi3HUv1BI4Me+SEa0z8WaQDls3VNK4/rcnUm3huVqFKrFRX4
-         rvCTfgsctU5P87Uax581gXImMZlx4WaEDtsUFWxT0kXjcyH1rI33eM/0174ZIypv22xn
-         kWXg==
+        h=sender:x-gm-message-state:date:from:to:message-id:subject
+         :mime-version:x-original-sender:precedence:mailing-list:list-id
+         :x-spam-checked-in-group:list-post:list-help:list-archive
+         :list-subscribe:list-unsubscribe;
+        bh=ND01xT8q7B4sK2GdOKMkdLtYNZNVAtMPOal9F1cxFWE=;
+        b=T1nRkKW+jzWrmfpJCOz+v9ACMN6iDEQx1uxVitlL3ib7e1nvrOsH+XKbFFULX4pjY/
+         Luh7GwDDI89RTciY1cfdqgk7Jh9Y4OC6s9A8KqQn51G0+tjjD7pkWsmwoxog2mkUL7Do
+         7ENfRR760ItIkbvOd/uMVcv+x1YKt785xkMHoGfUozkZEDXhwP1Y4SEY1bN3/kftTlrD
+         5YnNTSpjjsal9knQAO3B58R9epzD3CBjReNWySuoBk4f2bjOiKGnUflnsYLVPm8t2AsF
+         JTjQB7Vl9V2j+v+eDe1ColLn7lHyl2etGG1o1WT3LSFg9AYOZ4GynSrmapybrU4O6M/A
+         kuQw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1Nx7r1GJ6kTKeVdKDAzYtblX1K3NLt22ec5ncQIf+6f3I94AmZ
-	jW2eCCrc/P5oBfNfhbKAOVo=
-X-Google-Smtp-Source: AA6agR62o9RR382zrZIbERH4CosteHSMue4ykY3kGwqXUT44pDgEqQ/+wbC/bmKCB8ltZxNgj+syyw==
-X-Received: by 2002:a05:6000:a09:b0:220:638f:3b4a with SMTP id co9-20020a0560000a0900b00220638f3b4amr1276395wrb.626.1659615814522;
-        Thu, 04 Aug 2022 05:23:34 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0JWF0QUD/ZTK3n6LkqQiJjAojX37b9jukWhoyfB8N4AGhB4/x7
+	guActTZBtLCM9QC0nVOQSVs=
+X-Google-Smtp-Source: AA6agR5vNAuNzZV0UZW4FQBwn0Ozgx4uhj9v9dCh3+dO/BkzC8XY9Hd5VhzbnUbn8Q5QS6T8FPK7fg==
+X-Received: by 2002:a05:6870:171c:b0:10e:40b9:8cd0 with SMTP id h28-20020a056870171c00b0010e40b98cd0mr4560163oae.283.1659620406277;
+        Thu, 04 Aug 2022 06:40:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:5a90:0:b0:220:80cc:8add with SMTP id bp16-20020a5d5a90000000b0022080cc8addls2527661wrb.2.-pod-prod-gmail;
- Thu, 04 Aug 2022 05:23:33 -0700 (PDT)
-X-Received: by 2002:adf:f38b:0:b0:21e:c041:7726 with SMTP id m11-20020adff38b000000b0021ec0417726mr1256266wro.394.1659615813435;
-        Thu, 04 Aug 2022 05:23:33 -0700 (PDT)
-Received: from mga04.intel.com (mga04.intel.com. [192.55.52.120])
-        by gmr-mx.google.com with ESMTPS id bo6-20020a056000068600b0021e8b3a5ffesi23411wrb.2.2022.08.04.05.23.32
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 04 Aug 2022 05:23:33 -0700 (PDT)
-Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 192.55.52.120 as permitted sender) client-ip=192.55.52.120;
-X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="288677944"
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
-   d="scan'208";a="288677944"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2022 05:23:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
-   d="scan'208";a="706173909"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Aug 2022 05:23:31 -0700
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 4 Aug 2022 05:23:31 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 4 Aug 2022 05:23:30 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Thu, 4 Aug 2022 05:23:30 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Thu, 4 Aug 2022 05:23:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y/Bvc6klqa9lNfZ4P8MU2JEAMyipMYiqPo/qazZAuyHXR1nAQWqxwURUuzoG9TZKaVZwPMuTvapEDpyJqG/xOMJGSLqwW2H+uh0GhqITFPckxARG0jFPV5yJ300BM7vpgV8VKeTGvtgxioRQeVvAuhae7EjWXdlRyZHtuRVtzof69khIwYmE0Wetxe7b+uVC2pb2n3oM2ubPIZ9l3KXwqOcZqxAzNPeM96z6BIGuq4Mg3PKcSTWPvzpL7hp7F+3JSEYCrlWXwvEQEaEsi1Jd/MuGJd+KD+nRTfXJowjPZ/MpCmLmwQmSZ57mgAfvRPHK8Wb66NiXoRDZuYfZleNnUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8FNHmsx9DXQYkm1eIAYOST2Qndo4Byj2ubg8Xb/M1VA=;
- b=JJR4XfPxbihZNK8nxYwxrHxNjtGCAuEXxauMRnznQzvicuy9+88eCBU8BDJC4KTlkqLXrowJwFj647xkcYCzhfnBWqXDJX1YP8ashEEKojWyVbtXp8bD5PFx3BEk42nxAoDUnQCbqX1jzJqqUcFehttxEfgYZO+985115Q0N0GkbStCWv3XSYmokMmqeDBN+LDe5ly77OtpCCggQDkuD8dbB58SjyVXDQ46OyfxvrH/Q5f7P0uUa0xGIDcvUPwnYynLpr2Bfagum5Lju2MghHv3LCU333v5Z2jL44RTFGsW7wiQ9mUMb6QGiuA9ZZECvIicgWqGGJb3YRqMI8KL+0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
- by DM4PR11MB6042.namprd11.prod.outlook.com (2603:10b6:8:61::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Thu, 4 Aug
- 2022 12:23:23 +0000
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::8525:4565:6b49:dc55]) by MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::8525:4565:6b49:dc55%6]) with mapi id 15.20.5458.024; Thu, 4 Aug 2022
- 12:23:23 +0000
-Date: Thu, 4 Aug 2022 20:22:31 +0800
-From: Feng Tang <feng.tang@intel.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-CC: Vlastimil Babka <vbabka@suse.cz>, "Sang, Oliver" <oliver.sang@intel.com>,
-	lkp <lkp@intel.com>, LKML <linux-kernel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "lkp@lists.01.org"
-	<lkp@lists.01.org>, Andrew Morton <akpm@linux-foundation.org>, "Christoph
- Lameter" <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, David Rientjes
-	<rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, Roman Gushchin
-	<roman.gushchin@linux.dev>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, "Hansen,
- Dave" <dave.hansen@intel.com>, Robin Murphy <robin.murphy@arm.com>, "John
- Garry" <john.garry@huawei.com>, Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin
-	<ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>,
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
-Subject: Re: [mm/slub] 3616799128:
- BUG_kmalloc-#(Not_tainted):kmalloc_Redzone_overwritten
-Message-ID: <Yuu6B0vUuXvtEG8b@feng-clx>
-References: <Yudw5ge/lJ26Hksk@feng-skl>
- <0e545088-d140-4c84-bbb2-a3be669740b2@suse.cz>
- <YujKCxu2lJJFm73P@feng-skl>
- <CACT4Y+Zwg8BP=6WJpQ5cCbJxLu4HcnCjx8e53aDEbTZ5uzpUyg@mail.gmail.com>
- <85ec4ea8-ae4c-3592-5491-3db6d0ad8c59@suse.cz>
- <CACT4Y+asjzrBu8ogRDt9hYYaAB3tZ2pK5HBkzkuMp106vQwKWQ@mail.gmail.com>
- <YukoZEm4Q6CSEKKj@feng-skl>
- <CACT4Y+Y6M5MqSGC0MERFqkxgKYK+LrMYvW5xPH5kUA2mFh5_Xw@mail.gmail.com>
- <YutnCD5dPie/yoIk@feng-clx>
- <CACT4Y+Zzzj7+LwUwyMoBketXFBHRksnx148B1aLATZ48AU9o3w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+Zzzj7+LwUwyMoBketXFBHRksnx148B1aLATZ48AU9o3w@mail.gmail.com>
-X-ClientProxiedBy: SG2PR01CA0151.apcprd01.prod.exchangelabs.com
- (2603:1096:4:8f::31) To MN0PR11MB6304.namprd11.prod.outlook.com
- (2603:10b6:208:3c0::7)
+Received: by 2002:a4a:2c04:0:b0:42f:20ad:f428 with SMTP id o4-20020a4a2c04000000b0042f20adf428ls89417ooo.8.-pod-prod-gmail;
+ Thu, 04 Aug 2022 06:40:04 -0700 (PDT)
+X-Received: by 2002:a4a:e508:0:b0:435:ebcc:5ebf with SMTP id r8-20020a4ae508000000b00435ebcc5ebfmr755834oot.9.1659620402645;
+        Thu, 04 Aug 2022 06:40:02 -0700 (PDT)
+Date: Thu, 4 Aug 2022 06:40:02 -0700 (PDT)
+From: "MARCO CAVICCHIOLI. ANTI BERLUSCONIANI PRONTIATUTTO"
+ <gennarinozagami@mail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <fc6c8857-5db5-4b46-994c-cdbea8fdaafdn@googlegroups.com>
+Subject: =?UTF-8?Q?LA_PARLAMENTARE_ASSASSINA_#CRISTINAROSSELLO,_L'AVVOCATO_PEDOFI?=
+ =?UTF-8?Q?LO,_LESBICONE,_MASSO^NAZI=E5=8D=90FASCI?=
+ =?UTF-8?Q?STA,_CORROTTO_E_LADRONE_CRISTINA?=
+ =?UTF-8?Q?_ROSSELLO_DI_MAFIOSA_E_HITLERIANA_#FORZAITALIA_FORZA_ITALIA_E_?=
+ =?UTF-8?Q?DELINQUENZIALI_TIPI_DI_MASSONERIA_NEO_P2ISTA_ASSASSINA,_ROTARY_?=
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 16a4faa3-41a5-4e1c-77c5-08da76141ff0
-X-MS-TrafficTypeDiagnostic: DM4PR11MB6042:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HaE8au5+Z5Sc0nZUvcLiDwMQ9+boXPpdYM4mAKlfjjO7ucPCvIITkPMDz0o5LXompybW4rzaQcGIV91NmNfQS5Uo1Fko81gf1q3oCF8djuOjwlZzfFEGRXTkHJ6/UZDhqDBVlvuxdcO/5ySfOouTG7cEYxlC1P08Su3sKsLUqhrAoycjDo5WRruZJp97/T/9FC9ULuZScfaLiKaQ8o3EwvzBAsKPJ20JLv+/cy2oYijboiO09QMAYVz3DeJhP3jVLlYjFlgKUBVAmKdnBhumjUIgxSl+bLHJzIA1bCbQDU2UPFPk86vtq2lRQh/BWvO5Fw7zcVcg+ow8Bpf4Bho0IgJXkynlnUJvvqMrOTlFXHxahxITn5ljgWmRqGBlC1cFItewnZhM/Nhyt4vN9FBtvQPHMUTPn0rglAXPvHAv9bKMsOqxMj/1WlUzxgrI7MiRHpZaEVrjhSwl9XWeyOpuy1TSkeUUdXXA2umo1l4vQF9WrWy35/n9w5rSWX6cD3sNM74xFzW8iP5b7vvXS5j5ORZl5gLwSHqu8wLUjh4JptcGQ+JHG11MCZdTbbxOe7nXKSDqJaqnByeimEDdl6bxgLTJ3YE9TeXHeL7vS6r2QHINOQ+m6dD1vP8foLVw/sBPdmYgh3t8l+SwhOwJICAttudYSVaUYvCmz7ioA5OM9ZP8TyWlEIlaWdIwCj5uRrQ4XpAOXnDXxBf0HMl60FcCcZPJv9ZzDRmea+YRnTDEUS7pKRoBXxlo6WA1rAXN6Jg6kvwtAduxpc1LPXfiexmizA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(346002)(366004)(136003)(376002)(39860400002)(396003)(5660300002)(82960400001)(7416002)(44832011)(8936002)(86362001)(2906002)(478600001)(6486002)(966005)(38100700002)(6506007)(33716001)(53546011)(41300700001)(6666004)(316002)(6916009)(54906003)(66476007)(8676002)(66946007)(4326008)(6512007)(26005)(9686003)(66556008)(186003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yv2sXUp5tC9H8TZtP1gvDIG+CdU3Eb3mAWa/LBF2S9GgvFw0E74fTDQBskwM?=
- =?us-ascii?Q?qxZAc1XXt5wAojMzRyo79X/+VLEEPrkZON+SSCMFgWHWTseG8tU3y2zFytRM?=
- =?us-ascii?Q?/ofeUZ8MdRzA6IDl/UeUbZIh+b74CM33XIJvaHNz+fjvcgb/E1/NLdq3aDFf?=
- =?us-ascii?Q?D6SY7oSpWFGPSYz/YHyKq57sgiuOcc0LBxOv637Xxk+rIYCjEb9yegG45K19?=
- =?us-ascii?Q?/g0iO4FaaqW9GOnK2Rp4PfEFYS+SHHnkitBAjHT0vJzIIKbrnVS8umCsKzir?=
- =?us-ascii?Q?cL6fsy0UuJqGhsnVZ3v35Y4bab8quzcf5CJXONxGUfdHdXp7ttmjCxa1/xIu?=
- =?us-ascii?Q?zN53phQVjHZPg0ZeuRenuFzZeYn0ljNKpybfEXJZ/aDN44+0RMrD3ZL92sv6?=
- =?us-ascii?Q?zB8BWVAdO0KA6kT+eomv+usZ0bwKnSvVx3dqNt0csEPJKmVpC6+R836HvDl8?=
- =?us-ascii?Q?l5jTw0XoFed1Bz6ia1CVYdVmrhGTNyI/yrkBx1a+KE+ebvMXjlmI+1F8fxKo?=
- =?us-ascii?Q?9t2crs+xl2tgCGKL2mx7ZxFS+MZCV1phPO/eOtHgFgVKzx9VkZukHUpwT4X9?=
- =?us-ascii?Q?/cm46nf4bfwiNIjeoOhVE4Hn9WKRTOCzUWtv4LNmyv3wvZwz7etynhqDFbN/?=
- =?us-ascii?Q?eH0qU/Btpgqgqp8GXs3Cfhe7mw18WbJI+vDLABGGLl73bhoM+30VFfO5+c50?=
- =?us-ascii?Q?1EhGVl1JRAcmXSnpqPQd4gwF2zscraHsM57uQ5ZRVG1I2QUv+j4kKqH2Bpoi?=
- =?us-ascii?Q?NHsQpoVIV9TzIKprbVksRBz0VDvreuJA3jt29fgU5P8FHw0pdq+iFRpjM1pG?=
- =?us-ascii?Q?GHng1EhiRVjxCD5fNXAaMfBIOuuSoAzd+Jh7fJgx3iCvbPZLMTKrZqKVCtXj?=
- =?us-ascii?Q?oGcmJtIXP0/TZtS3ht1/r6DqzC1qEvlTGCHtrZcJy26qjYXXUG1bIwK6bq5Z?=
- =?us-ascii?Q?PUUFeR2gEKfGul5oSZDWvggfqrRcnaj6zPPaesLZYkjccWA7avStDVjJ+yZB?=
- =?us-ascii?Q?vnDjL184G5j54bw6Xqo1MXGx3CitPMXIvbRan1OUZ7KEqwrDOn1LaMiSxfPN?=
- =?us-ascii?Q?emVpZ9SAoFwyiAAi6eqjLgAQY3oky47F86R2xXeyYpim38caONvt/xxj8CGj?=
- =?us-ascii?Q?3+O4zFL/fTFZNs9tDUdlfrdSiChQyGd4+kvaSLiX2HEJgYgakAAs61RQgD7k?=
- =?us-ascii?Q?Hj5jPhxxc/NFBQ/2U5/Om0us+AkwwK4Ua3gz3ngo1skmKEM9ZpE5JZl1AcUL?=
- =?us-ascii?Q?FS6NLIP1a58OqSPKF7n35VOxOcSG84RRRvUB9CXuN/W93DF1n+B5IksvmehN?=
- =?us-ascii?Q?lC6y5lLbh8zBh3IRzxp3QUZJy56GVXLuNAWe6av+zsCeV3CMIzeSu28yh4YO?=
- =?us-ascii?Q?usiDUJaGSZJTAlda+Zci7VxKm3V9Po2YuZwD3EW5f5UQXL/AJqULgqYY+ALL?=
- =?us-ascii?Q?eafuoXdsL0CInvWVNs5dB+sbucdiiKXXdCxmF2aCGv1Rp9ej2zmyaUMprKi4?=
- =?us-ascii?Q?ZUbn7P5aBBEug3cNWFRQM1sfZvmf2r5NkEXVT02iHwo0qCEy6U1Yji92dh/c?=
- =?us-ascii?Q?td1Tyr+CZ2cHhJXfu0x1VQO3ObwGAd3qJ6EMYkCQ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16a4faa3-41a5-4e1c-77c5-08da76141ff0
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2022 12:23:23.5810
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cXpi1Rqb39/saqNQeFDkN56gvvFtVHJNCqpgthmn+qvx+MUz+aktcVXKpx3qjnFdwSaLRUpXII5Mbf0mwZwiNQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6042
-X-OriginatorOrg: intel.com
-X-Original-Sender: feng.tang@intel.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=hscr7XoD;       arc=fail
- (signature failed);       spf=pass (google.com: domain of feng.tang@intel.com
- designates 192.55.52.120 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_998_1095087269.1659620402110"
+X-Original-Sender: gennarinozagami@mail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -196,81 +68,104 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Aug 04, 2022 at 06:47:58PM +0800, Dmitry Vyukov wrote:
->  On Thu, 4 Aug 2022 at 08:29, Feng Tang <feng.tang@intel.com> wrote:
-[...]
-> >
-> > ---8<---
-> > From c4fc739ea4d5222f0aba4b42b59668d64a010082 Mon Sep 17 00:00:00 2001
-> > From: Feng Tang <feng.tang@intel.com>
-> > Date: Thu, 4 Aug 2022 13:25:35 +0800
-> > Subject: [PATCH] mm: kasan: Add free_meta size info in struct kasan_cache
-> >
-> > When kasan is enabled for slab/slub, it may save kasan' free_meta
-> > data in the former part of slab object data area in slab object
-> > free path, which works fine.
-> >
-> > There is ongoing effort to extend slub's debug function which will
-> > redzone the latter part of kmalloc object area, and when both of
-> > the debug are enabled, there is possible conflict, especially when
-> > the kmalloc object has small size, as caught by 0Day bot [1]
-> >
-> > For better information for slab/slub, add free_meta's data size
-> > info 'kasan_cache', so that its users can take right action to
-> > avoid data conflict.
-> >
-> > [1]. https://lore.kernel.org/lkml/YuYm3dWwpZwH58Hu@xsang-OptiPlex-9020/
-> > Reported-by: kernel test robot <oliver.sang@intel.com>
-> > Signed-off-by: Feng Tang <feng.tang@intel.com>
-> 
-> Acked-by: Dmitry Vyukov <dvyukov@google.com>
- 
-Thanks for your suggestion and review!
+------=_Part_998_1095087269.1659620402110
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_999_759068688.1659620402110"
 
-> I assume there will be a second patch that uses
-> free_meta_size_in_object  in slub debug code.
- 
-Yes, it will be called in the slub kmalloc object redzone debug code.
+------=_Part_999_759068688.1659620402110
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Feng
+LA PARLAMENTARE ASSASSINA #CRISTINAROSSELLO, L'AVVOCATO PEDOFILO,=20
+LESBICONE, MASSO^NAZI=E5=8D=90FASCISTA, CORROTTO E LADRONE CRISTINA ROSSELL=
+O DI=20
+MAFIOSA E HITLERIANA #FORZAITALIA FORZA ITALIA E DELINQUENZIALI TIPI DI=20
+MASSONERIA NEO P2ISTA ASSASSINA, ROTARY #ROTARY ASSASSINO, #LIONSCLUBS=20
+LIONS CLUBS ASSASSINI, KIWANIS #KIWANIS ASSASSINI, CLUB DIPLOMATIA=20
+#CLUBDIPLOMATIA ASSASSINO, CLUB CANOVA #CLUBCANOVA ASSASSINO, RICICLA=20
+TANTISSIMI SOLDI MAFIOSI, VIA SUO CRIMINALISSIMO #ROSSELLOFAMILYOFFICE=20
+ROSSELLO FAMILY OFFICE DI LONDRA
 
-> > ---
-> >  include/linux/kasan.h | 2 ++
-> >  mm/kasan/common.c     | 2 ++
-> >  2 files changed, 4 insertions(+)
-> >
-> > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> > index b092277bf48d..293bdaa0ba09 100644
-> > --- a/include/linux/kasan.h
-> > +++ b/include/linux/kasan.h
-> > @@ -100,6 +100,8 @@ static inline bool kasan_has_integrated_init(void)
-> >  struct kasan_cache {
-> >         int alloc_meta_offset;
-> >         int free_meta_offset;
-> > +       /* size of free_meta data saved in object's data area */
-> > +       int free_meta_size_in_object;
-> >         bool is_kmalloc;
-> >  };
-> >
-> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> > index 78be2beb7453..a627efa267d1 100644
-> > --- a/mm/kasan/common.c
-> > +++ b/mm/kasan/common.c
-> > @@ -201,6 +201,8 @@ void __kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
-> >                         cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
-> >                         *size = ok_size;
-> >                 }
-> > +       } else {
-> > +               cache->kasan_info.free_meta_size_in_object = sizeof(struct kasan_free_meta);
-> >         }
-> >
-> >         /* Calculate size with optimal redzone. */
-> > --
-> > 2.27.0
-> 
+LA LECCA FIGA DI RAGAZZINE 13 ENNI, LA VOMITEVOLE PEDOFILA ED OMICIDA=20
+CRISTINA ROSSELLO #CRISTINAROSSELLO PROTEGGE SOLDI STRAGISTI E LATITANZE DI=
+=20
+MAFIOSI N1 AL MONDO: #MATTEOMESSINADENARO MATTEO MESSINA DENARO E=20
+#GIUSEPPEMOTISI GIUSEPPE MOTISI (COPERTA DA NAZI=E5=8D=90LEGHISTA BERLUSCON=
+ICCHIO=20
+PEDERASTA ED OMICIDA PAOLO BARRAI A DUBAI... FA PURE RIMA... CRIMINALE=20
+EFFERATO #PAOLOBARRAI, IMBOSCANTESI A #DUBAI, PER NON FINIRE IN CARCERE A=
+=20
+MILANO). LA KILLER SATANICA CRISTINA ROSSELLO #CRISTINAROSSELLO, DA TANTI=
+=20
+ANNI, ORGANIZZA PURE TANTI OMICIDI MASSO^MAFIOSI DA FAR PASSARE PER FALSI=
+=20
+SUICIDI, MALORI ED INCIDENTI. LA TRUFFATRICE LECCA VAGINE DI ADOLESCENTI=20
+CRISTINA ROSSELLO, LA PEDOFILA #CRISTINAROSSELLO FU ARTEFICE DEI FALLIMENTI=
+=20
+DI #FONSAI E #VENETOBANCA! NON SI SCHIFA "IL MASSONE MAXIMO" #ALBERTONAGEL=
+=20
+ALBERTO NAGEL DI #MEDIOBANCA MEDIOBANCA A TENERE IN #SPAFID SPAFID UNA=20
+CRIMINALE KILLER, HITLERIANA E MAFIOSA COME CRISTINA ROSSELLO=20
+#CRISTINAROSSELLO? NON SI SCHIFA #FRATELLIBRANCADISTILLERIE FRATELLI BRANCA=
+=20
+DISTILLERIE AD AVER A CHE FARE CON UNA PEDOFILA, LESBICA, NAZISTA ED=20
+OMICIDA COME CRISTINA ROSSELLO #CRISTINAROSSELLO? PRESTO TANTISSIMI ALTRI=
+=20
+DETTAGLI!
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yuu6B0vUuXvtEG8b%40feng-clx.
+SIAMO I NUOVI PARTIGIANI DEL 2020, SALVEREMO L'ITALIA!
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/fc6c8857-5db5-4b46-994c-cdbea8fdaafdn%40googlegroups.com.
+
+------=_Part_999_759068688.1659620402110
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+LA PARLAMENTARE ASSASSINA #CRISTINAROSSELLO, L'AVVOCATO PEDOFILO, LESBICONE=
+, MASSO^NAZI=E5=8D=90FASCISTA, CORROTTO E LADRONE CRISTINA ROSSELLO DI MAFI=
+OSA E HITLERIANA #FORZAITALIA FORZA ITALIA E DELINQUENZIALI TIPI DI MASSONE=
+RIA NEO P2ISTA ASSASSINA, ROTARY #ROTARY ASSASSINO, #LIONSCLUBS LIONS CLUBS=
+ ASSASSINI, KIWANIS #KIWANIS ASSASSINI, CLUB DIPLOMATIA #CLUBDIPLOMATIA ASS=
+ASSINO, CLUB CANOVA #CLUBCANOVA ASSASSINO, RICICLA TANTISSIMI SOLDI MAFIOSI=
+, VIA SUO CRIMINALISSIMO #ROSSELLOFAMILYOFFICE ROSSELLO FAMILY OFFICE DI LO=
+NDRA<br><br>LA LECCA FIGA DI RAGAZZINE 13 ENNI, LA VOMITEVOLE PEDOFILA ED O=
+MICIDA CRISTINA ROSSELLO #CRISTINAROSSELLO PROTEGGE SOLDI STRAGISTI E LATIT=
+ANZE DI MAFIOSI N1 AL MONDO: #MATTEOMESSINADENARO MATTEO MESSINA DENARO E #=
+GIUSEPPEMOTISI GIUSEPPE MOTISI (COPERTA DA NAZI=E5=8D=90LEGHISTA BERLUSCONI=
+CCHIO PEDERASTA ED OMICIDA PAOLO BARRAI A DUBAI... FA PURE RIMA... CRIMINAL=
+E EFFERATO #PAOLOBARRAI, IMBOSCANTESI A #DUBAI, PER NON FINIRE IN CARCERE A=
+ MILANO). LA KILLER SATANICA CRISTINA ROSSELLO #CRISTINAROSSELLO, DA TANTI =
+ANNI, ORGANIZZA PURE TANTI OMICIDI MASSO^MAFIOSI DA FAR PASSARE PER FALSI S=
+UICIDI, MALORI ED INCIDENTI. LA TRUFFATRICE LECCA VAGINE DI ADOLESCENTI CRI=
+STINA ROSSELLO, LA PEDOFILA #CRISTINAROSSELLO FU ARTEFICE DEI FALLIMENTI DI=
+ #FONSAI E #VENETOBANCA! NON SI SCHIFA "IL MASSONE MAXIMO" #ALBERTONAGEL AL=
+BERTO NAGEL DI #MEDIOBANCA MEDIOBANCA A TENERE IN #SPAFID SPAFID UNA CRIMIN=
+ALE KILLER, HITLERIANA E MAFIOSA COME CRISTINA ROSSELLO #CRISTINAROSSELLO? =
+NON SI SCHIFA #FRATELLIBRANCADISTILLERIE FRATELLI BRANCA DISTILLERIE AD AVE=
+R A CHE FARE CON UNA PEDOFILA, LESBICA, NAZISTA ED OMICIDA COME CRISTINA RO=
+SSELLO #CRISTINAROSSELLO? PRESTO TANTISSIMI ALTRI DETTAGLI!<br><br>SIAMO I =
+NUOVI PARTIGIANI DEL 2020, SALVEREMO L'ITALIA!<br>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/fc6c8857-5db5-4b46-994c-cdbea8fdaafdn%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/fc6c8857-5db5-4b46-994c-cdbea8fdaafdn%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_999_759068688.1659620402110--
+
+------=_Part_998_1095087269.1659620402110--
