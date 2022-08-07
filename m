@@ -1,64 +1,141 @@
-Return-Path: <kasan-dev+bncBDJ4J3745AKBBE4TWCLQMGQES3NDIJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBEXPX6LQMGQE6DOVFAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc40.google.com (mail-oo1-xc40.google.com [IPv6:2607:f8b0:4864:20::c40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E32458A021
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Aug 2022 20:01:57 +0200 (CEST)
-Received: by mail-oo1-xc40.google.com with SMTP id g30-20020a4a251e000000b00435fdfd4a72sf244615ooa.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Aug 2022 11:01:57 -0700 (PDT)
+Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3813458BC07
+	for <lists+kasan-dev@lfdr.de>; Sun,  7 Aug 2022 19:34:12 +0200 (CEST)
+Received: by mail-yb1-xb3c.google.com with SMTP id m123-20020a253f81000000b0066ff6484995sf5904466yba.22
+        for <lists+kasan-dev@lfdr.de>; Sun, 07 Aug 2022 10:34:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1659893651; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=h3dCxXaYDroRwCAqK6plg0/zMujXm0oMty9H9OORaUHp1kBBgaD8ECWGqfKUAfVA9n
+         OzFuYXbfPRRlW4mVEJSEJpLDJm+5DAyZma6+IAiVGOG/B/Zd7yG6WA/rX5RvST0xU3xK
+         z7G0ekNkCXVjGirS4QPY+pO4EQNt9k2mr7fiFOzTFmjMF6JxFEeLO9dfrp360AZjWuk2
+         WM/2J9KM1s4UG2DlvfSzbevVdp2haZqGRReWaBaz3znm6QsyDy5FuPIo3ax6sFw1EtC/
+         uUlbOVpEuJAKiH1frU+TCp/j6DSdyIUyNRm69nsKXseHA9PkF2r3j7zM2AuSclbWZLhI
+         Cj/w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DMyvAeQA+roH6QmvmBTq9U6orvkizk9snH0AehNjYoY=;
+        b=Uzp2iNA8rLbePGHdfWK3KU8q6CeTjE/Io/tlsK66w6rRFRpqGDwwPeTaam7RJsBswm
+         kOcCW/9DTkex/ss076VU6N4z+3TL6lgjIEdE99tzvo8p1U6WCHh7WNLk2ju2ry1HiYI1
+         Yw8gi0Ie4O4jwiekH+Br85+35smnvD1ls0ZF+QuTXlboMS+FSd13UO70CytSc9i76PAk
+         2APU+Akny6jttrukOL1tCaR8xo8Wu4R+Iwfs06rMKXtERUzrJbJCo22gi+kZKc8YYZWo
+         XILbrfabLT/dj9wBYNS/yjkw528x0u0nemdUryERpeyONercs2Z1WYoWcmendYuroyXV
+         VPhg==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=XpLWeHmL;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1133 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:x-original-sender
-         :mime-version:subject:message-id:to:from:date:from:to:cc;
-        bh=PmnW7tBPxvFxMW3bD2/VWsHkMEHJvDgwTm0zpvLK6mA=;
-        b=JWXTvlCScqVo7+BOJvV1V0a3v3OzJximULANUhEqkeGY6ANigo5aWjZXrE9tR6m2Gf
-         FmQYZ5KNCYoldRAaE2oNFq2iKuk+Tg3GKFFAv3Cmswwwo4jJNhCIQNgSwsPBm6Us+NfS
-         uqqgkeElYA2uuI/tTGJnstGz6wjvd2OdPbMzlqa+ChrLpz+46o4+b6qeZShxJZRim99d
-         hTdt0CdDdU5H/OTjpES2734rAwpei7+1V2FFX1Wn2tM1Q1b524Mznxefr/GSkpqk7iWl
-         cxXRhSLN/fV8Syd8akFDA4y3TnCARoB9Ez25YhWr7/nKzE23OVAm11ZHMJEVO7XjEXb6
-         itew==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=DMyvAeQA+roH6QmvmBTq9U6orvkizk9snH0AehNjYoY=;
+        b=l2Ttxkkuczuy8B0YWL/JPwpJxR1ENyo5JQHQsVoBzLtbAD/PQdJhpnHKBhBrK87jqn
+         qLm2tCLtzfDcyKPkkhixku4Wm8Yj/Adasi/zQiEzsNlJKlmEVtDv1gG9kmbjh7wB4UYR
+         cYwihjjegwt5Cwifqjc2VkIp+2uWzKl0sSbiNxCHnDYlOpsRgA5xWMeJBK3s+KX/2Kii
+         OJ9b5Sv2bJCcrxKu42WuXZlrYLcMnUFHFk0GrAbkSRfF/1pOOKRGgv9F/Vl3S3YNZ2YY
+         L2/vPZNH8RPjkgN90JBg7XSs1rMDbQdXVSRtGHFA0xbxDLfKsH5eRfvNRFsxu5rcjH7Y
+         Y54w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-sender:mime-version:subject:message-id:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=PmnW7tBPxvFxMW3bD2/VWsHkMEHJvDgwTm0zpvLK6mA=;
-        b=KGSkrolWwOiuRJHjBEWt64AzepXRGDf/oKfMbExgT5f1flgvfpfrPEWC702EWX3nQP
-         tQhStS+OyyyxVqEt6QNXURf1Om4lLYf55SOD2DKQOm3TEEc6b1J0IvyuL8tTntmmvaPn
-         uZ96OePPEE3fZtyaOTIOVLichEG2o0U3jEIEcIVqTThduosvZ4AlGBN7XLO1iftSlpq8
-         LGwk7I4+E4zonawKxOnQpDiCefsg6/r4M4or/OTVN609wKmdKiATv0ljBcdkmI75Qbsc
-         sjMwpv2Sn9wQfma6TUjueYnBwwPxde+j6Mogroi/zP1rkU6lOPMsePzR621qdvVi5oOD
-         FmWg==
-X-Gm-Message-State: ACgBeo0701KLTiGlXPXssQgnhAC0S5zEMVQAPWskUFF87m2bju2iSquw
-	Bb+eEJy0fWNihEQimbYV6dY=
-X-Google-Smtp-Source: AA6agR7p3zc97HBNOY0xfw7z+eePoB6SvL60ac36pmH39kDyFrdr1GIphpxuCOVwApi+tLIAJEbRPQ==
-X-Received: by 2002:a05:6871:9b:b0:10b:c5d0:4377 with SMTP id u27-20020a056871009b00b0010bc5d04377mr4889695oaa.197.1659636115398;
-        Thu, 04 Aug 2022 11:01:55 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=DMyvAeQA+roH6QmvmBTq9U6orvkizk9snH0AehNjYoY=;
+        b=gT5KwRN4cH4iHkDo/8ROUS3VNMhmwUL7UDAeWkdl65/ZI/tePXdlM1e5oH7NsG9n/N
+         qC0efJ7kway5Nmv78A408Bz7Z1HKLqqM9tSWZSjlNAZyIYWJJjyvICqN1c4BQzC6mOrl
+         jdEtIBWuBkndALr9nZdoxQDOVSsDo3P2qgug1FOe9HICjt6hmxL/Yd1VuCZrQlHpDYIa
+         TvnM1o0JPQvhaJsBnB2SmNaYrCphBZgEKBH3ckS73cdxP5JHW3RK/qb9evXuVbr7aOyZ
+         N6ZbohUAzUCGFMdn8bcIQjKIZqZnVPtT6zdK9S6D0QPuu02cRPxJ6M7n+L+4z0bb6f6y
+         oFJA==
+X-Gm-Message-State: ACgBeo0Mg7NF+egPXUtI6v258rZI0K7RJsaqzPZKlpkDQJWSArHo7HE/
+	2V5r30tqpEbz+izRf1WKEIQ=
+X-Google-Smtp-Source: AA6agR6pkoovEwJhjKgBZfT6yj3yV5OWSDV5FCEEvwcYLfLGZfL0pWM86b9chNz4sj1p/+EFIgfLWg==
+X-Received: by 2002:a25:8b8c:0:b0:67b:5c18:870 with SMTP id j12-20020a258b8c000000b0067b5c180870mr13007394ybl.244.1659893650927;
+        Sun, 07 Aug 2022 10:34:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:21c3:0:b0:435:6e84:85ed with SMTP id u186-20020a4a21c3000000b004356e8485edls120696oou.11.-pod-prod-gmail;
- Thu, 04 Aug 2022 11:01:54 -0700 (PDT)
-X-Received: by 2002:a4a:b401:0:b0:35e:de93:43a9 with SMTP id y1-20020a4ab401000000b0035ede9343a9mr1207997oon.80.1659636114658;
-        Thu, 04 Aug 2022 11:01:54 -0700 (PDT)
-Date: Thu, 4 Aug 2022 11:01:54 -0700 (PDT)
-From: "'ANDREAS NIGG. REVOLUTIONARY BANK SAFRA SARASIN' via kasan-dev" <kasan-dev@googlegroups.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <d4a69666-eca2-4c92-a93a-d7f37b2e7da9n@googlegroups.com>
-Subject: =?UTF-8?Q?L'ASSASSINO_MAFIOSO_E_PEDOFILO_PAOLO_BARRAI,__SI_IMBOSCA_A_DUB?=
- =?UTF-8?Q?AI,_PER_NON_TORNARE_IN_GALERA,_PER_LA_QUARTA_VOLTA,_MAI_(FA_PUR?=
- =?UTF-8?Q?E_DOPPIA_RIMA)!_SI,_=C3=88_PROPRIO_C?=
- =?UTF-8?Q?OS=C3=8C:_IL_PEDERASTA_OMICIDA,_#PAO?=
- =?UTF-8?Q?LOBARRAI,_PER_NON_FINIRE_IN_CAR?=
- =?UTF-8?Q?CERE,_SI_IMBOSCA_A_#DUBAI!_=C3=89....?=
+Received: by 2002:a81:1297:0:b0:31f:56e8:aa58 with SMTP id 145-20020a811297000000b0031f56e8aa58ls4421422yws.9.-pod-prod-gmail;
+ Sun, 07 Aug 2022 10:34:10 -0700 (PDT)
+X-Received: by 2002:a81:ae55:0:b0:31f:6630:9736 with SMTP id g21-20020a81ae55000000b0031f66309736mr14989823ywk.346.1659893650426;
+        Sun, 07 Aug 2022 10:34:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1659893650; cv=none;
+        d=google.com; s=arc-20160816;
+        b=bvHvrnnH4G9EI3m0ourc9w3R7eVz7I0D58Mx/B0DKpJvoSDuA80cx/T5ZKMSMffasG
+         HuJtTy5bneoI6fqrAke64VJIH30tOFfAUmgpmiNM+Km9Gr+fO31ycFWxyX/H5AAQSv/S
+         FDgyu0Ie2BciJdn504SMFU5t8A4jcny80nR53q9LxAX5+v9yef7mvWmYaZnCIjn7Mpix
+         h/j9A/3W20CxpTtxNMS35RK38G34yIiwXj+R6oze/eFPanGCxsFhGPSVSUl5cnvKZmZJ
+         xyEjCmo2I7gCtF56wlVy3bCmgUfoGlx0Z07ZH/KJJERkuBF566Q/xJP/lUzVjheL5zYi
+         x+1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=aS6EBaNIN10+OZPUpR/4ogKAkoJ9rFIL98FCoXlnNSA=;
+        b=rz7SmMhygj+Wl+OKp8tM1D3Pp3dA8oTWhhMcCJQuHZfjz1kJQqiH5dVGDxmgVHPjfi
+         A0ofO0xOEQ/FgHlQ1QPboVRLyM6TQWfttAj6WBHO3e2xCJHihKD5JAsgbygChY2rf15V
+         /bpr3isylZ3PpHl05eVMk0s+C87cYq+xbXtHGxnpWyCYHhi0+t4ZPz00HL6eqJgOWZlt
+         BiYQwjSJNeR200/SYdwo2lYRwymoAao0hxe+QzEGWtItrupKV+dRCyNxx7pj8WisU4ne
+         QAfW1d8vo0ScweTYx5MoMb51LeTH/1uC5WdJSAdtGjbhRn/QWPKDkzArFXHQmwBeMpiS
+         iEpw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=XpLWeHmL;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1133 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com. [2607:f8b0:4864:20::1133])
+        by gmr-mx.google.com with ESMTPS id r198-20020a0de8cf000000b00326d475396csi940360ywe.0.2022.08.07.10.34.10
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Aug 2022 10:34:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1133 as permitted sender) client-ip=2607:f8b0:4864:20::1133;
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-32269d60830so61717927b3.2
+        for <kasan-dev@googlegroups.com>; Sun, 07 Aug 2022 10:34:10 -0700 (PDT)
+X-Received: by 2002:a0d:c7c3:0:b0:31e:9622:c4f6 with SMTP id
+ j186-20020a0dc7c3000000b0031e9622c4f6mr14640035ywd.144.1659893650000; Sun, 07
+ Aug 2022 10:34:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_88_1309304742.1659636114063"
-X-Original-Sender: francomalacon6@protonmail.com
-X-Original-From: "ANDREAS NIGG. REVOLUTIONARY BANK SAFRA SARASIN"
- <francomalacon6@protonmail.com>
-Reply-To: "ANDREAS NIGG. REVOLUTIONARY BANK SAFRA SARASIN"
- <francomalacon6@protonmail.com>
+References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-5-glider@google.com>
+ <CANpmjNN28k3B1-nX=gtdJxZ4MS=bF+CuPG1EFp5fC2TDQUU=4Q@mail.gmail.com>
+In-Reply-To: <CANpmjNN28k3B1-nX=gtdJxZ4MS=bF+CuPG1EFp5fC2TDQUU=4Q@mail.gmail.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Sun, 7 Aug 2022 19:33:33 +0200
+Message-ID: <CAG_fn=UQ2g9KjixL4Hsbw04r75VB2bp_X7F3RzE4twDro+Xi_Q@mail.gmail.com>
+Subject: Re: [PATCH v4 04/45] x86: asm: instrument usercopy in get_user() and __put_user_size()
+To: Marco Elver <elver@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>, 
+	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>, 
+	Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Ilya Leoshkevich <iii@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Matthew Wilcox <willy@infradead.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux-Arch <linux-arch@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=XpLWeHmL;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::1133
+ as permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -71,70 +148,143 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_88_1309304742.1659636114063
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_89_504718106.1659636114063"
+On Thu, Jul 7, 2022 at 12:13 PM Marco Elver <elver@google.com> wrote:
+>
+> On Fri, 1 Jul 2022 at 16:23, Alexander Potapenko <glider@google.com> wrot=
+e:
+> >
+> > Use hooks from instrumented.h to notify bug detection tools about
+> > usercopy events in get_user() and put_user_size().
+> >
+> > It's still unclear how to instrument put_user(), which assumes that
+> > instrumentation code doesn't clobber RAX.
+>
+> do_put_user_call() has a comment about KASAN clobbering %ax, doesn't
+> this also apply to KMSAN? If not, could we have a <asm/instrumented.h>
+> that provides helpers to push registers on the stack and pop them back
+> on return?
 
-------=_Part_89_504718106.1659636114063
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In fact, yes, it is rather simple to not clobber %ax.
+A more important aspect of instrumenting get_user()/put_user() is to
+always evaluate `x` and `ptr` only once, because sometimes these
+macros get called like `put_user(v, sp++)`.
+I might have confused the effects of evaluating sp++ twice with some
+register clobbering.
 
-L'ASSASSINO MAFIOSO E PEDOFILO PAOLO BARRAI,  SI IMBOSCA A DUBAI, PER NON=
-=20
-TORNARE IN GALERA, PER LA QUARTA VOLTA, MAI (FA PURE DOPPIA RIMA)! SI, =C3=
-=88=20
-PROPRIO COS=C3=8C: IL PEDERASTA OMICIDA, #PAOLOBARRAI, PER NON FINIRE IN=20
-CARCERE, SI IMBOSCA A #DUBAI! =C3=89.............UN TRUFFATORE, LADRO, FALS=
-ONE,=20
-LAVA SOLDI DI NDRANGHETA, MAFIA, CAMORRA, SACRA CORONA UNITA, LEGA LADRONA=
-=20
-E PEDOFILO STRAGISTA #SILVIOBERLUSCONI SILVIO BERLUSCONI: #PAOLOBARRAI DI=
-=20
-CRIMINALE #BIGBIT, CRIMINALE #TERRANFT, CRIMINALE #TERRABITCOIN, CRIMINALE=
-=20
-#TERRANODES, CRIMINALE #CRYPTONOMIST, CRIMINALE #WMO SA PANAMA, CRIMINALE=
-=20
-#MERCATOLIBERO, ECT!
-STO VERME DI PAOLO BARRAI, NATO A MILANO IL 28.6.1965, SAPENDO DEL PROCESSO=
-=20
-CHE VI SAR=C3=80 A MILANO, SU SUOI MEGA RICICLAGGI DI SOLDI DI NDRANGHETA, =
-FATTI=20
-IN CRIMINALISSIMA ICO #EIDOO COL NOTO NDRANGHETISTA ASSASSINO=20
-#NATALEFERRARA NATALE FERRARA O #NATALEMASSIMILIANOFERRARA NATALE=20
-MASSIMILIANO FERRARA
-(=20
-https://www.ilfattoquotidiano.it/in-edicola/articoli/2022/05/26/il-re-itali=
-ano-delle-criptovalute-a-processo-per-autoriciclaggio/6605737/
-https://twitter.com/fattoquotidiano/status/1529860771773046786
-https://twitter.com/nicolaborzi/status/1529831794140495872
-https://www.linkiesta.it/2019/04/ndrangheta-bitcoin/
-https://it.coinidol.com/mafie-usano-bitcoin/
-https://coinatory.com/2019/04/06/italian-mafia-launders-money-through-crypt=
-o/
-https://www.facebook.com/eidoocrypto/posts/il-nostro-advisor-paolo-barrai-p=
-resenta-eidoo-ed-il-team-leggi-qui-tutti-i-detta/274141723086089/=20
-)
-, PER NON FINIRE SAN VITTORE, SI NASCONDE COME TOPO DI FOGNA, A DUBAI, PER=
-=20
-LI RICICLARE ALTRO CASH KILLER DI NDRANGHETA E LEGA LADRONA, VIA #BITCOIN=
-=20
-BITCOIN (PARATO DA AVVOCATO NOTORIAMENTE RICICLA SOLDI MAFIOSI, ARTEFICE DI=
-=20
-FALLIMENTI #FONSAI FONSAI E #VENETOVBANCA VENETO BANCA, PEDOFILO,=20
-LESBICONE, NAZISTA, MAFIOSO, BERLUSCONICCHIO ED ASSASSINO #CRISTINAROSSELLO=
-=20
-CRISTINA ROSSELLO
-https://twitter.com/RossellosCrimes)! D'ALTRONDE, IL MALAVITOSO LEGHISTA=20
-CHE VENIVA ARRESTATO, LUCA SOSTEGNI #LUCASOSTEGNI, SCAPPAVA A PORTO SEGURO,=
-=20
-DOVE IL KILLER PAOLO BARRAI AVEVA PURE LAVATO (CASPITA CHE COINCIDENZA),=20
-NEL 2011, PARTE DEI 49 MLN =E2=82=AC RUBATI DA #LEGALADRONA!
+> Also it seems the test robot complained about this patch.
+Will fix in v5.
+>
+> > Signed-off-by: Alexander Potapenko <glider@google.com>
+> > ---
+> > Link: https://linux-review.googlesource.com/id/Ia9f12bfe5832623250e20f1=
+859fdf5cc485a2fce
+> > ---
+> >  arch/x86/include/asm/uaccess.h | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uacc=
+ess.h
+> > index 913e593a3b45f..1a8b5a234474f 100644
+> > --- a/arch/x86/include/asm/uaccess.h
+> > +++ b/arch/x86/include/asm/uaccess.h
+> > @@ -5,6 +5,7 @@
+> >   * User space memory access functions
+> >   */
+> >  #include <linux/compiler.h>
+> > +#include <linux/instrumented.h>
+> >  #include <linux/kasan-checks.h>
+> >  #include <linux/string.h>
+> >  #include <asm/asm.h>
+> > @@ -99,11 +100,13 @@ extern int __get_user_bad(void);
+> >         int __ret_gu;                                                  =
+ \
+> >         register __inttype(*(ptr)) __val_gu asm("%"_ASM_DX);           =
+ \
+> >         __chk_user_ptr(ptr);                                           =
+ \
+> > +       instrument_copy_from_user_before((void *)&(x), ptr, sizeof(*(pt=
+r))); \
+> >         asm volatile("call __" #fn "_%P4"                              =
+ \
+> >                      : "=3Da" (__ret_gu), "=3Dr" (__val_gu),           =
+     \
+> >                         ASM_CALL_CONSTRAINT                            =
+ \
+> >                      : "0" (ptr), "i" (sizeof(*(ptr))));               =
+ \
+> >         (x) =3D (__force __typeof__(*(ptr))) __val_gu;                 =
+   \
+> > +       instrument_copy_from_user_after((void *)&(x), ptr, sizeof(*(ptr=
+)), 0); \
+> >         __builtin_expect(__ret_gu, 0);                                 =
+ \
+> >  })
+> >
+> > @@ -248,7 +251,9 @@ extern void __put_user_nocheck_8(void);
+> >
+> >  #define __put_user_size(x, ptr, size, label)                          =
+ \
+> >  do {                                                                  =
+ \
+> > +       __typeof__(*(ptr)) __pus_val =3D x;                            =
+   \
+> >         __chk_user_ptr(ptr);                                           =
+ \
+> > +       instrument_copy_to_user(ptr, &(__pus_val), size);              =
+ \
+> >         switch (size) {                                                =
+ \
+> >         case 1:                                                        =
+ \
+> >                 __put_user_goto(x, ptr, "b", "iq", label);             =
+ \
+> > @@ -286,6 +291,7 @@ do {                                               =
+                         \
+> >  #define __get_user_size(x, ptr, size, label)                          =
+ \
+> >  do {                                                                  =
+ \
+> >         __chk_user_ptr(ptr);                                           =
+ \
+> > +       instrument_copy_from_user_before((void *)&(x), ptr, size);     =
+ \
+> >         switch (size) {                                                =
+ \
+> >         case 1: {                                                      =
+ \
+> >                 unsigned char x_u8__;                                  =
+ \
+> > @@ -305,6 +311,7 @@ do {                                               =
+                         \
+> >         default:                                                       =
+ \
+> >                 (x) =3D __get_user_bad();                              =
+   \
+> >         }                                                              =
+ \
+> > +       instrument_copy_from_user_after((void *)&(x), ptr, size, 0);   =
+ \
+> >  } while (0)
+> >
+> >  #define __get_user_asm(x, addr, itype, ltype, label)                  =
+ \
+> > --
+> > 2.37.0.rc0.161.g10f37bed90-goog
+> >
 
-CONTINUA QUI
-https://groups.google.com/g/comp.sys.tandem/c/lGl3fFk_wqI
 
-TROVATE TANTISSIMI ALTRI VINCENTI DETTAGLI QUI
-https://groups.google.com/g/comp.sys.tandem/c/lGl3fFk_wqI
+
+--=20
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -142,60 +292,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/d4a69666-eca2-4c92-a93a-d7f37b2e7da9n%40googlegroups.com.
-
-------=_Part_89_504718106.1659636114063
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-L'ASSASSINO MAFIOSO E PEDOFILO PAOLO BARRAI, &nbsp;SI IMBOSCA A DUBAI, PER =
-NON TORNARE IN GALERA, PER LA QUARTA VOLTA, MAI (FA PURE DOPPIA RIMA)! SI, =
-=C3=88 PROPRIO COS=C3=8C: IL PEDERASTA OMICIDA, #PAOLOBARRAI, PER NON FINIR=
-E IN CARCERE, SI IMBOSCA A #DUBAI! =C3=89.............UN TRUFFATORE, LADRO,=
- FALSONE, LAVA SOLDI DI NDRANGHETA, MAFIA, CAMORRA, SACRA CORONA UNITA, LEG=
-A LADRONA E PEDOFILO STRAGISTA #SILVIOBERLUSCONI SILVIO BERLUSCONI: #PAOLOB=
-ARRAI DI CRIMINALE #BIGBIT, CRIMINALE #TERRANFT, CRIMINALE #TERRABITCOIN, C=
-RIMINALE #TERRANODES, CRIMINALE #CRYPTONOMIST, CRIMINALE #WMO SA PANAMA, CR=
-IMINALE #MERCATOLIBERO, ECT!<br>STO VERME DI PAOLO BARRAI, NATO A MILANO IL=
- 28.6.1965, SAPENDO DEL PROCESSO CHE VI SAR=C3=80 A MILANO, SU SUOI MEGA RI=
-CICLAGGI DI SOLDI DI NDRANGHETA, FATTI IN CRIMINALISSIMA ICO #EIDOO COL NOT=
-O NDRANGHETISTA ASSASSINO #NATALEFERRARA NATALE FERRARA O #NATALEMASSIMILIA=
-NOFERRARA NATALE MASSIMILIANO FERRARA<br>( https://www.ilfattoquotidiano.it=
-/in-edicola/articoli/2022/05/26/il-re-italiano-delle-criptovalute-a-process=
-o-per-autoriciclaggio/6605737/<br>https://twitter.com/fattoquotidiano/statu=
-s/1529860771773046786<br>https://twitter.com/nicolaborzi/status/15298317941=
-40495872<br>https://www.linkiesta.it/2019/04/ndrangheta-bitcoin/<br>https:/=
-/it.coinidol.com/mafie-usano-bitcoin/<br>https://coinatory.com/2019/04/06/i=
-talian-mafia-launders-money-through-crypto/<br>https://www.facebook.com/eid=
-oocrypto/posts/il-nostro-advisor-paolo-barrai-presenta-eidoo-ed-il-team-leg=
-gi-qui-tutti-i-detta/274141723086089/ )<br>, PER NON FINIRE SAN VITTORE, SI=
- NASCONDE COME TOPO DI FOGNA, A DUBAI, PER LI RICICLARE ALTRO CASH KILLER D=
-I NDRANGHETA E LEGA LADRONA, VIA #BITCOIN BITCOIN (PARATO DA AVVOCATO NOTOR=
-IAMENTE RICICLA SOLDI MAFIOSI, ARTEFICE DI FALLIMENTI #FONSAI FONSAI E #VEN=
-ETOVBANCA VENETO BANCA, PEDOFILO, LESBICONE, NAZISTA, MAFIOSO, BERLUSCONICC=
-HIO ED ASSASSINO #CRISTINAROSSELLO CRISTINA ROSSELLO<br>https://twitter.com=
-/RossellosCrimes)! D'ALTRONDE, IL MALAVITOSO LEGHISTA CHE VENIVA ARRESTATO,=
- LUCA SOSTEGNI #LUCASOSTEGNI, SCAPPAVA A PORTO SEGURO, DOVE IL KILLER PAOLO=
- BARRAI AVEVA PURE LAVATO (CASPITA CHE COINCIDENZA), NEL 2011, PARTE DEI 49=
- MLN =E2=82=AC RUBATI DA #LEGALADRONA!<br><br>CONTINUA QUI<br>https://group=
-s.google.com/g/comp.sys.tandem/c/lGl3fFk_wqI<br><br>TROVATE TANTISSIMI ALTR=
-I VINCENTI DETTAGLI QUI<br>https://groups.google.com/g/comp.sys.tandem/c/lG=
-l3fFk_wqI<br>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/d4a69666-eca2-4c92-a93a-d7f37b2e7da9n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/d4a69666-eca2-4c92-a93a-d7f37b2e7da9n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_89_504718106.1659636114063--
-
-------=_Part_88_1309304742.1659636114063--
+kasan-dev/CAG_fn%3DUQ2g9KjixL4Hsbw04r75VB2bp_X7F3RzE4twDro%2BXi_Q%40mail.gm=
+ail.com.
