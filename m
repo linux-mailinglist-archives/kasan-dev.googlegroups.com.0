@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC5JXFXXVEGRBEWQYGLQMGQEBSH7WJA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5JXFXXVEGRBHOQYGLQMGQECCCLYJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x37.google.com (mail-oa1-x37.google.com [IPv6:2001:4860:4864:20::37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C59558BEEC
-	for <lists+kasan-dev@lfdr.de>; Mon,  8 Aug 2022 03:34:12 +0200 (CEST)
-Received: by mail-oa1-x37.google.com with SMTP id 586e51a60fabf-10e7cc69a90sf1280457fac.6
-        for <lists+kasan-dev@lfdr.de>; Sun, 07 Aug 2022 18:34:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1659922451; cv=pass;
+Received: from mail-yw1-x1138.google.com (mail-yw1-x1138.google.com [IPv6:2607:f8b0:4864:20::1138])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF78258BEEF
+	for <lists+kasan-dev@lfdr.de>; Mon,  8 Aug 2022 03:34:22 +0200 (CEST)
+Received: by mail-yw1-x1138.google.com with SMTP id 00721157ae682-31f56f635a9sf65723907b3.4
+        for <lists+kasan-dev@lfdr.de>; Sun, 07 Aug 2022 18:34:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1659922461; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uWUS/WHm62ovQNhHhfWhXH/ZWL6Mfsw4P427OXyg9OfCn9vKm2afB/rwgJGleeQNIz
-         /59JX/V8WNZ3uNMkg5F5+c+zvHcywFELuR+DQjJ6xX9W9x/IxyA8IKDaNbHuM7/WXwgi
-         TIOxfvuxstcTNLXGH886SoN8XHAlEEKfJfjcJyD4cdTris4OFMs0KmfU8taSNMcKxYsk
-         c4Gx+Qlf7NXtKG+CYNwU03c4gzxZfzvx9OLxKodFKCEUVk6z8QrmkeMS847cTvC5O2AN
-         23q5AeSDbcnJhj/EPOSgRktwGPUB02QecxTqcIC4FgZTcDgNF5xMwZ7r7bmdUyf6xuit
-         2+gg==
+        b=uECRQGHgoW40E9i9ueiFwpcXM6VzXkIGxA6qC9N9TS+qogDsXRe6s+7C+RebP1H6Q/
+         ofEOypd++0O5RziGtJ/8Npba2Yb9JlYyk2q9peBvTMAs+5fE2fRJWG4NF+Liac5XALwh
+         KwiwZpjtA31ZqQFSY4zM/DDyuC6fu7u9M8JTG++T8epndI5rLEn4nQhtWXyPZaJJ2Zfr
+         o66wBRHT+GioPu9KQU/KGPYWFW5XnB9t7TPgK60uASJ6eYT6K1lUahSj69X6XDDmNceJ
+         tiSNGd0tZ8Jw+hEXEqcQnnNIPW2Cj6qGxfpLb4ygfcv38oyQKFF2cfeNzuIZAEaULtqd
+         7YUw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=hQJFLif66kmLSC5lBcPcPK80y4AN5BMq+SizNHZEdf0=;
-        b=krGfTQB2Pvq9rJMa5n1hpeGOGdT8h0m1qeL7V/pSY4cJu2sW2R1FKiGXs/Fth973BD
-         sYon1CDgG5wXATEKUMHJPTDaZzUIS80TZNx7aCwbp2VTc5fkDBqE8XEvQ4ECeNez8CWI
-         Nllg7BUZbuvbjQV0HQDmpJc4NYIuDPSjaD0ub04fDdpdEmeo/kklL3Uef3s7mEDOJd7E
-         uOlMiwje5FyfrUSlZNobBviCgIFAzF5mHN54sSh1B4z1vIBjEqPHawBzyDoR7YHg5xVo
-         VX5C0qp0UgN17GilaYlUtgjQqSuwvBx2mpFSmsNdoQUfCJfAGPAncPPH6jqVQ5jlSFvc
-         p5vA==
+        bh=ZM3dKf1d6pMbqo31IpBSrF3WPTdenWzOxdUsdUycYes=;
+        b=Id00/AjsOOTsIHCSx5/7gTWPBxCJs4BZIVq7jmLpJ62aFkBf1UhI1xcawlM8Z/6Zq6
+         oVgnaPufRwmZwACntg6uoxo3NBDLUfqQTbbpZTz+k6wlEOoFo/j0SRHdqtG2vjBSBuEd
+         bJp0szKrPbAQUUwCXbfwJlXdJtr+iHfnVsB0hhsMgzsDTzPfEMtoEAPbXpE1uOo88tYK
+         ADLVk955dFB3I80mx6tMEB/hIbSOdCeUdtWbFkUL7cdibY39C56+6jvlc+XIqYKPGwYp
+         riSZrB6Nwq13ZqluxVbG7GAEpDyWrl2MIXoiXhkD2IBMFHSDb5zuI/7F2S9coZYJZF1w
+         LXTg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=oX9hgytE;
-       spf=pass (google.com: domain of sashal@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=sashal@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=qIyQ06DE;
+       spf=pass (google.com: domain of sashal@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=sashal@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc;
-        bh=hQJFLif66kmLSC5lBcPcPK80y4AN5BMq+SizNHZEdf0=;
-        b=CKqmbgeb18clf2LSZ2szi+0WWUn6AIw59XQTNYaHd/soyxsN9vD/bMzwXb5YzzmjSJ
-         xz1agQ9U00ErDbXPqurs9z22k89LuN6SMfRHmEYcZiVxE7HSGd7yR2OB4egDsmFgOjkQ
-         cY2gETQSLWAno424d300s+nmxEzccn6MlB70JOSzOvs2x2IbZ/iOf0GkvrevyZR9QR/x
-         Fp/2BQYH4pRmCxbux3NR2A5ZNdIbPm+Bjmhhe+lFGU4KNOup01Yx1IRiHOJ+VbAU+XDd
-         kasRlH07+AjiuiTCbBtAX+0I3CqnBdaUouQz+pEP8XkHhqfskNyc4y5YzhAv8WaPuxrs
-         zEXA==
+        bh=ZM3dKf1d6pMbqo31IpBSrF3WPTdenWzOxdUsdUycYes=;
+        b=Nw5paoByN6WuNQuReOZnXmkyqba/znG26i7efmNMX4ylXiv29XGIrN57X9+WXUaqlq
+         JBDlNdPPUX0WBoGLZ+LOpjbA4xcbnyDhHRdIALz+gyngo0qYgg8tFMKD/qnuMQYBsNIS
+         sC3ySC3c5eacCS/QuYwvKtRClFsApWG7LJNrdJG1kTHCFIBvSVu3ugPhsE9xG5p+qlcy
+         JqOv3E1FgqZN9fwzuGE5b8Phy0gJTRmS8WSjFdah9UkZDSvbRj/PLhpyxY6wey6XnxYT
+         7QRSJwU9+Rw2QojYgiB0UjcC5k//r+FJTGyBRP6w1y66//WfLpYZuzQ/T6WGrhqpPXZj
+         i6GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -49,86 +49,74 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc;
-        bh=hQJFLif66kmLSC5lBcPcPK80y4AN5BMq+SizNHZEdf0=;
-        b=fict2wkWnoViKH85dnGIvawJfvDoHhncEwsoYYMh/cQUfb57oLQKW1JZYEHyqbeGVf
-         TrmshtsKN6J96OybGWff8PIbIiCldnd6LnrhYcml0rX0Qotg2hS/rSRCXfVeo6HJ8jRx
-         1LC5uwn5JSo1wMGzGGO5+/7qXWMTzSb5z1fwRwiyHADzB2y+2/a+UA6PWK7jjb582GKA
-         8YeFYtSYGLmXM1RNEbLspfUgdLiuscxpsy9SiTCVHUT678E26CWUbeuYmrt17vmRf5l8
-         FJXq+FX4SnlLcDYklVwhF/gWMk6fhBT1jaHB3f+L1HtbFMYeljB+/NCXVfsH1F064qmf
-         Ia8g==
+        bh=ZM3dKf1d6pMbqo31IpBSrF3WPTdenWzOxdUsdUycYes=;
+        b=l3DfXj4K2tjijpfweYHegH7fE7+rYtpKqQyo1JxhOCkDW9p6SIPZj/Fj7PiGca4s1K
+         T9t+PgTpmS0ngIQxy3ggvUvb5pvrBYQL/YGAQZbGac4PaR6bAoKfniQLI/NLRLSdIdME
+         3hHXXnYTfup1+VXeISank6n0vNpioVQgIZz2UX0t0XRoO3cHG9FpC4cMJShYKX9oOIdS
+         NDwjnVgPYj6lVisiCxlbaAC8Od8dpyEsFsjeLC0P7E9gxYCzKH0V4vhFxxtborceoHoA
+         Yaeot8WLc9r/mhMo7plOhzGZ0K0LVjkEtJ80Osc+ODd8ltkuJgSsVJmfig7ZD7r3M8hl
+         dX7g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1IWuUZzygEpEM/SJrMLBt79kD6Cn5gh05RbWC/uGsiqAnXf1ul
-	2lgZKKBW6neZ1KwPwHR54lU=
-X-Google-Smtp-Source: AA6agR4EHl2gcixwPBWOHiIOc+enUKwZ3JSea9DplW99HkLU9SXILBuqmU/V8U8qzisDGa3Jqj8Zyw==
-X-Received: by 2002:a05:6808:1408:b0:343:1ae:87cb with SMTP id w8-20020a056808140800b0034301ae87cbmr34586oiv.201.1659922451022;
-        Sun, 07 Aug 2022 18:34:11 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3BAC+e9pkF56s1SaEsjmf7upKJ6wkOgQ15lPA/JXBAuTmxp2Wu
+	u2+2WO4Kqdn2J0XiSS8qOoY=
+X-Google-Smtp-Source: AA6agR6G0zD7PTU4nGLHy3B+mi2KjR6r/vdL7VvWIvjnC/L+Hh4OhSRt4qVTOCvSwYA0hWEWytquew==
+X-Received: by 2002:a25:b8cb:0:b0:66f:5517:47ce with SMTP id g11-20020a25b8cb000000b0066f551747cemr13764614ybm.342.1659922461482;
+        Sun, 07 Aug 2022 18:34:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:786:0:b0:33a:8505:22b5 with SMTP id 128-20020aca0786000000b0033a850522b5ls2807569oih.7.-pod-prod-gmail;
- Sun, 07 Aug 2022 18:34:10 -0700 (PDT)
-X-Received: by 2002:a05:6808:1495:b0:33a:ad84:1dc7 with SMTP id e21-20020a056808149500b0033aad841dc7mr9647503oiw.177.1659922450501;
-        Sun, 07 Aug 2022 18:34:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1659922450; cv=none;
+Received: by 2002:a05:690c:293:b0:31c:8442:94bf with SMTP id
+ bf19-20020a05690c029300b0031c844294bfls4735558ywb.6.-pod-prod-gmail; Sun, 07
+ Aug 2022 18:34:20 -0700 (PDT)
+X-Received: by 2002:a81:36c3:0:b0:31e:6899:dd7b with SMTP id d186-20020a8136c3000000b0031e6899dd7bmr16195305ywa.205.1659922460899;
+        Sun, 07 Aug 2022 18:34:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1659922460; cv=none;
         d=google.com; s=arc-20160816;
-        b=X+i6j3few00CS6Tu/cGJ5uze1Y4sCA7q7L2T+fUIUfElweEHhLt99JQYzFOV56ywb2
-         AFnbGq8LgmGD+P0mGR7mfCtxe2DfC8cBdY4s2gJ4PdMg29+myntq78oacvm4i+Ab8apm
-         c0uVvRPmFTxhIdwx406eTUwh/eaayqkZMyChNH3/72X1xVYiEq7Qt2pXEfh+Iz3MRdcr
-         4PENrVcJ6dsSWwmdHrWwbUnMFA36nm7SVldbcIP5fGladNyBCBSbQFVMGYWGAwnPdhu/
-         R3NGP/6Rl+3u4xsFb/NRs8+GzTQ/5jMZXn6KrLpPbao6CHSxmaieEDo3g6FA4cV4/xZJ
-         aVhQ==
+        b=ym25WA05GhTb2k20wnk+wo6ueedyRYArREXzrIBgGB5ZEEgGKz85suHnjNmbud8kng
+         VWf3f1P0LAcMSlfB4h8MFd9mmpw8mOj7RFge1RzA+70jjPsy4Qz+90kRTtE4T0jUc5OQ
+         hXhFHzNV3b764VlM3NSq1RiEI6qCtrmfW/IBCcRksXG4qXEn4n9XHinC7j5j8OaS7EnH
+         oQiIKoNMInzN3noY3RSnGFgE/zjpdj2yPT0a8otjsddWMromguozo+0JRvpf/5ybp9Xk
+         7tK3z9JucKhqaF7itvaM1zYLl26flUpAyUCI2TeHg+8dqmB2sr8YOZtmpQdCdFr04Pkh
+         NFhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=rX0AtKDvuIWz3Tmemb9rsnlVXuio1xX8EylBFHY4Fkw=;
-        b=wdVqDIy5+xY4M2F9Osr4LveE4KtKP0wnYAl5EsFr2nYgJz8t6ZiznbZ+FZVcKxPQW+
-         IM8Lyptmo/0TuoMI1U926cYi6WbUxoIz7LFb7AnboyeUkVrOcgFdlY3hvwFgxshNBxES
-         B6PEyEIeCchsOi50XUzNvdX++J7kAe7ZAIHxTO9/KuBmaaA0SGxmKxOROkg/ZVWPPcAh
-         kKrqvDFyiZvJveFk18ndsRt/XLdGPbNU7mLm85syryUR/aMWVf0g2lCEQYZJj5HBaqTS
-         NLZgXFrdAeOlILQDpnvPyBH2yVzTIG3vd/IkUW7vnI1qlzIUMBo8SBEhNj+hIE4x+OV1
-         64Ug==
+        bh=4VOGKjNvxfdZgBDKksD0XWodTGLWtey/jHGu5uBXZZ4=;
+        b=tp8xjcZqA4pMU8imW+aR92xNe6o4dQDmz0LmI2Bu5Rs804Dg4juiGWjhW/hlvrWVPn
+         6L5Fa/qd6aqILZluMAET3hESWv5mv54S8L6h+JuPBohFk4d4VGb5+rbs5iAWxYr8bwF3
+         H+p/tauoUkkNnIy1ePmGAq1Ok9byuZJT9UTn3VHs/DCuBt7CjnvlYu18didKL53FoYc6
+         PRmCPO/7CwV6dir7gxOm18S4wJCDq5bZUNQkM8UizMoOcOoh/a51waE7nvAXf2SfZJzj
+         K/hqU2vCLhhNU4JUTy2dlm6zuY2XYFqxUn8PII/Q8xSEL7rrzCPEFpODYvO8w3GNqGgk
+         d/Rw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=oX9hgytE;
-       spf=pass (google.com: domain of sashal@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=sashal@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=qIyQ06DE;
+       spf=pass (google.com: domain of sashal@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=sashal@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id 38-20020a9d0829000000b00636e490f364si74265oty.2.2022.08.07.18.34.10
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id r198-20020a0de8cf000000b00326d475396csi1036339ywe.0.2022.08.07.18.34.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 07 Aug 2022 18:34:10 -0700 (PDT)
-Received-SPF: pass (google.com: domain of sashal@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Sun, 07 Aug 2022 18:34:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of sashal@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 4798060DE1;
-	Mon,  8 Aug 2022 01:34:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB9E3C433D7;
-	Mon,  8 Aug 2022 01:34:07 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 8993E60CF6;
+	Mon,  8 Aug 2022 01:34:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FBD6C433D6;
+	Mon,  8 Aug 2022 01:34:19 +0000 (UTC)
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ard Biesheuvel <ardb@kernel.org>,
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
 	Will Deacon <will@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	catalin.marinas@arm.com,
-	ryabinin.a.a@gmail.com,
-	anshuman.khandual@arm.com,
-	pasha.tatashin@soleen.com,
-	broonie@kernel.org,
-	maz@kernel.org,
-	suzuki.poulose@arm.com,
-	vladimir.murzin@arm.com,
-	james.morse@arm.com,
-	Julia.Lawall@inria.fr,
-	akpm@linux-foundation.org,
-	david@redhat.com,
-	jianyong.wu@arm.com,
-	quic_sudaraja@quicinc.com,
-	vijayb@linux.microsoft.com,
-	rppt@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kasan-dev@googlegroups.com
-Subject: [PATCH AUTOSEL 5.18 04/53] arm64: mm: provide idmap pointer to cpu_replace_ttbr1()
-Date: Sun,  7 Aug 2022 21:32:59 -0400
-Message-Id: <20220808013350.314757-4-sashal@kernel.org>
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org
+Subject: [PATCH AUTOSEL 5.18 08/53] mm: kasan: Ensure the tags are visible before the tag in page->flags
+Date: Sun,  7 Aug 2022 21:33:03 -0400
+Message-Id: <20220808013350.314757-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220808013350.314757-1-sashal@kernel.org>
 References: <20220808013350.314757-1-sashal@kernel.org>
@@ -137,8 +125,8 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 X-Original-Sender: sashal@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=oX9hgytE;       spf=pass
- (google.com: domain of sashal@kernel.org designates 2604:1380:4641:c500::1 as
+ header.i=@kernel.org header.s=k20201202 header.b=qIyQ06DE;       spf=pass
+ (google.com: domain of sashal@kernel.org designates 139.178.84.217 as
  permitted sender) smtp.mailfrom=sashal@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -154,134 +142,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Ard Biesheuvel <ardb@kernel.org>
+From: Catalin Marinas <catalin.marinas@arm.com>
 
-[ Upstream commit 1682c45b920643cbde31d8a5b7ca7c2be92d6928 ]
+[ Upstream commit ed0a6d1d973e9763989b44913ae1bd2a5d5d5777 ]
 
-In preparation for changing the way we initialize the permanent ID map,
-update cpu_replace_ttbr1() so we can use it with the initial ID map as
-well.
+__kasan_unpoison_pages() colours the memory with a random tag and stores
+it in page->flags in order to re-create the tagged pointer via
+page_to_virt() later. When the tag from the page->flags is read, ensure
+that the in-memory tags are already visible by re-ordering the
+page_kasan_tag_set() after kasan_unpoison(). The former already has
+barriers in place through try_cmpxchg(). On the reader side, the order
+is ensured by the address dependency between page->flags and the memory
+access.
 
-Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-Link: https://lore.kernel.org/r/20220624150651.1358849-11-ardb@kernel.org
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Link: https://lore.kernel.org/r/20220610152141.2148929-2-catalin.marinas@arm.com
 Signed-off-by: Will Deacon <will@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm64/include/asm/mmu_context.h | 13 +++++++++----
- arch/arm64/kernel/cpufeature.c       |  2 +-
- arch/arm64/kernel/suspend.c          |  2 +-
- arch/arm64/mm/kasan_init.c           |  4 ++--
- arch/arm64/mm/mmu.c                  |  2 +-
- 5 files changed, 14 insertions(+), 9 deletions(-)
+ mm/kasan/common.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/include/asm/mmu_context.h b/arch/arm64/include/asm/mmu_context.h
-index 6770667b34a3..f47e7ced3ff9 100644
---- a/arch/arm64/include/asm/mmu_context.h
-+++ b/arch/arm64/include/asm/mmu_context.h
-@@ -106,13 +106,18 @@ static inline void cpu_uninstall_idmap(void)
- 		cpu_switch_mm(mm->pgd, mm);
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index d9079ec11f31..f6b8dc4f354b 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
+@@ -108,9 +108,10 @@ void __kasan_unpoison_pages(struct page *page, unsigned int order, bool init)
+ 		return;
+ 
+ 	tag = kasan_random_tag();
++	kasan_unpoison(set_tag(page_address(page), tag),
++		       PAGE_SIZE << order, init);
+ 	for (i = 0; i < (1 << order); i++)
+ 		page_kasan_tag_set(page + i, tag);
+-	kasan_unpoison(page_address(page), PAGE_SIZE << order, init);
  }
  
--static inline void cpu_install_idmap(void)
-+static inline void __cpu_install_idmap(pgd_t *idmap)
- {
- 	cpu_set_reserved_ttbr0();
- 	local_flush_tlb_all();
- 	cpu_set_idmap_tcr_t0sz();
- 
--	cpu_switch_mm(lm_alias(idmap_pg_dir), &init_mm);
-+	cpu_switch_mm(lm_alias(idmap), &init_mm);
-+}
-+
-+static inline void cpu_install_idmap(void)
-+{
-+	__cpu_install_idmap(idmap_pg_dir);
- }
- 
- /*
-@@ -143,7 +148,7 @@ static inline void cpu_install_ttbr0(phys_addr_t ttbr0, unsigned long t0sz)
-  * Atomically replaces the active TTBR1_EL1 PGD with a new VA-compatible PGD,
-  * avoiding the possibility of conflicting TLB entries being allocated.
-  */
--static inline void __nocfi cpu_replace_ttbr1(pgd_t *pgdp)
-+static inline void __nocfi cpu_replace_ttbr1(pgd_t *pgdp, pgd_t *idmap)
- {
- 	typedef void (ttbr_replace_func)(phys_addr_t);
- 	extern ttbr_replace_func idmap_cpu_replace_ttbr1;
-@@ -166,7 +171,7 @@ static inline void __nocfi cpu_replace_ttbr1(pgd_t *pgdp)
- 
- 	replace_phys = (void *)__pa_symbol(function_nocfi(idmap_cpu_replace_ttbr1));
- 
--	cpu_install_idmap();
-+	__cpu_install_idmap(idmap);
- 	replace_phys(ttbr1);
- 	cpu_uninstall_idmap();
- }
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index 2cb9cc9e0eff..859e9b635ba0 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -3107,7 +3107,7 @@ subsys_initcall_sync(init_32bit_el0_mask);
- 
- static void __maybe_unused cpu_enable_cnp(struct arm64_cpu_capabilities const *cap)
- {
--	cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
-+	cpu_replace_ttbr1(lm_alias(swapper_pg_dir), idmap_pg_dir);
- }
- 
- /*
-diff --git a/arch/arm64/kernel/suspend.c b/arch/arm64/kernel/suspend.c
-index 2b0887e58a7c..9135fe0f3df5 100644
---- a/arch/arm64/kernel/suspend.c
-+++ b/arch/arm64/kernel/suspend.c
-@@ -52,7 +52,7 @@ void notrace __cpu_suspend_exit(void)
- 
- 	/* Restore CnP bit in TTBR1_EL1 */
- 	if (system_supports_cnp())
--		cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
-+		cpu_replace_ttbr1(lm_alias(swapper_pg_dir), idmap_pg_dir);
- 
- 	/*
- 	 * PSTATE was not saved over suspend/resume, re-enable any detected
-diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-index c12cd700598f..e969e68de005 100644
---- a/arch/arm64/mm/kasan_init.c
-+++ b/arch/arm64/mm/kasan_init.c
-@@ -236,7 +236,7 @@ static void __init kasan_init_shadow(void)
- 	 */
- 	memcpy(tmp_pg_dir, swapper_pg_dir, sizeof(tmp_pg_dir));
- 	dsb(ishst);
--	cpu_replace_ttbr1(lm_alias(tmp_pg_dir));
-+	cpu_replace_ttbr1(lm_alias(tmp_pg_dir), idmap_pg_dir);
- 
- 	clear_pgds(KASAN_SHADOW_START, KASAN_SHADOW_END);
- 
-@@ -280,7 +280,7 @@ static void __init kasan_init_shadow(void)
- 				PAGE_KERNEL_RO));
- 
- 	memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
--	cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
-+	cpu_replace_ttbr1(lm_alias(swapper_pg_dir), idmap_pg_dir);
- }
- 
- static void __init kasan_init_depth(void)
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index 626ec32873c6..903745ea801a 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -771,7 +771,7 @@ void __init paging_init(void)
- 
- 	pgd_clear_fixmap();
- 
--	cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
-+	cpu_replace_ttbr1(lm_alias(swapper_pg_dir), idmap_pg_dir);
- 	init_mm.pgd = swapper_pg_dir;
- 
- 	memblock_phys_free(__pa_symbol(init_pg_dir),
+ void __kasan_poison_pages(struct page *page, unsigned int order, bool init)
 -- 
 2.35.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220808013350.314757-4-sashal%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220808013350.314757-8-sashal%40kernel.org.
