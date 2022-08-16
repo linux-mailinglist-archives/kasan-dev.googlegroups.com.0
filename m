@@ -1,143 +1,134 @@
-Return-Path: <kasan-dev+bncBDAZZCVNSYPBBHOS52LQMGQEQ66WTBQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBHGW52LQMGQEMTU55MQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C250595E51
-	for <lists+kasan-dev@lfdr.de>; Tue, 16 Aug 2022 16:26:38 +0200 (CEST)
-Received: by mail-wr1-x43b.google.com with SMTP id m7-20020adfa3c7000000b002251ddd0e05sf289231wrb.10
-        for <lists+kasan-dev@lfdr.de>; Tue, 16 Aug 2022 07:26:38 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1660659998; cv=pass;
+Received: from mail-yw1-x113b.google.com (mail-yw1-x113b.google.com [IPv6:2607:f8b0:4864:20::113b])
+	by mail.lfdr.de (Postfix) with ESMTPS id E41BD595E67
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Aug 2022 16:35:09 +0200 (CEST)
+Received: by mail-yw1-x113b.google.com with SMTP id 00721157ae682-32a115757b6sf109751827b3.13
+        for <lists+kasan-dev@lfdr.de>; Tue, 16 Aug 2022 07:35:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1660660508; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vOA2zYI2udJ4JGx8xr+GlgYoYikhlgMkZ7K4IUPzolsjcy94ITOESJdYbjWUeX+bRf
-         y5XHhxvU/QGyQbIDCKMTaMZDEVKGMHkx+755nnT/NB0K3PmfoG7qGOJppWVrxi0Ec6r+
-         yvBxPkUA/smbJunI5t5ma/WD21+I0KZuv1K87KpzxdSB5UtcqhT+We+KkPKcUeHoji1p
-         lOp9ja2PgEWhTD7w/07Lj1/kocuGxHQRTa20QZgyYIU0GeAhkVVxjly+F/zu9vDEJX1o
-         LcXv5JnPDL1z0TXbjJnZNQy3loKEcuDJvcUwFeb6gCJ/L2Kxx3cPfTq6o2UVMr9lTsts
-         U4gA==
+        b=g9tX9xuUpI9OO22nXuI5OcwaF65QlXRDcKeKiL1SXNhkBFjGrTNMFqV5NPISNX3FVl
+         r+rM4eEwMan5cVTsxRdk/63hjS1qf2Za1fotqjzRqDFubdGwQv0FOIq5pKRzhYjTNf+T
+         yd1WO1grlulQHn5DcdujxsJcAMqhI3oTgalIiaFyO0GWlAEC2EwqQvo2VZebuXTt73qu
+         n0nMVhpLFHoKnP6Ago5F9sWq2Y0rfD+2LiJu+qQqEZC+Nsc4JsyXYlXs6XhX2APVBR+n
+         0As+0dIjKmhnV2rFHYIx1Ujy/Al31l0qqeX2JhWA6FCRkvVvR59xawUxIrFwgG3n74EJ
+         9OLw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=AJm4Bah1evb+zPM1TsgIHKXsqpX2qekumNBDjKn7i8I=;
-        b=yxHl6/2uOcAfIiJT31GnofTUtWyqa77CslWIFWeSvCfPmDstmmzCnWWugDhJKj90LN
-         W+L6iHyv3EncOeqRlxowuYYE7xRCCnX+J18iXr9vIIQeZX/YBSoCFt9A5wcaGl0Swj9N
-         DlOZnRqFfI+8DKSn+yqpNmlESpPwVyj7JP1yEOZldmFkwO/fTE3A+ZIL2GZ+dkpgT+dv
-         0jlCVW3gkB9AFK6b6xozyW7vd5fN81Esv4EGd3xTSV6meGc2i8pehJJrngfegcEg7GOZ
-         Mw+q5EnnHQ9HhAHh2AHcKOmjdQppohRdqdgFWOUmhf8WKo0WOuscwreOVPKZ6YohiB4K
-         1B6A==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=U2KEqJ/DXH8FYuHljxWNvdnf2Dr2qz8tEzDBqA2naN8=;
+        b=YghJvklXSomBlDM1uvbPlBXwYYBNdvpsUJ/YMigP9uJNO27UkqO8xLy96BXJkEiMON
+         VYwZcE6E6I6ntpbK84t6+kyd7t2SFkBgx0K/cmallZ9jqULNGMWqyT55zWArV09xAX9j
+         4Gdzrkt/pmx6NLG9EWNw4K7ViEwRokFMHISZ8FTIK13JEemo4zmKeQTZXm6Ifr0CUT/y
+         YzftNz/hR9Khhgf/K3dIWfyzxADWqEl63NmAX7KyATlE5PPTogJBp2ZbnSqUTHIkvuG7
+         CkNdzrSh0mxySYgf9OT01kRM0Fv5LJi0kaLh0aFR+AmUSQzGOBKm/hysjdy8fVuBP6cp
+         nE7g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=T2Sqwl6d;
-       spf=pass (google.com: domain of will@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=will@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Nck2pUEE;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1132 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc;
-        bh=AJm4Bah1evb+zPM1TsgIHKXsqpX2qekumNBDjKn7i8I=;
-        b=Rt+pC+qvcnvS5nC0tyNnXMkC+j5xnfS5gFngDhe4QDmXas//P7Bg41f488syIR2Zxh
-         Jui61EGMYs+XmIbYwd3ryQMYrC26iHo9vai4ngWtt67ZOwfb0qB+5+Va1hHrLH4hhHcT
-         P02x44gF9yujQrpeaL0oq6uhl05Z5VyANr48W8bqRFAp1aqc54VrJ79C7QevLzMHdj/n
-         f0pp6XLxUjil7WAyNS1eBm+o1K+B84ZdZGJUAURUfZt5qye0Fk8cTMjIjYyDIGPjsp17
-         mb04Wlre9Z7e/6+8XsaYCjm2Il1VTyXcyyVJo7key8klbX1yfMupFFXmzb8mrZNKGHN6
-         FobA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=U2KEqJ/DXH8FYuHljxWNvdnf2Dr2qz8tEzDBqA2naN8=;
+        b=Jwmoke3GXu9Iv/db2KJizEd2J4sZg3sd/yt6KU8BRhmi0QPvE3OlrmxVxcrDlaFIrr
+         YXo5Tht3wTTXi7sxKJHqmWPS7AfVSVTyOwrLlhRLdry19d4z2yyhwucVbNazEXKA4nq6
+         K2parO+VQ/XZj6z0QyL5tcxtq7u1I2GXZHfWHG5LXfhz7DEH64tgNLLJwfgTdw2BA6/m
+         HLq4RoCQIop+uxXI+NfzOpC0gwlpiXr6swcFdQKJ/S1yhNh3EGfWTcDEOpw2VpZq75x9
+         eMi3AYi6VM8TI8CRpLv8u0pq65hy57Rp2y/TMU7h2H4XSlqvdwoHhevLKEezPi6r2MYO
+         DwYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:sender:from:to:cc;
-        bh=AJm4Bah1evb+zPM1TsgIHKXsqpX2qekumNBDjKn7i8I=;
-        b=7/mKyegICU7+8q9H6cRee7pi5fzIDb0/O5r1hqaegjFzp8ETVWFYacEAomP9TC5U1Q
-         dUSnaj/9WLC49GJ4ebq8P0WKRgGfN5gYNkTeQ86B4WTcZyJ4pTVWCCFeDeLOqTIyNzYX
-         pOG0QN/QEyvLbPfkn+YJZ8h4Mnda8IZCOM+37mHGD55betfCeb54XhCS84/Z1mrMR4i6
-         5ePb4oqqYk84izd49JOFS/OlZf5QZE0N6pd+W+/X6Ybe6i/TGQupCrOXFceug9pfpcaq
-         rzxOQ0OG0LskKyBty7gvmKV3gaBvsSzAo26NI58iADoQcBtThEiDqTIP86CDDvriQTWa
-         WB4g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo29D/cUuFwnbPPWbKv65uCe+G4ipHIDe/8xjCpGLOSoKpkWWNjK
-	OUFT+A1N6c/8uS/qpykGHAo=
-X-Google-Smtp-Source: AA6agR577lYJfylhA9nPXCWVCULrf77UFzRlhhBk5Eu7QvLl65lxLb6QyCPGJBlX5iKKZcyxkq5+9Q==
-X-Received: by 2002:a05:6000:1682:b0:221:599b:a41e with SMTP id y2-20020a056000168200b00221599ba41emr11688913wrd.522.1660659997759;
-        Tue, 16 Aug 2022 07:26:37 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=U2KEqJ/DXH8FYuHljxWNvdnf2Dr2qz8tEzDBqA2naN8=;
+        b=FpKshIFd36ern5OZo/SJ+BNVKaXIvQyS1eeU6ufo0eUFqjxSf1TTylBLrvnnYYVcXH
+         P5/qyTRIHnrbnituP8J8HILd5EGZx9pSXbKLFl1RPSGVAkxL+6DfbBZHHh03Rhd1IUk7
+         NYjEnovKPJDB0KNGK8INsT9BftmS3zsmgchG0YFPsqs7uFrl4t9OeK23V6L+HbGwy6MF
+         FUIbcBysogl5bG9rY76A1+1vVOZEtILkDFO56tj5p7ixoy8h2G5ykkVLtcn2doOwWXsq
+         ALwb9gODtlBwVLb9K/fraccOrrguUG+UbyjhqIF3QgzrSEozXtvngY2CDc0Mck7S1bFd
+         daBg==
+X-Gm-Message-State: ACgBeo0QKJFqsw+22nrAuoM1LuYggYf2QcEMA9Gl/xLQUMKGbtm48/3l
+	VZ2byQ4XxLy9xs7Y5Zgb/28=
+X-Google-Smtp-Source: AA6agR5iwkbPv+3C/kK4IaiwbX20HJRMWBJ8QHIswO5RtccUKX/ueaDVXRu9e30BIRXz8rHRYtQoKA==
+X-Received: by 2002:a25:d40b:0:b0:68d:487f:6a48 with SMTP id m11-20020a25d40b000000b0068d487f6a48mr3292663ybf.126.1660660508654;
+        Tue, 16 Aug 2022 07:35:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:3c1:b0:220:80cc:8add with SMTP id
- b1-20020a05600003c100b0022080cc8addls19798362wrg.2.-pod-prod-gmail; Tue, 16
- Aug 2022 07:26:36 -0700 (PDT)
-X-Received: by 2002:a5d:494d:0:b0:225:1bfc:6820 with SMTP id r13-20020a5d494d000000b002251bfc6820mr1455695wrs.473.1660659996932;
-        Tue, 16 Aug 2022 07:26:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1660659996; cv=none;
+Received: by 2002:a0d:e2d1:0:b0:328:7d8c:fddb with SMTP id l200-20020a0de2d1000000b003287d8cfddbls6393735ywe.0.-pod-prod-gmail;
+ Tue, 16 Aug 2022 07:35:08 -0700 (PDT)
+X-Received: by 2002:a0d:e745:0:b0:320:ae6a:ac06 with SMTP id q66-20020a0de745000000b00320ae6aac06mr16475610ywe.185.1660660508029;
+        Tue, 16 Aug 2022 07:35:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1660660508; cv=none;
         d=google.com; s=arc-20160816;
-        b=CQzoFx3lEXHZ8QW5lpt+KB92NoNhLa55NJE+OFEQhmdCaxmJA+a4q2GyxEu/7rbnkN
-         MOqHy3xb5aiFoLPAm7vr9BJ1rKKn6XFgsskWfuBwMgy/0gN1beC6MrRWIM8IGqpF5pmN
-         vGIanPErKHUG5XYeuF5tfkAd2GwrarjynIDY2MdWxK8AKKs9w1etnHRgq94cuIMml4K3
-         aBkCB/eN+XgNyZ9NsuBIqOeFB/pAzXWNAop/Rib6Bar5VNXUPPxQ5AWwgd7GFXKdakC5
-         eFZtCwaTA0+v41NOkPiLLj07uaRsoUeW0j/rz0+0I2ZBwLxnYbkDCgyRtPLh8FuYjnje
-         Q9DQ==
+        b=0/TUeXSpERTvR0hbwZM7g/BNTgw+7AESI9+m73YKY5koHyNozy0QXENcBMpcGSITKR
+         Y24zklMDoTnhCwuhA94d+duN5xy3J/AMLEs/w3frI+xHjLUjwdKo2foRAepl1rdKn59q
+         7GzRZE4q0phn6Lg7xHZKET46PPIDnRPEZEOS/llW1glAq8R402Cq4E84cCJ7Fv0nE3dm
+         f0wBYlUMdxs+ViuM3B39Dv8YA1Tfk1jww73yTGFtap3zqXEb7t6SJqmT0y4Npkn3JW5r
+         abTjF8o+Pvxd6cVQ5m1eqDPPC97ws4JM9qmHYArlIdo/rb9TGKVPPhPGwSAS1e5DevqG
+         mhZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=qoDbxzkfxB5yzHZ4aIGuJ//j4H4ZdMk6h0R4+zdowMg=;
-        b=nH6fLjQq0RAGgptRGvlLNgfhRp+Y7JiPPond3aHnKTrAcDXmRK2cWoeAQSJiwHHgyF
-         r7ebPya0d5tHzL4nibIZefB62QVI4VTCzdCHXbe/2Qcfw09UrjR5IHUur/io2MyeDEop
-         lqkGEqxzjbceqCwael7uRggAfSvq/PQNfKx6oPyPqsAqtXQKCYWNgGGCDJ1RZg5jS5iQ
-         YbwcBU0g9g0ea3pshPDyTnYOWVT9QiBO0Tboy+EXXwKdlNmWiYz/U68AkWREcwqhU0io
-         Nk0aQjM6JRHFBteHa85AAmUWawkPPSDVQBbSiGPHFrPwNeQ0ESb1RV1fJUqeB4J/+SEG
-         Ksag==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sKkqKLJFnzGDyFb/Z3lfz2STDnoaJEZPlY1BVY1Y4VI=;
+        b=0GZN7WOWSf/LjKC9hEK6MrYyOaTByQQuiM2MYe9TnjfnAFUVYl2nZJarGzmyiz1Cop
+         ejuxlN3R13Bb/mvonaSN7LJue1BkXhT+JykVjv73EvnYwDaBjTo9tlvJbhF1YyZ5jfbm
+         T80ILkZSxYmHFdFIfI7p1PbWhYfu4hnZcgVzA2O1ClxyNjEA9S8QeEqvUHRZkpipDV7E
+         SfiO87imRfeji9cNmeo/a4XgyovNbBe9NQUC/jLiN0y2CUJgIRx+EoQHsPCueeXFRMH5
+         CVL50FqPsGXfzRJ2PktZPLHkYh2RBlMDQt/EWIL0UrQRwKIS9KmASmg7QlRDx4q/3A0p
+         IXUA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=T2Sqwl6d;
-       spf=pass (google.com: domain of will@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=will@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id bo11-20020a056000068b00b0022068e0dba1si910686wrb.4.2022.08.16.07.26.36
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Nck2pUEE;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1132 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com. [2607:f8b0:4864:20::1132])
+        by gmr-mx.google.com with ESMTPS id q14-20020a81990e000000b0031f111d36bbsi1284322ywg.1.2022.08.16.07.35.08
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Aug 2022 07:26:36 -0700 (PDT)
-Received-SPF: pass (google.com: domain of will@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 91FBAB81A56;
-	Tue, 16 Aug 2022 14:26:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D472C433D6;
-	Tue, 16 Aug 2022 14:26:33 +0000 (UTC)
-Date: Tue, 16 Aug 2022 15:26:29 +0100
-From: Will Deacon <will@kernel.org>
-To: Yee Lee =?utf-8?B?KOadjuW7uuiqvCk=?= <Yee.Lee@mediatek.com>
-Cc: Marco Elver <elver@google.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	Max Schulze <max.schulze@online.de>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"naush@raspberrypi.com" <naush@raspberrypi.com>,
-	"glider@google.com" <glider@google.com>,
-	"dvyukov@google.com" <dvyukov@google.com>,
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
-Subject: Re: kmemleak: Cannot insert 0xffffff806e24f000 into the object
- search tree (overlaps existing) [RPi CM4]
-Message-ID: <20220816142628.GA11512@willie-the-truck>
-References: <b33b33bc-2d06-1bcd-2df7-43678962b728@online.de>
- <20220815124705.GA9950@willie-the-truck>
- <CANpmjNPrDW5FRf3PdzAUsjEtHgaWVTJ2CNr0=e732fEUf4FTmQ@mail.gmail.com>
- <SI2PR03MB57530BCDBB59A9E2DCE38DCA906B9@SI2PR03MB5753.apcprd03.prod.outlook.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Aug 2022 07:35:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1132 as permitted sender) client-ip=2607:f8b0:4864:20::1132;
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-3246910dac3so155928807b3.12
+        for <kasan-dev@googlegroups.com>; Tue, 16 Aug 2022 07:35:08 -0700 (PDT)
+X-Received: by 2002:a81:500a:0:b0:333:9bcd:8a41 with SMTP id
+ e10-20020a81500a000000b003339bcd8a41mr2399644ywb.4.1660660507542; Tue, 16 Aug
+ 2022 07:35:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <b33b33bc-2d06-1bcd-2df7-43678962b728@online.de>
+ <20220815124705.GA9950@willie-the-truck> <CANpmjNPrDW5FRf3PdzAUsjEtHgaWVTJ2CNr0=e732fEUf4FTmQ@mail.gmail.com>
+ <SI2PR03MB57530BCDBB59A9E2DCE38DCA906B9@SI2PR03MB5753.apcprd03.prod.outlook.com>
+ <20220816142628.GA11512@willie-the-truck>
+In-Reply-To: <20220816142628.GA11512@willie-the-truck>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 16 Aug 2022 16:34:31 +0200
+Message-ID: <CANpmjNMd=ODXkx37wqYNFhivf_oH-FSo+O4RDKn3wV14kCe69g@mail.gmail.com>
+Subject: Re: kmemleak: Cannot insert 0xffffff806e24f000 into the object search
+ tree (overlaps existing) [RPi CM4]
+To: Will Deacon <will@kernel.org>
+Cc: =?UTF-8?B?WWVlIExlZSAo5p2O5bu66Kq8KQ==?= <Yee.Lee@mediatek.com>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, Max Schulze <max.schulze@online.de>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "naush@raspberrypi.com" <naush@raspberrypi.com>, 
+	"glider@google.com" <glider@google.com>, "dvyukov@google.com" <dvyukov@google.com>, 
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <SI2PR03MB57530BCDBB59A9E2DCE38DCA906B9@SI2PR03MB5753.apcprd03.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: will@kernel.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=T2Sqwl6d;       spf=pass
- (google.com: domain of will@kernel.org designates 145.40.68.75 as permitted
- sender) smtp.mailfrom=will@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20210112 header.b=Nck2pUEE;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1132 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,44 +141,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Aug 16, 2022 at 10:52:19AM +0000, Yee Lee (=E6=9D=8E=E5=BB=BA=E8=AA=
-=BC) wrote:
-> The kfence patch(07313a2b29ed) is based on the prior changes in
-> kmemleak(0c24e061196c2 , merged in v6.0-rc1), but it shows up earlier in
-> v5.19.=20
->=20
-> @akpm
-> Andrew, sorry that the short fix tag caused confusing. Can we pull out th=
-e
-> patch(07313a2b29e) in v5.19.x?
->=20
-> Kfence: (07313a2b29ed) https://github.com/torvalds/linux/commit/07313a2b2=
-9ed1079eaa7722624544b97b3ead84b
-> Kmemleak: (0c24e061196c2) https://github.com/torvalds/linux/commit/0c24e0=
-61196c21d53328d60f4ad0e5a2b3183343
+On Tue, 16 Aug 2022 at 16:26, Will Deacon <will@kernel.org> wrote:
+>
+> On Tue, Aug 16, 2022 at 10:52:19AM +0000, Yee Lee (=E6=9D=8E=E5=BB=BA=E8=
+=AA=BC) wrote:
+> > The kfence patch(07313a2b29ed) is based on the prior changes in
+> > kmemleak(0c24e061196c2 , merged in v6.0-rc1), but it shows up earlier i=
+n
+> > v5.19.
+> >
+> > @akpm
+> > Andrew, sorry that the short fix tag caused confusing. Can we pull out =
+the
+> > patch(07313a2b29e) in v5.19.x?
+> >
+> > Kfence: (07313a2b29ed) https://github.com/torvalds/linux/commit/07313a2=
+b29ed1079eaa7722624544b97b3ead84b
+> > Kmemleak: (0c24e061196c2) https://github.com/torvalds/linux/commit/0c24=
+e061196c21d53328d60f4ad0e5a2b3183343
+>
+> Hmm, so if I'm understanding correctly then:
+>
+>  - The kfence fix (07313a2b29ed) depends on a kmemleak change (0c24e06119=
+6c2)
+>    but the patches apply cleanly on their own.
+>
+>  - The kmemleak change landed in the v6.0 merge window, but the kfence fi=
+x
+>    landed in 5.19 (and has a fixes tag)
+>
+> So it sounds like we can either:
+>
+>  1. Revert 07313a2b29ed in the stable trees which contain it and then fix
+>     the original issue some other way.
+>
+> or,
+>
+>  2. Backport 0c24e061196c2 everywhere that has 07313a2b29ed. Judging sole=
+ly
+>     by the size of the patch, this doesn't look like a great idea.
+>
+> Is that right?
 
-Hmm, so if I'm understanding correctly then:
+Right, looks like the kfence fix didn't need to be in 5.19. In any
+case, this patch I just sent:
 
- - The kfence fix (07313a2b29ed) depends on a kmemleak change (0c24e061196c=
-2)
-   but the patches apply cleanly on their own.
+https://lore.kernel.org/all/20220816142529.1919543-1-elver@google.com/
 
- - The kmemleak change landed in the v6.0 merge window, but the kfence fix
-   landed in 5.19 (and has a fixes tag)
+fixes the issue for 5.19 as well, because memblock has always used
+kmemleak's kmemleak_*_phys() API and technically we should free it
+through phys as well.
 
-So it sounds like we can either:
+As far as I can tell, that's also the right thing to do in 6.0-rc1
+with 0c24e061196c2, because we have the slab post-alloc hooks that
+want to register kfence objects via kmemleak. Unless of course somehow
+both "ignore" and "free" works, but "ignore" just sounds wrong in this
+case. Any thoughts?
 
- 1. Revert 07313a2b29ed in the stable trees which contain it and then fix
-    the original issue some other way.
-
-or,
-
- 2. Backport 0c24e061196c2 everywhere that has 07313a2b29ed. Judging solely
-    by the size of the patch, this doesn't look like a great idea.
-
-Is that right?
-
-Will
+Thanks,
+-- Marco
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -195,4 +207,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20220816142628.GA11512%40willie-the-truck.
+kasan-dev/CANpmjNMd%3DODXkx37wqYNFhivf_oH-FSo%2BO4RDKn3wV14kCe69g%40mail.gm=
+ail.com.
