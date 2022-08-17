@@ -1,153 +1,135 @@
-Return-Path: <kasan-dev+bncBCQYDA7264GRBS4R6OLQMGQE772UTOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBBWH6OLQMGQEVW7AFAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1137.google.com (mail-yw1-x1137.google.com [IPv6:2607:f8b0:4864:20::1137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2F8596D07
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Aug 2022 12:54:05 +0200 (CEST)
-Received: by mail-yw1-x1137.google.com with SMTP id 00721157ae682-334ab1f0247sf38036017b3.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 17 Aug 2022 03:54:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1660733644; cv=pass;
+Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
+	by mail.lfdr.de (Postfix) with ESMTPS id E15CE596EB1
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 Aug 2022 14:48:06 +0200 (CEST)
+Received: by mail-wr1-x43f.google.com with SMTP id c6-20020adfa706000000b00222c3caa23esf2405179wrd.15
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 Aug 2022 05:48:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1660740486; cv=pass;
         d=google.com; s=arc-20160816;
-        b=botJSha3HdqspLXVG0bK0Tau8d/NI+mW55dm1nopcW/7mudnhjTvMCn4cDnWrkhiuI
-         oGRSmtfZmom6ZDctSmVzkdL0AIr0ie4xuDg7fWwwqbsAAu+6T9/ehnmiaJh6vN3g8RXi
-         YKcmDfDl+N62IGSso1nychV/66cZ8VCO9zgmp2eVzTtyd18V9RY09boHv16yXP9d/km6
-         Mc8XlKVaDL4ZIx22JH5Py+x1HgTnZcVYlKaepUamciV0+XDaN6tRlEvoL0rSZ6UoW5Ds
-         q21st5VFaOhIT1cYtMPtfswEnhOOcUxJW+pAP3af2PYbHhY5ZRyf5jpgPsvTMlZKjC3V
-         A5RA==
+        b=neXbfyqx+/zrmw/FI5Hi9vmFH+/Y1kcP3AveQbNr8G40LA8+6sJe85K/n5ESbDdKXh
+         CpR2BUj1zatONDzGToAFxy0+jQBhY231NBSqr+jvnOUYg2r/UDUJ5tJeOuC7Frhu21l9
+         ASl7AAXcZ0W7L/FFZK6OFeY7ZSeIQ2YNcC/5Ul5Nftjwofd2lLoLSTpJy8LY4BXcOYzH
+         bRWJqOXL9cM0yu6KR2oqexzjg96klkm8QiIJOPD+yNAMCZ0sOl02KydtX2I7pzGemIex
+         G2eLrcPzaW/qY/As3WPS1h3ZvL+vy/+a1n86dIC1lEhqMM5x1zv9YlT+dbxqTO8BX2rz
+         qOmQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-disposition:in-reply-to
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=VD8aerOWUe3NWuk9EdmVEu/pKl53LXU4bWJefzXRidc=;
-        b=TUSitT6+k55EKNGs75717yHR8VoINW7KGOT8Z0n0o1v3ACXVLFCar/sdHcJuwXat44
-         IJgZk2FpsYgHgx5p9FVw65ZHFbhxwxjdAUGQ6ySnt+u6Qvn5B4HQLqVbKHiNYlH+EF4R
-         UfogAVtZoveoBOkx0JHpw+RAvSrvVyoSm5c+E3XkCE4KjVTqycsLT3hUbVVajnq3kEaR
-         468YAu0C/2ZgFlrOzeBkhX0/eR/iUrgxp32XlKgrbZ3UotzZYXiuuAncMO7a1aMMj1iV
-         bTJy1iUxz9g3jemXC50TpumSZTmnbYeLo13qUSi0MadFYZdeZtU1dGfBMTAlC+ytHjuH
-         hz6w==
+        bh=s1PYTr1HujkNe37cwvJQKNqXHYiDZikW5Rwq52i6w9M=;
+        b=P26PZgwNtp2KNz+oDZFRA0yJmMQlUSUDP4If8hUS9hvNQFWrNnYKPCeFdJEZM1/Ssv
+         eeGPQJp2iWRrw6Zhba00pkuCr3YpROWt4soGkKkQipMZpljLI7FDsaMelIpNIJwvNzu6
+         w7TmSPa6to1rXbUtNqhxp7VuQe/XlxrZvv7v13lCvEMn2sm9oA0dAqarkx+3nRyH08Ei
+         81F8jD/Wdha0Wu5JpcV64CdMoUVvqE6PLV6KR8hFw1jZoHO3W0Txw5nStWlLAkKdnuBK
+         3mlm+4JNHdO4d19M/UCc5nW7gBZv621ha+zF4kAFC9Uraq1Es/9967GbgKuN6hilC6mO
+         do9g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=S8+n9d3K;
-       spf=pass (google.com: domain of mst@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=mst@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=OWOFpkz+;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-disposition:in-reply-to:mime-version
+         :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc;
-        bh=VD8aerOWUe3NWuk9EdmVEu/pKl53LXU4bWJefzXRidc=;
-        b=GbPq54j34N3nrsADWQM5x3oFYo8eTKFs2qUTBgOp13ewAzkibAZVydqXb1gd6mT5si
-         gkA684LsJxhyptdcFKxrNHqW72xRRghimFVhVC0/qcBb6JhRxuKmYxD/VHXeOP3WDHZU
-         FWg/AT+AWNET1liBGgC/8fDCbglXtA4GPhCNOJpc0O53kaE6GhPqamykpkgP6Y6USTTz
-         9iXKCe6FJ68bC55Cg0aQLiehUVieUC2G/BriWIDmvhBJS+Fr2yYroxvjqvvmJhs8DBQq
-         Zkbiir4IXHsj+ZT1hNa0q2jvZ+pZFfoY3zAV5hbl6uQcqpkJNv3DgD6qSvy4OXF48h7m
-         s7Lw==
+        bh=s1PYTr1HujkNe37cwvJQKNqXHYiDZikW5Rwq52i6w9M=;
+        b=TiZvoVt5Hs5Ozjnw40/KHI6xFId+zxdfnqcEuOvZif/sEPEAmhEf4oDGROqZUhzhAL
+         LC2cyhQCTkKc8rxhtmwjF7x4BqA/Cz4ng1ySVWBgjLk335vW+4rAAvwfA8mRqO7DJEcA
+         LKoawuxnjkmn4ohH+CQqotZezxGYfFa/fQGYP/OB7sgCWSM21NFYhdG0jpm01A5F0IvQ
+         yqhZKdbzxXk4MqM79Cnkx0GZt6b9yuwGSSFZ1njAloH2saBLXYM1NVIpHM1AovUJ49x3
+         2rR1AE5US3qz5vaZLjY7VlibPGOPUKW8AhLIrS0Ej8IIN4azhX/AV2Qdk8TgQ6VALRUa
+         /9sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-disposition:in-reply-to:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:sender:from:to:cc;
-        bh=VD8aerOWUe3NWuk9EdmVEu/pKl53LXU4bWJefzXRidc=;
-        b=EcPDIWfJwXGBmgZHvGu8s0FC3egg1Fhtg1/fMglTS3r4o8Kv4vCJf5Vr9Pc64BF8rv
-         azHmvRQVpj3ZIruCYOAU3uSSIeBuOtOjCh+r6NpvLBu3+uKqrFz03y1nfvn66DgU7WK8
-         YoRkqM/oFRd5ehSXOSDp8acUyRZkpbdO/RR1mx1ZBGAkkwLswdxR0tz6wnG8a16DFwFp
-         zKxSp+ft1nKKIUM6gDGemwZuOR5Be2L+Xa9jeOVxGRIwOo3Plx797rFufshpfmxAWb/F
-         23LLrZ2hCMM7Bs7o6wzijJ6qaRrJTNLe18sV/6xH7LlivMPohkyWI3emv2Vh+PgVKB0Z
-         4gAg==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc;
+        bh=s1PYTr1HujkNe37cwvJQKNqXHYiDZikW5Rwq52i6w9M=;
+        b=rUrs9YawEr79SFgVdT1DfspUPpt29T4sGp1zmaJ+1TsB6EonYtNZbJtkJVA+T8Z3xy
+         7LZS2rsa2piXLhbaknkAvJu71fxqjK7vhGUWgDbJTxF+qvd7p0iT1Y8lYeT6Q2CmzBK0
+         rNqLg1QbaMcA9bnfuB9nfzve0pMyQ00qUzkW3Y5zf0pKrY2+Vj0MPFy4V310bUD8viL3
+         c+rztysNvBdung7PL5tGfaz5LMKEppkYspqa6aJ9fT4WmGriTkZgbpx7PSaDuTyPSXus
+         lUYf7pI6YCqF8MQE20O8/Y5Uaf4cu5RvzhpoRAk7ozPhM+TKfszQITVm5Wfs9xvc46HW
+         ETUA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo3m1sOl0fAWIwm//FjZKFjNXJUyIWVHDYF4XW3id79jyqwc5cOp
-	CZDeg1e0ZuvZ4m0GkddZqlk=
-X-Google-Smtp-Source: AA6agR60O7XBpUmHazlmbwxy/ccMVrtb0xYQ4c0uTOfnJ13C2WjatAOBDNfgSpwJ8Nf3xu/ty4FRNA==
-X-Received: by 2002:a81:a084:0:b0:326:d475:4f8 with SMTP id x126-20020a81a084000000b00326d47504f8mr20047122ywg.284.1660733644038;
-        Wed, 17 Aug 2022 03:54:04 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2mPF3+cb5mWNQpezkpm5YyafmyNUH5p7Q4C3K2iFF9jdc4hAet
+	ce/l0D76eOgJilpLnEouiZA=
+X-Google-Smtp-Source: AA6agR630560cX+voGfcugbdO/ibs8GzxbQFjQbmTHgDdy31ST8cBWNcisHuU3aHg3wjImWhbvqCsw==
+X-Received: by 2002:adf:f708:0:b0:221:6cb7:8d52 with SMTP id r8-20020adff708000000b002216cb78d52mr13962934wrp.186.1660740486341;
+        Wed, 17 Aug 2022 05:48:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:690c:95:b0:32f:dc69:5a33 with SMTP id
- be21-20020a05690c009500b0032fdc695a33ls4268120ywb.9.-pod-prod-gmail; Wed, 17
- Aug 2022 03:54:03 -0700 (PDT)
-X-Received: by 2002:a0d:ea86:0:b0:334:97b:101f with SMTP id t128-20020a0dea86000000b00334097b101fmr5239944ywe.120.1660733643446;
-        Wed, 17 Aug 2022 03:54:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1660733643; cv=none;
+Received: by 2002:a05:6000:3c1:b0:220:80cc:8add with SMTP id
+ b1-20020a05600003c100b0022080cc8addls2828061wrg.2.-pod-prod-gmail; Wed, 17
+ Aug 2022 05:48:05 -0700 (PDT)
+X-Received: by 2002:adf:fe04:0:b0:225:1c8e:9027 with SMTP id n4-20020adffe04000000b002251c8e9027mr3713141wrr.155.1660740485007;
+        Wed, 17 Aug 2022 05:48:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1660740485; cv=none;
         d=google.com; s=arc-20160816;
-        b=BAu0Vx2L5MmrE3qLoZApzIFwTlpdmKs3Bupc9Itb28HX//jrYgMowSPNI4fNWnCycw
-         DGx29l3fbOhqloV8d4jbuCGkvJocUODzw6VGHADWTP23JCNMaeHx3aBizRYRNKkcHVG7
-         fEGnApJLggzMjhoE9MJl5Rt2NCjmtqWayqwZp51Sf0lwYzQUFjofnulaxtC10YfBFOQ/
-         ozd4T8d6K3FFy6gmZwaOi8LaUP63ZHApc9U/+Z5nvkc9HiJW9AVcTRs8tkszpv6SAK5m
-         QCYX3OzrkOjhqPbtnsuAw6SKEmG18QVKquxVmf8Byp+0BPXYslESwE9Pzo7um85keYsm
-         5KOA==
+        b=XfpQn3zvQsSjDhff/VAMQzwiCe6CsY7TiW2JHZj1bmxWVLsH8whxIl5/ntrXvbaft2
+         yIJdqSE1g5E4XgtXBvxvhj7JwQVLjVU+qdgywtnybEkZNyO1jjDbi3/OZIwRDOCCq9Dq
+         a/Cs4oS/Gbk3+zDN3OdyBs+zUBCevPvK6R8F8lim7WeU8SnfyeXpcxXDvtx25IE2Ct0R
+         dSdFtY0JGnHv66R168KkA4FcsWpo7DRl2Fuzw3ZdtbjmaeSGWiqJO5kRN0/3za5CRk3U
+         Lp7YUKGNW8F6yGS0zisrSNPDFQPuKVQm+8skyL/+8X4KR75IIP3JYlNQFWnZL8yltRi3
+         sM3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-disposition:in-reply-to:mime-version:references:message-id
+        h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=gWHtHY6d40uY0Ij4s58yaxGtL5XuSJS0/N+jf5H/pmM=;
-        b=E0HRgXuxtB5jp89wezB2K2fAWa1H9rVuLEc7A77Jdhgu/vSD3OjH8XAeG+yeT0S243
-         xjvpVw5DRDlmBdb65ZTOz1VZWzq7DJdUb3RAXQM8a3QfBIyr+K7OvftieeP5uxwU4sTE
-         nCPi49RYGcmCbRQtvHyKsheET6N6gxPUQVcmVp59m8fyVYy/6CDD7T6TKuK+61mzV81G
-         Xdt7LOqgulK8vTOapGW2YyCsKmThdeqrC982Mdw2m42BK6HMpFXDRGv6REY3MhXl4Rdl
-         2lgP8gRNGchBtpWfTeuPrjMzbNYUzddng+bGtGZcTJme2eTYAys2Axve2cBWH0nWgLjO
-         NlvQ==
+        bh=1qmsUsB+4SBL13h98w97pLya6IvHEpIdUKliGvuz3Dw=;
+        b=jM/rzqoBYUveluzI1Bpr9MebHv8daBfZJdu6gM0XE7dOgjIAwJP0NKVWR1CbDNtqH7
+         dINoBkoGqyQGOrvbxOsiRPviQNmQ/ZB0epUgyC4RQb0plIUygastH2jZZormer66uvJ5
+         r/QbhHxzz/ReiX7p5NBs+pVbF3loF32pDz7D241oHbzHKJCHdz83WB1phTzxP5A/5oRN
+         GqX6QL2/9YWdD+/gNwn3EyO1DgsOiGYzVmKzY+yYPEWgyZudLeLxOvAqDqGUrlY4LEK3
+         SG/aliBZHvYiEs13P0w0cpe1h8T/7Fwyw+1yGKrlqBiOdsLM+X+XD651V0G93+7wSD3v
+         LH8Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=S8+n9d3K;
-       spf=pass (google.com: domain of mst@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=mst@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id s127-20020a257785000000b006716b97bbf1si190837ybc.3.2022.08.17.03.54.03
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=OWOFpkz+;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id ay9-20020a5d6f09000000b002236ac50ec6si730897wrb.6.2022.08.17.05.48.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Aug 2022 03:54:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mst@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-274-0_6OmuPxNauSwFwjcFs4VQ-1; Wed, 17 Aug 2022 06:54:00 -0400
-X-MC-Unique: 0_6OmuPxNauSwFwjcFs4VQ-1
-Received: by mail-wr1-f70.google.com with SMTP id o3-20020adfa103000000b0022514e8e99bso961556wro.19
-        for <kasan-dev@googlegroups.com>; Wed, 17 Aug 2022 03:54:00 -0700 (PDT)
-X-Received: by 2002:a05:600c:4e11:b0:3a5:bfd3:a899 with SMTP id b17-20020a05600c4e1100b003a5bfd3a899mr1743692wmq.185.1660733639795;
-        Wed, 17 Aug 2022 03:53:59 -0700 (PDT)
-X-Received: by 2002:a05:600c:4e11:b0:3a5:bfd3:a899 with SMTP id b17-20020a05600c4e1100b003a5bfd3a899mr1743679wmq.185.1660733639576;
-        Wed, 17 Aug 2022 03:53:59 -0700 (PDT)
-Received: from redhat.com ([2.55.4.37])
-        by smtp.gmail.com with ESMTPSA id p27-20020a05600c1d9b00b003a35ec4bf4fsm1905896wms.20.2022.08.17.03.53.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 03:53:59 -0700 (PDT)
-Date: Wed, 17 Aug 2022 06:53:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	James.Bottomley@hansenpartnership.com, andres@anarazel.de,
-	axboe@kernel.dk, c@redhat.com, davem@davemloft.net,
-	edumazet@google.com, gregkh@linuxfoundation.org,
-	jasowang@redhat.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
-	linux@roeck-us.net, martin.petersen@oracle.com,
-	netdev@vger.kernel.org, pabeni@redhat.com,
-	torvalds@linux-foundation.org,
-	virtualization@lists.linux-foundation.org,
-	kasan-dev@googlegroups.com
-Subject: Re: upstream kernel crashes
-Message-ID: <20220817065207-mutt-send-email-mst@kernel.org>
-References: <20220815113729-mutt-send-email-mst@kernel.org>
- <20220815164503.jsoezxcm6q4u2b6j@awork3.anarazel.de>
- <20220815124748-mutt-send-email-mst@kernel.org>
- <20220815174617.z4chnftzcbv6frqr@awork3.anarazel.de>
- <20220815161423-mutt-send-email-mst@kernel.org>
- <20220815205330.m54g7vcs77r6owd6@awork3.anarazel.de>
- <20220815170444-mutt-send-email-mst@kernel.org>
- <20220817061359.200970-1-dvyukov@google.com>
- <1660718191.3631961-1-xuanzhuo@linux.alibaba.com>
+        Wed, 17 Aug 2022 05:48:04 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=worktop.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oOISg-003HpW-Mc; Wed, 17 Aug 2022 12:47:56 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+	id C3BE1980256; Wed, 17 Aug 2022 14:47:52 +0200 (CEST)
+Date: Wed, 17 Aug 2022 14:47:52 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	linuxppc-dev@lists.ozlabs.org, linux-perf-users@vger.kernel.org,
+	x86@kernel.org, linux-sh@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 10/14] locking/percpu-rwsem: Add
+ percpu_is_write_locked() and percpu_is_read_locked()
+Message-ID: <YvzjeEHYX9d5dhAt@worktop.programming.kicks-ass.net>
+References: <20220704150514.48816-1-elver@google.com>
+ <20220704150514.48816-11-elver@google.com>
 MIME-Version: 1.0
-In-Reply-To: <1660718191.3631961-1-xuanzhuo@linux.alibaba.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-X-Original-Sender: mst@redhat.com
+In-Reply-To: <20220704150514.48816-11-elver@google.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=S8+n9d3K;
-       spf=pass (google.com: domain of mst@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=mst@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@infradead.org header.s=desiato.20200630 header.b=OWOFpkz+;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as
+ permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,60 +142,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Aug 17, 2022 at 02:36:31PM +0800, Xuan Zhuo wrote:
-> On Wed, 17 Aug 2022 08:13:59 +0200, Dmitry Vyukov <dvyukov@google.com> wrote:
-> > On Mon, 15 Aug 2022 17:32:06 -0400, Michael wrote:
-> > > So if you pass the size parameter for a legacy device it will
-> > > try to make the ring smaller and that is not legal with
-> > > legacy at all. But the driver treats legacy and modern
-> > > the same, it allocates a smaller queue anyway.
-> > >
-> > > Lo and behold, I pass disable-modern=on to qemu and it happily
-> > > corrupts memory exactly the same as GCP does.
-> >
-> > Ouch!
-> >
-> > I understand that the host does the actual corruption,
-> > but could you think of any additional debug checking in the guest
-> > that would caught this in future? Potentially only when KASAN
-> > is enabled which can verify validity of memory ranges.
-> > Some kind of additional layer of sanity checking.
-> >
-> > This caused a bit of a havoc for syzbot with almost 100 unique
-> > crash signatures, so would be useful to catch such issues more
-> > reliably in future.
-> 
-> We can add a check to vring size before calling vp_legacy_set_queue_address().
-> Checking the memory range directly is a bit cumbersome.
-> 
-> Thanks.
+On Mon, Jul 04, 2022 at 05:05:10PM +0200, Marco Elver wrote:
 
-With a comment along the lines of
+> +bool percpu_is_read_locked(struct percpu_rw_semaphore *sem)
+> +{
+> +	return per_cpu_sum(*sem->read_count) != 0;
+> +}
+> +EXPORT_SYMBOL_GPL(percpu_is_read_locked);
 
-/* Legacy virtio pci has no way to communicate a change in vq size to
- * the hypervisor. If ring sizes don't match hypervisor will happily
- * corrupt memory.
- */
+I don't think this is correct; read_count can have spurious increments.
 
+If we look at __percpu_down_read_trylock(), it does roughly something
+like this:
 
-> diff --git a/drivers/virtio/virtio_pci_legacy.c b/drivers/virtio/virtio_pci_legacy.c
-> index 2257f1b3d8ae..0673831f45b6 100644
-> --- a/drivers/virtio/virtio_pci_legacy.c
-> +++ b/drivers/virtio/virtio_pci_legacy.c
-> @@ -146,6 +146,8 @@ static struct virtqueue *setup_vq(struct virtio_pci_device *vp_dev,
->                 goto out_del_vq;
->         }
-> 
-> +       BUG_ON(num != virtqueue_get_vring_size(vq));
-> +
->         /* activate the queue */
->         vp_legacy_set_queue_address(&vp_dev->ldev, index, q_pfn);
-> 
-> 
-> >
-> > Thanks
+	this_cpu_inc(*sem->read_count);
+	smp_mb();
+	if (!sem->block)
+		return true;
+	this_cpu_dec(*sem->read_count);
+	return false;
+
+So percpu_is_read_locked() needs to ensure the read_count is non-zero
+*and* that block is not set.
+
+That said; I really dislike the whole _is_locked family with a passion.
+Let me try and figure out what you need this for.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220817065207-mutt-send-email-mst%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YvzjeEHYX9d5dhAt%40worktop.programming.kicks-ass.net.
