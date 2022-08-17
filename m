@@ -1,148 +1,126 @@
-Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBAGI6SLQMGQECDVR34Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBK6I6SLQMGQEBFWKKEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id B669D5974FB
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Aug 2022 19:23:13 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id w17-20020ac25991000000b00492b09753c2sf111176lfn.5
-        for <lists+kasan-dev@lfdr.de>; Wed, 17 Aug 2022 10:23:13 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1660756993; cv=pass;
+Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 518DB5974FD
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 Aug 2022 19:23:56 +0200 (CEST)
+Received: by mail-lj1-x23a.google.com with SMTP id y10-20020a2eb00a000000b0025e505fc2c4sf4473546ljk.11
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 Aug 2022 10:23:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1660757035; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hGIgR/ENbEFo+HGB6mDj9YFJucKRREPI/p8mqmjo65VGQZSYB8D7Ej4kOAi6ciwruC
-         tc4Xz5tkfN0iXPvAKUQj3cHv1rqcbLuVjKMsdsWWy9sTOFQuklk4OEBXu44vaomkk5L0
-         kOiaWBpQkpn7QIYJz27MBYoXw9V3j0e17W0v2wf0Yruqvna7qydVU4mBi98BJ55yEvb+
-         dbKTIPg1zRiSgIYOJWm/WjAnHDQ4O7ONh9g2J6CLtDljl7qPOBUAkV4QMJz0lWpMEF/N
-         sDkjhWCzbFW+bfzwrCQAI1IPUlXSfHSsZEh/J6ytjiEzmCGd7LmHhSSNwM0K7uM0KEIz
-         Qy6w==
+        b=hB9ekWtGSX4tgxz9K6HAJZ3iM9hOPCWveuJ+xaF6WWeYtoFLLDDFuV+Ot65gHyuPLn
+         gXtk7WmPiHtlJ0nUe6b4yn0DysDS/5Jdddjf+Y0JQYApHEGZoRTh+EE0mHP5ogalT6qL
+         zXg/BGU33qghdQ1f0buzKUvsZBeQaVU2IqGysWzUIJWSFRc/xviah87U3hsnC30w2+Vv
+         C/igbxctbZgwidRQnFB07IWv9uVc7fXYe4oKwgOowuRa9kLzpdR3KB55sLOoSO4q0sCh
+         FQ6d3BkwkkTDTZnme51OUp0h+PJf8XalOytdl4KkUSNpZ3j9EDWVyWgPT/dS+SJJgc0X
+         31Ww==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=GllVd/wN0q0wlJfybu5Fn7CwMVAkHckV0Xq6fmgS6Cw=;
-        b=IL32Y0ksXTuhhtcUhQW1QGFGOw03vxK9BDjDIe1OgCqKTXZSImdMRz5coSQ7uPUJ6M
-         eovEAk85p0maX7YpMDmtsRe3wKKkWO0CnrE50qtfImU/7/Eqx/UHBN8pd659NeLGzib4
-         vJyXZTvrjoAaYbKQ9tthHAL2550kk92nJY44c+p+MXUTdCknecWENDjlpXroKWS8xi+u
-         i2+mKDY++7kxLpFvJyj2UAP6EKrH8PyZTtfrrA4z66jQFbOMF21Nen8vQMCI+qUe+KIg
-         O3hBT4WderCzHqFfbpE6wV1k0h5yzUT+TXBoj8Z0PVjfWBQEppvIBxumKJ+AW4fGPrlH
-         uYBQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:message-id:in-reply-to:date:from:cc:to:subject:sender
+         :dkim-signature;
+        bh=v85EJA4H4s3IpkxuLrNYgsUay44hkeOhriRYT1bjBlI=;
+        b=eq2XtQIyKgteQRl+qd+/D5zul1dxvC9Que71GvKDZes8d2ucMhwfbRhAszaMNKMW/u
+         k2c8266O3rJtxxs5AoM/LKJU9Kjiz2f01Gw1goU9kq0YO4ttzBg6p4fIGHO+WjsAbSi5
+         H7/61bJevtvO9F1bqRDwemcBdH9R7ldRqDcAs72nPZdhhQISf1iR/NLlKhs5tOrEnbfB
+         WB/Fsc+V9M9Wr31wgDNg5CWawKXz5zeGPTlzuJDP26ol1SQ5fw5c3sezY/jZvA11433M
+         u4WoAoOnCnZPrv1wJEpzJvGYsPytx14azlLv6SRFXXULR9AG3LhHd3QSMWtnfykHUXFX
+         5M3w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=WYgP5bvG;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=uZ7TjaiD;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc;
-        bh=GllVd/wN0q0wlJfybu5Fn7CwMVAkHckV0Xq6fmgS6Cw=;
-        b=I5i0NC0wiAn5kr7rIA/xPNos321D+zEmDiraNFVz4nfJqN1n+ZfohL8lVye1+7Q9Zp
-         uf6v2ciZbLOJL4UM7tu/b1SE3g0qDXPtvnlYM2/J7uBYqW/byCOGWfrns9BawOR9bSCO
-         I3Nq4ZdW9fnGWnLrtlFNZA27IHjxm63Piz7cQI9HmhQt4KgVaqSct50U7z4jrUBUS3tN
-         CCWSOwaYTJnK0riGA6ybCAdEAqddiONTBNNnoIrLOmxmUbxYQ0N6GCxcEBMNImDXvPRB
-         YHfwT82rMsZG4Yru+qGNqmvVnW9OYFWgAh1eNwB3qX4tQLQW3ckDv3JgYaYnY4JDJCxW
-         F4GQ==
+         :x-original-sender:content-transfer-encoding:mime-version:message-id
+         :in-reply-to:date:from:cc:to:subject:sender:from:to:cc;
+        bh=v85EJA4H4s3IpkxuLrNYgsUay44hkeOhriRYT1bjBlI=;
+        b=ngCB3+BgX7ZWP6VmU7R4g0JrdOzrzgBAFiUHE+nxTW0VaDqruSO2jaTxkqk/qm3bq6
+         1Xxs+86sax8ODerK/UUMb7nUQ7yy7y4D5Yt5+vFaHIK48fXmvfhgyWAkubpMLiEW2s0d
+         BBqnE0K1hWRoF42Lvap7FOqi1Gv2WoFOPFRV24Z1Zt2Ryk4+d3FwumUlfTjSpeyZXSaO
+         G3kLJnQoKuCrn9OCp/JPUbQy5R+mTO8mPlyY5CAzs3YjolMaUT8860hGre6o53KqMIWx
+         vtpJ92HduxcP+CEfhCa2Blz7NNrKHMv+l2Zxn9EuV90t7rU+kTbqfoHb0XX6B87JINRO
+         +TFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-message-state
-         :sender:from:to:cc;
-        bh=GllVd/wN0q0wlJfybu5Fn7CwMVAkHckV0Xq6fmgS6Cw=;
-        b=BmfgX5wqob/QEw6wfo6iDvK2CjJnja+5B7wOulshfQovhEUEt88dLss9wY7VPlHerC
-         Uef0eqelrpYCwS3+95eBUJoUDufTcIzwxAMd9Y1fHXfmKOjxbxd/MSP8nGBDjGbRbDti
-         GyS+sM2FG0DDqE+ug+RKjv7QhjUbnXMuvGDiSWYtz/rA+JqCgNycbMb7wb5Y4UvDFnE7
-         ZrwKW7KV3ZlIAJrlo8cu8H8vurh9Nwt1daCunsED286Bv2rWILSGmT/BG3Z+NYZiZiyB
-         TgXn1UzDledvFSgPmPMwveBVFd7ZPs/sxpZ8LLR9acHxZ1EbG5JFeYJpQxF5ioQl/Mim
-         FvBg==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :from:cc:to:subject:x-gm-message-state:sender:from:to:cc;
+        bh=v85EJA4H4s3IpkxuLrNYgsUay44hkeOhriRYT1bjBlI=;
+        b=H1wyVjfIZzATwNdjyfmoil5fnJ1M5Hdh85XjMcKJViyGGfyDB/mJbN/2M2ik9HwxB+
+         U/ILkVeQgBgNnGMW+DRMNyFnjDOR9ER6dhoxBZs8GX8s4M42krvlLekMCT1GZdb2P4IB
+         hAmqYR88Lc5eqxXvAq28v3C26rZLYcz9ZcWCWNXhsYUMCig0cUeJO0bcchG8Q2h6eAI/
+         u7ahB/lMqRhmbtcoCz9Z7depmQ2B7IljbG/ThJjs4nAGVNoIgVtlQwpzWuCaGgJoudhu
+         BjFKjV1Cqcy4xU9VjDBtc3rsngtNIax6otsxJDXCfwDXWufOCOpiXEgkkVzW/JqkPGbo
+         Jc9w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1audsEP4mijIm88duGGnqKT78ZGuaIUNsFGkLZTDyvJnLDQQ8u
-	gFpd2e1wFvEV0cRl2DPbg9w=
-X-Google-Smtp-Source: AA6agR7DDXxsBYqzuuOAT40TjgoI0QU0G92c4uydxm2qHtT/YVdB5KFg9B4+W4e/JekjvD2BNTyVQg==
-X-Received: by 2002:a05:651c:101:b0:250:896d:f870 with SMTP id a1-20020a05651c010100b00250896df870mr8594521ljb.235.1660756992885;
-        Wed, 17 Aug 2022 10:23:12 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3qKlgJkMKR3Eg4H2FcYVB8ZiV2uFu/TPvCRQ8iBE3tOOObYepw
+	zmjl3zVelSNm/j7/6nIxDJE=
+X-Google-Smtp-Source: AA6agR69qAGhdO2ysnhX2PbMqkoxV5UQ+gcm3uqSNWM3nSdA3Zw8SrAQgZXl8Nv/tYFGPSjRyPWpmA==
+X-Received: by 2002:a05:651c:1208:b0:261:9d31:c07b with SMTP id i8-20020a05651c120800b002619d31c07bmr2066278lja.298.1660757035615;
+        Wed, 17 Aug 2022 10:23:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3148:b0:48b:2227:7787 with SMTP id
- s8-20020a056512314800b0048b22277787ls5928597lfi.3.-pod-prod-gmail; Wed, 17
- Aug 2022 10:23:11 -0700 (PDT)
-X-Received: by 2002:a05:6512:12cc:b0:48c:7bdc:734a with SMTP id p12-20020a05651212cc00b0048c7bdc734amr9360908lfg.577.1660756991666;
-        Wed, 17 Aug 2022 10:23:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1660756991; cv=none;
+Received: by 2002:a2e:8958:0:b0:25f:dcd4:53b4 with SMTP id b24-20020a2e8958000000b0025fdcd453b4ls2699891ljk.3.-pod-prod-gmail;
+ Wed, 17 Aug 2022 10:23:54 -0700 (PDT)
+X-Received: by 2002:a2e:8884:0:b0:261:8503:7e7f with SMTP id k4-20020a2e8884000000b0026185037e7fmr5203609lji.524.1660757034417;
+        Wed, 17 Aug 2022 10:23:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1660757034; cv=none;
         d=google.com; s=arc-20160816;
-        b=dlUW6uwCw9a2ar9rWtslL4xmsei2qats+HZBxYx4CFzfB7OFY/ra5NpxwA3wvtixMq
-         g+on7xAMklJgNKcobV34DCF2v1nzIxd0xObeKBbz55RRg/yQZ5x2M1QLHOL+jipBdSTz
-         3jbq58o/osk5bN396ntazRjXblRKNhafRd4/60O1qUE/ez81yygN/enZ4SMHbugVfaxd
-         pQWeRmuPxTcvPzXJzhNw0PqEUeI7bV01M1yZHxkgdYxWXf1EeSOel+er+4xMFsa4ccT2
-         K82ZlJ0Hg9SUsO5gyhdHZQF/94ApCgysnhr5E9xQidSk68qdmGKCmcMsDE45PjYSzncg
-         iY+A==
+        b=vRwSMCYnmJ5NlEuXtPXs132Vh/UI2uD6APR2nGoUqzHZuYsH7U0oYgrOygrffXcTZG
+         tPVSy8PLMa84OlmYGw7UrP8FqPlt1+FdFcUmkuq96BXeu7p+IqFnpggzTY5AZoClgLN7
+         q8J6EJGqOCjaJQ2U9yENbE3R0Ev5m4/ForCm5u1HAugo1sPgE/zXXAf9pn9MC2HqVugx
+         Qys8VEATdyrEDCY88U64GaMgz8kTBoWxnYke2fRUQU5nD80JACYtQljwmQRVi+lzGKU/
+         yDav2CjA5z/NDaxM+e3Piv11Ap0WMf+aj0HTK+X/Xnqpd08T5IBMLCcyeCp/3pgKb+f6
+         8Oew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=ILa+JzCF/hdYqd81SLM3fcHV2+ubi7OpWhXPurlOQOg=;
-        b=0uPpwcFc+W6UUrWaU0UtqY6Obfvy7FCB5/qnS6jum9MpJBR8gvlwFNdPBuKs9AfoSJ
-         bfzU0LWl1eSMqXWZ07aXkbHF1vTlazkYf0eDQPAzlZ1Vgeizy/tF0OJ1vQ8Ai/XSxENP
-         oBQV6f2ZwlCq86WxcYGlRHiqoccej3P9bwS8HaQJtv9pgE4M/rcME+1wHY02ogdubxbB
-         50SOTOkRMnTQ8DLtxxHkIc2l3l3QzKa+VOqMms8GOf4iP7ZykgpTdazBq5YnE2LnsMoc
-         O5tlAwTc7Ge+qA7cR008SY/XV1CCW+s3fAv9/INfCF851ewkSkChteFSKc3erCq0zSwk
-         v/hw==
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :from:cc:to:subject:dkim-signature;
+        bh=fClUHWUdGLGzh+1Baj8NJuKeSse+ratzEPtpVl9al14=;
+        b=lCDSIQD7RsCVjqeYADkPcJX4IXgpx5cjP/aVtLWF4jZP/tQgNXF6Zy6kc2swxeI+p2
+         i393JEYsL7JRitKxGIW2vi84TCFXDXkwrcmFjFjAQ0e/dNsMBSu/RsorJlMlvUGLF7iN
+         LNdXdkeabacUxSn01EeOp3csIFaa5K+wD7Y+GKl6KC4f2VcOAZUnlkhJBI+Cdouh0Y7G
+         RfH5rgULm+oWXsgRDjNIY/SAoP8UoX39wwIaWzTmwxv3oQsZXe28lLGPfIb3B14WOb8t
+         Npiv7CaJRUJtN5nDxPOXKRdET6jCDmFw3JX8Mjlxhla2NihC2yawksJD7K6PA28bfFXL
+         qhVQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=WYgP5bvG;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=uZ7TjaiD;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
-        by gmr-mx.google.com with ESMTPS id v5-20020a05651203a500b0048b12871da5si1057908lfp.4.2022.08.17.10.23.11
+Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
+        by gmr-mx.google.com with ESMTPS id bi19-20020a05651c231300b00261803548a7si719746ljb.4.2022.08.17.10.23.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Aug 2022 10:23:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
+        Wed, 17 Aug 2022 10:23:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id E7768B81DA0;
-	Wed, 17 Aug 2022 17:23:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43C90C433D6;
-	Wed, 17 Aug 2022 17:23:09 +0000 (UTC)
-Date: Wed, 17 Aug 2022 19:23:06 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Marco Elver <elver@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Will Deacon <will@kernel.org>, Yee Lee <Yee.Lee@mediatek.com>,
-	Max Schulze <max.schulze@online.de>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"naush@raspberrypi.com" <naush@raspberrypi.com>,
-	"glider@google.com" <glider@google.com>,
-	"dvyukov@google.com" <dvyukov@google.com>,
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
-Subject: Re: kmemleak: Cannot insert 0xffffff806e24f000 into the object
- search tree (overlaps existing) [RPi CM4]
-Message-ID: <Yv0j+sKaqPkTlnCz@kroah.com>
-References: <20220815124705.GA9950@willie-the-truck>
- <CANpmjNPrDW5FRf3PdzAUsjEtHgaWVTJ2CNr0=e732fEUf4FTmQ@mail.gmail.com>
- <SI2PR03MB57530BCDBB59A9E2DCE38DCA906B9@SI2PR03MB5753.apcprd03.prod.outlook.com>
- <20220816142628.GA11512@willie-the-truck>
- <20220816163943.672fe3285bc391b48e431e54@linux-foundation.org>
- <YvyJwrCNUdKHwxeQ@kroah.com>
- <YvyleOsHoztisPHp@arm.com>
- <CANpmjNO0mMNFA0vKdLjvOvzJo3=90ads9wUz==u84WBYnPQY3w@mail.gmail.com>
- <Yv0c0+ZRxxVc4W27@kroah.com>
- <Yv0fNwX/nlqIL9ou@arm.com>
+	by ams.source.kernel.org (Postfix) with ESMTPS id CF898B81E81;
+	Wed, 17 Aug 2022 17:23:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406D8C433D6;
+	Wed, 17 Aug 2022 17:23:52 +0000 (UTC)
+Subject: Patch "Revert "mm: kfence: apply kmemleak_ignore_phys on early allocated pool"" has been added to the 4.14-stable tree
+To: akpm@linux-foundation.org,catalin.marinas@arm.com,dvyukov@google.com,elver@google.com,glider@google.com,gregkh@linuxfoundation.org,kasan-dev@googlegroups.com,linux-mm@kvack.org,max.schulze@online.de,will@kernel.org,yee.lee@mediatek.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Wed, 17 Aug 2022 19:23:49 +0200
+In-Reply-To: <20220816163641.2359996-1-elver@google.com>
+Message-ID: <1660757029198205@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Yv0fNwX/nlqIL9ou@arm.com>
+X-stable: commit
+X-Patchwork-Hint: ignore
 X-Original-Sender: gregkh@linuxfoundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linuxfoundation.org header.s=korg header.b=WYgP5bvG;       spf=pass
- (google.com: domain of gregkh@linuxfoundation.org designates
- 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+ header.i=@linuxfoundation.org header.s=korg header.b=uZ7TjaiD;       spf=pass
+ (google.com: domain of gregkh@linuxfoundation.org designates 145.40.68.75 as
+ permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,86 +133,144 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Aug 17, 2022 at 06:02:47PM +0100, Catalin Marinas wrote:
-> On Wed, Aug 17, 2022 at 06:52:35PM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Aug 17, 2022 at 05:01:50PM +0200, Marco Elver wrote:
-> > > On Wed, 17 Aug 2022 at 10:23, Catalin Marinas <catalin.marinas@arm.co=
-m> wrote:
-> > > > On Wed, Aug 17, 2022 at 08:25:06AM +0200, Greg Kroah-Hartman wrote:
-> > > > > On Tue, Aug 16, 2022 at 04:39:43PM -0700, Andrew Morton wrote:
-> > > > > > On Tue, 16 Aug 2022 15:26:29 +0100 Will Deacon <will@kernel.org=
-> wrote:
-> > > > > >
-> > > > > > > On Tue, Aug 16, 2022 at 10:52:19AM +0000, Yee Lee (=E6=9D=8E=
-=E5=BB=BA=E8=AA=BC) wrote:
-> > > > > > > > The kfence patch(07313a2b29ed) is based on the prior change=
-s in
-> > > > > > > > kmemleak(0c24e061196c2 , merged in v6.0-rc1), but it shows =
-up earlier in
-> > > > > > > > v5.19.
-> > > > > > > >
-> > > > > > > > @akpm
-> > > > > > > > Andrew, sorry that the short fix tag caused confusing. Can =
-we pull out the
-> > > > > > > > patch(07313a2b29e) in v5.19.x?
-> > > > > > > >
-> > > > > > > > Kfence: (07313a2b29ed) https://github.com/torvalds/linux/co=
-mmit/07313a2b29ed1079eaa7722624544b97b3ead84b
-> > > > > > > > Kmemleak: (0c24e061196c2) https://github.com/torvalds/linux=
-/commit/0c24e061196c21d53328d60f4ad0e5a2b3183343
-> > > > > > >
-> > > > > > > Hmm, so if I'm understanding correctly then:
-> > > > > > >
-> > > > > > >  - The kfence fix (07313a2b29ed) depends on a kmemleak change=
- (0c24e061196c2)
-> > > > > > >    but the patches apply cleanly on their own.
-> > > > > > >
-> > > > > > >  - The kmemleak change landed in the v6.0 merge window, but t=
-he kfence fix
-> > > > > > >    landed in 5.19 (and has a fixes tag)
-> > > > > > >
-> > > > > > > So it sounds like we can either:
-> > > > > > >
-> > > > > > >  1. Revert 07313a2b29ed in the stable trees which contain it =
-and then fix
-> > > > > > >     the original issue some other way.
-> > > > > >
-> > > > > > 07313a2b29ed should not be in the stable tree.  It did not have=
- a
-> > > > > > cc:stable and we've asked the stable tree maintainers not to bl=
-indly
-> > > > > > backport everything that has a Fixes: tag.
-> > > > > >
-> > > > > > How did this happen?
-> > > > >
-> > > > > I do not see 07313a2b29ed in any stable tree or release that I ca=
-n
-> > > > > find, am I missing something?
-> > > >
-> > > > I think commit 07313a2b29ed went in mainline 5.19, see this merge:
-> > > > 39c3c396f813 ("Merge tag 'mm-hotfixes-stable-2022-07-26' of
-> > > > git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm"). So there w=
-as no
-> > > > stable involvement.
-> > >=20
-> > > I sent the revert as a PATCH for 5.19.y here:
-> > > https://lore.kernel.org/all/20220816163641.2359996-1-elver@google.com=
-/
-> >=20
-> > Why do we need a revert here but not one for Linus's tree?
->=20
-> This commit was meant as a fix for 0c24e061196c21d5 ("mm: kmemleak: add
-> rbtree and store physical address for objects allocated with PA") which
-> only made it into 6.0-rc1. But it ended up in 5.19 without the commit it
-> was fixing.
 
-Ah, that's why the Fixes: tag was referencing a commit in the "future".
+This is a note to let you know that I've just added the patch titled
 
-{sigh}
+    Revert "mm: kfence: apply kmemleak_ignore_phys on early allocated pool"
 
-I'll go queue this up now, thanks.
+to the 4.14-stable tree which can be found at:
+    http://www.kernel.org/git/?p=3Dlinux/kernel/git/stable/stable-queue.git=
+;a=3Dsummary
 
-greg k-h
+The filename of the patch is:
+     revert-mm-kfence-apply-kmemleak_ignore_phys-on-early-allocated-pool.pa=
+tch
+and it can be found in the queue-4.14 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From elver@google.com  Wed Aug 17 19:23:19 2022
+From: Marco Elver <elver@google.com>
+Date: Tue, 16 Aug 2022 18:36:41 +0200
+Subject: Revert "mm: kfence: apply kmemleak_ignore_phys on early allocated =
+pool"
+To: elver@google.com, stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@li=
+nuxfoundation.org>
+Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.=
+com>, Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com=
+, linux-mm@kvack.org, linux-kernel@vger.kernel.org, Will Deacon <will@kerne=
+l.org>, Catalin Marinas <catalin.marinas@arm.com>, Yee Lee <yee.lee@mediate=
+k.com>, Max Schulze <max.schulze@online.de>
+Message-ID: <20220816163641.2359996-1-elver@google.com>
+
+From: Marco Elver <elver@google.com>
+
+This reverts commit 07313a2b29ed1079eaa7722624544b97b3ead84b.
+
+Commit 0c24e061196c21d5 ("mm: kmemleak: add rbtree and store physical
+address for objects allocated with PA") is not yet in 5.19 (but appears
+in 6.0). Without 0c24e061196c21d5, kmemleak still stores phys objects
+and non-phys objects in the same tree, and ignoring (instead of freeing)
+will cause insertions into the kmemleak object tree by the slab
+post-alloc hook to conflict with the pool object (see comment).
+
+Reports such as the following would appear on boot, and effectively
+disable kmemleak:
+
+ | kmemleak: Cannot insert 0xffffff806e24f000 into the object search tree (=
+overlaps existing)
+ | CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.19.0-v8-0815+ #5
+ | Hardware name: Raspberry Pi Compute Module 4 Rev 1.0 (DT)
+ | Call trace:
+ |  dump_backtrace.part.0+0x1dc/0x1ec
+ |  show_stack+0x24/0x80
+ |  dump_stack_lvl+0x8c/0xb8
+ |  dump_stack+0x1c/0x38
+ |  create_object.isra.0+0x490/0x4b0
+ |  kmemleak_alloc+0x3c/0x50
+ |  kmem_cache_alloc+0x2f8/0x450
+ |  __proc_create+0x18c/0x400
+ |  proc_create_reg+0x54/0xd0
+ |  proc_create_seq_private+0x94/0x120
+ |  init_mm_internals+0x1d8/0x248
+ |  kernel_init_freeable+0x188/0x388
+ |  kernel_init+0x30/0x150
+ |  ret_from_fork+0x10/0x20
+ | kmemleak: Kernel memory leak detector disabled
+ | kmemleak: Object 0xffffff806e24d000 (size 2097152):
+ | kmemleak:   comm "swapper", pid 0, jiffies 4294892296
+ | kmemleak:   min_count =3D -1
+ | kmemleak:   count =3D 0
+ | kmemleak:   flags =3D 0x5
+ | kmemleak:   checksum =3D 0
+ | kmemleak:   backtrace:
+ |      kmemleak_alloc_phys+0x94/0xb0
+ |      memblock_alloc_range_nid+0x1c0/0x20c
+ |      memblock_alloc_internal+0x88/0x100
+ |      memblock_alloc_try_nid+0x148/0x1ac
+ |      kfence_alloc_pool+0x44/0x6c
+ |      mm_init+0x28/0x98
+ |      start_kernel+0x178/0x3e8
+ |      __primary_switched+0xc4/0xcc
+
+Reported-by: Max Schulze <max.schulze@online.de>
+Signed-off-by: Marco Elver <elver@google.com>
+Link: https://lore.kernel.org/all/b33b33bc-2d06-1bcd-2df7-43678962b728@onli=
+ne.de/
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ mm/kfence/core.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index 6aff49f6b79e..4b5e5a3d3a63 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -603,6 +603,14 @@ static unsigned long kfence_init_pool(void)
+ 		addr +=3D 2 * PAGE_SIZE;
+ 	}
+=20
++	/*
++	 * The pool is live and will never be deallocated from this point on.
++	 * Remove the pool object from the kmemleak object tree, as it would
++	 * otherwise overlap with allocations returned by kfence_alloc(), which
++	 * are registered with kmemleak through the slab post-alloc hook.
++	 */
++	kmemleak_free(__kfence_pool);
++
+ 	return 0;
+ }
+=20
+@@ -615,16 +623,8 @@ static bool __init kfence_init_pool_early(void)
+=20
+ 	addr =3D kfence_init_pool();
+=20
+-	if (!addr) {
+-		/*
+-		 * The pool is live and will never be deallocated from this point on.
+-		 * Ignore the pool object from the kmemleak phys object tree, as it woul=
+d
+-		 * otherwise overlap with allocations returned by kfence_alloc(), which
+-		 * are registered with kmemleak through the slab post-alloc hook.
+-		 */
+-		kmemleak_ignore_phys(__pa(__kfence_pool));
++	if (!addr)
+ 		return true;
+-	}
+=20
+ 	/*
+ 	 * Only release unprotected pages, and do not try to go back and change
+--=20
+2.37.1.595.g718a3a8f04-goog
+
+
+
+Patches currently in stable-queue which might be from elver@google.com are
+
+queue-4.14/revert-mm-kfence-apply-kmemleak_ignore_phys-on-early-allocated-p=
+ool.patch
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -242,4 +278,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/Yv0j%2BsKaqPkTlnCz%40kroah.com.
+kasan-dev/1660757029198205%40kroah.com.
