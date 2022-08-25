@@ -1,147 +1,147 @@
-Return-Path: <kasan-dev+bncBC3ZPIWN3EFBB3GIT2MAMGQEGI7TMKI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4LX4523YGBBLHET6MAMGQEB2D4FEQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x637.google.com (mail-ej1-x637.google.com [IPv6:2a00:1450:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F935A16BD
-	for <lists+kasan-dev@lfdr.de>; Thu, 25 Aug 2022 18:33:53 +0200 (CEST)
-Received: by mail-ej1-x637.google.com with SMTP id qb39-20020a1709077ea700b0073ddc845586sf404488ejc.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 25 Aug 2022 09:33:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661445228; cv=pass;
+Received: from mail-vk1-xa3d.google.com (mail-vk1-xa3d.google.com [IPv6:2607:f8b0:4864:20::a3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C175A1BE0
+	for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 00:05:34 +0200 (CEST)
+Received: by mail-vk1-xa3d.google.com with SMTP id g74-20020a1f9d4d000000b0037ceb9be394sf3795505vke.4
+        for <lists+kasan-dev@lfdr.de>; Thu, 25 Aug 2022 15:05:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661465133; cv=pass;
         d=google.com; s=arc-20160816;
-        b=V6XN3is78xB9TW+dEPUNw+3cITtADhZBWiDSMq3Lr91imE1VxEG3Ta7Nf50doKG63W
-         Lr5nZmxlCTmLh3EKjPtrREFzYPijdgUi55YQ0963kYBkNL7YpN8o0v2V11xI+KpJQXUu
-         +CLx1FEN764G14ajUT7mKPDiVFPWV5CuoePm7KkSJampYCBMuChM/k+Kx0ch19EL0lg0
-         qsM8yX4cCRqPPP+y8mY28qEzbWvg4fM6vlnHmQ/gnf9jDTV0cWVvuyds+7DEVfdjKGpq
-         tFZF4vtrpsJNg8wNfETWRETPa0KksJyOfuF1IG5NbH/dkPTXldbyVl1E2bPS/rEkYYIy
-         FClA==
+        b=CO7/Z8QyHne9BSs46K6N7sTyD22KHDTp7h7eDluz8WYhZlsJEV7Qj6cG4qDv+vj/oi
+         HoyNwR2G3v5cOEdC0eD4JQUBYgYz9P2LcGO/qvHSYVgksxiUL78LuU4CALufpyuiOasR
+         0HmTFi7pb3evYpRT+yTqjlOgAFig0nSLM/bAdtxHRyWMnUY/WV85unxTGPfjpWJRod/U
+         Q9l6c3jukrhbpCm1dM9+Fdnk4qaBSINQ+RHfG+MgimvmBaoRb2gX92gZuTtrkriWD4tr
+         zMWz0I2Lt6P8vKa/jd7Xr6ps7HEuqvQqbO8ohofNUs8ofCQVoHJPWmUDc6rAtiPLjm6D
+         UPyg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=8/3oue9MpaiINhHW/Mh+2CN3IlrEcRsoF+KYGSDfonE=;
-        b=gEs1paZKhlofjUMJqeo50jPQWRmpCwsb/n7G6P1d4ixy3fH5Juhgc0I/KBjL3896W1
-         VGWJEeRBZHKabDXph8+Y1H7NQy7n6x9oOB/p9a30Eh8cVuX5RPZ1hjeJ3L4hnIInMpLL
-         XRSHIJFXTbLqfKWQXqM8+Zg6LMoQ36mTXogBjt+88w8sRkEim//PyjRc9SwIlFlKfVMW
-         ocZYOmgkrpRc0VDK0JmgZEgWoFuq9eLIes1QyhuBw3B5Om4CCL60+I8F+J5KvnIYz8Z0
-         FCPUAtjv3Oywtf6gC9erJKPLM7GLL0OrXia851grKHxxy7VkMJe0XJiu+xS6lysC6beQ
-         IBvQ==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=uS5PsJTk0F1k8PxZOFT/7BtmIRM1BVd/0weoQZqROEc=;
+        b=w9pOxapysuL6wsVnafiND+XZfhiWMU7gbI+dtPntTxjLHAVaVcAgwDdp61pwWL5DIL
+         kOTz3TQD7UBk6CpLK4X/Pr0Lbu8dagRroQFysIn1SBwMugG3kw8o+D9n/HpWACNfgMyn
+         W5u+2d6KmLNdN5AePXynmkAmpiWcOI8rlnoPP/mFgBMfPlsGGFDVTt0pENTPUTCjwRte
+         z6qZrNq6QFGPRpdjVpfBiOjsnIfR2C7PKtcNHyqehHHKD+ZinmWmS1h1CWRQ0WaTR1dU
+         ipuqitoW+vbleZjpMc8ld784mY/GuC7R63z8/ImdKwHX/Y2TvN+xWLmnhromIdaDWjTV
+         iuAg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=NQdfXYry;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::22b as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
+       spf=pass (google.com: domain of segher@kernel.crashing.org designates 63.228.1.57 as permitted sender) smtp.mailfrom=segher@kernel.crashing.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc;
-        bh=8/3oue9MpaiINhHW/Mh+2CN3IlrEcRsoF+KYGSDfonE=;
-        b=IW7B40pefi2k+2E88RLYDHYuyLXXHBGn2qB5ki8RCSnZOVZG1ENig2ThNTkd0UQMd7
-         8b0NK5LJJOQ34OFOwfUfuTVuMjEHJ+7sREphZUgPz9AJ4IrW5DkNnCCNJoPi/GTlYfeI
-         fJCsFK9aaQRRvk2bknb0KF++ATwcylSJf9kr8/euiScqvIZ+ap6Ohu5YxgF+PwapB5ln
-         BIxZmviTYQlViytjMy5w9oANdTNywhZUGR04HMYchgwCoZdqo91loGuqQUdcNxKjvZ7X
-         RbY9EpuS1wiI68n6+v4DHvNRUoBLxn/GwgZzWfOl8TGpYX9q3uJUIjcAb/Sd1ej9hPFr
-         JXwg==
+         :x-original-sender:user-agent:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc;
+        bh=uS5PsJTk0F1k8PxZOFT/7BtmIRM1BVd/0weoQZqROEc=;
+        b=GXPVOzOMfx/N8fke3yxgz1HPJXXQZIHeiinZ1Y07y53OkolorAKxfBbCbecpKQzCl9
+         yIAACgFNi2IKYcA1EclzkpTC1p64b+RndD5v4HtSIK7G+KxVHMmdzKL4/8LxNuprEjQc
+         RDzUsfmaMdmGPR1iu5C1p0Ua0EEEye6pBU5sUjk0vRpQjwH/rGkzHC+BgxTI6rLMGlhH
+         44U9S6V5m+yVgSeHENdMwMCHr6tlvySIgF7kgQI2fuDHasXpeYoRMsCiFsjfVY1AxkDY
+         JBr4prUYCSXckL8igSPMIfLf6eLK5KhHjrGBes/EYokV7He4ZMBJtGK/a3X/EBNGG16y
+         F+oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:sender:from:to:cc;
-        bh=8/3oue9MpaiINhHW/Mh+2CN3IlrEcRsoF+KYGSDfonE=;
-        b=TOIgWwrEWN8ElbKhqiEsyIfB5KkIHQPbYpjAxxtRrkA2dFDzxuWfkZN31aXlJ3k6Ti
-         UfKWZpcrDqZD867gzB3xS5dSZom5YcwpScRiDiQGJ6HunhhsJsKL7u06WJ/lztaf9dcM
-         uvr2XGyYJZiSihrFvE8w65yzlbOoObXXX4yeT6vneWLvU32LmCCh7kKeBu6OyDqDhPx9
-         1V3nvnCPRW8IwBaGRlo/oJlLQF/hO2cG7DLmLhAn5zSCd9j8mEKjyD50z7mNHb7vXJJU
-         veCtQbY9bFIclLeIwrwsQolbRJOfNgmUgg6Y/JZK4uQ9T4Ol8LLKJ5NdOcVlKOHzgQhB
-         7jhg==
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:sender:from:to:cc;
+        bh=uS5PsJTk0F1k8PxZOFT/7BtmIRM1BVd/0weoQZqROEc=;
+        b=ZTSsa7QM+9RFQwKP3QUWH09gipmBogC7e7yjvQOT5qKgLER/35P2KoKJOFK8bwRb1p
+         5p+9V7bJtbdGJiBHJMxv51O5Xlem2BhevGb8Cpq19GVic9+kTdrjyRvpuXPsnsOAHKs0
+         GJ9vsA09Sqp9zd4OX3U9e8RXb0M4ERBQLwBMJUHzIav8nGvLl+ptdW7ZIht9LMjJjGBM
+         UhSwKL9+KS5zxs1Vfzt29pEWeDNKvZC40YN60lNElXE5WIawXcsasPtWUBLmU5zU966X
+         Vw3fkf+dHTiwX+ZE3OSY/QS9RafD/ZiTongkJKei15RFqeVVpL0VbU6ymE90YCq4Bil7
+         m/EQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1fe2RJr3xxPHsLQpDMTHK2hkfTCMMcb8nJI9VWhqn9V5Mn43ZD
-	kwKh9TK4UPNGwhZolU7d83o=
-X-Google-Smtp-Source: AA6agR6LtUIZ8ZQFeDxGPWHYlxRdIVsUdfElUSpfiGzLLo9QNYUa5IQP+NWwcb9G7yTo85Z0BxtuzA==
-X-Received: by 2002:a17:906:ef8b:b0:730:e14f:d762 with SMTP id ze11-20020a170906ef8b00b00730e14fd762mr3058053ejb.519.1661445228310;
-        Thu, 25 Aug 2022 09:33:48 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1gNgzk46RaAhUdvD0DkQR7QvBHM0svGhOLDF8UPgNtMAQ9WxrW
+	lEQ7P/TMKdW+KE/zT5XHZmw=
+X-Google-Smtp-Source: AA6agR5GTS81Wk/eagikGIrm6/UY5Pk93BICgv5zvCH/lvD7B0MZ7et58xNZ9fhw3ZGrRTDWii8sww==
+X-Received: by 2002:a67:1c05:0:b0:38a:bbb0:4f8f with SMTP id c5-20020a671c05000000b0038abbb04f8fmr2690014vsc.40.1661465132958;
+        Thu, 25 Aug 2022 15:05:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:907:76ad:b0:73c:b61c:65e3 with SMTP id
- jw13-20020a17090776ad00b0073cb61c65e3ls872868ejc.11.-pod-prod-gmail; Thu, 25
- Aug 2022 09:33:47 -0700 (PDT)
-X-Received: by 2002:a17:907:7dac:b0:739:8df9:3c16 with SMTP id oz44-20020a1709077dac00b007398df93c16mr2935912ejc.9.1661445226913;
-        Thu, 25 Aug 2022 09:33:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661445226; cv=none;
+Received: by 2002:a67:e082:0:b0:38c:e94f:3b4e with SMTP id f2-20020a67e082000000b0038ce94f3b4els551596vsl.5.-pod-prod-gmail;
+ Thu, 25 Aug 2022 15:05:32 -0700 (PDT)
+X-Received: by 2002:a05:6102:3ec7:b0:356:cbdf:122d with SMTP id n7-20020a0561023ec700b00356cbdf122dmr2199516vsv.9.1661465132214;
+        Thu, 25 Aug 2022 15:05:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661465132; cv=none;
         d=google.com; s=arc-20160816;
-        b=ijnNvFpNM01SWICl2eq/Wci8Ns5t4x70qM8nRI2EwYHBGa/Ul05Zq96oI3O7qsZGg2
-         NcffXN3779svMdNhsezhX1OWmH1vs2PKw/R3nhehmYFzr5hA3Cc2mu+gPsPLg5FI1RSV
-         83hgKDu3/PHOoCqNAL0qiB5kY/SkD38fVl9zPvpYAeFaUvfGGdrkHEP7I/WFflqdOTUR
-         iR21M5zIgJrd5N52+4XV+CNPPbIXwMhPhP4ZcKxyrzvoaweOfoMx36yBo0nx7Cmf7yrt
-         xqXx+PQojDR1zvB0FaG8BCt7rBvd5Comk+KKeaF7fqxgo2yWlFNpVpEkp2jIEf5H4yEh
-         p3AA==
+        b=uD2UAD9vxUJ0kyGDctmKZt3xUfsSAj3dHa7LL0NgD04DDGzmD4L9dmi1NZa+tG3VcR
+         RyMqRn0h2Oo4cRrfMJ2aSEvAR1+ilIC/vs97MqBt0K559TbDKW/DE4uQtheaMeVpC5VK
+         hIKHyWAHfW/DjMwxTvEKsu5W0GWGBckqz9gWiFSbZaBQvANXptiPi3GJSkuEFBV5MSDP
+         6Dv97DgSKMLJo3ugkXW4JxcvaZhreOnr2n7XmLSDQkSsYFv/nvx+vmthq0dQbWUTa3Rh
+         lhCSNlvPOVFzCE9ndpR+lZgolFPnHi0xQfdJtMbBaydM0GVCqA/ncNcRFDTikFV7jCwF
+         w6Jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=4kxSioqpPleGpZIZkkWOJIrDSHemVIWhFh1D4qTNMMk=;
-        b=aHSTCEXVIPXDNcw6h1ep6CABudp5GlAiGSLzCY37bEkIJDtpVS/zepkAiMloEwXxlG
-         zW3Lzf4+ZQLehGQDiTfrH+5iKlbhZuoRBXx0/E/EA2c43xROaUOeFQPD2SszYcTbUu8P
-         S0US2zkxGVTKqhrQEXhGZeRbKJymiONcpNqpCOLJvGRGT/Xm2sJUL59V4mwS5DGcYdGG
-         /4k4UdGdUbrwvthT3NbIVvx7cL/NB8T+z66QZ66VX51lgjowwp0H+r8MqfNhtkIdQJ5d
-         OKqUbsYIvL9IxDzma+SfFjOI44v5Yb5YBZlpEUceZzk0tgOULUs5M07YYGTmqCkIoozZ
-         BjAw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=iTVVWi9PtYsMXHi1gCNwfaOCLV6c3tLKr+5lgYNA1RU=;
+        b=XsQU+/bev+T3RJGUzAkRiW0tGkMGN/+EiZkVf/pbD0iOBLl6VfOqt9HsytHrOPFmDd
+         iMcuPuJvzAPriLQV1QIuiulKSYc+QA3sdlaacR76CJ/uOFzT/Se9LoHrm0tMYKkz1PSL
+         84zZ6R9dRw7WMQr82oJHK81h+Kfqm1LDnUCerkbTp7wZu0ejjwnm5agEzNOZMiq12UBr
+         Ci2Dy+RiKFxH2kIYiiA8eBP5v74SYI1ymHa5Tr0kA2RBIMOehxChoMGEWhQEFkfLsmrz
+         dMw2RSc9+1EndNqUi/bflDp4eNR3dBGuqRztxy56D5Ca38gLHNZqV7Q5rJyYKXZNlSUl
+         I2Yw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=google header.b=NQdfXYry;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::22b as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com. [2a00:1450:4864:20::22b])
-        by gmr-mx.google.com with ESMTPS id g13-20020aa7c84d000000b0044609bb9ed0si434973edt.1.2022.08.25.09.33.46
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Aug 2022 09:33:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::22b as permitted sender) client-ip=2a00:1450:4864:20::22b;
-Received: by mail-lj1-x22b.google.com with SMTP id w22so5033412ljg.7
-        for <kasan-dev@googlegroups.com>; Thu, 25 Aug 2022 09:33:46 -0700 (PDT)
-X-Received: by 2002:a2e:a4d6:0:b0:261:e561:5bd6 with SMTP id p22-20020a2ea4d6000000b00261e5615bd6mr1256765ljm.464.1661445225946;
-        Thu, 25 Aug 2022 09:33:45 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
-        by smtp.gmail.com with ESMTPSA id p3-20020ac24ec3000000b0048aeafde9b8sm577254lfr.108.2022.08.25.09.33.45
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Aug 2022 09:33:45 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id bn9so12437395ljb.6
-        for <kasan-dev@googlegroups.com>; Thu, 25 Aug 2022 09:33:45 -0700 (PDT)
-X-Received: by 2002:a05:6000:1888:b0:222:ca41:dc26 with SMTP id
- a8-20020a056000188800b00222ca41dc26mr2662375wri.442.1661445214833; Thu, 25
- Aug 2022 09:33:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-45-glider@google.com>
- <YsNIjwTw41y0Ij0n@casper.infradead.org> <CAG_fn=VbvbYVPfdKXrYRTq7HwmvXPQUeUDWZjwe8x8W=ttq6KA@mail.gmail.com>
-In-Reply-To: <CAG_fn=VbvbYVPfdKXrYRTq7HwmvXPQUeUDWZjwe8x8W=ttq6KA@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 25 Aug 2022 09:33:18 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wg-LXL4ZDMveCf9M7gWWwCMDG1dHCjD7g1u_vUXsU6Bzw@mail.gmail.com>
-Message-ID: <CAHk-=wg-LXL4ZDMveCf9M7gWWwCMDG1dHCjD7g1u_vUXsU6Bzw@mail.gmail.com>
-Subject: Re: [PATCH v4 44/45] mm: fs: initialize fsdata passed to
- write_begin/write_end interface
-To: Alexander Potapenko <glider@google.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Segher Boessenkool <segher@kernel.crashing.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Alexei Starovoitov <ast@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, 
-	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
-	Mark Rutland <mark.rutland@arm.com>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Linux-Arch <linux-arch@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>
+       spf=pass (google.com: domain of segher@kernel.crashing.org designates 63.228.1.57 as permitted sender) smtp.mailfrom=segher@kernel.crashing.org
+Received: from gate.crashing.org (gate.crashing.org. [63.228.1.57])
+        by gmr-mx.google.com with ESMTP id x18-20020a67be12000000b00388460869f7si11245vsq.1.2022.08.25.15.05.29
+        for <kasan-dev@googlegroups.com>;
+        Thu, 25 Aug 2022 15:05:30 -0700 (PDT)
+Received-SPF: pass (google.com: domain of segher@kernel.crashing.org designates 63.228.1.57 as permitted sender) client-ip=63.228.1.57;
+Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 27PLvwJJ030264;
+	Thu, 25 Aug 2022 16:57:58 -0500
+Received: (from segher@localhost)
+	by gate.crashing.org (8.14.1/8.14.1/Submit) id 27PLvtxj030255;
+	Thu, 25 Aug 2022 16:57:55 -0500
+X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
+Date: Thu, 25 Aug 2022 16:57:54 -0500
+From: Segher Boessenkool <segher@kernel.crashing.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>,
+        Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Ilya Leoshkevich <iii@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>,
+        Jens Axboe <axboe@kernel.dk>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 44/45] mm: fs: initialize fsdata passed to write_begin/write_end interface
+Message-ID: <20220825215754.GI25951@gate.crashing.org>
+References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-45-glider@google.com> <YsNIjwTw41y0Ij0n@casper.infradead.org> <CAG_fn=VbvbYVPfdKXrYRTq7HwmvXPQUeUDWZjwe8x8W=ttq6KA@mail.gmail.com> <CAHk-=wg-LXL4ZDMveCf9M7gWWwCMDG1dHCjD7g1u_vUXsU6Bzw@mail.gmail.com>
+Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: torvalds@linux-foundation.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=google header.b=NQdfXYry;
-       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
- 2a00:1450:4864:20::22b as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wg-LXL4ZDMveCf9M7gWWwCMDG1dHCjD7g1u_vUXsU6Bzw@mail.gmail.com>
+User-Agent: Mutt/1.4.2.3i
+X-Original-Sender: segher@kernel.crashing.org
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of segher@kernel.crashing.org designates 63.228.1.57 as
+ permitted sender) smtp.mailfrom=segher@kernel.crashing.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,79 +154,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Aug 25, 2022 at 8:40 AM Alexander Potapenko <glider@google.com> wrote:
->
-> On Mon, Jul 4, 2022 at 10:07 PM Matthew Wilcox <willy@infradead.org> wrote:
+On Thu, Aug 25, 2022 at 09:33:18AM -0700, Linus Torvalds wrote:
+> On Thu, Aug 25, 2022 at 8:40 AM Alexander Potapenko <glider@google.com> wrote:
 > >
-> > ... wait, passing an uninitialised variable to a function *which doesn't
-> > actually use it* is now UB?  What genius came up with that rule?  What
-> > purpose does it serve?
+> > On Mon, Jul 4, 2022 at 10:07 PM Matthew Wilcox <willy@infradead.org> wrote:
+> > >
+> > > ... wait, passing an uninitialised variable to a function *which doesn't
+> > > actually use it* is now UB?  What genius came up with that rule?  What
+> > > purpose does it serve?
+> > >
 > >
->
-> There is a discussion at [1], with Segher pointing out a reason for
-> this rule [2] and Linus requesting that we should be warning about the
-> cases where uninitialized variables are passed by value.
+> > There is a discussion at [1], with Segher pointing out a reason for
+> > this rule [2] and Linus requesting that we should be warning about the
+> > cases where uninitialized variables are passed by value.
+> 
+> I think Matthew was actually more wondering how that UB rule came to be.
+> 
+> Personally, I pretty much despise *all* cases of "undefined behavior",
 
-I think Matthew was actually more wondering how that UB rule came to be.
+Let me start by saying you're not alone.  But some UB *cannot* be worked
+around by compilers (we cannot solve the halting problem), and some is
+very expensive to work around (initialising huge structures is a
+typical example).
 
-Personally, I pretty much despise *all* cases of "undefined behavior",
-but "uninitialized argument" across a function call is one of the more
-understandable ones.
+Many (if not most) instances of undefined behaviour are unavoidable with
+a language like C.  A very big part of this is separate compilation,
+that is, compiling translation units separately from each other, so that
+the compiler does not see all the ways that something is used when it is
+compiling it.  There only is UB if something is *used*.
 
-For one, it's a static sanity checking issue: if function call
-arguments can be uninitialized random garbage on the assumption that
-the callee doesn't necessarily _use_ them, then any static checker is
-going to be unhappy because it means that it can never assume that
-incoming arguments have been initialized either.
+> but "uninitialized argument" across a function call is one of the more
+> understandable ones.
 
-Of course, that's always true for any pointer passing, but hey, at
-least then it's pretty much explicit. You're passing a pointer to some
-memory to another function, it's always going to be a bit ambiguous
-who is supposed to initialize it - the caller or the callee.
+Allowing this essentially never allows generating better machine code,
+so there are no real arguments for ever allowing it, other than just
+inertia: uninitialised everything else is allowed just fine, and only
+actually *using* such data is UB.  Passing it around is not!  That is
+how everything used to work (with static data, automatic data, function
+parameters, the lot).
 
-Because one very important "static checker" is the person reading the
-code. When I read a function definition, I most definitely have the
-expectation that the caller has initialized all the arguments.
+But it now is clarified that passing data to a function as function
+argument is a use of that data by itself, even if the function will not
+even look at it ever.
 
-So I actually think that "human static checker" is a really important
-case. I do not think I'm the only one who expects incomping function
-arguments to have values.
+> I personally was actually surprised compilers didn't warn for "you are
+> using an uninitialized value" for a function call argument, because I
+> mentally consider function call arguments to *be* a use of a value.
 
-But I think the immediate cause of it on a compiler side was basically
-things like poison bits. Which are a nice debugging feature, even
-though (sadly) I don't think they are usually added the for debugging.
-It's always for some other much more nefarious reason (eg ia64 and
-speculative loads weren't for "hey, this will help people find bugs",
-but for "hey, our architecture depends on static scheduling tricks
-that aren't really valid, so we have to take faults late").
+The function call is a use of all passed arguments.
 
-Now, imagine you're a compiler, and you see a random incoming integer
-argument, and you can't even schedule simple arithmetic expressions on
-it early because you don't know if the caller initialized it or not,
-and it might cause some poison bit fault...
+> Except when the function is inlined, and then it's all different - the
+> call itself goes away, and I *expect* the compiler to DTRT and not
+> "use" the argument except when it's used inside the inlined function.
 
-So you'd most certainly want to know that all incoming arguments are
-actually valid, because otherwise you can't do even some really simple
-and obvious optimziations.
+> Because hey, that's literally the whole point of inlining, and it
+> makes the "static checking" problem go away at least for a compiler.
 
-Of course, on normal architectures, this only ever happens with FP
-values, and it's often hard to trigger there too. But you most
-definitely *could* see it.
+But UB is defined in terms of the abstract machine (like *all* of C),
+not in terms of the generated machine code.  Typically things will work
+fine if they "become invisible" by inlining, but this does not make the
+program a correct program ever.  Sorry :-(
 
-I personally was actually surprised compilers didn't warn for "you are
-using an uninitialized value" for a function call argument, because I
-mentally consider function call arguments to *be* a use of a value.
 
-Except when the function is inlined, and then it's all different - the
-call itself goes away, and I *expect* the compiler to DTRT and not
-"use" the argument except when it's used inside the inlined function.
-
-Because hey, that's literally the whole point of inlining, and it
-makes the "static checking" problem go away at least for a compiler.
-
-                     Linus
+Segher
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3Dwg-LXL4ZDMveCf9M7gWWwCMDG1dHCjD7g1u_vUXsU6Bzw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220825215754.GI25951%40gate.crashing.org.
