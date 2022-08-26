@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBE6EUOMAMGQEBPPLVAA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBFOEUOMAMGQEHONYFMA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404C85A2A6D
-	for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 17:09:08 +0200 (CEST)
-Received: by mail-lj1-x23e.google.com with SMTP id m1-20020a2eb6c1000000b00261e5aa37fesf664260ljo.6
-        for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 08:09:08 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661526547; cv=pass;
+Received: from mail-ej1-x640.google.com (mail-ej1-x640.google.com [IPv6:2a00:1450:4864:20::640])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6719F5A2A6E
+	for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 17:09:10 +0200 (CEST)
+Received: by mail-ej1-x640.google.com with SMTP id qb39-20020a1709077ea700b0073ddc845586sf719255ejc.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 08:09:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661526550; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Z6wxoxU7lxsiw/LnEKvVrnTyDCV27fF/fMybyBVRTp5MfFvpBomGzA67A4KOdbQORn
-         l/QkNRdcd5iTLG80Cjl92MS8pkf1aLGuWvkeYJqFQ2ACM7IF37Pr08/jagR4eGvWGHp6
-         Q8yEIJOZhueH3ajElVQG45Re5lbfXAIdwiXwIa5zX0mLz6PIpyWjgKfCYoVqx7UR3vqJ
-         WC0vEr+CNET0h3ja+UiHfahMGx9t2rxT+cLszjMYLElDeoHJnNc7V3Q6ugWb/qyXSp2g
-         cB0YLrGOBAYtlc09V1u7V3R5EOGlFTVyw4Bx/uoA6zbA1QJZvIWbfOBt2GOey/bI+W0q
-         2gnA==
+        b=Hh+QFoeQ54Wl+nySfaXZ6GctUIIGawryijMqY35oHy1YZ/w0j+2s4lskuLEGRvq/s+
+         QvEYBUVuFInIM+T4sU5GUgTvr7BW6ZjZWGlDEpIBDbVE7vHF01w+PeJ+Nqwkr1RemgC9
+         VKBQyKGeQ2C44E7ZfAWrZzvlTc8PYwbXQKs3uq7hLvjAjTkqCgf6MxaYKnioYl9l6lZF
+         b0ZHe8tJlt1p2kdq/4MKhAYmnbZdF/V8ySNdaM7IgLWc0P6VvrVhT1bHZHtg7VZgQbNC
+         jjdXuFnCkWoZkMrZWlB54qTSW6WeRMTpLo0LR7xCtBCQ1rTt7IYAYrVzHT0NXIDIawAH
+         XdYg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=hdn/TF+A4WtOFmJy/EHQ1R6onY4As3KDnbZJPRadHfE=;
-        b=zs0++sWGGOw5yfVrzvDwoOBWY3hHgKIGRgBFG0cpyvD3ltN4umkfEZ6nDeeA5l/45s
-         JjmzqLy7z0Z7/2SieHKZczyGUpu7d4bKKpjxmH9DMw6/RiBfYB2MdvOYxQEdiy32RolR
-         Zyo6tUS7dsOLHIcIqlHqkQ7gYjHM2r/9bI7IkgQFl4IQDkxdLOD0DJxcCjMwudG7qYoO
-         mN/kgelCXQ6Y25EQEj7ewQXKZyX0eaRCB3TgKhYHNi/mQ5UfVl3J8Y0qAhlsIRlooXZV
-         IHCPJRooF8/531ptkVToVBuv+ftSqtO5Qp3hQPK4CToS/S0J3A2jShZyD1JPRWbphB/6
-         S1wg==
+        bh=9Ezae8pWIZRMsc2BCkfr93w6wBmMiQsz5YNYJfXHc14=;
+        b=wShde7RmYNREgGM4QAbZHgCmsXER0YIR8QCltX394N/KHHFH96pnt9zDl8Ib7J/c8I
+         lbuSUpzHgUeD+GBCu3zAu5iB8+1ixUPEwdQIahOd4STwluqYDSniWlUj8C6Jh/3tHv+C
+         +LeFdQNIZZSmhQcLLoIcDfYMexBzRbZKQN0xYRsUE6aSPdg3Oyc5HLju537/sZh1hsbG
+         GdX0wmnoGhDR8ANJwAxb8O3TL9+VuyTAERkxcb2laHNxCsKCjh737kdEYVWt7kcCv0ul
+         PcvtKvs9lY2GfeBhEdRz+D/g4qiUep3IfmUxhspzkrwr/IsDszYn7HbLVOktjQGrq8/i
+         u2vg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=sDB5PJpJ;
-       spf=pass (google.com: domain of 3eeiiywykcrg49612f4cc492.0ca8ygyb-12j4cc4924fcidg.0ca@flex--glider.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3EeIIYwYKCRg49612F4CC492.0CA8yGyB-12J4CC4924FCIDG.0CA@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=JZiG5Re4;
+       spf=pass (google.com: domain of 3foiiywykcrs7c945i7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3FOIIYwYKCRs7C945I7FF7C5.3FDB1J1E-45M7FF7C57IFLGJ.3FD@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc;
-        bh=hdn/TF+A4WtOFmJy/EHQ1R6onY4As3KDnbZJPRadHfE=;
-        b=Mn7JU1WFjBg7H2CsohzCOw62R3KNfoOYlt+tEW9rd3O4gMcjq50vWnKfu+jjXNqHid
-         9mleFZSPocEwI7Ym87V5OxNx+meCeOpHj64NchPrrMJ4T3z8DeEPVyTTJxFv+uRI6Fu0
-         +2JZeq77ZhOcXMdXca2y7egF37teAYZDB4kfvmbMCD0rADc1i/lwm0QigoA6/2bpp7kj
-         XLIf2JQ9ujh7uvklComBqlXq9UPvqZfC7b/FiLUubZkptJsngypH/MKagYeEAutX7vkW
-         SsvNcsvdYzv6j7MNe/ggvTwDYPTSFsN8brTlsfnr/IBEaK91m9LPhgIPByVP9mHA0r4h
-         kDFA==
+        bh=9Ezae8pWIZRMsc2BCkfr93w6wBmMiQsz5YNYJfXHc14=;
+        b=hhnl2NPNXftmEIWmuaRqMbxxKMKw+7MeQ62kAIzw3/+4FqGNmnDKSEpUVZj/MwjQTb
+         YmCCURioT5DqLxNWKfU0qKGUS/S2821lMEAUyOg/zxLwOW344yXyY571MbYNjscRyZiy
+         cwuhxUWU7WEqt758++4Bh4Yj8PrTVm4EHWB5NWNzJs0Z6vWDzQ9XlghqExoXVwcSKhZh
+         wZJRwu6QGxbYpn8EYKo5dEOlWv5ar9zSw5Er7lqca7FCNfe+q6WeeglxAvEyvW2N0jNp
+         p76te36xgcx1S0NtiNnmGr0m80T/RpfvFP2NiB+RGlMIMZm2UbxD0zqF+c11i7kbtCNH
+         NXoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,65 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc;
-        bh=hdn/TF+A4WtOFmJy/EHQ1R6onY4As3KDnbZJPRadHfE=;
-        b=ysj7uf3+WIgScxTkx/Ohr12FOrd64IM9sKe/zd3LN2bIdbCOgjNG6EnxSZVk8UWC4y
-         M+L8t/dvKmoamnVgHaQGWxTpeMM2ZUQoUPJVN+QV83V2QtlVyBJRo1EvwwlvG3ZS1TeG
-         IA5xhIdE+bxRvq7CsL9qweuMHVbNzfqoODrVkMrmVdHTeg3AYUbcn5UqdLpIsfNG3f8y
-         EP9xjjR4Gup8JOhvtqEViqG/xmJfhJl8XQVfhEeX8iMfV+aorWYpAlEKWYbaLZ8/nCOH
-         fYjYhivDVjZSGumoZOqFgs7hBGGWx6KcbjK0bNt1uDc+3Cpy9f3hGirUxTKcrCfCfcSQ
-         7upQ==
-X-Gm-Message-State: ACgBeo23Cch5lqYbslyhFMiDdBN5noAoJ3vD/k+pLUR88wHfFQS+N0us
-	/Qo4LC7Y6j74M8du+vzD/F8=
-X-Google-Smtp-Source: AA6agR6IUIDpyKh94+6aBdif+jLQ5D92oPkO3DM68P7ZOjolKgPTwkvs/d5SBOS9SZ+88WIsZwb5Ng==
-X-Received: by 2002:a05:651c:1141:b0:261:6ea9:ac97 with SMTP id h1-20020a05651c114100b002616ea9ac97mr2592952ljo.434.1661526547819;
-        Fri, 26 Aug 2022 08:09:07 -0700 (PDT)
+        bh=9Ezae8pWIZRMsc2BCkfr93w6wBmMiQsz5YNYJfXHc14=;
+        b=3bviPAId06ao44kFpOrQxqMErGBm22WPF72JpD5x8krpFXD0fJkWZg0ixXECo0S9Wg
+         bjsk3BrzKC6qBJKNBpxstNt91RSBSMK9YBhzcp1bftz1aPKNaQlaBOHfh2B46QwCoSoN
+         ejv1BRK0D7d1sT+V7wd6k6J058UXLKIB0LLFcfAPoKXZLfeCkGGsvH34oeq/x5W1QOwj
+         WaChc4rg8x7uRa5DyjQXee5gkmyyGmpyky4194qQddyBilDwGYORe6CyRTLamg8ViRwc
+         AULNWEdGB+Si5oJJr+mMGgqMY4pkuWR2QPXssuEzUPRT48Ig5k+f/BKI4+TCJeu6Z2PT
+         coQg==
+X-Gm-Message-State: ACgBeo0gc0F6+BYoK0+f/w/+U3d8WSrgdcVH0Cz/jjuNO5RZp9Lz+iK4
+	CyPK4zoLCJgu6A7IQ+GBQ7E=
+X-Google-Smtp-Source: AA6agR5m00q16x6MYzxuquiDK9OrMsVYV0mqQ0Yq4hkMfuN4C36vN7fAE0YqLg+io2Rm6PBVnRm40w==
+X-Received: by 2002:a05:6402:515:b0:447:780c:39d6 with SMTP id m21-20020a056402051500b00447780c39d6mr7246076edv.265.1661526550181;
+        Fri, 26 Aug 2022 08:09:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:c98:b0:261:ea54:6c9b with SMTP id
- bz24-20020a05651c0c9800b00261ea546c9bls692256ljb.4.-pod-prod-gmail; Fri, 26
- Aug 2022 08:09:06 -0700 (PDT)
-X-Received: by 2002:a2e:7805:0:b0:261:b424:a23c with SMTP id t5-20020a2e7805000000b00261b424a23cmr2371460ljc.384.1661526546451;
-        Fri, 26 Aug 2022 08:09:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661526546; cv=none;
+Received: by 2002:a17:906:a409:b0:73d:11ed:5035 with SMTP id
+ l9-20020a170906a40900b0073d11ed5035ls2167752ejz.0.-pod-prod-gmail; Fri, 26
+ Aug 2022 08:09:09 -0700 (PDT)
+X-Received: by 2002:a17:906:9b0a:b0:73d:c29e:cc87 with SMTP id eo10-20020a1709069b0a00b0073dc29ecc87mr5685242ejc.118.1661526549076;
+        Fri, 26 Aug 2022 08:09:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661526549; cv=none;
         d=google.com; s=arc-20160816;
-        b=fe63XLxKQmQcRYAcaiVZi0f+IRLjvMVA+IAAJIt+RWDOrZxFRVm5ihfhAkYIfcT/WK
-         2z3xCsOLnDKFhpsFcpt8WpOFaLsBZ6zhPAuU/vvR4KKHfcFJLO3TuLywGkmtqSTCENWP
-         BgXv6hQrt4m5XrYOKPk+2tn4EtTRqwLpkLp7xZhETRc7qvULy1XSsz0ohYT5X1I3Ylw8
-         cfmilcFCJGSlKzARNzvrw/OXc3+GUkKbVUIZkDPnjTggRjgfwtO/m0dHLv0Pwk4uMesi
-         E8bH3MhMRtQQb0nVAUOr9l/Q79YpK5Zuoo9psJAp01yT/GSdPsdQyPYfoAiXjh7EQPYV
-         Vxrw==
+        b=jeGYYpTwwkPMx07v5ghSjnnA7QmXsVjhdVBuhPbkYK1nwUE4dxb7hDLq1gmklFU9I0
+         5a4hpXqbWIYPYPvpOcoOOGItKX8ZtfZ3gVze/AOkf1xGORwUUDwl9cEAyIJS2qWdWbff
+         7CCfRpoaiyWfsFZPiZMKvsD2/q1lYrSaJE/S2WFNr8HFsksIOrBfpKwbAwZbk2TW9WSD
+         9uBlicv2+NiC0dQ0a1vIC2pkrYtyFYyRSaQMluHOAopfHguUdlfWfVjPOaif8av7K61m
+         kCJpn8TSFwwMNAToWmOURey6g18+RR12GIWs/RnjoPRm+V78FN25NHvrLY2vmooX6tqV
+         CFng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=9AAV0khTKYQgqo5/UGS2nmhcIjrHMBeghL7l+ejLApU=;
-        b=MolT4RvTjD4sV0MjKIBLTJI8iId0zlMoMTwM/sFQywf3zV/Q26/tly9RaaHQDigbDE
-         iIrpLWlePfrBGz75jSJnA8ZQ4WjGhNXKRyr96LQ1tTmI+W+Iaz811INTTP+AySXyjuOk
-         oJqKmcn4cpJ9pAJjOKrFfITuaE1OMq6Svtu8nZiUM3Cjzee86teO9YQuCH0sq1gkn/gw
-         JG5zN5oHSnBd0tBnjsXD1q0Wc+aggpystOhmDNJUlMiL4aQ3po2QVpIkmFpgFWlsUIv7
-         Gpzx2Izz8tZ8E1qbia5LhMllLhi8+ynney3xC+RfypYYgY5oaZy5S1s7Cyeqr6V8YYhA
-         f/Mg==
+        bh=sAAv4rjcKBcVdRkEmlFE/2pa6fVQ+FymuVP5r3ZkSlI=;
+        b=GINj63p4zOWeLMdbA8PH3bvWf2L+Jog+iJOGf8fIQR/AzpiQ7TEM/y11J07K/q3uBP
+         dSlOphlNE204MaqaIzWLqwtsp+RA/bChnDNn9iSVBDr9Nq5pYtU4ljMdfSmffxf4FA3k
+         VVSwykeSl2i8RfJVCppGm18OXKC0yCICdzxUbaN9UbqkHT4Laq+xHR9ZgiDay3aTpBz0
+         8X5fmQDvmJzECpbNVMBYD/OSuV+AKTI4Pkfkyr8rx1zn0FxEil02KOHjLkwyws5m1nzt
+         sa+O4x6cw9KwqPjpMRKfHUgdUnNAxWqoukmPB4vRngQ2QBh5pt0B17WzXEnnJGH2S2yg
+         ftLA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=sDB5PJpJ;
-       spf=pass (google.com: domain of 3eeiiywykcrg49612f4cc492.0ca8ygyb-12j4cc4924fcidg.0ca@flex--glider.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3EeIIYwYKCRg49612F4CC492.0CA8yGyB-12J4CC4924FCIDG.0CA@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=JZiG5Re4;
+       spf=pass (google.com: domain of 3foiiywykcrs7c945i7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3FOIIYwYKCRs7C945I7FF7C5.3FDB1J1E-45M7FF7C57IFLGJ.3FD@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com. [2a00:1450:4864:20::64a])
-        by gmr-mx.google.com with ESMTPS id p5-20020a2eb985000000b0025e5351aa9bsi74149ljp.7.2022.08.26.08.09.06
+Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
+        by gmr-mx.google.com with ESMTPS id y26-20020a50e61a000000b00443fc51752dsi85001edm.0.2022.08.26.08.09.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Aug 2022 08:09:06 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3eeiiywykcrg49612f4cc492.0ca8ygyb-12j4cc4924fcidg.0ca@flex--glider.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) client-ip=2a00:1450:4864:20::64a;
-Received: by mail-ej1-x64a.google.com with SMTP id hp36-20020a1709073e2400b0073d6bee146aso736311ejc.20
-        for <kasan-dev@googlegroups.com>; Fri, 26 Aug 2022 08:09:06 -0700 (PDT)
+        Fri, 26 Aug 2022 08:09:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3foiiywykcrs7c945i7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
+Received: by mail-ed1-x549.google.com with SMTP id f20-20020a05640214d400b004470930f180so1242350edx.10
+        for <kasan-dev@googlegroups.com>; Fri, 26 Aug 2022 08:09:09 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:5207:ac36:fdd3:502d])
- (user=glider job=sendgmr) by 2002:a17:906:8a77:b0:73d:deef:8f76 with SMTP id
- hy23-20020a1709068a7700b0073ddeef8f76mr3332086ejc.765.1661526545890; Fri, 26
- Aug 2022 08:09:05 -0700 (PDT)
-Date: Fri, 26 Aug 2022 17:07:42 +0200
+ (user=glider job=sendgmr) by 2002:a05:6402:894:b0:447:fe25:15cf with SMTP id
+ e20-20020a056402089400b00447fe2515cfmr1613274edy.404.1661526548777; Fri, 26
+ Aug 2022 08:09:08 -0700 (PDT)
+Date: Fri, 26 Aug 2022 17:07:43 +0200
 In-Reply-To: <20220826150807.723137-1-glider@google.com>
 Mime-Version: 1.0
 References: <20220826150807.723137-1-glider@google.com>
 X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220826150807.723137-20-glider@google.com>
-Subject: [PATCH v5 19/44] kmsan: unpoison @tlb in arch_tlb_gather_mmu()
+Message-ID: <20220826150807.723137-21-glider@google.com>
+Subject: [PATCH v5 20/44] kmsan: add iomap support
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -129,9 +129,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=sDB5PJpJ;       spf=pass
- (google.com: domain of 3eeiiywykcrg49612f4cc492.0ca8ygyb-12j4cc4924fcidg.0ca@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3EeIIYwYKCRg49612F4CC492.0CA8yGyB-12J4CC4924FCIDG.0CA@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=JZiG5Re4;       spf=pass
+ (google.com: domain of 3foiiywykcrs7c945i7ff7c5.3fdb1j1e-45m7ff7c57iflgj.3fd@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3FOIIYwYKCRs7C945I7FF7C5.3FDB1J1E-45M7FF7C57IFLGJ.3FD@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -147,60 +147,214 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is an optimization to reduce stackdepot pressure.
-
-struct mmu_gather contains 7 1-bit fields packed into a 32-bit unsigned
-int value. The remaining 25 bits remain uninitialized and are never used,
-but KMSAN updates the origin for them in zap_pXX_range() in mm/memory.c,
-thus creating very long origin chains. This is technically correct, but
-consumes too much memory.
-
-Unpoisoning the whole structure will prevent creating such chains.
+Functions from lib/iomap.c interact with hardware, so KMSAN must ensure
+that:
+ - every read function returns an initialized value
+ - every write function checks values before sending them to hardware.
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
-Acked-by: Marco Elver <elver@google.com>
 
 ---
-v5:
- -- updated description as suggested by Marco Elver
 
-Link: https://linux-review.googlesource.com/id/I76abee411b8323acfdbc29bc3a60dca8cff2de77
+v4:
+  -- switch from __no_sanitize_memory (which now means "no KMSAN
+     instrumentation") to __no_kmsan_checks (i.e. "unpoison everything")
+
+Link: https://linux-review.googlesource.com/id/I45527599f09090aca046dfe1a26df453adab100d
 ---
- mm/mmu_gather.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ lib/iomap.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/mm/mmu_gather.c b/mm/mmu_gather.c
-index a71924bd38c0d..add4244e5790d 100644
---- a/mm/mmu_gather.c
-+++ b/mm/mmu_gather.c
-@@ -1,6 +1,7 @@
- #include <linux/gfp.h>
- #include <linux/highmem.h>
- #include <linux/kernel.h>
+diff --git a/lib/iomap.c b/lib/iomap.c
+index fbaa3e8f19d6c..4f8b31baa5752 100644
+--- a/lib/iomap.c
++++ b/lib/iomap.c
+@@ -6,6 +6,7 @@
+  */
+ #include <linux/pci.h>
+ #include <linux/io.h>
 +#include <linux/kmsan-checks.h>
- #include <linux/mmdebug.h>
- #include <linux/mm_types.h>
- #include <linux/mm_inline.h>
-@@ -265,6 +266,15 @@ void tlb_flush_mmu(struct mmu_gather *tlb)
- static void __tlb_gather_mmu(struct mmu_gather *tlb, struct mm_struct *mm,
- 			     bool fullmm)
- {
-+	/*
-+	 * struct mmu_gather contains 7 1-bit fields packed into a 32-bit
-+	 * unsigned int value. The remaining 25 bits remain uninitialized
-+	 * and are never used, but KMSAN updates the origin for them in
-+	 * zap_pXX_range() in mm/memory.c, thus creating very long origin
-+	 * chains. This is technically correct, but consumes too much memory.
-+	 * Unpoisoning the whole structure will prevent creating such chains.
-+	 */
-+	kmsan_unpoison_memory(tlb, sizeof(*tlb));
- 	tlb->mm = mm;
- 	tlb->fullmm = fullmm;
  
+ #include <linux/export.h>
+ 
+@@ -70,26 +71,35 @@ static void bad_io_access(unsigned long port, const char *access)
+ #define mmio_read64be(addr) swab64(readq(addr))
+ #endif
+ 
++/*
++ * Here and below, we apply __no_kmsan_checks to functions reading data from
++ * hardware, to ensure that KMSAN marks their return values as initialized.
++ */
++__no_kmsan_checks
+ unsigned int ioread8(const void __iomem *addr)
+ {
+ 	IO_COND(addr, return inb(port), return readb(addr));
+ 	return 0xff;
+ }
++__no_kmsan_checks
+ unsigned int ioread16(const void __iomem *addr)
+ {
+ 	IO_COND(addr, return inw(port), return readw(addr));
+ 	return 0xffff;
+ }
++__no_kmsan_checks
+ unsigned int ioread16be(const void __iomem *addr)
+ {
+ 	IO_COND(addr, return pio_read16be(port), return mmio_read16be(addr));
+ 	return 0xffff;
+ }
++__no_kmsan_checks
+ unsigned int ioread32(const void __iomem *addr)
+ {
+ 	IO_COND(addr, return inl(port), return readl(addr));
+ 	return 0xffffffff;
+ }
++__no_kmsan_checks
+ unsigned int ioread32be(const void __iomem *addr)
+ {
+ 	IO_COND(addr, return pio_read32be(port), return mmio_read32be(addr));
+@@ -142,18 +152,21 @@ static u64 pio_read64be_hi_lo(unsigned long port)
+ 	return lo | (hi << 32);
+ }
+ 
++__no_kmsan_checks
+ u64 ioread64_lo_hi(const void __iomem *addr)
+ {
+ 	IO_COND(addr, return pio_read64_lo_hi(port), return readq(addr));
+ 	return 0xffffffffffffffffULL;
+ }
+ 
++__no_kmsan_checks
+ u64 ioread64_hi_lo(const void __iomem *addr)
+ {
+ 	IO_COND(addr, return pio_read64_hi_lo(port), return readq(addr));
+ 	return 0xffffffffffffffffULL;
+ }
+ 
++__no_kmsan_checks
+ u64 ioread64be_lo_hi(const void __iomem *addr)
+ {
+ 	IO_COND(addr, return pio_read64be_lo_hi(port),
+@@ -161,6 +174,7 @@ u64 ioread64be_lo_hi(const void __iomem *addr)
+ 	return 0xffffffffffffffffULL;
+ }
+ 
++__no_kmsan_checks
+ u64 ioread64be_hi_lo(const void __iomem *addr)
+ {
+ 	IO_COND(addr, return pio_read64be_hi_lo(port),
+@@ -188,22 +202,32 @@ EXPORT_SYMBOL(ioread64be_hi_lo);
+ 
+ void iowrite8(u8 val, void __iomem *addr)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(&val, sizeof(val));
+ 	IO_COND(addr, outb(val,port), writeb(val, addr));
+ }
+ void iowrite16(u16 val, void __iomem *addr)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(&val, sizeof(val));
+ 	IO_COND(addr, outw(val,port), writew(val, addr));
+ }
+ void iowrite16be(u16 val, void __iomem *addr)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(&val, sizeof(val));
+ 	IO_COND(addr, pio_write16be(val,port), mmio_write16be(val, addr));
+ }
+ void iowrite32(u32 val, void __iomem *addr)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(&val, sizeof(val));
+ 	IO_COND(addr, outl(val,port), writel(val, addr));
+ }
+ void iowrite32be(u32 val, void __iomem *addr)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(&val, sizeof(val));
+ 	IO_COND(addr, pio_write32be(val,port), mmio_write32be(val, addr));
+ }
+ EXPORT_SYMBOL(iowrite8);
+@@ -239,24 +263,32 @@ static void pio_write64be_hi_lo(u64 val, unsigned long port)
+ 
+ void iowrite64_lo_hi(u64 val, void __iomem *addr)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(&val, sizeof(val));
+ 	IO_COND(addr, pio_write64_lo_hi(val, port),
+ 		writeq(val, addr));
+ }
+ 
+ void iowrite64_hi_lo(u64 val, void __iomem *addr)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(&val, sizeof(val));
+ 	IO_COND(addr, pio_write64_hi_lo(val, port),
+ 		writeq(val, addr));
+ }
+ 
+ void iowrite64be_lo_hi(u64 val, void __iomem *addr)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(&val, sizeof(val));
+ 	IO_COND(addr, pio_write64be_lo_hi(val, port),
+ 		mmio_write64be(val, addr));
+ }
+ 
+ void iowrite64be_hi_lo(u64 val, void __iomem *addr)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(&val, sizeof(val));
+ 	IO_COND(addr, pio_write64be_hi_lo(val, port),
+ 		mmio_write64be(val, addr));
+ }
+@@ -328,14 +360,20 @@ static inline void mmio_outsl(void __iomem *addr, const u32 *src, int count)
+ void ioread8_rep(const void __iomem *addr, void *dst, unsigned long count)
+ {
+ 	IO_COND(addr, insb(port,dst,count), mmio_insb(addr, dst, count));
++	/* KMSAN must treat values read from devices as initialized. */
++	kmsan_unpoison_memory(dst, count);
+ }
+ void ioread16_rep(const void __iomem *addr, void *dst, unsigned long count)
+ {
+ 	IO_COND(addr, insw(port,dst,count), mmio_insw(addr, dst, count));
++	/* KMSAN must treat values read from devices as initialized. */
++	kmsan_unpoison_memory(dst, count * 2);
+ }
+ void ioread32_rep(const void __iomem *addr, void *dst, unsigned long count)
+ {
+ 	IO_COND(addr, insl(port,dst,count), mmio_insl(addr, dst, count));
++	/* KMSAN must treat values read from devices as initialized. */
++	kmsan_unpoison_memory(dst, count * 4);
+ }
+ EXPORT_SYMBOL(ioread8_rep);
+ EXPORT_SYMBOL(ioread16_rep);
+@@ -343,14 +381,20 @@ EXPORT_SYMBOL(ioread32_rep);
+ 
+ void iowrite8_rep(void __iomem *addr, const void *src, unsigned long count)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(src, count);
+ 	IO_COND(addr, outsb(port, src, count), mmio_outsb(addr, src, count));
+ }
+ void iowrite16_rep(void __iomem *addr, const void *src, unsigned long count)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(src, count * 2);
+ 	IO_COND(addr, outsw(port, src, count), mmio_outsw(addr, src, count));
+ }
+ void iowrite32_rep(void __iomem *addr, const void *src, unsigned long count)
+ {
++	/* Make sure uninitialized memory isn't copied to devices. */
++	kmsan_check_memory(src, count * 4);
+ 	IO_COND(addr, outsl(port, src,count), mmio_outsl(addr, src, count));
+ }
+ EXPORT_SYMBOL(iowrite8_rep);
 -- 
 2.37.2.672.g94769d06f0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220826150807.723137-20-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220826150807.723137-21-glider%40google.com.
