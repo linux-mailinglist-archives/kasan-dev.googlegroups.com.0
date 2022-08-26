@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBB6EUOMAMGQERX3IQ4A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBCWEUOMAMGQEGUC6LWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3A25A2A69
-	for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 17:08:57 +0200 (CEST)
-Received: by mail-ot1-x33a.google.com with SMTP id p7-20020a9d4547000000b00638eab81488sf844240oti.16
-        for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 08:08:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661526536; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F8B5A2A6A
+	for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 17:08:59 +0200 (CEST)
+Received: by mail-wm1-x33a.google.com with SMTP id m22-20020a7bca56000000b003a652939bd1sf615060wml.9
+        for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 08:08:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661526539; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yhpthu/rJIWuSaFs75keXBGfRq7/XliYOfrbujak8unak1z3NCds2mxgIXEKupoObj
-         q5WdOc+T24wH0uG0yTyprxHwdE767AgToAB1XHxa/cL++3oH+olpxhCa10fSmRaG7tfY
-         nOCjC9t6IASdCCi1VLYZz7TgRE+2wjXHkkzYZ6pUUX/yDxGz+oBLpaVUsJX8sACRL2H8
-         EWrW4z+qbLvFUc1bGeHkv3WZJ5ngYgKF4SNqkt7Wd4PL9KIYfww3y0GUhcQCz6kpt6dn
-         0gBBGd72/lnTg2Ds88ksdC+jiXlXOAKlrVfffdDTzaZ9JQ2sUwgrMlNjOijFW92+zYw/
-         vTrQ==
+        b=S2WnZzegG6QKjvPa1WjrAzUQORMuGUz+YA67x93iD7y2AjAE5c7WtyW65NSKwE3Ekw
+         XRL8/JPT4BhbWeCRHwJqK4qSdxKah9Z4JOeEaeeyYmXQI+Gp50OQJbXEWEW77Tzi6k+I
+         g0MyTPhSHn4EZS5yAxMtVqvgwrqvCwOP0/5Gz62n70cJMKvj+1D6pEiTIVTnSk2Gl+hH
+         AehozwdQpCWetqnlnH6+AJN9aPFHQHCr66aqnzL5ZESgznq2DG8vvZwcIZ5BEKj33v+B
+         9k+GYOoEK+xvdGprmLFLC+Xcy9alYrKThmjTfHTfAbRp13uitVfTj/6CV6QJ2OyGkkC7
+         cGzg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=7jX22c71k1LOUTS2UgUdLmyITLf+AWi6dKrO9MJb9Sw=;
-        b=s+8dN2Gx7NwB9hd8TbTo1ybA/tPHW4+C0y4YvJkai8SgHvuQUVn5Hn4Zun4P3GP1kC
-         DvoJlVXrjjEYteZKlext4EIoVDWK3K/tcET86sbSv7DerFVsS/MbL0HlH2+MAXSv0jVR
-         1SSaMx4e+qzqy2k4IhnT+F2fOQLnMdyZziNrrmeLt+bFBIHtxUY7cgR2RQkHrQMIh6K4
-         rYEZD4p5cXeefKgmpaoavlHgtmfWCGR+OtuuPHLs9Q6WCHPZRWSX9wjqf8b/f09gbxyT
-         e3WXDpniMe5LEnbQY3YrTaNcB5K2EepBGnN2yxGJTcgEuphXYKeQ/3Q7EX66LP8Y859Z
-         WkQg==
+        bh=bSvAgrdzaGrz05S5TIpfi3l2BKTrr/o1+fm+rWiCkSE=;
+        b=dFNyqVsbpBPpYQEw9SU9SnOme+JMlC9X/g+wF2JhRIlFDuxDj+axth4i7yVCyZUSip
+         fdQ/Ksoss+vBRXKIjKsfa5Tzc2r+tzGmdmzmAi11rtfQRjMXrYKgKvB4nsPymHjcj169
+         qYZ/CmIadQGFnri95iNRwAStvGUB8MxJFEVmC4hozxVb12n9hdr4/jgKJFiSZK/2MLpf
+         0XsywoU04qqeUat2XouM3NNo5WOEFMs/CMaAcox/CeasMZiv/gYoEoWrwTaT2B85fkpE
+         ljaQuVa5f/GEg3MGiETkCUCdfIfQ4lLOS8f9Wf6d2AjFF0EKw2c7RdzAG2WkGgfcNDea
+         JZ5A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=YwocNvFx;
-       spf=pass (google.com: domain of 3buiiywykcq0tyvqr4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--glider.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3BuIIYwYKCQ0tyvqr4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=PxLdCUrn;
+       spf=pass (google.com: domain of 3ceiiywykcraw1ytu7w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--glider.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3CeIIYwYKCRAw1ytu7w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc;
-        bh=7jX22c71k1LOUTS2UgUdLmyITLf+AWi6dKrO9MJb9Sw=;
-        b=WjrdHQdmSuxDCwEyu/yz6tKDoUwU5D4VdiompPsvJJM04hgt9O+0Vqo3op+aK6sMkp
-         WPhKms/JsCTSvolGstehysk/+ivmXbvmA0cKw9MyLzDtD62UxkxDZHpvl4TqvCSyrJBc
-         KU6SBprjsqCmR0Q1X8np5pHFOytsla0gpMqqolReSRYJKtnlW6idYEA5THqLQ9eK/kyr
-         0u/yr/8LrPG1ojFXp/VJucXpsXCAd9zuDQwuxgV1RHC2TSRlLsW0jm6b7eWRzSqXOlVw
-         Sbm7QWmWTbV8uMVC0p8ekZfqY3vHyNEoGDsHcD7FAkQhcurqz2uKlx8tl6v6EFNL6Qv6
-         aQQw==
+        bh=bSvAgrdzaGrz05S5TIpfi3l2BKTrr/o1+fm+rWiCkSE=;
+        b=QFP/lG28pJqY0zvU1sM2XimDoq/7AwMOlj4bUjlFnEiRJrNpuxJsx+wDtynOg4DeP5
+         qXeyFw8+SvtRbVqpSMW1FpeQjhWk8XzaDWBdodye4zjERu5RiCb1YdKzzC1gND7AsnbR
+         nRPeGJNSL/dUb7jo6lk1XbzfzqkS3USWEDtXaE2mGwnDw7guBzrIefYVcU9mZ/Pk8zj4
+         YC11ShDbHEY+N8dIw8V6FiAtz+4royp91YCTAAr+z87LaHR28MgCYjS4EOcc/0F/U9Gt
+         Kr9DBc3f4VftPtCpDYhxjXQOPEymF++k/6xmWBjgXamyPbIjC60z9Bj2plGGU2sQAIMB
+         RUhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,65 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc;
-        bh=7jX22c71k1LOUTS2UgUdLmyITLf+AWi6dKrO9MJb9Sw=;
-        b=KGfAcJqZMYfSgMZwhqZeJeRdoAMKgTAeM5r2b+SjSui7J+qx4aNswF4SnsO7LaMDWy
-         cX8TPbSPFl71JIDjo78qO0/rcivKxnaoOHOzc0cSaJu451h7b7PNX+J9z0FAjWwst2Ij
-         9jq2ZTJ12Svdy/xI6NXmWz7MMB0yQkRwCXW8P6gLAqmHNt0WsVsBTJTFWPwiZUiYc5Ly
-         DyGmM9vFavBzT6zVNGRb9B4SJADvXWkT8Oytp02Yd1yHiy+dRvinsSTfoSzLIiCGuVQH
-         yUipI0vG1tIddA7/+C4cQLoEVl6QVg+2pgMhiadmtVf7MtnR1mO2li0CjMwDulq9m6wV
-         lfeg==
-X-Gm-Message-State: ACgBeo3xmWVOG3lrmLTtu+Smh/XZQfSVR+9UP1r4RalGDQT0IlRtXGcZ
-	VWaYRQJGCkOw6IH7fWdkNlI=
-X-Google-Smtp-Source: AA6agR4pYUJ9cmQa8lMbO5s7bur9LbPnSayo7JjcxybcXVpqHfYVgBULQfaxlmtD3fST8E+XM0Tc1A==
-X-Received: by 2002:a05:6870:4784:b0:10d:7a0c:2424 with SMTP id c4-20020a056870478400b0010d7a0c2424mr2038409oaq.126.1661526535815;
-        Fri, 26 Aug 2022 08:08:55 -0700 (PDT)
+        bh=bSvAgrdzaGrz05S5TIpfi3l2BKTrr/o1+fm+rWiCkSE=;
+        b=0dpgWbZPLgmDvl8SLj3Vm8UMpAyJUkEK6Etg/GC4EX+/fGC+pQSYVMdAXVS/8/2Oou
+         dr4dW6IQArY2PbEMT+AANr6otENv/xP1mtBPLEf6P8ipz6pMlSbQkEL0Rb6gi4+3uwbL
+         8QicT9ZhrTxfaLzdyycmRSU4bFKVH/JVPiE8cdR2fvffS6qTuue8iRdiPrU+c6l+CUYL
+         qU3WrIai6TrNSt3ZpWoltxKrspREEEQs0E+0h96gACYnh1JmFgTjf/tp95pzmbumBQcz
+         LdzPZtIULN359HlQ+ZNf9FOJQP+wXY/WlPhM9+PjseeQGDBF0dqbO/mZPCDiUfrMDu/a
+         1HbA==
+X-Gm-Message-State: ACgBeo2KVg5IgvNFkVMXhfhbpL/VtZrEuvI+9svxxvZLQ+Q8Y0RR9XMP
+	frGvAzgA+FN0W8o24VtenAs=
+X-Google-Smtp-Source: AA6agR68g0tzaNCRMYNm9WXnMTjDVOVVK6PqsgKUJ18uPMKiL4fy/ubuyVLUdt7yll8wp85KUBOZUQ==
+X-Received: by 2002:adf:d1c5:0:b0:222:cbe8:f9fa with SMTP id b5-20020adfd1c5000000b00222cbe8f9famr48627wrd.383.1661526538943;
+        Fri, 26 Aug 2022 08:08:58 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:256:b0:345:bc21:cf7a with SMTP id
- m22-20020a056808025600b00345bc21cf7als474844oie.1.-pod-prod-gmail; Fri, 26
- Aug 2022 08:08:55 -0700 (PDT)
-X-Received: by 2002:a05:6808:10ce:b0:344:e898:3584 with SMTP id s14-20020a05680810ce00b00344e8983584mr1716633ois.36.1661526535278;
-        Fri, 26 Aug 2022 08:08:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661526535; cv=none;
+Received: by 2002:a7b:cbc5:0:b0:3a5:abc9:1b3b with SMTP id n5-20020a7bcbc5000000b003a5abc91b3bls27589wmi.1.-pod-prod-gmail;
+ Fri, 26 Aug 2022 08:08:58 -0700 (PDT)
+X-Received: by 2002:a05:600c:34c2:b0:3a5:d2f5:9d02 with SMTP id d2-20020a05600c34c200b003a5d2f59d02mr5902955wmq.153.1661526538033;
+        Fri, 26 Aug 2022 08:08:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661526538; cv=none;
         d=google.com; s=arc-20160816;
-        b=LpuxcKU3v9onfIG2c4DGXqPzhqtExzjIuedIAnrich02uxZhzEgK3GwG6biuC10d+x
-         MsF/05LK7fm1fuTsx7Yclu2FJAWwFpmBpaFd+gBQHmB3wL3u/iGqMaz0GIFmanmbTcUh
-         MjbuGUIpI9lASYF0gQLoti720ujE3OcEa1079uZKIk6F4fOZcSCBaLvbkIVxfpZBTu9Y
-         y2AAPMlhCp2pkzAEuM3HH9XFeyd+iT0FeMw8Fi88B9AbYxODAykfi+NeqErLYurC6CDL
-         1LI+5873RK6z8x6ZvUab73R+7am82JEGnzM+rFgSpRDQ6RtIE7ZT/HFIyFJN29yjAeEj
-         kIdw==
+        b=jT6AjOHnulHjk6Mc3lTEiOJ5YnRatDMalD7WYkVYiqy/ZXj1Zv1OQ+++4Mp2rG4ZVL
+         TshVRsJBkKPcUwrExh0QfZUnOlz/sZSRdVWiHXIGGbAMnWakuhQc5U0OTyit7Bbj6YkH
+         Z6cvmwgaUW4I0dXBYwtNv/0pJHynwrQqnZuP80HATU3VEkB+aoT22aEmggfPwa9BeSZW
+         d271Wfqaf0FdRZsB2M8rmaVZuGfX+UXotkM0TtBa76dlY0+2GloRYrlE7loOTbpm241j
+         bb9/03UyBzETUn09hCTPe14MTJzbj+Lj2/44IBdbxDKLqppmgwczDrRYn8/wCx1z2k8f
+         x31A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=jx2yh37l5SDq2Q8QSIum21pACdE/sm5g4yjUaLUM63Q=;
-        b=OZKx7sm0MYF9EnFFbPAkVkRCkPIbaX+Hi9+Cp7OUGfm7mjg7IWec0nZdzM5GWiV9RV
-         Yi0ZmW8gq3BDeW5ilxUEWgZuhijfQxQdA3ZT53AT1tUAPj1T0Wh+TvfIuSVnFyq/6WK2
-         QMb8PNj7iVLcyh4yilWxjBhTaAAerfi3UNJjFndY+XpxLv+XZaQnlLDyQjE8J1Uj3gLZ
-         XErzRENjEv4c0qfGeQ+C1mV+afOL6h7UmHUQ9L7WbLtS6+UktqQI1Gqle2hnbSWBzSEp
-         XT7Jo7QyzqxotLJmGrGvjKY/3poTEX2dIr8gDVmQPmsMa7snvWOQRDJhADqzPLds3gey
-         tqAQ==
+        bh=Oj/n9T6llj5wDAAKfJeFunm60o607TLggj1MRB6CXqU=;
+        b=0hLIk8RTs67C7NYeMLfAW7gd2WNPHC6wacCHYQWv1g2PzmvYpcuH0im1VNtHsfaJNe
+         lPItdBCPpUKCOBJNUg2ZPWqyw4rSzwnBvy0xe096XmHLEv4R704oF2N2aMEtXi/7Hll7
+         g73rasnvHtNiY5tYNR6WUFTL/+rtLKwDw7gD1FFsjJTNqJL+oDLeAs8q95PYc2pqUl8r
+         XFvCvSG1ggqoEgkWM0KHCy3kuaW2AqgG/yD1KVE4cbw19LhejZrO3dHo1NEGOrqAtVAt
+         BfVnr2GK1PStfjislWz2BqD/T1F3d4ajBZrC7zO3q52g41noI4Xf5I4PDdGLO9A5v+qH
+         m9cQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=YwocNvFx;
-       spf=pass (google.com: domain of 3buiiywykcq0tyvqr4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--glider.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3BuIIYwYKCQ0tyvqr4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=PxLdCUrn;
+       spf=pass (google.com: domain of 3ceiiywykcraw1ytu7w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--glider.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3CeIIYwYKCRAw1ytu7w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
-        by gmr-mx.google.com with ESMTPS id s188-20020acadbc5000000b0034480be185csi96272oig.4.2022.08.26.08.08.55
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
+        by gmr-mx.google.com with ESMTPS id r5-20020a1c2b05000000b003a66dd18895si573684wmr.4.2022.08.26.08.08.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Aug 2022 08:08:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3buiiywykcq0tyvqr4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--glider.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-336c3b72da5so29527217b3.6
-        for <kasan-dev@googlegroups.com>; Fri, 26 Aug 2022 08:08:55 -0700 (PDT)
+        Fri, 26 Aug 2022 08:08:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3ceiiywykcraw1ytu7w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--glider.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
+Received: by mail-wm1-x349.google.com with SMTP id 203-20020a1c02d4000000b003a5f5bce876so4197922wmc.2
+        for <kasan-dev@googlegroups.com>; Fri, 26 Aug 2022 08:08:57 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:5207:ac36:fdd3:502d])
- (user=glider job=sendgmr) by 2002:a81:710a:0:b0:33d:c742:4a20 with SMTP id
- m10-20020a81710a000000b0033dc7424a20mr69884ywc.343.1661526534913; Fri, 26 Aug
- 2022 08:08:54 -0700 (PDT)
-Date: Fri, 26 Aug 2022 17:07:38 +0200
+ (user=glider job=sendgmr) by 2002:a5d:6483:0:b0:225:7fb7:f163 with SMTP id
+ o3-20020a5d6483000000b002257fb7f163mr49905wri.391.1661526537522; Fri, 26 Aug
+ 2022 08:08:57 -0700 (PDT)
+Date: Fri, 26 Aug 2022 17:07:39 +0200
 In-Reply-To: <20220826150807.723137-1-glider@google.com>
 Mime-Version: 1.0
 References: <20220826150807.723137-1-glider@google.com>
 X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220826150807.723137-16-glider@google.com>
-Subject: [PATCH v5 15/44] mm: kmsan: call KMSAN hooks from SLUB code
+Message-ID: <20220826150807.723137-17-glider@google.com>
+Subject: [PATCH v5 16/44] kmsan: handle task creation and exiting
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -129,9 +128,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=YwocNvFx;       spf=pass
- (google.com: domain of 3buiiywykcq0tyvqr4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--glider.bounces.google.com
- designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3BuIIYwYKCQ0tyvqr4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=PxLdCUrn;       spf=pass
+ (google.com: domain of 3ceiiywykcraw1ytu7w44w1u.s420q8q3-tubw44w1uw74a58.s42@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3CeIIYwYKCRAw1ytu7w44w1u.s420q8q3-tuBw44w1uw74A58.s42@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -147,294 +146,183 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-In order to report uninitialized memory coming from heap allocations
-KMSAN has to poison them unless they're created with __GFP_ZERO.
-
-It's handy that we need KMSAN hooks in the places where
-init_on_alloc/init_on_free initialization is performed.
-
-In addition, we apply __no_kmsan_checks to get_freepointer_safe() to
-suppress reports when accessing freelist pointers that reside in freed
-objects.
+Tell KMSAN that a new task is created, so the tool creates a backing
+metadata structure for that task.
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
-Reviewed-by: Marco Elver <elver@google.com>
-
 ---
 v2:
- -- move the implementation of SLUB hooks here
+ -- move implementation of kmsan_task_create() and kmsan_task_exit() here
 
 v4:
  -- change sizeof(type) to sizeof(*ptr)
- -- swap mm: and kmsan: in the subject
- -- get rid of kmsan_init(), replace it with __no_kmsan_checks
 
 v5:
  -- do not export KMSAN hooks that are not called from modules
- -- drop an unnecessary whitespace change
+ -- minor comment fix
 
-Link: https://linux-review.googlesource.com/id/I6954b386c5c5d7f99f48bb6cbcc74b75136ce86e
+Link: https://linux-review.googlesource.com/id/I0f41c3a1c7d66f7e14aabcfdfc7c69addb945805
 ---
- include/linux/kmsan.h | 57 ++++++++++++++++++++++++++++++++
- mm/kmsan/hooks.c      | 76 +++++++++++++++++++++++++++++++++++++++++++
- mm/slab.h             |  1 +
- mm/slub.c             | 17 ++++++++++
- 4 files changed, 151 insertions(+)
+ include/linux/kmsan.h | 21 +++++++++++++++++++++
+ kernel/exit.c         |  2 ++
+ kernel/fork.c         |  2 ++
+ mm/kmsan/core.c       | 10 ++++++++++
+ mm/kmsan/hooks.c      | 17 +++++++++++++++++
+ mm/kmsan/kmsan.h      |  2 ++
+ 6 files changed, 54 insertions(+)
 
 diff --git a/include/linux/kmsan.h b/include/linux/kmsan.h
-index 699fe4f5b3bee..fd76cea338878 100644
+index fd76cea338878..5ec056380a43b 100644
 --- a/include/linux/kmsan.h
 +++ b/include/linux/kmsan.h
-@@ -15,6 +15,7 @@
- #include <linux/types.h>
+@@ -16,6 +16,7 @@
  
  struct page;
-+struct kmem_cache;
+ struct kmem_cache;
++struct task_struct;
  
  #ifdef CONFIG_KMSAN
  
-@@ -72,6 +73,44 @@ void kmsan_free_page(struct page *page, unsigned int order);
-  */
- void kmsan_copy_page_meta(struct page *dst, struct page *src);
+@@ -42,6 +43,18 @@ struct kmsan_ctx {
+ 	bool allow_reporting;
+ };
  
 +/**
-+ * kmsan_slab_alloc() - Notify KMSAN about a slab allocation.
-+ * @s:      slab cache the object belongs to.
-+ * @object: object pointer.
-+ * @flags:  GFP flags passed to the allocator.
-+ *
-+ * Depending on cache flags and GFP flags, KMSAN sets up the metadata of the
-+ * newly created object, marking it as initialized or uninitialized.
++ * kmsan_task_create() - Initialize KMSAN state for the task.
++ * @task: task to initialize.
 + */
-+void kmsan_slab_alloc(struct kmem_cache *s, void *object, gfp_t flags);
++void kmsan_task_create(struct task_struct *task);
 +
 +/**
-+ * kmsan_slab_free() - Notify KMSAN about a slab deallocation.
-+ * @s:      slab cache the object belongs to.
-+ * @object: object pointer.
-+ *
-+ * KMSAN marks the freed object as uninitialized.
++ * kmsan_task_exit() - Notify KMSAN that a task has exited.
++ * @task: task about to finish.
 + */
-+void kmsan_slab_free(struct kmem_cache *s, void *object);
-+
-+/**
-+ * kmsan_kmalloc_large() - Notify KMSAN about a large slab allocation.
-+ * @ptr:   object pointer.
-+ * @size:  object size.
-+ * @flags: GFP flags passed to the allocator.
-+ *
-+ * Similar to kmsan_slab_alloc(), but for large allocations.
-+ */
-+void kmsan_kmalloc_large(const void *ptr, size_t size, gfp_t flags);
-+
-+/**
-+ * kmsan_kfree_large() - Notify KMSAN about a large slab deallocation.
-+ * @ptr: object pointer.
-+ *
-+ * Similar to kmsan_slab_free(), but for large allocations.
-+ */
-+void kmsan_kfree_large(const void *ptr);
++void kmsan_task_exit(struct task_struct *task);
 +
  /**
-  * kmsan_map_kernel_range_noflush() - Notify KMSAN about a vmap.
-  * @start:	start of vmapped range.
-@@ -138,6 +177,24 @@ static inline void kmsan_copy_page_meta(struct page *dst, struct page *src)
- {
- }
+  * kmsan_alloc_page() - Notify KMSAN about an alloc_pages() call.
+  * @page:  struct page pointer returned by alloc_pages().
+@@ -163,6 +176,14 @@ void kmsan_iounmap_page_range(unsigned long start, unsigned long end);
  
-+static inline void kmsan_slab_alloc(struct kmem_cache *s, void *object,
-+				    gfp_t flags)
+ #else
+ 
++static inline void kmsan_task_create(struct task_struct *task)
 +{
 +}
 +
-+static inline void kmsan_slab_free(struct kmem_cache *s, void *object)
++static inline void kmsan_task_exit(struct task_struct *task)
 +{
 +}
 +
-+static inline void kmsan_kmalloc_large(const void *ptr, size_t size,
-+				       gfp_t flags)
+ static inline int kmsan_alloc_page(struct page *page, unsigned int order,
+ 				   gfp_t flags)
+ {
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 84021b24f79e3..f5d620c315662 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -60,6 +60,7 @@
+ #include <linux/writeback.h>
+ #include <linux/shm.h>
+ #include <linux/kcov.h>
++#include <linux/kmsan.h>
+ #include <linux/random.h>
+ #include <linux/rcuwait.h>
+ #include <linux/compat.h>
+@@ -741,6 +742,7 @@ void __noreturn do_exit(long code)
+ 	WARN_ON(tsk->plug);
+ 
+ 	kcov_task_exit(tsk);
++	kmsan_task_exit(tsk);
+ 
+ 	coredump_task_exit(tsk);
+ 	ptrace_event(PTRACE_EVENT_EXIT, code);
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 90c85b17bf698..7cf3eea01ceef 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -37,6 +37,7 @@
+ #include <linux/fdtable.h>
+ #include <linux/iocontext.h>
+ #include <linux/key.h>
++#include <linux/kmsan.h>
+ #include <linux/binfmts.h>
+ #include <linux/mman.h>
+ #include <linux/mmu_notifier.h>
+@@ -1026,6 +1027,7 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
+ 	tsk->worker_private = NULL;
+ 
+ 	kcov_task_init(tsk);
++	kmsan_task_create(tsk);
+ 	kmap_local_fork(tsk);
+ 
+ #ifdef CONFIG_FAULT_INJECTION
+diff --git a/mm/kmsan/core.c b/mm/kmsan/core.c
+index a5dec6e62b4ef..a640e0cccbb64 100644
+--- a/mm/kmsan/core.c
++++ b/mm/kmsan/core.c
+@@ -44,6 +44,16 @@ bool kmsan_enabled __read_mostly;
+  */
+ DEFINE_PER_CPU(struct kmsan_ctx, kmsan_percpu_ctx);
+ 
++void kmsan_internal_task_create(struct task_struct *task)
 +{
++	struct kmsan_ctx *ctx = &task->kmsan_ctx;
++	struct thread_info *info = current_thread_info();
++
++	__memset(ctx, 0, sizeof(*ctx));
++	ctx->allow_reporting = true;
++	kmsan_internal_unpoison_memory(info, sizeof(*info), false);
 +}
 +
-+static inline void kmsan_kfree_large(const void *ptr)
-+{
-+}
-+
- static inline void kmsan_vmap_pages_range_noflush(unsigned long start,
- 						  unsigned long end,
- 						  pgprot_t prot,
+ void kmsan_internal_poison_memory(void *address, size_t size, gfp_t flags,
+ 				  unsigned int poison_flags)
+ {
 diff --git a/mm/kmsan/hooks.c b/mm/kmsan/hooks.c
-index 2624b4ea3d8ef..519a7a1dcb4aa 100644
+index 519a7a1dcb4aa..4ab8c629acd0c 100644
 --- a/mm/kmsan/hooks.c
 +++ b/mm/kmsan/hooks.c
-@@ -26,6 +26,82 @@
+@@ -26,6 +26,23 @@
   * skipping effects of functions like memset() inside instrumented code.
   */
  
-+void kmsan_slab_alloc(struct kmem_cache *s, void *object, gfp_t flags)
++void kmsan_task_create(struct task_struct *task)
 +{
-+	if (unlikely(object == NULL))
-+		return;
-+	if (!kmsan_enabled || kmsan_in_runtime())
-+		return;
-+	/*
-+	 * There's a ctor or this is an RCU cache - do nothing. The memory
-+	 * status hasn't changed since last use.
-+	 */
-+	if (s->ctor || (s->flags & SLAB_TYPESAFE_BY_RCU))
-+		return;
-+
 +	kmsan_enter_runtime();
-+	if (flags & __GFP_ZERO)
-+		kmsan_internal_unpoison_memory(object, s->object_size,
-+					       KMSAN_POISON_CHECK);
-+	else
-+		kmsan_internal_poison_memory(object, s->object_size, flags,
-+					     KMSAN_POISON_CHECK);
++	kmsan_internal_task_create(task);
 +	kmsan_leave_runtime();
 +}
 +
-+void kmsan_slab_free(struct kmem_cache *s, void *object)
++void kmsan_task_exit(struct task_struct *task)
 +{
++	struct kmsan_ctx *ctx = &task->kmsan_ctx;
++
 +	if (!kmsan_enabled || kmsan_in_runtime())
 +		return;
 +
-+	/* RCU slabs could be legally used after free within the RCU period */
-+	if (unlikely(s->flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)))
-+		return;
-+	/*
-+	 * If there's a constructor, freed memory must remain in the same state
-+	 * until the next allocation. We cannot save its state to detect
-+	 * use-after-free bugs, instead we just keep it unpoisoned.
-+	 */
-+	if (s->ctor)
-+		return;
-+	kmsan_enter_runtime();
-+	kmsan_internal_poison_memory(object, s->object_size, GFP_KERNEL,
-+				     KMSAN_POISON_CHECK | KMSAN_POISON_FREE);
-+	kmsan_leave_runtime();
++	ctx->allow_reporting = false;
 +}
 +
-+void kmsan_kmalloc_large(const void *ptr, size_t size, gfp_t flags)
-+{
-+	if (unlikely(ptr == NULL))
-+		return;
-+	if (!kmsan_enabled || kmsan_in_runtime())
-+		return;
-+	kmsan_enter_runtime();
-+	if (flags & __GFP_ZERO)
-+		kmsan_internal_unpoison_memory((void *)ptr, size,
-+					       /*checked*/ true);
-+	else
-+		kmsan_internal_poison_memory((void *)ptr, size, flags,
-+					     KMSAN_POISON_CHECK);
-+	kmsan_leave_runtime();
-+}
+ void kmsan_slab_alloc(struct kmem_cache *s, void *object, gfp_t flags)
+ {
+ 	if (unlikely(object == NULL))
+diff --git a/mm/kmsan/kmsan.h b/mm/kmsan/kmsan.h
+index 6b9deee3b7f32..04954b83c5d65 100644
+--- a/mm/kmsan/kmsan.h
++++ b/mm/kmsan/kmsan.h
+@@ -179,6 +179,8 @@ void kmsan_internal_set_shadow_origin(void *address, size_t size, int b,
+ 				      u32 origin, bool checked);
+ depot_stack_handle_t kmsan_internal_chain_origin(depot_stack_handle_t id);
+ 
++void kmsan_internal_task_create(struct task_struct *task);
 +
-+void kmsan_kfree_large(const void *ptr)
-+{
-+	struct page *page;
-+
-+	if (!kmsan_enabled || kmsan_in_runtime())
-+		return;
-+	kmsan_enter_runtime();
-+	page = virt_to_head_page((void *)ptr);
-+	KMSAN_WARN_ON(ptr != page_address(page));
-+	kmsan_internal_poison_memory((void *)ptr,
-+				     PAGE_SIZE << compound_order(page),
-+				     GFP_KERNEL,
-+				     KMSAN_POISON_CHECK | KMSAN_POISON_FREE);
-+	kmsan_leave_runtime();
-+}
-+
- static unsigned long vmalloc_shadow(unsigned long addr)
- {
- 	return (unsigned long)kmsan_get_metadata((void *)addr,
-diff --git a/mm/slab.h b/mm/slab.h
-index 4ec82bec15ecd..9d0afd2985df7 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -729,6 +729,7 @@ static inline void slab_post_alloc_hook(struct kmem_cache *s,
- 			memset(p[i], 0, s->object_size);
- 		kmemleak_alloc_recursive(p[i], s->object_size, 1,
- 					 s->flags, flags);
-+		kmsan_slab_alloc(s, p[i], flags);
- 	}
- 
- 	memcg_slab_post_alloc_hook(s, objcg, flags, size, p);
-diff --git a/mm/slub.c b/mm/slub.c
-index 862dbd9af4f52..2c323d83d0526 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -22,6 +22,7 @@
- #include <linux/proc_fs.h>
- #include <linux/seq_file.h>
- #include <linux/kasan.h>
-+#include <linux/kmsan.h>
- #include <linux/cpu.h>
- #include <linux/cpuset.h>
- #include <linux/mempolicy.h>
-@@ -359,6 +360,17 @@ static void prefetch_freepointer(const struct kmem_cache *s, void *object)
- 	prefetchw(object + s->offset);
- }
- 
-+/*
-+ * When running under KMSAN, get_freepointer_safe() may return an uninitialized
-+ * pointer value in the case the current thread loses the race for the next
-+ * memory chunk in the freelist. In that case this_cpu_cmpxchg_double() in
-+ * slab_alloc_node() will fail, so the uninitialized value won't be used, but
-+ * KMSAN will still check all arguments of cmpxchg because of imperfect
-+ * handling of inline assembly.
-+ * To work around this problem, we apply __no_kmsan_checks to ensure that
-+ * get_freepointer_safe() returns initialized memory.
-+ */
-+__no_kmsan_checks
- static inline void *get_freepointer_safe(struct kmem_cache *s, void *object)
- {
- 	unsigned long freepointer_addr;
-@@ -1709,6 +1721,7 @@ static inline void *kmalloc_large_node_hook(void *ptr, size_t size, gfp_t flags)
- 	ptr = kasan_kmalloc_large(ptr, size, flags);
- 	/* As ptr might get tagged, call kmemleak hook after KASAN. */
- 	kmemleak_alloc(ptr, size, 1, flags);
-+	kmsan_kmalloc_large(ptr, size, flags);
- 	return ptr;
- }
- 
-@@ -1716,12 +1729,14 @@ static __always_inline void kfree_hook(void *x)
- {
- 	kmemleak_free(x);
- 	kasan_kfree_large(x);
-+	kmsan_kfree_large(x);
- }
- 
- static __always_inline bool slab_free_hook(struct kmem_cache *s,
- 						void *x, bool init)
- {
- 	kmemleak_free_recursive(x, s->flags);
-+	kmsan_slab_free(s, x);
- 
- 	debug_check_no_locks_freed(x, s->object_size);
- 
-@@ -5915,6 +5930,7 @@ static char *create_unique_id(struct kmem_cache *s)
- 	p += sprintf(p, "%07u", s->size);
- 
- 	BUG_ON(p > name + ID_STR_LENGTH - 1);
-+	kmsan_unpoison_memory(name, p - name);
- 	return name;
- }
- 
-@@ -6016,6 +6032,7 @@ static int sysfs_slab_alias(struct kmem_cache *s, const char *name)
- 	al->name = name;
- 	al->next = alias_list;
- 	alias_list = al;
-+	kmsan_unpoison_memory(al, sizeof(*al));
- 	return 0;
- }
- 
+ bool kmsan_metadata_is_contiguous(void *addr, size_t size);
+ void kmsan_internal_check_memory(void *addr, size_t size, const void *user_addr,
+ 				 int reason);
 -- 
 2.37.2.672.g94769d06f0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220826150807.723137-16-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220826150807.723137-17-glider%40google.com.
