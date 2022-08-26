@@ -1,140 +1,147 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBWOEUOMAMGQEDE2XGNI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBA6EUSMAMGQEXMNAI4Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF1C5A2A96
-	for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 17:10:17 +0200 (CEST)
-Received: by mail-lj1-x237.google.com with SMTP id y14-20020a2eb00e000000b00261caee404dsf664113ljk.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 08:10:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661526617; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC805A301D
+	for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 21:41:55 +0200 (CEST)
+Received: by mail-wm1-x339.google.com with SMTP id p19-20020a05600c1d9300b003a5c3141365sf4490340wms.9
+        for <lists+kasan-dev@lfdr.de>; Fri, 26 Aug 2022 12:41:55 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661542915; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fAPPXPAbPnpStIlG26boT1foainJYHYA2t1TC/aGRgSS5IIfL2hzR8ob7evUrgfhyq
-         bpNGNTxePy5kV/M+tPe2i+ACF6548OztzaY1OqxfgLSqUQNztibY41pIqNx18zVHJjCn
-         tp94Y4r6YFuPsMaGFrMRZvBI2vUahvndtuv4YVl0ZuluDiH5heFCTp5jY+PLYVdgXO7a
-         zRm/gmHrGHeaid3LupNcxb3pEoRZKR4vFOgHoJm4syDUf35sCp3lnOlpvnYxi3oV2B/5
-         TX2I48h8LTE03EQpGUOiYfMCvLtNHgZM8s4ooin6QjVgyzBJx/SKVeSwodduC2wN7GjW
-         mwCQ==
+        b=go6cfIndFRJo6U/AY02zvgQOU/0u9aAkPzzG94WCRALYKMexEdKkUn+mwEeAAJKtQ2
+         ShNa/ezuKUK32uu/gRcFdRMgvCVHxqhd1iVMi6r75tF6PL7mzKloMxtzngJ7Wk49OM5w
+         zKa4aDO9cSra8gm/lV2uiOoSk81UR4YjD0ejqpNjcIxPnHHxo5HiMkmF/v+//xVp3SeP
+         l9JhJzxNoaN3CTbeuUabCJ3V8c08eismH2apBC9rTmGgr8fKl60gBc9T5AvbXzwTOrJ6
+         85u61ubArYx6yZbEax1NnhHuqTqRXoJ8Faz1s2x9gBLpR4LhRi5xgC7XxGXbhqB1mHM1
+         eD5Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=04nq+UqeAcBjvZPLb3xd90M50OWbQ2lDdh6uWoW2ClM=;
-        b=ZL+vEmgT2EAgp82qHOgP+p7x6VsIyCumW87ZRksZ2F/S2pV2qrhihQf39FBXRbsS+W
-         p1RquShkMaEE+7b0NZmqd3ROmmt9CNIsPUoxrwIEFSXrEu13nvQ1/pqTNsaUjvqKLktf
-         4rg+d+TCcpIa5yT6uaVCKPYY1fuenXypJ9O3sG1vhlbspnf/9m/9y0gi8rBn03po/gvj
-         vTMD8ZH/W1DRRRFlhOKpltfDdvffjq7aj0SLjwZ1G1vEc8sNrt35jd1nbGHA/AP05Bb0
-         x5UZM2go+pRQvcHyto31sbkLCG7x6Z44s33fJMhsgQmOzTdV7Z3JMxiIqleScftZil1p
-         jU8Q==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=92MicaUg+CLxvy1UYm009fXJeAEd2pVQvCTzfw8KLxs=;
+        b=S+up8I0DpU87HlwRy3EGv3qjJmZnTkd70mo6DA5nnCFHnvlT3VGcKXAxvLAzpB8fln
+         hgA4n8KA3v4Ny4AffQOXb17OcWqCxg8AomEcZ+mqebu3IMAfEsqt8fDFi1B/v+K6Frxf
+         C8dPzPO9KBrFvCEx5Hj1XXAnCEpMfvpzZGayVb1f0rlAf7ahQc7MssC+tXfBvOyrHZdQ
+         TwWZ66y3oeTgI4QPEgWSob3IUgxh++YrkOSzNJqYfmGUGXIbn3qsNKSNVliV32bEldGP
+         RJVdWXuLWYuJONHplooumIRfEDAFmywR/h3EAvQ/XQcmBG+PgH9Aj4DZAN+XsLyMkZCl
+         B6lg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Q8VLjQ5x;
-       spf=pass (google.com: domain of 3v-iiywykcv4che9anckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--glider.bounces.google.com designates 2a00:1450:4864:20::249 as permitted sender) smtp.mailfrom=3V-IIYwYKCV4CHE9ANCKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--glider.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b=OpNlxqMQ;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::52d as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date:from:to
-         :cc;
-        bh=04nq+UqeAcBjvZPLb3xd90M50OWbQ2lDdh6uWoW2ClM=;
-        b=o/9agoRqA5yI0Z2bQruMH8Mb37gPRzzyHEXyJReNcHaC3bdK7+D1jixOt54J4kf/WX
-         IUj7UP9xk0AFT+UK8UNyCTEeciqzlG8VkmuJUJ2/lE+Icgl/4NChijzGo/RzJtXQDzzJ
-         3TRX4IhMmb2KWOseceWUsV+TVKvudwHadlsBhqYMl0s9rgtd7TWR371SG2Dl4Ab4k0kd
-         0sniWLPRLRmACfE8Nf9aDxRp8SQqlmeXDXPXt9ttssLNQ3Cs6tyE2z7Cd79m0I6GxfgA
-         VpVIBY3EI7BZ9W+pBNoBCfsMaqgdLFEn56Z/4FGfeMbpyJDyLUeLTouVWG4zRzmmvfzr
-         4qaw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc;
+        bh=92MicaUg+CLxvy1UYm009fXJeAEd2pVQvCTzfw8KLxs=;
+        b=TZlmkfJqncQHkExS6i1pPA/aVV2QW5rqYVoT/bFjpmTjh8aDK2bsx/r/TwFA8j3Ipw
+         rR/VvSLbHchfBoi8QCcmyBdGVjBfxdKdizaLdRHBwS2PAFzdsqL8f9U9z41DrCpoB2z/
+         NN4KNiTrOEoSWB/V2EdnU9DtNIbf9hW6vqcUez9PF/g0ZcVowPjvQO1Y3NUbnXrzlX4/
+         XWOFHDHRca9Gk5SV6B76bgwUCJ/+P1zMM2LhEvmNKNWY3Hq6i/5c0EgaZA+RPE5uZc6D
+         GaYctQjmmxXzQtM7wLCa5VdWnoc44nlrmtEfqPkYaCUmpPPPVWAn3uCS1w0zWo90Q9s0
+         k/kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc;
-        bh=04nq+UqeAcBjvZPLb3xd90M50OWbQ2lDdh6uWoW2ClM=;
-        b=BaYwmKU4hxf4D/7zI+WA8SLBh5ankjsIUQ1+hFaWyiL+bZDhg/Z19nh4wh6WUuF7Pv
-         rXSZMFbINcw4sRf1DNy5KNxu9QO/pDd7TYUWlje03bvPFA+fvWOtcEvL3iOSkjE1wyPy
-         fh7RAJSTCzf8O/OU8DMvzOrvDfAB8NoaGHJ/iVyqFEnl4Xi8zuZzGgsC46jIgZMYXF81
-         Ka/8t/Dz2mhODfk+hNIaEBkAs4p7htI/eC9Y00lP4p8sg/En0KfqlqVlJvNJ3BqwmI3h
-         rIH106aCnJG7bnE4ZwktNINZ0lsh/8Mr6MY5ljrp6pyz3p0EjQcwMA5UXtjIpanrc5an
-         BJ+A==
-X-Gm-Message-State: ACgBeo34b/pAYTZDbiX6dPh1LxYfb5MQ9uSC7fn6Ezr12qCKbw3ErL9B
-	rijxEoWx5Y9y9V77SKTplqM=
-X-Google-Smtp-Source: AA6agR4DqYdi6sTtnm1U7mpsqte5xMWIWAfF5SOgwu+d2IFaU1WACARRRivZR9ixZMXh2WAm/RNu2A==
-X-Received: by 2002:a05:6512:3f91:b0:492:f17d:33d9 with SMTP id x17-20020a0565123f9100b00492f17d33d9mr3001797lfa.73.1661526617216;
-        Fri, 26 Aug 2022 08:10:17 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:sender:from:to:cc;
+        bh=92MicaUg+CLxvy1UYm009fXJeAEd2pVQvCTzfw8KLxs=;
+        b=XsBdP/82W7Fc0HelEkdJp3wB3NbZlYtUV69sSzdMmAlucdAIDKB7pZ5IFGUaxOOe5+
+         q+zg0EBmy06Wu5y+0DFbXRq5xZXoO7pVui9W30xxc1YQqu1vQH5MWaJHvQ+aMaxIrbEA
+         AHBbQlnd+52b9kcuCh1Ewbqo6xOf3x1yMrMkEZZD9eFv1mbGlhlh3EMev7oszR9xKl9g
+         zcXVspwXUQMTIafEV6KUIObcyaTCiPura5/qFt2sLvkjlOJKzfdxwqwHXepw0z/RZO3h
+         ig3TMlF/Abimov6HHVr4dNI82W7IsM6KGoiltpp5qIMHzmT84uh2AEC+re1pYlvp3/7n
+         4zTg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACgBeo1+f7M/Is30zp1psRZ8KfddstnkD8QhN2AvpnZ/bmrfpwERL9V4
+	wWbsZXsoV77hDQUMFXCGFYU=
+X-Google-Smtp-Source: AA6agR7Se/7FsJ63yWNmLCG7bYCHh1LSLREmXVgKzlryYtjdasC/bI6Ax9Q5X+XYSGy1R/NmOhhN3g==
+X-Received: by 2002:a5d:64a9:0:b0:225:66ef:be9d with SMTP id m9-20020a5d64a9000000b0022566efbe9dmr625389wrp.604.1661542915343;
+        Fri, 26 Aug 2022 12:41:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:995:b0:261:b5e5:82b6 with SMTP id
- b21-20020a05651c099500b00261b5e582b6ls712727ljq.9.-pod-prod-gmail; Fri, 26
- Aug 2022 08:10:16 -0700 (PDT)
-X-Received: by 2002:a05:651c:17a0:b0:261:ac0d:6c45 with SMTP id bn32-20020a05651c17a000b00261ac0d6c45mr2441218ljb.225.1661526616233;
-        Fri, 26 Aug 2022 08:10:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661526616; cv=none;
+Received: by 2002:adf:d234:0:b0:225:26dd:8b59 with SMTP id k20-20020adfd234000000b0022526dd8b59ls1150135wrh.3.-pod-prod-gmail;
+ Fri, 26 Aug 2022 12:41:54 -0700 (PDT)
+X-Received: by 2002:a5d:434a:0:b0:21d:aa7e:b1bb with SMTP id u10-20020a5d434a000000b0021daa7eb1bbmr642929wrr.619.1661542914129;
+        Fri, 26 Aug 2022 12:41:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661542914; cv=none;
         d=google.com; s=arc-20160816;
-        b=TLU5rSt1B22jPZ42ro30rg7UZa4dUUzO4vW0sojHStkLEAd4fBQi/lhnTrPGuKfJJz
-         I41uQ2QEqISr5oCDXPMbOP8fssELblX0NUIOAo+hMCGUP1BOEYZhKS965xIicIHd1IRH
-         vPzMFqBaCR6hbYIyqQEQJ2nwDkwTATzKF96ZwGC/8S92K+5I+blfTm5/kD5nc9143G+K
-         osQQshePMQo6m7twsvRN6bsIsyHyEITyEdr8tunFvBC2fxGxMnp3BmQYJ7LlT36oX763
-         F/1KVCnlbQGJY00z9mw57ORP6DzwPG54W/l+A3OEfIQEvtoMjWg4ft1oDFiVDzJK3Pae
-         j1Cg==
+        b=yLbss91MefS8Oy/QrVMd/T4u7+HQQaoTjPZ6ECHjyauS4vF9zGEEIVk1razT52WsMK
+         Mr7zl40xivwkKGbljFZSkOLO13yctEoE2UIZQIlWQE5Qw7h3zf4D5XO9NaMTV5CDHbwA
+         LtVq4iT8aaTT0tzpvKtmsJRivQN2xSvM4sexQrkL0YDczKvKwyVjycMnHPL6iYnefrMf
+         ED7EM27NxKgSa0Ab8ELu3Y7hi97OmpUJgJzaNGsELTojigHMHJOF34KI0cYOfO4LhaHT
+         h29n83wArFAEBHrRMgtdWQh+Dr3v1kZjx+aL3K5vKDBYkle/mJnX6ktnJ/lE+Xo6KtIN
+         KvnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=fxlXGK8qL+YVfFcW6ClvjL4YS8Ri9qaHIYNR2qoUuzA=;
-        b=y4DIFF28JLGoQhInukoHrH0h+BhwD1G3KQu20mo+b1skE8xYn4sHARjUMrapPuep2Z
-         Va3YGuDxrWGJq0vN7JYKS80SyWmdcMqGKFv1ioxFZ9bZMIFQxVVy6arKR5KmiuRYYJFR
-         C2X9Rx4Q1H+EPFzDHDaV4bkExJ5jUDNI3q4W6Yoq6CfQ4zZYNM0MR6R8F3LbW7x9kKP4
-         Gb1KaOrowekaW1UgZKmc7f7AOa7X+Rk+FK3H7aon+O+MAEwrpvrIEf8hbJf7RJSBMNkp
-         6F98KV11SbpaLhecgRWnOPoZFa56A8SDsKAG0k144PIByngx2Komb6/XQ9xquQfI1nhJ
-         qJSw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=qH9fXuLG/2N7XJd2Ax6mCY7hEPgeeICD6t/tT+e4ZA0=;
+        b=Y++0uFxXRRGN2avihUukriH/8bmqs3olFY/ECgDrSNrxfsOTNKXYYozMTuXbtHOy5O
+         +4lmcZyS3VzgNabLv5pXSjX3XERfCh6tqXm11K9GNfPOtUXmL1N/o+aaUxjnS7Ko17xG
+         sMM96wj3bScs5thYLoMz31+Zlp3GgK7hXluf2B/3GPoRpKFK5uaxAL1lLzEt8vd5lvPA
+         riGZ5VonhbzGfDYB8AjO/DvodTzWiSJZn5TvPPuwW38uuUyw/e5oA21XYKyZu2E0m3It
+         OG2/zaenel8CDfV9NppNfFsBN+Tv6mrOxmQch9qZ/4h2BSr1iKIcpeE7HlGRCk1Tv7jM
+         SBjg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Q8VLjQ5x;
-       spf=pass (google.com: domain of 3v-iiywykcv4che9anckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--glider.bounces.google.com designates 2a00:1450:4864:20::249 as permitted sender) smtp.mailfrom=3V-IIYwYKCV4CHE9ANCKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--glider.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lj1-x249.google.com (mail-lj1-x249.google.com. [2a00:1450:4864:20::249])
-        by gmr-mx.google.com with ESMTPS id i22-20020a2ea376000000b0026187cf0f12si75089ljn.8.2022.08.26.08.10.16
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b=OpNlxqMQ;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::52d as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com. [2a00:1450:4864:20::52d])
+        by gmr-mx.google.com with ESMTPS id ba13-20020a0560001c0d00b002206b4cd42fsi11434wrb.5.2022.08.26.12.41.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Aug 2022 08:10:16 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3v-iiywykcv4che9anckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--glider.bounces.google.com designates 2a00:1450:4864:20::249 as permitted sender) client-ip=2a00:1450:4864:20::249;
-Received: by mail-lj1-x249.google.com with SMTP id k21-20020a2e2415000000b00261e34257b2so674001ljk.0
-        for <kasan-dev@googlegroups.com>; Fri, 26 Aug 2022 08:10:16 -0700 (PDT)
-X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:5207:ac36:fdd3:502d])
- (user=glider job=sendgmr) by 2002:a19:e012:0:b0:492:bec1:7f9d with SMTP id
- x18-20020a19e012000000b00492bec17f9dmr2498937lfg.585.1661526615782; Fri, 26
- Aug 2022 08:10:15 -0700 (PDT)
-Date: Fri, 26 Aug 2022 17:08:07 +0200
-In-Reply-To: <20220826150807.723137-1-glider@google.com>
-Mime-Version: 1.0
-References: <20220826150807.723137-1-glider@google.com>
-X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220826150807.723137-45-glider@google.com>
-Subject: [PATCH v5 44/44] x86: kmsan: enable KMSAN builds for x86
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-To: glider@google.com
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>, 
-	Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Ilya Leoshkevich <iii@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, 
-	Marco Elver <elver@google.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Matthew Wilcox <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
+        Fri, 26 Aug 2022 12:41:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::52d as permitted sender) client-ip=2a00:1450:4864:20::52d;
+Received: by mail-ed1-x52d.google.com with SMTP id 2so3325677edx.2
+        for <kasan-dev@googlegroups.com>; Fri, 26 Aug 2022 12:41:54 -0700 (PDT)
+X-Received: by 2002:a05:6402:b74:b0:447:d664:83f6 with SMTP id cb20-20020a0564020b7400b00447d66483f6mr4463045edb.303.1661542913551;
+        Fri, 26 Aug 2022 12:41:53 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id ku13-20020a170907788d00b0073d53f4e053sm1240386ejc.104.2022.08.26.12.41.53
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Aug 2022 12:41:53 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id p16so1864868ejb.9
+        for <kasan-dev@googlegroups.com>; Fri, 26 Aug 2022 12:41:53 -0700 (PDT)
+X-Received: by 2002:a5d:4052:0:b0:225:8b55:67fd with SMTP id
+ w18-20020a5d4052000000b002258b5567fdmr600450wrp.281.1661542902549; Fri, 26
+ Aug 2022 12:41:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-45-glider@google.com>
+ <YsNIjwTw41y0Ij0n@casper.infradead.org> <CAG_fn=VbvbYVPfdKXrYRTq7HwmvXPQUeUDWZjwe8x8W=ttq6KA@mail.gmail.com>
+ <CAHk-=wg-LXL4ZDMveCf9M7gWWwCMDG1dHCjD7g1u_vUXsU6Bzw@mail.gmail.com> <20220825215754.GI25951@gate.crashing.org>
+In-Reply-To: <20220825215754.GI25951@gate.crashing.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 26 Aug 2022 12:41:25 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wj_nfiLk_bzjD8GWFFzm17syvOYqS=Y7BOarMSTkMiamQ@mail.gmail.com>
+Message-ID: <CAHk-=wj_nfiLk_bzjD8GWFFzm17syvOYqS=Y7BOarMSTkMiamQ@mail.gmail.com>
+Subject: Re: [PATCH v4 44/45] mm: fs: initialize fsdata passed to
+ write_begin/write_end interface
+To: Segher Boessenkool <segher@kernel.crashing.org>
+Cc: Alexander Potapenko <glider@google.com>, Matthew Wilcox <willy@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Alexei Starovoitov <ast@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
+	Mark Rutland <mark.rutland@arm.com>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
 	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+	Steven Rostedt <rostedt@goodmis.org>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux-Arch <linux-arch@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: glider@google.com
+X-Original-Sender: torvalds@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=Q8VLjQ5x;       spf=pass
- (google.com: domain of 3v-iiywykcv4che9anckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::249 as permitted sender) smtp.mailfrom=3V-IIYwYKCV4CHE9ANCKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--glider.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@linux-foundation.org header.s=google header.b=OpNlxqMQ;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
+ 2a00:1450:4864:20::52d as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,101 +154,70 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Make KMSAN usable by adding the necessary Kconfig bits.
+On Thu, Aug 25, 2022 at 3:10 PM Segher Boessenkool
+<segher@kernel.crashing.org> wrote:
+>
+> But UB is defined in terms of the abstract machine (like *all* of C),
+> not in terms of the generated machine code.  Typically things will work
+> fine if they "become invisible" by inlining, but this does not make the
+> program a correct program ever.  Sorry :-(
 
-Also declare x86-specific functions checking address validity
-in arch/x86/include/asm/kmsan.h.
+Yeah, and the abstract machine model based on "abstract syntax" is
+just wrong, wrong, wrong.
 
-Signed-off-by: Alexander Potapenko <glider@google.com>
----
-v4:
- -- per Marco Elver's request, create arch/x86/include/asm/kmsan.h
-    and move arch-specific inline functions there.
+I really wish the C standard people had the guts to just fix it.  At
+some point, relying on tradition when the tradition is bad is not a
+great thing.
 
-Link: https://linux-review.googlesource.com/id/I1d295ce8159ce15faa496d20089d953a919c125e
----
- arch/x86/Kconfig             |  1 +
- arch/x86/include/asm/kmsan.h | 55 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 arch/x86/include/asm/kmsan.h
+It's the same problem that made all the memory ordering discussions
+completely untenable. The language to allow the whole data dependency
+was completely ridiculous, because it became about the C language
+syntax and theory, not about the actual code generation and actual
+*meaning* that the whole thing was *about*.
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 697da8dae1418..bd9436cd0f29b 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -168,6 +168,7 @@ config X86
- 	select HAVE_ARCH_KASAN			if X86_64
- 	select HAVE_ARCH_KASAN_VMALLOC		if X86_64
- 	select HAVE_ARCH_KFENCE
-+	select HAVE_ARCH_KMSAN			if X86_64
- 	select HAVE_ARCH_KGDB
- 	select HAVE_ARCH_MMAP_RND_BITS		if MMU
- 	select HAVE_ARCH_MMAP_RND_COMPAT_BITS	if MMU && COMPAT
-diff --git a/arch/x86/include/asm/kmsan.h b/arch/x86/include/asm/kmsan.h
-new file mode 100644
-index 0000000000000..a790b865d0a68
---- /dev/null
-+++ b/arch/x86/include/asm/kmsan.h
-@@ -0,0 +1,55 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * x86 KMSAN support.
-+ *
-+ * Copyright (C) 2022, Google LLC
-+ * Author: Alexander Potapenko <glider@google.com>
-+ */
-+
-+#ifndef _ASM_X86_KMSAN_H
-+#define _ASM_X86_KMSAN_H
-+
-+#ifndef MODULE
-+
-+#include <asm/processor.h>
-+#include <linux/mmzone.h>
-+
-+/*
-+ * Taken from arch/x86/mm/physaddr.h to avoid using an instrumented version.
-+ */
-+static inline bool kmsan_phys_addr_valid(unsigned long addr)
-+{
-+	if (IS_ENABLED(CONFIG_PHYS_ADDR_T_64BIT))
-+		return !(addr >> boot_cpu_data.x86_phys_bits);
-+	else
-+		return true;
-+}
-+
-+/*
-+ * Taken from arch/x86/mm/physaddr.c to avoid using an instrumented version.
-+ */
-+static inline bool kmsan_virt_addr_valid(void *addr)
-+{
-+	unsigned long x = (unsigned long)addr;
-+	unsigned long y = x - __START_KERNEL_map;
-+
-+	/* use the carry flag to determine if x was < __START_KERNEL_map */
-+	if (unlikely(x > y)) {
-+		x = y + phys_base;
-+
-+		if (y >= KERNEL_IMAGE_SIZE)
-+			return false;
-+	} else {
-+		x = y + (__START_KERNEL_map - PAGE_OFFSET);
-+
-+		/* carry flag will be set if starting x was >= PAGE_OFFSET */
-+		if ((x > y) || !kmsan_phys_addr_valid(x))
-+			return false;
-+	}
-+
-+	return pfn_valid(x >> PAGE_SHIFT);
-+}
-+
-+#endif /* !MODULE */
-+
-+#endif /* _ASM_X86_KMSAN_H */
--- 
-2.37.2.672.g94769d06f0-goog
+Java may be a horrible language that a lot of people hate, but it
+avoided a lot of problems by just making things about an actual
+virtual machine and describing things within a more concrete model of
+a virtual machine.
+
+Then you can just say "this code sequence generates this set of
+operations, and the compiler can optimize it any which way it likes as
+long as the end result is equivalent".
+
+Oh well.
+
+I will repeat: a paper standard that doesn't take reality into account
+is less useful than toilet paper. It's scratchy and not very
+absorbent.
+
+And the kernel will continue to care more about reality than about a C
+standard that does bad things.
+
+Inlining makes the use of the argument go away at the call site and
+moves the code of the function into the body. That's how things
+*work*. That's literally the meaning of inlining.
+
+And inlining in C is so important because macros are weak, and other
+facilities like templates don't exist.
+
+But in the kernel, we also often use it because the actual semantics
+of "not a function call" in terms of code generation is also important
+(ie we have literal cases where "not generating the 'call'
+instruction" is a correctness issue).
+
+If the C standard thinks "undefined argument even for inlining use is
+UB", then it's a case of that paperwork that doesn't reflect reality,
+and we'll treat it with the deference it deserves - is less than
+toilet paper.
+
+We have decades of history of doing that in the kernel. Sometimes the
+standards are just wrong, sometimes they are just too far removed from
+reality to be relevant, and then it's just not worth worrying about
+them.
+
+          Linus
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220826150807.723137-45-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3Dwj_nfiLk_bzjD8GWFFzm17syvOYqS%3DY7BOarMSTkMiamQ%40mail.gmail.com.
