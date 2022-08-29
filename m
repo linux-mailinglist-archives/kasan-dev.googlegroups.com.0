@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBBPLWKMAMGQE73RKEMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBCHLWKMAMGQETYQIYYA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12A35A4C37
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Aug 2022 14:48:06 +0200 (CEST)
-Received: by mail-lf1-x13c.google.com with SMTP id j12-20020a056512344c00b00494698fa6f1sf1200563lfr.5
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Aug 2022 05:48:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661777286; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A91C5A4C38
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Aug 2022 14:48:09 +0200 (CEST)
+Received: by mail-lf1-x138.google.com with SMTP id f38-20020a0565123b2600b0049469e0cab0sf1194486lfv.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Aug 2022 05:48:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661777288; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LtybCTgHdYM0Fu+F+91McqpnABqK+tJrq7Em/6+RVOJMubuVA6b+4DuZl+1NQm0cb5
-         hz3rCQ7VpcGcqMfumhjrgxCse1O9CzFmWFL5x5UodqxcQWftIz3YWvpVICl0/Wve/J58
-         mI2kqNUJXTG/YNNbbrBb2cN9m4xJ3HvRPe/+kc/bOalZpS+GSIlxYy5AwfNtj7ttfOE/
-         xb/RSXHDIF4eRzNpOfxIpmTJuxO478D/B5UaNw91FztE4Ml5pzKPn76bdd8Oqy40bJI0
-         yCnDphdOlkO7r6q64o5Lr6pF+bk2l35sH5c1Z98/lOv3R6vZIck89Q2WVxgaGOqBMtbE
-         L+GQ==
+        b=l1w67L1aT19f5Gc2S3ROw0kU8inwFJB3qoMRiI00+AUYB6z8ANXX2Z4EPByw/iy72M
+         ErSUy3+5MaYCaP2DqqqDSDEas0zHvgYTABKpF08TsiGqKN39wgB0P0PoqfCBsOe5XF+p
+         mUGnV7DLcOosHUjIkDpFPtH4gBnQyofCT/TG56dU9DZLXpiXnKXKQ/BHAXxDsryZAhu0
+         9x8IAwTvr1iEeJHD3hcd8TMr8wE3fAJK6+dQDEpX9qMVR+43h4buK8zQzPCILeqXrQgN
+         fAaU14j+AY15l9BKqHfx/yL4+2z4JaWmNHo0ESYTosoP5TYrscPXrgJpeAlD23SGXc4V
+         4YQQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=vAr1BeqXbg0vm5AeXzKIdwWQCnTX2LlWiLWxy1UUkwg=;
-        b=eU5B8Jm2oExIWsB9JqSl7djQVI9vPI4hgVhBmbGvwBrubxHnBFg5o39soeD0bT00mR
-         VOauRnaaxjZH3DPNKK/ieCeN2tLELdeDj6czP+GZJjLC5mxoI/I5PVaEPllulEsCGEz6
-         eh0K1iuEiYvtyuBeQaeYUNS36mSIB9BuMm9wC/DnlTh3zRcci9GZg66qLZu4e2BFL+rA
-         b9OFqC5itju4jxciqasCMSK0OUOZndGrc6Z0L4ssHxmM4AAxParwMPC8dyc92LcAcZf7
-         OMLFwQfNqz5G4eJx+rz1yvRf2ltBoJRL5qaD1xP478+9RYsnsHTgtql5NhBCDbIjxko0
-         qSmg==
+        bh=opw0uFwROxNPvqxhW8U7xX7Naqwer81Gkhk8T+9KQHg=;
+        b=qica/WxAeuAWrVmRmmbibLKv7fjPHMcGtWgIgq0oN+zY5ciZZit2P9hLWvYpqMNqft
+         ARVfERWHRclua6Si/Yk9hPMFBRiIlDwHPtc45hWemGMo56OS+EfJ6fOxpH64T5LE1zlK
+         K4g3r8Kj/0oxJy462YcV2sy8wWsX5VFHG7Xhsch4L/LAwxr8IqoH+uTO1/uD6NTUkifh
+         z+EKY7sKWaWKQ0P6ocfGfNYeJNiloHeq1jGDyhVLt63bqHK1CfrXHzIv88CXO3f4L+jM
+         TcVgVE4aVmNWrwc5ow/pDHvD9qEEppEPQz7HYKBHSTNJF945KTzUvCK53kBLdQ2q1z1A
+         rAdQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=LRs6v78+;
-       spf=pass (google.com: domain of 3hlumywukcuehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3hLUMYwUKCUEhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=aoWdQSkd;
+       spf=pass (google.com: domain of 3hrumywukcumjq0jwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3hrUMYwUKCUMjq0jwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc;
-        bh=vAr1BeqXbg0vm5AeXzKIdwWQCnTX2LlWiLWxy1UUkwg=;
-        b=CRf03dLncRktZ2PWErZasgnoM/6VPb2NhMll0lTylcG+WlS+oV56nAWuGcFa9YUXqM
-         8BNl7o8/pLlU7KxSwxnOWCDoSOs3btz+FdgIoa5b6S11k44gJzmIzq0dWI3GAEpl55br
-         QsYFeOU22rnk3rGR8PVp8OmriOOcuLNjJ72cq1l9w+tdOeW0uCbMSIRS+s6rxNV6KqNJ
-         wkxnbDN96wlCBaawUclqnF00pY9WU9BEr4s1ECdxGQh32Xq2OoznWUt8RFWa79Hadg/M
-         9Qq/uqjmQKWcNDuWCt3yjOYnaG2BK+OVXqq3aqmq6kwZnAiPLku+AzmMIOYSq3z6J8Y6
-         VE5g==
+        bh=opw0uFwROxNPvqxhW8U7xX7Naqwer81Gkhk8T+9KQHg=;
+        b=ITn/JPnNV8eyqiU+BJV7NK6iCCbeAIVruVdAduQ6hH/YTQ4g/lfWfM53fVFAT8l+1E
+         WByR8/7WcdFu1d2SIFwt5PS1xbtlfOh2ra9RYTk5rp+ttFJz2xcTObRM0hJQ2qAjIxTo
+         MkHW0Jx7+m1zwhjs1i0Y62qQ1o/TblcoegPMaSKWO7S1ZLQ8MF2p2nPIvcS4kIrJwTuS
+         LVra1A3rpMSz3aFBo0Wl90rDXeYZlve3oTgg6HA4rdjFyCARR7RPupmNHS2jpfuSmLvU
+         5l6s980Yufh4v53hniu6LAumKHKjx8LzKV7gRAIc0umuGCaVUYA9Ittvawdamut2MtWI
+         QT4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,66 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc;
-        bh=vAr1BeqXbg0vm5AeXzKIdwWQCnTX2LlWiLWxy1UUkwg=;
-        b=4H00wy7pg9VSJzxoapYsahztDD+2RCQNNp0uKc2EQsNwJN5YDIgEj0CeTsDj51065q
-         NYNbdsCq5WFUxJiTmh/hlcPSf9Eu8qtApX0uFZ6WZurOvVzHLYaJaZpXkPSd5E03jM6L
-         CCDq0sUk6Z9L9qqNQy36ip0nNyIcUneGYOvqY1cBcPW14enqYaslg8dNvGJnDApBhDGb
-         ZlucNj1ylT2+K07rf3/MsD2shIlyDO39h+dT3ukqmTKs/iaJYMu+eRCb2UrL7L/3xwA1
-         waPMiYfkR2on6G8DfABEn+HJmRo4OguF2TdeioMyeXVlZ8i4raKcMtqcdsSA1Rkf+h+3
-         /2aA==
-X-Gm-Message-State: ACgBeo3Oc6jFClMW62VshNutC38TAOvQBz8mzIvwwwaoxbo3cupuTolz
-	mcWy6lydao3AVLtDNSgItCc=
-X-Google-Smtp-Source: AA6agR46h4FY8jUi0Y0Oze8LFJImcFgbX/8u2tUj0kvf2bbDtvRWK7OTRjnoLvPnjyJKwgktLZXimg==
-X-Received: by 2002:a05:6512:1cd:b0:493:1e2:9e53 with SMTP id f13-20020a05651201cd00b0049301e29e53mr6595452lfp.72.1661777285994;
-        Mon, 29 Aug 2022 05:48:05 -0700 (PDT)
+        bh=opw0uFwROxNPvqxhW8U7xX7Naqwer81Gkhk8T+9KQHg=;
+        b=rHzniMKXy799oijqExQzc/Fe5WgtrIwQewUN043kniiw1AuUhrmO+qiclmldpPgFXD
+         9elWXA6dM+EqcIBrsi6C4zmwWj32bQ7DatN1jr7cl3a7V222ag77Tuj6QL1nG+caUOay
+         hZ+LW5ck1P0DCd6go5EnAC6AbNIM1oTtUvkeViEEwSo8bgIeyvcOP+PGTzfeMgiq05jK
+         i3lYif89/lrEitI0DAFLRkwT4vMNtntsW4AWEZ6A1vEdTv5Q2skp4JXgwkIJHItzaK13
+         VDO3nb4QIBvMlNbW4lPUvXdJwbonk6KC0IOkURSeehQNlx8IhLBvTDnDO+ds8wX6pXbO
+         /49g==
+X-Gm-Message-State: ACgBeo0d5wBe2Djc+nJV7bOWfDgPHclO2sBJZ32zIqCf817rDEUcKVWt
+	tBR8ZdsVI6Dfrtx8NdFVA5I=
+X-Google-Smtp-Source: AA6agR7q3ME95vLSKZ+rvyX2WZmuWxyPNHBiSJUNBQbOs1mADrTLZ3uQqqfumWNU83ZBvcHZM/TFSQ==
+X-Received: by 2002:a2e:80c3:0:b0:266:61f8:919e with SMTP id r3-20020a2e80c3000000b0026661f8919emr619244ljg.88.1661777288607;
+        Mon, 29 Aug 2022 05:48:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
 Received: by 2002:a05:6512:20c4:b0:494:6c7d:cf65 with SMTP id
- u4-20020a05651220c400b004946c7dcf65ls1400127lfr.2.-pod-prod-gmail; Mon, 29
- Aug 2022 05:48:04 -0700 (PDT)
-X-Received: by 2002:a05:6512:390f:b0:494:6c9a:bde0 with SMTP id a15-20020a056512390f00b004946c9abde0mr1303993lfu.344.1661777284560;
-        Mon, 29 Aug 2022 05:48:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661777284; cv=none;
+ u4-20020a05651220c400b004946c7dcf65ls1400220lfr.2.-pod-prod-gmail; Mon, 29
+ Aug 2022 05:48:07 -0700 (PDT)
+X-Received: by 2002:a05:6512:5c8:b0:494:6fd1:a935 with SMTP id o8-20020a05651205c800b004946fd1a935mr856248lfo.145.1661777287307;
+        Mon, 29 Aug 2022 05:48:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661777287; cv=none;
         d=google.com; s=arc-20160816;
-        b=sh72lfdoCDsIvN+6f/J2BmNTwTtNiLNllv1nrtNx9ypTSHLWa/DkQg6jrl85DCucrP
-         8VVvqSqEUNowZjrAQCUUgtXPv+b+ece01Xbi/E53HR0n9nkkBiIO02VZFsjQO68Uk3YV
-         IDzd9Vfdg2UT/a0IVYgEGU+uRQRHKk5Bp6xAsX2JUfHIRtknHuw7e0E7HAPKhm9FMA1q
-         2ndco6ol6jD3eGwI132j2i3U0rKGSxhniL3BBpkUd+E6PYC/fla96hCMh6ZPHLgth3WA
-         Cw2kaKmRNaLpNf23v+fBpC2VJphKOsEXuDvT6bWDi4lFQDmLNCR8D33pvWIq87dD+faa
-         FvbQ==
+        b=WsT6udgNE6OU1DxvXBGD+QmK5/vuAyoIqqqOotp27vQv5lOKLFsPuwzuKVJM7I7jQQ
+         n8tIAYDZOkXE6NfbJsdl1o0pQzZ8Px1x9qczBO8Pt6YnMQi1mGSYYWFK1frvDPjmPGBq
+         Qe1Sk4eafJf74GTQytl5hnYXref7OoQXDNrsfJRZ2dhxzSTOnzkhmJA2NbSn9cjGuUyN
+         b+cRyvjxmx7MdUNpA2Jam39RLQdoPw3mRThM9zWwzuVaZ7DrwCsw3ZNZhIo/S+xzwKQR
+         6v9PtWX+oyeHhkL7Xz9mosv8zFz5P6IueGzz/elhFv79rYyYlFudfe0VjKY7sfFHw5yT
+         C2Kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=1tERDk4Y7XiUFi7foUICKHh8rrNwWwU5I8SMJsHxX4c=;
-        b=prSWQXZsI2Hf5P1pyT+QlK7D1mTqn9WF+cXPoVSqVJHsqWq2iVdtdqGF7PbNgAHyCC
-         Nz/ABXPYrjTKQwNT7J4XWNI01nYbMeUBV5SWFcIEElZBq3sH/G+2eMAzBIHx3RKEmSrg
-         HSa6oFzli0Xh3Q85gfNBvnwMeKEwJEzei51ugAn+YwtGZfbn2GUSeldIQsvICclhIu3E
-         Ic+BJcgMN5dZzgU6PIFq3d1o4ZhWpIC1EpQamh+VaiKM4xEdDZNizA6xdmrods6qhbAY
-         +BwEhKVWPOZ+vlF7XAbvTDSj9E0VtRqkmhchkKiF6il3+hmbBYu+ceHywO3TwmON/0oL
-         ogzw==
+        bh=Xnrbr4NWXpH3ILMfaL+Hqy6Mh/173nAe6Rh4Ql+SwwA=;
+        b=QSqgJ+Yipx0Vr/pK15ajMczZeH897EM1GD6pMwYMAwEc3g4PQtFV3isagqMkX+lhcl
+         FyzJfxWqR7LumJI5abhiEtMv5e/Vmfsuc9Wb0xEaHSwo4r9752++RahkSVHEwGM+fHaf
+         Uo8dqLeYLgT8HnOes0HizgiUqXWDJEw/6ZZJNuemb/p83aA6kNIAvS/0Zs2yQsRKSYs1
+         lnPi0nKeSupqwm3JifE/5aPo+ro45KyD7s4EkTeCgs++zWknRJS/McnN1hvH8/47g45S
+         dn+cIVFry5vsZK6hhzHeW2mmoJJldMN99ffRZsF62gImbDkM8JIrltbD9RP+PqsEXCQk
+         95Ag==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=LRs6v78+;
-       spf=pass (google.com: domain of 3hlumywukcuehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3hLUMYwUKCUEhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=aoWdQSkd;
+       spf=pass (google.com: domain of 3hrumywukcumjq0jwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3hrUMYwUKCUMjq0jwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com. [2a00:1450:4864:20::64a])
-        by gmr-mx.google.com with ESMTPS id bd15-20020a05651c168f00b002663282f080si78838ljb.5.2022.08.29.05.48.04
+Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
+        by gmr-mx.google.com with ESMTPS id 22-20020ac25f56000000b0049465aa3228si232105lfz.11.2022.08.29.05.48.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Aug 2022 05:48:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3hlumywukcuehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) client-ip=2a00:1450:4864:20::64a;
-Received: by mail-ej1-x64a.google.com with SMTP id nb19-20020a1709071c9300b0074151953770so1223281ejc.21
-        for <kasan-dev@googlegroups.com>; Mon, 29 Aug 2022 05:48:04 -0700 (PDT)
+        Mon, 29 Aug 2022 05:48:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3hrumywukcumjq0jwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
+Received: by mail-ed1-x549.google.com with SMTP id dz16-20020a0564021d5000b004489f04cc2cso694006edb.10
+        for <kasan-dev@googlegroups.com>; Mon, 29 Aug 2022 05:48:07 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:196d:4fc7:fa9c:62e3])
- (user=elver job=sendgmr) by 2002:a05:6402:2707:b0:448:ad8e:39c1 with SMTP id
- y7-20020a056402270700b00448ad8e39c1mr265466edd.315.1661777284113; Mon, 29 Aug
- 2022 05:48:04 -0700 (PDT)
-Date: Mon, 29 Aug 2022 14:47:07 +0200
+ (user=elver job=sendgmr) by 2002:aa7:c946:0:b0:43d:3038:1381 with SMTP id
+ h6-20020aa7c946000000b0043d30381381mr16380942edt.354.1661777286713; Mon, 29
+ Aug 2022 05:48:06 -0700 (PDT)
+Date: Mon, 29 Aug 2022 14:47:08 +0200
 In-Reply-To: <20220829124719.675715-1-elver@google.com>
 Mime-Version: 1.0
 References: <20220829124719.675715-1-elver@google.com>
 X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220829124719.675715-3-elver@google.com>
-Subject: [PATCH v4 02/14] perf/hw_breakpoint: Provide hw_breakpoint_is_used()
- and use in test
+Message-ID: <20220829124719.675715-4-elver@google.com>
+Subject: [PATCH v4 03/14] perf/hw_breakpoint: Clean up headers
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>
@@ -124,9 +123,9 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Arnaldo Carvalho de Melo <acme@kernel.
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=LRs6v78+;       spf=pass
- (google.com: domain of 3hlumywukcuehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3hLUMYwUKCUEhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=aoWdQSkd;       spf=pass
+ (google.com: domain of 3hrumywukcumjq0jwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3hrUMYwUKCUMjq0jwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -142,119 +141,75 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Provide hw_breakpoint_is_used() to check if breakpoints are in use on
-the system.
+Clean up headers:
 
-Use it in the KUnit test to verify the global state before and after a
-test case.
+ - Remove unused <linux/kallsyms.h>
+
+ - Remove unused <linux/kprobes.h>
+
+ - Remove unused <linux/module.h>
+
+ - Remove unused <linux/smp.h>
+
+ - Add <linux/export.h> for EXPORT_SYMBOL_GPL().
+
+ - Add <linux/mutex.h> for mutex.
+
+ - Sort alphabetically.
+
+ - Move <linux/hw_breakpoint.h> to top to test it compiles on its own.
 
 Signed-off-by: Marco Elver <elver@google.com>
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+Acked-by: Dmitry Vyukov <dvyukov@google.com>
 Acked-by: Ian Rogers <irogers@google.com>
 ---
-v3:
-* New patch.
+v2:
+* Move to start of series.
 ---
- include/linux/hw_breakpoint.h      |  3 +++
- kernel/events/hw_breakpoint.c      | 29 +++++++++++++++++++++++++++++
- kernel/events/hw_breakpoint_test.c | 12 +++++++++++-
- 3 files changed, 43 insertions(+), 1 deletion(-)
+ kernel/events/hw_breakpoint.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/hw_breakpoint.h b/include/linux/hw_breakpoint.h
-index 78dd7035d1e5..a3fb846705eb 100644
---- a/include/linux/hw_breakpoint.h
-+++ b/include/linux/hw_breakpoint.h
-@@ -74,6 +74,7 @@ register_wide_hw_breakpoint(struct perf_event_attr *attr,
- extern int register_perf_hw_breakpoint(struct perf_event *bp);
- extern void unregister_hw_breakpoint(struct perf_event *bp);
- extern void unregister_wide_hw_breakpoint(struct perf_event * __percpu *cpu_events);
-+extern bool hw_breakpoint_is_used(void);
- 
- extern int dbg_reserve_bp_slot(struct perf_event *bp);
- extern int dbg_release_bp_slot(struct perf_event *bp);
-@@ -121,6 +122,8 @@ register_perf_hw_breakpoint(struct perf_event *bp)	{ return -ENOSYS; }
- static inline void unregister_hw_breakpoint(struct perf_event *bp)	{ }
- static inline void
- unregister_wide_hw_breakpoint(struct perf_event * __percpu *cpu_events)	{ }
-+static inline bool hw_breakpoint_is_used(void)		{ return false; }
-+
- static inline int
- reserve_bp_slot(struct perf_event *bp)			{return -ENOSYS; }
- static inline void release_bp_slot(struct perf_event *bp) 		{ }
 diff --git a/kernel/events/hw_breakpoint.c b/kernel/events/hw_breakpoint.c
-index f32320ac02fd..fd5cd1f9e7fc 100644
+index fd5cd1f9e7fc..6076c6346291 100644
 --- a/kernel/events/hw_breakpoint.c
 +++ b/kernel/events/hw_breakpoint.c
-@@ -604,6 +604,35 @@ void unregister_wide_hw_breakpoint(struct perf_event * __percpu *cpu_events)
- }
- EXPORT_SYMBOL_GPL(unregister_wide_hw_breakpoint);
+@@ -17,23 +17,22 @@
+  * This file contains the arch-independent routines.
+  */
  
-+/**
-+ * hw_breakpoint_is_used - check if breakpoints are currently used
-+ *
-+ * Returns: true if breakpoints are used, false otherwise.
-+ */
-+bool hw_breakpoint_is_used(void)
-+{
-+	int cpu;
++#include <linux/hw_breakpoint.h>
 +
-+	if (!constraints_initialized)
-+		return false;
-+
-+	for_each_possible_cpu(cpu) {
-+		for (int type = 0; type < TYPE_MAX; ++type) {
-+			struct bp_cpuinfo *info = get_bp_info(cpu, type);
-+
-+			if (info->cpu_pinned)
-+				return true;
-+
-+			for (int slot = 0; slot < nr_slots[type]; ++slot) {
-+				if (info->tsk_pinned[slot])
-+					return true;
-+			}
-+		}
-+	}
-+
-+	return false;
-+}
-+
- static struct notifier_block hw_breakpoint_exceptions_nb = {
- 	.notifier_call = hw_breakpoint_exceptions_notify,
- 	/* we need to be notified first */
-diff --git a/kernel/events/hw_breakpoint_test.c b/kernel/events/hw_breakpoint_test.c
-index 433c5c45e2a5..5ced822df788 100644
---- a/kernel/events/hw_breakpoint_test.c
-+++ b/kernel/events/hw_breakpoint_test.c
-@@ -294,7 +294,14 @@ static struct kunit_case hw_breakpoint_test_cases[] = {
- static int test_init(struct kunit *test)
- {
- 	/* Most test cases want 2 distinct CPUs. */
--	return num_online_cpus() < 2 ? -EINVAL : 0;
-+	if (num_online_cpus() < 2)
-+		return -EINVAL;
-+
-+	/* Want the system to not use breakpoints elsewhere. */
-+	if (hw_breakpoint_is_used())
-+		return -EBUSY;
-+
-+	return 0;
- }
++#include <linux/bug.h>
++#include <linux/cpu.h>
++#include <linux/export.h>
++#include <linux/init.h>
+ #include <linux/irqflags.h>
+-#include <linux/kallsyms.h>
+-#include <linux/notifier.h>
+-#include <linux/kprobes.h>
+ #include <linux/kdebug.h>
+ #include <linux/kernel.h>
+-#include <linux/module.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
++#include <linux/notifier.h>
+ #include <linux/percpu.h>
+ #include <linux/sched.h>
+-#include <linux/init.h>
+ #include <linux/slab.h>
+-#include <linux/list.h>
+-#include <linux/cpu.h>
+-#include <linux/smp.h>
+-#include <linux/bug.h>
  
- static void test_exit(struct kunit *test)
-@@ -308,6 +315,9 @@ static void test_exit(struct kunit *test)
- 		kthread_stop(__other_task);
- 		__other_task = NULL;
- 	}
-+
-+	/* Verify that internal state agrees that no breakpoints are in use. */
-+	KUNIT_EXPECT_FALSE(test, hw_breakpoint_is_used());
- }
- 
- static struct kunit_suite hw_breakpoint_test_suite = {
+-#include <linux/hw_breakpoint.h>
+ /*
+  * Constraints data
+  */
 -- 
 2.37.2.672.g94769d06f0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220829124719.675715-3-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220829124719.675715-4-elver%40google.com.
