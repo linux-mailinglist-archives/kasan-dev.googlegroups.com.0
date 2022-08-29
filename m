@@ -1,132 +1,143 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBQNMWGMAMGQEWWE66SQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBGHWWGMAMGQEENUSRNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D015A42DB
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Aug 2022 08:01:39 +0200 (CEST)
-Received: by mail-qk1-x739.google.com with SMTP id l15-20020a05620a28cf00b006b46997c070sf5943990qkp.20
-        for <lists+kasan-dev@lfdr.de>; Sun, 28 Aug 2022 23:01:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661752898; cv=pass;
+Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9385A4546
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Aug 2022 10:38:49 +0200 (CEST)
+Received: by mail-ed1-x538.google.com with SMTP id b12-20020a056402278c00b00447f2029741sf5001079ede.23
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Aug 2022 01:38:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661762329; cv=pass;
         d=google.com; s=arc-20160816;
-        b=THkOw+s0HrcT98CcJVMyAesoKRolnEtuAIa4CDTENAC3rNpjzYU4d+IVetMe9/Nerh
-         pOP2YfYWmanuj0M9My0Dpk/kbv+Qy9lxck1/5Qxt4XLUPnposJY9ySzidj+XNKRNakSN
-         O9jX4R+IkcLm/wqfqkdI6oxRZdFptZXyozDVzhwkiIikGgU5dME51DHMikmDTzTgkxEM
-         AKwo6yZZfK9X0BVrNC5RgbOcCyqc+JFL4yfwGbtyWNJGYpgvxkx4ujynjMdZOEQgZvkB
-         ZUP4EPmTQSREhOzXkZ73gFUJqmoT++Ff7ozEi/1IOLHyeaT8WyOxJqlDUfSQ+0+keTtl
-         +e6g==
+        b=szq7+Sxvrb3gSCs5vX/xY/uoMOQfV7uY4Iuplh+rQzVbzckoLCsl+/NiGEcm8lSWlI
+         nWWwXOZnOqwrCR64UnqGLYE6k9MueZT1ZEklrCmXJPFDZbvu/lekAl2m4cqV2MZZOw1U
+         Dt93LWoSk8SC0i/G0miqS00Ojp45OwoocmlNhC2vbMGvcIv6BEDpy6sAc27ngxgrSis5
+         sOXYZav63S5BP1Arxh7u9uv+AVOlfc8dcJJr0U4R7tBc2KxttuDoopMyAT9S3Fj88JYn
+         bFUIVOrZ+n6nhnyAIRvkHfblKWAsnr3KOhEcKzK08DfEVJZ+E6goqpbcGjL37Rm73LAK
+         lKtA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Pz5nxu1GegpViUZTM0KsHqR9UCE1CamEkGBAm6ALRgs=;
-        b=TnOofXRxmDLY+B0iKSa2TkcoJxKiQU3/t9IUkgjQbkBHByAQvW+oCDyN8MecEFiMmU
-         zTDekTn/9kKTzYcZGK82nFOUniDfjDkf11rLupUJJze3cPfnNerHTm9tniFty8tX67aG
-         XeEAzZEo57teAAoV7kZLdyYNh2yjL32+wy/DO6fR/MiiDfG7CMrvhPZQFwVx/HOrsJDo
-         ywtbQz4MpMjzZKUprT4zCp17aKjhrB3SRuCbmy7nZxocibNuAgY+xHatm1Q4vfEYuQ3o
-         OL5F1oA6sSneP7W11GOylWW1nhZM2iJ7vUMWqaQgVqYeJ7wcnRCgsaQezZ2UjqPHaAYZ
-         ouhw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=Otp0s9X72j3a7jwhBcrgYNK7/WlcMhOEp1FmB8RLy/c=;
+        b=gUan5Owf5ybY5Azo2XtoRamLffJt17069e2dKjcyV4C+gISeq+RLhuPAgHP2bbomGN
+         9INq9SizhMxq+uluuj6yTLcpC7HrWyIaQZLtUEpMOJ+k6c5Fq0IzrK96pOfpvzVLyj37
+         7Kuk/km0A5qpvdiVVjsx7gKVxLbBZ1k8c1en961diMeacMqTfYIKO2DgeSJE5632Bj4U
+         gHFGap0ofHnyCiBZ2SU8FcIVfms/8DYMr21CHuoVx9e14hPkVGgCtTJoOjkFI19ccZiW
+         9NUn758MYqLN0MNm07GvLGXcWs8ZFNQQgd8QaZ46LwSqFweF5TTfKrR6PowQWOkAcwNA
+         aO9w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=XY395wkd;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=VnpBQLFt;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc;
-        bh=Pz5nxu1GegpViUZTM0KsHqR9UCE1CamEkGBAm6ALRgs=;
-        b=B1zQmppjSNQ53pQTyJOr4r0t2CBri32NlSjcUjW5nTbvv56JS0gIdszIuSTyMzdogl
-         0RKQVvFyYT3T5gisKAjKiweN6501OgXfY1kQ6uwJrW+cw8+awaayLYZrXr4mTuJkuVYs
-         wWY1rHnmW1bjz5LGlFZMXjP0iVnFJ4KSUaUlDT/qTgmyMuLvBBU9VwIMgxL8BRkONFve
-         JmkQUc7XsC8cIDWm+ICHLcEsUuTdwKP7yy8pKulbFg+pKuteBKdxTGpTZEA+2VXTe0Fu
-         haScgi+99Ihli4rWuXgvlgP9X1k1FVXjL7wr9ZK55ekLTA5r4xALxGxmPdjiL9Nnmqwb
-         qcgA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc;
+        bh=Otp0s9X72j3a7jwhBcrgYNK7/WlcMhOEp1FmB8RLy/c=;
+        b=Ojd12UQd0ywYhSwFDbSqajWyagGak158Iw7eBEjUwbr9o5yaEmxIdWBVYui8pHjuo2
+         CtORpVA+6eUVOiMUyfcgH3Jrh1BtQBMLUOM37dkQl2L+iJCmwd/VVVVybIgewFc8I2A5
+         dTqzrVyFbptKHimZo/OaoUL3CFu4JnbwUuxhotBLoxffQTk63ChHqUXjXe+MgumjxdFZ
+         XDQFy0Gmga08lpzFC3030cp6J9SEqo8SSU6F0rTiwSBgIGp+56UC/5z8HZ8tjinS2SAB
+         LX1XY7Q8PBIssEceAr56d3uQSCk1uvgkNN0PtT3S42l6BeKmzWsqn3pzROeIHoRez1RQ
+         0x1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc;
-        bh=Pz5nxu1GegpViUZTM0KsHqR9UCE1CamEkGBAm6ALRgs=;
-        b=fqvfuicErmDtHLe2+jSmJ3FWgDPyUwK/IcWabOGYhM+UJ1Esadi0O0Y0Ql+x2sr8CN
-         8gdKxnN5dVS/3NKybljBJCej4VkpV66Ab8UoBLaONjiisSFNG59AT8lfr3l+7hSx51UV
-         Aq5L3h0SEYeDxP7GSvIXOLMBDkkYG+cup+Y29OC8KufAAgrwmSOMMA22MSebWwaii6uH
-         iuhBxayENf8WA9MR6pyYiWaqFUg6pQqO9Koyz/IVIUvPCk2zsCQ0QJrFpMp4aBua7jv9
-         sDp8r3vnK/8tCGNLdI5JzNb1MOU6nFNxbvQH50i3Cgi0eNKy0cO0omM+MjHv5gYqZ0J5
-         ETeg==
-X-Gm-Message-State: ACgBeo3Qc+4pgfE1Bn2OjbWPibQGU6NHRLCF1Ny+L7+liMk3OaYc9vGe
-	H9VQwtZCA8i32yjNJU/DKEE=
-X-Google-Smtp-Source: AA6agR4YBYlqunUbjxd7xW+P8HDHV34WlGWSnqvp0upYGD6fKtlExLaP4my23nINaKGNyEuCSkK/ZA==
-X-Received: by 2002:a05:6214:1c8c:b0:473:408f:ddd6 with SMTP id ib12-20020a0562141c8c00b00473408fddd6mr9567084qvb.74.1661752897874;
-        Sun, 28 Aug 2022 23:01:37 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc;
+        bh=Otp0s9X72j3a7jwhBcrgYNK7/WlcMhOEp1FmB8RLy/c=;
+        b=GHM/uf3kHmuYUpsuxz0953uZcIcwygvj6o0AJzZUgvzYp+aj6ZpH30WRcL2BGhdeXR
+         jXmgn9SE2OKh40RzQqhSRfeDgPzyWeRfVU81941kUr+Ow1lN31t8KHrSpEWZ29HvgJL2
+         IVNnFG37D/TssOjllE1ORIVKUOPr8Couj58H5cIrilH+8HMRuX2rWUmghKrfdnAUtN1y
+         LeXHYKwpXiP4RwYlptTDfvXIduhUfzb8yTAnRIb6uIRezZmqZeT24rE22pYmL3wEvQES
+         bz584FONmYKvWhLwha+vRd0rIQN4WPkn12I8Sd0HS3/y1qZvG1lCPmuhkllKxqdhta1n
+         0nAQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACgBeo218mHY8P29+wiowy9ejQ1tKXDq8KmsfH5LCl5nlut9a47pIAMl
+	aZUKR+7JnzzT5/o3dCXVF4A=
+X-Google-Smtp-Source: AA6agR4NPP5L1VzewxoOqXb40Yxa5xr7JGajaRqdvVBbU4f2eFNCZaWbsTKtv+7hQMITxvyN65G0OQ==
+X-Received: by 2002:a05:6402:3d4:b0:447:86c6:3a26 with SMTP id t20-20020a05640203d400b0044786c63a26mr15937598edw.141.1661762328792;
+        Mon, 29 Aug 2022 01:38:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:118f:b0:6b9:57ca:5d1 with SMTP id
- b15-20020a05620a118f00b006b957ca05d1ls3447486qkk.0.-pod-prod-gmail; Sun, 28
- Aug 2022 23:01:37 -0700 (PDT)
-X-Received: by 2002:a37:ef0d:0:b0:6bb:4ec8:b312 with SMTP id j13-20020a37ef0d000000b006bb4ec8b312mr7124488qkk.249.1661752897252;
-        Sun, 28 Aug 2022 23:01:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661752897; cv=none;
+Received: by 2002:a17:906:e0c7:b0:73d:75ed:a850 with SMTP id
+ gl7-20020a170906e0c700b0073d75eda850ls4919140ejb.2.-pod-prod-gmail; Mon, 29
+ Aug 2022 01:38:47 -0700 (PDT)
+X-Received: by 2002:a17:907:75ec:b0:741:484b:3ca4 with SMTP id jz12-20020a17090775ec00b00741484b3ca4mr6523061ejc.316.1661762327518;
+        Mon, 29 Aug 2022 01:38:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661762327; cv=none;
         d=google.com; s=arc-20160816;
-        b=Bud6qpiFbkizLdn8AvDl27NaOD3qHsfuQ6pO18LBNUUr/nSW2DvCrbSxA3aLpj7w1y
-         71mc8s4cjS7ExFSiqKTmANT/4dz1lprNOHe/8rPXooP8jBQ8QImc9qZ8s65YM/uXcKgl
-         ClQJWEn3f1tME+dwRj41Ll11LgaXoYIGGX0YUhKzJtvzi6y6fJu9XRoyhbK+WAvZh8xp
-         7jmcXdrM1F5RrJIKnHRNBH+NfokNO8C5IqPdtFeeZjVGNwLKTkl5oOhabj4o8BKaVvEQ
-         X1HGI/zVCH4YeCkrQ7ByTWivZITLwCfXaJ+KUcC5A6RiMcsM0WKaSWX7M5NUHZ9+BrDP
-         qzkw==
+        b=j3DTWAA5xmKhUcZ2FO/fkXYZ1lnPdQ1nFM5/O0iefjI/8TqivTfMBX/8dS78mbqPEk
+         Ydz3Tt2EvdgYWX1otaa7QyonZD4m98w5nfv5bVwb0WfOrHgijKTS4vezV0UPhXkixAWe
+         5V2OeDRAEH+HaAHts57bmCjs9JzN2u4bD06z24xCAnwVDZgdXypazn8yzbPzqCJiuSnF
+         1MtJ9QxWk/XuDKx98XaTXAbHnacdDQuzcak1Az6HZNPOtwgS1wTmNmDNQUvnVQ/VQx27
+         XXF4NpD/4f+9r6voY8r5JKUmgUfa+UjPHnaRwnAuM/Vdn4/S922ff5kOPZ16Vo+DSpIw
+         lpdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=GcD+HCTsL9PhfIoNQS6OfBy4IaHMHLVbPkWLbk6HzGE=;
-        b=lXzjAejVnAzysy35U8sqtHBmMGdQwdmuAugkU1o6mPYZNxS4TuQTE/dp8ZqlaVgTJ8
-         xwPXfZIKFDIqadFuPVJ7qB6aUfC7zR5WxjZzAvcKFRN7ugzlPk6/V+nTjSmgNju1xzfO
-         jAqsZNyRuWRP2FWq4JaeuWso53gWpVQbxVBnJEf9jVDAXCdrjTvsHoEdNZ+iDxnH9M1T
-         Y8I9JG6ou9hPLKY3BaYXWOpK8fLY8IC86X8q7yyYvlj0NwCpiXK+cGQhw981M0OvMAGk
-         IZEGbxf1fCa6oPTFkyi/kgrqeB+KJ4YH3XxDVz1oodxZwaBqXs/PmnDf2ShE847M69N5
-         2wfg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=enW5V6g2WX8qHIsfLn2eVhcqKoAKV5YXSn+3ybsOepY=;
+        b=ycVM9qDjNdMiy8dfQ769vApVKB2+160IY08/0X48K3+gkMvcqPaVjVytiiRnXQhuFD
+         40n6Odl/9oUHkdb3T8PNVGzkd+FMkwTJmJHR9qs8BXPz/PD8n3BByC4NiJuFSVm7LrKQ
+         d2zqLVBFJqDuNrplazpT2h7NuhzMb7RQOso/QzIyVhlCyBIrlD+t9M3nUjyHLrcyh4Nz
+         L6xRJ2wmWsIzibwq44fqy9mc93O19ptXpFz5WabHtdiNBM0pgRarrqgEMS/vyRvVYLFm
+         5bsD0N/p50hjBfXfY/eBGW2daLIdv7y07YeGREvnRy8SRyxKIjmkMiy/dhzq8ovkj3o0
+         FIBw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=XY395wkd;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com. [2607:f8b0:4864:20::112d])
-        by gmr-mx.google.com with ESMTPS id w14-20020a05620a128e00b006b95a1880d8si211862qki.7.2022.08.28.23.01.37
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=VnpBQLFt;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id y26-20020a50e61a000000b00443fc51752dsi352935edm.0.2022.08.29.01.38.47
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Aug 2022 23:01:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as permitted sender) client-ip=2607:f8b0:4864:20::112d;
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-333a4a5d495so170110667b3.10
-        for <kasan-dev@googlegroups.com>; Sun, 28 Aug 2022 23:01:37 -0700 (PDT)
-X-Received: by 2002:a0d:ea49:0:b0:33d:bce7:25c2 with SMTP id
- t70-20020a0dea49000000b0033dbce725c2mr8651338ywe.267.1661752896882; Sun, 28
- Aug 2022 23:01:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220704150514.48816-1-elver@google.com> <20220704150514.48816-11-elver@google.com>
- <YvzjeEHYX9d5dhAt@worktop.programming.kicks-ass.net>
-In-Reply-To: <YvzjeEHYX9d5dhAt@worktop.programming.kicks-ass.net>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 29 Aug 2022 08:00:00 +0200
-Message-ID: <CANpmjNPSOnMN3Fc4yxoArTytQcW4n6sPCN-LnisTn58xLU=4HA@mail.gmail.com>
-Subject: Re: [PATCH v3 10/14] locking/percpu-rwsem: Add percpu_is_write_locked()
- and percpu_is_read_locked()
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@redhat.com>, 
-	Namhyung Kim <namhyung@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org, 
-	linux-perf-users@vger.kernel.org, x86@kernel.org, linux-sh@vger.kernel.org, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Aug 2022 01:38:47 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oSaI2-007RqX-4b; Mon, 29 Aug 2022 08:38:38 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 529D3300137;
+	Mon, 29 Aug 2022 10:38:35 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 0F059202547D2; Mon, 29 Aug 2022 10:38:35 +0200 (CEST)
+Date: Mon, 29 Aug 2022 10:38:34 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	linuxppc-dev@lists.ozlabs.org, linux-perf-users@vger.kernel.org,
+	x86@kernel.org, linux-sh@vger.kernel.org,
 	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 11/14] perf/hw_breakpoint: Reduce contention with
+ large number of tasks
+Message-ID: <Ywx7CmbG+f+wg04z@hirez.programming.kicks-ass.net>
+References: <20220704150514.48816-1-elver@google.com>
+ <20220704150514.48816-12-elver@google.com>
+ <YvznKYgRKjDRSMkT@worktop.programming.kicks-ass.net>
+ <CANpmjNN1vv9oDpm1_c99tQKgWVVtXza++u1xcBVeb5mhx5eUHw@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNN1vv9oDpm1_c99tQKgWVVtXza++u1xcBVeb5mhx5eUHw@mail.gmail.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=XY395wkd;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@infradead.org header.s=desiato.20200630 header.b=VnpBQLFt;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as
+ permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,43 +150,64 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 17 Aug 2022 at 14:48, Peter Zijlstra <peterz@infradead.org> wrote:
-> On Mon, Jul 04, 2022 at 05:05:10PM +0200, Marco Elver wrote:
-> > +bool percpu_is_read_locked(struct percpu_rw_semaphore *sem)
-> > +{
-> > +     return per_cpu_sum(*sem->read_count) != 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(percpu_is_read_locked);
->
-> I don't think this is correct; read_count can have spurious increments.
->
-> If we look at __percpu_down_read_trylock(), it does roughly something
-> like this:
->
->         this_cpu_inc(*sem->read_count);
->         smp_mb();
->         if (!sem->block)
->                 return true;
->         this_cpu_dec(*sem->read_count);
->         return false;
->
-> So percpu_is_read_locked() needs to ensure the read_count is non-zero
-> *and* that block is not set.
+On Wed, Aug 17, 2022 at 03:14:54PM +0200, Marco Elver wrote:
+> On Wed, 17 Aug 2022 at 15:03, Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > On Mon, Jul 04, 2022 at 05:05:11PM +0200, Marco Elver wrote:
+> > > +static bool bp_constraints_is_locked(struct perf_event *bp)
+> > > +{
+> > > +     struct mutex *tsk_mtx = get_task_bps_mutex(bp);
+> > > +
+> > > +     return percpu_is_write_locked(&bp_cpuinfo_sem) ||
+> > > +            (tsk_mtx ? mutex_is_locked(tsk_mtx) :
+> > > +                       percpu_is_read_locked(&bp_cpuinfo_sem));
+> > > +}
+> >
+> > > @@ -426,18 +521,28 @@ static int modify_bp_slot(struct perf_event *bp, u64 old_type, u64 new_type)
+> > >   */
+> > >  int dbg_reserve_bp_slot(struct perf_event *bp)
+> > >  {
+> > > -     if (mutex_is_locked(&nr_bp_mutex))
+> > > +     int ret;
+> > > +
+> > > +     if (bp_constraints_is_locked(bp))
+> > >               return -1;
+> > >
+> > > -     return __reserve_bp_slot(bp, bp->attr.bp_type);
+> > > +     /* Locks aren't held; disable lockdep assert checking. */
+> > > +     lockdep_off();
+> > > +     ret = __reserve_bp_slot(bp, bp->attr.bp_type);
+> > > +     lockdep_on();
+> > > +
+> > > +     return ret;
+> > >  }
+> > >
+> > >  int dbg_release_bp_slot(struct perf_event *bp)
+> > >  {
+> > > -     if (mutex_is_locked(&nr_bp_mutex))
+> > > +     if (bp_constraints_is_locked(bp))
+> > >               return -1;
+> > >
+> > > +     /* Locks aren't held; disable lockdep assert checking. */
+> > > +     lockdep_off();
+> > >       __release_bp_slot(bp, bp->attr.bp_type);
+> > > +     lockdep_on();
+> > >
+> > >       return 0;
+> > >  }
+> >
+> > Urggghhhh... this is horrible crap. That is, the current code is that
+> > and this makes it worse :/
+> 
+> Heh, yes and when I looked at it I really wanted to see if it can
+> change. But from what I can tell, when the kernel debugger is being
+> attached, the kernel does stop everything it does and we need the
+> horrible thing above to not deadlock. And these dbg_ functions are not
+> normally used, so I decided to leave it as-is. Suggestions?
 
-I shall go and fix. v4 incoming (if more comments before that, please shout).
-
-> That said; I really dislike the whole _is_locked family with a passion.
-> Let me try and figure out what you need this for.
-
-As in the other email, it's for the dbg_*() functions for kgdb's
-benefit (avoiding deadlock if kgdb wants a breakpoint, while we're in
-the process of handing out a breakpoint elsewhere and have the locks
-taken).
-
-Thanks,
--- Marco
+What context is this ran in? NMI should already have lockdep disabled.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPSOnMN3Fc4yxoArTytQcW4n6sPCN-LnisTn58xLU%3D4HA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Ywx7CmbG%2Bf%2Bwg04z%40hirez.programming.kicks-ass.net.
