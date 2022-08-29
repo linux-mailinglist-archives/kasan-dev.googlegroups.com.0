@@ -1,180 +1,132 @@
-Return-Path: <kasan-dev+bncBCJZ5QGEQAFBB44ZVKMAMGQEHJOSIKQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBQNMWGMAMGQEWWE66SQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E545A3A17
-	for <lists+kasan-dev@lfdr.de>; Sat, 27 Aug 2022 23:30:27 +0200 (CEST)
-Received: by mail-wm1-x339.google.com with SMTP id ay21-20020a05600c1e1500b003a6271a9718sf2761908wmb.0
-        for <lists+kasan-dev@lfdr.de>; Sat, 27 Aug 2022 14:30:27 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1661635827; cv=pass;
+Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D015A42DB
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Aug 2022 08:01:39 +0200 (CEST)
+Received: by mail-qk1-x739.google.com with SMTP id l15-20020a05620a28cf00b006b46997c070sf5943990qkp.20
+        for <lists+kasan-dev@lfdr.de>; Sun, 28 Aug 2022 23:01:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661752898; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lQ3HX9SVowSKrDwUeYyUdheq8brqekuNAyKdBxAjYvj30wGnXj8mKFEG75shXLWopG
-         tpD0Y1aQekSPwnT7jtRoQvvoW+Rk12RJeTolm4tNIgs3uOch7nH+sleErA2gp9dUt8us
-         +70qbpSbM/tFThs7GGohPeLCqeX9wQS5CuSZLAn4CjD12WIliFt2OnMDZGw7yfBPPfCL
-         xCtV7sT99YTXo6w2CQzmp+J9XTASOr2wnXhIqRG3XxZqAr0UzBz/j2cr2jaZO4rvX3xe
-         q9N0mOY021C/rMN0pVlk0gufRB5Xw8+2j9/OiMPoBz6dAWJJIg6SPjxFh5z/FvIZITb0
-         nCQA==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=THkOw+s0HrcT98CcJVMyAesoKRolnEtuAIa4CDTENAC3rNpjzYU4d+IVetMe9/Nerh
+         pOP2YfYWmanuj0M9My0Dpk/kbv+Qy9lxck1/5Qxt4XLUPnposJY9ySzidj+XNKRNakSN
+         O9jX4R+IkcLm/wqfqkdI6oxRZdFptZXyozDVzhwkiIikGgU5dME51DHMikmDTzTgkxEM
+         AKwo6yZZfK9X0BVrNC5RgbOcCyqc+JFL4yfwGbtyWNJGYpgvxkx4ujynjMdZOEQgZvkB
+         ZUP4EPmTQSREhOzXkZ73gFUJqmoT++Ff7ozEi/1IOLHyeaT8WyOxJqlDUfSQ+0+keTtl
+         +e6g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=zk13a2wDxPbPwS6F9muX+U0Rh+2AIy5htDo1pByYht4=;
-        b=svktKTzqy9fMFfgzmm/bdk1NRkPD0DsMZGwbSCP16Dszvn57/Om0s16CibwkpzeuH0
-         61pKGDXl3CS/V0Swq61+X7/DMVdes/v938NA8gHQlNikF9s80McrklrdSUnoO++d+nCc
-         AKARTbk++0yj7dcBXT2VvoMU1w2WtE5CT0FDiscQSbHLyEPkRSoWkzIz+2P2Bm4gBuf1
-         XmY6JZDRjpLUJgIcRAd1yK1vtSF4OOKbLlXp8HwWDQ8PH4CDM5M+3f7GEOtziIt3mhJC
-         p7+jMn8gbnLpMAiXkHSSIIoOExTRZVUvfXK995mdhXVLwvDjN9OjNWZ+pvB1HKeUWhvt
-         KmSQ==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@nokia.onmicrosoft.com header.s=selector1-nokia-onmicrosoft-com header.b=T40zAiOB;
-       arc=pass (i=1 spf=pass spfdomain=nokia.com dmarc=pass fromdomain=nokia.com);
-       spf=pass (google.com: domain of alexander.sverdlin@nokia.com designates 40.107.21.90 as permitted sender) smtp.mailfrom=alexander.sverdlin@nokia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nokia.com
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=Pz5nxu1GegpViUZTM0KsHqR9UCE1CamEkGBAm6ALRgs=;
+        b=TnOofXRxmDLY+B0iKSa2TkcoJxKiQU3/t9IUkgjQbkBHByAQvW+oCDyN8MecEFiMmU
+         zTDekTn/9kKTzYcZGK82nFOUniDfjDkf11rLupUJJze3cPfnNerHTm9tniFty8tX67aG
+         XeEAzZEo57teAAoV7kZLdyYNh2yjL32+wy/DO6fR/MiiDfG7CMrvhPZQFwVx/HOrsJDo
+         ywtbQz4MpMjzZKUprT4zCp17aKjhrB3SRuCbmy7nZxocibNuAgY+xHatm1Q4vfEYuQ3o
+         OL5F1oA6sSneP7W11GOylWW1nhZM2iJ7vUMWqaQgVqYeJ7wcnRCgsaQezZ2UjqPHaAYZ
+         ouhw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=XY395wkd;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc;
-        bh=zk13a2wDxPbPwS6F9muX+U0Rh+2AIy5htDo1pByYht4=;
-        b=e3pC1Z47/3Lv9xfS3f1tKxk/27arweh4oo52gmgCTE3h8Hn/UV2pFaICQVERMZ10zq
-         FIh/aPVZSh9c5Vke8Qh/+1Vs3LHMNIFAg4Hb8Ej86H6OXBu3uu+MeGvVjxxm7v2NznQG
-         UBJR5Ayi9Pqm2Z7RHE11OISoYWuSvjZjeJLXH5nfMEf7pG4MPA37bQfERrAru0geqx0a
-         ohAnI58T8ZGhBguuNhOdwuiKvQQO28nBTT4UGaclZOdvrf6PDHqfokp+M3pw0O4U7jUl
-         AQ9a2HFpwxCTDmbu8/bWQUrfkTKvSMW0N0XS6sDji++gGGJqc48l/ekoWgn86K4Uw6v4
-         N1ug==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc;
+        bh=Pz5nxu1GegpViUZTM0KsHqR9UCE1CamEkGBAm6ALRgs=;
+        b=B1zQmppjSNQ53pQTyJOr4r0t2CBri32NlSjcUjW5nTbvv56JS0gIdszIuSTyMzdogl
+         0RKQVvFyYT3T5gisKAjKiweN6501OgXfY1kQ6uwJrW+cw8+awaayLYZrXr4mTuJkuVYs
+         wWY1rHnmW1bjz5LGlFZMXjP0iVnFJ4KSUaUlDT/qTgmyMuLvBBU9VwIMgxL8BRkONFve
+         JmkQUc7XsC8cIDWm+ICHLcEsUuTdwKP7yy8pKulbFg+pKuteBKdxTGpTZEA+2VXTe0Fu
+         haScgi+99Ihli4rWuXgvlgP9X1k1FVXjL7wr9ZK55ekLTA5r4xALxGxmPdjiL9Nnmqwb
+         qcgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
-         :to:cc;
-        bh=zk13a2wDxPbPwS6F9muX+U0Rh+2AIy5htDo1pByYht4=;
-        b=Sx66GT5YSgOHQYiIweJqk9vwBs315kq0hyaazPGOOCWxA9Bi+bi0pOle47ZOpCJs6G
-         61su1kCNZ+0zAU6HsKL3fEegVzgb6Si4zice/6dhnL6T5g1pDJ+DwKFLxFabJ8C8Wyun
-         7Ivvct1r1wc/NyFOaXnOS5w4IlIdiauAWTymRYLZcb89462vc8Zrgnc/uc7D5+9KmEOA
-         QZWavrliMViUIpwadXt+A70/xOlt+R2Eubtsq51sbEBz0ClLGpZ7Qy93PeZVCNYe6pnq
-         Ppfedw8ARfeoYdkLla0Zv/k5vKnzWSnyFnJ7R2Af1+elT2Nr36EtImIS0JeJj1DCpKS3
-         KCfQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1y+Mk3U81G/uTCW2JMnIZcvuHryb9dxRjK0tPG4DamU9RIApUw
-	wa7uN1f9sVxXVY3AiU2G4a0=
-X-Google-Smtp-Source: AA6agR4QyZrPgarhHQnwRolBYkSYf9dXrB/Z0gSMN1Eb3Elyavj8Ct4vU7IQvt3wxcsd4WGtBquW5g==
-X-Received: by 2002:a05:600c:22d2:b0:3a8:3e8c:d914 with SMTP id 18-20020a05600c22d200b003a83e8cd914mr1665673wmg.128.1661635827512;
-        Sat, 27 Aug 2022 14:30:27 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc;
+        bh=Pz5nxu1GegpViUZTM0KsHqR9UCE1CamEkGBAm6ALRgs=;
+        b=fqvfuicErmDtHLe2+jSmJ3FWgDPyUwK/IcWabOGYhM+UJ1Esadi0O0Y0Ql+x2sr8CN
+         8gdKxnN5dVS/3NKybljBJCej4VkpV66Ab8UoBLaONjiisSFNG59AT8lfr3l+7hSx51UV
+         Aq5L3h0SEYeDxP7GSvIXOLMBDkkYG+cup+Y29OC8KufAAgrwmSOMMA22MSebWwaii6uH
+         iuhBxayENf8WA9MR6pyYiWaqFUg6pQqO9Koyz/IVIUvPCk2zsCQ0QJrFpMp4aBua7jv9
+         sDp8r3vnK/8tCGNLdI5JzNb1MOU6nFNxbvQH50i3Cgi0eNKy0cO0omM+MjHv5gYqZ0J5
+         ETeg==
+X-Gm-Message-State: ACgBeo3Qc+4pgfE1Bn2OjbWPibQGU6NHRLCF1Ny+L7+liMk3OaYc9vGe
+	H9VQwtZCA8i32yjNJU/DKEE=
+X-Google-Smtp-Source: AA6agR4YBYlqunUbjxd7xW+P8HDHV34WlGWSnqvp0upYGD6fKtlExLaP4my23nINaKGNyEuCSkK/ZA==
+X-Received: by 2002:a05:6214:1c8c:b0:473:408f:ddd6 with SMTP id ib12-20020a0562141c8c00b00473408fddd6mr9567084qvb.74.1661752897874;
+        Sun, 28 Aug 2022 23:01:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:251:b0:221:24a2:5cf with SMTP id
- m17-20020a056000025100b0022124a205cfls4443781wrz.0.-pod-prod-gmail; Sat, 27
- Aug 2022 14:30:26 -0700 (PDT)
-X-Received: by 2002:a05:6000:144a:b0:220:7181:9283 with SMTP id v10-20020a056000144a00b0022071819283mr2703054wrx.158.1661635826282;
-        Sat, 27 Aug 2022 14:30:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661635826; cv=pass;
+Received: by 2002:a05:620a:118f:b0:6b9:57ca:5d1 with SMTP id
+ b15-20020a05620a118f00b006b957ca05d1ls3447486qkk.0.-pod-prod-gmail; Sun, 28
+ Aug 2022 23:01:37 -0700 (PDT)
+X-Received: by 2002:a37:ef0d:0:b0:6bb:4ec8:b312 with SMTP id j13-20020a37ef0d000000b006bb4ec8b312mr7124488qkk.249.1661752897252;
+        Sun, 28 Aug 2022 23:01:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661752897; cv=none;
         d=google.com; s=arc-20160816;
-        b=q4ZoJxXxAKRX9ROWMpfFBSRchmCIzkSW+YbAddnUeVQW09VOQWs+WwiLnNPwcKOGBf
-         JGcbRIJSAqxZF60lgjt6Pj6FMusAan54Ba+mwFbT/oa/7yxEw2XhYy0jZ3OeEzdy0WRe
-         qfYtkyPhYvOGOMHtMNLYbA2dPofcJkjfzN4ftrxTANQ1lRS33MKnl+44KwXJ8ETVUXo8
-         2nqb6K4/Pqi9CI/iqDo8T6jkCgrKwqJw/jVWGbp3akgCrDVnCKzVBLgtWh/FVBrbl8Iu
-         aF+vFmPhRkg8c0IENrK78er41rsX9l+Yz6bPdxOyAeXdtlmLrwfknj5H6RvS848GCzDO
-         jUoA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=MGMuUvhSvZXy/S8vAKI2Tadnp4vXnJRLcr1jsXKOf6A=;
-        b=pZINxs7QqxpbY+8DPwArxlD2yG0JA8Tdo0AkiS+SxhsoKNOwqxIA/gEkOOLVQPNoTX
-         /IQGIkEmQfateVb3TnwpVAhlSIWu567dVZvY6V5XIiF5l3tudkHGjgu6SfuQmpXqAnfy
-         ek1cMQAwQTTgmmAIXw1VByKlz4w2cVYKE+DrkbG19wQC3gpEtYKd8BYEGrUEooKAlg6K
-         e+9+Wq0kikBz00lORnFz8k2dP3JJP5MOeROnNcVzbszCVh1yRL8LnxQaoyLmzQ7f78ta
-         eq7NB1/2GNEUUFg15Kl9CFqh89JgdPdCpft8j+P1EEI6cqFwhPsYRxSdmIiEX7OJMmpR
-         7WyA==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@nokia.onmicrosoft.com header.s=selector1-nokia-onmicrosoft-com header.b=T40zAiOB;
-       arc=pass (i=1 spf=pass spfdomain=nokia.com dmarc=pass fromdomain=nokia.com);
-       spf=pass (google.com: domain of alexander.sverdlin@nokia.com designates 40.107.21.90 as permitted sender) smtp.mailfrom=alexander.sverdlin@nokia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nokia.com
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2090.outbound.protection.outlook.com. [40.107.21.90])
-        by gmr-mx.google.com with ESMTPS id bu25-20020a056000079900b00226d0b6b95dsi97967wrb.1.2022.08.27.14.30.26
+        b=Bud6qpiFbkizLdn8AvDl27NaOD3qHsfuQ6pO18LBNUUr/nSW2DvCrbSxA3aLpj7w1y
+         71mc8s4cjS7ExFSiqKTmANT/4dz1lprNOHe/8rPXooP8jBQ8QImc9qZ8s65YM/uXcKgl
+         ClQJWEn3f1tME+dwRj41Ll11LgaXoYIGGX0YUhKzJtvzi6y6fJu9XRoyhbK+WAvZh8xp
+         7jmcXdrM1F5RrJIKnHRNBH+NfokNO8C5IqPdtFeeZjVGNwLKTkl5oOhabj4o8BKaVvEQ
+         X1HGI/zVCH4YeCkrQ7ByTWivZITLwCfXaJ+KUcC5A6RiMcsM0WKaSWX7M5NUHZ9+BrDP
+         qzkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=GcD+HCTsL9PhfIoNQS6OfBy4IaHMHLVbPkWLbk6HzGE=;
+        b=lXzjAejVnAzysy35U8sqtHBmMGdQwdmuAugkU1o6mPYZNxS4TuQTE/dp8ZqlaVgTJ8
+         xwPXfZIKFDIqadFuPVJ7qB6aUfC7zR5WxjZzAvcKFRN7ugzlPk6/V+nTjSmgNju1xzfO
+         jAqsZNyRuWRP2FWq4JaeuWso53gWpVQbxVBnJEf9jVDAXCdrjTvsHoEdNZ+iDxnH9M1T
+         Y8I9JG6ou9hPLKY3BaYXWOpK8fLY8IC86X8q7yyYvlj0NwCpiXK+cGQhw981M0OvMAGk
+         IZEGbxf1fCa6oPTFkyi/kgrqeB+KJ4YH3XxDVz1oodxZwaBqXs/PmnDf2ShE847M69N5
+         2wfg==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=XY395wkd;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com. [2607:f8b0:4864:20::112d])
+        by gmr-mx.google.com with ESMTPS id w14-20020a05620a128e00b006b95a1880d8si211862qki.7.2022.08.28.23.01.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 27 Aug 2022 14:30:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexander.sverdlin@nokia.com designates 40.107.21.90 as permitted sender) client-ip=40.107.21.90;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DVtXWPFGPaNKqJztl6Su8HFX4ye7Yi0MCfpBpIIUe5k8axa2uWs1yL5JVsnmmvWeVHR//E1RswO5FAV1b27D30LN0UA0fIh/ox6cFKBmasLYtPACfC/yLDCvsSso523Gv48f0O3Z/ZyZnKLgoQkCbnNOuIJ0AIovIapQ9+TNd8I30s/pVZLkDAWrH1XvXMvyVbRz7XjDsoMg1Cujj8E6xXcx4rZhUl+mrLwJftmNuchNLlQtfgJrHx+l9IHAs8f/H92PWdYvqOHS63cHAXm5FRI2PtQvyX0cMCBQ3vFLu8qYam/vP3/lMOMMQKyICXIPqvprccIpFHGZq2oSgdA9EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MGMuUvhSvZXy/S8vAKI2Tadnp4vXnJRLcr1jsXKOf6A=;
- b=NOC2e0LNlISMG4VnshmmoxGQpNe7M3AAegz3VFRKq0KBwPOjnwQuon3ntkczlzlE51MvQYkC2nE4NRjJ7KTbtDDVylRltmIKmqa24pjKjXauStmvBcO3nGIcYGlb5tQ4I4cV4WwX0JwxTmeWmC9Tt0+ThChcJNmbo4BujzC/hqTj9e18yrfcnFgMXwepkFHUyR0CrEKsA6zGXZxFP8viDjYTkjfej7m8ZPcD8ge7HJ6rVTOrOSC/spQNEB85lrgTPy5YaAXNNxKxVlFY3FM3l/ABLHNdadSvz0o5enNwh4gM2TZmSZFJg6nR+qBjXfZ8oKSkoUqrMEOVJA9OS79s7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 131.228.2.8) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nokia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nokia.com;
- dkim=none (message not signed); arc=none
-Received: from AM5PR1001CA0044.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:15::21) by HE1PR0701MB2570.eurprd07.prod.outlook.com
- (2603:10a6:3:96::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.7; Sat, 27 Aug
- 2022 21:30:23 +0000
-Received: from AM7EUR03FT038.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:206:15:cafe::f4) by AM5PR1001CA0044.outlook.office365.com
- (2603:10a6:206:15::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15 via Frontend
- Transport; Sat, 27 Aug 2022 21:30:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 131.228.2.8)
- smtp.mailfrom=nokia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nokia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nokia.com designates
- 131.228.2.8 as permitted sender) receiver=protection.outlook.com;
- client-ip=131.228.2.8; helo=fihe3nok0734.emea.nsn-net.net; pr=C
-Received: from fihe3nok0734.emea.nsn-net.net (131.228.2.8) by
- AM7EUR03FT038.mail.protection.outlook.com (100.127.140.120) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5566.15 via Frontend Transport; Sat, 27 Aug 2022 21:30:23 +0000
-Received: from ulegcparamis.emea.nsn-net.net (ulegcparamis.emea.nsn-net.net [10.151.74.146])
-	by fihe3nok0734.emea.nsn-net.net (GMO) with ESMTP id 27RLUHQc017485;
-	Sat, 27 Aug 2022 21:30:17 GMT
-From: Alexander A Sverdlin <alexander.sverdlin@nokia.com>
-To: kasan-dev@googlegroups.com
-Cc: Alexander Sverdlin <alexander.sverdlin@nokia.com>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ARM: kasan: Only map modules if CONFIG_KASAN_VMALLOC=n
-Date: Sat, 27 Aug 2022 23:30:09 +0200
-Message-Id: <20220827213009.44316-1-alexander.sverdlin@nokia.com>
-X-Mailer: git-send-email 2.10.2
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Aug 2022 23:01:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as permitted sender) client-ip=2607:f8b0:4864:20::112d;
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-333a4a5d495so170110667b3.10
+        for <kasan-dev@googlegroups.com>; Sun, 28 Aug 2022 23:01:37 -0700 (PDT)
+X-Received: by 2002:a0d:ea49:0:b0:33d:bce7:25c2 with SMTP id
+ t70-20020a0dea49000000b0033dbce725c2mr8651338ywe.267.1661752896882; Sun, 28
+ Aug 2022 23:01:36 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220704150514.48816-1-elver@google.com> <20220704150514.48816-11-elver@google.com>
+ <YvzjeEHYX9d5dhAt@worktop.programming.kicks-ass.net>
+In-Reply-To: <YvzjeEHYX9d5dhAt@worktop.programming.kicks-ass.net>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 29 Aug 2022 08:00:00 +0200
+Message-ID: <CANpmjNPSOnMN3Fc4yxoArTytQcW4n6sPCN-LnisTn58xLU=4HA@mail.gmail.com>
+Subject: Re: [PATCH v3 10/14] locking/percpu-rwsem: Add percpu_is_write_locked()
+ and percpu_is_read_locked()
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@redhat.com>, 
+	Namhyung Kim <namhyung@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org, 
+	linux-perf-users@vger.kernel.org, x86@kernel.org, linux-sh@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-MS-Office365-Filtering-Correlation-Id: da3dcd54-f34a-4876-bc5d-08da887359bb
-X-MS-TrafficTypeDiagnostic: HE1PR0701MB2570:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CcJepoL4qGlxn0XxEwVyt/uDEhisBp5N6qDF7IWb1yaLIjMbsYMGjuL7SEdcw/fKa/i4lOOoAFDEfLTbmZMhM59yJYrOEQZyogRCtAeuF/HinbVi/8TZogc+3s7tDHE7d69ZB4BD/fp1xUzzozwo3P35qfDYhJSiYbDfm09+LyNl0hnFb/6lloJS3ldqUgQ/vUsyDBUuEZ6dMekEScDCfAkMmcwo5yUIWoL8vPnVpgwLsiTvb/cVz3N0SQPBOmxgJk8bRyphYAX09XKc0OEZw54n+kqewOnOd2rmDgyfFPfD0YOJwg8WuV/nN+QQW7weeuF/lfIsAVYNShGW3EWbnsMB8ifbq7FVjzhpXFwioAU0SOKH8RGgcrNioL450zfbxy/EcSv1pWNZMKumn+YiVZPVHe/CS++QeaAG0Vc4udTXj0s8mN36O7Fn4mNxDNxYd0onihYQHsvz+fY3gy9UBKQzbsvGYn2npFumRg8r1iYyRxnCTFUAJV9qJeIPWEqiup+piGMRr9PNKQKNWf/IfGoPy86DF1CzaRLR94C8ZDaPMsjgdxIaFP0S8g8nejeaY40hPU4ERv2CXmM1xhfGz+qpNRRwHaRWvCEFAG+jzaG4l2UE5thklDL6zHrXUAWiimvkpJyeOhtmnL3FJHKM1W5tPDNvJWMVVpltX3xghyvQuFGugQDompS1jQ4z4lNDxlqoR/28I9cZKWMY4r5gfBmGsweUrdQTz8evicZ0SR+iXDRhos2fcMKG75GCh9GhlymhPMRw92d9BG4dzWlr8+0Zl2uPPHZVIEqwR40ZS6HNE3iXBfw1aaMXqJE+tJBOMd00gGZyGtCNKLsueaq85I6N/Yo5kqf9WocBXL5gM/A=
-X-Forefront-Antispam-Report: CIP:131.228.2.8;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:fihe3nok0734.emea.nsn-net.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(346002)(136003)(396003)(376002)(36840700001)(46966006)(40470700004)(6916009)(6666004)(41300700001)(54906003)(316002)(82310400005)(478600001)(45080400002)(86362001)(26005)(82740400003)(36860700001)(40460700003)(82960400001)(356005)(2616005)(1076003)(83380400001)(336012)(186003)(81166007)(47076005)(36756003)(7416002)(40480700001)(2906002)(8936002)(4326008)(5660300002)(8676002)(70206006)(70586007)(36900700001);DIR:OUT;SFP:1102;
-X-OriginatorOrg: nokia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2022 21:30:23.3813
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: da3dcd54-f34a-4876-bc5d-08da887359bb
-X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5d471751-9675-428d-917b-70f44f9630b0;Ip=[131.228.2.8];Helo=[fihe3nok0734.emea.nsn-net.net]
-X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT038.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0701MB2570
-X-Original-Sender: alexander.sverdlin@nokia.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@nokia.onmicrosoft.com header.s=selector1-nokia-onmicrosoft-com
- header.b=T40zAiOB;       arc=pass (i=1 spf=pass spfdomain=nokia.com
- dmarc=pass fromdomain=nokia.com);       spf=pass (google.com: domain of
- alexander.sverdlin@nokia.com designates 40.107.21.90 as permitted sender)
- smtp.mailfrom=alexander.sverdlin@nokia.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=nokia.com
+ header.i=@google.com header.s=20210112 header.b=XY395wkd;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112d as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -187,71 +139,43 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Alexander Sverdlin <alexander.sverdlin@nokia.com>
+On Wed, 17 Aug 2022 at 14:48, Peter Zijlstra <peterz@infradead.org> wrote:
+> On Mon, Jul 04, 2022 at 05:05:10PM +0200, Marco Elver wrote:
+> > +bool percpu_is_read_locked(struct percpu_rw_semaphore *sem)
+> > +{
+> > +     return per_cpu_sum(*sem->read_count) != 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(percpu_is_read_locked);
+>
+> I don't think this is correct; read_count can have spurious increments.
+>
+> If we look at __percpu_down_read_trylock(), it does roughly something
+> like this:
+>
+>         this_cpu_inc(*sem->read_count);
+>         smp_mb();
+>         if (!sem->block)
+>                 return true;
+>         this_cpu_dec(*sem->read_count);
+>         return false;
+>
+> So percpu_is_read_locked() needs to ensure the read_count is non-zero
+> *and* that block is not set.
 
-In case CONFIG_KASAN_VMALLOC=y kasan_populate_vmalloc() allocates the
-shadow pages dynamically. But even worse is that kasan_release_vmalloc()
-releases them, which is not compatible with create_mapping() of
-MODULES_VADDR..MODULES_END range:
+I shall go and fix. v4 incoming (if more comments before that, please shout).
 
-BUG: Bad page state in process kworker/9:1  pfn:2068b
-page:e5e06160 refcount:0 mapcount:0 mapping:00000000 index:0x0
-flags: 0x1000(reserved)
-raw: 00001000 e5e06164 e5e06164 00000000 00000000 00000000 ffffffff 00000000
-page dumped because: PAGE_FLAGS_CHECK_AT_FREE flag(s) set
-bad because of flags: 0x1000(reserved)
-Modules linked in: ip_tables
-CPU: 9 PID: 154 Comm: kworker/9:1 Not tainted 5.4.188-... #1
-Hardware name: LSI Axxia AXM55XX
-Workqueue: events do_free_init
-unwind_backtrace
-show_stack
-dump_stack
-bad_page
-free_pcp_prepare
-free_unref_page
-kasan_depopulate_vmalloc_pte
-__apply_to_page_range
-apply_to_existing_page_range
-kasan_release_vmalloc
-__purge_vmap_area_lazy
-_vm_unmap_aliases.part.0
-__vunmap
-do_free_init
-process_one_work
-worker_thread
-kthread
+> That said; I really dislike the whole _is_locked family with a passion.
+> Let me try and figure out what you need this for.
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@nokia.com>
----
- arch/arm/mm/kasan_init.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+As in the other email, it's for the dbg_*() functions for kgdb's
+benefit (avoiding deadlock if kgdb wants a breakpoint, while we're in
+the process of handing out a breakpoint elsewhere and have the locks
+taken).
 
-diff --git a/arch/arm/mm/kasan_init.c b/arch/arm/mm/kasan_init.c
-index 29caee9c79ce3..64790661bdc40 100644
---- a/arch/arm/mm/kasan_init.c
-+++ b/arch/arm/mm/kasan_init.c
-@@ -268,12 +268,14 @@ void __init kasan_init(void)
- 
- 	/*
- 	 * 1. The module global variables are in MODULES_VADDR ~ MODULES_END,
--	 *    so we need to map this area.
-+	 *    so we need to map this area if CONFIG_KASAN_VMALLOC=n.
- 	 * 2. PKMAP_BASE ~ PKMAP_BASE+PMD_SIZE's shadow and MODULES_VADDR
- 	 *    ~ MODULES_END's shadow is in the same PMD_SIZE, so we can't
- 	 *    use kasan_populate_zero_shadow.
- 	 */
--	create_mapping((void *)MODULES_VADDR, (void *)(PKMAP_BASE + PMD_SIZE));
-+	if (!IS_ENABLED(CONFIG_KASAN_VMALLOC) && IS_ENABLED(CONFIG_MODULES))
-+		create_mapping((void *)MODULES_VADDR, (void *)(MODULES_END));
-+	create_mapping((void *)PKMAP_BASE, (void *)(PKMAP_BASE + PMD_SIZE));
- 
- 	/*
- 	 * KAsan may reuse the contents of kasan_early_shadow_pte directly, so
--- 
-2.35.1
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220827213009.44316-1-alexander.sverdlin%40nokia.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPSOnMN3Fc4yxoArTytQcW4n6sPCN-LnisTn58xLU%3D4HA%40mail.gmail.com.
