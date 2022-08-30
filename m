@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBFEMXKMAMGQECC7Q3EI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBF4MXKMAMGQEGEH7C6I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A9E5A6FA0
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 23:50:19 +0200 (CEST)
-Received: by mail-io1-xd3f.google.com with SMTP id p123-20020a6bbf81000000b00674f66cf13asf7571016iof.23
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 14:50:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661896212; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0865A6F9B
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 23:50:16 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id i13-20020a056e02152d00b002e97839ff00sf9222675ilu.15
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 14:50:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661896215; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ASkTRu22IgAWHXipCutJ2LuvUaihXGO5EDZIPKfJxqJjK+3ORPGn2v4BuIkVGRM5Ma
-         Taq7th/G366Ylh9Ukqva7vZDKM79XFRPhnijDuCImntcxwu5lpYO5NBIRgx4/urAZZmo
-         9HcJLmFPT+9V9quAAlq+bbmD6o7RFlmnilKnZ5O6vKZJqQoK+YvQUOjd67xo18335e/o
-         vV0vX3fxcfTsNrwFyzw4ewz1XFSUSKa6MJEHu2Mr2Y7xQcmdWbNZISDgBZdtiTTDAdwQ
-         4QeU4h3U7Cqku6ACG/4eRoyFDPFrrP1OjgNF0FDkxTFjPmlzsJ/CK9mhZi8Le7qDGySN
-         McAQ==
+        b=ga5J68RcrQDSAWlQWKPm3gzzRAAA+5S514oPD7vo6Vcb+cErvNfoEPiTRehyBJz0A2
+         hG7mnj1RbprRmuvyc98osr5QBhyaL78GpdD+yn4CDj/6wqePuGie/VjZetZRWsbMJOtT
+         /8ykd7rIy5OKBDDU6MRDbZx56M78/sAU7T2yvS8P8/QnBAG26ltRO+KHeiccgOioI5fK
+         Y/mTj1025rLg/Ey5aVKztdaZyfFR2mZl7CgSJ0dhGHdINVwEAVECOtfLhVxU+UofpSYE
+         eoUv5p+MP6AehEOiMviP3OxLhyICBxOcuUSU29dza0i4j6tYKzVMHYahhdf/OfSorICd
+         xGfA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=hyIPYmpiXNC37BnAHtlaWmee7T/xPHQp05LH3vUG1Ro=;
-        b=yo7O9nMVMZvIcvTUpNtCinY9Y4cK1ic08E+IpHrGOn+ZSQl7bZ2Wjq3VxLoYhvUz3f
-         WvpsCz5avDlamzSFF8khfkLm5YqMywCzuCkiqu/06hCmYTR3skeIjPcyqjgXi5LuRFlR
-         lSQQjM6WuiTen4P3/bSpJcHLb3mERZKByCFt3llW0meghoVTqDI/UJRBEb5yXK1aDRW5
-         3DB5IYW/Q9wRWFVM1NqvGMuoIEYhBgZ+MspOTAadGf3hicuMm5ZWw2L9g7ug9Xn3doQO
-         f2iANG6Qz63R/POH7OtD2ncO3PnqbBEW/hf2T1GI4aBuViRHCdXI/5OqoAOOPhrqnmIi
-         RA5A==
+        bh=NOV7q57NMUVNf1KFUT9RL6DRLtTJQc+fxtCjebHVp1A=;
+        b=s88Mt/4adWSAtnvTAQE9g2UgcWxzZ1BPzEcMW342m6u3WaujGjKTClfvcSZIGapJE8
+         veWSZOEn6ODhBSk+tOPgK0583hyCtCEHUIyieJ0rxY1BNkCNLl8QvP07Dy9uN8rg/oyb
+         mzvdOlUvrl902BdR0D2vKGU8I7kxy1+nhtrAt/2z0H/SpQzPL05hjUkrvUo4sWSYrUry
+         x4yV4jeZOdd1iU0UKlDwLd0TOwgmTEr9Fb1GAEzqGT+iFtllo7xtYy1emkNzKpFm8xde
+         99bm1U7jEeoX6GeBuIMAZzTyJ1IiTwOYfVuHgTK24uo7YwsG7OzB1HlkWqUQ7rE4KiI0
+         T9tA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="VGRf/84i";
-       spf=pass (google.com: domain of 3e4yoywykcxgoqnajxckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3E4YOYwYKCXgoqnajXckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=OXRgptnZ;
+       spf=pass (google.com: domain of 3foyoywykcxsrtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3FoYOYwYKCXsrtqdmafnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc;
-        bh=hyIPYmpiXNC37BnAHtlaWmee7T/xPHQp05LH3vUG1Ro=;
-        b=Ko3T56eMrlFd4rPIKFeN/J4c5Hb7v06pnVvlJ8WJFa6nCScEZaV38v+rjDOCIZgZrI
-         dBeYVAXEaxN6shz5e4vaaTHii9uDngUkqJUUapeZhw5/d6s+kgP54AiEhHOQp+sbKF+f
-         9yia1X/QG3Oomg67udaMUcVya5bNtj4M1Fdu0QKo2AZ9XDo9d/029TRy3oBWbxd1h5r/
-         shAox1MqxGX1mzEjX6fnEsiwQ2kOI6ez+Nnf11UU+5b5LVTJg90h3KOq7laJzDATU5ya
-         y76pss4jPVt6NNPPgMJJA8cwq+Ur0sNmjvYeCcd1QxVcdUDyXSbrIavGLv8+Q1V4COEW
-         MrxQ==
+        bh=NOV7q57NMUVNf1KFUT9RL6DRLtTJQc+fxtCjebHVp1A=;
+        b=i1o+EYTfPw21Fz+ugB6fHxmyfm6ygyLCikLB1/85UGfGF8lMV+DZvjDhdgdIUlD5Ls
+         pYrRL0e+k+Wmbty2Nb11xPWvKrmutbW2y/3gQR2wHtbYOwpgTa86+PUj/h2JSyZjrAK/
+         p9Pez9SAH8Abfe9g+5EABo1b+umpFTiC42hK+xnLucCWwpHaXE2kMiUFtoMD5jQ70Pm8
+         Qe5DThU9TDDI67n0e3JCQiNEjRqO6oGPtHjDxvLsJvWcddL2Itm9Oy5kd7M5HqRCi/yy
+         OYjGhUR7eYhtUgQWFqBZghQ/SqLbx8CkjEOMRffielyNw5BDAklMu55VP3XNZPvs2umc
+         UYTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,64 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc;
-        bh=hyIPYmpiXNC37BnAHtlaWmee7T/xPHQp05LH3vUG1Ro=;
-        b=5oRukVyLaGZOF645VEL2T7W26Z+1Vrg+3apzJTjdJtY9N41KA21km3l6gaX//YZyTq
-         B49tNAa9mYI0bTI34p9z9fxeRpEISorM7wOTYAYHWa5eHxPg4F4QbToykUI4BYJIgYkA
-         smjnLiVvgLdlSpxXz7sgIpq5Gz45IH/sVfqU4pTf0chwI5GghzCVP8QcJ540wSlQZFwo
-         IJAqYLje8wEekqOuHKjJNUcHfsyZTzcKDXif3uh1xpOgnEmeJxSxi9RprCNNObjvafwe
-         zqDyRA5b/FxBsrCc/W8D7ZDtMGu74LB5nBKwg3iylK5vsq9Nqx/WTInomk7T+kyXLppp
-         rfJQ==
-X-Gm-Message-State: ACgBeo0yx7iJFRdk1lRTd4RngjO+lx3nxlGNQqu5SkuLhX3vzw8BzFlx
-	S5wTNMXi9BDwiNBEQrNvNv0=
-X-Google-Smtp-Source: AA6agR5+lUsiclxW2g64FfURxnbEzSgJLM+8jVyRMZ55j8gloAM9us13zN/qbpQEvrB72Z3ruxYdlA==
-X-Received: by 2002:a05:6638:537:b0:349:b5d2:9182 with SMTP id j23-20020a056638053700b00349b5d29182mr12976088jar.5.1661896212625;
-        Tue, 30 Aug 2022 14:50:12 -0700 (PDT)
+        bh=NOV7q57NMUVNf1KFUT9RL6DRLtTJQc+fxtCjebHVp1A=;
+        b=ty4czAkbTrAkVtw29lxjEtBNvejLinG482I1UbFKtEtQ3fQ7dv0M9UrgYD6bkePoRh
+         bGkjq1pS/kLJCaSj1clTNc12HvFE3LCpQWlu3nfMZnGuskIHRyQyxOvDK7qvQIuWHuUb
+         5O+8xjGflUWeo44OQiQxK2L1AGzP59zzNymq166UldIjqFHK33hRGW1nVnn4FT6Xhoyf
+         e50g+XTcNRUGcn3Jrk1UUp3d9P6l9uG+u15BdlVnHBL+lAVyXiu4mdNh+ISg2Z6yk1tj
+         xUx+KCf3tqCFEzSJ7V7kY63Cpfk1+OwjvtAxykqNj9gB3xovixDqj9hmtsYQFT5xfk+5
+         r2bA==
+X-Gm-Message-State: ACgBeo1BIygAsmxQXZFxnlC44AxV13F/KVbMpdnKnc8Flj/wQjmeEddg
+	ro5ovukBoqnXT/gcZ81Fmdk=
+X-Google-Smtp-Source: AA6agR57KQcYGVx+rdZNJn1bbnMF7DPH/hgJXmgoWykXuTbdWci0w5UUhaIKLjokUdIVIzyVz2wYPg==
+X-Received: by 2002:a05:6e02:1805:b0:2ea:1106:e0eb with SMTP id a5-20020a056e02180500b002ea1106e0ebmr13168861ilv.75.1661896215252;
+        Tue, 30 Aug 2022 14:50:15 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a02:230d:0:b0:332:109e:3b77 with SMTP id u13-20020a02230d000000b00332109e3b77ls3353300jau.2.-pod-prod-gmail;
- Tue, 30 Aug 2022 14:50:12 -0700 (PDT)
-X-Received: by 2002:a02:94c3:0:b0:34c:b5b:4e56 with SMTP id x61-20020a0294c3000000b0034c0b5b4e56mr1171702jah.23.1661896212182;
-        Tue, 30 Aug 2022 14:50:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661896212; cv=none;
+Received: by 2002:a02:848d:0:b0:34a:4271:878f with SMTP id f13-20020a02848d000000b0034a4271878fls1748178jai.11.-pod-prod-gmail;
+ Tue, 30 Aug 2022 14:50:14 -0700 (PDT)
+X-Received: by 2002:a05:6638:2394:b0:34a:2fb2:143b with SMTP id q20-20020a056638239400b0034a2fb2143bmr9779522jat.24.1661896214797;
+        Tue, 30 Aug 2022 14:50:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661896214; cv=none;
         d=google.com; s=arc-20160816;
-        b=jukKlbMcz07jE1aHrjiop56QV6hyBmWrQkTtYTAFVJNonVzKGOG10KSsYwP4Y1Uk/F
-         e1bs8f8w63xrF8lx495gaP0YjUoTfbRx+sDX9mnq8cWByKU2b06f6vRFI+dGTCs7OP16
-         5HV2mXqUERKC2cZ6P1qbPhcXtv2X4lI0lVYdLaHIcuX5PUAGxHpdTV213tcv8IEvO9YA
-         kJ6uJqngSdeWfvKjAuzHy3aScSzlyBYu9oodUMPuIpcDV04OZAyV2PriZz+mneIYt2IL
-         tlbxk7+d3cT6PVAXLL6afzIxU0aNmhQDGcGymPZm/YKqllTZmIyQ10POaXtAVyr6Q7Hn
-         EDtQ==
+        b=jSaulPn8DqRkuLEAUN2SQlrBkfw2Ei4awj0c5Vd4uKsJxkvQ1QHNngQMuE5tIsxn05
+         SddV5H/DCn/2Rnf2BpALMU/tQaOZJ2vQRZBTGZLSMXFujrmcbHALpLa82E8wO0V/UdJ8
+         nS59am7OoUMEc0LtngvOLMvS2g+r0dvnh7DxnDoy1AgExSFOFzgl4VW+Zb3+nPwRqAL8
+         NkXSGpUKlK4bDctPMDjxTMz5svL1L9GOffeRCIvx/vKoAem8m7IqKWC/0CG8OxsTvfcL
+         bmr57JHaQpvsQ2I8WRAK/iAAU79/CuJQpfk58a6qXq12maVjBo9TBDCHF1wqrxdeTe6g
+         lp7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=ofrC1PqNoYIKnyKYWjHD7inVuacSGBJJLHypr0RookE=;
-        b=tQWy44Pt4zZ+tJ1eJtxLvJnVaflD/qpW4+KY7yApjJycbpmZ9YaZ5kwBfXV/qKZD6w
-         NS1l33tMj3j71Gv5sfw9r0JXH6eLignHJac4Vi4uiicbc/GPDufvc1WukWeXoSmqT55V
-         Uyg83f8NYh8oK6pngZmnZe3IlkY+9DsxXZHqiOhJjCRl7I/ej4wYFqP+O+4f+jPF54/d
-         tKhfL5s0FCmQOiQ53tcqaIUSFoP28srOpWzXoPUiviw56LkujA6Z91di44FnpalMHCW6
-         KVtyxgGooHoDidb1U8RosQH0/IKMNNZomaVVUlLtjAuwcHsC9UCliclxTX6fS/Kqen2G
-         /eXg==
+        bh=vjjGk6pymrjMSyrfbdxQ3/p6O8Kus1ISFMk96O5o39I=;
+        b=KVs8vMS/aTNOwV6bUMOuX9cN3PnXYdnwYkpO458QqJjUHBefbG870vRo3Tf/Wb6j4s
+         Owm4pVrP+vqUdrKCqlhRVuoPAEEsoTsuk+MhfndESIcuVkTod0lPozLXXzk/eEtPoxxs
+         Wz6rcbLEYZXkDCgnEMbiJst/d6hOrnXIeC7J3r41SRBZI6sNrsQ/mavUgWMNH8DymeOb
+         Ix+Acd6U4ofk99jnNtqR+n9omNnazXUW8uOqigVFwcq97/qRCKOv3RJ7F6Nx7Q4uHr9A
+         UGlEfzTTMyENrQ8WawIK1atXnW97IRzWKbDhmyC0J6+j0HuFzx7yNtervo+fsHlQALyb
+         iQMw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="VGRf/84i";
-       spf=pass (google.com: domain of 3e4yoywykcxgoqnajxckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3E4YOYwYKCXgoqnajXckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=OXRgptnZ;
+       spf=pass (google.com: domain of 3foyoywykcxsrtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3FoYOYwYKCXsrtqdmafnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
-        by gmr-mx.google.com with ESMTPS id b18-20020a029a12000000b0034a2ee4c7bdsi428011jal.2.2022.08.30.14.50.12
+        by gmr-mx.google.com with ESMTPS id g9-20020a05660226c900b00688fefa6d1dsi654134ioo.2.2022.08.30.14.50.14
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 14:50:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3e4yoywykcxgoqnajxckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
-Received: by mail-yb1-xb49.google.com with SMTP id bu13-20020a056902090d00b00671743601f1so709553ybb.0
-        for <kasan-dev@googlegroups.com>; Tue, 30 Aug 2022 14:50:12 -0700 (PDT)
+        Tue, 30 Aug 2022 14:50:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3foyoywykcxsrtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
+Received: by mail-yb1-xb49.google.com with SMTP id f12-20020a25b6cc000000b0069a9e36de26so717059ybm.16
+        for <kasan-dev@googlegroups.com>; Tue, 30 Aug 2022 14:50:14 -0700 (PDT)
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:200:a005:55b3:6c26:b3e4])
- (user=surenb job=sendgmr) by 2002:a0d:cd43:0:b0:329:febf:8c25 with SMTP id
- p64-20020a0dcd43000000b00329febf8c25mr15393402ywd.90.1661896211649; Tue, 30
- Aug 2022 14:50:11 -0700 (PDT)
-Date: Tue, 30 Aug 2022 14:49:07 -0700
+ (user=surenb job=sendgmr) by 2002:a81:f47:0:b0:31f:434b:5ee with SMTP id
+ 68-20020a810f47000000b0031f434b05eemr15734874ywp.383.1661896214287; Tue, 30
+ Aug 2022 14:50:14 -0700 (PDT)
+Date: Tue, 30 Aug 2022 14:49:08 -0700
 In-Reply-To: <20220830214919.53220-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20220830214919.53220-1-surenb@google.com>
 X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220830214919.53220-19-surenb@google.com>
-Subject: [RFC PATCH 18/30] codetag: add codetag query helper functions
+Message-ID: <20220830214919.53220-20-surenb@google.com>
+Subject: [RFC PATCH 19/30] move stack capture functionality into a separate
+ function for reuse
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -131,9 +132,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="VGRf/84i";       spf=pass
- (google.com: domain of 3e4yoywykcxgoqnajxckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3E4YOYwYKCXgoqnajXckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=OXRgptnZ;       spf=pass
+ (google.com: domain of 3foyoywykcxsrtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3FoYOYwYKCXsrtqdmafnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -149,200 +150,232 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Kent Overstreet <kent.overstreet@linux.dev>
+Make save_stack() function part of stackdepot API to be used outside of
+page_owner. Also rename task_struct's in_page_owner to in_capture_stack
+flag to better convey the wider use of this flag.
 
-Provide codetag_query_parse() to parse codetag queries and
-codetag_matches_query() to check if the query affects a given codetag.
-
-Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/codetag.h |  27 ++++++++
- lib/codetag.c           | 135 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 162 insertions(+)
+ include/linux/sched.h      |  6 ++--
+ include/linux/stackdepot.h |  3 ++
+ lib/stackdepot.c           | 68 ++++++++++++++++++++++++++++++++++++++
+ mm/page_owner.c            | 52 ++---------------------------
+ 4 files changed, 77 insertions(+), 52 deletions(-)
 
-diff --git a/include/linux/codetag.h b/include/linux/codetag.h
-index 386733e89b31..0c605417ebbe 100644
---- a/include/linux/codetag.h
-+++ b/include/linux/codetag.h
-@@ -80,4 +80,31 @@ static inline void codetag_load_module(struct module *mod) {}
- static inline void codetag_unload_module(struct module *mod) {}
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index e7b2f8a5c711..d06cad6c14bd 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -930,9 +930,9 @@ struct task_struct {
+ 	/* Stalled due to lack of memory */
+ 	unsigned			in_memstall:1;
  #endif
+-#ifdef CONFIG_PAGE_OWNER
+-	/* Used by page_owner=on to detect recursion in page tracking. */
+-	unsigned			in_page_owner:1;
++#ifdef CONFIG_STACKDEPOT
++	/* Used by stack_depot_capture_stack to detect recursion. */
++	unsigned			in_capture_stack:1;
+ #endif
+ #ifdef CONFIG_EVENTFD
+ 	/* Recursion prevention for eventfd_signal() */
+diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
+index bc2797955de9..8dc9fdb2c4dd 100644
+--- a/include/linux/stackdepot.h
++++ b/include/linux/stackdepot.h
+@@ -64,4 +64,7 @@ int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
  
-+/* Codetag query parsing */
+ void stack_depot_print(depot_stack_handle_t stack);
+ 
++bool stack_depot_capture_init(void);
++depot_stack_handle_t stack_depot_capture_stack(gfp_t flags);
 +
-+struct codetag_query {
-+	const char	*filename;
-+	const char	*module;
-+	const char	*function;
-+	const char	*class;
-+	unsigned int	first_line, last_line;
-+	unsigned int	first_index, last_index;
-+	unsigned int	cur_index;
-+
-+	bool		match_line:1;
-+	bool		match_index:1;
-+
-+	unsigned int	set_enabled:1;
-+	unsigned int	enabled:2;
-+
-+	unsigned int	set_frequency:1;
-+	unsigned int	frequency;
-+};
-+
-+char *codetag_query_parse(struct codetag_query *q, char *buf);
-+bool codetag_matches_query(struct codetag_query *q,
-+			   const struct codetag *ct,
-+			   const struct codetag_module *mod,
-+			   const char *class);
-+
- #endif /* _LINUX_CODETAG_H */
-diff --git a/lib/codetag.c b/lib/codetag.c
-index f0a3174f9b71..288ccfd5cbd0 100644
---- a/lib/codetag.c
-+++ b/lib/codetag.c
-@@ -246,3 +246,138 @@ void codetag_unload_module(struct module *mod)
- 	}
- 	mutex_unlock(&codetag_lock);
+ #endif
+diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+index e73fda23388d..c8615bd6dc25 100644
+--- a/lib/stackdepot.c
++++ b/lib/stackdepot.c
+@@ -514,3 +514,71 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
+ 	return __stack_depot_save(entries, nr_entries, alloc_flags, true);
  }
+ EXPORT_SYMBOL_GPL(stack_depot_save);
 +
-+/* Codetag query parsing */
++static depot_stack_handle_t recursion_handle;
++static depot_stack_handle_t failure_handle;
 +
-+#define CODETAG_QUERY_TOKENS()	\
-+	x(func)			\
-+	x(file)			\
-+	x(line)			\
-+	x(module)		\
-+	x(class)		\
-+	x(index)
-+
-+enum tokens {
-+#define x(name)		TOK_##name,
-+	CODETAG_QUERY_TOKENS()
-+#undef x
-+};
-+
-+static const char * const token_strs[] = {
-+#define x(name)		#name,
-+	CODETAG_QUERY_TOKENS()
-+#undef x
-+	NULL
-+};
-+
-+static int parse_range(char *str, unsigned int *first, unsigned int *last)
++static __always_inline depot_stack_handle_t create_custom_stack(void)
 +{
-+	char *first_str = str;
-+	char *last_str = strchr(first_str, '-');
++	unsigned long entries[4];
++	unsigned int nr_entries;
 +
-+	if (last_str)
-+		*last_str++ = '\0';
-+
-+	if (kstrtouint(first_str, 10, first))
-+		return -EINVAL;
-+
-+	if (!last_str)
-+		*last = *first;
-+	else if (kstrtouint(last_str, 10, last))
-+		return -EINVAL;
-+
-+	return 0;
++	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
++	return stack_depot_save(entries, nr_entries, GFP_KERNEL);
 +}
 +
-+char *codetag_query_parse(struct codetag_query *q, char *buf)
++static noinline void register_recursion_stack(void)
 +{
-+	while (1) {
-+		char *p = buf;
-+		char *str1 = strsep_no_empty(&p, " \t\r\n");
-+		char *str2 = strsep_no_empty(&p, " \t\r\n");
-+		int ret, token;
++	recursion_handle = create_custom_stack();
++}
 +
-+		if (!str1 || !str2)
-+			break;
++static noinline void register_failure_stack(void)
++{
++	failure_handle = create_custom_stack();
++}
 +
-+		token = match_string(token_strs, ARRAY_SIZE(token_strs), str1);
-+		if (token < 0)
-+			break;
++bool stack_depot_capture_init(void)
++{
++	static DEFINE_MUTEX(stack_depot_capture_init_mutex);
++	static bool utility_stacks_ready;
 +
-+		switch (token) {
-+		case TOK_func:
-+			q->function = str2;
-+			break;
-+		case TOK_file:
-+			q->filename = str2;
-+			break;
-+		case TOK_line:
-+			ret = parse_range(str2, &q->first_line, &q->last_line);
-+			if (ret)
-+				return ERR_PTR(ret);
-+			q->match_line = true;
-+			break;
-+		case TOK_module:
-+			q->module = str2;
-+			break;
-+		case TOK_class:
-+			q->class = str2;
-+			break;
-+		case TOK_index:
-+			ret = parse_range(str2, &q->first_index, &q->last_index);
-+			if (ret)
-+				return ERR_PTR(ret);
-+			q->match_index = true;
-+			break;
-+		}
-+
-+		buf = p;
++	mutex_lock(&stack_depot_capture_init_mutex);
++	if (!utility_stacks_ready) {
++		register_recursion_stack();
++		register_failure_stack();
++		utility_stacks_ready = true;
 +	}
++	mutex_unlock(&stack_depot_capture_init_mutex);
 +
-+	return buf;
++	return utility_stacks_ready;
 +}
 +
-+bool codetag_matches_query(struct codetag_query *q,
-+			   const struct codetag *ct,
-+			   const struct codetag_module *mod,
-+			   const char *class)
++/* TODO: teach stack_depot_capture_stack to use off stack temporal storage */
++#define CAPTURE_STACK_DEPTH (16)
++
++depot_stack_handle_t stack_depot_capture_stack(gfp_t flags)
 +{
-+	size_t classlen = q->class ? strlen(q->class) : 0;
++	unsigned long entries[CAPTURE_STACK_DEPTH];
++	depot_stack_handle_t handle;
++	unsigned int nr_entries;
 +
-+	if (q->module &&
-+	    (!mod->mod ||
-+	     strcmp(q->module, ct->modname)))
-+		return false;
++	/*
++	 * Avoid recursion.
++	 *
++	 * Sometimes page metadata allocation tracking requires more
++	 * memory to be allocated:
++	 * - when new stack trace is saved to stack depot
++	 * - when backtrace itself is calculated (ia64)
++	 */
++	if (current->in_capture_stack)
++		return recursion_handle;
++	current->in_capture_stack = 1;
 +
-+	if (q->filename &&
-+	    strcmp(q->filename, ct->filename) &&
-+	    strcmp(q->filename, kbasename(ct->filename)))
-+		return false;
++	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 2);
++	handle = stack_depot_save(entries, nr_entries, flags);
++	if (!handle)
++		handle = failure_handle;
 +
-+	if (q->function &&
-+	    strcmp(q->function, ct->function))
-+		return false;
-+
-+	/* match against the line number range */
-+	if (q->match_line &&
-+	    (ct->lineno < q->first_line ||
-+	     ct->lineno > q->last_line))
-+		return false;
-+
-+	/* match against the class */
-+	if (classlen &&
-+	    (strncmp(q->class, class, classlen) ||
-+	     (class[classlen] && class[classlen] != ':')))
-+		return false;
-+
-+	/* match against the fault index */
-+	if (q->match_index &&
-+	    (q->cur_index < q->first_index ||
-+	     q->cur_index > q->last_index)) {
-+		q->cur_index++;
-+		return false;
-+	}
-+
-+	q->cur_index++;
-+	return true;
++	current->in_capture_stack = 0;
++	return handle;
 +}
+diff --git a/mm/page_owner.c b/mm/page_owner.c
+index fd4af1ad34b8..c3173e34a779 100644
+--- a/mm/page_owner.c
++++ b/mm/page_owner.c
+@@ -15,12 +15,6 @@
+ 
+ #include "internal.h"
+ 
+-/*
+- * TODO: teach PAGE_OWNER_STACK_DEPTH (__dump_page_owner and save_stack)
+- * to use off stack temporal storage
+- */
+-#define PAGE_OWNER_STACK_DEPTH (16)
+-
+ struct page_owner {
+ 	unsigned short order;
+ 	short last_migrate_reason;
+@@ -37,8 +31,6 @@ struct page_owner {
+ static bool page_owner_enabled __initdata;
+ DEFINE_STATIC_KEY_FALSE(page_owner_inited);
+ 
+-static depot_stack_handle_t dummy_handle;
+-static depot_stack_handle_t failure_handle;
+ static depot_stack_handle_t early_handle;
+ 
+ static void init_early_allocated_pages(void);
+@@ -68,16 +60,6 @@ static __always_inline depot_stack_handle_t create_dummy_stack(void)
+ 	return stack_depot_save(entries, nr_entries, GFP_KERNEL);
+ }
+ 
+-static noinline void register_dummy_stack(void)
+-{
+-	dummy_handle = create_dummy_stack();
+-}
+-
+-static noinline void register_failure_stack(void)
+-{
+-	failure_handle = create_dummy_stack();
+-}
+-
+ static noinline void register_early_stack(void)
+ {
+ 	early_handle = create_dummy_stack();
+@@ -88,8 +70,7 @@ static __init void init_page_owner(void)
+ 	if (!page_owner_enabled)
+ 		return;
+ 
+-	register_dummy_stack();
+-	register_failure_stack();
++	stack_depot_capture_init();
+ 	register_early_stack();
+ 	static_branch_enable(&page_owner_inited);
+ 	init_early_allocated_pages();
+@@ -106,33 +87,6 @@ static inline struct page_owner *get_page_owner(struct page_ext *page_ext)
+ 	return (void *)page_ext + page_owner_ops.offset;
+ }
+ 
+-static noinline depot_stack_handle_t save_stack(gfp_t flags)
+-{
+-	unsigned long entries[PAGE_OWNER_STACK_DEPTH];
+-	depot_stack_handle_t handle;
+-	unsigned int nr_entries;
+-
+-	/*
+-	 * Avoid recursion.
+-	 *
+-	 * Sometimes page metadata allocation tracking requires more
+-	 * memory to be allocated:
+-	 * - when new stack trace is saved to stack depot
+-	 * - when backtrace itself is calculated (ia64)
+-	 */
+-	if (current->in_page_owner)
+-		return dummy_handle;
+-	current->in_page_owner = 1;
+-
+-	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 2);
+-	handle = stack_depot_save(entries, nr_entries, flags);
+-	if (!handle)
+-		handle = failure_handle;
+-
+-	current->in_page_owner = 0;
+-	return handle;
+-}
+-
+ void __reset_page_owner(struct page *page, unsigned short order)
+ {
+ 	int i;
+@@ -145,7 +99,7 @@ void __reset_page_owner(struct page *page, unsigned short order)
+ 	if (unlikely(!page_ext))
+ 		return;
+ 
+-	handle = save_stack(GFP_NOWAIT | __GFP_NOWARN);
++	handle = stack_depot_capture_stack(GFP_NOWAIT | __GFP_NOWARN);
+ 	for (i = 0; i < (1 << order); i++) {
+ 		__clear_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
+ 		page_owner = get_page_owner(page_ext);
+@@ -189,7 +143,7 @@ noinline void __set_page_owner(struct page *page, unsigned short order,
+ 	if (unlikely(!page_ext))
+ 		return;
+ 
+-	handle = save_stack(gfp_mask);
++	handle = stack_depot_capture_stack(gfp_mask);
+ 	__set_page_owner_handle(page_ext, handle, order, gfp_mask);
+ }
+ 
 -- 
 2.37.2.672.g94769d06f0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220830214919.53220-19-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220830214919.53220-20-surenb%40google.com.
