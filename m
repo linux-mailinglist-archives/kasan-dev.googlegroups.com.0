@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERB3ELXKMAMGQEXJ65IMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERB34LXKMAMGQERHWXVEI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc40.google.com (mail-oo1-xc40.google.com [IPv6:2607:f8b0:4864:20::c40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84AD25A6F7A
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 23:49:34 +0200 (CEST)
-Received: by mail-oo1-xc40.google.com with SMTP id h12-20020a4ad28c000000b00448bee68970sf5844026oos.10
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 14:49:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661896173; cv=pass;
+Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA99D5A6F7B
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 23:49:36 +0200 (CEST)
+Received: by mail-yb1-xb3f.google.com with SMTP id j11-20020a05690212cb00b006454988d225sf722600ybu.10
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 14:49:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661896175; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WTfPphS3SO4GL2Yf63wnzCo7dD8+H4AllJrZTZcADhqW9Hi5gZsR7TkcupcDtRzu3u
-         rUYM3jpg5TqKSWFR7H1xiQ2dInxzHDF8FFa1ngGaZti1oUxontLb4DU/J+TXlNUcWo+d
-         GQ1AyGTQAm3ydhpdpBj3/Hnp9ZL78cor3obld2hO08+jeIKj0IfsqA+VXyzvDAgLzRq9
-         cTkbuBEvnYQeKudmJ1I3LBt2N19+4V6tFz/Wab6TpqtMBdR1KNCQgsn3Qi5ZpiWTyLp3
-         CrMorRl8EYBOVlfru65Ihxi5Uh6HyBFxTEEmibMydQDiDGSBFleoIMeGLmXpZEB3IUSE
-         4jKA==
+        b=kmRAO6so93cwO8Qpr3TrBJQhWigbbYjjuxTnnGbLeWOoPTFnMEZWEsdixEqXIbZWt0
+         GRO13OVN9DggPJJidCRTKMGHE7cjy+7SruwP6TTvgwMOlaSjOK+nkKyG0dtj2Iu1Wh9d
+         I3GCjaeSTWfmyhtZC8oDC4ALx2WYaqLRdJM6heRoLgl/e8GFDTXaxYPDsrM/6f0J3BCx
+         RON419OZFs/Pn7yXQEZ+zazF5jv41V3uaqsRtrJMBseETECO4IKriLyfaeYBUIzWn9BE
+         ZzPRkBoufm2GJ2ckWt77H7aw6uNVO3AzyReOInXKBXDWOHB4U8LNw6rIYqrSwduq6iLJ
+         3KTQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=SGnrYQZO8uivHHNNgEVLBbA7WEU1Ncw4P2qrvQLsvvM=;
-        b=pVwgS5O5gRWZsQAuoL8i3vMfMIFcf3z+XuqG4SgVstnn+N1+UM/mPRePIETAZtt1/i
-         DOUWWgb0NjgMiTYsD9n86Pjh7jyUUzIFacDslDae0iLFp4GbUgxC5XHpgivjThyxdgj2
-         G/LOsTydUHBNYpj3memg7FdVAO22yiApgHIsbSR8TwbDvDXthZ9xawriZOfco9JioQgE
-         oKKjMHa/WX6Xyv9o8rOLwmWnqTrc/cU8eppkz8OsdSoaOE0dKiMiOMBkoiVOauZb2yEo
-         hkphzrPrjBrNO/FbN/ifUtTijzlMp03XbxiXX2c8JH2LN20+WYNT05GP3qf4vDyF1OFy
-         ZhxQ==
+        bh=AgVoswJHTOc5yeu/dabVzRpYOumlNIk9VpInh1eCubg=;
+        b=kRkJmxbuanqJFwxQkVMwU2Nebi+w5NMwxKIaPqhJf/F87xyeCYWh9OcikaQBuSoBv2
+         b7iKhnviUf3r8q7sKliqxA0xeprg3b+c1tLa39IQTNv+spdqCM2qaCc+pBNDLZz57XcK
+         hh5fePazUE4PDGmUqSZD1xiYVU7FLZYHZUzE1NoyAW8LENE3kSQDY3MWYit0HId7KHAP
+         /BDKvUYcqwTBEwWIDpeyRJPFnPYy5zL0fz0E5P5f5uKdLt+A/TtnjMxN+oR7N3IikJXG
+         bZbNckhV+OXh1mZJ6K4Bay4yWjJnxFciYPFT6lhRFwyZhX7FdBfVmfrOyoUJedr9Ui/3
+         L9Cw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=hsapsq4I;
-       spf=pass (google.com: domain of 37iuoywykcvebdax6uz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=37IUOYwYKCVEBDAx6uz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=hlMw9ssX;
+       spf=pass (google.com: domain of 37ouoywykcvmdfcz8w19916z.x975vdv8-yzg19916z1c9fad.x97@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=37oUOYwYKCVMDFCz8w19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc;
-        bh=SGnrYQZO8uivHHNNgEVLBbA7WEU1Ncw4P2qrvQLsvvM=;
-        b=dh2J4T3YpK7Yh+bgNWbH8eJo4wdgh3Q+J6+U/4XinsbSg+nIV0g0KxaCBtP3WPYBS2
-         I0pAw3bPiO4u9dJktUfjXT3mGOmDQHF4YGKkWH24rt++hIkm8ynZCEFtELZaxTR8xDBj
-         ypvHCzBShp3HhpiQZFWFtv1YwhJ+ESsbfgK7LWjLtt0jUFZnxhESytqRaUau3ZcmPgPh
-         9dIlRhHwkrKPP9BXhbg2FYf7EN+ntrAIx4pwCb/s/v/Cm33pR+HJBxmzCKFbcadyDLsT
-         L9tNak9fNlGLafi72U8zfJOuNFrs1bUD4DqHs99a25KfR0PO8PMLr09lh1Gewou/hS19
-         WJBg==
+        bh=AgVoswJHTOc5yeu/dabVzRpYOumlNIk9VpInh1eCubg=;
+        b=sIIVgj0s5UyS/6M08yzEKT9YAhVF3MH4ypBl7X9vntEx6w4dePztPR3GIwrYlIdG/3
+         9O6npifQANPQ/jBXflhhFLRKvPQspUDqURh43NrvTivJUeCg8DYHlHhtU1hlO5Vt/IRn
+         G277h9ZsHGS3kVdCxuCa595ElzqwJij4GxSliEPF4J8N+TJt4P7bU3mGs7LF8t5e9UI7
+         F6amc2IMLKCnkHTfH5ytIF0unDMgzLkqB4cfQ74A3U7OlChawecwhAWZO4xHwhDixS6N
+         tpt+LVzNYbMD9aRpYeveRFdtLnP00Hz0LaIs7cRe5TJ4Bav/WNflkmyY5Fk0uK4EH9ni
+         B2uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,65 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc;
-        bh=SGnrYQZO8uivHHNNgEVLBbA7WEU1Ncw4P2qrvQLsvvM=;
-        b=qCnxTuyr07cLhB3M1QqevL56Fo9K0wYTkmHS6RtHf2StDVikZm2lAXUGxIdCOsPnqd
-         G7j/giQXJyqU+VDnXnRKw7Sg/mhn73meprQfc3QvNVRSuBYp9x+TumhLxVaxEiSR/QZW
-         AubAi1jFQ135xcuQFKkPXcJcGu16v+F4oFF/frVthXUFsLGXsC02Tt6/RNT7F2eOWAVW
-         tadtlSXvidvakXJhY9UsVQD9Lpg/LA92BKlrJS9RhcZpaEOovAb0hlCh+anudONIrngh
-         hZm238lR77ocDMUH8ao2ZGkJ1HjJwSjhG1dtX0WsNK1TacY4Qoi8wjZmHbMdNaxcweEu
-         c+Og==
-X-Gm-Message-State: ACgBeo3ca2baT593dJ9mQmTTlCatpwM5un/vO0bEKUCnprt1ULXS7vro
-	XapqTof6tvQtu4FYsEko3GA=
-X-Google-Smtp-Source: AA6agR7fOYn38nKPwi6DHL08wp9YlcB30uaGTfoF0kCt91skqtJO1oF0iJPC0kFdBS7OBnATv8FbTw==
-X-Received: by 2002:a05:6808:201f:b0:343:5aa7:606a with SMTP id q31-20020a056808201f00b003435aa7606amr28963oiw.178.1661896173095;
-        Tue, 30 Aug 2022 14:49:33 -0700 (PDT)
+        bh=AgVoswJHTOc5yeu/dabVzRpYOumlNIk9VpInh1eCubg=;
+        b=DYipvBKXSSB7acZijqx4cAM/G2d7FWOPE4K5YbKny3VxhgfqjtoQ/9irvDP/ZVI/WP
+         3wLTbPCWURShcGJNSrj0ojOIgAxOLqSPc+qXxqbInaRF2uA4DHobfc3B4Ryd2XeZFAKi
+         JSQqK8RW+kW4UGWQgNMUSDNqZMUVX7sg5qSAHT9W6coKpDqZ6rlFmD8ivxj0nGgKhPyY
+         K35gsnT5T+TqWaUVdXHjUUox4KxYJVyw0Ettuj7rcaVw0dkXRJWAbKPo/wBnytZlySUK
+         yZx1uNcVYgMGJ5oSuUDTLHdyJfFw0JRiaP1VHToGK/mz3mRHza/KlBr4JPems2WigHSI
+         Of7Q==
+X-Gm-Message-State: ACgBeo3YqgVMSM1FRE+vnyW2rrSRWRCwUvZMqXPsQCejTIJtrylHEld9
+	UiIycJ6x51MGFIKHBWDFNdg=
+X-Google-Smtp-Source: AA6agR5xrJJUWqBAhj/NScoP87FKF1Mbmz9UYy0RTfIj3boLkUR9MQXJVCK6EqIerXBp9r32VuQPRg==
+X-Received: by 2002:a25:3503:0:b0:672:adb4:a69f with SMTP id c3-20020a253503000000b00672adb4a69fmr12416012yba.41.1661896175592;
+        Tue, 30 Aug 2022 14:49:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:13c8:b0:342:fca9:5e23 with SMTP id
- d8-20020a05680813c800b00342fca95e23ls3793851oiw.11.-pod-prod-gmail; Tue, 30
- Aug 2022 14:49:32 -0700 (PDT)
-X-Received: by 2002:a05:6808:de0:b0:345:8f90:b51 with SMTP id g32-20020a0568080de000b003458f900b51mr28168oic.230.1661896172572;
-        Tue, 30 Aug 2022 14:49:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661896172; cv=none;
+Received: by 2002:a05:690c:83:b0:336:fb80:b482 with SMTP id
+ be3-20020a05690c008300b00336fb80b482ls4380752ywb.2.-pod-prod-gmail; Tue, 30
+ Aug 2022 14:49:35 -0700 (PDT)
+X-Received: by 2002:a0d:e650:0:b0:341:85d:f480 with SMTP id p77-20020a0de650000000b00341085df480mr9713500ywe.161.1661896175069;
+        Tue, 30 Aug 2022 14:49:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661896175; cv=none;
         d=google.com; s=arc-20160816;
-        b=Ym0mtpjHmjt5XFvxYjtGlc7hoV5W6Ln+n5RC2mlXxoFzMycW9lFGBiBxjrFc/rqz9c
-         RTFzZyY53oG37oBrECBeS1n2C5Zig9W1d6cATSeZFVTyEGLTcWruc2fZaI7LWb28PTJb
-         Z8eiR+9DVNz8lTBmdrH/Vhpdie8+EaxLXYPbrQnGa8omLfydfB924AJ66T9F0y6slHa5
-         wIBqYeluU1HokOl3HEmrzYBqa/3XCDkYewUv5Xgm0szXYFluqyMhRC0dif1alT3lzHXV
-         64lJFsgOqG3AJ27Zk9k/JlFaJ9Nx0ax08BkAmnGLEPh/twrg8F6Xi0D0oKMXs2v79pvX
-         mkWw==
+        b=xqAfeHWuvXwMZgL3PxOcjTlJKgzRu1TxFZubwJK0m1owyY0tZjpn892NCOeY987Nxt
+         myFDHYvyUG7WhMpMxSBT1hUnqmYCItATEzWThsbwGVE2d36YLjbJelbzk0tITiEGO+Ha
+         ECLteMz+8/WZjJkk0FKzpJz184u5IMgrakG/C7jIuwaYviGFrwaE9SDIavi4GdFg2e+L
+         ffGzcKu9na4P3VzzC+OerCVS26SvDE7SvveHRAH7zdqu9K+64RTMiXLXhg3lylAQ2rcK
+         kq34DlTlNZNP3BGPFlg5dH1BZe0h15+OoxEL9ts1tAk1fW2g6ajjj0XFT1QN3vAX8vfA
+         MAMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=Ax7BfvJ0osMGjEtA73bq+7eMx40gLvPyn7aoZ5x/9O0=;
-        b=LA5QSPBzAj+X0LqhNivu/sLoeWQICMPHBm/uK7j4CYzkL0CS8FNNLPZ5QMXdpVcwjd
-         ea+3rsKtgh612A1WkJkka2yOEPl4qppo74YKV5YSw37hfMi/LF/SzGQBFQ520siIG1UV
-         YH9/TreGWd0MQeAmSe8Cf0xLcdR2xNV450r1/NYGcXRha1x70hPbWbzUk5kpDYgWLht+
-         p/NYq9+ciy1FqXnIcwZAebJ6ysoFmAnwXySEy6m7Li67dewqUB/Ht1cORjGd52TLsHNO
-         wTFpN5h+OgTf4g9YHG2loLgvTiAk9G9J+x2J4rlqGRoy7ofP3Zl68xSCRP5jG8iu4klc
-         zMsw==
+        bh=Ximx3byfJ7rLtdPEIh1Ra0raz9MzgSTr/ga3ge5UvWM=;
+        b=y4/hcXEarrG9oYe3sRx1eCKQdh1Dz2hFSmRaJKCZn9xfPdtgwMK7Yh1JrW1f3/c+f6
+         E3kd8JHgoqxexhIdtuFypySm4vRkvqxjm2BS4J7EDLVkAhcKA2Tab9LwJvozDrGf71Ak
+         BbRa5fkZiBgN4OcO+k70SyLJmIeguomV5Xfm/6NpTKBT9SRy4OaMOFWB2tiDc2rM7ISw
+         TtOS9dMWEg2OW9geKEYTg0tCfTZ69YHB2KJTuwdc78wwrobPC2ZFg5Qje53Fbr1uTA3t
+         Lm8TnF+3Y2Ysj5P2cx5Us7GIU5Qcq61BQQ4KKVXdvHpLTZzfWJ6ffK2yTXoWfUH68K4s
+         S+pA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=hsapsq4I;
-       spf=pass (google.com: domain of 37iuoywykcvebdax6uz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=37IUOYwYKCVEBDAx6uz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=hlMw9ssX;
+       spf=pass (google.com: domain of 37ouoywykcvmdfcz8w19916z.x975vdv8-yzg19916z1c9fad.x97@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=37oUOYwYKCVMDFCz8w19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
-        by gmr-mx.google.com with ESMTPS id u15-20020a0568301f4f00b0063892f97dadsi683523oth.3.2022.08.30.14.49.32
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
+        by gmr-mx.google.com with ESMTPS id d128-20020a816886000000b0032e923f3f95si717607ywc.2.2022.08.30.14.49.35
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 14:49:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 37iuoywykcvebdax6uz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
-Received: by mail-yb1-xb4a.google.com with SMTP id k126-20020a253d84000000b0068bb342010dso712154yba.1
-        for <kasan-dev@googlegroups.com>; Tue, 30 Aug 2022 14:49:32 -0700 (PDT)
+        Tue, 30 Aug 2022 14:49:35 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 37ouoywykcvmdfcz8w19916z.x975vdv8-yzg19916z1c9fad.x97@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
+Received: by mail-yb1-xb49.google.com with SMTP id l9-20020a252509000000b00695eb4f1422so720896ybl.13
+        for <kasan-dev@googlegroups.com>; Tue, 30 Aug 2022 14:49:35 -0700 (PDT)
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:200:a005:55b3:6c26:b3e4])
- (user=surenb job=sendgmr) by 2002:a25:3406:0:b0:69c:857b:7fd3 with SMTP id
- b6-20020a253406000000b0069c857b7fd3mr3099193yba.404.1661896172108; Tue, 30
- Aug 2022 14:49:32 -0700 (PDT)
-Date: Tue, 30 Aug 2022 14:48:52 -0700
+ (user=surenb job=sendgmr) by 2002:a0d:d98c:0:b0:33d:c482:9714 with SMTP id
+ b134-20020a0dd98c000000b0033dc4829714mr15776751ywe.415.1661896174717; Tue, 30
+ Aug 2022 14:49:34 -0700 (PDT)
+Date: Tue, 30 Aug 2022 14:48:53 -0700
 In-Reply-To: <20220830214919.53220-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20220830214919.53220-1-surenb@google.com>
 X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220830214919.53220-4-surenb@google.com>
-Subject: [RFC PATCH 03/30] Lazy percpu counters
+Message-ID: <20220830214919.53220-5-surenb@google.com>
+Subject: [RFC PATCH 04/30] scripts/kallysms: Always include __start and __stop symbols
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -132,9 +132,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=hsapsq4I;       spf=pass
- (google.com: domain of 37iuoywykcvebdax6uz77z4x.v753tbt6-wxez77z4xza7d8b.v75@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=37IUOYwYKCVEBDAx6uz77z4x.v753tBt6-wxEz77z4xzA7D8B.v75@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=hlMw9ssX;       spf=pass
+ (google.com: domain of 37ouoywykcvmdfcz8w19916z.x975vdv8-yzg19916z1c9fad.x97@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=37oUOYwYKCVMDFCz8w19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -152,271 +152,50 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Kent Overstreet <kent.overstreet@linux.dev>
 
-This patch adds lib/lazy-percpu-counter.c, which implements counters
-that start out as atomics, but lazily switch to percpu mode if the
-update rate crosses some threshold (arbitrarily set at 256 per second).
+These symbols are used to denote section boundaries: by always including
+them we can unify loading sections from modules with loading built-in
+sections, which leads to some significant cleanup.
 
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 ---
- include/linux/lazy-percpu-counter.h |  67 +++++++++++++
- lib/Kconfig                         |   3 +
- lib/Makefile                        |   2 +
- lib/lazy-percpu-counter.c           | 141 ++++++++++++++++++++++++++++
- 4 files changed, 213 insertions(+)
- create mode 100644 include/linux/lazy-percpu-counter.h
- create mode 100644 lib/lazy-percpu-counter.c
+ scripts/kallsyms.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/include/linux/lazy-percpu-counter.h b/include/linux/lazy-percpu-counter.h
-new file mode 100644
-index 000000000000..a22a2b9a9f32
---- /dev/null
-+++ b/include/linux/lazy-percpu-counter.h
-@@ -0,0 +1,67 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Lazy percpu counters:
-+ * (C) 2022 Kent Overstreet
-+ *
-+ * Lazy percpu counters start out in atomic mode, then switch to percpu mode if
-+ * the update rate crosses some threshold.
-+ *
-+ * This means we don't have to decide between low memory overhead atomic
-+ * counters and higher performance percpu counters - we can have our cake and
-+ * eat it, too!
-+ *
-+ * Internally we use an atomic64_t, where the low bit indicates whether we're in
-+ * percpu mode, and the high 8 bits are a secondary counter that's incremented
-+ * when the counter is modified - meaning 55 bits of precision are available for
-+ * the counter itself.
-+ *
-+ * lazy_percpu_counter is 16 bytes (on 64 bit machines), raw_lazy_percpu_counter
-+ * is 8 bytes but requires a separate unsigned long to record when the counter
-+ * wraps - because sometimes multiple counters are used together and can share
-+ * the same timestamp.
-+ */
-+
-+#ifndef _LINUX_LAZY_PERCPU_COUNTER_H
-+#define _LINUX_LAZY_PERCPU_COUNTER_H
-+
-+struct raw_lazy_percpu_counter {
-+	atomic64_t			v;
-+};
-+
-+void __lazy_percpu_counter_exit(struct raw_lazy_percpu_counter *c);
-+void __lazy_percpu_counter_add(struct raw_lazy_percpu_counter *c,
-+			       unsigned long *last_wrap, s64 i);
-+s64 __lazy_percpu_counter_read(struct raw_lazy_percpu_counter *c);
-+
-+static inline void __lazy_percpu_counter_sub(struct raw_lazy_percpu_counter *c,
-+					     unsigned long *last_wrap, s64 i)
-+{
-+	__lazy_percpu_counter_add(c, last_wrap, -i);
-+}
-+
-+struct lazy_percpu_counter {
-+	struct raw_lazy_percpu_counter	v;
-+	unsigned long			last_wrap;
-+};
-+
-+static inline void lazy_percpu_counter_exit(struct lazy_percpu_counter *c)
-+{
-+	__lazy_percpu_counter_exit(&c->v);
-+}
-+
-+static inline void lazy_percpu_counter_add(struct lazy_percpu_counter *c, s64 i)
-+{
-+	__lazy_percpu_counter_add(&c->v, &c->last_wrap, i);
-+}
-+
-+static inline void lazy_percpu_counter_sub(struct lazy_percpu_counter *c, s64 i)
-+{
-+	__lazy_percpu_counter_sub(&c->v, &c->last_wrap, i);
-+}
-+
-+static inline s64 lazy_percpu_counter_read(struct lazy_percpu_counter *c)
-+{
-+	return __lazy_percpu_counter_read(&c->v);
-+}
-+
-+#endif /* _LINUX_LAZY_PERCPU_COUNTER_H */
-diff --git a/lib/Kconfig b/lib/Kconfig
-index dc1ab2ed1dc6..fc6dbc425728 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -498,6 +498,9 @@ config ASSOCIATIVE_ARRAY
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index f18e6dfc68c5..3d51639a595d 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -263,6 +263,11 @@ static int symbol_in_range(const struct sym_entry *s,
+ 	return 0;
+ }
  
- 	  for more information.
- 
-+config LAZY_PERCPU_COUNTER
-+	bool
-+
- config HAS_IOMEM
- 	bool
- 	depends on !NO_IOMEM
-diff --git a/lib/Makefile b/lib/Makefile
-index ffabc30a27d4..cc7762748708 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -163,6 +163,8 @@ obj-$(CONFIG_DEBUG_PREEMPT) += smp_processor_id.o
- obj-$(CONFIG_DEBUG_LIST) += list_debug.o
- obj-$(CONFIG_DEBUG_OBJECTS) += debugobjects.o
- 
-+obj-$(CONFIG_LAZY_PERCPU_COUNTER) += lazy-percpu-counter.o
-+
- obj-$(CONFIG_BITREVERSE) += bitrev.o
- obj-$(CONFIG_LINEAR_RANGES) += linear_ranges.o
- obj-$(CONFIG_PACKING)	+= packing.o
-diff --git a/lib/lazy-percpu-counter.c b/lib/lazy-percpu-counter.c
-new file mode 100644
-index 000000000000..299ef36137ee
---- /dev/null
-+++ b/lib/lazy-percpu-counter.c
-@@ -0,0 +1,141 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/atomic.h>
-+#include <linux/gfp.h>
-+#include <linux/jiffies.h>
-+#include <linux/lazy-percpu-counter.h>
-+#include <linux/percpu.h>
-+
-+/*
-+ * We use the high bits of the atomic counter for a secondary counter, which is
-+ * incremented every time the counter is touched. When the secondary counter
-+ * wraps, we check the time the counter last wrapped, and if it was recent
-+ * enough that means the update frequency has crossed our threshold and we
-+ * switch to percpu mode:
-+ */
-+#define COUNTER_MOD_BITS		8
-+#define COUNTER_MOD_MASK		~(~0ULL >> COUNTER_MOD_BITS)
-+#define COUNTER_MOD_BITS_START		(64 - COUNTER_MOD_BITS)
-+
-+/*
-+ * We use the low bit of the counter to indicate whether we're in atomic mode
-+ * (low bit clear), or percpu mode (low bit set, counter is a pointer to actual
-+ * percpu counters:
-+ */
-+#define COUNTER_IS_PCPU_BIT		1
-+
-+static inline u64 __percpu *lazy_percpu_counter_is_pcpu(u64 v)
++static bool string_starts_with(const char *s, const char *prefix)
 +{
-+	if (!(v & COUNTER_IS_PCPU_BIT))
-+		return NULL;
-+
-+	v ^= COUNTER_IS_PCPU_BIT;
-+	return (u64 __percpu *)(unsigned long)v;
++	return strncmp(s, prefix, strlen(prefix)) == 0;
 +}
 +
-+static inline s64 lazy_percpu_counter_atomic_val(s64 v)
-+{
-+	/* Ensure output is sign extended properly: */
-+	return (v << COUNTER_MOD_BITS) >>
-+		(COUNTER_MOD_BITS + COUNTER_IS_PCPU_BIT);
-+}
+ static int symbol_valid(const struct sym_entry *s)
+ {
+ 	const char *name = sym_name(s);
+@@ -270,6 +275,14 @@ static int symbol_valid(const struct sym_entry *s)
+ 	/* if --all-symbols is not specified, then symbols outside the text
+ 	 * and inittext sections are discarded */
+ 	if (!all_symbols) {
++		/*
++		 * Symbols starting with __start and __stop are used to denote
++		 * section boundaries, and should always be included:
++		 */
++		if (string_starts_with(name, "__start_") ||
++		    string_starts_with(name, "__stop_"))
++			return 1;
 +
-+static void lazy_percpu_counter_switch_to_pcpu(struct raw_lazy_percpu_counter *c)
-+{
-+	u64 __percpu *pcpu_v = alloc_percpu_gfp(u64, GFP_ATOMIC|__GFP_NOWARN);
-+	u64 old, new, v;
-+
-+	if (!pcpu_v)
-+		return;
-+
-+	preempt_disable();
-+	v = atomic64_read(&c->v);
-+	do {
-+		if (lazy_percpu_counter_is_pcpu(v)) {
-+			free_percpu(pcpu_v);
-+			return;
-+		}
-+
-+		old = v;
-+		new = (unsigned long)pcpu_v | 1;
-+
-+		*this_cpu_ptr(pcpu_v) = lazy_percpu_counter_atomic_val(v);
-+	} while ((v = atomic64_cmpxchg(&c->v, old, new)) != old);
-+	preempt_enable();
-+}
-+
-+/**
-+ * __lazy_percpu_counter_exit: Free resources associated with a
-+ * raw_lazy_percpu_counter
-+ *
-+ * @c: counter to exit
-+ */
-+void __lazy_percpu_counter_exit(struct raw_lazy_percpu_counter *c)
-+{
-+	free_percpu(lazy_percpu_counter_is_pcpu(atomic64_read(&c->v)));
-+}
-+EXPORT_SYMBOL_GPL(__lazy_percpu_counter_exit);
-+
-+/**
-+ * __lazy_percpu_counter_read: Read current value of a raw_lazy_percpu_counter
-+ *
-+ * @c: counter to read
-+ */
-+s64 __lazy_percpu_counter_read(struct raw_lazy_percpu_counter *c)
-+{
-+	s64 v = atomic64_read(&c->v);
-+	u64 __percpu *pcpu_v = lazy_percpu_counter_is_pcpu(v);
-+
-+	if (pcpu_v) {
-+		int cpu;
-+
-+		v = 0;
-+		for_each_possible_cpu(cpu)
-+			v += *per_cpu_ptr(pcpu_v, cpu);
-+	} else {
-+		v = lazy_percpu_counter_atomic_val(v);
-+	}
-+
-+	return v;
-+}
-+EXPORT_SYMBOL_GPL(__lazy_percpu_counter_read);
-+
-+/**
-+ * __lazy_percpu_counter_add: Add a value to a lazy_percpu_counter
-+ *
-+ * @c: counter to modify
-+ * @last_wrap: pointer to a timestamp, updated when mod counter wraps
-+ * @i: value to add
-+ */
-+void __lazy_percpu_counter_add(struct raw_lazy_percpu_counter *c,
-+			       unsigned long *last_wrap, s64 i)
-+{
-+	u64 atomic_i;
-+	u64 old, v = atomic64_read(&c->v);
-+	u64 __percpu *pcpu_v;
-+
-+	atomic_i  = i << COUNTER_IS_PCPU_BIT;
-+	atomic_i &= ~COUNTER_MOD_MASK;
-+	atomic_i |= 1ULL << COUNTER_MOD_BITS_START;
-+
-+	do {
-+		pcpu_v = lazy_percpu_counter_is_pcpu(v);
-+		if (pcpu_v) {
-+			this_cpu_add(*pcpu_v, i);
-+			return;
-+		}
-+
-+		old = v;
-+	} while ((v = atomic64_cmpxchg(&c->v, old, old + atomic_i)) != old);
-+
-+	if (unlikely(!(v & COUNTER_MOD_MASK))) {
-+		unsigned long now = jiffies;
-+
-+		if (*last_wrap &&
-+		    unlikely(time_after(*last_wrap + HZ, now)))
-+			lazy_percpu_counter_switch_to_pcpu(c);
-+		else
-+			*last_wrap = now;
-+	}
-+}
-+EXPORT_SYMBOL(__lazy_percpu_counter_add);
+ 		if (symbol_in_range(s, text_ranges,
+ 				    ARRAY_SIZE(text_ranges)) == 0)
+ 			return 0;
 -- 
 2.37.2.672.g94769d06f0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220830214919.53220-4-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220830214919.53220-5-surenb%40google.com.
