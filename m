@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBL4MXKMAMGQE4LJQRQY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBMUMXKMAMGQE2BVXMKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3b.google.com (mail-oa1-x3b.google.com [IPv6:2001:4860:4864:20::3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A045A6FBA
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 23:50:45 +0200 (CEST)
-Received: by mail-oa1-x3b.google.com with SMTP id 586e51a60fabf-11f0ae0928bsf2198437fac.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 14:50:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661896239; cv=pass;
+Received: from mail-pl1-x638.google.com (mail-pl1-x638.google.com [IPv6:2607:f8b0:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C435A6FB6
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 23:50:43 +0200 (CEST)
+Received: by mail-pl1-x638.google.com with SMTP id q8-20020a170902dac800b001753aa66955sf792644plx.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 14:50:43 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661896242; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TYzS0/9GT5FoDEeVmB6FuJFzANRxkX/nxCkEB/n4S9i7y7Z05jVdKUlvWDrRIliaBY
-         0xrNrHv+LJWz3bSeIDPtS1oNHD0T6U0+jslBH2Yt+tvousBXShYXg1ckMK7MLg+AtpLb
-         tcpI+E02GBGFhRsP/JZnjsEFBM96sm67oGT4oc9mErE8hAufBqBQQyEcX4QyggkasySq
-         4lugV3c56GQ4/mzeE/MrHdtFO0MB3YUlK4LflLqCFlKuUdq2X+Fb1s9Ko/lGsoW+0Nm4
-         jNSig+R0AL56UCwsRu5PiCqQlW2OOGTUN/MGZwcJn7STW8aYUyq69tEeyjgWU5zA8UOj
-         TBiw==
+        b=oPE678S4ufKxg7A4WA6k7qir+j9igQb/w5v6WjDYyowV+R2aWRmTOdbUFJUBGAjxt2
+         crCvWFLrfFdhh2R8+2cWVIk22ikkKWIqs3oL2Jz5c2DH8yu3F6WciqSE2HhBcYDWc6Nq
+         Z8yIsS8rCFbwbQ0JOfGIJW+M2T/XE2Nc7/UxzT5E9eIpyaXzTyLZCQ38tLLlEDuGK2Xl
+         AAkzrUYoQex1UJXQjYG70AdokywM+T+4lsfCVCPA6cfwCNRFUrYN8iZzW4yjHUFz/LMA
+         2VN7zGyKixZBJJhChXXvhJXQUc3RGeMFNrBwNV+H7+6PpaGmp6OwysAAn/t3sBOP2mHi
+         nCcg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=F47Pj3mZjjvJLCcRAXl07YT/Zr3PyfsF8Hb18K8XJkk=;
-        b=mwH0f2exnoQ76KZzfXkrig8GcXHG6s0XhUXF1zpqGpt645odep4T5QLRqnbMym7qXx
-         EsxCBbdWJOl0/LV+U4/O2EhQjA11/OD4+lo3OSMoTjK7MzTj82lwqB/DdVTowi7EMuSc
-         rdQrdDE2zoP1x98j2ItgMeHpgUi2PsLvCTBRgbTku2FA1quMvhe/dXOTB8OgDOedQdqo
-         kVwMY4bW9t8WRnl74LYm4X/dBpdahKT5p+nnWKO3d4Zr5Ein7N2aT7LXoG8WCzMFnFRL
-         31yhPIuWKiMHKGLHnY6A945TBEBxZLl1SNH1Cxa3UiQp40d6JaA3rmcAFNPsTd97d3ak
-         7ReA==
+        bh=UoQ9Q7aYY3mUNpFCPW9KnCbj/WMbCNVIWxIFlG8iKZE=;
+        b=I7FGoAZhopax/C8yPXos3DqQHQZITp2Y9NCwbipoHBTrWWtDX5OO0WtEZ0z3oaReO7
+         MNgmFCXvIg0ZQM+9i9xl/8lem0FEaPm0evEeSVLc/l+oSJSLgwbIbhyWCbbw6z5ZRvKC
+         c+MO+9K4BpceBkM1/ePnnSMe6ZRQOyRHZofDdE3/KccrOt1BBPcJivZR/b9bSBCM1uxS
+         gSmkGRLoMReJBxiHc0PI1Cfi3AEKcWYUDBqlYxsMvUoqP4sO0qx7P7UAupcvv9R6MpqQ
+         YdS1ykga3tN9fnvWCjIXWtSLRCKe+UDvbA511J4gDq3t49XmDXNwaOfqSs6NAtHUwOjR
+         SJMQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=VTVsraZq;
-       spf=pass (google.com: domain of 3loyoywykczmfhe1ay3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3LoYOYwYKCZMFHE1Ay3BB381.zB97xFxA-01I3BB3813EBHCF.zB9@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=lMDbTLhz;
+       spf=pass (google.com: domain of 3miyoywykczuhjg3c05dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3MIYOYwYKCZUHJG3C05DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc;
-        bh=F47Pj3mZjjvJLCcRAXl07YT/Zr3PyfsF8Hb18K8XJkk=;
-        b=LVFgL0ysLX49Dxp07wgrqFd6WeDUpQKsZ/OlAtn5UdK+XvdHGqQ7eyTYAaV9RO0VAG
-         hW8I0ToWFYcG8jGOvDE15aS6Fp6bOMyYqgqXSDrbn9xvJTPTbawUk+lha063ECaaJrpP
-         Zab5+WweAsGiSJZBiUsEWYSdniMjBwMOHs76++NuZIW+z5IFfJUMTqqJeS9p8xGWh34y
-         1vVGvKTuz93xBf2V4INarkRInn+Yz2TU5aNUCLteo6QktvksDCplvbUjfdpPQCMBb3fG
-         x8pzjJAfQUrsVDgrCaNQIRCNl/FwevWPl9jLlIQZToVZulJbhl/A2dNw5ijJiCi2isrt
-         0kgg==
+        bh=UoQ9Q7aYY3mUNpFCPW9KnCbj/WMbCNVIWxIFlG8iKZE=;
+        b=GX9CMgtNjDkZY9u2L07hyDS94NKBbCv+k91JZYFg9FoW7DkHsDUGsiugTsKzuTfsDR
+         ivL7eE9YGf+6ShNkIMTg6Zzb+2vMlqvunRSIgQ9K4XeakGahyQ85LxEwPoACFOrkv0t2
+         spAwsPDzRyblmrnkFlb2NSGHazOrt2MArxDv6hfJIF/Rm3QEcD9falbilFo+WtYwbuGk
+         wEj6wma582oCaoo1OyX7vrpO+w0DLHqphy63LI55cWo/0JxsNJMHIc03ZvwJbSzpX8oH
+         gtFzMiTOIIGe9xZ/t6lwTXGHUmc6xXkrDE5A3jVreDMhvnoarnbbeDLab3hWvxPYfdhO
+         6ZLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,64 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc;
-        bh=F47Pj3mZjjvJLCcRAXl07YT/Zr3PyfsF8Hb18K8XJkk=;
-        b=m+keIPkXUVmlYqXGkeNxxRJUN4/UvrWXFOehqNlv2bo/9xU7wHogA/wAUHDzEsWdLl
-         WKADBoUv+Wexfnuh65XS0eTIqPE6QQGB2ACDbhnQnZKOuEW528yqaUlE3+TlNVakCSM6
-         mLTBK7j7ohRsXBtMvrxZPrbvsfEA90DS+ccHwqhouv12OOJJsOPV3g31ZTXIj1KYV6KS
-         QYN/B2qD4YtIxMumAYBCxTM2FldFBCWdxzx1RRasjOSeDTL2o0qXqrlIAHVDirAttTPp
-         eC/ZbR0zavtyPn3Jw2rSTf6/w5WzguFqZT8j+SrdXA2xFUXA/MQvgalOwrZJxyZIYl0N
-         Dr+Q==
-X-Gm-Message-State: ACgBeo1+PsP+5wUObjpRjBgfD04duxVDhvYd9ctHWyOXY9Y+sS4AYCrV
-	kqo3tIOUwhoVYsGGd8xeEWA=
-X-Google-Smtp-Source: AA6agR6+jIHRTGEo2aCsRFbEcxqffvI7yBgzwOstmEr+nxhWfqKBN83T7dV8tX409bSi88sxKMkzmA==
-X-Received: by 2002:a05:6870:c1c5:b0:11c:4108:105a with SMTP id i5-20020a056870c1c500b0011c4108105amr22599oad.187.1661896239172;
-        Tue, 30 Aug 2022 14:50:39 -0700 (PDT)
+        bh=UoQ9Q7aYY3mUNpFCPW9KnCbj/WMbCNVIWxIFlG8iKZE=;
+        b=uo1t5MXM+tGosZFNPReY5NdaT9erIYrhn8yUCOaTR8+RHifkbn/uWxGH1w/EERcdpf
+         fXlS558WwHrz+gDdHiD2dqM+tJVMnKVRBFn5ZUoHFakeImkN2V48HnG6eiQSTDKWy3ZA
+         J/N+FyfUSRkMSuVbvJTj4u/z9IflIupQcQ30KCcLhNDwPGiBDNFhrKYYk8kWllmPWa+u
+         qRqnzo+hJge1IbxWqVen4ImZOGP7cwSyRjf0A2GuHEAm36quGXfSacVobjh3D8X+DaFU
+         fkSJy9ULyEuWmnRb5YepMA8I7QauaZsdvkpfFrDwYVEk5ngdMUkB4k5zm6MxRn9bBoKj
+         rXdA==
+X-Gm-Message-State: ACgBeo297FaagR72R9NxD8N7Nzc0H+UWJNBhFEoimAxJjpWS/3ANVTpb
+	bJM7JIWDdPQR8SZH7vo0+QM=
+X-Google-Smtp-Source: AA6agR77O9bFjenMBiSUUfIbg5dpXP98eFwwrM5Z0S37PqEP2S3ds4oGxeUTSYUYa1k6jpV/LDCmPA==
+X-Received: by 2002:a17:902:d890:b0:16c:abb4:94d0 with SMTP id b16-20020a170902d89000b0016cabb494d0mr23206605plz.50.1661896242546;
+        Tue, 30 Aug 2022 14:50:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:b985:0:b0:344:ef1b:a321 with SMTP id j127-20020acab985000000b00344ef1ba321ls3852299oif.9.-pod-prod-gmail;
- Tue, 30 Aug 2022 14:50:38 -0700 (PDT)
-X-Received: by 2002:a05:6808:198f:b0:344:96e8:829b with SMTP id bj15-20020a056808198f00b0034496e8829bmr28290oib.222.1661896238680;
-        Tue, 30 Aug 2022 14:50:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661896238; cv=none;
+Received: by 2002:a17:903:3011:b0:171:2e1e:fa98 with SMTP id
+ o17-20020a170903301100b001712e1efa98ls8261821pla.7.-pod-prod-gmail; Tue, 30
+ Aug 2022 14:50:41 -0700 (PDT)
+X-Received: by 2002:a17:902:ab08:b0:173:320e:3316 with SMTP id ik8-20020a170902ab0800b00173320e3316mr22063129plb.38.1661896241769;
+        Tue, 30 Aug 2022 14:50:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661896241; cv=none;
         d=google.com; s=arc-20160816;
-        b=lTUPmiMuZb1ngH/0feXsvinFWLYS7BI8ks79jvzOOQAQPY8sJTyajnUE3cl3csnUyW
-         KbADvWRWcOFw+6O6nj1TbPjjr9bdL2UY8CK9o1gijfq8iPDWlIiRBZMIEHLpP6AIthg8
-         W+QV+YarBCFc/drYMFMDiFoRNdDJc+TdS6tx6dnGc2Mb5lSDvBYXebSn57Szjp2yqDR9
-         uBIFz5SJK/E++nJbJuzsn4ueS4CjoUXccAznvKhmbPde4w/cNBnzkzUeS9j3ugAsd4MY
-         6oJCCRbKudi+nVdom9omRqxOsLZkUOQ8sSVUEtPR/tDndrjcFNMOXjBSifsArSKX4V62
-         r0/w==
+        b=ycnhKaYq23WS6PacazRR1++hyGnmyVMLFzCoJ0EtNi5rAIW8aTqp/ogsrhmdzekkjV
+         vTNtGtyrUJCE7SBe2XCoV4pLgaEXZMjDykNG/mIvcqoP2uLTb+6j04IQyAxk4AlBKDuA
+         MmKWH2S/fX1DWcQlT8vWIXnidW6lKPAk2Fclpqmx9jxhvLTRGKq7+DH6zajjuEFLNk7S
+         Syc0nM1d0vYPePG1jBIB+2ILEUJ1OduQjYTR7wi8PhwRnw5FSqLniCVGhr11YYfBJc+L
+         LIVYpvoCC49qPv9uCLCgAE1rD2eSKsGBA6/aCKIGmg6lCMqIpWzTCZRPiYmgN2U/cnp+
+         LMmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=ZStBKMvqZf5cf9FAaMePhJpKdJzTFBwr6u3tFotg8hA=;
-        b=aBwxafffGzPY77OtPfkn95yoVxsXW6wjaN9I1cf8ovMH7LFzST+Y6msKg5YxD/CdUk
-         ptPU+D3araeu/Isdbmn1xWBTOvQhoR9AVx/M3B/pagFb/HKEffgohrkYMU2B20RgN/dd
-         aHVw67qYe1F+6NH9ZTFuwbcJmG3LAm0ZqwxN6W2JcRAKWIDuke2I9WG833448c3BUapJ
-         LWkGHvFHRxPDv0xpoCaD4BwSn6LoY5DmjFVltleO81jhCh1WE/TVAAEK1P6kcO4g9lO5
-         MJlDfXX6fJWWAcgr5oLuk8b8bVk9teLUgf42wmSD5KWS0MemJ9Xi/Re+RkRKjAJNkhBD
-         SNKg==
+        bh=I4E0zbgDI9VG+bn61bv+haOxSwGhD/tyP2DJbq3PPno=;
+        b=bZOBR2rxFrvlbRlExnfPffANqKJzY0zxz3P6e9COBMgHQGGz0sEusyL+/bTiBtKzrQ
+         pxSG3YJEXAhR7xKWDl/YuIucvm1XGRrCSlEZ6/CTRdBbsyEOxPkZB66GrHjBdOYSXURb
+         c6DO8yLQBoSYOQJetawUX4z1joOKgqDPb/0JwIJ+iDWK9U+Aew47RzvT036gI5kvayQV
+         bW7cWOadK0C0I0hqghBdmk5bkU2HVytV2hEgxr0E5vDPSd/1QZhmfFrGdCNhNqOQ9CJj
+         lbLgXSAQuB2nJ1vLPFfVS4Y/dNBtTgFNOTgzul17AAqBdlEjCAurYmx7ObyToAy9OfuR
+         4LaA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=VTVsraZq;
-       spf=pass (google.com: domain of 3loyoywykczmfhe1ay3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3LoYOYwYKCZMFHE1Ay3BB381.zB97xFxA-01I3BB3813EBHCF.zB9@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=lMDbTLhz;
+       spf=pass (google.com: domain of 3miyoywykczuhjg3c05dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3MIYOYwYKCZUHJG3C05DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
-        by gmr-mx.google.com with ESMTPS id o17-20020a056870969100b0010c5005e1c8si604767oaq.3.2022.08.30.14.50.38
+        by gmr-mx.google.com with ESMTPS id z198-20020a6333cf000000b0041e0e935246si160704pgz.3.2022.08.30.14.50.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 14:50:38 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3loyoywykczmfhe1ay3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
-Received: by mail-yb1-xb4a.google.com with SMTP id w63-20020a25c742000000b006960ac89fedso721381ybe.18
-        for <kasan-dev@googlegroups.com>; Tue, 30 Aug 2022 14:50:38 -0700 (PDT)
+        Tue, 30 Aug 2022 14:50:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3miyoywykczuhjg3c05dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
+Received: by mail-yb1-xb4a.google.com with SMTP id i6-20020a259786000000b0069648392979so716484ybo.11
+        for <kasan-dev@googlegroups.com>; Tue, 30 Aug 2022 14:50:41 -0700 (PDT)
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:200:a005:55b3:6c26:b3e4])
- (user=surenb job=sendgmr) by 2002:a05:6902:15cf:b0:67c:1ee7:149 with SMTP id
- l15-20020a05690215cf00b0067c1ee70149mr13333139ybu.594.1661896238275; Tue, 30
- Aug 2022 14:50:38 -0700 (PDT)
-Date: Tue, 30 Aug 2022 14:49:17 -0700
+ (user=surenb job=sendgmr) by 2002:a25:4f0b:0:b0:69c:2b2c:f6e5 with SMTP id
+ d11-20020a254f0b000000b0069c2b2cf6e5mr7392973ybb.298.1661896240890; Tue, 30
+ Aug 2022 14:50:40 -0700 (PDT)
+Date: Tue, 30 Aug 2022 14:49:18 -0700
 In-Reply-To: <20220830214919.53220-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20220830214919.53220-1-surenb@google.com>
 X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220830214919.53220-29-surenb@google.com>
-Subject: [RFC PATCH 28/30] Improved symbolic error names
+Message-ID: <20220830214919.53220-30-surenb@google.com>
+Subject: [RFC PATCH 29/30] dyndbg: Convert to code tagging
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -131,9 +132,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=VTVsraZq;       spf=pass
- (google.com: domain of 3loyoywykczmfhe1ay3bb381.zb97xfxa-01i3bb3813ebhcf.zb9@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3LoYOYwYKCZMFHE1Ay3BB381.zB97xFxA-01I3BB3813EBHCF.zB9@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=lMDbTLhz;       spf=pass
+ (google.com: domain of 3miyoywykczuhjg3c05dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3MIYOYwYKCZUHJG3C05DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -151,278 +152,757 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Kent Overstreet <kent.overstreet@linux.dev>
 
-This patch adds per-error-site error codes, with error strings that
-include their file and line number.
+This converts dynamic debug to the new code tagging framework, which
+provides an interface for iterating over objects in a particular elf
+section.
 
-To use, change code that returns an error, e.g.
-    return -ENOMEM;
-to
-    return -ERR(ENOMEM);
+It also converts the debugfs interface from seq_file to the style used
+by other code tagging users, which also makes the code a bit smaller and
+simpler.
 
-Then, errname() will return a string that includes the file and line
-number of the ERR() call, for example
-    printk("Got error %s!\n", errname(err));
-will result in
-    Got error ENOMEM at foo.c:1234
-
-To convert back to the original error code (before returning it to
-outside code that does not understand dynamic error codes), use
-    return error_class(err);
-
-To test if an error is of some type, replace
-    if (err == -ENOMEM)
-with
-    if (error_matches(err, ENOMEM))
-
-Implementation notes:
-
-Error codes are allocated dynamically on module load and deallocated on
-module unload. On memory allocation failure (i.e. the data structures
-for indexing error strings and error parents), ERR() will fall back to
-returning the error code that it was passed.
-
-MAX_ERRNO has been raised from 4096 to 1 million, which should be
-sufficient given the number of lines of code and the fraction that throw
-errors in the kernel codebase.
-
-This has implications for ERR_PTR(), since the range of the address
-space reserved for errors is unavailable for other purposes. Since
-ERR_PTR() ptrs are at the top of the address space there should not be
-any major difficulties.
+It doesn't yet convert struct _ddebug to use struct codetag; another
+cleanup could convert it to that, and to codetag_query_parse().
 
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Jason Baron <jbaron@akamai.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>
 ---
- include/asm-generic/codetag.lds.h |   3 +-
- include/linux/err.h               |   2 +-
- include/linux/errname.h           |  50 +++++++++++++++
- lib/errname.c                     | 103 ++++++++++++++++++++++++++++++
- 4 files changed, 156 insertions(+), 2 deletions(-)
+ include/asm-generic/codetag.lds.h |   5 +-
+ include/asm-generic/vmlinux.lds.h |   5 -
+ include/linux/dynamic_debug.h     |  11 +-
+ kernel/module/internal.h          |   2 -
+ kernel/module/main.c              |  23 --
+ lib/dynamic_debug.c               | 452 ++++++++++--------------------
+ 6 files changed, 158 insertions(+), 340 deletions(-)
 
 diff --git a/include/asm-generic/codetag.lds.h b/include/asm-generic/codetag.lds.h
-index d799f4aced82..b087cf1874a9 100644
+index b087cf1874a9..b7e351f80e9e 100644
 --- a/include/asm-generic/codetag.lds.h
 +++ b/include/asm-generic/codetag.lds.h
-@@ -11,6 +11,7 @@
- #define CODETAG_SECTIONS()		\
+@@ -8,10 +8,11 @@
+ 	KEEP(*(_name))			\
+ 	__stop_##_name = .;
+ 
+-#define CODETAG_SECTIONS()		\
++#define CODETAG_SECTIONS()				\
  	SECTION_WITH_BOUNDARIES(alloc_tags)		\
  	SECTION_WITH_BOUNDARIES(dynamic_fault_tags)	\
--	SECTION_WITH_BOUNDARIES(time_stats_tags)
-+	SECTION_WITH_BOUNDARIES(time_stats_tags)	\
-+	SECTION_WITH_BOUNDARIES(error_code_tags)
+ 	SECTION_WITH_BOUNDARIES(time_stats_tags)	\
+-	SECTION_WITH_BOUNDARIES(error_code_tags)
++	SECTION_WITH_BOUNDARIES(error_code_tags)	\
++	SECTION_WITH_BOUNDARIES(dyndbg)
  
  #endif /* __ASM_GENERIC_CODETAG_LDS_H */
-diff --git a/include/linux/err.h b/include/linux/err.h
-index a139c64aef2a..1d8d6c46ab9c 100644
---- a/include/linux/err.h
-+++ b/include/linux/err.h
-@@ -15,7 +15,7 @@
-  * This should be a per-architecture thing, to allow different
-  * error and pointer decisions.
-  */
--#define MAX_ERRNO	4095
-+#define MAX_ERRNO	((1 << 20) - 1)
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index c2dc2a59ab2e..d3fb914d157f 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -345,11 +345,6 @@
+ 	__end_once = .;							\
+ 	STRUCT_ALIGN();							\
+ 	*(__tracepoints)						\
+-	/* implement dynamic printk debug */				\
+-	. = ALIGN(8);							\
+-	__start___dyndbg = .;						\
+-	KEEP(*(__dyndbg))						\
+-	__stop___dyndbg = .;						\
+ 	CODETAG_SECTIONS()						\
+ 	LIKELY_PROFILE()		       				\
+ 	BRANCH_PROFILE()						\
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index dce631e678dd..6a57009dd29e 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -58,9 +58,6 @@ struct _ddebug {
+ /* exported for module authors to exercise >control */
+ int dynamic_debug_exec_queries(const char *query, const char *modname);
  
- #ifndef __ASSEMBLY__
+-int ddebug_add_module(struct _ddebug *tab, unsigned int n,
+-				const char *modname);
+-extern int ddebug_remove_module(const char *mod_name);
+ extern __printf(2, 3)
+ void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...);
  
-diff --git a/include/linux/errname.h b/include/linux/errname.h
-index e8576ad90cb7..dd39fe7120bb 100644
---- a/include/linux/errname.h
-+++ b/include/linux/errname.h
-@@ -5,12 +5,62 @@
- #include <linux/stddef.h>
+@@ -89,7 +86,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
  
- #ifdef CONFIG_SYMBOLIC_ERRNAME
-+
- const char *errname(int err);
-+
-+#include <linux/codetag.h>
-+
-+struct codetag_error_code {
-+	const char		*str;
-+	int			err;
-+};
-+
-+/**
-+ * ERR - return an error code that records the error site
-+ *
-+ * E.g., instead of
-+ *   return -ENOMEM;
-+ * Use
-+ *   return -ERR(ENOMEM);
-+ *
-+ * Then, when a caller prints out the error with errname(), the error string
-+ * will include the file and line number.
-+ */
-+#define ERR(_err)							\
-+({									\
-+	static struct codetag_error_code				\
-+	__used								\
-+	__section("error_code_tags")					\
-+	__aligned(8) e = {						\
-+		.str	= #_err " at " __FILE__ ":" __stringify(__LINE__),\
-+		.err	= _err,						\
-+	};								\
-+									\
-+	e.err;								\
-+})
-+
-+int error_class(int err);
-+bool error_matches(int err, int class);
-+
- #else
-+
-+static inline int error_class(int err)
-+{
-+	return err;
-+}
-+
-+static inline bool error_matches(int err, int class)
-+{
-+	return err == class;
-+}
-+
-+#define ERR(_err)	_err
-+
- static inline const char *errname(int err)
- {
- 	return NULL;
- }
-+
- #endif
- 
- #endif /* _LINUX_ERRNAME_H */
-diff --git a/lib/errname.c b/lib/errname.c
-index 05cbf731545f..2db8f5301ba0 100644
---- a/lib/errname.c
-+++ b/lib/errname.c
-@@ -1,9 +1,20 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <linux/build_bug.h>
-+#include <linux/codetag.h>
+ #define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt)		\
+ 	static struct _ddebug  __aligned(8)			\
+-	__section("__dyndbg") name = {				\
++	__section("dyndbg") name = {				\
+ 		.modname = KBUILD_MODNAME,			\
+ 		.function = __func__,				\
+ 		.filename = __FILE__,				\
+@@ -187,12 +184,6 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
  #include <linux/errno.h>
- #include <linux/errname.h>
-+#include <linux/idr.h>
+ #include <linux/printk.h>
+ 
+-static inline int ddebug_add_module(struct _ddebug *tab, unsigned int n,
+-				    const char *modname)
+-{
+-	return 0;
+-}
+-
+ static inline int ddebug_remove_module(const char *mod)
+ {
+ 	return 0;
+diff --git a/kernel/module/internal.h b/kernel/module/internal.h
+index f1b6c477bd93..f867c57ab74f 100644
+--- a/kernel/module/internal.h
++++ b/kernel/module/internal.h
+@@ -62,8 +62,6 @@ struct load_info {
+ 	Elf_Shdr *sechdrs;
+ 	char *secstrings, *strtab;
+ 	unsigned long symoffs, stroffs, init_typeoffs, core_typeoffs;
+-	struct _ddebug *debug;
+-	unsigned int num_debug;
+ 	bool sig_ok;
+ #ifdef CONFIG_KALLSYMS
+ 	unsigned long mod_kallsyms_init_off;
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index d253277492fd..28e3b337841b 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -1163,9 +1163,6 @@ static void free_module(struct module *mod)
+ 	mod->state = MODULE_STATE_UNFORMED;
+ 	mutex_unlock(&module_mutex);
+ 
+-	/* Remove dynamic debug info */
+-	ddebug_remove_module(mod->name);
+-
+ 	/* Arch-specific cleanup. */
+ 	module_arch_cleanup(mod);
+ 
+@@ -1600,19 +1597,6 @@ static void free_modinfo(struct module *mod)
+ 	}
+ }
+ 
+-static void dynamic_debug_setup(struct module *mod, struct _ddebug *debug, unsigned int num)
+-{
+-	if (!debug)
+-		return;
+-	ddebug_add_module(debug, num, mod->name);
+-}
+-
+-static void dynamic_debug_remove(struct module *mod, struct _ddebug *debug)
+-{
+-	if (debug)
+-		ddebug_remove_module(mod->name);
+-}
+-
+ void * __weak module_alloc(unsigned long size)
+ {
+ 	return __vmalloc_node_range(size, 1, VMALLOC_START, VMALLOC_END,
+@@ -2113,9 +2097,6 @@ static int find_module_sections(struct module *mod, struct load_info *info)
+ 	if (section_addr(info, "__obsparm"))
+ 		pr_warn("%s: Ignoring obsolete parameters\n", mod->name);
+ 
+-	info->debug = section_objs(info, "__dyndbg",
+-				   sizeof(*info->debug), &info->num_debug);
+-
+ 	return 0;
+ }
+ 
+@@ -2808,9 +2789,6 @@ static int load_module(struct load_info *info, const char __user *uargs,
+ 		goto free_arch_cleanup;
+ 	}
+ 
+-	init_build_id(mod, info);
+-	dynamic_debug_setup(mod, info->debug, info->num_debug);
+-
+ 	/* Ftrace init must be called in the MODULE_STATE_UNFORMED state */
+ 	ftrace_module_init(mod);
+ 
+@@ -2875,7 +2853,6 @@ static int load_module(struct load_info *info, const char __user *uargs,
+ 
+  ddebug_cleanup:
+ 	ftrace_release_mod(mod);
+-	dynamic_debug_remove(mod, info->debug);
+ 	synchronize_rcu();
+ 	kfree(mod->args);
+  free_arch_cleanup:
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index dd7f56af9aed..e9079825fb3b 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -13,6 +13,7 @@
+ 
+ #define pr_fmt(fmt) "dyndbg: " fmt
+ 
++#include <linux/codetag.h>
  #include <linux/kernel.h>
- #include <linux/math.h>
-+#include <linux/module.h>
-+#include <linux/xarray.h>
-+
-+#define DYNAMIC_ERRCODE_START	4096
-+
-+static DEFINE_IDR(dynamic_error_strings);
-+static DEFINE_XARRAY(error_classes);
-+
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+@@ -36,19 +37,37 @@
+ #include <linux/sched.h>
+ #include <linux/device.h>
+ #include <linux/netdevice.h>
++#include <linux/seq_buf.h>
+ 
+ #include <rdma/ib_verbs.h>
+ 
+-extern struct _ddebug __start___dyndbg[];
+-extern struct _ddebug __stop___dyndbg[];
 +static struct codetag_type *cttype;
  
- /*
-  * Ensure these tables do not accidentally become gigantic if some
-@@ -200,6 +211,9 @@ static const char *names_512[] = {
+-struct ddebug_table {
+-	struct list_head link;
+-	const char *mod_name;
+-	unsigned int num_ddebugs;
+-	struct _ddebug *ddebugs;
++struct user_buf {
++	char __user		*buf;	/* destination user buffer */
++	size_t			size;	/* size of requested read */
++	ssize_t			ret;	/* bytes read so far */
+ };
  
- static const char *__errname(unsigned err)
- {
-+	if (err >= DYNAMIC_ERRCODE_START)
-+		return idr_find(&dynamic_error_strings, err);
-+
- 	if (err < ARRAY_SIZE(names_0))
- 		return names_0[err];
- 	if (err >= 512 && err - 512 < ARRAY_SIZE(names_512))
-@@ -222,3 +236,92 @@ const char *errname(int err)
- 
- 	return err > 0 ? name + 1 : name;
- }
-+
-+/**
-+ * error_class - return standard/parent error (of a dynamic error code)
-+ *
-+ * When using dynamic error codes returned by ERR(), error_class() will return
-+ * the original errorcode that was passed to ERR().
-+ */
-+int error_class(int err)
++static int flush_ubuf(struct user_buf *dst, struct seq_buf *src)
 +{
-+	int class = abs(err);
++	if (src->len) {
++		size_t bytes = min_t(size_t, src->len, dst->size);
++		int err = copy_to_user(dst->buf, src->buffer, bytes);
 +
-+	if (class > DYNAMIC_ERRCODE_START)
-+		class = (unsigned long) xa_load(&error_classes,
-+					      class - DYNAMIC_ERRCODE_START);
-+	if (err < 0)
-+		class = -class;
-+	return class;
-+}
-+EXPORT_SYMBOL(error_class);
++		if (err)
++			return err;
 +
-+/**
-+ * error_matches - test if error is of some type
-+ *
-+ * When using dynamic error codes, instead of checking for errors with e.g.
-+ *   if (err == -ENOMEM)
-+ * Instead use
-+ *   if (error_matches(err, ENOMEM))
-+ */
-+bool error_matches(int err, int class)
-+{
-+	err	= abs(err);
-+	class	= abs(class);
-+
-+	BUG_ON(err	>= MAX_ERRNO);
-+	BUG_ON(class	>= MAX_ERRNO);
-+
-+	if (err != class)
-+		err = error_class(err);
-+
-+	return err == class;
-+}
-+EXPORT_SYMBOL(error_matches);
-+
-+static void errcode_module_load(struct codetag_type *cttype, struct codetag_module *mod)
-+{
-+	struct codetag_error_code *i, *start = (void *) mod->range.start;
-+	struct codetag_error_code *end = (void *) mod->range.stop;
-+
-+	for (i = start; i != end; i++) {
-+		int err = idr_alloc(&dynamic_error_strings,
-+				    (char *) i->str,
-+				    DYNAMIC_ERRCODE_START,
-+				    MAX_ERRNO,
-+				    GFP_KERNEL);
-+		if (err < 0)
-+			continue;
-+
-+		xa_store(&error_classes,
-+			 err - DYNAMIC_ERRCODE_START,
-+			 (void *)(unsigned long) abs(i->err),
-+			 GFP_KERNEL);
-+
-+		i->err = i->err < 0 ? -err : err;
++		dst->ret	+= bytes;
++		dst->buf	+= bytes;
++		dst->size	-= bytes;
++		src->len	-= bytes;
++		memmove(src->buffer, src->buffer + bytes, src->len);
 +	}
++
++	return 0;
 +}
 +
-+static void errcode_module_unload(struct codetag_type *cttype, struct codetag_module *mod)
-+{
-+	struct codetag_error_code *i, *start = (void *) mod->range.start;
-+	struct codetag_error_code *end = (void *) mod->range.stop;
+ struct ddebug_query {
+ 	const char *filename;
+ 	const char *module;
+@@ -58,8 +77,9 @@ struct ddebug_query {
+ };
+ 
+ struct ddebug_iter {
+-	struct ddebug_table *table;
+-	unsigned int idx;
++	struct codetag_iterator ct_iter;
++	struct seq_buf		buf;
++	char			rawbuf[4096];
+ };
+ 
+ struct flag_settings {
+@@ -67,8 +87,6 @@ struct flag_settings {
+ 	unsigned int mask;
+ };
+ 
+-static DEFINE_MUTEX(ddebug_lock);
+-static LIST_HEAD(ddebug_tables);
+ static int verbose;
+ module_param(verbose, int, 0644);
+ MODULE_PARM_DESC(verbose, " dynamic_debug/control processing "
+@@ -152,78 +170,76 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
+ static int ddebug_change(const struct ddebug_query *query,
+ 			 struct flag_settings *modifiers)
+ {
+-	int i;
+-	struct ddebug_table *dt;
++	struct codetag_iterator ct_iter;
++	struct codetag *ct;
+ 	unsigned int newflags;
+ 	unsigned int nfound = 0;
+ 	struct flagsbuf fbuf;
+ 
+-	/* search for matching ddebugs */
+-	mutex_lock(&ddebug_lock);
+-	list_for_each_entry(dt, &ddebug_tables, link) {
++	codetag_lock_module_list(cttype, true);
++	codetag_init_iter(&ct_iter, cttype);
 +
-+	for (i = start; i != end; i++)
-+		idr_remove(&dynamic_error_strings, abs(i->err));
++	while ((ct = codetag_next_ct(&ct_iter))) {
++		struct _ddebug *dp = (void *) ct;
+ 
+ 		/* match against the module name */
+ 		if (query->module &&
+-		    !match_wildcard(query->module, dt->mod_name))
++		    !match_wildcard(query->module, dp->modname))
+ 			continue;
+ 
+-		for (i = 0; i < dt->num_ddebugs; i++) {
+-			struct _ddebug *dp = &dt->ddebugs[i];
+-
+-			/* match against the source filename */
+-			if (query->filename &&
+-			    !match_wildcard(query->filename, dp->filename) &&
+-			    !match_wildcard(query->filename,
+-					   kbasename(dp->filename)) &&
+-			    !match_wildcard(query->filename,
+-					   trim_prefix(dp->filename)))
+-				continue;
++		/* match against the source filename */
++		if (query->filename &&
++		    !match_wildcard(query->filename, dp->filename) &&
++		    !match_wildcard(query->filename,
++				   kbasename(dp->filename)) &&
++		    !match_wildcard(query->filename,
++				   trim_prefix(dp->filename)))
++			continue;
+ 
+-			/* match against the function */
+-			if (query->function &&
+-			    !match_wildcard(query->function, dp->function))
+-				continue;
++		/* match against the function */
++		if (query->function &&
++		    !match_wildcard(query->function, dp->function))
++			continue;
+ 
+-			/* match against the format */
+-			if (query->format) {
+-				if (*query->format == '^') {
+-					char *p;
+-					/* anchored search. match must be at beginning */
+-					p = strstr(dp->format, query->format+1);
+-					if (p != dp->format)
+-						continue;
+-				} else if (!strstr(dp->format, query->format))
++		/* match against the format */
++		if (query->format) {
++			if (*query->format == '^') {
++				char *p;
++				/* anchored search. match must be at beginning */
++				p = strstr(dp->format, query->format+1);
++				if (p != dp->format)
+ 					continue;
+-			}
+-
+-			/* match against the line number range */
+-			if (query->first_lineno &&
+-			    dp->lineno < query->first_lineno)
+-				continue;
+-			if (query->last_lineno &&
+-			    dp->lineno > query->last_lineno)
++			} else if (!strstr(dp->format, query->format))
+ 				continue;
++		}
++
++		/* match against the line number range */
++		if (query->first_lineno &&
++		    dp->lineno < query->first_lineno)
++			continue;
++		if (query->last_lineno &&
++		    dp->lineno > query->last_lineno)
++			continue;
+ 
+-			nfound++;
++		nfound++;
+ 
+-			newflags = (dp->flags & modifiers->mask) | modifiers->flags;
+-			if (newflags == dp->flags)
+-				continue;
++		newflags = (dp->flags & modifiers->mask) | modifiers->flags;
++		if (newflags == dp->flags)
++			continue;
+ #ifdef CONFIG_JUMP_LABEL
+-			if (dp->flags & _DPRINTK_FLAGS_PRINT) {
+-				if (!(modifiers->flags & _DPRINTK_FLAGS_PRINT))
+-					static_branch_disable(&dp->key.dd_key_true);
+-			} else if (modifiers->flags & _DPRINTK_FLAGS_PRINT)
+-				static_branch_enable(&dp->key.dd_key_true);
++		if (dp->flags & _DPRINTK_FLAGS_PRINT) {
++			if (!(modifiers->flags & _DPRINTK_FLAGS_PRINT))
++				static_branch_disable(&dp->key.dd_key_true);
++		} else if (modifiers->flags & _DPRINTK_FLAGS_PRINT)
++			static_branch_enable(&dp->key.dd_key_true);
+ #endif
+-			dp->flags = newflags;
+-			v4pr_info("changed %s:%d [%s]%s =%s\n",
+-				 trim_prefix(dp->filename), dp->lineno,
+-				 dt->mod_name, dp->function,
+-				 ddebug_describe_flags(dp->flags, &fbuf));
+-		}
++		dp->flags = newflags;
++		v4pr_info("changed %s:%d [%s]%s =%s\n",
++			 trim_prefix(dp->filename), dp->lineno,
++			 dp->modname, dp->function,
++			 ddebug_describe_flags(dp->flags, &fbuf));
+ 	}
+-	mutex_unlock(&ddebug_lock);
++	codetag_lock_module_list(cttype, false);
+ 
+ 	if (!nfound && verbose)
+ 		pr_info("no matches for query\n");
+@@ -794,187 +810,96 @@ static ssize_t ddebug_proc_write(struct file *file, const char __user *ubuf,
+ 	return len;
+ }
+ 
+-/*
+- * Set the iterator to point to the first _ddebug object
+- * and return a pointer to that first object.  Returns
+- * NULL if there are no _ddebugs at all.
+- */
+-static struct _ddebug *ddebug_iter_first(struct ddebug_iter *iter)
+-{
+-	if (list_empty(&ddebug_tables)) {
+-		iter->table = NULL;
+-		iter->idx = 0;
+-		return NULL;
+-	}
+-	iter->table = list_entry(ddebug_tables.next,
+-				 struct ddebug_table, link);
+-	iter->idx = 0;
+-	return &iter->table->ddebugs[iter->idx];
+-}
+-
+-/*
+- * Advance the iterator to point to the next _ddebug
+- * object from the one the iterator currently points at,
+- * and returns a pointer to the new _ddebug.  Returns
+- * NULL if the iterator has seen all the _ddebugs.
+- */
+-static struct _ddebug *ddebug_iter_next(struct ddebug_iter *iter)
+-{
+-	if (iter->table == NULL)
+-		return NULL;
+-	if (++iter->idx == iter->table->num_ddebugs) {
+-		/* iterate to next table */
+-		iter->idx = 0;
+-		if (list_is_last(&iter->table->link, &ddebug_tables)) {
+-			iter->table = NULL;
+-			return NULL;
+-		}
+-		iter->table = list_entry(iter->table->link.next,
+-					 struct ddebug_table, link);
+-	}
+-	return &iter->table->ddebugs[iter->idx];
+-}
+-
+-/*
+- * Seq_ops start method.  Called at the start of every
+- * read() call from userspace.  Takes the ddebug_lock and
+- * seeks the seq_file's iterator to the given position.
+- */
+-static void *ddebug_proc_start(struct seq_file *m, loff_t *pos)
+-{
+-	struct ddebug_iter *iter = m->private;
+-	struct _ddebug *dp;
+-	int n = *pos;
+-
+-	mutex_lock(&ddebug_lock);
+-
+-	if (!n)
+-		return SEQ_START_TOKEN;
+-	if (n < 0)
+-		return NULL;
+-	dp = ddebug_iter_first(iter);
+-	while (dp != NULL && --n > 0)
+-		dp = ddebug_iter_next(iter);
+-	return dp;
+-}
+-
+-/*
+- * Seq_ops next method.  Called several times within a read()
+- * call from userspace, with ddebug_lock held.  Walks to the
+- * next _ddebug object with a special case for the header line.
+- */
+-static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
+-{
+-	struct ddebug_iter *iter = m->private;
+-	struct _ddebug *dp;
+-
+-	if (p == SEQ_START_TOKEN)
+-		dp = ddebug_iter_first(iter);
+-	else
+-		dp = ddebug_iter_next(iter);
+-	++*pos;
+-	return dp;
+-}
+-
+ /*
+  * Seq_ops show method.  Called several times within a read()
+  * call from userspace, with ddebug_lock held.  Formats the
+  * current _ddebug as a single human-readable line, with a
+  * special case for the header line.
+  */
+-static int ddebug_proc_show(struct seq_file *m, void *p)
++static void ddebug_to_text(struct seq_buf *out, struct _ddebug *dp)
+ {
+-	struct ddebug_iter *iter = m->private;
+-	struct _ddebug *dp = p;
+ 	struct flagsbuf flags;
++	char *buf;
++	size_t len;
+ 
+-	if (p == SEQ_START_TOKEN) {
+-		seq_puts(m,
+-			 "# filename:lineno [module]function flags format\n");
+-		return 0;
+-	}
+-
+-	seq_printf(m, "%s:%u [%s]%s =%s \"",
++	seq_buf_printf(out, "%s:%u [%s]%s =%s \"",
+ 		   trim_prefix(dp->filename), dp->lineno,
+-		   iter->table->mod_name, dp->function,
++		   dp->modname, dp->function,
+ 		   ddebug_describe_flags(dp->flags, &flags));
+-	seq_escape(m, dp->format, "\t\r\n\"");
+-	seq_puts(m, "\"\n");
+ 
+-	return 0;
+-}
++	len = seq_buf_get_buf(out, &buf);
++	len = string_escape_mem(dp->format, strlen(dp->format),
++				buf, len, ESCAPE_OCTAL, "\t\r\n\"");
++	seq_buf_commit(out, len);
+ 
+-/*
+- * Seq_ops stop method.  Called at the end of each read()
+- * call from userspace.  Drops ddebug_lock.
+- */
+-static void ddebug_proc_stop(struct seq_file *m, void *p)
+-{
+-	mutex_unlock(&ddebug_lock);
++	seq_buf_puts(out, "\"\n");
+ }
+ 
+-static const struct seq_operations ddebug_proc_seqops = {
+-	.start = ddebug_proc_start,
+-	.next = ddebug_proc_next,
+-	.show = ddebug_proc_show,
+-	.stop = ddebug_proc_stop
+-};
+-
+ static int ddebug_proc_open(struct inode *inode, struct file *file)
+ {
+-	return seq_open_private(file, &ddebug_proc_seqops,
+-				sizeof(struct ddebug_iter));
++	struct ddebug_iter *iter;
++
++	iter = kzalloc(sizeof(*iter), GFP_KERNEL);
++	if (!iter)
++		return -ENOMEM;
++
++	codetag_lock_module_list(cttype, true);
++	codetag_init_iter(&iter->ct_iter, cttype);
++	codetag_lock_module_list(cttype, false);
++	seq_buf_init(&iter->buf, iter->rawbuf, sizeof(iter->rawbuf));
++	file->private_data = iter;
++
++	return 0;
+ }
+ 
+-static const struct file_operations ddebug_proc_fops = {
+-	.owner = THIS_MODULE,
+-	.open = ddebug_proc_open,
+-	.read = seq_read,
+-	.llseek = seq_lseek,
+-	.release = seq_release_private,
+-	.write = ddebug_proc_write
+-};
++static int ddebug_proc_release(struct inode *inode, struct file *file)
++{
++	struct ddebug_iter *iter = file->private_data;
+ 
+-static const struct proc_ops proc_fops = {
+-	.proc_open = ddebug_proc_open,
+-	.proc_read = seq_read,
+-	.proc_lseek = seq_lseek,
+-	.proc_release = seq_release_private,
+-	.proc_write = ddebug_proc_write
+-};
++	kfree(iter);
++	return 0;
 +}
+ 
+-/*
+- * Allocate a new ddebug_table for the given module
+- * and add it to the global list.
+- */
+-int ddebug_add_module(struct _ddebug *tab, unsigned int n,
+-			     const char *name)
++static ssize_t ddebug_proc_read(struct file *file, char __user *ubuf,
++				   size_t size, loff_t *ppos)
+ {
+-	struct ddebug_table *dt;
++	struct ddebug_iter *iter = file->private_data;
++	struct user_buf	buf = { .buf = ubuf, .size = size };
++	struct codetag *ct;
++	int err = 0;
+ 
+-	dt = kzalloc(sizeof(*dt), GFP_KERNEL);
+-	if (dt == NULL) {
+-		pr_err("error adding module: %s\n", name);
+-		return -ENOMEM;
+-	}
+-	/*
+-	 * For built-in modules, name lives in .rodata and is
+-	 * immortal. For loaded modules, name points at the name[]
+-	 * member of struct module, which lives at least as long as
+-	 * this struct ddebug_table.
+-	 */
+-	dt->mod_name = name;
+-	dt->num_ddebugs = n;
+-	dt->ddebugs = tab;
++	codetag_lock_module_list(iter->ct_iter.cttype, true);
++	while (1) {
++		err = flush_ubuf(&buf, &iter->buf);
++		if (err || !buf.size)
++			break;
 +
-+static int __init errname_init(void)
-+{
++		ct = codetag_next_ct(&iter->ct_iter);
++		if (!ct)
++			break;
+ 
+-	mutex_lock(&ddebug_lock);
+-	list_add(&dt->link, &ddebug_tables);
+-	mutex_unlock(&ddebug_lock);
++		ddebug_to_text(&iter->buf, (void *) ct);
++	}
++	codetag_lock_module_list(iter->ct_iter.cttype, false);
+ 
+-	vpr_info("%3u debug prints in module %s\n", n, dt->mod_name);
+-	return 0;
++	return err ? : buf.ret;
+ }
+ 
++static const struct file_operations ddebug_proc_fops = {
++	.owner		= THIS_MODULE,
++	.open		= ddebug_proc_open,
++	.read		= ddebug_proc_read,
++	.release	= ddebug_proc_release,
++	.write		= ddebug_proc_write,
++};
++
++static const struct proc_ops proc_fops = {
++	.proc_open	= ddebug_proc_open,
++	.proc_read	= ddebug_proc_read,
++	.proc_release	= ddebug_proc_release,
++	.proc_write	= ddebug_proc_write,
++};
++
+ /* helper for ddebug_dyndbg_(boot|module)_param_cb */
+ static int ddebug_dyndbg_param_cb(char *param, char *val,
+ 				const char *modname, int on_err)
+@@ -1015,47 +940,6 @@ int ddebug_dyndbg_module_param_cb(char *param, char *val, const char *module)
+ 	return ddebug_dyndbg_param_cb(param, val, module, -ENOENT);
+ }
+ 
+-static void ddebug_table_free(struct ddebug_table *dt)
+-{
+-	list_del_init(&dt->link);
+-	kfree(dt);
+-}
+-
+-/*
+- * Called in response to a module being unloaded.  Removes
+- * any ddebug_table's which point at the module.
+- */
+-int ddebug_remove_module(const char *mod_name)
+-{
+-	struct ddebug_table *dt, *nextdt;
+-	int ret = -ENOENT;
+-
+-	mutex_lock(&ddebug_lock);
+-	list_for_each_entry_safe(dt, nextdt, &ddebug_tables, link) {
+-		if (dt->mod_name == mod_name) {
+-			ddebug_table_free(dt);
+-			ret = 0;
+-			break;
+-		}
+-	}
+-	mutex_unlock(&ddebug_lock);
+-	if (!ret)
+-		v2pr_info("removed module \"%s\"\n", mod_name);
+-	return ret;
+-}
+-
+-static void ddebug_remove_all_tables(void)
+-{
+-	mutex_lock(&ddebug_lock);
+-	while (!list_empty(&ddebug_tables)) {
+-		struct ddebug_table *dt = list_entry(ddebug_tables.next,
+-						      struct ddebug_table,
+-						      link);
+-		ddebug_table_free(dt);
+-	}
+-	mutex_unlock(&ddebug_lock);
+-}
+-
+ static __initdata int ddebug_init_success;
+ 
+ static int __init dynamic_debug_init_control(void)
+@@ -1083,45 +967,19 @@ static int __init dynamic_debug_init_control(void)
+ 
+ static int __init dynamic_debug_init(void)
+ {
+-	struct _ddebug *iter, *iter_start;
+-	const char *modname = NULL;
 +	const struct codetag_type_desc desc = {
-+		.section	= "error_code_tags",
-+		.tag_size	= sizeof(struct codetag_error_code),
-+		.module_load	= errcode_module_load,
-+		.module_unload	= errcode_module_unload,
++		.section = "dyndbg",
++		.tag_size = sizeof(struct _ddebug),
 +	};
-+
+ 	char *cmdline;
+-	int ret = 0;
+-	int n = 0, entries = 0, modct = 0;
++	int ret;
+ 
+-	if (&__start___dyndbg == &__stop___dyndbg) {
+-		if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG)) {
+-			pr_warn("_ddebug table is empty in a CONFIG_DYNAMIC_DEBUG build\n");
+-			return 1;
+-		}
+-		pr_info("Ignore empty _ddebug table in a CONFIG_DYNAMIC_DEBUG_CORE build\n");
+-		ddebug_init_success = 1;
+-		return 0;
+-	}
+-	iter = __start___dyndbg;
+-	modname = iter->modname;
+-	iter_start = iter;
+-	for (; iter < __stop___dyndbg; iter++) {
+-		entries++;
+-		if (strcmp(modname, iter->modname)) {
+-			modct++;
+-			ret = ddebug_add_module(iter_start, n, modname);
+-			if (ret)
+-				goto out_err;
+-			n = 0;
+-			modname = iter->modname;
+-			iter_start = iter;
+-		}
+-		n++;
+-	}
+-	ret = ddebug_add_module(iter_start, n, modname);
 +	cttype = codetag_register_type(&desc);
-+
-+	return PTR_ERR_OR_ZERO(cttype);
-+}
-+module_init(errname_init);
++	ret = PTR_ERR_OR_ZERO(cttype);
+ 	if (ret)
+-		goto out_err;
++		return ret;
+ 
+ 	ddebug_init_success = 1;
+-	vpr_info("%d prdebugs in %d modules, %d KiB in ddebug tables, %d kiB in __dyndbg section\n",
+-		 entries, modct, (int)((modct * sizeof(struct ddebug_table)) >> 10),
+-		 (int)((entries * sizeof(struct _ddebug)) >> 10));
+ 
+ 	/* now that ddebug tables are loaded, process all boot args
+ 	 * again to find and activate queries given in dyndbg params.
+@@ -1132,14 +990,12 @@ static int __init dynamic_debug_init(void)
+ 	 * slightly noisy if verbose, but harmless.
+ 	 */
+ 	cmdline = kstrdup(saved_command_line, GFP_KERNEL);
++	if (!cmdline)
++		return -ENOMEM;
+ 	parse_args("dyndbg params", cmdline, NULL,
+ 		   0, 0, 0, NULL, &ddebug_dyndbg_boot_param_cb);
+ 	kfree(cmdline);
+ 	return 0;
+-
+-out_err:
+-	ddebug_remove_all_tables();
+-	return 0;
+ }
+ /* Allow early initialization for boot messages via boot param */
+ early_initcall(dynamic_debug_init);
 -- 
 2.37.2.672.g94769d06f0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220830214919.53220-29-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220830214919.53220-30-surenb%40google.com.
