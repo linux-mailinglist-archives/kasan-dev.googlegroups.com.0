@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERB5ULXKMAMGQE74PMQYA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERB6MLXKMAMGQERNED7CY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7825A6F83
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 23:49:43 +0200 (CEST)
-Received: by mail-ot1-x33a.google.com with SMTP id b19-20020a9d6b93000000b00637113961absf6625466otq.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 14:49:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661896183; cv=pass;
+Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9650C5A6F84
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 23:49:47 +0200 (CEST)
+Received: by mail-pj1-x103f.google.com with SMTP id e1-20020a17090a7c4100b001fd7e8c4eb1sf4397787pjl.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Aug 2022 14:49:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661896186; cv=pass;
         d=google.com; s=arc-20160816;
-        b=A6KPPWDV82zuAqedc1a6SYlBC8pOQHbSjvLnF9duW27ZHVQQ/4zFHHrzrOg51IZj4l
-         f8pHaOBbsQBMG+oPhTpxAep99EHT1q4hFwMkAC4t9MkiF1DGHa+Jm1ZAYULpR2EvzjY+
-         ywvZ35OgDhFzCDW3M3lY8oKWmUu4yTr9Uql/Mvv1SutbOzBFswJ8peCFCVuCbl/0q+gO
-         4aAnsN/j8aYIfFACjTtOtmP1q7sZ51vrqtqyQKNqHVq5xIPnsYK9ZEEXCjXpkDPg+HXw
-         2NnJlg2Fc080ycVaQ814wT6GTB/QSxbVqCC91J7cg5mEPGA/E3MeMtjDkScPIPauS5r3
-         C/Pg==
+        b=fJsmPiVgFo2urznqRRWLz7Q2Ii+GB2vVXVHzCYNjri8PBwn62FMJ9oJPUbbvCiid9r
+         7m6TxSrOkMtkRuhkrvmoovVkkdXE9+dmBKrI1cSWwtqFfF+gBngbFGEOLXY7H50OkDMg
+         5nOvgX4JiN9UHo/+kAfxq8bI/MgDE94x+cA4Suj/VkNxhyHtFPRrm9Avac6l2hjK9Qtc
+         S+ICZtEKXIEYKpvs+PIO/X4UTQG1ckiXoIUVZk3DqW7pwPypWBalS5WG0JZgSWYMNXhk
+         CTjn7rRsfTHRr+2An4VsrkVkiQ08AgRQixvLFJZS3iENPkA69kkHXFo5XzSjuxlQX96h
+         a36w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=/zROtJfjxJIJtzcclNMIQNLy7i0tOc7e1CvrT/E78k4=;
-        b=vKe/5OlXbPKWdPdEyuf4HQ12ntWl5BIVXVhav6Qs5oILjjeKZ1F492YFfOSsDxn9zQ
-         cisVcJZmP1n4mA8ucuMfWZ2fWaC2eiPvNSnaKlfjt+bUrgkeNuXpISbcizzN1fV8AlJV
-         fanauhfeo4KyDzRRf8WV6tXcbVmlq61rkPjK1z1puc73fcXT8w7Lt01ivAvrWtoco7g2
-         dWJzMf5R4ePZcCIZUtFfnd0sdAjZTbZp7CUwsaojQqTSJYAgzFc6o5ypRVSQW8vGa2pj
-         f8pfyVW37C1S2EZ1GhZNMAusiJ9sJnBt5n2BUdC6mA5/3G/wHgQleM5EKAN6KOVZrZFN
-         6i2A==
+        bh=i6NN0ma6A6Qn7oejh0UTExNbknfnhaqtzerjgVsA7ak=;
+        b=lPZN324TpfG4APsDhDDrn/jCcA02Icqt/Mi6FkWxs1HCAarU9HboG1Dqcn9nAKqWrV
+         p2t1ME/QE0DzzY3exZe97R+x2/fQRXwczr7kX6m3hvdqxKd7xtS7Z0OpyJ9xIAPTH1Qj
+         2X92C9FcyuilCWLoyDyD4FWZ+HFojZesXHrsOHuOXybv5gLQ0tKknIENsE7hAW3WTSld
+         c0p/1RiCHiQ/FVLg5xy0F+LK6F/3iuxQwtd8Z8DdhqFf4jv1AwWqhhY69LQ3pd3REbSp
+         t9GaVvmXMwXWoshzCiFYI30G8awGQhbs/UBlreVHkiln0O0+gPBQ9S1XElmqVFOK6t+y
+         3TIw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=dSiwJ3rj;
-       spf=pass (google.com: domain of 39yuoywykcvokmj6f38gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=39YUOYwYKCVoKMJ6F38GG8D6.4GEC2K2F-56N8GG8D68JGMHK.4GE@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=U5dHm0IS;
+       spf=pass (google.com: domain of 3-iuoywykcv0npm9i6bjjbg9.7jhf5n5i-89qbjjbg9bmjpkn.7jh@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3-IUOYwYKCV0NPM9I6BJJBG9.7JHF5N5I-89QBJJBG9BMJPKN.7JH@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc;
-        bh=/zROtJfjxJIJtzcclNMIQNLy7i0tOc7e1CvrT/E78k4=;
-        b=RUXDANMYE6W4UQL/0FtH4sA6LgWTvyPVTjQuIwDvo8g8xSTNb8qNNA13+9iK89xI3z
-         lKGzpW7nNrnSqA81nuC8SwSXDfiiRIKGCJob42ExcnIKkRU8foVBX5mV5qaPqn1O4uFI
-         muZMXapJ2cC0Wm7JHAb8O3qbfmczrpoAwrP61qCypZdP9pflf5uKDEzmkaFVse7R+nqc
-         aKItkdt/QRkqG7NfBk/xuvOP1nUpC1f6pk5a55TI8CE0cGXGgu7rFXrHXjtHCZiUlpSA
-         3CEih7i0wa++IeuGGUfp/el/ZpnJ2hmIYPDdhcClw1gKDyB1M/uNEE23h4glWJ2Rm8L7
-         mV9g==
+        bh=i6NN0ma6A6Qn7oejh0UTExNbknfnhaqtzerjgVsA7ak=;
+        b=oZCs9joVAcFsV9azMfpq6s2ptuDx3pmyL0jG/8gDPccfHVWSN//KHxWy61P2zB2z6a
+         GZ29CKJGPtV0NzhDBJlogWtcfu49+4NKCjwLp97U+ky+RuZ3iXrRbrXGmVzdJEhPYdDK
+         BaKvU8lqAsn+V3h38Xrj0h9dGWYygJUXZvh9MdrSDjcU2ICLc50fFccC5jb1MvslJUw4
+         w9NPnZzjK70zmlSjwJ9yoE3RBUJPWaUs141TKyeKpRU3K9vOkwknoKAZXJRqau+DYU+b
+         J0aQ1S7Kof98HzWEAsvbo+/OdX/QvuhqPEoW9Y+g9N2sn7/H9z9flzkZ1uLxi4aYVCE5
+         PntA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,64 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc;
-        bh=/zROtJfjxJIJtzcclNMIQNLy7i0tOc7e1CvrT/E78k4=;
-        b=VzrB1PZbbgrJx01r+iaK4yNJrk6mI7YPvNYDWZNXMHhAl6iALOPzte5R7uSbWNoLdV
-         izlgogiOOR22FBu1tQ1RcsLFca7EbmkKNV0Dy7A1P3CIzOffUVhWmKybjFPdodTmCuAL
-         Bbc4TxQdWNYpRhflFiVFCGiyKt0ph315We0MpJr/6z2ZRZIEgroOxTJzQSkPgEyHlrse
-         QDdWBV5D3BqYeFvf95E2YLBHU9gHa/5fd9FEqnMR6uh/kNOtnjdQnGzNT0AylUATLhpq
-         RWrcyWac51PeiJJKKhcmIVkbHFuIiWRPd17jsohsZqKEHcOrd61+RbkqHkJmYuK0NLQ3
-         Enww==
-X-Gm-Message-State: ACgBeo2kdOlBC1DrOWVSQ5Oc0zCCjBxv3/2QyUBjTn7f+lY9bSaYs0uc
-	XaO/rDzMvGDBVQXjIPvmQnA=
-X-Google-Smtp-Source: AA6agR437FGpS5BzegEO/9CUHI7FgzBRYm5RwMp45luu06rTHBzpjUseKMJK+uJETn58eiWnDXhuBg==
-X-Received: by 2002:a05:6870:648d:b0:11d:268f:90f0 with SMTP id cz13-20020a056870648d00b0011d268f90f0mr35137oab.178.1661896182880;
-        Tue, 30 Aug 2022 14:49:42 -0700 (PDT)
+        bh=i6NN0ma6A6Qn7oejh0UTExNbknfnhaqtzerjgVsA7ak=;
+        b=xlqSoX/kst+a1rh1kxu5fZEJN6bhEKdDxvCTMD+b0r9IvUHSr8AvJO2iKj9aCbWxym
+         +EzDz5KbqMoN3i1O8Z7j/L0qJuVtozogCVB5tjX5j9ATCfmC0Up5q43JvaAp7mPTUBpP
+         MAQBnyWI+XFYHSFHUYBuYDp67KjzWCJ5U0sW73NHsfYNyqmkcGTkQ3G/vgKLsHKS+EPX
+         UdkhJJv91mNy2ZKf3+89TJHN0vXY+0vXgyN1aGt9rZylBWlmiAiYAqysVUts3Ca/q+cd
+         4m50Yg3Vs8ENP12zziGxHrtwwnLV6l9bcgTtB//5ObWtrva0sA1pIXqeIzMFzNPSqEWV
+         WLQw==
+X-Gm-Message-State: ACgBeo1LnFIQpCJ8j6+WRDC1yNItpnC+kngpfSQzKecEjUV7WoUUKBbM
+	sm0q4LvSkd9Xak7zY02nyas=
+X-Google-Smtp-Source: AA6agR4ihU+eUrErVZw5fMfl7Bu01BapbKmjhH+EXw1dytg24gMQCy2S/FhmFOvO3ef78TSSV3mTlg==
+X-Received: by 2002:a05:6a00:1a47:b0:52e:6a8c:5430 with SMTP id h7-20020a056a001a4700b0052e6a8c5430mr23038747pfv.48.1661896185859;
+        Tue, 30 Aug 2022 14:49:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:605:0:b0:344:8f41:1800 with SMTP id 5-20020aca0605000000b003448f411800ls3852208oig.10.-pod-prod-gmail;
- Tue, 30 Aug 2022 14:49:42 -0700 (PDT)
-X-Received: by 2002:aca:eb8a:0:b0:342:fe2e:7509 with SMTP id j132-20020acaeb8a000000b00342fe2e7509mr30656oih.118.1661896182421;
-        Tue, 30 Aug 2022 14:49:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661896182; cv=none;
+Received: by 2002:a17:902:bcc3:b0:16c:2ae8:5b94 with SMTP id
+ o3-20020a170902bcc300b0016c2ae85b94ls8296502pls.0.-pod-prod-gmail; Tue, 30
+ Aug 2022 14:49:45 -0700 (PDT)
+X-Received: by 2002:a17:903:2d0:b0:172:b63b:3a1e with SMTP id s16-20020a17090302d000b00172b63b3a1emr23182028plk.76.1661896185129;
+        Tue, 30 Aug 2022 14:49:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661896185; cv=none;
         d=google.com; s=arc-20160816;
-        b=WEVzbbfUaBoJI08J1zico1zYVVWgDOMEIwRL7OOt7Yui5S54GIysb/Gpij6BjITFMW
-         sqBEcpkYQVltNG0I+lMJkiTcEZFxhPex8lVg97MYqHnAmp8trUqGukDVUxxftAC+9BV0
-         XksJnFBA4cR+/VRQwBVsoXpFHFINMBhcmdqzrXDw11NvaC2n8+2FxWGXYuCi/s4K1vNx
-         1afRMuoI8g+LvwA11zzYHst0Hu4cfQBSF2ZT1msmzAu6HQrdGJD1IcRVQr8hg2ei6N43
-         d50ymcQjuSA4qWIHOEYmbpvF6B/wSgjPaVc7Jw2sznSzzISNaQMBz5JqITMHbq0AQuvH
-         SFnw==
+        b=ra4NzTgxUsUEZSVa4vxbWKuZ0XiZT2vGhS/K+7Ndm8PbSN0JXEH21XUgPJhCXLNe8t
+         mqzUtexLQRbeY9e7CCYZhWLq1GtgvQyU/XnXpVMtpt/IBY4lFgnzUWgjwOG+9f+1wd3Z
+         PfWM8U8gpZ+ds41XJvgbOoyHx7Jheh1d7bnn9muLg9HSqxF+V4udiY/sc9uUBvjSRlrQ
+         2rvzEzVnxZsiz+dDGn2S2+wUxxFqqwIbVzVTU9rbpZ6uhDTDMzbXCJa2DtOQHjElm8v7
+         YuwmBLmOYQgHYcPHv6iQgne/GPwfUbenl1IidUM4Tyqa6VKur8lkBU0H+sB8g28nH6fE
+         iwXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=v/Q5RZvHm0ms6516zJ+eaQEhTJBhgieG8iYB8LZreqU=;
-        b=ns1ukLM4tTFlalvUJ1+bM7Mz1PnK9VB4ifblylTqvsxoEs/dSNgzgNl1FlCyeKGTHW
-         9pIkuBvWfDH1LbAsZQKuXjzlLRihW/WgTQuEf9ThaZc/lDSQjhf6Yu/xEc3la/CmYUjL
-         qrOSDZTLlFYS2KL51GR8/mIy79PHZokoaABkk4lu0/z2B71V5Yg0JsM8d7h/XF/00LUO
-         cNdKWZSjBm2h+wgZqGuO7B28D5ch7+ABjJMwiydYfUyMtBpZi2jKCd2fzoK6KVCrJ9cf
-         NVWcjHoQqchEws5gbVrpVxwqYqWE7mY8qVQfHFiDbGGg9ba6ZvjxD3SIWNLG9lD/4LMQ
-         2cTg==
+        bh=6wmSIFSfHrn7NaG14r3E9vE6XZmoNzeOL4K0xpw9Sss=;
+        b=agY/wKi0oT1Kf658QSnhUWPRx8dlPfADXdQy9krJWylpUWHTX3+QgkH2DyhcVKrBQH
+         Jj+H/7QrXWaaS2cO+QnbkyTyrqGIwKkklZib4GNX1C2iTwwpghzqa0t/dA5LCHMZfK8n
+         qxQq47E6ZFFWWWmLbXuNANqnvRxYxrY4KFEkhIlQFLMgFn9xAssn7QzbAFTzQkBQfBbz
+         +IfIZA9FBv1xMBMbXgs7vr6ID3DZF0TvOGe7KwNQo6p+9T8dNtur44+L7EYAcG5DIzFY
+         4g81Kj9tnycQRiwT14YTSX7ght6YwSKoiRJXhatchBC1nRjM7YIDcF2uIuHF8eEr1EDp
+         3hRg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=dSiwJ3rj;
-       spf=pass (google.com: domain of 39yuoywykcvokmj6f38gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=39YUOYwYKCVoKMJ6F38GG8D6.4GEC2K2F-56N8GG8D68JGMHK.4GE@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=U5dHm0IS;
+       spf=pass (google.com: domain of 3-iuoywykcv0npm9i6bjjbg9.7jhf5n5i-89qbjjbg9bmjpkn.7jh@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3-IUOYwYKCV0NPM9I6BJJBG9.7JHF5N5I-89QBJJBG9BMJPKN.7JH@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
-        by gmr-mx.google.com with ESMTPS id t133-20020aca5f8b000000b0033a351b0b4asi685796oib.3.2022.08.30.14.49.42
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
+        by gmr-mx.google.com with ESMTPS id ot13-20020a17090b3b4d00b001fe0d661525si4785pjb.0.2022.08.30.14.49.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 14:49:42 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 39yuoywykcvokmj6f38gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-33dce8cae71so188547257b3.8
-        for <kasan-dev@googlegroups.com>; Tue, 30 Aug 2022 14:49:42 -0700 (PDT)
+        Tue, 30 Aug 2022 14:49:45 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3-iuoywykcv0npm9i6bjjbg9.7jhf5n5i-89qbjjbg9bmjpkn.7jh@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-335ff2ef600so189311647b3.18
+        for <kasan-dev@googlegroups.com>; Tue, 30 Aug 2022 14:49:45 -0700 (PDT)
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:200:a005:55b3:6c26:b3e4])
- (user=surenb job=sendgmr) by 2002:a25:2586:0:b0:695:9529:c9a6 with SMTP id
- l128-20020a252586000000b006959529c9a6mr13158054ybl.591.1661896181976; Tue, 30
- Aug 2022 14:49:41 -0700 (PDT)
-Date: Tue, 30 Aug 2022 14:48:56 -0700
+ (user=surenb job=sendgmr) by 2002:a81:47c4:0:b0:341:2cab:a63c with SMTP id
+ u187-20020a8147c4000000b003412caba63cmr8994715ywa.58.1661896184744; Tue, 30
+ Aug 2022 14:49:44 -0700 (PDT)
+Date: Tue, 30 Aug 2022 14:48:57 -0700
 In-Reply-To: <20220830214919.53220-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20220830214919.53220-1-surenb@google.com>
 X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220830214919.53220-8-surenb@google.com>
-Subject: [RFC PATCH 07/30] lib: add support for allocation tagging
+Message-ID: <20220830214919.53220-9-surenb@google.com>
+Subject: [RFC PATCH 08/30] lib: introduce page allocation tagging
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -131,9 +132,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=dSiwJ3rj;       spf=pass
- (google.com: domain of 39yuoywykcvokmj6f38gg8d6.4gec2k2f-56n8gg8d68jgmhk.4ge@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=39YUOYwYKCVoKMJ6F38GG8D6.4GEC2K2F-56N8GG8D68JGMHK.4GE@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=U5dHm0IS;       spf=pass
+ (google.com: domain of 3-iuoywykcv0npm9i6bjjbg9.7jhf5n5i-89qbjjbg9bmjpkn.7jh@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3-IUOYwYKCV0NPM9I6BJJBG9.7JHF5N5I-89QBJJBG9BMJPKN.7JH@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -149,368 +150,162 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Introduce CONFIG_ALLOC_TAGGING which provides definitions to easily
-instrument allocators. It also registers an "alloc_tags" codetag type
-with defbugfs interface to output allocation tags information.
+Introduce CONFIG_PAGE_ALLOC_TAGGING which provides helper functions to
+easily instrument page allocators and adds a page_ext field to store a
+pointer to the allocation tag associated with the code that allocated
+the page.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 ---
- include/asm-generic/codetag.lds.h |  14 +++
- include/asm-generic/vmlinux.lds.h |   3 +
- include/linux/alloc_tag.h         |  66 +++++++++++++
- lib/Kconfig.debug                 |   5 +
- lib/Makefile                      |   2 +
- lib/alloc_tag.c                   | 158 ++++++++++++++++++++++++++++++
- scripts/module.lds.S              |   7 ++
- 7 files changed, 255 insertions(+)
- create mode 100644 include/asm-generic/codetag.lds.h
- create mode 100644 include/linux/alloc_tag.h
- create mode 100644 lib/alloc_tag.c
+ include/linux/pgalloc_tag.h | 28 ++++++++++++++++++++++++++++
+ lib/Kconfig.debug           | 11 +++++++++++
+ lib/Makefile                |  1 +
+ lib/pgalloc_tag.c           | 22 ++++++++++++++++++++++
+ mm/page_ext.c               |  6 ++++++
+ 5 files changed, 68 insertions(+)
+ create mode 100644 include/linux/pgalloc_tag.h
+ create mode 100644 lib/pgalloc_tag.c
 
-diff --git a/include/asm-generic/codetag.lds.h b/include/asm-generic/codetag.lds.h
+diff --git a/include/linux/pgalloc_tag.h b/include/linux/pgalloc_tag.h
 new file mode 100644
-index 000000000000..64f536b80380
+index 000000000000..f525abfe51d4
 --- /dev/null
-+++ b/include/asm-generic/codetag.lds.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef __ASM_GENERIC_CODETAG_LDS_H
-+#define __ASM_GENERIC_CODETAG_LDS_H
-+
-+#define SECTION_WITH_BOUNDARIES(_name)	\
-+	. = ALIGN(8);			\
-+	__start_##_name = .;		\
-+	KEEP(*(_name))			\
-+	__stop_##_name = .;
-+
-+#define CODETAG_SECTIONS()		\
-+	SECTION_WITH_BOUNDARIES(alloc_tags)
-+
-+#endif /* __ASM_GENERIC_CODETAG_LDS_H */
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index 7515a465ec03..c2dc2a59ab2e 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -50,6 +50,8 @@
-  *               [__nosave_begin, __nosave_end] for the nosave data
-  */
- 
-+#include <asm-generic/codetag.lds.h>
-+
- #ifndef LOAD_OFFSET
- #define LOAD_OFFSET 0
- #endif
-@@ -348,6 +350,7 @@
- 	__start___dyndbg = .;						\
- 	KEEP(*(__dyndbg))						\
- 	__stop___dyndbg = .;						\
-+	CODETAG_SECTIONS()						\
- 	LIKELY_PROFILE()		       				\
- 	BRANCH_PROFILE()						\
- 	TRACE_PRINTKS()							\
-diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-new file mode 100644
-index 000000000000..b3f589afb1c9
---- /dev/null
-+++ b/include/linux/alloc_tag.h
-@@ -0,0 +1,66 @@
++++ b/include/linux/pgalloc_tag.h
+@@ -0,0 +1,28 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * allocation tagging
++ * page allocation tagging
 + */
-+#ifndef _LINUX_ALLOC_TAG_H
-+#define _LINUX_ALLOC_TAG_H
++#ifndef _LINUX_PGALLOC_TAG_H
++#define _LINUX_PGALLOC_TAG_H
 +
-+#include <linux/bug.h>
-+#include <linux/codetag.h>
-+#include <linux/container_of.h>
-+#include <linux/lazy-percpu-counter.h>
++#include <linux/alloc_tag.h>
++#include <linux/page_ext.h>
 +
-+/*
-+ * An instance of this structure is created in a special ELF section at every
-+ * allocation callsite. At runtime, the special section is treated as
-+ * an array of these. Embedded codetag utilizes codetag framework.
-+ */
-+struct alloc_tag {
-+	struct codetag			ct;
-+	unsigned long			last_wrap;
-+	struct raw_lazy_percpu_counter	call_count;
-+	struct raw_lazy_percpu_counter	bytes_allocated;
-+} __aligned(8);
++extern struct page_ext_operations page_alloc_tagging_ops;
++struct page_ext *lookup_page_ext(const struct page *page);
 +
-+static inline struct alloc_tag *ct_to_alloc_tag(struct codetag *ct)
++static inline union codetag_ref *get_page_tag_ref(struct page *page)
 +{
-+	return container_of(ct, struct alloc_tag, ct);
++	struct page_ext *page_ext = lookup_page_ext(page);
++
++	return page_ext ? (void *)page_ext + page_alloc_tagging_ops.offset
++			: NULL;
 +}
 +
-+#define DEFINE_ALLOC_TAG(_alloc_tag)					\
-+	static struct alloc_tag _alloc_tag __used __aligned(8)		\
-+	__section("alloc_tags") = { .ct = CODE_TAG_INIT }
-+
-+#define alloc_tag_counter_read(counter)					\
-+	__lazy_percpu_counter_read(counter)
-+
-+static inline void __alloc_tag_sub(union codetag_ref *ref, size_t bytes)
++static inline void pgalloc_tag_dec(struct page *page, unsigned int order)
 +{
-+	struct alloc_tag *tag = ct_to_alloc_tag(ref->ct);
-+
-+	__lazy_percpu_counter_add(&tag->call_count, &tag->last_wrap, -1);
-+	__lazy_percpu_counter_add(&tag->bytes_allocated, &tag->last_wrap, -bytes);
-+	ref->ct = NULL;
++	if (page)
++		alloc_tag_sub(get_page_tag_ref(page), PAGE_SIZE << order);
 +}
 +
-+#define alloc_tag_sub(_ref, _bytes)					\
-+do {									\
-+	if ((_ref) && (_ref)->ct)					\
-+		__alloc_tag_sub(_ref, _bytes);				\
-+} while (0)
-+
-+static inline void __alloc_tag_add(struct alloc_tag *tag, union codetag_ref *ref, size_t bytes)
-+{
-+	ref->ct = &tag->ct;
-+	__lazy_percpu_counter_add(&tag->call_count, &tag->last_wrap, 1);
-+	__lazy_percpu_counter_add(&tag->bytes_allocated, &tag->last_wrap, bytes);
-+}
-+
-+#define alloc_tag_add(_ref, _bytes)					\
-+do {									\
-+	DEFINE_ALLOC_TAG(_alloc_tag);					\
-+	if (_ref && !WARN_ONCE(_ref->ct, "alloc_tag was not cleared"))	\
-+		__alloc_tag_add(&_alloc_tag, _ref, _bytes);		\
-+} while (0)
-+
-+#endif /* _LINUX_ALLOC_TAG_H */
++#endif /* _LINUX_PGALLOC_TAG_H */
 diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 22bc1eff7f8f..795bf6993f8a 100644
+index 795bf6993f8a..6686648843b3 100644
 --- a/lib/Kconfig.debug
 +++ b/lib/Kconfig.debug
-@@ -973,6 +973,11 @@ config CODE_TAGGING
- 	bool
- 	select KALLSYMS
+@@ -978,6 +978,17 @@ config ALLOC_TAGGING
+ 	select CODE_TAGGING
+ 	select LAZY_PERCPU_COUNTER
  
-+config ALLOC_TAGGING
-+	bool
-+	select CODE_TAGGING
-+	select LAZY_PERCPU_COUNTER
++config PAGE_ALLOC_TAGGING
++	bool "Enable page allocation tagging"
++	default n
++	select ALLOC_TAGGING
++	select PAGE_EXTENSION
++	help
++	  Instrument page allocators to track allocation source code and
++	  collect statistics on the number of allocations and their total size
++	  initiated at that code location. The mechanism can be used to track
++	  memory leaks with a low performance impact.
 +
  source "lib/Kconfig.kasan"
  source "lib/Kconfig.kfence"
  
 diff --git a/lib/Makefile b/lib/Makefile
-index 574d7716e640..dc00533fc5c8 100644
+index dc00533fc5c8..99f732156673 100644
 --- a/lib/Makefile
 +++ b/lib/Makefile
-@@ -228,6 +228,8 @@ obj-$(CONFIG_OF_RECONFIG_NOTIFIER_ERROR_INJECT) += \
- obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
+@@ -229,6 +229,7 @@ obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
  
  obj-$(CONFIG_CODE_TAGGING) += codetag.o
-+obj-$(CONFIG_ALLOC_TAGGING) += alloc_tag.o
-+
+ obj-$(CONFIG_ALLOC_TAGGING) += alloc_tag.o
++obj-$(CONFIG_PAGE_ALLOC_TAGGING) += pgalloc_tag.o
+ 
  lib-$(CONFIG_GENERIC_BUG) += bug.o
  
- obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
-diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+diff --git a/lib/pgalloc_tag.c b/lib/pgalloc_tag.c
 new file mode 100644
-index 000000000000..082fbde184ef
+index 000000000000..7d97372ca0df
 --- /dev/null
-+++ b/lib/alloc_tag.c
-@@ -0,0 +1,158 @@
++++ b/lib/pgalloc_tag.c
+@@ -0,0 +1,22 @@
 +// SPDX-License-Identifier: GPL-2.0-only
-+#include <linux/alloc_tag.h>
-+#include <linux/debugfs.h>
-+#include <linux/fs.h>
-+#include <linux/gfp.h>
++#include <linux/mm.h>
 +#include <linux/module.h>
-+#include <linux/seq_buf.h>
-+#include <linux/uaccess.h>
++#include <linux/pgalloc_tag.h>
++#include <linux/seq_file.h>
 +
-+#ifdef CONFIG_DEBUG_FS
++static __init bool need_page_alloc_tagging(void)
++{
++	return true;
++}
 +
-+struct alloc_tag_file_iterator {
-+	struct codetag_iterator ct_iter;
-+	struct seq_buf		buf;
-+	char			rawbuf[4096];
++static __init void init_page_alloc_tagging(void)
++{
++}
++
++struct page_ext_operations page_alloc_tagging_ops = {
++	.size = sizeof(union codetag_ref),
++	.need = need_page_alloc_tagging,
++	.init = init_page_alloc_tagging,
 +};
++EXPORT_SYMBOL(page_alloc_tagging_ops);
 +
-+struct user_buf {
-+	char __user		*buf;	/* destination user buffer */
-+	size_t			size;	/* size of requested read */
-+	ssize_t			ret;	/* bytes read so far */
-+};
-+
-+static int flush_ubuf(struct user_buf *dst, struct seq_buf *src)
-+{
-+	if (src->len) {
-+		size_t bytes = min_t(size_t, src->len, dst->size);
-+		int err = copy_to_user(dst->buf, src->buffer, bytes);
-+
-+		if (err)
-+			return err;
-+
-+		dst->ret	+= bytes;
-+		dst->buf	+= bytes;
-+		dst->size	-= bytes;
-+		src->len	-= bytes;
-+		memmove(src->buffer, src->buffer + bytes, src->len);
-+	}
-+
-+	return 0;
-+}
-+
-+static int alloc_tag_file_open(struct inode *inode, struct file *file)
-+{
-+	struct codetag_type *cttype = inode->i_private;
-+	struct alloc_tag_file_iterator *iter;
-+
-+	iter = kzalloc(sizeof(*iter), GFP_KERNEL);
-+	if (!iter)
-+		return -ENOMEM;
-+
-+	codetag_lock_module_list(cttype, true);
-+	iter->ct_iter = codetag_get_ct_iter(cttype);
-+	codetag_lock_module_list(cttype, false);
-+	seq_buf_init(&iter->buf, iter->rawbuf, sizeof(iter->rawbuf));
-+	file->private_data = iter;
-+
-+	return 0;
-+}
-+
-+static int alloc_tag_file_release(struct inode *inode, struct file *file)
-+{
-+	struct alloc_tag_file_iterator *iter = file->private_data;
-+
-+	kfree(iter);
-+	return 0;
-+}
-+
-+static void alloc_tag_to_text(struct seq_buf *out, struct codetag *ct)
-+{
-+	struct alloc_tag *tag = ct_to_alloc_tag(ct);
-+	char buf[10];
-+
-+	string_get_size(alloc_tag_counter_read(&tag->bytes_allocated), 1,
-+			STRING_UNITS_2, buf, sizeof(buf));
-+
-+	seq_buf_printf(out, "%8s %8lld ", buf, alloc_tag_counter_read(&tag->call_count));
-+	codetag_to_text(out, ct);
-+	seq_buf_putc(out, '\n');
-+}
-+
-+static ssize_t alloc_tag_file_read(struct file *file, char __user *ubuf,
-+				   size_t size, loff_t *ppos)
-+{
-+	struct alloc_tag_file_iterator *iter = file->private_data;
-+	struct user_buf	buf = { .buf = ubuf, .size = size };
-+	struct codetag *ct;
-+	int err = 0;
-+
-+	codetag_lock_module_list(iter->ct_iter.cttype, true);
-+	while (1) {
-+		err = flush_ubuf(&buf, &iter->buf);
-+		if (err || !buf.size)
-+			break;
-+
-+		ct = codetag_next_ct(&iter->ct_iter);
-+		if (!ct)
-+			break;
-+
-+		alloc_tag_to_text(&iter->buf, ct);
-+	}
-+	codetag_lock_module_list(iter->ct_iter.cttype, false);
-+
-+	return err ? : buf.ret;
-+}
-+
-+static const struct file_operations alloc_tag_file_ops = {
-+	.owner	= THIS_MODULE,
-+	.open	= alloc_tag_file_open,
-+	.release = alloc_tag_file_release,
-+	.read	= alloc_tag_file_read,
-+};
-+
-+static int dbgfs_init(struct codetag_type *cttype)
-+{
-+	struct dentry *file;
-+
-+	file = debugfs_create_file("alloc_tags", 0444, NULL, cttype,
-+				   &alloc_tag_file_ops);
-+
-+	return IS_ERR(file) ? PTR_ERR(file) : 0;
-+}
-+
-+#else /* CONFIG_DEBUG_FS */
-+
-+static int dbgfs_init(struct codetag_type *) { return 0; }
-+
-+#endif /* CONFIG_DEBUG_FS */
-+
-+static void alloc_tag_module_unload(struct codetag_type *cttype, struct codetag_module *cmod)
-+{
-+	struct codetag_iterator iter = codetag_get_ct_iter(cttype);
-+	struct codetag *ct;
-+
-+	for (ct = codetag_next_ct(&iter); ct; ct = codetag_next_ct(&iter)) {
-+		struct alloc_tag *tag = ct_to_alloc_tag(ct);
-+
-+		__lazy_percpu_counter_exit(&tag->call_count);
-+		__lazy_percpu_counter_exit(&tag->bytes_allocated);
-+	}
-+}
-+
-+static int __init alloc_tag_init(void)
-+{
-+	struct codetag_type *cttype;
-+	const struct codetag_type_desc desc = {
-+		.section	= "alloc_tags",
-+		.tag_size	= sizeof(struct alloc_tag),
-+		.module_unload	= alloc_tag_module_unload,
-+	};
-+
-+	cttype = codetag_register_type(&desc);
-+	if (IS_ERR_OR_NULL(cttype))
-+		return PTR_ERR(cttype);
-+
-+	return dbgfs_init(cttype);
-+}
-+module_init(alloc_tag_init);
-diff --git a/scripts/module.lds.S b/scripts/module.lds.S
-index 3a3aa2354ed8..e73a8781f239 100644
---- a/scripts/module.lds.S
-+++ b/scripts/module.lds.S
-@@ -12,6 +12,8 @@
- # define SANITIZER_DISCARDS
- #endif
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index 3dc715d7ac29..a22f514ff4da 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -9,6 +9,7 @@
+ #include <linux/page_owner.h>
+ #include <linux/page_idle.h>
+ #include <linux/page_table_check.h>
++#include <linux/pgalloc_tag.h>
  
-+#include <asm-generic/codetag.lds.h>
-+
- SECTIONS {
- 	/DISCARD/ : {
- 		*(.discard)
-@@ -47,6 +49,7 @@ SECTIONS {
- 	.data : {
- 		*(.data .data.[0-9a-zA-Z_]*)
- 		*(.data..L*)
-+		CODETAG_SECTIONS()
- 	}
- 
- 	.rodata : {
-@@ -62,6 +65,10 @@ SECTIONS {
- 		*(.text.__cfi_check)
- 		*(.text .text.[0-9a-zA-Z_]* .text..L.cfi*)
- 	}
-+#else
-+	.data : {
-+		CODETAG_SECTIONS()
-+	}
+ /*
+  * struct page extension
+@@ -76,6 +77,9 @@ static struct page_ext_operations *page_ext_ops[] __initdata = {
+ #if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
+ 	&page_idle_ops,
  #endif
++#ifdef CONFIG_PAGE_ALLOC_TAGGING
++	&page_alloc_tagging_ops,
++#endif
+ #ifdef CONFIG_PAGE_TABLE_CHECK
+ 	&page_table_check_ops,
+ #endif
+@@ -152,6 +156,7 @@ struct page_ext *lookup_page_ext(const struct page *page)
+ 					MAX_ORDER_NR_PAGES);
+ 	return get_entry(base, index);
  }
++EXPORT_SYMBOL(lookup_page_ext);
  
+ static int __init alloc_node_page_ext(int nid)
+ {
+@@ -221,6 +226,7 @@ struct page_ext *lookup_page_ext(const struct page *page)
+ 		return NULL;
+ 	return get_entry(section->page_ext, pfn);
+ }
++EXPORT_SYMBOL(lookup_page_ext);
+ 
+ static void *__meminit alloc_page_ext(size_t size, int nid)
+ {
 -- 
 2.37.2.672.g94769d06f0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220830214919.53220-8-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220830214919.53220-9-surenb%40google.com.
