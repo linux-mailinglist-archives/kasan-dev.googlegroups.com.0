@@ -1,35 +1,35 @@
-Return-Path: <kasan-dev+bncBCX7JJ6OTQGBBU7DXSMAMGQE4BIJZMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCX7JJ6OTQGBBQHHXSMAMGQEJO6DUWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B0E5A7ACD
-	for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 12:03:00 +0200 (CEST)
-Received: by mail-wm1-x33e.google.com with SMTP id b16-20020a05600c4e1000b003a5a47762c3sf8054805wmq.9
-        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 03:03:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661940180; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id C89565A7B09
+	for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 12:11:12 +0200 (CEST)
+Received: by mail-wm1-x33e.google.com with SMTP id ay21-20020a05600c1e1500b003a6271a9718sf8104625wmb.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 03:11:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661940672; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LWjWMgJ1J2S/wHVbcTQ5/2jfDT2EYSEtwQJYtn/JjEFDRsDgyrcqjP+NBoY6Ap6e1K
-         2+6tGs4+XGTur1DMlYwKQSNrp6r9BM56ZNOPjP4HCDai3b4cqQeWwqQcJvlXNlsroDrS
-         99asy+ru9NZyrhf6F8EujwTqagIS0PJF1tTjagdsAYiHojfD7JzzY4iTwh9UOD1F4O0a
-         8Bo7pYj9Nuyo5oophELP1tvibNS9v2zhnCCgsnvNtZo1VoTKHAU8NEM7V39Kk6wAEnuw
-         4vh7XIKnAy0s/eTwhPZ9JymxrBEnCCHOwE/p/nXbP3qU8SxfEntyHADnOUYAsa+twHwR
-         9Hxw==
+        b=inT8UNQdWRr7R0rYtN8qQWRoRGirIcMgbVfkmCJ+dCMlgJYZp3KOKKJrDdhiLZM/6B
+         UE75wtFV/CCIlljU1JUDoTnjBZAaXoNiHL5jr023IUiowt7VxiKPU970+ssjmQ6Uz6HH
+         dKc9dHJFBN4oU44eAMCjPXh+pfxeCs/y4f+khmadzGJJynWR6P0meuTCxK6mfuYRpZcB
+         bK8oyhWe4mxXdy7DmniEnQiUr+N8kS3sZSc1lvThKU7flYuc8GbgSNBC8trpE48MlLh8
+         bfu6knHyMaoTDRcXCDn1FiqPW3IodjDKRGwaZ/Q1eSUjbUOpU9iJsa+l7eVvarFT2+B4
+         d2dA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=clyTAMtugS86NX1oj0BEOA3A1OuvkUBitBk6+hfMWXc=;
-        b=f+xRiQ8mBXGDN3YEMcoL/4N5u8PM0kPwJj8X9n7G0578BpJfN4dOHC139r8k0Ef/H5
-         L+DaxiJr+baw40PeQ8bM1hHci0my3rUpJ+zkB0t+MuF3g6NwIf69vPXZo5zWKAfTNPdo
-         m6dBqJ9CR/ukFLw9JENhn3VXZOEGNzmjzM2fbDiW0h/MrfWwSyZlRgE9fTLBxqdvKJQ8
-         moPbwabJ+E3g6RfMJaQmTZVJ91syBGghH3EPX5pIH4g3oYUaCTssATIZokXIH44G3Mpv
-         sGZ5ArIOzQAy3sUeyamPyK4we/AsaUtA8u/GVL6l8tgSVEm15ZciJJcXFvPHE2UN+1UG
-         YGHw==
+        bh=27fJW8v+e3J8TwC/e82ARhXELUuO/94wPDoZWLwq3PQ=;
+        b=xuZbUtY9bxtMz+gG7x5Ff04SggXONyA96csknfJWQtY1FZ0ugQqrwBeqtu0Yc4qccX
+         0xk/9w3GZltnnaECp/GiiKkItj1+izAGStxCEDivWjmLwAvJ+fCbWCy85gt35De0lmkz
+         XHhqtv3mHrShPhpDI2bvgmksnB224m60vudiECNlOGk12+ilnhroklYHwWYeDzZMypqc
+         0FXjNCokFf6j4sWYhYBo1YrQryD9D5YZ/UFGwZr6QGjUZRzXJ6t/Yy/MQa7b8Q1K8K4c
+         U408X7ad1D7WiDVX6RdIS+BdWa7QRL3+qe9QKvQ+wV4SPafBbGymeYrZ4qVnosUnc8No
+         z6Zg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=PRBKEeRr;
-       dkim=neutral (no key) header.i=@suse.de;
-       spf=pass (google.com: domain of mgorman@suse.de designates 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=mgorman@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=Yy6RUQdM;
+       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519 header.b=KUiIFlqb;
+       spf=pass (google.com: domain of mgorman@suse.de designates 195.135.220.28 as permitted sender) smtp.mailfrom=mgorman@suse.de;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc;
-        bh=clyTAMtugS86NX1oj0BEOA3A1OuvkUBitBk6+hfMWXc=;
-        b=Onh8ZTEx7eOQV8E4Qx67+ixrO5IQ4J+izgNo1QaioQE5dzzbtgT5Kk3O4NPFR8uWux
-         vBWdbWJ6tLQy4GIkTYQbQAZu8RZVD18I4iNGgLPHNVS1J5itWlotqIc5xw+V4gC8ZmE/
-         0SUiThOIj6xuVNjmQMN45BfUhDA5n2GdvsRZNLTSU2XRu+JKFaoo0QbcPDxN0q8Xxx2Y
-         0BVH8mIXViXcS2Ufv2avCE9M/zMr/ts15R6LGEG33sz5d2prtO5aHVb4kcY8ymcgGUqC
-         51b0ty66dD6HaXGsExpSQk+O8gauiG5M43QXVM++RzVDhC7CR+ag0+1R6823ma5quEY2
-         aoWg==
+        bh=27fJW8v+e3J8TwC/e82ARhXELUuO/94wPDoZWLwq3PQ=;
+        b=PPExd+mSw5Y+hrF1A9A96Pml9HCunuqZZcGS3lfz9Tna9bMq90J8ZMv8ExYeF/zXhD
+         /0qftLuYrTk0u75ILkCrW20qQZiba/R0qPSwCwHTOJdbpqMx6UH0QQ+KSKGIe33bUxva
+         KM6KXzV3dMVxpTYK8qUUx0zwRLzLjeOCzOPXEydPUoe+JZTPUjXlJF3pB0lYK8dnVQF8
+         elKD0mwpaQuku3Nk/r0gdBh+30Rp7SF3L9hggV1jNNfE9N0sml5rO1clqDPNPpW62sIz
+         zEKnCapqPV0vOXLwaXY9fyx+EKz3/JxU5aQTnm5cknEWnoVnKF5Oi9EwbLufPorTX7Eq
+         Mfdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,63 +51,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:sender:from:to:cc;
-        bh=clyTAMtugS86NX1oj0BEOA3A1OuvkUBitBk6+hfMWXc=;
-        b=eF4Bcin84Azeg7O5SX88FLhdQynx5/pJVDloX6FJ/UljrYEXa7kPsAYndP+LLyaLbA
-         U415odZLgzNVy9afApbGmofjLb4f5tu6GJPfn99vK/t8G2x+KIXjR9Pc7ZB959oLWHJH
-         v3/rHVneZfcpi4tFk2nKmiBIdlKmzBPKQYARkxr9FA34klvjZ4uKBkWlzFhS/EZDa8+O
-         wD4BUbpLJ9lN4eYVXFyOG3cTv1Tz5P62/GHlggqawebGpbsDFwGJk+gj0vL2JPOHhRBb
-         JSofUvwwAhSsIC9UxWSyo/JUTHGzvgs1R5YQZd2OSgT2rK0izpCKyLmt9Pg2hnuIW33p
-         BvkA==
+        bh=27fJW8v+e3J8TwC/e82ARhXELUuO/94wPDoZWLwq3PQ=;
+        b=TbtxTGBFnMlUOLa8kXd+wb1e4IW13++fznNT8m9QWPFpABMFvuRe8xkk7BRtH76QeQ
+         TueyQX6I/UKjloyhsksw78BbDpRcIjIPnRbnzRSVvrC+56EIFTlARq07KDgDy8yPtUns
+         I1+b4WxoI44fbGmZH9bAWgA06sx35URBOz5DrQytkUmeqVtyvQIXiBO9xsFN2SwQNhRT
+         FPvJPIkAzv05k8cSlCETv0xZA5UcY4I/VFir+gGDh2SYsHcJE0Jg/vW/Pkm5T7f6sV11
+         BlbT9Od69eLsz157NcZDO4ew174uHuTFtg9Ny4Dypx7EMPhXYxDtb4imVxG6e8NrN7r5
+         Z1bQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo3mdrYtQNTz6Fuh6+QMRo6EMYEu/koOenS3ETKrd+c5k+4aN0WB
-	Bo7WSeWpL4TzpzHyUKhTNSE=
-X-Google-Smtp-Source: AA6agR4RJ509Q3KQ5Dq7ijEwtBV8XgMb/PvUChOrWDQYHYtWkEH8M7GLVEEgBfPnw2PQPZlD0mekVQ==
-X-Received: by 2002:a05:600c:600c:b0:3a5:abdc:8ce4 with SMTP id az12-20020a05600c600c00b003a5abdc8ce4mr1445946wmb.144.1661940180021;
-        Wed, 31 Aug 2022 03:03:00 -0700 (PDT)
+X-Gm-Message-State: ACgBeo10b641N5s8A4q1dFFrFH9xrEs/duuWyyydcG5TDKQecx15KWiW
+	chruIGTFBVO8NfIW2Jg8Y8U=
+X-Google-Smtp-Source: AA6agR7QWOb2OmI4JyNa6E8X52n/HGDe8Z+syc8eWGLawfgGeAiLEIcr5Gb+KDELi6FsVCcdnJgagA==
+X-Received: by 2002:a05:6000:5c1:b0:225:58df:56ac with SMTP id bh1-20020a05600005c100b0022558df56acmr11735547wrb.397.1661940672357;
+        Wed, 31 Aug 2022 03:11:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:1146:b0:225:6559:3374 with SMTP id
- d6-20020a056000114600b0022565593374ls10321887wrx.2.-pod-prod-gmail; Wed, 31
- Aug 2022 03:02:58 -0700 (PDT)
-X-Received: by 2002:a5d:5143:0:b0:226:de76:be7b with SMTP id u3-20020a5d5143000000b00226de76be7bmr6571612wrt.308.1661940178792;
-        Wed, 31 Aug 2022 03:02:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661940178; cv=none;
+Received: by 2002:a7b:c04d:0:b0:3a5:1ad:8654 with SMTP id u13-20020a7bc04d000000b003a501ad8654ls517975wmc.2.-pod-control-gmail;
+ Wed, 31 Aug 2022 03:11:10 -0700 (PDT)
+X-Received: by 2002:a1c:6a0a:0:b0:3a5:bcad:f2cc with SMTP id f10-20020a1c6a0a000000b003a5bcadf2ccmr1512287wmc.74.1661940670498;
+        Wed, 31 Aug 2022 03:11:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661940670; cv=none;
         d=google.com; s=arc-20160816;
-        b=EJ2JqzLHqwTNRUhB+Wx3Sdi+PET24HWjXt4mRhGHhAClGYHcqGlpCXSkXRMZDqMZTZ
-         Nj9EBNOr5fN703jnP+YbOkeIeZsZmOTM11xTm4BJlSIpcsvcb+ERpX6k3LEqUFJKXfIu
-         +vm/4ORZjzxJxUNb9u5c1c4FSQxBwKfBceE75eIAzqLA2BSPJMCYf/wv3LdPbPkVzj20
-         oJ1s70kdpBtjIWCY7FsWKrURxwnauFQHlNkP2/Zb1X7L9D0Jxj0/VMBfOCl0PAnemDCx
-         AkO2SbMk85i9PLwyGBzC99uuzDjC1SFkvEsL3deGslDlqMLKFw665sZfszEtPLXPt/+o
-         gQmg==
+        b=AEMkTXnI8466q6RKalm4UupoLP63UaGBEKoE/i/nhMZhDKLN8Nv2gnVe1KthRcGut0
+         sL2xsW5aszAPrUmusIvytSt7rqfoTwjKE5moSIFTKIf9jX9Pd3ecqslgEJZyClpqv4GR
+         cmMkoUwisvHHd8wnd9Sn3AEvyxHggMSVVHoZNalkP9ohzysalWmjFWH6DaaUCJ21CxvY
+         tFfG/IQzsUZrK/RgVq+3kCTk3Fp1C9OsebYK4hilv68f/DeT0NFMBybebgnUjheRZ3rB
+         Jxg0mqDceUhiVPnj2f9iYH5vQLP9EceO2Rh0ol5D5ciwpUl1lf3RQlDQrjlIDYvbLpmV
+         xMhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature:dkim-signature;
-        bh=UghZOtEbbNtkuyHw6OG+q34Eguh17rpI6TW2xy+k26s=;
-        b=H8v+cI0e5EfMmxA1uBsYbliDYmUl/L1ordohjtphs0qDKPZ14MrpzVFnG2yP+gzrrD
-         jEdnMgDdzFIi6L8qnP/yU7BQHwewRPbWdnBK5JyBtmWSy7eP5Mh6s58Cn4NZ6tE2kcQv
-         L8EIAtmGRHO6lRYcJyFC2NbU80N7EU7B5R0BtRZZK7vvi+oXez8sVIPDeFYVHxgFrpYk
-         5YGIV4oGyurtOov27Lno79wLCoVZ6/poLr7CyVqhnRPguHwNO/Qvoaip0C34sIbz1Juk
-         DrSIN/S9CysoJWeN28Dxl7QeC6NDeT1YasVMT1rGmK8Q2x2x+s4pHlst6+I0aIoZKV0p
-         7iLg==
+        bh=9ZcqM4yN/Uj2veB6/peO+/NOESYU9wobXvQy0yQjV4o=;
+        b=eS4vwp4J7+dVkY6XGsEff+KTMrduoYcqT1rxGL3Uw46sID38kMcaK7IFL6FrBXFf2O
+         tzR+z65XJ/JiavshpgsX5BhnhoV239/GkCk9gechGCHMuINr8+rKBl7E2r6PdiOd7IsQ
+         EZa+9tTpnJQSIHlUKBiBv0BeFbfryXvcVJTG/NKC5v6IfmqgL0LScYZetie3lg5iYmep
+         L/bxsJle68xCVuQq3JyH03C9aSpap133JJr5tJcM9DSjKF1+o0UA+C3NBvvYrHQMpoFQ
+         FHQiU9VfE7hniXEUFrcpq/z4MWR53tqiYWNISJa7ko+9bvxgc00jfQiGodCqeQzKxZNQ
+         gupA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=PRBKEeRr;
-       dkim=neutral (no key) header.i=@suse.de;
-       spf=pass (google.com: domain of mgorman@suse.de designates 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=mgorman@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=Yy6RUQdM;
+       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519 header.b=KUiIFlqb;
+       spf=pass (google.com: domain of mgorman@suse.de designates 195.135.220.28 as permitted sender) smtp.mailfrom=mgorman@suse.de;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2001:67c:2178:6::1c])
-        by gmr-mx.google.com with ESMTPS id c7-20020a05600c0ac700b003a83f11cec0si119229wmr.2.2022.08.31.03.02.58
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
+        by gmr-mx.google.com with ESMTPS id ay1-20020a5d6f01000000b00226f006a4eesi1633wrb.7.2022.08.31.03.11.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 03:02:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mgorman@suse.de designates 2001:67c:2178:6::1c as permitted sender) client-ip=2001:67c:2178:6::1c;
+        Wed, 31 Aug 2022 03:11:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mgorman@suse.de designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 60E182226F;
-	Wed, 31 Aug 2022 10:02:58 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTP id 279092226F;
+	Wed, 31 Aug 2022 10:11:10 +0000 (UTC)
 Received: from suse.de (unknown [10.163.43.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id C064A2C142;
-	Wed, 31 Aug 2022 10:02:50 +0000 (UTC)
-Date: Wed, 31 Aug 2022 11:02:49 +0100
+	by relay2.suse.de (Postfix) with ESMTPS id C2D002C142;
+	Wed, 31 Aug 2022 10:11:04 +0000 (UTC)
+Date: Wed, 31 Aug 2022 11:11:03 +0100
 From: Mel Gorman <mgorman@suse.de>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
@@ -129,20 +128,22 @@ Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
 	linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org,
 	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 03/30] Lazy percpu counters
-Message-ID: <20220831100249.f2o27ri7ho4ma3pe@suse.de>
+Subject: Re: [RFC PATCH 10/30] mm: enable page allocation tagging for
+ __get_free_pages and alloc_pages
+Message-ID: <20220831101103.fj5hjgy3dbb44fit@suse.de>
 References: <20220830214919.53220-1-surenb@google.com>
- <20220830214919.53220-4-surenb@google.com>
+ <20220830214919.53220-11-surenb@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20220830214919.53220-4-surenb@google.com>
+In-Reply-To: <20220830214919.53220-11-surenb@google.com>
 X-Original-Sender: mgorman@suse.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.de header.s=susede2_rsa header.b=PRBKEeRr;       dkim=neutral
- (no key) header.i=@suse.de;       spf=pass (google.com: domain of
- mgorman@suse.de designates 2001:67c:2178:6::1c as permitted sender)
- smtp.mailfrom=mgorman@suse.de;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+ header.i=@suse.de header.s=susede2_rsa header.b=Yy6RUQdM;       dkim=neutral
+ (no key) header.i=@suse.de header.s=susede2_ed25519 header.b=KUiIFlqb;
+       spf=pass (google.com: domain of mgorman@suse.de designates
+ 195.135.220.28 as permitted sender) smtp.mailfrom=mgorman@suse.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,19 +156,98 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Aug 30, 2022 at 02:48:52PM -0700, Suren Baghdasaryan wrote:
-> From: Kent Overstreet <kent.overstreet@linux.dev>
+On Tue, Aug 30, 2022 at 02:48:59PM -0700, Suren Baghdasaryan wrote:
+> Redefine alloc_pages, __get_free_pages to record allocations done by
+> these functions. Instrument deallocation hooks to record object freeing.
 > 
-> This patch adds lib/lazy-percpu-counter.c, which implements counters
-> that start out as atomics, but lazily switch to percpu mode if the
-> update rate crosses some threshold (arbitrarily set at 256 per second).
-> 
-> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> +#ifdef CONFIG_PAGE_ALLOC_TAGGING
+> +
+>  #include <linux/alloc_tag.h>
+>  #include <linux/page_ext.h>
+>  
+> @@ -25,4 +27,37 @@ static inline void pgalloc_tag_dec(struct page *page, unsigned int order)
+>  		alloc_tag_sub(get_page_tag_ref(page), PAGE_SIZE << order);
+>  }
+>  
+> +/*
+> + * Redefinitions of the common page allocators/destructors
+> + */
+> +#define pgtag_alloc_pages(gfp, order)					\
+> +({									\
+> +	struct page *_page = _alloc_pages((gfp), (order));		\
+> +									\
+> +	if (_page)							\
+> +		alloc_tag_add(get_page_tag_ref(_page), PAGE_SIZE << (order));\
+> +	_page;								\
+> +})
+> +
 
-Why not use percpu_counter? It has a per-cpu counter that is synchronised
-when a batch threshold (default 32) is exceeded and can explicitly sync
-the counters when required assuming the synchronised count is only needed
-when reading debugfs.
+Instead of renaming alloc_pages, why is the tagging not done in
+__alloc_pages()? At least __alloc_pages_bulk() is also missed. The branch
+can be guarded with IS_ENABLED.
+
+> +#define pgtag_get_free_pages(gfp_mask, order)				\
+> +({									\
+> +	struct page *_page;						\
+> +	unsigned long _res = _get_free_pages((gfp_mask), (order), &_page);\
+> +									\
+> +	if (_res)							\
+> +		alloc_tag_add(get_page_tag_ref(_page), PAGE_SIZE << (order));\
+> +	_res;								\
+> +})
+> +
+
+Similar, the tagging could happen in a core function instead of a wrapper.
+
+> +#else /* CONFIG_PAGE_ALLOC_TAGGING */
+> +
+> +#define pgtag_alloc_pages(gfp, order) _alloc_pages(gfp, order)
+> +
+> +#define pgtag_get_free_pages(gfp_mask, order) \
+> +	_get_free_pages((gfp_mask), (order), NULL)
+> +
+> +#define pgalloc_tag_dec(__page, __size)		do {} while (0)
+> +
+> +#endif /* CONFIG_PAGE_ALLOC_TAGGING */
+> +
+>  #endif /* _LINUX_PGALLOC_TAG_H */
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index b73d3248d976..f7e6d9564a49 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -2249,7 +2249,7 @@ EXPORT_SYMBOL(vma_alloc_folio);
+>   * flags are used.
+>   * Return: The page on success or NULL if allocation fails.
+>   */
+> -struct page *alloc_pages(gfp_t gfp, unsigned order)
+> +struct page *_alloc_pages(gfp_t gfp, unsigned int order)
+>  {
+>  	struct mempolicy *pol = &default_policy;
+>  	struct page *page;
+> @@ -2273,7 +2273,7 @@ struct page *alloc_pages(gfp_t gfp, unsigned order)
+>  
+>  	return page;
+>  }
+> -EXPORT_SYMBOL(alloc_pages);
+> +EXPORT_SYMBOL(_alloc_pages);
+>  
+>  struct folio *folio_alloc(gfp_t gfp, unsigned order)
+>  {
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index e5486d47406e..165daba19e2a 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -763,6 +763,7 @@ static inline bool pcp_allowed_order(unsigned int order)
+>  
+>  static inline void free_the_page(struct page *page, unsigned int order)
+>  {
+> +
+>  	if (pcp_allowed_order(order))		/* Via pcp? */
+>  		free_unref_page(page, order);
+>  	else
+
+Spurious wide-space change.
 
 -- 
 Mel Gorman
@@ -176,4 +256,4 @@ SUSE Labs
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220831100249.f2o27ri7ho4ma3pe%40suse.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220831101103.fj5hjgy3dbb44fit%40suse.de.
