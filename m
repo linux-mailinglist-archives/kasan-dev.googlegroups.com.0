@@ -1,139 +1,160 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRB2HTXSMAMGQEQGTH4GI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKMR55PYIGBBSHYXSMAMGQEFCFN2HA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5395A7B67
-	for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 12:37:28 +0200 (CEST)
-Received: by mail-wr1-x438.google.com with SMTP id t11-20020adfba4b000000b00226eb5f7564sf287515wrg.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 03:37:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661942248; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 278DF5A7B9F
+	for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 12:47:37 +0200 (CEST)
+Received: by mail-lf1-x13a.google.com with SMTP id p36-20020a05651213a400b004779d806c13sf3578485lfa.10
+        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 03:47:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661942856; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xtVW+So/KO8i5/MvdeMAyPNZFNJbJFk4HgKjyfGG+OiCCrjKiKnhMV3FXfcokotPRc
-         uTjoD5oVC9+0B3bFKbxVsny6u60UnwBv9weJZMaeer/jUo4kjHajouhHjENS5ZqI40NW
-         sZInPRhqFATzAMsx/gHUf+J1g2iI50q8aGyxDniOuS1vI25tRrZbfJiWZqMffTPX11Ye
-         sjE3ALcSWx176l1OGDyzcyxeTr/ybov0t8F+A+CJn0hJKmP7YsYsqvoMhhs06Ibcmwne
-         kFqtwpw8YoPVxP2SWxYZG3lhESTGOyqVQk7wdIzCV8lJXq+AbUzcYrbE3eopsC0WVkLA
-         I/CA==
+        b=Wt8ZbewmbwjDecGgRdCeGyhPcHmHTqt8EQ6TYJkSil1AYE6CkT1lCyG7CbfRU/Hfat
+         VjkkKymrOdJGnFbw7nFoFamSg42p5JEtX5Txu7yrSSthsra6ia6BdNL0BsKTWZ2hyzEM
+         WMQhKqEmFcaWNGMoxFa/y2To0myS9NAoh3uup0j2X8P+AbRWBlRSErnMY3paXwyt9DCR
+         xR+G2FFbPJLE0rEs6aU71J8ba0kXCg3cq/oK44vCpWc/u/x8eDYdZlNUG/w3inPYwjo3
+         rxGgywrdzfcE/R8AtI95XmqO5w/6ct8ND/Hva4VItRORDUaHb7Vg1pgrG5jrjaOpWm3y
+         4mFg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=ECUTzDAvGVXBVh0ceZM4prM8BvHKFBc4/Vo92oNLrl4=;
-        b=vLfcT5hdwQWIUT/ZakdIbyQdThNv2qmTGro7z4eK73gvuP17Rqs96zSdd9RRr2ZUZ8
-         3+L2d47HrZaEqyqI181/NLlehezUYpcTtqSP1+YEg9tnTA1f1N3TFvIvzabt/fJ5/Wus
-         wY1WWONMw9++KvtBEaQLebc+EPjXHiVgJTPqdaqewu50XZHUN1prIFGYv40FC7yjyMOC
-         V4p2JgQNEGxKHn3RWUUjjnsCyU+iZ1Awu6X3Eg9g0Ze32a41XFrfC28ZnBBrVga1HH2G
-         LGeMWYI460ULnJAGlHFE99wRCekB6UomfBwZCcA8ekOXrm4yEu4cEwcMN8T8ozz2RBRo
-         E//A==
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=o11LlzfNTxlF17VElG+04/SPLxE9MyTjl5BwMjoNQYw=;
+        b=fj1WexYf2bUI1RuWH3x5hcCcQ7tnJO+jAZE/gm690QbQjVY8/0FRkjHenYOd8xZD57
+         ppxYT/9mga3zvSBmbNUNCabnMh1bD/Ql9ULPX2UP+c91bInWyaXkwIpOkZbWsnpi3fnW
+         xzmod17iULiFJGpNrCzQ6lW0FG69Nrq6CHYIDevfwoNqXJhYh1CYwMd18bacO9zb+6i+
+         fuGDz7YJBSxz9uUXeHy1RU/5qqVQOtOEBkXT0ptOjYGkrsxPB2qAHm5e4eZxPtR+NK0H
+         EF0NYVJ/FLqHjJl/CNEinGbM4i7uBvGHNvnxu8+35poxWVls/z8gXhDlZHiS3Lh3LpuS
+         pdXA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=rgCPeyAf;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12c as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=hx3jXnZO;
+       spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc;
-        bh=ECUTzDAvGVXBVh0ceZM4prM8BvHKFBc4/Vo92oNLrl4=;
-        b=T0eNVQflZtjjpFZP8EI8Pjftc/zcFOqZ2DLjgH5eR8VjlaEg2UG/DGdT/WIPozJgEL
-         t+eJNM84sWDYQToSXEPy0RoJVKdPF0/vZ5V4CY29NGYcmBIvFAPryZopciUHFmLmWWNS
-         BOqWqwt5+belIaq9rL48ag0aNX865A7G4Z6HmgKNJVirCuPo+COVb3JqEccBpU+PIqkE
-         p8W5GqEv7YYoaNSSa0qjNhPDt+RbWBZUeV2bo+zedSnldQZo7av4DCMF13N/5Jml+gCB
-         rRQU9O74/SliAJHNjmCDmirGsabq/HqKhdiS2M4bbnwKi5WLgOAdZY4Xs32YesvJwHQm
-         EW4g==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc;
+        bh=o11LlzfNTxlF17VElG+04/SPLxE9MyTjl5BwMjoNQYw=;
+        b=FetxuIavdH/bxbeiMEgx/a0iVlCzjQH0Sq/DHfla6yfyf5XZ85KJXDnrLGPYbem32D
+         V8ynSu8k2gM4F0uz85XnF/6jYMBNvmo9ukKQ56ESNOt3jbmE5Y/To45yrz0ihW8iz1Bh
+         fLHYmEMD1meux7n6u9jrcvILvDQjJrUKjaEy04Hhx8doq/EekuFJNgHWHu418uq4LZHI
+         4TNoqr6VBlgcNV3NBwc+PURnExHjGtAtIk/9P1XuZvyMQL/Kkvw3bkMOuI6OiYAkTWUd
+         ppu2Vt50vWcgPOI+Bg4Z/GGHlb/gQD9jETmwXRgpeIQe3OGv+qbXGc40UY6ltSAtFGzi
+         PShA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc;
-        bh=ECUTzDAvGVXBVh0ceZM4prM8BvHKFBc4/Vo92oNLrl4=;
-        b=Kclcj0AyfuC2g7TBj28kUekWuvVRK1j3A+SgTaF4bnTN1jaYSj6gqcFr+ABn0uZsyU
-         xRZJjClJydqvX8t0VT3Vl7yvAGW7BcNUPu4SfNWMZ89iMg4e9bfMrpEV8SUr+3jz+ayT
-         p5JFlmNhms0Mp2geCc+oPscIHYxKNsLdMtsQMhhhcGwElbw4GfFwGkee4iERkqINzktr
-         5BKCLWkQIZL0FPZjjSKWVJRPkoaPbiZBxPp4MOIRCFpHJU8p2uSkOS0MyMVT3aQJcXAO
-         yBuXfbNvLrs2CrotuldWEkeNokEG3AhIPpibhE96/edcfbL8hg6MePjg3lsako9Ow8EX
-         tlTQ==
-X-Gm-Message-State: ACgBeo0pJx3RygFqjskXwGst+RFvpW5/BH4Qm3b/hIMgN0jlyz/hTfvO
-	pmCIKrD8vEC7JcjEeArpcLk=
-X-Google-Smtp-Source: AA6agR7uaJo/VNI/KEJEfy576wqTlK/5RKs86EHKm8W6o2QPGBkTolHHDXDWh+71QqaOnUqI9yYRog==
-X-Received: by 2002:a05:600c:1d12:b0:3a5:eb79:edc3 with SMTP id l18-20020a05600c1d1200b003a5eb79edc3mr1572676wms.136.1661942248290;
-        Wed, 31 Aug 2022 03:37:28 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc;
+        bh=o11LlzfNTxlF17VElG+04/SPLxE9MyTjl5BwMjoNQYw=;
+        b=TEWU/UBcD0ygGdsvEWD7rDeqf1qns4ahz66/TzbS/nkyllk76Y8CQv8vdkKMQuhWsm
+         se9fkpMzHYU6+5dbKDtKDgOBmrTdHPHn3+mI41yl22PFuYBc7uvZZbE7tmMs7VCshoKc
+         JlRBND3WR5dD7Zv6U76L6lJ0Xm6PwxxYokD39PrwQM6X6BWLg3j0Deq790r4taFzypBn
+         GuGnALQ0nx5uXgEUZ0KGnDdIcfZQsrBkAuX8M+29HJhProesI0Ha7zx+6WrUP38T+gLA
+         U6NK6WRe06s5/Jqkxg0owFbQTuQx2+YShHDc9K4hZnTbw6meyiL4wWFEkpeJnrul5B/g
+         57qQ==
+X-Gm-Message-State: ACgBeo19e99pU9yAkHIfDBd+un5oqNwWx2DvbMQ8NFLKgKhU+3RF7vcp
+	i+tBR4mldBDr+SEfuIRUb8s=
+X-Google-Smtp-Source: AA6agR6e3XiBeQqQpFkMAqPjvD/4x4Mi/OfWnhJ6cBrsUlPcEum4zRvU3WTKne1NWfS50H4mfxuD4Q==
+X-Received: by 2002:a05:6512:159a:b0:492:d0c8:aec1 with SMTP id bp26-20020a056512159a00b00492d0c8aec1mr9906568lfb.275.1661942856577;
+        Wed, 31 Aug 2022 03:47:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:251:b0:221:24a2:5cf with SMTP id
- m17-20020a056000025100b0022124a205cfls10470000wrz.0.-pod-prod-gmail; Wed, 31
- Aug 2022 03:37:27 -0700 (PDT)
-X-Received: by 2002:adf:e583:0:b0:226:db76:ab6d with SMTP id l3-20020adfe583000000b00226db76ab6dmr7978815wrm.198.1661942247251;
-        Wed, 31 Aug 2022 03:37:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661942247; cv=none;
+Received: by 2002:a05:651c:1c7:b0:25d:9c9e:d165 with SMTP id
+ d7-20020a05651c01c700b0025d9c9ed165ls235669ljn.7.-pod-prod-gmail; Wed, 31 Aug
+ 2022 03:47:35 -0700 (PDT)
+X-Received: by 2002:a2e:3317:0:b0:264:6516:93ce with SMTP id d23-20020a2e3317000000b00264651693cemr4473590ljc.212.1661942855117;
+        Wed, 31 Aug 2022 03:47:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661942855; cv=none;
         d=google.com; s=arc-20160816;
-        b=ncg28HPWBJutd7sKek6Wvy9cjntca0E6CW8Cfqo92JkOGA1VpAw77cxthzHjzVYhqL
-         8tS6ajLzw1L1LDbwysaTrO4brhWjgxvVh8HCsx0KAKNSbc+aPY+rw3cNsax0mKdxptSb
-         Oq3BzJ32Pe22Jx50B+ZtnxAHekRAXRct7Pl5ZY/D98SkQJ5fdBFBysU2CZfGGamfIWhv
-         5DDXKhMQs2gsqpSnHG0trqEPilmVVZf2fdOxT35iBZCRHv9DF+u4IYUVxBXDHAKEFJ2+
-         Wp1liW+y0Mb6p3im1+ZR12eFrtmZIWBJkSIUDWXv0XhGkaATl+Zt9eonK214+UKf8x6y
-         REaw==
+        b=wFaMC1wqLOQR+dqLPuzzgLvxawBgL+vtFZ0W/v2OSvOUbuevcQFdQ8p3+9NjzprcIi
+         pVAaLOgCNYVvlQSYpyRrsAS0skrVKlabfIZSZ0lJLpPKIjocotXC/PsSky66fm2mfTDt
+         BK5DloPzFW4HpIBlBFbIeoIkhXRkuvOLQgqmFFPA5pugAOdTM0AfDgfBUKWMRjyDKZuh
+         tGOn7DGphV1MDoYbfOHlES0XGt+bi3DXYhnINay9DLuTreimsgBREiQ51r+JLDNaBHX3
+         DN6I0tSAGDPDpsCWey5DaJ6UNmH6nznoaWxPYtexVbz8P2r+l5Zkvtmtsetqkov9GWtm
+         JiQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WJL9T2x+a2YdG1AthmK6UN7443yAuiR2WAuOKZxAW8E=;
-        b=gIQcVn6Qqd9dojZ6Dos+Y8LDTWGVVMhQAEYT8J2PLhQ5MHHg7flX4UYPXR/e8s1A2U
-         Gfd2IpRWMLkqv+zLnbqrUQ32MQje1OiLbMLAUD/Vjum+Gcoak7OwASE2PNViegTj7rom
-         vH8ug3BKlsrh/9CMcMb9e3WLLKtJvwQVBtIJoK3+FrOeW0+n4R04D9WVjud/+zj1rrcp
-         MATJIw5hzrxFB/S325U7Y3XaWJ0wrkdjQdL6cQmwtIbJ/aC/Ulb6DfITjFzycUjxnhii
-         tvw+qqul6C95aXzvAUQjfgZt7BgrZfLIK6Yrwcj9jw6oUuIZZLimBYCoLmhY0wZisuLr
-         jEww==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=aUzDVspS6J0BJDe/V//gF5+N5LyMdFoI/5xdVcYfQNM=;
+        b=TahxGjg2kjWYv2JKtB/GR+E5WDl3QhG16uRnkzUl/0g24WeEvtZZcdJfCSzY0Z/am3
+         ApIwv4OKx8lgQBN4J38hf6CLz/PU549Kr8NGWEwynWaEaxyAlGc1rgyyP4JfVTUucyAK
+         DYJONsBYLyOAVuFkjGz4pPL1slsHkol5stLoGpTDLe8OMo3XeaggrMKfVx+MfwFaH7NW
+         NQowW7iW9J2AUrMh4d/n1EH5uOTVeoju8srSD2kDy4eu+/Q8etRPvFQvNXLdsgByzqqk
+         Sc+6W/+KXdGO3RrA8JvFytXB0ju4tyV08p+lFXUUQK9g785Sk1dgbiKA6/Z423mniviT
+         o4mA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=rgCPeyAf;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12c as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com. [2a00:1450:4864:20::12c])
-        by gmr-mx.google.com with ESMTPS id p22-20020a05600c359600b003a83fda1d81si115688wmq.2.2022.08.31.03.37.27
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=hx3jXnZO;
+       spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
+        by gmr-mx.google.com with ESMTPS id e14-20020a05651236ce00b00492d8e5069csi470662lfs.9.2022.08.31.03.47.35
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Aug 2022 03:37:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12c as permitted sender) client-ip=2a00:1450:4864:20::12c;
-Received: by mail-lf1-x12c.google.com with SMTP id z6so19325947lfu.9
-        for <kasan-dev@googlegroups.com>; Wed, 31 Aug 2022 03:37:27 -0700 (PDT)
-X-Received: by 2002:a05:6512:2203:b0:492:e57d:7c24 with SMTP id
- h3-20020a056512220300b00492e57d7c24mr8795828lfu.540.1661942246538; Wed, 31
- Aug 2022 03:37:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220830214919.53220-1-surenb@google.com> <20220830214919.53220-23-surenb@google.com>
-In-Reply-To: <20220830214919.53220-23-surenb@google.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 31 Aug 2022 12:37:14 +0200
-Message-ID: <CACT4Y+ZX3U1=cAPXPhoOy6xrngSCfSmyFagXK-9fWtWWODfsew@mail.gmail.com>
-Subject: Re: [RFC PATCH 22/30] Code tagging based fault injection
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	ldufour@linux.ibm.com, peterx@redhat.com, david@redhat.com, axboe@kernel.dk, 
-	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, 
-	changbin.du@intel.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, shakeelb@google.com, songmuchun@bytedance.com, 
-	arnd@arndb.de, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
-	kaleshsingh@google.com, kernel-team@android.com, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, kasan-dev@googlegroups.com, io-uring@vger.kernel.org, 
-	linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Aug 2022 03:47:35 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 136B61F9EB;
+	Wed, 31 Aug 2022 10:47:34 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DA44113A7C;
+	Wed, 31 Aug 2022 10:47:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 3HtANUU8D2PVawAAMHmgww
+	(envelope-from <mhocko@suse.com>); Wed, 31 Aug 2022 10:47:33 +0000
+Date: Wed, 31 Aug 2022 12:47:32 +0200
+From: "'Michal Hocko' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Mel Gorman <mgorman@suse.de>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+	void@manifault.com, juri.lelli@redhat.com, ldufour@linux.ibm.com,
+	peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
+	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+	changbin.du@intel.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+	elver@google.com, dvyukov@google.com, shakeelb@google.com,
+	songmuchun@bytedance.com, arnd@arndb.de, jbaron@akamai.com,
+	rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+	kernel-team@android.com, linux-mm@kvack.org, iommu@lists.linux.dev,
+	kasan-dev@googlegroups.com, io-uring@vger.kernel.org,
+	linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org,
+	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org,
 	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
+Message-ID: <Yw88RFuBgc7yFYxA@dhcp22.suse.cz>
+References: <20220830214919.53220-1-surenb@google.com>
+ <Yw8P8xZ4zqu121xL@hirez.programming.kicks-ass.net>
+ <20220831084230.3ti3vitrzhzsu3fs@moria.home.lan>
+ <20220831101948.f3etturccmp5ovkl@suse.de>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+Content-Disposition: inline
+In-Reply-To: <20220831101948.f3etturccmp5ovkl@suse.de>
+X-Original-Sender: mhocko@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=rgCPeyAf;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12c
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@suse.com header.s=susede1 header.b=hx3jXnZO;       spf=pass
+ (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as
+ permitted sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+X-Original-From: Michal Hocko <mhocko@suse.com>
+Reply-To: Michal Hocko <mhocko@suse.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,582 +167,57 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 30 Aug 2022 at 23:50, Suren Baghdasaryan <surenb@google.com> wrote:
->
-> From: Kent Overstreet <kent.overstreet@linux.dev>
->
-> This adds a new fault injection capability, based on code tagging.
->
-> To use, simply insert somewhere in your code
->
->   dynamic_fault("fault_class_name")
->
-> and check whether it returns true - if so, inject the error.
-> For example
->
->   if (dynamic_fault("init"))
->       return -EINVAL;
+On Wed 31-08-22 11:19:48, Mel Gorman wrote:
+> On Wed, Aug 31, 2022 at 04:42:30AM -0400, Kent Overstreet wrote:
+> > On Wed, Aug 31, 2022 at 09:38:27AM +0200, Peter Zijlstra wrote:
+> > > On Tue, Aug 30, 2022 at 02:48:49PM -0700, Suren Baghdasaryan wrote:
+> > > > ===========================
+> > > > Code tagging framework
+> > > > ===========================
+> > > > Code tag is a structure identifying a specific location in the source code
+> > > > which is generated at compile time and can be embedded in an application-
+> > > > specific structure. Several applications of code tagging are included in
+> > > > this RFC, such as memory allocation tracking, dynamic fault injection,
+> > > > latency tracking and improved error code reporting.
+> > > > Basically, it takes the old trick of "define a special elf section for
+> > > > objects of a given type so that we can iterate over them at runtime" and
+> > > > creates a proper library for it.
+> > > 
+> > > I might be super dense this morning, but what!? I've skimmed through the
+> > > set and I don't think I get it.
+> > > 
+> > > What does this provide that ftrace/kprobes don't already allow?
+> > 
+> > You're kidding, right?
+> 
+> It's a valid question. From the description, it main addition that would
+> be hard to do with ftrace or probes is catching where an error code is
+> returned. A secondary addition would be catching all historical state and
+> not just state since the tracing started.
+> 
+> It's also unclear *who* would enable this. It looks like it would mostly
+> have value during the development stage of an embedded platform to track
+> kernel memory usage on a per-application basis in an environment where it
+> may be difficult to setup tracing and tracking. Would it ever be enabled
+> in production? Would a distribution ever enable this? If it's enabled, any
+> overhead cannot be disabled/enabled at run or boot time so anyone enabling
+> this would carry the cost without never necessarily consuming the data.
+> 
+> It might be an ease-of-use thing. Gathering the information from traces
+> is tricky and would need combining multiple different elements and that
+> is development effort but not impossible.
+> 
+> Whatever asking for an explanation as to why equivalent functionality
+> cannot not be created from ftrace/kprobe/eBPF/whatever is reasonable.
 
-Hi Suren,
+Fully agreed and this is especially true for a change this size
+77 files changed, 3406 insertions(+), 703 deletions(-)
 
-If this is going to be used by mainline kernel, it would be good to
-integrate this with fail_nth systematic fault injection:
-https://elixir.bootlin.com/linux/latest/source/lib/fault-inject.c#L109
-
-Otherwise these dynamic sites won't be tested by testing systems doing
-systematic fault injection testing.
-
-
-> There's no need to define faults elsewhere, as with
-> include/linux/fault-injection.h. Faults show up in debugfs, under
-> /sys/kernel/debug/dynamic_faults, and can be selected based on
-> file/module/function/line number/class, and enabled permanently, or in
-> oneshot mode, or with a specified frequency.
->
-> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> ---
->  include/asm-generic/codetag.lds.h |   3 +-
->  include/linux/dynamic_fault.h     |  79 +++++++
->  include/linux/slab.h              |   3 +-
->  lib/Kconfig.debug                 |   6 +
->  lib/Makefile                      |   2 +
->  lib/dynamic_fault.c               | 372 ++++++++++++++++++++++++++++++
->  6 files changed, 463 insertions(+), 2 deletions(-)
->  create mode 100644 include/linux/dynamic_fault.h
->  create mode 100644 lib/dynamic_fault.c
->
-> diff --git a/include/asm-generic/codetag.lds.h b/include/asm-generic/codetag.lds.h
-> index 64f536b80380..16fbf74edc3d 100644
-> --- a/include/asm-generic/codetag.lds.h
-> +++ b/include/asm-generic/codetag.lds.h
-> @@ -9,6 +9,7 @@
->         __stop_##_name = .;
->
->  #define CODETAG_SECTIONS()             \
-> -       SECTION_WITH_BOUNDARIES(alloc_tags)
-> +       SECTION_WITH_BOUNDARIES(alloc_tags)             \
-> +       SECTION_WITH_BOUNDARIES(dynamic_fault_tags)
->
->  #endif /* __ASM_GENERIC_CODETAG_LDS_H */
-> diff --git a/include/linux/dynamic_fault.h b/include/linux/dynamic_fault.h
-> new file mode 100644
-> index 000000000000..526a33209e94
-> --- /dev/null
-> +++ b/include/linux/dynamic_fault.h
-> @@ -0,0 +1,79 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef _LINUX_DYNAMIC_FAULT_H
-> +#define _LINUX_DYNAMIC_FAULT_H
-> +
-> +/*
-> + * Dynamic/code tagging fault injection:
-> + *
-> + * Originally based on the dynamic debug trick of putting types in a special elf
-> + * section, then rewritten using code tagging:
-> + *
-> + * To use, simply insert a call to dynamic_fault("fault_class"), which will
-> + * return true if an error should be injected.
-> + *
-> + * Fault injection sites may be listed and enabled via debugfs, under
-> + * /sys/kernel/debug/dynamic_faults.
-> + */
-> +
-> +#ifdef CONFIG_CODETAG_FAULT_INJECTION
-> +
-> +#include <linux/codetag.h>
-> +#include <linux/jump_label.h>
-> +
-> +#define DFAULT_STATES()                \
-> +       x(disabled)             \
-> +       x(enabled)              \
-> +       x(oneshot)
-> +
-> +enum dfault_enabled {
-> +#define x(n)   DFAULT_##n,
-> +       DFAULT_STATES()
-> +#undef x
-> +};
-> +
-> +union dfault_state {
-> +       struct {
-> +               unsigned int            enabled:2;
-> +               unsigned int            count:30;
-> +       };
-> +
-> +       struct {
-> +               unsigned int            v;
-> +       };
-> +};
-> +
-> +struct dfault {
-> +       struct codetag          tag;
-> +       const char              *class;
-> +       unsigned int            frequency;
-> +       union dfault_state      state;
-> +       struct static_key_false enabled;
-> +};
-> +
-> +bool __dynamic_fault_enabled(struct dfault *df);
-> +
-> +#define dynamic_fault(_class)                          \
-> +({                                                     \
-> +       static struct dfault                            \
-> +       __used                                          \
-> +       __section("dynamic_fault_tags")                 \
-> +       __aligned(8) df = {                             \
-> +               .tag    = CODE_TAG_INIT,                \
-> +               .class  = _class,                       \
-> +               .enabled = STATIC_KEY_FALSE_INIT,       \
-> +       };                                              \
-> +                                                       \
-> +       static_key_false(&df.enabled.key) &&            \
-> +               __dynamic_fault_enabled(&df);           \
-> +})
-> +
-> +#else
-> +
-> +#define dynamic_fault(_class)  false
-> +
-> +#endif /* CODETAG_FAULT_INJECTION */
-> +
-> +#define memory_fault()         dynamic_fault("memory")
-> +
-> +#endif /* _LINUX_DYNAMIC_FAULT_H */
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index 89273be35743..4be5a93ed15a 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -17,6 +17,7 @@
->  #include <linux/types.h>
->  #include <linux/workqueue.h>
->  #include <linux/percpu-refcount.h>
-> +#include <linux/dynamic_fault.h>
->
->
->  /*
-> @@ -468,7 +469,7 @@ static inline void slab_tag_dec(const void *ptr) {}
->
->  #define krealloc_hooks(_p, _do_alloc)                                  \
->  ({                                                                     \
-> -       void *_res = _do_alloc;                                         \
-> +       void *_res = !memory_fault() ? _do_alloc : NULL;                \
->         slab_tag_add(_p, _res);                                         \
->         _res;                                                           \
->  })
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 2790848464f1..b7d03afbc808 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -1982,6 +1982,12 @@ config FAULT_INJECTION_STACKTRACE_FILTER
->         help
->           Provide stacktrace filter for fault-injection capabilities
->
-> +config CODETAG_FAULT_INJECTION
-> +       bool "Code tagging based fault injection"
-> +       select CODE_TAGGING
-> +       help
-> +         Dynamic fault injection based on code tagging
-> +
->  config ARCH_HAS_KCOV
->         bool
->         help
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 99f732156673..489ea000c528 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -231,6 +231,8 @@ obj-$(CONFIG_CODE_TAGGING) += codetag.o
->  obj-$(CONFIG_ALLOC_TAGGING) += alloc_tag.o
->  obj-$(CONFIG_PAGE_ALLOC_TAGGING) += pgalloc_tag.o
->
-> +obj-$(CONFIG_CODETAG_FAULT_INJECTION) += dynamic_fault.o
-> +
->  lib-$(CONFIG_GENERIC_BUG) += bug.o
->
->  obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
-> diff --git a/lib/dynamic_fault.c b/lib/dynamic_fault.c
-> new file mode 100644
-> index 000000000000..4c9cd18686be
-> --- /dev/null
-> +++ b/lib/dynamic_fault.c
-> @@ -0,0 +1,372 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/ctype.h>
-> +#include <linux/debugfs.h>
-> +#include <linux/dynamic_fault.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/seq_buf.h>
-> +
-> +static struct codetag_type *cttype;
-> +
-> +bool __dynamic_fault_enabled(struct dfault *df)
-> +{
-> +       union dfault_state old, new;
-> +       unsigned int v = df->state.v;
-> +       bool ret;
-> +
-> +       do {
-> +               old.v = new.v = v;
-> +
-> +               if (new.enabled == DFAULT_disabled)
-> +                       return false;
-> +
-> +               ret = df->frequency
-> +                       ? ++new.count >= df->frequency
-> +                       : true;
-> +               if (ret)
-> +                       new.count = 0;
-> +               if (ret && new.enabled == DFAULT_oneshot)
-> +                       new.enabled = DFAULT_disabled;
-> +       } while ((v = cmpxchg(&df->state.v, old.v, new.v)) != old.v);
-> +
-> +       if (ret)
-> +               pr_debug("returned true for %s:%u", df->tag.filename, df->tag.lineno);
-> +
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL(__dynamic_fault_enabled);
-> +
-> +static const char * const dfault_state_strs[] = {
-> +#define x(n)   #n,
-> +       DFAULT_STATES()
-> +#undef x
-> +       NULL
-> +};
-> +
-> +static void dynamic_fault_to_text(struct seq_buf *out, struct dfault *df)
-> +{
-> +       codetag_to_text(out, &df->tag);
-> +       seq_buf_printf(out, "class:%s %s \"", df->class,
-> +                      dfault_state_strs[df->state.enabled]);
-> +}
-> +
-> +struct dfault_query {
-> +       struct codetag_query q;
-> +
-> +       bool            set_enabled:1;
-> +       unsigned int    enabled:2;
-> +
-> +       bool            set_frequency:1;
-> +       unsigned int    frequency;
-> +};
-> +
-> +/*
-> + * Search the tables for _dfault's which match the given
-> + * `query' and apply the `flags' and `mask' to them.  Tells
-> + * the user which dfault's were changed, or whether none
-> + * were matched.
-> + */
-> +static int dfault_change(struct dfault_query *query)
-> +{
-> +       struct codetag_iterator ct_iter;
-> +       struct codetag *ct;
-> +       unsigned int nfound = 0;
-> +
-> +       codetag_lock_module_list(cttype, true);
-> +       codetag_init_iter(&ct_iter, cttype);
-> +
-> +       while ((ct = codetag_next_ct(&ct_iter))) {
-> +               struct dfault *df = container_of(ct, struct dfault, tag);
-> +
-> +               if (!codetag_matches_query(&query->q, ct, ct_iter.cmod, df->class))
-> +                       continue;
-> +
-> +               if (query->set_enabled &&
-> +                   query->enabled != df->state.enabled) {
-> +                       if (query->enabled != DFAULT_disabled)
-> +                               static_key_slow_inc(&df->enabled.key);
-> +                       else if (df->state.enabled != DFAULT_disabled)
-> +                               static_key_slow_dec(&df->enabled.key);
-> +
-> +                       df->state.enabled = query->enabled;
-> +               }
-> +
-> +               if (query->set_frequency)
-> +                       df->frequency = query->frequency;
-> +
-> +               pr_debug("changed %s:%d [%s]%s #%d %s",
-> +                        df->tag.filename, df->tag.lineno, df->tag.modname,
-> +                        df->tag.function, query->q.cur_index,
-> +                        dfault_state_strs[df->state.enabled]);
-> +
-> +               nfound++;
-> +       }
-> +
-> +       pr_debug("dfault: %u matches", nfound);
-> +
-> +       codetag_lock_module_list(cttype, false);
-> +
-> +       return nfound ? 0 : -ENOENT;
-> +}
-> +
-> +#define DFAULT_TOKENS()                \
-> +       x(disable,      0)      \
-> +       x(enable,       0)      \
-> +       x(oneshot,      0)      \
-> +       x(frequency,    1)
-> +
-> +enum dfault_token {
-> +#define x(name, nr_args)       TOK_##name,
-> +       DFAULT_TOKENS()
-> +#undef x
-> +};
-> +
-> +static const char * const dfault_token_strs[] = {
-> +#define x(name, nr_args)       #name,
-> +       DFAULT_TOKENS()
-> +#undef x
-> +       NULL
-> +};
-> +
-> +static unsigned int dfault_token_nr_args[] = {
-> +#define x(name, nr_args)       nr_args,
-> +       DFAULT_TOKENS()
-> +#undef x
-> +};
-> +
-> +static enum dfault_token str_to_token(const char *word, unsigned int nr_words)
-> +{
-> +       int tok = match_string(dfault_token_strs, ARRAY_SIZE(dfault_token_strs), word);
-> +
-> +       if (tok < 0) {
-> +               pr_debug("unknown keyword \"%s\"", word);
-> +               return tok;
-> +       }
-> +
-> +       if (nr_words < dfault_token_nr_args[tok]) {
-> +               pr_debug("insufficient arguments to \"%s\"", word);
-> +               return -EINVAL;
-> +       }
-> +
-> +       return tok;
-> +}
-> +
-> +static int dfault_parse_command(struct dfault_query *query,
-> +                               enum dfault_token tok,
-> +                               char *words[], size_t nr_words)
-> +{
-> +       unsigned int i = 0;
-> +       int ret;
-> +
-> +       switch (tok) {
-> +       case TOK_disable:
-> +               query->set_enabled = true;
-> +               query->enabled = DFAULT_disabled;
-> +               break;
-> +       case TOK_enable:
-> +               query->set_enabled = true;
-> +               query->enabled = DFAULT_enabled;
-> +               break;
-> +       case TOK_oneshot:
-> +               query->set_enabled = true;
-> +               query->enabled = DFAULT_oneshot;
-> +               break;
-> +       case TOK_frequency:
-> +               query->set_frequency = 1;
-> +               ret = kstrtouint(words[i++], 10, &query->frequency);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               if (!query->set_enabled) {
-> +                       query->set_enabled = 1;
-> +                       query->enabled = DFAULT_enabled;
-> +               }
-> +               break;
-> +       }
-> +
-> +       return i;
-> +}
-> +
-> +static int dynamic_fault_store(char *buf)
-> +{
-> +       struct dfault_query query = { NULL };
-> +#define MAXWORDS 9
-> +       char *tok, *words[MAXWORDS];
-> +       int ret, nr_words, i = 0;
-> +
-> +       buf = codetag_query_parse(&query.q, buf);
-> +       if (IS_ERR(buf))
-> +               return PTR_ERR(buf);
-> +
-> +       while ((tok = strsep_no_empty(&buf, " \t\r\n"))) {
-> +               if (nr_words == ARRAY_SIZE(words))
-> +                       return -EINVAL; /* ran out of words[] before bytes */
-> +               words[nr_words++] = tok;
-> +       }
-> +
-> +       while (i < nr_words) {
-> +               const char *tok_str = words[i++];
-> +               enum dfault_token tok = str_to_token(tok_str, nr_words - i);
-> +
-> +               if (tok < 0)
-> +                       return tok;
-> +
-> +               ret = dfault_parse_command(&query, tok, words + i, nr_words - i);
-> +               if (ret < 0)
-> +                       return ret;
-> +
-> +               i += ret;
-> +               BUG_ON(i > nr_words);
-> +       }
-> +
-> +       pr_debug("q->function=\"%s\" q->filename=\"%s\" "
-> +                "q->module=\"%s\" q->line=%u-%u\n q->index=%u-%u",
-> +                query.q.function, query.q.filename, query.q.module,
-> +                query.q.first_line, query.q.last_line,
-> +                query.q.first_index, query.q.last_index);
-> +
-> +       ret = dfault_change(&query);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       return 0;
-> +}
-> +
-> +struct dfault_iter {
-> +       struct codetag_iterator ct_iter;
-> +
-> +       struct seq_buf          buf;
-> +       char                    rawbuf[4096];
-> +};
-> +
-> +static int dfault_open(struct inode *inode, struct file *file)
-> +{
-> +       struct dfault_iter *iter;
-> +
-> +       iter = kzalloc(sizeof(*iter), GFP_KERNEL);
-> +       if (!iter)
-> +               return -ENOMEM;
-> +
-> +       codetag_lock_module_list(cttype, true);
-> +       codetag_init_iter(&iter->ct_iter, cttype);
-> +       codetag_lock_module_list(cttype, false);
-> +
-> +       file->private_data = iter;
-> +       seq_buf_init(&iter->buf, iter->rawbuf, sizeof(iter->rawbuf));
-> +       return 0;
-> +}
-> +
-> +static int dfault_release(struct inode *inode, struct file *file)
-> +{
-> +       struct dfault_iter *iter = file->private_data;
-> +
-> +       kfree(iter);
-> +       return 0;
-> +}
-> +
-> +struct user_buf {
-> +       char __user             *buf;   /* destination user buffer */
-> +       size_t                  size;   /* size of requested read */
-> +       ssize_t                 ret;    /* bytes read so far */
-> +};
-> +
-> +static int flush_ubuf(struct user_buf *dst, struct seq_buf *src)
-> +{
-> +       if (src->len) {
-> +               size_t bytes = min_t(size_t, src->len, dst->size);
-> +               int err = copy_to_user(dst->buf, src->buffer, bytes);
-> +
-> +               if (err)
-> +                       return err;
-> +
-> +               dst->ret        += bytes;
-> +               dst->buf        += bytes;
-> +               dst->size       -= bytes;
-> +               src->len        -= bytes;
-> +               memmove(src->buffer, src->buffer + bytes, src->len);
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static ssize_t dfault_read(struct file *file, char __user *ubuf,
-> +                          size_t size, loff_t *ppos)
-> +{
-> +       struct dfault_iter *iter = file->private_data;
-> +       struct user_buf buf = { .buf = ubuf, .size = size };
-> +       struct codetag *ct;
-> +       struct dfault *df;
-> +       int err;
-> +
-> +       codetag_lock_module_list(iter->ct_iter.cttype, true);
-> +       while (1) {
-> +               err = flush_ubuf(&buf, &iter->buf);
-> +               if (err || !buf.size)
-> +                       break;
-> +
-> +               ct = codetag_next_ct(&iter->ct_iter);
-> +               if (!ct)
-> +                       break;
-> +
-> +               df = container_of(ct, struct dfault, tag);
-> +               dynamic_fault_to_text(&iter->buf, df);
-> +               seq_buf_putc(&iter->buf, '\n');
-> +       }
-> +       codetag_lock_module_list(iter->ct_iter.cttype, false);
-> +
-> +       return err ?: buf.ret;
-> +}
-> +
-> +/*
-> + * File_ops->write method for <debugfs>/dynamic_fault/conrol.  Gathers the
-> + * command text from userspace, parses and executes it.
-> + */
-> +static ssize_t dfault_write(struct file *file, const char __user *ubuf,
-> +                           size_t len, loff_t *offp)
-> +{
-> +       char tmpbuf[256];
-> +
-> +       if (len == 0)
-> +               return 0;
-> +       /* we don't check *offp -- multiple writes() are allowed */
-> +       if (len > sizeof(tmpbuf)-1)
-> +               return -E2BIG;
-> +       if (copy_from_user(tmpbuf, ubuf, len))
-> +               return -EFAULT;
-> +       tmpbuf[len] = '\0';
-> +       pr_debug("read %zu bytes from userspace", len);
-> +
-> +       dynamic_fault_store(tmpbuf);
-> +
-> +       *offp += len;
-> +       return len;
-> +}
-> +
-> +static const struct file_operations dfault_ops = {
-> +       .owner  = THIS_MODULE,
-> +       .open   = dfault_open,
-> +       .release = dfault_release,
-> +       .read   = dfault_read,
-> +       .write  = dfault_write
-> +};
-> +
-> +static int __init dynamic_fault_init(void)
-> +{
-> +       const struct codetag_type_desc desc = {
-> +               .section = "dynamic_fault_tags",
-> +               .tag_size = sizeof(struct dfault),
-> +       };
-> +       struct dentry *debugfs_file;
-> +
-> +       cttype = codetag_register_type(&desc);
-> +       if (IS_ERR_OR_NULL(cttype))
-> +               return PTR_ERR(cttype);
-> +
-> +       debugfs_file = debugfs_create_file("dynamic_faults", 0666, NULL, NULL, &dfault_ops);
-> +       if (IS_ERR(debugfs_file))
-> +               return PTR_ERR(debugfs_file);
-> +
-> +       return 0;
-> +}
-> +module_init(dynamic_fault_init);
-> --
-> 2.37.2.672.g94769d06f0-goog
->
+-- 
+Michal Hocko
+SUSE Labs
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BZX3U1%3DcAPXPhoOy6xrngSCfSmyFagXK-9fWtWWODfsew%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yw88RFuBgc7yFYxA%40dhcp22.suse.cz.
