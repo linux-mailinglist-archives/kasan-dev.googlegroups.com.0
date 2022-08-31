@@ -1,141 +1,126 @@
-Return-Path: <kasan-dev+bncBAABBAF6XSMAMGQESAHWD2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDE6RCFOWIARBWWUXSMAMGQEHRUTYDQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x63f.google.com (mail-ej1-x63f.google.com [IPv6:2a00:1450:4864:20::63f])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F325A7937
-	for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 10:42:40 +0200 (CEST)
-Received: by mail-ej1-x63f.google.com with SMTP id sb14-20020a1709076d8e00b0073d48a10e10sf5023327ejc.16
-        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 01:42:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661935360; cv=pass;
+Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 321545A7A3C
+	for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 11:31:07 +0200 (CEST)
+Received: by mail-wr1-x437.google.com with SMTP id j4-20020adfa544000000b002255264474bsf2210404wrb.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 02:31:07 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661938266; cv=pass;
         d=google.com; s=arc-20160816;
-        b=h8FZl453f+3gRp10GM1M+O+OAPpL06ZmLlMH/7Koe5cJTVOEbMhwsEz1nhYx09Fjoe
-         W6040vYfAUDh1kejy0HZR8i+Bq+HtaEa5d1KmtIvMCpPEW7Op1bY5YvAxNPqB++dkBCP
-         4UyaJmTzmnqx4GGvVvibdLb1MZ4Tdto1hyA9q5WANVijcV/GCRPS8r4Pexak6Qlum2T1
-         EEKnhlLaM/LLMK2mjGhRyKwNLFRRiZ85XxxzTfNdHhC7odobBDKSbdWW4pg0yt+Vq7Q0
-         T80e1JpuV96/g4NSgzo5JCwbT+efhpyq5ykqUzu0b8FlJC9r5FkSilNzuGyjr0X/N/qw
-         Gn2g==
+        b=ojaIvlivscGZeGTi2EVTBQyJ86s60rxo+o0WI18q1QfzbBYm3SMkrjbvoESpjp7ryd
+         JqTZ7EBk4A0QxeLdv4/bzpE6rZGs1VeykwUPZSEb2eADeUNZTqjDXhP1lpJSpK38KRqP
+         LmM/2NM0NgxSko4oHPCBbEZQ26TBm1EQOB/qPIV79QbbsMjHRMQiaBP2FpwrV7HnV+2A
+         UcP2V+gbd1SoomelmbqOR1uRFPPCXVBgVlbAdzAutiFrNWlpltXDUCcI+TQsg6lvOkkb
+         s94lalmsruiw8pUAXcjZdGFTPkDxJd9JiAcjvOKcCiZSzAtsNVp4Dy7CiLzqPjo+juj0
+         Xn8Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=zdf7xlFXpMzQXZsedHshteDLR6n8U5BA8xfH6i6Jxv4=;
-        b=cLSxSSGwF1Za7AaELLBZfVV7pB5ZK9/iFJ2rC+e0jpk7/1ffYM28VWOAAzwN56Z06y
-         u4OXZfhmjZzu5XIqJE+7O/+y+jB3awD1IIhKSssY4l7kU3KjNPgcjPyEcOxcKXZsp25E
-         d+9DS3M7v2KJC1fPczx3dyJ122y650PZQxsPGJ+X9iskPQtcq9DwK0X4MzS5/cZsoS/f
-         wH82MA2IbuOzE3ygPH2vq92U1USQqRha6JFfMzkzR+nx2/pBeQpixnCoyqqm1rJHktWy
-         vKz0yrcrnxyZkvADgh7/MehDo9LMvtMDMhLyK3iGeGuIOGxOUw7gihuoxhNDx+Z+y3et
-         YpMw==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=CHiw7n0wtSiO0ZxtszXIcblYQUDV8IArkLocwj5C9No=;
+        b=TRfc6c4U4SMp4tOxtCdroFAOCSev6n9LTAcmVjmHiwOdqXQ5E6AlIlBll8Figbsjzb
+         AVINU7YhRkVOk899YuT+4zH9HiGbr308+QMChQwmIcqIvAHOtk6PKTvcVmNNI0qMkCqx
+         UfGRUODdvfubr13IPZDXwPciNnl4rj1lvUSCvQbVEXVU1ocwYQYX6mXSzvfl6Ks9CEx2
+         LKllRSaSCzGqpMy83TwA5wDvJ2qUQ6gz9/72SMK2fTc8tOlPz5RbV2ESryZ8S+LqEsbY
+         LNVGev3vH9YWcNKDwNKo5Cla57/mTodjbITCyO/7lGlK+7zbDIL/56NNsdmhcd3LpVel
+         ToIw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="n/WRdO6w";
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@linaro.org header.s=google header.b=z3JWHYIE;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::62a as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc;
-        bh=zdf7xlFXpMzQXZsedHshteDLR6n8U5BA8xfH6i6Jxv4=;
-        b=Oe/W0DJB32cWxcbJfikTiLguujgJcvxyy8AiBXpo9KnLsy/XTxSUVln4nyVIIbyN3R
-         CFMxiC29TWBRUD9RaAZRiUHwrLekH37x3I+iAn+JTSrEsutYguEGNzY16a288+hcUUHA
-         TzO2MVcf9r6Rd59ie3I8PvGBVRoZhXC7/ofKdM/zLQJulSx1an6iZYE9jFN8lOXPe/6M
-         jBtnY0ReITVi68ZhsNC0VflOTof2k28Z9s/sOSzq5zMsezfbW8O3CpfdKnpaXa9oyg4u
-         amED2AAy8AMnmiE+eYG3QPnUoFTvWjopFfGkps2noTAwA65fH5H+f3xYAixhMcAE79uC
-         52+A==
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc;
+        bh=CHiw7n0wtSiO0ZxtszXIcblYQUDV8IArkLocwj5C9No=;
+        b=o04XUmu38UlcjcYBu1v5fx7oMNp7Klj08+325V3JMHcwaywQO8i+EhKqpehR+HtEZW
+         XAzff1+pVZV99U0e9WA06xV3s1D733OnH/nXbJDoJWL1618adTCkqYwlwceTG4n+giQc
+         Yvcidyt24H4jQQlXC+6ggzOkfXTeIzJp3dZRRDzJqlf7UsJ0HGiKnasbtrSavFFCrFRg
+         H9bQMun1aWHrdpEZwAxZPgpBQ14tXcteGUPxlj5J9u6Iqpw2UsZ5NDeslSBTphX9tHi6
+         Ke5Msn5zjwbS0qBS8gwcDiyb0YSqcYp8GyrIF2XutvzVCEipnwd6GJodMNR2hwFy3Mz0
+         Ihjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc;
-        bh=zdf7xlFXpMzQXZsedHshteDLR6n8U5BA8xfH6i6Jxv4=;
-        b=oZbAmLIQk1s/MZ5yRQ3oYVyquKLmh1M6iithbUa0gYI5li6/ig2OZUUpLXbibYrF6U
-         Fq3t/yUNoQ3w84Gkn6Hz7VUlugfy+0hRxEqYjRQ16BZjt3s3/EvFeYRHWDGga98pS5ev
-         Voce/uv+ARQ7/ErmUtyttBBO6eILHMyAf+hewq1ueCeI9OeA+rizIfXjXw3ZbPh8JEHI
-         gQHXdcMqCZalVB29s9v6GXnSnGVFese+LNW4uCUdQz60OxRLD9NMMpUU+4MYI1JJ32VF
-         V0XMiXfgAWlHOgmYdJWiTJqQarBevOzJ7/afRbUzzFNqdlnZaWno+01GsG7/y6Cnnfpj
-         VvsQ==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:sender:from:to:cc;
+        bh=CHiw7n0wtSiO0ZxtszXIcblYQUDV8IArkLocwj5C9No=;
+        b=kBkpEFAe2NEbMZiRGww8vpnKcC4LCq6ph3joNHsDh5U53RznyvRdN9Qq30NzR6HYDu
+         2+s/fbnbt4yxt5o59G/xLFpGVNggfotweqZ5rrcV5spFnClp5KkfwNIkBWsJGtPCezUA
+         gYlZ2vk9e6+WkwdkYVdR7b2DWaNGAPgw/gctjmtewPbnQIeDwwDHmnuqSvfk1Cl1UeBy
+         oY1hxNPaUGWri3whiO1OdJg3zDzT2lmHXD5ahmnRRfwiPl8UepRMDDj97VuFSAMJcWG+
+         tXohxzVnNoTjjFoJVHi/QlEPE3DLTo2L9iMJpdOt5ELaVaX3MJmAYoZO+k8DeGjkXGO1
+         WGMw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1nXwIsMhAEZwnYfb4G6aj2RNFiQnvXvJ5/Up4W6GjV6q3yzTzb
-	8+TkErOJWnLBPUUIQDSAmTU=
-X-Google-Smtp-Source: AA6agR5X4pFkrBQ91nCaaqs83A4/XDqJ9X2/Z3fUT2kGPJx9PjKsdIFOX+de/rTxuTxBqg0rCHUR9A==
-X-Received: by 2002:a05:6402:5110:b0:440:4cb1:c137 with SMTP id m16-20020a056402511000b004404cb1c137mr24712342edd.262.1661935360312;
-        Wed, 31 Aug 2022 01:42:40 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0Z/mFRZ+yZm9r3aeGb7QPolzQTmTmk5jgQh00dlW2FdBUVVIsK
+	OmZcpYShR4w1CPh4RwlVHug=
+X-Google-Smtp-Source: AA6agR6JJu7ZfxtXMUn2hlnnbUjk8ObX6F9tgZcxr6a+it4kgklZiXVDgrjPOX0vg0zP3UJUxWlRGg==
+X-Received: by 2002:adf:ea91:0:b0:226:dce6:c344 with SMTP id s17-20020adfea91000000b00226dce6c344mr6608944wrm.3.1661938266588;
+        Wed, 31 Aug 2022 02:31:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:ccd9:b0:726:d068:52af with SMTP id
- ot25-20020a170906ccd900b00726d06852afls2341875ejb.1.-pod-prod-gmail; Wed, 31
- Aug 2022 01:42:39 -0700 (PDT)
-X-Received: by 2002:a17:907:868b:b0:741:8f8c:6ab5 with SMTP id qa11-20020a170907868b00b007418f8c6ab5mr9399792ejc.194.1661935359509;
-        Wed, 31 Aug 2022 01:42:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661935359; cv=none;
+Received: by 2002:a05:600c:502a:b0:3a5:a469:ba0a with SMTP id
+ n42-20020a05600c502a00b003a5a469ba0als482372wmr.2.-pod-canary-gmail; Wed, 31
+ Aug 2022 02:31:05 -0700 (PDT)
+X-Received: by 2002:a05:600c:1d16:b0:3a6:1fa1:41f7 with SMTP id l22-20020a05600c1d1600b003a61fa141f7mr1325775wms.103.1661938265567;
+        Wed, 31 Aug 2022 02:31:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661938265; cv=none;
         d=google.com; s=arc-20160816;
-        b=NOAMxH3M0lVzgeCq79cFXGIAGhGFBl0Dv63FBlgo6N64gxUoXyi92mgxsiswIXoqkH
-         IJzdL3QeTWQMH9IS07FkL1udI7z7+WDtgsipiOX+SMQGp0zKP7jAi/YHll/ccak37HVe
-         cKTaF1LsOa+H/gDMjO75BxarGvYKrwbbZGJqdO6SKqNs/9hsavbxcl9G2wKs3yCsVufq
-         yTWwQgM+bPAW4qHNWhuGnBLt7beNwepOs/rSdd6WmydVyKPX0VML51HdBBczpTw4DiIZ
-         XTJw7JteN9v4F+eXI2NYZnpZ8kNpSmpYhsnwH1yuxRtpVfTPHwSmLxG8X1tvqx5SU0a8
-         WNqQ==
+        b=Wfd21iNCqkU7xZCn7z4JFEIY7mTLBvA6Sfnq/fVyIQCO5MtI4WNZsyXMdmjHLN7790
+         wUZ0WEw/7LTgYH9W/GIzIwTiHaH/4S/YAVPxutVqe0xaiQQ95N/+MoEr62Pcj/NjihMe
+         vL4c76qu9vDpzvSshAj55o/FPqvPuXqf1ne5ihdy6cE/PptQns7jRjGU+n5/5nfyDi+Z
+         LIqFhlE16yA7K3S4tkLJ1rOJlBFeZ7QUd3GuLiIgOv4Ne8hSuHdw+MDHcPsQCcceumdr
+         Ql7kXAkDkvOOUF846h+hOqtevQws7bCTYwQqUGBzc5s9lnzhHoGULnDzJUDwoUOtnTyH
+         MjAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:date;
-        bh=mmxSzJIEbF0byhuM+VO8IRNgyEUbvUgCaJEiam4Pxpk=;
-        b=cY+GDLMmW7k9jn1+BlHWzUEykKwzm2gbc1lNE+bgIait9gUggWfuQhYtjwM8Cq1i2B
-         KLO7WrYg5glZKbYYbjIovrFU/o4bFchV/JtiVQbZFmvI0Vu7QE64TuZm920UudeaRTUD
-         xttmg2nfISNIUV3aVRlhyf1dpQ+YVkFD/TbUoyqGFOuV0+cH+SZ/5KxI+HetUTfL8h34
-         wcZIWCkmDb/rhGeYioNiNPEmh+9VY+RCoUUyqjZyzen3PrgmqY7ch4hbcgcC6HgdmURB
-         soHbJW+RW1BpWNXzCVUdoCq9nrQQjGKKvAwqnHq0Eb5V2d5v3TJJt7ECsDVMCGESM12x
-         s93w==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=mTMJgxNUn3NdL2Te+hOt7Np5Z6vrIBnPT95qbu1ijYo=;
+        b=H+yfYD7dXMOao2Zv/TY0K2xfumXlImAY+v98dKO38jTYTqfWMv/MUkYmLaTy2xelxt
+         9ztQU4kc4Cn0qe6sHBo9Wu/C15CuKR+kl0wChPjjzaunFf6NvJQ207wUrtxEhef3/EzH
+         EETIZtd6WAdgCoBLebgyyX2HC/KHiMYamKSEbV8/4zjhlxYRKSIQiYnWLVNqUHlt1aJ9
+         Wrhws9v+DBsUjHkCCCZcyvxT4xBDv6uc6+Hb5Y/1EiWe+tgKPulf8cFg9A8skmESKJ4D
+         4MYbRqXROHIZntY6rTzT4S7fogfbITdWeW/S4HJ/JxpIdyYolJUSajiGf/lrbJa2/6Cs
+         ojiA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="n/WRdO6w";
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out0.migadu.com (out0.migadu.com. [94.23.1.103])
-        by gmr-mx.google.com with ESMTPS id e22-20020a056402105600b0044608a57fbesi766643edu.4.2022.08.31.01.42.39
+       dkim=pass header.i=@linaro.org header.s=google header.b=z3JWHYIE;
+       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::62a as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com. [2a00:1450:4864:20::62a])
+        by gmr-mx.google.com with ESMTPS id p22-20020a05600c359600b003a83fda1d81si108166wmq.2.2022.08.31.02.31.05
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 01:42:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as permitted sender) client-ip=94.23.1.103;
-Date: Wed, 31 Aug 2022 04:42:30 -0400
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
-	willy@infradead.org, liam.howlett@oracle.com, void@manifault.com,
-	juri.lelli@redhat.com, ldufour@linux.ibm.com, peterx@redhat.com,
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-	masahiroy@kernel.org, nathan@kernel.org, changbin.du@intel.com,
-	ytcoode@gmail.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-	glider@google.com, elver@google.com, dvyukov@google.com,
-	shakeelb@google.com, songmuchun@bytedance.com, arnd@arndb.de,
-	jbaron@akamai.com, rientjes@google.com, minchan@google.com,
-	kaleshsingh@google.com, kernel-team@android.com, linux-mm@kvack.org,
-	iommu@lists.linux.dev, kasan-dev@googlegroups.com,
-	io-uring@vger.kernel.org, linux-arch@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
-Message-ID: <20220831084230.3ti3vitrzhzsu3fs@moria.home.lan>
-References: <20220830214919.53220-1-surenb@google.com>
- <Yw8P8xZ4zqu121xL@hirez.programming.kicks-ass.net>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Aug 2022 02:31:05 -0700 (PDT)
+Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::62a as permitted sender) client-ip=2a00:1450:4864:20::62a;
+Received: by mail-ej1-x62a.google.com with SMTP id bj12so27116150ejb.13
+        for <kasan-dev@googlegroups.com>; Wed, 31 Aug 2022 02:31:05 -0700 (PDT)
+X-Received: by 2002:a17:906:9b86:b0:73d:72cf:72af with SMTP id
+ dd6-20020a1709069b8600b0073d72cf72afmr19921832ejc.440.1661938265272; Wed, 31
+ Aug 2022 02:31:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220827213009.44316-1-alexander.sverdlin@nokia.com>
+In-Reply-To: <20220827213009.44316-1-alexander.sverdlin@nokia.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 31 Aug 2022 11:30:53 +0200
+Message-ID: <CACRpkdYgZK1oaceme6-EEuV3F=m1L5B3Y8t6z7Yxrx842dgrFw@mail.gmail.com>
+Subject: Re: [PATCH] ARM: kasan: Only map modules if CONFIG_KASAN_VMALLOC=n
+To: Alexander A Sverdlin <alexander.sverdlin@nokia.com>
+Cc: kasan-dev@googlegroups.com, Lecopzer Chen <lecopzer.chen@mediatek.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Russell King <linux@armlinux.org.uk>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <Yw8P8xZ4zqu121xL@hirez.programming.kicks-ass.net>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Original-Sender: kent.overstreet@linux.dev
+X-Original-Sender: linus.walleij@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b="n/WRdO6w";       spf=pass
- (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as
- permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@linaro.org header.s=google header.b=z3JWHYIE;       spf=pass
+ (google.com: domain of linus.walleij@linaro.org designates
+ 2a00:1450:4864:20::62a as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,28 +133,31 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Aug 31, 2022 at 09:38:27AM +0200, Peter Zijlstra wrote:
-> On Tue, Aug 30, 2022 at 02:48:49PM -0700, Suren Baghdasaryan wrote:
-> > ===========================
-> > Code tagging framework
-> > ===========================
-> > Code tag is a structure identifying a specific location in the source code
-> > which is generated at compile time and can be embedded in an application-
-> > specific structure. Several applications of code tagging are included in
-> > this RFC, such as memory allocation tracking, dynamic fault injection,
-> > latency tracking and improved error code reporting.
-> > Basically, it takes the old trick of "define a special elf section for
-> > objects of a given type so that we can iterate over them at runtime" and
-> > creates a proper library for it.
-> 
-> I might be super dense this morning, but what!? I've skimmed through the
-> set and I don't think I get it.
-> 
-> What does this provide that ftrace/kprobes don't already allow?
+On Sat, Aug 27, 2022 at 11:32 PM Alexander A Sverdlin
+<alexander.sverdlin@nokia.com> wrote:
 
-You're kidding, right?
+> -       create_mapping((void *)MODULES_VADDR, (void *)(PKMAP_BASE + PMD_SIZE));
+> +       if (!IS_ENABLED(CONFIG_KASAN_VMALLOC) && IS_ENABLED(CONFIG_MODULES))
+> +               create_mapping((void *)MODULES_VADDR, (void *)(MODULES_END));
+
+So the way I understand it is that modules are first and foremost loaded into
+the area MODULES_VADDR .. MODULES_END, and then after that is out,
+they get loaded into VMALLOC. See arch/arm/kernel/module.c, module_alloc().
+
+If you do this, how are the addresses between MODULES_VADDR..MODULES_END
+shadowed when using CONFIG_KASAN_VMALLOC?
+
+> +       create_mapping((void *)PKMAP_BASE, (void *)(PKMAP_BASE + PMD_SIZE));
+
+(Splitting this in two steps if probably good in any case.)
+
+Pls keep me on CC for Kasan ARM patches, thanks! (Maybe I should add some
+MAINTAINERS blurb.)
+
+Yours,
+Linus Walleij
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220831084230.3ti3vitrzhzsu3fs%40moria.home.lan.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACRpkdYgZK1oaceme6-EEuV3F%3Dm1L5B3Y8t6z7Yxrx842dgrFw%40mail.gmail.com.
