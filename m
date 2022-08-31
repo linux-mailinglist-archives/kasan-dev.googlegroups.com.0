@@ -1,144 +1,141 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBU4SX2MAMGQE5SFGLXI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBVUUX2MAMGQE5IKB4FQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3225A82D8
-	for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 18:16:20 +0200 (CEST)
-Received: by mail-wr1-x440.google.com with SMTP id j22-20020adfb316000000b00226cf7eddeesf2429293wrd.23
-        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 09:16:20 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1661962580; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CBA5A82F8
+	for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 18:20:38 +0200 (CEST)
+Received: by mail-wm1-x33c.google.com with SMTP id ay27-20020a05600c1e1b00b003a5bff0df8dsf1954414wmb.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 09:20:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1661962838; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eLETu8/d8GW4/nONiKjHaHUlC+z+eltiXgS1/sR9zWkX2gbWvtshE13J0kd+6mRZ0i
-         MMs3zpLjsRRbHBvTUn6NKeJOClJJ92bcTgxJA917u14MsP3ypSHBpT+rbAqEPtwPn5tt
-         LFcje8Zq1MqFI0Zu74hqMU+89ZoeUQGmHBV2mu3rQPbYQoutZVwGs5oy/uY4+rKWt3/Y
-         IQlcj0Sub+RnPw0kixq8hmIlhDF2N2VuNNTS3iT9+cpvJhtpAvQ/xL17OhGg4SP9kwHU
-         NYZv35amPav2z+uBmQdNDlCpu8ZuyTS3sL440gapGmolOjIYgwAdmVy/VS5h9k78vSyq
-         WlfQ==
+        b=P0v4ODvirA5wfE9pIO29uqrPHwWs15YpD1gY3hqRyuZ46QTqwTRwD4W/wrV4dcjUBG
+         tn9DXviggNmJ1Rwwqop2tGW2OKvOUd2ZWQKxeeGedYJvsirab0FONKpC0KM90UKIk9f/
+         jEK0dEdzFdaoFg+n6aODiMX4MiyCNQlaNJzDXLQAkpvOHmNY+7kp0MUWOOvjI4E/xnWk
+         T3juBVr0lDyB1ZT1soOXvHVSCxAK6qrQAva8o89ZMyDMoVdiXuV7y9kow9q4WG2aAItP
+         k5s3eXJU9JGsIzDZTQREiLSOjhh/XJ2yEbqA8x5nB85wMupu3ijan7GcOnpDgY5eA0/A
+         XOhg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=QLoub1k9dOJDU1c+DjFog5Kk1QmAYhJghQVUlN+OFLM=;
-        b=qWGdca8tlE2ZXCG+5jcfmO9r56kaqMoU3fObA+ImcJ6ojyVi1KOnSf78iEFSjAWgAh
-         4JDbuSdoPumxQLN3bRHb1zi6R/WvZ1PBlHvEH2XLmdve1otVBIRkBQ6r6SKh5UqU54ji
-         UaAp68VWqyQFfcEAb/VQCaP7pMmXLIcsQjgTs+ks9mERn8zrjo3v+yWymQGuzJOJMtsj
-         gL5BVuaiZorR77Mxnk3hzoSoK7WO3IuC4mV00ST42V+kceyUQQQUi4OOEeUgml+UyTt4
-         LOml53VRRwEvRaNSg5bZUEUdFkAkxiPVqC29RZb5foWAv5J2NiAM1Zh1seO9ksYKzX8R
-         uBTQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=eHpRZmfJEl9fDy+kM5WQW0CDtkAWjB0jirdOmlrj1to=;
+        b=YuY1BLFnA0MxEbpMZY+DyF3BKNd5grn+LxfgPyFAwq0jeCGyceAHWUkyrcHMnbkEkP
+         1njp/F79fxNs7lZHL3n5525EFTYVbLCZCh8zwl1YacYIlER+eK0GMUC2l1VDfh7rw8GY
+         5JG2Th99U658rFefSukTRsOQ2InxjGsb/vl3jxVmbxNbDFT1985Q6IUz6JIP4J1fFQW1
+         B5xAKmgb9+Ni2nbl75/HKSa3+Aa/qcLLUtoNCde6CljQ9cCA5nAYJtgzn/g+RMnoyMI1
+         F3m4TXb75sxe8o4/9cd3wp1TJS3tMzWkLIHcq71a1BssQ+KwRDiOcWdrTuyNh9ZaT8J+
+         +7Vg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=zBDQYaA+;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=SuTDp3Ij;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=KVP2c5IA;
+       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc;
-        bh=QLoub1k9dOJDU1c+DjFog5Kk1QmAYhJghQVUlN+OFLM=;
-        b=tedpKisca2UrsG60v8jCyLmF/iqwTR6P55vIG/6jsmrIXesjdLXD6X8A8qD1MfAn5I
-         uK1jBr9R1f6f2IWMk7ZsjeCN733d6uPuqBg4Z45TnyalZAI1EgkJ/AQ+uc9ax/6LxLaR
-         TDU799RTa5+IMcU4Qn7klWuZTzPHCYTWLm4I0TjDjIQ6/9r4rhgBd2fjLACOsH3YMxsZ
-         6RCaSdXCvYmEfpHPKQYYVEn0kRHzCAbBpGyMkDSbS0iEqzxBB6reeciLP7hUNdp17EFT
-         qMCKYqW2CeMAlRIC5dL8ApHDgeYx6hmC4E7sMtJvgVTVTX8UaMbgldYdsg/qFrOP/Za5
-         PdhQ==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc;
+        bh=eHpRZmfJEl9fDy+kM5WQW0CDtkAWjB0jirdOmlrj1to=;
+        b=eABP3whdntanYHenE6Vmomhp9R81+52QX3SN339OVXZA2MmBaiMk9iJar4AceHqhPS
+         kWzWJpGakkXqdYswjv1ipRgtLjC/ftbZ71ORdcCI5tGx4ScGjscpDRnlL+yU9JAUmhHt
+         deAzMO6XIOflVLL1KvEuJXYk5tRDG4AJpTfgKzKAFKo/ZoabhIN6eV/x7H0wmp+BDbLE
+         N7t6GlzgoZFMwh59yUvM7ajNqW7/imUv9UcG/3tJzxGmhwGPRaVVRwMZxDqLjeSqsCVv
+         qrHb/03N5KpiTO1YYnmIimPKLWBAXTmnXL45uJedhVCUpxEB+UT+jalv2Q+Z8a9d7nwI
+         g3YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc;
-        bh=QLoub1k9dOJDU1c+DjFog5Kk1QmAYhJghQVUlN+OFLM=;
-        b=TJ7jX2Qa9iYv2MakpNT+wALH/zzedrJ5BcUzDr2pDUnUOVlKDpnqkPxr+I8oAE7ALH
-         aSaVKWwgszb9DQzameOVb4XEguKNhZVTpc7FLnjAJ3cYj34QBTNI+9f5/QE0V3LRMmyE
-         qX3/vtyRF9J7LhqYetS0jXuG/PeY0WyBsRvQUkYBe9btjQ7sZoMxmkbvrzlix/afwxK8
-         5BTLq8xOqHGlfJr5Kdo/IftPMR44OFAKwi8evezf5vKZjyQY+Rp7WB478T7MD7X4z5iK
-         ITuhKRQJTTjOewvEpVW4Izn5195Pb/f3R5QsMvkfKLppvGKzr+xCD17kUDBrbe8MKR0Y
-         1PEA==
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc;
+        bh=eHpRZmfJEl9fDy+kM5WQW0CDtkAWjB0jirdOmlrj1to=;
+        b=3FPgzvSthanmwmlfCMw75mpx2ndd1PJ1bvPjEfLhO46HJe6BnHozwLmRYBxSzm3t20
+         eDdwEZwgDo6ppMOgQjtFI4fwMIHiYdUjVDAkXW56+qYIAmke07SoFNGoHVvbp2Cje68k
+         d0mp8R1Yt2zi3UunFYTodFqyemiXk9CNNgYvLd3H0tG9duc2kVBzd2YQhi9sxbNQAbRl
+         9fn2OQ5JVnHhjrhZ145Nj5CopKVAFHMNUGXwJEvws02LuI0ADcwYP7+jzSaPlhw22Ka5
+         G78LVtBKOa4fEJpTcqFPBM5OxlcgrYtI5s8La3sLPRaHJz9WPFgxYD94B3/facARvRo/
+         wFLA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1OItREQq2ougIyk+sIiUuwGE4c7qfEOV2gIkvopxaqplkc0xoa
-	+u7E0LU1WV+OW7qFo480BCI=
-X-Google-Smtp-Source: AA6agR4x/fb/yyHuEaAvUedvBDoUL8MEDCd0J04uKTIf3SENbT/5bUa+7groQwxGW9hwSubVR3eThQ==
-X-Received: by 2002:a1c:4b01:0:b0:3a5:94e8:948e with SMTP id y1-20020a1c4b01000000b003a594e8948emr2486970wma.197.1661962579866;
-        Wed, 31 Aug 2022 09:16:19 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0uS4HT6H+aljsq94ElIJinkCwrzP9ZTvGmrr2dcB1RpzWeMDmC
+	nKhIRhg7pAqbjm/hxuUkIf4=
+X-Google-Smtp-Source: AA6agR6dTPnOVg2RzvYCJAl+okQnlXKspQ4ognDBQj+DQfg1AnbEqMQCJ0cgjztHzZZoRkJw8QwDsQ==
+X-Received: by 2002:a05:600c:190a:b0:3a8:43b8:53e3 with SMTP id j10-20020a05600c190a00b003a843b853e3mr2607675wmq.4.1661962838295;
+        Wed, 31 Aug 2022 09:20:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:f30b:0:b0:3a5:4532:b3a6 with SMTP id q11-20020a1cf30b000000b003a54532b3a6ls834248wmq.3.-pod-control-gmail;
- Wed, 31 Aug 2022 09:16:18 -0700 (PDT)
-X-Received: by 2002:a7b:c5d3:0:b0:3a8:3d5f:4562 with SMTP id n19-20020a7bc5d3000000b003a83d5f4562mr2535062wmk.78.1661962578632;
-        Wed, 31 Aug 2022 09:16:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1661962578; cv=none;
+Received: by 2002:a7b:cb03:0:b0:3a8:583c:54ed with SMTP id u3-20020a7bcb03000000b003a8583c54edls965496wmj.2.-pod-prod-gmail;
+ Wed, 31 Aug 2022 09:20:37 -0700 (PDT)
+X-Received: by 2002:a1c:7209:0:b0:3a5:c069:25d1 with SMTP id n9-20020a1c7209000000b003a5c06925d1mr2583163wmc.71.1661962837525;
+        Wed, 31 Aug 2022 09:20:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1661962837; cv=none;
         d=google.com; s=arc-20160816;
-        b=uSocGEfFjx37DqgUrASrfSsi0hOn2yQBuxyYa1S3uTAA0mAtkxdpYyrasto3UTJ5Ni
-         eA2q3f5v73VCqMa/F0JpEobK1W9D4qyWpIdFwvKJHiyK9/L4Kla2jR+o29UgZcCG70BX
-         I7+WzG/3XptzGBC/Ckhn3OXqou+inKXQ7v4gYsV7YiNBZCB6CXmFF5VUIkfptWEz+ziu
-         K/D3zMKSPwYk8nX1y8Y3DeZDvhp7gFT1/f0WHQOpnq+cQ9ME/x3fuRuAjKiKMls520K5
-         Oa3j1bAbIuxnAjYi9BN2GDDWc/C9QvKn47mnPcvH8XtSt2PV1HcaYSvHleeRJRYgmjVX
-         lJnQ==
+        b=E3vghnU4O7HdVmdhKz6h1Dk21IK8XkA7M5Cl6HF6m+6HnYLO7B2kU6hs3EwBFxDK2S
+         O9cPrQ4z4gCaulQoj04BVGwxtWRkDH7WgQGmJBkJhY7s280Atg1i4EiEQNR6Dyg1OkrE
+         oF4RfzzUUdxGpKmGQo3gC+7xhkTaihjYkdKziDlrE/skGcvgt7iH1gsPX6BOj2FXGA5T
+         jXfscGkINoHGKEjd/HrPQAj5sWTnL80OiYvJp/Ag4O7Gu9m3euHSQkfc2tWRv5yZeRbs
+         z9b2B/YO9PqL0GKhGoxKExHdvsI2i/NLa/rukSh4j0UmjoC13PJeau6c9kuXUBdAIl9s
+         GbEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=o6HPf2L5K/Lf19WA17JOPqDvb/Xtjl8d0vphRCxEgqI=;
-        b=abQgAzGzDVEgaeEQzjb++1NTy9WIsXUTTnoCE6yZhHTuTHcYJrhLYozIJvhBW7NTrJ
-         vuNJooCtVJZMGXm2y8DWFzkLKmNApl9pqJ3Z1Dsb1LwhGx5BsPDFoIx833gefpQkVZ7S
-         4vyT+ZW0ZHMMev/dC4YfwGmWuqpLG3zMjrPVR2XjLL2EfgkA9Z0o4pnqRF9gRZflESKh
-         r/9VwIT0UVZfXjBuztNWGJg1F+HGDYiAwc266MDNBlflX+F+L0t02Mh23kwO2jQI4wMB
-         tFdAuG9beWgtIN3Fl4WVPKb6yu1ZpF+baAlpnZw4/+eglmXhh76d6weWu1YbJUwH1AI+
-         wqtg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:date;
+        bh=iGyIm0136Cqvu8OauWzfpc3vydsg6hlY8VzCbW2wXJg=;
+        b=qP728MgOdmqa25CZOeJAl+yX+/SO9e0XmkGvf6Iwa1X5QLFb60TCptGUdW9Ucs722N
+         sD301hKVJ8AXnylCbPwSFqGdt1F8DxQd5+maXKcb02sf0ufhL/eG2gIcRKoIbhUCh3Q6
+         y5mzURPzIgH8TOFcat6uloZlTHl8hpnvUFIv7AlAm6hjHWh9k5v2mTGCm6bUFfQB+q2+
+         eG4V6ow4fje858i7GjnwPOp51WVmu6bu98rwC1zeJ3T/sAys+X3pnE6c9SH6/3Td/yYX
+         irT+ub8riEeKiuzXqadcwfcsZAePNAkn9UusITV7LjRLMUL5RT14YZD+wzTf+YA8DLCg
+         uEBg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=zBDQYaA+;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=SuTDp3Ij;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
-        by gmr-mx.google.com with ESMTPS id bx5-20020a5d5b05000000b00226e3ba2090si278464wrb.1.2022.08.31.09.16.18
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=KVP2c5IA;
+       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out1.migadu.com (out1.migadu.com. [2001:41d0:2:863f::])
+        by gmr-mx.google.com with ESMTPS id bi19-20020a05600c3d9300b003a6787eaf57si440338wmb.2.2022.08.31.09.20.37
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 09:16:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4836A1F8B5;
-	Wed, 31 Aug 2022 16:16:18 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 191041332D;
-	Wed, 31 Aug 2022 16:16:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id J35VBVKJD2O8AQAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Wed, 31 Aug 2022 16:16:18 +0000
-Message-ID: <7edc9d38-da50-21c8-ea79-f003f386c29b@suse.cz>
-Date: Wed, 31 Aug 2022 18:16:17 +0200
+        Wed, 31 Aug 2022 09:20:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kent.overstreet@linux.dev designates 2001:41d0:2:863f:: as permitted sender) client-ip=2001:41d0:2:863f::;
+Date: Wed, 31 Aug 2022 12:20:30 -0400
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Mel Gorman <mgorman@suse.de>
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
+	roman.gushchin@linux.dev, dave@stgolabs.net, willy@infradead.org,
+	liam.howlett@oracle.com, void@manifault.com, peterz@infradead.org,
+	juri.lelli@redhat.com, ldufour@linux.ibm.com, peterx@redhat.com,
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+	masahiroy@kernel.org, nathan@kernel.org, changbin.du@intel.com,
+	ytcoode@gmail.com, vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+	glider@google.com, elver@google.com, dvyukov@google.com,
+	shakeelb@google.com, songmuchun@bytedance.com, arnd@arndb.de,
+	jbaron@akamai.com, rientjes@google.com, minchan@google.com,
+	kaleshsingh@google.com, kernel-team@android.com, linux-mm@kvack.org,
+	iommu@lists.linux.dev, kasan-dev@googlegroups.com,
+	io-uring@vger.kernel.org, linux-arch@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org,
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 03/30] Lazy percpu counters
+Message-ID: <20220831162030.hzgzhxu3qn6g3k5r@moria.home.lan>
+References: <20220830214919.53220-1-surenb@google.com>
+ <20220830214919.53220-4-surenb@google.com>
+ <20220831100249.f2o27ri7ho4ma3pe@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH -next] mm: kence: add __kmem_cache_free to function skip
- list
-To: Marco Elver <elver@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc: Feng Tang <feng.tang@intel.com>, Andrew Morton
- <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
- linux-mm@kvack.org
-References: <20220831073051.3032-1-feng.tang@intel.com>
- <Yw9qeSyrdhnLOA8s@hyeyoo>
- <CANpmjNMFOmtu3B5NCgrbrbkXk=FVfxSKGOEQvBhELSXRSv_1uQ@mail.gmail.com>
-Content-Language: en-US
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <CANpmjNMFOmtu3B5NCgrbrbkXk=FVfxSKGOEQvBhELSXRSv_1uQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: vbabka@suse.cz
+Content-Disposition: inline
+In-Reply-To: <20220831100249.f2o27ri7ho4ma3pe@suse.de>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
+X-Original-Sender: kent.overstreet@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=zBDQYaA+;       dkim=neutral
- (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=SuTDp3Ij;
-       spf=pass (google.com: domain of vbabka@suse.cz designates
- 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@linux.dev header.s=key1 header.b=KVP2c5IA;       spf=pass
+ (google.com: domain of kent.overstreet@linux.dev designates
+ 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,32 +148,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 8/31/22 16:21, Marco Elver wrote:
-> On Wed, 31 Aug 2022 at 16:04, Hyeonggon Yoo <42.hyeyoo@gmail.com> wrote:
+On Wed, Aug 31, 2022 at 11:02:49AM +0100, Mel Gorman wrote:
+> On Tue, Aug 30, 2022 at 02:48:52PM -0700, Suren Baghdasaryan wrote:
+> > From: Kent Overstreet <kent.overstreet@linux.dev>
+> > 
+> > This patch adds lib/lazy-percpu-counter.c, which implements counters
+> > that start out as atomics, but lazily switch to percpu mode if the
+> > update rate crosses some threshold (arbitrarily set at 256 per second).
+> > 
+> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 > 
->> Maybe you can include those functions too?
->>
->> - __kmem_cache_alloc_node
->> - kmalloc_[node_]trace, kmalloc_large[_node]
-> 
-> This is only required if they are allocator "root" functions when
-> entering allocator code (or may be tail called by a allocator "root"
-> function). Because get_stack_skipnr() looks for one of the listed
-> function prefixes in the whole stack trace.
-> 
-> The reason __kmem_cache_free() is now required is because it is tail
-> called by kfree() which disappears from the stack trace if the
-> compiler does tail-call-optimization.
+> Why not use percpu_counter? It has a per-cpu counter that is synchronised
+> when a batch threshold (default 32) is exceeded and can explicitly sync
+> the counters when required assuming the synchronised count is only needed
+> when reading debugfs.
 
-I checked and I have this jmp tail call, yet all test pass here.
-But I assume the right commit to amend is
-05a1c2e50809 ("mm/sl[au]b: generalize kmalloc subsystem")
+It doesn't switch from atomic mode to percpu mode when the update rate crosses a
+threshold like lazy percpu counters does, it allocates all the percpu counters
+up front - that makes it a non starter here.
 
-Could you Feng maybe verify that that commit is the first that fails the
-tests, and parent commit of that is OK? Thanks.
+Also, from my reading of the code... wtf is it even doing, and why would I use
+it at all? This looks like old grotty code from ext3, it's not even using
+this_cpu_add() - it does preempt_enable()/disable() just for adding to a local
+percpu counter!
 
+Noooooope.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/7edc9d38-da50-21c8-ea79-f003f386c29b%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220831162030.hzgzhxu3qn6g3k5r%40moria.home.lan.
