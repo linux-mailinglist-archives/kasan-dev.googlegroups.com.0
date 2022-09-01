@@ -1,155 +1,144 @@
-Return-Path: <kasan-dev+bncBCO3JTUR7UBRBKXVYCMAMGQEO3KSPEA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBJH3YCMAMGQEDADNFAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53d.google.com (mail-ed1-x53d.google.com [IPv6:2a00:1450:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E2B5A8CF3
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 06:52:59 +0200 (CEST)
-Received: by mail-ed1-x53d.google.com with SMTP id v1-20020a056402348100b00448acc79177sf5780211edc.23
-        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 21:52:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662007979; cv=pass;
+Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DD75A8D09
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 07:05:42 +0200 (CEST)
+Received: by mail-pj1-x103a.google.com with SMTP id m11-20020a17090a3f8b00b001fabfce6a26sf722215pjc.4
+        for <lists+kasan-dev@lfdr.de>; Wed, 31 Aug 2022 22:05:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662008741; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rzyrQNJoq7kIgeOFNeoKC6dPBVlY271oJS6uxHGshrfEH5SdGcP0zLXx1+3Sv3blTd
-         viF4Fy2Dcw8uKb85ZQ9XHl9MW5uI9/DsmTN+n8SD7XdYk7CQagmoq8pUdo5q+al5vi7u
-         IGDJnpcQBquChTt5oqqphXPyJxMzkdWWOiZEv61H+RV8ZIv8/JmTGdVFZtgKZH5RXFFf
-         +tUMrg5gTNswaiUoFcYNnhydPo49Ik230qE3wKiS3xiy6CvHZ9u56LYDZtWrV66g5tky
-         yo+yadsgIO++Tku72/alwz27bSqcaVT0BlwTsCFs9cjTWRw5YLEbWvPlOXujv4Vp80ke
-         zAKw==
+        b=bwJtZlvw7heekOLSsayDKvXkW8p5sFPyuJ1NSoDbetry4/b3znpn3wtWVb/apDRntN
+         yof7pnaF8Y5JualwRIf0zZLrJaO2y1Co1WOht7Y/uGWlxqcdxJ2cKahMjCZ8Br5a3Gjg
+         MN2MjQnzM8skG0cqgvpUKGZP80wX90N3YpNgCJ9+WX8YRQ741rS6sxOOCgxKQfbZUFJz
+         LdoSJcOPlFJrIWwCn1tXQ7RXMV4zn1i4r4v4zCzdSJhRV07aciiLPCfxzqyCj+ROXnzl
+         f8X+0kI2okapND6KYDmqpToRMbD8mrjjDfAtBK/qAL4+kkI7Zd5bi3pFdhM4gpnQB0QQ
+         /TAg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=7QJQ4wkfDd7usEhW3FvVCTo96Xf7KjETkflO1Dz9ZYA=;
-        b=lXrHHiNY2Jc7qX52e6BCzdwTl9jSA+TEQX6wJ0fh8WAbR4ymNc3/DOfwVshV5foCvj
-         /eJTddTJD3hZHagVp/KOTjauFRsEqITxrvCB4O4Fh+Ka2zkjQy0y0vjt8S89ugojBN73
-         WPsfw2wIbacKMxrFV3O6Zq/uJvBd/Om5yFYzRIF6oGRlIXOHOtqjQqThQZKEs4zI4ex2
-         NWRljYFnuV4x/pp4ppZ9k5PmU6znhJdtTiz2NfZizAmebQeKnvosy9tFmJv+kkhTks18
-         YW9sNZ3BNJgXlioaq055PYbGontREmtfuVHPs8JI/YcaATnZQULjV4+hP16SHfpu7H9B
-         NWkg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=Fhq6pRKNts7dU49FuN7aEysaE2j+uk5XMQqgBrYoE90=;
+        b=mqLYlSwDpD/nUOWkKk82K8YDBIomA7V5/6BkQY23895RDNcVgqMMLZkXtlLM9Nz6YG
+         gQbITNiJfr/4is9BVbh09uqZ/WPShnXc/Qa49NNNCJbDclvJLu2TLASovJ1om6GSXn8K
+         Pdd+Yd4IWQy2q0iyIlljNZmdXodCXMLcyL9s9k7h2g9iScXzE2cZaKnM5TEoI+4f7PXH
+         7qv7SatSFkOUO8kAUBPUyZ9bIewrlhYyt4aJVKAOUFjmgVLPalhl73OY3NKYHpoRejh5
+         xPUitQd1XW26ATnBfgVEMMn5rDu+xcm5g4ruMCi954rw569ykT6OMKIEQFdlWNg37Zvl
+         Ppaw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=MXuVo2yV;
-       dkim=neutral (no key) header.i=@suse.de;
-       spf=pass (google.com: domain of osalvador@suse.de designates 195.135.220.28 as permitted sender) smtp.mailfrom=osalvador@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+       dkim=pass header.i=@google.com header.s=20210112 header.b=UnvyXVMI;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1132 as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc;
-        bh=7QJQ4wkfDd7usEhW3FvVCTo96Xf7KjETkflO1Dz9ZYA=;
-        b=WHarNR/fz6l1QgMIkHXjtQkhzPcc960ow4aaiAPdiIWYtyv0zD4kps5eVr9FTuTd6V
-         So8nLCMcByMSs4x8qbDVyClpz8/hTh3aHaw6xERQ2kExKGWhqrGadga7976qgIOFZxHZ
-         BfCMWHbSBAJn/nupYl8gTbbgqESRHJEIC/VpMiPC1cVgOxX6PgswMx3NqCDYCnG0babk
-         tjnsm9JSkvH346qmeX/Ixdn3Nxlp0N2+Rsx1EVyL9rIx46jYdG+N92dHXbUpCdJ1LIsy
-         vhmppc35ACkGXlGt6xzomR/kiX6+VuJWSUn/Gy1dXSKrRtZ3ROh2uSK8b74jJcU5Uvv7
-         ZkZQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc;
+        bh=Fhq6pRKNts7dU49FuN7aEysaE2j+uk5XMQqgBrYoE90=;
+        b=rjY35UQi5xq3VkP2LYdqn7Ls9u9d35rwNlRUnErmPVTvJX6LMGMzsqMo7ZOdYYYe+/
+         vHk9/tLKKDHC5lXnC0SUvaRONbuZ0rQjj/C8mq7Z1QPJElGAOT/aDfC2zxPT3fdU6pFQ
+         rqsumW+JN2D8SWfo0TzZQ4BC54u4oFU8FE9OMqQdVMX0VuNLW4zLgJdseWe39kmJus9a
+         i8sfwrSC53c3Mp0sRLhbJOI8b4Qzni0o3e4H6RrXerN6gL0HIVTgfp3I74TDBGm35bs4
+         JTAwz42mt4RViUnTo3M7JN7jvwcnwpTOBHHzroAdDLwQlmEmGFQrYmqJG8K/JLQflCmw
+         SOaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc;
-        bh=7QJQ4wkfDd7usEhW3FvVCTo96Xf7KjETkflO1Dz9ZYA=;
-        b=fwMCvv2lppNKiyj8XN83GhP10vPpvGs7OMSeTKO7fUN7XiChaIJKaNPDyU+BROTWEC
-         JSR/j2Ep4tVnka0WEe7v+/dRs3NyTKHgIybCN0I8iijnb8Lhxu1PpVAbHQpRw4nePeFJ
-         K0DlTDqlnijNxs538JUm0OTrXXrbLXa4Yb9ZyvkfvqOSNEDMIQM75SMQf4sbyHjqznQD
-         W+tH0+jZWN2pFIfjUXMBwnwLTtooxID0VMnttKjkf+Gna57vyQTF8U4DzRHJjypAjVY9
-         mUaGWagxUUICSJIA6w4T0tlV2qIy9N402jO4wkxjIrnOPx65RdVW3tWKkXoqK541aABu
-         VfTQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo3s4lQXI542fbteuZWxiNZOCdYiC+UiFeun/dDCVLOR57GvTZ5d
-	r+hV0WGVKbz8B07pNCDVZ5Y=
-X-Google-Smtp-Source: AA6agR6IrY8+hitDu1TVoSnXZ478D+R1wcaHhgnU+0V96E+OhjGaPsomFR2HoNCYl8C2XgbXtaxWhA==
-X-Received: by 2002:a17:907:c24:b0:73d:7c20:cc45 with SMTP id ga36-20020a1709070c2400b0073d7c20cc45mr23180327ejc.294.1662007978946;
-        Wed, 31 Aug 2022 21:52:58 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc;
+        bh=Fhq6pRKNts7dU49FuN7aEysaE2j+uk5XMQqgBrYoE90=;
+        b=QftW0JyDYj15I1t9usE6GcmVqjvrh2+TXdk5bWVMhXMjgrgF4/S3UCzP1DXqkKqbbB
+         F4JdJRcusybkaYSaB52i0LB2cg9eT9/vLRakV+fffFOPRctD2OO3NpGfn0C+tPVasx+f
+         LrB8FCWgyEnFz9+Y1Cy64XFq+f/ajmNoNC0M5RmGxtnwTcSt+gdPqnTYg7/hDcJ8pRdI
+         DinYhZgoYwOJ27htdcsYP42WOqIzqQRMfRekQP8MjKskcD4vFp7mO4h4koUY2Wg/9E7A
+         483WCs2J+yEEDc7fyDltXFpfd0Oc0lTgDlkOHblHzGcjWOk1Irm4l+PJi8BiQ/cGFiiI
+         R26w==
+X-Gm-Message-State: ACgBeo0Ou/2sHjNdra3zMCHfCR6HIHxpMuWNN4Ao+hUsxktFL75O5KK6
+	eOYNjYiikEtuLkOF1hIRhoE=
+X-Google-Smtp-Source: AA6agR7jL7Mx6gE4khKTjzWA6Qsj5ZurH/HlWFaJWMTtRdYGFWdWWer3nFUNOV3dOiC1j7HOK2q7Tw==
+X-Received: by 2002:a17:903:11d0:b0:171:2cbc:3d06 with SMTP id q16-20020a17090311d000b001712cbc3d06mr28016270plh.142.1662008741014;
+        Wed, 31 Aug 2022 22:05:41 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:2803:b0:448:5d46:86b6 with SMTP id
- h3-20020a056402280300b004485d4686b6ls1243673ede.1.-pod-prod-gmail; Wed, 31
- Aug 2022 21:52:57 -0700 (PDT)
-X-Received: by 2002:a05:6402:4411:b0:437:b723:72 with SMTP id y17-20020a056402441100b00437b7230072mr27933304eda.38.1662007977784;
-        Wed, 31 Aug 2022 21:52:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662007977; cv=none;
+Received: by 2002:a17:90a:bd8d:b0:1fd:c959:dbcc with SMTP id
+ z13-20020a17090abd8d00b001fdc959dbccls835365pjr.1.-pod-control-gmail; Wed, 31
+ Aug 2022 22:05:40 -0700 (PDT)
+X-Received: by 2002:a17:902:a705:b0:172:ecca:8d2d with SMTP id w5-20020a170902a70500b00172ecca8d2dmr29230110plq.27.1662008740282;
+        Wed, 31 Aug 2022 22:05:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662008740; cv=none;
         d=google.com; s=arc-20160816;
-        b=UXlVhdShh99tSE9nu8w/phRzWfP9AkML1BhS2FMDUgw876iSthskOvlrKyTL16qD3N
-         iPYeabFJZOjdefVFTkyO70fGlm6XZfxyNCvRqpxMy3RwG9mVZULw6crfTQ9/3aEq/OTy
-         bogLTrSkyqXr4RvUMwIbD2EWGwla9b4xTkoXavfNGyBBBLmnVS7O+PKOaSJLAsW/0ifX
-         lnYV9HFvXQwcPnqNTGqMTfR73401vQ1XT1QXXk9arVbKy4oWZ8Plm3m4rUFQ62h0o+Nj
-         5lM0e3C8QyNAi6vkS6E1v8y9SHPHVswj6Hvu3W1NeOPumE//MGccJAcotRDlJorC5F2X
-         txcA==
+        b=TWG2aV6SEm1Jft867ZS6cZAwj1lnI/6JwR0WOq7QsLVqkI8dgqG/fe3QzCOoYKXm69
+         HlsqUb0ECPPisaNPj18oz2e+saSUISsm/Zabp+IXIU5jwr6Nev0gft5iIlEAmUMwLOR1
+         3GX0kSQWKUosMHuncNlfl4z3ZhydjGmEY06wx3X7/mH//jTBZRgka9vrgX2VxfVX2MHA
+         sun/1Oa/tpz4ThI1jkbG51wzpojRKALdTaiNnVIwC/Jy70Wg1FYUpMpRAXzt5GZ6sXDO
+         Bwz+NoyqWUx51UTpGFU+yckGjFErClGdBh5oEqjbjkEQncxYwglUt4XEVBw3bDOsJ/DE
+         1fog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature:dkim-signature;
-        bh=eTDe59i5UNhXbLPqqFo4WrMbXbqRlxGLfSkkAQ8Fk/c=;
-        b=NefzsavdtlgbeMaP+dijVTdIns3uxHj3Mtxea6gY6NvHpy9eqptyA2iPPQAdblULDy
-         C7RlQk0hDKzQemTsOH+y3hulySPD1d4KoXHDX/Z+xzs9GLQTbhZd+FtCATROa/APKx95
-         A8RNnff8jQqmJB8q2c2kjDsPyFBF+oLv5/zUo9vZpm08gUOaezFis1RofuTWTg7iZ6o3
-         ijXH8At9n2rSxL+CNefJcwYmFZXyoVfYPoXwBBtk8uhCctVyvYksQrl1tdDc1t1O1llp
-         ECuA2Wi0J5Rteq5KycSqFEt9kQSRfMrR1huL5uw5LmYGoGu6QQDG9ou/PcRGgbBhjcaO
-         pr2Q==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ktZOhU9M+eiBxoPfSKrBwsk5VZxY64ML34Vei/rqz2s=;
+        b=z+KU+NJYT+o6ZLc2Nvf/4mIbiUOXvVEyIWcF+DCE8VY48f1IDUoR3jxTPKu0X8uMDA
+         ENfNtFyR7BrdAAZb/gqOid1zUE5OfC5WNE195FywvpO90uDT/TFWkzqAsgNSLsrdReAC
+         I/bxOHUvwrer1iLn9jBtdezn0ufmGMMEN1S+THnasVJsBjedNYzFyVSb4Qy8Mtkrpj1+
+         3b2y2FzRRxGnfSbuX/SceWzDXeH92JazWX9yjYfaoQB3oDwlU1Fcoke6w1BCU3bAsTp4
+         /mnloquljAyNNjoiYS1YOm3Isq1e1B9xUygGX5EyBdK4sJs5JIWMZmIVUiWxi9/mezJ2
+         Xc9w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=MXuVo2yV;
-       dkim=neutral (no key) header.i=@suse.de;
-       spf=pass (google.com: domain of osalvador@suse.de designates 195.135.220.28 as permitted sender) smtp.mailfrom=osalvador@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
-        by gmr-mx.google.com with ESMTPS id c26-20020a056402101a00b0044608a57fbesi59800edu.4.2022.08.31.21.52.57
+       dkim=pass header.i=@google.com header.s=20210112 header.b=UnvyXVMI;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1132 as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com. [2607:f8b0:4864:20::1132])
+        by gmr-mx.google.com with ESMTPS id n19-20020a056a0007d300b0052d5f21fa66si765599pfu.1.2022.08.31.22.05.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 21:52:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of osalvador@suse.de designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4811C221FE;
-	Thu,  1 Sep 2022 04:52:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 67DE3139C4;
-	Thu,  1 Sep 2022 04:52:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id E7aqFqY6EGPsewAAMHmgww
-	(envelope-from <osalvador@suse.de>); Thu, 01 Sep 2022 04:52:54 +0000
-Date: Thu, 1 Sep 2022 06:52:52 +0200
-From: Oscar Salvador <osalvador@suse.de>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-	liam.howlett@oracle.com, void@manifault.com, peterz@infradead.org,
-	juri.lelli@redhat.com, ldufour@linux.ibm.com, peterx@redhat.com,
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-	masahiroy@kernel.org, nathan@kernel.org, changbin.du@intel.com,
-	ytcoode@gmail.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-	glider@google.com, elver@google.com, dvyukov@google.com,
-	shakeelb@google.com, songmuchun@bytedance.com, arnd@arndb.de,
-	jbaron@akamai.com, rientjes@google.com, minchan@google.com,
-	kaleshsingh@google.com, kernel-team@android.com, linux-mm@kvack.org,
-	iommu@lists.linux.dev, kasan-dev@googlegroups.com,
-	io-uring@vger.kernel.org, linux-arch@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
-Message-ID: <YxA6pCu0YNIiXkHf@localhost.localdomain>
-References: <20220830214919.53220-1-surenb@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Aug 2022 22:05:40 -0700 (PDT)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1132 as permitted sender) client-ip=2607:f8b0:4864:20::1132;
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-3376851fe13so326210867b3.6
+        for <kasan-dev@googlegroups.com>; Wed, 31 Aug 2022 22:05:40 -0700 (PDT)
+X-Received: by 2002:a81:a04c:0:b0:340:4c27:dfc6 with SMTP id
+ x73-20020a81a04c000000b003404c27dfc6mr20996289ywg.507.1662008739346; Wed, 31
+ Aug 2022 22:05:39 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220830214919.53220-1-surenb@google.com> <YxA6pCu0YNIiXkHf@localhost.localdomain>
+In-Reply-To: <YxA6pCu0YNIiXkHf@localhost.localdomain>
+From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 31 Aug 2022 22:05:28 -0700
+Message-ID: <CAJuCfpGxB0z1V1Vau3bXF9eHZVHnANdA7keMzCLUK+_gN6+HeA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
+To: Oscar Salvador <osalvador@suse.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Michal Hocko <mhocko@suse.com>, Vlastimil Babka <vbabka@suse.cz>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Mel Gorman <mgorman@suse.de>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Matthew Wilcox <willy@infradead.org>, 
+	"Liam R. Howlett" <liam.howlett@oracle.com>, David Vernet <void@manifault.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Laurent Dufour <ldufour@linux.ibm.com>, Peter Xu <peterx@redhat.com>, 
+	David Hildenbrand <david@redhat.com>, Jens Axboe <axboe@kernel.dk>, mcgrof@kernel.org, 
+	masahiroy@kernel.org, nathan@kernel.org, ytcoode@gmail.com, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Benjamin Segall <bsegall@google.com>, 
+	Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>, 
+	Christopher Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	42.hyeyoo@gmail.com, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	dvyukov@google.com, Shakeel Butt <shakeelb@google.com>, 
+	Muchun Song <songmuchun@bytedance.com>, arnd@arndb.de, jbaron@akamai.com, 
+	David Rientjes <rientjes@google.com>, Minchan Kim <minchan@google.com>, 
+	Kalesh Singh <kaleshsingh@google.com>, kernel-team <kernel-team@android.com>, 
+	linux-mm <linux-mm@kvack.org>, iommu@lists.linux.dev, kasan-dev@googlegroups.com, 
+	io-uring@vger.kernel.org, linux-arch@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org, 
+	linux-modules@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20220830214919.53220-1-surenb@google.com>
-X-Original-Sender: osalvador@suse.de
+X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.de header.s=susede2_rsa header.b=MXuVo2yV;       dkim=neutral
- (no key) header.i=@suse.de;       spf=pass (google.com: domain of
- osalvador@suse.de designates 195.135.220.28 as permitted sender)
- smtp.mailfrom=osalvador@suse.de;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+ header.i=@google.com header.s=20210112 header.b=UnvyXVMI;       spf=pass
+ (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1132
+ as permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Suren Baghdasaryan <surenb@google.com>
+Reply-To: Suren Baghdasaryan <surenb@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,65 +151,74 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Aug 30, 2022 at 02:48:49PM -0700, Suren Baghdasaryan wrote:
-> ===========================
-> Code tagging framework
-> ===========================
-> Code tag is a structure identifying a specific location in the source code
-> which is generated at compile time and can be embedded in an application-
-> specific structure. Several applications of code tagging are included in
-> this RFC, such as memory allocation tracking, dynamic fault injection,
-> latency tracking and improved error code reporting.
-> Basically, it takes the old trick of "define a special elf section for
-> objects of a given type so that we can iterate over them at runtime" and
-> creates a proper library for it.
-> 
-> ===========================
-> Memory allocation tracking
-> ===========================
-> The goal for using codetags for memory allocation tracking is to minimize
-> performance and memory overhead. By recording only the call count and
-> allocation size, the required operations are kept at the minimum while
-> collecting statistics for every allocation in the codebase. With that
-> information, if users are interested in mode detailed context for a
-> specific allocation, they can enable more in-depth context tracking,
-> which includes capturing the pid, tgid, task name, allocation size,
-> timestamp and call stack for every allocation at the specified code
-> location.
-> Memory allocation tracking is implemented in two parts:
-> 
-> part1: instruments page and slab allocators to record call count and total
-> memory allocated at every allocation in the source code. Every time an
-> allocation is performed by an instrumented allocator, the codetag at that
-> location increments its call and size counters. Every time the memory is
-> freed these counters are decremented. To decrement the counters upon free,
-> allocated object needs a reference to its codetag. Page allocators use
-> page_ext to record this reference while slab allocators use memcg_data of
-> the slab page.
-> The data is exposed to the user space via a read-only debugfs file called
-> alloc_tags.
+On Wed, Aug 31, 2022 at 9:52 PM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Tue, Aug 30, 2022 at 02:48:49PM -0700, Suren Baghdasaryan wrote:
+> > ===========================
+> > Code tagging framework
+> > ===========================
+> > Code tag is a structure identifying a specific location in the source code
+> > which is generated at compile time and can be embedded in an application-
+> > specific structure. Several applications of code tagging are included in
+> > this RFC, such as memory allocation tracking, dynamic fault injection,
+> > latency tracking and improved error code reporting.
+> > Basically, it takes the old trick of "define a special elf section for
+> > objects of a given type so that we can iterate over them at runtime" and
+> > creates a proper library for it.
+> >
+> > ===========================
+> > Memory allocation tracking
+> > ===========================
+> > The goal for using codetags for memory allocation tracking is to minimize
+> > performance and memory overhead. By recording only the call count and
+> > allocation size, the required operations are kept at the minimum while
+> > collecting statistics for every allocation in the codebase. With that
+> > information, if users are interested in mode detailed context for a
+> > specific allocation, they can enable more in-depth context tracking,
+> > which includes capturing the pid, tgid, task name, allocation size,
+> > timestamp and call stack for every allocation at the specified code
+> > location.
+> > Memory allocation tracking is implemented in two parts:
+> >
+> > part1: instruments page and slab allocators to record call count and total
+> > memory allocated at every allocation in the source code. Every time an
+> > allocation is performed by an instrumented allocator, the codetag at that
+> > location increments its call and size counters. Every time the memory is
+> > freed these counters are decremented. To decrement the counters upon free,
+> > allocated object needs a reference to its codetag. Page allocators use
+> > page_ext to record this reference while slab allocators use memcg_data of
+> > the slab page.
+> > The data is exposed to the user space via a read-only debugfs file called
+> > alloc_tags.
+>
+> Hi Suren,
+>
+> I just posted a patch [1] and reading through your changelog and seeing your PoC,
+> I think we have some kind of overlap.
+> My patchset aims to give you the stacktrace <-> relationship information and it is
+> achieved by a little amount of extra code mostly in page_owner.c/ and lib/stackdepot.
+>
+> Of course, your works seems to be more complete wrt. the information you get.
+>
+> I CCed you in case you want to have a look
+>
+> [1] https://lkml.org/lkml/2022/9/1/36
 
-Hi Suren,
+Hi Oscar,
+Thanks for the note. I'll take a look most likely on Friday and will
+follow up with you.
+Thanks,
+Suren.
 
-I just posted a patch [1] and reading through your changelog and seeing your PoC,
-I think we have some kind of overlap.
-My patchset aims to give you the stacktrace <-> relationship information and it is
-achieved by a little amount of extra code mostly in page_owner.c/ and lib/stackdepot.
-
-Of course, your works seems to be more complete wrt. the information you get.
-
-I CCed you in case you want to have a look
-
-[1] https://lkml.org/lkml/2022/9/1/36
-
-Thanks
-
-
--- 
-Oscar Salvador
-SUSE Labs
+>
+> Thanks
+>
+>
+> --
+> Oscar Salvador
+> SUSE Labs
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YxA6pCu0YNIiXkHf%40localhost.localdomain.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAJuCfpGxB0z1V1Vau3bXF9eHZVHnANdA7keMzCLUK%2B_gN6%2BHeA%40mail.gmail.com.
