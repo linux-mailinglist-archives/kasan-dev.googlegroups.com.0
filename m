@@ -1,203 +1,140 @@
-Return-Path: <kasan-dev+bncBCJZ5QGEQAFBBXPAYGMAMGQEIEAV42Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBPHBYGMAMGQEU7W2YSA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFB35A9240
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 10:42:06 +0200 (CEST)
-Received: by mail-wm1-x337.google.com with SMTP id b4-20020a05600c4e0400b003a5a96f1756sf967414wmq.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 01:42:06 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1662021726; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F755A9249
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 10:43:40 +0200 (CEST)
+Received: by mail-wm1-x337.google.com with SMTP id v67-20020a1cac46000000b003a615c4893dsf9527610wme.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 01:43:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662021820; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MMU7nO+eQHJrOv8BuoMwgrFvCoxk50PdK2SFRcbRq66IfvBmMtLEpglhXxTaruugbU
-         pz5312BL0ccCvN2pdnjhKSxDLNZrmPB+SMOj9NLLI/GjEOmVKiftEbJKD2X2mAQ/fYad
-         irzZDvb2XXCnP0jmzE5l4wX/WccJVJ+6Dbv7lOkV5PWzUmF9cfeVOPoZSXwalccMP6iu
-         0eHWMZRuV45S7DwnM4Ii9Q3PgmdpFpSqCmJgvhjvOLuzIfNpQQCtaarn3IRTVXIQy6N8
-         unMa1tap/Vfd7LNut2EcFAaEqlFWcNrsqP1Wt7IjHzk/tOPaU+wI8XMmuTPMIkeNYA6e
-         MBUw==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=LTWtTvWxES69DkHmeRgYIgjRWcKZzgVSAGIkBKicLfA9GJYYMhCDepPgLfVLJEtfRQ
+         m+NlPrjeg0nUm2In5v9HkWuGSQmss1kyefWUfE7coWqgv+mj8JjkHVoCCNcuvVTd7iK3
+         sr3UR/acKkutIbhsUMddKKO7FJyxya+d+KBDdtM/pjSVTv408UNMo2qMh7RVQ9FP6mSk
+         f9YpcVyw/xqhaTjmw0ezqpS3qXSVZ/UYRo2XMUk945XGQ0I5hWiHmnN5MKGvYn/1/7vg
+         og1sip5eh+4epJ3fzAHekxZjz+miiTcytvRLGXFbj8NHhIv08Ch7nxI5xHt+B43PD7mC
+         VLLA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:date
-         :message-id:sender:dkim-signature;
-        bh=fAaZbUMHxMILXn3XziXfPSdWKl5T0EikWVnRhihHkrQ=;
-        b=a/IlaS4vwqV4vwrH21+NEkHS6nsVT7OxSH6fy1Ms/sj8FMror9nrXGm2rceXpPh9jp
-         My/czVXoBV9grjrRbTS4ad6mhrfnXE2MjfMSwxmwIDHBXm81i/67ineWbq5VplYwJfNz
-         ICmtEUxhZZUyo225f6wGG44e24ie9ZCq5lyfn1BGRBO+L/IxoWRFM+xiuA7iZfpYvZ/C
-         /66BEjL5+nfxnQAACfA3TAlk9d+diZB7m1u1NwhVam4S9VklsBLlyj23OdPptce6OBH0
-         A/gDOmse+n765MjB5ATEKixxOaTpt7cmh2XuzscsyJXEz6gxvKu1Z8C1AbH/qWYU7w7X
-         AXmg==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@nokia.onmicrosoft.com header.s=selector1-nokia-onmicrosoft-com header.b="g/oVnBqL";
-       arc=pass (i=1 spf=pass spfdomain=nokia.com dkim=pass dkdomain=nokia.com dmarc=pass fromdomain=nokia.com);
-       spf=pass (google.com: domain of alexander.sverdlin@nokia.com designates 40.107.8.139 as permitted sender) smtp.mailfrom=alexander.sverdlin@nokia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nokia.com
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=brNm8dGVPmqYBVEn28Z6yC3KzdTNzUVEBYBdManyalw=;
+        b=MDVTvFYz7J5vjVUuziRd5596SWXRTJUw/Cs6YHYNw7qErxIOIwxuY3vkLvmvNmBkmP
+         SgQJQSvlrrNyX3BQcpFAHMxArtR6HJl6N9uw5BsPDXOBsazXIsdrc5+U1WKq9dPZ/CAp
+         PsHF6Vqq4XPEjWA/LzwZ8AsKSsW6OaWc7DI02gRKTOY4+lgXIkSZM0ljiSMJnCyLevUW
+         6GCo8frXebyi6RKpHVt2PfSaUgpsxEqub1ZlVCdIfzU4b3D+75FewWyZ0l65NtXCLK71
+         uEzCF602waplj/UovjWt9HPpl6aMQRjW71u2CIbqJkrEpB08QYOKuDbrQ5CZDj2BeuF0
+         cOpA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=q7AjWjhm;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:date:message-id:sender:from:to
-         :cc;
-        bh=fAaZbUMHxMILXn3XziXfPSdWKl5T0EikWVnRhihHkrQ=;
-        b=oDncjGQLNRND1hCnZefi0zp775KRCBjx32B3oA9qOiiqby9S2lR51j8b1//zwPIu6D
-         192/vbzgEz7pYu2UMEgepYvnQYs/GuO3/Fz94CZWjGkh4W3HcKdYSGXE/1SiSl3xTL1L
-         pN+FVWk/wr6pJxIMuvD+oZEsrBP6iSWYsERu3eVA+FH7Ts73Qcu5GHy7yTQRa0sNTWU+
-         qMk0pX57ZeS+pbKXPveXpeH3HK7wKLIlQaWe4daGmSUllFCjC7S4IoVUIPXfOOFZ8URM
-         lmBMEVLHOsre/SsVmoZvYhxmRUF8IqnBvVJNEGcgi0dg+4st3zzdeiI8qOwJe1aIBws0
-         pkRw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc;
+        bh=brNm8dGVPmqYBVEn28Z6yC3KzdTNzUVEBYBdManyalw=;
+        b=WIJHuQNX0PrXWL1X7nYMOMaVXGPQuuh56b39ZB9fsdfJmEj8gVH8OEUA48IzcrVpKV
+         ZK72YoORhF3XhN2lOWsFUhN5YTIyEw381ncE5bGMRnPwXCwfyZE0nHKfhpSudsgztZu+
+         /v146ySaCOEExi48NzhWmFEi9WarzqkupsoUF1xQ98l+HBdq+01W548Q1kFY/8T0MUUh
+         t5SROmW3eiqJHJJX9ty6GWI4mZybBxW+EByRYkF8rHNKcFynf+Y/N8ODNlqzWj09Xotp
+         2iwKaxw9ZAqsx53EZac2rfLdhvxQWTiYSsw2Z992/XS3knQsxXlMd2TraxzIFaJ51vL/
+         Rz0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:date:message-id:x-gm-message-state:sender:from:to:cc;
-        bh=fAaZbUMHxMILXn3XziXfPSdWKl5T0EikWVnRhihHkrQ=;
-        b=XJXhPxn98DHFJ9lthqrDClDfkxDZPGjA/PLo2n0Ib7fCGd1GkBpwiF9MO5MYqE6Wt8
-         hTz/SGf2dCy5D0C93tQB656z/dgnB8Ms2xXsNiRs0Ft501C0gIuyOh3zu8h3ztGTYEz4
-         CKERbL/UauxP8JF83q9rt5639niyyI1Gfxsi3V/7X13aeKaM/49nFzbrsAD4cKGvafJg
-         6yBNCrsbcK4JdQN5X604/qEuq+xD0TTOImoi0znGjUPvGnMVo//frXGKCMmXE/vWY2Gd
-         XNy0lulMYoW/G5R2CYA06AjWL3Nw9Clc3ePMwFGm7RHtQukHR67N0vY3VqlXzIc032IF
-         wkLA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1MU6h4Fx3CWZ6aVIu7qlvVFJCFnTjETQ4WKt/rUvLuG2NLDLck
-	k5OGK0LXBjzhxj50egMFfK0=
-X-Google-Smtp-Source: AA6agR63vycisdeHiZ/2Scm5S2wxk+cr6Eyo1ibrHDjO/eNeMvv5yiFurpa/pKopR2alb2yGOz3Ocw==
-X-Received: by 2002:a05:600c:1c1b:b0:3a5:e6ec:d12f with SMTP id j27-20020a05600c1c1b00b003a5e6ecd12fmr4435550wms.2.1662021725719;
-        Thu, 01 Sep 2022 01:42:05 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc;
+        bh=brNm8dGVPmqYBVEn28Z6yC3KzdTNzUVEBYBdManyalw=;
+        b=hRe3HE9A4isIjRytKNjf/DKZcHrvdloOhFk6CfWBXQdj9W3M/o678bLSo4IobRNFja
+         lLYSnBuxa+dsCG5qLQA1i47yfpo84pGycIo5rhbmwuavTpQIFKdNw1Orc43RrAbaJ6S+
+         rcpauzePDMoBj1tfsWFWWBoMMBhEB40AShdZ/6sOp3ZyEZDpPbl1Yg8+982y83EfeWDB
+         ImrPyVAX7nC2xptUmSkS9rvWJPGO3Yj7vblLeP62SD7inNRe9hyR/dn1ThANRLtqpbyi
+         ORCmx8khPpwgZ1/hOCprJAslpXBlMobz03MdVtUqMxnN/mTM+APlUEZ05B4UzEIhLvKX
+         Jbmg==
+X-Gm-Message-State: ACgBeo0AclybspCnVBCsYblABYgLUc6lKZuf4rkf4wEfYXbyE6ZXCrKs
+	gDzxoPdDyTaUbG2yWhHRGvk=
+X-Google-Smtp-Source: AA6agR6cbc/Ol4Fm/tRcpwjqH5SrcRuzliAVwE23ffci2jTQ+UBVoU/rKKUtDBjAyMsMq4fqN+rZPQ==
+X-Received: by 2002:a05:600c:474c:b0:3a7:3954:8818 with SMTP id w12-20020a05600c474c00b003a739548818mr4372052wmo.124.1662021820675;
+        Thu, 01 Sep 2022 01:43:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:5b08:0:b0:225:6559:3374 with SMTP id bx8-20020a5d5b08000000b0022565593374ls1907934wrb.2.-pod-prod-gmail;
- Thu, 01 Sep 2022 01:42:04 -0700 (PDT)
-X-Received: by 2002:a05:6000:1861:b0:220:68e0:ac7e with SMTP id d1-20020a056000186100b0022068e0ac7emr14874998wri.376.1662021724854;
-        Thu, 01 Sep 2022 01:42:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662021724; cv=pass;
+Received: by 2002:a05:6000:1705:b0:225:58db:7886 with SMTP id
+ n5-20020a056000170500b0022558db7886ls1932360wrc.1.-pod-prod-gmail; Thu, 01
+ Sep 2022 01:43:39 -0700 (PDT)
+X-Received: by 2002:a5d:64e1:0:b0:226:db58:868b with SMTP id g1-20020a5d64e1000000b00226db58868bmr10672620wri.79.1662021819637;
+        Thu, 01 Sep 2022 01:43:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662021819; cv=none;
         d=google.com; s=arc-20160816;
-        b=VzD27Mnq/VlNq+AbmsUYXSEAaiYTRKYDImEANkHBWo121Anj2jJhKdEqEUPIe2TKDS
-         evccDaLn1fydevxajx6rSLdO+xcjgtZh+498KPaRJTg28sXDPNtwFgpsorYUe6iyOJ2F
-         QDpUvTbNGdHe0BBdy8B2W5aWM+TKK20XuBR0CObpvvGrrr4muM4AwzykLf5g2lriaEo9
-         VRN6j8WBkaMD4/VVFVgegi8/rwouDN1J+mLyTXYtVslxJDg3gfe4FbbE82N9UhhxftuP
-         K0Eu96CXHgBQYIiRqLX5MEXA4teP5vM0KOo341FGy8RzqMBMUxATIMvyhUbsTHNjjPGb
-         46dA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:date:message-id
-         :dkim-signature;
-        bh=uhokj4qEhrWR2R5XusB+WLqCDAPCr0rwwaKcebjsgOI=;
-        b=AkZyRqaDq8c35zdJwc6R/t+Un72QE3eXePQ2NwVcsmW5eRwYkA3UTS0jdX1LCIQ7Uo
-         wCBqmm97DAexOD58wsVsfHL0uIOTbFIj1+McNdEhb588AGeGjtvr0R4MxzEk8EXjbA4Q
-         V8QysCo52URTyZLdl3LpitNQ7ygCK6l6Fu08i5feKq6Ecup3wFsRxKaQBg5/eHCWonjq
-         qjz6DFXtV0LUjAKHl+zim7eSMwP9zvD+3D93+X0Na7Lflk4rzXB54+L8mRdY0+49RwGB
-         IEw1Z+rrXfmCEIJQYBzxxXqhJHvXIZznsw1kqiBXwBNS1ofAN0KMGZ0IzgZbSnQMHgOC
-         1V8Q==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@nokia.onmicrosoft.com header.s=selector1-nokia-onmicrosoft-com header.b="g/oVnBqL";
-       arc=pass (i=1 spf=pass spfdomain=nokia.com dkim=pass dkdomain=nokia.com dmarc=pass fromdomain=nokia.com);
-       spf=pass (google.com: domain of alexander.sverdlin@nokia.com designates 40.107.8.139 as permitted sender) smtp.mailfrom=alexander.sverdlin@nokia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nokia.com
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-eopbgr80139.outbound.protection.outlook.com. [40.107.8.139])
-        by gmr-mx.google.com with ESMTPS id cc18-20020a5d5c12000000b00226df38c2f0si452802wrb.4.2022.09.01.01.42.04
+        b=F6Dq2NR7e8gkuIkpBDiS3i5kBR/HcECZrDP7n0a7YWg1lz6UuNHmSkLCUDo96e4xp5
+         bEAz3TcSMSPGfS3qzP0Snhx2SQJSbPsfgQpG0s15yubZSJvwb9frhnjxqVzagTSg30Gt
+         J0t4xaZDMgsCzqJcb8rV7A+51I3v0FMzLn2eoUZNMlIQ4Jn0EqppZKwellSc3p2EYKb+
+         qWUb9WkxDu3UE1bvHUFGkIo2vE0zZF2i8sYMi4IHF7P5mJpNcCYMIgFe+QGXXMistdLJ
+         6M5NO3mRWCB3OIGCjFs+Wmr2Gsqxl/JPDbrld0RGMSYaYMl8BUUaa5uUIrSZ21/3bw2L
+         MQng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=VH72CkJdWHRYjuIFqG3YYZtTrJw2Fhi5jnFxkucPCHY=;
+        b=opY7A0Oor/kwGr/nzHtNdIMi5jofQHKc36THocWUnNCv+8ob7yhVrlbZ4xIUWNKATG
+         kvsGaRtkIu1j09V8eqpphdaDQyNIBr/jtVyhp/EHBqxVfgPBbdPIlMKkLtmdkiH2jrQQ
+         4XMBY/Wh4yQ4srbpcEVPbTdAFS3SBJ78n/oqq5xfcAPI36ldBSwgOh1bAdRs+7DTX/7f
+         CI5tX0PpXq8X9/Caaxg0lDAWcoyx8wJ4jFGMNrO4iC8y3KwZkvXVbpgc8CacUNltzs4t
+         rUscUq9PeBR0UfmTGlMC9OXC3tYyI5d15sFKEFhN3CrxmN2Ft0utVI4M563/itH4ihSq
+         ctNw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=q7AjWjhm;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com. [2a00:1450:4864:20::22a])
+        by gmr-mx.google.com with ESMTPS id k126-20020a1ca184000000b003a5a534292csi429915wme.3.2022.09.01.01.43.39
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Sep 2022 01:42:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexander.sverdlin@nokia.com designates 40.107.8.139 as permitted sender) client-ip=40.107.8.139;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MjoYo/+BWCxBdwgj0gFTiI3nDAMOBX5M0e4SYO+IDGFU7j2b65E5BclHabTVaHL1sRUojAzJgD1YjkuOXZu8LhiiYYKv5BZpmtHOxeFxTJYyw7suCf15MzwSXgN73v7pdT1yZf/SVETDZN0FyHH90XMv6TxjeY2TU4PIFo1F4cFmVVYJe+JOgV54T9GwJ3R/sBdZyCS5Zv0dHh2RGlo/aTVQNusJOy05h5JX3p+Q0Ip84l5Mp/ROqGU5L20MW1epCee0w7NcgwVpJVZEF3mwGi9f34RVs6bzVceehtLgJLM89egQgDWRGbkAcDWJMPhJBvM+HStQCIseBK/T+Z3Zyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uhokj4qEhrWR2R5XusB+WLqCDAPCr0rwwaKcebjsgOI=;
- b=k4ZvYMGlbHWf4Ta5ZTXsPmGgUVqVw/5hycOrlFznjjZ580HA0gQ4NFBTvnrhjiZq6SUmy8t3TKcphlNkaX8zjVy3O+AwBsSEzjh2TolIKwZQz1HT0zcKBhTrSA4IQGd/o6zcOP2VyVK1uoElcjf2cJKWTcZ9pJikFKWGqkV/AK3MfU9kLZYYo1sKr9VjR5jQUpDiSRFn2FFIGgTxAHX9Jx8dgYVR5KGItFfMgiQiWybusHLJQcfWjYiXXpDVyup1NKMrw+O5T8BBMKfWa2KGdqP2V3ISod+KAuTa/pPHLifDImsrLTFax2yYd8mO9fYRHLG6hqE5YaQYjWziRlj9Lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
- dkim=pass header.d=nokia.com; arc=none
-Received: from AS4PR07MB8658.eurprd07.prod.outlook.com (2603:10a6:20b:4cd::12)
- by AM8PR07MB8230.eurprd07.prod.outlook.com (2603:10a6:20b:325::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Thu, 1 Sep
- 2022 08:42:03 +0000
-Received: from AS4PR07MB8658.eurprd07.prod.outlook.com
- ([fe80::b333:1f3b:1b01:50d9]) by AS4PR07MB8658.eurprd07.prod.outlook.com
- ([fe80::b333:1f3b:1b01:50d9%3]) with mapi id 15.20.5612.005; Thu, 1 Sep 2022
- 08:42:03 +0000
-Message-ID: <ccde957b-20b1-2fd6-5c90-ad9ee4b8924c@nokia.com>
-Date: Thu, 1 Sep 2022 10:41:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] ARM: kasan: Only map modules if CONFIG_KASAN_VMALLOC=n
-Content-Language: en-US
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: kasan-dev@googlegroups.com, Lecopzer Chen <lecopzer.chen@mediatek.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Russell King <linux@armlinux.org.uk>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20220827213009.44316-1-alexander.sverdlin@nokia.com>
- <CACRpkdYgZK1oaceme6-EEuV3F=m1L5B3Y8t6z7Yxrx842dgrFw@mail.gmail.com>
-From: Alexander Sverdlin <alexander.sverdlin@nokia.com>
-In-Reply-To: <CACRpkdYgZK1oaceme6-EEuV3F=m1L5B3Y8t6z7Yxrx842dgrFw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-ClientProxiedBy: FR0P281CA0094.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::14) To AS4PR07MB8658.eurprd07.prod.outlook.com
- (2603:10a6:20b:4cd::12)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 01:43:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a as permitted sender) client-ip=2a00:1450:4864:20::22a;
+Received: by mail-lj1-x22a.google.com with SMTP id bn9so17124342ljb.6
+        for <kasan-dev@googlegroups.com>; Thu, 01 Sep 2022 01:43:39 -0700 (PDT)
+X-Received: by 2002:a2e:be88:0:b0:25f:e9a8:44b8 with SMTP id
+ a8-20020a2ebe88000000b0025fe9a844b8mr8851946ljr.92.1662021818766; Thu, 01 Sep
+ 2022 01:43:38 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR07MB8658:EE_|AM8PR07MB8230:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d10f890-ae24-4c8c-9aa5-08da8bf5d7c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rKsssqzQAOqqR2HjGsp0sFVz97vPnrS11HlnjSNIHBoqNFg1s1BZundSrm5p7XYLyI1olvGA9TxKrR/azIwYL+us9jaBsjiKTQQGD/6sQDqstuLvKtl0YyHBEJcMjDl8lqw+0S1QlyyI4Jmh3WS9H+sM4R/ukUcLeMTqcVlrhT94Rs3d+N0U5wzLq+sxBKOFdJPAmx2iHb/hvJfbzgHbr+KU9JL4Y/t3K/mYKh300FQR84Xp9IHw/TyFMP+ODopDldrw01TT+1PKYj3GoDkyLg8tpMhbYlPV8CYcsGyizdBy5evmDMyl8Diz6sa/3D1TSt4I7Ybbql1Mp3aZOxqUsT+VKNH8Nk67F/BG2INyxY3XyhVlkfBjpgtwFzlCaYxnH873TZf3b4P5rrnNoeof+pA/lM49IOu+aFxIY5u6PQFLD0ECGYC+Koi7Tc9+NKfqfH4sTxNQk184t1XQbN3Dah9Q2tM/TNtrpAFZ4gH3+LgYRgvFO9/aYpxCm/FqSVYefO5vJ2sLbFcC0Vpn43cXlE3od390NaThL2b0oFGpOWpQw9imnUb8MG30UQsXYh3VmxwgR0PE96cfwiMl2vmomLrJgtxKfgo5slY4JQGg3uROgXR9Vw90m6kDY8aBt39Cmf9f7zS6WHRUUKjNF6Kk0hZjQrBUnlmbRaI9AXw89frjYBVX3lUGoiDllHkXYiCPUuOM6dn5yWsCwPg0JqFtV20jlgYdF7rqhyFyr84OH41MNyn6ePJs68ksNz6rHNe7U6qUuL/6my7GJ8thD9w2krpBCP1P/Jo7kj9wEBNMjSqXrgKjrTXKGPZr2JFH8xk1imCH3fI61pqYuYU74b6AMw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR07MB8658.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(39860400002)(346002)(376002)(366004)(396003)(66946007)(82960400001)(31696002)(66476007)(4326008)(66556008)(6916009)(2906002)(38100700002)(316002)(8676002)(54906003)(7416002)(8936002)(44832011)(6506007)(186003)(478600001)(2616005)(53546011)(5660300002)(86362001)(41300700001)(26005)(6486002)(6666004)(6512007)(31686004)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2ZGUUpKR3BEdzZxZDNUQkk4WjZsZ21QbzlsUDZ6LzU0UnFocDVOdkdFdCtF?=
- =?utf-8?B?dXQ5L00yb0w2RzhuNHhjelA0dkIxWlJQUEMyUTZVMVNJK2hEb1dZZTZGZldQ?=
- =?utf-8?B?VnJtd1JMN1RrYjByeCszaEs5WEYvREFaajhPRS9pZ0RqZ0JJVzR6U2FkOWFL?=
- =?utf-8?B?dlZSalN2MTRjdjgvaFp6UzJvU1h2dVArR0JPUU5LU0hPUUhKQXI2SGpEWmFM?=
- =?utf-8?B?WDh4QkdHaGdvamNTOGx2NFF4M2NVbFhrenFUa05nMXVQNEN0WjhEUlNZZUlt?=
- =?utf-8?B?Zjc3MXVJUFk2RUhXUVBvaGNhN2dEa1pWTThqTE9TeldsRGFndVJzSzVFK0wv?=
- =?utf-8?B?ejJtU0pDQjVlbXZlQU03NklvanJta1hHQXdJOVdaY3IrbkRqeGVnKzQ0VnBs?=
- =?utf-8?B?MkNRalZwREh2K2crZG5QNVhMM1k4eS96eWNaVW9yamZhdFdiZGJNczE2TEh3?=
- =?utf-8?B?K2dKNitSUDI5cm85OTg3djkyY0lRZUtrSHZOd20xZGswUkdsakVnZEpKQlRr?=
- =?utf-8?B?bU9iMWJRcDIwVTYvN3Y2ZmRLM1NXcmpPZHBMaHBnYTM2UUszSE56WWpZOVdt?=
- =?utf-8?B?dGJCRlZiaTkwOFBnWFVhU0phejUrTVRvRUJ2c3hTZ09uV0RsYzNyaU1XSW9W?=
- =?utf-8?B?NkprRHE5NVFvZkdla29SVFJ1SW15WjdySHE0Y09jY2JEMEs4ejRHeFpmbEZ4?=
- =?utf-8?B?b0dCZ1RGOW0wRTRSMUVHSno0KzZCd3JUZjhsRU5tTUxtY0lEbnBTLzJQV2tK?=
- =?utf-8?B?SkdLSGRtcUZmTU5ZMFduYmU1azE1WTE2a0MwdExaQzVPTkxxTU4zYzNGWlk4?=
- =?utf-8?B?WFpWUjdKdlRTSGRLK0RSRjRlN2RRVmpCWk1zV2FPM2pFenkxdXVuQ01vbjZ1?=
- =?utf-8?B?a3ZUK0JySkhKdGhoRHAydXBrZTFzYWZ2dEVKU3V3WFhnOGpZblV4WS9RRzNm?=
- =?utf-8?B?ZENEcWcwTlo3R3hTVTA2NXc3OHFBLzd6YmEwWkx1NVUyTHJIYW9Vb3FBQTlZ?=
- =?utf-8?B?bFg4RU1uSDBvaWNXK2VQbWtJbU1EdzRaR2dVdFZDQUFMQXNENG1lUjBWK2s4?=
- =?utf-8?B?UkRybElhaEF2TW9GbnhkZ3pkNVFFMFp5YXl4V2NEaDViVW1vQi9CZmFPS1Iw?=
- =?utf-8?B?dkVhMS9jc3N6QS9vbGd6UUtIQndEeURKVnJXUUV1eHB1WHVueXVLcWl4S0Fw?=
- =?utf-8?B?UDhTVGtkVURWTDNzNmpMYVlQZlVNL3Q3aHNqdDJYb0p4K0xkUXovYmRxNlAz?=
- =?utf-8?B?Y1VvdjMzWjNCUGhIWEV4YWJIcnd2cm5Jc1FneHFOSWdFMG5TQWlJaU8xNmVM?=
- =?utf-8?B?YnlQK1R1NmlJSFJzSWZjLzQvN0dGWEozdm9FV1RLckd5ZGRVOEJGWVN6aDJ1?=
- =?utf-8?B?QTRuZzJnUzlxNWY0VFBJUllndWFyZ3A3MmtoZDhWSVFPeFFBemxvR1paSFk3?=
- =?utf-8?B?OVFLRGthM0hFVFNEUnFSUkJxc1ExN3hJbEdxSlU3VUdYNjhGVHIzcGI0MTJi?=
- =?utf-8?B?bjdzRW9HT3JPdU52eG5rOE1UNEtXakVsMXBlMVVyYW9TRGI5VzIvdlN0aUFG?=
- =?utf-8?B?WEV3a2Z1NkM5VnViQ2Z6ZmlHcUVkQmFOK2t4bDdjVW9xRGZwOTB3YXlxdU5s?=
- =?utf-8?B?bEFORkk5RmFZWXM1SVgvazd1ci9jQ1JhU1Z4OHpZMzk0UU5URmxIQzcrNnlB?=
- =?utf-8?B?Q2ZGdEVxNzdEbEI2TmRyY2JUS1F5Tzl6eExvRlZBa1NBc1ZERDJ5UTNhZFNz?=
- =?utf-8?B?N1NZOXlVUzVsMW03QzdDNHg4Sm1jd2VnQUIwN0RkckgveC85VHhad3RxUGIr?=
- =?utf-8?B?Zk8yYTB1TGpacjBTNW5FTi9rYTEzbnJtVXY4QnJYZlU5Q0dFMmdzaWYvVFFG?=
- =?utf-8?B?dGxXS1BGYmIxODZTRjdNeWlySk1QUVlvRm4vS2lubDVEZFM4YVZkVVZNdmxJ?=
- =?utf-8?B?dWFKU3liOE9ieC9CUEFsVTFFUUZCMzdIb0c4OWQwN2ROdFZjQzlHbjdMNlFI?=
- =?utf-8?B?RjVVOVl3WE80azBZUjNjOVhMV1RDcWI3aVFEZngzcDV4Y29LK3hjOUtmRnFz?=
- =?utf-8?B?TEErd0tKdVMzUFYzMWVsSGx0bTk2S0U3M1prcW9qV2RTQ1FscGF2RE5pak5S?=
- =?utf-8?B?QVV0N3ZOS3EreG1EWVRZTW1sQ0FHeXhXRlk2SDdoNlkzN0YzV2tjaVZiTTFy?=
- =?utf-8?B?bVE9PQ==?=
-X-OriginatorOrg: nokia.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR07MB8230
-X-Original-Sender: alexander.sverdlin@nokia.com
+References: <20220830214919.53220-1-surenb@google.com> <20220830214919.53220-23-surenb@google.com>
+ <CACT4Y+ZX3U1=cAPXPhoOy6xrngSCfSmyFagXK-9fWtWWODfsew@mail.gmail.com> <20220831173010.wc5j3ycmfjx6ezfu@moria.home.lan>
+In-Reply-To: <20220831173010.wc5j3ycmfjx6ezfu@moria.home.lan>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 1 Sep 2022 10:43:26 +0200
+Message-ID: <CACT4Y+bMeqvWQwqzG3nfcf0-VOjU7usxht5mKgUwMcOpWKRjxQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 22/30] Code tagging based fault injection
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	ldufour@linux.ibm.com, peterx@redhat.com, david@redhat.com, axboe@kernel.dk, 
+	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, 
+	changbin.du@intel.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, shakeelb@google.com, songmuchun@bytedance.com, 
+	arnd@arndb.de, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, kernel-team@android.com, linux-mm@kvack.org, 
+	iommu@lists.linux.dev, kasan-dev@googlegroups.com, io-uring@vger.kernel.org, 
+	linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@nokia.onmicrosoft.com header.s=selector1-nokia-onmicrosoft-com
- header.b="g/oVnBqL";       arc=pass (i=1 spf=pass spfdomain=nokia.com
- dkim=pass dkdomain=nokia.com dmarc=pass fromdomain=nokia.com);       spf=pass
- (google.com: domain of alexander.sverdlin@nokia.com designates 40.107.8.139
- as permitted sender) smtp.mailfrom=alexander.sverdlin@nokia.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nokia.com
+ header.i=@google.com header.s=20210112 header.b=q7AjWjhm;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -210,41 +147,98 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello Linus,
+ On Wed, 31 Aug 2022 at 19:30, Kent Overstreet
+<kent.overstreet@linux.dev> wrote:
+> > > From: Kent Overstreet <kent.overstreet@linux.dev>
+> > >
+> > > This adds a new fault injection capability, based on code tagging.
+> > >
+> > > To use, simply insert somewhere in your code
+> > >
+> > >   dynamic_fault("fault_class_name")
+> > >
+> > > and check whether it returns true - if so, inject the error.
+> > > For example
+> > >
+> > >   if (dynamic_fault("init"))
+> > >       return -EINVAL;
+> >
+> > Hi Suren,
+> >
+> > If this is going to be used by mainline kernel, it would be good to
+> > integrate this with fail_nth systematic fault injection:
+> > https://elixir.bootlin.com/linux/latest/source/lib/fault-inject.c#L109
+> >
+> > Otherwise these dynamic sites won't be tested by testing systems doing
+> > systematic fault injection testing.
+>
+> That's a discussion we need to have, yeah. We don't want two distinct fault
+> injection frameworks, we'll have to have a discussion as to whether this is (or
+> can be) better enough to make a switch worthwhile, and whether a compatibility
+> interface is needed - or maybe there's enough distinct interesting bits in both
+> to make merging plausible?
+>
+> The debugfs interface for this fault injection code is necessarily different
+> from our existing fault injection - this gives you a fault injection point _per
+> callsite_, which is huge - e.g. for filesystem testing what I need is to be able
+> to enable fault injection points within a given module. I can do that easily
+> with this, not with our current fault injection.
+>
+> I think the per-callsite fault injection points would also be pretty valuable
+> for CONFIG_FAULT_INJECTION_USERCOPY, too.
+>
+> OTOH, existing kernel fault injection can filter based on task - this fault
+> injection framework doesn't have that. Easy enough to add, though. Similar for
+> the interval/probability/ratelimit stuff.
+>
+> fail_function is the odd one out, I'm not sure how that would fit into this
+> model. Everything else I've seen I think fits into this model.
+>
+> Also, it sounds like you're more familiar with our existing fault injection than
+> I am, so if I've misunderstood anything about what it can do please do correct
+> me.
 
-On 31/08/2022 11:30, Linus Walleij wrote:
->> -       create_mapping((void *)MODULES_VADDR, (void *)(PKMAP_BASE + PMD_SIZE));
->> +       if (!IS_ENABLED(CONFIG_KASAN_VMALLOC) && IS_ENABLED(CONFIG_MODULES))
->> +               create_mapping((void *)MODULES_VADDR, (void *)(MODULES_END));
-> So the way I understand it is that modules are first and foremost loaded into
-> the area MODULES_VADDR .. MODULES_END, and then after that is out,
-> they get loaded into VMALLOC. See arch/arm/kernel/module.c, module_alloc().
+What you are saying makes sense. But I can't say if we want to do a
+global switch or not. I don't know how many existing users there are
+(by users I mean automated testing b/c humans can switch for one-off
+manual testing).
 
-yes, but both areas are managed by __vmalloc_node_range().
- 
-> If you do this, how are the addresses between MODULES_VADDR..MODULES_END
-> shadowed when using CONFIG_KASAN_VMALLOC?
+However, fail_nth that I mentioned is orthogonal to this. It's a
+different mechanism to select the fault site that needs to be failed
+(similar to what you mentioned as "interval/probability/ratelimit
+stuff"). fail_nth allows to fail the specified n-th call site in the
+specified task. And that's the only mechanism we use in
+syzkaller/syzbot.
+And I think it can be supported relatively easily (copy a few lines to
+the "does this site needs to fail" check).
 
-That's the thing, __vmalloc_node_range() doesn't differentiate between address
-ranges and tries first to recreate [already existing] shadow mapping, and then
-vfree() unconditionally frees the mapping and the page.
+I don't know how exactly you want to use this new mechanism, but I
+found fail_nth much better than any of the existing selection
+mechanisms, including what this will add for specific site failing.
 
-vmalloc() KASAN handling is generic, module_alloc() implemented via vmalloc()
-is however ARM-specific. Even though we could teach vmalloc() about MODULES_VADDR
-and MODULES_END (and don't call kasan_ instrumentation on these), but, this is
-ARM-specifics that it's used for this range.
- 
->> +       create_mapping((void *)PKMAP_BASE, (void *)(PKMAP_BASE + PMD_SIZE));
-> (Splitting this in two steps if probably good in any case.)
-> 
-> Pls keep me on CC for Kasan ARM patches, thanks! (Maybe I should add some
-> MAINTAINERS blurb.)
+fail_nth allows to fail every site in a given test/syscall one-by-one
+systematically. E.g. we can even have strace-like utility that repeats
+the given test failing all sites in to systematically:
+$ fail_all ./a_unit_test
+This can be integrated into any CI system, e.g. running all LTP tests with this.
 
--- 
-Best regards,
-Alexander Sverdlin.
+For file:line-based selection, first, we need to get these file:line
+from somewhere; second, lines are changing over time so can't be
+hardcoded in tests; third, it still needs to be per-task, since
+unrelated processes can execute the same code.
+
+One downside of fail_nth, though, is that it does not cover background
+threads/async work. But we found that there are so many untested
+synchronous error paths, that moving to background threads is not
+necessary at this point.
+
+
+
+> Interestingly: I just discovered from reading the code that
+> CONFIG_FAULT_INJECTION_STACKTRACE_FILTER is a thing (hadn't before because it
+> depends on !X86_64 - what?). That's cool, though.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ccde957b-20b1-2fd6-5c90-ad9ee4b8924c%40nokia.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbMeqvWQwqzG3nfcf0-VOjU7usxht5mKgUwMcOpWKRjxQ%40mail.gmail.com.
