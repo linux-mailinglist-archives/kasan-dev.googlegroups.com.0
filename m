@@ -1,137 +1,143 @@
-Return-Path: <kasan-dev+bncBCU73AEHRQBBBG6QYSMAMGQETJLTBCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBJ6UYSMAMGQE2YTRLPY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103c.google.com (mail-pj1-x103c.google.com [IPv6:2607:f8b0:4864:20::103c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176E25AA199
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 23:46:05 +0200 (CEST)
-Received: by mail-pj1-x103c.google.com with SMTP id 36-20020a17090a0fa700b001fd64c962afsf141395pjz.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 14:46:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662068763; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E105AA1C4
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 23:54:48 +0200 (CEST)
+Received: by mail-lj1-x23d.google.com with SMTP id z11-20020a2eb52b000000b00261d940ce36sf184530ljm.9
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 14:54:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662069288; cv=pass;
         d=google.com; s=arc-20160816;
-        b=koQL23sRtzZ5JrYjlaEQm28pfgZjxla7Cq3Epl/emuLqJ2ES1AJkjdpH0y33SOXJY0
-         E25/Qd7DSk9W8wnGAzHITfsrNTqJjJxK87mS9o+VHPzC16u5UsUgpH32QCi5TQRc6d9v
-         AwBzm4hszI1hrerxyX97cHGAFKejAKi+NNDs0/Y2xrNQqp7xRvFDspMDXIzSDfWEt4Ge
-         Mn9jcHWdyq17DuQG0Tdo8t1E4hEAmh4Uod83UnkPpKFHQDL1s1SSer74ad6TV7cfr5ZA
-         INEYJCcAoSfH2fLRYjTW8ymj0358ISD92CDS020cCwo+H3RQVFLvwS7XuwIXI3yp6jgE
-         Np8Q==
+        b=OOqS6wNlRejFPz/VUNLoq0uFKA6VzuSHS7G/zFp8VZF6iheNDUMf7ijEWi7OV8F7Ay
+         e9Xh269OWkZSzjgZzg8EQVrkJ6wv8HIkv44ktRtIch91xli1HuNSeg0P1JrrE3p7UOjX
+         Wh/FvA9kWB27V6EjMosYC2TbipTJuKmOTvP9Mp5wz9670eSxj1DFNWZRKM2uxRoU+FiU
+         CRXEiUKFpdF7mQzBe/SB3OCTH9Tnd5jBEflvyysOlirwKY/53POzlO/TeHPcODDki1M/
+         KXphcRWiR66JQqKKvqK/PiWfDsUhXwQzvbRDGOAMZEFFN5yTovfLT+PNxse4lf29LvnQ
+         08iw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=UoLIcDWhNI/tOdWJfcfm52+cHMcjzADeiLI+B1IRsMs=;
-        b=oLVpWwAURZ0agxWBFtzHIeFYZh/JOp3Dyqs0SbhLrVnRf2iE1cdck70ui4JF2vYZuo
-         YjYQjiygRXJHyzD7DWI4UVD7zbBWK9vcghD/O89hRvpAi/W07lC+Hsh44dKRu3snwAVD
-         iYHKCnWSZqJhQekl0haPlcTxpz/bPqEZiSpU4C83sw6vUJNvuhfCEQ94ZvlNfqPkRxSl
-         hIIPwOEIZAmJ9I0HDDDPHVjtsMSYi5GJk8x5U2Tqf/PU+/ECwEais7lLQhARuvqcb/90
-         mMe+pV//o2N57anLLcfRZpf2nt/tngsHqJUZk5z/Jp/EfY9J6vHHZBOh1rpyzTDm3ZGi
-         Qm9A==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=Em0YV2kKNaVcXCrxuwnO4WPg0dRdNaWVw/dwsMivzhs=;
+        b=kIk1wkf9hTjmIOaFO5YAUqpjUFhTuyBXlzU4+QZfqxEF0iLdDFEa9F+vNt9PmYQ7Ef
+         iZefQZuhVIiLExGTl32es8hjAlj0yhkYIeUwQ+U0/LeemJfq+g6uWzoms82eTr5wmHdZ
+         7rJi1hYnsEA+Da9PX/VlRMXdBBSByehVbSwNgaJrAuWwZGGYVaFaDG+zgqJauh8CgNzq
+         JY03PVck34MBcEnaPKqGOMKM9O5tK6kif6UTNk1A/p5uAjMeRlr4r9/sN1kKxVHfbLXs
+         Km8DDW6xfHfCLwvSwwMYCtI/CE0YbMulDXplpjgGLBZqIlcqkSq2ss9yCbrpoBfT6Av4
+         oYtg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=hz//=ze=goodmis.org=rostedt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=hZ//=ZE=goodmis.org=rostedt@kernel.org"
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Twh7nBps;
+       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
-        bh=UoLIcDWhNI/tOdWJfcfm52+cHMcjzADeiLI+B1IRsMs=;
-        b=Ezoim+u1J8dh+Wh9V5sa2M47g2hbqTdZaGlN+lLk+yBSWQOE8ci9S12INIcGIY84T7
-         gieWQ+uwJgKI5ZUhxVthijoZD81IDAzehk5XyHRnX1wS4HRzf2n3NpihKgYWiOhCb9Ew
-         YkMxnl4XIVhho8ltge9/MM8W/ShIO8xvcbi5IiYJD5MEMnWfOMLrBOd2YNgWmmeQW3eL
-         Lb/8/ggFIrwrpgBNH8GPRKYL5sovWeshnyb4Y+SHZXWIKXIJvbhRbRz3d1BsfX2Cc5Ym
-         Q7k4Fe3krR5BJiJ1BLR6sD45beOoXVGt/+tgA+GzVCaIDm748DpFfYaCBvtoplZyQdvC
-         juCg==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date;
+        bh=Em0YV2kKNaVcXCrxuwnO4WPg0dRdNaWVw/dwsMivzhs=;
+        b=ZnA5RJS7phk61iE+zFD9qmO4HGir0biZKw1WtDG+FDOMSNwGpje13pNeDo6iSOv1fw
+         50Mdru0CzoB4T27d9CMuqoSlocikqAZzIbigdVZ5MJI2xwC9r3ZPxD+MdbyUwnr5dbYm
+         VdvAnht7+OitxFXGuTzQQ73b1y/x+2zIGFzgyUVJmBFc1rKIFIpM6QUjW4mQxcnlpbSf
+         4vdo7uwqX7z6DUrp0rdOZrcjLOXozxtGuzZwSWcrH8Nb9o1soMtLkippVG8nBZaRK5On
+         jW1oJHIRI0VNmq73kGBx4jWbmtGqWO0gOmuVA7NAkCmSPvh+stbOrjcQFDc7UsEDb/2b
+         G1Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=UoLIcDWhNI/tOdWJfcfm52+cHMcjzADeiLI+B1IRsMs=;
-        b=i/RyhXB4zm8wNolg50arB9KB7XWWDghoTJGtpVqxEK+WaGHe8AOaobq5MEW2IF+F43
-         4qyGhSs1IT6xRiz3+gbIhuvQMGiyL/EOzc46Dx3t8KJoF6HwJMxXGcCJK/QBPYWR7ZQa
-         2OiqDyTyMJMpTzOWUxyrBZubNCh3kCZD5409R4Y/QP6KARSKHfiJD13wUSbIjW29k0TH
-         Gi4cX0jauVCBD6DXHBURcctAyLMjqgMH4nqBqpgBhz4SP8W/6Y4FRS82kDDiykFVq0Gj
-         H81DMTZerfaw2ZZswbaIZwgJiaO/uQIicjvzmUueWf15690Dug/IgPHefxwAgAxNRlr1
-         hmTg==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=Em0YV2kKNaVcXCrxuwnO4WPg0dRdNaWVw/dwsMivzhs=;
+        b=d9uWlQcBgz215oyJqqYSI+ECBfGWoSIL0tWkCf/2+uvzXNBuPQKTVflCWjwZiNop9B
+         2gfqY6wmagOZMIRic8sKxpxHKWEsPzH6ynYL+JXL6s7AbC0kf/mqfcYofKwrPVJ+eBd7
+         mSk/W5C/DkkAf1e5sIzQWZ7DfnxLuY+pUskxY42Qcl8drStbUmWYyNu5emlCVPsjvpIb
+         0/12LpU7GFk6zTnjxBgfECBhuvN7+wc/g3bYYq+NIQMMsvLhTX82PQCiejwki+4lp45A
+         bQdm/HWpM563p51PlhTXESp73kUIrHq4pZidUmZr3aT4SxMKnGWzfrmkA9uf4XrUZDwj
+         a3Dg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1u/W/hVsCQ/v5tbfiLTy84wEonIcAn2FmO5h0KdPtvg4+Z4Zqs
-	8FWorySKpAxHcUPbLu4y20Y=
-X-Google-Smtp-Source: AA6agR66ktJ6InaSJcYs3PHg0DCUpt46jzzyMSWtVIbpv4P3b0CtCZmVLfz8AHdY3nz4RQvtQe5JQg==
-X-Received: by 2002:a63:c7:0:b0:42e:8690:960e with SMTP id 190-20020a6300c7000000b0042e8690960emr12648383pga.234.1662068763476;
-        Thu, 01 Sep 2022 14:46:03 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0N3Yn6BUSSYHzN9r+wsUDS2sBSzfezjHqWWu74576s4a0yYFa1
+	2U9EBPsHA4atc6Jy7tz/kJQ=
+X-Google-Smtp-Source: AA6agR7XAeKDt56RjhOp90vwccpQbtImnKtIHHHUah9CAOT//CUHuy+kek1Nqfvt3IzODvhp/Uli5A==
+X-Received: by 2002:a05:6512:3f1:b0:494:961b:4900 with SMTP id n17-20020a05651203f100b00494961b4900mr2851227lfq.436.1662069288048;
+        Thu, 01 Sep 2022 14:54:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:1c8e:0:b0:538:2c07:9c98 with SMTP id c136-20020a621c8e000000b005382c079c98ls1654251pfc.6.-pod-prod-gmail;
- Thu, 01 Sep 2022 14:46:02 -0700 (PDT)
-X-Received: by 2002:a65:6055:0:b0:42a:7b2b:dc71 with SMTP id a21-20020a656055000000b0042a7b2bdc71mr27614032pgp.23.1662068762678;
-        Thu, 01 Sep 2022 14:46:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662068762; cv=none;
+Received: by 2002:a2e:a236:0:b0:261:b5e5:82b6 with SMTP id i22-20020a2ea236000000b00261b5e582b6ls534879ljm.9.-pod-prod-gmail;
+ Thu, 01 Sep 2022 14:54:47 -0700 (PDT)
+X-Received: by 2002:a2e:a78f:0:b0:25f:dedf:efb8 with SMTP id c15-20020a2ea78f000000b0025fdedfefb8mr10581543ljf.317.1662069287132;
+        Thu, 01 Sep 2022 14:54:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662069287; cv=none;
         d=google.com; s=arc-20160816;
-        b=nIYcY+14Nxom4yGuJDiBQfRAr930p7FE1VyysXmakPD7lhM9xgPnxQKWf0s9dy8PKf
-         huN+Qeo9EM85QzrUy5uF8+2ubVxWX6EAZcZGG29RCTGbZDjX0EirXuLx6hdG/97Mqt+8
-         ahtusVct3YyFq3VUlxeqyN9Q3QNW/j1yW+extNIm20cUC19OOOM0mqxjrOpMicb60B3B
-         fTAdZfVKNIp/3jAzLtb1aDJ+nzan6U0nujqkQCb4lrPXfp/LQf4SxLfx5ymTnOWEwK38
-         6A4Hng++EixBEABSr4WS9yt5G7z3VGz9uVhmUiTXfQ7O3Vb4pOBFihYEFhqO8UCUc0Hk
-         irHg==
+        b=ZKKDkx/cc3H2qs5In+yKsLstDawip02aMwIp6I904yzf5e6kUUX+PhG6eNF+PnSfY1
+         lyF2CpLzCQUtqIYCYz0SDK4saW/hz37VyhaUseuZ9OoztIKmIRtC98Wz5zBMCJtCcYHD
+         hJhZncr3ytNL9w/6+Vy7QmLEqmifze9+IyrWfxuYGj1lvkqvMyZP/GyIG0ZKPV+yJlQd
+         Mn4S/n3jjkRPVZtdQWHFls0vBxhuwUtDDalSs73Vt8tJFncg3GNUWbChZcUrfSKZJmQ6
+         trxxAWcVUY8aVmnpMExvxPF9A45djr1ZUjnYlWrzSYNOEBcyNlatbnQFX1QlzT/Esdma
+         oXkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date;
-        bh=eZ9JQStRN5RkSNpQf7SHWxI3gQalXytUTalM0atr0c4=;
-        b=m8kr6j9xozinWcZ2KS+o3Z/qbpCZsdXC7YwA/mIYPrVxAPjEgd0fzSC16FJxCT36D6
-         aMrAqn/eeBhEO+vSfQqjNMDb+BkVlriVs2V/JgY3P00mGIwItD9z/L4KJs4nVXp8YGLn
-         z9yBpZuH1/1pVpA2dw0qych1wB5EBfsljDncnnJ9P/9hyIcMEzdt55ZFQDr2tQgG59h2
-         DUy+FmokNHVUraaPDQtL/RcniOyOhUmMLYfb4cs4rSH+f6CTDaBAQsLOn/fF4yGFOeRf
-         wOBq+OmOwe+Zkk/w3GUxDa03Hz9rgPsoLfTxx/qVS/XfGuJ+fT1nMSmXAFJlnOHxPbsD
-         350g==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:date;
+        bh=cwEaHM2MLzWFSTyYX5D3U7h9xVWN0G5HRpYdRjufwn0=;
+        b=pcVVXNQnODTCIJJtcjsiNWk1kQ67RnvHXQGzvBJ4m+qVz6yqh9ix6i9pgbWqUeGXhb
+         Yae1ndPB+Cq5+/hBO9IlTPpR1olL0kK//PoZar9csZt5g5d894Mg3nF1DQ8/6LW6+S2A
+         z8z2DGWhHnl52UHYPlFIhEbFrEZZ1l6UmmdlcIq/maDXV+EuqBKybthfrZ9VyiyJrW1r
+         h/f6gfGBi5xN40jN7t47FZ7eAOo6owpm8M+UAWPxtA66kxUJp6HcfRPMVWWieMNQiL8T
+         x3z/cV2uLcWu8ycTzTFGOcX8nYY15MmybfSgbkT4T8orR/nG/35CICIWR1oo8RrWl6Vx
+         ePiA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=hz//=ze=goodmis.org=rostedt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=hZ//=ZE=goodmis.org=rostedt@kernel.org"
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id l13-20020a633e0d000000b0042b329f2ff5si2287pga.0.2022.09.01.14.46.02
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Twh7nBps;
+       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out0.migadu.com (out0.migadu.com. [94.23.1.103])
+        by gmr-mx.google.com with ESMTPS id s3-20020a056512202300b0049469c093b9si6989lfs.5.2022.09.01.14.54.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Sep 2022 14:46:02 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=hz//=ze=goodmis.org=rostedt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 06F9161F70;
-	Thu,  1 Sep 2022 21:46:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58693C433C1;
-	Thu,  1 Sep 2022 21:45:56 +0000 (UTC)
-Date: Thu, 1 Sep 2022 17:46:27 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
- vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
- mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
- liam.howlett@oracle.com, void@manifault.com, peterz@infradead.org,
- juri.lelli@redhat.com, ldufour@linux.ibm.com, peterx@redhat.com,
- david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
- nathan@kernel.org, changbin.du@intel.com, ytcoode@gmail.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
- iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
- elver@google.com, dvyukov@google.com, shakeelb@google.com,
- songmuchun@bytedance.com, arnd@arndb.de, jbaron@akamai.com,
- rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
- kernel-team@android.com, linux-mm@kvack.org, iommu@lists.linux.dev,
- kasan-dev@googlegroups.com, io-uring@vger.kernel.org,
- linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Sep 2022 14:54:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as permitted sender) client-ip=94.23.1.103;
+Date: Thu, 1 Sep 2022 17:54:38 -0400
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
+	roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+	willy@infradead.org, liam.howlett@oracle.com, void@manifault.com,
+	peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
+	peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
+	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+	changbin.du@intel.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com,
+	cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com,
+	42.hyeyoo@gmail.com, glider@google.com, elver@google.com,
+	dvyukov@google.com, shakeelb@google.com, songmuchun@bytedance.com,
+	arnd@arndb.de, jbaron@akamai.com, rientjes@google.com,
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+	linux-mm@kvack.org, iommu@lists.linux.dev,
+	kasan-dev@googlegroups.com, io-uring@vger.kernel.org,
+	linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org,
+	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Subject: Re: [RFC PATCH 27/30] Code tagging based latency tracking
-Message-ID: <20220901174627.27c7e23d@gandalf.local.home>
-In-Reply-To: <20220901173844.36e1683c@gandalf.local.home>
+Message-ID: <20220901215438.gy3bgqa4ghhm6ztm@moria.home.lan>
 References: <20220830214919.53220-1-surenb@google.com>
-	<20220830214919.53220-28-surenb@google.com>
-	<20220901173844.36e1683c@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20220830214919.53220-28-surenb@google.com>
+ <20220901173844.36e1683c@gandalf.local.home>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: rostedt@goodmis.org
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of srs0=hz//=ze=goodmis.org=rostedt@kernel.org designates
- 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=hZ//=ZE=goodmis.org=rostedt@kernel.org"
+Content-Disposition: inline
+In-Reply-To: <20220901173844.36e1683c@gandalf.local.home>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
+X-Original-Sender: kent.overstreet@linux.dev
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linux.dev header.s=key1 header.b=Twh7nBps;       spf=pass
+ (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as
+ permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,46 +150,84 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 1 Sep 2022 17:38:44 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On Thu, Sep 01, 2022 at 05:38:44PM -0400, Steven Rostedt wrote:
+> On Tue, 30 Aug 2022 14:49:16 -0700
+> Suren Baghdasaryan <surenb@google.com> wrote:
+> 
+> > From: Kent Overstreet <kent.overstreet@linux.dev>
+> > 
+> > This adds the ability to easily instrument code for measuring latency.
+> > To use, add the following to calls to your code, at the start and end of
+> > the event you wish to measure:
+> > 
+> >   code_tag_time_stats_start(start_time);
+> >   code_tag_time_stats_finish(start_time);
+> 
+> So you need to modify the code to see what you want?
 
->  # echo 'hist:keys=comm,prio,delta.buckets=10:sort=delta' > /sys/kernel/tracing/events/synthetic/wakeup_lat/trigger
+Figuring out the _correct_ place to measure is often a significant amount of the
+total effort.
 
-The above could almost be done with sqlhist (but I haven't implemented
-"buckets=10" yet because that's a new feature. But for now, let's do log2):
+Having done so once, why not annotate that in the source code?
 
- # sqlhist -e 'select comm,prio,cast(delta as log2) from wakeup_lat'
+> For function length you could just do something like this:
+> 
+>  # cd /sys/kernel/tracing
+>  # echo __skb_wait_for_more_packets > set_ftrace_filter
+>  # echo 1 > function_profile_enabled
+>  # cat trace_stat/function*
+>   Function                               Hit    Time            Avg             s^2
+>   --------                               ---    ----            ---             ---
+>   __skb_wait_for_more_packets              1    0.000 us        0.000 us        0.000 us    
+>   Function                               Hit    Time            Avg             s^2
+>   --------                               ---    ----            ---             ---
+>   __skb_wait_for_more_packets              1    74.813 us       74.813 us       0.000 us    
+>   Function                               Hit    Time            Avg             s^2
+>   --------                               ---    ----            ---             ---
+>   Function                               Hit    Time            Avg             s^2
+>   --------                               ---    ----            ---             ---
+> 
+> The above is for a 4 CPU machine. The s^2 is the square of the standard
+> deviation (makes not having to do divisions while it runs).
+> 
+> But if you are looking for latency between two events (which can be kprobes
+> too, where you do not need to rebuild your kernel):
+> 
+> From: https://man.archlinux.org/man/sqlhist.1.en
+> which comes in: https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/
+>   if not already installed on your distro.
+> 
+>  # sqlhist -e -n wakeup_lat 'select end.next_comm as comm,start.pid,start.prio,(end.TIMESTAMP_USECS - start.TIMESTAMP_USECS) as delta from sched_waking as start join sched_switch as end on start.pid = end.next_pid where start.prio < 100'
+> 
+> The above creates a synthetic event called "wakeup_lat" that joins two
+> events (sched_waking and sched_switch) when the pid field of sched_waking
+> matches the next_pid field of sched_switch. When there is a match, it will
+> trigger the wakeup_lat event only if the prio of the sched_waking event is
+> less than 100 (which in the kernel means any real-time task). The
+> wakeup_lat event will record the next_comm (as comm field), the pid of
+> woken task and the time delta in microseconds between the two events.
 
-("-e" is to execute the command, as it normally only displays what commands
-need to be run to create the synthetic events and histograms)
+So this looks like it's gotten better since I last looked, but it's still not
+there yet.
 
-# cat /sys/kernel/tracing/events/synthetic/wakeup_lat/hist
-# event histogram
-#
-# trigger info: hist:keys=comm,prio,delta.log2:vals=hitcount:sort=hitcount:size=2048 [active]
-#
+Part of the problem is that the tracepoints themselves are in the wrong place:
+your end event is when a task is woken up, but that means spurious wakeups will
+cause one wait_event() call to be reported as multiple smaller waits, not one
+long wait - oops, now I can't actually find the thing that's causing my
+multi-second delay.
 
-{ comm: migration/4                                       , prio:          0, delta: ~ 2^5  } hitcount:          1
-{ comm: migration/0                                       , prio:          0, delta: ~ 2^4  } hitcount:          2
-{ comm: rtkit-daemon                                      , prio:          0, delta: ~ 2^7  } hitcount:          2
-{ comm: rtkit-daemon                                      , prio:          0, delta: ~ 2^6  } hitcount:          4
-{ comm: migration/0                                       , prio:          0, delta: ~ 2^5  } hitcount:          8
-{ comm: migration/4                                       , prio:          0, delta: ~ 2^4  } hitcount:          9
-{ comm: migration/2                                       , prio:          0, delta: ~ 2^4  } hitcount:         10
-{ comm: migration/5                                       , prio:          0, delta: ~ 2^4  } hitcount:         10
-{ comm: migration/7                                       , prio:          0, delta: ~ 2^4  } hitcount:         10
-{ comm: migration/1                                       , prio:          0, delta: ~ 2^4  } hitcount:         10
-{ comm: migration/6                                       , prio:          0, delta: ~ 2^4  } hitcount:         10
+Also, in your example you don't have it broken out by callsite. That would be
+the first thing I'd need for any real world debugging.
 
-Totals:
-    Hits: 76
-    Entries: 11
-    Dropped: 0
+So, it looks like tracing has made some progress over the past 10 years, but
+for debugging latency issues it's still not there yet in general. I will
+definitely remember function latency tracing the next time I'm doing performance
+work, but I expect that to be far too heavy to enable on a live server.
 
-
--- Steve
+This thing is only a couple hundred lines of code though, so perhaps tracing
+shouldn't be the only tool in our toolbox :)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220901174627.27c7e23d%40gandalf.local.home.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220901215438.gy3bgqa4ghhm6ztm%40moria.home.lan.
