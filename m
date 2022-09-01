@@ -1,116 +1,134 @@
-Return-Path: <kasan-dev+bncBCU73AEHRQBBBL4MYOMAMGQEYVPMXZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBJEVYOMAMGQEVEH6DWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02935A9ACC
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 16:48:16 +0200 (CEST)
-Received: by mail-pg1-x53e.google.com with SMTP id 136-20020a63008e000000b0042d707c94fbsf4308196pga.9
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 07:48:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662043695; cv=pass;
+Received: from mail-io1-xd40.google.com (mail-io1-xd40.google.com [IPv6:2607:f8b0:4864:20::d40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B965A9B33
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 17:07:18 +0200 (CEST)
+Received: by mail-io1-xd40.google.com with SMTP id t18-20020a5d8852000000b0068832d2b28esf10774105ios.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 08:07:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662044836; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KERsIqiQuvhAUVaqG0Sjpft84ZmjwOy+2uMfE8la3g6Ave1f/98AXUlg8VtAdBkPpn
-         OQgD7/Up+JjlTdU4WzyuRGR50xC3/jViA0S/AWvxT4Bkm2Ul3FZmWDB8zQIQZgR17CVg
-         DlKjtDn/PReC0OsjInhHqVW7FV//pIlwFF9Iw0Gh3fsGGkk7LY4paCHxi26mFwV+xHS5
-         l4lO78G9Jfp3OsH2bplKiWzBSrpnPSByIZzyxnNZQZnqY4oew9iRsZ+geBhguFOlKHcA
-         XCNAkWBJMWwA6biYYDPKmqoy5U660VB3y2whVBQt2K9TRV0Y2WIYiuZPwCC2SXdA8jHG
-         QkyA==
+        b=XlU+R7XpxrRZ4+Ubby2FeJ/5GCSJo5nQr+B7o/y9vtDQBPiBXYOtB/QAVMk5yIMbzd
+         DoMqicc+/KRQHIywoljViR/SaXNRsdgdifKgjUr5OMoBPjVvvmhDhGvvLz3Pf4aCDo+1
+         B5tq9RRShmmF5WIo3N+uNLPAsiNZZqirxDfwE7fUOO+b7JzsoFRS1ELitmjSdGKqmvwf
+         3spP1I1G4l+b7dtejHZncbQlrFsPZzxsFUdVY3Is/7B37GXrD26LtphNxmjOlgymY3sA
+         zN8vfSV8NyZGei1+kBaKvZbUwR58PD0cTiHotyVrF9H0gyJ3lEyhTUy+ksWRnzYq6xHy
+         aYoQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=yyZX47fZJOVSAfc+Yo6gODRIBNQiIXcwty562UXtexA=;
-        b=Ylb1J86e0Zk/tJGVKYcFK6Hy2OmezbIGqxQrg5UVdkJZiV60fMc8w4gZCA4FOlYl0V
-         usU/K04DbT6FEg2/5vN9+wUESwuhMrEM3bjXCBKEhftw/CfvUsl2l7TR+ioPoPMLZGHr
-         kmCJOL/m9Gv0GxHB6+ycvtU9nq5kZnsDac78oE7/SUUgBLgHxTDxISWrIPnB8aWePXHw
-         I2Oqho8ePvHI+aehr/IYx630mgVLiGp3nyj94QLsQcjanJJYA7bknamrMhniwhcv4XVt
-         eV/9AWgDB7/hlI8S6+3lglcg2wVoshTQg4/2x5cV7nMikw8EbyXtFvNG69+56noRZL74
-         21kA==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :subject:organization:from:references:cc:to:user-agent:mime-version
+         :date:message-id:sender:dkim-signature;
+        bh=5uFERhCyXpuXeG1C3nNHWsx12xfWAvNHKlsXsg2nS/0=;
+        b=Z1TM/Ggzp3IEbhsRRzbXKnQugRuD6CRRzJ+OHbzZ/7fcfL6owM6QEA0MRe35ewQH3b
+         S5H0IoU1Z7OcDk6IKe9qXd8YA56uiu/q8bVECNyZSfQwEJ/4VqBhut2/K7V+h2Uz7lBL
+         jHcjLdOuStcoTq5kOJChwSn9O0MovuhqcK0R1TfQdJsXD759PFbIkVty8SxwkOy5xKSq
+         +Y4AgpgjkVMSDlwgYkMnI5iy/QlQCt17lImNrqWZdAvRGT/iEhJW3Y6IELsmoyWHy48h
+         g9fDdGYs7kK97qC2ONrc9auzqbzqirXh4M4jlrroje8P6FX6zS8Q/oLOy0Dqh1ktzuAm
+         COUQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=hz//=ze=goodmis.org=rostedt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=hZ//=ZE=goodmis.org=rostedt@kernel.org"
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=ZNTLBe2L;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
-        bh=yyZX47fZJOVSAfc+Yo6gODRIBNQiIXcwty562UXtexA=;
-        b=OhZJRkafjbG+fIr9is4kOxGLJBH448oez2HsjycpfyTdQRMfSd31+HrMaZxEZyXCLD
-         xSCuKZxKw2JEMhngbAGLLx7CqAt5y9rJFmv/XZL2E1ujRkznI8WZYWweyQ7833zUsFxU
-         TGgvQMNxOeq50Hw5HGL1RFpb/qiztz6uefSkQ9KVKEGwXVk4s7UmJEVQWTxWgeaMFZtf
-         TSaMUIaQMkTUv0YhRLsKeg0SH+Svwq9Lay+OaXeIhFKgHdE7pIpFZTzCQhuxuunn+zMW
-         fhwGHuOkrF/GFT5/kVMQ7HrUUrOygJncssLjcj2TiPG/BxNBRbj5b3sgqh53Jhtl7O4l
-         zDbw==
+         :x-original-sender:content-language:in-reply-to:subject:organization
+         :from:references:cc:to:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date;
+        bh=5uFERhCyXpuXeG1C3nNHWsx12xfWAvNHKlsXsg2nS/0=;
+        b=WdKqYpCoa1Zac+1g1u2Vc8ZF2z1kBZ1IHGak8YX0Dn2TKcA90N31UgsbGNfMsZHfmP
+         mY3MwiERtSshDuPAXJMCtAc9qRRDjGQcJuAL8xL8Jf8933TjbOt42kxNlEeWq3CKjHkH
+         6wCZJQS6OcCWt4XPR+FyTbIHH63Bmly9uox3gShrDVKGgJVZX9D4lytKC/26iuboxOKY
+         AoG45SHYKHWa3TxMXG20BPeBAy7f7noXuA/sPNW7vF+q5QSEXwYABIVXG4eTGf7GsSCd
+         VYxriX88F+u8EKOped2gbyV/T1HYa9RHJnZWGZ/4MQZ3UarpDdPndZcfm6gCDK9FMqXZ
+         TFKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=yyZX47fZJOVSAfc+Yo6gODRIBNQiIXcwty562UXtexA=;
-        b=MKbRly7ZiANd5kQigpov8r3nauaaIweD9QxoB1yB0N9VjVV5rd9ZS1AmwJm1SuphKH
-         vIGSCdoqLIM5RcXy9cYgtPf6109ubY06EMKOZKQkAgi66kdTFByJcsmuDgB2ESSJQ/ub
-         lVO9Zrzi/nRLtbvN6gjX1TiDrGHPI/AYTOill3XsGX34mLlV5N0oJTD3f5R8GyXPvEWq
-         +nsfejLP6hD5DzBsMA7CQ2xAP02W5j25YbNPyr4LNeRjdjjYuCkEyCPm2TjTUvYjogfD
-         TgDVkm0rnLOUvQiQVsiOi0zNTeR4arBZD0vyEm/+/wkyqacg7lzMqlPOXITELS7oCL8U
-         +UlA==
+         :x-original-authentication-results:x-original-sender
+         :content-language:in-reply-to:subject:organization:from:references
+         :cc:to:user-agent:mime-version:date:message-id:x-gm-message-state
+         :sender:from:to:cc:subject:date;
+        bh=5uFERhCyXpuXeG1C3nNHWsx12xfWAvNHKlsXsg2nS/0=;
+        b=XeJh6tCCfqk8OP1Dz2LALLvv3cryvDSbWYRDlTZyc025KfkHQLLLOF6OeqjrA61DhG
+         95PcxKAKx2aVeBtqw/E3wed30XNWtLxz8mnn5B8i5JdfQ0YrA9FCwnb88XSpnvNErHuW
+         J2lMFxROv0cx1iuSWNyRgj8H0LhLBxLbtWpo3atkGifr+HRTKPNECqoCBlPVxobEIGY3
+         2b6aZDZq98hoogQFBqY4k30vR/1Jp6mW95Jc33JDmsIefot/05G9JhUSF7iPVEoOCU76
+         u78sb0DxEnKEXI20iTERDMFSTIL5pnupKb3y/MYcTKXxofFWdSz3imDcGSMb3f6R1Dd7
+         H5eA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo01xrBVzs4DKP1lTBPtHSwhMkBIL634u7fdEL++kfN0+Hft/EQw
-	aLObpjWiEi7JHGlwwX5OmaE=
-X-Google-Smtp-Source: AA6agR5QdaDPFbKlpYhy16bN9FML1/bpwV6tkPlY55aOT3w88C0bU3fTuCAhs0kY9HJIszOyugcr4w==
-X-Received: by 2002:a63:3150:0:b0:42b:8062:4008 with SMTP id x77-20020a633150000000b0042b80624008mr24047195pgx.584.1662043695338;
-        Thu, 01 Sep 2022 07:48:15 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1uf8ZoOG/BsNoajMtN82GNpALEC+yrlg3+TuwIvf2tV+wqfAIO
+	E0DWnBk9dvlEs38409AXJF4=
+X-Google-Smtp-Source: AA6agR6lp/ewka8BvNfr/iyo0WfyDyrZKDfGQHOaYqhqWSDvkVRaGvqPAiJK1wD5mft+cURXAljYdw==
+X-Received: by 2002:a05:6e02:156b:b0:2e9:a556:80fd with SMTP id k11-20020a056e02156b00b002e9a55680fdmr15692417ilu.44.1662044836783;
+        Thu, 01 Sep 2022 08:07:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:1108:b0:171:29d0:e7e0 with SMTP id
- n8-20020a170903110800b0017129d0e7e0ls1599402plh.3.-pod-prod-gmail; Thu, 01
- Sep 2022 07:48:14 -0700 (PDT)
-X-Received: by 2002:a17:902:694a:b0:16e:e270:1f84 with SMTP id k10-20020a170902694a00b0016ee2701f84mr30572232plt.89.1662043694494;
-        Thu, 01 Sep 2022 07:48:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662043694; cv=none;
+Received: by 2002:a02:95cb:0:b0:34c:dcb:a180 with SMTP id b69-20020a0295cb000000b0034c0dcba180ls547087jai.4.-pod-prod-gmail;
+ Thu, 01 Sep 2022 08:07:16 -0700 (PDT)
+X-Received: by 2002:a05:6638:22cf:b0:34a:11b6:2636 with SMTP id j15-20020a05663822cf00b0034a11b62636mr16774173jat.80.1662044836283;
+        Thu, 01 Sep 2022 08:07:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662044836; cv=none;
         d=google.com; s=arc-20160816;
-        b=a/jdN16twp1bhzSXN+K+zqsQ6Y4O903q0Yn6Td0v8GYALQZCKrIY0P6wmaFT8jkWfi
-         kR5ekhe9Rb/Q/N/iq4x6g1Bd8y7+4xG5bQm3l2WmrwfDQY4XiuiL4Rjn+WojmUn+50Te
-         abCRZs4kPVq6FC9kcvewxrxfsc2cFHnHVhvk+qmbCRclNtYMYAgtDBJ5P3Tuvz7rlXB4
-         TM8il1iGN+jBSgjwZVaUewYHjHUZjj65CdhyfrYJHRXAs0YleSKls71ynkMDBGpI/KGk
-         X8arEoT949u3+rAWLKcgiNljCeJbt5Yes4RVezlsrqyyolU1II5Ts3SxOZubPsgUCCNe
-         u06g==
+        b=j85SftcBdTk6TPo3UwwMo+HSmaFe0vYCOWzgC3v0zzIW4jVRlxfY3nUmSJKd7657Io
+         ZG0URAE0x+K5nGYOBnLYK3iE/2vG1z0macdqanKzM+OjkqHq5RGapZKXv+nl7CQE5QYN
+         LekJpAK1lOI9CogMulzwucqqpQND6LKUdx7/BLIheDN9x41kIzIGO6xheOALb3UD4cfd
+         Bb0BkixmhyFKfFvm6SzjVjzauXSJybRejLeHlWldS8TuAfyyMEo9YG0UaiwGt4BA2c6q
+         xJgX8RlK609rOoqZECeGlMl5SjMe1/Jo00w/3R04ct3lW4SDYFY3Ptm9dtb4Afh5l5B6
+         SvEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date;
-        bh=Jf8cO2t6hUZhUrp3a7pSCi1cULdqUuGpU01vQQWB5m4=;
-        b=kYUAdL+zmyppYukkDsEVaNdBi+mGOpXcqoSCm3PhUIDbojq0ufpNGBBqHMeXW29xCx
-         9c/gr5nGJaFDvuxOjnBC0xLs4C5GYHxQbiYX4Zeo5dfKc6BbFsecNXqA0A7M2iceHFOH
-         3nXpA4oeAEy8aoFMQWMaZPpaPvhOAkG76F3pau3GCAHdbJKEgllHyC3lWz0dfHEXZOdP
-         J+BW1dKRzyfbQ+wKLvO5BBCl4/UHNmVZgd9wglWfafLeLcoMjN2dHGTNKdXgvGwylOVJ
-         mRiyHHzaJqjMdw3SM6BLIbEjBEs4rKIM90b9RRDQZN03fZc1PwiDncqong4lXuvSMYOg
-         5DEg==
+        h=content-transfer-encoding:content-language:in-reply-to:subject
+         :organization:from:references:cc:to:user-agent:mime-version:date
+         :message-id:dkim-signature;
+        bh=n51zgqgBl470PB0vgcZT4BRIRHbxoQSrqhNCiStba2E=;
+        b=o4hgPy4qL7uuNms2SJ40tk+V8v86jupekA3VzUNxk+N61Cz8WjCI66ZR7XouLs8FJd
+         SIcNrwIwX4eXbnk2YNf4mhO0PUd7O/xsQwkG2WPgi5d/19WaxlSXaXuhJQiA1qkNLUB+
+         N5IpJLVLx20Aq5VTn3C5GhJqACSplCQ52VjQsfBn6eq0Yi4GKOS4GSdaZONJrroLk7Cv
+         PYg8R3EwwDPDOxLDXONcnZfFBFWC2rsyaOoTh2nuMcfzunSrLbgCsJ0HzXAlYY+KQkSe
+         h3Dzo4LzLI1yusDxk4lFhKeBpnkGkSb2dNNAFqdDlbPVDT0rQWtRLuXpMabl2J5/C+16
+         gACg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=hz//=ze=goodmis.org=rostedt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=hZ//=ZE=goodmis.org=rostedt@kernel.org"
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id e6-20020a170902ef4600b0017542e23802si240817plx.4.2022.09.01.07.48.14
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=ZNTLBe2L;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
+        by gmr-mx.google.com with ESMTPS id t5-20020a02c485000000b0034c14f88c60si132049jam.1.2022.09.01.08.07.16
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Sep 2022 07:48:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=hz//=ze=goodmis.org=rostedt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id EC7C161DD3;
-	Thu,  1 Sep 2022 14:48:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DDEAC433D6;
-	Thu,  1 Sep 2022 14:48:08 +0000 (UTC)
-Date: Thu, 1 Sep 2022 10:48:39 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 08:07:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-259-DNa7JAkYP3uqp-oIc6hVww-1; Thu, 01 Sep 2022 11:07:13 -0400
+X-MC-Unique: DNa7JAkYP3uqp-oIc6hVww-1
+Received: by mail-wr1-f72.google.com with SMTP id o3-20020adfa103000000b0022514e8e99bso3162049wro.19
+        for <kasan-dev@googlegroups.com>; Thu, 01 Sep 2022 08:07:13 -0700 (PDT)
+X-Received: by 2002:a7b:ce13:0:b0:3a6:34f8:e21d with SMTP id m19-20020a7bce13000000b003a634f8e21dmr5628117wmc.22.1662044831141;
+        Thu, 01 Sep 2022 08:07:11 -0700 (PDT)
+X-Received: by 2002:a7b:ce13:0:b0:3a6:34f8:e21d with SMTP id m19-20020a7bce13000000b003a634f8e21dmr5628080wmc.22.1662044830813;
+        Thu, 01 Sep 2022 08:07:10 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c707:9e00:fec0:7e96:15cb:742? (p200300cbc7079e00fec07e9615cb0742.dip0.t-ipconnect.de. [2003:cb:c707:9e00:fec0:7e96:15cb:742])
+        by smtp.gmail.com with ESMTPSA id a6-20020a5d4d46000000b00226dedf1ab7sm9303786wru.76.2022.09.01.08.07.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 08:07:09 -0700 (PDT)
+Message-ID: <78e55029-0eaf-b4b3-7e86-1086b97c60c6@redhat.com>
+Date: Thu, 1 Sep 2022 17:07:06 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
 To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Peter Zijlstra <peterz@infradead.org>, Suren Baghdasaryan
- <surenb@google.com>, akpm@linux-foundation.org, mhocko@suse.com,
- vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
- mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
- liam.howlett@oracle.com, void@manifault.com, juri.lelli@redhat.com,
- ldufour@linux.ibm.com, peterx@redhat.com, david@redhat.com,
- axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
- nathan@kernel.org, changbin.du@intel.com, ytcoode@gmail.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
+Cc: Michal Hocko <mhocko@suse.com>, Mel Gorman <mgorman@suse.de>,
+ Peter Zijlstra <peterz@infradead.org>, Suren Baghdasaryan
+ <surenb@google.com>, akpm@linux-foundation.org, vbabka@suse.cz,
+ hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net,
+ willy@infradead.org, liam.howlett@oracle.com, void@manifault.com,
+ juri.lelli@redhat.com, ldufour@linux.ibm.com, peterx@redhat.com,
+ axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+ changbin.du@intel.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
  bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
  iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
  elver@google.com, dvyukov@google.com, shakeelb@google.com,
@@ -121,20 +139,27 @@ Cc: Peter Zijlstra <peterz@infradead.org>, Suren Baghdasaryan
  linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org,
  linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 03/30] Lazy percpu counters
-Message-ID: <20220901104839.5691e1c9@gandalf.local.home>
-In-Reply-To: <20220901143219.n7jg7cbp47agqnwn@moria.home.lan>
 References: <20220830214919.53220-1-surenb@google.com>
-	<20220830214919.53220-4-surenb@google.com>
-	<YxBWczNCbZbj+reQ@hirez.programming.kicks-ass.net>
-	<20220901143219.n7jg7cbp47agqnwn@moria.home.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
+ <Yw8P8xZ4zqu121xL@hirez.programming.kicks-ass.net>
+ <20220831084230.3ti3vitrzhzsu3fs@moria.home.lan>
+ <20220831101948.f3etturccmp5ovkl@suse.de> <Yw88RFuBgc7yFYxA@dhcp22.suse.cz>
+ <20220831190154.qdlsxfamans3ya5j@moria.home.lan>
+ <404e947a-e1b2-0fae-8b4f-6f2e3ba6328d@redhat.com>
+ <20220901142345.agkfp2d5lijdp6pt@moria.home.lan>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
+In-Reply-To: <20220901142345.agkfp2d5lijdp6pt@moria.home.lan>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: rostedt@goodmis.org
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of srs0=hz//=ze=goodmis.org=rostedt@kernel.org designates
- 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=hZ//=ZE=goodmis.org=rostedt@kernel.org"
+X-Original-Sender: david@redhat.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@redhat.com header.s=mimecast20190719 header.b=ZNTLBe2L;
+       spf=pass (google.com: domain of david@redhat.com designates
+ 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,29 +172,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 1 Sep 2022 10:32:19 -0400
-Kent Overstreet <kent.overstreet@linux.dev> wrote:
-
-> On Thu, Sep 01, 2022 at 08:51:31AM +0200, Peter Zijlstra wrote:
-> > On Tue, Aug 30, 2022 at 02:48:52PM -0700, Suren Baghdasaryan wrote:  
-> > > +static void lazy_percpu_counter_switch_to_pcpu(struct raw_lazy_percpu_counter *c)
-> > > +{
-> > > +	u64 __percpu *pcpu_v = alloc_percpu_gfp(u64, GFP_ATOMIC|__GFP_NOWARN);  
-> > 
-> > Realize that this is incorrect when used under a raw_spinlock_t.  
+On 01.09.22 16:23, Kent Overstreet wrote:
+> On Thu, Sep 01, 2022 at 10:05:03AM +0200, David Hildenbrand wrote:
+>> On 31.08.22 21:01, Kent Overstreet wrote:
+>>> On Wed, Aug 31, 2022 at 12:47:32PM +0200, Michal Hocko wrote:
+>>>> On Wed 31-08-22 11:19:48, Mel Gorman wrote:
+>>>>> Whatever asking for an explanation as to why equivalent functionality
+>>>>> cannot not be created from ftrace/kprobe/eBPF/whatever is reasonable.
+>>>>
+>>>> Fully agreed and this is especially true for a change this size
+>>>> 77 files changed, 3406 insertions(+), 703 deletions(-)
+>>>
+>>> In the case of memory allocation accounting, you flat cannot do this with ftrace
+>>> - you could maybe do a janky version that isn't fully accurate, much slower,
+>>> more complicated for the developer to understand and debug and more complicated
+>>> for the end user.
+>>>
+>>> But please, I invite anyone who's actually been doing this with ftrace to
+>>> demonstrate otherwise.
+>>>
+>>> Ftrace just isn't the right tool for the job here - we're talking about adding
+>>> per callsite accounting to some of the fastest fast paths in the kernel.
+>>>
+>>> And the size of the changes for memory allocation accounting are much more
+>>> reasonable:
+>>>  33 files changed, 623 insertions(+), 99 deletions(-)
+>>>
+>>> The code tagging library should exist anyways, it's been open coded half a dozen
+>>> times in the kernel already.
+>>
+>> Hi Kent,
+>>
+>> independent of the other discussions, if it's open coded already, does
+>> it make sense to factor that already-open-coded part out independently
+>> of the remainder of the full series here?
 > 
-> Can you elaborate?
+> It's discussed in the cover letter, that is exactly how the patch series is
+> structured.
 
-All allocations (including GFP_ATOMIC) grab normal spin_locks. When
-PREEMPT_RT is configured, normal spin_locks turn into a mutex, where as
-raw_spinlock's do not.
+Skimming over the patches (that I was CCed on) and skimming over the
+cover letter, I got the impression that everything after patch 7 is
+introducing something new instead of refactoring something out.
 
-Thus, if this is done within a raw_spinlock with PREEMPT_RT configured, it
-can cause a schedule while holding a spinlock.
+>  
+>> [I didn't immediately spot if this series also attempts already to
+>> replace that open-coded part]
+> 
+> Uh huh.
+> 
+> Honestly, some days it feels like lkml is just as bad as slashdot, with people
+> wanting to get in their two cents without actually reading...
 
--- Steve
+... and of course you had to reply like that. I should just have learned
+from my last upstream experience with you and kept you on my spam list.
+
+Thanks, bye
+
+-- 
+Thanks,
+
+David / dhildenb
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220901104839.5691e1c9%40gandalf.local.home.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/78e55029-0eaf-b4b3-7e86-1086b97c60c6%40redhat.com.
