@@ -1,140 +1,146 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBPHBYGMAMGQEU7W2YSA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBEXDYGMAMGQEHP33KMI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F755A9249
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 10:43:40 +0200 (CEST)
-Received: by mail-wm1-x337.google.com with SMTP id v67-20020a1cac46000000b003a615c4893dsf9527610wme.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 01:43:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662021820; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D6B5A9257
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 10:47:15 +0200 (CEST)
+Received: by mail-lf1-x13d.google.com with SMTP id x7-20020a056512130700b00492c545b3cfsf4218177lfu.11
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 01:47:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662022034; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LTWtTvWxES69DkHmeRgYIgjRWcKZzgVSAGIkBKicLfA9GJYYMhCDepPgLfVLJEtfRQ
-         m+NlPrjeg0nUm2In5v9HkWuGSQmss1kyefWUfE7coWqgv+mj8JjkHVoCCNcuvVTd7iK3
-         sr3UR/acKkutIbhsUMddKKO7FJyxya+d+KBDdtM/pjSVTv408UNMo2qMh7RVQ9FP6mSk
-         f9YpcVyw/xqhaTjmw0ezqpS3qXSVZ/UYRo2XMUk945XGQ0I5hWiHmnN5MKGvYn/1/7vg
-         og1sip5eh+4epJ3fzAHekxZjz+miiTcytvRLGXFbj8NHhIv08Ch7nxI5xHt+B43PD7mC
-         VLLA==
+        b=KFfdD2/WuPeyTUEjM/85pv51APIxqsndiUTsXRdHOOj27KkVCXWJp4hWzoahyJYl7B
+         SYmQUNhjQzN/UezMaa7fv/E2tBTnTXed4aKsr1w+kahVwvxY3kZJLmDqhuqEAmwdTAb7
+         jqmjSVhxF4yr+GV5shjvWP1RmLOxgo9KcsPt54fsLvdsqwkcpTGeNRqD5I4r50Z3Ho4Z
+         APolrnkVimLfoJbycdSrWan02hnYpH3SxQ2H9yalKiAJ4h0i/P8agXZL8pHBbBab6BVd
+         jPONUWjA8Sp6ZNva7AxVdR3OLg5NW5NawUtE48cDhxBTQ0ANNqURuwsuUEYgE8s/8b2w
+         ZHUg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=brNm8dGVPmqYBVEn28Z6yC3KzdTNzUVEBYBdManyalw=;
-        b=MDVTvFYz7J5vjVUuziRd5596SWXRTJUw/Cs6YHYNw7qErxIOIwxuY3vkLvmvNmBkmP
-         SgQJQSvlrrNyX3BQcpFAHMxArtR6HJl6N9uw5BsPDXOBsazXIsdrc5+U1WKq9dPZ/CAp
-         PsHF6Vqq4XPEjWA/LzwZ8AsKSsW6OaWc7DI02gRKTOY4+lgXIkSZM0ljiSMJnCyLevUW
-         6GCo8frXebyi6RKpHVt2PfSaUgpsxEqub1ZlVCdIfzU4b3D+75FewWyZ0l65NtXCLK71
-         uEzCF602waplj/UovjWt9HPpl6aMQRjW71u2CIbqJkrEpB08QYOKuDbrQ5CZDj2BeuF0
-         cOpA==
+         :list-id:mailing-list:precedence:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=Rgzs3IskQCVxY1nbnIf7N/KMZcBSxbqEm1OkEavFOxs=;
+        b=S/L0MSrtpyD4k9iGgMiClcpA023SaoFghVUXSfun7VpQCED8AdPWHY9g41AzPpz7I4
+         qjuiNUjgIPTgeMUrYk3cvKjeWo/KxfhRmMs+my6y3NYqUBjE5sPS/kP7IR/Bbx5OmisN
+         aMEZpnv3Rliw+HQO5yYyUfI19DLsRBouSuGIJ/vTcTyr/1TWIxzQsNXUBSG1XrIkYCw/
+         huIZ90hKTFfqjUMLP0XAYpt1onbels2YMu2eKhHFzuDPwzT20el2+lzHICMdg74aNYOo
+         PEq4bZpmMD5Fxhiw22wHIjHKIK1dEvcCG7n62Lvi13u16RuSsarXAe/fxhGN6oFi6eQL
+         XRcA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=q7AjWjhm;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=umIEJIdq;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=nuyJH10v;
+       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc;
-        bh=brNm8dGVPmqYBVEn28Z6yC3KzdTNzUVEBYBdManyalw=;
-        b=WIJHuQNX0PrXWL1X7nYMOMaVXGPQuuh56b39ZB9fsdfJmEj8gVH8OEUA48IzcrVpKV
-         ZK72YoORhF3XhN2lOWsFUhN5YTIyEw381ncE5bGMRnPwXCwfyZE0nHKfhpSudsgztZu+
-         /v146ySaCOEExi48NzhWmFEi9WarzqkupsoUF1xQ98l+HBdq+01W548Q1kFY/8T0MUUh
-         t5SROmW3eiqJHJJX9ty6GWI4mZybBxW+EByRYkF8rHNKcFynf+Y/N8ODNlqzWj09Xotp
-         2iwKaxw9ZAqsx53EZac2rfLdhvxQWTiYSsw2Z992/XS3knQsxXlMd2TraxzIFaJ51vL/
-         Rz0g==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:content-language:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :cc;
+        bh=Rgzs3IskQCVxY1nbnIf7N/KMZcBSxbqEm1OkEavFOxs=;
+        b=QVmbJB4eEJZlyUf2oLZadrKusXaUJ2ap3x/7OLXDveXpgPYe+DKQfsSWH2W2g/wQQB
+         TYwMXD4gnez7Xi2L78G5hGO+DY3HmOHfXHeZseGMsmIIscs3yg6RC796CQRs6bKAnefE
+         fn++U7RqtIiMQOMjnFwdWTTNwKQ55FgkQz87VxCDWt7r5PWFKZ9EkxJ4Yt0BSbI3w5/G
+         yhnsbf2pOa/Gp8j79yBVpkXwwRQ/6S4HzRxJTnuatB4CJs0CZgyIexOSAFH7v0E5MJjX
+         XVIAtaFezKw/4oEbpbY5Vr5OgSY07+2pwl/Mr0G28zPbBEHYQR6r6vLPFdX1suU9JAgS
+         M9QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc;
-        bh=brNm8dGVPmqYBVEn28Z6yC3KzdTNzUVEBYBdManyalw=;
-        b=hRe3HE9A4isIjRytKNjf/DKZcHrvdloOhFk6CfWBXQdj9W3M/o678bLSo4IobRNFja
-         lLYSnBuxa+dsCG5qLQA1i47yfpo84pGycIo5rhbmwuavTpQIFKdNw1Orc43RrAbaJ6S+
-         rcpauzePDMoBj1tfsWFWWBoMMBhEB40AShdZ/6sOp3ZyEZDpPbl1Yg8+982y83EfeWDB
-         ImrPyVAX7nC2xptUmSkS9rvWJPGO3Yj7vblLeP62SD7inNRe9hyR/dn1ThANRLtqpbyi
-         ORCmx8khPpwgZ1/hOCprJAslpXBlMobz03MdVtUqMxnN/mTM+APlUEZ05B4UzEIhLvKX
-         Jbmg==
-X-Gm-Message-State: ACgBeo0AclybspCnVBCsYblABYgLUc6lKZuf4rkf4wEfYXbyE6ZXCrKs
-	gDzxoPdDyTaUbG2yWhHRGvk=
-X-Google-Smtp-Source: AA6agR6cbc/Ol4Fm/tRcpwjqH5SrcRuzliAVwE23ffci2jTQ+UBVoU/rKKUtDBjAyMsMq4fqN+rZPQ==
-X-Received: by 2002:a05:600c:474c:b0:3a7:3954:8818 with SMTP id w12-20020a05600c474c00b003a739548818mr4372052wmo.124.1662021820675;
-        Thu, 01 Sep 2022 01:43:40 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc;
+        bh=Rgzs3IskQCVxY1nbnIf7N/KMZcBSxbqEm1OkEavFOxs=;
+        b=FceT6O+UXX0GRH8MeCzhJ7vWThpMlOxXyKF0mnKurwj8Oh+Y04Xc9h8f8pIYNjX7gB
+         Zj9we4jttK1+8LWY4zK0Y6ot4ovqXc9gcgj7FzAqBov45mCuP9leDH2bG1H3mjapM8cX
+         VGYGyzANx33SPRq8OOuw4hsva6ukbVkDCQXQlt+e+RzTdWh6PHQDcBJoG/BC/0mcHTQe
+         +DgdLwSWtq4WWqkjAHtmA3nVDrp6JOY/8kVf8ui6ZQ/aD3QKwBKfBqzM6U0okuYwJ1WY
+         jwIcvGhxF5wNIdnvI2JgDkOATDe0ri92vLc5igpaiKeWHmbf9tN7ZYdc9ggB4+dzVMqi
+         a6eg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACgBeo0LkmlmgbXcZZ+RUOMTp+bEFzAM1yYvWBQ9ZpcgzVK5vPif1Xrd
+	28kjh/6N3lKUYVD6Wvm1kmY=
+X-Google-Smtp-Source: AA6agR5NNfrBx28gbSVz4qBrw+/bk+yn/3NF2cn0Mr9edszWVwOHKrMlkg9lWPz9KHzMYhCJ3q/AQA==
+X-Received: by 2002:a05:651c:1a1f:b0:261:cb1a:3dd6 with SMTP id by31-20020a05651c1a1f00b00261cb1a3dd6mr10323679ljb.457.1662022034379;
+        Thu, 01 Sep 2022 01:47:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:1705:b0:225:58db:7886 with SMTP id
- n5-20020a056000170500b0022558db7886ls1932360wrc.1.-pod-prod-gmail; Thu, 01
- Sep 2022 01:43:39 -0700 (PDT)
-X-Received: by 2002:a5d:64e1:0:b0:226:db58:868b with SMTP id g1-20020a5d64e1000000b00226db58868bmr10672620wri.79.1662021819637;
-        Thu, 01 Sep 2022 01:43:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662021819; cv=none;
+Received: by 2002:a2e:a912:0:b0:25d:4f02:5abf with SMTP id j18-20020a2ea912000000b0025d4f025abfls204288ljq.2.-pod-prod-gmail;
+ Thu, 01 Sep 2022 01:47:13 -0700 (PDT)
+X-Received: by 2002:a2e:a174:0:b0:267:fad4:7f9c with SMTP id u20-20020a2ea174000000b00267fad47f9cmr2900880ljl.247.1662022033053;
+        Thu, 01 Sep 2022 01:47:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662022033; cv=none;
         d=google.com; s=arc-20160816;
-        b=F6Dq2NR7e8gkuIkpBDiS3i5kBR/HcECZrDP7n0a7YWg1lz6UuNHmSkLCUDo96e4xp5
-         bEAz3TcSMSPGfS3qzP0Snhx2SQJSbPsfgQpG0s15yubZSJvwb9frhnjxqVzagTSg30Gt
-         J0t4xaZDMgsCzqJcb8rV7A+51I3v0FMzLn2eoUZNMlIQ4Jn0EqppZKwellSc3p2EYKb+
-         qWUb9WkxDu3UE1bvHUFGkIo2vE0zZF2i8sYMi4IHF7P5mJpNcCYMIgFe+QGXXMistdLJ
-         6M5NO3mRWCB3OIGCjFs+Wmr2Gsqxl/JPDbrld0RGMSYaYMl8BUUaa5uUIrSZ21/3bw2L
-         MQng==
+        b=qFLBFs2NGOUXPc768SIYM3MRDv3IwVK5bwM7O0z3OeVlzWlQJtg6KWcGNbx8rCi5MB
+         Z2blva56yNWLJxXNRu0mqxcG6jeDCnJgonHlE6qwE3jM8fKBZO1PZ2gga9Jt7BQqROl/
+         4IQzrZlUkuDl6bUCGxuW/dz2Qv4S5CTRLv4eH+486uagIacU1F2mm5edoEQ6WD9zPbQe
+         KHfbJfI47RGVo/f69d1fzpqUJ4OVHFduadqTzM2i7sFeYbJUOjShh5ZbMJC74/ZMFyum
+         n5dwLjimW1WBdjIlNCycVWq8f4n20wZq/tNp2h0sgnnxx1GZiH1q4KvBo0KqkJvgKFhz
+         Qnjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=VH72CkJdWHRYjuIFqG3YYZtTrJw2Fhi5jnFxkucPCHY=;
-        b=opY7A0Oor/kwGr/nzHtNdIMi5jofQHKc36THocWUnNCv+8ob7yhVrlbZ4xIUWNKATG
-         kvsGaRtkIu1j09V8eqpphdaDQyNIBr/jtVyhp/EHBqxVfgPBbdPIlMKkLtmdkiH2jrQQ
-         4XMBY/Wh4yQ4srbpcEVPbTdAFS3SBJ78n/oqq5xfcAPI36ldBSwgOh1bAdRs+7DTX/7f
-         CI5tX0PpXq8X9/Caaxg0lDAWcoyx8wJ4jFGMNrO4iC8y3KwZkvXVbpgc8CacUNltzs4t
-         rUscUq9PeBR0UfmTGlMC9OXC3tYyI5d15sFKEFhN3CrxmN2Ft0utVI4M563/itH4ihSq
-         ctNw==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature;
+        bh=LGTcfsJkK1Xbb+ogV33V9MNZA3cpuGvzquse6jYX4Jo=;
+        b=0nbFGX8mRK5ugR6stNwbjI+Rtz3Mgfy+Zd4k4QgrvOWgDunl0lw1S/0gySNn0fzx5r
+         f+Bnd7H1uj0WfoQ0psTljrDp5jgiVTfwMG+uLUcu/9G66sgPwwMbLfRAZpPu1L6Dg4Fe
+         DW87ogtvy63+XBqw6W0qfls3DwZJ/iuiVH89Itoe0uKJGQoZNOI7gdr0h9BmRaJR+tDs
+         HnaMCpYzOnzuk3j72pioWz7bdasuG7v5ccRvPFiu/+zC6ddL7EXLAjVIMylIRhRVk9hu
+         X5sx3vAcwwKPsJTDjr/VGRQyqYpozGwfmqUgZIkxgpyyI505IOCBXJErrT7zt+FeV7wI
+         wUIg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=q7AjWjhm;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com. [2a00:1450:4864:20::22a])
-        by gmr-mx.google.com with ESMTPS id k126-20020a1ca184000000b003a5a534292csi429915wme.3.2022.09.01.01.43.39
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=umIEJIdq;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=nuyJH10v;
+       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2001:67c:2178:6::1c])
+        by gmr-mx.google.com with ESMTPS id p15-20020a2ea4cf000000b002652a5a5536si413088ljm.2.2022.09.01.01.47.12
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 01:43:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a as permitted sender) client-ip=2a00:1450:4864:20::22a;
-Received: by mail-lj1-x22a.google.com with SMTP id bn9so17124342ljb.6
-        for <kasan-dev@googlegroups.com>; Thu, 01 Sep 2022 01:43:39 -0700 (PDT)
-X-Received: by 2002:a2e:be88:0:b0:25f:e9a8:44b8 with SMTP id
- a8-20020a2ebe88000000b0025fe9a844b8mr8851946ljr.92.1662021818766; Thu, 01 Sep
- 2022 01:43:38 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Sep 2022 01:47:12 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as permitted sender) client-ip=2001:67c:2178:6::1c;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 54261223F6;
+	Thu,  1 Sep 2022 08:47:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3011D13A79;
+	Thu,  1 Sep 2022 08:47:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id QmOpCpBxEGP+OwAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Thu, 01 Sep 2022 08:47:12 +0000
+Message-ID: <111e54ab-67d7-2932-150d-3bfd46827b30@suse.cz>
+Date: Thu, 1 Sep 2022 10:47:11 +0200
 MIME-Version: 1.0
-References: <20220830214919.53220-1-surenb@google.com> <20220830214919.53220-23-surenb@google.com>
- <CACT4Y+ZX3U1=cAPXPhoOy6xrngSCfSmyFagXK-9fWtWWODfsew@mail.gmail.com> <20220831173010.wc5j3ycmfjx6ezfu@moria.home.lan>
-In-Reply-To: <20220831173010.wc5j3ycmfjx6ezfu@moria.home.lan>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 1 Sep 2022 10:43:26 +0200
-Message-ID: <CACT4Y+bMeqvWQwqzG3nfcf0-VOjU7usxht5mKgUwMcOpWKRjxQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 22/30] Code tagging based fault injection
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	ldufour@linux.ibm.com, peterx@redhat.com, david@redhat.com, axboe@kernel.dk, 
-	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, 
-	changbin.du@intel.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, shakeelb@google.com, songmuchun@bytedance.com, 
-	arnd@arndb.de, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
-	kaleshsingh@google.com, kernel-team@android.com, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, kasan-dev@googlegroups.com, io-uring@vger.kernel.org, 
-	linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH -next] mm: kence: add __kmem_cache_free to function skip
+ list
+To: Feng Tang <feng.tang@intel.com>
+Cc: Marco Elver <elver@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>
+References: <20220831073051.3032-1-feng.tang@intel.com>
+ <Yw9qeSyrdhnLOA8s@hyeyoo>
+ <CANpmjNMFOmtu3B5NCgrbrbkXk=FVfxSKGOEQvBhELSXRSv_1uQ@mail.gmail.com>
+ <7edc9d38-da50-21c8-ea79-f003f386c29b@suse.cz> <YxAKXt+a/pqtUmDz@feng-clx>
+Content-Language: en-US
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <YxAKXt+a/pqtUmDz@feng-clx>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=q7AjWjhm;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22a
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+ header.i=@suse.cz header.s=susede2_rsa header.b=umIEJIdq;       dkim=neutral
+ (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=nuyJH10v;
+       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does
+ not designate 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,98 +153,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
- On Wed, 31 Aug 2022 at 19:30, Kent Overstreet
-<kent.overstreet@linux.dev> wrote:
-> > > From: Kent Overstreet <kent.overstreet@linux.dev>
-> > >
-> > > This adds a new fault injection capability, based on code tagging.
-> > >
-> > > To use, simply insert somewhere in your code
-> > >
-> > >   dynamic_fault("fault_class_name")
-> > >
-> > > and check whether it returns true - if so, inject the error.
-> > > For example
-> > >
-> > >   if (dynamic_fault("init"))
-> > >       return -EINVAL;
-> >
-> > Hi Suren,
-> >
-> > If this is going to be used by mainline kernel, it would be good to
-> > integrate this with fail_nth systematic fault injection:
-> > https://elixir.bootlin.com/linux/latest/source/lib/fault-inject.c#L109
-> >
-> > Otherwise these dynamic sites won't be tested by testing systems doing
-> > systematic fault injection testing.
->
-> That's a discussion we need to have, yeah. We don't want two distinct fault
-> injection frameworks, we'll have to have a discussion as to whether this is (or
-> can be) better enough to make a switch worthwhile, and whether a compatibility
-> interface is needed - or maybe there's enough distinct interesting bits in both
-> to make merging plausible?
->
-> The debugfs interface for this fault injection code is necessarily different
-> from our existing fault injection - this gives you a fault injection point _per
-> callsite_, which is huge - e.g. for filesystem testing what I need is to be able
-> to enable fault injection points within a given module. I can do that easily
-> with this, not with our current fault injection.
->
-> I think the per-callsite fault injection points would also be pretty valuable
-> for CONFIG_FAULT_INJECTION_USERCOPY, too.
->
-> OTOH, existing kernel fault injection can filter based on task - this fault
-> injection framework doesn't have that. Easy enough to add, though. Similar for
-> the interval/probability/ratelimit stuff.
->
-> fail_function is the odd one out, I'm not sure how that would fit into this
-> model. Everything else I've seen I think fits into this model.
->
-> Also, it sounds like you're more familiar with our existing fault injection than
-> I am, so if I've misunderstood anything about what it can do please do correct
-> me.
+On 9/1/22 03:26, Feng Tang wrote:
+> On Thu, Sep 01, 2022 at 12:16:17AM +0800, Vlastimil Babka wrote:
+>> On 8/31/22 16:21, Marco Elver wrote:
+>> > On Wed, 31 Aug 2022 at 16:04, Hyeonggon Yoo <42.hyeyoo@gmail.com> wrote:
+>> > 
+>> >> Maybe you can include those functions too?
+>> >>
+>> >> - __kmem_cache_alloc_node
+>> >> - kmalloc_[node_]trace, kmalloc_large[_node]
+>> > 
+>> > This is only required if they are allocator "root" functions when
+>> > entering allocator code (or may be tail called by a allocator "root"
+>> > function). Because get_stack_skipnr() looks for one of the listed
+>> > function prefixes in the whole stack trace.
+>> > 
+>> > The reason __kmem_cache_free() is now required is because it is tail
+>> > called by kfree() which disappears from the stack trace if the
+>> > compiler does tail-call-optimization.
+>> 
+>> I checked and I have this jmp tail call, yet all test pass here.
+>> But I assume the right commit to amend is
+>> 05a1c2e50809 ("mm/sl[au]b: generalize kmalloc subsystem")
+>> 
+>> Could you Feng maybe verify that that commit is the first that fails the
+>> tests, and parent commit of that is OK? Thanks.
+> 
+> Yes, 05a1c2e50809 is the first commit that I saw the 4 kfence failed
+> kunit cases.
 
-What you are saying makes sense. But I can't say if we want to do a
-global switch or not. I don't know how many existing users there are
-(by users I mean automated testing b/c humans can switch for one-off
-manual testing).
+Thanks, squashed your patch there and pushed new for-next.
 
-However, fail_nth that I mentioned is orthogonal to this. It's a
-different mechanism to select the fault site that needs to be failed
-(similar to what you mentioned as "interval/probability/ratelimit
-stuff"). fail_nth allows to fail the specified n-th call site in the
-specified task. And that's the only mechanism we use in
-syzkaller/syzbot.
-And I think it can be supported relatively easily (copy a few lines to
-the "does this site needs to fail" check).
-
-I don't know how exactly you want to use this new mechanism, but I
-found fail_nth much better than any of the existing selection
-mechanisms, including what this will add for specific site failing.
-
-fail_nth allows to fail every site in a given test/syscall one-by-one
-systematically. E.g. we can even have strace-like utility that repeats
-the given test failing all sites in to systematically:
-$ fail_all ./a_unit_test
-This can be integrated into any CI system, e.g. running all LTP tests with this.
-
-For file:line-based selection, first, we need to get these file:line
-from somewhere; second, lines are changing over time so can't be
-hardcoded in tests; third, it still needs to be per-task, since
-unrelated processes can execute the same code.
-
-One downside of fail_nth, though, is that it does not cover background
-threads/async work. But we found that there are so many untested
-synchronous error paths, that moving to background threads is not
-necessary at this point.
-
-
-
-> Interestingly: I just discovered from reading the code that
-> CONFIG_FAULT_INJECTION_STACKTRACE_FILTER is a thing (hadn't before because it
-> depends on !X86_64 - what?). That's cool, though.
+> Thanks,
+> Feng
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BbMeqvWQwqzG3nfcf0-VOjU7usxht5mKgUwMcOpWKRjxQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/111e54ab-67d7-2932-150d-3bfd46827b30%40suse.cz.
