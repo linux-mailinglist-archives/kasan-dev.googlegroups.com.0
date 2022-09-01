@@ -1,146 +1,143 @@
-Return-Path: <kasan-dev+bncBAABBXHQYSMAMGQEKUQFN7Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY3NC743AGBBI74YSMAMGQEDZOP6ZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DB85AA35B
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 Sep 2022 00:55:30 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id m1-20020a2eb6c1000000b00261e5aa37fesf239648ljo.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 15:55:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662072924; cv=pass;
+Received: from mail-ua1-x93b.google.com (mail-ua1-x93b.google.com [IPv6:2607:f8b0:4864:20::93b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A52C5AA3A2
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 Sep 2022 01:20:04 +0200 (CEST)
+Received: by mail-ua1-x93b.google.com with SMTP id k12-20020ab0538c000000b0039f64f6d1e2sf293762uaa.15
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 16:20:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662074403; cv=pass;
         d=google.com; s=arc-20160816;
-        b=l0FXQhjBsiNaTOrspaN7Fxr9sJKx5nTDNaXNJfAx0YO8GVk20evtW+qDjidDStOIZb
-         svYB3ESpCuNjtQfmpFDIk00PoefSU9GRrkuFu8S+X6bMsQplRehImm9an6hPcalAWFtH
-         m+7YS4izY8OjeSuw/Ui6YiMuFF0zL3d5RldYuWe3nnkqERpyewdgt449AnOVrt/J6+mq
-         8DvxxOJF+ZnUKBMQbROhh3+ZTK4v6G2hCtRtM9wLTao8Vfw0YBcxtPKKeGidWyqsWKeD
-         G1cHKveXxzgxWBsYuF3VirhQQosqA6R7yD9hmD3hGDIXkEZF0kw0e5yl1dhiJPX3W+6a
-         7CDg==
+        b=GX8DGWitDhRP10QXp6r0XMV5kX6AarkMwKjnTdQ5fLkjJxvwWJ6fVQU0HcbJgryyQO
+         jgnYhrGzXhy7LjYvp3bVvM+3B3H4KzEqaY2fU/CsdoLCZtl5SsfpcFbJ7/zCZaj6RAy2
+         XIb3dcVwZHJAyk6EsUVopYbEY0TMuam/B36lYvubqsOcU6ZwFv0/sSUX9QxFD/PS3tGx
+         MlLotbl/8xQr/6VfgI72NjvgWu5BQxij+anglssf9+JjO2m18L5JDdyvc3JgQB9gnPPi
+         xLrPJtsGse4YEAzsyYGK9WCVoo8lxCGsdse9RiMFBYPQXC07vtxZuyCt8IPXYh1D18N8
+         7vvg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :in-reply-to:date:cc:to:from:subject:message-id:sender
          :dkim-signature;
-        bh=/r5kTQikxu3/Cth/RpxfJbppObB3uOXwo8Z2l+Onx6I=;
-        b=ZIevuJEZml0GGyfSBzjCaOVPvLfqfEjVscfpYkPaviFtRL2CJDdlBT4/x9AnD/Fh5z
-         4y+t1DPcGg9QfqTP5C1C+tnIQdjMu1GWAtZfE3VkEq4f5bOQkSFGEyDEdB6R20NO5fo1
-         kIrnitCvNKZz1P2YoicO+SylDy3NFQF79AbZG9KLPN0yBjJdEdHEv/d1KgvuMighRkTy
-         qAu+rqHdHMDyXiqUlJBwxjeixqzE2wSToSJwLPK0kd0IO8B38SHcRw+YZdtsrMt0Za9f
-         fdPOlHbgoPF14lK1d01N/wr2YlTO7E5AwjYBcU67cldg+ivStzncEgySU3G/xuwraCeh
-         x/VA==
+        bh=waR97WBzr6HOZzaFfGpxWin+yR9HXn1J8aq8y9IxZfQ=;
+        b=BOKZZt0veoQh0mYlmVghdH4O1vbAZVBKg2oiXOqSMSvWG1AZctJ1OWvcScHi2kOH7E
+         1tp/t5rIEuvxTm0JyidKgr70CYB8J8gdQHk44SEQ+p4ZP7NNd3EqrBuv+E3i4AJcJl2H
+         WXd8qgjhm690j7CJg/sGUYUzVYzQ30xpTEpYJo0WE/MQzfIF8ObprRgH9KvXXq/FnslO
+         UgIBWF85jZk/JCeX+3HibIuiblFWpaAFZCxLP22bW0utxOoKi9hnOPubh0W/P/u1oCQz
+         zH2kej+N2tf2RPQKS7RbnDYYnyLt0HlZhDmTo3sxISyb04qbm90xcfC+YqTbV/q5jlzq
+         LDiw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=Fj1UwT1L;
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       spf=neutral (google.com: 216.40.44.16 is neither permitted nor denied by best guess record for domain of joe@perches.com) smtp.mailfrom=joe@perches.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date;
-        bh=/r5kTQikxu3/Cth/RpxfJbppObB3uOXwo8Z2l+Onx6I=;
-        b=rL4rR3p7890E26npue9ngN/x2kxrxqODRpzTCRXn8eW0AFVhM4ihAQG9ewLQMntvFI
-         IBDWe4fS5ZCFnnpZTT3d7E3v5oMBYz95I63NssQhgJVyPDU1n4a66DiGIHaIL1SX7uhZ
-         ugtnyecX7bNwc4SLh5JUBTqXX6kmKrb39gVHpthye5X722P4/oHW21H5gnkwHNswq9jC
-         TOEuTBqZPUKrnRsvQPfoexsnzMA/r16XNHczug05ekyHqKbWuT+ZVltICHfca3/RHxPM
-         U/l61IHt1kYs6elw/VqtfVXvUCTi8olP1XrsmOf5QOTPlm0QMq1jrTsBe+WKwRF8VgCf
-         yRXw==
+         :x-original-sender:mime-version:user-agent:references:in-reply-to
+         :date:cc:to:from:subject:message-id:sender:from:to:cc:subject:date;
+        bh=waR97WBzr6HOZzaFfGpxWin+yR9HXn1J8aq8y9IxZfQ=;
+        b=tI9RB6rNHwZN4tHvc6pGY03XITU91Cko/cbntBG33zVokcMZRakfAy5vTbNEH2tog6
+         ArdxIv0ZWcAH4uKnDFO6lOhBEP3g6GCivLdnQDFlvwn0kdNLQj6t9tLxuNUvJltz+TPO
+         sYqbR+/rmrsFrsQV9v9A2AUrZSeJAwfGhXlDlT/wUIRCbN0ICzB0XFgJvXn3QWjkzn+M
+         FMyLFR3WA4UaTKELklQxEvt7VI+dzi2WcDQ5SEQtx2SWTRtx6eTO631qHGhJKhjQsfx+
+         bRyKbuyl/pWU3jKnT1gDqBjD0epZvdg1z+gENm5UvAnXTLBQOm3a+uR9p0FBYMLpU86R
+         xm3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=/r5kTQikxu3/Cth/RpxfJbppObB3uOXwo8Z2l+Onx6I=;
-        b=O4J8CB4hF7NPiUKbXkkhrleItOIUiND1125Bdzz3M251fiX1YZ1CCWcM341dpmAfGv
-         WgzlSuAABcTYMBcE/F51eHblLHg9MJsqyGJgM7y5g4aEQVjiU8GgjP50sZKX1ea46w+4
-         jXh1Qi4YbzkNQacggSsFfMSlMvADdEn14+gA4+9jmGf2BWtZ8wpZXqe/E072X3QnUee2
-         WmoaUUgE4VcXucR4Ib361fmv93rNiukk1gKB7TyhxFNL5TggcuktYTYjHV55z0hvrrMV
-         GMOQqDu2QWHc2OsEaLj7Vqi3Dgt2/4xWSNPllYJjQpPUYOYGbpVRathtBHR2eDT7rYTy
-         oLqQ==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :user-agent:references:in-reply-to:date:cc:to:from:subject
+         :message-id:x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=waR97WBzr6HOZzaFfGpxWin+yR9HXn1J8aq8y9IxZfQ=;
+        b=Qn2zGggYlbMwZKkMm1QbijM60m0R+RyRBSx7wdYWeozhOBmI8+AYX5lgL4FNdMhoNI
+         QbDnrcZJ+B1DaeNvJwsF+FVpycL9YYPGYe1+G97R5YVIK8+98vb/eFUzRoN372shSuso
+         y3CHVjkNW5dkoYu3b9G25VZ0Q3IdSHkHj/06HLBBhJ8Q0rcP5G4uo5RjQ+d/tmrKBvqT
+         ShU4/RWrn3hi1ZauE9RVZyRUHNaGSAPPV8paDL4DNLlHmlGx4SXmeEGkK58ndc1HQHEM
+         rvr/ZEm3YgSqIxKPYLrMlaL49E7Xda4gCtASGBr6IG0+HzlaEbf1RO3ZNXnOby+7BiuA
+         YMZA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo3X+WEVQhUXZGg9RopOFBDyZ8noygOvG7zKr8tNEn1CLtDZWU69
-	bChDv/PUnYZxyTPdIyYZFpY=
-X-Google-Smtp-Source: AA6agR5kilyRZX+1NLZQ5JX4g2v33mtd1wlV9t9FiQ7xCW05IOKVeYiwnX222440maqnSkYWDR5uXA==
-X-Received: by 2002:a2e:b601:0:b0:268:49b4:b780 with SMTP id r1-20020a2eb601000000b0026849b4b780mr3382223ljn.506.1662072924555;
-        Thu, 01 Sep 2022 15:55:24 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2lEbcz+u2xQMlbFVjRkEM02q4SB1vW5msdQabn9boMlk7qcyVr
+	7c1AAeRBOzRRCn/FcZgfYtw=
+X-Google-Smtp-Source: AA6agR62v97ZEVxKTXb+piquRY2equkqFgUrRg5WiLWpfIFIz8w7dWSYfGOaH1PhfqFHZA3n0L0a9Q==
+X-Received: by 2002:a67:b249:0:b0:390:7faa:e7f1 with SMTP id s9-20020a67b249000000b003907faae7f1mr10486627vsh.83.1662074403298;
+        Thu, 01 Sep 2022 16:20:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3fa:b0:494:799f:170 with SMTP id
- n26-20020a05651203fa00b00494799f0170ls238064lfq.0.-pod-prod-gmail; Thu, 01
- Sep 2022 15:55:23 -0700 (PDT)
-X-Received: by 2002:a05:6512:3f0e:b0:48a:5edd:99b2 with SMTP id y14-20020a0565123f0e00b0048a5edd99b2mr10743819lfa.124.1662072923660;
-        Thu, 01 Sep 2022 15:55:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662072923; cv=none;
+Received: by 2002:a05:6130:6ca:b0:392:a2c0:f88c with SMTP id
+ bl10-20020a05613006ca00b00392a2c0f88cls209257uab.5.-pod-prod-gmail; Thu, 01
+ Sep 2022 16:20:02 -0700 (PDT)
+X-Received: by 2002:ab0:7382:0:b0:3a2:5ce:768f with SMTP id l2-20020ab07382000000b003a205ce768fmr5400429uap.84.1662074402658;
+        Thu, 01 Sep 2022 16:20:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662074402; cv=none;
         d=google.com; s=arc-20160816;
-        b=Dw0fH6EwLvT/jG5Zuv3YOtjrJshVm8RqxYr3hiXHbOfH7KY019xMZ0LxZfszFXQhV0
-         VYpWCz3i9SjkBWc79hOsDK43jP29YkfyMXA5tvP1EbudzeJWkv013IlUywXi3bx3OMBY
-         RJRK1IBEc6riopa87dvnPnvUIQBuR5hLTtdRpKG7Fq4TAEP+semflEO3Y6Pu6YuXMOXE
-         hjL6ns8yvTWnEbC9/T+4AAG/Q3QIzVq0YI3TNZTYaYlb4O4460Z5j7tE21XLzVv1byGG
-         0M1FumMdxCFLuDggvVB4IqyioJDIpKOjI6hFfidUPQGcfd73zSQx9giBCsLWSfVoFbjn
-         HjSA==
+        b=IFk6H6fpKTtJjlMMcaca0yDwaAfOytuwrfTSJ2unzQZiYMUdScrwB7URrKDpyt2dXV
+         saGZb4xYH7AoDg2llpuxD//204Vju1dUPP4WDIpXnxWR+4Kq+DMX5PpXI2dQQT7rkOZG
+         lDo3pwdoxmkbx2Tsd2m955uX6U4NkT3dyJeZQgrPR7CRd1P7e+wj1oZPCJ/k/4Mr+Z65
+         MBmVbWXWMm++NFw+hjc61QsH8zXohuwWIQqj8omcfmaeicFULiGLASAKerl7SW3p65z7
+         fte/gWbpBBKWHUZ21GzO42cgJaPpGN0yZj5UWSYjt7zLIEKDvyxeaozQ2ltv1TdWUkhM
+         eOcw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:date;
-        bh=bm+owKdXaA8Za4y2gNPpxqBECptJMMdY3T6zMUdS1uA=;
-        b=vXaXuw5R56xLMR1BscKE3l3QVg0s69GEhhP6ZZYotQTO71J7FjLicGffr0AhkDnhv/
-         T3N1VsdOehn1bKgy8dmrpcD9zkM2916YQhNolbk+zPT9aU/wa4jA0/ov4Cb2mL5bqJpH
-         J0KwCKHWdJbgPWM3NB0zrZ6iZksd5Zah7RHJ/C6RuAjfLwmani5YVUI2BGPqOIEnsdbC
-         RInQheZ+mRdnQHONiXrCtgUh2oGoj3fnBYXQhhUuoWK7Uy2N7GszFVOm8xT52vEzuhL9
-         iI0Zy8piPamPDT8yU407kLDjE/b2WIM5cA5zEHAuGcJVDOjPr0XWiY2LKQESKW8kbMjj
-         hRNw==
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id;
+        bh=KHhjVPvWWy6GCJ08QhtRbuOecr40l67u4XmpG3GXwT4=;
+        b=MlOeQaXMDaiED6nZs43chkKR1O8sHFU9Xf0Jbucoh7lv4nrMuTGPEasZInLdapRODL
+         YF1ypzNj+L9wwzhXrK34W7zXDhoasVDa0fsNGsXCBPcJX5VAV+wH4PXm2um01jSXWVEe
+         bj7vk+SfwBKoZkykPcZfBv91N8OAc++pQWDjNUMD02OslqveTZRkhk7fkBLynTq7GlHk
+         Onst4KDo5UQbX8cTkanUGXMLe8gAtm66biixPRdPTmYcUJN0s0hlC7gjUpe0PAbx4q68
+         s0A5+WBUGDC6+lizDYnkvUegYM9yki15A8lCRJdsmxGbDyuCNzxBrmIAqVAHKfhYCzvl
+         IQsg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=Fj1UwT1L;
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out0.migadu.com (out0.migadu.com. [94.23.1.103])
-        by gmr-mx.google.com with ESMTPS id s7-20020a2eb8c7000000b00268889719fdsi16209ljp.4.2022.09.01.15.55.23
+       spf=neutral (google.com: 216.40.44.16 is neither permitted nor denied by best guess record for domain of joe@perches.com) smtp.mailfrom=joe@perches.com
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com. [216.40.44.16])
+        by gmr-mx.google.com with ESMTPS id q199-20020a1f2ad0000000b0037d0dfd4d08si18370vkq.0.2022.09.01.16.20.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 15:55:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as permitted sender) client-ip=94.23.1.103;
-Date: Thu, 1 Sep 2022 18:55:15 -0400
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
-	willy@infradead.org, liam.howlett@oracle.com, void@manifault.com,
-	peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
-	peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
-	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
-	changbin.du@intel.com, ytcoode@gmail.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com,
-	cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com,
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com,
-	dvyukov@google.com, shakeelb@google.com, songmuchun@bytedance.com,
-	arnd@arndb.de, jbaron@akamai.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
-	linux-mm@kvack.org, iommu@lists.linux.dev,
-	kasan-dev@googlegroups.com, io-uring@vger.kernel.org,
-	linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org,
-	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 27/30] Code tagging based latency tracking
-Message-ID: <20220901225515.ogg7pyljmfzezamr@moria.home.lan>
+        Thu, 01 Sep 2022 16:20:02 -0700 (PDT)
+Received-SPF: neutral (google.com: 216.40.44.16 is neither permitted nor denied by best guess record for domain of joe@perches.com) client-ip=216.40.44.16;
+Received: from omf02.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 1E25A1C6992;
+	Thu,  1 Sep 2022 23:19:58 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf02.hostedemail.com (Postfix) with ESMTPA id A9ECF8000E;
+	Thu,  1 Sep 2022 23:19:36 +0000 (UTC)
+Message-ID: <c3a6e2d86724efd3ac4b94ca1975e23ddb26cc6f.camel@perches.com>
+Subject: Re: [RFC PATCH 28/30] Improved symbolic error names
+From: Joe Perches <joe@perches.com>
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
+ hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+ dave@stgolabs.net,  willy@infradead.org, liam.howlett@oracle.com,
+ void@manifault.com,  peterz@infradead.org, juri.lelli@redhat.com,
+ ldufour@linux.ibm.com,  peterx@redhat.com, david@redhat.com,
+ axboe@kernel.dk, mcgrof@kernel.org,  masahiroy@kernel.org,
+ nathan@kernel.org, changbin.du@intel.com, ytcoode@gmail.com, 
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+ bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+ penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+ glider@google.com,  elver@google.com, dvyukov@google.com,
+ shakeelb@google.com,  songmuchun@bytedance.com, arnd@arndb.de,
+ jbaron@akamai.com, rientjes@google.com,  minchan@google.com,
+ kaleshsingh@google.com, kernel-team@android.com,  linux-mm@kvack.org,
+ iommu@lists.linux.dev, kasan-dev@googlegroups.com, 
+ io-uring@vger.kernel.org, linux-arch@vger.kernel.org, 
+ xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org, 
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 01 Sep 2022 16:19:35 -0700
+In-Reply-To: <20220830214919.53220-29-surenb@google.com>
 References: <20220830214919.53220-1-surenb@google.com>
- <20220830214919.53220-28-surenb@google.com>
- <20220901173844.36e1683c@gandalf.local.home>
- <20220901215438.gy3bgqa4ghhm6ztm@moria.home.lan>
- <20220901183430.120311ce@gandalf.local.home>
-MIME-Version: 1.0
+	 <20220830214919.53220-29-surenb@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20220901183430.120311ce@gandalf.local.home>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Original-Sender: kent.overstreet@linux.dev
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=Fj1UwT1L;       spf=pass
- (google.com: domain of kent.overstreet@linux.dev designates 94.23.1.103 as
- permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36)
+MIME-Version: 1.0
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: A9ECF8000E
+X-Spam-Status: No, score=0.64
+X-Stat-Signature: iwqjhu65bfnp7s38he58qcgfcrx3mruu
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18FfjZ7BuRv/DHsUMYX6e6vN/rFvSwIdRQ=
+X-HE-Tag: 1662074376-819350
+X-Original-Sender: joe@perches.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 216.40.44.16 is neither permitted nor denied by best guess
+ record for domain of joe@perches.com) smtp.mailfrom=joe@perches.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,84 +150,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Sep 01, 2022 at 06:34:30PM -0400, Steven Rostedt wrote:
-> On Thu, 1 Sep 2022 17:54:38 -0400
-> Kent Overstreet <kent.overstreet@linux.dev> wrote:
-> > 
-> > So this looks like it's gotten better since I last looked, but it's still not
-> > there yet.
-> > 
-> > Part of the problem is that the tracepoints themselves are in the wrong place:
-> > your end event is when a task is woken up, but that means spurious wakeups will
+On Tue, 2022-08-30 at 14:49 -0700, Suren Baghdasaryan wrote:
+> From: Kent Overstreet <kent.overstreet@linux.dev>
 > 
-> The end event is when a task is scheduled onto the CPU. The start event is
-> the first time it is woken up.
-
-Yeah, that's not what I want. You're just tracing latency due to having more
-processes runnable than CPUs.
-
-I don't care about that for debugging, though! I specifically want latency at
-the wait_event() level, and related - every time a process blocked _on some
-condition_, until that condition became true. Not until some random, potentially
-spurious wakeup.
-
-
-> Not the prettiest thing to read. But hey, we got the full stack of where
-> these latencies happened!
-
-Most of the time I _don't_ want full stacktraces, though!
-
-That means I have a ton more output to sort through, and the data is far more
-expensive to collect.
-
-I don't know why it's what people go to first - see the page_owner stuff - but
-that doesn't get used much either because the output is _really hard to sort
-through_.
-
-Most of the time, just a single file and line number is all you want - and
-tracing has always made it hard to get at that.
-
-
-> Yes, it adds some overhead when the events are triggered due to the
-> stacktrace code, but it's extremely useful information.
+> This patch adds per-error-site error codes, with error strings that
+> include their file and line number.
 > 
-> > 
-> > So, it looks like tracing has made some progress over the past 10 years,
-> > but for debugging latency issues it's still not there yet in general. I
+> To use, change code that returns an error, e.g.
+>     return -ENOMEM;
+> to
+>     return -ERR(ENOMEM);
 > 
-> I call BS on that statement. Just because you do not know what has been
-> added to the kernel in the last 10 years (like you had no idea about
-> seq_buf and that was added in 2014) means to me that you are totally
-> clueless on what tracing can and can not do.
-> 
-> It appears to me that you are too focused on inventing your own wheel that
-> does exactly what you want before looking to see how things are today. Just
-> because something didn't fit your needs 10 years ago doesn't mean that it
-> can't fit your needs today.
+> Then, errname() will return a string that includes the file and line
+> number of the ERR() call, for example
+>     printk("Got error %s!\n", errname(err));
+> will result in
+>     Got error ENOMEM at foo.c:1234
 
-...And the ad hominem attacks start.
+Why? Something wrong with just using %pe ?
 
-Steve, I'm not attacking you, and there's room enough in this world for the both
-of us to be doing our thing creating new and useful tools.
+	printk("Got error %pe at %s:%d!\n", ERR_PTR(err), __FILE__, __LINE__);
 
-> I'm already getting complaints from customers/users that are saying there's
-> too many tools in the toolbox already. (Do we use ftrace/perf/bpf?). The
-> idea is to have the tools using mostly the same infrastructure, and not be
-> 100% off on its own, unless there's a clear reason to invent a new wheel
-> that several people are asking for, not just one or two.
+Likely __FILE__ and __LINE__ aren't particularly useful.
 
-I would like to see more focus on usability.
+And using ERR would add rather a lot of bloat as each codetag_error_code
+struct would be unique.
 
-That means, in a best case scenario, always-on data collection that I can just
-look at, and it'll already be in the format most likely to be useful.
-
-Surely you can appreciate the usefulness of that..?
-
-Tracing started out as a tool for efficiently getting lots of data out of the
-kernel, and it's great for that. But I think your focus on the cool thing you
-built may be blinding you a bit to alternative approaches...
++#define ERR(_err)							\
++({									\
++	static struct codetag_error_code				\
++	__used								\
++	__section("error_code_tags")					\
++	__aligned(8) e = {						\
++		.str	= #_err " at " __FILE__ ":" __stringify(__LINE__),\
++		.err	= _err,						\
++	};								\
++									\
++	e.err;								\
++})
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220901225515.ogg7pyljmfzezamr%40moria.home.lan.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c3a6e2d86724efd3ac4b94ca1975e23ddb26cc6f.camel%40perches.com.
