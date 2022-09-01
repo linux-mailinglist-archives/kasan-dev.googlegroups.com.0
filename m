@@ -1,114 +1,123 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBYWYYGMAMGQEFU7LGJY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKMR55PYIGBB5G6YGMAMGQEFHOKIYY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8530B5A9209
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 10:25:07 +0200 (CEST)
-Received: by mail-wm1-x33a.google.com with SMTP id q16-20020a1cf310000000b003a626026ed1sf548194wmq.4
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 01:25:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662020707; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F43D5A9231
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Sep 2022 10:38:13 +0200 (CEST)
+Received: by mail-lj1-x238.google.com with SMTP id v4-20020a2ea444000000b00261e0d5bc25sf5045779ljn.19
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 01:38:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662021492; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Pxll9TJYsDhrgiqQf0svU6rX6p5HXJrWxi77cD87IFFS0yIyAECOaB7RhG5qEDiqF+
-         isa5sWyCxQAZ3YDxkFbYveOJzoeHlEyA5+MxbpGLAvnDVL+F3JNRxxenZeR+lYxUw1VK
-         okMbMQ3RpjfIwpJxTZh59rxmY4otQUtuaYEuH7O9Sg5ZiIxTu1tisDJH/nFC9+6zZc1o
-         ZuPcT//e0ej1EJ7CdPF2omcVFKAmX6H6Xj1KvBpxWuxEDtqnjRQfeF+MIAQpMnYOCLyo
-         pU252lQdDSHgaqt11cImQOvecp/9VE1aiGRcNCrzZPjvpDIUa6eW+vZOopYfAoDBoDlB
-         C67A==
+        b=MZBPL6Dp7ZA/DjLnWacFGcRYHxNiQdV7qmozaBqE48D7SPoSo1VZIY9Rv2nqw4BxaE
+         5MliSpu4suCDpy8/YOLsT1ZKpFD+T9/vkqDvOfvuxdzjEnPlhtgUHcUKnt2xN6vwkcLc
+         bJF/P3NpxIY4vtQ5AZjbST1cH6dmn5XZV6vlz2BvCQgOExT517earHkfm+mCkUIO9DVt
+         c5ch8HAzimVmxhNmlbObXbXa0VS2uHG7cq/4O82xkruGXGrusRyACnjLmeQ2KXymC5TP
+         435hHA6NdaY2O3uZrihFCpElL6HENhbCBENEQYTJ+ABO7W8JNqYWDkKNQ3roW8SA5Xdo
+         UOFA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=jSuDScsp5rhPsyyFigaF/YhduzTIpsuHVfpFUAkTOS4=;
-        b=xZH7eJKobAr3gGjuhGdx0IJ/46fLsYXnbeaTB6FTbFZqgE4+/d+RnlRlv9iXG8vd2j
-         GV6V3vdP4fwBl4tszFu21Dy5Lv0zVPt7UYo7u0uEv8IiExYIQ62JfyGWwGOxFYtl4aBY
-         UKKlVXTVoZ8bRar8Mwd2Ovtv1Kn7o4JfwynFiJDZXZIY53drdeAwJwAiQWJ5hZVnYq0U
-         nJQiM6YqKgeNxRm2zRVKD/DgoPQ4m8kuCIv8GUHQ+0KeJvr02hAdj86hO0ZUfWjk127O
-         +ee/aLjoIYxuE2n3UnFSKeEwMMFgpuVxvmcZP9LJ5LkJxmyabJCo+U4GPRk60f3ALhx4
-         I2/A==
+        bh=QjdzVN/e61Mqr9pHIO7hz1y+HM820fOzfC6nJfgKc+w=;
+        b=G6oDJ+2hsNmc54RLU2pIbgjxgMFN1Mbik5Tk+bqvuAgjnniglOuajDb81jBLWSO4XI
+         2oAatbffHmOJxhGV7zPdKcZTA1fl50Ur9kKf8SvPzfhc7V8KnvDTGTHNSjE2rmJxbuyA
+         eWTOJ1+8cb2w9asw9IELZ/534tVlqaDbon7HFh2Sg3FBnn1ofU2qn69xCIaD+aVHts0b
+         WjG2JDE4hnAredfTtr3RyFkvSKyKVX0VzITfOkn0WNLT/RdszwpQ67vxBW75JzY3ON9E
+         ts9sq2lFoRf6Jm2APM6m6xHKSGmGhez1UnQYCFjcu/uM2YcqaZ5+JSQ2hpUudCjXZrOS
+         X0GQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=cotNXp9I;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=tZeFnsBg;
+       spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=jSuDScsp5rhPsyyFigaF/YhduzTIpsuHVfpFUAkTOS4=;
-        b=aEak/bZFKLnhEZuqnYA3QPwKXVCpGvMOfWtoS9sx2CVgTZwjv9VOLUokVTU8xS45GY
-         Se5RGh7jZnODO9BPLRVGreDK/XK8wr98YDKJ9xHc3+AKKajqq8ERzMlHV3Lysm3fEk0Q
-         hmKrKNp6yHAlwVSpyEjJXjMHuLFC66Vbvb9Xo1NK7NZJ05QxplfkR/l72C0Z0Dhi4Ys+
-         foyEFBR5gDUXyNfg8e2+cEod3HX5XMe7jXpbHhhew3s63+h+py5k74D21Pe/+BLAw8PD
-         mbxFb5eyh9BKPAAPM7wMNeiFWSvJX9/mX0fh5nHrJJBsLud8bf0NqwuFk7YGRSLqFvr0
-         cEFw==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date;
+        bh=QjdzVN/e61Mqr9pHIO7hz1y+HM820fOzfC6nJfgKc+w=;
+        b=czLqPf5GdxJyvxSMObgxHfZE1YJ+XimMAh339iAy70CxrYhZSM8gnVqen8p1FpMDgs
+         SzixiOkqTi1MdbfwzdstXQoJ/G6M8xUi4R+lGjjbpWANVtoduN661PBDR0NfBFTs3CWS
+         pWbSAPMSW2Fip5UZxfDqMw4oJeFhOH9NwC4BVi4Qa04c/eQIjg6eCQyjiByq7F+5UIfm
+         FzUUzq0JUDAQNTTi6tY3jbYV74sarU9E6tGwDR13sO8aaGWDtl3BMxms/UtMvExqX/33
+         FIxsdoHc7NMlHjJXHIroeLS3wiUPY55Rrhb7SoadM1OeujMcIZ3vXC3XyIWOwoYTdPyk
+         kfRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=jSuDScsp5rhPsyyFigaF/YhduzTIpsuHVfpFUAkTOS4=;
-        b=34aDNqS4ubIoBMYlxgjo3jDid6cM4N+wH1PGPZ3qk5OXMnte513fB9qUsoaeift8je
-         O1QYagCCwSyyDnBfchl2nayXqAMDVPgjMqRExRoQfx3pGVxc1isa1UM4TilnIUrisBuF
-         W1v4sXA0x+8WTAFkrDMmBVvNq530btAGxyvvTCP8sh4rnR/GS/2KYGd28lUuJQDs25Vq
-         EVW2sUwQujxyvzUs0/NhmBuJNKXFfvYGs/uo0OrZThBZxP2qVKEsoIJIWGAkIp2iGf53
-         8LGOcczFsnceDDxDHNmmrpyBc5EvlDQvO3xy4eAtI7lxNuDnedHsrESf7UPkQmvgZjfV
-         FvYw==
-X-Gm-Message-State: ACgBeo2c8xShhvKYOv3/lmlvb3DWWOSXC4vIzNSULlTdlIM+ULejAlZe
-	GhkwtcqSoeai/wWmk/0QuKQ=
-X-Google-Smtp-Source: AA6agR5DSiwJxsN+7ltOKQ7vYMQhkd7d65ExniKR6gDGjbPXFI8WTStU44UtyNgS2rv01Jt1GgGlRA==
-X-Received: by 2002:a05:600c:3d09:b0:3a5:e408:ca19 with SMTP id bh9-20020a05600c3d0900b003a5e408ca19mr4475043wmb.135.1662020707172;
-        Thu, 01 Sep 2022 01:25:07 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=QjdzVN/e61Mqr9pHIO7hz1y+HM820fOzfC6nJfgKc+w=;
+        b=EmSAYZDbG9Mw2a4hdK/hNfGfI56xB9rJ6T++v34iJ/NrZcXGpvqHkm0i4BBkHjxLdc
+         rfkwpyIh4GyjEn/eEhWKMjGNV8u9o+/2+EKDseDAgpkGDCEneCF7/abQ6OWxPclRTAvI
+         J5PrKkCmFats/SQXXbUlIiAtEeNWfjAsl4+pzjZJ5NtynPwX9Z1dtnKpN1/uJxbqIoei
+         5x/YQgZQPE1Yz+u84saIcMFSKmabhq8mdNfzO31P//qYrhRm+9/nzErYeJLq9D8OVDk6
+         DM2NBrd+F0LwGu+WzdVgfs+BRveFE3KkWQM2XiZbtlKEk/eBdPC/upL7Hsv1bs3lAHX/
+         PgkQ==
+X-Gm-Message-State: ACgBeo0gdVLVd9nKTD1WJb7j/lQ1ElPCzW1KZGYgGhV3K1e4Fgk8Q7eH
+	AEoeDmOqZAqaEDbccClNkUo=
+X-Google-Smtp-Source: AA6agR7rEeH/LXiPIPBGI4PVEnUk9UShNLGJ1qoxshoIAzFiAFZnWzKr9+G3UE1Y3id5+BDH1mqVIg==
+X-Received: by 2002:a05:6512:2807:b0:494:6cc8:d31e with SMTP id cf7-20020a056512280700b004946cc8d31emr5372004lfb.82.1662021492654;
+        Thu, 01 Sep 2022 01:38:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:5b08:0:b0:225:6559:3374 with SMTP id bx8-20020a5d5b08000000b0022565593374ls1837135wrb.2.-pod-prod-gmail;
- Thu, 01 Sep 2022 01:25:05 -0700 (PDT)
-X-Received: by 2002:a5d:40cd:0:b0:225:7425:fac1 with SMTP id b13-20020a5d40cd000000b002257425fac1mr15013335wrq.30.1662020705854;
-        Thu, 01 Sep 2022 01:25:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662020705; cv=none;
+Received: by 2002:ac2:57c9:0:b0:492:f1b2:ac20 with SMTP id k9-20020ac257c9000000b00492f1b2ac20ls931367lfo.1.-pod-prod-gmail;
+ Thu, 01 Sep 2022 01:38:11 -0700 (PDT)
+X-Received: by 2002:a05:6512:6c8:b0:494:796e:93b6 with SMTP id u8-20020a05651206c800b00494796e93b6mr3795015lff.213.1662021491126;
+        Thu, 01 Sep 2022 01:38:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662021491; cv=none;
         d=google.com; s=arc-20160816;
-        b=tB3v9pxiYN3nCEzFTlqqChuSY/rDIAXokmvBm9PfYxKHBdu2Mm+K3x2n4k+8nlbPUA
-         XvkNVpVumgxVEKR7GL4NV9BIdK6ft73OuuspT23HAcGhb776ecqOiMIPPj3XRmswdoJQ
-         o53N4lGKjBMRE5893QUBPAlEwoa3DvJySfe8q7BfpNUKg9YJhBcmuzoNUWM9rlThucVH
-         DIJCT/pfkX7BmRgqvcySz1v89bsbwtd59VJiBlIOT5ocQHreIY+KSoTUfYm7lbGUoxQX
-         ggyFIseZYxjVSjJ/e4WkwNrA7WfA6Bpse1tUSvFQntvVhCHQC9RtO1VY1b1MvzG5qPIE
-         PAaw==
+        b=aoa6fGLNXf0H7txFyLSnPlzkhfBkNaaRobiUiNYELjCGPgCgbCe+5j7nR930La/R0R
+         gziFwboYM+q8iiX5Sj8sOBW1X+EcxU85YhzWKoq7+8bOeaDyl6ljmGejDG6pMtdOvYDD
+         VMzc2xQt1fHB1SoLC8md1/AXhSvNiAa6ZQMsuNaxauDYYm724qM8yv9ovyyJ8WFcVG88
+         ZjV4GcJdyqoCncKf+i8Cb3zww89lljAg5mFGcz8ntHOeSotYi4iibW7IRpsiHIlDd2oT
+         PYYjOFThuK+4gZoQ/5+7Yw5tRKCKsMsrT0SVLpy/34DAnMCz0MkS/7d+KZloy+aH5t46
+         lQ7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=tcbWBRi6iAnXzpZ7/OAu6BZVPbwwwyPcddKIZpKIvmw=;
-        b=ONKtfMjhY0PWFvz0qC/nB99VNlLmHDHWxsFciDaCb3ETfch6RP8y5EV30nmZhxFJqt
-         eDB1emwNRviRk1EThnfePifRss8ybankUTp8fYKXgQRXzxPrc/07eDGj27ehCNmEw7Rf
-         K+STWjdSHa/UOFLOLboiIXhPDsSdJDSQVp9ecBk5iK7Wr+TtdCZq+O/IgFM6hFJoAC+5
-         YsAGY+vClnImzr2W/zYpEjK5QZgDuLJTGPBOjaOwO0NKLkzArHZaex2kc7QKA5FVv9qP
-         X55raUbnnqaQgupvx5YPTuNTL/j3xLStkskdFeGmOx2gQBd7KKfYvQhuRFGPPhgNFOzz
-         lNpQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=NrHpzMz41QmduVOHpV9GnZB1kYyiHKDCqktpestefcU=;
+        b=gJJdu55yfgiu+SqoOGSJiux7AhYnW39yfnJ8omwZ9cSm7pzsrzELqZ4Pk4rmqpT0Wq
+         ZjXlbnDTpr1bUfOttFjaCkqVPJiFjsNfeiO3M9D7DBNv3sJGtnLOnZzpx313cfZJoi+/
+         Io736ti57vPGJbAZuK7G9lFksm8ZSRbeZ4GbdWz4YDNBUDXoiMCkikt1+3l8GneiftNv
+         kSMqfxShcylyryxr4i/2NjwP0MxjLwbkcF9Z5HSzo/G1sGcAPwPPXf9u9rBM72syrd6M
+         QANBq+d/UoKMDLyBhD0uYaN2m2VB+4BujQGi0xHKxusj6xeD6F+/lcNhoU9GDv3HgF2Q
+         WymQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=cotNXp9I;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com. [2a00:1450:4864:20::42d])
-        by gmr-mx.google.com with ESMTPS id i7-20020a5d4387000000b0021e8b3a5ffesi718853wrq.2.2022.09.01.01.25.05
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=tZeFnsBg;
+       spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
+        by gmr-mx.google.com with ESMTPS id c16-20020ac25f70000000b0049465aa3228si204233lfc.11.2022.09.01.01.38.10
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 01:25:05 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42d as permitted sender) client-ip=2a00:1450:4864:20::42d;
-Received: by mail-wr1-x42d.google.com with SMTP id s7so6385121wro.2
-        for <kasan-dev@googlegroups.com>; Thu, 01 Sep 2022 01:25:05 -0700 (PDT)
-X-Received: by 2002:adf:e110:0:b0:226:2e2c:bfe9 with SMTP id t16-20020adfe110000000b002262e2cbfe9mr13984427wrz.432.1662020705380;
-        Thu, 01 Sep 2022 01:25:05 -0700 (PDT)
-Received: from elver.google.com ([2a00:79e0:9c:201:401c:31df:7ab:1b94])
-        by smtp.gmail.com with ESMTPSA id i17-20020a1c5411000000b003a1980d55c4sm4419310wmb.47.2022.09.01.01.25.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 01:25:04 -0700 (PDT)
-Date: Thu, 1 Sep 2022 10:24:58 +0200
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Oscar Salvador <osalvador@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>,
+        Thu, 01 Sep 2022 01:38:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5E08B1FB58;
+	Thu,  1 Sep 2022 08:38:09 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3C1D713A79;
+	Thu,  1 Sep 2022 08:38:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id KlFtDHFvEGPpNwAAMHmgww
+	(envelope-from <mhocko@suse.com>); Thu, 01 Sep 2022 08:38:09 +0000
+Date: Thu, 1 Sep 2022 10:38:08 +0200
+From: "'Michal Hocko' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>
+Cc: Oscar Salvador <osalvador@suse.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
 	Vlastimil Babka <vbabka@suse.cz>,
 	Eric Dumazet <edumazet@google.com>,
 	Waiman Long <longman@redhat.com>,
@@ -117,22 +126,22 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
 Subject: Re: [PATCH 1/3] lib/stackdepot: Add a refcount field in stack_record
-Message-ID: <YxBsWu36eqUw03Dy@elver.google.com>
+Message-ID: <YxBvcDFSsLqn3i87@dhcp22.suse.cz>
 References: <20220901044249.4624-1-osalvador@suse.de>
  <20220901044249.4624-2-osalvador@suse.de>
+ <YxBsWu36eqUw03Dy@elver.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20220901044249.4624-2-osalvador@suse.de>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Original-Sender: elver@google.com
+In-Reply-To: <YxBsWu36eqUw03Dy@elver.google.com>
+X-Original-Sender: mhocko@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=cotNXp9I;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42d as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@suse.com header.s=susede1 header.b=tZeFnsBg;       spf=pass
+ (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as
+ permitted sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+X-Original-From: Michal Hocko <mhocko@suse.com>
+Reply-To: Michal Hocko <mhocko@suse.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,315 +154,28 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Sep 01, 2022 at 06:42AM +0200, Oscar Salvador wrote:
-> We want to filter out page_owner output and print only those
-> stacks that have been repeated beyond a certain threshold.
-> This gives us the chance to get rid of a lot of noise.
-> In order to do that, we need to keep track of how many repeated stacks
-> (for allocation) do we have, so we add a new refcount_t field
-> in the stack_record struct.
+On Thu 01-09-22 10:24:58, Marco Elver wrote:
+> On Thu, Sep 01, 2022 at 06:42AM +0200, Oscar Salvador wrote:
+[...]
+> > diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> > index 5ca0d086ef4a..aeb59d3557e2 100644
+> > --- a/lib/stackdepot.c
+> > +++ b/lib/stackdepot.c
+> > @@ -63,6 +63,7 @@ struct stack_record {
+> >  	u32 hash;			/* Hash in the hastable */
+> >  	u32 size;			/* Number of frames in the stack */
+> >  	union handle_parts handle;
+> > +	refcount_t count;		/* Number of the same repeated stacks */
 > 
-> Note that on __set_page_owner_handle(), page_owner->handle is set,
-> and on __reset_page_owner(), page_owner->free_handle is set.
-> 
-> We are interested in page_owner->handle, so when __set_page_owner()
-> gets called, we derive the stack_record struct from page_owner->handle,
-> and we increment its refcount_t field; and when __reset_page_owner()
-> gets called, we derive its stack_record from page_owner->handle()
-> and we decrement its refcount_t field.
-> 
-> This is a preparation for patch#2.
-> 
-> Signed-off-by: Oscar Salvador <osalvador@suse.de>
-> ---
->  include/linux/stackdepot.h | 13 ++++++-
->  lib/stackdepot.c           | 79 +++++++++++++++++++++++++++++++-------
->  mm/kasan/common.c          |  3 +-
+> This will increase stack_record size for every user, even if they don't
+> care about the count.
 
-+Cc other kasan maintainers
-
->  mm/page_owner.c            | 13 +++++--
->  4 files changed, 88 insertions(+), 20 deletions(-)
-> 
-> diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
-> index bc2797955de9..5ee0cf5be88f 100644
-> --- a/include/linux/stackdepot.h
-> +++ b/include/linux/stackdepot.h
-> @@ -15,9 +15,16 @@
->  
->  typedef u32 depot_stack_handle_t;
->  
-> +typedef enum stack_action {
-> +	STACK_ACTION_NONE,
-> +	STACK_ACTION_INC,
-> +}stack_action_t;
-> +
-
-missing space after '}'. But please no unnecessary typedef, just 'enum
-stack_action' (and spelling out 'enum stack_action' elsewhere) is just
-fine.
-
-This is in the global namespace, so I'd call this
-stack_depot_action+STACK_DEPOT_ACTION_*.
-
-However, .._ACTION_INC doesn't really say what's incremented. As an
-analog to stack_depot_dec_count(), perhaps .._ACTION_COUNT?
-
-In general it'd be nicer if there was stack_depot_inc_count() instead of
-this additional argument, but I see that for performance reasons you
-might not like that?
-
->  depot_stack_handle_t __stack_depot_save(unsigned long *entries,
->  					unsigned int nr_entries,
-> -					gfp_t gfp_flags, bool can_alloc);
-> +					gfp_t gfp_flags, bool can_alloc,
-> +					stack_action_t action);
-> +void stack_depot_dec_count(depot_stack_handle_t handle);
->  
->  /*
->   * Every user of stack depot has to call stack_depot_init() during its own init
-> @@ -55,6 +62,10 @@ static inline int stack_depot_early_init(void)	{ return 0; }
->  
->  depot_stack_handle_t stack_depot_save(unsigned long *entries,
->  				      unsigned int nr_entries, gfp_t gfp_flags);
-> +depot_stack_handle_t stack_depot_save_action(unsigned long *entries,
-> +					     unsigned int nr_entries,
-> +					     gfp_t gfp_flags,
-> +					     stack_action_t action);
->  
->  unsigned int stack_depot_fetch(depot_stack_handle_t handle,
->  			       unsigned long **entries);
-> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-> index 5ca0d086ef4a..aeb59d3557e2 100644
-> --- a/lib/stackdepot.c
-> +++ b/lib/stackdepot.c
-> @@ -63,6 +63,7 @@ struct stack_record {
->  	u32 hash;			/* Hash in the hastable */
->  	u32 size;			/* Number of frames in the stack */
->  	union handle_parts handle;
-> +	refcount_t count;		/* Number of the same repeated stacks */
-
-This will increase stack_record size for every user, even if they don't
-care about the count.
-
-Is there a way to store this out-of-line somewhere?
-
->  	unsigned long entries[];	/* Variable-sized array of entries. */
->  };
->  
-> @@ -139,6 +140,7 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
->  	stack->handle.slabindex = depot_index;
->  	stack->handle.offset = depot_offset >> STACK_ALLOC_ALIGN;
->  	stack->handle.valid = 1;
-> +	refcount_set(&stack->count, 1);
->  	memcpy(stack->entries, entries, flex_array_size(stack, entries, size));
->  	depot_offset += required_size;
->  
-> @@ -302,6 +304,29 @@ void stack_depot_print(depot_stack_handle_t stack)
->  }
->  EXPORT_SYMBOL_GPL(stack_depot_print);
->  
-> +static struct stack_record *stack_depot_getstack(depot_stack_handle_t handle)
-> +{
-> +	union handle_parts parts = { .handle = handle };
-> +	void *slab;
-> +	size_t offset = parts.offset << STACK_ALLOC_ALIGN;
-> +	struct stack_record *stack;
-> +
-> +	if(!handle)
-> +		return NULL;
-> +
-> +	if (parts.slabindex > depot_index) {
-> +		WARN(1, "slab index %d out of bounds (%d) for stack id %08x\n",
-> +		     parts.slabindex, depot_index, handle);
-> +		return NULL;
-> +	}
-> +	slab = stack_slabs[parts.slabindex];
-> +	if (!slab)
-> +		return NULL;
-> +
-> +	stack = slab + offset;
-> +	return stack;
-> +}
-> +
->  /**
->   * stack_depot_fetch - Fetch stack entries from a depot
->   *
-> @@ -314,30 +339,42 @@ EXPORT_SYMBOL_GPL(stack_depot_print);
->  unsigned int stack_depot_fetch(depot_stack_handle_t handle,
->  			       unsigned long **entries)
->  {
-> -	union handle_parts parts = { .handle = handle };
-> -	void *slab;
-> -	size_t offset = parts.offset << STACK_ALLOC_ALIGN;
->  	struct stack_record *stack;
->  
->  	*entries = NULL;
->  	if (!handle)
->  		return 0;
->  
-> -	if (parts.slabindex > depot_index) {
-> -		WARN(1, "slab index %d out of bounds (%d) for stack id %08x\n",
-> -			parts.slabindex, depot_index, handle);
-> -		return 0;
-> -	}
-> -	slab = stack_slabs[parts.slabindex];
-> -	if (!slab)
-> +	stack = stack_depot_getstack(handle);
-> +	if (!stack)
->  		return 0;
-> -	stack = slab + offset;
->  
->  	*entries = stack->entries;
->  	return stack->size;
->  }
->  EXPORT_SYMBOL_GPL(stack_depot_fetch);
->  
-> +static void stack_depot_inc_count(struct stack_record *stack)
-> +{
-> +	refcount_inc(&stack->count);
-> +}
-> +
-> +void stack_depot_dec_count(depot_stack_handle_t handle)
-> +{
-> +	struct stack_record *stack = NULL;
-> +
-> +	stack = stack_depot_getstack(handle);
-> +	if (stack) {
-> +	/*
-> +	 * page_owner creates some stacks via create_dummy_stack().
-> +	 * We are not interested in those, so make sure we only decrement
-> +	 * "valid" stacks.
-> +	 */
-
-Comment indent is wrong.
-
-> +		if (refcount_read(&stack->count) > 1)
-> +			refcount_dec(&stack->count);
-> +	}
-> +}
-> +
->  /**
->   * __stack_depot_save - Save a stack trace from an array
->   *
-> @@ -363,7 +400,8 @@ EXPORT_SYMBOL_GPL(stack_depot_fetch);
->   */
->  depot_stack_handle_t __stack_depot_save(unsigned long *entries,
->  					unsigned int nr_entries,
-> -					gfp_t alloc_flags, bool can_alloc)
-> +					gfp_t alloc_flags, bool can_alloc,
-> +					stack_action_t action)
->  {
->  	struct stack_record *found = NULL, **bucket;
->  	depot_stack_handle_t retval = 0;
-> @@ -449,8 +487,11 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
->  		/* Nobody used this memory, ok to free it. */
->  		free_pages((unsigned long)prealloc, STACK_ALLOC_ORDER);
->  	}
-> -	if (found)
-> +	if (found) {
->  		retval = found->handle.handle;
-> +		if (action == STACK_ACTION_INC)
-> +			stack_depot_inc_count(found);
-> +	}
->  fast_exit:
->  	return retval;
->  }
-> @@ -472,6 +513,16 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
->  				      unsigned int nr_entries,
->  				      gfp_t alloc_flags)
->  {
-> -	return __stack_depot_save(entries, nr_entries, alloc_flags, true);
-> +	return __stack_depot_save(entries, nr_entries, alloc_flags, true,
-> +				  STACK_ACTION_NONE);
->  }
->  EXPORT_SYMBOL_GPL(stack_depot_save);
-> +
-> +depot_stack_handle_t stack_depot_save_action(unsigned long *entries,
-> +					     unsigned int nr_entries,
-> +					     gfp_t alloc_flags,
-> +					     stack_action_t action)
-> +{
-> +	return __stack_depot_save(entries, nr_entries, alloc_flags, true, action);
-> +}
-> +EXPORT_SYMBOL_GPL(stack_depot_save_action);
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index c40c0e7b3b5f..f434994f3b0d 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -36,7 +36,8 @@ depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc)
->  	unsigned int nr_entries;
->  
->  	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
-> -	return __stack_depot_save(entries, nr_entries, flags, can_alloc);
-> +	return __stack_depot_save(entries, nr_entries, flags, can_alloc,
-> +				  STACK_ACTION_NONE);
->  }
->  
->  void kasan_set_track(struct kasan_track *track, gfp_t flags)
-> diff --git a/mm/page_owner.c b/mm/page_owner.c
-> index e4c6f3f1695b..794f346d7520 100644
-> --- a/mm/page_owner.c
-> +++ b/mm/page_owner.c
-> @@ -106,7 +106,7 @@ static inline struct page_owner *get_page_owner(struct page_ext *page_ext)
->  	return (void *)page_ext + page_owner_ops.offset;
->  }
->  
-> -static noinline depot_stack_handle_t save_stack(gfp_t flags)
-> +static noinline depot_stack_handle_t save_stack(gfp_t flags, stack_action_t action)
->  {
->  	unsigned long entries[PAGE_OWNER_STACK_DEPTH];
->  	depot_stack_handle_t handle;
-> @@ -125,7 +125,7 @@ static noinline depot_stack_handle_t save_stack(gfp_t flags)
->  	current->in_page_owner = 1;
->  
->  	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 2);
-> -	handle = stack_depot_save(entries, nr_entries, flags);
-> +	handle = stack_depot_save_action(entries, nr_entries, flags, action);
->  	if (!handle)
->  		handle = failure_handle;
->  
-> @@ -138,6 +138,7 @@ void __reset_page_owner(struct page *page, unsigned short order)
->  	int i;
->  	struct page_ext *page_ext;
->  	depot_stack_handle_t handle;
-> +	depot_stack_handle_t alloc_handle;
->  	struct page_owner *page_owner;
->  	u64 free_ts_nsec = local_clock();
->  
-> @@ -145,7 +146,10 @@ void __reset_page_owner(struct page *page, unsigned short order)
->  	if (unlikely(!page_ext))
->  		return;
->  
-> -	handle = save_stack(GFP_NOWAIT | __GFP_NOWARN);
-> +	page_owner = get_page_owner(page_ext);
-> +	alloc_handle = page_owner->handle;
-> +
-> +	handle = save_stack(GFP_NOWAIT | __GFP_NOWARN, STACK_ACTION_NONE);
->  	for (i = 0; i < (1 << order); i++) {
->  		__clear_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
->  		page_owner = get_page_owner(page_ext);
-> @@ -153,6 +157,7 @@ void __reset_page_owner(struct page *page, unsigned short order)
->  		page_owner->free_ts_nsec = free_ts_nsec;
->  		page_ext = page_ext_next(page_ext);
->  	}
-> +	stack_depot_dec_count(alloc_handle);
->  }
->  
->  static inline void __set_page_owner_handle(struct page_ext *page_ext,
-> @@ -189,7 +194,7 @@ noinline void __set_page_owner(struct page *page, unsigned short order,
->  	if (unlikely(!page_ext))
->  		return;
->  
-> -	handle = save_stack(gfp_mask);
-> +	handle = save_stack(gfp_mask, STACK_ACTION_INC);
->  	__set_page_owner_handle(page_ext, handle, order, gfp_mask);
->  }
->  
-> -- 
-> 2.35.3
+Couldn't this be used for garbage collection?
+-- 
+Michal Hocko
+SUSE Labs
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YxBsWu36eqUw03Dy%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YxBvcDFSsLqn3i87%40dhcp22.suse.cz.
