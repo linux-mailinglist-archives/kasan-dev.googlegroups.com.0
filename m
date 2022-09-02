@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBF42YWMAMGQE7I7ABGY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBVE2YWMAMGQE47AX7KA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x838.google.com (mail-qt1-x838.google.com [IPv6:2607:f8b0:4864:20::838])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475C25AA446
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 Sep 2022 02:23:52 +0200 (CEST)
-Received: by mail-qt1-x838.google.com with SMTP id e30-20020ac8011e000000b00342f61e67aesf435213qtg.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 17:23:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662078231; cv=pass;
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE5B5AA450
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 Sep 2022 02:24:54 +0200 (CEST)
+Received: by mail-pj1-x1038.google.com with SMTP id x8-20020a17090a1f8800b001faa9857ef2sf334653pja.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Sep 2022 17:24:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662078293; cv=pass;
         d=google.com; s=arc-20160816;
-        b=UothZcKL6AMBBUW2T2RX9cMOM5RvQfktLs0wXvlyxIkFuaqmmZsXXtaoFeEzg+lpaJ
-         2dGt1mYzxr8IhJshv5FQBSKi/uh1+lvGkyApaIkWxJnU5ADUk/skjvBeJ7KLtOtBk57B
-         EPoBuY9zsx75b7vNsCnt8RTcQNQGvWoFFdWPQWe7Xk2OzTUNRnzJrYYAGLBdzYUaEWbu
-         +Cd9jw4wuAdNT3C/5tXTeUdQL0dxYk0LdDHe6lXwVpkxzqrCxxcVl6akVEn96JihOAV/
-         lsCRGfTZNbGfC4Zu0G/PfOnis1Iy98qZmg7BpoDYftRqFmE7W2ut+8pXlnjnD+P977ah
-         g2Fg==
+        b=QrdJPtV6jpIIaaFwKfXC9sej8wfmUMxtgcpNa9yD80M4JyDUIPEwxypv5NKu5Rv1j4
+         tEQpdXNkoMCuSeXvQUgLYNZdV3qMy/ERxDxxcEe0Nm9vtjmwegx8Fo1Xb+I6ZMQBn/aw
+         p5hFc9cOBoHPe4rhvjR8lL32qGPGu+yAOHAjjUiElR78s5B+VxzR9ECVqsQruwpiylGU
+         TnoiC7L9NtEg6idERgl1BM+jypHM3lDWL/nr0XcHu7yoMLCHJ1m5wXW7GmGlibIJB7ai
+         eKnE9JkV3MwPWVGOccjLyvY3TFreAdhqaZXoD/OfOWi+2iVuJJk76jEmu74Fvt92nPJa
+         cvRA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=eI794xs6hCJ2u4ohPDShFu7e3RIegVhaEgBGd5/FXbQ=;
-        b=xdpLLXkTcCMOPpqb3ZJpMbfK+uJ/NXZrFFn+zpAaG6ZCJwb5xwjyqHGaqZqNAsVts9
-         aqIm29igD3hLMWkJ1tQwXDLwS8GFl9uG6txPxnRPooELaVnYPE+nwzngOK8E4B9y+Na1
-         VKHLIySrUK3ZFOyr6RPKCr6RfhXeeL362XcU9Af/Q3M2gkk9AOSzpy7q3mmFeaUPSC+T
-         rMgPztVsf5/aOpbOe9Xr3sgGIB71Et3llXzbxQpgAE4Bs6E0Ea4NbToKR5XFNcQ6q491
-         vkKfRz0m9IVO/GVYFdk+vfqwXFC9AnQ9uQWDqWM4AH3dBZx4uOabKMuKezLH2Xrv2NeD
-         cY+g==
+        bh=vPwm108P7nWLZcIbIf9FHfrM/6aaZ78NN2R+FaQ3Ijo=;
+        b=YUPSA6dxzmVigHJuwQsLWN0X5ZnJXyxcesEH/09aQdSnF2/oMl5ZupTQPcX+ITDmlu
+         IfobhWtUEs+I35F7XQPsmKYZv9q3olMkwFZ7X2LYvJs+KSw4J5lXFyisgPnY46FkK+yl
+         ttH7egC9pxLGpbz6Nx3BwJMxaVJdVXw/ljuPrxIDPcR4ZOca9L2EkOW3IBgoWpLpRN6W
+         0hER3Be5E4jtPjUzfc3UvGaGQahvi0Wh2Z48QLaYK9bHeZiF5bPPkTEftYrcYgmAfv/E
+         +owBQlS2ED5WA0+ad27FOd3Rd7TIa0fVakZrk04dtdite8/Asb5iRZparq21X9tFDPco
+         t2MQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=G77qRohb;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2a as permitted sender) smtp.mailfrom=surenb@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=JFydOg9Q;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2b as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date;
-        bh=eI794xs6hCJ2u4ohPDShFu7e3RIegVhaEgBGd5/FXbQ=;
-        b=hX0/ILc84GoT9TKqLAl/eZ/iDip4gk5aVWS1YGURqkmce5YKO5NMkcgutL1fIuR7WE
-         qr0ijrPIFddr5l17t8iM9CAfVzObIiNBKmL8ZrS971FZhFPxD5V8KvCoc3L89BBzZkCZ
-         vjtwfngbmagycfETw6ws+zcOiHYNdOBZmvFI6rmCAa1vAcOdeiNrcbiyc6sDJgJTxdkG
-         GV+Erprep9BJsKgsAlSbuSgUEEdQzLK2L90WbjEH7RYJVYTv9jvm07QWmScFk0nxsZ/2
-         8r9lndt5J6m7tM7gw+8Qb2CHSZVKimSldy4Doz+0ZO+Ozud9lecjnYBeas/niTTwCOLB
-         32TQ==
+        bh=vPwm108P7nWLZcIbIf9FHfrM/6aaZ78NN2R+FaQ3Ijo=;
+        b=bRC4r7+WOfMFCdXQPazFpDEcmdPqLCF+qk7O7B1yBKj+EyUIXpwmuB3Gvsa2h0q/x0
+         ihONyenVjTrwXqIaGMrIevjCJBiNE9obaprFX9US34TEhVvisEbDrTwH03rH56zwEWd7
+         Tz4L1B1uJwne1dn2Sd8xkRg2e4TRsz16q4TAgDyMGXrXrux7xKr9BcB3cDgKCO1vK9Sx
+         KEWTn4XSijHeQ0tgyVRdKESy6UUviDCCexlaEZjfoZPym1T3EXauLoWoSJc7BUhK9ONo
+         pXqHaZtXERa5ENC5+K6TwiadSRPCi3GYHW+vWVAHPbMFdopF/CsSX9VBlF0j6Akm4DO9
+         9mlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,66 +50,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=eI794xs6hCJ2u4ohPDShFu7e3RIegVhaEgBGd5/FXbQ=;
-        b=DwrwX09CJmOKEUCFLe73p2vuEwF+vLPy9mV2DbdqtwVRLwPk1MH4bhzBZVbIaLt99V
-         KZqgsdu9o2NlPi1BfuW+bGKHxP5SPZBNfpKY+Qr76AvppB+LlwivskllFY1xriKNMlvi
-         tcrkJ1WwjDKDauCeH6EaUFdvzrZEIw5ujX1oxmFUTuMz19uRXVWsWdbvwKNY2u3KDTZK
-         PlrzAOGiCzuEEnvSAorz5bLYXAnMmjOsP7Jp44tMIBeBVVsQekjfK0+/6bHzo/fIYB8V
-         d/s6ezfcbQTBIryLY+ES19L/qK7ZrNEGuidGVZXBDcqCA/Ii7Llo6IBOJXPLWykCeVY8
-         cYDQ==
-X-Gm-Message-State: ACgBeo25NxCwVJC6B4i2GsGs9U/7xdSeuL/glTSjvYMv6/z/fFTG+y7p
-	Ut8FV3+/Fc8sibMW7UcEVYM=
-X-Google-Smtp-Source: AA6agR7/f69UDZCJNyaslZ1LwRV2D6s+MyEEnON1uCT8Ka0aYbrUDTQHNWKrHMQVhQpbT0hJl1EAYw==
-X-Received: by 2002:ac8:5884:0:b0:344:6d9a:1e43 with SMTP id t4-20020ac85884000000b003446d9a1e43mr26961709qta.623.1662078231217;
-        Thu, 01 Sep 2022 17:23:51 -0700 (PDT)
+        bh=vPwm108P7nWLZcIbIf9FHfrM/6aaZ78NN2R+FaQ3Ijo=;
+        b=eR21b3nQmBczZ9QEomGnuN+4XJNoh3Bn7GgqyoB5LDTK20efegTg+wv4R8IRHGs2+W
+         hOTx64O/3R6HD/n1xFXeOlqdCUsMpSafTBUUBC6gtb0yb3HNG3Sa3vRaicBlNTWLNDcv
+         HrngX68kcT7UMa0nqhzLdyioK07SC6HGLyEF3AMrlIQ3AlqHURA4GNsSI82M1a1sJLwm
+         Lt0lY3BUCEJZUBHVh5QplXVG+otcLxntRfDem45lFwMJIffg9dAajxqvYQKavC9bJt47
+         8zt21gFN7IR3TMBxzT5NKC2G/QVMLTYBrBHQxQB83asiMLsBo1MMB14iuhO7E0xH1Q4s
+         ZNxg==
+X-Gm-Message-State: ACgBeo309e22ME3k9L4DWe43e8ktw0D5ydZHkMk0hWpGAZ/YRX0R5QSQ
+	aubl/iDsi65SOvzqyIMbSUI=
+X-Google-Smtp-Source: AA6agR4MY1Nd/smAr+R94O7opfCd5lA/V8Nf/7oB5FPOziuHvH2UXEsOVoYMoUOOOIjSBtKZmkbRtw==
+X-Received: by 2002:a17:902:6a8a:b0:173:14f5:1d89 with SMTP id n10-20020a1709026a8a00b0017314f51d89mr33336397plk.89.1662078293151;
+        Thu, 01 Sep 2022 17:24:53 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:620a:12b8:b0:6b9:4aa2:f6 with SMTP id
- x24-20020a05620a12b800b006b94aa200f6ls2600740qki.2.-pod-prod-gmail; Thu, 01
- Sep 2022 17:23:50 -0700 (PDT)
-X-Received: by 2002:a05:620a:12c3:b0:6bb:f708:585e with SMTP id e3-20020a05620a12c300b006bbf708585emr22283907qkl.490.1662078230709;
-        Thu, 01 Sep 2022 17:23:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662078230; cv=none;
+Received: by 2002:a17:90a:1b64:b0:1fe:2dcc:657a with SMTP id
+ q91-20020a17090a1b6400b001fe2dcc657als4293809pjq.3.-pod-canary-gmail; Thu, 01
+ Sep 2022 17:24:52 -0700 (PDT)
+X-Received: by 2002:a17:902:f68d:b0:172:a34c:ff96 with SMTP id l13-20020a170902f68d00b00172a34cff96mr33156278plg.26.1662078292346;
+        Thu, 01 Sep 2022 17:24:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662078292; cv=none;
         d=google.com; s=arc-20160816;
-        b=WhzYenSFteUaCSCkNh7G0rua0u1V7g6bYWmjor3Xz2Nlq1piR4oBrqK3E4PyMkC6d0
-         Rkni1RJeOlyRihMlzyAS+Z+w/T6gw2N41Y1smvQpyhhXx5mwA2KhcF0vjn5wBgbBR+U8
-         zdXMP9hmiMMoa++s8tburINWNmUVzMz/r+Kk8u6sWbuypJjJnySb/LqCPOebaqlYcmmQ
-         c+5Pf5E1S/UJcOdt8+SjrIdf8PxMUgBc1VdxlUB95tDE0VxrlcdaAMaPmvggt5bOzxR1
-         pzVHwRbj+qfQVthfjz7Ad33bUMqa7XNFf3ciNoztYBk7ddJ+s+wPYxCLqJrGmprSEZ5u
-         qJCQ==
+        b=QQ19x1AoSPxp2mLBQnSXjmRzIi8bJCHqq4HuL8mvwO9uD2+dzO2K7kvmkRTI41P4KO
+         ch7ApzBZOJ+VOaSudf51MZEqZPHqV7S59/DZai2Pu4syi/CXOK7d6F6/hs7IJaPSOpF8
+         rnvDGNva8hzN4JQZ6fZatFJHYLI8c1H453ETTQvjwIb2xsrD/4EmJaERwGGjNjXeCGe5
+         K0jCY6aOwZx7aJaw9MZXt0XV7vpOdYxofxI8NlRXHsckOOx8sgZg5ylpBedZ+8MVL0UD
+         jtMEnrjdrykG9d9ymyPf9RUHE6z2hU25bfNCxdaXVozALrxL9CAOtKIYQAZvO/gqFUGN
+         sOrQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=id/aU8twWVdV/Bsd/keLwAwE0+9+WzWIEZXVP3pbEN4=;
-        b=XWOy8xn8KoeNKpRiu8a1x0iQwIIFar7ouUdnc5yPLXQPBCy3TcVozp7EuBhloNF3NN
-         ZPs5z6KU0zWjn9kLmLeIl4vPIdTkgoeUlyWIkwoBs524Vewykkgo+LJeTVEXbyG2S9dk
-         kak39IxravDkgHrHG/SWe0RG7Rt2EdY83uEXzmRsoZOfevEiYmL7dahvEKz2Cj1Arqp1
-         shy1WMvewuGwZtv38bpEEfquAlWTa2x7D7B3sVXV1FGRl+mEKOfs232ZUzqmyqWr8H7M
-         5y94h5Q9/lWplteF2jCDRlO8PXDQn/xSFPfGeWRQjeTOfKx+1HJo6YBnuveEzxDkFQZB
-         wPew==
+        bh=/pPOPbPw8AnpH29BUzSqTrm5ZvDmaEgEyFxuBQlNiEg=;
+        b=B1bITwomDKZtduN0Yzm9/Ox+EhUp3sjIZx7W7iahhCNGZSeUAmriMgyg2PfmbaQT6r
+         DG2kZu1NGREu7S14QWMiWKv+Qg7klvOH1B8u6+6WDh8znIidfRveV+2oL28QUsrVwlLE
+         dxXw52upJPmo6bGK6xfFqHv53K2SxodAvtyEErs5M70XQHkefTix4bSHOqZ8VEdov1IG
+         ojVAfDQqNJx+NH9SYhlmbvp/fjqih/DGIrtIUuD/mOsAzvzF+1GLF+KqNrTANfevq990
+         g+mkHdK0MEm7LmqaHXU7mnw0AqPcg1ZBxe/wd6aahwH7pqboimLohZa383aMSatf2wm9
+         MG5Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=G77qRohb;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2a as permitted sender) smtp.mailfrom=surenb@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=JFydOg9Q;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2b as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com. [2607:f8b0:4864:20::b2a])
-        by gmr-mx.google.com with ESMTPS id 5-20020ac85945000000b003437deaebe4si8988qtz.2.2022.09.01.17.23.50
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com. [2607:f8b0:4864:20::b2b])
+        by gmr-mx.google.com with ESMTPS id h10-20020a170902f54a00b0016bf5c9dfb5si16265plf.12.2022.09.01.17.24.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 17:23:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2a as permitted sender) client-ip=2607:f8b0:4864:20::b2a;
-Received: by mail-yb1-xb2a.google.com with SMTP id 193so1033345ybc.10
-        for <kasan-dev@googlegroups.com>; Thu, 01 Sep 2022 17:23:50 -0700 (PDT)
-X-Received: by 2002:a05:6902:1366:b0:691:4335:455b with SMTP id
- bt6-20020a056902136600b006914335455bmr20559494ybb.282.1662078230135; Thu, 01
- Sep 2022 17:23:50 -0700 (PDT)
+        Thu, 01 Sep 2022 17:24:52 -0700 (PDT)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2b as permitted sender) client-ip=2607:f8b0:4864:20::b2b;
+Received: by mail-yb1-xb2b.google.com with SMTP id t184so1074472yba.4
+        for <kasan-dev@googlegroups.com>; Thu, 01 Sep 2022 17:24:52 -0700 (PDT)
+X-Received: by 2002:a05:6902:705:b0:695:b3b9:41bc with SMTP id
+ k5-20020a056902070500b00695b3b941bcmr21283555ybt.426.1662078291363; Thu, 01
+ Sep 2022 17:24:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220830214919.53220-1-surenb@google.com> <20220830214919.53220-12-surenb@google.com>
- <YxFB3tlMqakx+hiL@P9FQF9L96D.corp.robot.car>
-In-Reply-To: <YxFB3tlMqakx+hiL@P9FQF9L96D.corp.robot.car>
+References: <20220830214919.53220-1-surenb@google.com> <20220830214919.53220-15-surenb@google.com>
+ <YxFC9NSQ7OADTEwp@P9FQF9L96D.corp.robot.car>
+In-Reply-To: <YxFC9NSQ7OADTEwp@P9FQF9L96D.corp.robot.car>
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 1 Sep 2022 17:23:38 -0700
-Message-ID: <CAJuCfpECU8NsC_kUSE7ef33_HUkZP5S2rEbxOvfnmM2Qb4TKBA@mail.gmail.com>
-Subject: Re: [RFC PATCH 11/30] mm: introduce slabobj_ext to support slab
- object extensions
+Date: Thu, 1 Sep 2022 17:24:40 -0700
+Message-ID: <CAJuCfpGRL72qghDf9bNsp_K0kabvLBs5ags2hHXn-5_Ar8RX5A@mail.gmail.com>
+Subject: Re: [RFC PATCH 14/30] mm: prevent slabobj_ext allocations for
+ slabobj_ext and kmem_cache objects
 To: Roman Gushchin <roman.gushchin@linux.dev>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
 	Michal Hocko <mhocko@suse.com>, Vlastimil Babka <vbabka@suse.cz>, Johannes Weiner <hannes@cmpxchg.org>, 
@@ -136,8 +136,8 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=G77qRohb;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2a as
+ header.i=@google.com header.s=20210112 header.b=JFydOg9Q;       spf=pass
+ (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2b as
  permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
@@ -154,396 +154,23 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Sep 1, 2022 at 4:36 PM Roman Gushchin <roman.gushchin@linux.dev> wrote:
+On Thu, Sep 1, 2022 at 4:41 PM Roman Gushchin <roman.gushchin@linux.dev> wrote:
 >
-> On Tue, Aug 30, 2022 at 02:49:00PM -0700, Suren Baghdasaryan wrote:
-> > Currently slab pages can store only vectors of obj_cgroup pointers in
-> > page->memcg_data. Introduce slabobj_ext structure to allow more data
-> > to be stored for each slab object. Wraps obj_cgroup into slabobj_ext
-> > to support current functionality while allowing to extend slabobj_ext
-> > in the future.
-> >
-> > Note: ideally the config dependency should be turned the other way around:
-> > MEMCG should depend on SLAB_OBJ_EXT and {page|slab|folio}.memcg_data would
-> > be renamed to something like {page|slab|folio}.objext_data. However doing
-> > this in RFC would introduce considerable churn unrelated to the overall
-> > idea, so avoiding this until v1.
->
-> Hi Suren!
-
-Hi Roman,
-
->
-> I'd say CONFIG_MEMCG_KMEM and CONFIG_YOUR_NEW_STUFF should both depend on
-> SLAB_OBJ_EXT.
-> CONFIG_MEMCG_KMEM depend on CONFIG_MEMCG anyway.
-
-Yes, I agree. I wanted to mention here that the current dependency is
-incorrect and should be reworked. Having both depending on
-SLAB_OBJ_EXT seems like the right approach.
-
->
+> On Tue, Aug 30, 2022 at 02:49:03PM -0700, Suren Baghdasaryan wrote:
+> > Use __GFP_NO_OBJ_EXT to prevent recursions when allocating slabobj_ext
+> > objects. Also prevent slabobj_ext allocations for kmem_cache objects.
 > >
 > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  include/linux/memcontrol.h |  18 ++++--
-> >  init/Kconfig               |   5 ++
-> >  mm/kfence/core.c           |   2 +-
-> >  mm/memcontrol.c            |  60 ++++++++++---------
-> >  mm/page_owner.c            |   2 +-
-> >  mm/slab.h                  | 119 +++++++++++++++++++++++++------------
-> >  6 files changed, 131 insertions(+), 75 deletions(-)
-> >
-> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> > index 6257867fbf95..315399f77173 100644
-> > --- a/include/linux/memcontrol.h
-> > +++ b/include/linux/memcontrol.h
-> > @@ -227,6 +227,14 @@ struct obj_cgroup {
-> >       };
-> >  };
-> >
-> > +/*
-> > + * Extended information for slab objects stored as an array in page->memcg_data
-> > + * if MEMCG_DATA_OBJEXTS is set.
-> > + */
-> > +struct slabobj_ext {
-> > +     struct obj_cgroup *objcg;
-> > +} __aligned(8);
 >
-> Why do we need this aligment requirement?
+> Patches 12-14 look good to me.
+> It's probably to early to ack anything, but otherwise I'd ack them.
 
-To save space by avoiding padding, however, all members today will be
-pointers, so it's meaningless and we can safely drop it.
+Thank you for reviewing!
 
 >
-> > +
-> >  /*
-> >   * The memory controller data structure. The memory controller controls both
-> >   * page cache and RSS per cgroup. We would eventually like to provide
-> > @@ -363,7 +371,7 @@ extern struct mem_cgroup *root_mem_cgroup;
-> >
-> >  enum page_memcg_data_flags {
-> >       /* page->memcg_data is a pointer to an objcgs vector */
-> > -     MEMCG_DATA_OBJCGS = (1UL << 0),
-> > +     MEMCG_DATA_OBJEXTS = (1UL << 0),
-> >       /* page has been accounted as a non-slab kernel page */
-> >       MEMCG_DATA_KMEM = (1UL << 1),
-> >       /* the next bit after the last actual flag */
-> > @@ -401,7 +409,7 @@ static inline struct mem_cgroup *__folio_memcg(struct folio *folio)
-> >       unsigned long memcg_data = folio->memcg_data;
-> >
-> >       VM_BUG_ON_FOLIO(folio_test_slab(folio), folio);
-> > -     VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_OBJCGS, folio);
-> > +     VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_OBJEXTS, folio);
-> >       VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_KMEM, folio);
-> >
-> >       return (struct mem_cgroup *)(memcg_data & ~MEMCG_DATA_FLAGS_MASK);
-> > @@ -422,7 +430,7 @@ static inline struct obj_cgroup *__folio_objcg(struct folio *folio)
-> >       unsigned long memcg_data = folio->memcg_data;
-> >
-> >       VM_BUG_ON_FOLIO(folio_test_slab(folio), folio);
-> > -     VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_OBJCGS, folio);
-> > +     VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_OBJEXTS, folio);
-> >       VM_BUG_ON_FOLIO(!(memcg_data & MEMCG_DATA_KMEM), folio);
-> >
-> >       return (struct obj_cgroup *)(memcg_data & ~MEMCG_DATA_FLAGS_MASK);
-> > @@ -517,7 +525,7 @@ static inline struct mem_cgroup *page_memcg_check(struct page *page)
-> >        */
-> >       unsigned long memcg_data = READ_ONCE(page->memcg_data);
-> >
-> > -     if (memcg_data & MEMCG_DATA_OBJCGS)
-> > +     if (memcg_data & MEMCG_DATA_OBJEXTS)
-> >               return NULL;
-> >
-> >       if (memcg_data & MEMCG_DATA_KMEM) {
-> > @@ -556,7 +564,7 @@ static inline struct mem_cgroup *get_mem_cgroup_from_objcg(struct obj_cgroup *ob
-> >  static inline bool folio_memcg_kmem(struct folio *folio)
-> >  {
-> >       VM_BUG_ON_PGFLAGS(PageTail(&folio->page), &folio->page);
-> > -     VM_BUG_ON_FOLIO(folio->memcg_data & MEMCG_DATA_OBJCGS, folio);
-> > +     VM_BUG_ON_FOLIO(folio->memcg_data & MEMCG_DATA_OBJEXTS, folio);
-> >       return folio->memcg_data & MEMCG_DATA_KMEM;
-> >  }
-> >
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index 532362fcfe31..82396d7a2717 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -958,6 +958,10 @@ config MEMCG
-> >       help
-> >         Provides control over the memory footprint of tasks in a cgroup.
-> >
-> > +config SLAB_OBJ_EXT
-> > +     bool
-> > +     depends on MEMCG
-> > +
-> >  config MEMCG_SWAP
-> >       bool
-> >       depends on MEMCG && SWAP
-> > @@ -966,6 +970,7 @@ config MEMCG_SWAP
-> >  config MEMCG_KMEM
-> >       bool
-> >       depends on MEMCG && !SLOB
-> > +     select SLAB_OBJ_EXT
-> >       default y
-> >
-> >  config BLK_CGROUP
-> > diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> > index c252081b11df..c0958e4a32e2 100644
-> > --- a/mm/kfence/core.c
-> > +++ b/mm/kfence/core.c
-> > @@ -569,7 +569,7 @@ static unsigned long kfence_init_pool(void)
-> >               __folio_set_slab(slab_folio(slab));
-> >  #ifdef CONFIG_MEMCG
-> >               slab->memcg_data = (unsigned long)&kfence_metadata[i / 2 - 1].objcg |
-> > -                                MEMCG_DATA_OBJCGS;
-> > +                                MEMCG_DATA_OBJEXTS;
-> >  #endif
-> >       }
-> >
-> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> > index b69979c9ced5..3f407ef2f3f1 100644
-> > --- a/mm/memcontrol.c
-> > +++ b/mm/memcontrol.c
-> > @@ -2793,7 +2793,7 @@ static void commit_charge(struct folio *folio, struct mem_cgroup *memcg)
-> >       folio->memcg_data = (unsigned long)memcg;
-> >  }
-> >
-> > -#ifdef CONFIG_MEMCG_KMEM
-> > +#ifdef CONFIG_SLAB_OBJ_EXT
-> >  /*
-> >   * The allocated objcg pointers array is not accounted directly.
-> >   * Moreover, it should not come from DMA buffer and is not readily
-> > @@ -2801,38 +2801,20 @@ static void commit_charge(struct folio *folio, struct mem_cgroup *memcg)
-> >   */
-> >  #define OBJCGS_CLEAR_MASK    (__GFP_DMA | __GFP_RECLAIMABLE | __GFP_ACCOUNT)
-> >
-> > -/*
-> > - * mod_objcg_mlstate() may be called with irq enabled, so
-> > - * mod_memcg_lruvec_state() should be used.
-> > - */
-> > -static inline void mod_objcg_mlstate(struct obj_cgroup *objcg,
-> > -                                  struct pglist_data *pgdat,
-> > -                                  enum node_stat_item idx, int nr)
-> > -{
-> > -     struct mem_cgroup *memcg;
-> > -     struct lruvec *lruvec;
-> > -
-> > -     rcu_read_lock();
-> > -     memcg = obj_cgroup_memcg(objcg);
-> > -     lruvec = mem_cgroup_lruvec(memcg, pgdat);
-> > -     mod_memcg_lruvec_state(lruvec, idx, nr);
-> > -     rcu_read_unlock();
-> > -}
-> > -
-> > -int memcg_alloc_slab_cgroups(struct slab *slab, struct kmem_cache *s,
-> > -                              gfp_t gfp, bool new_slab)
-> > +int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
-> > +                     gfp_t gfp, bool new_slab)
-> >  {
-> >       unsigned int objects = objs_per_slab(s, slab);
-> >       unsigned long memcg_data;
-> >       void *vec;
-> >
-> >       gfp &= ~OBJCGS_CLEAR_MASK;
-> > -     vec = kcalloc_node(objects, sizeof(struct obj_cgroup *), gfp,
-> > +     vec = kcalloc_node(objects, sizeof(struct slabobj_ext), gfp,
-> >                          slab_nid(slab));
-> >       if (!vec)
-> >               return -ENOMEM;
-> >
-> > -     memcg_data = (unsigned long) vec | MEMCG_DATA_OBJCGS;
-> > +     memcg_data = (unsigned long) vec | MEMCG_DATA_OBJEXTS;
-> >       if (new_slab) {
-> >               /*
-> >                * If the slab is brand new and nobody can yet access its
-> > @@ -2843,7 +2825,7 @@ int memcg_alloc_slab_cgroups(struct slab *slab, struct kmem_cache *s,
-> >       } else if (cmpxchg(&slab->memcg_data, 0, memcg_data)) {
-> >               /*
-> >                * If the slab is already in use, somebody can allocate and
-> > -              * assign obj_cgroups in parallel. In this case the existing
-> > +              * assign slabobj_exts in parallel. In this case the existing
-> >                * objcg vector should be reused.
-> >                */
-> >               kfree(vec);
-> > @@ -2853,6 +2835,26 @@ int memcg_alloc_slab_cgroups(struct slab *slab, struct kmem_cache *s,
-> >       kmemleak_not_leak(vec);
-> >       return 0;
-> >  }
-> > +#endif /* CONFIG_SLAB_OBJ_EXT */
-> > +
-> > +#ifdef CONFIG_MEMCG_KMEM
-> > +/*
-> > + * mod_objcg_mlstate() may be called with irq enabled, so
-> > + * mod_memcg_lruvec_state() should be used.
-> > + */
-> > +static inline void mod_objcg_mlstate(struct obj_cgroup *objcg,
-> > +                                  struct pglist_data *pgdat,
-> > +                                  enum node_stat_item idx, int nr)
-> > +{
-> > +     struct mem_cgroup *memcg;
-> > +     struct lruvec *lruvec;
-> > +
-> > +     rcu_read_lock();
-> > +     memcg = obj_cgroup_memcg(objcg);
-> > +     lruvec = mem_cgroup_lruvec(memcg, pgdat);
-> > +     mod_memcg_lruvec_state(lruvec, idx, nr);
-> > +     rcu_read_unlock();
-> > +}
-> >
-> >  static __always_inline
-> >  struct mem_cgroup *mem_cgroup_from_obj_folio(struct folio *folio, void *p)
-> > @@ -2863,18 +2865,18 @@ struct mem_cgroup *mem_cgroup_from_obj_folio(struct folio *folio, void *p)
-> >        * slab->memcg_data.
-> >        */
-> >       if (folio_test_slab(folio)) {
-> > -             struct obj_cgroup **objcgs;
-> > +             struct slabobj_ext *obj_exts;
-> >               struct slab *slab;
-> >               unsigned int off;
-> >
-> >               slab = folio_slab(folio);
-> > -             objcgs = slab_objcgs(slab);
-> > -             if (!objcgs)
-> > +             obj_exts = slab_obj_exts(slab);
-> > +             if (!obj_exts)
-> >                       return NULL;
-> >
-> >               off = obj_to_index(slab->slab_cache, slab, p);
-> > -             if (objcgs[off])
-> > -                     return obj_cgroup_memcg(objcgs[off]);
-> > +             if (obj_exts[off].objcg)
-> > +                     return obj_cgroup_memcg(obj_exts[off].objcg);
-> >
-> >               return NULL;
-> >       }
-> > diff --git a/mm/page_owner.c b/mm/page_owner.c
-> > index e4c6f3f1695b..fd4af1ad34b8 100644
-> > --- a/mm/page_owner.c
-> > +++ b/mm/page_owner.c
-> > @@ -353,7 +353,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
-> >       if (!memcg_data)
-> >               goto out_unlock;
-> >
-> > -     if (memcg_data & MEMCG_DATA_OBJCGS)
-> > +     if (memcg_data & MEMCG_DATA_OBJEXTS)
-> >               ret += scnprintf(kbuf + ret, count - ret,
-> >                               "Slab cache page\n");
-> >
-> > diff --git a/mm/slab.h b/mm/slab.h
-> > index 4ec82bec15ec..c767ce3f0fe2 100644
-> > --- a/mm/slab.h
-> > +++ b/mm/slab.h
-> > @@ -422,36 +422,94 @@ static inline bool kmem_cache_debug_flags(struct kmem_cache *s, slab_flags_t fla
-> >       return false;
-> >  }
-> >
-> > +#ifdef CONFIG_SLAB_OBJ_EXT
-> > +
-> > +static inline bool is_kmem_only_obj_ext(void)
-> > +{
-> >  #ifdef CONFIG_MEMCG_KMEM
-> > +     return sizeof(struct slabobj_ext) == sizeof(struct obj_cgroup *);
-> > +#else
-> > +     return false;
-> > +#endif
-> > +}
-> > +
-> >  /*
-> > - * slab_objcgs - get the object cgroups vector associated with a slab
-> > + * slab_obj_exts - get the pointer to the slab object extension vector
-> > + * associated with a slab.
-> >   * @slab: a pointer to the slab struct
-> >   *
-> > - * Returns a pointer to the object cgroups vector associated with the slab,
-> > + * Returns a pointer to the object extension vector associated with the slab,
-> >   * or NULL if no such vector has been associated yet.
-> >   */
-> > -static inline struct obj_cgroup **slab_objcgs(struct slab *slab)
-> > +static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
-> >  {
-> >       unsigned long memcg_data = READ_ONCE(slab->memcg_data);
-> >
-> > -     VM_BUG_ON_PAGE(memcg_data && !(memcg_data & MEMCG_DATA_OBJCGS),
-> > +     VM_BUG_ON_PAGE(memcg_data && !(memcg_data & MEMCG_DATA_OBJEXTS),
-> >                                                       slab_page(slab));
-> >       VM_BUG_ON_PAGE(memcg_data & MEMCG_DATA_KMEM, slab_page(slab));
-> >
-> > -     return (struct obj_cgroup **)(memcg_data & ~MEMCG_DATA_FLAGS_MASK);
-> > +     return (struct slabobj_ext *)(memcg_data & ~MEMCG_DATA_FLAGS_MASK);
-> >  }
-> >
-> > -int memcg_alloc_slab_cgroups(struct slab *slab, struct kmem_cache *s,
-> > -                              gfp_t gfp, bool new_slab);
-> > -void mod_objcg_state(struct obj_cgroup *objcg, struct pglist_data *pgdat,
-> > -                  enum node_stat_item idx, int nr);
-> > +int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
-> > +                     gfp_t gfp, bool new_slab);
-> >
-> > -static inline void memcg_free_slab_cgroups(struct slab *slab)
-> > +static inline void free_slab_obj_exts(struct slab *slab)
-> >  {
-> > -     kfree(slab_objcgs(slab));
-> > +     struct slabobj_ext *obj_exts;
-> > +
-> > +     if (!memcg_kmem_enabled() && is_kmem_only_obj_ext())
-> > +             return;
->
-> Hm, not sure I understand this. I kmem is disabled and is_kmem_only_obj_ext()
-> is true, shouldn't slab->memcg_data == NULL (always)?
-
-So, the logic was to skip freeing when the only possible objects in
-slab->memcg_data are "struct obj_cgroup" and kmem is disabled.
-Otherwise there are other objects stored in slab->memcg_data which
-have to be freed. Did I make it more complicated than it should have
-been?
-
->
-> > +
-> > +     obj_exts = slab_obj_exts(slab);
-> > +     kfree(obj_exts);
-> >       slab->memcg_data = 0;
-> >  }
-> >
-> > +static inline void prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
-> > +{
-> > +     struct slab *slab;
-> > +
-> > +     /* If kmem is the only extension then the vector will be created conditionally */
-> > +     if (is_kmem_only_obj_ext())
-> > +             return;
-> > +
-> > +     slab = virt_to_slab(p);
-> > +     if (!slab_obj_exts(slab))
-> > +             WARN(alloc_slab_obj_exts(slab, s, flags, false),
-> > +                     "%s, %s: Failed to create slab extension vector!\n",
-> > +                     __func__, s->name);
-> > +}
->
-> This looks a bit crypric: the action is wrapped into WARN() and the rest is a set
-> of (semi-)static checks. Can we, please, invert it? E.g. something like:
->
-> if (slab_alloc_tracking_enabled()) {
->         slab = virt_to_slab(p);
->         if (!slab_obj_exts(slab))
->                 WARN(alloc_slab_obj_exts(slab, s, flags, false),
->                 "%s, %s: Failed to create slab extension vector!\n",
->                 __func__, s->name);
-> }
-
-Yeah, this is much more readable. Thanks for the suggestion and for
-reviewing the code!
-
->
-> The rest looks good to me.
->
-> Thank you!
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
+> Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAJuCfpECU8NsC_kUSE7ef33_HUkZP5S2rEbxOvfnmM2Qb4TKBA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAJuCfpGRL72qghDf9bNsp_K0kabvLBs5ags2hHXn-5_Ar8RX5A%40mail.gmail.com.
