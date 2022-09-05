@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCKMR55PYIGBB36622MAMGQE3VYDVCI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKMR55PYIGBBJHQ22MAMGQEZ4NNBTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE975ACD72
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 10:12:32 +0200 (CEST)
-Received: by mail-lj1-x23e.google.com with SMTP id c18-20020a2ebf12000000b0025e5168c246sf2610113ljr.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 01:12:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662365552; cv=pass;
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5D65ACDF3
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 10:49:41 +0200 (CEST)
+Received: by mail-wm1-x338.google.com with SMTP id p19-20020a05600c1d9300b003a5c3141365sf7155582wms.9
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 01:49:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662367781; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xJQKlUiiFV8TeGXR2wVhos5vxwSB8tsQak5+tk93OHYX/cJmKMViCqFjnpQbwhWkr1
-         rLFoPkiukBcfmhPmJozxQPkpQkhZlCo7k385AkarLcjVu/8VNrozOWgyEcckHvvXpght
-         feRHBoelJnGcBVcJcSH7AnwZoZ8xFj2KBL7pQFAj1NJeLlVVMDjG2kTvrhy9l9PJHPZy
-         d8ddz9TzLiKA01I3o8r/66J18Emqu9ih+/9IfVZyMQLeH9GdIyPHCHMidtP5Y3RW70Ng
-         Jm4AuqXdIXW8fjCzpq0avxjaVne1mpeaap5UXSS3oxYKM+oB9E1ZHUoJWwE92lr7ZkQh
-         OtwQ==
+        b=ToH/VIKIG2nucjiDeDM+c+/+3Qy5+/zpDRpytAh1BM8dDycB/krxyAV8uthz/ZnEKj
+         g+ym+15q/ltkKgWTdMsu4OCACaEcDSAmpx7D27fXjFIqbsGXl7HHR9CGFByvM+0PZnvC
+         t3wJhui6YbFsGUAp8/ySEoT0EFOd4DBF7FgOGNl8Z755NhRs6LAhBjDU2YZPYqY6F/5Q
+         TkfOMtsjEmJspLRLGJfT6o5SDKl34wOjE69hjaZ2iL7Rumv5BFpBdrO/WdaHP/IakmRp
+         Pn8JLg6AK8FJDOAXL3EqUM7cOyZ8cFpHQN3HcvTbQ7/b57KeAod+uaw8zKUBBW3yUTkv
+         j5uw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=DWBz/NOjAjUwTdZIqqf6LI+A3a1vuTbwBii5umP2Q0g=;
-        b=a8cwTWYS8kVq03moPXeBOj5J3i2Fd27Uug2QBajPtrjk9O/9JXOlLH3Vn6sNCi0TWH
-         6sY6DA+/QfBYCfHocPWLD+M/ydA3/TGWpA4AzT1hS+qk+NTuZdS2a/D46Vvdy1dsiTTN
-         pldN1dXjlVOYEPDJoKvPpdY6Q1opIa51LzCcHutOlGV/N1hBUlTeHKKJ4DXq6jYTTNGZ
-         zRlQhzeaB0wU90amSgERz2/uLYtsfnKOS8NMVKuuHIBWkFrQGuiRNfE8jtD/r9IEY+2c
-         Htt7pMXPGqQ0m9JGOeBWTWrrtnAk5cLD3FZ16r+1110ZbPnedXV8UhnWOGQNyGmTKLaD
-         Oc6A==
+        bh=riL0GCCwc6WcVSXpfSgF3ULdZ6fltQbEM/2Jdf2K54k=;
+        b=Vh6CkuP/bAEKtaGm/70CrbpToCcXo2wkA5J4Xf50RN+qROqLwxwOOCJNi9gjZrCLGf
+         KwLOJ7A2g1z1r4Q0U0c/qdzzY/avrQXOfrVB+MTEYxLQ+qu0ZwxF/76jVehJdIOmiA5W
+         n5HwiZZToZEmosWGRD2A+tIulGzr0DAyTGwcK1SJAw1jtHdPiMfXTemNoIc4TH6MfcOM
+         nH9HsikNeq3xV7IsBp/wp7o/N+ZUtQ2jFMDcxr/DE0aQpApYVIDj/fanq0HH7fl5xfMV
+         IJV/xVDqxn1tKiGIJNPYiv6VUjXwLmq71wOjPUGChVSuOb1PDwGRpFlL6wq0PLhgI1yS
+         L0PQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=hvJuONTl;
-       spf=pass (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=naI5Af2D;
+       spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=mhocko@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date;
-        bh=DWBz/NOjAjUwTdZIqqf6LI+A3a1vuTbwBii5umP2Q0g=;
-        b=tX1NZBOpOhxixZ49o8DGz2SI5tRvp4Isive3A8wwdFYBn92cahuCSkxLp/sFytogyS
-         iWTttTmUgjeZke6Q/SbvkcRlWILlVD2Hcc9pi5LCP+zp8kZscAfX/+/wUXBl0xdNY0k9
-         m+xLjd0O3GFoXkJNirv7ldHnImD9Y4hi4sxpVpPI4XPGfHOQPQjb6WNn9SN77svYcp5+
-         73/B9bhoOZdkO2+G0QndEcH5b3V2X5IsPJpm2eG16xAIBzPfPiuR8tjQ8EgPsQgMtkYC
-         aAb7i0J/DK/dDtMpl26ypafYfYeCW0trw0KEm0zvjFaHTSTUBZDN8Off7y2JNPXNhn9X
-         Hgeg==
+        bh=riL0GCCwc6WcVSXpfSgF3ULdZ6fltQbEM/2Jdf2K54k=;
+        b=f6QU5kuQWPyrTFpgLvOYzUmuEl9MwSqtfJtanleSW5FambuMrQCsVs/fkiPDakvyJV
+         mNgAv0nGzcnC8fEhLCcFEpxUe1YRVhVrkV9TB6w7xCgla+mlvFaSvrYDdA0Hb9gxaNGw
+         /JNTp6JJo4EzC9X2KL4qKEKYisYfkszGi+ipSKmO6yPzamM7w1p7xBqaNoMnHaaJC3oa
+         tnkx/yzXuAOD0xwVmVoMTL6U4RY8M+UjQIxaYTfWpPmo232RjO9iBycEHJCwQvGJjv9H
+         Ha9BlqQpUaC+qmh4qoUumDoCq9DduVrUwuO7CELl3I1ls+ItP6lJeynkElXVLaDjV6Jv
+         n+rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,72 +51,72 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=DWBz/NOjAjUwTdZIqqf6LI+A3a1vuTbwBii5umP2Q0g=;
-        b=U95Nh9XvOHhSLa7+NCq/Q5H4xi9cdTyL/Q/W7E1fQj47W7dv/0VFjbuW6mq0BNetWa
-         UiZEGm8ccWydL4Lfn0LmEDy0q07jDPc259oZXvXV4UaEQuJRwr1G5ce289iwPT11ZLQt
-         JytBSXyFA+MgqKCaY/fWJTGMXPCWtVgP2KX0nxWA9nWULGFErMFlIGUIbu7OuTQHzu+K
-         e7907mlZUmdhE5T6b3QTNKLWEvqvLDxfn7xDBHx0z/iqYqobAZHK8qKe/WvGPuhSLUtT
-         eZnop8hWDwTJweWUKzJaYo4BrzfayzH2ENqczwTQw4h2LKrwmwOBsaJ+ncKaB/iPf6V0
-         CzZQ==
-X-Gm-Message-State: ACgBeo3W/RQ2ox0pacLht2wNp7+Amtay8+LiY0x2ddNt9k8pJRQd1C6m
-	TmIafhtaSZUhNyg0JK+AZZo=
-X-Google-Smtp-Source: AA6agR4u3r7J+HpdhXF/5yNBYKk/OAcbj8cPNpT0v5d+pBv457i2NG7mQOOKWNOL3pe7s9j43OH9Cg==
-X-Received: by 2002:a2e:94c7:0:b0:265:6126:6562 with SMTP id r7-20020a2e94c7000000b0026561266562mr9739177ljh.150.1662365551660;
-        Mon, 05 Sep 2022 01:12:31 -0700 (PDT)
+        bh=riL0GCCwc6WcVSXpfSgF3ULdZ6fltQbEM/2Jdf2K54k=;
+        b=OfrZPkzhPehSjSzYH6lD9HBViz2jC+0Q1621LQ67Zyh+G+/4ZmIijvyRFOGNn/3YaQ
+         YoHTRwH10JLws62vcd/jtK81T/yZ35Ffpq/qaqhIIqNjICs/eAA6kgRYsfE/nTN4TPTB
+         NZkhbwNFlvO6W7RhAmwfa/aa3fai2dmKxrCj+vTwld1N/ix1C99TYq5/KnziplpKQSv9
+         IKCQqWMsebL4+xKnbQz5s8cnJ5cKo4StBTOhpO8jrIUop37Rg53L7vvNKFJhKLgo9EQT
+         r/2A5XY/1NiQEdDVnlfNJM9SjdBJudrHHrn/Mnl62GdTjdEL2qa715pN20Eeg+Kd582a
+         EJaQ==
+X-Gm-Message-State: ACgBeo23aCFPTTURctNtw8SRHWY/gY1QzyNd3ZI7BDckLbT1D6QMXLyD
+	gMjGH+UfHg3/lIXoeEin/Zc=
+X-Google-Smtp-Source: AA6agR6fOhFoj9FWfYHkJ1s3XOjqqn/5l3Ldjxxk106ylkFUXhRdm6QJvrE40KJvEkmpsT7i1QdR1Q==
+X-Received: by 2002:a1c:7708:0:b0:3a5:5543:cec4 with SMTP id t8-20020a1c7708000000b003a55543cec4mr10281895wmi.47.1662367780946;
+        Mon, 05 Sep 2022 01:49:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:57c9:0:b0:492:f1b2:ac20 with SMTP id k9-20020ac257c9000000b00492f1b2ac20ls4329067lfo.1.-pod-prod-gmail;
- Mon, 05 Sep 2022 01:12:30 -0700 (PDT)
-X-Received: by 2002:a05:6512:151f:b0:494:af94:9f59 with SMTP id bq31-20020a056512151f00b00494af949f59mr3714134lfb.587.1662365550182;
-        Mon, 05 Sep 2022 01:12:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662365550; cv=none;
+Received: by 2002:a5d:60c7:0:b0:228:c8fc:9de8 with SMTP id x7-20020a5d60c7000000b00228c8fc9de8ls609184wrt.1.-pod-prod-gmail;
+ Mon, 05 Sep 2022 01:49:39 -0700 (PDT)
+X-Received: by 2002:a5d:64ed:0:b0:225:11d4:76d1 with SMTP id g13-20020a5d64ed000000b0022511d476d1mr23584669wri.579.1662367779732;
+        Mon, 05 Sep 2022 01:49:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662367779; cv=none;
         d=google.com; s=arc-20160816;
-        b=DHajzZio8yN09DSNzD9fadDmsZT+608Xz3mYPzoSLeX5B+0M1nPdRshV3iiGZl/h6y
-         ahRW/jg8TpVT6lo6PvtnoS7CYkGTc0P6fbM2KfCuXjl9PotTeZvMFvZrvzPo6rPUAXvE
-         Y/vnWv7ZMIk/9r3P09ykS0yRLMZbKgZZF+EPLN5EP8pMDTbEHYunJYoezbdHWa3KY0Ct
-         a8unfHZmwyKzmjvjOnwnMZBjPIqFZals+/7VvhpxMl7xwEKp2JY60Ylgi6wfHHO+HTF9
-         t3q71mOmX/sLUC5cDJtCkFwbnUdAEylqSDpvUm2TV8h+mI1Bgqzr+m6LmfaJxtoySbMg
-         r05Q==
+        b=R7dnru7VtpUtKPoZ1Lb1snEpzSST4W3Z2hEfQv7MabIfFWl8zRgMYJga0o3fxr1i58
+         VduL3//PwyRirPXd7KC9tUTHfjmEDmRyA1UUkBb4ksQ0EFlyPrbqjoIDQpPmpCoNehfE
+         pI5W5tacM7nrI8R+7LnDae/HM+bi7SztK4HMkLqlrpZDqRiilWv1KFwBMF5UyIMFgg8T
+         X6EEWTgmLUMDtcW6ASl2s8g3H1IBbiryM0tItIPAm/IgZjr9+7V/grlufypT44EkwKTV
+         Wq7CgaEyerIQ8SsvxYDwSltrplK+/V0yk/XmVg+pihyMxRMlrjVzv4dTYwycblL8e3xF
+         RJXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=vLBCtbeiMkaT10it/2QfW3oy9NGXJ0931FNcJJeTs+E=;
-        b=MizBou698126yDqswYEgDbd2c0DJtvn6JBrekBAf3X8bKm2C988KD+duBKwgCcOGkm
-         lOUAjnJ9HXNpasE8zCD089qalNrLZd+RJPfqy+dqYekeanwVbSz3mjxbsf00nR2m95j7
-         jaLZvPZNI30Zq7WAy4rRLc5rX5yj7LJIV7Ukx+YfcCYlLr2uDiirIMRCtKq9EFAbzJey
-         QfXQcLDo8MI0T5n4YrjgXJv3bUP0GBuuxmGEjabsua+sqpePW0vAjXDn6ZB8FyfnK4aY
-         bSy23fUjJbgbf4hV4caB33OrLoYShnhidNokhX38LrfP1TScCk9aSXIkiCmieLjEiNYS
-         jxLA==
+        bh=xc3ngfTbFfRO12fCwmaAUkvuolnuXfU1jb4qhmTTa9o=;
+        b=Z0k2AcLintbKTvEDpRkA7hwjcTMYdCr19MEw0QwPTP0pgL1OMcifBseosGKwVXW2WT
+         GNY+qyTWyETBd1rrKehrwjpxqbC0SCo2lYvsangs01zDGxdOsiwQGaXmWT+kf1COG3a4
+         xGTQHdyVCYZBr7hjfunM5PN0pGi0suuOJzr9Ju5zIISBiS4RCmWngREcMemCmya4w8iA
+         uxh00Ga/y1t9wcjwA0S8iJYhZxmdAo7aFwqczqsgmgGZ8jfYnN0bwCVwQSRcK58KQz+X
+         VvjL3QOj6LgDRjBEdnQGUmNbe+Rx7+CIaY8S2lEKkbO7n8vuWZizKEXKlkZYuWSlzD+Q
+         fjFQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=hvJuONTl;
-       spf=pass (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=naI5Af2D;
+       spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=mhocko@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
-        by gmr-mx.google.com with ESMTPS id i24-20020a2ea238000000b002652a5a5536si343994ljm.2.2022.09.05.01.12.30
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2001:67c:2178:6::1c])
+        by gmr-mx.google.com with ESMTPS id c7-20020a05600c0ac700b003a83f11cec0si477351wmr.2.2022.09.05.01.49.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Sep 2022 01:12:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
+        Mon, 05 Sep 2022 01:49:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1c as permitted sender) client-ip=2001:67c:2178:6::1c;
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6CC095FCCC;
-	Mon,  5 Sep 2022 08:12:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5BCEA38129;
+	Mon,  5 Sep 2022 08:49:39 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4046313A66;
-	Mon,  5 Sep 2022 08:12:29 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2A198139C7;
+	Mon,  5 Sep 2022 08:49:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id vpI8D22vFWNpBAAAMHmgww
-	(envelope-from <mhocko@suse.com>); Mon, 05 Sep 2022 08:12:29 +0000
-Date: Mon, 5 Sep 2022 10:12:28 +0200
+	id UM+9CSO4FWMqFwAAMHmgww
+	(envelope-from <mhocko@suse.com>); Mon, 05 Sep 2022 08:49:39 +0000
+Date: Mon, 5 Sep 2022 10:49:38 +0200
 From: "'Michal Hocko' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>,
-	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Suren Baghdasaryan <surenb@google.com>, Mel Gorman <mgorman@suse.de>,
+	Peter Zijlstra <peterz@infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Vlastimil Babka <vbabka@suse.cz>,
 	Johannes Weiner <hannes@cmpxchg.org>,
@@ -153,9 +153,8 @@ Cc: Kent Overstreet <kent.overstreet@linux.dev>,
 	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org,
 	LKML <linux-kernel@vger.kernel.org>
 Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
-Message-ID: <YxWvbMYLkPoJrQyr@dhcp22.suse.cz>
-References: <20220830214919.53220-1-surenb@google.com>
- <Yw8P8xZ4zqu121xL@hirez.programming.kicks-ass.net>
+Message-ID: <YxW4Ig338d2vQAz3@dhcp22.suse.cz>
+References: <Yw8P8xZ4zqu121xL@hirez.programming.kicks-ass.net>
  <20220831084230.3ti3vitrzhzsu3fs@moria.home.lan>
  <20220831101948.f3etturccmp5ovkl@suse.de>
  <Yw88RFuBgc7yFYxA@dhcp22.suse.cz>
@@ -163,17 +162,18 @@ References: <20220830214919.53220-1-surenb@google.com>
  <YxBc1xuGbB36f8zC@dhcp22.suse.cz>
  <CAJuCfpGhwPFYdkOLjwwD4ra9JxPqq1T5d1jd41Jy3LJnVnhNdg@mail.gmail.com>
  <YxEE1vOwRPdzKxoq@dhcp22.suse.cz>
- <CAJuCfpFrRwXXQ=wAvZ-oUNKXUJ=uUA=fiDrkhRu5VGXcM+=cuA@mail.gmail.com>
+ <CAJuCfpHuzJGTA_-m0Jfawc7LgJLt4GztUUY4K9N9-7bFqJuXnw@mail.gmail.com>
+ <20220901201502.sn6223bayzwferxv@moria.home.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpFrRwXXQ=wAvZ-oUNKXUJ=uUA=fiDrkhRu5VGXcM+=cuA@mail.gmail.com>
+In-Reply-To: <20220901201502.sn6223bayzwferxv@moria.home.lan>
 X-Original-Sender: mhocko@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.com header.s=susede1 header.b=hvJuONTl;       spf=pass
- (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted
- sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=suse.com
+ header.i=@suse.com header.s=susede1 header.b=naI5Af2D;       spf=pass
+ (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1c as
+ permitted sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 X-Original-From: Michal Hocko <mhocko@suse.com>
 Reply-To: Michal Hocko <mhocko@suse.com>
 Precedence: list
@@ -188,45 +188,57 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sun 04-09-22 18:32:58, Suren Baghdasaryan wrote:
-> On Thu, Sep 1, 2022 at 12:15 PM Michal Hocko <mhocko@suse.com> wrote:
-[...]
-> > Yes, tracking back the call trace would be really needed. The question
-> > is whether this is really prohibitively expensive. How much overhead are
-> > we talking about? There is no free lunch here, really.  You either have
-> > the overhead during runtime when the feature is used or on the source
-> > code level for all the future development (with a maze of macros and
-> > wrappers).
+On Thu 01-09-22 16:15:02, Kent Overstreet wrote:
+> On Thu, Sep 01, 2022 at 12:39:11PM -0700, Suren Baghdasaryan wrote:
+> > kmemleak is known to be slow and it's even documented [1], so I hope I
+> > can skip that part. For page_owner to provide the comparable
+> > information we would have to capture the call stacks for all page
+> > allocations unlike our proposal which allows to do that selectively
+> > for specific call sites. I'll post the overhead numbers of call stack
+> > capturing once I'm finished with profiling the latest code, hopefully
+> > sometime tomorrow, in the worst case after the long weekend.
 > 
-> As promised, I profiled a simple code that repeatedly makes 10
-> allocations/frees in a loop and measured overheads of code tagging,
-> call stack capturing and tracing+BPF for page and slab allocations.
-> Summary:
+> To expand on this further: we're stashing a pointer to the alloc_tag, which is
+> defined at the allocation callsite. That's how we're able to decrement the
+> proper counter on free, and why this beats any tracing based approach - with
+> tracing you'd instead have to correlate allocate/free events. Ouch.
 > 
-> Page allocations (overheads are compared to get_free_pages() duration):
-> 6.8% Codetag counter manipulations (__lazy_percpu_counter_add + __alloc_tag_add)
-> 8.8% lookup_page_ext
-> 1237% call stack capture
-> 139% tracepoint with attached empty BPF program
+> > > Yes, tracking back the call trace would be really needed. The question
+> > > is whether this is really prohibitively expensive. How much overhead are
+> > > we talking about? There is no free lunch here, really.  You either have
+> > > the overhead during runtime when the feature is used or on the source
+> > > code level for all the future development (with a maze of macros and
+> > > wrappers).
+> 
+> The full call stack is really not what you want in most applications - that's
+> what people think they want at first, and why page_owner works the way it does,
+> but it turns out that then combining all the different but related stack traces
+> _sucks_ (so why were you saving them in the first place?), and then you have to
+> do a separate memory allocate for each stack track, which destroys performance.
 
-Yes, I am not surprised that the call stack capturing is really
-expensive comparing to the allocator fast path (which is really highly
-optimized and I suspect that with 10 allocation/free loop you mostly get
-your memory from the pcp lists). Is this overhead still _that_ visible
-for somehow less microoptimized workloads which have to take slow paths
-as well?
+I do agree that the full stack trace is likely not what you need. But
+the portion of the stack that you need is not really clear because the
+relevant part might be on a different level of the calltrace depending
+on the allocation site. Take this as an example:
+{traverse, seq_read_iter, single_open_size}->seq_buf_alloc -> kvmalloc -> kmalloc
 
-Also what kind of stack unwinder is configured (I guess ORC)? This is
-not my area but from what I remember the unwinder overhead varies
-between ORC and FP.
+This whole part of the stack is not really all that interesting and you
+would have to allocate pretty high at the API layer to catch something
+useful. And please remember that seq_file interface is heavily used in
+throughout the kernel. I wouldn't suspect seq_file itself to be buggy,
+that is well exercised code but its users can botch things and that is
+where the leak would happen. There are many other examples like that
+where the allocation is done at a lib/infrastructure layer (sysfs
+framework, mempools network pool allocators and whatnot). We do care
+about those users, really. Ad-hoc pool allocators built on top of the
+core MM allocators are not really uncommon. And I am really skeptical we
+really want to add all the tagging source code level changes to each and
+every one of them.
 
-And just to make it clear. I do realize that an overhead from the stack
-unwinding is unavoidable. And code tagging would logically have lower
-overhead as it performs much less work. But the main point is whether
-our existing stack unwiding approach is really prohibitively expensive
-to be used for debugging purposes on production systems. I might
-misremember but I recall people having bigger concerns with page_owner
-memory footprint than the actual stack unwinder overhead.
+This is really my main concern about this whole work. Not only it adds a
+considerable maintenance burden to the core MM because it adds on top of
+our existing allocator layers complexity but it would need to spread beyond
+MM to be useful because it is usually outside of MM where leaks happen.
 -- 
 Michal Hocko
 SUSE Labs
@@ -234,4 +246,4 @@ SUSE Labs
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YxWvbMYLkPoJrQyr%40dhcp22.suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YxW4Ig338d2vQAz3%40dhcp22.suse.cz.
