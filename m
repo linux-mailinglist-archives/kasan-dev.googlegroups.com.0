@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBZWV26MAMGQEUD4XWIQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRB2GV26MAMGQEPVJSMRI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140A85AD268
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:26:15 +0200 (CEST)
-Received: by mail-lj1-x23a.google.com with SMTP id x20-20020a2e7c14000000b00267570ecceesf2840139ljc.21
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:26:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662380774; cv=pass;
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC36A5AD269
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:26:16 +0200 (CEST)
+Received: by mail-wm1-x338.google.com with SMTP id p19-20020a05600c1d9300b003a5c3141365sf7387106wms.9
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:26:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662380776; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bfNxl7Ko9lFeAPlx1VQrckuTsan1ib8pY7TfJ8xSKUbgzDNXDWrbgxe6HOSTLr+HRp
-         Se2aB3EbBV97T6Uui4xHxxsOkXPW6mx/nIichyJqKcjeQFhszXIwhaPhlhZyuL8hYMGk
-         nSjHO6atRiuqD8PJILJ2YGXPKw9ncgWqUON+IUptXtQ7oPGZbbz47jYUHsFd5RMUwAc5
-         xeyTQxIevvdqhlAMN8xd4j4W9tr/sBBtqNeu3N2VI3LOeJfb8CWBRgPo4VibXT4lrDS3
-         X8E7ecW/wJFZiCnMigf4ueE4A1iksRywu12ZLXbXcMNEHUpcRsrMf1Cs74If1t+xdiak
-         WSlA==
+        b=fOdIQn1zbfCxqQXYjyvTw5c+BjMvakkQ+6pM+Ic8TwHWWLcNTAG0kpJBTx9Bw22X4m
+         Vg8qVv6hbrmehnx+oas1ReHojSRR5V7FggD/Dc7KRPgnHh+yr3jUElHsCtLgC6vfTONe
+         RUvcNiKw8gsym7JK4ekD9ePmEZco9mYNKSJvw39RIOk/jh29LDu0tbqjWcwoN5NdJDmP
+         NkiJy9+mEPi7bau/KQWKWdetIYpZRle+mpu5C+f1aT0lae4+gYZLmwpjU7LbbWWgH97C
+         zfPNxzUgU4AdVMgb7xEVAYs2vyWQPpfwp3qjkm9UQWeKrmaQxg5QYh1M8wvME4XptIB8
+         w63Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=EeZ3o1M/IB1ahGQnF7RyvsExfr/5n3Jb78mSnmHdVJE=;
-        b=RDqEZpSryr0rxIRjHHbQs7N9yxMQYLIymtWIde6XsmnZPq09ffH6d6LSlFdcPlac8z
-         g2UNCp8858CBphZQx2r8oOoUxl4U0Rvfjd55vbm7ePkSx09CnHWP8i1rMBkG8ljRothc
-         UXSD5B8lc7tr+AkHQdh1BnJVhIF+3YhhCZ7ll6nwtYQ5bsXkb+715638DvppOu7jz6iX
-         tABGc2AXWvLPHHvkVKnfJMA4P3uDCxf5lt8Q2tPz5lb2hAORRqJhywmRBxlYWB0xtmQI
-         PF494FUpsfzz4Y1XqWAE+sN2g978twz05pOqGOGVWljfai/O8SIZkZL7Q4t+IIwDtQfZ
-         oJPw==
+        bh=NwDl7kovXjs+PMaLfCqQF7RrzHTxdRwAO0dvYTGC8tg=;
+        b=XyMVBzHnjBAlrNQKg6JOdllirFEQ8gn/HCFv9Ntbyobc85HcpIbdLAOxFjtcx0FU7p
+         WBWrWw6If3dHndBn6r98lXZ000UHv6dR39nDtC2sKg8u8O18WFA+2LFtNdqw+ilucyfh
+         BMOgZVIw7b2KRsflPU6bTrucs8TUJVi4/f7nUVeNN63A2g/CBjj8pqJmfqGQ3hd04GCC
+         HsgV5Q9QDnWNnDAE9v15bPRSrCqT3OICNE8SG4b/IzHqHDGZ3DDqfGfLl/XKSkC+5QRC
+         JwQCPESb4H2IiwBWM3uo1JxgiAt6AaU65v5U5B3mVoe9gtVTRy0a5IDiWgceH7wMA0y3
+         FsGA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=EuJefT6p;
-       spf=pass (google.com: domain of 35oovywykctetyvqretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=35OoVYwYKCTETYVQReTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=gykJQm16;
+       spf=pass (google.com: domain of 35uovywykctmvaxstgvddvat.rdbzphpc-stkvddvatvgdjeh.rdb@flex--glider.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=35uoVYwYKCTMVaXSTgVddVaT.RdbZPhPc-STkVddVaTVgdjeh.Rdb@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date;
-        bh=EeZ3o1M/IB1ahGQnF7RyvsExfr/5n3Jb78mSnmHdVJE=;
-        b=UmU0qPR9slnDe+AaYg0OYy2gK+fnQzz9xZ+bhm6kIjMmEEax8DIlrUpbommTvLnIhb
-         XpI5bk0GgxwbSU+8uQhja56S6UzvM3kCIB2uZAiXoxyMxeOGA/+O0ZDydS63IpcUlV7+
-         pSohgdA740WBzrhjKSJJbGzjwNcNW5wdRV1+Urj+zcW4b8F3lYxjxzcaS+6efz6DgmZq
-         67z1x/p3sUIhr2BzRg+8vELlqXMsuW0rCQyV+dsFt4PjkQlzpKlw49O2tMB24MUfqi6U
-         XZ0ptvoMmUTgAAMb9z5ZLzMcwLKxeoC57U6Vp660+71uwWK7vpKVENM6TB8SYB+5LgDK
-         ceKA==
+        bh=NwDl7kovXjs+PMaLfCqQF7RrzHTxdRwAO0dvYTGC8tg=;
+        b=dcD3DI96loCXk3RWszSwLmR2kRUOLXFEY80Q5StXh3bLRb0tyfLN0iA702kWg9aDHZ
+         lb0fPzbRmMFm2xTfA0wMClmmCxCN9AomO5qQN+xX8l+8Zt9RSfffnFxjBRDvfMc3jB0P
+         u4GAw5rM89eFUYJsWoCRsqsFca2guxzIEEBtgn8uF8lsrqHUuQZKhI8egqiheB/C1Sw0
+         LZQoFocm0cAJXAq4CEjOWqGSB0UcMrIApBokba+hBp0AjH1K/bWDbzH3jOrgamGE9XIu
+         QbrVIiFjPNg3R20MFoqbRVrdIVyTKJ2j5esE/vOVwtfsg/xll3trmE4hrtvghCGjVwaw
+         q7cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,64 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=EeZ3o1M/IB1ahGQnF7RyvsExfr/5n3Jb78mSnmHdVJE=;
-        b=v8rerZ8ktRvCaKw+aIthI/qW9r2p1keQueNGqbOLR2etHP5KjU5Y5VaeMrL/HXLQbT
-         Nkpxf9j2E1vuT1yZFM5DtpPFUWEs77j1O63vr0rzrugYpgiO3pDOdno2y5+0DwGatydi
-         bqtOFZ/Lm4Azhxwf4T0MExKPgfQuee5rS4fQH77UsnWwt4BKX40drgbXsWSgSLLa7YWF
-         MMbpAztHDfU12rMjxLt2fDcLXZeMuZcpuWni8JrLpdhuTavbT335HC5ohPT/kqMN6fLz
-         SB8Y61Jeau1f3vvx7eSyMIFFRR2pNK/53Ek+sPhsfy4aQB6Q9skq0TItjt/Tiq3EfjcW
-         98aw==
-X-Gm-Message-State: ACgBeo3u+zwuz62ms7FZH3o/LhY/FI8yv++ZNAgsyYVd0avpdTYJbm79
-	36UKfVUSArSRqYj/0MHxvm4=
-X-Google-Smtp-Source: AA6agR40a1MSDdZ27o3O9BjA5crZRIsHmmHJplfdoWfI6YOKWBUwC8u1UhMbgXX7cUwv0kdodqxURw==
-X-Received: by 2002:a05:6512:c1c:b0:494:6c98:a298 with SMTP id z28-20020a0565120c1c00b004946c98a298mr10638405lfu.18.1662380774619;
-        Mon, 05 Sep 2022 05:26:14 -0700 (PDT)
+        bh=NwDl7kovXjs+PMaLfCqQF7RrzHTxdRwAO0dvYTGC8tg=;
+        b=W2adKwpS1dMUrw1F0UZqwoMfNSfOShy22BjYnu0Lu9pWe442IoGBL/8bc5koTJiRuY
+         OlAnMUK5P5FlDzTrLEUebpsY0Y/6bzzBG6z21uc6ErTlScu05r+6G4r/vbWRjK5YR7cw
+         gQsqEW2N36VSP+FKfdCBK4pJUmaX4jRuOxK+rOZS6pd+Q5PZ9TMKRygxrCs0+oQzEMGp
+         I7f4KXugT7GGWvo3C2O8/+cKfSng+e4A9pL/fFFJvtkrDSPeTHtqHd5W+gqifRTWbOzg
+         L2+jlrr7tKDBlMvdLH6M1DjOxGQLste1jJRAONvghQ7hcvNd1Ym7uiXxPZ+b36/GoUy4
+         /h7A==
+X-Gm-Message-State: ACgBeo0NIRyKkhyt6EHJNaAm/YeoXeX9gerCj4ifBwBXPU2rNOEYbTNa
+	pDTbLUWIbwp++aZVwtyy1N4=
+X-Google-Smtp-Source: AA6agR4xMtuWt6t3kUYQzUG6XM71MmbNJ19OMgThFAWIbBTwLwP7UrTg6PNL/ozy5qj6LMYkUlxEgw==
+X-Received: by 2002:adf:d1c6:0:b0:226:da28:d19a with SMTP id b6-20020adfd1c6000000b00226da28d19amr20534009wrd.541.1662380776342;
+        Mon, 05 Sep 2022 05:26:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:80ce:0:b0:261:ccd8:c60 with SMTP id r14-20020a2e80ce000000b00261ccd80c60ls1558276ljg.10.-pod-prod-gmail;
- Mon, 05 Sep 2022 05:26:12 -0700 (PDT)
-X-Received: by 2002:a2e:bcc7:0:b0:261:8fb3:d4ec with SMTP id z7-20020a2ebcc7000000b002618fb3d4ecmr13704720ljp.96.1662380772770;
-        Mon, 05 Sep 2022 05:26:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662380772; cv=none;
+Received: by 2002:a1c:7407:0:b0:3a5:abc9:1b3b with SMTP id p7-20020a1c7407000000b003a5abc91b3bls3797873wmc.1.-pod-prod-gmail;
+ Mon, 05 Sep 2022 05:26:15 -0700 (PDT)
+X-Received: by 2002:a05:600c:1d9a:b0:3a6:248:1440 with SMTP id p26-20020a05600c1d9a00b003a602481440mr11118173wms.196.1662380775277;
+        Mon, 05 Sep 2022 05:26:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662380775; cv=none;
         d=google.com; s=arc-20160816;
-        b=JD0jfMQVr/uN8lCGq69KY9VG1CLjXpHEqkJ1k07e0gZPiSj6vJUnaEGFwhxggBXVbw
-         wLbXVcElNi2eEa7tv3baMaSTQy36A8q1VEzKgQK8ISaNcK6ZROpidCAF1Io8vsglJblu
-         S+sF5o9k1rk8HKgLsWxEFm6bCKvqbIMdY4IZpudfzNvSzLfPAIOLsZrYIwK31yKe+053
-         mkU7lmhJFAl1VUgsMZ2T3Q62E1UknkY2pfE6vbL7NGcyXaNdHniinQnwSZBnLnFMcZN4
-         37bV73Ff6+foPbXDH5gR37OV2Vh8VGupsg22U1WdJuDmJFAgyFsk2BUcficCfJwcAWZj
-         B2sA==
+        b=OQcexbEMmB7Q12xns7r+xILSflmRHKzPLtGvOLR7j7Dx4p1MyiJ6Up81cVPrwDhMlz
+         xcX11rZQ2B5hntRs3WSUcRbCwHFhzX2NEh/9e+x76NVh9cAw1vDaaHL6Mj9iFb7IP1SW
+         isV2TPBRqUJt1oGGX5jsLmiWkvyC3HBGDTqfIVxXGqD+G0isUYI3DeKDP7Y/PUDK0FrM
+         1kXxxpdONjB8b9/SSCDnPhDOVWvtnAaUncaahMktdMGY8zs5wjCO1hi7VfU3h1+utPzZ
+         vfLKW+2Arw8XxgIro5HzLdSfcSbSD0NDkTgvfbAI4VTfo6NUwxcAiUhMtsyY4DqOoH9H
+         G0EA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=YUiFcVJy4Yf/nhkRGOhECdnAl5j2ey18UxYwbxsEwuI=;
-        b=mHgLDpwLfLKJt2qZJe15A/MKfyhuBDqGTm8NiDj5SuKUTqrJrnZo+hmyW7bwVhYESu
-         UuS2Ei6fBIKSlE/0VeT1WOa3M6YX7UuMqfIlwgVhR4MHgqFkCcx54PHHJveDkzl/mrvU
-         d+7xJ169t6m9E7LmUEwO2GNeEIGcNc9PzyeNr4A4Dj1SJ6jhIrNsoEr9q8Hg8OGMGhgL
-         RvBc2G6v4ye5j24qpMT7BuuDQr2HzMjP2QADISIRP0MHWB1lK4IyU1ANqjz0Bs7MTU/y
-         BrktUDgLeFHrp8I7KQsBTJTNswCfFZW+TVpwxP2cDvwlAIKIvQXw7O+sae1tjIPo1x6H
-         FVLQ==
+        bh=T4yulc1U4RDI/lAlxqlpzG4AIUYO9fQrzg+B84ydySw=;
+        b=udYUQBdumMfAKN6N39inYe4FWzPmq9fF7mhyBl/ZSXr6P1qChDeso9krQxhIdvv5B+
+         +7Cn7PMIAEO/nMRE4qHKm5vj5H31w0q3sqWyKfb/kSZ7be/JB3Qy9htDN+ggD4aKCtOr
+         PO1itW10SgfRktpCZK8dN7Je910GJ0bs35HLSHCt4brFhnVt2Xq37wcD6iwVkxQWcYhQ
+         MWXV2X4DxrxFUbcqh86QT2ayKhYeQgojF0KJB9sJbVMzOrI036LfuPGqVu1k9n1qZuIa
+         BdIGDu4E+WZTYSavSyAeYREK/MgLykemAPKU3dAXZQkaoJi0xyoOBrn1hgXB9zz6lzmH
+         jtTw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=EuJefT6p;
-       spf=pass (google.com: domain of 35oovywykctetyvqretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=35OoVYwYKCTETYVQReTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=gykJQm16;
+       spf=pass (google.com: domain of 35uovywykctmvaxstgvddvat.rdbzphpc-stkvddvatvgdjeh.rdb@flex--glider.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=35uoVYwYKCTMVaXSTgVddVaT.RdbZPhPc-STkVddVaTVgdjeh.Rdb@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
-        by gmr-mx.google.com with ESMTPS id c17-20020a056512075100b0048b38f379d7si344261lfs.0.2022.09.05.05.26.12
+Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
+        by gmr-mx.google.com with ESMTPS id l3-20020a1ced03000000b003a5582cf0f0si489842wmh.0.2022.09.05.05.26.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 05:26:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 35oovywykctetyvqretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
-Received: by mail-wm1-x34a.google.com with SMTP id q10-20020a1ce90a000000b003a60123678aso1668900wmc.6
-        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:26:12 -0700 (PDT)
+        Mon, 05 Sep 2022 05:26:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 35uovywykctmvaxstgvddvat.rdbzphpc-stkvddvatvgdjeh.rdb@flex--glider.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
+Received: by mail-ej1-x649.google.com with SMTP id dr17-20020a170907721100b00741a1ef8a20so2276696ejc.0
+        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:26:15 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:b808:8d07:ab4a:554c])
- (user=glider job=sendgmr) by 2002:a05:6000:713:b0:226:ea6c:2d7d with SMTP id
- bs19-20020a056000071300b00226ea6c2d7dmr14917835wrb.293.1662380772234; Mon, 05
- Sep 2022 05:26:12 -0700 (PDT)
-Date: Mon,  5 Sep 2022 14:24:35 +0200
+ (user=glider job=sendgmr) by 2002:a17:906:cc13:b0:73d:d22d:63cd with SMTP id
+ ml19-20020a170906cc1300b0073dd22d63cdmr36111625ejb.741.1662380774896; Mon, 05
+ Sep 2022 05:26:14 -0700 (PDT)
+Date: Mon,  5 Sep 2022 14:24:36 +0200
 In-Reply-To: <20220905122452.2258262-1-glider@google.com>
 Mime-Version: 1.0
 References: <20220905122452.2258262-1-glider@google.com>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220905122452.2258262-28-glider@google.com>
-Subject: [PATCH v6 27/44] crypto: kmsan: disable accelerated configs under KMSAN
+Message-ID: <20220905122452.2258262-29-glider@google.com>
+Subject: [PATCH v6 28/44] kmsan: disable physical page merging in biovec
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -128,9 +128,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=EuJefT6p;       spf=pass
- (google.com: domain of 35oovywykctetyvqretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=35OoVYwYKCTETYVQReTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=gykJQm16;       spf=pass
+ (google.com: domain of 35uovywykctmvaxstgvddvat.rdbzphpc-stkvddvatvgdjeh.rdb@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=35uoVYwYKCTMVaXSTgVddVaT.RdbZPhPc-STkVddVaTVgdjeh.Rdb@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -146,278 +146,41 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-KMSAN is unable to understand when initialized values come from assembly.
-Disable accelerated configs in KMSAN builds to prevent false positive
-reports.
+KMSAN metadata for adjacent physical pages may not be adjacent,
+therefore accessing such pages together may lead to metadata
+corruption.
+We disable merging pages in biovec to prevent such corruptions.
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
-
 ---
 
-Link: https://linux-review.googlesource.com/id/Idb2334bf3a1b68b31b399709baefaa763038cc50
+Link: https://linux-review.googlesource.com/id/Iece16041be5ee47904fbc98121b105e5be5fea5c
 ---
- crypto/Kconfig      | 30 ++++++++++++++++++++++++++++++
- drivers/net/Kconfig |  1 +
- 2 files changed, 31 insertions(+)
+ block/blk.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/crypto/Kconfig b/crypto/Kconfig
-index bb427a835e44a..182fb817ebb52 100644
---- a/crypto/Kconfig
-+++ b/crypto/Kconfig
-@@ -319,6 +319,7 @@ config CRYPTO_CURVE25519
- config CRYPTO_CURVE25519_X86
- 	tristate "x86_64 accelerated Curve25519 scalar multiplication library"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_LIB_CURVE25519_GENERIC
- 	select CRYPTO_ARCH_HAVE_LIB_CURVE25519
+diff --git a/block/blk.h b/block/blk.h
+index d7142c4d2fefb..af02b93c1dba5 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -88,6 +88,13 @@ static inline bool biovec_phys_mergeable(struct request_queue *q,
+ 	phys_addr_t addr1 = page_to_phys(vec1->bv_page) + vec1->bv_offset;
+ 	phys_addr_t addr2 = page_to_phys(vec2->bv_page) + vec2->bv_offset;
  
-@@ -367,11 +368,13 @@ config CRYPTO_AEGIS128
- config CRYPTO_AEGIS128_SIMD
- 	bool "Support SIMD acceleration for AEGIS-128"
- 	depends on CRYPTO_AEGIS128 && ((ARM || ARM64) && KERNEL_MODE_NEON)
-+	depends on !KMSAN # avoid false positives from assembly
- 	default y
- 
- config CRYPTO_AEGIS128_AESNI_SSE2
- 	tristate "AEGIS-128 AEAD algorithm (x86_64 AESNI+SSE2 implementation)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_AEAD
- 	select CRYPTO_SIMD
- 	help
-@@ -517,6 +520,7 @@ config CRYPTO_NHPOLY1305
- config CRYPTO_NHPOLY1305_SSE2
- 	tristate "NHPoly1305 hash function (x86_64 SSE2 implementation)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_NHPOLY1305
- 	help
- 	  SSE2 optimized implementation of the hash function used by the
-@@ -525,6 +529,7 @@ config CRYPTO_NHPOLY1305_SSE2
- config CRYPTO_NHPOLY1305_AVX2
- 	tristate "NHPoly1305 hash function (x86_64 AVX2 implementation)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_NHPOLY1305
- 	help
- 	  AVX2 optimized implementation of the hash function used by the
-@@ -649,6 +654,7 @@ config CRYPTO_CRC32C
- config CRYPTO_CRC32C_INTEL
- 	tristate "CRC32c INTEL hardware acceleration"
- 	depends on X86
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_HASH
- 	help
- 	  In Intel processor with SSE4.2 supported, the processor will
-@@ -689,6 +695,7 @@ config CRYPTO_CRC32
- config CRYPTO_CRC32_PCLMUL
- 	tristate "CRC32 PCLMULQDQ hardware acceleration"
- 	depends on X86
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_HASH
- 	select CRC32
- 	help
-@@ -748,6 +755,7 @@ config CRYPTO_BLAKE2B
- config CRYPTO_BLAKE2S_X86
- 	bool "BLAKE2s digest algorithm (x86 accelerated version)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_LIB_BLAKE2S_GENERIC
- 	select CRYPTO_ARCH_HAVE_LIB_BLAKE2S
- 
-@@ -762,6 +770,7 @@ config CRYPTO_CRCT10DIF
- config CRYPTO_CRCT10DIF_PCLMUL
- 	tristate "CRCT10DIF PCLMULQDQ hardware acceleration"
- 	depends on X86 && 64BIT && CRC_T10DIF
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_HASH
- 	help
- 	  For x86_64 processors with SSE4.2 and PCLMULQDQ supported,
-@@ -831,6 +840,7 @@ config CRYPTO_POLY1305
- config CRYPTO_POLY1305_X86_64
- 	tristate "Poly1305 authenticator algorithm (x86_64/SSE2/AVX2)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_LIB_POLY1305_GENERIC
- 	select CRYPTO_ARCH_HAVE_LIB_POLY1305
- 	help
-@@ -920,6 +930,7 @@ config CRYPTO_SHA1
- config CRYPTO_SHA1_SSSE3
- 	tristate "SHA1 digest algorithm (SSSE3/AVX/AVX2/SHA-NI)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SHA1
- 	select CRYPTO_HASH
- 	help
-@@ -931,6 +942,7 @@ config CRYPTO_SHA1_SSSE3
- config CRYPTO_SHA256_SSSE3
- 	tristate "SHA256 digest algorithm (SSSE3/AVX/AVX2/SHA-NI)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SHA256
- 	select CRYPTO_HASH
- 	help
-@@ -943,6 +955,7 @@ config CRYPTO_SHA256_SSSE3
- config CRYPTO_SHA512_SSSE3
- 	tristate "SHA512 digest algorithm (SSSE3/AVX/AVX2)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SHA512
- 	select CRYPTO_HASH
- 	help
-@@ -1168,6 +1181,7 @@ config CRYPTO_WP512
- config CRYPTO_GHASH_CLMUL_NI_INTEL
- 	tristate "GHASH hash function (CLMUL-NI accelerated)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_CRYPTD
- 	help
- 	  This is the x86_64 CLMUL-NI accelerated implementation of
-@@ -1228,6 +1242,7 @@ config CRYPTO_AES_TI
- config CRYPTO_AES_NI_INTEL
- 	tristate "AES cipher algorithms (AES-NI)"
- 	depends on X86
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_AEAD
- 	select CRYPTO_LIB_AES
- 	select CRYPTO_ALGAPI
-@@ -1369,6 +1384,7 @@ config CRYPTO_BLOWFISH_COMMON
- config CRYPTO_BLOWFISH_X86_64
- 	tristate "Blowfish cipher algorithm (x86_64)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_BLOWFISH_COMMON
- 	imply CRYPTO_CTR
-@@ -1399,6 +1415,7 @@ config CRYPTO_CAMELLIA
- config CRYPTO_CAMELLIA_X86_64
- 	tristate "Camellia cipher algorithm (x86_64)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	imply CRYPTO_CTR
- 	help
-@@ -1415,6 +1432,7 @@ config CRYPTO_CAMELLIA_X86_64
- config CRYPTO_CAMELLIA_AESNI_AVX_X86_64
- 	tristate "Camellia cipher algorithm (x86_64/AES-NI/AVX)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_CAMELLIA_X86_64
- 	select CRYPTO_SIMD
-@@ -1433,6 +1451,7 @@ config CRYPTO_CAMELLIA_AESNI_AVX_X86_64
- config CRYPTO_CAMELLIA_AESNI_AVX2_X86_64
- 	tristate "Camellia cipher algorithm (x86_64/AES-NI/AVX2)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_CAMELLIA_AESNI_AVX_X86_64
- 	help
- 	  Camellia cipher algorithm module (x86_64/AES-NI/AVX2).
-@@ -1478,6 +1497,7 @@ config CRYPTO_CAST5
- config CRYPTO_CAST5_AVX_X86_64
- 	tristate "CAST5 (CAST-128) cipher algorithm (x86_64/AVX)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_CAST5
- 	select CRYPTO_CAST_COMMON
-@@ -1501,6 +1521,7 @@ config CRYPTO_CAST6
- config CRYPTO_CAST6_AVX_X86_64
- 	tristate "CAST6 (CAST-256) cipher algorithm (x86_64/AVX)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_CAST6
- 	select CRYPTO_CAST_COMMON
-@@ -1534,6 +1555,7 @@ config CRYPTO_DES_SPARC64
- config CRYPTO_DES3_EDE_X86_64
- 	tristate "Triple DES EDE cipher algorithm (x86-64)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_LIB_DES
- 	imply CRYPTO_CTR
-@@ -1604,6 +1626,7 @@ config CRYPTO_CHACHA20
- config CRYPTO_CHACHA20_X86_64
- 	tristate "ChaCha stream cipher algorithms (x86_64/SSSE3/AVX2/AVX-512VL)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_LIB_CHACHA_GENERIC
- 	select CRYPTO_ARCH_HAVE_LIB_CHACHA
-@@ -1674,6 +1697,7 @@ config CRYPTO_SERPENT
- config CRYPTO_SERPENT_SSE2_X86_64
- 	tristate "Serpent cipher algorithm (x86_64/SSE2)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_SERPENT
- 	select CRYPTO_SIMD
-@@ -1693,6 +1717,7 @@ config CRYPTO_SERPENT_SSE2_X86_64
- config CRYPTO_SERPENT_SSE2_586
- 	tristate "Serpent cipher algorithm (i586/SSE2)"
- 	depends on X86 && !64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_SERPENT
- 	select CRYPTO_SIMD
-@@ -1712,6 +1737,7 @@ config CRYPTO_SERPENT_SSE2_586
- config CRYPTO_SERPENT_AVX_X86_64
- 	tristate "Serpent cipher algorithm (x86_64/AVX)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_SERPENT
- 	select CRYPTO_SIMD
-@@ -1732,6 +1758,7 @@ config CRYPTO_SERPENT_AVX_X86_64
- config CRYPTO_SERPENT_AVX2_X86_64
- 	tristate "Serpent cipher algorithm (x86_64/AVX2)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SERPENT_AVX_X86_64
- 	help
- 	  Serpent cipher algorithm, by Anderson, Biham & Knudsen.
-@@ -1876,6 +1903,7 @@ config CRYPTO_TWOFISH_586
- config CRYPTO_TWOFISH_X86_64
- 	tristate "Twofish cipher algorithm (x86_64)"
- 	depends on (X86 || UML_X86) && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_ALGAPI
- 	select CRYPTO_TWOFISH_COMMON
- 	imply CRYPTO_CTR
-@@ -1893,6 +1921,7 @@ config CRYPTO_TWOFISH_X86_64
- config CRYPTO_TWOFISH_X86_64_3WAY
- 	tristate "Twofish cipher algorithm (x86_64, 3-way parallel)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_TWOFISH_COMMON
- 	select CRYPTO_TWOFISH_X86_64
-@@ -1913,6 +1942,7 @@ config CRYPTO_TWOFISH_X86_64_3WAY
- config CRYPTO_TWOFISH_AVX_X86_64
- 	tristate "Twofish cipher algorithm (x86_64/AVX)"
- 	depends on X86 && 64BIT
-+	depends on !KMSAN # avoid false positives from assembly
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_SIMD
- 	select CRYPTO_TWOFISH_COMMON
-diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
-index 94c889802566a..2aaf02bfe6f7e 100644
---- a/drivers/net/Kconfig
-+++ b/drivers/net/Kconfig
-@@ -76,6 +76,7 @@ config WIREGUARD
- 	tristate "WireGuard secure network tunnel"
- 	depends on NET && INET
- 	depends on IPV6 || !IPV6
-+	depends on !KMSAN # KMSAN doesn't support the crypto configs below
- 	select NET_UDP_TUNNEL
- 	select DST_CACHE
- 	select CRYPTO
++	/*
++	 * Merging adjacent physical pages may not work correctly under KMSAN
++	 * if their metadata pages aren't adjacent. Just disable merging.
++	 */
++	if (IS_ENABLED(CONFIG_KMSAN))
++		return false;
++
+ 	if (addr1 + vec1->bv_len != addr2)
+ 		return false;
+ 	if (xen_domain() && !xen_biovec_phys_mergeable(vec1, vec2->bv_page))
 -- 
 2.37.2.789.g6183377224-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-28-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-29-glider%40google.com.
