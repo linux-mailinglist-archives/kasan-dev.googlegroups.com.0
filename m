@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBIWV26MAMGQEN4GKAWY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBJOV26MAMGQESL7HR5Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416455AD24F
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:25:07 +0200 (CEST)
-Received: by mail-wm1-x340.google.com with SMTP id q16-20020a1cf310000000b003a626026ed1sf1670865wmq.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:25:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662380707; cv=pass;
+Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id D95015AD251
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:25:09 +0200 (CEST)
+Received: by mail-wm1-x33b.google.com with SMTP id n1-20020a7bc5c1000000b003a682987306sf1674396wmk.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:25:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662380709; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oroI3d9BM1OWx33UVVDHrU1qU/a3X6KEAvuiwoq6+lQT8LaXTzkbRieQ3iiO+EpaE0
-         GzsxvKBUEy31QZhvqWy/i/U+K2Jilx9n0Olisr+RNReBqA6k0BSZc/5kmLpmWdApKNHT
-         uHaZz55b7AnZmLjyQ8knWYrMz1aaIEEAnlDeC2RWvFjTTCCruhh88hub5uLMTIY1g4oI
-         6cwJjwqn5HMmG3mrsS8uY7V/iw6mYRXu8RiYFVblo3+ITvDnJG7WcGnQQzK9wHLnycTw
-         cLdxwPkoNGw7OpcDSk3kH0MLZ07BHibwXiaqHqTkuGbJ2jFY/dkHuFING6AARb+/qcBC
-         pLhg==
+        b=OQxOElauffkaT/nYU0WuFrcJoRcNND8W7oNHOOoRinWNMmpi1e0baC2EncnjsEZFyI
+         HWpZM8lR3NMCEkNlxgR+kPusE2mfHez76yIrQTBNICdVHSGfYPs7eruEAAO1s4iPTJPu
+         f/Hf1bZQyAXdvT4p6qiQV9l9B9J+MHtIdinJR+/sF04b0lqk95/mf6HqTrIgiDOR36sL
+         n6bf9xsdJ3IBX827XDMfoyWRqQmbKnPqhYEO3AZ9dlr272HHXr5/SG6fWoesesIrFeKZ
+         wrcdlIK5cA0vF1Un9qjLj1oVB5xYlmpxRhaI5Ajrdo8HlDUh8DINmy994w0MhT1Qdqkw
+         whHQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=xuZUrmUmxK7krR3LeGVAufZIJFHlCfEHvMGCHBjVrVM=;
-        b=PunOvbNKy6nBrRoeLoXHDjeyhuLnn6Oivjt8wJ/3tFbhmq6x3WwXYfneHEY5hzdajE
-         vnj3iXlIZ7idmRmBhjxbCbiucUwdlYdO8G+oL72O1noU1tLfLR6G50XjymRl8fTnEofb
-         lgEMpDCl9SfsUsp0NRV20j/WNGvugNobDjDTDC1nWdTbgxFWC3ZnagW9YaaIdjXcyjq0
-         mSIrVIPBQIAVDqeqQsa2jOvQLBP7ndbgQfm0mCx74laQnyV1X+cOd9dziowMqcnVxXW8
-         1vAdv1WDQelzyHTtXIuw/ME19nXg8+TrZ4aieyn729QhFnAvyKecoMQ+YZRsO8z2KAbP
-         sJVA==
+        bh=RIUHYnWNAfUe9M/zLI380eMpqdV8DJAoO7pZQEiWIS0=;
+        b=uR+eMAuohaR1JZhxj1MHuDNUUWhjeKvEt7ch6eExsILTGPioCV4mcU4ECMzIAolIBK
+         xo0Kj9lFQo2fpaDR9kqnDF9cp2UafD08vxMiOQB+6DyJJIS+HNR9Wn6ylgighzDvm5Vx
+         aGx0cgwy/FCG8enA4hRPCZiuuhXWeVzt8i2OrH7mN+tUuSOmuagBdoUMVBUuXVFscabO
+         IIu+O3UmdqWsNwAYxSyIn8fUxOR3JrWuzNQ2UiOigWJQdLA2YtNh6dXgRAKqpl2YftzN
+         BuczfCpUsaREnRB2z+Q9AYhzix9eFSDJpeeWROpyHQdnu+PxCT+B8xLwdAbQl7Sigulb
+         LtNg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=dumDoYlx;
-       spf=pass (google.com: domain of 3oeovywykcewuzwrsfuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3oeoVYwYKCewUZWRSfUccUZS.QcaYOgOb-RSjUccUZSUfcidg.Qca@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=tGEGAx8u;
+       spf=pass (google.com: domain of 3o-ovywykce4wbytuhweewbu.secaqiqd-tulweewbuwhekfi.sec@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3o-oVYwYKCe4WbYTUhWeeWbU.SecaQiQd-TUlWeeWbUWhekfi.Sec@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date;
-        bh=xuZUrmUmxK7krR3LeGVAufZIJFHlCfEHvMGCHBjVrVM=;
-        b=aDa70Looj9aEUGlsfr7DEAdVqDD8xexGUybE0tduTAb+b6uEEeV0SdcfSnO3KgovkX
-         xBfWDFvbbWVQ6yCU3ITTm1mF2/P9oI0n8IyzUlTiyr3bjnw5qPol7Dt+wHgZCUXetr8G
-         60Hgs6hBB75FGqtdsoiyu8C5Dd3DFjnbBSXW0PIkJ3k7CXinrU4bKVzC2IX24tjsQj90
-         tplkNRP0yP2uiHWvGZT01W8qpzQoTwpZzGosjN2mKRt8hISXBYpSSsSNxovnz5a+uhRJ
-         Rq013cPWGRSgdOBOXc79U9AkE96wt9/F3I2+lwtsYqzqT6jIGUnBlEyzI99cIYv+X3WE
-         Ycrg==
+        bh=RIUHYnWNAfUe9M/zLI380eMpqdV8DJAoO7pZQEiWIS0=;
+        b=O3kzM2u/PQFhAo9KfcYz3Red9nKF9GSTNHx/QoN+uObu0iVXRYCVTlx1w3vBRUhY3v
+         1COyFAOCrOS2ASPGBAt5HU14JzANji4KxbOTy879iglhoPGKoKpAHtukqQ8vpA2BcCIH
+         BMs5SOG8PVP6NUmXpj319dJlHjoZ/TbM3eHluw0P5C4lyHZz80VSErPd+TYi8Q+iuJZ8
+         fmEqJm2l4CPeJEWhHxToV/CDMW3RwqDUO2hjT7Io/mG19CT/zW75lQ6WB2/wVPtiWUIp
+         2rNELcgaw80xhmG2ftYDgisRikpRENarsyf3W4PjG0sZgK/wKcpzFUhrTPHRyQH78kO+
+         HP0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,64 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=xuZUrmUmxK7krR3LeGVAufZIJFHlCfEHvMGCHBjVrVM=;
-        b=YQImRPqTmW18lLtWdHDNO9kK4vdlKjrv+R0wvWNrRwRJuytkxqvLzMwT31ymrw3Bwh
-         UWdIYl+FXyPGrJWc+riAx5ot0RVlv5bX7JOdAzLOcjSd41s5VqG+XpvCAC+vJRgqPPQi
-         llO+MhKF6GhJ2iRNmbEy14ok9+NMdEQn1zjW/wx8USpRddGqoMiEKSCgK06L1sKaXM3C
-         pARo9nvVhsGf5ZUn3qQqHnmAg+7o3K+fMyvoPuWEeN1HRpEpHojb2enY27JhO8hamlnz
-         IHWZGALOQvlZ3+cfc9px38ZaKhENq7e82BpiLatYua6SwAZ/X/+J03RiZ3Dx1GLTIttv
-         VRhw==
-X-Gm-Message-State: ACgBeo0tgLzVMOOdgocXHDNTLyVORBgl61VQqMQWxUGHh2Elbk6W4lPi
-	c2Ko+s/Q2gkvH1QRHFg64NU=
-X-Google-Smtp-Source: AA6agR4HYO+Z0W0W53DRlp67fABHbufrfrwkpiHEoAM0SE//IIYMH4o2F/aB3iQxgpek/RYnVs1YqA==
-X-Received: by 2002:a05:600c:a199:b0:3a5:dddf:ac6d with SMTP id id25-20020a05600ca19900b003a5dddfac6dmr10441763wmb.44.1662380706941;
-        Mon, 05 Sep 2022 05:25:06 -0700 (PDT)
+        bh=RIUHYnWNAfUe9M/zLI380eMpqdV8DJAoO7pZQEiWIS0=;
+        b=M74MfqJUFrX2b+eybVk4PUcW4mnt/AivlQ2s3khd/59uoxp4nNz28moIJLQf3PJvIc
+         TRhchjHGxoIZZM4UPa+jytw2cLpGIMWLTyoN6SqIt+v0Wu7nJfaRFDwdfc1O558YNve3
+         FDDDpSYR5220R8VlqK/mIq/Nih1OmYveZXnVTRDKeUul1vM0oAddHZJfUiUGv+F2U1iN
+         QFzzOkl7deJsVomZp77ahpDxxBd/Cob1wVXDO0RfUILOgfMoUCSC/JB1fjBr4gWJZhLu
+         CmrlhnK/nc/x5mP4FxSMq5IRuBGAhG7Oxj7oE8Um3yPYxo6zhCncU8PR/x1jKwW1DB1C
+         Pn6Q==
+X-Gm-Message-State: ACgBeo1q+kumI1jw5D4jaqOhflqwxdRgXV4w25ZXBJFJG2LbZo1E0xIq
+	lEgsrLgU6piD6hh4WHg6lZ0=
+X-Google-Smtp-Source: AA6agR6cJk0Mltq6ki1b5s6mPBWtkooiwxakNrFCuToMpOvIsnGyY/Zcvq6mpa2y5wkvNbl/MN32Qg==
+X-Received: by 2002:a05:600c:1e04:b0:3a5:c83f:76bd with SMTP id ay4-20020a05600c1e0400b003a5c83f76bdmr10564800wmb.191.1662380709339;
+        Mon, 05 Sep 2022 05:25:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:c059:0:b0:3a6:6268:8eae with SMTP id u25-20020a7bc059000000b003a662688eaels3804589wmc.0.-pod-prod-gmail;
- Mon, 05 Sep 2022 05:25:05 -0700 (PDT)
-X-Received: by 2002:a05:600c:3d11:b0:3a5:cd9b:eb08 with SMTP id bh17-20020a05600c3d1100b003a5cd9beb08mr10830195wmb.82.1662380705588;
-        Mon, 05 Sep 2022 05:25:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662380705; cv=none;
+Received: by 2002:a05:6000:257:b0:228:a25b:134a with SMTP id
+ m23-20020a056000025700b00228a25b134als3154163wrz.0.-pod-prod-gmail; Mon, 05
+ Sep 2022 05:25:08 -0700 (PDT)
+X-Received: by 2002:adf:fa11:0:b0:228:bfb5:d56a with SMTP id m17-20020adffa11000000b00228bfb5d56amr1318881wrr.353.1662380708341;
+        Mon, 05 Sep 2022 05:25:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662380708; cv=none;
         d=google.com; s=arc-20160816;
-        b=l26ye0FXsFt2uUprq76snQ2hBdhQNeMJEqbgRcNzqvv+c5+dDjj7POsSqZyRPzLU4Z
-         UEYM/KvZXO5xjBCuwdHHo5kN/PG1UT4HH9E+GC6zJg/jhOXgBuniyBc/FYPsK9CsEOLJ
-         ViQf8bTWtJDYxl22Mq5CTHeWiY7qu7FCO6G1xuwodADyyZT5bmgns2MzEOIRxSAb9w/U
-         Alw0XKITNhBLTZT3ZRr4Tf9QljuOFZ5r3ibMUUzIxSF4gHykoZc0LLO69znP8VKSrn67
-         T2vhxAK4FB743rsqogZDM0REhFhq3LIFkaAZ0SRolCE3j75WfkJc6NRnpjgNImfwVJQr
-         mlCw==
+        b=sMoyEi1G9aGKDsBlqolXKnP8264WASXUSGR7v97ezK17HKm63PXYhJUJMiAqiQkK1M
+         m+XbPffTbBhSiN7Ge04+gEvOHUppODgjFOyqV+wBv4VRRV/2JTkmwrtzf0jBHENGUCDS
+         4wYXDQSKvy8vTOWCDozpnG45fRqhJC1zUcipLuTY/wbJc1X0zEVgiGkONY1h+a7SL4Ky
+         XAHhLHI4dJL0U9KxGSh+7v1rKvVMkML3YaOxXnZsWcopte7E0ihQ7ZkNu/2q2zwLV6JP
+         dOY16E2jEQmGVyeIxy1a7JO8+B0gCVYY7+tnRLzL/ezsSTiMD80hvfH2jIp+8lzf5Avc
+         KlLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=msgzHzsxvMZcLqG5jRq1WtDuSKgOL7FjSU3mDqU1uyE=;
-        b=Wnsp0+D0l0RdwI3a+ghkhnCHZp6K8IJP1IA8KBmgdLcgpT5K+18T36VXkn3XsDEPVr
-         7w+DoIupmzaDY94aoJpEwkyTuy2CKDNQ1qRuYpigYc2vV2oXzq/f92reoh9UIsAerJTq
-         r3IoDRkydLD7Z8UiTGYv1vWe76sIYUQwQA7zQ1JuzRRHm6pKroJ8OeZBEycKlRa6S0lX
-         d1hLZnvNg9fyr9wx367z5e9xoagGsOCJuSkzlrVRrUaCUNSYPbk+lME7gSnk4r3cf/lV
-         PGLbBsgc7NYO5T5UovXYpEDGkVXQhMP92CSDFREgG+rZDudd3ganUOMtXEJ/f14z5hu1
-         OHRw==
+        bh=gSZzwrXvhkj2wpolUx3YVTouxdXHw9PaTEDZ4n2e3I0=;
+        b=qCsz+rBU1aLdqMTgm7YumtqKsCCqAA5QeAxfx/zoWaNyQ9gzsI3aCml55lycmbxtAp
+         Llk8sWlsDHwNxUkjUjbTxmzqsLCc+//I5+2Z4XKgMnobkD3dldjpZLZ72jsBlUrMTMJX
+         YRMKzcLSLhdktPukGh+mKvCDa+WcvIQTL3opIGacIDe1sKyS77euU+w4Ee/GM6DbE1Qq
+         myi24tTKU1xB4ITKNWtcCYV3dRaMoQ0r5mWQAH+nnU4XVEbFXS7Y3NYfGkeU29xRcU7j
+         GhMZqPaahGNB81Sdz2lJOSw7qo13Pf10XKi8WKK8+F2ejR5IAvKTGRe+l8CNBXOt5Cp2
+         7/UQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=dumDoYlx;
-       spf=pass (google.com: domain of 3oeovywykcewuzwrsfuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3oeoVYwYKCewUZWRSfUccUZS.QcaYOgOb-RSjUccUZSUfcidg.Qca@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=tGEGAx8u;
+       spf=pass (google.com: domain of 3o-ovywykce4wbytuhweewbu.secaqiqd-tulweewbuwhekfi.sec@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3o-oVYwYKCe4WbYTUhWeeWbU.SecaQiQd-TUlWeeWbUWhekfi.Sec@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
-        by gmr-mx.google.com with ESMTPS id bi19-20020a05600c3d9300b003a6787eaf57si1178450wmb.2.2022.09.05.05.25.05
+        by gmr-mx.google.com with ESMTPS id p22-20020a05600c359600b003a83fda1d81si881237wmq.2.2022.09.05.05.25.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 05:25:05 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3oeovywykcewuzwrsfuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
-Received: by mail-ed1-x549.google.com with SMTP id w19-20020a05640234d300b004482dd03feeso5725915edc.0
-        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:25:05 -0700 (PDT)
+        Mon, 05 Sep 2022 05:25:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3o-ovywykce4wbytuhweewbu.secaqiqd-tulweewbuwhekfi.sec@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
+Received: by mail-ed1-x549.google.com with SMTP id w17-20020a056402269100b0043da2189b71so5639888edd.6
+        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:25:08 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:b808:8d07:ab4a:554c])
- (user=glider job=sendgmr) by 2002:a05:6402:448b:b0:43b:5ec6:8863 with SMTP id
- er11-20020a056402448b00b0043b5ec68863mr42758320edb.377.1662380705217; Mon, 05
- Sep 2022 05:25:05 -0700 (PDT)
-Date: Mon,  5 Sep 2022 14:24:11 +0200
+ (user=glider job=sendgmr) by 2002:a05:6402:4414:b0:434:f58c:ee2e with SMTP id
+ y20-20020a056402441400b00434f58cee2emr43097203eda.362.1662380707978; Mon, 05
+ Sep 2022 05:25:07 -0700 (PDT)
+Date: Mon,  5 Sep 2022 14:24:12 +0200
 In-Reply-To: <20220905122452.2258262-1-glider@google.com>
 Mime-Version: 1.0
 References: <20220905122452.2258262-1-glider@google.com>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220905122452.2258262-4-glider@google.com>
-Subject: [PATCH v6 03/44] instrumented.h: allow instrumenting both sides of copy_from_user()
+Message-ID: <20220905122452.2258262-5-glider@google.com>
+Subject: [PATCH v6 04/44] x86: asm: instrument usercopy in get_user() and put_user()
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -128,9 +129,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=dumDoYlx;       spf=pass
- (google.com: domain of 3oeovywykcewuzwrsfuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3oeoVYwYKCewUZWRSfUccUZS.QcaYOgOb-RSjUccUZSUfcidg.Qca@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=tGEGAx8u;       spf=pass
+ (google.com: domain of 3o-ovywykce4wbytuhweewbu.secaqiqd-tulweewbuwhekfi.sec@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3o-oVYwYKCe4WbYTUhWeeWbU.SecaQiQd-TUlWeeWbUWhekfi.Sec@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -146,178 +147,146 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Introduce instrument_copy_from_user_before() and
-instrument_copy_from_user_after() hooks to be invoked before and after
-the call to copy_from_user().
-
-KASAN and KCSAN will be only using instrument_copy_from_user_before(),
-but for KMSAN we'll need to insert code after copy_from_user().
+Use hooks from instrumented.h to notify bug detection tools about
+usercopy events in variations of get_user() and put_user().
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
-Reviewed-by: Marco Elver <elver@google.com>
-
 ---
-v4:
- -- fix _copy_from_user_key() in arch/s390/lib/uaccess.c (Reported-by:
-    kernel test robot <lkp@intel.com>)
+v5:
+ -- handle put_user(), make sure to not evaluate pointer/value twice
 
-Link: https://linux-review.googlesource.com/id/I855034578f0b0f126734cbd734fb4ae1d3a6af99
+v6:
+ -- add missing empty definitions of instrument_get_user() and
+    instrument_put_user()
+
+Link: https://linux-review.googlesource.com/id/Ia9f12bfe5832623250e20f1859fdf5cc485a2fce
 ---
- arch/s390/lib/uaccess.c      |  3 ++-
- include/linux/instrumented.h | 21 +++++++++++++++++++--
- include/linux/uaccess.h      | 19 ++++++++++++++-----
- lib/iov_iter.c               |  9 ++++++---
- lib/usercopy.c               |  3 ++-
- 5 files changed, 43 insertions(+), 12 deletions(-)
+ arch/x86/include/asm/uaccess.h | 22 +++++++++++++++-------
+ include/linux/instrumented.h   | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+), 7 deletions(-)
 
-diff --git a/arch/s390/lib/uaccess.c b/arch/s390/lib/uaccess.c
-index d7b3b193d1088..58033dfcb6d45 100644
---- a/arch/s390/lib/uaccess.c
-+++ b/arch/s390/lib/uaccess.c
-@@ -81,8 +81,9 @@ unsigned long _copy_from_user_key(void *to, const void __user *from,
+diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
+index 913e593a3b45f..c1b8982899eca 100644
+--- a/arch/x86/include/asm/uaccess.h
++++ b/arch/x86/include/asm/uaccess.h
+@@ -5,6 +5,7 @@
+  * User space memory access functions
+  */
+ #include <linux/compiler.h>
++#include <linux/instrumented.h>
+ #include <linux/kasan-checks.h>
+ #include <linux/string.h>
+ #include <asm/asm.h>
+@@ -103,6 +104,7 @@ extern int __get_user_bad(void);
+ 		     : "=a" (__ret_gu), "=r" (__val_gu),		\
+ 			ASM_CALL_CONSTRAINT				\
+ 		     : "0" (ptr), "i" (sizeof(*(ptr))));		\
++	instrument_get_user(__val_gu);					\
+ 	(x) = (__force __typeof__(*(ptr))) __val_gu;			\
+ 	__builtin_expect(__ret_gu, 0);					\
+ })
+@@ -192,9 +194,11 @@ extern void __put_user_nocheck_8(void);
+ 	int __ret_pu;							\
+ 	void __user *__ptr_pu;						\
+ 	register __typeof__(*(ptr)) __val_pu asm("%"_ASM_AX);		\
+-	__chk_user_ptr(ptr);						\
+-	__ptr_pu = (ptr);						\
+-	__val_pu = (x);							\
++	__typeof__(*(ptr)) __x = (x); /* eval x once */			\
++	__typeof__(ptr) __ptr = (ptr); /* eval ptr once */		\
++	__chk_user_ptr(__ptr);						\
++	__ptr_pu = __ptr;						\
++	__val_pu = __x;							\
+ 	asm volatile("call __" #fn "_%P[size]"				\
+ 		     : "=c" (__ret_pu),					\
+ 			ASM_CALL_CONSTRAINT				\
+@@ -202,6 +206,7 @@ extern void __put_user_nocheck_8(void);
+ 		       "r" (__val_pu),					\
+ 		       [size] "i" (sizeof(*(ptr)))			\
+ 		     :"ebx");						\
++	instrument_put_user(__x, __ptr, sizeof(*(ptr)));		\
+ 	__builtin_expect(__ret_pu, 0);					\
+ })
  
- 	might_fault();
- 	if (!should_fail_usercopy()) {
--		instrument_copy_from_user(to, from, n);
-+		instrument_copy_from_user_before(to, from, n);
- 		res = raw_copy_from_user_key(to, from, n, key);
-+		instrument_copy_from_user_after(to, from, n, res);
- 	}
- 	if (unlikely(res))
- 		memset(to + (n - res), 0, res);
+@@ -248,23 +253,25 @@ extern void __put_user_nocheck_8(void);
+ 
+ #define __put_user_size(x, ptr, size, label)				\
+ do {									\
++	__typeof__(*(ptr)) __x = (x); /* eval x once */			\
+ 	__chk_user_ptr(ptr);						\
+ 	switch (size) {							\
+ 	case 1:								\
+-		__put_user_goto(x, ptr, "b", "iq", label);		\
++		__put_user_goto(__x, ptr, "b", "iq", label);		\
+ 		break;							\
+ 	case 2:								\
+-		__put_user_goto(x, ptr, "w", "ir", label);		\
++		__put_user_goto(__x, ptr, "w", "ir", label);		\
+ 		break;							\
+ 	case 4:								\
+-		__put_user_goto(x, ptr, "l", "ir", label);		\
++		__put_user_goto(__x, ptr, "l", "ir", label);		\
+ 		break;							\
+ 	case 8:								\
+-		__put_user_goto_u64(x, ptr, label);			\
++		__put_user_goto_u64(__x, ptr, label);			\
+ 		break;							\
+ 	default:							\
+ 		__put_user_bad();					\
+ 	}								\
++	instrument_put_user(__x, ptr, size);				\
+ } while (0)
+ 
+ #ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
+@@ -305,6 +312,7 @@ do {									\
+ 	default:							\
+ 		(x) = __get_user_bad();					\
+ 	}								\
++	instrument_get_user(x);						\
+ } while (0)
+ 
+ #define __get_user_asm(x, addr, itype, ltype, label)			\
 diff --git a/include/linux/instrumented.h b/include/linux/instrumented.h
-index 42faebbaa202a..ee8f7d17d34f5 100644
+index ee8f7d17d34f5..9f1dba8f717b0 100644
 --- a/include/linux/instrumented.h
 +++ b/include/linux/instrumented.h
-@@ -120,7 +120,7 @@ instrument_copy_to_user(void __user *to, const void *from, unsigned long n)
- }
- 
- /**
-- * instrument_copy_from_user - instrument writes of copy_from_user
-+ * instrument_copy_from_user_before - add instrumentation before copy_from_user
-  *
-  * Instrument writes to kernel memory, that are due to copy_from_user (and
-  * variants). The instrumentation should be inserted before the accesses.
-@@ -130,10 +130,27 @@ instrument_copy_to_user(void __user *to, const void *from, unsigned long n)
-  * @n number of bytes to copy
-  */
- static __always_inline void
--instrument_copy_from_user(const void *to, const void __user *from, unsigned long n)
-+instrument_copy_from_user_before(const void *to, const void __user *from, unsigned long n)
+@@ -153,4 +153,32 @@ instrument_copy_from_user_after(const void *to, const void __user *from,
  {
- 	kasan_check_write(to, n);
- 	kcsan_check_write(to, n);
  }
  
 +/**
-+ * instrument_copy_from_user_after - add instrumentation after copy_from_user
++ * instrument_get_user() - add instrumentation to get_user()-like macros
 + *
-+ * Instrument writes to kernel memory, that are due to copy_from_user (and
-+ * variants). The instrumentation should be inserted after the accesses.
++ * get_user() and friends are fragile, so it may depend on the implementation
++ * whether the instrumentation happens before or after the data is copied from
++ * the userspace.
 + *
-+ * @to destination address
-+ * @from source address
-+ * @n number of bytes to copy
-+ * @left number of bytes not copied (as returned by copy_from_user)
++ * @to destination variable, may not be address-taken
 + */
-+static __always_inline void
-+instrument_copy_from_user_after(const void *to, const void __user *from,
-+				unsigned long n, unsigned long left)
-+{
-+}
++#define instrument_get_user(to)                         \
++({                                                      \
++})
++
++/**
++ * instrument_put_user() - add instrumentation to put_user()-like macros
++ *
++ * put_user() and friends are fragile, so it may depend on the implementation
++ * whether the instrumentation happens before or after the data is copied from
++ * the userspace.
++ *
++ * @from source address
++ * @ptr userspace pointer to copy to
++ * @size number of bytes to copy
++ */
++#define instrument_put_user(from, ptr, size)                    \
++({                                                              \
++})
 +
  #endif /* _LINUX_INSTRUMENTED_H */
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index 47e5d374c7ebe..afb18f198843b 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -58,20 +58,28 @@
- static __always_inline __must_check unsigned long
- __copy_from_user_inatomic(void *to, const void __user *from, unsigned long n)
- {
--	instrument_copy_from_user(to, from, n);
-+	unsigned long res;
-+
-+	instrument_copy_from_user_before(to, from, n);
- 	check_object_size(to, n, false);
--	return raw_copy_from_user(to, from, n);
-+	res = raw_copy_from_user(to, from, n);
-+	instrument_copy_from_user_after(to, from, n, res);
-+	return res;
- }
- 
- static __always_inline __must_check unsigned long
- __copy_from_user(void *to, const void __user *from, unsigned long n)
- {
-+	unsigned long res;
-+
- 	might_fault();
-+	instrument_copy_from_user_before(to, from, n);
- 	if (should_fail_usercopy())
- 		return n;
--	instrument_copy_from_user(to, from, n);
- 	check_object_size(to, n, false);
--	return raw_copy_from_user(to, from, n);
-+	res = raw_copy_from_user(to, from, n);
-+	instrument_copy_from_user_after(to, from, n, res);
-+	return res;
- }
- 
- /**
-@@ -115,8 +123,9 @@ _copy_from_user(void *to, const void __user *from, unsigned long n)
- 	unsigned long res = n;
- 	might_fault();
- 	if (!should_fail_usercopy() && likely(access_ok(from, n))) {
--		instrument_copy_from_user(to, from, n);
-+		instrument_copy_from_user_before(to, from, n);
- 		res = raw_copy_from_user(to, from, n);
-+		instrument_copy_from_user_after(to, from, n, res);
- 	}
- 	if (unlikely(res))
- 		memset(to + (n - res), 0, res);
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 4b7fce72e3e52..c3ca28ca68a65 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -174,13 +174,16 @@ static int copyout(void __user *to, const void *from, size_t n)
- 
- static int copyin(void *to, const void __user *from, size_t n)
- {
-+	size_t res = n;
-+
- 	if (should_fail_usercopy())
- 		return n;
- 	if (access_ok(from, n)) {
--		instrument_copy_from_user(to, from, n);
--		n = raw_copy_from_user(to, from, n);
-+		instrument_copy_from_user_before(to, from, n);
-+		res = raw_copy_from_user(to, from, n);
-+		instrument_copy_from_user_after(to, from, n, res);
- 	}
--	return n;
-+	return res;
- }
- 
- static inline struct pipe_buffer *pipe_buf(const struct pipe_inode_info *pipe,
-diff --git a/lib/usercopy.c b/lib/usercopy.c
-index 7413dd300516e..1505a52f23a01 100644
---- a/lib/usercopy.c
-+++ b/lib/usercopy.c
-@@ -12,8 +12,9 @@ unsigned long _copy_from_user(void *to, const void __user *from, unsigned long n
- 	unsigned long res = n;
- 	might_fault();
- 	if (!should_fail_usercopy() && likely(access_ok(from, n))) {
--		instrument_copy_from_user(to, from, n);
-+		instrument_copy_from_user_before(to, from, n);
- 		res = raw_copy_from_user(to, from, n);
-+		instrument_copy_from_user_after(to, from, n, res);
- 	}
- 	if (unlikely(res))
- 		memset(to + (n - res), 0, res);
 -- 
 2.37.2.789.g6183377224-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-4-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-5-glider%40google.com.
