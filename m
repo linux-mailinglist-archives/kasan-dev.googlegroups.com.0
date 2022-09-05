@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBM6V26MAMGQEF2JDMTQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBNWV26MAMGQEU63ALPA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4FC5AD256
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:25:24 +0200 (CEST)
-Received: by mail-lj1-x23b.google.com with SMTP id k6-20020a2e9206000000b00267a6d3f0e4sf2790155ljg.5
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:25:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662380723; cv=pass;
+Received: from mail-ej1-x640.google.com (mail-ej1-x640.google.com [IPv6:2a00:1450:4864:20::640])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAAB95AD257
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:25:26 +0200 (CEST)
+Received: by mail-ej1-x640.google.com with SMTP id nb19-20020a1709071c9300b0074151953770sf2296993ejc.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:25:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662380726; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cvKByor/El6vnX91La+iBSTzTmRp+SX4tB23mez6ihFp4Q0iUHn/KyZmgXjH+HVjkB
-         /0qUSbJEAis/WmFySz62E2V/YaVFEOkXEH77EQsPHvBkxL/tcqxgUcDZ+ZJw84cZ8mdm
-         +55ceRTcfeensXxjM0xc9dgwMmRoi04SNinw1rw9MJNlEQlhjYY5uXCOiKrxEbgvRp9Q
-         3NH9E6OHegT57Y/FnWoKFP/KxXwfNR0wZ9INwVXyueYv7bHc1atCj3zKd42I31CZxNk2
-         VgTmlUxx9IIFQYRpTrONxUOmNN/a3IROcbJLJrgTmLXBU34/5DxO/FDTf9JmPKsnclTJ
-         ylaA==
+        b=zmkBLoIBbwzyRVhavEzfTcS0DBti0GtyOAq841z3kPwB3wCC2TcqxNEVFGXu5wYFPd
+         VxyEbzDS3DzRpDkP+M7Okxk5dDfQFfn7yyxZ2xkyLMQ23dQvg6PWBMTe/DbEsJL+I8LG
+         z01UpwASsKUuMwwm+7vaVOfsR0DS9Q/hmcTBUa8ViWkzH+MG5rmMRk1d6mWuoXAG/G3l
+         7ZupCEBnOsqgVmhaHS9rh8v0VXo5foqBGaUWFzSQGm3EXHtyUorjrYqR6tCHB8SDV7n2
+         7A3YiSkmVOu66oaIgqcisF+XNGewaqh88wWzpgdDup+iMZtSeFKyHkwx/MZisUTewTrK
+         2LhA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=Hq0TjxNhRaY+aI2TCyWlsaH01iepkfN3KTbGFZwfnF8=;
-        b=Cjrt1GXdpSzVbb0IZ5AgbQqIRstzvnivWblMpoEKXxe0/hrvxocJcV+BZprmrWGAe9
-         BCgK+fzK8rC4PgmzIeVnAyYQ1srVAD+xVYqAKkU/A4P5XajeFeXLtn+f4TjfKxWykAQk
-         9sLZXdmO0IWJ3Xj66a3WNtDDMAOSiOEI19wj1KaKXRTqdbB07yCm50mr5ODrWnDOzCkw
-         MC+Me3IoykwPZY+omHLntdqQTr4W37ii8v48HXGqNhje0V5wuLIua3bNiH/TEA9Agaom
-         vzKsIRVWPIPxO9zYHzWJnuBsMkgOeWxgk5tVhQsuenOWPFu48NS2R2r1hniNh5KvaPd6
-         fvuw==
+        bh=HETPvLeGs8YvH/UdT/wnW33R/wNt1rV+fkmX+0rP5nk=;
+        b=Elw58s5fw6em+Q8OSiheS2rjhlsxHAIegGorzxB7SAOW6ousSMaIy/XvDoZMywUM0N
+         NbCqRbnQLYhSIPJmO8IBXRYGR99M4PkQsfxge5k7Yd45oMnhFeUO1b61GaWZwwwvoVMF
+         /Q5MJ0hRoG9maobvYq+wkOWSR9b6S0wSgPg5DxakRIsqKJ53XgFnJx/gLXIjfs48zPXl
+         YUfAYAVv4yeIov8LBTT7U98hGMM0RdMcEgz/8zIbuomyDJ0m2+CP3Ct0iMnIqE+V6D8a
+         y+lV3BDLH5g48GIXTxlbZDWXnYKPJoGYUBcNF/3XXBKFoRc2imaQlmdEQRcwBcLazUiM
+         9liw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=d8oJ2o++;
-       spf=pass (google.com: domain of 3suovywykcf0lqnijwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--glider.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3suoVYwYKCf0lqnijwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="O96bjuI/";
+       spf=pass (google.com: domain of 3teovywykcqiinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3teoVYwYKCQIinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date;
-        bh=Hq0TjxNhRaY+aI2TCyWlsaH01iepkfN3KTbGFZwfnF8=;
-        b=txqwA7PtNV5GHmNojgkxpw+jWbrkc6OVK7zZvhnTLsACrg+r5voYFy2HbLhoB+M/zt
-         8i5iGTdyrqJGcfP3Hk0qsuIjmy/6wrFjePYvvbN9t9cPEIEZQC82eLAnddUWAXiNnurt
-         C78t24F2WyH+s/XAxlbzPv4bHSccpJ4grQ6KEvPFFL03yp+sMCSQM/zwp8z3MQ8MRWWu
-         MRv++j5Rl6MOzOxDZ1AeGyEgqb3hENzkwsNCDFGCbDYqMDCo20Ae8wlh/+jfgkGQyzAL
-         xrJTzjugGRgjZn58riWZAbz6Ki3xHs8E98+dL+2t3UNTh8umP68FHoUzVYZnvZJQsKr5
-         DxDA==
+        bh=HETPvLeGs8YvH/UdT/wnW33R/wNt1rV+fkmX+0rP5nk=;
+        b=bdzxWylLuydC6i7KG655xJTOkrCn3hIjbgSwv5WMBeiUjuiIAGyCpReyIxyQ9cv52d
+         o+MMDdHyP0tQCPA3PZ16ckr/22O/K+GTSqF0kQ7gPW/0GRMAsHbseVQru5IuqiXlhmnT
+         mgurar6E1Cgnole/I24iA6mw4ikNMdABku0rrXooVonSAzFcqk1LB1DLuEycZ1jQpool
+         KA3I4/tHBx1sCvkGq/OlUZVHMGAWUNVM8dQ2oYfhmr/i0D0uVOltFLkI6XZPtuOS8KJR
+         2H3wMluappBv9zTSk/BZL3irWa795nkmgas/BXvpJSuLpPMd0qofikC6G4c6Nxj6uCQ2
+         H+2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,65 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=Hq0TjxNhRaY+aI2TCyWlsaH01iepkfN3KTbGFZwfnF8=;
-        b=wiLXOg4Zzy6uuL/wApxi8qPsFMyhNZS0w/JSnWh+d5IBLhiWWQWox2rHMZyAZm1MhP
-         Jru2ZQF3SRnrmE+S+kpJ+wV/gb6uE2y/LiQ2qjAfBXqfndlyaNYpv+5BBnAj1S51hZN1
-         7Swl9lqRv6G3kppyR1ZHpAxm20ZY6nAFmrlLbZnD31x4qEZafv4maSRqFZLK2NnK/mkZ
-         o9HqvocpAbwxm6wvhdF8z57CGQTAS1Y+HlkAJDCBk1S2WdETUnmU84iAb/SOTA4cp4o9
-         WmuuRE/tUMWWPxhdZBTT9hObjfUHbW/b/gvoAR82DCHZDu5GXWYSv/bDt+qyDRjjYpZR
-         LKEQ==
-X-Gm-Message-State: ACgBeo2R/FPI24/vqnDsLudK0lEH/iUiXUk5EbCvvtAuotNzqhwAWUaY
-	NOkTY2Hq7q8nSFWZSsg1TfI=
-X-Google-Smtp-Source: AA6agR4ONIA2dmSU9wbQQKN5jo21kUtZL1qvBcR/ElqmExj8cnLY34C22KDeSaj5131DxupsXMmIUw==
-X-Received: by 2002:a2e:7a1a:0:b0:26a:558e:5acd with SMTP id v26-20020a2e7a1a000000b0026a558e5acdmr1768741ljc.312.1662380723788;
-        Mon, 05 Sep 2022 05:25:23 -0700 (PDT)
+        bh=HETPvLeGs8YvH/UdT/wnW33R/wNt1rV+fkmX+0rP5nk=;
+        b=UpbMb5ieGPHIbm/inX+x1iiZg3zXoGo9+wBD9J36nAonv7D2jOFpd067XbcYcG8ZWt
+         1Rq+NR+dXdInQ2cDYOC03+QgEt4pqQdaVNtAbBy8FvPmoljH41AO2kSgpZT1YYXbauKn
+         6UGEnr+OZ1XppgtfDjRiReUWodYEQueyg/hRl1e59oiTnZrv9LGyLhe8YcK0PAso57td
+         uatbZcSqkwXUb17ovVfOXBc68rhliDqjVbeXDhc0+kNbnBe7ocdBpNFZ1Yqv3UCpPn6e
+         KJzk6OcZNsDTZKXbtub61YrVxj2wJrv/oRO+km7cC7bDPfwi9v4SuFj5UCZg37dB3cF7
+         oVRg==
+X-Gm-Message-State: ACgBeo0H7HnYzfcyOZMlI/3uZ0KqPdb8D7bOjLif5GLV5MbFsealo06T
+	l8CZZ/j/yIvYYUzBRKYqSLM=
+X-Google-Smtp-Source: AA6agR6KPblCrEUSQVViFl+7gZKsZMt5jhy9sXw98fwjmd5kCODOIK0xTJPQUl/mIU0iTihGAr0POQ==
+X-Received: by 2002:a17:907:1c01:b0:6f4:2692:e23 with SMTP id nc1-20020a1709071c0100b006f426920e23mr35369864ejc.243.1662380726442;
+        Mon, 05 Sep 2022 05:25:26 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3fa:b0:494:799f:170 with SMTP id
- n26-20020a05651203fa00b00494799f0170ls4741822lfq.0.-pod-prod-gmail; Mon, 05
- Sep 2022 05:25:22 -0700 (PDT)
-X-Received: by 2002:a05:6512:3d1f:b0:496:84fd:fd7e with SMTP id d31-20020a0565123d1f00b0049684fdfd7emr221597lfv.32.1662380722701;
-        Mon, 05 Sep 2022 05:25:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662380722; cv=none;
+Received: by 2002:a17:906:14db:b0:730:6969:95e6 with SMTP id
+ y27-20020a17090614db00b00730696995e6ls3415614ejc.7.-pod-prod-gmail; Mon, 05
+ Sep 2022 05:25:25 -0700 (PDT)
+X-Received: by 2002:a17:907:1690:b0:731:56b6:fded with SMTP id hc16-20020a170907169000b0073156b6fdedmr36104036ejc.119.1662380725407;
+        Mon, 05 Sep 2022 05:25:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662380725; cv=none;
         d=google.com; s=arc-20160816;
-        b=sFQ8qmidJvZZc//nxlJAN5mYGI+6BCFKOSnr8rJ3qaszYi2GGDTBNHH4x78gGgoPjN
-         MerALOJFfHQdAWRkbCa2WyQzkWaS9stQokCez+fdm5eivuRUtZnnMx0BnT9a+IDyszaV
-         3BnWOBtwDYay7lNssC0TFkEgoSyQO79vUsqN6FG4LTKsnn6VFpacG6QXL34Bnse7GBoK
-         tA29lFT9O3V74Rum7YdkgD7fjGibX0hbf3ePbkLBibgc2Vsp6c56XXRMX6r6BzHa156I
-         fVDB/9j3et3a4JSX0FP8tZDTWGtDx2K26z72a1wmOgo1h6MofAYJcNSnpc+UJfYDyUAy
-         5nvg==
+        b=fXoCzRiqgpGloqMrIPCp+79Wr/5EqV9dxgcCGk3TGN3S2is+smkgHGA8CeBHpS5zGE
+         Ect95msapcI7GCbepO3qhdMEGvWu2eDwYeUVgZKDVceFJ7rt7nuFkgUnwdrDGH77cfrE
+         z6HsE63KeX6LtuC2HIQSj2L8V5jqJvZnOueXT5NW7CAEUCWBxmbGYN431Arc74kAImdC
+         1N4n2pmrEJDPBaKq/Vc50ERHYY0phishdM4aIMIFY8GiCpaQP8N+G6tcLWqaHFqRNCb3
+         sdYjYRt+NgU8jkmNtebV+dCj4+T0T/wKGv+bfznzFdGskJkObM5zS8UPu2r+vRKGBVR6
+         3Irw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=PTsTfo/gJDV7iQzWmhln0w3yo3kBxDNSc9M3IZOTBoE=;
-        b=MezUyYOcHM3InDrkYBxwpBTA4w4GrwZcWTK3ym4x/VfGDjq/hXxYGNkqZjK3SlSpvT
-         EWTHRagcgNCffOgcfocZ4zj5+9lAB4D+GNA/TOHilLXv03vwCSPxQjIhHlCKAUwULajp
-         GmfoNIVZlqXoayOsQ52bgdE7tZ0RpaP0dF1vwVCbIsGWUnK5xx1BEPPrlBGFgF2Qzuvo
-         EO9NE1V6FtqT+8KyYOugHaFOaCxmeGsJV3saBRJgkLKtwjUGuBECEHr3HvJMGVOWrf4h
-         WfSr9K3sMhxUOatwib+dHRzUijnCrxxEvftMG/GPKFTQeCrTt2mBzv13EcHkvEWZWEE6
-         EFuw==
+        bh=vmKBMF2McNFVJqtG6TmpI3MAJxV0RMGeKyj0ZsE0Fyg=;
+        b=OBZxE74ginaipQU4Y+w/ZFvUvnfttMZpKW65qSMqzjMyWTkq2CdUrD/snvloi8mlMF
+         9OTSUDogzaDQv5xvXcz9BG2JgZyW1uumf/0XQUss4SMPp5bIe/WQpoBMrDi/iSk7c0C5
+         By0zo/j+pzk/v05onJNJgLopm1p9tWeGXdWdF7AIky7CDibKAH7ZcY0TsJYYiuS81uMj
+         EHjAzBbQlUIFfFmq/XpzLjOrD5VKHkiEjvM3k1sb4cxBD/xljzpDLmFdVGrIDhqeQbJv
+         9X0+aNXZVI2iBt9FOdXoWDtyIQ06YC/KlKLsOW33pMhh8Q5N9pS6ZGJQrVgUsCtfW14o
+         3yxA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=d8oJ2o++;
-       spf=pass (google.com: domain of 3suovywykcf0lqnijwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--glider.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3suoVYwYKCf0lqnijwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="O96bjuI/";
+       spf=pass (google.com: domain of 3teovywykcqiinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3teoVYwYKCQIinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com. [2a00:1450:4864:20::349])
-        by gmr-mx.google.com with ESMTPS id n17-20020a05651203f100b00492e3b3fd98si367474lfq.8.2022.09.05.05.25.22
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
+        by gmr-mx.google.com with ESMTPS id v14-20020aa7d64e000000b0044e9a9c3a73si70247edr.3.2022.09.05.05.25.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 05:25:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3suovywykcf0lqnijwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--glider.bounces.google.com designates 2a00:1450:4864:20::349 as permitted sender) client-ip=2a00:1450:4864:20::349;
-Received: by mail-wm1-x349.google.com with SMTP id f18-20020a05600c4e9200b003a5f81299caso5302025wmq.7
-        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:25:22 -0700 (PDT)
+        Mon, 05 Sep 2022 05:25:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3teovywykcqiinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
+Received: by mail-ed1-x54a.google.com with SMTP id v1-20020a056402348100b00448acc79177so5806468edc.23
+        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:25:25 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:b808:8d07:ab4a:554c])
- (user=glider job=sendgmr) by 2002:adf:e74d:0:b0:226:d514:8c29 with SMTP id
- c13-20020adfe74d000000b00226d5148c29mr22189326wrn.664.1662380722163; Mon, 05
- Sep 2022 05:25:22 -0700 (PDT)
-Date: Mon,  5 Sep 2022 14:24:17 +0200
+ (user=glider job=sendgmr) by 2002:a17:907:b13:b0:73f:d86a:6e3c with SMTP id
+ h19-20020a1709070b1300b0073fd86a6e3cmr31127618ejl.132.1662380725053; Mon, 05
+ Sep 2022 05:25:25 -0700 (PDT)
+Date: Mon,  5 Sep 2022 14:24:18 +0200
 In-Reply-To: <20220905122452.2258262-1-glider@google.com>
 Mime-Version: 1.0
 References: <20220905122452.2258262-1-glider@google.com>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220905122452.2258262-10-glider@google.com>
-Subject: [PATCH v6 09/44] x86: kmsan: pgtable: reduce vmalloc space
+Message-ID: <20220905122452.2258262-11-glider@google.com>
+Subject: [PATCH v6 10/44] libnvdimm/pfn_dev: increase MAX_STRUCT_PAGE_SIZE
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -129,9 +129,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=d8oJ2o++;       spf=pass
- (google.com: domain of 3suovywykcf0lqnijwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::349 as permitted sender) smtp.mailfrom=3suoVYwYKCf0lqnijwlttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b="O96bjuI/";       spf=pass
+ (google.com: domain of 3teovywykcqiinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3teoVYwYKCQIinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -147,99 +147,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-KMSAN is going to use 3/4 of existing vmalloc space to hold the
-metadata, therefore we lower VMALLOC_END to make sure vmalloc() doesn't
-allocate past the first 1/4.
+KMSAN adds extra metadata fields to struct page, so it does not fit into
+64 bytes anymore.
+
+This change leads to increased memory consumption of the nvdimm driver,
+regardless of whether the kernel is built with KMSAN or not.
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
+Reviewed-by: Marco Elver <elver@google.com>
 ---
-v2:
- -- added x86: to the title
-
-v5:
- -- add comment for VMEMORY_END
-
-Link: https://linux-review.googlesource.com/id/I9d8b7f0a88a639f1263bc693cbd5c136626f7efd
+Link: https://linux-review.googlesource.com/id/I353796acc6a850bfd7bb342aa1b63e616fc614f1
 ---
- arch/x86/include/asm/pgtable_64_types.h | 47 ++++++++++++++++++++++++-
- arch/x86/mm/init_64.c                   |  2 +-
- 2 files changed, 47 insertions(+), 2 deletions(-)
+ drivers/nvdimm/nd.h       | 2 +-
+ drivers/nvdimm/pfn_devs.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/pgtable_64_types.h b/arch/x86/include/asm/pgtable_64_types.h
-index 70e360a2e5fb7..04f36063ad546 100644
---- a/arch/x86/include/asm/pgtable_64_types.h
-+++ b/arch/x86/include/asm/pgtable_64_types.h
-@@ -139,7 +139,52 @@ extern unsigned int ptrs_per_p4d;
- # define VMEMMAP_START		__VMEMMAP_BASE_L4
- #endif /* CONFIG_DYNAMIC_MEMORY_LAYOUT */
- 
--#define VMALLOC_END		(VMALLOC_START + (VMALLOC_SIZE_TB << 40) - 1)
-+/*
-+ * End of the region for which vmalloc page tables are pre-allocated.
-+ * For non-KMSAN builds, this is the same as VMALLOC_END.
-+ * For KMSAN builds, VMALLOC_START..VMEMORY_END is 4 times bigger than
-+ * VMALLOC_START..VMALLOC_END (see below).
-+ */
-+#define VMEMORY_END		(VMALLOC_START + (VMALLOC_SIZE_TB << 40) - 1)
-+
-+#ifndef CONFIG_KMSAN
-+#define VMALLOC_END		VMEMORY_END
-+#else
-+/*
-+ * In KMSAN builds vmalloc area is four times smaller, and the remaining 3/4
-+ * are used to keep the metadata for virtual pages. The memory formerly
-+ * belonging to vmalloc area is now laid out as follows:
-+ *
-+ * 1st quarter: VMALLOC_START to VMALLOC_END - new vmalloc area
-+ * 2nd quarter: KMSAN_VMALLOC_SHADOW_START to
-+ *              VMALLOC_END+KMSAN_VMALLOC_SHADOW_OFFSET - vmalloc area shadow
-+ * 3rd quarter: KMSAN_VMALLOC_ORIGIN_START to
-+ *              VMALLOC_END+KMSAN_VMALLOC_ORIGIN_OFFSET - vmalloc area origins
-+ * 4th quarter: KMSAN_MODULES_SHADOW_START to KMSAN_MODULES_ORIGIN_START
-+ *              - shadow for modules,
-+ *              KMSAN_MODULES_ORIGIN_START to
-+ *              KMSAN_MODULES_ORIGIN_START + MODULES_LEN - origins for modules.
-+ */
-+#define VMALLOC_QUARTER_SIZE	((VMALLOC_SIZE_TB << 40) >> 2)
-+#define VMALLOC_END		(VMALLOC_START + VMALLOC_QUARTER_SIZE - 1)
-+
-+/*
-+ * vmalloc metadata addresses are calculated by adding shadow/origin offsets
-+ * to vmalloc address.
-+ */
-+#define KMSAN_VMALLOC_SHADOW_OFFSET	VMALLOC_QUARTER_SIZE
-+#define KMSAN_VMALLOC_ORIGIN_OFFSET	(VMALLOC_QUARTER_SIZE << 1)
-+
-+#define KMSAN_VMALLOC_SHADOW_START	(VMALLOC_START + KMSAN_VMALLOC_SHADOW_OFFSET)
-+#define KMSAN_VMALLOC_ORIGIN_START	(VMALLOC_START + KMSAN_VMALLOC_ORIGIN_OFFSET)
-+
-+/*
-+ * The shadow/origin for modules are placed one by one in the last 1/4 of
-+ * vmalloc space.
-+ */
-+#define KMSAN_MODULES_SHADOW_START	(VMALLOC_END + KMSAN_VMALLOC_ORIGIN_OFFSET + 1)
-+#define KMSAN_MODULES_ORIGIN_START	(KMSAN_MODULES_SHADOW_START + MODULES_LEN)
-+#endif /* CONFIG_KMSAN */
- 
- #define MODULES_VADDR		(__START_KERNEL_map + KERNEL_IMAGE_SIZE)
- /* The module sections ends with the start of the fixmap */
-diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-index 0fe690ebc269b..39b6bfcaa0ed4 100644
---- a/arch/x86/mm/init_64.c
-+++ b/arch/x86/mm/init_64.c
-@@ -1287,7 +1287,7 @@ static void __init preallocate_vmalloc_pages(void)
- 	unsigned long addr;
- 	const char *lvl;
- 
--	for (addr = VMALLOC_START; addr <= VMALLOC_END; addr = ALIGN(addr + 1, PGDIR_SIZE)) {
-+	for (addr = VMALLOC_START; addr <= VMEMORY_END; addr = ALIGN(addr + 1, PGDIR_SIZE)) {
- 		pgd_t *pgd = pgd_offset_k(addr);
- 		p4d_t *p4d;
- 		pud_t *pud;
+diff --git a/drivers/nvdimm/nd.h b/drivers/nvdimm/nd.h
+index ec5219680092d..85ca5b4da3cf3 100644
+--- a/drivers/nvdimm/nd.h
++++ b/drivers/nvdimm/nd.h
+@@ -652,7 +652,7 @@ void devm_namespace_disable(struct device *dev,
+ 		struct nd_namespace_common *ndns);
+ #if IS_ENABLED(CONFIG_ND_CLAIM)
+ /* max struct page size independent of kernel config */
+-#define MAX_STRUCT_PAGE_SIZE 64
++#define MAX_STRUCT_PAGE_SIZE 128
+ int nvdimm_setup_pfn(struct nd_pfn *nd_pfn, struct dev_pagemap *pgmap);
+ #else
+ static inline int nvdimm_setup_pfn(struct nd_pfn *nd_pfn,
+diff --git a/drivers/nvdimm/pfn_devs.c b/drivers/nvdimm/pfn_devs.c
+index 0e92ab4b32833..61af072ac98f9 100644
+--- a/drivers/nvdimm/pfn_devs.c
++++ b/drivers/nvdimm/pfn_devs.c
+@@ -787,7 +787,7 @@ static int nd_pfn_init(struct nd_pfn *nd_pfn)
+ 		 * when populating the vmemmap. This *should* be equal to
+ 		 * PMD_SIZE for most architectures.
+ 		 *
+-		 * Also make sure size of struct page is less than 64. We
++		 * Also make sure size of struct page is less than 128. We
+ 		 * want to make sure we use large enough size here so that
+ 		 * we don't have a dynamic reserve space depending on
+ 		 * struct page size. But we also want to make sure we notice
 -- 
 2.37.2.789.g6183377224-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-10-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-11-glider%40google.com.
