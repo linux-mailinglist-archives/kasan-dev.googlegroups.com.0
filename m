@@ -1,226 +1,148 @@
-Return-Path: <kasan-dev+bncBDUO37VG7MIBBYPE2KMAMGQECHJQOEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBV5D2WMAMGQE5FPSBKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53a.google.com (mail-pg1-x53a.google.com [IPv6:2607:f8b0:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957DD5AC4B5
-	for <lists+kasan-dev@lfdr.de>; Sun,  4 Sep 2022 16:12:51 +0200 (CEST)
-Received: by mail-pg1-x53a.google.com with SMTP id k16-20020a635a50000000b0042986056df6sf3406940pgm.2
-        for <lists+kasan-dev@lfdr.de>; Sun, 04 Sep 2022 07:12:51 -0700 (PDT)
-ARC-Seal: i=3; a=rsa-sha256; t=1662300770; cv=pass;
+Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9455AC888
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 03:33:13 +0200 (CEST)
+Received: by mail-pl1-x63f.google.com with SMTP id k3-20020a170902c40300b001743aafd6c6sf5199254plk.20
+        for <lists+kasan-dev@lfdr.de>; Sun, 04 Sep 2022 18:33:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662341591; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vMokERay7swf++GhXaieu2dcUWoekBcPMeZAvrY7mgHWLKwcZ2ZUiXTmXgTMqEJOMd
-         h+W+ckqqdL7IL1ya0BOzxOL9asdhnh/51zqMHVBeBn8wQ7CrhetsngXUuy/RcnUCvvym
-         KTy6yjn8pp2u7x/xt9ZMshJUP32do1t1GvtFO+cBuiTrXyHUqGB33Ps12YIy4UqDblnq
-         pPB97CENavExUnSJS5CQ5PIULhnDiRCS9TRokyNAZ+YEjntbvroEStnjfC4YSRLOD1Ob
-         vMgg6hC/+41IfD7CvW9ROG4SVYhMt9IoHCiO34SoTIL+QCCXxEGVGE9es8K17Nl9HySX
-         /J3w==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=wvGKcrveZvdTA2e7S8T5KLLb3HUNFonKaGqZEfaOZHkjbhuBZFjO2HuaJtYHfaVREo
+         Yf3irCe2yAv/dXI1i1szc5K4ihwuZ0SD1JEcQQgqjLgHjE86+odQUZfr8gMfzqTChHnW
+         XcX6kYnOqPwgi/lbNWavoX8phw4bl4t0gLja5PTUpSdJI0AOsNl7p0J0wZNCd8rnB5nh
+         8gWg0xM0kZM1V8f+U3UbM+I/7qyaeJmTUhvUoaPLcdU9dSYG4KmbCHIZP0Kb9FgIcGRw
+         w1m+3YhLTcScCXO3otqJUaN20fIOwHOSOu6qSgJRJK18WJdjUgId+xRfYv0bQ2W6cmmv
+         UU+g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:content-language
-         :accept-language:in-reply-to:references:message-id:date:thread-index
-         :thread-topic:subject:cc:to:from:sender:dkim-signature;
-        bh=BT1fAMq4C2drBx6AMnWbMwFOxOJrorDn12b/872voRM=;
-        b=Lu+UZs6n/wc57s+iXdRtccVHgH5vf46pJWaggJEHqV8pKBGIIJDvLY1wRgEgovKfD3
-         XygIs/2vkCQA+LbPNEm0BjZM9YFf6k6pFrGkf0WJ3aHAsYiiFufWhxnCz5RsSC49XLGh
-         ALfhRPIOryVOkVMcV+jcGK8zDmE8sYMNPexUCSltQ/kC+FOGrZ9exY2YT9tty3QIbEzM
-         APg0KEbuRy6j0bX2JtuX0kimDzg6atvzrdD7BacXoMhtkVDs7ULgYLLT6Pp3VF3sz4w8
-         AwjQjxD3VHukan+qS00QrNzQhngoq/1tyP0faNNPNHnEu6DlJfJHTH3boegLwNZAPaAU
-         u7MA==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=P4Rqm6CX;
-       arc=pass (i=1 spf=pass spfdomain=qti.qualcomm.com dkim=pass dkdomain=qti.qualcomm.com dmarc=pass fromdomain=qti.qualcomm.com);
-       spf=pass (google.com: domain of ericsun@qti.qualcomm.com designates 205.220.168.131 as permitted sender) smtp.mailfrom=ericsun@qti.qualcomm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=qti.qualcomm.com
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=aSkLZWSW3b5MXAUvH7PS/l7/cS5u0A6Udzyf/PoYo5Y=;
+        b=YmiIJyabU+pYDoGO7cY2GT9x6MzlZAKnRRs5hNq2cMf5eM1tHzsT/O+UpOBH0VWGet
+         lybak+rrrbzRFJ9OBtjbMShlhzFZD7J9XUTw92tmMGd6MX9nBwFEPaxaRAxCHD0b8pAN
+         qw9GY8m39a0mRNKjT3aWMj8fvV+lDnLv83sNMNpQSeHYKcXVUJ1suVG47S1SNNmMEoMp
+         XvvfVwjtXjDt98uuqCTcFb7mB7g/LPHSyP8ByZWOE4IYV1IMzWdeKnufUWG6ftsyLiXG
+         9GRLYrsX0r3rXC+6KoNHaJ+Js+xDq4mMgAg/yeVcUsIEAYdO4h+Vojmy4YQoR5mcFNX8
+         nxuQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Q2SFjmrk;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::d2a as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:cc:to:from:sender:from:to:cc:subject:date;
-        bh=BT1fAMq4C2drBx6AMnWbMwFOxOJrorDn12b/872voRM=;
-        b=ACJtGt8MLJgWPVr2U4hg+f5fG2MtYOJ5Qc9VJnUTntXc7P/qPX+LNd0NNzXJQupZhc
-         UU9lrpfbj2oLJjWqCTAKhsV507DgEUCGBzDUdKC3RAH4T4jxDb4uG37aENEvN6B//4J7
-         /SA8udhP9QDwSyg3pNePntC+dN1dPqRWCeyBDzKHRRQziqOH8kpl4iVyLOLtVGZPP4QG
-         A546jV9ttwUvO8IBYMUYysS9NDaSdujMmJes19N7ZG4ik5EnkX6hnrul2yoBkNc+0KZG
-         mFUlS+6HgksHZqkGMhklEta5wPsxyF9aChr8xopASNac1KY89R4kBPn0SolqCqNE7Ekc
-         nTXA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date;
+        bh=aSkLZWSW3b5MXAUvH7PS/l7/cS5u0A6Udzyf/PoYo5Y=;
+        b=nkm3dwEi9bMTkWogNI+a/EuuKUKCIgMWd7Od1xMf9DQ4yNcFDRr8b685uJybETv+xE
+         lOEWy4lt6z9cNJphkIKSr/QkcvNDjLAKaXD6RK/aRUXkThWnSKM9SS7JFx2hc9awUhqM
+         BncTlB/cICI3+Ij1X9mv7zrhs1mQnVjN5KJKASQKnXJCVGqeeYUTeztRIDUO/tbYOv6D
+         OGC6L89pVLFyqHuBmm7M+wk/x9gUTB9r/2szkuzuBf3lvXBKyIIRQWh+bXSqBWTskqxy
+         vcpSv6Nldk2GQFUsCpHjcltQV/wZ5oK7VbVVSnxPJ4nmi/v7QZBYGCUEbMHPLXeuwAHP
+         BHVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :content-language:accept-language:in-reply-to:references:message-id
-         :date:thread-index:thread-topic:subject:cc:to:from
-         :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=BT1fAMq4C2drBx6AMnWbMwFOxOJrorDn12b/872voRM=;
-        b=p7ze8YiuJXnNhs9zPzvbkFrXIpOrgltv1mHNPxGtrI2JBfTdskSkE58h8zwaz3aoVK
-         3ceWpCw9ZkCbPYLPl4k7pzlKszFeE9IQFvFA+eu5cFZ1xPxRwktiVATQvB7GawbHPaGB
-         30A4vqbPLEHBHS8mwqRyxguqAwZzUpk7pxGaUetRY9BvWxue/feXmddlPBSDW70XRaB/
-         QT1d59hukrdakHUhzVA5RrU23n0AJ3I0BL3XaY6JbR8Xc8/spjFGQlDVrEbMKhlDln53
-         rCgfE6XNZO/sw61edvQ0vK8i9GyBopockITnAev6cBXBp90IiIQ9zsRa56kSH6xRtLfB
-         IP4w==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo26SZaX5SyqXeQgz4hHfJi6LlvcZ3m25yIthgiqOVubTmeWM72E
-	1mMz75WD20kom1yDh+WQJ4c=
-X-Google-Smtp-Source: AA6agR760LCeakT31MhZS6lhYUomzqLuxvlNOlDQDjSL/gck/9TYnY0v46ydVUl7+tWQz3AAPB5BcA==
-X-Received: by 2002:a05:6a00:21c2:b0:52b:ff44:6680 with SMTP id t2-20020a056a0021c200b0052bff446680mr46000997pfj.57.1662300769931;
-        Sun, 04 Sep 2022 07:12:49 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=aSkLZWSW3b5MXAUvH7PS/l7/cS5u0A6Udzyf/PoYo5Y=;
+        b=IyTaDO+HGpavUwtJ7a5DxgBn4FEA/KkBK2/ghWIdL7S8BRMOw8fYYqLdH9tp2/dDz/
+         u0kcTpr0RfUOrHUts7f63y5U9ZT9VIGjMMnqR3Aerlt91yxgSFCoS6zRmbBtxVbXabtz
+         LE7MzMhehP4ZMdG7Bbr8KYYYBu5oJFYbKfREkrESnBzQs8xwjg6mXq906AZBKlCNnHdu
+         0ksfst+SjfV7UwwtDB5HFCcqlpAyIO7RVeBmB5hcXjuZRGNYTPOufFW47hj0+SXeY5MS
+         R+Wr8YaC+Pfj2ckSuN3tNrrjnMmfSbOu3WiS9dYDynyh71z0ttxEmMYEfVpg/qHwNeAI
+         qw3Q==
+X-Gm-Message-State: ACgBeo3H1rl77fCFE91rAc8dbNqxZsEHqNZxf/idRdWa7ZU/onAg1Hgs
+	0UfxpCFjd395ttv9dvcLGoM=
+X-Google-Smtp-Source: AA6agR4jsUD39Qd52R71wps2/ybA4CpktM4hZ/1/2Zz5QhmGU3/ySF2RshJVUFql9ge25fqSGQx0rw==
+X-Received: by 2002:a05:6a00:2446:b0:528:5f22:5b6f with SMTP id d6-20020a056a00244600b005285f225b6fmr48330247pfj.73.1662341591638;
+        Sun, 04 Sep 2022 18:33:11 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:28c4:b0:1fb:a751:8707 with SMTP id
- f62-20020a17090a28c400b001fba7518707ls8265933pjd.2.-pod-canary-gmail; Sun, 04
- Sep 2022 07:12:48 -0700 (PDT)
-X-Received: by 2002:a17:903:2343:b0:176:830a:c2ae with SMTP id c3-20020a170903234300b00176830ac2aemr7280575plh.107.1662300768756;
-        Sun, 04 Sep 2022 07:12:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662300768; cv=pass;
+Received: by 2002:a05:6a00:14d1:b0:537:e1b1:a4ba with SMTP id
+ w17-20020a056a0014d100b00537e1b1a4bals5434746pfu.9.-pod-prod-gmail; Sun, 04
+ Sep 2022 18:33:11 -0700 (PDT)
+X-Received: by 2002:a63:ba47:0:b0:42c:61e:e613 with SMTP id l7-20020a63ba47000000b0042c061ee613mr30626322pgu.553.1662341590903;
+        Sun, 04 Sep 2022 18:33:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662341590; cv=none;
         d=google.com; s=arc-20160816;
-        b=YQDxtywigdjY0YVI5Irr+Gq8habdqvXIZTwlw+G8qPLfMyZn5qj0HMRVZC/F4p4byn
-         tyvJwLSkdFHWTfJZdBSQ78yjqh703Z/3kOMcIjAfBHnGE6Uj9zqhdAEf6QZhiUk9wnCh
-         CfbZGnrYYmfwJpPU1KU1j95Nu2Z2ozN0x9iTNSkoJ9q3CobHonrkhpbwnOE3oE2RLRli
-         U04ChtdrznS9GyB4Ac/+65vfmMm10B6NFr6ePwbx7zFwbCf6ktzSzeq9xConjk2STtuR
-         eOVVDIImMoT+zJoyEJrgqfu2bUktodkxGx/Z7PcVZ06/IKUFzw8idRy0xgskQ/s42ahs
-         zNQQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:content-language
-         :accept-language:in-reply-to:references:message-id:date:thread-index
-         :thread-topic:subject:cc:to:from:dkim-signature;
-        bh=LF6wUGCYDVWcP7+7e0WWHejeTZu1t/RLq5u/t+pPJ8I=;
-        b=M1Qx6u9q311wXr6vwRjMKRtovU0lzmiYfc4rjKhIxoLSHHANd/JI/kz2Z1b9NYlYoB
-         q71VaGcrTikrAykYlpENE9PydectWgtfj4j1u70aoLYWZAIFQbHl+bmFt8cw3LnvTP9Q
-         hnvSykQih/0H5Uk6E9K4vpkA7XXzJ0NRing6qdAXFVGaWUAwY+FngaL8aGc+OcCZzMk9
-         B0qKIAeTw+j56qS3TwSL7ZRuug/q0CXR2IvFinu1+JwjV6b3BkBkdXbU1Oq3/2PHcwRc
-         wYxJdDaXjLghlEmznnOCbbA1mcp6fka/d3n/nYloTaP1Hb5rGJXq8yyqKxgrfLDK9ryk
-         pdqg==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=P4Rqm6CX;
-       arc=pass (i=1 spf=pass spfdomain=qti.qualcomm.com dkim=pass dkdomain=qti.qualcomm.com dmarc=pass fromdomain=qti.qualcomm.com);
-       spf=pass (google.com: domain of ericsun@qti.qualcomm.com designates 205.220.168.131 as permitted sender) smtp.mailfrom=ericsun@qti.qualcomm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=qti.qualcomm.com
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com. [205.220.168.131])
-        by gmr-mx.google.com with ESMTPS id e8-20020a63ae48000000b0043238c0bd99si246184pgp.4.2022.09.04.07.12.48
+        b=WdjEQ6tDQ/qHb4Lu4a9qqV5nKb1qxOeQ+spMqrLLcMy0tCJKmZldWSBKHMA5El47/N
+         dKQQISOgnoYDekW8HHn5admuaLK7ws6+OJEf+PUYv5XrD8w0RlTzmeSYWqsKdk9RzkfW
+         49hT2118Fn3V3mGRJVVu7s23EtqsWJsXIPJmGbu33nkop2IAdXSYF7oL3lUwoQNKHa14
+         WtT9i/SnCZV3K2RIAu/5SarHkU3SrUzlLk6jfSYoQq6en5yW8uZKX4DiW8jcMVOP2SMW
+         qXjZKFEC9YUUc5TITesQ259YocAeQD7qTF33U7bUG6o+5j0h7H9oYnXsfH2y0GBwX5UC
+         t7Kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=2RluQjqzTIUHmUhPkFaAucreOiCVZIKJVjpKNDHkTVI=;
+        b=RVBsLs14Y1zSrBpogYm6hX8w8hWgCrtIe6vvBUQKsafjlYfRsDlnOqt9C8gXE9FOtw
+         1iLf96rXScONvG4X7F6lrMiJBFhQxq04LsgqfkfvQESzresZlWcZpS/PX4juYFkYmu9e
+         67V5AwOnA4vtiyEUb6pVnjd92IR1KCa9GxI7C/OGMea2KcinBQwmh9mEflW8zSuyRMVr
+         kLLlNkyPeUNpmhpjHBws08mZeTMnakrYDlte7WU2nB7MfS0wHhZj4uuunW0YnMMjmgfa
+         tFbDtye9g66lzpERzHR6KTC4v95H+je6CVwl4JPNsPLq5k7O3oCuXP9o99cBJQJ5Sayl
+         IS9w==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Q2SFjmrk;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::d2a as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com. [2607:f8b0:4864:20::d2a])
+        by gmr-mx.google.com with ESMTPS id m9-20020a170902f64900b00176b883091asi7027plg.6.2022.09.04.18.33.10
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 04 Sep 2022 07:12:48 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ericsun@qti.qualcomm.com designates 205.220.168.131 as permitted sender) client-ip=205.220.168.131;
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 284Dpjws007034;
-	Sun, 4 Sep 2022 14:12:46 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jbypmj5xe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 04 Sep 2022 14:12:46 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O1qt+DQsoFO+ILTnXi1HJ6/o4sdRDOXE0U7gfgZTHpwvVO4WbJk59y0lZmFHcf3y+ozAszZLWlFdKdFw7ToDTPkfF1zWBiYkBc8uaOYK0n9P99GZ9FIPfM0xTgAMSDpBO2Bw/qMQ/KEf5D7Zc9D7mvLH3L/U6d7yAPxGCXCk5XgZ9XD20LDWi+h8PVy4aDvz2lGGOy0yh3nZxUQgkJpMtD2KovMgfM2U7zOiUZti7w6o/AuPxoJlN2py34tNU8avzriE1q17pZ6MuCRfaSsJsXelE69Q0qgsOcbj/8Z96Jt3cW79QY4ZR+OyLKCE7ieP6ZNVkTtRrYqikFw+2OC7XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LF6wUGCYDVWcP7+7e0WWHejeTZu1t/RLq5u/t+pPJ8I=;
- b=nmv6KcesSde1q+dXcUrHKprKdOqDBRP0tPTBfvHBvN6W4rn324NRwiNizt/pbZCyChswvxkXs4jCNjWLSjmPIcKdXyhM25ScSyjU2yCzTWArhNaHwn6R3jmKLEXcLdd1zbUkpVuxtjU7z8JpQ7MIOzKp8QmnBm1KXE0hXlB3TiARw8ohPVQXnqvEplGYpOyuqyc/u1e2HjJty6qdjhZK0v6bl9zpvlNqYDKAQlak+VKmmbRvQSyhyAT3U6ty8MaaiJ0b7IJoJUyZqpm9UYiN9HbJAMIn8qN+uZkAgUs8MDyBNilzyOmu5j6k6WxliIqQe5R4mg9UPWF/ZxpYFmInWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
- header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
-Received: from DM6PR02MB6922.namprd02.prod.outlook.com (2603:10b6:5:252::8) by
- BL0PR02MB4756.namprd02.prod.outlook.com (2603:10b6:208:29::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5588.10; Sun, 4 Sep 2022 14:12:43 +0000
-Received: from DM6PR02MB6922.namprd02.prod.outlook.com
- ([fe80::4ef:c106:8b55:1cd1]) by DM6PR02MB6922.namprd02.prod.outlook.com
- ([fe80::4ef:c106:8b55:1cd1%6]) with mapi id 15.20.5588.018; Sun, 4 Sep 2022
- 14:12:43 +0000
-From: Eric Sun <ericsun@qti.qualcomm.com>
-To: Dmitry Vyukov <dvyukov@google.com>, kasan-dev <kasan-dev@googlegroups.com>
-CC: Andrey Ryabinin <ryabinin@virtuozzo.com>,
-        Alexander Potapenko
-	<glider@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-Subject: RE: Enable KASan for ARM32
-Thread-Topic: Enable KASan for ARM32
-Thread-Index: Adi9Bm2bjyW7hDzUTfKSo6s6uHHQEQAATbqAANe3iwA=
-Date: Sun, 4 Sep 2022 14:12:43 +0000
-Message-ID: <DM6PR02MB692214E8514F99A46B0643BA877C9@DM6PR02MB6922.namprd02.prod.outlook.com>
-References: <DM6PR02MB6922BEFFD6AF46E62B57342987789@DM6PR02MB6922.namprd02.prod.outlook.com>
- <CACT4Y+ZrpjxwVN52NJBeLaLPgTZC4_6wspwNJSe=s2NCdGTq3w@mail.gmail.com>
-In-Reply-To: <CACT4Y+ZrpjxwVN52NJBeLaLPgTZC4_6wspwNJSe=s2NCdGTq3w@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 116ac754-6c43-481c-3983-08da8e7f88e5
-x-ms-traffictypediagnostic: BL0PR02MB4756:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: lKvD7YqhOnMIXmV9+lbm1mc+AWiPZAKM00wt/1xoqQjjnwG+OHckzvs4ptRFKrvoi/TYjBJciWeCjGfhWKf3c73O/HHd6lbwbReN3YwyD9SegV20wqH2+qiM6Z23o3AtIJGNlLQr5bBtTJEOlU5E/+FqxqnteEIpRsghk8ulO6IejlqcLqM5iQLTjkiLgCyMiyngofnVxJwv8xNdSlUfWHPyy6vi9QTxqumSe4PpN+sdb12EwZt+te1HMwaJXVs2A5EHaYgND0WVlEERsKym99jfO8XoElvDJjYn7VHPusgTBieyD9N6V6+sDIDEIo/EfGmiRE28hRaszI2RD8zk3xlYKW9spDpySO4ct3cGe/G3LjpMGtGY9gMOSvdQ6JslhztV7D8G8/L3JCtsoiuY40tse+2ocbx7CduFPeKW06CcHoFaZ0gtDYrveLyFHasWrcaFvuKssNSXZQz38MpLJsWxuKo+Zg2EZzieH7ZBrSi5rTUGPp55F5RRUuEVu5N/QIExcgvcvKF9P9oN238+h68JTSO4gj0xguDH4ERmmjJUhVzowPNZEkqzyS1CpBn1XeSfwNbH2cbFKOHRwwKxGTMkrxLD0t8FdFcWf0YJkGp3d9RlBWjpLNIGFnZFe5Y8d8t39XEXnW5FbcT1uuM7WIID+3U0pI3wIemHpc/K189pnMpPmLeW+X/tKVCmLiatNX2GVNgb3Zsax5vO51U2sL6ZMVbrYgj6tWuV5gr6d4RvIyNvz1l4izsCE6fr/iiXY8+c1hcq+M+ydDdmTahzUL83VAJ51L6YbC5WQ6Q2hyA=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR02MB6922.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(396003)(136003)(366004)(376002)(39860400002)(9686003)(7696005)(316002)(4326008)(122000001)(26005)(6506007)(5660300002)(53546011)(38070700005)(52536014)(8936002)(966005)(2906002)(33656002)(71200400001)(41300700001)(478600001)(86362001)(186003)(83380400001)(38100700002)(55016003)(66556008)(64756008)(110136005)(66476007)(76116006)(66446008)(54906003)(8676002)(66946007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QzZpbnREMHhNa283blpPbTdjNk1tOFNPcExGWCtwdTdwT2RUZE0yMktzcXBM?=
- =?utf-8?B?ZmhhUzBzRm1tWnoyNHBRSUNhYnhKTnhzYk9pcTJCUXdFTFp4Y3VMejdCMkhZ?=
- =?utf-8?B?Tk5HUUcxRnkzQ2MxcHN3SUpFSFphRTBGak55VXIrVEsrbWQwb24xSWE5ZHhD?=
- =?utf-8?B?dVVuV24wdmwzRGdxWUsyMEhHREo1a0hDVk9kcW5GQks4M2ZDbS9Falk5Umo5?=
- =?utf-8?B?KzRiczdQOWw3cEZaN1h4WmhmWmJhbGpBcy81OFFlQ0oxMjVuQU1xTm9UN0hF?=
- =?utf-8?B?S29UK29icFV5cXJsN3hnUHFla2Q4d2M4ZEVZR1lMVWxyaHJrTVlIMW5LanlZ?=
- =?utf-8?B?NEd0T3o5YTg1UHB6YjVHcTZrMzMrNERGYm9wT05uZWRsWnVKRVZFMlRzbnZU?=
- =?utf-8?B?d09LWXNwbTNyV3hUcHpZajRoUmhFU0RhN2syM3pQSllwU3pxWXZ1c0NlYklh?=
- =?utf-8?B?VzBrWER4dURvMXNoemJhd3NZeFM1eHB6NjJ5c0FKZ2Z6VURONVFJRGZSeFgx?=
- =?utf-8?B?emFVSHZIaXhmYkwybGVUbUw4cWNsajB3OXN0cDdaUE01YWhwb0pyQ0VQNURo?=
- =?utf-8?B?ZmV2eWcxeTY3eXVqZG12bTl5L1RaUDg0ZTdkdFFxWkRkUDZIOG1sYXRialdZ?=
- =?utf-8?B?bzlzdU5IK3ZXbXpYMFlRSmpXc0VSTTQ3dmNHaWdaaTFKK2JXWWM4TjljSG56?=
- =?utf-8?B?aXF1aWdhYzg0QlIyN3FVS1BCNjl0Vm1qL3RhYTBhcU5oMXN1NDRYN0JydWR2?=
- =?utf-8?B?d0pMRW1oS2FOYUc5bHVFMGJHYTJXbU4vcG54eGFPaXlKN3RtSnBJSFNtL2Ex?=
- =?utf-8?B?M2dQWXVwN0hNdi9OL0IvalArSC9pVXZJbDQxMVA4bjFYUzhGb1F2OWw0UWk4?=
- =?utf-8?B?eGFRMHVNZy94bmlhSHp3VzFOSW0rWFZXeFJkL0wrV3YvT0pxdGxnaVh6Y3ky?=
- =?utf-8?B?aTJuOWcxdTNSSS9wa1B5SUlQZ1A5TzRLcEJPL01pRGZuQ2h2TXNoNnFLSTBm?=
- =?utf-8?B?UGFZbHZLRWFEeS8rQ3V1THAyUDJQV0RBTGI3QzVHMElaUHJKY1RJVlBhWVIx?=
- =?utf-8?B?ZmZSTDVWT0EyaGdOeG10SzRYQXdManJQd2tENVd3NnlCWVI0TVFiM3FZSDRE?=
- =?utf-8?B?TG9jZVpUb25XaEwvdWNXOFBGNzdPbjB3cHE4bVMvQWRqTjBFay82WkY5QWtQ?=
- =?utf-8?B?OHJJTERwWmovNjEvbVh4VVF0dDVScC9vYnhZcE5KZE4yeitBcmRxNWZ6amMr?=
- =?utf-8?B?dVVVMFdKV3RiZDYwRWxQaVc4VWV0R1RlUFlDeDRrMGxadGM4VzNxWi9HU0Yy?=
- =?utf-8?B?U1N0UkV4RWN6YTZRU2xQb0ZScEliWThtTjVsYXVxY2N4QndoTmNOYVo5c3NX?=
- =?utf-8?B?c3phUVhkUmYxK1JQeEFGeVN6dGYyLzhTblo4Nk1OdFdHamtSc3V6UEJYVXBZ?=
- =?utf-8?B?aXJ3bnhDNGd5bzFKc2V3TDVSblE0TU85NEVrQmdhK0s1V1oyS0w3R055d2xz?=
- =?utf-8?B?YUx1U0hUaHhndlkxYWZGaGZOVDZvNDg1TStFdlBrSHJtTTdQM0dRMlp3Uzcz?=
- =?utf-8?B?R1VDMmxIVG1pdVRkSVhMMnZIOEh1NklLYkR5UlFMMzNzc3grRzFrT0R6d21u?=
- =?utf-8?B?TGhqd0xCV056K1pueWlIVXlsa2xWRG83bnREWWYwN2dwdWI3bTFocXVQSUJn?=
- =?utf-8?B?M0xPTTRoWGxzSE1vUEhDWktWVlhPbWtaMFZQUDBndlJXYVIxNTh3TkNiL3RC?=
- =?utf-8?B?UW85R3JsVXVVWklqS1hFa2pjOWpkRmdKUTJSWU84YTBqa1didkFMSEpMMVhY?=
- =?utf-8?B?Rm1OYnpLZzBnSHNYYmFvNnhIR2dNa2EvTEMxUm1zaGVLM1ZNVDQ2eGp5MTAv?=
- =?utf-8?B?MEwvajRwVTQxc0dWQjUyMk9vVnVCYSs2UjUwc3dtbUhmdzFKdXVuOUw0WHBO?=
- =?utf-8?B?cUlGWnZxRURZNWF5K3dyZnFTRUxnWjdQQXVLZTNmTnpGU1ZiM0VLTC9GK2Zw?=
- =?utf-8?B?TGw5NVdlNmxucXhhNzJLOWRna2o3QW9LQTgxSHhra05iRS9qdjJQRnJicitB?=
- =?utf-8?B?ckVKdVEwOWpCVUVHOUFsVjFpaW9LS0s4bXJ2TGk2eEZvcXpWeC9DaWhzK3Fw?=
- =?utf-8?Q?p9jSb6xJOwsj5m75VuhwIKs0O?=
-Content-Type: text/plain; charset="UTF-8"
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Sep 2022 18:33:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::d2a as permitted sender) client-ip=2607:f8b0:4864:20::d2a;
+Received: by mail-io1-xd2a.google.com with SMTP id 62so5888881iov.5
+        for <kasan-dev@googlegroups.com>; Sun, 04 Sep 2022 18:33:10 -0700 (PDT)
+X-Received: by 2002:a02:7b19:0:b0:34a:74d:118 with SMTP id q25-20020a027b19000000b0034a074d0118mr23960434jac.62.1662341590010;
+ Sun, 04 Sep 2022 18:33:10 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: qti.qualcomm.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR02MB6922.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 116ac754-6c43-481c-3983-08da8e7f88e5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2022 14:12:43.4436
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HK9x/nn3iXwWgrnkfdPl/by2uDcuYxQGH/qS4Ke3PxN7V4Nju4lx/GVusPTzeOsUJwMFULLcMsDWpLVheqGG3KkKKrH+aSMxUwVs5nDG9Ks=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4756
-X-Proofpoint-ORIG-GUID: unjjHHOWzcDric7JcRusWa3Ddu-UL5As
-X-Proofpoint-GUID: unjjHHOWzcDric7JcRusWa3Ddu-UL5As
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-09-04_02,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1011
- phishscore=0 spamscore=0 mlxscore=0 bulkscore=0 adultscore=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=381
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209040071
-X-Original-Sender: ericsun@qti.qualcomm.com
+References: <20220830214919.53220-1-surenb@google.com> <Yw8P8xZ4zqu121xL@hirez.programming.kicks-ass.net>
+ <20220831084230.3ti3vitrzhzsu3fs@moria.home.lan> <20220831101948.f3etturccmp5ovkl@suse.de>
+ <Yw88RFuBgc7yFYxA@dhcp22.suse.cz> <20220831190154.qdlsxfamans3ya5j@moria.home.lan>
+ <YxBc1xuGbB36f8zC@dhcp22.suse.cz> <CAJuCfpGhwPFYdkOLjwwD4ra9JxPqq1T5d1jd41Jy3LJnVnhNdg@mail.gmail.com>
+ <YxEE1vOwRPdzKxoq@dhcp22.suse.cz>
+In-Reply-To: <YxEE1vOwRPdzKxoq@dhcp22.suse.cz>
+From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Sun, 4 Sep 2022 18:32:58 -0700
+Message-ID: <CAJuCfpFrRwXXQ=wAvZ-oUNKXUJ=uUA=fiDrkhRu5VGXcM+=cuA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
+To: Michal Hocko <mhocko@suse.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>, Mel Gorman <mgorman@suse.de>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Matthew Wilcox <willy@infradead.org>, "Liam R. Howlett" <liam.howlett@oracle.com>, 
+	David Vernet <void@manifault.com>, Juri Lelli <juri.lelli@redhat.com>, 
+	Laurent Dufour <ldufour@linux.ibm.com>, Peter Xu <peterx@redhat.com>, 
+	David Hildenbrand <david@redhat.com>, Jens Axboe <axboe@kernel.dk>, mcgrof@kernel.org, 
+	masahiroy@kernel.org, nathan@kernel.org, changbin.du@intel.com, 
+	ytcoode@gmail.com, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Benjamin Segall <bsegall@google.com>, Daniel Bristot de Oliveira <bristot@redhat.com>, 
+	Valentin Schneider <vschneid@redhat.com>, Christopher Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, 42.hyeyoo@gmail.com, 
+	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Shakeel Butt <shakeelb@google.com>, Muchun Song <songmuchun@bytedance.com>, arnd@arndb.de, 
+	jbaron@akamai.com, David Rientjes <rientjes@google.com>, Minchan Kim <minchan@google.com>, 
+	Kalesh Singh <kaleshsingh@google.com>, kernel-team <kernel-team@android.com>, 
+	linux-mm <linux-mm@kvack.org>, iommu@lists.linux.dev, kasan-dev@googlegroups.com, 
+	io-uring@vger.kernel.org, linux-arch@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org, 
+	linux-modules@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@qualcomm.com header.s=qcppdkim1 header.b=P4Rqm6CX;       arc=pass
- (i=1 spf=pass spfdomain=qti.qualcomm.com dkim=pass dkdomain=qti.qualcomm.com
- dmarc=pass fromdomain=qti.qualcomm.com);       spf=pass (google.com: domain
- of ericsun@qti.qualcomm.com designates 205.220.168.131 as permitted sender)
- smtp.mailfrom=ericsun@qti.qualcomm.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=qti.qualcomm.com
+ header.i=@google.com header.s=20210112 header.b=Q2SFjmrk;       spf=pass
+ (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::d2a as
+ permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Suren Baghdasaryan <surenb@google.com>
+Reply-To: Suren Baghdasaryan <surenb@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -233,80 +155,424 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Dmitry
+On Thu, Sep 1, 2022 at 12:15 PM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Thu 01-09-22 08:33:19, Suren Baghdasaryan wrote:
+> > On Thu, Sep 1, 2022 at 12:18 AM Michal Hocko <mhocko@suse.com> wrote:
+> [...]
+> > > So I find Peter's question completely appropriate while your response to
+> > > that not so much! Maybe ftrace is not the right tool for the intented
+> > > job. Maybe there are other ways and it would be really great to show
+> > > that those have been evaluated and they are not suitable for a), b) and
+> > > c) reasons.
+> >
+> > That's fair.
+> > For memory tracking I looked into using kmemleak and page_owner which
+> > can't match the required functionality at an overhead acceptable for
+> > production and pre-production testing environments.
+>
+> Being more specific would be really helpful. Especially when your cover
+> letter suggests that you rely on page_owner/memcg metadata as well to
+> match allocation and their freeing parts.
+>
+> > traces + BPF I
+> > haven't evaluated myself but heard from other members of my team who
+> > tried using that in production environment with poor results. I'll try
+> > to get more specific information on that.
+>
+> That would be helpful as well.
+>
+> > > E.g. Oscar has been working on extending page_ext to track number of
+> > > allocations for specific calltrace[1]. Is this 1:1 replacement? No! But
+> > > it can help in environments where page_ext can be enabled and it is
+> > > completely non-intrusive to the MM code.
+> >
+> > Thanks for pointing out this work. I'll need to review and maybe
+> > profile it before making any claims.
+> >
+> > >
+> > > If the page_ext overhead is not desirable/acceptable then I am sure
+> > > there are other options. E.g. kprobes/LivePatching framework can hook
+> > > into functions and alter their behavior. So why not use that for data
+> > > collection? Has this been evaluated at all?
+> >
+> > I'm not sure how I can hook into say alloc_pages() to find out where
+> > it was called from without capturing the call stack (which would
+> > introduce an overhead at every allocation). Would love to discuss this
+> > or other alternatives if they can be done with low enough overhead.
+>
+> Yes, tracking back the call trace would be really needed. The question
+> is whether this is really prohibitively expensive. How much overhead are
+> we talking about? There is no free lunch here, really.  You either have
+> the overhead during runtime when the feature is used or on the source
+> code level for all the future development (with a maze of macros and
+> wrappers).
 
-Thanks for your reply.
+As promised, I profiled a simple code that repeatedly makes 10
+allocations/frees in a loop and measured overheads of code tagging,
+call stack capturing and tracing+BPF for page and slab allocations.
+Summary:
 
-We are debugging memory overwritten issue on 32 bit- ARM  based Devices, hope to get more details on it.
+Page allocations (overheads are compared to get_free_pages() duration):
+6.8% Codetag counter manipulations (__lazy_percpu_counter_add + __alloc_tag_add)
+8.8% lookup_page_ext
+1237% call stack capture
+139% tracepoint with attached empty BPF program
 
-As said in link below 
-https://static.lwn.net/kerneldoc/dev-tools/kasan.html
-==================
-Support
-Architectures
-Generic KASAN is supported on x86_64, arm, arm64, powerpc, riscv, s390, and xtensa, and the tag-based KASAN modes are supported only on arm64.
-===================================
+Slab allocations (overheads are compared to __kmalloc() duration):
+With CONFIG_MEMCG_KMEM=y
+39% Codetag counter manipulations(__lazy_percpu_counter_add + __alloc_tag_add)
+55% get_slab_tag_ref
+3.9% __ksize
+3027% call stack capture
+397% tracepoint with attached empty BPF program
 
-Generic KASAN support on ARM is available now , right? If yes, it can be supported since which   version of kernel?
-Or, it's only enabled on ARM64 not ARM32 by default, we need apply patches to enable it on ARM32?
+With CONFIG_MEMCG_KMEM=n
+26% Codetag counter manipulation(__lazy_percpu_counter_add + __alloc_tag_add)
+72% get_slab_tag_ref
+7.4% __ksize
+2789% call stack capture
+345% tracepoint with attached empty BPF program
+
+Details:
+_get_free_pages is used as page allocation duration baseline
+__kmalloc is used as slab allocation duration baseline
+
+1. Profile with instrumented page allocator
+|--50.13%--my__get_free_page
+|          |
+|          |--38.99%--_get_free_pages
+|          |          |
+|          |          |--34.75%--__alloc_pages
+|          |          |          |
+|          |          |          |--27.59%--get_page_from_freelist
+|          |          |
+|          |           --3.98%--_alloc_pages
+|          |                     |
+|          |                      --0.53%--policy_node
+|          |
+|          |--3.45%--lookup_page_ext
+|          |
+|          |--1.59%--__lazy_percpu_counter_add
+|          |          |
+|          |           --0.80%--pcpu_alloc
+|          |                     memset_orig
+|          |
+|           --1.06%--__alloc_tag_add
+|                     |
+|                      --0.80%--__lazy_percpu_counter_add
+|
+|--35.28%--free_unref_page
+|          |
+|          |--23.08%--_raw_spin_unlock_irqrestore
+|          |
+|          |--2.39%--preempt_count_add
+|          |          |
+|          |           --0.80%--in_lock_functions
+|          |
+|          |--1.59%--free_pcp_prepare
+|          |
+|          |--1.33%--preempt_count_sub
+|          |
+|           --0.80%--check_preemption_disabled
+|
+|--4.24%--__free_pages
+|
+ --1.59%--free_pages
 
 
-Thanks
-Eric Sun
+2. Profile with non-instrumented page allocator and call stack capturing
+|--84.18%--my__get_free_page
+|          |
+|           --83.91%--stack_depot_capture_stack
+|                     |
+|                     |--77.99%--stack_trace_save
+|                     |          |
+|                     |           --77.53%--arch_stack_walk
+|                     |                     |
+|                     |                     |--37.17%--unwind_next_frame
+|                     |                     |          |
+|                     |                     |          |--8.44%--__orc_find
+|                     |                     |          |
+|                     |                     |--10.57%-stack_trace_consume_entry
+|                     |                     |
+|                     |                      --9.64%--unwind_get_return_address
+|                     |
+|                      --5.78%--__stack_depot_save
+|
+|--6.78%--__get_free_pages
+|          |
+|          |--5.85%--__alloc_pages
+|          |          |
+|          |           --3.86%--get_page_from_freelist
+|          |                     |
+|          |                      --1.33%--_raw_spin_unlock_irqrestore
+|          |
+|           --0.80%--alloc_pages
+|
+|--5.19%--free_unref_page
+|          |
+|          |--2.73%--_raw_spin_unlock_irqrestore
+|          |
+|           --0.60%--free_pcp_prepare
+|
+ --0.73%--__free_pages
 
------Original Message-----
-From: Dmitry Vyukov <dvyukov@google.com> 
-Sent: Wednesday, August 31, 2022 3:03 PM
-To: Eric Sun <ericsun@qti.qualcomm.com>
-Cc: Andrey Ryabinin <ryabinin@virtuozzo.com>; Alexander Potapenko <glider@google.com>; Andrey Konovalov <andreyknvl@google.com>; kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: Enable KASan for ARM32
 
-WARNING: This email originated from outside of Qualcomm. Please be wary of any links or attachments, and do not enable macros.
+3. Profile with non-instrumented page allocator and BPF attached to tracepoint
+|--42.42%--my__get_free_page
+|          |
+|           --38.53%--perf_trace_kmem_alloc
+|                     |
+|                     |--25.76%--perf_trace_run_bpf_submit
+|                     |          |
+|                     |          |--21.86%--trace_call_bpf
+|                     |          |          |
+|                     |          |          |--4.76%--migrate_enable
+|                     |          |          |
+|                     |          |          |--4.55%--migrate_disable
+|                     |          |          |
+|                     |          |          |--3.03%--check_preemption_disabled
+|                     |          |          |
+|                     |          |          |--0.65%--__this_cpu_preempt_check
+|                     |          |          |
+|                     |          |           --0.65%--__rcu_read_unlock
+|                     |          |
+|                     |           --0.87%--check_preemption_disabled
+|                     |
+|                     |--8.01%--perf_trace_buf_alloc
+|                     |          |
+|                     |          |--3.68%--perf_swevent_get_recursion_context
+|                     |          |          |
+|                     |          |           --0.87%--check_preemption_disabled
+|                     |          |
+|                     |           --1.30%--check_preemption_disabled
+|                     |
+|                      --0.87%--check_preemption_disabled
+|
+|--27.71%--__get_free_pages
+|          |
+|          |--23.38%--__alloc_pages
+|          |          |
+|          |           --17.75%--get_page_from_freelist
+|          |                     |
+|          |                     |--8.66%--_raw_spin_unlock_irqrestore
+|          |                     |          |
+|          |                     |           --1.95%--preempt_count_sub
+|          |                     |
+|          |                      --1.08%--preempt_count_add
+|          |
+|           --4.33%--alloc_pages
+|                     |
+|                     |--0.87%--policy_node
+|                     |
+|                      --0.65%--policy_nodemask
+|
+|--15.37%--free_unref_page
+|          |
+|          |--6.71%--_raw_spin_unlock_irqrestore
+|          |
+|          |--1.52%--check_preemption_disabled
+|          |
+|          |--0.65%--free_pcp_prepare
+|          |
+|           --0.65%--preempt_count_add
+|--4.98%--__free_pages
 
-On Wed, 31 Aug 2022 at 08:58, Eric Sun <ericsun@qti.qualcomm.com> wrote:
->
-> Dear Sir
->
->
->
-> I am a qualcomm BSP engineer , debugging kernel memory bug on ARM32 
-> based DUTs
->
-> And I noticed that there are patches submitted, is KASAN for arm32 ready now?
->
-> Can you please share the patches to enable this feature?
->
->
->
-> https://lwn.net/ml/linux-arm-kernel/search
->
->
->
->
->
-> Thanks
->
-> Eric Sun
 
-+kasan-dev mailing list
+4. Profile with instrumented slab allocator CONFIG_MEMCG_KMEM=y
+|--51.28%--my__get_free_page
+|          |
+|          |--21.79%--__kmalloc
+|          |          |
+|          |          |--3.42%--memcg_slab_post_alloc_hook
+|          |          |
+|          |          |--1.71%--kmalloc_slab
+|          |          |
+|          |           --0.85%--should_failslab
+|          |
+|          |--11.97%--get_slab_tag_ref
+|          |
+|          |--5.56%--__alloc_tag_add
+|          |          |
+|          |           --2.56%--__lazy_percpu_counter_add
+|          |
+|          |--2.99%--__lazy_percpu_counter_add
+|          |
+|           --0.85%--__ksize
+|
+ --35.90%--kfree
+           |
+           |--13.68%--get_slab_tag_ref
+           |
+           |--6.41%--__alloc_tag_sub
+           |          |
+           |           --4.70%--__lazy_percpu_counter_add
+           |
+            --2.14%--__ksize
 
-Hi Eric,
 
-I would start with these (+any patches that were sent in the series with these patches):
+5. Profile with non-instrumented slab allocator and call stack
+capturing CONFIG_MEMCG_KMEM=y
+|--91.50%--my__get_free_page
+|          |
+|           --91.13%--stack_depot_capture_stack
+|                     |
+|                     |--85.48%--stack_trace_save
+|                     |          |
+|                     |           --85.12%--arch_stack_walk
+|                     |                     |
+|                     |                     |--40.54%--unwind_next_frame
+|                     |                     |
+|                     |                     |--14.30%--__unwind_start
+|                     |                     |
+|                     |                     |--11.95%-unwind_get_return_address
+|                     |                     |
+|                     |                      --10.48%-stack_trace_consume_entry
+|                     |
+|                      --4.99%--__stack_depot_save
+|                                |
+|                                 --0.66%--filter_irq_stacks
+|
+|--3.01%--__kmalloc
+|
+|--2.05%--kfree
 
-$ git log --oneline --no-merges --grep kasan arch/arm
-8fa7ea40bf569 ARM: 9203/1: kconfig: fix MODULE_PLTS for KASAN with KASAN_VMALLOC
-565cbaad83d83 ARM: 9202/1: kasan: support CONFIG_KASAN_VMALLOC
-9be4c88bb7924 ARM: 9191/1: arm/stacktrace, kasan: Silence KASAN warnings in unwind_frame()
-8b59b0a53c840 ARM: 9170/1: fix panic when kasan and kprobe are enabled
-c6975d7cab5b9 arm64: Track no early_pgtable_alloc() for kmemleak
-c2e6df3eaaf12 ARM: 9142/1: kasan: work around LPAE build warning eaf6cc7165c9c ARM: 9134/1: remove duplicate memcpy() definition
-df909df077077 ARM: 9132/1: Fix __get_user_check failure with ARM KASAN images
-421015713b306 ARM: 9017/2: Enable KASan for ARM
-5615f69bc2097 ARM: 9016/2: Initialize the mapping of KASan shadow memory c12366ba441da ARM: 9015/2: Define the virtual space of KASan's shadow region
-d6d51a96c7d63 ARM: 9014/2: Replace string mem* functions for KASan d5d44e7e3507b ARM: 9013/2: Disable KASan instrumentation for some code
+6. Profile with non-instrumented slab allocator and BPF attached to a
+tracepoint CONFIG_MEMCG_KMEM=y
+|--72.39%--__kmalloc
+|          |
+|          |--57.84%--perf_trace_kmem_alloc
+|          |          |
+|          |          |--38.06%--perf_trace_run_bpf_submit
+|          |          |          |
+|          |          |           --33.96%--trace_call_bpf
+|          |          |                     |
+|          |          |                     |--10.07%--migrate_disable
+|          |          |                     |
+|          |          |                     |--4.85%--migrate_enable
+|          |          |                     |
+|          |          |                     |--4.10%--check_preemption_disabled
+|          |          |                     |
+|          |          |                     |--1.87%--__rcu_read_unlock
+|          |          |                     |
+|          |          |                      --0.75%--__rcu_read_lock
+|          |          |
+|          |           --9.70%--perf_trace_buf_alloc
+|          |                     |
+|          |                     |--2.99%--perf_swevent_get_recursion_context
+|          |                     |
+|          |                     |--1.12%--check_preemption_disabled
+|          |                     |
+|          |                      --0.75%--debug_smp_processor_id
+|          |
+|          |--2.24%--kmalloc_slab
+|          |
+|          |--1.49%--memcg_slab_post_alloc_hook
+|          |
+|           --1.12%--__cond_resched
+|
+|--7.84%--kfree
+
+
+7. Profile with instrumented slab allocator CONFIG_MEMCG_KMEM=n
+|--49.39%--my__get_free_page
+|          |
+|          |--22.04%--__kmalloc
+|          |          |
+|          |          |--3.27%--kmalloc_slab
+|          |          |
+|          |           --0.82%--asm_sysvec_apic_timer_interrupt
+|          |                     sysvec_apic_timer_interrupt
+|          |                     __irq_exit_rcu
+|          |                     __softirqentry_text_start
+|          |
+|          |--15.92%--get_slab_tag_ref
+|          |
+|          |--3.27%--__alloc_tag_add
+|          |          |
+|          |           --2.04%--__lazy_percpu_counter_add
+|          |
+|           --2.45%--__lazy_percpu_counter_add
+|
+|--35.51%--kfree
+|          |
+|          |--13.88%--get_slab_tag_ref
+|          |
+|          |--11.84%--__alloc_tag_sub
+|          |          |
+|          |           --5.31%--__lazy_percpu_counter_add
+|          |
+|           --1.63%--__ksize
+
+8. Profile with non-instrumented slab allocator and call stack
+capturing CONFIG_MEMCG_KMEM=n
+|--91.70%--my__get_free_page
+|          |
+|           --91.48%--stack_depot_capture_stack
+|                     |
+|                     |--85.29%--stack_trace_save
+|                     |          |
+|                     |           --85.07%--arch_stack_walk
+|                     |                     |
+|                     |                     |--45.23%--unwind_next_frame
+|                     |                     |
+|                     |                     |--12.89%--__unwind_start
+|                     |                     |
+|                     |                     |--10.20%-unwind_get_return_address
+|                     |                     |
+|                     |                      --10.12%-stack_trace_consume_entry
+|                     |
+|                      --5.75%--__stack_depot_save
+|                                |
+|                                 --0.87%--filter_irq_stacks
+|
+|--3.28%--__kmalloc
+|
+ --1.89%--kfree
+
+9. Profile with non-instrumented slab allocator and BPF attached to a
+tracepoint CONFIG_MEMCG_KMEM=n
+|--71.65%--__kmalloc
+|          |
+|          |--55.56%--perf_trace_kmem_alloc
+|          |          |
+|          |          |--38.31%--perf_trace_run_bpf_submit
+|          |          |          |
+|          |          |          |--31.80%--trace_call_bpf
+|          |          |          |          |
+|          |          |          |          |--9.96%--migrate_enable
+|          |          |          |          |
+|          |          |          |          |--4.98%--migrate_disable
+|          |          |          |          |
+|          |          |          |          |--1.92%--check_preemption_disabled
+|          |          |          |          |
+|          |          |          |          |--1.92%--__rcu_read_unlock
+|          |          |          |          |
+|          |          |          |           --1.15%--__rcu_read_lock
+|          |          |          |
+|          |          |           --0.77%--check_preemption_disabled
+|          |          |
+|          |           --11.11%--perf_trace_buf_alloc
+|          |                     |
+|          |                      --4.98%--perf_swevent_get_recursion_context
+|          |                                |
+|          |                                 --1.53%--check_preemption_disabled
+|          |
+|          |--2.68%--kmalloc_slab
+|          |
+|           --1.15%--__cond_resched
+|
+ --9.58%--kfree
+
+
+>
+> Thanks!
+> --
+> Michal Hocko
+> SUSE Labs
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/DM6PR02MB692214E8514F99A46B0643BA877C9%40DM6PR02MB6922.namprd02.prod.outlook.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAJuCfpFrRwXXQ%3DwAvZ-oUNKXUJ%3DuUA%3DfiDrkhRu5VGXcM%2B%3DcuA%40mail.gmail.com.
