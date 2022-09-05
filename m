@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBV6V26MAMGQE7WIXGNA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBWOV26MAMGQETXI35ZA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-ej1-x638.google.com (mail-ej1-x638.google.com [IPv6:2a00:1450:4864:20::638])
-	by mail.lfdr.de (Postfix) with ESMTPS id B654D5AD263
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:25:59 +0200 (CEST)
-Received: by mail-ej1-x638.google.com with SMTP id sh44-20020a1709076eac00b00741a01e2aafsf2295474ejc.22
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:25:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662380759; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CE45AD264
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:26:02 +0200 (CEST)
+Received: by mail-ej1-x638.google.com with SMTP id qa35-20020a17090786a300b0073d4026a97dsf2256571ejc.9
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:26:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662380761; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fjAfOEr3avkMwBQ+xHpm1sH/mmxzP9YdWDnOUO1yCIlPKKd03TEPQTReN2eQM7r9no
-         CsHxfJw8Xuklg4Q4gZx8xgUn9jx9mFD71juRPZppIh7POooaGPMy9lIR6kNGaIjvUORH
-         WhXxfisaKonkcSODIFjI/J0MWuIEuBgGJHd5tZFRW/Z4gwS78mFEUZtMKlrbVGj1q4Rr
-         HapwKmaeaIG+eLSuiMLJAW9OXBdujRB2qSY/XbVGWODem3kCnvY5/y35qAxFSJFjk2b8
-         DLmtivPJ87pf7kDx5dyXw+aWhSsI7LWi0i6q836RHA84DUaKhioGkb6H7ujdYShNreUB
-         QgFg==
+        b=b75eRZxNPTwbRyrhL4CwZmDMWEDOWmYx/mP6GvwIr4ufqIL+BjrZrKljzhS2YpDbMY
+         vWtY6KaCtlMu4yudrayZJrX5zzBWB6JWkvkCaLqbxvfiEoVf7i7a/9hCcOlTJrdr4JrC
+         CeFLjyQDGvVhyZmXJxd7ISi2EA59xYIpGoa0/WmApZTcl6HzZ0ZmdUqPlazwqroC9Ass
+         lC93XsizRuCjLAgJ46eLQcEMQ5ked0hW0r+NuKM3vHMyscTizawaqJCMcvm4jefRHCIq
+         qpVxBL+eFy+lZMQjaoi0kjTg6eDzcyKyeg9wT6t1ZWA8hCMT2Bz5OK7DJhQhMspsJByp
+         CErQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=NST9qxr/M+mg4eTDws9RHHm1b7oa3woLrUrwJ5SZ92c=;
-        b=bK19Fjw5jjpSvDeFchmqmlqwatMAdRT/ualTH2UVIjx7M1SDEbvCtpz07yC8Dlz23O
-         NDZqhLVuyWZsLiCO4QCQygnM09mGcO9+jgyKpHmplI8u8vRnhONZnmRzitvwMutxt/vg
-         URKCQXulyzQ15IPGcMNd75Tk98n6b8JkAkmDIyuhKtuRcomKFXUsbT+Fkux+Txd+gQMh
-         PCW8QdZTC1iVe1TKB20Hx8CaSJG4Nr/MprRaT54V7V1DTAXhzmPjEX/rBuOM02n1jabo
-         AmgaAeb2mMxzZ66Mgtj60MGmA1D6BwVuoqsuRJZ8eneEehO4P+mFMG/DJOQ8mZS4fXYc
-         HbpA==
+        bh=T52iKbnqK3pdK5aAyas7cgRkwFWq3GHvZj8YK403V0s=;
+        b=dPMiTVwHctY1I5QQiJG0nlxLmaYRcaZQ20zBRAzT8eFwdeumg0D03F6QP7m34eD/nG
+         zQ/PEQt2vYHvgNMO27i7Ak/g1Gn93nsM0TFlg1kjtik++dOtPmHbRFNHu3ti/bQGeLtS
+         0XeVt8pn81TpLfptEOKeKbEqHLDjLIuSKYbFd19uyfFLPWVmCo/xTNN71hY0F2ShLqt4
+         84xWU0yLbNRPLJgiSze6G7yL6MXiNTdfYlOQY2EiXhKjwQSQRk2gYoygHZdIqulI1uER
+         lgNz9DnzdUcUpWlQl1M0BlkI5WDUAjPj2Pph3qhRLmjSwOtp8lxN7p8gLXIh7d6gWcTa
+         BL5w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=HRK55Wdk;
-       spf=pass (google.com: domain of 31eovywykcsiejgbcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=31eoVYwYKCSIEJGBCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=tTKCC8E0;
+       spf=pass (google.com: domain of 32oovywykcsuhmjefshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=32OoVYwYKCSUHMJEFSHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date;
-        bh=NST9qxr/M+mg4eTDws9RHHm1b7oa3woLrUrwJ5SZ92c=;
-        b=csz4zMtLSHqLI1pP4DAJWCxpi9ZhniusJFvCB9oIfeLpdrmFz9pptuIsGLdob4P88Y
-         xk69R+8Ia2YhkklxCajjvVZgsrVysYQitKLTPr5a5N316vuj5QO2PVejCFlklraUtVAc
-         ZqrtU05zqXtwIV6Mfwow5QAlqQqsce7M1UAFG/oFpfIlEXO9mu2EecpQz/pKK9P9n/xc
-         Sml8rmEH0eMVoT2X1o5qSfY7oAckvCWSl2Uw4E1FPmisbLZyarnEbCMRnjojvWdlGuxn
-         /nSg1bgSOEbYdC3EtEsBwy7DdLKtGHAnZb84YOWYVFc6z/FIIOoWyqt9S5IYDiSqwfaF
-         MTpQ==
+        bh=T52iKbnqK3pdK5aAyas7cgRkwFWq3GHvZj8YK403V0s=;
+        b=MTg6K5Y6q8CD9dHUdxCH6kx6QeRuSRUCUrgHN4iA9JyuRyeDVYrNjslDmbxpMMWAZz
+         ke93HjL/MzUlNS6CFsnKH0mSbybWuwlI1gOHxmO91vU5WwElzuMyEoUPZl2EmDRL9e9C
+         /21rnpE04Z8afSGjhDNiLnhl/cpTY5S/sojkHBcEQPfk3PK6OviLDiu/SqQ9iLU0rjom
+         pcc0rHv4UZhE7fqXBFI+eYUxjYK+uu9pyGXdFkCI/PY5AMgyfsBtEMxYJcZ107KHFtRa
+         0Ns3Zu1llCAGy5OrgrKVHvakWHkM8NKDNLh4tn5n5IQi3zUlQ+hDA5op+xqDx+1HEKpu
+         Gg9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,65 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=NST9qxr/M+mg4eTDws9RHHm1b7oa3woLrUrwJ5SZ92c=;
-        b=cJAUDtSZ+p0yc2KULaXU26amX5WABpz+YPUOsI+mSXqmGcRmvK4ET6or368hirW0+f
-         M6s3gzAyFnVFb8YBpWGFSV5G667hJiDIIXvibaYMtF3UPBXaruN6WGIP4zLyaCIdtOei
-         gjHIC0WacinMpiRO6wPBhpcxE5nUb260IU+4f6/swyqBBmWluTpUZ8/oFu/yep1khvIj
-         D8/Fc3NKxTQumFRz+GdWTQ+xJZseyLW8H6i6Px2hKkYrc+sStPMFUooHEgG/2tGKB59d
-         G6UFFGETPEqrXgSjdXgO7XWv9/5Y16EYoa9Mn4PrzT5NuD7QQ3jA5/5EMG4TUSBybQNA
-         B9Ug==
-X-Gm-Message-State: ACgBeo0RoWsdNzEJNqiFsYabSLzDVnsKYgS/Uk83I/F9u1ZzCr27UY6G
-	2q/5R3KGXi7yFVpJcpMY4YE=
-X-Google-Smtp-Source: AA6agR5cb5Tm4LGotKHMTaKQEEy3f7K13EQ6hZygpbFiZvlmiMf2l/erVuQU4aRaOeu78UH1m0BHQQ==
-X-Received: by 2002:a17:907:7d86:b0:730:cd48:e2bc with SMTP id oz6-20020a1709077d8600b00730cd48e2bcmr35379536ejc.167.1662380759348;
-        Mon, 05 Sep 2022 05:25:59 -0700 (PDT)
+        bh=T52iKbnqK3pdK5aAyas7cgRkwFWq3GHvZj8YK403V0s=;
+        b=tTlsPDPIRXSTt9QhwRCvaFYEDUP5BA1KBWx/VnuaOrI45+JyEvYp8KZ/CHWON+r/Qn
+         ++Uj/uRzippj3q7XHPJrklxSm4bOxbf81V5hj8r1Lbij+aLztRGlz5L1iIE8EpM5hAjH
+         NbFCa4d41s2bKuptd95hYWePGLal6bexYj+2Kgi/XxcLl4tE2q8npK7G+G14Fn7BNTrF
+         MMEJBatlaAGdcwfTOzqJy9j+lxCZvNqaswHBgzImraOaaouEcHYspPorfTbMmboamJuC
+         yE2xNJ8HuVBj7palBHuiA6nZLUgE3fnKIlCBaz4z655qmCJOQjDe8t/lV+skA3KQ8HzO
+         KVyA==
+X-Gm-Message-State: ACgBeo3+MJez5jEVOgvwvCxrEPTmRfKg32rGc5kfHWuz19MA4KPq68k4
+	kjDHIJbjhz/TSeOgQPrgrpE=
+X-Google-Smtp-Source: AA6agR6VmyLDB9KbNayAEzaEmwcRJaQKgu6fZyIMkKnIiboALIIzAQqZwUhYnaZlVXLIe70NXxtG1g==
+X-Received: by 2002:a17:907:94c7:b0:730:d5bc:14c with SMTP id dn7-20020a17090794c700b00730d5bc014cmr36724391ejc.68.1662380761837;
+        Mon, 05 Sep 2022 05:26:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:3994:b0:726:abf9:5f2e with SMTP id
- h20-20020a170906399400b00726abf95f2els3414067eje.9.-pod-prod-gmail; Mon, 05
- Sep 2022 05:25:58 -0700 (PDT)
-X-Received: by 2002:a17:907:2bf9:b0:73d:dd00:9ce8 with SMTP id gv57-20020a1709072bf900b0073ddd009ce8mr33497955ejc.151.1662380758274;
-        Mon, 05 Sep 2022 05:25:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662380758; cv=none;
+Received: by 2002:a17:906:3f87:b0:726:2c39:8546 with SMTP id
+ b7-20020a1709063f8700b007262c398546ls3420647ejj.8.-pod-prod-gmail; Mon, 05
+ Sep 2022 05:26:00 -0700 (PDT)
+X-Received: by 2002:a17:907:7632:b0:73d:c346:de57 with SMTP id jy18-20020a170907763200b0073dc346de57mr36094367ejc.647.1662380760823;
+        Mon, 05 Sep 2022 05:26:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662380760; cv=none;
         d=google.com; s=arc-20160816;
-        b=ka0oKkFeRQxi8FLbbhr10hA3FCPW4KpgskdPpkMc/RVyJaPiU2IC7yLnmZ2ZROX0x5
-         RBL4YbMtKm90gR2WpMgQ+bW902CwGbH+6h2ugqvL1iUyJaBl6QckuuymZ7DJ3vVrPGjO
-         s2QJ9HN9/vqh/OFfFhTZlx2BKxriL17D/pDJd0asMKh60nLW68KhNUmCukNjRvCv8czm
-         DzAdGHEQl6YZJNVe03bwW2zQ4hx8vlhc2vBYoD1aImanpQCw3Yl1I8FHzvxM+XzZIXj0
-         MdynOYHG8y5TAd1Ni8odgA8mBZvTb2TV0Mjiy8vPp8LJn7Vq89qWgNv/PmoYQ2bKIE7L
-         llig==
+        b=BOzuLlzomkAW6vqIoXxVXK/RFirrhhD0PZaS2vHOOQ4Q7RtQ2QrILFSjNlnNRdIHvn
+         GE8JxsHRWch4V4knD7Bn4xCIK8vAZsEUapDbeaJy3rpwEymJMyVdpaddBZ+nYTpiv6eg
+         gauPyYugJrgQyc8zpzuDHGSOkOyRGmh4iPyW2UYBlq0Aanjf65LdnXCDPZMCnxJu/HgK
+         BS6BYHhSEJ0A5KhNZeDI1r/Ca/TOWmBwvGHvaKF3Sur3mdmmofDojO77Us2S2e4E6o3p
+         mNusLowlKJ+1PSO7za1ljZdzAO9JLE7G6P4xm0F81YJ9qkoOqxeWJphmWXgMlg92Ciw7
+         55gg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=xU59YLMODhIvgc/g7m6GAFrx2Dkb/0YbdG6iSMMhfg0=;
-        b=xYBUWyYrbGoLsFcDP55kXfdVgFI22FMUyfhfH7RkCvX4b3xy8Kk83k5fCf4LmqaPWY
-         0WbZCkUsLSslMwkxaA+BywQHoheHetCYPwZUaxzoEjKNJjNULmqOTx2ap2VMphs3yUyE
-         34H+ji2EJeE6e3vbNDULt5I6JmBDxRAXPpOE58FKspMSf3nlc361NCnJD/55p+F8Aqe6
-         A5Kbz/9b8nTM7NeVaWPaEfjuf99dapE7s/ox5gYQIEYtllha9MDUGabAfXQBQvuw+8UW
-         IexZsvnXPAZve6ggJ/8NgW8maS5f6haRp43WPw1/aXPfMO6+1FSXRATD4FF0h7axxHiK
-         K0Ww==
+        bh=lOWe2UvDp+lzLw75WkGUXRoANIiWBb139LkOr44Ytus=;
+        b=oV4lIo2xh+WigAJ37dHGsAXHXziNHdzqseKuNbaxp5ew231jv0FauvP7z+FvgDdyxH
+         zRcyigvGv4n1JYo8qNw2Z6FxvQvvFC+Rl9zLTcleXAauQKr3nK4xdyhD9DEgx8DSXmVp
+         qaN7K8PccEuINvHvLtZS9/Na4P3J4mp5++PjFW3NzeIFdnuywrmXs/s2YiF/SnDGnUpg
+         nCU7fAqfZmAilJkQiYUvP50MrjlVOjHya51350gQCsnmaISegOg+XoLUzr2Ax6np1EHl
+         6/7p0NLoGmgZBCSHFXEy2BEUrI40M1x1rWDiekW0iKYbWiSzUtKpkjlGdetrL3AR2qgw
+         tA2A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=HRK55Wdk;
-       spf=pass (google.com: domain of 31eovywykcsiejgbcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=31eoVYwYKCSIEJGBCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=tTKCC8E0;
+       spf=pass (google.com: domain of 32oovywykcsuhmjefshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=32OoVYwYKCSUHMJEFSHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
-        by gmr-mx.google.com with ESMTPS id v14-20020aa7d64e000000b0044e9a9c3a73si70303edr.3.2022.09.05.05.25.58
+        by gmr-mx.google.com with ESMTPS id v14-20020aa7d64e000000b0044e9a9c3a73si70303edr.3.2022.09.05.05.26.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 05:25:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 31eovywykcsiejgbcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
-Received: by mail-ed1-x549.google.com with SMTP id t13-20020a056402524d00b0043db1fbefdeso5711489edd.2
-        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:25:58 -0700 (PDT)
+        Mon, 05 Sep 2022 05:26:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 32oovywykcsuhmjefshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
+Received: by mail-ed1-x549.google.com with SMTP id t13-20020a056402524d00b0043db1fbefdeso5711520edd.2
+        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:26:00 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:b808:8d07:ab4a:554c])
- (user=glider job=sendgmr) by 2002:aa7:d853:0:b0:44e:8a89:52f with SMTP id
- f19-20020aa7d853000000b0044e8a89052fmr3587265eds.293.1662380757922; Mon, 05
- Sep 2022 05:25:57 -0700 (PDT)
-Date: Mon,  5 Sep 2022 14:24:30 +0200
+ (user=glider job=sendgmr) by 2002:a05:6402:320d:b0:448:7cc8:7901 with SMTP id
+ g13-20020a056402320d00b004487cc87901mr30728374eda.423.1662380760517; Mon, 05
+ Sep 2022 05:26:00 -0700 (PDT)
+Date: Mon,  5 Sep 2022 14:24:31 +0200
 In-Reply-To: <20220905122452.2258262-1-glider@google.com>
 Mime-Version: 1.0
 References: <20220905122452.2258262-1-glider@google.com>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220905122452.2258262-23-glider@google.com>
-Subject: [PATCH v6 22/44] dma: kmsan: unpoison DMA mappings
+Message-ID: <20220905122452.2258262-24-glider@google.com>
+Subject: [PATCH v6 23/44] virtio: kmsan: check/unpoison scatterlist in vring_map_one_sg()
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -129,9 +129,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=HRK55Wdk;       spf=pass
- (google.com: domain of 31eovywykcsiejgbcpemmejc.amki8q8l-bctemmejcepmsnq.amk@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=31eoVYwYKCSIEJGBCPEMMEJC.AMKI8Q8L-BCTEMMEJCEPMSNQ.AMK@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=tTKCC8E0;       spf=pass
+ (google.com: domain of 32oovywykcsuhmjefshpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=32OoVYwYKCSUHMJEFSHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -147,226 +147,58 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-KMSAN doesn't know about DMA memory writes performed by devices.
-We unpoison such memory when it's mapped to avoid false positive
-reports.
+If vring doesn't use the DMA API, KMSAN is unable to tell whether the
+memory is initialized by hardware. Explicitly call kmsan_handle_dma()
+from vring_map_one_sg() in this case to prevent false positives.
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+
 ---
-v2:
- -- move implementation of kmsan_handle_dma() and kmsan_handle_dma_sg() here
-
 v4:
- -- swap dma: and kmsan: int the subject
-
-v5:
- -- do not export KMSAN hooks that are not called from modules
+ -- swap virtio: and kmsan: in the subject
 
 v6:
- -- add a missing #include <linux/kmsan.h>
+ -- use <linux/kmsan.h> instead of <linux/kmsan-checks.h>
 
-Link: https://linux-review.googlesource.com/id/Ia162dc4c5a92e74d4686c1be32a4dfeffc5c32cd
+Link: https://linux-review.googlesource.com/id/I211533ecb86a66624e151551f83ddd749536b3af
 ---
- include/linux/kmsan.h | 41 ++++++++++++++++++++++++++++++
- kernel/dma/mapping.c  | 10 +++++---
- mm/kmsan/hooks.c      | 59 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 107 insertions(+), 3 deletions(-)
+ drivers/virtio/virtio_ring.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/kmsan.h b/include/linux/kmsan.h
-index e00de976ee438..dac296da45c55 100644
---- a/include/linux/kmsan.h
-+++ b/include/linux/kmsan.h
-@@ -9,6 +9,7 @@
- #ifndef _LINUX_KMSAN_H
- #define _LINUX_KMSAN_H
- 
-+#include <linux/dma-direction.h>
- #include <linux/gfp.h>
- #include <linux/kmsan-checks.h>
- #include <linux/types.h>
-@@ -16,6 +17,7 @@
- struct page;
- struct kmem_cache;
- struct task_struct;
-+struct scatterlist;
- 
- #ifdef CONFIG_KMSAN
- 
-@@ -172,6 +174,35 @@ void kmsan_ioremap_page_range(unsigned long addr, unsigned long end,
-  */
- void kmsan_iounmap_page_range(unsigned long start, unsigned long end);
- 
-+/**
-+ * kmsan_handle_dma() - Handle a DMA data transfer.
-+ * @page:   first page of the buffer.
-+ * @offset: offset of the buffer within the first page.
-+ * @size:   buffer size.
-+ * @dir:    one of possible dma_data_direction values.
-+ *
-+ * Depending on @direction, KMSAN:
-+ * * checks the buffer, if it is copied to device;
-+ * * initializes the buffer, if it is copied from device;
-+ * * does both, if this is a DMA_BIDIRECTIONAL transfer.
-+ */
-+void kmsan_handle_dma(struct page *page, size_t offset, size_t size,
-+		      enum dma_data_direction dir);
-+
-+/**
-+ * kmsan_handle_dma_sg() - Handle a DMA transfer using scatterlist.
-+ * @sg:    scatterlist holding DMA buffers.
-+ * @nents: number of scatterlist entries.
-+ * @dir:   one of possible dma_data_direction values.
-+ *
-+ * Depending on @direction, KMSAN:
-+ * * checks the buffers in the scatterlist, if they are copied to device;
-+ * * initializes the buffers, if they are copied from device;
-+ * * does both, if this is a DMA_BIDIRECTIONAL transfer.
-+ */
-+void kmsan_handle_dma_sg(struct scatterlist *sg, int nents,
-+			 enum dma_data_direction dir);
-+
- #else
- 
- static inline void kmsan_init_shadow(void)
-@@ -254,6 +285,16 @@ static inline void kmsan_iounmap_page_range(unsigned long start,
- {
- }
- 
-+static inline void kmsan_handle_dma(struct page *page, size_t offset,
-+				    size_t size, enum dma_data_direction dir)
-+{
-+}
-+
-+static inline void kmsan_handle_dma_sg(struct scatterlist *sg, int nents,
-+				       enum dma_data_direction dir)
-+{
-+}
-+
- #endif
- 
- #endif /* _LINUX_KMSAN_H */
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 49cbf3e33de71..a8400aa9bcd4e 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -10,6 +10,7 @@
- #include <linux/dma-map-ops.h>
- #include <linux/export.h>
- #include <linux/gfp.h>
+diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
+index 4620e9d79dde8..8974c34b40fda 100644
+--- a/drivers/virtio/virtio_ring.c
++++ b/drivers/virtio/virtio_ring.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/hrtimer.h>
+ #include <linux/dma-mapping.h>
 +#include <linux/kmsan.h>
- #include <linux/of_device.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
-@@ -156,6 +157,7 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
- 		addr = dma_direct_map_page(dev, page, offset, size, dir, attrs);
- 	else
- 		addr = ops->map_page(dev, page, offset, size, dir, attrs);
-+	kmsan_handle_dma(page, offset, size, dir);
- 	debug_dma_map_page(dev, page, offset, size, dir, addr, attrs);
+ #include <linux/spinlock.h>
+ #include <xen/xen.h>
  
- 	return addr;
-@@ -194,11 +196,13 @@ static int __dma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
- 	else
- 		ents = ops->map_sg(dev, sg, nents, dir, attrs);
- 
--	if (ents > 0)
-+	if (ents > 0) {
-+		kmsan_handle_dma_sg(sg, nents, dir);
- 		debug_dma_map_sg(dev, sg, nents, ents, dir, attrs);
--	else if (WARN_ON_ONCE(ents != -EINVAL && ents != -ENOMEM &&
--			      ents != -EIO && ents != -EREMOTEIO))
-+	} else if (WARN_ON_ONCE(ents != -EINVAL && ents != -ENOMEM &&
-+				ents != -EIO && ents != -EREMOTEIO)) {
- 		return -EIO;
-+	}
- 
- 	return ents;
- }
-diff --git a/mm/kmsan/hooks.c b/mm/kmsan/hooks.c
-index 5c0eb25d984d7..563c09443a37a 100644
---- a/mm/kmsan/hooks.c
-+++ b/mm/kmsan/hooks.c
-@@ -10,10 +10,12 @@
-  */
- 
- #include <linux/cacheflush.h>
-+#include <linux/dma-direction.h>
- #include <linux/gfp.h>
- #include <linux/kmsan.h>
- #include <linux/mm.h>
- #include <linux/mm_types.h>
-+#include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/uaccess.h>
- 
-@@ -243,6 +245,63 @@ void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
- }
- EXPORT_SYMBOL(kmsan_copy_to_user);
- 
-+static void kmsan_handle_dma_page(const void *addr, size_t size,
-+				  enum dma_data_direction dir)
-+{
-+	switch (dir) {
-+	case DMA_BIDIRECTIONAL:
-+		kmsan_internal_check_memory((void *)addr, size, /*user_addr*/ 0,
-+					    REASON_ANY);
-+		kmsan_internal_unpoison_memory((void *)addr, size,
-+					       /*checked*/ false);
-+		break;
-+	case DMA_TO_DEVICE:
-+		kmsan_internal_check_memory((void *)addr, size, /*user_addr*/ 0,
-+					    REASON_ANY);
-+		break;
-+	case DMA_FROM_DEVICE:
-+		kmsan_internal_unpoison_memory((void *)addr, size,
-+					       /*checked*/ false);
-+		break;
-+	case DMA_NONE:
-+		break;
-+	}
-+}
-+
-+/* Helper function to handle DMA data transfers. */
-+void kmsan_handle_dma(struct page *page, size_t offset, size_t size,
-+		      enum dma_data_direction dir)
-+{
-+	u64 page_offset, to_go, addr;
-+
-+	if (PageHighMem(page))
-+		return;
-+	addr = (u64)page_address(page) + offset;
-+	/*
-+	 * The kernel may occasionally give us adjacent DMA pages not belonging
-+	 * to the same allocation. Process them separately to avoid triggering
-+	 * internal KMSAN checks.
-+	 */
-+	while (size > 0) {
-+		page_offset = addr % PAGE_SIZE;
-+		to_go = min(PAGE_SIZE - page_offset, (u64)size);
-+		kmsan_handle_dma_page((void *)addr, to_go, dir);
-+		addr += to_go;
-+		size -= to_go;
-+	}
-+}
-+
-+void kmsan_handle_dma_sg(struct scatterlist *sg, int nents,
-+			 enum dma_data_direction dir)
-+{
-+	struct scatterlist *item;
-+	int i;
-+
-+	for_each_sg(sg, item, nents, i)
-+		kmsan_handle_dma(sg_page(item), item->offset, item->length,
-+				 dir);
-+}
-+
- /* Functions from kmsan-checks.h follow. */
- void kmsan_poison_memory(const void *address, size_t size, gfp_t flags)
+@@ -352,8 +353,15 @@ static dma_addr_t vring_map_one_sg(const struct vring_virtqueue *vq,
+ 				   struct scatterlist *sg,
+ 				   enum dma_data_direction direction)
  {
+-	if (!vq->use_dma_api)
++	if (!vq->use_dma_api) {
++		/*
++		 * If DMA is not used, KMSAN doesn't know that the scatterlist
++		 * is initialized by the hardware. Explicitly check/unpoison it
++		 * depending on the direction.
++		 */
++		kmsan_handle_dma(sg_page(sg), sg->offset, sg->length, direction);
+ 		return (dma_addr_t)sg_phys(sg);
++	}
+ 
+ 	/*
+ 	 * We can't use dma_map_sg, because we don't use scatterlists in
 -- 
 2.37.2.789.g6183377224-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-23-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-24-glider%40google.com.
