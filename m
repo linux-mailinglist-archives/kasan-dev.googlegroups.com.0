@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBK6V26MAMGQESJBLD2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBLOV26MAMGQE77E6EIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4445AD253
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:25:16 +0200 (CEST)
-Received: by mail-lf1-x13a.google.com with SMTP id w18-20020ac25d52000000b0048af13b6ef6sf1849455lfd.7
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:25:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662380715; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF185AD254
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Sep 2022 14:25:18 +0200 (CEST)
+Received: by mail-lf1-x13a.google.com with SMTP id h35-20020a0565123ca300b0049465e679a1sf1867603lfv.16
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 05:25:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662380718; cv=pass;
         d=google.com; s=arc-20160816;
-        b=U/G+DSEgNfeZMxmQq0L1wbg0wznzhZTM4EM/18dN47bdaK3Fj0PlMFPD6FXrKqYkb3
-         Eto0TrFOPuqS8AFOWSlombcDuOH6uCfCu6iEJAJgnZ0geVOitbfMzK2Ql33UGUeBO+qu
-         cmIMN0i0yuqmXW/3smPZVJZfzui5Qmt5CiqhzknSgDGcX8yieDG/qibPU9WjWvASEL/B
-         OcWd+qAn8HczR8Qy0sih6BI7F7FqAQeU9Ioxxha7JPBBymcg425RazQwIAur2ww7UFlT
-         IpxecPZHjUtT4jHSHIzHgZMNVMSVi/DIsou4FbtLX/+iHRhyk0m7rdixQzl5ttzPoi90
-         P0Fw==
+        b=VRkgJG9269b6YVHwv3mi6dMRxRyYCC72DvUVpNqZHkce2fN7oGf+GrzqXBV3HlpVtu
+         nNtDZAZW4NxWAsXSa1JlaNVEOs6+qgbpW/+viiK+SJTr3eLiFuTJcsPzu5A/SvgmIKVN
+         zkvOIc7sq7eTTDRv8rTMYtQ8T64xQkv/IHCWfR5l/v2p63a+lputdHwWI3iz4lAoeRx3
+         N6OXR/iMNI1vO+jTO4Vr1oMnIb2EQlshJig3JCc2pUKztaoWKhM8dgbkHZct1jAGzAJU
+         YOJ/o2muiZ71QrNmc91lEIz08CXBQ1xTuxKW26X98TxY/xIOGi/HJZVKLTHGdSeji+rt
+         Dxug==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=fCeSLgle7BptpCJU9Jz9PHRJ9AH7jsdHMECodR7ImSg=;
-        b=tNuEC+BgOZybW6/N8g/0OaYikUn5LHrf8w1iIT7jbnB9FxW66r82C+HVcRplkwozUN
-         y6r/DOqcMyXd/A3Htc3a0XEoY55NFC5WKQrzQ8DKVUDsZE69qAptWkhp8IvenHTwsjok
-         coGXKiYnF2ZRvinw1DC2h/p5xKVm0/mouZeyGIbe5RGP5Eh3hIf+A20x7EQca9rBFVG9
-         8y8U1dDhK6lMqLkX25ZjkwZEbwr+ubUR77ZVwouhpQvtNDyqis1Iuy09UuZUVCYvKQig
-         YTRX8zTaTkiH0NM1B1TafRoz/2tpIEmA+NwKIPGnudwSJnkaNL+seGPnTpCLWVoc+vMi
-         qJFQ==
+        bh=E9osVLMMYVDMEDqMOrVDJmEOB+nc4svWQMIUk4Sxomc=;
+        b=zfVh3RrVyMMWOdQ6HmxkAUBgjOFpYyEKUjKqJuUcFm73C78a7zeB/isW3WjtFFqQrf
+         /LlvY+H17yBOCmjT1gsKyZC9GhLR9qiaJzQcj1XpeCwwk6F7UHRUjjWaVKD42PTBbkJJ
+         DCmQvmftLC9D1viXocygnWNTkl1I/W6tNNmsTbJSxx8foH6R4kDaJitTpeBCGr6Z8iVQ
+         BIMI+9D7Uy7BVCad+nXHzilI1VHnND/KORXRKiOr/rW4j2u2FxnRrlRyHy8iLsW1Aypi
+         vWrNJAfaZgwIbPlcKzV/lLkX0SGAf+No+O0qgzwo6aUHywe3EoIWQ78n8lKjUPxgBSeE
+         zyFw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=KN8ODtsg;
-       spf=pass (google.com: domain of 3qeovywykcfqchezanckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--glider.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3qeoVYwYKCfQcheZanckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=K+RIqV9b;
+       spf=pass (google.com: domain of 3roovywykcfcfkhcdqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3rOoVYwYKCfcfkhcdqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date;
-        bh=fCeSLgle7BptpCJU9Jz9PHRJ9AH7jsdHMECodR7ImSg=;
-        b=CY1hETiaNzg9RXx5DqEWDLrGpX+XjdpOspPK9V+Sjbosc9oh/4lrQ6K04393PBOm3/
-         JXm0PxXMAbBhaDDOjGFkJPbPX40IPIr9Zd+r763MEcJgSRI7UsxwBKAMvasmGVpmE+Xh
-         awp/mPpjW5lqTx0RSsxFe/glZDLMmeaH6lYJ1Yc7cg3csok/WWn/JzAVXB1Bfcn3CJaZ
-         7nGj+tL1FXc76lIkr6xh3DXnSpJOi76EV58YokwNU3JPCDyaCKoI5Jmp1H8lPiZXMvbH
-         W5JvfmnohsWMCK8X9ffP8fRiyoo+xz8lpVGTvlAJV66bKQHVQbXll7ttvHeJBzBNU+yi
-         +eRw==
+        bh=E9osVLMMYVDMEDqMOrVDJmEOB+nc4svWQMIUk4Sxomc=;
+        b=YOJDnORzcWq0GB6ibOazy4D87+KfhZpRJll+vbMUfh3xOPKj0SrkBAxy56fiWaXPwC
+         +RKTbImB4pRa30KXv3f+qEya2RCLhY4nrMA+Rpg4XW3V4jeDfITd4kSP/hQaPNoFbX5U
+         GB/gNYoOvirmqzMFztEYyickr5yxLcgnR2WiX/X9OmEyjluStRsfB/5w4IQ0BDfJsQX5
+         OuFmhCyJmIFNwFHpoHfJreS09V+A5sHJTbwLTktzoTLK0ailblNbNyAMLywkNoMr6hRm
+         +HV5zMU2TOVEovduxnlkSME6fvGWDhYRfas4y5Yd70U0QzoCfPDAZclAXbn6Yqx90fYi
+         pYSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,64 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=fCeSLgle7BptpCJU9Jz9PHRJ9AH7jsdHMECodR7ImSg=;
-        b=VUKxDcZ4+P46AVYJRry5BYEfId7SU1cNNqAsnZ++TXmq9mzCMxUkmEZxqqL/YdjCiF
-         JA9YHuqm/yqVV/jl01Ez8M0mvDoKaa9KjWCQPr+gpn1rUcE1SH5fi1Vjff3RMj28LbDE
-         jLGnRMBUR2Rx1hitIsiq8YTwIZx81klhT5ET53izYFeG4IhaumX58m+8mQdZHSovTMl8
-         8s/QcTIFCRKs38rowPdbXt7O0gXfAYi7DNybxFP4ZNvi+QaUxptRieCivF+PSvxYtEXk
-         G6uIUQQVdwUSaicYvnsRFl8CR4gYnikjT6hhcXA0rjQhBoGR5PTTqa3XZQSj/oUMwGYt
-         R3ag==
-X-Gm-Message-State: ACgBeo2bTD0OZofAHApbJkiN/6vy1VmhE4fUzeaVo8H/O1DBg1rz5IbD
-	yT8E3RTLSs1QGFto/cL7g58=
-X-Google-Smtp-Source: AA6agR65UcqpKzQPxOQMOAAA1GUZFTUmECN1GjMT0djTWxeyMvjHQvIior5sm8224H5tsQR+pWAyUg==
-X-Received: by 2002:a2e:96ca:0:b0:267:8c60:148e with SMTP id d10-20020a2e96ca000000b002678c60148emr8848776ljj.431.1662380715480;
-        Mon, 05 Sep 2022 05:25:15 -0700 (PDT)
+        bh=E9osVLMMYVDMEDqMOrVDJmEOB+nc4svWQMIUk4Sxomc=;
+        b=HRQ1PvAyKnNTzwwL3EIyat06Q/xdg2uKHr82IP0Nspa33vgCUYhzALkmA/y3q2Zgkr
+         +sPzxX12n5DPwrFlxxXA64r4UcNNYGuU4zBI1iL0z0P4j/gvD5tOXcQnFKbhgHArWGyO
+         R54s3eb9yYxtibjlBPgb7vqmc380EwAh0O9cs1JX4yjh6tlHZw43Ov+ML9qZ7RaDcwla
+         wlyvf1Q1FMqY5PS28Gjk8Wb+EPzrgRr5nHMId8eF/vlhvvr2lHxGpTzNqQqv0FbfH+IU
+         ewEfL6Ck7GvPNk1HSh7EauKpVXRud/lEbP+U6RmSFzdugN/oadTtFpsdGT7Y2KB+RAwl
+         lKUQ==
+X-Gm-Message-State: ACgBeo29ujbXxYHFjECsbeEVIVaZgvO+X6KjQLnAeqPna76tuKG2QvmK
+	F8k08secDaYo5G+VJshgji8=
+X-Google-Smtp-Source: AA6agR4pBgsq2OiCDVGSkRGlj+gGgRw3xFS2aAZnA203VnUwi9BuCR00aMcggfqrrjFDmOjaZZBNkg==
+X-Received: by 2002:a05:651c:305:b0:26a:915f:45e8 with SMTP id a5-20020a05651c030500b0026a915f45e8mr156865ljp.6.1662380718149;
+        Mon, 05 Sep 2022 05:25:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:880c:0:b0:25e:7450:b825 with SMTP id x12-20020a2e880c000000b0025e7450b825ls1560780ljh.5.-pod-prod-gmail;
- Mon, 05 Sep 2022 05:25:14 -0700 (PDT)
-X-Received: by 2002:a2e:96ca:0:b0:267:8c60:148e with SMTP id d10-20020a2e96ca000000b002678c60148emr8848748ljj.431.1662380714081;
-        Mon, 05 Sep 2022 05:25:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662380714; cv=none;
+Received: by 2002:a05:651c:1055:b0:25e:58e5:b6d5 with SMTP id
+ x21-20020a05651c105500b0025e58e5b6d5ls1563541ljm.1.-pod-prod-gmail; Mon, 05
+ Sep 2022 05:25:16 -0700 (PDT)
+X-Received: by 2002:a2e:8749:0:b0:25e:4357:8ef7 with SMTP id q9-20020a2e8749000000b0025e43578ef7mr15455910ljj.319.1662380716751;
+        Mon, 05 Sep 2022 05:25:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662380716; cv=none;
         d=google.com; s=arc-20160816;
-        b=YcrDDDHtktHLw0UAdM6/EnniWXO1dqTHXs0m4gsxHbt5jJ0EwseGKjF3g9tZHUoblb
-         1aQfFFe3zqMlVHgnZHL5hC9GOkZGBXwPS738x9z2xvEwzgR3wg0z1xJ9kauWanYfK3bz
-         vP3CGBchn679BTEH/P4LwHWDu2Eln37VIbZiNCIjRB8g7BjIc0sb+0Lf6Wh5vL/haqFX
-         9yQDtKstT6QGNEYy67nOBsgD2LhWjUuA3QSTbfmrL9giEpdPVaCLpgLqtbqSRHvZi1N3
-         IIiicK4fLjxSm4PviXyElg+h+bR+58jLUXYPumlfP+kYzhlWC7BEj83RWvn4FaYJCHUp
-         DIVg==
+        b=PfcKm0gw8c3MsH/PiToFsmLJd5EA7NkE/scMzuvJ4T2T4lshPY1oL/75nzI1Bx0UzC
+         mUQAWO4IJ+Nxi2PCDczYLzUpJiXZVy2se694Y5LUuHQSqC4v3DtvnKJX56lA08ZvTuHL
+         1j+3tH7DLgVTJN+qkivvc77sJo9KkWrSSbdEdYsw66j9olsUTRPZH4toEPmg4GQ/V5Zg
+         SVB6xPOU64CiQTukgukHEeROrXVFCPaSk7aLTPFqvLynov3YGo0b3t2lmsNpqTx3QKzX
+         6aG8EhPq/xaCPsxT4+jXSrgrpWCO7CN84UWEtDfzon7xWycCOkxf+Xiv5qOpTeYO4LwH
+         UThg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=vQDAA7RaO97NVNbgK2nE+Ddwgte1b1V7llUj3RudfK0=;
-        b=tMglOxitmMc0uLfVL3tvRz7uK9MIgaJStxMWOBKOTIBFQp2PaNdL7Ejyf4DkzF1CMB
-         4rGmrXXzv5+lK2/HY0EPp3o/gruN97p8lhKNEGFr6w1R0EPVJCCRlouPiOvms/eNvH0e
-         7toItsawLU20rqUVaY9NjFKNX+7+f8ddN79BkOv7DGTYoZdcIwThdhjx2C3wS45U08aD
-         Vd2wMAQpCEaZ9+9g/IynYj1MfB1zL/PHSi47DgYpaUzrZgTVYpXHXHIzp9SNl0O9+ugZ
-         zmzQoVVTHLXdFQeNYHPRhhyO4IWR6ME956LmkObWb6FLs8q//5TfoYSjRXrwfv6lARxm
-         Z0mw==
+        bh=FNkIx/jm8VmVwIUxP0UOjGDN2D7zAcH5S0k2sC/Umx8=;
+        b=SNN8hO/UwG1j1HMYRQVceLpFp1Yg8K3aI2RxSQMwnz0YD2KIPORrcRjrQCYC/eYqnQ
+         GiZyRDUHidsrtiCDn69367pF34ccNmIh0XxcLDkB2rzrdzbx7+OmG+v7exm1m/Z/6dTz
+         PBFIPRbkiTwG5gKSdaXkZZIL1bzPkN7ORls8Mo1Xiv4r/+XcXJW9f02bwjcdoex1Xln1
+         C1c2axZDmAiTLyedr+4X1CR2GlZYG9M/An5uQTVoK24xhO+fdHhtpEdcFfMo9v+sCxTJ
+         zUtdK1m7aNuKZGLz9hRuWXzRxPwgPe1TpZSnE7U4sXaqdrBpGvn92zdMY1AtnlV2VNwQ
+         nxhw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=KN8ODtsg;
-       spf=pass (google.com: domain of 3qeovywykcfqchezanckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--glider.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3qeoVYwYKCfQcheZanckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=K+RIqV9b;
+       spf=pass (google.com: domain of 3roovywykcfcfkhcdqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3rOoVYwYKCfcfkhcdqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com. [2a00:1450:4864:20::64a])
-        by gmr-mx.google.com with ESMTPS id d23-20020a056512369700b00492f1480d0fsi314000lfs.13.2022.09.05.05.25.14
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
+        by gmr-mx.google.com with ESMTPS id s11-20020a056512214b00b0049495f5689asi328112lfr.6.2022.09.05.05.25.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 05:25:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3qeovywykcfqchezanckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--glider.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) client-ip=2a00:1450:4864:20::64a;
-Received: by mail-ej1-x64a.google.com with SMTP id ho13-20020a1709070e8d00b00730a655e173so2265019ejc.8
-        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:25:14 -0700 (PDT)
+        Mon, 05 Sep 2022 05:25:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3roovywykcfcfkhcdqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
+Received: by mail-ed1-x54a.google.com with SMTP id z20-20020a05640235d400b0043e1e74a495so5773644edc.11
+        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 05:25:16 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:b808:8d07:ab4a:554c])
- (user=glider job=sendgmr) by 2002:a17:907:391:b0:73d:c7d5:bb51 with SMTP id
- ss17-20020a170907039100b0073dc7d5bb51mr35272003ejb.177.1662380713524; Mon, 05
- Sep 2022 05:25:13 -0700 (PDT)
-Date: Mon,  5 Sep 2022 14:24:14 +0200
+ (user=glider job=sendgmr) by 2002:a17:907:2bf9:b0:73d:dd00:9ce8 with SMTP id
+ gv57-20020a1709072bf900b0073ddd009ce8mr33496068ejc.151.1662380716059; Mon, 05
+ Sep 2022 05:25:16 -0700 (PDT)
+Date: Mon,  5 Sep 2022 14:24:15 +0200
 In-Reply-To: <20220905122452.2258262-1-glider@google.com>
 Mime-Version: 1.0
 References: <20220905122452.2258262-1-glider@google.com>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220905122452.2258262-7-glider@google.com>
-Subject: [PATCH v6 06/44] kmsan: add ReST documentation
+Message-ID: <20220905122452.2258262-8-glider@google.com>
+Subject: [PATCH v6 07/44] kmsan: introduce __no_sanitize_memory and __no_kmsan_checks
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -128,9 +129,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=KN8ODtsg;       spf=pass
- (google.com: domain of 3qeovywykcfqchezanckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3qeoVYwYKCfQcheZanckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=K+RIqV9b;       spf=pass
+ (google.com: domain of 3roovywykcfcfkhcdqfnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3rOoVYwYKCfcfkhcdqfnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -146,476 +147,87 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add Documentation/dev-tools/kmsan.rst and reference it in the dev-tools
-index.
+__no_sanitize_memory is a function attribute that instructs KMSAN to
+skip a function during instrumentation. This is needed to e.g. implement
+the noinstr functions.
+
+__no_kmsan_checks is a function attribute that makes KMSAN
+ignore the uninitialized values coming from the function's
+inputs, and initialize the function's outputs.
+
+Functions marked with this attribute can't be inlined into functions
+not marked with it, and vice versa. This behavior is overridden by
+__always_inline.
+
+__SANITIZE_MEMORY__ is a macro that's defined iff the file is
+instrumented with KMSAN. This is not the same as CONFIG_KMSAN, which is
+defined for every file.
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
+Reviewed-by: Marco Elver <elver@google.com>
+
 ---
-v2:
- -- added a note that KMSAN is not intended for production use
-
-v5:
- -- mention CONFIG_KMSAN_CHECK_PARAM_RETVAL, drop mentions of cpu_entry_area
- -- add SPDX license
- -- address Marco Elver's comments: reorganize doc structure, fix minor
-    nits
-
-Link: https://linux-review.googlesource.com/id/I751586f79418b95550a83c6035c650b5b01567cc
+Link: https://linux-review.googlesource.com/id/I004ff0360c918d3cd8b18767ddd1381c6d3281be
 ---
- Documentation/dev-tools/index.rst |   1 +
- Documentation/dev-tools/kmsan.rst | 427 ++++++++++++++++++++++++++++++
- 2 files changed, 428 insertions(+)
- create mode 100644 Documentation/dev-tools/kmsan.rst
+ include/linux/compiler-clang.h | 23 +++++++++++++++++++++++
+ include/linux/compiler-gcc.h   |  6 ++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 4621eac290f46..6b0663075dc04 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -24,6 +24,7 @@ Documentation/dev-tools/testing-overview.rst
-    kcov
-    gcov
-    kasan
-+   kmsan
-    ubsan
-    kmemleak
-    kcsan
-diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tools/kmsan.rst
-new file mode 100644
-index 0000000000000..2a53a801198cb
---- /dev/null
-+++ b/Documentation/dev-tools/kmsan.rst
-@@ -0,0 +1,427 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. Copyright (C) 2022, Google LLC.
-+
-+===================================
-+The Kernel Memory Sanitizer (KMSAN)
-+===================================
-+
-+KMSAN is a dynamic error detector aimed at finding uses of uninitialized
-+values. It is based on compiler instrumentation, and is quite similar to the
-+userspace `MemorySanitizer tool`_.
-+
-+An important note is that KMSAN is not intended for production use, because it
-+drastically increases kernel memory footprint and slows the whole system down.
-+
-+Usage
-+=====
-+
-+Building the kernel
-+-------------------
-+
-+In order to build a kernel with KMSAN you will need a fresh Clang (14.0.6+).
-+Please refer to `LLVM documentation`_ for the instructions on how to build Clang.
-+
-+Now configure and build the kernel with CONFIG_KMSAN enabled.
-+
-+Example report
-+--------------
-+
-+Here is an example of a KMSAN report::
-+
-+  =====================================================
-+  BUG: KMSAN: uninit-value in test_uninit_kmsan_check_memory+0x1be/0x380 [kmsan_test]
-+   test_uninit_kmsan_check_memory+0x1be/0x380 mm/kmsan/kmsan_test.c:273
-+   kunit_run_case_internal lib/kunit/test.c:333
-+   kunit_try_run_case+0x206/0x420 lib/kunit/test.c:374
-+   kunit_generic_run_threadfn_adapter+0x6d/0xc0 lib/kunit/try-catch.c:28
-+   kthread+0x721/0x850 kernel/kthread.c:327
-+   ret_from_fork+0x1f/0x30 ??:?
-+
-+  Uninit was stored to memory at:
-+   do_uninit_local_array+0xfa/0x110 mm/kmsan/kmsan_test.c:260
-+   test_uninit_kmsan_check_memory+0x1a2/0x380 mm/kmsan/kmsan_test.c:271
-+   kunit_run_case_internal lib/kunit/test.c:333
-+   kunit_try_run_case+0x206/0x420 lib/kunit/test.c:374
-+   kunit_generic_run_threadfn_adapter+0x6d/0xc0 lib/kunit/try-catch.c:28
-+   kthread+0x721/0x850 kernel/kthread.c:327
-+   ret_from_fork+0x1f/0x30 ??:?
-+
-+  Local variable uninit created at:
-+   do_uninit_local_array+0x4a/0x110 mm/kmsan/kmsan_test.c:256
-+   test_uninit_kmsan_check_memory+0x1a2/0x380 mm/kmsan/kmsan_test.c:271
-+
-+  Bytes 4-7 of 8 are uninitialized
-+  Memory access of size 8 starts at ffff888083fe3da0
-+
-+  CPU: 0 PID: 6731 Comm: kunit_try_catch Tainted: G    B       E     5.16.0-rc3+ #104
-+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
-+  =====================================================
-+
-+The report says that the local variable ``uninit`` was created uninitialized in
-+``do_uninit_local_array()``. The third stack trace corresponds to the place
-+where this variable was created.
-+
-+The first stack trace shows where the uninit value was used (in
-+``test_uninit_kmsan_check_memory()``). The tool shows the bytes which were left
-+uninitialized in the local variable, as well as the stack where the value was
-+copied to another memory location before use.
-+
-+A use of uninitialized value ``v`` is reported by KMSAN in the following cases:
-+ - in a condition, e.g. ``if (v) { ... }``;
-+ - in an indexing or pointer dereferencing, e.g. ``array[v]`` or ``*v``;
-+ - when it is copied to userspace or hardware, e.g. ``copy_to_user(..., &v, ...)``;
-+ - when it is passed as an argument to a function, and
-+   ``CONFIG_KMSAN_CHECK_PARAM_RETVAL`` is enabled (see below).
-+
-+The mentioned cases (apart from copying data to userspace or hardware, which is
-+a security issue) are considered undefined behavior from the C11 Standard point
-+of view.
-+
-+Disabling the instrumentation
-+-----------------------------
-+
-+A function can be marked with ``__no_kmsan_checks``. Doing so makes KMSAN
-+ignore uninitialized values in that function and mark its output as initialized.
-+As a result, the user will not get KMSAN reports related to that function.
-+
-+Another function attribute supported by KMSAN is ``__no_sanitize_memory``.
-+Applying this attribute to a function will result in KMSAN not instrumenting
-+it, which can be helpful if we do not want the compiler to interfere with some
-+low-level code (e.g. that marked with ``noinstr`` which implicitly adds
-+``__no_sanitize_memory``).
-+
-+This however comes at a cost: stack allocations from such functions will have
-+incorrect shadow/origin values, likely leading to false positives. Functions
-+called from non-instrumented code may also receive incorrect metadata for their
-+parameters.
-+
-+As a rule of thumb, avoid using ``__no_sanitize_memory`` explicitly.
-+
-+It is also possible to disable KMSAN for a single file (e.g. main.o)::
-+
-+  KMSAN_SANITIZE_main.o := n
-+
-+or for the whole directory::
-+
-+  KMSAN_SANITIZE := n
-+
-+in the Makefile. Think of this as applying ``__no_sanitize_memory`` to every
-+function in the file or directory. Most users won't need KMSAN_SANITIZE, unless
-+their code gets broken by KMSAN (e.g. runs at early boot time).
-+
-+Support
-+=======
-+
-+In order for KMSAN to work the kernel must be built with Clang, which so far is
-+the only compiler that has KMSAN support. The kernel instrumentation pass is
-+based on the userspace `MemorySanitizer tool`_.
-+
-+The runtime library only supports x86_64 at the moment.
-+
-+How KMSAN works
-+===============
-+
-+KMSAN shadow memory
-+-------------------
-+
-+KMSAN associates a metadata byte (also called shadow byte) with every byte of
-+kernel memory. A bit in the shadow byte is set iff the corresponding bit of the
-+kernel memory byte is uninitialized. Marking the memory uninitialized (i.e.
-+setting its shadow bytes to ``0xff``) is called poisoning, marking it
-+initialized (setting the shadow bytes to ``0x00``) is called unpoisoning.
-+
-+When a new variable is allocated on the stack, it is poisoned by default by
-+instrumentation code inserted by the compiler (unless it is a stack variable
-+that is immediately initialized). Any new heap allocation done without
-+``__GFP_ZERO`` is also poisoned.
-+
-+Compiler instrumentation also tracks the shadow values as they are used along
-+the code. When needed, instrumentation code invokes the runtime library in
-+``mm/kmsan/`` to persist shadow values.
-+
-+The shadow value of a basic or compound type is an array of bytes of the same
-+length. When a constant value is written into memory, that memory is unpoisoned.
-+When a value is read from memory, its shadow memory is also obtained and
-+propagated into all the operations which use that value. For every instruction
-+that takes one or more values the compiler generates code that calculates the
-+shadow of the result depending on those values and their shadows.
-+
-+Example::
-+
-+  int a = 0xff;  // i.e. 0x000000ff
-+  int b;
-+  int c = a | b;
-+
-+In this case the shadow of ``a`` is ``0``, shadow of ``b`` is ``0xffffffff``,
-+shadow of ``c`` is ``0xffffff00``. This means that the upper three bytes of
-+``c`` are uninitialized, while the lower byte is initialized.
-+
-+Origin tracking
-+---------------
-+
-+Every four bytes of kernel memory also have a so-called origin mapped to them.
-+This origin describes the point in program execution at which the uninitialized
-+value was created. Every origin is associated with either the full allocation
-+stack (for heap-allocated memory), or the function containing the uninitialized
-+variable (for locals).
-+
-+When an uninitialized variable is allocated on stack or heap, a new origin
-+value is created, and that variable's origin is filled with that value. When a
-+value is read from memory, its origin is also read and kept together with the
-+shadow. For every instruction that takes one or more values, the origin of the
-+result is one of the origins corresponding to any of the uninitialized inputs.
-+If a poisoned value is written into memory, its origin is written to the
-+corresponding storage as well.
-+
-+Example 1::
-+
-+  int a = 42;
-+  int b;
-+  int c = a + b;
-+
-+In this case the origin of ``b`` is generated upon function entry, and is
-+stored to the origin of ``c`` right before the addition result is written into
-+memory.
-+
-+Several variables may share the same origin address, if they are stored in the
-+same four-byte chunk. In this case every write to either variable updates the
-+origin for all of them. We have to sacrifice precision in this case, because
-+storing origins for individual bits (and even bytes) would be too costly.
-+
-+Example 2::
-+
-+  int combine(short a, short b) {
-+    union ret_t {
-+      int i;
-+      short s[2];
-+    } ret;
-+    ret.s[0] = a;
-+    ret.s[1] = b;
-+    return ret.i;
-+  }
-+
-+If ``a`` is initialized and ``b`` is not, the shadow of the result would be
-+0xffff0000, and the origin of the result would be the origin of ``b``.
-+``ret.s[0]`` would have the same origin, but it will never be used, because
-+that variable is initialized.
-+
-+If both function arguments are uninitialized, only the origin of the second
-+argument is preserved.
-+
-+Origin chaining
-+~~~~~~~~~~~~~~~
-+
-+To ease debugging, KMSAN creates a new origin for every store of an
-+uninitialized value to memory. The new origin references both its creation stack
-+and the previous origin the value had. This may cause increased memory
-+consumption, so we limit the length of origin chains in the runtime.
-+
-+Clang instrumentation API
-+-------------------------
-+
-+Clang instrumentation pass inserts calls to functions defined in
-+``mm/kmsan/nstrumentation.c`` into the kernel code.
-+
-+Shadow manipulation
-+~~~~~~~~~~~~~~~~~~~
-+
-+For every memory access the compiler emits a call to a function that returns a
-+pair of pointers to the shadow and origin addresses of the given memory::
-+
-+  typedef struct {
-+    void *shadow, *origin;
-+  } shadow_origin_ptr_t
-+
-+  shadow_origin_ptr_t __msan_metadata_ptr_for_load_{1,2,4,8}(void *addr)
-+  shadow_origin_ptr_t __msan_metadata_ptr_for_store_{1,2,4,8}(void *addr)
-+  shadow_origin_ptr_t __msan_metadata_ptr_for_load_n(void *addr, uintptr_t size)
-+  shadow_origin_ptr_t __msan_metadata_ptr_for_store_n(void *addr, uintptr_t size)
-+
-+The function name depends on the memory access size.
-+
-+The compiler makes sure that for every loaded value its shadow and origin
-+values are read from memory. When a value is stored to memory, its shadow and
-+origin are also stored using the metadata pointers.
-+
-+Handling locals
-+~~~~~~~~~~~~~~~
-+
-+A special function is used to create a new origin value for a local variable and
-+set the origin of that variable to that value::
-+
-+  void __msan_poison_alloca(void *addr, uintptr_t size, char *descr)
-+
-+Access to per-task data
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+At the beginning of every instrumented function KMSAN inserts a call to
-+``__msan_get_context_state()``::
-+
-+  kmsan_context_state *__msan_get_context_state(void)
-+
-+``kmsan_context_state`` is declared in ``include/linux/kmsan.h``::
-+
-+  struct kmsan_context_state {
-+    char param_tls[KMSAN_PARAM_SIZE];
-+    char retval_tls[KMSAN_RETVAL_SIZE];
-+    char va_arg_tls[KMSAN_PARAM_SIZE];
-+    char va_arg_origin_tls[KMSAN_PARAM_SIZE];
-+    u64 va_arg_overflow_size_tls;
-+    char param_origin_tls[KMSAN_PARAM_SIZE];
-+    depot_stack_handle_t retval_origin_tls;
-+  };
-+
-+This structure is used by KMSAN to pass parameter shadows and origins between
-+instrumented functions (unless the parameters are checked immediately by
-+``CONFIG_KMSAN_CHECK_PARAM_RETVAL``).
-+
-+Passing uninitialized values to functions
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Clang's MemorySanitizer instrumentation has an option,
-+``-fsanitize-memory-param-retval``, which makes the compiler check function
-+parameters passed by value, as well as function return values.
-+
-+The option is controlled by ``CONFIG_KMSAN_CHECK_PARAM_RETVAL``, which is
-+enabled by default to let KMSAN report uninitialized values earlier.
-+Please refer to the `LKML discussion`_ for more details.
-+
-+Because of the way the checks are implemented in LLVM (they are only applied to
-+parameters marked as ``noundef``), not all parameters are guaranteed to be
-+checked, so we cannot give up the metadata storage in ``kmsan_context_state``.
-+
-+String functions
-+~~~~~~~~~~~~~~~~
-+
-+The compiler replaces calls to ``memcpy()``/``memmove()``/``memset()`` with the
-+following functions. These functions are also called when data structures are
-+initialized or copied, making sure shadow and origin values are copied alongside
-+with the data::
-+
-+  void *__msan_memcpy(void *dst, void *src, uintptr_t n)
-+  void *__msan_memmove(void *dst, void *src, uintptr_t n)
-+  void *__msan_memset(void *dst, int c, uintptr_t n)
-+
-+Error reporting
-+~~~~~~~~~~~~~~~
-+
-+For each use of a value the compiler emits a shadow check that calls
-+``__msan_warning()`` in the case that value is poisoned::
-+
-+  void __msan_warning(u32 origin)
-+
-+``__msan_warning()`` causes KMSAN runtime to print an error report.
-+
-+Inline assembly instrumentation
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+KMSAN instruments every inline assembly output with a call to::
-+
-+  void __msan_instrument_asm_store(void *addr, uintptr_t size)
-+
-+, which unpoisons the memory region.
-+
-+This approach may mask certain errors, but it also helps to avoid a lot of
-+false positives in bitwise operations, atomics etc.
-+
-+Sometimes the pointers passed into inline assembly do not point to valid memory.
-+In such cases they are ignored at runtime.
-+
-+
-+Runtime library
-+---------------
-+
-+The code is located in ``mm/kmsan/``.
-+
-+Per-task KMSAN state
-+~~~~~~~~~~~~~~~~~~~~
-+
-+Every task_struct has an associated KMSAN task state that holds the KMSAN
-+context (see above) and a per-task flag disallowing KMSAN reports::
-+
-+  struct kmsan_context {
-+    ...
-+    bool allow_reporting;
-+    struct kmsan_context_state cstate;
-+    ...
-+  }
-+
-+  struct task_struct {
-+    ...
-+    struct kmsan_context kmsan;
-+    ...
-+  }
-+
-+KMSAN contexts
-+~~~~~~~~~~~~~~
-+
-+When running in a kernel task context, KMSAN uses ``current->kmsan.cstate`` to
-+hold the metadata for function parameters and return values.
-+
-+But in the case the kernel is running in the interrupt, softirq or NMI context,
-+where ``current`` is unavailable, KMSAN switches to per-cpu interrupt state::
-+
-+  DEFINE_PER_CPU(struct kmsan_ctx, kmsan_percpu_ctx);
-+
-+Metadata allocation
-+~~~~~~~~~~~~~~~~~~~
-+
-+There are several places in the kernel for which the metadata is stored.
-+
-+1. Each ``struct page`` instance contains two pointers to its shadow and
-+origin pages::
-+
-+  struct page {
-+    ...
-+    struct page *shadow, *origin;
-+    ...
-+  };
-+
-+At boot-time, the kernel allocates shadow and origin pages for every available
-+kernel page. This is done quite late, when the kernel address space is already
-+fragmented, so normal data pages may arbitrarily interleave with the metadata
-+pages.
-+
-+This means that in general for two contiguous memory pages their shadow/origin
-+pages may not be contiguous. Consequently, if a memory access crosses the
-+boundary of a memory block, accesses to shadow/origin memory may potentially
-+corrupt other pages or read incorrect values from them.
-+
-+In practice, contiguous memory pages returned by the same ``alloc_pages()``
-+call will have contiguous metadata, whereas if these pages belong to two
-+different allocations their metadata pages can be fragmented.
-+
-+For the kernel data (``.data``, ``.bss`` etc.) and percpu memory regions
-+there also are no guarantees on metadata contiguity.
-+
-+In the case ``__msan_metadata_ptr_for_XXX_YYY()`` hits the border between two
-+pages with non-contiguous metadata, it returns pointers to fake shadow/origin regions::
-+
-+  char dummy_load_page[PAGE_SIZE] __attribute__((aligned(PAGE_SIZE)));
-+  char dummy_store_page[PAGE_SIZE] __attribute__((aligned(PAGE_SIZE)));
-+
-+``dummy_load_page`` is zero-initialized, so reads from it always yield zeroes.
-+All stores to ``dummy_store_page`` are ignored.
-+
-+2. For vmalloc memory and modules, there is a direct mapping between the memory
-+range, its shadow and origin. KMSAN reduces the vmalloc area by 3/4, making only
-+the first quarter available to ``vmalloc()``. The second quarter of the vmalloc
-+area contains shadow memory for the first quarter, the third one holds the
-+origins. A small part of the fourth quarter contains shadow and origins for the
-+kernel modules. Please refer to ``arch/x86/include/asm/pgtable_64_types.h`` for
-+more details.
-+
-+When an array of pages is mapped into a contiguous virtual memory space, their
-+shadow and origin pages are similarly mapped into contiguous regions.
-+
-+References
-+==========
-+
-+E. Stepanov, K. Serebryany. `MemorySanitizer: fast detector of uninitialized
-+memory use in C++
-+<https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43308.pdf>`_.
-+In Proceedings of CGO 2015.
-+
-+.. _MemorySanitizer tool: https://clang.llvm.org/docs/MemorySanitizer.html
-+.. _LLVM documentation: https://llvm.org/docs/GettingStarted.html
-+.. _LKML discussion: https://lore.kernel.org/all/20220614144853.3693273-1-glider@google.com/
+diff --git a/include/linux/compiler-clang.h b/include/linux/compiler-clang.h
+index c84fec767445d..4fa0cc4cbd2c8 100644
+--- a/include/linux/compiler-clang.h
++++ b/include/linux/compiler-clang.h
+@@ -51,6 +51,29 @@
+ #define __no_sanitize_undefined
+ #endif
+ 
++#if __has_feature(memory_sanitizer)
++#define __SANITIZE_MEMORY__
++/*
++ * Unlike other sanitizers, KMSAN still inserts code into functions marked with
++ * no_sanitize("kernel-memory"). Using disable_sanitizer_instrumentation
++ * provides the behavior consistent with other __no_sanitize_ attributes,
++ * guaranteeing that __no_sanitize_memory functions remain uninstrumented.
++ */
++#define __no_sanitize_memory __disable_sanitizer_instrumentation
++
++/*
++ * The __no_kmsan_checks attribute ensures that a function does not produce
++ * false positive reports by:
++ *  - initializing all local variables and memory stores in this function;
++ *  - skipping all shadow checks;
++ *  - passing initialized arguments to this function's callees.
++ */
++#define __no_kmsan_checks __attribute__((no_sanitize("kernel-memory")))
++#else
++#define __no_sanitize_memory
++#define __no_kmsan_checks
++#endif
++
+ /*
+  * Support for __has_feature(coverage_sanitizer) was added in Clang 13 together
+  * with no_sanitize("coverage"). Prior versions of Clang support coverage
+diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+index 9b157b71036f1..f55a37efdb974 100644
+--- a/include/linux/compiler-gcc.h
++++ b/include/linux/compiler-gcc.h
+@@ -114,6 +114,12 @@
+ #define __SANITIZE_ADDRESS__
+ #endif
+ 
++/*
++ * GCC does not support KMSAN.
++ */
++#define __no_sanitize_memory
++#define __no_kmsan_checks
++
+ /*
+  * Turn individual warnings and errors on and off locally, depending
+  * on version.
 -- 
 2.37.2.789.g6183377224-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-7-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220905122452.2258262-8-glider%40google.com.
