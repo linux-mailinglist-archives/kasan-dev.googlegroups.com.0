@@ -1,126 +1,182 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFGE3OMAMGQEPRN6YHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKMR55PYIGBB5PK3OMAMGQEEFUY25Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3c.google.com (mail-qv1-xf3c.google.com [IPv6:2607:f8b0:4864:20::f3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569C65ADF49
-	for <lists+kasan-dev@lfdr.de>; Tue,  6 Sep 2022 08:00:54 +0200 (CEST)
-Received: by mail-qv1-xf3c.google.com with SMTP id c1-20020a0cfb01000000b00495ad218c74sf7131679qvp.20
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Sep 2022 23:00:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662444053; cv=pass;
+Received: from mail-ed1-x53f.google.com (mail-ed1-x53f.google.com [IPv6:2a00:1450:4864:20::53f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 904B35AE0EC
+	for <lists+kasan-dev@lfdr.de>; Tue,  6 Sep 2022 09:23:34 +0200 (CEST)
+Received: by mail-ed1-x53f.google.com with SMTP id l19-20020a056402255300b0043df64f9a0fsf7095989edb.16
+        for <lists+kasan-dev@lfdr.de>; Tue, 06 Sep 2022 00:23:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662449014; cv=pass;
         d=google.com; s=arc-20160816;
-        b=V9MgKyb52pAoXWYyBJws/CEITd74xfIxFAOLxd/5vMpLpOFmN52zh6ar3JmhDsPX1P
-         J4HonczF0BNC9uvb1b73b7ZJsdVpO22LFIG1BIYHbSQsI+/CkcJ8RjmbRBkF+LHvIXID
-         /TvEF192g+xnPFhSwkA1rMF8NdDE/cGwR6vbTFJY22maHE24BaZsDqp/gOhSZ3GRwRiu
-         nFFWQvRk+L851XY2fIspePAhHAA20YsABdMzMl1tLz2CsCc1pHtkRnjXyPcb5Ym/6H4u
-         xweGvu5LgGsWvxwV7R01c1X6DreSUIs2Qvg+DARkUuWndnoOZLiWtKAGCz8tLmemOF86
-         Iglg==
+        b=r4i7hBusdcIw1J9oDc8fH/spR5jGhJGAevtMVN58GkmrRvBZjVY7S01bi4n5NdSNlz
+         urefE3LG7dV4/UwCNm5e+KrNMj7bovBJLxL1s1HPrydyJpGXAAS3ZYJFtVVQH2kBIc46
+         /vM9/HRqfcjctnnNxDZt1z4gJYxKRaXA4KkxBqj3xW5B0VmKOBk7Q/C5xsNYWwR/0abe
+         1U8/7S3aqdRu8y4Afmpr8foIboVcfbLT1nHKh6OV2xV6GFK3YDRdTuSon5TSRk5/kbnh
+         YS6CWY/6ur5dZL401qWCmp7aoGSeRTJAj98f7WJKK5pPgVK1cviG0XOxI6pu6LkaRZQz
+         AU0Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Dxh5hUNe9D0x1e7fVCsYHJOd9u5asXKghWOexgFqbqQ=;
-        b=yEgkx3cfU+FtCLs14lpSXgmkEBjYqLsbpa16H0sP24hmutLaljc+PGaDE80yvBqVO0
-         1XWcmURb7KbMYhBNCLnr3i5YGGX8AGCpE4T9zHCSYAtnmGFk14/bIwq1ekB6UuBIadCb
-         eF4sBhUeim+nUOeOW8QQb1qMw7UOLOgPlWWAEy9AH/jenhjYqYHGXGitjT+n7VvbdZwg
-         tF84oCwrO0RnWjYU8/0iKBKh43vu8h0WXBEr+FyZyKMBSDAF2cgIGxrT5CIV3m6JcG2o
-         GpCiy9dsjY0EV3bqG91I5AEkx5pObZRFteWM1gH001k6W7gZXHIB51VTrCQSb5YhQKJj
-         GleA==
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=k0Wr0IwBTp5xWaVkIG5vGqDCnJaDZ8JJj7wRjJaCXHE=;
+        b=xehCyG6y6jo0WaR2833AsgUl+soyzksUir7YvOXDmy9L0xuxGoKiHQqAW7G+xg49iT
+         EttWz0gCAZIvyKro7xPS+4OP2FXlhZnb/uzkb3HHqmYG8G0AMCCvGzBHJEaIB+h91lB1
+         DYPbaZ81ul8g3Sl40f4POyN+U84Ota8dgDlN9EBGBpeZp0kj6eik5n/QmKzoYKDfZ9xE
+         wmseF4dithDi9mIkMMKv6uRwY4OYBp3Iho9aTCmV2JxYLN8j3/RXOzYwJxkwZnoNVSN+
+         k58cCZScJxs25X7WucjpjKbL2vlqgKXQxiEfJnimtiqepSM6l0GX7RqsObumDM+lcTJQ
+         01Uw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=d5kvgH2a;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=WccstuGc;
+       spf=pass (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date;
-        bh=Dxh5hUNe9D0x1e7fVCsYHJOd9u5asXKghWOexgFqbqQ=;
-        b=r8Arn0Tw6TUmGVprIgy8x7xHo6YjK1IAyhvWYFMOkeMUblZBTIGKfoA78JYU78yhZn
-         QHayHfbgFG3ZcLVzvKMUiM5R850ieqV6Lby9okVmX0Zwr1pVQlJMfkdGxUQPoXxNQGCN
-         RUAzEb2fdVQWDaTDsAhxh/2pX2WDuEFIDWJek92mR0h4fUfJgWqoGoZ5sCjhVAKeoMh8
-         pgsbEU6Qej8E5y836cutUU9VzJxZ3AajwSFeSR79bmuREy3ZXd6Lmoqf5gNpTi1wb+iM
-         kI/M77vK8IGS0XVRgcTkgLycd65DE+4NDBqTof97UDaQG2tTnPsANv8pEeO2zel9pRPw
-         Xqxw==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date;
+        bh=k0Wr0IwBTp5xWaVkIG5vGqDCnJaDZ8JJj7wRjJaCXHE=;
+        b=d67/UB6DR5avynR2qiSJG7Bqg/4A3ZphT8mr34dQiLR8o8y+U/m0MU2R7raI8DbiVv
+         nUwULwm/mHcjtdBJTK+2D9kGtGGV021bdlOf8fBqv3mXell57bwSQbdoz+oBZdSt2Hz2
+         0+WcdXEOtE4PhqXYo0Nfif+gyCUAdfPVs8GjyTwqVzpf+7Ilp7DSU/u7FHxhYGg+NkhR
+         trzgUVYL/OLRl+r4vafdzArCJ1omNWwadRPuM13appvko4Z0l7iP6Xquvwa/UKWmusUD
+         5wfxrk6D4+gDjCbdnin8C1Vp0+xYh+UlNI5J74WMGPCF4905V18/CY7bFjBGpaO7RlNh
+         1NSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Dxh5hUNe9D0x1e7fVCsYHJOd9u5asXKghWOexgFqbqQ=;
-        b=bujbqzWetyuYc6/7sEV+ZXyuew5mYwklI2POVERXnvhPM9wWZWIIzrqYt8OGtsGS7Y
-         eTyjK2g7iPcWe8PJTPW+V8669aPxmhZtdPaib706RJg0ZcAsTsHfw8yCFPj6uS/y32+H
-         XeETReabgVkoM1ImV//bY7R3we4UpCrjfCCeMdMd2jsACtIsKMUNd1eh4OyitEqS1CeC
-         b3xik59vPmVQa057PsdRixLwEmm+uuLZBuhK+kbeZ+CKf8JiT0EeudDswh3slhIf+N9r
-         1TxLsP8EEan+6e6rt9fV8r9y+jyHCjxzo+YwGxr6DEmslRa1/YZFsh64TfCmSGcdpUIy
-         3dXg==
-X-Gm-Message-State: ACgBeo1/hdtXLlle4AH2uKjttmBqx5ZBJN1S87X+OFVmifUJH9AByuGX
-	OqzmRZbIWRaY4ZkfKCDD0UU=
-X-Google-Smtp-Source: AA6agR4k68aBQfpvKd21kLLHvOVajab2xFpxc/R1EQ0vo10ggsa6c+nrdxH4oiLXn0mVVo+IE34s/Q==
-X-Received: by 2002:a37:44d1:0:b0:6bc:2a1f:34b5 with SMTP id r200-20020a3744d1000000b006bc2a1f34b5mr34777294qka.521.1662444052980;
-        Mon, 05 Sep 2022 23:00:52 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=k0Wr0IwBTp5xWaVkIG5vGqDCnJaDZ8JJj7wRjJaCXHE=;
+        b=YL1yJafQ1Gxhr7hXmInJPPD1kJZAgJdcrj0x6MqRN3TZ7xHS3N9Fk2SUiIMv0/Q/eP
+         2VI6uUhTHxQqK9psjIo/Y3a1E84g88g407l6pIfmq7tzDAfMyQc8UqhK55VrOSaYc9Q8
+         gLLQunYb2N3CSr1md0orRz2c0Cm4MlAIb7hTjLatfoPITMyXtYD3b3JGnjysy0iVp75c
+         HSI0pTGwdVhKaU22FZZod9GVw74GXsGQPWdxKYAfkL5bF33jN3SQ8h8gjWAaOV6j/gAr
+         Ffu0USXWOr+A9m0079aBdJWgQgwCX7PYupHPjvEYvNU4apwFLQ6PYwYQ+T3Qnd1UU5zN
+         WLRA==
+X-Gm-Message-State: ACgBeo2gdZHT6g/HmE4XI7f6a3hUliV/kc0hV9PpKkfgSEN5PlLmqjJ7
+	sjdwcgdu41t3+/GTQLVGXEs=
+X-Google-Smtp-Source: AA6agR62770q99qkVt/rF+ySJZs/ns1FgN/2bPmd89PZnB++iGEAQySNl+//DiH8vUjSI7WyZuKckQ==
+X-Received: by 2002:a05:6402:cb2:b0:44e:4336:d2a0 with SMTP id cn18-20020a0564020cb200b0044e4336d2a0mr9435925edb.209.1662449014134;
+        Tue, 06 Sep 2022 00:23:34 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:b395:0:b0:497:2b03:d8aa with SMTP id t21-20020a0cb395000000b004972b03d8aals7235284qve.1.-pod-prod-gmail;
- Mon, 05 Sep 2022 23:00:52 -0700 (PDT)
-X-Received: by 2002:a05:6214:21e6:b0:49b:b7f7:3f4 with SMTP id p6-20020a05621421e600b0049bb7f703f4mr12209763qvj.78.1662444052428;
-        Mon, 05 Sep 2022 23:00:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662444052; cv=none;
+Received: by 2002:a05:6402:40d2:b0:43d:b3c4:cd21 with SMTP id
+ z18-20020a05640240d200b0043db3c4cd21ls802687edb.2.-pod-prod-gmail; Tue, 06
+ Sep 2022 00:23:32 -0700 (PDT)
+X-Received: by 2002:a05:6402:5002:b0:444:26fd:d341 with SMTP id p2-20020a056402500200b0044426fdd341mr47394074eda.351.1662449012724;
+        Tue, 06 Sep 2022 00:23:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662449012; cv=none;
         d=google.com; s=arc-20160816;
-        b=xtCLnTP/HDPR2HKYDJMag9T1G4MrxWNRtJhy9FNUeEbOo2SwNMI7cNWQd7Q2XvGcIY
-         Lrs30VhLlOVgr5/F7pJsQxE3WVYW2TeZf/Ld0EWi7tEADa3yu9uOoupr4CJlsmyq5Wsn
-         uyaNSviXSCLLvfyf/kIvqYNZuLSbVVWqmjOoGoXRmqg7MUQMcFx8BPjBd2Z2X+PXOTgc
-         akBZ8HamH8F6jRNzZc2p5oyUpNfWUtNtZTTKAQthdf8LV0g4RC3ytWp4CKwQvHmGvxes
-         G7YGK5/XMmvr4HLtJyO+ndvKvMXOJQbjsj6pRlMT3BK/HNnV6CzA7JLc7yvGPxm9vtYC
-         ZqKw==
+        b=FcdI6kzgzb67mx64flAQ0JM2SeQXRw3Eh5y4NiQMAoKIPQf6jYP+EWzO1p5jpWOxBK
+         IxnklC06SJ3XvzhnhNRv+8ZcKhKLQRo7zPa4a5XFpZGtdHHndjR9/Nz+JN6wn31i+VPA
+         c8SFlR54HWFMKOwbG/W7lYk7XqNu/CycoD1MTYhOnVKwdm6ydwemVr7UORiosXqUtu6B
+         dBdqGiQNBH91OhvV5xDN0uaieDonbmV3vxiYCHc9e+Y0p5ypiKr4z4fAZ3Guk6Sk/CTC
+         KAF7fmrM4foUjIK0PhphfYLEACjOgSlaiXVqcDGj/R598csEsh5Ti+YWGJj8cIhU2kmb
+         1bqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=dVgxTZ8rakP42g8vhCO3njeR/uRGYZNUUx4gShIILwI=;
-        b=fCjYSoY0i1FoP+Ht185EiOfdug9GglabBXUuNuqKdyswRGkbT5XZvLjacgt/WXrT6p
-         AF/35zUitTVooiBpEEPaBWad5HVPGMbpSLoQwFRpVsIrzG50+svBnmDGsugDhzWTT2mt
-         nspo+Cs5TMc6v7s1JfSs2/6yH9KrCXaGHHoOZJflPELLkSQ1QrwduUg5kbTTr/HsbwJj
-         iA/UpTm6WH73l+E8Pb9akwVNvZeOb08GiVqsV/E5AoCLAKHckqxqMhB5W4wOAHLSl6bj
-         H0CQzcvsvH0ayB3xJg04tNrdnaMokJfatqqvdbpvAKtAHjxPIgiWWa1JPY0T5w2N7OYO
-         WPyg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=yWige9mo0MBBtPav5dIlbqrSvO7RJRBpbBUTOf+sq9M=;
+        b=M9AKFI7q7fQoCMU6wfhVp07MXtZUPN9maQjMyUMxeIN4fDsmBDEmX9hfwy6zfX0Qgz
+         nb1CpvGg7C54fnfrUr/MRBQMl+2Ml5vG/uH1z4C+kLMnutas2KWXGX7ffjdZ0xuJOo3q
+         nrZtHlkLmWjr2euaZDt3S9snh5J0tZshV9wh6v/xcR8VwqO60B/t2J2q3njP5hx1kvBf
+         0D7qNjRFVCjNAeSd/YKceOqVYxHNdPhV0Lbc5RghLosF8CADEAP9stwIoBeHd337fT2U
+         GWplqN0Tco1xabpm6H/HGzIR3w645/piGD21yCyNj/dYwib1tCWICq2epUhVBRQKamlX
+         Y/0g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=d5kvgH2a;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com. [2607:f8b0:4864:20::b33])
-        by gmr-mx.google.com with ESMTPS id y22-20020a05620a25d600b006b9901be393si824120qko.0.2022.09.05.23.00.52
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=WccstuGc;
+       spf=pass (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
+        by gmr-mx.google.com with ESMTPS id q5-20020aa7d445000000b0044db0bb77bdsi401153edr.5.2022.09.06.00.23.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 23:00:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) client-ip=2607:f8b0:4864:20::b33;
-Received: by mail-yb1-xb33.google.com with SMTP id g5so15311323ybg.11
-        for <kasan-dev@googlegroups.com>; Mon, 05 Sep 2022 23:00:52 -0700 (PDT)
-X-Received: by 2002:a25:b983:0:b0:695:d8b4:a5a3 with SMTP id
- r3-20020a25b983000000b00695d8b4a5a3mr36413414ybg.553.1662444051930; Mon, 05
- Sep 2022 23:00:51 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 00:23:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4F2371F964;
+	Tue,  6 Sep 2022 07:23:32 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2160313A7A;
+	Tue,  6 Sep 2022 07:23:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id f8r7BnT1FmOCNAAAMHmgww
+	(envelope-from <mhocko@suse.com>); Tue, 06 Sep 2022 07:23:32 +0000
+Date: Tue, 6 Sep 2022 09:23:31 +0200
+From: "'Michal Hocko' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Suren Baghdasaryan <surenb@google.com>, Mel Gorman <mgorman@suse.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Matthew Wilcox <willy@infradead.org>,
+	"Liam R. Howlett" <liam.howlett@oracle.com>,
+	David Vernet <void@manifault.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Laurent Dufour <ldufour@linux.ibm.com>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, mcgrof@kernel.org,
+	masahiroy@kernel.org, nathan@kernel.org, changbin.du@intel.com,
+	ytcoode@gmail.com, Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Benjamin Segall <bsegall@google.com>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Christopher Lameter <cl@linux.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, 42.hyeyoo@gmail.com,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <songmuchun@bytedance.com>, arnd@arndb.de,
+	jbaron@akamai.com, David Rientjes <rientjes@google.com>,
+	Minchan Kim <minchan@google.com>,
+	Kalesh Singh <kaleshsingh@google.com>,
+	kernel-team <kernel-team@android.com>,
+	linux-mm <linux-mm@kvack.org>, iommu@lists.linux.dev,
+	kasan-dev@googlegroups.com, io-uring@vger.kernel.org,
+	linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org,
+	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
+Message-ID: <Yxb1cxDSyte1Ut/F@dhcp22.suse.cz>
+References: <20220831101948.f3etturccmp5ovkl@suse.de>
+ <Yw88RFuBgc7yFYxA@dhcp22.suse.cz>
+ <20220831190154.qdlsxfamans3ya5j@moria.home.lan>
+ <YxBc1xuGbB36f8zC@dhcp22.suse.cz>
+ <CAJuCfpGhwPFYdkOLjwwD4ra9JxPqq1T5d1jd41Jy3LJnVnhNdg@mail.gmail.com>
+ <YxEE1vOwRPdzKxoq@dhcp22.suse.cz>
+ <CAJuCfpHuzJGTA_-m0Jfawc7LgJLt4GztUUY4K9N9-7bFqJuXnw@mail.gmail.com>
+ <20220901201502.sn6223bayzwferxv@moria.home.lan>
+ <YxW4Ig338d2vQAz3@dhcp22.suse.cz>
+ <20220905234649.525vorzx27ybypsn@kmo-framework>
 MIME-Version: 1.0
-References: <676398f0aeecd47d2f8e3369ea0e95563f641a36.1662416260.git.andreyknvl@google.com>
-In-Reply-To: <676398f0aeecd47d2f8e3369ea0e95563f641a36.1662416260.git.andreyknvl@google.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 6 Sep 2022 08:00:00 +0200
-Message-ID: <CANpmjNN2T=uufbrj3ghr7S6k5E=YxvNpkq2Qa8qCY9NfPeeRsg@mail.gmail.com>
-Subject: Re: [PATCH] kasan: move tests to mm/kasan/
-To: andrey.konovalov@linux.dev
-Cc: Alexander Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <20220905234649.525vorzx27ybypsn@kmo-framework>
+X-Original-Sender: mhocko@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=d5kvgH2a;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@suse.com header.s=susede1 header.b=WccstuGc;       spf=pass
+ (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted
+ sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass (p=QUARANTINE
+ sp=QUARANTINE dis=NONE) header.from=suse.com
+X-Original-From: Michal Hocko <mhocko@suse.com>
+Reply-To: Michal Hocko <mhocko@suse.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,114 +189,61 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 6 Sept 2022 at 00:18, <andrey.konovalov@linux.dev> wrote:
->
-> From: Andrey Konovalov <andreyknvl@google.com>
->
-> Move KASAN tests to mm/kasan/ to keep the test code alongside the
-> implementation.
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+On Mon 05-09-22 19:46:49, Kent Overstreet wrote:
+> On Mon, Sep 05, 2022 at 10:49:38AM +0200, Michal Hocko wrote:
+> > This is really my main concern about this whole work. Not only it adds a
+> > considerable maintenance burden to the core MM because
+> 
+> [citation needed]
 
-Reviewed-by: Marco Elver <elver@google.com>
+I thought this was clear from the email content (the part you haven't
+quoted here). But let me be explicit one more time for you.
 
-Thanks - this is overdue, and follows what newer KUnit tests do.
+I hope we can agree that in order for this kind of tracking to be useful
+you need to cover _callers_ of the allocator or in the ideal world
+the users/owner of the tracked memory (the later is sometimes much
+harder/impossible to track when the memory is handed over from one peer
+to another).
 
-> ---
->  MAINTAINERS                                             | 1 -
->  lib/Makefile                                            | 5 -----
->  mm/kasan/Makefile                                       | 8 ++++++++
->  lib/test_kasan.c => mm/kasan/kasan_test.c               | 2 +-
->  lib/test_kasan_module.c => mm/kasan/kasan_test_module.c | 2 +-
->  5 files changed, 10 insertions(+), 8 deletions(-)
->  rename lib/test_kasan.c => mm/kasan/kasan_test.c (99%)
->  rename lib/test_kasan_module.c => mm/kasan/kasan_test_module.c (99%)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 589517372408..31b3e4b11e01 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10938,7 +10938,6 @@ F:      arch/*/include/asm/*kasan.h
->  F:     arch/*/mm/kasan_init*
->  F:     include/linux/kasan*.h
->  F:     lib/Kconfig.kasan
-> -F:     lib/test_kasan*.c
->  F:     mm/kasan/
->  F:     scripts/Makefile.kasan
->
-> diff --git a/lib/Makefile b/lib/Makefile
-> index ffabc30a27d4..928d7605c35c 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -65,11 +65,6 @@ obj-$(CONFIG_TEST_SYSCTL) += test_sysctl.o
->  obj-$(CONFIG_TEST_SIPHASH) += test_siphash.o
->  obj-$(CONFIG_HASH_KUNIT_TEST) += test_hash.o
->  obj-$(CONFIG_TEST_IDA) += test_ida.o
-> -obj-$(CONFIG_KASAN_KUNIT_TEST) += test_kasan.o
-> -CFLAGS_test_kasan.o += -fno-builtin
-> -CFLAGS_test_kasan.o += $(call cc-disable-warning, vla)
-> -obj-$(CONFIG_KASAN_MODULE_TEST) += test_kasan_module.o
-> -CFLAGS_test_kasan_module.o += -fno-builtin
->  obj-$(CONFIG_TEST_UBSAN) += test_ubsan.o
->  CFLAGS_test_ubsan.o += $(call cc-disable-warning, vla)
->  UBSAN_SANITIZE_test_ubsan.o := y
-> diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
-> index 1f84df9c302e..d4837bff3b60 100644
-> --- a/mm/kasan/Makefile
-> +++ b/mm/kasan/Makefile
-> @@ -35,7 +35,15 @@ CFLAGS_shadow.o := $(CC_FLAGS_KASAN_RUNTIME)
->  CFLAGS_hw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
->  CFLAGS_sw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
->
-> +CFLAGS_KASAN_TEST := $(CFLAGS_KASAN) -fno-builtin $(call cc-disable-warning, vla)
-> +
-> +CFLAGS_kasan_test.o := $(CFLAGS_KASAN_TEST)
-> +CFLAGS_kasan_test_module.o := $(CFLAGS_KASAN_TEST)
-> +
->  obj-y := common.o report.o
->  obj-$(CONFIG_KASAN_GENERIC) += init.o generic.o report_generic.o shadow.o quarantine.o
->  obj-$(CONFIG_KASAN_HW_TAGS) += hw_tags.o report_hw_tags.o tags.o report_tags.o
->  obj-$(CONFIG_KASAN_SW_TAGS) += init.o report_sw_tags.o shadow.o sw_tags.o tags.o report_tags.o
-> +
-> +obj-$(CONFIG_KASAN_KUNIT_TEST) += kasan_test.o
-> +obj-$(CONFIG_KASAN_MODULE_TEST) += kasan_test_module.o
-> diff --git a/lib/test_kasan.c b/mm/kasan/kasan_test.c
-> similarity index 99%
-> rename from lib/test_kasan.c
-> rename to mm/kasan/kasan_test.c
-> index 505f77ffad27..f25692def781 100644
-> --- a/lib/test_kasan.c
-> +++ b/mm/kasan/kasan_test.c
-> @@ -25,7 +25,7 @@
->
->  #include <kunit/test.h>
->
-> -#include "../mm/kasan/kasan.h"
-> +#include "kasan.h"
->
->  #define OOB_TAG_OFF (IS_ENABLED(CONFIG_KASAN_GENERIC) ? 0 : KASAN_GRANULE_SIZE)
->
-> diff --git a/lib/test_kasan_module.c b/mm/kasan/kasan_test_module.c
-> similarity index 99%
-> rename from lib/test_kasan_module.c
-> rename to mm/kasan/kasan_test_module.c
-> index b112cbc835e9..e4ca82dc2c16 100644
-> --- a/lib/test_kasan_module.c
-> +++ b/mm/kasan/kasan_test_module.c
-> @@ -13,7 +13,7 @@
->  #include <linux/slab.h>
->  #include <linux/uaccess.h>
->
-> -#include "../mm/kasan/kasan.h"
-> +#include "kasan.h"
->
->  static noinline void __init copy_user_test(void)
->  {
-> --
-> 2.25.1
->
+It is not particularly useful IMO to see that a large portion of the
+memory has been allocated by say vmalloc or kvmalloc, right?  How
+much does it really tell you that a lot of memory has been allocated
+by kvmalloc or vmalloc? Yet, neither of the two is handled by the
+proposed tracking and it would require additional code to be added and
+_maintained_ to cover them. But that would be still far from complete,
+we have bulk allocator, mempools etc.
+
+If that was not enough some of those allocators are used by library code
+like seq_file, networking pools, module loader and whatnot. So this
+grows and effectively doubles the API space for many allocators as they
+need both normal API and the one which can pass the tracking context
+down the path to prevent double tracking. Right?
+
+This in my book is a considerable maintenance burden. And especially for
+the MM subsystem this means additional burden because we have a very
+rich allocators APIs.
+
+You are absolutely right that processing stack traces is PITA but that
+allows to see the actual callers irrespectively how many layers of
+indirection or library code it goes.
+
+> > it adds on top of
+> > our existing allocator layers complexity but it would need to spread beyond
+> > MM to be useful because it is usually outside of MM where leaks happen.
+> 
+> If you want the tracking to happen at a different level of the call stack, just
+> call _kmalloc() directly and call alloc_tag_add()/sub() yourself.
+
+As pointed above this just scales poorly and adds to the API space. Not
+to mention that direct use of alloc_tag_add can just confuse layers
+below which rely on the same thing.
+
+Hope this makes it clearer.
+-- 
+Michal Hocko
+SUSE Labs
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN2T%3Duufbrj3ghr7S6k5E%3DYxvNpkq2Qa8qCY9NfPeeRsg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yxb1cxDSyte1Ut/F%40dhcp22.suse.cz.
