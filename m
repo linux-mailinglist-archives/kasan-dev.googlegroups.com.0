@@ -1,151 +1,167 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBWOR3WMAMGQE6ZZHJQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBP4732MAMGQENXQ7MEA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53f.google.com (mail-pg1-x53f.google.com [IPv6:2607:f8b0:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163295AEEF4
-	for <lists+kasan-dev@lfdr.de>; Tue,  6 Sep 2022 17:35:55 +0200 (CEST)
-Received: by mail-pg1-x53f.google.com with SMTP id g63-20020a636b42000000b004305794e112sf6004423pgc.20
-        for <lists+kasan-dev@lfdr.de>; Tue, 06 Sep 2022 08:35:55 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662478553; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 440FA5AF375
+	for <lists+kasan-dev@lfdr.de>; Tue,  6 Sep 2022 20:21:58 +0200 (CEST)
+Received: by mail-lj1-x23d.google.com with SMTP id bn39-20020a05651c17a700b0026309143eeesf3907250ljb.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 06 Sep 2022 11:21:58 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662488512; cv=pass;
         d=google.com; s=arc-20160816;
-        b=kHUOmFuj6dSHiK6IhayPdz4iEpzldb6+amX9I5hGDdYE9Tte20Tz4JZCmK7PCSFOmC
-         MU6t8bxPIzMelMHMMmI7GbCjIRV5vFy4w18qYivGjNV+NI2HPcCq97D+W/huvx8mBQoU
-         05zRLUmTuhsVKRMY/yCJssV3crbyXvowDMsEHU0f7Kcrtbh75eYg2zO17OT2NNE+6TiH
-         vuGrNXqzB9zplrbRFgzannchyDUK/RidoVZvjTDY6ybp1vErSFkNDg2F4IjlmXCJbVvW
-         9ivfc0O1aFkuy3Lhl+FQtVjV5oWJ050rNb4bGA0RjdWFzwfUDYK750cg8VIpAAEbV3Qy
-         S9cQ==
+        b=oCthVI6aX0//nTmmG/L7M73J83l5xLOrNRR4nhFDeTHXYuB3aJz+IQAbx6RbgJ9Gh/
+         ZFIBO/Jd2IxxQWInBqdhIy5GtK3XsQHKP9zVO6hySll6uCXGqsBjIHt1D3VDaAjaHr07
+         Y5yHnakupWG822XlzKaLJeptMke7a0uNDorR0IiAyCxBZkrIcukokIw1uwwfiiutKtaQ
+         CXk4/9kw/oSpOFB1sdpBApji8TL4arQBlWbqdHUP+dCAyq37ZkeY3BQ+Bkf9B0X6ckvl
+         3/W5cf9rv4jflHYmEeksqmDb+Uy3yl/5WiPFAo6Yf9iQjb9yKqnk00xDfbGWG+jicYBW
+         ZDHA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=ASNpV0jjIo/yhqhmv3wkoq/uq5D2/9lmlrv/QMcrXe0=;
-        b=VccINP1TaT4kLY3uJnCOJiJajovpt8VgW5dnHNNcyUZ0A1JtKUiUDA/U8LxUk+VHIR
-         sMGsssQucw1PtfNkeVu6pwCzNpdBaTuIdW/N3xDbmoq4lV/YKmmML6xRiNXc7lKXlTqK
-         SkIOU1sV9utyTvDQ/IFgV7YOPsEgd0rSx2wr3mBhkRIeWLpyDuBEeVvgcmwajiaOu097
-         Xts5n1GTDnWKb2Sfx5xzuGgCYl7TBbetRd1ctNSwXnfmiPQKUe49nN3THND22/xsMBZu
-         Ejtp+QmGKXqV+dspH5mfj14/WusUO7/3X5/2zSuFNq6+nf2Blv3N3pvdFE6Ay0NqKU+i
-         k6Pw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=W2iFzxcxW+FK4kq3JBRKN+O6k8V16ZmHv4y9YrSB/EI=;
+        b=jHN59rfiiHzCWv1OnJBQ0xolO4Pq29Ze+kDH9R9grW4krt2WHc+3S7eaesoRYcYh2K
+         S9a19sPYSvO5WTGoO8NBUV2aEyC/C6sGeBl0QIUUADNKdy4fBbLmSy/qWS0NeqwdckB5
+         D6CXzk+cL3f1gRfjsoHDI5siO5u8YPDKrr9zfCoD18iGEr5qDh4sW1GzgJ0AKxgn353F
+         Ypa1SBlWzo5A8rSvCnkBCK6X9FoT/9K/NBpnNzhUHWoO7qaVI4gwHMMeEtia7ofb1l/e
+         qjNzOsA0vX3eBx2mhO1tEmvtd7XUZLtARJkc/E1tOfo5ccnt3xfHtlJdvJn61PC84ixi
+         fkEA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=o3N3QM1f;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="e2VD/Hci";
+       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date;
-        bh=ASNpV0jjIo/yhqhmv3wkoq/uq5D2/9lmlrv/QMcrXe0=;
-        b=XsP7IrWgZlrg+snw8JfsO7tAvszYBKC7YrF+uAxZ6CFX5CujcQVBHS74VRc6VUCYrr
-         UpUtDuGF9DlSktsu8PwskTSUfcrqMPLqgbE0r0Az7UUFzuAw+wpJ/LPrBBeMswxQ4Dh3
-         khj+cDLHb9JRzx3WJV3cR5HjUGukq6U3qCNwoUVi/AeWXcMT825at0WVs4UFXS6hTIDU
-         MtrW/GsT4IUAJoyjKAzyieB1W0B4d387ujrKCRL11WpfNCy8+Y5IBUP2z33dBPUt1aZ4
-         M9hErFDfsDz+S9IQHQWW8SvfEJW/Rc9eaS1qzX/NMQhBNfjLyTCtb5HcSAgc4RotpM4O
-         +N9g==
+        bh=W2iFzxcxW+FK4kq3JBRKN+O6k8V16ZmHv4y9YrSB/EI=;
+        b=OLFavhAV3NVtm3b0tojCqOYvg12cC9ixapYLpuawkuk7w9o9N8BP964Mu++squCwo3
+         CNezPHZbOYd+sQnlWpzPolFJo63ItQGlupQp121EOu5rbrrwpcjQMcEHTLzcBIRnSIff
+         9HWViJ9WYoM7Z5eB2vdIz2MW2KYMHmfSZPyrtvLUiLSgE+PDSlEbuj3AGLrKkUOpziXI
+         jBV8gI3yly4A3MvhxJ8JaFHIxloH+cTE39+NSrN0IM3nQGkfVI0yL8vySBYOX52BwvhM
+         e8xRDFrcq/lKGgSxT4stc+bV4LrTFvRWZt/rGQW4Ap3Wd5oPDaubGgNgadlEVIKOVEMy
+         RPFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=ASNpV0jjIo/yhqhmv3wkoq/uq5D2/9lmlrv/QMcrXe0=;
-        b=RdY43LHh3C+h/Q+PzZ06YGn9Hf/ovNgmdkNCeX7FXca1tJvX9CMmOSQIEFqF+tGav0
-         QvkQnSffgVXnnv4UP0YIADYdV4JATUmOVUxhIpjTh2nvCk1leS4PMZj9ZA6I5+plOs3r
-         vfwvi9pGxdUAyIC3jZBb8M8xpvmsPo75CPn/Jzn86a+u2NRmpfynNWQwnO21zpYmAJ/c
-         UxUVO6j4AUgIjIF30CNadepjQbUuFO9txKSLKD4XBeMZ4ayIOOsdsnrDEopAoQ5k5GSL
-         tW4TINd3gb9O6rt/4Sh08fnyyWIQxB1FBWFZgJNkW3m4nzrgY9N/V9ZjtKsxIBirx4Xn
-         fz0g==
-X-Gm-Message-State: ACgBeo2ipCMW8yT5tjDENWxvQdj/l3BxyepVxFxuBIMGs6zC2aMJqRbG
-	4c31DIeK+GwiURDfM+IszhI=
-X-Google-Smtp-Source: AA6agR6lf6R+USv6P4Ty9Dr2RMrL6HO793gx+juTFXcv64U2OfZhn7W38pT/yPVuQaFVfvmnZJOFeQ==
-X-Received: by 2002:a63:5916:0:b0:41d:2c8c:7492 with SMTP id n22-20020a635916000000b0041d2c8c7492mr46116527pgb.81.1662478553635;
-        Tue, 06 Sep 2022 08:35:53 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=W2iFzxcxW+FK4kq3JBRKN+O6k8V16ZmHv4y9YrSB/EI=;
+        b=yv6/X6155CprXtVufHGmbhsUfW2FHdDX8851JiZqPwj6T0RbkXvadHRv7tX1avf1iV
+         4A/1ULudfEJSs2ZwKsc7EIceMlybufIF3Pn+HsK04PJS/e8Q/uh4hWX227LGy4L/qRwv
+         oyIm/QH87fHZfYAdYQM/o75b6/qMvrEefWVE845yaaHrOTMJz8nhejXpwg08N+XsfShr
+         HP20X4dmurMMsO0twZbix3rYj4STPZK01HFOzYeIklzkg5+1XkY4SHCq2Fu88e2CIB9a
+         BFLuJOfjkSu/CzXItmuW4r47vc8onJr6XZSnSqahPHp43GbW7qwyd6RhtU8PLmutu8RL
+         epGQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACgBeo3yIXyKKac7ja4ZqCiTqLYxZny2tO8rErVcl03hH+8tmk5zBQMn
+	bRUaJ6jIZN1I9Pn+KAjaQtA=
+X-Google-Smtp-Source: AA6agR7nEbn12q8fHOUiJDBl5f7iLgCmkxvEMrKiF/aWXn8yQlHo3TJXX+aVyFjnT3dDvNGcmJZhRw==
+X-Received: by 2002:ac2:4e15:0:b0:48b:3ad2:42c8 with SMTP id e21-20020ac24e15000000b0048b3ad242c8mr20278790lfr.391.1662488512153;
+        Tue, 06 Sep 2022 11:21:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:a408:b0:200:ad58:5263 with SMTP id
- y8-20020a17090aa40800b00200ad585263ls440217pjp.1.-pod-control-gmail; Tue, 06
- Sep 2022 08:35:53 -0700 (PDT)
-X-Received: by 2002:a17:90a:4a0e:b0:1fe:1c89:a6b7 with SMTP id e14-20020a17090a4a0e00b001fe1c89a6b7mr25532449pjh.239.1662478552888;
-        Tue, 06 Sep 2022 08:35:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662478552; cv=none;
+Received: by 2002:a2e:bc19:0:b0:268:a975:d226 with SMTP id b25-20020a2ebc19000000b00268a975d226ls2123833ljf.7.-pod-prod-gmail;
+ Tue, 06 Sep 2022 11:21:51 -0700 (PDT)
+X-Received: by 2002:a2e:9605:0:b0:26a:8d41:1df7 with SMTP id v5-20020a2e9605000000b0026a8d411df7mr2339125ljh.77.1662488511303;
+        Tue, 06 Sep 2022 11:21:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662488511; cv=none;
         d=google.com; s=arc-20160816;
-        b=t7vcCaCvRV3GXQV0QAB102MYqLv4m35qbe/zgyaqzr31x6H2vQZHJAUsjiE9uiBSgS
-         kNFrQbBlWDqj4FqBeVV8oex+a67k/sKXcwg8+IO+ZIOTaZsjsrD4/gicqPSko/UO5tzJ
-         +5d9bWECQmMlQ4kig8sY47wE1wU5+NXnbymHl6BISIQX/tV9Nvyn1iy9l/xt6Q6tPkqC
-         KxJ7MUTDj5XxWI7nbeKljagFfA6GoCJPWm4tFRqInTeyuqu5LAFB1h7UMEhdKz5rPMO5
-         hkq61nzvcGbw7xYQwoh44sF0QXT6BVxaGaFgLo7lt8o4upgGctvxj1betGB6M0kf4qdn
-         OMoA==
+        b=OyWLhCvMva+xqgcJvFUIa7bkS/+mRcQsTVCnboQxBXBVkEJBb683sep/zOHsGklRfd
+         09Ed3oaSjpW2b6rE5qu+9Nh2TCyzYeMyL018qVHURPMAbi0rxwLY8A75fixhHO18IMJO
+         /fALKoGGUscZSh0UiDGWSqIb86eryyPhKI/CxUhtvDqTVBHnBZxHaQxjC4rPz8/W0A9n
+         55o/ppjJOYBhg14gBUKc1/pN+uqI0JypE1U9IKAagnxS4EaeiMEl8fiLLzp9D/xijoIx
+         C0IyWU9gPySxBMwGKYJCGM41wrKnrlC6A8W538YR4hRcR2H9biLs4ZB0MU1j8IJgXAzh
+         BBqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=GqM67eToD1ny8VVx70XQz+yqa9cCdNaLyhnIUfKzWx0=;
-        b=EbjSLX86ItQFQRpTzO8/b0JTPPH0dLge2u0rDH9o30Tb6ZfvQp/o3UmE8bqW9+jlq8
-         Y2ajIST/wo/41av1NV8OO/2ZSkWs7W2udtfrZJQNZSdJPGZiOJuriF5KAFC4gey8lwM/
-         TLqPzrvZKPrcfIc4wdLGqcy4dvSHh/oGHy7NS+wxx2JIIH6YZegu0CJaJXH01+Y/1Z1v
-         N3ASe3JXaewepHOcodrq06QcIYUIH6VopmBPJsKf/wP4TYzEjb/XKPcDA1OlANkDMqPz
-         lWKfffnM8kxXNglI+2z/5hNY/EcKITkZb1SHnGnJ3W+rZZPTh5pC/bzBOqCN+FL+0Ksf
-         e09Q==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:date;
+        bh=/bRlcVcrWdQKJLJipKk17c91ZfuMwNoEsJqygzANM10=;
+        b=OIfKkxD4K1i3YgDYMwHYEWgRm/EKnsr5xjrOd+dMm9qeVzS8xgHitrMBWz7uNFokQQ
+         W48SOXI1FhGtmGMg6OUahk1/348E3++BZBWsow3CceuRRinw8UrUwLkmMyp1hmAvJZle
+         FgY9FTp41VDGF5ADqHIooT35abtSFjoe7ej+VKzAYhOAXGbK9Bo1VianFLs6DIDWFevF
+         yu2IGSjmpR1bF6+zbiOAAgpF6+qzzUVswBzdP8Jm05wVBBLec3CtxO8pOXgjT7mFuE1z
+         9JwKkA+FaZQFtsbmIskQCklOIYe5tC5Y2ij7Nb0prQ+Hc26Rbd8X+3WF2KjAYDaYLRPM
+         1w/w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=o3N3QM1f;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com. [2607:f8b0:4864:20::d36])
-        by gmr-mx.google.com with ESMTPS id m9-20020a170902f64900b00176b883091asi401995plg.6.2022.09.06.08.35.52
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="e2VD/Hci";
+       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out1.migadu.com (out1.migadu.com. [2001:41d0:2:863f::])
+        by gmr-mx.google.com with ESMTPS id c17-20020a056512075100b0048b38f379d7si543584lfs.0.2022.09.06.11.21.51
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Sep 2022 08:35:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::d36 as permitted sender) client-ip=2607:f8b0:4864:20::d36;
-Received: by mail-io1-xd36.google.com with SMTP id z72so9181412iof.12
-        for <kasan-dev@googlegroups.com>; Tue, 06 Sep 2022 08:35:52 -0700 (PDT)
-X-Received: by 2002:a02:740b:0:b0:349:bcdd:ca20 with SMTP id
- o11-20020a02740b000000b00349bcddca20mr30610852jac.110.1662478551322; Tue, 06
- Sep 2022 08:35:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220831084230.3ti3vitrzhzsu3fs@moria.home.lan>
- <20220831101948.f3etturccmp5ovkl@suse.de> <Yw88RFuBgc7yFYxA@dhcp22.suse.cz>
- <20220831190154.qdlsxfamans3ya5j@moria.home.lan> <YxBc1xuGbB36f8zC@dhcp22.suse.cz>
- <CAJuCfpGhwPFYdkOLjwwD4ra9JxPqq1T5d1jd41Jy3LJnVnhNdg@mail.gmail.com>
- <YxEE1vOwRPdzKxoq@dhcp22.suse.cz> <CAJuCfpFrRwXXQ=wAvZ-oUNKXUJ=uUA=fiDrkhRu5VGXcM+=cuA@mail.gmail.com>
- <YxWvbMYLkPoJrQyr@dhcp22.suse.cz> <CAJuCfpHJsfe172YUQbOqkkpNEEF7B6pJZuWnMa2BsdZwwEGKmA@mail.gmail.com>
- <Yxb+PWN9kbfHSN8T@dhcp22.suse.cz>
-In-Reply-To: <Yxb+PWN9kbfHSN8T@dhcp22.suse.cz>
-From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 6 Sep 2022 08:35:40 -0700
-Message-ID: <CAJuCfpGeEc9_fTCCRj9DtwQEu3u0fecc4DJuOjZzrTPfnNbOKw@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 11:21:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kent.overstreet@linux.dev designates 2001:41d0:2:863f:: as permitted sender) client-ip=2001:41d0:2:863f::;
+Date: Tue, 6 Sep 2022 14:20:58 -0400
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
 To: Michal Hocko <mhocko@suse.com>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>, Mel Gorman <mgorman@suse.de>, 
-	Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@suse.cz>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>, 
-	Matthew Wilcox <willy@infradead.org>, "Liam R. Howlett" <liam.howlett@oracle.com>, 
-	David Vernet <void@manifault.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Laurent Dufour <ldufour@linux.ibm.com>, Peter Xu <peterx@redhat.com>, 
-	David Hildenbrand <david@redhat.com>, Jens Axboe <axboe@kernel.dk>, mcgrof@kernel.org, 
-	masahiroy@kernel.org, nathan@kernel.org, changbin.du@intel.com, 
-	ytcoode@gmail.com, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Benjamin Segall <bsegall@google.com>, Daniel Bristot de Oliveira <bristot@redhat.com>, 
-	Valentin Schneider <vschneid@redhat.com>, Christopher Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, 42.hyeyoo@gmail.com, 
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Shakeel Butt <shakeelb@google.com>, Muchun Song <songmuchun@bytedance.com>, arnd@arndb.de, 
-	jbaron@akamai.com, David Rientjes <rientjes@google.com>, Minchan Kim <minchan@google.com>, 
-	Kalesh Singh <kaleshsingh@google.com>, kernel-team <kernel-team@android.com>, 
-	linux-mm <linux-mm@kvack.org>, iommu@lists.linux.dev, kasan-dev@googlegroups.com, 
-	io-uring@vger.kernel.org, linux-arch@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org, 
-	linux-modules@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, Mel Gorman <mgorman@suse.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Matthew Wilcox <willy@infradead.org>,
+	"Liam R. Howlett" <liam.howlett@oracle.com>,
+	David Vernet <void@manifault.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Laurent Dufour <ldufour@linux.ibm.com>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, mcgrof@kernel.org,
+	masahiroy@kernel.org, nathan@kernel.org, changbin.du@intel.com,
+	ytcoode@gmail.com, Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Benjamin Segall <bsegall@google.com>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Christopher Lameter <cl@linux.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, 42.hyeyoo@gmail.com,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <songmuchun@bytedance.com>, arnd@arndb.de,
+	jbaron@akamai.com, David Rientjes <rientjes@google.com>,
+	Minchan Kim <minchan@google.com>,
+	Kalesh Singh <kaleshsingh@google.com>,
+	kernel-team <kernel-team@android.com>,
+	linux-mm <linux-mm@kvack.org>, iommu@lists.linux.dev,
+	kasan-dev@googlegroups.com, io-uring@vger.kernel.org,
+	linux-arch@vger.kernel.org, xen-devel@lists.xenproject.org,
+	linux-bcache@vger.kernel.org, linux-modules@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 00/30] Code tagging framework and applications
+Message-ID: <20220906182058.iijmpzu4rtxowy37@kmo-framework>
+References: <Yw88RFuBgc7yFYxA@dhcp22.suse.cz>
+ <20220831190154.qdlsxfamans3ya5j@moria.home.lan>
+ <YxBc1xuGbB36f8zC@dhcp22.suse.cz>
+ <CAJuCfpGhwPFYdkOLjwwD4ra9JxPqq1T5d1jd41Jy3LJnVnhNdg@mail.gmail.com>
+ <YxEE1vOwRPdzKxoq@dhcp22.suse.cz>
+ <CAJuCfpHuzJGTA_-m0Jfawc7LgJLt4GztUUY4K9N9-7bFqJuXnw@mail.gmail.com>
+ <20220901201502.sn6223bayzwferxv@moria.home.lan>
+ <YxW4Ig338d2vQAz3@dhcp22.suse.cz>
+ <20220905234649.525vorzx27ybypsn@kmo-framework>
+ <Yxb1cxDSyte1Ut/F@dhcp22.suse.cz>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: surenb@google.com
+Content-Disposition: inline
+In-Reply-To: <Yxb1cxDSyte1Ut/F@dhcp22.suse.cz>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
+X-Original-Sender: kent.overstreet@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=o3N3QM1f;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::d36 as
- permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Suren Baghdasaryan <surenb@google.com>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
+ header.i=@linux.dev header.s=key1 header.b="e2VD/Hci";       spf=pass
+ (google.com: domain of kent.overstreet@linux.dev designates
+ 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,148 +174,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Sep 6, 2022 at 1:01 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Mon 05-09-22 11:03:35, Suren Baghdasaryan wrote:
-> > On Mon, Sep 5, 2022 at 1:12 AM Michal Hocko <mhocko@suse.com> wrote:
-> > >
-> > > On Sun 04-09-22 18:32:58, Suren Baghdasaryan wrote:
-> > > > On Thu, Sep 1, 2022 at 12:15 PM Michal Hocko <mhocko@suse.com> wrote:
-> > > [...]
-> > > > > Yes, tracking back the call trace would be really needed. The question
-> > > > > is whether this is really prohibitively expensive. How much overhead are
-> > > > > we talking about? There is no free lunch here, really.  You either have
-> > > > > the overhead during runtime when the feature is used or on the source
-> > > > > code level for all the future development (with a maze of macros and
-> > > > > wrappers).
-> > > >
-> > > > As promised, I profiled a simple code that repeatedly makes 10
-> > > > allocations/frees in a loop and measured overheads of code tagging,
-> > > > call stack capturing and tracing+BPF for page and slab allocations.
-> > > > Summary:
-> > > >
-> > > > Page allocations (overheads are compared to get_free_pages() duration):
-> > > > 6.8% Codetag counter manipulations (__lazy_percpu_counter_add + __alloc_tag_add)
-> > > > 8.8% lookup_page_ext
-> > > > 1237% call stack capture
-> > > > 139% tracepoint with attached empty BPF program
-> > >
-> > > Yes, I am not surprised that the call stack capturing is really
-> > > expensive comparing to the allocator fast path (which is really highly
-> > > optimized and I suspect that with 10 allocation/free loop you mostly get
-> > > your memory from the pcp lists). Is this overhead still _that_ visible
-> > > for somehow less microoptimized workloads which have to take slow paths
-> > > as well?
-> >
-> > Correct, it's a comparison with the allocation fast path, so in a
-> > sense represents the worst case scenario. However at the same time the
-> > measurements are fair because they measure the overheads against the
-> > same meaningful baseline, therefore can be used for comparison.
->
-> Yes, I am not saying it is an unfair comparision. It is just not a
-> particularly practical one for real life situations. So I am not sure
-> you can draw many conclusions from that. Or let me put it differently.
-> There is not real point comparing the code tagging and stack unwiding
-> approaches because the later is simply more complex because it collects
-> more state. The main question is whether that additional state
-> collection is too expensive to be practically used.
+On Tue, Sep 06, 2022 at 09:23:31AM +0200, Michal Hocko wrote:
+> On Mon 05-09-22 19:46:49, Kent Overstreet wrote:
+> > On Mon, Sep 05, 2022 at 10:49:38AM +0200, Michal Hocko wrote:
+> > > This is really my main concern about this whole work. Not only it adds a
+> > > considerable maintenance burden to the core MM because
+> > 
+> > [citation needed]
+> 
+> I thought this was clear from the email content (the part you haven't
+> quoted here). But let me be explicit one more time for you.
+> 
+> I hope we can agree that in order for this kind of tracking to be useful
+> you need to cover _callers_ of the allocator or in the ideal world
+> the users/owner of the tracked memory (the later is sometimes much
+> harder/impossible to track when the memory is handed over from one peer
+> to another).
+> 
+> It is not particularly useful IMO to see that a large portion of the
+> memory has been allocated by say vmalloc or kvmalloc, right?  How
+> much does it really tell you that a lot of memory has been allocated
+> by kvmalloc or vmalloc? Yet, neither of the two is handled by the
+> proposed tracking and it would require additional code to be added and
+> _maintained_ to cover them. But that would be still far from complete,
+> we have bulk allocator, mempools etc.
 
-You asked me to provide the numbers in one of your replies, that's what I did.
+Of course - and even a light skimming of the patch set would see it does indeed
+address this. We still have to do vmalloc and percpu memory allocations, but
+slab is certainly handled and that's the big one.
 
->
-> > > Also what kind of stack unwinder is configured (I guess ORC)? This is
-> > > not my area but from what I remember the unwinder overhead varies
-> > > between ORC and FP.
-> >
-> > I used whatever is default and didn't try other mechanisms. Don't
-> > think the difference would be orders of magnitude better though.
-> >
-> > >
-> > > And just to make it clear. I do realize that an overhead from the stack
-> > > unwinding is unavoidable. And code tagging would logically have lower
-> > > overhead as it performs much less work. But the main point is whether
-> > > our existing stack unwiding approach is really prohibitively expensive
-> > > to be used for debugging purposes on production systems. I might
-> > > misremember but I recall people having bigger concerns with page_owner
-> > > memory footprint than the actual stack unwinder overhead.
-> >
-> > That's one of those questions which are very difficult to answer (if
-> > even possible) because that would depend on the use scenario. If the
-> > workload allocates frequently then adding the overhead will likely
-> > affect it, otherwise might not be even noticeable. In general, in
-> > pre-production testing we try to minimize the difference in
-> > performance and memory profiles between the software we are testing
-> > and the production one. From that point of view, the smaller the
-> > overhead, the better. I know it's kinda obvious but unfortunately I
-> > have no better answer to that question.
->
-> This is clear but it doesn't really tell whether the existing tooling is
-> unusable for _your_ or any specific scenarios. Because when we are
-> talking about adding quite a lot of code and make our allocators APIs
-> more complicated to track the state then we should carefully weigh the
-> benefit and the cost. As replied to other email I am really skeptical
-> this patchset is at the final stage and the more allocators get covered
-> the more code we have to maintain. So there must be a very strong reason
-> to add it.
+> As pointed above this just scales poorly and adds to the API space. Not
+> to mention that direct use of alloc_tag_add can just confuse layers
+> below which rely on the same thing.
 
-The patchset is quite complete at this point. Instrumenting new
-allocators takes 3 lines of code, see how kmalloc_hooks macro is used
-in https://lore.kernel.org/all/20220830214919.53220-17-surenb@google.com/
+It might help you make your case if you'd say something about what you'd like
+better.
 
->
-> > For the memory overhead, in my early internal proposal with assumption
-> > of 10000 instrumented allocation call sites, I've made some
-> > calculations for an 8GB 8-core system (quite typical for Android) and
-> > ended up with the following:
-> >
-> >                                     per-cpu counters      atomic counters
-> > page_ext references     16MB                      16MB
-> > slab object references   10.5MB                   10.5MB
-> > alloc_tags                      900KB                    312KB
-> > Total memory overhead 27.4MB                  26.8MB
->
-> I do not really think this is all that interesting because the major
-> memory overhead contributors (page_ext and objcg are going to be there
-> with other approaches that want to match alloc and free as that clearly
-> requires to store the allocator objects somewhere).
-
-You mentioned that memory consumption in the page_owner approach was
-more important overhead, so I provided the numbers for that part of
-the discussion.
-
->
-> > so, about 0.34% of the total memory. Our implementation has changed
-> > since then and the number might not be completely correct but it
-> > should be in the ballpark.
-> > I just checked the number of instrumented calls that we currently have
-> > in the 6.0-rc3 built with defconfig and it's 165 page allocation and
-> > 2684 slab allocation sites. I readily accept that we are probably
-> > missing some allocations and additional modules can also contribute to
-> > these numbers but my guess it's still less than 10000 that I used in
-> > my calculations.
->
-> yes, in the current implementation you are missing most indirect users
-> of the page allocator as stated elsewhere so the usefulness can be
-> really limited. A better coverege will not increase the memory
-> consumption much but it will add an additional maintenance burden that
-> will scale with different usecases.
-
-Your comments in the last two letters about needing the stack tracing
-and covering indirect users of the allocators makes me think that you
-missed my reply here:
-https://lore.kernel.org/all/CAJuCfpGZ==v0HGWBzZzHTgbo4B_ZBe6V6U4T_788LVWj8HhCRQ@mail.gmail.com/.
-I messed up with formatting but hopefully it's still readable. The
-idea of having two stage tracking - first one very cheap and the
-second one more in-depth I think should address your concerns about
-indirect users.
-Thanks,
-Suren.
-
-> --
-> Michal Hocko
-> SUSE Labs
+Otherwise, saying "code has to be maintained" is a little bit like saying water
+is wet, and we're all engineers here, I think we know that :)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAJuCfpGeEc9_fTCCRj9DtwQEu3u0fecc4DJuOjZzrTPfnNbOKw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220906182058.iijmpzu4rtxowy37%40kmo-framework.
