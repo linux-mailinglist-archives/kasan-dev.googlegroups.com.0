@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBBBUI4GMAMGQEE6AYHJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN7L7O25EIBBCUI4GMAMGQEYFREZAA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33305AFD21
-	for <lists+kasan-dev@lfdr.de>; Wed,  7 Sep 2022 09:11:02 +0200 (CEST)
-Received: by mail-wm1-x33e.google.com with SMTP id j19-20020a05600c1c1300b003ab73e4c45dsf7464728wms.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 07 Sep 2022 00:11:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662534662; cv=pass;
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2DB5AFD22
+	for <lists+kasan-dev@lfdr.de>; Wed,  7 Sep 2022 09:11:06 +0200 (CEST)
+Received: by mail-wm1-x338.google.com with SMTP id ay21-20020a05600c1e1500b003a6271a9718sf7039930wmb.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 07 Sep 2022 00:11:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662534666; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Nxxx46czl4qRfkbISEfrHchy/lhKf8Xef9KO8dPMaYO83vf/IXRmWymsvUgqcv9FFA
-         26CgooDeHdCqQMWhiS9n9pwvWshKWnekqlSrXv28FLMXZpTr53aiSFmDw/19sWyqj2aw
-         j3pu8q4dhb4Qz+B/bFftqIIzq+e/bDEQiLNDUpDA8bS2+MnvXVNDcGBc0huiAqQ6oq8Y
-         5pHmViaJvj6yrIQKzzOxWabVqXXeDSm9+oDYD3x/j6ciESv4loSAF1t0uuWI48xNlq6B
-         AoKSDwQ12i6vU4o7Tn7INvDj4l+S9eT1Pbh8NYeUo9RtZf7KHALIZlNPkyNrP0irzceb
-         nIXA==
+        b=HUs6I7s7iszAHnObSeWFbLUdns2XuZYtNRQX7ZcVAZVfkbzor3VjNSwP65rlrhKwDZ
+         LJhhq/VJtHco8Bd/WVaxCwmMo3YNgDvZF7dDUAT5TdwOx+oeP+FTVMNrTNSzmuDpXfJL
+         Nk2QR61oIVlBxtGNzysNYTar0Crv2yi/1kL+bWzmrf90jBLZKZr4F1QZe7Gc4ZgsWTl3
+         NHLZYxpdOKt6fhhQFuV0W3gLCLcRf6aA89CSgZ3GjORBAv0O58BpQdqbQQkzg+T7pMWn
+         qeLU7cHjW1JFKkXX11AwVlEh2Sy0ZWOV4e8txNaYbjW2HLYi8/izl0J8pdMSozJ4VWzJ
+         ZCFQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=4PeqvbRiviTFiFU07WWkIEQhRZfvE/umgmDg3vkxx08=;
-        b=D63vFVK10zFrJNWLZI+MFRWc0aLxpGUwSD6TB5o2e+mIC1N/E+XV5vcgDZzWu8zJPy
-         nYmOHMrD8udxRWFoM75XEFacw3Tr0DKLvM5E5rZi26MywvPTOsUup7XKUsocuLwRxNr9
-         b7QU8dvt2GjLvMVfqiuVBFDjeoEvkrD1UE7WQZcuAmaHkzMwi7DtZ9CDvrCKFUvQAh33
-         J6k7NGuWKWzvMtDOCJk0QBeWyj5ykgeokZDxcMYzAg5yK19G/W2JVkuFIcjOJOv2AA1e
-         L+iuboBQPQVuzEzb2Inf1HaoHxMG9zAXzts3ODPsTcCZ7sI2eCiMMabMsDE8quAzOd/x
-         QAoA==
+        bh=GtMr5ESxVtls2L37bjnc7cT82of7To9bxJ+L1KDPD1k=;
+        b=zBhI4o085BybjsGx6e3wpANW++POdbcJ0mwwCPbutRSmrDbHr1pMKP8nDLMVYkfoob
+         G18v0/NdiZXOFLRbpSM9sQZ1WxrqZBE+ZnckZgcG2GraNFQVPMaRz86EP+a4KInf8A/s
+         CC4zpJ+r7AsQ8Ykh7VGsww0l/My9oo9YismKehacow5QjIpb8Twjr4kuSmC4V57A96ky
+         dzSmogUTJvFch3Ege5rtsXEWUBh/EFZ2tPSSZqPK0YvjDMOqqxWzotLpGkoZ/Gzhdm5K
+         o7beYYPBcfI5chXJtl8Mn32+THnciUHGBHW9KPfDNfX8dhKfE9/j9lf1YshCF3ZAMGrW
+         qtqA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=jVHHsOXb;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=jVJ+CmaE;
        spf=softfail (google.com: domain of transitioning feng.tang@intel.com does not designate 134.134.136.65 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date;
-        bh=4PeqvbRiviTFiFU07WWkIEQhRZfvE/umgmDg3vkxx08=;
-        b=kUmKBiMJbW+WvbALho8NOe3YM33LjVZyG+HZGpO+yQaqjw1MHroXLEOSHC9wRnAUt+
-         IQ2c8GYAxWyy7oc7qynf2Ek4i1JocPSMw+4Zq2Y4hwCKp/RKYb0tq6ddMttwyT9QTTqn
-         VNbhzIyq2pxL88taqc/5IWJqjQJlDnX7F/PD5PrcdyEmBWVr+FvdoexQShNGAlZWjg6/
-         baSAW+YX4+/oqBbxb8odZIHdkGba+iTA1W1hnIYlj75GwMP2DswrRRikAqyEzYApn8a9
-         5MFqXNENHVjfamdmmW54gcI8QxjFociS33IHsHI31oMjOMXS1WNK0PdJRxqmw8YiSnwx
-         4iqw==
+        bh=GtMr5ESxVtls2L37bjnc7cT82of7To9bxJ+L1KDPD1k=;
+        b=NDpIMDTibuG+VcXQKJ38HefOQ1gBR+9puGAC4z4QgVOqG5r0YMh13OY9FifF8Zo7CL
+         Vw33Njw4khMaS9oD9Emwqn4RJWhOzUfkvCDFrEkoMJ2yjRFnn+OpP452JTDUrhPjQ6kf
+         +zoVkDI4GTQ/f1nsMLy0X/iO5H93ZOb6qVyOAQWXNh4XgisM4umxJmlB0Uah89PScyCi
+         Z43dUvr6GR8GLVWrdHJE/FXcI4aTbRSmR5oQEUwXqNDxZwyk3G1C0Cvf2WZkixD2yIBn
+         It9cgiJBv97rVjDB4OE7b1nqKFueI1P9ZQ4FSdzygzqRVXPiaedz/apkje1P3jTeisVL
+         nGwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -49,62 +49,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=4PeqvbRiviTFiFU07WWkIEQhRZfvE/umgmDg3vkxx08=;
-        b=JnZ3JbQnObFFHaSg2QRzRqWYMlgMg0k7RjNxN2DsZGumYOJ1wK1ZbeRYkCYPfW1FFs
-         Vgrf6yG2hmDEWf4TvzIk/+FGRjkthisf26abLjfntdIuyRKZBK9CMtMhmia/Sz8oMGvm
-         zioYaYivf9wjgWSbAJbhjogmLvsGO9oPb8jjGzacDZFs6cKqG+KQ9Aii0Y6tKSnXeqbJ
-         tUQqAlKwy7oGdoRUVXCzOEOOEWmTtzRLGMfxSolwGlZvOD4ak1ODAW5jHISLgS/6NZ/C
-         1IL+bbUtQjHRlP0L016d83IHVyy0aESSv1MF+c2/5vrqatD70YYFOgtns5+1lXOzUDZV
-         m9Lg==
+        bh=GtMr5ESxVtls2L37bjnc7cT82of7To9bxJ+L1KDPD1k=;
+        b=44I/Ccjnw5nUm0aqBkUw5YQBPBNWJWFjj+mR5JP4yDYBpX9AN4nMwv2uCaRPrWLcrQ
+         p5XsapJVev6qMTRU6Xkyck0mc4wpfiraSvESVljgQnVLuL2gFtNOBZBsoIxvNBlyvGXG
+         wX0ThzOi6x4KOX2YO8ierf6u3IiebZT1Ho1xNejeaGUH9n7j4WdRJAwrvSTfBq9dBSTm
+         PCR7kU8FlbSpXmB/JeZ/UOM+Ba+xgxDFlyeeHTsYxYXsmRf+25RwWkxG07msB/nLK92W
+         NrWeq1GubCxKAnhZE+GqzTCKd2Q0S8k84TXyzqmjN+S75YrPqgwmYZgjVHv+xB4cmgDe
+         TOAg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo0Rw/NJOipv6cOZJ22wLPGEGxZDnbOrd/Xk/dqs1wKuxZOKCMWh
-	YCk52xUIIyFPb8c4tbTxlHI=
-X-Google-Smtp-Source: AA6agR60/XYZ87P6+rHBw4d0DWGn+ZJZZSo7hwVlwkmnKsCuvuTKN4W6bGexWIH6fWkcjwxTy8YTrA==
-X-Received: by 2002:a5d:5981:0:b0:229:47fe:6f3f with SMTP id n1-20020a5d5981000000b0022947fe6f3fmr446765wri.279.1662534662584;
-        Wed, 07 Sep 2022 00:11:02 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1mgFlATlw1fn98MTEg4P1C6o7Ox5XgVPqrFxpk/rua1t7zXUPO
+	asZhJ6Q/dWev+NYhHmcK7qA=
+X-Google-Smtp-Source: AA6agR6gfIbv3cyKY5oZYiqQhaV+73AX+V8z5UC6j0TEhsdHuD1c7HSlDQhOwZYttyMQRlVngKWiIA==
+X-Received: by 2002:a05:6000:1882:b0:226:ef64:55c8 with SMTP id a2-20020a056000188200b00226ef6455c8mr1059351wri.183.1662534666316;
+        Wed, 07 Sep 2022 00:11:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:ce96:0:b0:3a5:1ad:8654 with SMTP id q22-20020a7bce96000000b003a501ad8654ls297893wmj.2.-pod-control-gmail;
- Wed, 07 Sep 2022 00:11:01 -0700 (PDT)
-X-Received: by 2002:a1c:6a0a:0:b0:3a5:bcad:f2cc with SMTP id f10-20020a1c6a0a000000b003a5bcadf2ccmr15836182wmc.74.1662534661669;
-        Wed, 07 Sep 2022 00:11:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662534661; cv=none;
+Received: by 2002:adf:d213:0:b0:228:ddd7:f40e with SMTP id j19-20020adfd213000000b00228ddd7f40els548367wrh.3.-pod-prod-gmail;
+ Wed, 07 Sep 2022 00:11:05 -0700 (PDT)
+X-Received: by 2002:adf:df82:0:b0:228:e2cf:d20f with SMTP id z2-20020adfdf82000000b00228e2cfd20fmr787937wrl.356.1662534665482;
+        Wed, 07 Sep 2022 00:11:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662534665; cv=none;
         d=google.com; s=arc-20160816;
-        b=IHDsuPOlXoMNXyPPo84OHTiQvEoifB9GHmCzA+EMQ2qd2msftNLXBLSgoEQkPsWcX7
-         IvOQtB+jQoXnHuChu+XvMe+xCAbBYYmviFxKsUlh8Tgjcz+icfiP9sWzU0oZQmww2Une
-         emYD6SwBMY59+sZ00hwt/JuHbb9ZKlb1HrBL1geDxPFnxP5vkk4BHJcY0X+C8uKMudj0
-         QbnldHq1t4gfke9J6N6GERI0xlsfIDfh8pKCwzijXqIq5PcMhW5/CgSaiaPi1VlNLMRc
-         CUI4U+/hjgMjR7ySloLRQKLbegnW5zt4sjwYYonhPMI1EVkhTE63t3rL7GMP0gbWdn9+
-         qQcA==
+        b=ZvADjV09MyIHqKtxlkCQew7wDynmkOkX5tVlvQfbJYpS7GXU8Ej1GwHykHASJ36bt/
+         dSzA1VE6ACZM+Ig3ZzHE3MAkjtoVuIPdYb4AYqlLo8DufYMpryFU14Rf8MId+DkBq1hC
+         I6NAe+ZLocnR1VUs+HJo+EzyTMgJ/XBsyzp/NxR7N4e3qOPehcizC7aUn/Fg+PYVft4A
+         NYbFw6H5og0hh5cSCLQmzIrjU0IcW4LwxaDgdhP2HboU4adJPDkcOPMhjEbDLu012czd
+         UVkT8QoZZlVPsNZhSEekEcFQogwmyj5tndBMyNPg1BfOzk4DExvyDKQJHqpB7gjfn4qp
+         zA3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=C2AvDIQQEePpY2JC2J8eigLe6k04A+oww6op+x2ryEw=;
-        b=L+ZlUMeZqBz1OuvY4bXHYAhLK56n4CzNVh0StGoSP1KkU3mzIl1kee9uYsIKc16a7s
-         FSyEWJPsgYFy2auJ+FzuvOyIkoPB7eJQaePHpbnprdx35RtiY9YvHkQfjXCJRmwa+H0I
-         k26PK2oiUVnjhpZE/lwMtqmz7g4s++9J7W8Kesmh5UtEAghlUp9HTJGDQYuTPu8/megX
-         pjb7+foYLECBb4wnsKTpweBXceuwIDw9bXz1+C24OLXbIL/5hc0eyh1kibHb37C33NwY
-         iCuiiymKCrpCNlv8n+O8JFdSVW8GQSFM1tUO+xGaEqWmffgTaoSarYfEednMsYUReWGj
-         258g==
+        bh=A7VbBWQ1FaID1ZOWc911qvZ0dgLNnXtOgQ9HgLyFnzo=;
+        b=sJrQBNeulTa0YBGeimrTACsgjt+zy/XwxL9nYLh8vvNpKL3GX1lHXS/PvKrPv/E/Ui
+         3jjsvlnLD8cfmwS1f2Y8+dwAXios8bTURZLUB3m2EvO1sUq/yEIpZ0l2dB1reqWh6z4a
+         5nkmhiZR1MDbNsKoVEtf3OP4VjGEXqR/VRojOqM3OHfhImmcq6xwt/iFK8HxjW0YljDL
+         5u8bdKeYsza7j6jU18tyRTqkrcEz9fg7Uy7aUJGqvN7LAcfo2/DJ/p1FqboD/SyvqoGR
+         6O1Y3mbyJyriFthIfaDnwF6Xj/xDPTKjk/OnAbLXWx/KNXH0fpKIqqIMHzO8bejuO/PG
+         G4fg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=jVHHsOXb;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=jVJ+CmaE;
        spf=softfail (google.com: domain of transitioning feng.tang@intel.com does not designate 134.134.136.65 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Received: from mga03.intel.com (mga03.intel.com. [134.134.136.65])
-        by gmr-mx.google.com with ESMTPS id y18-20020a05600c365200b003a5ce2af2c7si724421wmq.1.2022.09.07.00.11.01
+        by gmr-mx.google.com with ESMTPS id y18-20020a05600c365200b003a5ce2af2c7si724421wmq.1.2022.09.07.00.11.04
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 07 Sep 2022 00:11:01 -0700 (PDT)
+        Wed, 07 Sep 2022 00:11:05 -0700 (PDT)
 Received-SPF: softfail (google.com: domain of transitioning feng.tang@intel.com does not designate 134.134.136.65 as permitted sender) client-ip=134.134.136.65;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="298115309"
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="298115328"
 X-IronPort-AV: E=Sophos;i="5.93,296,1654585200"; 
-   d="scan'208";a="298115309"
+   d="scan'208";a="298115328"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 00:11:00 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 00:11:04 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,296,1654585200"; 
-   d="scan'208";a="676053451"
+   d="scan'208";a="676053530"
 Received: from feng-clx.sh.intel.com ([10.238.200.228])
-  by fmsmga008.fm.intel.com with ESMTP; 07 Sep 2022 00:10:57 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 07 Sep 2022 00:11:00 -0700
 From: Feng Tang <feng.tang@intel.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Vlastimil Babka <vbabka@suse.cz>,
@@ -120,18 +120,17 @@ Cc: Dave Hansen <dave.hansen@intel.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
-	Feng Tang <feng.tang@intel.com>,
-	kernel test robot <oliver.sang@intel.com>
-Subject: [PATCH v5 3/4] mm: kasan: Add free_meta size info in struct kasan_cache
-Date: Wed,  7 Sep 2022 15:10:22 +0800
-Message-Id: <20220907071023.3838692-4-feng.tang@intel.com>
+	Feng Tang <feng.tang@intel.com>
+Subject: [PATCH v5 4/4] mm/slub: extend redzone check to extra allocated kmalloc space than requested
+Date: Wed,  7 Sep 2022 15:10:23 +0800
+Message-Id: <20220907071023.3838692-5-feng.tang@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220907071023.3838692-1-feng.tang@intel.com>
 References: <20220907071023.3838692-1-feng.tang@intel.com>
 MIME-Version: 1.0
 X-Original-Sender: feng.tang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=jVHHsOXb;       spf=softfail
+ header.i=@intel.com header.s=Intel header.b=jVJ+CmaE;       spf=softfail
  (google.com: domain of transitioning feng.tang@intel.com does not designate
  134.134.136.65 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
@@ -148,58 +147,158 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-When kasan is enabled for slab/slub, it may save kasan' free_meta
-data in the former part of slab object data area in slab object
-free path, which works fine.
+kmalloc will round up the request size to a fixed size (mostly power
+of 2), so there could be a extra space than what is requested, whose
+size is the actual buffer size minus original request size.
 
-There is ongoing effort to extend slub's debug function which will
-redzone the latter part of kmalloc object area, and when both of
-the debug are enabled, there is possible conflict, especially when
-the kmalloc object has small size, as caught by 0Day bot [1]
+To better detect out of bound access or abuse of this space, add
+redzone sanity check for it.
 
-For better information for slab/slub, add free_meta's data size
-into 'struct kasan_cache', so that its users can take right action
-to avoid data conflict.
+And in current kernel, some kmalloc user already knows the existence
+of the space and utilizes it after calling 'ksize()' to know the real
+size of the allocated buffer. So we skip the sanity check for objects
+which have been called with ksize(), as treating them as legitimate
+users.
 
-[1]. https://lore.kernel.org/lkml/YuYm3dWwpZwH58Hu@xsang-OptiPlex-9020/
-Reported-by: kernel test robot <oliver.sang@intel.com>
+Suggested-by: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Feng Tang <feng.tang@intel.com>
-Acked-by: Dmitry Vyukov <dvyukov@google.com>
 ---
- include/linux/kasan.h | 2 ++
- mm/kasan/common.c     | 2 ++
- 2 files changed, 4 insertions(+)
+ mm/slab.h        |  4 ++++
+ mm/slab_common.c |  4 ++++
+ mm/slub.c        | 57 +++++++++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 62 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index b092277bf48d..293bdaa0ba09 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -100,6 +100,8 @@ static inline bool kasan_has_integrated_init(void)
- struct kasan_cache {
- 	int alloc_meta_offset;
- 	int free_meta_offset;
-+	/* size of free_meta data saved in object's data area */
-+	int free_meta_size_in_object;
- 	bool is_kmalloc;
- };
+diff --git a/mm/slab.h b/mm/slab.h
+index 20f9e2a9814f..0bc91b30b031 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -885,4 +885,8 @@ void __check_heap_object(const void *ptr, unsigned long n,
+ }
+ #endif
  
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 69f583855c8b..762ae7a7793e 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -201,6 +201,8 @@ void __kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- 			cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
- 			*size = ok_size;
- 		}
-+	} else {
-+		cache->kasan_info.free_meta_size_in_object = sizeof(struct kasan_free_meta);
++#ifdef CONFIG_SLUB_DEBUG
++void skip_orig_size_check(struct kmem_cache *s, const void *object);
++#endif
++
+ #endif /* MM_SLAB_H */
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 8e13e3aac53f..5106667d6adb 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1001,6 +1001,10 @@ size_t __ksize(const void *object)
+ 		return folio_size(folio);
  	}
  
- 	/* Calculate size with optimal redzone. */
++#ifdef CONFIG_SLUB_DEBUG
++	skip_orig_size_check(folio_slab(folio)->slab_cache, object);
++#endif
++
+ 	return slab_ksize(folio_slab(folio)->slab_cache);
+ }
+ 
+diff --git a/mm/slub.c b/mm/slub.c
+index f523601d3fcf..2f0302136604 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -812,12 +812,27 @@ static inline void set_orig_size(struct kmem_cache *s,
+ 	if (!slub_debug_orig_size(s))
+ 		return;
+ 
++#ifdef CONFIG_KASAN_GENERIC
++	/*
++	 * KASAN could save its free meta data in the start part of object
++	 * area, so skip the redzone check if kasan's meta data size is
++	 * bigger enough to possibly overlap with kmalloc redzone
++	 */
++	if (s->kasan_info.free_meta_size_in_object * 2 >= s->object_size)
++		orig_size = s->object_size;
++#endif
++
+ 	p += get_info_end(s);
+ 	p += sizeof(struct track) * 2;
+ 
+ 	*(unsigned int *)p = orig_size;
+ }
+ 
++void skip_orig_size_check(struct kmem_cache *s, const void *object)
++{
++	set_orig_size(s, (void *)object, s->object_size);
++}
++
+ static unsigned int get_orig_size(struct kmem_cache *s, void *object)
+ {
+ 	void *p = kasan_reset_tag(object);
+@@ -949,13 +964,34 @@ static __printf(3, 4) void slab_err(struct kmem_cache *s, struct slab *slab,
+ static void init_object(struct kmem_cache *s, void *object, u8 val)
+ {
+ 	u8 *p = kasan_reset_tag(object);
++	unsigned int orig_size = s->object_size;
+ 
+-	if (s->flags & SLAB_RED_ZONE)
++	if (s->flags & SLAB_RED_ZONE) {
+ 		memset(p - s->red_left_pad, val, s->red_left_pad);
+ 
++		if (slub_debug_orig_size(s) && val == SLUB_RED_ACTIVE) {
++			unsigned int zone_start;
++
++			orig_size = get_orig_size(s, object);
++			zone_start = orig_size;
++
++			if (!freeptr_outside_object(s))
++				zone_start = max_t(unsigned int, orig_size,
++						s->offset + sizeof(void *));
++
++			/*
++			 * Redzone the extra allocated space by kmalloc
++			 * than requested.
++			 */
++			if (zone_start < s->object_size)
++				memset(p + zone_start, val,
++					s->object_size - zone_start);
++		}
++	}
++
+ 	if (s->flags & __OBJECT_POISON) {
+-		memset(p, POISON_FREE, s->object_size - 1);
+-		p[s->object_size - 1] = POISON_END;
++		memset(p, POISON_FREE, orig_size - 1);
++		p[orig_size - 1] = POISON_END;
+ 	}
+ 
+ 	if (s->flags & SLAB_RED_ZONE)
+@@ -1103,6 +1139,7 @@ static int check_object(struct kmem_cache *s, struct slab *slab,
+ {
+ 	u8 *p = object;
+ 	u8 *endobject = object + s->object_size;
++	unsigned int orig_size;
+ 
+ 	if (s->flags & SLAB_RED_ZONE) {
+ 		if (!check_bytes_and_report(s, slab, object, "Left Redzone",
+@@ -1112,6 +1149,20 @@ static int check_object(struct kmem_cache *s, struct slab *slab,
+ 		if (!check_bytes_and_report(s, slab, object, "Right Redzone",
+ 			endobject, val, s->inuse - s->object_size))
+ 			return 0;
++
++		if (slub_debug_orig_size(s) && val == SLUB_RED_ACTIVE) {
++			orig_size = get_orig_size(s, object);
++
++			if (!freeptr_outside_object(s))
++				orig_size = max_t(unsigned int, orig_size,
++						s->offset + sizeof(void *));
++			if (s->object_size > orig_size  &&
++				!check_bytes_and_report(s, slab, object,
++					"kmalloc Redzone", p + orig_size,
++					val, s->object_size - orig_size)) {
++				return 0;
++			}
++		}
+ 	} else {
+ 		if ((s->flags & SLAB_POISON) && s->object_size < s->inuse) {
+ 			check_bytes_and_report(s, slab, p, "Alignment padding",
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220907071023.3838692-4-feng.tang%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220907071023.3838692-5-feng.tang%40intel.com.
