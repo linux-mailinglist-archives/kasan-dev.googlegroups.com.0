@@ -1,135 +1,128 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBL6732MAMGQE3L6ZIAQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC2ORX645YPRBQGU36MAMGQEC3ATQ4I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579CD5AF630
-	for <lists+kasan-dev@lfdr.de>; Tue,  6 Sep 2022 22:38:08 +0200 (CEST)
-Received: by mail-wr1-x437.google.com with SMTP id j12-20020adfff8c000000b002265dcdfad7sf2832719wrr.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 06 Sep 2022 13:38:08 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1662496688; cv=pass;
+Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EC15AF917
+	for <lists+kasan-dev@lfdr.de>; Wed,  7 Sep 2022 02:48:02 +0200 (CEST)
+Received: by mail-pj1-x103a.google.com with SMTP id o14-20020a17090ab88e00b0020034a4415dsf5644677pjr.6
+        for <lists+kasan-dev@lfdr.de>; Tue, 06 Sep 2022 17:48:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1662511681; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xmjMkB6pEGOE/ei9vobegSae0z/tM9/gj3FeQCqCs19OV+Y9vc+vUrYJYVkHFFvXMn
-         lhMGokWSEN5z72VRIVQh5VTaD3BaiiOk3zECuVXdlxgk6Q+aOzgYXckS+y7QgZYXOQKr
-         yyJkP0hw1/yAp/yPnUUb1JPBwPEiqSsC5dq+GiZfH6uFqvgjGTvYXdLD4IpLmdDKgVDY
-         fzYpoLuBEMspza7JgMXfkc0OpYXsyVaXv586pKtDQeTYlCPpBKvva+jshnMFwELDJEmH
-         TbVFe3XK4QbfwDSheT55ysYMHerQjTmni28uK7xYdAZOXrkjkBcFpQ2Ri/WWSaGjKjA7
-         WUVQ==
+        b=iadPQDM2+uEL3A6WIQteBhkD8AVkgnV+nguNohqVfjuRdlyj0Eif/Z38fk7Gf2HuyC
+         TIgBviQ78epPzJXr3vSK91xRfMbScBUlKkIeB05NWhvjOJ9YJaAlsQ6R8iUlAnu1NAlF
+         BnM7yGwGmmZ/hhhq/zDk19m8mocPfvX/KKUEpACAx5ghO6HPIeaaq2w6vB3ZsvWMIlVa
+         XuxzY+8D+MafaAS1CK+4dFzROC17ODpO/PQp12S1CIKqIZMBES2wLAIOeM5aDoNnej2X
+         bWm7rJl6/Rup90ieY6TJ+xL6S1fd1B285q80utGs86eB7bz2Wrn2sLICdlC3hKDpd85K
+         od/A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=9fLEKxx3eXOI7M71zoICWtBuWb3SZI6deMvYOmgNWdc=;
-        b=x7xZsfwR5KSyy2jxH2+86Hmw+fjaybTVmEzG1PYCkqXBmaNb7aHFpgiUxOkQ6Yepg0
-         kbpmPMUAuJx1GRlDXNtHzSBW4hyy3NTslUmMU28mhOgBj2eURd5Fg59kvCfPR9WoRGxx
-         dRjmUMBJQkO2FB9DHtqSsOENmleiH9T8P2X4PKeVdeJ30o9Jb2kq1ImccLPpna1LWsW0
-         yLHFDKoRx9xrcUJ1GNjoX++TSu06fyQ8gbil+Ui4ZlDy8jSwM4bm2i9CJDcNWVHklk8V
-         llyOz0bHUEZ3d06kWOOfq+GO2MomHqzDntuPKfOxRP6EqP1t7ZFqldS3lYuKGFLpMqAC
-         z8TA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=p7B4g9GFzb9e/S6HvpIge4BMabwvwS72DZOZAb5pAIg=;
+        b=ZPwZXLtyvsx5l3zqjh8xplXjfry2Q0RB6pI7o05p2nJb3kpwzjZgqfb1PpwkRPh4FN
+         RJ1CILsn/ZswAU+ZgqLg1nX6SV2jAnldgGkFvlED50zS7mEK8jLMxHprmc71dG2sqDjM
+         xLkvKrRKOIpdX3Tvdk9ZughWIg8gswAZ5ml+j8uBvsFXGAwI5baOnNWLMgNvkPJbMj5C
+         bCDLoAWS5Xt0DrfpDdOho1J6ebKusHmLYrRdtqKMeU1rXMm0SiR2aZL5ZkxU2+Jl/BUJ
+         ZhW4PYcGwiMloCrO1BQSZYwxLq7ECat/j9X6J5D8arriJdEt47hMIH7byTq9zkx4YlVK
+         3u1g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=jPxkDIeu;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=pR0smMM+;
+       spf=pass (google.com: domain of samitolvanen@google.com designates 2607:f8b0:4864:20::e33 as permitted sender) smtp.mailfrom=samitolvanen@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date;
-        bh=9fLEKxx3eXOI7M71zoICWtBuWb3SZI6deMvYOmgNWdc=;
-        b=Hic1KvVh76t8KAsGWZYfuzu+nSHREUSqFQQ4J0ktJYfyt6fGWP0Wkh3m/+PQ8eoeuC
-         /0fhupMTTrYWe7Nl1H/R48UNGhpnOQx4eLY2kIauuRi5+a3PV35O2M3bc43EogRw0jH1
-         AMoaqUeUd3y50eqNbOo+S2NS4FEBWYq1FfHIu82qHWhknoVci3yYIpfQJi+aRr/Tv1QL
-         oGxeZjTwU2+2AAZioWwkGKIag9mh+t5wcdYsDRwe3dfU5NqB+9p2/PzNW+8cpJ/yXTBJ
-         cYaeKwqw+7qqlU5rqFwZanxmZqsplyJ+FjwynJRSM4QlSzhT8K8YIxF5IciPk6YpeHKi
-         XSHQ==
+        bh=p7B4g9GFzb9e/S6HvpIge4BMabwvwS72DZOZAb5pAIg=;
+        b=SjYY7kXRQSSEfG5CSF1/1Cckl6rmTnHDVqYR5fit2+/f50gMtkj3n5Levn4tiVIWDp
+         vndU5E4cmOjbZpzPsJLzcBsPFJDTH3wkGDGtwPtkkj7dAutufRNnp7wAft/HmCbo+WSF
+         Lze50ajP1RUREN7FsPK4YG5RdC+dqkje1H80Cpj07E8cnRGl91CnlQbeNasrSZ6M00GA
+         o6NEDeaPJgeTKrVnk2QDz1jWUw2n5Szq/K3/Tbhx+v4i/0rp/IPgiJkoPPK5DJEgrlyS
+         jquMcYSMDYNtBWz+2uxAnRleshiGhNrlWGFAXQWZ6iKDDaaSOB++B1ahdqg/7WmUETpc
+         RaQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=9fLEKxx3eXOI7M71zoICWtBuWb3SZI6deMvYOmgNWdc=;
-        b=AnNT7eoH2Ef2nazfW8FhC58DWixN/aFT36G2DJqieedgwVYIpSxiXzJHT9z+at4szR
-         dm4IBdqxyjUGKo8ek8tcooWm8f3cqK+S6hY7114zH4P0rucOkgRyLKV/dWkcLZ9TncKE
-         APB4txP6nNYbNApzVxWaxR5GjR3YKJ0Xt8WmPor24Xb6aBfsg9tX6u5kxwbbJ/BDnHbY
-         h7MzknmfiBjnKa8qr5RH0DEFI6SRjE9UQiuPR/u1p6eU+PBLiBBOytOefMn97Mgrb740
-         KyRNVgh8/insS3VBlZGPZcZqQcFQO8nqZ9lFZqPR3qMByOQGU1HbW8bCS/8lgpOpbs7d
-         AKDA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo1D0laN0wnu2hHqQKQXWarX+o7aPQMXfhcBQCJwmvcjSy3jA+GZ
-	QQwIhqucKJ3zQ/QL1F/L/8o=
-X-Google-Smtp-Source: AA6agR4HxzkbRyQq2UNvynOBUM3UA0GCsPMIgtsU7k0K7jmhqul11wKJrCOf2d46rxRAbQ4/F7I65Q==
-X-Received: by 2002:adf:d1c2:0:b0:226:fa44:bab7 with SMTP id b2-20020adfd1c2000000b00226fa44bab7mr124861wrd.195.1662496687800;
-        Tue, 06 Sep 2022 13:38:07 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=p7B4g9GFzb9e/S6HvpIge4BMabwvwS72DZOZAb5pAIg=;
+        b=u7w16DFkLbAT++/0Q2M34DloG47/ELSxQac/C8nz/P7+97/pRLRyhUIT+il3/ZLpyI
+         yePnrP/V2Nb9rQBm5F1zVFEA8ZVfd/6FaMPOpAFge+LYqkIhINBq6JO4idr6M6MpjXEe
+         BszTfL9IUG2xr3ZTqqTw60TsZmX7Q15a6xvBXNpBM8QaIceI3ddhvL5xkuCeOyym+E7f
+         NDqifVfO3VOe96DsQj0kvpAxlh6A5cJaJnXOEmbf5gq73X17ZHsG2BK2Jg4wyYLPUTPr
+         WSpQ8iAY0mJ6IQCvEnD6GZcjbmdUKD2r/g4HsmG1LvXn2yTDNoY1XkYKDono/3xiuHAG
+         AThA==
+X-Gm-Message-State: ACgBeo1a5k8D5FpjICMiGT+KpCCNHCuqTZWDoOzYjQIJzr2/U5kdLT82
+	mIU4z1JGlWzpFK3LNBwFzOo=
+X-Google-Smtp-Source: AA6agR6Rb91OtCY+NEaoDuDyV78knnPZxXY0P6nAtakDvJOGmaBqt02H+Wlf1BKUqqSjE8/r5XyxTw==
+X-Received: by 2002:a17:902:f7d2:b0:176:ca6b:eadb with SMTP id h18-20020a170902f7d200b00176ca6beadbmr1144424plw.173.1662511680900;
+        Tue, 06 Sep 2022 17:48:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:721a:0:b0:3a5:4532:b3a6 with SMTP id n26-20020a1c721a000000b003a54532b3a6ls5090354wmc.3.-pod-control-gmail;
- Tue, 06 Sep 2022 13:38:06 -0700 (PDT)
-X-Received: by 2002:a05:600c:29ca:b0:3a6:75fe:82af with SMTP id s10-20020a05600c29ca00b003a675fe82afmr121468wmd.3.1662496686547;
-        Tue, 06 Sep 2022 13:38:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1662496686; cv=none;
+Received: by 2002:a17:903:240d:b0:16d:4224:4877 with SMTP id
+ e13-20020a170903240d00b0016d42244877ls10522907plo.4.-pod-prod-gmail; Tue, 06
+ Sep 2022 17:48:00 -0700 (PDT)
+X-Received: by 2002:a17:902:d484:b0:171:3cbc:7c6 with SMTP id c4-20020a170902d48400b001713cbc07c6mr1293002plg.85.1662511680079;
+        Tue, 06 Sep 2022 17:48:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1662511680; cv=none;
         d=google.com; s=arc-20160816;
-        b=rrF9M2AQJTwEXRlusJfAFJaUo8KsvOgjYz7NORE0fjEnrQNFLFco759ObwswMc3/Vx
-         fq0rHAozDU4NYsfUAGiCS9Wvebxf8wrk/HFQoHEf1KpqJY4hvWT4QawCYJO8YWBQ6LXI
-         ZM+/wkFnwNtrqlc4BLtEkzMgikty2r0pV5pAQcawiGBi9Gpv3GcMtOlTbODcZJbM6lN9
-         B+BgFLgTHmhbFQjKcL9Vz0b4U0Z5HH+VpY0J+Wh59xnVRqm1pi+iN7+tLk0fdVuMefIK
-         lhcSZVsQjE7YoL8vaW8UvFhTyGqbn9U6IRO/iZLiI9LjtrnaStAKtZCxDoczlMPKAbIX
-         iI9g==
+        b=Y6kYv+51LCtw7wM2RwVJR5F3++chnzYK+8E4XhbyVIf6aIU1jtCa5wdwEFSA4BubBU
+         T0YdFfK1lO9pYKsT057zw5U8uQLxQtRIuyWbFhBxK+49VQScvgvJ5Z7T8De2LlYewc4H
+         bPhRKMmyldVeqBHky1X8MLJPZ09FUuYTQuJhWuodJ8jiFAEqqAAFmQfyni03IXApuipn
+         eRirZX9kwv+LHhzY2yPwXPRX3fPZINBr5QqgnRZrbulgSPqYfsHvnIFvgec37kW8fCeW
+         M0Yi7dlg3BWj7WfyBbVNDNtw+ApmOkKuHsaMkOZK8HGDJl+e9rNkAcj2JKs3yDUxgnC3
+         4jOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=DmGvl3uZQB8/M8fW3mjXEVral7dNpov0geEOt0uqNnA=;
-        b=GTEtyNnGPnY++t+GGIxJHojlDLif7KdmmKvS96G/AWE9ZU1fZP3ZB7+nesGmAbdVUX
-         vfcRzzZrbbViYZuZTCY90yjqSf2QSBg7cHZoe5YuRDhoZsgi1Hb/ZXojy4P7UcweAyO2
-         aXxJfNsbnHR03NCSnIjyY7bhmg01htbuJtkGPYAZg85kVDEH1QlcPdoqiZOonWWSRj7t
-         VT0gVqWONjZh28MCYjqrvzMoHco6t/2qJhx96j0IYvfdiumw+9y38htl7435iMMbKtIB
-         7FsSbPmH14+8NoSaloTH0m4nD//weHbr3sgrgG37d2zcOcTE/QZT84KW1pAF3oOcgrhw
-         kvIQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=hxTBhCI0F5j/2VZXRiH27pSDCjgcW9IAx9MdqUjicTA=;
+        b=ntFra6j4BBeE/ZUgHuH1P2Tm5LpeD59qvsYYC5YEdeVv5bSbiU5mvap8fLJ4WjfX2+
+         DFJWaOgHAhBFCbB48rEIk0eSA19LPbMJDlrwezIgC4A5Io5b3On5oxayS3zKxniu/req
+         zW8HCxfGBH1hlfJUKQmRivsDWPqbR5f5hm1VcpZCcmLgCviyVysQEHyjBcjmX5BgS9th
+         dKD27kET5RbTGImT6EeB4vzTa9DcjsThx8MDNCY7umzCRFBXa/AqZi3nxIHbTFx01ur9
+         GT1yWqNKq8ZKuK9FSMJIuTHHnINsQlFazAeR+7k1g5G7Xp25F2NT5AS/oP8sHWCOR60I
+         SNaA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=jPxkDIeu;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id j21-20020a05600c1c1500b003a54f1563c9si880490wms.0.2022.09.06.13.38.06
+       dkim=pass header.i=@google.com header.s=20210112 header.b=pR0smMM+;
+       spf=pass (google.com: domain of samitolvanen@google.com designates 2607:f8b0:4864:20::e33 as permitted sender) smtp.mailfrom=samitolvanen@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com. [2607:f8b0:4864:20::e33])
+        by gmr-mx.google.com with ESMTPS id a16-20020a621a10000000b00537a63cf17dsi977479pfa.3.2022.09.06.17.48.00
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 13:38:06 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) client-ip=2001:8b0:10b:1236::1;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oVfKd-00AkKB-AJ; Tue, 06 Sep 2022 20:38:03 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 61BB4300244;
-	Tue,  6 Sep 2022 22:38:00 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 3D7AB2B929A27; Tue,  6 Sep 2022 22:38:00 +0200 (CEST)
-Date: Tue, 6 Sep 2022 22:38:00 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>,
-	Jann Horn <jannh@google.com>, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] perf: Allow restricted kernel breakpoints on user
- addresses
-Message-ID: <YxevqB2OpJ9BLE+s@hirez.programming.kicks-ass.net>
-References: <20220902100057.404817-1-elver@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Sep 2022 17:48:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of samitolvanen@google.com designates 2607:f8b0:4864:20::e33 as permitted sender) client-ip=2607:f8b0:4864:20::e33;
+Received: by mail-vs1-xe33.google.com with SMTP id d126so13346098vsd.13
+        for <kasan-dev@googlegroups.com>; Tue, 06 Sep 2022 17:48:00 -0700 (PDT)
+X-Received: by 2002:a05:6102:304e:b0:397:6b53:5f81 with SMTP id
+ w14-20020a056102304e00b003976b535f81mr360723vsa.80.1662511679176; Tue, 06 Sep
+ 2022 17:47:59 -0700 (PDT)
 MIME-Version: 1.0
+References: <YoK4U9RgQ9N+HhXJ@dev-arch.thelio-3990X> <20220516214005.GQ76023@worktop.programming.kicks-ass.net>
+ <YoPAZ6JfsF0LrQNc@hirez.programming.kicks-ass.net> <YoPCTEYjoPqE4ZxB@hirez.programming.kicks-ass.net>
+ <20220518012429.4zqzarvwsraxivux@treble> <20220518074152.GB10117@worktop.programming.kicks-ass.net>
+ <20220518173604.7gcrjjum6fo2m2ub@treble> <YoVuxKGkt0IQ0yjb@hirez.programming.kicks-ass.net>
+In-Reply-To: <YoVuxKGkt0IQ0yjb@hirez.programming.kicks-ass.net>
+From: "'Sami Tolvanen' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 6 Sep 2022 17:47:23 -0700
+Message-ID: <CABCJKueB-tZmxESGP_W9JUghu-6y1Dj1DeahRsGb3bOUttctMA@mail.gmail.com>
+Subject: Re: [PATCH] objtool: Fix symbol creation
+To: Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev, 
+	LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20220902100057.404817-1-elver@google.com>
-X-Original-Sender: peterz@infradead.org
+X-Original-Sender: samitolvanen@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=jPxkDIeu;
-       spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2001:8b0:10b:1236::1 as permitted sender) smtp.mailfrom=peterz@infradead.org
+ header.i=@google.com header.s=20210112 header.b=pR0smMM+;       spf=pass
+ (google.com: domain of samitolvanen@google.com designates 2607:f8b0:4864:20::e33
+ as permitted sender) smtp.mailfrom=samitolvanen@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Sami Tolvanen <samitolvanen@google.com>
+Reply-To: Sami Tolvanen <samitolvanen@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,39 +135,79 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Sep 02, 2022 at 12:00:57PM +0200, Marco Elver wrote:
-> Allow the creation of restricted breakpoint perf events that also fire
-> in the kernel (!exclude_kernel), if:
-> 
->   1. No sample information is requested; samples may contain IPs,
->      registers, or other information that may disclose kernel addresses.
-> 
->   2. The breakpoint (viz. data watchpoint) is on a user address.
-> 
-> The rules constrain the allowable perf events such that no sensitive
-> kernel information can be disclosed.
-> 
-> Despite no explicit kernel information disclosure, the following
-> questions may need answers:
-> 
->  1. Is obtaining information that the kernel accessed a particular
->     user's known memory location revealing new information?
->     Given the kernel's user space ABI, there should be no "surprise
->     accesses" to user space memory in the first place.
-> 
->  2. Does causing breakpoints on user memory accesses by the kernel
->     potentially impact timing in a sensitive way?
->     Since hardware breakpoints trigger regardless of the state of
->     perf_event_attr::exclude_kernel, but are filtered in the perf
->     subsystem, this possibility already exists independent of the
->     proposed change.
-> 
+On Wed, May 18, 2022 at 3:10 PM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Wed, May 18, 2022 at 10:36:04AM -0700, Josh Poimboeuf wrote:
+> > On Wed, May 18, 2022 at 09:41:52AM +0200, Peter Zijlstra wrote:
+> > > +static int elf_update_symbol(struct elf *elf, struct section *symtab,
+> > > +                        struct section *symtab_shndx, struct symbol *sym)
+> > >  {
+> > > -   Elf_Data *data, *shndx_data = NULL;
+> > > -   Elf32_Word first_non_local;
+> > > -   struct symbol *sym;
+> > > -   Elf_Scn *s;
+> > > -
+> > > -   first_non_local = symtab->sh.sh_info;
+> > > -
+> > > -   sym = find_symbol_by_index(elf, first_non_local);
+> > > -   if (!sym) {
+> > > -           WARN("no non-local symbols !?");
+> > > -           return first_non_local;
+> > > -   }
+> > > +   Elf_Data *symtab_data = NULL, *shndx_data = NULL;
+> > > +   Elf64_Xword entsize = symtab->sh.sh_entsize;
+> > > +   Elf32_Word shndx = sym->sec->idx;
+> >
+> > So if it's a global UNDEF symbol then I think 'sym->sec' can be NULL and
+> > this blows up?
+>
+> Oh indeed, sym->sec ? sym->sec->idx : SHN_UNDEF it is.
 
-Changelog forgot to tell us why you want this :-)
+elf_update_symbol seems to be a bit broken even after this. I noticed
+it converts SHN_ABS symbols into SHN_UNDEF, which breaks some KCFI
+builds. In fact, the function drops all the special st_shndx values
+except SHN_XINDEX.
 
-I don't see any immediate concerns, but it's late so who knows..
+Specifically, read_symbols sets sym->sec to find_section_by_index(elf,
+0) for all SHN_UNDEF and special st_shndx symbols, which means
+sym->sec is non-NULL and sym->sec->idx is always 0 (= SHN_UNDEF) for
+these symbols. As elf_update_symbol doesn't look at the actual
+st_shndx value, it ends up marking the symbols undefined.
+
+This quick hack fixes the issue for me, but I'm not sure if it's the
+cleanest solution. Any thoughts?
+
+diff --git a/tools/objtool/elf.c b/tools/objtool/elf.c
+index c25e957c1e52..7e24b09b1163 100644
+--- a/tools/objtool/elf.c
++++ b/tools/objtool/elf.c
+@@ -619,6 +619,11 @@ static int elf_update_symbol(struct elf *elf,
+struct section *symtab,
+        Elf64_Xword entsize = symtab->sh.sh_entsize;
+        int max_idx, idx = sym->idx;
+        Elf_Scn *s, *t = NULL;
++       bool is_special_shndx = sym->sym.st_shndx >= SHN_LORESERVE &&
++                               sym->sym.st_shndx != SHN_XINDEX;
++
++       if (is_special_shndx)
++               shndx = sym->sym.st_shndx;
+
+        s = elf_getscn(elf->elf, symtab->idx);
+        if (!s) {
+@@ -704,7 +709,7 @@ static int elf_update_symbol(struct elf *elf,
+struct section *symtab,
+        }
+
+        /* setup extended section index magic and write the symbol */
+-       if (shndx >= SHN_UNDEF && shndx < SHN_LORESERVE) {
++       if ((shndx >= SHN_UNDEF && shndx < SHN_LORESERVE) || is_special_shndx) {
+                sym->sym.st_shndx = shndx;
+                if (!shndx_data)
+                        shndx = 0;
+
+Sami
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YxevqB2OpJ9BLE%2Bs%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CABCJKueB-tZmxESGP_W9JUghu-6y1Dj1DeahRsGb3bOUttctMA%40mail.gmail.com.
