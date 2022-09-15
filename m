@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBTH6RSMQMGQERL2PTCI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBT76RSMQMGQEU4LZUIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2485B9E1D
-	for <lists+kasan-dev@lfdr.de>; Thu, 15 Sep 2022 17:05:48 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id q10-20020a19f20a000000b0048d029a71d3sf5646441lfh.17
-        for <lists+kasan-dev@lfdr.de>; Thu, 15 Sep 2022 08:05:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1663254348; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCCA5B9E1F
+	for <lists+kasan-dev@lfdr.de>; Thu, 15 Sep 2022 17:05:52 +0200 (CEST)
+Received: by mail-lj1-x23e.google.com with SMTP id d20-20020a2eb054000000b0026c08f42b50sf4086420ljl.20
+        for <lists+kasan-dev@lfdr.de>; Thu, 15 Sep 2022 08:05:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1663254352; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zzZyI0iOxE0UO8Uxhjo19rHW0sVUBj7SUbbAEocmF4IBkVuvDvKwcBJMy0bewzsl/T
-         xkosjaOS0JJovcjCTkMUc7fCKo6SevtQkUKhs5Vw2SxfioBTzfghx6GdOvxhv/gJtU/o
-         k/AxqsiUmnF6g03lQauXMegnUP3IDbHFvrsfn4OdHcEN9BtP0/YUV0YMGXwLl6ZUHwbI
-         vMuUxwQ2U5A8VMfHKU4bPEeyjGKDQHsjy5yBbp6okhCQq+gygGxkUHhHo1pf0+71qC+K
-         oxA032gP/xL7Pr05zGlpCkpX2gweQCkutcNqVYhRd/WLag24jOevg0/QYgFnl4s5H5Py
-         wuBw==
+        b=d2rhITZ4T8yv+FNHiQdAAlJ8GbWXZCUjx9VppfCPwrDiSv+oU2ENYWWOCmORiEkHWO
+         zejaUKg7p9muaHWpSpfZI1kMX8PN6HlJCSHJHiYkLauxcV1vUAYfUra0fH6folEz4HaV
+         WbMgX8Ax+lTP3v9VAK5RddAYgSv1ow8qXVjduYiosO05HgjlAS3WdUNp1zdc5qzqPmuh
+         bsXS4e+eoo/on26Xu9oXoskPqJFTbkDlNjz1OJtX5auBp1o0j1jvWUJqABPq20skps+d
+         IWTtk+tY8SssToZ7be9BQCmqVpWt+/67Z4vgaMEhSZh7klNbue7znIbCOi6/X1yuFEzx
+         TQ2A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=Vup3YWEsQuxuYz8AZG+rmn9aNvm1f6fGZmrm5bs9OfQ=;
-        b=qp6iqbIGy758a0hIq+0EDfb2PN9KO//oFE0FoUNSSndK2HdiCQXmEqMcwYgkq0GaCq
-         6dnoF77UqX3qDM8OK83ccnIby8JT0beaPnxQmXlYLybfhrIQ6Ps8PB+UIJredbEJz2zp
-         gA4EZYUjVGRSy6QcUKs1+OkajT6qx0LC2UCoyy8kLR2cYFTqCLs6SpSO3x/4CsxHKVzi
-         X+9ekBfO+Kn4mgFwgxtNt1OOoHEiUApNqtiFZPTE5XlS4c/7F126eBX7ltdBUyA6/wSd
-         RQnrW+FzHE+LlQf/bVfaY/VYii5NjA5Z8MnifNdbTY6jq1ri5JXErK6XYGtJPv4n/7+Y
-         Y0qQ==
+        bh=Qbe7m/T5DSDSsVY1Thfjtfh18ClAiFT9MfY/D1DW/hA=;
+        b=ZrDrOr9LW8Z7wdTiHrO0i0jb4n5+D5hhgl0n3U4N5Fpg2FoHR6Z1rVt6L0yLcoFUXW
+         nZ2W9xy8IVV10dJFDZykIB+7zcSFdpCl4av4Fui+bXBJCuFmYxi2oRhXsPUVKSwb4Ksl
+         13rbvyLPXDSY8P7F/yt2Earii88MiWcmw2GQ4vEXv05rRXpLPkJnh6ldJLY3YDGUY1Gk
+         pNxBnt67SegY9+ZSQZFkI8szTDgvzXv3Fs7xMJT0rPmacP0IGQMztQCdz8zxXxpJ2KcE
+         as5TtxYwbERJXgSDD821m2ABonUCx7LD3DR2Y5QIFsnL5iKUBusi8f8oEQogZoVILKnl
+         zwKA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="IWkX75T/";
-       spf=pass (google.com: domain of 3sj8jywykcxuzebwxkzhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3Sj8jYwYKCXUZebWXkZhhZeX.VhfdTlTg-WXoZhhZeXZkhnil.Vhf@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=VliFMYVC;
+       spf=pass (google.com: domain of 3tt8jywykcxgchezanckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--glider.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3TT8jYwYKCXgcheZanckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date;
-        bh=Vup3YWEsQuxuYz8AZG+rmn9aNvm1f6fGZmrm5bs9OfQ=;
-        b=UfFi9JMN3FdUCpAAe49rVLiskIoE2whNpjRro1WNA9oUNOE3jhscjPK6xz6X2+a3T7
-         xShsuT1JJ3rXy2KYYPfoQB0P1Xxpx0hqhuF6V+1xn1/qzSnOm+5bAx34+PrDFS8bGNE4
-         fnzggkS4057brH3wyLUPbsNCKicptga82CILxOa4SaR82ARoE4YsQL8gsjWcgEJpgIsV
-         9DNquQR7dhN9ZN11+wmwBhIPaOBxVand+5PSv1IJsc8KMnjkvxDSMIOlPUVOqtopFPlM
-         Rd6iFlGrb1wDQosG2bxfCP7l6rm0E9+UYW09bspVeaKjzK/XHdTMwcKNg+y24J0L79JY
-         eVsQ==
+        bh=Qbe7m/T5DSDSsVY1Thfjtfh18ClAiFT9MfY/D1DW/hA=;
+        b=Vr6qMeb/LNb1OEo0DjdzqvFMF5W17MCpGkKNlNQwqTUbkWhOsQoT1bzyojahgq5++z
+         EaTYs00zsAtXrcD8pZ5RjO244tcRrTFWYItDkKzKyBbSqo9KkYdq4PjkndmKTn4LChPB
+         sI76M8dlZYmW0UIeVSRKRMuE0QSrWl39T5lBNk1b86vhOlUg6N2PSsyOaNIe9IPdOCYR
+         JP82yhR82hyPJC6Iymbel8J9Swx2WI5S/uo4OXCZSmG6Z5gDpK5tBpNGB8AadeuHrgL8
+         aklIRQ9EZFAflq9LuIJV1s740JGYOgXWdSxR95B2zhRdtdddz0ar3Mar5M0DwcDmtB81
+         D/qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,64 +50,64 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=Vup3YWEsQuxuYz8AZG+rmn9aNvm1f6fGZmrm5bs9OfQ=;
-        b=76EFnMpSFRoPEZL4NEiEd7YfO7dEKKENMooEVDKtXGhGyjZioCqJaBjJ4ha/bP0JhX
-         7ig8Ei3WM/JSbW84cukmbhzjbNcZBzfyCuiScZIUM1frZupHpmlNHgbb94DTjgP+RNR6
-         Wf/JiBR8R0fMLnhyJarAFffsb12u+LlgctHmZftSbHR416M1/v94tJvNW9tTqtfU2lSp
-         EdiIh+msk+oRRcBLT17VSiWVKtTazwQ7NCR1KnFd6LbGFtIOk1KRY8K4tDUxf1dNsSsF
-         GvjzLu0DKFF5ep8H/16xYhycMPw+Eg19dJ0XsnRmuWTdRFksIUeA0fwO5xB/dhx49dUO
-         mGQA==
-X-Gm-Message-State: ACrzQf0LVdoEivOkukNxUQvq7PwdjM/Hn8UO19bgza1uBlQtMUUUU6jk
-	3tdkl62U3prt0pXsQ/gui9M=
-X-Google-Smtp-Source: AMsMyM7A+tfqrraV1KrHerDK4/nsD+afprLnvuDNams3mt6+5soAbpHCTrVuEYjV4FwuIi3k76Q0+Q==
-X-Received: by 2002:a2e:5cc2:0:b0:26b:fd6f:bc34 with SMTP id q185-20020a2e5cc2000000b0026bfd6fbc34mr71783ljb.72.1663254348480;
-        Thu, 15 Sep 2022 08:05:48 -0700 (PDT)
+        bh=Qbe7m/T5DSDSsVY1Thfjtfh18ClAiFT9MfY/D1DW/hA=;
+        b=RBmJu+hLeqP7CF7g7I8NS5huoupVykoP3Zx7nWLOx84X198QVHk3R4woKd/G57vq/8
+         TOG94whxh5EPKj9kHTDmsyCo6/c+4AdDRajQEUS+w7ZzVuU7bkxB1UN7AFPDGG+AQAT/
+         HiFwlKZX3JA4wwB0QzkejXmQy83kSpCLt7KLx4XGmfVkN/8kcdQ3VT9SFJkZT+PrH5DY
+         m+3n8+M+Q12zKEgSPNhPjPohBzS4e5F+duVA3xcv9PyMORGTWmIECGo/t20N2ln7UW2r
+         04juHCsYfD+bWlrFx6CPbrFveWE8klaXJlDhN6+niDQsuqdwJkTlXulHzxLebUgwgglz
+         yRdQ==
+X-Gm-Message-State: ACrzQf0TITuUNj6B7L4PaNwRm/pHtYHajszu5lmdU2hrAmDlqlju/0pu
+	fF2xHlj5KOuR2zpffE6Snd8=
+X-Google-Smtp-Source: AMsMyM50dm4I1Ify2SFOyLHrtXCjHikwPpYBmyj8/aWP71P5gO4yPuuQW+O+bin/3uoiOEWLvZD96w==
+X-Received: by 2002:a05:6512:3a87:b0:499:2069:17af with SMTP id q7-20020a0565123a8700b00499206917afmr137074lfu.38.1663254351967;
+        Thu, 15 Sep 2022 08:05:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:860c:0:b0:26b:ff81:b7cb with SMTP id a12-20020a2e860c000000b0026bff81b7cbls2053739lji.6.-pod-prod-gmail;
- Thu, 15 Sep 2022 08:05:47 -0700 (PDT)
-X-Received: by 2002:a05:651c:b12:b0:26a:b605:7fe with SMTP id b18-20020a05651c0b1200b0026ab60507femr72665ljr.116.1663254347174;
-        Thu, 15 Sep 2022 08:05:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1663254347; cv=none;
+Received: by 2002:a2e:a177:0:b0:26c:215b:964d with SMTP id u23-20020a2ea177000000b0026c215b964dls1150387ljl.11.-pod-prod-gmail;
+ Thu, 15 Sep 2022 08:05:49 -0700 (PDT)
+X-Received: by 2002:a2e:320a:0:b0:26b:f7cc:bcd2 with SMTP id y10-20020a2e320a000000b0026bf7ccbcd2mr64770ljy.200.1663254349895;
+        Thu, 15 Sep 2022 08:05:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1663254349; cv=none;
         d=google.com; s=arc-20160816;
-        b=I1xvtAzqHeXBxdc3GixFZ+xuOWFgMoxRar8NW4AIAw7z3oTxr4LW2un/C5Hro7d+CL
-         ih054cz5KWa+qIqdIaX7ArX0CIaZ8joGr/toI28kRQCOw3WArgIXBY2s0xk+SSjEprt1
-         6c8uU/YX9odzx8h8SWpiRnqw2Fh1vGlqnxYl24DTgGLvdfnhb6BXV382wqtxDZEj2ppn
-         vlueeoOmzRYzgWZmUeo/25DwjUwGZIrSvVbx3trbE2LonZGxDgubQ/hHp3Xfy+dMDrqm
-         sr+tJAbJbZhiLlKZ3boxRZkB64O6W3cbhbBAsSRHLBYo60Mf8lZ1h2+10vy99FjLexbJ
-         QYfw==
+        b=X8QtNuzKFQA39MRG1lYRY2fIN/m8tkjbdsoP4NzE7yiNM2LQdHCYB0yeaVM3AAYshB
+         myYTycrT9n8B2zXUDbyee2WwFcE0bydorwBzbjaIexOdo/38eu1JQ+CdaqqJ4ctcJKtU
+         RpR4uKTE08NZYxMvdtKfFH0kVf4+QaGmzYd/4n11fbESquejojQNyhLbVSjReM8QSt7o
+         qNumXltXW1faavtmWpBVzQjztqaR9mty35XU1b+0LnPbQw0eW9TECHSHzDJAylnO82pC
+         p45iXDDls+WVujdHTOgOUiqlDQmH+xokFKXhIuFxIX23k0WNf5T9Q3MIYADVE/umk5We
+         bMtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=PRETZsLeKtd8er/vGZIvwJ67UbRQnpYPS7VnNd6iitc=;
-        b=HuWPBX7H4+01hDf23v4F0xKy/OdvGA+W65mL34MPNLhTMVGctsmD3k2kt8Fa+ivLI8
-         ZjVDheZ2QmXQQn/+rY0fgLIw6Xr2XA8oKsRWckJlzbtXxle9wsl2FVmqWsYeFuCIM6Sm
-         0/UJbdsKlf380FDrQ7WlUnBVlc2d80aLS74r0jK7YclGW46PmMKN5tJ/04UYE/kXxR5o
-         yEnJKDn/C1lXhYgPorMSGpeTYDLR5KRoP1xbeidrprxXR1s6TyvweJV3R7860rP7UES+
-         lsVDIERg81UZxYNHverUvS4uIsWl5DTmEqkjW3qIKb0XoRXi+r0t0CUk6ZQVDVlBxRU7
-         ARCw==
+        bh=YUiFcVJy4Yf/nhkRGOhECdnAl5j2ey18UxYwbxsEwuI=;
+        b=uMfp6woPURqgvfQ+gJ3+Y8axsuF6JLz+3/6clu4kDziBXXFyxE/EVpor5WSkko8Zof
+         jfbXnz7y9qsA7mQHTvaQyOjuTOfO1uoQbnuf0vktY7wmOyQ1OB2QQYUJ+KOtOi+4/8W5
+         e8N3BWGwXZVC4SdpsSW7MKGRdsMqM6MYh8hN+wTccQZufyYhczjBpZr0NJEGa7UA0Se/
+         zu/2CuXyyi+oWjdol6YQZdIki6B++/WXOJF7MR9GD5Y7qVsxVqX2mQURy+kkJJkz6gCG
+         Ve9rm0WlPB584ues43UlFLRdRu/D+nBNMTGcC2kUl+NXwrCRmhgGV9rRgk1jO5EFqFpL
+         mXvA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="IWkX75T/";
-       spf=pass (google.com: domain of 3sj8jywykcxuzebwxkzhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3Sj8jYwYKCXUZebWXkZhhZeX.VhfdTlTg-WXoZhhZeXZkhnil.Vhf@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=VliFMYVC;
+       spf=pass (google.com: domain of 3tt8jywykcxgchezanckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--glider.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3TT8jYwYKCXgcheZanckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
-        by gmr-mx.google.com with ESMTPS id v22-20020a05651203b600b00492ea683e72si546002lfp.2.2022.09.15.08.05.47
+Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
+        by gmr-mx.google.com with ESMTPS id u19-20020a05651c131300b0026c1dedf78csi249329lja.0.2022.09.15.08.05.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Sep 2022 08:05:47 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3sj8jywykcxuzebwxkzhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
-Received: by mail-ed1-x549.google.com with SMTP id e15-20020a056402190f00b0044f41e776a0so13139911edz.0
-        for <kasan-dev@googlegroups.com>; Thu, 15 Sep 2022 08:05:47 -0700 (PDT)
+        Thu, 15 Sep 2022 08:05:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3tt8jywykcxgchezanckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--glider.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
+Received: by mail-ej1-x649.google.com with SMTP id gb9-20020a170907960900b0077d89030bb2so5491714ejc.18
+        for <kasan-dev@googlegroups.com>; Thu, 15 Sep 2022 08:05:49 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:686d:27b5:495:85b7])
- (user=glider job=sendgmr) by 2002:a17:906:cc59:b0:779:f094:af3d with SMTP id
- mm25-20020a170906cc5900b00779f094af3dmr278250ejb.239.1663254346675; Thu, 15
- Sep 2022 08:05:46 -0700 (PDT)
-Date: Thu, 15 Sep 2022 17:03:59 +0200
+ (user=glider job=sendgmr) by 2002:a17:907:2722:b0:77f:c136:62eb with SMTP id
+ d2-20020a170907272200b0077fc13662ebmr301739ejl.522.1663254349203; Thu, 15 Sep
+ 2022 08:05:49 -0700 (PDT)
+Date: Thu, 15 Sep 2022 17:04:00 +0200
 In-Reply-To: <20220915150417.722975-1-glider@google.com>
 Mime-Version: 1.0
 References: <20220915150417.722975-1-glider@google.com>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220915150417.722975-26-glider@google.com>
-Subject: [PATCH v7 25/43] kmsan: disable strscpy() optimization under KMSAN
+Message-ID: <20220915150417.722975-27-glider@google.com>
+Subject: [PATCH v7 26/43] crypto: kmsan: disable accelerated configs under KMSAN
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -129,9 +129,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="IWkX75T/";       spf=pass
- (google.com: domain of 3sj8jywykcxuzebwxkzhhzex.vhfdtltg-wxozhhzexzkhnil.vhf@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3Sj8jYwYKCXUZebWXkZhhZeX.VhfdTlTg-WXoZhhZeXZkhnil.Vhf@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=VliFMYVC;       spf=pass
+ (google.com: domain of 3tt8jywykcxgchezanckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3TT8jYwYKCXgcheZanckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -147,40 +147,278 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Disable the efficient 8-byte reading under KMSAN to avoid false positives.
+KMSAN is unable to understand when initialized values come from assembly.
+Disable accelerated configs in KMSAN builds to prevent false positive
+reports.
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
 
 ---
 
-Link: https://linux-review.googlesource.com/id/Iffd8336965e88fce915db2e6a9d6524422975f69
+Link: https://linux-review.googlesource.com/id/Idb2334bf3a1b68b31b399709baefaa763038cc50
 ---
- lib/string.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ crypto/Kconfig      | 30 ++++++++++++++++++++++++++++++
+ drivers/net/Kconfig |  1 +
+ 2 files changed, 31 insertions(+)
 
-diff --git a/lib/string.c b/lib/string.c
-index 6f334420f6871..3371d26a0e390 100644
---- a/lib/string.c
-+++ b/lib/string.c
-@@ -197,6 +197,14 @@ ssize_t strscpy(char *dest, const char *src, size_t count)
- 		max = 0;
- #endif
+diff --git a/crypto/Kconfig b/crypto/Kconfig
+index bb427a835e44a..182fb817ebb52 100644
+--- a/crypto/Kconfig
++++ b/crypto/Kconfig
+@@ -319,6 +319,7 @@ config CRYPTO_CURVE25519
+ config CRYPTO_CURVE25519_X86
+ 	tristate "x86_64 accelerated Curve25519 scalar multiplication library"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_LIB_CURVE25519_GENERIC
+ 	select CRYPTO_ARCH_HAVE_LIB_CURVE25519
  
-+	/*
-+	 * read_word_at_a_time() below may read uninitialized bytes after the
-+	 * trailing zero and use them in comparisons. Disable this optimization
-+	 * under KMSAN to prevent false positive reports.
-+	 */
-+	if (IS_ENABLED(CONFIG_KMSAN))
-+		max = 0;
-+
- 	while (max >= sizeof(unsigned long)) {
- 		unsigned long c, data;
+@@ -367,11 +368,13 @@ config CRYPTO_AEGIS128
+ config CRYPTO_AEGIS128_SIMD
+ 	bool "Support SIMD acceleration for AEGIS-128"
+ 	depends on CRYPTO_AEGIS128 && ((ARM || ARM64) && KERNEL_MODE_NEON)
++	depends on !KMSAN # avoid false positives from assembly
+ 	default y
  
+ config CRYPTO_AEGIS128_AESNI_SSE2
+ 	tristate "AEGIS-128 AEAD algorithm (x86_64 AESNI+SSE2 implementation)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_AEAD
+ 	select CRYPTO_SIMD
+ 	help
+@@ -517,6 +520,7 @@ config CRYPTO_NHPOLY1305
+ config CRYPTO_NHPOLY1305_SSE2
+ 	tristate "NHPoly1305 hash function (x86_64 SSE2 implementation)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_NHPOLY1305
+ 	help
+ 	  SSE2 optimized implementation of the hash function used by the
+@@ -525,6 +529,7 @@ config CRYPTO_NHPOLY1305_SSE2
+ config CRYPTO_NHPOLY1305_AVX2
+ 	tristate "NHPoly1305 hash function (x86_64 AVX2 implementation)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_NHPOLY1305
+ 	help
+ 	  AVX2 optimized implementation of the hash function used by the
+@@ -649,6 +654,7 @@ config CRYPTO_CRC32C
+ config CRYPTO_CRC32C_INTEL
+ 	tristate "CRC32c INTEL hardware acceleration"
+ 	depends on X86
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_HASH
+ 	help
+ 	  In Intel processor with SSE4.2 supported, the processor will
+@@ -689,6 +695,7 @@ config CRYPTO_CRC32
+ config CRYPTO_CRC32_PCLMUL
+ 	tristate "CRC32 PCLMULQDQ hardware acceleration"
+ 	depends on X86
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_HASH
+ 	select CRC32
+ 	help
+@@ -748,6 +755,7 @@ config CRYPTO_BLAKE2B
+ config CRYPTO_BLAKE2S_X86
+ 	bool "BLAKE2s digest algorithm (x86 accelerated version)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_LIB_BLAKE2S_GENERIC
+ 	select CRYPTO_ARCH_HAVE_LIB_BLAKE2S
+ 
+@@ -762,6 +770,7 @@ config CRYPTO_CRCT10DIF
+ config CRYPTO_CRCT10DIF_PCLMUL
+ 	tristate "CRCT10DIF PCLMULQDQ hardware acceleration"
+ 	depends on X86 && 64BIT && CRC_T10DIF
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_HASH
+ 	help
+ 	  For x86_64 processors with SSE4.2 and PCLMULQDQ supported,
+@@ -831,6 +840,7 @@ config CRYPTO_POLY1305
+ config CRYPTO_POLY1305_X86_64
+ 	tristate "Poly1305 authenticator algorithm (x86_64/SSE2/AVX2)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_LIB_POLY1305_GENERIC
+ 	select CRYPTO_ARCH_HAVE_LIB_POLY1305
+ 	help
+@@ -920,6 +930,7 @@ config CRYPTO_SHA1
+ config CRYPTO_SHA1_SSSE3
+ 	tristate "SHA1 digest algorithm (SSSE3/AVX/AVX2/SHA-NI)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SHA1
+ 	select CRYPTO_HASH
+ 	help
+@@ -931,6 +942,7 @@ config CRYPTO_SHA1_SSSE3
+ config CRYPTO_SHA256_SSSE3
+ 	tristate "SHA256 digest algorithm (SSSE3/AVX/AVX2/SHA-NI)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SHA256
+ 	select CRYPTO_HASH
+ 	help
+@@ -943,6 +955,7 @@ config CRYPTO_SHA256_SSSE3
+ config CRYPTO_SHA512_SSSE3
+ 	tristate "SHA512 digest algorithm (SSSE3/AVX/AVX2)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SHA512
+ 	select CRYPTO_HASH
+ 	help
+@@ -1168,6 +1181,7 @@ config CRYPTO_WP512
+ config CRYPTO_GHASH_CLMUL_NI_INTEL
+ 	tristate "GHASH hash function (CLMUL-NI accelerated)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_CRYPTD
+ 	help
+ 	  This is the x86_64 CLMUL-NI accelerated implementation of
+@@ -1228,6 +1242,7 @@ config CRYPTO_AES_TI
+ config CRYPTO_AES_NI_INTEL
+ 	tristate "AES cipher algorithms (AES-NI)"
+ 	depends on X86
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_AEAD
+ 	select CRYPTO_LIB_AES
+ 	select CRYPTO_ALGAPI
+@@ -1369,6 +1384,7 @@ config CRYPTO_BLOWFISH_COMMON
+ config CRYPTO_BLOWFISH_X86_64
+ 	tristate "Blowfish cipher algorithm (x86_64)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_BLOWFISH_COMMON
+ 	imply CRYPTO_CTR
+@@ -1399,6 +1415,7 @@ config CRYPTO_CAMELLIA
+ config CRYPTO_CAMELLIA_X86_64
+ 	tristate "Camellia cipher algorithm (x86_64)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	imply CRYPTO_CTR
+ 	help
+@@ -1415,6 +1432,7 @@ config CRYPTO_CAMELLIA_X86_64
+ config CRYPTO_CAMELLIA_AESNI_AVX_X86_64
+ 	tristate "Camellia cipher algorithm (x86_64/AES-NI/AVX)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_CAMELLIA_X86_64
+ 	select CRYPTO_SIMD
+@@ -1433,6 +1451,7 @@ config CRYPTO_CAMELLIA_AESNI_AVX_X86_64
+ config CRYPTO_CAMELLIA_AESNI_AVX2_X86_64
+ 	tristate "Camellia cipher algorithm (x86_64/AES-NI/AVX2)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_CAMELLIA_AESNI_AVX_X86_64
+ 	help
+ 	  Camellia cipher algorithm module (x86_64/AES-NI/AVX2).
+@@ -1478,6 +1497,7 @@ config CRYPTO_CAST5
+ config CRYPTO_CAST5_AVX_X86_64
+ 	tristate "CAST5 (CAST-128) cipher algorithm (x86_64/AVX)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_CAST5
+ 	select CRYPTO_CAST_COMMON
+@@ -1501,6 +1521,7 @@ config CRYPTO_CAST6
+ config CRYPTO_CAST6_AVX_X86_64
+ 	tristate "CAST6 (CAST-256) cipher algorithm (x86_64/AVX)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_CAST6
+ 	select CRYPTO_CAST_COMMON
+@@ -1534,6 +1555,7 @@ config CRYPTO_DES_SPARC64
+ config CRYPTO_DES3_EDE_X86_64
+ 	tristate "Triple DES EDE cipher algorithm (x86-64)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_LIB_DES
+ 	imply CRYPTO_CTR
+@@ -1604,6 +1626,7 @@ config CRYPTO_CHACHA20
+ config CRYPTO_CHACHA20_X86_64
+ 	tristate "ChaCha stream cipher algorithms (x86_64/SSSE3/AVX2/AVX-512VL)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_LIB_CHACHA_GENERIC
+ 	select CRYPTO_ARCH_HAVE_LIB_CHACHA
+@@ -1674,6 +1697,7 @@ config CRYPTO_SERPENT
+ config CRYPTO_SERPENT_SSE2_X86_64
+ 	tristate "Serpent cipher algorithm (x86_64/SSE2)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_SERPENT
+ 	select CRYPTO_SIMD
+@@ -1693,6 +1717,7 @@ config CRYPTO_SERPENT_SSE2_X86_64
+ config CRYPTO_SERPENT_SSE2_586
+ 	tristate "Serpent cipher algorithm (i586/SSE2)"
+ 	depends on X86 && !64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_SERPENT
+ 	select CRYPTO_SIMD
+@@ -1712,6 +1737,7 @@ config CRYPTO_SERPENT_SSE2_586
+ config CRYPTO_SERPENT_AVX_X86_64
+ 	tristate "Serpent cipher algorithm (x86_64/AVX)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_SERPENT
+ 	select CRYPTO_SIMD
+@@ -1732,6 +1758,7 @@ config CRYPTO_SERPENT_AVX_X86_64
+ config CRYPTO_SERPENT_AVX2_X86_64
+ 	tristate "Serpent cipher algorithm (x86_64/AVX2)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SERPENT_AVX_X86_64
+ 	help
+ 	  Serpent cipher algorithm, by Anderson, Biham & Knudsen.
+@@ -1876,6 +1903,7 @@ config CRYPTO_TWOFISH_586
+ config CRYPTO_TWOFISH_X86_64
+ 	tristate "Twofish cipher algorithm (x86_64)"
+ 	depends on (X86 || UML_X86) && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_ALGAPI
+ 	select CRYPTO_TWOFISH_COMMON
+ 	imply CRYPTO_CTR
+@@ -1893,6 +1921,7 @@ config CRYPTO_TWOFISH_X86_64
+ config CRYPTO_TWOFISH_X86_64_3WAY
+ 	tristate "Twofish cipher algorithm (x86_64, 3-way parallel)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_TWOFISH_COMMON
+ 	select CRYPTO_TWOFISH_X86_64
+@@ -1913,6 +1942,7 @@ config CRYPTO_TWOFISH_X86_64_3WAY
+ config CRYPTO_TWOFISH_AVX_X86_64
+ 	tristate "Twofish cipher algorithm (x86_64/AVX)"
+ 	depends on X86 && 64BIT
++	depends on !KMSAN # avoid false positives from assembly
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_SIMD
+ 	select CRYPTO_TWOFISH_COMMON
+diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
+index 94c889802566a..2aaf02bfe6f7e 100644
+--- a/drivers/net/Kconfig
++++ b/drivers/net/Kconfig
+@@ -76,6 +76,7 @@ config WIREGUARD
+ 	tristate "WireGuard secure network tunnel"
+ 	depends on NET && INET
+ 	depends on IPV6 || !IPV6
++	depends on !KMSAN # KMSAN doesn't support the crypto configs below
+ 	select NET_UDP_TUNNEL
+ 	select DST_CACHE
+ 	select CRYPTO
 -- 
 2.37.2.789.g6183377224-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220915150417.722975-26-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220915150417.722975-27-glider%40google.com.
