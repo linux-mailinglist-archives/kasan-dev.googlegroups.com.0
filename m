@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBDX6RSMQMGQEGC7N2XY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBEH6RSMQMGQEMXOBLOY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6505B9DFA
-	for <lists+kasan-dev@lfdr.de>; Thu, 15 Sep 2022 17:04:47 +0200 (CEST)
-Received: by mail-lf1-x13e.google.com with SMTP id y17-20020a056512045100b0049e83e1053fsf900507lfk.9
-        for <lists+kasan-dev@lfdr.de>; Thu, 15 Sep 2022 08:04:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1663254286; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 510EE5B9DFD
+	for <lists+kasan-dev@lfdr.de>; Thu, 15 Sep 2022 17:04:49 +0200 (CEST)
+Received: by mail-lf1-x137.google.com with SMTP id e4-20020a195004000000b004979e6a0c88sf5645752lfb.22
+        for <lists+kasan-dev@lfdr.de>; Thu, 15 Sep 2022 08:04:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1663254289; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PRAlGzXVWfkdjpt8lNRoTcdwp9RvCVTiyISLIzke0gwDPxJwvGQYZ8lz9XDQkmZwBK
-         BerRSAaDoqX8chOQtF3fl/IjZX1qDMM4EJ3um2PXvP+2rdLbU/t9V9ZQ0RykzkGjxuSl
-         9t2Ee7uEWPIJ8ed+rSCxfSHIivF1li/JJRKq58kgDreWKp83Bo6Rn+igIW1+LL9ZZP9k
-         B1MpjQznqws0+FjP+qIct647FuepTFlQRnHoXYoSbzDQHz/P6tjd+K1tSli7uK9juPKL
-         YziLVXZu6gKioAW5ftDO9WiiZ8+aJ8b4BuKF/WsLmABjY/QsvFp6SGLI1pkNEHi53mo+
-         44mg==
+        b=i4aMmoOvSXWeLHx5RcdKOWtopIKnDJXQRyDn/+1wp98tF/YIFAocluIsBIwGf7tITJ
+         ppwqkelgrCn9cKNi0hJHH/YNWPJM1Sj2/Eg/xbHgnvvJz5D1XTAUahDx6hxriQJXmpRz
+         9Hh5wndiV67SGeyyM9Up5xlRoExtYvkd0unpelfF+Nb9JHntLPuzQH6D7vH6GUtev/OM
+         l+Wo8kyBO3PIfVV7AQSasjq08z7kCspoQPYzESECNGSy6UDtk9iHJryS9pPvwziHUjOi
+         +iP/HwcNkc2xBO0JUG7jfd3ZSQY+eEk6ftclZZGXVg9ZRBNWUpiqDQCOMIHs0pTM3clO
+         AMNw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=q3boPlfUPF+GKAheIi4fTYvqgQFxQgdwpZIKExSZKc4=;
-        b=Icko26DVIyT2a3mAPtEMsk2zZto9VPJTsJxfae6giKQolhCyopBwJHW7rQ24mr4Vt+
-         yp0V9DVEmOJKAhbSYF/nRTiN7USa2ytYZ8kxP97R23wOTQBdsa1TCt/U9NjEWNaWoMai
-         BHJCDsYu/cXz9XGvrqbc7Eo0Tze/A7pkqpoW4x5R4hor05FqbjaXAXDD2AUi/QcVzx4h
-         ojYklmEtEVCHKMxWSX0X7hJbtgODkSnXIgjWloaYAKfGj90APLbF4KLFhV+OAeynl+So
-         Xku/1fo1WlvRLzdpw14HbotQJn/Xx5Qx48+kG15eJjSZpjfapROjzDVmRbiK8mxyNB10
-         oJPQ==
+        bh=Uk3IMW3tuVV7H87fv35A02JMsRBbyyI4u/RugzCIC08=;
+        b=ab1xLXqmWNXquOiWLAr3BzD3Z7T+4mNfqJB2LsKP2g1ftz+LPGhrL4ll6vHHKk73AF
+         oWfIY9aer2Vq3slYce0FIgAJEPmxeOerzGLhTn+IlATSE9fUZmWwXdKMS5aj6Hi4sQAz
+         Gahi2E3F8yrd3wI4ktObmczATcrOzDeRuTdt72cnn2LLSZu8ywIsTk0cZxhuVhnZNxgM
+         +906EOvrBrU6KS3JT9gdySGRSycyrUi51x+gjX7GL2qEDNGHD4emFcVMClz7bZkM1BbC
+         KoldvaZXbSpjxz4L2lZT//7kidpLxRiDg672vEfQTf3LtYeWo7QQl3RACz9oA5nWw5vy
+         qg0w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=gS6j99y0;
-       spf=pass (google.com: domain of 3cj8jywykctuxczuvixffxcv.tfdbrjre-uvmxffxcvxiflgj.tfd@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3Cj8jYwYKCTUXcZUViXffXcV.TfdbRjRe-UVmXffXcVXiflgj.Tfd@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=OJ1zZnED;
+       spf=pass (google.com: domain of 3dj8jywykctkbgdyzmbjjbgz.xjhfvnvi-yzqbjjbgzbmjpkn.xjh@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3Dj8jYwYKCTkbgdYZmbjjbgZ.XjhfVnVi-YZqbjjbgZbmjpkn.Xjh@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date;
-        bh=q3boPlfUPF+GKAheIi4fTYvqgQFxQgdwpZIKExSZKc4=;
-        b=ihjG9vsYSWBGxr4ww9M4cTMKMh2umRmqV6cFIAQqNMqPNkyzr4IN3KO4bIVoS3ODsx
-         cKu/LBr3r/bsApX1pf9ZXsXzUdpsNvEZ2L2kTK+K2CeRbNmG4M1t/KFn8wPPyQ9Z2I0/
-         ApHMpkZkphRDXtUP9NyyY9b9reGeeBf3MjBPjehQ1z1q3RAXWOBHHjDECOrf4Bf32a3m
-         0m00MViqISO9COAoF6nlkYPxCSu3zQHgNFPcobxXFvFnUZs7cvGv5oBiD6cDWqThR9u3
-         Fqz/zGbjDwk2MppDq7UxNDSPRURj2+Fidt1s+nPHQwbdh5NXFd6tuBIFLHn75K/15zep
-         b04w==
+        bh=Uk3IMW3tuVV7H87fv35A02JMsRBbyyI4u/RugzCIC08=;
+        b=dXnPXmLV/WUx/tlwg+UY8GE0Ys6Ri3wMRpAGWs36gOXkrCpXTIIAUg3n3QZT9rBrgF
+         ofdIH49Wa0MJi3leE19xewd2m/OJHUNSVKxviONLY4dUO3EPe2/JEjacYt0m05WfpS5l
+         Cz69d/Xf7CJP8yKEyS3bMfzY6ajlPrnOd4+LuTum058lEDO+0yaN2gzLNfI6BKGfSoJk
+         /2vOO5VHyWIbZIEueVfS6zYumFS5f5S7jqCG4XZuuwLwgJHlYi4HkKO18QjDmB3rCAxc
+         b53cSFE9FmiHxJIjUNDHa6pHNL4t8mVrTw7G2Cel1My9NioQ2mMiEYDPRpJa8nrFfV4F
+         pGJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,64 +50,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=q3boPlfUPF+GKAheIi4fTYvqgQFxQgdwpZIKExSZKc4=;
-        b=uo141AwvJaxSklS0QmgPzwdnOy2GhWhfVJlecQZQIYZH8H2dAQVSp80htxyzWOA+JS
-         CAKb6UhXw4siEzqkML0VvtzTENdbGo8xJfTfz82zfN9k7LI/O2qKzQsQ3/r5Hs5OcFC2
-         jrAr2S34yhwsHIrHqfyRLu43UNwQ3Dkv7eQfbwAoxUCJx30niPcSW46HLNxtcRWo2nfb
-         KMPuruVIkYOBGZ6zb5GaPA/rl++292CtVR3kLknHW8MpPFbNwVf3MWV82mH2Cahu4yLc
-         qdhtaNl9ypwbqv7Wlsa+TYeY37Z1tVhZ8sBo+XqdASedfW5uhfISjRivrS6rZOO7dpj2
-         02PQ==
-X-Gm-Message-State: ACrzQf2QwvhQ900PzaBAbOcE9oyOgWFRslRyaNlWshExL6Up51//vkc6
-	2phFcsSmlFf9JkTvtTIQZc0=
-X-Google-Smtp-Source: AMsMyM50YOU2ZuNciN9y/jG/gnSK1xv491uhU1Ks5ri819IrZlsgCIsOgOMdiGMIyB1Nuu+a2zW3qA==
-X-Received: by 2002:a2e:b16a:0:b0:26b:df20:c9db with SMTP id a10-20020a2eb16a000000b0026bdf20c9dbmr70358ljm.8.1663254286344;
-        Thu, 15 Sep 2022 08:04:46 -0700 (PDT)
+        bh=Uk3IMW3tuVV7H87fv35A02JMsRBbyyI4u/RugzCIC08=;
+        b=L3W05/DgFWJ3PkRtpNDMWqmtRBWTRQnp4DesjrOrfJKY7sPAE0z/f/uySZjl6LVrCW
+         Niv3+/XsPFy/XQ7onsXRr8z6XvOcPPGMS5Q4BB5c1GeajhGLGkk5fcUt+t+/CrDPFKUV
+         qwvc1xS/dnD34LbPfs89cdM4+PO4tMs8/awrcB5R1D1Xq+fp5ylZAxtBNtJZbJ3oZWUV
+         Jc1KlCnP354gv/9qf8WLAtg9rl+Ek1/lmvnzbJ0T/5xRGm/1pcdq9JSxLf0UWWLOujCK
+         PWB7dYj3UCcAAuzmtnx5lbXASnW4QrVDqxMsU1v/6ObCzpCbH3kdjG5Y8p/k0XaMSTEb
+         7caw==
+X-Gm-Message-State: ACrzQf0riv/rzK6eECCQjrEeTEoD9oVleEeMB0kZwz/ynsz02CbhRpwg
+	ui+ebyZhP/dTNOnyPnbL2GY=
+X-Google-Smtp-Source: AMsMyM4kZ2QfrFfK8HHXvXR32iWXFdUfiWdqYFFL+ZnU/qxqCIhh6QXHEXyvBiH5uBnxhSkd8YUivQ==
+X-Received: by 2002:a19:dc4c:0:b0:49b:ec86:fb96 with SMTP id f12-20020a19dc4c000000b0049bec86fb96mr118517lfj.440.1663254288680;
+        Thu, 15 Sep 2022 08:04:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5e24:0:b0:49a:b814:856d with SMTP id o4-20020ac25e24000000b0049ab814856dls1226462lfg.1.-pod-prod-gmail;
- Thu, 15 Sep 2022 08:04:43 -0700 (PDT)
-X-Received: by 2002:a05:6512:b08:b0:492:87ad:5f5c with SMTP id w8-20020a0565120b0800b0049287ad5f5cmr118882lfu.293.1663254283507;
-        Thu, 15 Sep 2022 08:04:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1663254283; cv=none;
+Received: by 2002:a05:6512:36c9:b0:49b:8c05:71a5 with SMTP id
+ e9-20020a05651236c900b0049b8c0571a5ls1225875lfs.0.-pod-prod-gmail; Thu, 15
+ Sep 2022 08:04:47 -0700 (PDT)
+X-Received: by 2002:a05:6512:201b:b0:497:a29d:25c1 with SMTP id a27-20020a056512201b00b00497a29d25c1mr129776lfb.276.1663254287054;
+        Thu, 15 Sep 2022 08:04:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1663254287; cv=none;
         d=google.com; s=arc-20160816;
-        b=UYQDWfOsslrsl3+fVVbqDUOTh8k7NOQdAuIo6NJepEqPrZx9Mbf+dLGYirJfHyNEGS
-         rhZHwYvH0J9o6/+WE5ucqvU5QbjrqL1h6h4VbZEJ9j54I8Ki7RYRQkplv9FqcMHtGPtt
-         UjqPotP2RAer4L/esalx0/H8yZTVyTkGqjRgTynIH8KpstGdIdFAGfzxw6i9j1QvY3QO
-         U5R57Tt8ZUdLJ7qlgRIEkhZD6St8rsmpitL95/dMYZScwQA976WP9XQbSX66Uvlidpke
-         tntH9tXx5352Nq2WKsxmC4EB4+CV4IzfXFtZiZ2ZVZcG8ED4MfNJpFoIV1xDSAfGQD8G
-         JePQ==
+        b=a+cibgF7P4hJGIyVWzF79jz4IxWg4qlpVrRzipMvV523BcX0UaYJNpvTRKOLStKrTf
+         53zIG/EBKmJqIJIZDAsYNll48ZtrPQzqk/YqAqW6KRLjpzxYQsFKs4KzmIq5IP5BbK6D
+         HaaBSb6aD8Q/MO375A4spj0S7VlfmckYdUi/ohxjaMrV7tJkaCf+qfi9oGCyLyTLEx83
+         a57uqzdyKe1IOwuEWXJSe1uxl64pQwmBL3qpDxL+SETUGazDF3a/VnI/PDxeFOK39aaV
+         CA9Csn5s9MBU4tC//7ME9Ovn83uplWmred3TRezLD3tQ0fh0jhxoFE2GP0eiPta7CTdn
+         /GyQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=myl6nRKQ/2lBkAfAPAxtf2MFDBMrGN4kiGAEDqUjhHA=;
-        b=SZFFrqPhD0saSfLRKoFLUObf0Umx51UHPo9tN4IzPmhT/DKcuCsZJm+TDctsTS0S5I
-         m4esngCBcraUb77txn+MaWvH+G4KLziBiG0J3lPtb5aKk0Lw0/CfkJW2hSwClUm8TT3h
-         NuY2Lqpa80AheTtOF4opcKthHRoiaJKZAOYKRC6wE8ns2lqVW6eaKYJK0DZE7ycfS7cK
-         9YbOffOHWCHVzUT9R+6+Nsjfm4BpyXeIv+/cF6gERFPevPzIEw9ZD7H6pbv2kt6FwWsh
-         RFOdoUrNCkkzDgf1lIUHE33hjR5Pgomz5WceURx60kTcV5Ug5XkOu59yqkNOQxjdDYLg
-         Jo3w==
+        bh=msgzHzsxvMZcLqG5jRq1WtDuSKgOL7FjSU3mDqU1uyE=;
+        b=d2SSM92ODf+p0puzZaf7HEzHNVinVCcvct9+574Y3gm9uiPb3rtyIaan6dMIwbtlIO
+         j9Q/B4LIbh+6OIUYY7QZ/aeMyiG/aoNC3foBuHcmmzlqyqbDejalChbYDYR3qg6poKH6
+         JqtHZHgCmxzo8AF+jQ3pyOQV50E65s9QU6/8bcZvSNOiB2oGFwM4kHTDQw1a+Skmy+Me
+         zYywjPEHHru5qo2rWKT44pXLjG7M+iv7G/Q+dLHPOsfYM5eZSpL9DrBayrmiSYf1WIXv
+         qA9UAl+o2ymkPbC2cI8MuVSXUgyt4R5SdaGOJcGMsWXdpehEDjygIZQP2rvQdBadzwDj
+         rNOw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=gS6j99y0;
-       spf=pass (google.com: domain of 3cj8jywykctuxczuvixffxcv.tfdbrjre-uvmxffxcvxiflgj.tfd@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3Cj8jYwYKCTUXcZUViXffXcV.TfdbRjRe-UVmXffXcVXiflgj.Tfd@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=OJ1zZnED;
+       spf=pass (google.com: domain of 3dj8jywykctkbgdyzmbjjbgz.xjhfvnvi-yzqbjjbgzbmjpkn.xjh@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3Dj8jYwYKCTkbgdYZmbjjbgZ.XjhfVnVi-YZqbjjbgZbmjpkn.Xjh@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
-        by gmr-mx.google.com with ESMTPS id s7-20020a056512214700b0049ba11e2f38si283745lfr.11.2022.09.15.08.04.43
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
+        by gmr-mx.google.com with ESMTPS id a8-20020a056512200800b00498f2bdfdcdsi549526lfb.3.2022.09.15.08.04.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Sep 2022 08:04:43 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3cj8jywykctuxczuvixffxcv.tfdbrjre-uvmxffxcvxiflgj.tfd@flex--glider.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
-Received: by mail-ed1-x549.google.com with SMTP id t13-20020a056402524d00b00452c6289448so3773275edd.17
-        for <kasan-dev@googlegroups.com>; Thu, 15 Sep 2022 08:04:43 -0700 (PDT)
+        Thu, 15 Sep 2022 08:04:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3dj8jywykctkbgdyzmbjjbgz.xjhfvnvi-yzqbjjbgzbmjpkn.xjh@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
+Received: by mail-ed1-x54a.google.com with SMTP id y9-20020a056402270900b00451dfbbc9b2so8662298edd.12
+        for <kasan-dev@googlegroups.com>; Thu, 15 Sep 2022 08:04:47 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:686d:27b5:495:85b7])
- (user=glider job=sendgmr) by 2002:a05:6402:43cc:b0:451:129e:1b1e with SMTP id
- p12-20020a05640243cc00b00451129e1b1emr273421edc.258.1663254282917; Thu, 15
- Sep 2022 08:04:42 -0700 (PDT)
-Date: Thu, 15 Sep 2022 17:03:36 +0200
+ (user=glider job=sendgmr) by 2002:a17:907:7612:b0:771:db66:7b77 with SMTP id
+ jx18-20020a170907761200b00771db667b77mr309998ejc.228.1663254286414; Thu, 15
+ Sep 2022 08:04:46 -0700 (PDT)
+Date: Thu, 15 Sep 2022 17:03:37 +0200
 In-Reply-To: <20220915150417.722975-1-glider@google.com>
 Mime-Version: 1.0
 References: <20220915150417.722975-1-glider@google.com>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220915150417.722975-3-glider@google.com>
-Subject: [PATCH v7 02/43] stackdepot: reserve 5 extra bits in depot_stack_handle_t
+Message-ID: <20220915150417.722975-4-glider@google.com>
+Subject: [PATCH v7 03/43] instrumented.h: allow instrumenting both sides of copy_from_user()
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
@@ -129,9 +130,9 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=gS6j99y0;       spf=pass
- (google.com: domain of 3cj8jywykctuxczuvixffxcv.tfdbrjre-uvmxffxcvxiflgj.tfd@flex--glider.bounces.google.com
- designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3Cj8jYwYKCTUXcZUViXffXcV.TfdbRjRe-UVmXffXcVXiflgj.Tfd@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=OJ1zZnED;       spf=pass
+ (google.com: domain of 3dj8jywykctkbgdyzmbjjbgz.xjhfvnvi-yzqbjjbgzbmjpkn.xjh@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3Dj8jYwYKCTkbgdYZmbjjbgZ.XjhfVnVi-YZqbjjbgZbmjpkn.Xjh@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -147,175 +148,178 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Some users (currently only KMSAN) may want to use spare bits in
-depot_stack_handle_t. Let them do so by adding @extra_bits to
-__stack_depot_save() to store arbitrary flags, and providing
-stack_depot_get_extra_bits() to retrieve those flags.
+Introduce instrument_copy_from_user_before() and
+instrument_copy_from_user_after() hooks to be invoked before and after
+the call to copy_from_user().
 
-Also adapt KASAN to the new prototype by passing extra_bits=0, as KASAN
-does not intend to store additional information in the stack handle.
+KASAN and KCSAN will be only using instrument_copy_from_user_before(),
+but for KMSAN we'll need to insert code after copy_from_user().
 
 Signed-off-by: Alexander Potapenko <glider@google.com>
 Reviewed-by: Marco Elver <elver@google.com>
 
 ---
 v4:
- -- per Marco Elver's request, fold "kasan: common: adapt to the new
-    prototype of __stack_depot_save()" into this patch to prevent
-    bisection breakages.
+ -- fix _copy_from_user_key() in arch/s390/lib/uaccess.c (Reported-by:
+    kernel test robot <lkp@intel.com>)
 
-Link: https://linux-review.googlesource.com/id/I0587f6c777667864768daf07821d594bce6d8ff9
+Link: https://linux-review.googlesource.com/id/I855034578f0b0f126734cbd734fb4ae1d3a6af99
 ---
- include/linux/stackdepot.h |  8 ++++++++
- lib/stackdepot.c           | 29 ++++++++++++++++++++++++-----
- mm/kasan/common.c          |  2 +-
- 3 files changed, 33 insertions(+), 6 deletions(-)
+ arch/s390/lib/uaccess.c      |  3 ++-
+ include/linux/instrumented.h | 21 +++++++++++++++++++--
+ include/linux/uaccess.h      | 19 ++++++++++++++-----
+ lib/iov_iter.c               |  9 ++++++---
+ lib/usercopy.c               |  3 ++-
+ 5 files changed, 43 insertions(+), 12 deletions(-)
 
-diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
-index bc2797955de90..9ca7798d7a318 100644
---- a/include/linux/stackdepot.h
-+++ b/include/linux/stackdepot.h
-@@ -14,9 +14,15 @@
- #include <linux/gfp.h>
+diff --git a/arch/s390/lib/uaccess.c b/arch/s390/lib/uaccess.c
+index d7b3b193d1088..58033dfcb6d45 100644
+--- a/arch/s390/lib/uaccess.c
++++ b/arch/s390/lib/uaccess.c
+@@ -81,8 +81,9 @@ unsigned long _copy_from_user_key(void *to, const void __user *from,
  
- typedef u32 depot_stack_handle_t;
-+/*
-+ * Number of bits in the handle that stack depot doesn't use. Users may store
-+ * information in them.
-+ */
-+#define STACK_DEPOT_EXTRA_BITS 5
- 
- depot_stack_handle_t __stack_depot_save(unsigned long *entries,
- 					unsigned int nr_entries,
-+					unsigned int extra_bits,
- 					gfp_t gfp_flags, bool can_alloc);
- 
- /*
-@@ -59,6 +65,8 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
- unsigned int stack_depot_fetch(depot_stack_handle_t handle,
- 			       unsigned long **entries);
- 
-+unsigned int stack_depot_get_extra_bits(depot_stack_handle_t handle);
-+
- int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
- 		       int spaces);
- 
-diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index e73fda23388d8..79e894cf84064 100644
---- a/lib/stackdepot.c
-+++ b/lib/stackdepot.c
-@@ -43,7 +43,8 @@
- #define STACK_ALLOC_OFFSET_BITS (STACK_ALLOC_ORDER + PAGE_SHIFT - \
- 					STACK_ALLOC_ALIGN)
- #define STACK_ALLOC_INDEX_BITS (DEPOT_STACK_BITS - \
--		STACK_ALLOC_NULL_PROTECTION_BITS - STACK_ALLOC_OFFSET_BITS)
-+		STACK_ALLOC_NULL_PROTECTION_BITS - \
-+		STACK_ALLOC_OFFSET_BITS - STACK_DEPOT_EXTRA_BITS)
- #define STACK_ALLOC_SLABS_CAP 8192
- #define STACK_ALLOC_MAX_SLABS \
- 	(((1LL << (STACK_ALLOC_INDEX_BITS)) < STACK_ALLOC_SLABS_CAP) ? \
-@@ -56,6 +57,7 @@ union handle_parts {
- 		u32 slabindex : STACK_ALLOC_INDEX_BITS;
- 		u32 offset : STACK_ALLOC_OFFSET_BITS;
- 		u32 valid : STACK_ALLOC_NULL_PROTECTION_BITS;
-+		u32 extra : STACK_DEPOT_EXTRA_BITS;
- 	};
- };
- 
-@@ -77,6 +79,14 @@ static int next_slab_inited;
- static size_t depot_offset;
- static DEFINE_RAW_SPINLOCK(depot_lock);
- 
-+unsigned int stack_depot_get_extra_bits(depot_stack_handle_t handle)
-+{
-+	union handle_parts parts = { .handle = handle };
-+
-+	return parts.extra;
-+}
-+EXPORT_SYMBOL(stack_depot_get_extra_bits);
-+
- static bool init_stack_slab(void **prealloc)
- {
- 	if (!*prealloc)
-@@ -140,6 +150,7 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
- 	stack->handle.slabindex = depot_index;
- 	stack->handle.offset = depot_offset >> STACK_ALLOC_ALIGN;
- 	stack->handle.valid = 1;
-+	stack->handle.extra = 0;
- 	memcpy(stack->entries, entries, flex_array_size(stack, entries, size));
- 	depot_offset += required_size;
- 
-@@ -382,6 +393,7 @@ EXPORT_SYMBOL_GPL(stack_depot_fetch);
-  *
-  * @entries:		Pointer to storage array
-  * @nr_entries:		Size of the storage array
-+ * @extra_bits:		Flags to store in unused bits of depot_stack_handle_t
-  * @alloc_flags:	Allocation gfp flags
-  * @can_alloc:		Allocate stack slabs (increased chance of failure if false)
-  *
-@@ -393,6 +405,10 @@ EXPORT_SYMBOL_GPL(stack_depot_fetch);
-  * If the stack trace in @entries is from an interrupt, only the portion up to
-  * interrupt entry is saved.
-  *
-+ * Additional opaque flags can be passed in @extra_bits, stored in the unused
-+ * bits of the stack handle, and retrieved using stack_depot_get_extra_bits()
-+ * without calling stack_depot_fetch().
-+ *
-  * Context: Any context, but setting @can_alloc to %false is required if
-  *          alloc_pages() cannot be used from the current context. Currently
-  *          this is the case from contexts where neither %GFP_ATOMIC nor
-@@ -402,10 +418,11 @@ EXPORT_SYMBOL_GPL(stack_depot_fetch);
-  */
- depot_stack_handle_t __stack_depot_save(unsigned long *entries,
- 					unsigned int nr_entries,
-+					unsigned int extra_bits,
- 					gfp_t alloc_flags, bool can_alloc)
- {
- 	struct stack_record *found = NULL, **bucket;
--	depot_stack_handle_t retval = 0;
-+	union handle_parts retval = { .handle = 0 };
- 	struct page *page = NULL;
- 	void *prealloc = NULL;
- 	unsigned long flags;
-@@ -489,9 +506,11 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
- 		free_pages((unsigned long)prealloc, STACK_ALLOC_ORDER);
+ 	might_fault();
+ 	if (!should_fail_usercopy()) {
+-		instrument_copy_from_user(to, from, n);
++		instrument_copy_from_user_before(to, from, n);
+ 		res = raw_copy_from_user_key(to, from, n, key);
++		instrument_copy_from_user_after(to, from, n, res);
  	}
- 	if (found)
--		retval = found->handle.handle;
-+		retval.handle = found->handle.handle;
- fast_exit:
--	return retval;
-+	retval.extra = extra_bits;
-+
-+	return retval.handle;
+ 	if (unlikely(res))
+ 		memset(to + (n - res), 0, res);
+diff --git a/include/linux/instrumented.h b/include/linux/instrumented.h
+index 42faebbaa202a..ee8f7d17d34f5 100644
+--- a/include/linux/instrumented.h
++++ b/include/linux/instrumented.h
+@@ -120,7 +120,7 @@ instrument_copy_to_user(void __user *to, const void *from, unsigned long n)
  }
- EXPORT_SYMBOL_GPL(__stack_depot_save);
  
-@@ -511,6 +530,6 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
- 				      unsigned int nr_entries,
- 				      gfp_t alloc_flags)
+ /**
+- * instrument_copy_from_user - instrument writes of copy_from_user
++ * instrument_copy_from_user_before - add instrumentation before copy_from_user
+  *
+  * Instrument writes to kernel memory, that are due to copy_from_user (and
+  * variants). The instrumentation should be inserted before the accesses.
+@@ -130,10 +130,27 @@ instrument_copy_to_user(void __user *to, const void *from, unsigned long n)
+  * @n number of bytes to copy
+  */
+ static __always_inline void
+-instrument_copy_from_user(const void *to, const void __user *from, unsigned long n)
++instrument_copy_from_user_before(const void *to, const void __user *from, unsigned long n)
  {
--	return __stack_depot_save(entries, nr_entries, alloc_flags, true);
-+	return __stack_depot_save(entries, nr_entries, 0, alloc_flags, true);
- }
- EXPORT_SYMBOL_GPL(stack_depot_save);
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 69f583855c8be..94caa2d46a327 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -36,7 +36,7 @@ depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc)
- 	unsigned int nr_entries;
- 
- 	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
--	return __stack_depot_save(entries, nr_entries, flags, can_alloc);
-+	return __stack_depot_save(entries, nr_entries, 0, flags, can_alloc);
+ 	kasan_check_write(to, n);
+ 	kcsan_check_write(to, n);
  }
  
- void kasan_set_track(struct kasan_track *track, gfp_t flags)
++/**
++ * instrument_copy_from_user_after - add instrumentation after copy_from_user
++ *
++ * Instrument writes to kernel memory, that are due to copy_from_user (and
++ * variants). The instrumentation should be inserted after the accesses.
++ *
++ * @to destination address
++ * @from source address
++ * @n number of bytes to copy
++ * @left number of bytes not copied (as returned by copy_from_user)
++ */
++static __always_inline void
++instrument_copy_from_user_after(const void *to, const void __user *from,
++				unsigned long n, unsigned long left)
++{
++}
++
+ #endif /* _LINUX_INSTRUMENTED_H */
+diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+index 47e5d374c7ebe..afb18f198843b 100644
+--- a/include/linux/uaccess.h
++++ b/include/linux/uaccess.h
+@@ -58,20 +58,28 @@
+ static __always_inline __must_check unsigned long
+ __copy_from_user_inatomic(void *to, const void __user *from, unsigned long n)
+ {
+-	instrument_copy_from_user(to, from, n);
++	unsigned long res;
++
++	instrument_copy_from_user_before(to, from, n);
+ 	check_object_size(to, n, false);
+-	return raw_copy_from_user(to, from, n);
++	res = raw_copy_from_user(to, from, n);
++	instrument_copy_from_user_after(to, from, n, res);
++	return res;
+ }
+ 
+ static __always_inline __must_check unsigned long
+ __copy_from_user(void *to, const void __user *from, unsigned long n)
+ {
++	unsigned long res;
++
+ 	might_fault();
++	instrument_copy_from_user_before(to, from, n);
+ 	if (should_fail_usercopy())
+ 		return n;
+-	instrument_copy_from_user(to, from, n);
+ 	check_object_size(to, n, false);
+-	return raw_copy_from_user(to, from, n);
++	res = raw_copy_from_user(to, from, n);
++	instrument_copy_from_user_after(to, from, n, res);
++	return res;
+ }
+ 
+ /**
+@@ -115,8 +123,9 @@ _copy_from_user(void *to, const void __user *from, unsigned long n)
+ 	unsigned long res = n;
+ 	might_fault();
+ 	if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+-		instrument_copy_from_user(to, from, n);
++		instrument_copy_from_user_before(to, from, n);
+ 		res = raw_copy_from_user(to, from, n);
++		instrument_copy_from_user_after(to, from, n, res);
+ 	}
+ 	if (unlikely(res))
+ 		memset(to + (n - res), 0, res);
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 4b7fce72e3e52..c3ca28ca68a65 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -174,13 +174,16 @@ static int copyout(void __user *to, const void *from, size_t n)
+ 
+ static int copyin(void *to, const void __user *from, size_t n)
+ {
++	size_t res = n;
++
+ 	if (should_fail_usercopy())
+ 		return n;
+ 	if (access_ok(from, n)) {
+-		instrument_copy_from_user(to, from, n);
+-		n = raw_copy_from_user(to, from, n);
++		instrument_copy_from_user_before(to, from, n);
++		res = raw_copy_from_user(to, from, n);
++		instrument_copy_from_user_after(to, from, n, res);
+ 	}
+-	return n;
++	return res;
+ }
+ 
+ static inline struct pipe_buffer *pipe_buf(const struct pipe_inode_info *pipe,
+diff --git a/lib/usercopy.c b/lib/usercopy.c
+index 7413dd300516e..1505a52f23a01 100644
+--- a/lib/usercopy.c
++++ b/lib/usercopy.c
+@@ -12,8 +12,9 @@ unsigned long _copy_from_user(void *to, const void __user *from, unsigned long n
+ 	unsigned long res = n;
+ 	might_fault();
+ 	if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+-		instrument_copy_from_user(to, from, n);
++		instrument_copy_from_user_before(to, from, n);
+ 		res = raw_copy_from_user(to, from, n);
++		instrument_copy_from_user_after(to, from, n, res);
+ 	}
+ 	if (unlikely(res))
+ 		memset(to + (n - res), 0, res);
 -- 
 2.37.2.789.g6183377224-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220915150417.722975-3-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220915150417.722975-4-glider%40google.com.
