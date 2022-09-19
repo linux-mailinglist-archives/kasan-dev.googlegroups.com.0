@@ -1,168 +1,149 @@
-Return-Path: <kasan-dev+bncBDFJHU6GRMBBB6NQUGMQMGQET4IBIPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKJJ7XLVUBBB5NRUGMQMGQEMYFTT3Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341DB5BCB1F
-	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 13:54:35 +0200 (CEST)
-Received: by mail-qt1-x839.google.com with SMTP id cg13-20020a05622a408d00b0035bb2f77e7esf16650424qtb.10
-        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 04:54:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1663588474; cv=pass;
+Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 066555BCB42
+	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 13:56:39 +0200 (CEST)
+Received: by mail-pf1-x43b.google.com with SMTP id g15-20020aa7874f000000b0053e8b9630c7sf17232400pfo.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 04:56:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1663588597; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wZ4/16zRysyEXOCCZalG2C/5wmYNIN1sjX6VV7AanrCqYTn28QqLJvdL6cABgl4U9I
-         RDA/NaNncjhSKOlutjx9JhdVIOnRTY66Nd7QYVQj66VRRCuQtL6Y+kFrBPlR4vPFqXGz
-         YI27Wut26QLfR4n21FS37EvvN4XU1V3jJcQveBc+bJNY0uCUhLnmp0esHl3hlZM/cpl6
-         Ar8KAuVve1uPju3fNMWg52mhfjFSk0O/ZWXJjiiU/zZ1O+FfAxY8czRhAKRQ7GNDBYji
-         QyYgnM2IYKT4i9JKIf2vp6OEUxeqkX6HIExah88ajNWsTAP3j9kwcQtEe1NWXGCNYYQV
-         SrdQ==
+        b=tPB7BwWthc+WE9df77Fqpf9wJ/n43SFm+4a/LZXCs80apNi0KWGH4WLVo+/VbeQjDx
+         h2h26/6+lqyYz7so1peeSXvuqwklQLYQmnAWOcVyKNtbY77SiXW4Vz20oYYZHNqpGnaq
+         Ptj6KNXwHhYOGVS2vFZii3GDQzNdOhZN+7iMd8DpHaZToKzM7jJC746Ondye0JX3GvoV
+         MaLUxl/f90yw+FD+pMrRwtGG2R6ZvVerAW4hCRbkq5LWSwnJMq2crpaxxV6562A4iX0g
+         qSlfTBXXOTl4ogYKy9UjtFhPeJjwjJ9VwwzlSbidqEddN2Ch6KZDqT7iTz7CbhfZdoBT
+         j4lQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=0ajI44Ii2t+J9jNKNfKW9F6mK8rieUByR8XE0UcGtqw=;
-        b=X3aMdpfcGMu/mBUJ6iLcZD8ZffOh8ACLwiZGLLEpA/BEp3Teth/aX56ON5bpDqEvlx
-         73fgYKzYoTXZ7oI2nCjVE5qfkY4BJlPOIJoxNcL7y0XGSOihEfUpZzuby2138Q3yDR55
-         BJisdMKM3xY5ZD2rOIMC1uFPWzGqKnO+p57wiBbG6PHkLtSp/Ksu4/wzka7/CuAwmStb
-         RK4zNnAkPh+hob4HF+83qxW4XhzQt/WjcORNu0I9eVToi8rkCmYORt+OTh8iUhEmQJ88
-         xJp47NQKO+4ypOT5c62AGk6Av0OohJXQuBWzUwsRVq20uNljcQuhbqcY1zp056jsZZrz
-         /2kQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature:dkim-signature;
+        bh=1eZTjX9YI0K3cd+VZd6pEGu6EuYmRCaDwvOVXAD4LAg=;
+        b=Kb0/OC0heYjvIdLSMdiQ5x5vzN1fvatgmZh3nqIorjiIZYw4YbdXi7B1mKNvFVTPJp
+         g4LEDpngks5Q5+qeDiEIcFt5sLlohlrOixsK3k/4lZcx/0UuTRLaAHZ4GN95xwIbswWl
+         j2d278x7Ft43pSswPheGxHYGbP98HW9PpNFG3rz8vR8i5wqniiveCnfJ9GpQKjTXr7Nq
+         C1sIycshZmfum9Lwv5UKlw2Dg3EfDIknyEDpIm0u6FlkrebwCQE6EP4giFjpY5XUEIOX
+         zLeReJpb8I5Em2Rl3LEKifQAPkYrGpegbRZKqv4HNpSOFKO6pPwckVUVnUPOOhkux6cY
+         eBYA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112 header.b="6l84clV/";
-       spf=neutral (google.com: 2607:f8b0:4864:20::12d is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=NaOuw8SS;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::42b as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date;
-        bh=0ajI44Ii2t+J9jNKNfKW9F6mK8rieUByR8XE0UcGtqw=;
-        b=awUFNU3dwsQwLkEHAJmyTJs7UrqUSfdaP6ML8A3bKMlGs9GicD1HyDMHa/e+Z2zRRx
-         oD2dWkTPufmdmoCqFEOkrFIkNmS9Wgrx3f81FtbTKklf2GD4UeTSN8eDcK4j2XEUZs2x
-         Ybndv1O3HQny7q0KkJX4kUpwTMTx56Y3UaJIL36b7a4uavOQEtFYaJM9Jx10WVY52Cr0
-         xY2nM471xnSJmy05yhVXtGnqL4xXaLuj838w3Ot/Z6v96OJUP7lAVQRnzINxyi7j3iZe
-         CMASeXi8+AG997/UvMOoMBJJsmV5D2Hu4W5luVWr4gD/Txrt7SPenZxvzirxbaUSX1RI
-         rQnA==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date;
+        bh=1eZTjX9YI0K3cd+VZd6pEGu6EuYmRCaDwvOVXAD4LAg=;
+        b=WWoa4PSOKei3SSJzhWEzP5aavbv9HqNjwOB3TeXGB+lXMLSRK4zRSZkWPO9CuiB7gg
+         B90Kf3VhS4p9BU6SyJgBF1D237mKGV0SG4F56132pK2aX6x14yGy2xoVuEq1jtmimhd6
+         o6YSs8uYhS9C34ADYmxNEi/FyLHBj0zy6N2N4RFEU1rAZIK7SMYsMWHiSbq/PNV4Dnd1
+         NZIQyY+7ptTITIktI0cMtVJSEp5voRnwqY/C4Fl0M5f56iqG1m2RJFkttBXdGxQgP2pJ
+         4C8tMXUVBylWXVKMEmPYAPV1Mrte6Q18ToqiLXVCgdVVI18w4EHbcuHLQQ2GU+xeMzgJ
+         wHNQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date;
+        bh=1eZTjX9YI0K3cd+VZd6pEGu6EuYmRCaDwvOVXAD4LAg=;
+        b=mqCqQf/A5eJJIAndDZ+c1EL91bB6wD0fNtiyK7APZ/zlU88kEzSWeZ1cTwp+mhbd9p
+         E2tb/D0VtpU+xTdXQuqDi4pzVxggXAo278k7ZoZpxJsthn1SEnrQRlgSZd5qDmPuuJWB
+         XYDasPAwckA2yVx/LQ3/JwSIfkNIh88iBh2LK262QxjrLvn15rttkVcdATzeNBmX12M3
+         n9uqWvXqBpykqb5scR3IV1+rVEdtjtlkgjiwvj96ICHAU9YxSeYSNZ6AoKERwikAbw3y
+         ySTj8hUtVMMCXKvGbdZA7vkRNDK6qI5fSwnA9xmME//7Jrx0NQpn0RW0x1MTur7D+P4n
+         pkWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=0ajI44Ii2t+J9jNKNfKW9F6mK8rieUByR8XE0UcGtqw=;
-        b=7NM06p0uAg4cfzWUvaYkoB0eFsgfyKjoV5skVNZvu4IFPcaiKHAwqfdwNgBO3V6mRZ
-         /AgGsf3as8mwl0WeisPdp4AxM5xI0uC0Rr5OqYMt7Kky7s0e6ysEhavZkk3etekXRzK8
-         ZkybKTrcQLp1tQXiUbCJJdBk/7ySyIbtaaqV5GbDinL1q42Xw+M21o9rShd9i/d2z/K+
-         oWgDnzlcmbJkjzLd1cIloHYXUXWQ0ygy1EyXGX8VwVHj61GU/as5+bJn9AWArvt3rCPf
-         PioWnvx7qFWjK4dWyyAjbtg95Pr5IjcjHKIjJlnmWM/PwtHIJI7i7L9ERoHx5KX4vOTu
-         70Zg==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=1eZTjX9YI0K3cd+VZd6pEGu6EuYmRCaDwvOVXAD4LAg=;
+        b=GdxP6aH7uQbrU/HK0b9sWU5PPzT3FwUvkU85mqO/sQHS7MKWYTob07IKmgengu64Cv
+         Z8X5+youRfWOFr5ore1/ea9V9mcmRfR1m47dvh1fVhKcRu4RDDKxixfm/tjIaDgoBUJV
+         B2a8B49roPaTBWkGFj9ANkyLIexcPENgCasRJfTs/UjPk4yjVUChj+5v88n1D3waJVF0
+         LUwP1mpFbI0Ef9407uccRxq3ox1qvVY5W0S+ptjMDubN1ypFbjbhPjrY+w5cFLd2AB4V
+         doc4T+1J+v/rbiSpLSBYq9Ls+uhHAJPjyrLEsSX0F2Qq8zHiosSO0Ic+7//eKWYOXfJq
+         36PQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf35lsx0RzDr2oVJIMe9kZsjQjQ+cGn0L7N1C5rVN+Mr5+umDAkW
-	BW1h/irGWu0uIiny+9T+jgA=
-X-Google-Smtp-Source: AMsMyM6yljBQytjbaM72opJ0RovCCiK0aKjE4LFiPPAa+/wWNMJKSwUpIWVKo+3xf8H/Q8kzYpKgCg==
-X-Received: by 2002:a05:620a:290c:b0:6ce:6686:109e with SMTP id m12-20020a05620a290c00b006ce6686109emr12384984qkp.741.1663588473803;
-        Mon, 19 Sep 2022 04:54:33 -0700 (PDT)
+X-Gm-Message-State: ACrzQf338bwlGbCW2atewhkFayKsj5etpDoTqqYsaXGUZ90Xtz9nw+oi
+	IM1BZYNS9QZ+iVIoqvujB6U=
+X-Google-Smtp-Source: AMsMyM7WHe+A90588bT8pyGGaw8facJ2SkAGXAWWVDyN7t73TB202RzP2ATm24MgFlVyxYEddtxQ6A==
+X-Received: by 2002:a17:903:514:b0:172:dab0:b228 with SMTP id jn20-20020a170903051400b00172dab0b228mr12307767plb.170.1663588597225;
+        Mon, 19 Sep 2022 04:56:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:e48d:0:b0:496:439b:1bb9 with SMTP id n13-20020a0ce48d000000b00496439b1bb9ls2673003qvl.9.-pod-prod-gmail;
- Mon, 19 Sep 2022 04:54:33 -0700 (PDT)
-X-Received: by 2002:a05:6214:23c6:b0:491:99e3:80ce with SMTP id hr6-20020a05621423c600b0049199e380cemr14155721qvb.111.1663588473354;
-        Mon, 19 Sep 2022 04:54:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1663588473; cv=none;
+Received: by 2002:a63:4:0:b0:430:622d:4e7b with SMTP id 4-20020a630004000000b00430622d4e7bls2536719pga.9.-pod-prod-gmail;
+ Mon, 19 Sep 2022 04:56:36 -0700 (PDT)
+X-Received: by 2002:a65:6693:0:b0:434:a2ca:2330 with SMTP id b19-20020a656693000000b00434a2ca2330mr15180689pgw.227.1663588596390;
+        Mon, 19 Sep 2022 04:56:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1663588596; cv=none;
         d=google.com; s=arc-20160816;
-        b=Z9Irj/eJcy6TGjJ0TiAQ9EUad2Jb2lMfvrY29XKw3x9+FvvFNzg0XT7UzQ4U70eL6n
-         +EEEys+X/ctTZDcd4QXqpjI09SBBhHOgfLRnQmRW1nRXI1IIzXxunCwmEcHDYzirDrU/
-         CBV7HYe8rzAgyl3OYERonC31TuVrFa+XBXCguQpbdIiUVJUGMBUDtYgQ8vwsXsPyYY5R
-         8vL9wHpvPNvLQCW8WhhXVXqN52wqyhxjc1XVaMS6ozHN/kO3onRm5agBUME4om6t9xt7
-         dprfBPDHv/EpG26lgzFaTS03TtrVe8WYzcwDu0xKq0ZdB/3sdglgBXIFB0KY559gZ/W0
-         W/ag==
+        b=PgMgkIaJjeurlX7Yfgkl085evHFDx8DYDd0Fjj7RaHJUIGWKYgGSo+3TFIAv5GIuyO
+         k1kd9QwZQEJ9qHuksJJyhpgRr1xw9OqtNpr13uvs9OADahcQlWATyn6PLm0DHfjsozvE
+         ws3450M575hNvZV/zzxeYhAnyrcHjVfdvSbd8AIEwtATvStVaYbrcY0l52iACbwOqX7b
+         X4uziq7WORiIeEqTdkX+suPHbSXkOoFbx3V8o/k0zUdX6C+aZs1gCor/BmMwQ/IN20z8
+         tNfZnyaDrrO/n+z/P0Ay/Yml1MF+5bcrJ+aEVuXweRfo/jqqFe+qpb0zdh2L3K2Uqm/F
+         DmCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=gUsv6szv6dsUeM9asVJnwaGmSGG17UchvxqwxLA3h8g=;
-        b=Z8c3LT7TOITlf0XobzovGol2OXnzyV0s76sNIC7tLSpUHf6Cfy2S0YDVFlVGH5D8hu
-         FC+l+u+q3Y/cP8kmYO08/T5ZdSyvWTENkXzxQz5MCJYA1wlt4DSAPVbUVpu8GqTEUPsf
-         2lGvl7CbfzLowbgpjd+33JGAKnBrDFCWNYz09kCyOljDqbh1/lnO7xznfG2l8OyxIEUW
-         LqkLK2ZeSp1Z6Z90ST0xLGhvTQyka+8dAD6ou1gjUEY0F/WFBAXSibvIK6s+c75nxsYO
-         bjYs1JKvIiVsbKJovtvFJNChAXPyG+pEsoKvN8/CJ+ogOC8HESUfJ8Gx+n2DTn9vnhgC
-         SYig==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=w+dFo8W95tIbaQBNJMj5wAl0o5DxVWuVKQ51rqkGwCY=;
+        b=QJSG/4qxzgy03wUFCMnH5r+Ye1psGipEV0ARQKH/utc14m8pZ3vEocqiopMV5yxPR4
+         Rps21ckt7QJesaTuuyz2fz6TqHejIBB+OwPxWXAqSZiqhqVVPxihlwODlq8cDsyIq8V6
+         QLXdWIScUmybRkKD0p9J+0w4dwcgbfeXvpHTDn/EVX4ZdsaXe+C7Zt7O5MVxCERFF4fH
+         H/wHCI9N1ZWD4CGDAxvpi7mxR09j2TTU+3cRBaLDApXR9i92OOtdAwyM4jJjXQDFE/r3
+         721AnkYNw/+wOi5ivUbtkWacJETwuSx/+k7hDGTHI9OCgbU+dhea4vs9nYJ6L5cxkrql
+         M5tg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112 header.b="6l84clV/";
-       spf=neutral (google.com: 2607:f8b0:4864:20::12d is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com. [2607:f8b0:4864:20::12d])
-        by gmr-mx.google.com with ESMTPS id d21-20020ac84e35000000b0035c9fda218dsi683327qtw.2.2022.09.19.04.54.33
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=NaOuw8SS;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::42b as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com. [2607:f8b0:4864:20::42b])
+        by gmr-mx.google.com with ESMTPS id e18-20020a637452000000b00423291dc756si823256pgn.5.2022.09.19.04.56.36
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Sep 2022 04:54:33 -0700 (PDT)
-Received-SPF: neutral (google.com: 2607:f8b0:4864:20::12d is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2607:f8b0:4864:20::12d;
-Received: by mail-il1-x12d.google.com with SMTP id l6so14634990ilk.13
-        for <kasan-dev@googlegroups.com>; Mon, 19 Sep 2022 04:54:33 -0700 (PDT)
-X-Received: by 2002:a92:c04d:0:b0:2f5:1175:c7a3 with SMTP id
- o13-20020a92c04d000000b002f51175c7a3mr5681407ilf.165.1663588472670; Mon, 19
- Sep 2022 04:54:32 -0700 (PDT)
+        Mon, 19 Sep 2022 04:56:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::42b as permitted sender) client-ip=2607:f8b0:4864:20::42b;
+Received: by mail-pf1-x42b.google.com with SMTP id j12so27810013pfi.11
+        for <kasan-dev@googlegroups.com>; Mon, 19 Sep 2022 04:56:36 -0700 (PDT)
+X-Received: by 2002:a63:ed4d:0:b0:438:8ba7:e598 with SMTP id m13-20020a63ed4d000000b004388ba7e598mr15031564pgk.226.1663588596054;
+        Mon, 19 Sep 2022 04:56:36 -0700 (PDT)
+Received: from hyeyoo ([114.29.91.56])
+        by smtp.gmail.com with ESMTPSA id e2-20020a17090301c200b001754e086eb3sm20543948plh.302.2022.09.19.04.56.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Sep 2022 04:56:35 -0700 (PDT)
+Date: Mon, 19 Sep 2022 20:56:29 +0900
+From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Feng Tang <feng.tang@intel.com>, Christoph Lameter <cl@linux.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Waiman Long <longman@redhat.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH] mm/slab_common: fix possiable double free of kmem_cache
+Message-ID: <YyhY7RBLxCEuSHp9@hyeyoo>
+References: <20220919031241.1358001-1-feng.tang@intel.com>
+ <e38cc728-f5e5-86d1-d6a1-c3e99cc02239@suse.cz>
 MIME-Version: 1.0
-References: <20220919095939.761690562@infradead.org> <20220919101520.669962810@infradead.org>
-In-Reply-To: <20220919101520.669962810@infradead.org>
-From: Anup Patel <anup@brainfault.org>
-Date: Mon, 19 Sep 2022 17:24:19 +0530
-Message-ID: <CAAhSdy004HaNUNYRD8tcn24LZWdTmOVkF1QN14uLmSw1UXuXqA@mail.gmail.com>
-Subject: Re: [PATCH v2 05/44] cpuidle,riscv: Push RCU-idle into driver
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru, mattst88@gmail.com, 
-	vgupta@kernel.org, linux@armlinux.org.uk, ulli.kroll@googlemail.com, 
-	linus.walleij@linaro.org, shawnguo@kernel.org, 
-	Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de, festevam@gmail.com, 
-	linux-imx@nxp.com, tony@atomide.com, khilman@kernel.org, 
-	catalin.marinas@arm.com, will@kernel.org, guoren@kernel.org, 
-	bcain@quicinc.com, chenhuacai@kernel.org, kernel@xen0n.name, 
-	geert@linux-m68k.org, sammy@sammy.net, monstr@monstr.eu, 
-	tsbogend@alpha.franken.de, dinguyen@kernel.org, jonas@southpole.se, 
-	stefan.kristiansson@saunalahti.fi, shorne@gmail.com, 
-	James.Bottomley@hansenpartnership.com, deller@gmx.de, mpe@ellerman.id.au, 
-	npiggin@gmail.com, christophe.leroy@csgroup.eu, paul.walmsley@sifive.com, 
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com, 
-	gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com, 
-	svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org, 
-	davem@davemloft.net, richard@nod.at, anton.ivanov@cambridgegreys.com, 
-	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, acme@kernel.org, 
-	mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@kernel.org, 
-	namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu, 
-	amakhalov@vmware.com, pv-drivers@vmware.com, boris.ostrovsky@oracle.com, 
-	chris@zankel.net, jcmvbkbc@gmail.com, rafael@kernel.org, lenb@kernel.org, 
-	pavel@ucw.cz, gregkh@linuxfoundation.org, mturquette@baylibre.com, 
-	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org, 
-	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org, 
-	konrad.dybcio@somainline.org, thierry.reding@gmail.com, jonathanh@nvidia.com, 
-	jacob.jun.pan@linux.intel.com, atishp@atishpatra.org, 
-	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com, andriy.shevchenko@linux.intel.com, 
-	linux@rasmusvillemoes.dk, dennis@kernel.org, tj@kernel.org, cl@linux.com, 
-	rostedt@goodmis.org, pmladek@suse.com, senozhatsky@chromium.org, 
-	john.ogness@linutronix.de, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de, 
-	bristot@redhat.com, vschneid@redhat.com, fweisbec@gmail.com, 
-	ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, 
-	dvyukov@google.com, vincenzo.frascino@arm.com, 
-	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org, 
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
-	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
-	linux-perf-users@vger.kernel.org, virtualization@lists.linux-foundation.org, 
-	linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: anup@brainfault.org
+Content-Disposition: inline
+In-Reply-To: <e38cc728-f5e5-86d1-d6a1-c3e99cc02239@suse.cz>
+X-Original-Sender: 42.hyeyoo@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@brainfault-org.20210112.gappssmtp.com header.s=20210112
- header.b="6l84clV/";       spf=neutral (google.com: 2607:f8b0:4864:20::12d is
- neither permitted nor denied by best guess record for domain of
- anup@brainfault.org) smtp.mailfrom=anup@brainfault.org
+ header.i=@gmail.com header.s=20210112 header.b=NaOuw8SS;       spf=pass
+ (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::42b
+ as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -175,70 +156,117 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 19, 2022 at 3:47 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> Doing RCU-idle outside the driver, only to then temporarily enable it
-> again, at least twice, before going idle is daft.
->
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+On Mon, Sep 19, 2022 at 11:12:38AM +0200, Vlastimil Babka wrote:
+> On 9/19/22 05:12, Feng Tang wrote:
+> > When doing slub_debug test, kfence's 'test_memcache_typesafe_by_rcu'
+> > kunit test case cause a use-after-free error:
+> >
+
+If I'm not mistaken, I think the subject should be:
+s/double free/use after free/g
+
+> >   BUG: KASAN: use-after-free in kobject_del+0x14/0x30
+> >   Read of size 8 at addr ffff888007679090 by task kunit_try_catch/261
+> > 
+> >   CPU: 1 PID: 261 Comm: kunit_try_catch Tainted: G    B            N 6.0.0-rc5-next-20220916 #17
+> >   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+> >   Call Trace:
+> >    <TASK>
+> >    dump_stack_lvl+0x34/0x48
+> >    print_address_description.constprop.0+0x87/0x2a5
+> >    print_report+0x103/0x1ed
+> >    kasan_report+0xb7/0x140
+> >    kobject_del+0x14/0x30
+> >    kmem_cache_destroy+0x130/0x170
+> >    test_exit+0x1a/0x30
+> >    kunit_try_run_case+0xad/0xc0
+> >    kunit_generic_run_threadfn_adapter+0x26/0x50
+> >    kthread+0x17b/0x1b0
+> >    </TASK>
+> > 
+> > The cause is inside kmem_cache_destroy():
+> > 
+> > kmem_cache_destroy
+> >     acquire lock/mutex
+> >     shutdown_cache
+> >         schedule_work(kmem_cache_release) (if RCU flag set)
+> >     release lock/mutex
+> >     kmem_cache_release (if RCU flag set)
+> 
+> 				      ^ not set
+> 
+> I've fixed that up.
+> 
+> > 
+> > in some certain timing, the scheduled work could be run before
+> > the next RCU flag checking which will get a wrong state.
+> > 
+> > Fix it by caching the RCU flag inside protected area, just like 'refcnt'
+
+Very nice catch, thanks!
+
+Otherwise (and with Vlastimil's fix):
 
 Looks good to me.
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 
-For RISC-V cpuidle:
-Reviewed-by: Anup Patel <anup@brainfault.org>
+> > 
+> > Signed-off-by: Feng Tang <feng.tang@intel.com>
+> 
+> Thanks!
+> 
+> > ---
+> > 
+> > note:
+> > 
+> > The error only happens on linux-next tree, and not in Linus' tree,
+> > which already has Waiman's commit:
+> > 0495e337b703 ("mm/slab_common: Deleting kobject in kmem_cache_destroy()
+> > without holding slab_mutex/cpu_hotplug_lock")
+> 
+> Actually that commit is already in Linus' rc5 too, so I will send your fix
+> this week too. Added a Fixes: 0495e337b703 (...) too.
+> 
+> >  mm/slab_common.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/mm/slab_common.c b/mm/slab_common.c
+> > index 07b948288f84..ccc02573588f 100644
+> > --- a/mm/slab_common.c
+> > +++ b/mm/slab_common.c
+> > @@ -475,6 +475,7 @@ void slab_kmem_cache_release(struct kmem_cache *s)
+> >  void kmem_cache_destroy(struct kmem_cache *s)
+> >  {
+> >  	int refcnt;
+> > +	bool rcu_set;
+> >  
+> >  	if (unlikely(!s) || !kasan_check_byte(s))
+> >  		return;
+> > @@ -482,6 +483,8 @@ void kmem_cache_destroy(struct kmem_cache *s)
+> >  	cpus_read_lock();
+> >  	mutex_lock(&slab_mutex);
+> >  
+> > +	rcu_set = s->flags & SLAB_TYPESAFE_BY_RCU;
+> > +
+> >  	refcnt = --s->refcount;
+> >  	if (refcnt)
+> >  		goto out_unlock;
+> > @@ -492,7 +495,7 @@ void kmem_cache_destroy(struct kmem_cache *s)
+> >  out_unlock:
+> >  	mutex_unlock(&slab_mutex);
+> >  	cpus_read_unlock();
+> > -	if (!refcnt && !(s->flags & SLAB_TYPESAFE_BY_RCU))
+> > +	if (!refcnt && !rcu_set)
+> >  		kmem_cache_release(s);
+> >  }
+> >  EXPORT_SYMBOL(kmem_cache_destroy);
+> 
 
-Regards,
-Anup
-
-
-> ---
->  drivers/cpuidle/cpuidle-riscv-sbi.c |    9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> --- a/drivers/cpuidle/cpuidle-riscv-sbi.c
-> +++ b/drivers/cpuidle/cpuidle-riscv-sbi.c
-> @@ -116,12 +116,12 @@ static int __sbi_enter_domain_idle_state
->                 return -1;
->
->         /* Do runtime PM to manage a hierarchical CPU toplogy. */
-> -       ct_irq_enter_irqson();
->         if (s2idle)
->                 dev_pm_genpd_suspend(pd_dev);
->         else
->                 pm_runtime_put_sync_suspend(pd_dev);
-> -       ct_irq_exit_irqson();
-> +
-> +       ct_idle_enter();
->
->         if (sbi_is_domain_state_available())
->                 state = sbi_get_domain_state();
-> @@ -130,12 +130,12 @@ static int __sbi_enter_domain_idle_state
->
->         ret = sbi_suspend(state) ? -1 : idx;
->
-> -       ct_irq_enter_irqson();
-> +       ct_idle_exit();
-> +
->         if (s2idle)
->                 dev_pm_genpd_resume(pd_dev);
->         else
->                 pm_runtime_get_sync(pd_dev);
-> -       ct_irq_exit_irqson();
->
->         cpu_pm_exit();
->
-> @@ -246,6 +246,7 @@ static int sbi_dt_cpu_init_topology(stru
->          * of a shared state for the domain, assumes the domain states are all
->          * deeper states.
->          */
-> +       drv->states[state_count - 1].flags |= CPUIDLE_FLAG_RCU_IDLE;
->         drv->states[state_count - 1].enter = sbi_enter_domain_idle_state;
->         drv->states[state_count - 1].enter_s2idle =
->                                         sbi_enter_s2idle_domain_idle_state;
->
->
+-- 
+Thanks,
+Hyeonggon
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAAhSdy004HaNUNYRD8tcn24LZWdTmOVkF1QN14uLmSw1UXuXqA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YyhY7RBLxCEuSHp9%40hyeyoo.
