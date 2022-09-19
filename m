@@ -1,185 +1,145 @@
-Return-Path: <kasan-dev+bncBCBMVA7CUUHRBZOYUGMQMGQENTJJOAA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCPILY4NUAFBBWG7UGMQMGQEQN27RGQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A5E5BCCD3
-	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 15:19:34 +0200 (CEST)
-Received: by mail-lj1-x239.google.com with SMTP id a13-20020a2ebe8d000000b0026bfc93da46sf5864231ljr.16
-        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 06:19:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1663593574; cv=pass;
+Received: from mail-ua1-x93e.google.com (mail-ua1-x93e.google.com [IPv6:2607:f8b0:4864:20::93e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2565BCD54
+	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 15:34:17 +0200 (CEST)
+Received: by mail-ua1-x93e.google.com with SMTP id b28-20020ab05f9c000000b003b42433bfc7sf9283223uaj.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 06:34:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1663594456; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IpF3130qi7KWSX9M+2PFB2RksMcLeKdjq2EsFrzYeJn85pJ4WcE3R4QeU4o3BPxjC1
-         hPomPFGj4pYj7X2BC0eDW0mFR1DbholAqLmlwsBPmB3vIxBJfquME+SBDwzCkgrMVPj5
-         Sa2O4cD+MbshOujqmsqMiiFmWEwTdoRgamW3o+R7BWw8q9NEwc9796vJR2YIOIgDkCeR
-         svoU0+0uF8oviT8EArQxvbi2vyUzsHAR0enXoO1eB10vUFT6ray1w+jefyeLE97jdtQG
-         d57kYThMbOTYrT7nECT6O1MDaAhv7seQ3HbR38RG13PxOMfG7voiHM4KSAqDM0KyfjGg
-         o36A==
+        b=TVKdB/icGrtbtdV14j5iHNUaiQNT40PT1BM3H2pBAygE4D8FfKlYQe1R33z7fziNjN
+         oskLnrxEr3c6dXC8cY819DxTw+UTQ0Q1uSjDsO4UA+BVEEtEAaPIyoo9N52Ss7VJwufW
+         IqCS+RHbyowcwAPVvC6/LmGlmAjqr/X4fsUHSM5OQy84Y9m9ppNL7Uy4IlOmW+4v/s5V
+         iIGK8xK3VYZ7wycCXsnWFWhaWGKWpHIyIjZ509R1HA4a1K3qpUHFkGmxBCkp229qgPmP
+         ya9IMCUw9YimeBXQgzLaXBLuII8RreCDrGJ+7YZGJEgv0qNmPpJgvV6CqTe+5P9J/s+e
+         VwjA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=gAMpo/syQ8eXLgftaztqtbB7MpdTFObB+ZVT8P4gb4U=;
-        b=D6RRoD1tLALlDNCRBbn5llNhtecfZcUvb1rjuiLtaqMj7jzGdaRqv0CcXus8FR9cpJ
-         lwCbXgtdyUM8RsfN+nCYUmzy3JjCjli+pkyFyc/f+QtV6bMydddjLaf4fBrGHJTHCAjB
-         KccZJzT0QjV6LJ+24znhupXw9oA1IBD+DBdnUEbiOJseoFI3KS8M8Kerl+KJrRmdL5W2
-         jzS9WcpV3RlEs544toviQjb0i05ia53w01uKVWULgC0ZPcc7Lbw/S9AuE5sZyiI0ZjUc
-         o/nlEs1HTU/JNmHPN6bgaOoCl+hMzsMYvTIOy0JwodiYuC4d91+vDXs0NdCpcwfZwgsq
-         G3ow==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=5YvwsK9xqz5oTeFhpD/aYDvnyncIqUKoqNFCpokZgvY=;
+        b=OfW+Wjhmj/gH+7z7VgptWZ9dSRVMZJc/OjYgYqZbYZElreNSlBde0H7vU1hcB4dQZv
+         pjfNiVyvHUP2yudMo9WiR5LTMvT78lJrA6i5AcpaUMtEe+G9NaCZYm7DHlLFe+4bbLQ4
+         DRK4+ZayONXRgkSYxblLLycsU4PkwaZb8gjwv7t0xLSai2ZIGMY48ESmXOUj3XuHLdwQ
+         r+5fTq6ew12N7+mCFo5pVNMulfN+TtzKD96wmIaZbRUlab3JaK1ipOLgqi9/MrJusnz6
+         X0EEWhrkxqt2cOI9JolmZjnWhpfPY/40+BWtFDtWGRgPfX2+y8QsIKhE4R132IXxKxiR
+         hXYQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="QSt/tYd0";
-       spf=pass (google.com: domain of frederic@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=frederic@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=GeR2OXeF;
+       spf=pass (google.com: domain of longman@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date;
-        bh=gAMpo/syQ8eXLgftaztqtbB7MpdTFObB+ZVT8P4gb4U=;
-        b=SUHPDriezNaQlfPMiQV6WxUU+XcBA4ka8WjeAdAD8slfFH+M4LlxjkSEzCzvuTzL/e
-         qg1MT0O9RALC76rUALSE9CwJZUkpIZToWuBXawRu25FTRDNTAYYFzCLVzsg5LUdg4Y6i
-         nASeIwDU5ZEVdZGvsq1wXumMpsK6QYrjNesO7p7K3hUCrtUkew54802Tw1auksMAd8x1
-         7FCdhYSlSDFipq00HNDFcPSCFXEAM8/J0XBfeFCmr8sRJAP8Pd8lzudQ41jiQsFEywpt
-         CX/ltRkcei/z7NupjbyjK+YzMiwV55NVWyVRpSxKlduBxG0zbmBVHzUFA2b/mCx5doPh
-         wIPA==
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date;
+        bh=5YvwsK9xqz5oTeFhpD/aYDvnyncIqUKoqNFCpokZgvY=;
+        b=E4Iw1xfbLe+LSgGppzuKcuET0rG+/FMnam1+Ut/4n8w4VamBj8YOsLK9zSfY5luCGm
+         1OtPmAsJB/Gna/z9wolMk2/PST+e5yiNbpE9nzIcQDgijrGJI9PpK9SPlgs0g+OZ7DoB
+         kUhQXkuH7mZX5GoCUpN05iPdeUot8s50oa3F718nqPufY3Rjlx5Qt3HxPxBjytXXSal2
+         13eKRCU5gt98lY+nSxtski2T5mFvwyQvLGKAzvRW1qghPkq1G+pt6OOXsUxTbMo44WDt
+         delTiBrVUN7TJma16L9SWAmdwjtjJhP/oGK4DG6B+1s3XKar7h1gHbwkVpWy5Iyu0QL2
+         WLFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=gAMpo/syQ8eXLgftaztqtbB7MpdTFObB+ZVT8P4gb4U=;
-        b=keDxIzCtjLG8SAJEfhZmOdIrVgyVMW/l+XABcUTkzwmeqqErQ6DeKgsE8sOWN7V4+j
-         wpHEmsu+QQ9HFmmuO9D+DQMErU1C+wcm4/39dNnGkFbf6y7xZVUnW8pC05Vy/2Ump6mi
-         G5vbg/aqfamL5NvU/UNdteUG01JvVA5I23u2oobaI2ISDFrunFDOZeOlKi1CVFBPAXRa
-         Igd1x9P7uNHy0x9cDCUs572FSDrc9XiEr95A6BSWr0QaQjQdOKzjDxWvu1x6QJrsd6YX
-         TG/k2PRhrRrredbzCJ2FCZX/1sXBT9TLxRWTQaDT0TlRgcvjtmrvWx/bhCC34sW1eux1
-         9JOQ==
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
+         :subject:date;
+        bh=5YvwsK9xqz5oTeFhpD/aYDvnyncIqUKoqNFCpokZgvY=;
+        b=i8hI7JkUdPTSS7Gu660kFE11hiSyLV8oI9+4isKhHxcbRose7oJNMOMOlXco1315E0
+         NLqEW1xwHsMinO5BiOmHBhodW3oYpG9qDYg2YnDNFC9adr9l75ogLkGhGuEwENAf5RFp
+         oDpjPuMdnVzL2UjtupXGHh5gOvZB3V3TJZivWEV9aLXjKBRx5efFRKaSowuU7AQRkMB2
+         B/C2C2MolB3TXwwQjKfjvZ50wVl60qZQPKZl5+xAyDSbuflKxFT2T3AD/rQD6s0d6r8R
+         1WL+hiJYDFOGRmsb3nLlRCmE4t7Gx4x/wISDATnCxdGTXG+ztLVNhdYtvaNvwaKrFuNm
+         olMg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf3WRjDgCn8evY9ZcZ69cvdypY90anJYpociL2ayazTF+PW6TjJi
-	LJWAuLwSGG6XnwqN8MDa9Hs=
-X-Google-Smtp-Source: AMsMyM43IkyGuoVZEh7Od17LIV9fICkjyESrgMVL5jQ/kwZQWsqjAAJ+e7BF8ucs7nqGm+Miq1R6bg==
-X-Received: by 2002:a05:651c:101:b0:250:896d:f870 with SMTP id a1-20020a05651c010100b00250896df870mr5660820ljb.235.1663593574092;
-        Mon, 19 Sep 2022 06:19:34 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3k7hQxPIDL56f898cvUvewAdxqEvp6Li2zDrhDBPUr858TdFln
+	SSj69mkyq++w2iXgUNgica4=
+X-Google-Smtp-Source: AMsMyM7kPV3B8Wmw9AH+0n33hOQaRe2Rd5MvbpytevkemkuMMEptUlFLwqf4X3Ng9guvVgYyuJt0Xg==
+X-Received: by 2002:a05:6102:2908:b0:398:ac40:d352 with SMTP id cz8-20020a056102290800b00398ac40d352mr5268208vsb.55.1663594456370;
+        Mon, 19 Sep 2022 06:34:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5e7b:0:b0:48b:2227:7787 with SMTP id a27-20020ac25e7b000000b0048b22277787ls114778lfr.3.-pod-prod-gmail;
- Mon, 19 Sep 2022 06:19:33 -0700 (PDT)
-X-Received: by 2002:a05:6512:3d8c:b0:49a:4872:858 with SMTP id k12-20020a0565123d8c00b0049a48720858mr5932265lfv.145.1663593572905;
-        Mon, 19 Sep 2022 06:19:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1663593572; cv=none;
+Received: by 2002:a67:e01a:0:b0:397:63a3:3998 with SMTP id c26-20020a67e01a000000b0039763a33998ls867267vsl.7.-pod-prod-gmail;
+ Mon, 19 Sep 2022 06:34:15 -0700 (PDT)
+X-Received: by 2002:a67:f684:0:b0:392:ac17:f9b0 with SMTP id n4-20020a67f684000000b00392ac17f9b0mr6258236vso.85.1663594455817;
+        Mon, 19 Sep 2022 06:34:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1663594455; cv=none;
         d=google.com; s=arc-20160816;
-        b=zohfOlBrwjQk/WxLFAiE5fGyFBRpT9CCoIKgtf4csqMIFxgydzu8PtFJPhBl9F962J
-         P6w1FRlaTxuzvszC2YXcFaMAF6ggrlc2D/m2yv4ew6T+3KXnRF4HnMyiCfznyQTmw7yB
-         qELbbtcYwxdOffE+7heiS4cV8tH849bzloJdDZhQchl1zaSdVNHuKJHI1VU9O2axPPfh
-         agnyZ1HbXWAQR3w++aTHC+gv4jKvXOjZkbepA01K3mKwhUEKX5C1mm4dMcxVWvfnMn7Z
-         zkZwIT5/U7Q57NuTjys5NJ9bYyxKAfLXP7rKuhbeOTogrF33tEYiGupQw8G2DOjE+5aq
-         o+8A==
+        b=uAIP9DbQY1fkw88Nkjm++mftClt6lhTYZyZa0JDBidlvYgvMFMQZt84hpsC8Euxv8A
+         LF1bn0ME87VwSb9NoRzlmef2Ygyx3FObtYQiTi5PjfKwz2JoVQxLplYAyj1gNKaaJME2
+         D3if8B+IeamgQpZUa0CKbvj40+sUsorzw/fwjG63Y1bs3Wiv+oRPKVNxWjnLTwb10FQJ
+         ALmZiVvQgOjkm6szpCRf4g/0h0C+wlCWy9mdnWZEAwVqD51fBo0qMdmXZtIc3ypXMsc7
+         YrTY3C4bisMKjlxG63J7iv2oMtUrbWRASY7m7pSvfSkZo0YoQFGQgj87h5e7AMNhmddQ
+         +Lzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=5zPDaEKNl0b1ovrl7QRhM6GgvCvxJPb4dPtDagSAZ68=;
-        b=chE3mP8EwNG2fkFsVw6C7GQmA7XznWd9JPQ/u5K/vJqB0JXZYh0GF79xWVGxXtamNc
-         wg2wKwjfTm68p+kMpGj1GoZ1u89xosD6uPLWizwnO1vAkOWOvOxUJx1JhqgxZbOBDPHM
-         /Q2jaCS1XaYXNLYpTXfU8gyhZHO2PvCs62KMv59ORdL2pzSUwgWHX7LUtEASDM4Hli08
-         LwJbvEGjuPcUvxf6sfxTVjb3FtiTbdDvu4IOQVEHkfDEBsXQsy49wwXbDCOyh3e3wxKq
-         zJgCv/zTxSUgENf8kjWVYjLoBQrAlfG5OKti9fzSOuicmRTHhdro/407pTvWeiGMFtpd
-         2wbQ==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=+t2Fm2xukLMEPHf8ZaJI5wrWDEZGaB6Do9fL6MT3CtM=;
+        b=DDwFnUj2MPpduht8nN1j/gPDFC3ALFevFmeoDCzXangIbYaJPNCRQmmYr5wkzwmyo3
+         HZk29WF77ThS1z3pD3X73wxJ+x22JZfWvIszOKKW0Q5JR0lFIoR5f4TPIR9zdnCZLsUU
+         q5/ZuVk87unyg6i7MN3nZ+g6luOyZpK6jbVcyjKg8sW8voWZUYYFVIgn6RVRJYqq3Y0+
+         7ucyvaBFiUoWrbtvoRGDL+zJp2R+58j29girbsueZGA3x6hrUaK9yTidw4LC/Ikh6opU
+         BmKXDk6jXVGw5rBdAbNTqYoriGk53iPvH2y/quMic9DVg+Y+fw0JETssOc4ro+MLqv+F
+         8CRA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="QSt/tYd0";
-       spf=pass (google.com: domain of frederic@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=frederic@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
-        by gmr-mx.google.com with ESMTPS id s7-20020a056512214700b0049ba11e2f38si558345lfr.11.2022.09.19.06.19.32
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=GeR2OXeF;
+       spf=pass (google.com: domain of longman@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id 191-20020a1f17c8000000b003760f8bf2a0si799186vkx.2.2022.09.19.06.34.15
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Sep 2022 06:19:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of frederic@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Sep 2022 06:34:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of longman@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-oeutMdS6M_WTwv6_veBJGQ-1; Mon, 19 Sep 2022 09:34:12 -0400
+X-MC-Unique: oeutMdS6M_WTwv6_veBJGQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 452D1B81BDE;
-	Mon, 19 Sep 2022 13:19:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D334CC433D6;
-	Mon, 19 Sep 2022 13:19:29 +0000 (UTC)
-Date: Mon, 19 Sep 2022 15:19:27 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
-	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
-	ulli.kroll@googlemail.com, linus.walleij@linaro.org,
-	shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	tony@atomide.com, khilman@kernel.org, catalin.marinas@arm.com,
-	will@kernel.org, guoren@kernel.org, bcain@quicinc.com,
-	chenhuacai@kernel.org, kernel@xen0n.name, geert@linux-m68k.org,
-	sammy@sammy.net, monstr@monstr.eu, tsbogend@alpha.franken.de,
-	dinguyen@kernel.org, jonas@southpole.se,
-	stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
-	James.Bottomley@HansenPartnership.com, deller@gmx.de,
-	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-	borntraeger@linux.ibm.com, svens@linux.ibm.com,
-	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
-	richard@nod.at, anton.ivanov@cambridgegreys.com,
-	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, acme@kernel.org, mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-	namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu,
-	amakhalov@vmware.com, pv-drivers@vmware.com,
-	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-	gregkh@linuxfoundation.org, mturquette@baylibre.com,
-	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org,
-	konrad.dybcio@somainline.org, anup@brainfault.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	jacob.jun.pan@linux.intel.com, atishp@atishpatra.org,
-	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
-	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-	dennis@kernel.org, tj@kernel.org, cl@linux.com, rostedt@goodmis.org,
-	pmladek@suse.com, senozhatsky@chromium.org,
-	john.ogness@linutronix.de, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
-	vschneid@redhat.com, fweisbec@gmail.com, ryabinin.a.a@gmail.com,
-	glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH v2 03/44] cpuidle/poll: Ensure IRQ state is invariant
-Message-ID: <20220919131927.GA58444@lothringen>
-References: <20220919095939.761690562@infradead.org>
- <20220919101520.534233547@infradead.org>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3F288811E67;
+	Mon, 19 Sep 2022 13:34:11 +0000 (UTC)
+Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3E10640C6EC2;
+	Mon, 19 Sep 2022 13:34:10 +0000 (UTC)
+Message-ID: <34b2bb18-ad64-ee10-37ad-3c2ab2387a0e@redhat.com>
+Date: Mon, 19 Sep 2022 09:34:10 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20220919101520.534233547@infradead.org>
-X-Original-Sender: frederic@kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] mm/slab_common: fix possiable double free of kmem_cache
+Content-Language: en-US
+To: Feng Tang <feng.tang@intel.com>, Vlastimil Babka <vbabka@suse.cz>
+Cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+ David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
+References: <20220919031241.1358001-1-feng.tang@intel.com>
+ <e38cc728-f5e5-86d1-d6a1-c3e99cc02239@suse.cz> <Yyhlmq8GA5FnNoxq@feng-clx>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <Yyhlmq8GA5FnNoxq@feng-clx>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Original-Sender: longman@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="QSt/tYd0";       spf=pass
- (google.com: domain of frederic@kernel.org designates 2604:1380:4601:e00::1
- as permitted sender) smtp.mailfrom=frederic@kernel.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@redhat.com header.s=mimecast20190719 header.b=GeR2OXeF;
+       spf=pass (google.com: domain of longman@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -192,47 +152,54 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 19, 2022 at 11:59:42AM +0200, Peter Zijlstra wrote:
-> cpuidle_state::enter() methods should be IRQ invariant
+On 9/19/22 08:50, Feng Tang wrote:
+> On Mon, Sep 19, 2022 at 05:12:38PM +0800, Vlastimil Babka wrote:
+>> On 9/19/22 05:12, Feng Tang wrote:
+> [...]
+>>> The cause is inside kmem_cache_destroy():
+>>>
+>>> kmem_cache_destroy
+>>>      acquire lock/mutex
+>>>      shutdown_cache
+>>>          schedule_work(kmem_cache_release) (if RCU flag set)
+>>>      release lock/mutex
+>>>      kmem_cache_release (if RCU flag set)
+>> 				      ^ not set
+>>
+>> I've fixed that up.
+> Oops.. Thanks for catching it!
+>
+>>> in some certain timing, the scheduled work could be run before
+>>> the next RCU flag checking which will get a wrong state.
+>>>
+>>> Fix it by caching the RCU flag inside protected area, just like 'refcnt'
+>>>
+>>> Signed-off-by: Feng Tang <feng.tang@intel.com>
+>> Thanks!
+>>
+>>> ---
+>>>
+>>> note:
+>>>
+>>> The error only happens on linux-next tree, and not in Linus' tree,
+>>> which already has Waiman's commit:
+>>> 0495e337b703 ("mm/slab_common: Deleting kobject in kmem_cache_destroy()
+>>> without holding slab_mutex/cpu_hotplug_lock")
+>> Actually that commit is already in Linus' rc5 too, so I will send your fix
+>> this week too. Added a Fixes: 0495e337b703 (...) too.
+> Got it, thanks
+>
+> - Feng
 
-Got a bit confused with the invariant thing since the first chunck I
-see in this patch is a conversion to an non-traceable local_irq_enable().
+Thanks for catching this bug.
 
-Maybe just add a short mention about that and why?
+Reviewed-by: Waiman Long <longman@redhat.com>
 
-Thanks.
+Cheers,
+Longman
 
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
->  drivers/cpuidle/poll_state.c |    4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> --- a/drivers/cpuidle/poll_state.c
-> +++ b/drivers/cpuidle/poll_state.c
-> @@ -17,7 +17,7 @@ static int __cpuidle poll_idle(struct cp
->  
->  	dev->poll_time_limit = false;
->  
-> -	local_irq_enable();
-> +	raw_local_irq_enable();
->  	if (!current_set_polling_and_test()) {
->  		unsigned int loop_count = 0;
->  		u64 limit;
-> @@ -36,6 +36,8 @@ static int __cpuidle poll_idle(struct cp
->  			}
->  		}
->  	}
-> +	raw_local_irq_disable();
-> +
->  	current_clr_polling();
->  
->  	return index;
-> 
-> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220919131927.GA58444%40lothringen.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/34b2bb18-ad64-ee10-37ad-3c2ab2387a0e%40redhat.com.
