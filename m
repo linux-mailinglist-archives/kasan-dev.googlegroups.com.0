@@ -1,187 +1,181 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBCURUKMQMGQEBUPU7GY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQZJVV3RQNBB5URUKMQMGQES4ULUYQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251905BD08A
-	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 17:19:39 +0200 (CEST)
-Received: by mail-wr1-x43b.google.com with SMTP id h20-20020adfaa94000000b0022af8c26b72sf828327wrc.7
-        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 08:19:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1663600778; cv=pass;
+Received: from mail-oi1-x240.google.com (mail-oi1-x240.google.com [IPv6:2607:f8b0:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 569545BD0AC
+	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 17:21:29 +0200 (CEST)
+Received: by mail-oi1-x240.google.com with SMTP id r129-20020aca5d87000000b00350a28e1ba2sf1328424oib.14
+        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 08:21:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1663600887; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Jo28DzQAf6oppE+tPntXO7k7NdzFr4o8XsucYbmf8GPVPBz1xIuQcX0Y9+3WTQVYBK
-         eiweTXFtKo8o4e6UR38coGev8FUxRYrq/Isugdu3juhqna7oRGWYN8EeesO2rZG+XrsT
-         jlaQ3l4dH+UiPWtAwowl5P8x6LILCbfWXMkZ7yQMV6sT+XoEVPqirQuRbv5ugFf6PRM1
-         dHtI6UfO3VE3ta7TAvvwQf0741Lqxb5jjqCjS4+PFZHJYEUAVE6KQap3b+b5cRM6G7jQ
-         J+w/4P+AD5nIUGvjb3CS6sapAAYcYAFMbOsfzUK+NPU2pcUypyoY2jNTrevV6R3AsX0E
-         BHgw==
+        b=s/x8gLIX0UbcZy3ylsIWySiShKilqug5X1wcmznRDGI3h7WTz2MHOWsjNqz/J68J0n
+         VkUelL7y82PRILNI/dZAYmu9yPWnjltyiVjr2p+fERn+q3XlWkyZe976mh3sqhmhusl6
+         BTQryIt8SZqhRfrTWevQ+dxWYJd/da7XwkbhQvjFNpvGxod6IlmR0hL204qIFzehMpSA
+         pk1Ye6O+R5/2V0z5jQJRPgWSmZWhh9W8l4au7P/qmJ+ryHJYqoZjqZxkmXK+9p1B/XRe
+         cmtEbxKDbBMKCCvBBrAKDVtj+c0Czmx5GSDL3+D063/cPUiQth4za+b9n5kBgI631Ibl
+         3ANQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=j9VNXfMpd55+miaemZHUhUzmeqFSMY0aQvPFIgB46uk=;
-        b=Z9oMtiOCa8JoKVv0dN7c0dhCB+Z8umfVQRs+ueYCige/21iICdIeYytvHdUAmdkX+5
-         frHiLNcTJ8u42BmDac2QS3r37aGn8smgxxmQCf7RtjZsGWvLkktEUlZQ3tQqAZ85jQcL
-         YrkhaKobFkPMXDbMTblNVq5FoBq0sHF+ZNF/I0KGR3zFWBF6O8Xv3QPYm4GLwlqRwghE
-         1qduD05vNYjHT3JF4QVX67HKa2Njq2Is6wZ8LRbr0vuV44GQNVzxCfIfgi6U8koP1x3A
-         6yRUKu64+S+0xRvFx+hvf5BbF9QXuC4WPqWekp2swD48mGNDrXMSqCvDTz5tp4JYGfiJ
-         IyIw==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=cKwrDvvnkQ5GycG8rniBjgEo/FajTO3pvup+ae0nsWQ=;
+        b=QMosMAgvpiRvN7r9KeWjGIX7YRwnkiKzrZBBHQZhtDp4wc43Oce7gk5BYLDWC3RgA/
+         K6Ow+YLnitzLhxUhtlzTV5L01KOlrR2rD1+8/NwzpKy/4bQudwfrHdUySoyyHTQWlvZi
+         0CLXIcpE4I+J1pxTdOHFN5Q5sb8vRbCOhklnhE+DUzTwI2bZxaC7aOEc3F+95Jn+YQ2T
+         6MrZr4NQkmOUe2fgG6FyD4bZAqHdKs5o0JUtDyRNNFQFtVTYeyjrfuAPKi30eDNq5Mgi
+         dsmVPat/Eg5zKYLYq2sBQC9ZMwwXCQxVFOkPrlyUXG+ZHW1JybG+6HK+etoAo906UCUl
+         S8OQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=XPfGWCYB;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       spf=pass (google.com: domain of rjwysocki@gmail.com designates 209.85.222.180 as permitted sender) smtp.mailfrom=rjwysocki@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date;
-        bh=j9VNXfMpd55+miaemZHUhUzmeqFSMY0aQvPFIgB46uk=;
-        b=Ofb3yApU19xLKtD/wl65g0NdI9nIZE19dFBup6FeJ52g//NtedkUkN6p76vfFdWsVK
-         rDV7N4XGjEMDz79kfelr+BfDYG8lYWkV3r9ncYfP/yUtfVVZgISFnMId7kCvtDFmcPEd
-         vVJ3STUlkA7m15ywCtlJZvw7Sr4HF7cm0ymq6Ry2G330q2M/Nm/VYdfv1FrPbaBvWgBU
-         FNR5pLM5iPJrQPVXWDcOyV4SuPazzh8GKbU3fq23RtlDhBFHk76xF+JqcejSnBlHKqYM
-         oboOSbHiHqEK9bRtqMT+1TZ0+pwYTx+am6xqjGCjNWcZtYHO0rXDdHcnvsNth3RW7Nbr
-         WoUg==
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date;
+        bh=cKwrDvvnkQ5GycG8rniBjgEo/FajTO3pvup+ae0nsWQ=;
+        b=BequYT0mZQmUDFlMKd3lA+jEdqSbhw0h+rCExQKtmbZXGlStrNsFeRJn42WcBvQOde
+         N89JXJcvNMgx/68VnJh0zvFXHtUr8Qmnbndkg6UWlrJXlneml5NWBG0QkwUPNiTJmqAD
+         9/18ecg6bQ5q+0dcNGlC7UWDAEZaRCVKwy3PHzQI1b2urt1gXLDEt+k7wF8EN8JZ9RY3
+         6BtOQOFCaXn2ZqQFigNDYKpWn6efU8GrdFo7IHRTDrBTXkKOmESfxEX8Iep0kn6cuAeg
+         WLIfFKHcShse39dMdy4+/lPqcn6qcr3DPp9p4SnygelRd+CjVodzgG/5x7CqOqPBsaxl
+         MM7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=j9VNXfMpd55+miaemZHUhUzmeqFSMY0aQvPFIgB46uk=;
-        b=mnpv/NoaB7rJEQ67qPvE+/MS8lYrd5tJJVyYeUx4I03JZgk4dAdY+hcyUwD7sa3vwD
-         ija3pCK3JwbT1Tme3ljVtp6Ygj/akPK23Ao3pgbFaCWu7SRgZYHtDmTm6DHZNU9vegEw
-         upLpfWIToODm1So9FHQt566FY9lYuLTiWCG8V4wGXqiVyzpryLkEQ7AmGFXfUbJBC47G
-         3VL8Jf6PFBt2wCuC3YXKs2VtHAMz3G1UPboXgfmxo+Q1Z7nMiG0GMzbxaGO7pYZf2bGN
-         jLU6VYgRG/HDArutwcs5ZJTmgGe2eqpt2WzlbUYXfv37M5YRsU2XRTJJ4YTg7yZmXX/L
-         kcqA==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=cKwrDvvnkQ5GycG8rniBjgEo/FajTO3pvup+ae0nsWQ=;
+        b=IM4ggrZn2gITyu8H5iwwsUHH+p1jC42Orf4hzP1j8RWRuXA/djdeZNA5LzY2UgaBBS
+         5QL5C0qjhKQmNCOX51c1pAGJVlSPp01lrROM+a6A5o1lQHCkp1l8u7gnYBll2Wg6tnrr
+         ck0rqC3qtCI4N9v0TKzMjqDYDPjCurJCz4/Vse9SjBk+Ff5iNyDN4liK++MJ2AntLKpk
+         b/uNDol/qPYsg6MiWTo010D9tzkLq6UznAWY+8I1LZLymRZr+DdGEcZwxM8ZXR76sGmW
+         oHDppWSZRaEVm6vFJyuQvAaHs3QOxAGwW2RAwfzReA2X34eBCMl+1CkAWbW1xAsJH73H
+         MKZA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACgBeo2IkpuYUmqaE+oSTM5GFX/MtwA0ELiXzffOV5a1gSuhZhwueTB4
-	QKghrZ0+vuYCdX2GLFunXfI=
-X-Google-Smtp-Source: AA6agR58OBiSEoCnYnYhjX+o3kKHTD+YwWNNLuO7fqhj2kbUo/7Gq6FOmdGKjpxySRy4dgCxYGfn0Q==
-X-Received: by 2002:a05:600c:6018:b0:3b4:6c30:d9c1 with SMTP id az24-20020a05600c601800b003b46c30d9c1mr19176018wmb.144.1663600778714;
-        Mon, 19 Sep 2022 08:19:38 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0GxEv9oDHMn0VM/EgPReO2dYt7mkGVQ07vwAstRlnDA86Rz/lA
+	sp1n3gyZa6CEADKkweddtNM=
+X-Google-Smtp-Source: AA6agR55EAcgPFd9jMOvQmdbWg+is4hzA0XT2+ZI+3dhvilYTwEOi40PlXq3nDg3RSXYzLey+JsYEg==
+X-Received: by 2002:a05:6870:2112:b0:127:76f4:83c4 with SMTP id f18-20020a056870211200b0012776f483c4mr14939308oae.171.1663600886844;
+        Mon, 19 Sep 2022 08:21:26 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:490a:0:b0:225:6559:3374 with SMTP id x10-20020a5d490a000000b0022565593374ls8858785wrq.2.-pod-prod-gmail;
- Mon, 19 Sep 2022 08:19:37 -0700 (PDT)
-X-Received: by 2002:a5d:6385:0:b0:22a:e533:f715 with SMTP id p5-20020a5d6385000000b0022ae533f715mr7896327wru.88.1663600777557;
-        Mon, 19 Sep 2022 08:19:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1663600777; cv=none;
+Received: by 2002:a05:6830:911:b0:619:fa:4857 with SMTP id v17-20020a056830091100b0061900fa4857ls501511ott.1.-pod-prod-gmail;
+ Mon, 19 Sep 2022 08:21:26 -0700 (PDT)
+X-Received: by 2002:a9d:1b0e:0:b0:658:a150:fe1a with SMTP id l14-20020a9d1b0e000000b00658a150fe1amr8149809otl.70.1663600886416;
+        Mon, 19 Sep 2022 08:21:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1663600886; cv=none;
         d=google.com; s=arc-20160816;
-        b=Ti+kBxk1EIIXng+eBxRmPczOTLikwUmyGY9aDijytiTF/CIw/TOBgK0pLInaHuZzZu
-         DjUxoKsl26s1lvWdgYifhZRCUWuLaGHsS0T/tnS/X7bmwaEgQta5Sf6GMebpoTTSmWv2
-         BQk4Ath3xGh31BgjRvi2bSYS1Shh6nY+QTsR46jTi3WBKcozdTsjAlT1bnCJ2MDxrVe1
-         UcOx/4Qcyfcy1PZxuCTcREWWoYHAtEN775eUEgc+Smp0ZWVcTjsWsRUdWUviRMOIO+ex
-         5i66XWx15Elv6BqFNAhivjzNr+EiJ8rrjW4F1O8cQfgOMVYkZ0SbepjEOUGE+DqeEn2P
-         YxaQ==
+        b=wRkTSkZjIf7pQY935K3UTm2WVpDJDZwohRF69FPbPQ9NQEOgKC5GK7Q6iOsfmcPTEG
+         8YzmNnOgz/ZvnCQO53rowdxdoF88J7pYZPEfAXsE/1THy5+eeETliBd+aKgTWdhYHlZC
+         /T8mOaBXqEiUS7cIhwZQ/zigq7FtYlaPP9H+g6vCEhgC9SzdM3CiLIIeMDQMJAf3COKS
+         IsJ3MpHoK5YxeSXpuQeEslTZpYNa2gFwkQ94CFrO01sumB4FBnTBv+xEWrZ3vGfVn/8r
+         pVf4Ele+A2o6sfAk69b6eQJFsnuEMELA3TXuHD9b0/hbVcpJJtXROem/Go/veYOrAh7S
+         pwCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=jX68leu2S48Jr9/Ow8JXapSFFP60f/i61NXz6aPsf+I=;
-        b=mVIzM+Gzop/Rfe6pU5gtM4EvHtXUVXE6/gMu6ARw+o0asm22/+0lRbcOma2hKyrjQD
-         EmplE23EVjlObgRo3+ljgcTd2XMGXs/vSoL2o4jStPJMKqTOsKTTZf6Q1+1NN4jYHHgW
-         N5VpONSs3f6qTkustY1LiAcTLFEtQNmIyv3SK1iyfI2et/+piIXHzTPV/hB2BiSpufG/
-         sLwk8VvrOaSk7v25G5PI6Zcdba6mDDrpuAnMFym0JV9ZH8xrvhGP7SsbNYxY6TB9AaE6
-         zCV05T68uLuySMx9ow7FH8JKN6So6cbGweQiV/CJUX9SC/42njKIpl1XDcpaTjnvCGku
-         OgRA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version;
+        bh=zwk8/QhMZpatQGQHcLa6CxC1A70tMAO9HDHY25D5feE=;
+        b=yful7/78tFYg5tC7dXMkwImXJLovPhmSdmrOeRbsCR0bWRuOPHHUZ7qCXzjsfHwU+H
+         Cf9f0DCQsCdMqYIgLZ20gwCVGNuy6jkuA23iBtjghbnf+SCjzNJRsWhxF4FT0A4pp3Hb
+         kjldpIg3kYn06cdwu2Tm371JLdOmjQMzUPsgnkdkqeYUVyV2VYtekP2qde+pWO8RjC8Y
+         lKipEsjGVyIfn8LNZ3+dllAqJQK7vWRtDvhxC5MDGMiuo+DsHZ+m711RlsH7zACkrmSk
+         1DEYgEsd5TccBRwuIaLrWJOl0jPDPiOVGZ+4tyVYUra02r4Mq3Fxxkj3DLbZebf4nl3X
+         hnRA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=XPfGWCYB;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id f62-20020a1c3841000000b003b211d11291si509845wma.1.2022.09.19.08.19.37
+       spf=pass (google.com: domain of rjwysocki@gmail.com designates 209.85.222.180 as permitted sender) smtp.mailfrom=rjwysocki@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com. [209.85.222.180])
+        by gmr-mx.google.com with ESMTPS id w140-20020aca3092000000b00344aa3ed510si997039oiw.2.2022.09.19.08.21.26
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 08:19:37 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaIY7-00E6tU-7a; Mon, 19 Sep 2022 15:19:07 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 046D83001F3;
-	Mon, 19 Sep 2022 17:19:06 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id DAFB72BAC7759; Mon, 19 Sep 2022 17:19:05 +0200 (CEST)
-Date: Mon, 19 Sep 2022 17:19:05 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
-	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
-	ulli.kroll@googlemail.com, linus.walleij@linaro.org,
-	shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	tony@atomide.com, khilman@kernel.org, catalin.marinas@arm.com,
-	will@kernel.org, guoren@kernel.org, bcain@quicinc.com,
-	chenhuacai@kernel.org, kernel@xen0n.name, geert@linux-m68k.org,
-	sammy@sammy.net, monstr@monstr.eu, tsbogend@alpha.franken.de,
-	dinguyen@kernel.org, jonas@southpole.se,
-	stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
-	James.Bottomley@hansenpartnership.com, deller@gmx.de,
-	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-	borntraeger@linux.ibm.com, svens@linux.ibm.com,
-	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
-	richard@nod.at, anton.ivanov@cambridgegreys.com,
-	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, acme@kernel.org, mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-	namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu,
-	amakhalov@vmware.com, pv-drivers@vmware.com,
-	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-	gregkh@linuxfoundation.org, mturquette@baylibre.com,
-	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org,
-	konrad.dybcio@somainline.org, anup@brainfault.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	jacob.jun.pan@linux.intel.com, atishp@atishpatra.org,
-	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
-	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-	dennis@kernel.org, tj@kernel.org, cl@linux.com, rostedt@goodmis.org,
-	pmladek@suse.com, senozhatsky@chromium.org,
-	john.ogness@linutronix.de, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
-	vschneid@redhat.com, fweisbec@gmail.com, ryabinin.a.a@gmail.com,
-	glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 09/44] cpuidle,omap3: Push RCU-idle into driver
-Message-ID: <YyiIaeQY8STLK0d0@hirez.programming.kicks-ass.net>
-References: <20220919095939.761690562@infradead.org>
- <20220919101520.936337959@infradead.org>
- <20220919143142.GA61009@lothringen>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Sep 2022 08:21:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of rjwysocki@gmail.com designates 209.85.222.180 as permitted sender) client-ip=209.85.222.180;
+Received: by mail-qk1-f180.google.com with SMTP id i3so15995293qkl.3
+        for <kasan-dev@googlegroups.com>; Mon, 19 Sep 2022 08:21:26 -0700 (PDT)
+X-Received: by 2002:a05:620a:46ac:b0:6ce:3e55:fc21 with SMTP id
+ bq44-20020a05620a46ac00b006ce3e55fc21mr12973834qkb.285.1663600885830; Mon, 19
+ Sep 2022 08:21:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220919095939.761690562@infradead.org>
+In-Reply-To: <20220919095939.761690562@infradead.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 19 Sep 2022 17:21:12 +0200
+Message-ID: <CAJZ5v0h3y-MRzHmbzrr6B4vBxkkw07LOdCVmBqSS4JDhtGSKXg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/44] cpuidle,rcu: Clean up the mess
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: richard.henderson@linaro.org, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, vgupta@kernel.org, 
+	Russell King - ARM Linux <linux@armlinux.org.uk>, ulli.kroll@googlemail.com, 
+	Linus Walleij <linus.walleij@linaro.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Sascha Hauer <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, dl-linux-imx <linux-imx@nxp.com>, Tony Lindgren <tony@atomide.com>, 
+	Kevin Hilman <khilman@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, bcain@quicinc.com, 
+	Huacai Chen <chenhuacai@kernel.org>, kernel@xen0n.name, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, sammy@sammy.net, Michal Simek <monstr@monstr.eu>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, dinguyen@kernel.org, jonas@southpole.se, 
+	stefan.kristiansson@saunalahti.fi, Stafford Horne <shorne@gmail.com>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, David Miller <davem@davemloft.net>, 
+	Richard Weinberger <richard@nod.at>, anton.ivanov@cambridgegreys.com, 
+	Johannes Berg <johannes@sipsolutions.net>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	"H. Peter Anvin" <hpa@zytor.com>, acme@kernel.org, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, jolsa@kernel.org, namhyung@kernel.org, 
+	Juergen Gross <jgross@suse.com>, srivatsa@csail.mit.edu, amakhalov@vmware.com, 
+	pv-drivers@vmware.com, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
+	Konrad Dybcio <konrad.dybcio@somainline.org>, Anup Patel <anup@brainfault.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jon Hunter <jonathanh@nvidia.com>, 
+	Jacob Pan <jacob.jun.pan@linux.intel.com>, Atish Patra <atishp@atishpatra.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Yury Norov <yury.norov@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@linux.com>, Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, 
+	senozhatsky@chromium.org, John Ogness <john.ogness@linutronix.de>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Benjamin Segall <bsegall@google.com>, 
+	Mel Gorman <mgorman@suse.de>, Daniel Bristot de Oliveira <bristot@redhat.com>, vschneid@redhat.com, 
+	Frederic Weisbecker <fweisbec@gmail.com>, ryabinin.a.a@gmail.com, 
+	Alexander Potapenko <glider@google.com>, andreyknvl@gmail.com, 
+	Dmitry Vyukov <dvyukov@google.com>, vincenzo.frascino@arm.com, 
+	Andrew Morton <akpm@linux-foundation.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	linux-alpha@vger.kernel.org, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-snps-arc@lists.infradead.org, 
+	Linux OMAP Mailing List <linux-omap@vger.kernel.org>, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-m68k <linux-m68k@lists.linux-m68k.org>, 
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, openrisc@lists.librecores.org, 
+	Parisc List <linux-parisc@vger.kernel.org>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	linux-riscv <linux-riscv@lists.infradead.org>, linux-s390@vger.kernel.org, 
+	Linux-sh list <linux-sh@vger.kernel.org>, sparclinux@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, linux-xtensa@linux-xtensa.org, 
+	ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>, 
+	linux-clk <linux-clk@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+	linux-tegra <linux-tegra@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20220919143142.GA61009@lothringen>
-X-Original-Sender: peterz@infradead.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=XPfGWCYB;
-       spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as
- permitted sender) smtp.mailfrom=peterz@infradead.org
+X-Original-Sender: rafael@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of rjwysocki@gmail.com designates 209.85.222.180 as
+ permitted sender) smtp.mailfrom=rjwysocki@gmail.com;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -194,20 +188,180 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 19, 2022 at 04:31:42PM +0200, Frederic Weisbecker wrote:
-> On Mon, Sep 19, 2022 at 11:59:48AM +0200, Peter Zijlstra wrote:
-> > Doing RCU-idle outside the driver, only to then teporarily enable it
-> > again before going idle is daft.
-> 
-> That doesn't tell where those calls are.
+On Mon, Sep 19, 2022 at 12:17 PM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> Hi All!
+>
+> At long last, a respin of the cpuidle vs rcu cleanup patches.
+>
+> v1: https://lkml.kernel.org/r/20220608142723.103523089@infradead.org
+>
+> These here patches clean up the mess that is cpuidle vs rcuidle.
+>
+> At the end of the ride there's only on RCU_NONIDLE user left:
+>
+>   arch/arm64/kernel/suspend.c:            RCU_NONIDLE(__cpu_suspend_exit());
+>
+> and 'one' trace_*_rcuidle() user:
+>
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, caller_addr);
+>   kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, caller_addr);
+>   kernel/trace/trace_preemptirq.c:                trace_preempt_enable_rcuidle(a0, a1);
+>   kernel/trace/trace_preemptirq.c:                trace_preempt_disable_rcuidle(a0, a1);
+>
+> However this last is all in deprecated code that should be unused for GENERIC_ENTRY.
+>
+> I've touched a lot of code that I can't test and I might've broken something by
+> accident. In particular the whole ARM cpuidle stuff was quite involved.
+>
+> Please all; have a look where you haven't already.
+>
+>
+> New since v1:
+>
+>  - rebase on top of Frederic's rcu-context-tracking rename fest
+>  - more omap goodness as per the last discusion (thanks Tony!)
+>  - removed one more RCU_NONIDLE() from arm64/risc-v perf code
+>  - ubsan/kasan fixes
+>  - intel_idle module-param for testing
+>  - a bunch of extra __always_inline, because compilers are silly.
 
-cpu_pm_enter/exit and the power domain stuff, possibly also the clock
-domain stuff. It's all over :/
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-I suppose I can add a blub and copy/paste it around the various patches
-if you want.
+for the whole set and let me know if you want me to merge any of these
+through cpuidle.
+
+Thanks!
+
+>
+> ---
+>  arch/alpha/kernel/process.c               |  1 -
+>  arch/alpha/kernel/vmlinux.lds.S           |  1 -
+>  arch/arc/kernel/process.c                 |  3 ++
+>  arch/arc/kernel/vmlinux.lds.S             |  1 -
+>  arch/arm/include/asm/vmlinux.lds.h        |  1 -
+>  arch/arm/kernel/process.c                 |  1 -
+>  arch/arm/kernel/smp.c                     |  6 +--
+>  arch/arm/mach-gemini/board-dt.c           |  3 +-
+>  arch/arm/mach-imx/cpuidle-imx6q.c         |  4 +-
+>  arch/arm/mach-imx/cpuidle-imx6sx.c        |  5 ++-
+>  arch/arm/mach-omap2/common.h              |  6 ++-
+>  arch/arm/mach-omap2/cpuidle34xx.c         | 16 +++++++-
+>  arch/arm/mach-omap2/cpuidle44xx.c         | 29 +++++++-------
+>  arch/arm/mach-omap2/omap-mpuss-lowpower.c | 12 +++++-
+>  arch/arm/mach-omap2/pm.h                  |  2 +-
+>  arch/arm/mach-omap2/pm24xx.c              | 51 +-----------------------
+>  arch/arm/mach-omap2/pm34xx.c              | 14 +++++--
+>  arch/arm/mach-omap2/pm44xx.c              |  2 +-
+>  arch/arm/mach-omap2/powerdomain.c         | 10 ++---
+>  arch/arm64/kernel/idle.c                  |  1 -
+>  arch/arm64/kernel/smp.c                   |  4 +-
+>  arch/arm64/kernel/vmlinux.lds.S           |  1 -
+>  arch/csky/kernel/process.c                |  1 -
+>  arch/csky/kernel/smp.c                    |  2 +-
+>  arch/csky/kernel/vmlinux.lds.S            |  1 -
+>  arch/hexagon/kernel/process.c             |  1 -
+>  arch/hexagon/kernel/vmlinux.lds.S         |  1 -
+>  arch/ia64/kernel/process.c                |  1 +
+>  arch/ia64/kernel/vmlinux.lds.S            |  1 -
+>  arch/loongarch/kernel/idle.c              |  1 +
+>  arch/loongarch/kernel/vmlinux.lds.S       |  1 -
+>  arch/m68k/kernel/vmlinux-nommu.lds        |  1 -
+>  arch/m68k/kernel/vmlinux-std.lds          |  1 -
+>  arch/m68k/kernel/vmlinux-sun3.lds         |  1 -
+>  arch/microblaze/kernel/process.c          |  1 -
+>  arch/microblaze/kernel/vmlinux.lds.S      |  1 -
+>  arch/mips/kernel/idle.c                   |  8 ++--
+>  arch/mips/kernel/vmlinux.lds.S            |  1 -
+>  arch/nios2/kernel/process.c               |  1 -
+>  arch/nios2/kernel/vmlinux.lds.S           |  1 -
+>  arch/openrisc/kernel/process.c            |  1 +
+>  arch/openrisc/kernel/vmlinux.lds.S        |  1 -
+>  arch/parisc/kernel/process.c              |  2 -
+>  arch/parisc/kernel/vmlinux.lds.S          |  1 -
+>  arch/powerpc/kernel/idle.c                |  5 +--
+>  arch/powerpc/kernel/vmlinux.lds.S         |  1 -
+>  arch/riscv/kernel/process.c               |  1 -
+>  arch/riscv/kernel/vmlinux-xip.lds.S       |  1 -
+>  arch/riscv/kernel/vmlinux.lds.S           |  1 -
+>  arch/s390/kernel/idle.c                   |  1 -
+>  arch/s390/kernel/vmlinux.lds.S            |  1 -
+>  arch/sh/kernel/idle.c                     |  1 +
+>  arch/sh/kernel/vmlinux.lds.S              |  1 -
+>  arch/sparc/kernel/leon_pmc.c              |  4 ++
+>  arch/sparc/kernel/process_32.c            |  1 -
+>  arch/sparc/kernel/process_64.c            |  3 +-
+>  arch/sparc/kernel/vmlinux.lds.S           |  1 -
+>  arch/um/kernel/dyn.lds.S                  |  1 -
+>  arch/um/kernel/process.c                  |  1 -
+>  arch/um/kernel/uml.lds.S                  |  1 -
+>  arch/x86/boot/compressed/vmlinux.lds.S    |  1 +
+>  arch/x86/coco/tdx/tdcall.S                | 15 +------
+>  arch/x86/coco/tdx/tdx.c                   | 25 ++++--------
+>  arch/x86/events/amd/brs.c                 | 13 +++----
+>  arch/x86/include/asm/fpu/xcr.h            |  4 +-
+>  arch/x86/include/asm/irqflags.h           | 11 ++----
+>  arch/x86/include/asm/mwait.h              | 14 +++----
+>  arch/x86/include/asm/nospec-branch.h      |  2 +-
+>  arch/x86/include/asm/paravirt.h           |  6 ++-
+>  arch/x86/include/asm/perf_event.h         |  2 +-
+>  arch/x86/include/asm/shared/io.h          |  4 +-
+>  arch/x86/include/asm/shared/tdx.h         |  1 -
+>  arch/x86/include/asm/special_insns.h      |  8 ++--
+>  arch/x86/include/asm/xen/hypercall.h      |  2 +-
+>  arch/x86/kernel/cpu/bugs.c                |  2 +-
+>  arch/x86/kernel/fpu/core.c                |  4 +-
+>  arch/x86/kernel/paravirt.c                | 14 ++++++-
+>  arch/x86/kernel/process.c                 | 65 +++++++++++++++----------------
+>  arch/x86/kernel/vmlinux.lds.S             |  1 -
+>  arch/x86/lib/memcpy_64.S                  |  5 +--
+>  arch/x86/lib/memmove_64.S                 |  4 +-
+>  arch/x86/lib/memset_64.S                  |  4 +-
+>  arch/x86/xen/enlighten_pv.c               |  2 +-
+>  arch/x86/xen/irq.c                        |  2 +-
+>  arch/xtensa/kernel/process.c              |  1 +
+>  arch/xtensa/kernel/vmlinux.lds.S          |  1 -
+>  drivers/acpi/processor_idle.c             | 36 ++++++++++-------
+>  drivers/base/power/runtime.c              | 24 ++++++------
+>  drivers/clk/clk.c                         |  8 ++--
+>  drivers/cpuidle/cpuidle-arm.c             |  1 +
+>  drivers/cpuidle/cpuidle-big_little.c      |  8 +++-
+>  drivers/cpuidle/cpuidle-mvebu-v7.c        |  7 ++++
+>  drivers/cpuidle/cpuidle-psci.c            | 10 +++--
+>  drivers/cpuidle/cpuidle-qcom-spm.c        |  1 +
+>  drivers/cpuidle/cpuidle-riscv-sbi.c       | 10 +++--
+>  drivers/cpuidle/cpuidle-tegra.c           | 21 +++++++---
+>  drivers/cpuidle/cpuidle.c                 | 21 +++++-----
+>  drivers/cpuidle/dt_idle_states.c          |  2 +-
+>  drivers/cpuidle/poll_state.c              | 10 ++++-
+>  drivers/idle/intel_idle.c                 | 19 +++++----
+>  drivers/perf/arm_pmu.c                    | 11 +-----
+>  drivers/perf/riscv_pmu_sbi.c              |  8 +---
+>  include/asm-generic/vmlinux.lds.h         |  9 ++---
+>  include/linux/compiler_types.h            |  8 +++-
+>  include/linux/cpu.h                       |  3 --
+>  include/linux/cpuidle.h                   | 34 ++++++++++++++++
+>  include/linux/cpumask.h                   |  4 +-
+>  include/linux/percpu-defs.h               |  2 +-
+>  include/linux/sched/idle.h                | 40 ++++++++++++++-----
+>  include/linux/thread_info.h               | 18 ++++++++-
+>  include/linux/tracepoint.h                | 13 ++++++-
+>  kernel/cpu_pm.c                           |  9 -----
+>  kernel/printk/printk.c                    |  2 +-
+>  kernel/sched/idle.c                       | 47 +++++++---------------
+>  kernel/time/tick-broadcast-hrtimer.c      | 29 ++++++--------
+>  kernel/time/tick-broadcast.c              |  6 ++-
+>  kernel/trace/trace.c                      |  3 ++
+>  lib/ubsan.c                               |  5 ++-
+>  mm/kasan/kasan.h                          |  4 ++
+>  mm/kasan/shadow.c                         | 38 ++++++++++++++++++
+>  tools/objtool/check.c                     | 17 ++++++++
+>  121 files changed, 511 insertions(+), 420 deletions(-)
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YyiIaeQY8STLK0d0%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAJZ5v0h3y-MRzHmbzrr6B4vBxkkw07LOdCVmBqSS4JDhtGSKXg%40mail.gmail.com.
