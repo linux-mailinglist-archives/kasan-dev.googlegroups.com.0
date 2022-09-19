@@ -1,34 +1,35 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBQUJUKMQMGQEZMEL7MY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCBMVA7CUUHRBFEQUKMQMGQEORHCCGQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6215BCFEE
-	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 17:03:30 +0200 (CEST)
-Received: by mail-lj1-x23b.google.com with SMTP id h21-20020a2e9ed5000000b0025d516572f4sf7152817ljk.12
-        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 08:03:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1663599810; cv=pass;
+Received: from mail-ed1-x537.google.com (mail-ed1-x537.google.com [IPv6:2a00:1450:4864:20::537])
+	by mail.lfdr.de (Postfix) with ESMTPS id 565DE5BD066
+	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 17:17:41 +0200 (CEST)
+Received: by mail-ed1-x537.google.com with SMTP id v11-20020a056402348b00b004516e0b7eedsf17687887edc.8
+        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 08:17:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1663600661; cv=pass;
         d=google.com; s=arc-20160816;
-        b=W+TXKdDSwF1HPpemW8mLuphH1HO9QtCO0to/arIV2gykryPWbKNAJfxb/sEajlZvZL
-         BLCEmFC74x0JUlGIUUCyqzDGa4ba2hvPgtMOBfhb+60wxCjApDR99HK0Hsa+zrzwAoKN
-         xFRqL0P8iRF5/CL9wUtOj8Wa2bQgqwOEmeiWjZ+t/K4le8OfKO+jv68S3XuHBVexMQ6s
-         4XZ3Nhy0rVdEB0A9mgpsgMjEsd3RWE0Yl1PdvsU4vNhicYU21YKHbxDwD01HvB+rJ+rS
-         CPpWdQ2Sm97SGXLLtXps8pv7yMLENuzGbIg6H0bLbhBq8Y7aL09PbBgslsFupDDEiQrK
-         9Dmw==
+        b=d0YCosN8/X6pvXemDiVCYyASv/dmJ/6OeFpH+97HQWJ0DS6orfAc+E2ZGE/JRJIb2y
+         ivuJuvimjoCNEHnsJO/2uiA7PCKs/0gPYTK3H5j5pw4p7moWBIm+JDVMf3zcWH2h7nHW
+         4hCktNTau9MLiEB3q0WJ1woKqyxVWB/9nLFzo/pBpQm8SjJPsdIVGI/BDHM6VMBAH51Y
+         PN0odY+3JD0sTm0Kl9oyOw6jcYVz14495+Hl/2140Sq8bJM6sADeTVJWEPmWQAgGXXbM
+         grEk4DFx4zTdK2+V+oqJGlgn3QA98Xw33Ey/J9YzS+bljutqgme6vXO0VyG3FTqKaiMg
+         nOng==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=7JFLJBhCfPLQj8OCe7bcsQT7cXEu3QrVFwT7lHu6BYc=;
-        b=q2RBPe4AwlgiG7EEiOJ2czWJKSWjN4z+d7FPoP9J76Ut/UmFeCcv0ktlABcZ3sf9yw
-         lAmDqkIzm/1FEB0eK6Lpu4UpDO0DLRQ5/eXfVVU7BcPUNGwnL2yvEr4nTXng/DC2DRFt
-         80jCtGsewLKt9QVbZxUEKUhreMBY5y5vMUf8fUbmEy/LYz6dC5dn4jUJsHnxrElafY5Z
-         SVpRokW2ejZ50GjkG+tC0DWuenLDzy+sJ1xTbZcg4DeJkANGJLTpw2u7u5Dt+/S/XlOj
-         JW+leRda6bsYkZsb+I7EQyuxkveisyf9+yCHvBg4NT1Nzyff6dicnUWBqeEtq/NKgPPK
-         rR+w==
+        bh=A2mP3CyrEv0YxNh0Wc4+6SnWQ8kT49X5yDRvUt40Jh8=;
+        b=FOzGmOf+Eb9QwXlZpWmakYoNqqmUH/zFkdKEh4fPIJDPK1dDDSGDh1ZYln/71qnwCo
+         e3GMdIzXx79BxPpTMZT3T9UG3nO1TBFetkXJMCQLo1BE6S8xM0v8z0i5rzqJLWOOotaQ
+         cf3cjUN0GIdwqtYeDpvPY3Xkz8uFQGbGqxeqRHoT8RiwnYH7mabndL51kwFqUjknNTV8
+         pkf5DFvdLSpHJm+PFiCTP4Kwp4O27BqsKi8BlvgwNp+p3LDJxWnhUluJTUnbkewKvBxW
+         7e3ZZocd+VXMZA8PfPBkbIUifasxKb9p/6dAvT2KDm42wEqT9hxFs0EY1paQXw8pAMOM
+         ykiA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=U5nJ9bmb;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=fxVxz+v2;
+       spf=pass (google.com: domain of frederic@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=frederic@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -36,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date;
-        bh=7JFLJBhCfPLQj8OCe7bcsQT7cXEu3QrVFwT7lHu6BYc=;
-        b=r6Xfa6gPYsQXzfEVDIWZmW2Mq4UxfCxko75LIp6sk63ZsuuKBDAmqiAbV6aHrVeCIA
-         RhjZBn3ho8ezP/3pz4xjrCo1P5PXsUdqxYZbJFQv+w4HcjdyOplgjNBvs5Hw2QjrdIA4
-         qxzEzdRGNhXSo7ag9u9XEEw9b85o0BS8vGcIzM+aoyhReVf9OjH83tkXd6/2LhgD1ot0
-         sfVB9kZXcB+c03WyzIa1AkzD7NFnTmbhrx8LGptsGzf/wccSZggyTRgS/LfFRhu48S+J
-         sQBdW9GCesRV0pqJyqezO9JH0jrjHbteuRmd5IO9puw6qQkWGrQGN5CCA2luiIFy65Vl
-         UABw==
+        bh=A2mP3CyrEv0YxNh0Wc4+6SnWQ8kT49X5yDRvUt40Jh8=;
+        b=q70nx2WWV66ejj5eTPiS4/Z+fedw+HDI6oEzHts7vhreBxfkxMbFxPxsEk+2xKFPlz
+         jp+7Hky+t/DiG97bZ6lzlY15HNwoZaK5l2rh5ZDA3CAMeY769f9zCKhvYhaftarqel9G
+         d2HLVm7H4SFW4owI75y1+cBx/FcARsgSzz/uN+Q3cChFoXO35ANzxN/9owdw7+k6ggv4
+         fb+Euy0H7ibpr2nplw3tXYPNH9/lanlNrSkWHcMhzZXkTNE67uwiJjT7CdVbKME2ylzB
+         atVpm/gjYo+1UgxREpQEMl9K8fnwKN6CkGWmpi20TrCoubUnj+YcQ2m/QcQvC4tph49y
+         rXvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,65 +51,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=7JFLJBhCfPLQj8OCe7bcsQT7cXEu3QrVFwT7lHu6BYc=;
-        b=dNaQMVI5AjHgrun/CttWgVQ5yggJoIDMO56v7SoTgocua/ge5s2WwWMrZrB/NWJIF4
-         hdslvgn342Xyq9xMB8K/dJ7XrSmK0BcvGDqOSbRpxVwMZpGH4nWinu+PiKeUsItavvht
-         PyJapYlefZgNzIx8Tu0rcnJg8IQWb/oNnMwHJd1K+atAW2CJOZJIGAMl1mzMyCTuP98h
-         5Xa19TPhJytX1+ff1qvUpoY1X919gsIZ6PmTH2zCYfKVepcK/B1j8Tlx2b+mzj7QphXG
-         E6u7TGa+mFjSKW70IqK/sJlUBMkYe972azv7txry7/FxVZ5OqAWIw+b2Kxry/kzLB+5m
-         lojQ==
+        bh=A2mP3CyrEv0YxNh0Wc4+6SnWQ8kT49X5yDRvUt40Jh8=;
+        b=3PlbwGA2VGJpf6QKZi3oj176jl6R4ZYwiIabKsZTCnKKz7cUEHy6pVav+4PkGKOsjl
+         vdqQ6fd44YC0P9I5OTWgvPQZ2Jyluaaw3n4U9zfKQ+xwcAAZ2iXvYTBrcdasda/12Y9q
+         +qXeo5PHuCdQFlkHCkWALPvDfd+EUDc+49zd2h5hMM8H4p/lBA5MHS8CnbRh5O8p81CW
+         jO2QSYORZ1e/4o1NsSIGGkQRB1EWhNuvAm8OaSQedTLz61FlvtW9pOe1//pQIqvJKJds
+         SAEeFPu1xqRa8THQdRwaRCCUiziHGgqYgkifor2vdx4sMoN2dAY1qhAevslvze+gDZTr
+         IWjQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1K+kKXbpq9P52qnHrEcej3/63I6uC+j8rUMNj0dI17A4ReNxtJ
-	FgCfwAw2In3cXRRF3xsyXnw=
-X-Google-Smtp-Source: AMsMyM6wod97rDn+8vxVc0TI0vaU0h434p6NsTcigpJ7lWMR2f6VYbj2nSgQjVLJRt9g5PLpBtsEcQ==
-X-Received: by 2002:a2e:54a:0:b0:26a:c623:2a3 with SMTP id 71-20020a2e054a000000b0026ac62302a3mr5538960ljf.135.1663599810329;
-        Mon, 19 Sep 2022 08:03:30 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1ns1Qs262oYZOge3ddFgQEgSzBCOAzMSYDuIaR5s3UshQVCyC1
+	B4vF0rymdEQqtALX1sf4Dys=
+X-Google-Smtp-Source: AMsMyM5FPB1pNPpfkbAWm5aigx1s0RzRTUKL2/S81QfSKsbO6oZm6qrXr/TjducTxp1lUbGNVCqmQg==
+X-Received: by 2002:a17:907:eaa:b0:772:b571:bd7c with SMTP id ho42-20020a1709070eaa00b00772b571bd7cmr12980185ejc.563.1663600660774;
+        Mon, 19 Sep 2022 08:17:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b60b:0:b0:26b:db66:8dd4 with SMTP id r11-20020a2eb60b000000b0026bdb668dd4ls707312ljn.8.-pod-prod-gmail;
- Mon, 19 Sep 2022 08:03:28 -0700 (PDT)
-X-Received: by 2002:a05:651c:1a0a:b0:26c:d1e:7b3 with SMTP id by10-20020a05651c1a0a00b0026c0d1e07b3mr5754961ljb.160.1663599808802;
-        Mon, 19 Sep 2022 08:03:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1663599808; cv=none;
+Received: by 2002:a17:906:3b0a:b0:77d:b590:5e60 with SMTP id
+ g10-20020a1709063b0a00b0077db5905e60ls2394490ejf.8.-pod-prod-gmail; Mon, 19
+ Sep 2022 08:17:39 -0700 (PDT)
+X-Received: by 2002:a17:907:2d0d:b0:77c:d528:70b8 with SMTP id gs13-20020a1709072d0d00b0077cd52870b8mr12896663ejc.681.1663600659768;
+        Mon, 19 Sep 2022 08:17:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1663600659; cv=none;
         d=google.com; s=arc-20160816;
-        b=RqsU8rgOoD52FAHd/9+IhaL8i+HAjtYb3f3KUSjxkd64Zkj4sM3NBJrrd9lF1Z3o9D
-         ibAdpMHk09N/YXF3dYcHjqDeV9wrBNMCQNYZdH1NShU4Vuaon2W/Q06qC4kdYMoMgloG
-         AAdjECagrNgRJmkeWXkNDyY7EfeNEdAj+VY5ZSZ9UCHB+j43VoxL9NvVNpVMi7+a+VIg
-         2kEpudPwriUzXhndOI+II/nNZ1hHwrniNEcW4HkCS5nEkoTn7bf2gw2KVGqX9oNkahrh
-         HkkmAsBuRezoJRLFTvtXqb8ovAfwEnr6GUn1UBn2omn6wG1Yfi5bE+TwOlexAxznViCe
-         40lA==
+        b=OH3AUXNzDqUjNrUu6cu1aquVk8/FR4DW/HyaGJ5pYVbfhvkTu72N0xR1aX4GSvw5qc
+         RNEmTLnEOXep0uCQwPFn5TtHQ1zKQ2XJXv3MEd7A27MC4TMMx2o2k9Pp/pq7+cSRdv/x
+         tzDTTLj5XkPLpUnY8gYZ1s1NLKxQKDPL+r8lGst1Ck13zCRDV1JN0yVu4qPLCuQqMvqf
+         CtmEqQoNB+U4TX0behuvh/xrBOmUJuOPSpWa0Cik4haEoQBoWtIAxJVLZVWcR1QK9ORz
+         Kh7fijvRb2nsW1rOr1nHLPn5J+iI6lebUq6VpXriyOISj5i5OgjxKl1h3xEhuQssroPs
+         MEaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=8W4ANpZZg81bkZotlJvZ4fg4qiAvSnY5PZyc1BTsWP4=;
-        b=PqoeOJurBdQkEBXoqIk/ZJfkElx2ZY0eK6hc69D2aJgyuQwhyqFnsSyr2X7nN2Sk2Y
-         mFmFJ2P0r1QVPq/5kpWo1B2+e0e1sQW+YqpUfxg6EzI/eRpjbOHXsd+4vcP0hTHAzMXm
-         zJ7BiMMayycosJZm0dcw60848t0XnfxE35kD+H201955FynR+WbCWs62nG0HWaMmDPPd
-         FtuYIcpq5Lyk3pZxt/K5I1W1yticoBqzSpIYwPxCNDs+H0iXMfsAvbAcW7gf/djArzto
-         f0q501PhPr6XVX3bHIQAQa/6HVd+YA4biEoM8WvZ1sGpknjyNwV5m5FU2WH1bd+k8S62
-         b+kw==
+        bh=GAWZKjgcowaWIL5IFK97hXiNgqbjuBY1+jY9f7JPqdg=;
+        b=HNvcEOeiPKHfrAuNQy1DTem00cDKLqu9qnBQQnkj3cfZ6DQ8sW92ba5iOI04C6Ez9r
+         7D0lPcsT17jcGLxdJ4wJXdwT3zuV80qwCUEGYpE6P2yAkvHvTK1n/ovu7XuacfJCdDkf
+         lRnhE2wEeZjw9aTz+REs2eCoy1axwwsNflWb0DsjSGU+6bs8TDLSiCMEMwiftv4/lCO9
+         QIRl/ac5r8jVwfXaPhFRBuN7UQuFpG9ub+bX8F9c2wDk8Pjumy8oIh5TGYd2flYWx8fP
+         h62ajzlOQsjc4mL9zJnf2Y8eepvweRXjGYsPM9S+cbvIcLSB/Q4OucxUlcQ+dWxglChX
+         HHfA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=U5nJ9bmb;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id z20-20020a05651c11d400b0026c3d772786si279033ljo.3.2022.09.19.08.03.28
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=fxVxz+v2;
+       spf=pass (google.com: domain of frederic@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=frederic@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
+        by gmr-mx.google.com with ESMTPS id jx24-20020a170907761800b00780aaa56c40si231361ejc.2.2022.09.19.08.17.39
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 08:03:28 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaIIb-00E6gm-0R; Mon, 19 Sep 2022 15:03:05 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 833DC3001F3;
-	Mon, 19 Sep 2022 17:03:04 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 5DBEE2BAC7A31; Mon, 19 Sep 2022 17:03:04 +0200 (CEST)
-Date: Mon, 19 Sep 2022 17:03:04 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Frederic Weisbecker <frederic@kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Sep 2022 08:17:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of frederic@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 4907AB81D9A;
+	Mon, 19 Sep 2022 15:17:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D47AEC433D6;
+	Mon, 19 Sep 2022 15:17:36 +0000 (UTC)
+Date: Mon, 19 Sep 2022 17:17:34 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
 	ulli.kroll@googlemail.com, linus.walleij@linaro.org,
@@ -168,20 +167,21 @@ Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
 Subject: Re: [PATCH v2 08/44] cpuidle,imx6: Push RCU-idle into driver
-Message-ID: <YyiEqDSJVOZrQYg8@hirez.programming.kicks-ass.net>
+Message-ID: <20220919151734.GB62211@lothringen>
 References: <20220919095939.761690562@infradead.org>
  <20220919101520.869531945@infradead.org>
  <20220919144941.GA62211@lothringen>
+ <YyiEqDSJVOZrQYg8@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20220919144941.GA62211@lothringen>
-X-Original-Sender: peterz@infradead.org
+In-Reply-To: <YyiEqDSJVOZrQYg8@hirez.programming.kicks-ass.net>
+X-Original-Sender: frederic@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=U5nJ9bmb;
-       spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as
- permitted sender) smtp.mailfrom=peterz@infradead.org
+ header.i=@kernel.org header.s=k20201202 header.b=fxVxz+v2;       spf=pass
+ (google.com: domain of frederic@kernel.org designates 145.40.68.75 as
+ permitted sender) smtp.mailfrom=frederic@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -194,43 +194,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 19, 2022 at 04:49:41PM +0200, Frederic Weisbecker wrote:
-> On Mon, Sep 19, 2022 at 11:59:47AM +0200, Peter Zijlstra wrote:
-> > Doing RCU-idle outside the driver, only to then temporarily enable it
-> > again, at least twice, before going idle is daft.
+On Mon, Sep 19, 2022 at 05:03:04PM +0200, Peter Zijlstra wrote:
+> On Mon, Sep 19, 2022 at 04:49:41PM +0200, Frederic Weisbecker wrote:
+> > On Mon, Sep 19, 2022 at 11:59:47AM +0200, Peter Zijlstra wrote:
+> > > Doing RCU-idle outside the driver, only to then temporarily enable it
+> > > again, at least twice, before going idle is daft.
+> > > 
+> > > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > > ---
+> > >  arch/arm/mach-imx/cpuidle-imx6sx.c |    5 ++++-
+> > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > > 
+> > > --- a/arch/arm/mach-imx/cpuidle-imx6sx.c
+> > > +++ b/arch/arm/mach-imx/cpuidle-imx6sx.c
+> > > @@ -47,7 +47,9 @@ static int imx6sx_enter_wait(struct cpui
+> > >  		cpu_pm_enter();
+> > >  		cpu_cluster_pm_enter();
+> > >  
+> > > +		ct_idle_enter();
+> > >  		cpu_suspend(0, imx6sx_idle_finish);
+> > > +		ct_idle_exit();
+> > >  
+> > >  		cpu_cluster_pm_exit();
+> > >  		cpu_pm_exit();
+> > > @@ -87,7 +89,8 @@ static struct cpuidle_driver imx6sx_cpui
+> > >  			 */
+> > >  			.exit_latency = 300,
+> > >  			.target_residency = 500,
+> > > -			.flags = CPUIDLE_FLAG_TIMER_STOP,
+> > > +			.flags = CPUIDLE_FLAG_TIMER_STOP |
+> > > +				 CPUIDLE_FLAG_RCU_IDLE,
+> > >  			.enter = imx6sx_enter_wait,
 > > 
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > ---
-> >  arch/arm/mach-imx/cpuidle-imx6sx.c |    5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > 
-> > --- a/arch/arm/mach-imx/cpuidle-imx6sx.c
-> > +++ b/arch/arm/mach-imx/cpuidle-imx6sx.c
-> > @@ -47,7 +47,9 @@ static int imx6sx_enter_wait(struct cpui
-> >  		cpu_pm_enter();
-> >  		cpu_cluster_pm_enter();
-> >  
-> > +		ct_idle_enter();
-> >  		cpu_suspend(0, imx6sx_idle_finish);
-> > +		ct_idle_exit();
-> >  
-> >  		cpu_cluster_pm_exit();
-> >  		cpu_pm_exit();
-> > @@ -87,7 +89,8 @@ static struct cpuidle_driver imx6sx_cpui
-> >  			 */
-> >  			.exit_latency = 300,
-> >  			.target_residency = 500,
-> > -			.flags = CPUIDLE_FLAG_TIMER_STOP,
-> > +			.flags = CPUIDLE_FLAG_TIMER_STOP |
-> > +				 CPUIDLE_FLAG_RCU_IDLE,
-> >  			.enter = imx6sx_enter_wait,
+> > There is a second one below that also uses imx6sx_enter_wait.
 > 
-> There is a second one below that also uses imx6sx_enter_wait.
+> Oh, above you mean; but only @index==2 gets us into the whole PM crud.
+> @index==1 is fine afaict.
 
-Oh, above you mean; but only @index==2 gets us into the whole PM crud.
-@index==1 is fine afaict.
+Ah ok, got it, hence why you didn't touch cpu_do_idle()...
+May need to comment that somewhere...
+
+Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+
+Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YyiEqDSJVOZrQYg8%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220919151734.GB62211%40lothringen.
