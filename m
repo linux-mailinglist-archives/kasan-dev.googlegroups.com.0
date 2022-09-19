@@ -1,151 +1,170 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBFFXUGMQMGQEMRY3J2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN7L7O25EIBBO6LUGMQMGQEQR7MZQY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3c.google.com (mail-vk1-xa3c.google.com [IPv6:2607:f8b0:4864:20::a3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A7A5BCB6B
-	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 14:07:49 +0200 (CEST)
-Received: by mail-vk1-xa3c.google.com with SMTP id 200-20020a1f18d1000000b003a0a4957a50sf6279765vky.10
-        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 05:07:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1663589269; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=LIz2+jVNQ+f+/qebLLJt3vAxJjqNVDN9G6X+XYvm/wtivEBeMOE36rBME9hp3qY2Ml
-         Krhc5ze47d0ug36qufPOjpgZodCX5g97XHgBmwtdVhZDFs+e54PfiDJg597MCldEroPF
-         NoqWYueJe929nedo4QNvUF7BFP6nxfuTIo16ksRB3T1Z5codFLcvPNFBSxGFBZwaZnMt
-         R0k4QrHL8VFVaeQUyoQ3K6ug/gQtH9l5bmx6DvmelZH+jz+H/nCQKp8dvXDwB1jTkOLg
-         BdG9L0NUrVZAn+yF68fTrRqxMs4JN1gf5RqhKcSZ5zSAbbW6tilwlAOEnpq7ldluYG20
-         eILw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature:dkim-signature;
-        bh=q00yyGHAZqJgKZ2vpGc9ai+Xmw0e1m/dYNAOlEHaUog=;
-        b=ox4y2c6MxkEAkauzEGQ++wfPykshiaskWVVcX2H+9OR2AxEQTvbPj6Q0p/37wxIfju
-         EJ1SNhUP99BLq6wZzllyYut7JgFXTxnx8RD6QHJm0uyNpJs7KCdcehu5g4lqtSM+c3ZV
-         bhz9RLmbL/43oCCwubQxxHrDl271a8BlckSMK9OYH1J89K67w6p3iG7Mke5ut51B/B/g
-         leahQNbZyETt7AZmOeAUSE/XL7d+icAPsuymNxhNNTiZnzZhsyMSd+NItMHyUYhBuEBO
-         bk+3JphLxBUcLI/NG+HbuarKn6ij2i6dgzwzVKy6Upc9GSTRyrQtiyqabDWReJcnfLUX
-         ol/Q==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Uy179iTK;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::62a as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-wr1-x43a.google.com (mail-wr1-x43a.google.com [IPv6:2a00:1450:4864:20::43a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C0D5BCC2A
+	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 14:51:08 +0200 (CEST)
+Received: by mail-wr1-x43a.google.com with SMTP id v7-20020adfa1c7000000b0022ae7d7313esf938137wrv.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 05:51:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :x-original-sender:mime-version:in-reply-to:content-disposition
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date;
-        bh=q00yyGHAZqJgKZ2vpGc9ai+Xmw0e1m/dYNAOlEHaUog=;
-        b=iZoFjwFy0kNgJsVzHhoEhbvPHVavwxWl/aQIR+YkyTZSeRjL+IcvJ0dMUbguUWxfWG
-         UiKz4t76CYQah5GnrCR/5ddhV75leGlzMjI3lbGb8jF0vTPkCpGMdaec4VS1736Pm8CE
-         icxvCob7vhViW0Y7tIgx50KWaDtT9n2fYBLkVFG07YsKRBe5hKItRmjrqQNET2mYPEGG
-         DWqQz7pA/6R3p5UD1CZmQh4n0RzQTgI7hrRghXZVt7IMMVdIFUtr6fAk9za4IoW0HR3x
-         DMFuEHTOm5V4fyckWKmIuNM0bKqX9cZPtMYJT2z3MQxIvk6VdMCPrdit5j+zAtIRIFoG
-         JUYQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date;
-        bh=q00yyGHAZqJgKZ2vpGc9ai+Xmw0e1m/dYNAOlEHaUog=;
-        b=Y144ma3KhTEBMQeJcVv3dHzt6RSf092NQ9OU4m0uamUKOu1QynFevTaIpNjntLZObO
-         E7dbbQVFlIY2znBLW2J3AbMcvZDN26wcvmmnPOw0oEjR0B3As8UQlkb7VdGO3vYoIYSH
-         J8flSJ5UoTImWnH/WF/IBwMadE/09MhBXkL/65DVIpy41uxu26Xw8RqL9hNzYwvzXeLj
-         wfoGXwTllPEFyMAGTqX1Fk9aBPjQ/g+QmqlGO9YkVjfgQpYrsZ3lNoqG+oulaD5tjf4/
-         1jMK2T1cooZ36k2PEPK6y2VPT2LyBfXenDDJga2Vumf6jITp2mWDGBCGL/HA2gMcIVQm
-         97gw==
+        bh=8a4Dp0TMQp4y96ddS4by3hS0mXsXdW76peWvxRl1Ur8=;
+        b=WuNTPYvwljvVHkygik+xNshHrf/OqjfTsilX1431eDWRcfszJPf3yN/XY7YevYvMSv
+         +yn6ovwKbvHRP47okRXkjmXPojrHenggNkJHOL7yOiowUa6P/RcNxJwF0X1Svf3xQwbD
+         db7m8zUSFzuF++lH5LXr+i9YxaZH6YwZxoNUihoGtWKsJVHOuUIkbZ8YJXY8fzANFqvP
+         DWhmsJvmbxV5dJTc7T0//bB5RpgOrabaX5DWQZEohDCNH6vW3/cagbhAqplZvHZHLgqC
+         sdujVU2cYNrO610l/3lDpdW/A/0mGj+KqkUMfoZFPxuTsGtWuUghbbJw6gbSkOOCxqL+
+         tG3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=q00yyGHAZqJgKZ2vpGc9ai+Xmw0e1m/dYNAOlEHaUog=;
-        b=Dd80RDPZNZ8w+1CKtxlucABsFepN8beD7yB1FK+v1vfdmnmrbsZMqOisCnSllYWILQ
-         knNJsUI0EHza/Qo/hrM0uDFPXb27nHMq4ueysZVi1Yb0GgqrfrVPwgAGXk90FgPqTaJc
-         jHckCJ7AYfS1USdRgKirZoOFk/YvVs97KlNPPwVPmS9DvxtE4qLFDkyoIRLt007lpOVV
-         ZLPStl17MGOEkDvRSa2ISfaW2X0N54caKHbiPgBKNN6sR8gjvEbM5cBLFprdA+Uog6Tr
-         XItHttSuR5PkCGzqunuLLra7A/XBF8kNYbbSq9cySQcpos2MMi92XfQsT/CRQLsjdPEN
-         2Bgw==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :in-reply-to:content-disposition:references:message-id:subject:cc:to
+         :from:date:x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=8a4Dp0TMQp4y96ddS4by3hS0mXsXdW76peWvxRl1Ur8=;
+        b=oyYrLHazEJWyUNcrQ4j28CK+qc/8g+oiY/c9pRRqB4PJePORDk52X7HIXK4Tfcbit2
+         PKwd72AIgOzGOxK3JmD5nQHJTbUJpVL5AduujQRXvyPWozevRrVdELhUVY9RASzu1GvR
+         yuY9jpc7zfD2QvnAkxqAcnwS6y4tQdc+j0CgtcT40dmXETsDaCl+9s1eoG3+RbDYCGq4
+         1H0Hng/Y+KViUxirFxSF7usbpUph71ja9qS5MWDWxXS8RsA9u6/3uyzNFHcH/xLqJPlc
+         nRw+zvTMshO5/ZB/RxbbNzxJ0YxuaN+QcovWAne8gUJYlT1Zob0MPF7Dd9Tdb7NnV8Kl
+         YFSA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1Eyf0V1JS0by8cbuGyQTg8YtFUk4bI+h3Mnp9aqg0mEcRMTdv5
-	A5pt7z818DkGk05RGvVp6bQ=
-X-Google-Smtp-Source: AMsMyM4PL5DjTpDGmLXhBBLK6A4de6Li716SSsh6B3ePCt1eRxiZz1DeYRvLWG0Lz/0A4V7SFgVgzA==
-X-Received: by 2002:a67:c005:0:b0:39a:ffd9:30b1 with SMTP id v5-20020a67c005000000b0039affd930b1mr1723091vsi.65.1663589268900;
-        Mon, 19 Sep 2022 05:07:48 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3mLF/PkwYYJgzJUT8IzwZqd0JN3ycoP6ewRtQg9CvcFdghTvX9
+	Gh+PiHNOZA/xVqBs/Y5vIFA=
+X-Google-Smtp-Source: AMsMyM4Q4SFeunmSMQRQZQZdy8j2ZybLkrQsvGOGvFCAE/aKrD8Nh2sXt1skbhbHWxnh1qpzcDW4mw==
+X-Received: by 2002:a05:600c:1c8e:b0:3b4:9247:7ecc with SMTP id k14-20020a05600c1c8e00b003b492477eccmr12568642wms.40.1663591868000;
+        Mon, 19 Sep 2022 05:51:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:1384:0:b0:3a2:b7c1:635c with SMTP id 126-20020a1f1384000000b003a2b7c1635cls374305vkt.2.-pod-prod-gmail;
- Mon, 19 Sep 2022 05:07:48 -0700 (PDT)
-X-Received: by 2002:a1f:1d14:0:b0:3a3:27c8:e359 with SMTP id d20-20020a1f1d14000000b003a327c8e359mr2659319vkd.1.1663589268292;
-        Mon, 19 Sep 2022 05:07:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1663589268; cv=none;
-        d=google.com; s=arc-20160816;
-        b=mpr0+pGeZpb6ff8qyC+nDBgccm7Najwgi7OLYbpv07zIl3Hho3tB8hHdrWgHJEgH4w
-         TmNutEDNXD1z5xNPt0s+20JgxySIrfs+ChBWVjX7b+Ehv928Enhqa8FEo5Sbl+Vjs0te
-         COkwzJyJGVvFsw/BFuz0BhPMc2ASimh9AukfC/2wT9P+VRK3Nkg4oYv42JNlaaef0M3/
-         zOwpolStuH42UKWHt+s2VYl1fE6ifwFwtscdKf4ufWdl/7jyagks284QmZ6kPv0nir0n
-         khaeRHZlbvEYCcSWA6f5zmjVDXN4e/JUwGhUPAmqiO0u+d9ZJDwx4/jLDmVB0jmQyxqx
-         u75Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=EVK8PXwi2Ipbx2nYX9NE/Drl0fbix3hzVw5SYu8VoBw=;
-        b=XbAqCwhWmjGZCWimET1LMVoYRqxQcO3zVFbhLsfkYTUECkPr78Mcvsh3jVaQmrvYNa
-         yZZGZmQOvl3Hcj10+eJw3P/Eo7XlnvikRUxU+hYewQuKmEWjZdIX2WosBI7AQ0qd8G/8
-         z6bsyovFG0bKd+tVwCcbSujCtXneFd75w6WB5b/Nlm1o+rXQqNsMWXgjA9L45zDRX3HO
-         r6g0Ij9jiAtfnbY3gsFj2pqFoesb72r8y3wwbMX6aPgPiJMnXBr4VIeR087YS8DicVLO
-         RMwaGKT5ggViQOlOGoXVKYHtBBgLAEnEMHcVK1W5E+YnlEnyMxar2A74mLoZngqP/ArP
-         SaWw==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Uy179iTK;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::62a as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com. [2607:f8b0:4864:20::62a])
-        by gmr-mx.google.com with ESMTPS id h16-20020a67ec90000000b003882da6dea8si1024234vsp.0.2022.09.19.05.07.48
+Received: by 2002:adf:d20c:0:b0:228:ddd7:f40e with SMTP id j12-20020adfd20c000000b00228ddd7f40els8199616wrh.3.-pod-prod-gmail;
+ Mon, 19 Sep 2022 05:51:07 -0700 (PDT)
+X-Received: by 2002:adf:eb50:0:b0:21e:3d13:3a91 with SMTP id u16-20020adfeb50000000b0021e3d133a91mr10265240wrn.484.1663591867035;
+        Mon, 19 Sep 2022 05:51:07 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com. [134.134.136.126])
+        by gmr-mx.google.com with ESMTPS id az7-20020a05600c600700b003a54f1563c9si227780wmb.0.2022.09.19.05.51.06
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Sep 2022 05:07:48 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::62a as permitted sender) client-ip=2607:f8b0:4864:20::62a;
-Received: by mail-pl1-x62a.google.com with SMTP id p18so27690101plr.8
-        for <kasan-dev@googlegroups.com>; Mon, 19 Sep 2022 05:07:48 -0700 (PDT)
-X-Received: by 2002:a17:902:f7ca:b0:178:9c90:b010 with SMTP id h10-20020a170902f7ca00b001789c90b010mr5985752plw.149.1663589267834;
-        Mon, 19 Sep 2022 05:07:47 -0700 (PDT)
-Received: from hyeyoo ([114.29.91.56])
-        by smtp.gmail.com with ESMTPSA id x5-20020a628605000000b00540d75197f2sm20956047pfd.143.2022.09.19.05.07.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 05:07:46 -0700 (PDT)
-Date: Mon, 19 Sep 2022 21:07:41 +0900
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Sep 2022 05:51:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 134.134.136.126 as permitted sender) client-ip=134.134.136.126;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="282415404"
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
+   d="scan'208";a="282415404"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 05:51:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
+   d="scan'208";a="760854585"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2022 05:51:04 -0700
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 19 Sep 2022 05:51:03 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Mon, 19 Sep 2022 05:51:03 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Mon, 19 Sep 2022 05:51:03 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ocmUDUP4TG7WbT4m0uSVhQAU5xsVibCaZDgIkZUWZjd30ONO2iL/JkCa7D3+2L/ITD01v9zrF9jrLLUen1OxpN74O4ZxTGY41/G63LEfLHZnXm4zCD5nG4JoFzDQS/bLAEvw32j6nf1E5f6hlLat2p63QxfS2f/WJG6icpyqhs0ei9izswgYMXPeO/RXgEUN6zrXJa17w5hp4S8ijI16fCRKfhWDnlBMiNgnFU5VW37x22kdhr7CL+UVv1SdJo4Rj8EZQJ6xtTSAmiLf01m+rClLppX+5JUkb9zp3DRNUaoFHZutGUiihmsUGacqQu0N250LGcAulKkUvpfIjkzzbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3/nJiy1I3KPQAJVdfF2BEllvqnKNY+TA+a0zvRsw7ao=;
+ b=XNRE/n8wH0TVeXtqbVxGulfrtP+807O/FR854Hl7EDmnTPMpZA5tGktZVh//0THHghYxettPwXdkpPsREKn2R2lksfhrAf6vjwx8GHk58RdcVoj4MmyFDfbIeyOs3ws2IlgJJH8Mu0aQ12kp1/dKqv+epG+H+pj4fzoXe05kM/CBhflTS7cGZxaHbTfnVpN8nadUNjrE/3KrB3UEdmtrxvHsmd9+VB5xSYOCJR/KKGCnt4ZIgboxCcm0SnUvhdHvOiWf+3K1ol5CCodOAYGb65mdnhniDiIHJMzzQkpeC9oVac9qRhUdDSmH+xQcvVXlFSZqRTes2V9qWzQPLoELWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
+ by IA1PR11MB6290.namprd11.prod.outlook.com (2603:10b6:208:3e6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.18; Mon, 19 Sep
+ 2022 12:51:01 +0000
+Received: from MN0PR11MB6304.namprd11.prod.outlook.com
+ ([fe80::ccec:43dc:464f:4100]) by MN0PR11MB6304.namprd11.prod.outlook.com
+ ([fe80::ccec:43dc:464f:4100%5]) with mapi id 15.20.5632.018; Mon, 19 Sep 2022
+ 12:51:01 +0000
+Date: Mon, 19 Sep 2022 20:50:34 +0800
+From: Feng Tang <feng.tang@intel.com>
 To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Feng Tang <feng.tang@intel.com>, Christoph Lameter <cl@linux.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Waiman Long <longman@redhat.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
+CC: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+	"David Rientjes" <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	"Roman Gushchin" <roman.gushchin@linux.dev>, Hyeonggon Yoo
+	<42.hyeyoo@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Waiman Long
+	<longman@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
 Subject: Re: [PATCH] mm/slab_common: fix possiable double free of kmem_cache
-Message-ID: <YyhbjUG3SqU8A5Me@hyeyoo>
+Message-ID: <Yyhlmq8GA5FnNoxq@feng-clx>
 References: <20220919031241.1358001-1-feng.tang@intel.com>
  <e38cc728-f5e5-86d1-d6a1-c3e99cc02239@suse.cz>
- <YyhY7RBLxCEuSHp9@hyeyoo>
- <e736ad09-e29d-7a76-6823-55e14fec87c1@suse.cz>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <e736ad09-e29d-7a76-6823-55e14fec87c1@suse.cz>
-X-Original-Sender: 42.hyeyoo@gmail.com
+In-Reply-To: <e38cc728-f5e5-86d1-d6a1-c3e99cc02239@suse.cz>
+X-ClientProxiedBy: SG2PR04CA0174.apcprd04.prod.outlook.com (2603:1096:4::36)
+ To MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|IA1PR11MB6290:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fe6c720-393e-401a-1813-08da9a3d9b59
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EGjLkKMWZ4YAn8VnUyN4QVzPwsT5rycYpatnkPWMpoxIIPb2j6mQIYdyeyXSTT6Tp8gmby6grRa/oGtbeWm9PlG8O0oQP5CMX3WVVkg2YbP+ILLB4F2JdOM7WW0zu26vKIvqqpqYayWMU98qPHhbHJmUzuwsKJUFpR9M+WTkk2ADLorSx8xvprSGopWR4shYRitlBD4Ta6tF7k5iRFQDuSoL2WDW9369BRB1k8c80HcCUadW0MMw+3juu6qZgZXTW+4PD+JA36T8/W38Fy/+O9kHjn9yddxFl00UbgSLZKfUphLUJ4Uqlf7RjcmKdRZ9sH8SAD6iBzfZkbEoWVkoSCqgSckL7BELIBjCJBH4toazPPR6M6KrYZ8h2R2GWKFXKYwg59NoTdd3aL/Gc5dmEEigxisbuICJsUstEQZAHUKMyqRHQTZqd8lJJOpaCcE7m0tZYqzCGpLMFH8YcOZwSawV9y4UZ0i32alGohhmJRCcVLMY5b/nVXiHeRNVh6Vwdknn1CZWUUCMg7kYFWxMETtnSPayaYEeQvJHqck0vt4eqrEmhRiMxM0w0RrHgml9ZKwGhS+0rHISTPjL1FQ9IoF2ECm2NytitXNhL3jiGyEkQU+jnQ2XucIlWUP4/n1SRpCrHkfdt/YV64xJW4bnQ5mWq4/uflvLVdo+Wjbml/Ovggw5vzlLHcFwHYytewntChtReA9vZGN2TnhjeumQ+w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(136003)(39860400002)(346002)(396003)(376002)(451199015)(82960400001)(9686003)(26005)(6486002)(6506007)(6666004)(6512007)(5660300002)(2906002)(83380400001)(316002)(478600001)(38100700002)(7416002)(6916009)(66556008)(8936002)(33716001)(86362001)(186003)(8676002)(66946007)(44832011)(53546011)(66476007)(41300700001)(4326008)(54906003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6NpvSP7/8al9Q99C+A0ThbNddw5TQb4bZYNnK75JBhp14j7fOaiSPrl7rajb?=
+ =?us-ascii?Q?jkARIBDR71oqk2tt5IM1C9Ix5fMXWhSW2xA64eWeB6rAbqwjXk534wDGztJ9?=
+ =?us-ascii?Q?b8E6jNaiWdA1K5+CWq6pFuPCoEmGEg6NtMJIPfob0mbbDdbgUcYxjBtapbU6?=
+ =?us-ascii?Q?q5iw+tunDFYi9TRGyNidmyF2U9WNQC6tuKx2hiXSq9EewY501p0ilhRFOk8e?=
+ =?us-ascii?Q?bmhAFJFKJ83H4aARlwfmHb2DIxED7k7gvmSVojjMx9bfBpcU/KiKibmYv8Zz?=
+ =?us-ascii?Q?5r/3i2uqIJieWttwimuHaeWT/ZIzuURVln63ZA+SAv/orFkT47uL2mkyK+co?=
+ =?us-ascii?Q?HJAm6hWQgkZMuT+31kGdOjrPSqcwWIF1zqvBFnBJHn56WWpdZX1vx+DLyryb?=
+ =?us-ascii?Q?qgjQbWns7VVXvZj4zE6iDADxcuCaQ2/6KWID2tWC573bf0HFBr51cF8HfhFY?=
+ =?us-ascii?Q?JD+90E81zGhWdY7nnCNZ6j/po70M66HhGmN38SR1RuYsTiWytedke7gizmPd?=
+ =?us-ascii?Q?WM8Zhzi1zQZ23cakrEQyKUvz7zWk3mACNJDcQGOZhXPb//4BiU6tC6PSS6q3?=
+ =?us-ascii?Q?RKxDDLgssTVxoC42Nt9NMmgjTs4IJIoRWE2Zo0V4EFDbDPt+BXJbqHHpbYpZ?=
+ =?us-ascii?Q?upC2X/SuNG5oGBbTExBxuAr3syc3RFxxXioapFkS9xzlCSwj4/991uwPKzVV?=
+ =?us-ascii?Q?ERES5VIgtT7yh8KOdnzTr031NDOqraRISzgM3D0stFTdrEsjY1sEk+d0vHUl?=
+ =?us-ascii?Q?WGFwaC02Og6H0V57TAvEn8r7QkmNtjv57zw4QgWlRM+nZnEPGTETNBUBUpAP?=
+ =?us-ascii?Q?L5yYQL57PGJpBmIaFFWfPA3SIo7YtI7eCwB7EbfkRyXH2fFaz2Q96ZUjEPDG?=
+ =?us-ascii?Q?oOpwBf7MHGiQ9F/q1H3KfpQhN6fmKZQ4Cjdybgif6fjeXZO+V10vQKdrBox8?=
+ =?us-ascii?Q?hDXSLr5P1OKmYMPr8acMHr/DjDadChce+pSx6kacnzFf55k+EEE9OtZxLgPK?=
+ =?us-ascii?Q?W0QETEVr4Mhlbz5Vj/u6DUFBEMpwReZaND79va03jrs7qk/VBqvSg42/e6g3?=
+ =?us-ascii?Q?tCTqWA410fhLMKI2m9NDkOJWeLBPhgjSCcHBw3Kri1mQh+0Ck5he+Dp5KLOV?=
+ =?us-ascii?Q?wCI6POvn0CuCxqXk6EyhE6KmhHMKGodiLKadB0SJfqtuO+7XzH9vNjJGsbRn?=
+ =?us-ascii?Q?1bgG0oA6qgy0e8Px78KRdWUNe4JQpxgcQ6H/Ble8NcuJzNJO9e0dlGtj0JFd?=
+ =?us-ascii?Q?k87eioCGTNPWFnY+9AcyAgNme3fSHD3ROrsUnn/TnsxAE8mafnZa1fJ8rOBV?=
+ =?us-ascii?Q?kUUZc/PqICE1zLsP04S9drSXCSLOw1XavwMh/GU15xpIiaGBipH5ULoLaHf7?=
+ =?us-ascii?Q?AiGZ0PAx8XjabSvVAhfhbz3vfCvvte/adSk+Doqh1TfdvzMkDh2U0nopURn7?=
+ =?us-ascii?Q?7R9/WUTX974IodvOBv8VUSMRs0X1W4O8chZdd4BBUhZb4Lm9X+MFuDU3TvbY?=
+ =?us-ascii?Q?+rAPaX8B/zE1913oWywpHOGVMMPEQLY3B/A9nVhS9SzVbNMdLeH0gqcu6bSE?=
+ =?us-ascii?Q?4JFUT3HAnJW76cejQbNtjNqKs8hCQgoQOSaDscLU?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fe6c720-393e-401a-1813-08da9a3d9b59
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 12:51:01.7898
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tebfLycAcnYf4HiBE0JyuVlOcQCzylK6sTALfghavpsTg7lq8z4FgUoKS51/AAa7F8FnatpGzBHXrA1SaDqf8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6290
+X-OriginatorOrg: intel.com
+X-Original-Sender: feng.tang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=Uy179iTK;       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::62a
- as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@intel.com header.s=Intel header.b=MHDgV4RH;       arc=fail
+ (signature failed);       spf=pass (google.com: domain of feng.tang@intel.com
+ designates 134.134.136.126 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,131 +177,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 19, 2022 at 02:03:15PM +0200, Vlastimil Babka wrote:
-> On 9/19/22 13:56, Hyeonggon Yoo wrote:
-> > On Mon, Sep 19, 2022 at 11:12:38AM +0200, Vlastimil Babka wrote:
-> >> On 9/19/22 05:12, Feng Tang wrote:
-> >> > When doing slub_debug test, kfence's 'test_memcache_typesafe_by_rcu'
-> >> > kunit test case cause a use-after-free error:
-> >> >
+On Mon, Sep 19, 2022 at 05:12:38PM +0800, Vlastimil Babka wrote:
+> On 9/19/22 05:12, Feng Tang wrote:
+[...]
+> > The cause is inside kmem_cache_destroy():
 > > 
-> > If I'm not mistaken, I think the subject should be:
-> > s/double free/use after free/g
+> > kmem_cache_destroy
+> >     acquire lock/mutex
+> >     shutdown_cache
+> >         schedule_work(kmem_cache_release) (if RCU flag set)
+> >     release lock/mutex
+> >     kmem_cache_release (if RCU flag set)
 > 
-> Well, it's both AFAICS. By the initial use-after-free we can read a wrong
-> s->flags that was modified since we freed for the first time, and it can
-> lead to another kmem_cache_release() which is basically a double free.
->
-
-Yeah, I realized that just after sending the mail ;)
-it is use-after-free bug that can potentially lead to double free.
-
-Thank you for correction!
-
-> >> >   BUG: KASAN: use-after-free in kobject_del+0x14/0x30
-> >> >   Read of size 8 at addr ffff888007679090 by task kunit_try_catch/261
-> >> > 
-> >> >   CPU: 1 PID: 261 Comm: kunit_try_catch Tainted: G    B            N 6.0.0-rc5-next-20220916 #17
-> >> >   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-> >> >   Call Trace:
-> >> >    <TASK>
-> >> >    dump_stack_lvl+0x34/0x48
-> >> >    print_address_description.constprop.0+0x87/0x2a5
-> >> >    print_report+0x103/0x1ed
-> >> >    kasan_report+0xb7/0x140
-> >> >    kobject_del+0x14/0x30
-> >> >    kmem_cache_destroy+0x130/0x170
-> >> >    test_exit+0x1a/0x30
-> >> >    kunit_try_run_case+0xad/0xc0
-> >> >    kunit_generic_run_threadfn_adapter+0x26/0x50
-> >> >    kthread+0x17b/0x1b0
-> >> >    </TASK>
-> >> > 
-> >> > The cause is inside kmem_cache_destroy():
-> >> > 
-> >> > kmem_cache_destroy
-> >> >     acquire lock/mutex
-> >> >     shutdown_cache
-> >> >         schedule_work(kmem_cache_release) (if RCU flag set)
-> >> >     release lock/mutex
-> >> >     kmem_cache_release (if RCU flag set)
-> >> 
-> >> 				      ^ not set
-> >> 
-> >> I've fixed that up.
-> >> 
-> >> > 
-> >> > in some certain timing, the scheduled work could be run before
-> >> > the next RCU flag checking which will get a wrong state.
-> >> > 
-> >> > Fix it by caching the RCU flag inside protected area, just like 'refcnt'
-> > 
-> > Very nice catch, thanks!
-> > 
-> > Otherwise (and with Vlastimil's fix):
-> > 
-> > Looks good to me.
-> > Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > 
-> >> > 
-> >> > Signed-off-by: Feng Tang <feng.tang@intel.com>
-> >> 
-> >> Thanks!
-> >> 
-> >> > ---
-> >> > 
-> >> > note:
-> >> > 
-> >> > The error only happens on linux-next tree, and not in Linus' tree,
-> >> > which already has Waiman's commit:
-> >> > 0495e337b703 ("mm/slab_common: Deleting kobject in kmem_cache_destroy()
-> >> > without holding slab_mutex/cpu_hotplug_lock")
-> >> 
-> >> Actually that commit is already in Linus' rc5 too, so I will send your fix
-> >> this week too. Added a Fixes: 0495e337b703 (...) too.
-> >> 
-> >> >  mm/slab_common.c | 5 ++++-
-> >> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >> > 
-> >> > diff --git a/mm/slab_common.c b/mm/slab_common.c
-> >> > index 07b948288f84..ccc02573588f 100644
-> >> > --- a/mm/slab_common.c
-> >> > +++ b/mm/slab_common.c
-> >> > @@ -475,6 +475,7 @@ void slab_kmem_cache_release(struct kmem_cache *s)
-> >> >  void kmem_cache_destroy(struct kmem_cache *s)
-> >> >  {
-> >> >  	int refcnt;
-> >> > +	bool rcu_set;
-> >> >  
-> >> >  	if (unlikely(!s) || !kasan_check_byte(s))
-> >> >  		return;
-> >> > @@ -482,6 +483,8 @@ void kmem_cache_destroy(struct kmem_cache *s)
-> >> >  	cpus_read_lock();
-> >> >  	mutex_lock(&slab_mutex);
-> >> >  
-> >> > +	rcu_set = s->flags & SLAB_TYPESAFE_BY_RCU;
-> >> > +
-> >> >  	refcnt = --s->refcount;
-> >> >  	if (refcnt)
-> >> >  		goto out_unlock;
-> >> > @@ -492,7 +495,7 @@ void kmem_cache_destroy(struct kmem_cache *s)
-> >> >  out_unlock:
-> >> >  	mutex_unlock(&slab_mutex);
-> >> >  	cpus_read_unlock();
-> >> > -	if (!refcnt && !(s->flags & SLAB_TYPESAFE_BY_RCU))
-> >> > +	if (!refcnt && !rcu_set)
-> >> >  		kmem_cache_release(s);
-> >> >  }
-> >> >  EXPORT_SYMBOL(kmem_cache_destroy);
-> >> 
-> > 
+> 				      ^ not set
 > 
+> I've fixed that up.
 
--- 
-Thanks,
-Hyeonggon
+Oops.. Thanks for catching it!
+
+> > 
+> > in some certain timing, the scheduled work could be run before
+> > the next RCU flag checking which will get a wrong state.
+> > 
+> > Fix it by caching the RCU flag inside protected area, just like 'refcnt'
+> > 
+> > Signed-off-by: Feng Tang <feng.tang@intel.com>
+> 
+> Thanks!
+> 
+> > ---
+> > 
+> > note:
+> > 
+> > The error only happens on linux-next tree, and not in Linus' tree,
+> > which already has Waiman's commit:
+> > 0495e337b703 ("mm/slab_common: Deleting kobject in kmem_cache_destroy()
+> > without holding slab_mutex/cpu_hotplug_lock")
+> 
+> Actually that commit is already in Linus' rc5 too, so I will send your fix
+> this week too. Added a Fixes: 0495e337b703 (...) too.
+
+Got it, thanks
+
+- Feng
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YyhbjUG3SqU8A5Me%40hyeyoo.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yyhlmq8GA5FnNoxq%40feng-clx.
