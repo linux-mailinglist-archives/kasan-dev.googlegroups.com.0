@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBYEDUGMQMGQEZVUFEAQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB2EDUGMQMGQE744X3JQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id B290C5BC6DC
-	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 12:18:09 +0200 (CEST)
-Received: by mail-lf1-x13c.google.com with SMTP id e4-20020a195004000000b004979e6a0c88sf9774354lfb.22
-        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 03:18:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1663582689; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id F31575BC6FC
+	for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 12:18:16 +0200 (CEST)
+Received: by mail-lf1-x13d.google.com with SMTP id q16-20020a05651232b000b0049787a1b6b0sf9795096lfe.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 19 Sep 2022 03:18:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1663582696; cv=pass;
         d=google.com; s=arc-20160816;
-        b=G1GtEZ8DvJgK/mqfxRyzt+N/CWOve/0qxDS+4Z3DzJ3L9rRJ/0KRcVQoZ5XISTZgX4
-         Bz3SRusK564f0vhhelnNpxpBcKNEL0tq3N9aUEELLGdx+ba6IuzXkWaQQecqBQOhNH7a
-         hlmX2xGKcJwBUHt0Uuc/9S6/PU+DfMFU+M6WLHm9jVE6R6jXjHlpY07BxNaNDW+V1IUV
-         oD13Li0xfQQJivA1SQGSTreU3W3L0Wv1ECzOnYDAdmQEhppvNBtH/KyZKrl+WKuCEznk
-         g5ELN/1qe0hxlXPhiQrBY/FuoOOYQrMDgCoWPBqjqfhvlb7gMWZElEhS+IFE4Xpj+Uds
-         gQgg==
+        b=bFDIe39A3+VYUxYS7PALxcVi1dqdl3cGlCJkqbk8/1Hjjo4YtzBcvPU/u1wO1WQ7MR
+         olxqrN04bRmel1qTf3mkKQideYPiTiMMxgmJPHblqIBrt4kEvgfWG1iNKMBsbDUiFlL0
+         kNS2N1+h8ePZ+rWtQ8IBtVMfbT8K//eNpUnWntUo3OdE23KQ6NZhSVjwZ8Cp+egO9yWt
+         ZRmHpooxRwjpQVOCqqUJ0A1acWfdwf+lMeNzvEf8Q8hrRbEidVU75yUqrBPZHh7EC7U2
+         jG5DEmG6xakFKbvvMzqYHs3vtWK8qYvR+A0ikdHijyUHf6kQ3wiwG8WFWdajKPUXbJpd
+         VXdg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=7ClMPWQ+RrUib/RksJbZUWazaeHWYMXCPrIptNKjGJU=;
-        b=G034jwBkZSCA+2AB8vAwaAmChxZ78O+lveEwokhWWB4gFaEFfhPLXyKsQAPRldMbe0
-         HIOrfyHLT0t+XgCrrsiddMvuZC4zIbzLO1Vbiya+UeunGiICY3FKNRXdmw7xqX+jBnUr
-         5oBRQeQyCxGI96WVsKnCH4ZmtvAjsuEMm17fSt5vnx8Kl9ILAxt06ZaLuomZXj9mrGiX
-         aMKhUPi/+vXzOzqI24jIXpxs1mnS6p4tOuulrg8WctVp8oXC9ywlT1XfmnQk2uAf8Qf+
-         Hs0c1Wwq/CcnDYK+yLdgUNGuqpefZ1aORfUyBrcXzdt6m7jo/+eAO+3JkEx9Pmj2muS8
-         3JsA==
+        bh=SEZOsIbZrXBpXN08DM8IpkIhqKpSpEWI1QxWN0aC/KU=;
+        b=gZuMxfMgW3PKe80EQ+3cLiseeTNebd1eRbQTH1skt2Qe/A5jNA4sSpXTfynlVpl8PX
+         TNjwXLGm2Gu6YrNfqfjj5ts7s92qagVORvmbGJYbFNmmD4X6b29fP6rOzu7qPQ8xZ0h6
+         xfZKJ8VMBDc7bul3+p+NjhUd8mFKypKA0EeBv9n7Hj8o/sfKrgcZrd6tPVmLfwNi11Zc
+         Xt7A66QrZm7UM76vodo/wm2KJonZB5XtQAbtyjihHEP0dfb6bkXnPcAySvf+LFb1vZZp
+         R1IL2Xc7pp6QfWzpCQOYv+WD0sIQz63vhsABzcIpayiOE1yEBMo2fj7t8QquMnFwGBOg
+         JEBg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=i2csV9g3;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=jbOwzdvf;
        spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:subject:cc:to:from:date
          :user-agent:message-id:sender:from:to:cc:subject:date;
-        bh=7ClMPWQ+RrUib/RksJbZUWazaeHWYMXCPrIptNKjGJU=;
-        b=a4rQbOmf+4ND6kPNQ3NjFFEDx8AlROB9JBL9MqPQ+lxUu9RP4Iu3UgR3EwvYvHGoph
-         7QXQPKAkOAX9Y87O9h3h+ySvcymoEgEmhDvcdouasz+nfbCrL16OGVQhgosIuw43gkwV
-         eUHRcai29sbrF8lO6w/BJ6SLni+WQa+a7pwj2PYVn7kL8fM13dyqv+2S51R/IkYQ1Fxf
-         6DyaLMabTn7VEV7r4Rq/moWxtkcWjjeRHAEQ/HiBipasN/bD0bI0Dk5LtqmbbJgz5L9x
-         oZelc8ch6LmsoIbxqHs7LgYa0YsEdilZ61CjUOwbyjdo4vn3ioA4/nhDFV+wHu4zVjQe
-         JqWA==
+        bh=SEZOsIbZrXBpXN08DM8IpkIhqKpSpEWI1QxWN0aC/KU=;
+        b=HF5VbInQSfZpTWlHtJyPacsbsZEtiWdFxoY1dsQ+fkyb9zGln6spcP1G30pC+kvyYt
+         qqiF8kqz4PS8vMpNL8rYSekngFOtAm0WwFl+BRpOHaxAIARTRe7L/qeW/2HgP2ryCfPN
+         pYUakrA2j/CobVSwpls4p8E9XvaJzgt5m12k4wv57T7fL7elxAtCCkNZCUAQ8+dAc5xu
+         8btumjR3YNGFM+ZMhO/m8ZyR7te0foydVyREySbAmAHWAwdg6w4stV7iafJK/wNL/orp
+         gm9lAe28OUGRIiBhczmiSF4BG5p2tXmKHVlyH88lVFP1qRx8DA/1d4G6CBXBjJ47TDdw
+         o2EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -48,65 +48,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:mime-version
          :references:subject:cc:to:from:date:user-agent:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=7ClMPWQ+RrUib/RksJbZUWazaeHWYMXCPrIptNKjGJU=;
-        b=2nMYc9JDKRy1ZBxxscjMOvdROpY0CQ5hr/TUS7jp/PeCBpNoOts+x5XLcWHC9AYOVh
-         j8f6w6TJMjsOgRcK+9B7qHI8pCE9ld7cOH0zFM0++7KvEAHRWzVFO80/4hl6DTQkpdJE
-         lnJCiy7yUWvEuf7MZBJkNDApgeqF/HF3OPJq2FwOlWsoch1cNqVEtRin+uhn3JMxFC/I
-         TM0lQ55JM+oDtG4nx5B2VhP2Hm980oyHHqpcfJDUquICGQohiNFpmYOxKt8MkEcVu9vO
-         PShPzOt64dig1binuih18orbnDNKiYewh/Z0jtQzvscrIZgLf/4rbRwxsq3JKQSqR7sy
-         +MCg==
+        bh=SEZOsIbZrXBpXN08DM8IpkIhqKpSpEWI1QxWN0aC/KU=;
+        b=aB9uWn+FQelQUwLsiI/CZaP4kBAWN3TggVgAzkp8XBrtjoI00JK6UmKkJySB4DSrIW
+         2bUVeonIrVYbU+2E4RFP+NAZpEJM9K04dI2aVKZqdldCMNxl+aUJThmGthfMrFZpN9FI
+         ez9WYjdTQSP53FJPNPNRxk8i+LatPf3M3zYmlyuyLqeipfZZy0KDyk6uJ+YP5Uc/6IZI
+         ZZDuRPigz80cBdVPmjX0FcSSBIuM2dNI9+zmyzgJgE8qwqCUoIl0y88zn03SGYecJwVt
+         w8jb+h6qRKBKmV528F9cj33GTYEIdCR54JSaQm4r8XOzs2f8VEVlbYq4TwAX5t20QmBa
+         ZUaw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1FsaXXEiLIZVqIujEe1QOmSI+esiBdTcc+F8nhkEEn3+e3lCbe
-	J5b3vmbk7KqCUaM3Jf1JncE=
-X-Google-Smtp-Source: AMsMyM55nIIraI4hTqVgJvV9jCTWuctjoFn3S1DOE5WHbVdEeSENOlbULASasgyTO2ONTaseRgIYZw==
-X-Received: by 2002:a05:6512:6c9:b0:49a:51d4:d517 with SMTP id u9-20020a05651206c900b0049a51d4d517mr6109363lff.329.1663582688970;
-        Mon, 19 Sep 2022 03:18:08 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1pvlm56HRmSiZExBzONLFihnI+cKVZn5mrJGh5dOcM0iea248s
+	wEsPYCrt5G8YHvsg9uCL3gI=
+X-Google-Smtp-Source: AMsMyM4ThlCaQuJw4TKhuym94io+TaM4ZuqBsrBeqUwDpNdp6EuI9szGlcZeHD1/B0CqWQko1MkQfQ==
+X-Received: by 2002:a05:6512:22ce:b0:497:499e:c966 with SMTP id g14-20020a05651222ce00b00497499ec966mr5761004lfu.402.1663582696380;
+        Mon, 19 Sep 2022 03:18:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5f7a:0:b0:49a:b814:856d with SMTP id c26-20020ac25f7a000000b0049ab814856dls556136lfc.1.-pod-prod-gmail;
- Mon, 19 Sep 2022 03:18:07 -0700 (PDT)
-X-Received: by 2002:a05:6512:1150:b0:49f:54cb:3554 with SMTP id m16-20020a056512115000b0049f54cb3554mr5507838lfg.38.1663582687738;
-        Mon, 19 Sep 2022 03:18:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1663582687; cv=none;
+Received: by 2002:a05:6512:3b0:b0:49b:8c05:71a5 with SMTP id
+ v16-20020a05651203b000b0049b8c0571a5ls556804lfp.0.-pod-prod-gmail; Mon, 19
+ Sep 2022 03:18:14 -0700 (PDT)
+X-Received: by 2002:ac2:46f9:0:b0:498:f633:8136 with SMTP id q25-20020ac246f9000000b00498f6338136mr6398237lfo.117.1663582694690;
+        Mon, 19 Sep 2022 03:18:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1663582694; cv=none;
         d=google.com; s=arc-20160816;
-        b=OyRgYJricQtf82TW5lUTRfIgF2mT/7DqdHJKwU/i2wbLcQbvvODpz3xDMYF98O7BWJ
-         6w6MaVPUu2Vd/OwaUb6xzXnzjcY2bYN095O2XhvcZQ74l4L/hbRu+1649mbZEGx7UdAk
-         9LXOIIVPETpT8i5BiGEdIEQ9ETDNzxe/efaixoT54FSVfgSSZYZj/6EaCYkRre+DZ417
-         Rbi/wJCw16eqW9ncdKPYzDy4V2BD074JuoaV0gRaxHjzOkSndP5ihgJLH4RwwFinNcUL
-         7AlkChrI3PIGW5fgyNKJXRYUIp5voRPGUI5nAUOj365d7P/j2JJRu5Rr0W53E1eQDlsC
-         sB8g==
+        b=P8IevUjaBx2NFv6ztcZSQWpSCL1xUcuNkJHyKt89fp9BhMzpARZk4Bd48XESnhaBdP
+         igHt7amprL/8Ll+EPjAV+k3zTKB7FFvb9MUhN5RlFuGkkN94NbB7yLpjUz67PhD3Bw3a
+         UKTKNsk2nq9KF4agNqjG60dlWfuBn5SB8Zpk7liJPytQob7D0YzUwpfEjzY42mVQObpP
+         RjmSXBd1T1sAqKw8wy9JJfFphuxO81hvXTFe9cLxC4gEcpJ3N90KNge37VH1xyvBz81v
+         LxRz2b0sRRX+/9Xl/QDdSEagPHtybxtpsbD8q/MKbI+gpQ7E9i9cWvKoRzkXYf8Q1fWs
+         p9Cw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=iz2Rk0uC5rGU+Kb0LRDsuPxksHM6C3EYKvZGNmPgVNM=;
-        b=NRtclI6M4uMjjlzxtuh4KHR7teodMwNZ3DPszAPGNZ5nHZPj6J53CT4yF5PQI/P5u3
-         3DNz4HiHKPi8JxDJp3njZssZlwxQZCWYCUAEPyZ3IEPD3ng4BZCR012P9G0FUz3+pzcB
-         NoJJ/55mlqkLMhcsTEcJATOMeEcZ5By11c0ekY1n06h30Uw01WVYWQ7wWi9/wALfBrG3
-         QMgTun+iqEYwTEQ/fm45mDLC7k20Eifl0+O/qfmNcv34Jh7pjMIF5qe6NVM+hsxU7EVE
-         ZhW/XFeyFa4DrGgzawb3C8JCuBU8SbZjr1ycxaIY8aJHlxckGcxccaOD3c4637H/1DO5
-         PCJQ==
+        bh=d1PXrA0ji5y7WX9aOTLSAuRcBGPwqyEk8vh/reRf4ZE=;
+        b=TPnZLkPDR7M/wTu3Lw4Ce7WouNh8BeGwbtoCbimqt6jSsXa/24Kdqk4ePUEsRX706m
+         zxe4eY0n+HHR1b1jmcObsH83dZXQXw61aAePPPD1H72V+XM5fQOGVp8qOR3hyu6nBL0p
+         sMdnyEJGvh0e5I07MLCAJqsnRgiY9GZIOaXSzYJ9SL5OqMoClUu9qJXGmoGPyyUoegnG
+         +ReT+py+aTCsp3XsL6hwtOA3VXFpZ3pSniJMe86Gnq135KvPbYZFcyTfrEMTOLXmLSRj
+         uomVqEUiICjdUVeHmasWQlU0bqoU68NDJfy8voX18u4MUR0jDER8YUI+NlWDpK6ln9dx
+         AIUQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=i2csV9g3;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=jbOwzdvf;
        spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
 Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id a8-20020a056512200800b00498f2bdfdcdsi849479lfb.3.2022.09.19.03.18.07
+        by gmr-mx.google.com with ESMTPS id d15-20020a056512368f00b0048b38f379d7si768334lfs.0.2022.09.19.03.18.14
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 03:18:07 -0700 (PDT)
+        Mon, 19 Sep 2022 03:18:14 -0700 (PDT)
 Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oaDq5-00E2BH-UR; Mon, 19 Sep 2022 10:17:23 +0000
+	id 1oaDq5-00E2BK-W7; Mon, 19 Sep 2022 10:17:22 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 51231302F4E;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 639E8302F52;
 	Mon, 19 Sep 2022 12:16:25 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 736AC2BAC75AD; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
-Message-ID: <20220919101522.497914983@infradead.org>
+	id 77FE22BAC75AE; Mon, 19 Sep 2022 12:16:22 +0200 (CEST)
+Message-ID: <20220919101522.573936213@infradead.org>
 User-Agent: quilt/0.66
-Date: Mon, 19 Sep 2022 12:00:11 +0200
+Date: Mon, 19 Sep 2022 12:00:12 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -244,15 +245,14 @@ Cc: richard.henderson@linaro.org,
  linux-arm-msm@vger.kernel.org,
  linux-tegra@vger.kernel.org,
  linux-arch@vger.kernel.org,
- kasan-dev@googlegroups.com,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Subject: [PATCH v2 32/44] cpuidle,acpi: Make noinstr clean
+ kasan-dev@googlegroups.com
+Subject: [PATCH v2 33/44] ftrace: WARN on rcuidle
 References: <20220919095939.761690562@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=i2csV9g3;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=jbOwzdvf;
        spf=pass (google.com: best guess record for domain of
  peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as
  permitted sender) smtp.mailfrom=peterz@infradead.org
@@ -268,64 +268,63 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-vmlinux.o: warning: objtool: io_idle+0xc: call to __inb.isra.0() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_idle_enter+0xfe: call to num_online_cpus() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_idle_enter+0x115: call to acpi_idle_fallback_to_c1.isra.0() leaves .noinstr.text section
+CONFIG_GENERIC_ENTRY disallows any and all tracing when RCU isn't
+enabled.
+
+XXX if s390 (the only other GENERIC_ENTRY user as of this writing)
+isn't comfortable with this, we could switch to
+HAVE_NOINSTR_VALIDATION which is x86_64 only atm.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- arch/x86/include/asm/shared/io.h |    4 ++--
- drivers/acpi/processor_idle.c    |    2 +-
- include/linux/cpumask.h          |    4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ include/linux/tracepoint.h |   13 ++++++++++++-
+ kernel/trace/trace.c       |    3 +++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
---- a/arch/x86/include/asm/shared/io.h
-+++ b/arch/x86/include/asm/shared/io.h
-@@ -5,13 +5,13 @@
- #include <linux/types.h>
+--- a/include/linux/tracepoint.h
++++ b/include/linux/tracepoint.h
+@@ -178,6 +178,16 @@ static inline struct tracepoint *tracepo
+ #endif /* CONFIG_HAVE_STATIC_CALL */
  
- #define BUILDIO(bwl, bw, type)						\
--static inline void __out##bwl(type value, u16 port)			\
-+static __always_inline void __out##bwl(type value, u16 port)		\
- {									\
- 	asm volatile("out" #bwl " %" #bw "0, %w1"			\
- 		     : : "a"(value), "Nd"(port));			\
- }									\
- 									\
--static inline type __in##bwl(u16 port)					\
-+static __always_inline type __in##bwl(u16 port)				\
- {									\
- 	type value;							\
- 	asm volatile("in" #bwl " %w1, %" #bw "0"			\
---- a/drivers/acpi/processor_idle.c
-+++ b/drivers/acpi/processor_idle.c
-@@ -593,7 +593,7 @@ static int acpi_idle_play_dead(struct cp
- 	return 0;
- }
- 
--static bool acpi_idle_fallback_to_c1(struct acpi_processor *pr)
-+static __always_inline bool acpi_idle_fallback_to_c1(struct acpi_processor *pr)
- {
- 	return IS_ENABLED(CONFIG_HOTPLUG_CPU) && !pr->flags.has_cst &&
- 		!(acpi_gbl_FADT.flags & ACPI_FADT_C2_MP_SUPPORTED);
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -908,9 +908,9 @@ static inline const struct cpumask *get_
-  * concurrent CPU hotplug operations unless invoked from a cpuhp_lock held
-  * region.
+ /*
++ * CONFIG_GENERIC_ENTRY archs are expected to have sanitized entry and idle
++ * code that disallow any/all tracing/instrumentation when RCU isn't watching.
++ */
++#ifdef CONFIG_GENERIC_ENTRY
++#define RCUIDLE_COND(rcuidle)	(rcuidle)
++#else
++#define RCUIDLE_COND(rcuidle)	(rcuidle && in_nmi())
++#endif
++
++/*
+  * it_func[0] is never NULL because there is at least one element in the array
+  * when the array itself is non NULL.
   */
--static inline unsigned int num_online_cpus(void)
-+static __always_inline unsigned int num_online_cpus(void)
- {
--	return atomic_read(&__num_online_cpus);
-+	return arch_atomic_read(&__num_online_cpus);
- }
- #define num_possible_cpus()	cpumask_weight(cpu_possible_mask)
- #define num_present_cpus()	cpumask_weight(cpu_present_mask)
+@@ -189,7 +199,8 @@ static inline struct tracepoint *tracepo
+ 			return;						\
+ 									\
+ 		/* srcu can't be used from NMI */			\
+-		WARN_ON_ONCE(rcuidle && in_nmi());			\
++		if (WARN_ON_ONCE(RCUIDLE_COND(rcuidle)))		\
++			return;						\
+ 									\
+ 		/* keep srcu and sched-rcu usage consistent */		\
+ 		preempt_disable_notrace();				\
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -3104,6 +3104,9 @@ void __trace_stack(struct trace_array *t
+ 		return;
+ 	}
+ 
++	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_GENERIC_ENTRY)))
++		return;
++
+ 	/*
+ 	 * When an NMI triggers, RCU is enabled via ct_nmi_enter(),
+ 	 * but if the above rcu_is_watching() failed, then the NMI
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220919101522.497914983%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220919101522.573936213%40infradead.org.
