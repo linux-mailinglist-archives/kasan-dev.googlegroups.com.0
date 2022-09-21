@@ -1,180 +1,180 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBBFX3VOMQMGQEDU5OVPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKY3KPSYUPRB5MOV2MQMGQEND725DI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF475BFD78
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Sep 2022 14:03:35 +0200 (CEST)
-Received: by mail-wm1-x33f.google.com with SMTP id c188-20020a1c35c5000000b003b2dee5fb58sf2495906wma.5
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Sep 2022 05:03:35 -0700 (PDT)
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CF05E557A
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Sep 2022 23:51:50 +0200 (CEST)
+Received: by mail-wr1-x439.google.com with SMTP id d9-20020adfa349000000b0022ad6fb2845sf2782870wrb.17
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Sep 2022 14:51:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1663797109; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=tJf4aI29+ddmf29axTBJDVgdFxJVWQ3TQ0wVoHuLtPDpAJZ5ZKb/+j1pgqzyD2KOYN
+         X4zwCcwCSgDzsEvZj0IUmdANWl9hEXBG0RpIEDtg0VSg8+nNgWFJ5lDl511Mv+ebipvN
+         yKuZBiNUGb/XZf9DZ1iEy5FKMWlpxxLmvCCDFzwSPmLO3B1doPNzq6jc9IG7YmsxZK8U
+         HoFMXMr72H+ANeIxJS7T1Nrgm4fjM7yg5WHt1ax5DUNIkNvrZ52xU8tOhWgl6jdgOkmq
+         zkXzOdP6u7Qx1Y2eZms8u1r3D8WhSoqR0rJ+pX5AMYLYIf0edzWlGYH0oxtIfq61Fcb5
+         Y/VA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=GL36hGodAN/VBZGLPx/eaZgundnijBvK2HBLuQ+W904=;
+        b=SXcYliniNI95BxEV1g2QEj3nqqicRVIgU/ELxr39S5+MJRpMaU7XnqR4XC7N+0u80G
+         yvA00PSwOoVJ/T+VjyPPHKKu2WUR+8IATZ/hRTL8klS3CKjgCiaP2IlMuXnl954FmVHz
+         62w1SFeQgwBSbD0PZnZoWoemVolgfscjH/e9usYYTCxiFPgFx4mYsHk0kcabZ1umvUFt
+         H6gOQXWz9TfmrWVXXRr3RB6XMZWZHm9dY8aRROYla9Q9t5xFuT7EJpXQtwCuW9y/bzXT
+         jGANKnQaIcnEgJCJIz60sPt+X/mTmhY3zDF0oKB7XeMuoeymS9aKrgFAnHXJ762+SvXH
+         0Ssw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       spf=pass (google.com: domain of kajetan.puchalski@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=kajetan.puchalski@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to:content-disposition
+         :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date;
-        bh=Cc+1tfYHltRogoUH5fYoAwU/YwOwnSZqOKe7Z+2O9/E=;
-        b=KaYpvSU9HfhAH/2Ax3tjjjhYp+WfHRFnoYkzePYZhSGu3ccDnTzi84Oaqy1pjNUriF
-         nIZpRfP8FMTl5xCH8eV56OYGJP+o7AyUzGZ37lNgiDsrkgmovcPZimR91LpkwpDnio5F
-         aTJwjxOJn9LRBuU6wDbl7e+d/zGDDGTRrdBVkuP24pi2u9D6S1XTX9XGKr53tqTqRH1I
-         9MRBEuszEzVt67osIAiyjDbPKQzL7acugup120YtkY+B3h2S+FS0gUUaA25XZzlM/FrN
-         7dfwYdmgRPugXUmGJFYIaMjq3NBT2vDZ49tcWzyRt/OwgiuKrQw0JBiVq5CnmS4+2zx/
-         o43g==
+        bh=GL36hGodAN/VBZGLPx/eaZgundnijBvK2HBLuQ+W904=;
+        b=E619szhwxbk48GdmtZ1qDShskBrPYq4tygWZux348bMEXK4/R5Eh6/9EX8u1UA7mA6
+         ps2uZNYpBBwM2OPWwZaFnRwQhORf5K2wq8gLsBEJj1DCJ/0nP2+9pqIIjLawzUytHDva
+         Eog7eNWukhZIEyuw/vLroFTEoSyxEfiCD2Wyhjkx5zaFG/APVgkVOBu9uPNtSG8apbX8
+         Q4RgOSJuzWHdeowWW4Xhu+M2m+99+mBDvif8DNHy9qitBxukDPmQMeIpaLiyy8QRTu+1
+         6CYbFwPrYZfFUfJxEY92Av2bJf16SYkF5k8ReGvwHw9vB6Zk/utaXy5c2Xt0Lea3j/AM
+         7Hww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=Cc+1tfYHltRogoUH5fYoAwU/YwOwnSZqOKe7Z+2O9/E=;
-        b=1a6ZR15L1Hj8AYpe5D8zIHXZQxZl9jCdl1BXcq2EYSitROH1PQVEv5HGN2inNav6FS
-         2WLo3vGKCM33XLub8EMubJFnERC3y4SxlyliCacbvAuYLfOptLIcB1PJZ+SS+BC/ijP0
-         ShmqsVLeInab7vLi55aDmbG4a7G50LmALCd9FHfsmIqbymdzZsZuSc8pSd2fgqWxGfq/
-         3iowGjm6gqfUbsQXGVW2yN8mkLzVeR7hXKt8Zv7jHFPq339ZSpDqrmOCA7ZRE4ys1ivr
-         Uh4sH75z3ajGREFx6UHX/j6DNksRxxdyuTeYgbmgfD7XXhGJeyXupOpzweOlEA4a4dW+
-         u0cQ==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=GL36hGodAN/VBZGLPx/eaZgundnijBvK2HBLuQ+W904=;
+        b=4PBJE02Dlaf63+R12QzXo+LKguMaNuKR9Y9AJT7vT0QYHflIf5DYtEcYrHN1wd64RO
+         TOtz3q6A8o7m577JyxNMTc8QihO1yuTKD/vHYEIUJT7sSFUO3AFBDFeJdACt9efkBeIf
+         RKwRA8RBnPlpR3Y6MQqaIQ8Tl7krd5jHybKMioJiu22bBcqocH3hGIThLKNpOPAQ9FzZ
+         +dq7aj1IJa3J+OnVHg4/xBSMixO3pVjlO7wHYzioF4mCFOVZ2WZnJSl/6W20k1UfFf+8
+         u35kofl4WBfy/BJKZbrFU1B3o1Pb8XvbEw89uWUXmrpbw/FpRPvFZaS/5zn5vhxXFlhH
+         cy/w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0K53c3kY36Ur5AoX3TOemwdK1jcaYJm99OioFWPZR6e2LPusTg
-	4YkTpDR7DrzcSyuM4ekZ9HU=
-X-Google-Smtp-Source: AMsMyM4EOZjjKVm3xLQpK+ZBtzkHNjQD35gX22NtzYID3KTbxfW0tJoPU5+6pyotxpx8H+QLWmVHVQ==
-X-Received: by 2002:a7b:c048:0:b0:3b4:fb26:f0f3 with SMTP id u8-20020a7bc048000000b003b4fb26f0f3mr1458601wmc.115.1663761815184;
-        Wed, 21 Sep 2022 05:03:35 -0700 (PDT)
+X-Gm-Message-State: ACrzQf30yJq+1GnJvwjFpny+QpqtfCCanI3BhizUiNVjcuIDBHy2E4RZ
+	w8cAZFABxIk+KYKUL0sXNVQ=
+X-Google-Smtp-Source: AMsMyM6/G4wTTRCk3/ZOkKzai6jrYU3p9Yjs+Ols/dsZJAbZt2oTcBnaPFziccF6oMHrX5Y6m2UMhw==
+X-Received: by 2002:a5d:69ca:0:b0:228:dd17:9534 with SMTP id s10-20020a5d69ca000000b00228dd179534mr120258wrw.652.1663797109582;
+        Wed, 21 Sep 2022 14:51:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:2683:0:b0:3a3:2369:271d with SMTP id m125-20020a1c2683000000b003a32369271dls346902wmm.0.-pod-preprod-gmail;
- Wed, 21 Sep 2022 05:03:34 -0700 (PDT)
-X-Received: by 2002:a05:600c:2212:b0:3b4:9ab8:b24e with SMTP id z18-20020a05600c221200b003b49ab8b24emr5616752wml.127.1663761813955;
-        Wed, 21 Sep 2022 05:03:33 -0700 (PDT)
-Received: from mga05.intel.com (mga05.intel.com. [192.55.52.43])
-        by gmr-mx.google.com with ESMTPS id v12-20020a1cf70c000000b003a83f11cec0si98433wmh.2.2022.09.21.05.03.32
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Sep 2022 05:03:33 -0700 (PDT)
-Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 192.55.52.43 as permitted sender) client-ip=192.55.52.43;
-X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="386268779"
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; 
-   d="scan'208";a="386268779"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2022 05:03:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; 
-   d="scan'208";a="687845758"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Sep 2022 05:03:22 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 21 Sep 2022 05:03:21 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 21 Sep 2022 05:03:21 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 21 Sep 2022 05:03:21 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.175)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 21 Sep 2022 05:03:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F7wmvR+EW7H5es1IVoY7S4Rc3K7gxU5M2XEii07QCRYKG+851dPRDnZrPeSgW1LNDYdrXclSAgqj8tzPLHqLHNIHALYYLsclfoA9mFcl04mJHwSt/MN4qhh/Ab5y7/r5mUwQJsh4uWBU/3JdNIPyzU/Kd/ueL2YMjsUy+L0dcjZTSmOgF+0IJn3T859xGIS6P3WsBKX+q2K10nFt0PnQhp+GGjpn28+DfnevD8RMObUUfmHejm9oUwrlK2eilq4jRNMG+0kq5hK7JCVWoqP22UtMRScPYPMEy4ezIEO3WMoFomDBGgYWSwQle04mOzbtP5d3kFl/GyTFZccvRYpOiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+hlMTsYQH/ieRjTnnGFqJoekS8RbjYlmMWUEXC9LAzU=;
- b=QsdCnKtqeY1E66VYmegK/ghfNmhBJOUJEbbPFCh12gZyJzh1/b1AMZyNjTlsOnfdHswG3WhYf4bpG7dy4YkhgwJmDiPgyMVhqTl1UbR9Jo/TIJ80b85Dy4QP5KYvTbhgPhUeGTKtgK1dwQ1y540bt62jLbiiJG9j2y/fg+HjOr91Jqk2bgj8wz1Nqlc5gaAagH57uqCb0mWw2s2xDMGy+G0DGasypa1ifMr2CX+Y3Lbhp0xsA/c27nniTaHvLuY16T/EDRGRc5OILYOEF7azT/FFOjlPoj9SSpdwZuWDcaF5keOqOaSM9xtYpU1k1Je4i6ifx1NzyU85Kqc214+tDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
- by CY5PR11MB6416.namprd11.prod.outlook.com (2603:10b6:930:34::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.16; Wed, 21 Sep
- 2022 12:03:17 +0000
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::ccec:43dc:464f:4100]) by MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::ccec:43dc:464f:4100%5]) with mapi id 15.20.5654.016; Wed, 21 Sep 2022
- 12:03:17 +0000
-Date: Wed, 21 Sep 2022 20:02:45 +0800
-From: Feng Tang <feng.tang@intel.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka
-	<vbabka@suse.cz>, Christoph Lameter <cl@linux.com>, Pekka Enberg
-	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
-	<iamjoonsoo.kim@lge.com>, Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, "Hansen, Dave" <dave.hansen@intel.com>,
-	Linux Memory Management List <linux-mm@kvack.org>, LKML
-	<linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>,
-	"Sang, Oliver" <oliver.sang@intel.com>
-Subject: Re: [PATCH v6 3/4] mm: kasan: Add free_meta size info in struct
- kasan_cache
-Message-ID: <Yyr9ZZnVPgr4GHYQ@feng-clx>
-References: <20220913065423.520159-1-feng.tang@intel.com>
- <20220913065423.520159-4-feng.tang@intel.com>
- <CA+fCnZdFi471MxQG9RduQcBZWR10GCqxyNkuaDXzX6y4zCaYAQ@mail.gmail.com>
+Received: by 2002:a05:600c:3786:b0:3a5:2d3d:d97a with SMTP id
+ o6-20020a05600c378600b003a52d3dd97als4287065wmr.3.-pod-prod-gmail; Wed, 21
+ Sep 2022 14:51:48 -0700 (PDT)
+X-Received: by 2002:a05:600c:5128:b0:3b5:d6:eb8f with SMTP id o40-20020a05600c512800b003b500d6eb8fmr243219wms.65.1663797108479;
+        Wed, 21 Sep 2022 14:51:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1663797108; cv=none;
+        d=google.com; s=arc-20160816;
+        b=TcTtI7IKYxZi+zyl3moavE4Gh+AWNEp8jgkQNolrpOZsQw5FRWw78LHb2sJFNCfqaq
+         zBGcwbMv90V7jIPUQ1y9k8sv5jBFM96atqG2PjT7x5H6KgFI968E3CLawkKo7RVdlVJ4
+         uJsIYpw6NxvND5VVZ7rl9QV+oHgBIrR1k040Cs8vbRT5PLVtXmtgeY/7biTpcObFCccL
+         55f87RRa5kRXP7qMY2GRAs4vlGxRBkU/2atpacQFSCbMsx3DKzBPU1EI88iWauBpbmtR
+         4ILIFjC5Y0p7rHhC95l/dw8QS2GwWkIAZ7ewcJKof5oSomsGOE2A+inMLDwHYD5GpBuu
+         h01g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=7EGaw0/mn9TNguQCeQDWIMiuSDsMk2I5CBAE8h7vZGI=;
+        b=XX4CXIVEE2xR4ukkgS7PJ6urAItNS4lq4EBJnUYT4RRV1gLTQxNNg6hXcRPweBMgao
+         pUqnZojlA2rcidj2o+s5M6LLyTXmsGlVPq0QLnbshC+2483q01kMHZ2mgywGyjeOBEze
+         A8wgxCIGChDb0dPqyfRGh1YQ3xMDkrGvQSi56rnSQpo+5rzuv8Q0cKFBNNE7NG3+TvdF
+         ahq0o6QhiIPfGaNGi42EpcxpwMUgSE+UlpWuW3Cghg4r1GL+F5T5R9fe/bx9R5eRxXat
+         eX2Y6zTVmYB0c0C8uPHrbgLwDPDdve5FZa0iR5v9z0EqMhIt9yxiI0henVQ1jYESnJ2S
+         58YQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of kajetan.puchalski@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=kajetan.puchalski@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id m17-20020a05600c3b1100b003a66dd18895si251986wms.4.2022.09.21.14.51.48
+        for <kasan-dev@googlegroups.com>;
+        Wed, 21 Sep 2022 14:51:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kajetan.puchalski@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9569143D;
+	Wed, 21 Sep 2022 14:51:53 -0700 (PDT)
+Received: from e126311.manchester.arm.com (unknown [10.57.76.246])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F35F3F73B;
+	Wed, 21 Sep 2022 14:51:19 -0700 (PDT)
+Date: Wed, 21 Sep 2022 22:51:10 +0100
+From: Kajetan Puchalski <kajetan.puchalski@arm.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
+	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
+	ulli.kroll@googlemail.com, linus.walleij@linaro.org,
+	shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	tony@atomide.com, khilman@kernel.org, catalin.marinas@arm.com,
+	will@kernel.org, guoren@kernel.org, bcain@quicinc.com,
+	chenhuacai@kernel.org, kernel@xen0n.name, geert@linux-m68k.org,
+	sammy@sammy.net, monstr@monstr.eu, tsbogend@alpha.franken.de,
+	dinguyen@kernel.org, jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
+	James.Bottomley@HansenPartnership.com, deller@gmx.de,
+	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com, svens@linux.ibm.com,
+	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
+	richard@nod.at, anton.ivanov@cambridgegreys.com,
+	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, acme@kernel.org, mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+	namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu,
+	amakhalov@vmware.com, pv-drivers@vmware.com,
+	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
+	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
+	gregkh@linuxfoundation.org, mturquette@baylibre.com,
+	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
+	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org,
+	konrad.dybcio@somainline.org, anup@brainfault.org,
+	thierry.reding@gmail.com, jonathanh@nvidia.com,
+	jacob.jun.pan@linux.intel.com, atishp@atishpatra.org,
+	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
+	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+	dennis@kernel.org, tj@kernel.org, cl@linux.com, rostedt@goodmis.org,
+	pmladek@suse.com, senozhatsky@chromium.org,
+	john.ogness@linutronix.de, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+	vschneid@redhat.com, fweisbec@gmail.com, ryabinin.a.a@gmail.com,
+	glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-perf-users@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v2 07/44] cpuidle,psci: Push RCU-idle into driver
+Message-ID: <YyuHTgRh7t6vYjHw@e126311.manchester.arm.com>
+References: <20220919095939.761690562@infradead.org>
+ <20220919101520.802976773@infradead.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CA+fCnZdFi471MxQG9RduQcBZWR10GCqxyNkuaDXzX6y4zCaYAQ@mail.gmail.com>
-X-ClientProxiedBy: SG2PR02CA0005.apcprd02.prod.outlook.com
- (2603:1096:3:17::17) To MN0PR11MB6304.namprd11.prod.outlook.com
- (2603:10b6:208:3c0::7)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|CY5PR11MB6416:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d556d52-a915-49f9-187d-08da9bc94490
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aR/n0+vZmd7jo4f46jJ8WYib7lHzp8+Nor3tgJDvi6YUBpjLFQNuWqqE8XMcED/tUJK3bd01xEkscbub1hoSbiBZ5u80ymFFfulz+0vIXrv5JGfJGsIJn3bPPFaIM7VW3eRBUEVyLGKvvwKUGnhwLNRGPvziYFtF9p6N9AYzIeH96ty9JodaAvVc0MADbHJEQnxOB/ShR0PbhwetGDjTSAgJrFKRHMfxv7mJrObmGJhWHiKCAINtB3ZL3ktHZ8fBqVbx1yLxFxInmR8LxHhCN/3fC0biaUWTQoEFiYh8VM/YE+ILUOudHcab+KPs0AhAfmP5C7ZFCbgM2zFq0L2NUL3QxgvsQrCc7vtiFjEnDUdCqDxVlqJMcGf1QBuYiJL4wLlRjhEf6NS9nCfmgt6n77wbU3qSj676PvFg9hFVnIpwmfBM1kLBNW9KaXs47q/9NsXQ1gVcMOksXqgqVHAp89W3HA5rfLvD6N3pMARuIoJ//+qSGNNdJoFfmM91lfVaWnn0jwNyKak6/MtJfeVrC5J8J4wnJZSBdIcvQddGHY91EBmECsC09QQMwbDY0IutpEM9x+CwX5RKNHjLvdvzYT/tUMT0dhmF197JS0LVksq6tK4uPsdaDocj+UdJmiNlxXbByiGjIx4Ork8vCFdSdtLA13i5yTRF0XxkHAZYQDSe5kbTDOLtO+EhQuA+WgF0DH4BdMhZ1ejfJMTFHp2u+Zj56XwRs7hLiQdu6Uf6ZdTuehSHlSmyTYGKPM4NfaCXG1yyGpDsI68OrpcwyJKLtw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(396003)(136003)(366004)(39860400002)(346002)(376002)(451199015)(38100700002)(82960400001)(86362001)(66556008)(66476007)(33716001)(66946007)(4326008)(8676002)(41300700001)(6916009)(54906003)(2906002)(316002)(5660300002)(8936002)(44832011)(7416002)(186003)(478600001)(6486002)(966005)(53546011)(6512007)(9686003)(26005)(107886003)(6506007)(6666004);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?erhVjrcFkZMDbcqvmCNIJDqrzbL019YW+4N96gi6t5AamPa5i5pGCtIHNDQQ?=
- =?us-ascii?Q?W0+Exav4xItG2CZQt5cZ7Pt8dVXfT5LNve4nVRamPMcPhD8uLeLcKVtX7aH5?=
- =?us-ascii?Q?hBtATSa3FhOrcv9puiAZdvphhv9snVdmLFDYY3bB4AjZfxHrFfwKgK1lavJj?=
- =?us-ascii?Q?t/tffko7vvMvZfJGlamsQqmXiwhHTX16MGQofp8SFnLXex8U6jWUJ9vBc3Dl?=
- =?us-ascii?Q?7UIzLhftcGQTwduwPYNy1P93LIMxLNoYojeRwl9abl1314hSWe8yY+obi13v?=
- =?us-ascii?Q?BKTPVBxbkMCDV0aLklyAS07tZDHQIZ4MbnoAABfSJsaGjGFEP8RZax1NHcvv?=
- =?us-ascii?Q?6q5Js1+RZ/RDa+pU2isqqNWVQMQ4fKD1BxXsUsHjwW5e+qvxfwVgw9xcSy5Y?=
- =?us-ascii?Q?v5D/6mU7RnTNcvYCb7KrWhWeOnQHL8jzZXxjjxrIXw3+MhayfiPEf6xvxYfq?=
- =?us-ascii?Q?Sr5fn2bE3RrD18h29g/fFeP1wUhvo6h1HPEySSo6o2Zi/VUnTD0g1GlNojrN?=
- =?us-ascii?Q?39yWffZsk9CGe++5lfle+bgJQiHXTr8TLHrQqGv6oAWJvcuYfKBJ/s4GEL9i?=
- =?us-ascii?Q?32khk5bkK1qQhHmyJC5Ft4b2fR0HIRaG/bxjNuQljAX8/1wOvLcPDyINqRFd?=
- =?us-ascii?Q?9pUtK8UkrU8EK5Q5cdhPgIgLDQu3nlcyUyz/GQhuZZo1n+6/L58pfita4ZVW?=
- =?us-ascii?Q?w07o0jjO2QwzgUMoe0gNTFeN2PeAp1ltULokrCsgYiLQ1gdOJeadVzBGFhit?=
- =?us-ascii?Q?Ez0kyxMyLim1up+Xz/PWNETYhUNYd9XDnremwiAFHf7JLmHDgvVeCq8mkRfP?=
- =?us-ascii?Q?kb1JrzcNnNH0bFbp/Oa4PhvWuINYppQonvMgM/L6SvsPlgpSjUlDssfV88x7?=
- =?us-ascii?Q?K2qP/3R1OT/tg4RpafWsr4QbDHLc1D2olMcHsEpY52XDWvNJwGALxhqfTXSr?=
- =?us-ascii?Q?spc1zXAKeDUEMpS9WfJS5QWZOezphLKLd/4NXFOeqeC8GQaR3p0mWCG8D2OG?=
- =?us-ascii?Q?agMqVSMoOzb9qq7ohcHBfTpSPHocDtu1asBSCsc4bsXm90AupMcPf1ZKxzBx?=
- =?us-ascii?Q?EHz8QTaxUnH91eBCUW3Z9V4ZeEeXoT2JF2I4l/J8MeXA7fsts3JNBcbcbGw2?=
- =?us-ascii?Q?gDd2pXgNXLDYux69kG/CXvT97QewQbHOfcqz/Lmg05OfBFwtGj92woxsfdOH?=
- =?us-ascii?Q?EsiHHiHslD+7tu13XFwuvNDeVupfJLKokUdBygpBYppGLgu5brUhtoEllNxM?=
- =?us-ascii?Q?Ih0R/cuyQ3J9CCwCwfmP8EhlDRjl98ek2ymkVoQALVyfxliywzWmfNBerck1?=
- =?us-ascii?Q?q1mKwD8YNjRFWlCt4ae9Qr2VSz0H9CoRM5mjZA9T+N52B08GHaiCdP6Fsxgv?=
- =?us-ascii?Q?yeSJbFgjrTAwH1AWqLjxZkCMG62TRsby5Y6W12QyihjX9cH+VjKk+p7/h/co?=
- =?us-ascii?Q?wWn8hEQJ6ybkv651zPiyd1Ym1x7w1XfAMbsdJJSGYEg2/iDIXkz3hW4ce3/Z?=
- =?us-ascii?Q?+5Eh0G51TNuSZgVSiLa8V4/fyx9eA/c11rt/rmt2ct352QuR17JxjqhOxeGf?=
- =?us-ascii?Q?NnGxLnnjEZakUCzbRAaEx+M/1iieC2Pcqush4cJw?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d556d52-a915-49f9-187d-08da9bc94490
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2022 12:03:16.9247
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3spkvN9C7LuUdPHEA9+cBSlvzD08iwyIxLts5VIplhuJQnDaxzVqBp0iCwltm/d7q5t27/4kGZ2LK8ee3Pm9Tg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6416
-X-OriginatorOrg: intel.com
-X-Original-Sender: feng.tang@intel.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b="f/nJD3eP";       arc=fail
- (signature failed);       spf=pass (google.com: domain of feng.tang@intel.com
- designates 192.55.52.43 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+In-Reply-To: <20220919101520.802976773@infradead.org>
+X-Original-Sender: kajetan.puchalski@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of kajetan.puchalski@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=kajetan.puchalski@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -187,145 +187,17 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Andrey,
-
-On Wed, Sep 21, 2022 at 03:20:58AM +0800, Andrey Konovalov wrote:
-> On Tue, Sep 13, 2022 at 8:54 AM Feng Tang <feng.tang@intel.com> wrote:
-> >
-> > When kasan is enabled for slab/slub, it may save kasan' free_meta
-> > data in the former part of slab object data area in slab object's
-> > free path, which works fine.
-> >
-> > There is ongoing effort to extend slub's debug function which will
-> > redzone the latter part of kmalloc object area, and when both of
-> > the debug are enabled, there is possible conflict, especially when
-> > the kmalloc object has small size, as caught by 0Day bot [1]
-> >
-> > For better information for slab/slub, add free_meta's data size
-> > into 'struct kasan_cache', so that its users can take right action
-> > to avoid data conflict.
-> >
-> > [1]. https://lore.kernel.org/lkml/YuYm3dWwpZwH58Hu@xsang-OptiPlex-9020/
-> > Reported-by: kernel test robot <oliver.sang@intel.com>
-> > Signed-off-by: Feng Tang <feng.tang@intel.com>
-> > Acked-by: Dmitry Vyukov <dvyukov@google.com>
-> > ---
-> >  include/linux/kasan.h | 2 ++
-> >  mm/kasan/common.c     | 2 ++
-> >  2 files changed, 4 insertions(+)
-> >
-> > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> > index b092277bf48d..49af9513e8ed 100644
-> > --- a/include/linux/kasan.h
-> > +++ b/include/linux/kasan.h
-> > @@ -100,6 +100,8 @@ static inline bool kasan_has_integrated_init(void)
-> >  struct kasan_cache {
-> >         int alloc_meta_offset;
-> >         int free_meta_offset;
-> > +       /* size of free_meta data saved in object's data area */
-> > +       int free_meta_size;
-> >         bool is_kmalloc;
-> >  };
-> >
-> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> > index 69f583855c8b..0cb867e92524 100644
-> > --- a/mm/kasan/common.c
-> > +++ b/mm/kasan/common.c
-> > @@ -201,6 +201,8 @@ void __kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
-> >                         cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
-> >                         *size = ok_size;
-> >                 }
-> > +       } else {
-> > +               cache->kasan_info.free_meta_size = sizeof(struct kasan_free_meta);
+On Mon, Sep 19, 2022 at 11:59:46AM +0200, Peter Zijlstra wrote:
+> Doing RCU-idle outside the driver, only to then temporarily enable it
+> again, at least twice, before going idle is daft.
 > 
-> Hi Feng,
-> 
-> I just realized that we already have a function that exposes a similar
-> functionality: kasan_metadata_size. However, this function returns the
-> size of metadata that is stored in the redzone.
-> 
-> I think, instead of adding free_meta_size, a better approach would be to:
-> 
-> 1. Rename kasan_metadata_size to kasan_metadata_size_in_redzone (or
-> something like that).
-> 2. Add kasan_metadata_size_in_object with appropriate implementation
-> and use that in your patches.
-> 
-> This allows avoiding exposing KASAN-internal details such as what kind
-> of fields the kasan_cache struct has to the common code.
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-Agree, it's better not touch the internal fields in slub code.
+Tried it on Pixel 6 running psci_idle, looks good with no apparent issues.
 
-How about the following patch, it merge the 2 functions with one flag
-indicating in meta data or object. (I'm fine with 2 separate functions) 
-
-
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index b092277bf48d..0ad05a34e708 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -150,11 +150,12 @@ static __always_inline void kasan_cache_create_kmalloc(struct kmem_cache *cache)
- 		__kasan_cache_create_kmalloc(cache);
- }
- 
--size_t __kasan_metadata_size(struct kmem_cache *cache);
--static __always_inline size_t kasan_metadata_size(struct kmem_cache *cache)
-+size_t __kasan_meta_size(struct kmem_cache *cache, bool in_slab_object);
-+static __always_inline size_t kasan_meta_size(struct kmem_cache *cache,
-+							bool in_slab_object)
- {
- 	if (kasan_enabled())
--		return __kasan_metadata_size(cache);
-+		return  __kasan_meta_size(cache, in_slab_object);
- 	return 0;
- }
- 
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 69f583855c8b..2a8710461ebb 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -218,14 +218,21 @@ void __kasan_cache_create_kmalloc(struct kmem_cache *cache)
- 	cache->kasan_info.is_kmalloc = true;
- }
- 
--size_t __kasan_metadata_size(struct kmem_cache *cache)
-+size_t __kasan_meta_size(struct kmem_cache *cache, bool in_slab_object)
- {
- 	if (!kasan_stack_collection_enabled())
- 		return 0;
--	return (cache->kasan_info.alloc_meta_offset ?
--		sizeof(struct kasan_alloc_meta) : 0) +
--		(cache->kasan_info.free_meta_offset ?
--		sizeof(struct kasan_free_meta) : 0);
-+
-+	if (in_slab_object)
-+		return (cache->kasan_info.alloc_meta_offset == 0 ?
-+			sizeof(struct kasan_alloc_meta) : 0) +
-+			(cache->kasan_info.free_meta_offset ?
-+			sizeof(struct kasan_free_meta) : 0);
-+	else
-+		return (cache->kasan_info.alloc_meta_offset == 0 ?
-+			sizeof(struct kasan_alloc_meta) : 0) +
-+			(cache->kasan_info.free_meta_offset ?
-+			sizeof(struct kasan_free_meta) : 0);
- }
- 
- struct kasan_alloc_meta *kasan_get_alloc_meta(struct kmem_cache *cache,
-
-> Sorry for nor realizing this straight away.
-> 
-> (Note that there's an upcoming patch that fixes a bug in
-> kasan_metadata_size' implementation [1].)
- 
-Thanks for the note, will check this when making the formal patch. 
-
-- Feng
-
-> Thanks!
-> 
-> [1] https://lore.kernel.org/linux-mm/c7b316d30d90e5947eb8280f4dc78856a49298cf.1662411799.git.andreyknvl@google.com/
+Tested-by: Kajetan Puchalski <kajetan.puchalski@arm.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yyr9ZZnVPgr4GHYQ%40feng-clx.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YyuHTgRh7t6vYjHw%40e126311.manchester.arm.com.
