@@ -1,128 +1,144 @@
-Return-Path: <kasan-dev+bncBAABBPGOXWMQMGQEZQEN7JI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBFGRXWMQMGQEDIE5VBI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x63d.google.com (mail-ej1-x63d.google.com [IPv6:2a00:1450:4864:20::63d])
-	by mail.lfdr.de (Postfix) with ESMTPS id A084B5E8F9D
-	for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 22:23:25 +0200 (CEST)
-Received: by mail-ej1-x63d.google.com with SMTP id jg16-20020a170907971000b00782d87ab6e5sf852788ejc.0
-        for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 13:23:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664051005; cv=pass;
+Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0FE5E8FAC
+	for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 22:29:10 +0200 (CEST)
+Received: by mail-pf1-x43e.google.com with SMTP id n18-20020a056a000d5200b0053e16046751sf1697369pfv.7
+        for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 13:29:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664051348; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EyM2prwAmHlB/eBKkVIT8+6MykFMun5U9zhI1Hy3wD0k0BJl3J1DIAS0ebLcfsB94G
-         COAu1/L2N0YNmeWqBh+VCwmDgUcz06fWHNwkv/ToZOAyOgdnoPpodaorfJjCPDmiwwBJ
-         rGkEQajjrACIA2fybBPwS3cUpfPuxIscP1Sr6+UrsXGf2AUwt2bPwTCoxe9+Py8goZJJ
-         w7qZlEbVhbPA6Es8XjZsKWkuXqdw93fzzi/GdkJiZfdmOp374mluHXFfNDaChb8956in
-         VWp4Jb6FG9iPyCyb0UanDhFhUC9AV2aBbryf4dhIT7PiTaA3dqTSc915jyayLe60OhaX
-         jMJg==
+        b=lBWI9cndh4xmZR/C/fKjUyLoong9YkdAut1UisagoEcI/UtVDBKbarhfknE8BqH43Y
+         XpFUUERxveGBXnmC/4WFH9VIHFbrQdFwAL4mISS3zlY3t+7VBWtr0yCPqtmU5uNeTenI
+         328IjYRCywoe7nKIaKHdb/WGssrvK5qLlAt3WlDByihU+K8tJ2yIheJf4EjG4XeN41DF
+         o6gYXDYnnQi9lrXvHPa1QIlh2muRTXiLu1qkOJMcKO3Cr0ihgpbtQq8cmZMRQEQS0CKH
+         tfRwfVqckDWfwZs2INt+jn96sU1JvPQW7Xc6xs++EX1HqrxuY+Hr7xCWcqeTd1bUPP9d
+         53Jw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=Zuw0Rd1GrLiO6i1ac6wkgzvY9F7TvSQD7OIryQBJEqs=;
-        b=L3o0Og1h0bDksNWd/Grls310wuY7udBKqvtx66RharGL0nFItevQqUpK/NaEstaxTx
-         6zGQsEHI7KsokFDdt+jL593/Ulx/3gzstSXZeWLTkzOLsONjeuRd1ec1lIdm7Z5a/9JD
-         7cW1Yh+bt1p1CHH026aeJ1WJn68MRvtSj4ocaCwPc03US2iy0eT07NSTcs0sI/XvxOW9
-         QHzfF8Obvf08MtjDGEfngzq0n5w08Q8HJP4DUnlB2Umfs7kNsNU81ogXvkdPxZTriIt4
-         Xr0wbyCe0Fdgg4vWzu5g0w0EF4wb+Lx1oVverjFA8IK7khknfHAoBOkiWN2xt1G1NJMN
-         SCiw==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :references:in-reply-to:message-id:date:subject:to:from:sender
+         :dkim-signature;
+        bh=woKZsGv1q1r/hAvM9PTWjqWt1iuoTIwXlsfcd42HGUI=;
+        b=QAqFAK30jaqSjT4ottRWOgJLgA+7yrZkgMnd93pwqubScojmzklGgHeFQ25UJrsBVE
+         BT4PeCIcjugr5bcm87F7qtQQG5XebrjcpVT1X9pYeuspFzjNFH8Qh9GXnWNMUwqYbvU4
+         b171bAXbfNZKuPznDO/2f9aPIU9YK/6fdWAO5DTtypQcNfU/tZ0QgXR3fNCVeoUHM/vQ
+         wJlanLEjxT33fWWQcio4abaw0Wut9XJgJgZG/uXNRyKkp0f34PurgE+VTyzoi7nKkwTO
+         MM+OCGBEqnA0zrCvIGSYGK/WgceD86+AFh2623W+MiDCnalDrExx8DqXGzEeRXVgHtM8
+         SY8A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="K5b/cTkQ";
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=OdcR6fCS;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date;
-        bh=Zuw0Rd1GrLiO6i1ac6wkgzvY9F7TvSQD7OIryQBJEqs=;
-        b=YF/QdoQpT8D1XCafykk35rtvb1FCfToLtMPqYZkdFU7UrVovPgVG4euxQm2wvRr9Eh
-         aZflY/9IFZ5SKVDnC7aeizdid4jZa5XIebqDoBg9U+87LwsS/h7IcAt7E/BZ5Yw89OgP
-         DWqQOKMX46FuuXoB7F/8sYLLiql7DT3a5g89ytX9oQB/p7+gvRsWHdkdfHWLwTCEMbk4
-         WiHAQ6mLOdM4NaGC0BJHuqbziuesrfhalLPzpGid/VAw4i3ieizjVXQRztyWDQUn7gmd
-         o4a5hTNw4LjZgYoo3d9F9abeeP1vQQEwrk+O3kw71kct32TEj4gPC5wq0yYTrBcBAZ9j
-         lvGQ==
+         :x-original-sender:mime-version:auto-submitted:references
+         :in-reply-to:message-id:date:subject:to:from:sender:from:to:cc
+         :subject:date;
+        bh=woKZsGv1q1r/hAvM9PTWjqWt1iuoTIwXlsfcd42HGUI=;
+        b=PES7Dn0AIHLmEBv9WrfxjDG1zp9DhxrXCXszRux5fbshVQgZpi47wCTVSIJcqCgzy4
+         +uMJXuygZ6RSqs7qVOtedZVG4+bmSbXK/vELI0GAQBuirmwTrSxO4rr1KMSUFD9fB+8r
+         Hz2UYFgvlqLgH8NRyy/840LvFBTMYAKDkB3MvEGDLDxKJlnBVe+SJ1CU7+XYw2TZ4ap3
+         0+tWzOlGPq9F2yc4OQF/qEEswbCt6wmn7xKmpWt1gQd1OgblH3y/K29HQVN2CicTSH/A
+         Do5kVccQ7KkrNGabon1vNbST9niBY6HV89i/bfpcJW2ajfdU8gkLFDD9SR5tPOJXfMln
+         sB7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
-         :to:cc:subject:date;
-        bh=Zuw0Rd1GrLiO6i1ac6wkgzvY9F7TvSQD7OIryQBJEqs=;
-        b=0ifbSy+WhO4ZtfSBfGQ0uDTyuAk9H64guMHdh5PQEhJwTjnf9c6wJGRIXN2N99RCu3
-         3oy2sqSIOSdCiLZ1qLfj+3KK+NB4VoPG1dCupfPVQP6/xPQGsgPqTUAfnJcQak2bbsEV
-         scyL1xbE+4UvGWx7T795A5XpzX9QJUOYJXYKUoXwqiYBlPYwF8ibqEJLPEaID3GzNgsG
-         PVmm5Ze3hILALAl3OTlB/1zG1hIeTzjU7Vw/P7bhI2Zd/KxENtrXwmwwbvyFwU76mq8L
-         o/GSGZaC73UfRYh9ULRPMG35Lka3nkJgHUx67faXGOQ+EqnUs5CRfhTSN70y03loUID1
-         t+sw==
+         :auto-submitted:references:in-reply-to:message-id:date:subject:to
+         :from:x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=woKZsGv1q1r/hAvM9PTWjqWt1iuoTIwXlsfcd42HGUI=;
+        b=FOr80yZJT5yddJkEPy19K7LXW1/39PbIMOXQ0HbwTSkwsWAhOgTxaI1p6X9ECjwp/z
+         WIKcwsFixLi38rSa7A+NsCPHquU/CoWt6QiHBa4PauoM8GXRQE7XHPiQUpGD04bfrXOr
+         wRBNJdu2NKR/pzXeENbMB8Y6uIhdLRhIEih0Lmg9bImEjaudhFWyBdwa8+XPV+QBnbXp
+         LYLL/g1d6pNkEaxKrn7/aqld0MfNsBwAvwaquw9FazW1hzPFGhCYWzHDj3WzqvmY1njT
+         Q39GhhDR/rlvwW2aDsRUdl6LpOG4tngU0uy8XnGED5mzRe8aaATxWtuGRzY0tr3T3s0S
+         dmSg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf2DgnsMT1TJmsyU9YF75w0bzkM6y7qU0IfxPnXt1M1AqH5HXS8M
-	R1ZPwizYPcvy1G2zNOoPKAw=
-X-Google-Smtp-Source: AMsMyM7Jbgmoil7acTCLh8j1hhYi5Z8hxYJaeZWzmxZ/DkjG3XeVYcpfo9sibsM718UQiwDxtMgxfg==
-X-Received: by 2002:a17:907:96ab:b0:782:2f88:cf29 with SMTP id hd43-20020a17090796ab00b007822f88cf29mr12403447ejc.72.1664051005165;
-        Sat, 24 Sep 2022 13:23:25 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1UkZtZUe7iUPwhsU7PApvBMdlT/R4FQooLBE8rUcE2kx9eKmvj
+	mYMplBlwEM9Q3nLh7A4qAKY=
+X-Google-Smtp-Source: AMsMyM5D3MmY1YWW+TZF4OHjZki1oPGtJXBtZoqF4szLadq80fC+UnRimmQVwdJu5lI9RwcOxTVkUQ==
+X-Received: by 2002:a05:6a02:309:b0:434:d151:639e with SMTP id bn9-20020a056a02030900b00434d151639emr12846710pgb.124.1664051348265;
+        Sat, 24 Sep 2022 13:29:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:35c5:b0:447:ec6e:2ee with SMTP id
- z5-20020a05640235c500b00447ec6e02eels10452205edc.0.-pod-prod-gmail; Sat, 24
- Sep 2022 13:23:24 -0700 (PDT)
-X-Received: by 2002:a05:6402:1941:b0:457:138:1e88 with SMTP id f1-20020a056402194100b0045701381e88mr3669925edz.394.1664051004375;
-        Sat, 24 Sep 2022 13:23:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664051004; cv=none;
+Received: by 2002:a17:903:286:b0:178:29a3:df47 with SMTP id
+ j6-20020a170903028600b0017829a3df47ls13740738plr.7.-pod-prod-gmail; Sat, 24
+ Sep 2022 13:29:07 -0700 (PDT)
+X-Received: by 2002:a17:90a:4607:b0:202:d8b7:2c1b with SMTP id w7-20020a17090a460700b00202d8b72c1bmr4417873pjg.64.1664051347666;
+        Sat, 24 Sep 2022 13:29:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664051347; cv=none;
         d=google.com; s=arc-20160816;
-        b=CRb2GUOPkjxhJLQQrgoOa0d2lBtiqbPun85iALhciXz/80WhDtHPpYUA1qyOIyiit+
-         LSV8f8sC5USrGWP26MoVQlt/tS+Eg/yHi0XEV2w+omgG/VXTVuU/so7LiHhcCJGCFWJU
-         gh1rZ5bp03QUuw9vBJ4ZRNbImyVfhyoKNdTnH/QSJm1iY5IoF8DetnSl2MdOh9d1b3en
-         vr/+8e5OkwqtqcLCRjsCSD7khLs23QsrNYurVSOfyuqEnOl4tdMYu+UiLcdyfP7e/+gu
-         yt6csk4yh5qIc4EdGnFkrHr+wTEDzPKlPGqeLYRKjAJOFAQpvw3nJftD/PPTpqmfBWwt
-         BO4w==
+        b=Bcz86kOV3Kc+SwkNMBDrL0/TeduawvzsDISkVAyzQJgdd1qjtoOqwRLKYn1Z5JUrnc
+         SiwDyChvXN1L/JxBNoSfszqAZ3l2vLGkawqTpKvipaPpyK0CFpqNR9Rc2zhRZueSlMvA
+         VfMAKk55YOSEBaslBG6pwz/6tLwHLaK1R9Il6lxIxGo4jO5DY0b9SIlGm/RBZ8JhQJ8S
+         n2XXg23AMF6HEhvBZfhs7NU6E1Y4fPou44SuD812UF9cm9HeFWWcTjI9ENziTr3q0CML
+         vDbSoPs1YZQy2cNxj/r4hJOU1wUivfQmL/GUg025e/ZCPWj4iakZltBEcHvOrYInxr0C
+         eikA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=nC3nuVqN+jtEUN74Nl68oDoRxZZaXpDu+Kubg+3Y4uE=;
-        b=cRxs0cctE5WppbWti7cl9eytX0HmUGtLPSmXJdI0iGnTmueqQtYXZH7Z2u8QEGC+sU
-         JfWQpqWK262o6k3tmqTFj8aX7aioTAiAShYKrU1oQtisZR7zHD5grev3c6YAZy8L9ru/
-         5Pm4GZcAHgKQh1wuxGW14IL1RPLHbJs9gDmuvLERyOP/sj8P8/MBUlmQ92Ojudtncv4I
-         lhMWSyfHwqdp+wzmTB/Mwc9CTNSNB99iwZ7kI9HZT8j5WQCaCcYsAlEFDt477SuJVGL1
-         CsI++nQeGWoKHIpae/Jl6fncf/64vqzHknxTy98VLqY7W9VEKqWxWVC2SzqU+qrX7cVg
-         Mt9w==
+        h=mime-version:auto-submitted:content-transfer-encoding:references
+         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
+        bh=SJcg386OCrpYg1LDp2XteU2+Hp2b1/Zp1h3rAhuvv2g=;
+        b=NHH2utqPhCDZzPt1dvBazBg8ZuUjk5tmJLbN2hWgFfpuNPemOmiIttpzQFWztiOWLY
+         189hEf3AZL/eU6qrEyTIOvFf9Lcynp5IY1Uxob+8+KKz127fRGz+npTMUZuXnuTmdFQK
+         dV0QcZWaW7nyMdnl+09C327bVMzMrwyrhlOqtYxn0wp5jWPVwUEcAtGNQHW/ghVMQtWx
+         9ucnf7sSONXCAJn45Ie/2KFJKBLJG1LDb62pTQ8TO/FPQv/y70nL9V4dvu3MoAAz7bqI
+         3c6xzaMqL0fH1P52IfiO8cbEvFXJdkKn/PzQkB+d1Jdxf06rVdGDz0rv0evMO/evsbu2
+         NtQA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="K5b/cTkQ";
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out1.migadu.com (out1.migadu.com. [2001:41d0:2:863f::])
-        by gmr-mx.google.com with ESMTPS id o7-20020a056402038700b00450f1234f2csi482906edv.0.2022.09.24.13.23.24
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=OdcR6fCS;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id i9-20020a17090332c900b0016bf0148e25si419034plr.9.2022.09.24.13.29.07
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Sep 2022 13:23:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:863f:: as permitted sender) client-ip=2001:41d0:2:863f::;
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: andrey.konovalov@linux.dev
-To: Marco Elver <elver@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	Kees Cook <keescook@chromium.org>,
-	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH mm v2] kasan: fix array-bounds warnings in tests
-Date: Sat, 24 Sep 2022 22:23:21 +0200
-Message-Id: <9c0210393a8da6fb6887a111a986eb50dfc1b895.1664050880.git.andreyknvl@google.com>
-MIME-Version: 1.0
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Original-Sender: andrey.konovalov@linux.dev
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b="K5b/cTkQ";       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates
- 2001:41d0:2:863f:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 24 Sep 2022 13:29:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 2299D6143F
+	for <kasan-dev@googlegroups.com>; Sat, 24 Sep 2022 20:29:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8391CC433D7
+	for <kasan-dev@googlegroups.com>; Sat, 24 Sep 2022 20:29:06 +0000 (UTC)
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 4D516C433E7; Sat, 24 Sep 2022 20:29:06 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 212203] KASAN: use console tracepoints for tests
+Date: Sat, 24 Sep 2022 20:29:05 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: andreyknvl@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-212203-199747-SS7v7XqxtF@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212203-199747@https.bugzilla.kernel.org/>
+References: <bug-212203-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=OdcR6fCS;       spf=pass
+ (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217
+ as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,70 +151,24 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Andrey Konovalov <andreyknvl@google.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=212203
 
-GCC's -Warray-bounds option detects out-of-bounds accesses to
-statically-sized allocations in krealloc out-of-bounds tests.
+--- Comment #1 from Andrey Konovalov (andreyknvl@gmail.com) ---
+Mailed a patch series that makes KASAN tests use console tracepoints to check
+whether a report has been printed and makes two more tests KUnit-compatible
+[1]. Checking reports' contents for correctness is not implemented is this
+series.
 
-Use OPTIMIZER_HIDE_VAR to suppress the warning.
+[1]
+https://lore.kernel.org/linux-mm/653d43e9a6d9aad2ae148a941dab048cb8e765a8.1664044241.git.andreyknvl@google.com/
 
-Also change kmalloc_memmove_invalid_size to use OPTIMIZER_HIDE_VAR
-instead of a volatile variable.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-
----
-
-Changes v1->v2:
-- Hide ptr2 instead of size1 and size2 to be consistent with other
-  uses of OPTIMIZER_HIDE_VAR in KASAN tests.
----
- mm/kasan/kasan_test.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/mm/kasan/kasan_test.c b/mm/kasan/kasan_test.c
-index 71cb402c404f..dbb0a672380f 100644
---- a/mm/kasan/kasan_test.c
-+++ b/mm/kasan/kasan_test.c
-@@ -333,6 +333,8 @@ static void krealloc_more_oob_helper(struct kunit *test,
- 	ptr2 = krealloc(ptr1, size2, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
- 
-+	OPTIMIZER_HIDE_VAR(ptr2);
-+
- 	/* All offsets up to size2 must be accessible. */
- 	ptr2[size1 - 1] = 'x';
- 	ptr2[size1] = 'x';
-@@ -365,6 +367,8 @@ static void krealloc_less_oob_helper(struct kunit *test,
- 	ptr2 = krealloc(ptr1, size2, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
- 
-+	OPTIMIZER_HIDE_VAR(ptr2);
-+
- 	/* Must be accessible for all modes. */
- 	ptr2[size2 - 1] = 'x';
- 
-@@ -578,13 +582,14 @@ static void kmalloc_memmove_invalid_size(struct kunit *test)
- {
- 	char *ptr;
- 	size_t size = 64;
--	volatile size_t invalid_size = size;
-+	size_t invalid_size = size;
- 
- 	ptr = kmalloc(size, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
- 	memset((char *)ptr, 0, 64);
- 	OPTIMIZER_HIDE_VAR(ptr);
-+	OPTIMIZER_HIDE_VAR(invalid_size);
- 	KUNIT_EXPECT_KASAN_FAIL(test,
- 		memmove((char *)ptr, (char *)ptr + 4, invalid_size));
- 	kfree(ptr);
 -- 
-2.25.1
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/9c0210393a8da6fb6887a111a986eb50dfc1b895.1664050880.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-212203-199747-SS7v7XqxtF%40https.bugzilla.kernel.org/.
