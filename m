@@ -1,126 +1,125 @@
-Return-Path: <kasan-dev+bncBAABBP42XWMQMGQENKYVKVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB2OJXWMQMGQEWCZBZVY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67D65E8F59
-	for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 20:32:31 +0200 (CEST)
-Received: by mail-wm1-x33e.google.com with SMTP id n32-20020a05600c3ba000b003b5054c71fasf4073181wms.9
-        for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 11:32:31 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664044351; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9775E8F98
+	for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 22:13:30 +0200 (CEST)
+Received: by mail-wm1-x33c.google.com with SMTP id r7-20020a1c4407000000b003b3309435a9sf4225991wma.6
+        for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 13:13:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664050410; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vP8lJzOawBISi0oXxlaQalTgsTjFs0lJxJdmZeDziuBfnErvJTkBMQw1W2WD5s33eV
-         8LDE6fWjUtLL+tDtUCMwpKKTxqTIm0XDBPLr5F+hZH6IQb8WaPnU3kpdYc6YGqwjaSE3
-         ExYn3NzSLZslsfvN5GCCjU/YCvy16ptLxI9pCFC8FXtBhGdvQ+yRtGXd+uCbmC8zEAh9
-         Hq9HhcufSr4Pc0OHR1nNwPsTFsYUUdpwLHS96VOjuAWiGphMeP5nLilCTFRgJhsDCAM3
-         w8GiWvddfcSPNG8SnkZIA30+ysh+to6kjfd6CYoMKntHFw2noOta9rmfp3Ym4GLWauQ4
-         BRaQ==
+        b=N2J0CNrYZLDkE7I2ZfHqHmx1EPG1wYeyg8y16MxxPKdxBetCXniJbUQ58hE3+Zg6hh
+         L4m65VOyal+C5SS8ayTQ/JCusvuK+8HPe6EZlnb1N99ZWqDYCqAj/7nC70ftTJ7kMAEm
+         u/tKWecjLnxIzgxd1ITlH8BIdHwIApqaKIYPfim8gnSfqlk8gDHlBPRMYq5o8ldPFHhs
+         DtolmGkISU1SHYtP/IzM/z8Y99cXG2uxV9CoLhfVceI+LqWCrPSVxsnZooiaDND2hDis
+         atJYBubg0sJaIO5R4+nHLFyjr/aSVCaBU8oEgxYg0LCsNi1XnorzFRf2H9CrNQhNCk6W
+         OFXg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=4/3F9i9uuxwlpv3q0pOiNHC5PVDGc09uDZUAVBqIyWU=;
-        b=zCpP6Db3Q+vWXlCzMhOc3V/3Bi+EBvHcQ0I+kMUcxSH+NFDN/5MBaIXCJOttao8uBU
-         w5CiSiEG42jQfTl6EbM0rMs8cPGeL9cxhfKyz/6I5lma34W0RjbTpUtmWaRCNJNYRw3u
-         8gcGsg4+cwG4eDtJ2ai7ysYTwd1hkYk0dbwxGpXh5nIAMXSwh+glX0gIn3U265lmINPE
-         nouV6xHACWC5TNwLnzNmddghPOX2rIUsj88pdhNLPMCBisEgy2K5Bcdu2LVBOBjHCaC3
-         txwHWX4z4SsVxeKH8t0dnkw7dJ6EFlB7eKX9e4vyM7BvXdc+UyhrZXOMlxoX5CWoOKuK
-         6AUA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=yuE+MTmCWD76CXe64LNPMLHHyMnhU8uwpg6lznmfjyg=;
+        b=Smlc0VJmB5PlynjyFgOt3f+Az/cYj/E/HsMvhdlX97ac0lmuicTpajztN5aIMi+7Yr
+         XL2JB/O2EWeLHen4eaXV1/7fDkbf5dBJxwr9rcw7GguMPz/LpikoPosChrg2HxfWolxX
+         MN5RtOY3lmCG5XTcCVyF/TNNoAzsuLT3t1j/BpLXs7hGJXo4EzQZG8lVMyDrHMaS1H0U
+         R3WPYFcW5Tkb1ul6TglKCUiGeOZEYjorgrFYgcVTsac5LVjHNSppajDJt4qUmzccj7a+
+         /xBv+hSnywpMh7WSUTHzQqFIVqdkOmxmvk8NdXe1hGQLIj8kippmM+MyYFXQx1tDeloG
+         f3xA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="G8sO/LbZ";
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=CcFOjNnK;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date;
-        bh=4/3F9i9uuxwlpv3q0pOiNHC5PVDGc09uDZUAVBqIyWU=;
-        b=DCN5uXoEVHMiyT5ZLjsYTahQZg+fp2nzfNeiDdfv1+8ARA1MtBHpMDCi0WpG0+RZ9V
-         VnOgjremA0pt5OTrsrhU5vK9Fwt0KOiiAeoiNAY84Ayf94QtGHszi0KymH+Bkbri6t1+
-         EX/ueQ3+APWLHhuFlBmeqGYjqEWpzLCWK8TBMH5643S33fuYnmCU38ce09QwD7LE+V9v
-         iVTO8N8eFlDHloiJ0zoebHkBjDWurZ/lBQ3G3zA+nfgxoz3/oZ9lSey+JVJDUwnUbopG
-         E5Cry2HwmSmzVax2iW/dt/CUziANZ97nXUBbiuHdIdGAtOjouqQSDpcI3olqLlrL1lAO
-         IAJw==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date;
+        bh=yuE+MTmCWD76CXe64LNPMLHHyMnhU8uwpg6lznmfjyg=;
+        b=WwpwlrKc8GV3EZxtfjJG6T9sa8tjp3FaU65F/2QSUVXurZsd6LnPn3f0vGGYHY9UTQ
+         psuqCoe/slnK5ZXRiGM/IFEUM+nVMEU2CjVhAIUq8gqf9xTd81PCu1vrrcZH2YzViLTH
+         mH0i4eDOBJsyDx1hlH1skOIs0ocy+nBkuu37mlYL7Gke2kaiLKpj4ciyPFuIe6EnV+lk
+         MMpA2Qd+ICQaQElDw8zqfmdKm2/ccXy+v6vJU9bmLtCV6AzYlKV6xlRjKVjeeIPKSpgx
+         LC6oLhjy6JLOfJr4O81FOvcHYEo+z5zfPdirD/43ck54mxh26eawA+AM5vEivp6NeuLq
+         1bbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=4/3F9i9uuxwlpv3q0pOiNHC5PVDGc09uDZUAVBqIyWU=;
-        b=kU1bmr5aaMaijrBeD/Sehuh9hlp3YJHqYkVI7OZGFzItDM7BuDgUzVfOLx9wB5x+BR
-         dh/5ZAMoRmBoPQVbb9mw4BrTg2LMmiUKxZkyIZS+lnoeG3qsh58Ca1Ns3gbkk6dYh6Oe
-         hhgOMcQwIPv/RFET74AEUs9ImydL+hbYjWfvdcnduRBnNomgRLvH8TrpaknDPdcVegMv
-         QEkfgq+ZxA8wfae+fdgQWNR9Fxz79h7LNk/u77CwXrXWbuJJ56kxw07lDTOk1Dfo6MaV
-         pOzc8eOrPJLmfVVJAMOev5gB65GRZqRqYITcOmDLyipw73pqsmOKqjJd8Xxepi42Xd9O
-         kmqw==
+         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
+         :to:cc:subject:date;
+        bh=yuE+MTmCWD76CXe64LNPMLHHyMnhU8uwpg6lznmfjyg=;
+        b=kWW55Atq7IQGtScDkqqxlPAhlfwtd8aqcrXrHhqvVgJw2IIXR79rY8KpD8f2PXXtcO
+         JYFz2XEJr+rUPsXO57voq6Mz8qwXMjCLOAWC/O8SZ2NJ2FD9QT+e+h8+U3NbLLSgT3Rz
+         wvWdnH5vEoKa7mauPGuYok77nhrfo4r9oPTP8B3oQZmHVVBlNGsM9EvqvAesa5ClqKzA
+         +DIDR0uFklMQbNlggtROIc1TRP4e7hyqhu89k4grmqZg9MUFPJom+BqU179kNTL75sVo
+         mOzFshJilPcvX41LlGR71h4qJzXu42C/1IgsagqegIrgAYfmNEFCAjTj/8YIIQ4gcsnd
+         AEjw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1uXodPuEfmh5SysgMPaJJnz/dm+4o1cVVriwikwbiO4MrGeLV+
-	dAL5Rt7mVtEnqqq18AhwM2g=
-X-Google-Smtp-Source: AMsMyM63I153wWnDDV6+uKUXGl0oQMPXJIuwLW+RSOXO9vrcaDecldPwSD+Dx3iavlcghHMqF+xSiA==
-X-Received: by 2002:a5d:59c7:0:b0:229:b76f:e2bf with SMTP id v7-20020a5d59c7000000b00229b76fe2bfmr8284165wry.128.1664044351358;
-        Sat, 24 Sep 2022 11:32:31 -0700 (PDT)
+X-Gm-Message-State: ACrzQf11vI0/28NluvMEfYSK8KVWqF5i6P5GMxu4X2yhR+tHhFXtWNie
+	Zt1LK++huSCyxz+vE0Ad8Q4=
+X-Google-Smtp-Source: AMsMyM53bcXBtvgqQ2WNhxzTL6Bfy0tWJyrViU/afs/YDeCc78bhp6Jbc/D4ZpFXbk/dmlAkVjXwPw==
+X-Received: by 2002:a05:600c:4f82:b0:3b4:9f2f:430b with SMTP id n2-20020a05600c4f8200b003b49f2f430bmr16896691wmq.16.1664050410265;
+        Sat, 24 Sep 2022 13:13:30 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:255:b0:228:a25b:134a with SMTP id
- m21-20020a056000025500b00228a25b134als6705036wrz.0.-pod-prod-gmail; Sat, 24
- Sep 2022 11:32:30 -0700 (PDT)
-X-Received: by 2002:adf:e4cc:0:b0:22a:d755:aaf7 with SMTP id v12-20020adfe4cc000000b0022ad755aaf7mr8827647wrm.692.1664044350622;
-        Sat, 24 Sep 2022 11:32:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664044350; cv=none;
+Received: by 2002:a1c:f615:0:b0:3a6:6268:8eae with SMTP id w21-20020a1cf615000000b003a662688eaels6806294wmc.0.-pod-prod-gmail;
+ Sat, 24 Sep 2022 13:13:29 -0700 (PDT)
+X-Received: by 2002:a05:600c:2142:b0:3b4:9289:9d4e with SMTP id v2-20020a05600c214200b003b492899d4emr10066820wml.197.1664050409479;
+        Sat, 24 Sep 2022 13:13:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664050409; cv=none;
         d=google.com; s=arc-20160816;
-        b=j2y+PflaIsVcDihKEnEl4U2m0MiJBv+WWIkEgW9sB1zDyM3BFs9L6i23+VuSgJcmZO
-         Zgo6r6JlINLAR9O7yw2BlJGefu+moWdS3hJBX7dG174+K6VOcLdCRcIQ8J28gNjjdRSv
-         xaNjaBqMbXr/FvWIbWfG/mrVgXDwaI5x+qFnB+B8q+AzXD+MhSyniEcjwtcxiYAiUKpK
-         cC4GRuL8fA4P2usZANuQ2F77Ftdt/inEgdcfvJ1PN3QLU14hVnKe1zzAINwkj1F9I393
-         FJ0iEbMPaGyicI4Qmbef4HlmiISx0O0lZlpEXc48/pnnNuzAGaUF187mX2GKq38+ArVn
-         jolA==
+        b=CdOCQdPS+g2vkdir2W5HIux9tPAGy48gDrG838KO5JXlYlyyMcd2Gd+8LoSN0tXTvN
+         3XIxMcagfTcDsrbyiExvjeOqMAOZ/RJVF8AG6oC5FCrTGyscro+RHsw/7ZE5oJO1REhy
+         RvOWH7kxB/gOcpj4n10GMcHLq2VkGovVxkRnnDvBn74VpWv50Vk45sqr1pxbcROAMcyO
+         STdmJyELJMc023Sdtx38d4PclKgu+oK0fF4q1OS9Os2UL1wVlal0xA6kuRTTwbozKH08
+         wxDJHD/+8/NNdhVFA5Wu+xVwVpVSKRYHLT+hVtMCYy2xjtDDCvu4ZTk+ERs+ZKL0mS9w
+         4wzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=wCZqMmRS53sAUXuFaKIWMcHMmvAGs3N+TjAFGrnshio=;
-        b=WP5ifhtwqz0IQ73o/SuqrvPaTYJAe9i1RJKHJ0C8yffCxb1GaNgljFQytsGMe/GKt3
-         +cc9kElpGWLewkNRQbVRR5Ix3P7v+q5QvgXuoPhvm1riA6CScE6knfcq14O26WZ6WJZR
-         +rynoY9cch3aTqXXfNAEdik28BiCcueMelqYFoPS7E0CI36vRiI1slr9Duw2uudkTdyx
-         nfXlOOGdHbTMZqWCR3fReQrl2m16+fVbWR2ALH+KoAZSB8d+A4u56TEL/wKnLVTgPbgK
-         BP6k7oQTcOeBa0bQAeLodq+1HCdr+UwPpHXVNw4YR60BzGSj5D620Z6ZuFPI4AvDpxvZ
-         WcrA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=EcbtpHcwl1Nm1cXUQncscydMAW3SGpJ+fUyDvKUD0nQ=;
+        b=AmSAl9AICRHi9eSNgeQEAPRi3CQDfsUNkXSOfnqOxHfcSoWoQhRTD0Mkot3nIF3S5x
+         tjkW29oNvAI1H1hhJpSJbTB8tXZNFsEqWHsBl1kkDk/oB5Yi3npf/ujNZL2HuIMK5TMB
+         jpWxEf0b1NycoVPQ3+QEDOucteG6U8XSY/qCypHnIyejNJ+9u+yFnk3IS6SpmMNMtyf2
+         AWRGHuGhstGHqF1AS7a2EPT5H20t9Y4Xz9wkTFz6c9y/pfGYV46hvf7E6uzWRk+VgtC5
+         BfO5QCiiADksDCZ7/mL2GWgU03+Ed05GTHh3tmi3svt7zmIIXAeHAg4ppUIFhVhh4Uql
+         Cugw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="G8sO/LbZ";
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=CcFOjNnK;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out2.migadu.com (out2.migadu.com. [2001:41d0:2:aacc::])
-        by gmr-mx.google.com with ESMTPS id bp12-20020a5d5a8c000000b0022a450aa8a8si498117wrb.6.2022.09.24.11.32.30
+Received: from out0.migadu.com (out0.migadu.com. [2001:41d0:2:267::])
+        by gmr-mx.google.com with ESMTPS id az19-20020adfe193000000b0022acdf547b9si397636wrb.5.2022.09.24.13.13.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Sep 2022 11:32:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:aacc:: as permitted sender) client-ip=2001:41d0:2:aacc::;
+        Sat, 24 Sep 2022 13:13:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:2:267:: as permitted sender) client-ip=2001:41d0:2:267::;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
-	Alexander Potapenko <glider@google.com>
+	Andrew Morton <akpm@linux-foundation.org>
 Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	kasan-dev@googlegroups.com,
-	Andrew Morton <akpm@linux-foundation.org>,
 	linux-mm@kvack.org,
+	Kees Cook <keescook@chromium.org>,
 	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH mm 3/3] kasan: migrate workqueue_uaf test to kunit
-Date: Sat, 24 Sep 2022 20:31:53 +0200
-Message-Id: <2815073f2be37e554f7f0fd7b1d10e9742be6ce3.1664044241.git.andreyknvl@google.com>
-In-Reply-To: <653d43e9a6d9aad2ae148a941dab048cb8e765a8.1664044241.git.andreyknvl@google.com>
-References: <653d43e9a6d9aad2ae148a941dab048cb8e765a8.1664044241.git.andreyknvl@google.com>
+	Andrey Konovalov <andreyknvl@google.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH mm] kasan: fix array-bounds warnings in tests
+Date: Sat, 24 Sep 2022 22:13:27 +0200
+Message-Id: <288e31a608ba707ea6de47fc6b43d8d79bb2d252.1664050397.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b="G8sO/LbZ";       spf=pass
+ header.i=@linux.dev header.s=key1 header.b=CcFOjNnK;       spf=pass
  (google.com: domain of andrey.konovalov@linux.dev designates
- 2001:41d0:2:aacc:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+ 2001:41d0:2:267:: as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -137,146 +136,64 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Migrate the workqueue_uaf test to the KUnit framework.
+GCC's -Warray-bounds option detects out-of-bounds accesses to
+statically-sized allocations in krealloc out-of-bounds tests.
 
-Initially, this test was intended to check that Generic KASAN prints
-auxiliary stack traces for workqueues. Nevertheless, the test is enabled
-for all modes to make that KASAN reports bad accesses in the tested
-scenario.
+Use OPTIMIZER_HIDE_VAR to suppress the warning.
 
-The presence of auxiliary stack traces for the Generic mode needs to be
-inspected manually.
+Also change kmalloc_memmove_invalid_size to use OPTIMIZER_HIDE_VAR
+instead of a volatile variable.
 
+Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- mm/kasan/kasan_test.c        | 40 +++++++++++++++++++++++++++++-------
- mm/kasan/kasan_test_module.c | 30 ---------------------------
- 2 files changed, 33 insertions(+), 37 deletions(-)
+ mm/kasan/kasan_test.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/mm/kasan/kasan_test.c b/mm/kasan/kasan_test.c
-index 005776325e20..71cb402c404f 100644
+index 71cb402c404f..1d51efe131db 100644
 --- a/mm/kasan/kasan_test.c
 +++ b/mm/kasan/kasan_test.c
-@@ -1134,6 +1134,14 @@ static void kmalloc_double_kzfree(struct kunit *test)
- 	KUNIT_EXPECT_KASAN_FAIL(test, kfree_sensitive(ptr));
- }
+@@ -324,6 +324,9 @@ static void krealloc_more_oob_helper(struct kunit *test,
+ 	char *ptr1, *ptr2;
+ 	size_t middle;
  
-+/*
-+ * The two tests below check that Generic KASAN prints auxiliary stack traces
-+ * for RCU callbacks and workqueues. The reports need to be inspected manually.
-+ *
-+ * These tests are still enabled for other KASAN modes to make sure that all
-+ * modes report bad accesses in tested scenarios.
-+ */
++	OPTIMIZER_HIDE_VAR(size1);
++	OPTIMIZER_HIDE_VAR(size2);
 +
- static struct kasan_rcu_info {
- 	int i;
- 	struct rcu_head rcu;
-@@ -1148,13 +1156,6 @@ static void rcu_uaf_reclaim(struct rcu_head *rp)
- 	((volatile struct kasan_rcu_info *)fp)->i;
- }
+ 	KUNIT_ASSERT_LT(test, size1, size2);
+ 	middle = size1 + (size2 - size1) / 2;
  
--/*
-- * Check that Generic KASAN prints auxiliary stack traces for RCU callbacks.
-- * The report needs to be inspected manually.
-- *
-- * This test is still enabled for other KASAN modes to make sure that all modes
-- * report bad accesses in tested scenarios.
-- */
- static void rcu_uaf(struct kunit *test)
+@@ -356,6 +359,9 @@ static void krealloc_less_oob_helper(struct kunit *test,
+ 	char *ptr1, *ptr2;
+ 	size_t middle;
+ 
++	OPTIMIZER_HIDE_VAR(size1);
++	OPTIMIZER_HIDE_VAR(size2);
++
+ 	KUNIT_ASSERT_LT(test, size2, size1);
+ 	middle = size2 + (size1 - size2) / 2;
+ 
+@@ -578,13 +584,14 @@ static void kmalloc_memmove_invalid_size(struct kunit *test)
  {
- 	struct kasan_rcu_info *ptr;
-@@ -1170,6 +1171,30 @@ static void rcu_uaf(struct kunit *test)
- 		rcu_barrier());
- }
+ 	char *ptr;
+ 	size_t size = 64;
+-	volatile size_t invalid_size = size;
++	size_t invalid_size = size;
  
-+static void workqueue_uaf_work(struct work_struct *work)
-+{
-+	kfree(work);
-+}
-+
-+static void workqueue_uaf(struct kunit *test)
-+{
-+	struct workqueue_struct *workqueue;
-+	struct work_struct *work;
-+
-+	workqueue = create_workqueue("kasan_workqueue_test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, workqueue);
-+
-+	work = kmalloc(sizeof(struct work_struct), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, work);
-+
-+	INIT_WORK(work, workqueue_uaf_work);
-+	queue_work(workqueue, work);
-+	destroy_workqueue(workqueue);
-+
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		((volatile struct work_struct *)work)->data);
-+}
-+
- static void vmalloc_helpers_tags(struct kunit *test)
- {
- 	void *ptr;
-@@ -1502,6 +1527,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
- 	KUNIT_CASE(kasan_bitops_tags),
- 	KUNIT_CASE(kmalloc_double_kzfree),
- 	KUNIT_CASE(rcu_uaf),
-+	KUNIT_CASE(workqueue_uaf),
- 	KUNIT_CASE(vmalloc_helpers_tags),
- 	KUNIT_CASE(vmalloc_oob),
- 	KUNIT_CASE(vmap_tags),
-diff --git a/mm/kasan/kasan_test_module.c b/mm/kasan/kasan_test_module.c
-index 4688cbcd722d..7be7bed456ef 100644
---- a/mm/kasan/kasan_test_module.c
-+++ b/mm/kasan/kasan_test_module.c
-@@ -62,35 +62,6 @@ static noinline void __init copy_user_test(void)
- 	kfree(kmem);
- }
+ 	ptr = kmalloc(size, GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
  
--static noinline void __init kasan_workqueue_work(struct work_struct *work)
--{
--	kfree(work);
--}
--
--static noinline void __init kasan_workqueue_uaf(void)
--{
--	struct workqueue_struct *workqueue;
--	struct work_struct *work;
--
--	workqueue = create_workqueue("kasan_wq_test");
--	if (!workqueue) {
--		pr_err("Allocation failed\n");
--		return;
--	}
--	work = kmalloc(sizeof(struct work_struct), GFP_KERNEL);
--	if (!work) {
--		pr_err("Allocation failed\n");
--		return;
--	}
--
--	INIT_WORK(work, kasan_workqueue_work);
--	queue_work(workqueue, work);
--	destroy_workqueue(workqueue);
--
--	pr_info("use-after-free on workqueue\n");
--	((volatile struct work_struct *)work)->data;
--}
--
- static int __init test_kasan_module_init(void)
- {
- 	/*
-@@ -101,7 +72,6 @@ static int __init test_kasan_module_init(void)
- 	bool multishot = kasan_save_enable_multi_shot();
- 
- 	copy_user_test();
--	kasan_workqueue_uaf();
- 
- 	kasan_restore_multi_shot(multishot);
- 	return -EAGAIN;
+ 	memset((char *)ptr, 0, 64);
+ 	OPTIMIZER_HIDE_VAR(ptr);
++	OPTIMIZER_HIDE_VAR(invalid_size);
+ 	KUNIT_EXPECT_KASAN_FAIL(test,
+ 		memmove((char *)ptr, (char *)ptr + 4, invalid_size));
+ 	kfree(ptr);
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2815073f2be37e554f7f0fd7b1d10e9742be6ce3.1664044241.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/288e31a608ba707ea6de47fc6b43d8d79bb2d252.1664050397.git.andreyknvl%40google.com.
