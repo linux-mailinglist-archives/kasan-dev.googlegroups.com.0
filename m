@@ -1,97 +1,96 @@
 Return-Path: <kasan-dev+bncBAABBPU2XWMQMGQENXCBYVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x537.google.com (mail-ed1-x537.google.com [IPv6:2a00:1450:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2188D5E8F57
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A025E8F58
 	for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 20:32:31 +0200 (CEST)
-Received: by mail-ed1-x537.google.com with SMTP id c6-20020a05640227c600b004521382116dsf2301652ede.22
+Received: by mail-wm1-x33f.google.com with SMTP id h133-20020a1c218b000000b003b3263d477esf1808047wmh.8
         for <lists+kasan-dev@lfdr.de>; Sat, 24 Sep 2022 11:32:31 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1664044350; cv=pass;
         d=google.com; s=arc-20160816;
-        b=x+cOoOlPMWfFk6bYboLhze98rjmaCaKIAzD9W9ZQc6h75MbfRQjoI/NC156spSql49
-         77OVtBgrs1Jyb06cPUu1un2/EeUtegiIkDsPEZ7vDd1ud5X9wqDtVlT0EHLMfcIdtxom
-         BKrT122orGERRqpzuS/RvLltCZYpxUDwHGK7WbrF+8ngz3VuAMlLmuEJIbQHmamMOsXK
-         Sme6vjYAP8DkrOpERjLmivYv+lIy/3Pz2LXOUdfRqL7Y6YyGTzT6gxe5uR3BQNHUodKg
-         128HCPBkeXNFjyaP0X5uNqPmcBNQRmJPTsBW0jXnIZI2jnPQhBXKnJJmm9rL8Gr26N30
-         WiTA==
+        b=csW6yr25R+hSdZ8W6WG4RxFS75BA1T7JWJW7+3uVU9uv9+QpaD+GyQGup6jZW4+Vts
+         aHCY5xh/wn2NV5q1bSen6FVQA1yRJJiS1C0wY7cudAurqNEY7zy6WDFf/Nv9Ln3JzjPt
+         VWG05eN0yBVDbfEDrgZsDXYCDQIUvm3E/H7yRlF6kiDue89G+Jttsl9ompQKfVRkMdXe
+         Srl5Yw1ZoRPUdWzk53UbqUYNnYQS77wMHKTdnyZMMe9RWmfiqe9/NBQH1hCEQVPY3Tm0
+         YoDghZLmr/8fUGa1I6QPyH6eWxTBiG/NRIbJHe3sdO7uhqoe3SDaNBI8fNmZu06ImQXz
+         2AFg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=6H7NFKZktX8+eMBVr7dLqJiCKj4QEweIWqSBRRCtio0=;
-        b=tDmgzJINkKueA/eJg2hVmSPJx+2vxRim2d6If6vKHAc2CZbYdetEz78xRxzYds77xX
-         pW2f9huppfVcIQ0eTa8q5Zd2F3LojrJRL6+n5aeVCyjTLnqcrjHV62GGwArMe0wBonC7
-         loPx8ODHQP5MS8D9VqCf7M+isxGUm2XzLbU372o6T5txM6DCkkKDy1158qRvIAoStVpu
-         iYRgIcWPTfyXP/hrsDHH4LbqlK75Wl3vL24OHYblYzzwHgvAKpF3y/OniZYwtkpxZP7M
-         /LYPX9q18MUgJN/KBbMuUqA0VGAxivrK+kX2lzH2z9I+AGCJDlV7OTs21b2HVVBP0+I8
-         n0JA==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=OSaOtcshm7SZVLoFMUXsQGGQPZSORBOUeNW+htc/pCU=;
+        b=ZfISKbdhSryUGUIJdhuNxzHVQ519uCNRmgZJQF17gQMVVrsqcHq3O0KgKxgGOX6lF3
+         6VH3Z0bCfcXXmZ76SsE9iNd1RkX2WeuolT3BcwTH86zP5u5Zryc4WO0b9fa7oyhO6XuA
+         ky6edcpWNdgwKmZ3Dho5EbYvoV/ypD2/8g8+2rBpNaqOUNUTo0itdKDlPrguzJBHTfsE
+         F8jrIg57oe4WXsMQpXE6iksmwO95xAi1C4zZADBHeEO9GakyRd8YRmWg2KCUWeu0Bfva
+         6RHw/4LD1b2o8KhvGykD1oApDwJxB3KNEslOWORu7ObMeuornO79orzjzZ6gW7Omuvl2
+         3RGA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=ZQl61kJN;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="wm4LrK/u";
        spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date;
-        bh=6H7NFKZktX8+eMBVr7dLqJiCKj4QEweIWqSBRRCtio0=;
-        b=dvcZP3tecB1+e3sUv/P6xwm9DvxBwCo5ssN0rB3C3KG0+cfZR8fonghtpJrwZF20Q+
-         +Iw1YtyENOUU+ZmwpQKYGdRGPW89JIiQfEkzMOKVKqNDuMBAx2j6SgC5Lu5wHoVQWzY5
-         gF7HCQ/0XvxUj4Yf0YX32Mv2zEAm8DbxbsUnEeotGB9T0mtm1WQYcw3UOn70/mOzZ6vT
-         RTfoKAwZ0Z/o9s8Etq8bz45GTMRiPpo3NsC6cTsjujprmxww3xABJkoi4ShwH+tLrv1Q
-         Q/p9mONSzqVQKjPBRz+CEPOpQAkgZDZIl5xJEOw0Ff7Kg3+F4A5VYIt3fkE6uNpdfGL0
-         TbPw==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date;
+        bh=OSaOtcshm7SZVLoFMUXsQGGQPZSORBOUeNW+htc/pCU=;
+        b=e1Zmf1kxbfNO08TVLD+WFvcgRyqcFAN/Q7yP6w+7sX+DoeohqrtizfIu720MP8FM8t
+         8B4gF5ctgjJs77eiFLj9UMiRkbR9D2zkNUdF3o/0YegW/LBQ911fMPH1Q5sgparof76K
+         mYnasx+JbK2Lh5Pmap3G6HIWt3PpXFbIvo5iyNmsdrut20JI28flAfX4ly3V1pGyOFt1
+         cXkTU9XdvpY5eNQAbjGmErFPx7QYOH9JE+K06Yb09DMzlIaTG/GsFIJuqhs9opre1OZB
+         d9JGQqgolsLKw/kaUVuVFPUMBWWZl7eEApV1K5THFn4dBOfAP2gCjxxkqR+2Sl4k7mWq
+         plrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
-         :to:cc:subject:date;
-        bh=6H7NFKZktX8+eMBVr7dLqJiCKj4QEweIWqSBRRCtio0=;
-        b=4E8Zvt0nxF7CC3EV1uvXJj5cSHTbO9NplNyejYu5h505vQBtRmttptGkhAS+D3stiM
-         qycgPc6nCIFUAHZOPuum08xPaXbasoxkYoUqc6svsaR5YFW/IYsRN0B4rg/UkySxUHG0
-         /rOy5X9hqYgPDJZykgT0yvzY6xGW2l5KS+hn2Nzwyp3pHTSNsrpCAyw00tykCiRRkNVP
-         6ZOdJqIXd5CpRPklfc/6lu3e5OsKVGwChF+O24aqhB/CLH+nHumHF6IMTY1nQeyLlnNN
-         J+qibMUyvZye/yEgth87GMYuttPHt/fNyw+crE0MWzimmF171Hp5TJjQ9cBx+OVCWaOB
-         22jA==
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=OSaOtcshm7SZVLoFMUXsQGGQPZSORBOUeNW+htc/pCU=;
+        b=XgkYdGEa55l/GhQfCmMkae5B9AwZpNwwmzIE+A4EDtN0SMsfD4ciFf2LE8nxwwzyqc
+         CLXzOIZH7o8nhO+9h8Ed3rgGJgCLC41XySyYCB0Z1wm8ovvMQncOUqzoX/2fcOk38mLF
+         3l3IW8fN8F2XszD8Ue5DhpTnLp9cIZFNO5FuOwQGJJfwVLXaa6yVVyaUgzDWkJ1PSFKp
+         BSReodQ+HIGzEA3yFJpcBtZ9W7JJXDLzXqZY2hNJsVF1xNDLOxcdGqryR48Fy3d+WaIr
+         Munv9yDFlpqrYldkAsWR+VxFN1t0KBEdVPys7AAmBHowLtT64JLRB4+982mIBXVjkMEg
+         4TdQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf3MDhMRDRSZPLXGsbxFczMKOpYt6wt7EMZwGDvJu1ytG/uLWtna
-	UuOAIZzv9rdCttvcHomyeu8=
-X-Google-Smtp-Source: AMsMyM7BlETIZvqAiuwWSm+Zexi3XIiQ4Rn9I1tleWUe8UKtvJLPwKg0qSVAJZcoKPj/IYfsvp8TMQ==
-X-Received: by 2002:a17:907:2724:b0:779:7545:5df6 with SMTP id d4-20020a170907272400b0077975455df6mr11869215ejl.325.1664044350440;
+X-Gm-Message-State: ACrzQf08vQyQd8RDdukg5FoqQBoIZpTvvXuooqA9/a8+nU3xQB0iRbjG
+	RckMiRLHHyrQGk3fYkkeJe4=
+X-Google-Smtp-Source: AMsMyM6Xh/MN/l5lC3QXhYPoxzi6fKjdzOEIqbs5C39kWPHmvekQWK413paSnZ0BAQeymv9JZLoMHQ==
+X-Received: by 2002:a05:600c:410d:b0:3b4:9454:f894 with SMTP id j13-20020a05600c410d00b003b49454f894mr16501706wmi.111.1664044350724;
         Sat, 24 Sep 2022 11:32:30 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:a84f:b0:780:2712:35d2 with SMTP id
- dx15-20020a170906a84f00b00780271235d2ls5029318ejb.4.-pod-prod-gmail; Sat, 24
- Sep 2022 11:32:29 -0700 (PDT)
-X-Received: by 2002:a17:906:db0c:b0:77b:7d7d:5805 with SMTP id xj12-20020a170906db0c00b0077b7d7d5805mr12447731ejb.726.1664044349473;
+Received: by 2002:a1c:f615:0:b0:3a6:6268:8eae with SMTP id w21-20020a1cf615000000b003a662688eaels6766909wmc.0.-pod-prod-gmail;
+ Sat, 24 Sep 2022 11:32:30 -0700 (PDT)
+X-Received: by 2002:a7b:c34c:0:b0:3b3:4067:d473 with SMTP id l12-20020a7bc34c000000b003b34067d473mr9772161wmj.52.1664044349990;
         Sat, 24 Sep 2022 11:32:29 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1664044349; cv=none;
         d=google.com; s=arc-20160816;
-        b=xhkCFvSm7tPZdxtKchCIR/Q75D2cAc2TQoxG2a8EGx6JBQ2iweuVmbtdRtoVhzQ+rw
-         H9RLNdvg8/YgyphoRKNSVvTkXGTnPcBMqkPFqy562GoYzFcHrQ+rzUdW1gdmoy2eN1Hb
-         0yWnRpa/YPL+uW/2hhbHw9nnjojNKa5hwvXuQIit1XOvyzTOQLvRdCbTYNeEg4ocxpJ9
-         HBpsDrRGDfti0OcowZThaSj3suTa/rPbvAV1/N3yzczP7RUMv+n5cuaUsX5+hcdHJf1F
-         KJ5g4m/C7spYOdDd8Usw9zXy4BqBd+pX7XPleFCtYriAdYdxymr+Zgl0fcHkXRSGg8da
-         q3DQ==
+        b=yRCajlgnecexsYb8hMra1uze6OyfiszXlK/B7WdYqZQg1KmJkFPDjaamPMSdAlTEMN
+         ZJ6fFm54EppE0lKOZZGKfKozgDrtg3BeTuuENFuoY9buHJHyTGRNbihVOCbaSfZqhvWf
+         OAMv3mMm+ZdiiJhQya+fBsuCfDrBCrTxBdrcFhQ4Mu/MDufmn8/mPqSvePEOy3hgB+Dy
+         cuqNeDBGfqsOXUMiQNUOT7xJkRfn6Ov5zyqro6r8ex3IXw4CpCWnjwcKYrZiA1PRuS3e
+         6TdF1914ZdHO8cbdLcKiLdXe1c2TrrrYEYnYbclc3guzqdxWsj+ILpIsxwXaW1x5kgKe
+         Pprw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=LPWNXNjTpdk69QTCVlET8VJ/JJ9a2GtSBbDdH4cFLZE=;
-        b=p6qKBMgoKNmGA7YSsdO11PIePgwh2BbZUQSLg9Z3L13YIbfRwRVwyodRz9vMWglKsg
-         3ZsAPr1d8UuNVwDa15Ew9OpvDVGyBGsgMIUBcqir9AFTGi33j9IDWR2/sYCbk41l3Kb2
-         RNbl4It8qySZRUUrGF0UFIu9SlHnb1zab3kAlrEV0SiMUj5p5l7/Gc2oToREuTeN4o6E
-         nW5rx8KRHr9lTNq8ahymVyjHPG2Cun9o8F7FEPL88v9kW2vgWvKMiFBAfH20TNfPqRmg
-         spKrt+Roilfxvs5aOKbS490jJueqrFK5SXApQ9PhnBAp7fiqllu7/0Z+zew0e5mfGnE5
-         29/g==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=hSHn8pdWEz/EAWLe2z3ri8yOC1WGCkjx3I21+gYS0z4=;
+        b=T1XInr7EVAjqzur1vAMguW7zDSilzk5MJfl52zcAikAr0eIxWkXyQNSZHXcsrlyeY1
+         Lxcd6SRT+4M8pdXfYGhyv9TeT7mWcR8sNCSnZ2SseRh/B9hpm7ld9EsIQMr8mdaaL13p
+         RIHlDUr5y7L6UP5yyeW/M9JWc5jyHV3nyB/WJGyEBBIhpKkLciDjluNgBcBbbpi3XWes
+         slawk95JQ55U2YNSkuHhKNseWSV6vUQ9fgFayp+XTW+KxQLnYhffU379dc82fBAtGDtb
+         YleVs40Hhf6ZsVSQ9yiJ3eoAl0WdvubvTt6jvFVELThELuoKOhIe07jm19BCKlH3G2um
+         cuhA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=ZQl61kJN;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b="wm4LrK/u";
        spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Received: from out2.migadu.com (out2.migadu.com. [188.165.223.204])
-        by gmr-mx.google.com with ESMTPS id o7-20020a056402038700b00450f1234f2csi475331edv.0.2022.09.24.11.32.29
+        by gmr-mx.google.com with ESMTPS id m25-20020a7bce19000000b003a83f11cec0si190709wmc.2.2022.09.24.11.32.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 24 Sep 2022 11:32:29 -0700 (PDT)
@@ -108,15 +107,17 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH mm 1/3] kasan: switch kunit tests to console tracepoints
-Date: Sat, 24 Sep 2022 20:31:51 +0200
-Message-Id: <653d43e9a6d9aad2ae148a941dab048cb8e765a8.1664044241.git.andreyknvl@google.com>
+Subject: [PATCH mm 2/3] kasan: migrate kasan_rcu_uaf test to kunit
+Date: Sat, 24 Sep 2022 20:31:52 +0200
+Message-Id: <bc3b1d29d8addd24738982c44b717fbbe6dff8e9.1664044241.git.andreyknvl@google.com>
+In-Reply-To: <653d43e9a6d9aad2ae148a941dab048cb8e765a8.1664044241.git.andreyknvl@google.com>
+References: <653d43e9a6d9aad2ae148a941dab048cb8e765a8.1664044241.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=ZQl61kJN;       spf=pass
+ header.i=@linux.dev header.s=key1 header.b="wm4LrK/u";       spf=pass
  (google.com: domain of andrey.konovalov@linux.dev designates 188.165.223.204
  as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
@@ -135,252 +136,138 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Switch KUnit-compatible KASAN tests from using per-task KUnit resources
-to console tracepoints.
+Migrate the kasan_rcu_uaf test to the KUnit framework.
 
-This allows for two things:
+Changes to the implementation of the test:
 
-1. Migrating tests that trigger a KASAN report in the context of a task
-   other than current to KUnit framework.
-   This is implemented in the patches that follow.
+- Call rcu_barrier() after call_rcu() to make that the RCU callbacks get
+  triggered before the test is over.
 
-2. Parsing and matching the contents of KASAN reports.
-   This is not yet implemented.
+- Cast pointer passed to rcu_dereference_protected as __rcu to get rid of
+  the Sparse warning.
+
+- Check that KASAN prints a report via KUNIT_EXPECT_KASAN_FAIL.
+
+Initially, this test was intended to check that Generic KASAN prints
+auxiliary stack traces for RCU objects. Nevertheless, the test is enabled
+for all modes to make that KASAN reports bad accesses in RCU callbacks.
+
+The presence of auxiliary stack traces for the Generic mode needs to be
+inspected manually.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- lib/Kconfig.kasan     |  2 +-
- mm/kasan/kasan_test.c | 85 +++++++++++++++++++++++++++++++------------
- mm/kasan/report.c     | 31 ----------------
- 3 files changed, 63 insertions(+), 55 deletions(-)
+ mm/kasan/kasan_test.c        | 37 ++++++++++++++++++++++++++++++++++++
+ mm/kasan/kasan_test_module.c | 30 -----------------------------
+ 2 files changed, 37 insertions(+), 30 deletions(-)
 
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index ca09b1cf8ee9..ba5b27962c34 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -181,7 +181,7 @@ config KASAN_VMALLOC
- 
- config KASAN_KUNIT_TEST
- 	tristate "KUnit-compatible tests of KASAN bug detection capabilities" if !KUNIT_ALL_TESTS
--	depends on KASAN && KUNIT
-+	depends on KASAN && KUNIT && TRACEPOINTS
- 	default KUNIT_ALL_TESTS
- 	help
- 	  A KUnit-based KASAN test suite. Triggers different kinds of
 diff --git a/mm/kasan/kasan_test.c b/mm/kasan/kasan_test.c
-index f25692def781..3a2886f85e69 100644
+index 3a2886f85e69..005776325e20 100644
 --- a/mm/kasan/kasan_test.c
 +++ b/mm/kasan/kasan_test.c
-@@ -5,8 +5,12 @@
-  * Author: Andrey Ryabinin <a.ryabinin@samsung.com>
-  */
- 
-+#define pr_fmt(fmt) "kasan_test: " fmt
-+
-+#include <kunit/test.h>
- #include <linux/bitops.h>
- #include <linux/delay.h>
-+#include <linux/io.h>
- #include <linux/kasan.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
-@@ -14,21 +18,28 @@
- #include <linux/module.h>
- #include <linux/printk.h>
- #include <linux/random.h>
-+#include <linux/set_memory.h>
- #include <linux/slab.h>
- #include <linux/string.h>
-+#include <linux/tracepoint.h>
- #include <linux/uaccess.h>
--#include <linux/io.h>
- #include <linux/vmalloc.h>
--#include <linux/set_memory.h>
-+#include <trace/events/printk.h>
- 
- #include <asm/page.h>
- 
--#include <kunit/test.h>
--
- #include "kasan.h"
- 
- #define OOB_TAG_OFF (IS_ENABLED(CONFIG_KASAN_GENERIC) ? 0 : KASAN_GRANULE_SIZE)
- 
-+static bool multishot;
-+
-+/* Fields set based on lines observed in the console. */
-+static struct {
-+	bool report_found;
-+	bool async_fault;
-+} test_status;
-+
- /*
-  * Some tests use these global variables to store return values from function
-  * calls that could otherwise be eliminated by the compiler as dead code.
-@@ -36,35 +47,61 @@
- void *kasan_ptr_result;
- int kasan_int_result;
- 
--static struct kunit_resource resource;
--static struct kunit_kasan_status test_status;
--static bool multishot;
-+/* Probe for console output: obtains test_status lines of interest. */
-+static void probe_console(void *ignore, const char *buf, size_t len)
-+{
-+	if (strnstr(buf, "BUG: KASAN: ", len))
-+		WRITE_ONCE(test_status.report_found, true);
-+	else if (strnstr(buf, "Asynchronous fault: ", len))
-+		WRITE_ONCE(test_status.async_fault, true);
-+}
- 
--/*
-- * Temporarily enable multi-shot mode. Otherwise, KASAN would only report the
-- * first detected bug and panic the kernel if panic_on_warn is enabled. For
-- * hardware tag-based KASAN also allow tag checking to be reenabled for each
-- * test, see the comment for KUNIT_EXPECT_KASAN_FAIL().
-- */
--static int kasan_test_init(struct kunit *test)
-+static void register_tracepoints(struct tracepoint *tp, void *ignore)
-+{
-+	check_trace_callback_type_console(probe_console);
-+	if (!strcmp(tp->name, "console"))
-+		WARN_ON(tracepoint_probe_register(tp, probe_console, NULL));
-+}
-+
-+static void unregister_tracepoints(struct tracepoint *tp, void *ignore)
-+{
-+	if (!strcmp(tp->name, "console"))
-+		tracepoint_probe_unregister(tp, probe_console, NULL);
-+}
-+
-+static int kasan_suite_init(struct kunit_suite *suite)
- {
- 	if (!kasan_enabled()) {
--		kunit_err(test, "can't run KASAN tests with KASAN disabled");
-+		pr_err("Can't run KASAN tests with KASAN disabled");
- 		return -1;
- 	}
- 
-+	/*
-+	 * Temporarily enable multi-shot mode. Otherwise, KASAN would only
-+	 * report the first detected bug and panic the kernel if panic_on_warn
-+	 * is enabled.
-+	 */
- 	multishot = kasan_save_enable_multi_shot();
--	test_status.report_found = false;
--	test_status.sync_fault = false;
--	kunit_add_named_resource(test, NULL, NULL, &resource,
--					"kasan_status", &test_status);
-+
-+	/*
-+	 * Because we want to be able to build the test as a module, we need to
-+	 * iterate through all known tracepoints, since the static registration
-+	 * won't work here.
-+	 */
-+	for_each_kernel_tracepoint(register_tracepoints, NULL);
- 	return 0;
+@@ -1134,6 +1134,42 @@ static void kmalloc_double_kzfree(struct kunit *test)
+ 	KUNIT_EXPECT_KASAN_FAIL(test, kfree_sensitive(ptr));
  }
  
--static void kasan_test_exit(struct kunit *test)
-+static void kasan_suite_exit(struct kunit_suite *suite)
- {
- 	kasan_restore_multi_shot(multishot);
--	KUNIT_EXPECT_FALSE(test, test_status.report_found);
-+	for_each_kernel_tracepoint(unregister_tracepoints, NULL);
-+	tracepoint_synchronize_unregister();
++static struct kasan_rcu_info {
++	int i;
++	struct rcu_head rcu;
++} *global_rcu_ptr;
++
++static void rcu_uaf_reclaim(struct rcu_head *rp)
++{
++	struct kasan_rcu_info *fp =
++		container_of(rp, struct kasan_rcu_info, rcu);
++
++	kfree(fp);
++	((volatile struct kasan_rcu_info *)fp)->i;
 +}
 +
-+static void kasan_test_exit(struct kunit *test)
++/*
++ * Check that Generic KASAN prints auxiliary stack traces for RCU callbacks.
++ * The report needs to be inspected manually.
++ *
++ * This test is still enabled for other KASAN modes to make sure that all modes
++ * report bad accesses in tested scenarios.
++ */
++static void rcu_uaf(struct kunit *test)
 +{
-+	KUNIT_EXPECT_FALSE(test, READ_ONCE(test_status.report_found));
++	struct kasan_rcu_info *ptr;
++
++	ptr = kmalloc(sizeof(struct kasan_rcu_info), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
++
++	global_rcu_ptr = rcu_dereference_protected(
++				(struct kasan_rcu_info __rcu *)ptr, NULL);
++
++	KUNIT_EXPECT_KASAN_FAIL(test,
++		call_rcu(&global_rcu_ptr->rcu, rcu_uaf_reclaim);
++		rcu_barrier());
++}
++
+ static void vmalloc_helpers_tags(struct kunit *test)
+ {
+ 	void *ptr;
+@@ -1465,6 +1501,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
+ 	KUNIT_CASE(kasan_bitops_generic),
+ 	KUNIT_CASE(kasan_bitops_tags),
+ 	KUNIT_CASE(kmalloc_double_kzfree),
++	KUNIT_CASE(rcu_uaf),
+ 	KUNIT_CASE(vmalloc_helpers_tags),
+ 	KUNIT_CASE(vmalloc_oob),
+ 	KUNIT_CASE(vmap_tags),
+diff --git a/mm/kasan/kasan_test_module.c b/mm/kasan/kasan_test_module.c
+index e4ca82dc2c16..4688cbcd722d 100644
+--- a/mm/kasan/kasan_test_module.c
++++ b/mm/kasan/kasan_test_module.c
+@@ -62,35 +62,6 @@ static noinline void __init copy_user_test(void)
+ 	kfree(kmem);
  }
  
- /**
-@@ -106,11 +143,12 @@ static void kasan_test_exit(struct kunit *test)
- 	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS) &&				\
- 	    kasan_sync_fault_possible()) {				\
- 		if (READ_ONCE(test_status.report_found) &&		\
--		    READ_ONCE(test_status.sync_fault))			\
-+		    !READ_ONCE(test_status.async_fault))		\
- 			kasan_enable_tagging();				\
- 		migrate_enable();					\
- 	}								\
- 	WRITE_ONCE(test_status.report_found, false);			\
-+	WRITE_ONCE(test_status.async_fault, false);			\
- } while (0)
- 
- #define KASAN_TEST_NEEDS_CONFIG_ON(test, config) do {			\
-@@ -1440,9 +1478,10 @@ static struct kunit_case kasan_kunit_test_cases[] = {
- 
- static struct kunit_suite kasan_kunit_test_suite = {
- 	.name = "kasan",
--	.init = kasan_test_init,
- 	.test_cases = kasan_kunit_test_cases,
- 	.exit = kasan_test_exit,
-+	.suite_init = kasan_suite_init,
-+	.suite_exit = kasan_suite_exit,
- };
- 
- kunit_test_suite(kasan_kunit_test_suite);
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 39e8e5a80b82..f23d51a27414 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -30,8 +30,6 @@
- 
- #include <asm/sections.h>
- 
--#include <kunit/test.h>
+-static struct kasan_rcu_info {
+-	int i;
+-	struct rcu_head rcu;
+-} *global_rcu_ptr;
 -
- #include "kasan.h"
- #include "../slab.h"
- 
-@@ -114,41 +112,12 @@ EXPORT_SYMBOL_GPL(kasan_restore_multi_shot);
- 
- #endif
- 
--#if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
--static void update_kunit_status(bool sync)
+-static noinline void __init kasan_rcu_reclaim(struct rcu_head *rp)
 -{
--	struct kunit *test;
--	struct kunit_resource *resource;
--	struct kunit_kasan_status *status;
+-	struct kasan_rcu_info *fp = container_of(rp,
+-						struct kasan_rcu_info, rcu);
 -
--	test = current->kunit_test;
--	if (!test)
--		return;
+-	kfree(fp);
+-	((volatile struct kasan_rcu_info *)fp)->i;
+-}
 -
--	resource = kunit_find_named_resource(test, "kasan_status");
--	if (!resource) {
--		kunit_set_failure(test);
+-static noinline void __init kasan_rcu_uaf(void)
+-{
+-	struct kasan_rcu_info *ptr;
+-
+-	pr_info("use-after-free in kasan_rcu_reclaim\n");
+-	ptr = kmalloc(sizeof(struct kasan_rcu_info), GFP_KERNEL);
+-	if (!ptr) {
+-		pr_err("Allocation failed\n");
 -		return;
 -	}
 -
--	status = (struct kunit_kasan_status *)resource->data;
--	WRITE_ONCE(status->report_found, true);
--	WRITE_ONCE(status->sync_fault, sync);
--
--	kunit_put_resource(resource);
+-	global_rcu_ptr = rcu_dereference_protected(ptr, NULL);
+-	call_rcu(&global_rcu_ptr->rcu, kasan_rcu_reclaim);
 -}
--#else
--static void update_kunit_status(bool sync) { }
--#endif
 -
- static DEFINE_SPINLOCK(report_lock);
- 
- static void start_report(unsigned long *flags, bool sync)
+ static noinline void __init kasan_workqueue_work(struct work_struct *work)
  {
- 	/* Respect the /proc/sys/kernel/traceoff_on_warning interface. */
- 	disable_trace_on_warning();
--	/* Update status of the currently running KASAN test. */
--	update_kunit_status(sync);
- 	/* Do not allow LOCKDEP mangling KASAN reports. */
- 	lockdep_off();
- 	/* Make sure we don't end up in loop. */
+ 	kfree(work);
+@@ -130,7 +101,6 @@ static int __init test_kasan_module_init(void)
+ 	bool multishot = kasan_save_enable_multi_shot();
+ 
+ 	copy_user_test();
+-	kasan_rcu_uaf();
+ 	kasan_workqueue_uaf();
+ 
+ 	kasan_restore_multi_shot(multishot);
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/653d43e9a6d9aad2ae148a941dab048cb8e765a8.1664044241.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bc3b1d29d8addd24738982c44b717fbbe6dff8e9.1664044241.git.andreyknvl%40google.com.
