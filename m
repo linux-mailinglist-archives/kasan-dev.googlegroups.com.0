@@ -1,138 +1,142 @@
-Return-Path: <kasan-dev+bncBCLI747UVAFRBCPKY6MQMGQEZGFCXPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORB2HSY6MQMGQET55CRKQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa38.google.com (mail-vk1-xa38.google.com [IPv6:2607:f8b0:4864:20::a38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5487B5EB08B
-	for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 20:52:59 +0200 (CEST)
-Received: by mail-vk1-xa38.google.com with SMTP id e17-20020a056122023100b003a1e6de5bf9sf2580656vko.17
-        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 11:52:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664218378; cv=pass;
+Received: from mail-yw1-x113e.google.com (mail-yw1-x113e.google.com [IPv6:2607:f8b0:4864:20::113e])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA65A5EB0FA
+	for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 21:11:37 +0200 (CEST)
+Received: by mail-yw1-x113e.google.com with SMTP id 00721157ae682-34d188806a8sf70387087b3.19
+        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 12:11:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664219496; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pH/miVGAc9AlS+4I+XAU4OAl4Rdrw2Q0Bc1W8Lb5LKp92LIItD2IxWU4Z3UyfZE8Lm
-         pOXx1A9T5m4Mql3Ugd9tRhHmjWtsLv8D0AFng40grQJ3hxIezKoE/7XJHQaOtMimT3gC
-         ASJ34THMEbhok1v/cEWIqghKWvR9i+Qz56UPg+zB/QTuly1CBDqcTZjsjzQLb8XVIpqg
-         6f2zSKxBu9dJy3bhV0W2Elm/Psya4gNaV6+9LJCoWWLN106YNpd1WoT/P71BLMw6CvLB
-         +BWVVKwr8uB8Oj4KlOVckfN6+lIuvnB0GxHzUg8YZVeA68VOgg0ahLjwMvpnxX8dqzaw
-         EQhg==
+        b=EwADFHQvIM5aqqSs6d0V2NCqrZh3+PqJiQKbIVjsquNfpLmL5j5yBs5G7ZeeND7ONW
+         OnGz2FuiZPXlnpv17INgjz1Eoeoxz1TRCk7rlJeR/w+j6uW89B+z5g3vJFjtLAUDSOWa
+         IVi5ldHyHfomyVW3oUgKw2agG1XvI0gW1keBhf91G6bnEkJ7EThVny+sYee7bNAFzIQg
+         UkD5wiQNHHMWMhMOEsHWKMrEHgyOYLyiBcKuXboJIzUdnth0/jt/2OTLTYAAvE+yZ25k
+         KAwg8OzKJR1ErrvbGWIzQw8c1MsoHoi4jkX9HNKrtGI4z8pbgDiA9t+i6vsl7AEAwpwB
+         QC4w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=3zuCixQD1AaYfmEtFmoUMEqoJe6zC1JQPVS+x76quLo=;
-        b=sX85+g80RqDPB/rKhnM8B11V+TJvwqTJ/T00aW7GNMmDBJmxjEJh4QXiuaPwdS2OaW
-         11EJFbB8xwn+wzNvxfaRDH8xlnMYiQ3TnxsKnTIC/dtFyBJhg+j6lbIwM3iqXY72U9xn
-         qef61RZxpPJsOyQPoiI1pO51xZ99CPkMe5sEMjrb9J1ekG7QD/DtC3oGUbTWfXTFBAXO
-         tYJuBbxQD1nuibzP9MgrHoPfgZAVEV51e9oyMh/cn3gntvzuhKIqK9LAmqCs2Y1iJcFW
-         TQPjuEcUamLVc7et0wkpQye8r/v+BeS9u2weG3kExhMBCam8IG1mlbrLMP2QvlytW8ww
-         46Qg==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature
+         :dkim-signature;
+        bh=72cF58qcPm/wnJz0kRiBBIEAi4WTHxAXgfluL9gS46o=;
+        b=tepU+lNuMeWIZAvdGu9vJPprKGZNmnoFWhHCCVx2Ry2cNhVFnnbcU5aASX6LrVNQti
+         bcS4H4fAMm8/KZ6E1G4VuRTD40a2R0/jA9KpKvYyBFkg6iGvE121eomy+vDQVk5Kt6hd
+         NF0ntjZmnV64XFr2mclrEkyjWziMZ/bdwiNtwY32IFE7hoW59hxiKDTOTqbu5spFgSPh
+         C6AG5Px+ZsmusYEkVbut/vGtKkRCBi2EnpnFHbnGa0b5fc5i29ZNRDdFyoYWg5dDbjEn
+         lO+2r64pGAJxGSym22lW6juexbi4Ib5fE+oTHMO67tvtbuBz9P+b3ZlUVpugJKuGRsNz
+         2BwA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=GHUYsDZj;
-       spf=pass (google.com: domain of srs0=wzr3=z5=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=lAXDle+S;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::834 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date;
-        bh=3zuCixQD1AaYfmEtFmoUMEqoJe6zC1JQPVS+x76quLo=;
-        b=jWgQpT+hLW+QHRluNe/jqPKRQoBkE4KykGrzEikN1usYNBqcgn9YDltfWhHL43gw6j
-         n9ppi12tcpaJAxp7RLi2Psa75bynYJkbHUwbHFtU6C+xE80mCoSk8HGYEKoqbVCP+zXX
-         eLzOW3csyB2/sMVP51OC0s4q8s3eC1PFQ+3ukWgmfpRpmQpOIx9JF8yCQMuiNSpedKRf
-         pr9DXzK/QTpAfx+OBXbUfcqm+V8EbnVlPwHHdxxemUpKRBa2kNQghGRVHmHfGnOifH/g
-         iFW0m3iMTzXfHWxclhLuidVq1BYMcD4/THS4zKb8c5xLbFmeBubxHceKVnJQu0F3MIl4
-         iFtw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date;
+        bh=72cF58qcPm/wnJz0kRiBBIEAi4WTHxAXgfluL9gS46o=;
+        b=VS9ojZheCsQbHDgR8eQgFBXcGXW4Kcx1THUWxY8EDcbfPmSCatwJOsiz4Ga+53ZecD
+         v1Ul+qTrURZN76wAKazKuaKzGixVZGI8S9hB0LIXADizcCKmtzjVC/eNuZMJmV8ARSvG
+         wgXRMhPNVLd93GYr/ogPNMTchVILwJKGa9viFVIiOI7bOUmTgq8UIrVPL/3prXK5FPdd
+         kz4RyohjrWnWoAkbYPfBUIrxWkk3VPWRmf5/bMmb8fBmlQ01+q9TXqizP/JoaBPpIjFw
+         SU/BCdSj8swLFjXzfuVFFbpxtPX37wlr4F06dg4zxT6ixuhR+0MK6SpLfrQzXZbngg7G
+         CM4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date;
+        bh=72cF58qcPm/wnJz0kRiBBIEAi4WTHxAXgfluL9gS46o=;
+        b=VhHi/LnCy/OymV9uTw9WSY6k5emJ1FnhbBA6sHqsc6cEsb4KIpDSMZuTgTZPj3ieI3
+         IvZPVMOQwChBSjHytVGFSPvT1STl7L0jGmWOmzSJd9FMEuK26zJZC65AAU3yQWkI5m8R
+         R1Ydw3I6gzxXPEG6CjdTB5jMsSH4Alm20787Q+dzVc+/FnZLyGh5jJi2U8alA1WPg6rb
+         fL1bRLKcbnD6usTh4XzGZD/HOxBsnB1zDPfHXnGVUuh00L6kcD3rDASWm3723an72srz
+         sev6Wxd91RyPcnBF9MgPTgiWgdZfau8c9Ao5BdJSecpvpzbSNregUes/V05IxWr2W6k7
+         VIXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=3zuCixQD1AaYfmEtFmoUMEqoJe6zC1JQPVS+x76quLo=;
-        b=K/IhkmEPIeKUq7VUWnDdifr9z2lNB7rspdFTcwZ3Div80J/wtbEUL+e2mnbNDkTjJ1
-         wXlxwA7zmcy0+Ii6xFuhkgXhD5uu+6PcOqvxW3iGwAPVHdtftkT6Q2v20ZHlcCl9evtD
-         3G+iVT/3usJ2kRHlMVAMc1LdTlHWszdPpHEDaIJ7p3mYWpcvwC2OSPEOJJ2dKchN2qeO
-         NkPjr2stzSk1r1n5UOMmkl/jffwZ8Bw+nEgVJF/rKOB6ECHVNfiLPkxSS9PEip3FykHU
-         WyE5qfXqYeZTvI+K2LkMbxw5QjwLsXvsX0v422ZoOpEU4/YNwd2dz0/GaQZ3LPCnQIit
-         xhWw==
-X-Gm-Message-State: ACrzQf03VPo/HOWfICHYAorhvt0wfofWVNddbo7dZWdfVaI2zaWsEuSs
-	cGlGQ71kQH+WuQpgVoyaj3I=
-X-Google-Smtp-Source: AMsMyM5IRHZJPNVxead7lX4irUbfug3MuQImK6z9jXHgbuD/amX0AWn6uFiajL27rnZSGaaBTl6IMw==
-X-Received: by 2002:a1f:f8cd:0:b0:3a2:9470:1ec with SMTP id w196-20020a1ff8cd000000b003a2947001ecmr9915360vkh.40.1664218377992;
-        Mon, 26 Sep 2022 11:52:57 -0700 (PDT)
+         :x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=72cF58qcPm/wnJz0kRiBBIEAi4WTHxAXgfluL9gS46o=;
+        b=epLFgaEu44K8F+LXHkNFF/KVf/VvCYXJwGrHlT8kOgjdM1JacIkJEkC5xf8x3vnidq
+         mPT3lZr3wG/Ma/cRHtZYP2PTetZ9fs8Aa583XCtAtsgXLxst6tBp+am8JE3b18Ejq9Zk
+         Udiemssib5pHyXWM3r9RoICCtvwBYQCG7k6h4DFIUOdGqs9vBwduPImlcx1+6HVnDnWL
+         jVVtDlVi9i4I8Hq2PFjmDCIQOf3ZQwWe7StTIy05LkxdXcX5CYBS5y56/Ex8DFpYY/U0
+         BiKkiws7Qt196JW3RKBFqU62FhRFR6XmknV/PekOQTPn/X47ysDeh4CLWqltmjDzZQMH
+         otaw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACrzQf3LH+pXW+Tsc7ajsHc4RALx5VrpINSURO3IUmuS4bw7TBmsm3dj
+	qM93S0UT635U+ndV0LyfOGk=
+X-Google-Smtp-Source: AMsMyM6nBl7z2tWnqUetgQ/3xo/G66Kp8Fyd80ZV6639L19eS+iyV/4E7Nvy2y65KU4hAI9hY68uYg==
+X-Received: by 2002:a81:1097:0:b0:34d:187d:3a47 with SMTP id 145-20020a811097000000b0034d187d3a47mr22767519ywq.499.1664219496425;
+        Mon, 26 Sep 2022 12:11:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:c993:0:b0:3a5:8fbd:ded2 with SMTP id y19-20020a67c993000000b003a58fbdded2ls24776vsk.1.-pod-prod-gmail;
- Mon, 26 Sep 2022 11:52:57 -0700 (PDT)
-X-Received: by 2002:a67:d085:0:b0:398:c9b4:3804 with SMTP id s5-20020a67d085000000b00398c9b43804mr9389039vsi.79.1664218377414;
-        Mon, 26 Sep 2022 11:52:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664218377; cv=none;
+Received: by 2002:a25:a224:0:b0:6b3:e91f:8e6 with SMTP id b33-20020a25a224000000b006b3e91f08e6ls266123ybi.7.-pod-prod-gmail;
+ Mon, 26 Sep 2022 12:11:35 -0700 (PDT)
+X-Received: by 2002:a25:ba13:0:b0:6b4:bed2:917 with SMTP id t19-20020a25ba13000000b006b4bed20917mr22493272ybg.76.1664219495857;
+        Mon, 26 Sep 2022 12:11:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664219495; cv=none;
         d=google.com; s=arc-20160816;
-        b=dC1/DCjNOfQLQhJDoaGv/0qGvtiIJZh0w3QusknuDSOFBex0uUTBe8/kzU7Azax/3e
-         i7Rqmo946B1OPNawv8xZBUH8UClqQ1H4uBGxm5IynUIj9oz+VHPKIuf+jIe2nDSvaq7B
-         YZawN7r7PXtrbEZSIY2m5EOMUW/vy5HKiSApQ1ezH4AI7IPDXf/pb00FYwsHH6CAOVs+
-         XZqLtsCyPj3dBnG4LgfkhVgCwdOdB/F05JeN62zcHrzk21mJ0zTQcCByvHaRc9Yt+87b
-         lqs+iQzr6GVc2Cgqpov//EcZTUvDergZW97fYBVOhi+75AtbrL1HhKw8ewygc6umzzph
-         Ng5g==
+        b=V4WyMNbh1T134l1Y3/Qs89cwy+xVULDEF1G4Br8Clijn06pcVU/bIKGZKOAXScjXsM
+         4m/vieG1D//JmF2zW0rqO9sw6FfVPunbFukDS+iDd750Nl3F0TLjr3ooz/48ZWjQXfgh
+         i8yt/sMhwTpUK755W6qbHw3jOdwOywvnyUKEVgmn7QA35o1SAnPU4vZK1Y3v5QSsBFrJ
+         onrrWmKlNJMwRWT0n08gfulx/znyGMgUNhtgXADkBso3R8/iaJSNTm5uL8qq1/TwnhjF
+         OEiFklIIBb3t14Xl//deeHWdz8GBKbuBOld1ixy1xdJRaJgG3cCcb4yl74yRcCGEknLz
+         CEXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=pDXoUOQlmNgJmVAlYuuj5yi+ly/HlT4KdcY9eEm5eBQ=;
-        b=XfNrM1gcGUGHeymopCeLMdzON0JsCT12y5zcvKX1yH5njaDfaL6jSP/1JOw4pHl7ix
-         DXE+cpAcWs7yiAH/KU4UbA2nhk5fWBj7nNtByMU3mDVCiDK/L69Dbsu3MC0M/c33ab2B
-         XA2x0uP2fL/xt9Upn004ldRv6FHX9rWTx7GJWe4QrWEz9chSKGA6qohWNnMOwxZSmDKJ
-         tsuH4kCialiaGc2BiF3yacOTOYCCqWkYPGFAead0Tjbo2tIPsV0E6ibscabRsxwR9iW8
-         hx6T4Xi4AVq/XG0ojW2sf1jfQspblzws73BSCk0/xk7cIGsBKYszpZ7hDbGU7hWMjTJt
-         98Bg==
+        bh=3CHGQtxrUEIPS7Vs0U1v3kZ+VKfNuIhTmwS0yCWeTpg=;
+        b=XrPj14iTH4iSjdoh4meBgII6bVXckU6DI81UZ1uKXlMV/HacjPV1uPkosBNzIzbvMt
+         6YE2OAZZeNcEgCHQfSjYagvi5xM3mu+W8gWPjisjHtelBvasPONaVr4abAbs+TD9edTR
+         guTu6QqG+WF5mLODCgodQhnPDeot5FbbcFz0n1v9k9G1b1mxva1q7yMHcqo3/NBRcoLZ
+         cb1NNwG10FDzchjij0JV/drFlO9nKYovqKJPPJTXzJkkGBqnxEbZPI2qWFveLqZnVYw9
+         +dDQCIvnR+Jmn9kxg0lVSu+JAIH4e6K8HoDuPotqd1f2ZXm6M88JBSHT0PCmH92/MJ5Z
+         m3IA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=GHUYsDZj;
-       spf=pass (google.com: domain of srs0=wzr3=z5=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id o14-20020a1f280e000000b003a4a4b2a98dsi291156vko.3.2022.09.26.11.52.57
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=lAXDle+S;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::834 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com. [2607:f8b0:4864:20::834])
+        by gmr-mx.google.com with ESMTPS id l71-20020a0de24a000000b00349f81a2957si1449842ywe.1.2022.09.26.12.11.35
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 26 Sep 2022 11:52:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=wzr3=z5=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id D9B65611CA
-	for <kasan-dev@googlegroups.com>; Mon, 26 Sep 2022 18:52:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 077ECC433D6
-	for <kasan-dev@googlegroups.com>; Mon, 26 Sep 2022 18:52:55 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6ba5633a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
-	for <kasan-dev@googlegroups.com>;
-	Mon, 26 Sep 2022 18:52:51 +0000 (UTC)
-Received: by mail-vk1-f177.google.com with SMTP id s12so3851265vkn.11
-        for <kasan-dev@googlegroups.com>; Mon, 26 Sep 2022 11:52:51 -0700 (PDT)
-X-Received: by 2002:a1f:1b45:0:b0:3a7:ba13:11ce with SMTP id
- b66-20020a1f1b45000000b003a7ba1311cemr3104747vkb.3.1664218370625; Mon, 26 Sep
- 2022 11:52:50 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Sep 2022 12:11:35 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::834 as permitted sender) client-ip=2607:f8b0:4864:20::834;
+Received: by mail-qt1-x834.google.com with SMTP id a20so4718705qtw.10
+        for <kasan-dev@googlegroups.com>; Mon, 26 Sep 2022 12:11:35 -0700 (PDT)
+X-Received: by 2002:a05:622a:11cf:b0:35b:a369:cc3 with SMTP id
+ n15-20020a05622a11cf00b0035ba3690cc3mr19317849qtk.11.1664219495572; Mon, 26
+ Sep 2022 12:11:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220926160332.1473462-1-Jason@zx2c4.com> <202209261105.9C6AEEEE1@keescook>
-In-Reply-To: <202209261105.9C6AEEEE1@keescook>
-From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 26 Sep 2022 20:52:39 +0200
-X-Gmail-Original-Message-ID: <CAHmME9pFDzyKJd5ixyB9E05jkZvHShFimbiQsGTcdQO1E5R0QQ@mail.gmail.com>
-Message-ID: <CAHmME9pFDzyKJd5ixyB9E05jkZvHShFimbiQsGTcdQO1E5R0QQ@mail.gmail.com>
-Subject: Re: [PATCH] random: split initialization into early arch step and
- later non-arch step
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Ard Biesheuvel <ardb@kernel.org>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
-	linux-hardening@vger.kernel.org
+References: <20220913065423.520159-1-feng.tang@intel.com> <20220913065423.520159-3-feng.tang@intel.com>
+In-Reply-To: <20220913065423.520159-3-feng.tang@intel.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Mon, 26 Sep 2022 21:11:24 +0200
+Message-ID: <CA+fCnZfSv98uvxop7YN_L-F=WNVkb5rcwa6Nmf5yN-59p8Sr4Q@mail.gmail.com>
+Subject: Re: [PATCH v6 2/4] mm/slub: only zero the requested size of buffer
+ for kzalloc
+To: Feng Tang <feng.tang@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Dave Hansen <dave.hansen@intel.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: jason@zx2c4.com
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zx2c4.com header.s=20210105 header.b=GHUYsDZj;       spf=pass
- (google.com: domain of srs0=wzr3=z5=zx2c4.com=jason@kernel.org designates
- 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
-X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+ header.i=@gmail.com header.s=20210112 header.b=lAXDle+S;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::834
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,87 +149,137 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 26, 2022 at 8:22 PM Kees Cook <keescook@chromium.org> wrote:
-> Can find a way to get efi_get_random_bytes() in here too? (As a separate
-> patch.) I don't see where that actually happens anywhere currently,
-> and we should have it available at this point in the boot, yes?
-
-No, absolutely not. That is not how EFI works. EFI gets its seed to
-random.c much earlier by way of add_bootloader_randomness().
-
-> > -             entropy[0] = random_get_entropy();
-> > -             _mix_pool_bytes(entropy, sizeof(*entropy));
-> >               arch_bits -= sizeof(*entropy) * 8;
-> >               ++i;
-> >       }
-> > -     _mix_pool_bytes(&now, sizeof(now));
-> > -     _mix_pool_bytes(utsname(), sizeof(*(utsname())));
+On Tue, Sep 13, 2022 at 8:54 AM Feng Tang <feng.tang@intel.com> wrote:
 >
-> Hm, can't we keep utsname in the early half by using init_utsname() ?
 
-Yes, we could maybe *change* to using init_utsname if we wanted. That
-seems kind of different though. So I'd prefer that to be a different
-patch, which would require looking at the interaction with early
-hostname setting and such. If you want to do that work, I'd certainly
-welcome the patch.
+Hi Feng,
 
-> > @@ -976,6 +976,9 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
-> >               parse_args("Setting extra init args", extra_init_args,
-> >                          NULL, 0, -1, -1, NULL, set_init_arg);
-> >
-> > +     /* Call before any memory or allocators are initialized */
+> kzalloc/kmalloc will round up the request size to a fixed size
+> (mostly power of 2), so the allocated memory could be more than
+> requested. Currently kzalloc family APIs will zero all the
+> allocated memory.
 >
-> Maybe for greater clarity:
->
->         /* Pre-time-keeping entropy collection before allocator init. */
+> To detect out-of-bound usage of the extra allocated memory, only
+> zero the requested part, so that sanity check could be added to
+> the extra space later.
 
-Will do.
+I still don't like the idea of only zeroing the requested memory and
+not the whole object. Considering potential info-leak vulnerabilities.
+
+Can we only do this when SLAB_DEBUG is enabled?
+
+> Performance wise, smaller zeroing length also brings shorter
+> execution time, as shown from test data on various server/desktop
+> platforms.
+>
+> For kzalloc users who will call ksize() later and utilize this
+> extra space, please be aware that the space is not zeroed any
+> more.
+
+CC Kees
 
 >
-> > +     random_init_early(command_line);
-> > +
-> >       /*
-> >        * These use large bootmem allocations and must precede
-> >        * kmem_cache_init()
-> > @@ -1035,17 +1038,13 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
-> >       hrtimers_init();
-> >       softirq_init();
-> >       timekeeping_init();
-> > -     kfence_init();
-> >       time_init();
+> Signed-off-by: Feng Tang <feng.tang@intel.com>
+> ---
+>  mm/slab.c |  7 ++++---
+>  mm/slab.h |  5 +++--
+>  mm/slub.c | 10 +++++++---
+>  3 files changed, 14 insertions(+), 8 deletions(-)
 >
-> Was there a reason kfence_init() was happening before time_init()?
-
-Historically there was, I think, because random_init() used to make
-weird allocations. But that's been gone for a while. At this point
-it's a mistake, and removing it allows me to do this:
-
-https://groups.google.com/g/kasan-dev/c/jhExcSv_Pj4
-
+> diff --git a/mm/slab.c b/mm/slab.c
+> index a5486ff8362a..4594de0e3d6b 100644
+> --- a/mm/slab.c
+> +++ b/mm/slab.c
+> @@ -3253,7 +3253,8 @@ slab_alloc_node(struct kmem_cache *cachep, struct list_lru *lru, gfp_t flags,
+>         init = slab_want_init_on_alloc(flags, cachep);
 >
-> >
-> > -     /*
-> > -      * For best initial stack canary entropy, prepare it after:
-> > -      * - setup_arch() for any UEFI RNG entropy and boot cmdline access
-> > -      * - timekeeping_init() for ktime entropy used in random_init()
-> > -      * - time_init() for making random_get_entropy() work on some platforms
-> > -      * - random_init() to initialize the RNG from from early entropy sources
-> > -      */
-> > -     random_init(command_line);
-> > +     /* This must be after timekeeping is initialized */
-> > +     random_init();
-> > +
-> > +     /* These make use of the initialized randomness */
+>  out:
+> -       slab_post_alloc_hook(cachep, objcg, flags, 1, &objp, init);
+> +       slab_post_alloc_hook(cachep, objcg, flags, 1, &objp, init,
+> +                               cachep->object_size);
+>         return objp;
+>  }
 >
-> I'd clarify this more:
+> @@ -3506,13 +3507,13 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+>          * Done outside of the IRQ disabled section.
+>          */
+>         slab_post_alloc_hook(s, objcg, flags, size, p,
+> -                               slab_want_init_on_alloc(flags, s));
+> +                       slab_want_init_on_alloc(flags, s), s->object_size);
+>         /* FIXME: Trace call missing. Christoph would like a bulk variant */
+>         return size;
+>  error:
+>         local_irq_enable();
+>         cache_alloc_debugcheck_after_bulk(s, flags, i, p, _RET_IP_);
+> -       slab_post_alloc_hook(s, objcg, flags, i, p, false);
+> +       slab_post_alloc_hook(s, objcg, flags, i, p, false, s->object_size);
+>         kmem_cache_free_bulk(s, i, p);
+>         return 0;
+>  }
+> diff --git a/mm/slab.h b/mm/slab.h
+> index d0ef9dd44b71..3cf5adf63f48 100644
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -730,7 +730,8 @@ static inline struct kmem_cache *slab_pre_alloc_hook(struct kmem_cache *s,
 >
->         /* These make use of the fully initialized randomness entropy. */
+>  static inline void slab_post_alloc_hook(struct kmem_cache *s,
+>                                         struct obj_cgroup *objcg, gfp_t flags,
+> -                                       size_t size, void **p, bool init)
+> +                                       size_t size, void **p, bool init,
+> +                                       unsigned int orig_size)
+>  {
+>         size_t i;
+>
+> @@ -746,7 +747,7 @@ static inline void slab_post_alloc_hook(struct kmem_cache *s,
+>         for (i = 0; i < size; i++) {
+>                 p[i] = kasan_slab_alloc(s, p[i], flags, init);
+>                 if (p[i] && init && !kasan_has_integrated_init())
+> -                       memset(p[i], 0, s->object_size);
+> +                       memset(p[i], 0, orig_size);
 
-Okay will do.
+Note that when KASAN is enabled and has integrated init, it will
+initialize the whole object, which leads to an inconsistency with this
+change.
 
-Jason
+>                 kmemleak_alloc_recursive(p[i], s->object_size, 1,
+>                                          s->flags, flags);
+>         }
+> diff --git a/mm/slub.c b/mm/slub.c
+> index c8ba16b3a4db..6f823e99d8b4 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -3376,7 +3376,11 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s, struct list_l
+>         init = slab_want_init_on_alloc(gfpflags, s);
+>
+>  out:
+> -       slab_post_alloc_hook(s, objcg, gfpflags, 1, &object, init);
+> +       /*
+> +        * When init equals 'true', like for kzalloc() family, only
+> +        * @orig_size bytes will be zeroed instead of s->object_size
+> +        */
+> +       slab_post_alloc_hook(s, objcg, gfpflags, 1, &object, init, orig_size);
+>
+>         return object;
+>  }
+> @@ -3833,11 +3837,11 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+>          * Done outside of the IRQ disabled fastpath loop.
+>          */
+>         slab_post_alloc_hook(s, objcg, flags, size, p,
+> -                               slab_want_init_on_alloc(flags, s));
+> +                       slab_want_init_on_alloc(flags, s), s->object_size);
+>         return i;
+>  error:
+>         slub_put_cpu_ptr(s->cpu_slab);
+> -       slab_post_alloc_hook(s, objcg, flags, i, p, false);
+> +       slab_post_alloc_hook(s, objcg, flags, i, p, false, s->object_size);
+>         kmem_cache_free_bulk(s, i, p);
+>         return 0;
+>  }
+> --
+> 2.34.1
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHmME9pFDzyKJd5ixyB9E05jkZvHShFimbiQsGTcdQO1E5R0QQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZfSv98uvxop7YN_L-F%3DWNVkb5rcwa6Nmf5yN-59p8Sr4Q%40mail.gmail.com.
