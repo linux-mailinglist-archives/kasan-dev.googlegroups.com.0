@@ -1,171 +1,138 @@
-Return-Path: <kasan-dev+bncBCU73AEHRQBBBQXEY6MQMGQEPQZXI7Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLI747UVAFRBCPKY6MQMGQEZGFCXPY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C445EB039
-	for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 20:41:07 +0200 (CEST)
-Received: by mail-lj1-x237.google.com with SMTP id q22-20020a2eb4b6000000b0026befa4f871sf1891640ljm.18
-        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 11:41:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664217666; cv=pass;
+Received: from mail-vk1-xa38.google.com (mail-vk1-xa38.google.com [IPv6:2607:f8b0:4864:20::a38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5487B5EB08B
+	for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 20:52:59 +0200 (CEST)
+Received: by mail-vk1-xa38.google.com with SMTP id e17-20020a056122023100b003a1e6de5bf9sf2580656vko.17
+        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 11:52:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664218378; cv=pass;
         d=google.com; s=arc-20160816;
-        b=X4QWOwzh1tLYRGw6Vaydx1LfhvrLuLmnASpKQ8RgwwQkxpTTyt9z/Q3qrsd1gQIem7
-         rCtKgdJzMvPpIYAd4SxmG8NV/GpDnB39Wli9Ya4hEKt58edV33a0s5r1ahhro8zOI5ni
-         pfqgRAmy/20pmbE9ZSOoJT2G09Rl4xAFpU/jlVYmAefJZgDKHbTEseiIYhEMaIv0z158
-         0oEPZylQ9hqmT8NMeJJ1OjVDlBur3BS+HN6GR/czKvJ7s5vUkYkSL/OFIz1orNM+gZXR
-         JhMrB0t+KdH6ZjlyCRraZXWuItqB6TDMH6DEiw94OqxlpQYK22UpHtv3IzIxu2z9IVGP
-         1Wag==
+        b=pH/miVGAc9AlS+4I+XAU4OAl4Rdrw2Q0Bc1W8Lb5LKp92LIItD2IxWU4Z3UyfZE8Lm
+         pOXx1A9T5m4Mql3Ugd9tRhHmjWtsLv8D0AFng40grQJ3hxIezKoE/7XJHQaOtMimT3gC
+         ASJ34THMEbhok1v/cEWIqghKWvR9i+Qz56UPg+zB/QTuly1CBDqcTZjsjzQLb8XVIpqg
+         6f2zSKxBu9dJy3bhV0W2Elm/Psya4gNaV6+9LJCoWWLN106YNpd1WoT/P71BLMw6CvLB
+         +BWVVKwr8uB8Oj4KlOVckfN6+lIuvnB0GxHzUg8YZVeA68VOgg0ahLjwMvpnxX8dqzaw
+         EQhg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=IejfjNobFsvGgGEFefN5EPw9g7ys/7abNs6qbdH5OUo=;
-        b=EeGOjjrxymklda4Jf4Fdfz628mYEuRyGF5iroXGhJEalxT31VIN1cl7A0mWfmT4W17
-         BIY3ZcAGQBhduoJ3StpiMkP7EfzPtpSbuM5XeUASkhgDsFPApZhoLs1NU/oTwQjvxNj0
-         PZ5VfyeHMs0cw+gcodqfT1M0kSU9E+1SKF49jHVWGG/N9s3wDfNhCvUsyewiwrxCCzQB
-         /uZ57pa6/YUji6HN18zZ4eLw/DM3rbNB6J/N6csI6s4mazfwHgDxWHuW0RhpxFhzuRvT
-         V9defOwZ7kY9DcZkMg9ZlNudZoRCk0Nji/u4gI7dsI1GaxVJtJ8KUwni0yqcn//c3TPA
-         MCRQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=3zuCixQD1AaYfmEtFmoUMEqoJe6zC1JQPVS+x76quLo=;
+        b=sX85+g80RqDPB/rKhnM8B11V+TJvwqTJ/T00aW7GNMmDBJmxjEJh4QXiuaPwdS2OaW
+         11EJFbB8xwn+wzNvxfaRDH8xlnMYiQ3TnxsKnTIC/dtFyBJhg+j6lbIwM3iqXY72U9xn
+         qef61RZxpPJsOyQPoiI1pO51xZ99CPkMe5sEMjrb9J1ekG7QD/DtC3oGUbTWfXTFBAXO
+         tYJuBbxQD1nuibzP9MgrHoPfgZAVEV51e9oyMh/cn3gntvzuhKIqK9LAmqCs2Y1iJcFW
+         TQPjuEcUamLVc7et0wkpQye8r/v+BeS9u2weG3kExhMBCam8IG1mlbrLMP2QvlytW8ww
+         46Qg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=56q7=z5=goodmis.org=rostedt@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=56q7=Z5=goodmis.org=rostedt@kernel.org"
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=GHUYsDZj;
+       spf=pass (google.com: domain of srs0=wzr3=z5=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
-        bh=IejfjNobFsvGgGEFefN5EPw9g7ys/7abNs6qbdH5OUo=;
-        b=V102fOys0WMeM7UuzhL8rj/xlYCZzlMzz+mXdWUcnL9xgF21dl190AgufT9X4UXv3P
-         Mf4RMN9g8T7eZVE60ZGPxIWmJaBZXm24hPkNF9uRI8MxI9IYSQTcriYxWGn6HxVTe6Fz
-         oDGFlSaV2864HFrWWVto1APCF52W2L6+0/6RjSce0+zQrM+NLvpTq2A+6XBd9hpOF9hc
-         qgSgJKk/FBktKjKx9EZys5sB56T0GMIkylhBMEbwZu2T2hWyeKgeo1ctWDGWLQ0d135s
-         AxJ4A036a+TMk3SoSjBtX8XMOkId1lLS/Au9aQAAfymbLT/R6DiJjYK2HhVr7FxbC8uH
-         W/Uw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date;
+        bh=3zuCixQD1AaYfmEtFmoUMEqoJe6zC1JQPVS+x76quLo=;
+        b=jWgQpT+hLW+QHRluNe/jqPKRQoBkE4KykGrzEikN1usYNBqcgn9YDltfWhHL43gw6j
+         n9ppi12tcpaJAxp7RLi2Psa75bynYJkbHUwbHFtU6C+xE80mCoSk8HGYEKoqbVCP+zXX
+         eLzOW3csyB2/sMVP51OC0s4q8s3eC1PFQ+3ukWgmfpRpmQpOIx9JF8yCQMuiNSpedKRf
+         pr9DXzK/QTpAfx+OBXbUfcqm+V8EbnVlPwHHdxxemUpKRBa2kNQghGRVHmHfGnOifH/g
+         iFW0m3iMTzXfHWxclhLuidVq1BYMcD4/THS4zKb8c5xLbFmeBubxHceKVnJQu0F3MIl4
+         iFtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=IejfjNobFsvGgGEFefN5EPw9g7ys/7abNs6qbdH5OUo=;
-        b=uGOd6Mbi4yoBl/nm29TjHIso/L9EMP4r0czM/iWPJHD0g4EsYDS7KVGvdVqbqjO2Ac
-         uoiFV9EL3N0MoVfJ3JPVOMlgLVlsP7BgD2FZZOzu9GjdLdJAXyyyP8/B1Ov7YL7ryyRl
-         p/qGhYWxZAU8mTDmtYK8Y2RAZj7V4Sbz2p4RvcF1CXPWaBP6DLkp3xCMOItTKeiNcl+l
-         xQJJZPzdtKGogOnYabfUp7w8HT9wwgIfHTcD1XWhF2E1WtxCgo6/uWe8AVO9fluLfTy+
-         1irqLqhMgPD78Ld2IIklXs7rnIszG7tZXOjin1HsRDNG5CvvpvQAfo+SPRylI9ZnTk9R
-         43xA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1zA2LD93swawGN0309ByyVC8q9MkD1KJU+vIAQIvOLbnrht23F
-	SB03auKQT8Cn+HVF50APyJI=
-X-Google-Smtp-Source: AMsMyM66pRsBmLg2F5kUg+xvsIpSdQWTE95iajXJxNd9ETCZ4e2ng4c1Q0Ome/ZyLfSQLbRwGyZ7Yg==
-X-Received: by 2002:a19:6b05:0:b0:49f:53b9:abb0 with SMTP id d5-20020a196b05000000b0049f53b9abb0mr9978220lfa.166.1664217666382;
-        Mon, 26 Sep 2022 11:41:06 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=3zuCixQD1AaYfmEtFmoUMEqoJe6zC1JQPVS+x76quLo=;
+        b=K/IhkmEPIeKUq7VUWnDdifr9z2lNB7rspdFTcwZ3Div80J/wtbEUL+e2mnbNDkTjJ1
+         wXlxwA7zmcy0+Ii6xFuhkgXhD5uu+6PcOqvxW3iGwAPVHdtftkT6Q2v20ZHlcCl9evtD
+         3G+iVT/3usJ2kRHlMVAMc1LdTlHWszdPpHEDaIJ7p3mYWpcvwC2OSPEOJJ2dKchN2qeO
+         NkPjr2stzSk1r1n5UOMmkl/jffwZ8Bw+nEgVJF/rKOB6ECHVNfiLPkxSS9PEip3FykHU
+         WyE5qfXqYeZTvI+K2LkMbxw5QjwLsXvsX0v422ZoOpEU4/YNwd2dz0/GaQZ3LPCnQIit
+         xhWw==
+X-Gm-Message-State: ACrzQf03VPo/HOWfICHYAorhvt0wfofWVNddbo7dZWdfVaI2zaWsEuSs
+	cGlGQ71kQH+WuQpgVoyaj3I=
+X-Google-Smtp-Source: AMsMyM5IRHZJPNVxead7lX4irUbfug3MuQImK6z9jXHgbuD/amX0AWn6uFiajL27rnZSGaaBTl6IMw==
+X-Received: by 2002:a1f:f8cd:0:b0:3a2:9470:1ec with SMTP id w196-20020a1ff8cd000000b003a2947001ecmr9915360vkh.40.1664218377992;
+        Mon, 26 Sep 2022 11:52:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:4a74:0:b0:49b:8c05:71a5 with SMTP id q20-20020ac24a74000000b0049b8c0571a5ls403682lfp.0.-pod-prod-gmail;
- Mon, 26 Sep 2022 11:41:05 -0700 (PDT)
-X-Received: by 2002:a05:6512:ac6:b0:4a0:2b26:3ab3 with SMTP id n6-20020a0565120ac600b004a02b263ab3mr9707884lfu.154.1664217665124;
-        Mon, 26 Sep 2022 11:41:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664217665; cv=none;
+Received: by 2002:a67:c993:0:b0:3a5:8fbd:ded2 with SMTP id y19-20020a67c993000000b003a58fbdded2ls24776vsk.1.-pod-prod-gmail;
+ Mon, 26 Sep 2022 11:52:57 -0700 (PDT)
+X-Received: by 2002:a67:d085:0:b0:398:c9b4:3804 with SMTP id s5-20020a67d085000000b00398c9b43804mr9389039vsi.79.1664218377414;
+        Mon, 26 Sep 2022 11:52:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664218377; cv=none;
         d=google.com; s=arc-20160816;
-        b=h0LMMgEml/owVNvXbTtYdizgRCT3U+A03wa5YAHmCj/Dqe9U5XJRDCK7g7W5YBIfiL
-         fMh5MIn4o1oaSFzxmo99YhFVSWTNj4spLn9rWtYg+Mwuw3JkjQpQCA5+ULAqki4VSz0N
-         uAEhCCSmfxKO5nJRQIUbRE3YoowzBy2XmGLThgFNNHmo+/SSLFShNr1SoRvpGnbfm6WQ
-         xoy7/oS9I0ltUbcIas3/MXSivdraif9ZFCvPAUoFXvaZlRfIH8eJoytv//VUGkSr8kLF
-         pilxxV4gQKtRazeWwlULNjQWqcnidFVK2HBpJHkAuvj+L9enDpG6l+xvFnlINlVVKNOE
-         USmA==
+        b=dC1/DCjNOfQLQhJDoaGv/0qGvtiIJZh0w3QusknuDSOFBex0uUTBe8/kzU7Azax/3e
+         i7Rqmo946B1OPNawv8xZBUH8UClqQ1H4uBGxm5IynUIj9oz+VHPKIuf+jIe2nDSvaq7B
+         YZawN7r7PXtrbEZSIY2m5EOMUW/vy5HKiSApQ1ezH4AI7IPDXf/pb00FYwsHH6CAOVs+
+         XZqLtsCyPj3dBnG4LgfkhVgCwdOdB/F05JeN62zcHrzk21mJ0zTQcCByvHaRc9Yt+87b
+         lqs+iQzr6GVc2Cgqpov//EcZTUvDergZW97fYBVOhi+75AtbrL1HhKw8ewygc6umzzph
+         Ng5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date;
-        bh=itnkyNaxE+RSD3N2sUUnYquTphS8dh+b9w+anwaIZNc=;
-        b=zz9ZHpQWeEwFDPC8B6CK3Gl2BtVpnjzfHoQKeuMswa9E3t8lHIl3IR6XGxIEsLwtGg
-         jiinDfFB46iPEHyn0waRDqxxb+W7T+PSRZuDHMEiQ0u2ztNYcWeSpjOR/dnveWJ8+IjP
-         NUDMBnykDYzdcuXBvq+xMktTIBnWUHYfO1fNSC/wmqMsbMRKshQrZg3PinYiSdgOZi3H
-         2uhObuJhJPR36lZJJg9Y3rGy2zL5LztXVeetmAjeTSSc2mCjQcfuvVOWVER9CbYLZ998
-         JaIJ0OfXWHeRZGjdT4JLCPAdzvU0BR1CZf7vdAXkE+qhpyW+r7b36zHwct8smUv3Fvum
-         /xsQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=pDXoUOQlmNgJmVAlYuuj5yi+ly/HlT4KdcY9eEm5eBQ=;
+        b=XfNrM1gcGUGHeymopCeLMdzON0JsCT12y5zcvKX1yH5njaDfaL6jSP/1JOw4pHl7ix
+         DXE+cpAcWs7yiAH/KU4UbA2nhk5fWBj7nNtByMU3mDVCiDK/L69Dbsu3MC0M/c33ab2B
+         XA2x0uP2fL/xt9Upn004ldRv6FHX9rWTx7GJWe4QrWEz9chSKGA6qohWNnMOwxZSmDKJ
+         tsuH4kCialiaGc2BiF3yacOTOYCCqWkYPGFAead0Tjbo2tIPsV0E6ibscabRsxwR9iW8
+         hx6T4Xi4AVq/XG0ojW2sf1jfQspblzws73BSCk0/xk7cIGsBKYszpZ7hDbGU7hWMjTJt
+         98Bg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=56q7=z5=goodmis.org=rostedt@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=56q7=Z5=goodmis.org=rostedt@kernel.org"
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id f5-20020a056512360500b0049c8ac119casi680445lfs.5.2022.09.26.11.41.05
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=GHUYsDZj;
+       spf=pass (google.com: domain of srs0=wzr3=z5=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id o14-20020a1f280e000000b003a4a4b2a98dsi291156vko.3.2022.09.26.11.52.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 26 Sep 2022 11:41:05 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=56q7=z5=goodmis.org=rostedt@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+        Mon, 26 Sep 2022 11:52:57 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=wzr3=z5=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 6FF91B80D66;
-	Mon, 26 Sep 2022 18:41:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8346C433D7;
-	Mon, 26 Sep 2022 18:40:49 +0000 (UTC)
-Date: Mon, 26 Sep 2022 14:41:57 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
- mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
- ulli.kroll@googlemail.com, linus.walleij@linaro.org, shawnguo@kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, tony@atomide.com,
- khilman@kernel.org, catalin.marinas@arm.com, will@kernel.org,
- guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org,
- kernel@xen0n.name, geert@linux-m68k.org, sammy@sammy.net, monstr@monstr.eu,
- tsbogend@alpha.franken.de, dinguyen@kernel.org, jonas@southpole.se,
- stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
- James.Bottomley@HansenPartnership.com, deller@gmx.de, mpe@ellerman.id.au,
- npiggin@gmail.com, christophe.leroy@csgroup.eu, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com,
- gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
- svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
- davem@davemloft.net, richard@nod.at, anton.ivanov@cambridgegreys.com,
- johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- acme@kernel.org, mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
- jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com,
- srivatsa@csail.mit.edu, amakhalov@vmware.com, pv-drivers@vmware.com,
- boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
- rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
- gregkh@linuxfoundation.org, mturquette@baylibre.com, sboyd@kernel.org,
- daniel.lezcano@linaro.org, lpieralisi@kernel.org, sudeep.holla@arm.com,
- agross@kernel.org, bjorn.andersson@linaro.org,
- konrad.dybcio@somainline.org, anup@brainfault.org,
- thierry.reding@gmail.com, jonathanh@nvidia.com,
- jacob.jun.pan@linux.intel.com, atishp@atishpatra.org, Arnd Bergmann
- <arnd@arndb.de>, yury.norov@gmail.com, andriy.shevchenko@linux.intel.com,
- linux@rasmusvillemoes.dk, dennis@kernel.org, tj@kernel.org, cl@linux.com,
- pmladek@suse.com, senozhatsky@chromium.org, john.ogness@linutronix.de,
- juri.lelli@redhat.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
- bristot@redhat.com, vschneid@redhat.com, fweisbec@gmail.com,
- ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
- dvyukov@google.com, vincenzo.frascino@arm.com, Andrew Morton
- <akpm@linux-foundation.org>, jpoimboe@kernel.org,
- linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
- linux-perf-users@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-xtensa@linux-xtensa.org,
- linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-arch@vger.kernel.org,
- kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 33/44] ftrace: WARN on rcuidle
-Message-ID: <20220926144157.0406dfbb@gandalf.local.home>
-In-Reply-To: <20220919101522.573936213@infradead.org>
-References: <20220919095939.761690562@infradead.org>
-	<20220919101522.573936213@infradead.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id D9B65611CA
+	for <kasan-dev@googlegroups.com>; Mon, 26 Sep 2022 18:52:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 077ECC433D6
+	for <kasan-dev@googlegroups.com>; Mon, 26 Sep 2022 18:52:55 +0000 (UTC)
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6ba5633a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
+	for <kasan-dev@googlegroups.com>;
+	Mon, 26 Sep 2022 18:52:51 +0000 (UTC)
+Received: by mail-vk1-f177.google.com with SMTP id s12so3851265vkn.11
+        for <kasan-dev@googlegroups.com>; Mon, 26 Sep 2022 11:52:51 -0700 (PDT)
+X-Received: by 2002:a1f:1b45:0:b0:3a7:ba13:11ce with SMTP id
+ b66-20020a1f1b45000000b003a7ba1311cemr3104747vkb.3.1664218370625; Mon, 26 Sep
+ 2022 11:52:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220926160332.1473462-1-Jason@zx2c4.com> <202209261105.9C6AEEEE1@keescook>
+In-Reply-To: <202209261105.9C6AEEEE1@keescook>
+From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 26 Sep 2022 20:52:39 +0200
+X-Gmail-Original-Message-ID: <CAHmME9pFDzyKJd5ixyB9E05jkZvHShFimbiQsGTcdQO1E5R0QQ@mail.gmail.com>
+Message-ID: <CAHmME9pFDzyKJd5ixyB9E05jkZvHShFimbiQsGTcdQO1E5R0QQ@mail.gmail.com>
+Subject: Re: [PATCH] random: split initialization into early arch step and
+ later non-arch step
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Ard Biesheuvel <ardb@kernel.org>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
+	linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: rostedt@goodmis.org
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of srs0=56q7=z5=goodmis.org=rostedt@kernel.org designates
- 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=56q7=Z5=goodmis.org=rostedt@kernel.org"
+X-Original-Sender: jason@zx2c4.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@zx2c4.com header.s=20210105 header.b=GHUYsDZj;       spf=pass
+ (google.com: domain of srs0=wzr3=z5=zx2c4.com=jason@kernel.org designates
+ 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -178,81 +145,87 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Mon, Sep 26, 2022 at 8:22 PM Kees Cook <keescook@chromium.org> wrote:
+> Can find a way to get efi_get_random_bytes() in here too? (As a separate
+> patch.) I don't see where that actually happens anywhere currently,
+> and we should have it available at this point in the boot, yes?
 
-Nit, the subject should have "tracing:" an not "ftrace:" as the former
-encompasses the tracing infrastructure and the latter is for the function
-hook part of that.
+No, absolutely not. That is not how EFI works. EFI gets its seed to
+random.c much earlier by way of add_bootloader_randomness().
 
-On Mon, 19 Sep 2022 12:00:12 +0200
-Peter Zijlstra <peterz@infradead.org> wrote:
+> > -             entropy[0] = random_get_entropy();
+> > -             _mix_pool_bytes(entropy, sizeof(*entropy));
+> >               arch_bits -= sizeof(*entropy) * 8;
+> >               ++i;
+> >       }
+> > -     _mix_pool_bytes(&now, sizeof(now));
+> > -     _mix_pool_bytes(utsname(), sizeof(*(utsname())));
+>
+> Hm, can't we keep utsname in the early half by using init_utsname() ?
 
-> CONFIG_GENERIC_ENTRY disallows any and all tracing when RCU isn't
-> enabled.
-> 
-> XXX if s390 (the only other GENERIC_ENTRY user as of this writing)
-> isn't comfortable with this, we could switch to
-> HAVE_NOINSTR_VALIDATION which is x86_64 only atm.
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  include/linux/tracepoint.h |   13 ++++++++++++-
->  kernel/trace/trace.c       |    3 +++
->  2 files changed, 15 insertions(+), 1 deletion(-)
-> 
-> --- a/include/linux/tracepoint.h
-> +++ b/include/linux/tracepoint.h
-> @@ -178,6 +178,16 @@ static inline struct tracepoint *tracepo
->  #endif /* CONFIG_HAVE_STATIC_CALL */
->  
->  /*
-> + * CONFIG_GENERIC_ENTRY archs are expected to have sanitized entry and idle
-> + * code that disallow any/all tracing/instrumentation when RCU isn't watching.
-> + */
-> +#ifdef CONFIG_GENERIC_ENTRY
-> +#define RCUIDLE_COND(rcuidle)	(rcuidle)
-> +#else
+Yes, we could maybe *change* to using init_utsname if we wanted. That
+seems kind of different though. So I'd prefer that to be a different
+patch, which would require looking at the interaction with early
+hostname setting and such. If you want to do that work, I'd certainly
+welcome the patch.
 
-Should probably move the below comment to here:
+> > @@ -976,6 +976,9 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
+> >               parse_args("Setting extra init args", extra_init_args,
+> >                          NULL, 0, -1, -1, NULL, set_init_arg);
+> >
+> > +     /* Call before any memory or allocators are initialized */
+>
+> Maybe for greater clarity:
+>
+>         /* Pre-time-keeping entropy collection before allocator init. */
 
- /* srcu can't be used from NMI */
+Will do.
 
-> +#define RCUIDLE_COND(rcuidle)	(rcuidle && in_nmi())
-> +#endif
-> +
-> +/*
->   * it_func[0] is never NULL because there is at least one element in the array
->   * when the array itself is non NULL.
->   */
-> @@ -189,7 +199,8 @@ static inline struct tracepoint *tracepo
->  			return;						\
->  									\
->  		/* srcu can't be used from NMI */			\
+>
+> > +     random_init_early(command_line);
+> > +
+> >       /*
+> >        * These use large bootmem allocations and must precede
+> >        * kmem_cache_init()
+> > @@ -1035,17 +1038,13 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
+> >       hrtimers_init();
+> >       softirq_init();
+> >       timekeeping_init();
+> > -     kfence_init();
+> >       time_init();
+>
+> Was there a reason kfence_init() was happening before time_init()?
 
-And remove the above.
+Historically there was, I think, because random_init() used to make
+weird allocations. But that's been gone for a while. At this point
+it's a mistake, and removing it allows me to do this:
 
--- Steve
+https://groups.google.com/g/kasan-dev/c/jhExcSv_Pj4
 
-> -		WARN_ON_ONCE(rcuidle && in_nmi());			\
-> +		if (WARN_ON_ONCE(RCUIDLE_COND(rcuidle)))		\
-> +			return;						\
->  									\
->  		/* keep srcu and sched-rcu usage consistent */		\
->  		preempt_disable_notrace();				\
-> --- a/kernel/trace/trace.c
-> +++ b/kernel/trace/trace.c
-> @@ -3104,6 +3104,9 @@ void __trace_stack(struct trace_array *t
->  		return;
->  	}
->  
-> +	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_GENERIC_ENTRY)))
-> +		return;
-> +
->  	/*
->  	 * When an NMI triggers, RCU is enabled via ct_nmi_enter(),
->  	 * but if the above rcu_is_watching() failed, then the NMI
-> 
+>
+> >
+> > -     /*
+> > -      * For best initial stack canary entropy, prepare it after:
+> > -      * - setup_arch() for any UEFI RNG entropy and boot cmdline access
+> > -      * - timekeeping_init() for ktime entropy used in random_init()
+> > -      * - time_init() for making random_get_entropy() work on some platforms
+> > -      * - random_init() to initialize the RNG from from early entropy sources
+> > -      */
+> > -     random_init(command_line);
+> > +     /* This must be after timekeeping is initialized */
+> > +     random_init();
+> > +
+> > +     /* These make use of the initialized randomness */
+>
+> I'd clarify this more:
+>
+>         /* These make use of the fully initialized randomness entropy. */
+
+Okay will do.
+
+Jason
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220926144157.0406dfbb%40gandalf.local.home.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHmME9pFDzyKJd5ixyB9E05jkZvHShFimbiQsGTcdQO1E5R0QQ%40mail.gmail.com.
