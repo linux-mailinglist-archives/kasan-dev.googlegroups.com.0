@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBCO2ZOMQMGQE23ZGOGQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB7XNZOMQMGQE2OA6C7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999215EC2B6
-	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 14:31:07 +0200 (CEST)
-Received: by mail-lj1-x23e.google.com with SMTP id z18-20020a2e9652000000b0026c17cc5a45sf2554288ljh.21
-        for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 05:31:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664281866; cv=pass;
+Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC5B5EC3E5
+	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 15:13:35 +0200 (CEST)
+Received: by mail-lj1-x23b.google.com with SMTP id y1-20020a2e3201000000b0026c3cb4c13bsf2580613ljy.11
+        for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 06:13:35 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664284415; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Hz5PpXyrmwLofMYrATNEN9f/8umkRvehdQPNStRTlHcoDvpWkVekc1tKGYzvfyXXbN
-         MCbPqgp8NOIzCr9xSq6/xaXMe7wmJYATccq9Kazlvr38lf2yvfrgF675HtCvXI6j5ef0
-         V64LikMuMwTT1J6Xm77z+xSSk1NafgozQDl9fbPEOv0kb3iV63TKxcsNhfDhaNvwvvt+
-         0eEzv90dxKWiFUY7MzBS1NPya5lqLatOQZJ8fgeTwULBJ3/1MTqT+6V17g6vgSCfjk+X
-         8Pb26Cl67d6zYZAk+NB6pqIVafV+R280S0o2pTfkyzVPOrMTVXGMGNZmERiAn8XBFtaa
-         j+Hg==
+        b=vm2+chUA0WOgaUfPv6kCqJ0DbrBBwy1dDtRU9LghnA1ODulfunIXrPyz5/BQ8iVGZr
+         4eLDeBZil3usaMq4+EtdH6LiMnC7kCYFL22L4W6LEvkSs6PVtgWfpLcNmIn/vL8+0+HG
+         LmcuLoJ4Iedo9clJYapXAnUxRojkvgS5dOM+stS/2ejgBmgumkbnbVfdRKm1xncFPCr3
+         DbxZLoEkM9hMhEcsyeVAxsizDg9o6dj+RrO5wc6EyCXE9+rQfIDZgiw0sKgmCy4VR8wn
+         7wcGQihduKKxON575YrLJekNXEHegSM9VWhQnhSrNnMACeKOTkMbZJbXz9WZGjbeuiua
+         9Mng==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=zSxnKVvp1eQQxGUkJIWS2GgOCVj1379dxfWcTu564Lc=;
-        b=gB/39Oxrbke0mn42DKSTK0nlKmvrucJBMm/BUDgoucmKNqzenBH3O0g/vSZ9X5IK2b
-         qxqLMIcyap1/b+Kordxqyh7eN3UBfDB0wdu0Ny1FVgE4nY3xBZsYydsS8D1zh9jrsd5r
-         ExpwqqAw5m1UyuxhmZbE7ENHEdsVu666M5iCb95nFe2VxL0GvXyH9sdoOM1/AR7bWBhN
-         n8vUrHmUYbTpbY0qo8j0a/NqE29iyRPwKaEceAJIsmZc0i+R0Ts7S2dKHLSnJjp9U+pa
-         I/Fv8oEEDbhzSq1YI2OHR1UFT1tab7FJhqh5ffwz0wEJM0AoU8JG34ElAHs2YcVX/5XV
-         u6Zw==
+        bh=SYAXV05bOzWrMGHcD5MWZurdZMs5JBeLycXlqtajYxk=;
+        b=N/HBB7kdZCYwrA4mYmgKpxvcNor+mJhleaV1d0G5K/qv8/Ixy+gSXXYz18HMDRrs7R
+         Y5+jajw/IwNO7dyPkSxfATJDFt/X5KQOhB+hcpud7aiInbtkXmRT/VLHEArg0s9imX8O
+         CyxyWJQC4pYy25ftqGY+30Kx+8qJ7dRQKQdsvUavRpQMITNuL7LAQ33ROSJliOig9i9F
+         e6qhNJeqdD64dcp/3Sgsu364f8V64qv5F8kTdStZMhsnPWek6ZJ+8Lq2stNn69P19olA
+         +srO1zBAHmPjLYFVmLjgZ52b/+ifd11i2Q+Q8estnTX++qgUyKdMrtta9aaUVfRa2atd
+         2Elw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="T/uniFHO";
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::531 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=QCzn9+LB;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::62c as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:user-agent
          :in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=zSxnKVvp1eQQxGUkJIWS2GgOCVj1379dxfWcTu564Lc=;
-        b=cj7TRrIk0WUpKdPaSzCs7gscyEkJVEXVlkB8vQ9MbfKXLgPKItRleovx8gXCHyzpb+
-         tiOQo7MtMgma4JUuhTElsKW2MoxBAQ6F4nxfnCBt+TEiNZiYkeOW1UAh50m5B6sl6Ghx
-         gNfaBkNOL5PZKcSSKGQt7wVpfiwD0LBSO+vsKmJDpNF5rPMJXtgvu+MdNQh4OiQnrW3w
-         JMP/0lBbi0t8Twu2mALrXbigWYI/LPE2PlAoEoo9gAX4vYPT5EUiu45ajU1VDrEun/EV
-         SvU67bs0ybVu+IOcJEeJxiCZ+9+rQ2jwHq/RCcQwIoMoRTW+T9dZ5fxGpNeaDgrozbKl
-         URGQ==
+        bh=SYAXV05bOzWrMGHcD5MWZurdZMs5JBeLycXlqtajYxk=;
+        b=TRtJPIAC/jLUTJQjSEPYT8YjSTL7kEJKY8KPCzZD1LPYn5S8eVG7Hges+GqWy48Nu9
+         rCwdQTVOp5Q/Z4FPUeWtIcLGdJnCBrwBmAomL8sPe5HViL39MvdsQZY41nNO9iYSub6P
+         J4YOFZynzkqhPy9grumq9N1YgUddPUDrRlfNEfX6Ifbxspb5uQp1mijBKJPXwKbssC8z
+         SV6cWYeXUeRWPRqtToZxOGlTRGW4FkVaA/xKemrrxbq0at9Eq4UNoHgJmFMRF/vdChPy
+         CHTBRFcB0AWE6Cwg7vf7KYZdwAqXSUCgD754oD7cATLg2DLzXXrBiuXj7780iLtm+iQm
+         AQaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,81 +51,83 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:user-agent
          :in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=zSxnKVvp1eQQxGUkJIWS2GgOCVj1379dxfWcTu564Lc=;
-        b=rdd6iExm64RYqT03uGhA39f57bAl9bu+OkXZ//opHboFW6K9EZdACeAvTigRJpWZff
-         +uE3c3S/VlKEytN/Yyyomcl+Pmpc+a3I3ZGv3yiDwrTOkgaAr9CUVT+RAUKddw8ezA9F
-         Uq8m8r96rwCejXh4KbegMxHZlmzS5miL7loDaNFMTk1W1x9XBYhcFY9AfejRYSV1QaTh
-         8Mo19YEirbDZRsjWgpdFJd/85ACm3wO4NRtJ4OBi2NcOuRVRVoJclGqzMMpnOrfOrfDA
-         sIPFkiVm/a0YJ92SBmsLJZ8CQrbPQRUZMigRURZ+nF1HRs2lfmj7maXJa9XDG59WW2WH
-         gU+w==
-X-Gm-Message-State: ACrzQf05MRztEv+jZCXEVDhxqM7TxyCSByleIpS+q71E0U0GlvzdtBHZ
-	3tpZyHg+BfeI6Q9HKEBfndY=
-X-Google-Smtp-Source: AMsMyM5V9zM/8A4SgsiSv0mXcuwo8uYe+gYl34nzZ37Hvzc1bdVy6lDbyqULFCIQjnf7oWm6zqNL4g==
-X-Received: by 2002:ac2:4f03:0:b0:495:ec98:bcac with SMTP id k3-20020ac24f03000000b00495ec98bcacmr10760344lfr.339.1664281865918;
-        Tue, 27 Sep 2022 05:31:05 -0700 (PDT)
+        bh=SYAXV05bOzWrMGHcD5MWZurdZMs5JBeLycXlqtajYxk=;
+        b=l3NqBxBqqFcwWMkt7pXZyVjKIJf7rTpp+UwjAIvPzD1ni8GFRhhHE+c2AI5eF6GJP+
+         CKm1bQxlyoH0rSZ7ouFp5JMHmYoNIUYm0h3v2YMEVVnW/6w27zlFQTwkgtDSS9BYVYzd
+         y52Ihm/ijVrIBC8NAdhf7DigZHz/2txDjIC8MRaKtuhTf+DUaHdDySJeFdHkwSeGYDLN
+         6U77hAlYHEL4uCW7ylHStcPCQ1VjoRAM6LZovgIerIfRLuLrOkgqLp8MEkjUuocrQVdG
+         B+oD5rGMBqsaqxonk5ZaIInEcRGIZDuXtw+1tWA1eAu7NSzFKJ7lhlQeqVVfBXhnQn23
+         l3Ow==
+X-Gm-Message-State: ACrzQf13vEfS+wlixizWisU+njsL2c19ZRyblLm7V38yzR+pcbkIXpAp
+	ZHpr2khrgmPSOmjBbM/7dj0=
+X-Google-Smtp-Source: AMsMyM7AfeXFVq9n+LqjqmVXa6Usc10yca3fR4WixvCmQDksiboUczHLH/HkDQMqT9VbZyeDHQWX7w==
+X-Received: by 2002:a2e:a448:0:b0:262:f7c4:31ad with SMTP id v8-20020a2ea448000000b00262f7c431admr9430105ljn.283.1664284415106;
+        Tue, 27 Sep 2022 06:13:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:8601:0:b0:26c:215b:964d with SMTP id a1-20020a2e8601000000b0026c215b964dls419645lji.11.-pod-prod-gmail;
- Tue, 27 Sep 2022 05:31:04 -0700 (PDT)
-X-Received: by 2002:a05:651c:2212:b0:26c:2baf:652e with SMTP id y18-20020a05651c221200b0026c2baf652emr10133790ljq.84.1664281864424;
-        Tue, 27 Sep 2022 05:31:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664281864; cv=none;
+Received: by 2002:a05:6512:118e:b0:49a:b814:856d with SMTP id
+ g14-20020a056512118e00b0049ab814856dls787804lfr.1.-pod-prod-gmail; Tue, 27
+ Sep 2022 06:13:33 -0700 (PDT)
+X-Received: by 2002:a19:e050:0:b0:49f:5464:71d3 with SMTP id g16-20020a19e050000000b0049f546471d3mr11959721lfj.558.1664284413676;
+        Tue, 27 Sep 2022 06:13:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664284413; cv=none;
         d=google.com; s=arc-20160816;
-        b=H2+B3FXE4Bceutyd++3x79K2UDdbjl+lhHS322uJjQOoXHAs42NLGNyw3vxZDS30w+
-         nS4tcnjC9Tae19MHpC8Kpz8X4DYIdLJtWsfloRJiCLNSAYHqbGYs5sDTl8xRZ37ORIX/
-         PTxEXXemoi7Oi2aQWlOG4HOyvgWJPuNKGgyHKIgYwihCv/J1l+CmwwgoLehCShjkN26d
-         6MOubUq9DR0R1Y9y/RAiqgciuFHpoA2dEMGVkDTJWO0LrUNBLsPEYSfkKZPJ/mqckVIZ
-         5PrD0xagoJdRGBKbHAnrHH2x3lu+ayAkNoIjT35j/rMWb0J+LTyaFsFRCWS3FRY0V3PQ
-         w7vA==
+        b=K76XVf/SegrNqOHCK6g5zoAYJr+Uo3CzUqEdfBIRZOPouaLy3zadTad1Aw895X5nDH
+         z4Kpe/Ao/vus1AcurtyuLoWrvawm58zPsmm4PvYQPFfG2/jsxm+IDQ0BVRk4VEkSZgHY
+         9CPZkn0d1Y7x23N07NOUCVm4pJYSjKbseSytD4qWV2XjXmntFmfriqNvsydLmDwIax32
+         N3fKmw4U1O5N2xFUkas+XQnbta7aw0tY36QzN3EsMmpbGjqsnM04ZaywTw5Zqf8waks+
+         AJ6CJzkXv4dvH2pZDRc9n0+I24WfNCsgGy8LkHwdZKB7PT0uslofyaRNIqh47mgtDmTa
+         V7Xg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=5ft9ZKgcoilbmvfkfl9ZpGjG19NwykRqtF901VdwZnw=;
-        b=y5v8Zz8UI+K8AdcmHpxkZiXKp87THAcpHF1Mnbvy67BTuvaGg8M4emWzQa2f9ZQv3Z
-         GDDrBBFp1TDyUZJ1BPi2bl8IoeeGZbONWIexaKm8lZ2a9w3qgcNLNQU34XN/Y5PmO2Mn
-         fzeFuITCEHSptcbzVV2KRaEdbBOEvbkWyHaw+M6fv/tD5BuWHXTy9xCp2yjyE4N2apD7
-         7il+QGisWkqRE74ODHVqLwR1B+4bYEDYxkznEuwj1FrJZtAtaQuoaKXXWy0w1U/wzo+7
-         pfR1zd6BB11MV1SJqohE3Eez17x5zWlMZpeW2zDnwMWGD3zb8nfMozRJNmxryZOezXtp
-         NeMQ==
+        bh=xKQUJ8crDSiafngxlHWxH3oZauT5Eq9qaoxq/VTtdws=;
+        b=iP+qavyfUxjwK4Z5mzptcUmiop77aix+OsFShffLAg2fr7Ae8Nlq2tjrYaeKP5XFRl
+         HerI+TMWRbU+825TdQr76v0nJJqGGfuiW5K7QbBdHmkeKG2ChV61uBk6zQOlDVPWGyrO
+         Ca5iNY4DC6Xkj8XWL9m2ApZIdGkmLPGfiIJgarjn4EOzavT2DK0Qwu8HPMbvZ/LfX2Bx
+         Asss/vGX8fdAXsdqLS1gsxRoU0hOctgPe3jLxgo/y/++BOHDIEmz3hICfw0Jm1LBfNbD
+         zmS4vndkml2qZTHK/YfKJzcX4mg8C0IMaLL+QQi4bClOZcX7o3Bb/magaNLT9kijNkF6
+         OfTw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="T/uniFHO";
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::531 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=QCzn9+LB;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::62c as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com. [2a00:1450:4864:20::531])
-        by gmr-mx.google.com with ESMTPS id v16-20020ac25930000000b0049ade2c22e5si62249lfi.9.2022.09.27.05.31.04
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com. [2a00:1450:4864:20::62c])
+        by gmr-mx.google.com with ESMTPS id be41-20020a056512252900b0048b12871da5si61301lfb.4.2022.09.27.06.13.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Sep 2022 05:31:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::531 as permitted sender) client-ip=2a00:1450:4864:20::531;
-Received: by mail-ed1-x531.google.com with SMTP id u24so12974769edb.9
-        for <kasan-dev@googlegroups.com>; Tue, 27 Sep 2022 05:31:04 -0700 (PDT)
-X-Received: by 2002:a05:6402:1554:b0:457:375e:7289 with SMTP id p20-20020a056402155400b00457375e7289mr11645505edx.171.1664281863992;
-        Tue, 27 Sep 2022 05:31:03 -0700 (PDT)
+        Tue, 27 Sep 2022 06:13:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::62c as permitted sender) client-ip=2a00:1450:4864:20::62c;
+Received: by mail-ej1-x62c.google.com with SMTP id nb11so20600515ejc.5
+        for <kasan-dev@googlegroups.com>; Tue, 27 Sep 2022 06:13:33 -0700 (PDT)
+X-Received: by 2002:a17:906:8473:b0:77b:efa8:50e4 with SMTP id hx19-20020a170906847300b0077befa850e4mr22495363ejc.250.1664284412975;
+        Tue, 27 Sep 2022 06:13:32 -0700 (PDT)
 Received: from elver.google.com ([2a00:79e0:9c:201:693c:15a1:a531:bb4e])
-        by smtp.gmail.com with ESMTPSA id bc25-20020a056402205900b0044ef2ac2650sm1141168edb.90.2022.09.27.05.31.02
+        by smtp.gmail.com with ESMTPSA id u24-20020a056402065800b004571907240asm1265720edx.36.2022.09.27.06.13.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 05:31:03 -0700 (PDT)
-Date: Tue, 27 Sep 2022 14:30:56 +0200
+        Tue, 27 Sep 2022 06:13:32 -0700 (PDT)
+Date: Tue, 27 Sep 2022 15:13:25 +0200
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH] perf: Fix missing SIGTRAPs due to pending_disable abuse
-Message-ID: <YzLtAG2bfRJ/vFRu@elver.google.com>
-References: <20220927121322.1236730-1-elver@google.com>
+To: andrey.konovalov@linux.dev
+Cc: Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com,
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Andrey Konovalov <andreyknvl@google.com>
+Subject: Re: [PATCH mm 1/3] kasan: switch kunit tests to console tracepoints
+Message-ID: <YzL29buAUPzOa9CG@elver.google.com>
+References: <653d43e9a6d9aad2ae148a941dab048cb8e765a8.1664044241.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20220927121322.1236730-1-elver@google.com>
+In-Reply-To: <653d43e9a6d9aad2ae148a941dab048cb8e765a8.1664044241.git.andreyknvl@google.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="T/uniFHO";       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::531 as
+ header.i=@google.com header.s=20210112 header.b=QCzn9+LB;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::62c as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -142,127 +144,101 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Sep 27, 2022 at 02:13PM +0200, Marco Elver wrote:
-> Due to the implementation of how SIGTRAP are delivered if
-> perf_event_attr::sigtrap is set, we've noticed 3 issues:
+On Sat, Sep 24, 2022 at 08:31PM +0200, andrey.konovalov@linux.dev wrote:
+> From: Andrey Konovalov <andreyknvl@google.com>
 > 
-> 	1. Missing SIGTRAP due to a race with event_sched_out() (more
-> 	   details below).
+> Switch KUnit-compatible KASAN tests from using per-task KUnit resources
+> to console tracepoints.
 > 
-> 	2. Hardware PMU events being disabled due to returning 1 from
-> 	   perf_event_overflow(). The only way to re-enable the event is
-> 	   for user space to first "properly" disable the event and then
-> 	   re-enable it.
+> This allows for two things:
 > 
-> 	3. The inability to automatically disable an event after a
-> 	   specified number of overflows via PERF_EVENT_IOC_REFRESH.
+> 1. Migrating tests that trigger a KASAN report in the context of a task
+>    other than current to KUnit framework.
+>    This is implemented in the patches that follow.
 > 
-> The worst of the 3 issues is problem (1), which occurs when a
-> pending_disable is "consumed" by a racing event_sched_out(), observed as
-> follows:
+> 2. Parsing and matching the contents of KASAN reports.
+>    This is not yet implemented.
 > 
-> 		CPU0			| 	CPU1
-> 	--------------------------------+---------------------------
-> 	__perf_event_overflow()		|
-> 	 perf_event_disable_inatomic()	|
-> 	  pending_disable = CPU0	| ...
-> 	  				| _perf_event_enable()
-> 					|  event_function_call()
-> 					|   task_function_call()
-> 					|    /* sends IPI to CPU0 */
-> 	<IPI>				| ...
-> 	 __perf_event_enable()		+---------------------------
-> 	  ctx_resched()
-> 	   task_ctx_sched_out()
-> 	    ctx_sched_out()
-> 	     group_sched_out()
-> 	      event_sched_out()
-> 	       pending_disable = -1
-> 	</IPI>
-> 	<IRQ-work>
-> 	 perf_pending_event()
-> 	  perf_pending_event_disable()
-> 	   /* Fails to send SIGTRAP because no pending_disable! */
-> 	</IRQ-work>
-> 
-> In the above case, not only is that particular SIGTRAP missed, but also
-> all future SIGTRAPs because 'event_limit' is not reset back to 1.
-> 
-> To fix, rework pending delivery of SIGTRAP via IRQ-work by introduction
-> of a separate 'pending_sigtrap', no longer using 'event_limit' and
-> 'pending_disable' for its delivery.
-> 
-> During testing, this also revealed several more possible races between
-> reschedules and pending IRQ work; see code comments for details.
-> 
-> Doing so makes it possible to use 'event_limit' normally (thereby
-> enabling use of PERF_EVENT_IOC_REFRESH), perf_event_overflow() no longer
-> returns 1 on SIGTRAP causing disabling of hardware PMUs, and finally the
-> race is no longer possible due to event_sched_out() not consuming
-> 'pending_disable'.
-> 
-> Fixes: 97ba62b27867 ("perf: Add support for SIGTRAP on perf events")
-> Reported-by: Dmitry Vyukov <dvyukov@google.com>
-> Debugged-by: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Marco Elver <elver@google.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 > ---
->  include/linux/perf_event.h |  2 +
->  kernel/events/core.c       | 85 ++++++++++++++++++++++++++++++++------
->  2 files changed, 75 insertions(+), 12 deletions(-)
+>  lib/Kconfig.kasan     |  2 +-
+>  mm/kasan/kasan_test.c | 85 +++++++++++++++++++++++++++++++------------
+>  mm/kasan/report.c     | 31 ----------------
+>  3 files changed, 63 insertions(+), 55 deletions(-)
 > 
-> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-> index 907b0e3f1318..dff3430844a2 100644
-> --- a/include/linux/perf_event.h
-> +++ b/include/linux/perf_event.h
-> @@ -740,8 +740,10 @@ struct perf_event {
->  	int				pending_wakeup;
->  	int				pending_kill;
->  	int				pending_disable;
-> +	int				pending_sigtrap;
->  	unsigned long			pending_addr;	/* SIGTRAP */
->  	struct irq_work			pending;
-> +	struct irq_work			pending_resched;
+> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+> index ca09b1cf8ee9..ba5b27962c34 100644
+> --- a/lib/Kconfig.kasan
+> +++ b/lib/Kconfig.kasan
+> @@ -181,7 +181,7 @@ config KASAN_VMALLOC
 >  
->  	atomic_t			event_limit;
+>  config KASAN_KUNIT_TEST
+>  	tristate "KUnit-compatible tests of KASAN bug detection capabilities" if !KUNIT_ALL_TESTS
+> -	depends on KASAN && KUNIT
+> +	depends on KASAN && KUNIT && TRACEPOINTS
+>  	default KUNIT_ALL_TESTS
+>  	help
+>  	  A KUnit-based KASAN test suite. Triggers different kinds of
+> diff --git a/mm/kasan/kasan_test.c b/mm/kasan/kasan_test.c
+> index f25692def781..3a2886f85e69 100644
+> --- a/mm/kasan/kasan_test.c
+> +++ b/mm/kasan/kasan_test.c
+> @@ -5,8 +5,12 @@
+>   * Author: Andrey Ryabinin <a.ryabinin@samsung.com>
+>   */
 >  
-> diff --git a/kernel/events/core.c b/kernel/events/core.c
-> index 75f5705b6892..df90777262bf 100644
-> --- a/kernel/events/core.c
-> +++ b/kernel/events/core.c
-> @@ -2527,6 +2527,14 @@ event_sched_in(struct perf_event *event,
->  	if (event->attr.exclusive)
->  		cpuctx->exclusive = 1;
+> +#define pr_fmt(fmt) "kasan_test: " fmt
+> +
+> +#include <kunit/test.h>
+>  #include <linux/bitops.h>
+>  #include <linux/delay.h>
+> +#include <linux/io.h>
+>  #include <linux/kasan.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mm.h>
+> @@ -14,21 +18,28 @@
+>  #include <linux/module.h>
+>  #include <linux/printk.h>
+>  #include <linux/random.h>
+> +#include <linux/set_memory.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+> +#include <linux/tracepoint.h>
+>  #include <linux/uaccess.h>
+> -#include <linux/io.h>
+>  #include <linux/vmalloc.h>
+> -#include <linux/set_memory.h>
+> +#include <trace/events/printk.h>
 >  
-> +	if (event->pending_sigtrap) {
-> +		/*
-> +		 * The task and event might have been moved to another CPU:
-> +		 * queue another IRQ work. See perf_pending_event_sigtrap().
-> +		 */
-> +		WARN_ON_ONCE(!irq_work_queue(&event->pending_resched));
+>  #include <asm/page.h>
+>  
+> -#include <kunit/test.h>
+> -
+>  #include "kasan.h"
+>  
+>  #define OOB_TAG_OFF (IS_ENABLED(CONFIG_KASAN_GENERIC) ? 0 : KASAN_GRANULE_SIZE)
+>  
+> +static bool multishot;
+> +
+> +/* Fields set based on lines observed in the console. */
+> +static struct {
+> +	bool report_found;
+> +	bool async_fault;
+> +} test_status;
+> +
+>  /*
+>   * Some tests use these global variables to store return values from function
+>   * calls that could otherwise be eliminated by the compiler as dead code.
+> @@ -36,35 +47,61 @@
+>  void *kasan_ptr_result;
+>  int kasan_int_result;
+>  
+> -static struct kunit_resource resource;
+> -static struct kunit_kasan_status test_status;
 
-One question we had is if it's possible for an event to be scheduled in,
-immediately scheduled out, and then scheduled in on a 3rd CPU. I.e. we'd
-still be in trouble if we can do this:
-
-	CPU0
-	sched-out
-		CPU1
-		sched-in
-		sched-out
-			CPU2
-			sched-in
-
-without any IRQ work ever running. Some naive solutions so the
-pending_resched IRQ work isn't needed, like trying to send a signal
-right here (or in event_sched_out()), don't work because we've seen
-syzkaller produce programs where there's a pending event and then the
-scheduler moves the task; because we're in the scheduler we can deadlock
-if we try to send the signal here.
-
-Thanks,
--- Marco
+Also remove this struct from kasan.h?
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YzLtAG2bfRJ/vFRu%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YzL29buAUPzOa9CG%40elver.google.com.
