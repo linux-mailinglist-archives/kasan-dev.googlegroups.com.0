@@ -1,139 +1,134 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORB5P5ZSMQMGQEGWDRHHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBDH6ZSMQMGQEJPUFOWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4B95ECC11
-	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 20:20:38 +0200 (CEST)
-Received: by mail-pj1-x103f.google.com with SMTP id d1-20020a17090a2a4100b00202ec7968c0sf4988590pjg.6
-        for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 11:20:38 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664302837; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5145ECC13
+	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 20:21:01 +0200 (CEST)
+Received: by mail-lj1-x238.google.com with SMTP id m8-20020a2e97c8000000b0026c5b3be434sf2876666ljj.13
+        for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 11:21:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664302861; cv=pass;
         d=google.com; s=arc-20160816;
-        b=iNmIB6J2K0FS9BsPntyUI6e+tzlMKpa/+Ljx2jfFchsDv2Gfy27AmjdiUjkv6JL5In
-         7z47UhPJ4rUktpkDy0of9sfbRGD89RAzTqTXJHq1AxmkIHY3iED5q/SfEMquXeL4hkKK
-         8SBOKLqdWqzCZkZIjaAQIdepZ7+6rjP4xPdqyqAs5dycJLNCCx3578Q11RlffkDcGNjI
-         1Wq+d8OqWAARnfu/AHAqsgaZbRzzheZGMJb/4j/bfPLxf4ngWP1SgmPVCU1ZQZaUo9vu
-         jlzbsKwfmQOm2hQTZxxe/0ck14fSww/7H6q7G1mxbIluIjLyOzTvgCrl94BwPtH0R+MT
-         LpUw==
+        b=wwVD7pCt0n4LDh3PuznbvkDQz8b5zpWdNWyjpmfg0hha1HTe3RctNNg3t+1cL38DQi
+         LeuEs6UCbYVovDkfVTbGVPHKTtNtQl4b+trIjm9H6EUpzrTflGRFF1zEAezDAOYwP2dn
+         94SfIi2XitDkxy5YwJfZ49GlrB/EQTGglkcOGUv5d5TTgWXgl7TZd4sJNqQgQ55dtrAG
+         DO48T7s8mug7u0mBdVWAshKIBYUgeS2g8z+m7lR4NvGj7PVHXwQDewnrOgTPx5S2sFNG
+         BTwx4vJfGZPfLaF+p3BUF06E++j8qDYxIqUrEri/AL9p4YOOoQ/7yaDXw3X4WkHkJMfS
+         VbEQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=om0lZjGjsASJdcgzfhbVAfKnWpWPRksoHk7cIGaOPgg=;
-        b=if8IGGJssPeROSEz70M7AZEG6ob2apQHZcBbHsSaB2zOKdbwBs1XjG+jnGi/t9k/4X
-         k2lXKp7ahj4tO/kRAknMpTZiXA3X2Ol2qCz+4IhmXe1Yh/NCWC+f4PkAtguMEiAcLTtr
-         DiLbn2pbIQ6m+yBlUBHeKCamJvIhiZqsx9ORgfHid2jKRBcHQPMmBHgbLAAU0w9ur1uv
-         1iFPKWNhdsXMAomNUQCbLH6I2TcP67kpMX6LqOZNz+0FSgdVHt20XqgTRF7KEdoIF9vU
-         +WVNfT7O6Ade/CZZzyTvzRIecv/kR5WtXsr5taSRqIJgyVTwk26uF6tTuARK7p//7MkY
-         HkoQ==
+        bh=mLL0AZuBRgHGl++aVjPtDMbCp1YyR/hIIpd2Ma4htZg=;
+        b=Vps30UVFGiSxt+IYo+on7TlK7GgsWlwgBwugwgomFEuccPZOxOpu3AH4LDuR9npyoy
+         vCh9dkGbzESExrMZiPivWZj8gjyeoFUgSRUAcpI3Bp15f7Oz21NJH2vN/+IvIQLTvu9z
+         TN7wdq4r+a/vNNrIzvVU9DO9G4RvSQwvVIpYbsZ+xW/42bb8KVSrGLhK316oBSaS7u0I
+         rs0Ifhlut+sb2mr6n2Ug2QsjEAIsk9sqnMbUF0VfLNnlDq1BEDCPOzu7ZF55PFmbKBaM
+         a0AIAGcVS0urUQJ2PgCoMOAc+09XVPE1+pG/iU2+IMHmY7dcWHt4ngukbZ8v9YO25KIR
+         TCbQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=cgYtUma6;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::f31 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=ZrYQtozP;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date;
-        bh=om0lZjGjsASJdcgzfhbVAfKnWpWPRksoHk7cIGaOPgg=;
-        b=aAHoJBfnDHwO2cMCBq/ISB7HW1ZPS0ov9s9+cwSZ5OsD8Pt0vPjXSsy55w8y5Mx3FG
-         jnERlijgqyaeO5pNDbWP5+S31557uxRoW7hd1rPnpBEJDQ8iy/9DOtnpO7jfei+6QSzz
-         Y6rOvMvojYKYseu02ypnEK4uGgYD3KZAkno6kylTneCMG2zfxVCaTKPHRXsPCLz4r4MB
-         SrPmGMpbrp5QzsAJdnPKCB7VV0jYH8YQrBylxqrKR59NuZJ9Kj3Bs2nkDt34WAaExf/c
-         YmYNlAcp/uSuhbEmCJgDwc6tlmcHqT5vPeGNFtkBE1LFuaGKnndAUYUOSsmm9tmWFftw
-         zfDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date;
-        bh=om0lZjGjsASJdcgzfhbVAfKnWpWPRksoHk7cIGaOPgg=;
-        b=VH+uPrkPnHY//BlLRVMtdLn5wlwY9w/NG1KLaFnk/LYUnB47iV+qzcAMf/kDalw210
-         M/B1UXbm9Oh8IW8Yk8X4eV/kMGU0ccCU3ToPtR9JKZchQyZctUhA1QlOlTGPmgjnm9Kd
-         aO6gfXfhKIjRssZ6255hFg44TlRDuol6MaPkdObuRdHPcuw//DQs4PHbsafpT6rhf0MU
-         KWyczd/o5A6uw9CrQR3lKMJ+Q55BTpSsRBOHf601vnN/TUBrCYIbBOqo9LuiVlI7ivw+
-         WgwOeYmlYFJX/2r/2nT5qia/U4FNftMxFRiXVtLhek7AwBhRZQ4+sYSRf5PbqHzfISpn
-         IHHA==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date;
+        bh=mLL0AZuBRgHGl++aVjPtDMbCp1YyR/hIIpd2Ma4htZg=;
+        b=ee5Ksz4iTp8UTAh92Y4uyLGjuSANOWlGQmoXNKYMeC6ZGfTkLJ56QiNgCICPw65ldd
+         BFPCGWaNp5aEL9EQY5DGrbTbJnLu3rD5bZpuWMekvD/0jjWOz7yRzJq9To23j/1izftK
+         Fe6aGdRA6I+WbCpqqZqKAxNnHwWbkWUdAx6pkp+UnRXm8rooCg8VW7MLiN2MgJRP44Fm
+         ZVPvH2QIBXQjfWNHuPVd95vFN/ygPwFXhT5nRNZRUxbmz1PwSWdMnTqe6n/3I1b5kKm/
+         KFpsodQUEE5dZC8n2EN3gXkr2uzhx8neJDROLgVjBblLR2u5pWksxxI8X4ysmnWgBC+H
+         Wv7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=om0lZjGjsASJdcgzfhbVAfKnWpWPRksoHk7cIGaOPgg=;
-        b=1QX7TSzVTQL5B0j+7Twjq0Q8pPO/1GKsAkHfoiDjy5qzoEWNUiIOVFH70Y6WJ2E3N4
-         tDMSfFQ2MZtqrGRSSVK9JXrenRWi7vf6l2D2I9fRuX/pJegFM23Y5ZqcA1NGUSyZy0qd
-         GRyk0FCVlOQc8XjwaJYghLikEVhi3ejfuuRLi8Inx732VoRAks9KliOGvGGUynAsf2Tb
-         48bOnZy9sFOYbtWJRaAEkqK9/5HjNeklt1P2mweL5vbz0myNf1GWCaKDY+Q/n9glr4k0
-         XmknSm4yLi+x07czs1jyn4jjcp2xRc+boqR1dNB7yji4dQ/4WJplqZszYxzae2Elo5d1
-         qHGA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=mLL0AZuBRgHGl++aVjPtDMbCp1YyR/hIIpd2Ma4htZg=;
+        b=X+Qcoo4kud2FYMTrV/HNPJ6qbzaT7z+lHKf4mbWsYna8qfl0bo5/1xHNwOjRRaXo20
+         y2Lwhoq+E4PLpdryecSImiyfhqrde9SO1kXIclGAA1w8voSdUchzPXr/dFgRcFsW2VuP
+         blrDfRTXYIMZ5wrB3W0rVVEFGhzTm3JaRnH24M1A2a60n1ReZyo1Ufe8Eq6FNkitVm7X
+         7K5WCLv/mvevwwe86dNVSIo0ZiiK9DocMSApm05vbeM+WYIexOLFatyPi4EMvvUuWAeg
+         OFSwQCzRtPNc3i4PDnXx5oK3tF5LsrveooiV+WjQwMbZvytoEHYTak6qE3kTRQat0g4F
+         0Pgw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf3KtufhLRJxTquJHk/IFcNzuoGtScFYkfCnEegJ6k3IZJJx/xAo
-	gBzrW0+4uV0gUL5lD3sToRY=
-X-Google-Smtp-Source: AMsMyM4l7MspXcZoBxa34ZdFElw6mst3X9scgI7NPw7+ASO9qeg735UXUM6HStmLNXRzPcKzi29f6w==
-X-Received: by 2002:a17:90a:6fc6:b0:205:d070:2988 with SMTP id e64-20020a17090a6fc600b00205d0702988mr5779053pjk.173.1664302837155;
-        Tue, 27 Sep 2022 11:20:37 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2jeilmRhXqHu+tzFqBCvmleEJsWKaJuznOSAWwK4W7IbA6xpYO
+	qLcFRWL/z7TQI9bZwmnoiY4=
+X-Google-Smtp-Source: AMsMyM7kvOU1Bgutst1ECr8Jhuq5SxfbSKKyq/T8U8yVUdw987lI3FyBvRUQ9E7LZ7sPs2HGRUj+LA==
+X-Received: by 2002:ac2:5a46:0:b0:498:f53b:d19a with SMTP id r6-20020ac25a46000000b00498f53bd19amr12452540lfn.674.1664302860845;
+        Tue, 27 Sep 2022 11:21:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:86:0:b0:43c:2618:9c3f with SMTP id 128-20020a630086000000b0043c26189c3fls1608495pga.9.-pod-prod-gmail;
- Tue, 27 Sep 2022 11:20:36 -0700 (PDT)
-X-Received: by 2002:aa7:8714:0:b0:545:b8d1:4a9c with SMTP id b20-20020aa78714000000b00545b8d14a9cmr30117236pfo.48.1664302836474;
-        Tue, 27 Sep 2022 11:20:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664302836; cv=none;
+Received: by 2002:a2e:a7c9:0:b0:26b:e503:5058 with SMTP id x9-20020a2ea7c9000000b0026be5035058ls619948ljp.5.-pod-prod-gmail;
+ Tue, 27 Sep 2022 11:20:59 -0700 (PDT)
+X-Received: by 2002:a2e:b608:0:b0:26a:d179:8ecd with SMTP id r8-20020a2eb608000000b0026ad1798ecdmr10200877ljn.405.1664302859283;
+        Tue, 27 Sep 2022 11:20:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664302859; cv=none;
         d=google.com; s=arc-20160816;
-        b=a+2981lSQMWYwmcB7BN6a08k4Fomv8YFSPSE4zIvImipVHyJCC8rVNT5TXJ6xjWS1E
-         PbuPB2Zg6YhCz8g3IL88y7apu+LGuqFX7n12XKNvrOhG7v9TAo+c6GmEM53y0lNYHU7M
-         k/NTgCNApmai5rembnVp7rn6qXpPhqQBp9/NlXMsFLJTHWXJuxJDwvOClPmCyBXDYlfX
-         I31XwJIzFzJIsc6QJbYlp1QTBYZDwrCmBTib0Xl8MjUby1SgPIbi/gVV0oaXTBiLP+yQ
-         l7n5gfxP5xK11Es40M28LRZEMKeSQ4IJJ+Zg4rgeYBjU5/fz2x6CjdWH0+vxdrkXgtvS
-         pU/Q==
+        b=pUN7n0Njs2scz8vUrnd+j2yTr2OyHmppHjhx9VM3SaVSNoti5Nvazs0frCead3Smf+
+         qmClsdq3jPKIul8vF7Ux5doxStff6Lv2w6XMAoYnvFvKjXP/F4gPrBqbMlg2iFJYmlqs
+         0z61W4XT1Ad2lsBdtb/LY0WkMXfH0BahBO1Gu4dNhY+VN/lJXom+DV6AWixP9jm0/z28
+         WrAK0vrAdZYHoH24g8/0HeFdKydadl6vlZJjunYMcvXg6dwntafemCEupT45RSyJNMwi
+         /iVoEQCHW4aVF1Pu46Tp05OruGrMwUaj99O7Zs7miT/6uMZXymL/Y0R1/Urv3znZtA6G
+         XcnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=K3EEm+yGioRUPVfrRwhSvMYbgEGQ+F2ANH5pgoFJVpo=;
-        b=iSade2QWbaJGrn0iNfzph256GoFVcDwYV8/d2AgHHtY8U3HhxtKvK5zMnJ5LGBXgRa
-         3V0HnAHZSpZBP37Lr1yX/HYoEW912jyDJp80RALWg0p1Z1/4NeNyXRxjbyfmld7Ghp8X
-         f0RKVKB8jZXT9OUaVZDBg7O8Cwi5DMZ1IFMdzaYnjOCTs5E986bKbfj+N2PYwhJhTz2z
-         F8YNe23kF7dn+aGxXGXj1SDnEkDLxLIecxUcAXCr4gGD4bINUSgBCxGrlH4Fv22JtZoc
-         NGhXOwbQh1rsTNqj+n+y7HkY7LA910USWgG8QI+irQ+jBJgWyoBjM3pbO+B3VPhNaxGw
-         sO8g==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=BmhIzH6QeLzG1HzDb0h4B8ArGPxAu7f6HvFWMpAiIac=;
+        b=AhY8t4rocLWfa89URNSom/3ucZb/OHhqVtWfRLHxlOtOJ6EWhDh/+k7G+w5BA/cuLo
+         Pp10P8VDOg5Vk0nH3WyTT1i1swv3m2vSO2AOSQfK0/t9sfppBuLoxTvYohOvVDX826WL
+         x4DuiJ5Y0dLuzOUV136bBLKnZGkfqMrGWNTLTk4qOu3Lz3TQOg2KAkwFBsd7qga8S0T9
+         6w4tGw4jexRSQs/fxz0EpVRmfNfj8UWNJkFoeqQY5D077LbGwgIhVF6TJ0Bj6D8tVqQW
+         dLjsU/JbltPZPxTD7i4du5uas8DiL68B3Lg+InjhYCS3tKTaYzjf62t/e66UH/HXkNTm
+         ypEg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=cgYtUma6;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::f31 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com. [2607:f8b0:4864:20::f31])
-        by gmr-mx.google.com with ESMTPS id pq11-20020a17090b3d8b00b0020030aac781si604751pjb.1.2022.09.27.11.20.36
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=ZrYQtozP;
+       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id j15-20020a056512108f00b0048b38f379d7si96541lfg.0.2022.09.27.11.20.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Sep 2022 11:20:36 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::f31 as permitted sender) client-ip=2607:f8b0:4864:20::f31;
-Received: by mail-qv1-xf31.google.com with SMTP id d1so6773004qvs.0
-        for <kasan-dev@googlegroups.com>; Tue, 27 Sep 2022 11:20:36 -0700 (PDT)
-X-Received: by 2002:a05:6214:1d21:b0:4ad:1361:befa with SMTP id
- f1-20020a0562141d2100b004ad1361befamr22055161qvd.111.1664302835912; Tue, 27
- Sep 2022 11:20:35 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Sep 2022 11:20:58 -0700 (PDT)
+Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1odFCR-00GMHf-3C; Tue, 27 Sep 2022 18:20:55 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id DE8B530007E;
+	Tue, 27 Sep 2022 20:20:53 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 951302BE05B2C; Tue, 27 Sep 2022 20:20:53 +0200 (CEST)
+Date: Tue, 27 Sep 2022 20:20:53 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH] perf: Fix missing SIGTRAPs due to pending_disable abuse
+Message-ID: <YzM/BUsBnX18NoOG@hirez.programming.kicks-ass.net>
+References: <20220927121322.1236730-1-elver@google.com>
 MIME-Version: 1.0
-References: <20220927012044.2794384-1-pcc@google.com>
-In-Reply-To: <20220927012044.2794384-1-pcc@google.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Tue, 27 Sep 2022 20:20:25 +0200
-Message-ID: <CA+fCnZeF9n6hZKJo+ZMrZ+0ePRXFSC=gFBJCaZGNgPhN+pH-ew@mail.gmail.com>
-Subject: Re: [PATCH v2] kasan: also display registers for reports from HW exceptions
-To: Peter Collingbourne <pcc@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+Content-Disposition: inline
+In-Reply-To: <20220927121322.1236730-1-elver@google.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=cgYtUma6;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::f31
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@infradead.org header.s=desiato.20200630 header.b=ZrYQtozP;
+       spf=pass (google.com: best guess record for domain of
+ peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as
+ permitted sender) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,162 +141,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Sep 27, 2022 at 3:20 AM Peter Collingbourne <pcc@google.com> wrote:
->
-> It is sometimes useful to know the values of the registers when a KASAN
-> report is generated. We can do this easily for reports that resulted from
-> a hardware exception by passing the struct pt_regs from the exception into
-> the report function; do so, but only in HW tags mode because registers
-> may have been corrupted during the check in other modes.
->
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> ---
-> Applies to -next.
->
-> v2:
-> - only do this in HW tags mode
-> - move pr_err to caller
->
->  arch/arm64/mm/fault.c |  2 +-
->  include/linux/kasan.h | 10 ++++++++++
->  mm/kasan/kasan.h      |  1 +
->  mm/kasan/report.c     | 30 +++++++++++++++++++++++-------
->  4 files changed, 35 insertions(+), 8 deletions(-)
->
-> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> index 5b391490e045..c4b91f5d8cc8 100644
-> --- a/arch/arm64/mm/fault.c
-> +++ b/arch/arm64/mm/fault.c
-> @@ -316,7 +316,7 @@ static void report_tag_fault(unsigned long addr, unsigned long esr,
->          * find out access size.
->          */
->         bool is_write = !!(esr & ESR_ELx_WNR);
-> -       kasan_report(addr, 0, is_write, regs->pc);
-> +       kasan_report_regs(addr, 0, is_write, regs);
->  }
->  #else
->  /* Tag faults aren't enabled without CONFIG_KASAN_HW_TAGS. */
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index d811b3d7d2a1..381aea149353 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -353,6 +353,16 @@ static inline void *kasan_reset_tag(const void *addr)
->  bool kasan_report(unsigned long addr, size_t size,
->                 bool is_write, unsigned long ip);
->
-> +/**
-> + * kasan_report_regs - print a report about a bad memory access detected by KASAN
-> + * @addr: address of the bad access
-> + * @size: size of the bad access
-> + * @is_write: whether the bad access is a write or a read
-> + * @regs: register values at the point of the bad memory access
-> + */
-> +bool kasan_report_regs(unsigned long addr, size_t size, bool is_write,
-> +                      struct pt_regs *regs);
-> +
->  #else /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS */
->
->  static inline void *kasan_reset_tag(const void *addr)
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index abbcc1b0eec5..39772c21a8ae 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -175,6 +175,7 @@ struct kasan_report_info {
->         size_t access_size;
->         bool is_write;
->         unsigned long ip;
-> +       struct pt_regs *regs;
->
->         /* Filled in by the common reporting code. */
->         void *first_bad_addr;
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index df3602062bfd..be8dd97940c7 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -24,6 +24,7 @@
->  #include <linux/types.h>
->  #include <linux/kasan.h>
->  #include <linux/module.h>
-> +#include <linux/sched/debug.h>
->  #include <linux/sched/task_stack.h>
->  #include <linux/uaccess.h>
->  #include <trace/events/error_report.h>
-> @@ -281,9 +282,6 @@ static void print_address_description(void *addr, u8 tag,
->  {
->         struct page *page = addr_to_page(addr);
->
-> -       dump_stack_lvl(KERN_ERR);
-> -       pr_err("\n");
-> -
->         if (info->cache && info->object) {
->                 describe_object(addr, info);
->                 pr_err("\n");
-> @@ -391,11 +389,15 @@ static void print_report(struct kasan_report_info *info)
->                 kasan_print_tags(tag, info->first_bad_addr);
->         pr_err("\n");
->
-> +       if (info->regs)
-> +               show_regs(info->regs);
-> +       else
-> +               dump_stack_lvl(KERN_ERR);
-> +
->         if (addr_has_metadata(addr)) {
-> +               pr_err("\n");
->                 print_address_description(addr, tag, info);
->                 print_memory_metadata(info->first_bad_addr);
-> -       } else {
-> -               dump_stack_lvl(KERN_ERR);
->         }
->  }
->
-> @@ -467,8 +469,8 @@ void kasan_report_invalid_free(void *ptr, unsigned long ip, enum kasan_report_ty
->   * user_access_save/restore(): kasan_report_invalid_free() cannot be called
->   * from a UACCESS region, and kasan_report_async() is not used on x86.
->   */
-> -bool kasan_report(unsigned long addr, size_t size, bool is_write,
-> -                       unsigned long ip)
-> +static bool __kasan_report(unsigned long addr, size_t size, bool is_write,
-> +                       unsigned long ip, struct pt_regs *regs)
->  {
->         bool ret = true;
->         void *ptr = (void *)addr;
-> @@ -489,6 +491,7 @@ bool kasan_report(unsigned long addr, size_t size, bool is_write,
->         info.access_size = size;
->         info.is_write = is_write;
->         info.ip = ip;
-> +       info.regs = regs;
->
->         complete_report_info(&info);
->
-> @@ -502,6 +505,19 @@ bool kasan_report(unsigned long addr, size_t size, bool is_write,
->         return ret;
->  }
->
-> +bool kasan_report(unsigned long addr, size_t size, bool is_write,
-> +                       unsigned long ip)
-> +{
-> +       return __kasan_report(addr, size, is_write, ip, NULL);
-> +}
-> +
-> +bool kasan_report_regs(unsigned long addr, size_t size, bool is_write,
-> +                      struct pt_regs *regs)
-> +{
-> +       return __kasan_report(addr, size, is_write, instruction_pointer(regs),
-> +                             regs);
-> +}
-> +
->  #ifdef CONFIG_KASAN_HW_TAGS
->  void kasan_report_async(void)
->  {
-> --
-> 2.37.3.998.g577e59143f-goog
->
+On Tue, Sep 27, 2022 at 02:13:22PM +0200, Marco Elver wrote:
+> Due to the implementation of how SIGTRAP are delivered if
+> perf_event_attr::sigtrap is set, we've noticed 3 issues:
+> 
+> 	1. Missing SIGTRAP due to a race with event_sched_out() (more
+> 	   details below).
+> 
+> 	2. Hardware PMU events being disabled due to returning 1 from
+> 	   perf_event_overflow(). The only way to re-enable the event is
+> 	   for user space to first "properly" disable the event and then
+> 	   re-enable it.
+> 
+> 	3. The inability to automatically disable an event after a
+> 	   specified number of overflows via PERF_EVENT_IOC_REFRESH.
+> 
+> The worst of the 3 issues is problem (1), which occurs when a
+> pending_disable is "consumed" by a racing event_sched_out(), observed as
+> follows:
+> 
+> 		CPU0			| 	CPU1
+> 	--------------------------------+---------------------------
+> 	__perf_event_overflow()		|
+> 	 perf_event_disable_inatomic()	|
+> 	  pending_disable = CPU0	| ...
+> 	  				| _perf_event_enable()
+> 					|  event_function_call()
+> 					|   task_function_call()
+> 					|    /* sends IPI to CPU0 */
+> 	<IPI>				| ...
+> 	 __perf_event_enable()		+---------------------------
+> 	  ctx_resched()
+> 	   task_ctx_sched_out()
+> 	    ctx_sched_out()
+> 	     group_sched_out()
+> 	      event_sched_out()
+> 	       pending_disable = -1
+> 	</IPI>
+> 	<IRQ-work>
+> 	 perf_pending_event()
+> 	  perf_pending_event_disable()
+> 	   /* Fails to send SIGTRAP because no pending_disable! */
+> 	</IRQ-work>
+> 
+> In the above case, not only is that particular SIGTRAP missed, but also
+> all future SIGTRAPs because 'event_limit' is not reset back to 1.
+> 
+> To fix, rework pending delivery of SIGTRAP via IRQ-work by introduction
+> of a separate 'pending_sigtrap', no longer using 'event_limit' and
+> 'pending_disable' for its delivery.
+> 
+> During testing, this also revealed several more possible races between
+> reschedules and pending IRQ work; see code comments for details.
 
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+Perhaps use task_work_add() for this case? That runs on the
+return-to-user path, so then it doesn't matter how many reschedules
+happen in between.
 
-Thanks!
+The only concern is that task_work_add() uses kasan_record_aux_stack()
+which obviously isn't NMI clean, so that would need to get removed or
+made conditional.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZeF9n6hZKJo%2BZMrZ%2B0ePRXFSC%3DgFBJCaZGNgPhN%2BpH-ew%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YzM/BUsBnX18NoOG%40hirez.programming.kicks-ass.net.
