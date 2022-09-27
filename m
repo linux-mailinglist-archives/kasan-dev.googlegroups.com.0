@@ -1,121 +1,126 @@
-Return-Path: <kasan-dev+bncBD52JJ7JXILRB6E7ZGMQMGQE5G3JDOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD52JJ7JXILRBI5AZGMQMGQERO33QXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93d.google.com (mail-ua1-x93d.google.com [IPv6:2607:f8b0:4864:20::93d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB325EB6C1
-	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 03:20:58 +0200 (CEST)
-Received: by mail-ua1-x93d.google.com with SMTP id h11-20020ab0470b000000b003bf1da44886sf1988036uac.17
-        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 18:20:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664241657; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C44495EB6C2
+	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 03:21:40 +0200 (CEST)
+Received: by mail-lf1-x138.google.com with SMTP id b16-20020a056512061000b0049771081af2sf2954525lfe.5
+        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 18:21:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664241700; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LG3Lg19WXwXTCA73RdTisdHR5ft+MboLUhqvemWZxURh9n3iuwZ6KM28IiKekM4//r
-         UxtAfbIDLVR/UCX0n5qBctJ4/DgZNH+yIJmMzMZzMmpnVR7WlObB9AAhNEh9g6y08M5k
-         XErU40EkncVj5ykyBiQQE+leuZyVc6tOh1FYL++dhxdzA5AIFA7SxQ+dW+klPoQhblrU
-         K7CWgafvVWXS2TKwT+46RFqTmFMjxfiFBPuxGp2YOA/xVgCG2ZBPL1I0Y6MKfJqkxnfW
-         MAzRJ/1WCZLCLVHenNpH6aT52ArBpGYdxs/DButjSUBzGBh1WHgvVsE18jpYEiYajao3
-         GILQ==
+        b=hXb51YIk217jf7JqoDmSj6yLOg4zvmfXH7nld58UZyOvwIvqfkHYXzrkcp6p/o0zCr
+         iJ/RLPNrpTnINAEFpXbU4mzosEAuFg8XxzKNZlIGZdzrLu6lTxBWxodi6EUoYM66GJG4
+         UkjoakToH5I/Nerc5r9y//Um/tXSpT+VGpkW5gTDf6ZlnOC3h/cmnxtSfRI9SOgNjFlg
+         SPY+UR4p0F/4OChyJqG906T5I+/7L6FKoo0rKweG364bSw1ogdZ6LRnd34r8DeJgcHGS
+         Cnk2Zi1cKBLEeGyVLC6kjHMnVBPy65xFJo2Pp9mp46Kzl+zp9yZz03sWIMVuEU7H5O7M
+         3iZg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=YHTxXnHTrw7VUx2KC213D8SV07+RfjSyAmo0oW183Cg=;
-        b=qQTpYsM4Q2EusJInkY+4saEyJ6abg8Qg0et8c4pvBOUwv1z7tInMgZX0LynElN8kGf
-         P/yHMKZcY31SuPEF7+1xoJz5D1yX4VHqRTZo4LEa3htfOfYSFMNkekZolqlG3y+MRo6C
-         5J+DiMawuSmSNZ66zso9IXk9UeBlZNtAvsUh/cBj+tffM+GhPujiVPC08yFURExvRBa3
-         6zvGcMhK4aAFmsSXitYfXJgrPw1zJN8FHh9f2LDRJ2GM5tAu8a5vl2CNSYZSjKa4Kfgp
-         IGkLgpRKJ3KquJ+VcdIBrvwjbApy634dO2kv7hp7B3P/guLLEHUvfLGdG3zoKI3h6FwI
-         q9aw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=Ra/CYr4WLMtqGtIdNq7MY+mEMZaVNqRXCreSrXM7FoM=;
+        b=Z0SXRf9Du8o9uiyDtyyQsAUeKFNNg7HdglHQXhLCztqufzoMsBynG2bFiTcGUw6xiZ
+         2OqB7Olk3G5B56NsQzrlTdWJdzL+NLrfm0vyB0kgS+m+CzYB71tBhQJtU+h24HQrjU+k
+         drhgfBJUpmoEkFJKqqIMjtvlNYdi9N9za5TyEH3bLt0qokswSxQB60olX/kTlaRvlN11
+         SDUN9C+OR0XZa50UdjtFz2smlU9QjUsrOyuuNMhPxwXmU8MQ/tpS8kS/1yZkCFk/OVJK
+         0/0sVxkV0c2rIVNL6Vkou/CMGHQYu7adiVYFqAUxw3pC8E80PoCfbrH3YPlw//dftQPO
+         NqOg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=tjlHQm36;
-       spf=pass (google.com: domain of 3908yywmkcyatggksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::649 as permitted sender) smtp.mailfrom=3908yYwMKCYAtggksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--pcc.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=EkWSYBUh;
+       spf=pass (google.com: domain of pcc@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=pcc@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:mime-version:message-id:date:from:to:cc:subject:date;
-        bh=YHTxXnHTrw7VUx2KC213D8SV07+RfjSyAmo0oW183Cg=;
-        b=SPHWifR+l5aWN6yENM+CXjeoSCJOK6WoqS4LRMZSPS1Ql5r4cYlyreyL3RSAGETyCP
-         PNyRe+ZoWpq9TwNoIiu6hHMOoJ78c106g092Txw0vmI2RzNv1o4V6J5bjcjaMT/V+8ON
-         0c9qe22hTTXWX8cH4CsnM7vgoKnyXbloLKKB1EVkVEXDQhCAl49uJDv86jlKRVfcAKA2
-         Og1NZk8Xs+a+teTTSLuNCDiq80N1m0Cm9b2ZbFAbzLO8DVvgLChaidgaz52kX6My084n
-         5Dl6ZzV8J9oCfS/cKXuFCykcMLAOlVvsddjIpaa4+ccfYyDoxCsupk6hl8b+0qO5d5sb
-         YiBQ==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date;
+        bh=Ra/CYr4WLMtqGtIdNq7MY+mEMZaVNqRXCreSrXM7FoM=;
+        b=di4PuAqQ+S2hzdy1ZLmME0T0iyi0bPOkHmLbABXh2S5zZ05fjrKdtx3xWzGqL2lttd
+         pKx9/nP0W1/uQ2NaxaEOSgpLnLfxV87MX8t6eQRR2aJZ9UlT8lQz3notVzhS0HrXRERw
+         6aqIp/2iEbLasayXPUN+WS4UYzf+t43BrCUX1wGt1YkBB6kyUXMTq0doopnwZLyOmmMo
+         +YsKpg7bTmPqTxy6fKOdPA4qDuFVdizEAklWlMXytJlKIC1Ii0Gm321gX1LhUtGa8yF5
+         Z/Cz6KuCJfAMrIdT60n5q1rN+Inn3r54eWONu/28zlzTDpQf9PvYcpUhUW1KvwPKQNfj
+         dy1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:mime-version:message-id:date:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=YHTxXnHTrw7VUx2KC213D8SV07+RfjSyAmo0oW183Cg=;
-        b=DR/poXLDMPB/ISm3VWWm/ZtkvkSoEVBdTUlhtkVmhoiKsd/vg7yHvPOkP1CZpxTG/b
-         Evp5SfGmV6/khWdAq5D3xJhTK1tH35h/iBKruvPor72ZQ4fO2uIC7ssDE57J7a0UWWrJ
-         I7NT9Zu19fxgRCht+bSm/eSI45hXVNw5/ltC3Ief6jIcqOMQ/VSzLtwBOnUNFfz16zzw
-         chgFg9tEzpoGtYOEl1Xok2pugcU3k66zBOAG91fiH6GvU8cxWQTt057b7P95QxwJq+bU
-         X0lYTAqEEu7TugXwDAdvXp4R1i3n8rj/TvrQsAt61Zay/mjQQR8NA728zJYVhQtUrdSD
-         nR4Q==
-X-Gm-Message-State: ACrzQf2zeggYRqiYGI/g0iTcYLCJGou124jEEDpK3ZJbu5ot11gx9ZKO
-	H/smwTsYOgwpnQMD7kJi0yo=
-X-Google-Smtp-Source: AMsMyM4JbGfzoLNWuqo+Rj0BJyOXiSj9fldaqIN+ao9eP6zHGAQ7tPsmXzsitZbk2UcPo9zlfb+oig==
-X-Received: by 2002:a05:6102:2826:b0:39b:d63:87bb with SMTP id ba6-20020a056102282600b0039b0d6387bbmr9718535vsb.62.1664241656987;
-        Mon, 26 Sep 2022 18:20:56 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=Ra/CYr4WLMtqGtIdNq7MY+mEMZaVNqRXCreSrXM7FoM=;
+        b=F04uuZwTTUKl77NHvtsKqaEVqICFkPEN0md8pMPILAXVmU9Vd2lFXyYP2U3hlEuv5J
+         DIHN2Ij26NrRmDi2HAzNwD7Sh/JDOn5QZFP8aIY6CGnIWiaLk7DNSE2mM6WlYCeSj4jB
+         wOTQkt1dDwk0u9aOOU4roFSPeqqTuCJ1pT9ffsceUC1rXh3etTSOwx8xSCkdOaqpLrm0
+         alWjkIsVHX7mWpFFq9SfxlRXGt6MNkJmcRnPV5y8BppOg2kGGAGtce5MB400bengptkr
+         gp31RTUGRQADRuN/65hzr3cNZ1aevIhOuilljfGN8Rsu6rknJUJArWwIVJBsN3MyEIcc
+         6o2A==
+X-Gm-Message-State: ACrzQf3Y2e2M6YQd1+OvweNWYbyeIepabm2ffnd5FRmBjT5Ru3X3wouj
+	Npw2gbDWcbuVgzXfrsInTt8=
+X-Google-Smtp-Source: AMsMyM7ubQBme/lNnJUUpBvWotWwvFmh1kRK5SVvw0zM6odOMaL5P1duM4GXdmymxDV89tzjTPn9oA==
+X-Received: by 2002:ac2:508b:0:b0:4a0:5d6b:ff14 with SMTP id f11-20020ac2508b000000b004a05d6bff14mr6603242lfm.409.1664241700063;
+        Mon, 26 Sep 2022 18:21:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9f:3231:0:b0:3ae:855a:9a7f with SMTP id x46-20020a9f3231000000b003ae855a9a7fls84761uad.0.-pod-prod-gmail;
- Mon, 26 Sep 2022 18:20:56 -0700 (PDT)
-X-Received: by 2002:ab0:4a54:0:b0:3bf:296c:970d with SMTP id r20-20020ab04a54000000b003bf296c970dmr10362712uae.48.1664241656446;
-        Mon, 26 Sep 2022 18:20:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664241656; cv=none;
+Received: by 2002:ac2:46da:0:b0:48b:2227:7787 with SMTP id p26-20020ac246da000000b0048b22277787ls851850lfo.3.-pod-prod-gmail;
+ Mon, 26 Sep 2022 18:21:38 -0700 (PDT)
+X-Received: by 2002:a05:6512:b0d:b0:4a1:baad:8d7a with SMTP id w13-20020a0565120b0d00b004a1baad8d7amr4754713lfu.293.1664241698827;
+        Mon, 26 Sep 2022 18:21:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664241698; cv=none;
         d=google.com; s=arc-20160816;
-        b=vB6LNO74dxfM2j0gCq6hRZbSKN3KyulpaadjE4yYybhtt4rY9/O449HTwVk+kQRqNM
-         2MHiySNl5/nzXv2eKx9pufvns3kr7je2NXh7GFQKhAlrJxW9TN4SF88toX/Ln2iQGrPm
-         rCA4hexo4ImgfpdiEbRNGJ4JsHDxgxdrUDSpbBoHtot9dkhO8JCsD0xg/CoBHf4R49uC
-         yWU+QpWyJOxklRzyYXhuebDjb8tDYyI26ph/Znrvi/sCqCaRrlF+xDDP8tvlZ7Ir2MMH
-         NZxz3JUaediy/owhnbj/zhI1URNULzrP6f9KiZ86gomvRxdo8QCkuG6/FNDjHfzoRnPb
-         X0QA==
+        b=xaF0yaiJDoM1vpufGH2d/65OUE4xm6PZIX2D9IbZ0+r4CVUkaEVGxl64qpOSfysOGU
+         ptifGmw/O9KTe7NVZil0E9DkVyf+2fiuYN8+QdG2rUdIjIPeYfiMN1whRiBoR/7VpE/I
+         PbfrwZ+CKorMSIDfRW1Fj5vzmy1+apGs3oOeNnDJ9fWEfa5D43VW98WlPPaZoSL20w0i
+         33IWY/yWHlWVtx7rxHXcQWV/v0cX8G1z2fSWuOcpQ1eytZvZA7BsDsG1lipughXGKljg
+         /bgmz6MGWUn9CF7/9Rcq5rXrh1ZiAzneXe9JyCRoT2zlBhNgFQdso3fismQhdAG0+PT1
+         hPvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=HOCMPjoy0eVPzOqsFhY6VeQ9OoDjjjrEl2+DddMJ/3E=;
-        b=FM9TSQGfBdsAwbez7oduPERZUdts5CXFEtHr5lq3kCAAhgPa0QdFQk4NVxmDSH4kMu
-         VCHCYb6WXlg0oWw3lp6dSd9GKUkZCLJvi9GWoLEjXOmVTNp4MrwZ9V+NWpw7VxviuKR1
-         XlkRSGcb4LmVAvzRtXUgT+TNXfB7UXh8IAuFBymomMidlFJIXX6g8hdaqvSaW7o0piev
-         Tb3cL0VgWcBB16NSs36hd8Upm7PkfzaqtirXR2IeTZ3dUmd6y0htCnucN9CQDvZr4lxW
-         HAxWTqnwmA430dJtA3wgrivHQFkpkc4Bg1SsR40GWe1V4PryQqola3pmhBIU1UPAGT+7
-         kneQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=acezLh2g6SPY0/YcmOwVy1TcnXLq7PIJSasjJauijnc=;
+        b=UoVbdxSEynEcIYI6pypYKLRn88yh1Mt8gYtZ86AJj4PfGhRZ77dv8T7lKhVgyJS27U
+         KlBUDOyLqR0SOfnyG7Eqsojf0YLV35RN5F3w45vC/f0wjwyK1eaKdT3OFpO5rPfZdtR/
+         s9Dd7MhIxzbpVJYPzI397pl/+jdpUJNbjSaEpWewnxXN4+xtQ8nsnHy4qGFn6FRflBL7
+         bQjFqnwwGp9x+rZUN8bHVzOJfqtyG0N7o5O4UHPcacKtTh8z0aX0NoAs/u9jCem5bffC
+         7S8Do0kf8fEmmkV4dXAYkHjvGU9m0Zk1RsI9wHjiW12DaUFGXm6c9B8Bo+8QHLb/gMq2
+         1Kdg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=tjlHQm36;
-       spf=pass (google.com: domain of 3908yywmkcyatggksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::649 as permitted sender) smtp.mailfrom=3908yYwMKCYAtggksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--pcc.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=EkWSYBUh;
+       spf=pass (google.com: domain of pcc@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=pcc@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com. [2607:f8b0:4864:20::649])
-        by gmr-mx.google.com with ESMTPS id w140-20020a1f9492000000b003760f8bf2a0si6319vkd.2.2022.09.26.18.20.56
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com. [2a00:1450:4864:20::32d])
+        by gmr-mx.google.com with ESMTPS id v7-20020ac25587000000b0049ba11e2f38si415lfg.11.2022.09.26.18.21.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 18:20:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3908yywmkcyatggksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::649 as permitted sender) client-ip=2607:f8b0:4864:20::649;
-Received: by mail-pl1-x649.google.com with SMTP id u5-20020a170902e80500b00178944c46aaso5389433plg.4
-        for <kasan-dev@googlegroups.com>; Mon, 26 Sep 2022 18:20:56 -0700 (PDT)
-X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:200:feb1:62f4:7ee4:fd92])
- (user=pcc job=sendgmr) by 2002:a05:6a00:1688:b0:53b:4239:7c5c with SMTP id
- k8-20020a056a00168800b0053b42397c5cmr27123207pfc.81.1664241655587; Mon, 26
- Sep 2022 18:20:55 -0700 (PDT)
-Date: Mon, 26 Sep 2022 18:20:44 -0700
-Message-Id: <20220927012044.2794384-1-pcc@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.3.998.g577e59143f-goog
-Subject: [PATCH v2] kasan: also display registers for reports from HW exceptions
+        Mon, 26 Sep 2022 18:21:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of pcc@google.com designates 2a00:1450:4864:20::32d as permitted sender) client-ip=2a00:1450:4864:20::32d;
+Received: by mail-wm1-x32d.google.com with SMTP id iv17so5594377wmb.4
+        for <kasan-dev@googlegroups.com>; Mon, 26 Sep 2022 18:21:38 -0700 (PDT)
+X-Received: by 2002:a05:600c:21c2:b0:3b4:7272:bfd3 with SMTP id
+ x2-20020a05600c21c200b003b47272bfd3mr822268wmj.148.1664241698147; Mon, 26 Sep
+ 2022 18:21:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220910052426.943376-1-pcc@google.com> <CA+fCnZdwqOJaT+UXaRF_1Lu8661bxB2WOYb1TiXunBoXdvTBhg@mail.gmail.com>
+ <CAMn1gO4XNgWCxmkt8D3SKXUzAbwqTmrAdwBh45vz4WoPoJ6Chg@mail.gmail.com> <CA+fCnZcu=Zii9K6VA+W_ji7z=C8WifNxX3xL_a=u1Q7wbeoOVw@mail.gmail.com>
+In-Reply-To: <CA+fCnZcu=Zii9K6VA+W_ji7z=C8WifNxX3xL_a=u1Q7wbeoOVw@mail.gmail.com>
 From: "'Peter Collingbourne' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Peter Collingbourne <pcc@google.com>, linux-arm-kernel@lists.infradead.org, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org
+Date: Mon, 26 Sep 2022 18:21:26 -0700
+Message-ID: <CAMn1gO7ni478G=Z0FwYMoGm1d04BETpwPkg8J=bKa0SO3217eA@mail.gmail.com>
+Subject: Re: [PATCH] kasan: also display registers for reports from HW exceptions
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: pcc@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=tjlHQm36;       spf=pass
- (google.com: domain of 3908yywmkcyatggksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--pcc.bounces.google.com
- designates 2607:f8b0:4864:20::649 as permitted sender) smtp.mailfrom=3908yYwMKCYAtggksskpi.gsqoewer-hizksskpikvsytw.gsq@flex--pcc.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20210112 header.b=EkWSYBUh;       spf=pass
+ (google.com: domain of pcc@google.com designates 2a00:1450:4864:20::32d as
+ permitted sender) smtp.mailfrom=pcc@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Peter Collingbourne <pcc@google.com>
 Reply-To: Peter Collingbourne <pcc@google.com>
 Precedence: list
@@ -130,155 +135,149 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-It is sometimes useful to know the values of the registers when a KASAN
-report is generated. We can do this easily for reports that resulted from
-a hardware exception by passing the struct pt_regs from the exception into
-the report function; do so, but only in HW tags mode because registers
-may have been corrupted during the check in other modes.
+On Sat, Sep 24, 2022 at 11:23 AM Andrey Konovalov <andreyknvl@gmail.com> wrote:
+>
+> On Tue, Sep 13, 2022 at 6:00 AM Peter Collingbourne <pcc@google.com> wrote:
+> >
+> > Hi Andrey,
+> >
+> > The most useful case would be for tag check faults with HW tags based
+> > KASAN where the errant instruction would result in an immediate
+> > exception which gives the kernel the opportunity to save all of the
+> > registers to the struct pt_regs.
+>
+> Right.
+>
+> > For SW tags based KASAN with inline
+> > checks it is less useful because some registers will have been used to
+> > perform the check but I imagine that in some cases even that could be
+> > better than nothing.
+>
+> Let's not print the registers for the SW_TAGS mode then. I think
+> sometimes-irrelevant values might confuse people.
 
-Signed-off-by: Peter Collingbourne <pcc@google.com>
----
-Applies to -next.
+Done in v2.
 
-v2:
-- only do this in HW tags mode
-- move pr_err to caller
+> > Peter
+> >
+> > > > We can do this easily for reports that resulted from
+> > > > a hardware exception by passing the struct pt_regs from the exception into
+> > > > the report function; do so.
+> > > >
+> > > > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > > > ---
+> > > > Applies to -next.
+> > > >
+> > > >  arch/arm64/kernel/traps.c |  3 +--
+> > > >  arch/arm64/mm/fault.c     |  2 +-
+> > > >  include/linux/kasan.h     | 10 ++++++++++
+> > > >  mm/kasan/kasan.h          |  1 +
+> > > >  mm/kasan/report.c         | 27 ++++++++++++++++++++++-----
+> > > >  5 files changed, 35 insertions(+), 8 deletions(-)
+> > > >
+> > > > diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
+> > > > index b7fed33981f7..42f05f38c90a 100644
+> > > > --- a/arch/arm64/kernel/traps.c
+> > > > +++ b/arch/arm64/kernel/traps.c
+> > > > @@ -1019,9 +1019,8 @@ static int kasan_handler(struct pt_regs *regs, unsigned long esr)
+> > > >         bool write = esr & KASAN_ESR_WRITE;
+> > > >         size_t size = KASAN_ESR_SIZE(esr);
+> > > >         u64 addr = regs->regs[0];
+> > > > -       u64 pc = regs->pc;
+> > > >
+> > > > -       kasan_report(addr, size, write, pc);
+> > > > +       kasan_report_regs(addr, size, write, regs);
+> > > >
+> > > >         /*
+> > > >          * The instrumentation allows to control whether we can proceed after
+> > > > diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> > > > index 5b391490e045..c4b91f5d8cc8 100644
+> > > > --- a/arch/arm64/mm/fault.c
+> > > > +++ b/arch/arm64/mm/fault.c
+> > > > @@ -316,7 +316,7 @@ static void report_tag_fault(unsigned long addr, unsigned long esr,
+> > > >          * find out access size.
+> > > >          */
+> > > >         bool is_write = !!(esr & ESR_ELx_WNR);
+> > > > -       kasan_report(addr, 0, is_write, regs->pc);
+> > > > +       kasan_report_regs(addr, 0, is_write, regs);
+> > > >  }
+> > > >  #else
+> > > >  /* Tag faults aren't enabled without CONFIG_KASAN_HW_TAGS. */
+> > > > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> > > > index d811b3d7d2a1..381aea149353 100644
+> > > > --- a/include/linux/kasan.h
+> > > > +++ b/include/linux/kasan.h
+> > > > @@ -353,6 +353,16 @@ static inline void *kasan_reset_tag(const void *addr)
+> > > >  bool kasan_report(unsigned long addr, size_t size,
+> > > >                 bool is_write, unsigned long ip);
+> > > >
+> > > > +/**
+> > > > + * kasan_report_regs - print a report about a bad memory access detected by KASAN
+> > > > + * @addr: address of the bad access
+> > > > + * @size: size of the bad access
+> > > > + * @is_write: whether the bad access is a write or a read
+> > > > + * @regs: register values at the point of the bad memory access
+> > > > + */
+> > > > +bool kasan_report_regs(unsigned long addr, size_t size, bool is_write,
+> > > > +                      struct pt_regs *regs);
+> > > > +
+> > > >  #else /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS */
+> > > >
+> > > >  static inline void *kasan_reset_tag(const void *addr)
+> > > > diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> > > > index abbcc1b0eec5..39772c21a8ae 100644
+> > > > --- a/mm/kasan/kasan.h
+> > > > +++ b/mm/kasan/kasan.h
+> > > > @@ -175,6 +175,7 @@ struct kasan_report_info {
+> > > >         size_t access_size;
+> > > >         bool is_write;
+> > > >         unsigned long ip;
+> > > > +       struct pt_regs *regs;
+> > > >
+> > > >         /* Filled in by the common reporting code. */
+> > > >         void *first_bad_addr;
+> > > > diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> > > > index 39e8e5a80b82..eac9cd45b4a1 100644
+> > > > --- a/mm/kasan/report.c
+> > > > +++ b/mm/kasan/report.c
+> > > > @@ -24,6 +24,7 @@
+> > > >  #include <linux/types.h>
+> > > >  #include <linux/kasan.h>
+> > > >  #include <linux/module.h>
+> > > > +#include <linux/sched/debug.h>
+> > > >  #include <linux/sched/task_stack.h>
+> > > >  #include <linux/uaccess.h>
+> > > >  #include <trace/events/error_report.h>
+> > > > @@ -284,7 +285,6 @@ static void print_address_description(void *addr, u8 tag,
+> > > >  {
+> > > >         struct page *page = addr_to_page(addr);
+> > > >
+> > > > -       dump_stack_lvl(KERN_ERR);
+> > > >         pr_err("\n");
+>
+> Please pull this pr_err out of this function and put right before the
+> function is called.
 
- arch/arm64/mm/fault.c |  2 +-
- include/linux/kasan.h | 10 ++++++++++
- mm/kasan/kasan.h      |  1 +
- mm/kasan/report.c     | 30 +++++++++++++++++++++++-------
- 4 files changed, 35 insertions(+), 8 deletions(-)
+Done in v2.
 
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 5b391490e045..c4b91f5d8cc8 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -316,7 +316,7 @@ static void report_tag_fault(unsigned long addr, unsigned long esr,
- 	 * find out access size.
- 	 */
- 	bool is_write = !!(esr & ESR_ELx_WNR);
--	kasan_report(addr, 0, is_write, regs->pc);
-+	kasan_report_regs(addr, 0, is_write, regs);
- }
- #else
- /* Tag faults aren't enabled without CONFIG_KASAN_HW_TAGS. */
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index d811b3d7d2a1..381aea149353 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -353,6 +353,16 @@ static inline void *kasan_reset_tag(const void *addr)
- bool kasan_report(unsigned long addr, size_t size,
- 		bool is_write, unsigned long ip);
- 
-+/**
-+ * kasan_report_regs - print a report about a bad memory access detected by KASAN
-+ * @addr: address of the bad access
-+ * @size: size of the bad access
-+ * @is_write: whether the bad access is a write or a read
-+ * @regs: register values at the point of the bad memory access
-+ */
-+bool kasan_report_regs(unsigned long addr, size_t size, bool is_write,
-+		       struct pt_regs *regs);
-+
- #else /* CONFIG_KASAN_SW_TAGS || CONFIG_KASAN_HW_TAGS */
- 
- static inline void *kasan_reset_tag(const void *addr)
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index abbcc1b0eec5..39772c21a8ae 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -175,6 +175,7 @@ struct kasan_report_info {
- 	size_t access_size;
- 	bool is_write;
- 	unsigned long ip;
-+	struct pt_regs *regs;
- 
- 	/* Filled in by the common reporting code. */
- 	void *first_bad_addr;
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index df3602062bfd..be8dd97940c7 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -24,6 +24,7 @@
- #include <linux/types.h>
- #include <linux/kasan.h>
- #include <linux/module.h>
-+#include <linux/sched/debug.h>
- #include <linux/sched/task_stack.h>
- #include <linux/uaccess.h>
- #include <trace/events/error_report.h>
-@@ -281,9 +282,6 @@ static void print_address_description(void *addr, u8 tag,
- {
- 	struct page *page = addr_to_page(addr);
- 
--	dump_stack_lvl(KERN_ERR);
--	pr_err("\n");
--
- 	if (info->cache && info->object) {
- 		describe_object(addr, info);
- 		pr_err("\n");
-@@ -391,11 +389,15 @@ static void print_report(struct kasan_report_info *info)
- 		kasan_print_tags(tag, info->first_bad_addr);
- 	pr_err("\n");
- 
-+	if (info->regs)
-+		show_regs(info->regs);
-+	else
-+		dump_stack_lvl(KERN_ERR);
-+
- 	if (addr_has_metadata(addr)) {
-+		pr_err("\n");
- 		print_address_description(addr, tag, info);
- 		print_memory_metadata(info->first_bad_addr);
--	} else {
--		dump_stack_lvl(KERN_ERR);
- 	}
- }
- 
-@@ -467,8 +469,8 @@ void kasan_report_invalid_free(void *ptr, unsigned long ip, enum kasan_report_ty
-  * user_access_save/restore(): kasan_report_invalid_free() cannot be called
-  * from a UACCESS region, and kasan_report_async() is not used on x86.
-  */
--bool kasan_report(unsigned long addr, size_t size, bool is_write,
--			unsigned long ip)
-+static bool __kasan_report(unsigned long addr, size_t size, bool is_write,
-+			unsigned long ip, struct pt_regs *regs)
- {
- 	bool ret = true;
- 	void *ptr = (void *)addr;
-@@ -489,6 +491,7 @@ bool kasan_report(unsigned long addr, size_t size, bool is_write,
- 	info.access_size = size;
- 	info.is_write = is_write;
- 	info.ip = ip;
-+	info.regs = regs;
- 
- 	complete_report_info(&info);
- 
-@@ -502,6 +505,19 @@ bool kasan_report(unsigned long addr, size_t size, bool is_write,
- 	return ret;
- }
- 
-+bool kasan_report(unsigned long addr, size_t size, bool is_write,
-+			unsigned long ip)
-+{
-+	return __kasan_report(addr, size, is_write, ip, NULL);
-+}
-+
-+bool kasan_report_regs(unsigned long addr, size_t size, bool is_write,
-+		       struct pt_regs *regs)
-+{
-+	return __kasan_report(addr, size, is_write, instruction_pointer(regs),
-+			      regs);
-+}
-+
- #ifdef CONFIG_KASAN_HW_TAGS
- void kasan_report_async(void)
- {
--- 
-2.37.3.998.g577e59143f-goog
+> > > >
+> > > >         if (info->cache && info->object) {
+> > > > @@ -394,11 +394,14 @@ static void print_report(struct kasan_report_info *info)
+> > > >                 kasan_print_tags(tag, info->first_bad_addr);
+> > > >         pr_err("\n");
+> > > >
+> > > > +       if (info->regs)
+> > > > +               show_regs(info->regs);
+>
+> Looks like show_regs prints with KERN_DEFAULT. Inconsistent with
+> KERN_ERR used for the rest of the report, but looks like there's no
+> easy way to fix this. Let's leave as is.
+
+Ack.
+
+Peter
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220927012044.2794384-1-pcc%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAMn1gO7ni478G%3DZ0FwYMoGm1d04BETpwPkg8J%3DbKa0SO3217eA%40mail.gmail.com.
