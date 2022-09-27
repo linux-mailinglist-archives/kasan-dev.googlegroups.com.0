@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCQPVKWLVAIRBNNRZKMQMGQE2NQBFKA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCWZBO5OREMRBJ5TZKMQMGQEJROTYSI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3e.google.com (mail-yb1-xb3e.google.com [IPv6:2607:f8b0:4864:20::b3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5905EBAAA
-	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 08:31:18 +0200 (CEST)
-Received: by mail-yb1-xb3e.google.com with SMTP id v17-20020a259d91000000b006b4c31c0640sf7771073ybp.18
-        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 23:31:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664260277; cv=pass;
+Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A505EBAC5
+	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 08:35:20 +0200 (CEST)
+Received: by mail-wr1-x438.google.com with SMTP id i27-20020adfaadb000000b0022a48b6436dsf1812702wrc.23
+        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 23:35:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664260519; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hDrjwm1Lg1aaQoz48+QPfym0xqA+fwzh4L/UOp2y04WK4TqTxVUEx1sVg8k2/wdBO7
-         NMcJUXe3pPc/O8jgc95vmCsxF9XS7G+Jvm6SjPXkHw9Wc9WjfLYWvgMZs4iNFrfn+IvH
-         oCEpyvPxpBt+WzKoV57cqK6EEZ65oX9qlqpNi/Mo5qAOHt2GAZazpVG/lq0UQUpyHn/M
-         WhiLi/l/lHUmlKCyWDKgyhBHlyRNSXdOKbhI1xWmrn+ZQZxNFaBcTT1mOUp1zPfmsCbI
-         TcVO36KmGHHUe92pW4DcS850Rr5pFwwmBWfG6Y6ib6yOKaCGc/hoGbhcYJw2rRNXUn08
-         A+pA==
+        b=SAzZLIop6iSHrUk47MXoo+6JDFk1TPxWDYhdXUvcXgC6O2quVTHRt+3oP6txJTcaAG
+         jfHwA2i2AXfs8IX0RejAfhCfu2at7gLoBVPVjBBONgttkW9gKZQJKPubSZjDyTQ9NcIi
+         Bxx7UVZoUqI6lkI/mdInqgNhgAYtC8wbdI5FXjMeP2EBFMsr81PERWpjIBCKtJlqQ+hL
+         XlPcBjePTRGHSwAxW9hOvVfVrIQiqTb07V21adI4B3URX+nkfOxRRN669hwCccOokI6W
+         qfAk98/LvoGKsbWn95irJgYjYC8sM6vnD7Jo4C2ygREpkMJvODpV9jrgaT019kfaQKhF
+         VUag==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=tVZ+gR3QMUAp68HIU2wRHd4/o2MpXTsFAp0z2k4CGrs=;
-        b=T+h7lCoHwVe1hJR51ahGlhO5dfs/vscMBqHVFqdyWJYuP9zwcwwTQ/UzFTEAWqBV7d
-         DxQx9XaHd4KmgkXYe/NtUa7cErojHaEDyNyerj23CeeAfeQJR/7+xfDZCHTOMCYe8H6k
-         CqVfQkcc6PDIln7gRmyNktKVj2kYHQUcWBuBMqPwmTo/bvNxRGn4Gqhp32OMCZWpXKfL
-         SYjmPciMgC8MkneqhXBpr6+YAk/bqTQiYo+rKTgGKn3Fl58ERv34Xg1Hc6U4jkQ/3e+c
-         cGG1NV08E9OCt2st2IpOkNjN3PeEzoYNWcDYqcxB3xHwwY3mBpveO6zoSvV/dTvPkx5y
-         GiCg==
+        bh=S8P7iGH+/LaEho5Ua7yrHGF2FyeirRJ8C7/5PAD7WbM=;
+        b=L/35FGXH37G8CeANcDzm/LWRdr6WwyY8kfWiLd3pO1rysSqbd8FCn7V0GuRMy/GWjL
+         ostOPNhT0yaqOwmf7G2/lvuwJgFTftMO7dA/KY+mXLAPBgNo0Yz87t8WlUDxd+hIrCWJ
+         Rb67qUefpjYT6SglrnIssx9oCcZfUZEO7mkPy8jV91QB6bgSauYt4pfh7WGaPkn1mprt
+         baz6cUpk1BpvRDayyN6P1HmESqvAVQ1CmnsB9jyk1s5VlDk//nlnpal4h+hodFnG4BBP
+         DGOhQlFCui9shpeS/M67Ym/RESFNj5vdqIf5pYLxD97mFzbr1ifHBorQ0egiyhqqT2fB
+         aAtA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 72.249.23.125 is neither permitted nor denied by best guess record for domain of tony@atomide.com) smtp.mailfrom=tony@atomide.com
+       spf=neutral (google.com: 136.243.71.142 is neither permitted nor denied by best guess record for domain of linux@dominikbrodowski.net) smtp.mailfrom=linux@dominikbrodowski.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date;
-        bh=tVZ+gR3QMUAp68HIU2wRHd4/o2MpXTsFAp0z2k4CGrs=;
-        b=JfssHj5dB/6kFUtiDRUXqvbXm+TwBn838/XKrUejxxkntJ+4PD4g+D2YnTOtuR6qG7
-         DTeYz2BoRJG+pjO/hpYNqYS3v1HzoTpJAOgAYe2QWIZ2cwq4/2bEdtkdt1n/zL0cEcr+
-         k/3203lrFnODItCr7C5eAXMxddsquqenfYRZ7wAmSCg6lIHJNoXQQky7YMzNqNHnWmvN
-         tR+uV+8Beb0VuPUtHvte8QhJtUNOkZtMf6zY3zYDuueYeV4qSxjk0RmvgvJmXcUZXKPu
-         86/OSpkKgvHbhD7PwdPTlJJnOm3kXSJvBHOiN/Tc32ijnu1P6wI0XFu0h2eIYVn4CCzc
-         lKXg==
+        bh=S8P7iGH+/LaEho5Ua7yrHGF2FyeirRJ8C7/5PAD7WbM=;
+        b=O2Mh0bWA848YYL7wkGjFhXj6C//CQ4cvq/yLSa3kkRW/1Rbj+4rKJQYbW44nU5toMF
+         tC4wcbkTm0Zl5FGsQVSlsCLEu2NnVj3hqP6fDe6tZs7RLk5xb88jjisuqmDZLxjpgMQN
+         T1mcmwfco4qn+8iXyRpzCxOltseYcwUVqrbGFobSPB6Oyboxq3zclLvEEB9a7BU736DF
+         w+GcqEHcmN1fJvk0YPCwrCT1ZBoPWOLFYtve0MhjSLnvRuJaDrdIA+ZZvStrcnK6G2Fh
+         o5ki35nVEgwBxLkEybZYsqgnugc027tDOR7BK3i6dhxbx0Pv4sgXp096x2ne6IB2p9VS
+         emqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -49,124 +49,80 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=tVZ+gR3QMUAp68HIU2wRHd4/o2MpXTsFAp0z2k4CGrs=;
-        b=DMrcm74oAtaIdjQKl83PotSDnchnM8y6TyL9v0R0+tUektCb8rHbODg75JtPPPkN8J
-         Lt9e5h7wCzzjE/VYGV6kil55KBH57nL1bFvPvwdHo1UP4ozAPksfkhVjR3bWrSAnFUF6
-         RozgqXXPkSC9KfGpUwTJpfShdIoZ0ZeDlBIw5v9f31ZvWLTsq90qjVQoagKehF50QcQ4
-         tGNftYB7y0S8USQNnkhGQnajOCT0aJgsTMrI+Ly9Qrlmw5RBG/nloMpTynkY1XsSvRzv
-         3iBGDIcR2iiVexQmyDWHV85Dm/bH1Ob+HzAwq4zpuQZsNAokmJ4S9igbi3SB0FVGTMIC
-         tZgw==
+        bh=S8P7iGH+/LaEho5Ua7yrHGF2FyeirRJ8C7/5PAD7WbM=;
+        b=RCjimXRpxcf22kbZr1+mpSH2VmVpJx8vafeTxTCYhE3n30EVK4u8uXWkgi5s+X7iWc
+         AaQfoqbj5Q7cwTfzlbptVfMhJHpPRhzLupVMehakbsTfLDMu/Bor3FMS5u97L2neJFhL
+         JUK5uhKW109oNPHE2Y94TVwQ/dET69bXMVR/sm510cwWPqOq06PeGu2kGfp4a8MZlolS
+         P4ImtH6dq2x3GXXtQya+vP924YUVrWUDUHSlA0MyWqrM3LwBGrSGI3B3lkWz8pC1yYzf
+         ntlHCCeLT16w8Q5t4xX1ktLXaaz02IyM46OA87xGJ7DRfh2lwK8tb+/19ik5LAw+kBv7
+         wRSw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1PwWgTZVrrDyawB6Rx0vEjLQ4JlT5LzZuAz/2h3WD2H8ODRrfm
-	XsDTcRUUXpM3wHN3nJRjjK4=
-X-Google-Smtp-Source: AMsMyM5YBuM67q3qjMD5yEdprXZ8UJcOv3ux7h3c3EStAByd3dnONh8ULZ8LsYTdd9nurtPT2kga/w==
-X-Received: by 2002:a81:4c45:0:b0:345:4178:1805 with SMTP id z66-20020a814c45000000b0034541781805mr24747202ywa.114.1664260277333;
-        Mon, 26 Sep 2022 23:31:17 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0l1gXZ/JcWIKQleamUe8QyH+QEyVKyU2QIn/EDQxDYcfELkV//
+	ge539p6M1effqLHur9VLanU=
+X-Google-Smtp-Source: AMsMyM6cb1TM9It6K6TxQMIm/n1O4hAo/s4NghYwsJAip2Zzh3ypTeTGdDpjjRuTwkz55IATY4K/8A==
+X-Received: by 2002:a1c:7315:0:b0:3b4:e1b8:47b2 with SMTP id d21-20020a1c7315000000b003b4e1b847b2mr1360331wmb.165.1664260519621;
+        Mon, 26 Sep 2022 23:35:19 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:a342:0:b0:6a9:454a:4e83 with SMTP id d60-20020a25a342000000b006a9454a4e83ls1008717ybi.11.-pod-prod-gmail;
- Mon, 26 Sep 2022 23:31:16 -0700 (PDT)
-X-Received: by 2002:a25:e311:0:b0:6bb:bf9a:e762 with SMTP id z17-20020a25e311000000b006bbbf9ae762mr6822421ybd.110.1664260276726;
-        Mon, 26 Sep 2022 23:31:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664260276; cv=none;
+Received: by 2002:a1c:4b11:0:b0:3a5:24fe:28ff with SMTP id y17-20020a1c4b11000000b003a524fe28ffls476247wma.0.-pod-control-gmail;
+ Mon, 26 Sep 2022 23:35:18 -0700 (PDT)
+X-Received: by 2002:a7b:ce99:0:b0:3b4:9031:fc02 with SMTP id q25-20020a7bce99000000b003b49031fc02mr1416999wmj.154.1664260518483;
+        Mon, 26 Sep 2022 23:35:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664260518; cv=none;
         d=google.com; s=arc-20160816;
-        b=aFUDPAUKv9tqP1RwzfqhiPq40eynZLoBksemrjb5nGNI36PQ0rvGvdRh3ZYbT3JoGs
-         u1QCM1++0QBBisco3LcxMg8fSJNLpOnDkS+RktCIX2ORVQww+krM1Y/4jxuSwnYm3Bth
-         n5jf4KHeIHPASj9yzPAYGZYG6dHIMi1gLW8bM5TtuQ0T93TJD9MPtV4IeOjc4trzk5Sj
-         eG8b8vvzSvay4q4pLUXVWdh/5tZswF6+hbncr0gv3x8D1PlFqNqpRyHvPJ7Ty8fI+zGM
-         vW+O+5jeQsx3tfR17l4Gz33hnSD2noILDB+3z0peMKbhJuGzbUPhGoqNPtfAkOpykZH9
-         lAMA==
+        b=ZcdRSd8FK/BUCSMSOqrrHmclQS4bQW5FvsffEGvIQSyFIXfOMY7u3bAbiLCrHYgMrL
+         gC05A296WXJ0cMC6CsKoYfqAPOpcxd3JsZWVltj/EQiE0Pi8XqQyn+4F1VMWzekZa3n/
+         yaFzKXpQ0MkImsT9PPv/7obUnz0PQWM9cRhWKedRl6TUb70J3K1UEbBZBjUmeYGcQrDj
+         trrsZ/VhJQVNGwveRjOOfqA7MfD8wRiTVl5xbiLam4RczBcmavn+hgCVSx+QaP7nOknf
+         YQS2DgADKI3ogjwFrxbVTtLnDsfyZOQcofEPA23EM7MA9mPTz+v7JGySTA1dULNiJsHC
+         NAdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date;
-        bh=Qo1+uET5gHpcCBtdQyHI5fAdMrtG4s4iexHkHEsNJ9A=;
-        b=FXMmLlL7mBObu0XRz1UK5TeVpNckHezKdkRL6VdWOd8pVNB10J9VDTE5myqnGZ8nP1
-         ERpI5f7jUAWWze8GK8C7ZegJakaQsu2bxsAEdxv5KWxMI3tEBAm0J6SuAjVYT2y303QT
-         nA5Y8EBX+5Mob1Ajboqd2DCJzRzYa/88/abnyuk6Ji0o9wRheIYYPLo3EepG+FjARnpJ
-         2gNTrZ2t73Ap3qrdEa4WcjykB6dpL34HI5snRDUDHtKuEmsNeUyGgt3TdLznWk5bTcJ3
-         k0ve8c4RGNi2VbCY4KfhFlgWlRRv8rFV9XgljYCDzoZbExaRa2nzS4aP2+qYqRhQ0xrw
-         sb/Q==
+        bh=SBMGM6+2Z/ixqQYdWeAELZ6LNs3350/MmWMj81IrLYw=;
+        b=0kE5y+G6gHPSsS4BJ/ZQ5cnqLcAtJTA+R0giqVUFpX40xcmTM5qn7qgTOfQw70inyy
+         vFZJM2uMFjYgmXwXp4jU+qGNs1useREP90MG58FGSjONS32QNRwjazQxC5ivSaeuIF5X
+         BSA20DRfDoQQgONWa1GLYVk5HbtyngcpzW98NeXVprOJ4M3FJIQ6GETfUrO8q5SaM0zf
+         BNPklhcX8KmjfYGy0jiC9iowGpFLBtxq4ol4YGtjv7enHjc2CwvCj7WpGdcIvGAsJfcB
+         SIYxj0MG7/Sh1rrGGiXQpl4N9es2hkamP8oXLzqOB2+XxNqBzlYBEeDnSwjbP4TtFAIW
+         ouaw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 72.249.23.125 is neither permitted nor denied by best guess record for domain of tony@atomide.com) smtp.mailfrom=tony@atomide.com
-Received: from muru.com (muru.com. [72.249.23.125])
-        by gmr-mx.google.com with ESMTP id t195-20020a0deacc000000b00349f81a2957si33074ywe.1.2022.09.26.23.31.16
-        for <kasan-dev@googlegroups.com>;
-        Mon, 26 Sep 2022 23:31:16 -0700 (PDT)
-Received-SPF: neutral (google.com: 72.249.23.125 is neither permitted nor denied by best guess record for domain of tony@atomide.com) client-ip=72.249.23.125;
-Received: from localhost (localhost [127.0.0.1])
-	by muru.com (Postfix) with ESMTPS id 5E7B081BD;
-	Tue, 27 Sep 2022 06:22:54 +0000 (UTC)
-Date: Tue, 27 Sep 2022 09:31:11 +0300
-From: Tony Lindgren <tony@atomide.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
-	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
-	ulli.kroll@googlemail.com, linus.walleij@linaro.org,
-	shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	khilman@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-	guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org,
-	kernel@xen0n.name, geert@linux-m68k.org, sammy@sammy.net,
-	monstr@monstr.eu, tsbogend@alpha.franken.de, dinguyen@kernel.org,
-	jonas@southpole.se, stefan.kristiansson@saunalahti.fi,
-	shorne@gmail.com, James.Bottomley@hansenpartnership.com,
-	deller@gmx.de, mpe@ellerman.id.au, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com,
-	gor@linux.ibm.com, agordeev@linux.ibm.com,
-	borntraeger@linux.ibm.com, svens@linux.ibm.com,
-	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
-	richard@nod.at, anton.ivanov@cambridgegreys.com,
-	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, acme@kernel.org, mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-	namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu,
-	amakhalov@vmware.com, pv-drivers@vmware.com,
-	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-	gregkh@linuxfoundation.org, mturquette@baylibre.com,
-	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-	sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org,
-	konrad.dybcio@somainline.org, anup@brainfault.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	jacob.jun.pan@linux.intel.com, atishp@atishpatra.org,
-	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
-	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-	dennis@kernel.org, tj@kernel.org, cl@linux.com, rostedt@goodmis.org,
-	pmladek@suse.com, senozhatsky@chromium.org,
-	john.ogness@linutronix.de, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
-	vschneid@redhat.com, fweisbec@gmail.com, ryabinin.a.a@gmail.com,
-	glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 00/44] cpuidle,rcu: Clean up the mess
-Message-ID: <YzKYrx8Kd9SBYcUg@atomide.com>
-References: <20220919095939.761690562@infradead.org>
+       spf=neutral (google.com: 136.243.71.142 is neither permitted nor denied by best guess record for domain of linux@dominikbrodowski.net) smtp.mailfrom=linux@dominikbrodowski.net
+Received: from isilmar-4.linta.de (isilmar-4.linta.de. [136.243.71.142])
+        by gmr-mx.google.com with ESMTPS id k185-20020a1ca1c2000000b003a49e4e7e14si50449wme.0.2022.09.26.23.35.18
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 23:35:18 -0700 (PDT)
+Received-SPF: neutral (google.com: 136.243.71.142 is neither permitted nor denied by best guess record for domain of linux@dominikbrodowski.net) client-ip=136.243.71.142;
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+Received: from owl.dominikbrodowski.net (owl.brodo.linta [10.2.0.111])
+	by isilmar-4.linta.de (Postfix) with ESMTPSA id C6814201327;
+	Tue, 27 Sep 2022 06:35:17 +0000 (UTC)
+Received: by owl.dominikbrodowski.net (Postfix, from userid 1000)
+	id 0FD2E80536; Tue, 27 Sep 2022 08:35:10 +0200 (CEST)
+Date: Tue, 27 Sep 2022 08:35:10 +0200
+From: Dominik Brodowski <linux@dominikbrodowski.net>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	kasan-dev@googlegroups.com, Kees Cook <keescook@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] random: split initialization into early step and
+ later step
+Message-ID: <YzKZnkwCi0UwY/4Q@owl.dominikbrodowski.net>
+References: <20220926213130.1508261-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20220919095939.761690562@infradead.org>
-X-Original-Sender: tony@atomide.com
+In-Reply-To: <20220926213130.1508261-1-Jason@zx2c4.com>
+X-Original-Sender: linux@dominikbrodowski.net
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 72.249.23.125 is neither permitted nor denied by best guess
- record for domain of tony@atomide.com) smtp.mailfrom=tony@atomide.com
+ (google.com: 136.243.71.142 is neither permitted nor denied by best guess
+ record for domain of linux@dominikbrodowski.net) smtp.mailfrom=linux@dominikbrodowski.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -179,26 +135,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
-
-* Peter Zijlstra <peterz@infradead.org> [220919 10:08]:
-> Hi All!
+Am Mon, Sep 26, 2022 at 11:31:29PM +0200 schrieb Jason A. Donenfeld:
+> The full RNG initialization relies on some timestamps, made possible
+> with general functions like time_init() and timekeeping_init(). However,
+> these are only available rather late in initialization. Meanwhile, other
+> things, such as memory allocator functions, make use of the RNG much
+> earlier.
 > 
-> At long last, a respin of the cpuidle vs rcu cleanup patches.
+> So split RNG initialization into two phases. We can give arch randomness
+> very early on, and then later, after timekeeping and such are available,
+> initialize the rest.
 > 
-> v1: https://lkml.kernel.org/r/20220608142723.103523089@infradead.org
+> This ensures that, for example, slabs are properly randomized if RDRAND
+> is available. Without this, CONFIG_SLAB_FREELIST_RANDOM=y loses a degree
+> of its security, because its random seed is potentially deterministic,
+> since it hasn't yet incorporated RDRAND. It also makes it possible to
+> use a better seed in kfence, which currently relies on only the cycle
+> counter.
 > 
-> These here patches clean up the mess that is cpuidle vs rcuidle.
+> Another positive consequence is that on systems with RDRAND, running
+> with CONFIG_WARN_ALL_UNSEEDED_RANDOM=y results in no warnings at all.
 
-I just gave these a quick test and things still work for me. The old
-omap3 off mode during idle still works. No more need to play the
-whack the mole game with RCU-idle :) I did not test on x86, or on other
-ARMs, but considering the test pretty much covered the all the
-affected RCU-idle related paths, where suitable, feel free to add:
+Nice improvement. One question, though:
 
-Tested-by: Tony Lindgren <tony@atomide.com>
+>  #if defined(LATENT_ENTROPY_PLUGIN)
+>  	static const u8 compiletime_seed[BLAKE2S_BLOCK_SIZE] __initconst __latent_entropy;
+> @@ -803,34 +798,46 @@ int __init random_init(const char *command_line)
+>  			i += longs;
+>  			continue;
+>  		}
+> -		entropy[0] = random_get_entropy();
+> -		_mix_pool_bytes(entropy, sizeof(*entropy));
+>  		arch_bits -= sizeof(*entropy) * 8;
+>  		++i;
+>  	}
+
+
+Previously, random_get_entropy() was mixed into the pool ARRAY_SIZE(entropy)
+times.
+
+> +/*
+> + * This is called a little bit after the prior function, and now there is
+> + * access to timestamps counters. Interrupts are not yet enabled.
+> + */
+> +void __init random_init(void)
+> +{
+> +	unsigned long entropy = random_get_entropy();
+> +	ktime_t now = ktime_get_real();
+> +
+> +	_mix_pool_bytes(utsname(), sizeof(*(utsname())));
+
+But now, it's only mixed into the pool once. Is this change on purpose?
+
+Thanks,
+	Dominik
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YzKYrx8Kd9SBYcUg%40atomide.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YzKZnkwCi0UwY/4Q%40owl.dominikbrodowski.net.
