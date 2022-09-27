@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBCQPVKWLVAIRBB5NZKMQMGQEXE6HVEA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQPVKWLVAIRBNNRZKMQMGQE2NQBFKA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1516A5EBA7A
-	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 08:22:01 +0200 (CEST)
-Received: by mail-il1-x13e.google.com with SMTP id h9-20020a056e021b8900b002f19c2a1836sf6872815ili.23
-        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 23:22:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664259719; cv=pass;
+Received: from mail-yb1-xb3e.google.com (mail-yb1-xb3e.google.com [IPv6:2607:f8b0:4864:20::b3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5905EBAAA
+	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 08:31:18 +0200 (CEST)
+Received: by mail-yb1-xb3e.google.com with SMTP id v17-20020a259d91000000b006b4c31c0640sf7771073ybp.18
+        for <lists+kasan-dev@lfdr.de>; Mon, 26 Sep 2022 23:31:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664260277; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nmp1GobXWQp6iBn0779YuZiU9s62GaaSmyKp0NgI1sy2xnzmpPppl5tyDRWjvKEK7W
-         wJdmNMljIUNtSFr04PrT1DRJ1Ha7WQYFJxF6PKLokhNuW98KeFise3aRLPygQKFBAocN
-         lU5mQ3iyI6vmR+Wel6n/uGf+MmdSZ4xfn/UVlG3bFdoWZsBGTsjHpO8cYTYCglEx9uj0
-         r3CcDgZlTBWidw9OoPfi2BbHq0kzyaBsv/VX+vo9Fv3vRLTnhWrQS23KlgxXScof7dti
-         UuoRX4cveB/hvRghnwXyLxbIvoDFvs+na6HPvMfT7J33oVE+wSEG/VEu6QYgmZSHIsgh
-         7DDw==
+        b=hDrjwm1Lg1aaQoz48+QPfym0xqA+fwzh4L/UOp2y04WK4TqTxVUEx1sVg8k2/wdBO7
+         NMcJUXe3pPc/O8jgc95vmCsxF9XS7G+Jvm6SjPXkHw9Wc9WjfLYWvgMZs4iNFrfn+IvH
+         oCEpyvPxpBt+WzKoV57cqK6EEZ65oX9qlqpNi/Mo5qAOHt2GAZazpVG/lq0UQUpyHn/M
+         WhiLi/l/lHUmlKCyWDKgyhBHlyRNSXdOKbhI1xWmrn+ZQZxNFaBcTT1mOUp1zPfmsCbI
+         TcVO36KmGHHUe92pW4DcS850Rr5pFwwmBWfG6Y6ib6yOKaCGc/hoGbhcYJw2rRNXUn08
+         A+pA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=dAkZVHaaF9M4Ra7wTVtvU0fYNLQ3plR2L7nuJD5onUU=;
-        b=Ym8WPVZA6LrTlod0x/I2jWtonS0aUmWkPwY/B3DUOV/W8tV3QjrulkVgzeplWNdTSu
-         zkF32sxOd566W80S9UzSRPVZ9jScxC9B2Ww+ugu4hcHZJj0zFURBHZXEAYVEVdBzOWuq
-         5+S4saLnRjf/y+g2Q2+tcrAhfKkyZI6exFBXeGFKhuPXD2CtuvNy1T1bprqHD5LnwlcO
-         07CCmov22UfvlwV4k3zvK1Z1h/mV6So9FAzTWgb9HDPlD+gehuyVFBSnXTi19h0TYzg7
-         hJ8Y/qnRIO2zXmOPGp5D5GCLFYhT/BUAbCxJy2lepLjhH2kQgHP2UflhNG8RW/q61C1l
-         XOpQ==
+        bh=tVZ+gR3QMUAp68HIU2wRHd4/o2MpXTsFAp0z2k4CGrs=;
+        b=T+h7lCoHwVe1hJR51ahGlhO5dfs/vscMBqHVFqdyWJYuP9zwcwwTQ/UzFTEAWqBV7d
+         DxQx9XaHd4KmgkXYe/NtUa7cErojHaEDyNyerj23CeeAfeQJR/7+xfDZCHTOMCYe8H6k
+         CqVfQkcc6PDIln7gRmyNktKVj2kYHQUcWBuBMqPwmTo/bvNxRGn4Gqhp32OMCZWpXKfL
+         SYjmPciMgC8MkneqhXBpr6+YAk/bqTQiYo+rKTgGKn3Fl58ERv34Xg1Hc6U4jkQ/3e+c
+         cGG1NV08E9OCt2st2IpOkNjN3PeEzoYNWcDYqcxB3xHwwY3mBpveO6zoSvV/dTvPkx5y
+         GiCg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=neutral (google.com: 72.249.23.125 is neither permitted nor denied by best guess record for domain of tony@atomide.com) smtp.mailfrom=tony@atomide.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date;
-        bh=dAkZVHaaF9M4Ra7wTVtvU0fYNLQ3plR2L7nuJD5onUU=;
-        b=kFHFuGQ7cHFUdrnWT0UldGxrTVvphQ624Y2nxXgobTLJJBzqYtEJtLYy0bBtPm18yx
-         ixKXbOXjdE9s9/2CxRtrjBRZ9GbzNWbyczT/E2Ulq4qIhcKIn2U42srHkh41cjZy/FgC
-         ks6agykCNCT9/wqhj1cSsrhykGHZQLDI7LE1vUOjcFYK7LlSsWV3VDaD6rc0ki0djnww
-         1bSYyfHbemikNgrYXV0f0Ubwd1PKs/NhzlYGtvDYpkBq7eycLqabbhwYw+gV1Ha/adM6
-         mw6/Ub/1HvQPlj9oTaF0JBmCQ45Dmx73wToKrVW6dEdf9dmmDXIO5HMw3c6z9gaBNdkK
-         9WBg==
+        bh=tVZ+gR3QMUAp68HIU2wRHd4/o2MpXTsFAp0z2k4CGrs=;
+        b=JfssHj5dB/6kFUtiDRUXqvbXm+TwBn838/XKrUejxxkntJ+4PD4g+D2YnTOtuR6qG7
+         DTeYz2BoRJG+pjO/hpYNqYS3v1HzoTpJAOgAYe2QWIZ2cwq4/2bEdtkdt1n/zL0cEcr+
+         k/3203lrFnODItCr7C5eAXMxddsquqenfYRZ7wAmSCg6lIHJNoXQQky7YMzNqNHnWmvN
+         tR+uV+8Beb0VuPUtHvte8QhJtUNOkZtMf6zY3zYDuueYeV4qSxjk0RmvgvJmXcUZXKPu
+         86/OSpkKgvHbhD7PwdPTlJJnOm3kXSJvBHOiN/Tc32ijnu1P6wI0XFu0h2eIYVn4CCzc
+         lKXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -49,53 +49,53 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=dAkZVHaaF9M4Ra7wTVtvU0fYNLQ3plR2L7nuJD5onUU=;
-        b=sSaWdwbPOebtnbJhfd8+1/LLP5dyCBkTRVk6dl5erlnP045m0UBY5vLWiJLvCcx2mo
-         zcVddBB3euHLONddIlzm1dbY4WK8+iawWQSBUW7SH0W1dohY+yUiawF2Biu/N132o3yK
-         Ul4MmTIkxK6KDnevLtTWRCBfvmyMxKI8OkvU0e4Ho6nyU3lGQWpglTIUwRN7Np+JoGVu
-         6QPicjCVWZj7HgI6jsPA0OVtdzneAXrh0LOJbmgMTklfxGk4uHcu5vaFNzNnYoMd7Yt7
-         ov6qH6IFC02VpNjRPFMStWqioFy4sf4SUcGmrcCduivFcGG9H/bX8knLvdKLzlVxX+yg
-         E/Tw==
+        bh=tVZ+gR3QMUAp68HIU2wRHd4/o2MpXTsFAp0z2k4CGrs=;
+        b=DMrcm74oAtaIdjQKl83PotSDnchnM8y6TyL9v0R0+tUektCb8rHbODg75JtPPPkN8J
+         Lt9e5h7wCzzjE/VYGV6kil55KBH57nL1bFvPvwdHo1UP4ozAPksfkhVjR3bWrSAnFUF6
+         RozgqXXPkSC9KfGpUwTJpfShdIoZ0ZeDlBIw5v9f31ZvWLTsq90qjVQoagKehF50QcQ4
+         tGNftYB7y0S8USQNnkhGQnajOCT0aJgsTMrI+Ly9Qrlmw5RBG/nloMpTynkY1XsSvRzv
+         3iBGDIcR2iiVexQmyDWHV85Dm/bH1Ob+HzAwq4zpuQZsNAokmJ4S9igbi3SB0FVGTMIC
+         tZgw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf00PDTm55PB0Eiu2XUCtIOz7avMJ0eruMa7CkzYE7wBP+ypL/i9
-	rlt2TrbWaTA3jQR3YUEiWIQ=
-X-Google-Smtp-Source: AMsMyM4O6DvsABbpFWTK6eRDX/QQhb7XjC3nfd+XT6QQVhtOjpOf+GAh/REQWJRQSj0JIWq61U5opQ==
-X-Received: by 2002:a05:6e02:154c:b0:2f2:f8c:5b54 with SMTP id j12-20020a056e02154c00b002f20f8c5b54mr11694702ilu.134.1664259719625;
-        Mon, 26 Sep 2022 23:21:59 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1PwWgTZVrrDyawB6Rx0vEjLQ4JlT5LzZuAz/2h3WD2H8ODRrfm
+	XsDTcRUUXpM3wHN3nJRjjK4=
+X-Google-Smtp-Source: AMsMyM5YBuM67q3qjMD5yEdprXZ8UJcOv3ux7h3c3EStAByd3dnONh8ULZ8LsYTdd9nurtPT2kga/w==
+X-Received: by 2002:a81:4c45:0:b0:345:4178:1805 with SMTP id z66-20020a814c45000000b0034541781805mr24747202ywa.114.1664260277333;
+        Mon, 26 Sep 2022 23:31:17 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:958f:0:b0:688:5b72:e3fd with SMTP id a15-20020a5d958f000000b006885b72e3fdls199799ioo.8.-pod-prod-gmail;
- Mon, 26 Sep 2022 23:21:59 -0700 (PDT)
-X-Received: by 2002:a6b:ba05:0:b0:68a:8a2f:8fdc with SMTP id k5-20020a6bba05000000b0068a8a2f8fdcmr11039284iof.148.1664259719199;
-        Mon, 26 Sep 2022 23:21:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664259719; cv=none;
+Received: by 2002:a25:a342:0:b0:6a9:454a:4e83 with SMTP id d60-20020a25a342000000b006a9454a4e83ls1008717ybi.11.-pod-prod-gmail;
+ Mon, 26 Sep 2022 23:31:16 -0700 (PDT)
+X-Received: by 2002:a25:e311:0:b0:6bb:bf9a:e762 with SMTP id z17-20020a25e311000000b006bbbf9ae762mr6822421ybd.110.1664260276726;
+        Mon, 26 Sep 2022 23:31:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664260276; cv=none;
         d=google.com; s=arc-20160816;
-        b=z0dAFBudX5+AsOe6BtNBaqJSp/yOMvo4uGp/N/usn0WIsv+LBePXkB0XttaTb5pESO
-         RvMwiELshtqMd1PdQ+11kTaw+IQ6hy1fOJdy0RZg2tITL1ZcYf5WtjDWMPPTHh26KvH8
-         zkXmIpt2dqqBnDLvTwEYKRURKB8ZANh65b/ypz56jzx3SG6iNXcBx1ZCDN/we9g0+m/v
-         mxtT2KlEK55RVQ50eXNs2IAcHGAxRgPqLK/A4xKQyBKkzsgcPQgxLtI2/AC6zF2C0jRE
-         Ekz+2SfjsyEoRMIC8Q9IrF0Abf6lF0ovEH4K8Hnv/c2STKVfMSqXmXr3eh1CJTCgjDEH
-         zF9g==
+        b=aFUDPAUKv9tqP1RwzfqhiPq40eynZLoBksemrjb5nGNI36PQ0rvGvdRh3ZYbT3JoGs
+         u1QCM1++0QBBisco3LcxMg8fSJNLpOnDkS+RktCIX2ORVQww+krM1Y/4jxuSwnYm3Bth
+         n5jf4KHeIHPASj9yzPAYGZYG6dHIMi1gLW8bM5TtuQ0T93TJD9MPtV4IeOjc4trzk5Sj
+         eG8b8vvzSvay4q4pLUXVWdh/5tZswF6+hbncr0gv3x8D1PlFqNqpRyHvPJ7Ty8fI+zGM
+         vW+O+5jeQsx3tfR17l4Gz33hnSD2noILDB+3z0peMKbhJuGzbUPhGoqNPtfAkOpykZH9
+         lAMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date;
-        bh=B4XnREFs3ccQlnYL8kqWkVV4lszG7FBZmZf1SbhCSO0=;
-        b=JYPwKourwDc3ENs+RQ8wkVsaX+Xypbb+D3YYtlnS7V+n1f4kEWyeay3chz9I13+dFn
-         /i+lX0TaSf55nNUqL1M2QV9yJHac2JVPFKA8GfyxD272CM8Vfs1NS9MgaTf+U4uVO7hR
-         RmawPdodPI3yjyZbscUBhZQLF6AUNRqOX85PO0vwgZxUYt11KB0UnuIrYH9hD/MDssh9
-         G3l14LakqFY9I6NKJh38IDZdQqHuSoF29Plc6kea3XMYMVN49b2dSjrBWBW1wIy9QSeT
-         CL7zi7SYSY4kBzPWHZ2/GiyP2EebUK2HfsAmRdQvfalFIOFTYJxH+7jeil6d0Pf9h1bz
-         N02w==
+        bh=Qo1+uET5gHpcCBtdQyHI5fAdMrtG4s4iexHkHEsNJ9A=;
+        b=FXMmLlL7mBObu0XRz1UK5TeVpNckHezKdkRL6VdWOd8pVNB10J9VDTE5myqnGZ8nP1
+         ERpI5f7jUAWWze8GK8C7ZegJakaQsu2bxsAEdxv5KWxMI3tEBAm0J6SuAjVYT2y303QT
+         nA5Y8EBX+5Mob1Ajboqd2DCJzRzYa/88/abnyuk6Ji0o9wRheIYYPLo3EepG+FjARnpJ
+         2gNTrZ2t73Ap3qrdEa4WcjykB6dpL34HI5snRDUDHtKuEmsNeUyGgt3TdLznWk5bTcJ3
+         k0ve8c4RGNi2VbCY4KfhFlgWlRRv8rFV9XgljYCDzoZbExaRa2nzS4aP2+qYqRhQ0xrw
+         sb/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=neutral (google.com: 72.249.23.125 is neither permitted nor denied by best guess record for domain of tony@atomide.com) smtp.mailfrom=tony@atomide.com
 Received: from muru.com (muru.com. [72.249.23.125])
-        by gmr-mx.google.com with ESMTP id w2-20020a92c882000000b002ea3697eb7asi80695ilo.0.2022.09.26.23.21.58
+        by gmr-mx.google.com with ESMTP id t195-20020a0deacc000000b00349f81a2957si33074ywe.1.2022.09.26.23.31.16
         for <kasan-dev@googlegroups.com>;
-        Mon, 26 Sep 2022 23:21:59 -0700 (PDT)
+        Mon, 26 Sep 2022 23:31:16 -0700 (PDT)
 Received-SPF: neutral (google.com: 72.249.23.125 is neither permitted nor denied by best guess record for domain of tony@atomide.com) client-ip=72.249.23.125;
 Received: from localhost (localhost [127.0.0.1])
-	by muru.com (Postfix) with ESMTPS id E879B80E0;
-	Tue, 27 Sep 2022 06:13:36 +0000 (UTC)
-Date: Tue, 27 Sep 2022 09:21:54 +0300
+	by muru.com (Postfix) with ESMTPS id 5E7B081BD;
+	Tue, 27 Sep 2022 06:22:54 +0000 (UTC)
+Date: Tue, 27 Sep 2022 09:31:11 +0300
 From: Tony Lindgren <tony@atomide.com>
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
@@ -156,14 +156,13 @@ Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 37/44] arm,omap2: Use WFI for omap2_pm_idle()
-Message-ID: <YzKWgjNLWSmDss/h@atomide.com>
+Subject: Re: [PATCH v2 00/44] cpuidle,rcu: Clean up the mess
+Message-ID: <YzKYrx8Kd9SBYcUg@atomide.com>
 References: <20220919095939.761690562@infradead.org>
- <20220919101522.842219871@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20220919101522.842219871@infradead.org>
+In-Reply-To: <20220919095939.761690562@infradead.org>
 X-Original-Sender: tony@atomide.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
  (google.com: 72.249.23.125 is neither permitted nor denied by best guess
@@ -180,22 +179,26 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-* Peter Zijlstra <peterz@infradead.org> [220919 10:09]:
-> arch_cpu_idle() is a very simple idle interface and exposes only a
-> single idle state and is expected to not require RCU and not do any
-> tracing/instrumentation.
-> 
-> As such, omap2_pm_idle() is not a valid implementation. Replace it
-> with a simple (shallow) omap2_do_wfi() call.
-> 
-> Omap2 doesn't have a cpuidle driver; but adding one would be the
-> recourse to (re)gain the other idle states.
+Hi,
 
-Looks good to me thanks:
+* Peter Zijlstra <peterz@infradead.org> [220919 10:08]:
+> Hi All!
+> 
+> At long last, a respin of the cpuidle vs rcu cleanup patches.
+> 
+> v1: https://lkml.kernel.org/r/20220608142723.103523089@infradead.org
+> 
+> These here patches clean up the mess that is cpuidle vs rcuidle.
 
-Acked-by: Tony Lindgren <tony@atomide.com>
+I just gave these a quick test and things still work for me. The old
+omap3 off mode during idle still works. No more need to play the
+whack the mole game with RCU-idle :) I did not test on x86, or on other
+ARMs, but considering the test pretty much covered the all the
+affected RCU-idle related paths, where suitable, feel free to add:
+
+Tested-by: Tony Lindgren <tony@atomide.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YzKWgjNLWSmDss/h%40atomide.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YzKYrx8Kd9SBYcUg%40atomide.com.
