@@ -1,138 +1,126 @@
-Return-Path: <kasan-dev+bncBCLI747UVAFRBUUFZOMQMGQEBOCYLUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB3ORZOMQMGQE2S7UX3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5486F5EBEA4
-	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 11:30:59 +0200 (CEST)
-Received: by mail-wm1-x338.google.com with SMTP id n7-20020a1c2707000000b003a638356355sf5293397wmn.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 02:30:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664271059; cv=pass;
+Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7205EC225
+	for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 14:13:33 +0200 (CEST)
+Received: by mail-wm1-x337.google.com with SMTP id k38-20020a05600c1ca600b003b49a809168sf8520350wms.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 27 Sep 2022 05:13:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664280813; cv=pass;
         d=google.com; s=arc-20160816;
-        b=C5k+Bc7/J3QUwOyTMVKC81yNSxxOIW5Y7sdSBvf0Pu0X8k79L+ktz+erYD2YxAHJSY
-         cWaDv5fHwMFPASbBlGxbmCGJLzGBIvLeC2L5AdYqg+ZfhUOp+QrnOtim0MGRhkFKihSy
-         9PESaip34hxBglpXYJ/LMaQ9JAEuqybsNBrVFs9DX70F0rIigquOk1RfglNUPT/sU09s
-         YvClXum9MT1+SbWgpRnymvCOQ2KhjWhrswbggx/BQ5kaqFC0a8W326Kv+Ma51vrL40q5
-         WFZg0fW9j3MqUwkmjkSxM7n+DGXYkR5+gWOVIfB6lRzDL4sTMS3nS3skBebB7fxfHbUZ
-         1pYQ==
+        b=W8XfP4W/6Hq4Tn9nCoAEl9shCUgxekoWmUVhN0OznYUPv7tkhI5+kTcA7gn4ow0C0x
+         TS4iRr1RYV6SuU9ZT1xebtpF5I8kBfJSDCCNlmt3XRFsD+aGN7moCR0Wme+CdGS/YWbi
+         RPtiTbkuT89o187ssyR7tUr1ko634xeWW9E0VGZDVtO8Y94lBgUmKWSsglc9sabgj3Oo
+         H9grdaFjzThSEa5BycwYVU5uUgBDtZmQRTUSBiFHABBKpCNA87VcyFyY/EPfFCH7KqxK
+         xIegF31J4vxSZCdkNDfmNXabCpMR15JFKydVTOC+thoZmH1yy5taV65RZkbiWEcfnSwH
+         G+IQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=PYHkM2LVncFwAweVnhLvMHQiL/QwH2SgHhg07BMi9wc=;
-        b=HtRhsivRgXI2Qjm1eUFeZpR8LGyZ+PSTidAcBhI4q0/7yHCpGF0FuoVQI9MXzjBPgX
-         4YaGFSU6g4pGVvR+wCakWtzCPlWtmH+1HcW9RxheyVcKai5YCWJ2OrqVqQw0QUHbXbWE
-         IAv/Q54u8EdJ4JiBtexWOiUxpoWiJQ5aKdTVjL4BhcCpl0z9+MTpbwAln5reWNtUTuWZ
-         zLpKNypztU+nRlXo8XgpIBO3nliqmRk635LNcJ7M7lKJ7/WQHRkbmrSaaA7bZzaYLI5Y
-         /pOTYdhPn/CyiFpDqKr4En7vqREHZTWWIqf7SOLPz7Nsoj/cgMZvsjihxnN4C2Mqoma1
-         P1+A==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=owVDeUGRcBrPKVN1OqtTlxIzE/FpPh8j5CHGZlwAgTk=;
+        b=dkDkigkU08Bje7jHFH1p6c4h/HljSGRqH0/SMvHFbwIjp49wJ1KSi01JlbUtjOXjTJ
+         FgJqfh8PdYL9kvBF0uLXSF4a84thhRiUWKxJZ7QaCGTTw2ewESEWwAPMYHlYGjlmZllS
+         mywDqvZG67B7IngxBMb/gYLQl8AppRy9TxEOlAdiH92OQUyXxU1CijCK1PmV0QZYpdDi
+         IzuOiD366MDM/fp0VpK2kcFPGg9p5K0cWP47YICZqEE2gfec1udKmMOzYqZcpf0c6pI2
+         4SIIAI7xv0wsF1uxbRjPlRbOWbUOa8a7k5d+8apjv8VEFgDWV4WOXb9o4PmKxYPj0pie
+         V+CA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=kF3gAJq9;
-       spf=pass (google.com: domain of srs0=o2zr=z6=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=O2ZR=Z6=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Js35UYBG;
+       spf=pass (google.com: domain of 36-gyywukcagmtdmzowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=36-gyYwUKCagMTdMZOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date;
-        bh=PYHkM2LVncFwAweVnhLvMHQiL/QwH2SgHhg07BMi9wc=;
-        b=p+xVNPGiR12GxOsf7uV76IodmsRjrd4bqgocSpghJDYaXPWIJ46d7VyLRtAv818ThL
-         QfCqBckuWkxvvxmWiL7xwd9xofmgsAkWd2HdifH7kl5qvSe7Y0mxFqt1s8nzPOL2Ss30
-         Uh0f1aKVLBMp7kWWy0wSRk1nASGrkM+3kc/ndFAlV4s+KC/xqGSGPyIps7eodX/xu4jY
-         KBTO6BiHm2qOPN1V/H3d/uSprjbyt7WuzE7JWXIKjUSgcSvDAt5c4hZQpgv6whB/2cth
-         70Ngn5kCG83MKQKzif4e9TFIQ4iGftCb17ZxhFWSBt9qprkjaleSf0QuY1OZUBYMuSpM
-         JgPQ==
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date;
+        bh=owVDeUGRcBrPKVN1OqtTlxIzE/FpPh8j5CHGZlwAgTk=;
+        b=saV0pRksDIbz30iP8wuJ+/hnYYTtLvFwLDslgC8ItAXe6Vzd7WDAlV3F6yXwkks2i8
+         NjLSYLhCVEmB58Sf5cPC5k7PkIF5bhXbFcfLCbyQKdoe9eMyqESsJoPUjMStioqokbj7
+         NlGg8YbahVFDvLsZjFrwqbYaON39PggZJUpUSgmxW6TpFHuQ3r+94+bsbwBzQ0nj7lVI
+         +8kiT+4FUju5gp1xAwqWhq9Ee0HjpVQO6v3zicxSSr4RKckPyaf7/wViok0jtIBVKsUt
+         QS1RRf7Jza+OODYWk0EKIiW8b9y01LAsRcnsL4ROx3B/osRCMSDH0YsPy5KHlBp+LS0s
+         +CqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=PYHkM2LVncFwAweVnhLvMHQiL/QwH2SgHhg07BMi9wc=;
-        b=36nNRJzU19g6IQ2UwAhroRGfltxJPGK5vVW/X1guOeqhZKJsZ5U2YBDcIAOeZjvyZE
-         YfbLED51G700vFDt23x1YXz+3bp2tjHcxsqmOZWxOfKweORDY+tm87ldxZG5KU8oXn3N
-         ligyZCkitr1yqbozo/yUIaKC+D874Z2AfHDLnn256dbLKoUmqSkGlYfVGuQnepmNo+Ne
-         Mhs8l41akWiS67AVNV0nfJwbQ1rHyAy+DN860Uko8fT5SCn77C8dsydAL+Crl5f3Pxrv
-         NZMHV9lDxe6P55tANVHhhjwJ84/L24U0CjD2BGByj3DZ+3xO9hQ8KUNUtc44aziaLdpR
-         0Hog==
-X-Gm-Message-State: ACrzQf1XJKqF/aCU6VCz32cjxCbqDGiv5BZi2Z0fVzivgviYkf+SDKPn
-	WiR8fObdvEhkZ2yuvoKB1NE=
-X-Google-Smtp-Source: AMsMyM5Gwvp5pOPZKrKIPRHE9VqXwLE4lfyESgX8M9+F+ZZ36OY67djtuz+NlyKwFGfh1tk9nqXnZA==
-X-Received: by 2002:a5d:608d:0:b0:228:d095:4a15 with SMTP id w13-20020a5d608d000000b00228d0954a15mr16221157wrt.499.1664271059026;
-        Tue, 27 Sep 2022 02:30:59 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=owVDeUGRcBrPKVN1OqtTlxIzE/FpPh8j5CHGZlwAgTk=;
+        b=KmRCG6nSDjDCasgotEJdXgaVHyavrlnA7CnjYL22wN0ruCBgt9692zIX/mX1wpNGwD
+         C/RZZQRTMrjyfrr7peDzIs7XBM5Cpkf50SrFWwsyii+Mzhdovk0pvqjxd8sncmR6OwZs
+         +irE03TQdCJRoMG+7x1FA1tp2AoeBLKwuEjd55x4R9QayLa7jYGFnTqJIZhB3yk3mgtU
+         I7h8JIeBuX0gj9Sb1QH7m0+7QyYMTtUf5fW2UosDE+ACtEQIB0gVk2t/ah9HOs849gNP
+         R8x3ofxK2JRL+fASMg+cAsKc7QBzigrjX/dM2O6jc0U5UsK49lo2V5h5TWno2W2AOEN6
+         0o6w==
+X-Gm-Message-State: ACrzQf2gYqy9220KQ5zrkrnOQg9AXj3Awo9xxxXEHlDh8Z57lN9bYJdF
+	eKGlbKbkz/Bnm7VmwszjqHk=
+X-Google-Smtp-Source: AMsMyM4uEKq2BmX9gDSW6H9L3nY2kuYfCD8MsH7Yo5Tva3wRRWWA1KtAEjquinnnMHz42ROxooeKYg==
+X-Received: by 2002:a05:6000:384:b0:22a:5d05:c562 with SMTP id u4-20020a056000038400b0022a5d05c562mr16621421wrf.701.1664280813383;
+        Tue, 27 Sep 2022 05:13:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:4b11:0:b0:3a5:24fe:28ff with SMTP id y17-20020a1c4b11000000b003a524fe28ffls640850wma.0.-pod-control-gmail;
- Tue, 27 Sep 2022 02:30:58 -0700 (PDT)
-X-Received: by 2002:a05:600c:22c7:b0:3b4:92ba:ff99 with SMTP id 7-20020a05600c22c700b003b492baff99mr1986320wmg.190.1664271057968;
-        Tue, 27 Sep 2022 02:30:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664271057; cv=none;
+Received: by 2002:adf:f209:0:b0:225:6559:3374 with SMTP id p9-20020adff209000000b0022565593374ls2571106wro.2.-pod-prod-gmail;
+ Tue, 27 Sep 2022 05:13:32 -0700 (PDT)
+X-Received: by 2002:adf:fd05:0:b0:22a:292f:1908 with SMTP id e5-20020adffd05000000b0022a292f1908mr16285783wrr.85.1664280812109;
+        Tue, 27 Sep 2022 05:13:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664280812; cv=none;
         d=google.com; s=arc-20160816;
-        b=rAyzlhwX7f4JqYLV0yL4XYo3unVHo26sewRwy+deHq+VMn19Ge3l+oWjo6UivLyjwi
-         lobuBXlLFvimiploV4OiW/omBylFRvkgNdwzXH9q0QW2A5ni/QQYbPD9qFrzv0WCPsIj
-         Z2b+8ADyr6TVzi0NUXnEAULkHRuhUQPf9BSyWraHPZBh/oy+282shS7yVf8hYk0oBTrZ
-         TXdo8kSAfsCM85CYXgswE82/lxLq74KZ+eUTYZyO0VWacqP0Ta1i/J1sRYI6mhpTPDye
-         NVRchtNLIHNSFMoc/wyrzh02VBcMGYClSxW/Lg4F78aUOJkKeHYOOTrIgkjRnP43WrTW
-         ovOQ==
+        b=p2JLaARWZsSXBuBcHsPeVf7/+0FgjMygZ7TD2WYWUaTEOzewhTSFpimNMfcpdA6gfZ
+         ScRhUuPrcLOZx6JFlbx5HIxxc/lWN7iI59UflLn0XBOxSLAOfNS3zv/FWRgXwl5RkkWS
+         MEfsaUHcDDaRkcGL5NZ9JxSJ9V58IzDcjZevTjigUdrsXyU1mw033oROCc8VhbnXRGBf
+         +3j4lowRIRMSEEzNqw0+UwhdKaK0BJ/dx6WL5t4mBE7228WYawlUsf46S9PNstgqzxPz
+         42nRvxDGtFpMcdxbU6E6g2j2SU3/Y+lcLbyJdgAz1dNvintuspkuVo4K1SklxX1x4Ywb
+         oDHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=dOsRsI2SbqGs1hFMWbK9H3koFhP046bcsz2N8V78ieg=;
-        b=VxcDY0FPkA3nQccfM+oEBJOQLS1nBa+12R1YZq1mgpjJXp9DA5Pr6GS9ZdZbC6eX6H
-         /ftb8yrQPZptgVGk5ojofR8TnfqgpEzYLb19UlAW1QVzEKtFGJVbgG0yoeMKa+UCgrgh
-         Fc9yQ7Cw5jN4W59hjnorbxk92KAmaPYKT85FEEtACU7no+zPfYuu/pDVmYkX73rMxKLe
-         bubY3JAUiuKcWL0uI+wHp9iA5KG4/6Fu1QkT5j8S/v7lzN8sbhsyVjkLYm7aarGqYGT/
-         m4mlcsNImhlM/VEQx3W6sbW40+7L9KOTIJlW920QoydM3BR8PtupFWEwGIAgDFTCAcFS
-         k3Gw==
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=O1OHV9/ebX3PFCvVx/+I7boFWMH1Mc6xsGvoR42Opk4=;
+        b=OJv+uQpmCtiQp7OobRlftXKK1fW/u8siyQwBE4Fd8a6oJhgdYwNcS9rHRolwI/LKJt
+         Td1dNuIf/Hgdoa10w/pNGUDtdTlfaYuziS5vidQUneIIJdqEC5dcu4MXXlJHUmVKZJvB
+         Dyf6pwYPtMaxmRJICYOsYQeCXAyWvUZbT/RhogQVNRARCebO1aGZPY1p0IV0k3gxK261
+         0ku7XeI/jHFAc+t4QJ2WIoiHOXbw4tYDCVWysJP1Tg/5ECIKbkIzyMNLh27CLoai+3by
+         56pDGJS2Yplu40kcWKdtZjgrTJ00PX6CTvMccHFT5Oll6X+pzc14Ygeh8tHH9oGYH7s8
+         39XQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=kF3gAJq9;
-       spf=pass (google.com: domain of srs0=o2zr=z6=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=O2ZR=Z6=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id l21-20020a1ced15000000b003a83f11cec0si52970wmh.2.2022.09.27.02.30.57
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Js35UYBG;
+       spf=pass (google.com: domain of 36-gyywukcagmtdmzowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=36-gyYwUKCagMTdMZOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
+        by gmr-mx.google.com with ESMTPS id l129-20020a1c2587000000b003a5a534292csi74734wml.3.2022.09.27.05.13.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Sep 2022 02:30:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=o2zr=z6=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 97E66B81ACE;
-	Tue, 27 Sep 2022 09:30:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E0F0C433D6;
-	Tue, 27 Sep 2022 09:30:55 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id bd881e4f (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Tue, 27 Sep 2022 09:30:53 +0000 (UTC)
-Date: Tue, 27 Sep 2022 11:30:51 +0200
-From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] random: split initialization into early arch step and
- later non-arch step
-Message-ID: <YzLCy2rVIBebeMrB@zx2c4.com>
-References: <20220926160332.1473462-1-Jason@zx2c4.com>
- <202209261105.9C6AEEEE1@keescook>
- <CAHmME9pFDzyKJd5ixyB9E05jkZvHShFimbiQsGTcdQO1E5R0QQ@mail.gmail.com>
- <202209262017.D751DDC38F@keescook>
- <CAHmME9qTf+aDmBen2dFXPmbDGkn1E4=oXqqeBRiguLCo7K9EhQ@mail.gmail.com>
-MIME-Version: 1.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Sep 2022 05:13:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 36-gyywukcagmtdmzowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id f9-20020adfc989000000b0022b3bbc7a7eso2098454wrh.13
+        for <kasan-dev@googlegroups.com>; Tue, 27 Sep 2022 05:13:32 -0700 (PDT)
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:693c:15a1:a531:bb4e])
+ (user=elver job=sendgmr) by 2002:a5d:6d07:0:b0:22a:3f21:3b56 with SMTP id
+ e7-20020a5d6d07000000b0022a3f213b56mr16261810wrq.679.1664280811693; Tue, 27
+ Sep 2022 05:13:31 -0700 (PDT)
+Date: Tue, 27 Sep 2022 14:13:22 +0200
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.3.998.g577e59143f-goog
+Message-ID: <20220927121322.1236730-1-elver@google.com>
+Subject: [PATCH] perf: Fix missing SIGTRAPs due to pending_disable abuse
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAHmME9qTf+aDmBen2dFXPmbDGkn1E4=oXqqeBRiguLCo7K9EhQ@mail.gmail.com>
-X-Original-Sender: jason@zx2c4.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zx2c4.com header.s=20210105 header.b=kF3gAJq9;       spf=pass
- (google.com: domain of srs0=o2zr=z6=zx2c4.com=jason@kernel.org designates
- 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=O2ZR=Z6=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
-X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+ header.i=@google.com header.s=20210112 header.b=Js35UYBG;       spf=pass
+ (google.com: domain of 36-gyywukcagmtdmzowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=36-gyYwUKCagMTdMZOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,25 +133,247 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Sep 27, 2022 at 10:34:16AM +0200, Jason A. Donenfeld wrote:
-> > > Yes, we could maybe *change* to using init_utsname if we wanted. That
-> > > seems kind of different though. So I'd prefer that to be a different
-> > > patch, which would require looking at the interaction with early
-> > > hostname setting and such. If you want to do that work, I'd certainly
-> > > welcome the patch.
-> >
-> > Er, isn't that _WAY_ later? Like, hostname isn't set until sysctls up
-> > and running, etc. I haven't actually verified 100% but it looks like
-> > current->utsname is exactly init_utsname currently.
-> 
-> If init_utsname()==utsname() and all is fine, can you please send a
-> patch atop random.git adjusting that and explaining why? I would
-> happily take such a patch. If your suspicion is correct, it would make
-> a most welcome improvement.
+Due to the implementation of how SIGTRAP are delivered if
+perf_event_attr::sigtrap is set, we've noticed 3 issues:
 
-https://lore.kernel.org/lkml/20220927092920.1559685-1-Jason@zx2c4.com
+	1. Missing SIGTRAP due to a race with event_sched_out() (more
+	   details below).
+
+	2. Hardware PMU events being disabled due to returning 1 from
+	   perf_event_overflow(). The only way to re-enable the event is
+	   for user space to first "properly" disable the event and then
+	   re-enable it.
+
+	3. The inability to automatically disable an event after a
+	   specified number of overflows via PERF_EVENT_IOC_REFRESH.
+
+The worst of the 3 issues is problem (1), which occurs when a
+pending_disable is "consumed" by a racing event_sched_out(), observed as
+follows:
+
+		CPU0			| 	CPU1
+	--------------------------------+---------------------------
+	__perf_event_overflow()		|
+	 perf_event_disable_inatomic()	|
+	  pending_disable = CPU0	| ...
+	  				| _perf_event_enable()
+					|  event_function_call()
+					|   task_function_call()
+					|    /* sends IPI to CPU0 */
+	<IPI>				| ...
+	 __perf_event_enable()		+---------------------------
+	  ctx_resched()
+	   task_ctx_sched_out()
+	    ctx_sched_out()
+	     group_sched_out()
+	      event_sched_out()
+	       pending_disable = -1
+	</IPI>
+	<IRQ-work>
+	 perf_pending_event()
+	  perf_pending_event_disable()
+	   /* Fails to send SIGTRAP because no pending_disable! */
+	</IRQ-work>
+
+In the above case, not only is that particular SIGTRAP missed, but also
+all future SIGTRAPs because 'event_limit' is not reset back to 1.
+
+To fix, rework pending delivery of SIGTRAP via IRQ-work by introduction
+of a separate 'pending_sigtrap', no longer using 'event_limit' and
+'pending_disable' for its delivery.
+
+During testing, this also revealed several more possible races between
+reschedules and pending IRQ work; see code comments for details.
+
+Doing so makes it possible to use 'event_limit' normally (thereby
+enabling use of PERF_EVENT_IOC_REFRESH), perf_event_overflow() no longer
+returns 1 on SIGTRAP causing disabling of hardware PMUs, and finally the
+race is no longer possible due to event_sched_out() not consuming
+'pending_disable'.
+
+Fixes: 97ba62b27867 ("perf: Add support for SIGTRAP on perf events")
+Reported-by: Dmitry Vyukov <dvyukov@google.com>
+Debugged-by: Dmitry Vyukov <dvyukov@google.com>
+Signed-off-by: Marco Elver <elver@google.com>
+---
+ include/linux/perf_event.h |  2 +
+ kernel/events/core.c       | 85 ++++++++++++++++++++++++++++++++------
+ 2 files changed, 75 insertions(+), 12 deletions(-)
+
+diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+index 907b0e3f1318..dff3430844a2 100644
+--- a/include/linux/perf_event.h
++++ b/include/linux/perf_event.h
+@@ -740,8 +740,10 @@ struct perf_event {
+ 	int				pending_wakeup;
+ 	int				pending_kill;
+ 	int				pending_disable;
++	int				pending_sigtrap;
+ 	unsigned long			pending_addr;	/* SIGTRAP */
+ 	struct irq_work			pending;
++	struct irq_work			pending_resched;
+ 
+ 	atomic_t			event_limit;
+ 
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 75f5705b6892..df90777262bf 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -2527,6 +2527,14 @@ event_sched_in(struct perf_event *event,
+ 	if (event->attr.exclusive)
+ 		cpuctx->exclusive = 1;
+ 
++	if (event->pending_sigtrap) {
++		/*
++		 * The task and event might have been moved to another CPU:
++		 * queue another IRQ work. See perf_pending_event_sigtrap().
++		 */
++		WARN_ON_ONCE(!irq_work_queue(&event->pending_resched));
++	}
++
+ out:
+ 	perf_pmu_enable(event->pmu);
+ 
+@@ -4938,6 +4946,7 @@ static void perf_addr_filters_splice(struct perf_event *event,
+ static void _free_event(struct perf_event *event)
+ {
+ 	irq_work_sync(&event->pending);
++	irq_work_sync(&event->pending_resched);
+ 
+ 	unaccount_event(event);
+ 
+@@ -6446,6 +6455,37 @@ static void perf_sigtrap(struct perf_event *event)
+ 		      event->attr.type, event->attr.sig_data);
+ }
+ 
++static void perf_pending_event_sigtrap(struct perf_event *event)
++{
++	if (!event->pending_sigtrap)
++		return;
++
++	/*
++	 * If we're racing with disabling of the event, consume pending_sigtrap
++	 * and don't send the SIGTRAP. This avoids potentially delaying a signal
++	 * indefinitely (oncpu mismatch) until the event is enabled again, which
++	 * could happen after already returning to user space; in that case the
++	 * signal would erroneously become asynchronous.
++	 */
++	if (event->state == PERF_EVENT_STATE_OFF) {
++		event->pending_sigtrap = 0;
++		return;
++	}
++
++	/*
++	 * Only process this pending SIGTRAP if this IRQ work is running on the
++	 * right CPU: the scheduler is able to run before the IRQ work, which
++	 * moved the task to another CPU. In event_sched_in() another IRQ work
++	 * is scheduled, so that the signal is not lost; given the kernel has
++	 * not yet returned to user space, the signal remains synchronous.
++	 */
++	if (READ_ONCE(event->oncpu) != smp_processor_id())
++		return;
++
++	event->pending_sigtrap = 0;
++	perf_sigtrap(event);
++}
++
+ static void perf_pending_event_disable(struct perf_event *event)
+ {
+ 	int cpu = READ_ONCE(event->pending_disable);
+@@ -6455,13 +6495,6 @@ static void perf_pending_event_disable(struct perf_event *event)
+ 
+ 	if (cpu == smp_processor_id()) {
+ 		WRITE_ONCE(event->pending_disable, -1);
+-
+-		if (event->attr.sigtrap) {
+-			perf_sigtrap(event);
+-			atomic_set_release(&event->event_limit, 1); /* rearm event */
+-			return;
+-		}
+-
+ 		perf_event_disable_local(event);
+ 		return;
+ 	}
+@@ -6500,6 +6533,7 @@ static void perf_pending_event(struct irq_work *entry)
+ 	 * and we won't recurse 'further'.
+ 	 */
+ 
++	perf_pending_event_sigtrap(event);
+ 	perf_pending_event_disable(event);
+ 
+ 	if (event->pending_wakeup) {
+@@ -6511,6 +6545,26 @@ static void perf_pending_event(struct irq_work *entry)
+ 		perf_swevent_put_recursion_context(rctx);
+ }
+ 
++/*
++ * If handling of a pending action must occur before returning to user space,
++ * and it is possible to reschedule an event (to another CPU) with pending
++ * actions, where the moved-from CPU may not yet have run event->pending (and
++ * irq_work_queue() would fail on reuse), we'll use a separate IRQ work that
++ * runs perf_pending_event_resched().
++ */
++static void perf_pending_event_resched(struct irq_work *entry)
++{
++	struct perf_event *event = container_of(entry, struct perf_event, pending_resched);
++	int rctx;
++
++	rctx = perf_swevent_get_recursion_context();
++
++	perf_pending_event_sigtrap(event);
++
++	if (rctx >= 0)
++		perf_swevent_put_recursion_context(rctx);
++}
++
+ #ifdef CONFIG_GUEST_PERF_EVENTS
+ struct perf_guest_info_callbacks __rcu *perf_guest_cbs;
+ 
+@@ -9209,11 +9263,20 @@ static int __perf_event_overflow(struct perf_event *event,
+ 	if (events && atomic_dec_and_test(&event->event_limit)) {
+ 		ret = 1;
+ 		event->pending_kill = POLL_HUP;
+-		event->pending_addr = data->addr;
+-
+ 		perf_event_disable_inatomic(event);
+ 	}
+ 
++	if (event->attr.sigtrap) {
++		/*
++		 * Should not be able to return to user space without processing
++		 * pending_sigtrap (kernel events can overflow multiple times).
++		 */
++		WARN_ON_ONCE(event->pending_sigtrap && event->attr.exclude_kernel);
++		event->pending_sigtrap = 1;
++		event->pending_addr = data->addr;
++		irq_work_queue(&event->pending);
++	}
++
+ 	READ_ONCE(event->overflow_handler)(event, data, regs);
+ 
+ 	if (*perf_event_fasync(event) && event->pending_kill) {
+@@ -11536,6 +11599,7 @@ perf_event_alloc(struct perf_event_attr *attr, int cpu,
+ 	init_waitqueue_head(&event->waitq);
+ 	event->pending_disable = -1;
+ 	init_irq_work(&event->pending, perf_pending_event);
++	init_irq_work(&event->pending_resched, perf_pending_event_resched);
+ 
+ 	mutex_init(&event->mmap_mutex);
+ 	raw_spin_lock_init(&event->addr_filters.lock);
+@@ -11557,9 +11621,6 @@ perf_event_alloc(struct perf_event_attr *attr, int cpu,
+ 	if (parent_event)
+ 		event->event_caps = parent_event->event_caps;
+ 
+-	if (event->attr.sigtrap)
+-		atomic_set(&event->event_limit, 1);
+-
+ 	if (task) {
+ 		event->attach_state = PERF_ATTACH_TASK;
+ 		/*
+-- 
+2.37.3.998.g577e59143f-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YzLCy2rVIBebeMrB%40zx2c4.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220927121322.1236730-1-elver%40google.com.
