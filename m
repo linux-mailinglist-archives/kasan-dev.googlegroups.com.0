@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDF57NG2XIHRBB5J6CMQMGQEJ3O22AI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDF57NG2XIHRBUFK6CMQMGQEYIUYXOQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2515F418B
-	for <lists+kasan-dev@lfdr.de>; Tue,  4 Oct 2022 13:10:00 +0200 (CEST)
-Received: by mail-pg1-x537.google.com with SMTP id r7-20020a632047000000b00439d0709849sf8756904pgm.22
-        for <lists+kasan-dev@lfdr.de>; Tue, 04 Oct 2022 04:10:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664881799; cv=pass;
+Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id A12B35F41B8
+	for <lists+kasan-dev@lfdr.de>; Tue,  4 Oct 2022 13:13:26 +0200 (CEST)
+Received: by mail-il1-x13f.google.com with SMTP id h10-20020a056e021d8a00b002f99580de6csf5828493ila.5
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 Oct 2022 04:13:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664882000; cv=pass;
         d=google.com; s=arc-20160816;
-        b=t6LdBzKnk9lPg/0+OWY45hpVaDHL7fBxqqFr/UYMZ7mPy3b/FypZpnZGtW/w/fpzab
-         7eT9wTNoq4FnsnWYfSDSMWZmMvnnkqCh6Gq/D4f2c69XLwrgBZNqYGeB+THOYh94go6I
-         e/yHo/f08iOC6CBKybeLnY+FW39vZLVeh83vXK6yfGsMeshFSfpoV40w3F68nBgnhKoZ
-         XGOXth9/6rNVXx7T6zGMDfO6M6Pj2/u1SHSrIvegkkF/ry5fRWaZPZoRp+SvgOM/Rvb0
-         KiIUrYRK2/zCj41kh0OVSspBkEZEof3XKBplHvGcbjrZyaDLzT30Dn10Y1TsAh/YHH7U
-         Bswg==
+        b=tBedaPQI7de1rtXUnvJgM8ki9kmyxc+HdEheuz+/LHOUBVRhSwdMeBVHoIHmlL+E1L
+         NesApkr90d7amFQwJe1ZRoxIsYczTUuBvrUEzEbmIfLIJ9uaglGv2JDtCFojpkL2IpYc
+         k8PgN1qO+LmPAHmDOkDbbdV0lZSmIRAjLU8537V+LQZ1JCGJL0zKGZw7E9MiTG0S0DF7
+         1LOQWrm1IKP4r+LP7aBDpEOhYf3+a4Q5qCLFF07cPvwKh4h5iYK7QkVrTJbrVTWIonia
+         2vukeOz+TDnalt9LcXrHZatiukCebJIlbukhfv7Hjb/8Ow8DkuoY5Suv9I1QP8MqyTxM
+         A4fA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=sFdF4GZOX086ISrwK9l5LUhY5IqIxyxTMWCR9UIlKXo=;
-        b=D0RccYxnrNBKEevElM+mYRBwx8otVr+d+tn7otqu9RH9cCHX3fK4x1LoBvHlTN7ytT
-         pZb+69g5gPIljCyM5lz5Bqci3HkXGQ3jc0jixRI0WyCF166mpcVlVNOe2UbskD7nGWGh
-         P3MCnL3NutK5zJXlQsRy5RMrF39o3lJS1IFA9JWczr51Bkc5NXP+7G9XBjNw1L7kotGQ
-         U+Ii4yfgzepVdr1V2xfGh4m/yIo9Oqn87W9WsyAY7Yln5K53oPKirzRqaUpDjePMFCKZ
-         cdQoAcuvYPbmpF79glVJvWAA5hvVJzamRz5an7e8IApxaVdf+JD4ntV8GyrFyKKjmuyT
-         pSlQ==
+        bh=x7W/Ng+ckfSmQBaNU7EaXuO/gsshQPswAldqszT4mc8=;
+        b=el459zP/DzNZ1OjXcYc4IA2HBZcM0wosD3N0D6Uc2R9LNzsjtU3wwcY05K/Yiioel1
+         28GQfz7H2OjAo1I4p2VBF+wcBH6IYYUBgrTCQnu6Esn1mRxKyPdvAOlSeYsZ7HsbxL/6
+         Mk7UyjzS9b1RCarkXT+LKgp4HoUzWft0mwV6TCjcngjEoVTKT2iI0Z+C1ON/Q1RKtd8r
+         SgB1xXHjgk90OzBY4J95qQ6veseGUS2H2eL0jOWgExlPT5dr57VMPE0ZpIR1LrMu7sn/
+         JC7/tMhYY9swpRNtugX510jdt8+1906hLr6BBbgUBLahL0LnAEDeOLalIuar7NWMUuTY
+         9/Ww==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=OhrgekEJ;
-       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::530 as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b=DQ7AqshQ;
+       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:sender:from:to:cc:subject:date;
-        bh=sFdF4GZOX086ISrwK9l5LUhY5IqIxyxTMWCR9UIlKXo=;
-        b=f6B1tYh2YQiB08h/gIOS0WBLD+mMO6TSP8vJT+1SBCDA1pdD3lbqac1T+xeOKrmwsR
-         MB3v9vNGeker3641wuTgLs3HPzBrTb+wxVqpfq0w+HBKaqTsgR1XjtzfRXQDnVxXRQnF
-         wzrtuXGKhwvsi0r9zvDyLpQXyj5GIT6hrb5osFBOK6cs+xFz8LRocaTp/YFlrmCkCmtG
-         e4yS9PFgv3EqXrv6NC1roZPhl5wMXa+vFJJzx/0z1fbmq2vAT6zYyXt2F3x05+WYfDJ5
-         nc3BfmwFSc1OdRNZmoguZnFlz0pw+UMc7oQyJ21XPI4kSsGj2S2Yz/eXEQbmv+cDth+W
-         pOGg==
+        bh=x7W/Ng+ckfSmQBaNU7EaXuO/gsshQPswAldqszT4mc8=;
+        b=LfXCBjW587Z9ykjbj9yMu+U0NMIEzVQKGbX7I9dXrclwFNgFqbSSoAPSAnnXwzsGaV
+         /DoGMRojO5b3mkd7tbaFTlAklKmJNSkUMWNCKGNlS/x2KLRgUI2Ow/Ik/TbQKOC513qY
+         1ajJMqNOMp7FBTUYR0nPzczgfrEHAbCrxEWkjh9iPyaqWUl18eJj7k4i2ywrkQ4Y1m2W
+         sGWMDswLbK8scBQL/+WTfv9f8UpgJz0aTFkXgBJ8yjW9Ii2aHWKCDLd4ARVVtyr1Dt7b
+         pPwu2Ir3hYRFdRlLz2e84dpXe3/3lDbCkU2cpd/WmWWVaqWLR3QiUMLioQ2VBFxXxjJJ
+         dDnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -49,64 +49,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=sFdF4GZOX086ISrwK9l5LUhY5IqIxyxTMWCR9UIlKXo=;
-        b=Hv+cEOddN5RxAy7Tp28SQb93jhfq/7kiZfCa0kbrDmJ/TBi/GLG8wDe4SYlblkYOK7
-         fdEysWD3BHQbeoKEmlT+06Ixzbt4wHl+K5zFSET9rzG3iUqJ2IpOLVHtslZTGu2NgRWC
-         ZjCxW+TKNuGlj45tWUhHb/SL9AeROMqykXQuN2Q0QuF18hFn94Jb4WSZzqXp79iarFJh
-         N1c+ZV0OLd0CT806Pn7sFVSV+zOle0T2njDPJKSDyJGeKOCgLRkL8Sg0RJVHwKHW3ted
-         hj+Qcs7x986HlLSt1RQzzrm46KGUN8ZlVDhdpquk30vG8OhmT+v4XawKkVkgPczYEIl9
-         921w==
+        bh=x7W/Ng+ckfSmQBaNU7EaXuO/gsshQPswAldqszT4mc8=;
+        b=QAAcBxXhGNk1TSmv6bXd+5/A6lA6HBPTy4q8L9lTmMfpaJYtXrTpKZE8bO1gn3qwR7
+         X+ER1RMLWY/WLwYMxboeTTvdBDxJLJgpBDZNAVEPf6Px1uJtJdy9mkA4cbLe30UeF3Jn
+         wLHx3/vDhv8/XAMO8HtoTQ8dDgI2oEg5ofHXKl0cPcNEWcEjEXbEHXcYwZouWEupvCNJ
+         Fv+IIwrSn7csTi7u3yg2RMr2Dj4LvSoFF07gjkVHiuUhP+N6vj1TyNSrTNhiPjDNRMDQ
+         iXnFoKyLR37CCaxGUXlFJU9r71Q9yZeTvVvV4V8bUr3wHYLJDFq6csG5uuT5s70UPPXw
+         W5Og==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1PUUyO1D0+n8oVufbpUYMPusqO7vhnaCNSfqrBMLss4I0UcOPn
-	TIEwgAKdGCvPaNejaNGIVWg=
-X-Google-Smtp-Source: AMsMyM4QdTq4HT8Ebk76dQyLGQF2eA2iBJyGYyGS/QseOwYWfqNBg28xTJGdjWPQJ/TIbsnCFsk9JQ==
-X-Received: by 2002:a17:90a:1b6e:b0:1f5:1902:af92 with SMTP id q101-20020a17090a1b6e00b001f51902af92mr17128900pjq.238.1664881799248;
-        Tue, 04 Oct 2022 04:09:59 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2tpV0Wb7CqZmkAzYkgV8ENbX7fN0uoJqDu3uynt6ikUYvYmVeH
+	OWmNoLtcjmTMTCTJJOfXoeU=
+X-Google-Smtp-Source: AMsMyM6t/bNmcDHdCXACIYcNtGWdcPzkr8ZZzDfPAuuZBvbhWqrRXCNNN4RWW+SkrmDi0BlQnEfUrQ==
+X-Received: by 2002:a05:6602:2c42:b0:6a1:6e51:690d with SMTP id x2-20020a0566022c4200b006a16e51690dmr10757615iov.146.1664882000493;
+        Tue, 04 Oct 2022 04:13:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:6907:0:b0:43c:ad84:1eb4 with SMTP id e7-20020a636907000000b0043cad841eb4ls7677134pgc.1.-pod-prod-gmail;
- Tue, 04 Oct 2022 04:09:58 -0700 (PDT)
-X-Received: by 2002:a63:e211:0:b0:43b:f03e:3cc5 with SMTP id q17-20020a63e211000000b0043bf03e3cc5mr22817319pgh.256.1664881798448;
-        Tue, 04 Oct 2022 04:09:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664881798; cv=none;
+Received: by 2002:a05:6e02:dec:b0:2f6:1ab4:f214 with SMTP id
+ m12-20020a056e020dec00b002f61ab4f214ls1705722ilj.0.-pod-prod-gmail; Tue, 04
+ Oct 2022 04:13:20 -0700 (PDT)
+X-Received: by 2002:a92:c264:0:b0:2fa:11ca:f695 with SMTP id h4-20020a92c264000000b002fa11caf695mr2138708ild.58.1664882000037;
+        Tue, 04 Oct 2022 04:13:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664882000; cv=none;
         d=google.com; s=arc-20160816;
-        b=H79UBiSKmMp+rog/84VlgE21rUeXyzi/JZdiZlzlDWu6p68cdr2lejbD4NYACbDTF5
-         suhVO4+ZYzbJjmIf3yKZl0j8ZFxVlPRlSupVL8FI2EqwP4cMapZZzoAIRvzZUH2CEXO0
-         Iyt/LYCjE32LAS7VOhGINaC3h+EtJzwawRfs0kvwvVIzGf2lOYmmVlfOQGuc5ZMgQ9jh
-         NRkh1P9pRMF9uIYOF6mpZFl2AnJCrhrUf1YCnJVkTcICt1iCgqAH+uCELpO6UN2/1TTU
-         ksHLsmcXyXcHEnHBitF9XiuhQ8cRCS2xB2xVugTn7tfEMbtKBw+oY2m8+2JGMQ68/+Yr
-         cngw==
+        b=skPqZeBo1+fZimnQOe24dRi9XmpdaP7lMa0p/ozAyEqlfIXFQRbKKlLqBHSyO1fNxG
+         q5cBVcvQOVe/A59h8VLlA4VGYPiR33ecuC6rUOMuswyCKMU/hZW8pMARRMVjrIJ+S6qR
+         6xxzXYaVOTxSNzepVvAy+11XWBV6cIHJp2O/5l2wN0/3aKP5xDwxqXF14ykKJNZVbdg0
+         zbKZERqID9Wsn5scSAZ2T+XEYJtb5w3H2omh3oo1DQ3zl99Gk/lhc2+uJiCKt19EYcue
+         Bh3tA3GRHCPWelYzGc5J7Q6HrhZFzpwgbPtgm+63H4xg667HSc7xPGaMlHuq0HCD6KTo
+         V0yQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=Z7fvRiwPcYU72K21mcsEeWsle1VHrp2FoZLK7rnaPdE=;
-        b=qUsLS3GtQs9cB6Yt/6O/emnj52HEU6AAI46/pgipIfuVDLf5H53xC3opxLrOxBo0M8
-         maAi0dJxNOe3V9LpEozu6KUa7XRAXUtQ6bOM30ZU7TaZT9mjmporSfwKsWPXH6cmCRXw
-         EEuyvPg0/7A+5HpnEWSMNnYkWKHV+4rCEMuEzgxGRs7nEjQBIx3xiVbHfpeXJ4bjOBve
-         Eli/2kJoq2KtnwyYqD+1hfXV9trRedF7UGtstc4dVhgvzGF9IAASZm6HBKbuwBe3vmrV
-         9gOs/ZAYDQLizC9P7ZPp/P16v5D49jSWKCBt9laVDBSm4RLHY6S55QK7jHOSQVoAPqGk
-         nMgw==
+        bh=UHE2x7YnT+avJBdJRK8fICu4tqbTB0zv1A8Jd5IOhrw=;
+        b=ZW5w0w1YwYzc+bLtokoiy+XT1f0fYrqjKGZHHxO9NT39aFGhV4KH5GKNxdYBMtiZ9+
+         nvVnMZ30ixcW35PHTC//qDTb+erC/t8p/+s9yL7aJkOzZ5nFCc7xAZPxsRwS4F3TM3Rn
+         /G9QHhFGM8kLqLturU4umHgUU6WPednItwluxcR+W+7vyqlMRV59lwwg1zC/9O+RW8ue
+         Orce78TUov3B8skgj2wsy9UR1bEHbMqc9KrCtqfUQCmrbNIBse0g1P4cotgCtbThkJp6
+         r60XKfL43YlQOP93jfHDNr/Vgdu7XP9MrfqD0mdljNGqXxtGQoP5SmGwkHHXbC98qtv9
+         XYzw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=OhrgekEJ;
-       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::530 as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b=DQ7AqshQ;
+       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com. [2607:f8b0:4864:20::530])
-        by gmr-mx.google.com with ESMTPS id pc7-20020a17090b3b8700b001faab3fc6a0si766627pjb.3.2022.10.04.04.09.58
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com. [2607:f8b0:4864:20::1029])
+        by gmr-mx.google.com with ESMTPS id p25-20020a6bfa19000000b00688fefa6d1dsi551711ioh.2.2022.10.04.04.13.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Oct 2022 04:09:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::530 as permitted sender) client-ip=2607:f8b0:4864:20::530;
-Received: by mail-pg1-x530.google.com with SMTP id j71so6285873pge.2
-        for <kasan-dev@googlegroups.com>; Tue, 04 Oct 2022 04:09:58 -0700 (PDT)
-X-Received: by 2002:a63:464d:0:b0:441:5968:cd0e with SMTP id
- v13-20020a63464d000000b004415968cd0emr18985801pgk.595.1664881798027; Tue, 04
- Oct 2022 04:09:58 -0700 (PDT)
+        Tue, 04 Oct 2022 04:13:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::1029 as permitted sender) client-ip=2607:f8b0:4864:20::1029;
+Received: by mail-pj1-x1029.google.com with SMTP id q99-20020a17090a1b6c00b0020ac0368d64so3526138pjq.3
+        for <kasan-dev@googlegroups.com>; Tue, 04 Oct 2022 04:13:19 -0700 (PDT)
+X-Received: by 2002:a17:90b:4d07:b0:1ef:521c:f051 with SMTP id
+ mw7-20020a17090b4d0700b001ef521cf051mr17237644pjb.164.1664881999182; Tue, 04
+ Oct 2022 04:13:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220919095939.761690562@infradead.org> <20220919101522.975285117@infradead.org>
-In-Reply-To: <20220919101522.975285117@infradead.org>
+References: <20220919095939.761690562@infradead.org> <20220919101522.908560022@infradead.org>
+In-Reply-To: <20220919101522.908560022@infradead.org>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 4 Oct 2022 13:09:21 +0200
-Message-ID: <CAPDyKFqoBJPgehVODY0DGuUcnqJE5rpZjRPfdMCzOP0=JrvKNw@mail.gmail.com>
-Subject: Re: [PATCH v2 39/44] cpuidle,clk: Remove trace_.*_rcuidle()
+Date: Tue, 4 Oct 2022 13:12:42 +0200
+Message-ID: <CAPDyKFqDiqXSi5Gn9eyvhHhqHxJAPAt-HzmEDwYWaGvso2yn=w@mail.gmail.com>
+Subject: Re: [PATCH v2 38/44] cpuidle,powerdomain: Remove trace_.*_rcuidle()
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: juri.lelli@redhat.com, rafael@kernel.org, catalin.marinas@arm.com, 
 	linus.walleij@linaro.org, bsegall@google.com, guoren@kernel.org, pavel@ucw.cz, 
@@ -159,8 +160,8 @@ Cc: juri.lelli@redhat.com, rafael@kernel.org, catalin.marinas@arm.com,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: ulf.hansson@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=OhrgekEJ;       spf=pass
- (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::530
+ header.i=@linaro.org header.s=google header.b=DQ7AqshQ;       spf=pass
+ (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::1029
  as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
@@ -178,11 +179,12 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 On Mon, 19 Sept 2022 at 12:17, Peter Zijlstra <peterz@infradead.org> wrote:
 >
 > OMAP was the one and only user.
-
-OMAP? :-)
-
 >
 > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+There are changes to the runtime PM core as part of $subject patch.
+Perhaps move those parts into a separate patch? In any case, the code
+looks good to me.
 
 Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 
@@ -190,41 +192,146 @@ Kind regards
 Uffe
 
 > ---
->  drivers/clk/clk.c |    8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  arch/arm/mach-omap2/powerdomain.c |   10 +++++-----
+>  drivers/base/power/runtime.c      |   24 ++++++++++++------------
+>  2 files changed, 17 insertions(+), 17 deletions(-)
 >
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -978,12 +978,12 @@ static void clk_core_disable(struct clk_
->         if (--core->enable_count > 0)
->                 return;
+> --- a/arch/arm/mach-omap2/powerdomain.c
+> +++ b/arch/arm/mach-omap2/powerdomain.c
+> @@ -187,9 +187,9 @@ static int _pwrdm_state_switch(struct po
+>                         trace_state = (PWRDM_TRACE_STATES_FLAG |
+>                                        ((next & OMAP_POWERSTATE_MASK) << 8) |
+>                                        ((prev & OMAP_POWERSTATE_MASK) << 0));
+> -                       trace_power_domain_target_rcuidle(pwrdm->name,
+> -                                                         trace_state,
+> -                                                         raw_smp_processor_id());
+> +                       trace_power_domain_target(pwrdm->name,
+> +                                                 trace_state,
+> +                                                 raw_smp_processor_id());
+>                 }
+>                 break;
+>         default:
+> @@ -541,8 +541,8 @@ int pwrdm_set_next_pwrst(struct powerdom
 >
-> -       trace_clk_disable_rcuidle(core);
-> +       trace_clk_disable(core);
+>         if (arch_pwrdm && arch_pwrdm->pwrdm_set_next_pwrst) {
+>                 /* Trace the pwrdm desired target state */
+> -               trace_power_domain_target_rcuidle(pwrdm->name, pwrst,
+> -                                                 raw_smp_processor_id());
+> +               trace_power_domain_target(pwrdm->name, pwrst,
+> +                                         raw_smp_processor_id());
+>                 /* Program the pwrdm desired target state */
+>                 ret = arch_pwrdm->pwrdm_set_next_pwrst(pwrdm, pwrst);
+>         }
+> --- a/drivers/base/power/runtime.c
+> +++ b/drivers/base/power/runtime.c
+> @@ -442,7 +442,7 @@ static int rpm_idle(struct device *dev,
+>         int (*callback)(struct device *);
+>         int retval;
 >
->         if (core->ops->disable)
->                 core->ops->disable(core->hw);
+> -       trace_rpm_idle_rcuidle(dev, rpmflags);
+> +       trace_rpm_idle(dev, rpmflags);
+>         retval = rpm_check_suspend_allowed(dev);
+>         if (retval < 0)
+>                 ;       /* Conditions are wrong. */
+> @@ -481,7 +481,7 @@ static int rpm_idle(struct device *dev,
+>                         dev->power.request_pending = true;
+>                         queue_work(pm_wq, &dev->power.work);
+>                 }
+> -               trace_rpm_return_int_rcuidle(dev, _THIS_IP_, 0);
+> +               trace_rpm_return_int(dev, _THIS_IP_, 0);
+>                 return 0;
+>         }
 >
-> -       trace_clk_disable_complete_rcuidle(core);
-> +       trace_clk_disable_complete(core);
+> @@ -493,7 +493,7 @@ static int rpm_idle(struct device *dev,
+>         wake_up_all(&dev->power.wait_queue);
 >
->         clk_core_disable(core->parent);
+>   out:
+> -       trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
+> +       trace_rpm_return_int(dev, _THIS_IP_, retval);
+>         return retval ? retval : rpm_suspend(dev, rpmflags | RPM_AUTO);
 >  }
-> @@ -1037,12 +1037,12 @@ static int clk_core_enable(struct clk_co
->                 if (ret)
->                         return ret;
 >
-> -               trace_clk_enable_rcuidle(core);
-> +               trace_clk_enable(core);
+> @@ -557,7 +557,7 @@ static int rpm_suspend(struct device *de
+>         struct device *parent = NULL;
+>         int retval;
 >
->                 if (core->ops->enable)
->                         ret = core->ops->enable(core->hw);
+> -       trace_rpm_suspend_rcuidle(dev, rpmflags);
+> +       trace_rpm_suspend(dev, rpmflags);
 >
-> -               trace_clk_enable_complete_rcuidle(core);
-> +               trace_clk_enable_complete(core);
+>   repeat:
+>         retval = rpm_check_suspend_allowed(dev);
+> @@ -708,7 +708,7 @@ static int rpm_suspend(struct device *de
+>         }
 >
->                 if (ret) {
->                         clk_core_disable(core->parent);
+>   out:
+> -       trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
+> +       trace_rpm_return_int(dev, _THIS_IP_, retval);
+>
+>         return retval;
+>
+> @@ -760,7 +760,7 @@ static int rpm_resume(struct device *dev
+>         struct device *parent = NULL;
+>         int retval = 0;
+>
+> -       trace_rpm_resume_rcuidle(dev, rpmflags);
+> +       trace_rpm_resume(dev, rpmflags);
+>
+>   repeat:
+>         if (dev->power.runtime_error) {
+> @@ -925,7 +925,7 @@ static int rpm_resume(struct device *dev
+>                 spin_lock_irq(&dev->power.lock);
+>         }
+>
+> -       trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
+> +       trace_rpm_return_int(dev, _THIS_IP_, retval);
+>
+>         return retval;
+>  }
+> @@ -1081,7 +1081,7 @@ int __pm_runtime_idle(struct device *dev
+>                 if (retval < 0) {
+>                         return retval;
+>                 } else if (retval > 0) {
+> -                       trace_rpm_usage_rcuidle(dev, rpmflags);
+> +                       trace_rpm_usage(dev, rpmflags);
+>                         return 0;
+>                 }
+>         }
+> @@ -1119,7 +1119,7 @@ int __pm_runtime_suspend(struct device *
+>                 if (retval < 0) {
+>                         return retval;
+>                 } else if (retval > 0) {
+> -                       trace_rpm_usage_rcuidle(dev, rpmflags);
+> +                       trace_rpm_usage(dev, rpmflags);
+>                         return 0;
+>                 }
+>         }
+> @@ -1202,7 +1202,7 @@ int pm_runtime_get_if_active(struct devi
+>         } else {
+>                 retval = atomic_inc_not_zero(&dev->power.usage_count);
+>         }
+> -       trace_rpm_usage_rcuidle(dev, 0);
+> +       trace_rpm_usage(dev, 0);
+>         spin_unlock_irqrestore(&dev->power.lock, flags);
+>
+>         return retval;
+> @@ -1566,7 +1566,7 @@ void pm_runtime_allow(struct device *dev
+>         if (ret == 0)
+>                 rpm_idle(dev, RPM_AUTO | RPM_ASYNC);
+>         else if (ret > 0)
+> -               trace_rpm_usage_rcuidle(dev, RPM_AUTO | RPM_ASYNC);
+> +               trace_rpm_usage(dev, RPM_AUTO | RPM_ASYNC);
+>
+>   out:
+>         spin_unlock_irq(&dev->power.lock);
+> @@ -1635,7 +1635,7 @@ static void update_autosuspend(struct de
+>                         atomic_inc(&dev->power.usage_count);
+>                         rpm_resume(dev, 0);
+>                 } else {
+> -                       trace_rpm_usage_rcuidle(dev, 0);
+> +                       trace_rpm_usage(dev, 0);
+>                 }
+>         }
+>
 >
 >
 > _______________________________________________
@@ -235,4 +342,4 @@ Uffe
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAPDyKFqoBJPgehVODY0DGuUcnqJE5rpZjRPfdMCzOP0%3DJrvKNw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAPDyKFqDiqXSi5Gn9eyvhHhqHxJAPAt-HzmEDwYWaGvso2yn%3Dw%40mail.gmail.com.
