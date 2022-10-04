@@ -1,140 +1,130 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBMGX6GMQMGQEPWIBRNQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBKO56GMQMGQEEAA633Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D53C5F484A
-	for <lists+kasan-dev@lfdr.de>; Tue,  4 Oct 2022 19:21:53 +0200 (CEST)
-Received: by mail-wm1-x33c.google.com with SMTP id v125-20020a1cac83000000b003bd44dc5242sf594286wme.7
-        for <lists+kasan-dev@lfdr.de>; Tue, 04 Oct 2022 10:21:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664904112; cv=pass;
+Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7385D5F488D
+	for <lists+kasan-dev@lfdr.de>; Tue,  4 Oct 2022 19:34:36 +0200 (CEST)
+Received: by mail-pl1-x63e.google.com with SMTP id c12-20020a170903234c00b0017f695bf8f0sf3158495plh.6
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 Oct 2022 10:34:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664904873; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WAtDjex/HKqhfcFfg+1omWStrTqUs/mvjhXX0JoylmXnhehTrTbAawUIKncVJtB8M9
-         s5rBUtRmoZ+809jSDA1kF3YlXJ+RqehblscsqWKtgH6lmAHEYaoNXgFuy50rCKdHSaZQ
-         Ko2fCtl0u/X19rXi7TFQ3lzG6iRAsy+wAHqZn9Q9wjwGnda5g1l5UNrFG6cf+Mj+5xt4
-         RjRURIRqmhaS2BVtWc2b+fM3y2V7+M+ifVuIcg2s9SkgUzqddHehEwnkNW5Nt2R63dx8
-         o+MoemwmoTm56KrV51lGBHP03Q0CyV25viFUfgq1LoHKq6X1q0gFlJfpoTa4H2D4/RR3
-         s1Aw==
+        b=m6iCIqXS0EqONfrY2QUZMFzudYd8Kh0eWi9wZlnIbFqrE5LzFZ5jKXX1MaME9nkyG8
+         MgWCh4P5+5UC9XIrwwm5yaGbdlRGVzlJndM+mMy9H8q/9bBOgUiSmkQxfMrGxP2HP4EC
+         s8Qxxcunync/blO9LIt+042aMX9jeEL61JRI7btbazYa4ddmPfCMVF6yqoo47pTaYQ+R
+         8/KARCalI2dsXj0aw3FvqTZViAmSd9povCriQaCAt+X7OANQ1stIf8PMYl4spjW41/+b
+         M/uBuzygY/6f6uQ4yN7ojthKYshQNKYiFaxuFdTV9tTif89nUROLHt0eT9YiGGVY77Gd
+         G1oQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=SH6P6LDas7XfPjD90gNx2rq3IwkyebT4JKmuC/vp1q4=;
-        b=WcZiUyPCrpKmWvnr0yMUC7H3E4kf2muttXP/mMJ7vrtRE9hDKBfuka35Xn8K8aRKkw
-         zttRz+nKIcK/2xer0QBWOBO2F/IoX4msB5/qMJYPDpRMI+uxPzY8OVEMplMzSe96OEFR
-         sdLJbPPnA4Q4QT/zW4HqQcF1Lg97YhsMSUMUPUwNONaUwIwjeblcGZZmy2vvRg0gcGBn
-         UB4xu8/icJIUihiRMD7o7z0umaim8J7O+ZAvXNu1eEaF2lY7kC3iLtulRV8OZL1Ibdva
-         7ov3S4pcLRjK3x9diS85hL+MdOkcBd1k0WKwmah0SX7CvdhH+xUD49VHs6sCgRb7r9Bw
-         n7jA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=93ldYph8FvVv9+J5PBK99PqyOXF4Trs8iviQBSLDlqk=;
+        b=rWlzbmulbLk9ksnkAMgrwVl1dfq6YGQYJ3Y2PDeI8OajFi/dUq7GmrlSN57wW3i7J8
+         FsIfJGYBcmgyrFblkHwY7ly/g8UoUq/eyjfytM6WVeYuU0d/pQ2t3xStNblTEeApG8cB
+         lkYWur5Aj+TsORr3NyrDs9XsJ1HGeZKnrf0RBHBVTthGI/LXnyiRUPqZPC2GQf1ba3Yf
+         vD0xIcHhzoOVbwlY2BQCHc2Iy3jXBvJuIC/lIKinhgBlCNETOjTYBT4i5QkdlNU8RGH/
+         YRAvjTZ+JDK2D7RSGLcVdA1O9rL8CRGt9uPRPizgMqaQ3HnWYXIHTuLozar+Dl/i1byB
+         VZJw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=JRMyjcoK;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Ymg9ZZ0r;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1136 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date;
-        bh=SH6P6LDas7XfPjD90gNx2rq3IwkyebT4JKmuC/vp1q4=;
-        b=PLo/KQZQJPI1x3cF0U2Oo14FwHfdMMHS68k3wffJfg2hbWHV1sh1g1D04n8rs/5ex1
-         5YAttT4qUnYqEMnLRSNkk4jC6gaNTi21sSnicGJsqzp4T7Db9DH72fXewX7B8liE7wPV
-         kVvcR3RJD0SBYe+mqP/AHWPX/i7aQApOgylrSog28M64jrm5RKY6JK4S5aMSEEFkTfBT
-         2otlQTLCg8IARo+D2mBkzPsfQAjZu4RjTC54XSXZMKmk3zoRf/YtLDEGfXFE9ClyleYx
-         AnVW0Y/x/crRLbb6OikhnpGNhO3VjKsQ6X0m3vo+5C47F01mqnEW+1mVUIWinrtl9nXZ
-         H19A==
+        bh=93ldYph8FvVv9+J5PBK99PqyOXF4Trs8iviQBSLDlqk=;
+        b=mpMAEyGAClGi82gD5uW4ENivl4K0ouWiE5/IUULBkHcnouNIdCL8wODjvCWJEAwU6E
+         esil5P52XH3CY4FVUNzrp/JI/PncdbrhAXZpEamycXC1+r9R7yCuOaPVoCvcF9+iEyAM
+         llOeeS4KtTjh++/NTXf2cRVvzTPKAtbKQc9nOQiSfVv6gFk7f7YLuHNgr1JjuYwdAOb6
+         JkU914NWlCFyk97fy+KH35jIm0ukxEoi9PQaXP7YlbKR2ZFjjsGh0Vu5n9s4gOgnAnFz
+         rn+mbqbBGM2enhCF0OW87OlMtMN4rBZNMBaNSF933XqLYYQyJqRVHOnlL9+heqOBvAGv
+         tchw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=SH6P6LDas7XfPjD90gNx2rq3IwkyebT4JKmuC/vp1q4=;
-        b=0G5nrN5JSLnVYPzE2bALdmOTbOJzGt7e8MOMyjiz09JmR9ZolDVC/c8YzuIQ2bQdeb
-         i0hsBjYJ1s48KF3sD0GJ5Pu9nor1NfDbmrDJc0MQ/FP5RLEY78kDAXNiDQ71SRID9/0w
-         nKPx7REKwfc3jev0DVGMC8cgmilVu7efeZ4Oxlb3YcNfBCi134HGLe/o+vzEZ8BAivNl
-         5Q1vVxnBSAjWzB+8grg1bgobkzEpk7oeZfY1FQzgIsBIy/gZo+QLqzhQG4+FiW+1ys23
-         AQkfVhIqUNb2VniZT9qlo6fDjy5vH+Tsd+uLYszhLIPB3g3HuauZ8q3UltbRpnNgiHTx
-         XG9Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0/UBwB9Y9NotN861avLTCpzM1gZFphBbjeEaG5uhae/joW7I0A
-	aSsaRObEldBtmadOT1TS7VA=
-X-Google-Smtp-Source: AMsMyM6jMVYbrNHU7KlThMuHOcZhpEhR38Z3KOVHJRy+kPB9gH7h8QBsUU8xdBYcbJ50c6KWAxlL0Q==
-X-Received: by 2002:a1c:4b03:0:b0:3b4:74d3:b4c5 with SMTP id y3-20020a1c4b03000000b003b474d3b4c5mr576808wma.96.1664904112473;
-        Tue, 04 Oct 2022 10:21:52 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=93ldYph8FvVv9+J5PBK99PqyOXF4Trs8iviQBSLDlqk=;
+        b=y+akrx0VAHooupZp6C3mMBPr883VfnvdnbpkfXB63DwZQrda9ffw/6rx3ASJqdBLsF
+         PWbp82WJtm/g9liNTiSyYpEFMCzILY/yKsDPKhTSCHTZv7phg0pDqY5F/u7EVBvbNveq
+         CVboJJQQvrIQGQYLIGuHZXGID/wRWODeq29SAAUwjbWFfzCBVuToxva4X9Me0WwmCHCC
+         ZmvXJgnxu4Laik47Fw/hDBecOzRLBQ3eFuPUpKfWo9YlWAgeKaP2SPXghbDr99InKEdc
+         s7X0cta+iCrgqjDupC27gFkIYZqdy9+n5M5/unJacZQsIFiCfL/sL5OF60iar1lVAFyz
+         LS7A==
+X-Gm-Message-State: ACrzQf2mcH9utdhdLSUswzvBHACKF/UB3795dEkn/3cKVBeqk1R2wgaj
+	6kqyk050JimOoUZl/iVws28=
+X-Google-Smtp-Source: AMsMyM7u1+VyW9wNC0sNTK7NI/YySoVPXO8eaWeGEtprvsrJ2JAKcLjk17sy3Z/eELe1BawQDQnStg==
+X-Received: by 2002:a63:6b09:0:b0:453:88a9:1d18 with SMTP id g9-20020a636b09000000b0045388a91d18mr5665011pgc.41.1664904873154;
+        Tue, 04 Oct 2022 10:34:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:388:b0:225:6559:3374 with SMTP id
- u8-20020a056000038800b0022565593374ls5611357wrf.2.-pod-prod-gmail; Tue, 04
- Oct 2022 10:21:51 -0700 (PDT)
-X-Received: by 2002:a5d:4106:0:b0:22d:494:ca05 with SMTP id l6-20020a5d4106000000b0022d0494ca05mr13254038wrp.714.1664904111155;
-        Tue, 04 Oct 2022 10:21:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664904111; cv=none;
+Received: by 2002:a63:2a92:0:b0:438:96ac:b3c1 with SMTP id q140-20020a632a92000000b0043896acb3c1ls8062479pgq.7.-pod-prod-gmail;
+ Tue, 04 Oct 2022 10:34:32 -0700 (PDT)
+X-Received: by 2002:a05:6a00:17a1:b0:542:be09:7b23 with SMTP id s33-20020a056a0017a100b00542be097b23mr28518884pfg.12.1664904872298;
+        Tue, 04 Oct 2022 10:34:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664904872; cv=none;
         d=google.com; s=arc-20160816;
-        b=nyZVr/DQ+5KFpc75uDMo3NI+m1cNkeF/h3iMQYGoHUdXzY7X7zI9E+Ei2W4wGMmXN/
-         j2LFguiLm/tmckjbr9dPVASfQwTmvgE/1yDN8I0A3SGsIbyoSQusTFpuD+v8ZqGnJxAz
-         5ysL82N4fxPuRCiorSnaAsHaAMPHjgfo4iGjaEzWlWF8UDE6gnRzwTWiFamNrR7P7xLy
-         CPcn+BnmnWrj/HgvpqBjza5n+K53w+QzZ1VpG5RU8eY1yiCfweuNmsvLVdKb+hFngXH4
-         96WPk8pd3u12bUcgQWE7qK9LY7vuCSrB/YKZV+nXXOgiZqDM0SsMGWoBcnfEMmtLeGMw
-         zL9Q==
+        b=iQhGmhqCXd3jtrWkgJ4RwOO0sesr4Tcox85SokhNq2nnpnhXmG2XY1mhJy+6ET2qjw
+         Or5XU1sdxd0WEw7JKhy50FpVIWvud9SbHBwaiDFdfbdOvv0gvSa6K8qxRXspPza4WIwn
+         rm2eKpuNspYN6Go/oV66A6xmjLyB7jCOmHkfVIXsEvRNRKf2mJqBHfFQP7tcXzNFTTq2
+         Fhvs5/eqeqs+V9E6163DIK5HuoziL/BgiWNzzijGOkIXdbHJBBJmYNYzOE74/qF1SMVL
+         zL8Gq1lzawAJ4/vJp0SUThN37BVeeqz0K8kHYykHBGwsGOV0mxVuv1Cctm/+k2dDtQgy
+         0M+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=bh6vzn8U2ZsRPHfJfbA7bhjBG4wiyjRnctJShcuE7JE=;
-        b=yZLiqmKPATbGmeaSzQx5ptXkvcnSX5vksPC0Lxa1B14/GgNjpDg3I/W67DXqUtqv4P
-         EbGt5jYQVqbjk45sDRatufy19C1O4RE6qTH7G6h06z+f9ZMhkyX24pPciE5Ahi8juBSc
-         vFijyGvAE2dmi7DHMfZeHV0pzzt/p6e3wbP6GPZDNQxOwt9BHnDUoDOXEVdvBq/Yu7jM
-         PvoStzPtjUyaMg6eTrwFgbkIgssv4M9oWPdlCTeJycATOfM7FV3LWXqzKGx448Aldpj3
-         UcbeeNdiYji5qQ3N8/Kseh2+0P0um7euaKVspcr8dHeNjuFLtLUXl86lhZNp1YsUVo2a
-         KSow==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=uB+xgYQO/9hSmh+whT13wcnQWr/VgecN0kcqIDAF7KU=;
+        b=031WiqLQYG8qqUGlLF2xrFwOtzd8tcB46w2C2vqcTOM6KZiYsf766pmQ1ERsbiSw1j
+         9c1yIzWoS8FGgGkXpw37fEyxfJsfWr6/qMc32MUL1K3pzmbG9c+a4i1QUSI9n+wuF+Dl
+         ES7cXZ4OiT3ZTr5xmvB2PQXILYUG4btjw3E1Tt/8/jcUjrguou9y3F8AOMz+wvTCPxSH
+         5BUFK+uwXafZpSSTT70IIvXeEk3h9pypSHWC6+mUjAL0liEtM5rTGPho8HDFubX+TocX
+         rqV9WreXu5GbfDTuFeuaEwpNt/+rIje8LMwzXxo0lsRnCX22Taw9c9URoVpfU5tIaS4Y
+         TT7w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=JRMyjcoK;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id l6-20020a05600c1d0600b003a54f1563c9si520449wms.0.2022.10.04.10.21.51
+       dkim=pass header.i=@google.com header.s=20210112 header.b=Ymg9ZZ0r;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1136 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com. [2607:f8b0:4864:20::1136])
+        by gmr-mx.google.com with ESMTPS id o10-20020a170902d4ca00b0016d5fc78c8esi631796plg.7.2022.10.04.10.34.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 10:21:51 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oflc3-000lRQ-4T; Tue, 04 Oct 2022 17:21:47 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9E23C3002EC;
-	Tue,  4 Oct 2022 19:21:45 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 8264920C3AB5A; Tue,  4 Oct 2022 19:21:45 +0200 (CEST)
-Date: Tue, 4 Oct 2022 19:21:45 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH] perf: Fix missing SIGTRAPs due to pending_disable abuse
-Message-ID: <YzxrqUFBNy/kR6PZ@hirez.programming.kicks-ass.net>
-References: <20220927121322.1236730-1-elver@google.com>
- <YzM/BUsBnX18NoOG@hirez.programming.kicks-ass.net>
- <YzNu5bgASbuVi0S3@elver.google.com>
- <YzQcqe9p9C5ZbjZ1@elver.google.com>
- <YzRgcnMXWuUZ4rlt@elver.google.com>
- <Yzxou9HB/1XjMXWI@hirez.programming.kicks-ass.net>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Oct 2022 10:34:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1136 as permitted sender) client-ip=2607:f8b0:4864:20::1136;
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-357208765adso100867787b3.12
+        for <kasan-dev@googlegroups.com>; Tue, 04 Oct 2022 10:34:32 -0700 (PDT)
+X-Received: by 2002:a81:6dc5:0:b0:358:6a18:b73d with SMTP id
+ i188-20020a816dc5000000b003586a18b73dmr14847990ywc.267.1664904871847; Tue, 04
+ Oct 2022 10:34:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
+References: <20220927121322.1236730-1-elver@google.com> <YzM/BUsBnX18NoOG@hirez.programming.kicks-ass.net>
+ <YzNu5bgASbuVi0S3@elver.google.com> <YzQcqe9p9C5ZbjZ1@elver.google.com>
+ <YzRgcnMXWuUZ4rlt@elver.google.com> <Yzxou9HB/1XjMXWI@hirez.programming.kicks-ass.net>
 In-Reply-To: <Yzxou9HB/1XjMXWI@hirez.programming.kicks-ass.net>
-X-Original-Sender: peterz@infradead.org
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 4 Oct 2022 19:33:55 +0200
+Message-ID: <CANpmjNPwiL279B5id5dPF821aXYdTUqsfDNAtB4q7jXX+41Qgg@mail.gmail.com>
+Subject: Re: [PATCH] perf: Fix missing SIGTRAPs due to pending_disable abuse
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	Dmitry Vyukov <dvyukov@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=JRMyjcoK;
-       spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as
- permitted sender) smtp.mailfrom=peterz@infradead.org
+ header.i=@google.com header.s=20210112 header.b=Ymg9ZZ0r;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1136 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,36 +137,177 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Oct 04, 2022 at 07:09:15PM +0200, Peter Zijlstra wrote:
+On Tue, 4 Oct 2022 at 19:09, Peter Zijlstra <peterz@infradead.org> wrote:
+>
 > On Wed, Sep 28, 2022 at 04:55:46PM +0200, Marco Elver wrote:
 > > On Wed, Sep 28, 2022 at 12:06PM +0200, Marco Elver wrote:
-> > 
+> >
 > > > My second idea about introducing something like irq_work_raw_sync().
 > > > Maybe it's not that crazy if it is actually safe. I expect this case
 > > > where we need the irq_work_raw_sync() to be very very rare.
-> > 
+> >
 > > The previous irq_work_raw_sync() forgot about irq_work_queue_on(). Alas,
 > > I might still be missing something obvious, because "it's never that
 > > easy". ;-)
-> > 
+> >
 > > And for completeness, the full perf patch of what it would look like
 > > together with irq_work_raw_sync() (consider it v1.5). It's already
 > > survived some shorter stress tests and fuzzing.
-> 
+>
 > So.... I don't like it. But I cooked up the below, which _almost_ works :-/
-> 
+>
 > For some raisin it sometimes fails with 14999 out of 15000 events
 > delivered and I've not yet figured out where it goes sideways. I'm
 > currently thinking it's that sigtrap clear on OFF.
+>
+> Still, what do you think of the approach?
 
-Oh Urgh, this is ofcourse the case where an IPI races with a migration
-and we loose the race with return to use. Effectively giving the signal
-skid vs the hardware event.
+It looks reasonable, but obviously needs to pass tests. :-)
+Also, see comment below (I think you're still turning signals
+asynchronous, which we shouldn't do).
 
-Bah.. I really hate having one CPU wait for another... Let me see if I
-can find another way to close that hole.
+> ---
+>  include/linux/perf_event.h |  8 ++--
+>  kernel/events/core.c       | 92 +++++++++++++++++++++++++---------------------
+>  2 files changed, 55 insertions(+), 45 deletions(-)
+>
+> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+> index ee8b9ecdc03b..c54161719d37 100644
+> --- a/include/linux/perf_event.h
+> +++ b/include/linux/perf_event.h
+> @@ -736,9 +736,11 @@ struct perf_event {
+>         struct fasync_struct            *fasync;
+>
+>         /* delayed work for NMIs and such */
+> -       int                             pending_wakeup;
+> -       int                             pending_kill;
+> -       int                             pending_disable;
+> +       unsigned int                    pending_wakeup  :1;
+> +       unsigned int                    pending_disable :1;
+> +       unsigned int                    pending_sigtrap :1;
+> +       unsigned int                    pending_kill    :3;
+> +
+>         unsigned long                   pending_addr;   /* SIGTRAP */
+>         struct irq_work                 pending;
+>
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index 2621fd24ad26..8e5dbe971d9e 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -2268,11 +2268,15 @@ event_sched_out(struct perf_event *event,
+>         event->pmu->del(event, 0);
+>         event->oncpu = -1;
+>
+> -       if (READ_ONCE(event->pending_disable) >= 0) {
+> -               WRITE_ONCE(event->pending_disable, -1);
+> +       if (event->pending_disable) {
+> +               event->pending_disable = 0;
+>                 perf_cgroup_event_disable(event, ctx);
+>                 state = PERF_EVENT_STATE_OFF;
+>         }
+> +
+> +       if (event->pending_sigtrap && state == PERF_EVENT_STATE_OFF)
+> +               event->pending_sigtrap = 0;
+> +
+>         perf_event_set_state(event, state);
+>
+>         if (!is_software_event(event))
+> @@ -2463,8 +2467,7 @@ EXPORT_SYMBOL_GPL(perf_event_disable);
+>
+>  void perf_event_disable_inatomic(struct perf_event *event)
+>  {
+> -       WRITE_ONCE(event->pending_disable, smp_processor_id());
+> -       /* can fail, see perf_pending_event_disable() */
+> +       event->pending_disable = 1;
+>         irq_work_queue(&event->pending);
+>  }
+>
+> @@ -2527,6 +2530,9 @@ event_sched_in(struct perf_event *event,
+>         if (event->attr.exclusive)
+>                 cpuctx->exclusive = 1;
+>
+> +       if (event->pending_disable || event->pending_sigtrap)
+> +               irq_work_queue(&event->pending);
+> +
+>  out:
+>         perf_pmu_enable(event->pmu);
+>
+> @@ -6440,47 +6446,40 @@ static void perf_sigtrap(struct perf_event *event)
+>                       event->attr.type, event->attr.sig_data);
+>  }
+>
+> -static void perf_pending_event_disable(struct perf_event *event)
+> +/*
+> + * Deliver the pending work in-event-context or follow the context.
+> + */
+> +static void __perf_pending_event(struct perf_event *event)
+>  {
+> -       int cpu = READ_ONCE(event->pending_disable);
+> +       int cpu = READ_ONCE(event->oncpu);
+>
+> +       /*
+> +        * If the event isn't running; we done. event_sched_in() will restart
+> +        * the irq_work when needed.
+> +        */
+>         if (cpu < 0)
+>                 return;
+>
+> +       /*
+> +        * Yay, we hit home and are in the context of the event.
+> +        */
+>         if (cpu == smp_processor_id()) {
+> -               WRITE_ONCE(event->pending_disable, -1);
+> -
+> -               if (event->attr.sigtrap) {
+> +               if (event->pending_sigtrap) {
+> +                       event->pending_sigtrap = 0;
+>                         perf_sigtrap(event);
+> -                       atomic_set_release(&event->event_limit, 1); /* rearm event */
+> -                       return;
+>                 }
+> -
+> -               perf_event_disable_local(event);
+> -               return;
+> +               if (event->pending_disable) {
+> +                       event->pending_disable = 0;
+> +                       perf_event_disable_local(event);
+> +               }
+>         }
+>
+>         /*
+> -        *  CPU-A                       CPU-B
+> -        *
+> -        *  perf_event_disable_inatomic()
+> -        *    @pending_disable = CPU-A;
+> -        *    irq_work_queue();
+> -        *
+> -        *  sched-out
+> -        *    @pending_disable = -1;
+> -        *
+> -        *                              sched-in
+> -        *                              perf_event_disable_inatomic()
+> -        *                                @pending_disable = CPU-B;
+> -        *                                irq_work_queue(); // FAILS
+> -        *
+> -        *  irq_work_run()
+> -        *    perf_pending_event()
+> -        *
+> -        * But the event runs on CPU-B and wants disabling there.
+> +        * Requeue if there's still any pending work left, make sure to follow
+> +        * where the event went.
+>          */
+> -       irq_work_queue_on(&event->pending, cpu);
+> +       if (event->pending_disable || event->pending_sigtrap)
+> +               irq_work_queue_on(&event->pending, cpu);
+
+I considered making the irq_work "chase" the right CPU but it doesn't
+work for sigtrap. This will make the signal asynchronous (it should be
+synchronous), and the reason why I had to do irq_work_raw_sync().
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/YzxrqUFBNy/kR6PZ%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPwiL279B5id5dPF821aXYdTUqsfDNAtB4q7jXX%2B41Qgg%40mail.gmail.com.
