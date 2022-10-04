@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDF57NG2XIHRBUFK6CMQMGQEYIUYXOQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDF57NG2XIHRBCNZ6CMQMGQEXGDE3QQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12B35F41B8
-	for <lists+kasan-dev@lfdr.de>; Tue,  4 Oct 2022 13:13:26 +0200 (CEST)
-Received: by mail-il1-x13f.google.com with SMTP id h10-20020a056e021d8a00b002f99580de6csf5828493ila.5
-        for <lists+kasan-dev@lfdr.de>; Tue, 04 Oct 2022 04:13:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1664882000; cv=pass;
+Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7EE5F4223
+	for <lists+kasan-dev@lfdr.de>; Tue,  4 Oct 2022 13:44:11 +0200 (CEST)
+Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-132b6ed45b3sf414488fac.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 Oct 2022 04:44:11 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1664883850; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tBedaPQI7de1rtXUnvJgM8ki9kmyxc+HdEheuz+/LHOUBVRhSwdMeBVHoIHmlL+E1L
-         NesApkr90d7amFQwJe1ZRoxIsYczTUuBvrUEzEbmIfLIJ9uaglGv2JDtCFojpkL2IpYc
-         k8PgN1qO+LmPAHmDOkDbbdV0lZSmIRAjLU8537V+LQZ1JCGJL0zKGZw7E9MiTG0S0DF7
-         1LOQWrm1IKP4r+LP7aBDpEOhYf3+a4Q5qCLFF07cPvwKh4h5iYK7QkVrTJbrVTWIonia
-         2vukeOz+TDnalt9LcXrHZatiukCebJIlbukhfv7Hjb/8Ow8DkuoY5Suv9I1QP8MqyTxM
-         A4fA==
+        b=GU/mI55qqJC2SEWxo8TyhRnNJk+rnB+XgsXW3pL4u5bVym7ydo2A6GoC+iveua1MtX
+         zOrbcCG9wyC36Br3tLaY9UDLvv6iyQxiDu1/0xa4M0zEIRFPTCvyXKeRGLpZ46EjPHGa
+         65i4PvWIofDISk1DJ5RsrpchEBxBa9NDjzmcZS1rmExE5jk6TYaYmtzJzkYt/h2gIwtS
+         vM7T2njuYOSrAxIdesyNFjEhTYcoAFacZqRs7TH9al5LkHTZeIfnj5A+i0jhTYSHm1wa
+         s2kF2XKnL34amVlmMouhU4FdRDkv9tOtMNWrz7QMP2e417MYUEzcQTSTuin+C54bex/0
+         c78w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=x7W/Ng+ckfSmQBaNU7EaXuO/gsshQPswAldqszT4mc8=;
-        b=el459zP/DzNZ1OjXcYc4IA2HBZcM0wosD3N0D6Uc2R9LNzsjtU3wwcY05K/Yiioel1
-         28GQfz7H2OjAo1I4p2VBF+wcBH6IYYUBgrTCQnu6Esn1mRxKyPdvAOlSeYsZ7HsbxL/6
-         Mk7UyjzS9b1RCarkXT+LKgp4HoUzWft0mwV6TCjcngjEoVTKT2iI0Z+C1ON/Q1RKtd8r
-         SgB1xXHjgk90OzBY4J95qQ6veseGUS2H2eL0jOWgExlPT5dr57VMPE0ZpIR1LrMu7sn/
-         JC7/tMhYY9swpRNtugX510jdt8+1906hLr6BBbgUBLahL0LnAEDeOLalIuar7NWMUuTY
-         9/Ww==
+        bh=3+ycRg7fIhybjllnqjyoLFLr0LpwsWnDV/7+U5krp3M=;
+        b=AEWhEbhhGB5XwOXIMFPP4Ve4vPCTKEvAIiROxN755dSMDs43QvdXExSUZxs+E517TN
+         LWiAMIhed1eY4cR6F6ppODs4NTcrJ3ZzURNgM8s2x6IS8EvKcvn1xtzmr/s78tWuygjW
+         +N1Rh9NpvC/b4QG9IPlwYNkkNXwRFcjeUAFw83sTMOfjk0EWW33vh1ta6k2XZm1fGX1G
+         Eavd9jFQQnseQ91kEvknHlyqyROq9KCsGkrTu5MCqexbo+Lzbu+VVt8qj2AVlQBUQIYx
+         EbJ8PvcUzxC5Xtesci3fvKu1lnDZcX6UKBk3PO0tkULXjCjuzVLpLytCVYo3Ndy8mzsw
+         IiPw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=DQ7AqshQ;
-       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b="Bo9x/OnI";
+       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::52f as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:sender:from:to:cc:subject:date;
-        bh=x7W/Ng+ckfSmQBaNU7EaXuO/gsshQPswAldqszT4mc8=;
-        b=LfXCBjW587Z9ykjbj9yMu+U0NMIEzVQKGbX7I9dXrclwFNgFqbSSoAPSAnnXwzsGaV
-         /DoGMRojO5b3mkd7tbaFTlAklKmJNSkUMWNCKGNlS/x2KLRgUI2Ow/Ik/TbQKOC513qY
-         1ajJMqNOMp7FBTUYR0nPzczgfrEHAbCrxEWkjh9iPyaqWUl18eJj7k4i2ywrkQ4Y1m2W
-         sGWMDswLbK8scBQL/+WTfv9f8UpgJz0aTFkXgBJ8yjW9Ii2aHWKCDLd4ARVVtyr1Dt7b
-         pPwu2Ir3hYRFdRlLz2e84dpXe3/3lDbCkU2cpd/WmWWVaqWLR3QiUMLioQ2VBFxXxjJJ
-         dDnA==
+        bh=3+ycRg7fIhybjllnqjyoLFLr0LpwsWnDV/7+U5krp3M=;
+        b=V2EmiWShHvzNA8ca0PRjEGsBU9gF+1oD44hFsZfSrpKwPqEvuPOH44RDAIf7bQX0B3
+         9FDCLH2eEXhnSaGtVtFPs1gkFu8iO1p0YyebWxiQJPAC2ktG2o81odlAdy9jF2WvKLvN
+         TmqlENgDDFHn3bJosa6Z5HQPCYpQgGxhyY24BjJSoE09cmls7S362qZjOeEfxE9J7b86
+         TgukiRREWxJN4nYfRA4de0NSEF93odEmhYqoe4y8GIr64qE9UomzW7JPLZjKmv4tvqCX
+         EfueEqZObLnzqitkzjNjsxHL3mmfQ8/zN3o99+zdPGnPXhIJ2Yh+N+GvzN0PcWEgnvDP
+         suBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -49,65 +49,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=x7W/Ng+ckfSmQBaNU7EaXuO/gsshQPswAldqszT4mc8=;
-        b=QAAcBxXhGNk1TSmv6bXd+5/A6lA6HBPTy4q8L9lTmMfpaJYtXrTpKZE8bO1gn3qwR7
-         X+ER1RMLWY/WLwYMxboeTTvdBDxJLJgpBDZNAVEPf6Px1uJtJdy9mkA4cbLe30UeF3Jn
-         wLHx3/vDhv8/XAMO8HtoTQ8dDgI2oEg5ofHXKl0cPcNEWcEjEXbEHXcYwZouWEupvCNJ
-         Fv+IIwrSn7csTi7u3yg2RMr2Dj4LvSoFF07gjkVHiuUhP+N6vj1TyNSrTNhiPjDNRMDQ
-         iXnFoKyLR37CCaxGUXlFJU9r71Q9yZeTvVvV4V8bUr3wHYLJDFq6csG5uuT5s70UPPXw
-         W5Og==
+        bh=3+ycRg7fIhybjllnqjyoLFLr0LpwsWnDV/7+U5krp3M=;
+        b=UveBidGXQqBRCLtelqS1AZErb8E/3/xPMR3Fr/iWFXAlFhkja5UPmiUQeoinOMYxCx
+         OGYhOLP+Yqjb4ebt55D/l5t+M+rCxRTzRNEGXQ8CTbuarCQoQA7wYlljw2ltGs8vvfpz
+         sv7syTzgiWpFoumaJvCf9BCbYypu6LjNL6h1waWsVCyo3cXePA+T67U4gVx5C/dI9Tiw
+         yfdJ6pmJ7sAKG9vGQkG1MLmbFiGs1Au3wJw+nDwBw1NkN5N9hUh2XZiaIT+kdaUIJAZP
+         sS38KFZVszcLn0ToZM+Wwo9JizfilcWVUYW8dgsCA0IvsHhQhsJg6oMPPVfin2auJSdF
+         KkgA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf2tpV0Wb7CqZmkAzYkgV8ENbX7fN0uoJqDu3uynt6ikUYvYmVeH
-	OWmNoLtcjmTMTCTJJOfXoeU=
-X-Google-Smtp-Source: AMsMyM6t/bNmcDHdCXACIYcNtGWdcPzkr8ZZzDfPAuuZBvbhWqrRXCNNN4RWW+SkrmDi0BlQnEfUrQ==
-X-Received: by 2002:a05:6602:2c42:b0:6a1:6e51:690d with SMTP id x2-20020a0566022c4200b006a16e51690dmr10757615iov.146.1664882000493;
-        Tue, 04 Oct 2022 04:13:20 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3E84FjZW9w9LLzTYX70VoURju34HBl0cB2ouSnX3KNJ4OtsKX6
+	9r5NTSIG3ySxVbvN3pp5t5E=
+X-Google-Smtp-Source: AMsMyM6x9h6k1y2JqPClFFYBmiqFV8SFbXyLdVzT0WDSsWsXRohZ/rru41LwUStM/S1p45Ieoz/+fw==
+X-Received: by 2002:a05:6870:40cb:b0:131:4fec:3c7d with SMTP id l11-20020a05687040cb00b001314fec3c7dmr7741595oal.147.1664883849949;
+        Tue, 04 Oct 2022 04:44:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:dec:b0:2f6:1ab4:f214 with SMTP id
- m12-20020a056e020dec00b002f61ab4f214ls1705722ilj.0.-pod-prod-gmail; Tue, 04
- Oct 2022 04:13:20 -0700 (PDT)
-X-Received: by 2002:a92:c264:0:b0:2fa:11ca:f695 with SMTP id h4-20020a92c264000000b002fa11caf695mr2138708ild.58.1664882000037;
-        Tue, 04 Oct 2022 04:13:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1664882000; cv=none;
+Received: by 2002:a05:6830:6304:b0:639:1b8:ca3a with SMTP id
+ cg4-20020a056830630400b0063901b8ca3als2002875otb.9.-pod-prod-gmail; Tue, 04
+ Oct 2022 04:44:09 -0700 (PDT)
+X-Received: by 2002:a05:6830:160d:b0:655:ca9a:fd3d with SMTP id g13-20020a056830160d00b00655ca9afd3dmr9479393otr.135.1664883849317;
+        Tue, 04 Oct 2022 04:44:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1664883849; cv=none;
         d=google.com; s=arc-20160816;
-        b=skPqZeBo1+fZimnQOe24dRi9XmpdaP7lMa0p/ozAyEqlfIXFQRbKKlLqBHSyO1fNxG
-         q5cBVcvQOVe/A59h8VLlA4VGYPiR33ecuC6rUOMuswyCKMU/hZW8pMARRMVjrIJ+S6qR
-         6xxzXYaVOTxSNzepVvAy+11XWBV6cIHJp2O/5l2wN0/3aKP5xDwxqXF14ykKJNZVbdg0
-         zbKZERqID9Wsn5scSAZ2T+XEYJtb5w3H2omh3oo1DQ3zl99Gk/lhc2+uJiCKt19EYcue
-         Bh3tA3GRHCPWelYzGc5J7Q6HrhZFzpwgbPtgm+63H4xg667HSc7xPGaMlHuq0HCD6KTo
-         V0yQ==
+        b=qXXA/6vN90NLVhhXKlyJwzEzocOX3SmxC6oHR0P09K6FF7uUBG5MLKpN1F1qRffwJK
+         KjzTVTwvAYOmyH+R+I7ZuggguLJ5dTY2QdcVtFkhU45jWhrstx3eLCLxuqYDdbLc3KPn
+         BEBgm4g9mHmxzmwR7hN4FaxiDp2PM0ic+FQeJvGYh/+GlLWGoAQiVnHcnpUUHK8IvD0z
+         1jvTnB8NAtluU6FzP3D17N2VzlRExx2s3cbXoM8qFaZHgnDSfGmgzodsfct/AEONGj9H
+         +RTrCpE/BL77m/7G2oZRRwy/JlxmiCbXymxnf6eoSZFnffVITHeAjHyvY8ntgIBtMz9Z
+         uVOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=UHE2x7YnT+avJBdJRK8fICu4tqbTB0zv1A8Jd5IOhrw=;
-        b=ZW5w0w1YwYzc+bLtokoiy+XT1f0fYrqjKGZHHxO9NT39aFGhV4KH5GKNxdYBMtiZ9+
-         nvVnMZ30ixcW35PHTC//qDTb+erC/t8p/+s9yL7aJkOzZ5nFCc7xAZPxsRwS4F3TM3Rn
-         /G9QHhFGM8kLqLturU4umHgUU6WPednItwluxcR+W+7vyqlMRV59lwwg1zC/9O+RW8ue
-         Orce78TUov3B8skgj2wsy9UR1bEHbMqc9KrCtqfUQCmrbNIBse0g1P4cotgCtbThkJp6
-         r60XKfL43YlQOP93jfHDNr/Vgdu7XP9MrfqD0mdljNGqXxtGQoP5SmGwkHHXbC98qtv9
-         XYzw==
+        bh=6ZpUfgQM8l58jAA1FLv6FNtqasscnAngw/MWtVrklhs=;
+        b=ZbWfypZ6I+7Rh8v4mLXBIaLcK3JWuVimnIpft0ObLxTy2xWWem2+zFL+fYQQuagbpI
+         aj8ii6QZfJcyEIw3PizvMRdgmJaMR/oNvGOeweiwD9uXG2MyfbK1b1l8IBPgbqyuSU9v
+         BULFsky7BJdxB40sfLBl2KYvRCvZ2EhR3sZxiEvMzKxNBsEMz6DeAajUXzlOXuKgEhzY
+         dXwm4uIGueiHvijx/kfHuOXEtYQuvFzVziOBwrgKcB8keyFGANcdiRcr4AsXGqzA86cP
+         jjPekPvckXAfz7nEVLses+XaoYPDmBp5BlgfLb2jTLZMkMrpYhkXIqTwFAPa5INfh+lc
+         BkIQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=DQ7AqshQ;
-       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
+       dkim=pass header.i=@linaro.org header.s=google header.b="Bo9x/OnI";
+       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::52f as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com. [2607:f8b0:4864:20::1029])
-        by gmr-mx.google.com with ESMTPS id p25-20020a6bfa19000000b00688fefa6d1dsi551711ioh.2.2022.10.04.04.13.19
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com. [2607:f8b0:4864:20::52f])
+        by gmr-mx.google.com with ESMTPS id bd18-20020a056870d79200b0010c5005e1c8si1116477oab.3.2022.10.04.04.44.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Oct 2022 04:13:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::1029 as permitted sender) client-ip=2607:f8b0:4864:20::1029;
-Received: by mail-pj1-x1029.google.com with SMTP id q99-20020a17090a1b6c00b0020ac0368d64so3526138pjq.3
-        for <kasan-dev@googlegroups.com>; Tue, 04 Oct 2022 04:13:19 -0700 (PDT)
-X-Received: by 2002:a17:90b:4d07:b0:1ef:521c:f051 with SMTP id
- mw7-20020a17090b4d0700b001ef521cf051mr17237644pjb.164.1664881999182; Tue, 04
- Oct 2022 04:13:19 -0700 (PDT)
+        Tue, 04 Oct 2022 04:44:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::52f as permitted sender) client-ip=2607:f8b0:4864:20::52f;
+Received: by mail-pg1-x52f.google.com with SMTP id bh13so12501453pgb.4
+        for <kasan-dev@googlegroups.com>; Tue, 04 Oct 2022 04:44:09 -0700 (PDT)
+X-Received: by 2002:a63:464d:0:b0:441:5968:cd0e with SMTP id
+ v13-20020a63464d000000b004415968cd0emr19098981pgk.595.1664883848385; Tue, 04
+ Oct 2022 04:44:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220919095939.761690562@infradead.org> <20220919101522.908560022@infradead.org>
-In-Reply-To: <20220919101522.908560022@infradead.org>
+References: <20220919095939.761690562@infradead.org> <20220919101521.139727471@infradead.org>
+ <CAPDyKFqTWd4W5Ofk76CtC4X43dxBTNHtmY9YzN355-vpviLsPw@mail.gmail.com>
+In-Reply-To: <CAPDyKFqTWd4W5Ofk76CtC4X43dxBTNHtmY9YzN355-vpviLsPw@mail.gmail.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 4 Oct 2022 13:12:42 +0200
-Message-ID: <CAPDyKFqDiqXSi5Gn9eyvhHhqHxJAPAt-HzmEDwYWaGvso2yn=w@mail.gmail.com>
-Subject: Re: [PATCH v2 38/44] cpuidle,powerdomain: Remove trace_.*_rcuidle()
+Date: Tue, 4 Oct 2022 13:43:31 +0200
+Message-ID: <CAPDyKFqGSt2NFe8aY=6rkp4P-WH7DCO1fmWrcXk4_5XNEvv25w@mail.gmail.com>
+Subject: Re: [PATCH v2 12/44] cpuidle,dt: Push RCU-idle into driver
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: juri.lelli@redhat.com, rafael@kernel.org, catalin.marinas@arm.com, 
 	linus.walleij@linaro.org, bsegall@google.com, guoren@kernel.org, pavel@ucw.cz, 
@@ -160,8 +161,8 @@ Cc: juri.lelli@redhat.com, rafael@kernel.org, catalin.marinas@arm.com,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: ulf.hansson@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=DQ7AqshQ;       spf=pass
- (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::1029
+ header.i=@linaro.org header.s=google header.b="Bo9x/OnI";       spf=pass
+ (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::52f
  as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
@@ -176,170 +177,186 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 19 Sept 2022 at 12:17, Peter Zijlstra <peterz@infradead.org> wrote:
+On Tue, 4 Oct 2022 at 13:03, Ulf Hansson <ulf.hansson@linaro.org> wrote:
 >
-> OMAP was the one and only user.
+> On Mon, 19 Sept 2022 at 12:18, Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > Doing RCU-idle outside the driver, only to then temporarily enable it
+> > again before going idle is daft.
+> >
+> > Notably: this converts all dt_init_idle_driver() and
+> > __CPU_PM_CPU_IDLE_ENTER() users for they are inextrably intertwined.
+> >
+> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 >
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-There are changes to the runtime PM core as part of $subject patch.
-Perhaps move those parts into a separate patch? In any case, the code
-looks good to me.
-
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+This was not (yet) my intention. Please have a look at the comments I
+provided below.
 
 Kind regards
 Uffe
 
-> ---
->  arch/arm/mach-omap2/powerdomain.c |   10 +++++-----
->  drivers/base/power/runtime.c      |   24 ++++++++++++------------
->  2 files changed, 17 insertions(+), 17 deletions(-)
 >
-> --- a/arch/arm/mach-omap2/powerdomain.c
-> +++ b/arch/arm/mach-omap2/powerdomain.c
-> @@ -187,9 +187,9 @@ static int _pwrdm_state_switch(struct po
->                         trace_state = (PWRDM_TRACE_STATES_FLAG |
->                                        ((next & OMAP_POWERSTATE_MASK) << 8) |
->                                        ((prev & OMAP_POWERSTATE_MASK) << 0));
-> -                       trace_power_domain_target_rcuidle(pwrdm->name,
-> -                                                         trace_state,
-> -                                                         raw_smp_processor_id());
-> +                       trace_power_domain_target(pwrdm->name,
-> +                                                 trace_state,
-> +                                                 raw_smp_processor_id());
->                 }
->                 break;
->         default:
-> @@ -541,8 +541,8 @@ int pwrdm_set_next_pwrst(struct powerdom
+> > ---
+> >  arch/arm/mach-omap2/cpuidle34xx.c    |    4 ++--
+> >  drivers/acpi/processor_idle.c        |    2 ++
+> >  drivers/cpuidle/cpuidle-arm.c        |    1 +
+> >  drivers/cpuidle/cpuidle-big_little.c |    8 ++++++--
+> >  drivers/cpuidle/cpuidle-psci.c       |    1 +
+> >  drivers/cpuidle/cpuidle-qcom-spm.c   |    1 +
+> >  drivers/cpuidle/cpuidle-riscv-sbi.c  |    1 +
+> >  drivers/cpuidle/dt_idle_states.c     |    2 +-
+> >  include/linux/cpuidle.h              |    4 ++++
+> >  9 files changed, 19 insertions(+), 5 deletions(-)
+> >
+> > --- a/drivers/acpi/processor_idle.c
+> > +++ b/drivers/acpi/processor_idle.c
+> > @@ -1200,6 +1200,8 @@ static int acpi_processor_setup_lpi_stat
+> >                 state->target_residency = lpi->min_residency;
+> >                 if (lpi->arch_flags)
+> >                         state->flags |= CPUIDLE_FLAG_TIMER_STOP;
+> > +               if (lpi->entry_method == ACPI_CSTATE_FFH)
+> > +                       state->flags |= CPUIDLE_FLAG_RCU_IDLE;
 >
->         if (arch_pwrdm && arch_pwrdm->pwrdm_set_next_pwrst) {
->                 /* Trace the pwrdm desired target state */
-> -               trace_power_domain_target_rcuidle(pwrdm->name, pwrst,
-> -                                                 raw_smp_processor_id());
-> +               trace_power_domain_target(pwrdm->name, pwrst,
-> +                                         raw_smp_processor_id());
->                 /* Program the pwrdm desired target state */
->                 ret = arch_pwrdm->pwrdm_set_next_pwrst(pwrdm, pwrst);
->         }
-> --- a/drivers/base/power/runtime.c
-> +++ b/drivers/base/power/runtime.c
-> @@ -442,7 +442,7 @@ static int rpm_idle(struct device *dev,
->         int (*callback)(struct device *);
->         int retval;
+> I assume the state index here will never be 0?
 >
-> -       trace_rpm_idle_rcuidle(dev, rpmflags);
-> +       trace_rpm_idle(dev, rpmflags);
->         retval = rpm_check_suspend_allowed(dev);
->         if (retval < 0)
->                 ;       /* Conditions are wrong. */
-> @@ -481,7 +481,7 @@ static int rpm_idle(struct device *dev,
->                         dev->power.request_pending = true;
->                         queue_work(pm_wq, &dev->power.work);
->                 }
-> -               trace_rpm_return_int_rcuidle(dev, _THIS_IP_, 0);
-> +               trace_rpm_return_int(dev, _THIS_IP_, 0);
->                 return 0;
->         }
+> If not, it may lead to that acpi_processor_ffh_lpi_enter() may trigger
+> CPU_PM_CPU_IDLE_ENTER_PARAM() to call ct_cpuidle_enter|exit() for an
+> idle-state that doesn't have the CPUIDLE_FLAG_RCU_IDLE bit set.
 >
-> @@ -493,7 +493,7 @@ static int rpm_idle(struct device *dev,
->         wake_up_all(&dev->power.wait_queue);
+> >                 state->enter = acpi_idle_lpi_enter;
+> >                 drv->safe_state_index = i;
+> >         }
+> > --- a/drivers/cpuidle/cpuidle-arm.c
+> > +++ b/drivers/cpuidle/cpuidle-arm.c
+> > @@ -53,6 +53,7 @@ static struct cpuidle_driver arm_idle_dr
+> >          * handler for idle state index 0.
+> >          */
+> >         .states[0] = {
+> > +               .flags                  = CPUIDLE_FLAG_RCU_IDLE,
 >
->   out:
-> -       trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
-> +       trace_rpm_return_int(dev, _THIS_IP_, retval);
->         return retval ? retval : rpm_suspend(dev, rpmflags | RPM_AUTO);
->  }
+> Comparing arm64 and arm32 idle-states/idle-drivers, the $subject
+> series ends up setting the CPUIDLE_FLAG_RCU_IDLE for the ARM WFI idle
+> state (state zero), but only for the arm64 and psci cases (mostly
+> arm64). For arm32 we would need to update the ARM_CPUIDLE_WFI_STATE
+> too, as that is what most arm32 idle-drivers are using. My point is,
+> the code becomes a bit inconsistent.
 >
-> @@ -557,7 +557,7 @@ static int rpm_suspend(struct device *de
->         struct device *parent = NULL;
->         int retval;
+> Perhaps it's easier to avoid setting the CPUIDLE_FLAG_RCU_IDLE bit for
+> all of the ARM WFI idle states, for both arm64 and arm32?
 >
-> -       trace_rpm_suspend_rcuidle(dev, rpmflags);
-> +       trace_rpm_suspend(dev, rpmflags);
+> >                 .enter                  = arm_enter_idle_state,
+> >                 .exit_latency           = 1,
+> >                 .target_residency       = 1,
+> > --- a/drivers/cpuidle/cpuidle-big_little.c
+> > +++ b/drivers/cpuidle/cpuidle-big_little.c
+> > @@ -64,7 +64,8 @@ static struct cpuidle_driver bl_idle_lit
+> >                 .enter                  = bl_enter_powerdown,
+> >                 .exit_latency           = 700,
+> >                 .target_residency       = 2500,
+> > -               .flags                  = CPUIDLE_FLAG_TIMER_STOP,
+> > +               .flags                  = CPUIDLE_FLAG_TIMER_STOP |
+> > +                                         CPUIDLE_FLAG_RCU_IDLE,
+> >                 .name                   = "C1",
+> >                 .desc                   = "ARM little-cluster power down",
+> >         },
+> > @@ -85,7 +86,8 @@ static struct cpuidle_driver bl_idle_big
+> >                 .enter                  = bl_enter_powerdown,
+> >                 .exit_latency           = 500,
+> >                 .target_residency       = 2000,
+> > -               .flags                  = CPUIDLE_FLAG_TIMER_STOP,
+> > +               .flags                  = CPUIDLE_FLAG_TIMER_STOP |
+> > +                                         CPUIDLE_FLAG_RCU_IDLE,
+> >                 .name                   = "C1",
+> >                 .desc                   = "ARM big-cluster power down",
+> >         },
+> > @@ -124,11 +126,13 @@ static int bl_enter_powerdown(struct cpu
+> >                                 struct cpuidle_driver *drv, int idx)
+> >  {
+> >         cpu_pm_enter();
+> > +       ct_idle_enter();
+> >
+> >         cpu_suspend(0, bl_powerdown_finisher);
+> >
+> >         /* signals the MCPM core that CPU is out of low power state */
+> >         mcpm_cpu_powered_up();
+> > +       ct_idle_exit();
+> >
+> >         cpu_pm_exit();
+> >
+> > --- a/drivers/cpuidle/cpuidle-psci.c
+> > +++ b/drivers/cpuidle/cpuidle-psci.c
+> > @@ -357,6 +357,7 @@ static int psci_idle_init_cpu(struct dev
+> >          * PSCI idle states relies on architectural WFI to be represented as
+> >          * state index 0.
+> >          */
+> > +       drv->states[0].flags = CPUIDLE_FLAG_RCU_IDLE;
+> >         drv->states[0].enter = psci_enter_idle_state;
+> >         drv->states[0].exit_latency = 1;
+> >         drv->states[0].target_residency = 1;
+> > --- a/drivers/cpuidle/cpuidle-qcom-spm.c
+> > +++ b/drivers/cpuidle/cpuidle-qcom-spm.c
+> > @@ -72,6 +72,7 @@ static struct cpuidle_driver qcom_spm_id
+> >         .owner = THIS_MODULE,
+> >         .states[0] = {
+> >                 .enter                  = spm_enter_idle_state,
+> > +               .flags                  = CPUIDLE_FLAG_RCU_IDLE,
+> >                 .exit_latency           = 1,
+> >                 .target_residency       = 1,
+> >                 .power_usage            = UINT_MAX,
+> > --- a/drivers/cpuidle/cpuidle-riscv-sbi.c
+> > +++ b/drivers/cpuidle/cpuidle-riscv-sbi.c
+> > @@ -332,6 +332,7 @@ static int sbi_cpuidle_init_cpu(struct d
+> >         drv->cpumask = (struct cpumask *)cpumask_of(cpu);
+> >
+> >         /* RISC-V architectural WFI to be represented as state index 0. */
+> > +       drv->states[0].flags = CPUIDLE_FLAG_RCU_IDLE;
+> >         drv->states[0].enter = sbi_cpuidle_enter_state;
+> >         drv->states[0].exit_latency = 1;
+> >         drv->states[0].target_residency = 1;
+> > --- a/drivers/cpuidle/dt_idle_states.c
+> > +++ b/drivers/cpuidle/dt_idle_states.c
+> > @@ -77,7 +77,7 @@ static int init_state_node(struct cpuidl
+> >         if (err)
+> >                 desc = state_node->name;
+> >
+> > -       idle_state->flags = 0;
+> > +       idle_state->flags = CPUIDLE_FLAG_RCU_IDLE;
+> >         if (of_property_read_bool(state_node, "local-timer-stop"))
+> >                 idle_state->flags |= CPUIDLE_FLAG_TIMER_STOP;
+> >         /*
+> > --- a/include/linux/cpuidle.h
+> > +++ b/include/linux/cpuidle.h
+> > @@ -282,14 +282,18 @@ extern s64 cpuidle_governor_latency_req(
+> >         int __ret = 0;                                                  \
+> >                                                                         \
+> >         if (!idx) {                                                     \
+> > +               ct_idle_enter();                                        \
 >
->   repeat:
->         retval = rpm_check_suspend_allowed(dev);
-> @@ -708,7 +708,7 @@ static int rpm_suspend(struct device *de
->         }
+> According to my comment above, we should then drop these calls to
+> ct_idle_enter and ct_idle_exit() here. Right?
 >
->   out:
-> -       trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
-> +       trace_rpm_return_int(dev, _THIS_IP_, retval);
+> >                 cpu_do_idle();                                          \
+> > +               ct_idle_exit();                                         \
+> >                 return idx;                                             \
+> >         }                                                               \
+> >                                                                         \
+> >         if (!is_retention)                                              \
+> >                 __ret =  cpu_pm_enter();                                \
+> >         if (!__ret) {                                                   \
+> > +               ct_idle_enter();                                        \
+> >                 __ret = low_level_idle_enter(state);                    \
+> > +               ct_idle_exit();                                         \
+> >                 if (!is_retention)                                      \
+> >                         cpu_pm_exit();                                  \
+> >         }                                                               \
+> >
 >
->         return retval;
->
-> @@ -760,7 +760,7 @@ static int rpm_resume(struct device *dev
->         struct device *parent = NULL;
->         int retval = 0;
->
-> -       trace_rpm_resume_rcuidle(dev, rpmflags);
-> +       trace_rpm_resume(dev, rpmflags);
->
->   repeat:
->         if (dev->power.runtime_error) {
-> @@ -925,7 +925,7 @@ static int rpm_resume(struct device *dev
->                 spin_lock_irq(&dev->power.lock);
->         }
->
-> -       trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
-> +       trace_rpm_return_int(dev, _THIS_IP_, retval);
->
->         return retval;
->  }
-> @@ -1081,7 +1081,7 @@ int __pm_runtime_idle(struct device *dev
->                 if (retval < 0) {
->                         return retval;
->                 } else if (retval > 0) {
-> -                       trace_rpm_usage_rcuidle(dev, rpmflags);
-> +                       trace_rpm_usage(dev, rpmflags);
->                         return 0;
->                 }
->         }
-> @@ -1119,7 +1119,7 @@ int __pm_runtime_suspend(struct device *
->                 if (retval < 0) {
->                         return retval;
->                 } else if (retval > 0) {
-> -                       trace_rpm_usage_rcuidle(dev, rpmflags);
-> +                       trace_rpm_usage(dev, rpmflags);
->                         return 0;
->                 }
->         }
-> @@ -1202,7 +1202,7 @@ int pm_runtime_get_if_active(struct devi
->         } else {
->                 retval = atomic_inc_not_zero(&dev->power.usage_count);
->         }
-> -       trace_rpm_usage_rcuidle(dev, 0);
-> +       trace_rpm_usage(dev, 0);
->         spin_unlock_irqrestore(&dev->power.lock, flags);
->
->         return retval;
-> @@ -1566,7 +1566,7 @@ void pm_runtime_allow(struct device *dev
->         if (ret == 0)
->                 rpm_idle(dev, RPM_AUTO | RPM_ASYNC);
->         else if (ret > 0)
-> -               trace_rpm_usage_rcuidle(dev, RPM_AUTO | RPM_ASYNC);
-> +               trace_rpm_usage(dev, RPM_AUTO | RPM_ASYNC);
->
->   out:
->         spin_unlock_irq(&dev->power.lock);
-> @@ -1635,7 +1635,7 @@ static void update_autosuspend(struct de
->                         atomic_inc(&dev->power.usage_count);
->                         rpm_resume(dev, 0);
->                 } else {
-> -                       trace_rpm_usage_rcuidle(dev, 0);
-> +                       trace_rpm_usage(dev, 0);
->                 }
->         }
->
->
->
-> _______________________________________________
-> Virtualization mailing list
-> Virtualization@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/virtualization
+> Kind regards
+> Uffe
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAPDyKFqDiqXSi5Gn9eyvhHhqHxJAPAt-HzmEDwYWaGvso2yn%3Dw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAPDyKFqGSt2NFe8aY%3D6rkp4P-WH7DCO1fmWrcXk4_5XNEvv25w%40mail.gmail.com.
