@@ -1,123 +1,277 @@
-Return-Path: <kasan-dev+bncBCRKNY4WZECBBXOT7CMQMGQE4LF4KGI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBNNN7GMQMGQEUIP6SHQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe3b.google.com (mail-vs1-xe3b.google.com [IPv6:2607:f8b0:4864:20::e3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04BB5F5E27
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Oct 2022 03:05:34 +0200 (CEST)
-Received: by mail-vs1-xe3b.google.com with SMTP id m186-20020a6726c3000000b0039b2e2e040dsf100956vsm.9
-        for <lists+kasan-dev@lfdr.de>; Wed, 05 Oct 2022 18:05:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665018333; cv=pass;
+Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id C48275F5FF9
+	for <lists+kasan-dev@lfdr.de>; Thu,  6 Oct 2022 06:16:54 +0200 (CEST)
+Received: by mail-io1-xd3a.google.com with SMTP id a21-20020a5d89d5000000b006b97a46422esf401359iot.5
+        for <lists+kasan-dev@lfdr.de>; Wed, 05 Oct 2022 21:16:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665029813; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Xspiyp4n5ogjuTaOwAfCMB/JvoQ1IPeAdlv8MW5NMjW2fY1WJx3geZqf114HyPqnk0
-         st3TBlPHurgVvJTb8xhb8zW2IGK+O4D5XTOfgGYgDtViUzNNRHKTqPyDSQVFxRBQdEr1
-         87T114LbuHZAbetsXafvvWkOZpgMKyKVoI9hHbDkv18jlJ6KRWMCcp5kawKBk3oPUpRj
-         fhcDe9TeXAvHEP3eDno13h1i+7bda0whVtgAt3bf99+hqdbFikPt1PbVoAmevCUwE+EC
-         7U3ITpa4/G7ahMj7z+gxMj+CZ35Iu5FmwKH1XLj/cWn9vURTUqRjXfFeDAxzpu53rgk+
-         coAw==
+        b=hR2VWnIXmyhbeYLnzrmdrkoifwJrMF/x+cZ86YK6dEWR9nVg/+hc8ok7deHu4TYDo/
+         tUHBbEu6kzrwm0e7G3db7xA5v5jnEXMZpnTFtupSuxGC6q72vI8VcBndNZq0yHpsd861
+         iM50Vf1ZtTnyCb+C3EwoHWXqjxQTPTalW5dSfShgJSkhTB6ISw5qnrdFNE8NjUqgm3Ij
+         +2yYkkhEEP5MG7g0bpu8ZRLlotuflQGlFq9U2X4YuCmdpwvg0H7wb7W8H7pgGCU2Xc/W
+         AAFI6GG3I7GoGP1Azhu2urB1n3NSeG04vrT+/xIyLV/LVlK1n0r9hu+PEUpQTeI2Co4h
+         dY3Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:sender:dkim-signature;
-        bh=wchRuLWfFXRbeUlQjemc8ns+KKHHELKO0g9RkE+Cc70=;
-        b=PdMl6dhtjo4K6FFVGnC/L2PP3Mp3h6KXg8MdfgHNnPrgSxFK4nqPfCqgm6UL5g3++u
-         42OAl9bkC5EHnCh3Ai0E5g7gypMzeh+GEKFXRqpQJ0DS+6rPpvYZjWKUOJabtrjy0jOa
-         YRu1oke4iLmcW7pciSbskq8QAQWYiU2rFkOlIMhuBHT9EAjT8jtywbSwIN/uv87MfEdz
-         3YTEN9wCyQHfSCSEW5YvDIxqBuKJlkBJvLEK7n2EGBlvccENXVEJxFZCX11t5dnLyKm0
-         RNm2VwF4Mt4sIsUxKAYo1J3/1rWa0qH3ep9oYiLEsSgve7J2ZDYT7pBKetu3V8uCiP0Q
-         LaZg==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=pxHT6BmxY7f1fTFHTbM09vBwGSuoCiupDKomqcY3udk=;
+        b=eyam6rLYEU1HHIsZ3JL8ZJUMlsUS/unJqZU6OApbl01afHhvOmdz5LNQOk2xbYJuHt
+         uLncLgyYMgw2WVV3OkzlPgX763hS/iG1A2SG093CTuFXKo8LHkDpMYSPt1k07dBRZqzg
+         g9nZTqWHGPt7YIvUhI/7FFEdnO2AzjSfulM6tnh8Njwmp6pmyUQSerIJg4AWGYsmBREi
+         KKpADmTbmRh4lL76SKBKuRXzVu1D6Gdf3LJ8A/uONemumUyDzUGRFieAvzrBo2tlq51m
+         oVtQXliSJRuBe9Nno43zAPsliwg7piRNH9lFdpotlpd2sqBrbm99BxFkboqZarEDVu/Q
+         OsMQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=W9oFKSvS;
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+       dkim=pass header.i=@chromium.org header.s=google header.b=WgCBVOxT;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:to:from:cc:in-reply-to
-         :subject:date:sender:from:to:cc:subject:date;
-        bh=wchRuLWfFXRbeUlQjemc8ns+KKHHELKO0g9RkE+Cc70=;
-        b=kbm7KzIDQRBvVrZiy7RfO1EKfMOzcj0YhH6HDcpkl2yjsLqqTvdpKrxNPxTycTfnac
-         vQaQDJDnIpDqao4HHRfB7LEyUXYhHsLPtcSceOmKsno2ayV9yQLGAYE54MavdPBuLphS
-         Jk12Bl+Q5UtOkfn0SS5EJTvpWhOU5WoLeYOagSIrswQsLHYKYHPQYw2gGoD8lbJPw+4a
-         7OQVjr77qRDd1eYyjPpocHAaEoFViNGWa6WV3AJIntPTu4NU2V2cUIP9RCjiIVTEJekp
-         86TyijKRXLO/occKSA/+5UWYulDQAHw4XEGxfloR2kJAfY0bvi52XGMVFgkhwxzspOhD
-         WrQA==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date;
+        bh=pxHT6BmxY7f1fTFHTbM09vBwGSuoCiupDKomqcY3udk=;
+        b=CL57yb2p83dWDiWiT323HutYWvPgP42pgSOtfSoLdhTEOMOpaANG+eaMUS21nH2ef8
+         sWLGsg7MGyFsaMNRQxdQQelLvJN17UDSFL7AtZu/Vrf5wbPSb5ERk2cUEzHRRzTUAzDZ
+         6xqhQJcWrMonUwIYmDtTRxqXtphnnEKYG47N4oqiF5PbrpYqx44gQm541ogOH9sf0Z2M
+         VnhuwleWb8G0yqNxmhqsWYVt4QIcVyLeIubnQMrBFb4qywU/dwXzilV5mB3aE974ZyA8
+         twfkWDP49Cf6KrX93kOILiaHMnthIvAfuB3DkkF2wHkJZGaOzdr+oEqWLk4sMr5mh/ZB
+         Hf/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:to:from:cc:in-reply-to:subject:date:x-gm-message-state
-         :sender:from:to:cc:subject:date;
-        bh=wchRuLWfFXRbeUlQjemc8ns+KKHHELKO0g9RkE+Cc70=;
-        b=USuyWyy3TPpHzDNBlat0ueIW4fgTFXJ8uyGq30y3miKvbiax2+m4K86AvVZj7cUJ6z
-         E60LOvJca3Z5WWlhhPHq2wILecwMyphq8gWkxHCx8UJUBpbWmUZ5dpGm9iHvtDTQz8fw
-         UQ+m8AvjFn6kChoGpMTBPIuyUxQT82Ik6Vwz42Y/LFe9leV4EEBQTfaZqdixWYVBAtw9
-         1kXFG+VdcFStgZy6PF1S28aosV+vxwROdsqsVFsLQKLCSsnCTSPEAd4/z7D6KxGIe6mE
-         Kbr7FUx2+HA8UYbGmsUYM87Ugz+06l7hsARz4tjZzfQ+tvdVVqhVzjiYmw6nMEB6cYd8
-         27sA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
+        bh=pxHT6BmxY7f1fTFHTbM09vBwGSuoCiupDKomqcY3udk=;
+        b=jvHE9Z92p20YrReJ1cZdUngGioJyWk+FWNjisIjETQPUH0AT7yZxUAWBWY011dpOUd
+         e+U/R8Ljh9L/iHACRyP/mbFL0gGvYphDAwYE62AKU9JnIB89oGaKDBJ1F7FqPdGI8xYE
+         8mFaU0L3uEaaZrzwBoN+UtNtN++rk24aGct/ozUDieSmW9+PX4hq5DTUtYcUJDePauNL
+         PXgf2QFLQxaMpLwcSJbcQoY/c3+hhiXj2ghYIWPl3j7oW+bYhnPY1C44sK47G8YFvTgc
+         pLq3fcryE2cTxTUBZoAVxYQ8VTCIaXUy6EgvlcoNwbgIQ3RdsxTloOAQSI/6WrO1pjey
+         J0rg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0Av/aaPJVvBlqBUagEQNCCXyneiYHlQt40pC+Zj1LzVQSfp1N/
-	eoRZ46EhhybFvfXmFF9eCFc=
-X-Google-Smtp-Source: AMsMyM4KRx5QtVYVvF7oiJVbC7pmZX97Gqtuf+0eW5LbRW/s6kbxNQ96JzVX6CqYMFx1mhRzepPcEQ==
-X-Received: by 2002:a1f:a196:0:b0:3a9:ae17:9563 with SMTP id k144-20020a1fa196000000b003a9ae179563mr1070319vke.22.1665018333420;
-        Wed, 05 Oct 2022 18:05:33 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3bQElL0vHBCYZVzZzEyAj/BJERVDYnttyTKxJHk77O2zpmHp2r
+	Khv6rK8qKMOv2VQ5G6sz+8s=
+X-Google-Smtp-Source: AMsMyM54cTaaq7Bvwv0UX0c9MnSW8iWIDFqRNMAPLmhX03sD4xU8rUlE3f/o8VzgP0GFBWsSRTB6mA==
+X-Received: by 2002:a05:6602:2b94:b0:6a4:7b57:ecfb with SMTP id r20-20020a0566022b9400b006a47b57ecfbmr1440600iov.8.1665029813334;
+        Wed, 05 Oct 2022 21:16:53 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:dd19:0:b0:398:a64d:75a7 with SMTP id y25-20020a67dd19000000b00398a64d75a7ls93997vsj.0.-pod-prod-gmail;
- Wed, 05 Oct 2022 18:05:32 -0700 (PDT)
-X-Received: by 2002:a67:ed07:0:b0:3a6:5bf7:8ba1 with SMTP id l7-20020a67ed07000000b003a65bf78ba1mr1342925vsp.62.1665018332720;
-        Wed, 05 Oct 2022 18:05:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665018332; cv=none;
+Received: by 2002:a05:6638:cc3:b0:358:3c05:7ea9 with SMTP id
+ e3-20020a0566380cc300b003583c057ea9ls164251jak.3.-pod-prod-gmail; Wed, 05 Oct
+ 2022 21:16:52 -0700 (PDT)
+X-Received: by 2002:a02:cbb4:0:b0:362:a0b8:3efe with SMTP id v20-20020a02cbb4000000b00362a0b83efemr1489318jap.88.1665029812765;
+        Wed, 05 Oct 2022 21:16:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665029812; cv=none;
         d=google.com; s=arc-20160816;
-        b=MRt4K4Zv83fy60vP9Cd1J3pnRugII2XWJFRaN6U8hdXQwLnN/XZTMIiXfTELp3fkDr
-         fPvCqXJL00u+Jfhq3ug+usKfXwiET+REijh66tNV1p4zAJaoFW1XsdNWKsLUC8ExZUam
-         D4y31f7sF9zNYIdAuzPWhJW0kHOQYHcX4VXcbGnqjdsojhqcPBBeA+ZYhlN+fMjrdMWH
-         lbxxPcxr5bw2Ou2MAhODpEo8qNdzMPXc5CDLncCdV7y1/mk+sR4WTvaRwcA61D0PfH1v
-         74XqYw7+8C0v7AaNbHVXW3a3Ml+6lFg8kM/rGkIaw4nfXr8PF5DBU+age3x0o4jYf4SM
-         +YwQ==
+        b=kRFb0K18jtx0DeLts7XeIUU9foIelNdxqlGJ777LHxi2N60/7p7pZAPDNLr74CdzA/
+         zjCanTvKJZabRiCtkPz8q7pmwpEzJpeX4558Mm5IgLlLqEkR6sWFnCPayvlghfT3mUlP
+         CJnizKLhWcvVdQdhbW1A9//cKCSTypn6bpSnHgLmyfKQOeDO+KP0lBQhQ0EVnqG0BDaQ
+         1m0AIyozNg/y6TV7Ko2hMVU31lmjWzOzTE3FBkjLTVebxZKHDvYQg8sQQoobcHOlony2
+         iZfONNhikI1r+hz18PILEh0QXE14iEUe/Lv1/iwnK3K7t72CbTuRRFuRKCAogUSF7WSt
+         uedg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:dkim-signature;
-        bh=6zz+HXUH9nJdRQI27LUzdzL5vjVdFK5hIVfPKFeeoWM=;
-        b=d4A0gExdBIN7V9NyNzq1EAg98/C+jQlUn/uBcTQXzr523oDJvPyluRBDugfVHkoi9V
-         Y6773V2qQfU7e01oLkZLlCPYDSsYNr81xlmoZJKeLTFFXB3ovQtcQVC7qCqzzOLM+dKb
-         DQxXQg+WdscOo3bJbjKXgIPae1INZd1okoxWi3QRycmJpCSh6LAVwYcDZGmyXDL+15XH
-         iiNZSLMsjXUas6y6wlgQmWkZdnnTUTOjMksP2AhD54Gh9jeOvkh4Ud1+7wBCJAPTkcwx
-         SNKg2ygJ8+glH+yjl88qQzcffy3yiaBroYH9kN7KlQg/DY2DAx1wmBDxl4fLqiJunlyG
-         wN9A==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=WbAjddv7dJAWgX74vxMdFtfHq8KnIvmUd6IHydPVZWw=;
+        b=jhyz/54344YiYQoJOgL8k+qCYCY58wOe7279eOH0GPFo46rkHjkfnaWxY3gWCZMjmK
+         juI5+Z5cRm3oKBaNe0wP1ZIl4B77ffVIbX0G+Do/Z+xXfLJq2H4gVtoNnLfYczeYTZlU
+         bwnSVbdaB+Zasxr31D8Nx/+Avap8ew6y/BtsfLS1H2RZc1ZQVJBUIckvGG/7Zl5T3SYg
+         udoBgzDDv9WCF09fJ2oG3iWUsY54ZGcdWgWXim5DSeSNYV9Ke/3mwgMuALxc+/pn/5En
+         +D97YJnMJejKyuej1QMCEJyN5BpraIZgW+peu+yWlDR8EYdO0zySRPIqv7k31PduDT1l
+         Ck4Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112 header.b=W9oFKSvS;
-       spf=pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com. [2607:f8b0:4864:20::436])
-        by gmr-mx.google.com with ESMTPS id c19-20020ab06ed3000000b003dc811b4d2asi9342uav.0.2022.10.05.18.05.32
+       dkim=pass header.i=@chromium.org header.s=google header.b=WgCBVOxT;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com. [2607:f8b0:4864:20::629])
+        by gmr-mx.google.com with ESMTPS id z6-20020a056e02088600b002e8ece90ea6si785850ils.1.2022.10.05.21.16.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Oct 2022 18:05:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of palmer@dabbelt.com designates 2607:f8b0:4864:20::436 as permitted sender) client-ip=2607:f8b0:4864:20::436;
-Received: by mail-pf1-x436.google.com with SMTP id i6so677279pfb.2
-        for <kasan-dev@googlegroups.com>; Wed, 05 Oct 2022 18:05:32 -0700 (PDT)
-X-Received: by 2002:a05:6a00:a01:b0:561:7e74:11b3 with SMTP id p1-20020a056a000a0100b005617e7411b3mr2084194pfh.35.1665018331640;
-        Wed, 05 Oct 2022 18:05:31 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id e2-20020a17090301c200b00172ea8ff334sm11129483plh.7.2022.10.05.18.05.28
+        Wed, 05 Oct 2022 21:16:52 -0700 (PDT)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::629 as permitted sender) client-ip=2607:f8b0:4864:20::629;
+Received: by mail-pl1-x629.google.com with SMTP id u24so603974plq.12
+        for <kasan-dev@googlegroups.com>; Wed, 05 Oct 2022 21:16:52 -0700 (PDT)
+X-Received: by 2002:a17:902:e5c3:b0:178:192c:6b3b with SMTP id u3-20020a170902e5c300b00178192c6b3bmr2833394plf.92.1665029812350;
+        Wed, 05 Oct 2022 21:16:52 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z17-20020aa79911000000b0056242774037sm1822393pff.194.2022.10.05.21.16.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 18:05:28 -0700 (PDT)
-Date: Wed, 05 Oct 2022 18:05:28 -0700 (PDT)
-Subject: Re: [PATCH v6 RESEND 0/2] use static key to optimize pgtable_l4_enabled
-In-Reply-To: <20220821140918.3613-1-jszhang@kernel.org>
-CC: Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-  ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-  vincenzo.frascino@arm.com, alexandre.ghiti@canonical.com, linux-riscv@lists.infradead.org,
-  linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: jszhang@kernel.org
-Message-ID: <mhng-30c89107-c103-4363-b4af-7778d9512622@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: palmer@dabbelt.com
+        Wed, 05 Oct 2022 21:16:51 -0700 (PDT)
+Date: Wed, 5 Oct 2022 21:16:50 -0700
+From: Kees Cook <keescook@chromium.org>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: linux-kernel@vger.kernel.org, Ajay Singh <ajay.kathat@microchip.com>,
+	Akinobu Mita <akinobu.mita@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Amitkumar Karwar <amitkarwar@gmail.com>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Arend van Spriel <aspriel@gmail.com>,
+	Ayush Sawal <ayush.sawal@chelsio.com>,
+	Borislav Petkov <bp@alien8.de>, Chao Yu <chao@kernel.org>,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Dick Kennedy <dick.kennedy@broadcom.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>,
+	Franky Lin <franky.lin@broadcom.com>,
+	Ganapathi Bhat <ganapathi017@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Gregory Greenman <gregory.greenman@intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>, Hannes Reinecke <hare@suse.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Hante Meuleman <hante.meuleman@broadcom.com>,
+	Hao Luo <haoluo@google.com>, Haoyue Xu <xuhaoyue1@hisilicon.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+	Hugh Dickins <hughd@google.com>,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Ilya Dryomov <idryomov@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+	Jack Wang <jinpu.wang@ionos.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	"James E . J . Bottomley" <jejb@linux.ibm.com>,
+	James Smart <james.smart@broadcom.com>, Jan Kara <jack@suse.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Jay Vosburgh <j.vosburgh@gmail.com>,
+	Jean-Paul Roubelat <jpr@f6fbb.org>,
+	Jeff Layton <jlayton@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Jiri Olsa <jolsa@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	John Stultz <jstultz@google.com>, Jon Maloy <jmaloy@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Julian Anastasov <ja@ssi.bg>, KP Singh <kpsingh@kernel.org>,
+	Kalle Valo <kvalo@kernel.org>, Keith Busch <kbusch@kernel.org>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Manish Rangankar <mrangankar@marvell.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	Marco Elver <elver@google.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	"Md . Haris Iqbal" <haris.iqbal@ionos.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Michal Januszewski <spock@gentoo.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	"Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
+	Neil Horman <nhorman@tuxdriver.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Potnuri Bharat Teja <bharat@chelsio.com>,
+	Pravin B Shelar <pshelar@ovn.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Richard Weinberger <richard@nod.at>,
+	Rohit Maheshwari <rohitm@chelsio.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Sharvari Harisangam <sharvari.harisangam@nxp.com>,
+	Simon Horman <horms@verge.net.au>, Song Liu <song@kernel.org>,
+	Stanislav Fomichev <sdf@google.com>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Theodore Ts'o <tytso@mit.edu>, Thomas Gleixner <tglx@linutronix.de>,
+	Thomas Graf <tgraf@suug.ch>,
+	Thomas Sailer <t.sailer@alumni.ethz.ch>,
+	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Varun Prakash <varun@chelsio.com>,
+	Veaceslav Falico <vfalico@gmail.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+	Vinod Koul <vkoul@kernel.org>, Vlad Yasevich <vyasevich@gmail.com>,
+	Wenpeng Liang <liangwenpeng@huawei.com>,
+	Xinming Hu <huxinming820@gmail.com>, Xiubo Li <xiubli@redhat.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Ying Xue <ying.xue@windriver.com>,
+	Yishai Hadas <yishaih@nvidia.com>, Yonghong Song <yhs@fb.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	brcm80211-dev-list.pdl@broadcom.com, cake@lists.bufferbloat.net,
+	ceph-devel@vger.kernel.org, coreteam@netfilter.org,
+	dccp@vger.kernel.org, dev@openvswitch.org,
+	dmaengine@vger.kernel.org, drbd-dev@lists.linbit.com,
+	dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+	linux-actions@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-hams@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mm@kvack.org, linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-raid@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-sctp@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, lvs-devel@vger.kernel.org,
+	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+	rds-devel@oss.oracle.com, SHA-cyfmac-dev-list@infineon.com,
+	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net
+Subject: Re: [PATCH v1 1/5] treewide: use prandom_u32_max() when possible
+Message-ID: <202210052035.A1020E3@keescook>
+References: <20221005214844.2699-1-Jason@zx2c4.com>
+ <20221005214844.2699-2-Jason@zx2c4.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20221005214844.2699-2-Jason@zx2c4.com>
+X-Original-Sender: keescook@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@dabbelt-com.20210112.gappssmtp.com header.s=20210112
- header.b=W9oFKSvS;       spf=pass (google.com: domain of palmer@dabbelt.com
- designates 2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=palmer@dabbelt.com
+ header.i=@chromium.org header.s=google header.b=WgCBVOxT;       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::629
+ as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,65 +284,66 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sun, 21 Aug 2022 07:09:16 PDT (-0700), jszhang@kernel.org wrote:
-> The pgtable_l4|[l5]_enabled check sits at hot code path, performance
-> is impacted a lot. Since pgtable_l4|[l5]_enabled isn't changed after
-> boot, so static key can be used to solve the performance issue[1].
->
-> An unified way static key was introduced in [2], but it only targets
-> riscv isa extension. We dunno whether SV48 and SV57 will be considered
-> as isa extension, so the unified solution isn't used for
-> pgtable_l4[l5]_enabled now.
->
-> patch1 fixes a NULL pointer deference if static key is used a bit earlier.
-> patch2 uses the static key to optimize pgtable_l4|[l5]_enabled.
->
-> [1] http://lists.infradead.org/pipermail/linux-riscv/2021-December/011164.html
-> [2] https://lore.kernel.org/linux-riscv/20220517184453.3558-1-jszhang@kernel.org/T/#t
->
-> Since v5:
->  - Use DECLARE_STATIC_KEY_FALSE
->
-> Since v4:
->  - rebased on v5.19-rcN
->  - collect Reviewed-by tags
->  - Fix kernel panic issue if SPARSEMEM is enabled by moving the
->    riscv_finalise_pgtable_lx() after sparse_init()
->
-> Since v3:
->  - fix W=1 call to undeclared function 'static_branch_likely' error
->
-> Since v2:
->  - move the W=1 warning fix to a separate patch
->  - move the unified way to use static key to a new patch series.
->
-> Since v1:
->  - Add a W=1 warning fix
->  - Fix W=1 error
->  - Based on v5.18-rcN, since SV57 support is added, so convert
->    pgtable_l5_enabled as well.
->
->
-> Jisheng Zhang (2):
->   riscv: move sbi_init() earlier before jump_label_init()
->   riscv: turn pgtable_l4|[l5]_enabled to static key for RV64
->
->  arch/riscv/include/asm/pgalloc.h    | 16 ++++----
->  arch/riscv/include/asm/pgtable-32.h |  3 ++
->  arch/riscv/include/asm/pgtable-64.h | 60 ++++++++++++++++++---------
->  arch/riscv/include/asm/pgtable.h    |  5 +--
->  arch/riscv/kernel/cpu.c             |  4 +-
->  arch/riscv/kernel/setup.c           |  2 +-
->  arch/riscv/mm/init.c                | 64 ++++++++++++++++++-----------
->  arch/riscv/mm/kasan_init.c          | 16 ++++----
->  8 files changed, 104 insertions(+), 66 deletions(-)
+On Wed, Oct 05, 2022 at 11:48:40PM +0200, Jason A. Donenfeld wrote:
+> Rather than incurring a division or requesting too many random bytes for
+> the given range, use the prandom_u32_max() function, which only takes
+> the minimum required bytes from the RNG and avoids divisions.
 
-Sorry for being slow here, but it looks like this still causes some 
-early boot hangs.  Specifically kasan+sparsemem is failing.  As you can 
-probably see from the latency I'm still a bit buried right now so I'm 
-not sure when I'll have a chance to take more of a look.
+Yes please!
+
+Since this is a treewide patch, it's helpful for (me at least) doing
+reviews to detail the mechanism of the transformation.
+
+e.g. I imagine this could be done with something like Coccinelle and
+
+@no_modulo@
+expression E;
+@@
+
+-	(prandom_u32() % (E))
++	prandom_u32_max(E)
+
+> diff --git a/drivers/mtd/ubi/debug.h b/drivers/mtd/ubi/debug.h
+> index 118248a5d7d4..4236c799a47c 100644
+> --- a/drivers/mtd/ubi/debug.h
+> +++ b/drivers/mtd/ubi/debug.h
+> @@ -73,7 +73,7 @@ static inline int ubi_dbg_is_bgt_disabled(const struct ubi_device *ubi)
+>  static inline int ubi_dbg_is_bitflip(const struct ubi_device *ubi)
+>  {
+>  	if (ubi->dbg.emulate_bitflips)
+> -		return !(prandom_u32() % 200);
+> +		return !(prandom_u32_max(200));
+>  	return 0;
+>  }
+>  
+
+Because some looks automated (why the parens?)
+
+> @@ -393,14 +387,11 @@ static struct test_driver {
+>  
+>  static void shuffle_array(int *arr, int n)
+>  {
+> -	unsigned int rnd;
+>  	int i, j;
+>  
+>  	for (i = n - 1; i > 0; i--)  {
+> -		rnd = prandom_u32();
+> -
+>  		/* Cut the range. */
+> -		j = rnd % i;
+> +		j = prandom_u32_max(i);
+>  
+>  		/* Swap indexes. */
+>  		swap(arr[i], arr[j]);
+
+And some by hand. :)
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/mhng-30c89107-c103-4363-b4af-7778d9512622%40palmer-ri-x1c9.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202210052035.A1020E3%40keescook.
