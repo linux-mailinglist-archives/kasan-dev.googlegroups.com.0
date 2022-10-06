@@ -1,135 +1,145 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBM5S7OMQMGQEXOZHQTI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBWFY7OMQMGQEVWYQECI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52DB5F683F
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Oct 2022 15:33:40 +0200 (CEST)
-Received: by mail-wr1-x43e.google.com with SMTP id m20-20020adfa3d4000000b0022e2fa93dd1sf534333wrb.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 06 Oct 2022 06:33:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665063220; cv=pass;
+Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B105D5F6876
+	for <lists+kasan-dev@lfdr.de>; Thu,  6 Oct 2022 15:47:06 +0200 (CEST)
+Received: by mail-pf1-x43b.google.com with SMTP id v4-20020aa78504000000b0056186e60814sf1183434pfn.19
+        for <lists+kasan-dev@lfdr.de>; Thu, 06 Oct 2022 06:47:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665064025; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KHKXoENVX3sp/00WmOOh6vSjXC309DA3BDlX9JqeFRiyNMZloypuhLj0pW3cwfL8Wy
-         l5uXb+U54ChF5V7IL5E+0sy+QcMqV/LTtWN42nqhmSkZZhrbGxYrgY30Tyi7x0Ppinwz
-         Qoa2ALAePVBLNiZG0gyX/LrGH1M7IzBQrqZ22I5MURBL3RJ4RnYGKNOu3T8oLym9xkBa
-         JWy24XYMOD3fhLG2g/hF1LzUjKQsKDxHWLhLZc9zRnc8bqjmLef++GLD44lG0Im6B5Ld
-         zZeGYKpZaKNk5S6OpyaD7pl9Sg8ItwcDbjGeS4Mma/fBXBUdhfp7g/K59LDJL+hh6GJx
-         e6mw==
+        b=LTCbmgvvfaLHjOvaZxb2jZG+U32jZUNpXHViacik6ZXJu7lqgNg6pc0oD3fU/LI4Wy
+         cJgb1FxW1VqwOS65jcBHAb8cCgbZ2cCbcaSgAokROXaT3/e21aLA68kHdW4TmEREKJPN
+         sZ2sEGukl5ZQiL6fIIRgy2VzLyyE9uFt/LDm+P7OMgOvh5sr3GLz3OS5NAXcvJMLoywB
+         W2iQdBgelQ+gic2hZbXyTPPpcUyuK54fcOFwgQPZLlf7CGuJaBFRdiQABbZRByr2E504
+         yAXI7HWbocW1leEOZXH5l02QRWtiht4w1a+EPG5CeL9GP6meeyGH5PTm+zjMqs8+sGVi
+         y6+g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :list-id:mailing-list:precedence:content-language:subject:cc:to
+         :organization:from:user-agent:mime-version:date:message-id:sender
          :dkim-signature;
-        bh=kRhiT7deRlYYYNG89tu0ZqqXuTQxKmvv/LDCNyR5fwY=;
-        b=FDmAwHbnwUA82xZ5dH0vF9tz0wxM8ycvdtj42j7DxtW8BXYgL8dlQi0avE61e2Wazq
-         pbRwOnVjDpT/4z4KczZO36GBhkheyMKnuYo47ZN3MgcKNLvUThyMKbDgoqOEeiKYVHBT
-         qy7Vk+QXScUTuucmLlLKlbJOp7SAJ+RUTlWX8ZaZsKs4sx7aIUnWrhQ1Nw6kC7NFHSlD
-         q7Xe42XLuKO+maqr8/zsHq3yjGjVfZlCa6XIDrsjsnY+24/OaXad4PzS1d1bPb60TSOM
-         sdb1Wjq7NdH9KqKsiPNVRpkWO3T6o1XqKx5+/jsn/a0KP/is5UmZgpV5l8FCwF3V1Qi+
-         ziGQ==
+        bh=VqmN26vKiYquECOXxpDwhpkVxjHn9hz2xQFAyTFVKNE=;
+        b=ik0ejmuCJDB2GoK7EE/VlyYYNGqsy8Q2tlwzZykhrVCH3O5VRM9i21iuA9cDbpMVSm
+         dt3upynHgyIJhR4oxCqdkLCfgC9Flrdyl+E5E2Sjz1BJPcU1aZhVAigBfubyk5GH6z7x
+         2x8QwLAaOQkqhgyYFFzBTVFIn3wlyWaIHea5IcW6sUPsf4qO5XpWhBfj4bTKnaVQ0Yxw
+         C0oczTL62E8SV3TTngRsSJBnOyhcKfPDAOiJG6WUIzRaL0DCE474qC9DLO9KAHYuE2+B
+         bAFy+995IsFACjQYp7P6O2zUTbYihKulDl+b279wRCDcuyRbwslw/EF7c3yc+d9mAaqK
+         Kwcw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=IV9Ux0uK;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=UKKk5Ljj;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date;
-        bh=kRhiT7deRlYYYNG89tu0ZqqXuTQxKmvv/LDCNyR5fwY=;
-        b=W0FfZ5FFlf05EhdmwWesWB/uveKfL/LR7fvYcyf24NqlZzm+rEf/k207pSD4KyGWce
-         lYJcozWATj8zE2HZxPUzucDdeCJyEZBkfdUhz042L1697lyn4gfUm5F/M0mwGbWEv2L4
-         qidLFMVibA1HN7bcFDe81pC/WSTsmiYgio+SgRRNLDQsRJQuwjlu0EPVn9SdSzbgJ6ZL
-         uW0xRJll/ieU/azfGh1KUzdqDRW5gydriuKszehOLFR+UDWd1c86EjelMSJCWCcR1adT
-         OTbyzo7lcXu3RmYCrp0Jiz+MjfzxsD+6yGNRTswzEHJP7xqSC9tQQsR01iL2+LZlMBKb
-         0vYw==
+         :x-original-sender:content-language:subject:cc:to:organization:from
+         :user-agent:mime-version:date:message-id:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VqmN26vKiYquECOXxpDwhpkVxjHn9hz2xQFAyTFVKNE=;
+        b=QHwWgfZxF3guCeFt/b8gvKJjbb6iIAnUDgSg3gwH7Kx5bnenmzcGxNQzhHyEde29HT
+         QS+1nBkMyvhP0Lpm9jIyFVnioIyjFFqYWwZe8CgJyXgx53lKtCko75x2cfEOdDx0L2Fm
+         SAd7hG/w56FangSHkEGHHIMXTTCthhW6NdiCqw9B7pefYepWiQjw53oPkkwbPQjTw7wL
+         stgR+YF/ZOhnrK8lfIAOJjq6PuoxxMwif5oLICoVvBkczHa8kkGNGCgFH/fwv0kk00Vj
+         foGOG+qwUyeYAueSsTn3qCKUVyj+tMuznMeUxLGTZbiNd2k0zQXHoQhLTomR15d1qKFl
+         EUMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date;
-        bh=kRhiT7deRlYYYNG89tu0ZqqXuTQxKmvv/LDCNyR5fwY=;
-        b=OE72lcbXBb1s4xOdxViB72KHEr7icGMF6AcniLeOQiEFS4Xofi2W9382mDzzR47fup
-         K2blDq9iMP17dNvb2xkPem2TERrIe/t7x0WqjLbkx0pEtXHvQ+uSLB7CVo7djjCw/YSw
-         7G7nroO8tLDknTBUrzK9Vv+Wgmcwhwwkwr52fBYeL2c4RoR69YTvkwFm5IFGt8Gh8KLl
-         6fVQcmDwVpShgM6xrkkpb6mjbVb1C3gbO5m8Ck8fw1Hsa9yN3cX0nRyw/phrkLnFqlgo
-         yHLVd3xjDn+Xj3bL8mILQUyNgtE3Q7VXFCoKbmfaZEYlp9p9pQlcep82heGl/H8TCYE6
-         VvIQ==
+         :x-original-authentication-results:x-original-sender
+         :content-language:subject:cc:to:organization:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VqmN26vKiYquECOXxpDwhpkVxjHn9hz2xQFAyTFVKNE=;
+        b=o7jHSZALTMHbQG2aqBAAYICYBaq6MLr2g5oB7nmf7VutgU2ZWN7L7/J1Ffm65ZjIcZ
+         C8cH40si8cLpG08/anNLD0+Ox/6+zSHxLPi9v1A0oXMvbZal47i5HH2rlwOzaDxjaX6d
+         WXFkwAGh4WXNm2XfH8S5yKU6P8Jhm7T1jnrbhJc/YcGXsSkRJtuaAzTi/TVunGC0Sp+o
+         t+MKNqbEjiWv8Eu5dwDhkzIAq1gmWIGKYq/VP6TOXS5gFwfObkcqqSK66aFpJZZcOLTd
+         OtIKMZNrTrVDV2HTC3YUZEitE3DH/eGFmhPgm1kNCHZOhgCgvQYkDr7n45vWzulzcLAT
+         nQtA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0OZv0fWBBDFYY52HsNTub79RlPvcHZ8nyH3ULgkOqc3N76vY0a
-	R+H9suEXk+VyCIQFnVAlN2A=
-X-Google-Smtp-Source: AMsMyM62GbXrQOLqFyOwOi3rL5x6AqXN2zvAp48bhwv8RTIw/K7f8hFjLU4RDXsaYBLch3WxP7Y8DA==
-X-Received: by 2002:a7b:c84f:0:b0:3b4:84c1:1e7 with SMTP id c15-20020a7bc84f000000b003b484c101e7mr7026542wml.12.1665063220191;
-        Thu, 06 Oct 2022 06:33:40 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1kHA5SGukHOxxqdS5hxvNSR2D/J+jEYG8VPx4vftbjXFvilyAw
+	LKNq1PxBgjAl3ahPMiZ73Rc=
+X-Google-Smtp-Source: AMsMyM68XlIzMlrlR3qkR9CvvueVpDHzRjbYWnodeVjPWiWCq28ZA0gx+hmTHTPLSjbVT/vMJ3mpbg==
+X-Received: by 2002:aa7:85d7:0:b0:562:6079:3481 with SMTP id z23-20020aa785d7000000b0056260793481mr2730pfn.77.1665064025116;
+        Thu, 06 Oct 2022 06:47:05 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:1f0a:b0:225:6559:3374 with SMTP id
- bv10-20020a0560001f0a00b0022565593374ls3522482wrb.2.-pod-prod-gmail; Thu, 06
- Oct 2022 06:33:39 -0700 (PDT)
-X-Received: by 2002:a05:6000:4c:b0:22e:48e0:1a0b with SMTP id k12-20020a056000004c00b0022e48e01a0bmr3312777wrx.618.1665063218952;
-        Thu, 06 Oct 2022 06:33:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665063218; cv=none;
+Received: by 2002:a63:6aca:0:b0:434:cb11:5486 with SMTP id f193-20020a636aca000000b00434cb115486ls1151244pgc.5.-pod-prod-gmail;
+ Thu, 06 Oct 2022 06:47:04 -0700 (PDT)
+X-Received: by 2002:a63:ff5a:0:b0:42c:61f:b81 with SMTP id s26-20020a63ff5a000000b0042c061f0b81mr38333pgk.254.1665064024223;
+        Thu, 06 Oct 2022 06:47:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665064024; cv=none;
         d=google.com; s=arc-20160816;
-        b=BMKk8hDF2WeIrJ1LYjLa7e7bfH4gU5uxyaVClxEa71d/mvM+l8D7A74J5VzoOxKZ+2
-         Y024hvB7y9Gq3l4AX05X9QrXeiyOgzcFcqEt01LAu7qkqMYtuIPyMJxeuNDku6g6a+B5
-         wfF/u285rFN4kWbqK1ah8PLUEUEhdACaCLyMlSbgvLhXfOHH3G6gSU0ZZ+MUrchtDpRK
-         SJEs3sL3LUBRBmtk8/GD7U6Q0VXiGYpPAGkD4mncikYUYCupHAfjR0KqFvYqE+1SBapn
-         UOgm7D+SuscdOGCaB8pRMW6PpxPncks5RfrI9U+OjareDxEPAXb+DXTrBHeQ9YQrGW2/
-         zPDw==
+        b=QsnnvkpYIxsT77f5vW7rx9qMJxk7W3sf/bwTMcyjavDt9jqlQF10UUg+84h1I/AHXB
+         FksQ0trIzOHKyAzQx+zMn3e/C/W0jXHCny3uNNwoUm5BrKTcmpkTudEVg4G7iEj4vQfa
+         LoCraLm20rbOXo0NQMfnq9LhacIFkRtI7yrpytUvwla7SCIqXnSajMsxubv5Dw3TWg7w
+         fss0bU8lvhtjAI67Xut51zp9n+UZ1Of8Pguj0ZWeSymk3SsMbY++Egv3w8pBSi3iXzRP
+         YxdgVXUpFm1wkkT5IzMorWX0Q/HkHIQ1eQ9Brkpgh7Ed3AQwV8Clgkh4WpvY6Jjrr5cg
+         EsZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=3l6J/wVjyhOvfZR17W/xBB9YiH/VKXnAufH2rO+yGIQ=;
-        b=FbG5ZoosiuI4gFOjcJSwDg9Z85nQT/UnluagyXDfdK+RqwGd4hMJFpCIhGzfzV1LIM
-         DSNBhtdQjWyLsFn/zHbCuoCjhr6Aj/3QD0XSCJKjMYBGsAwiIg+Mote8yqDj5wOyroeB
-         zJxrnWrixhUXe5JBMMwr8SDjFfUPJ4r+tUGAlXORwoVdKGcFA/XMYhnwRymJBTWvuHKw
-         QCGCG4hxz0aeghg9lqNBsGjQQUf4Jt5IHMxmCLAy+Lvbc6Xh2HbAb31Veoe1H9WQObxb
-         7janKgy4nCaRIVJFQf2in75yQlLkU9d9Thpgy5XkFqYPSWKIaPHCgqb+21Hs9y5N+vji
-         WhYw==
+        h=content-transfer-encoding:content-language:subject:cc:to
+         :organization:from:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=Skvbx9xbdFNqMOGk1nVf/Aq3EKcM8w6ila1egEkLVWg=;
+        b=ycd3gqx+LCqCbcDiM12mhnvFH6oN+bHj91exB2YFMiFDjLHSDQTiGpXqMLzClpeq93
+         TWkvUNOLj+MMIhppczyTvfiEP6MkK8fmFbhBiCLA5aLPhNN4baQxeV8sazUajRuEhSKb
+         yyPNtvFvGNqHf/zxpWdtPtynIIgdLPMqSioVfir8+CYap4j6hNqtZ1bP4cz77d2aKXz2
+         RJyVFJ13L5ykmZRC84Ty9mloXjyOKlGUejBN0aOxInyLm4eiHFuO2ebySbWAHF7LUbxI
+         rRT1uMuEkmb59nxs1feumXP43HLrlIdD+JjBgsQmEgyLT/WWHblOgTzmSwj+3BfeVSiR
+         o7mg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=IV9Ux0uK;
-       spf=pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) smtp.mailfrom=peterz@infradead.org
-Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id az23-20020a05600c601700b003b4924f599bsi235516wmb.2.2022.10.06.06.33.38
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=UKKk5Ljj;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
+        by gmr-mx.google.com with ESMTPS id ne1-20020a17090b374100b0020a605eff06si185145pjb.2.2022.10.06.06.47.03
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Oct 2022 06:33:38 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as permitted sender) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogR0I-001Es0-UY; Thu, 06 Oct 2022 13:33:35 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C9868300137;
-	Thu,  6 Oct 2022 15:33:33 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 82560209DB0D1; Thu,  6 Oct 2022 15:33:33 +0200 (CEST)
-Date: Thu, 6 Oct 2022 15:33:33 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
-Subject: [PATCH] perf: Fix missing SIGTRAPs
-Message-ID: <Yz7ZLaT4jW3Y9EYS@hirez.programming.kicks-ass.net>
-References: <20220927121322.1236730-1-elver@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Oct 2022 06:47:04 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-627-wdQ-iXnQPMuP1mn0S8NDOA-1; Thu, 06 Oct 2022 09:47:02 -0400
+X-MC-Unique: wdQ-iXnQPMuP1mn0S8NDOA-1
+Received: by mail-wm1-f71.google.com with SMTP id f25-20020a7bc8d9000000b003b4768dcd9cso591915wml.9
+        for <kasan-dev@googlegroups.com>; Thu, 06 Oct 2022 06:47:01 -0700 (PDT)
+X-Received: by 2002:a05:6000:1d93:b0:22e:5d8a:c8f8 with SMTP id bk19-20020a0560001d9300b0022e5d8ac8f8mr34334wrb.324.1665064020979;
+        Thu, 06 Oct 2022 06:47:00 -0700 (PDT)
+X-Received: by 2002:a05:6000:1d93:b0:22e:5d8a:c8f8 with SMTP id bk19-20020a0560001d9300b0022e5d8ac8f8mr34318wrb.324.1665064020609;
+        Thu, 06 Oct 2022 06:47:00 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c705:3700:aed2:a0f8:c270:7f30? (p200300cbc7053700aed2a0f8c2707f30.dip0.t-ipconnect.de. [2003:cb:c705:3700:aed2:a0f8:c270:7f30])
+        by smtp.gmail.com with ESMTPSA id f62-20020a1c3841000000b003b31fc77407sm5605467wma.30.2022.10.06.06.46.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Oct 2022 06:47:00 -0700 (PDT)
+Message-ID: <8aaaeec8-14a1-cdc4-4c77-4878f4979f3e@redhat.com>
+Date: Thu, 6 Oct 2022 15:46:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20220927121322.1236730-1-elver@google.com>
-X-Original-Sender: peterz@infradead.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+To: Alexander Potapenko <glider@google.com>,
+ "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>
+Cc: "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ kasan-dev@googlegroups.com
+Subject: KASAN-related VMAP allocation errors in debug kernels with many
+ logical CPUS
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=IV9Ux0uK;
-       spf=pass (google.com: best guess record for domain of
- peterz@infradead.org designates 2001:8b0:10b:1:d65d:64ff:fe57:4e05 as
- permitted sender) smtp.mailfrom=peterz@infradead.org
+ header.i=@redhat.com header.s=mimecast20190719 header.b=UKKk5Ljj;
+       spf=pass (google.com: domain of david@redhat.com designates
+ 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,440 +152,121 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+Hi,
 
-OK, so the below seems to pass the concurrent sigtrap_threads test for
-me and doesn't have that horrible irq_work_sync hackery.
+we're currently hitting a weird vmap issue in debug kernels with KASAN enabled
+on fairly large VMs. I reproduced it on v5.19 (did not get the chance to
+try 6.0 yet because I don't have access to the machine right now, but
+I suspect it persists).
 
-Does it work for you too?
+It seems to trigger when udev probes a massive amount of devices in parallel
+while the system is booting up. Once the system booted, I no longer see any
+such issues.
 
----
-Subject: perf: Fix missing SIGTRAPs
-From: Peter Zijlstra <peterz@infradead.org>
-Date: Thu Oct  6 15:00:39 CEST 2022
 
-Marco reported:
+[  165.818200] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+[  165.836622] vmap allocation for size 315392 failed: use vmalloc=<size> to increase size
+[  165.837461] vmap allocation for size 315392 failed: use vmalloc=<size> to increase size
+[  165.840573] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+[  165.841059] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+[  165.841428] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+[  165.841819] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+[  165.842123] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+[  165.843359] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+[  165.844894] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+[  165.847028] CPU: 253 PID: 4995 Comm: systemd-udevd Not tainted 5.19.0 #2
+[  165.935689] Hardware name: Lenovo ThinkSystem SR950 -[7X12ABC1WW]-/-[7X12ABC1WW]-, BIOS -[PSE130O-1.81]- 05/20/2020
+[  165.947343] Call Trace:
+[  165.950075]  <TASK>
+[  165.952425]  dump_stack_lvl+0x57/0x81
+[  165.956532]  warn_alloc.cold+0x95/0x18a
+[  165.960836]  ? zone_watermark_ok_safe+0x240/0x240
+[  165.966100]  ? slab_free_freelist_hook+0x11d/0x1d0
+[  165.971461]  ? __get_vm_area_node+0x2af/0x360
+[  165.976341]  ? __get_vm_area_node+0x2af/0x360
+[  165.981219]  __vmalloc_node_range+0x291/0x560
+[  165.986087]  ? __mutex_unlock_slowpath+0x161/0x5e0
+[  165.991447]  ? move_module+0x4c/0x630
+[  165.995547]  ? vfree_atomic+0xa0/0xa0
+[  165.999647]  ? move_module+0x4c/0x630
+[  166.003741]  module_alloc+0xe7/0x170
+[  166.007747]  ? move_module+0x4c/0x630
+[  166.011840]  move_module+0x4c/0x630
+[  166.015751]  layout_and_allocate+0x32c/0x560
+[  166.020519]  load_module+0x8e0/0x25c0
+[  166.024623]  ? layout_and_allocate+0x560/0x560
+[  166.029586]  ? kernel_read_file+0x286/0x6b0
+[  166.034269]  ? __x64_sys_fspick+0x290/0x290
+[  166.038946]  ? userfaultfd_unmap_prep+0x430/0x430
+[  166.044203]  ? lock_downgrade+0x130/0x130
+[  166.048698]  ? __do_sys_finit_module+0x11a/0x1c0
+[  166.053854]  __do_sys_finit_module+0x11a/0x1c0
+[  166.058818]  ? __ia32_sys_init_module+0xa0/0xa0
+[  166.063882]  ? __seccomp_filter+0x92/0x930
+[  166.068494]  do_syscall_64+0x59/0x90
+[  166.072492]  ? do_syscall_64+0x69/0x90
+[  166.076679]  ? do_syscall_64+0x69/0x90
+[  166.080864]  ? do_syscall_64+0x69/0x90
+[  166.085047]  ? asm_sysvec_apic_timer_interrupt+0x16/0x20
+[  166.090984]  ? lockdep_hardirqs_on+0x79/0x100
+[  166.095855]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-Due to the implementation of how SIGTRAP are delivered if
-perf_event_attr::sigtrap is set, we've noticed 3 issues:
 
-	1. Missing SIGTRAP due to a race with event_sched_out() (more
-	   details below).
 
-	2. Hardware PMU events being disabled due to returning 1 from
-	   perf_event_overflow(). The only way to re-enable the event is
-	   for user space to first "properly" disable the event and then
-	   re-enable it.
+Some facts:
 
-	3. The inability to automatically disable an event after a
-	   specified number of overflows via PERF_EVENT_IOC_REFRESH.
+1. The #CPUs seems to be more important than the #MEM
 
-The worst of the 3 issues is problem (1), which occurs when a
-pending_disable is "consumed" by a racing event_sched_out(), observed as
-follows:
+Initially we thought the memory size would be the relevant trigger,
+because we've only seen it on 8TiB machines. But I was able to
+reproduce also on a "small" machine with ~450GiB.
 
-		CPU0			|	CPU1
-	--------------------------------+---------------------------
-	__perf_event_overflow()		|
-	 perf_event_disable_inatomic()	|
-	  pending_disable = CPU0	| ...
-	  				| _perf_event_enable()
-					|  event_function_call()
-					|   task_function_call()
-					|    /* sends IPI to CPU0 */
-	<IPI>				| ...
-	 __perf_event_enable()		+---------------------------
-	  ctx_resched()
-	   task_ctx_sched_out()
-	    ctx_sched_out()
-	     group_sched_out()
-	      event_sched_out()
-	       pending_disable = -1
-	</IPI>
-	<IRQ-work>
-	 perf_pending_event()
-	  perf_pending_event_disable()
-	   /* Fails to send SIGTRAP because no pending_disable! */
-	</IRQ-work>
+We've seen this issue only on machines with a lot (~448) logical CPUs.
 
-In the above case, not only is that particular SIGTRAP missed, but also
-all future SIGTRAPs because 'event_limit' is not reset back to 1.
+On such systems, I was not able to reproduce when booting the kernel with
+"nosmt" so far, which could indicate some kind of concurrency problem.
 
-To fix, rework pending delivery of SIGTRAP via IRQ-work by introduction
-of a separate 'pending_sigtrap', no longer using 'event_limit' and
-'pending_disable' for its delivery.
 
-Additionally; and different to Marco's proposed patch:
+2. CONFIG_KASAN_INLINE seems to be relevant
 
- - recognise that pending_disable effectively duplicates oncpu for
-   the case where it is set. As such, change the irq_work handler to
-   use ->oncpu to target the event and use pending_* as boolean toggles.
+This issue only seems to trigger with KASAN enabled, and what I can tell,
+only with CONFIG_KASAN_INLINE=y:
 
- - observe that SIGTRAP targets the ctx->task, so the context switch
-   optimization that carries contexts between tasks is invalid. If
-   the irq_work were delayed enough to hit after a context switch the
-   SIGTRAP would be delivered to the wrong task.
+CONFIG_KASAN_INLINE: "but makes the kernel's .text size much bigger.", that
+should include kernel module to be loaded.
 
- - observe that if the event gets scheduled out
-   (rotation/migration/context-switch/...) the irq-work would be
-   insufficient to deliver the SIGTRAP when the event gets scheduled
-   back in (the irq-work might still be pending on the old CPU).
 
-   Therefore have event_sched_out() convert the pending sigtrap into a
-   task_work which will deliver the signal at return_to_user.
+3. All systems have 8, equally sized NUMA nodes
 
-Fixes: 97ba62b27867 ("perf: Add support for SIGTRAP on perf events")
-Reported-by: Marco Elver <elver@google.com>
-Debugged-by: Marco Elver <elver@google.com>
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- include/linux/perf_event.h  |   19 ++++-
- kernel/events/core.c        |  149 ++++++++++++++++++++++++++++++++------------
- kernel/events/ring_buffer.c |    2 
- 3 files changed, 127 insertions(+), 43 deletions(-)
+... which implies, that at least one node is practically completely filled with
+KASAN data. I remember adjusting the system size with "mem=", such that some
+nodes were memory-less but NODE 0 would still have some free memory.
+I remember that it still triggered.
 
---- a/include/linux/perf_event.h
-+++ b/include/linux/perf_event.h
-@@ -736,11 +736,14 @@ struct perf_event {
- 	struct fasync_struct		*fasync;
- 
- 	/* delayed work for NMIs and such */
--	int				pending_wakeup;
--	int				pending_kill;
--	int				pending_disable;
-+	unsigned int			pending_wakeup;
-+	unsigned int			pending_kill;
-+	unsigned int			pending_disable;
-+	unsigned int			pending_sigtrap;
- 	unsigned long			pending_addr;	/* SIGTRAP */
--	struct irq_work			pending;
-+	struct irq_work			pending_irq;
-+	struct callback_head		pending_task;
-+	unsigned int			pending_work;
- 
- 	atomic_t			event_limit;
- 
-@@ -857,6 +860,14 @@ struct perf_event_context {
- #endif
- 	void				*task_ctx_data; /* pmu specific data */
- 	struct rcu_head			rcu_head;
-+
-+	/*
-+	 * Sum (event->pending_sigtrap + event->pending_work)
-+	 *
-+	 * The SIGTRAP is targeted at ctx->task, as such it won't do changing
-+	 * that until the signal is delivered.
-+	 */
-+	local_t				nr_pending;
- };
- 
- /*
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -54,6 +54,7 @@
- #include <linux/highmem.h>
- #include <linux/pgtable.h>
- #include <linux/buildid.h>
-+#include <linux/task_work.h>
- 
- #include "internal.h"
- 
-@@ -2268,11 +2269,28 @@ event_sched_out(struct perf_event *event
- 	event->pmu->del(event, 0);
- 	event->oncpu = -1;
- 
--	if (READ_ONCE(event->pending_disable) >= 0) {
--		WRITE_ONCE(event->pending_disable, -1);
-+	if (event->pending_disable) {
-+		event->pending_disable = 0;
- 		perf_cgroup_event_disable(event, ctx);
- 		state = PERF_EVENT_STATE_OFF;
- 	}
-+
-+	if (event->pending_sigtrap) {
-+		event->pending_sigtrap = 0;
-+		if (state == PERF_EVENT_STATE_OFF) {
-+			/*
-+			 * If we're racing with disabling the event; consume
-+			 * the event to avoid it becoming asynchonous by
-+			 * mistake.
-+			 */
-+			local_dec(&event->ctx->nr_pending);
-+		} else {
-+			WARN_ON_ONCE(event->pending_work);
-+			event->pending_work = 1;
-+			task_work_add(current, &event->pending_task, TWA_RESUME);
-+		}
-+	}
-+
- 	perf_event_set_state(event, state);
- 
- 	if (!is_software_event(event))
-@@ -2424,7 +2442,7 @@ static void __perf_event_disable(struct
-  * hold the top-level event's child_mutex, so any descendant that
-  * goes to exit will block in perf_event_exit_event().
-  *
-- * When called from perf_pending_event it's OK because event->ctx
-+ * When called from perf_pending_irq it's OK because event->ctx
-  * is the current context on this CPU and preemption is disabled,
-  * hence we can't get into perf_event_task_sched_out for this context.
-  */
-@@ -2463,9 +2481,8 @@ EXPORT_SYMBOL_GPL(perf_event_disable);
- 
- void perf_event_disable_inatomic(struct perf_event *event)
- {
--	WRITE_ONCE(event->pending_disable, smp_processor_id());
--	/* can fail, see perf_pending_event_disable() */
--	irq_work_queue(&event->pending);
-+	event->pending_disable = 1;
-+	irq_work_queue(&event->pending_irq);
- }
- 
- #define MAX_INTERRUPTS (~0ULL)
-@@ -3420,11 +3437,22 @@ static void perf_event_context_sched_out
- 		raw_spin_lock_nested(&next_ctx->lock, SINGLE_DEPTH_NESTING);
- 		if (context_equiv(ctx, next_ctx)) {
- 
-+			perf_pmu_disable(pmu);
-+
-+			/* PMIs are disabled; ctx->nr_pending is stable. */
-+			if (local_read(&ctx->nr_pending)) {
-+				/*
-+				 * Must not swap out ctx when there's pending
-+				 * events that rely on the ctx->task relation.
-+				 */
-+				raw_spin_unlock(&next_ctx->lock);
-+				rcu_read_unlock();
-+				goto inside_switch;
-+			}
-+
- 			WRITE_ONCE(ctx->task, next);
- 			WRITE_ONCE(next_ctx->task, task);
- 
--			perf_pmu_disable(pmu);
--
- 			if (cpuctx->sched_cb_usage && pmu->sched_task)
- 				pmu->sched_task(ctx, false);
- 
-@@ -3465,6 +3493,7 @@ static void perf_event_context_sched_out
- 		raw_spin_lock(&ctx->lock);
- 		perf_pmu_disable(pmu);
- 
-+inside_switch:
- 		if (cpuctx->sched_cb_usage && pmu->sched_task)
- 			pmu->sched_task(ctx, false);
- 		task_ctx_sched_out(cpuctx, ctx, EVENT_ALL);
-@@ -4931,7 +4960,7 @@ static void perf_addr_filters_splice(str
- 
- static void _free_event(struct perf_event *event)
- {
--	irq_work_sync(&event->pending);
-+	irq_work_sync(&event->pending_irq);
- 
- 	unaccount_event(event);
- 
-@@ -6431,7 +6460,7 @@ static void perf_sigtrap(struct perf_eve
- 		return;
- 
- 	/*
--	 * perf_pending_event() can race with the task exiting.
-+	 * perf_pending_irq() can race with the task exiting.
- 	 */
- 	if (current->flags & PF_EXITING)
- 		return;
-@@ -6440,23 +6469,33 @@ static void perf_sigtrap(struct perf_eve
- 		      event->attr.type, event->attr.sig_data);
- }
- 
--static void perf_pending_event_disable(struct perf_event *event)
-+/*
-+ * Deliver the pending work in-event-context or follow the context.
-+ */
-+static void __perf_pending_irq(struct perf_event *event)
- {
--	int cpu = READ_ONCE(event->pending_disable);
-+	int cpu = READ_ONCE(event->oncpu);
- 
-+	/*
-+	 * If the event isn't running; we done. event_sched_out() will have
-+	 * taken care of things.
-+	 */
- 	if (cpu < 0)
- 		return;
- 
-+	/*
-+	 * Yay, we hit home and are in the context of the event.
-+	 */
- 	if (cpu == smp_processor_id()) {
--		WRITE_ONCE(event->pending_disable, -1);
--
--		if (event->attr.sigtrap) {
-+		if (event->pending_sigtrap) {
-+			event->pending_sigtrap = 0;
-+			local_dec(&event->ctx->nr_pending);
- 			perf_sigtrap(event);
--			atomic_set_release(&event->event_limit, 1); /* rearm event */
--			return;
- 		}
--
--		perf_event_disable_local(event);
-+		if (event->pending_disable) {
-+			event->pending_disable = 0;
-+			perf_event_disable_local(event);
-+		}
- 		return;
- 	}
- 
-@@ -6476,31 +6515,56 @@ static void perf_pending_event_disable(s
- 	 *				  irq_work_queue(); // FAILS
- 	 *
- 	 *  irq_work_run()
--	 *    perf_pending_event()
-+	 *    perf_pending_irq()
- 	 *
- 	 * But the event runs on CPU-B and wants disabling there.
- 	 */
--	irq_work_queue_on(&event->pending, cpu);
-+	irq_work_queue_on(&event->pending_irq, cpu);
- }
- 
--static void perf_pending_event(struct irq_work *entry)
-+static void perf_pending_irq(struct irq_work *entry)
- {
--	struct perf_event *event = container_of(entry, struct perf_event, pending);
-+	struct perf_event *event = container_of(entry, struct perf_event, pending_irq);
- 	int rctx;
- 
--	rctx = perf_swevent_get_recursion_context();
- 	/*
- 	 * If we 'fail' here, that's OK, it means recursion is already disabled
- 	 * and we won't recurse 'further'.
- 	 */
-+	rctx = perf_swevent_get_recursion_context();
- 
--	perf_pending_event_disable(event);
--
-+	/*
-+	 * The wakeup isn't bound to the context of the event -- it can happen
-+	 * irrespective of where the event is.
-+	 */
- 	if (event->pending_wakeup) {
- 		event->pending_wakeup = 0;
- 		perf_event_wakeup(event);
- 	}
- 
-+	__perf_pending_irq(event);
-+
-+	if (rctx >= 0)
-+		perf_swevent_put_recursion_context(rctx);
-+}
-+
-+static void perf_pending_task(struct callback_head *head)
-+{
-+	struct perf_event *event = container_of(head, struct perf_event, pending_task);
-+	int rctx;
-+
-+	/*
-+	 * If we 'fail' here, that's OK, it means recursion is already disabled
-+	 * and we won't recurse 'further'.
-+	 */
-+	rctx = perf_swevent_get_recursion_context();
-+
-+	if (event->pending_work) {
-+		event->pending_work = 0;
-+		local_dec(&event->ctx->nr_pending);
-+		perf_sigtrap(event);
-+	}
-+
- 	if (rctx >= 0)
- 		perf_swevent_put_recursion_context(rctx);
- }
-@@ -9179,8 +9243,8 @@ int perf_event_account_interrupt(struct
-  */
- 
- static int __perf_event_overflow(struct perf_event *event,
--				   int throttle, struct perf_sample_data *data,
--				   struct pt_regs *regs)
-+				 int throttle, struct perf_sample_data *data,
-+				 struct pt_regs *regs)
- {
- 	int events = atomic_read(&event->event_limit);
- 	int ret = 0;
-@@ -9203,24 +9267,36 @@ static int __perf_event_overflow(struct
- 	if (events && atomic_dec_and_test(&event->event_limit)) {
- 		ret = 1;
- 		event->pending_kill = POLL_HUP;
--		event->pending_addr = data->addr;
--
- 		perf_event_disable_inatomic(event);
- 	}
- 
-+	if (event->attr.sigtrap) {
-+		/*
-+		 * Should not be able to return to user space without processing
-+		 * pending_sigtrap (kernel events can overflow multiple times).
-+		 */
-+		WARN_ON_ONCE(event->pending_sigtrap && event->attr.exclude_kernel);
-+		if (!event->pending_sigtrap) {
-+			event->pending_sigtrap = 1;
-+			local_inc(&event->ctx->nr_pending);
-+		}
-+		event->pending_addr = data->addr;
-+		irq_work_queue(&event->pending_irq);
-+	}
-+
- 	READ_ONCE(event->overflow_handler)(event, data, regs);
- 
- 	if (*perf_event_fasync(event) && event->pending_kill) {
- 		event->pending_wakeup = 1;
--		irq_work_queue(&event->pending);
-+		irq_work_queue(&event->pending_irq);
- 	}
- 
- 	return ret;
- }
- 
- int perf_event_overflow(struct perf_event *event,
--			  struct perf_sample_data *data,
--			  struct pt_regs *regs)
-+			struct perf_sample_data *data,
-+			struct pt_regs *regs)
- {
- 	return __perf_event_overflow(event, 1, data, regs);
- }
-@@ -11528,8 +11604,8 @@ perf_event_alloc(struct perf_event_attr
- 
- 
- 	init_waitqueue_head(&event->waitq);
--	event->pending_disable = -1;
--	init_irq_work(&event->pending, perf_pending_event);
-+	init_irq_work(&event->pending_irq, perf_pending_irq);
-+	init_task_work(&event->pending_task, perf_pending_task);
- 
- 	mutex_init(&event->mmap_mutex);
- 	raw_spin_lock_init(&event->addr_filters.lock);
-@@ -11551,9 +11627,6 @@ perf_event_alloc(struct perf_event_attr
- 	if (parent_event)
- 		event->event_caps = parent_event->event_caps;
- 
--	if (event->attr.sigtrap)
--		atomic_set(&event->event_limit, 1);
--
- 	if (task) {
- 		event->attach_state = PERF_ATTACH_TASK;
- 		/*
---- a/kernel/events/ring_buffer.c
-+++ b/kernel/events/ring_buffer.c
-@@ -22,7 +22,7 @@ static void perf_output_wakeup(struct pe
- 	atomic_set(&handle->rb->poll, EPOLLIN);
- 
- 	handle->event->pending_wakeup = 1;
--	irq_work_queue(&handle->event->pending);
-+	irq_work_queue(&handle->event->pending_irq);
- }
- 
- /*
+
+
+My current best guess is that this is a combination of large VMAP demands
+(e.g., kernel modules with quite a size due to CONFIG_KASAN_INLINE) and
+eventually a concurrency issue with large #CPUs. But I might be wrong and
+this might be something zone/node related.
+
+Does any of that ring a bell -- especially why it would fail with 448 logical
+CPUs but succeed with 224 logical CPUs (nosmt)?
+
+My best guess would be that the purge_vmap_area_lazy() logic in alloc_vmap_area()
+might not be sufficient when there is a lot of concurrency: simply purging
+once and then failing might be problematic in corner cases where there is a lot of
+concurrent vmap action going on. But that's just my best guess.
+
+
+Cheers!
+
+-- 
+Thanks,
+
+David / dhildenb
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yz7ZLaT4jW3Y9EYS%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8aaaeec8-14a1-cdc4-4c77-4878f4979f3e%40redhat.com.
