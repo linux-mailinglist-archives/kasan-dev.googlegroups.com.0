@@ -1,162 +1,180 @@
-Return-Path: <kasan-dev+bncBDA5BKNJ6MIBBMFM7OMQMGQESGNISAY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLI747UVAFRBYFO7OMQMGQEENKGLUI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81565F67A4
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Oct 2022 15:20:48 +0200 (CEST)
-Received: by mail-wr1-x437.google.com with SMTP id d22-20020adfa356000000b0022e224b21c0sf520667wrb.9
-        for <lists+kasan-dev@lfdr.de>; Thu, 06 Oct 2022 06:20:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665062448; cv=pass;
+Received: from mail-vk1-xa3a.google.com (mail-vk1-xa3a.google.com [IPv6:2607:f8b0:4864:20::a3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9A25F67D0
+	for <lists+kasan-dev@lfdr.de>; Thu,  6 Oct 2022 15:25:54 +0200 (CEST)
+Received: by mail-vk1-xa3a.google.com with SMTP id v67-20020a1fac46000000b003a2699aa42fsf387605vke.8
+        for <lists+kasan-dev@lfdr.de>; Thu, 06 Oct 2022 06:25:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665062753; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WIv+SMWRfpUB2rmwo8w3QQYt5snvJqn5/62kCdka5vzcryk+F6jkkLg6wcnQUNd6Hq
-         UuJuuwwSA7iDZcDnxqna+yILFgGiO33n+jIxwJBjzNf2foUH8zBua/lH3+yg/xS7uvpF
-         wjjxChpqfdth8oo8IboQjd05Pt7he8qWzZv7KtcjvWZtgWf1l0MuDQ2J4ZuBJMOEhB5C
-         6rrldKIFX+VOMdlC+tFsaGg2KqmtvVdDP1psO0XFXi4cadXygBEpbZJALjV44B9Q0Z4H
-         ElfdlesmBy+lA8ciEd2Hj+A17cWyUSftfML7O2lCe85fqXiHjZEzRU2W36IgRULCUmZM
-         zAQg==
+        b=MQ02XQvSLL3l+TAC2W3MQy9ZzJV5JrYEWGKrrfeLZXaZVaGHjBtrZReQ1sfgTh9EV0
+         /XYXfBquJ0vVmJXZK7Jf/raHqor0CpmAzbOkpuX73JTSwOezvfjDjPVZ1ijUvMiHk7z+
+         22VDlh0TnPPbA+O0O4qzqXHOYa7hAXBpHZSaKtJ0sdWfnqGT5TcG7rxm4kU6IjRmR61X
+         K8zoOHcOLfccO+I//qKPg0QES5lAZExO9Ul1QnmE2Z8aqEplHmM88Ge3cjQ+Oh07zdTS
+         d+P7r2JbgB06UEKQ70RLVcHVLvt6OhNztDzq9b4Jw3QwTnwqweaG2bSRnKKeUFAiWMHb
+         mJ1A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:organization:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=uRy0YMvJd2BE0o+5yKQuqN/wqB7nvWLsucmSluU4woA=;
-        b=QDpJJnhWPDLFN1iTH13zFXUtg6VtJbC8786O0CN/PKsrXVOPwEkxSGyXQVyouGGZFj
-         Io9fBncJsf5JuY177rBNIMCHX/XH6CiRjv4Q2KQqysIHwp4GYka+rMEInv0AGd+N0dR9
-         NWW4oT/Y7592KeGbx8Tm16+nq6J5PtmyQ5oXoQU7iX73iLxAX0UBGvG6UdsLHvxE6JXf
-         VOO5dNbUTf3pV36w6Ms040RCThMkR+7E4khUqdZr+hwE0fjvcyJiy868CwRr4cEcObyy
-         WKnJ18qUcyUaOk8XHN2Fbwj+ZLYFmoD4WrDNRzOwqfUAB61rTLNRHzYBQe+pZrv1BQh5
-         aM1g==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :mime-version:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=Eb4rI3RjAI+3ANpaMz13DNK2ayIb5Ch1F07/jcatm2w=;
+        b=czhclH81etjxQn7DTXfJMjE/cLXa4ZCENyIK2TRwQf1fKIHM9PPxSl8BCvty/fFpl7
+         1wC4DOlzBKhofk7C0yPDi6Z+XFuvgQw/48UMANqSDgXVZ4n3k0kD/qgPsJUlCXEphNcg
+         70SKoF+Du5rkpfGs0td8na9Q4XGRbxk95/CYZgNpvi6GXZB5OPvaISkktZSZUZbKoEcm
+         MJla3tpuR+YQClkaY516tSNa8LEILnlJqVUnb9+TcqG13t6xcjoorEya3k6p9yPQ++WC
+         sdUpZNxWDrid1plpTI/vxrbP9SX//o4p8X0aSjze2QdGCRIUrBRXQdZPMTAL97Gnjtg/
+         LwFA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b="SVGxZ/5u";
-       spf=pass (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com designates 134.134.136.65 as permitted sender) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=U19BJ3bB;
+       spf=pass (google.com: domain of srs0=tiop=2h=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=tIOp=2H=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:organization:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uRy0YMvJd2BE0o+5yKQuqN/wqB7nvWLsucmSluU4woA=;
-        b=oBCsOhH2675C+eI+eD8UH3Ag3RCWPZHBlGToKJNhXOF5yHR5jEZ1b1fQ+feieysRAy
-         hsLr6RBJ/ZlmhKFhRFXzAlW/XJ3fvn/p0CkpAnwOGp5Vlz5ztkZP+Dv5e0XsgsC49sgd
-         YL3zZ/3l8pKT/TQLqmSrxxO1B0WUyEJBQyMYdq7JzJ0tOw/676DB3eTwPD1qaqNy7ybW
-         FA27TAqL/KhfJpovMtBAp2Pt+75G2hMYxdsUPvumKji1PDNhRgGu95daXyI8AYN7zxfE
-         053ZWwgyrSWy2CU6VWQfYSMq78nUP9QZeUyc9H7U/rk2E43NZbb9Nn3PbwHAy0bh8Obu
-         s3Ig==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=Eb4rI3RjAI+3ANpaMz13DNK2ayIb5Ch1F07/jcatm2w=;
+        b=faGf3KVfitOFGXG+iStjq19suuzeUP0ctb8APUYHWaX4w7Eu5CgQ8d6NdYi+hDP6Ew
+         LEE/GzFDQVIAUkLIiFKSb7YXSp6iTaDu2pgFW6ZXQz5J8e4CwYfJViunlV6r3NbKeOHA
+         Ybcz8oluz1nc5JVPPsYum2l/oGPpn7rSQiOn80DXX0E8YkwOx8JTLPX1rDV6Yasa70RG
+         TYFyqjBb2sVU5lTQjqy/N9VEAWXurbt03741HjzkyATLRuXbZ6IVSoN2JlMgcDb9VKAa
+         c9QUjeOctdOp64OvDyT531qKGq2SefsXHekpNO9uHsIz3Nl21WexDLK2gZQyJLRMkaV9
+         +p7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:organization
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uRy0YMvJd2BE0o+5yKQuqN/wqB7nvWLsucmSluU4woA=;
-        b=i8Hac8wYtgFHWaMQiCHkc2V2Vxtj6+ci76zgceDzHxdZu+M+dvKRNGaYixSfWjNb5z
-         FdXnGGJci4E4YSSJ6q8Et1zDiDU+NTOCbyfqHrRc2BVOsgxZ0S8Y8HMyGV+/5mhQn7YN
-         66X6nB7jfY6ym55qlAnFsLKprxNlKvuHISUrskISY+SVKkvLljaa5mvzcivvG0OzmHxw
-         Lf+j1Kt4n6vStS1qe5rHqO9cWR6k0cq+CfdorOgztt3XoTfJV4kT4q7wj2Y6Ja28YIbW
-         idWWlyAJZTwL68SawN8yH8ufTWosnXZ3nBRjKSJ2vY2mtnr5MNJfNkySmyhnll6K771Q
-         xCxg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0ksmNVoMCTHrTjIWuTqlCEvap3f/9iNVj40wXEtfwgFGa6Sx/1
-	5PnGH6wErAzyjb7VOdOSi40=
-X-Google-Smtp-Source: AMsMyM7LiKcYrGsPwycOStf/dn+RxZNa8LYogffVy4o7+VVEGAn10EEukl1szKi1rGVzFogbRWMsvg==
-X-Received: by 2002:a5d:4910:0:b0:22e:4007:d047 with SMTP id x16-20020a5d4910000000b0022e4007d047mr3130220wrq.609.1665062448283;
-        Thu, 06 Oct 2022 06:20:48 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=Eb4rI3RjAI+3ANpaMz13DNK2ayIb5Ch1F07/jcatm2w=;
+        b=NEuZpjJXDy9vL2U80GM4l7MglUhecNHSZNmlVAbZUhe5uzixgRaOOa+oJAOaUF5LYS
+         MYinOL4xI1HdpUXW6HA3xLpDLz/HtVgXkp8MczeDpC2asLw+v0ZlCTwDQh5RyGfHtfYj
+         MxyCQ0SQasN14/S5lagwg5r80mWAyZUxMu2Myo4tayikWghAcVTH2SSSE5hh8HPf6PBL
+         vPy2xChrK1kzA6Ddsoj0ohZDwAi8gyk7G91J6iMkBjr8NP5V3YPxVNfhYLjaVWZCm92p
+         qEYiNQHcj6ha3acApPwN11bf08OjUanUDHnuj2Y6F9Vj/7FBFSUuOn0f3gNCuUyDhT0S
+         zRhw==
+X-Gm-Message-State: ACrzQf3vPMMfe9LBX2ncxhUAakCT1giV6VsOH16pGvI+IrhubqdsbGhz
+	mcQtKpVGyQP9u3Bcmsl7OZQ=
+X-Google-Smtp-Source: AMsMyM7OTgPVUTR0G0Sq89sE0wMx56NY8XWWRFBMNJrCvG7Niw/UMNMHLFbt2h6S8bWcbKkI0nuWzQ==
+X-Received: by 2002:a05:6102:5591:b0:38a:9691:933f with SMTP id dc17-20020a056102559100b0038a9691933fmr2049153vsb.54.1665062752952;
+        Thu, 06 Oct 2022 06:25:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:70b:b0:22e:5d8a:c92d with SMTP id
- bs11-20020a056000070b00b0022e5d8ac92dls3502419wrb.1.-pod-prod-gmail; Thu, 06
- Oct 2022 06:20:47 -0700 (PDT)
-X-Received: by 2002:adf:ef4b:0:b0:22e:5c0c:f5f with SMTP id c11-20020adfef4b000000b0022e5c0c0f5fmr3142740wrp.9.1665062447209;
-        Thu, 06 Oct 2022 06:20:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665062447; cv=none;
+Received: by 2002:a1f:1796:0:b0:3a2:3bdf:8f73 with SMTP id 144-20020a1f1796000000b003a23bdf8f73ls169807vkx.6.-pod-prod-gmail;
+ Thu, 06 Oct 2022 06:25:52 -0700 (PDT)
+X-Received: by 2002:a1f:24d5:0:b0:3a2:f067:66f6 with SMTP id k204-20020a1f24d5000000b003a2f06766f6mr2466238vkk.13.1665062752345;
+        Thu, 06 Oct 2022 06:25:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665062752; cv=none;
         d=google.com; s=arc-20160816;
-        b=V4C2m/zHDMEeH0e37z7IvgqvHAjcg20xPuz8R+xHyc5lveOrJsWMGlAyDT4iE3SglO
-         nmxZwpn3+ZqIRgG7O/nG8RUR6t4hl/lGrVWBP6P89W2CpuDqxKGWtgpbzxDZef3IzKqm
-         VKvkE6FgXoN4k5AdNNDlSxaIDcgllKL2NmJ1/n0T0WkMerjkonMouUeF3+ZQKtNJ43i+
-         BZe9249LSkNMEtwShMJEyNXutaSu0MPcPpTOfWh4N7AIxI7BXxeumY2gGDMgf5LTO4pL
-         IqeRwgQ6Xrr3Qo7KkHyfcCPF355FpVxX9BMQcTxqcMufo75qPB8IvAhztnypiWp9GjJW
-         i4UQ==
+        b=M6pZxpeSc91ThJ5EXxNrnQMK4eW+e6Ly5BmUjcfKcGiExDP/gp/rF/r/g0UGZYKeiE
+         /8sAr1eUGQpSTjav3zhuK0TOHmQcn+0f9oRpiCD1nmSIjoucZoEvTDgz1X8oqEhHXs8s
+         j4jX6D/zdesucKoHLzZ+W/HlAHxP5BaRQ/3Fh5XA2DVskObs+eDNblmy/PATP6xUgG+J
+         6UOpj2RbpXFMBcIKGJUqdiLeJ+RL2mcpGEMjIoU+9Z5VSIX3H+mnPQ42J0/A2LFoZcZY
+         saWL9+O5BbkXv/I7yiQdFmg4ZYSB/PnYYeFEyra0TCm0gdK6fpo4CcxygUWaFCTEtlzO
+         Fn8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=organization:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=ZA/qVV/OjVPeYSfM3XvsjCeMNgcHk9DsjyLEvsY4vvA=;
-        b=dU6aZfvx0fHPLDRqAtVxB0ldr4RA2lxllpzW8pQCkCajLHjhs/vYNjNiGwFMoTeOD4
-         KclQ7bq6NUPc2FSV3FliKTZVhfI5k26njoPfsraVPMYD3r1tukQJNx09tHqIe8HCGE44
-         z9KcxqY284csGF4X60Hg8UZHvHREusJhKYmDQu3Du9gkOOsHHszLFM/z3rTMk4VHzGnb
-         REUtEFpeb8SkSvEnywhPYKM+eKkoEUTk3aPZMuICn/jpQ3GUSZzWdQkGbTi8JwI5/S2a
-         LbeKX2tBaeV8DSk2JkZmKJwrRRUBO9BuuuODzLm+iHGRkjrjDOZsuIcQw5Mpkyr9Z7BU
-         FTFQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=7dFj46iv6B3wpMLAkzxu2+UZUtW66eQt4bdRtLsdjWc=;
+        b=0/D6Z+Q7YSasMOyAaPAWHrS+BaUSZkeVQrPSrkeGNKzyPaQ32Ig3Per4S8KY/Ocsb0
+         MTHIOZ/9gDSpiGeEtxVOhjxaNG2TQDWocTh12lvvRO4dgA8bdWdDOIJMBG6t5KpBfuYC
+         0ybTYdkCBcsRz6Se0RiEUoLm2LH9jeqmv2civaCn/x+XUlY1L7CtF4ITnkAVP64i135M
+         m4LOoq/Mw0i6ysbukyASn3DVZ9veG5jrEoyQ6QOzSzHo/KBlBrEtpIIn1aIpl5UmDX9h
+         q2dqaxaLGA3yvJ96ZMRuMxvEsF6Qxf4cKNvqS3qqDkNedywn7bDnGxczUxXepKZgE6oo
+         3zSg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b="SVGxZ/5u";
-       spf=pass (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com designates 134.134.136.65 as permitted sender) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga03.intel.com (mga03.intel.com. [134.134.136.65])
-        by gmr-mx.google.com with ESMTPS id z9-20020a5d6549000000b0022e04ae3a44si597563wrv.6.2022.10.06.06.20.46
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=U19BJ3bB;
+       spf=pass (google.com: domain of srs0=tiop=2h=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=tIOp=2H=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id v201-20020a1f2fd2000000b003a42b7cdb27si917235vkv.4.2022.10.06.06.25.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Oct 2022 06:20:47 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com designates 134.134.136.65 as permitted sender) client-ip=134.134.136.65;
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="305019540"
-X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
-   d="scan'208";a="305019540"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 06:20:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="729143418"
-X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
-   d="scan'208";a="729143418"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Oct 2022 06:20:34 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ogQng-0039rX-0O;
-	Thu, 06 Oct 2022 16:20:32 +0300
-Date: Thu, 6 Oct 2022 16:20:31 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org,
-	brcm80211-dev-list.pdl@broadcom.com, cake@lists.bufferbloat.net,
-	ceph-devel@vger.kernel.org, coreteam@netfilter.org,
-	dccp@vger.kernel.org, dev@openvswitch.org,
-	dmaengine@vger.kernel.org, drbd-dev@lists.linbit.com,
-	dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-	linux-actions@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-hams@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mm@kvack.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-raid@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sctp@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, lvs-devel@vger.kernel.org,
-	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-	rds-devel@oss.oracle.com, SHA-cyfmac-dev-list@infineon.com,
-	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v1 3/5] treewide: use get_random_u32() when possible
-Message-ID: <Yz7WHyD+teLOh2ho@smile.fi.intel.com>
-References: <20221005214844.2699-1-Jason@zx2c4.com>
- <20221005214844.2699-4-Jason@zx2c4.com>
- <Yz7OdfKZeGkpZSKb@ziepe.ca>
- <CAHmME9r_vNRFFjUvqx8QkBddg_kQU=FMgpk9TqOVZdvX6zXHNg@mail.gmail.com>
+        Thu, 06 Oct 2022 06:25:52 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=tiop=2h=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id C2CCF6199D;
+	Thu,  6 Oct 2022 13:25:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A38C433D6;
+	Thu,  6 Oct 2022 13:25:46 +0000 (UTC)
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b30e7dab (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Thu, 6 Oct 2022 13:25:44 +0000 (UTC)
+From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
+To: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dave Airlie <airlied@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Florian Westphal <fw@strlen.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Hugh Dickins <hughd@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"James E . J . Bottomley" <jejb@linux.ibm.com>,
+	Jan Kara <jack@suse.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jens Axboe <axboe@kernel.dk>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	KP Singh <kpsingh@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Marco Elver <elver@google.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Thomas Graf <tgraf@suug.ch>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	kasan-dev@googlegroups.com,
+	kernel-janitors@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org,
+	linux-rdma@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH v2 0/5] treewide cleanup of random integer usage
+Date: Thu,  6 Oct 2022 07:25:05 -0600
+Message-Id: <20221006132510.23374-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAHmME9r_vNRFFjUvqx8QkBddg_kQU=FMgpk9TqOVZdvX6zXHNg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Original-Sender: andriy.shevchenko@linux.intel.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: jason@zx2c4.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b="SVGxZ/5u";       spf=pass
- (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com
- designates 134.134.136.65 as permitted sender) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@zx2c4.com header.s=20210105 header.b=U19BJ3bB;       spf=pass
+ (google.com: domain of srs0=tiop=2h=zx2c4.com=jason@kernel.org designates
+ 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=tIOp=2H=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,47 +187,285 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Oct 06, 2022 at 07:05:48AM -0600, Jason A. Donenfeld wrote:
-> On Thu, Oct 6, 2022 at 6:47 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > On Wed, Oct 05, 2022 at 11:48:42PM +0200, Jason A. Donenfeld wrote:
+[Posting v2 right away, because I CC'd too many people for v1, and email
+ systems worldwide exploded.]
 
-...
+Hi folks,
 
-> > > -     u32 isn = (prandom_u32() & ~7UL) - 1;
-> > > +     u32 isn = (get_random_u32() & ~7UL) - 1;
-> >
-> > Maybe this wants to be written as
-> >
-> > (prandom_max(U32_MAX >> 7) << 7) | 7
+This is a five part treewide cleanup of random integer handling. The
+rules for random integers are:
 
-> > ?
-> 
-> Holy smokes. Yea I guess maybe? It doesn't exactly gain anything or
-> make the code clearer though, and is a little bit more magical than
-> I'd like on a first pass.
+- If you want a secure or an insecure random u64, use get_random_u64().
+- If you want a secure or an insecure random u32, use get_random_u32().
+  * The old function prandom_u32() has been deprecated for a while now
+    and is just a wrapper around get_random_u32().
+- If you want a secure or an insecure random u16, use get_random_u16().
+- If you want a secure or an insecure random u8, use get_random_u8().
+- If you want secure or insecure random bytes, use get_random_bytes().
+  * The old function prandom_bytes() has been deprecated for a while now
+    and has long been a wrapper around get_random_bytes().
+- If you want a non-uniform random u32, u16, or u8 bounded by a certain
+  open interval maximum, use prandom_u32_max().
+  * I say "non-uniform", because it doesn't do any rejection sampling or
+    divisions. Hence, it stays within the prandom_* namespace.
 
-Shouldn't the two first 7s to be 3s?
+These rules ought to be applied uniformly, so that we can clean up the
+deprecated functions, and earn the benefits of using the modern
+functions. In particular, in addition to the boring substitutions, this
+patchset accomplishes a few nice effects:
 
-...
+- By using prandom_u32_max() with an upper-bound that the compiler can
+  prove at compile-time is =E2=89=A465536 or =E2=89=A4256, internally get_r=
+andom_u16()
+  or get_random_u8() is used, which wastes fewer batched random bytes,
+  and hence has higher throughput.
 
-> > > -     psn = prandom_u32() & 0xffffff;
-> > > +     psn = get_random_u32() & 0xffffff;
-> >
-> >  prandom_max(0xffffff + 1)
-> 
-> That'd work, but again it's not more clear. Authors here are going for
-> a 24-bit number, and masking seems like a clear way to express that.
+- By using prandom_u32_max() instead of %, when the upper-bound is not a
+  constant, division is still avoided, because prandom_u32_max() uses
+  a faster multiplication-based trick instead.
 
-We have some 24-bit APIs (and 48-bit) already in kernel, why not to have
-get_random_u24() ?
+- By using get_random_u16() or get_random_u8() in cases where the return
+  value is intended to indeed be a u16 or a u8, we waste fewer batched
+  random bytes, and hence have higher throughput.
 
+So, based on those rules and benefits from following them, this patchset
+breaks down into the following five steps, which were done mostly
+manually:
 
--- 
-With Best Regards,
-Andy Shevchenko
+1) Replace `prandom_u32() % max` and variants thereof with
+   prandom_u32_max(max).
 
+2) Replace `(type)get_random_u32()` and variants thereof with
+   get_random_u16() or get_random_u8(). I took the pains to actually
+   look and see what every lvalue type was across the entire tree.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Yz7WHyD%2BteLOh2ho%40smile.fi.intel.com.
+3) Replace remaining deprecated uses of prandom_u32() with
+   get_random_u32().=20
+
+4) Replace remaining deprecated uses of prandom_bytes() with
+   get_random_bytes().
+
+5) Remove the deprecated and now-unused prandom_u32() and
+   prandom_bytes() inline wrapper functions.
+
+I was thinking of taking this through my random.git tree (on which this
+series is currently based) and submitting it near the end of the merge
+window, or waiting for the very end of the 6.1 cycle when there will be
+the fewest new patches brewing. If somebody with some treewide-cleanup
+experience might share some wisdom about what the best timing usually
+winds up being, I'm all ears.
+
+Please take a look!
+
+Thanks,
+Jason
+
+Cc: Andreas Noever <andreas.noever@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Christoph B=C3=B6hmwalder <christoph.boehmwalder@linbit.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: David S. Miller <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Florian Westphal <fw@strlen.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: H. Peter Anvin <hpa@zytor.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: James E.J. Bottomley <jejb@linux.ibm.com>
+Cc: Jan Kara <jack@suse.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+Cc: KP Singh <kpsingh@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Marco Elver <elver@google.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Theodore Ts'o <tytso@mit.edu>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Thomas Graf <tgraf@suug.ch>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Yury Norov <yury.norov@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kasan-dev@googlegroups.com
+Cc: kernel-janitors@vger.kernel.org
+Cc: linux-block@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-nvme@lists.infradead.org
+Cc: linux-rdma@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-wireless@vger.kernel.org
+Cc: netdev@vger.kernel.org
+
+Jason A. Donenfeld (5):
+  treewide: use prandom_u32_max() when possible
+  treewide: use get_random_{u8,u16}() when possible
+  treewide: use get_random_u32() when possible
+  treewide: use get_random_bytes when possible
+  prandom: remove unused functions
+
+ Documentation/networking/filter.rst           |  2 +-
+ arch/powerpc/crypto/crc-vpmsum_test.c         |  2 +-
+ arch/x86/mm/pat/cpa-test.c                    |  4 +-
+ block/blk-crypto-fallback.c                   |  2 +-
+ crypto/async_tx/raid6test.c                   |  2 +-
+ crypto/testmgr.c                              | 94 +++++++++----------
+ drivers/block/drbd/drbd_receiver.c            |  4 +-
+ drivers/dma/dmatest.c                         |  2 +-
+ drivers/infiniband/core/cma.c                 |  2 +-
+ drivers/infiniband/hw/cxgb4/cm.c              |  4 +-
+ drivers/infiniband/hw/cxgb4/id_table.c        |  4 +-
+ drivers/infiniband/hw/hfi1/tid_rdma.c         |  2 +-
+ drivers/infiniband/hw/hns/hns_roce_ah.c       |  5 +-
+ drivers/infiniband/hw/mlx4/mad.c              |  2 +-
+ drivers/infiniband/ulp/ipoib/ipoib_cm.c       |  2 +-
+ drivers/infiniband/ulp/rtrs/rtrs-clt.c        |  3 +-
+ drivers/md/raid5-cache.c                      |  2 +-
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c |  2 +-
+ .../media/test-drivers/vivid/vivid-radio-rx.c |  4 +-
+ drivers/mmc/core/core.c                       |  4 +-
+ drivers/mmc/host/dw_mmc.c                     |  2 +-
+ drivers/mtd/nand/raw/nandsim.c                |  8 +-
+ drivers/mtd/tests/mtd_nandecctest.c           | 12 +--
+ drivers/mtd/tests/speedtest.c                 |  2 +-
+ drivers/mtd/tests/stresstest.c                | 19 +---
+ drivers/mtd/ubi/debug.c                       |  2 +-
+ drivers/mtd/ubi/debug.h                       |  6 +-
+ drivers/net/bonding/bond_main.c               |  2 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  2 +-
+ drivers/net/ethernet/broadcom/cnic.c          |  5 +-
+ .../chelsio/inline_crypto/chtls/chtls_cm.c    |  4 +-
+ .../chelsio/inline_crypto/chtls/chtls_io.c    |  4 +-
+ drivers/net/ethernet/rocker/rocker_main.c     |  8 +-
+ drivers/net/hamradio/baycom_epp.c             |  2 +-
+ drivers/net/hamradio/hdlcdrv.c                |  2 +-
+ drivers/net/hamradio/yam.c                    |  2 +-
+ drivers/net/phy/at803x.c                      |  2 +-
+ drivers/net/wireguard/selftest/allowedips.c   | 16 ++--
+ .../broadcom/brcm80211/brcmfmac/p2p.c         |  2 +-
+ .../net/wireless/intel/iwlwifi/mvm/mac-ctxt.c |  2 +-
+ .../net/wireless/marvell/mwifiex/cfg80211.c   |  4 +-
+ .../wireless/microchip/wilc1000/cfg80211.c    |  2 +-
+ .../net/wireless/quantenna/qtnfmac/cfg80211.c |  2 +-
+ drivers/nvme/common/auth.c                    |  2 +-
+ drivers/scsi/cxgbi/cxgb4i/cxgb4i.c            |  4 +-
+ drivers/scsi/fcoe/fcoe_ctlr.c                 |  4 +-
+ drivers/scsi/lpfc/lpfc_hbadisc.c              |  6 +-
+ drivers/scsi/qedi/qedi_main.c                 |  2 +-
+ drivers/target/iscsi/cxgbit/cxgbit_cm.c       |  2 +-
+ drivers/thunderbolt/xdomain.c                 |  2 +-
+ drivers/video/fbdev/uvesafb.c                 |  2 +-
+ fs/ceph/inode.c                               |  2 +-
+ fs/ceph/mdsmap.c                              |  2 +-
+ fs/exfat/inode.c                              |  2 +-
+ fs/ext2/ialloc.c                              |  3 +-
+ fs/ext4/ialloc.c                              |  7 +-
+ fs/ext4/ioctl.c                               |  4 +-
+ fs/ext4/mmp.c                                 |  2 +-
+ fs/ext4/super.c                               |  7 +-
+ fs/f2fs/gc.c                                  |  2 +-
+ fs/f2fs/namei.c                               |  2 +-
+ fs/f2fs/segment.c                             |  8 +-
+ fs/fat/inode.c                                |  2 +-
+ fs/nfsd/nfs4state.c                           |  4 +-
+ fs/ubifs/debug.c                              | 10 +-
+ fs/ubifs/journal.c                            |  2 +-
+ fs/ubifs/lpt_commit.c                         | 14 +--
+ fs/ubifs/tnc_commit.c                         |  2 +-
+ fs/xfs/libxfs/xfs_alloc.c                     |  2 +-
+ fs/xfs/libxfs/xfs_ialloc.c                    |  4 +-
+ fs/xfs/xfs_error.c                            |  2 +-
+ fs/xfs/xfs_icache.c                           |  2 +-
+ fs/xfs/xfs_log.c                              |  2 +-
+ include/linux/prandom.h                       | 12 ---
+ include/net/netfilter/nf_queue.h              |  2 +-
+ include/net/red.h                             |  2 +-
+ include/net/sock.h                            |  2 +-
+ kernel/kcsan/selftest.c                       |  4 +-
+ kernel/time/clocksource.c                     |  2 +-
+ lib/fault-inject.c                            |  2 +-
+ lib/find_bit_benchmark.c                      |  4 +-
+ lib/random32.c                                |  4 +-
+ lib/reed_solomon/test_rslib.c                 | 12 +--
+ lib/sbitmap.c                                 |  4 +-
+ lib/test_fprobe.c                             |  2 +-
+ lib/test_kprobes.c                            |  2 +-
+ lib/test_list_sort.c                          |  2 +-
+ lib/test_objagg.c                             |  2 +-
+ lib/test_rhashtable.c                         |  6 +-
+ lib/test_vmalloc.c                            | 19 +---
+ lib/uuid.c                                    |  2 +-
+ mm/shmem.c                                    |  2 +-
+ net/802/garp.c                                |  2 +-
+ net/802/mrp.c                                 |  2 +-
+ net/ceph/mon_client.c                         |  2 +-
+ net/ceph/osd_client.c                         |  2 +-
+ net/core/neighbour.c                          |  2 +-
+ net/core/pktgen.c                             | 47 +++++-----
+ net/core/stream.c                             |  2 +-
+ net/dccp/ipv4.c                               |  4 +-
+ net/ipv4/datagram.c                           |  2 +-
+ net/ipv4/igmp.c                               |  6 +-
+ net/ipv4/inet_connection_sock.c               |  2 +-
+ net/ipv4/inet_hashtables.c                    |  2 +-
+ net/ipv4/ip_output.c                          |  2 +-
+ net/ipv4/route.c                              |  2 +-
+ net/ipv4/tcp_cdg.c                            |  2 +-
+ net/ipv4/tcp_ipv4.c                           |  4 +-
+ net/ipv4/udp.c                                |  2 +-
+ net/ipv6/addrconf.c                           |  8 +-
+ net/ipv6/ip6_flowlabel.c                      |  2 +-
+ net/ipv6/mcast.c                              | 10 +-
+ net/ipv6/output_core.c                        |  2 +-
+ net/mac80211/rc80211_minstrel_ht.c            |  2 +-
+ net/mac80211/scan.c                           |  2 +-
+ net/netfilter/ipvs/ip_vs_conn.c               |  2 +-
+ net/netfilter/ipvs/ip_vs_twos.c               |  4 +-
+ net/netfilter/nf_nat_core.c                   |  4 +-
+ net/netfilter/xt_statistic.c                  |  2 +-
+ net/openvswitch/actions.c                     |  2 +-
+ net/packet/af_packet.c                        |  2 +-
+ net/rds/bind.c                                |  2 +-
+ net/sched/act_gact.c                          |  2 +-
+ net/sched/act_sample.c                        |  2 +-
+ net/sched/sch_cake.c                          |  8 +-
+ net/sched/sch_netem.c                         | 22 ++---
+ net/sched/sch_pie.c                           |  2 +-
+ net/sched/sch_sfb.c                           |  2 +-
+ net/sctp/socket.c                             |  4 +-
+ net/sunrpc/auth_gss/gss_krb5_wrap.c           |  4 +-
+ net/sunrpc/cache.c                            |  2 +-
+ net/sunrpc/xprt.c                             |  2 +-
+ net/sunrpc/xprtsock.c                         |  2 +-
+ net/tipc/socket.c                             |  2 +-
+ net/unix/af_unix.c                            |  2 +-
+ net/xfrm/xfrm_state.c                         |  2 +-
+ 136 files changed, 305 insertions(+), 342 deletions(-)
+
+--=20
+2.37.3
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/20221006132510.23374-1-Jason%40zx2c4.com.
