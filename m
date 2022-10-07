@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCLI747UVAFRBDGTQGNAMGQEMXUSRRQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLI747UVAFRBE6TQGNAMGQE5KL2RPQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3291F5F7CB6
-	for <lists+kasan-dev@lfdr.de>; Fri,  7 Oct 2022 20:01:49 +0200 (CEST)
-Received: by mail-wm1-x33d.google.com with SMTP id o18-20020a05600c339200b003bf24961658sf3004834wmp.6
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Oct 2022 11:01:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665165709; cv=pass;
+Received: from mail-pg1-x53a.google.com (mail-pg1-x53a.google.com [IPv6:2607:f8b0:4864:20::53a])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1995F7CB9
+	for <lists+kasan-dev@lfdr.de>; Fri,  7 Oct 2022 20:01:57 +0200 (CEST)
+Received: by mail-pg1-x53a.google.com with SMTP id s15-20020a63524f000000b0043891d55a30sf3212205pgl.16
+        for <lists+kasan-dev@lfdr.de>; Fri, 07 Oct 2022 11:01:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665165716; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tVyL6fIXWQAuIYRC8a2oavDdz6N3lkMbiVDE6HsZ6E50fxzCRcXztowJAAAzsQ9Nkf
-         bgwWvvgIDBNpml7x8My/fyNxSWSU8jo9NdSULiCJCAcjEQ/hV6sQMJ6NxWzo1uxtazMf
-         oDt0m59kEowjJ7XTqlg/nNfw8kpeUVWFHy5rRS1eycnEQLCNuEFZv3fu1T+zrctCSDam
-         7H2sYRWQrQMva1e5aJRafVHiXWmeKTUVIH0X2qVVRrfIEXBX/I0ZOAt22qxmVGssC7qr
-         ogk0lHKZ+HBGWvlQj002lMChOxKXvbnuxlNyB5ehpcUtHrR3xZrfFHdRnH5Tjg2JzrhC
-         vjSg==
+        b=L/YGfWXsf5ln3zEqjp60aODPJsNkR3vSvFUNN3l/YJUDRZK9ePmcAJpqxamqetg1c4
+         1hZk1cfNw2gqcNGFkYEzDChquXfcIhKjd5Cz4I3SdKmh7U7wcyPb1HtOO0rmSAlOqwfS
+         dRPJVwLmYfKzo6jdSDseKKH0Uz775uDRmKazQpIpDh8ssWGB2X1mWFYtolr2k8bR5MCk
+         Tb0um5U8nLMztV4I4RDKQ60B2SIVB5WMRogB/4KP83MkB57L1X7H0JFs1wM8He4Z7tlY
+         20ce3ks5PANhracdiI0uJhrZDDJAU9yNryKBX+3yA7X3855SoDuGMNYkKQM0WsRFdKZd
+         cx3Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:dkim-signature;
-        bh=oPGlqy33hLlN/wHmFtrtH4JgWsR2SFlzyiH6ukZhKiQ=;
-        b=Mi6SQmeR1VNUyApLQk8vJ83glruRxv9dprjTARZX0XtSd72N0pZq4F4mGT0znBOGkP
-         qiMNEqiZjmSxfwZn3M/I/soxibk5/qKHAhayzpbj4bGo/9/kUvOYA13xDlSjBd+bT3IB
-         ggSryIENC7+j06cAOBU9JHYEjnGK2EuXtOtDQUTP+JKtrcrgAKs5Nyr1z53yUvGQxZHH
-         r5KVSoQlKDKSuBccsAapIOu6QS1oDmllT4ICIRX1fBlUoggBsWJlGxIXcKoLDRPCKTKt
-         hZFG3WPJkDqzyxXEhcbmxDDLCgYZyH9EXUmhlaphvndh6fyPJFNxFl9JZmff3wf5+NCL
-         Ev1A==
+        bh=kjsx3LqCRQEVh9S2P7WtGqZr90xOyg2UnHrBiVMg6xs=;
+        b=MndjBYmIGeareNa/4FRx7S6IourmgkVgGBCWQ1XAPkCsctGOMVGsKnhrYP2zdAQ4or
+         zwdRVZz1FGxE2k4eYStjgb/3YAkqT0mQQB6c4Wzlm65UToGhBvd3NMmhgdipG9826uHA
+         N6FRPcnHqImPiONsqz5UOT8lKsevvCIiFTgUFjgoXQ9PfgggR88phgsJcP8ghAdX3TdG
+         NTsMbQ6B95DtYJNFbaE6sZh74yNSRWInKWyOBS/gUmFBb2KmLG7g22PJBYp8DHchoUSQ
+         A9qEGruNrZBLgeYiPQ4480wNqBRpXsa6k+FBNTMuqLTpt+hEh7hgZ49cwBp1YO7bVpE9
+         jVFw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=jtpfM9yS;
-       spf=pass (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org";
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=gIpGeUR7;
+       spf=pass (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -38,13 +38,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oPGlqy33hLlN/wHmFtrtH4JgWsR2SFlzyiH6ukZhKiQ=;
-        b=Oj8MYC68+jMwHd5VC9FHBHlME8fre6eKgFdxWbRxDO7NaJOKHRMIAdZ0FIPJv6sa2S
-         jmAnTK9ST25IJkQPf3TDnEWJf9m3v1fef7FV3U5/QwY2uZKKA5iK61+mlJu2dqRm7IAP
-         jljwATfYF7ZJ3sKJSjcx4r2tr8bYzgkRiLB1/+//Jg3pre3JtVXpBUDo1fT1MO0E06OC
-         9gHS8DZ586L0Tobvq1wGfc4LyYnaKOU1fSE9hkFxuWh5qWaKVel/To13vJv2NbiseNAL
-         CviME0J7wLmkbcR4WEYIIVOlU3hl21FLOcGfwAY+ii1nBgVUnSej4crVJ4WQ/jlbBChj
-         tC+Q==
+        bh=kjsx3LqCRQEVh9S2P7WtGqZr90xOyg2UnHrBiVMg6xs=;
+        b=LNMvzFY5u+fVo4t1MEoS9IzKBo73jQeljedMiQ1/S1ZpcDj3iGKCkLjjayJDE8HS+4
+         F4KjYm40gYy99D/swFjmuOYc2Jf102PYbtWGY7RAuZuIN0mxWlJWU9vjJ3iML749n++4
+         5oB0/WwE4EcHnR5w1LEgq4WQRhX021VTrFK5Xl7KhloaihD6XCvRQbpGCmsmfAVlJVIG
+         7BPEMSViqJufURrz5xTd9LsW3rdxr9iyMOF7DkP5VOmcAon60OlthFNLKKtvdrl2z0Zw
+         ZTtiYEiznPnsSYlKmFkgwgBNXFlm3kkMMO5ZGAIbr7LPVpbvjwtoLIbVbmLvQ1tNVb/E
+         P22w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -53,60 +53,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oPGlqy33hLlN/wHmFtrtH4JgWsR2SFlzyiH6ukZhKiQ=;
-        b=oGJQRP5Um+PHmuOGozZzMGklywN++XLxNWDiWPGgrUfFA0CziilkKLvNABT3Vllihf
-         aWnnO+9E7IusRvWP+xsgHVdiDdVhI9Ptd1An11tkRY31l1VlVR7raD6jyIly0sYOmL2N
-         ZUeLjGnSy2vhKaJ/lOiX0LEN1HADvSoko8fpN++JAK4sbtBNMKnRa/BQkglPGV+3WiSC
-         n2gstShih22/ZOrhIEHNbjtrTTmqMBf4lLZYC1B2rTIwGenMG7nE4mndm7U7KHpE8JX7
-         pAffgSe6ZsSI0JvABuxaKCBwRtxSG7kC2vnaalP3XTvP1647Dc0Cg80roSmtMkj89CO1
-         YGhQ==
-X-Gm-Message-State: ACrzQf2M5tr2Ehoa3zUPfzw1xDcZ/GRTUdwpIUy8dWfUiQdZdkuLP0EK
-	QuhCYxl9crq3oDlkUtL3m0c=
-X-Google-Smtp-Source: AMsMyM44wx69JaJ64gqBQI8VbcPzTphKJYaG2SFWU7wI0uJLwaSkLPaGqTXlBPyhh0THMOA/EBHLBw==
-X-Received: by 2002:a05:600c:444b:b0:3b4:cb9e:bd5c with SMTP id v11-20020a05600c444b00b003b4cb9ebd5cmr11193705wmn.124.1665165708780;
-        Fri, 07 Oct 2022 11:01:48 -0700 (PDT)
+        bh=kjsx3LqCRQEVh9S2P7WtGqZr90xOyg2UnHrBiVMg6xs=;
+        b=F/LUdlpSMHvOb5D89v94zkx8ayaRDqxyBfOYawKZd+gpOkdOK0anEIoWDjaBVyeRy6
+         I7l9BEDE0hFxp42QTmYKdhRb7pvx73chV/JbWF6yYBOBESz8ZTrmbHVsrWZ5kJoff5jv
+         O0DTFCLYtOG142vGr+yDHJxNWDYZWsz22izOfjqJE6+BHZ/6NcV5s03sWEq1KyV+XD0C
+         sCycsQZrt7oFFq3vxFxKZe+0+bovxY03URqy6Hdx1ygyLQu8Rv/+d+rBxLe7Lmmeq0aZ
+         nc1DNgYRSeRzoJ2uRxNwNjLvJIaEJBlo5TGt1LSdNWm0vgs+nxuxz22Y12WEXyViDIS4
+         PjJw==
+X-Gm-Message-State: ACrzQf1tDOx0QlF+7yhK5xBsiRtD5/OODI4tOvxX0kUlDoj0Vkunm+gJ
+	x23izv0UNNx/RQ4Z+tmQb+I=
+X-Google-Smtp-Source: AMsMyM7imneENx9tTvljARGQaLqHE3tBJREDFaKrhymVlziWP4nDE8jBfIQxPkezWDDP+SLS/xutjg==
+X-Received: by 2002:a17:902:9049:b0:180:7922:ce36 with SMTP id w9-20020a170902904900b001807922ce36mr1789215plz.30.1665165715854;
+        Fri, 07 Oct 2022 11:01:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:c40b:0:b0:3c4:9c0:44ca with SMTP id k11-20020a7bc40b000000b003c409c044cals348020wmi.2.-pod-control-gmail;
- Fri, 07 Oct 2022 11:01:47 -0700 (PDT)
-X-Received: by 2002:a05:600c:1e87:b0:3b5:1e2:3c3c with SMTP id be7-20020a05600c1e8700b003b501e23c3cmr4147301wmb.130.1665165707735;
-        Fri, 07 Oct 2022 11:01:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665165707; cv=none;
+Received: by 2002:a17:903:2284:b0:178:29a3:df47 with SMTP id
+ b4-20020a170903228400b0017829a3df47ls4188283plh.7.-pod-prod-gmail; Fri, 07
+ Oct 2022 11:01:55 -0700 (PDT)
+X-Received: by 2002:a17:90b:4c46:b0:202:b9c5:2f24 with SMTP id np6-20020a17090b4c4600b00202b9c52f24mr16804743pjb.180.1665165715036;
+        Fri, 07 Oct 2022 11:01:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665165715; cv=none;
         d=google.com; s=arc-20160816;
-        b=mZe2Ox8qxM+NJlbac4MXMhZBpsmPk68A4yZjpxQdTbUb/kD0xDo/UEk7iHbrMVG+Wr
-         EnwahkLRdqpV7E5+HrkGnPwLxpIcy5ZETiAiDdUyYLeOzmlYJdXxTcY0H+ZuKAZGTJVt
-         01YXn06ALaZ2UsZu6o0PIyCCgqkv5adUZNLy/E3Dg5Zv8k0zsqWb2kTMtOpjvlyjyMvw
-         Ft2pMRlJkq3pmKKQZ+Adsh+cWDMDZR+3TE7HbQP/CqQ6QserMmqVBt3RNbEcihvA4jtb
-         xnCmFCMWlkYTZtfCjoXL7SzRvZQtth3D5AA/5OOwpWW/V0QzW9IaPxRUORnQ/2939ZW/
-         DFwg==
+        b=YwXcK7T882xTE7EgJ59GP1bIWO22k56Fb8Dtja5ZuWS2cNyYVl3mCKZ2BgE64JocN5
+         oB5Chd7ECHWuUhxm5QVLGNet/X3I/ikGNgHIse3e/Exd8TxRNmstYSKS69cytgPhoe9f
+         ryLS/q84GAIRV0OFv4O9nDuwSERCf6nz9OiMiokyo6MwH9C4STj0M8mJ01yrTxnuWXN3
+         b1jtfayf3x2StokUiyWhamfEgz2WNFhk4Helg99RnO9Fu4PR7XAqDNFXjTObfOT9BwGl
+         FuX3IkNnZlRdnLZRjYxxxFF2jmQDck218uxTaHwgesYmrhMYeDOxrGohveyzrnsar/JZ
+         ILgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=SRC0yDTW0mt75wzDb9dHc03R21A1YNbYmob7gKuK8jQ=;
-        b=NflCwbw/PzNctJR03KXzjy/iCo0btci5tMzYzx73NP4cUBtQSG3ljBaDnrHugtTCPb
-         CEE9MPoIlvoi1mlEYou8CbHG0uj2RoaDXyomVNabJdjgW5q+mGepAYxiJRePXHcannes
-         cyvUsO63wYr9bNVhqTSZeawAc+sMVwJO2I8XzID3/CEVjU4duSBihQF7TeZNHC7FQb8N
-         dL+DbauOncqcmM6Y+KBz4BIoWzi9o+DEsbMl6AG4ZNQnjYlwcuBu7Vs7xZ6cjzKsTYlD
-         1q9YtL/lUdwiw62Dm9VBh4sBVC8qk6GnvwGvCCCcLTM/9X0veRm9jtosqL2D1bJQxvST
-         00OA==
+        bh=g2hIaC3XOM+KBWgkgbeW6UolDFW2WI2qSTHxKo7C8lY=;
+        b=QSohpYrlaA/Jt3gmRxRNEelOUGF9NcCKc5vFfPpKZT3kERZ+zeLpFwqyF7nbd5p5Zc
+         pPwnvS1mntuGtL8eKq96duO49vdVIoBZUmtFYDUuAmeVeyxK/L/W3DBgJhRGkQ3RkBLz
+         B/wCPVINj5UeeurzdWnyXSbSO3BIGJpZ6bY5Urf3XMm93bbA8cOP3dZEKu+gg7PswlqC
+         mqdqw+h6rad5YEjk6bSwt9GEQ1QOzTkiKs6PAjJaQuObcTOkpCpgKTbqFV2A1mQnyfGJ
+         vvpC7oklFwhAYyfDnBFqDL0oOvpJQXhePkSIPOkiUXtmGz/NCZWHlBkpVrIi/gExj1AN
+         UNrw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=jtpfM9yS;
-       spf=pass (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org";
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=gIpGeUR7;
+       spf=pass (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id q17-20020a7bce91000000b003c446598833si3683wmj.0.2022.10.07.11.01.47
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id d72-20020a63364b000000b00423291dc756si92773pga.5.2022.10.07.11.01.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Oct 2022 11:01:47 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+        Fri, 07 Oct 2022 11:01:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 3C5B1B81FCF;
-	Fri,  7 Oct 2022 18:01:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF34FC433C1;
-	Fri,  7 Oct 2022 18:01:39 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 417aa62e (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 7 Oct 2022 18:01:38 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 7377861A30;
+	Fri,  7 Oct 2022 18:01:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A591C433D6;
+	Fri,  7 Oct 2022 18:01:48 +0000 (UTC)
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 05093213 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Fri, 7 Oct 2022 18:01:46 +0000 (UTC)
 From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev
@@ -184,10 +185,10 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
 	netdev@vger.kernel.org,
 	sparclinux@vger.kernel.org,
 	x86@kernel.org,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
-Date: Fri,  7 Oct 2022 12:01:03 -0600
-Message-Id: <20221007180107.216067-3-Jason@zx2c4.com>
+	=?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>
+Subject: [PATCH v4 3/6] treewide: use get_random_{u8,u16}() when possible
+Date: Fri,  7 Oct 2022 12:01:04 -0600
+Message-Id: <20221007180107.216067-4-Jason@zx2c4.com>
 In-Reply-To: <20221007180107.216067-1-Jason@zx2c4.com>
 References: <20221007180107.216067-1-Jason@zx2c4.com>
 MIME-Version: 1.0
@@ -195,9 +196,9 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: jason@zx2c4.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zx2c4.com header.s=20210105 header.b=jtpfM9yS;       spf=pass
+ header.i=@zx2c4.com header.s=20210105 header.b=gIpGeUR7;       spf=pass
  (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates
- 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org";
+ 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
@@ -213,400 +214,298 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Rather than incurring a division or requesting too many random bytes for
-the given range, use the prandom_u32_max() function, which only takes
-the minimum required bytes from the RNG and avoids divisions.
+Rather than truncate a 32-bit value to a 16-bit value or an 8-bit value,
+simply use the get_random_{u8,u16}() functions, which are faster than
+wasting the additional bytes from a 32-bit value.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: KP Singh <kpsingh@kernel.org>
-Reviewed-by: Christoph B=C3=B6hmwalder <christoph.boehmwalder@linbit.com> #=
- for drbd
-Reviewed-by: Jan Kara <jack@suse.cz> # for ext2, ext4, and sbitmap
+Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk> # for sch_cake
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- arch/arm64/kernel/process.c          |  2 +-
- arch/loongarch/kernel/process.c      |  2 +-
- arch/loongarch/kernel/vdso.c         |  2 +-
- arch/mips/kernel/process.c           |  2 +-
- arch/mips/kernel/vdso.c              |  2 +-
- arch/parisc/kernel/vdso.c            |  2 +-
- arch/powerpc/kernel/process.c        |  2 +-
- arch/s390/kernel/process.c           |  2 +-
- drivers/block/drbd/drbd_receiver.c   |  4 ++--
- drivers/md/bcache/request.c          |  2 +-
- drivers/mtd/tests/stresstest.c       | 17 ++++-------------
- drivers/mtd/ubi/debug.h              |  6 +++---
- drivers/net/ethernet/broadcom/cnic.c |  3 +--
- fs/ext2/ialloc.c                     |  3 +--
- fs/ext4/ialloc.c                     |  5 ++---
- fs/ubifs/lpt_commit.c                |  2 +-
- fs/ubifs/tnc_commit.c                |  2 +-
- fs/xfs/libxfs/xfs_alloc.c            |  2 +-
- fs/xfs/libxfs/xfs_ialloc.c           |  2 +-
- include/linux/nodemask.h             |  2 +-
- lib/cmdline_kunit.c                  |  4 ++--
- lib/kobject.c                        |  2 +-
- lib/reed_solomon/test_rslib.c        |  2 +-
- lib/sbitmap.c                        |  2 +-
- lib/test_hexdump.c                   |  2 +-
- lib/test_vmalloc.c                   | 17 ++++-------------
- net/core/pktgen.c                    |  4 ++--
- net/ipv4/inet_hashtables.c           |  2 +-
- net/sunrpc/cache.c                   |  2 +-
- net/sunrpc/xprtsock.c                |  2 +-
- 30 files changed, 42 insertions(+), 63 deletions(-)
+ arch/arm/kernel/signal.c                                  | 2 +-
+ arch/arm64/kernel/syscall.c                               | 2 +-
+ arch/s390/kernel/process.c                                | 2 +-
+ arch/sparc/vdso/vma.c                                     | 2 +-
+ crypto/testmgr.c                                          | 8 ++++----
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c             | 2 +-
+ drivers/media/test-drivers/vivid/vivid-radio-rx.c         | 4 ++--
+ .../net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c   | 2 +-
+ drivers/net/hamradio/baycom_epp.c                         | 2 +-
+ drivers/net/hamradio/hdlcdrv.c                            | 2 +-
+ drivers/net/hamradio/yam.c                                | 2 +-
+ drivers/net/wireguard/selftest/allowedips.c               | 4 ++--
+ drivers/net/wireless/st/cw1200/wsm.c                      | 2 +-
+ drivers/scsi/lpfc/lpfc_hbadisc.c                          | 6 +++---
+ lib/cmdline_kunit.c                                       | 4 ++--
+ lib/test_vmalloc.c                                        | 2 +-
+ net/dccp/ipv4.c                                           | 4 ++--
+ net/ipv4/datagram.c                                       | 2 +-
+ net/ipv4/ip_output.c                                      | 2 +-
+ net/ipv4/tcp_ipv4.c                                       | 4 ++--
+ net/mac80211/scan.c                                       | 2 +-
+ net/netfilter/nf_nat_core.c                               | 4 ++--
+ net/sched/sch_cake.c                                      | 6 +++---
+ net/sched/sch_sfb.c                                       | 2 +-
+ net/sctp/socket.c                                         | 2 +-
+ 25 files changed, 38 insertions(+), 38 deletions(-)
 
-diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
-index 92bcc1768f0b..87203429f802 100644
---- a/arch/arm64/kernel/process.c
-+++ b/arch/arm64/kernel/process.c
-@@ -595,7 +595,7 @@ unsigned long __get_wchan(struct task_struct *p)
- unsigned long arch_align_stack(unsigned long sp)
- {
- 	if (!(current->personality & ADDR_NO_RANDOMIZE) && randomize_va_space)
--		sp -=3D get_random_int() & ~PAGE_MASK;
-+		sp -=3D prandom_u32_max(PAGE_SIZE);
- 	return sp & ~0xf;
+diff --git a/arch/arm/kernel/signal.c b/arch/arm/kernel/signal.c
+index ea128e32e8ca..e07f359254c3 100644
+--- a/arch/arm/kernel/signal.c
++++ b/arch/arm/kernel/signal.c
+@@ -655,7 +655,7 @@ struct page *get_signal_page(void)
+ 		 PAGE_SIZE / sizeof(u32));
+=20
+ 	/* Give the signal return code some randomness */
+-	offset =3D 0x200 + (get_random_int() & 0x7fc);
++	offset =3D 0x200 + (get_random_u16() & 0x7fc);
+ 	signal_return_offset =3D offset;
+=20
+ 	/* Copy signal return handlers into the page */
+diff --git a/arch/arm64/kernel/syscall.c b/arch/arm64/kernel/syscall.c
+index 733451fe7e41..d72e8f23422d 100644
+--- a/arch/arm64/kernel/syscall.c
++++ b/arch/arm64/kernel/syscall.c
+@@ -67,7 +67,7 @@ static void invoke_syscall(struct pt_regs *regs, unsigned=
+ int scno,
+ 	 *
+ 	 * The resulting 5 bits of entropy is seen in SP[8:4].
+ 	 */
+-	choose_random_kstack_offset(get_random_int() & 0x1FF);
++	choose_random_kstack_offset(get_random_u16() & 0x1FF);
  }
 =20
-diff --git a/arch/loongarch/kernel/process.c b/arch/loongarch/kernel/proces=
-s.c
-index 660492f064e7..1256e3582475 100644
---- a/arch/loongarch/kernel/process.c
-+++ b/arch/loongarch/kernel/process.c
-@@ -293,7 +293,7 @@ unsigned long stack_top(void)
- unsigned long arch_align_stack(unsigned long sp)
- {
- 	if (!(current->personality & ADDR_NO_RANDOMIZE) && randomize_va_space)
--		sp -=3D get_random_int() & ~PAGE_MASK;
-+		sp -=3D prandom_u32_max(PAGE_SIZE);
-=20
- 	return sp & STACK_ALIGN;
- }
-diff --git a/arch/loongarch/kernel/vdso.c b/arch/loongarch/kernel/vdso.c
-index f32c38abd791..8c9826062652 100644
---- a/arch/loongarch/kernel/vdso.c
-+++ b/arch/loongarch/kernel/vdso.c
-@@ -78,7 +78,7 @@ static unsigned long vdso_base(void)
- 	unsigned long base =3D STACK_TOP;
-=20
- 	if (current->flags & PF_RANDOMIZE) {
--		base +=3D get_random_int() & (VDSO_RANDOMIZE_SIZE - 1);
-+		base +=3D prandom_u32_max(VDSO_RANDOMIZE_SIZE);
- 		base =3D PAGE_ALIGN(base);
- 	}
-=20
-diff --git a/arch/mips/kernel/process.c b/arch/mips/kernel/process.c
-index 35b912bce429..bbe9ce471791 100644
---- a/arch/mips/kernel/process.c
-+++ b/arch/mips/kernel/process.c
-@@ -711,7 +711,7 @@ unsigned long mips_stack_top(void)
- unsigned long arch_align_stack(unsigned long sp)
- {
- 	if (!(current->personality & ADDR_NO_RANDOMIZE) && randomize_va_space)
--		sp -=3D get_random_int() & ~PAGE_MASK;
-+		sp -=3D prandom_u32_max(PAGE_SIZE);
-=20
- 	return sp & ALMASK;
- }
-diff --git a/arch/mips/kernel/vdso.c b/arch/mips/kernel/vdso.c
-index b2cc2c2dd4bf..5fd9bf1d596c 100644
---- a/arch/mips/kernel/vdso.c
-+++ b/arch/mips/kernel/vdso.c
-@@ -79,7 +79,7 @@ static unsigned long vdso_base(void)
- 	}
-=20
- 	if (current->flags & PF_RANDOMIZE) {
--		base +=3D get_random_int() & (VDSO_RANDOMIZE_SIZE - 1);
-+		base +=3D prandom_u32_max(VDSO_RANDOMIZE_SIZE);
- 		base =3D PAGE_ALIGN(base);
- 	}
-=20
-diff --git a/arch/parisc/kernel/vdso.c b/arch/parisc/kernel/vdso.c
-index 63dc44c4c246..47e5960a2f96 100644
---- a/arch/parisc/kernel/vdso.c
-+++ b/arch/parisc/kernel/vdso.c
-@@ -75,7 +75,7 @@ int arch_setup_additional_pages(struct linux_binprm *bprm=
-,
-=20
- 	map_base =3D mm->mmap_base;
- 	if (current->flags & PF_RANDOMIZE)
--		map_base -=3D (get_random_int() & 0x1f) * PAGE_SIZE;
-+		map_base -=3D prandom_u32_max(0x20) * PAGE_SIZE;
-=20
- 	vdso_text_start =3D get_unmapped_area(NULL, map_base, vdso_text_len, 0, 0=
-);
-=20
-diff --git a/arch/powerpc/kernel/process.c b/arch/powerpc/kernel/process.c
-index 0fbda89cd1bb..ff920f4d4317 100644
---- a/arch/powerpc/kernel/process.c
-+++ b/arch/powerpc/kernel/process.c
-@@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
- unsigned long arch_align_stack(unsigned long sp)
- {
- 	if (!(current->personality & ADDR_NO_RANDOMIZE) && randomize_va_space)
--		sp -=3D get_random_int() & ~PAGE_MASK;
-+		sp -=3D prandom_u32_max(PAGE_SIZE);
- 	return sp & ~0xf;
- }
+ static inline bool has_syscall_work(unsigned long flags)
 diff --git a/arch/s390/kernel/process.c b/arch/s390/kernel/process.c
-index d5119e039d85..5ec78555dd2e 100644
+index 5ec78555dd2e..42af4b3aa02b 100644
 --- a/arch/s390/kernel/process.c
 +++ b/arch/s390/kernel/process.c
-@@ -224,7 +224,7 @@ unsigned long __get_wchan(struct task_struct *p)
- unsigned long arch_align_stack(unsigned long sp)
+@@ -230,7 +230,7 @@ unsigned long arch_align_stack(unsigned long sp)
+=20
+ static inline unsigned long brk_rnd(void)
  {
- 	if (!(current->personality & ADDR_NO_RANDOMIZE) && randomize_va_space)
--		sp -=3D get_random_int() & ~PAGE_MASK;
-+		sp -=3D prandom_u32_max(PAGE_SIZE);
- 	return sp & ~0xf;
+-	return (get_random_int() & BRK_RND_MASK) << PAGE_SHIFT;
++	return (get_random_u16() & BRK_RND_MASK) << PAGE_SHIFT;
  }
 =20
-diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_r=
-eceiver.c
-index af4c7d65490b..d8b1417dc503 100644
---- a/drivers/block/drbd/drbd_receiver.c
-+++ b/drivers/block/drbd/drbd_receiver.c
-@@ -781,7 +781,7 @@ static struct socket *drbd_wait_for_connect(struct drbd=
-_connection *connection,
+ unsigned long arch_randomize_brk(struct mm_struct *mm)
+diff --git a/arch/sparc/vdso/vma.c b/arch/sparc/vdso/vma.c
+index cc19e09b0fa1..04ee726859ca 100644
+--- a/arch/sparc/vdso/vma.c
++++ b/arch/sparc/vdso/vma.c
+@@ -354,7 +354,7 @@ static unsigned long vdso_addr(unsigned long start, uns=
+igned int len)
+ 	unsigned int offset;
 =20
- 	timeo =3D connect_int * HZ;
- 	/* 28.5% random jitter */
--	timeo +=3D (prandom_u32() & 1) ? timeo / 7 : -timeo / 7;
-+	timeo +=3D prandom_u32_max(2) ? timeo / 7 : -timeo / 7;
-=20
- 	err =3D wait_for_completion_interruptible_timeout(&ad->door_bell, timeo);
- 	if (err <=3D 0)
-@@ -1004,7 +1004,7 @@ static int conn_connect(struct drbd_connection *conne=
-ction)
- 				drbd_warn(connection, "Error receiving initial packet\n");
- 				sock_release(s);
- randomize:
--				if (prandom_u32() & 1)
-+				if (prandom_u32_max(2))
- 					goto retry;
- 			}
- 		}
-diff --git a/drivers/md/bcache/request.c b/drivers/md/bcache/request.c
-index f2c5a7e06fa9..3427555b0cca 100644
---- a/drivers/md/bcache/request.c
-+++ b/drivers/md/bcache/request.c
-@@ -401,7 +401,7 @@ static bool check_should_bypass(struct cached_dev *dc, =
-struct bio *bio)
- 	}
-=20
- 	if (bypass_torture_test(dc)) {
--		if ((get_random_int() & 3) =3D=3D 3)
-+		if (prandom_u32_max(4) =3D=3D 3)
- 			goto skip;
- 		else
- 			goto rescale;
-diff --git a/drivers/mtd/tests/stresstest.c b/drivers/mtd/tests/stresstest.=
-c
-index cb29c8c1b370..d2faaca7f19d 100644
---- a/drivers/mtd/tests/stresstest.c
-+++ b/drivers/mtd/tests/stresstest.c
-@@ -45,9 +45,8 @@ static int rand_eb(void)
- 	unsigned int eb;
-=20
- again:
--	eb =3D prandom_u32();
- 	/* Read or write up 2 eraseblocks at a time - hence 'ebcnt - 1' */
--	eb %=3D (ebcnt - 1);
-+	eb =3D prandom_u32_max(ebcnt - 1);
- 	if (bbt[eb])
- 		goto again;
- 	return eb;
-@@ -55,20 +54,12 @@ static int rand_eb(void)
-=20
- static int rand_offs(void)
- {
--	unsigned int offs;
--
--	offs =3D prandom_u32();
--	offs %=3D bufsize;
--	return offs;
-+	return prandom_u32_max(bufsize);
+ 	/* This loses some more bits than a modulo, but is cheaper */
+-	offset =3D get_random_int() & (PTRS_PER_PTE - 1);
++	offset =3D get_random_u16() & (PTRS_PER_PTE - 1);
+ 	return start + (offset << PAGE_SHIFT);
  }
 =20
- static int rand_len(int offs)
- {
--	unsigned int len;
--
--	len =3D prandom_u32();
--	len %=3D (bufsize - offs);
--	return len;
-+	return prandom_u32_max(bufsize - offs);
- }
-=20
- static int do_read(void)
-@@ -127,7 +118,7 @@ static int do_write(void)
-=20
- static int do_operation(void)
- {
--	if (prandom_u32() & 1)
-+	if (prandom_u32_max(2))
- 		return do_read();
- 	else
- 		return do_write();
-diff --git a/drivers/mtd/ubi/debug.h b/drivers/mtd/ubi/debug.h
-index 118248a5d7d4..dc8d8f83657a 100644
---- a/drivers/mtd/ubi/debug.h
-+++ b/drivers/mtd/ubi/debug.h
-@@ -73,7 +73,7 @@ static inline int ubi_dbg_is_bgt_disabled(const struct ub=
-i_device *ubi)
- static inline int ubi_dbg_is_bitflip(const struct ubi_device *ubi)
- {
- 	if (ubi->dbg.emulate_bitflips)
--		return !(prandom_u32() % 200);
-+		return !prandom_u32_max(200);
- 	return 0;
- }
-=20
-@@ -87,7 +87,7 @@ static inline int ubi_dbg_is_bitflip(const struct ubi_dev=
-ice *ubi)
- static inline int ubi_dbg_is_write_failure(const struct ubi_device *ubi)
- {
- 	if (ubi->dbg.emulate_io_failures)
--		return !(prandom_u32() % 500);
-+		return !prandom_u32_max(500);
- 	return 0;
- }
-=20
-@@ -101,7 +101,7 @@ static inline int ubi_dbg_is_write_failure(const struct=
- ubi_device *ubi)
- static inline int ubi_dbg_is_erase_failure(const struct ubi_device *ubi)
- {
- 	if (ubi->dbg.emulate_io_failures)
--		return !(prandom_u32() % 400);
-+		return !prandom_u32_max(400);
- 	return 0;
- }
-=20
-diff --git a/drivers/net/ethernet/broadcom/cnic.c b/drivers/net/ethernet/br=
-oadcom/cnic.c
-index e86503d97f32..f597b313acaa 100644
---- a/drivers/net/ethernet/broadcom/cnic.c
-+++ b/drivers/net/ethernet/broadcom/cnic.c
-@@ -4105,8 +4105,7 @@ static int cnic_cm_alloc_mem(struct cnic_dev *dev)
- 	for (i =3D 0; i < MAX_CM_SK_TBL_SZ; i++)
- 		atomic_set(&cp->csk_tbl[i].ref_count, 0);
-=20
--	port_id =3D prandom_u32();
--	port_id %=3D CNIC_LOCAL_PORT_RANGE;
-+	port_id =3D prandom_u32_max(CNIC_LOCAL_PORT_RANGE);
- 	if (cnic_init_id_tbl(&cp->csk_port_tbl, CNIC_LOCAL_PORT_RANGE,
- 			     CNIC_LOCAL_PORT_MIN, port_id)) {
- 		cnic_cm_free_mem(dev);
-diff --git a/fs/ext2/ialloc.c b/fs/ext2/ialloc.c
-index 998dd2ac8008..f4944c4dee60 100644
---- a/fs/ext2/ialloc.c
-+++ b/fs/ext2/ialloc.c
-@@ -277,8 +277,7 @@ static int find_group_orlov(struct super_block *sb, str=
-uct inode *parent)
- 		int best_ndir =3D inodes_per_group;
- 		int best_group =3D -1;
-=20
--		group =3D prandom_u32();
--		parent_group =3D (unsigned)group % ngroups;
-+		parent_group =3D prandom_u32_max(ngroups);
- 		for (i =3D 0; i < ngroups; i++) {
- 			group =3D (parent_group + i) % ngroups;
- 			desc =3D ext2_get_group_desc (sb, group, NULL);
-diff --git a/fs/ext4/ialloc.c b/fs/ext4/ialloc.c
-index f73e5eb43eae..36d5bc595cc2 100644
---- a/fs/ext4/ialloc.c
-+++ b/fs/ext4/ialloc.c
-@@ -463,10 +463,9 @@ static int find_group_orlov(struct super_block *sb, st=
-ruct inode *parent,
- 			hinfo.hash_version =3D DX_HASH_HALF_MD4;
- 			hinfo.seed =3D sbi->s_hash_seed;
- 			ext4fs_dirhash(parent, qstr->name, qstr->len, &hinfo);
--			grp =3D hinfo.hash;
-+			parent_group =3D hinfo.hash % ngroups;
- 		} else
--			grp =3D prandom_u32();
--		parent_group =3D (unsigned)grp % ngroups;
-+			parent_group =3D prandom_u32_max(ngroups);
- 		for (i =3D 0; i < ngroups; i++) {
- 			g =3D (parent_group + i) % ngroups;
- 			get_orlov_stats(sb, g, flex_size, &stats);
-diff --git a/fs/ubifs/lpt_commit.c b/fs/ubifs/lpt_commit.c
-index cd4d5726a78d..cfbc31f709f4 100644
---- a/fs/ubifs/lpt_commit.c
-+++ b/fs/ubifs/lpt_commit.c
-@@ -1970,7 +1970,7 @@ static int dbg_populate_lsave(struct ubifs_info *c)
-=20
- 	if (!dbg_is_chk_gen(c))
- 		return 0;
--	if (prandom_u32() & 3)
-+	if (prandom_u32_max(4))
- 		return 0;
-=20
- 	for (i =3D 0; i < c->lsave_cnt; i++)
-diff --git a/fs/ubifs/tnc_commit.c b/fs/ubifs/tnc_commit.c
-index 58c92c96ecef..01362ad5f804 100644
---- a/fs/ubifs/tnc_commit.c
-+++ b/fs/ubifs/tnc_commit.c
-@@ -700,7 +700,7 @@ static int alloc_idx_lebs(struct ubifs_info *c, int cnt=
+diff --git a/crypto/testmgr.c b/crypto/testmgr.c
+index be45217acde4..981c637fa2ed 100644
+--- a/crypto/testmgr.c
++++ b/crypto/testmgr.c
+@@ -927,7 +927,7 @@ static void generate_random_bytes(u8 *buf, size_t count=
 )
- 		c->ilebs[c->ileb_cnt++] =3D lnum;
- 		dbg_cmt("LEB %d", lnum);
+ 			b =3D 0xff;
+ 			break;
+ 		default:
+-			b =3D (u8)prandom_u32();
++			b =3D get_random_u8();
+ 			break;
+ 		}
+ 		memset(buf, b, count);
+@@ -935,8 +935,8 @@ static void generate_random_bytes(u8 *buf, size_t count=
+)
+ 		break;
+ 	case 2:
+ 		/* Ascending or descending bytes, plus optional mutations */
+-		increment =3D (u8)prandom_u32();
+-		b =3D (u8)prandom_u32();
++		increment =3D get_random_u8();
++		b =3D get_random_u8();
+ 		for (i =3D 0; i < count; i++, b +=3D increment)
+ 			buf[i] =3D b;
+ 		mutate_buffer(buf, count);
+@@ -944,7 +944,7 @@ static void generate_random_bytes(u8 *buf, size_t count=
+)
+ 	default:
+ 		/* Fully random bytes */
+ 		for (i =3D 0; i < count; i++)
+-			buf[i] =3D (u8)prandom_u32();
++			buf[i] =3D get_random_u8();
  	}
--	if (dbg_is_chk_index(c) && !(prandom_u32() & 7))
-+	if (dbg_is_chk_index(c) && !prandom_u32_max(8))
- 		return -ENOSPC;
- 	return 0;
  }
-diff --git a/fs/xfs/libxfs/xfs_alloc.c b/fs/xfs/libxfs/xfs_alloc.c
-index e2bdf089c0a3..6261599bb389 100644
---- a/fs/xfs/libxfs/xfs_alloc.c
-+++ b/fs/xfs/libxfs/xfs_alloc.c
-@@ -1520,7 +1520,7 @@ xfs_alloc_ag_vextent_lastblock(
 =20
- #ifdef DEBUG
- 	/* Randomly don't execute the first algorithm. */
--	if (prandom_u32() & 1)
-+	if (prandom_u32_max(2))
- 		return 0;
- #endif
+diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/=
+common/v4l2-tpg/v4l2-tpg-core.c
+index 9b7bcdce6e44..303d02b1d71c 100644
+--- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
++++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+@@ -870,7 +870,7 @@ static void precalculate_color(struct tpg_data *tpg, in=
+t k)
+ 		g =3D tpg_colors[col].g;
+ 		b =3D tpg_colors[col].b;
+ 	} else if (tpg->pattern =3D=3D TPG_PAT_NOISE) {
+-		r =3D g =3D b =3D prandom_u32_max(256);
++		r =3D g =3D b =3D get_random_u8();
+ 	} else if (k =3D=3D TPG_COLOR_RANDOM) {
+ 		r =3D g =3D b =3D tpg->qual_offset + prandom_u32_max(196);
+ 	} else if (k >=3D TPG_COLOR_RAMP) {
+diff --git a/drivers/media/test-drivers/vivid/vivid-radio-rx.c b/drivers/me=
+dia/test-drivers/vivid/vivid-radio-rx.c
+index 232cab508f48..8bd09589fb15 100644
+--- a/drivers/media/test-drivers/vivid/vivid-radio-rx.c
++++ b/drivers/media/test-drivers/vivid/vivid-radio-rx.c
+@@ -104,8 +104,8 @@ ssize_t vivid_radio_rx_read(struct file *file, char __u=
+ser *buf,
+ 				break;
+ 			case 2:
+ 				rds.block |=3D V4L2_RDS_BLOCK_ERROR;
+-				rds.lsb =3D prandom_u32_max(256);
+-				rds.msb =3D prandom_u32_max(256);
++				rds.lsb =3D get_random_u8();
++				rds.msb =3D get_random_u8();
+ 				break;
+ 			case 3: /* Skip block altogether */
+ 				if (i)
+diff --git a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c b/=
+drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+index ddfe9208529a..ac452a0111a9 100644
+--- a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
++++ b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+@@ -1467,7 +1467,7 @@ static void make_established(struct sock *sk, u32 snd=
+_isn, unsigned int opt)
+ 	tp->write_seq =3D snd_isn;
+ 	tp->snd_nxt =3D snd_isn;
+ 	tp->snd_una =3D snd_isn;
+-	inet_sk(sk)->inet_id =3D prandom_u32();
++	inet_sk(sk)->inet_id =3D get_random_u16();
+ 	assign_rxopt(sk, opt);
 =20
-diff --git a/fs/xfs/libxfs/xfs_ialloc.c b/fs/xfs/libxfs/xfs_ialloc.c
-index 6cdfd64bc56b..7838b31126e2 100644
---- a/fs/xfs/libxfs/xfs_ialloc.c
-+++ b/fs/xfs/libxfs/xfs_ialloc.c
-@@ -636,7 +636,7 @@ xfs_ialloc_ag_alloc(
- 	/* randomly do sparse inode allocations */
- 	if (xfs_has_sparseinodes(tp->t_mountp) &&
- 	    igeo->ialloc_min_blks < igeo->ialloc_blks)
--		do_sparse =3D prandom_u32() & 1;
-+		do_sparse =3D prandom_u32_max(2);
- #endif
+ 	if (tp->rcv_wnd > (RCV_BUFSIZ_M << 10))
+diff --git a/drivers/net/hamradio/baycom_epp.c b/drivers/net/hamradio/bayco=
+m_epp.c
+index 7df78a721b04..791b4a53d69f 100644
+--- a/drivers/net/hamradio/baycom_epp.c
++++ b/drivers/net/hamradio/baycom_epp.c
+@@ -438,7 +438,7 @@ static int transmit(struct baycom_state *bc, int cnt, u=
+nsigned char stat)
+ 			if ((--bc->hdlctx.slotcnt) > 0)
+ 				return 0;
+ 			bc->hdlctx.slotcnt =3D bc->ch_params.slottime;
+-			if (prandom_u32_max(256) > bc->ch_params.ppersist)
++			if (get_random_u8() > bc->ch_params.ppersist)
+ 				return 0;
+ 		}
+ 	}
+diff --git a/drivers/net/hamradio/hdlcdrv.c b/drivers/net/hamradio/hdlcdrv.=
+c
+index 360d041a62c4..6c6f11d3d0aa 100644
+--- a/drivers/net/hamradio/hdlcdrv.c
++++ b/drivers/net/hamradio/hdlcdrv.c
+@@ -377,7 +377,7 @@ void hdlcdrv_arbitrate(struct net_device *dev, struct h=
+dlcdrv_state *s)
+ 	if ((--s->hdlctx.slotcnt) > 0)
+ 		return;
+ 	s->hdlctx.slotcnt =3D s->ch_params.slottime;
+-	if (prandom_u32_max(256) > s->ch_params.ppersist)
++	if (get_random_u8() > s->ch_params.ppersist)
+ 		return;
+ 	start_tx(dev, s);
+ }
+diff --git a/drivers/net/hamradio/yam.c b/drivers/net/hamradio/yam.c
+index 97a6cc5c7ae8..2ed2f836f09a 100644
+--- a/drivers/net/hamradio/yam.c
++++ b/drivers/net/hamradio/yam.c
+@@ -626,7 +626,7 @@ static void yam_arbitrate(struct net_device *dev)
+ 	yp->slotcnt =3D yp->slot / 10;
 =20
- 	/*
-diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
-index 4b71a96190a8..66ee9b4b7925 100644
---- a/include/linux/nodemask.h
-+++ b/include/linux/nodemask.h
-@@ -509,7 +509,7 @@ static inline int node_random(const nodemask_t *maskp)
- 	w =3D nodes_weight(*maskp);
- 	if (w)
- 		bit =3D bitmap_ord_to_pos(maskp->bits,
--			get_random_int() % w, MAX_NUMNODES);
-+			prandom_u32_max(w), MAX_NUMNODES);
- 	return bit;
- #else
- 	return 0;
+ 	/* is random > persist ? */
+-	if (prandom_u32_max(256) > yp->pers)
++	if (get_random_u8() > yp->pers)
+ 		return;
+=20
+ 	yam_start_tx(dev, yp);
+diff --git a/drivers/net/wireguard/selftest/allowedips.c b/drivers/net/wire=
+guard/selftest/allowedips.c
+index 41db10f9be49..dd897c0740a2 100644
+--- a/drivers/net/wireguard/selftest/allowedips.c
++++ b/drivers/net/wireguard/selftest/allowedips.c
+@@ -310,7 +310,7 @@ static __init bool randomized_test(void)
+ 			for (k =3D 0; k < 4; ++k)
+ 				mutated[k] =3D (mutated[k] & mutate_mask[k]) |
+ 					     (~mutate_mask[k] &
+-					      prandom_u32_max(256));
++					      get_random_u8());
+ 			cidr =3D prandom_u32_max(32) + 1;
+ 			peer =3D peers[prandom_u32_max(NUM_PEERS)];
+ 			if (wg_allowedips_insert_v4(&t,
+@@ -354,7 +354,7 @@ static __init bool randomized_test(void)
+ 			for (k =3D 0; k < 4; ++k)
+ 				mutated[k] =3D (mutated[k] & mutate_mask[k]) |
+ 					     (~mutate_mask[k] &
+-					      prandom_u32_max(256));
++					      get_random_u8());
+ 			cidr =3D prandom_u32_max(128) + 1;
+ 			peer =3D peers[prandom_u32_max(NUM_PEERS)];
+ 			if (wg_allowedips_insert_v6(&t,
+diff --git a/drivers/net/wireless/st/cw1200/wsm.c b/drivers/net/wireless/st=
+/cw1200/wsm.c
+index 5a3e7a626702..4a9e4b5d3547 100644
+--- a/drivers/net/wireless/st/cw1200/wsm.c
++++ b/drivers/net/wireless/st/cw1200/wsm.c
+@@ -1594,7 +1594,7 @@ static int cw1200_get_prio_queue(struct cw1200_common=
+ *priv,
+ 		edca =3D &priv->edca.params[i];
+ 		score =3D ((edca->aifns + edca->cwmin) << 16) +
+ 			((edca->cwmax - edca->cwmin) *
+-			 (get_random_int() & 0xFFFF));
++			 get_random_u16());
+ 		if (score < best && (winner < 0 || i !=3D 3)) {
+ 			best =3D score;
+ 			winner =3D i;
+diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbad=
+isc.c
+index 2645def612e6..26d1779cb570 100644
+--- a/drivers/scsi/lpfc/lpfc_hbadisc.c
++++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
+@@ -2150,8 +2150,8 @@ lpfc_check_pending_fcoe_event(struct lpfc_hba *phba, =
+uint8_t unreg_fcf)
+  * This function makes an running random selection decision on FCF record =
+to
+  * use through a sequence of @fcf_cnt eligible FCF records with equal
+  * probability. To perform integer manunipulation of random numbers with
+- * size unit32_t, the lower 16 bits of the 32-bit random number returned
+- * from prandom_u32() are taken as the random random number generated.
++ * size unit32_t, a 16-bit random number returned from get_random_u16() is
++ * taken as the random random number generated.
+  *
+  * Returns true when outcome is for the newly read FCF record should be
+  * chosen; otherwise, return false when outcome is for keeping the previou=
+sly
+@@ -2163,7 +2163,7 @@ lpfc_sli4_new_fcf_random_select(struct lpfc_hba *phba=
+, uint32_t fcf_cnt)
+ 	uint32_t rand_num;
+=20
+ 	/* Get 16-bit uniform random number */
+-	rand_num =3D 0xFFFF & prandom_u32();
++	rand_num =3D get_random_u16();
+=20
+ 	/* Decision with probability 1/fcf_cnt */
+ 	if ((fcf_cnt * rand_num) < 0xFFFF)
 diff --git a/lib/cmdline_kunit.c b/lib/cmdline_kunit.c
-index e6a31c927b06..a72a2c16066e 100644
+index a72a2c16066e..d4572dbc9145 100644
 --- a/lib/cmdline_kunit.c
 +++ b/lib/cmdline_kunit.c
 @@ -76,7 +76,7 @@ static void cmdline_test_lead_int(struct kunit *test)
  		int rc =3D cmdline_test_values[i];
  		int offset;
 =20
--		sprintf(in, "%u%s", prandom_u32_max(256), str);
-+		sprintf(in, "%u%s", get_random_int() % 256, str);
+-		sprintf(in, "%u%s", get_random_int() % 256, str);
++		sprintf(in, "%u%s", get_random_u8(), str);
  		/* Only first '-' after the number will advance the pointer */
  		offset =3D strlen(in) - strlen(str) + !!(rc =3D=3D 2);
  		cmdline_do_one_test(test, in, rc, offset);
@@ -614,176 +513,187 @@ index e6a31c927b06..a72a2c16066e 100644
  		int rc =3D strcmp(str, "") ? (strcmp(str, "-") ? 0 : 1) : 1;
  		int offset;
 =20
--		sprintf(in, "%s%u", str, prandom_u32_max(256));
-+		sprintf(in, "%s%u", str, get_random_int() % 256);
+-		sprintf(in, "%s%u", str, get_random_int() % 256);
++		sprintf(in, "%s%u", str, get_random_u8());
  		/*
  		 * Only first and leading '-' not followed by integer
  		 * will advance the pointer.
-diff --git a/lib/kobject.c b/lib/kobject.c
-index 5f0e71ab292c..a0b2dbfcfa23 100644
---- a/lib/kobject.c
-+++ b/lib/kobject.c
-@@ -694,7 +694,7 @@ static void kobject_release(struct kref *kref)
- {
- 	struct kobject *kobj =3D container_of(kref, struct kobject, kref);
- #ifdef CONFIG_DEBUG_KOBJECT_RELEASE
--	unsigned long delay =3D HZ + HZ * (get_random_int() & 0x3);
-+	unsigned long delay =3D HZ + HZ * prandom_u32_max(4);
- 	pr_info("kobject: '%s' (%p): %s, parent %p (delayed %ld)\n",
- 		 kobject_name(kobj), kobj, __func__, kobj->parent, delay);
- 	INIT_DELAYED_WORK(&kobj->release, kobject_delayed_cleanup);
-diff --git a/lib/reed_solomon/test_rslib.c b/lib/reed_solomon/test_rslib.c
-index 6faf9c9a6215..4d241bdc88aa 100644
---- a/lib/reed_solomon/test_rslib.c
-+++ b/lib/reed_solomon/test_rslib.c
-@@ -199,7 +199,7 @@ static int get_rcw_we(struct rs_control *rs, struct wsp=
-ace *ws,
-=20
- 		derrlocs[i] =3D errloc;
-=20
--		if (ewsc && (prandom_u32() & 1)) {
-+		if (ewsc && prandom_u32_max(2)) {
- 			/* Erasure with the symbol intact */
- 			errlocs[errloc] =3D 2;
- 		} else {
-diff --git a/lib/sbitmap.c b/lib/sbitmap.c
-index c4f04edf3ee9..ef0661504561 100644
---- a/lib/sbitmap.c
-+++ b/lib/sbitmap.c
-@@ -21,7 +21,7 @@ static int init_alloc_hint(struct sbitmap *sb, gfp_t flag=
-s)
- 		int i;
-=20
- 		for_each_possible_cpu(i)
--			*per_cpu_ptr(sb->alloc_hint, i) =3D prandom_u32() % depth;
-+			*per_cpu_ptr(sb->alloc_hint, i) =3D prandom_u32_max(depth);
- 	}
- 	return 0;
- }
-diff --git a/lib/test_hexdump.c b/lib/test_hexdump.c
-index 0927f44cd478..41a0321f641a 100644
---- a/lib/test_hexdump.c
-+++ b/lib/test_hexdump.c
-@@ -208,7 +208,7 @@ static void __init test_hexdump_overflow(size_t buflen,=
- size_t len,
- static void __init test_hexdump_overflow_set(size_t buflen, bool ascii)
- {
- 	unsigned int i =3D 0;
--	int rs =3D (prandom_u32_max(2) + 1) * 16;
-+	int rs =3D prandom_u32_max(2) + 1 * 16;
-=20
- 	do {
- 		int gs =3D 1 << i;
 diff --git a/lib/test_vmalloc.c b/lib/test_vmalloc.c
-index 4f2f2d1bac56..56ffaa8dd3f6 100644
+index 56ffaa8dd3f6..0131ed2cd1bd 100644
 --- a/lib/test_vmalloc.c
 +++ b/lib/test_vmalloc.c
-@@ -151,9 +151,7 @@ static int random_size_alloc_test(void)
+@@ -80,7 +80,7 @@ static int random_size_align_alloc_test(void)
  	int i;
 =20
  	for (i =3D 0; i < test_loop_count; i++) {
--		n =3D prandom_u32();
--		n =3D (n % 100) + 1;
--
-+		n =3D prandom_u32_max(n % 100) + 1;
- 		p =3D vmalloc(n * PAGE_SIZE);
-=20
- 		if (!p)
-@@ -293,16 +291,12 @@ pcpu_alloc_test(void)
- 		return -1;
-=20
- 	for (i =3D 0; i < 35000; i++) {
--		unsigned int r;
--
--		r =3D prandom_u32();
--		size =3D (r % (PAGE_SIZE / 4)) + 1;
-+		size =3D prandom_u32_max(PAGE_SIZE / 4) + 1;
+-		rnd =3D prandom_u32();
++		rnd =3D get_random_u8();
 =20
  		/*
- 		 * Maximum PAGE_SIZE
+ 		 * Maximum 1024 pages, if PAGE_SIZE is 4096.
+diff --git a/net/dccp/ipv4.c b/net/dccp/ipv4.c
+index da6e3b20cd75..301799e7fa56 100644
+--- a/net/dccp/ipv4.c
++++ b/net/dccp/ipv4.c
+@@ -123,7 +123,7 @@ int dccp_v4_connect(struct sock *sk, struct sockaddr *u=
+addr, int addr_len)
+ 						    inet->inet_daddr,
+ 						    inet->inet_sport,
+ 						    inet->inet_dport);
+-	inet->inet_id =3D prandom_u32();
++	inet->inet_id =3D get_random_u16();
+=20
+ 	err =3D dccp_connect(sk);
+ 	rt =3D NULL;
+@@ -422,7 +422,7 @@ struct sock *dccp_v4_request_recv_sock(const struct soc=
+k *sk,
+ 	RCU_INIT_POINTER(newinet->inet_opt, rcu_dereference(ireq->ireq_opt));
+ 	newinet->mc_index  =3D inet_iif(skb);
+ 	newinet->mc_ttl	   =3D ip_hdr(skb)->ttl;
+-	newinet->inet_id   =3D prandom_u32();
++	newinet->inet_id   =3D get_random_u16();
+=20
+ 	if (dst =3D=3D NULL && (dst =3D inet_csk_route_child_sock(sk, newsk, req)=
+) =3D=3D NULL)
+ 		goto put_and_exit;
+diff --git a/net/ipv4/datagram.c b/net/ipv4/datagram.c
+index ffd57523331f..fefc5d855a66 100644
+--- a/net/ipv4/datagram.c
++++ b/net/ipv4/datagram.c
+@@ -71,7 +71,7 @@ int __ip4_datagram_connect(struct sock *sk, struct sockad=
+dr *uaddr, int addr_len
+ 	reuseport_has_conns(sk, true);
+ 	sk->sk_state =3D TCP_ESTABLISHED;
+ 	sk_set_txhash(sk);
+-	inet->inet_id =3D prandom_u32();
++	inet->inet_id =3D get_random_u16();
+=20
+ 	sk_dst_set(sk, &rt->dst);
+ 	err =3D 0;
+diff --git a/net/ipv4/ip_output.c b/net/ipv4/ip_output.c
+index 04e2034f2f8e..a4fbdbff14b3 100644
+--- a/net/ipv4/ip_output.c
++++ b/net/ipv4/ip_output.c
+@@ -172,7 +172,7 @@ int ip_build_and_send_pkt(struct sk_buff *skb, const st=
+ruct sock *sk,
+ 		 * Avoid using the hashed IP ident generator.
  		 */
--		r =3D prandom_u32();
--		align =3D 1 << ((r % 11) + 1);
-+		align =3D 1 << (prandom_u32_max(11) + 1);
-=20
- 		pcpu[i] =3D __alloc_percpu(size, align);
- 		if (!pcpu[i])
-@@ -393,14 +387,11 @@ static struct test_driver {
-=20
- static void shuffle_array(int *arr, int n)
- {
--	unsigned int rnd;
- 	int i, j;
-=20
- 	for (i =3D n - 1; i > 0; i--)  {
--		rnd =3D prandom_u32();
--
- 		/* Cut the range. */
--		j =3D rnd % i;
-+		j =3D prandom_u32_max(i);
-=20
- 		/* Swap indexes. */
- 		swap(arr[i], arr[j]);
-diff --git a/net/core/pktgen.c b/net/core/pktgen.c
-index a13ee452429e..5ca4f953034c 100644
---- a/net/core/pktgen.c
-+++ b/net/core/pktgen.c
-@@ -2469,11 +2469,11 @@ static void mod_cur_headers(struct pktgen_dev *pkt_=
-dev)
- 	}
-=20
- 	if ((pkt_dev->flags & F_VID_RND) && (pkt_dev->vlan_id !=3D 0xffff)) {
--		pkt_dev->vlan_id =3D prandom_u32() & (4096 - 1);
-+		pkt_dev->vlan_id =3D prandom_u32_max(4096);
- 	}
-=20
- 	if ((pkt_dev->flags & F_SVID_RND) && (pkt_dev->svlan_id !=3D 0xffff)) {
--		pkt_dev->svlan_id =3D prandom_u32() & (4096 - 1);
-+		pkt_dev->svlan_id =3D prandom_u32_max(4096);
- 	}
-=20
- 	if (pkt_dev->udp_src_min < pkt_dev->udp_src_max) {
-diff --git a/net/ipv4/inet_hashtables.c b/net/ipv4/inet_hashtables.c
-index b9d995b5ce24..9dc070f2018e 100644
---- a/net/ipv4/inet_hashtables.c
-+++ b/net/ipv4/inet_hashtables.c
-@@ -794,7 +794,7 @@ int __inet_hash_connect(struct inet_timewait_death_row =
-*death_row,
- 	 * on low contention the randomness is maximal and on high contention
- 	 * it may be inexistent.
- 	 */
--	i =3D max_t(int, i, (prandom_u32() & 7) * 2);
-+	i =3D max_t(int, i, prandom_u32_max(8) * 2);
- 	WRITE_ONCE(table_perturb[index], READ_ONCE(table_perturb[index]) + i + 2)=
-;
-=20
- 	/* Head lock still held and bh's disabled */
-diff --git a/net/sunrpc/cache.c b/net/sunrpc/cache.c
-index c3c693b51c94..f075a9fb5ccc 100644
---- a/net/sunrpc/cache.c
-+++ b/net/sunrpc/cache.c
-@@ -677,7 +677,7 @@ static void cache_limit_defers(void)
-=20
- 	/* Consider removing either the first or the last */
- 	if (cache_defer_cnt > DFR_MAX) {
--		if (prandom_u32() & 1)
-+		if (prandom_u32_max(2))
- 			discard =3D list_entry(cache_defer_list.next,
- 					     struct cache_deferred_req, recent);
+ 		if (sk->sk_protocol =3D=3D IPPROTO_TCP)
+-			iph->id =3D (__force __be16)prandom_u32();
++			iph->id =3D (__force __be16)get_random_u16();
  		else
-diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-index e976007f4fd0..c2caee703d2c 100644
---- a/net/sunrpc/xprtsock.c
-+++ b/net/sunrpc/xprtsock.c
-@@ -1619,7 +1619,7 @@ static int xs_get_random_port(void)
- 	if (max < min)
- 		return -EADDRINUSE;
- 	range =3D max - min + 1;
--	rand =3D (unsigned short) prandom_u32() % range;
-+	rand =3D (unsigned short) prandom_u32_max(range);
- 	return rand + min;
+ 			__ip_select_ident(net, iph, 1);
+ 	}
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 5b019ba2b9d2..747752980983 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -303,7 +303,7 @@ int tcp_v4_connect(struct sock *sk, struct sockaddr *ua=
+ddr, int addr_len)
+ 						 inet->inet_daddr);
+ 	}
+=20
+-	inet->inet_id =3D prandom_u32();
++	inet->inet_id =3D get_random_u16();
+=20
+ 	if (tcp_fastopen_defer_connect(sk, &err))
+ 		return err;
+@@ -1523,7 +1523,7 @@ struct sock *tcp_v4_syn_recv_sock(const struct sock *=
+sk, struct sk_buff *skb,
+ 	inet_csk(newsk)->icsk_ext_hdr_len =3D 0;
+ 	if (inet_opt)
+ 		inet_csk(newsk)->icsk_ext_hdr_len =3D inet_opt->opt.optlen;
+-	newinet->inet_id =3D prandom_u32();
++	newinet->inet_id =3D get_random_u16();
+=20
+ 	/* Set ToS of the new socket based upon the value of incoming SYN.
+ 	 * ECT bits are set later in tcp_init_transfer().
+diff --git a/net/mac80211/scan.c b/net/mac80211/scan.c
+index c4f2aeb31da3..6cab549cc421 100644
+--- a/net/mac80211/scan.c
++++ b/net/mac80211/scan.c
+@@ -641,7 +641,7 @@ static void ieee80211_send_scan_probe_req(struct ieee80=
+211_sub_if_data *sdata,
+ 		if (flags & IEEE80211_PROBE_FLAG_RANDOM_SN) {
+ 			struct ieee80211_hdr *hdr =3D (void *)skb->data;
+ 			struct ieee80211_tx_info *info =3D IEEE80211_SKB_CB(skb);
+-			u16 sn =3D get_random_u32();
++			u16 sn =3D get_random_u16();
+=20
+ 			info->control.flags |=3D IEEE80211_TX_CTRL_NO_SEQNO;
+ 			hdr->seq_ctrl =3D
+diff --git a/net/netfilter/nf_nat_core.c b/net/netfilter/nf_nat_core.c
+index 7981be526f26..57c7686ac485 100644
+--- a/net/netfilter/nf_nat_core.c
++++ b/net/netfilter/nf_nat_core.c
+@@ -468,7 +468,7 @@ static void nf_nat_l4proto_unique_tuple(struct nf_connt=
+rack_tuple *tuple,
+ 	if (range->flags & NF_NAT_RANGE_PROTO_OFFSET)
+ 		off =3D (ntohs(*keyptr) - ntohs(range->base_proto.all));
+ 	else
+-		off =3D prandom_u32();
++		off =3D get_random_u16();
+=20
+ 	attempts =3D range_size;
+ 	if (attempts > max_attempts)
+@@ -490,7 +490,7 @@ static void nf_nat_l4proto_unique_tuple(struct nf_connt=
+rack_tuple *tuple,
+ 	if (attempts >=3D range_size || attempts < 16)
+ 		return;
+ 	attempts /=3D 2;
+-	off =3D prandom_u32();
++	off =3D get_random_u16();
+ 	goto another_round;
  }
 =20
+diff --git a/net/sched/sch_cake.c b/net/sched/sch_cake.c
+index a43a58a73d09..637ef1757931 100644
+--- a/net/sched/sch_cake.c
++++ b/net/sched/sch_cake.c
+@@ -2092,11 +2092,11 @@ static struct sk_buff *cake_dequeue(struct Qdisc *s=
+ch)
+=20
+ 		WARN_ON(host_load > CAKE_QUEUES);
+=20
+-		/* The shifted prandom_u32() is a way to apply dithering to
+-		 * avoid accumulating roundoff errors
++		/* The get_random_u16() is a way to apply dithering to avoid
++		 * accumulating roundoff errors
+ 		 */
+ 		flow->deficit +=3D (b->flow_quantum * quantum_div[host_load] +
+-				  (prandom_u32() >> 16)) >> 16;
++				  get_random_u16()) >> 16;
+ 		list_move_tail(&flow->flowchain, &b->old_flows);
+=20
+ 		goto retry;
+diff --git a/net/sched/sch_sfb.c b/net/sched/sch_sfb.c
+index 2829455211f8..7eb70acb4d58 100644
+--- a/net/sched/sch_sfb.c
++++ b/net/sched/sch_sfb.c
+@@ -379,7 +379,7 @@ static int sfb_enqueue(struct sk_buff *skb, struct Qdis=
+c *sch,
+ 		goto enqueue;
+ 	}
+=20
+-	r =3D prandom_u32() & SFB_MAX_PROB;
++	r =3D get_random_u16() & SFB_MAX_PROB;
+=20
+ 	if (unlikely(r < p_min)) {
+ 		if (unlikely(p_min > SFB_MAX_PROB / 2)) {
+diff --git a/net/sctp/socket.c b/net/sctp/socket.c
+index 1e354ba44960..83628c347744 100644
+--- a/net/sctp/socket.c
++++ b/net/sctp/socket.c
+@@ -9448,7 +9448,7 @@ void sctp_copy_sock(struct sock *newsk, struct sock *=
+sk,
+ 	newinet->inet_rcv_saddr =3D inet->inet_rcv_saddr;
+ 	newinet->inet_dport =3D htons(asoc->peer.port);
+ 	newinet->pmtudisc =3D inet->pmtudisc;
+-	newinet->inet_id =3D prandom_u32();
++	newinet->inet_id =3D get_random_u16();
+=20
+ 	newinet->uc_ttl =3D inet->uc_ttl;
+ 	newinet->mc_loop =3D 1;
 --=20
 2.37.3
 
@@ -793,4 +703,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20221007180107.216067-3-Jason%40zx2c4.com.
+kasan-dev/20221007180107.216067-4-Jason%40zx2c4.com.
