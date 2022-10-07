@@ -1,153 +1,142 @@
-Return-Path: <kasan-dev+bncBDK7LR5URMGRBHEOQGNAMGQE2P6ETJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB25AQGNAMGQEP4SBO7Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2456C5F7A9D
-	for <lists+kasan-dev@lfdr.de>; Fri,  7 Oct 2022 17:34:53 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id o22-20020a2e90d6000000b0026b8a746a9dsf2058420ljg.6
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Oct 2022 08:34:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665156892; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAE85F7B3B
+	for <lists+kasan-dev@lfdr.de>; Fri,  7 Oct 2022 18:14:36 +0200 (CEST)
+Received: by mail-lj1-x23d.google.com with SMTP id e1-20020a2e9841000000b002602ebb584fsf2106906ljj.14
+        for <lists+kasan-dev@lfdr.de>; Fri, 07 Oct 2022 09:14:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665159276; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hBgkkzLWxwmvRpgmIzdXN208P2Eu6TiL/kyOkfws3plvDSDcX93KkzTxfu+a4ZmQVI
-         W2oJ9BsDFrl2kuiQ9WYJu8qni+vtMJD/RMhLD29WxeHjG5DmIBD8ypX5d/92tek/daWI
-         u13p1L+HzLGxz1HkCqC2bmregGYuKB8vxed6F67vQM4AOuELX4Ow8svudOABZjvjZZdf
-         +Nsw1nPRgqpN+oH27RNeogfp4IwfZnUz4dZe4H+E1ZCwiJK6yImeYZwExXIrvuViuhOv
-         sq8PnCvW1TAJgMPvxFttheZMgBko1fx9g/eXw181ZVjcBF/uzk2oNjT6MNeZF8OH63PG
-         XSQg==
+        b=Saopc4b//7mkajEAKgfwNbLChByng09Cdskziw7QaYo5Uu7ijJ+mAwQQ2jelVIdrjV
+         ZQojvg/+wQXtjbMxwmKgVyO6PM7Dk2SHxLQsgqTJGwtpo+kWCytqKcXreHbes+lUsgpk
+         wp0kdWq8um9Sdcqg+qHc/AySbXVSUnpivTA9ZGxrA/Oat++AVuQQYoxuGWB8tyRy98Xl
+         Rm6p2i33BaVxSjpIdymntunXU4aa1HRgPS/mAwt6hSv8udwlgCM6N/oWS4YC2hRKxwvW
+         DptjMgZMut4UgLs2x6BJz3d3V881gAY8kVWSrMpE4Jtj+lOOo47/yB9+yul/mQN9bi+0
+         5kOQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:sender
-         :dkim-signature:dkim-signature;
-        bh=rIwiPyAtUo1o9FNojXIw9xzZQNY8CH8g6oyA0iEpzoU=;
-        b=JbHs/oaH5lY88jZtWhWM02IaEZfv/2rZ96pzGPgApzM/mxmtaf++1n5TfEOgy05Iho
-         F/ROBA261LRW9MG4CkddsE52454q3ZZOTLGjUTTAdrUBkd0VyCYqBvdBJGg5qMsLIETM
-         f6DlLa3LqJUnaRcVCDQvH2jqMAh1a+VKR9S57mbcVueJyofylAHtb8rTU174E0Kg5XeM
-         DQUaQgmx/9lUfirDujQw2wzpymOKIHapgw8sH0v+CMcuFkGWMixc1eQbWcAJ3MmPS7db
-         wnmMNrD7T3ZhJiYPYu1VsGfv/23gTo8I8PEgr0V/NT57E68FbAb2JrayOAy0ong8VuFu
-         q2uQ==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=pD7NeYNB/QT9EkkiILQQl7pk4Bd9SaT0PsFas/EqSGE=;
+        b=ty8rWhnpgsRSXEQsibFdPfsXqW06Gm2LbJTHVbJs8SseOBCiqef0DSTXJ5n76CMHPf
+         3QZZnavECb12EvwGfwhr/De6OAKShEdb2hEGatFp1Wq7rtyVmi385BCM0VfDPBNjimak
+         kziwx0ONQQnufQgR9SwKJIYUhuKWsyByVfcEeovWrD2x+3lSBnOJsiatg/YggGSEniXl
+         6gx3907g86ToFlkd1eiMhpFFTIH5h6JX/oU9FUE1i4/+dTmLFY7wmjW4CpFH//GrK0+E
+         rdQ1E/c/g8fiGRQvOAnUf/DDN1dqZmOqLRKLDLCMWozdDQsVi0CMXEiBAFk2jdR4fkct
+         0Bhg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=KfF58vzR;
-       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::235 as permitted sender) smtp.mailfrom=urezki@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=FLiXrIyC;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::62a as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:date:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rIwiPyAtUo1o9FNojXIw9xzZQNY8CH8g6oyA0iEpzoU=;
-        b=t2jr6TAqlkAJlVR1X6L8x1BnCPQjtWkeAYeVrLuN9GNj930kFMIP33u+P+tH2BLJa5
-         qH9NZzbqJ3PUwAi0UTHW2kNCSyUhIrLwdP9Xjp+jjdo0lhpVonZ18U3hL9SNk78U2i0I
-         9mviX+H22F8jisnLNDcuxSpYIPGlJ0S2EfG0Sc7wo8M6eX0jGGxoy0pVglpoj1HrpFq7
-         Sdd6eZogPZSyAEGeqImoUs7FoK3VJbueXpR9YzaB2BoUHpz3MEU3BbxV/bMRAtGNNk1x
-         JN6rrQAHONWqi/Md0LhDbBDpLFD6c/JfcReNri2UWdE1hUYq5hjHVcdvHzT9q2IYeHtI
-         o7Ug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rIwiPyAtUo1o9FNojXIw9xzZQNY8CH8g6oyA0iEpzoU=;
-        b=dEInaW6j1pNibkv/+uVa5Y2Yfokj/uUBUGAOZygHkc/YkNgeU3k76XOqQquSVV3Lge
-         qQcmL4H6NSaECHng04mkd4Kj5pOassAt/Yko+rYBLg9D9uBu63we2tLkUvVvZd9LgobX
-         mzbOBEZ7DCwHEqwa2WBRiMnr0nl8BQlVyGxn41KZe01w2rZyCqSQEysiNPBaW2Q8/imp
-         M67hS3hoklrnoF8d8Ks2CX2GwNTB7h2V8hHnom1WipdWlk/nZQ64xZbjQWzx5sYwc4V7
-         OPPz0AQPIQjZVCYtxmAiojMd69OMJT9SSyBO7oD0kWsPPlbm3t0SveJ1Qe4AFlSdb77I
-         txHw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pD7NeYNB/QT9EkkiILQQl7pk4Bd9SaT0PsFas/EqSGE=;
+        b=EWPlcIut714iciTXvksOj/6vXjze59VKqpJ+MN0TjKYn+vaYafXYbLiD9EA3482ygu
+         soIw1O3ZGSlh/QdWx2be45kFZsrRWJvklTQvkTIQqywnJkn0muqU1+o1dtUJdQVxI5sc
+         uto0tAp87U81HKZd15wmKx7OJLXYFuU+W4k6UvJG+O7yhUYX9nYOfArbo14cKABw8RCK
+         0nrmFav/KjtXsvUDSMbmplxk8UekgaV/sgChvqLhSh/k3fRcbMMtGqp5FPubdj1e0l5L
+         fQwYrCgOl6XFIg8YclkBgoo7gp9HaNHF/sNkyhbttqhg7c6dhfCu8dmqMxykbSapvlhy
+         A66w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:date:from:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rIwiPyAtUo1o9FNojXIw9xzZQNY8CH8g6oyA0iEpzoU=;
-        b=0HPL94TRRaMjM31WVJOg8fovJ8OFwLs3hzHPf4AA5ToOr+d2Cqg4L+gL6RBl77/lDp
-         vbj9nLkqUsQEC5gC5KnbSgd84OZQyGx/oFHLy9MRcr+vOz0+UzaSv538VOSqp3KSaPbq
-         X9dGZ2kIvcv/i40s8VoC6tr1naD4u8BKpm/FgKeM362QlIjsRHpcfRF4euCPREXO6+c4
-         luT8VZLfUXOq7FNCOK/LkrsMX8v27uHajdvBVcgvbro56Zm5JaQHCRJ9ZKUeZekL0rEM
-         kb9w35gCVV29WLXHxFFrW1qyzlmr8bVUx1ygl4RPNznYv7eyHh612CUA2vnU1kC51ymG
-         cPBw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1DGErf5y01Pz84u0XFcxYCluk8n1cRBrcYOsgtkHQ5F2DTgopX
-	sXWo8qz1qgpaXjuI7Jld9dQ=
-X-Google-Smtp-Source: AMsMyM5Izt40lYiKiX0ulxP4VLKJiqZpLC8Gio3/1y2upDHNqB7k+fmJUM9Q2J7m5dt4HxotUw+dNg==
-X-Received: by 2002:ac2:5f58:0:b0:4a2:4ac5:5e1a with SMTP id 24-20020ac25f58000000b004a24ac55e1amr2273406lfz.475.1665156892304;
-        Fri, 07 Oct 2022 08:34:52 -0700 (PDT)
+        bh=pD7NeYNB/QT9EkkiILQQl7pk4Bd9SaT0PsFas/EqSGE=;
+        b=KcXfve5rS37bBxtIf6P95u7qfSTDHY6v1cStyFXTeTEWpaQm9lUzvTUwyvtSKP7lk6
+         iJRAQ+U7sQepsQO2qHiF7tCyNogTN9XUxzwr2ZF09UrshDLmJ30ZU+LJw7ksxuxLyb1P
+         vljzO2R2GtTuuq7kPJ5AfndGkHF/L51HcA/3Ickjxd/ehGKjN7lVZn9LAFGnPZVGmINu
+         l/0PLEv/y8IRaEqJYDj/1HBeLwvbV2PlN3Ln8GkBkCekwH3rgzuYD2Y4XBu8UUnCFqpx
+         TYw01Z5nP5AHfxEliyuY8kQLjNsVHFWp7y72QUsWIM7lDdngCIzd1yp/Hk7tkJn+hTAW
+         2mLg==
+X-Gm-Message-State: ACrzQf2+DSxFqtNVzQLMyZ6eFcP76Ab2bmYexSJPtpqCNQGwBP7qwXSt
+	/xVh8stC6MzBrur9UAqT6a8=
+X-Google-Smtp-Source: AMsMyM5mxF4yXUiugM4AnupJsB1SvfQaKXkwNU3gpH9A6t2o8nSFEoOxC8LY/I5VHfU4CPXiqTU5DA==
+X-Received: by 2002:a05:651c:17a7:b0:261:c0b1:574b with SMTP id bn39-20020a05651c17a700b00261c0b1574bmr2080188ljb.40.1665159276030;
+        Fri, 07 Oct 2022 09:14:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3a5:b0:49a:b814:856d with SMTP id
- v5-20020a05651203a500b0049ab814856dls1592853lfp.1.-pod-prod-gmail; Fri, 07
- Oct 2022 08:34:51 -0700 (PDT)
-X-Received: by 2002:a19:5503:0:b0:4a2:329d:bc74 with SMTP id n3-20020a195503000000b004a2329dbc74mr2306425lfe.77.1665156891158;
-        Fri, 07 Oct 2022 08:34:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665156891; cv=none;
+Received: by 2002:ac2:4ec6:0:b0:4a2:3951:eac8 with SMTP id p6-20020ac24ec6000000b004a23951eac8ls1671303lfr.0.-pod-prod-gmail;
+ Fri, 07 Oct 2022 09:14:34 -0700 (PDT)
+X-Received: by 2002:ac2:4550:0:b0:4a2:6e28:5d38 with SMTP id j16-20020ac24550000000b004a26e285d38mr2028552lfm.103.1665159274504;
+        Fri, 07 Oct 2022 09:14:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665159274; cv=none;
         d=google.com; s=arc-20160816;
-        b=oXyvGtPXL7cmIIHFPnf88PSyX6Y7cx0DV/oWby3NH8hBK9Q6C5eqwFTBpnAzKO/MLl
-         xXwJGJuEQT7rYzPqfniA6MODuZc52BDpBYSy9QaC0SVcAqf6kEZrDh/vsozxx1mOScYI
-         t82CTruftHjRzzzd4udDU8pFi7Y8N36YePKSexdSt1vgR2Mja+GWEutdGgWroOSq7l8z
-         n2JPUYes7GzSJ0Yrofouf5AeP1je3QSLwp9QORx4MJUaqztW3FG6EHexJWuTIeDJ/qTq
-         OR0Jow8nqr3hMKym8SsEiwH9hlvhH8hSyloZOlxJTeFg6dTkNYPBy7MQbr4w0gxuPkzg
-         jGDw==
+        b=U71P2i4tmt4I7m8vwLCL4hfmyL7hEmUa8SBH9UenYNPK2FR54st/fRGnZ+N5AlTOdJ
+         yodnQ/q/FcM9g+TkUu5ofbiAjTl5LjFDxR5majCHHntOtMju1QZKOkpWFaqHYR90r8YF
+         nJna8rDb97cszER0gg5I+fECQdmu04xIL/aq1oVEqx4qM9zTlipiGu+hXEV2hWO+ji5m
+         ZFZ4fvO10qkwL8/iAIDeKIoVLcSeSb0ueVz6jHz7fNqKgGMLAzEcakIKS9rilMEw46jV
+         JZb8JoTagYCUSSf956uurfYj5lILxglxAH67L+LERjJ8PbK5ROFzRiOQiNu+iYv4K7xc
+         BNQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:dkim-signature;
-        bh=izkHNBhuBwgvzXtx/73B8psiHiY+7QxtoQMWKis7624=;
-        b=pt/tL2mPLb/0RedoIaceDZK9V8/QT6gzc0TZZ5QaS2sNt87keCH7xOe830Q6QrVKzD
-         DGm5wDgjzvGa2ZZLfgcqGtYj6QfrJFPykZXpr7S0o20lwskQ8WJ/Xw8ISM8J+mLQ49Bw
-         fADodpOnRUAnJ89EhAK1dIKvG89E7u6EKlaXgdNDW0kOxVPTaTgYuZCMKyZC+p/fiK8t
-         tAMc21/yNuA+/dR2nxXHOmhFTaN3FjT6WyQFS7sjEsQRNAsjmLxa345qUBk8TuK0H2cA
-         2sFwkTU/DpHorRqTEVaLsciwCP6njHCUrMnHQcygUnqeFG3lgQS2/QFncufuIMooQZXD
-         fE8w==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=gwCgcEFb6EqweOCGJwFjwMplx0cMo00I0pQaRZheEns=;
+        b=lv1mEKl5el+gWSrM/jG/55U177aY4+ZSPwstbCvyz/dJxe0/OyJDK3Y2RzAUskgXTI
+         zzQaIY4fZsH/Oggl27aojStDWtRfpNAisWkHfVGgg1HEUUCMS+AOz+0FAwGVs/qMslLh
+         tvcRvcUJ7kBku/3aaXdUt0n7Spe+Ogl1S931JzFdJeVJcsAsJqjD3hjSGiE0nst7MPqj
+         npP8K9fxZKUjJ48qPwzgdrO5uIZ2Z6HwLVkdZK4YHkjmCHOnT8ccc9Wy0t383rcfYEmz
+         56JxA1sEkJXzcmKyF7cwg0uNdLguVZhJuBaxeBXDgd8eOV1jCWz1hLesRGOf8Wg0BKX+
+         k94g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=KfF58vzR;
-       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::235 as permitted sender) smtp.mailfrom=urezki@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com. [2a00:1450:4864:20::235])
-        by gmr-mx.google.com with ESMTPS id t12-20020a056512068c00b0048b38f379d7si95725lfe.0.2022.10.07.08.34.51
+       dkim=pass header.i=@google.com header.s=20210112 header.b=FLiXrIyC;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::62a as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com. [2a00:1450:4864:20::62a])
+        by gmr-mx.google.com with ESMTPS id g6-20020a056512118600b004a222ff195esi127920lfr.11.2022.10.07.09.14.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Oct 2022 08:34:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::235 as permitted sender) client-ip=2a00:1450:4864:20::235;
-Received: by mail-lj1-x235.google.com with SMTP id bs18so6140737ljb.1
-        for <kasan-dev@googlegroups.com>; Fri, 07 Oct 2022 08:34:51 -0700 (PDT)
-X-Received: by 2002:a05:651c:222c:b0:26b:dec5:a4f0 with SMTP id y44-20020a05651c222c00b0026bdec5a4f0mr2039980ljq.359.1665156890725;
-        Fri, 07 Oct 2022 08:34:50 -0700 (PDT)
-Received: from pc636 (host-90-235-26-251.mobileonline.telia.com. [90.235.26.251])
-        by smtp.gmail.com with ESMTPSA id f22-20020a2eb5b6000000b0026bf0d71b1esm306749ljn.93.2022.10.07.08.34.49
+        Fri, 07 Oct 2022 09:14:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::62a as permitted sender) client-ip=2a00:1450:4864:20::62a;
+Received: by mail-ej1-x62a.google.com with SMTP id a26so12379178ejc.4
+        for <kasan-dev@googlegroups.com>; Fri, 07 Oct 2022 09:14:34 -0700 (PDT)
+X-Received: by 2002:a17:906:da86:b0:77a:52b3:da48 with SMTP id xh6-20020a170906da8600b0077a52b3da48mr4502878ejb.373.1665159274119;
+        Fri, 07 Oct 2022 09:14:34 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:9c:201:4e4:454c:b135:33f2])
+        by smtp.gmail.com with ESMTPSA id pk18-20020a170906d7b200b00741383c1c5bsm1379772ejb.196.2022.10.07.09.14.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Oct 2022 08:34:50 -0700 (PDT)
-From: Uladzislau Rezki <urezki@gmail.com>
-Date: Fri, 7 Oct 2022 17:34:47 +0200
-To: David Hildenbrand <david@redhat.com>
-Cc: Uladzislau Rezki <urezki@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com
-Subject: Re: KASAN-related VMAP allocation errors in debug kernels with many
- logical CPUS
-Message-ID: <Y0BHFwbMmcIBaKNZ@pc636>
-References: <8aaaeec8-14a1-cdc4-4c77-4878f4979f3e@redhat.com>
- <Yz711WzMS+lG7Zlw@pc636>
- <9ce8a3a3-8305-31a4-a097-3719861c234e@redhat.com>
+        Fri, 07 Oct 2022 09:14:33 -0700 (PDT)
+Date: Fri, 7 Oct 2022 18:14:27 +0200
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH] perf: Fix missing SIGTRAPs
+Message-ID: <Y0BQYxewPB/6KWLz@elver.google.com>
+References: <20220927121322.1236730-1-elver@google.com>
+ <Yz7ZLaT4jW3Y9EYS@hirez.programming.kicks-ass.net>
+ <Yz7fWw8duIOezSW1@elver.google.com>
+ <Yz78MMMJ74tBw0gu@hirez.programming.kicks-ass.net>
+ <Yz/zXpF1yLshrJm/@elver.google.com>
+ <Y0Ak/D05KhJeKaed@hirez.programming.kicks-ass.net>
+ <Y0AwaxcJNOWhMKXP@elver.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <9ce8a3a3-8305-31a4-a097-3719861c234e@redhat.com>
-X-Original-Sender: Urezki@gmail.com
+In-Reply-To: <Y0AwaxcJNOWhMKXP@elver.google.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=KfF58vzR;       spf=pass
- (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::235 as
- permitted sender) smtp.mailfrom=urezki@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20210112 header.b=FLiXrIyC;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::62a as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,130 +149,26 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> On 06.10.22 17:35, Uladzislau Rezki wrote:
-> > > Hi,
-> > > 
-> > > we're currently hitting a weird vmap issue in debug kernels with KASAN enabled
-> > > on fairly large VMs. I reproduced it on v5.19 (did not get the chance to
-> > > try 6.0 yet because I don't have access to the machine right now, but
-> > > I suspect it persists).
-> > > 
-> > > It seems to trigger when udev probes a massive amount of devices in parallel
-> > > while the system is booting up. Once the system booted, I no longer see any
-> > > such issues.
-> > > 
-> > > 
-> > > [  165.818200] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
-> > > [  165.836622] vmap allocation for size 315392 failed: use vmalloc=<size> to increase size
-> > > [  165.837461] vmap allocation for size 315392 failed: use vmalloc=<size> to increase size
-> > > [  165.840573] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
-> > > [  165.841059] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
-> > > [  165.841428] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
-> > > [  165.841819] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
-> > > [  165.842123] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
-> > > [  165.843359] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
-> > > [  165.844894] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
-> > > [  165.847028] CPU: 253 PID: 4995 Comm: systemd-udevd Not tainted 5.19.0 #2
-> > > [  165.935689] Hardware name: Lenovo ThinkSystem SR950 -[7X12ABC1WW]-/-[7X12ABC1WW]-, BIOS -[PSE130O-1.81]- 05/20/2020
-> > > [  165.947343] Call Trace:
-> > > [  165.950075]  <TASK>
-> > > [  165.952425]  dump_stack_lvl+0x57/0x81
-> > > [  165.956532]  warn_alloc.cold+0x95/0x18a
-> > > [  165.960836]  ? zone_watermark_ok_safe+0x240/0x240
-> > > [  165.966100]  ? slab_free_freelist_hook+0x11d/0x1d0
-> > > [  165.971461]  ? __get_vm_area_node+0x2af/0x360
-> > > [  165.976341]  ? __get_vm_area_node+0x2af/0x360
-> > > [  165.981219]  __vmalloc_node_range+0x291/0x560
-> > > [  165.986087]  ? __mutex_unlock_slowpath+0x161/0x5e0
-> > > [  165.991447]  ? move_module+0x4c/0x630
-> > > [  165.995547]  ? vfree_atomic+0xa0/0xa0
-> > > [  165.999647]  ? move_module+0x4c/0x630
-> > > [  166.003741]  module_alloc+0xe7/0x170
-> > > [  166.007747]  ? move_module+0x4c/0x630
-> > > [  166.011840]  move_module+0x4c/0x630
-> > > [  166.015751]  layout_and_allocate+0x32c/0x560
-> > > [  166.020519]  load_module+0x8e0/0x25c0
-> > > 
-> > Can it be that we do not have enough "module section" size? I mean the
-> > section size, which is MODULES_END - MODULES_VADDR is rather small so
-> > some modules are not loaded due to no space.
+On Fri, Oct 07, 2022 at 03:58PM +0200, Marco Elver wrote:
+> On Fri, Oct 07, 2022 at 03:09PM +0200, Peter Zijlstra wrote:
+> > On Fri, Oct 07, 2022 at 11:37:34AM +0200, Marco Elver wrote:
 > > 
-> > CONFIG_RANDOMIZE_BASE also creates some offset overhead if enabled on
-> > your box. But it looks it is rather negligible.
-> 
-> Right, I suspected both points -- but was fairly confused why the numbers of
-> CPUs would matter.
-> 
-> What would make sense is that if we're tight on module vmap space, that the
-> race I think that could happen with purging only once and then failing could
-> become relevant.
-> 
+> > > That worked. In addition I had to disable the ctx->task != current check
+> > > if we're in task_work, because presumably the event might have already
+> > > been disabled/moved??
 > > 
-> > Maybe try to increase the module-section size to see if it solves the
-> > problem.
+> > Uhmmm... uhhh... damn. (wall-time was significantly longer)
+> > 
+> > Does this help?
 > 
-> What would be the easiest way to do that?
+> No unfortunately - still see:
 > 
-Sorry for late answer. I was trying to reproduce it on my box. What i
-did was trying to load all modules in my system with KASAN_INLINE option:
+> [   82.300827] ------------[ cut here ]------------
+> [   82.301680] WARNING: CPU: 0 PID: 976 at kernel/events/core.c:6466 perf_sigtrap+0x60/0x70
 
-<snip>
-#!/bin/bash
-
-# Exclude test_vmalloc.ko
-MODULES_LIST=(`find /lib/modules/$(uname -r) -type f \
-	\( -iname "*.ko" -not -iname "test_vmalloc*" \) | awk -F"/" '{print $NF}' | sed 's/.ko//'`)
-
-function moduleExist(){
-	MODULE="$1"
-	if lsmod | grep "$MODULE" &> /dev/null ; then
-		return 0
-	else
-		return 1
-	fi
-}
-
-i=0
-
-for module_name in ${MODULES_LIST[@]}; do
-	sudo modprobe $module_name
-
-	if moduleExist ${module_name}; then
-		((i=i+1))
-		echo "Successfully loaded $module_name counter $i"
-	fi
-done
-<snip>
-
-as you wrote it looks like it is not easy to reproduce. So i do not see
-any vmap related errors. 
-
-Returning back to the question. I think you could increase the MODULES_END
-address and shift the FIXADDR_START little forward. See the dump_pagetables.c
-But it might be they are pretty compact and located in the end. So i am not
-sure if there is a room there.
-
-Second. It would be good to understand if vmap only fails on allocating for a
-module:
-
-<snip>
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index dd6cdb201195..53026fdda224 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -1614,6 +1614,8 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
-        va->va_end = addr + size;
-        va->vm = NULL;
- 
-+       trace_printk("-> alloc %lu size, align: %lu, vstart: %lu, vend: %lu\n", size, align, vstart, vend);
-+
-        spin_lock(&vmap_area_lock);
-<snip>
-
---
-Uladzislau Rezki
+Whenever the warning fires, I see that event->state is OFF.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0BHFwbMmcIBaKNZ%40pc636.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0BQYxewPB/6KWLz%40elver.google.com.
