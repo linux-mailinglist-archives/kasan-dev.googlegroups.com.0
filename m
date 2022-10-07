@@ -1,172 +1,268 @@
-Return-Path: <kasan-dev+bncBCLI747UVAFRBNNX72MQMGQEICVHUIA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBOHD72MQMGQEW6ZMGOI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986CA5F7350
-	for <lists+kasan-dev@lfdr.de>; Fri,  7 Oct 2022 05:23:34 +0200 (CEST)
-Received: by mail-io1-xd3d.google.com with SMTP id s10-20020a5edc4a000000b006bba58340b1sf143282iop.15
-        for <lists+kasan-dev@lfdr.de>; Thu, 06 Oct 2022 20:23:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665113013; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBBD5F73B3
+	for <lists+kasan-dev@lfdr.de>; Fri,  7 Oct 2022 06:57:29 +0200 (CEST)
+Received: by mail-lj1-x23d.google.com with SMTP id b34-20020a2ebc22000000b0026c273ba56dsf1464332ljf.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 06 Oct 2022 21:57:29 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1665118648; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hYP38KyG/nPt9UAZpa3fscVYBWYee8QX92gz6j/niNHTJQ8lKW59dif6YqNvYj/uQq
-         dW1M6OCImRUoPrKAWZzHHEFAb/GxHR5dhoEmA8XgdsujEq84ZP2d+te5p59FsRdeVmUy
-         5W3ugGP8ZMy66E2s7Wm8AeEO421mZfsbaQRN1lYgDogNn8oV0S2mguILUHCOdJ9FY+Ud
-         e3SclamkiimbHDhpee7Zdu+0J7W4PXglos62j2G25VGx6IJOebgX1lbi+FGhAD6G3HZu
-         6q1Lt/7Rz6V/ZMDBkmpsLEZuc5599kAOycV1IhkyLDj4itwR4gQyqrsukyxlFlmuUtba
-         zbtw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=zpaW/RdWbx0B65M6i6FYuGBxK/BzSkFQywOLc7lbRIlGu48RAGUORF8oaoWTwLueVw
+         DgAa5an59re3SE+7I09b247t5GY80cK00+JxWhct5+TIvljfevvCN+cjuz9WkGad48pR
+         nh0+7F6oChftJNnOc71PVfkLHpISte1lg0FhOufVFDeEH15B9gCrXpin1ABGvbn4qpdR
+         pNVhm7djLj2pnbJ2ElA6wZncjkF7zG7MN8+UFw6qqs/3SYeUKeZRPp6wixj3wI2SLyTH
+         0L7iJ4JHocGtPuCwQ5GHTyec3bqrvU79fIsIZeKbjgG5gXUtcecvhE4gRd698iWhNQYR
+         CddA==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:references:in-reply-to:mime-version:dkim-signature;
-        bh=cCwM2x9wmnEKfxNrRM7OHYUsacG0qCMghSUw1esRgi4=;
-        b=qBN3y7Wpb9mhaM0hHV9d4y1w9sSioBca/zH01N2V7XqBZ/HZjPshQxfYSIG04yA6ZQ
-         0rOfD3PAhe3t7odT74x7suP3zgb1rOUjYOqcneYQWRh41mpUXN2uDboSl0nZd0vYB3rc
-         2iGGwjCkarlPpZQ3++IUAXpqy/2w7fa9hT+a0us1+e0PM9VcIC7NeyHZPT/4BbrIHl3p
-         bH4ZLtbS6OjKU7kpYa0fX4rBGMmqe/HudGl/LYDM6PT+71VPR4Jl/dTmJMMEVUy4AEmu
-         WWGwQQTVRx94NemvMaruGVouMeJOJOBVwrRnspuSKBL1vOp8S1rm0CBsIODy0qsHis33
-         tidA==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=MKWvEoG5;
-       spf=pass (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+         :list-id:mailing-list:precedence:mime-version
+         :content-transfer-encoding:content-id:user-agent:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:sender:dkim-signature;
+        bh=+LY0l6DQCNjK3Jk67+LHKz4nM7HHqg/Uuqpbj8HIR5w=;
+        b=pg/fgmaNB4jAqs1pqH/FwzgxtGoncU6t0aUK/M/NmcLou17T7p4O3wkBv5MD1a+Zu+
+         9qJF0v1wLPGznS8jcQgl6o0sTQBop4s0mskpzQPnBm4uOVVZFpkQMtxgg1KozhFgfq7B
+         BjdeR+dYtHwMSJ3mC2HKRvrIg1/+DusKiA9Bqm/3McVAe4CYNPQilEycuo1Ir5EvOjrI
+         Lbde20jQy3VcgT02F5YSWxDlrsBHwRO5F/SaJ0ezKScOHd4zRJo6cDKaCi5aUOwv1qHD
+         sJwDyRP+J+dFoz5G38DdvY7H9TIqdEn/RB+XXI4Fuppc1AeHmn4d1vkuV7WStS5RA+Yf
+         Zqew==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@csgroup.eu header.s=selector1 header.b=vvUxAKw3;
+       arc=pass (i=1 spf=pass spfdomain=csgroup.eu dkim=pass dkdomain=csgroup.eu dmarc=pass fromdomain=csgroup.eu);
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 40.107.9.88 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:references:in-reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cCwM2x9wmnEKfxNrRM7OHYUsacG0qCMghSUw1esRgi4=;
-        b=Kq5jkArlkyEILy/emAI8VSryVYJFV6iSZdoiPttbjAPwit9m/8aePJuKFGxyWUU/vr
-         WtI5xwadbWUWSvSlMkfokfUEiJwXLLXuju6kWk/6wEZTuTH5zBlWLNaESaD4xxyW0Zd5
-         HBswa1cc3k8Hr6JlfUauHUrGzOjeptsAUlwX/7RIMX7UA5o9nYUCj/7fOEbKefGerEYg
-         T8sA4zoqhXfk8kNRRKctq0rwveZs4o5/Y1XTxuDcQ3swnszeNTdCJcAMkZhj3vzwKh01
-         aZAt3hq8jwHnALr/ExgK5UgEWY8M55BcGgo39rywAOvKDILeZ83IxD8HiX2Zgbzqmw1i
-         17Gw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:content-transfer-encoding:content-id
+         :user-agent:content-language:accept-language:in-reply-to:references
+         :message-id:date:thread-index:thread-topic:subject:cc:to:from:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+LY0l6DQCNjK3Jk67+LHKz4nM7HHqg/Uuqpbj8HIR5w=;
+        b=Y4I7Tp/9EKH0K9+SnavH5Y70n0SSLGKDLxCH/VQPP2qT0I/Wc+caaUVStah65BW3Qk
+         cfxZoJ4tF0PTkMA5GMS41GEqYG+nmWfghHoUoBNEYbe8fSGKHS4A6G39zGM384XKZOvb
+         pzrkyjxdd8nc8IAijC+Pjr4jU69h6+Q57ibiuSq+J/4XqyaloNHT0CTwfcJQaTrP7+mQ
+         t9yRo+NUCHkarJxBDnLN49JmYBxb+FHxpEM5zSO3OuaDlDnzHa3pGBqux/mX0YCPncsx
+         im0otfNLmA8qADdkIpiqWHZBAuFDP+D9/aYkKB3gVW97Stn3zsXoSqs1k7tusumPhRgd
+         0ZcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:references:in-reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cCwM2x9wmnEKfxNrRM7OHYUsacG0qCMghSUw1esRgi4=;
-        b=c7hCClpUNxH2h0VEkiKs8c2y5XFLID/g+fRaDTwDKjhdNfLlYSbseiGZcDH+Q8cn2O
-         eKAVJD4zjsRmpufVw8SWVA6YhdH00YM4tJq/xlwnFwGh7exHlSi0s1qdBieo7i8fwaA9
-         Cry04LSHbCDGQAf4t9oeF4wWyCdZwfxx0o2x6k/7SXjrkW4/Z7NALglalBfL08jB+MBn
-         xDTeed9tkx+aDVRMU7wlNSP0NEfTUDHA+iDmKSWTgV5jePhd9Yj3ZZmmpnGVEDyzhgMy
-         nemxeBsyyuQInCV4pGliEFFNd3GW9ERXZJcsIwHIT/2of9yVHSvb7USn0fA21g1Kmkpm
-         ILzw==
-X-Gm-Message-State: ACrzQf0T62YcjfylKX5rSM345h/IJBQwS7fXQruAQ0GULY24sL2+0Ljw
-	IgV9G8j6UxjgaqfjMBdFa4k=
-X-Google-Smtp-Source: AMsMyM7npltWQDVgMeLG4UCi7XkrfVu/E09ibYDTVOCRTP8EOiVxJKbPRfjEdDQEdgaP/lXbA0XAHg==
-X-Received: by 2002:a92:ca4c:0:b0:2f9:5143:faad with SMTP id q12-20020a92ca4c000000b002f95143faadmr1344604ilo.3.1665113013164;
-        Thu, 06 Oct 2022 20:23:33 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-transfer-encoding:content-id:user-agent:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:x-gm-message-state:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+LY0l6DQCNjK3Jk67+LHKz4nM7HHqg/Uuqpbj8HIR5w=;
+        b=Ee86LTHJlVUbN83WwQAYUW/aLRVGtLftGAnZHPWJuqD/ZnZCdJ/xpPmnG1a6jpDQ/V
+         w0LwgWbLOHrOqtgIQNgBi/rrao05H8cOPU2uBYPkCAQ0ZvioECH4TO5cPPqHfoxfskW3
+         /MMFIznKFtdpE8OxxiPPlu3IzYCKfzK2g+rayy5FGlr8tQhFMfKec5vBzJHWgJF/oX17
+         2kdvWgWSjumDkg2jlyptcJrZYNPgAxRC/HEpI3bfg/KS+gofRyYMnR7DIRpL6b2/uiEH
+         +LQ6Ghvfq0SkLlahjnH2aah0YeobcmAZQChUWvMcIhwjWwpCpwSfBR9BgUWZehXr0xLB
+         idgQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACrzQf3wozmNSZMSeFKGQZURY8bWSRTE8/z6ueOByTcV19ZCddAHdihV
+	74dAEZOgihBa5768rwbZ+0w=
+X-Google-Smtp-Source: AMsMyM6/YtJlsHQadNWCLIsnfM+uHdLVldnWTU3wa8+LnixOeJV8JQ6U2bWC17q7OQ4LatjD/vmSLQ==
+X-Received: by 2002:a05:6512:6c2:b0:4a2:e7c:6164 with SMTP id u2-20020a05651206c200b004a20e7c6164mr1219090lff.329.1665118648503;
+        Thu, 06 Oct 2022 21:57:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:c5a1:0:b0:2f8:eaa4:675a with SMTP id r1-20020a92c5a1000000b002f8eaa4675als800096ilt.8.-pod-prod-gmail;
- Thu, 06 Oct 2022 20:23:32 -0700 (PDT)
-X-Received: by 2002:a92:6a0d:0:b0:2e5:afe7:8d95 with SMTP id f13-20020a926a0d000000b002e5afe78d95mr1380326ilc.262.1665113012641;
-        Thu, 06 Oct 2022 20:23:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665113012; cv=none;
+Received: by 2002:a05:6512:3a5:b0:49a:b814:856d with SMTP id
+ v5-20020a05651203a500b0049ab814856dls290087lfp.1.-pod-prod-gmail; Thu, 06 Oct
+ 2022 21:57:27 -0700 (PDT)
+X-Received: by 2002:a05:6512:2618:b0:4a2:1d98:f41a with SMTP id bt24-20020a056512261800b004a21d98f41amr1298951lfb.78.1665118647167;
+        Thu, 06 Oct 2022 21:57:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665118647; cv=pass;
         d=google.com; s=arc-20160816;
-        b=A5Df5NERn322Wf5E1wVS3IskqCy6cYsc+HVp2IQItD7qoW+P79yKlz7DHLcToPkYoT
-         GKmMq29YHVFXRMlIt5CVeQrGBjO2PXuFybxU4jhPMhg2sY9DezS7vMYL3A1vir3jB7bi
-         EBCmGpQOE+tqxKz/rLTbggb0WLLYaBx/6y6K174epXIoEorbYfjgpIKKYBiAcmJa55PG
-         m58tkm6g397vwVH2hZNdSLwhNQJza/IFA3Wo7n0V2VuZSgZ3PqyRCThpGldSydEKTzTp
-         RTAifAGwlAJMbkg4aqbv1826Uqj1sO0BvZnyoeQrUFWLEHHcXzNsD1qywSrMJCd2aghr
-         nI4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
-         :mime-version:dkim-signature;
-        bh=uPNB36BzWAD0XiB0qY+sJgcivuXHHQm1+0Nq15qRnv8=;
-        b=WvQPSxobc3VW1042afTKWK+C5/7zwAgXKrmCNutA1G14806f07xPf/q/hWCK7XliDD
-         9EnjCIpsVvVj63E8dxDmD0G7KLhZSEH18Tae3MXmjQmSFegIJfHpWrhuQ7Z/9ch1bRsL
-         675Ljk+O4XbJD1YfVUr5mvrRG50amL1DiAXwdy22qcpsoRh9PbtXOIX0ZKvNHLZymv+5
-         jxbm4/wYY7Rj5pCVFhN47bBreKA+lRnQ36f6+uMtkc1Y6aThEa7b9zqCqU2018Jlz4FL
-         Rj37oPBB6i39wTWSphmONrlRlIeX4PGJbeq9FrlWBotMs8e3Wwujs23whvGqgGfe/XDG
-         QETw==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=MKWvEoG5;
-       spf=pass (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id l37-20020a026a25000000b003637596669csi31100jac.5.2022.10.06.20.23.32
+        b=YNL21Kwu7MsHv6mODlnKc5Smq76youKrKcGdaV4/Li8Kx1ouDd1mcZTssFataC1pOr
+         m9ppbAghdFIKGKztX5R0t8R4fi59x3IOCvlJxLwHoL2ci+AfG3lWJCL0AtyiGYtXp9g+
+         OQJKel8X3SLDau4yuFT1yZrnmOd48FaDi5T3oBX0ZCK4bMplLZKGhc6byQbhrpeffNr7
+         8GiSl2xuHlnJjuA952hPMz724bNACDZIeeqilJTK5J3I8NVXbxKb9K7z6fHpTYb6aKFN
+         LvqTBPDWC4XWE3Rf0brQoH0NEiuyezvgfN0aIUpOeMXVsooLHYmLYbFkSMqeth55YoWB
+         00cg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding:content-id:user-agent
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:cc:to:from:dkim-signature;
+        bh=oq4wMAaFj/7s0RVxjSrvoiqUcvKjXrV8XQwCN+AY2rs=;
+        b=cA5HzbeSvYHusv6zYYBQbW/6mQ//wgsnJ635DGXLKH7dw+Lk0lme7BCzT8AUDarmOn
+         EEcp6CBjNCg7XZBk0q0Q769wIbx7xw74dRPSF7gFCfZPVcsrAdVGHxf+pMuFuiWf1qvb
+         eOa0efJ+nm+VvhhWHZFetvE6lMMoUD6BaGgfFwiVoRlhMFksn++lwbHVU0H9i8rVQiif
+         VZ1YpPRmtYRjPFCRHeRAVVMTNGJdb0+iCkKSokm/yMZGvSiyeXLgVumDkxICq3BGgw0G
+         n1aAgK44F3q5qvz2cNpqI1rRHTbVYRPRonI4zxAwKN86CqZ3etTWAahveZSjQi4lFkRW
+         y6hA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@csgroup.eu header.s=selector1 header.b=vvUxAKw3;
+       arc=pass (i=1 spf=pass spfdomain=csgroup.eu dkim=pass dkdomain=csgroup.eu dmarc=pass fromdomain=csgroup.eu);
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 40.107.9.88 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
+Received: from FRA01-MR2-obe.outbound.protection.outlook.com (mail-eopbgr90088.outbound.protection.outlook.com. [40.107.9.88])
+        by gmr-mx.google.com with ESMTPS id v25-20020ac258f9000000b0048b12871da5si47942lfo.4.2022.10.06.21.57.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Oct 2022 20:23:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 1C64D61BBE
-	for <kasan-dev@googlegroups.com>; Fri,  7 Oct 2022 03:23:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1B23C433D7
-	for <kasan-dev@googlegroups.com>; Fri,  7 Oct 2022 03:23:31 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 15f07e44 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
-	for <kasan-dev@googlegroups.com>;
-	Fri, 7 Oct 2022 03:23:29 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id v10-20020a17090a634a00b00205e48cf845so6074171pjs.4
-        for <kasan-dev@googlegroups.com>; Thu, 06 Oct 2022 20:23:27 -0700 (PDT)
-X-Received: by 2002:a67:e401:0:b0:398:89f1:492f with SMTP id
- d1-20020a67e401000000b0039889f1492fmr1924805vsf.21.1665112993319; Thu, 06 Oct
- 2022 20:23:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:6ed0:0:b0:3d9:6dfd:499 with HTTP; Thu, 6 Oct 2022
- 20:23:12 -0700 (PDT)
-In-Reply-To: <6c0f1d6a-27e6-5a82-956e-a4f12e0a51bf@gmail.com>
-References: <20221006165346.73159-1-Jason@zx2c4.com> <20221006165346.73159-5-Jason@zx2c4.com>
- <6c0f1d6a-27e6-5a82-956e-a4f12e0a51bf@gmail.com>
-From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 6 Oct 2022 21:23:12 -0600
-X-Gmail-Original-Message-ID: <CAHmME9rG6GAK6k-GZCBwUR-r2PLDipm--utApBtBHHRveCFEqA@mail.gmail.com>
-Message-ID: <CAHmME9rG6GAK6k-GZCBwUR-r2PLDipm--utApBtBHHRveCFEqA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] treewide: use get_random_bytes when possible
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Andreas Noever <andreas.noever@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Borislav Petkov <bp@alien8.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, 
-	=?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>, 
-	Christoph Hellwig <hch@lst.de>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Dave Airlie <airlied@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "H . Peter Anvin" <hpa@zytor.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Huacai Chen <chenhuacai@kernel.org>, 
-	Hugh Dickins <hughd@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	"James E . J . Bottomley" <jejb@linux.ibm.com>, Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Jens Axboe <axboe@kernel.dk>, Johannes Berg <johannes@sipsolutions.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Jozsef Kadlecsik <kadlec@netfilter.org>, KP Singh <kpsingh@kernel.org>, 
-	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Pablo Neira Ayuso <pablo@netfilter.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Richard Weinberger <richard@nod.at>, 
-	Russell King <linux@armlinux.org.uk>, "Theodore Ts'o" <tytso@mit.edu>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, 
-	Thomas Graf <tgraf@suug.ch>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>, 
-	Yury Norov <yury.norov@gmail.com>, dri-devel@lists.freedesktop.org, 
-	kasan-dev@googlegroups.com, kernel-janitors@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-mm@kvack.org, linux-mmc@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org, 
-	linux-parisc@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-um@lists.infradead.org, 
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, 
-	netdev@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org
+        Thu, 06 Oct 2022 21:57:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 40.107.9.88 as permitted sender) client-ip=40.107.9.88;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lh5j08N6jCfV2VeKBdJrJ+Z020WJWMrbJZs4LukNRoH37XN2UjgZvzVABR2xTnGkKxJykn+bpREHo5xxerR2b9PBDeexPhBQYVob6M1g6487HUkYCOtFsU6YfyGkKFDw76LYasEzSAaDYanvWNBu2wapvePeBBCZsHrELDpUxq8IRHpXnFkxrU7xb6D35AYZ8u+gLvEBWsasiqL3Ai4uyz8CLx7faJm1phibeFRS+sDu8yq8IS5TVFuiTqHWnUbfwefYcQvAqCdY4xwKsj6QrA80ViB2P1uvvMJmGfQK94DRadlvSpAGQ7L+UvTrhQRaBAo6SSOdNUVW5zwfa3W3vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oq4wMAaFj/7s0RVxjSrvoiqUcvKjXrV8XQwCN+AY2rs=;
+ b=bSmA4b4wS+tsty+JFUvaxIvsY7bRnbSeCNiwybhPrLKeaoPTUbb0zCykaJcIMYIC8du+J6gWfrb+7U+ih9X5q/X7TeWQM7TeufbJL9r5Mae7pak4Dpihw7V6RGR/JdastkIG58KQwgWZ4nJOs8GZ+4fOEXyCN2C9NZtBT2WIbebwWV+2m/dvtnSM0MhQvKtjGe+AdY+cIp09jiL1cP1pfAc9pF1ROHgnafoovtccJYMibpSSQsbLA/wXsR8v2ri2GlFGIldDsa50lFkH/k5UEtzqL2S58LhY4CL8GX1XCFQCqebfhqWYrTy+cKHAD+2b8rL5w7HL8fK1GKUB7qL4nQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
+ dkim=pass header.d=csgroup.eu; arc=none
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
+ by MRZP264MB2086.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:f::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Fri, 7 Oct
+ 2022 04:57:24 +0000
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::c854:380d:c901:45af]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::c854:380d:c901:45af%5]) with mapi id 15.20.5676.036; Fri, 7 Oct 2022
+ 04:57:24 +0000
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>, Andreas Noever
+	<andreas.noever@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Borislav Petkov
+	<bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
+	=?utf-8?B?Q2hyaXN0b3BoIELDtmhtd2FsZGVy?= <christoph.boehmwalder@linbit.com>,
+	Christoph Hellwig <hch@lst.de>, Daniel Borkmann <daniel@iogearbox.net>, Dave
+ Airlie <airlied@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Florian Westphal <fw@strlen.de>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, "H . Peter Anvin" <hpa@zytor.com>, Heiko
+ Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>, Herbert Xu
+	<herbert@gondor.apana.org.au>, Huacai Chen <chenhuacai@kernel.org>, Hugh
+ Dickins <hughd@google.com>, Jakub Kicinski <kuba@kernel.org>, "James E . J .
+ Bottomley" <jejb@linux.ibm.com>, Jan Kara <jack@suse.com>, Jason Gunthorpe
+	<jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>, Johannes Berg
+	<johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>, Jozsef
+ Kadlecsik <kadlec@netfilter.org>, KP Singh <kpsingh@kernel.org>, Kees Cook
+	<keescook@chromium.org>, Marco Elver <elver@google.com>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, Pablo
+ Neira Ayuso <pablo@netfilter.org>, Paolo Abeni <pabeni@redhat.com>, Peter
+ Zijlstra <peterz@infradead.org>, Richard Weinberger <richard@nod.at>, Russell
+ King <linux@armlinux.org.uk>, Theodore Ts'o <tytso@mit.edu>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner
+	<tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>, Ulf Hansson
+	<ulf.hansson@linaro.org>, Vignesh Raghavendra <vigneshr@ti.com>, WANG Xuerui
+	<kernel@xen0n.name>, Will Deacon <will@kernel.org>, Yury Norov
+	<yury.norov@gmail.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "kasan-dev@googlegroups.com"
+	<kasan-dev@googlegroups.com>, "kernel-janitors@vger.kernel.org"
+	<kernel-janitors@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-crypto@vger.kernel.org"
+	<linux-crypto@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-mips@vger.kernel.org"
+	<linux-mips@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+	"linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>, "x86@kernel.org"
+	<x86@kernel.org>, =?utf-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?=
+	<toke@toke.dk>, Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Thread-Topic: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Thread-Index: AQHY2aRLUOmMOiRiqUe6k1BKDHReSa4BnNgAgAAAygCAAAHkAIAAA1KAgABi4ACAAFmSgA==
+Date: Fri, 7 Oct 2022 04:57:24 +0000
+Message-ID: <501b0fc3-6c67-657f-781e-25ee0283bc2e@csgroup.eu>
+References: <20221006165346.73159-1-Jason@zx2c4.com>
+ <20221006165346.73159-4-Jason@zx2c4.com>
+ <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
+ <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
+ <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
+ <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
+ <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
+In-Reply-To: <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MRZP264MB2988:EE_|MRZP264MB2086:EE_
+x-ms-office365-filtering-correlation-id: ae4cff8a-e95b-42f1-753c-08daa8206d11
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ecYqdAkTmlRgnXmSnSqeTxHPrAmSWJdW2+ksYp/5CrlRUQSxGFELyDBnybCuCYO1HwmDqvagL4rCW/0eDX5lQxqdy9HPHHmqeQbB9VZNl1UV75r+sKm9PeEJ3/r0DW1agvZ6Rzdo0EmiF/z/ITM413QGiv9axIa+OznyfrjcSE4KhzzG68IvCYL8+ZlR33Dl6gW49Cnb8rJXvMjHDC8gwhZt6kcR28RTz7Q9O7wOGJL8U6drBpQhyFNsGeuq6Q/i+rR5dBMUx0Gc2mV3q/R3eGcVtij16JM7vgb1BlUYkejiszP3qyIqbVwMMpsVtksy1Gueic07MuZ/5Q8fXtyfavoHI5sDeFMSYr5HL8LrByALufIkd/GDXOr0UdJ2ArDeRWxZYIRvEGRHSrA75MciLIb+T0wGJTRm3otNH8DIwqCAS3zVBYICOITwedeehgRTLBrg5PVvkCZxip6ub1EW3F/zORDtVfvRHeWu3Bine1Xl6WnqYKqmQT3A6Bv7f1/J/2vGxamgAdEcAiQlIqlAi/NWuwo2zxULgu5lEz4dg8CIR6QZeacjjCgGHgL4sXpaPeFpo4R9/AKwyGp/30g9TgUh2iTwqdvqlcEv+NfGz8802SeG/NfGMJqwnhqRrMmsK/Te6aRg5Kh6NpMTPlB071ZRA9NmJacr8gGeGHS2BW/b9yLueEuNdcIcn7Pi4ZKc1Jxdctk/dzQGezS01UwQ2k6fN8e0ymuGVsvrx0VgmHDRZSLc7XcxboZfCTuQPJuTN70Txavto2+dzwH8n3PXMCZPDttLrBmBPOvty7xYYZ4HBYYbxuNpMRqKDELJYXfc0FftYEbKxk9H5ehAHpDOhQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(376002)(136003)(346002)(366004)(451199015)(31686004)(8936002)(8676002)(5660300002)(7336002)(2906002)(36756003)(7366002)(7416002)(41300700001)(4326008)(7406005)(91956017)(31696002)(66446008)(54906003)(64756008)(66556008)(66476007)(76116006)(86362001)(316002)(66946007)(44832011)(6916009)(71200400001)(6486002)(478600001)(38070700005)(6506007)(26005)(53546011)(6512007)(66574015)(122000001)(2616005)(186003)(38100700002)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SjBiVnFrN3lGWlM0NXVKdGhSTDd4MVBDT2NmcUdkVy91MWFkNUpKdzZXWDJC?=
+ =?utf-8?B?K3R6dFh5Q3lsbnRPS2JEL0lpM1o3M3ZzbzJGNkJraVZOeDVIVzRML3E0R0tW?=
+ =?utf-8?B?bmN1dXE2eGpSRFJYRVVURUJHTEU0U21MT3MvL0VKdTdMT1cwenlRazFmK2hs?=
+ =?utf-8?B?UDBuaEdES0hCRUw2akZzQm9hUUZPeUNES3hzbVg5SDhsVXJ1a0VnR3NKR3dp?=
+ =?utf-8?B?MFZ5S29WMEF3OWVVR2JINzB0OW9VOHJ0aG5DZXJNQkgzTmU2c1NkZjI2WDBy?=
+ =?utf-8?B?TDZrQldhL0YvVkcvTlF6c0NScVQyNlZHREdoS0ZMcnB4Yjk3cS96K05QN2xF?=
+ =?utf-8?B?NDJHMnU0cG1JQlUvUjFiWFBKc1Zld1JpREpHaG0vaStpRm5WUG1uT1JpSXdr?=
+ =?utf-8?B?SUttQUtqb2NJRzdjOWNWNVBqeWZPTGNlRlFlNXgyYy9aNTBWbitOZkJodTRB?=
+ =?utf-8?B?dEYwYjFJODR1WlRlRE02d2dPUlJUNXRHZGJXMWtSRlRQaEFtKys4YWdLZGhw?=
+ =?utf-8?B?TklpZWpoMjlwRFd4QnlYMjM2Q09SQ2lJWHVncXZKdERRNTkwc1pqYUczeC91?=
+ =?utf-8?B?THIrVnppb2tIOGtKT2llUFJ3NHRTci9EOU5iVU1Sa2doQ0t6MzQyN0xRZW1j?=
+ =?utf-8?B?VkU4Q08wVHdWUVI2Z2FlSW9nUVdPWUNXSEtIMTF4dEVkekVHY0ZuT1ErZWJ3?=
+ =?utf-8?B?YVBMWkQ1ZEdJWEJlaFNKNU1KOGhRODAwU2I5UGYxVTV3T1NOTktrdVJ1MkZ2?=
+ =?utf-8?B?TFF5dFlpL2s2TlFGdkR2QUFjYStKMS9oRjZmSVJ5OEZPd1Y3TGk1QWo2K2Rx?=
+ =?utf-8?B?WkxZby9TMXBnUlNrdDM0TXVIMFF2aW9kRnFWRHRVa3F3dUl6WE81T2JJSThx?=
+ =?utf-8?B?OFdUUkZoUGtZZHRYWi9KNjh5MXYrQ1RFQ1hydUZHNXAwSTRDZ0pUMmVsQWpt?=
+ =?utf-8?B?amhveVFtalJlUnpLRXB5Nkd4R09sZUx5K3R6WUtHS21uamhOT3Q4OVFTcFY3?=
+ =?utf-8?B?cW9qeEdVS2tJZ2JhNTNxNDk5ckhjVUduTVhOS0N1L1M4Tk9hWmJRZHEvdFlQ?=
+ =?utf-8?B?SER3THhoZlJVeVg1T0s2TklZUWdodVZaWUpQMURJd1lTYTBJbXgyMkxlRGZl?=
+ =?utf-8?B?YXNzZk92dTVqOEtJT21RYTFKUHNZSHEwQkJsc0cwekNlbm44RkpTb1hnZkox?=
+ =?utf-8?B?c0lQOHVoTUY5TFlsNUxrU2tXa1hrNmU3OGlPVk1NeDI2YlpnNEExZVBqVTJG?=
+ =?utf-8?B?L0Y2VEU4ekVocDJtOWMxTXF1QWZ5L3JDRGVRakllVnl3cS9hU1praEpWcVBN?=
+ =?utf-8?B?MFhFb1d6NzhES3VFTWhkU001VW03NkI2K2JCeXkvK1plMFBqZzdSRFhQY2lC?=
+ =?utf-8?B?ZSt6TVk0WWdzcmJDVlE2Vlg4MWp1Tld2b0M1dmR5N2h0RFZIVjBHaDQxdG01?=
+ =?utf-8?B?UTRnc2cwb2pQQjhVK0ZpanJGVytiVHZwMkxvWGpHY0tlQTFvZDc2MW9ObFdW?=
+ =?utf-8?B?RlNmZHV4TEpqQTZVZmRubE9pT3hqbHVDWkZ1Q2dLb05xUHRZVnF0Q2Q2bjNn?=
+ =?utf-8?B?dllwZTRFNytEQm1uYnF3WDUzUHJOeUtDbXF3eklha1VxQm5yd3ZZNGU2eE55?=
+ =?utf-8?B?MktpSlovRjdHbXlHdEtSTjJ6eFFwdkg2a1VrVm1ONm1UdCtIVkFNUE9VMkdt?=
+ =?utf-8?B?Qm9oVzAvd1NWdkxPc29DTituOWdPQXVaSm0yaDdZL3pjQ043dThtYlhvNVAv?=
+ =?utf-8?B?ejhwdkExOXBtMnJSdTVIbEc4dHRHUHJFTktTbGxyMmlOeE9id212Z2U3ajF5?=
+ =?utf-8?B?MXJJUEZZank3cWphMmN3ZGFyZms2Z0xWU1R0NGZQVnBTRlZGM3pwRmhZWUFo?=
+ =?utf-8?B?TlY1RFk4YkFzdllNSmRFOFdHb3lvYkNIODErWXpZZEo1WE54a2Vad0k1WVRM?=
+ =?utf-8?B?bVd5aW5iMUhXUHhhUFFhWFp4clVoTDViYkxncjRLRmdMUm9tRFQ1Z2xiNGpZ?=
+ =?utf-8?B?QTVoTjhxNk0vdDJjTU9EbVV5ZkVlaVN3ZVN6RUlhbUVwbFVrbHdiOW5scjNG?=
+ =?utf-8?B?akE1MVVLZDlWeExuSk12MDJaOTRHM0hiRXk5dHVtNmE5ckVOWjNKNGs4WmIr?=
+ =?utf-8?B?YS9GMER1ZlZPN0JUMWJObUVoSHlKMzVYWkFsV1FBaTdZNldyaW9hVk15VnBa?=
+ =?utf-8?Q?AoqtEj+pAO/r5/nujYdg9vY=3D?=
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: jason@zx2c4.com
+Content-ID: <8277F4805BBBC64490B411D5CECB85D7@FRAP264.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: csgroup.eu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae4cff8a-e95b-42f1-753c-08daa8206d11
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2022 04:57:24.8002
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cq1ecfOnhv4ymIgLNsdDILWsoBKaeYECzn9QuW4ShXFVtYbHn9+XhLVJ1f9K7Q6r2K8dxDM0MNT/5Y7NJ8vkQB91TU68Hdx5urMk3Ygdur8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRZP264MB2086
+X-Original-Sender: christophe.leroy@csgroup.eu
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zx2c4.com header.s=20210105 header.b=MKWvEoG5;       spf=pass
- (google.com: domain of srs0=jvfi=2i=zx2c4.com=jason@kernel.org designates
- 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
-X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+ header.i=@csgroup.eu header.s=selector1 header.b=vvUxAKw3;       arc=pass
+ (i=1 spf=pass spfdomain=csgroup.eu dkim=pass dkdomain=csgroup.eu dmarc=pass
+ fromdomain=csgroup.eu);       spf=pass (google.com: domain of
+ christophe.leroy@csgroup.eu designates 40.107.9.88 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -179,355 +275,112 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 10/6/22, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> On 10/6/22 23:53, Jason A. Donenfeld wrote:
->> The prandom_bytes() function has been a deprecated inline wrapper around
->> get_random_bytes() for several releases now, and compiles down to the
->> exact same code. Replace the deprecated wrapper with a direct call to
->> the real function.
->>
->> Reviewed-by: Kees Cook <keescook@chromium.org>
->> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
->> ---
->>  arch/powerpc/crypto/crc-vpmsum_test.c       |  2 +-
->>  block/blk-crypto-fallback.c                 |  2 +-
->>  crypto/async_tx/raid6test.c                 |  2 +-
->>  drivers/dma/dmatest.c                       |  2 +-
->>  drivers/mtd/nand/raw/nandsim.c              |  2 +-
->>  drivers/mtd/tests/mtd_nandecctest.c         |  2 +-
->>  drivers/mtd/tests/speedtest.c               |  2 +-
->>  drivers/mtd/tests/stresstest.c              |  2 +-
->>  drivers/net/ethernet/broadcom/bnxt/bnxt.c   |  2 +-
->>  drivers/net/ethernet/rocker/rocker_main.c   |  2 +-
->>  drivers/net/wireguard/selftest/allowedips.c | 12 ++++++------
->>  fs/ubifs/debug.c                            |  2 +-
->>  kernel/kcsan/selftest.c                     |  2 +-
->>  lib/random32.c                              |  2 +-
->>  lib/test_objagg.c                           |  2 +-
->>  lib/uuid.c                                  |  2 +-
->>  net/ipv4/route.c                            |  2 +-
->>  net/mac80211/rc80211_minstrel_ht.c          |  2 +-
->>  net/sched/sch_pie.c                         |  2 +-
->>  19 files changed, 24 insertions(+), 24 deletions(-)
->>
->> diff --git a/arch/powerpc/crypto/crc-vpmsum_test.c
->> b/arch/powerpc/crypto/crc-vpmsum_test.c
->> index c1c1ef9457fb..273c527868db 100644
->> --- a/arch/powerpc/crypto/crc-vpmsum_test.c
->> +++ b/arch/powerpc/crypto/crc-vpmsum_test.c
->> @@ -82,7 +82,7 @@ static int __init crc_test_init(void)
->>
->>  			if (len <= offset)
->>  				continue;
->> -			prandom_bytes(data, len);
->> +			get_random_bytes(data, len);
->>  			len -= offset;
->>
->>  			crypto_shash_update(crct10dif_shash, data+offset, len);
->> diff --git a/block/blk-crypto-fallback.c b/block/blk-crypto-fallback.c
->> index 621abd1b0e4d..ad9844c5b40c 100644
->> --- a/block/blk-crypto-fallback.c
->> +++ b/block/blk-crypto-fallback.c
->> @@ -539,7 +539,7 @@ static int blk_crypto_fallback_init(void)
->>  	if (blk_crypto_fallback_inited)
->>  		return 0;
->>
->> -	prandom_bytes(blank_key, BLK_CRYPTO_MAX_KEY_SIZE);
->> +	get_random_bytes(blank_key, BLK_CRYPTO_MAX_KEY_SIZE);
->>
->>  	err = bioset_init(&crypto_bio_split, 64, 0, 0);
->>  	if (err)
->> diff --git a/crypto/async_tx/raid6test.c b/crypto/async_tx/raid6test.c
->> index c9d218e53bcb..f74505f2baf0 100644
->> --- a/crypto/async_tx/raid6test.c
->> +++ b/crypto/async_tx/raid6test.c
->> @@ -37,7 +37,7 @@ static void makedata(int disks)
->>  	int i;
->>
->>  	for (i = 0; i < disks; i++) {
->> -		prandom_bytes(page_address(data[i]), PAGE_SIZE);
->> +		get_random_bytes(page_address(data[i]), PAGE_SIZE);
->>  		dataptrs[i] = data[i];
->>  		dataoffs[i] = 0;
->>  	}
->> diff --git a/drivers/dma/dmatest.c b/drivers/dma/dmatest.c
->> index 9fe2ae794316..ffe621695e47 100644
->> --- a/drivers/dma/dmatest.c
->> +++ b/drivers/dma/dmatest.c
->> @@ -312,7 +312,7 @@ static unsigned long dmatest_random(void)
->>  {
->>  	unsigned long buf;
->>
->> -	prandom_bytes(&buf, sizeof(buf));
->> +	get_random_bytes(&buf, sizeof(buf));
->>  	return buf;
->>  }
->>
->> diff --git a/drivers/mtd/nand/raw/nandsim.c
->> b/drivers/mtd/nand/raw/nandsim.c
->> index 4bdaf4aa7007..c941a5a41ea6 100644
->> --- a/drivers/mtd/nand/raw/nandsim.c
->> +++ b/drivers/mtd/nand/raw/nandsim.c
->> @@ -1393,7 +1393,7 @@ static int ns_do_read_error(struct nandsim *ns, int
->> num)
->>  	unsigned int page_no = ns->regs.row;
->>
->>  	if (ns_read_error(page_no)) {
->> -		prandom_bytes(ns->buf.byte, num);
->> +		get_random_bytes(ns->buf.byte, num);
->>  		NS_WARN("simulating read error in page %u\n", page_no);
->>  		return 1;
->>  	}
->> diff --git a/drivers/mtd/tests/mtd_nandecctest.c
->> b/drivers/mtd/tests/mtd_nandecctest.c
->> index 1c7201b0f372..440988562cfd 100644
->> --- a/drivers/mtd/tests/mtd_nandecctest.c
->> +++ b/drivers/mtd/tests/mtd_nandecctest.c
->> @@ -266,7 +266,7 @@ static int nand_ecc_test_run(const size_t size)
->>  		goto error;
->>  	}
->>
->> -	prandom_bytes(correct_data, size);
->> +	get_random_bytes(correct_data, size);
->>  	ecc_sw_hamming_calculate(correct_data, size, correct_ecc, sm_order);
->>  	for (i = 0; i < ARRAY_SIZE(nand_ecc_test); i++) {
->>  		nand_ecc_test[i].prepare(error_data, error_ecc,
->> diff --git a/drivers/mtd/tests/speedtest.c
->> b/drivers/mtd/tests/speedtest.c
->> index c9ec7086bfa1..075bce32caa5 100644
->> --- a/drivers/mtd/tests/speedtest.c
->> +++ b/drivers/mtd/tests/speedtest.c
->> @@ -223,7 +223,7 @@ static int __init mtd_speedtest_init(void)
->>  	if (!iobuf)
->>  		goto out;
->>
->> -	prandom_bytes(iobuf, mtd->erasesize);
->> +	get_random_bytes(iobuf, mtd->erasesize);
->>
->>  	bbt = kzalloc(ebcnt, GFP_KERNEL);
->>  	if (!bbt)
->> diff --git a/drivers/mtd/tests/stresstest.c
->> b/drivers/mtd/tests/stresstest.c
->> index d2faaca7f19d..75b6ddc5dc4d 100644
->> --- a/drivers/mtd/tests/stresstest.c
->> +++ b/drivers/mtd/tests/stresstest.c
->> @@ -183,7 +183,7 @@ static int __init mtd_stresstest_init(void)
->>  		goto out;
->>  	for (i = 0; i < ebcnt; i++)
->>  		offsets[i] = mtd->erasesize;
->> -	prandom_bytes(writebuf, bufsize);
->> +	get_random_bytes(writebuf, bufsize);
->>
->>  	bbt = kzalloc(ebcnt, GFP_KERNEL);
->>  	if (!bbt)
->> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
->> b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
->> index 96da0ba3d507..354953df46a1 100644
->> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
->> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
->> @@ -3874,7 +3874,7 @@ static void bnxt_init_vnics(struct bnxt *bp)
->>
->>  		if (bp->vnic_info[i].rss_hash_key) {
->>  			if (i == 0)
->> -				prandom_bytes(vnic->rss_hash_key,
->> +				get_random_bytes(vnic->rss_hash_key,
->>  					      HW_HASH_KEY_SIZE);
->>  			else
->>  				memcpy(vnic->rss_hash_key,
->> diff --git a/drivers/net/ethernet/rocker/rocker_main.c
->> b/drivers/net/ethernet/rocker/rocker_main.c
->> index 8c3bbafabb07..cd4488efe0a4 100644
->> --- a/drivers/net/ethernet/rocker/rocker_main.c
->> +++ b/drivers/net/ethernet/rocker/rocker_main.c
->> @@ -224,7 +224,7 @@ static int rocker_dma_test_offset(const struct rocker
->> *rocker,
->>  	if (err)
->>  		goto unmap;
->>
->> -	prandom_bytes(buf, ROCKER_TEST_DMA_BUF_SIZE);
->> +	get_random_bytes(buf, ROCKER_TEST_DMA_BUF_SIZE);
->>  	for (i = 0; i < ROCKER_TEST_DMA_BUF_SIZE; i++)
->>  		expect[i] = ~buf[i];
->>  	err = rocker_dma_test_one(rocker, wait, ROCKER_TEST_DMA_CTRL_INVERT,
->> diff --git a/drivers/net/wireguard/selftest/allowedips.c
->> b/drivers/net/wireguard/selftest/allowedips.c
->> index dd897c0740a2..19eac00b2381 100644
->> --- a/drivers/net/wireguard/selftest/allowedips.c
->> +++ b/drivers/net/wireguard/selftest/allowedips.c
->> @@ -284,7 +284,7 @@ static __init bool randomized_test(void)
->>  	mutex_lock(&mutex);
->>
->>  	for (i = 0; i < NUM_RAND_ROUTES; ++i) {
->> -		prandom_bytes(ip, 4);
->> +		get_random_bytes(ip, 4);
->>  		cidr = prandom_u32_max(32) + 1;
->>  		peer = peers[prandom_u32_max(NUM_PEERS)];
->>  		if (wg_allowedips_insert_v4(&t, (struct in_addr *)ip, cidr,
->> @@ -299,7 +299,7 @@ static __init bool randomized_test(void)
->>  		}
->>  		for (j = 0; j < NUM_MUTATED_ROUTES; ++j) {
->>  			memcpy(mutated, ip, 4);
->> -			prandom_bytes(mutate_mask, 4);
->> +			get_random_bytes(mutate_mask, 4);
->>  			mutate_amount = prandom_u32_max(32);
->>  			for (k = 0; k < mutate_amount / 8; ++k)
->>  				mutate_mask[k] = 0xff;
->> @@ -328,7 +328,7 @@ static __init bool randomized_test(void)
->>  	}
->>
->>  	for (i = 0; i < NUM_RAND_ROUTES; ++i) {
->> -		prandom_bytes(ip, 16);
->> +		get_random_bytes(ip, 16);
->>  		cidr = prandom_u32_max(128) + 1;
->>  		peer = peers[prandom_u32_max(NUM_PEERS)];
->>  		if (wg_allowedips_insert_v6(&t, (struct in6_addr *)ip, cidr,
->> @@ -343,7 +343,7 @@ static __init bool randomized_test(void)
->>  		}
->>  		for (j = 0; j < NUM_MUTATED_ROUTES; ++j) {
->>  			memcpy(mutated, ip, 16);
->> -			prandom_bytes(mutate_mask, 16);
->> +			get_random_bytes(mutate_mask, 16);
->>  			mutate_amount = prandom_u32_max(128);
->>  			for (k = 0; k < mutate_amount / 8; ++k)
->>  				mutate_mask[k] = 0xff;
->> @@ -381,13 +381,13 @@ static __init bool randomized_test(void)
->>
->>  	for (j = 0;; ++j) {
->>  		for (i = 0; i < NUM_QUERIES; ++i) {
->> -			prandom_bytes(ip, 4);
->> +			get_random_bytes(ip, 4);
->>  			if (lookup(t.root4, 32, ip) != horrible_allowedips_lookup_v4(&h,
->> (struct in_addr *)ip)) {
->>  				horrible_allowedips_lookup_v4(&h, (struct in_addr *)ip);
->>  				pr_err("allowedips random v4 self-test: FAIL\n");
->>  				goto free;
->>  			}
->> -			prandom_bytes(ip, 16);
->> +			get_random_bytes(ip, 16);
->>  			if (lookup(t.root6, 128, ip) != horrible_allowedips_lookup_v6(&h,
->> (struct in6_addr *)ip)) {
->>  				pr_err("allowedips random v6 self-test: FAIL\n");
->>  				goto free;
->> diff --git a/fs/ubifs/debug.c b/fs/ubifs/debug.c
->> index f4d3b568aa64..3f128b9fdfbb 100644
->> --- a/fs/ubifs/debug.c
->> +++ b/fs/ubifs/debug.c
->> @@ -2581,7 +2581,7 @@ static int corrupt_data(const struct ubifs_info *c,
->> const void *buf,
->>  	if (ffs)
->>  		memset(p + from, 0xFF, to - from);
->>  	else
->> -		prandom_bytes(p + from, to - from);
->> +		get_random_bytes(p + from, to - from);
->>
->>  	return to;
->>  }
->> diff --git a/kernel/kcsan/selftest.c b/kernel/kcsan/selftest.c
->> index 58b94deae5c0..00cdf8fa5693 100644
->> --- a/kernel/kcsan/selftest.c
->> +++ b/kernel/kcsan/selftest.c
->> @@ -46,7 +46,7 @@ static bool __init test_encode_decode(void)
->>  		unsigned long addr;
->>  		size_t verif_size;
->>
->> -		prandom_bytes(&addr, sizeof(addr));
->> +		get_random_bytes(&addr, sizeof(addr));
->>  		if (addr < PAGE_SIZE)
->>  			addr = PAGE_SIZE;
->>
->> diff --git a/lib/random32.c b/lib/random32.c
->> index d4f19e1a69d4..32060b852668 100644
->> --- a/lib/random32.c
->> +++ b/lib/random32.c
->> @@ -69,7 +69,7 @@ EXPORT_SYMBOL(prandom_u32_state);
->>   *	@bytes: the requested number of bytes
->>   *
->>   *	This is used for pseudo-randomness with no outside seeding.
->> - *	For more random results, use prandom_bytes().
->> + *	For more random results, use get_random_bytes().
->>   */
->>  void prandom_bytes_state(struct rnd_state *state, void *buf, size_t
->> bytes)
->>  {
->> diff --git a/lib/test_objagg.c b/lib/test_objagg.c
->> index da137939a410..c0c957c50635 100644
->> --- a/lib/test_objagg.c
->> +++ b/lib/test_objagg.c
->> @@ -157,7 +157,7 @@ static int test_nodelta_obj_get(struct world *world,
->> struct objagg *objagg,
->>  	int err;
->>
->>  	if (should_create_root)
->> -		prandom_bytes(world->next_root_buf,
->> +		get_random_bytes(world->next_root_buf,
->>  			      sizeof(world->next_root_buf));
->>
->>  	objagg_obj = world_obj_get(world, objagg, key_id);
->> diff --git a/lib/uuid.c b/lib/uuid.c
->> index 562d53977cab..e309b4c5be3d 100644
->> --- a/lib/uuid.c
->> +++ b/lib/uuid.c
->> @@ -52,7 +52,7 @@ EXPORT_SYMBOL(generate_random_guid);
->>
->>  static void __uuid_gen_common(__u8 b[16])
->>  {
->> -	prandom_bytes(b, 16);
->> +	get_random_bytes(b, 16);
->>  	/* reversion 0b10 */
->>  	b[8] = (b[8] & 0x3F) | 0x80;
->>  }
->> diff --git a/net/ipv4/route.c b/net/ipv4/route.c
->> index 1a37a07c7163..cd1fa9f70f1a 100644
->> --- a/net/ipv4/route.c
->> +++ b/net/ipv4/route.c
->> @@ -3719,7 +3719,7 @@ int __init ip_rt_init(void)
->>
->>  	ip_idents = idents_hash;
->>
->> -	prandom_bytes(ip_idents, (ip_idents_mask + 1) * sizeof(*ip_idents));
->> +	get_random_bytes(ip_idents, (ip_idents_mask + 1) * sizeof(*ip_idents));
->>
->>  	ip_tstamps = idents_hash + (ip_idents_mask + 1) * sizeof(*ip_idents);
->>
->> diff --git a/net/mac80211/rc80211_minstrel_ht.c
->> b/net/mac80211/rc80211_minstrel_ht.c
->> index 5f27e6746762..39fb4e2d141a 100644
->> --- a/net/mac80211/rc80211_minstrel_ht.c
->> +++ b/net/mac80211/rc80211_minstrel_ht.c
->> @@ -2033,7 +2033,7 @@ static void __init init_sample_table(void)
->>
->>  	memset(sample_table, 0xff, sizeof(sample_table));
->>  	for (col = 0; col < SAMPLE_COLUMNS; col++) {
->> -		prandom_bytes(rnd, sizeof(rnd));
->> +		get_random_bytes(rnd, sizeof(rnd));
->>  		for (i = 0; i < MCS_GROUP_RATES; i++) {
->>  			new_idx = (i + rnd[i]) % MCS_GROUP_RATES;
->>  			while (sample_table[col][new_idx] != 0xff)
->> diff --git a/net/sched/sch_pie.c b/net/sched/sch_pie.c
->> index 5a457ff61acd..66b2b23e8cd1 100644
->> --- a/net/sched/sch_pie.c
->> +++ b/net/sched/sch_pie.c
->> @@ -72,7 +72,7 @@ bool pie_drop_early(struct Qdisc *sch, struct pie_params
->> *params,
->>  	if (vars->accu_prob >= (MAX_PROB / 2) * 17)
->>  		return true;
->>
->> -	prandom_bytes(&rnd, 8);
->> +	get_random_bytes(&rnd, 8);
->>  	if ((rnd >> BITS_PER_BYTE) < local_prob) {
->>  		vars->accu_prob = 0;
->>  		return true;
->
-> Are there cases where calling get_random_bytes() is not possible?
 
-Yes, but that has absolutely zero bearing whatsoever on this patch
-4/5, considering the code this generates is identical. If you have
-serious questions about contexts the rng can operate in, please start
-another thread, where you can flesh out that inquiry a but more.
 
-Jason
+Le 07/10/2022 =C3=A0 01:36, Jason A. Donenfeld a =C3=A9crit=C2=A0:
+> On 10/6/22, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+>>
+>>
+>> Le 06/10/2022 =C3=A0 19:31, Christophe Leroy a =C3=A9crit :
+>>>
+>>>
+>>> Le 06/10/2022 =C3=A0 19:24, Jason A. Donenfeld a =C3=A9crit :
+>>>> Hi Christophe,
+>>>>
+>>>> On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
+>>>> <christophe.leroy@csgroup.eu> wrote:
+>>>>> Le 06/10/2022 =C3=A0 18:53, Jason A. Donenfeld a =C3=A9crit :
+>>>>>> The prandom_u32() function has been a deprecated inline wrapper arou=
+nd
+>>>>>> get_random_u32() for several releases now, and compiles down to the
+>>>>>> exact same code. Replace the deprecated wrapper with a direct call t=
+o
+>>>>>> the real function. The same also applies to get_random_int(), which =
+is
+>>>>>> just a wrapper around get_random_u32().
+>>>>>>
+>>>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>>>>>> Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk> # for sch_=
+cake
+>>>>>> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
+>>>>>> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
+>>>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+>>>>>> ---
+>>>>>
+>>>>>> diff --git a/arch/powerpc/kernel/process.c
+>>>>>> b/arch/powerpc/kernel/process.c
+>>>>>> index 0fbda89cd1bb..9c4c15afbbe8 100644
+>>>>>> --- a/arch/powerpc/kernel/process.c
+>>>>>> +++ b/arch/powerpc/kernel/process.c
+>>>>>> @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
+>>>>>>     unsigned long arch_align_stack(unsigned long sp)
+>>>>>>     {
+>>>>>>         if (!(current->personality & ADDR_NO_RANDOMIZE) &&
+>>>>>> randomize_va_space)
+>>>>>> -             sp -=3D get_random_int() & ~PAGE_MASK;
+>>>>>> +             sp -=3D get_random_u32() & ~PAGE_MASK;
+>>>>>>         return sp & ~0xf;
+>>>>>
+>>>>> Isn't that a candidate for prandom_u32_max() ?
+>>>>>
+>>>>> Note that sp is deemed to be 16 bytes aligned at all time.
+>>>>
+>>>> Yes, probably. It seemed non-trivial to think about, so I didn't. But
+>>>> let's see here... maybe it's not too bad:
+>>>>
+>>>> If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
+>>>> (PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
+>>>> thing? Is that accurate? And holds across platforms (this comes up a
+>>>> few places)? If so, I'll do that for a v4.
+>>>>
+>>>
+>>> On powerpc it is always (from arch/powerpc/include/asm/page.h) :
+>>>
+>>> /*
+>>>    * Subtle: (1 << PAGE_SHIFT) is an int, not an unsigned long. So if w=
+e
+>>>    * assign PAGE_MASK to a larger type it gets extended the way we want
+>>>    * (i.e. with 1s in the high bits)
+>>>    */
+>>> #define PAGE_MASK      (~((1 << PAGE_SHIFT) - 1))
+>>>
+>>> #define PAGE_SIZE        (1UL << PAGE_SHIFT)
+>>>
+>>>
+>>> So it would work I guess.
+>>
+>> But taking into account that sp must remain 16 bytes aligned, would it
+>> be better to do something like ?
+>>
+>> 	sp -=3D prandom_u32_max(PAGE_SIZE >> 4) << 4;
+>>
+>> 	return sp;
+>=20
+> Does this assume that sp is already aligned at the beginning of the
+> function? I'd assume from the function's name that this isn't the
+> case?
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHmME9rG6GAK6k-GZCBwUR-r2PLDipm--utApBtBHHRveCFEqA%40mail.gmail.com.
+Ah you are right, I overlooked it.
+
+Looking in more details, I see that all architectures that implement it=20
+implement it almost the same way.
+
+By the way, the comment in arch/um/kernel/process.c is overdated.
+
+Most architectures AND the random value with ~PAGE_MASK, x86 and um use=20
+%8192. Seems like at the time 2.6.12 was introduced into git, only i386=20
+x86_64 and um had that function.
+
+Maybe it is time for a cleanup and a refactoring ? Architectures would=20
+just have to provide STACK_ALIGN just like loongarch does today, and we=20
+could get a generic arch_align_stack() ?
+
+Christophe
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/501b0fc3-6c67-657f-781e-25ee0283bc2e%40csgroup.eu.
