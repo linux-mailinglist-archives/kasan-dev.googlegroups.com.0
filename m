@@ -1,31 +1,31 @@
-Return-Path: <kasan-dev+bncBC27HSOJ44LBB67CQ6NAMGQED56O6TY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC27HSOJ44LBB77JQ6NAMGQERLFX46A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55F65F8796
-	for <lists+kasan-dev@lfdr.de>; Sat,  8 Oct 2022 23:54:03 +0200 (CEST)
-Received: by mail-ed1-x538.google.com with SMTP id f18-20020a056402355200b0045115517911sf6263043edd.14
-        for <lists+kasan-dev@lfdr.de>; Sat, 08 Oct 2022 14:54:03 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665266043; cv=pass;
+Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 064425F8807
+	for <lists+kasan-dev@lfdr.de>; Sun,  9 Oct 2022 00:09:04 +0200 (CEST)
+Received: by mail-wm1-x33e.google.com with SMTP id n19-20020a7bcbd3000000b003c4a72334e7sf458272wmi.8
+        for <lists+kasan-dev@lfdr.de>; Sat, 08 Oct 2022 15:09:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665266943; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DInIX+P/h11WmJuE0UvbjUjovfHFLmEh+zZvo80coobrKJ02q006TpnA27x5ZRafV9
-         BB1WxeK7hNihOIS2uVRVysWtvMaIA5d2KBZPhIAIFzZ8iRhV5oE/I5nWtRUPtxl583E2
-         fH54RMrIByf2hhOpUrwe6617tCThpIOIxnqzb0mI88ilNXM1e3K3AFXb7GEzAiRLYB6l
-         xPwioo7WE2DLET2dWOrUq8kMOeW7Q73JKyXzCVsFb5T9W//6GfiS3mT09JO0HQomYGPR
-         XN5yTng8QzfvTlu1ql1vTvxudpe/+AGjuMt9u2YNBhWQmZJ1+tWzbvSCFJ+nC09zgVVV
-         OkIQ==
+        b=T2nFxdvMt40DOKuyJdXWiCzfri/Y0kUpYpYrtw20vWj3kapfiOs2iTHZEDB3yZejLZ
+         wEYRFXth51uhsyBdC6fhpQnaMNdrszWgV/yFb0gHPariwrlP6RKmtY4QGEihpbQxjGfM
+         jNh9Xhwy83IUS6wAGUP5F9qlkubidKRvOD219un0kgkPLwGA4wTIPncwFfVfnQ8d/sbb
+         ULCeuSWmmga7k0hkyaYdwYlJDVdhm5qUKY+ycz9cyks0r6itLO1O5XZhi0mNUUqvGNYd
+         C1L9kpvudjqISFPb4YTg67CykxiSvSVyDMhovQXK925oIUXaf2G4eOSl/NUYn2ErhRJS
+         V2Fw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:mime-version
          :accept-language:in-reply-to:references:message-id:date:thread-index
          :thread-topic:subject:cc:to:from:sender:dkim-signature;
-        bh=GG90FLk9nwRaE39xPrKPECL1RrpLtXeOrrmrpNEKcC4=;
-        b=bPJwS34alRm/QLvL8YOeXbUkQjBwsnQDQXO0hjjquFhagW/bnoSpD0vofQ0CRzuA/4
-         ut8u+hcyaqBlSSVu1RQuDVTaivjFcA/gvC8buB1hh8VBh2et4fTT3uz1yBtapkWf0vSP
-         qul0M7FLT2pGvYYQF2aefpRjz0oEvuN64l6fzxJihMQCUvLLB9Qlu/ZKLgsK/pVJuinx
-         Ks8B+UHXtOpW9psE8MODt/VQttPdB0J3BiD/XJIcw0+4f3mJYw3n2c//sgE0J/ERa12+
-         hBrtQvBAAY309dCfTElcF8YnlCmF9wrawXBlc8VSUx1T2tTZxkp8mBOTMQTMz6Im9xdL
-         ApKA==
+        bh=FPzUYb4G65WKJWxxP/ul01mcVjJjrIZ9rgZzxJ4gd9o=;
+        b=u71FHCEFj+FztT0OMc5ksMG46exUCI7jLvQnIgMeWiQGjPo6NJeecFDvYMMSodiuse
+         0R44Pz+gW1gpQa39ONfFI0J7U9vYlZsI03GJFSfT7m/+AiHmoSgveTSEwS6zJS/2dvcY
+         F+AywY2RZmPfO2VMS6sGSxXc83QpNEJqmQqwbExz94grmXTKxwP+ucRkN1KNu+O5JKwa
+         VS2WTco6UoGD4cKQ9Kqt7f9hesirGbiNq9OJJueWmNd9hbfvPElOPgK7DT21rcWHbjZ2
+         7n/11XJIIDt2vpRTohOS5EDPh8/o+NLLE+z1nsRUCKnzWeV439R2trDxJeuzAJeAYF4U
+         e9JA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of david.laight@aculab.com designates 185.58.85.151 as permitted sender) smtp.mailfrom=david.laight@aculab.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=aculab.com
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :in-reply-to:references:message-id:date:thread-index:thread-topic
          :subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GG90FLk9nwRaE39xPrKPECL1RrpLtXeOrrmrpNEKcC4=;
-        b=JmVtpqCf26/qlRrcGkchiY41UosGq3tpPz5hcFEFOEgh5C3OlXjmvc9WSClW902tv6
-         43Dxwa3YPC1ErUUVpOd2cIZD7mcM8L4cmt4lXLKOCBqxdfq9BmvcMsCkR0JYKERK0Mw1
-         xoSD7ab6Wveb/XwfmynRmsoq9TJ83njYMNITT/UvGnkZVqsKwMynLvF8s1vnKXWGJZRh
-         xmreK+3zeLP3613fDuueC2qs1gbEvWsvOXoDbpWRj7NxRTlBhI7Si+dNBNe9Z5VIIbE2
-         whPguvCqYG1s/AEg/5H2s1K9A0DKkOS/YaC4mHc2sReqjg3KP0KZivrk8I8IkJ9D53MG
-         D3/w==
+        bh=FPzUYb4G65WKJWxxP/ul01mcVjJjrIZ9rgZzxJ4gd9o=;
+        b=EHaq+VBjA4gRR1oGgNKeP6FBpZzHkjdb7znkGH2TPs22a4C1T1iq/31U0AnSlyxEe7
+         yczgWwDT4avXQszgIW40Q/mXTKBaREC0eeHifHfTxB35WF6hEM17Dj2QafH/v45w27S2
+         qgr3+aRcb9lCywxXFDnNi+hpuNzFNjx0stgensSs1tlVrv9m47l+Y426RK0vtTCeG1y1
+         nRfhwPx7CqDyQfrxa3291OCtPpx3shy0Da6Xc1lTKHacsdU+4Nw0bG4TNEghDuRB3b1n
+         OJaqJnRBc2b4SW7L0AJief/88k4U/nfTeE8PKAsZybIDwfuq1aqaNGgGxcBxv28uY468
+         2oMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -53,85 +53,85 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:message-id:date:thread-index:thread-topic:subject:cc:to
          :from:x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GG90FLk9nwRaE39xPrKPECL1RrpLtXeOrrmrpNEKcC4=;
-        b=g/lnYHGGyo3iPuzUYRlG6PuyK+Zt7Z1nAGfXusZRBSCcyV8pIPLMMDMcgpDB3w9nH+
-         +KNICNnwdhuJmQtNtWdPGhYmbrJWqd9Y6sua9hGnYMM4yL0BQceytxElDsYnlLznKA8i
-         GSS4qeq61KatSc/3LPTqOHKkkdmsyaAKXbl6s2x4F4ZrHarDiob3KUuhKGIW5R1G8Zvc
-         bBY+McjsUTs11czb6nTSdcTTterrf/bLi9ERBLQqs5GJN//NRGLM6kV1KgjQxMtYgppo
-         ZuI5OHA5IUPOF9/uRCRS+0axk6sWhxiKkRKxqfqQdtNQ9g93ACCHwqP84glTNTO+OJ3v
-         350w==
+        bh=FPzUYb4G65WKJWxxP/ul01mcVjJjrIZ9rgZzxJ4gd9o=;
+        b=1rXb95p6IDI1KYKp9fzkOKzKOZuKcCIxK8sLZJwvR4Kk0Y9jttr6NCQYI8PVANNiT2
+         gJeRgn+vh8Ft0/FSJ60/4xDTQwgOPTBWjnOrzZZJxz83i8408w8OkNTxcbFqmEf676aQ
+         ttKdtMzxair/bR0TjVBI2elZPvVWCNDqDtypJc4AqqbaUIOlbmRs9LyUbr+mUA8F/KIc
+         UVqaahMigEIp7ap23Sa00+TGntKhSF6tgDgs3PwM7LaHzc0J2h8WhgT/soB3jCS/icL6
+         XTBBK+4t4WpJ2+A0RhSA9rt6sp8A51HKFz6pj4Iu5f/LWx3uVCGruEPJk2EoqI85Sa2A
+         5nVA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1mErlj5y0xprRH3XYwu5fji2HVceQrzw+jAS0c3GfcEikjltY4
-	hcTXDGSz8fbHIjUTN7r9W1Q=
-X-Google-Smtp-Source: AMsMyM758DyLCzOWAhaAgll6Kszevwmn78dQ97uVlpI8RP+Th8YUSZUaSMAc0C0V7d6QH/VFKjVulw==
-X-Received: by 2002:a05:6402:909:b0:435:a8b:5232 with SMTP id g9-20020a056402090900b004350a8b5232mr10589925edz.240.1665266043337;
-        Sat, 08 Oct 2022 14:54:03 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1KzxaMRm0MWVn0CiZxBr1rGtniwkgI9WwObxW6PrnzSCVG5gnN
+	JVZZ8azvnjsg7NzfAHWxL5k=
+X-Google-Smtp-Source: AMsMyM40JxsCRYMV/zh2aFMOeR9UEpWpnWam1bw6adne1utNt4ouRFmZTbuw9cTXBEcV8TFs8QImGg==
+X-Received: by 2002:a5d:6e8e:0:b0:220:5fa1:d508 with SMTP id k14-20020a5d6e8e000000b002205fa1d508mr7535488wrz.337.1665266943466;
+        Sat, 08 Oct 2022 15:09:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:430c:b0:43d:b3c4:cd21 with SMTP id
- m12-20020a056402430c00b0043db3c4cd21ls4910832edc.2.-pod-prod-gmail; Sat, 08
- Oct 2022 14:54:02 -0700 (PDT)
-X-Received: by 2002:a05:6402:1a4d:b0:459:319f:ff80 with SMTP id bf13-20020a0564021a4d00b00459319fff80mr10940711edb.144.1665266042201;
-        Sat, 08 Oct 2022 14:54:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665266042; cv=none;
+Received: by 2002:a05:600c:b4b:b0:3c5:8bf6:a4bd with SMTP id
+ k11-20020a05600c0b4b00b003c58bf6a4bdls238332wmr.1.-pod-control-gmail; Sat, 08
+ Oct 2022 15:09:02 -0700 (PDT)
+X-Received: by 2002:a05:600c:1ca8:b0:3b4:a5d1:2033 with SMTP id k40-20020a05600c1ca800b003b4a5d12033mr14338756wms.23.1665266942372;
+        Sat, 08 Oct 2022 15:09:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665266942; cv=none;
         d=google.com; s=arc-20160816;
-        b=sovP8JpEbGTP82UojpPXgMm2KbE+YGBwaiaX7E4F0ShCJaTWeuUJVvfXIgU08FOgin
-         xDlDeiB8wX3XtNC2EHa8ukQm8piAy+t5Xr4yaKnc9D5bs7WbIaHfQf3T0Uy/l+U0DOTQ
-         mbXjdDe3n1zBQ0oXFC3mHOy/g5tbFrx28lsw9WROI+DmW5x57PiN59v0yKdaZGFb4Zhz
-         wTgn4AEGhN+fNg1TVLbgqwkNdBmb+Ue750q2FMZs0DlwOsA/DPFPkudrOIROcAIr6aKo
-         tRePw3wajLp1E+NYurWDYUT7bJ3QHChVzWnsf9+qJ+aVReqh5fcDcG/RTAfFGUSagBSs
-         8Haw==
+        b=sdIY95o/NH6+lT9gUuVDNMFHjI59pg0F6U5gdkrU3XGJSOiYeEZMviVNefbXqeE3aI
+         LNkcjFTnWczzvioZQiTYzSn/5TVz+VEPgNk97cHUFiuB2Qr33WCWiGsMPWQru+bghtR/
+         T5qQJqwBsXbLw9gCgNU3uFwYeuWtgkcLgbnpR4ElMWmCIsxt0+ufXOzZzBwoLCZLqykb
+         5DmTlEAtvh3lAK4q4bYuqpj2gdw0jtHhd5dxe4wl+H5Sv+/7H596WxTi3SA6sJ+pG6i2
+         FCQrSyIX3ySCHwAknJe1jVvlVE6/6O2ZDpM+K5WzJFj13zabi0HwjByGw59H8MkT3X87
+         qVAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:content-language:mime-version
          :accept-language:in-reply-to:references:message-id:date:thread-index
          :thread-topic:subject:cc:to:from;
-        bh=hb0VXCKLruF+ZNpCZzbOy07uBh6U/F7RD9v4TsKga4I=;
-        b=WwtZhyu/dlnzahnV40kzwBg4//lFrkLsuD+GEJv2CihG6Z3owTD/lq7X5JgxJhS2oX
-         tBZGG8TuOSBcDc0OzIRhRhJ0L80nssOs1NX3uU73DC4nr/B77cn43+pA1LrvAud/ZCcv
-         f0c76XM/b6fl7NV+AFqW6h9c8si9f/5vF+u22AzZ+GOipKpBL58Q0EO0Pz5Rl2qkjqbs
-         QQ6LDxbhkrugAsnVF8jU3uEb8UqsJ3NX6N2XNH8W69ZQLu+lv2lLvzJLswAYxZAhOaJL
-         +1RJeukOOyjQQqVbnllAYVSoUE4tKr3KKLyd8/IE5Yn505hzsETaNrBHZF1YsO334B6m
-         8rWg==
+        bh=aU7nS9jrGJvRhaHpSenOURqags1qPX5KpilsUHhXdBg=;
+        b=Yuycl07oyC9er76TF4feUfj87NxVs2fbe5tTDGcZoGwU/f8+OphOJhiXjqExvokgOL
+         gIfSwCmiAbV72jMPZwazm1GNowvgCYHR7nu8jVTex/TIYxNJpZgrxA2pcOWdqUbEo5Np
+         kw2N5x09MO2NhN6w4ZdKLHD4C5UiuZK/7iAIh51U42+J7vokj26uili64AQzl6TYHS2R
+         NIg5dv+heJYBfETQbqcjZhNBhvYHHutz5RprtxUb8kTCnVIqLDRy14935cpfhTINezeS
+         jZf/7+2ovA7B5r/mZMJKVuTx8ZPtQkCimgS++1vhOwljuYCJtMiCWg6wdstZn2IuJ+J9
+         Hv1Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of david.laight@aculab.com designates 185.58.85.151 as permitted sender) smtp.mailfrom=david.laight@aculab.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=aculab.com
 Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com. [185.58.85.151])
-        by gmr-mx.google.com with ESMTPS id og26-20020a1709071dda00b0078d3ac8bbedsi268129ejc.0.2022.10.08.14.54.02
+        by gmr-mx.google.com with ESMTPS id bj8-20020a0560001e0800b0022e04ae3a44si224709wrb.6.2022.10.08.15.09.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Oct 2022 14:54:02 -0700 (PDT)
+        Sat, 08 Oct 2022 15:09:02 -0700 (PDT)
 Received-SPF: pass (google.com: domain of david.laight@aculab.com designates 185.58.85.151 as permitted sender) client-ip=185.58.85.151;
 Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-322-B0KkuonxN4-iDxIJpOcDbw-1; Sat, 08 Oct 2022 22:53:36 +0100
-X-MC-Unique: B0KkuonxN4-iDxIJpOcDbw-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Sat, 8 Oct
- 2022 22:53:33 +0100
+ uk-mta-98-KtAFQuLTPeKLVd871cru4Q-1; Sat, 08 Oct 2022 23:08:05 +0100
+X-MC-Unique: KtAFQuLTPeKLVd871cru4Q-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Sat, 8 Oct
+ 2022 23:08:03 +0100
 Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.040; Sat, 8 Oct 2022 22:53:33 +0100
+ id 15.00.1497.040; Sat, 8 Oct 2022 23:08:03 +0100
 From: David Laight <David.Laight@ACULAB.COM>
-To: "'Jason A. Donenfeld'" <Jason@zx2c4.com>, Kees Cook
-	<keescook@chromium.org>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"patches@lists.linux.dev" <patches@lists.linux.dev>, Andreas Noever
-	<andreas.noever@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, "Andy
- Shevchenko" <andriy.shevchenko@linux.intel.com>, Borislav Petkov
-	<bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
-	=?utf-8?B?Q2hyaXN0b3BoIELDtmhtd2FsZGVy?= <christoph.boehmwalder@linbit.com>,
-	Christoph Hellwig <hch@lst.de>, Daniel Borkmann <daniel@iogearbox.net>, "Dave
- Airlie" <airlied@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
-	Florian Westphal <fw@strlen.de>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "H . Peter Anvin" <hpa@zytor.com>, "Heiko
- Carstens" <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>, Herbert Xu
-	<herbert@gondor.apana.org.au>, Huacai Chen <chenhuacai@kernel.org>, "Hugh
- Dickins" <hughd@google.com>, Jakub Kicinski <kuba@kernel.org>, "James E . J .
- Bottomley" <jejb@linux.ibm.com>, Jan Kara <jack@suse.com>, Jason Gunthorpe
-	<jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>, Johannes Berg
-	<johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>, "Jozsef
- Kadlecsik" <kadlec@netfilter.org>, KP Singh <kpsingh@kernel.org>, Marco Elver
+To: "'Jason A. Donenfeld'" <Jason@zx2c4.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "patches@lists.linux.dev"
+	<patches@lists.linux.dev>
+CC: Andreas Noever <andreas.noever@gmail.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Borislav Petkov <bp@alien8.de>, "Catalin
+ Marinas" <catalin.marinas@arm.com>, =?utf-8?B?Q2hyaXN0b3BoIELDtmhtd2FsZGVy?=
+	<christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Daniel Borkmann
+	<daniel@iogearbox.net>, Dave Airlie <airlied@redhat.com>, Dave Hansen
+	<dave.hansen@linux.intel.com>, "David S . Miller" <davem@davemloft.net>,
+	"Eric Dumazet" <edumazet@google.com>, Florian Westphal <fw@strlen.de>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "H . Peter Anvin"
+	<hpa@zytor.com>, Heiko Carstens <hca@linux.ibm.com>, Helge Deller
+	<deller@gmx.de>, Herbert Xu <herbert@gondor.apana.org.au>, Huacai Chen
+	<chenhuacai@kernel.org>, Hugh Dickins <hughd@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, "James E . J . Bottomley" <jejb@linux.ibm.com>, Jan Kara
+	<jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe
+	<axboe@kernel.dk>, Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet
+	<corbet@lwn.net>, Jozsef Kadlecsik <kadlec@netfilter.org>, KP Singh
+	<kpsingh@kernel.org>, Kees Cook <keescook@chromium.org>, Marco Elver
 	<elver@google.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Michael
  Ellerman" <mpe@ellerman.id.au>, Pablo Neira Ayuso <pablo@netfilter.org>,
 	"Paolo Abeni" <pabeni@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
@@ -165,24 +165,15 @@ CC: Christophe Leroy <christophe.leroy@csgroup.eu>,
 	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
 	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
 	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>, "x86@kernel.org"
-	<x86@kernel.org>, =?utf-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?=
-	<toke@toke.dk>, Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
-Subject: RE: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-Thread-Topic: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-Thread-Index: AQHY2nYZ0LDp17FxT0u8eu+L+6kCF64FCBzw
-Date: Sat, 8 Oct 2022 21:53:33 +0000
-Message-ID: <69080fb8cace486db4e28e2e90f1d550@AcuMS.aculab.com>
-References: <20221006165346.73159-1-Jason@zx2c4.com>
- <20221006165346.73159-4-Jason@zx2c4.com>
- <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
- <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
- <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
- <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
- <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
- <501b0fc3-6c67-657f-781e-25ee0283bc2e@csgroup.eu>
- <Y0Ayvov/KQmrIwTS@zx2c4.com> <202210071010.52C672FA9@keescook>
- <Y0BoQmVauPLC2uW5@zx2c4.com>
-In-Reply-To: <Y0BoQmVauPLC2uW5@zx2c4.com>
+	<x86@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: RE: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
+Thread-Topic: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
+Thread-Index: AQHY2ncm2NigVNsUqkWyNH5TWnqFQK4FDn2g
+Date: Sat, 8 Oct 2022 22:08:03 +0000
+Message-ID: <01fafe0e56554b1c9c934c458b93473a@AcuMS.aculab.com>
+References: <20221007180107.216067-1-Jason@zx2c4.com>
+ <20221007180107.216067-3-Jason@zx2c4.com>
+In-Reply-To: <20221007180107.216067-3-Jason@zx2c4.com>
 Accept-Language: en-GB, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -211,41 +202,36 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 From: Jason A. Donenfeld
-> Sent: 07 October 2022 18:56
-...
-> > Given these kinds of less mechanical changes, it may make sense to split
-> > these from the "trivial" conversions in a treewide patch. The chance of
-> > needing a revert from the simple 1:1 conversions is much lower than the
-> > need to revert by-hand changes.
-> >
-> > The Cocci script I suggested in my v1 review gets 80% of the first
-> > patch, for example.
+> Sent: 07 October 2022 19:01
 > 
-> I'll split things up into a mechanical step and a non-mechanical step.
-> Good idea.
+> Rather than incurring a division or requesting too many random bytes for
+> the given range, use the prandom_u32_max() function, which only takes
+> the minimum required bytes from the RNG and avoids divisions.
+> 
+...
+> --- a/lib/cmdline_kunit.c
+> +++ b/lib/cmdline_kunit.c
+> @@ -76,7 +76,7 @@ static void cmdline_test_lead_int(struct kunit *test)
+>  		int rc = cmdline_test_values[i];
+>  		int offset;
+> 
+> -		sprintf(in, "%u%s", prandom_u32_max(256), str);
+> +		sprintf(in, "%u%s", get_random_int() % 256, str);
+>  		/* Only first '-' after the number will advance the pointer */
+>  		offset = strlen(in) - strlen(str) + !!(rc == 2);
+>  		cmdline_do_one_test(test, in, rc, offset);
+> @@ -94,7 +94,7 @@ static void cmdline_test_tail_int(struct kunit *test)
+>  		int rc = strcmp(str, "") ? (strcmp(str, "-") ? 0 : 1) : 1;
+>  		int offset;
+> 
+> -		sprintf(in, "%s%u", str, prandom_u32_max(256));
+> +		sprintf(in, "%s%u", str, get_random_int() % 256);
+>  		/*
+>  		 * Only first and leading '-' not followed by integer
+>  		 * will advance the pointer.
 
-I'd also do something about the 'get_random_int() & 3' cases.
-(ie remainder by 2^n-1)
-These can be converted to 'get_random_u8() & 3' (etc).
-So they only need one random byte (not 4) and no multiply.
-
-Possibly something based on (the quickly typed, and not C):
-#define get_random_below(val) [
-	if (builtin_constant(val))
-		BUILD_BUG_ON(!val || val > 0x100000000ull)
-		if (!(val & (val - 1)) {
-			if (val <= 0x100)
-				return get_random_u8() & (val - 1);
-			if (val <= 0x10000)
-				return get_random_u16() & (val - 1);
-			return get_random_u32() & (val - 1);
-		}
-	}
-	BUILD_BUG_ON(sizeof (val) > 4);
-	return ((u64)get_random_u32() * val) >> 32;
-}
-
-get_random_below() is a much better name than prandom_u32_max().
+Something has gone backwards here....
+And get_random_u8() looks a better fit.
 
 	David
 
@@ -256,4 +242,4 @@ Registration No: 1397386 (Wales)
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/69080fb8cace486db4e28e2e90f1d550%40AcuMS.aculab.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/01fafe0e56554b1c9c934c458b93473a%40AcuMS.aculab.com.
