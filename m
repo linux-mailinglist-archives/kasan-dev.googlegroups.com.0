@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCLI747UVAFRBG7PQ6NAMGQEJYEWGQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLI747UVAFRBN7XQ6NAMGQEG7DKSKI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6625F882F
-	for <lists+kasan-dev@lfdr.de>; Sun,  9 Oct 2022 00:20:13 +0200 (CEST)
-Received: by mail-pg1-x53c.google.com with SMTP id h186-20020a636cc3000000b0045a1966a975sf4502227pgc.5
-        for <lists+kasan-dev@lfdr.de>; Sat, 08 Oct 2022 15:20:13 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665267612; cv=pass;
+Received: from mail-qv1-xf3c.google.com (mail-qv1-xf3c.google.com [IPv6:2607:f8b0:4864:20::f3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id A49A15F8849
+	for <lists+kasan-dev@lfdr.de>; Sun,  9 Oct 2022 00:37:44 +0200 (CEST)
+Received: by mail-qv1-xf3c.google.com with SMTP id dh7-20020ad458c7000000b004b1c8f7205esf4673763qvb.5
+        for <lists+kasan-dev@lfdr.de>; Sat, 08 Oct 2022 15:37:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665268663; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Cr9uuOm7bsDlGBjwfe9U4e27CbNHLkWA/UkABIunrzej69sSsDfNK3dii8wpu1Pkaf
-         3ArKTt0se4RXIKDMn4oR98wyxqeEVmOttPlMdPxecWn4TmnsAgggOA2o8Bv1zQYa4mhM
-         aFpQREc9xmYk7Ldv5mGMWsdVRzKK/JvUFJcjDTFHXQqIFi8p7L5N5bWgexcjBEvs+W7O
-         SDWIY40tUwa08quV55am2EzhuDbKfuwUac5n7G1dBSMP+bReITvLlVeu5Wfey+jkLT48
-         VeSQlEjAOYLiqdwIRjzuRTcls8hXnGFWAD9rhVBfVXTTHltwuzW1VwfdtIGtvnOxCX+5
-         fQ9A==
+        b=VG31FXnSPryxkAkBEJ2Hnmm6EaDzgvTo+2YQ12DHEVh8lbYFFgivpWNeQwjYYADfbQ
+         hrXtKUDbXsSzvtx8Mp77gG/qgQ6IGVgZlI6YsZB1ymCC1LMURkJBm4h39/Y2o9jpVDPZ
+         SgnW+tprnZWGL21Pbohb74CVRQq8j+6UCAyscarA9GQfPx18q8nlaZwEMkG52gOzMS1l
+         O9JJ0EB9icEmsZAuuPXs0MXe/+uxPyJFYF/hWXXZfGFSipAEexpvhEB7CADu23bPPmnt
+         pBn2HWjqN70uEim2dzZW7kmzA506xcNismWL1Iy5ZfG7rXbbPaqosdF0bS+44+7oMD8s
+         IKfw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=KjKr3Yp7eNMjIJQKqoa74mZn+9q9wtka+sKwgBRQ08Q=;
-        b=MyZMtjJmJrw2BTGz7JANxZKqcxsETZNKAb4/xl5fBsUOr1hGH4v+LUWcdHHiEs9uej
-         XGmC6BdNw3EL8UERmZ8dQ5tWDvlw9ctoR03h/CWo8t5UkxoIBiGVhG8DznPzLGDjyjBO
-         jvgSOLyEEM1J7ev+VH7cOAps7VxDaYiHzfqfFAsOS6+wXOdMphYYxQjhZ2OAEntDxTUr
-         p+q47vYLiQ6pT1T3Eh1jgMvm7ZVfO7l4joUhvoGixPvCi/SkPLiGct1RQDOTTT5AHp4i
-         /tyUsHZJhinumAWCSZK/1hSuhLEziFfq/5cig+j1OTtDaap5GIJKGq/jk/vyvgdlFVb/
-         W3fg==
+        bh=aUmF27LRN6HcRf9TLrKpLhu/3sFYTx32JEJuiRlV/G8=;
+        b=spwc90RxLAJo6i4SrI7VlVkfcGJiCYpeMXzesefz9376mYHkziWAsWK5MsMh78M59I
+         WMpXLf4VNzVh4RJ3DtmuvQuZg1RFdzNDCiBvQHqRl8QkG35fDlWi1rE3fPa3zkePDB8S
+         z4RWQfCJEqyG2wvjg60aE2mnd2hauuCK1FLbbZwi9zObFkQSIgiaP8dEjDjesg8S3TTO
+         GDM6/Lp/+MY316/zp5N+rn/8ZUcZCDwjmo/aqY5wi1kPqXbNVMFdOrYsbPdNwZpjwhp8
+         Z7WIiFoHEqrDZKnejXnOkvgTKyWHT5Mqbe6U4N9f0KTfpArQU0CqstaAdio3MaCOwmU4
+         IQ+A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=QmEOahoB;
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=XGhFZP09;
        spf=pass (google.com: domain of srs0=1ou5=2j=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=1Ou5=2J=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KjKr3Yp7eNMjIJQKqoa74mZn+9q9wtka+sKwgBRQ08Q=;
-        b=T2pTm64ry7X/9zh/2ekSGPif8f/u+q/tnx250uyMRGh2AN1z/WR+sjTMVwwkCnWldW
-         Rp6INGX7eZF5BF3nvopUxj7rPlDcvMtvjk9K88ZgMfRI5KMpTEyoNJqfgFF4hfmR4mpg
-         SC1tsyZIXxSoxNaWkuFaOCJnYvOY/eP7xb7R9vOLNEQdpJGjOZDGL9vZUdOjcM+dCizR
-         fSHSwNNnF6sFMwmNDzOh5MqYjmV/4xwd/MSWNOpHJTkroNubrbXXeHTY5hrH9wyoidH+
-         Ss6DpRxRqrHFx0b6oMVC9BSMo9yMDWqdvGvyTBTD8446LEgho069/17SP2ZO7APaiWPt
-         ozHA==
+        bh=aUmF27LRN6HcRf9TLrKpLhu/3sFYTx32JEJuiRlV/G8=;
+        b=t9/fo0Ylk5mIu4m7QUZNYe06yugZcJWrDpVtg/hKJgYMiIEfPuWOM2xabcJEVrlTU2
+         Nc56FxacyJJ0sE6VLIg4UfL7u2pdShKtDEy5/kBfYFhMWFjVpWBvZlKP6ZgQPGJ9rfhy
+         eb9p8mXA+5Ot5hIvV4TP9W9Ay6wtKul8pHK4zY1hS8XECvydk3ophBPv9U7uYKjsgNDc
+         tJPVzI+GBiXvAjlSKi8K+aKhPsJy+mq4KHvMwoD9jq+IygbGi3ZCEKBcjDlM0ihIzv8E
+         gHftUZrCpTFY4A443S9WM6QEHjFYKZjVMjb++Gi9texKmRhZfE+F6Z6yYeRZZHFd2Hnc
+         zcag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,61 +52,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KjKr3Yp7eNMjIJQKqoa74mZn+9q9wtka+sKwgBRQ08Q=;
-        b=r4JSojv2S9Fbkbb8+XnN40eVZwvkQPXjJwQHFCb0Z+Zl/VjsNP9ne5sSv44wXWqPZP
-         SxkfNHmK3klyN7LbYnDinbnkaL0DJsq7TvpJICCzqButwA4dTkX5+/NIChNC4GNmUQsP
-         tQ6x4GXBI1NFsmzU6vkmqzE9DSCvu7heL7DobENekFbhiNcfQ1SvnK+iU5VYe795b9yh
-         z8lxdy2MwkzdPAta7N+qLOLDpklescU6doPQFZEMu9sHlz5I3JWZLgBT7XEutK8cdRbz
-         vMYBc8zQFfFQlbc3E/jhuFLONhBBXT6EXo5ZtKFnFI8omgHuJM2Cil3At9wD7MrU93Ms
-         iWrw==
-X-Gm-Message-State: ACrzQf0+FMWiSIscCYCYMjJuFwZx3ZLmH9wuPaEsiC65WNg+aTUSTNTG
-	yYBxeqAsK/xsgYZ63bMPDrk=
-X-Google-Smtp-Source: AMsMyM5/h6MRomjyFIETFUizvcSQURnMM0oXy8gXznZRS9pdrj7Z9JtX6Vp6ffjwE/q/+g649yk+iQ==
-X-Received: by 2002:a62:3306:0:b0:562:5109:aed6 with SMTP id z6-20020a623306000000b005625109aed6mr11935570pfz.34.1665267611771;
-        Sat, 08 Oct 2022 15:20:11 -0700 (PDT)
+        bh=aUmF27LRN6HcRf9TLrKpLhu/3sFYTx32JEJuiRlV/G8=;
+        b=IHUoOKQzgAhFxOJo+GtcoiY2MKSJOkwj4YLXyHSfBSW0rp1gCG55oexvdjmhQyHJsv
+         5iNuDU1mRIuJ3eVdbWyNrLTZscsNHxlEnf/tW07tQgSUte/QrlLlOV4Dm53WP4kJAWuJ
+         HLyIwmz6psEngbIUYSRVsCwwXBeBsVr3/GR7LZEqPBHKFUDllUq3YdIuQ35mqm04KvYt
+         AD1qcnBS+8LhOlGcJ+Wr7scvRtFSsawhHSclKWMq0/osMDjwB8jkCf9VaayDTGzR18OA
+         xMY0yjswIYpn7AAtLu5W8m4IQU2SHwsNfm5MRsuLQ/sbba5+CjiqdJNvThe5+Jh74WDU
+         cbVA==
+X-Gm-Message-State: ACrzQf0GLroLJq/FGn/GMw6lVUxSYSQC3WzajObQ8qu1V+15/tI7i6B/
+	GOkAo8+9X65EEhYP9E/+CFM=
+X-Google-Smtp-Source: AMsMyM6eGvTE5XqV7ZiZttT8f4f4x/7tEu89ajC6KVU25ywRDeZks2U2flKz7WOXBfvAwrohqquq7g==
+X-Received: by 2002:a05:622a:196:b0:35d:442b:ab45 with SMTP id s22-20020a05622a019600b0035d442bab45mr9761966qtw.565.1665268663551;
+        Sat, 08 Oct 2022 15:37:43 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:38c6:0:b0:557:cfb6:bcec with SMTP id f189-20020a6238c6000000b00557cfb6bcecls3734886pfa.9.-pod-prod-gmail;
- Sat, 08 Oct 2022 15:20:11 -0700 (PDT)
-X-Received: by 2002:a05:6a00:234d:b0:561:f0c3:cde1 with SMTP id j13-20020a056a00234d00b00561f0c3cde1mr11809879pfj.34.1665267611037;
-        Sat, 08 Oct 2022 15:20:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665267611; cv=none;
+Received: by 2002:a05:622a:1883:b0:31f:22fc:d794 with SMTP id
+ v3-20020a05622a188300b0031f22fcd794ls5074432qtc.7.-pod-prod-gmail; Sat, 08
+ Oct 2022 15:37:43 -0700 (PDT)
+X-Received: by 2002:a05:622a:1002:b0:35b:baaf:24bb with SMTP id d2-20020a05622a100200b0035bbaaf24bbmr9761615qte.85.1665268663097;
+        Sat, 08 Oct 2022 15:37:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665268663; cv=none;
         d=google.com; s=arc-20160816;
-        b=alOiMxduu0ptpGrK3HqaLjFKY4pq6CeJ0NUGj9SWHCkTZw1M7qV4wQvMl7Zp6NC5gD
-         pDPjNZtiHxf+TI4zRL9Tr/7ibRM2mVS3DNwmExHaHughEU6GA0qoAuDsBFkQwVcB4wLd
-         awZTwrRLu1gSgXVtpv3XrcabyUtgTnlPfPXHk2A68WO1cH4hh76iU75XA07ACuOWgCFP
-         ukveE14+h8AC1iExstwXxivjYNsC9Q4ld0yPHEgvzdmRA48blRYHb0VkkLXEn3BnnVow
-         VoqbVPAMw+U+c535Q3saE5aICymqWd1t0jxyRfJ6o1MQH6ZU8SAXpQaHvgvr6+eYL6Lh
-         Tmrw==
+        b=qhfX+/ymvb6Wlx/b1FCBz0AIIwO2pe2R+F24RhxaIsanNEwRoizupenJv/RDUjLw9q
+         s8Em8FnP4T8YIVfTPk578tODDMHhYQcJyqBBiKQ3bMofURSDyqbS+7oSx0cxgbjU5ns+
+         xjtE9ChMLW6mrnX6ZmU1SkXzU6huPXbJkzb5D4vH6bxW/Y1QQQjIDRS33EdpZxzU33JJ
+         splJyo22tXBGp+lvWPsIuFxXhNAn89NHP7z9qNpKOOpYdBgEGgR6qxgLI51YYfKUn6oK
+         yhjYszHNSd3wjJ2e6WNY11ZeGdOhcEHFnMmjXWR/bru+AV90S2kbd1S/DPTx6oQ7PXE1
+         9EEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=P/cyFerOrVR1hjiF/QX04AV2aA5aZrHQbK/mKyxjv9I=;
-        b=Omq660UWoLIoLSgzpqfZVilmW5WN+BiegieLRZDxUZl60SW0RkMtYIJQn50iK2JGvh
-         r03pZFRqOq/6BrfUsNEnN8ICblHDD4hNovmToE0UqELp/PZPsYkThNNZ3W85Qci7lgta
-         gJy5oZlr1KjbsV6A7hVtAs1KmH6tF9LrQNTqR6L3t4mDYqqidjzxtBIiOzT9wGAknkpC
-         hFPMuxGFXAhXAt0kcvKUZsOvQiYhNCd2Q8wYlfubaIh8XDXUGLq3sCjP8geslKsMdSo4
-         iICA38LhY8/9v6uNVvh4w/npkCkzFWZYUStIRowj0a/ttYM4FuA/5gKsr8X8WnkfWGE7
-         U6xA==
+        bh=KIVWIkgHNJFfTR3APACYr63A/xqCM59y71KVcO4sCaY=;
+        b=Ue9yjKy6dUkk4R1pqC3On+TzLC9erwiTD4EFTR6oLTcntr76J8LvH0sZplHQMDSM2f
+         y/8iQKCm10Mu7Be9nDeX2rkbv20kMBW9Qi2zzpM8ucC9xlBktqfjSsmRIN62qh7wZyUK
+         ILKYbRZSjMEIyjpWlHPbvkiQPKru8ZHi0lne4j7duWa6ZvyYWyzusUhCPyEnX5iDs/i/
+         JKcCFAuCCNYg3mhOP+G0Xxw0BcLSwlqqsda0VD8/WYjKwe934gJiS5UPXXE7r8hv3fw3
+         SE4neomGGNvrRWv6zEgmD8cR9qaj7qkSbnSF9koUvsNLpfsoqHJGoYxeJ/ZhvCXOLp27
+         NvGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=QmEOahoB;
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=XGhFZP09;
        spf=pass (google.com: domain of srs0=1ou5=2j=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=1Ou5=2J=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id ne1-20020a17090b374100b0020a605eff06si420877pjb.2.2022.10.08.15.20.10
+        by gmr-mx.google.com with ESMTPS id y6-20020ae9f406000000b006ce4c1110bfsi183861qkl.0.2022.10.08.15.37.42
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 08 Oct 2022 15:20:10 -0700 (PDT)
+        Sat, 08 Oct 2022 15:37:43 -0700 (PDT)
 Received-SPF: pass (google.com: domain of srs0=1ou5=2j=zx2c4.com=jason@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 4A9B460B02;
-	Sat,  8 Oct 2022 22:20:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70236C433C1;
-	Sat,  8 Oct 2022 22:20:03 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6a6d913c (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Sat, 8 Oct 2022 22:20:01 +0000 (UTC)
-Date: Sun, 9 Oct 2022 00:19:59 +0200
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 69DE260B14;
+	Sat,  8 Oct 2022 22:37:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFC7C433C1;
+	Sat,  8 Oct 2022 22:37:35 +0000 (UTC)
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c941732b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Sat, 8 Oct 2022 22:37:33 +0000 (UTC)
+Date: Sun, 9 Oct 2022 00:37:33 +0200
 From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
 To: David Laight <David.Laight@ACULAB.COM>
 Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -175,19 +176,22 @@ Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
 	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
 	"sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
-Message-ID: <Y0H3jzGE1oiwEYa5@zx2c4.com>
+	"x86@kernel.org" <x86@kernel.org>,
+	Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
+	Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: Re: [PATCH v4 4/6] treewide: use get_random_u32() when possible
+Message-ID: <Y0H7rcJ3/JOyDYU8@zx2c4.com>
 References: <20221007180107.216067-1-Jason@zx2c4.com>
- <20221007180107.216067-3-Jason@zx2c4.com>
- <01fafe0e56554b1c9c934c458b93473a@AcuMS.aculab.com>
+ <20221007180107.216067-5-Jason@zx2c4.com>
+ <f1ca1b53bc104065a83da60161a4c7b6@AcuMS.aculab.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <01fafe0e56554b1c9c934c458b93473a@AcuMS.aculab.com>
+In-Reply-To: <f1ca1b53bc104065a83da60161a4c7b6@AcuMS.aculab.com>
 X-Original-Sender: jason@zx2c4.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zx2c4.com header.s=20210105 header.b=QmEOahoB;       spf=pass
+ header.i=@zx2c4.com header.s=20210105 header.b=XGhFZP09;       spf=pass
  (google.com: domain of srs0=1ou5=2j=zx2c4.com=jason@kernel.org designates
  2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=1Ou5=2J=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
@@ -205,40 +209,50 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, Oct 08, 2022 at 10:08:03PM +0000, David Laight wrote:
+On Sat, Oct 08, 2022 at 10:18:45PM +0000, David Laight wrote:
 > From: Jason A. Donenfeld
 > > Sent: 07 October 2022 19:01
 > > 
-> > Rather than incurring a division or requesting too many random bytes for
-> > the given range, use the prandom_u32_max() function, which only takes
-> > the minimum required bytes from the RNG and avoids divisions.
+> > The prandom_u32() function has been a deprecated inline wrapper around
+> > get_random_u32() for several releases now, and compiles down to the
+> > exact same code. Replace the deprecated wrapper with a direct call to
+> > the real function. The same also applies to get_random_int(), which is
+> > just a wrapper around get_random_u32().
 > > 
 > ...
-> > --- a/lib/cmdline_kunit.c
-> > +++ b/lib/cmdline_kunit.c
-> > @@ -76,7 +76,7 @@ static void cmdline_test_lead_int(struct kunit *test)
-> >  		int rc = cmdline_test_values[i];
-> >  		int offset;
+> > diff --git a/net/802/garp.c b/net/802/garp.c
+> > index f6012f8e59f0..c1bb67e25430 100644
+> > --- a/net/802/garp.c
+> > +++ b/net/802/garp.c
+> > @@ -407,7 +407,7 @@ static void garp_join_timer_arm(struct garp_applicant *app)
+> >  {
+> >  	unsigned long delay;
 > > 
-> > -		sprintf(in, "%u%s", prandom_u32_max(256), str);
-> > +		sprintf(in, "%u%s", get_random_int() % 256, str);
-> >  		/* Only first '-' after the number will advance the pointer */
-> >  		offset = strlen(in) - strlen(str) + !!(rc == 2);
-> >  		cmdline_do_one_test(test, in, rc, offset);
-> > @@ -94,7 +94,7 @@ static void cmdline_test_tail_int(struct kunit *test)
-> >  		int rc = strcmp(str, "") ? (strcmp(str, "-") ? 0 : 1) : 1;
-> >  		int offset;
+> > -	delay = (u64)msecs_to_jiffies(garp_join_time) * prandom_u32() >> 32;
+> > +	delay = (u64)msecs_to_jiffies(garp_join_time) * get_random_u32() >> 32;
+> >  	mod_timer(&app->join_timer, jiffies + delay);
+> >  }
 > > 
-> > -		sprintf(in, "%s%u", str, prandom_u32_max(256));
-> > +		sprintf(in, "%s%u", str, get_random_int() % 256);
-> >  		/*
-> >  		 * Only first and leading '-' not followed by integer
-> >  		 * will advance the pointer.
+> > diff --git a/net/802/mrp.c b/net/802/mrp.c
+> > index 35e04cc5390c..3e9fe9f5d9bf 100644
+> > --- a/net/802/mrp.c
+> > +++ b/net/802/mrp.c
+> > @@ -592,7 +592,7 @@ static void mrp_join_timer_arm(struct mrp_applicant *app)
+> >  {
+> >  	unsigned long delay;
+> > 
+> > -	delay = (u64)msecs_to_jiffies(mrp_join_time) * prandom_u32() >> 32;
+> > +	delay = (u64)msecs_to_jiffies(mrp_join_time) * get_random_u32() >> 32;
+> >  	mod_timer(&app->join_timer, jiffies + delay);
+> >  }
+> > 
 > 
-> Something has gone backwards here....
-> And get_random_u8() looks a better fit.
+> Aren't those:
+> 	delay = prandom_u32_max(msecs_to_jiffies(xxx_join_time));
 
-Wrong patch version.
+Probably, but too involved and peculiar for this cleanup.
+
+Feel free to send a particular patch to that maintainer.
 
 > 
 > 	David
@@ -250,4 +264,4 @@ Wrong patch version.
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0H3jzGE1oiwEYa5%40zx2c4.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0H7rcJ3/JOyDYU8%40zx2c4.com.
