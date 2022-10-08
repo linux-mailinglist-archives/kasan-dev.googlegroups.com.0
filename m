@@ -1,124 +1,172 @@
-Return-Path: <kasan-dev+bncBDA5BKNJ6MIBBAP5Q2NAMGQE2YRCZLI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4Y5GGK74JBBSG5Q6NAMGQE3BATDSY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id B052C5F8678
-	for <lists+kasan-dev@lfdr.de>; Sat,  8 Oct 2022 20:16:34 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id x20-20020ac25dd4000000b004a2c484368asf280073lfq.16
-        for <lists+kasan-dev@lfdr.de>; Sat, 08 Oct 2022 11:16:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665252994; cv=pass;
+Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6AFD5F8780
+	for <lists+kasan-dev@lfdr.de>; Sat,  8 Oct 2022 23:42:33 +0200 (CEST)
+Received: by mail-qv1-xf3a.google.com with SMTP id jn13-20020ad45ded000000b004b1d055fbc7sf4635911qvb.2
+        for <lists+kasan-dev@lfdr.de>; Sat, 08 Oct 2022 14:42:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665265352; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uPpxwQ9GKBDgd2ixj8JrmiU5n4kdLdThcqyeqG4uZ1hjL3heXnY+kgZNwmT7tU55QF
-         QKl76fSzZ8GxZWceS3oCTahu198q1OgIH8tpaLS5wRa1pwHNyzZCKnghfRYhw7wYkYPw
-         pEpiG2iPmWlzhJQpAx6UBmTYYai7Kouc7EmaDC19IYePsEPkN4fR8gBAQanIdyPufLSD
-         FhVYu+PvAv+tjmGWzP9UHrCktSgbS1qnkAflVZM1iGioEHVyuZs6C/hqYX0rSsy84h5B
-         IpkXarEeu6yUjnkL1HASZyNPFbBAv4W2MQe9ysyAB2iSa8kpNTwg64aZPVtIcqdbkM+g
-         kyvg==
+        b=kjPh3kV+GJhdY4SJL7tQjRdenRy6n0bBMbEYxrlJ1xy7GU+1n30NCG+b53WAoROIVm
+         yainqzVKb2330boLrzFVhDOrBiLxItx6e8H+hEdmLaa4EpSGE1k4pGONJcafptHwfCr7
+         Ms/AlRohWP6117/XlzTKdUpDjTwLoPEDQEdhRPLTUxg+l48FXcb8Su6owHCmlMvhvrqJ
+         f1FYkb6oj1HMzomqnHA255e84Rcdf2cT/mWF+SUtene0y/PQ8WY/kdsXtVbbqNmqqBQ2
+         IG2u8Itvkm/Ll6Eps1pzwsWcoouVkU7gr2qnVImCy/0gqc6bPfAhhgHs/S4yqswSgZ9o
+         k7jw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:organization:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:dkim-signature;
-        bh=3Uypz6dcr42FJXrnaEy4mzf5jk3N7hOv/tH+TuKvYQI=;
-        b=XYuMqWsgOEgiQH3FNqwMMwYxe2i8gm7jfWxPNIuasPio9+fF2WpA/epGNRyyG8nV5d
-         djMVSS8OiKzHRNgCEvd2P+d62DkBjHq6OyOO9NePZCwbhapvPaqNxve1NQ85w0X+8dS9
-         HfkB4SXEUyToRPJPECm2tbFtQgd1NuC23qUgd1xT+Z+cxhHwEo08aE4gzasD4EYwPVRg
-         fKp+QQA+K+gdgRl2R52yepghbO0nY2cA91kmX9t6nXIFBQ0VgDxGI0rmhsvRYIUK6uH9
-         YL/3aGgKmsIvwNuwPoLFxe7FAJlaYjAo6/rgTf2Xpda2go3R260m1140+HbPInFFlhFY
-         w20g==
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature
+         :dkim-signature;
+        bh=lrVpNUHj/7jbfOaj5w5GV0mjqZlDCy+4LJywYuzFRMc=;
+        b=W+rGtqORtr6LcOQYLeIyPJBkjSHkCKHZvo/Tvntx4LSyLsFEeuuR1awXh/ZhkRlbZZ
+         oBExdsgAadQWEqBBUP842sol1zq0g4241LQPXIA/jgA+owrfuPc6Ul5cHBqZRhsoK78O
+         00s0Roc/CyY9/9eez4d/VSxHeNHtTFEQt+5qm4fHW5fMbfs96yzzHa4gnLFdGhh6uzoH
+         97h/AabRdMJIMrg35Ir15y2JEXHKFLmE7TIRyr01gD2JtMWxIZkH+VryZLKsV8jvfLYb
+         F3I6twS5rHl6in1YvtkW5k3ql0O2kaHM2+mDZ0giAbmOicLRPhXqUKGoEF9ygQqpWARz
+         lZpw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=Cy4RrU9t;
-       spf=pass (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com designates 134.134.136.126 as permitted sender) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=EumsjgKw;
+       spf=pass (google.com: domain of yury.norov@gmail.com designates 2607:f8b0:4864:20::72f as permitted sender) smtp.mailfrom=yury.norov@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:organization:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3Uypz6dcr42FJXrnaEy4mzf5jk3N7hOv/tH+TuKvYQI=;
-        b=TMTbaT9wQqcPV6Mj1nwvP5PIg5D+hAj1/NUqvXgHUT0+qlSfuuaCjXTQ/7oEu94wso
-         Bw704oBpfziERPuDXtdUWNaOxtO5tGy/67GfWvY+/4Ey/zFIOPV95Ib7WEp2A9y1ZNXk
-         9CSY/fH6SIL1w0jI9I4AeR+LZy5IaRJbvA/fcE0yiIvOO1Emubrz6PQWS+SXPZbidXRG
-         6ros3mtZKEn06TKutpDcpBW2hqemCYqyuSVWvA7tnoageGc0hCoZgtX+zXZ4EojzpWe0
-         K777Y+bDhIePlGj+lvN+xE5XWENWv/yKXmKerqz79ANRvABy7YaH3/U2x5YgR+bD9Qgn
-         SPgw==
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lrVpNUHj/7jbfOaj5w5GV0mjqZlDCy+4LJywYuzFRMc=;
+        b=MivXg/hrvBeZZ8t0pM2hWAqLAEPg151Vi4ZpZ58fkUSj2lJqlj8v11yrrajkxzTN7r
+         tWVJQMh9yfuQn/sOjfLQV3TEWypiAHhmH1SDdVJIU5m7CEjPSU5BhxO2ZnRpmn/S2ppJ
+         LP2NdxKBEA2qLp75dOXxT2buX46cun9HLBCKnSxb4zXEy3IRvsVK9gCUJb5tY35Nj5vR
+         Rb2Tz/q2y6YivDpdrv+A5t3qr88cLndY9RMFeE1nJACbcLe7HGujueEcpX6d5JL2/uvW
+         zKllUMwvK1KtKF/qcaY2I2YvWljiYaZbnvnjWQhmryxLqtY67IDqbLtQHcYI3Ot3utAu
+         xV+Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lrVpNUHj/7jbfOaj5w5GV0mjqZlDCy+4LJywYuzFRMc=;
+        b=QMtjrQ9DCSRgPSezrDDHjwwcXhIk1I1VgzDX6IZQscQgKrN0EdKAl8SsLKKFPCeSlY
+         t6F3IcrPVMAqxh7NvGQic3eUGDVSm5BLwseZmjYtQ/8uDSqg8P1C37dPD47UBftW3RUI
+         VqEtzN+Sj4r3Goo900V0kuXf45rJaGAtHqJ8Sfohw86abixs2dKg+KgWOFuyDSJTgpa+
+         7GTKKZ2dtCp9f836kbq7o9HkVQSJ8mInlJpwLuNB0QUxjFd4v2WquYYWfi9fqVYxhKbr
+         JUkIt+WkcRND6VyffZyYvPHmYyKck3jdRwa5YWW74MUbEtlgyVTQWnTnjHT/T63Ndzp2
+         9fDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:organization
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3Uypz6dcr42FJXrnaEy4mzf5jk3N7hOv/tH+TuKvYQI=;
-        b=BkUZR8RihHSSD4r5jqnLcjzUZ7lbtqMoL4a6Vu+9rhByOB/VJUNY4HX5ZRM3OI0+4V
-         HQo6VirAEB/m/1MCgmP4TM431yIBqzLyJvk38UsLlzhWeA8YTk49s7dlua11Q4EFGGWa
-         mDFJpBqLlXIVmNM4C444/qHnFH6OybWLm14X7GKBgXlk1YIKe1tIXGuYwfd1wFVBGeeh
-         fxW0qqNNelY+F91xH8bnaWYOo8KzTP9JezNVZVlECMUZCzEFHYPXjCiqe0RZ3GV/cABx
-         EFhw4uhnTV/2FW9UX4I0kGscZxukxBl/cpNy6IMaX57xfK10jvTADp2siZwLe2DnrN1V
-         Kmng==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lrVpNUHj/7jbfOaj5w5GV0mjqZlDCy+4LJywYuzFRMc=;
+        b=8Npsms0CBm1zLW4Qj46tPcWabBTmsLLsa8LEGwGOP7oAOcqW/QFKsJA31WDTgy1f6v
+         dNHkqEayOU/YFzeeqnAK4ETylZ9ygU05ITwj9x6mkEN8zVfVGVGW2+qul5ZccWRX4l5t
+         5sC6CVhjQUT+ULaCIKNW9v34exwOV2m87fnZVsu+4L7bvRZO8beNt5Xo/TioevjMGv+2
+         MnBLEHn11grnm4s29rPI/nGT/WUZ0+4jnUFmk9Cnq9zqhqvCH19JtDI9hXDNmEjem0rS
+         H/dZCDwhl+2IzKY0W23ZQUFOn8oGbQ6CyjwL7JWr9sEDa+3/BQQLwOydXM0tK+NgjsAk
+         sePA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf2XNGBdE1GfNaQNb/Mc87/Paz7mx7vHI4Ea2vkwb91klPWpfcXY
-	0wpimKjMB3DspjGwI1RC4Xo=
-X-Google-Smtp-Source: AMsMyM5A/8lVvPTCJJsXwC+QQNGITijSjAjY3+TDy/2KNmd3fYdKoSCTtc4j2QLChfBHGZ3WgunnPQ==
-X-Received: by 2002:a2e:7c04:0:b0:26e:47e:a004 with SMTP id x4-20020a2e7c04000000b0026e047ea004mr3694181ljc.55.1665252993843;
-        Sat, 08 Oct 2022 11:16:33 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0TM9YLWHPA6N6Ubcqcun48l9Bz7IDbilIRlTMMqi+dk5EXg/Kf
+	5y5MgDPKRUl+Rtn9RxInLBc=
+X-Google-Smtp-Source: AMsMyM71NVwdufc85K2RkopBm1gan75VDW9OAZp3MjgpAtkNwli6H6aYv2bN68UzfFa1LjZXkVtv1A==
+X-Received: by 2002:ad4:4eed:0:b0:4b1:89ce:2c6b with SMTP id dv13-20020ad44eed000000b004b189ce2c6bmr9581134qvb.91.1665265352604;
+        Sat, 08 Oct 2022 14:42:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:81c3:0:b0:26e:3a10:642d with SMTP id s3-20020a2e81c3000000b0026e3a10642dls804756ljg.9.-pod-prod-gmail;
- Sat, 08 Oct 2022 11:16:32 -0700 (PDT)
-X-Received: by 2002:a2e:9a83:0:b0:26e:2202:bca6 with SMTP id p3-20020a2e9a83000000b0026e2202bca6mr3300867lji.401.1665252992501;
-        Sat, 08 Oct 2022 11:16:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665252992; cv=none;
+Received: by 2002:a0c:8d83:0:b0:4aa:5803:b529 with SMTP id t3-20020a0c8d83000000b004aa5803b529ls3997282qvb.5.-pod-prod-gmail;
+ Sat, 08 Oct 2022 14:42:32 -0700 (PDT)
+X-Received: by 2002:a0c:a79a:0:b0:4b1:ca99:177 with SMTP id v26-20020a0ca79a000000b004b1ca990177mr9265213qva.34.1665265352040;
+        Sat, 08 Oct 2022 14:42:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665265352; cv=none;
         d=google.com; s=arc-20160816;
-        b=pL+aJRWyih/g9w4Cc5bZli1xWeCD9QeAo9yyaxG9mAUdBBmWYQSRv04RnC9DSa/Ks+
-         B1xPkTQ9nRlo5OLd7J2mqdYS817h3XycmQ6e2d2ot/+GQOtRbYfqdnQQLf5lLWdWGF6S
-         x+hsJ1ArtjyQXJWAJ4MXvwBDvCa6PHXpySmC8VE5p0o6lso7/xCklThEBuDCT2QASf/O
-         p9sAoZcI0jg/ZZviy8O6fC9UWWkKLMz+wrbCu8H8dV0kXIFBFTJ9S/FcB0RmYyZBNRJw
-         sE1hCB1XgoqwTjKunLnbguRYuLOb/1J3xEr+pBdTuK2fff21jMCQDeb0CE1wRwcPHmEY
-         9Byg==
+        b=DFxe960NT8rBfGo39+2MwpS8i6+7jeenOfTQv/t2o7obQVH41b53LxZv5eNFrwQdf3
+         A26x4NffWdfMJ4URZPqPV6tcKoKbqx26kTbzN0m5AQUeo7gbw7NDbby64HPBFmbRiOCy
+         gDYap17z2Mfh5nF+t95FHmKiFUNNh7hFBq0BQSHYQ+2TjaqtI02Pq3Bu+/ZBu+E485PT
+         K47IzDXiFvvPNqlPHFN7IvHbdRHGMEsxJ8Klh663dAoQ7Lx3zO96DCwWLbauJdWDu1kO
+         DSjLQgdg2FSV55/og4qluumG51YUOTXMIB1x3lNxP4m0mwJ6DhBAZhHRJltLW1S6d9Hj
+         +Fug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=organization:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=gKkERMB1M9xOEPNfE3IrAsq0mJwwY0seKkU7oCng9qc=;
-        b=bYfHNYCZkCxh30fI0W5qm2SjNyupi5gNhgIqs7VoqVj2PWR3cRt4vuk1nT8PFGwd8G
-         dZ+eW7IePsl/6R7/ghfT1m4bnYt2mKM7lJcOWeV0HIfb17stbF5YXegbFpFj037yVJcy
-         Nd79GTI9u8s0w8ZY3r8lvpcjbRxOvywsuUsHtgWPcnDLFdn8dmBT3jsjeGcMX+zKHFXh
-         zGrqfG9kQ4C5GK+UeoRcogVWc6d5DJdLvRVTN1ktVw3r0uiOOUwUAlcOGOKqVo7W1M5p
-         uKqXZKox6FrTML/hmujCO7lWZRu57x1eg/OHA6uURAkEEu9lPaWUgQ+ls6jXqidfFr9A
-         s1jw==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=XB90Z1qj3kPK5TTwJuNvzg1Gu7i5Rnz3wWrq9Xc3CzQ=;
+        b=htm5AXJP13+/Ise6WZitPStmxrkgNAeSi3z9BNYvDAL4kvzA2ikj2MMnlXx2IM5MGu
+         Ol/9dH0JcMNkqgfHnL7TVO+QoR30irFi2nqkh//1wRnM62hbbL69R0wpW3GwolpctDbk
+         FhD5jMW7+9oE1STIoARPNFoKgBVFhzjetAvJ9AKE3xSyQCT0ePapDjFegz2dXbh/pgwX
+         gd3O/7HGgUYWJockOy2grFuje8UPbwbq1daayzHNs4MHAPyw86VQUsQ0ijCYlDFicW0t
+         c168xMrF4HZjOQghrzzD059C4E1J17yirLaSOQ/Su3SH+nR/SCpEXiH7MSJAUiMtdbdN
+         nHWA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=Cy4RrU9t;
-       spf=pass (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com designates 134.134.136.126 as permitted sender) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga18.intel.com (mga18.intel.com. [134.134.136.126])
-        by gmr-mx.google.com with ESMTPS id v5-20020a05651203a500b00499b6fc70ecsi197330lfp.1.2022.10.08.11.16.31
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=EumsjgKw;
+       spf=pass (google.com: domain of yury.norov@gmail.com designates 2607:f8b0:4864:20::72f as permitted sender) smtp.mailfrom=yury.norov@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com. [2607:f8b0:4864:20::72f])
+        by gmr-mx.google.com with ESMTPS id u29-20020a05620a085d00b006e9e77d2267si151118qku.5.2022.10.08.14.42.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 08 Oct 2022 11:16:32 -0700 (PDT)
-Received-SPF: pass (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com designates 134.134.136.126 as permitted sender) client-ip=134.134.136.126;
-X-IronPort-AV: E=McAfee;i="6500,9779,10494"; a="287201859"
-X-IronPort-AV: E=Sophos;i="5.95,170,1661842800"; 
-   d="scan'208";a="287201859"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2022 11:16:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10494"; a="750899918"
-X-IronPort-AV: E=Sophos;i="5.95,170,1661842800"; 
-   d="scan'208";a="750899918"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 08 Oct 2022 11:16:23 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ohEN3-0048ft-0Q;
-	Sat, 08 Oct 2022 21:16:21 +0300
-Date: Sat, 8 Oct 2022 21:16:20 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	kasan-dev@googlegroups.com, kernel-janitors@vger.kernel.org,
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Oct 2022 14:42:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of yury.norov@gmail.com designates 2607:f8b0:4864:20::72f as permitted sender) client-ip=2607:f8b0:4864:20::72f;
+Received: by mail-qk1-x72f.google.com with SMTP id i3so4847924qkl.3
+        for <kasan-dev@googlegroups.com>; Sat, 08 Oct 2022 14:42:32 -0700 (PDT)
+X-Received: by 2002:a05:620a:46a4:b0:6ce:c4af:5a54 with SMTP id bq36-20020a05620a46a400b006cec4af5a54mr8239989qkb.377.1665265351668;
+        Sat, 08 Oct 2022 14:42:31 -0700 (PDT)
+Received: from localhost ([2601:4c1:c100:2270:4fea:6b67:9485:addd])
+        by smtp.gmail.com with ESMTPSA id j1-20020a05620a410100b006cfaee39ccesm5821626qko.114.2022.10.08.14.42.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Oct 2022 14:42:31 -0700 (PDT)
+Date: Sat, 8 Oct 2022 14:42:30 -0700
+From: Yury Norov <yury.norov@gmail.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dave Airlie <airlied@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Hugh Dickins <hughd@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	"James E . J . Bottomley" <jejb@linux.ibm.com>,
+	Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jens Axboe <axboe@kernel.dk>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	KP Singh <kpsingh@kernel.org>, Kees Cook <keescook@chromium.org>,
+	Marco Elver <elver@google.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>, Theodore Ts'o <tytso@mit.edu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+	dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+	kernel-janitors@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
 	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
@@ -129,21 +177,21 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org,
 	linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
 	linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	loongarch@lists.linux.dev, netdev@vger.kernel.org,
-	sparclinux@vger.kernel.org, x86@kernel.org, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
-Message-ID: <Y0G+dP9uGaYHSa9y@smile.fi.intel.com>
-References: <53DD0148-ED15-4294-8496-9E4B4C7AD061@chromium.org>
+	sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v5 0/7] treewide cleanup of random integer usage
+Message-ID: <Y0HuxsLysThhsaTl@yury-laptop>
+References: <20221008055359.286426-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <53DD0148-ED15-4294-8496-9E4B4C7AD061@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Original-Sender: andriy.shevchenko@linux.intel.com
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221008055359.286426-1-Jason@zx2c4.com>
+X-Original-Sender: yury.norov@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=Cy4RrU9t;       spf=pass
- (google.com: best guess record for domain of andriy.shevchenko@linux.intel.com
- designates 134.134.136.126 as permitted sender) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@gmail.com header.s=20210112 header.b=EumsjgKw;       spf=pass
+ (google.com: domain of yury.norov@gmail.com designates 2607:f8b0:4864:20::72f
+ as permitted sender) smtp.mailfrom=yury.norov@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,77 +204,107 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Oct 07, 2022 at 08:50:43PM -0700, Kees Cook wrote:
-> On October 7, 2022 7:21:28 PM PDT, "Jason A. Donenfeld" <Jason@zx2c4.com> wrote:
-> >On Fri, Oct 07, 2022 at 03:47:44PM -0700, Kees Cook wrote:
-> >> On Fri, Oct 07, 2022 at 12:01:03PM -0600, Jason A. Donenfeld wrote:
+On Fri, Oct 07, 2022 at 11:53:52PM -0600, Jason A. Donenfeld wrote:
+> Changes v4->v5:
+> - Coccinelle is now used for as much mechanical aspects as possible,
+>   with mechanical parts split off from non-mechanical parts. This should
+>   drastically reduce the amount of code that needs to be reviewed
+>   carefully. Each commit mentions now if it was done by hand or is
+>   mechanical.
+>=20
+> Hi folks,
+>=20
+> This is a five part treewide cleanup of random integer handling. The
+> rules for random integers are:
+>=20
+> - If you want a secure or an insecure random u64, use get_random_u64().
+> - If you want a secure or an insecure random u32, use get_random_u32().
+>   * The old function prandom_u32() has been deprecated for a while now
+>     and is just a wrapper around get_random_u32(). Same for
+>     get_random_int().
+> - If you want a secure or an insecure random u16, use get_random_u16().
+> - If you want a secure or an insecure random u8, use get_random_u8().
+> - If you want secure or insecure random bytes, use get_random_bytes().
+>   * The old function prandom_bytes() has been deprecated for a while now
+>     and has long been a wrapper around get_random_bytes().
+> - If you want a non-uniform random u32, u16, or u8 bounded by a certain
+>   open interval maximum, use prandom_u32_max().
+>   * I say "non-uniform", because it doesn't do any rejection sampling or
+>     divisions. Hence, it stays within the prandom_* namespace.
+>=20
+> These rules ought to be applied uniformly, so that we can clean up the
+> deprecated functions, and earn the benefits of using the modern
+> functions. In particular, in addition to the boring substitutions, this
+> patchset accomplishes a few nice effects:
+>=20
+> - By using prandom_u32_max() with an upper-bound that the compiler can
+>   prove at compile-time is =E2=89=A465536 or =E2=89=A4256, internally get=
+_random_u16()
+>   or get_random_u8() is used, which wastes fewer batched random bytes,
+>   and hence has higher throughput.
+>=20
+> - By using prandom_u32_max() instead of %, when the upper-bound is not a
+>   constant, division is still avoided, because prandom_u32_max() uses
+>   a faster multiplication-based trick instead.
+>=20
+> - By using get_random_u16() or get_random_u8() in cases where the return
+>   value is intended to indeed be a u16 or a u8, we waste fewer batched
+>   random bytes, and hence have higher throughput.
+>=20
+> So, based on those rules and benefits from following them, this patchset
+> breaks down into the following five steps:
+>=20
+> 1) Replace `prandom_u32() % max` and variants thereof with
+>    prandom_u32_max(max).
+>=20
+>    * Part 1 is done with Coccinelle. Part 2 is done by hand.
+>=20
+> 2) Replace `(type)get_random_u32()` and variants thereof with
+>    get_random_u16() or get_random_u8(). I took the pains to actually
+>    look and see what every lvalue type was across the entire tree.
+>=20
+>    * Part 1 is done with Coccinelle. Part 2 is done by hand.
+>=20
+> 3) Replace remaining deprecated uses of prandom_u32() and
+>    get_random_int() with get_random_u32().=20
+>=20
+>    * A boring search and replace operation.
+>=20
+> 4) Replace remaining deprecated uses of prandom_bytes() with
+>    get_random_bytes().
+>=20
+>    * A boring search and replace operation.
+>=20
+> 5) Remove the deprecated and now-unused prandom_u32() and
+>    prandom_bytes() inline wrapper functions.
+>=20
+>    * Just deleting code and updating comments.
+>=20
+> I was thinking of taking this through my random.git tree (on which this
+> series is currently based) and submitting it near the end of the merge
+> window, or waiting for the very end of the 6.1 cycle when there will be
+> the fewest new patches brewing. If somebody with some treewide-cleanup
+> experience might share some wisdom about what the best timing usually
+> winds up being, I'm all ears.
+>=20
+> Please take a look! The number of lines touched is quite small, so this
+> should be reviewable, and as much as is possible has been pushed into
+> Coccinelle scripts.
 
-...
+For the series:
+Reviewed-by: Yury Norov <yury.norov@gmail.com>
 
-> >> These are more fun, but Coccinelle can still do them with a little
-> >> Pythonic help:
-> >> 
-> >> // Find a potential literal
-> >> @literal_mask@
-> >> expression LITERAL;
-> >> identifier randfunc =~ "get_random_int|prandom_u32|get_random_u32";
-> >> position p;
-> >> @@
-> >> 
-> >>         (randfunc()@p & (LITERAL))
-> >> 
-> >> // Add one to the literal.
-> >> @script:python add_one@
-> >> literal << literal_mask.LITERAL;
-> >> RESULT;
-> >> @@
-> >> 
-> >> if literal.startswith('0x'):
-> >>         value = int(literal, 16) + 1
-> >>         coccinelle.RESULT = cocci.make_expr("0x%x" % (value))
-> >> elif literal[0] in '123456789':
-> >>         value = int(literal, 10) + 1
-> >>         coccinelle.RESULT = cocci.make_expr("%d" % (value))
-> >> else:
-> >>         print("I don't know how to handle: %s" % (literal))
+Although, looking at it, I have a feeling that kernel needs to drop all
+fixed-size random APIs like get_random_uXX() or get_random_int(), because
+people will continue using the 'get_random_int() % num' carelessly.
 
-Wouldn't Python take care about (known) prefixes itself?
+Thanks,
+Yury
 
-	try:
-		x = int(literal)
-	except ValueError as ex:
-		print(..., ex.error)
-
-> >> // Replace the literal mask with the calculated result.
-> >> @plus_one@
-> >> expression literal_mask.LITERAL;
-> >> position literal_mask.p;
-> >> expression add_one.RESULT;
-> >> identifier FUNC;
-> >> @@
-> >> 
-> >> -       (FUNC()@p & (LITERAL))
-> >> +       prandom_u32_max(RESULT)
-> >
-> >Oh that's pretty cool. I can do the saturation check in python, since
-> >`value` holds the parsed result. Neat.
-> 
-> It is (at least how I have it here) just the string, so YMMV.
-
-...
-
-> >Thanks a bunch for the guidance.
-> 
-> Sure thing! I was pleased to figure out how to do the python bit.
-
-I believe it can be optimized
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0G%2BdP9uGaYHSa9y%40smile.fi.intel.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/Y0HuxsLysThhsaTl%40yury-laptop.
