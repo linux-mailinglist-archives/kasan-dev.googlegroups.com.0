@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCLI747UVAFRBOV5QONAMGQEX3OELEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLI747UVAFRBQWZQONAMGQE4SZLYXA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86A15F8256
-	for <lists+kasan-dev@lfdr.de>; Sat,  8 Oct 2022 04:21:47 +0200 (CEST)
-Received: by mail-yb1-xb3f.google.com with SMTP id a10-20020a5b0aca000000b006b05bfb6ab0sf6102994ybr.9
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Oct 2022 19:21:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665195706; cv=pass;
+Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5963D5F82B3
+	for <lists+kasan-dev@lfdr.de>; Sat,  8 Oct 2022 05:21:40 +0200 (CEST)
+Received: by mail-pj1-x103d.google.com with SMTP id kk6-20020a17090b4a0600b0020af381d1c4sf5305177pjb.8
+        for <lists+kasan-dev@lfdr.de>; Fri, 07 Oct 2022 20:21:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665199298; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Cp/njUyMToZ9tMRqBsnEzRP5SAs8X4eIYyTIqV6g015OOz9yJgGbNoYIjCodssiO+D
-         7g/I8L7UBbUCsSYhnLN7Gs4ixqUZ8ojc+iWjOiCp6xnpdzsEYOvDqWwL9hSmNugvzfov
-         lLUwzZHgbv1qh1bdaXvQGb7Ni673hAqLxk3j+tMnXGy2b9VDlPXTjvi370dI8Q7CK5Mu
-         l0o59Oyig1C7KPTNhTES3dguhUllS2uCMK2nYFh+OT7+Aw5NRMafbJ5HgAOYrDcm6kF9
-         vG0fcZ8ivRUcba3OgQIrmuAACMvbO+QKJ3bhwSHgyliLtq+h4UvPXmXT7UVWA3if40G8
-         Cfcw==
+        b=VKRez0mOU8GaOCc/bK0XZwPXqfkk0Df+mf7CKAWbQdxI7BxBjr+7JJ6blbllSlXHBI
+         F4aoXXBU6/zc2dDNy3MlZCtwvKYpHCINBAry+D8A+FfxXQGxoYxaFqTNvXrnVgaQQ1da
+         YWjV8KEryBngQsex/whbuxzmLfCK6eo5/o/cEoed8AKVDCMs1xfpZdJi1PNaJGHNbG3X
+         UuX8c9a4jjmX3R/Jo5QsFhL6qCq+KglCbLMkSQmeUjgz91KLgzmQJlcSg65uN/oo+JOi
+         OBaLsqRJZ7pv0GxUVvd7uFkec8H+Y5UvchrTXmbfovCkRkxFtoZnjsCRkuL5HOneUIiW
+         vNXQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=ea4zh/yYyUrQTmImIDD2yGYv3C/8csBcEGkGdNStRhE=;
-        b=u41LESSVtYVAnh/qqxftqzoFa2m/nEnpM1wqvYIf6YIX6hfwQPeWh75fTTHWFv0yLt
-         7TukMhnjF5pWkUToTGDN9245fiMwPRGrsVs2XWRI7oyxqFQpMpCDLuWupvmib055F88V
-         DFtG04H78vGi3EgZBaG15oZfBFBoLopgu8+cWkADUxG8mbnUfAaLU2Dr8MTxRGDlonDm
-         fY3beWxc1ki/vWMETe0fa66cPDo5iZfypv50tYtyvQUG+DcXjAHS/yzggJDqwAf2Q2jH
-         O8QDKV9w/dGKvUWUoZ+byE9XpFle4WuCQ6Ka6daADvZuARJpuDdNDTvzkdCXrEfnB6Vy
-         qgWw==
+        bh=vQWR7IurlSODrWHjMeM3PQy/EjN12NgzC0sa9l2ceK8=;
+        b=eor+FO+CdADajHyNRf6SYiQvmpGdzUY3e5E/cv2vdzV9oAdnKCv/D40FMWDXU20mgn
+         NC8E4p4YE+rKVukJyCHw0cCjQhVZsW3t56868WeFBbxzJC5bixD34w3PXckc2EFpPb/J
+         bHohv0cb10IoVmulZHtLTIFdeBRuon+6wXo73T0zTmrP60blmPlLyNBhKYMM2qwvsMNK
+         dtezpUBx6kWTGlOlM4FOF383fbIJmtBInQELm8YyhfoHUFbmJLm2WoosBVDrLOmlF9NO
+         jc1gbj/x9erFlT+nZXILXZlCRdgxznPvkq8QHcRySgVV4uzx8yKD0wZTll6T/Snji/UZ
+         Va8Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=LYfvW0ZZ;
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=QJwXB42z;
        spf=pass (google.com: domain of srs0=1ou5=2j=zx2c4.com=jason@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=1Ou5=2J=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ea4zh/yYyUrQTmImIDD2yGYv3C/8csBcEGkGdNStRhE=;
-        b=hRVoM+rzOgsZXuigfku1vZ12NY3TGwwGQDqcscV9MrO+i1Ydn/HRwjBzrsMRF6dTpp
-         5e+tqhK//g6Ce5+/UEByYsJfWpu/fk6Lwdhm/r7GMtITnlZsGGIcvdYZesKQaiVjBlYn
-         hPbscIYVYaIMdPBZ01F2YS57UUjy0JjLNEpVZqhniVQWMGjc1AztsFyacCu1I31SeVYa
-         vf9mG7LDKba4kqDMJiPZ4MPLVSA4GXOt4LdDvUvxs5nbPiOEa3bThQQ7h+0IQG3zTZF8
-         WTW9Qd3ju1d9sprt4Xojt+eCfjURbm2sWJOQDyhuEr6TLkdp4MVQ7NF4XJA665nArxRT
-         4Lvg==
+        bh=vQWR7IurlSODrWHjMeM3PQy/EjN12NgzC0sa9l2ceK8=;
+        b=mBU4/JlAJrvfri5MBDcQxXnRxID2Wqf52dCFwsxgQmSGt0t5cOClft6H4X2gzVAxf1
+         bIFtBEU0qUDT8HaEd09rhjCQy7zugtMYP1NHYtCtwbaz0yKIHbTDhuh741B4FjH0nfgY
+         b3OlIsxHp0vvyoCZzhaLAzzluhsSEKrdG4qwG/38xPQNlE/sQukrG31+X125KAQKuSpO
+         1MjmNpVPRsoAZ0NRNs644CogXdagN60oUL5EodGHfpVgPAy1tHrfhfA/fKyzgIXIv59F
+         6JXO7Z/9Q3X7w7MwA26wB3xCrC+MIXq8hi5bssBcoEyNFNVaxYOJBMC8qyC//zFeZnSi
+         IT5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,61 +52,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ea4zh/yYyUrQTmImIDD2yGYv3C/8csBcEGkGdNStRhE=;
-        b=DpFMdQL1v+sL0YRNMs/7IR1oEAtD3d2yJjW9qyJnuyVeVtXGc+WLaT2s1gVkFLt90+
-         Y750zdWgUokTRYRgDFMkP62603TGpo6umt7HpUHNi/3mFJP6ltFcbd32KOgsli0+5KO2
-         bHGptzhswhePgrGsXMw69UhKODILMorZYUMxGaMdm9t+AF5G5Os+Zeyfw8xZHriBkC8/
-         56DdBzf648CkedG3y+0iK4U/XvkgPRBsd6GZgh2vNXao9vophqhmiCZk71wuS9IvuYYq
-         0WXSzTSJKy6OFJ7urh1p7vBDbeeX99NTJUB7QB+EnMtw1Evg0lwV9c74hmgeo5bULcAd
-         i+nA==
-X-Gm-Message-State: ACrzQf0iuwrB+fWfuOs8H2ddT1FBidpZPTqAR3XvCBcqh+xH/PoyC3aF
-	F0+BAfQ3IOjBIZZib6Tsm8E=
-X-Google-Smtp-Source: AMsMyM6guImbOJczMc5w5zcW3bqUn1Xv6bjLeyvIHdnGz9zdBlbAoMiMr36YmPzTYb86ZEa1cDoyxQ==
-X-Received: by 2002:a25:1082:0:b0:6bc:9f59:b567 with SMTP id 124-20020a251082000000b006bc9f59b567mr7303049ybq.107.1665195706307;
-        Fri, 07 Oct 2022 19:21:46 -0700 (PDT)
+        bh=vQWR7IurlSODrWHjMeM3PQy/EjN12NgzC0sa9l2ceK8=;
+        b=Koej9BlGa3SyLcUZt6NzK6VwzQUBgWwSCQWE57q8M5NAVgDJaXKlKFWCYlRfjuHglN
+         NDmmGEF7YhusPrdi4sOrImCtgsXy+E7ibkot1CniZXVdKcPbksgYVb1Gpp5DVNpEnHAs
+         f3mvE8hODFASGLQTKrpeL6FeltCAytSvGMddL8et+/EKJt+Kk8htP/v8VeQMmLKykDvx
+         aQo6d1+K64fg1gvoxyLy5YNwLwAREQdyKcp73DfGoEotMJH5AB1dlqYY1VSTQuWFnkXw
+         qTSwyXMJplV1S707TEaNtubNTViwc4KbMfEzyxlxc0LCxPr/3VPGFlSOexwsoLajnGnu
+         oCMg==
+X-Gm-Message-State: ACrzQf25x9HPS9jXF+3L7SpHM1dyEdAYf6N3fTJv1YC+jb+s0RUhNssh
+	jOXNKE8awcDZWeXub6QPQi0=
+X-Google-Smtp-Source: AMsMyM7F2cQccde7Bfr94Fn5ioGJX8dss1LCaSAG7K6sTn/AxVUnz2+mwPV/5lldXb1LxEJUxtUXbg==
+X-Received: by 2002:a17:902:bd05:b0:179:bbad:acff with SMTP id p5-20020a170902bd0500b00179bbadacffmr7941748pls.170.1665199298595;
+        Fri, 07 Oct 2022 20:21:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:b227:0:b0:6be:8daa:181d with SMTP id i39-20020a25b227000000b006be8daa181dls3638319ybj.11.-pod-prod-gmail;
- Fri, 07 Oct 2022 19:21:45 -0700 (PDT)
-X-Received: by 2002:a5b:389:0:b0:6bb:bf9a:e647 with SMTP id k9-20020a5b0389000000b006bbbf9ae647mr7736462ybp.114.1665195705690;
-        Fri, 07 Oct 2022 19:21:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665195705; cv=none;
+Received: by 2002:a17:903:240a:b0:16d:6f9a:131a with SMTP id
+ e10-20020a170903240a00b0016d6f9a131als4852441plo.5.-pod-prod-gmail; Fri, 07
+ Oct 2022 20:21:37 -0700 (PDT)
+X-Received: by 2002:a17:90b:2686:b0:20a:d838:25d2 with SMTP id pl6-20020a17090b268600b0020ad83825d2mr8597664pjb.35.1665199297727;
+        Fri, 07 Oct 2022 20:21:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665199297; cv=none;
         d=google.com; s=arc-20160816;
-        b=hw1dR/++7ICpdyv4DaCMIU9wVHu9+QfQGri3hjwwU1sZA5UKQSd62aNZNFcbphsL5T
-         B5nx5yTpplqN0SSv9j675bhwDZlV8PL5ED6cDh6yjy1dkX42q6ePSk11RIhm64xruZMk
-         BMqxEZFnIDQwt+WVdskw/3dBmxw9tcnBh9Xzee/rmCSbX9FSq9CN2wgUoDhaYZx92OzA
-         HXU2nyMq5U0gbbyizccNn0R6AZXPaDyXdt87vTM1xGxzz5OWHOKXaQgSvJ9dbesSIo6f
-         1P7C3oBNdi9pgc8OIAlvT7cG2GEK8vcbQETG/XANQ/rPI4o9wtCd5Ww6zccncfMPFf5z
-         wRVw==
+        b=PaB43JqMnRe1IO88K4H1Yd8rBbCOAU0gVaRmkwPmRwlZ21Fahf628xY5rqITKgCJ9Q
+         JrBt9kCOfhpfut/tbxICS+PXG5nutA4ErjkXNT52rP9WZ4+TuoM9RzGb5QWbTlqJm4wA
+         NuV3NDPIwbKyazKLal6l7OPcvhI0FQ4pIH4ScFE3kp+gpClPUOOLeOt+QVdFLsWTl9FU
+         NwMCkqYm6ztMAWbQYub2YFrLlcgBF+d3QZP+SaX/v2TdY/eRzbysu2DMGSfGQkduy3JT
+         zmZzn9/5nibBaXoDpMD64XcVAHWo4aE9ML2Tpecv5KRsQn1tOEyRRGRKVCTtxH9ftiua
+         814g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=nQirwEB0hjkXJ9U2/sbrNj05mdvuwOBFqUHuwVO4sG4=;
-        b=Kx7eqezPk3nkLZEW/s92bq/m3bjvcx1iIy7dMV5pjNSrOkF43kcZZVNfWlsP+oPRvz
-         cXlrzJ7W+eheq+DiszBum/YoUb3qwCPXP+C1zd0hdHEq6NUY2QkN2htJlLoaKSfp4xht
-         ZocRIl4wdzNW6i5ed2I0JJnIsuHYEBqZxoZjjokp7fnfhVv5vAZAJf2UzcM92L8lbHU6
-         4jOiFS9xJqzbvbDjTYkphf0fEvPiGDc/baFdKUYydV34AW1GQDpYDqFt3YynZADAdLo9
-         L0fpRX1j6jJUWKVvx2eNfd2+JWsa2oV4SEyq4Of7tYjUMDdZSSFal/bDTp+6kjuFlhUh
-         k2Sg==
+        bh=L9NKrsR7tTYpbn5X6JuYO0fYdKTzEIaHBiFinguj7aw=;
+        b=p+p5mLqzABXcbmqpvAVYP/+ULz4dutmYz5WPNRz7OuncAl2HimB/klQiY6ED6YdzaT
+         wlrhDrCOEUOWK15jAobQnQO5eO+9UA8PcdbAqxOMOQJKh7b5zvEIWgQuH81WnmFvMlbJ
+         LKuJX9O8+w2qfVJRzX/+QyiPj5+RQzg6XAQYUABE3zDl1ms1n3sX0EK4MnN7cToJiN5U
+         BxcL7dGFG1vYYi1H3eEbH1NEoRQOAKZxWnfmX3o/pQfqg21cbjefoNwwbYLb8QMIaUy2
+         lkdkOTpLfPDRcw5hRPuRiTAydCVia9hcC3EP4GioDENi6021ID4hNBWe+3wyTg0dK6Sh
+         X6oQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=LYfvW0ZZ;
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=QJwXB42z;
        spf=pass (google.com: domain of srs0=1ou5=2j=zx2c4.com=jason@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=1Ou5=2J=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id u186-20020a8184c3000000b0035c156f657esi232188ywf.3.2022.10.07.19.21.44
+        by gmr-mx.google.com with ESMTPS id n27-20020aa7985b000000b00560eeb33bbasi111321pfq.6.2022.10.07.20.21.37
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Oct 2022 19:21:44 -0700 (PDT)
+        Fri, 07 Oct 2022 20:21:37 -0700 (PDT)
 Received-SPF: pass (google.com: domain of srs0=1ou5=2j=zx2c4.com=jason@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 2D46561DC9;
-	Sat,  8 Oct 2022 02:21:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81D33C433D6;
-	Sat,  8 Oct 2022 02:21:37 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 897978b7 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Sat, 8 Oct 2022 02:21:35 +0000 (UTC)
-Date: Fri, 7 Oct 2022 20:21:28 -0600
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 1AC9D60DE1;
+	Sat,  8 Oct 2022 03:21:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5142DC433C1;
+	Sat,  8 Oct 2022 03:21:30 +0000 (UTC)
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ea268ade (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Sat, 8 Oct 2022 03:21:28 +0000 (UTC)
+Date: Fri, 7 Oct 2022 21:21:20 -0600
 From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Kees Cook <keescook@chromium.org>
 Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
@@ -162,7 +163,7 @@ Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
 	loongarch@lists.linux.dev, netdev@vger.kernel.org,
 	sparclinux@vger.kernel.org, x86@kernel.org, Jan Kara <jack@suse.cz>
 Subject: Re: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
-Message-ID: <Y0DeqDC3EnA4b6ZB@zx2c4.com>
+Message-ID: <Y0DssPFp2rY+TrPp@zx2c4.com>
 References: <20221007180107.216067-1-Jason@zx2c4.com>
  <20221007180107.216067-3-Jason@zx2c4.com>
  <202210071241.445289C5@keescook>
@@ -172,7 +173,7 @@ Content-Disposition: inline
 In-Reply-To: <202210071241.445289C5@keescook>
 X-Original-Sender: jason@zx2c4.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zx2c4.com header.s=20210105 header.b=LYfvW0ZZ;       spf=pass
+ header.i=@zx2c4.com header.s=20210105 header.b=QJwXB42z;       spf=pass
  (google.com: domain of srs0=1ou5=2j=zx2c4.com=jason@kernel.org designates
  139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=1Ou5=2J=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
@@ -191,199 +192,34 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On Fri, Oct 07, 2022 at 03:47:44PM -0700, Kees Cook wrote:
-> On Fri, Oct 07, 2022 at 12:01:03PM -0600, Jason A. Donenfeld wrote:
-> > Rather than incurring a division or requesting too many random bytes for
-> > the given range, use the prandom_u32_max() function, which only takes
-> > the minimum required bytes from the RNG and avoids divisions.
-> 
-> I actually meant splitting the by-hand stuff by subsystem, but nearly
-> all of these can be done mechanically too, so it shouldn't be bad. Notes
-> below...
-
-Oh, cool, more coccinelle. You're basically giving me a class on these
-recipes. Much appreciated.
-
-> > [...]
-> > diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
-> > index 92bcc1768f0b..87203429f802 100644
-> > --- a/arch/arm64/kernel/process.c
-> > +++ b/arch/arm64/kernel/process.c
-> > @@ -595,7 +595,7 @@ unsigned long __get_wchan(struct task_struct *p)
-> >  unsigned long arch_align_stack(unsigned long sp)
-> >  {
-> >  	if (!(current->personality & ADDR_NO_RANDOMIZE) && randomize_va_space)
-> > -		sp -= get_random_int() & ~PAGE_MASK;
-> > +		sp -= prandom_u32_max(PAGE_SIZE);
-> >  	return sp & ~0xf;
-> >  }
+> > diff --git a/lib/test_vmalloc.c b/lib/test_vmalloc.c
+> > index 4f2f2d1bac56..56ffaa8dd3f6 100644
+> > --- a/lib/test_vmalloc.c
+> > +++ b/lib/test_vmalloc.c
+> > @@ -151,9 +151,7 @@ static int random_size_alloc_test(void)
+> >  	int i;
 > >  
-> 
-> @mask@
-> expression MASK;
-> @@
-> 
-> - (get_random_int() & ~(MASK))
-> + prandom_u32_max(MASK)
-
-Not quite! PAGE_MASK != PAGE_SIZE. In this case, things get a litttttle
-more complicated where you can do:
-
-get_random_int() & MASK == prandom_u32_max(MASK + 1)
-*only if all the top bits of MASK are set* That is, if MASK one less
-than a power of two. Or if MASK & (MASK + 1) == 0.
-
-(If those top bits aren't set, you can technically do
-prandom_u32_max(MASK >> n + 1) << n. That'd be a nice thing to work out.
-But yeesh, maybe a bit much for the time being and probably a bit beyond
-coccinelle.)
-
-This case here, though, is a bit more special, where we can just rely on
-an obvious given kernel identity. Namely, PAGE_MASK == ~(PAGE_SIZE - 1).
-So ~PAGE_MASK == PAGE_SIZE - 1.
-So get_random_int() & ~PAGE_MASK == prandom_u32_max(PAGE_SIZE - 1 + 1).
-So get_random_int() & ~PAGE_MASK == prandom_u32_max(PAGE_SIZE).
-
-And most importantly, this makes the code more readable, since everybody
-knows what bounding by PAGE_SIZE means, where as what on earth is
-happening with the &~PAGE_MASK thing. So it's a good change. I'll try to
-teach coccinelle about that special case.
-
-
-
-> > diff --git a/arch/loongarch/kernel/vdso.c b/arch/loongarch/kernel/vdso.c
-> > index f32c38abd791..8c9826062652 100644
-> > --- a/arch/loongarch/kernel/vdso.c
-> > +++ b/arch/loongarch/kernel/vdso.c
-> > @@ -78,7 +78,7 @@ static unsigned long vdso_base(void)
-> >  	unsigned long base = STACK_TOP;
+> >  	for (i = 0; i < test_loop_count; i++) {
+> > -		n = prandom_u32();
+> > -		n = (n % 100) + 1;
+> > -
+> > +		n = prandom_u32_max(n % 100) + 1;
+> >  		p = vmalloc(n * PAGE_SIZE);
 > >  
-> >  	if (current->flags & PF_RANDOMIZE) {
-> > -		base += get_random_int() & (VDSO_RANDOMIZE_SIZE - 1);
-> > +		base += prandom_u32_max(VDSO_RANDOMIZE_SIZE);
-> >  		base = PAGE_ALIGN(base);
-> >  	}
-> >  
-> 
-> @minus_one@
-> expression FULL;
-> @@
-> 
-> - (get_random_int() & ((FULL) - 1)
-> + prandom_u32_max(FULL)
-
-Ahh, well, okay, this is the example I mentioned above. Only works if
-FULL is saturated. Any clever way to get coccinelle to prove that? Can
-it look at the value of constants?
-
-> 
-> > diff --git a/arch/parisc/kernel/vdso.c b/arch/parisc/kernel/vdso.c
-> > index 63dc44c4c246..47e5960a2f96 100644
-> > --- a/arch/parisc/kernel/vdso.c
-> > +++ b/arch/parisc/kernel/vdso.c
-> > @@ -75,7 +75,7 @@ int arch_setup_additional_pages(struct linux_binprm *bprm,
-> >  
-> >  	map_base = mm->mmap_base;
-> >  	if (current->flags & PF_RANDOMIZE)
-> > -		map_base -= (get_random_int() & 0x1f) * PAGE_SIZE;
-> > +		map_base -= prandom_u32_max(0x20) * PAGE_SIZE;
-> >  
-> >  	vdso_text_start = get_unmapped_area(NULL, map_base, vdso_text_len, 0, 0);
-> >  
-> 
-> These are more fun, but Coccinelle can still do them with a little
-> Pythonic help:
-> 
-> // Find a potential literal
-> @literal_mask@
-> expression LITERAL;
-> identifier randfunc =~ "get_random_int|prandom_u32|get_random_u32";
-> position p;
-> @@
-> 
->         (randfunc()@p & (LITERAL))
-> 
-> // Add one to the literal.
-> @script:python add_one@
-> literal << literal_mask.LITERAL;
-> RESULT;
-> @@
-> 
-> if literal.startswith('0x'):
->         value = int(literal, 16) + 1
->         coccinelle.RESULT = cocci.make_expr("0x%x" % (value))
-> elif literal[0] in '123456789':
->         value = int(literal, 10) + 1
->         coccinelle.RESULT = cocci.make_expr("%d" % (value))
-> else:
->         print("I don't know how to handle: %s" % (literal))
-> 
-> // Replace the literal mask with the calculated result.
-> @plus_one@
-> expression literal_mask.LITERAL;
-> position literal_mask.p;
-> expression add_one.RESULT;
-> identifier FUNC;
-> @@
-> 
-> -       (FUNC()@p & (LITERAL))
-> +       prandom_u32_max(RESULT)
-
-Oh that's pretty cool. I can do the saturation check in python, since
-`value` holds the parsed result. Neat.
-
-> > diff --git a/fs/ext2/ialloc.c b/fs/ext2/ialloc.c
-> > index 998dd2ac8008..f4944c4dee60 100644
-> > --- a/fs/ext2/ialloc.c
-> > +++ b/fs/ext2/ialloc.c
-> > @@ -277,8 +277,7 @@ static int find_group_orlov(struct super_block *sb, struct inode *parent)
-> >  		int best_ndir = inodes_per_group;
-> >  		int best_group = -1;
-> >  
-> > -		group = prandom_u32();
-> > -		parent_group = (unsigned)group % ngroups;
-> > +		parent_group = prandom_u32_max(ngroups);
-> >  		for (i = 0; i < ngroups; i++) {
-> >  			group = (parent_group + i) % ngroups;
-> >  			desc = ext2_get_group_desc (sb, group, NULL);
-> 
-> Okay, that one is too much for me -- checking that group is never used
-> after the assignment removal is likely possible, but beyond my cocci
-> know-how. :)
-
-Yea this is a tricky one, which I initially didn't do by hand, but Jan
-seemed fine with it, and it's clear if you look at it. Trixy cocci
-indeed.
-
-> > diff --git a/lib/test_hexdump.c b/lib/test_hexdump.c
-> > index 0927f44cd478..41a0321f641a 100644
-> > --- a/lib/test_hexdump.c
-> > +++ b/lib/test_hexdump.c
-> > @@ -208,7 +208,7 @@ static void __init test_hexdump_overflow(size_t buflen, size_t len,
-> >  static void __init test_hexdump_overflow_set(size_t buflen, bool ascii)
-> >  {
-> >  	unsigned int i = 0;
-> > -	int rs = (prandom_u32_max(2) + 1) * 16;
-> > +	int rs = prandom_u32_max(2) + 1 * 16;
-> >  
-> >  	do {
-> >  		int gs = 1 << i;
+> >  		if (!p)
 > 
 > This looks wrong. Cocci says:
 > 
-> -       int rs = (get_random_int() % 2 + 1) * 16;
-> +       int rs = (prandom_u32_max(2) + 1) * 16;
+> -               n = prandom_u32();
+> -               n = (n % 100) + 1;
+> +               n = prandom_u32_max(100) + 1;
 
-!! Nice catch.
-
-Alright, I'll give this a try with more cocci. The big difficulty at the
-moment is the power of 2 constant checking thing. If you have any
-pointers on that, would be nice.
-
-Thanks a bunch for the guidance.
+I agree that's wrong, but what rule did you use to make Cocci generate
+that?
 
 Jason
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0DeqDC3EnA4b6ZB%40zx2c4.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0DssPFp2rY%2BTrPp%40zx2c4.com.
