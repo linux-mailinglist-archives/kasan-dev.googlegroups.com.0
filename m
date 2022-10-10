@@ -1,113 +1,109 @@
-Return-Path: <kasan-dev+bncBCLI747UVAFRBO6LSKNAMGQEP6T4SHA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLI747UVAFRBTOLSKNAMGQEULAI2RQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF805FA806
-	for <lists+kasan-dev@lfdr.de>; Tue, 11 Oct 2022 01:07:40 +0200 (CEST)
-Received: by mail-wm1-x340.google.com with SMTP id k38-20020a05600c1ca600b003b49a809168sf9663417wms.5
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Oct 2022 16:07:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665443259; cv=pass;
+Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD7A5FA817
+	for <lists+kasan-dev@lfdr.de>; Tue, 11 Oct 2022 01:07:57 +0200 (CEST)
+Received: by mail-wm1-x33e.google.com with SMTP id 133-20020a1c028b000000b003c5e6b44ebasf2661556wmc.9
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Oct 2022 16:07:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665443277; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ID2LLBUhsb4OBlP8G7Qp7/5wR3xks4HOPov9JvaqhrpxrVpuAOgESR0e8ShbA1xrnG
-         zTOY7dmu+4x+1KC524lqOYfcZa2Mp2I16o0BopUP9lLNucirqycsnH5P+GlBNDYEhdY9
-         9coRZG6x40uBCTbcfk//fANOVJEwgvoYUVvAB7cocYbAmqc+Iax6/zeXLD2JSUbRfEra
-         JsyOjaQg4nJ7LujGDnM7SWS5NJlIC8z+xetSRCWhhBeUBM2P1W/H78e/yQ+W/VQhZ3o1
-         tEp5oZuLndFmmWe8KD7SG58yIVNPsD1yeGUnniyNs/iZ5NPBPc113PZb4F0H/VM5+1eg
-         aW+A==
+        b=bRRmEfc6VmgBBPZS5yhbATXJEvuLLRMyQlWfsN0FJxzisxoHoJmbOXlO9vQ0gPlEds
+         qNUz8+mguVjIwXzWsGyvxbLFUyQZ5i1p9jC5vazChFBkhWAYeGvwB63vVTJbf/tnisbM
+         5lYyAsCaiW97itVAAhJuEY6B26fW7Vp3D8SXvI/mGs4D0H9oLbeYicak2a77xb7CKDDs
+         8ABFbcI/Ry/oK0P7X7WlYT7i0vft8prl7z+0Ep2j6lgVr6ziyfLUnuBmPAjIWFP6v0rx
+         dHuJ2SkoB6EBJlzuyf6NduosUDtyM5w8okQg/XoSX/MPYLRaJA8OeUqkeRvSYWGShtyU
+         FPZA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:dkim-signature;
-        bh=GKaYMhLd0xPzfxkKZ6AmcxTxL+6Y4TGnFyPjPpOIrAE=;
-        b=nTedGnJiNkQifPIkrXh7ThKFFXzl+o0oHQZmeiloPRWpPGzDeLVEbD/4cOIWMgvPHz
-         wl2xmZcvtg4mCttlEtlvPvtrKXyQWk46MxeyCs6bcFSbjsg040f0ASIDFkCl9+ukpzSh
-         rurgNYQNWxCfApFm8AntiYhWXk9UwdO/Q0Hjn0yuvrX2pxcK+gkQWhvABmA7iLIzgQt4
-         wRgzvaBH1g6+dH70IBL4CUzWuoqj6g18IFBbleba8a4TpafLYYoBMUgmzMbCZuNEf6Is
-         IRefXXFl7xWwIjDRagHLE44f3+N6UKjjD1SY6A3XoKwEoFDddfgvza88a14k7Htmjukn
-         Fm+Q==
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=q9uSlwnKUqR23KEXFOB5LbI2yIIzWiJ6vAy2X/e8tI0=;
+        b=bUrNJwK/yJKgVeqV58krMF11d2qwnn4Vn3/JftqubpVwnwevLODwWdDn0P2O3Y6p8Q
+         +puLeutvCa+1lI9HiZCYiJUFHpoQVyPGvaplo87pjCv9c4jhwAXIpU9DSr6X7WEtRiHI
+         Kl4yUM6IP4z+w1leeL4E2+daAwyiQh1oJC0SpGmHEQjxPaTqF7a6AhwiUSWdd3WWZYo1
+         D2fGsan1tnOJc7jPiAP/Pi9eWtq5EOSnnzBrQAYVKoyEeTiwgutEftxUn+SQdefivz5Q
+         Ajz4WmSmJWtr8efIvZ74eVfEUgcZos4g1+BSgkOGbIpOEFwG/vkng7l2nyKnndwD2Y+I
+         ydnw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=gifursMd;
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=ROyrpi8L;
        spf=pass (google.com: domain of srs0=yjjh=2l=zx2c4.com=jason@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom="SRS0=YJjh=2L=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GKaYMhLd0xPzfxkKZ6AmcxTxL+6Y4TGnFyPjPpOIrAE=;
-        b=VjeUUwcHu2ptZphNLej5ZvFClZZdvamG3djqg3RqiDSt9dnMpSCQ3VGNSWN/gWGBob
-         nCf1aolQolKf6wm9F2PLDfW30L9gNXduHel4d9D2gMgRI7abRGZOUdaZ4Byd8AEbJgQ/
-         TRxNl/vSxboQGEZRqS/8RRwST26QjrY7fUFxOn0E2a+eLSa8hLV+zy1dnP6yeAOg5eid
-         jKPqg9lRL0MJWtyR/0r7M8632BKt5sIKd95w9WbAV+OqsUi8mxdZqDONf6ekxbqwoE7R
-         dt9DDQcivJbGEQxazfxPYYCPJj5ofx44UPjx8LViH9b7PX5AewpMlhcSW37Mgox/f3yt
-         0K6g==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=q9uSlwnKUqR23KEXFOB5LbI2yIIzWiJ6vAy2X/e8tI0=;
+        b=iqRu2dcHkdWsSsYE17MCg43cMxklMWE55osh+SmXaj+Zd6qMEh8dF3l5hNZXDnu2+h
+         ++bhYilc8j4eHucB896SldLkBejKzm7tQA5VxBgoNlyomW8VyrWaiNohwcwIwJCM5Swg
+         WQXpmeE/lOptWN24KlkJc2JLH8MgFx+haWcY7p77lhh8Vy79bVz53p6cGhP/E5f/uUn8
+         rTjSi5H/ORfMNmfIF3EPE/Js2LzszdcxtEoCrRB/PjOF1ICy/iuV8CZCWIoOXmmjabFx
+         GQnIZdWAR198PsLEvvOzVgrnwj9XHCo1AIRe52/GeMZUQyu5vh3DHLpQ4OaY5QoBDx4x
+         ctBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GKaYMhLd0xPzfxkKZ6AmcxTxL+6Y4TGnFyPjPpOIrAE=;
-        b=CUhiH5aKZLlQKLKtV/yHDxpf9map4xrRIx/x/Uf5p3leQbHyePhOrQYn3PUNxdDPn3
-         OxYdN3HuKp6CDCVbmDwrLKnchKAjDibCiBzsI9dhgK4foPS1sksiwiX5W+qmtywNPeiF
-         xn+WwTOzoD1/FnLK/p6dci6V1mCk6Y+YGKh6qhRHcbDQsqWfZroUiakL8gbrGh4eqnkI
-         C2A+vGa8//pGvMPKdtMr5P5L1vZBZnbwasn+JaB9ZvvhpR+ZzCWPDYwadzqFegVpu6iR
-         6F+uWYlvqVoERg7MYnxd/S6vbf5VBQ7/fxlR3/WETPw/QsBcLWifsea4klHQVkQ+N1nS
-         utgA==
-X-Gm-Message-State: ACrzQf1hONuC5PfFrArCAv0SXH/nW9xuCoaYCrn4BJv14LlFYUpPv759
-	P6PQc+3MPUBrhBc6gHnQVxs=
-X-Google-Smtp-Source: AMsMyM6RLH17f6i18srXvz6CJIrrwNJ3YMOXvE25v4N65xFHGPgg7iKylTqSQjjxv6wEJscZZkdUkw==
-X-Received: by 2002:a05:6000:1687:b0:22a:3516:4f98 with SMTP id y7-20020a056000168700b0022a35164f98mr12864616wrd.525.1665443259748;
-        Mon, 10 Oct 2022 16:07:39 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q9uSlwnKUqR23KEXFOB5LbI2yIIzWiJ6vAy2X/e8tI0=;
+        b=Aq7tU3nL+3pBQnn8xAw8FPDtUsk0DmVoCYXddK4adpM1Zai381bHZE/4Zhg8Nusous
+         LGp+el3XZX3lNzKB1+Yzw56igvqPfy76GZsE8Mlui2+fgp5/+Fn1jG/SqOA+fZ985M6p
+         ccAkF4dSDwvw+/FvhGOUN+QuOkCqhcD1TR5iD5crRL6clz/UBKOkd9OWCCOy1AOM9BRf
+         SQxlFWTdSkBwKlbnAEXGq4C5d+M662cfQp0+rTsG7ql1lTXQSghrDR50dDoZ3r34oiKP
+         Fg2Q3xpObL4X4O5oN0qTo/UhR/gkuBo1zsc6ShPoqelb9xTrAFcL4DUqExT86+HsL5W5
+         sI9Q==
+X-Gm-Message-State: ACrzQf2bQBSVUhcig/9928I48FlDwcXETetOGvzm2UWmLAMsJmgjNr6g
+	fSFXZSKugt96pD0ohxkGdPs=
+X-Google-Smtp-Source: AMsMyM78QbO2M33XDm5sebmY46jmKfWQ4CEx0i2e8FDOtymux5tsqvqrVNu6Nci3q0CykiBSLmsieA==
+X-Received: by 2002:a05:600c:3781:b0:3a6:804a:afc with SMTP id o1-20020a05600c378100b003a6804a0afcmr21033472wmr.27.1665443277190;
+        Mon, 10 Oct 2022 16:07:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:70b:b0:22e:5d8a:c92d with SMTP id
- bs11-20020a056000070b00b0022e5d8ac92dls12175083wrb.1.-pod-prod-gmail; Mon, 10
- Oct 2022 16:07:38 -0700 (PDT)
-X-Received: by 2002:a5d:6dca:0:b0:22c:c6f9:57d2 with SMTP id d10-20020a5d6dca000000b0022cc6f957d2mr12932773wrz.474.1665443258659;
-        Mon, 10 Oct 2022 16:07:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665443258; cv=none;
+Received: by 2002:adf:d22a:0:b0:228:ddd7:f40e with SMTP id k10-20020adfd22a000000b00228ddd7f40els12181772wrh.3.-pod-prod-gmail;
+ Mon, 10 Oct 2022 16:07:56 -0700 (PDT)
+X-Received: by 2002:a05:6000:1d94:b0:22e:34ef:b07f with SMTP id bk20-20020a0560001d9400b0022e34efb07fmr13141067wrb.272.1665443276238;
+        Mon, 10 Oct 2022 16:07:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665443276; cv=none;
         d=google.com; s=arc-20160816;
-        b=A3ndVk9EOq5xy3if3H+B/pt12hPecXZ/h5gD3Z2D5L26WAjyQHPKiJbIvTQ6WGKjiX
-         NdmrSILXGkxBKGVKPisQGU39KwYschEBmWMzhIsUrL9RX0XgIwNMS6RvMYXgrXnT0gsx
-         f/shsC31SmU0/iIScO7zQu1f81awcxW5nRt39QPY6nlsyLkXyrIpX64qKZbM/6rKsVAR
-         A8CBmxUXpq7VKIiT/0V7I4OerM/R1J2Orx48GDbv9QZI96LtjwXYCj5YubK71HAdaQzt
-         J5W0ZBMVW+KdFx8QggWFZynT2dONcMECv/gaJWOriLU9hMSI6NgW6XFAx+Xaz/o3i6Tn
-         F4bw==
+        b=XncA+m1kFEHNJY++CtUkOQv0YsZRUu05Vk6XjZQ8gH7xXCX4pciBmvLgp1mkgbEJS2
+         7jrMDOV0JW23idltkCmcfAniA/dgcgdd6GAQJG/HVUC+zGzQxYGKB4pamXB0E1p5Stk1
+         yzq0VAgbITiBAnuOJ4bgVVd0jT30N8UV1EaJUX1qPaSAordkkF/PpOHKMpB1A0L65yf8
+         p3ZeCyn6QSh+F6ClzCF1jA3ABIoAJMCBGYnV+ZLr9qVvqnqZJZ8+AFxrGKcYzUqyeMGy
+         6DwawABkIlPrvcJG8akrBi18DjOk61QV42Vee3EmHQ8REUfGw7WFPJFBOEJWbvh+bFd0
+         zrEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=JCoPZES4ois2jKni1UYd8LLvlEU5uwn5Pbvog+swdM4=;
-        b=HNlLKGBu49Nv6dRmwchkt6RMj7YxFIf6wLKy4amRenEf55Uh4vdKJcHGgCBqOWSwiG
-         gpPdRyj8r/iQ/X0h3buYeKUI5/6t5ZkudohHmCfLg97+orp8PnQsASKlhpP0AJWcbz3V
-         4We61hpC8mU70CjIROETXqdj6OuXxyKcMbuP9DMh1weoBCcINKwyKM/abzUBKvTYruFM
-         rWUeapM5pY/UAtWMglfk7Cnxme9AdabacKplWP6Y02ZTClsUmtuM6Yt+uKPDRmdl8iZc
-         ze8NNMY2qiWzX64owGPemHw9dwn4/ICHgTTRQiDUinqfZn9ibwfGDEqXRoUEHnEwUcLo
-         bJyA==
+        bh=N5SmbVVHQod3YQjtwLm60J+z+obZf2+Cacrefjm9UsY=;
+        b=ybF39G8u+/oUDtEKUdC1dNNorx7dnWuTykylcFDI5QfB9SJvq9VRogldKBBxll8WcK
+         uZ2kB1pK7XHYXEUsESl/pCybJe1TMCaxUsGCGg8e81qOOoKlNGrry3ErcA4uNJYrCFT8
+         S7zWTvJcE8FXQ2g5M09CMXIekN6FOu3pkHLIeJIY/ozNFf+Y0MjRE2yFtPUENGAkwHso
+         oA4boYdoESQ4UdsBhU+1xrHJawTZ/2pcsYra4YyBeZ66SQn9TMwQ2XhCzu0Px0sbjLAt
+         LjjcUNehL3qJeh1nSc/l6OFj+lz8ql45pxXJX5mwP8WtG9ier1qoJIgF2Q0tK6jo2g13
+         kZcQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=gifursMd;
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=ROyrpi8L;
        spf=pass (google.com: domain of srs0=yjjh=2l=zx2c4.com=jason@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom="SRS0=YJjh=2L=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
-        by gmr-mx.google.com with ESMTPS id bq15-20020a5d5a0f000000b0022acdf547b9si403288wrb.5.2022.10.10.16.07.38
+        by gmr-mx.google.com with ESMTPS id m125-20020a1ca383000000b003b56ce98812si4846wme.3.2022.10.10.16.07.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Oct 2022 16:07:38 -0700 (PDT)
+        Mon, 10 Oct 2022 16:07:56 -0700 (PDT)
 Received-SPF: pass (google.com: domain of srs0=yjjh=2l=zx2c4.com=jason@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 17932B81104;
-	Mon, 10 Oct 2022 23:07:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA251C433C1;
-	Mon, 10 Oct 2022 23:07:30 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id e23001b4 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Mon, 10 Oct 2022 23:07:29 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id BF123B810FD;
+	Mon, 10 Oct 2022 23:07:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0DEBC433C1;
+	Mon, 10 Oct 2022 23:07:48 +0000 (UTC)
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 823f4769 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Mon, 10 Oct 2022 23:07:46 +0000 (UTC)
 From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
 To: linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev
@@ -184,24 +180,22 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
 	loongarch@lists.linux.dev,
 	netdev@vger.kernel.org,
 	sparclinux@vger.kernel.org,
-	x86@kernel.org,
-	=?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>
-Subject: [PATCH v6 3/7] treewide: use get_random_{u8,u16}() when possible, part 1
-Date: Mon, 10 Oct 2022 17:06:09 -0600
-Message-Id: <20221010230613.1076905-4-Jason@zx2c4.com>
+	x86@kernel.org
+Subject: [PATCH v6 4/7] treewide: use get_random_{u8,u16}() when possible, part 2
+Date: Mon, 10 Oct 2022 17:06:10 -0600
+Message-Id: <20221010230613.1076905-5-Jason@zx2c4.com>
 In-Reply-To: <20221010230613.1076905-1-Jason@zx2c4.com>
 References: <20221010230613.1076905-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: jason@zx2c4.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zx2c4.com header.s=20210105 header.b=gifursMd;       spf=pass
+ header.i=@zx2c4.com header.s=20210105 header.b=ROyrpi8L;       spf=pass
  (google.com: domain of srs0=yjjh=2l=zx2c4.com=jason@kernel.org designates
  2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom="SRS0=YJjh=2L=zx2c4.com=Jason@kernel.org";
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -216,560 +210,91 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 Rather than truncate a 32-bit value to a 16-bit value or an 8-bit value,
 simply use the get_random_{u8,u16}() functions, which are faster than
-wasting the additional bytes from a 32-bit value. This was done
-mechanically with this coccinelle script:
-
-@@
-expression E;
-identifier get_random_u32 =3D~ "get_random_int|prandom_u32|get_random_u32";
-typedef u16;
-typedef __be16;
-typedef __le16;
-typedef u8;
-@@
-(
-- (get_random_u32() & 0xffff)
-+ get_random_u16()
-|
-- (get_random_u32() & 0xff)
-+ get_random_u8()
-|
-- (get_random_u32() % 65536)
-+ get_random_u16()
-|
-- (get_random_u32() % 256)
-+ get_random_u8()
-|
-- (get_random_u32() >> 16)
-+ get_random_u16()
-|
-- (get_random_u32() >> 24)
-+ get_random_u8()
-|
-- (u16)get_random_u32()
-+ get_random_u16()
-|
-- (u8)get_random_u32()
-+ get_random_u8()
-|
-- (__be16)get_random_u32()
-+ (__be16)get_random_u16()
-|
-- (__le16)get_random_u32()
-+ (__le16)get_random_u16()
-|
-- prandom_u32_max(65536)
-+ get_random_u16()
-|
-- prandom_u32_max(256)
-+ get_random_u8()
-|
-- E->inet_id =3D get_random_u32()
-+ E->inet_id =3D get_random_u16()
-)
-
-@@
-identifier get_random_u32 =3D~ "get_random_int|prandom_u32|get_random_u32";
-typedef u16;
-identifier v;
-@@
-- u16 v =3D get_random_u32();
-+ u16 v =3D get_random_u16();
-
-@@
-identifier get_random_u32 =3D~ "get_random_int|prandom_u32|get_random_u32";
-typedef u8;
-identifier v;
-@@
-- u8 v =3D get_random_u32();
-+ u8 v =3D get_random_u8();
-
-@@
-identifier get_random_u32 =3D~ "get_random_int|prandom_u32|get_random_u32";
-typedef u16;
-u16 v;
-@@
--  v =3D get_random_u32();
-+  v =3D get_random_u16();
-
-@@
-identifier get_random_u32 =3D~ "get_random_int|prandom_u32|get_random_u32";
-typedef u8;
-u8 v;
-@@
--  v =3D get_random_u32();
-+  v =3D get_random_u8();
-
-// Find a potential literal
-@literal_mask@
-expression LITERAL;
-type T;
-identifier get_random_u32 =3D~ "get_random_int|prandom_u32|get_random_u32";
-position p;
-@@
-
-        ((T)get_random_u32()@p & (LITERAL))
-
-// Examine limits
-@script:python add_one@
-literal << literal_mask.LITERAL;
-RESULT;
-@@
-
-value =3D None
-if literal.startswith('0x'):
-        value =3D int(literal, 16)
-elif literal[0] in '123456789':
-        value =3D int(literal, 10)
-if value is None:
-        print("I don't know how to handle %s" % (literal))
-        cocci.include_match(False)
-elif value < 256:
-        coccinelle.RESULT =3D cocci.make_ident("get_random_u8")
-elif value < 65536:
-        coccinelle.RESULT =3D cocci.make_ident("get_random_u16")
-else:
-        print("Skipping large mask of %s" % (literal))
-        cocci.include_match(False)
-
-// Replace the literal mask with the calculated result.
-@plus_one@
-expression literal_mask.LITERAL;
-position literal_mask.p;
-identifier add_one.RESULT;
-identifier FUNC;
-@@
-
--       (FUNC()@p & (LITERAL))
-+       (RESULT() & LITERAL)
+wasting the additional bytes from a 32-bit value. This was done by hand,
+identifying all of the places where one of the random integer functions
+was used in a non-32-bit context.
 
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Yury Norov <yury.norov@gmail.com>
-Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk> # for sch_cake
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- arch/arm/kernel/signal.c                                  | 2 +-
- arch/arm64/kernel/syscall.c                               | 2 +-
- crypto/testmgr.c                                          | 8 ++++----
- drivers/media/common/v4l2-tpg/v4l2-tpg-core.c             | 2 +-
- drivers/media/test-drivers/vivid/vivid-radio-rx.c         | 4 ++--
- .../net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c   | 2 +-
- drivers/net/hamradio/baycom_epp.c                         | 2 +-
- drivers/net/hamradio/hdlcdrv.c                            | 2 +-
- drivers/net/hamradio/yam.c                                | 2 +-
- drivers/net/wireguard/selftest/allowedips.c               | 4 ++--
- drivers/net/wireless/st/cw1200/wsm.c                      | 2 +-
- drivers/scsi/lpfc/lpfc_hbadisc.c                          | 6 +++---
- lib/cmdline_kunit.c                                       | 4 ++--
- net/dccp/ipv4.c                                           | 4 ++--
- net/ipv4/datagram.c                                       | 2 +-
- net/ipv4/ip_output.c                                      | 2 +-
- net/ipv4/tcp_ipv4.c                                       | 4 ++--
- net/mac80211/scan.c                                       | 2 +-
- net/netfilter/nf_nat_core.c                               | 4 ++--
- net/sched/sch_cake.c                                      | 6 +++---
- net/sctp/socket.c                                         | 2 +-
- 21 files changed, 34 insertions(+), 34 deletions(-)
+ arch/s390/kernel/process.c     | 2 +-
+ drivers/mtd/nand/raw/nandsim.c | 2 +-
+ lib/test_vmalloc.c             | 2 +-
+ net/rds/bind.c                 | 2 +-
+ net/sched/sch_sfb.c            | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm/kernel/signal.c b/arch/arm/kernel/signal.c
-index ea128e32e8ca..e07f359254c3 100644
---- a/arch/arm/kernel/signal.c
-+++ b/arch/arm/kernel/signal.c
-@@ -655,7 +655,7 @@ struct page *get_signal_page(void)
- 		 PAGE_SIZE / sizeof(u32));
-=20
- 	/* Give the signal return code some randomness */
--	offset =3D 0x200 + (get_random_int() & 0x7fc);
-+	offset =3D 0x200 + (get_random_u16() & 0x7fc);
- 	signal_return_offset =3D offset;
-=20
- 	/* Copy signal return handlers into the page */
-diff --git a/arch/arm64/kernel/syscall.c b/arch/arm64/kernel/syscall.c
-index 733451fe7e41..d72e8f23422d 100644
---- a/arch/arm64/kernel/syscall.c
-+++ b/arch/arm64/kernel/syscall.c
-@@ -67,7 +67,7 @@ static void invoke_syscall(struct pt_regs *regs, unsigned=
- int scno,
- 	 *
- 	 * The resulting 5 bits of entropy is seen in SP[8:4].
- 	 */
--	choose_random_kstack_offset(get_random_int() & 0x1FF);
-+	choose_random_kstack_offset(get_random_u16() & 0x1FF);
+diff --git a/arch/s390/kernel/process.c b/arch/s390/kernel/process.c
+index 5ec78555dd2e..42af4b3aa02b 100644
+--- a/arch/s390/kernel/process.c
++++ b/arch/s390/kernel/process.c
+@@ -230,7 +230,7 @@ unsigned long arch_align_stack(unsigned long sp)
+ 
+ static inline unsigned long brk_rnd(void)
+ {
+-	return (get_random_int() & BRK_RND_MASK) << PAGE_SHIFT;
++	return (get_random_u16() & BRK_RND_MASK) << PAGE_SHIFT;
  }
-=20
- static inline bool has_syscall_work(unsigned long flags)
-diff --git a/crypto/testmgr.c b/crypto/testmgr.c
-index be45217acde4..981c637fa2ed 100644
---- a/crypto/testmgr.c
-+++ b/crypto/testmgr.c
-@@ -927,7 +927,7 @@ static void generate_random_bytes(u8 *buf, size_t count=
-)
- 			b =3D 0xff;
- 			break;
- 		default:
--			b =3D (u8)prandom_u32();
-+			b =3D get_random_u8();
- 			break;
- 		}
- 		memset(buf, b, count);
-@@ -935,8 +935,8 @@ static void generate_random_bytes(u8 *buf, size_t count=
-)
- 		break;
- 	case 2:
- 		/* Ascending or descending bytes, plus optional mutations */
--		increment =3D (u8)prandom_u32();
--		b =3D (u8)prandom_u32();
-+		increment =3D get_random_u8();
-+		b =3D get_random_u8();
- 		for (i =3D 0; i < count; i++, b +=3D increment)
- 			buf[i] =3D b;
- 		mutate_buffer(buf, count);
-@@ -944,7 +944,7 @@ static void generate_random_bytes(u8 *buf, size_t count=
-)
- 	default:
- 		/* Fully random bytes */
- 		for (i =3D 0; i < count; i++)
--			buf[i] =3D (u8)prandom_u32();
-+			buf[i] =3D get_random_u8();
- 	}
- }
-=20
-diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/=
-common/v4l2-tpg/v4l2-tpg-core.c
-index 9b7bcdce6e44..303d02b1d71c 100644
---- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-+++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-@@ -870,7 +870,7 @@ static void precalculate_color(struct tpg_data *tpg, in=
-t k)
- 		g =3D tpg_colors[col].g;
- 		b =3D tpg_colors[col].b;
- 	} else if (tpg->pattern =3D=3D TPG_PAT_NOISE) {
--		r =3D g =3D b =3D prandom_u32_max(256);
-+		r =3D g =3D b =3D get_random_u8();
- 	} else if (k =3D=3D TPG_COLOR_RANDOM) {
- 		r =3D g =3D b =3D tpg->qual_offset + prandom_u32_max(196);
- 	} else if (k >=3D TPG_COLOR_RAMP) {
-diff --git a/drivers/media/test-drivers/vivid/vivid-radio-rx.c b/drivers/me=
-dia/test-drivers/vivid/vivid-radio-rx.c
-index 232cab508f48..8bd09589fb15 100644
---- a/drivers/media/test-drivers/vivid/vivid-radio-rx.c
-+++ b/drivers/media/test-drivers/vivid/vivid-radio-rx.c
-@@ -104,8 +104,8 @@ ssize_t vivid_radio_rx_read(struct file *file, char __u=
-ser *buf,
- 				break;
- 			case 2:
- 				rds.block |=3D V4L2_RDS_BLOCK_ERROR;
--				rds.lsb =3D prandom_u32_max(256);
--				rds.msb =3D prandom_u32_max(256);
-+				rds.lsb =3D get_random_u8();
-+				rds.msb =3D get_random_u8();
- 				break;
- 			case 3: /* Skip block altogether */
- 				if (i)
-diff --git a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c b/=
-drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
-index f90bfba4b303..eda129d0143e 100644
---- a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
-+++ b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
-@@ -1466,7 +1466,7 @@ static void make_established(struct sock *sk, u32 snd=
-_isn, unsigned int opt)
- 	tp->write_seq =3D snd_isn;
- 	tp->snd_nxt =3D snd_isn;
- 	tp->snd_una =3D snd_isn;
--	inet_sk(sk)->inet_id =3D prandom_u32();
-+	inet_sk(sk)->inet_id =3D get_random_u16();
- 	assign_rxopt(sk, opt);
-=20
- 	if (tp->rcv_wnd > (RCV_BUFSIZ_M << 10))
-diff --git a/drivers/net/hamradio/baycom_epp.c b/drivers/net/hamradio/bayco=
-m_epp.c
-index 7df78a721b04..791b4a53d69f 100644
---- a/drivers/net/hamradio/baycom_epp.c
-+++ b/drivers/net/hamradio/baycom_epp.c
-@@ -438,7 +438,7 @@ static int transmit(struct baycom_state *bc, int cnt, u=
-nsigned char stat)
- 			if ((--bc->hdlctx.slotcnt) > 0)
- 				return 0;
- 			bc->hdlctx.slotcnt =3D bc->ch_params.slottime;
--			if (prandom_u32_max(256) > bc->ch_params.ppersist)
-+			if (get_random_u8() > bc->ch_params.ppersist)
- 				return 0;
- 		}
- 	}
-diff --git a/drivers/net/hamradio/hdlcdrv.c b/drivers/net/hamradio/hdlcdrv.=
-c
-index bef904325a0f..2263029d1a20 100644
---- a/drivers/net/hamradio/hdlcdrv.c
-+++ b/drivers/net/hamradio/hdlcdrv.c
-@@ -377,7 +377,7 @@ void hdlcdrv_arbitrate(struct net_device *dev, struct h=
-dlcdrv_state *s)
- 	if ((--s->hdlctx.slotcnt) > 0)
- 		return;
- 	s->hdlctx.slotcnt =3D s->ch_params.slottime;
--	if (prandom_u32_max(256) > s->ch_params.ppersist)
-+	if (get_random_u8() > s->ch_params.ppersist)
- 		return;
- 	start_tx(dev, s);
- }
-diff --git a/drivers/net/hamradio/yam.c b/drivers/net/hamradio/yam.c
-index 97a6cc5c7ae8..2ed2f836f09a 100644
---- a/drivers/net/hamradio/yam.c
-+++ b/drivers/net/hamradio/yam.c
-@@ -626,7 +626,7 @@ static void yam_arbitrate(struct net_device *dev)
- 	yp->slotcnt =3D yp->slot / 10;
-=20
- 	/* is random > persist ? */
--	if (prandom_u32_max(256) > yp->pers)
-+	if (get_random_u8() > yp->pers)
- 		return;
-=20
- 	yam_start_tx(dev, yp);
-diff --git a/drivers/net/wireguard/selftest/allowedips.c b/drivers/net/wire=
-guard/selftest/allowedips.c
-index 41db10f9be49..dd897c0740a2 100644
---- a/drivers/net/wireguard/selftest/allowedips.c
-+++ b/drivers/net/wireguard/selftest/allowedips.c
-@@ -310,7 +310,7 @@ static __init bool randomized_test(void)
- 			for (k =3D 0; k < 4; ++k)
- 				mutated[k] =3D (mutated[k] & mutate_mask[k]) |
- 					     (~mutate_mask[k] &
--					      prandom_u32_max(256));
-+					      get_random_u8());
- 			cidr =3D prandom_u32_max(32) + 1;
- 			peer =3D peers[prandom_u32_max(NUM_PEERS)];
- 			if (wg_allowedips_insert_v4(&t,
-@@ -354,7 +354,7 @@ static __init bool randomized_test(void)
- 			for (k =3D 0; k < 4; ++k)
- 				mutated[k] =3D (mutated[k] & mutate_mask[k]) |
- 					     (~mutate_mask[k] &
--					      prandom_u32_max(256));
-+					      get_random_u8());
- 			cidr =3D prandom_u32_max(128) + 1;
- 			peer =3D peers[prandom_u32_max(NUM_PEERS)];
- 			if (wg_allowedips_insert_v6(&t,
-diff --git a/drivers/net/wireless/st/cw1200/wsm.c b/drivers/net/wireless/st=
-/cw1200/wsm.c
-index 5a3e7a626702..4a9e4b5d3547 100644
---- a/drivers/net/wireless/st/cw1200/wsm.c
-+++ b/drivers/net/wireless/st/cw1200/wsm.c
-@@ -1594,7 +1594,7 @@ static int cw1200_get_prio_queue(struct cw1200_common=
- *priv,
- 		edca =3D &priv->edca.params[i];
- 		score =3D ((edca->aifns + edca->cwmin) << 16) +
- 			((edca->cwmax - edca->cwmin) *
--			 (get_random_int() & 0xFFFF));
-+			 get_random_u16());
- 		if (score < best && (winner < 0 || i !=3D 3)) {
- 			best =3D score;
- 			winner =3D i;
-diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbad=
-isc.c
-index c7f834ba8edb..d38ebd7281b9 100644
---- a/drivers/scsi/lpfc/lpfc_hbadisc.c
-+++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
-@@ -2156,8 +2156,8 @@ lpfc_check_pending_fcoe_event(struct lpfc_hba *phba, =
-uint8_t unreg_fcf)
-  * This function makes an running random selection decision on FCF record =
-to
-  * use through a sequence of @fcf_cnt eligible FCF records with equal
-  * probability. To perform integer manunipulation of random numbers with
-- * size unit32_t, the lower 16 bits of the 32-bit random number returned
-- * from prandom_u32() are taken as the random random number generated.
-+ * size unit32_t, a 16-bit random number returned from get_random_u16() is
-+ * taken as the random random number generated.
-  *
-  * Returns true when outcome is for the newly read FCF record should be
-  * chosen; otherwise, return false when outcome is for keeping the previou=
-sly
-@@ -2169,7 +2169,7 @@ lpfc_sli4_new_fcf_random_select(struct lpfc_hba *phba=
-, uint32_t fcf_cnt)
- 	uint32_t rand_num;
-=20
- 	/* Get 16-bit uniform random number */
--	rand_num =3D 0xFFFF & prandom_u32();
-+	rand_num =3D get_random_u16();
-=20
- 	/* Decision with probability 1/fcf_cnt */
- 	if ((fcf_cnt * rand_num) < 0xFFFF)
-diff --git a/lib/cmdline_kunit.c b/lib/cmdline_kunit.c
-index a72a2c16066e..d4572dbc9145 100644
---- a/lib/cmdline_kunit.c
-+++ b/lib/cmdline_kunit.c
-@@ -76,7 +76,7 @@ static void cmdline_test_lead_int(struct kunit *test)
- 		int rc =3D cmdline_test_values[i];
- 		int offset;
-=20
--		sprintf(in, "%u%s", get_random_int() % 256, str);
-+		sprintf(in, "%u%s", get_random_u8(), str);
- 		/* Only first '-' after the number will advance the pointer */
- 		offset =3D strlen(in) - strlen(str) + !!(rc =3D=3D 2);
- 		cmdline_do_one_test(test, in, rc, offset);
-@@ -94,7 +94,7 @@ static void cmdline_test_tail_int(struct kunit *test)
- 		int rc =3D strcmp(str, "") ? (strcmp(str, "-") ? 0 : 1) : 1;
- 		int offset;
-=20
--		sprintf(in, "%s%u", str, get_random_int() % 256);
-+		sprintf(in, "%s%u", str, get_random_u8());
+ 
+ unsigned long arch_randomize_brk(struct mm_struct *mm)
+diff --git a/drivers/mtd/nand/raw/nandsim.c b/drivers/mtd/nand/raw/nandsim.c
+index 50bcf745e816..d211939c8bdd 100644
+--- a/drivers/mtd/nand/raw/nandsim.c
++++ b/drivers/mtd/nand/raw/nandsim.c
+@@ -1402,7 +1402,7 @@ static int ns_do_read_error(struct nandsim *ns, int num)
+ 
+ static void ns_do_bit_flips(struct nandsim *ns, int num)
+ {
+-	if (bitflips && prandom_u32() < (1 << 22)) {
++	if (bitflips && get_random_u16() < (1 << 6)) {
+ 		int flips = 1;
+ 		if (bitflips > 1)
+ 			flips = prandom_u32_max(bitflips) + 1;
+diff --git a/lib/test_vmalloc.c b/lib/test_vmalloc.c
+index a26bbbf20e62..cf7780572f5b 100644
+--- a/lib/test_vmalloc.c
++++ b/lib/test_vmalloc.c
+@@ -80,7 +80,7 @@ static int random_size_align_alloc_test(void)
+ 	int i;
+ 
+ 	for (i = 0; i < test_loop_count; i++) {
+-		rnd = prandom_u32();
++		rnd = get_random_u8();
+ 
  		/*
- 		 * Only first and leading '-' not followed by integer
- 		 * will advance the pointer.
-diff --git a/net/dccp/ipv4.c b/net/dccp/ipv4.c
-index 6a6e121dc00c..713b7b8dad7e 100644
---- a/net/dccp/ipv4.c
-+++ b/net/dccp/ipv4.c
-@@ -144,7 +144,7 @@ int dccp_v4_connect(struct sock *sk, struct sockaddr *u=
-addr, int addr_len)
- 						    inet->inet_daddr,
- 						    inet->inet_sport,
- 						    inet->inet_dport);
--	inet->inet_id =3D prandom_u32();
-+	inet->inet_id =3D get_random_u16();
-=20
- 	err =3D dccp_connect(sk);
- 	rt =3D NULL;
-@@ -443,7 +443,7 @@ struct sock *dccp_v4_request_recv_sock(const struct soc=
-k *sk,
- 	RCU_INIT_POINTER(newinet->inet_opt, rcu_dereference(ireq->ireq_opt));
- 	newinet->mc_index  =3D inet_iif(skb);
- 	newinet->mc_ttl	   =3D ip_hdr(skb)->ttl;
--	newinet->inet_id   =3D prandom_u32();
-+	newinet->inet_id   =3D get_random_u16();
-=20
- 	if (dst =3D=3D NULL && (dst =3D inet_csk_route_child_sock(sk, newsk, req)=
-) =3D=3D NULL)
- 		goto put_and_exit;
-diff --git a/net/ipv4/datagram.c b/net/ipv4/datagram.c
-index 405a8c2aea64..0ee7fd259730 100644
---- a/net/ipv4/datagram.c
-+++ b/net/ipv4/datagram.c
-@@ -73,7 +73,7 @@ int __ip4_datagram_connect(struct sock *sk, struct sockad=
-dr *uaddr, int addr_len
- 	reuseport_has_conns(sk, true);
- 	sk->sk_state =3D TCP_ESTABLISHED;
- 	sk_set_txhash(sk);
--	inet->inet_id =3D prandom_u32();
-+	inet->inet_id =3D get_random_u16();
-=20
- 	sk_dst_set(sk, &rt->dst);
- 	err =3D 0;
-diff --git a/net/ipv4/ip_output.c b/net/ipv4/ip_output.c
-index 1ae83ad629b2..922c87ef1ab5 100644
---- a/net/ipv4/ip_output.c
-+++ b/net/ipv4/ip_output.c
-@@ -172,7 +172,7 @@ int ip_build_and_send_pkt(struct sk_buff *skb, const st=
-ruct sock *sk,
- 		 * Avoid using the hashed IP ident generator.
- 		 */
- 		if (sk->sk_protocol =3D=3D IPPROTO_TCP)
--			iph->id =3D (__force __be16)prandom_u32();
-+			iph->id =3D (__force __be16)get_random_u16();
- 		else
- 			__ip_select_ident(net, iph, 1);
+ 		 * Maximum 1024 pages, if PAGE_SIZE is 4096.
+diff --git a/net/rds/bind.c b/net/rds/bind.c
+index 5b5fb4ca8d3e..97a29172a8ee 100644
+--- a/net/rds/bind.c
++++ b/net/rds/bind.c
+@@ -104,7 +104,7 @@ static int rds_add_bound(struct rds_sock *rs, const struct in6_addr *addr,
+ 			return -EINVAL;
+ 		last = rover;
+ 	} else {
+-		rover = max_t(u16, prandom_u32(), 2);
++		rover = max_t(u16, get_random_u16(), 2);
+ 		last = rover - 1;
  	}
-diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
-index 6376ad915765..7a250ef9d1b7 100644
---- a/net/ipv4/tcp_ipv4.c
-+++ b/net/ipv4/tcp_ipv4.c
-@@ -323,7 +323,7 @@ int tcp_v4_connect(struct sock *sk, struct sockaddr *ua=
-ddr, int addr_len)
- 						 inet->inet_daddr);
+ 
+diff --git a/net/sched/sch_sfb.c b/net/sched/sch_sfb.c
+index e2389fa3cff8..0366a1a029a9 100644
+--- a/net/sched/sch_sfb.c
++++ b/net/sched/sch_sfb.c
+@@ -379,7 +379,7 @@ static int sfb_enqueue(struct sk_buff *skb, struct Qdisc *sch,
+ 		goto enqueue;
  	}
-=20
--	inet->inet_id =3D prandom_u32();
-+	inet->inet_id =3D get_random_u16();
-=20
- 	if (tcp_fastopen_defer_connect(sk, &err))
- 		return err;
-@@ -1543,7 +1543,7 @@ struct sock *tcp_v4_syn_recv_sock(const struct sock *=
-sk, struct sk_buff *skb,
- 	inet_csk(newsk)->icsk_ext_hdr_len =3D 0;
- 	if (inet_opt)
- 		inet_csk(newsk)->icsk_ext_hdr_len =3D inet_opt->opt.optlen;
--	newinet->inet_id =3D prandom_u32();
-+	newinet->inet_id =3D get_random_u16();
-=20
- 	/* Set ToS of the new socket based upon the value of incoming SYN.
- 	 * ECT bits are set later in tcp_init_transfer().
-diff --git a/net/mac80211/scan.c b/net/mac80211/scan.c
-index 0e8c4f48c36d..dc3cdee51e66 100644
---- a/net/mac80211/scan.c
-+++ b/net/mac80211/scan.c
-@@ -641,7 +641,7 @@ static void ieee80211_send_scan_probe_req(struct ieee80=
-211_sub_if_data *sdata,
- 		if (flags & IEEE80211_PROBE_FLAG_RANDOM_SN) {
- 			struct ieee80211_hdr *hdr =3D (void *)skb->data;
- 			struct ieee80211_tx_info *info =3D IEEE80211_SKB_CB(skb);
--			u16 sn =3D get_random_u32();
-+			u16 sn =3D get_random_u16();
-=20
- 			info->control.flags |=3D IEEE80211_TX_CTRL_NO_SEQNO;
- 			hdr->seq_ctrl =3D
-diff --git a/net/netfilter/nf_nat_core.c b/net/netfilter/nf_nat_core.c
-index d8e6380f6337..18319a6e6806 100644
---- a/net/netfilter/nf_nat_core.c
-+++ b/net/netfilter/nf_nat_core.c
-@@ -468,7 +468,7 @@ static void nf_nat_l4proto_unique_tuple(struct nf_connt=
-rack_tuple *tuple,
- 	if (range->flags & NF_NAT_RANGE_PROTO_OFFSET)
- 		off =3D (ntohs(*keyptr) - ntohs(range->base_proto.all));
- 	else
--		off =3D prandom_u32();
-+		off =3D get_random_u16();
-=20
- 	attempts =3D range_size;
- 	if (attempts > max_attempts)
-@@ -490,7 +490,7 @@ static void nf_nat_l4proto_unique_tuple(struct nf_connt=
-rack_tuple *tuple,
- 	if (attempts >=3D range_size || attempts < 16)
- 		return;
- 	attempts /=3D 2;
--	off =3D prandom_u32();
-+	off =3D get_random_u16();
- 	goto another_round;
- }
-=20
-diff --git a/net/sched/sch_cake.c b/net/sched/sch_cake.c
-index 55c6879d2c7e..7193d25932ce 100644
---- a/net/sched/sch_cake.c
-+++ b/net/sched/sch_cake.c
-@@ -2092,11 +2092,11 @@ static struct sk_buff *cake_dequeue(struct Qdisc *s=
-ch)
-=20
- 		WARN_ON(host_load > CAKE_QUEUES);
-=20
--		/* The shifted prandom_u32() is a way to apply dithering to
--		 * avoid accumulating roundoff errors
-+		/* The get_random_u16() is a way to apply dithering to avoid
-+		 * accumulating roundoff errors
- 		 */
- 		flow->deficit +=3D (b->flow_quantum * quantum_div[host_load] +
--				  (prandom_u32() >> 16)) >> 16;
-+				  get_random_u16()) >> 16;
- 		list_move_tail(&flow->flowchain, &b->old_flows);
-=20
- 		goto retry;
-diff --git a/net/sctp/socket.c b/net/sctp/socket.c
-index 1e354ba44960..83628c347744 100644
---- a/net/sctp/socket.c
-+++ b/net/sctp/socket.c
-@@ -9448,7 +9448,7 @@ void sctp_copy_sock(struct sock *newsk, struct sock *=
-sk,
- 	newinet->inet_rcv_saddr =3D inet->inet_rcv_saddr;
- 	newinet->inet_dport =3D htons(asoc->peer.port);
- 	newinet->pmtudisc =3D inet->pmtudisc;
--	newinet->inet_id =3D prandom_u32();
-+	newinet->inet_id =3D get_random_u16();
-=20
- 	newinet->uc_ttl =3D inet->uc_ttl;
- 	newinet->mc_loop =3D 1;
---=20
+ 
+-	r = prandom_u32() & SFB_MAX_PROB;
++	r = get_random_u16() & SFB_MAX_PROB;
+ 
+ 	if (unlikely(r < p_min)) {
+ 		if (unlikely(p_min > SFB_MAX_PROB / 2)) {
+-- 
 2.37.3
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20221010230613.1076905-4-Jason%40zx2c4.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221010230613.1076905-5-Jason%40zx2c4.com.
