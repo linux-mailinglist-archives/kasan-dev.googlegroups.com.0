@@ -1,150 +1,155 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBPEER6NAMGQEVCKC66A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDK7LR5URMGRBPE3SCNAMGQENBDYUNY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x23a.google.com (mail-oi1-x23a.google.com [IPv6:2607:f8b0:4864:20::23a])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2695F98B9
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Oct 2022 08:57:01 +0200 (CEST)
-Received: by mail-oi1-x23a.google.com with SMTP id o4-20020a0568080bc400b003547fbbc31csf1097835oik.12
-        for <lists+kasan-dev@lfdr.de>; Sun, 09 Oct 2022 23:57:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665385020; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2665F9E95
+	for <lists+kasan-dev@lfdr.de>; Mon, 10 Oct 2022 14:19:09 +0200 (CEST)
+Received: by mail-lj1-x23c.google.com with SMTP id a13-20020a2ebe8d000000b0026bfc93da46sf4459540ljr.16
+        for <lists+kasan-dev@lfdr.de>; Mon, 10 Oct 2022 05:19:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665404349; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SH33NcxgKTX+F32grarrciZ1yy1P74Q1eRK3MHq8Khw3sZ6onsfuaEdgd7CROI5SZb
-         8tOYE0maBPD/veRLs26ImAr5FbFpHJ+tKEaOctpF7dhMyvy+H8hzhsLSz7t4Rl1NJW2d
-         jG7sDYStkyZ3DbBebUBZqkC4IZ45ZBBvZeUCkEJX504Dw+wVhknzpSla2QVcVdglM3ue
-         m09GqD/Ve78rHcAey0PV7IJt1k0y9mIuub58SRDcrx8mESR5CZo7vsRLr4A20ELB70q+
-         5bVYPxnkeRrGvnhAnYOJQ6fgMgFp6ETwUwrqKNKYjqpr3Ev1YDn1/8Gt6yQCLaJhvp+m
-         m/tA==
+        b=kMZU7enzIK4klqyYIpS5msbVxSTUIFtFxb6ykd3IR3aHhBTh7FVlwBPkpaSDD6TuzZ
+         giKFYqhWPvNGNX9GUgEB4/y5e/AJ1ODSyYyP9DzRwZQ9I5Fbjs5/WjW2l4de0CbYhidI
+         dmlpoyK9C/One/rTaV0BiynN3Nq83sf3yKDvCSf/c1xkEmXIsHlcViMgSxl4U1ynP7lM
+         9u/FR9lCBeD7g3uWM/i4c2WQJTTxClp0YzMIZ9HWQfT+R2r676l3RADeTj3akOQuQGb8
+         BsSAEMYDKT4tDFIThGMlW0EDCXeCcGEAHQ6KdWbOfQyeGeoDh8LUQIr+1eqIOtuDSNbQ
+         iIAg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :organization:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:dkim-signature;
-        bh=04KYrpLq8szM2r/O/TIeBa5U5Gn/ZGxtdPLYk8rtpFM=;
-        b=qBBtJrBwmvn1ahhZKMYk3fxmBS9uWZqlUn0/6yZhCKwmkUmh3F0AutdD6sh0H6LZyN
-         0p1l24vPnFppvmNCS+aeGEJxnXUrH863qQnFvUJniKY2XceQcPZ06G9soAI52A14pAOE
-         tI58d37QoZoMULK1468V1z8NCNxLR2oUtPQ3M2Ld5Uw/eO7NUc+VeKj94eCGrGSYNAyc
-         ca4IsIzms0xmgs3fI67gtmlR7U4LFJXWXIce/s/0yI+f6z7HeiotM4BySk5WB9t9GU4J
-         H59utorNYjrLk9PBtlJQlXj+wGEAQhWO6VZ0EoCK021A66JNlBtwjtx90ONKXWdLd4Zd
-         PD/Q==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:sender
+         :dkim-signature:dkim-signature;
+        bh=UOj+8XUsvC8SyP7Q3fxEeJajzq4DM1ZwawmHIQVdBbY=;
+        b=GQXGuYFRNnXyoLD5mxJnLWpGXVE/tqPO+oCC2QOsm8d1scg1Y1X5x8F70k4W6/s1/7
+         eM3wuJLdoXoA5rDp017xCphj9L9Fn7ExV5B3R9uWyRKgGm+jdGdQmLVj6WZE3JtYG3CV
+         NkfvPCTTVEn7WWDwwuTJPf2ZBB5DPY0bPdgjpROzCV7L47PV8dKLmbErW+ygxf9u7xxd
+         Ckzkdih/WYwm6ngVReg4lvcaX/ImILrIQ6hvclCoacKGExwm/D0M9VCfpP4CZS/W5mv+
+         ezx1fCrHa3orRgE4+96suHvMCbkJQw20rGHnZHkYRdAYhYryNk1U7rgkFpnW2smnL3Ba
+         6kWQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=WAqlqsoj;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b="W/IR+Eqj";
+       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::134 as permitted sender) smtp.mailfrom=urezki@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-language:in-reply-to:organization:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=04KYrpLq8szM2r/O/TIeBa5U5Gn/ZGxtdPLYk8rtpFM=;
-        b=V/c2zNdCfrvjTEqjgEeWQlvSjOOBNGrlqMNsiYkOK48tmoUXuswG/col/u6g2Wjy78
-         fFy/yI6/RmrS4Wqimgf1nJ6cwQW31Ex+l9yuvNVSgJMiDnSCPxel8IsnoIalH+PyeGz/
-         RBzfIFt9UsgUP8ykfPF7a4QikBwGjxh0qEDEFqB7GE1PSB4KvjT2FHPUn5e0/VICiEX7
-         Wszn6A/NtRxPB1jxidDwvn4iwRuoX92v83mK4CRJLawKI49S1kWfpVkrAFjG7mW/7f9J
-         +5y1IOxAJF6YAyZ7QnOhvU31a2PptKZ6YEK79gXzcNGgoB+/DvSu57Sf83+GsOQ9KEEO
-         K8Dw==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:date:from:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UOj+8XUsvC8SyP7Q3fxEeJajzq4DM1ZwawmHIQVdBbY=;
+        b=mV/ibwDJwed3DP36CbhiH/2Q5+c24OkW53/SQIhqJCi/6uHZUz6zEqRuB3uavt82BP
+         Pw6obGwvIffZ+vQKyJRUxMy1iaTVsivHf51C0WlaYLm5n+/FVUbl1Q/+8XAZcEhNFxB3
+         MIplPbNCvC1Tr01uVoUmDolyJnb74YqlSP4Xa6R7zdvV8dAZFB2AF1gmNNXqWnvyjFbr
+         hUBlxe1dBMr/PAabUN/Pz8hwCa70GB2wodwFLtdXAqALsVYFvnqHJEmeHTr+Mx2MtqQB
+         cDOZU4Azk/DWoQEnKOXvK0sPE2sFv7j9rsqvncIc0bUsCh0b7dcsBF7mHDuyGKg0cfAj
+         J2tg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UOj+8XUsvC8SyP7Q3fxEeJajzq4DM1ZwawmHIQVdBbY=;
+        b=GCPdIF4GeverQRf7VZrc3M+uEd5pcWduQVH7XpTBc/e/wLeJLr9O1T5yORM6udpElm
+         rP/Fto4PZe9VNTPecj1q3iWzhSFVQsmZatDEfnmiwJR3mVWFj2jldNIHCIo7tpRzfnjf
+         5d6f/PUXVPggYjdhEnRUfQP4KckTmhZrrmVrVBI5zhzwMqHwmHg3ZvgzjHlFWVnLWgeq
+         JjGlNTDU8WDUag3yM/HLMzPebF7gTWoOCFrO6tH7Ev/QYekxf7zo/6rcXGZWw0qRli3c
+         edvKjeHvkcqp6xEkJUguz/u5lDXEk7KNsA57nU0LUWzuYZxvqhlon92/7Q2q7DyDi6ps
+         jlNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:organization:from:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=04KYrpLq8szM2r/O/TIeBa5U5Gn/ZGxtdPLYk8rtpFM=;
-        b=UdDzrONjVPKQb7/sguU4eAGB8eoRiZ00tBuCAqcj7dh/77gLwDq0sAPFcD1tusRirm
-         mup6t4zq8EDQpc7HV3PKOe7mpopF1ExzPULLXcc8a9oxCxhpHq4xlBWWEeizSJ1OgdRH
-         rAFXHHToOMnsDGCTGDSgg0pAWWKDAXFJpINH3KuMAzFsPUxf+tAnEbfHXATbJVTN9rqt
-         hEgkd8OjoF/4zZryPtpqAeBND+OKHa0LcsYxNfB3I0pwcEFD/0Z/99/H2G5Yf4Ku6Zes
-         jL9ObSD4Qv2kvGMbRmyhsedayULdYPJEdR5SkwFTiek2qafle6CxPZJEeG1xhyfeHBjC
-         Cggw==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:date:from:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UOj+8XUsvC8SyP7Q3fxEeJajzq4DM1ZwawmHIQVdBbY=;
+        b=os1si/Ba7KydeB5uEESVkOQUfmky7V8rgwEw2QIBg8UbWBnG33cY3QsI2b2MsKKHgw
+         YRSGA6pAd9lxw9Ftu+ll06ZcX6RZHXix8AOaSrzd5vjD7TR9K01rcK3u1dtl8/oXwHv6
+         GbtCL9QXdhaSGzZISlwy+nGr2Pb7JUbc3OV+Lz44/cOUaN63w46r0EGFsyzsjaYrPeGe
+         WdzNJxuYsxIbyOR0MJ/rViRF6sR8KoX0C62cSHg5HpVdABhB37HIHAJNULi68a/4g4Uk
+         Nfs51x8nkZ+wkVm6kskp+iyCGJQtX1Pd4gHbjIrBrrqlR/sGaNPDLO3olUuMU6gSGrDS
+         mijA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1Cj8zz9vGpjzi0Z9BwIqs5lUePgXVLgNgSX80VQSUvcsfsi0QK
-	PVgv0ZIVbRcv43dFh6jih1E=
-X-Google-Smtp-Source: AMsMyM7ik71RTCB5j3KZJ9vipI2YXBuz6G0+/MU5LSXtGtBuT0/Uv2WfBmPMPOgj9EjuA6tdmxrblw==
-X-Received: by 2002:a05:6870:f106:b0:136:3e4d:820a with SMTP id k6-20020a056870f10600b001363e4d820amr6149589oac.292.1665385020499;
-        Sun, 09 Oct 2022 23:57:00 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3Usja1XKRpg3sKgB7lMB3l8nBzmTmJ/JX43RZHJdoBXrzCBFtO
+	WvzmPNsY3yY3hLkC3jhriss=
+X-Google-Smtp-Source: AMsMyM7A610vrqQZmuJApWWwkIMRgLhHOi0VqqK7yeuAkuLL9KDbrE2AEfSxcQDaqiYV9R0Y/btJAg==
+X-Received: by 2002:a2e:9d8a:0:b0:26e:314c:c3fd with SMTP id c10-20020a2e9d8a000000b0026e314cc3fdmr5823585ljj.105.1665404348886;
+        Mon, 10 Oct 2022 05:19:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:1517:b0:657:57df:1613 with SMTP id
- k23-20020a056830151700b0065757df1613ls1523960otp.11.-pod-prod-gmail; Sun, 09
- Oct 2022 23:57:00 -0700 (PDT)
-X-Received: by 2002:a9d:621:0:b0:639:7585:3c07 with SMTP id 30-20020a9d0621000000b0063975853c07mr7388193otn.349.1665385019918;
-        Sun, 09 Oct 2022 23:56:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665385019; cv=none;
+Received: by 2002:a05:6512:3607:b0:48b:2227:7787 with SMTP id
+ f7-20020a056512360700b0048b22277787ls440869lfs.3.-pod-prod-gmail; Mon, 10 Oct
+ 2022 05:19:07 -0700 (PDT)
+X-Received: by 2002:a05:6512:2808:b0:4a2:7df6:4b74 with SMTP id cf8-20020a056512280800b004a27df64b74mr7018945lfb.217.1665404347512;
+        Mon, 10 Oct 2022 05:19:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665404347; cv=none;
         d=google.com; s=arc-20160816;
-        b=oiAJCT2Pkh3veo9fsoJKgWeTZkEOc3e2pfO3uN+qmV0puRtVWwX7koHNO5H3dXbtDd
-         xb8/05xT0bsWVUm6oLVKR5cOhx/Zz6Oitn1nsEs/qYVrN9wUPvMAHZxTThjdqS1TZ4VU
-         8tkwfRWX6dx1ANbltngQimw4/8yBhYtohyF0RTDGsQLNrLs6le5PQUbiJnCJy/sbUX1B
-         qOOtsN8I1J7xJKyHbXdD4r6ONuzOHiPpA06icHZwMzUQoIbjbicoblJKIGq7QjyFesCf
-         ZJ7bjrE3PW24nrDpxiU1i7ZjW5zDa1h9umx1fNdn7YZx6j36713JVKvCpA7RKxHeESLw
-         Q1Pw==
+        b=0yAK2nUM2o1m1rFhLuEYab63hJO/mkDtmI6zviEG778V+TZRgmIa8oW9YsKwHQY4BI
+         vEtkMRTpC928LXNBxRFbxnGM+vFDcRffFA/l4c7+VZ1aLL3UkXUHcTEEU2UJRkNUAzY0
+         8Ed+aQKqmLqYE0JvJhxZU/9POoTKNAWpYHr8GUGsXuAWdbYiGTOs2rFqE0Arxn2q330R
+         2C2Mq6tR2NgI1YZLVOz2GejXbfMJWAklsVY3SuOEhbaRI9oWLuu7e79cmGDT9DXmIFRG
+         RmEAWO5hyBKfCg1l7BVzAQgJZGSctpi0B2OHT2EkoI+Vz9ap39ADBlOybtGbT20Fhg48
+         8yQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:organization
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=CTvlZ2UrEc/zYG0ArHPKFycK6DF3ayFdpzEumNdnUnQ=;
-        b=sBU8g1a1EFi431pnLtoMtcoHEffuZ5igIuLvbVyFaNT3Za9WwMMdC/rJEjH5rkNulo
-         bd/ZwQ0Y5dNd5HqnHRwRHKO4DdswKrVNg3pBbYIMtiI1w9FUWTgNm2hfvEKiIYi0Yjv3
-         yEVO5seGed+uIaJq0gnuCh6w8J2NpGY7NP5D9KUVQ6FAxwby2BXjHGO7HdlwSuhNO1aW
-         gOtobZT8IFTxTWLV7OWz7ZLCQ2E97YZ1Z+tj05OxaVE0cZkBAMwnaYHj9ySo4nGz1iXH
-         YAv5dW9ACaB0I42uY8CnphLvrk+DaQ+eS6bsMEfrjsHYJksIYMX4q56EOL3ETM1j1Noq
-         uKyA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:dkim-signature;
+        bh=KZwwuxlvVfPvUAtn+ynvGscHnlF0P4dALC17cMr1nmc=;
+        b=GsD7i35y4h4/SI6NrL67hcUDzqikXF5JA9FApzTzBBcCeEwChWN00ZJkfZUCKFWKtj
+         h7QEBizTrqCEbV/ZM3jHvL315Di7nIStlL1n7Uvm0B+kVI/4Vx5/FZ/e4/HVX7moxgpG
+         +QMUD8AVQdfkqZ8f+9hQgmn/3hlNFdVvtqJQhncsyevLpbYFmXWMcQnu3vP+rkiZD031
+         FerI4qsp85OifQo2/J4sxG3xWtGX7dwrkrrIeqIjF7bR5UbQrjizC8KHUZT+Jp1W8mfZ
+         0ad14B7eOmtWFtYl+ZC0Fm2nmRN8xjUQLNuJ11QIhg5k6kpNfud1AUZ8OmzVbGFW4kCN
+         CkEA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=WAqlqsoj;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id 67-20020aca0546000000b00353e4e7f335si302358oif.4.2022.10.09.23.56.59
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b="W/IR+Eqj";
+       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::134 as permitted sender) smtp.mailfrom=urezki@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com. [2a00:1450:4864:20::134])
+        by gmr-mx.google.com with ESMTPS id e10-20020a05651236ca00b0048b224551b6si381850lfs.12.2022.10.10.05.19.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Oct 2022 23:56:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-408-ShEiBjjLPy6nZEjvQng3xA-1; Mon, 10 Oct 2022 02:56:58 -0400
-X-MC-Unique: ShEiBjjLPy6nZEjvQng3xA-1
-Received: by mail-wm1-f69.google.com with SMTP id o18-20020a05600c339200b003bf24961658so6574246wmp.6
-        for <kasan-dev@googlegroups.com>; Sun, 09 Oct 2022 23:56:57 -0700 (PDT)
-X-Received: by 2002:a05:600c:a4c:b0:3b4:fc1b:81 with SMTP id c12-20020a05600c0a4c00b003b4fc1b0081mr11244048wmq.125.1665385016786;
-        Sun, 09 Oct 2022 23:56:56 -0700 (PDT)
-X-Received: by 2002:a05:600c:a4c:b0:3b4:fc1b:81 with SMTP id c12-20020a05600c0a4c00b003b4fc1b0081mr11244039wmq.125.1665385016554;
-        Sun, 09 Oct 2022 23:56:56 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:e600:3a4a:f000:b085:4839? (p200300cbc704e6003a4af000b0854839.dip0.t-ipconnect.de. [2003:cb:c704:e600:3a4a:f000:b085:4839])
-        by smtp.gmail.com with ESMTPSA id q14-20020a05600000ce00b0022584c82c80sm8021349wrx.19.2022.10.09.23.56.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Oct 2022 23:56:56 -0700 (PDT)
-Message-ID: <6d75325f-a630-5ae3-5162-65f5bb51caf7@redhat.com>
-Date: Mon, 10 Oct 2022 08:56:55 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
+        Mon, 10 Oct 2022 05:19:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::134 as permitted sender) client-ip=2a00:1450:4864:20::134;
+Received: by mail-lf1-x134.google.com with SMTP id s20so16287385lfi.11
+        for <kasan-dev@googlegroups.com>; Mon, 10 Oct 2022 05:19:07 -0700 (PDT)
+X-Received: by 2002:ac2:4ecc:0:b0:4a2:2ed2:9400 with SMTP id p12-20020ac24ecc000000b004a22ed29400mr6684979lfr.432.1665404347109;
+        Mon, 10 Oct 2022 05:19:07 -0700 (PDT)
+Received: from pc636 (host-90-235-26-104.mobileonline.telia.com. [90.235.26.104])
+        by smtp.gmail.com with ESMTPSA id v8-20020a056512348800b00494a1e875a9sm696343lfr.191.2022.10.10.05.19.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Oct 2022 05:19:06 -0700 (PDT)
+From: Uladzislau Rezki <urezki@gmail.com>
+Date: Mon, 10 Oct 2022 14:19:03 +0200
+To: David Hildenbrand <david@redhat.com>
+Cc: Uladzislau Rezki <urezki@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com
 Subject: Re: KASAN-related VMAP allocation errors in debug kernels with many
  logical CPUS
-To: Uladzislau Rezki <urezki@gmail.com>
-Cc: Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov
- <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
- kasan-dev@googlegroups.com
+Message-ID: <Y0QNt5zAvrJwfFk2@pc636>
 References: <8aaaeec8-14a1-cdc4-4c77-4878f4979f3e@redhat.com>
- <Yz711WzMS+lG7Zlw@pc636> <9ce8a3a3-8305-31a4-a097-3719861c234e@redhat.com>
+ <Yz711WzMS+lG7Zlw@pc636>
+ <9ce8a3a3-8305-31a4-a097-3719861c234e@redhat.com>
  <Y0BHFwbMmcIBaKNZ@pc636>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <Y0BHFwbMmcIBaKNZ@pc636>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: david@redhat.com
+ <6d75325f-a630-5ae3-5162-65f5bb51caf7@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <6d75325f-a630-5ae3-5162-65f5bb51caf7@redhat.com>
+X-Original-Sender: Urezki@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=WAqlqsoj;
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@gmail.com header.s=20210112 header.b="W/IR+Eqj";       spf=pass
+ (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::134 as
+ permitted sender) smtp.mailfrom=urezki@gmail.com;       dmarc=pass (p=NONE
+ sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,86 +162,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
->>> Maybe try to increase the module-section size to see if it solves the
->>> problem.
->>
->> What would be the easiest way to do that?
->>
-> Sorry for late answer. I was trying to reproduce it on my box. What i
-> did was trying to load all modules in my system with KASAN_INLINE option:
+On Mon, Oct 10, 2022 at 08:56:55AM +0200, David Hildenbrand wrote:
+> > > > Maybe try to increase the module-section size to see if it solves the
+> > > > problem.
+> > > 
+> > > What would be the easiest way to do that?
+> > > 
+> > Sorry for late answer. I was trying to reproduce it on my box. What i
+> > did was trying to load all modules in my system with KASAN_INLINE option:
+> > 
 > 
+> Thanks!
+> 
+> > <snip>
+> > #!/bin/bash
+> > 
+> > # Exclude test_vmalloc.ko
+> > MODULES_LIST=(`find /lib/modules/$(uname -r) -type f \
+> > 	\( -iname "*.ko" -not -iname "test_vmalloc*" \) | awk -F"/" '{print $NF}' | sed 's/.ko//'`)
+> > 
+> > function moduleExist(){
+> > 	MODULE="$1"
+> > 	if lsmod | grep "$MODULE" &> /dev/null ; then
+> > 		return 0
+> > 	else
+> > 		return 1
+> > 	fi
+> > }
+> > 
+> > i=0
+> > 
+> > for module_name in ${MODULES_LIST[@]}; do
+> > 	sudo modprobe $module_name
+> > 
+> > 	if moduleExist ${module_name}; then
+> > 		((i=i+1))
+> > 		echo "Successfully loaded $module_name counter $i"
+> > 	fi
+> > done
+> > <snip>
+> > 
+> > as you wrote it looks like it is not easy to reproduce. So i do not see
+> > any vmap related errors.
+> 
+> Yeah, it's quite mystery and only seems to trigger on these systems with a
+> lot of CPUs.
+> 
+> > 
+> > Returning back to the question. I think you could increase the MODULES_END
+> > address and shift the FIXADDR_START little forward. See the dump_pagetables.c
+> > But it might be they are pretty compact and located in the end. So i am not
+> > sure if there is a room there.
+> 
+> That's what I was afraid of :)
+> 
+> > 
+> > Second. It would be good to understand if vmap only fails on allocating for a
+> > module:
+> > 
+> > <snip>
+> > diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> > index dd6cdb201195..53026fdda224 100644
+> > --- a/mm/vmalloc.c
+> > +++ b/mm/vmalloc.c
+> > @@ -1614,6 +1614,8 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
+> >          va->va_end = addr + size;
+> >          va->vm = NULL;
+> > +       trace_printk("-> alloc %lu size, align: %lu, vstart: %lu, vend: %lu\n", size, align, vstart, vend);
+> > +
+> >          spin_lock(&vmap_area_lock);
+> > <snip>
+> 
+> I'll try grabbing a suitable system again and add some more debugging
+> output. Might take a while, unfortunately.
+> 
+Yes that makes sense. Especially to understand if it fails on the MODULES_VADDR
+- MODULES_END range or somewhere else. According to your trace output it looks
+like that but it would be good to confirm it by adding some traces.
 
-Thanks!
+BTW, vmap code is lack of good trace events. Probably it is worth to add
+some basic ones.
 
-> <snip>
-> #!/bin/bash
-> 
-> # Exclude test_vmalloc.ko
-> MODULES_LIST=(`find /lib/modules/$(uname -r) -type f \
-> 	\( -iname "*.ko" -not -iname "test_vmalloc*" \) | awk -F"/" '{print $NF}' | sed 's/.ko//'`)
-> 
-> function moduleExist(){
-> 	MODULE="$1"
-> 	if lsmod | grep "$MODULE" &> /dev/null ; then
-> 		return 0
-> 	else
-> 		return 1
-> 	fi
-> }
-> 
-> i=0
-> 
-> for module_name in ${MODULES_LIST[@]}; do
-> 	sudo modprobe $module_name
-> 
-> 	if moduleExist ${module_name}; then
-> 		((i=i+1))
-> 		echo "Successfully loaded $module_name counter $i"
-> 	fi
-> done
-> <snip>
-> 
-> as you wrote it looks like it is not easy to reproduce. So i do not see
-> any vmap related errors.
-
-Yeah, it's quite mystery and only seems to trigger on these systems with 
-a lot of CPUs.
-
-> 
-> Returning back to the question. I think you could increase the MODULES_END
-> address and shift the FIXADDR_START little forward. See the dump_pagetables.c
-> But it might be they are pretty compact and located in the end. So i am not
-> sure if there is a room there.
-
-That's what I was afraid of :)
-
-> 
-> Second. It would be good to understand if vmap only fails on allocating for a
-> module:
-> 
-> <snip>
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index dd6cdb201195..53026fdda224 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -1614,6 +1614,8 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
->          va->va_end = addr + size;
->          va->vm = NULL;
->   
-> +       trace_printk("-> alloc %lu size, align: %lu, vstart: %lu, vend: %lu\n", size, align, vstart, vend);
-> +
->          spin_lock(&vmap_area_lock);
-> <snip>
-
-I'll try grabbing a suitable system again and add some more debugging 
-output. Might take a while, unfortunately.
-
--- 
-Thanks,
-
-David / dhildenb
+--
+Uladzislau Rezki
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6d75325f-a630-5ae3-5162-65f5bb51caf7%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0QNt5zAvrJwfFk2%40pc636.
