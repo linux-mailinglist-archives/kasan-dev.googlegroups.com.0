@@ -1,137 +1,150 @@
-Return-Path: <kasan-dev+bncBC5JXFXXVEGRBV4GS2NAMGQEULBS2KA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBD4TS6NAMGQERXTSI3Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc37.google.com (mail-oo1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17B55FB54A
-	for <lists+kasan-dev@lfdr.de>; Tue, 11 Oct 2022 16:53:12 +0200 (CEST)
-Received: by mail-oo1-xc37.google.com with SMTP id g28-20020a4a925c000000b0048064c1e521sf4261491ooh.15
-        for <lists+kasan-dev@lfdr.de>; Tue, 11 Oct 2022 07:53:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665499991; cv=pass;
+Received: from mail-yw1-x113a.google.com (mail-yw1-x113a.google.com [IPv6:2607:f8b0:4864:20::113a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FB15FBB93
+	for <lists+kasan-dev@lfdr.de>; Tue, 11 Oct 2022 21:52:50 +0200 (CEST)
+Received: by mail-yw1-x113a.google.com with SMTP id 00721157ae682-349423f04dbsf142580137b3.13
+        for <lists+kasan-dev@lfdr.de>; Tue, 11 Oct 2022 12:52:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665517968; cv=pass;
         d=google.com; s=arc-20160816;
-        b=aCPD5Laqy5uIc4HLUUMuZKWIvRRJeZiV38Eyh4Zkm/r5ptJr8OhviySViLIBUNwMJq
-         eHNqEG13JmhTjeceCk0IH2Aqoa1avgtGhwUamtgAzzdCcgB02i1spZhYQJ58uNQDH7vq
-         aryJfaRki3iAG6Jbjq2kuPb8+bUmBjIkMdLY9OdDKaqOEXg02XhUYumtX1YhL+Dm/gXY
-         FJppw3/Q+SWnMyPwWGdstXzXXtfY8TTLqwIj5ZQaic/Dm7q0z031XVC6BP0sV5DGcnfK
-         u3RAxkEZH6yYYRidDA9t0lc7Sm+2+be2hB4A4f0Y6YiN7/pgc84ghXOAEJSm9ItCbfEg
-         KeBQ==
+        b=RKS7CHQF01rVK1cQvfiNQyx+p/WoodlcdQTopG2JcDa4qbzIcOFqqoUS854owwYuIl
+         33GunGccV7Jr3fdwXzxYhM1/972m64RpIja15nFdDV5WmGFkAkA5PuFaLn9ZBW5pdb0G
+         QCIsYn5hej3xCBwYNGNdILHaszINRqWHO1GJfrF7+LJH+SM5R665UL1+a0oyocgJbtap
+         +mE7hNEV3+penod2WtPWZn+S2x3xybN4iEinuUWDcinaqq9VOksEdKHL9ICXSEDElRGO
+         NDBSLvrjJGuXUnUV42xyt5Dyg3gbj+W3zzFamkkx0IMzQcgq0VkqHUslfqchSzuW4kQo
+         HMQQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=13V1TT7E7uMdiPYziwkzbxnDkJBc4JnFNCK/8ndACnE=;
-        b=vOX3YZynG6zlr47xnV2ddvVEXIHvtB6BAE7pE84ztsat+CST1vPVhBkoEJVTPeh92f
-         Sh5cs1ASCxnCBgGaXpJsH0aQW8h2EWnbeuSZXDQBRRb2kkyogYdiwW2efzmxtfQ5G1F3
-         vVAA9XqGz4icrh+jrw5pN0n55r/xOQWTMBSaLAsHhBXENtHefp/0jSbgVPmarFprANCA
-         mWjxDa+nboUNbOeIH0Z1jgHvaUOfEN5qeejOrnm647GBBIM384wyz+Aertn7/c4IqcCo
-         XogMeI9zCoGwwvop4F6+xFYUqzLi0579rJS6XPyWhm+29/I0i5tLzTyUsS2wqbsy7xpn
-         Lj1A==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :subject:organization:from:references:cc:to:user-agent:mime-version
+         :date:message-id:sender:dkim-signature;
+        bh=yCx6c/NuTbYvTJCd/gD3s+T1qPjqmci1uFJqymes5AI=;
+        b=Zsi2QlCN64lL7Dq274XgGkWq8ygNABdRFpFZeUrahinAeWrGozAHni0R30TVCESl7e
+         n0egO0YeI7nBzg1N/Te6Ogt8dua8RkXPg9mNC3H7MCkHm4hDSRYuXYJcoT92B3A3L2xj
+         R2vb2DkJasiRM8Td/xrwdN956rBb+Y6ynMWDDpGzuFkMk6aiMEIXbrDAxPWDQniTu5Jq
+         huFjVu7mRALWePKDzdZ9oJ6lTL2QW1XZOcpE/sHrsgEhIoHNedE8iv/6JymItJdtOjX2
+         MilNVY/M8TKu3jBt10CO7+6DJttfwRkfa5K54RN2wBO0W0BY2cLnL31PmMYXa/nODT/+
+         sG+g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=oi0POXSB;
-       spf=pass (google.com: domain of sashal@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=sashal@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Eue6ZsJx;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=13V1TT7E7uMdiPYziwkzbxnDkJBc4JnFNCK/8ndACnE=;
-        b=RhL6W8VW8DEVZMxQ+/YBnD79G/GV+EzmtcWCyjHFfnVIED9fxzIMw4eHDklSYsix/d
-         cvf5BXoTvSWR1PEBTW+7EG7JieAOwOa6WBvS8aA+Tx2ysNNjHXLE8S82ybRUTlEkep5o
-         USUS2PHzQUBGvaZNbb85B3u0oES0/dFvN4fCk1LPM50hSOZ8GumyRBLT9k6BgEUq26xY
-         UhRuHon5X4cPry+Gjgp2Naj7Uaivppi9pyCOuDsLao0hwaL/Ydz8f8+hnVejaMIq8xnd
-         OD4FXXjYCgY8sZxD0r6siP+kuGVZzxwBz8vO9AmO1uRnA3mkrjNIoBHjKAs5Vmahq+ZI
-         PICw==
+         :x-original-sender:content-language:in-reply-to:subject:organization
+         :from:references:cc:to:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=yCx6c/NuTbYvTJCd/gD3s+T1qPjqmci1uFJqymes5AI=;
+        b=AYk3XGuECjt2zuIKsae8Gw9Rp2AHijx8Ww8RQuNKHSiW38AGY0MAVCgBUFG0eQRM4k
+         lgmz7BdK+2yfDYA1O+DpOWp2UaqbnUZNDF+JWtJWpyPtPTNSSE3te51U/ljhZRl9/xR2
+         wlmNI/Q+3TdJzJYCqJPZ+8sxVVJKm3frM601t5EKV+gArK5aj26BcpLMOMfyZwQr+qAs
+         PGlWGgokTyd9viQvrM0G6K/TRTiENJrOpVMJDFEXZBC38nJBKF1JheVNSN/vp0J4ZQow
+         bKZlPNnHkfzfzlhmrXKnGs1kKv0P+L5WP1pnI8xkBVVXMXRaT6VXJFxslRtnRXG3OsrP
+         ct3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=13V1TT7E7uMdiPYziwkzbxnDkJBc4JnFNCK/8ndACnE=;
-        b=rNyyWpyOOflh6ju5X7cqk01yPjRYB7I4GVU17LbhgXTsZqx8DjSvo/UR7DuEw0fttm
-         XE8xbXGl/H8iTh73EnI95JkP7yXi8haR3OhjP7rT6GnjuCYa+QKrno/oCwCCNr35G87X
-         HpwxGPiU9Ba5wEKIjihjZVQMMyosB0AYb4XUToFFFL6yHji3xZA0gbj5SNyjJPM/Jm15
-         YSvXN4oqsz7IMfidXC/zz3exg7DQ6YnnfVTYeEXKkE9fgck+sbHeJgU2eMWYVQRZl+oa
-         TRr3w+3UKWVEUWyMPifKc1af4CzFzzOVMfHz6/j301cjx7lCBBg9veUpbb4zh/dEYYW+
-         alug==
+         :x-original-authentication-results:x-original-sender
+         :content-language:in-reply-to:subject:organization:from:references
+         :cc:to:user-agent:mime-version:date:message-id:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=yCx6c/NuTbYvTJCd/gD3s+T1qPjqmci1uFJqymes5AI=;
+        b=o6VfM+eVfajGeemJ+0WbL0mSqGDnkQ/dKix84xCyQThf8vTuZAx3+E/talkMnhx8LS
+         f2N8U8kcZDclr3ODfK9tHV8q1HmFPTngyL1JF1M6VRrtC5GIKxsx4a+pYV7GrYuAuwrl
+         lNFt4Adysmx6zndMXYQDy7PWqni9Yoj1UXiDQaCit7mXMdkMRThbYHCYlcNyalFnRRjD
+         tM2c0r1TcI+VbLuuVKo8Hr0LWGKG+ptiEsvNO1J1GK9IyOsSd1pAeC1n6ELGqBXPmdi6
+         3FZem6zfEUxLWX+cM1nzBNcAUnzVhkHgHJRdUEPrCa4GzaaJYm3IbR8YZjp3FKh6s/9M
+         +xeQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf2lYOBt2AFCa52s1DXnQAMk0CXOKJf38rTPky2oCdSbU7FUCs/r
-	1aAbrQ280MtnE5yQ13BJLu4=
-X-Google-Smtp-Source: AMsMyM5DBMz0fmxebqwpSpLD/huHUG8vuuI3teTuH0DpqAmwIYN9bre46C1EhPdHXRaE5E8IYDXWMg==
-X-Received: by 2002:a05:6870:8322:b0:136:7611:f847 with SMTP id p34-20020a056870832200b001367611f847mr7135384oae.294.1665499991552;
-        Tue, 11 Oct 2022 07:53:11 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3k68XrxIQyE0FCPUKTEKr7F9bT0uRQ6vvIQu0WZFmjx+CigBny
+	lAOeGJYgNumwR/pQ6XKcBS8=
+X-Google-Smtp-Source: AMsMyM5cgMOu0MERokSTxbJdAy5ZCERiUm9l5tlWTCeMZ5uZ/gf3/dzi7dO3iqNeKsFsQZB9JvV8gQ==
+X-Received: by 2002:a0d:c986:0:b0:325:1b81:9f77 with SMTP id l128-20020a0dc986000000b003251b819f77mr22902464ywd.182.1665517968004;
+        Tue, 11 Oct 2022 12:52:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:b315:b0:131:a6c1:508 with SMTP id
- a21-20020a056870b31500b00131a6c10508ls4441175oao.7.-pod-prod-gmail; Tue, 11
- Oct 2022 07:53:11 -0700 (PDT)
-X-Received: by 2002:a05:6870:15d3:b0:122:5c72:f21f with SMTP id k19-20020a05687015d300b001225c72f21fmr18667419oad.178.1665499991069;
-        Tue, 11 Oct 2022 07:53:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665499991; cv=none;
+Received: by 2002:a25:b227:0:b0:6be:8daa:181d with SMTP id i39-20020a25b227000000b006be8daa181dls7805592ybj.11.-pod-prod-gmail;
+ Tue, 11 Oct 2022 12:52:47 -0700 (PDT)
+X-Received: by 2002:a25:2415:0:b0:6be:5349:91c2 with SMTP id k21-20020a252415000000b006be534991c2mr25942408ybk.318.1665517967382;
+        Tue, 11 Oct 2022 12:52:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665517967; cv=none;
         d=google.com; s=arc-20160816;
-        b=mb1kRcMHu5ew9eFe0EqNKSXfS3fQzg5LswCGEpP8LL9vgEYbvPcYZuQ/j7cwRyx/jP
-         +1tJ52xKeMSaRoVTqwa0fRB4q2tlj1NuNoKVZQ+vctlpIkNyUZkR+3oYeOLs6bai2CUP
-         jI8PU7y4MauUqGZHNxKmsrDW11WO6QAhfcUH4Q8dGNEnWGWfhlSFrALrNGjjy17so+RP
-         DW/jhXoHKpB+uQHr0FrIR9NxZBgtGjSfVDE2APvC9ZonQ/0RRoZb3Y05sWDd5AA5NejS
-         5IPYyV5xjwwiP40omFriXvcVYLz2nLPt6rlrw0w1YAS5JrN9N3+IZFYlAgiO+0bYYQdY
-         IIOQ==
+        b=du93LMDr6Gggq5gMID/+W2SE7iBZSKVWqQ+fDPYbfIvnNWbeIuK6axAILr+AGeTpkn
+         xFBpFg1CnaMXKOsgaVk67oCtwJuKU+9RXd59OPU2wzJ5PrKF+Cp9aDaCqOZ1/wdMncwi
+         QaiwfYWlwm8DnlJ9eGtuydzUKSy4TVVFWvusboijowImFyc6QVWnFegIxWPkj5jMlBfr
+         dP8H+f86+vy6q43tbudiN5yYjRY8Ak4D8Ux2Rtaq6OXTZm0CiuY/C0zZe5e8qCNo8GCb
+         h9CMlznhdF/GEMvdKjlPLIACV542+4AqCLkq2EGG5EMH8rqt0+7OEOzSJQYB8ElhVpa6
+         fl+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=iNqWz2VwA+6P+/wAELu+n2hy7ZBNUejQElOmwh2ScKE=;
-        b=Fu0cgZ2Xp1i5CeyiPKc+ffRHxEx3cybk3xEAZGWwaQebyRiBko5QM73BMVnCvZowP4
-         Ajv/cgnYDenYyDCPjiTyHEZy33/z7TKI8LnTUbrYO+XOAqUPt5gb+E7y1WEh746ysqGg
-         R9jaJOIaAiOzEvKtHEUnW6BB5ZjvrHSJC0EYx7GTQTDn4hzEg03gPY/Y3zQ+VrJBP3he
-         rKpx3QNUEYAUXEQAFp+SU9pnLhkILqU44SzucFzNPHgF2b57FQyhkdrnugFkgWFvsUmx
-         qx+HfhEEPjrakDDUFp2LT2wx+rLmVE3YKTNE5jheBaCMjtSy80K8bl7ggK7jIJvYZmZl
-         kdTQ==
+        h=content-transfer-encoding:content-language:in-reply-to:subject
+         :organization:from:references:cc:to:user-agent:mime-version:date
+         :message-id:dkim-signature;
+        bh=hfGmqn9tAmQbOGvVwdHJC7Su1j3vDwXMepRWl/TaZqw=;
+        b=eCccSHwkdiFge5+azuyZPtl5YlsWZDMDjSrzqti/oqCc0p4uwuxWHIL/7wE7CM2Ew0
+         fgE0EiNJHGfI8mLu14bvUnV/6xjtmidj40kvOZF73UCyHc1zdwIobw44poKw0rv4k5V2
+         +wi22hjxFezN7Jw/NVA8ZFXCf/QXEC7ROU/Zf7fTVqVtXelZwP7wUZlLarfsvvu4G+PE
+         SbCxd54W2yijsbWnKizP8kUq3ys/T3v4+urYrAGxi3Z1NdKYIkrwou8Bj2etwZWksySk
+         /5B/q+SVl35B1RqtGwQSn31SWccvUEdKhfXa2LTKXVxDYUZ1X+tIJgXkaZ4ybSlG4qaZ
+         fvrQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=oi0POXSB;
-       spf=pass (google.com: domain of sashal@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=sashal@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id u205-20020acaabd6000000b003544a421e56si413292oie.3.2022.10.11.07.53.11
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Eue6ZsJx;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id s68-20020a818247000000b00350b92acf33si1089724ywf.4.2022.10.11.12.52.47
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Oct 2022 07:53:11 -0700 (PDT)
-Received-SPF: pass (google.com: domain of sashal@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id D84B7611E8;
-	Tue, 11 Oct 2022 14:53:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D8CAC4314C;
-	Tue, 11 Oct 2022 14:53:09 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Alex Sverdlin <alexander.sverdlin@nokia.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Russell King <rmk+kernel@armlinux.org.uk>,
-	Sasha Levin <sashal@kernel.org>,
-	aryabinin@virtuozzo.com,
-	linux@armlinux.org.uk,
-	kasan-dev@googlegroups.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.15 25/26] ARM: 9242/1: kasan: Only map modules if CONFIG_KASAN_VMALLOC=n
-Date: Tue, 11 Oct 2022 10:52:32 -0400
-Message-Id: <20221011145233.1624013-25-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221011145233.1624013-1-sashal@kernel.org>
-References: <20221011145233.1624013-1-sashal@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Oct 2022 12:52:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-76-WTbtb8FXOg2cGtC03Z2yvw-1; Tue, 11 Oct 2022 15:52:46 -0400
+X-MC-Unique: WTbtb8FXOg2cGtC03Z2yvw-1
+Received: by mail-wm1-f69.google.com with SMTP id c130-20020a1c3588000000b003b56be513e1so8943943wma.0
+        for <kasan-dev@googlegroups.com>; Tue, 11 Oct 2022 12:52:44 -0700 (PDT)
+X-Received: by 2002:a05:600c:1c82:b0:3c6:c225:eb99 with SMTP id k2-20020a05600c1c8200b003c6c225eb99mr457462wms.23.1665517962540;
+        Tue, 11 Oct 2022 12:52:42 -0700 (PDT)
+X-Received: by 2002:a05:600c:1c82:b0:3c6:c225:eb99 with SMTP id k2-20020a05600c1c8200b003c6c225eb99mr457447wms.23.1665517962217;
+        Tue, 11 Oct 2022 12:52:42 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c709:6900:f110:6527:aa46:a922? (p200300cbc7096900f1106527aa46a922.dip0.t-ipconnect.de. [2003:cb:c709:6900:f110:6527:aa46:a922])
+        by smtp.gmail.com with ESMTPSA id c8-20020a05600c0a4800b003b4fdbb6319sm21838765wmq.21.2022.10.11.12.52.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Oct 2022 12:52:41 -0700 (PDT)
+Message-ID: <478c93f5-3f06-e426-9266-2c043c3658da@redhat.com>
+Date: Tue, 11 Oct 2022 21:52:40 +0200
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Original-Sender: sashal@kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+To: Uladzislau Rezki <urezki@gmail.com>
+Cc: Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ kasan-dev@googlegroups.com
+References: <8aaaeec8-14a1-cdc4-4c77-4878f4979f3e@redhat.com>
+ <Yz711WzMS+lG7Zlw@pc636> <9ce8a3a3-8305-31a4-a097-3719861c234e@redhat.com>
+ <Y0BHFwbMmcIBaKNZ@pc636> <6d75325f-a630-5ae3-5162-65f5bb51caf7@redhat.com>
+ <Y0QNt5zAvrJwfFk2@pc636>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: KASAN-related VMAP allocation errors in debug kernels with many
+ logical CPUS
+In-Reply-To: <Y0QNt5zAvrJwfFk2@pc636>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=oi0POXSB;       spf=pass
- (google.com: domain of sashal@kernel.org designates 139.178.84.217 as
- permitted sender) smtp.mailfrom=sashal@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ header.i=@redhat.com header.s=mimecast20190719 header.b=Eue6ZsJx;
+       spf=pass (google.com: domain of david@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,79 +157,249 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Alex Sverdlin <alexander.sverdlin@nokia.com>
+On 10.10.22 14:19, Uladzislau Rezki wrote:
+> On Mon, Oct 10, 2022 at 08:56:55AM +0200, David Hildenbrand wrote:
+>>>>> Maybe try to increase the module-section size to see if it solves the
+>>>>> problem.
+>>>>
+>>>> What would be the easiest way to do that?
+>>>>
+>>> Sorry for late answer. I was trying to reproduce it on my box. What i
+>>> did was trying to load all modules in my system with KASAN_INLINE option:
+>>>
+>>
+>> Thanks!
+>>
+>>> <snip>
+>>> #!/bin/bash
+>>>
+>>> # Exclude test_vmalloc.ko
+>>> MODULES_LIST=(`find /lib/modules/$(uname -r) -type f \
+>>> 	\( -iname "*.ko" -not -iname "test_vmalloc*" \) | awk -F"/" '{print $NF}' | sed 's/.ko//'`)
+>>>
+>>> function moduleExist(){
+>>> 	MODULE="$1"
+>>> 	if lsmod | grep "$MODULE" &> /dev/null ; then
+>>> 		return 0
+>>> 	else
+>>> 		return 1
+>>> 	fi
+>>> }
+>>>
+>>> i=0
+>>>
+>>> for module_name in ${MODULES_LIST[@]}; do
+>>> 	sudo modprobe $module_name
+>>>
+>>> 	if moduleExist ${module_name}; then
+>>> 		((i=i+1))
+>>> 		echo "Successfully loaded $module_name counter $i"
+>>> 	fi
+>>> done
+>>> <snip>
+>>>
+>>> as you wrote it looks like it is not easy to reproduce. So i do not see
+>>> any vmap related errors.
+>>
+>> Yeah, it's quite mystery and only seems to trigger on these systems with a
+>> lot of CPUs.
+>>
+>>>
+>>> Returning back to the question. I think you could increase the MODULES_END
+>>> address and shift the FIXADDR_START little forward. See the dump_pagetables.c
+>>> But it might be they are pretty compact and located in the end. So i am not
+>>> sure if there is a room there.
+>>
+>> That's what I was afraid of :)
+>>
+>>>
+>>> Second. It would be good to understand if vmap only fails on allocating for a
+>>> module:
+>>>
+>>> <snip>
+>>> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+>>> index dd6cdb201195..53026fdda224 100644
+>>> --- a/mm/vmalloc.c
+>>> +++ b/mm/vmalloc.c
+>>> @@ -1614,6 +1614,8 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
+>>>           va->va_end = addr + size;
+>>>           va->vm = NULL;
+>>> +       trace_printk("-> alloc %lu size, align: %lu, vstart: %lu, vend: %lu\n", size, align, vstart, vend);
+>>> +
+>>>           spin_lock(&vmap_area_lock);
+>>> <snip>
+>>
+>> I'll try grabbing a suitable system again and add some more debugging
+>> output. Might take a while, unfortunately.
+>>
+> Yes that makes sense. Especially to understand if it fails on the MODULES_VADDR
+> - MODULES_END range or somewhere else. According to your trace output it looks
+> like that but it would be good to confirm it by adding some traces.
+> 
+> BTW, vmap code is lack of good trace events. Probably it is worth to add
+> some basic ones.
 
-[ Upstream commit 823f606ab6b4759a1faf0388abcf4fb0776710d2 ]
+Was lucky to grab that system again. Compiled a custom 6.0 kernel, whereby I printk all vmap allocation errors, including the range similarly to what you suggested above (but printk only on the failure path).
 
-In case CONFIG_KASAN_VMALLOC=y kasan_populate_vmalloc() allocates the
-shadow pages dynamically. But even worse is that kasan_release_vmalloc()
-releases them, which is not compatible with create_mapping() of
-MODULES_VADDR..MODULES_END range:
+So these are the failing allocations:
 
-BUG: Bad page state in process kworker/9:1  pfn:2068b
-page:e5e06160 refcount:0 mapcount:0 mapping:00000000 index:0x0
-flags: 0x1000(reserved)
-raw: 00001000 e5e06164 e5e06164 00000000 00000000 00000000 ffffffff 00000000
-page dumped because: PAGE_FLAGS_CHECK_AT_FREE flag(s) set
-bad because of flags: 0x1000(reserved)
-Modules linked in: ip_tables
-CPU: 9 PID: 154 Comm: kworker/9:1 Not tainted 5.4.188-... #1
-Hardware name: LSI Axxia AXM55XX
-Workqueue: events do_free_init
-unwind_backtrace
-show_stack
-dump_stack
-bad_page
-free_pcp_prepare
-free_unref_page
-kasan_depopulate_vmalloc_pte
-__apply_to_page_range
-apply_to_existing_page_range
-kasan_release_vmalloc
-__purge_vmap_area_lazy
-_vm_unmap_aliases.part.0
-__vunmap
-do_free_init
-process_one_work
-worker_thread
-kthread
+# dmesg | grep " -> alloc"
+[  168.862511] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.863020] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.863841] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.864562] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.864646] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.865688] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.865718] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.866098] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.866551] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.866752] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.867147] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.867210] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.867312] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.867650] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.867767] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.867815] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.867815] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.868059] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.868463] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.868822] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.868919] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.869843] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.869854] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.870174] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.870611] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.870806] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.870982] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  168.879000] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.449101] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.449834] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.450667] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.451539] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.452326] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.453239] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.454052] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.454697] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.454811] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.455575] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.455754] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.461450] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.805223] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.805507] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.929577] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.930389] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.931244] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.932035] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.932796] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.933592] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.934470] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.935344] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  169.970641] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.191600] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.191875] -> alloc 40960 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.241901] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.242708] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.243465] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.244211] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.245060] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.245868] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.246433] -> alloc 40960 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.246657] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.247451] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.248226] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.248902] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.249704] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.250497] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.251244] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.252076] -> alloc 319488 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.587168] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  170.598995] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  171.865721] -> alloc 2506752 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
+[  172.138557] -> alloc 917504 size, align: 4096, vstart: 18446744072639352832, vend: 18446744073692774400
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@nokia.com>
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arm/mm/kasan_init.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/mm/kasan_init.c b/arch/arm/mm/kasan_init.c
-index 4b1619584b23..948ada4a2938 100644
---- a/arch/arm/mm/kasan_init.c
-+++ b/arch/arm/mm/kasan_init.c
-@@ -264,12 +264,17 @@ void __init kasan_init(void)
- 
- 	/*
- 	 * 1. The module global variables are in MODULES_VADDR ~ MODULES_END,
--	 *    so we need to map this area.
-+	 *    so we need to map this area if CONFIG_KASAN_VMALLOC=n. With
-+	 *    VMALLOC support KASAN will manage this region dynamically,
-+	 *    refer to kasan_populate_vmalloc() and ARM's implementation of
-+	 *    module_alloc().
- 	 * 2. PKMAP_BASE ~ PKMAP_BASE+PMD_SIZE's shadow and MODULES_VADDR
- 	 *    ~ MODULES_END's shadow is in the same PMD_SIZE, so we can't
- 	 *    use kasan_populate_zero_shadow.
- 	 */
--	create_mapping((void *)MODULES_VADDR, (void *)(PKMAP_BASE + PMD_SIZE));
-+	if (!IS_ENABLED(CONFIG_KASAN_VMALLOC) && IS_ENABLED(CONFIG_MODULES))
-+		create_mapping((void *)MODULES_VADDR, (void *)(MODULES_END));
-+	create_mapping((void *)PKMAP_BASE, (void *)(PKMAP_BASE + PMD_SIZE));
- 
- 	/*
- 	 * KAsan may reuse the contents of kasan_early_shadow_pte directly, so
+Really looks like only module vmap space. ~ 1 GiB of vmap module space ...
+
+I did try:
+
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index dd6cdb201195..199154a2228a 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -72,6 +72,8 @@ early_param("nohugevmalloc", set_nohugevmalloc);
+  static const bool vmap_allow_huge = false;
+  #endif /* CONFIG_HAVE_ARCH_HUGE_VMALLOC */
+  
++static atomic_long_t vmap_lazy_nr = ATOMIC_LONG_INIT(0);
++
+  bool is_vmalloc_addr(const void *x)
+  {
+         unsigned long addr = (unsigned long)kasan_reset_tag(x);
+@@ -1574,7 +1576,6 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
+         struct vmap_area *va;
+         unsigned long freed;
+         unsigned long addr;
+-       int purged = 0;
+         int ret;
+  
+         BUG_ON(!size);
+@@ -1631,23 +1632,22 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
+         return va;
+  
+  overflow:
+-       if (!purged) {
++       if (atomic_long_read(&vmap_lazy_nr)) {
+                 purge_vmap_area_lazy();
+-               purged = 1;
+                 goto retry;
+         }
+  
+         freed = 0;
+         blocking_notifier_call_chain(&vmap_notify_list, 0, &freed);
+  
+-       if (freed > 0) {
+-               purged = 0;
++       if (freed > 0)
+                 goto retry;
+-       }
+  
+-       if (!(gfp_mask & __GFP_NOWARN) && printk_ratelimit())
++       if (!(gfp_mask & __GFP_NOWARN)) {
+                 pr_warn("vmap allocation for size %lu failed: use vmalloc=<size> to increase size\n",
+                         size);
++               printk("-> alloc %lu size, align: %lu, vstart: %lu, vend: %lu\n", size, align, vstart, vend);
++       }
+  
+         kmem_cache_free(vmap_area_cachep, va);
+         return ERR_PTR(-EBUSY);
+@@ -1690,8 +1690,6 @@ static unsigned long lazy_max_pages(void)
+         return log * (32UL * 1024 * 1024 / PAGE_SIZE);
+  }
+  
+-static atomic_long_t vmap_lazy_nr = ATOMIC_LONG_INIT(0);
+-
+
+
+But that didn't help at all. That system is crazy:
+
+# lspci | wc -l
+1117
+
+
+What I find interesting is that we have these recurring allocations of similar sizes failing.
+I wonder if user space is capable of loading the same kernel module concurrently to
+trigger a massive amount of allocations, and module loading code only figures out
+later that it has already been loaded and backs off.
+
+My best guess would be that module loading is serialized completely, but for some reason,
+something seems to go wrong with a lot of concurrency ...
+
 -- 
-2.35.1
+Thanks,
+
+David / dhildenb
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221011145233.1624013-25-sashal%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/478c93f5-3f06-e426-9266-2c043c3658da%40redhat.com.
