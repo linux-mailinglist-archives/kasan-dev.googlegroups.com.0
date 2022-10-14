@@ -1,181 +1,137 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBBPXVUONAMGQELFLXSPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCC6PY4IDUIKV6VDTIDBUBH4VZ6TU@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD14F5FE880
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 07:59:27 +0200 (CEST)
-Received: by mail-lj1-x238.google.com with SMTP id f14-20020a2e950e000000b0026fa4066f3csf1670079ljh.21
-        for <lists+kasan-dev@lfdr.de>; Thu, 13 Oct 2022 22:59:27 -0700 (PDT)
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id E53595FE8B3
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 08:09:46 +0200 (CEST)
+Received: by mail-lf1-x139.google.com with SMTP id i9-20020ac25229000000b004a24f6e0f78sf1244167lfl.23
+        for <lists+kasan-dev@lfdr.de>; Thu, 13 Oct 2022 23:09:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665727786; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=CIKUh66g7GzBwDDkirEetL5eJVOjoL2VnIwIVx5D7YbKbbOYYLCR7dPFWkRftKxI9l
+         a0BviboBflqWwuN0AFhxseBTnpNNPnQ7u9+I3Qj9aWtUrUC3/GaBh73yuDOCFrrjES+9
+         uaDGsXr9C6aBRpiPevdG9yj5S66e7u8rYKVDQ7x91plej1Lx+lE9EH1ib1yYNxUof9fu
+         B9v63o9lzbVSrcuDMu5bqCSMTm8pjKNupWwRjo6JQICl2ZdasDocojVPdreS1s1AQbl8
+         jfCu1scO2tDg0fKkYUxNNEdARsGXLHkPqRxp3itHLEG1tj+Wnl75kMU/W+7VRjcnER2m
+         r1Wg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :message-id:in-reply-to:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=ZILBF10Iy1NhW33DXCTJqVR/wI9V6fEV9i+gLACDmaU=;
+        b=U8kpo5t8+9V8HSz5MgCgOGlncrDyiL3pQMyhu+g4mteG//arxsRKf8a+rgh3gwtZAQ
+         R8iFTSj6KmtPaso/9UY9s+TGrH8VKaxa7ACLhNwwmr+TLhS+HPAWpxTw5KhOSgvgtBtP
+         IEX1kAjGmq3awkxQnPZXErooLdeORFrZinZLJrx5+kYVVZB3agpwOlJnzN9qSPYMbkU3
+         lFaa4pXv5BrDBroT+lesbCPWsVBVAS3nNGkzLKbngwjzYR1VWd2zsDcdvhRFOA2Hg9Ri
+         oup4e53hUYo74NdyU6jQqgCth2+rrLSDzjtOP5YPjomVeyvWOqOQJOJ9Lyx7xykYI+SN
+         UiBQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Nxo/ikEp";
+       dkim=neutral (no key) header.i=@suse.cz header.b=JNOjO25P;
+       spf=pass (google.com: domain of mbenes@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=mbenes@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to:content-disposition
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tMWH9ktMgBMtItKTfxXWK9jxwte/LcjNDAxtfdbP/3I=;
-        b=JfN60bPHCcgaHJrxAbTVl9eQ3gXsiqkr9SifzXwYBW3jNd02ecBQGQPX+Vppr9kN1L
-         +frK2TEsGz70YT7O0J+kVGcxeH8/8jmPsjo/XXbaFAFqwt6UVj7u0IgvsaXVMijlrRtp
-         aAXmoZRRlHyvW7a0I5dx4uNNZmNq8CwTlmPcToZjsLbTECdcAxjlFpHidHDDlzqZ5Z0R
-         o9TctJQl3oeP2TVSz8l1W5qd4yzKY79S+Po/L+1CCYvdjJhOLNxAuP8V9YjcrzCqmZ6x
-         SmZOgEayB0xZ7L9YKJT4Nk09GljgvHto+iZiVYi2n2qoHRagqh45Clk6QKf1JEeGLTtx
-         K2iw==
+         :x-original-sender:mime-version:user-agent:references:message-id
+         :in-reply-to:subject:cc:to:from:date:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZILBF10Iy1NhW33DXCTJqVR/wI9V6fEV9i+gLACDmaU=;
+        b=Jhbue/7j/2Ksux6zHOhuKThA5D2MXK8oAWsSlMTXvYg1fdM6uS+LSlhatvWKLDCWfG
+         YA/0U0xKtNIOQ3rfyPL2KRWwwlCN7OsNAMc/DVkkqcHJ7hYPK+KCqlJSFL4uIwBSu24b
+         COVNEvJdICqZGaH/y5j+qU91JyI+spBt6z9uXgf15uWYXkpRlkfpzTDy/GnpnHdByETK
+         uHOSRF1mNbyvAEid1rurfGrAC994yLPmUqLn2fCeesxkfkzxJEGzY1iEP8prS9wW1dcP
+         L33tbonlVn1pgy2sRX/qWqshAhtpJjavAPTBo7JTbXCfu6OQeSTtT7a27udvIo7Cjm+O
+         bm/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tMWH9ktMgBMtItKTfxXWK9jxwte/LcjNDAxtfdbP/3I=;
-        b=oZnJEBA+GiJxT185F+4/bS7EraB5JvrwalF6UQkxqcompCHx5nWnfDvFc7B3ZyGnDy
-         r+z8cdzB7jR/SB7lGjbtQNLhn9qYPbilhZ/Zk89KpBpHx0vOAV2sYBitUOUq7P5JkCvv
-         tej4T4h8OTkYyjoL+2QUCaXM4IPaZx6xFw6WTrIJ8Rs14op8A0Pe30dtRBSkMANUnP3u
-         vn5ooKzM3MjYptGcZGVcpyaP/Ji4xCxqXZoiEL8Axp2ykqwfJO3BVpqurpz/tEm2WeHe
-         XBkpM5PdHovVRi6fH0d17HVUOgXM9IRl357Ci3qLDNa4AZ33B5Fcf2Q5MUtoTnLAOQ+z
-         TmbQ==
+         :user-agent:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZILBF10Iy1NhW33DXCTJqVR/wI9V6fEV9i+gLACDmaU=;
+        b=fQAM4pwMOz5Ao+M95Al/Rusc8YR1t/iJIW8e+9ZEDt3qxuJM99PFim1Wtv6bi1Did7
+         5jI+c+2uBwLPS2LsWrKLGgXZthxsbs8wx8Qsyh9LRyfBxZd4sPP3Yhzh3XyCEl/ZgPAp
+         O1Q3tWppjBmZPhPN/rkXwhJnud7B52RtTua+eWuxHpkmHG7LA85Knn9Tu+b4PoxuJ5Au
+         CciXTr2qny75sMBiPCavZIHA+G+EMuSDFHhV1XKlIarzlwFNSQCIJKqTauPlYzxnVIlu
+         pQqQDnxfE88qHTFAtv7gJpo0W7V0TxyKPFef/20WRsPg0hlXT1ppjnzhBB8IIChaESNc
+         ZNwg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf175EWp3I01O03Z2ydwJqZ6fpE4UZh64q00rbvNRIRsuC91joYv
-	hjjdvs+rd8oHTuunU2icin0=
-X-Google-Smtp-Source: AMsMyM6fBsik1RAah3xQofD2HAvcZbPcCmEud4Nq5B4uC5N0CBYmxqjifcC1oaNn/x1cCD5yqhMENQ==
-X-Received: by 2002:a05:651c:210:b0:26f:ab6a:87f5 with SMTP id y16-20020a05651c021000b0026fab6a87f5mr1212529ljn.506.1665727166827;
-        Thu, 13 Oct 2022 22:59:26 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0jKokr24VH+biOlrKu9TkH0+b7eJb4ajrhcquvkgn4DUX8RN5R
+	Fvvy6av2CrMEdETd0PYei0E=
+X-Google-Smtp-Source: AMsMyM7AN5tmj6GH0o1JvKW5re5Qm3nQIV9Wuz5lDcr8sratGOE2IZSpKnmgX7zNC+h0Ui7aLF8Drw==
+X-Received: by 2002:a2e:95d2:0:b0:26f:b14a:d639 with SMTP id y18-20020a2e95d2000000b0026fb14ad639mr1238016ljh.57.1665727786304;
+        Thu, 13 Oct 2022 23:09:46 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:2103:b0:4a2:3951:eac8 with SMTP id
- q3-20020a056512210300b004a23951eac8ls2496342lfr.0.-pod-prod-gmail; Thu, 13
- Oct 2022 22:59:25 -0700 (PDT)
-X-Received: by 2002:ac2:5cda:0:b0:4a2:2436:112a with SMTP id f26-20020ac25cda000000b004a22436112amr1222518lfq.295.1665727165661;
-        Thu, 13 Oct 2022 22:59:25 -0700 (PDT)
-Received: from mga12.intel.com (mga12.intel.com. [192.55.52.136])
-        by gmr-mx.google.com with ESMTPS id f14-20020a056512360e00b0048b12871da5si49724lfs.4.2022.10.13.22.59.24
+Received: by 2002:a2e:9357:0:b0:26b:db66:8dd4 with SMTP id m23-20020a2e9357000000b0026bdb668dd4ls818825ljh.8.-pod-prod-gmail;
+ Thu, 13 Oct 2022 23:09:45 -0700 (PDT)
+X-Received: by 2002:a2e:a98b:0:b0:26f:c755:ae8e with SMTP id x11-20020a2ea98b000000b0026fc755ae8emr1189648ljq.27.1665727785106;
+        Thu, 13 Oct 2022 23:09:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665727785; cv=none;
+        d=google.com; s=arc-20160816;
+        b=LpPDrELjGa/mKQ3j7LbWdGEr7ZPnrzYY430kML+iFRdsvFVfmW7XbMEGr92blT7sBH
+         rB6gJArw0XSR/lDnpP/W0T9z57diIbjKSTkmA4WNkhdvi+Nq6v4NyjtsVGX+ZBZkvKi/
+         MWrDf2wgzS1/Pt3u68z+azvhvyx5MpUA6BGh0wQib2+zVLe/6iRJCNi/VRYlN96DzLP2
+         YQapesoRIoLWEsD1Ry+EX1Og5LM2GG54efe8QB4bkvi2s6K+hbjOYJA7SgIR7KtWHVOu
+         EV04avtKUXtfIop2jAz8hGWJot80ihgzb9gEnqWsIOhmTGi8U8QPzDwdoPOhTyMRXo1B
+         741A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :cc:to:from:date:dkim-signature:dkim-signature;
+        bh=AxWuERTisS42uO91Wt9T0iy8s6OTDiXNii5dAiOnBhk=;
+        b=q7NgNP57SxI4IoTGSJOaphKlClGT/84RU29GRqYxouD9FnD1oxVL+Idi/EG3k/t5+D
+         K7wO6mg98O5XYuAB3jq/iadVpoUNs+0pYDIYh+jSofZ3xhKYnkNuNewg58OLLe38V3RZ
+         h3HF8QkCsrtOPcCPbvr8upRJe/4y2mSdWhoMjmiB+lM1fnDJzCb/omQSrM793f7ceXQ3
+         k0H2NKnQK8kJDOa2ms4bhPh3a4oogLjAdtqSJwJonKmT/qfnlY6ehXSeYcTN7+PEZFWM
+         i1Y37iuiMDdtBEW3aKPEefo+axglzdD4rsYpMaNM6/3SXJKHEn8vT9mfVV+IFyytpsSl
+         hc5A==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="Nxo/ikEp";
+       dkim=neutral (no key) header.i=@suse.cz header.b=JNOjO25P;
+       spf=pass (google.com: domain of mbenes@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=mbenes@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
+        by gmr-mx.google.com with ESMTPS id bd21-20020a05651c169500b0026fb9b63793si69914ljb.0.2022.10.13.23.09.44
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 13 Oct 2022 22:59:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 192.55.52.136 as permitted sender) client-ip=192.55.52.136;
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="285019221"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; 
-   d="scan'208";a="285019221"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 22:59:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="658470119"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; 
-   d="scan'208";a="658470119"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga008.jf.intel.com with ESMTP; 13 Oct 2022 22:59:22 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 22:59:21 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 13 Oct 2022 22:59:21 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.106)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 13 Oct 2022 22:59:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nndG1+gaQReMWg3msol5CrEML5REvj+kQAzI0CwG0gf8hxl7mqxGiSWTurg1PmovwIyQVL04NkVHzTmwJMdfJ4XMvJXCQ3RMJDhEKgkFs3W3lfpLcNxuOXfvvsjO8fIZW3WWIUVRTgpXrGoZQw0wcL/p9iO2UIVK+mtJf8iBtrlutIi6LVFpeZtC+JpUJVqR3OxgSjPiU4DAfQOphbkbR8ivNXY1gVWlKvKm1XmcfY1OYUcJcCF+Cc7ZW8h0nJ3BpSTNxHfP/w6fyYna6AxSaJC8TJ+Hf3N6ktfwGAyh685y9yyPSe+4FOgFf3QxVclQou1zAjh6pz4PaWDaRTtl/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zA/9xWelJqryFKdUVCR5aCI3rZH6huCyHGC0HL6K9pA=;
- b=G8RH/t/E1HamyOf6C6zrUF5PjxyR2l+UvmqKoAhb7oIuNisitfx07BaZWn3jaBeCCbMRt1b9PSNn1kXO0/LIlbqvHBRgCtWMCKvG7qsy62P2JhP6DfsoRj2v0PN6I7ETGCqSE788x3TZ42q1Y++lJvjvg7YSNppVDUboctUt0iuj1PABAwelemBoQBuleg42Ep7P3QUzLiyjmKnk7L9WV8iYVSUy4ZYNRR8HfsI5L0X4H3AIEr7AwiuKRHtas6QL2D/CLRPZ32DtaTj+CCH+YAA77husHUDI23dd8vQid0knfo34pE4iY0QmUQTzbHgOGMpXKStmLFwU2fH8pvVjqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
- by LV2PR11MB6072.namprd11.prod.outlook.com (2603:10b6:408:176::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.22; Fri, 14 Oct
- 2022 05:59:19 +0000
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::3f8d:1406:50e2:7bcc]) by MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::3f8d:1406:50e2:7bcc%3]) with mapi id 15.20.5723.022; Fri, 14 Oct 2022
- 05:59:19 +0000
-Date: Fri, 14 Oct 2022 13:59:03 +0800
-From: Feng Tang <feng.tang@intel.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka
-	<vbabka@suse.cz>, Christoph Lameter <cl@linux.com>, Pekka Enberg
-	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
-	<iamjoonsoo.kim@lge.com>, Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, "Hansen, Dave" <dave.hansen@intel.com>,
-	Linux Memory Management List <linux-mm@kvack.org>, LKML
-	<linux-kernel@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>, "Kees
- Cook" <keescook@chromium.org>
-Subject: Re: [PATCH v6 2/4] mm/slub: only zero the requested size of buffer
- for kzalloc
-Message-ID: <Y0j6p1TSaLo18qQP@feng-clx>
-References: <20220913065423.520159-1-feng.tang@intel.com>
- <20220913065423.520159-3-feng.tang@intel.com>
- <CA+fCnZfSv98uvxop7YN_L-F=WNVkb5rcwa6Nmf5yN-59p8Sr4Q@mail.gmail.com>
- <YzJi/NmT3jW1jw4C@feng-clx>
- <CA+fCnZdvqZzCU_LO178ZsPDvs-Unkh2iZ4Rq5Amb=zS31aWFpA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CA+fCnZdvqZzCU_LO178ZsPDvs-Unkh2iZ4Rq5Amb=zS31aWFpA@mail.gmail.com>
-X-ClientProxiedBy: SG2PR06CA0252.apcprd06.prod.outlook.com
- (2603:1096:4:ac::36) To MN0PR11MB6304.namprd11.prod.outlook.com
- (2603:10b6:208:3c0::7)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Oct 2022 23:09:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mbenes@suse.cz designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out2.suse.de (Postfix) with ESMTP id 223391F461;
+	Fri, 14 Oct 2022 06:09:44 +0000 (UTC)
+Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by relay2.suse.de (Postfix) with ESMTPS id A8A812C141;
+	Fri, 14 Oct 2022 06:09:43 +0000 (UTC)
+Date: Fri, 14 Oct 2022 08:09:43 +0200 (CEST)
+From: Miroslav Benes <mbenes@suse.cz>
+To: David Hildenbrand <david@redhat.com>
+cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+    linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+    Lin Liu <linl@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
+    Luis Chamberlain <mcgrof@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, 
+    Alexander Potapenko <glider@google.com>, 
+    Andrey Konovalov <andreyknvl@gmail.com>, 
+    Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+    Dmitry Vyukov <dvyukov@google.com>, 
+    Vincenzo Frascino <vincenzo.frascino@arm.com>, petr.pavlu@suse.com
+Subject: Re: [PATCH v1] kernel/module: allocate module vmap space after making
+ sure the module is unique
+In-Reply-To: <20221013180518.217405-1-david@redhat.com>
+Message-ID: <alpine.LSU.2.21.2210140806130.17614@pobox.suse.cz>
+References: <20221013180518.217405-1-david@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|LV2PR11MB6072:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbe646c1-ce29-4ec4-5606-08daada93b84
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VlZCsYnWVaxYbdtopn/rj7URkO+3LE/NYAtPgsWaIlZJtxQr5zY2o63bDN1SX2eWtlKjjbHS0Zg9d/6dlm3Ul1ymL7FvlvQuy53oDJ9CRg7W89h1BiDHYI7wSRBGwAGxKquyX/65MSypYg6kXSCoVv25XWaQ38+E55m4tdj2Nf3LjHz9FlDi2F1MULmZhm+1hK9svJD1Reg9GpA7c9wFZCiX0S+uV6p7BWsya3+t68jw/2nd0OaBWZKiLz70d7TwqOe5zW9+JrfqTQc8UBd5tcTzffhWaZw/i3qGUmrUSBOCWQbkq3yVdNRl69pfQe3KNxqjy5s0DIhoyYiu/CSJOyU2dEtlHI2EwU+QnjO+v8fO/INPPd7+QmbbJud6TIOKmmWqR+g0pv6WLnLWIqkLOocVghKitQOjWC8T852AQXVLlp7CX4RWlRZYFZgONGQczzlJ5gMSLYN9ZQOJhYQRVQoSJrTpc4s4fBW7Q5Tjc1wqYNCaoN9sfqEoywlzHgghlgt3LpdcpCn0V1kXajT99fC+vRfXlZB1M2ws4aq3V5gmKCUoDNXKJB1MvCJGXAUmTqnbrOg2Tm1f98A/gOeT+Cl6zsRK2fZ7XNPYl72JUo+EeTUWNRwtmuX4UkF0pLp7CMtHRLhSt9CAdBfiHuCg+G2iXffY+2WnCqj30c9sbEFUlFmIUxtXVY+ajiHoN8TMFj4xZDomWQpS1DK5/IU7wQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(396003)(376002)(366004)(39860400002)(346002)(136003)(451199015)(86362001)(2906002)(7416002)(6506007)(6666004)(5660300002)(44832011)(186003)(33716001)(478600001)(6916009)(54906003)(6486002)(4326008)(8936002)(26005)(8676002)(53546011)(66556008)(66476007)(41300700001)(82960400001)(38100700002)(66946007)(316002)(9686003)(6512007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uA82IrKNArHYl+N4bhxmcCdxMvo4aZkSyisI8LJiustWboxWfkVT6n/gGdv2?=
- =?us-ascii?Q?gxEYgcwe8X1b86Zxo+VPZmQq4H9u0t7+i8SB5WdDZU8OZB7jFcY+CdJO04uS?=
- =?us-ascii?Q?ux5fZqXdNr1YFwlVAhRvuffeWZElbzz+ofoMOO5xBy05qiCGImL3T7jU5Opa?=
- =?us-ascii?Q?ZI/aNWJ+b4CUaDQY550VGw2R96QULlQ9+dXrXLT+p3gfkssrpv8Pk9Nwo7s3?=
- =?us-ascii?Q?Jf8Z3Ae1dyWlJvoozZG+YaVmimRB8HeXrDQtJCj4VRohcIVDeaHQE1v8XQBD?=
- =?us-ascii?Q?AMQ704Otc63knbdgab0qtNs/YTn7b43Xh+xAcQH5ZUA6aucROJcHoOJCEHug?=
- =?us-ascii?Q?9EMz4JXcIsMrtHDy6Ow9DBmQm8TrxnAOjtYd0qJKRIe3MS5xEA3gRpJ4sl55?=
- =?us-ascii?Q?QgXEssL+++VstbmWBqtL+FSHu2hRTnwBTYeIrjzirllsGPx8MbZXWKj93buZ?=
- =?us-ascii?Q?4vNGovjZrnQNjogmDuhIrGWP7OvcXUq++YVAoJXi+I5aE1C0gXlaUvD3cSEl?=
- =?us-ascii?Q?Pn5CadntAwN2IshuBMm5Os5N12Oq0iSmvNvzoWt+Qjw1m5d0wOZQlJSkp9U0?=
- =?us-ascii?Q?/Mw2HXy+g5PgUYZgbhuUZqxIawmMDgXaOU/UTrp+oGJbLoAEbDMGUvITAI8B?=
- =?us-ascii?Q?oqzHprEa/KcxTJAfuz5ERV9F26LU4cU1/CHhH6u2PQv7TgNydSc2mv4CQTfr?=
- =?us-ascii?Q?g9Ge5bOwAIv6RJjQDwTtrjZH2YUa+tGzL2kgvXA2lQ7I6TMRls6lnc22L+cQ?=
- =?us-ascii?Q?awFAZ2LzhvLCyLP8RmFrSLW7t+gqu2FBlQwvnbJmT5zyqcJudHUQNMNIseV2?=
- =?us-ascii?Q?6dO+74Nt2aCCJXqcHU5BUtSG4cctqtX7RNfi7vLi7hh9nhshkL0uaFSYdUM0?=
- =?us-ascii?Q?nCENOYOk/tPIfD78So6E56Cw26YLxYYcQzKfkzWF89JuGtepZdGm3redZQMA?=
- =?us-ascii?Q?UGR3bti5eYVRYpH0c4s+8OYQyLnMDmYVcEvxvGFQlV0ccZwX9v+mt6WoKl5a?=
- =?us-ascii?Q?lXDEw3tXRN0PxzvdEmLikbHEBHbLjZWHLvz5Zra/1d/2QNoAcmqSe888iR6O?=
- =?us-ascii?Q?rgXlhFPdgxnj+yPARn2Gyi2d32VWojdL/f1tkE5poC+N+cLbbVj+o6YfLTaU?=
- =?us-ascii?Q?vXHmOwgG6KOQ6cUbiAUXFCPm+OZCCRfHrUgD5d0vjJV26uNkIiTwhoaYTgRO?=
- =?us-ascii?Q?Yf90bNE9svPMuvP1e++IM5b2oPhRo5fp6Uczrzv2HN/0PBja0jgjU9tHncpW?=
- =?us-ascii?Q?XYJxoWxb35gJBsNedFY11Z9Y5sg83ExBJiIbPNUaaYT3z3WvnNvnrOkIi3ZG?=
- =?us-ascii?Q?fmOhRGbJfT8rLQcp0QXhPYc2ZJf6sGP2jce/BdPupxL7qsvWhRZmw8PHYD6J?=
- =?us-ascii?Q?ijGWO4Y9QfZs1gA2NrdU+MFznhnZGmYbelZ7Y1In0lnkN7OtF6HRK5NSAWMI?=
- =?us-ascii?Q?AjeRJ6kuLvvR6SOCeqnRSqlVQtHtyHuJulHqTise1zaD6K6h/92lzbvGmVrS?=
- =?us-ascii?Q?Ph5Drmdzo2e6ZtYEuWoBV9bZySDpBn+lS5atzqh16HTqtA//rL5DVis9+XUJ?=
- =?us-ascii?Q?C5+84BTn7LUEV8I/18bSZULo9P+Fsw9u1xUncdnQ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbe646c1-ce29-4ec4-5606-08daada93b84
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2022 05:59:19.0027
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nZrpLUh4rQsByi6UH60w6o4kgnCH0ZD7uYuLFwAuctFaNZXTUe/PjU8PaSwmyEVl6fcowsmuc+Jf/cRTQMuYig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB6072
-X-OriginatorOrg: intel.com
-X-Original-Sender: feng.tang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: mbenes@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=WRfg9zim;       arc=fail
- (signature failed);       spf=pass (google.com: domain of feng.tang@intel.com
- designates 192.55.52.136 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@suse.cz header.s=susede2_rsa header.b="Nxo/ikEp";
+       dkim=neutral (no key) header.i=@suse.cz header.b=JNOjO25P;
+       spf=pass (google.com: domain of mbenes@suse.cz designates
+ 195.135.220.29 as permitted sender) smtp.mailfrom=mbenes@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -188,37 +144,105 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Oct 13, 2022 at 10:00:57PM +0800, Andrey Konovalov wrote:
-> On Tue, Sep 27, 2022 at 4:42 AM Feng Tang <feng.tang@intel.com> wrote:
-> >
-> > > > @@ -746,7 +747,7 @@ static inline void slab_post_alloc_hook(struct kmem_cache *s,
-> > > >         for (i = 0; i < size; i++) {
-> > > >                 p[i] = kasan_slab_alloc(s, p[i], flags, init);
-> > > >                 if (p[i] && init && !kasan_has_integrated_init())
-> > > > -                       memset(p[i], 0, s->object_size);
-> > > > +                       memset(p[i], 0, orig_size);
-> > >
-> > > Note that when KASAN is enabled and has integrated init, it will
-> > > initialize the whole object, which leads to an inconsistency with this
-> > > change.
-> >
-> > Do you mean for kzalloc() only? or there is some kasan check newly added?
-> 
-> Hi Feng,
-> 
-> I mean that when init is true and kasan_has_integrated_init() is true
-> (with HW_TAGS mode), kasan_slab_alloc() initializes the whole object.
-> Which is inconsistent with the memset() of only orig_size when
-> !kasan_has_integrated_init(). But I think this is fine assuming SLAB
-> poisoning happens later. But please add a comment.
- 
-I see now. Will add some comment. thanks!
+Hi,
 
-- Feng
+On Thu, 13 Oct 2022, David Hildenbrand wrote:
 
-> Thanks!
+> We already make sure to allocate percpu data only after we verified that
+> the module we're loading hasn't already been loaded and isn't
+> concurrently getting loaded -- that it's unique.
+> 
+> On big systems (> 400 CPUs and many devices) with KASAN enabled, we're now
+> phasing a similar issue with the module vmap space.
+> 
+> When KASAN_INLINE is enabled (resulting in large module size), plenty
+> of devices that udev wants to probe and plenty (> 400) of CPUs that can
+> carry out that probing concurrently, we can actually run out of module
+> vmap space and trigger vmap allocation errors:
+> 
+> [  165.818200] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+> [  165.836622] vmap allocation for size 315392 failed: use vmalloc=<size> to increase size
+> [  165.837461] vmap allocation for size 315392 failed: use vmalloc=<size> to increase size
+> [  165.840573] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+> [  165.841059] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+> [  165.841428] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+> [  165.841819] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+> [  165.842123] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+> [  165.843359] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+> [  165.844894] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+> [  165.847028] CPU: 253 PID: 4995 Comm: systemd-udevd Not tainted 5.19.0 #2
+> [  165.935689] Hardware name: Lenovo ThinkSystem SR950 -[7X12ABC1WW]-/-[7X12ABC1WW]-, BIOS -[PSE130O-1.81]- 05/20/2020
+> [  165.947343] Call Trace:
+> [  165.950075]  <TASK>
+> [  165.952425]  dump_stack_lvl+0x57/0x81
+> [  165.956532]  warn_alloc.cold+0x95/0x18a
+> [  165.960836]  ? zone_watermark_ok_safe+0x240/0x240
+> [  165.966100]  ? slab_free_freelist_hook+0x11d/0x1d0
+> [  165.971461]  ? __get_vm_area_node+0x2af/0x360
+> [  165.976341]  ? __get_vm_area_node+0x2af/0x360
+> [  165.981219]  __vmalloc_node_range+0x291/0x560
+> [  165.986087]  ? __mutex_unlock_slowpath+0x161/0x5e0
+> [  165.991447]  ? move_module+0x4c/0x630
+> [  165.995547]  ? vfree_atomic+0xa0/0xa0
+> [  165.999647]  ? move_module+0x4c/0x630
+> [  166.003741]  module_alloc+0xe7/0x170
+> [  166.007747]  ? move_module+0x4c/0x630
+> [  166.011840]  move_module+0x4c/0x630
+> [  166.015751]  layout_and_allocate+0x32c/0x560
+> [  166.020519]  load_module+0x8e0/0x25c0
+> [  166.024623]  ? layout_and_allocate+0x560/0x560
+> [  166.029586]  ? kernel_read_file+0x286/0x6b0
+> [  166.034269]  ? __x64_sys_fspick+0x290/0x290
+> [  166.038946]  ? userfaultfd_unmap_prep+0x430/0x430
+> [  166.044203]  ? lock_downgrade+0x130/0x130
+> [  166.048698]  ? __do_sys_finit_module+0x11a/0x1c0
+> [  166.053854]  __do_sys_finit_module+0x11a/0x1c0
+> [  166.058818]  ? __ia32_sys_init_module+0xa0/0xa0
+> [  166.063882]  ? __seccomp_filter+0x92/0x930
+> [  166.068494]  do_syscall_64+0x59/0x90
+> [  166.072492]  ? do_syscall_64+0x69/0x90
+> [  166.076679]  ? do_syscall_64+0x69/0x90
+> [  166.080864]  ? do_syscall_64+0x69/0x90
+> [  166.085047]  ? asm_sysvec_apic_timer_interrupt+0x16/0x20
+> [  166.090984]  ? lockdep_hardirqs_on+0x79/0x100
+> [  166.095855]  entry_SYSCALL_64_after_hwframe+0x63/0xcd[  165.818200] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
+> 
+> Interestingly, when reducing the number of CPUs (nosmt), it works as
+> expected.
+> 
+> The underlying issue is that we first allocate memory (including module
+> vmap space) in layout_and_allocate(), and then verify whether the module
+> is unique in add_unformed_module(). So we end up allocating module vmap
+> space even though we might not need it -- which is a problem when modules
+> are big and we can have a lot of concurrent probing of the same set of
+> modules as on the big system at hand.
+> 
+> Unfortunately, we cannot simply add the module earlier, because
+> move_module() -- that allocates the module vmap space -- essentially
+> brings the module to life from a temporary one. Adding the temporary one
+> and replacing it is also sub-optimal (because replacing it would require
+> to synchronize against RCU) and feels kind of dangerous judging that we
+> end up copying it.
+> 
+> So instead, add a second list (pending_load_infos) that tracks the modules
+> (via their load_info) that are unique and are still getting loaded
+> ("pending"), but haven't made it to the actual module list yet. This
+> shouldn't have a notable runtime overhead when concurrently loading
+> modules: the new list is expected to usually either be empty or contain
+> very few entries for a short time.
+> 
+> Thanks to Uladzislau for his help to verify that it's not actually a
+> vmap code issue.
+
+this seems to be related to what 
+https://lore.kernel.org/all/20220919123233.8538-1-petr.pavlu@suse.com/ 
+tries to solve. Just your symptoms are different. Does the patch set fix 
+your issue too?
+
+Regards
+Miroslav
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0j6p1TSaLo18qQP%40feng-clx.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/alpine.LSU.2.21.2210140806130.17614%40pobox.suse.cz.
