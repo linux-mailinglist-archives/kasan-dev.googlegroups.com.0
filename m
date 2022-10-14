@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBD3L7Q4YQ4LRBLGFUSNAMGQET2WAG5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBD3L7Q4YQ4LRBLWFUSNAMGQEI63DUPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x63d.google.com (mail-ej1-x63d.google.com [IPv6:2a00:1450:4864:20::63d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370B95FEAF1
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 10:49:49 +0200 (CEST)
-Received: by mail-ej1-x63d.google.com with SMTP id dm10-20020a170907948a00b00781fa5e140fsf1952815ejc.21
-        for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 01:49:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665737389; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA92A5FEAF4
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 10:49:50 +0200 (CEST)
+Received: by mail-wm1-x33c.google.com with SMTP id 2-20020a05600c268200b003c4290989e1sf1864873wmt.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665737390; cv=pass;
         d=google.com; s=arc-20160816;
-        b=A7XRY0fkScRxIk+pHjV7VW1RoGPS1gh8D9dhoyjtRdKGdgqAybUQB2z2Wryd0pVYAu
-         D7Hb3d2B14iNsEasWsRKZZ5CWoX57Ar8gM4kDX2h9Gc63VW+SLXb1D5NAP7PaZkCQvm9
-         MJaETbf8eGUE9OuV0dGwBsWjilyYr9pFvpC38Q3gPpVShyZ0sXtjh43p8lzhwOtd6Iz6
-         d5ApKQLR9wIC8Koaozy9lATDyZye+wecGpjW7/oHJteMHXYEXhbJ8ur5SQZkV6qjswhC
-         MwpmctNZtzkVxmo08H9cCGSW5hQSNAswSeS6XIvxRb7QOTpZd7CdOb8K+jz08KaCdZlT
-         tNcg==
+        b=uTDqNyGsXaDdHkUB/L9hlupQ3tDG4un0LmvCF599bRixJvrxvFMH2Sfe+7ZuxBsHhc
+         1dKcMt739troSHV6E3f+pQb6B4R4mePo3ABge5yDH3xW/XXEwisxgILzr/DE4RZh5Yu+
+         3ArkSWN2/dt4ZA1GKtw+hsL+Np3Jm6uKG63nhtnOTZfMkRZ/b6yYPsZO4PN48t6fEfbM
+         KSGqKFTlWPTTDsV4bJAWFEl650OG1XQmPiEkVUiTA52bIUWONjkEcecMUPOQafPv3BZn
+         GmVht9bHe06XqM74/QdSF2/KFhkdTExOPsVHt14kec6+KRmhCudjuTuw27Sc3h5R2Sx2
+         wdOQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature
          :dkim-signature;
-        bh=yiro5x1yrDqtjCnwfCjvePwybMisrflzZ3ZyMlpUhJk=;
-        b=KlD/Stb7n29kzS+9MKCUZUcA0HMGUsfRlKbGPsfEbVHYZz2K4lhyQVSuAkL5Y9sKUQ
-         uBG7abMNuB9kdOlH5CQAVuxZ1CrA+fLQr2SCQ2P0RcRxTw4S38I+LjJQoNBKB0zBlHDN
-         8DQC3TneB56uFa+YomC3/p0UBfxbf8gxfWt9lucyAZBCCu4jEDvQ+zRExfhFGtknBcYP
-         7a2Osn8T/8aQX3+T3mQf/NZCu4xqK+4zuDgOM1sWB+WcnJNVtlYjmRjxVhTkaFclkyMZ
-         nqZqNc0k/HKkllW19lHnGLez6yanITXGB6sqZpD1Rc4/azts3lNa5UOsBX6zgRUGzI4x
-         c/xw==
+        bh=32LwMSL3CKWQFNfdzg/04dttx/IBRwGCnugaU7hnajU=;
+        b=mPMWek0YH4+F7XRpirODynvywA6pd2LLfJ5ENyVt/s40qgNjX46WV3fHY2fGAHoenM
+         BZ+3xipuNDrrs+fdjewS0nHA5oEntKRHPHNrjk0Jv/P7qOtOLOEH8pq3DCHdI0J8LYrL
+         mou6JChkB+muIdy+5TJ488nAi9HJnXf0EWgeXHmXD1jNdBbwo1SlrWdyAkjpB9gjA/HI
+         R91Y84U1GLBIJEzJjPc1qzjU63Co0+Oke3whxWNpIKONRjqm9UtxVk+7Xof11As6VvUb
+         BZIcbT7AwgHwFz6tusRvhvGMDXu8ArTesyk30pPPwe3/aDLuNB4RHZjG/U/2Oa0cF+wl
+         79QQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=p63rFDk+;
-       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::336 as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=FQxuL83N;
+       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,26 +37,26 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yiro5x1yrDqtjCnwfCjvePwybMisrflzZ3ZyMlpUhJk=;
-        b=bX8ZyZqqYv8MeEBoHt1GuDtpIXrZD2OlqdmwXK+93XxFGqnSZh5Xy39NDuCkfTJspy
-         XVUD0pJOHX5/JNcBXkHK2kufvMUO2sPH8hYTAdjSp2utXGOfS5ymbxJdYh4J/YoFn355
-         3r406z91IfMYSeoaIYwRha6bndAN6WCck3H9gbhuLTvFYxQpLMQxxp/YnmCohVHDsMjL
-         faxzd+OzcFWz2fU6k13Vs70GOlMd/B6VhaB6rwFviR8Ojir7e4Kx7fnKBjdcsLMylK2j
-         w7CHyDEmX8df3D3MrTzl+BvpYrfcY61j0eI77MUw4HYJed3lnug8iHotVh50fpHaUjGi
-         LH1Q==
+        bh=32LwMSL3CKWQFNfdzg/04dttx/IBRwGCnugaU7hnajU=;
+        b=jd2b2WIK+GJ9FUFh2lR5aA4M05DHEhSiJ8MIxqWfR5sLSxIpdpqVIW3CV04j5kpWyl
+         jTUOg8iqJcaj5YIkdt132u2iOT5SnsrDhBMW6I0K8gQuaTHTjhtgV1tBQLDupr4djUDu
+         54nZyLChJt1ZlgNXDBX7YQbGMPrMHdTxK0VJ+YRwqka2pCyWBvqFBpMBpgI5Ei7eRfZv
+         1oe+hvzMZUpfOj9V7YKvk8f1uGIQ4GhHkE0Xl+PDK42lCfjji39YhPjK5hRtShMl9q1M
+         SGM8MQL710RawyFRrPz1J7ZC9FmVZuAXeCYAFTT5JIEiP9mdNY+LpivaSPRUfcr4ntn0
+         QPMg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yiro5x1yrDqtjCnwfCjvePwybMisrflzZ3ZyMlpUhJk=;
-        b=fBqa68xh4oT7bJOem+bYbCquq9psXrU4i8ico3zsnGDH+/T5NS/HsNHmHPcJFTtWPL
-         RrREyy1L93TP9UNS0QWqbZoI7Wl7NsKjbK7+RK+BZTFyWE1p0oYur9EgOnyS68uaMVXh
-         3zGaKrFo0V1vl6TjMjfukAfC63IL8C/Uq2T990hinoU/V1iPJPHaraWkEQ2+C+nXkGt8
-         vMGWOvVjlvaLyOr1O+zqEw7ESVSdvQ+j5qTXTFOZpAJB9Bx8QSDLT20wiSR/bsqh8pse
-         1Hs33iua0AtPgt6W4eoowcNzihwN5WTHo86bPgsYT6WDKbZ5joF1y6kd1bvQIGgINVWR
-         OtOw==
+        bh=32LwMSL3CKWQFNfdzg/04dttx/IBRwGCnugaU7hnajU=;
+        b=l0Cxng48ofW3JWoGhNaFs8+WaDG9Fw1JTLFlinpFR8MqpTt92rHrzd7YjK1I1n1Kto
+         D7o71J3F9P6xMYz9Srl/4bQYsHVOh6yA6jfZ6MgvaOdEHvYWdFsG/v9x7gN8LE1O7yTm
+         DqKm6oSH6SLhk4ZY2vpQv4YP3hwYmGEF6gRrscQJ6NK7rre0xYPIakqXFfyZ0dFw2MbA
+         pKp/lYglKRPCUPR0TjODVv/Na7xbjYnbcTIXWT/Ln0uSQCRtA0rcZ0avwODg2RVO3/mU
+         TAZlVzPECzyMQpnTu6CC+6nX7sLG4qsdaBmT7Kuh5qf+LH90JUsimG1UT5+ytVcQm6fI
+         4vrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -65,61 +65,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yiro5x1yrDqtjCnwfCjvePwybMisrflzZ3ZyMlpUhJk=;
-        b=vvV3lgHmuP/NzgXUlxJTVFbXxMC1NaC1LbEqZv+pnydizepB8l7NBtFd8a8azlHRuq
-         pRWsAa0efIvCfGunzPjq1dpx2fi3KHrzQqV3ZcejL4ndWwib1Kv06Xh7P1wxER8FDj/A
-         vAQ9nPUUuo4h1cFRcm4mDRBpAhIcrVnLkuxCYQlMV99T8TduIGUt70l+GUbz/z67vjB8
-         tKHGBfOEEci4RWLCipScjJPGfvtzCoY/AJFivoh/Qd48iiwnrE2y31Covn8+UPJ11XvQ
-         B73grml6WdRiT6yLGiQCbiuq2iDtGbjbN2QDmJob0xlgfQo366hoFsn2+hBK8Z8ZoGkn
-         rA7A==
+        bh=32LwMSL3CKWQFNfdzg/04dttx/IBRwGCnugaU7hnajU=;
+        b=taf9gBkIJWlSyQ116Qulssw8eMfPoAgy11Zn2ezTsgcTeGxKXffGlUM98ArRKnyKcB
+         wClio5S4ypPmoLYqA7ZFEB128Ted8kgk94pu3rkUaySTXtD8cGBlyG1FiHE6Fc91Vrxl
+         4BAEWY/7BtaAgwOkFvTICAgYCIaph4ODOkdDaiYkuuDNajn2MkeWzG22svBwCcPT1vGg
+         VpfVc6VbvdU8RwS4aZkQQ7VrsBz4lTcI/TbA7+bRdoyP0kgiNP8jmEmYSPnPQANAKrwk
+         oiJDb0hQf2ugGZA5Pi3K60VzIcfSptLUl+SBDHySO4FLP/FRjuz+kpU40E4mhrEng67k
+         3Oxw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0BIKEmzk0joatBn7cUqv4mu7PdmSY+eHgdhctqJ3YfflETEKP0
-	VScpuo9aEzdRg26vsMlgOS4=
-X-Google-Smtp-Source: AMsMyM5OrwoY7MLPQD78LsCH5Ag1/F/5zAv67eG5uYFsaVEkhWDi3lHIRcHEdLqMWS246mwMA7K5tw==
-X-Received: by 2002:a05:6402:190f:b0:45d:2c25:3a1d with SMTP id e15-20020a056402190f00b0045d2c253a1dmr981827edz.175.1665737388715;
-        Fri, 14 Oct 2022 01:49:48 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0W8o0QcJsC2WhBZorlJJXcL1nEWfRDQs1lecFvm2W96iIk74Xm
+	rVAtSImfuIb6qFS/ingAAkE=
+X-Google-Smtp-Source: AMsMyM5jVWMVSgU+hLnrQll+KF5h1RCs7MApjyNKJTu/AgcN5HfLpBbMeAN3cWI9ADqxtQXgVRDycg==
+X-Received: by 2002:adf:e989:0:b0:22e:3370:dbdf with SMTP id h9-20020adfe989000000b0022e3370dbdfmr2613662wrm.316.1665737390379;
+        Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:34cc:b0:45c:2675:8024 with SMTP id
- w12-20020a05640234cc00b0045c26758024ls4517073edc.1.-pod-prod-gmail; Fri, 14
- Oct 2022 01:49:47 -0700 (PDT)
-X-Received: by 2002:a05:6402:298d:b0:451:5fc5:d423 with SMTP id eq13-20020a056402298d00b004515fc5d423mr3333288edb.102.1665737387670;
-        Fri, 14 Oct 2022 01:49:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665737387; cv=none;
+Received: by 2002:a05:600c:2:b0:3c5:a439:23df with SMTP id g2-20020a05600c000200b003c5a43923dfls3950189wmc.0.-pod-canary-gmail;
+ Fri, 14 Oct 2022 01:49:49 -0700 (PDT)
+X-Received: by 2002:a05:600c:19d2:b0:3b4:a4cb:2416 with SMTP id u18-20020a05600c19d200b003b4a4cb2416mr2737623wmq.6.1665737389392;
+        Fri, 14 Oct 2022 01:49:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665737389; cv=none;
         d=google.com; s=arc-20160816;
-        b=OlCrNmYpl/cp1qXo5NaEhYH+jU0ubVhokcXbd4xobYiRaz6AWYLoZBZz4hf1Dgvoot
-         I+HFUOb/RkeX71Aj9545IM3XJibVlCMO0jPUPO3FqM20zXk0ZkDMGaivK1F3oks5x+nG
-         R9VfF/Rb7Cc/s5Xx4rGixhkJ/J1NUWw2RLFRYMF7/WjVa1QtH1FA+Dl+Y/CfmMXpQvyf
-         qDVJM8laGAYIMZMRRvXp7PX3I1ttqnv3u1DxzUJy8wnu0HaJ6C8rMynTPxHWEgR1qvtS
-         mWI3zKaykSlzntoCRd3t5QIFGZDu9d7z/hMLmi8CJ2NxDqxw4qSHiT43QnUbTCKtWZid
-         kSBA==
+        b=Q6BkNj8fujq2eUVPwuNApeho+uXx5GJA9nMPzaqHzDyjdksyriedIP7IAJGgBzAj4l
+         NYLWNzCD8V+ODH2sB9kgjqakQxwrSokSnToQAnv3oUa5IXkMhdoaLTqOEQa6okvH8yJV
+         PpE0UnxhlRlF6wBgaxemLj4yKhcOkno5haiLVujvBYEMMiqV1cyvs0Obl1KHW9ZVZZFe
+         KTcnCqYkdEFIHb/caGI4OtWw9PQtb+XQK0jXPUK/X+z4rz7OK47Mljbp6V6oiZD2jm/8
+         vodJjA+6+9nPIv6BLEzMbaBSGpfiEpHqBV/0jKK879L3K3ad+VL6PMhUugq5U5S2b+Ez
+         vcqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=s+9yJ7ltRwZDViylHimzxt5trfp3/YyMYP1DALt6daQ=;
-        b=AFj13bYPq2nWg+OOwNrqSOh6FDGVfubFVdI20nAgulRswcxgOoTZGonDl7fBW09Lu2
-         MZIcVD8NSIp8amw0MDD1G23kEqkcSdanRp61qI/i7Qt9SX5vx0qbso5f38OMNVyrCi0T
-         G8o0agcMpIaDGJkBoqO66HBJX45PXfGaYNzwiguukph3CpNukKNrNt1t4kaQboZJTuE7
-         ECD6aGmvQfBMxIkJK9d1KmL/eukCkWZCG/Gl8iuwHOsQqTGAyDm4y1j1ELBTB9DVA7pS
-         0Z8iEyIslx3fYK6PtJhkjw00M76xjruO6kpD6XJ6ZmWawWuSY6JbEjwiZEXMNQPUPdMQ
-         nbVA==
+        bh=noZwzVYPpBsDl5CECnOrP5rsHRqU5K36GF5tioVqhvo=;
+        b=c9ZWYRbQihYmvfMU8/yMrmVenfUv/CoaiwLX7TWsveNyqNh+5TCawghvzcQGcLvXKG
+         XDfF21ITFLjFAunDTiCIq0KXwsv+Vjwvht7EgJaUbHzGY9T8rPEm6Ln1It0TU59gpwIN
+         BEJxWeUh+Wj8r/Dk7UPKylhPBtryeoNJPUhHBVrVDZXajEeGZxZUpGZnx0kb62v0T0tL
+         0f/lz/BDs1JGI8iRkWf4D5bFmUkbysG5d6qkxhpuOvGHgKUuKeVN9pgIP92/6e5r5Svs
+         Uu/LuGQGbNc5xrfkO0CnPCLLzdQUTQxODZl6B+xsSiXEqkRQBVwB8CewJ87V0NOH2wqZ
+         N2CA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=p63rFDk+;
-       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::336 as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=FQxuL83N;
+       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com. [2a00:1450:4864:20::336])
-        by gmr-mx.google.com with ESMTPS id a16-20020aa7cf10000000b004595ce68e4asi70173edy.5.2022.10.14.01.49.47
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
+        by gmr-mx.google.com with ESMTPS id bn23-20020a056000061700b0022acdf547b9si79249wrb.5.2022.10.14.01.49.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Oct 2022 01:49:47 -0700 (PDT)
-Received-SPF: pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::336 as permitted sender) client-ip=2a00:1450:4864:20::336;
-Received: by mail-wm1-x336.google.com with SMTP id l32so2684655wms.2
-        for <kasan-dev@googlegroups.com>; Fri, 14 Oct 2022 01:49:47 -0700 (PDT)
-X-Received: by 2002:a05:600c:19ce:b0:3b9:c36f:f9e2 with SMTP id u14-20020a05600c19ce00b003b9c36ff9e2mr2761365wmq.110.1665737387337;
-        Fri, 14 Oct 2022 01:49:47 -0700 (PDT)
+        Fri, 14 Oct 2022 01:49:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
+Received: by mail-wm1-x32f.google.com with SMTP id l16-20020a05600c4f1000b003c6c0d2a445so3058770wmq.4
+        for <kasan-dev@googlegroups.com>; Fri, 14 Oct 2022 01:49:49 -0700 (PDT)
+X-Received: by 2002:a05:600c:288:b0:3c6:c44a:1d30 with SMTP id 8-20020a05600c028800b003c6c44a1d30mr9545255wmk.46.1665737388927;
+        Fri, 14 Oct 2022 01:49:48 -0700 (PDT)
 Received: from hrutvik.c.googlers.com.com (120.142.205.35.bc.googleusercontent.com. [35.205.142.120])
-        by smtp.gmail.com with ESMTPSA id 123-20020a1c1981000000b003c6c4639ac6sm1547372wmz.34.2022.10.14.01.49.46
+        by smtp.gmail.com with ESMTPSA id 123-20020a1c1981000000b003c6c4639ac6sm1547372wmz.34.2022.10.14.01.49.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 01:49:47 -0700 (PDT)
+        Fri, 14 Oct 2022 01:49:48 -0700 (PDT)
 From: Hrutvik Kanabar <hrkanabar@gmail.com>
 To: Hrutvik Kanabar <hrutvik@google.com>
 Cc: Marco Elver <elver@google.com>,
@@ -144,17 +143,17 @@ Cc: Marco Elver <elver@google.com>,
 	Sungjong Seo <sj1557.seo@samsung.com>,
 	Anton Altaparmakov <anton@tuxera.com>,
 	linux-ntfs-dev@lists.sourceforge.net
-Subject: [PATCH RFC 2/7] fs/ext4: support `DISABLE_FS_CSUM_VERIFICATION` config option
-Date: Fri, 14 Oct 2022 08:48:32 +0000
-Message-Id: <20221014084837.1787196-3-hrkanabar@gmail.com>
+Subject: [PATCH RFC 3/7] fs/btrfs: support `DISABLE_FS_CSUM_VERIFICATION` config option
+Date: Fri, 14 Oct 2022 08:48:33 +0000
+Message-Id: <20221014084837.1787196-4-hrkanabar@gmail.com>
 X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
 In-Reply-To: <20221014084837.1787196-1-hrkanabar@gmail.com>
 References: <20221014084837.1787196-1-hrkanabar@gmail.com>
 MIME-Version: 1.0
 X-Original-Sender: HRKanabar@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=p63rFDk+;       spf=pass
- (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::336
+ header.i=@gmail.com header.s=20210112 header.b=FQxuL83N;       spf=pass
+ (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32f
  as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Content-Type: text/plain; charset="UTF-8"
@@ -172,182 +171,122 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Hrutvik Kanabar <hrutvik@google.com>
 
-When `DISABLE_FS_CSUM_VERIFICATION` is enabled, bypass checks in key
-checksum verification functions.
+When `DISABLE_FS_CSUM_VERIFICATION` is enabled, bypass checksum
+verification.
 
 Signed-off-by: Hrutvik Kanabar <hrutvik@google.com>
 ---
- fs/ext4/bitmap.c  | 6 ++++--
- fs/ext4/extents.c | 3 ++-
- fs/ext4/inode.c   | 3 ++-
- fs/ext4/ioctl.c   | 3 ++-
- fs/ext4/mmp.c     | 3 ++-
- fs/ext4/namei.c   | 6 ++++--
- fs/ext4/orphan.c  | 3 ++-
- fs/ext4/super.c   | 6 ++++--
- fs/ext4/xattr.c   | 3 ++-
- 9 files changed, 24 insertions(+), 12 deletions(-)
+ fs/btrfs/check-integrity.c  | 3 ++-
+ fs/btrfs/disk-io.c          | 6 ++++--
+ fs/btrfs/free-space-cache.c | 3 ++-
+ fs/btrfs/inode.c            | 3 ++-
+ fs/btrfs/scrub.c            | 9 ++++++---
+ 5 files changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/fs/ext4/bitmap.c b/fs/ext4/bitmap.c
-index f63e028c638c..04ce8e4149ee 100644
---- a/fs/ext4/bitmap.c
-+++ b/fs/ext4/bitmap.c
-@@ -24,7 +24,8 @@ int ext4_inode_bitmap_csum_verify(struct super_block *sb, ext4_group_t group,
- 	__u32 provided, calculated;
- 	struct ext4_sb_info *sbi = EXT4_SB(sb);
- 
--	if (!ext4_has_metadata_csum(sb))
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
-+	    !ext4_has_metadata_csum(sb))
- 		return 1;
- 
- 	provided = le16_to_cpu(gdp->bg_inode_bitmap_csum_lo);
-@@ -63,7 +64,8 @@ int ext4_block_bitmap_csum_verify(struct super_block *sb, ext4_group_t group,
- 	struct ext4_sb_info *sbi = EXT4_SB(sb);
- 	int sz = EXT4_CLUSTERS_PER_GROUP(sb) / 8;
- 
--	if (!ext4_has_metadata_csum(sb))
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
-+	    !ext4_has_metadata_csum(sb))
- 		return 1;
- 
- 	provided = le16_to_cpu(gdp->bg_block_bitmap_csum_lo);
-diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-index f1956288307f..c1b7c8f4862c 100644
---- a/fs/ext4/extents.c
-+++ b/fs/ext4/extents.c
-@@ -63,7 +63,8 @@ static int ext4_extent_block_csum_verify(struct inode *inode,
- {
- 	struct ext4_extent_tail *et;
- 
--	if (!ext4_has_metadata_csum(inode->i_sb))
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
-+	    !ext4_has_metadata_csum(inode->i_sb))
- 		return 1;
- 
- 	et = find_ext4_extent_tail(eh);
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 2b5ef1b64249..8ec8214f1423 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -86,7 +86,8 @@ static int ext4_inode_csum_verify(struct inode *inode, struct ext4_inode *raw,
- {
- 	__u32 provided, calculated;
- 
--	if (EXT4_SB(inode->i_sb)->s_es->s_creator_os !=
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
-+	    EXT4_SB(inode->i_sb)->s_es->s_creator_os !=
- 	    cpu_to_le32(EXT4_OS_LINUX) ||
- 	    !ext4_has_metadata_csum(inode->i_sb))
- 		return 1;
-diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
-index 4d49c5cfb690..bae33cd83d05 100644
---- a/fs/ext4/ioctl.c
-+++ b/fs/ext4/ioctl.c
-@@ -142,7 +142,8 @@ static int ext4_update_backup_sb(struct super_block *sb,
- 
- 	es = (struct ext4_super_block *) (bh->b_data + offset);
- 	lock_buffer(bh);
--	if (ext4_has_metadata_csum(sb) &&
+diff --git a/fs/btrfs/check-integrity.c b/fs/btrfs/check-integrity.c
+index 98c6e5feab19..eab82593a325 100644
+--- a/fs/btrfs/check-integrity.c
++++ b/fs/btrfs/check-integrity.c
+@@ -1671,7 +1671,8 @@ static noinline_for_stack int btrfsic_test_for_metadata(
+ 		crypto_shash_update(shash, data, sublen);
+ 	}
+ 	crypto_shash_final(shash, csum);
+-	if (memcmp(csum, h->csum, fs_info->csum_size))
 +	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    ext4_has_metadata_csum(sb) &&
- 	    es->s_checksum != ext4_superblock_csum(sb, es)) {
- 		ext4_msg(sb, KERN_ERR, "Invalid checksum for backup "
- 		"superblock %llu\n", sb_block);
-diff --git a/fs/ext4/mmp.c b/fs/ext4/mmp.c
-index 9af68a7ecdcf..605f1867958d 100644
---- a/fs/ext4/mmp.c
-+++ b/fs/ext4/mmp.c
-@@ -21,7 +21,8 @@ static __le32 ext4_mmp_csum(struct super_block *sb, struct mmp_struct *mmp)
- 
- static int ext4_mmp_csum_verify(struct super_block *sb, struct mmp_struct *mmp)
- {
--	if (!ext4_has_metadata_csum(sb))
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
-+	    !ext4_has_metadata_csum(sb))
++	    memcmp(csum, h->csum, fs_info->csum_size))
  		return 1;
  
- 	return mmp->mmp_checksum == ext4_mmp_csum(sb, mmp);
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index d5daaf41e1fc..84a59052c51d 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -396,7 +396,8 @@ int ext4_dirblock_csum_verify(struct inode *inode, struct buffer_head *bh)
- {
- 	struct ext4_dir_entry_tail *t;
+ 	return 0; /* is metadata */
+diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
+index a2da9313c694..7cd909d44b24 100644
+--- a/fs/btrfs/disk-io.c
++++ b/fs/btrfs/disk-io.c
+@@ -184,7 +184,8 @@ static int btrfs_check_super_csum(struct btrfs_fs_info *fs_info,
+ 	crypto_shash_digest(shash, raw_disk_sb + BTRFS_CSUM_SIZE,
+ 			    BTRFS_SUPER_INFO_SIZE - BTRFS_CSUM_SIZE, result);
  
--	if (!ext4_has_metadata_csum(inode->i_sb))
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
-+	    !ext4_has_metadata_csum(inode->i_sb))
- 		return 1;
- 
- 	t = get_dirent_tail(inode, bh);
-@@ -491,7 +492,8 @@ static int ext4_dx_csum_verify(struct inode *inode,
- 	struct dx_tail *t;
- 	int count_offset, limit, count;
- 
--	if (!ext4_has_metadata_csum(inode->i_sb))
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
-+	    !ext4_has_metadata_csum(inode->i_sb))
- 		return 1;
- 
- 	c = get_dx_countlimit(inode, dirent, &count_offset);
-diff --git a/fs/ext4/orphan.c b/fs/ext4/orphan.c
-index 69a9cf9137a6..8a488d5521cb 100644
---- a/fs/ext4/orphan.c
-+++ b/fs/ext4/orphan.c
-@@ -537,7 +537,8 @@ static int ext4_orphan_file_block_csum_verify(struct super_block *sb,
- 	struct ext4_orphan_block_tail *ot;
- 	__le64 dsk_block_nr = cpu_to_le64(bh->b_blocknr);
- 
--	if (!ext4_has_metadata_csum(sb))
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
-+	    !ext4_has_metadata_csum(sb))
- 		return 1;
- 
- 	ot = ext4_orphan_block_tail(sb, bh);
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index d733db8a0b02..cb6e53163441 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -287,7 +287,8 @@ __le32 ext4_superblock_csum(struct super_block *sb,
- static int ext4_superblock_csum_verify(struct super_block *sb,
- 				       struct ext4_super_block *es)
- {
--	if (!ext4_has_metadata_csum(sb))
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
-+	    !ext4_has_metadata_csum(sb))
- 		return 1;
- 
- 	return es->s_checksum == ext4_superblock_csum(sb, es);
-@@ -3198,7 +3199,8 @@ static __le16 ext4_group_desc_csum(struct super_block *sb, __u32 block_group,
- int ext4_group_desc_csum_verify(struct super_block *sb, __u32 block_group,
- 				struct ext4_group_desc *gdp)
- {
--	if (ext4_has_group_desc_csum(sb) &&
+-	if (memcmp(disk_sb->csum, result, fs_info->csum_size))
 +	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    ext4_has_group_desc_csum(sb) &&
- 	    (gdp->bg_checksum != ext4_group_desc_csum(sb, block_group, gdp)))
- 		return 0;
++	    memcmp(disk_sb->csum, result, fs_info->csum_size))
+ 		return 1;
  
-diff --git a/fs/ext4/xattr.c b/fs/ext4/xattr.c
-index 36d6ba7190b6..b22a0f282474 100644
---- a/fs/ext4/xattr.c
-+++ b/fs/ext4/xattr.c
-@@ -154,7 +154,8 @@ static int ext4_xattr_block_csum_verify(struct inode *inode,
- 	struct ext4_xattr_header *hdr = BHDR(bh);
- 	int ret = 1;
+ 	return 0;
+@@ -494,7 +495,8 @@ static int validate_extent_buffer(struct extent_buffer *eb)
+ 	header_csum = page_address(eb->pages[0]) +
+ 		get_eb_offset_in_page(eb, offsetof(struct btrfs_header, csum));
  
--	if (ext4_has_metadata_csum(inode->i_sb)) {
+-	if (memcmp(result, header_csum, csum_size) != 0) {
 +	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    ext4_has_metadata_csum(inode->i_sb)) {
- 		lock_buffer(bh);
- 		ret = (hdr->h_checksum == ext4_xattr_block_csum(inode,
- 							bh->b_blocknr, hdr));
++	    memcmp(result, header_csum, csum_size) != 0) {
+ 		btrfs_warn_rl(fs_info,
+ "checksum verify failed on logical %llu mirror %u wanted " CSUM_FMT " found " CSUM_FMT " level %d",
+ 			      eb->start, eb->read_mirror,
+diff --git a/fs/btrfs/free-space-cache.c b/fs/btrfs/free-space-cache.c
+index f4023651dd68..203c8a9076a6 100644
+--- a/fs/btrfs/free-space-cache.c
++++ b/fs/btrfs/free-space-cache.c
+@@ -574,7 +574,8 @@ static int io_ctl_check_crc(struct btrfs_io_ctl *io_ctl, int index)
+ 	io_ctl_map_page(io_ctl, 0);
+ 	crc = btrfs_crc32c(crc, io_ctl->orig + offset, PAGE_SIZE - offset);
+ 	btrfs_crc32c_final(crc, (u8 *)&crc);
+-	if (val != crc) {
++	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
++	    val != crc) {
+ 		btrfs_err_rl(io_ctl->fs_info,
+ 			"csum mismatch on free space cache");
+ 		io_ctl_unmap_page(io_ctl);
+diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
+index b0807c59e321..1a49d897b5c1 100644
+--- a/fs/btrfs/inode.c
++++ b/fs/btrfs/inode.c
+@@ -3434,7 +3434,8 @@ int btrfs_check_sector_csum(struct btrfs_fs_info *fs_info, struct page *page,
+ 	crypto_shash_digest(shash, kaddr, fs_info->sectorsize, csum);
+ 	kunmap_local(kaddr);
+ 
+-	if (memcmp(csum, csum_expected, fs_info->csum_size))
++	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
++	    memcmp(csum, csum_expected, fs_info->csum_size))
+ 		return -EIO;
+ 	return 0;
+ }
+diff --git a/fs/btrfs/scrub.c b/fs/btrfs/scrub.c
+index f260c53829e5..a7607b492f47 100644
+--- a/fs/btrfs/scrub.c
++++ b/fs/btrfs/scrub.c
+@@ -1997,7 +1997,8 @@ static int scrub_checksum_data(struct scrub_block *sblock)
+ 
+ 	crypto_shash_digest(shash, kaddr, fs_info->sectorsize, csum);
+ 
+-	if (memcmp(csum, sector->csum, fs_info->csum_size))
++	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
++	    memcmp(csum, sector->csum, fs_info->csum_size))
+ 		sblock->checksum_error = 1;
+ 	return sblock->checksum_error;
+ }
+@@ -2062,7 +2063,8 @@ static int scrub_checksum_tree_block(struct scrub_block *sblock)
+ 	}
+ 
+ 	crypto_shash_final(shash, calculated_csum);
+-	if (memcmp(calculated_csum, on_disk_csum, sctx->fs_info->csum_size))
++	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
++	    memcmp(calculated_csum, on_disk_csum, sctx->fs_info->csum_size))
+ 		sblock->checksum_error = 1;
+ 
+ 	return sblock->header_error || sblock->checksum_error;
+@@ -2099,7 +2101,8 @@ static int scrub_checksum_super(struct scrub_block *sblock)
+ 	crypto_shash_digest(shash, kaddr + BTRFS_CSUM_SIZE,
+ 			BTRFS_SUPER_INFO_SIZE - BTRFS_CSUM_SIZE, calculated_csum);
+ 
+-	if (memcmp(calculated_csum, s->csum, sctx->fs_info->csum_size))
++	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
++	    memcmp(calculated_csum, s->csum, sctx->fs_info->csum_size))
+ 		++fail_cor;
+ 
+ 	return fail_cor + fail_gen;
 -- 
 2.38.0.413.g74048e4d9e-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221014084837.1787196-3-hrkanabar%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221014084837.1787196-4-hrkanabar%40gmail.com.
