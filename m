@@ -1,152 +1,162 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBNMZUSNAMGQES7BDLNA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD3L7Q4YQ4LRBJWFUSNAMGQEMCZZSAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CEFC5FE94D
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 09:16:07 +0200 (CEST)
-Received: by mail-pf1-x438.google.com with SMTP id eb28-20020a056a004c9c00b0056326adf7a5sf2465093pfb.8
-        for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 00:16:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665731766; cv=pass;
+Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 548295FEAEE
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 10:49:43 +0200 (CEST)
+Received: by mail-lj1-x23a.google.com with SMTP id e1-20020a2e9841000000b002602ebb584fsf1827487ljj.14
+        for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 01:49:43 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665737383; cv=pass;
         d=google.com; s=arc-20160816;
-        b=v7XfefntTvnzsWxtJQ3MJmXZR9aVlwVYv3CK4oseQJve+6k3mhS5njB2G3M3A80bip
-         58O9cRNgq6Eo0OrHqwEjvAwrEmEkM4h5NV0y9aQ9hpiZpvTS6h74liaobQ2agKQYugoK
-         J8cYd3V2+jeb58rRRTzjeh1ykw5zEsatl7Qi1rSa5ZWx5HcIAaqGL80ZfherdKX9HnSX
-         eT9DQ9KDAwBt6akGbPgVaOJfRzmrF/QczPk8CqB6k+CzcZNz71ICEXj+WMkh3cnGypgL
-         3ERgBTJK+0LUFycscEmm7IfVa5d/WyTfm7MLISfCoRKIKzU0Qsb80RaSnr9k4wbSeXe/
-         oA8A==
+        b=lUV3GcjQidl5klnwlOs7pMOd2m45Mbt4P6jCQlWKsVTReO8xbJkLFEAXOlOySujDjx
+         XB/oGUaLv16tpQzEUhfMbmXqgyP26i5EI8ci+IqOYEjWUD51wUdfuqd0lbap59xibKMo
+         RzN0B5VO5UprbWiaEtTGEaslwsD+22l2frLvdiLofkyo3F/GmpM4ZgJoKQkB7fiTPVPE
+         XXdLjRAgwI0Z8+JJvEgL+XvYbRXB6hHU7akh8G01/9cGwTzS7uphaPIpJiJ+m475TnRZ
+         Fs137uG3QrTf8Xyjz5xK1yltITYabb6QmAiuDKw/w3RS3+2KymRmsDpDlZPkFEVT2fsg
+         b8iQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :subject:organization:from:references:cc:to:user-agent:mime-version
-         :date:message-id:sender:dkim-signature;
-        bh=56qyPYUu9U0JiavLzR6SKJnAzkMTtulGUykTMhye0Ic=;
-        b=OOXa5XEwTSYe45sifHaHuoU4aBF9JtssxbrCyTWo7WCDk1B5eF5ktHea/sivcFnc6U
-         +YtkvyRRbUA5+npTqnhqCvQPKDLxm6OlcDyQJ3G8G4sLg5EtPpAfhq+pwp84FhkfY0o8
-         KmvINaLvNdYD87BTely1OZ6U/q8P82iwwC081HHaJxwehs4wh/ii1FE3HUP+zmV2Zvdq
-         N7/6gpzwUARdBzyp+BYZbNRJOnoPNEEk7q+34zWig5I3KsUxV70BE3yATmf5sHIPyOE1
-         iN19zhHixjVUeS0yNvlrYIqviVhHI4ylgCrcFb+eBxYT2adC0UjAUrfiBnsDjrdlj8yB
-         B/5g==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:message-id:date:subject:cc:to:from:sender
+         :dkim-signature:dkim-signature;
+        bh=dTdhgTZqBs/HoI2EvMcLSkcH5Kf2mEzKmVayeI3j2jQ=;
+        b=b3H4dejVAVamH6vSZLZk3FO4rR2suJTRk/+m81PXxVApNzfgxTvrGRTIb977rx/Dox
+         RjXbpP+KrlyN52+2KcnVo7Bb3H+XP64HGzA5RZx6FY/1PjOC5w0gMmmOkzW7Xhxiu4+Z
+         KdS8Xyx/wz+WBAtv5H0w+AD1P1bPxCANmZLGHB7+JQEKFcTjVGJ9pOSZjz+FgQCpkIfU
+         sBvsCEGK19u2iSaGDp1g6yOT+k/CJ9zDLkJZ6PRFsA3c/CkxCvBrENGudXxHhXIx7Ooj
+         N5bwf+50qx7zVOLzRG6KF68Apv6hWLIjbdgFO6R7haVXExmfwEs4l2mTDqnfaWyiPrGM
+         Rfzw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=hszTEZzk;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=N9gYQbXa;
+       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::331 as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-language:in-reply-to:subject:organization
-         :from:references:cc:to:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=56qyPYUu9U0JiavLzR6SKJnAzkMTtulGUykTMhye0Ic=;
-        b=Mn5nxzLY4qMyq4AuZTCydqTCCoBjmy+ytwCYXWhzZa7vM2S0HG7ckoe+TpWXFTAqIW
-         Cw0YNH9pcq8PhEKQ8XOWXUjQuB9fTCYx/PGUNdp8eTPszpeYcI7c0LQTCHSbY+1KtkWG
-         wMGy1zAB4U31FVeNNN73+kvHPAoYhebpjA16/TAShdfWI9nNxSQtkQmOESrqU/lgZnD4
-         kf7QYvfB67mh8Vwvi11mrIvJKbmKNu/PUudB3kulOn9l3xAoi0VuPdQTrKksRjWH232C
-         MKg1/d2kGEe4eENqsM0vvhksO/RAUvSfBoyNxM8CBMNID5IBozNSI2LktZ6X1hgVTtru
-         Jorw==
+         :x-original-sender:content-transfer-encoding:mime-version:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dTdhgTZqBs/HoI2EvMcLSkcH5Kf2mEzKmVayeI3j2jQ=;
+        b=iKKdD0UuVuo74vh7aYtNTMl9z/+E9O2w4zWQOowbTAksAzW+7p1EfgG5IUEW3HcrRE
+         O48jfdER+MQOCdTR6EddzYnCqAeCn6CqZTH/lp8dikTASHex9PBFnXr2UZvn0r51nzW8
+         hKBwFOg9SUpEsKvrIAb5j8U1cSEO3Iu9Kx1ka8rRErnxpd0J7T8UyLZhnkmYG4B9YvyT
+         o1ucJvjscz8ds1cy3DGUyO9lNuBWBc0cgbuePd7e3MkZXsIKzZRq/wK4dntkBNS+x5nB
+         3SmZQLXqlP//FBI89ePLVlBdccu0RiV5JIDwgcv2SdcyKw4XNBsOguEdYQmvSvfmK6/3
+         aiRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:mime-version:message-id
+         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dTdhgTZqBs/HoI2EvMcLSkcH5Kf2mEzKmVayeI3j2jQ=;
+        b=lZMB11WT4dHtw9S5PZBWaeGENwb5+jUdXmuKb/7GFc19nSn0bATwakXlphra0iIVn+
+         2pGqAMnmcGwpGAlP7j29tn+1tpMMWksnz61MkKYwxXxF0W/HGQeB/j09PSKvBz6hf+fY
+         VpOeqBiuQrtWEzgsApOtPs8KG9v7sa0HgNSLZ7Gqa3L/0dITxic1UmQD56fKKCNlcPVo
+         e9Oa35Dno867yW+tyH4Stq19tj0VXHzhMzBkqDIzzzPg06dNIm7V3NDjmZ8Bg54VH/va
+         GP05nDkyqeIVZ5WXXr3mplQje2cmH0X4R/quJ5HEt/GzOlPiSLt9MDMQa4hWyHFqJR04
+         vcww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:subject:organization:from:references
-         :cc:to:user-agent:mime-version:date:message-id:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=56qyPYUu9U0JiavLzR6SKJnAzkMTtulGUykTMhye0Ic=;
-        b=kzhdsApolp2URmYFGgqSlz+gBjo36DlsEuzuT9qLkOycMug5yMfWT4nIxVMJs6Vk+a
-         FQR275E4oAeBjrfvmXXH6UAx6WWy/qAtYT5fkI9OfVTHisyt75KyOVzj/DeuTi4jXq15
-         kSchJoHEn2fV1viGVN+t2lHR0/pHcX6Va9Z0ffw0eo67TTowsas1wq68BWPlYKF24jkN
-         /QVsDILtn31D8vuH1L2JrEr6ptYn8VRabyqjO0AlNNh69U8nh0s8QqMnouixAp80yLsz
-         tlaQ9OhgQtxrtWj0rXDrMzckRMjISienl7PH8nIe8pAliPDTP62tJKBdQz9xlxBT0JFo
-         vGVw==
+         :content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dTdhgTZqBs/HoI2EvMcLSkcH5Kf2mEzKmVayeI3j2jQ=;
+        b=shFxRqDC2nYLnemQZ8boDucahvyhFZNzzid59j0GXFx77ShmUSSHi/fSQ1QxHo6HkZ
+         vuOM5Ef66s9ya6u6Lbx4dn08oEh9DBqRy+E9CfMwcU+7xzFptZrllbsyvB2g7XULjJoV
+         D9MZhQHp0ou19Iqo+0noA4/p3E4A2INRUNdNGhj8w+v4ZnbEubRz7kYMUuTRGdUtSApr
+         kFxg3PA9edllqm2FrhGsIICEP0GymT+WW4IM9E6S230hbfs1/efM0HhZvfD+zO2fMMUK
+         +2HG555+fe07HbxPS1a5xCysLZN2CM4TWh0TZ8fnaBrFfWqbZB4nBdpwXjdbhciJhoEa
+         mqbQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf3ilGRN4gUf5tkwWtIvEgkWiXk0UH/qhnr5fNyWCu68Ritxa9kI
-	tZ0uVKXBEsZf0Fnpy7uf/RY=
-X-Google-Smtp-Source: AMsMyM4/LjuIldL9zAt2aOqNKRiMmHnXBWJJ7xb0jYLUN0oZ9kWviReiYt6y81Ua+Ap69vFrTH5rlQ==
-X-Received: by 2002:a17:902:eccd:b0:17f:8ec1:39d1 with SMTP id a13-20020a170902eccd00b0017f8ec139d1mr4039770plh.139.1665731765870;
-        Fri, 14 Oct 2022 00:16:05 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1wLyBBnylzbQeyTG1oPdrBM7CTH3HRtAuXQbUWrdoD7XWWYFnq
+	qXAEYm5VJsC1ZXIK9tAxTtg=
+X-Google-Smtp-Source: AMsMyM4qYuD0U7LR5cYG8CkhbgoLxAStaZC6tyanbVu6KKvXkvd6DQjOt5/9sUepgvWCHHrogCIGQQ==
+X-Received: by 2002:a2e:2d0a:0:b0:26c:a1c:cdf with SMTP id t10-20020a2e2d0a000000b0026c0a1c0cdfmr1544453ljt.352.1665737382650;
+        Fri, 14 Oct 2022 01:49:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:a58a:b0:172:8d81:7e5b with SMTP id
- az10-20020a170902a58a00b001728d817e5bls3237085plb.6.-pod-prod-gmail; Fri, 14
- Oct 2022 00:16:05 -0700 (PDT)
-X-Received: by 2002:a17:90b:224d:b0:20d:8828:3051 with SMTP id hk13-20020a17090b224d00b0020d88283051mr4124757pjb.89.1665731765008;
-        Fri, 14 Oct 2022 00:16:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665731765; cv=none;
+Received: by 2002:a05:651c:150f:b0:26e:76e9:3567 with SMTP id
+ e15-20020a05651c150f00b0026e76e93567ls887158ljf.11.-pod-prod-gmail; Fri, 14
+ Oct 2022 01:49:41 -0700 (PDT)
+X-Received: by 2002:a2e:9f16:0:b0:26e:6fd:980c with SMTP id u22-20020a2e9f16000000b0026e06fd980cmr1309346ljk.145.1665737381458;
+        Fri, 14 Oct 2022 01:49:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665737381; cv=none;
         d=google.com; s=arc-20160816;
-        b=Q2q2VffHUfHFI8NAkgOOi2gLZtpa+/PSP4BCleyPc2Lj721svNSSPaoxle4mkSwgpF
-         iKdYIzr2xVnc36escCYVbwcEwacA0dyVjUUrvh0H8DXVwgUSffhHF4eXigswbe5Yz7qn
-         cvbVx+INO9+CdGq1kLsxXscy1qx65Ay3pGsEpTkvjAcBQExw4w7uGtC0c3xM8MMIbqrL
-         9T4WlvtggNSMqdcAbU3vcJXYcxTUN1Ew3bGy1OQAcaTMbwgtHVll1LpyfqhCL+v2Yl86
-         ctS/+SO+TimuJZ6/5cEd30z47DYR9JFfe8hd7q/1Qr6czygbj5zciNsHgEWbwe5FMfi6
-         jR3Q==
+        b=q4cv/UZ0CAdRJOGVFH5qW+S+/C+xo04yQ053886l/KxsOXn7gx00dkcg9xrYfTz3Kd
+         t509u0qGAvMNrt4HCd9P5wTXADZAOsGPeoOovy0B9sQzvPSTvbQG4MS1L95qWhH901cP
+         ywAkAQkUvxJZqkPzV/Xdzdmi56roJ2cNhPZi1XYZQqL47p0E0kHT4rYHez3kkrNssqih
+         b7A7rGTzyDJMUQOdBXDcyWPDL53fCi3UnD+LSly6Xupi9/gXfWbOk5H4torv1K/tQ0XM
+         a5IWw/Ij1pq6TJAfOESjAHZ2+1v1yR9bb1HQKNtTEFpeMMAOBwtR5MaawBVvJ+WAXWXC
+         sDvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:subject
-         :organization:from:references:cc:to:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=KO4vXEPLGC2thf70UdJUXD19wedZIU97Jq4KCtGmIIs=;
-        b=vcPf6tA7OEiUDbZva5qkZxFUivG47/JnM3u2ACfeIIyOYMnvdax2kRMm+6MLTfu8w+
-         gX2ZDB7r6hTSzBhLgX+iljWdlIAjmEm0gZ378V9gMF/ozY3oL3gkTNFVe5FOoMTjkwre
-         ZartZHSbGZBf/cZj4iQKmxGRhID9Z+bHp5xYxsXiPlfn8gEclzP5ajPo4Uk9ZCWvM+ju
-         Eo1xJVikO8tUAXkYU4K4Brom/KiqAKEfn4I4VSBcFpi54C+CCaU/E4H6Ctb6BHIgTzoX
-         2wq1wVIfXqALCSZEMUZ/0OAgOzFXS+XMD9P0hwD32sSG/9lc8hSM8OY43fYGuXs0tBiF
-         77NA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=wHqdtxQx6Lod0jir/zBNpgI20jHW/S0hFQeJ5vK6PO4=;
+        b=tW4VdRQaDhiDLrH6IZ7zVs1+28SlTlvC9nxYxr1HQXq2Q/ZSVQ4oxuI/5iCYzvWGcN
+         aV9cW4WqU6lisWUJ4e4VQan4k9GBkpjscwFo0d08PtFrsl2uWYzqOO2s8/4zr1n+CxJC
+         QtqdvW/baiA0UC8rqCNPWInF1hei1oj5TCIQF5sRUQ81CL7VeW+oeILv307LakNtb/OC
+         Pzu1plSbEBhPCjRadi4lhbn5KTW0ArwPn0OyZbnwl9XSRL7Fgb8xafpvRibC+0swA7d1
+         uoLiRjRcddz+5WYNg8ieYWr7b9aGqjIf1dcedLF1PVG7hr3r8FHt6c7wQQsubqGWp0wr
+         TMcw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=hszTEZzk;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id lr18-20020a17090b4b9200b0020d43c5c99csi98119pjb.0.2022.10.14.00.16.04
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=N9gYQbXa;
+       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::331 as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com. [2a00:1450:4864:20::331])
+        by gmr-mx.google.com with ESMTPS id g11-20020a2eb5cb000000b0026fcb9f003csi48741ljn.6.2022.10.14.01.49.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Oct 2022 00:16:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-627-uIQwdZqlPXmhjEErWy4QaQ-1; Fri, 14 Oct 2022 03:16:02 -0400
-X-MC-Unique: uIQwdZqlPXmhjEErWy4QaQ-1
-Received: by mail-wm1-f72.google.com with SMTP id q14-20020a7bce8e000000b003c6b7debf22so1759273wmj.0
-        for <kasan-dev@googlegroups.com>; Fri, 14 Oct 2022 00:16:02 -0700 (PDT)
-X-Received: by 2002:a05:6000:1565:b0:22f:1407:9bfd with SMTP id 5-20020a056000156500b0022f14079bfdmr2279473wrz.620.1665731761362;
-        Fri, 14 Oct 2022 00:16:01 -0700 (PDT)
-X-Received: by 2002:a05:6000:1565:b0:22f:1407:9bfd with SMTP id 5-20020a056000156500b0022f14079bfdmr2279458wrz.620.1665731761011;
-        Fri, 14 Oct 2022 00:16:01 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:8f00:9219:ab4c:826e:9646? (p200300cbc7048f009219ab4c826e9646.dip0.t-ipconnect.de. [2003:cb:c704:8f00:9219:ab4c:826e:9646])
-        by smtp.gmail.com with ESMTPSA id f7-20020a05600c154700b003a3442f1229sm6872888wmg.29.2022.10.14.00.15.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Oct 2022 00:16:00 -0700 (PDT)
-Message-ID: <77d0c7e8-ca07-bd38-5624-03fbc659733b@redhat.com>
-Date: Fri, 14 Oct 2022 09:15:59 +0200
+        Fri, 14 Oct 2022 01:49:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::331 as permitted sender) client-ip=2a00:1450:4864:20::331;
+Received: by mail-wm1-x331.google.com with SMTP id n9so2680889wms.1
+        for <kasan-dev@googlegroups.com>; Fri, 14 Oct 2022 01:49:41 -0700 (PDT)
+X-Received: by 2002:a05:600c:19c9:b0:3c2:7fff:a689 with SMTP id u9-20020a05600c19c900b003c27fffa689mr9647430wmq.85.1665737380822;
+        Fri, 14 Oct 2022 01:49:40 -0700 (PDT)
+Received: from hrutvik.c.googlers.com.com (120.142.205.35.bc.googleusercontent.com. [35.205.142.120])
+        by smtp.gmail.com with ESMTPSA id 123-20020a1c1981000000b003c6c4639ac6sm1547372wmz.34.2022.10.14.01.49.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Oct 2022 01:49:40 -0700 (PDT)
+From: Hrutvik Kanabar <hrkanabar@gmail.com>
+To: Hrutvik Kanabar <hrutvik@google.com>
+Cc: Marco Elver <elver@google.com>,
+	Aleksandr Nogikh <nogikh@google.com>,
+	kasan-dev@googlegroups.com,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	linux-ext4@vger.kernel.org,
+	Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	David Sterba <dsterba@suse.com>,
+	linux-btrfs@vger.kernel.org,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	linux-xfs@vger.kernel.org,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Anton Altaparmakov <anton@tuxera.com>,
+	linux-ntfs-dev@lists.sourceforge.net
+Subject: [PATCH RFC 0/7] fs: Debug config option to disable filesystem checksum verification for fuzzing
+Date: Fri, 14 Oct 2022 08:48:30 +0000
+Message-Id: <20221014084837.1787196-1-hrkanabar@gmail.com>
+X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-To: Miroslav Benes <mbenes@suse.cz>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- Lin Liu <linl@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov
- <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
- petr.pavlu@suse.com
-References: <20221013180518.217405-1-david@redhat.com>
- <alpine.LSU.2.21.2210140806130.17614@pobox.suse.cz>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1] kernel/module: allocate module vmap space after making
- sure the module is unique
-In-Reply-To: <alpine.LSU.2.21.2210140806130.17614@pobox.suse.cz>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: david@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: HRKanabar@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=hszTEZzk;
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@gmail.com header.s=20210112 header.b=N9gYQbXa;       spf=pass
+ (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::331
+ as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -159,120 +169,100 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 14.10.22 08:09, Miroslav Benes wrote:
-> Hi,
-> 
-> On Thu, 13 Oct 2022, David Hildenbrand wrote:
-> 
->> We already make sure to allocate percpu data only after we verified that
->> the module we're loading hasn't already been loaded and isn't
->> concurrently getting loaded -- that it's unique.
->>
->> On big systems (> 400 CPUs and many devices) with KASAN enabled, we're now
->> phasing a similar issue with the module vmap space.
->>
->> When KASAN_INLINE is enabled (resulting in large module size), plenty
->> of devices that udev wants to probe and plenty (> 400) of CPUs that can
->> carry out that probing concurrently, we can actually run out of module
->> vmap space and trigger vmap allocation errors:
->>
->> [  165.818200] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
->> [  165.836622] vmap allocation for size 315392 failed: use vmalloc=<size> to increase size
->> [  165.837461] vmap allocation for size 315392 failed: use vmalloc=<size> to increase size
->> [  165.840573] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
->> [  165.841059] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
->> [  165.841428] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
->> [  165.841819] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
->> [  165.842123] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
->> [  165.843359] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
->> [  165.844894] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
->> [  165.847028] CPU: 253 PID: 4995 Comm: systemd-udevd Not tainted 5.19.0 #2
->> [  165.935689] Hardware name: Lenovo ThinkSystem SR950 -[7X12ABC1WW]-/-[7X12ABC1WW]-, BIOS -[PSE130O-1.81]- 05/20/2020
->> [  165.947343] Call Trace:
->> [  165.950075]  <TASK>
->> [  165.952425]  dump_stack_lvl+0x57/0x81
->> [  165.956532]  warn_alloc.cold+0x95/0x18a
->> [  165.960836]  ? zone_watermark_ok_safe+0x240/0x240
->> [  165.966100]  ? slab_free_freelist_hook+0x11d/0x1d0
->> [  165.971461]  ? __get_vm_area_node+0x2af/0x360
->> [  165.976341]  ? __get_vm_area_node+0x2af/0x360
->> [  165.981219]  __vmalloc_node_range+0x291/0x560
->> [  165.986087]  ? __mutex_unlock_slowpath+0x161/0x5e0
->> [  165.991447]  ? move_module+0x4c/0x630
->> [  165.995547]  ? vfree_atomic+0xa0/0xa0
->> [  165.999647]  ? move_module+0x4c/0x630
->> [  166.003741]  module_alloc+0xe7/0x170
->> [  166.007747]  ? move_module+0x4c/0x630
->> [  166.011840]  move_module+0x4c/0x630
->> [  166.015751]  layout_and_allocate+0x32c/0x560
->> [  166.020519]  load_module+0x8e0/0x25c0
->> [  166.024623]  ? layout_and_allocate+0x560/0x560
->> [  166.029586]  ? kernel_read_file+0x286/0x6b0
->> [  166.034269]  ? __x64_sys_fspick+0x290/0x290
->> [  166.038946]  ? userfaultfd_unmap_prep+0x430/0x430
->> [  166.044203]  ? lock_downgrade+0x130/0x130
->> [  166.048698]  ? __do_sys_finit_module+0x11a/0x1c0
->> [  166.053854]  __do_sys_finit_module+0x11a/0x1c0
->> [  166.058818]  ? __ia32_sys_init_module+0xa0/0xa0
->> [  166.063882]  ? __seccomp_filter+0x92/0x930
->> [  166.068494]  do_syscall_64+0x59/0x90
->> [  166.072492]  ? do_syscall_64+0x69/0x90
->> [  166.076679]  ? do_syscall_64+0x69/0x90
->> [  166.080864]  ? do_syscall_64+0x69/0x90
->> [  166.085047]  ? asm_sysvec_apic_timer_interrupt+0x16/0x20
->> [  166.090984]  ? lockdep_hardirqs_on+0x79/0x100
->> [  166.095855]  entry_SYSCALL_64_after_hwframe+0x63/0xcd[  165.818200] vmap allocation for size 2498560 failed: use vmalloc=<size> to increase size
->>
->> Interestingly, when reducing the number of CPUs (nosmt), it works as
->> expected.
->>
->> The underlying issue is that we first allocate memory (including module
->> vmap space) in layout_and_allocate(), and then verify whether the module
->> is unique in add_unformed_module(). So we end up allocating module vmap
->> space even though we might not need it -- which is a problem when modules
->> are big and we can have a lot of concurrent probing of the same set of
->> modules as on the big system at hand.
->>
->> Unfortunately, we cannot simply add the module earlier, because
->> move_module() -- that allocates the module vmap space -- essentially
->> brings the module to life from a temporary one. Adding the temporary one
->> and replacing it is also sub-optimal (because replacing it would require
->> to synchronize against RCU) and feels kind of dangerous judging that we
->> end up copying it.
->>
->> So instead, add a second list (pending_load_infos) that tracks the modules
->> (via their load_info) that are unique and are still getting loaded
->> ("pending"), but haven't made it to the actual module list yet. This
->> shouldn't have a notable runtime overhead when concurrently loading
->> modules: the new list is expected to usually either be empty or contain
->> very few entries for a short time.
->>
->> Thanks to Uladzislau for his help to verify that it's not actually a
->> vmap code issue.
-> 
-> this seems to be related to what
-> https://lore.kernel.org/all/20220919123233.8538-1-petr.pavlu@suse.com/
-> tries to solve. Just your symptoms are different. Does the patch set fix
-> your issue too?
+From: Hrutvik Kanabar <hrutvik@google.com>
 
-Hi Miroslav,
+Fuzzing is a proven technique to discover exploitable bugs in the Linux
+kernel. But fuzzing filesystems is tricky: highly structured disk images
+use redundant checksums to verify data integrity. Therefore,
+randomly-mutated images are quickly rejected as corrupt, testing only
+error-handling code effectively.
 
-the underlying approach with a load_info list is similar (which is nice 
-to see), so I assume it will similarly fix the issue.
+The Janus [1] and Hydra [2] projects probe filesystem code deeply by
+correcting checksums after mutation. But their ad-hoc
+checksum-correcting code supports only a few filesystems, and it is
+difficult to support new ones - requiring significant duplication of
+filesystem logic which must also be kept in sync with upstream changes.
+Corrected checksums cannot be guaranteed to be valid, and reusing this
+code across different fuzzing frameworks is non-trivial.
 
-I'm not sure if merging the requests (adding the refcount logic and the 
--EBUSY change is really required/wanted), though. Looks like some of 
-these changes that might have been factored out into separate patches.
+Instead, this RFC suggests a config option:
+`DISABLE_FS_CSUM_VERIFICATION`. When it is enabled, all filesystems
+should bypass redundant checksum verification, proceeding as if
+checksums are valid. Setting of checksums should be unaffected. Mutated
+images will no longer be rejected due to invalid checksums, allowing
+testing of deeper code paths. Though some filesystems implement their
+own flags to disable some checksums, this option should instead disable
+all checksums for all filesystems uniformly. Critically, any bugs found
+remain reproducible on production systems: redundant checksums in
+mutated images can be fixed up to satisfy verification.
 
-Not my call to make. I'll give the set a churn on the machine where I 
-can reproduce the issue.
+The patches below suggest a potential implementation for a few
+filesystems, though we may have missed some checksums. The option
+requires `DEBUG_KERNEL` and is not intended for production systems.
 
--- 
-Thanks,
+The first user of the option would be syzbot. We ran preliminary local
+syzkaller tests to compare behaviour with and without these patches.
+With the patches, we found a 19% increase in coverage, as well as many
+new crash types and increases in the total number of crashes:
 
-David / dhildenb
+Filesystem | % new crash types | % increase in crashes
+=E2=80=94----------|-------------------|----------------------
+  ext4     |        60%        |         1400%
+  btrfs    |        25%        |         185%
+  f2fs     |        63%        |         16%
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/77d0c7e8-ca07-bd38-5624-03fbc659733b%40redhat.com.
+
+[1] Fuzzing file systems via two-dimensional input space exploration,
+    Xu et al., 2019, IEEE Symposium on Security and Privacy,
+    doi: 10.1109/SP.2019.00035
+[2] Finding semantic bugs in file systems with an extensible fuzzing
+    framework, Kim et al., 2019, ACM Symposium on Operating Systems
+    Principles, doi: 10.1145/3341301.3359662
+
+
+Hrutvik Kanabar (7):
+  fs: create `DISABLE_FS_CSUM_VERIFICATION` config option
+  fs/ext4: support `DISABLE_FS_CSUM_VERIFICATION` config option
+  fs/btrfs: support `DISABLE_FS_CSUM_VERIFICATION` config option
+  fs/exfat: support `DISABLE_FS_CSUM_VERIFICATION` config option
+  fs/xfs: support `DISABLE_FS_CSUM_VERIFICATION` config option
+  fs/ntfs: support `DISABLE_FS_CSUM_VERIFICATION` config option
+  fs/f2fs: support `DISABLE_FS_CSUM_VERIFICATION` config option
+
+ fs/Kconfig.debug            | 20 ++++++++++++++++++++
+ fs/btrfs/check-integrity.c  |  3 ++-
+ fs/btrfs/disk-io.c          |  6 ++++--
+ fs/btrfs/free-space-cache.c |  3 ++-
+ fs/btrfs/inode.c            |  3 ++-
+ fs/btrfs/scrub.c            |  9 ++++++---
+ fs/exfat/nls.c              |  3 ++-
+ fs/exfat/super.c            |  3 +++
+ fs/ext4/bitmap.c            |  6 ++++--
+ fs/ext4/extents.c           |  3 ++-
+ fs/ext4/inode.c             |  3 ++-
+ fs/ext4/ioctl.c             |  3 ++-
+ fs/ext4/mmp.c               |  3 ++-
+ fs/ext4/namei.c             |  6 ++++--
+ fs/ext4/orphan.c            |  3 ++-
+ fs/ext4/super.c             |  6 ++++--
+ fs/ext4/xattr.c             |  3 ++-
+ fs/f2fs/checkpoint.c        |  3 ++-
+ fs/f2fs/compress.c          |  3 ++-
+ fs/f2fs/f2fs.h              |  2 ++
+ fs/f2fs/inode.c             |  3 +++
+ fs/ntfs/super.c             |  3 ++-
+ fs/xfs/libxfs/xfs_cksum.h   |  5 ++++-
+ lib/Kconfig.debug           |  6 ++++++
+ 24 files changed, 86 insertions(+), 25 deletions(-)
+ create mode 100644 fs/Kconfig.debug
+
+--=20
+2.38.0.413.g74048e4d9e-goog
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/20221014084837.1787196-1-hrkanabar%40gmail.com.
