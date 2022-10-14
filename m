@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBD3L7Q4YQ4LRBLWFUSNAMGQEI63DUPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD3L7Q4YQ4LRBL6FUSNAMGQEJFDAQUI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA92A5FEAF4
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 10:49:50 +0200 (CEST)
-Received: by mail-wm1-x33c.google.com with SMTP id 2-20020a05600c268200b003c4290989e1sf1864873wmt.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665737390; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 957995FEAF7
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 10:49:52 +0200 (CEST)
+Received: by mail-lf1-x13f.google.com with SMTP id z15-20020ac25def000000b004a060fcd1d5sf1348359lfq.7
+        for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 01:49:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665737392; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uTDqNyGsXaDdHkUB/L9hlupQ3tDG4un0LmvCF599bRixJvrxvFMH2Sfe+7ZuxBsHhc
-         1dKcMt739troSHV6E3f+pQb6B4R4mePo3ABge5yDH3xW/XXEwisxgILzr/DE4RZh5Yu+
-         3ArkSWN2/dt4ZA1GKtw+hsL+Np3Jm6uKG63nhtnOTZfMkRZ/b6yYPsZO4PN48t6fEfbM
-         KSGqKFTlWPTTDsV4bJAWFEl650OG1XQmPiEkVUiTA52bIUWONjkEcecMUPOQafPv3BZn
-         GmVht9bHe06XqM74/QdSF2/KFhkdTExOPsVHt14kec6+KRmhCudjuTuw27Sc3h5R2Sx2
-         wdOQ==
+        b=tSbTWK9+yaamESLHHKETALOU89gHy+aoXCHwFFkPzbAQm4DcLAT/WtWyz2f81I/JZR
+         YwP0/i13fmH8VXrdnDZaDYR6ah9z3snfombZnHWcz9Cd63MU3cbNq1JxfRqUjY7bV304
+         IyY394lwY+M+aZzuUkX9uyUn4SjIB38GRuJ5Gw5z8CS8UaTG5FYN2XVRl3NaRX52dneD
+         7qQzYLAMzpfTZf5P/B+3Mct3fxzARYo1pC6R1/WR9hjSUTCri8vRRg5pUuqOhZLrvHsi
+         EZue/vOxUWt2TFMrlmLGYjNyM73eAExadcjGBGUtGk8ucFd0xol9QgoGDcIYz1oG/b5v
+         LjUA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature
          :dkim-signature;
-        bh=32LwMSL3CKWQFNfdzg/04dttx/IBRwGCnugaU7hnajU=;
-        b=mPMWek0YH4+F7XRpirODynvywA6pd2LLfJ5ENyVt/s40qgNjX46WV3fHY2fGAHoenM
-         BZ+3xipuNDrrs+fdjewS0nHA5oEntKRHPHNrjk0Jv/P7qOtOLOEH8pq3DCHdI0J8LYrL
-         mou6JChkB+muIdy+5TJ488nAi9HJnXf0EWgeXHmXD1jNdBbwo1SlrWdyAkjpB9gjA/HI
-         R91Y84U1GLBIJEzJjPc1qzjU63Co0+Oke3whxWNpIKONRjqm9UtxVk+7Xof11As6VvUb
-         BZIcbT7AwgHwFz6tusRvhvGMDXu8ArTesyk30pPPwe3/aDLuNB4RHZjG/U/2Oa0cF+wl
-         79QQ==
+        bh=meyvSEnjE3YAppI/oBBhVAwBTLoyf3M1of4LvqoulGk=;
+        b=uKnTv4wnS/Mx/nGtqecMgfZzYBIreTw19CMm8uOHWKLCNZn+RR+Hnl5oRua/X7h1DM
+         XwEWtU6l07y6zzKdsDc3yHisjzU0Ls6I0XLVA/tybXqOOnRj8yL8KlEppNzX2lsNnUt1
+         3oYAlL7khPbqD2E4UFAS/5WdLGSnLHSB/WccMIor3cYkPMO2ICaddFJS8srweUIu9cJM
+         56zNFmgjrwjvcRy/LK2aPTzljE/V5qET16UKZbnWzgttS7lguIqY2leH4mGdDYji8A1a
+         FsBNsEp+9+ba2UW4svw740JHES75tQjIq9z0cTDIKmsB1L1Ya6bwZSTYu9IDSoFdXcpk
+         rjUw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=FQxuL83N;
-       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b="jUVoj/7b";
+       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::431 as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,26 +37,26 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=32LwMSL3CKWQFNfdzg/04dttx/IBRwGCnugaU7hnajU=;
-        b=jd2b2WIK+GJ9FUFh2lR5aA4M05DHEhSiJ8MIxqWfR5sLSxIpdpqVIW3CV04j5kpWyl
-         jTUOg8iqJcaj5YIkdt132u2iOT5SnsrDhBMW6I0K8gQuaTHTjhtgV1tBQLDupr4djUDu
-         54nZyLChJt1ZlgNXDBX7YQbGMPrMHdTxK0VJ+YRwqka2pCyWBvqFBpMBpgI5Ei7eRfZv
-         1oe+hvzMZUpfOj9V7YKvk8f1uGIQ4GhHkE0Xl+PDK42lCfjji39YhPjK5hRtShMl9q1M
-         SGM8MQL710RawyFRrPz1J7ZC9FmVZuAXeCYAFTT5JIEiP9mdNY+LpivaSPRUfcr4ntn0
-         QPMg==
+        bh=meyvSEnjE3YAppI/oBBhVAwBTLoyf3M1of4LvqoulGk=;
+        b=EMu80Tl5l/HQTIXLWauQfvOjp8GHO8j0KgaOqteO36AgqsLwcT8SBkdy60GpsVr7o7
+         7glZveQTF4wegLXw0wbreZuHv4Bg9xUzvrvXpSjoi1Nv4RbapYGxsT1da/zc6B763R8e
+         IHAWCLIN1v7po159fRYdg92MoaQscMhGXIkeId6TM977wYSj+Z6+NYPE26cuz2/nmWsP
+         Rl0ZMHepRHkwAMMWpAEPTu/9U8I0uZHULSLt0N6TTK4VgnEmLT3vsa52CXwSiSqDPso1
+         Z7qGrDuPz+c1xQxhsr1nKHbOOQa8r4v36gMKBqBTIkjd+VVPaBzQMfcwp2Vn6XxakgZQ
+         Bm2A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=32LwMSL3CKWQFNfdzg/04dttx/IBRwGCnugaU7hnajU=;
-        b=l0Cxng48ofW3JWoGhNaFs8+WaDG9Fw1JTLFlinpFR8MqpTt92rHrzd7YjK1I1n1Kto
-         D7o71J3F9P6xMYz9Srl/4bQYsHVOh6yA6jfZ6MgvaOdEHvYWdFsG/v9x7gN8LE1O7yTm
-         DqKm6oSH6SLhk4ZY2vpQv4YP3hwYmGEF6gRrscQJ6NK7rre0xYPIakqXFfyZ0dFw2MbA
-         pKp/lYglKRPCUPR0TjODVv/Na7xbjYnbcTIXWT/Ln0uSQCRtA0rcZ0avwODg2RVO3/mU
-         TAZlVzPECzyMQpnTu6CC+6nX7sLG4qsdaBmT7Kuh5qf+LH90JUsimG1UT5+ytVcQm6fI
-         4vrg==
+        bh=meyvSEnjE3YAppI/oBBhVAwBTLoyf3M1of4LvqoulGk=;
+        b=gyF56A1Hb7A10GjZczIGJ1T2ba+bmtE5o/0bQ12KM0Iu4HUtgafhe615PgkOjend7H
+         nTMgyM1otQ//amzIl4+5Pfj/5DbgqJvcJjwfTr8lybzGsFzsSh9LEwZf8fl7Tc0mnoIo
+         Vj+xxsJeTGac7zARHifUcV2R98+irF3f/6NfT52qFd63D3yY0vXpVsc4zZFTaWdUMVgJ
+         HwfDZPycio38EHK7sYgPDw71rrpeKkIw4o0dTje51813LKujd6iHFrsu44oI8RgPHMlT
+         lNv6hf9awuf6F/ePDqB1T+dBh0nvTQ0hMt7HV6K+X7oFTgdI2vAdb3ii6OKFEvggByRR
+         7iaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -65,60 +65,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=32LwMSL3CKWQFNfdzg/04dttx/IBRwGCnugaU7hnajU=;
-        b=taf9gBkIJWlSyQ116Qulssw8eMfPoAgy11Zn2ezTsgcTeGxKXffGlUM98ArRKnyKcB
-         wClio5S4ypPmoLYqA7ZFEB128Ted8kgk94pu3rkUaySTXtD8cGBlyG1FiHE6Fc91Vrxl
-         4BAEWY/7BtaAgwOkFvTICAgYCIaph4ODOkdDaiYkuuDNajn2MkeWzG22svBwCcPT1vGg
-         VpfVc6VbvdU8RwS4aZkQQ7VrsBz4lTcI/TbA7+bRdoyP0kgiNP8jmEmYSPnPQANAKrwk
-         oiJDb0hQf2ugGZA5Pi3K60VzIcfSptLUl+SBDHySO4FLP/FRjuz+kpU40E4mhrEng67k
-         3Oxw==
+        bh=meyvSEnjE3YAppI/oBBhVAwBTLoyf3M1of4LvqoulGk=;
+        b=ARQiSArL9Y5UWzyWmV+ILBDd+Kpnq3zlN4rtmrLul9L89kfvOk1jFpUZOsllzWsPUy
+         pxB/Qtig6HImSFdU2OEmb0H2wEt33Dgb6VPNof/bPgdqJsKvpEcyIuh2P6vLRc+aqZGJ
+         nzUtvIiDqgviMj6WUNPC/zgvzOxmZig+aQCV9CYBaNghTDlSx8BsJDo9w0qMfyE3u6JJ
+         p85Wtf5+f7XtwJW3hsUq76DE19hx1NMuYoQBLZSWsx1ojiyLVtDdvJgvNkkWqvsE+gUt
+         dX9X3rgtvSeaBpzJwahwtR89JE8gQxIcizer8Bg9pu7eISKtHx3bJyUq7KOSXVXyPKbf
+         JopQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0W8o0QcJsC2WhBZorlJJXcL1nEWfRDQs1lecFvm2W96iIk74Xm
-	rVAtSImfuIb6qFS/ingAAkE=
-X-Google-Smtp-Source: AMsMyM5jVWMVSgU+hLnrQll+KF5h1RCs7MApjyNKJTu/AgcN5HfLpBbMeAN3cWI9ADqxtQXgVRDycg==
-X-Received: by 2002:adf:e989:0:b0:22e:3370:dbdf with SMTP id h9-20020adfe989000000b0022e3370dbdfmr2613662wrm.316.1665737390379;
-        Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3+/Bym85f+sv4ModByJxpxMg2fAzhPq1/Um6o06r+0nque/azc
+	iHB92vQYHbnt6fQmzh7cX5Y=
+X-Google-Smtp-Source: AMsMyM4Wmnl4qeMLxneet0gLXGqXSsFpFVT5gNjW6gFohl9O4H7VUpEs3w9xWY5C/p4H68GGolnV/g==
+X-Received: by 2002:a2e:a78d:0:b0:26f:ca62:f685 with SMTP id c13-20020a2ea78d000000b0026fca62f685mr1379131ljf.263.1665737392041;
+        Fri, 14 Oct 2022 01:49:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:2:b0:3c5:a439:23df with SMTP id g2-20020a05600c000200b003c5a43923dfls3950189wmc.0.-pod-canary-gmail;
- Fri, 14 Oct 2022 01:49:49 -0700 (PDT)
-X-Received: by 2002:a05:600c:19d2:b0:3b4:a4cb:2416 with SMTP id u18-20020a05600c19d200b003b4a4cb2416mr2737623wmq.6.1665737389392;
-        Fri, 14 Oct 2022 01:49:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665737389; cv=none;
+Received: by 2002:ac2:5f5a:0:b0:48b:2227:7787 with SMTP id 26-20020ac25f5a000000b0048b22277787ls274341lfz.3.-pod-prod-gmail;
+ Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
+X-Received: by 2002:a05:6512:138e:b0:47f:77cc:327a with SMTP id p14-20020a056512138e00b0047f77cc327amr1415873lfa.277.1665737390831;
+        Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665737390; cv=none;
         d=google.com; s=arc-20160816;
-        b=Q6BkNj8fujq2eUVPwuNApeho+uXx5GJA9nMPzaqHzDyjdksyriedIP7IAJGgBzAj4l
-         NYLWNzCD8V+ODH2sB9kgjqakQxwrSokSnToQAnv3oUa5IXkMhdoaLTqOEQa6okvH8yJV
-         PpE0UnxhlRlF6wBgaxemLj4yKhcOkno5haiLVujvBYEMMiqV1cyvs0Obl1KHW9ZVZZFe
-         KTcnCqYkdEFIHb/caGI4OtWw9PQtb+XQK0jXPUK/X+z4rz7OK47Mljbp6V6oiZD2jm/8
-         vodJjA+6+9nPIv6BLEzMbaBSGpfiEpHqBV/0jKK879L3K3ad+VL6PMhUugq5U5S2b+Ez
-         vcqQ==
+        b=hLEzphWVZYYXI87kkpnVeqrs7S5nyDiy9ozDVhhS502AdJEEss6oCbUFLngkfeml8w
+         QsfHqnWQ9ndWxoUdSQsyEHHNFgERushwGBDdMITGsz4XKNWIz9JKolmtYD3xaZDA1yYw
+         x4PkSqWDqjjLyT4WT8D+0OoFMHGVdWMBuspVdfNe0JDvqg2MGuTOx6JFML2TFGDme9Ei
+         IPKK5+2O43YbPfStIDdPXBaHRgA/z6dZa7mOB4UtdXV32Efxfce3DgxNBuP8pfmlQd9a
+         UVQ621T69lTLYMkxDbVhNkcZXvGBCYd3T3IXkedVPP71cg6Tep0+QX21ZGpw7x71UIsh
+         u7vQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=noZwzVYPpBsDl5CECnOrP5rsHRqU5K36GF5tioVqhvo=;
-        b=c9ZWYRbQihYmvfMU8/yMrmVenfUv/CoaiwLX7TWsveNyqNh+5TCawghvzcQGcLvXKG
-         XDfF21ITFLjFAunDTiCIq0KXwsv+Vjwvht7EgJaUbHzGY9T8rPEm6Ln1It0TU59gpwIN
-         BEJxWeUh+Wj8r/Dk7UPKylhPBtryeoNJPUhHBVrVDZXajEeGZxZUpGZnx0kb62v0T0tL
-         0f/lz/BDs1JGI8iRkWf4D5bFmUkbysG5d6qkxhpuOvGHgKUuKeVN9pgIP92/6e5r5Svs
-         Uu/LuGQGbNc5xrfkO0CnPCLLzdQUTQxODZl6B+xsSiXEqkRQBVwB8CewJ87V0NOH2wqZ
-         N2CA==
+        bh=FSLibGjWy/nIs1Cd+IM0NiQuRQgBV8RHoXsPr1HGgA4=;
+        b=aMaup04e+wGgJ/u99Xvh7Jv/M0ic1w5EmV1hA4UQ964sknzQfYBTlJ6wQWXdBqZLe3
+         i8MS62RJFhFIgu1SlDQF2tByRws7HhwWQRHEsLBUQMzTcJDf1gjP4RT+MVbHvghXTt3W
+         CKqkpXctWarywZ6PuLfusWPhD8swn3gpWQEm5ccjHxLNV25pt5ZOfvZP3WdBAYQJ6WOX
+         VIBYE8ILrLxs6aIZj4coHIGIbjAAqaWsueurV+Zi2Z1LJPRTMdtCAySZwK1BAXN/xiQA
+         xH0L4+s4v82F+qLpqkH8rYX0Hpkd1nrMUdNid2QFDBCcku5qvLtSVZHXTy8ELwk+Vg0t
+         9nAg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=FQxuL83N;
-       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b="jUVoj/7b";
+       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::431 as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
-        by gmr-mx.google.com with ESMTPS id bn23-20020a056000061700b0022acdf547b9si79249wrb.5.2022.10.14.01.49.49
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com. [2a00:1450:4864:20::431])
+        by gmr-mx.google.com with ESMTPS id v18-20020a05651203b200b00499b6fc70ecsi48699lfp.1.2022.10.14.01.49.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Oct 2022 01:49:49 -0700 (PDT)
-Received-SPF: pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
-Received: by mail-wm1-x32f.google.com with SMTP id l16-20020a05600c4f1000b003c6c0d2a445so3058770wmq.4
-        for <kasan-dev@googlegroups.com>; Fri, 14 Oct 2022 01:49:49 -0700 (PDT)
-X-Received: by 2002:a05:600c:288:b0:3c6:c44a:1d30 with SMTP id 8-20020a05600c028800b003c6c44a1d30mr9545255wmk.46.1665737388927;
-        Fri, 14 Oct 2022 01:49:48 -0700 (PDT)
+        Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::431 as permitted sender) client-ip=2a00:1450:4864:20::431;
+Received: by mail-wr1-x431.google.com with SMTP id n12so6488309wrp.10
+        for <kasan-dev@googlegroups.com>; Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
+X-Received: by 2002:a5d:5b1f:0:b0:22e:51b0:2837 with SMTP id bx31-20020a5d5b1f000000b0022e51b02837mr2605593wrb.132.1665737390355;
+        Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
 Received: from hrutvik.c.googlers.com.com (120.142.205.35.bc.googleusercontent.com. [35.205.142.120])
-        by smtp.gmail.com with ESMTPSA id 123-20020a1c1981000000b003c6c4639ac6sm1547372wmz.34.2022.10.14.01.49.48
+        by smtp.gmail.com with ESMTPSA id 123-20020a1c1981000000b003c6c4639ac6sm1547372wmz.34.2022.10.14.01.49.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 01:49:48 -0700 (PDT)
+        Fri, 14 Oct 2022 01:49:50 -0700 (PDT)
 From: Hrutvik Kanabar <hrkanabar@gmail.com>
 To: Hrutvik Kanabar <hrutvik@google.com>
 Cc: Marco Elver <elver@google.com>,
@@ -143,17 +143,17 @@ Cc: Marco Elver <elver@google.com>,
 	Sungjong Seo <sj1557.seo@samsung.com>,
 	Anton Altaparmakov <anton@tuxera.com>,
 	linux-ntfs-dev@lists.sourceforge.net
-Subject: [PATCH RFC 3/7] fs/btrfs: support `DISABLE_FS_CSUM_VERIFICATION` config option
-Date: Fri, 14 Oct 2022 08:48:33 +0000
-Message-Id: <20221014084837.1787196-4-hrkanabar@gmail.com>
+Subject: [PATCH RFC 4/7] fs/exfat: support `DISABLE_FS_CSUM_VERIFICATION` config option
+Date: Fri, 14 Oct 2022 08:48:34 +0000
+Message-Id: <20221014084837.1787196-5-hrkanabar@gmail.com>
 X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
 In-Reply-To: <20221014084837.1787196-1-hrkanabar@gmail.com>
 References: <20221014084837.1787196-1-hrkanabar@gmail.com>
 MIME-Version: 1.0
 X-Original-Sender: HRKanabar@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=FQxuL83N;       spf=pass
- (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32f
+ header.i=@gmail.com header.s=20210112 header.b="jUVoj/7b";       spf=pass
+ (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::431
  as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Content-Type: text/plain; charset="UTF-8"
@@ -176,117 +176,42 @@ verification.
 
 Signed-off-by: Hrutvik Kanabar <hrutvik@google.com>
 ---
- fs/btrfs/check-integrity.c  | 3 ++-
- fs/btrfs/disk-io.c          | 6 ++++--
- fs/btrfs/free-space-cache.c | 3 ++-
- fs/btrfs/inode.c            | 3 ++-
- fs/btrfs/scrub.c            | 9 ++++++---
- 5 files changed, 16 insertions(+), 8 deletions(-)
+ fs/exfat/nls.c   | 3 ++-
+ fs/exfat/super.c | 3 +++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/fs/btrfs/check-integrity.c b/fs/btrfs/check-integrity.c
-index 98c6e5feab19..eab82593a325 100644
---- a/fs/btrfs/check-integrity.c
-+++ b/fs/btrfs/check-integrity.c
-@@ -1671,7 +1671,8 @@ static noinline_for_stack int btrfsic_test_for_metadata(
- 		crypto_shash_update(shash, data, sublen);
+diff --git a/fs/exfat/nls.c b/fs/exfat/nls.c
+index 705710f93e2d..f0f92eaf6ccc 100644
+--- a/fs/exfat/nls.c
++++ b/fs/exfat/nls.c
+@@ -696,7 +696,8 @@ static int exfat_load_upcase_table(struct super_block *sb,
+ 		brelse(bh);
  	}
- 	crypto_shash_final(shash, csum);
--	if (memcmp(csum, h->csum, fs_info->csum_size))
-+	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    memcmp(csum, h->csum, fs_info->csum_size))
- 		return 1;
  
- 	return 0; /* is metadata */
-diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
-index a2da9313c694..7cd909d44b24 100644
---- a/fs/btrfs/disk-io.c
-+++ b/fs/btrfs/disk-io.c
-@@ -184,7 +184,8 @@ static int btrfs_check_super_csum(struct btrfs_fs_info *fs_info,
- 	crypto_shash_digest(shash, raw_disk_sb + BTRFS_CSUM_SIZE,
- 			    BTRFS_SUPER_INFO_SIZE - BTRFS_CSUM_SIZE, result);
+-	if (index >= 0xFFFF && utbl_checksum == chksum)
++	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) ||
++	    (index >= 0xFFFF && utbl_checksum == chksum))
+ 		return 0;
  
--	if (memcmp(disk_sb->csum, result, fs_info->csum_size))
-+	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    memcmp(disk_sb->csum, result, fs_info->csum_size))
- 		return 1;
- 
- 	return 0;
-@@ -494,7 +495,8 @@ static int validate_extent_buffer(struct extent_buffer *eb)
- 	header_csum = page_address(eb->pages[0]) +
- 		get_eb_offset_in_page(eb, offsetof(struct btrfs_header, csum));
- 
--	if (memcmp(result, header_csum, csum_size) != 0) {
-+	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    memcmp(result, header_csum, csum_size) != 0) {
- 		btrfs_warn_rl(fs_info,
- "checksum verify failed on logical %llu mirror %u wanted " CSUM_FMT " found " CSUM_FMT " level %d",
- 			      eb->start, eb->read_mirror,
-diff --git a/fs/btrfs/free-space-cache.c b/fs/btrfs/free-space-cache.c
-index f4023651dd68..203c8a9076a6 100644
---- a/fs/btrfs/free-space-cache.c
-+++ b/fs/btrfs/free-space-cache.c
-@@ -574,7 +574,8 @@ static int io_ctl_check_crc(struct btrfs_io_ctl *io_ctl, int index)
- 	io_ctl_map_page(io_ctl, 0);
- 	crc = btrfs_crc32c(crc, io_ctl->orig + offset, PAGE_SIZE - offset);
- 	btrfs_crc32c_final(crc, (u8 *)&crc);
--	if (val != crc) {
-+	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    val != crc) {
- 		btrfs_err_rl(io_ctl->fs_info,
- 			"csum mismatch on free space cache");
- 		io_ctl_unmap_page(io_ctl);
-diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
-index b0807c59e321..1a49d897b5c1 100644
---- a/fs/btrfs/inode.c
-+++ b/fs/btrfs/inode.c
-@@ -3434,7 +3434,8 @@ int btrfs_check_sector_csum(struct btrfs_fs_info *fs_info, struct page *page,
- 	crypto_shash_digest(shash, kaddr, fs_info->sectorsize, csum);
- 	kunmap_local(kaddr);
- 
--	if (memcmp(csum, csum_expected, fs_info->csum_size))
-+	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    memcmp(csum, csum_expected, fs_info->csum_size))
+ 	exfat_err(sb, "failed to load upcase table (idx : 0x%08x, chksum : 0x%08x, utbl_chksum : 0x%08x)",
+diff --git a/fs/exfat/super.c b/fs/exfat/super.c
+index 35f0305cd493..7418858792b3 100644
+--- a/fs/exfat/super.c
++++ b/fs/exfat/super.c
+@@ -564,6 +564,9 @@ static int exfat_verify_boot_region(struct super_block *sb)
+ 	if (!bh)
  		return -EIO;
- 	return 0;
- }
-diff --git a/fs/btrfs/scrub.c b/fs/btrfs/scrub.c
-index f260c53829e5..a7607b492f47 100644
---- a/fs/btrfs/scrub.c
-+++ b/fs/btrfs/scrub.c
-@@ -1997,7 +1997,8 @@ static int scrub_checksum_data(struct scrub_block *sblock)
  
- 	crypto_shash_digest(shash, kaddr, fs_info->sectorsize, csum);
- 
--	if (memcmp(csum, sector->csum, fs_info->csum_size))
-+	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    memcmp(csum, sector->csum, fs_info->csum_size))
- 		sblock->checksum_error = 1;
- 	return sblock->checksum_error;
- }
-@@ -2062,7 +2063,8 @@ static int scrub_checksum_tree_block(struct scrub_block *sblock)
- 	}
- 
- 	crypto_shash_final(shash, calculated_csum);
--	if (memcmp(calculated_csum, on_disk_csum, sctx->fs_info->csum_size))
-+	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    memcmp(calculated_csum, on_disk_csum, sctx->fs_info->csum_size))
- 		sblock->checksum_error = 1;
- 
- 	return sblock->header_error || sblock->checksum_error;
-@@ -2099,7 +2101,8 @@ static int scrub_checksum_super(struct scrub_block *sblock)
- 	crypto_shash_digest(shash, kaddr + BTRFS_CSUM_SIZE,
- 			BTRFS_SUPER_INFO_SIZE - BTRFS_CSUM_SIZE, calculated_csum);
- 
--	if (memcmp(calculated_csum, s->csum, sctx->fs_info->csum_size))
-+	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    memcmp(calculated_csum, s->csum, sctx->fs_info->csum_size))
- 		++fail_cor;
- 
- 	return fail_cor + fail_gen;
++	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION))
++		return 0;
++
+ 	for (i = 0; i < sb->s_blocksize; i += sizeof(u32)) {
+ 		p_chksum = (__le32 *)&bh->b_data[i];
+ 		if (le32_to_cpu(*p_chksum) != chksum) {
 -- 
 2.38.0.413.g74048e4d9e-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221014084837.1787196-4-hrkanabar%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221014084837.1787196-5-hrkanabar%40gmail.com.
