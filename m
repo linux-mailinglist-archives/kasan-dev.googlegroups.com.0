@@ -1,163 +1,155 @@
-Return-Path: <kasan-dev+bncBD3L7Q4YQ4LRBM6FUSNAMGQEF56AAXQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCIJL6NQQ4CRBIGRUSNAMGQESZ363WY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2425D5FEAFB
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 10:49:56 +0200 (CEST)
-Received: by mail-wm1-x33f.google.com with SMTP id r132-20020a1c448a000000b003c3a87d8abdsf2601953wma.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 01:49:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665737396; cv=pass;
+Received: from mail-ej1-x63b.google.com (mail-ej1-x63b.google.com [IPv6:2a00:1450:4864:20::63b])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAEEA5FEB61
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 11:15:12 +0200 (CEST)
+Received: by mail-ej1-x63b.google.com with SMTP id hd11-20020a170907968b00b0078df60485fdsf1969244ejc.17
+        for <lists+kasan-dev@lfdr.de>; Fri, 14 Oct 2022 02:15:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665738912; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xJiAd4JPndJu+9ox06NB133ZMhbMvzq5kdNqCTOSm0u0IMEnUNr7j7QfiXUoBQahuc
-         2XDyUn1ybmaVp+77fBn88S1dtDdYLaKflfb38DFGtG0esyQtOlq0YTKP0mJRiq+0ZqKM
-         AxYAf0dVnoJozHEcjDKs7ZguykwvMnyvG5nML5i5kpzPfkGZzTAOhSq7Y0a6lGABGu2D
-         VgVALF4SHRZqqace07SvzP9WGsq5XDf16aKW0AuAMKGGEsadIlqYAUpgDqXyRzbBGz/U
-         6YOGJbt3ZjRFVcCZ7ah0r0m0TjrRxixilWHDbI/LIIszzH8NrG1LDUZKxmnAgASKp4NY
-         mnyg==
+        b=QKrsEzFW1VsCt/gfzyHcfVaqnVLjnjijfHB8TfjAadLOod1y+z5ZmGp2TkyF2rlRrW
+         WvS7GMxk0SwBXAQhSFMaVER/PPjJusjEDQxKVRVlIQu/sxzDgjSPUjTSlHAn8kG5lfAH
+         YYsCWy8ucIVD93vWuOSCgK7QXFnO6Tb2XUpXgBA7Po20lumQ7xgQat1xaCbrQfKR59to
+         IUB/LR3N02uPkyDPg0bqE/AjAFrtK6uxehOQIWTE+asrT5tuXuo4Ybr3e81yJUshOFkb
+         RgwdeAtbueRXgpmlbfcsLlLLejURdYXr54VCq1LV9BKlyATLj0WXkri6OWG8GGHv1nVL
+         rVZg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature
-         :dkim-signature;
-        bh=TX8wiMJbStO8lCVwMruE1KYkf3hacMHRhaq+04gu96k=;
-        b=sNeYG9BXWszStYmhbU1tlae9vCMhiPpbeTjKaRAyVPnzOKdjpTP2IiWtZPt0XinQ3b
-         /KDJLLhlTaFzokT+ID7WhN1OdpFxyuNMEN3FrUaXBmCgkP1jLAGT0JMMKBwQp27n/Hdw
-         0tPHpfBBFnTbpZl+aGaiBdMNfcn+2Q99cA/XfFDIV63IBGntq0f39afniwIghd9wpbKi
-         pDPJGA1Q5l3mrvD5yrcf9WqLZKEaFyWhYU3F0reP4SgKYM+q1rTxAi3Kvt2kCUBUzm+w
-         RSBEHaEjHF67L81zljzvbVHfGGlog0xXCjzXAiVcWF/LewAWEyShMY1cfdkVAr8XyaoK
-         3xXw==
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=+4qkZ1nuAtp6gptiRnPdeZk9Yz9wfeanuhsXufqAB94=;
+        b=chjavXK4odEx6nw72CvKyqdSFfPcC8YWw2Qiz+klZhmbmmAxPQwK0EqQM24QCOBivE
+         kmUkDCWdqQ7JWesmVLGYP2ULCiKrdAifjM+FO1GqvxY1bnS4W50YFHmtMule/VqnB14c
+         yd7F6ky3ehxTrui3vQmC121xsnyxQY/0xldKGSlWkSjHTz+gL07pwfYG1KEzmp002Fya
+         n0z2zZz5Gnn68RhZ6YhOUciFiv9diRbcmgT7u0hTNUgpfW8eDcQ8qMuMcagl89uQgAyv
+         WENAo7UqeakkRfy77kCjGItossBrFO1v61gGIiQl+xuc+hFB254JdF5hns4R8LPvP0/Z
+         f/pQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=GfG0sfEg;
-       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=tbFHpqFR;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=STUhXyiy;
+       spf=softfail (google.com: domain of transitioning dsterba@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=dsterba@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TX8wiMJbStO8lCVwMruE1KYkf3hacMHRhaq+04gu96k=;
-        b=lr1ZW2L/2hmatoJ0foJ+bLw32E+yf2/B6+WERCB6J6kI4Ih6kXeBWectEdrV74FwfG
-         7b6Jg2m41L9s/XzanDt3os8rNB+gcEP3fwjw/D9zGwniUNIOaBmi4FXNPeb0QSSfKYki
-         i7TiDpwumLOfZa+sjiC3PS81M5L73lwkFtKaOSO11Ok3OdTRjHJqxVvyexWvWTBS6IGe
-         sCOxoDytv+0Zwj0P1idqzboKVwaxCWt8PIhBfKDkUkISfA050X27gGH66kRFK3h24MEZ
-         vYikL9vdaQNb3wt07pA/yYDH1Wvaxsi+mWppWWiiegPoHwf0YAIQpIjHeDZOb/9SP965
-         mOOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TX8wiMJbStO8lCVwMruE1KYkf3hacMHRhaq+04gu96k=;
-        b=mGuh/U6ztUziN4eiv9mxUBRMDR/lcqJaT1NqlMHHH8ms8aXR4QLsioPy1CvPqioQ4D
-         FvHYzSGNaW9H2uSGA9aCAZks6F/3tuc/96NiVNHu7J04Xl5shzxHqjSWCEVGXapf6rZg
-         LAZBJ/QF4arXCaQl7uJrVohm6Qx0JdZ9r8azeiD78p4ZVq09ZtZWYj+Hb6ddUo0dBkO0
-         eBbU/x2nALdXqg4+/ZCJ5Z0/kpsFjpDDEiM4J+1oGldHGIPCe5WtlTLO6PGP5zVvFnUG
-         O7SXKQMiXaKjcd5Q4hWyYRcsupxMaZL7u9WoJ9Sm7eqmvL5emp9n673Kgc+3qlgYpPGL
-         zp5g==
+         :x-original-sender:user-agent:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=+4qkZ1nuAtp6gptiRnPdeZk9Yz9wfeanuhsXufqAB94=;
+        b=M1xN8a9TANPghfnmAuzPii6qgiDLnr2duIuFmOFFwh6lxWwavRD3Znc4yzwTLbCmKb
+         Of1eL0P8a5UeNmEykeSU8D85IuYJkjXd4nNGcPttrXT/tO4uYrntZ8/AmNaZ9XmfOd0O
+         69+2dVWiwaN8sZkG+a/5ZU+8O80DZF3kO9DFR6sln/WqgFVjP54axpLVErdvRl8GIguE
+         MaUWAYiYQhwtFY7+CfU1chKE2k9x1TkxCnxr5wLogkqkcPneEFUkvStkFRVQYpQEDn0S
+         9inAp+0aZtvXDmOfM6yuu+5Epnb3D6g/aSHBBKSd6Q52fg5v6Ok7l5W5ewwivQMQN84E
+         InHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TX8wiMJbStO8lCVwMruE1KYkf3hacMHRhaq+04gu96k=;
-        b=tBWUNZCrXtMhGFwbEMfwqU6rz9G/exyj7VSHMuIXfDBch6iGFGhCVLrmYSpopEkBL5
-         0AQLQ+lB4HhQvzHcY9gnNs+WlqnJ1LuHz+oi8Obx9fXNSmVaiORh2E+Gl+zBSUb1ZJg6
-         HwxcPEX1oqHvwd4ROIHxnXQEsjdXaZIoM8whxpj5PAH8epbKpiBaPV0pFpGxe3nzmuku
-         3SA819PLb202Eyqp9tIj5SqG5mnirARM26IEJEyBg+FzBFEmeRJvEduwW4sFTsKVk5Jt
-         UcKbmESHuuW2wsFmdojAlRtyKMsE5AsgHof9GtWiizt6npFFXy6o03N79MY2m00MzVr2
-         PPLQ==
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+4qkZ1nuAtp6gptiRnPdeZk9Yz9wfeanuhsXufqAB94=;
+        b=yxgCFOHDpzGwc351QOsMjpq+SR1m7ToIONZoOtpaq1txB7121aVrU3Cx+/5iONwGAq
+         tfROmz1FN5oFGX24ig3QwzmCRKWGrXn3yqfISfmQXqk81mlQ9AiEdRHaFAXjJKXP2Xj6
+         25uQiAOgzD2FnbkOLnX46R0gLHXQsMGi658TBW7ZG/O/HKpUP4YLrfofhtTCZO3g10XT
+         UKK0E0HAyhpvRUFyVINLTa4/0fSAYDkJ/sZF6TVBxkB5czCnli1PwnUK3XCIhskPoBxq
+         cx6MHlalNkb6OdKWTvFq4GItvCK5sS5bN5+mEd90kqaZ3uKUb4WjQ1P9YFywqlB5XT9Y
+         +L8Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0tmIdGzHVWdeebEhut0qanjyBmEwQ73cgIt8lvF5TDISuZhZ6G
-	7qKzvOPIPKc+iIv9jQTIKbA=
-X-Google-Smtp-Source: AMsMyM6zerrVu8V1i4T2z68oZFGMi5sFh5McEMLwkzQBuVkQLQYOJuNAKKjJQKaGNjQf4Z3kVzO6wA==
-X-Received: by 2002:a5d:6547:0:b0:22e:465c:6d14 with SMTP id z7-20020a5d6547000000b0022e465c6d14mr2538718wrv.208.1665737395829;
-        Fri, 14 Oct 2022 01:49:55 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0nFjGd8xA9RCO86T+oPJCH4bW/qNF2nwuEkHR/HF3R9nZkJR+/
+	8o6BMLQKKMkd8jqlgm4ymy8=
+X-Google-Smtp-Source: AMsMyM5hQr3/WqeTrBiPzfc3rc05Ye0tZ/i3H9T82sLy6BlBGta6eMDLffkw0LUbIzzHRdD3stWyYg==
+X-Received: by 2002:a05:6402:26c2:b0:45c:1fef:ee1d with SMTP id x2-20020a05640226c200b0045c1fefee1dmr3397689edd.13.1665738912202;
+        Fri, 14 Oct 2022 02:15:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:69e:b0:22e:5d8a:c92d with SMTP id
- bo30-20020a056000069e00b0022e5d8ac92dls6801533wrb.1.-pod-prod-gmail; Fri, 14
- Oct 2022 01:49:54 -0700 (PDT)
-X-Received: by 2002:a5d:47cd:0:b0:22e:f98e:3b0b with SMTP id o13-20020a5d47cd000000b0022ef98e3b0bmr2573312wrc.556.1665737394862;
-        Fri, 14 Oct 2022 01:49:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665737394; cv=none;
+Received: by 2002:a17:907:10cc:b0:78d:14b3:67b2 with SMTP id
+ rv12-20020a17090710cc00b0078d14b367b2ls2223899ejb.7.-pod-prod-gmail; Fri, 14
+ Oct 2022 02:15:11 -0700 (PDT)
+X-Received: by 2002:a17:906:ee86:b0:741:89bc:27a1 with SMTP id wt6-20020a170906ee8600b0074189bc27a1mr2860400ejb.725.1665738911057;
+        Fri, 14 Oct 2022 02:15:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665738911; cv=none;
         d=google.com; s=arc-20160816;
-        b=TCjKkpwVBO6CtaOMm5SAFjc1wFlC2h/bKqimNUL+8Pt0q+UgdtsCFDu4x0O10tN+xI
-         LDR6ire+WaEz347Gi5eVIrlUxD9gjzD67f1WiUOrbD99X67TF2YHv02zSCWKTXww6Tbt
-         3rrX1rxklkupdykr8QvOU3A+YfdUSLylSRgboPoYbImTbe8sG0zx/HxxNFJ/1JrEvOBT
-         4+XUOF8uxcD2nRC4Enk5ynRKdgm8kTY8CXKx5AowuhEUt+x7q5l7HY84pBooZKdObwmw
-         GFXdoLymAZFEz69Xc3dSQ+sGeNhpVK+0LxwilS+yaqUWy9E7bzh3dJE21Fzq0PPt/DjO
-         ej+g==
+        b=ZJld6nM/Gjy4CYuQPjJfqlhXT8wBxUfXHovk+81jVWI3Iq9yMNz20Pg9w6ECnQR7Rf
+         sgSkl0sQM6k+5M7BNZSKX44laoJSpjd+iNY1IERzugyQwAhY30YxOK9kdXUyyFIcTIwp
+         0VjV29bATLAOJ+9qO+dJeIRBAVDolMO/v+Vvx591YAeU+KxuzSlJCI8cmLJ3z3g3VZQl
+         h80/0wDV4echidu1NisZPPvlZ5QN4y0wFPxwPlXY11aK18yzqltWJ9aef31fU/m8BJeh
+         k6ksxLP3qfoZiBAFlyLciC/K820xrEMZt1yKP5Gyx0y7sEEV1CEZzU4g1FN68nRXU8Jj
+         VVMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=gOV3h57ut5GHhGlnLsxkEHBnkvFbonX9ORLLuFusyi0=;
-        b=Rko1HKAhnAQy9hPPDt1eyQwBUxc1NeWIrwm+7ECysn4yyJB7dKRoU5gsiE/DKBvAnT
-         U+Zi7x3EzQilkj1ttgY2dJQamlYt2+TnvRV7EmFnz5etBQ75a53MF0sOHC+JB4z15jEx
-         ZjXDcsdEOvkYxG0iMxWWvijrb3ouxfT4BLempmVfWSUgzbJkOkEgZJosBJ+WRZqZ5oE3
-         +geJcnVHOGVlWGPDBreieYKS/BYsvzw2Uu11MDXnQ+iiUXmO759nFGk449brrCGLUG7o
-         Ju5Dh/Z4qKVnBvATOsg3UA2TZ+dL3wKasGx9V/X4ajhSeYLuH/kuxKg7z9O3rWns07IN
-         Sm3w==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:dkim-signature
+         :dkim-signature;
+        bh=Lop39TQqCOXXxSbDsyQkXoUBrxToIIED3a6P4bzyLLs=;
+        b=Q5P57e831J1qaTCB9ET3NP/Gr5f9bYqoHCuWLCDgA+fv8qm2CzJmJf/UKw0ekM0+T9
+         Z8EbCQGfZYDL5zxD352SkS5sNS0rqODIy57Fe1imLRJ6tnMuA4kqotPHzJWfgM/Qkaiv
+         uQ0MAy83Gvdv3jbUwhG4fMbgDYm9JlI4ZXaXWKveNs2WoPGUDM3nF62gBBkM15XLQ39U
+         VmndUFCU7L4QSxBYyCedW8jwMcQGjKIHceb3J1zuPqxndtU2gvT3+o71hfXDTfit0qDM
+         sYNcAbakCDOq3KVaW/DSIQb2HxZiTi1QDA4AteBvNldUjriIKwIOaRm8uLwJ66CuiWq4
+         pP7A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=GfG0sfEg;
-       spf=pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com. [2a00:1450:4864:20::32b])
-        by gmr-mx.google.com with ESMTPS id o12-20020a05600002cc00b0022a69378414si86259wry.0.2022.10.14.01.49.54
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=tbFHpqFR;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=STUhXyiy;
+       spf=softfail (google.com: domain of transitioning dsterba@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=dsterba@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
+        by gmr-mx.google.com with ESMTPS id a16-20020aa7cf10000000b004595ce68e4asi72030edy.5.2022.10.14.02.15.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Oct 2022 01:49:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32b as permitted sender) client-ip=2a00:1450:4864:20::32b;
-Received: by mail-wm1-x32b.google.com with SMTP id i10-20020a1c3b0a000000b003c6c154d528so122249wma.4
-        for <kasan-dev@googlegroups.com>; Fri, 14 Oct 2022 01:49:54 -0700 (PDT)
-X-Received: by 2002:a05:600c:4f93:b0:3b4:c026:85a1 with SMTP id n19-20020a05600c4f9300b003b4c02685a1mr9583025wmq.39.1665737394358;
-        Fri, 14 Oct 2022 01:49:54 -0700 (PDT)
-Received: from hrutvik.c.googlers.com.com (120.142.205.35.bc.googleusercontent.com. [35.205.142.120])
-        by smtp.gmail.com with ESMTPSA id 123-20020a1c1981000000b003c6c4639ac6sm1547372wmz.34.2022.10.14.01.49.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 01:49:54 -0700 (PDT)
-From: Hrutvik Kanabar <hrkanabar@gmail.com>
-To: Hrutvik Kanabar <hrutvik@google.com>
-Cc: Marco Elver <elver@google.com>,
-	Aleksandr Nogikh <nogikh@google.com>,
-	kasan-dev@googlegroups.com,
+        Fri, 14 Oct 2022 02:15:11 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning dsterba@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A54BF1F383;
+	Fri, 14 Oct 2022 09:15:10 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2F10613451;
+	Fri, 14 Oct 2022 09:15:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id EbSrCp4oSWM1GQAAMHmgww
+	(envelope-from <dsterba@suse.cz>); Fri, 14 Oct 2022 09:15:10 +0000
+Date: Fri, 14 Oct 2022 11:15:03 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Hrutvik Kanabar <hrkanabar@gmail.com>
+Cc: Hrutvik Kanabar <hrutvik@google.com>, Marco Elver <elver@google.com>,
+	Aleksandr Nogikh <nogikh@google.com>, kasan-dev@googlegroups.com,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Theodore Ts'o <tytso@mit.edu>,
 	Andreas Dilger <adilger.kernel@dilger.ca>,
-	linux-ext4@vger.kernel.org,
-	Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	David Sterba <dsterba@suse.com>,
-	linux-btrfs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	linux-xfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	linux-btrfs@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>, linux-f2fs-devel@lists.sourceforge.net,
+	"Darrick J . Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org,
 	Namjae Jeon <linkinjeon@kernel.org>,
 	Sungjong Seo <sj1557.seo@samsung.com>,
 	Anton Altaparmakov <anton@tuxera.com>,
 	linux-ntfs-dev@lists.sourceforge.net
-Subject: [PATCH RFC 7/7] fs/f2fs: support `DISABLE_FS_CSUM_VERIFICATION` config option
-Date: Fri, 14 Oct 2022 08:48:37 +0000
-Message-Id: <20221014084837.1787196-8-hrkanabar@gmail.com>
-X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
-In-Reply-To: <20221014084837.1787196-1-hrkanabar@gmail.com>
+Subject: Re: [PATCH RFC 0/7] fs: Debug config option to disable filesystem
+ checksum verification for fuzzing
+Message-ID: <20221014091503.GA13389@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
 References: <20221014084837.1787196-1-hrkanabar@gmail.com>
 MIME-Version: 1.0
-X-Original-Sender: HRKanabar@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=GfG0sfEg;       spf=pass
- (google.com: domain of hrkanabar@gmail.com designates 2a00:1450:4864:20::32b
- as permitted sender) smtp.mailfrom=hrkanabar@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20221014084837.1787196-1-hrkanabar@gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Original-Sender: dsterba@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@suse.cz header.s=susede2_rsa header.b=tbFHpqFR;       dkim=neutral
+ (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=STUhXyiy;
+       spf=softfail (google.com: domain of transitioning dsterba@suse.cz does
+ not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=dsterba@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -170,78 +162,54 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Hrutvik Kanabar <hrutvik@google.com>
+On Fri, Oct 14, 2022 at 08:48:30AM +0000, Hrutvik Kanabar wrote:
+> From: Hrutvik Kanabar <hrutvik@google.com>
+> 
+> Fuzzing is a proven technique to discover exploitable bugs in the Linux
+> kernel. But fuzzing filesystems is tricky: highly structured disk images
+> use redundant checksums to verify data integrity. Therefore,
+> randomly-mutated images are quickly rejected as corrupt, testing only
+> error-handling code effectively.
+> 
+> The Janus [1] and Hydra [2] projects probe filesystem code deeply by
+> correcting checksums after mutation. But their ad-hoc
+> checksum-correcting code supports only a few filesystems, and it is
+> difficult to support new ones - requiring significant duplication of
+> filesystem logic which must also be kept in sync with upstream changes.
+> Corrected checksums cannot be guaranteed to be valid, and reusing this
+> code across different fuzzing frameworks is non-trivial.
+> 
+> Instead, this RFC suggests a config option:
+> `DISABLE_FS_CSUM_VERIFICATION`. When it is enabled, all filesystems
+> should bypass redundant checksum verification, proceeding as if
+> checksums are valid. Setting of checksums should be unaffected. Mutated
+> images will no longer be rejected due to invalid checksums, allowing
+> testing of deeper code paths. Though some filesystems implement their
+> own flags to disable some checksums, this option should instead disable
+> all checksums for all filesystems uniformly. Critically, any bugs found
+> remain reproducible on production systems: redundant checksums in
+> mutated images can be fixed up to satisfy verification.
+> 
+> The patches below suggest a potential implementation for a few
+> filesystems, though we may have missed some checksums. The option
+> requires `DEBUG_KERNEL` and is not intended for production systems.
+> 
+> The first user of the option would be syzbot. We ran preliminary local
+> syzkaller tests to compare behaviour with and without these patches.
+> With the patches, we found a 19% increase in coverage, as well as many
+> new crash types and increases in the total number of crashes:
 
-When `DISABLE_FS_CSUM_VERIFICATION` is enabled, bypass checksum
-verification.
+I think the build-time option inflexible, but I see the point when
+you're testing several filesystems that it's one place to set up the
+environment. Alternatively I suggest to add sysfs knob available in
+debuging builds to enable/disable checksum verification per filesystem.
 
-Signed-off-by: Hrutvik Kanabar <hrutvik@google.com>
----
- fs/f2fs/checkpoint.c | 3 ++-
- fs/f2fs/compress.c   | 3 ++-
- fs/f2fs/f2fs.h       | 2 ++
- fs/f2fs/inode.c      | 3 +++
- 4 files changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/fs/f2fs/checkpoint.c b/fs/f2fs/checkpoint.c
-index 0c82dae082aa..cc5043fbffcb 100644
---- a/fs/f2fs/checkpoint.c
-+++ b/fs/f2fs/checkpoint.c
-@@ -864,7 +864,8 @@ static int get_checkpoint_version(struct f2fs_sb_info *sbi, block_t cp_addr,
- 	}
- 
- 	crc = f2fs_checkpoint_chksum(sbi, *cp_block);
--	if (crc != cur_cp_crc(*cp_block)) {
-+	if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+	    crc != cur_cp_crc(*cp_block)) {
- 		f2fs_put_page(*cp_page, 1);
- 		f2fs_warn(sbi, "invalid crc value");
- 		return -EINVAL;
-diff --git a/fs/f2fs/compress.c b/fs/f2fs/compress.c
-index d315c2de136f..d0bce92dbf38 100644
---- a/fs/f2fs/compress.c
-+++ b/fs/f2fs/compress.c
-@@ -772,7 +772,8 @@ void f2fs_decompress_cluster(struct decompress_io_ctx *dic, bool in_task)
- 		u32 provided = le32_to_cpu(dic->cbuf->chksum);
- 		u32 calculated = f2fs_crc32(sbi, dic->cbuf->cdata, dic->clen);
- 
--		if (provided != calculated) {
-+		if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
-+		    provided != calculated) {
- 			if (!is_inode_flag_set(dic->inode, FI_COMPRESS_CORRUPT)) {
- 				set_inode_flag(dic->inode, FI_COMPRESS_CORRUPT);
- 				printk_ratelimited(
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index e6355a5683b7..b27f1ec9b49f 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -1976,6 +1976,8 @@ static inline u32 f2fs_crc32(struct f2fs_sb_info *sbi, const void *address,
- static inline bool f2fs_crc_valid(struct f2fs_sb_info *sbi, __u32 blk_crc,
- 				  void *buf, size_t buf_size)
- {
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION))
-+		return true;
- 	return f2fs_crc32(sbi, buf, buf_size) == blk_crc;
- }
- 
-diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
-index 9f0d3864d9f1..239bb08e45b1 100644
---- a/fs/f2fs/inode.c
-+++ b/fs/f2fs/inode.c
-@@ -181,6 +181,9 @@ bool f2fs_inode_chksum_verify(struct f2fs_sb_info *sbi, struct page *page)
- #endif
- 		return true;
- 
-+	if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION))
-+		return true;
-+
- 	ri = &F2FS_NODE(page)->i;
- 	provided = le32_to_cpu(ri->i_inode_checksum);
- 	calculated = f2fs_inode_chksum(sbi, page);
--- 
-2.38.0.413.g74048e4d9e-goog
+As this may not fit to other filesystems I don't suggest to do that for
+all but I am willing to do that for btrfs, with eventual extension to
+the config option you propose. The increased fuzzing coverage would be
+good to have.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221014084837.1787196-8-hrkanabar%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221014091503.GA13389%40twin.jikos.cz.
