@@ -1,158 +1,123 @@
-Return-Path: <kasan-dev+bncBDK7LR5URMGRBB7YVGNAMGQEWT5ZFAI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7M5BFO7YCRBG7RVKNAMGQER7HZT2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1543A5FF96E
-	for <lists+kasan-dev@lfdr.de>; Sat, 15 Oct 2022 11:23:21 +0200 (CEST)
-Received: by mail-wm1-x33f.google.com with SMTP id c3-20020a7bc843000000b003b486fc6a40sf3279464wml.7
-        for <lists+kasan-dev@lfdr.de>; Sat, 15 Oct 2022 02:23:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665825800; cv=pass;
+Received: from mail-yb1-xb3a.google.com (mail-yb1-xb3a.google.com [IPv6:2607:f8b0:4864:20::b3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 622F35FFA58
+	for <lists+kasan-dev@lfdr.de>; Sat, 15 Oct 2022 15:41:51 +0200 (CEST)
+Received: by mail-yb1-xb3a.google.com with SMTP id e8-20020a5b0cc8000000b006bca0fa3ab6sf6747899ybr.0
+        for <lists+kasan-dev@lfdr.de>; Sat, 15 Oct 2022 06:41:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665841309; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VCeXrqsxpGqGsHfIUdkAm+n1yYE/OIRNLXAr0+y5SDIN2MPRgWIy0gig1NtkT7jztM
-         thk8Dg58RwnOGQiBNc+hdAl3vpBqLCfimuXjwrZIYbsqcMz9hZaqJZl4IsKZkE1kFP41
-         5VkxU8osanVDcSiw/Ak0nAZfCNuiJFMTffqli1zPjaPM+6OiJ7gL08jNJp8vcDBTj9Xq
-         7JZ+Q52Fjy381LyjRQWibmLq7VeWXk1jXfe3P3MQEnuTZmNWWIi/sCYmJp5a9UYiczvs
-         Bz1oRg6DReYQoEZDv/bE05OOgxJKsoAjXsS4LsIwejAZSl8jIvl5JVuZGAoG3MBEHW01
-         v0/A==
+        b=ECEj6KLQtcjrkn/kf70+vLCX+8rXm1Bq+wlftb7OY1IU6x0jxpNl7R20oymVbvnEyz
+         UH/+LGwJy2gVzK81yHTpQBs4SEytmUehSRDqEThHjH6sJ5LWwnvrfd8Wr7eUKqktBGUu
+         /lXoY3I2SAO6iVPfC9oKJzCLdbnJq7cuIhh8N1n7NBxkV11MXhW+WdzJOpXjXND9nep2
+         gdP+DguWZTP4rhga9LUnRy7zyYIQhRguweu71X66IOgtNgQ2JQs7lcu+YMqFZocpItYc
+         n4fF308gvWHTzsCmhkr6GZzEQvQ3fy/BbhxAY0eo6UPsYvNzanIIKWgAJCliluAVwSr1
+         awTQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:sender
-         :dkim-signature:dkim-signature;
-        bh=ga7v1rpLYGoERQ3w7tmNU9e4ABSUJuaQL4g9f9+iVgs=;
-        b=us2i7vLgBfNNbzoSKzUHVvOMiJ3Fo2bijFAqPzTpZxywS8v09nAxL5fkg7nb2iz8cQ
-         ITXWj7qaODyOJXKqIcYHIDhB5C5qNawFHVRQNK2ZfrknpR845jcHZLSvjRic2YKtHAZO
-         FMkAy/0yCm2r07lGOJH+x6mvRW0uQPmQTe/eT5oM19Akd/ZvkR0GK+m4tKi3+ZCfoCXA
-         TLlw1M0ITn3RfIGWfLctvbvaHD2Lq7/QFKZUHW4pDkqFIUoHGV+u5xiVFizwZnOWSPTt
-         TkHbsn9Cj8Fd3FO67r8Jr6VaWXEXuW1EpsKMEqIFZQbWudquHDeYDGYEqWcBp90zUFm8
-         WsfA==
+         :list-id:mailing-list:precedence:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=4R8/COySYCRpOMfiZghTopLinqYDaEy+RuAxpZvJz6A=;
+        b=iznV9oivtfNOsNOYEwJoZ8VrrYV9BH2H4AiiDdbepgCOSKGTLcoUhQkq56oLS8DCL7
+         BKbGJG7B0M4aSOsPHXuHy+Nmf5N0QcZvGUtmPnkOhPSolzjJouJqrLbv/YaUfE6PPdcK
+         akyIiFJrLm0xsjmQPL8p7ZqFaK6qLSPQ3IVQ3V2GdmZAO8BFSv0bKR8e7asPG6scuB3U
+         kbRTsybW1Xvmvtox4tXDWEf8V+sAUrJgKwclzHyKPKK9/l7efryUgP6/dnAlPP8ACI9k
+         KBnIakjBUZoKSPjaDY56BL4ONvBKjvCMUbGAC20jJQKpVbj8R0d3cxAn/AYdJwC3t0Vz
+         vvjQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=SHvrsXqq;
-       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::634 as permitted sender) smtp.mailfrom=urezki@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:date:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ga7v1rpLYGoERQ3w7tmNU9e4ABSUJuaQL4g9f9+iVgs=;
-        b=drhomaupfpYiedciL/2acdEHYLnzOwf0C6DsD+b13gLu1TmXn5cKx5wnE0a9Uk+Tl7
-         Fu1eJYXU65J0y6kl7trLt1c+T/od/Hpea2YknHQZtB5Kbx3Q5Z51+vpLGSKtzHQofdjf
-         +hX55NmATrO4GCNJq1vr/K9mZ55KNtyS482s4VXuoouBA7Tva0QlxelW7j+sJe0THz18
-         EE+Zq0/E4bw2gUf/oT0a+j6ZJnxMTGi5VX6vfG2+cxlJShMo7WVuhgeKFrPzoLhzG2pc
-         fJr9PvI1BPI/tFFo0lZdxrV3iaaXOusTAwPaCIEpTTaMbdjBVtI9k0xlEp6onn9787z/
-         1K4A==
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=SZkdrFC7;
+       spf=pass (google.com: domain of groeck7@gmail.com designates 2001:4860:4864:20::30 as permitted sender) smtp.mailfrom=groeck7@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ga7v1rpLYGoERQ3w7tmNU9e4ABSUJuaQL4g9f9+iVgs=;
-        b=d3no0R4DMvqrlEHlU//uFbv1x1KOCD407rfS5MdKJezN4F3mMRaZPEMyiSj8499npe
-         skGWEVTVbF6oHYTcc9NQxhhOACkv86I3/aLSVA17Ie9ltsZsls9x3iYsSUxf/kIjnKwC
-         BMATyeoR7iWade+6BXvhcfhV7iPjlXBd3WfJzwRghdNd0C3zOiIQO3OGuTEEkjWT948t
-         Tr4Lc8W4zqsEn3DzDM+w8HFeFb4Z5b69Yd3q84Mq2hMpZH1tbiqxOcEV4/RoE8YwGF3x
-         ayTIA6amK7G9uYq6IgG+H/IK2W+6bhKBM8pl7ZwFJpDTVAqc3glNc7JRkuYCuCBKZ2cB
-         Cr0w==
+         :x-original-sender:content-disposition:mime-version:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4R8/COySYCRpOMfiZghTopLinqYDaEy+RuAxpZvJz6A=;
+        b=nJsfBh9OZGj8ohfdGv9E4PCkrCSxxZ2u4Zf5FOWJjeWentr0lrrlvIuqrzjks6mbci
+         M1YaiThXYA49LiI0T4e5q6myVI0MwUUdoNNpvdhTc2vYUGKpQO0/NJflAdy4aoUoYzNw
+         Xm48an0q6n2q+92UIi0mok8F5cXZzJFLp+hQ4QG4ixehlkEpdenPH0IvOL7BcN0WG7Rf
+         Sfm820mC3fBOuTkLLTDH1CC2eDlgBjoC7JeW/cpC7giWQyKS+uYpUSbLA/R2GCMtAuqq
+         TXDvD/8zAz5WsMidMQOmDiSiA/rUJOMEVoxInF1+PTA2esPAYsw51XeqbVDVh+jWdU2g
+         GDig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:date:from:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ga7v1rpLYGoERQ3w7tmNU9e4ABSUJuaQL4g9f9+iVgs=;
-        b=JcmesUWn85zrkU65v/Nf4TzRHvVumImqGNZn3UCxedn8H2oehMQvnXqFjKuvIEvKHb
-         E0ty6nV1qtnSpcZhnih9aFKzPhbFAbFC2HVxf9Bl9g0+ktfrjwa0RiSmt1veHjw89jwp
-         zb3nCebtLD7TEqiUR7vPc1ZH/gVxehZ5B/nPmp8meAT5NFUOjDyJBVuImi+r36uCb2+g
-         kz5hKHCzobtxRjK6BJSPHPI8U+Dx6YDzXeZWV9H/sxsJteXJqP0KU4pEkQPKhVNHcSgb
-         LUCfIQyDX1QH11nUd8UCb+ihY7SY3yvWEILzIasPtdLuntaBFKTYFYtun+QLTuiGamJt
-         WxGg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1/LmD4vG2SlBpDe0pQTpyvANsWmj/5x/sXdZA5LIZFeQCTKxT/
-	ZU05Q2xN+dmWlEFiI2l24DA=
-X-Google-Smtp-Source: AMsMyM47u4tCOGrF5mJOtoTGIsLqj34xZLJwgJaWDY+p9aoxRDum2BLB6lYHgG8+0Gdc/4t+nVh6DQ==
-X-Received: by 2002:a05:6000:a1b:b0:22e:49e0:7ce3 with SMTP id co27-20020a0560000a1b00b0022e49e07ce3mr1024676wrb.66.1665825800337;
-        Sat, 15 Oct 2022 02:23:20 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender
+         :content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4R8/COySYCRpOMfiZghTopLinqYDaEy+RuAxpZvJz6A=;
+        b=WB1AFec1zfFcGRtuPxjCRlnZvj+aZFkuOBQQF5j9mRNkRCALDNGAy8TkxqmgGJtABi
+         c8KtuWedcmmp6ZJuI7Ud8xnm5Liz9ig9MrYhfcr21NtzpIv2MVffhNLO1IQ0rsuJF/yF
+         cXUeQdtTYDn0f7JKSbG5Dekt3vPc8hPPZjH98hkme2cX/aI7cNx3iWOIfO9ivCOZgpbq
+         Cli24K2O9A0FjtAud/OVNdhMVZtDD/7rm6xjDyA77dEGCECRbl8ORBnvANGOQHi06YZd
+         ISVF8fewpLyWL2xulGMyYZ9XVoQC1MMOwDtC9tqEFp6WFnPG3Xz8aUA/QBOq/FfgKF5Y
+         OO+w==
+X-Gm-Message-State: ACrzQf0wg9sUniwpBPiRDjeC3XUttWB9AAKYve4gu6MZaWaoExRWi9Tq
+	J3nqT82PQKdCthXqbKCSiZI=
+X-Google-Smtp-Source: AMsMyM7ciLRViadAe+/8ICI8wxvbARdQYcbvZ4oV5jGlQmj5aOxKlt1/z6sxbBZwWbi4geQrx9aDCQ==
+X-Received: by 2002:a0d:cc41:0:b0:357:46a0:18a5 with SMTP id o62-20020a0dcc41000000b0035746a018a5mr2238311ywd.28.1665841308008;
+        Sat, 15 Oct 2022 06:41:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:d20e:0:b0:228:ddd7:f40e with SMTP id j14-20020adfd20e000000b00228ddd7f40els11861343wrh.3.-pod-prod-gmail;
- Sat, 15 Oct 2022 02:23:19 -0700 (PDT)
-X-Received: by 2002:adf:c582:0:b0:22b:3c72:6b81 with SMTP id m2-20020adfc582000000b0022b3c726b81mr1019986wrg.320.1665825799236;
-        Sat, 15 Oct 2022 02:23:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665825799; cv=none;
+Received: by 2002:a81:5d1:0:b0:361:5499:a642 with SMTP id 200-20020a8105d1000000b003615499a642ls2968396ywf.0.-pod-prod-gmail;
+ Sat, 15 Oct 2022 06:41:47 -0700 (PDT)
+X-Received: by 2002:a81:8392:0:b0:356:509a:532e with SMTP id t140-20020a818392000000b00356509a532emr2348745ywf.410.1665841307294;
+        Sat, 15 Oct 2022 06:41:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665841307; cv=none;
         d=google.com; s=arc-20160816;
-        b=v20gm19cePSJ/9hkiS+DFRxozkUXgPanoeYkzecGtLmklChOt0AJ+tNRv1N671qRHE
-         ud2lQ/s+A4Crb83fSkFz5z4oCKPnOd+Do9mmDuacDpOaAdGqyxe8bqSL7ar3nZKfd5mG
-         OMZ4KhtkIqIsQHdKHP1nY96Gb11QHQAAwCOT/nVePSZQTeE39p+lDzdZ5kw8VdgVdNxA
-         J7Uu7vbHeFYzQn9mNqs5aje+SYpfRhY+iaveVPNSlg59fSR2AEdgiSXJ5Havg3X+i//z
-         hRSUTlJhsTlYFN6xqtiwc7eaNNl6AKlH0RxobplpXZiBfQYS+b8Owhlmo+rGT26YcZwB
-         OJkg==
+        b=toCzhC7VpLlP+kvK3Clb21NxSXuqVilz4972INhJ5tvyF7YalHMZdIXjuSvak72tUW
+         UCr/45KpHxlpORCVjrYVUZMFw8Q2J+86OXDVp7Z8AzGnjg4pWeOYdz1kcJD9psiMYMZF
+         RGM524ZDGT8fPB/V/bC6lo1zBEoFUSkfEh4iNHSlXRbup5unWkhWNZkXX70NQKoVzoxq
+         CvNj77y0F+0f7eaFCX1gp1br6KtCvUl+gvB2LApwtO2gBrvj0kiaeY3nyoaqc6E+jZ3h
+         hqkLAniMIDuvZhFr5hM8KvYclFOD0d0vDJx8lgRJV3Ic9vqGO3glkO1MHooG8hGb9i6X
+         p2aA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:dkim-signature;
-        bh=MYXJEzIwLvn5K4p0xa4MarpR6odk5pnBKyc18VUK7qE=;
-        b=0JuUKH0ppTKW6RmgmYgU1358oBJNob/LnRRxBYXE5fnUP2dfMJJjZtFfRDy2evEasc
-         4HhnK6VT1L81OszVPpvEtyAH52WlGhkPIxJaqjQbmmpwu+od6WIu5f4rqOXJ0nKmAi18
-         9xlW5acSHPP4Ksryc5vvwUzUdZNobYmJfSv/irZi6AXeOlkcewQU+/EOMkTJQ/UHwQwN
-         LIjZkNDs/E4S6ce/2eu+H49EWCMw0pz58WhUOnvNMm2O/KnrQNkH+J88SSoqJSPM1Slz
-         F+EK/1pw1j9R2ozcX2K+Stw3ayJAspx3CRKcSJlttFv4FW51kBMVTKoFconLfwKrfTsu
-         G4oA==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=ip/0L2qERVAjyL9wVuuTT33jhk9G53en83NEZUi4J4A=;
+        b=PKDOyNaZg307ossOtY5VaYnEfwbNlB2XN9FcLg04L2r8Zx5IiqPXPi2i0hDJV+8jak
+         X/5fhhGytbqBzNqFnhRZZRFMh46u+B+YsmMXgwQ4RPEh19BiipE3s7HuHQd3MAuEv+Aj
+         GuuZoLxyhbySZYt/Rg0lm2dTZCw048v08Jux7X/MTSP4M0IKkSfl+19pnmaZu/SiAAyE
+         I+HaBs2IcNkJKL6rrooU3crc0O1pXnTJHYKYpaIjW51oFtyVsgkStAhVX5x8ajPQO2yw
+         81s0EEPEh01wUfnSKUsChGd7XHAQAIBx6G/yZ0P4/7bJvcVRDMGWwUxWWke9GpbA1k7M
+         CmWw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=SHvrsXqq;
-       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::634 as permitted sender) smtp.mailfrom=urezki@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com. [2a00:1450:4864:20::634])
-        by gmr-mx.google.com with ESMTPS id j23-20020a05600c1c1700b003a66dd18895si540570wms.4.2022.10.15.02.23.19
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=SZkdrFC7;
+       spf=pass (google.com: domain of groeck7@gmail.com designates 2001:4860:4864:20::30 as permitted sender) smtp.mailfrom=groeck7@gmail.com
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com. [2001:4860:4864:20::30])
+        by gmr-mx.google.com with ESMTPS id h20-20020a25d014000000b0069015ac7716si262691ybg.0.2022.10.15.06.41.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Oct 2022 02:23:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::634 as permitted sender) client-ip=2a00:1450:4864:20::634;
-Received: by mail-ej1-x634.google.com with SMTP id d26so15063968eje.10
-        for <kasan-dev@googlegroups.com>; Sat, 15 Oct 2022 02:23:19 -0700 (PDT)
-X-Received: by 2002:a17:906:846e:b0:78d:ed3c:edfa with SMTP id hx14-20020a170906846e00b0078ded3cedfamr1386124ejc.515.1665825798830;
-        Sat, 15 Oct 2022 02:23:18 -0700 (PDT)
-Received: from pc636 (49-224-201-31.ftth.glasoperator.nl. [31.201.224.49])
-        by smtp.gmail.com with ESMTPSA id u22-20020a056402111600b00458dc7e8ecasm3289631edv.72.2022.10.15.02.23.17
+        Sat, 15 Oct 2022 06:41:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of groeck7@gmail.com designates 2001:4860:4864:20::30 as permitted sender) client-ip=2001:4860:4864:20::30;
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-132b8f6f1b2so8889164fac.11
+        for <kasan-dev@googlegroups.com>; Sat, 15 Oct 2022 06:41:47 -0700 (PDT)
+X-Received: by 2002:a05:6870:fb93:b0:131:c354:b7d3 with SMTP id kv19-20020a056870fb9300b00131c354b7d3mr1436921oab.20.1665841306856;
+        Sat, 15 Oct 2022 06:41:46 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v24-20020a4ae058000000b00480ba1434a6sm1042864oos.34.2022.10.15.06.41.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Oct 2022 02:23:18 -0700 (PDT)
-From: Uladzislau Rezki <urezki@gmail.com>
-Date: Sat, 15 Oct 2022 11:23:17 +0200
-To: David Hildenbrand <david@redhat.com>
-Cc: Uladzislau Rezki <urezki@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com
-Subject: Re: KASAN-related VMAP allocation errors in debug kernels with many
- logical CPUS
-Message-ID: <Y0p8BZIiDXLQbde/@pc636>
-References: <8aaaeec8-14a1-cdc4-4c77-4878f4979f3e@redhat.com>
- <Yz711WzMS+lG7Zlw@pc636>
- <9ce8a3a3-8305-31a4-a097-3719861c234e@redhat.com>
- <Y0BHFwbMmcIBaKNZ@pc636>
- <6d75325f-a630-5ae3-5162-65f5bb51caf7@redhat.com>
- <Y0QNt5zAvrJwfFk2@pc636>
- <478c93f5-3f06-e426-9266-2c043c3658da@redhat.com>
- <Y0bs97aVCH7SOqwX@pc638.lan>
- <e397d8aa-17a5-299b-2383-cfb01bd7197e@redhat.com>
+        Sat, 15 Oct 2022 06:41:46 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 15 Oct 2022 06:41:44 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: kasan-dev@googlegroups.com
+Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>
+Subject: Warning backtraces when enabling KFENCE on arm
+Message-ID: <20221015134144.GA1333703@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <e397d8aa-17a5-299b-2383-cfb01bd7197e@redhat.com>
-X-Original-Sender: Urezki@gmail.com
+X-Original-Sender: linux@roeck-us.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=SHvrsXqq;       spf=pass
- (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::634 as
- permitted sender) smtp.mailfrom=urezki@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@gmail.com header.s=20210112 header.b=SZkdrFC7;       spf=pass
+ (google.com: domain of groeck7@gmail.com designates 2001:4860:4864:20::30 as
+ permitted sender) smtp.mailfrom=groeck7@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -165,214 +130,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> > > 
-> > OK. It is related to a module vmap space allocation when a module is
-> > inserted. I wounder why it requires 2.5MB for a module? It seems a lot
-> > to me.
-> > 
-> 
-> Indeed. I assume KASAN can go wild when it instruments each and every memory
-> access.
-> 
-> > > 
-> > > Really looks like only module vmap space. ~ 1 GiB of vmap module space ...
-> > > 
-> > If an allocation request for a module is 2.5MB we can load ~400 modules
-> > having 1GB address space.
-> > 
-> > "lsmod | wc -l"? How many modules your system has?
-> > 
-> 
-> ~71, so not even close to 400.
-> 
-> > > What I find interesting is that we have these recurring allocations of similar sizes failing.
-> > > I wonder if user space is capable of loading the same kernel module concurrently to
-> > > trigger a massive amount of allocations, and module loading code only figures out
-> > > later that it has already been loaded and backs off.
-> > > 
-> > If there is a request about allocating memory it has to be succeeded
-> > unless there are some errors like no space no memory.
-> 
-> Yes. But as I found out we're really out of space because module loading
-> code allocates module VMAP space first, before verifying if the module was
-> already loaded or is concurrently getting loaded.
-> 
-> See below.
-> 
-> [...]
-> 
-> > I wrote a small patch to dump a modules address space when a fail occurs:
-> > 
-> > <snip v6.0>
-> > diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> > index 83b54beb12fa..88d323310df5 100644
-> > --- a/mm/vmalloc.c
-> > +++ b/mm/vmalloc.c
-> > @@ -1580,6 +1580,37 @@ preload_this_cpu_lock(spinlock_t *lock, gfp_t gfp_mask, int node)
-> >   		kmem_cache_free(vmap_area_cachep, va);
-> >   }
-> > +static void
-> > +dump_modules_free_space(unsigned long vstart, unsigned long vend)
-> > +{
-> > +	unsigned long va_start, va_end;
-> > +	unsigned int total = 0;
-> > +	struct vmap_area *va;
-> > +
-> > +	if (vend != MODULES_END)
-> > +		return;
-> > +
-> > +	trace_printk("--- Dump a modules address space: 0x%lx - 0x%lx\n", vstart, vend);
-> > +
-> > +	spin_lock(&free_vmap_area_lock);
-> > +	list_for_each_entry(va, &free_vmap_area_list, list) {
-> > +		va_start = (va->va_start > vstart) ? va->va_start:vstart;
-> > +		va_end = (va->va_end < vend) ? va->va_end:vend;
-> > +
-> > +		if (va_start >= va_end)
-> > +			continue;
-> > +
-> > +		if (va_start >= vstart && va_end <= vend) {
-> > +			trace_printk(" va_free: 0x%lx - 0x%lx size=%lu\n",
-> > +				va_start, va_end, va_end - va_start);
-> > +			total += (va_end - va_start);
-> > +		}
-> > +	}
-> > +
-> > +	spin_unlock(&free_vmap_area_lock);
-> > +	trace_printk("--- Total free: %u ---\n", total);
-> > +}
-> > +
-> >   /*
-> >    * Allocate a region of KVA of the specified size and alignment, within the
-> >    * vstart and vend.
-> > @@ -1663,10 +1694,13 @@ static struct vmap_area *alloc_vmap_area(unsigned long size,
-> >   		goto retry;
-> >   	}
-> > -	if (!(gfp_mask & __GFP_NOWARN) && printk_ratelimit())
-> > +	if (!(gfp_mask & __GFP_NOWARN) && printk_ratelimit()) {
-> >   		pr_warn("vmap allocation for size %lu failed: use vmalloc=<size> to increase size\n",
-> >   			size);
-> > +		dump_modules_free_space();
-> > +	}
-> > +
-> >   	kmem_cache_free(vmap_area_cachep, va);
-> >   	return ERR_PTR(-EBUSY);
-> >   }
-> 
-> Thanks!
-> 
-> I can spot the same module getting loaded over and over again concurrently
-> from user space, only failing after all the allocations when realizing that
-> the module is in fact already loaded in add_unformed_module(), failing with
-> -EEXIST.
-> 
-> That looks quite inefficient. Here is how often user space tries to load the
-> same module on that system. Note that I print *after* allocating module VMAP
-> space.
-> 
-OK. It explains the problem :) Indeed it is inefficient. Allocating and later
-on figuring out that a module is already there looks weird. Furthermore an
-attacking from the user space can be organized.
+Hi,
 
+I keep seeing the following backtrace when enabling KFENCE on arm
+systems.
 
-> # dmesg | grep Loading | cut -d" " -f5 | sort | uniq -c
->     896 acpi_cpufreq
->       1 acpi_pad
->       1 acpi_power_meter
->       2 ahci
->       1 cdrom
->       2 compiled-in
->       1 coretemp
->      15 crc32c_intel
->     307 crc32_pclmul
->       1 crc64
->       1 crc64_rocksoft
->       1 crc64_rocksoft_generic
->      12 crct10dif_pclmul
->      16 dca
->       1 dm_log
->       1 dm_mirror
->       1 dm_mod
->       1 dm_region_hash
->       1 drm
->       1 drm_kms_helper
->       1 drm_shmem_helper
->       1 fat
->       1 fb_sys_fops
->      14 fjes
->       1 fuse
->     205 ghash_clmulni_intel
->       1 i2c_algo_bit
->       1 i2c_i801
->       1 i2c_smbus
->       4 i40e
->       4 ib_core
->       1 ib_uverbs
->       4 ice
->     403 intel_cstate
->       1 intel_pch_thermal
->       1 intel_powerclamp
->       1 intel_rapl_common
->       1 intel_rapl_msr
->     399 intel_uncore
->       1 intel_uncore_frequency
->       1 intel_uncore_frequency_common
->      64 ioatdma
->       1 ipmi_devintf
->       1 ipmi_msghandler
->       1 ipmi_si
->       1 ipmi_ssif
->       4 irdma
->     406 irqbypass
->       1 isst_if_common
->     165 isst_if_mbox_msr
->     300 kvm
->     408 kvm_intel
->       1 libahci
->       2 libata
->       1 libcrc32c
->     409 libnvdimm
->       8 Loading
->       1 lpc_ich
->       1 megaraid_sas
->       1 mei
->       1 mei_me
->       1 mgag200
->       1 nfit
->       1 pcspkr
->       1 qrtr
->     405 rapl
->       1 rfkill
->       1 sd_mod
->       2 sg
->     409 skx_edac
->       1 sr_mod
->       1 syscopyarea
->       1 sysfillrect
->       1 sysimgblt
->       1 t10_pi
->       1 uas
->       1 usb_storage
->       1 vfat
->       1 wmi
->       1 x86_pkg_temp_thermal
->       1 xfs
-> 
-> 
-> For each if these loading request, we'll reserve module VMAP space, and free
-> it once we realize later that the module was already previously loaded.
-> 
-> So with a lot of CPUs we might end up trying to load the same module that
-> often at the same time that we actually run out of module VMAP space.
-> 
-> I have a prototype patch that seems to fix this in module loading code.
-> 
-Good! I am glad the problem can be solved :)
+[    9.736342] ------------[ cut here ]------------
+[    9.736521] WARNING: CPU: 0 PID: 210 at kernel/smp.c:904 smp_call_function_many_cond+0x288/0x584
+[    9.736638] Modules linked in:
+[    9.736707] CPU: 0 PID: 210 Comm: S02sysctl Tainted: G        W        N 6.0.0-12189-g19d17ab7c68b #1
+[    9.736806] Hardware name: Generic DT based system
+[    9.736871]  unwind_backtrace from show_stack+0x10/0x14
+[    9.736948]  show_stack from dump_stack_lvl+0x68/0x90
+[    9.737021]  dump_stack_lvl from __warn+0xc8/0x1e8
+[    9.737091]  __warn from warn_slowpath_fmt+0x5c/0xb8
+[    9.737162]  warn_slowpath_fmt from smp_call_function_many_cond+0x288/0x584
+[    9.737247]  smp_call_function_many_cond from smp_call_function+0x3c/0x50
+[    9.737329]  smp_call_function from set_memory_valid+0x74/0x94
+[    9.737407]  set_memory_valid from kfence_guarded_free+0x280/0x4bc
+[    9.737487]  kfence_guarded_free from kmem_cache_free+0x388/0x3e0
+[    9.737566]  kmem_cache_free from dequeue_signal+0x16c/0x220
+[    9.737641]  dequeue_signal from get_signal+0x17c/0xa34
+[    9.737713]  get_signal from do_work_pending+0x118/0x560
+[    9.737784]  do_work_pending from slow_work_pending+0xc/0x20
+[    9.737857] Exception stack(0xe97b5fb0 to 0xe97b5ff8)
+[    9.737926] 5fa0:                                     000000d4 bef68244 00000000 00000000
+[    9.738017] 5fc0: 00000000 00000000 000d8b6c 00000072 00000001 b6fdf060 00000000 b6fdfa04
+[    9.738105] 5fe0: bef68200 bef681f0 b6f8c4dc b6f8b998 60000010 ffffffff
+[    9.738181] irq event stamp: 1018
+[    9.738233] hardirqs last  enabled at (1017): [<c030ad70>] do_work_pending+0xa8/0x560
+[    9.738322] hardirqs last disabled at (1018): [<c13d7fc4>] _raw_spin_lock_irq+0x68/0x6c
+[    9.738413] softirqs last  enabled at (0): [<c034392c>] copy_process+0x66c/0x18a4
+[    9.738500] softirqs last disabled at (0): [<00000000>] 0x0
+[    9.738649] ---[ end trace 0000000000000000 ]---
 
---
-Uladzislau Rezki
+This is an example seen when running the 'virt' emulation in qemu
+with a configuration based on multi_v7_defconfig and KFENCE enabled.
+
+The warning suggests that interrupts are disabled. Another KFENCE
+related warning is
+
+[   11.378812] ------------[ cut here ]------------
+[   11.379050] WARNING: CPU: 0 PID: 0 at kernel/smp.c:912 smp_call_function_many_cond+0x3b0/0x3cc
+[   11.379775] Modules linked in:
+[   11.380136] CPU: 0 PID: 0 Comm: swapper/0 Tainted: G                 N 6.0.0-12189-g19d17ab7c68b #1
+[   11.380373] Hardware name: ARM-Versatile Express
+[   11.380669]  unwind_backtrace from show_stack+0x10/0x14
+[   11.380858]  show_stack from dump_stack_lvl+0x50/0x6c
+[   11.380989]  dump_stack_lvl from __warn+0xc8/0x194
+[   11.381106]  __warn from warn_slowpath_fmt+0x5c/0xb8
+[   11.381225]  warn_slowpath_fmt from smp_call_function_many_cond+0x3b0/0x3cc
+[   11.381369]  smp_call_function_many_cond from smp_call_function+0x3c/0x50
+[   11.381507]  smp_call_function from set_memory_valid+0x74/0x94
+[   11.381657]  set_memory_valid from kfence_guarded_free+0x280/0x4bc
+[   11.381800]  kfence_guarded_free from kmem_cache_free+0x338/0x390
+[   11.381930]  kmem_cache_free from rcu_core+0x340/0xc24
+[   11.382053]  rcu_core from __do_softirq+0xf0/0x41c
+[   11.382192]  __do_softirq from __irq_exit_rcu+0xa4/0xc8
+[   11.382315]  __irq_exit_rcu from irq_exit+0x8/0x10
+[   11.382429]  irq_exit from __irq_svc+0x88/0xb0
+[   11.382596] Exception stack(0xc1f01ee8 to 0xc1f01f30)
+[   11.382786] 1ee0:                   00000005 00000000 00000279 c031c200 c1f0d840 c2197020
+[   11.382947] 1f00: c1f08d10 c1f08d6c c1e73368 c21958cc 00000000 00000000 ffffffff c1f01f38
+[   11.383094] 1f20: c0307d18 c0307d1c 60000013 ffffffff
+[   11.383220]  __irq_svc from arch_cpu_idle+0x38/0x3c
+[   11.383341]  arch_cpu_idle from default_idle_call+0x60/0x160
+[   11.383472]  default_idle_call from do_idle+0x1f8/0x29c
+[   11.383597]  do_idle from cpu_startup_entry+0x18/0x1c
+[   11.383712]  cpu_startup_entry from rest_init+0xf4/0x100
+[   11.383834]  rest_init from arch_post_acpi_subsys_init+0x0/0x8
+[   11.384051] ---[ end trace 0000000000000000 ]---
+
+This is also seen with the same emulation. It suggests that the call is
+made from outside task context, which presumably can also result in a
+deadlock.
+
+I see those warnings only with arm emulations. The warnings are not new;
+they are seen since kfence support for arm has been added.
+
+Is this a real problem ? Either case, is there a way to address the
+warnings ?
+
+Thanks,
+Guenter
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0p8BZIiDXLQbde/%40pc636.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221015134144.GA1333703%40roeck-us.net.
