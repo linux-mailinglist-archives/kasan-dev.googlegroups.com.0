@@ -1,172 +1,175 @@
-Return-Path: <kasan-dev+bncBDKIJPMU4QIRB7WDWSNAMGQEC3XJYYA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCC3ZNHOZYKRBPMHWWNAMGQEP7TBNAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59B8600AF3
-	for <lists+kasan-dev@lfdr.de>; Mon, 17 Oct 2022 11:35:59 +0200 (CEST)
-Received: by mail-lf1-x138.google.com with SMTP id u2-20020ac25182000000b004a24f3189fesf3470485lfi.15
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 Oct 2022 02:35:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665999359; cv=pass;
+Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5709A600E56
+	for <lists+kasan-dev@lfdr.de>; Mon, 17 Oct 2022 13:59:59 +0200 (CEST)
+Received: by mail-il1-x138.google.com with SMTP id h8-20020a056e021b8800b002f9c2e31750sf8797058ili.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 Oct 2022 04:59:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1666007998; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QcUwVC1WnhabgAy4saXA0/tfS2gPGUU45Kt2EkmyGPwSuqU1Yyip7QF93eKmwqcy91
-         zT9KQ0RncaSU2q1TPYCNU9u6xIYS1W38PtKdFqP+16cge9uYuf0WFshbn8VeMELjLLCH
-         9fQo9nfOOLRW5f+VrCWaATA+Hqzn15MPWbxhdK6TT33rflYoIwPflJxHaDq31Q2+Rgv8
-         ZUnVcY/RP0HzaDzLktCDADgDOJSPQKVoDwUgT0Wn8Tbh0ghjmoMv9Zq9w7/ogipFyBFO
-         Z3IZwtP7t/Xnq3etAdbdEGI0cBk3z/LSLJKs59Jb6q+6v9ssUfoNIxJsDLomEYlACPaD
-         5ONQ==
+        b=wrELGTpKhMnVd1gWPz5RssVHh+1m/wmnXrCxHUd2JSINxWo8hSNKPTZAxW3iUWWkxk
+         VPDGviKEtAGBkAeYevpTuRAC7j+7W+bzc0VbEhhM94iSnnfvseAKHqfxUuBOfr0jdasP
+         31745rsM+aBdu4MR1DKy28kqnw7GzEq4cCgGRjjocgAN46+IWTqQh6IA++A5zHSYznoC
+         vcnjyER2Iytulcmi/qRmBn/hgNjlIG4rj+tCv35AfRSxNzfl38wedaY8rdf0hfWluYu1
+         ofHvR87RqKX8Pw+5vGM7RyC8W1kaEEVBnvZAofGznANayE8kST4E7yUq1wo24oCLL7+J
+         uTxw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=k1u71Relr/E0kAPaOG5ffBJCSTk+daRnEB/ww8aeoDE=;
-        b=Ci0S2nEU8MzQFt+ukjWPfKaAtpY/PligEC9CGwYKt5e+9AtQ2irH/GLY2Lmi0RTiMp
-         xLtoU418ht8I1iZ64pPLUPJsVNivDYX5IKJkNBGgjaANacGZGRSoIS8prw3NLmShQSdb
-         oEcIP1S/I0rSiLbHEAgW+3XHEAQmut6eC6p2nJrrw18eveTKjmh8H4+hzfA+uF3sB1VW
-         XzjRF3bnG7dxrcRyufSo3DPdUG6xFdWJW77XLYWMBM6n5ihP2YGX/QNfAlDLYt+TpsIy
-         bQ8dfTYLBD8RfceSVBgFfmt9NOJBuSz7XUZ2XeRJ3wrjeG6+jT+e20EU8Mhqgw5jMScr
-         gJ3w==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :in-reply-to:mime-version:user-agent:date:message-id:from:references
+         :cc:to:subject:dkim-signature;
+        bh=qriqVPhTeM7vf8Ee52OW/IhnUfirIgkSL3P+HF3w14o=;
+        b=Qm2JB1kSlufYCFk4aTcemcKdqwXgRB/NQePKGXwc3AZStqS52EJwZUJs1f68oH4o4H
+         ypyHwv/prBSulrO2A6oHVhhnEmNrtDXvkKfOwKThY2VmzqjfDuAOATZDticH5oP2KHor
+         x144e6ZY+Psuef2/fAoc+6AY92TRvej+s99/6Y/p/RxtanjgUCUmJrgPa7yi0tcmfwbj
+         EhJNme89QD7Cx+pTTF6WfMcjTRPV+iAIpLqsvkZyKor8DVaQKaRmEZ+4yqQEudAmyz9h
+         BgaVkuXEwabiyE1jg1c91sXCSLPEyXNmrAiej5WOO8T3R8G6hSrVXPANRt3U9W3FkqSc
+         sEXQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b=VDo8Gm0J;
-       spf=pass (google.com: domain of quwenruo.btrfs@gmx.com designates 212.227.15.15 as permitted sender) smtp.mailfrom=quwenruo.btrfs@gmx.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=gmx.com
+       spf=pass (google.com: domain of liulongfang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=liulongfang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=k1u71Relr/E0kAPaOG5ffBJCSTk+daRnEB/ww8aeoDE=;
-        b=hMX8sYgBOGjkt79T/gUI4o8wk6f3F1Cz5oxGYZxbauRKTD2IZhBamrAjc3JrooKYwu
-         76lB537ZsV4cksSb8PZeGw5TTsDKosgocfN53d9z0P7IlCv7QDPMI0+cQKdJfkVjUS8Y
-         m3Foam0g+z8lEOJqc18886Z3Jq3bS+WRe4cFWeEDFqTbEjVTlZaEuWUOIwfIzr0eSBgr
-         rxBU+/nk/s/BFLoOC+YhkoVIbxQw2FuzO8GrWT2OyB1ntNsuOuyUA4VYCulFvCFMBP9/
-         I9t8SiQMIJM2C0FTJC0X5xpW38VHnmAgF3kwsIETzGGR8z6K/1dl6fr/N0nRmLEHWyNa
-         Y8OA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qriqVPhTeM7vf8Ee52OW/IhnUfirIgkSL3P+HF3w14o=;
+        b=TjX61fAVCiWXxTdeDbLcacfVCbXiamfVgzovgqRQ0jq0up7WPWW6R1iKfDzMvOaFg6
+         HZajYa8IMnxer4P28toz5IH5KQhDhuB3erl+GUe6Gdx/ddyvLtea4H5ZGrXGEW/y4fur
+         bzIC5QWWA/L/anlbRbADPpzkuvH3ZzhDyUyWPVHf2q7bae80AWBmNY3pptWmP33EL18k
+         Y9L3kaAwGy2SbWruoo8Asc3js5T8HU3EmyAf7O3nulUDA5bCtO6YAEwLS27O++kQMAcw
+         SFv3ARPOnqnZa+8a6nymjvEaGzAdGVbyy2CTughDiq6gQutWe2f1+76r7JpFjAV2sw+g
+         R4tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k1u71Relr/E0kAPaOG5ffBJCSTk+daRnEB/ww8aeoDE=;
-        b=2E2xXJXbM4FTRetuhIUouXVYebS81NB6OLuMwr64HGA6NetWqVQKynKoqG4gDBCwf6
-         iqmTDHCinayCoP3IObTREWtyX9mMYdMNgwvKb0e8ukL8EdDd7sZkiSP3j6sj8YQTWk8o
-         NQHpKfGjOEww2EDKPFFg40nRpVHcYE7hWZE3oiunZiu9P1hrlYKzY3OWYIzfGx3sqiLV
-         SE+wGqBcl1xBpJPT0G/v/RvCUydqKi1McLvo751uw8T1B1d1JBH5joJuc6v0WTeWQtvr
-         GZJxWUC12IL2Qf1Tvp/+nlpn6QpK13Cuan+5eaWlTo2NjoGO+7uDK6ril2ttFUOcTgpj
-         29Zw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf3XhBEmSRdSveIwFnfUgqZ+6V4nSNxSCBol9Kauz1T7X+o0vMoL
-	rEUn6CQqqNKEgsAMTxV2AeM=
-X-Google-Smtp-Source: AMsMyM6I9w9RKaoD/g6Sqyc0Bu1frPivuAzgLKVRMXH9DcaPb2lXTsR1LCuejbusuNXAxWemm+s4rQ==
-X-Received: by 2002:a05:651c:228:b0:26f:c155:85b8 with SMTP id z8-20020a05651c022800b0026fc15585b8mr3668913ljn.220.1665999358893;
-        Mon, 17 Oct 2022 02:35:58 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qriqVPhTeM7vf8Ee52OW/IhnUfirIgkSL3P+HF3w14o=;
+        b=eIS1dd0e7df664xPAUxLDPhkcs8MSR+fhPudFpgdVrBLllXoMVn3S6Cjk94AqGOTYI
+         8uQ3L7PtgdFLBfi0/zt3qZyqX/p58oAKLuTxz3ZIo7U49ZjqbsPC5WbfKOhwDgciSepP
+         N3ANnYzlhqwYltSw4s6zgE0B0Vdzwf90mRyxjmduOVk2J7NMFUvmYgsso+IotWiPJtm3
+         PTha0GcXbrUq+JlqK7syMBJmVfH1UdmNuEaow4OvZWCRICPRjRPh6Mb7COjqZ3n4h/Nj
+         z25ZdhLlXILgFBReSben7hucgIStVWwLz4yXrbp2YPFw9lAmCkORCw9bPRm66lkYMm7I
+         qHYQ==
+X-Gm-Message-State: ACrzQf0Uz5huSzIIvS0tigTJzy/2/Qp8L50PgmgaTNgyxJeQGlW5YlOb
+	xUR97nJLk2UZX2qlpoF2zvU=
+X-Google-Smtp-Source: AMsMyM6vuDhBuFu/CWyneu717j5OahhZJSKFa0zjXCrgTkwpkUFsi1tvKtDHvXnelphyoIl3a3KKig==
+X-Received: by 2002:a05:6e02:190a:b0:2fc:55a4:c64a with SMTP id w10-20020a056e02190a00b002fc55a4c64amr4558323ilu.132.1666007997867;
+        Mon, 17 Oct 2022 04:59:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:2103:b0:4a2:3951:eac8 with SMTP id
- q3-20020a056512210300b004a23951eac8ls715088lfr.0.-pod-prod-gmail; Mon, 17 Oct
- 2022 02:35:57 -0700 (PDT)
-X-Received: by 2002:a05:6512:31d4:b0:4a2:7709:db05 with SMTP id j20-20020a05651231d400b004a27709db05mr3589225lfe.544.1665999357687;
-        Mon, 17 Oct 2022 02:35:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665999357; cv=none;
+Received: by 2002:a02:85ad:0:b0:363:bee0:a7d0 with SMTP id d42-20020a0285ad000000b00363bee0a7d0ls2617942jai.7.-pod-prod-gmail;
+ Mon, 17 Oct 2022 04:59:57 -0700 (PDT)
+X-Received: by 2002:a05:6638:31c2:b0:35a:c5b1:b567 with SMTP id n2-20020a05663831c200b0035ac5b1b567mr4756658jav.58.1666007997430;
+        Mon, 17 Oct 2022 04:59:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1666007997; cv=none;
         d=google.com; s=arc-20160816;
-        b=nldWTxncYmQ1RQRhiNGTAgA3YYu74j5HcnMwP7c+EPlgerIjkL9637k6sUcsbeJ1QE
-         MNDofaR0BpkgUU0rGuwpnnOZJQZIaNgmtF+47S0yvX8AKVDtgj+7xvmgSTkgHnAdpv0w
-         Ul/qYZa0sLEVHeYMfEVagPIcvEA4lsNPK5vqZk2uSt/PBrvlp8tgkROqV5Gbnb5sTbd7
-         vPiDHGaF3lBKNO7BuYcSbW07bEC+LKf+3x95Q8oE/8AEr0ZZMW8+OxPDgf9MVQZ14moq
-         DCTaslwif2XqhZPHuXxszkwxGl74CCvpkol00AQrf48nBb1JAMbiKseIjXtY9MHXK5s1
-         aALA==
+        b=zAFamG3MapNouqOXTpnStmiKllI4vL7DMkMUoElN+R08LrBOMefW5/RoCTScqjdBz1
+         7vKjOFKBWwM9wkxA5JCd3/LyrkqpCDuy6S/RdhRWIcOORd/Z5WRGzuwv3Ae4fk+3plWa
+         7GhCGz5FcVrepbEAStR6Kz0Cn/rngXsIAMelo7mKEuBy3GdniFzYB/Yli3HMxPgXe/uE
+         1TS8z++XY0sxpSs6dwKlmEKkYPNRA4WUoxuGw8rBl7QIt5WPwcCHNk/ObYuy03tu+mwv
+         FjP6/vaotFVHKz4hmS2ve5+RarvbI+Ntj8ywbg6c51qZl0V6hTERlRVl9ILBUh4D3+fJ
+         49SQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=I/Ia4Mu9P3WluH4Bz+JF+Xw7+A6qmCSA4W2Y2iXMlFQ=;
-        b=lnMR10e1tSRiBgWZtO7i3It4YFif1kDtAiyoy/h7YPjroCwfEi5PcEWBizzeesxJws
-         0fyTSF5YZZrbUpz8DJvSa4H6xBiQUedwSbxLTxot4TR7hkygYdrq0GScD1qGdBKDnyrw
-         Dm5LckFvXQvU8s8ZdyZFJxU7nv/pP8bfVGYgJQKqSSOLPa+lXn0wuKW/yCpv3i9Q5BIN
-         cRqxcS2oNZbYvWyxPuNkAPOmkbPambF/k0Nev8aepFCauv4DfkY3j1qDuC5Kam3KTmeE
-         hgY80z66YsyUe/iFZK++0gznqhgZHMWxId5MvoK4Fr8hwZJF0K9bE7jEm3SWYp8J9rn6
-         snOw==
+        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject;
+        bh=rLsUWuG673r5ithdF00cJV0y6ETj5LEmPPhl44cZhb8=;
+        b=BzDppzVC+XyvB7GGIx0g+J46Dj3iBg0qh+mlckYl6BrlycmQDqZov68LcZK0g/DKKz
+         McwffBkjApsofsVza6FcewGJ12jMt4dSlhhQMIZQPcufG8GV8FdNeiRnoPT1EvcFh01d
+         9g+4RBPGL3sgoZ2pGrhBDY1r5ARQvdavh1xLfcDGnGSrZ5Z4NJDG4Itai534W5WRHC16
+         LTmv20bzhPwjozDNWkZTVolTtBPOAFiu4Ew1g4aygbFc1Mgc4UWpPpnWobA+UH0+CSGi
+         RH51Ye0ucy0IhnMfuZYfmC2TRZIMNFWSGtA+F9TYN+BCRcmHrEegFvTw5nk1t7QLxnKj
+         1+ug==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b=VDo8Gm0J;
-       spf=pass (google.com: domain of quwenruo.btrfs@gmx.com designates 212.227.15.15 as permitted sender) smtp.mailfrom=quwenruo.btrfs@gmx.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=gmx.com
-Received: from mout.gmx.net (mout.gmx.net. [212.227.15.15])
-        by gmr-mx.google.com with ESMTPS id e6-20020a05651236c600b004a225e3ed13si331313lfs.13.2022.10.17.02.35.57
+       spf=pass (google.com: domain of liulongfang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=liulongfang@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
+        by gmr-mx.google.com with ESMTPS id r13-20020a5e950d000000b00688fefa6d1dsi429123ioj.2.2022.10.17.04.59.57
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Oct 2022 02:35:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of quwenruo.btrfs@gmx.com designates 212.227.15.15 as permitted sender) client-ip=212.227.15.15;
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [0.0.0.0] ([149.28.201.231]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MKKUv-1oPoym2jZn-00LjgT; Mon, 17
- Oct 2022 11:35:52 +0200
-Message-ID: <cae729f9-beea-ee04-1258-af393a858430@gmx.com>
-Date: Mon, 17 Oct 2022 17:35:39 +0800
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Oct 2022 04:59:57 -0700 (PDT)
+Received-SPF: pass (google.com: domain of liulongfang@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mrb7T71GfzpW32;
+	Mon, 17 Oct 2022 19:56:37 +0800 (CST)
+Received: from kwepemm600005.china.huawei.com (7.193.23.191) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 17 Oct 2022 19:59:34 +0800
+Received: from [10.67.103.158] (10.67.103.158) by
+ kwepemm600005.china.huawei.com (7.193.23.191) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 17 Oct 2022 19:59:31 +0800
+Subject: Re: [PATCH v6 0/7] treewide cleanup of random integer usage
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, <linux-kernel@vger.kernel.org>,
+	<patches@lists.linux.dev>
+CC: Andreas Noever <andreas.noever@gmail.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Borislav Petkov <bp@alien8.de>, "Catalin
+ Marinas" <catalin.marinas@arm.com>, =?UTF-8?Q?Christoph_B=c3=b6hmwalder?=
+	<christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Daniel Borkmann
+	<daniel@iogearbox.net>, Dave Airlie <airlied@redhat.com>, Dave Hansen
+	<dave.hansen@linux.intel.com>, "David S . Miller" <davem@davemloft.net>,
+	"Eric Dumazet" <edumazet@google.com>, Florian Westphal <fw@strlen.de>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "H . Peter Anvin"
+	<hpa@zytor.com>, Heiko Carstens <hca@linux.ibm.com>, Helge Deller
+	<deller@gmx.de>, Herbert Xu <herbert@gondor.apana.org.au>, Huacai Chen
+	<chenhuacai@kernel.org>, Hugh Dickins <hughd@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, "James E . J . Bottomley" <jejb@linux.ibm.com>, Jan Kara
+	<jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe
+	<axboe@kernel.dk>, Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet
+	<corbet@lwn.net>, Jozsef Kadlecsik <kadlec@netfilter.org>, KP Singh
+	<kpsingh@kernel.org>, Kees Cook <keescook@chromium.org>, Marco Elver
+	<elver@google.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Michael
+ Ellerman" <mpe@ellerman.id.au>, Pablo Neira Ayuso <pablo@netfilter.org>,
+	"Paolo Abeni" <pabeni@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	"Richard Weinberger" <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+	"Theodore Ts'o" <tytso@mit.edu>, Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>, "Thomas Gleixner" <tglx@linutronix.de>, Thomas
+ Graf <tgraf@suug.ch>, Ulf Hansson <ulf.hansson@linaro.org>, Vignesh
+ Raghavendra <vigneshr@ti.com>, WANG Xuerui <kernel@xen0n.name>, Will Deacon
+	<will@kernel.org>, Yury Norov <yury.norov@gmail.com>,
+	<dri-devel@lists.freedesktop.org>, <kasan-dev@googlegroups.com>,
+	<kernel-janitors@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-block@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-mmc@vger.kernel.org>,
+	<linux-mtd@lists.infradead.org>, <linux-nvme@lists.infradead.org>,
+	<linux-parisc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-s390@vger.kernel.org>, <linux-um@lists.infradead.org>,
+	<linux-usb@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <loongarch@lists.linux.dev>,
+	<netdev@vger.kernel.org>, <sparclinux@vger.kernel.org>, <x86@kernel.org>
+References: <20221010230613.1076905-1-Jason@zx2c4.com>
+From: "'liulongfang' via kasan-dev" <kasan-dev@googlegroups.com>
+Message-ID: <8dad6a2c-9ef6-086e-0fb0-cd9115d4faca@huawei.com>
+Date: Mon, 17 Oct 2022 19:59:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH RFC 3/7] fs/btrfs: support `DISABLE_FS_CSUM_VERIFICATION`
- config option
-Content-Language: en-US
-To: Dmitry Vyukov <dvyukov@google.com>, Qu Wenruo <wqu@suse.com>
-Cc: Hrutvik Kanabar <hrkanabar@gmail.com>,
- Hrutvik Kanabar <hrutvik@google.com>, Marco Elver <elver@google.com>,
- Aleksandr Nogikh <nogikh@google.com>, kasan-dev@googlegroups.com,
- Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- Andreas Dilger <adilger.kernel@dilger.ca>, linux-ext4@vger.kernel.org,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net, "Darrick J . Wong"
- <djwong@kernel.org>, linux-xfs@vger.kernel.org,
- Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
- Anton Altaparmakov <anton@tuxera.com>, linux-ntfs-dev@lists.sourceforge.net
-References: <20221014084837.1787196-1-hrkanabar@gmail.com>
- <20221014084837.1787196-4-hrkanabar@gmail.com>
- <5bc906b3-ccb5-a385-fcb6-fc51c8fea3fd@suse.com>
- <CACT4Y+YeSOZPN+ek6vSLhsCugJ3iGF35-sghnZt4qQJ36DA6mA@mail.gmail.com>
-From: Qu Wenruo <quwenruo.btrfs@gmx.com>
-In-Reply-To: <CACT4Y+YeSOZPN+ek6vSLhsCugJ3iGF35-sghnZt4qQJ36DA6mA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Provags-ID: V03:K1:R4tyK64oAk8yCJaovO8g6oIFOJ5yd0Mfld/q5wiz3kozqAwQUUS
- lpgS3cewdkbxgGeIFdnIcJLSyw3DqgqbHpMKqkq6iJMDWQK1v8r2vvpX8VoMHsrP7DJzziP
- MYTzi+9IfSzLElj6vjzmhop3w/xfDdajdqG4Xl7WiHTNsXM1dH86NANfkatxFl0VWhtQtc1
- LOWc73mYiVifySUhyiVYA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:P1Pf1vCA0Mo=:LdaK1AhKGgP6q3daQ1FgI+
- pBcZQ2/DqDbjSM/ch5Bo8GYYN5CIdcdy1krTo/c2d5EJLZaP7Ni+/vSh+QDYg8icdsJzrEJiV
- DyhpToTTOzaXYJHOfA/lkrQv03DT75BxKUcYYGw5z41+bZYilmhVlbDTEqV51rSB4lEQZWNkt
- gSv/3W+Kada62LM/xmsqFbFxex/RhjpOJjOz8kNWvnZX0gjjFS9cFs/k3PvcftPS4hTuhZG4w
- bftmdmcvxl3nDA88VlLFErj1cauYmH25vb0EQav9S5jO6XH4lPrAyseyUAlFXrtisV/PLH1ix
- Lr9t4TaaY1zXcO1xp7HBUKiOWI9f7DFv2LrulsEIizyYbV2JnHM11d/+upCrurY0QxNHq84ex
- EVJti0tJkcKvD+Je3sVxY7AkYJy69BqLjTzjqg7m2TaeB067VcveHqZgLhBkdVQ0bGLuwkvk7
- Gl5LA2uk9fwN9UzfBJA4d2ZJCGXE98HgeuyflZtJXL9pdJ7NNIdRY0Z4wAvUAO0QvFkmOtpCc
- zLk4KQu0sQom8HAzsZ80k2k//aHIjvfQ85lPWGYd0aQ1Ruz7FGTF+Mj1zXDFSOuGoKQAZ5Q2m
- YP7LNRSpMc9EP+hRceIdZUGd30O9ZQXYn+6u1L8IYfveqpqt9LbRCjzhuStZfrgDhh6ksWhzM
- GvOd24jy/UInX8Ie6LvqRk2igDeD8MXO0jzINQFZtbORPazSPd4tgmxZscp+SspyB3sVGHLlH
- HgWG0POeE0WOJ3HGjCSXA2ALMZ5MBDO0iwT2bJEknvt0HYviM5XJnV4c5KFVZn5UDtyopx3la
- raCwLOuRATRwc4cTbdoaTzo1XtAL/9JgyJIetUjGKyvZThZXPAhzgw1OgF2+w5Ct6bB0riOuu
- L/J4A+/Tmbet6i6U82+uDBbFeZcb7foWMdNdbRA9RdMKHhT+UXJuhNZEnnulLaf4pNwPBJMOk
- rpYdO9DiqW2bOxfHUVA5RUYrK4rrZMvnmiQ74XbvRGfpo2n4tq1KbJ2YCGDRq9IriS6QUl+WC
- i/lSljuZ7uOzf12RV7xD6we04YJ/imFRkMVxs4CjQKBAFc2q9ACwSDR2Xd0cSS68Og1UIuMBn
- 61ALYMrd+wpPJcWbsG/76iN4SWlNye+A5svFDNfPSXLRUZYG0ukwegZr42+XlCCdK66ZEpuUA
- pkfUQVP5DciSSjxxW7NDON2BpahQ8jXq2OEbBeDKLaFVPG3lGdGt3vitfVoFqpb64rT+VGiLT
- Nf9hKGyDJ6O/AIFia3vUtEVE1VCHWoptVZcnMr3EjUwOkpPBISVqxh3NrYxfKqvhPZoLhEwSq
- NVvxK077sqqzQEdMrbxDx+FPG2JpS09q3z8NOyWs50rH0sYij6SkNDkN6gKRVLROpN8VJUCHB
- r3HCMIP1FWt6fJvB+UbEoTwOMypf+E+bukt/DG7PGLhO40nlidAdaUXlH1XaE39QnDYHetpAI
- Xa2bohRAwJVZMHI2pm2o6kSS+7/Se9dJSlJT+wViLdYj0TXA482aaFGEacRWLW+aXU1ylU65+
- yhaQqDUkEWCkmpa48nEPvmw2M0s2+k3ac4/v1BuqYzq8R
-X-Original-Sender: quwenruo.btrfs@gmx.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmx.net header.s=badeba3b8450 header.b=VDo8Gm0J;       spf=pass
- (google.com: domain of quwenruo.btrfs@gmx.com designates 212.227.15.15 as
- permitted sender) smtp.mailfrom=quwenruo.btrfs@gmx.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=gmx.com
+In-Reply-To: <20221010230613.1076905-1-Jason@zx2c4.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.67.103.158]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm600005.china.huawei.com (7.193.23.191)
+X-CFilter-Loop: Reflected
+X-Original-Sender: liulongfang@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of liulongfang@huawei.com designates 45.249.212.187 as
+ permitted sender) smtp.mailfrom=liulongfang@huawei.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: liulongfang <liulongfang@huawei.com>
+Reply-To: liulongfang <liulongfang@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -179,268 +182,378 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On 2022/10/11 7:06, Jason A. Donenfeld Wrote:
+> Changes v5->v6:
+> - Added a few missing conversions that weren't in my older tree, so now
+>   this should be ready to go, as well as a couple nits people had from
+>   v5. Barring something large and unforeseen, this is the "final
+>   version", as this is ready to ship. Thanks to everyone who reviewed
+>   this.
+>=20
+> Hi folks,
+>=20
+> This is a five part treewide cleanup of random integer handling. The
+> rules for random integers are:
+>=20
+> - If you want a secure or an insecure random u64, use get_random_u64().
+> - If you want a secure or an insecure random u32, use get_random_u32().
+>   * The old function prandom_u32() has been deprecated for a while now
+>     and is just a wrapper around get_random_u32(). Same for
+>     get_random_int().
+> - If you want a secure or an insecure random u16, use get_random_u16().
+> - If you want a secure or an insecure random u8, use get_random_u8().
+> - If you want secure or insecure random bytes, use get_random_bytes().
+>   * The old function prandom_bytes() has been deprecated for a while now
+>     and has long been a wrapper around get_random_bytes().
+> - If you want a non-uniform random u32, u16, or u8 bounded by a certain
+>   open interval maximum, use prandom_u32_max().
+>   * I say "non-uniform", because it doesn't do any rejection sampling or
+>     divisions. Hence, it stays within the prandom_* namespace.
+>=20
+> These rules ought to be applied uniformly, so that we can clean up the
+> deprecated functions, and earn the benefits of using the modern
+> functions. In particular, in addition to the boring substitutions, this
+> patchset accomplishes a few nice effects:
+>=20
+> - By using prandom_u32_max() with an upper-bound that the compiler can
+>   prove at compile-time is =E2=89=A465536 or =E2=89=A4256, internally get=
+_random_u16()
+>   or get_random_u8() is used, which wastes fewer batched random bytes,
+>   and hence has higher throughput.
+>=20
+> - By using prandom_u32_max() instead of %, when the upper-bound is not a
+>   constant, division is still avoided, because prandom_u32_max() uses
+>   a faster multiplication-based trick instead.
+>=20
+> - By using get_random_u16() or get_random_u8() in cases where the return
+>   value is intended to indeed be a u16 or a u8, we waste fewer batched
+>   random bytes, and hence have higher throughput.
+>=20
+> So, based on those rules and benefits from following them, this patchset
+> breaks down into the following five steps:
+>=20
+> 1) Replace `prandom_u32() % max` and variants thereof with
+>    prandom_u32_max(max).
+>=20
+>    * Part 1 is done with Coccinelle. Part 2 is done by hand.
+>=20
+> 2) Replace `(type)get_random_u32()` and variants thereof with
+>    get_random_u16() or get_random_u8(). I took the pains to actually
+>    look and see what every lvalue type was across the entire tree.
+>=20
+>    * Part 1 is done with Coccinelle. Part 2 is done by hand.
+>=20
+> 3) Replace remaining deprecated uses of prandom_u32() and
+>    get_random_int() with get_random_u32().=20
+>=20
+>    * A boring search and replace operation.
+>=20
+> 4) Replace remaining deprecated uses of prandom_bytes() with
+>    get_random_bytes().
+>=20
+>    * A boring search and replace operation.
+>=20
+> 5) Remove the deprecated and now-unused prandom_u32() and
+>    prandom_bytes() inline wrapper functions.
+>=20
+>    * Just deleting code and updating comments.
+>=20
+> I'll be sending this toward the end of the 6.1 merge window via the
+> random.git tree.
+>=20
+> Please take a look! The number of lines touched is quite small, so this
+> should be reviewable, and as much as is possible has been pushed into
+> Coccinelle scripts.
+>=20
+> Thanks,
+> Jason
+>=20
+> Cc: Andreas Noever <andreas.noever@gmail.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Christoph B=C3=B6hmwalder <christoph.boehmwalder@linbit.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Cc: Daniel Borkmann <daniel@iogearbox.net>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: David S. Miller <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Florian Westphal <fw@strlen.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+> Cc: H. Peter Anvin <hpa@zytor.com>
+> Cc: Heiko Carstens <hca@linux.ibm.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: Huacai Chen <chenhuacai@kernel.org>
+> Cc: Hugh Dickins <hughd@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: James E.J. Bottomley <jejb@linux.ibm.com>
+> Cc: Jan Kara <jack@suse.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Johannes Berg <johannes@sipsolutions.net>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+> Cc: KP Singh <kpsingh@kernel.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Theodore Ts'o <tytso@mit.edu>
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Thomas Graf <tgraf@suug.ch>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: Vignesh Raghavendra <vigneshr@ti.com>
+> Cc: WANG Xuerui <kernel@xen0n.name>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Yury Norov <yury.norov@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: kasan-dev@googlegroups.com
+> Cc: kernel-janitors@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-block@vger.kernel.org
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-mips@vger.kernel.org
+> Cc: linux-mm@kvack.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: linux-mtd@lists.infradead.org
+> Cc: linux-nvme@lists.infradead.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-wireless@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: loongarch@lists.linux.dev
+> Cc: netdev@vger.kernel.org
+> Cc: sparclinux@vger.kernel.org
+> Cc: x86@kernel.org
+>=20
+> Jason A. Donenfeld (7):
+>   treewide: use prandom_u32_max() when possible, part 1
+>   treewide: use prandom_u32_max() when possible, part 2
+>   treewide: use get_random_{u8,u16}() when possible, part 1
+>   treewide: use get_random_{u8,u16}() when possible, part 2
+>   treewide: use get_random_u32() when possible
+>   treewide: use get_random_bytes() when possible
+>   prandom: remove unused functions
+>=20
+>  Documentation/networking/filter.rst           |  2 +-
+>  arch/arm/kernel/process.c                     |  2 +-
+>  arch/arm/kernel/signal.c                      |  2 +-
+>  arch/arm64/kernel/process.c                   |  2 +-
+>  arch/arm64/kernel/syscall.c                   |  2 +-
+>  arch/loongarch/kernel/process.c               |  2 +-
+>  arch/loongarch/kernel/vdso.c                  |  2 +-
+>  arch/mips/kernel/process.c                    |  2 +-
+>  arch/mips/kernel/vdso.c                       |  2 +-
+>  arch/parisc/kernel/process.c                  |  2 +-
+>  arch/parisc/kernel/sys_parisc.c               |  4 +-
+>  arch/parisc/kernel/vdso.c                     |  2 +-
+>  arch/powerpc/crypto/crc-vpmsum_test.c         |  2 +-
+>  arch/powerpc/kernel/process.c                 |  2 +-
+>  arch/s390/kernel/process.c                    |  4 +-
+>  arch/s390/kernel/vdso.c                       |  2 +-
+>  arch/s390/mm/mmap.c                           |  2 +-
+>  arch/sparc/vdso/vma.c                         |  2 +-
+>  arch/um/kernel/process.c                      |  2 +-
+>  arch/x86/entry/vdso/vma.c                     |  2 +-
+>  arch/x86/kernel/cpu/amd.c                     |  2 +-
+>  arch/x86/kernel/module.c                      |  2 +-
+>  arch/x86/kernel/process.c                     |  2 +-
+>  arch/x86/mm/pat/cpa-test.c                    |  4 +-
+>  block/blk-crypto-fallback.c                   |  2 +-
+>  crypto/async_tx/raid6test.c                   |  2 +-
+>  crypto/testmgr.c                              | 94 +++++++++----------
+>  drivers/block/drbd/drbd_receiver.c            |  4 +-
+>  drivers/char/random.c                         | 11 +--
+>  drivers/dma/dmatest.c                         |  2 +-
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
+>  drivers/gpu/drm/i915/i915_gem_gtt.c           |  6 +-
+>  .../gpu/drm/i915/selftests/i915_selftest.c    |  2 +-
+>  drivers/gpu/drm/tests/drm_buddy_test.c        |  2 +-
+>  drivers/gpu/drm/tests/drm_mm_test.c           |  2 +-
+>  drivers/infiniband/core/cma.c                 |  2 +-
+>  drivers/infiniband/hw/cxgb4/cm.c              |  4 +-
+>  drivers/infiniband/hw/cxgb4/id_table.c        |  4 +-
+>  drivers/infiniband/hw/hfi1/tid_rdma.c         |  2 +-
+>  drivers/infiniband/hw/hns/hns_roce_ah.c       |  5 +-
+>  drivers/infiniband/hw/mlx4/mad.c              |  2 +-
+>  drivers/infiniband/ulp/ipoib/ipoib_cm.c       |  2 +-
+>  drivers/infiniband/ulp/rtrs/rtrs-clt.c        |  3 +-
+>  drivers/md/bcache/request.c                   |  2 +-
+>  drivers/md/raid5-cache.c                      |  2 +-
+>  drivers/media/common/v4l2-tpg/v4l2-tpg-core.c |  2 +-
+>  .../media/test-drivers/vivid/vivid-radio-rx.c |  4 +-
+>  .../test-drivers/vivid/vivid-touch-cap.c      |  6 +-
+>  drivers/misc/habanalabs/gaudi2/gaudi2.c       |  2 +-
+>  drivers/mmc/core/core.c                       |  4 +-
+>  drivers/mmc/host/dw_mmc.c                     |  2 +-
+>  drivers/mtd/nand/raw/nandsim.c                |  8 +-
+>  drivers/mtd/tests/mtd_nandecctest.c           | 12 +--
+>  drivers/mtd/tests/speedtest.c                 |  2 +-
+>  drivers/mtd/tests/stresstest.c                | 19 +---
+>  drivers/mtd/ubi/debug.c                       |  2 +-
+>  drivers/mtd/ubi/debug.h                       |  6 +-
+>  drivers/net/bonding/bond_main.c               |  2 +-
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  2 +-
+>  drivers/net/ethernet/broadcom/cnic.c          |  5 +-
+>  .../chelsio/inline_crypto/chtls/chtls_cm.c    |  4 +-
+>  .../chelsio/inline_crypto/chtls/chtls_io.c    |  4 +-
+>  drivers/net/ethernet/rocker/rocker_main.c     |  8 +-
+>  drivers/net/hamradio/baycom_epp.c             |  2 +-
+>  drivers/net/hamradio/hdlcdrv.c                |  2 +-
+>  drivers/net/hamradio/yam.c                    |  2 +-
+>  drivers/net/phy/at803x.c                      |  2 +-
+>  drivers/net/wireguard/selftest/allowedips.c   | 16 ++--
+>  .../broadcom/brcm80211/brcmfmac/p2p.c         |  2 +-
+>  .../broadcom/brcm80211/brcmfmac/pno.c         |  2 +-
+>  .../net/wireless/intel/iwlwifi/mvm/mac-ctxt.c |  2 +-
+>  .../net/wireless/marvell/mwifiex/cfg80211.c   |  4 +-
+>  .../wireless/microchip/wilc1000/cfg80211.c    |  2 +-
+>  .../net/wireless/quantenna/qtnfmac/cfg80211.c |  2 +-
+>  drivers/net/wireless/st/cw1200/wsm.c          |  2 +-
+>  drivers/net/wireless/ti/wlcore/main.c         |  2 +-
+>  drivers/nvme/common/auth.c                    |  2 +-
+>  drivers/scsi/cxgbi/cxgb4i/cxgb4i.c            |  4 +-
+>  drivers/scsi/fcoe/fcoe_ctlr.c                 |  4 +-
+>  drivers/scsi/lpfc/lpfc_hbadisc.c              |  6 +-
+>  drivers/scsi/qedi/qedi_main.c                 |  2 +-
+>  drivers/target/iscsi/cxgbit/cxgbit_cm.c       |  2 +-
+>  drivers/thunderbolt/xdomain.c                 |  2 +-
+>  drivers/video/fbdev/uvesafb.c                 |  2 +-
+>  fs/ceph/inode.c                               |  2 +-
+>  fs/ceph/mdsmap.c                              |  2 +-
+>  fs/exfat/inode.c                              |  2 +-
+>  fs/ext2/ialloc.c                              |  3 +-
+>  fs/ext4/ialloc.c                              |  7 +-
+>  fs/ext4/ioctl.c                               |  4 +-
+>  fs/ext4/mmp.c                                 |  2 +-
+>  fs/ext4/super.c                               |  7 +-
+>  fs/f2fs/gc.c                                  |  2 +-
+>  fs/f2fs/namei.c                               |  2 +-
+>  fs/f2fs/segment.c                             |  8 +-
+>  fs/fat/inode.c                                |  2 +-
+>  fs/nfsd/nfs4state.c                           |  4 +-
+>  fs/ntfs3/fslog.c                              |  6 +-
+>  fs/ubifs/debug.c                              | 10 +-
+>  fs/ubifs/journal.c                            |  2 +-
+>  fs/ubifs/lpt_commit.c                         | 14 +--
+>  fs/ubifs/tnc_commit.c                         |  2 +-
+>  fs/xfs/libxfs/xfs_alloc.c                     |  2 +-
+>  fs/xfs/libxfs/xfs_ialloc.c                    |  4 +-
+>  fs/xfs/xfs_error.c                            |  2 +-
+>  fs/xfs/xfs_icache.c                           |  2 +-
+>  fs/xfs/xfs_log.c                              |  2 +-
+>  include/linux/nodemask.h                      |  2 +-
+>  include/linux/prandom.h                       | 12 ---
+>  include/linux/random.h                        |  5 -
+>  include/net/netfilter/nf_queue.h              |  2 +-
+>  include/net/red.h                             |  2 +-
+>  include/net/sock.h                            |  2 +-
+>  kernel/bpf/bloom_filter.c                     |  2 +-
+>  kernel/bpf/core.c                             |  6 +-
+>  kernel/bpf/hashtab.c                          |  2 +-
+>  kernel/bpf/verifier.c                         |  2 +-
+>  kernel/kcsan/selftest.c                       |  4 +-
+>  kernel/locking/test-ww_mutex.c                |  4 +-
+>  kernel/time/clocksource.c                     |  2 +-
+>  lib/cmdline_kunit.c                           |  4 +-
+>  lib/fault-inject.c                            |  2 +-
+>  lib/find_bit_benchmark.c                      |  4 +-
+>  lib/kobject.c                                 |  2 +-
+>  lib/random32.c                                |  4 +-
+>  lib/reed_solomon/test_rslib.c                 | 12 +--
+>  lib/sbitmap.c                                 |  4 +-
+>  lib/test-string_helpers.c                     |  2 +-
+>  lib/test_fprobe.c                             |  2 +-
+>  lib/test_hexdump.c                            | 10 +-
+>  lib/test_kasan.c                              |  6 +-
+>  lib/test_kprobes.c                            |  2 +-
+>  lib/test_list_sort.c                          |  2 +-
+>  lib/test_min_heap.c                           |  6 +-
+>  lib/test_objagg.c                             |  2 +-
+>  lib/test_rhashtable.c                         |  6 +-
+>  lib/test_vmalloc.c                            | 19 +---
+>  lib/uuid.c                                    |  2 +-
+>  mm/migrate.c                                  |  2 +-
+>  mm/shmem.c                                    |  2 +-
+>  mm/slab.c                                     |  2 +-
+>  mm/slub.c                                     |  2 +-
+>  net/802/garp.c                                |  2 +-
+>  net/802/mrp.c                                 |  2 +-
+>  net/ceph/mon_client.c                         |  2 +-
+>  net/ceph/osd_client.c                         |  2 +-
+>  net/core/neighbour.c                          |  2 +-
+>  net/core/pktgen.c                             | 47 +++++-----
+>  net/core/stream.c                             |  2 +-
+>  net/dccp/ipv4.c                               |  4 +-
+>  net/ipv4/datagram.c                           |  2 +-
+>  net/ipv4/igmp.c                               |  6 +-
+>  net/ipv4/inet_connection_sock.c               |  2 +-
+>  net/ipv4/inet_hashtables.c                    |  2 +-
+>  net/ipv4/ip_output.c                          |  2 +-
+>  net/ipv4/route.c                              |  4 +-
+>  net/ipv4/tcp_cdg.c                            |  2 +-
+>  net/ipv4/tcp_ipv4.c                           |  4 +-
+>  net/ipv4/udp.c                                |  2 +-
+>  net/ipv6/addrconf.c                           |  8 +-
+>  net/ipv6/ip6_flowlabel.c                      |  2 +-
+>  net/ipv6/mcast.c                              | 10 +-
+>  net/ipv6/output_core.c                        |  2 +-
+>  net/mac80211/rc80211_minstrel_ht.c            |  2 +-
+>  net/mac80211/scan.c                           |  2 +-
+>  net/netfilter/ipvs/ip_vs_conn.c               |  2 +-
+>  net/netfilter/ipvs/ip_vs_twos.c               |  4 +-
+>  net/netfilter/nf_nat_core.c                   |  4 +-
+>  net/netfilter/xt_statistic.c                  |  2 +-
+>  net/openvswitch/actions.c                     |  2 +-
+>  net/packet/af_packet.c                        |  2 +-
+>  net/rds/bind.c                                |  2 +-
+>  net/sched/act_gact.c                          |  2 +-
+>  net/sched/act_sample.c                        |  2 +-
+>  net/sched/sch_cake.c                          |  8 +-
+>  net/sched/sch_netem.c                         | 22 ++---
+>  net/sched/sch_pie.c                           |  2 +-
+>  net/sched/sch_sfb.c                           |  2 +-
+>  net/sctp/socket.c                             |  4 +-
+>  net/sunrpc/auth_gss/gss_krb5_wrap.c           |  4 +-
+>  net/sunrpc/cache.c                            |  2 +-
+>  net/sunrpc/xprt.c                             |  2 +-
+>  net/sunrpc/xprtsock.c                         |  2 +-
+>  net/tipc/socket.c                             |  2 +-
+>  net/unix/af_unix.c                            |  2 +-
+>  net/xfrm/xfrm_state.c                         |  2 +-
+>  186 files changed, 379 insertions(+), 422 deletions(-)
+>=20
 
+Hi, Jason:
 
-On 2022/10/17 16:43, Dmitry Vyukov wrote:
-> On Fri, 14 Oct 2022 at 12:24, 'Qu Wenruo' via kasan-dev
-> <kasan-dev@googlegroups.com> wrote:
->>
->> On 2022/10/14 16:48, Hrutvik Kanabar wrote:
->>> From: Hrutvik Kanabar <hrutvik@google.com>
->>>
->>> When `DISABLE_FS_CSUM_VERIFICATION` is enabled, bypass checksum
->>> verification.
->>>
->>> Signed-off-by: Hrutvik Kanabar <hrutvik@google.com>
->>
->> I always want more fuzz for btrfs, so overall this is pretty good.
->>
->> But there are some comments related to free space cache part.
->>
->> Despite the details, I'm wondering would it be possible for your fuzzing
->> tool to do a better job at user space? Other than relying on loosen
->> checks from kernel?
->>
->> For example, implement a (mostly) read-only tool to do the following
->> workload:
->>
->> - Open the fs
->>     Including understand the checksum algo, how to re-generate the csum.
->>
->> - Read out the used space bitmap
->>     In btrfs case, it's going to read the extent tree, process the
->>     backrefs items.
->>
->> - Choose the victim sectors and corrupt them
->>     Obviously, vitims should be choosen from above used space bitmap.
->>
->> - Re-calculate the checksum for above corrupted sectors
->>     For btrfs, if it's a corrupted metadata, re-calculate the checksum.
->>
->> By this, we can avoid such change to kernel, and still get a much better
->> coverage.
->>
->> If you need some help on such user space tool, I'm pretty happy to
->> provide help.
->>
->>> ---
->>>    fs/btrfs/check-integrity.c  | 3 ++-
->>>    fs/btrfs/disk-io.c          | 6 ++++--
->>>    fs/btrfs/free-space-cache.c | 3 ++-
->>>    fs/btrfs/inode.c            | 3 ++-
->>>    fs/btrfs/scrub.c            | 9 ++++++---
->>>    5 files changed, 16 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/fs/btrfs/check-integrity.c b/fs/btrfs/check-integrity.c
->>> index 98c6e5feab19..eab82593a325 100644
->>> --- a/fs/btrfs/check-integrity.c
->>> +++ b/fs/btrfs/check-integrity.c
->>> @@ -1671,7 +1671,8 @@ static noinline_for_stack int btrfsic_test_for_metadata(
->>>                crypto_shash_update(shash, data, sublen);
->>>        }
->>>        crypto_shash_final(shash, csum);
->>> -     if (memcmp(csum, h->csum, fs_info->csum_size))
->>> +     if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
->>> +         memcmp(csum, h->csum, fs_info->csum_size))
->>>                return 1;
->>>
->>>        return 0; /* is metadata */
->>> diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
->>> index a2da9313c694..7cd909d44b24 100644
->>> --- a/fs/btrfs/disk-io.c
->>> +++ b/fs/btrfs/disk-io.c
->>> @@ -184,7 +184,8 @@ static int btrfs_check_super_csum(struct btrfs_fs_info *fs_info,
->>>        crypto_shash_digest(shash, raw_disk_sb + BTRFS_CSUM_SIZE,
->>>                            BTRFS_SUPER_INFO_SIZE - BTRFS_CSUM_SIZE, result);
->>>
->>> -     if (memcmp(disk_sb->csum, result, fs_info->csum_size))
->>> +     if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
->>> +         memcmp(disk_sb->csum, result, fs_info->csum_size))
->>>                return 1;
->>>
->>>        return 0;
->>> @@ -494,7 +495,8 @@ static int validate_extent_buffer(struct extent_buffer *eb)
->>>        header_csum = page_address(eb->pages[0]) +
->>>                get_eb_offset_in_page(eb, offsetof(struct btrfs_header, csum));
->>>
->>> -     if (memcmp(result, header_csum, csum_size) != 0) {
->>> +     if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
->>> +         memcmp(result, header_csum, csum_size) != 0) {
->>
->> I believe this is the main thing fuzzing would take advantage of.
->>
->> It would be much better if this is the only override...
->>
->>>                btrfs_warn_rl(fs_info,
->>>    "checksum verify failed on logical %llu mirror %u wanted " CSUM_FMT " found " CSUM_FMT " level %d",
->>>                              eb->start, eb->read_mirror,
->>> diff --git a/fs/btrfs/free-space-cache.c b/fs/btrfs/free-space-cache.c
->>> index f4023651dd68..203c8a9076a6 100644
->>> --- a/fs/btrfs/free-space-cache.c
->>> +++ b/fs/btrfs/free-space-cache.c
->>> @@ -574,7 +574,8 @@ static int io_ctl_check_crc(struct btrfs_io_ctl *io_ctl, int index)
->>>        io_ctl_map_page(io_ctl, 0);
->>>        crc = btrfs_crc32c(crc, io_ctl->orig + offset, PAGE_SIZE - offset);
->>>        btrfs_crc32c_final(crc, (u8 *)&crc);
->>> -     if (val != crc) {
->>> +     if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
->>> +         val != crc) {
->>
->> I'm already seeing this to cause problems, especially for btrfs.
->>
->> Btrfs has a very strong dependency on free space tracing, as all of our
->> metadata (and data by default) relies on COW to keep the fs consistent.
->>
->> I tried a lot of different methods in the past to make sure we won't
->> write into previously used space, but it's causing a lot of performance
->> impact.
->>
->> Unlike tree-checker, we can not easily got a centerlized space to handle
->> all the free space cross-check thing (thus it's only verified by things
->> like btrfs-check).
->>
->> Furthermore, even if you skip this override, with latest default
->> free-space-tree feature, free space info is stored in regular btrfs
->> metadata (tree blocks), with regular metadata checksum protection.
->>
->> Thus I'm pretty sure we will have tons of reports on this, and
->> unfortunately we can only go whac-a-mole way for it.
->
-> Hi Qu,
->
-> I don't fully understand what you mean. Could you please elaborate?
->
-> Do you mean that btrfs uses this checksum check to detect blocks that
-> were written to w/o updating the checksum?
-
-I mean, btrfs uses this particular checksum for its (free) space cache,
-and currently btrfs just trust the space cache completely to do COW.
-
-This means, if we ignore the checksum for free space cache, we can
-easily screw up the COW, e.g. allocate a range for the new metadata to
-be written into.
-
-But the truth is, that range is still being utilized by some other
-metadata. Thus would completely break COW.
-
-
-This is indeed a problem for btrfs, but it is not that easiy to fix,
-since this involves cross-check 3 different data (free space cache for
-free space, extent tree for used space, and the metadata itself).
-
-Thus my concern is, disabling free space cache csum can easily lead to
-various crashes, all related to broken COW, and we don't have a good
-enough way to validate the result.
-
->
->
->
->
->>>                btrfs_err_rl(io_ctl->fs_info,
->>>                        "csum mismatch on free space cache");
->>>                io_ctl_unmap_page(io_ctl);
->>> diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
->>> index b0807c59e321..1a49d897b5c1 100644
->>> --- a/fs/btrfs/inode.c
->>> +++ b/fs/btrfs/inode.c
->>> @@ -3434,7 +3434,8 @@ int btrfs_check_sector_csum(struct btrfs_fs_info *fs_info, struct page *page,
->>>        crypto_shash_digest(shash, kaddr, fs_info->sectorsize, csum);
->>>        kunmap_local(kaddr);
->>>
->>> -     if (memcmp(csum, csum_expected, fs_info->csum_size))
->>> +     if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
->>> +         memcmp(csum, csum_expected, fs_info->csum_size))
->>
->> This skips data csum check, I don't know how valueable it is, but this
->> should be harmless mostly.
->>
->> If we got reports related to this, it would be a nice surprise.
->>
->>>                return -EIO;
->>>        return 0;
->>>    }
->>> diff --git a/fs/btrfs/scrub.c b/fs/btrfs/scrub.c
->>> index f260c53829e5..a7607b492f47 100644
->>> --- a/fs/btrfs/scrub.c
->>> +++ b/fs/btrfs/scrub.c
->>> @@ -1997,7 +1997,8 @@ static int scrub_checksum_data(struct scrub_block *sblock)
->>>
->>>        crypto_shash_digest(shash, kaddr, fs_info->sectorsize, csum);
->>>
->>> -     if (memcmp(csum, sector->csum, fs_info->csum_size))
->>> +     if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
->>> +         memcmp(csum, sector->csum, fs_info->csum_size))
->>
->> Same as data csum verification overide.
->> Not necessary/useful but good to have.
->>
->>>                sblock->checksum_error = 1;
->>>        return sblock->checksum_error;
->>>    }
->>> @@ -2062,7 +2063,8 @@ static int scrub_checksum_tree_block(struct scrub_block *sblock)
->>>        }
->>>
->>>        crypto_shash_final(shash, calculated_csum);
->>> -     if (memcmp(calculated_csum, on_disk_csum, sctx->fs_info->csum_size))
->>> +     if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
->>> +         memcmp(calculated_csum, on_disk_csum, sctx->fs_info->csum_size))
->>
->> This is much less valueable, since it's only affecting scrub, and scrub
->> itself is already very little checking the content of metadata.
->
-> Could you please elaborate here as well?
-
-These checksum verification is only done in the scrub path (just as the
-file name indicates).
-
-> This is less valuable from what perspective?
-
-It's just much harder to trigger, regular filesystem operations won't go
-into scrub path.
-
-Unless there is also a full ioctl fuzzing tests, after corrupting the image.
-
-> The data loaded from disk can have any combination of
-> (correct/incorrect metadata) x (correct/incorrect checksum).
-> Correctness of metadata and checksum are effectively orthogonal,
-
-Oh, I almost forgot another problem with the compile time csum
-verification skip.
-
-If we skip csum check completely, just like the patch, it may cause less
-path coverage (this is very btrfs specific)
-
-The problem is, btrfs has some repair path (scrub, and read-time), which
-requires to have a checksum mismatch (and a good copy with good checksum).
-
-Thus if we ignore csum completely, the repair path will never be covered
-(as we treat them all as csum match).
+There is a lot of code using "prandom_u32 % 4" in crypto's kernel self-test=
+ file testmgr.c,
+can you modify it together?
 
 Thanks,
-Qu
+Longfang.
 
-> right?
->
->
->
->> Thanks,
->> Qu
->>
->>>                sblock->checksum_error = 1;
->>>
->>>        return sblock->header_error || sblock->checksum_error;
->>> @@ -2099,7 +2101,8 @@ static int scrub_checksum_super(struct scrub_block *sblock)
->>>        crypto_shash_digest(shash, kaddr + BTRFS_CSUM_SIZE,
->>>                        BTRFS_SUPER_INFO_SIZE - BTRFS_CSUM_SIZE, calculated_csum);
->>>
->>> -     if (memcmp(calculated_csum, s->csum, sctx->fs_info->csum_size))
->>> +     if (!IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION) &&
->>> +         memcmp(calculated_csum, s->csum, sctx->fs_info->csum_size))
->>>                ++fail_cor;
->>>
->>>        return fail_cor + fail_gen;
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cae729f9-beea-ee04-1258-af393a858430%40gmx.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/8dad6a2c-9ef6-086e-0fb0-cd9115d4faca%40huawei.com.
