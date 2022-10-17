@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBVFFWSNAMGQEH2YWN4A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBPNGWSNAMGQEDNCRSUA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76C66008AE
-	for <lists+kasan-dev@lfdr.de>; Mon, 17 Oct 2022 10:31:17 +0200 (CEST)
-Received: by mail-lf1-x138.google.com with SMTP id u12-20020ac248ac000000b004a22e401de1sf3449866lfg.19
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 Oct 2022 01:31:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1665995477; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF33B6008BE
+	for <lists+kasan-dev@lfdr.de>; Mon, 17 Oct 2022 10:33:02 +0200 (CEST)
+Received: by mail-lf1-x137.google.com with SMTP id v10-20020a19740a000000b004a23e7880efsf3376109lfe.8
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 Oct 2022 01:33:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1665995582; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WEmXJD5rSYz85mDZmZTFt94A6aEiens2PXweNzAAo7eij224oiV1OdJR+RvwMXnMkY
-         MbA6ZWTupkF5beBVOl3TKAnDQNwVZ9YAdlGYgo38jZyIMcfNCNkqmSzxipcBTNC7YOmN
-         Vg7o9HLOIyMknuglU9brBiguHMvy8ame51C2LPfZj63fcQohvv/xjIhtDuD90yBNzeWB
-         1L69fG7nrKf4mvM/icIhXRlWvPy4dSIE9hWIAPmtLoXwya8BwMyYYxDqhELPDm7Y5gTw
-         bxfW4vF54XDCXT++j4ZJgJAlFHyhxRo+Z1kXwdYW+ejTFlRPluuypH0YgjCyiCtu3F3Z
-         6dRw==
+        b=BSQ+3n12wee1HBIvfn+OI+TttK9ah44F8yX5nzk13luP3B9exczDR3gaB5AtyKyFQk
+         9oudhicxHV4LlI5iDDTS+6Zk1tgAeWfUQxAC7XcgwdFm0bPq/5Vl2W4KSvAI9KclPY3z
+         gGLGP235clz9Ari2bU8TKnCcg1hBgB5E6FY/oULC5ArFlhKP4bfV1ds4OXY78LxWcY3d
+         pS78W33Joy9RVoAxV3lgRd0qPch7xOfxXjJ1MJMUwxZyOCdF8xc8I7Cc/7FyP2dC0UeC
+         nHfzEzg8welTucvxWIjhTvnYRAW67zm1+m5kX440SJk6l0yNqhCVE+TvMJfGwsZhcGHX
+         EEeg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=1+j9ZdoPZXVrlcZPRWU+KyZEu6975E4rn5NbhfXCjz8=;
-        b=Cg/jQ9C7VBAKr5X6M0tyL6Ph21C2+AReqbdwiS/hy3d2VchdsA5nbTAZElzkZEyAtb
-         9j7IexaOnKdkTLTPBSP91P67IEAYSyd2cznGeJCHt+NBIPG72NuD3Y9Y6LwINfCGWpx6
-         gohyumIbIYl4eJVHtN9pxDdH9r3hJUDow5MytRDuDFOsy0gEUzL/LrJIpQihqfHz6zaF
-         Ty3iXcCzRwTp3EenDeka1+zU6VLuoT/Q7j86/BzMTZdIo9fSkP5bIpYkIlK58KCcELWx
-         Y/6dJty9Au0Bugci3Ho+zpONk8k3lWWcZE1fvU4n5d1SDV2NTcQzYjtR0ssN0aZzWs7z
-         qiLg==
+        bh=HMqPsvxTfKRKibP0HMdc4nNDxNo3OzSDT/58jFnxc9g=;
+        b=nT7pNeO69KhoHZ0oJD4IxyJgKs0262T9/uqHz8X5yXrUngdPk1n8OxTLwOwaGukB6t
+         tMiNkahgR4qVaZpJuyGcNkuZWgyyDjj8e0Lb5npOn2a3Vn+sfY+l7KsZkthtl03Qqj+l
+         gWisxObhuisOYUusoEwfKr65jlkv9F8oOS1r9rM0HfIaULqqXE1u+GsI3fvhDkaX/4d8
+         sl8P3UQSvx62fdwtMRVYZZ7bv/aHeWQUDIlODjeIe9QrD0c5uqrnM5BAAbbzZiG6CaBy
+         RUlF/X0u69L6YZrvXCPuot9cjKVVu+63CNRaGW6glXQVUgA8UG05dKhrwl+jz9oowFKI
+         2kOA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=iXrGdd8C;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12a as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="a/oDAz3x";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::232 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1+j9ZdoPZXVrlcZPRWU+KyZEu6975E4rn5NbhfXCjz8=;
-        b=q+bZcguOIVUzZyBG19K8xC6WP9HI+H+8l8GY4c9pcsldlnL3fcaMeWbs3yImn14GaL
-         CUdgHcoBqFPwabdtPZHmvHa4EYtnAQGB/RcEgRUWXQnpxU61sP7IosP3SJxLMP8jMGH/
-         B2wt0O1mIYJ9j1QGNt+3oO4qAu+VRB0fUV6XWvsny7nt9HdYVfKr4qmHiLK0LXMNVUxK
-         sTDp1NC6nAvs59Ca7d3AEL2tF5ToWgXtvfxOhqceQzCXCQnnJH8hSsf3hqjOOsuO8MHO
-         dIflSpjP6OR44XELGMn6wOubviFZeNosRxh3Y97fPPcYfbzCXq0znwWm+Vc7cTv5T+IY
-         o32g==
+        bh=HMqPsvxTfKRKibP0HMdc4nNDxNo3OzSDT/58jFnxc9g=;
+        b=D2TJ/Y09JJtecxPKqrz8ov5YDOpoxRytjqR0DaOA+3Samr5zJ/scXs7yyavPX+oaEC
+         4wwtym5i8OrZXxCtkJehHffv2Va6wu+zBrcETwrMtTVYGOjBDruvfpCpohSF5nFxUQ6U
+         l+LF08H84ZHCmKERGXy6PGhPzhwsll2jLW/bZNzOIl5fHJm2wpn+FwG15z2lDFvCa5WO
+         WaWFTPptZOPl5hoK9zvamtpx41enev/VH7yX/FIzx8tiwMmF0GOWqdDRDdjwQuzUPQDp
+         lxz1LARWm8m0Se/nQCKdMVhV9jBndQ2Ch7mJfQdIUQWADRIo0tZxORbh9SVy7/4Kg/M5
+         Bppg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,66 +50,67 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1+j9ZdoPZXVrlcZPRWU+KyZEu6975E4rn5NbhfXCjz8=;
-        b=LY2AsshdxCRbMuRVVvanjY5SrkYYFB6wMgg6oQBP2zzbAmnXYczqxZfu8C6Bc9gYSW
-         4mP8Em6Lj2U7CA8b69XoayWOhogXsHSp/UeAOxCWgJ02poNJeDl/dIeJOyg18RbkL68W
-         ygeJv4FjQj6ZMcYWzpqLEBPEwebz2RZQ5HbIZL68qcChaoe1ozfscXlR6sxxHv6CB5Jf
-         wOhzDEd/KijfOMKwi377rL9TGxuxOdZD6sG80rkVi10dWzpL7BONZBCMp7JcUt4A+p2P
-         7CfHGOcmSQLPfQRVR2b701nuDyQhrIssTCzTv2ziTKVQk7qAmING1IG2UakMGh1JljaJ
-         1Q5Q==
-X-Gm-Message-State: ACrzQf0qnXQUdKaSltTwHqeqDgUCRFK3kvVnAl190Q7RlM75ay5h0iJO
-	qtojyJGUBumvOzdg4xomIQM=
-X-Google-Smtp-Source: AMsMyM49umBc+RYADx+hDVikXFIyQ85Tlyk36sZx5fP7QI9dPfZL3XFeiL3zcxBKyi0yukXw79YIpQ==
-X-Received: by 2002:a05:6512:b1e:b0:4a1:ba8c:7ea7 with SMTP id w30-20020a0565120b1e00b004a1ba8c7ea7mr3506843lfu.608.1665995477115;
-        Mon, 17 Oct 2022 01:31:17 -0700 (PDT)
+        bh=HMqPsvxTfKRKibP0HMdc4nNDxNo3OzSDT/58jFnxc9g=;
+        b=hZspJkLCt8cKqtUtYzVma14X0HwKy3JhhLjJOjJvCKM9aeboq9VHSmLsJM+4JO2mfo
+         zZpQYgMi4uzzmRE2CAU5UX+rrhLqCrdlGLgepR53cwYIzisZPmTZCLmRMLmnPeRm/cZz
+         E/4q9KwHNa4yXqkUL/lm4Z2SPk8Pv5HvYVoKqhCVjE+PCQL9R/Ghidl376QjHeIgsFrI
+         GleW2B5r4dcQXKrEhSuVBDNeDHeoXm6QqAcuHBX73ZJdTaUw7enVx/McAtk6eKjEffKp
+         QhRW7dmrJm7cMIIgaBFRcmSc0VseTQO4eKs6Y/fvyP3tFM2TP20dT9svcZPGmN9Gk4zB
+         hQ3Q==
+X-Gm-Message-State: ACrzQf0nBoKO8HCDFB74GEVgAkwbixT50w6AcZMBD19qZsIM2BAPgG3L
+	fyY6acnDOpYOdPLA8qHgOXc=
+X-Google-Smtp-Source: AMsMyM4qkPgLCWjG7uSb8YYv96j0jGCbRDaXyJZ1kRkMFJKZBaKO3WP0LbhEsjryzAR8zqY2TxeV0g==
+X-Received: by 2002:a2e:bd0e:0:b0:268:c03b:cf56 with SMTP id n14-20020a2ebd0e000000b00268c03bcf56mr3810958ljq.393.1665995582001;
+        Mon, 17 Oct 2022 01:33:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3590:b0:494:6c7d:cf65 with SMTP id
- m16-20020a056512359000b004946c7dcf65ls586323lfr.2.-pod-prod-gmail; Mon, 17
- Oct 2022 01:31:16 -0700 (PDT)
-X-Received: by 2002:a05:6512:b9e:b0:4a2:9853:b87f with SMTP id b30-20020a0565120b9e00b004a29853b87fmr3327082lfv.257.1665995475974;
-        Mon, 17 Oct 2022 01:31:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1665995475; cv=none;
+Received: by 2002:a05:651c:1ca:b0:26f:c18d:361f with SMTP id
+ d10-20020a05651c01ca00b0026fc18d361fls1969602ljn.2.-pod-prod-gmail; Mon, 17
+ Oct 2022 01:33:00 -0700 (PDT)
+X-Received: by 2002:a2e:bc24:0:b0:26f:a6f1:e8ca with SMTP id b36-20020a2ebc24000000b0026fa6f1e8camr3938315ljf.249.1665995580820;
+        Mon, 17 Oct 2022 01:33:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1665995580; cv=none;
         d=google.com; s=arc-20160816;
-        b=Z9X3g/us0Rb7VFiqRKfxH2SxIkhPlTbq513+Of0yZvJUJqMyMQSYHz+3FXkfwSEPmq
-         eqe79EPyYsWU0I1kHuX/+L3PvPiDd+OL/q7GKtoP8ajKezDxzIG+kOxDwceIR8g+yF6v
-         /IhonNNNV6kIITeSz8PtxBuhp5ddUuXjxfmMMp2yektBaAsuK1ERZ3oX4YKaEMpnCvJx
-         3q7YIpL8S94EcVhXf3trGwi9feRpXoLTywaJo5O8lBYbz3g/JhzfiySPzLzi2SYKzdvY
-         85/J7MoqFWWAwCyKHFviIFn5anCKt1l0QJ32IRa7pDXfcLfjHk56iIZSvLvIcD5bWugo
-         QEGA==
+        b=oZE1NhHUngWx9psOrbVs3IjTtMMPe/uyFRYrzJOPuk4Kq/Jy/RpTXUo7fMRuczbpls
+         O4iNAV+OUL18vk2oDQzi0SUqn1uz86NaZYcy4neLNAj9x9BAHjBiwyV3iw0K3TQXyjl9
+         0yNs4lE32DvhjvLINezYYyXTQZumeBuIzevFVMxUzH1tA1mTe0doL/eUvB2cd4DAtdcf
+         XNnpekld/gq+zAnLXye3AID5LTP2KLlmAPF7Ld8xwzBrIX7y1scSLTF22Wey5bVI90Tz
+         sQxv5MrbkwAGzMaejEd4W8FKZL5tTDICRiftQoqy/Heo28W4b3ccng5F02FNUWs3DqAv
+         0N1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=8KsRspEgB/gOfpXeMit48jsmBa9u2K7sMr+wCGZ90pU=;
-        b=DBkdhLhVk49u4LnqBwLvXWZ0S5VRjUKZ8+oa6vrIWBzplhiammwPi173P79TD/1BF1
-         SSHo1B/Gy0SfG+8bN0XuXe6VOAxeml/llMMxUcdv16Q2wyPqkbERmvJdjcIDN8Nau+ej
-         Y5xS2hBN6DYZIfLF8A39nkKTFpdxvl0ojvVvgAh4szb47X1rnVsnIyH3W0PU31kZXSBC
-         KNS0e7THKbOv+Vup6Dg1PSwZ2AKSyMem6VTnvSR34fUv4kvMxNkXbvMy4yhiXfdxsLGU
-         BILASJmPxEx8nkGd+ww+CXu2cmExxDK1v0AObuehZwgOi1YF5ekwzJtIkjLLaemj6uA4
-         vXUQ==
+        bh=azrjkTSUa/x73/5WnmuPzRdP/HPez6bDQxOpksGkhRA=;
+        b=Mo749pGPfCOXr984uW7YMFzMQj/Y9wiUnFZq2tiX/yTrygcookf3/vLT5hvqV8ar8L
+         AkR9eXUvESCnPL+wvWY9WRBXm2wix7CjXSgxs5b813V22YLjskRbd3B72OQ3/WLlh4Lu
+         3F3t710d/J52TiOtj/K8wbMG9NIKnSJLZKvghbI5FxV6u6xWrBqFw5KsJhKhdVMXsbUS
+         ddg7Nu1Qzr25DL7DH2iJBQjgHc/MAPIxrTahEvoZoniwrNS0E/IsUJDSX+sg7zOicAuI
+         4QIXxD4dng0ZQWKHXrB6lp4Gpf9BP6tBnyo1fij5iyiOK5nl9vO/t37bsLxj1FVpjmC2
+         gV4A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=iXrGdd8C;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12a as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="a/oDAz3x";
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::232 as permitted sender) smtp.mailfrom=dvyukov@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com. [2a00:1450:4864:20::12a])
-        by gmr-mx.google.com with ESMTPS id a25-20020a056512201900b004a1baae2fb1si345057lfb.6.2022.10.17.01.31.15
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com. [2a00:1450:4864:20::232])
+        by gmr-mx.google.com with ESMTPS id f14-20020a056512360e00b0048b12871da5si310045lfs.4.2022.10.17.01.33.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Oct 2022 01:31:15 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12a as permitted sender) client-ip=2a00:1450:4864:20::12a;
-Received: by mail-lf1-x12a.google.com with SMTP id d6so16344895lfs.10
-        for <kasan-dev@googlegroups.com>; Mon, 17 Oct 2022 01:31:15 -0700 (PDT)
-X-Received: by 2002:a05:6512:358c:b0:4a2:9c55:c63c with SMTP id
- m12-20020a056512358c00b004a29c55c63cmr3765865lfr.598.1665995475449; Mon, 17
- Oct 2022 01:31:15 -0700 (PDT)
+        Mon, 17 Oct 2022 01:33:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::232 as permitted sender) client-ip=2a00:1450:4864:20::232;
+Received: by mail-lj1-x232.google.com with SMTP id by36so13069337ljb.4
+        for <kasan-dev@googlegroups.com>; Mon, 17 Oct 2022 01:33:00 -0700 (PDT)
+X-Received: by 2002:a2e:978e:0:b0:26e:8ad6:6d5b with SMTP id
+ y14-20020a2e978e000000b0026e8ad66d5bmr3880239lji.363.1665995580212; Mon, 17
+ Oct 2022 01:33:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221014084837.1787196-1-hrkanabar@gmail.com> <20221014091503.GA13389@twin.jikos.cz>
-In-Reply-To: <20221014091503.GA13389@twin.jikos.cz>
+References: <20221014084837.1787196-1-hrkanabar@gmail.com> <20221014084837.1787196-6-hrkanabar@gmail.com>
+ <Y0mD0LcNvu+QTlQ9@magnolia>
+In-Reply-To: <Y0mD0LcNvu+QTlQ9@magnolia>
 From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 17 Oct 2022 10:31:03 +0200
-Message-ID: <CACT4Y+as3SA6C_QFLSeb5JYY30O1oGAh-FVMLCS2NrNahycSoQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/7] fs: Debug config option to disable filesystem
- checksum verification for fuzzing
-To: dsterba@suse.cz
+Date: Mon, 17 Oct 2022 10:32:48 +0200
+Message-ID: <CACT4Y+aNuRX52u5j1vKpJKru-riSktugDMtDKchR0NLCuvXOQg@mail.gmail.com>
+Subject: Re: [PATCH RFC 5/7] fs/xfs: support `DISABLE_FS_CSUM_VERIFICATION`
+ config option
+To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: Hrutvik Kanabar <hrkanabar@gmail.com>, Hrutvik Kanabar <hrutvik@google.com>, 
 	Marco Elver <elver@google.com>, Aleksandr Nogikh <nogikh@google.com>, kasan-dev@googlegroups.com, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
@@ -117,15 +118,14 @@ Cc: Hrutvik Kanabar <hrkanabar@gmail.com>, Hrutvik Kanabar <hrutvik@google.com>,
 	Andreas Dilger <adilger.kernel@dilger.ca>, linux-ext4@vger.kernel.org, 
 	Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
 	linux-btrfs@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
-	linux-f2fs-devel@lists.sourceforge.net, 
-	"Darrick J . Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org, 
 	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
 	Anton Altaparmakov <anton@tuxera.com>, linux-ntfs-dev@lists.sourceforge.net
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=iXrGdd8C;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12a
+ header.i=@google.com header.s=20210112 header.b="a/oDAz3x";       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::232
  as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
  (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Dmitry Vyukov <dvyukov@google.com>
@@ -142,63 +142,60 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 14 Oct 2022 at 11:15, David Sterba <dsterba@suse.cz> wrote:
+On Fri, 14 Oct 2022 at 17:44, Darrick J. Wong <djwong@kernel.org> wrote:
 >
-> On Fri, Oct 14, 2022 at 08:48:30AM +0000, Hrutvik Kanabar wrote:
+> On Fri, Oct 14, 2022 at 08:48:35AM +0000, Hrutvik Kanabar wrote:
 > > From: Hrutvik Kanabar <hrutvik@google.com>
 > >
-> > Fuzzing is a proven technique to discover exploitable bugs in the Linux
-> > kernel. But fuzzing filesystems is tricky: highly structured disk images
-> > use redundant checksums to verify data integrity. Therefore,
-> > randomly-mutated images are quickly rejected as corrupt, testing only
-> > error-handling code effectively.
+> > When `DISABLE_FS_CSUM_VERIFICATION` is enabled, return truthy value for
+> > `xfs_verify_cksum`, which is the key function implementing checksum
+> > verification for XFS.
 > >
-> > The Janus [1] and Hydra [2] projects probe filesystem code deeply by
-> > correcting checksums after mutation. But their ad-hoc
-> > checksum-correcting code supports only a few filesystems, and it is
-> > difficult to support new ones - requiring significant duplication of
-> > filesystem logic which must also be kept in sync with upstream changes.
-> > Corrected checksums cannot be guaranteed to be valid, and reusing this
-> > code across different fuzzing frameworks is non-trivial.
-> >
-> > Instead, this RFC suggests a config option:
-> > `DISABLE_FS_CSUM_VERIFICATION`. When it is enabled, all filesystems
-> > should bypass redundant checksum verification, proceeding as if
-> > checksums are valid. Setting of checksums should be unaffected. Mutated
-> > images will no longer be rejected due to invalid checksums, allowing
-> > testing of deeper code paths. Though some filesystems implement their
-> > own flags to disable some checksums, this option should instead disable
-> > all checksums for all filesystems uniformly. Critically, any bugs found
-> > remain reproducible on production systems: redundant checksums in
-> > mutated images can be fixed up to satisfy verification.
-> >
-> > The patches below suggest a potential implementation for a few
-> > filesystems, though we may have missed some checksums. The option
-> > requires `DEBUG_KERNEL` and is not intended for production systems.
-> >
-> > The first user of the option would be syzbot. We ran preliminary local
-> > syzkaller tests to compare behaviour with and without these patches.
-> > With the patches, we found a 19% increase in coverage, as well as many
-> > new crash types and increases in the total number of crashes:
+> > Signed-off-by: Hrutvik Kanabar <hrutvik@google.com>
 >
-> I think the build-time option inflexible, but I see the point when
-> you're testing several filesystems that it's one place to set up the
-> environment. Alternatively I suggest to add sysfs knob available in
-> debuging builds to enable/disable checksum verification per filesystem.
+> NAK, we're not going to break XFS for the sake of automated fuzz tools.
 
-Hi David,
+Hi Darrick,
 
-What usage scenarios do you have in mind for runtime changing of this option?
-I see this option intended only for very narrow use cases which
-require a specially built kernel in a number of other ways (lots of
-which are not tunable at runtime, e.g. debugging configs).
+What do you mean by "break"? If this config is not enabled the
+behavior is not affected as far as I see.
 
-> As this may not fit to other filesystems I don't suggest to do that for
-> all but I am willing to do that for btrfs, with eventual extension to
-> the config option you propose. The increased fuzzing coverage would be
-> good to have.
+> You'll have to adapt your fuzzing tools to rewrite the block header
+> checksums, like the existing xfs fuzz testing framework does.  See
+> the xfs_db 'fuzz -d' command and the relevant fstests.
+>
+> --D
+>
+> > ---
+> >  fs/xfs/libxfs/xfs_cksum.h | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/fs/xfs/libxfs/xfs_cksum.h b/fs/xfs/libxfs/xfs_cksum.h
+> > index 999a290cfd72..ba55b1afa382 100644
+> > --- a/fs/xfs/libxfs/xfs_cksum.h
+> > +++ b/fs/xfs/libxfs/xfs_cksum.h
+> > @@ -76,7 +76,10 @@ xfs_verify_cksum(char *buffer, size_t length, unsigned long cksum_offset)
+> >  {
+> >       uint32_t crc = xfs_start_cksum_safe(buffer, length, cksum_offset);
+> >
+> > -     return *(__le32 *)(buffer + cksum_offset) == xfs_end_cksum(crc);
+> > +     if (IS_ENABLED(CONFIG_DISABLE_FS_CSUM_VERIFICATION))
+> > +             return 1;
+> > +     else
+> > +             return *(__le32 *)(buffer + cksum_offset) == xfs_end_cksum(crc);
+> >  }
+> >
+> >  #endif /* _XFS_CKSUM_H */
+> > --
+> > 2.38.0.413.g74048e4d9e-goog
+> >
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y0mD0LcNvu%2BQTlQ9%40magnolia.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Bas3SA6C_QFLSeb5JYY30O1oGAh-FVMLCS2NrNahycSoQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BaNuRX52u5j1vKpJKru-riSktugDMtDKchR0NLCuvXOQg%40mail.gmail.com.
