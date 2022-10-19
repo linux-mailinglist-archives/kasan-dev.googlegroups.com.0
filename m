@@ -1,129 +1,129 @@
-Return-Path: <kasan-dev+bncBC6OLHHDVUOBB2FEYCNAMGQEZABEDFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4NDKWHQYDRBM5TYCNAMGQEZAU6L5I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x113a.google.com (mail-yw1-x113a.google.com [IPv6:2607:f8b0:4864:20::113a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6262F604A85
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Oct 2022 17:06:17 +0200 (CEST)
-Received: by mail-yw1-x113a.google.com with SMTP id 00721157ae682-358c893992csf170884567b3.9
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Oct 2022 08:06:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1666191976; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C49604BAD
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Oct 2022 17:37:25 +0200 (CEST)
+Received: by mail-pf1-x43c.google.com with SMTP id cu10-20020a056a00448a00b00562f2ff1058sf9761255pfb.23
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Oct 2022 08:37:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1666193844; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hnHHfK75jLedaUxYnLg8LJvcJ92F+M583pkyjXTLn9uh5MSfL3NhSERK7Ruv1LlVnm
-         LhPGgJgbLPq2PBvFkmC41TcHZyGry+4Lyjmlv+qW51LPeJb1RanscRr6XszeWTmWaEVs
-         kM7o/XuglLxu9mAcGzdAlzO1ACnhtX1wUSyWxSI0Q5aSzZo9wqKB0fCp6+WYlWOH5M6k
-         a4FP9o1nd7jZAvgxbnW3gp/1cCOus5ii5qTIDw+sQL9Q2DUDYu0HDPJHjW0LvPNoGYU7
-         kJSzLQTreXok9y6ncncYfuTMfOz+3KQmUjSI3ea+vTzEQ25BWoNFTFEIWEfMMvrk053Z
-         Dkcw==
+        b=E8wNmqXHQedZyRRfPCRxAVfMG6sRg7LW7XUmXEZ0a1rNsEvs1lOMuOdjX5TsyNMGCr
+         4SxgW4b0M1ZBHDM8KDPosD86UgRI4bSXzI24kFO01aZT5LnDyMZlvWb9+VBUSE/2vaKt
+         ZF8CZvUnqvek8K0LvdNuty6BOhuIdJTsPhNXKiasCK7VchJ2RYwYcooy5P+psa9+OHKi
+         BVCHpR39+xFTMD9rzMK+vwiGDUQV1uNV80lg9g8SKVWKr8mV4lgpAh94rhQgi/6UUDI2
+         rgr62WSngQdLEomlfG/1zC+yyaw6RKN9R16ny2VJpDMKuhsNBgG//d3OswAA0jBmixJF
+         qjJg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=1i9uGLiYRBBIAs5M2KlpBgz5l8BL1WkBxoB//kMW1bE=;
-        b=D0fTnUoN5d45c7FT7o6GYoq9maxMbcjjQWKwRAi8tpypsBnLC0eF/Egw1zEAx73xBE
-         NDaEa0R/tevx3DOfSPyynQziFAWpFHAolXZoPGxFKUjNguqY8B00Ovrp+Tca0lplTBkp
-         MOlKyDveopQMpwRXPxTpGhDTdS1+pGyNy7AN74pMYZ/frDg/vNqpl82NQY850/mztaWC
-         iOCn6Ie/UbSAV9c1VH5ido4MdugnsuOD1GakevroKJddlIxSmohi25Zk+XQ0RCvqJVl9
-         5qvfdvk5090t6CpBurOOdSafV18eOq8JtFrtUIFv5mUMI5hH/6109ASjfbYpB+iKrMWh
-         dbeg==
+         :list-id:mailing-list:precedence:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=NDtwyYvwuzEzmqxz/lnoBrhZXo8JPCNui0Ms1WaAurc=;
+        b=GiqXpTu+AExot3JC8YSyYUUcG9btX/kReyo3RicE8JQzykuIop70jGnxIA980C8uGW
+         XXfNuinTIua/KJ7Ilod0TV/KUUHBUHTJC3Cnn/dTdhdMJq8gR72fFhaEsNU83NFDyMrt
+         FTmuRIi+pDYKNNEPx+X3DW/GCA3BrXUl+Mm7xYAJrEg5UAGwTTEvKEyX8uTH3+K7NcnO
+         qP7YtzJz5iv7NGerrSkHgHalO2idh9P0/zXwZhflP2bcfPTXaQ1HU2F4VLwQ7DosBvDo
+         ApQHKj+8azJOlgsOTgd6eQG5Jtm1RMgc/P1KmVTBj/Nzsl7cf2TxAhs0fyfJU3LwrbvD
+         AtHg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=iFRfKfLA;
-       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::935 as permitted sender) smtp.mailfrom=davidgow@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rdDLnjfb;
+       spf=pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1i9uGLiYRBBIAs5M2KlpBgz5l8BL1WkBxoB//kMW1bE=;
-        b=nkGNTvuqhiKt53CD7WN8/YUDNBK2H86RNTWQ66VMISaA5nyX635CMe+FmkonbzOUjY
-         qp6WRNZgC4GWnjN4bVC3UDdGzgLDFe6e3F6UsQM4+xav7tu/Q0haQZG4Cr1BhGz4uLfl
-         CbRZmVR+BHOpk7NWRyCigSHvqblM65LS7UFxySHqM8c5Di3X2WKyqDI7WEuBCxmYROaK
-         Pn74mTstlr8osHJgHcAwvNEbLVsAvlFXAZemZFh/cAQiGHsbszdOB3+oKyDzZ77KJ0O7
-         Rs00Z6X0MHMGXDWigbGHDsVkHOi53rKM24cChBINt6s4yGG4W6F26f9kXmrO+dEHVJIo
-         ZxCw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-disposition:mime-version:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NDtwyYvwuzEzmqxz/lnoBrhZXo8JPCNui0Ms1WaAurc=;
+        b=NYuB9loD4l/EqjKWI+21QYtSs/D1dqdk2e6HC4JQa1nbuAIYk8Q5gxSik4hU+mPFym
+         DOUx/hrK+25ZoTLdK6bxTjkbsYphiLbL80XIMlR4D8GlErSECRmsIiQjOpgG6PRwUWbd
+         y2KTnhz+z48TpOrNrMknlMNtpTHRi/kj98dnW9JyVvMSZlS/Tez1mvFqQUcn9TtNOOSZ
+         elxwMRVLQ5alXk6QTd2Zk6sxCHsGXlHHaDslH2cuC4Vo8EH0sk7ErDlcwjWj/9F48DIh
+         LEh5zzgg9BEYSqumopmgOMW0LFnDKAEAzxM7GOl72DA6xn8Waefcx2aKRbtLfwGMyYfI
+         OyBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1i9uGLiYRBBIAs5M2KlpBgz5l8BL1WkBxoB//kMW1bE=;
-        b=PgU/ZxLMuKemirsTU/aolR7Km55vTm/pJY81kgD89HMkqFR47z5ulvOTlL4HXKr0bW
-         1n0THZl2xDikEBQ/CHVETUt4jR98od97figEJADHXZOkMzmnqsSwe0Ixirllu8+RcZ5s
-         X/t9BJN8kpmECpV9JObUZfb26yB7QhYBc6ZQ1lg9UNJm7d15KorBAtAhtph6d/U7dMgc
-         bAjogQzEtnUtR9reb/+/cWHnWxwYBF8IT/0IcX/F54x82hfqqKA9DlmuaxxzkofDzKNw
-         5CyxOpHyuls6ZHZcIWnqqjQR/kT6/fy+u8BMDs1CeEDzsGfjGcD92bcQz80o/gop3IDD
-         jnnw==
-X-Gm-Message-State: ACrzQf266jcaDur5pO9RhFkEAwvq82oT4SMXpjEeH5etXvGiGeBD0mmC
-	oXIKTwRvxgbtHWfdLQrXHSE=
-X-Google-Smtp-Source: AMsMyM5yRZrF+VTLmiumQceRsU21ehes/5WZsB5+Bf99i0JXGic0DrblbGD8IlzH7kzlcANY1Kz0CQ==
-X-Received: by 2002:a25:7e84:0:b0:6ae:c1d6:4346 with SMTP id z126-20020a257e84000000b006aec1d64346mr7026018ybc.575.1666191976139;
-        Wed, 19 Oct 2022 08:06:16 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NDtwyYvwuzEzmqxz/lnoBrhZXo8JPCNui0Ms1WaAurc=;
+        b=wFexZTC9F4P3zPj0Iy7FJWSvpuzm/vTlGPndb/KIRoGIrOr2Xa1uY21ojn6Aic9uC4
+         gkIe+gXFpCX139ayS1nLl/NaZaNNUDCNp3tA4parTnkSXgX/B4od6HM3i+pAqwp3erF3
+         CjWo7NYWBpamEREjBO4Wg379PNVMbplKiCcIcKCxBd2cqqbPIk6I0L9U+5/9ZIZKjgy1
+         7XLj1WhkoB/uIfrObnl/ZNDONLCu3F7MzW+Kdj3Z/0lR5b8sbsXYVTxokOl86pqQp3mk
+         4xe27YBDCWA+5PrUG/e3Uhp0VYZEiFeg8vj6DRIyJUoExvk+psECxYTpUecjmyHXg14y
+         QRbA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACrzQf1cyhbjAlmskGdU8JKpmGhJfCNCbuCO8WHBtvicDQBMXgfbMtja
+	18qpqCCBs+qmDgp6Io45BL4=
+X-Google-Smtp-Source: AMsMyM49vPHOZEMsduzbksbnyy6p28vxOsZ+uTsHKLbxoblhjs9cN6Xs4SS+Nn2Kc0sAEkNSWIkCCQ==
+X-Received: by 2002:a17:90a:bd01:b0:205:fa9c:1cfc with SMTP id y1-20020a17090abd0100b00205fa9c1cfcmr46604624pjr.116.1666193843919;
+        Wed, 19 Oct 2022 08:37:23 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:b084:0:b0:6c5:5d52:73e7 with SMTP id f4-20020a25b084000000b006c55d5273e7ls2386830ybj.3.-pod-prod-gmail;
- Wed, 19 Oct 2022 08:06:15 -0700 (PDT)
-X-Received: by 2002:a25:6c3:0:b0:6b0:4336:9d81 with SMTP id 186-20020a2506c3000000b006b043369d81mr7366425ybg.119.1666191975516;
-        Wed, 19 Oct 2022 08:06:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1666191975; cv=none;
+Received: by 2002:a17:90a:728b:b0:20a:feca:b873 with SMTP id
+ e11-20020a17090a728b00b0020afecab873ls245706pjg.0.-pod-canary-gmail; Wed, 19
+ Oct 2022 08:37:23 -0700 (PDT)
+X-Received: by 2002:a17:90b:3c51:b0:20c:2630:5259 with SMTP id pm17-20020a17090b3c5100b0020c26305259mr45415808pjb.177.1666193843077;
+        Wed, 19 Oct 2022 08:37:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1666193843; cv=none;
         d=google.com; s=arc-20160816;
-        b=nxl4UtmN4i6HVePryZo7b2L0Q4WW0kCXtoXvWHvqAmWzxXLyrLo+14soxxSsQpKQxy
-         WvmjqZKwBWhF+Hxp4VM8GT/LYFbSNDfJP9gYSfO3ZmJ9JP4X+XpIoqC2ZyvWTfhKLRFR
-         z10Jh/8aLhNJfua1FX8n9CEbSHzMAeWEdlblupgwIwVfNlDMkB6y+dLR6CzkkdXneZun
-         zOTKNyHarSHaPObF6I2X5bTLj30HZ0VwIu/em5CjX/FLtK2IcZ+jO6vqlOsy5RExxEy0
-         JscM0i9hvn6DrkNYTunK0SXacigZwZOJK5NfkhBchR7dWCTiOC5bUAAze9O7GMddniC5
-         +P8w==
+        b=VLtw4WLw5xmSFcryGBglUXrD6tLLGfuZyjYnD65BSb15ckzAszbRJsGJ8d2aBBCjmj
+         f98JUadizBF6FDp+jYMTLgM9hdOrmYTiIo04o6vUyyZpC/6gDkZTXDkdnDZpehZX4uzR
+         1FEQPM0yMQskd9MMxYrIANQccOGdby2/nsHzs0KhdfCzhfxAVFgNaJ5sCO58W5y3Vq78
+         8pCJh+RW7kZt5A9hIupErqSkDvHP1LK+cnvh1t7zRBtehtCxQSBbcacoXdUtDf+qB6Dr
+         I9d2oG9xLX/5m2ES5SmJWdP3FYwFDsFPGM+bt9ePWBehzhgHEMaVAlW/99kekH4Oo9aa
+         wg/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=K3IqyyYMTNhFLxzh3672XqjDeuMZIdvfoNwz7Uuc5/I=;
-        b=ZmcAxngmiSlXadNxZnIEG3HHAUD0RL3zPo2qzhwb9SbEeZFDop+lBKjgUVQeF8EC+e
-         tjmED9zDkJd6cbaqwK7j6X49pNvQeJY6Lk526Wu3R4IiUrRodJaNWwHzEh38RDwFIrzD
-         ykJEUO18O/BeOlWuA2/Ui0dYIgt9LmlyH+5dbK+HeyN7EBkEooFQFG7SpuIrFiuLHNxG
-         xy83b9vowVzskf5jwM7mKG0ottERd8lFW8JQO9EqMrtT2E8DYEgI0sEH4haGR1n7gbwD
-         PdcD8O4THxZE/NUcqeC2MRdrccAO+D/5WfuD9guqpfP3ZlTNqoGG8QntUM0KmAHdVbvl
-         EnkQ==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=/2iM8jKklAiO77h1Ju3oLdNpaIcGNpt+RYVknQ2p8rs=;
+        b=Y6klH5jYhT8OvPtbV/1n+KKLEsz+w3FEijNZ1o39PoiZjk3u1dP8ufYDVELazWXCb7
+         XvMok5EDuzvbhQZm8VUBGSRCVbexXiADjK6dzBDSnsnzzUZPnZycceG99BSRPP3CfKBG
+         mhESij1uqdye++UVNfqQgWvJtSVEa/TRL0qJvZfmme8RkEbv/2Nwt7eVjMdAeZNnh0+t
+         HZ4WRIDt8HNq8ZifwgHLpbMwaYMY2etazBgosD9LAEFkfGqgDQoH81su9OmprHeM32m1
+         JdX58DcG7YIg30u0Htj7jaJp4jm8uojrseVLovHWKhEb7vLLJVfl+hVfhJicLzPshXSq
+         3S3A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=iFRfKfLA;
-       spf=pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::935 as permitted sender) smtp.mailfrom=davidgow@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com. [2607:f8b0:4864:20::935])
-        by gmr-mx.google.com with ESMTPS id s68-20020a818247000000b00350b92acf33si1505284ywf.4.2022.10.19.08.06.15
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rdDLnjfb;
+       spf=pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id mm4-20020a17090b358400b0020a605eff06si8949pjb.2.2022.10.19.08.37.23
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Oct 2022 08:06:15 -0700 (PDT)
-Received-SPF: pass (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::935 as permitted sender) client-ip=2607:f8b0:4864:20::935;
-Received: by mail-ua1-x935.google.com with SMTP id x20so7378400ual.6
-        for <kasan-dev@googlegroups.com>; Wed, 19 Oct 2022 08:06:15 -0700 (PDT)
-X-Received: by 2002:ab0:7412:0:b0:3d1:c2f7:3250 with SMTP id
- r18-20020ab07412000000b003d1c2f73250mr4374614uap.21.1666191975065; Wed, 19
- Oct 2022 08:06:15 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 19 Oct 2022 08:37:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 8756161844;
+	Wed, 19 Oct 2022 15:37:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79A20C4347C;
+	Wed, 19 Oct 2022 15:37:21 +0000 (UTC)
+Date: Wed, 19 Oct 2022 08:37:19 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Kees Cook <keescook@chromium.org>,
+	Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org
+Subject: -Wmacro-redefined in include/linux/fortify-string.h
+Message-ID: <Y1AZr01X1wvg5Klu@dev-arch.thelio-3990X>
 MIME-Version: 1.0
-References: <20221019085747.3810920-1-davidgow@google.com> <CA+fCnZdPwjThjY7fd7vBkMzS1eFXySR2AKrDK8weJ3p25fzS3g@mail.gmail.com>
-In-Reply-To: <CA+fCnZdPwjThjY7fd7vBkMzS1eFXySR2AKrDK8weJ3p25fzS3g@mail.gmail.com>
-From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 19 Oct 2022 23:06:03 +0800
-Message-ID: <CABVgOSmP1A4d_-SNrWg7VruxpKj3SZz=Bzb2Xebd=EXw1imXyA@mail.gmail.com>
-Subject: Re: [PATCH] kasan: Enable KUnit integration whenever CONFIG_KUNIT is enabled
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Andrey Konovalov <andreyknvl@google.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Daniel Latypov <dlatypov@google.com>, Brendan Higgins <brendanhiggins@google.com>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000d2339805eb648c5e"
-X-Original-Sender: davidgow@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+X-Original-Sender: nathan@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=iFRfKfLA;       spf=pass
- (google.com: domain of davidgow@google.com designates 2607:f8b0:4864:20::935
- as permitted sender) smtp.mailfrom=davidgow@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: David Gow <davidgow@google.com>
-Reply-To: David Gow <davidgow@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=rdDLnjfb;       spf=pass
+ (google.com: domain of nathan@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,148 +136,97 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---000000000000d2339805eb648c5e
-Content-Type: text/plain; charset="UTF-8"
+Hi all,
 
-On Wed, Oct 19, 2022 at 10:18 PM Andrey Konovalov <andreyknvl@gmail.com> wrote:
->
-> On Wed, Oct 19, 2022 at 10:58 AM 'David Gow' via kasan-dev
-> <kasan-dev@googlegroups.com> wrote:
-> >
-> > Enable the KASAN/KUnit integration even when the KASAN tests are
-> > disabled, as it's useful for testing other things under KASAN.
-> > Essentially, this reverts commit 49d9977ac909 ("kasan: check CONFIG_KASAN_KUNIT_TEST instead of CONFIG_KUNIT").
-> >
-> > To mitigate the performance impact slightly, add a likely() to the check
-> > for a currently running test.
-> >
-> > There's more we can do for performance if/when it becomes more of a
-> > problem, such as only enabling the "expect a KASAN failure" support wif
-> > the KASAN tests are enabled, or putting the whole thing behind a "kunit
-> > tests are running" static branch (which I do plan to do eventually).
-> >
-> > Fixes: 49d9977ac909 ("kasan: check CONFIG_KASAN_KUNIT_TEST instead of CONFIG_KUNIT")
-> > Signed-off-by: David Gow <davidgow@google.com>
-> > ---
-> >
-> > Basically, hiding the KASAN/KUnit integration broke being able to just
-> > pass --kconfig_add CONFIG_KASAN=y to kunit_tool to enable KASAN
-> > integration. We didn't notice this, because usually
-> > CONFIG_KUNIT_ALL_TESTS is enabled, which in turn enables
-> > CONFIG_KASAN_KUNIT_TEST. However, using a separate .kunitconfig might
-> > result in failures being missed.
-> >
-> > Take, for example:
-> > ./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=y \
-> >         --kunitconfig drivers/gpu/drm/tests
-> >
-> > This should run the drm tests with KASAN enabled, but even if there's a
-> > KASAN failure (such as the one fixed by [1]), kunit_tool will report
-> > success.
->
-> Hi David,
->
-> How does KUnit detect a KASAN failure for other tests than the KASAN
-> ones? I thought this was only implemented for KASAN tests. At least, I
-> don't see any code querying kunit_kasan_status outside of KASAN tests.
+I am seeing the following set of warnings when building an x86_64
+configuration that has CONFIG_FORTIFY_SOURCE=y and CONFIG_KMSAN=y:
 
-Yeah, there aren't any other tests which set up a "kasan_status"
-resource to expect specific failures, but we still want the fallback
-call to kunit_set_failure() so that any test which causes a KASAN
-report will fail:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/kasan/report.c#n130
+  In file included from scripts/mod/devicetable-offsets.c:3:
+  In file included from ./include/linux/mod_devicetable.h:13:
+  In file included from ./include/linux/uuid.h:12:
+  In file included from ./include/linux/string.h:253:
+  ./include/linux/fortify-string.h:496:9: error: 'memcpy' macro redefined [-Werror,-Wmacro-redefined]
+  #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+          ^
+  ./arch/x86/include/asm/string_64.h:17:9: note: previous definition is here
+  #define memcpy __msan_memcpy
+          ^
+  In file included from scripts/mod/devicetable-offsets.c:3:
+  In file included from ./include/linux/mod_devicetable.h:13:
+  In file included from ./include/linux/uuid.h:12:
+  In file included from ./include/linux/string.h:253:
+  ./include/linux/fortify-string.h:500:9: error: 'memmove' macro redefined [-Werror,-Wmacro-redefined]
+  #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+          ^
+  ./arch/x86/include/asm/string_64.h:73:9: note: previous definition is here
+  #define memmove __msan_memmove
+          ^
+  2 errors generated.
 
-> I'm currently switching KASAN tests from using KUnit resources to
-> console tracepoints [1], and those patches will be in conflict with
-> yours.
+I can see that commit ff901d80fff6 ("x86: kmsan: use __msan_ string
+functions where possible.") appears to include a fix up for this warning
+with memset() but not memcpy() or memmove(). If I apply a similar fix up
+like so:
 
-Ah, sorry -- I'd seen these go past, and totally forgot about them! I
-think all we really want to keep is the ability to fail tests if a
-KASAN report occurs. The tricky bit is then disabling that for the
-KASAN tests, so that they can have "expected" failures.
+diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+index 4029fe368a4f..718ee17b31e3 100644
+--- a/include/linux/fortify-string.h
++++ b/include/linux/fortify-string.h
+@@ -493,6 +493,7 @@ __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
+  * __struct_size() vs __member_size() must be captured here to avoid
+  * evaluating argument side-effects further into the macro layers.
+  */
++#ifndef CONFIG_KMSAN
+ #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,			\
+ 		__struct_size(p), __struct_size(q),			\
+ 		__member_size(p), __member_size(q),			\
+@@ -501,6 +502,7 @@ __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
+ 		__struct_size(p), __struct_size(q),			\
+ 		__member_size(p), __member_size(q),			\
+ 		memmove)
++#endif
+ 
+ extern void *__real_memscan(void *, int, __kernel_size_t) __RENAME(memscan);
+ __FORTIFY_INLINE void *memscan(void * const POS0 p, int c, __kernel_size_t size)
 
--- David
+Then the instances of -Wmacro-redefined disappear but the fortify tests
+no longer pass for somewhat obvious reasons:
+
+  warning: unsafe memcpy() usage lacked '__read_overflow2' symbol in lib/test_fortify/read_overflow2-memcpy.c
+  warning: unsafe memmove() usage lacked '__read_overflow2' symbol in lib/test_fortify/read_overflow2-memmove.c
+  warning: unsafe memcpy() usage lacked '__read_overflow2_field' symbol in lib/test_fortify/read_overflow2_field-memcpy.c
+  warning: unsafe memmove() usage lacked '__read_overflow2_field' symbol in lib/test_fortify/read_overflow2_field-memmove.c
+  warning: unsafe memcpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-memcpy.c
+  warning: unsafe memmove() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-memmove.c
+  warning: unsafe memset() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-memset.c
+  warning: unsafe memcpy() usage lacked '__write_overflow_field' symbol in lib/test_fortify/write_overflow_field-memcpy.c
+  warning: unsafe memmove() usage lacked '__write_overflow_field' symbol in lib/test_fortify/write_overflow_field-memmove.c
+  warning: unsafe memset() usage lacked '__write_overflow_field' symbol in lib/test_fortify/write_overflow_field-memset.c
+
+Should CONFIG_KMSAN depend on CONFIG_FORTIFY_SOURCE=n like so? It seems
+like the two features are incompatible if I am reading ff901d80fff6
+correctly.
+
+diff --git a/lib/Kconfig.kmsan b/lib/Kconfig.kmsan
+index b2489dd6503f..6a681621e3c5 100644
+--- a/lib/Kconfig.kmsan
++++ b/lib/Kconfig.kmsan
+@@ -11,7 +11,7 @@ config HAVE_KMSAN_COMPILER
+ config KMSAN
+ 	bool "KMSAN: detector of uninitialized values use"
+ 	depends on HAVE_ARCH_KMSAN && HAVE_KMSAN_COMPILER
+-	depends on SLUB && DEBUG_KERNEL && !KASAN && !KCSAN
++	depends on SLUB && DEBUG_KERNEL && !KASAN && !KCSAN && !FORTIFY_SOURCE
+ 	select STACKDEPOT
+ 	select STACKDEPOT_ALWAYS_INIT
+ 	help
+
+or is there a different obvious fix that I am missing?
+
+Cheers,
+Nathan
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CABVgOSmP1A4d_-SNrWg7VruxpKj3SZz%3DBzb2Xebd%3DEXw1imXyA%40mail.gmail.com.
-
---000000000000d2339805eb648c5e
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
-VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
-ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
-OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
-3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
-lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAx
-P3UYKjpLkVFR1w2fhFjJSDECimirl3RIC4Ton/PbojAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjEwMTkxNTA2MTVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAI7d5VhZPkeOj+nVmZAgt
-JhYzppd/+bwOeuXrU6fmr/P5oL1rH74x+YLhqOQzbpEh4Y92oc9DXlAvWTTL0HnWMxyzIs/EM3l7
-uNgtvzQAmxhBsIMKWBlkDxrBhfW+6b8OVsBiB9coM+SxLcebcErOHQCEuzT+OaenYHaWge6+xVOc
-Jm+faszP0EU4UZinG0HKK3G7fC0FwzqGwfjT8J21qrnmuaE8jiSXv+H74zo5Qbnp8uZX7QX43PVM
-wQsSn8eN+T6tqDD5bN0mJmQut/dt3gLqZJPMaoyz8ik5RCc9Sm9t4fbN0HSsPy8gbmLecKWCNxZR
-sntQX9fgWKb/DV6avQ==
---000000000000d2339805eb648c5e--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y1AZr01X1wvg5Klu%40dev-arch.thelio-3990X.
