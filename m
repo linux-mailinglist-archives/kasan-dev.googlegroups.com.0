@@ -1,129 +1,119 @@
-Return-Path: <kasan-dev+bncBD6ZP2WSRIFRB3HLYCNAMGQEXVLSJMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZHVYCNAMGQEI4ELABY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0E6604EF7
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Oct 2022 19:37:49 +0200 (CEST)
-Received: by mail-lf1-x13c.google.com with SMTP id cf15-20020a056512280f00b004a28ba148bbsf6101311lfb.22
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Oct 2022 10:37:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1666201069; cv=pass;
+Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id A103A604F35
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Oct 2022 19:59:01 +0200 (CEST)
+Received: by mail-ot1-x33b.google.com with SMTP id d4-20020a05683018e400b00661a05b6cf3sf8395968otf.6
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Oct 2022 10:59:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1666202340; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GIb4SsKVyjNUejRfF6n1YSYmP6xtkjkcNGD0hUKhoyZqk1jgx/CcqAk6eh88RwjcAH
-         bLHagBeOW9fObEpJjzpYMI7aoVcviP7xBBhQOFCuqTj38p7KVh6b+fBfI47btYXvCWWp
-         Ky8uHvl0Rm6G8Ehr/F4wYKBZuUB8z0aR7ZSw5HarJ3WNVc6PO3ogcfD76wVTCf3cx+JJ
-         WwQV7+wdrfHiOW+PsTlIzq2vCcRiI4ZonUZqEkVnurMhh130AVv7i7ha3Rp8Lw95Zp0m
-         pCFZZc3cyaxG5fbs9ika0SJLDI0aGbf/vmAYxrxyJ2mNaXLvBUiiD7u3R0P+GM3RwqFd
-         jGoQ==
+        b=scXH5djcH/SfC7+I6I4StoEuktkCM7F0EZ7jbwBFemgfhaeC3H8gBhtLFILvnxEUy+
+         Bt3ymCzs2bPxEH4fEoZ33lpIGOQzTWMn4JWGGv/6qXEkiEG+VyTvO4DNZ7Ci3Hq/iomS
+         NRhw1U/9hUYnrVwudKDBNW4yVOBal4wHrO6MGPIiJE+WM8sXdqbxC53P4DvpCYPRIVuE
+         rJGuE/u1NBK7CcTTNAoNrnZNWLwt9k40dEzhYY4CwQXkmOKP/eXcKeQ6gL27btyUKNpS
+         ezC/PU85mnOr1lys3+Wo8O/PMtO7MAxHyWtyeB6jSklpd4amMUsTn1Tg5offXgD3H8Wy
+         macA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=l4YYQ/GEOmvtTjzStYo8x7IGwbwCnW38Ss/qOzCy/CM=;
-        b=tNcB1p+75urxdcbqYCPcx9uwcukPHa1FU4e/tBn4azs7QwubGz3QdgOgkUSgTlGgXQ
-         dE3KY2WFHmp89GEf0CqgEnfRtaBmAG8KUVidwFMHFCsMedgNb+ePKh4oZOR4KxBtTMNo
-         zLAfO4yjWdTfDly07YhH/Mg8bM8cbc4EwEf9paNck7fLNPHGD3jr+ElS8rBz+rg5HHAE
-         h40GjFRj7j/NDXKkKtvVZ9gnVFOyw9HdtWmH5dFFk5kULJ2EpyuX46VetiWRITAGbQZj
-         +PLkmLUWuIMq0mqnWiRa32D1/b8aj3NFSiaDFJTXonyW9TcASztp4GuE4NfpO1hsQGxN
-         OOJA==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=5Gsf+3KPD/gx+nkIIbriAjtMYqhRmLFxNx1Fhlpog/o=;
+        b=QSBoAc/wDHKNfWJ/wq5ktBoX6LWhAsKyXGB4f3B7BR5QQsOjDtBAUzS0D6Wg5DC8vF
+         WrBo8Fb6KZZ4QZjvoRJBQzLIUUHganc/q7ldsyPRGhAukipzPr+YMbNvMMJ6NJZ/sKAj
+         oboIdRmojvdl3nfzALBmBbtnPjhEANyzKAFrSCXn14YUvsQ8bU7NzHEVwf9Zb/9EFt4U
+         kXgVJiIaM0yS7UPmKHLPr/S+QmkGYSpYZ8ybCJLTJv99hifaWBn14T1kxyzr3FSCbvGw
+         ++Nj0vRERcM88Va5m2lLoKAIRAc9b6uFP7sMBshDjULTJrPNfzitYnxH3xmi2mIJ5npW
+         6n3A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=MEjHkmlZ;
-       spf=pass (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::131 as permitted sender) smtp.mailfrom=youling257@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=RfiBykGY;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b29 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l4YYQ/GEOmvtTjzStYo8x7IGwbwCnW38Ss/qOzCy/CM=;
-        b=NmXDCnekojSWqvNHYwhLLAZxt7mxMyyPQ0rYX10O580bzScgIH4hRplxRKkv8QwAdz
-         RdVFpGBr3ioEj3A/yFZEfbmMlSmi3tPsUTr8DPlWv9z8PCG4EAGv9005tix7Mudi1aEh
-         s43FdveUHPOIN2hdfJ1yCp/rsDQXWJ8SylMjBcUai6lyXb+JqOwMbiGNzIzrzR+csJPv
-         QX3BVD3fZJmmDPTgakuBLLcC7dqZ+HPrX2wq4GQpH2xEDiIF0wUmVdqSnjRpekDyDcZH
-         j09FvKUAqXFmFbFJug5zKmvyAf+/BThdLQBOO6vVHc5fp5QyAhrS66sFNaVVPM2iffve
-         Sd0w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=l4YYQ/GEOmvtTjzStYo8x7IGwbwCnW38Ss/qOzCy/CM=;
-        b=WL7rAwndBTJEZH2J/SJtV1VTIt6HZTnNcVKb9hIbzopP9fKpm6aAUYwsXobV8uOx2c
-         H7rLpI5RfuNVRkwB9rrEXwKpsXhbs7A4FS/1xRO7xJ74vEowzRabEkrdotibSqeRAl/J
-         MVhC2Y7hmBKng8TiCdvoi5x5ZJEq3v3/fDSX2Jvu9+mHEHCqktG7QIfVeVABdoDd/0IS
-         7NNMvDjthTJmltDs9gLq5uoC70L1MfXIa4dfIxXhtYToJxFatPAiPZ2/AtbrQRATK9FZ
-         LP5FlNeSs46Evy/qZtvwTTcUs3ACkW7/GGcR3WCrGsX534IUSy9hPrMTXEHz5xNDPQ+c
-         +Dng==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5Gsf+3KPD/gx+nkIIbriAjtMYqhRmLFxNx1Fhlpog/o=;
+        b=jWi+JBIPr1R9cz/9zg5UQz5oJQlFAHpIoaIYwWYW5Rxv2l1w+DW+VWZsvVy5aYYaHN
+         miAypHMyouyu+P3wFl3NEIFvABC49z5Ir+SYAD95YYNobYgTRZ6A/AoEGsLfD9VvbFyn
+         Y3BGW3V1BomgPa8LPhbkSGPpgbC5NrFwEVD9mQ1ivuDsMxTHuvQPUD25ftOJEfgMH7K/
+         xzCDXeGxc40Dtb0TnO6So7W5NU58BGbmCphU9H16wRZUCukp3do4VvVkEzQ4uz+xdMFm
+         ZCk3HUVB59fRi6tjL6oQG8FsQpeUCDO7jWXj4fdLncP6aR76MmzcMCk0FUIqpbMa3VX5
+         UuEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l4YYQ/GEOmvtTjzStYo8x7IGwbwCnW38Ss/qOzCy/CM=;
-        b=lNN7guIRXhswpVnwGoQee0W4lDTz78ajC4NIbYF2jTrYGZ3BVfU9NKgbtKeNCO266o
-         Wv7Ma+3InFEOxU46bifja5U+yK8wyP6yLVuy/VHWoTkgdL66Pa8KBvAz5iLqKuSRP3eE
-         /DVgD9ljzOlMAcsh/JxOPyJONOGKHzERDWAqzdgP2gaVKZ7wyeLkWlM0rYQqKhZSjhIq
-         DEYcT08V0M5PKrwv7lp1y0MsPoHMWY5XTlWLEcvcPN4tF1GVvd+tTJn35neT3D9ko4Vd
-         u/o59C+AvppMH5seZe6fYe4oLB1ZfGgyEpK6FPs+NtHRYkZLGCfI16kM6GzRONCeRAj6
-         o+5Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0cm7YJCZ+VLRUFqCMsEumsv3A8Cu5LaqrqIsLCJfeM98IihDZw
-	tb+LWbKul9xKIP1EF8RKwhc=
-X-Google-Smtp-Source: AMsMyM6LrBirCgCYtgvWnT7N8Dsvl/BSykEuxobEw7ML25nD9Dzvs9mQTTpIuvplE2OrupNSId+DGg==
-X-Received: by 2002:a05:6512:798:b0:497:aa2b:8b10 with SMTP id x24-20020a056512079800b00497aa2b8b10mr3581571lfr.636.1666201069030;
-        Wed, 19 Oct 2022 10:37:49 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5Gsf+3KPD/gx+nkIIbriAjtMYqhRmLFxNx1Fhlpog/o=;
+        b=UyQtldMoTa0xtEWSvaLn7FtlKAOjRKsZjZIJs5w5FLGRw+icDyBPz2G3dIpEB5pDa8
+         Qkxpq9hFMIperlgqs8HXtQOFmEF4bijnWWPpO5i1Lpc25XkDSa4J8zx281PATDRoDQj+
+         M5ghFwRMylUz/6e070kkwp52duzwpFkcOWAK8wNHLFYvdLcsyFfdubpvOLFm3y1/v4Sg
+         8DFWL1UxrqLJVOtf2gHd+OFgGa5+AB05y4eHEvpILkZeO3v+6iWbGi9bHd7FXKP4K/+v
+         grtQB78lWDHIa+pWJkNlO/v8/p6nhVjOXOmtBbsAr7Jpm3oNgH9TrQejK5WkefMnkTPo
+         +8FQ==
+X-Gm-Message-State: ACrzQf1aA89u7PQIbnxp2kLohQ7aZZe0GoJTlKFrs6r2p/Tlhy4BhJm1
+	u0NEwAtwGy1Eq2NKGHEQstM=
+X-Google-Smtp-Source: AMsMyM4kzTGPDykLWjvX6ujmE0SSvwbOSTl7nzvd0Ze0VxdSCaRn27bKkUbpjYr0lDkjxBE4YbPXGw==
+X-Received: by 2002:a05:6830:d85:b0:661:af2f:9a09 with SMTP id bv5-20020a0568300d8500b00661af2f9a09mr4611026otb.58.1666202340475;
+        Wed, 19 Oct 2022 10:59:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5f5a:0:b0:48b:2227:7787 with SMTP id 26-20020ac25f5a000000b0048b22277787ls4340775lfz.3.-pod-prod-gmail;
- Wed, 19 Oct 2022 10:37:47 -0700 (PDT)
-X-Received: by 2002:ac2:5b12:0:b0:4a3:5a0b:4985 with SMTP id v18-20020ac25b12000000b004a35a0b4985mr3561262lfn.233.1666201067844;
-        Wed, 19 Oct 2022 10:37:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1666201067; cv=none;
+Received: by 2002:a05:6870:a584:b0:131:8180:91a with SMTP id
+ c4-20020a056870a58400b001318180091als6089631oam.8.-pod-prod-gmail; Wed, 19
+ Oct 2022 10:59:00 -0700 (PDT)
+X-Received: by 2002:a05:6870:e40c:b0:132:8577:98da with SMTP id n12-20020a056870e40c00b00132857798damr23106140oag.205.1666202340064;
+        Wed, 19 Oct 2022 10:59:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1666202340; cv=none;
         d=google.com; s=arc-20160816;
-        b=IvoNYtro3zGz37pU4YwVDYWW9NodxgoB8fxvrNJ21k02DWNoqyd74GYw/875NqiWty
-         lC9dQ8DB437VXERM9b9WEjLf60IFZV3792eyPQUjO8qty5L9wNxS6atYxWPqB3+xrIBW
-         fTd3Q44jSZUISlk26zYBCSBMc4HlJTJG8R4frsNF2ZFp925Nqdpw0Q+GokdJA76+Pj4G
-         qgme18HbaRw3ESYuz/oMwWMUUfri8yUfP6YbZ/fuAi4jCCQfeChwQBdfYD9GUUh6/Wf1
-         5vYVK7z+uCOyMCIIX9+y8gtuDHy5rK5xIqDnLofS6diMiLgyaOOBXHNOMRJHw5tjI+5/
-         zCkw==
+        b=rb7pIt+tmainHACQnBl6vDzFBOId/T2KQpI6p5VDrDirm8WkaZPLCxXk+STdMDoQ1f
+         Lv+oO8lgN9bpC7qOJkD0IfjsP+2IS/mBe2OIGkHNfnBjB/omuQ+ZnVgQqq19UdhIzMV2
+         vvG+C2QtSu18m01wGF3uEUl5vOLEoxY02PF5iQqJGyDguv/VpzR1x4rD5PCUOehs5xjr
+         IizytBdLer0RdeJRkR/zOILB/ZcriRnUl8KZTDaLmq3WwUKaBmBShvhk4jjuElBlqMoH
+         58cUsDXc3fhv2DhxolKRrCfkzs0eHHpN3eHXaoSjqVFNyeO5sNiuO1hetuEQAV6udkP1
+         oAvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :dkim-signature;
-        bh=alUQBLEPM/4ut+DBUtv9Ivb5l8ej5D57TPiVHx/bcBI=;
-        b=KgGrCRfgOmNOfp1BfwpNmGAyQ+Hm6Mj4wclZpj9N2kIfBhjNw9y0BnZT6+P7sraM0W
-         kxjhZE2Z4fIKAI90y8CiADWSiU0ED2okFp4h82Aro+DtgQHpnfSLLpbgy9cbCStccGUi
-         e+2UhRX9iAbk3Rpk/gwNcIjPNimf8nZt6kWupQ2yr+e47RJiOMOT+fMkRVv2GLTj39yQ
-         me7gZ0BlTed5r4UKQjl5CLwR52T4OJ7vMk6JWiM74i8KRUCYcQ00mqkhqTI6rTKZsNQ8
-         SW2awlbXd8X82fKGBuhu0riIVmaUZzybKznyifgIF5WvXXegeqra44c9LCffM65UKA54
-         dphw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=j5qHi6nHuKOfTP8VfwA/3L86+MJKtgh8T4LGj4c4RHw=;
+        b=jXccAZzCMNwgl1w6nbGlUwe5UYIedGl30ntHsKdIindRPYaQL0GGgsv1bc+RD1nu1K
+         cdzo63PWMrhz2jXPxfjT7lPTqzQpaHF2OhBVu4jW2HFAlCNwi2Yp0xXo3sbXUtxKrkQc
+         1qMzdXl9/yndEO/4x8KNCD9uz4UmcwZEteO9UC9+rfqMHaE6ipcf2uQFgn6Mr+EFyhed
+         AMYDH7V9yCItx/rdmeSmqUGxYYmxm2DPvg+YdGFutEXT79mgsVWmbjKjYbpjGm4KKxFL
+         IZkAa8+OvmCfdZ8xkXcTb0RDS2xDejP8LUUaoRFfuouLveBhWlvmNXnHxtACsO0HWWGi
+         61vQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=MEjHkmlZ;
-       spf=pass (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::131 as permitted sender) smtp.mailfrom=youling257@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com. [2a00:1450:4864:20::131])
-        by gmr-mx.google.com with ESMTPS id s5-20020a056512314500b004a469aa668dsi308922lfi.8.2022.10.19.10.37.47
+       dkim=pass header.i=@google.com header.s=20210112 header.b=RfiBykGY;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b29 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com. [2607:f8b0:4864:20::b29])
+        by gmr-mx.google.com with ESMTPS id j75-20020acaeb4e000000b00353e4e7f335si770641oih.4.2022.10.19.10.59.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Oct 2022 10:37:47 -0700 (PDT)
-Received-SPF: pass (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::131 as permitted sender) client-ip=2a00:1450:4864:20::131;
-Received: by mail-lf1-x131.google.com with SMTP id d6so29330332lfs.10
-        for <kasan-dev@googlegroups.com>; Wed, 19 Oct 2022 10:37:47 -0700 (PDT)
-X-Received: by 2002:a05:6512:758:b0:4a2:be27:c8f0 with SMTP id
- c24-20020a056512075800b004a2be27c8f0mr3154375lfs.681.1666201067381; Wed, 19
- Oct 2022 10:37:47 -0700 (PDT)
+        Wed, 19 Oct 2022 10:59:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b29 as permitted sender) client-ip=2607:f8b0:4864:20::b29;
+Received: by mail-yb1-xb29.google.com with SMTP id 203so21756715ybc.10
+        for <kasan-dev@googlegroups.com>; Wed, 19 Oct 2022 10:59:00 -0700 (PDT)
+X-Received: by 2002:a05:6902:305:b0:6c3:b4d6:7a04 with SMTP id
+ b5-20020a056902030500b006c3b4d67a04mr7524830ybs.93.1666202339610; Wed, 19 Oct
+ 2022 10:58:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220915150417.722975-19-glider@google.com> <20221019173620.10167-1-youling257@gmail.com>
-In-Reply-To: <20221019173620.10167-1-youling257@gmail.com>
-From: youling 257 <youling257@gmail.com>
-Date: Thu, 20 Oct 2022 01:37:35 +0800
-Message-ID: <CAOzgRda_CToTVicwxx86E7YcuhDTcayJR=iQtWQ3jECLLhHzcg@mail.gmail.com>
-Subject: Fwd: [PATCH v7 18/43] instrumented.h: add KMSAN support
-To: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
+ <CAOzgRda_CToTVicwxx86E7YcuhDTcayJR=iQtWQ3jECLLhHzcg@mail.gmail.com>
+In-Reply-To: <CAOzgRda_CToTVicwxx86E7YcuhDTcayJR=iQtWQ3jECLLhHzcg@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 19 Oct 2022 10:58:23 -0700
+Message-ID: <CANpmjNMPKokoJVFr9==-0-+O1ypXmaZnQT3hs4Ys0Y4+o86OVA@mail.gmail.com>
+Subject: Re: [PATCH v7 18/43] instrumented.h: add KMSAN support
+To: youling 257 <youling257@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>, 
 	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>, 
 	Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, 
@@ -131,21 +121,23 @@ To: Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org
 	Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Herbert Xu <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, 
 	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Matthew Wilcox <willy@infradead.org>, 
-	"\"Michael S. Tsirkin\"" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
+	Kees Cook <keescook@chromium.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Matthew Wilcox <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
 	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
 	Stephen Rothwell <sfr@canb.auug.org.au>, Steven Rostedt <rostedt@goodmis.org>, 
 	Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>, 
 	Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, 
 	linux-mm@kvack.org, linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/alternative; boundary="000000000000bee9ab05eb66aa1c"
-X-Original-Sender: YOULING257@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=MEjHkmlZ;       spf=pass
- (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::131
- as permitted sender) smtp.mailfrom=youling257@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20210112 header.b=RfiBykGY;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b29 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,28 +150,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---000000000000bee9ab05eb66aa1c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
----------- Forwarded message ---------
-=E5=8F=91=E4=BB=B6=E4=BA=BA=EF=BC=9A youling257 <youling257@gmail.com>
-Date: 2022=E5=B9=B410=E6=9C=8820=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=
-=881:36
-Subject: Re: [PATCH v7 18/43] instrumented.h: add KMSAN support
-To: <glider@google.com>
-Cc: <youling257@gmail.com>
-
-
-i using linux kernel 6.1rc1 on android, i use gcc12 build kernel 6.1 for
+On Wed, 19 Oct 2022 at 10:37, youling 257 <youling257@gmail.com> wrote:
+>
+>
+>
+> ---------- Forwarded message ---------
+> =E5=8F=91=E4=BB=B6=E4=BA=BA=EF=BC=9A youling257 <youling257@gmail.com>
+> Date: 2022=E5=B9=B410=E6=9C=8820=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=
+=8D=881:36
+> Subject: Re: [PATCH v7 18/43] instrumented.h: add KMSAN support
+> To: <glider@google.com>
+> Cc: <youling257@gmail.com>
+>
+>
+> i using linux kernel 6.1rc1 on android, i use gcc12 build kernel 6.1 for =
 android, CONFIG_KMSAN is not set.
-"instrumented.h: add KMSAN support" cause android bluetooth high CPU usage.
-git bisect linux kernel 6.1rc1, "instrumented.h: add KMSAN support" is a
+> "instrumented.h: add KMSAN support" cause android bluetooth high CPU usag=
+e.
+> git bisect linux kernel 6.1rc1, "instrumented.h: add KMSAN support" is a =
 bad commit for my android.
-
-this is my kernel 6.1,  revert include/linux/instrumented.h fix high cpu
+>
+> this is my kernel 6.1,  revert include/linux/instrumented.h fix high cpu =
 usage problem.
-https://github.com/youling257/android-mainline/commits/6.1
+> https://github.com/youling257/android-mainline/commits/6.1
+
+What arch?
+If x86, can you try to revert only the change to
+instrument_get_user()? (I wonder if the u64 conversion is causing
+issues.)
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -187,48 +185,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAOzgRda_CToTVicwxx86E7YcuhDTcayJR%3DiQtWQ3jECLLhHzcg%40mail.gmai=
-l.com.
-
---000000000000bee9ab05eb66aa1c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">---------- Forwarded message ---------<br>=E5=8F=91=E4=
-=BB=B6=E4=BA=BA=EF=BC=9A <strong class=3D"gmail_sendername" dir=3D"auto">yo=
-uling257</strong> <span dir=3D"auto">&lt;<a href=3D"mailto:youling257@gmail=
-.com">youling257@gmail.com</a>&gt;</span><br>Date: 2022=E5=B9=B410=E6=9C=88=
-20=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=881:36<br>Subject: Re: [PATCH=
- v7 18/43] instrumented.h: add KMSAN support<br>To:  &lt;<a href=3D"mailto:=
-glider@google.com">glider@google.com</a>&gt;<br>Cc:  &lt;<a href=3D"mailto:=
-youling257@gmail.com">youling257@gmail.com</a>&gt;<br></div><br><br>i using=
- linux kernel 6.1rc1 on android, i use gcc12 build kernel 6.1 for android, =
-CONFIG_KMSAN is not set.<br>
-&quot;instrumented.h: add KMSAN support&quot; cause android bluetooth high =
-CPU usage.<br>
-git bisect linux kernel 6.1rc1, &quot;instrumented.h: add KMSAN support&quo=
-t; is a bad commit for my android.<br>
-<br>
-this is my kernel 6.1,=C2=A0 revert include/linux/instrumented.h fix high c=
-pu usage problem.<br>
-<a href=3D"https://github.com/youling257/android-mainline/commits/6.1" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/youling257/=
-android-mainline/commits/6.1</a><br>
-</div></div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CAOzgRda_CToTVicwxx86E7YcuhDTcayJR%3DiQtWQ3jECLLhHzcg%=
-40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
-gle.com/d/msgid/kasan-dev/CAOzgRda_CToTVicwxx86E7YcuhDTcayJR%3DiQtWQ3jECLLh=
-Hzcg%40mail.gmail.com</a>.<br />
-
---000000000000bee9ab05eb66aa1c--
+kasan-dev/CANpmjNMPKokoJVFr9%3D%3D-0-%2BO1ypXmaZnQT3hs4Ys0Y4%2Bo86OVA%40mai=
+l.gmail.com.
