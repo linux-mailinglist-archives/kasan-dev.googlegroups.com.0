@@ -1,127 +1,106 @@
-Return-Path: <kasan-dev+bncBD6ZP2WSRIFRBAHRZKNAMGQEOD3AGBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBMVBZONAMGQELLGX4JI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B062607A5A
-	for <lists+kasan-dev@lfdr.de>; Fri, 21 Oct 2022 17:19:29 +0200 (CEST)
-Received: by mail-wm1-x340.google.com with SMTP id c130-20020a1c3588000000b003b56be513e1sf1579555wma.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 21 Oct 2022 08:19:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1666365568; cv=pass;
+Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
+	by mail.lfdr.de (Postfix) with ESMTPS id A371B607D27
+	for <lists+kasan-dev@lfdr.de>; Fri, 21 Oct 2022 19:02:44 +0200 (CEST)
+Received: by mail-pl1-x63d.google.com with SMTP id e10-20020a17090301ca00b00183d123e2a5sf1987282plh.14
+        for <lists+kasan-dev@lfdr.de>; Fri, 21 Oct 2022 10:02:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1666371763; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dFwkCzP1aAGOssizeSehr/ym/m7ifnAl06Tny/XJ29gN3Rr0jStrnOsvq7mcpf796d
-         rx6ZcJhN3qFcPKujqSX81aEZSvUkJYYZ3JjHWSDs3k9LmqGpfQadt06IC7ozTYcfQbXC
-         iFieBS7WPuzzZaueeBIhJf4oS2Pry5blReaTPeD0pF5jp26Ku7Rvb/fJTbshLp0CECa3
-         7ieGl7zyGV8IpBuRaTSdFgJjBr6/vziTvGHnhTpgHN65UpGcpoGldS8ed7fUt8pJ5Q4D
-         hlzd+FVrkhq3puFhp3uKEkqwX12Ff7zHnnH4iQIEt5YWKqUZRgQz4e1eJaDxFFTapHfD
-         lOEg==
+        b=tnJI3A/ZllH1oDxKGlErCzzDn7q+3WHB3VFfHPWnaYWqspkUXlV8dPpCiGUDClqerK
+         c0pjA7kf1Dh1t5LrLk5bSMYhME+y4O2bgtqyzQrp6hw0IUpVcOTa6+0ohHk7H8FhSBv0
+         7u+4AVs4tBBbf66bb4vgTNPxTj7Zuncalxt6DP4dVLnRVT1VVRF+1fALBVNLXqOMs4Do
+         Y19o1J+gQ4Z46NPUXMA+NYVGwBM09fO01O6dSxEVTNkBMyGGAl++8h3oAZj/zxHQKqQz
+         VXGT5eT02QKPFTWDRyladVHlV/+plkBOM7N965TSBc5BybThbA7mPT+FVqdFHojKioW7
+         HPvg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :references:in-reply-to:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=4UEfLGAfCbJoxQYkO2sb47G0mLLtZ4pWUxJxKCfFQiI=;
-        b=Bz3D9bLbWIFforR/cCd940GeQl2Fkuz37CzetS7VjgbIPfjTZ2FmZ+TMME7W8Ot+2c
-         H9xGCeHvBfPIw5mJjGM6X7x9CYZSGi112ptbx6T0gVVwRbyrmPreXhNdszpp7pJdJkgr
-         OG4pV2lUy9JpivC6fFFAL5MzICVmjDRIMpJrxhlt4QGS7SsOygsp8eNw68Q04VLp6/fs
-         z4yGWdc3Ha39+nEYtmLu8o+kjD5ZxPte9sHi1xEvGfU5Xt8aFIrRZy/s1DdO4mVZBfBE
-         UBpwDBUcWVHGgaXvfaCzkZpHHqvNg2EFJ6hPrWuSox5FINHT2Gc42daQF0AXihxCN26w
-         rNwA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=+7SVAFoygGa+eu2Be35wp+G8K2D0OzXA3bJ+fblyP7s=;
+        b=Iw2+BoN83H7t5CATg1VVJkxk0hy8Ynv/Nv8J8Wmw/zaHjFgD6Pq0Mu+pW/uxpfyJjj
+         g3BEVn36TQdOqKrHKTME0e/A90ukKwGmrjgD85oqeMdupxfQLogljzDo0a1M+25bX5/6
+         PoGnTSANAl6HZ0u0mrtYpt6mrtgMRaOKtvZJUd+53Ns5tESOF4j+elNBFEzDKI+tWj87
+         rBTkIbZBWZPz7omNjZk4wQK7J54H1NyzwiJJuy2Ju8k2+vzirh5OxgJTKS9VZGvRtEXW
+         IGiqsMzJELkDT+/Ze8KH/e9RXnOJwTbLB76jiX4oMP+0pjfWnFyIiTcWtepSLfnZnaVr
+         c//g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=XhEIMtoh;
-       spf=pass (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::133 as permitted sender) smtp.mailfrom=youling257@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=gbQE2uDh;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4UEfLGAfCbJoxQYkO2sb47G0mLLtZ4pWUxJxKCfFQiI=;
-        b=QWcVyAZopXDadYU4S+Zt5/4zT3kvdLSTO9tpVSygZyTrnG29wGJQyCxyj9Fb2uvwaU
-         EZkDhrxPrUG9jimCueGENTA2RzVXmYQYTJ5B8q/oeXfTcu6+vPos0QysnkH87AWz50+d
-         rEPnRgrF1eAhOQiOGDtvEyJ41kOQNBlzS1pj5OMxLnMqZNQpmry+E8ZzJqblEMmB/XDC
-         OMMsLs1pgDkT7HpIpaH0/LQ3fnQgOmo2PpUlyw8kIPLJlWxqX8D+kJRaNrFVDdVV7ekZ
-         lscI0+lSGu2bobu6Mb2PKfrgqK6C4mlFkKRdrRFri5FLUtRJCv+zz5gE4taAf03PfGkh
-         Njtg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4UEfLGAfCbJoxQYkO2sb47G0mLLtZ4pWUxJxKCfFQiI=;
-        b=ByrM0+FJajm7TNeTD6lvcG9uSwQH8gSmq2oqVkQfJ6vLWKF2GdrJMX3lTTyAWm7r3i
-         njxtEFNQjgvH/S1huWQPMdheU1pqbAS1pag99ruW6A2skMPITn1Pf1GGlVq2f391Iuha
-         funOViuFJ7PziJKn3F0gpdGgCiPR9Rzo5Vy7pmoqExCRB6HWi8Dh9P/0VV63G0B3yQrU
-         B+E2s1m3HMONBsyGF14kz+mADc87EBXMrunsmAFpWuO5r0vzNcyoJqrCmCkRrMbhTjoR
-         ukfd0LMBIpHwdXe/EU4P8fBPtMYbqrNogWBGVPsXUNABStG8Md9EQOz/4tgpu8e2rrTx
-         +g+Q==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+7SVAFoygGa+eu2Be35wp+G8K2D0OzXA3bJ+fblyP7s=;
+        b=KhmJCpPIwX1d1gz0L7wLzeAVIbEwclDcKQ6uWwmj18MK96rzsAONCQS+SSW4M4SD9f
+         k1li4PCrQWnHXeL8DN8pugOFLZOJuDGQ1VCme2PgwjhPGoo7HPXrYO4YsrBP3Ib7isHU
+         B0BAQiDyJWHBCPOB3EKtXB1Ob+GUMje424WtJS854rszyYO0ZMpuXa2KOLWtdNBJGcpF
+         kwx1xAfGBy5vDuMxsBdvJFAQtL1ZOK63G6L48F2UNewEw/gqSWJlxw6tUkzpFgkK92I7
+         iNqmi73h4UIgieKn5VHt9rEbCWZBrScFL58zKHM1IOjX3PAstJxEG60p0xyiOb3pwDsS
+         3aoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:references:in-reply-to:mime-version
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4UEfLGAfCbJoxQYkO2sb47G0mLLtZ4pWUxJxKCfFQiI=;
-        b=cebTSaFh3xTBhWu6jeKnPWyZUIE2aFFQkKZUWMK+jjT2P62WGaNjcrYCMsIht6XCSt
-         n5UK7Gg0OVClfBokVunOdSVzNT/dti36gAryVKWkZxCe86I3EwLJkhpYv35nUGn5Y84R
-         MkZ1GI5na7PkwTcAylqzSF/g89A7u4lsmASIE92Tv/vupcM369DaQoUcLix7s47ZcpNt
-         92zTnatVrJUYFo+fOou7EspYYqIpvYyFRTnSJ5OlX8B/boHSqScGvRotLBIRC3QEwR62
-         7ZyjSAyBUhhL5nGMgQy0uc07hLsJptUoJRFG5gyfrwkz1PyTIDQ/OAfQi9X4lfIa1vnL
-         hPPQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0yDy7V1dn/YBgNAjvnqYohXd8qNn0i9OW4kaWMYqll7yuQpZRI
-	xdSoB8lC48hm7w6rKRDtsrQ=
-X-Google-Smtp-Source: AMsMyM4Wk6ob1/zTRZb8uQZLUU7f+E3o8q6/U6VAxkFaQjmo/6Bmg1TpK3XSHUmy4fa1BpKhYwAzqg==
-X-Received: by 2002:a05:6000:1845:b0:22f:bfca:6439 with SMTP id c5-20020a056000184500b0022fbfca6439mr12793690wri.298.1666365568521;
-        Fri, 21 Oct 2022 08:19:28 -0700 (PDT)
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+7SVAFoygGa+eu2Be35wp+G8K2D0OzXA3bJ+fblyP7s=;
+        b=hcMckgIhm20QGZqxT20vycSG+03YEKXLsC1BdUGRHWMiC9re6BZPXy+ogLPAXMsuPh
+         nNBiPJv/rfAD1CUOb1rGvZGIy7RSghSiLafKZCuvMgSKNrZd2kgz1y+OENRH8w870EcH
+         2HI8p0/tDdin6HA3pYLivmVc8fk7WaZqRy37Fi5l36LMhMUbL+6nST7+ANd9imCuA+u8
+         l2DuLy2fXz4bktFEymROUzA3uICFWreRMPNBZxr6iedP1MKZeP0SfqkeufSDKdJgIYGc
+         E/Hpw1qta8K3Uq7QIc4jLtNnW4WFxEzxUGl6LpoMA8flF8SaW0OVCZ2g98QsGRajiUAp
+         zRpQ==
+X-Gm-Message-State: ACrzQf28kBH6AMLvWYRRNegD28NGKltT2Ts0ydZnv0gmxrVtKvcVgoL3
+	Y92YI5+COSGSDx3UKIQwwZU=
+X-Google-Smtp-Source: AMsMyM67kWvAYwnKr6EWJKwdH9M5zf+M7KT52yHywdHNAC4ICcgdAg+0dbb8WKwSq5oP2WJDFm9Ynw==
+X-Received: by 2002:a17:90b:4d8c:b0:20d:2935:7058 with SMTP id oj12-20020a17090b4d8c00b0020d29357058mr58534032pjb.86.1666371762996;
+        Fri, 21 Oct 2022 10:02:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:b57:b0:3c5:f6bb:ee12 with SMTP id
- k23-20020a05600c0b5700b003c5f6bbee12ls1384438wmr.3.-pod-control-gmail; Fri,
- 21 Oct 2022 08:19:27 -0700 (PDT)
-X-Received: by 2002:a05:600c:4f46:b0:3b4:fed8:331e with SMTP id m6-20020a05600c4f4600b003b4fed8331emr34991465wmq.198.1666365567347;
-        Fri, 21 Oct 2022 08:19:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1666365567; cv=none;
+Received: by 2002:a62:2582:0:b0:557:cfb6:bcec with SMTP id l124-20020a622582000000b00557cfb6bcecls1463088pfl.9.-pod-prod-gmail;
+ Fri, 21 Oct 2022 10:02:42 -0700 (PDT)
+X-Received: by 2002:a05:6a00:1488:b0:563:9d96:660f with SMTP id v8-20020a056a00148800b005639d96660fmr20143816pfu.0.1666371762144;
+        Fri, 21 Oct 2022 10:02:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1666371762; cv=none;
         d=google.com; s=arc-20160816;
-        b=sOqLnOiXLGYmPMwLmTBmZJOqM0oEpTw/1LYM5jtj7pfcaDCZJ6wqcIlQ7vQj8iljI+
-         2yETnvEx630dpnK7DxZpS5a27E6Gu4sH9RY0aO1nldL1iupmX3c5mpow2RnbT6Djh0iU
-         35PzozLpmhY6RZGbpkeaKl30UYURoC4/2Mo1iBITv1bTtrTOm57Og3qlG1TBMbt5OK5l
-         BDKtSsDG4yQlv+2qka6Ft5/w3UFZur9JleDo2IWGSS0CCtf8c8mKTBQ78hq0GuMxwdAN
-         vhy9uXS++jestgr+oAlxMIp9Kp5akfs/jDPH4jBOafAzeopCXaOg6Ovrf8x0JRYCTEM1
-         oSSg==
+        b=r8oy9hzKyeAO8vTU768iIHYF0cqw6OFBpPnktWi7X/4AEWDJ9PLTBcNy2poVE4qGxH
+         3bI/3vXOxYXAUQmjkQ2UBANBfxm58DwGFTgHBAJw4Zj98EiyR/qtggQAX/hS/EkpRYUK
+         E6GQw23GM8Fy58UyI3HYqI3QgVdZ+8yLlg1p10v3E2R4/+guOUTE6XP/s4367CpVvv11
+         /Fym0lSgVIUwykKy7K8x8f2H5D+AJ6oFfrUzSl0e1tRgp2yN0ejs8YjrRO4AoMM+YqE/
+         xjmKSzLQISF9BpkiFdN61JcDnq/Ppqy2JeNoim2bNOR6/oQiUyei0U5LK8mlwlZebvl/
+         Re4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=nLPDviM40EFa/Qu4CMFk6R9DVn/gn4Pe+x/zBYpv/KU=;
-        b=lwo5GAPoptdCr3IwTCeDjBGBruuHCRF1iahcUEXehyRqcElfytomnEZW5k5h24gONb
-         ZVb8djUaN1jQykJ5x+bBMk98kDA/8uxkcdTkZ5jfpnqsLm0bylBzayBuE+cqujKpgyyb
-         BoaQwoPb9hA+JrRMucCBm0G+YpKy1cqwmJuLnCOr2IZ/93qO5mE0sPbqZV0Gp5Uw3KTM
-         NUdpDEz7/ABKvIpGl7xQPxEUJ/QVP6sr1JgbLFdbl2fN0pJgY8VrZoMGI3MSlL2/wQl7
-         MmjBNPSaYWg5BluZ3EV1k3sK/Jlp/BbRxToHLwgDBZvApKx+XO23Kn1QK0jXJugyMvmi
-         e0wA==
+        bh=UE0GQ1KPoluhkzNihpqKRt236ZCdBB8QJMFWTklYcAc=;
+        b=rpzjnzCdH4Wi5+A0v04LJEVZ2YZQYUWurkX3C0GjNG78jOhPcJ9fgUZUD5hIVe2/et
+         utAnPmGzlwqCwGqYn2opLqMPAHyH4gJ12DCPpEPwLLhCM2y17bXnyBQeDtKju40rcd0Q
+         acqS9sIO+gaz3zCTkJcCk0Eiw47TUOr3EL0ouV0s14TuTOTPyTxNtZfNBdTHYoFq6Ceh
+         iJyoD9tj+NT6I7UHgzN9I51VzPFDXwELa/kZadG9uK1HQC7TevEgBNVlq/6BwCoLpmUL
+         SoehzhzZ3SHiDC5RkwiNPU5YwA6GQjvtF232kYdngOUxPCcEafZUxPRfeofM+NMSZ2P8
+         ghJw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=XhEIMtoh;
-       spf=pass (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::133 as permitted sender) smtp.mailfrom=youling257@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com. [2a00:1450:4864:20::133])
-        by gmr-mx.google.com with ESMTPS id a1-20020a05600c348100b003c6c0197f3dsi249885wmq.2.2022.10.21.08.19.27
+       dkim=pass header.i=@google.com header.s=20210112 header.b=gbQE2uDh;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com. [2607:f8b0:4864:20::b2e])
+        by gmr-mx.google.com with ESMTPS id d2-20020a170903230200b001811a197774si1012280plh.8.2022.10.21.10.02.42
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Oct 2022 08:19:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::133 as permitted sender) client-ip=2a00:1450:4864:20::133;
-Received: by mail-lf1-x133.google.com with SMTP id o12so5663426lfq.9
-        for <kasan-dev@googlegroups.com>; Fri, 21 Oct 2022 08:19:27 -0700 (PDT)
-X-Received: by 2002:a05:6512:4002:b0:4a2:6243:8384 with SMTP id
- br2-20020a056512400200b004a262438384mr6716302lfb.29.1666365566622; Fri, 21
- Oct 2022 08:19:26 -0700 (PDT)
+        Fri, 21 Oct 2022 10:02:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) client-ip=2607:f8b0:4864:20::b2e;
+Received: by mail-yb1-xb2e.google.com with SMTP id i127so4014497ybc.11
+        for <kasan-dev@googlegroups.com>; Fri, 21 Oct 2022 10:02:42 -0700 (PDT)
+X-Received: by 2002:a25:a088:0:b0:6ca:33ff:5b30 with SMTP id
+ y8-20020a25a088000000b006ca33ff5b30mr9002381ybh.242.1666371761519; Fri, 21
+ Oct 2022 10:02:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab3:5411:0:b0:1f6:575a:5fb7 with HTTP; Fri, 21 Oct 2022
- 08:19:25 -0700 (PDT)
-In-Reply-To: <CANpmjNPUqVwHLVg5weN3+m7RJ7pCfDjBqJ2fBKueeMzKn=R=jA@mail.gmail.com>
 References: <20220915150417.722975-19-glider@google.com> <20221019173620.10167-1-youling257@gmail.com>
  <CAOzgRda_CToTVicwxx86E7YcuhDTcayJR=iQtWQ3jECLLhHzcg@mail.gmail.com>
  <CANpmjNMPKokoJVFr9==-0-+O1ypXmaZnQT3hs4Ys0Y4+o86OVA@mail.gmail.com>
@@ -130,13 +109,15 @@ References: <20220915150417.722975-19-glider@google.com> <20221019173620.10167-1
  <Y1Bt+Ia93mVV/lT3@elver.google.com> <CAG_fn=WLRN=C1rKrpq4=d=AO9dBaGxoa6YsG7+KrqAck5Bty0Q@mail.gmail.com>
  <CAOzgRdb+W3_FuOB+P_HkeinDiJdgpQSsXMC4GArOSixL9K5avg@mail.gmail.com>
  <CANpmjNMUCsRm9qmi5eydHUHP2f5Y+Bt_thA97j8ZrEa5PN3sQg@mail.gmail.com>
- <CAOzgRdZsNWRHOUUksiOhGfC7XDc+Qs2TNKtXQyzm2xj4to+Y=Q@mail.gmail.com> <CANpmjNPUqVwHLVg5weN3+m7RJ7pCfDjBqJ2fBKueeMzKn=R=jA@mail.gmail.com>
-From: youling 257 <youling257@gmail.com>
-Date: Fri, 21 Oct 2022 23:19:25 +0800
-Message-ID: <CAOzgRdYr82TztbX4j7SDjJFiTd8b1B60QZ7jPkNOebB-jO9Ocg@mail.gmail.com>
+ <CAOzgRdZsNWRHOUUksiOhGfC7XDc+Qs2TNKtXQyzm2xj4to+Y=Q@mail.gmail.com>
+ <CANpmjNPUqVwHLVg5weN3+m7RJ7pCfDjBqJ2fBKueeMzKn=R=jA@mail.gmail.com> <CAOzgRdYr82TztbX4j7SDjJFiTd8b1B60QZ7jPkNOebB-jO9Ocg@mail.gmail.com>
+In-Reply-To: <CAOzgRdYr82TztbX4j7SDjJFiTd8b1B60QZ7jPkNOebB-jO9Ocg@mail.gmail.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 21 Oct 2022 10:02:05 -0700
+Message-ID: <CAG_fn=VE4qrXhLzEkNR_8PcO9N4AYYhNaXYvZNffvVEo7AHr-A@mail.gmail.com>
 Subject: Re: [PATCH v7 18/43] instrumented.h: add KMSAN support
-To: Marco Elver <elver@google.com>
-Cc: Alexander Potapenko <glider@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+To: youling 257 <youling257@gmail.com>
+Cc: Marco Elver <elver@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
 	Alexei Starovoitov <ast@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
 	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
 	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, 
@@ -152,13 +133,15 @@ Cc: Alexander Potapenko <glider@google.com>, Alexander Viro <viro@zeniv.linux.or
 	Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>, 
 	Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, 
 	linux-mm@kvack.org, linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: YOULING257@gmail.com
+Content-Type: multipart/alternative; boundary="000000000000e934c005eb8e68d0"
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=XhEIMtoh;       spf=pass
- (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::133
- as permitted sender) smtp.mailfrom=youling257@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20210112 header.b=gbQE2uDh;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b2e as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -171,56 +154,195 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-CONFIG_DEBUG_INFO=y
-CONFIG_AS_HAS_NON_CONST_LEB128=y
-# CONFIG_DEBUG_INFO_NONE is not set
-CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
-# CONFIG_DEBUG_INFO_DWARF4 is not set
-# CONFIG_DEBUG_INFO_DWARF5 is not set
-# CONFIG_DEBUG_INFO_REDUCED is not set
-# CONFIG_DEBUG_INFO_COMPRESSED is not set
-# CONFIG_DEBUG_INFO_SPLIT is not set
-# CONFIG_DEBUG_INFO_BTF is not set
-# CONFIG_GDB_SCRIPTS is not set
+--000000000000e934c005eb8e68d0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-perf top still no function name.
+On Fri, Oct 21, 2022 at 8:19 AM youling 257 <youling257@gmail.com> wrote:
 
-12.90%  [kernel]              [k] 0xffffffff833dfa64
-     3.78%  [kernel]              [k] 0xffffffff8285b439
-     3.61%  [kernel]              [k] 0xffffffff83370254
-     2.32%  [kernel]              [k] 0xffffffff8337025b
-     1.88%  bluetooth.default.so  [.] 0x000000000000d09d
+> CONFIG_DEBUG_INFO=3Dy
+> CONFIG_AS_HAS_NON_CONST_LEB128=3Dy
+> # CONFIG_DEBUG_INFO_NONE is not set
+> CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=3Dy
+> # CONFIG_DEBUG_INFO_DWARF4 is not set
+> # CONFIG_DEBUG_INFO_DWARF5 is not set
+> # CONFIG_DEBUG_INFO_REDUCED is not set
+> # CONFIG_DEBUG_INFO_COMPRESSED is not set
+> # CONFIG_DEBUG_INFO_SPLIT is not set
+> # CONFIG_DEBUG_INFO_BTF is not set
+> # CONFIG_GDB_SCRIPTS is not set
+>
+> perf top still no function name.
+>
+Will it help if you disable CONFIG_RANDOMIZE_BASE?
+(if it doesn't show the symbols, at least we'll be able to figure out the
+offending function by running nm)
 
-2022-10-21 15:37 GMT+08:00, Marco Elver <elver@google.com>:
-> On Thu, 20 Oct 2022 at 23:39, youling 257 <youling257@gmail.com> wrote:
->>
->> PerfTop:    8253 irqs/sec  kernel:75.3%  exact: 100.0% lost: 0/0 drop:
->> 0/17899 [4000Hz cycles],  (all, 8 CPUs)
->> ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
->>
->>     14.87%  [kernel]              [k] 0xffffffff941d1f37
->>      6.71%  [kernel]              [k] 0xffffffff942016cf
->>
->> what is 0xffffffff941d1f37?
+
 >
-> You need to build with debug symbols:
-> CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
+> 12.90%  [kernel]              [k] 0xffffffff833dfa64
+>      3.78%  [kernel]              [k] 0xffffffff8285b439
+>      3.61%  [kernel]              [k] 0xffffffff83370254
+>      2.32%  [kernel]              [k] 0xffffffff8337025b
+>      1.88%  bluetooth.default.so  [.] 0x000000000000d09d
 >
-> Then it'll show function names.
->
->> 2022-10-21 14:16 GMT+08:00, Marco Elver <elver@google.com>:
->> > On Thu, 20 Oct 2022 at 22:55, youling 257 <youling257@gmail.com> wrote:
->> >>
->> >> How to use perf tool?
->> >
->> > The simplest would be to try just "perf top" - and see which kernel
->> > functions consume most CPU cycles. I would suggest you compare both
->> > kernels, and see if you can spot a function which uses more cycles% in
->> > the problematic kernel.
->> >
+> 2022-10-21 15:37 GMT+08:00, Marco Elver <elver@google.com>:
+> > On Thu, 20 Oct 2022 at 23:39, youling 257 <youling257@gmail.com> wrote:
+> >>
+> >> PerfTop:    8253 irqs/sec  kernel:75.3%  exact: 100.0% lost: 0/0 drop:
+> >> 0/17899 [4000Hz cycles],  (all, 8 CPUs)
+> >>
+> -------------------------------------------------------------------------=
+---------------------------------------------------------------------------=
+-----------------------------------------------------------
+> >>
+> >>     14.87%  [kernel]              [k] 0xffffffff941d1f37
+> >>      6.71%  [kernel]              [k] 0xffffffff942016cf
+> >>
+> >> what is 0xffffffff941d1f37?
+> >
+> > You need to build with debug symbols:
+> > CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=3Dy
+> >
+> > Then it'll show function names.
+> >
+> >> 2022-10-21 14:16 GMT+08:00, Marco Elver <elver@google.com>:
+> >> > On Thu, 20 Oct 2022 at 22:55, youling 257 <youling257@gmail.com>
+> wrote:
+> >> >>
+> >> >> How to use perf tool?
+> >> >
+> >> > The simplest would be to try just "perf top" - and see which kernel
+> >> > functions consume most CPU cycles. I would suggest you compare both
+> >> > kernels, and see if you can spot a function which uses more cycles% =
+in
+> >> > the problematic kernel.
+> >> >
+> >
 >
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAOzgRdYr82TztbX4j7SDjJFiTd8b1B60QZ7jPkNOebB-jO9Ocg%40mail.gmail.com.
+
+--=20
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAG_fn%3DVE4qrXhLzEkNR_8PcO9N4AYYhNaXYvZNffvVEo7AHr-A%40mail.gmai=
+l.com.
+
+--000000000000e934c005eb8e68d0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 21, 2022 at 8:19 AM youli=
+ng 257 &lt;<a href=3D"mailto:youling257@gmail.com">youling257@gmail.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">CONF=
+IG_DEBUG_INFO=3Dy<br>
+CONFIG_AS_HAS_NON_CONST_LEB128=3Dy<br>
+# CONFIG_DEBUG_INFO_NONE is not set<br>
+CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=3Dy<br>
+# CONFIG_DEBUG_INFO_DWARF4 is not set<br>
+# CONFIG_DEBUG_INFO_DWARF5 is not set<br>
+# CONFIG_DEBUG_INFO_REDUCED is not set<br>
+# CONFIG_DEBUG_INFO_COMPRESSED is not set<br>
+# CONFIG_DEBUG_INFO_SPLIT is not set<br>
+# CONFIG_DEBUG_INFO_BTF is not set<br>
+# CONFIG_GDB_SCRIPTS is not set<br>
+<br>
+perf top still no function name.<br></blockquote><div>Will it help if you d=
+isable CONFIG_RANDOMIZE_BASE?</div><div>(if it doesn&#39;t show the symbols=
+, at least we&#39;ll be able to figure out the offending function by runnin=
+g nm)</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+<br>
+12.90%=C2=A0 [kernel]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [k] 0=
+xffffffff833dfa64<br>
+=C2=A0 =C2=A0 =C2=A03.78%=C2=A0 [kernel]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 [k] 0xffffffff8285b439<br>
+=C2=A0 =C2=A0 =C2=A03.61%=C2=A0 [kernel]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 [k] 0xffffffff83370254<br>
+=C2=A0 =C2=A0 =C2=A02.32%=C2=A0 [kernel]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 [k] 0xffffffff8337025b<br>
+=C2=A0 =C2=A0 =C2=A01.88%=C2=A0 <a href=3D"http://bluetooth.default.so" rel=
+=3D"noreferrer" target=3D"_blank">bluetooth.default.so</a>=C2=A0 [.] 0x0000=
+00000000d09d<br>
+<br>
+2022-10-21 15:37 GMT+08:00, Marco Elver &lt;<a href=3D"mailto:elver@google.=
+com" target=3D"_blank">elver@google.com</a>&gt;:<br>
+&gt; On Thu, 20 Oct 2022 at 23:39, youling 257 &lt;<a href=3D"mailto:youlin=
+g257@gmail.com" target=3D"_blank">youling257@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; PerfTop:=C2=A0 =C2=A0 8253 irqs/sec=C2=A0 kernel:75.3%=C2=A0 exact=
+: 100.0% lost: 0/0 drop:<br>
+&gt;&gt; 0/17899 [4000Hz cycles],=C2=A0 (all, 8 CPUs)<br>
+&gt;&gt; ------------------------------------------------------------------=
+---------------------------------------------------------------------------=
+------------------------------------------------------------------<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A014.87%=C2=A0 [kernel]=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 [k] 0xffffffff941d1f37<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 6.71%=C2=A0 [kernel]=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 [k] 0xffffffff942016cf<br>
+&gt;&gt;<br>
+&gt;&gt; what is 0xffffffff941d1f37?<br>
+&gt;<br>
+&gt; You need to build with debug symbols:<br>
+&gt; CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=3Dy<br>
+&gt;<br>
+&gt; Then it&#39;ll show function names.<br>
+&gt;<br>
+&gt;&gt; 2022-10-21 14:16 GMT+08:00, Marco Elver &lt;<a href=3D"mailto:elve=
+r@google.com" target=3D"_blank">elver@google.com</a>&gt;:<br>
+&gt;&gt; &gt; On Thu, 20 Oct 2022 at 22:55, youling 257 &lt;<a href=3D"mail=
+to:youling257@gmail.com" target=3D"_blank">youling257@gmail.com</a>&gt; wro=
+te:<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; How to use perf tool?<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; The simplest would be to try just &quot;perf top&quot; - and =
+see which kernel<br>
+&gt;&gt; &gt; functions consume most CPU cycles. I would suggest you compar=
+e both<br>
+&gt;&gt; &gt; kernels, and see if you can spot a function which uses more c=
+ycles% in<br>
+&gt;&gt; &gt; the problematic kernel.<br>
+&gt;&gt; &gt;<br>
+&gt;<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Alexander Potapenko<br>Software=
+ Engineer<br><br>Google Germany GmbH<br>Erika-Mann-Stra=C3=9Fe, 33<br>80636=
+ M=C3=BCnchen<br><br>Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebasti=
+an<br>Registergericht und -nummer: Hamburg, HRB 86891<br>Sitz der Gesellsch=
+aft: Hamburg<br></div></div></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/CAG_fn%3DVE4qrXhLzEkNR_8PcO9N4AYYhNaXYvZNffvVEo7AHr-A%=
+40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
+gle.com/d/msgid/kasan-dev/CAG_fn%3DVE4qrXhLzEkNR_8PcO9N4AYYhNaXYvZNffvVEo7A=
+Hr-A%40mail.gmail.com</a>.<br />
+
+--000000000000e934c005eb8e68d0--
