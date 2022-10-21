@@ -1,145 +1,162 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBB2FBZCNAMGQE26MQBUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD6ZP2WSRIFRBPHIZCNAMGQEBKRXTSI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF01606E49
-	for <lists+kasan-dev@lfdr.de>; Fri, 21 Oct 2022 05:24:25 +0200 (CEST)
-Received: by mail-lf1-x138.google.com with SMTP id l7-20020a19c207000000b004a471b5cbabsf471678lfc.18
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 Oct 2022 20:24:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1666322664; cv=pass;
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D286606FA7
+	for <lists+kasan-dev@lfdr.de>; Fri, 21 Oct 2022 07:55:09 +0200 (CEST)
+Received: by mail-wm1-x33f.google.com with SMTP id 2-20020a1c0202000000b003c6d73209b0sf992475wmc.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 Oct 2022 22:55:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1666331708; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pGSCHb48WXl1jhrrV18QVTV8kr/hxI4yTd7N/saTrN3OCoUmeMUb8ky/Cje3bADXXg
-         aODdvwzbTUSmKzBX4RIh3B3jlDYmW7c/ba1l5bh/jx/to6f9b/qR8anB7Ux6UkffkncO
-         fn4Ajp1yMwEsx1B1YmcdOBmYGiLLRQlj5M6jqZ//EBuC7kPXsUnDpcKx9VFemVgbNLlh
-         R0+F0ZqnTq7NumZhJnOkYMghUA6P0xsyeX+N0kBOf49sawKvYuej7PIEejIj2pxY7FbX
-         ZS4SQexPt8ZcS1bZa4VtiPjilG7bS0ycfx3OleXjvti7wwRElO1GhT1WT8CCSBuw+gnL
-         d4Hg==
+        b=eImI2Id7tWra3MsekWDHNW0/NaGKlPDN6fqVn40aTKX+DKMGUYSaAkVZGisrEmGAP8
+         wZ1Je/6BEZi1Fvdph8cyJCQ/fvJzQ/Yc3MA49zmtaFBimjLFIxq4sD1EimSk5X89iOpu
+         8nEieuRCDC9VMslmkHNXd/PGj6fH5dbpQGW7jbVVe0hlO8os1OsVjYWDZFPPDsh7C0It
+         Rjp2+PvsFiMVzjJ7Dnt3X3KNz1zkMHcpHV6om6FLVVZrdujbHVAb6lHisDWXRqmtXfow
+         qb1SdVHlPYeS07ijymC15/7BObRm8KAa5uohGYGmBnwdXbxsrwLxvNBykxiO/ktbhmSL
+         Fv+A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=bvVQIJSCXnlJBfkPX68sHnZlsoMpaX/Z++f8ZK/KOx4=;
-        b=yEn5bkER+LTm0U5wZX/S7lsbWuRC8ycR7SeOq4jd9vgh0aYq4qeJ20oc+SKW0wo9sM
-         r/TIpek9M/k/V5ED2z1rZ1zXyXWbQ5GEuBUib2MRHu0IZrtKJzV/Ok9KTQNlBV6ApegH
-         JO1cinTELyXK3usvud/Xrd4jwNlm2hYcAc2gp1BeJ1HDqT7U3n5hwrBbL/0WOSfRgShT
-         UU/oIZvnh1klPq8mBc9ipOGYTWMBglc6RPOHGAs2bwF4jkKKcYxdVSBeH1BUVAFTgLiS
-         r3FQj6EWEEeTsPEgBu1j00N2dzFfidW1iRp2Cyvv6o3YyO+M7QRxS78NQVPm96w2OgQO
-         S3SQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:references:in-reply-to:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=i3qmzjUEtc/JErm5fBJstAKCAQ1Km1wzCcxYy0zK4TI=;
+        b=vmW/78+Vmk2suJw3vUkXm1/QA6LJVdjcFVyz5VzMt2TexbcJwdXZZQFcG/vBK3TfIL
+         DCVKQFr73I4b90eye5TEaQX+sd2R1KSCKffmpiDcuMzjbZC+IMtN+6LucWF0aFpwD4Te
+         WDf0dR/Q7Ruv/0l2WLkwS78xhmjzg9XZ4q7a8P/z8OwXRWQQozWLHduUg773Wf+IQlDW
+         /Z5qaq5lkCk/8VUE6FE6sZhW46rd4GQY4dR/RgnQknMzq/Vh8cqB845zX3EjGz+O3lwE
+         J0R9ZKUmMzU3iLlQjqsPOd3mJ6ISwitrlphVSUD5CcsrxnNrJMhCLifpGpbpvX87C6sj
+         NZOg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=katAm9rP;
-       spf=pass (google.com: domain of feng.tang@intel.com designates 134.134.136.100 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=I8UJNHQU;
+       spf=pass (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::22b as permitted sender) smtp.mailfrom=youling257@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bvVQIJSCXnlJBfkPX68sHnZlsoMpaX/Z++f8ZK/KOx4=;
-        b=Zhz88YnF8rHqXVhGxQ9yzptNvlfBWwxr/IY0/I3+k4ZsNO54yV34Pz4SKtxACiKeM8
-         c3h8OSHuhMuPzNA/6pn/vTfK7fRgeXeriTr5ueis5ZCtb0JmaiJDksGf8ZHEURiwLtIF
-         Yj6V5f3ItLXTcI0B8oaIV929o3XcfTuuWVM3E1C7eYztOsER7mhBd7tuMIh66C5SWfmY
-         hKb8/uBKRd7ctcwVfQsHFBpiahDwAMwkbjjk2HlN8niZ9NP40arTQx6EPcPyx2llKnjU
-         aMy1G8IcdHvFGc74xW9z+tMTdrU/ou9iv7YTYQsywKQiYncpK20JWSngZTALf4qNpACJ
-         3gZw==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:references:in-reply-to:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=i3qmzjUEtc/JErm5fBJstAKCAQ1Km1wzCcxYy0zK4TI=;
+        b=Jvpsu6sZ1cXOnANVnsiFkUaNI5vnWIsOWZEZz25hHhcuXNjK1JXU9JNrk5tbQu70BG
+         4YMahBk1MYtGWAFkGtnDCk1+iZSymjG/2Xpb2T1RUGPRlFzSQHh2M2LohaXdPxM44+Rd
+         hXzku9/Qa1aLwpzOFfWvcJiFBxs/HPdsZguQOzapiFbYO/yhRsP0TpVBrPxfG4qj+J9D
+         wopLpqXY4Wtt9SmUOdnYauFjxMnhp/tTOJwQayeAGeGIRuxHOrXUCIuObZdBrfQzMjxp
+         d5QL1sQ2T0DPvrDqYZZrb4KfdNd59rpLIpJaGqo0H/zcdmn0ysPFOvv73sWyupA0fDu0
+         9Gpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:references:in-reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i3qmzjUEtc/JErm5fBJstAKCAQ1Km1wzCcxYy0zK4TI=;
+        b=T3/uxSZdnssK2+0Xax40ynhNtRHTur7xtgkEea3DvOLcQDjyQBIqHlEkNiuaW2kBF4
+         WV+Eur2jZ13M2X/7ei4BeMg68Y6kGJedoN1SHA2fkDIy3r+BK/HKRSlVkmrFrc0VK9h+
+         OHEf5rOzIDi0z07Jhn/RzuKLl164blkx0Bcf+MsL7CouEFMTLD0aKuf0WsRB3KiMWap/
+         BNwnUxnoKFwA4P1QBTlLJzF4gmS5yYOS73k2NjQGZlfU3X+ev7f5IVq7ed3g+GBcEWic
+         xDJuDAj/zr2Demk12m926VZHWzX9b0jXrsosODxZo5vR1vgxRo+YYshWgi0nEwgDWx0U
+         G8xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bvVQIJSCXnlJBfkPX68sHnZlsoMpaX/Z++f8ZK/KOx4=;
-        b=f+/5gEDbI6kacl/wVX7T6UZAEw64Sq01rVzvt9sk1SKI727G1fvm7LTkuHPqgUlG8v
-         25B8dCjXbgQ/DKseoAVTucJRB0uh5I/3cLas59+knSFDCdS7xKoXL+FnvlkXNRWo1RAI
-         nAuje1O+3VWH5lZJE/dO6IOFmYFmgF11wFvkOnBy6yzSO7NIzDMUgP3izVtgb2nW4QeB
-         11FCX3KlypYMYVB/vvSZLKgCnalf0lYcEiKEj2MmhLPdWa2bkLHFat3kBX5VzCwQwO8/
-         vm1WXPPsrdvjEArJuAzBA66WUYUkJEA8Bu9GO29SGstQWtkd9lMLbDMlifp9CvZQVntq
-         WHtQ==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :references:in-reply-to:mime-version:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=i3qmzjUEtc/JErm5fBJstAKCAQ1Km1wzCcxYy0zK4TI=;
+        b=PWeFTq+UqpSaM4UqLlyxCu70trqK86ONkKRcGocc8zqkyxS18j5RQMMNnBcMbJA+LJ
+         8uJBfZxZnSdP8KmAE1+YQ9BnizJDudLGIrLjydqcH/Im/EM3gtJzlEv/Ow1oSOqZ9M3j
+         qwbud/F64OISnVj2fA31sSfCxTd5CmjOSeGURTkRxJQrpkBRj38aKor3/FpV43DFGw+j
+         BmDnxvHUZ/0VoYcmBeuAUSiyjYSpB4ChW0Sz9npii/pyVQ6iGAnxVf+Z1xvpiRqBxAqk
+         fzhhuYsxxatuUjgpgAJKQMlcN5NKEqiWKnMtCjOIgAr7CmPtqeyJaPqr1xOg4E7EboTC
+         t6LA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf2Z//erQIeWwZFpyB+fHFtYJHf/BkXusz96j5PeZOmLNdtvWxZp
-	xqH07C65YblgAF3jW0ClHBk=
-X-Google-Smtp-Source: AMsMyM5p3NFLFUkHe4Z2asggZVFM80gs5DN1MpaTCW9nx3s7qtE/7GMjmUhNz9yUOAMlx+VKwCqyMg==
-X-Received: by 2002:a2e:84ca:0:b0:25d:77e0:2566 with SMTP id q10-20020a2e84ca000000b0025d77e02566mr6355293ljh.78.1666322664759;
-        Thu, 20 Oct 2022 20:24:24 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2sjrTRH0Mkw1h04Mf2o5mVU4zVHILCW5EShD6R1wfV2BqWN5K3
+	Jlrdl0J6mbeVndMiTqu5byE=
+X-Google-Smtp-Source: AMsMyM4BmUdz2vCt6m8fvckwPjMW0oiPWdX4guaEusOnU9WJJcJdrmAlmY6gtwYWP5CZsexV48Zh8w==
+X-Received: by 2002:a05:600c:5119:b0:3c6:cae1:1512 with SMTP id o25-20020a05600c511900b003c6cae11512mr33285226wms.80.1666331708558;
+        Thu, 20 Oct 2022 22:55:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:1c7:b0:26d:cef8:8887 with SMTP id
- d7-20020a05651c01c700b0026dcef88887ls280717ljn.7.-pod-prod-gmail; Thu, 20 Oct
- 2022 20:24:23 -0700 (PDT)
-X-Received: by 2002:a2e:8ecc:0:b0:26f:dd45:e50f with SMTP id e12-20020a2e8ecc000000b0026fdd45e50fmr6332950ljl.48.1666322663610;
-        Thu, 20 Oct 2022 20:24:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1666322663; cv=none;
+Received: by 2002:a05:600c:2316:b0:3c6:efd6:9cd8 with SMTP id
+ 22-20020a05600c231600b003c6efd69cd8ls719637wmo.0.-pod-control-gmail; Thu, 20
+ Oct 2022 22:55:07 -0700 (PDT)
+X-Received: by 2002:a7b:c303:0:b0:3b4:6e89:e5d5 with SMTP id k3-20020a7bc303000000b003b46e89e5d5mr11793209wmj.111.1666331707546;
+        Thu, 20 Oct 2022 22:55:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1666331707; cv=none;
         d=google.com; s=arc-20160816;
-        b=EWDlo+HqQuN5KnVpznGD4slZsd6OzCLXwoWoqf31slADMe1E1mUBb5rMUoR9LG/Mu1
-         BqjeEVQK3vxQmbn/6Ae2LDlycg0WWYi6N3keNVzcLf1hmZzdp5IRGwBkw8IuuRuo9XCc
-         w4B9UE53X1z3qmY0AnAq+GuiRkZo1TQ6jrzhvw0BZpPwIxLki0ekX/X9odi/uZNbzmtJ
-         LQ/Vy6hUcqgOEY586EWtULf1VNf4rTQje4qy7l12N/oOPGfBxn8COcw5/056TbFTJ9Hs
-         XSn/p47epkPC9f8xzbHvxrJdcJV05HxIjy5MDpkSfoS4M/XJFva00t94nieYhcOJwPT1
-         DgeQ==
+        b=hTC83W8hCugnKPeOXCg8orQlzgh402lHIrC6PcIjBn3vKdghG2uCPDstYFN4IjH2+n
+         p0bhD9CNiEcLUsggeWFhIfDI+VhXCj1BVvWNnm7J8vQQ5hovhS37RdPAus9KCM68Imov
+         sSoOGXV9d4dDRuoknl4iltP3Nwwx611vHsBfRZquKlvwcN72N/yfOF4Rt8TSAuigbYQ1
+         s4f5g+EsSx7mkKsUpetsVn3mo734dwQr8nwwjBE+/FLjqi+qejMboaIVhHvXYHyeo8pw
+         RAjsdM22MX37gAA44ikKTMWgk6/G61qOcCgtAIx5/3EyV1JtxuVv0x6QFmIe8KxJPw/k
+         phfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=ms3Ytik3W/RJebwRdrY+iMC5yNLhiRgPO9DIkBKR5Fk=;
-        b=FehDaELnhZIX8nwoboS3sJyFqJ92FTS7aHivASmWnCvR3nz08SusbfVWauVxIQpU/2
-         20SI8NOan4KNre91sC1rTJ5mmhnkghnF+oQWGjr03aR7dJS1R6EOnDFkk5XC27NAMWnR
-         wp5EZyDg9oZAJ+It4JfrvQgaEf2nr3PcvhW2VV1fRvndnvSt8KJta50jX6tlr3J8UgKM
-         ALloVDo3n6TvJVl9xgcaFU0npk8b8dU9AfxR893TXcTs2YT2gAkMoB1M3und+YbXvn+1
-         Pl1O8YkecZPsy+AUL70lD22inPUCpfemxP8CMVyRoT1P9xQvxAOhNqFmn+dMK6X60Hbk
-         nFdA==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :references:in-reply-to:mime-version:dkim-signature;
+        bh=sX2sT5yZY9mOxq1lGzGkC1hbjgjx4M2iR0i8Qt3Tyuw=;
+        b=hiOXI4o04OdwH4ezAVEsCZd0UnLbMGOvZW6NbUxC9O7lROW3ED74Gx2gYk9BbvvM/y
+         5ChjapW02KWd3aWbxg4fXQ9SHniNnVK/CWHF9thS+x9QxOgaks3PyCgFfuBH37QOeIPh
+         0x2qKYEKAj79WOQ8vVxynbfCBK5uxUmEy9zA+g8DqCQht26UaaVVpRo393hqIdVkAmmC
+         2tedNN3kAIsuVjyHmqSXJcLMYy7NwUsZq5DKJI8jyIXSI+g/NF3l29YkUfFnk02ssjIb
+         s5JPfqLe9EkGkzTcFI1qWKwDL9oZF5L3jDYOX/IYZXtsBgEpitBOVfOJ3+SP5bh0mVqq
+         MrCg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=katAm9rP;
-       spf=pass (google.com: domain of feng.tang@intel.com designates 134.134.136.100 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga07.intel.com (mga07.intel.com. [134.134.136.100])
-        by gmr-mx.google.com with ESMTPS id k20-20020a2eb754000000b0026fb09d81bbsi595748ljo.1.2022.10.20.20.24.22
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=I8UJNHQU;
+       spf=pass (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::22b as permitted sender) smtp.mailfrom=youling257@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com. [2a00:1450:4864:20::22b])
+        by gmr-mx.google.com with ESMTPS id h15-20020a1ccc0f000000b003c5081829c4si184835wmb.0.2022.10.20.22.55.07
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Oct 2022 20:24:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 134.134.136.100 as permitted sender) client-ip=134.134.136.100;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="371114077"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
-   d="scan'208";a="371114077"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 20:24:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="719459612"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
-   d="scan'208";a="719459612"
-Received: from feng-clx.sh.intel.com ([10.238.200.228])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Oct 2022 20:24:19 -0700
-From: Feng Tang <feng.tang@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Christoph Lameter <cl@linux.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Kees Cook <keescook@chromium.org>
-Cc: Dave Hansen <dave.hansen@intel.com>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	Feng Tang <feng.tang@intel.com>
-Subject: [PATCH v7 3/3] mm/slub: extend redzone check to extra allocated kmalloc space than requested
-Date: Fri, 21 Oct 2022 11:24:05 +0800
-Message-Id: <20221021032405.1825078-4-feng.tang@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221021032405.1825078-1-feng.tang@intel.com>
-References: <20221021032405.1825078-1-feng.tang@intel.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Oct 2022 22:55:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::22b as permitted sender) client-ip=2a00:1450:4864:20::22b;
+Received: by mail-lj1-x22b.google.com with SMTP id b18so2251251ljr.13
+        for <kasan-dev@googlegroups.com>; Thu, 20 Oct 2022 22:55:07 -0700 (PDT)
+X-Received: by 2002:a2e:8796:0:b0:26e:8b13:a29c with SMTP id
+ n22-20020a2e8796000000b0026e8b13a29cmr6125379lji.210.1666331707003; Thu, 20
+ Oct 2022 22:55:07 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: feng.tang@intel.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=katAm9rP;       spf=pass
- (google.com: domain of feng.tang@intel.com designates 134.134.136.100 as
- permitted sender) smtp.mailfrom=feng.tang@intel.com;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=intel.com
+Received: by 2002:ab3:5411:0:b0:1f6:575a:5fb7 with HTTP; Thu, 20 Oct 2022
+ 22:55:06 -0700 (PDT)
+In-Reply-To: <CAG_fn=WLRN=C1rKrpq4=d=AO9dBaGxoa6YsG7+KrqAck5Bty0Q@mail.gmail.com>
+References: <20220915150417.722975-19-glider@google.com> <20221019173620.10167-1-youling257@gmail.com>
+ <CAOzgRda_CToTVicwxx86E7YcuhDTcayJR=iQtWQ3jECLLhHzcg@mail.gmail.com>
+ <CANpmjNMPKokoJVFr9==-0-+O1ypXmaZnQT3hs4Ys0Y4+o86OVA@mail.gmail.com>
+ <CAOzgRdbbVWTWR0r4y8u5nLUeANA7bU-o5JxGCHQ3r7Ht+TCg1Q@mail.gmail.com>
+ <Y1BXQlu+JOoJi6Yk@elver.google.com> <CAOzgRdY6KSxDMRJ+q2BWHs4hRQc5y-PZ2NYG++-AMcUrO8YOgA@mail.gmail.com>
+ <Y1Bt+Ia93mVV/lT3@elver.google.com> <CAG_fn=WLRN=C1rKrpq4=d=AO9dBaGxoa6YsG7+KrqAck5Bty0Q@mail.gmail.com>
+From: youling 257 <youling257@gmail.com>
+Date: Fri, 21 Oct 2022 13:55:06 +0800
+Message-ID: <CAOzgRdb+W3_FuOB+P_HkeinDiJdgpQSsXMC4GArOSixL9K5avg@mail.gmail.com>
+Subject: Re: [PATCH v7 18/43] instrumented.h: add KMSAN support
+To: Alexander Potapenko <glider@google.com>
+Cc: Marco Elver <elver@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Alexei Starovoitov <ast@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@google.com>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Borislav Petkov <bp@alien8.de>, Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, 
+	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Eric Dumazet <edumazet@google.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Ilya Leoshkevich <iii@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Kees Cook <keescook@chromium.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Matthew Wilcox <willy@infradead.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Steven Rostedt <rostedt@goodmis.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: YOULING257@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20210112 header.b=I8UJNHQU;       spf=pass
+ (google.com: domain of youling257@gmail.com designates 2a00:1450:4864:20::22b
+ as permitted sender) smtp.mailfrom=youling257@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,168 +169,228 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-kmalloc will round up the request size to a fixed size (mostly power
-of 2), so there could be a extra space than what is requested, whose
-size is the actual buffer size minus original request size.
+How to use perf tool?
+I use diff compare "nm -S vmlinux".
+android_x86:/ $ su
+android_x86:/ # diff /sdcard/with_vmlinux /sdcard/without_vmlinux
+--- /sdcard/with_vmlinux
++++ /sdcard/without_vmlinux
+@@ -12951,7 +12951,7 @@
+ ffffffff81338400 00000000000000dc T compat_only_sysfs_link_entry_to_kobj
+ ffffffff810884d0 00000000000002b7 T compat_ptrace_request
+ ffffffff812b4e80 0000000000000025 T compat_ptr_ioctl
+-ffffffff811380d0 000000000000008d T compat_put_bitmap
++ffffffff811380d0 000000000000008a T compat_put_bitmap
+ ffffffff81a62180 000000000000000f t compat_raw_ioctl
+ ffffffff81afa060 000000000000000f t compat_rawv6_ioctl
+ ffffffff81090790 0000000000000018 T compat_restore_altstack
+@@ -14260,7 +14260,7 @@
+ ffffffff8167d380 00000000000000dd T cppc_set_enable
+ ffffffff8167d460 0000000000000221 T cppc_set_perf
+ ffffffff818cdbe0 000000000000004f t cppc_update_perf
+-ffffffff8102bba0 000000000000012b t cp_stat64
++ffffffff8102bba0 000000000000012a t cp_stat64
+ ffffffff81494810 0000000000000028 t cp_status_show
+ ffffffff812a33e0 00000000000001b2 t cp_statx
+ ffffffff82e1c934 0000000000000004 b cpu0_hotpluggable
+@@ -26993,7 +26993,6 @@
+ ffffffff821b8000 0000000000000038 d CSWTCH.102
+ ffffffff821cd6c0 0000000000000048 d CSWTCH.107
+ ffffffff821d4b80 0000000000000018 d CSWTCH.11
+-ffffffff8203dd88 000000000000000c d CSWTCH.111
+ ffffffff82152de0 00000000000000a0 d CSWTCH.111
+ ffffffff82105ea0 0000000000000020 d CSWTCH.1116
+ ffffffff82105e80 0000000000000020 d CSWTCH.1121
+@@ -27002,6 +27001,7 @@
+ ffffffff821d4b60 0000000000000018 d CSWTCH.12
+ ffffffff821b2c60 0000000000000024 d CSWTCH.120
+ ffffffff82033fc0 0000000000000068 d CSWTCH.123
++ffffffff8203dd88 000000000000000c d CSWTCH.123
+ ffffffff82014b80 00000000000000a0 d CSWTCH.125
+ ffffffff82014b40 0000000000000028 d CSWTCH.128
+ ffffffff82033f40 0000000000000064 d CSWTCH.128
+@@ -27026,7 +27026,6 @@
+ ffffffff821c9b80 0000000000000018 d CSWTCH.189
+ ffffffff821b39a0 0000000000000028 d CSWTCH.19
+ ffffffff820055c0 0000000000000024 d CSWTCH.195
+-ffffffff82208de0 0000000000000004 d CSWTCH.199
+ ffffffff82146127 0000000000000006 d CSWTCH.2
+ ffffffff82146380 0000000000000014 d CSWTCH.2
+ ffffffff8219f770 0000000000000018 d CSWTCH.20
+@@ -27033,5 +27032,6 @@
+ ffffffff821d9c90 0000000000000018 d CSWTCH.20
+ ffffffff821b7e60 0000000000000128 d CSWTCH.202
++ffffffff82208de0 0000000000000004 d CSWTCH.202
+ ffffffff821b7cc0 0000000000000188 d CSWTCH.204
+ ffffffff821b7c80 0000000000000038 d CSWTCH.206
+ ffffffff821a4ac0 0000000000000006 d CSWTCH.207
+@@ -27043,8 +27043,8 @@
+ ffffffff821b7be0 0000000000000038 d CSWTCH.214
+ ffffffff821c9940 0000000000000030 d CSWTCH.217
+ ffffffff8219f750 0000000000000018 d CSWTCH.22
+-ffffffff82033580 0000000000000023 d CSWTCH.221
+ ffffffff8213de80 0000000000000028 d CSWTCH.222
++ffffffff82033580 0000000000000023 d CSWTCH.223
+ ffffffff82216c10 0000000000000014 d CSWTCH.225
+ ffffffff82216bf0 0000000000000014 d CSWTCH.232
+ ffffffff82216be0 0000000000000010 d CSWTCH.234
+@@ -27052,7 +27052,7 @@
+ ffffffff821b3800 0000000000000188 d CSWTCH.24
+ ffffffff821f3340 0000000000000058 d CSWTCH.242
+ ffffffff82158c60 0000000000000030 d CSWTCH.244
+-ffffffff821a9868 000000000000000a d CSWTCH.255
++ffffffff821a9868 000000000000000a d CSWTCH.258
+ ffffffff82106a20 0000000000000010 d CSWTCH.261
+ ffffffff821a42a0 0000000000000004 d CSWTCH.261
+ ffffffff8203d9e0 0000000000000030 d CSWTCH.265
+@@ -27059,12 +27059,12 @@
+ ffffffff82126780 0000000000000028 d CSWTCH.27
+ ffffffff8214d360 0000000000000040 d CSWTCH.278
+ ffffffff82136f80 0000000000000024 d CSWTCH.28
+-ffffffff821b3000 0000000000000024 d CSWTCH.281
+-ffffffff821b2fc0 0000000000000024 d CSWTCH.282
+-ffffffff8210ed40 000000000000002c d CSWTCH.289
+-ffffffff8210ed00 000000000000002b d CSWTCH.290
+-ffffffff8210ecc0 000000000000002c d CSWTCH.292
++ffffffff821b3000 0000000000000024 d CSWTCH.285
++ffffffff821b2fc0 0000000000000024 d CSWTCH.286
++ffffffff8210ed40 000000000000002c d CSWTCH.292
+ ffffffff821b3ae0 0000000000000020 d CSWTCH.292
++ffffffff8210ed00 000000000000002b d CSWTCH.293
++ffffffff8210ecc0 000000000000002c d CSWTCH.295
+ ffffffff8214d340 0000000000000020 d CSWTCH.296
+ ffffffff82146121 0000000000000006 d CSWTCH.3
+ ffffffff821b7ba0 0000000000000020 d CSWTCH.3
+@@ -27075,17 +27075,17 @@
+ ffffffff821d3c40 0000000000000020 d CSWTCH.31
+ ffffffff820ff780 0000000000000004 d CSWTCH.318
+ ffffffff821b5cc0 0000000000000038 d CSWTCH.33
+-ffffffff8214efa0 0000000000000010 d CSWTCH.334
++ffffffff8214efa0 0000000000000010 d CSWTCH.346
+ ffffffff8214a8c0 0000000000000018 d CSWTCH.35
+-ffffffff8210ecb0 000000000000000c d CSWTCH.359
+-ffffffff8202cae0 000000000000002c d CSWTCH.360
++ffffffff8210ecb0 000000000000000c d CSWTCH.362
+ ffffffff82016300 0000000000000020 d CSWTCH.363
+ ffffffff821fce00 0000000000000040 d CSWTCH.38
+-ffffffff82032780 0000000000000074 d CSWTCH.387
++ffffffff8202cae0 000000000000002c d CSWTCH.381
++ffffffff82032780 0000000000000074 d CSWTCH.390
+ ffffffff82118100 0000000000000018 d CSWTCH.40
+ ffffffff821598a0 0000000000000020 d CSWTCH.41
+-ffffffff82032760 0000000000000020 d CSWTCH.428
+ ffffffff82139a20 0000000000000038 d CSWTCH.43
++ffffffff82032760 0000000000000020 d CSWTCH.431
+ ffffffff82015d40 0000000000000040 d CSWTCH.45
+ ffffffff821399e0 0000000000000040 d CSWTCH.45
+ ffffffff822194e0 000000000000000c d CSWTCH.450
+@@ -27092,5 +27092,5 @@
+ ffffffff8214d2e0 0000000000000048 d CSWTCH.459
+-ffffffff8210eca0 000000000000000c d CSWTCH.464
++ffffffff8210eca0 000000000000000c d CSWTCH.467
+ ffffffff821399c0 0000000000000020 d CSWTCH.47
+ ffffffff8214a8e0 00000000000000c8 d CSWTCH.48
+ ffffffff82028ac0 0000000000000018 d CSWTCH.49
+@@ -27097,8 +27097,8 @@
+ ffffffff821399a0 0000000000000020 d CSWTCH.49
+-ffffffff82032740 0000000000000018 d CSWTCH.507
+-ffffffff82032730 000000000000000c d CSWTCH.508
+-ffffffff82032720 000000000000000c d CSWTCH.509
+ ffffffff82139960 0000000000000030 d CSWTCH.51
++ffffffff82032740 0000000000000018 d CSWTCH.510
++ffffffff82032730 000000000000000c d CSWTCH.511
++ffffffff82032720 000000000000000c d CSWTCH.512
+ ffffffff821595c0 0000000000000100 d CSWTCH.52
+ ffffffff821b6240 0000000000000018 d CSWTCH.52
+ ffffffff821371c0 0000000000000024 d CSWTCH.523
+@@ -27125,7 +27125,7 @@
+ ffffffff82139680 0000000000000058 d CSWTCH.72
+ ffffffff82139620 0000000000000048 d CSWTCH.74
+ ffffffff8213c740 0000000000000020 d CSWTCH.74
+-ffffffff821f04a0 0000000000000018 d CSWTCH.753
++ffffffff821f04a0 0000000000000018 d CSWTCH.766
+ ffffffff8200e4e0 0000000000000020 d CSWTCH.77
+ ffffffff821bffc0 0000000000000018 d CSWTCH.78
+ ffffffff8200e4c0 0000000000000020 d CSWTCH.79
+1|android_x86:/ #
 
-To better detect out of bound access or abuse of this space, add
-redzone sanity check for it.
+2022-10-21 2:14 GMT+08:00, Alexander Potapenko <glider@google.com>:
+> On Wed, Oct 19, 2022 at 2:37 PM 'Marco Elver' via kasan-dev <
+> kasan-dev@googlegroups.com> wrote:
+>
+>> On Thu, Oct 20, 2022 at 04:07AM +0800, youling 257 wrote:
+>> > That is i did,i already test, remove "u64 __tmp=E2=80=A6kmsan_unpoison=
+_memory",
+>> no help.
+>> > i only remove kmsan_copy_to_user, fix my issue.
+>>
+>> Ok - does only the below work (without the reverts)?
+>>
+>> diff --git a/include/linux/kmsan-checks.h b/include/linux/kmsan-checks.h
+>> index c4cae333deec..eb05caa8f523 100644
+>> --- a/include/linux/kmsan-checks.h
+>> +++ b/include/linux/kmsan-checks.h
+>> @@ -73,8 +73,8 @@ static inline void kmsan_unpoison_memory(const void
+>> *address, size_t size)
+>>  static inline void kmsan_check_memory(const void *address, size_t size)
+>>  {
+>>  }
+>> -static inline void kmsan_copy_to_user(void __user *to, const void *from=
+,
+>> -                                     size_t to_copy, size_t left)
+>> +static __always_inline void kmsan_copy_to_user(void __user *to, const
+>> void *from,
+>> +                                              size_t to_copy, size_t
+>> left)
+>>  {
+>>  }
+>>
+>>
+>> ... because when you say only removing kmsan_copy_to_user() (from
+>> instrument_put_user()) works, it really doesn't make any sense. The only
+>> explanation would be if the compiler inlining is broken.
+>>
+>>
+> If what Marco suggests does not help, could you post the output of `nm -S
+> vmlinux` with and without your revert so that we can see which functions
+> were affected by the change?
+>
+> Unfortunately the top results are of no help, do you have the `perf` tool
+> available in your system?
+>
+>
+>> --
+>> You received this message because you are subscribed to the Google Group=
+s
+>> "kasan-dev" group.
+>> To unsubscribe from this group and stop receiving emails from it, send a=
+n
+>> email to kasan-dev+unsubscribe@googlegroups.com.
+>> To view this discussion on the web visit
+>> https://groups.google.com/d/msgid/kasan-dev/Y1Bt%2BIa93mVV/lT3%40elver.g=
+oogle.com
+>> .
+>>
+>
+>
+> --
+> Alexander Potapenko
+> Software Engineer
+>
+> Google Germany GmbH
+> Erika-Mann-Stra=C3=9Fe, 33
+> 80636 M=C3=BCnchen
+>
+> Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+> Registergericht und -nummer: Hamburg, HRB 86891
+> Sitz der Gesellschaft: Hamburg
+>
 
-In current kernel, some kmalloc user already knows the existence of
-the space and utilizes it after calling 'ksize()' to know the real
-size of the allocated buffer. So we skip the sanity check for objects
-which have been called with ksize(), as treating them as legitimate
-users.
-
-In some cases, the free pointer could be saved inside the latter
-part of object data area, which may overlap the redzone part(for
-small sizes of kmalloc objects). As suggested by Hyeonggon Yoo,
-force the free pointer to be in meta data area when kmalloc redzone
-debug is enabled, to make all kmalloc objects covered by redzone
-check.
-
-Suggested-by: Vlastimil Babka <vbabka@suse.cz>
-Signed-off-by: Feng Tang <feng.tang@intel.com>
-Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
----
- mm/slab.h        |  4 ++++
- mm/slab_common.c |  4 ++++
- mm/slub.c        | 51 ++++++++++++++++++++++++++++++++++++++++++++----
- 3 files changed, 55 insertions(+), 4 deletions(-)
-
-diff --git a/mm/slab.h b/mm/slab.h
-index 8b4ee02fc14a..1dd773afd0c4 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -885,4 +885,8 @@ void __check_heap_object(const void *ptr, unsigned long n,
- }
- #endif
- 
-+#ifdef CONFIG_SLUB_DEBUG
-+void skip_orig_size_check(struct kmem_cache *s, const void *object);
-+#endif
-+
- #endif /* MM_SLAB_H */
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 33b1886b06eb..0bb4625f10a2 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -1037,6 +1037,10 @@ size_t __ksize(const void *object)
- 		return folio_size(folio);
- 	}
- 
-+#ifdef CONFIG_SLUB_DEBUG
-+	skip_orig_size_check(folio_slab(folio)->slab_cache, object);
-+#endif
-+
- 	return slab_ksize(folio_slab(folio)->slab_cache);
- }
- 
-diff --git a/mm/slub.c b/mm/slub.c
-index adff7553b54e..76581da6b9df 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -829,6 +829,17 @@ static inline void set_orig_size(struct kmem_cache *s,
- 	if (!slub_debug_orig_size(s))
- 		return;
- 
-+#ifdef CONFIG_KASAN_GENERIC
-+	/*
-+	 * KASAN could save its free meta data in object's data area at
-+	 * offset 0, if the size is larger than 'orig_size', it will
-+	 * overlap the data redzone in [orig_size+1, object_size], and
-+	 * the check should be skipped.
-+	 */
-+	if (kasan_metadata_size(s, true) > orig_size)
-+		orig_size = s->object_size;
-+#endif
-+
- 	p += get_info_end(s);
- 	p += sizeof(struct track) * 2;
- 
-@@ -848,6 +859,11 @@ static inline unsigned int get_orig_size(struct kmem_cache *s, void *object)
- 	return *(unsigned int *)p;
- }
- 
-+void skip_orig_size_check(struct kmem_cache *s, const void *object)
-+{
-+	set_orig_size(s, (void *)object, s->object_size);
-+}
-+
- static void slab_bug(struct kmem_cache *s, char *fmt, ...)
- {
- 	struct va_format vaf;
-@@ -966,13 +982,27 @@ static __printf(3, 4) void slab_err(struct kmem_cache *s, struct slab *slab,
- static void init_object(struct kmem_cache *s, void *object, u8 val)
- {
- 	u8 *p = kasan_reset_tag(object);
-+	unsigned int orig_size = s->object_size;
- 
--	if (s->flags & SLAB_RED_ZONE)
-+	if (s->flags & SLAB_RED_ZONE) {
- 		memset(p - s->red_left_pad, val, s->red_left_pad);
- 
-+		if (slub_debug_orig_size(s) && val == SLUB_RED_ACTIVE) {
-+			orig_size = get_orig_size(s, object);
-+
-+			/*
-+			 * Redzone the extra allocated space by kmalloc
-+			 * than requested.
-+			 */
-+			if (orig_size < s->object_size)
-+				memset(p + orig_size, val,
-+				       s->object_size - orig_size);
-+		}
-+	}
-+
- 	if (s->flags & __OBJECT_POISON) {
--		memset(p, POISON_FREE, s->object_size - 1);
--		p[s->object_size - 1] = POISON_END;
-+		memset(p, POISON_FREE, orig_size - 1);
-+		p[orig_size - 1] = POISON_END;
- 	}
- 
- 	if (s->flags & SLAB_RED_ZONE)
-@@ -1120,6 +1150,7 @@ static int check_object(struct kmem_cache *s, struct slab *slab,
- {
- 	u8 *p = object;
- 	u8 *endobject = object + s->object_size;
-+	unsigned int orig_size;
- 
- 	if (s->flags & SLAB_RED_ZONE) {
- 		if (!check_bytes_and_report(s, slab, object, "Left Redzone",
-@@ -1129,6 +1160,17 @@ static int check_object(struct kmem_cache *s, struct slab *slab,
- 		if (!check_bytes_and_report(s, slab, object, "Right Redzone",
- 			endobject, val, s->inuse - s->object_size))
- 			return 0;
-+
-+		if (slub_debug_orig_size(s) && val == SLUB_RED_ACTIVE) {
-+			orig_size = get_orig_size(s, object);
-+
-+			if (s->object_size > orig_size  &&
-+				!check_bytes_and_report(s, slab, object,
-+					"kmalloc Redzone", p + orig_size,
-+					val, s->object_size - orig_size)) {
-+				return 0;
-+			}
-+		}
- 	} else {
- 		if ((s->flags & SLAB_POISON) && s->object_size < s->inuse) {
- 			check_bytes_and_report(s, slab, p, "Alignment padding",
-@@ -4206,7 +4248,8 @@ static int calculate_sizes(struct kmem_cache *s)
- 	 */
- 	s->inuse = size;
- 
--	if ((flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
-+	if (slub_debug_orig_size(s) ||
-+	    (flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
- 	    ((flags & SLAB_RED_ZONE) && s->object_size < sizeof(void *)) ||
- 	    s->ctor) {
- 		/*
--- 
-2.34.1
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221021032405.1825078-4-feng.tang%40intel.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAOzgRdb%2BW3_FuOB%2BP_HkeinDiJdgpQSsXMC4GArOSixL9K5avg%40mail.gm=
+ail.com.
