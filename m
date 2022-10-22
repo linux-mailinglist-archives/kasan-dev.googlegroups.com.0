@@ -1,130 +1,144 @@
-Return-Path: <kasan-dev+bncBC7M5BFO7YCRBTXVZ6NAMGQEYAGBGGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBJXD2CNAMGQEVACEJUI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73b.google.com (mail-qk1-x73b.google.com [IPv6:2607:f8b0:4864:20::73b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E07608DA0
-	for <lists+kasan-dev@lfdr.de>; Sat, 22 Oct 2022 16:14:39 +0200 (CEST)
-Received: by mail-qk1-x73b.google.com with SMTP id v1-20020a05620a440100b006eee30cb799sf5683639qkp.23
-        for <lists+kasan-dev@lfdr.de>; Sat, 22 Oct 2022 07:14:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1666448078; cv=pass;
+Received: from mail-ua1-x938.google.com (mail-ua1-x938.google.com [IPv6:2607:f8b0:4864:20::938])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA79608EE9
+	for <lists+kasan-dev@lfdr.de>; Sat, 22 Oct 2022 20:08:40 +0200 (CEST)
+Received: by mail-ua1-x938.google.com with SMTP id b13-20020ab0140d000000b003e39e1390f9sf3424277uae.18
+        for <lists+kasan-dev@lfdr.de>; Sat, 22 Oct 2022 11:08:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1666462119; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BT8BcfAxiUVoAbFxo6ki3eeVyZWVYOoAKXATtRpTaSDgjXtjEJWzcwYLa7ZA3bOMWs
-         CKKXT3aU6SOYEMTUdVAAtKLrWcPvYl6xk/hJyh0KoZEEYF7SW+ijPVMLhpd0fJcBRJ8T
-         D/X6Fo4QyGGoOWbu+SumsSo2LBaZSxukFKMNh3Wrl3hSo0YsdZ6SFC0uzy0HMZ+8lEYv
-         B7zYqG/djOSVhwzE1AFJ0lC3lmQUykTs53b4yM2ktZnJztaiFCRbOLR8FfjQBMYl+vCe
-         pU2G/AENd5/IUZX5qjTasOXnXSuiC61WFVGuLv+Ws2crWd2V0yGWDPEBGfocbtelViWD
-         1blA==
+        b=eTLWDGVlarYCtPPVl5PPh98cwSuPJ9uXBv0drf9+YszccalhoxoOZOFvfOPR/kIbI2
+         rAidz1KGrX2EOoGETnspeHgltyRKEM4xQv8iZmXM+19qUnWNTgrzHBJIQWdjvt3N0ev5
+         WPrOq1IxliIKdFbKnR36YrFLNMWYLGRz31rW0vnWyNzeGpjl7e5XkDyUD5EhYRI7e523
+         VFya8hjcMYxVLeFJi1jzUn/bzOA+bclOVSPKlfNDcebL0OUNMdkUZ4SMgDC9moHOnMIt
+         U7umQI7FpfAPKlokyRizp1S8rEu07HBfD+56Y+0REmXhXAcKELYbYH3XDObeMItD6w2a
+         EA2w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=smhfgb7HB8hlFn34k4dT8q35lboF4fHdDv51VSBZlq0=;
-        b=dwnvwv32haVc4xImTxql3la0PPqFZlMCtYTEwYnsfucLIYOuEAbRyl/6bys7NO8AHQ
-         vuOP5oUltl7D6zt6yCnmEdqWk32x5znzOa/3ydyMAWCRQ6CuxUlVq1Fsl1XUfe6Pspdk
-         PZzEP12TmL7O5EVJPKA3wmkXiF8sUYhMIXWMNWCyYhOPkMB24GbKIAAlCn+dG7tNWH94
-         NUw6/THo7EgNtZSf1Gbio7oxSnqPcIXLzAt7XI+4M2ABNu2mRbmPFxW/Jr8eVoaLO1hH
-         7qWuV6IgUkTsRutyZLgDVTbKPj4XTR5n6XNTsKzMIJuWaWy5F+sAJPcqxST1GvO1vzrZ
-         Wn0Q==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=igQL/VV4Wa38DUon2J4YforIwW4mB9eZyyqmavcphfo=;
+        b=tgoXmoDls5VpzwoXOznTCre3FqNYseH1ujGj2xNt0B9GjhynrRoyk2QqoGt4cNHBR2
+         rrsPN/GObasN6kD0PMLD2TjqMDGLtCpSU3A22/r3VBdq4qS5mjlCOEQZr0ywQOsSb0Ki
+         FgBG80d98IYOm1xyoIx85aex8UHKEN8yx4PxRwYWXfc1ZdH0mBp7grMIhuKTKjPWV55w
+         oKic8LHPrxZYJ7kJQ6DphHNzk2QT0v1eLGg0ll46DE0g73cDgro8mTfPzL3Q9vlfwzjv
+         NGoWp5T1kge4Os5t+8jRJKVlVt8ArO4zNqfv70XMG4RnAOsyjvJaTm9su+O4QQc063tM
+         EJ5Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=oJzxJp9s;
-       spf=pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::236 as permitted sender) smtp.mailfrom=groeck7@gmail.com
+       dkim=pass header.i=@chromium.org header.s=google header.b=Hzo7fVyD;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::52f as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=smhfgb7HB8hlFn34k4dT8q35lboF4fHdDv51VSBZlq0=;
-        b=md0or6/8omRuBmsWb09ZI6BmfZftWEHguJA31JXbiY8CGNAvpCjcz9SY241rnRdR3G
-         fCBq2OKW5EOr+Dj+N2ukEKRzu7II+5nDyjmJDRtrdp2xqYzJD9BKryUmmRZEXDravOrK
-         y37uMopq9u6IPJ9gRmRoAcWv2OBLAKeDzzalAsOulFY7TBwBJ3fF03NaconZ/8kIw8OM
-         N670t0PGOJ2PkyOilbXO/DiaHs/ajeXKkYMncECWf+ISAnfA1zfbRaHWpRbYv6mHA3yv
-         SDfnGdINPhlApYRV2yyj4TvKWVwpSxQpBDFoDVAH78XPzUu9zfDe556VnCXsrieZVTMT
-         A83Q==
+        bh=igQL/VV4Wa38DUon2J4YforIwW4mB9eZyyqmavcphfo=;
+        b=sOQPGbcYQyC1qsRMzo97l+rY6g24jsod1lNAUcya2mo47RWxvqPk7lLq2tEhaBMOKv
+         Rwax62vv4+1yHw8MGmv89Fbs8FkWWLRwjEN9tmVcD7BkfmYdquXRSkmSoc6564RuhRLD
+         AZo63OF2MDPqxTLFDqLa0ZcxVVI0F9bViP03K9rDCwPx8qTDaqpE0GAXnnbYjucY53WB
+         u/WX215ucqib4S7+f3oZRuw98Xb0bLzPdQfCC4kla1Ng6ohdJB5tJyfNEIqj+gmNhWYf
+         /utmN+NoRp6I08mA0UWlV7s8PGR2WzcevoLkN3gT4fFqDc6TpqBng5sqt5y9J5jTw3X7
+         W2DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=smhfgb7HB8hlFn34k4dT8q35lboF4fHdDv51VSBZlq0=;
-        b=NjYPv0v7Ijwxea/VPXnekY4q6X+/lB6S6dwdRulSrHhT9Ag44L/qkJhJGtjlUlDtba
-         i9eNJyG1itO3gllhA+fSdP2F5d2K6twdzyR+PMpX/6MSiESQVE93pfgDm6QJMlZjBkyZ
-         VfV9WOr/EI/lSs+l1OSnXpn84wAURIoHDAkIIposnSZvXr0Tede7p/f0g4b7Ro7Ka5KX
-         jrEO0llCA+LQvd3ZcZa7H26UKDsczafgl6wnksKqIsx/B2Fm91/3sXxSuki8dptXWJVb
-         KsDx0GZOqdnqo2x3BagiM3P9Och5nZ8FKtddQlJkaWH9IvI6QzhGQgYGzPqXrAQo4uNc
-         WsTg==
-X-Gm-Message-State: ACrzQf0vy+j/GZpqnjvRWzMAALfuzifoTS2nI0opsQl1/d2wtrMMjxeN
-	sptBnLuqgcRb3gbff0W7+ws=
-X-Google-Smtp-Source: AMsMyM5LDFjOFcfRgoHsaNq7AZAlgjTXmKpz5bnfYll785TLzXtaVJytwtvU3uqeEuPnBsnJyRKvqQ==
-X-Received: by 2002:a37:bbc1:0:b0:6ee:a199:6f02 with SMTP id l184-20020a37bbc1000000b006eea1996f02mr17019280qkf.203.1666448078447;
-        Sat, 22 Oct 2022 07:14:38 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=igQL/VV4Wa38DUon2J4YforIwW4mB9eZyyqmavcphfo=;
+        b=f5ywWrJz7XllUrDyy/gbw55KbBNrHV1oBrRSlv0onxOLTUuAymFSICmzsyFmrZpHQ+
+         1Oy3pRD3tYw3UXAfUBM8Tk6iNO/l/WK9xJonQYK51jANfHimi0lY41URWuikmfKLa5vw
+         K3hAf0w2/aE7uAo8FJttAnvw0ewjLnv+lCA8BX5MvHMEMfkImh8NJcP0/DCbypooclAA
+         QOBQX5TX4+phFiUkfs3uxMHTa3+HfxigK41CXYdmyozr+lAN2602/1eToXUoQ5kJarOt
+         vDRYh1acINMBsc5/HNRQnlLIieOPfgFQ8e4UXNL1vxQl2HgBld5wY6uhFRg9I1td/XEX
+         jNcg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACrzQf1IVSzV9uuN3yHyOD3pqVUb+Ozw3ZS7a6sFB7v7I5FSpg6VxiVL
+	uqdGSvplIsfaOGgTTAGO5Sc=
+X-Google-Smtp-Source: AMsMyM6WFBA5TlR8BW3sdjArh6/z0Bap1LQElHRtttD5crU4lYGRdzUrM66Rr79FRszOxlxUx69pjA==
+X-Received: by 2002:a67:ffca:0:b0:3a6:d6f6:302f with SMTP id w10-20020a67ffca000000b003a6d6f6302fmr14463376vsq.28.1666462118799;
+        Sat, 22 Oct 2022 11:08:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:8e44:0:b0:4b1:d9f8:1b13 with SMTP id w4-20020a0c8e44000000b004b1d9f81b13ls2549943qvb.9.-pod-prod-gmail;
- Sat, 22 Oct 2022 07:14:37 -0700 (PDT)
-X-Received: by 2002:a05:6214:5296:b0:4bb:5ed2:d55d with SMTP id kj22-20020a056214529600b004bb5ed2d55dmr2479734qvb.62.1666448077750;
-        Sat, 22 Oct 2022 07:14:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1666448077; cv=none;
+Received: by 2002:ab0:278d:0:b0:408:c6de:ef4d with SMTP id t13-20020ab0278d000000b00408c6deef4dls30055uap.5.-pod-prod-gmail;
+ Sat, 22 Oct 2022 11:08:38 -0700 (PDT)
+X-Received: by 2002:ab0:7789:0:b0:3be:fd5f:768f with SMTP id x9-20020ab07789000000b003befd5f768fmr16028672uar.109.1666462118085;
+        Sat, 22 Oct 2022 11:08:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1666462118; cv=none;
         d=google.com; s=arc-20160816;
-        b=GiCvp0t+z+KqASfHmlj6hUFPDCJqv4Cv3vN0lT222EaeNqi1C8kHNT7U9x3G2aDMSG
-         e0AEMOXujNxJXP9TeUv2MN6sXS3HphSaReR1p473Xi1pc5RqhWKVsGP/YRkhuwdUYPyJ
-         tY7kqBYfRasORfHg329Vh77R5C6Fsf8+XaIjcEVirRPnG4UnRFtwX7ZRxzpXn+sx+TT8
-         M9C6kmUHmk6akhzKybSo4KUGQWFDKz1gJ12aXdxWsr9UNd2sG5fZ+5K7PlFZBucvPgZr
-         INezBH9eP7t3185hMY5sd5BQIii7dTM59nP6qk0FG2p41JD/Xvt+YSM4HwWyFisYn4oQ
-         i02g==
+        b=wKXbuxH5wcs26M/ppFy3YxzMxPi1gxzmVF+uVbAzp/aVX3XeJUoZZPx4ndRXdly+Mh
+         ZabflmsRR0Kyu3v+2MzZif+VPPlUKwlJ72YTt7ECp+PoY4B4gTGaH1belX0vdb8GnzxP
+         NR7OitYrEaY8+5jp/xAc/FY6HiHEBb51RtO6wosgVSZyyKLLsJlaKOD0UYvVsIGyOUYi
+         dHejj4u7hjJXycVMFgb4bpsAbh5i1PwBfM/ZK6tl+ZoW2XOosbJ9lvFAC1GiirFooHnl
+         p6zh6udwVyEPlQVImuNMWOgm2DQjOFpCpoD7zx/BnfE+PcdOcoQKvcTTMN7NsEzS5FYU
+         6jgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=V/pXnGpUP+A5cZvVHRAANC1TElzt+71d+M4GSsUDRR8=;
-        b=k9wpdrMT1ufC0oPY1kDZgLk64AScqNd3a6AQG778q8qV+6Mbb6QK3WoNbfhDByAIxx
-         ul0irT2CMz/lCsrBe+mO0nt/u/IOX6X31T7gDKm1Dx/rGaKRYTs8p1EYFkcudK2rHNZW
-         4LqMWCRaAz2jcIMUs9GGmY1VVNQEd1dOY9TqqwOciRbZygb/mGqD1Q2CTyTBZPfHDPLq
-         JFcw3O4WWSfpIpo8GHU+w6jrfGduQ7ufW1h+k8524O3fzgjb4RmfmeW+mJe4UKmFalge
-         GdwF+6RBmlWaYrsJAbJkVVTd2axANzRISmuFaP+aAjDzNPoZUQbpjydoE++Q+p/OQFsO
-         wkDw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=1a2EeARYSnWxiJw6oHJsoY33Y0se207PXHB1ow0Ga1Y=;
+        b=K8LaYuCVng22/3qohaeEth3C8sbUncbV7NUU9EV3SEgjPlcMLdKHG9Xf/2MMfIyvbj
+         YBfrHe4HSDpixK44x6axpqBheK298HibbZTKL2ltMH3No6ZzcPPuZlQlLCxy5IW7+iT1
+         B+mwRTnhOSYGg87tW82HgZ/6vuFREt7z8+0slLfqN3uX5i1MpbLdfS9qpA4urSmZHdeO
+         2YF7EymdQLUU3fq3dQOV326LZjypGcfkJtkc1QPxkAOtL51GPDUk6KswdJJZhLRBFPUQ
+         Z7DJL688DltuE7QVkZwz54ipnZoiFhrGS2fWPD80+gE5OCloCrgQNFAC3/CVWMrBzf9Z
+         Ug6g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=oJzxJp9s;
-       spf=pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::236 as permitted sender) smtp.mailfrom=groeck7@gmail.com
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com. [2607:f8b0:4864:20::236])
-        by gmr-mx.google.com with ESMTPS id l16-20020ac84cd0000000b0039f2f4aca88si57794qtv.0.2022.10.22.07.14.37
+       dkim=pass header.i=@chromium.org header.s=google header.b=Hzo7fVyD;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::52f as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com. [2607:f8b0:4864:20::52f])
+        by gmr-mx.google.com with ESMTPS id n130-20020a1fa488000000b003b3b114b8ffsi233016vke.1.2022.10.22.11.08.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Oct 2022 07:14:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::236 as permitted sender) client-ip=2607:f8b0:4864:20::236;
-Received: by mail-oi1-x236.google.com with SMTP id g10so6319937oif.10
-        for <kasan-dev@googlegroups.com>; Sat, 22 Oct 2022 07:14:37 -0700 (PDT)
-X-Received: by 2002:a54:4e99:0:b0:355:2239:2465 with SMTP id c25-20020a544e99000000b0035522392465mr12133089oiy.111.1666448077400;
-        Sat, 22 Oct 2022 07:14:37 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x5-20020a4a8d45000000b0047f94999318sm9731205ook.29.2022.10.22.07.14.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Oct 2022 07:14:36 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e3c012aa-92ff-0b3f-6ea4-81b906c6f1c4@roeck-us.net>
-Date: Sat, 22 Oct 2022 07:14:34 -0700
+        Sat, 22 Oct 2022 11:08:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::52f as permitted sender) client-ip=2607:f8b0:4864:20::52f;
+Received: by mail-pg1-x52f.google.com with SMTP id 78so5258347pgb.13
+        for <kasan-dev@googlegroups.com>; Sat, 22 Oct 2022 11:08:38 -0700 (PDT)
+X-Received: by 2002:a05:6a00:2485:b0:561:c0a5:88aa with SMTP id c5-20020a056a00248500b00561c0a588aamr25296071pfv.51.1666462117133;
+        Sat, 22 Oct 2022 11:08:37 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w9-20020a628209000000b0056276519e8fsm10507248pfd.73.2022.10.22.11.08.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Oct 2022 11:08:36 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Christoph Lameter <cl@linux.com>,
+	Dmitry Vyukov <dvyukov@google.com>
+Cc: Kees Cook <keescook@chromium.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	linux-mm@kvack.org,
+	kasan-dev@googlegroups.com,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] mm: Make ksize() a reporting-only function
+Date: Sat, 22 Oct 2022 11:08:15 -0700
+Message-Id: <20221022180455.never.023-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: Warning backtraces when enabling KFENCE on arm
-Content-Language: en-US
-To: Marco Elver <elver@google.com>
-Cc: kasan-dev@googlegroups.com, Alexander Potapenko <glider@google.com>,
- Dmitry Vyukov <dvyukov@google.com>
-References: <20221015134144.GA1333703@roeck-us.net>
- <CANpmjNOVvriYmF1c7Rg31Yu2Tmu5JMJM-odhVnQF-xabMizjcQ@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <CANpmjNOVvriYmF1c7Rg31Yu2Tmu5JMJM-odhVnQF-xabMizjcQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: linux@roeck-us.net
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5852; h=from:subject:message-id; bh=HZuoaDzt6/LPxyvOVuzqy3FtD9MM88oVQvBYI2b7PvI=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjVDGPT373RHlxlNzRB3FSVMPSd+3N5IOFs8nbEih6 a4JcCZSJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY1QxjwAKCRCJcvTf3G3AJg0sEA CJQgeNhzT7kGutiZ6DfvUQ98sYDiSG8cy5fz0XvctLjXFa0E+0jHWMYAU49DaTSiJAPjvkJtC3eGqU 6H9Yhzx9OnK6+3Pf6CkgpLB2j2roioL0N9/uKNk3O/B2Zg1vC5X5WSChvXQKKYa/DWRZFjm1hYuSe6 eJtnb4TJbTlAswbsKtrfUiRdurXNZNeo93YLboPpjS3Oui2Zmkjs3yXUfQ0wbI1EAg7/Lt76SiyOEk xNIhZchALtO+3yxGXJbt5/E4CJQNgHyzMQ3zidIrYmZSMr0kRDJiFI7yTRmMMI0lBclAXkUM9DX4qW hRRkLsDseezDlETYXdhqTUlsufdXvAkrRPatPCnP/z66b+G0HAlR4Op/K5RMvloMen54XAbuXSCb3f szujhc7zJ0Ivi0uis3misDev9gs4NVzX6jAIfK9HQaWVf5ybskYfX13uIDyQUgrDAJ2zz9nkWvzhs2 4hTLhJWpQfeMm38oPVkvCP7IbG6I4mdB1J5OdiYiA8VeriacD3+wR/UupDY/Jj8Jg7UfZ1mOVC8sv5 om+rocuJfmZOlkrezs1scXeeSujkP68ukOUtcdRMlNVkHBcNBzjUQ0SGgx0J2ToE0V2CFsQEG4XXjz 833VvH5PsOTeK7/T5CefUcbv4z3/iq4+gl9YtUf8Rd5EvVizs2QIsOzNYy2g==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+X-Original-Sender: keescook@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=oJzxJp9s;       spf=pass
- (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::236 as
- permitted sender) smtp.mailfrom=groeck7@gmail.com
+ header.i=@chromium.org header.s=google header.b=Hzo7fVyD;       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::52f
+ as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,92 +151,162 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 10/17/22 13:56, Marco Elver wrote:
-> On Sat, 15 Oct 2022 at 06:41, Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> Hi,
->>
->> I keep seeing the following backtrace when enabling KFENCE on arm
->> systems.
->>
->> [    9.736342] ------------[ cut here ]------------
->> [    9.736521] WARNING: CPU: 0 PID: 210 at kernel/smp.c:904 smp_call_function_many_cond+0x288/0x584
->> [    9.736638] Modules linked in:
->> [    9.736707] CPU: 0 PID: 210 Comm: S02sysctl Tainted: G        W        N 6.0.0-12189-g19d17ab7c68b #1
->> [    9.736806] Hardware name: Generic DT based system
->> [    9.736871]  unwind_backtrace from show_stack+0x10/0x14
->> [    9.736948]  show_stack from dump_stack_lvl+0x68/0x90
->> [    9.737021]  dump_stack_lvl from __warn+0xc8/0x1e8
->> [    9.737091]  __warn from warn_slowpath_fmt+0x5c/0xb8
->> [    9.737162]  warn_slowpath_fmt from smp_call_function_many_cond+0x288/0x584
->> [    9.737247]  smp_call_function_many_cond from smp_call_function+0x3c/0x50
->> [    9.737329]  smp_call_function from set_memory_valid+0x74/0x94
->> [    9.737407]  set_memory_valid from kfence_guarded_free+0x280/0x4bc
-> 
-> This comes from arm's implementation of set_memory_valid, which does a
-> flush_tlb_kernel_range, which does on_each_cpu().
-> 
-> That in turn should probably not be called when interrupts are
-> disabled. However, kfence alloc/free can occur in any context where
-> kmalloc/kfree are valid.
-> 
-> [...]
->>
->> This is an example seen when running the 'virt' emulation in qemu
->> with a configuration based on multi_v7_defconfig and KFENCE enabled.
->>
->> The warning suggests that interrupts are disabled. Another KFENCE
->> related warning is
-> [...]
->> [   11.381507]  smp_call_function from set_memory_valid+0x74/0x94
->> [   11.381657]  set_memory_valid from kfence_guarded_free+0x280/0x4bc
->> [   11.381800]  kfence_guarded_free from kmem_cache_free+0x338/0x390
-> [...]
->> This is also seen with the same emulation. It suggests that the call is
->> made from outside task context, which presumably can also result in a
->> deadlock.
->>
->> I see those warnings only with arm emulations. The warnings are not new;
->> they are seen since kfence support for arm has been added.
->>
->> Is this a real problem ? Either case, is there a way to address the
->> warnings ?
-> 
-> The problem is real, but is a consequence of arm's implementation of
-> set_memory_valid(), which arch/arm/include/asm/kfence.h relies on.
-> Other architectures seem to implement set_memory_valid() without the
-> IPI so the issue doesn't surface there.
-> 
-> I don't see a way to address it within kfence itself, since page
-> protection is essential to how kfence operates. So my question would
-> be if arm can improve set_memory_valid() somehow, but have absolutely
-> no background how feasible this is:
-> 
-> Is there a way to implement a "lazy" version of set_memory_valid() for
-> arm? I.e. let page fault handler recover on spurious faults, and
-> possibly provide an optional explicitly lazy set_memory_valid, where a
-> missed fault is acceptable. We need 2 things:
-> 
-> 1. On allocations, we need to eagerly mark a page accessible (however,
-> a lazy implementation that recovers from spurious faults would work;
-> afaik x86 does something like this).
-> 
-> 2. On frees, we can lazily mark a page inaccessible, with the only
-> downside being that there's a time window where a use-after-free on
-> another CPU might not be detected (assuming local CPU TLB flushes can
-> always be done eagerly).
-> 
-> Thoughts?
+With all "silently resizing" callers of ksize() refactored, remove the
+logic in ksize() that would allow it to be used to effectively change
+the size of an allocation (bypassing __alloc_size hints, etc). Users
+wanting this feature need to either use kmalloc_size_roundup() before an
+allocation, or use krealloc() directly.
 
+For kfree_sensitive(), move the unpoisoning logic inline. Replace the
+some of the partially open-coded ksize() in __do_krealloc with ksize()
+now that it doesn't perform unpoisoning.
 
-Hmm, that doesn't look like an easy fix. I'll disable KFENCE in my arm
-boot tests for the time being. That is less risky than missing other
-warnings.
+Adjust the KUnit tests to match the new ksize() behavior.
 
-Thanks,
-Guenter
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Christoph Lameter <cl@linux.com>
+Cc: Pekka Enberg <penberg@kernel.org>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: linux-mm@kvack.org
+Cc: kasan-dev@googlegroups.com
+Cc: netdev@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+This requires at least this be landed first:
+https://lore.kernel.org/lkml/20221021234713.you.031-kees@kernel.org/
+I suspect given that is the most central ksize() user, this ksize()
+fix might be best to land through the netdev tree...
+---
+ mm/kasan/kasan_test.c |  8 +++++---
+ mm/slab_common.c      | 33 ++++++++++++++-------------------
+ 2 files changed, 19 insertions(+), 22 deletions(-)
+
+diff --git a/mm/kasan/kasan_test.c b/mm/kasan/kasan_test.c
+index 0d59098f0876..cb5c54adb503 100644
+--- a/mm/kasan/kasan_test.c
++++ b/mm/kasan/kasan_test.c
+@@ -783,7 +783,7 @@ static void kasan_global_oob_left(struct kunit *test)
+ 	KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
+ }
+ 
+-/* Check that ksize() makes the whole object accessible. */
++/* Check that ksize() does NOT unpoison whole object. */
+ static void ksize_unpoisons_memory(struct kunit *test)
+ {
+ 	char *ptr;
+@@ -791,15 +791,17 @@ static void ksize_unpoisons_memory(struct kunit *test)
+ 
+ 	ptr = kmalloc(size, GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
++
+ 	real_size = ksize(ptr);
++	KUNIT_EXPECT_GT(test, real_size, size);
+ 
+ 	OPTIMIZER_HIDE_VAR(ptr);
+ 
+ 	/* This access shouldn't trigger a KASAN report. */
+-	ptr[size] = 'x';
++	ptr[size - 1] = 'x';
+ 
+ 	/* This one must. */
+-	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[real_size]);
++	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[real_size - 1]);
+ 
+ 	kfree(ptr);
+ }
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 33b1886b06eb..eabd66fcabd0 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1333,11 +1333,11 @@ __do_krealloc(const void *p, size_t new_size, gfp_t flags)
+ 	void *ret;
+ 	size_t ks;
+ 
+-	/* Don't use instrumented ksize to allow precise KASAN poisoning. */
++	/* Check for double-free before calling ksize. */
+ 	if (likely(!ZERO_OR_NULL_PTR(p))) {
+ 		if (!kasan_check_byte(p))
+ 			return NULL;
+-		ks = kfence_ksize(p) ?: __ksize(p);
++		ks = ksize(p);
+ 	} else
+ 		ks = 0;
+ 
+@@ -1405,8 +1405,10 @@ void kfree_sensitive(const void *p)
+ 	void *mem = (void *)p;
+ 
+ 	ks = ksize(mem);
+-	if (ks)
++	if (ks) {
++		kasan_unpoison_range(mem, ks);
+ 		memzero_explicit(mem, ks);
++	}
+ 	kfree(mem);
+ }
+ EXPORT_SYMBOL(kfree_sensitive);
+@@ -1415,10 +1417,11 @@ EXPORT_SYMBOL(kfree_sensitive);
+  * ksize - get the actual amount of memory allocated for a given object
+  * @objp: Pointer to the object
+  *
+- * kmalloc may internally round up allocations and return more memory
++ * kmalloc() may internally round up allocations and return more memory
+  * than requested. ksize() can be used to determine the actual amount of
+- * memory allocated. The caller may use this additional memory, even though
+- * a smaller amount of memory was initially specified with the kmalloc call.
++ * allocated memory. The caller may NOT use this additional memory, unless
++ * it calls krealloc(). To avoid an alloc/realloc cycle, callers can use
++ * kmalloc_size_roundup() to find the size of the associated kmalloc bucket.
+  * The caller must guarantee that objp points to a valid object previously
+  * allocated with either kmalloc() or kmem_cache_alloc(). The object
+  * must not be freed during the duration of the call.
+@@ -1427,13 +1430,11 @@ EXPORT_SYMBOL(kfree_sensitive);
+  */
+ size_t ksize(const void *objp)
+ {
+-	size_t size;
+-
+ 	/*
+-	 * We need to first check that the pointer to the object is valid, and
+-	 * only then unpoison the memory. The report printed from ksize() is
+-	 * more useful, then when it's printed later when the behaviour could
+-	 * be undefined due to a potential use-after-free or double-free.
++	 * We need to first check that the pointer to the object is valid.
++	 * The KASAN report printed from ksize() is more useful, then when
++	 * it's printed later when the behaviour could be undefined due to
++	 * a potential use-after-free or double-free.
+ 	 *
+ 	 * We use kasan_check_byte(), which is supported for the hardware
+ 	 * tag-based KASAN mode, unlike kasan_check_read/write().
+@@ -1447,13 +1448,7 @@ size_t ksize(const void *objp)
+ 	if (unlikely(ZERO_OR_NULL_PTR(objp)) || !kasan_check_byte(objp))
+ 		return 0;
+ 
+-	size = kfence_ksize(objp) ?: __ksize(objp);
+-	/*
+-	 * We assume that ksize callers could use whole allocated area,
+-	 * so we need to unpoison this area.
+-	 */
+-	kasan_unpoison_range(objp, size);
+-	return size;
++	return kfence_ksize(objp) ?: __ksize(objp);
+ }
+ EXPORT_SYMBOL(ksize);
+ 
+-- 
+2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/e3c012aa-92ff-0b3f-6ea4-81b906c6f1c4%40roeck-us.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221022180455.never.023-kees%40kernel.org.
