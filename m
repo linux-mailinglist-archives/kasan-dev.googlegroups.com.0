@@ -1,142 +1,126 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBEW24CNAMGQEZZOVNWY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC6OLHHDVUOBBZ774SNAMGQECMPIXHQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B9160D3A7
-	for <lists+kasan-dev@lfdr.de>; Tue, 25 Oct 2022 20:38:12 +0200 (CEST)
-Received: by mail-pf1-x43a.google.com with SMTP id v17-20020a62a511000000b0056c0ad6a1f9sf2109407pfm.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 25 Oct 2022 11:38:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1666723090; cv=pass;
+Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DA560E2E3
+	for <lists+kasan-dev@lfdr.de>; Wed, 26 Oct 2022 16:10:49 +0200 (CEST)
+Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-131caeb598bsf8696798fac.12
+        for <lists+kasan-dev@lfdr.de>; Wed, 26 Oct 2022 07:10:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1666793447; cv=pass;
         d=google.com; s=arc-20160816;
-        b=atdmCERArvuvpXtY97ThhMP3oxx9yz8rZCUdgenzFob5H3pmCyzxtiBK4MyNmGPH9r
-         TeEFu1LyxLJtd+pJd3WHXVFeUC6rAY7bJXWUoxFsxjekYivojsXS4I3iAgl11KPjqNAz
-         ifVf7+/XMMn77CK9k2lsFT9GBeazH8tvKdZl1aKLdSD5r7ve4dDUbFYW49FhXJw06FyZ
-         t/lB9Nne19iMczX8nL7KS7n4UY0LPzWXG0UB6AHv5uP6JD6v0DrVrkE3E9WUKCoaGVUk
-         dibFo34sCnnLb+CF0JJhQK5cNKg2wrEY7scXJ0nJ85Xm1M7EpccCXh4KFNUYeXlnEGBf
-         ynhQ==
+        b=jPOgo21eX3MQVr+oEzRNQ5YJvcPgtx6umZBo4kavaBgqKjArji/6GGJcUoz+n+Fv89
+         oxJxCAh2uYa6WepLCFBBEUES54E4oWMz1kms7BfivIE3kOB2vTWtIhjokFsHqQa1kLem
+         GU0o0dXx93SJPaZlKGUslltr6QeXvp8hoPAx5q3jSmc0oxIGaAQ3H2gw9hsSk7hq1l6S
+         IhZdqWdI6tfb6kvayMSaqZkAXG9hJKrs6u4YMu5Rv6oimk0Ue07591iWwAP4WXFngoC0
+         1gbH3jGkcTyinguhLv9TkM13d497ecEAhD0UBPaNoMrWxdbpItUXhPzUxuDNbh+DYUT8
+         FQpg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=pgeoyvcGyK7EBMQXYkTcugUarZiSlliA08ojqjSY09M=;
-        b=j0iGyVAnyFcl7Or/Ms05bs5vhwcEid6/4BxCdGmvAzTN9kpE3qsRGiMoS5PUxLGnm8
-         480PY6ulELrZujkCEhzD4NaBaFq4Y0+GeBm7VU6/LnnAILIZD+PbrsscQEDIrVVvuiPv
-         /bmGU5ilcNxjdXmS7NVbZsQFS/ROora56aWpIKtcf4JgFdRf5ZPi4Ryz3fk+QnGNJL9f
-         fxsLNqpoTM2lJYZRcJ6obmz915vq0HIHBfUMtRPg2T73czzvzXLJxwTrdN5DlffZKChx
-         doQ70qj+jSPf/uU9hQbqkorCPh//zZhU5WpEO5aFEvQXcCih0HIFzUP6/nyJKaejveCC
-         6pzA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=oYPfnhz+dD2bxhXWtHfWeNDDKuS8yUxo8Z3y37gbJs0=;
+        b=EAiR7J341qxQvHrEn/pIepoZ0uLAtHQI6zMSV4ZZzXTeyfwFQcRLX9wn2RpnZDABhv
+         DHNhe/4FV8+XuHsK7CUib4rqQR6V+IK407uCsvz6YRoI3UZGfeXdDXPiZN+A01YoqoJd
+         BbV96zlwVuhgny0d8ULgQN5rAJjDyO1xIbAn9DpwKrzIlxvevlwtvL7xj/7YGg5xkTUf
+         XCnTWUmmG0MrWqmmfm43p3ndqMgNgeDMirO577t62U/o0EeB+oWY8IVBtagaA2OpB2Uc
+         r1pJ/Lk/zBCdjQQkiJwTqUBmWZcD26s6Z9VrpE7H7vR4yDB82P3v8c8dYcD90A+EdjUQ
+         rpzA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=acruGIdn;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62d as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=MpZihCZI;
+       spf=pass (google.com: domain of 35j9zywgkcesqnivqtbjtbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--davidgow.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=35j9ZYwgKCesQNiVQTbjTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--davidgow.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pgeoyvcGyK7EBMQXYkTcugUarZiSlliA08ojqjSY09M=;
-        b=YE6QuMGsOkouKTy5B0Jmw8xVD0c7wj9804cn76L7AtuZnHZNqQKk2PTOi6zZiAQfCt
-         tq9Td0J1Mguld8lvfHnO4f8ZEVvXNxSatRZZWbHjT/Y0BDYu/XYFLtq3yTSOi6FF6sUX
-         QHkQiUorZS+lIV+t4U6V10WXwuYjZxKl3UzH6xD2Y0/RlUCcbka3sxvTNgmVyZ+tOYQ7
-         A1g4jfpdKEyz0E6Ru8YnJvOIydt/CaqEy1teorPqr44dVMKP8Mw5sbc6FgfD9FlYBwn0
-         J2A6JZ8rb2QP+Fc1plwd+zKsEpaKURt+HuhVyO/aFd9Vp73iRVHZ+3hTStAzxcAiUM08
-         R/yw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oYPfnhz+dD2bxhXWtHfWeNDDKuS8yUxo8Z3y37gbJs0=;
+        b=csF257oFSJ7iS4kZGzHRSi1FYc0Lu/XHpfO9cbfRsGaQzeM50wdA23bUtgjxqRTnSB
+         hTNTxcI9eFlvlAO+DdEeRjCAw0FAMzQmWLKBBdWXs+Bh9i8oio/LxwSXoZajRWnchMby
+         7GhnKFW8wqyAWCeU0zslFmw3dRaANHP+DbR1j5whsjEh9lbnhl/JqDbnb9oumRM7ypOQ
+         /NDJCr+2krNXp/Zkf03/+rBRmY+++QLgU7VKhDNa65AYF1WMDlwOu/dT9CflnBdSVJPH
+         DYcoqmdyzr6tuzJhYA/apIRYhidwmCA+/cTxPnUTtXsSvNanMHMaKpvSVMhn/JA7DnqB
+         19Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pgeoyvcGyK7EBMQXYkTcugUarZiSlliA08ojqjSY09M=;
-        b=2iFKTHFGFs8Lc07zA5SFOP0xOUqXjt6uCr+lIBMTk8pfE4gSXNyHkPJKyz7edpSwW9
-         6cFPtHTse4+jn3jamINMcjXrZ8E+x5mEWlKfsncDBZhyh35tGG/rfYl5uLMPuPDPnL8w
-         hHOt/OAwmtFH8AWoggAP6njQ/BJiZpW/D3zT4YcJMLDtxjwwkMl8CEaQHQ5VeoRO/+m2
-         CpnK8qSe9yivK1UHjJvRxlOK1LmetGXHeo0XCkRvwZBx89ugKazklVjlck1lRGjsEVnr
-         A1nl73z+XYMTmwfpZA19mYFoCv0dOrPSn1ygXsaUg2+nGikOiKe5UVSuqidzOeeAw+PA
-         KeTQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0LKeOiYlYQaBA3gSSZcyeYE/KZLlAAjiKMVfL3rynrTAYH8mQx
-	zeCv2860TJOOcuHtCSpQvsM=
-X-Google-Smtp-Source: AMsMyM6zbGlw4S1Vf92/XoU/N8LnF6yseT2gjHyFiQCcxlXbtLrweax31Szen2FqC0CwYvFm5T4VxA==
-X-Received: by 2002:a17:902:6aca:b0:186:8431:d7e4 with SMTP id i10-20020a1709026aca00b001868431d7e4mr21750933plt.89.1666723090207;
-        Tue, 25 Oct 2022 11:38:10 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oYPfnhz+dD2bxhXWtHfWeNDDKuS8yUxo8Z3y37gbJs0=;
+        b=IAzoOrDq+EayltAt6Qa9IZUwz02hxlAWXFGRbn2TIJ0zQnGiWCQfdkB0tOcVnR1hJH
+         DaU3uG1GTY04Zvc4i60DKlXJV5rKoQIcq+p4Y+1plHabVW9elUbQtJEVxBm5G6HikO5f
+         t9sP2FgBJF68N7XiaEK72jcGK1kw8tooKxSgAf2kXifxhI2LHbfwbNTC0zUvv3TNbYOK
+         v0w4GK/E5YQx3ooWxpsux9cBh2y5Vj9RjqVEroxdgoV3+BqspQdLP1a2rgHBqiHQMv2b
+         7flt6YBMXZqUr0k5aa5gpVaBESZy7T+RshD1FO3YICETjl+rSVa3cFZ0t8FNYFFc7ffp
+         qMqg==
+X-Gm-Message-State: ACrzQf3rKs4maoOSXNJ+4C5+4xcqdQaYf9JYjx2dwXySAfQsjJHsLeVy
+	f13eSL35+tCL4Gg2BY5p3Sg=
+X-Google-Smtp-Source: AMsMyM5gPlcIk7hexMp3jpCK+08OMc5bSG0GsNzJt94UgWs4LYosezu+Wv5LbvqWADMhmoNiLhdsdA==
+X-Received: by 2002:a05:6871:71f:b0:13b:7f4d:1eae with SMTP id f31-20020a056871071f00b0013b7f4d1eaemr2283343oap.201.1666793447371;
+        Wed, 26 Oct 2022 07:10:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:680f:b0:213:fe:7f8d with SMTP id p15-20020a17090a680f00b0021300fe7f8dls4819742pjj.3.-pod-canary-gmail;
- Tue, 25 Oct 2022 11:38:09 -0700 (PDT)
-X-Received: by 2002:a17:90b:380b:b0:20b:8dd:4f5f with SMTP id mq11-20020a17090b380b00b0020b08dd4f5fmr82936564pjb.158.1666723089467;
-        Tue, 25 Oct 2022 11:38:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1666723089; cv=none;
+Received: by 2002:aca:502:0:b0:357:5ddf:b56e with SMTP id 2-20020aca0502000000b003575ddfb56els2762411oif.7.-pod-prod-gmail;
+ Wed, 26 Oct 2022 07:10:46 -0700 (PDT)
+X-Received: by 2002:a05:6808:219a:b0:354:daec:53cb with SMTP id be26-20020a056808219a00b00354daec53cbmr1892089oib.2.1666793446787;
+        Wed, 26 Oct 2022 07:10:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1666793446; cv=none;
         d=google.com; s=arc-20160816;
-        b=uphBzlg2UMeYHYpfWJHMwSAHVzyjZlHgAE1NAFV/kDOF8sA51a5JSU29W5GwDoL9lJ
-         8+1ONG1VuXnYPHhi5BghPG0R/J2uscIGKEMQEBG1CO2QbC6YL/P21eXJp5FrbkT2ru0N
-         2oIWxVUTuiowBNqKNMiC6FfdWCctA8NgglepcKgSoKc/SiK5rEmTd9Oo84Gtn3yoROeN
-         k3Nu+0RYNZDyqfGhzHpihguPpPLpaHbxtQciL62/Cr5Rsj2yrysplXLsBkhZIz6N8ZDi
-         49pNI/77/CEdyuxLMyB905cYEE30iaBAgUZYkugE4Rnxntz9eai8RhMETNSkcM3vT8aM
-         oQww==
+        b=N89b89OSxVAWEvHoCILGgmAgPtmWOEC84Y5xhizbc44tcfMLDd65vJNtwuToa+YdMj
+         9zU0kGeo5vhqVsrI5K1Xr0VxtIekbG0gSTDDPfW0r3mlEQkJ9O0K8kz4txmZRWLXSD3n
+         0CzVIBbfSff8vxBEgsV8rBXfvKMUrMKngGMhXH3B5khqJJ0k7l+SwHN2+JkD08+noCNA
+         fX1UbhI0+2/NVl6KSLFUuu6BhCLA85Q3U4jPBLp0e5+gh1SUkCd3H0vkTVqrmwS/yZyb
+         90ejwp0WkF2jglHRqRytAD4RgG5Wv5OXJ45GEJlcxjE0f/hrN/I/g1/2EnQJZxt46rXg
+         PaCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=j6v7OmtMJ2b16XOxoV0FAPi5R9UZMGGxZ5W+ahrXitU=;
-        b=vmm//93sBTX3GZZL0K0NpRRchmo5p3vOG266hMy7q0TfxqYhkfIVDantJr+PIv32dF
-         wimIedCc1Hf+PepEo0ABkKX4Yrqv4UEQ5dW4xKeMPbcCesoTULvSBuu4uq2hEN6DI7OD
-         IQYq/IMWka25Z+3wiHOUBTvUJmkYEFv3g8SNsx1nRSdLgndYxQRvrQKA2TE8XpWj2K5x
-         CgelUZQIvF7upSwTWkdgFm5LZpMXSq9aD2lknANKYl/kA98VL3bpWW+DO3wVj4InGE0y
-         HBNes/11u9F0jPIbx2FbRdbJ8nMqgaN+FlXTJSDYudTVPOKSKUF68MmVNGweQa7hLoLu
-         WcpQ==
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=oVCnLyxMsU2FaLl3D+PS+uuU9HLGod0PTLLsMzXQBPI=;
+        b=GtO7NjF+4AzdBDFUDy58VUKAP2rNeLLVQgda6P8dPvLNKqIrm65wKBSLhqq5cne6jt
+         NA2naHOHqRdWjK2/1yNt0gJxmihxzBDNz3Ch3t18SA1/sTz9+cNp1bB14AoUeMxHFGeh
+         IBkdmei+M4aAuN0DSnZ3hSBgn1UReibb+AVMtS3iQpWj3dbkAnk+Oy9sEd02sIWDdVXX
+         an0syl0348Bzhu6r8I2W4KgXGO8Pv05a9s+IHciHCKkFxBdrleYYwMNPD+cvbyk0om0w
+         Ndfv0cj8PxqKSB2vNBsKnJRVQaY7EBZitBy/txZ9SwNlMEo3EUNjtiJkDHpiCnJ1aNrm
+         cTLg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=acruGIdn;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62d as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com. [2607:f8b0:4864:20::62d])
-        by gmr-mx.google.com with ESMTPS id q3-20020aa78423000000b00562230e14d8si135746pfn.2.2022.10.25.11.38.09
+       dkim=pass header.i=@google.com header.s=20210112 header.b=MpZihCZI;
+       spf=pass (google.com: domain of 35j9zywgkcesqnivqtbjtbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--davidgow.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=35j9ZYwgKCesQNiVQTbjTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--davidgow.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
+        by gmr-mx.google.com with ESMTPS id 65-20020aca0744000000b00353e4e7f335si216050oih.4.2022.10.26.07.10.46
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 11:38:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62d as permitted sender) client-ip=2607:f8b0:4864:20::62d;
-Received: by mail-pl1-x62d.google.com with SMTP id c24so11707892pls.9
-        for <kasan-dev@googlegroups.com>; Tue, 25 Oct 2022 11:38:09 -0700 (PDT)
-X-Received: by 2002:a17:903:181:b0:185:5696:97c2 with SMTP id z1-20020a170903018100b00185569697c2mr39858718plg.160.1666723088910;
-        Tue, 25 Oct 2022 11:38:08 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m3-20020a63fd43000000b004393c5a8006sm1568091pgj.75.2022.10.25.11.38.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 11:38:08 -0700 (PDT)
-Date: Tue, 25 Oct 2022 11:38:06 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Christoph Lameter <cl@linux.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, linux-mm@kvack.org,
-	kasan-dev@googlegroups.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] mm: Make ksize() a reporting-only function
-Message-ID: <202210251125.BAE72214E2@keescook>
-References: <20221022180455.never.023-kees@kernel.org>
- <fabffcfd-4e7f-a4b8-69ac-2865ead36598@suse.cz>
-MIME-Version: 1.0
+        Wed, 26 Oct 2022 07:10:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 35j9zywgkcesqnivqtbjtbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--davidgow.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-36b1a68bfa6so107860177b3.22
+        for <kasan-dev@googlegroups.com>; Wed, 26 Oct 2022 07:10:46 -0700 (PDT)
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a0d:d857:0:b0:36f:c0f7:f0ec with SMTP id
+ a84-20020a0dd857000000b0036fc0f7f0ecmr7838435ywe.82.1666793446446; Wed, 26
+ Oct 2022 07:10:46 -0700 (PDT)
+Date: Wed, 26 Oct 2022 22:10:40 +0800
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
+Message-ID: <20221026141040.1609203-1-davidgow@google.com>
+Subject: [PATCH] perf/hw_breakpoint: test: Skip the test if dependencies unmet
+From: "'David Gow' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Dmitry Vyukov <dvyukov@google.com>
+Cc: David Gow <davidgow@google.com>, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com, 
+	Brendan Higgins <brendanhiggins@google.com>, Daniel Latypov <dlatypov@google.com>, 
+	kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <fabffcfd-4e7f-a4b8-69ac-2865ead36598@suse.cz>
-X-Original-Sender: keescook@chromium.org
+X-Original-Sender: davidgow@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=acruGIdn;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62d
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+ header.i=@google.com header.s=20210112 header.b=MpZihCZI;       spf=pass
+ (google.com: domain of 35j9zywgkcesqnivqtbjtbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--davidgow.bounces.google.com
+ designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=35j9ZYwgKCesQNiVQTbjTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--davidgow.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: David Gow <davidgow@google.com>
+Reply-To: David Gow <davidgow@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,67 +133,51 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Oct 25, 2022 at 01:53:54PM +0200, Vlastimil Babka wrote:
-> On 10/22/22 20:08, Kees Cook wrote:
-> > With all "silently resizing" callers of ksize() refactored, remove the
-> > logic in ksize() that would allow it to be used to effectively change
-> > the size of an allocation (bypassing __alloc_size hints, etc). Users
-> > wanting this feature need to either use kmalloc_size_roundup() before an
-> > allocation, or use krealloc() directly.
-> > 
-> > For kfree_sensitive(), move the unpoisoning logic inline. Replace the
-> > some of the partially open-coded ksize() in __do_krealloc with ksize()
-> > now that it doesn't perform unpoisoning.
-> > 
-> > [...]
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> 
-> Acked-by: Vlastimil Babka <vbabka@suse.cz>
+Running the test currently fails on non-SMP systems, despite being
+enabled by default. This means that running the test with:
 
-Thanks!
+ ./tools/testing/kunit/kunit.py run --arch x86_64 hw_breakpoint
 
-> > ---
-> > This requires at least this be landed first:
-> > https://lore.kernel.org/lkml/20221021234713.you.031-kees@kernel.org/
-> 
-> Don't we need all parts to have landed first, even if the skbuff one is the
-> most prominent?
+results in every hw_breakpoint test failing with:
 
-Yes, though, I suspect there will be some cases we couldn't easily find.
+ # test_one_cpu: failed to initialize: -22
+ not ok 1 - test_one_cpu
 
-Here are the prerequisites I'm aware of:
+Instead, use kunit_skip(), which will mark the test as skipped, and give
+a more comprehensible message:
 
-in -next:
-  36875a063b5e ("net: ipa: Proactively round up to kmalloc bucket size")
-  ab3f7828c979 ("openvswitch: Use kmalloc_size_roundup() to match ksize() usage")
-  d6dd508080a3 ("bnx2: Use kmalloc_size_roundup() to match ksize() usage")
+ ok 1 - test_one_cpu # SKIP not enough cpus
 
-reviewed, waiting to land (should I take these myself?)
-  btrfs: send: Proactively round up to kmalloc bucket size
-    https://lore.kernel.org/lkml/20220923202822.2667581-8-keescook@chromium.org/
-  dma-buf: Proactively round up to kmalloc bucket size
-    https://lore.kernel.org/lkml/20221018090858.never.941-kees@kernel.org/
+This makes it more obvious that the test is not suited to the test
+environment, and so wasn't run, rather than having run and failed.
 
-partially reviewed:
-  igb: Proactively round up to kmalloc bucket size
-    https://lore.kernel.org/lkml/20221018092340.never.556-kees@kernel.org/
+Signed-off-by: David Gow <davidgow@google.com>
+---
+ kernel/events/hw_breakpoint_test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-unreviewed:
-  coredump: Proactively round up to kmalloc bucket size
-    https://lore.kernel.org/lkml/20221018090701.never.996-kees@kernel.org/
-  devres: Use kmalloc_size_roundup() to match ksize() usage
-    https://lore.kernel.org/lkml/20221018090406.never.856-kees@kernel.org/
-
-needs updating:
-  mempool: Use kmalloc_size_roundup() to match ksize() usage
-    https://lore.kernel.org/lkml/20221018090323.never.897-kees@kernel.org/
-  bpf: Use kmalloc_size_roundup() to match ksize() usage
-    https://lore.kernel.org/lkml/20221018090550.never.834-kees@kernel.org/
-
+diff --git a/kernel/events/hw_breakpoint_test.c b/kernel/events/hw_breakpoint_test.c
+index 5ced822df788..c57610f52bb4 100644
+--- a/kernel/events/hw_breakpoint_test.c
++++ b/kernel/events/hw_breakpoint_test.c
+@@ -295,11 +295,11 @@ static int test_init(struct kunit *test)
+ {
+ 	/* Most test cases want 2 distinct CPUs. */
+ 	if (num_online_cpus() < 2)
+-		return -EINVAL;
++		kunit_skip(test, "not enough cpus");
+ 
+ 	/* Want the system to not use breakpoints elsewhere. */
+ 	if (hw_breakpoint_is_used())
+-		return -EBUSY;
++		kunit_skip(test, "hw breakpoint already in use");
+ 
+ 	return 0;
+ }
 -- 
-Kees Cook
+2.38.0.135.g90850a2211-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202210251125.BAE72214E2%40keescook.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221026141040.1609203-1-davidgow%40google.com.
