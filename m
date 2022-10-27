@@ -1,124 +1,132 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMEW46NAMGQEPXAWTFI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLI747UVAFRBLVA46NAMGQEFAIMBHQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93e.google.com (mail-ua1-x93e.google.com [IPv6:2607:f8b0:4864:20::93e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C21060ECD1
-	for <lists+kasan-dev@lfdr.de>; Thu, 27 Oct 2022 02:05:06 +0200 (CEST)
-Received: by mail-ua1-x93e.google.com with SMTP id o1-20020ab01501000000b004058109e5d1sf4997096uae.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 26 Oct 2022 17:05:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1666829105; cv=pass;
+Received: from mail-oa1-x39.google.com (mail-oa1-x39.google.com [IPv6:2001:4860:4864:20::39])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D7E60ECFC
+	for <lists+kasan-dev@lfdr.de>; Thu, 27 Oct 2022 02:26:23 +0200 (CEST)
+Received: by mail-oa1-x39.google.com with SMTP id 586e51a60fabf-1331cbf6357sf9778992fac.11
+        for <lists+kasan-dev@lfdr.de>; Wed, 26 Oct 2022 17:26:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1666830382; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XEraIglrWC8fKvSGERINBKvaOrWRojF7i6/QkeG4qnNSU4V6b/mZa/9GJO0TZpdVDF
-         jKylu7cbnq5/gNhUc+5gyQtS5z2U0SHoQoisJEKEP0RNLRis7PD+v9UEgADEiNUnFk46
-         CdRfVFxCg9LXYXfNxM8d8MPfskIodAs/1vuxeNll3GlPVStPhUYRu36pRlw5F5MIzpOF
-         nvf+MZpGA35+FjD0P9+47oA/CUO1Qe2xLTYC7scnxdBeT0ddXVbeWcVYcK159iF0DfVE
-         oCsqmdtw70IlkPZzaH05AFZ/wzwTKzNnGC3QyB+NJcB0dliXxEjqipasSdoQ/fAF+CmU
-         fOxQ==
+        b=j0eRyAqBsCOC8UbJlasg9ryG4sZwd84G6wybOE3EgaqTYQ65wrPcCrMd6OxFaV+p9y
+         q27XFxCbddYRhXFqOcg09o3AF/Qj93c0wm002YkOoRNkJPSVkWc0FgjwW1uqgrS5OOv+
+         bus5A8rEOXyZN1c8LinNid6kB1fcoOopOWUsyFyHvJ6TUvxsO8Ihe4pyIgazTy+MUBjz
+         Ys1sd2toB+wiCB3VTnatyGg5C3ELWq4Srr3q+K+ZhTn3psg0AZz9TVRruiOdFPX3NDFy
+         0Qg0eXzRRe1gyPYGpRmCBSY+g4FHf7nz7WRFOhhY7YjrYN0kpB6xhlo0lIkffgepvw2f
+         rZPQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=3rv7aVvVtFkBx7LBw0ADy1XrusxSg5Ba6f2EYQosECg=;
-        b=TPwUOKQuWRj/mxF2AbRGdsMh6jFTBoY9cwuYdrn1gumIjhRtOVPMPE67lwHW4ioUcM
-         0xLmpXbfnCN5gyhZfN70AZiecA+8y9duHbP5Lov3VsIPA2vgYA0zDs/80QE034kzJE6M
-         e5jzJHUUHis6S5PSU5jtTSpCafo+XvI0pouwRTYyFSI0lXb9I3HIV06/eSe9UZMJDtEm
-         m/zSfwdp5VERuLER0CcgVOHBfhB0pBZMyVT0RKltMyPnHUfMllWNY3egYmlwL5C6wSf0
-         wvPACpESIDjTye/x6qnbUCDxK7Eff9j1SCX4cYd6BJO2CCKeT/QKksSmkAOA4P9mrJLL
-         oLiA==
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=GcB95pvuROZRg87advsges5g+/nqP/BNA9viX6QkAjM=;
+        b=HvBRjvVpB32yAZeDn27AFmKnmEjlWJ0bxKJhBQfUx+HR4hRnOxqLZFgIBbvX5SpT8C
+         WoyXNkt1b9Io9VXNf5qFIaiklnLGF9DlvoPaWnBoXBO2NFPwUxH4L2flcGTW1Apu1Ebd
+         mpP8XimRlGclvVGl/AcrUd9PWc/4K3TrDyZ6XEJtSSv4EZ3BElCh2rqCJC0xAWVHrGH4
+         y9u3dNsWCcbiClnjKsFC4+wMzn8dVjtTNqor825yiPqto80cAvBVZ2iVmSaeFPLPUJlj
+         wwvda1GnVpO0Z8OBEGwGp5IEh9xnFu0rhO8M+kMkGTp/jxFCyWxmyWED3q2Y2jMepUd1
+         0B1Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lKQNO9bg;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2b as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=ijvBgS35;
+       spf=pass (google.com: domain of srs0=xc5h=24=zx2c4.com=jason@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=Xc5h=24=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3rv7aVvVtFkBx7LBw0ADy1XrusxSg5Ba6f2EYQosECg=;
-        b=USGjh3xuzR1ElzRh1S6Vzf+vSi995Yeqyn9So2KryhTxZXhy/pMt8KIYXrAP5rjrLS
-         FfuXSzl+DatpG0F/QoDvxduIKDRGlqXGRrkU/S/B9zStfuvjdF/Xov5SFy8WHD8AAMi3
-         1l1wfdcvaNiS08YtN8FrbayP89O0j2Ht8ZPXqs2tQNnc6GnEdLDDksRfEa8Xho4oR7Nz
-         B7XpsMVyqxhJDCMNg8M1mlNqTRSg0pppNe9YBWQdhlnuM80OfzO6K4/itVGdtpVC/8AE
-         BZ/+RXT/zJ4UrG6tKgLg6ny+8rlGBA9B1iAtVL//aouU1dhuwd6R2qhwzdOk0mcn0SHz
-         1J+g==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GcB95pvuROZRg87advsges5g+/nqP/BNA9viX6QkAjM=;
+        b=feb+xWXGcmc8qLcEWLlhf2N/Qy70LhPHaoV1O58GW00ID0SimObFIGn59MAALHoraF
+         pv/RXaF5Es9Scupw98tENi3OglbJpiDFvwdTu94KA7iI0IiHG7NSg7WpoYrguapd6M80
+         ngq0EUa5IyAqjaddC0Mr4EwrOPZenzs2pcvO8sANKrmFoO6qJIFoRfuXOvzMToy6qkSC
+         pEfiVR+9NBxbOJdojFfxQA66UJDmwZibkHQRkb2rwUMJ4yoa9DEcpiy3ybpfXtLq0iQY
+         etf29eZfwdYTvQsz1TDSfYzuV9vHI9x9b570DFODPfKcnC26YzuPBk7y0UJwCd5ecoKA
+         +eLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3rv7aVvVtFkBx7LBw0ADy1XrusxSg5Ba6f2EYQosECg=;
-        b=g6OgI28tLQJBJwNYjxI2JKERLfVqQQt29Otmrf4t2MWIFHVbf72PG/hP9qD3qnBbhn
-         s0CowhgKKkXyOzQkFxiaQkwIZgiroAneH2lWz202HFQaRZm6+VqKP+fiNJgjsiizOTGp
-         U9LACqsv2qlpQEyyw7OZWqSWpkf/2I9olMGnuH2BqOBSgjgxQsYhikPnbafigucUd61v
-         9TqUfYHq6hVGMqUnngmkFxOC6z5v8clGaKtD5EUhCEg49lrtIWnUrAGB/HtvreNud/nw
-         wB4Fck1n82GDTmKSj4oqI1tVGPGsaRcvaysWK/OQk2GMfH4+7HzxPgoT2zTNNCEolci0
-         rO6Q==
-X-Gm-Message-State: ACrzQf2alesCxWiyZLYM5MKF3/SMt27UWmldBjT8xkb0YIDcfDeJeiYM
-	cn7hknZingU7WVG6+5z2CMk=
-X-Google-Smtp-Source: AMsMyM44ff4wHDmN+jVFXmGn8fV/qz7p+/dicv6EU9OnfO838R+TimD5pw+r50YszGcTVw4r9eFYzQ==
-X-Received: by 2002:a1f:9bd0:0:b0:3af:163a:72f9 with SMTP id d199-20020a1f9bd0000000b003af163a72f9mr26218725vke.0.1666829104955;
-        Wed, 26 Oct 2022 17:05:04 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GcB95pvuROZRg87advsges5g+/nqP/BNA9viX6QkAjM=;
+        b=xMR+m6RbTdp2oyKGvZ8Nhen9KVd70OD8h9BMxiW9Go+N62JoTQSkEZkt3qFAwsKpTS
+         hxRroAkprrAzyeTGcw6ZVmZ+Zoal8PZrNaZbGZiglyRapfsoT53IWZtrxH8ar4pTCVkb
+         qOZNayOH1O8/Yswn3mcWQ7Coc6vbrh4fhf92OCqq5c5wJers6WU6NoOX/hc6VXdOVNcH
+         NHQMNoN3tuRT58ZncQOplarFc0L0/8ulLASr0p1gjc6sO/ahoUhP9H6PRQm0L3Rbm1Qr
+         57/6EfMkc76jQ4Y3DoFRDx3muKQeSs5w7qIUlRuBo4JmAscfTXH+f85hs2pYYM/xblX8
+         10zw==
+X-Gm-Message-State: ACrzQf3rXfBAn50C18MI5TGnT4i09D/nTKRUbPTj2GlVQ/W6iBMP7t5g
+	VaTjfj5QsSCCoROlmPIf5sE=
+X-Google-Smtp-Source: AMsMyM7hPhKvkxo0xmIa7nu/2BgNC3/q5tWF1zxzHMtuSiQBqzrDIyYmb2Qy11IXVk9eai4bjnnFDg==
+X-Received: by 2002:a05:6870:d584:b0:137:2c18:6864 with SMTP id u4-20020a056870d58400b001372c186864mr3762588oao.245.1666830382394;
+        Wed, 26 Oct 2022 17:26:22 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ab0:278d:0:b0:408:c6de:ef4d with SMTP id t13-20020ab0278d000000b00408c6deef4dls970296uap.5.-pod-prod-gmail;
- Wed, 26 Oct 2022 17:05:04 -0700 (PDT)
-X-Received: by 2002:a9f:2e16:0:b0:3e7:f488:e37a with SMTP id t22-20020a9f2e16000000b003e7f488e37amr27371260uaj.20.1666829104192;
-        Wed, 26 Oct 2022 17:05:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1666829104; cv=none;
+Received: by 2002:a54:4d94:0:b0:350:a26c:b39c with SMTP id y20-20020a544d94000000b00350a26cb39cls5229123oix.4.-pod-prod-gmail;
+ Wed, 26 Oct 2022 17:26:21 -0700 (PDT)
+X-Received: by 2002:a05:6808:3007:b0:351:3de7:82f4 with SMTP id ay7-20020a056808300700b003513de782f4mr3197363oib.103.1666830381880;
+        Wed, 26 Oct 2022 17:26:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1666830381; cv=none;
         d=google.com; s=arc-20160816;
-        b=EgD6tGaGyppM9ng4OnKkee5CAtRoco/bqGpOPcLMkMKgf3+yD1A7twKvbDPGsS7Nxv
-         AdElOQQh7LUAyeuli4TLc+Kqbwvga6TLVs0CCS/oXfXaT1VZHzF1guZF8KsPvnyv9eHn
-         jyyREoMFWr65fzF0O9BLssTzI+jZk4RB0Qa0SeQn5R1K23B9bUAnSZhMxdv/Qj5+u8H2
-         DU+KulVzMH7mO1Cn8am36XM8Eqn6QJEbAS3wYxGkX7X8TVSFN9h6UDrz90PTY45MHt5x
-         zqft6fKJUxGt70JCgtQ8fKTnJIkJdSb+h2InHz73e1eeW8oXgIlys1rVCPD64ecdFY+w
-         NeMg==
+        b=KeQhqre8N1gAVSkOB+WTRZEthDwUrce2YP1GevyxravYrw/b8JwexhOwsLbSEwjo5x
+         F1Lrdyi0i/cPURV50Tyx/ZovYjlDO8+1natdkuF96gUZWhUpVK1rhNmI3+RcNmo/mfwY
+         yjujlsez2xUpJGkoZ8SNRjyZwCpv9JtTRx7lGKG/2J8cGLdYAQN46GMdlCZp2nwuyDe4
+         3lQGoERgh1UoWS4sO6C+y9PbEiCFq+DJ7UatB3xd6G+Oa8iOVL+QulOFycH1g3qRCSbr
+         2pVw7c+31L0ZVd/QKmPEXsSY/dS8s5pv6uhqXeDP1Y6qALRfmkf0skVH+3EQ+gLMhfHy
+         EpvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5fCQYHP/s1K+a3B3xVNrAVIKsujOkSpQyFTVrdP9WZU=;
-        b=itHbzH+Qg2V3l58uHTMrKHRKXyCWmXXmoZdmDfeom8W9A+PGSS46za7aQjwCxfn6nM
-         ahGcAJ9v8V8zvzlg1neoQ3J/DMgY4721ucll523RjYtD6DiXl+L2cZIvy7RReqXKCl83
-         +cShOE/3rTtIvCH+5p0HEMzQ9ggaoOzuYbIDJWjL+slGbZQ4fyirX97sXWJPgwwwPrFq
-         QRNQS5Qb77F/LFP+tf+vb4fE/1sudXXAgED8B6ZGSueViIGTLy8pQOYLcnr5EQeTusr6
-         olLClqwKidRleKLKhE87GTzKES3muU8/asmHg99+grguAD/7uaJT6llwkmNuU+MqptE+
-         B8yw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=HZh5FWwEvzCuhST+974hqDrLBeiYLFft+qhaMj5G6Ho=;
+        b=gVt3GNDcGN5W7hOYRcBSN38Le3Gbfon2Tyr268j0s7fZXOa0giK5/YysC1v7+pxuns
+         jIm3jklBJn9T4HYAex1JcbMaobvCfumKGiL1GOBCYpqUuNUlkkOBGlDgr14MCKNT1G34
+         R7yeKzDIoVgb2FhLl7Gw1S60xvEXyB9gYBD1Ilgij5/zkh93Qoc0hxOdzavCeq66A7jo
+         K4pkZU8KW6MoPStmaEbdLIIV4XZCwy9csfPCDv1KCJ3gfkxDKFUUHbHEHXqQQ6lemYeE
+         0Eukrm4S6qfvQ4NDEP1f2hh7BDcSCCoBCiDJKw9R71IzGl07OrzzRQHLiAjG6W1xl8Mx
+         SAAw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lKQNO9bg;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2b as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com. [2607:f8b0:4864:20::b2b])
-        by gmr-mx.google.com with ESMTPS id h6-20020ab02346000000b0040ac33271e7si352609uao.2.2022.10.26.17.05.04
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=ijvBgS35;
+       spf=pass (google.com: domain of srs0=xc5h=24=zx2c4.com=jason@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=Xc5h=24=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id z19-20020a056870461300b0013755db641asi554046oao.5.2022.10.26.17.26.21
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 17:05:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2b as permitted sender) client-ip=2607:f8b0:4864:20::b2b;
-Received: by mail-yb1-xb2b.google.com with SMTP id y72so21144955yby.13
-        for <kasan-dev@googlegroups.com>; Wed, 26 Oct 2022 17:05:04 -0700 (PDT)
-X-Received: by 2002:a05:6902:1542:b0:6ca:675a:fdee with SMTP id
- r2-20020a056902154200b006ca675afdeemr29400463ybu.125.1666829103682; Wed, 26
- Oct 2022 17:05:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221026204031.1699061-1-Jason@zx2c4.com>
-In-Reply-To: <20221026204031.1699061-1-Jason@zx2c4.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 26 Oct 2022 17:04:27 -0700
-Message-ID: <CANpmjNMmHa04Fqf5Ub5-vz6HuqT_Gg8GmEfKD6rv8JeMfBZ32w@mail.gmail.com>
-Subject: Re: [PATCH] kfence: buffer random bools in bitmask
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: kasan-dev@googlegroups.com, patches@lists.linux.dev, 
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 Oct 2022 17:26:21 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=xc5h=24=zx2c4.com=jason@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 65FFD620D8;
+	Thu, 27 Oct 2022 00:26:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F3BEC433D6;
+	Thu, 27 Oct 2022 00:26:20 +0000 (UTC)
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7e9c09b8 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Thu, 27 Oct 2022 00:26:18 +0000 (UTC)
+Date: Thu, 27 Oct 2022 02:26:15 +0200
+From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>
+Cc: kasan-dev@googlegroups.com, patches@lists.linux.dev,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH] kfence: buffer random bools in bitmask
+Message-ID: <Y1nQJ9ZFizv0bzgI@zx2c4.com>
+References: <20221026204031.1699061-1-Jason@zx2c4.com>
+ <CANpmjNMmHa04Fqf5Ub5-vz6HuqT_Gg8GmEfKD6rv8JeMfBZ32w@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNMmHa04Fqf5Ub5-vz6HuqT_Gg8GmEfKD6rv8JeMfBZ32w@mail.gmail.com>
+X-Original-Sender: jason@zx2c4.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=lKQNO9bg;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2b as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@zx2c4.com header.s=20210105 header.b=ijvBgS35;       spf=pass
+ (google.com: domain of srs0=xc5h=24=zx2c4.com=jason@kernel.org designates
+ 139.178.84.217 as permitted sender) smtp.mailfrom="SRS0=Xc5h=24=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -131,135 +139,29 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 26 Oct 2022 at 13:40, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> Recently kfence got a 4x speed up in calls to the RNG, due to using
-> internally get_random_u8() instead of get_random_u32() for its random
-> boolean values. We can extend that speed up another 8x, to 32x total, by
-> buffering a long at a time, and reading bits from it.
->
-> I'd looked into introducing a get_random_bool(), along with the
-> complexities required for that kind of function to work for a general
-> case. But kfence is the only high-speed user of random booleans in a hot
-> path, so we're better off open coding this to take advantage of kfence
-> particularities.
+Hi Marco,
 
-kfence_guarded_alloc() is supposed to be a slow-path. And if it were a
-hot-path, I currently see no evidence that a call into the RNG
-dominates the time spent there.
+On Wed, Oct 26, 2022 at 05:04:27PM -0700, Marco Elver wrote:
+> Is it to avoid depleting the entropy pool?
 
-Do you have profiles?
+The entropy pool never depletes, so no.
 
-What are the real benefits of this change?
-Is it to avoid depleting the entropy pool?
+> kfence_guarded_alloc() is supposed to be a slow-path. And if it were a
 
-> In particular, we take advantage of the fact that kfence_guarded_alloc()
-> already disables interrupts for its raw spinlocks, so that we can keep
-> track of a per-cpu buffered boolean bitmask, without needing to add more
-> interrupt disabling.
->
-> This is slightly complicated by PREEMPT_RT, where we actually need to
-> take a local_lock instead. But the resulting code in both cases compiles
-> down to something very compact, and is basically zero cost.
-> Specifically, on !PREEMPT_RT, this amounts to:
->
->     local_irq_save(flags);
->     random boolean stuff;
->     raw_spin_lock(&other_thing);
->     do the existing stuff;
->     raw_spin_unlock_irqrestore(&other_thing, flags);
->
-> By using a local_lock in the way this patch does, we now also get this
-> code on PREEMPT_RT:
->
->     spin_lock(this_cpu_ptr(&local_lock));
->     random boolean stuff;
->     spin_unlock(this_cpu_ptr(&local_lock));
->     raw_spin_lock_irqsave(&other_thing, flags);
->     do the existing stuff;
->     raw_spin_unlock_irqrestore(&other_thing, flags);
->
-> This is also optimal for RT systems. So all and all, this is pretty
-> good. But there are some compile-time conditionals in order to
-> accomplish this.
->
-> Cc: Marco Elver <elver@google.com>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
->  mm/kfence/core.c | 32 +++++++++++++++++++++++++++++---
->  1 file changed, 29 insertions(+), 3 deletions(-)
->
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 6cbd93f2007b..c212ae0cecba 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -356,21 +356,47 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
->                                   unsigned long *stack_entries, size_t num_stack_entries,
->                                   u32 alloc_stack_hash)
->  {
-> +       struct random_bools {
-> +               unsigned long bits;
-> +               unsigned int len;
-> +               local_lock_t lock;
-> +       };
-> +       static DEFINE_PER_CPU(struct random_bools, pcpu_bools) = {
-> +               .lock = INIT_LOCAL_LOCK(pcpu_bools.lock)
-> +       };
+Ahh, my huge misunderstanding, then. For some reason, I was under the
+general assumption that this got called for every allocation. Given that
+this apparently isn't the case, let's indeed just forget I posted this.
 
-If I remember right, function-scoped static DEFINE_PER_CPU were
-disallowed (but I now cannot recall why and where it said that :-/).
+This then means, by the way, that there are in fact no fast-path
+users of random booleans, which means get_random_bool() is totally
+unnecessary. Before I thought this was the one case, hence open coding
+it, but luckily that even isn't necessary.
 
-> +       struct random_bools *bools;
->         struct kfence_metadata *meta = NULL;
->         unsigned long flags;
->         struct slab *slab;
->         void *addr;
-> -       const bool random_right_allocate = get_random_u32_below(2);
-> +       bool random_right_allocate;
->         const bool random_fault = CONFIG_KFENCE_STRESS_TEST_FAULTS &&
->                                   !get_random_u32_below(CONFIG_KFENCE_STRESS_TEST_FAULTS);
->
-> +       local_lock_irqsave(&pcpu_bools.lock, flags);
-> +       bools = raw_cpu_ptr(&pcpu_bools);
-> +       if (unlikely(!bools->len)) {
-> +               bools->bits = get_random_long();
-> +               bools->len = BITS_PER_LONG;
-> +       }
-> +       random_right_allocate = bools->bits & 1;
-> +       bools->bits >>= 1;
-> +       bools->len--;
+Anyway, sorry for the noise.
 
-This should be factored into its own function that returns a result
-for random_right_allocate.
-
->         /* Try to obtain a free object. */
-> -       raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
-> +       if (IS_ENABLED(CONFIG_PREEMPT_RT))
-> +               raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
-> +       else
-> +               raw_spin_lock(&kfence_freelist_lock);
->         if (!list_empty(&kfence_freelist)) {
->                 meta = list_entry(kfence_freelist.next, struct kfence_metadata, list);
->                 list_del_init(&meta->list);
->         }
-> -       raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
-> +       if (IS_ENABLED(CONFIG_PREEMPT_RT))
-> +               raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
-> +       else
-> +               raw_spin_unlock(&kfence_freelist_lock);
-> +       local_unlock_irqrestore(&pcpu_bools.lock, flags);
-
-Overall this introduces complexities that should be hidden behind some
-new abstractions.
-
-But besides that, I'd first want to understand what the real benefit
-is given all this is supposed to be a slow-path.
-
-Thanks,
--- Marco
+Jason
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMmHa04Fqf5Ub5-vz6HuqT_Gg8GmEfKD6rv8JeMfBZ32w%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y1nQJ9ZFizv0bzgI%40zx2c4.com.
