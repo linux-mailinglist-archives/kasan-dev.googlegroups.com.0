@@ -1,139 +1,139 @@
-Return-Path: <kasan-dev+bncBAABBDM652NAMGQEOJU72WY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM73BHISQPBBEF656NAMGQEPQL5MJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x113b.google.com (mail-yw1-x113b.google.com [IPv6:2607:f8b0:4864:20::113b])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA71C610BF4
-	for <lists+kasan-dev@lfdr.de>; Fri, 28 Oct 2022 10:13:02 +0200 (CEST)
-Received: by mail-yw1-x113b.google.com with SMTP id 00721157ae682-3697bd55974sf38281937b3.15
-        for <lists+kasan-dev@lfdr.de>; Fri, 28 Oct 2022 01:13:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1666944781; cv=pass;
+Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id C88FE6113A6
+	for <lists+kasan-dev@lfdr.de>; Fri, 28 Oct 2022 15:54:26 +0200 (CEST)
+Received: by mail-pl1-x63e.google.com with SMTP id n1-20020a170902d2c100b00186e5cb9334sf3332639plc.16
+        for <lists+kasan-dev@lfdr.de>; Fri, 28 Oct 2022 06:54:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1666965265; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HaPAk30x38i2nTpdGsgEjO+PG+MHAInZyglaRWfaMjkzvNaO71g+f2o1UQKrZSk44i
-         libyAsLMNV9T/OcNfRuZkmtuWT/X77pGiC8UqlJczRnZWrshJ3bv+sdum+paFJkahYdJ
-         qnwrp7O5wgZRQ+UDJqS1C8cBbcwMp8m1A+8ItS9kBA6WZIGmL8wmgHUjTcbUw7EbiCz/
-         3gO74zGhDRwt1weF9OT496wczC0lXIn7ADv5RYHiqw5e7tFmW+4Cx+kjtYD2VPhDPR00
-         xm/mOArfjUlDeodvt7Zi/4ijDXlvgBFAs+Ln8U0VCzt0Lx6TdToJEcHUhWb1aDGwaABE
-         eUrg==
+        b=wqVUK0CJf6BmoacCbiRCIWFnPMfin0w+3CD2foRLYfVDR0vB1q2NnCUKX+7bRpINNa
+         1z4utmjY6e4/XWSN1MrFJNGARTdged4T0+8CRqgE6dMwpMvaw9rX8tpsJwoS5LCwioyv
+         UiXZYwy3lBCq8tw/rQeHmi5KhZjUUJIMshAc8M7scwfUtYZIpYfbiOpVvDyyXWzGLi00
+         rkXCLNS2wet6ZrB9K7YhQ/Jm3e4SXe3KPVQ4uku0WyquoHVQ+DKnwzZVehSa/vxmBJjP
+         7gT9idMYk1DRVeSbrIRESpMQ/bbv7lm/skIhljPA/GrNmg++v5CYK4+tkwprpcKStuYT
+         NzTw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :in-reply-to:organization:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:dkim-signature;
-        bh=wEuMs2udeZ2ZijrShSWp+pAVd3T7WWEvJ/1Nk9cjh8Q=;
-        b=Hsda/vhdO6teddrlT3poNJxTapugafYgXP2Pzo5llmqtQkwpJ3ZTCt3jiRkENWCILB
-         Mt7b1x7S2fLDvhKbencjSykMYDyYDBFT6dTfWBKoCrY6oY4pMFuzT4oGZ3S2MnCCb0fR
-         HPfNHfEGgzjCKVNQSrN+AqiBNPX/WRFuFEN1jXnesb3RlYYhO68YiuZyYFePVjHh720v
-         QkH1s825y9yLIZGoL1Y47WdiUE5G5aN/cRzsOoyqbuJHfb5AwfcToih8N2Mbg+Plz1rd
-         hQR3g/uPD0/Ar4NIBeMQHC/8++ceFO4U8BFN9fw3jTMjnbm5qoxbMoalU1AchIRBb7A6
-         Ga9w==
+         :list-id:mailing-list:precedence:date:from:user-agent:mime-version
+         :subject:message-id:to:sender:dkim-signature;
+        bh=geaCHiwS7ZWqkDCclRuj//57nvAw+4F9yR4UEmdNulg=;
+        b=t8ExYsxAtRZNnjAu04jbjwHL7Jf2s9xmXQHqtCVJ6N4U3APGtgJUb7CuIBWntE+WS5
+         2f9EA9OQ2XqfQTRdxS34QnKvIzdd/H/gzK90lQCImkEjrN/ZXE46z9rxwP8fUAXS3vi8
+         fs3sv6QmaeeOJqc+qZSX8bB4R7rwXDDGyZ2W9KnjpWPl5N3Mt62Nilk8ZArnABdsQCYZ
+         PEu27pwsXk3L8+uD8SY3vqLtmVxNTYVSQP4LaKCelmFhTGt9n53XTFyqIz2szFdefmSR
+         DchAe+Fb6Ps80/Tu4Xl48ktdQ0h6GA7Q4dBFrMrOVNT6//bwFG0CV+JKPUyXwIovi//a
+         LNzQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of zhongbaisong@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=zhongbaisong@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       spf=pass (google.com: domain of garyspot.star@bellaliant.net designates 209.71.208.12 as permitted sender) smtp.mailfrom=garyspot.star@bellaliant.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :from:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wEuMs2udeZ2ZijrShSWp+pAVd3T7WWEvJ/1Nk9cjh8Q=;
-        b=DNJ3uxDn/tZo5qgpqpXOh+4jvCKVgsHviQ7TC1XRmslWUm+rjIYSG6R8oYU71mvXK2
-         eI+O/o5HW6Z5HChezfUIoAT0zPb2NOfjyXxDNs9w4ryea0VbOaqvhwVoHq9ndyyHVxHh
-         RTEP39gAP4d7x3OXWTb/WaZcrvEyxPZ5p9Qsx4uO0UeI9ev4xKXZsTbEJRCoU1mrOO9r
-         X6/dzMAM4u2EeWNcchFH/hYsJwX/SXarc5kn5A9gQpnzfZDJNd5aXjIopMAOXBldSwCk
-         Itv7ZB5tcHpUaEsufSk4fFU4NHBttAEvaTT3KAwauju9CZ5WMoSo2O7I5OCjddIlZRi4
-         6TDg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:date:from:user-agent:mime-version:subject
+         :message-id:to:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=geaCHiwS7ZWqkDCclRuj//57nvAw+4F9yR4UEmdNulg=;
+        b=mIACgWtlAgtmlJuHBkocm49D+CSD54qLKRezC1bBdE2MopkosJrE2+thZYj70DWIdr
+         N8KRBX8SymlSDj/xGb2zwz2PZDg7eOIy0XrhV5Qsgxk1n810R4RGod6nC9GkQee29gm0
+         Do5Wo1oz28WrbZfr6ly8xYKmY8EgjTdRLc7YY9WutHrcc/Ue3QimzyYBvpXixJPSR8pg
+         mYWckCeZPtnmQ3V4YGygdkF96rpYO4l/tqL1vHjPcB25z4N144WwHoTZD+yCopF88BRV
+         3ydLAHzM4LVwd7BR5V9HcNCe6xd1yvTlSUW9vT6/h6pfjdzYv0bkuVwqaj+0yaKwMqq3
+         7+Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wEuMs2udeZ2ZijrShSWp+pAVd3T7WWEvJ/1Nk9cjh8Q=;
-        b=nzcj8SXpiwkLJ4Y4yDFho/x2C3EUmPK5fLpAMeMDEEKfTPrQjPFWF2qy5vho7fs+zm
-         vs6Pmf9+Up1fcUN0W0AQ36c4qBpSGL7yTRubzYFeC7M5+1K1rzjytpWBp2YjCRlEg8fI
-         /VfatNG+m1CZ4fMin9LfvSBntgtegw3h+GiGfJ848GlMuXben3TSnGw60PAd4k5GZh9h
-         6qna0lXLyuNaCQFA9Y9TIw+0MOcd4iQ4OpQE4u2s48q+1Ze7DPHDBUeA4AhajehenyPt
-         FCqFGBTZGz0jYuKzf76mWZRjuFUkg1X9JWAIrZ41SXizean7v6J47s2ptOUunupwd29b
-         sQ5g==
-X-Gm-Message-State: ACrzQf3umy/7yfAAMQ3wxFf6QhgctzRRsj89u+enHTnlGHcnLMis1nLv
-	MPD1fy1kNgvcn8h2PbOIgSM=
-X-Google-Smtp-Source: AMsMyM575nX8MhJpO4n3D2yOUH9xmM2RIKlKvHP2VrbgKqbzmRivivbqQs565DSkeaL5eqp5BR969Q==
-X-Received: by 2002:a81:4805:0:b0:36b:d77e:54cf with SMTP id v5-20020a814805000000b0036bd77e54cfmr27855478ywa.196.1666944781682;
-        Fri, 28 Oct 2022 01:13:01 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:date:from
+         :user-agent:mime-version:subject:message-id:to:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=geaCHiwS7ZWqkDCclRuj//57nvAw+4F9yR4UEmdNulg=;
+        b=yZuR2kB2QhKXS7csk0yg9b3kmdCspdQhnX7UJORYflsTf3bQd7r0m80yQScgvfmR8D
+         pCzcV8onXTnD0PHGqkfkZkyFdaYiZEWXNn20sduZaukw5AnrHKVe2ti4V5c73fz9ITRp
+         aJ1JE+1uOFFMiQ7XQAEZ6HNnBq8ILvOjDf5AKt7GFfsyKfqcV3gXVJw9zyOoltXUIU/y
+         kL51fhtI3p3UD6VunCGrmQPSf1C+QTXBPJo/k5h5F/IuGWe5gdy456r3w6GurKTDwYgP
+         jdtrZ6enZWcBr0l11QSF2yycXDiuT+3c8ECPPLKNOcDQJolLwaOORKkOVrJ9LiRTj+Ux
+         +C/w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACrzQf39vMRV7VVe6ZcqpUXZM98kBAfg/GFkSRzi+kveL6PMQ2gsLmqi
+	95PHqlfw9xnz45JBuDnYNNQ=
+X-Google-Smtp-Source: AMsMyM6Ag0y3LdyBHqmgbWT3eQj7T62DhjY48dB0AncDSgfKd8B33tBWe47QwtTogPUmoojvStQbKQ==
+X-Received: by 2002:a65:6e4a:0:b0:438:874c:53fd with SMTP id be10-20020a656e4a000000b00438874c53fdmr48287287pgb.355.1666965264818;
+        Fri, 28 Oct 2022 06:54:24 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:aaf0:0:b0:6cb:d428:7c50 with SMTP id t103-20020a25aaf0000000b006cbd4287c50ls1033355ybi.4.-pod-prod-gmail;
- Fri, 28 Oct 2022 01:13:01 -0700 (PDT)
-X-Received: by 2002:a25:6647:0:b0:6cb:8601:238a with SMTP id z7-20020a256647000000b006cb8601238amr15445472ybm.598.1666944781120;
-        Fri, 28 Oct 2022 01:13:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1666944781; cv=none;
+Received: by 2002:a62:1ac7:0:b0:56c:7207:1d24 with SMTP id a190-20020a621ac7000000b0056c72071d24ls1087088pfa.10.-pod-prod-gmail;
+ Fri, 28 Oct 2022 06:54:24 -0700 (PDT)
+X-Received: by 2002:a05:6a00:170a:b0:563:a40a:b5e1 with SMTP id h10-20020a056a00170a00b00563a40ab5e1mr54191936pfc.40.1666965263998;
+        Fri, 28 Oct 2022 06:54:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1666965263; cv=none;
         d=google.com; s=arc-20160816;
-        b=DaugMo+ZjI7eCTfV5IWc43DMDU1knSFJye11VX5t4FFvl1UcnWzbHTo6X13JNzDKOd
-         vgCNEKcncU5tG4a8wJxqtkr+JIwtDwfbyOfysmfox+fIa+D7aq/P7fA9fBYLKEY9hflF
-         DAjLrObboSDaERh1uoPuy1akc9EAeJzN1xJe/2wp2dh+XwXy8iNFlo6MaQtxEk/k1bzr
-         U6W3NzbpJLkNenrfae/4RlYtrTRRSYRVprbJcqFo01t+DvtCXYvKD91EysJVkBeRBj7K
-         y4cT8P6S2m89MxGa3B/rfJaHLXrYcMcWtQDHyWRN27UWOGVFG6RmWzO6oY8YJ/dbJH2/
-         r26A==
+        b=L0QB95TgWBHQtO25HtWL0UY7WCIqVvJQOp0slqppt6aO0nAboYqte06GZGudujptR1
+         NX+nahLPMJMGJg/aqln7Ht8we7R4XbYxC0jfcX73pD+Zxs3zkROqox7ZtlAVRNJ4F9/e
+         0xt2RjPFoeA/5VN/Z2BpzPo0rh+thOQQWOOPAz+I+aNgZT4i9FHgOQXbJ41c3t7PWGIq
+         Jh9kFWyEddgIER1QkleMM2qzQDKSeeYByXxVgxKpcqrHAXkfBv37/737aPVhEE8IqDoB
+         Zwd6BfquIhKxxCDdhKsnXgO9uBDlmAvLD1iT/5L8K0XB5bLTImN/V4CcyajyH4xS5iIB
+         8hQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :from:subject:user-agent:mime-version:date:message-id;
-        bh=1dcOe4NASk7flqWAdelmeSOXdJRegiUp+wZDBLy8Jb8=;
-        b=PR0F6h2ObtP4HgJs9q1Y9igFiSCNgAXT3Fxaiy5ymW/CHr8rMQjLaG61/KsQ68IRoq
-         pTwr+qdBC6ocsKX7QY3L/bxCMkilDGvz0+xqiK8Ae7AH405xmM0v57OaZEjJ+ni7xJSb
-         9y5R32duB/7/OWQJvdHjusy1RPEiJEHa0cYkG/i7cp/bRZD2mhQeqA7peuYSfmwuthsl
-         wLCI76YjTpJMeeU/Xmo+EMNxaj2PIsV+8OMC2jyXq9pHxBDZJrSOnDlIZRIfY16+y+DR
-         Ryf3R4Q1NVCcWQoSeKagwfG77Ud0eFz8LtpxI/Vyw3FjH+1iHbCDAVfdkl7L+FnRY8Tn
-         /n+A==
+        h=date:from:user-agent:mime-version:subject:message-id:to;
+        bh=BSmn2Cm8OmJr6LEPKKqDA1HQD+PyWwvE7xo5AFthPTA=;
+        b=iz9LOpzs+L1k2lwhwy85hdm2ABTSgQ9yxAdRMpHq2u9i/hYMgxAW+PG/rJ5Dtsr29w
+         uQf8dnvqqK3Mv3m1KH7Xef1QQ0SD/UpRT4MPuYK7GnsQD8wa1fcsPTCxmBpAltANdXAh
+         v5ck5WV0vkI7Zw6Kuh8756Mjolk1iOr94oCE1MnBD3Ew9CurXcqxZb4EB1sB6QFCLEBp
+         Ctvl0s7GU1DgJlRkn225waiCyUdUn0p7KuAHNlxoRMbflgfZz492vbep4+Vp03gxnfKp
+         IIEOKkxqVtHFN+q3KM0c2V3QLrZftqjuyW5s5wRrNI1rwUKKXZbzJXiwl+ees3EkPdGA
+         BttQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of zhongbaisong@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=zhongbaisong@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com. [45.249.212.189])
-        by gmr-mx.google.com with ESMTPS id bh24-20020a05690c039800b0035786664d22si188197ywb.1.2022.10.28.01.13.00
+       spf=pass (google.com: domain of garyspot.star@bellaliant.net designates 209.71.208.12 as permitted sender) smtp.mailfrom=garyspot.star@bellaliant.net
+Received: from cmx-mtlrgo001.bell.net (mta-mtl-002.bell.net. [209.71.208.12])
+        by gmr-mx.google.com with ESMTPS id h28-20020a63385c000000b0046f51cc9e61si177941pgn.2.2022.10.28.06.54.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 28 Oct 2022 01:13:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of zhongbaisong@huawei.com designates 45.249.212.189 as permitted sender) client-ip=45.249.212.189;
-Received: from canpemm500005.china.huawei.com (unknown [172.30.72.57])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MzFb54yzbzFq4p;
-	Fri, 28 Oct 2022 16:10:09 +0800 (CST)
-Received: from [10.174.178.197] (10.174.178.197) by
- canpemm500005.china.huawei.com (7.192.104.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 28 Oct 2022 16:12:57 +0800
-Message-ID: <41fa7ae0-d09a-659b-82ea-28036c02beee@huawei.com>
-Date: Fri, 28 Oct 2022 16:12:56 +0800
+        Fri, 28 Oct 2022 06:54:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of garyspot.star@bellaliant.net designates 209.71.208.12 as permitted sender) client-ip=209.71.208.12;
+X-RG-CM-BuS: 0
+X-RG-CM-SC: 0
+X-RG-CM: Clean
+X-RG-Env-Sender: garyspot.star@bellaliant.net
+X-RG-Rigid: 635A9D830047E539
+X-CM-Envelope: MS4xfGm1+HO6QhLflIVsSbMbaGwoT1gStCEFcytVB1mdO7VXuNADTB9cmytwPtg1HGn0F3MO/D9sXDsBmsExk3ouq4fQ3NERYYoeoxBf4+HqL/oPuoG42Yyc
+ 2zVFpup2qfd/FELKjy4XytQ3ruDDTHHDPJWXILsclyoXK0OFj15X5n6biQt3W5deKMeqKDtGWixOilBa+3FaBZmJzKA6uc9+SdleR81/S/ZtZ0WS4CqOVz0U
+ RGjxGuqOtrd9K56x/5Hjs7QZJW8naX29PMx+4LrohZ/Vg7IMIFNNWBXnwX+DAVK4xqH2/WbmJR0PvT+hIQdPFJY9oURdoSaj8D/JiUW4Ny5KVHVNS87n/rd1
+ tbLWkhDHiJJofLmlNpDzqG7P5/l8AZumSm0mscjsZf/tUmYjli5N+quXrjKzmXvxUPDnWD5OnJidV2XGOUJVMMMLZUh0S96FIS+WFQCtFNLWu3HeYNIL3mSt
+ 7GLaLPNC1Wmyx4htz2lx07AxSS5n8Vd5k3vo9E88ql76YqEMbDLWJdHIbTZ3eJkmQsGY69cJikauphw/YJE4NqOiKMIwcZ2T2quiUMBY3gpLfsk7wROHePL+
+ vKGFCpoiOKNzZnT5Y7E8I6X2YNbJx2Kcyqkyp3IgWXX2sBUjf3j5WdJeuoRsQAavuglLMkeWG8WR43sk3U2JFeV79BgW5DVFgU2IikuuH1ARwWCdubWnihcB
+ K/pCQEPglNgifa8ffV0HosVVWB5CSOMaYJR44k99idzyooOBm5eLcaSzTUuDcaX0ziJPnwH85mzhcjxyl/RAts2vCdcL7J981pkCbjwZ469M5CFxhMjjLyQr
+ xXJZdmltG3RlMhp/eqLJSxdtEwlhZxJQQgENDp44GqFERElqENjOASDs6b8zW9cOe8zU7rVQ2LOw9HpyJp2rOSnm13dabfZLJ2YyQQsVfXlyrsmAKus37dwf
+ 3FOS/8yKB21lCNwD1Le3bfuDRdv3T5kpyXSzwvq23ajo8eEk68tiP9M8N+1010qyBosV9jBJgLWq1+4bnupTphT9TrsRMfftlK1vFWt4liuP6GkJyu0AvJRi
+ 57sYBkaZXMcinwfHMbxfcwr8a9bWTHd6D+xtkYcVSSH4EK+zGOalbOJ1k7SngFePpzaneiSRp7RaxhaLCRlfZgepeh3rmrr6JpnwnIqHpgYQU5lC60nLVG0d
+ a9pdTgxp9dUITWuV5LnyLF8eRerLQR+XcbN65OrrY7fWeH/96CxYdsCakGGxfV3J1fGDdD3WImbGiWaH4nhurqg1J8gcSG9V/G/UEBH5IGUqQoWVhwB4kjuX
+ IF2rQBJagHZeshGtCqej4w0gG/BMxtEWTu9t1+cI3wrgvHfrFgMjTLt+f9TPsJ9p4Uop9jG7eM45AtFkKK7ts6l+1AYxMfJWjAgbdRQI7TqdpuyKYN2d2gOb
+ GS00LA1Z7Bt6kKEysIcNo8rxd8a1F7FO2rt9krkz+u9g3sSf42UIxL/xhdWNgdmrqEEkb3gaeEyah0SQaU2ZcA4RA1ctXbPjkTpPXIVr6l5d2Iwj1BrHFMBF
+ tnfUselRG6VwAlqBS35Efki6
+X-CM-Analysis: v=2.4 cv=RroDbgqK c=1 sm=1 tr=0 ts=635bdefe
+ a=Y0Q8bjxnhAg4m45uikMaGg==:117 a=YZHlSTkx/8aBjky5EeveJg==:17
+ a=z_WQn_YvuNwA:10 a=Qawa6l4ZSaYA:10 a=V6KHSXBXAAAA:8 a=fevPwjWrAAAA:8
+ a=tB7zwP3Zpd1T1w7Xt2gA:9 a=QEXdDO2ut3YA:10 a=0scP29cVYpIA:10 a=3GbmggnxAAAA:8
+ a=j5ZJ9MDaI9Cvfx7ZhPUA:9 a=8cCH6KC2phQNrG4Z:21 a=_W_S_7VecoQA:10
+ a=ywzb5qoaU0QA:10 a=k-bIn84YY0625PNcARfX:22 a=I-34-tiJMRFidqV1s339:22
+Received: from cmx-mtlweb004.bellmx-prd.synchronoss.net (192.168.4.19) by cmx-mtlrgo001.bell.net (5.8.807) (authenticated as garyspot.star@bellaliant.net)
+        id 635A9D830047E539; Fri, 28 Oct 2022 09:54:06 -0400
+Received: from [162.250.197.34]
+	by webmail.bellaliant.net with HTTP; Fri, 28 Oct 2022 09:54:04 -0400
+To: service@mail.com
+Message-ID: <6461d5.2431.1841edf0b6b.Webtop.19@bellaliant.net>
+Subject: Tr:
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH -next] selftests/bpf: fix alignment problem in
- bpf_prog_test_run_skb()
-From: "'zhongbaisong' via kasan-dev" <kasan-dev@googlegroups.com>
-To: <elver@google.com>, <glider@google.com>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <wangkefeng.wang@huawei.com>,
-	<linux-kernel@vger.kernel.org>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <davem@davemloft.net>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <mark.rutland@arm.com>, <dvyukov@google.com>
-CC: <netdev@vger.kernel.org>, <bpf@vger.kernel.org>,
-	<kasan-dev@googlegroups.com>, Linux MM <linux-mm@kvack.org>
-References: <a3552059-89d4-1866-a141-6de9454f8116@huawei.com>
-Organization: huawei
-In-Reply-To: <a3552059-89d4-1866-a141-6de9454f8116@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.174.178.197]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- canpemm500005.china.huawei.com (7.192.104.229)
-X-CFilter-Loop: Reflected
-X-Original-Sender: zhongbaisong@huawei.com
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_30647_1977094733.1666965244760"
+User-Agent: OWM Mail 3
+X-SID: 19
+X-Originating-IP: [162.250.197.34]
+From: Sbanken <garyspot.star@bellaliant.net>
+Date: Fri, 28 Oct 2022 09:54:04 -0400 (EDT)
+X-Original-Sender: garyspot.star@bellaliant.net
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of zhongbaisong@huawei.com designates 45.249.212.189 as
- permitted sender) smtp.mailfrom=zhongbaisong@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: zhongbaisong <zhongbaisong@huawei.com>
-Reply-To: zhongbaisong <zhongbaisong@huawei.com>
+ (google.com: domain of garyspot.star@bellaliant.net designates 209.71.208.12
+ as permitted sender) smtp.mailfrom=garyspot.star@bellaliant.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,151 +146,53 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Sorry, Pls drop this.
+------=_Part_30647_1977094733.1666965244760
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 2022/10/28 15:01, zhongbaisong wrote:
-> We observed a crash "KFENCE: use-after-free in __skb_clone" during fuzzin=
-g.
-> It's a frequent occurrance in aarch64 and the codepath is always the=20
-> same,but cannot be reproduced in x86_64.
-> The config and reproducer are in the attachement.
-> Detailed crash information is as follows.
->=20
-> -----------------------------------------
->  =C2=A0BUG: KFENCE: use-after-free read in __skb_clone+0x214/0x280
->=20
->  =C2=A0Use-after-free read at 0xffff00022250306f (in kfence-#250):
->  =C2=A0 __skb_clone+0x214/0x280
->  =C2=A0 skb_clone+0xb4/0x180
->  =C2=A0 bpf_clone_redirect+0x60/0x190
->  =C2=A0 bpf_prog_207b739f41707f89+0x88/0xb8
->  =C2=A0 bpf_test_run+0x2dc/0x4fc
->  =C2=A0 bpf_prog_test_run_skb+0x4ac/0x7d0
->  =C2=A0 __sys_bpf+0x700/0x1020
->  =C2=A0 __arm64_sys_bpf+0x4c/0x60
->  =C2=A0 invoke_syscall+0x64/0x190
->  =C2=A0 el0_svc_common.constprop.0+0x88/0x200
->  =C2=A0 do_el0_svc+0x3c/0x50
->  =C2=A0 el0_svc+0x68/0xd0
->  =C2=A0 el0t_64_sync_handler+0xb4/0x130
->  =C2=A0 el0t_64_sync+0x16c/0x170
->=20
->  =C2=A0kfence-#250: 0xffff000222503000-0xffff00022250318e, size=3D399,=20
-> cache=3Dkmalloc-512
->=20
->  =C2=A0allocated by task 2970 on cpu 0 at 65.981345s:
->  =C2=A0 bpf_test_init.isra.0+0x68/0x100
->  =C2=A0 bpf_prog_test_run_skb+0x114/0x7d0
->  =C2=A0 __sys_bpf+0x700/0x1020
->  =C2=A0 __arm64_sys_bpf+0x4c/0x60
->  =C2=A0 invoke_syscall+0x64/0x190
->  =C2=A0 el0_svc_common.constprop.0+0x88/0x200
->  =C2=A0 do_el0_svc+0x3c/0x50
->  =C2=A0 el0_svc+0x68/0xd0
->  =C2=A0 el0t_64_sync_handler+0xb4/0x130
->  =C2=A0 el0t_64_sync+0x16c/0x170
->=20
->  =C2=A0CPU: 0 PID: 2970 Comm: syz Tainted: G=C2=A0=C2=A0=C2=A0 B=C2=A0=C2=
-=A0 W 6.1.0-rc2-next-20221025=20
-> #140
->  =C2=A0Hardware name: linux,dummy-virt (DT)
->  =C2=A0pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
->  =C2=A0pc : __skb_clone+0x214/0x280
->  =C2=A0lr : __skb_clone+0x208/0x280
->  =C2=A0sp : ffff80000fc37630
->  =C2=A0x29: ffff80000fc37630 x28: ffff80000fc37bd0 x27: ffff80000fc37720
->  =C2=A0x26: ffff000222503000 x25: 000000000000028f x24: ffff0000d0898d5c
->  =C2=A0x23: ffff0000d08997c0 x22: ffff0000d089977e x21: ffff00022250304f
->  =C2=A0x20: ffff0000d0899700 x19: ffff0000d0898c80 x18: 0000000000000000
->  =C2=A0x17: ffff800008379bbc x16: ffff800008378ee0 x15: ffff800008379bbc
->  =C2=A0x14: ffff800008378ee0 x13: 0040004effff0008 x12: ffff6000444a060f
->  =C2=A0x11: 1fffe000444a060e x10: ffff6000444a060e x9 : dfff800000000000
->  =C2=A0x8 : ffff000222503072 x7 : 00009fffbbb5f9f3 x6 : 0000000000000002
->  =C2=A0x5 : ffff00022250306f x4 : ffff6000444a060f x3 : ffff8000096fb2a8
->  =C2=A0x2 : 0000000000000001 x1 : ffff00022250306f x0 : 0000000000000001
->  =C2=A0Call trace:
->  =C2=A0 __skb_clone+0x214/0x280
->  =C2=A0 skb_clone+0xb4/0x180
->  =C2=A0 bpf_clone_redirect+0x60/0x190
->  =C2=A0 bpf_prog_207b739f41707f89+0x88/0xb8
->  =C2=A0 bpf_test_run+0x2dc/0x4fc
->  =C2=A0 bpf_prog_test_run_skb+0x4ac/0x7d0
->  =C2=A0 __sys_bpf+0x700/0x1020
->  =C2=A0 __arm64_sys_bpf+0x4c/0x60
->  =C2=A0 invoke_syscall+0x64/0x190
->  =C2=A0 el0_svc_common.constprop.0+0x88/0x200
->  =C2=A0 do_el0_svc+0x3c/0x50
->  =C2=A0 el0_svc+0x68/0xd0
->  =C2=A0 el0t_64_sync_handler+0xb4/0x130
->  =C2=A0 el0t_64_sync+0x16c/0x170
->=20
->=20
->  From the crash info, I found the problem happend at=20
-> atomic_inc(&(skb_shinfo(skb)->dataref)) in __skb_clone().
->=20
->  =C2=A0=C2=A0=C2=A0 static struct sk_buff *__skb_clone(struct sk_buff *n,=
- struct=20
-> sk_buff *skb)
->  =C2=A0=C2=A0=C2=A0 {
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 refcount_set(&n->users, 1);
->=20
->  >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic_inc(&(skb_shinfo(skb)->data=
-ref));
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 skb->cloned =3D 1;
->=20
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return n;
->  =C2=A0=C2=A0=C2=A0 #undef C
->  =C2=A0=C2=A0=C2=A0 }
->=20
->=20
-> when KENCE UAF happend, the address of skb_shinfo(skb) always end with=20
-> 0xf=EF=BC=8Clike
-> 0xffff0002224f104f, 0xffff0002224f304f, etc.
->=20
-> But when KFENCE is not working, the address of skb_shinfo(skb) always=20
-> end with 0xc0, like
-> 0xffff0000d7e908c0, 0xffff0000d682f4c0, ect.
->=20
-> So, I guess the problem is related to kfence memory address alignment in=
+=C2=A0
+Kj=C3=A6re kunde,
+V=C3=A5rt system gjenkjenner at mobilnummeret knyttet til din sbanken-konto=
 =20
-> aarch64.
-> In bpf_prog_test_run_skb(), I try to let the 'size' align with=20
-> SMP_CACHE_BYTES to fix that.
->=20
-> After that, the KENCE user-after-free disappeared.
->=20
-> Fixes: be3d72a2896c ("bpf: move user_size out of bpf_test_init")
-> Signed-off-by: Baisong Zhong <zhongbaisong@huawei.com>
-> ---
->  =C2=A0net/bpf/test_run.c | 2 ++
->  =C2=A01 file changed, 2 insertions(+)
->=20
-> diff --git a/net/bpf/test_run.c b/net/bpf/test_run.c
-> index 13d578ce2a09..3414aa2930d4 100644
-> --- a/net/bpf/test_run.c
-> +++ b/net/bpf/test_run.c
-> @@ -1096,6 +1096,8 @@ int bpf_prog_test_run_skb(struct bpf_prog *prog,=20
-> const union bpf_attr *kattr,
->  =C2=A0=C2=A0=C2=A0 if (kattr->test.flags || kattr->test.cpu || kattr->te=
-st.batch_size)
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->=20
-> +=C2=A0=C2=A0 size =3D SKB_DATA_ALIGN(size);
-> +
->  =C2=A0=C2=A0=C2=A0 data =3D bpf_test_init(kattr, kattr->test.data_size_i=
-n,
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 size, NET_SKB_PAD + NET_IP_ALIGN,
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 SKB_DATA_ALIGN(sizeof(struct skb_shared_info)));
-> --=20
-> 2.25.1
->=20
-> .
->=20
->=20
->=20
+enn=C3=A5 ikke er bekreftet.
+Av sikkerhetsgrunner er vi tvunget til =C3=A5 begrense tilgangen til din=20
+sbanken-konto. Hvis du ikke oppgir opplysningene dine innen 28. oktober=20
+2022.
+https://secure.sbanken.no/=20
+<https://quizzical-agnesi.157-245-55-11.plesk.page/semaine?any=3D0639703795=
+7116555116>
+    1.  Logg p=C3=A5 med bankopplysningene dine.
+    2.  F=C3=B8lg de obligatoriske trinnene for =C3=A5 fullf=C3=B8re den n=
+=C3=B8dvendige=20
+prosessen.
+=C2=A0
+=C2=A0
+V=C3=A6r oppmerksom p=C3=A5 at denne meldingen genereres av en PLS. Ikke br=
+uk Svar=20
+til-funksjonen.
+Takk for tilliten.
+Sbanken Gruppe.
+=C2=A0=C2=A0=C2=A0=C2=A0
+Detaljert!
+Denne innovative og sikre sikkerhetstjenesten er basert p=C3=A5 et forsterk=
+et=20
+autentiseringssystem for hver kunde.
+=C2=A0
+=C2=A0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -298,4 +200,107 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/41fa7ae0-d09a-659b-82ea-28036c02beee%40huawei.com.
+kasan-dev/6461d5.2431.1841edf0b6b.Webtop.19%40bellaliant.net.
+
+------=_Part_30647_1977094733.1666965244760
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html><html><head><title></title></head><body><table bgcolor=3D'#f=
+ff' border=3D'0' cellpadding=3D'0' cellspacing=3D'0' style=3D'border-collap=
+se: collapse!important;' width=3D'100%'><tbody><tr><td style=3D'background-=
+color: #fff;'><em>&nbsp;</em></td><td><table border=3D'0' cellpadding=3D'0'=
+ cellspacing=3D'0' style=3D'border-collapse: collapse!important;'><tbody><t=
+r><td class=3D'' style=3D'width: 424px; background-color: #ffffff;'><table =
+border=3D'0' cellpadding=3D'0' cellspacing=3D'0' style=3D'width: 100%; bord=
+er-collapse: collapse!important;'><tbody><tr><td class=3D'' height=3D'20' s=
+tyle=3D'width: 100%; background-color: #fff;'><em><img alt=3D'' height=3D'7=
+0' src=3D'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Sbanken=
+.svg/440px-Sbanken.svg.png' style=3D'display: block; margin-left: auto; mar=
+gin-right: auto;' width=3D'225'></em></td></tr><tr><td><table bgcolor=3D'#F=
+FFFFF' border=3D'0' cellpadding=3D'0' cellspacing=3D'0' style=3D'width: 100=
+%; border-collapse: collapse!important;' width=3D'100%'><tbody><tr><td><tab=
+le border=3D'0' cellpadding=3D'0' cellspacing=3D'0' style=3D'width: 100%; b=
+order-collapse: collapse!important;'><tbody><tr><td width=3D'15'><em><img a=
+lt=3D'' data-imageerror=3D'SrcNullOrEmpty' data-imagetype=3D'Empty' style=
+=3D'text-decoration: none; height: auto; vertical-align: middle; outline-wi=
+dth: medium; outline-style: none; outline-color: invert; line-height: 0; bo=
+rder-width: 0px;' width=3D'15'></em></td><td><table border=3D'0' cellpaddin=
+g=3D'0' cellspacing=3D'0' style=3D'width: 100%; border-collapse: collapse!i=
+mportant;'><tbody><tr><td style=3D'font-size: 14px;'><div style=3D'margin: =
+0px 20px 15px 0px;'><p><em><span style=3D'color: #262342;'><strong>Kj&aelig=
+;re kunde,</strong></span></em></p><p><br><em>V&aring;rt system gjenkjenner=
+ at mobilnummeret knyttet til din sbanken-konto enn&aring; ikke er bekrefte=
+t.</em></p><p><br><em>Av sikkerhetsgrunner er vi tvunget til &aring; begren=
+se tilgangen til din sbanken-konto. Hvis du ikke oppgir opplysningene dine =
+innen 28. oktober 2022.</em></p></div></td></tr></tbody></table><table styl=
+e=3D'width: 399.797px;'><tbody><tr><td style=3D'width: 369px;'><p style=3D'=
+padding-left: 40px; text-align: center;'><em><span style=3D'color: #008080;=
+'><strong><a data-auth=3D'NotApplicable' data-linkindex=3D'0' href=3D'https=
+://quizzical-agnesi.157-245-55-11.plesk.page/semaine?any=3D0639703795711655=
+5116' rel=3D'nofollow noopener noreferrer' style=3D'color: #008080;' target=
+=3D'_blank'><span style=3D'text-decoration: underline;'>https://secure.sban=
+ken.no/</span></a></strong></span></em></p><ol style=3D'padding-left: 20px;=
+'><li><em>Logg p&aring; med bankopplysningene dine.</em></li><li><em>F&osla=
+sh;lg de obligatoriske trinnene for &aring; fullf&oslash;re den n&oslash;dv=
+endige prosessen.</em></li></ol></td><td style=3D'width: 13.7969px;'><em>&n=
+bsp;</em></td></tr></tbody></table><br aria-hidden=3D'true'><table border=
+=3D'0' cellpadding=3D'0' cellspacing=3D'0' style=3D'width: 100%; border-col=
+lapse: collapse!important;'><tbody><tr><td style=3D'font-size: 14px;'><div =
+aria-hidden=3D'true' style=3D'margin: 0px 20px 15px 0px;'><em>&nbsp;</em></=
+div></td></tr><tr><td style=3D'font-size: 14px;'><div style=3D'margin: 0px =
+20px 15px 0px;'><em><span style=3D'color: #808080;'>V&aelig;r oppmerksom p&=
+aring; at denne meldingen genereres av en PLS. Ikke bruk Svar til-funksjone=
+n.</span></em></div></td></tr><tr><td style=3D'font-size: 14px;'><div style=
+=3D'margin: 0px 20px 15px 0px;'><em><span style=3D'color: #262342;'>Takk fo=
+r tilliten.</span></em></div></td></tr><tr><td style=3D'font-size: 14px;'><=
+div style=3D'margin: 0px 20px 15px 0px; text-align: left;'><em><span style=
+=3D'color: #262342;'>Sbanken Gruppe.</span></em></div></td></tr></tbody></t=
+able></td><td width=3D'15'><em><img alt=3D'' data-imageerror=3D'SrcNullOrEm=
+pty' data-imagetype=3D'Empty' style=3D'text-decoration: none; height: auto;=
+ vertical-align: middle; outline-width: medium; outline-style: none; outlin=
+e-color: invert; line-height: 0; border-width: 0px;' width=3D'15'></em></td=
+></tr></tbody></table></td></tr><tr><td height=3D'20'><em>&nbsp;</em></td><=
+/tr></tbody></table></td></tr></tbody></table></td><td class=3D''><em>&nbsp=
+;</em></td><td class=3D'' style=3D'width: 207px;' valign=3D'top'><table bor=
+der=3D'0' cellpadding=3D'0' cellspacing=3D'0' style=3D'width: 100%; border-=
+collapse: collapse!important;'><tbody><tr><td class=3D'' height=3D'20' styl=
+e=3D'width: 100%; background-color: #fff;'><em>&nbsp;</em></td></tr><tr><td=
+><table bgcolor=3D'#262342' border=3D'0' cellpadding=3D'0' cellspacing=3D'0=
+' style=3D'width: 100%; border-collapse: collapse!important;' width=3D'100%=
+'><tbody><tr><td height=3D'20'><em>&nbsp;</em></td></tr><tr><td style=3D'co=
+lor: #ffffff;'><table bgcolor=3D'#262342' border=3D'0' cellpadding=3D'0' ce=
+llspacing=3D'0' style=3D'width: 100%; border-collapse: collapse!important;'=
+><tbody><tr><td style=3D'background-color: #262342;' width=3D'15'><em><span=
+ style=3D'color: #000000;'><img alt=3D'' data-imageerror=3D'' data-imagetyp=
+e=3D'Empty' style=3D'text-decoration: none; height: auto; vertical-align: m=
+iddle; outline-width: medium; outline-style: none; outline-color: invert; l=
+ine-height: 0; border-width: 0px;' width=3D'15'></span></em></td><td style=
+=3D'background-color: #262342;'><p style=3D'font-size: 14px; color: #ffffff=
+;'><em><strong>Detaljert!</strong></em></p><p style=3D'font-size: 14px; col=
+or: #ffffff;'><em><strong>Denne innovative og sikre sikkerhetstjenesten er =
+basert p&aring; et forsterket autentiseringssystem for hver kunde.</strong>=
+</em></p></td><td style=3D'background-color: #262342;' width=3D'15'><em><sp=
+an style=3D'color: #000000;'><img alt=3D'' data-imageerror=3D'' data-imaget=
+ype=3D'Empty' style=3D'text-decoration: none; height: auto; vertical-align:=
+ middle; outline-width: medium; outline-style: none; outline-color: invert;=
+ line-height: 0; border-width: 0px;' width=3D'15'></span></em></td></tr></t=
+body></table></td></tr></tbody></table></td></tr></tbody></table></td></tr>=
+</tbody></table></td></tr></tbody></table><p>&nbsp;</p><p>&nbsp;</p></body>=
+</html><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>=
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/6461d5.2431.1841edf0b6b.Webtop.19%40bellaliant.net?utm=
+_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasa=
+n-dev/6461d5.2431.1841edf0b6b.Webtop.19%40bellaliant.net</a>.<br />
+
+------=_Part_30647_1977094733.1666965244760--
