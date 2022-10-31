@@ -1,163 +1,187 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBSXG72NAMGQEH7OIEGI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN7L7O25EIBBRHJ72NAMGQEH5RSO7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3f.google.com (mail-oo1-xc3f.google.com [IPv6:2607:f8b0:4864:20::c3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138ED613492
-	for <lists+kasan-dev@lfdr.de>; Mon, 31 Oct 2022 12:36:44 +0100 (CET)
-Received: by mail-oo1-xc3f.google.com with SMTP id c13-20020a4a380d000000b00494059ad6f0sf3849986ooa.9
-        for <lists+kasan-dev@lfdr.de>; Mon, 31 Oct 2022 04:36:44 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1667216202; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=fRCCeogBz9AwACugZH+6LH0Pr70vhqknFAFagpDUzVzGOU6q0DMZy5iAEeI4M5gJnI
-         jMxMVTeDbCUJzzzygBBUiZ1E+Si/vX+KpZWdalt8WjrvccXkldys5Ycndyq+9YOd4rcz
-         JA+ntxQazye1qNQgPPAGMDMjrSHJnoBeXrwT2o9PnJIfq+izcqA2q4e+JCUsBsGAsCo9
-         fG2X5pNHEWYI/v/3cQ7aHqaStebIx2GO+RJd1vCld8on5/zDZzGtO8zxRXr3yOdkjMbj
-         xrg7U23pLOmfjqZIMb1+528x70wZRw55jWJcVl7J+K5gfnPvzZpKUkKekLX6jLJTsI5S
-         RY2w==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature:dkim-signature;
-        bh=BVjnYWyISwRUx3Uq41lCaxgKE8ucnQqq9+ZJYfYzDqA=;
-        b=vI5N8pxWFJlvC1Hz+3nW7DZFWNlP7gUNIgF/19LZXWPlMWKOgEZPkWS4BMTlX3GUjn
-         Bp21baK4OtLa6RpYq2Dl5sjwuYoPFH6G8ryhDs+eY1OmRvLwHpxmbovCoATqEhSWv/RE
-         JQy8L7uKvY4sZ2o472aKHkQ46/F1wcuVOx8Oul/b3gMphCDCsd+wW9goCWANNpvlqp+g
-         yq62SBEfP3DCgIi2enUPmlE8GKTB47VGhsCo3cFRFcOodFG9dshaJb9/AIUf2AMYVJfn
-         J9YyhRPMLtlXH4mZlzjzoK9PW4qE+f30vgfgZvhe9AKVd8xQzwcFvwejK69bEj8q+J70
-         6OhQ==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=G53K5YU2;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::534 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9266E6134B2
+	for <lists+kasan-dev@lfdr.de>; Mon, 31 Oct 2022 12:43:01 +0100 (CET)
+Received: by mail-lf1-x13e.google.com with SMTP id cf15-20020a056512280f00b004a28ba148bbsf3244097lfb.22
+        for <lists+kasan-dev@lfdr.de>; Mon, 31 Oct 2022 04:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :x-original-sender:mime-version:in-reply-to:content-disposition
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BVjnYWyISwRUx3Uq41lCaxgKE8ucnQqq9+ZJYfYzDqA=;
-        b=a4xJtGM3+jNSD3m3bRJp028fhUVMV/GNg4L74Ww1uyr9XzctkJ17ON3YvFYpMCGjYw
-         SmQRlPuYDXi4aJfSiUrBDohnpdVEoj4PRXNxU78ocsYJlPMbWytnM1NS0RUootpncbLo
-         wk7kreaH1l+LZrYruS/IxdElqAmCN40AYDCVPPzEzkgNRNuwk8VzR1ylcRO1ZTGrOhvY
-         Wv1LwtgDfuz7b23Qp+e5z8jl3UXCF6qXoormidzA8+vpmLbxLw1rMDoM8BLbchFMaxlq
-         HX0b5GGRlmU4gc9pG1iWRsIkhwJxAs5lNp9MOl8czfGQOQKIlXtKL4cXWdhPljczgKL1
-         YCTA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BVjnYWyISwRUx3Uq41lCaxgKE8ucnQqq9+ZJYfYzDqA=;
-        b=RwKfuChTR0LImrYqrRNKXv57sqrgCYmWYIcVAxOGl8In6cYWz0Bm1IXdoxXDmJwChd
-         kfcZAe+icsHNmiehiryX0GDZj0sQ1YlYs22ZWZe+R6SgZ5wU0+mgg5282DH6SnZm7UN+
-         GUXb9YTOF7MfkQS1W65s1zgRIfImPLRvUdKFOtyWmkk0XEW+WQ+Bbo7wEIJ67jTMz8l/
-         TniV9kTJMkb2qdlObCNkSBqasUs4G/2ha3zLio6k7hwDhoqcZsZf7iPtz68mikD7uAEd
-         2hZJ0F0lt4V+KuNLsg6oV60XUrOKlgnhvZGPf5ziJbpFzlFXDeYjM165F824fzoct29K
-         Tkkw==
+        bh=q5X4k851/hxaAOR7M76TDKvrAggdcPItxUmm6Vho6eY=;
+        b=dIChpoBqg7j9hLlsuMObv/LWf3BmpF9FguKPrOV+WSghaRO+ZUYqwPnL7zENyWFZVQ
+         wW0zE8Ny28QMhmTyoFQsoBjOYbD9pB0EOd2P9z+uFABZFwaSwtiDO+VeRLiGkBdLS0lE
+         3GEdjvdprvX7MtvX653/A7VloijIhzLnFBekZ7Ey9BJM7yRLi/DjXNpfK0fkMe9+QUPx
+         wQyQaUxT+42oYRz7GHoJC7oRBRuwWVmOxO+A24M6MbsXG2TOB4J+1ufixHqVaC0RbjHA
+         oOL1ICjkOYCS+njP9Do8UcsZ+9/O7d+WsGZxbAon7FN4Bk9tnuI4rQK/Vt1Q8mdsXKnB
+         sCBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-original-authentication-results:x-original-sender:mime-version
+         :in-reply-to:content-disposition:references:message-id:subject:cc:to
+         :from:date:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BVjnYWyISwRUx3Uq41lCaxgKE8ucnQqq9+ZJYfYzDqA=;
-        b=FcQUA/so45KGMxGw4jHghLBGcNdrFJpBOGTvUF8Fa+rm3S+M/nrdw3A+LbL3aq/M/J
-         u27ou+TJ5AJNmm0AvSs3W7RRyExtdlEcqDr7csEemtj46TK9mOz9y89vM/+moOWiH9xT
-         eD9lu0iarBQmwUCEDnVWcLspZbWqRLzCXbTe0aX9QekIhM/pXZxhk+vX2YDK8MGi8YTi
-         i1IQS30Ca5+M7+cmGV5k3aF1dhpGqFeV46j1LRfXm/UchuqjeUBE7N2D/TL9ngGd0siT
-         hAn6TVKU4iM0cBrtIx/sM0UO8LJuRWznEQT6oNNmJUfPlJwqen7hL1k4E04BBTCcfhKK
-         QAmw==
+        bh=q5X4k851/hxaAOR7M76TDKvrAggdcPItxUmm6Vho6eY=;
+        b=kydPdhQSiiCKdBzLaIXZr77+csLucByeak9yqYPaKg6L5QW1igUNqDkYG5394+7V0r
+         zNhf9fy5NirTHmXc5kBoo1uK3TE50aYb2Sd3USb+Zz7mj41pRJyXxE7OH+ec3VZ5ZY4T
+         TnU3eezRQwt8ImShtznJFFRzM3Kq8Y8CfAtfVIhY4QZxywGuBppqXoK/LczThf75c0IK
+         GTOI200ClmHBU1iDaCql9V2ryOWEE7Xt+ghnvVH4+YfNdTgi74B75plzmhLfdBw7mD+I
+         OYfrBnRpH7QpeEbtBn5rvY7mbkZUGdnnbISuBxQ6NDtqus6Ro041stJsLEK4pDJZuHMm
+         mMXg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf2KsarFg35t5LYjE3qbHjrK39siNXduFDJv4rJQWVaTHt7pMywm
-	vfTl9Fwl25dmnstOpiyyifw=
-X-Google-Smtp-Source: AMsMyM49HEbrSgIVtm6Z1tDc4VUqKvveSArOZvg3RXXdPm4MiCuKl8UuRGksyl8/VsAL5ehcOJuvnA==
-X-Received: by 2002:a05:6830:4115:b0:661:a2c4:3bcd with SMTP id w21-20020a056830411500b00661a2c43bcdmr6473110ott.368.1667216202684;
-        Mon, 31 Oct 2022 04:36:42 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1QwEUT5RBuoCOP/TmjvlYxkveOmGhOJtBvYb4HDNYQz7+iyT56
+	G1ciJU6o23b8kGcRYYRt8NY=
+X-Google-Smtp-Source: AMsMyM7YttBL9sS/RArENuOOqa6ac3eXAE5tbHOJQmRkpIfMI/6wBC6ZbVF4763CORZjHJCDkubpWQ==
+X-Received: by 2002:a2e:3c03:0:b0:277:1d64:f4fd with SMTP id j3-20020a2e3c03000000b002771d64f4fdmr5148310lja.32.1667216580407;
+        Mon, 31 Oct 2022 04:43:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:4e99:0:b0:66c:532c:d353 with SMTP id v25-20020a9d4e99000000b0066c532cd353ls369649otk.6.-pod-prod-gmail;
- Mon, 31 Oct 2022 04:36:42 -0700 (PDT)
-X-Received: by 2002:a05:6830:438b:b0:661:ac06:d4fe with SMTP id s11-20020a056830438b00b00661ac06d4femr6334570otv.231.1667216202070;
-        Mon, 31 Oct 2022 04:36:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1667216202; cv=none;
-        d=google.com; s=arc-20160816;
-        b=m/ukE+SwcCG9HIRsGyGxoEZLSrLpVFdtwlTIc0z+Eyy+YG1QA6ZQAjjqI5/OLz+ftZ
-         H5lrf7ahpOJ9B8KAVbwTqlZcBdZVAKCPNwyH7rMZdTS7iPPOYQJHTQy+47HU5QtvzWSy
-         WXuFIOeSOgJNqB9E6Mt0ncEttw+pwyy7Sc7XacKVg9J6xiI9jznxNNaN4xkKXGVxHcD8
-         Xp0fak4ZPbHjkBDTp2nfk+hKbstZrZEWFTbRxCBdkL4u+mPAwGfRlx4uNMLvnXfHH0el
-         9UlRAbGXY69oM7dWkEjaLcA5QxdVgJcCo43vJvJeHGTOdCFFyD/CgzMLEzGWsEqw7mTJ
-         5b5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=tk8T8KciNnKClZtt9a7oM7hEZLA8ALbiZujS1/Z8e40=;
-        b=Wr7CiPYigFUQctGm7xPf86BsRqPJZvviBojBXeGzalRCAII5xS4UE7bZqhTK7werQ4
-         BXOeGd8e1mmvLTkeA3u0mBFIsGPqV9CElUSLHLY/rJrzCQBmKMgMqYeEF1ZM1J5NSPkV
-         vOjxBsg+YCtcCjemtxUZulh3eFa5p85+di63AxNHP4ZgsNJgfIHg66iU8qX+rNl2Lfa6
-         H+Vhl+eJQYkXEoLCHaBj0Z56dNgRedBI5ofd7qVB+gvIx4GY5tLUaKc+CuD0GDpplvAE
-         pGvMHTPdsS+voCmQXW8PP/wlvyVwpU/KOS1Ywi4Ljd65b/1gLcyPriZTtFODKFLCedx9
-         zDHQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=G53K5YU2;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::534 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com. [2607:f8b0:4864:20::534])
-        by gmr-mx.google.com with ESMTPS id 64-20020a9d0346000000b0066c34c88dc2si317477otv.4.2022.10.31.04.36.42
+Received: by 2002:a2e:a90d:0:b0:277:1d5b:1cc7 with SMTP id j13-20020a2ea90d000000b002771d5b1cc7ls1429310ljq.3.-pod-prod-gmail;
+ Mon, 31 Oct 2022 04:42:59 -0700 (PDT)
+X-Received: by 2002:a2e:a106:0:b0:277:3d6:a751 with SMTP id s6-20020a2ea106000000b0027703d6a751mr5192026ljl.201.1667216578955;
+        Mon, 31 Oct 2022 04:42:58 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com. [192.55.52.88])
+        by gmr-mx.google.com with ESMTPS id g28-20020a2eb5dc000000b0027760dd5b20si20051ljn.3.2022.10.31.04.42.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 04:36:42 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::534 as permitted sender) client-ip=2607:f8b0:4864:20::534;
-Received: by mail-pg1-x534.google.com with SMTP id 128so10471210pga.1
-        for <kasan-dev@googlegroups.com>; Mon, 31 Oct 2022 04:36:42 -0700 (PDT)
-X-Received: by 2002:a05:6a00:14cc:b0:56b:9969:823 with SMTP id w12-20020a056a0014cc00b0056b99690823mr13659260pfu.36.1667216201343;
-        Mon, 31 Oct 2022 04:36:41 -0700 (PDT)
-Received: from hyeyoo ([114.29.91.56])
-        by smtp.gmail.com with ESMTPSA id v17-20020aa799d1000000b0056bb191f176sm4526205pfi.14.2022.10.31.04.36.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 04:36:40 -0700 (PDT)
-Date: Mon, 31 Oct 2022 20:36:33 +0900
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 31 Oct 2022 04:42:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 192.55.52.88 as permitted sender) client-ip=192.55.52.88;
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="335533821"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
+   d="scan'208,223";a="335533821"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 04:42:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="636025013"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
+   d="scan'208,223";a="636025013"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga007.fm.intel.com with ESMTP; 31 Oct 2022 04:42:55 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 31 Oct 2022 04:42:55 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 31 Oct 2022 04:42:54 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Mon, 31 Oct 2022 04:42:54 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.44) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Mon, 31 Oct 2022 04:42:54 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=adcIVdI1mbA7GREq/7zRRWQcuVFLhbH9gxKqmgUcppH/EDwnPMocBnwA7wJ99tKASp9lu7IotTwREqkqpbq7SSSP01qltQuPPEATRJMxNqKVoky6+mmZsSoi4ZqOsanlDP5IdKK1AFFDNVsW3sREQhwxOn4QsJW/IscXLdzXODo64FN+2CWitgJjs/HJqSkwIl7BPE9ZbGtbxBi9GhTm0XdN3HRd4vBkZaTyZYdOppikUq8sRHOSC7unzlp8BX78kvACIWdNexH/UBeW00/xqeLGxfrscmJYeNcRcvghFhhAA2RIu1ax3wGenbu526QMBFazzC+GORcDbtUSuA/Lzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k5Q4Ve876APzxX0VKD8ibMRB2/ex9YBHSgw0jvwSfxU=;
+ b=CHySpIlFnaewPjmGD/Ggwu32ZpbVCgWdP/Fivj1ya0ln51WQ+XlGyHyq9I0tlKtBcFIod5oTmtQH5YVN8Azv5rq51QILUvQinsWhf6hrq9EGulX3tnBeU8XvmlDVW4gywXnXZxT1+51CLh80YquNMTDjOeXbzf8EJ1XUjJEfImGFJFhklfB7x8tQ6pBY4+RgLxGbvFEtKMh/NnmqFFLuoDdOtTl4u+0JOpwGn5EqGyeOww0LTHoz+iYiYAkohDTfVmmvR6fvkCHsfFfG6dedg8gp2DSNDtfVq28s7gADc311iZfI+5l9GNAQnjr/u5wJm5ZCpV5YDXVeCc7QpMo7Hg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY5PR11MB6308.namprd11.prod.outlook.com (2603:10b6:930:20::8)
+ by DM4PR11MB7373.namprd11.prod.outlook.com (2603:10b6:8:103::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Mon, 31 Oct
+ 2022 11:42:49 +0000
+Received: from CY5PR11MB6308.namprd11.prod.outlook.com
+ ([fe80::714c:d1b1:fa93:7d74]) by CY5PR11MB6308.namprd11.prod.outlook.com
+ ([fe80::714c:d1b1:fa93:7d74%7]) with mapi id 15.20.5769.015; Mon, 31 Oct 2022
+ 11:42:49 +0000
+Date: Mon, 31 Oct 2022 19:42:41 +0800
+From: Feng Tang <feng.tang@intel.com>
 To: John Thomson <lists@johnthomson.fastmail.com.au>
-Cc: Feng Tang <feng.tang@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	"Hansen, Dave" <dave.hansen@intel.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	John Garry <john.garry@huawei.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
+CC: Vlastimil Babka <vbabka@suse.cz>, Andrew Morton
+	<akpm@linux-foundation.org>, Christoph Lameter <cl@linux.com>, Pekka Enberg
+	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
+	<iamjoonsoo.kim@lge.com>, Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Andrey Konovalov <andreyknvl@gmail.com>,
+	"Hansen, Dave" <dave.hansen@intel.com>, "linux-mm@kvack.org"
+	<linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "kasan-dev@googlegroups.com"
+	<kasan-dev@googlegroups.com>, Robin Murphy <robin.murphy@arm.com>, John Garry
+	<john.garry@huawei.com>, Kefeng Wang <wangkefeng.wang@huawei.com>
 Subject: Re: [PATCH v6 1/4] mm/slub: enable debugging memory wasting of
  kmalloc
-Message-ID: <Y1+zQShofiGTxcKG@hyeyoo>
+Message-ID: <Y1+0sbQ3R4DB46NX@feng-clx>
 References: <20220913065423.520159-1-feng.tang@intel.com>
  <20220913065423.520159-2-feng.tang@intel.com>
  <becf2ac3-2a90-4f3a-96d9-a70f67c66e4a@app.fastmail.com>
  <af2ba83d-c3f4-c6fb-794e-c2c7c0892c44@suse.cz>
  <Y180l6zUnNjdCoaE@feng-clx>
  <c4285caf-277c-45fd-8fc7-8a1d61685ce8@app.fastmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed; boundary="eA2WCFFyGaggxTCQ"
 Content-Disposition: inline
 In-Reply-To: <c4285caf-277c-45fd-8fc7-8a1d61685ce8@app.fastmail.com>
-X-Original-Sender: 42.hyeyoo@gmail.com
+X-ClientProxiedBy: SI1PR02CA0034.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::10) To CY5PR11MB6308.namprd11.prod.outlook.com
+ (2603:10b6:930:20::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6308:EE_|DM4PR11MB7373:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13b801d6-6b68-4841-53de-08dabb350974
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zglYairVT11CN4OXrYFGsUVz1gkYL3N3Bb8nGRs+wi0MdKXlA4Y+mWEAWRxOm4q0/pkuvFmIXPcOtiMJ1CHpW98GjsswdHFNGFiv5hUvuEQHDd5x7sM3xE073wZS2kuCG9f7JtaXKCXLcdWsTMVC1sJ9q9D0zixs5twDD4OvLqnZeJ6epZFO96yPDlEmTHTQ+IGG+M3IfCvLlZVkm6pJfWIlmOEmQTatsA4UwsCy0qfe+fM7s6zzax1aHNFyQ/NyAyoxkIml42R4wcqpdkEtWah+EysFPRrkSNXZgwUow3XeVWCBdX5iSDmd6SzC3GGl8aishM5QqxDbVe1449/knFyf+je+d6UdMCXehSM1nSu3KP/pe4Xa6ZhKQGsfmSeKv930WIeUatoCB0qo9R8mgtR2k/TJa43ilFbSAmq1vy1a0VBkCBdznHlFw1jxihkDP0aXy9b/3QJpSuJVwdyXyiboUN2fQ+lPS75TXbhkdOAbLi5toLeSpfkBr3+5/WsDJV9M0Tue0CDigmXICsi/AU2TaPrLUB1a6ncuGj11jtWKX9qBMXLxb1joYXeYjVk2MyesoDNSJG19KDbxlLvR9FsJSWeTb7kF1ggUtWiRsChqU5VYmDD2sm4oa+DhQ07RpYvfMs/Z6hxnV2wk2pdax4fAnGh9H38kOVMOYfR3PkTCmgrYyUJLkQkeRoAIUv8a2UDCjcdYAsxpXNw+70S2RkfGEcK2fhEPDWY21mTldux6n2405ik+LaLmlLnHnZW8hpJv+psKA1t0bE1+IGG6E9qXreut4PTuDp7orkIHKcU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6308.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(39860400002)(136003)(396003)(376002)(366004)(346002)(451199015)(83380400001)(38100700002)(2906002)(6666004)(44832011)(82960400001)(33716001)(44144004)(316002)(6512007)(6506007)(186003)(9686003)(26005)(86362001)(8676002)(4326008)(478600001)(6486002)(66556008)(8936002)(66476007)(6916009)(54906003)(235185007)(66946007)(5660300002)(7416002)(41300700001)(2700100001)(67856001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zwZ30qbdCt7MWhZOxgMexsjiu2eBccVRGJyG2Th5ZU3gmX2L2S1+lxQEggrC?=
+ =?us-ascii?Q?va+9AK73VN3l2+r1O5bRjruUROu3sq3/92/6POvfA47Pb0Oj79Cm9sAi0DSR?=
+ =?us-ascii?Q?D+igsBm1wll6tgC+nEGxdRFFuCgs2woCd7V2Uiokm3NfCX26815Xiwm/Rqx8?=
+ =?us-ascii?Q?i2FUWKeRdZ+smIXl2n0RQbFPldrAG4cOehrJimNFqX/+/7Tm2cGByIyeX49e?=
+ =?us-ascii?Q?9p6AjAxdvzmPELezCa5W413ep718eAXQP7c8CaRy/FIb9GPLYmcjQVkXif1E?=
+ =?us-ascii?Q?cTUaX8hqe7mCNPjqLy2qTntP5uGqRrF8FG32PazDQWv4gYnKkFjQSHonbrTw?=
+ =?us-ascii?Q?xdP5sXaElwu/W2+HZBbrYOx2fxsO13ZVRk9ft0PS/znTK/hRVSW9QeM7/CUr?=
+ =?us-ascii?Q?wpG9cZFCNMBTQiZ8clHFNmhB8+9JHmV7qaymo9L5vvRTsUXxGf6mBLimo5GH?=
+ =?us-ascii?Q?s6mhWs9jNyLqa16lhWtiZZjFR0EO0k8mZhtBR1DgHsJmTcDdc7B0NcuvC9B/?=
+ =?us-ascii?Q?uSSLg3Lun5uWqRzZMvOHLa7qwcLWAx5ZhHGUBiHSQF2daEpGrJPckCdBd6Xl?=
+ =?us-ascii?Q?JvdTSlEK8D3gDrzreYXlznmupp80jTwpLK68JQBl5q0XtJEG5LTsmCmD5mss?=
+ =?us-ascii?Q?JMZXMtIMDRJxhKC2Ul5mBlwd028ZenDlSX2lLbjjT1z10t7aKTaT5PMf14v+?=
+ =?us-ascii?Q?9DZWoGzFKvTaLgsAHYWWMgaNaVFnhKb7j1M3lHDdEocN068ZK18iEvFvI/bW?=
+ =?us-ascii?Q?n6DD+ph4IEGh8njJdJFa/cor7YC99tdZ66+Sr3NTC6suZJkY48H4niHYStMj?=
+ =?us-ascii?Q?arNml4CI6FWTU96P4H6FuEneXM7MWVflPmLVKgypI2HBM++X9c5i4v21TrS0?=
+ =?us-ascii?Q?tg548olS+HLrHdtUlAIMeP0gCQS5vQOeIcKk/yfp3jYgcxe3GoVErqLZQrDP?=
+ =?us-ascii?Q?q60b+z/d9nPUxvXvkIbXCK298K7LvOR8I0E2ahV7zpIqkMr8aaqhmHinX1y9?=
+ =?us-ascii?Q?RMXLVUXkDCD0Y9JExXxIc9SaSv0h0U6KKnrODaNeK5V0gZjq4yXjPqybAX7P?=
+ =?us-ascii?Q?+t9aKFHOPbO5Wx9CMR/vXUjvwBMMt0myVsuss9ungVTiApHiSsuCLpVUMUAB?=
+ =?us-ascii?Q?InfRdD54tF59MgcZg3WJB/BmGaKFpiNGE/wi2Ez3beGZD9d7qRZD2tnDB09U?=
+ =?us-ascii?Q?aPdwrBD5lC/oq1v/IY/JrrZ9Rd/ZovyXjYy7irSuk3G69fgWrENbmNSzlQb+?=
+ =?us-ascii?Q?UWabD3NJkGwkbssvGZ+tihuXrTQBDiMQUDftGBs1Qz6cyKbTEGkTLc8R+HrN?=
+ =?us-ascii?Q?o3WlCgZNK6llHNhquUF7VV+teVAg5ra4szCRnkAr5J3IzRy+hu+fK1hfrOM6?=
+ =?us-ascii?Q?aHc8w9FGJ+k7oRKES6+6HZYYO8Qy9VKrylqENCDXO+KetpTK9idROWO3Aq2j?=
+ =?us-ascii?Q?2uhDJVRiDLHVlcxUUY9wtZw5eNTP8WQwtQ1epvFdBYTkM7g7YGivgElNsete?=
+ =?us-ascii?Q?/98Z2WlkC94SYqSd4MZZQL2s8WMcjzNbU/VCy5POSdoWhOOfNYzgUvMAjz1x?=
+ =?us-ascii?Q?qC+wN6xZIOOCHq3YsNHYwXqg0JB4rNszN6a4cb6m?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13b801d6-6b68-4841-53de-08dabb350974
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6308.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2022 11:42:49.5281
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m4Mw7Fz2yDmJDsH5C+0VBFynN838V3Rup1bm0JXeut0lPFQoOoxw6A/upXQLoDNso/IxjdFdCTgoVoK2YVyfaw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7373
+X-OriginatorOrg: intel.com
+X-Original-Sender: feng.tang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=G53K5YU2;       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::534
- as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@intel.com header.s=Intel header.b=LVat4+eC;       arc=fail (body
+ hash mismatch);       spf=pass (google.com: domain of feng.tang@intel.com
+ designates 192.55.52.88 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -170,64 +194,12 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+--eA2WCFFyGaggxTCQ
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+
 On Mon, Oct 31, 2022 at 10:05:58AM +0000, John Thomson wrote:
 > On Mon, 31 Oct 2022, at 02:36, Feng Tang wrote:
-> > Hi John,
-> >
-> > Thanks for the bisecting and reporting!
-> >
-> > On Mon, Oct 31, 2022 at 05:30:24AM +0800, Vlastimil Babka wrote:
-> >> On 10/30/22 20:23, John Thomson wrote:
-> >> > On Tue, 13 Sep 2022, at 06:54, Feng Tang wrote:
-> >> >> kmalloc's API family is critical for mm, with one nature that it will
-> >> >> round up the request size to a fixed one (mostly power of 2). Say
-> >> >> when user requests memory for '2^n + 1' bytes, actually 2^(n+1) bytes
-> >> >> could be allocated, so in worst case, there is around 50% memory
-> >> >> space waste.
-> >> > 
-> >> > 
-> >> > I have a ralink mt7621 router running Openwrt, using the mips ZBOOT kernel, and appear to have bisected
-> >> > a very-nearly-clean kernel v6.1rc-2 boot issue to this commit.
-> >> > I have 3 commits atop 6.1-rc2: fix a ZBOOT compile error, use the Openwrt LZMA options,
-> >> > and enable DEBUG_ZBOOT for my platform. I am compiling my kernel within the Openwrt build system.
-> >> > No guarantees this is not due to something I am doing wrong, but any insight would be greatly appreciated.
-> >> > 
-> >> > 
-> >> > On UART, No indication of the (once extracted) kernel booting:
-> >> > 
-> >> > transfer started ......................................... transfer ok, time=2.01s
-> >> > setting up elf image... OK
-> >> > jumping to kernel code
-> >> > zimage at:     80BA4100 810D4720
-> >> > Uncompressing Linux at load address 80001000
-> >> > Copy device tree to address  80B96EE0
-> >> > Now, booting the kernel...
-> >> 
-> >> It's weird that the commit would cause no output so early, SLUB code is 
-> >> run only later.
-> > 
-> > I noticed your cmdline has console setting, could you enable the
-> > earlyprintk in cmdline like "earlyprintk=ttyS0,115200" etc to see
-> > if there is more message printed out.
-> 
-> Still nothing from vmlinux with earlykprint on UART unless revert.
-> 
-> >
-> > Also I want to confirm this is a boot failure and not only a boot
-> > message missing.
-> 
-> Yes, boot failure.
-> Network comes up automatically on successful boot. Not happening when no kernel UART
-
-It is really weird that I see no boot issue on my MIPS emulation with almost same
-config, with different target - Malta board that QEMU supports. it just boot fine.
-
-Can you attach debugger to the board?
-(Which I hadn't tried. I had tried it only to QEMU)
-
-[...]
-
-> >> > 
 > >> > 
 > >> > possibly relevant config options:
 > >> > grep -E '(SLUB|SLAB)' .config
@@ -248,9 +220,6 @@ Can you attach debugger to the board?
 > >> different bug, hmm.
 > 
 > Yes, it could be.
-
-What happens with clang?
-
 > 
 > >> Is it any different if you do enable CONFIG_SLUB_DEBUG ?
 > 
@@ -276,33 +245,383 @@ What happens with clang?
 > so that may be it? Or not?
 > revert + SLUB_DEBUG + SLUB_DEBUG_ON is bigger still, but does successfully boot.
 > vmlinux entry point is 0x8074705c
-> 
-> 
-> transfer started ......................................... transfer ok, time=2.01s
-> setting up elf image... OK
-> jumping to kernel code
-> zimage at:     80BA4100 810D6FA0
-> Uncompressing Linux at load address 80001000
-> Copy device tree to address  80B9EEE0
-> Now, booting the kernel...
-> [    0.000000] Linux version 6.1.0-rc2 (john@john) (mipsel-openwrt-linux-musl-gc
-> c (OpenWrt GCC 11.3.0 r19724+16-1521d5f453) 11.3.0, GNU ld (GNU Binutils) 2.37) 
-> #0 SMP Fri Oct 28 03:48:10 2022
-> 
-> 
->  I will keep looking.
-> 
-> Thank you,
-> -- 
->   John Thomson
+
+Thanks for prompt info!
+
+As I can't reproduce it locally yet, could you help try 3 tests separately:
+* change the O2/O3 compile option to O1
+* try the attached 0001 patch (which cut part of commit)
+* try attached 0001+0002 patch
+
+Thanks!
 
 
+- Feng
 
--- 
-Thanks,
-Hyeonggon
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y1%2BzQShofiGTxcKG%40hyeyoo.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y1%2B0sbQ3R4DB46NX%40feng-clx.
+
+--eA2WCFFyGaggxTCQ
+Content-Type: text/x-diff; charset="us-ascii"
+Content-Disposition: attachment; filename="0001-reduced-slub-patch.patch"
+
+From c52d8c8803562dd6d1d9d57f4f6e8b7e1ddf675d Mon Sep 17 00:00:00 2001
+From: Feng Tang <feng.tang@intel.com>
+Date: Mon, 31 Oct 2022 16:17:22 +0800
+Subject: [PATCH 1/2] reduced slub patch
+
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+---
+ include/linux/slab.h |  2 ++
+ mm/slab_common.c     |  3 +-
+ mm/slub.c            | 73 +++++++++++++++++++++++++-------------------
+ 3 files changed, 46 insertions(+), 32 deletions(-)
+
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index f2da0df0d58d..90877fcde70b 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -29,6 +29,8 @@
+ #define SLAB_RED_ZONE		((slab_flags_t __force)0x00000400U)
+ /* DEBUG: Poison objects */
+ #define SLAB_POISON		((slab_flags_t __force)0x00000800U)
++/* Indicate a kmalloc slab */
++#define SLAB_KMALLOC		((slab_flags_t __force)0x00001000U)
+ /* Align objs on cache lines */
+ #define SLAB_HWCACHE_ALIGN	((slab_flags_t __force)0x00002000U)
+ /* Use GFP_DMA memory */
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 87a28e298be8..33b1886b06eb 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -661,7 +661,8 @@ struct kmem_cache *__init create_kmalloc_cache(const char *name,
+ 	if (!s)
+ 		panic("Out of memory when creating slab %s\n", name);
+ 
+-	create_boot_cache(s, name, size, flags, useroffset, usersize);
++	create_boot_cache(s, name, size, flags | SLAB_KMALLOC, useroffset,
++								usersize);
+ 	kasan_cache_create_kmalloc(s);
+ 	list_add(&s->list, &slab_caches);
+ 	s->refcount = 1;
+diff --git a/mm/slub.c b/mm/slub.c
+index ade3e851fc65..6fa3c24742b8 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -195,6 +195,13 @@ DEFINE_STATIC_KEY_FALSE(slub_debug_enabled);
+ #endif
+ #endif		/* CONFIG_SLUB_DEBUG */
+ 
++/* Structure holding parameters for get_partial() call chain */
++struct partial_context {
++	struct slab **slab;
++	gfp_t flags;
++	unsigned int orig_size;
++};
++
+ static inline bool kmem_cache_debug(struct kmem_cache *s)
+ {
+ 	return kmem_cache_debug_flags(s, SLAB_DEBUG_FLAGS);
+@@ -994,7 +1001,8 @@ static int check_bytes_and_report(struct kmem_cache *s, struct slab *slab,
+  *
+  * 	A. Free pointer (if we cannot overwrite object on free)
+  * 	B. Tracking data for SLAB_STORE_USER
+- *	C. Padding to reach required alignment boundary or at minimum
++ *	C. Original request size for kmalloc object (SLAB_STORE_USER enabled)
++ *	D. Padding to reach required alignment boundary or at minimum
+  * 		one word if debugging is on to be able to detect writes
+  * 		before the word boundary.
+  *
+@@ -1310,7 +1318,7 @@ static inline int alloc_consistency_checks(struct kmem_cache *s,
+ }
+ 
+ static noinline int alloc_debug_processing(struct kmem_cache *s,
+-					struct slab *slab, void *object)
++			struct slab *slab, void *object, int orig_size)
+ {
+ 	if (s->flags & SLAB_CONSISTENCY_CHECKS) {
+ 		if (!alloc_consistency_checks(s, slab, object))
+@@ -1587,7 +1595,7 @@ static inline
+ void setup_slab_debug(struct kmem_cache *s, struct slab *slab, void *addr) {}
+ 
+ static inline int alloc_debug_processing(struct kmem_cache *s,
+-	struct slab *slab, void *object) { return 0; }
++	struct slab *slab, void *object, int orig_size) { return 0; }
+ 
+ static inline void free_debug_processing(
+ 	struct kmem_cache *s, struct slab *slab,
+@@ -2017,7 +2025,7 @@ static inline void remove_partial(struct kmem_cache_node *n,
+  * it to full list if it was the last free object.
+  */
+ static void *alloc_single_from_partial(struct kmem_cache *s,
+-		struct kmem_cache_node *n, struct slab *slab)
++		struct kmem_cache_node *n, struct slab *slab, int orig_size)
+ {
+ 	void *object;
+ 
+@@ -2027,7 +2035,7 @@ static void *alloc_single_from_partial(struct kmem_cache *s,
+ 	slab->freelist = get_freepointer(s, object);
+ 	slab->inuse++;
+ 
+-	if (!alloc_debug_processing(s, slab, object)) {
++	if (!alloc_debug_processing(s, slab, object, orig_size)) {
+ 		remove_partial(n, slab);
+ 		return NULL;
+ 	}
+@@ -2046,7 +2054,7 @@ static void *alloc_single_from_partial(struct kmem_cache *s,
+  * and put the slab to the partial (or full) list.
+  */
+ static void *alloc_single_from_new_slab(struct kmem_cache *s,
+-					struct slab *slab)
++					struct slab *slab, int orig_size)
+ {
+ 	int nid = slab_nid(slab);
+ 	struct kmem_cache_node *n = get_node(s, nid);
+@@ -2058,7 +2066,7 @@ static void *alloc_single_from_new_slab(struct kmem_cache *s,
+ 	slab->freelist = get_freepointer(s, object);
+ 	slab->inuse = 1;
+ 
+-	if (!alloc_debug_processing(s, slab, object))
++	if (!alloc_debug_processing(s, slab, object, orig_size))
+ 		/*
+ 		 * It's not really expected that this would fail on a
+ 		 * freshly allocated slab, but a concurrent memory
+@@ -2136,7 +2144,7 @@ static inline bool pfmemalloc_match(struct slab *slab, gfp_t gfpflags);
+  * Try to allocate a partial slab from a specific node.
+  */
+ static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
+-			      struct slab **ret_slab, gfp_t gfpflags)
++			      struct partial_context *pc)
+ {
+ 	struct slab *slab, *slab2;
+ 	void *object = NULL;
+@@ -2156,11 +2164,12 @@ static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
+ 	list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
+ 		void *t;
+ 
+-		if (!pfmemalloc_match(slab, gfpflags))
++		if (!pfmemalloc_match(slab, pc->flags))
+ 			continue;
+ 
+ 		if (kmem_cache_debug(s)) {
+-			object = alloc_single_from_partial(s, n, slab);
++			object = alloc_single_from_partial(s, n, slab,
++							pc->orig_size);
+ 			if (object)
+ 				break;
+ 			continue;
+@@ -2171,7 +2180,7 @@ static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
+ 			break;
+ 
+ 		if (!object) {
+-			*ret_slab = slab;
++			*pc->slab = slab;
+ 			stat(s, ALLOC_FROM_PARTIAL);
+ 			object = t;
+ 		} else {
+@@ -2195,14 +2204,13 @@ static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
+ /*
+  * Get a slab from somewhere. Search in increasing NUMA distances.
+  */
+-static void *get_any_partial(struct kmem_cache *s, gfp_t flags,
+-			     struct slab **ret_slab)
++static void *get_any_partial(struct kmem_cache *s, struct partial_context *pc)
+ {
+ #ifdef CONFIG_NUMA
+ 	struct zonelist *zonelist;
+ 	struct zoneref *z;
+ 	struct zone *zone;
+-	enum zone_type highest_zoneidx = gfp_zone(flags);
++	enum zone_type highest_zoneidx = gfp_zone(pc->flags);
+ 	void *object;
+ 	unsigned int cpuset_mems_cookie;
+ 
+@@ -2230,15 +2238,15 @@ static void *get_any_partial(struct kmem_cache *s, gfp_t flags,
+ 
+ 	do {
+ 		cpuset_mems_cookie = read_mems_allowed_begin();
+-		zonelist = node_zonelist(mempolicy_slab_node(), flags);
++		zonelist = node_zonelist(mempolicy_slab_node(), pc->flags);
+ 		for_each_zone_zonelist(zone, z, zonelist, highest_zoneidx) {
+ 			struct kmem_cache_node *n;
+ 
+ 			n = get_node(s, zone_to_nid(zone));
+ 
+-			if (n && cpuset_zone_allowed(zone, flags) &&
++			if (n && cpuset_zone_allowed(zone, pc->flags) &&
+ 					n->nr_partial > s->min_partial) {
+-				object = get_partial_node(s, n, ret_slab, flags);
++				object = get_partial_node(s, n, pc);
+ 				if (object) {
+ 					/*
+ 					 * Don't check read_mems_allowed_retry()
+@@ -2259,8 +2267,7 @@ static void *get_any_partial(struct kmem_cache *s, gfp_t flags,
+ /*
+  * Get a partial slab, lock it and return it.
+  */
+-static void *get_partial(struct kmem_cache *s, gfp_t flags, int node,
+-			 struct slab **ret_slab)
++static void *get_partial(struct kmem_cache *s, int node, struct partial_context *pc)
+ {
+ 	void *object;
+ 	int searchnode = node;
+@@ -2268,11 +2275,11 @@ static void *get_partial(struct kmem_cache *s, gfp_t flags, int node,
+ 	if (node == NUMA_NO_NODE)
+ 		searchnode = numa_mem_id();
+ 
+-	object = get_partial_node(s, get_node(s, searchnode), ret_slab, flags);
++	object = get_partial_node(s, get_node(s, searchnode), pc);
+ 	if (object || node != NUMA_NO_NODE)
+ 		return object;
+ 
+-	return get_any_partial(s, flags, ret_slab);
++	return get_any_partial(s, pc);
+ }
+ 
+ #ifdef CONFIG_PREEMPTION
+@@ -2996,11 +3003,12 @@ static inline void *get_freelist(struct kmem_cache *s, struct slab *slab)
+  * already disabled (which is the case for bulk allocation).
+  */
+ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+-			  unsigned long addr, struct kmem_cache_cpu *c)
++			  unsigned long addr, struct kmem_cache_cpu *c, unsigned int orig_size)
+ {
+ 	void *freelist;
+ 	struct slab *slab;
+ 	unsigned long flags;
++	struct partial_context pc;
+ 
+ 	stat(s, ALLOC_SLOWPATH);
+ 
+@@ -3114,7 +3122,10 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+ 
+ new_objects:
+ 
+-	freelist = get_partial(s, gfpflags, node, &slab);
++	pc.flags = gfpflags;
++	pc.slab = &slab;
++	pc.orig_size = orig_size;
++	freelist = get_partial(s, node, &pc);
+ 	if (freelist)
+ 		goto check_new_slab;
+ 
+@@ -3130,7 +3141,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+ 	stat(s, ALLOC_SLAB);
+ 
+ 	if (kmem_cache_debug(s)) {
+-		freelist = alloc_single_from_new_slab(s, slab);
++		freelist = alloc_single_from_new_slab(s, slab, orig_size);
+ 
+ 		if (unlikely(!freelist))
+ 			goto new_objects;
+@@ -3162,6 +3173,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+ 		 */
+ 		if (s->flags & SLAB_STORE_USER)
+ 			set_track(s, freelist, TRACK_ALLOC, addr);
++
+ 		return freelist;
+ 	}
+ 
+@@ -3204,7 +3216,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+  * pointer.
+  */
+ static void *__slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+-			  unsigned long addr, struct kmem_cache_cpu *c)
++			  unsigned long addr, struct kmem_cache_cpu *c, unsigned int orig_size)
+ {
+ 	void *p;
+ 
+@@ -3217,7 +3229,7 @@ static void *__slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+ 	c = slub_get_cpu_ptr(s->cpu_slab);
+ #endif
+ 
+-	p = ___slab_alloc(s, gfpflags, node, addr, c);
++	p = ___slab_alloc(s, gfpflags, node, addr, c, orig_size);
+ #ifdef CONFIG_PREEMPT_COUNT
+ 	slub_put_cpu_ptr(s->cpu_slab);
+ #endif
+@@ -3302,7 +3314,7 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s, struct list_l
+ 
+ 	if (!USE_LOCKLESS_FAST_PATH() ||
+ 	    unlikely(!object || !slab || !node_match(slab, node))) {
+-		object = __slab_alloc(s, gfpflags, node, addr, c);
++		object = __slab_alloc(s, gfpflags, node, addr, c, orig_size);
+ 	} else {
+ 		void *next_object = get_freepointer_safe(s, object);
+ 
+@@ -3769,7 +3781,7 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+ 			 * of re-populating per CPU c->freelist
+ 			 */
+ 			p[i] = ___slab_alloc(s, flags, NUMA_NO_NODE,
+-					    _RET_IP_, c);
++					    _RET_IP_, c, s->object_size);
+ 			if (unlikely(!p[i]))
+ 				goto error;
+ 
+@@ -5031,10 +5043,9 @@ static int add_location(struct loc_track *t, struct kmem_cache *s,
+ 		if (pos == end)
+ 			break;
+ 
+-		caddr = t->loc[pos].addr;
+-		chandle = t->loc[pos].handle;
++		caddr = l->addr;
++		chandle = l->handle;
+ 		if ((track->addr == caddr) && (handle == chandle)) {
+-
+ 			l = &t->loc[pos];
+ 			l->count++;
+ 			if (track->when) {
+-- 
+2.34.1
+
+
+--eA2WCFFyGaggxTCQ
+Content-Type: text/x-diff; charset="us-ascii"
+Content-Disposition: attachment;
+	filename="0002-reorder-the-partial_context-initialization.patch"
+
+From 00d06db374449a3151d94d11f7c9bd62d4de0d6b Mon Sep 17 00:00:00 2001
+From: Feng Tang <feng.tang@intel.com>
+Date: Mon, 31 Oct 2022 16:19:12 +0800
+Subject: [PATCH 2/2] reorder the partial_context initialization
+
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+---
+ mm/slub.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/mm/slub.c b/mm/slub.c
+index 6fa3c24742b8..4265d293f4dd 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3010,6 +3010,11 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+ 	unsigned long flags;
+ 	struct partial_context pc;
+ 
++	pc.flags = gfpflags;
++	pc.slab = &slab;
++	pc.orig_size = orig_size;
++	barrier();
++
+ 	stat(s, ALLOC_SLOWPATH);
+ 
+ reread_slab:
+@@ -3122,9 +3127,6 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+ 
+ new_objects:
+ 
+-	pc.flags = gfpflags;
+-	pc.slab = &slab;
+-	pc.orig_size = orig_size;
+ 	freelist = get_partial(s, node, &pc);
+ 	if (freelist)
+ 		goto check_new_slab;
+-- 
+2.34.1
+
+
+--eA2WCFFyGaggxTCQ--
