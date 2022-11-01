@@ -1,35 +1,35 @@
-Return-Path: <kasan-dev+bncBAABBZ6LQGNQMGQEMQSNJRA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBMMPQKNQMGQEYYYXVDY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe3b.google.com (mail-vs1-xe3b.google.com [IPv6:2607:f8b0:4864:20::e3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDA8614232
-	for <lists+kasan-dev@lfdr.de>; Tue,  1 Nov 2022 01:18:48 +0100 (CET)
-Received: by mail-vs1-xe3b.google.com with SMTP id a6-20020a671a06000000b003986a4e277dsf2908963vsa.12
-        for <lists+kasan-dev@lfdr.de>; Mon, 31 Oct 2022 17:18:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1667261927; cv=pass;
+Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F8961435B
+	for <lists+kasan-dev@lfdr.de>; Tue,  1 Nov 2022 03:43:05 +0100 (CET)
+Received: by mail-io1-xd3d.google.com with SMTP id u11-20020a6b490b000000b006bbcc07d893sf9740824iob.9
+        for <lists+kasan-dev@lfdr.de>; Mon, 31 Oct 2022 19:43:05 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1667270577; cv=pass;
         d=google.com; s=arc-20160816;
-        b=kEG1vJGll/6G7AHLkTLCKO7BwZRmrGxBhcqb/Lz14rohEf1FAvtcquROQXv4OGql7H
-         x/CbNrXHVr+A++eKRzM3WdqHCYhBNqs0obNIMeq0Kc9LjQ381wVgh2mh2NhOCqAewa7/
-         hy8P244pR7pEBp5lRL9tcCvyGOJAi5Z0Aa9E/sd85P8qpjtk4KUOf1bjqUJIwrxKmncf
-         gYO11UgyrrnCsiC+5twEMKa83JkR+qbCfvmstgZoIYYwes8fqVKDK8wBshncZJtGWeov
-         7zr76xGkz8iFIqZeJJpEZy0uFIODPpRXtTvcokIMbw/IEPXKBOPRoBlF0RHSVPkqt8i9
-         z72g==
+        b=uBxGnMEfDrPBsPx/7Jktg2+y9u+tKOd6BlQxaYMq+gLBrbbwi4y7zu896oSysri41J
+         UJxka27U93SI/FHitKFtzQlyytvi6qih40B/OnJ2TIHy37tyPGkCknMs70rUt0jWf+sg
+         3k9RyJcTmI4ujlS/W0ztRONhxk0C5OG0nnaDVYoXnAwbsM4l1mT/CCIMenEUJiQoGFka
+         4YFBrlYyFe/qxeWuK+YA1DvxQVuWti7s1bw3X8UPb076ZQ6AWt4wTe4yFOXuSuPl27YS
+         5a10MKAmjLe9mmsgIlO3kr4eZnYhiPBLqPSwBmnSD4V4SPmDPT4WVgOaADXZTRLU0b1J
+         nQHQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:subject:cc:to:from:date:references
          :in-reply-to:message-id:mime-version:user-agent:feedback-id:sender
          :dkim-signature;
-        bh=t3mhP7ICU0ZvQlXWn7SZPX3I7+2TRutiz3n280KqScM=;
-        b=BPhi7Fr56Ix4MWlLiiNIlB4Nc68Gh/ihTMztRJp4YkEtyIIC01hNBljNf+1DCswYuH
-         oOqndEvEhdhDR6zZyZJhh5nwSQT8emOioYD7yIajd7ZcYrfwoF4H2T0sTt8F4PK6wDUJ
-         Nb7lQRJnft8ND9YN7PFYox++jEcVlXqSYm2I9AmeNkUkV00zSyngSF5Mas6VGSpDf5US
-         TEFqDzMBUfzJKzGIxsL9j/YS+Oj3brhL+b2T1YWwZUn4+usmAsxg/TdmvDJlSTlkNmWG
-         LKlBjlupnwk1rFOFhsKJl5aM9l4fFcbegCd7XpD46FMhktTWnORZxwGi/Pqfb954Lvq4
-         QV+g==
+        bh=is/9HhbT8i9Wdu02RKpXh+SSOnDv58+A9NtSyc1yu9k=;
+        b=q5WW5XurZK6oueNCu5Ef1PHPIfJtvDfseHC4nYQxgKnh3pSZ4Sg3xjFthwMEkEUvxb
+         Z/YistFSHDLQm82TZRlSS3YF7h5cYjFFkl48T6CE90h0OD6iK3JjGBtnX4QmYJveEuda
+         2rzewFBVGunHmUd3RqscH/h8OiuVqw8wjJfhpQBA8TsKDqw+4Lyot2KkT/3vA2dKsXHI
+         r+ScP9plXCh6WvqOD2sf89m+df+l8HqRh0R5Hw32WSi8MO5geSBeYOwkuI7/7NaBcXx6
+         2bwqUpFFAMFwVXXrYFlf7Z8cCxmswmismUR2A1WO7YDFo2LmkXSHi+/KBuOeqcfUxRz0
+         xbGA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@fastmail.com.au header.s=fm3 header.b=J1pUU7BE;
-       dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Z3P5fypn;
-       spf=pass (google.com: domain of lists@johnthomson.fastmail.com.au designates 66.111.4.25 as permitted sender) smtp.mailfrom=lists@johnthomson.fastmail.com.au;
+       dkim=pass header.i=@fastmail.com.au header.s=fm3 header.b=TLdlHt4n;
+       dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Htik0XU8;
+       spf=pass (google.com: domain of lists@johnthomson.fastmail.com.au designates 66.111.4.26 as permitted sender) smtp.mailfrom=lists@johnthomson.fastmail.com.au;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=fastmail.com.au
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -38,13 +38,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:subject:cc:to:from:date:references:in-reply-to
          :message-id:mime-version:user-agent:feedback-id:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t3mhP7ICU0ZvQlXWn7SZPX3I7+2TRutiz3n280KqScM=;
-        b=eS6gwCy7gDIEwIvzMo8CxHJZlA8YeOQLbDxztupqn5nOIz8cm8ttM8484WZCnqxVd5
-         HpKoGpjz3trku6nBZRuZCOp8AbJjrwZlUi77XFYp/jq6bCeaFTy2AujccwN1I2LQV/o6
-         BcJ8mC+zqI/jt5cGJBsUuf7aP9tvL1MLudpO+hcCU9UMMEu45qCRyp1Tbo2ezLqha1RM
-         eZTD+x5nAgrqw9s3+j12VUVpTO7gpjlR0YoeSd6boNOyJXvkAeDWvZYUHxRd72GjMO/V
-         80gwOQWtgJi2FTwVmJ259QNzOilSF81Hj2jsw8LaVbZX5KsCAXoYSKUXR/lb+RsU3e7F
-         7vXQ==
+        bh=is/9HhbT8i9Wdu02RKpXh+SSOnDv58+A9NtSyc1yu9k=;
+        b=aC/Rtky8d2Wpcdu7gvtAjIuYlFOHBTGfj1qN21kJ+KWL7sJJaZT3N6nFes40Ds16VK
+         DhoSx3y3tJmhkXTCM5e6+FzVZGQjNe6fT9R50dhsFMg6cTLPvP9GhAdHYE7XxQ5HiTOm
+         e0Gf3vbzHlY2QhNn4DscWdHO2vnNyKh+Vw0w/RJacnES+uX31N7o+3foHef9h/FVUejm
+         yaateV5OVwXyx0p6jT0c+MMpN5dP8Ih4Kszd78XgzhoH0HojQkjOVteNqO6vuKi26PY5
+         6RLWFT3vBs1E8LniVJwakLoJAff++FLKRAFpBS+rDcFAkQO01dkQprfOsa8z2Moan1L7
+         RJMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -53,62 +53,63 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :from:date:references:in-reply-to:message-id:mime-version:user-agent
          :feedback-id:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t3mhP7ICU0ZvQlXWn7SZPX3I7+2TRutiz3n280KqScM=;
-        b=upWI1s1+OKUTE/62Vxaccfj88qxpnSk1dh5GQuoT92rd5UCvdfcQTnI1hqf9w0lkYg
-         AZjCC5WQhIDFzBcaO3ZA7TtJbFh/7kmgxz0Y7XQnufTVF0dwv04rLcx6Y1aMbw7XBpwU
-         iIo9XKtC5jS2kQZSYW5olC8IygM3aaTLpwOTKNxCH14mATbBCFytMeLYo+nyWAjlQiKJ
-         9ee7pcRo2UAK5bSAuNwv6v9lZTK+bQ3dRGt1F6trjZzl2w3hDjnsu3HUyWMtlEdBqzdL
-         8fdThnPm85QgEmHY1yEPp9UT2HX0GquQgjfAzv3YTj0ihcxEdxaXn/4p3aNH3K8IBVz+
-         U4LA==
+        bh=is/9HhbT8i9Wdu02RKpXh+SSOnDv58+A9NtSyc1yu9k=;
+        b=S/c0pjiXxvmItpX2SbSqGJPjxQ5FlrTowB2tKI89O7gsjTWe2yVbq2pFMmGozbKOKm
+         nh+84+UhrYsM43myAZUBsj6XbhIYp1nBdaFySyyt0WZtCbD5H3/ZwsKvN9gwoBYrIlvy
+         vvCHHSqSyTsLcvvmjdKHs0F1PTENBZLHDOmmzc1kGIFlkIIP18h8Z2sW6Oan3tZZtzRq
+         6BHlOQ76mkFdcd+iVNu1/XPt+9mpQ3/k6W254A63T9c8tlkKJAUzmP1H3YjMNLHdADn2
+         LWmCO5hFkB53vAVQGutM1eZftqP+B+VeK4+HoM8A34cGWf25MQ7E/RyQT6jEqkopWTmO
+         Xefg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf2IGv2dLxSHGTJqxgIJocbLVA7bjFdhocORm06suuMCRDFkryFP
-	3FHkvvuRTTDpwt9a7kmGPWA=
-X-Google-Smtp-Source: AMsMyM7XXpwsuHf+S0Oe8WMwJHLepGK/P7vN3J55KIFH3Fj3gqPvJgsdPC86auqVAinBGHbguMAhzA==
-X-Received: by 2002:a1f:4a47:0:b0:3a2:e1f5:6801 with SMTP id x68-20020a1f4a47000000b003a2e1f56801mr6372450vka.20.1667261927631;
-        Mon, 31 Oct 2022 17:18:47 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1aZiz76vm+JCOkVHkB0LOeoC3sydiIZve49FB3QHCJcZ2kcRRa
+	h2K00OXkz7W7O3QNamZqjrE=
+X-Google-Smtp-Source: AMsMyM7qfeq1L1WKjEfcq7SYYajoiaf9zKa4AtoKkqFjdejRFF8nggaQHjNMeBmNaghvwHke3tTfWw==
+X-Received: by 2002:a92:cb44:0:b0:300:97b6:28ae with SMTP id f4-20020a92cb44000000b0030097b628aemr8111195ilq.234.1667270577593;
+        Mon, 31 Oct 2022 19:42:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:cb07:0:b0:3aa:3916:1726 with SMTP id b7-20020a67cb07000000b003aa39161726ls2097819vsl.8.-pod-prod-gmail;
- Mon, 31 Oct 2022 17:18:47 -0700 (PDT)
-X-Received: by 2002:a67:eada:0:b0:3aa:236a:11d7 with SMTP id s26-20020a67eada000000b003aa236a11d7mr6200763vso.56.1667261927031;
-        Mon, 31 Oct 2022 17:18:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1667261927; cv=none;
+Received: by 2002:a05:6e02:df3:b0:2ff:8169:470 with SMTP id
+ m19-20020a056e020df300b002ff81690470ls2061292ilj.2.-pod-prod-gmail; Mon, 31
+ Oct 2022 19:42:57 -0700 (PDT)
+X-Received: by 2002:a92:a00c:0:b0:2e9:a556:8939 with SMTP id e12-20020a92a00c000000b002e9a5568939mr9104317ili.50.1667270577068;
+        Mon, 31 Oct 2022 19:42:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1667270577; cv=none;
         d=google.com; s=arc-20160816;
-        b=rBWrlvjnVS1U+jaXL7zmrMFfn8TdprgiQlBl4WkvBNOp8QKO9Qd1n1aDpyLFQY+UJg
-         YevYj6IRsvV9Xu4+au3L+uJhNeaOkBQnEmvhLapL3ikJUg20naCFyrGftwGG/F7DjT6R
-         cNyGc9RTedRM9cdCwWRTPn7e8NVDAwjiIXNdeb8YIl90Le4zAZ/FZ66W8HJplJ9Gxw1C
-         Unsb54Pw5yGWjkY7bKz0F5AqWvREqJoojr+Ah31ksVHOALpkA/qenAqGGvB14hIVMmqa
-         A+buvR/CKZDIVYguWBX0VwROCdJKsReStoTgVMw8NXJLGtGrb+/Q9X289nXlUYw20oEs
-         pe8w==
+        b=Qs8/Zf6p3UmYRBlJv04NJN+FWOh6Lbb1vWQyhLuW6DPseBXyckxxg93QYnCtaczfhl
+         qZLXxz70NfJLCxBdARrA6sNq+P8f483aPTCfOgjWqHRZIorr+mxH6RKBQj9mpZB9z+94
+         WiFF5s61YwzpvlKDWuBCP142Q/vwErbyFtxKPIa6mdNl9ltXlSAuKoUzB9zeUoNITarV
+         zBgfBU6jzD+lla/x5FyiSo5B82cImvowJm6DFk/0YHN5XxbTbWdfCnI6ov2pVfQKsBJV
+         TKamrhNaF4ZV9WDUMQPCa4VvZYbclsDJc7OZrAffU1WoDY/5j9RMgoNkyXZrK8B+t3TG
+         jxWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=subject:cc:to:from:date:references:in-reply-to:message-id
          :mime-version:user-agent:feedback-id:dkim-signature:dkim-signature;
-        bh=fimXTSH5ZLpHfGKWM0j4zT+1so1IP4NpiYE5OssGC/c=;
-        b=F7cWELFgTmolKK1509E8omwQ8q4EHFOKoIFTkc4GDWy3Gclh8m4QvPP68Dy0neWI6H
-         V8G+/2eAsqDv3Oj7NpX9VV5Tzy2opQiObffhYvQZWYgo/ddVhZsw3dJnLRn+yGebRU8k
-         s437JbpfGi7tbMdr7R75wsgzHQirhDxc5IH1tZatWNKXQYpc9ivjG6o6zCtYG3rFKBPT
-         gOdx7pPNdkyzbf7Zhu7e54MApm2985qCfCFNfzKQBMpQ30pxA1K+wy06S8LNc2efsxhr
-         dHAf6iWmPpxrX+FyraBI5CvMllAi5Qr//ykw9/dLmIAHxytaQujZarvAOg89VNN44zOg
-         tHsA==
+        bh=/dwKm9SsHVF+uc6H4cCJSM/BggzQOsC1bv5VwAzfx5w=;
+        b=JRQ04kRTF3mZ6xCOV9OnVoZ9oLZV9QbcBYw54lT9FWv8KZnZ7UyEu88wdRuCQLvmej
+         dJIjkgSjylvFofON+I7kg7f5SLEhTX3vIyw7EJRAX8+jEUfwvfSycm04Dc2JiEUyeeBm
+         PERDjUZOxYRWvnD4/SXxiKJg/RES6UsbKUgktvc2vVECFZ7YNiNCrc/3ioc4574v+GRV
+         zCjabvn0vgJD18Fsvd2b7P45XOKOJ0HWBdHoxxssk73J5Ac4x/2lMT1eWFA6li1qDV3p
+         4zOjVIj8zCepJIwwSZ+umAHHdLr9/HcfDyFeU9/4ffVjS6mepc5vD4HHFIR7nVzmukdd
+         3dxg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@fastmail.com.au header.s=fm3 header.b=J1pUU7BE;
-       dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Z3P5fypn;
-       spf=pass (google.com: domain of lists@johnthomson.fastmail.com.au designates 66.111.4.25 as permitted sender) smtp.mailfrom=lists@johnthomson.fastmail.com.au;
+       dkim=pass header.i=@fastmail.com.au header.s=fm3 header.b=TLdlHt4n;
+       dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Htik0XU8;
+       spf=pass (google.com: domain of lists@johnthomson.fastmail.com.au designates 66.111.4.26 as permitted sender) smtp.mailfrom=lists@johnthomson.fastmail.com.au;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=fastmail.com.au
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com. [66.111.4.25])
-        by gmr-mx.google.com with ESMTPS id m14-20020a67f70e000000b003980b6c8861si346525vso.2.2022.10.31.17.18.46
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com. [66.111.4.26])
+        by gmr-mx.google.com with ESMTPS id l10-20020a92d94a000000b002f93f7596c4si367182ilq.4.2022.10.31.19.42.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 17:18:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lists@johnthomson.fastmail.com.au designates 66.111.4.25 as permitted sender) client-ip=66.111.4.25;
+        Mon, 31 Oct 2022 19:42:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of lists@johnthomson.fastmail.com.au designates 66.111.4.26 as permitted sender) client-ip=66.111.4.26;
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7E4A85C00DA;
-	Mon, 31 Oct 2022 20:18:46 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id 5ACD65C00CD;
+	Mon, 31 Oct 2022 22:42:56 -0400 (EDT)
 Received: from imap46 ([10.202.2.96])
-  by compute5.internal (MEProxy); Mon, 31 Oct 2022 20:18:46 -0400
-X-ME-Sender: <xms:5GVgY699hbxKzHuSY6C2zB1vzbhcJfrTYBFw6zJIpB0Y4UJcVYiC2g>
-    <xme:5GVgY6vZCxv6bDUxsAm6ECgsB2g9DwFjykHr9X8z2-fhtsqQewgojfFCsS2ZN0Gem
-    L2S4UyW-eSGBPz8YQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudeggddvudcutefuodetggdotefrodftvf
+  by compute5.internal (MEProxy); Mon, 31 Oct 2022 22:42:56 -0400
+X-ME-Sender: <xms:r4dgY_bJ1KJuRJjGxL5d2A1xbcMAQY-ZyYw6m5gSovZFnxeEQfbncQ>
+    <xme:r4dgY-Ydy0wW6Fcg7Isc_xSmKcXaAQXICu6vFo4n5WpfHenG1TTai1ptkS30f14CW
+    goqIAG_HPY6J2QQ7A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudeggdehudcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdflohhh
@@ -117,27 +118,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudeggddvudcutefuodetggdote
     vddvkeevvdehfeehieejhffhhfejkeejgfelveegnecuvehluhhsthgvrhfuihiivgeptd
     enucfrrghrrghmpehmrghilhhfrhhomheplhhishhtshesjhhohhhnthhhohhmshhonhdr
     fhgrshhtmhgrihhlrdgtohhmrdgruh
-X-ME-Proxy: <xmx:5GVgYwConxQxZaHrkMScgBLIVSfU_n2Q3-eVscNgZ7QvjD9QPpy_Kw>
-    <xmx:5GVgYyf0zV0xhlUqYS56AExooi7Go68jlav443JUV4mdOG-MOaYogw>
-    <xmx:5GVgY_PCQxx2lzkC0UmAE1Q1FianhfOY5q98ekgxZsOkucT7AlWxIA>
-    <xmx:5mVgY8eDrdN-eX_8gePN0WeOq5TVkwVKJcRXn_uu2i0yNWSbisKDWQ>
-Feedback-ID: ia7894244:Fastmail
+X-ME-Proxy: <xmx:r4dgYx-3wCqeEnC193H4AU_rM8kJGYOZK-LASIRiBJCWRlfU2AAXQQ>
+    <xmx:r4dgY1o-C1CZzeI_jHgsDJJXr--Hep3Qq0ngZQO_BTKnmXNF5jzPyQ>
+    <xmx:r4dgY6osCvI8vH-fIgn5PS-JyBEd4uziuvu1b7USSv2CXZENXTeUxA>
+    <xmx:sIdgY9-75UVaJPCJLVIZXwEcZ6OcwmYiHX-VDM2UfA9_xQEEjybcCg>
+Feedback-ID: if0294502:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A370A2A20080; Mon, 31 Oct 2022 20:18:44 -0400 (EDT)
+	id 0E03D2A20080; Mon, 31 Oct 2022 22:42:54 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
 Mime-Version: 1.0
-Message-Id: <9b71ae3e-7f53-4c9e-90c4-79d3d649f94c@app.fastmail.com>
-In-Reply-To: <Y1+0sbQ3R4DB46NX@feng-clx>
+Message-Id: <00ce752c-17e0-4813-afa3-fe1510545b23@app.fastmail.com>
+In-Reply-To: <9b71ae3e-7f53-4c9e-90c4-79d3d649f94c@app.fastmail.com>
 References: <20220913065423.520159-1-feng.tang@intel.com>
  <20220913065423.520159-2-feng.tang@intel.com>
  <becf2ac3-2a90-4f3a-96d9-a70f67c66e4a@app.fastmail.com>
  <af2ba83d-c3f4-c6fb-794e-c2c7c0892c44@suse.cz> <Y180l6zUnNjdCoaE@feng-clx>
  <c4285caf-277c-45fd-8fc7-8a1d61685ce8@app.fastmail.com>
  <Y1+0sbQ3R4DB46NX@feng-clx>
-Date: Tue, 01 Nov 2022 00:18:19 +0000
+ <9b71ae3e-7f53-4c9e-90c4-79d3d649f94c@app.fastmail.com>
+Date: Tue, 01 Nov 2022 02:41:45 +0000
 From: "John Thomson" <lists@johnthomson.fastmail.com.au>
-To: "Feng Tang" <feng.tang@intel.com>
+To: "John Thomson" <lists@johnthomson.fastmail.com.au>,
+ "Feng Tang" <feng.tang@intel.com>
 Cc: "Vlastimil Babka" <vbabka@suse.cz>,
  "Andrew Morton" <akpm@linux-foundation.org>,
  "Christoph Lameter" <cl@linux.com>, "Pekka Enberg" <penberg@kernel.org>,
@@ -157,10 +160,10 @@ Subject: Re: [PATCH v6 1/4] mm/slub: enable debugging memory wasting of kmalloc
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: lists@johnthomson.fastmail.com.au
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@fastmail.com.au header.s=fm3 header.b=J1pUU7BE;       dkim=pass
- header.i=@messagingengine.com header.s=fm3 header.b=Z3P5fypn;       spf=pass
+ header.i=@fastmail.com.au header.s=fm3 header.b=TLdlHt4n;       dkim=pass
+ header.i=@messagingengine.com header.s=fm3 header.b=Htik0XU8;       spf=pass
  (google.com: domain of lists@johnthomson.fastmail.com.au designates
- 66.111.4.25 as permitted sender) smtp.mailfrom=lists@johnthomson.fastmail.com.au;
+ 66.111.4.26 as permitted sender) smtp.mailfrom=lists@johnthomson.fastmail.com.au;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=fastmail.com.au
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -174,107 +177,192 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 31 Oct 2022, at 11:42, Feng Tang wrote:
-> On Mon, Oct 31, 2022 at 10:05:58AM +0000, John Thomson wrote:
->> On Mon, 31 Oct 2022, at 02:36, Feng Tang wrote:
->> >> > 
->> >> > possibly relevant config options:
->> >> > grep -E '(SLUB|SLAB)' .config
->> >> > # SLAB allocator options
->> >> > # CONFIG_SLAB is not set
->> >> > CONFIG_SLUB=y
->> >> > CONFIG_SLAB_MERGE_DEFAULT=y
->> >> > # CONFIG_SLAB_FREELIST_RANDOM is not set
->> >> > # CONFIG_SLAB_FREELIST_HARDENED is not set
->> >> > # CONFIG_SLUB_STATS is not set
->> >> > CONFIG_SLUB_CPU_PARTIAL=y
->> >> > # end of SLAB allocator options
->> >> > # CONFIG_SLUB_DEBUG is not set
->> >> 
->> >> Also not having CONFIG_SLUB_DEBUG enabled means most of the code the 
->> >> patch/commit touches is not even active.
->> >> Could this be some miscompile or code layout change exposing some 
->> >> different bug, hmm.
->> 
->> Yes, it could be.
->> 
->> >> Is it any different if you do enable CONFIG_SLUB_DEBUG ?
->> 
->> No change
->> 
->> >> Or change to CONFIG_SLAB? (that would be really weird if not)
->> 
->> This boots fine
->> 
->> > I haven't found any clue from the code either, and I compiled
->> > kernel with the config above and tested booting on an Alder-lake
->> > desktop and a QEMU, which boot fine.
->> >
->> > Could you provide the full kernel config and demsg (in compressed
->> > format if you think it's too big), so we can check more?
->> 
->> Attached
->> 
->> > Thanks,
->> > Feng
->> 
->> vmlinux is bigger, and entry point is larger (0x8074081c vs 0x807407dc revert vs 0x8073fcbc),
->> so that may be it? Or not?
->> revert + SLUB_DEBUG + SLUB_DEBUG_ON is bigger still, but does successfully boot.
->> vmlinux entry point is 0x8074705c
+
+On Tue, 1 Nov 2022, at 00:18, John Thomson wrote:
+> I may have got lucky. it appears as though this is all I need to boot:
+> (against 6.1-rc3), and with the Bootlin toolchain. Will test my other 
+> build system as well.
 >
-> Thanks for prompt info!
->
-> As I can't reproduce it locally yet, could you help try 3 tests separately:
-> * change the O2/O3 compile option to O1
-> * try the attached 0001 patch (which cut part of commit)
-> * try attached 0001+0002 patch
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -3276,7 +3276,7 @@ static void *__slab_alloc(struct kmem_cache *s, 
+> gfp_t gfpflags, int node,
+>         c = slub_get_cpu_ptr(s->cpu_slab);
+>  #endif
+> 
+> -       p = ___slab_alloc(s, gfpflags, node, addr, c, orig_size);
+> +       p = ___slab_alloc(s, gfpflags, node, addr, c, 0);
+>  #ifdef CONFIG_PREEMPT_COUNT
+>         slub_put_cpu_ptr(s->cpu_slab);
+>  #endif
 
-None of these changed my outcome.
-
-I also tried compiling the same linux tree & config with the Bootlin toolchain
-(mipsel-buildroot-linux-gnu-gcc.br_real (Buildroot 2021.11-4428-g6b6741b) 12.2.0)
-with the same results.
-I will look into finding or building a mips clang toolchain.
-
-No JTAG capability to debug, sorry.
-
-I get the same outcome with either the ZBOOT vmlinuz, or vmlinux
-
-Same happening with 6.1-rc3
+Tested that with and without SLUB_DEBUG
 
 
-After some blind poking around changing (how much of the commit affected) mm/slub.c,
-I may have got lucky. it appears as though this is all I need to boot:
-(against 6.1-rc3), and with the Bootlin toolchain. Will test my other build system as well.
-
+Testing without SLUB_DEBUG below:
+With this change on 6.1-rc3:
+diff --git a/mm/slub.c b/mm/slub.c
+index 157527d7101b..5fdb7609bb9e 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -3276,7 +3276,7 @@ static void *__slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
-        c = slub_get_cpu_ptr(s->cpu_slab);
- #endif
+@@ -3410,6 +3410,8 @@ static __always_inline
+ void *__kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+                             gfp_t gfpflags)
+ {
++
++       pr_warn("SLUB: __slab_alloc from slab_alloc s->object_size=%d\n", s->object_size);
+        void *ret = slab_alloc(s, lru, gfpflags, _RET_IP_, s->object_size);
  
--       p = ___slab_alloc(s, gfpflags, node, addr, c, orig_size);
-+       p = ___slab_alloc(s, gfpflags, node, addr, c, 0);
- #ifdef CONFIG_PREEMPT_COUNT
-        slub_put_cpu_ptr(s->cpu_slab);
- #endif
+        trace_kmem_cache_alloc(_RET_IP_, ret, s, gfpflags, NUMA_NO_NODE);
 
 
-Would like to hear your thoughts, but I will keep digging.
+UART & boot stops here:
+transfer started ......................................... transfer ok, time=2.00s
+setting up elf image... OK
+jumping to kernel code
+zimage at:     80B842A0 810B4BE4
 
->
-> Thanks!
->
->
-> - Feng
->
->
->
->
-> Attachments:
-> * 0001-reduced-slub-patch.patch
-> * 0002-reorder-the-partial_context-initialization.patch
+Uncompressing Linux at load address 80001000
+
+Copy device tree to address  80B80EE0
+
+Now, booting the kernel...
+
+[    0.000000] Linux version 6.1.0-rc3+ (john@john) (mipsel-buildroot-linux-gnu-gcc.br_real (Buildroot 2021.11-4428-g6b6741b) 12.2.0, GNU ld (GNU Binutils) 2.39) #34 SMP Tue Nov  1 12:33:10 AEST 2022
+[    0.000000] Overriding previously set SMP ops
+[    0.000000] SoC Type: MediaTek MT7621 ver:1 eco:3
+[    0.000000] printk: bootconsole [early0] enabled
+[    0.000000] CPU0 revision is: 0001992f (MIPS 1004Kc)
+[    0.000000] MIPS: machine is MikroTik RouterBOARD 760iGS
+[    0.000000] Initrd not found or empty - disabling initrd
+[    0.000000] VPE topology {2,2} total 4
+[    0.000000] Primary instruction cache 32kB, VIPT, 4-way, linesize 32 bytes.
+[    0.000000] Primary data cache 32kB, 4-way, PIPT, no aliases, linesize 32 bytes
+[    0.000000] MIPS secondary cache 256kB, 8-way, linesize 32 bytes.
+[    0.000000] Zone ranges:
+[    0.000000]   Normal   [mem 0x0000000000000000-0x000000000fffffff]
+[    0.000000]   HighMem  empty
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000000000000-0x000000000fffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x000000000fffffff]
+[    0.000000] percpu: Embedded 11 pages/cpu s16064 r8192 d20800 u45056
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 64960
+[    0.000000] Kernel command line: earlyprintk=ttyS0,115200 console=ttyS0,115200 rootfstype=squashfs,jffs2
+[    0.000000] Unknown kernel command line parameters "earlyprintk=ttyS0,115200", will be passed to user space.
+[    0.000000] Dentry cache hash table entries: 32768 (order: 5, 131072 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 16384 (order: 4, 65536 bytes, linear)
+[    0.000000] Writing ErrCtl register=00011146
+[    0.000000] Readback ErrCtl register=00011146
+[    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
+[    0.000000] Memory: 246284K/262144K available (7417K kernel code, 630K rwdata, 1304K rodata, 3500K init, 245K bss, 15860K reserved, 0K cma-reserved, 0K highmem)
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=32
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=132
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=300
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] 	Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 10 jiffies.
+[    0.000000] NR_IRQS: 256
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=512
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=512
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=256
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=256
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=256
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=128
+[    0.000000] clocksource: GIC: mask: 0xffffffffffffffff max_cycles: 0xcaf478abb4, max_idle_ns: 440795247997 ns
+[    0.000000] SLUB: __slab_alloc from slab_alloc s->object_size=256
+[    0.000004] sched_clock: 64 bits at 880MHz, resolution 1ns, wraps every 4398046511103ns
+
+
+This change, and kernel boots fine:
+
+diff --git a/mm/slub.c b/mm/slub.c
+index 157527d7101b..e9677c04d19c 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3410,7 +3410,11 @@ static __always_inline
+ void *__kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+                             gfp_t gfpflags)
+ {
+-       void *ret = slab_alloc(s, lru, gfpflags, _RET_IP_, s->object_size);
++
++       /*
++       pr_warn("SLUB: __slab_alloc from slab_alloc s->object_size=%d\n", s->object_size);
++       void *ret = slab_alloc(s, lru, gfpflags, _RET_IP_, s->object_size);*/
++       void *ret = slab_alloc(s, lru, gfpflags, _RET_IP_, 0);
+ 
+        trace_kmem_cache_alloc(_RET_IP_, ret, s, gfpflags, NUMA_NO_NODE);
+ 
+
+
+Cheers,
 
 -- 
   John Thomson
@@ -282,4 +370,4 @@ Would like to hear your thoughts, but I will keep digging.
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/9b71ae3e-7f53-4c9e-90c4-79d3d649f94c%40app.fastmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/00ce752c-17e0-4813-afa3-fe1510545b23%40app.fastmail.com.
