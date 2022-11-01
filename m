@@ -1,187 +1,167 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBBRHJ72NAMGQEH5RSO7I@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBZ6LQGNQMGQEMQSNJRA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9266E6134B2
-	for <lists+kasan-dev@lfdr.de>; Mon, 31 Oct 2022 12:43:01 +0100 (CET)
-Received: by mail-lf1-x13e.google.com with SMTP id cf15-20020a056512280f00b004a28ba148bbsf3244097lfb.22
-        for <lists+kasan-dev@lfdr.de>; Mon, 31 Oct 2022 04:43:01 -0700 (PDT)
+Received: from mail-vs1-xe3b.google.com (mail-vs1-xe3b.google.com [IPv6:2607:f8b0:4864:20::e3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDDA8614232
+	for <lists+kasan-dev@lfdr.de>; Tue,  1 Nov 2022 01:18:48 +0100 (CET)
+Received: by mail-vs1-xe3b.google.com with SMTP id a6-20020a671a06000000b003986a4e277dsf2908963vsa.12
+        for <lists+kasan-dev@lfdr.de>; Mon, 31 Oct 2022 17:18:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1667261927; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=kEG1vJGll/6G7AHLkTLCKO7BwZRmrGxBhcqb/Lz14rohEf1FAvtcquROQXv4OGql7H
+         x/CbNrXHVr+A++eKRzM3WdqHCYhBNqs0obNIMeq0Kc9LjQ381wVgh2mh2NhOCqAewa7/
+         hy8P244pR7pEBp5lRL9tcCvyGOJAi5Z0Aa9E/sd85P8qpjtk4KUOf1bjqUJIwrxKmncf
+         gYO11UgyrrnCsiC+5twEMKa83JkR+qbCfvmstgZoIYYwes8fqVKDK8wBshncZJtGWeov
+         7zr76xGkz8iFIqZeJJpEZy0uFIODPpRXtTvcokIMbw/IEPXKBOPRoBlF0RHSVPkqt8i9
+         z72g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:subject:cc:to:from:date:references
+         :in-reply-to:message-id:mime-version:user-agent:feedback-id:sender
+         :dkim-signature;
+        bh=t3mhP7ICU0ZvQlXWn7SZPX3I7+2TRutiz3n280KqScM=;
+        b=BPhi7Fr56Ix4MWlLiiNIlB4Nc68Gh/ihTMztRJp4YkEtyIIC01hNBljNf+1DCswYuH
+         oOqndEvEhdhDR6zZyZJhh5nwSQT8emOioYD7yIajd7ZcYrfwoF4H2T0sTt8F4PK6wDUJ
+         Nb7lQRJnft8ND9YN7PFYox++jEcVlXqSYm2I9AmeNkUkV00zSyngSF5Mas6VGSpDf5US
+         TEFqDzMBUfzJKzGIxsL9j/YS+Oj3brhL+b2T1YWwZUn4+usmAsxg/TdmvDJlSTlkNmWG
+         LKlBjlupnwk1rFOFhsKJl5aM9l4fFcbegCd7XpD46FMhktTWnORZxwGi/Pqfb954Lvq4
+         QV+g==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@fastmail.com.au header.s=fm3 header.b=J1pUU7BE;
+       dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Z3P5fypn;
+       spf=pass (google.com: domain of lists@johnthomson.fastmail.com.au designates 66.111.4.25 as permitted sender) smtp.mailfrom=lists@johnthomson.fastmail.com.au;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=fastmail.com.au
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to:content-disposition
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :x-original-sender:subject:cc:to:from:date:references:in-reply-to
+         :message-id:mime-version:user-agent:feedback-id:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q5X4k851/hxaAOR7M76TDKvrAggdcPItxUmm6Vho6eY=;
-        b=dIChpoBqg7j9hLlsuMObv/LWf3BmpF9FguKPrOV+WSghaRO+ZUYqwPnL7zENyWFZVQ
-         wW0zE8Ny28QMhmTyoFQsoBjOYbD9pB0EOd2P9z+uFABZFwaSwtiDO+VeRLiGkBdLS0lE
-         3GEdjvdprvX7MtvX653/A7VloijIhzLnFBekZ7Ey9BJM7yRLi/DjXNpfK0fkMe9+QUPx
-         wQyQaUxT+42oYRz7GHoJC7oRBRuwWVmOxO+A24M6MbsXG2TOB4J+1ufixHqVaC0RbjHA
-         oOL1ICjkOYCS+njP9Do8UcsZ+9/O7d+WsGZxbAon7FN4Bk9tnuI4rQK/Vt1Q8mdsXKnB
-         sCBw==
+        bh=t3mhP7ICU0ZvQlXWn7SZPX3I7+2TRutiz3n280KqScM=;
+        b=eS6gwCy7gDIEwIvzMo8CxHJZlA8YeOQLbDxztupqn5nOIz8cm8ttM8484WZCnqxVd5
+         HpKoGpjz3trku6nBZRuZCOp8AbJjrwZlUi77XFYp/jq6bCeaFTy2AujccwN1I2LQV/o6
+         BcJ8mC+zqI/jt5cGJBsUuf7aP9tvL1MLudpO+hcCU9UMMEu45qCRyp1Tbo2ezLqha1RM
+         eZTD+x5nAgrqw9s3+j12VUVpTO7gpjlR0YoeSd6boNOyJXvkAeDWvZYUHxRd72GjMO/V
+         80gwOQWtgJi2FTwVmJ259QNzOilSF81Hj2jsw8LaVbZX5KsCAXoYSKUXR/lb+RsU3e7F
+         7vXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-original-authentication-results:x-original-sender:subject:cc:to
+         :from:date:references:in-reply-to:message-id:mime-version:user-agent
+         :feedback-id:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q5X4k851/hxaAOR7M76TDKvrAggdcPItxUmm6Vho6eY=;
-        b=kydPdhQSiiCKdBzLaIXZr77+csLucByeak9yqYPaKg6L5QW1igUNqDkYG5394+7V0r
-         zNhf9fy5NirTHmXc5kBoo1uK3TE50aYb2Sd3USb+Zz7mj41pRJyXxE7OH+ec3VZ5ZY4T
-         TnU3eezRQwt8ImShtznJFFRzM3Kq8Y8CfAtfVIhY4QZxywGuBppqXoK/LczThf75c0IK
-         GTOI200ClmHBU1iDaCql9V2ryOWEE7Xt+ghnvVH4+YfNdTgi74B75plzmhLfdBw7mD+I
-         OYfrBnRpH7QpeEbtBn5rvY7mbkZUGdnnbISuBxQ6NDtqus6Ro041stJsLEK4pDJZuHMm
-         mMXg==
+        bh=t3mhP7ICU0ZvQlXWn7SZPX3I7+2TRutiz3n280KqScM=;
+        b=upWI1s1+OKUTE/62Vxaccfj88qxpnSk1dh5GQuoT92rd5UCvdfcQTnI1hqf9w0lkYg
+         AZjCC5WQhIDFzBcaO3ZA7TtJbFh/7kmgxz0Y7XQnufTVF0dwv04rLcx6Y1aMbw7XBpwU
+         iIo9XKtC5jS2kQZSYW5olC8IygM3aaTLpwOTKNxCH14mATbBCFytMeLYo+nyWAjlQiKJ
+         9ee7pcRo2UAK5bSAuNwv6v9lZTK+bQ3dRGt1F6trjZzl2w3hDjnsu3HUyWMtlEdBqzdL
+         8fdThnPm85QgEmHY1yEPp9UT2HX0GquQgjfAzv3YTj0ihcxEdxaXn/4p3aNH3K8IBVz+
+         U4LA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf1QwEUT5RBuoCOP/TmjvlYxkveOmGhOJtBvYb4HDNYQz7+iyT56
-	G1ciJU6o23b8kGcRYYRt8NY=
-X-Google-Smtp-Source: AMsMyM7YttBL9sS/RArENuOOqa6ac3eXAE5tbHOJQmRkpIfMI/6wBC6ZbVF4763CORZjHJCDkubpWQ==
-X-Received: by 2002:a2e:3c03:0:b0:277:1d64:f4fd with SMTP id j3-20020a2e3c03000000b002771d64f4fdmr5148310lja.32.1667216580407;
-        Mon, 31 Oct 2022 04:43:00 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2IGv2dLxSHGTJqxgIJocbLVA7bjFdhocORm06suuMCRDFkryFP
+	3FHkvvuRTTDpwt9a7kmGPWA=
+X-Google-Smtp-Source: AMsMyM7XXpwsuHf+S0Oe8WMwJHLepGK/P7vN3J55KIFH3Fj3gqPvJgsdPC86auqVAinBGHbguMAhzA==
+X-Received: by 2002:a1f:4a47:0:b0:3a2:e1f5:6801 with SMTP id x68-20020a1f4a47000000b003a2e1f56801mr6372450vka.20.1667261927631;
+        Mon, 31 Oct 2022 17:18:47 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:a90d:0:b0:277:1d5b:1cc7 with SMTP id j13-20020a2ea90d000000b002771d5b1cc7ls1429310ljq.3.-pod-prod-gmail;
- Mon, 31 Oct 2022 04:42:59 -0700 (PDT)
-X-Received: by 2002:a2e:a106:0:b0:277:3d6:a751 with SMTP id s6-20020a2ea106000000b0027703d6a751mr5192026ljl.201.1667216578955;
-        Mon, 31 Oct 2022 04:42:58 -0700 (PDT)
-Received: from mga01.intel.com (mga01.intel.com. [192.55.52.88])
-        by gmr-mx.google.com with ESMTPS id g28-20020a2eb5dc000000b0027760dd5b20si20051ljn.3.2022.10.31.04.42.58
+Received: by 2002:a67:cb07:0:b0:3aa:3916:1726 with SMTP id b7-20020a67cb07000000b003aa39161726ls2097819vsl.8.-pod-prod-gmail;
+ Mon, 31 Oct 2022 17:18:47 -0700 (PDT)
+X-Received: by 2002:a67:eada:0:b0:3aa:236a:11d7 with SMTP id s26-20020a67eada000000b003aa236a11d7mr6200763vso.56.1667261927031;
+        Mon, 31 Oct 2022 17:18:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1667261927; cv=none;
+        d=google.com; s=arc-20160816;
+        b=rBWrlvjnVS1U+jaXL7zmrMFfn8TdprgiQlBl4WkvBNOp8QKO9Qd1n1aDpyLFQY+UJg
+         YevYj6IRsvV9Xu4+au3L+uJhNeaOkBQnEmvhLapL3ikJUg20naCFyrGftwGG/F7DjT6R
+         cNyGc9RTedRM9cdCwWRTPn7e8NVDAwjiIXNdeb8YIl90Le4zAZ/FZ66W8HJplJ9Gxw1C
+         Unsb54Pw5yGWjkY7bKz0F5AqWvREqJoojr+Ah31ksVHOALpkA/qenAqGGvB14hIVMmqa
+         A+buvR/CKZDIVYguWBX0VwROCdJKsReStoTgVMw8NXJLGtGrb+/Q9X289nXlUYw20oEs
+         pe8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:cc:to:from:date:references:in-reply-to:message-id
+         :mime-version:user-agent:feedback-id:dkim-signature:dkim-signature;
+        bh=fimXTSH5ZLpHfGKWM0j4zT+1so1IP4NpiYE5OssGC/c=;
+        b=F7cWELFgTmolKK1509E8omwQ8q4EHFOKoIFTkc4GDWy3Gclh8m4QvPP68Dy0neWI6H
+         V8G+/2eAsqDv3Oj7NpX9VV5Tzy2opQiObffhYvQZWYgo/ddVhZsw3dJnLRn+yGebRU8k
+         s437JbpfGi7tbMdr7R75wsgzHQirhDxc5IH1tZatWNKXQYpc9ivjG6o6zCtYG3rFKBPT
+         gOdx7pPNdkyzbf7Zhu7e54MApm2985qCfCFNfzKQBMpQ30pxA1K+wy06S8LNc2efsxhr
+         dHAf6iWmPpxrX+FyraBI5CvMllAi5Qr//ykw9/dLmIAHxytaQujZarvAOg89VNN44zOg
+         tHsA==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@fastmail.com.au header.s=fm3 header.b=J1pUU7BE;
+       dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Z3P5fypn;
+       spf=pass (google.com: domain of lists@johnthomson.fastmail.com.au designates 66.111.4.25 as permitted sender) smtp.mailfrom=lists@johnthomson.fastmail.com.au;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=fastmail.com.au
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com. [66.111.4.25])
+        by gmr-mx.google.com with ESMTPS id m14-20020a67f70e000000b003980b6c8861si346525vso.2.2022.10.31.17.18.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 31 Oct 2022 04:42:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 192.55.52.88 as permitted sender) client-ip=192.55.52.88;
-X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="335533821"
-X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
-   d="scan'208,223";a="335533821"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 04:42:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="636025013"
-X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
-   d="scan'208,223";a="636025013"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga007.fm.intel.com with ESMTP; 31 Oct 2022 04:42:55 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 31 Oct 2022 04:42:55 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 31 Oct 2022 04:42:54 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 31 Oct 2022 04:42:54 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.44) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 31 Oct 2022 04:42:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=adcIVdI1mbA7GREq/7zRRWQcuVFLhbH9gxKqmgUcppH/EDwnPMocBnwA7wJ99tKASp9lu7IotTwREqkqpbq7SSSP01qltQuPPEATRJMxNqKVoky6+mmZsSoi4ZqOsanlDP5IdKK1AFFDNVsW3sREQhwxOn4QsJW/IscXLdzXODo64FN+2CWitgJjs/HJqSkwIl7BPE9ZbGtbxBi9GhTm0XdN3HRd4vBkZaTyZYdOppikUq8sRHOSC7unzlp8BX78kvACIWdNexH/UBeW00/xqeLGxfrscmJYeNcRcvghFhhAA2RIu1ax3wGenbu526QMBFazzC+GORcDbtUSuA/Lzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k5Q4Ve876APzxX0VKD8ibMRB2/ex9YBHSgw0jvwSfxU=;
- b=CHySpIlFnaewPjmGD/Ggwu32ZpbVCgWdP/Fivj1ya0ln51WQ+XlGyHyq9I0tlKtBcFIod5oTmtQH5YVN8Azv5rq51QILUvQinsWhf6hrq9EGulX3tnBeU8XvmlDVW4gywXnXZxT1+51CLh80YquNMTDjOeXbzf8EJ1XUjJEfImGFJFhklfB7x8tQ6pBY4+RgLxGbvFEtKMh/NnmqFFLuoDdOtTl4u+0JOpwGn5EqGyeOww0LTHoz+iYiYAkohDTfVmmvR6fvkCHsfFfG6dedg8gp2DSNDtfVq28s7gADc311iZfI+5l9GNAQnjr/u5wJm5ZCpV5YDXVeCc7QpMo7Hg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY5PR11MB6308.namprd11.prod.outlook.com (2603:10b6:930:20::8)
- by DM4PR11MB7373.namprd11.prod.outlook.com (2603:10b6:8:103::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Mon, 31 Oct
- 2022 11:42:49 +0000
-Received: from CY5PR11MB6308.namprd11.prod.outlook.com
- ([fe80::714c:d1b1:fa93:7d74]) by CY5PR11MB6308.namprd11.prod.outlook.com
- ([fe80::714c:d1b1:fa93:7d74%7]) with mapi id 15.20.5769.015; Mon, 31 Oct 2022
- 11:42:49 +0000
-Date: Mon, 31 Oct 2022 19:42:41 +0800
-From: Feng Tang <feng.tang@intel.com>
-To: John Thomson <lists@johnthomson.fastmail.com.au>
-CC: Vlastimil Babka <vbabka@suse.cz>, Andrew Morton
-	<akpm@linux-foundation.org>, Christoph Lameter <cl@linux.com>, Pekka Enberg
-	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
-	<iamjoonsoo.kim@lge.com>, Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andrey Konovalov <andreyknvl@gmail.com>,
-	"Hansen, Dave" <dave.hansen@intel.com>, "linux-mm@kvack.org"
-	<linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "kasan-dev@googlegroups.com"
-	<kasan-dev@googlegroups.com>, Robin Murphy <robin.murphy@arm.com>, John Garry
-	<john.garry@huawei.com>, Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v6 1/4] mm/slub: enable debugging memory wasting of
- kmalloc
-Message-ID: <Y1+0sbQ3R4DB46NX@feng-clx>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 17:18:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of lists@johnthomson.fastmail.com.au designates 66.111.4.25 as permitted sender) client-ip=66.111.4.25;
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 7E4A85C00DA;
+	Mon, 31 Oct 2022 20:18:46 -0400 (EDT)
+Received: from imap46 ([10.202.2.96])
+  by compute5.internal (MEProxy); Mon, 31 Oct 2022 20:18:46 -0400
+X-ME-Sender: <xms:5GVgY699hbxKzHuSY6C2zB1vzbhcJfrTYBFw6zJIpB0Y4UJcVYiC2g>
+    <xme:5GVgY6vZCxv6bDUxsAm6ECgsB2g9DwFjykHr9X8z2-fhtsqQewgojfFCsS2ZN0Gem
+    L2S4UyW-eSGBPz8YQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudeggddvudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdflohhh
+    nhcuvfhhohhmshhonhdfuceolhhishhtshesjhhohhhnthhhohhmshhonhdrfhgrshhtmh
+    grihhlrdgtohhmrdgruheqnecuggftrfgrthhtvghrnhepkeefhffguddtgeegjedtvedt
+    vddvkeevvdehfeehieejhffhhfejkeejgfelveegnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomheplhhishhtshesjhhohhhnthhhohhmshhonhdr
+    fhgrshhtmhgrihhlrdgtohhmrdgruh
+X-ME-Proxy: <xmx:5GVgYwConxQxZaHrkMScgBLIVSfU_n2Q3-eVscNgZ7QvjD9QPpy_Kw>
+    <xmx:5GVgYyf0zV0xhlUqYS56AExooi7Go68jlav443JUV4mdOG-MOaYogw>
+    <xmx:5GVgY_PCQxx2lzkC0UmAE1Q1FianhfOY5q98ekgxZsOkucT7AlWxIA>
+    <xmx:5mVgY8eDrdN-eX_8gePN0WeOq5TVkwVKJcRXn_uu2i0yNWSbisKDWQ>
+Feedback-ID: ia7894244:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A370A2A20080; Mon, 31 Oct 2022 20:18:44 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
+Mime-Version: 1.0
+Message-Id: <9b71ae3e-7f53-4c9e-90c4-79d3d649f94c@app.fastmail.com>
+In-Reply-To: <Y1+0sbQ3R4DB46NX@feng-clx>
 References: <20220913065423.520159-1-feng.tang@intel.com>
  <20220913065423.520159-2-feng.tang@intel.com>
  <becf2ac3-2a90-4f3a-96d9-a70f67c66e4a@app.fastmail.com>
- <af2ba83d-c3f4-c6fb-794e-c2c7c0892c44@suse.cz>
- <Y180l6zUnNjdCoaE@feng-clx>
+ <af2ba83d-c3f4-c6fb-794e-c2c7c0892c44@suse.cz> <Y180l6zUnNjdCoaE@feng-clx>
  <c4285caf-277c-45fd-8fc7-8a1d61685ce8@app.fastmail.com>
-Content-Type: multipart/mixed; boundary="eA2WCFFyGaggxTCQ"
-Content-Disposition: inline
-In-Reply-To: <c4285caf-277c-45fd-8fc7-8a1d61685ce8@app.fastmail.com>
-X-ClientProxiedBy: SI1PR02CA0034.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::10) To CY5PR11MB6308.namprd11.prod.outlook.com
- (2603:10b6:930:20::8)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6308:EE_|DM4PR11MB7373:EE_
-X-MS-Office365-Filtering-Correlation-Id: 13b801d6-6b68-4841-53de-08dabb350974
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zglYairVT11CN4OXrYFGsUVz1gkYL3N3Bb8nGRs+wi0MdKXlA4Y+mWEAWRxOm4q0/pkuvFmIXPcOtiMJ1CHpW98GjsswdHFNGFiv5hUvuEQHDd5x7sM3xE073wZS2kuCG9f7JtaXKCXLcdWsTMVC1sJ9q9D0zixs5twDD4OvLqnZeJ6epZFO96yPDlEmTHTQ+IGG+M3IfCvLlZVkm6pJfWIlmOEmQTatsA4UwsCy0qfe+fM7s6zzax1aHNFyQ/NyAyoxkIml42R4wcqpdkEtWah+EysFPRrkSNXZgwUow3XeVWCBdX5iSDmd6SzC3GGl8aishM5QqxDbVe1449/knFyf+je+d6UdMCXehSM1nSu3KP/pe4Xa6ZhKQGsfmSeKv930WIeUatoCB0qo9R8mgtR2k/TJa43ilFbSAmq1vy1a0VBkCBdznHlFw1jxihkDP0aXy9b/3QJpSuJVwdyXyiboUN2fQ+lPS75TXbhkdOAbLi5toLeSpfkBr3+5/WsDJV9M0Tue0CDigmXICsi/AU2TaPrLUB1a6ncuGj11jtWKX9qBMXLxb1joYXeYjVk2MyesoDNSJG19KDbxlLvR9FsJSWeTb7kF1ggUtWiRsChqU5VYmDD2sm4oa+DhQ07RpYvfMs/Z6hxnV2wk2pdax4fAnGh9H38kOVMOYfR3PkTCmgrYyUJLkQkeRoAIUv8a2UDCjcdYAsxpXNw+70S2RkfGEcK2fhEPDWY21mTldux6n2405ik+LaLmlLnHnZW8hpJv+psKA1t0bE1+IGG6E9qXreut4PTuDp7orkIHKcU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6308.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(39860400002)(136003)(396003)(376002)(366004)(346002)(451199015)(83380400001)(38100700002)(2906002)(6666004)(44832011)(82960400001)(33716001)(44144004)(316002)(6512007)(6506007)(186003)(9686003)(26005)(86362001)(8676002)(4326008)(478600001)(6486002)(66556008)(8936002)(66476007)(6916009)(54906003)(235185007)(66946007)(5660300002)(7416002)(41300700001)(2700100001)(67856001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zwZ30qbdCt7MWhZOxgMexsjiu2eBccVRGJyG2Th5ZU3gmX2L2S1+lxQEggrC?=
- =?us-ascii?Q?va+9AK73VN3l2+r1O5bRjruUROu3sq3/92/6POvfA47Pb0Oj79Cm9sAi0DSR?=
- =?us-ascii?Q?D+igsBm1wll6tgC+nEGxdRFFuCgs2woCd7V2Uiokm3NfCX26815Xiwm/Rqx8?=
- =?us-ascii?Q?i2FUWKeRdZ+smIXl2n0RQbFPldrAG4cOehrJimNFqX/+/7Tm2cGByIyeX49e?=
- =?us-ascii?Q?9p6AjAxdvzmPELezCa5W413ep718eAXQP7c8CaRy/FIb9GPLYmcjQVkXif1E?=
- =?us-ascii?Q?cTUaX8hqe7mCNPjqLy2qTntP5uGqRrF8FG32PazDQWv4gYnKkFjQSHonbrTw?=
- =?us-ascii?Q?xdP5sXaElwu/W2+HZBbrYOx2fxsO13ZVRk9ft0PS/znTK/hRVSW9QeM7/CUr?=
- =?us-ascii?Q?wpG9cZFCNMBTQiZ8clHFNmhB8+9JHmV7qaymo9L5vvRTsUXxGf6mBLimo5GH?=
- =?us-ascii?Q?s6mhWs9jNyLqa16lhWtiZZjFR0EO0k8mZhtBR1DgHsJmTcDdc7B0NcuvC9B/?=
- =?us-ascii?Q?uSSLg3Lun5uWqRzZMvOHLa7qwcLWAx5ZhHGUBiHSQF2daEpGrJPckCdBd6Xl?=
- =?us-ascii?Q?JvdTSlEK8D3gDrzreYXlznmupp80jTwpLK68JQBl5q0XtJEG5LTsmCmD5mss?=
- =?us-ascii?Q?JMZXMtIMDRJxhKC2Ul5mBlwd028ZenDlSX2lLbjjT1z10t7aKTaT5PMf14v+?=
- =?us-ascii?Q?9DZWoGzFKvTaLgsAHYWWMgaNaVFnhKb7j1M3lHDdEocN068ZK18iEvFvI/bW?=
- =?us-ascii?Q?n6DD+ph4IEGh8njJdJFa/cor7YC99tdZ66+Sr3NTC6suZJkY48H4niHYStMj?=
- =?us-ascii?Q?arNml4CI6FWTU96P4H6FuEneXM7MWVflPmLVKgypI2HBM++X9c5i4v21TrS0?=
- =?us-ascii?Q?tg548olS+HLrHdtUlAIMeP0gCQS5vQOeIcKk/yfp3jYgcxe3GoVErqLZQrDP?=
- =?us-ascii?Q?q60b+z/d9nPUxvXvkIbXCK298K7LvOR8I0E2ahV7zpIqkMr8aaqhmHinX1y9?=
- =?us-ascii?Q?RMXLVUXkDCD0Y9JExXxIc9SaSv0h0U6KKnrODaNeK5V0gZjq4yXjPqybAX7P?=
- =?us-ascii?Q?+t9aKFHOPbO5Wx9CMR/vXUjvwBMMt0myVsuss9ungVTiApHiSsuCLpVUMUAB?=
- =?us-ascii?Q?InfRdD54tF59MgcZg3WJB/BmGaKFpiNGE/wi2Ez3beGZD9d7qRZD2tnDB09U?=
- =?us-ascii?Q?aPdwrBD5lC/oq1v/IY/JrrZ9Rd/ZovyXjYy7irSuk3G69fgWrENbmNSzlQb+?=
- =?us-ascii?Q?UWabD3NJkGwkbssvGZ+tihuXrTQBDiMQUDftGBs1Qz6cyKbTEGkTLc8R+HrN?=
- =?us-ascii?Q?o3WlCgZNK6llHNhquUF7VV+teVAg5ra4szCRnkAr5J3IzRy+hu+fK1hfrOM6?=
- =?us-ascii?Q?aHc8w9FGJ+k7oRKES6+6HZYYO8Qy9VKrylqENCDXO+KetpTK9idROWO3Aq2j?=
- =?us-ascii?Q?2uhDJVRiDLHVlcxUUY9wtZw5eNTP8WQwtQ1epvFdBYTkM7g7YGivgElNsete?=
- =?us-ascii?Q?/98Z2WlkC94SYqSd4MZZQL2s8WMcjzNbU/VCy5POSdoWhOOfNYzgUvMAjz1x?=
- =?us-ascii?Q?qC+wN6xZIOOCHq3YsNHYwXqg0JB4rNszN6a4cb6m?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13b801d6-6b68-4841-53de-08dabb350974
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6308.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2022 11:42:49.5281
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m4Mw7Fz2yDmJDsH5C+0VBFynN838V3Rup1bm0JXeut0lPFQoOoxw6A/upXQLoDNso/IxjdFdCTgoVoK2YVyfaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7373
-X-OriginatorOrg: intel.com
-X-Original-Sender: feng.tang@intel.com
+ <Y1+0sbQ3R4DB46NX@feng-clx>
+Date: Tue, 01 Nov 2022 00:18:19 +0000
+From: "John Thomson" <lists@johnthomson.fastmail.com.au>
+To: "Feng Tang" <feng.tang@intel.com>
+Cc: "Vlastimil Babka" <vbabka@suse.cz>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Christoph Lameter" <cl@linux.com>, "Pekka Enberg" <penberg@kernel.org>,
+ "David Rientjes" <rientjes@google.com>,
+ "Joonsoo Kim" <iamjoonsoo.kim@lge.com>,
+ "Roman Gushchin" <roman.gushchin@linux.dev>,
+ "Hyeonggon Yoo" <42.hyeyoo@gmail.com>, "Dmitry Vyukov" <dvyukov@google.com>,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Andrey Konovalov" <andreyknvl@gmail.com>,
+ "Hansen, Dave" <dave.hansen@intel.com>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, "John Garry" <john.garry@huawei.com>,
+ "Kefeng Wang" <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH v6 1/4] mm/slub: enable debugging memory wasting of kmalloc
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: lists@johnthomson.fastmail.com.au
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=LVat4+eC;       arc=fail (body
- hash mismatch);       spf=pass (google.com: domain of feng.tang@intel.com
- designates 192.55.52.88 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@fastmail.com.au header.s=fm3 header.b=J1pUU7BE;       dkim=pass
+ header.i=@messagingengine.com header.s=fm3 header.b=Z3P5fypn;       spf=pass
+ (google.com: domain of lists@johnthomson.fastmail.com.au designates
+ 66.111.4.25 as permitted sender) smtp.mailfrom=lists@johnthomson.fastmail.com.au;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=fastmail.com.au
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -194,434 +174,112 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---eA2WCFFyGaggxTCQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
+On Mon, 31 Oct 2022, at 11:42, Feng Tang wrote:
+> On Mon, Oct 31, 2022 at 10:05:58AM +0000, John Thomson wrote:
+>> On Mon, 31 Oct 2022, at 02:36, Feng Tang wrote:
+>> >> > 
+>> >> > possibly relevant config options:
+>> >> > grep -E '(SLUB|SLAB)' .config
+>> >> > # SLAB allocator options
+>> >> > # CONFIG_SLAB is not set
+>> >> > CONFIG_SLUB=y
+>> >> > CONFIG_SLAB_MERGE_DEFAULT=y
+>> >> > # CONFIG_SLAB_FREELIST_RANDOM is not set
+>> >> > # CONFIG_SLAB_FREELIST_HARDENED is not set
+>> >> > # CONFIG_SLUB_STATS is not set
+>> >> > CONFIG_SLUB_CPU_PARTIAL=y
+>> >> > # end of SLAB allocator options
+>> >> > # CONFIG_SLUB_DEBUG is not set
+>> >> 
+>> >> Also not having CONFIG_SLUB_DEBUG enabled means most of the code the 
+>> >> patch/commit touches is not even active.
+>> >> Could this be some miscompile or code layout change exposing some 
+>> >> different bug, hmm.
+>> 
+>> Yes, it could be.
+>> 
+>> >> Is it any different if you do enable CONFIG_SLUB_DEBUG ?
+>> 
+>> No change
+>> 
+>> >> Or change to CONFIG_SLAB? (that would be really weird if not)
+>> 
+>> This boots fine
+>> 
+>> > I haven't found any clue from the code either, and I compiled
+>> > kernel with the config above and tested booting on an Alder-lake
+>> > desktop and a QEMU, which boot fine.
+>> >
+>> > Could you provide the full kernel config and demsg (in compressed
+>> > format if you think it's too big), so we can check more?
+>> 
+>> Attached
+>> 
+>> > Thanks,
+>> > Feng
+>> 
+>> vmlinux is bigger, and entry point is larger (0x8074081c vs 0x807407dc revert vs 0x8073fcbc),
+>> so that may be it? Or not?
+>> revert + SLUB_DEBUG + SLUB_DEBUG_ON is bigger still, but does successfully boot.
+>> vmlinux entry point is 0x8074705c
+>
+> Thanks for prompt info!
+>
+> As I can't reproduce it locally yet, could you help try 3 tests separately:
+> * change the O2/O3 compile option to O1
+> * try the attached 0001 patch (which cut part of commit)
+> * try attached 0001+0002 patch
 
-On Mon, Oct 31, 2022 at 10:05:58AM +0000, John Thomson wrote:
-> On Mon, 31 Oct 2022, at 02:36, Feng Tang wrote:
-> >> > 
-> >> > possibly relevant config options:
-> >> > grep -E '(SLUB|SLAB)' .config
-> >> > # SLAB allocator options
-> >> > # CONFIG_SLAB is not set
-> >> > CONFIG_SLUB=y
-> >> > CONFIG_SLAB_MERGE_DEFAULT=y
-> >> > # CONFIG_SLAB_FREELIST_RANDOM is not set
-> >> > # CONFIG_SLAB_FREELIST_HARDENED is not set
-> >> > # CONFIG_SLUB_STATS is not set
-> >> > CONFIG_SLUB_CPU_PARTIAL=y
-> >> > # end of SLAB allocator options
-> >> > # CONFIG_SLUB_DEBUG is not set
-> >> 
-> >> Also not having CONFIG_SLUB_DEBUG enabled means most of the code the 
-> >> patch/commit touches is not even active.
-> >> Could this be some miscompile or code layout change exposing some 
-> >> different bug, hmm.
-> 
-> Yes, it could be.
-> 
-> >> Is it any different if you do enable CONFIG_SLUB_DEBUG ?
-> 
-> No change
-> 
-> >> Or change to CONFIG_SLAB? (that would be really weird if not)
-> 
-> This boots fine
-> 
-> > I haven't found any clue from the code either, and I compiled
-> > kernel with the config above and tested booting on an Alder-lake
-> > desktop and a QEMU, which boot fine.
-> >
-> > Could you provide the full kernel config and demsg (in compressed
-> > format if you think it's too big), so we can check more?
-> 
-> Attached
-> 
-> > Thanks,
-> > Feng
-> 
-> vmlinux is bigger, and entry point is larger (0x8074081c vs 0x807407dc revert vs 0x8073fcbc),
-> so that may be it? Or not?
-> revert + SLUB_DEBUG + SLUB_DEBUG_ON is bigger still, but does successfully boot.
-> vmlinux entry point is 0x8074705c
+None of these changed my outcome.
 
-Thanks for prompt info!
+I also tried compiling the same linux tree & config with the Bootlin toolchain
+(mipsel-buildroot-linux-gnu-gcc.br_real (Buildroot 2021.11-4428-g6b6741b) 12.2.0)
+with the same results.
+I will look into finding or building a mips clang toolchain.
 
-As I can't reproduce it locally yet, could you help try 3 tests separately:
-* change the O2/O3 compile option to O1
-* try the attached 0001 patch (which cut part of commit)
-* try attached 0001+0002 patch
+No JTAG capability to debug, sorry.
 
-Thanks!
+I get the same outcome with either the ZBOOT vmlinuz, or vmlinux
+
+Same happening with 6.1-rc3
 
 
-- Feng
+After some blind poking around changing (how much of the commit affected) mm/slub.c,
+I may have got lucky. it appears as though this is all I need to boot:
+(against 6.1-rc3), and with the Bootlin toolchain. Will test my other build system as well.
+
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3276,7 +3276,7 @@ static void *__slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+        c = slub_get_cpu_ptr(s->cpu_slab);
+ #endif
+ 
+-       p = ___slab_alloc(s, gfpflags, node, addr, c, orig_size);
++       p = ___slab_alloc(s, gfpflags, node, addr, c, 0);
+ #ifdef CONFIG_PREEMPT_COUNT
+        slub_put_cpu_ptr(s->cpu_slab);
+ #endif
 
 
+Would like to hear your thoughts, but I will keep digging.
+
+>
+> Thanks!
+>
+>
+> - Feng
+>
+>
+>
+>
+> Attachments:
+> * 0001-reduced-slub-patch.patch
+> * 0002-reorder-the-partial_context-initialization.patch
+
+-- 
+  John Thomson
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y1%2B0sbQ3R4DB46NX%40feng-clx.
-
---eA2WCFFyGaggxTCQ
-Content-Type: text/x-diff; charset="us-ascii"
-Content-Disposition: attachment; filename="0001-reduced-slub-patch.patch"
-
-From c52d8c8803562dd6d1d9d57f4f6e8b7e1ddf675d Mon Sep 17 00:00:00 2001
-From: Feng Tang <feng.tang@intel.com>
-Date: Mon, 31 Oct 2022 16:17:22 +0800
-Subject: [PATCH 1/2] reduced slub patch
-
-Signed-off-by: Feng Tang <feng.tang@intel.com>
----
- include/linux/slab.h |  2 ++
- mm/slab_common.c     |  3 +-
- mm/slub.c            | 73 +++++++++++++++++++++++++-------------------
- 3 files changed, 46 insertions(+), 32 deletions(-)
-
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index f2da0df0d58d..90877fcde70b 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -29,6 +29,8 @@
- #define SLAB_RED_ZONE		((slab_flags_t __force)0x00000400U)
- /* DEBUG: Poison objects */
- #define SLAB_POISON		((slab_flags_t __force)0x00000800U)
-+/* Indicate a kmalloc slab */
-+#define SLAB_KMALLOC		((slab_flags_t __force)0x00001000U)
- /* Align objs on cache lines */
- #define SLAB_HWCACHE_ALIGN	((slab_flags_t __force)0x00002000U)
- /* Use GFP_DMA memory */
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 87a28e298be8..33b1886b06eb 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -661,7 +661,8 @@ struct kmem_cache *__init create_kmalloc_cache(const char *name,
- 	if (!s)
- 		panic("Out of memory when creating slab %s\n", name);
- 
--	create_boot_cache(s, name, size, flags, useroffset, usersize);
-+	create_boot_cache(s, name, size, flags | SLAB_KMALLOC, useroffset,
-+								usersize);
- 	kasan_cache_create_kmalloc(s);
- 	list_add(&s->list, &slab_caches);
- 	s->refcount = 1;
-diff --git a/mm/slub.c b/mm/slub.c
-index ade3e851fc65..6fa3c24742b8 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -195,6 +195,13 @@ DEFINE_STATIC_KEY_FALSE(slub_debug_enabled);
- #endif
- #endif		/* CONFIG_SLUB_DEBUG */
- 
-+/* Structure holding parameters for get_partial() call chain */
-+struct partial_context {
-+	struct slab **slab;
-+	gfp_t flags;
-+	unsigned int orig_size;
-+};
-+
- static inline bool kmem_cache_debug(struct kmem_cache *s)
- {
- 	return kmem_cache_debug_flags(s, SLAB_DEBUG_FLAGS);
-@@ -994,7 +1001,8 @@ static int check_bytes_and_report(struct kmem_cache *s, struct slab *slab,
-  *
-  * 	A. Free pointer (if we cannot overwrite object on free)
-  * 	B. Tracking data for SLAB_STORE_USER
-- *	C. Padding to reach required alignment boundary or at minimum
-+ *	C. Original request size for kmalloc object (SLAB_STORE_USER enabled)
-+ *	D. Padding to reach required alignment boundary or at minimum
-  * 		one word if debugging is on to be able to detect writes
-  * 		before the word boundary.
-  *
-@@ -1310,7 +1318,7 @@ static inline int alloc_consistency_checks(struct kmem_cache *s,
- }
- 
- static noinline int alloc_debug_processing(struct kmem_cache *s,
--					struct slab *slab, void *object)
-+			struct slab *slab, void *object, int orig_size)
- {
- 	if (s->flags & SLAB_CONSISTENCY_CHECKS) {
- 		if (!alloc_consistency_checks(s, slab, object))
-@@ -1587,7 +1595,7 @@ static inline
- void setup_slab_debug(struct kmem_cache *s, struct slab *slab, void *addr) {}
- 
- static inline int alloc_debug_processing(struct kmem_cache *s,
--	struct slab *slab, void *object) { return 0; }
-+	struct slab *slab, void *object, int orig_size) { return 0; }
- 
- static inline void free_debug_processing(
- 	struct kmem_cache *s, struct slab *slab,
-@@ -2017,7 +2025,7 @@ static inline void remove_partial(struct kmem_cache_node *n,
-  * it to full list if it was the last free object.
-  */
- static void *alloc_single_from_partial(struct kmem_cache *s,
--		struct kmem_cache_node *n, struct slab *slab)
-+		struct kmem_cache_node *n, struct slab *slab, int orig_size)
- {
- 	void *object;
- 
-@@ -2027,7 +2035,7 @@ static void *alloc_single_from_partial(struct kmem_cache *s,
- 	slab->freelist = get_freepointer(s, object);
- 	slab->inuse++;
- 
--	if (!alloc_debug_processing(s, slab, object)) {
-+	if (!alloc_debug_processing(s, slab, object, orig_size)) {
- 		remove_partial(n, slab);
- 		return NULL;
- 	}
-@@ -2046,7 +2054,7 @@ static void *alloc_single_from_partial(struct kmem_cache *s,
-  * and put the slab to the partial (or full) list.
-  */
- static void *alloc_single_from_new_slab(struct kmem_cache *s,
--					struct slab *slab)
-+					struct slab *slab, int orig_size)
- {
- 	int nid = slab_nid(slab);
- 	struct kmem_cache_node *n = get_node(s, nid);
-@@ -2058,7 +2066,7 @@ static void *alloc_single_from_new_slab(struct kmem_cache *s,
- 	slab->freelist = get_freepointer(s, object);
- 	slab->inuse = 1;
- 
--	if (!alloc_debug_processing(s, slab, object))
-+	if (!alloc_debug_processing(s, slab, object, orig_size))
- 		/*
- 		 * It's not really expected that this would fail on a
- 		 * freshly allocated slab, but a concurrent memory
-@@ -2136,7 +2144,7 @@ static inline bool pfmemalloc_match(struct slab *slab, gfp_t gfpflags);
-  * Try to allocate a partial slab from a specific node.
-  */
- static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
--			      struct slab **ret_slab, gfp_t gfpflags)
-+			      struct partial_context *pc)
- {
- 	struct slab *slab, *slab2;
- 	void *object = NULL;
-@@ -2156,11 +2164,12 @@ static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
- 	list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
- 		void *t;
- 
--		if (!pfmemalloc_match(slab, gfpflags))
-+		if (!pfmemalloc_match(slab, pc->flags))
- 			continue;
- 
- 		if (kmem_cache_debug(s)) {
--			object = alloc_single_from_partial(s, n, slab);
-+			object = alloc_single_from_partial(s, n, slab,
-+							pc->orig_size);
- 			if (object)
- 				break;
- 			continue;
-@@ -2171,7 +2180,7 @@ static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
- 			break;
- 
- 		if (!object) {
--			*ret_slab = slab;
-+			*pc->slab = slab;
- 			stat(s, ALLOC_FROM_PARTIAL);
- 			object = t;
- 		} else {
-@@ -2195,14 +2204,13 @@ static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
- /*
-  * Get a slab from somewhere. Search in increasing NUMA distances.
-  */
--static void *get_any_partial(struct kmem_cache *s, gfp_t flags,
--			     struct slab **ret_slab)
-+static void *get_any_partial(struct kmem_cache *s, struct partial_context *pc)
- {
- #ifdef CONFIG_NUMA
- 	struct zonelist *zonelist;
- 	struct zoneref *z;
- 	struct zone *zone;
--	enum zone_type highest_zoneidx = gfp_zone(flags);
-+	enum zone_type highest_zoneidx = gfp_zone(pc->flags);
- 	void *object;
- 	unsigned int cpuset_mems_cookie;
- 
-@@ -2230,15 +2238,15 @@ static void *get_any_partial(struct kmem_cache *s, gfp_t flags,
- 
- 	do {
- 		cpuset_mems_cookie = read_mems_allowed_begin();
--		zonelist = node_zonelist(mempolicy_slab_node(), flags);
-+		zonelist = node_zonelist(mempolicy_slab_node(), pc->flags);
- 		for_each_zone_zonelist(zone, z, zonelist, highest_zoneidx) {
- 			struct kmem_cache_node *n;
- 
- 			n = get_node(s, zone_to_nid(zone));
- 
--			if (n && cpuset_zone_allowed(zone, flags) &&
-+			if (n && cpuset_zone_allowed(zone, pc->flags) &&
- 					n->nr_partial > s->min_partial) {
--				object = get_partial_node(s, n, ret_slab, flags);
-+				object = get_partial_node(s, n, pc);
- 				if (object) {
- 					/*
- 					 * Don't check read_mems_allowed_retry()
-@@ -2259,8 +2267,7 @@ static void *get_any_partial(struct kmem_cache *s, gfp_t flags,
- /*
-  * Get a partial slab, lock it and return it.
-  */
--static void *get_partial(struct kmem_cache *s, gfp_t flags, int node,
--			 struct slab **ret_slab)
-+static void *get_partial(struct kmem_cache *s, int node, struct partial_context *pc)
- {
- 	void *object;
- 	int searchnode = node;
-@@ -2268,11 +2275,11 @@ static void *get_partial(struct kmem_cache *s, gfp_t flags, int node,
- 	if (node == NUMA_NO_NODE)
- 		searchnode = numa_mem_id();
- 
--	object = get_partial_node(s, get_node(s, searchnode), ret_slab, flags);
-+	object = get_partial_node(s, get_node(s, searchnode), pc);
- 	if (object || node != NUMA_NO_NODE)
- 		return object;
- 
--	return get_any_partial(s, flags, ret_slab);
-+	return get_any_partial(s, pc);
- }
- 
- #ifdef CONFIG_PREEMPTION
-@@ -2996,11 +3003,12 @@ static inline void *get_freelist(struct kmem_cache *s, struct slab *slab)
-  * already disabled (which is the case for bulk allocation).
-  */
- static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
--			  unsigned long addr, struct kmem_cache_cpu *c)
-+			  unsigned long addr, struct kmem_cache_cpu *c, unsigned int orig_size)
- {
- 	void *freelist;
- 	struct slab *slab;
- 	unsigned long flags;
-+	struct partial_context pc;
- 
- 	stat(s, ALLOC_SLOWPATH);
- 
-@@ -3114,7 +3122,10 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
- 
- new_objects:
- 
--	freelist = get_partial(s, gfpflags, node, &slab);
-+	pc.flags = gfpflags;
-+	pc.slab = &slab;
-+	pc.orig_size = orig_size;
-+	freelist = get_partial(s, node, &pc);
- 	if (freelist)
- 		goto check_new_slab;
- 
-@@ -3130,7 +3141,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
- 	stat(s, ALLOC_SLAB);
- 
- 	if (kmem_cache_debug(s)) {
--		freelist = alloc_single_from_new_slab(s, slab);
-+		freelist = alloc_single_from_new_slab(s, slab, orig_size);
- 
- 		if (unlikely(!freelist))
- 			goto new_objects;
-@@ -3162,6 +3173,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
- 		 */
- 		if (s->flags & SLAB_STORE_USER)
- 			set_track(s, freelist, TRACK_ALLOC, addr);
-+
- 		return freelist;
- 	}
- 
-@@ -3204,7 +3216,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
-  * pointer.
-  */
- static void *__slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
--			  unsigned long addr, struct kmem_cache_cpu *c)
-+			  unsigned long addr, struct kmem_cache_cpu *c, unsigned int orig_size)
- {
- 	void *p;
- 
-@@ -3217,7 +3229,7 @@ static void *__slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
- 	c = slub_get_cpu_ptr(s->cpu_slab);
- #endif
- 
--	p = ___slab_alloc(s, gfpflags, node, addr, c);
-+	p = ___slab_alloc(s, gfpflags, node, addr, c, orig_size);
- #ifdef CONFIG_PREEMPT_COUNT
- 	slub_put_cpu_ptr(s->cpu_slab);
- #endif
-@@ -3302,7 +3314,7 @@ static __always_inline void *slab_alloc_node(struct kmem_cache *s, struct list_l
- 
- 	if (!USE_LOCKLESS_FAST_PATH() ||
- 	    unlikely(!object || !slab || !node_match(slab, node))) {
--		object = __slab_alloc(s, gfpflags, node, addr, c);
-+		object = __slab_alloc(s, gfpflags, node, addr, c, orig_size);
- 	} else {
- 		void *next_object = get_freepointer_safe(s, object);
- 
-@@ -3769,7 +3781,7 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
- 			 * of re-populating per CPU c->freelist
- 			 */
- 			p[i] = ___slab_alloc(s, flags, NUMA_NO_NODE,
--					    _RET_IP_, c);
-+					    _RET_IP_, c, s->object_size);
- 			if (unlikely(!p[i]))
- 				goto error;
- 
-@@ -5031,10 +5043,9 @@ static int add_location(struct loc_track *t, struct kmem_cache *s,
- 		if (pos == end)
- 			break;
- 
--		caddr = t->loc[pos].addr;
--		chandle = t->loc[pos].handle;
-+		caddr = l->addr;
-+		chandle = l->handle;
- 		if ((track->addr == caddr) && (handle == chandle)) {
--
- 			l = &t->loc[pos];
- 			l->count++;
- 			if (track->when) {
--- 
-2.34.1
-
-
---eA2WCFFyGaggxTCQ
-Content-Type: text/x-diff; charset="us-ascii"
-Content-Disposition: attachment;
-	filename="0002-reorder-the-partial_context-initialization.patch"
-
-From 00d06db374449a3151d94d11f7c9bd62d4de0d6b Mon Sep 17 00:00:00 2001
-From: Feng Tang <feng.tang@intel.com>
-Date: Mon, 31 Oct 2022 16:19:12 +0800
-Subject: [PATCH 2/2] reorder the partial_context initialization
-
-Signed-off-by: Feng Tang <feng.tang@intel.com>
----
- mm/slub.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/mm/slub.c b/mm/slub.c
-index 6fa3c24742b8..4265d293f4dd 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -3010,6 +3010,11 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
- 	unsigned long flags;
- 	struct partial_context pc;
- 
-+	pc.flags = gfpflags;
-+	pc.slab = &slab;
-+	pc.orig_size = orig_size;
-+	barrier();
-+
- 	stat(s, ALLOC_SLOWPATH);
- 
- reread_slab:
-@@ -3122,9 +3127,6 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
- 
- new_objects:
- 
--	pc.flags = gfpflags;
--	pc.slab = &slab;
--	pc.orig_size = orig_size;
- 	freelist = get_partial(s, node, &pc);
- 	if (freelist)
- 		goto check_new_slab;
--- 
-2.34.1
-
-
---eA2WCFFyGaggxTCQ--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/9b71ae3e-7f53-4c9e-90c4-79d3d649f94c%40app.fastmail.com.
