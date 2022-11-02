@@ -1,142 +1,163 @@
-Return-Path: <kasan-dev+bncBAABBHNURCNQMGQESRYDGNA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBUGRRCNQMGQEDIKWKBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87025615CDC
-	for <lists+kasan-dev@lfdr.de>; Wed,  2 Nov 2022 08:19:58 +0100 (CET)
-Received: by mail-qt1-x837.google.com with SMTP id s14-20020a05622a1a8e00b00397eacd9c1asf11792370qtc.21
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Nov 2022 00:19:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1667373597; cv=pass;
+Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E451615D91
+	for <lists+kasan-dev@lfdr.de>; Wed,  2 Nov 2022 09:22:41 +0100 (CET)
+Received: by mail-lj1-x239.google.com with SMTP id t9-20020a2e7809000000b00277524ccb02sf3323615ljc.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Nov 2022 01:22:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1667377360; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nj5FOcGfoOq7BjZngFIP3yvXmH9vmhv36XVJAdPGb9pKfpY9zJQx5YOaMQsZJCWtgE
-         qslTPU8K826cTyxm9U4T+G6hWE26wQ+0rDyGjidzaGWsesKI82M/4l9Lvnw8wDe+8UWe
-         EvGkqD786EWU18IkfZxS7olJXcmqohDq1Li7X8WA2Z7NiRaY/UfqHmi91cnvzzDh8TxB
-         8u2Et/T4LGVq5CRK8yTcUSjJD3nLBciGvCuSyLT5fjEHlEPuDbE+55W0XW0K0XxnaPgP
-         7n5T6eOXvkxvckJTc1z8E21SBxbeiye0NhBZ2ZWagDuEtZTeCJumTvWZMjlrhwynvFhq
-         qTUg==
+        b=FozAT30PHHQOtXLXGVd6MlnsZ0MXgeWzOwuIBJt3BfEvV0Ehn9DSHoHvd7SOHIdUU3
+         rOn5Ff8Fh1EJUj4Y8p7uv5wKg8vsS8AApMCq0zf2jbYXU8O5M+lp6YmbE+57XEiujhti
+         +QPMhLPzxr0IVor1Ly5CpxnyepYc8svHZZ2AkdFVOnJbvQ0BHikHR97B7oYS+GX4t6w3
+         Pb27Abg3+W4BYiEnZvS3iLVpyyCUMqvar/UOjtvxUmsoMsauD4E2ZBhoDQ2xZut+lgGJ
+         IvIRNO8VytOR1AFA4OpSX/0wyJqfbdRzJ7Wr4Xod1Pm+PlFvO+BmLue7xuMT/0n5MN/9
+         p+Lw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to:organization
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=Q4Zw864jry1mNojaQMZ3CnCgD8tTCQ20Jrkgc0PVp7o=;
-        b=ULECwNDpfLxsp0l3lhNnv0J1xXdu28pMIFQ0pTba2AHcXWKYdY8e3niIH37FfL9JVB
-         EpxLXz6yqcniVKBdwqRZ8Hws7inbBph+87Hb7Jw0roKsifAXKiXEbEjjDaT0jJ1oRVF/
-         XNXR4b3HJFw8HWjK1b7GYP+X5xPJOYE4VCgLgKgb7nmfeR/gOd70aCHs1/u32C/fBMfF
-         Eq7aWKh/AZlp6KoSC+xBS7yfzMp5laF7XN6V5Ulq3AEDewaa/lD1dGlf/oddwq++CbCr
-         qj/YZb5q002Wb5kbubrBVmzwG8ySL9grPnS+E4KrZJDZBsq2xhRUHoRJ/LqHDSoT01zw
-         6GRA==
+         :list-id:mailing-list:precedence:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=WeoILa7raL9uYjXOA7DGOVAfzT/z1KO06+gWo8ySm2Q=;
+        b=tm5VRpYEYiiEAlpyvslV9SbL77qAJtgLUKFUk71MidQiWREh4PMTk97iD3EY/wZ6AA
+         LzoQfi1xwTBRQEMDpI8UGc4XcIt09DtY0gJmITxrDBPr6hMYH54MdIMYUyh+8kvKVVs+
+         Gbjql2ia7M0vnQP9TdKrgcyVq5/QP7o83N7go+pG02Y2hQAOa3AZpvSBHN2I3tfihaWw
+         jpGN7LaZH9asdBpU9sA0kDZ4/UQ0qTqkefcT+TYHzEnGF3aLTrMmdV5k4LG64bnJGUj8
+         gQENrqQteS2E5QSDZ1SRh/GU7rfi6VE6sw0eV5PYvbuU0MpMMbjBQby4H0OAYE9UpNCD
+         vupw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of zhongbaisong@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=zhongbaisong@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=HR0DbvwE;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :organization:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q4Zw864jry1mNojaQMZ3CnCgD8tTCQ20Jrkgc0PVp7o=;
-        b=kT3sRQrq9Z56jyCxOuPJWFP72+BzVnhyJ7S2zJrThn58zAvEI9MRG2NMbn+eCotleK
-         ToBNHpVB7unVe7yvrTdFCdjiJhAj0Nr5KecQbOpNBGIrGPncl/Tyd++7Fwj3ZDAVhguJ
-         TqdPv1QMOYZlvmLIDGraKTVFrqCU0nwyBJbBfrDTSHZhFJsc6uDMDGiGFmj93VYIR8CB
-         ZqsBLb2DWJnievMl+yFw7TxLH6p3UWOVc/Jz7hrWpcnesBpeWF8/mrEtlqJb4z40Nu6g
-         uPSW9AvyHtfwGs8Fe1sYH0/kOXck7Vjgqm99RWnQklE/L3AVJDwfFrVlSnZXP9nSZ6x3
-         przA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:content-language:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=WeoILa7raL9uYjXOA7DGOVAfzT/z1KO06+gWo8ySm2Q=;
+        b=IqDzRLsdSOZGqHtXArXCPzmrBKqG6CqLJvTjryajr+V0lJkdHA1kP78bQpKed6g3oS
+         CR3IJL3qW/w3tiuGtkXuINsZvKOSvTFCL64I5bQiFoNNjScKns7DMwY7UgzXRgtq9Hul
+         u6WPDsU8CmWUzzKf7/tAEx8ELzU0tPXFmxnM4zi640RfqvTDC6NLfjC2ZF7r1kANsr7V
+         aQgRXFx9Z4Lv/3Zmw/PDNs+Vg83kEDEOu9yDSoQlXqTZlj9fmFe1Zi9PEEWLhxew+PZu
+         pkzLE0C/igmL9IGGZKCDQUVCBL7EWobbxLcn8c4RSS4a2hIPtxiZcaV6CAL1B7wEnjno
+         mc6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :organization:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q4Zw864jry1mNojaQMZ3CnCgD8tTCQ20Jrkgc0PVp7o=;
-        b=eDw99JSeOPmuEWlZ1EbXJyhboDjAzvX4nLq041R/+953+2JQWAsC7XrgAFC4exyVaT
-         AHwSeUO2xzvlxtRQRh34USReDea08+Wj6TeUUtdXDtNghz/peSMvtT1LQD4zE2+nviT4
-         WMiT/dKkP1egi/lYYvKrFcrERT5N76LrdMzxIcMVFwV2qJPGDO1Mf/X8Azw+GZe4QsjP
-         TFseSvatbkXdSJhey4qRrb3GG/9Ik8/90tNrfIKwnF0ZvnEv5EVU3SidNzQYEKTvztUL
-         JvEXXGC8HYAsbJPhrbRNXwvp+BArX3u5laxQ3XJcMWBQb0sx4Yfkxx8THWXUtp0nvSRY
-         QCdQ==
-X-Gm-Message-State: ACrzQf2F69lSrr40xQ14srQqO7WIsxhNl5Ko+/jbl/qe3E+Rwvyb892z
-	Q8wUk/6oSqEdbehzPvVb5/E=
-X-Google-Smtp-Source: AMsMyM5RzUEuX3B5HToZ72TqnNPwWrYNa//oTkeLOpBRA4sb0YDkzM1zyR+Y7NymRWTldB4JeLsySg==
-X-Received: by 2002:a05:6214:226c:b0:4bb:93b8:ef9f with SMTP id gs12-20020a056214226c00b004bb93b8ef9fmr19777547qvb.91.1667373597190;
-        Wed, 02 Nov 2022 00:19:57 -0700 (PDT)
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WeoILa7raL9uYjXOA7DGOVAfzT/z1KO06+gWo8ySm2Q=;
+        b=mmWlId8gtb11RhTjNczId2HeEjhgtgI1Nj+VcxPBSduN+Up6nt0s9DTIAdb64dkies
+         9DIZfL4jHruOVj7PkJLmjjmpipHPKVPBoWEnkJbkrDZHwRbGVSwB6eq8xz+Ua2dWkEQR
+         efjK5b3sko8LPS9gUcE4diZjVDSF0O6tMQyv2+NuPBjpi8i8ir2y9266+ZbGPlxHwbvI
+         mnrUCDgV/LTK6RMS9H0uGIBj4j19FfhbMviHK0Hr8d5DJEJ34SCxiZXcDjAeUolp0l1m
+         l73lAZTl8js0wgPBtqIyS0VOIb6J3V6eC+M1wsSErCynepOJx+opxAv30b7p6NkrazWc
+         8LIA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ACrzQf0etm340ZX+TlfqQKnO7dfQB/4hNk+8b+Ewb4u0NDYn5DM8ECNG
+	mT3rlBMm6TunfkZ0WVhYqDw=
+X-Google-Smtp-Source: AMsMyM7loYEf1omiES2Vyrnc78zNK/K9bria/9AyGNDzaNk4PoFMMuZ5AgEPQ+SZY4m+Jp2MOdDBwQ==
+X-Received: by 2002:a05:6512:1150:b0:4a2:7f90:79ea with SMTP id m16-20020a056512115000b004a27f9079eamr8456134lfg.180.1667377360388;
+        Wed, 02 Nov 2022 01:22:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:9b12:0:b0:4b9:d85c:f017 with SMTP id b18-20020a0c9b12000000b004b9d85cf017ls7148463qve.11.-pod-prod-gmail;
- Wed, 02 Nov 2022 00:19:56 -0700 (PDT)
-X-Received: by 2002:ad4:5d6e:0:b0:4bb:6acc:e712 with SMTP id fn14-20020ad45d6e000000b004bb6acce712mr19699828qvb.57.1667373596683;
-        Wed, 02 Nov 2022 00:19:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1667373596; cv=none;
+Received: by 2002:a05:6512:2116:b0:48b:2227:7787 with SMTP id
+ q22-20020a056512211600b0048b22277787ls1167606lfr.3.-pod-prod-gmail; Wed, 02
+ Nov 2022 01:22:38 -0700 (PDT)
+X-Received: by 2002:ac2:4bcf:0:b0:4a2:c241:1979 with SMTP id o15-20020ac24bcf000000b004a2c2411979mr8988583lfq.89.1667377358781;
+        Wed, 02 Nov 2022 01:22:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1667377358; cv=none;
         d=google.com; s=arc-20160816;
-        b=rqll+8u/EU5iq0tLm/3OTC9yNVMdl3ljxxAIHNHnWm7yrhgEP8a+PiKABHZ0Kl7Aa5
-         0nM8d5BrZM3PyoEEwQ0+bEJJpPBi2xn2yo9QSRuMJA4vzZtHfSuxCS6O1C1aMe3cA8wt
-         JuEXC4MRp0qqJU4JPzi29+tcQp53jjMUySIgp0+ribnuKSJUWSs81UXxvQuFZkjCRRo5
-         QA+asqprrcCC4srCosLy2xA1rulFCvV4quda3acuyufGKuu2hjre0zRFGjKaZASPcBe8
-         6FmVS1A0iQ8hk7y1wrkjoKCs4l0ej0Hu8jGGf5Gy2Z0ONCnUyIIytD6AUmwDb42oujVX
-         H50g==
+        b=iu59LRE5RXPDx3HT+mQ+Ti3uAbm27UyeHH1bzsggb+jRDiKnDHZRTAct/2hsDe3BcB
+         1I7BDTUY2X6vQX8LLhvxZon93uq4Jib7aWbre8ZxZFnnTBrdHgC0zZPO84QXwKxHwSwN
+         7IOv9okJ1sv1Z2sTteriy2PaiOcvBtuqsmCEq4ZrBjIsKncguDMHU2tVIFkqGClUeDxJ
+         yeWaUQr8xTlm5yZNHuxLnLK9e778paxG+Er3c6/exCNNHzUNcyohyzWrYmPVjH3P4MHn
+         wMmMaeVH7b58vGi9sHCZUVKqiUg897NFhaAVxFRFmZCq3E4jv9pSXGXajmh5MQ09ZVD1
+         WjKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id;
-        bh=svIGRSS1VVolWkDV4P5xAip4g+IJTaNKZodS3fHx068=;
-        b=rTV1CPNxHP4UeeVnQ/ikwrjGHPcqggSECpdQ1dOyQ+/RhCOmqYIdrrC++f6oUNPofj
-         2VVvTSsUkdf/tvSKiiztUqbd4ci5iDG+p0m4z/Gq5iPHVnwPNy08o234gmcsqHEM0oUi
-         hpyAFS4bgoLRrpFnCJ5/2NTnTxYObWzAcyMdDKPSXBYx14oxPp7ar1slnAPUzUd7M2xt
-         s/8dMk1/z9O72uGy/uOLkFs9y9l1B2XRfkq0tuncbBP7zhLz2UO2raJQ2J1BNtkLFHQy
-         SSwauKTtxh+C637qNg9xiAePc/Sl7ipOotPgwu/lhV49MEg94Af9awJX1eGYSg4E04BU
-         PDVQ==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature;
+        bh=vPRiEjy3sfuyzgubEp1HGpBV7YGim3ifA/HV0tLfnYk=;
+        b=n84XuC5uZ5/O/n9BpCy5FlqvMB/NOt+RZW9bwpUvZSZ18LqgcmdD7ciOYZh6lBEs2X
+         +O3csJ2ndrcEULH4gQhwaGNoNqgxAbgCwoKttC4Q+j2cKvDzO8etx4+2LWue00fsOpHc
+         VU1DZOrhB+cJONstx75ozOyUWl2azlKNfOrrD00lFkezGdUKIcHP7F7rOfKsQH/o99vq
+         WvadJ/Dm5+89CiZvRgKHYk5m+sG4AHuBgwsJWEbO7A5m3ligRatloz0frLD2HOWjiK99
+         gVYIXkPWYxtxvRpAz1se+cD2B/4zUxA5fuJriHbvBN1w0avjSmqmKu/6djFbcGxUr0RC
+         pgWg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of zhongbaisong@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=zhongbaisong@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
-        by gmr-mx.google.com with ESMTPS id h22-20020ac87776000000b003a4f2725cd1si624127qtu.4.2022.11.02.00.19.56
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=HR0DbvwE;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
+        by gmr-mx.google.com with ESMTPS id k27-20020a05651c10bb00b002776daa0487si171626ljn.2.2022.11.02.01.22.38
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Nov 2022 00:19:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of zhongbaisong@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
-Received: from canpemm500005.china.huawei.com (unknown [172.30.72.56])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N2J740d2TzRnx1;
-	Wed,  2 Nov 2022 15:14:56 +0800 (CST)
-Received: from [10.174.178.197] (10.174.178.197) by
- canpemm500005.china.huawei.com (7.192.104.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 2 Nov 2022 15:19:52 +0800
-Message-ID: <666b976a-8873-25e2-66dd-1398682c6cb7@huawei.com>
-Date: Wed, 2 Nov 2022 15:19:52 +0800
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 01:22:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EA5B31F86C;
+	Wed,  2 Nov 2022 08:22:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 924811376E;
+	Wed,  2 Nov 2022 08:22:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id PpT3Is0oYmMuCAAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Wed, 02 Nov 2022 08:22:37 +0000
+Message-ID: <097d8fba-bd10-a312-24a3-a4068c4f424c@suse.cz>
+Date: Wed, 2 Nov 2022 09:22:37 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH -next] bpf, test_run: fix alignment problem in
- bpf_prog_test_run_skb()
-To: Eric Dumazet <edumazet@google.com>, Kees Cook <keescook@chromium.org>
-CC: Jakub Kicinski <kuba@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
-	<davem@davemloft.net>, <pabeni@redhat.com>, <linux-kernel@vger.kernel.org>,
-	<bpf@vger.kernel.org>, <netdev@vger.kernel.org>, <ast@kernel.org>,
-	<song@kernel.org>, <yhs@fb.com>, <haoluo@google.com>, Alexander Potapenko
-	<glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov
-	<dvyukov@google.com>, Linux MM <linux-mm@kvack.org>,
-	<kasan-dev@googlegroups.com>
-References: <20221101040440.3637007-1-zhongbaisong@huawei.com>
- <eca17bfb-c75f-5db1-f194-5b00c2a0c6f2@iogearbox.net>
- <ca6253bd-dcf4-2625-bc41-4b9a7774d895@huawei.com>
- <20221101210542.724e3442@kernel.org> <202211012121.47D68D0@keescook>
- <CANn89i+FVN95uvftTJteZgGQ_sSb6452XXZn0veNjHHKZ2yEFQ@mail.gmail.com>
-From: "'zhongbaisong' via kasan-dev" <kasan-dev@googlegroups.com>
-Organization: huawei
-In-Reply-To: <CANn89i+FVN95uvftTJteZgGQ_sSb6452XXZn0veNjHHKZ2yEFQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Originating-IP: [10.174.178.197]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- canpemm500005.china.huawei.com (7.192.104.229)
-X-CFilter-Loop: Reflected
-X-Original-Sender: zhongbaisong@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of zhongbaisong@huawei.com designates 45.249.212.188 as
- permitted sender) smtp.mailfrom=zhongbaisong@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: zhongbaisong <zhongbaisong@huawei.com>
-Reply-To: zhongbaisong <zhongbaisong@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v6 1/4] mm/slub: enable debugging memory wasting of
+ kmalloc
+To: John Thomson <lists@johnthomson.fastmail.com.au>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: Feng Tang <feng.tang@intel.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Christoph Lameter <cl@linux.com>,
+ Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Dmitry Vyukov
+ <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrey Konovalov <andreyknvl@gmail.com>, "Hansen, Dave"
+ <dave.hansen@intel.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+ Robin Murphy <robin.murphy@arm.com>, John Garry <john.garry@huawei.com>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org
+References: <20220913065423.520159-1-feng.tang@intel.com>
+ <20220913065423.520159-2-feng.tang@intel.com>
+ <becf2ac3-2a90-4f3a-96d9-a70f67c66e4a@app.fastmail.com>
+ <af2ba83d-c3f4-c6fb-794e-c2c7c0892c44@suse.cz> <Y180l6zUnNjdCoaE@feng-clx>
+ <c4285caf-277c-45fd-8fc7-8a1d61685ce8@app.fastmail.com>
+ <Y1+0sbQ3R4DB46NX@feng-clx>
+ <9b71ae3e-7f53-4c9e-90c4-79d3d649f94c@app.fastmail.com>
+ <Y2DReuPHZungAGsU@feng-clx>
+ <53b53476-bb1e-402e-9f65-fd7f0ecf94c2@app.fastmail.com>
+ <Y2DngwUc7cLB0dG7@hyeyoo>
+ <29271a2b-cf19-4af9-bfe5-5bcff8a23fda@app.fastmail.com>
+Content-Language: en-US
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <29271a2b-cf19-4af9-bfe5-5bcff8a23fda@app.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: vbabka@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@suse.cz header.s=susede2_rsa header.b=HR0DbvwE;       dkim=neutral
+ (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
+ vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,122 +170,143 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 2022/11/2 12:37, Eric Dumazet wrote:
-> On Tue, Nov 1, 2022 at 9:27 PM Kees Cook <keescook@chromium.org> wrote:
->>
->> On Tue, Nov 01, 2022 at 09:05:42PM -0700, Jakub Kicinski wrote:
->>> On Wed, 2 Nov 2022 10:59:44 +0800 zhongbaisong wrote:
->>>> On 2022/11/2 0:45, Daniel Borkmann wrote:
->>>>> [ +kfence folks ]
->>>>
->>>> + cc: Alexander Potapenko, Marco Elver, Dmitry Vyukov
->>>>
->>>> Do you have any suggestions about this problem?
+On 11/1/22 11:33, John Thomson wrote:
+> On Tue, 1 Nov 2022, at 09:31, Hyeonggon Yoo wrote:
+>> On Tue, Nov 01, 2022 at 09:20:21AM +0000, John Thomson wrote:
+>>> On Tue, 1 Nov 2022, at 07:57, Feng Tang wrote:
+>>> > Hi Thomson,
+>>> >
+>>> > Thanks for testing!
+>>> >
+>>> > + mips maintainer and mail list. The original report is here
+>>> >
+>>> > https://lore.kernel.org/lkml/becf2ac3-2a90-4f3a-96d9-a70f67c66e4a@app.fastmail.com/
 >>>
->>> + Kees who has been sending similar patches for drivers
->>>
->>>>> On 11/1/22 5:04 AM, Baisong Zhong wrote:
->>>>>> Recently, we got a syzkaller problem because of aarch64
->>>>>> alignment fault if KFENCE enabled.
->>>>>>
->>>>>> When the size from user bpf program is an odd number, like
->>>>>> 399, 407, etc, it will cause skb shard info's alignment access,
->>>>>> as seen below:
->>>>>>
->>>>>> BUG: KFENCE: use-after-free read in __skb_clone+0x23c/0x2a0
->>>>>> net/core/skbuff.c:1032
->>>>>>
->>>>>> Use-after-free read at 0xffff6254fffac077 (in kfence-#213):
->>>>>>    __lse_atomic_add arch/arm64/include/asm/atomic_lse.h:26 [inline]
->>>>>>    arch_atomic_add arch/arm64/include/asm/atomic.h:28 [inline]
->>>>>>    arch_atomic_inc include/linux/atomic-arch-fallback.h:270 [inline]
->>>>>>    atomic_inc include/asm-generic/atomic-instrumented.h:241 [inline]
->>>>>>    __skb_clone+0x23c/0x2a0 net/core/skbuff.c:1032
->>>>>>    skb_clone+0xf4/0x214 net/core/skbuff.c:1481
->>>>>>    ____bpf_clone_redirect net/core/filter.c:2433 [inline]
->>>>>>    bpf_clone_redirect+0x78/0x1c0 net/core/filter.c:2420
->>>>>>    bpf_prog_d3839dd9068ceb51+0x80/0x330
->>>>>>    bpf_dispatcher_nop_func include/linux/bpf.h:728 [inline]
->>>>>>    bpf_test_run+0x3c0/0x6c0 net/bpf/test_run.c:53
->>>>>>    bpf_prog_test_run_skb+0x638/0xa7c net/bpf/test_run.c:594
->>>>>>    bpf_prog_test_run kernel/bpf/syscall.c:3148 [inline]
->>>>>>    __do_sys_bpf kernel/bpf/syscall.c:4441 [inline]
->>>>>>    __se_sys_bpf+0xad0/0x1634 kernel/bpf/syscall.c:4381
->>>>>>
->>>>>> kfence-#213: 0xffff6254fffac000-0xffff6254fffac196, size=407,
->>>>>> cache=kmalloc-512
->>>>>>
->>>>>> allocated by task 15074 on cpu 0 at 1342.585390s:
->>>>>>    kmalloc include/linux/slab.h:568 [inline]
->>>>>>    kzalloc include/linux/slab.h:675 [inline]
->>>>>>    bpf_test_init.isra.0+0xac/0x290 net/bpf/test_run.c:191
->>>>>>    bpf_prog_test_run_skb+0x11c/0xa7c net/bpf/test_run.c:512
->>>>>>    bpf_prog_test_run kernel/bpf/syscall.c:3148 [inline]
->>>>>>    __do_sys_bpf kernel/bpf/syscall.c:4441 [inline]
->>>>>>    __se_sys_bpf+0xad0/0x1634 kernel/bpf/syscall.c:4381
->>>>>>    __arm64_sys_bpf+0x50/0x60 kernel/bpf/syscall.c:4381
->>>>>>
->>>>>> To fix the problem, we round up allocations with kmalloc_size_roundup()
->>>>>> so that build_skb()'s use of kize() is always alignment and no special
->>>>>> handling of the memory is needed by KFENCE.
->>>>>>
->>>>>> Fixes: 1cf1cae963c2 ("bpf: introduce BPF_PROG_TEST_RUN command")
->>>>>> Signed-off-by: Baisong Zhong <zhongbaisong@huawei.com>
->>>>>> ---
->>>>>>    net/bpf/test_run.c | 1 +
->>>>>>    1 file changed, 1 insertion(+)
->>>>>>
->>>>>> diff --git a/net/bpf/test_run.c b/net/bpf/test_run.c
->>>>>> index 13d578ce2a09..058b67108873 100644
->>>>>> --- a/net/bpf/test_run.c
->>>>>> +++ b/net/bpf/test_run.c
->>>>>> @@ -774,6 +774,7 @@ static void *bpf_test_init(const union bpf_attr
->>>>>> *kattr, u32 user_size,
->>>>>>        if (user_size > size)
->>>>>>            return ERR_PTR(-EMSGSIZE);
->>>>>> +    size = kmalloc_size_roundup(size);
->>>>>>        data = kzalloc(size + headroom + tailroom, GFP_USER);
->>>>>
->>>>> The fact that you need to do this roundup on call sites feels broken, no?
->>>>> Was there some discussion / consensus that now all k*alloc() call sites
->>>>> would need to be fixed up? Couldn't this be done transparently in k*alloc()
->>>>> when KFENCE is enabled? I presume there may be lots of other such occasions
->>>>> in the kernel where similar issue triggers, fixing up all call-sites feels
->>>>> like ton of churn compared to api-internal, generic fix.
+>>> I am guessing my issue comes from __kmem_cache_alloc_lru accessing s->object_size when (kmem_cache) s is NULL?
+>>> If that is the case, this change is not to blame, it only exposes the issue?
+>>> 
+>>> I get the following dmesg (note very early NULL kmem_cache) with the below change atop v6.1-rc3:
+>>> 
+>>> transfer started ......................................... transfer ok, time=2.02s
+>>> setting up elf image... OK
+>>> jumping to kernel code
+>>> zimage at:     80B842A0 810B4EFC
+>>> 
+>>> Uncompressing Linux at load address 80001000
+>>> 
+>>> Copy device tree to address  80B80EE0
+>>> 
+>>> Now, booting the kernel...
+>>> 
+>>> [    0.000000] Linux version 6.1.0-rc3+ (john@john) (mipsel-buildroot-linux-gnu-gcc.br_real (Buildroot 2021.11-4428-g6b6741b) 12.2.0, GNU ld (GNU Binutils) 2.39) #61 SMP Tue Nov  1 18:04:13 AEST 2022
+>>> [    0.000000] slub: kmem_cache_alloc called with kmem_cache: 0x0
+>>> [    0.000000] slub: __kmem_cache_alloc_lru called with kmem_cache: 0x0
+>>> [    0.000000] SoC Type: MediaTek MT7621 ver:1 eco:3
+>>> [    0.000000] printk: bootconsole [early0] enabled
+>>> [    0.000000] CPU0 revision is: 0001992f (MIPS 1004Kc)
+>>> [    0.000000] MIPS: machine is MikroTik RouterBOARD 760iGS
+>>> 
+>>> normal boot
+>>> 
+>>> 
+>>> diff --git a/mm/slub.c b/mm/slub.c
+>>> index 157527d7101b..10fcdf2520d2 100644
+>>> --- a/mm/slub.c
+>>> +++ b/mm/slub.c
+>>> @@ -3410,7 +3410,13 @@ static __always_inline
+>>>  void *__kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+>>>  			     gfp_t gfpflags)
+>>>  {
+>>> -	void *ret = slab_alloc(s, lru, gfpflags, _RET_IP_, s->object_size);
+>>> +	void *ret;
+>>> +	if (IS_ERR_OR_NULL(s)) {
+>>> +		pr_warn("slub: __kmem_cache_alloc_lru called with kmem_cache: %pSR\n", s);
+>>> +		ret = slab_alloc(s, lru, gfpflags, _RET_IP_, 0);
+>>> +	} else {
+>>> +		ret = slab_alloc(s, lru, gfpflags, _RET_IP_, s->object_size);
+>>> +	}
+>>>  
+>>>  	trace_kmem_cache_alloc(_RET_IP_, ret, s, gfpflags, NUMA_NO_NODE);
+>>>  
+>>> @@ -3419,6 +3425,8 @@ void *__kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+>>>  
+>>>  void *kmem_cache_alloc(struct kmem_cache *s, gfp_t gfpflags)
+>>>  {
+>>> +	if (IS_ERR_OR_NULL(s))
+>>> +		pr_warn("slub: kmem_cache_alloc called with kmem_cache: %pSR\n", s);
+>>>  	return __kmem_cache_alloc_lru(s, NULL, gfpflags);
+>>>  }
+>>>  EXPORT_SYMBOL(kmem_cache_alloc);
+>>> @@ -3426,6 +3434,8 @@ EXPORT_SYMBOL(kmem_cache_alloc);
+>>>  void *kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+>>>  			   gfp_t gfpflags)
+>>>  {
+>>> +	if (IS_ERR_OR_NULL(s))
+>>> +		pr_warn("slub: __kmem_cache_alloc_lru called with kmem_cache: %pSR\n", s);
+>>>  	return __kmem_cache_alloc_lru(s, lru, gfpflags);
+>>>  }
+>>>  EXPORT_SYMBOL(kmem_cache_alloc_lru);
+>>> 
+>>> 
+>>> Any hints on where kmem_cache_alloc would be being called from this early?
+>>> I will start looking from /init/main.c around pr_notice("%s", linux_banner);
 >>
->> I hope I answer this in more detail here:
->> https://lore.kernel.org/lkml/202211010937.4631CB1B0E@keescook/
+>> Great. Would you try calling dump_stack(); when we observed s == NULL?
+>> That would give more information about who passed s == NULL to these
+>> functions.
 >>
->> The problem is that ksize() should never have existed in the first
->> place. :P Every runtime bounds checker has tripped over it, and with
->> the addition of the __alloc_size attribute, I had to start ripping
->> ksize() out: it can't be used to pretend an allocation grew in size.
->> Things need to either preallocate more or go through *realloc() like
->> everything else. Luckily, ksize() is rare.
->>
->> FWIW, the above fix doesn't look correct to me -- I would expect this to
->> be:
->>
->>          size_t alloc_size;
->>          ...
->>          alloc_size = kmalloc_size_roundup(size + headroom + tailroom);
->>          data = kzalloc(alloc_size, GFP_USER);
 > 
-> Making sure the struct skb_shared_info is aligned to a cache line does
-> not need kmalloc_size_roundup().
+> With the dump_stack() in place:
 > 
-> What is needed is to adjust @size so that (@size + @headroom) is a
-> multiple of SMP_CACHE_BYTES
+> Now, booting the kernel...
+> 
+> [    0.000000] Linux version 6.1.0-rc3+ (john@john) (mipsel-buildroot-linux-gnu-gcc.br_real (Buildroot 2021.11-4428-g6b6741b) 12.2.0, GNU ld (GNU Binutils) 2.39) #62 SMP Tue Nov  1 19:49:52 AEST 2022
+> [    0.000000] slub: __kmem_cache_alloc_lru called with kmem_cache ptr: 0x0
+> [    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 6.1.0-rc3+ #62
+> [    0.000000] Stack : 810fff78 80084d98 80889d00 00000004 00000000 00000000 80889d5c 80c90000
+> [    0.000000]         80920000 807bd380 8089d368 80923bd3 00000000 00000001 80889d08 00000000
+> [    0.000000]         00000000 00000000 807bd380 8084bd51 00000002 00000002 00000001 6d6f4320
+> [    0.000000]         00000000 80c97ce9 80c97d14 fffffffc 807bd380 00000000 00000003 00000dc0
+> [    0.000000]         00000000 a0000000 80910000 8110a0b4 00000000 00000020 80010000 80010000
+> [    0.000000]         ...
+> [    0.000000] Call Trace:
+> [    0.000000] [<80008260>] show_stack+0x28/0xf0
+> [    0.000000] [<8070cdc0>] dump_stack_lvl+0x60/0x80
+> [    0.000000] [<801c1428>] kmem_cache_alloc+0x5c0/0x740
+> [    0.000000] [<8092856c>] prom_soc_init+0x1fc/0x2b4
+> [    0.000000] [<80928060>] prom_init+0x44/0xf0
+> [    0.000000] [<80929214>] setup_arch+0x4c/0x6a8
+> [    0.000000] [<809257e0>] start_kernel+0x88/0x7c0
+> [    0.000000] 
+> [    0.000000] SoC Type: MediaTek MT7621 ver:1 eco:3
 
-ok, I'll fix it and send v2.
+The stack means CONFIG_TRACING=n, is that right?
 
-Thanks
+That would mean
+prom_soc_init()
+  soc_dev_init()
+    kzalloc() -> kmalloc()
+      kmalloc_trace()  // after #else /* CONFIG_TRACING */
+        kmem_cache_alloc(s, flags);
 
-.
+Looks like this path is a small bug in the wasting detection patch, as we
+throw away size there.
+
+AFAICS before this patch, we "survive" "kmem_cache *s" being NULL as
+slab_pre_alloc_hook() will happen to return NULL and we bail out from
+slab_alloc_node(). But this is a side-effect, not an intended protection.
+Also the CONFIG_TRACING variant of kmalloc_trace() would have called
+trace_kmalloc dereferencing s->size anyway even before this patch.
+
+I don't think we should add WARNS in the slab hot paths just to prevent this
+rare error of using slab too early. At most VM_WARN... would be acceptable
+but still not necessary as crashing immediately from a NULL pointer is
+sufficient.
+
+So IMHO mips should fix their soc init, and we should look into the
+CONFIG_TRACING=n variant of kmalloc_trace(), to pass orig_size properly.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/666b976a-8873-25e2-66dd-1398682c6cb7%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/097d8fba-bd10-a312-24a3-a4068c4f424c%40suse.cz.
