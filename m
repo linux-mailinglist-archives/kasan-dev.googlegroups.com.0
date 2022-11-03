@@ -1,170 +1,143 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBB3NDR6NQMGQECTBN5CI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB6HDR6NQMGQEFWGQEHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B189617FA9
-	for <lists+kasan-dev@lfdr.de>; Thu,  3 Nov 2022 15:36:30 +0100 (CET)
-Received: by mail-yb1-xb37.google.com with SMTP id t9-20020a5b03c9000000b006cff5077dc9sf2339268ybp.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 03 Nov 2022 07:36:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1667486189; cv=pass;
+Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16AE0618556
+	for <lists+kasan-dev@lfdr.de>; Thu,  3 Nov 2022 17:53:13 +0100 (CET)
+Received: by mail-wm1-x33b.google.com with SMTP id i7-20020a1c3b07000000b003c5e6b44ebasf2884812wma.9
+        for <lists+kasan-dev@lfdr.de>; Thu, 03 Nov 2022 09:53:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1667494392; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uB/VDzS4unh04EdcsHO/DBcAHUdFOH8wiRH3WAue/i3/FHE1DseFOLuXgZZxC5BsB3
-         tgREa5HfZktVq15cIfE0RGRpXR8/qgtHahG+LVcWPRSTBR7opWYE1vL0wzGBKXbu/Ji3
-         ragiU4Yr05/tr7lllDETCNDtcLTWWGSWcE4+unjMjDugHt7ukQ7kVkpAreqTBftN/UMq
-         fM4obdfcX5q9sELBSufB1qnlACEarchUcY7+QBdQtSasVSc5/IDd42pZUukx1yuK3mX8
-         Gf4xmjZM/TcDuDUicOWRiBsEKg7V1+ziu1J/y6uOW0m6UfO6PwXo1XoX6SXJWdHdndGY
-         E13w==
+        b=eVLcfkhfBvPeicNkITAnIoHwx03vM49qYH2v/6X6EsaQ1QIAkqEwUB/w8D0KAVyfnw
+         FXGx3lsrzeT5A0LeIKJ407nWmpJzJXf5tsjJfslNobOzMNghChPSORF8S2tryIp0zQD4
+         p04xKii8KcLEhPWRkL3WOu8i8f0qawIR/pHDceE4W2GZsRUVoM348uAbzye743lXKmY0
+         vU4CZBdQmkWf393YalVfUNU9gyN7k/3T+20V3/+NtoZv2V4OocfJLPHmmtXrB3JsJ69N
+         LRdaVPHwgxGmTA0PlX1Y0hTmwBt0v+kz3PB0W/dVV0UE62382MNfVUP4JWTL3j57e4X6
+         kP7A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature:dkim-signature;
-        bh=6TljYPmvNCxy6eqX6WNrqPiK/alo5tkLVqEYfmF+IvQ=;
-        b=Asyyjvl7aY01vfrMWzcbyozhrJ5g618ifTZNDtsdWI9EFeQrybVazuv9h7uPC+dNWp
-         rX96MWV/Xn6eJ0Efga7ZXNxrPU3WjMpS7kXXknFcgjYxLEtXDANkUcSsEEJmO+8HUDwt
-         340uODZu9Qd00sd//4o43VZSYjMbDEUlsEkCThuR8TOmdd6SJFMwaeBMzSRW5Qp1BMvy
-         wgbMY2EsOndh3rdPDPvANrGUF6mGQUjJmiNCdW2Lw9cAKLnvqQEGg8iv0B1A0fKW14lI
-         M44nAVh/3ENNeJB9ufELj6HfpkJvv027ezX9ZCT9ndryvInMnUgRysR4OIQLYzE2qepV
-         fxTA==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :message-id:date:subject:to:from:sender:dkim-signature;
+        bh=Y3h8fCppE5bVSEqWK6dcpQPd+Pdei57ljm9VeIOxC/E=;
+        b=aQdc6jJz3Tu3FDETBd7lcXwOzDI5s/6KfWgzjb7ttKr1Adeaem7Ko6VTCA8gEj0iu3
+         8cfG8PpbbztzItk5YuekbdxvGP8m4dqQOt6H7ob1PQTVGA+/qD+9+Cw98flAW6zZcSxz
+         84Es+EjdFVCk11b3bjXUeub4RId3h/0xccfdzVOX7Di6P8Yxv8Qa4feM8m+/UJan/Cpm
+         iXCtP+MB4asLx1CZ7x0FAOdBNWyF9Or2obZi0f07gC4yE49YIfUPPwwOAncJNn7PFeHE
+         PjFB3Ks+1UJWQXZey2QUY/MY01cZ+AiZ7NCCTzsZW5ZGeVWOlqdKctjDoJArE6GYYci4
+         dMcQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b="N4Ta5MP/";
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=AwF7OWY6;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6TljYPmvNCxy6eqX6WNrqPiK/alo5tkLVqEYfmF+IvQ=;
-        b=a1qLFmKwgLXh7rTGhYtJLWeOK1pVKPXBI4tDmqxUP40DVjxLtine+W/3AuJ7FzERAn
-         i2iRTxx7vMT3O46JROPdnl+sGoMliiQigDpdNiNBgkXpmTo6oKShblelKddgeuIKxIE+
-         Zk3NCy1nO4Lw0rjKwtm4k0mkEUYBEYcXQbIVtawpsYdgUmh2UxJepoMCBPbpAbf6mFxs
-         gy7ARdTmm0g+cNpD4BHXvoIDJOQy2ReGeX9Ilt5EWyhSlTjsWIZnGFqoz5RnjLF1AHh3
-         rgRGP8VrS6f95ItHQtp6K/+t//muqPrvWg2OIRYh+KLP/iWby2MygjtzpRe/EyQO7G3M
-         39/Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6TljYPmvNCxy6eqX6WNrqPiK/alo5tkLVqEYfmF+IvQ=;
-        b=OO6Q6wBV8eFVWhKMQmKS9WZA68OXE19IXqLELi446M/WhuZrojOmJ4RLAV23wuXx7Q
-         PtAiJKTzr+sL7VTIPlq6iAK9xquOnXn4t9lp4THkT8ldjrACChRo146w3Yvufp0448Rn
-         9fWi8og1p0K7Zk1xFOvaM9RhCXft32XJKCYcxVn6Je76kw50qSaLUNS16GjXKh4UPKn+
-         DuKU2NiZCuP9Ony/pWLz6HzwPIJ7B9QFUIr1xABh8N9re3VaKNIhp5EMz63c9EUVaH5D
-         JRyTRzawoMoaLk4VVxx3RdK2Gh9A7wE1l0LFwDQlcKHVs3PsJu2kcG3EIBSP7Dp26aNH
-         CWwg==
+         :x-original-sender:mime-version:auto-submitted:message-id:date
+         :subject:to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y3h8fCppE5bVSEqWK6dcpQPd+Pdei57ljm9VeIOxC/E=;
+        b=iFEc+EuPNBLKwBMnbtE3xrjldDjYXP+OMCdCtmG8s43S+13eaxx9AOnpZ/hcBS/Z8/
+         f1KXVYza6Ymop3ykhAvwsthTY7zBOsLI0aZKJPb4S3orz5Z758p1gsKUV0BgAHFGs+gW
+         FTACR8W2VM55wysaX6WFpv4I/4srjtI62/H3r9/7dkcH1TeD484/16GfsaWZNrouGj6x
+         MOp/z/ZHBk6jeZGsGenwXE3dDb+1/Ymk+TTZ8pdHGTzBddD2dax8ZcNL391YnjJr8LOc
+         NdAypE1KxW8Y5Y718Om90GJ7gSsWTx75M4KRbI93H+FWIiV4SeYmSU8bzCoI9nD0yRw9
+         CSXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6TljYPmvNCxy6eqX6WNrqPiK/alo5tkLVqEYfmF+IvQ=;
-        b=fRxUe5gEohdk02kI6DbKS8O2JZND1H3P169jx9ZzOzXcoawvDhEwHxFh0n/L//LLIP
-         cv7UdvisRmj+wtWsX47ZQhdpqq4RYxT5jvNFWNjdCsEwmuOenzc+XmPsr+8IZd7JyWEa
-         vQIup3Vmibw9ZfJXWOw4c/LvCLC9yVyFy7t0dY1jAAJ20XjNddip/JAxO952zJFHwT/i
-         iSE0XXWQicUJD79TjnNi8wRGnFXdTuA+CikPxcgikDQOYydEz/hGojrFbqll0CvOszXu
-         KhUZElNAsIiVPl6vZALcEQfDFw9xNvxETLxX29V7uX6MGnCc3+dROVeajQUSbaCX0OkY
-         hbGg==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :auto-submitted:message-id:date:subject:to:from:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y3h8fCppE5bVSEqWK6dcpQPd+Pdei57ljm9VeIOxC/E=;
+        b=IQG4uOSAgNPLWs4II03XjAGZR963D9kjOarlJzfMMUwzr49h54RfKkbEWe7llLuUft
+         SsBldscv1S3W64ORuRNuSrSW2Qt62Ia7bUQPac1JkbOnLpe9X75hrawxesy7coOK0ie7
+         zZF7ULzl6cEtEN8hNGDYldGy8/3GHkP4hVWuafsLGiiyeqJmPaNGghVZhJT7ERoiuMD+
+         wFK885NbVrhNtxk9QVU3yGLfghUUz6z8Cf4fjKtEPPrpgNKv/ECYd3FnL74qI5ib9JFO
+         jiSjjzGRHPX/MUeqHD0Xj+nFrLVaS87lq07G7pEC8K+YQYWRi3NGmHVTu/W5lrX4CoGd
+         4acA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ACrzQf0L1lhCFRmPOui4I/yFkEZKahGpv5v8jBcK9deOxEd0HlpD4HVe
-	fMyJ2aGR5gqHK2MdGnaX6q4=
-X-Google-Smtp-Source: AMsMyM4wuQ063SYjK9FzqhU7rN7UPZub6fC72NVsuOVvL09vFfsdZmtx8RV/sr/kzK75FPvG+E2Bkw==
-X-Received: by 2002:a25:d70f:0:b0:6ca:1c0b:4767 with SMTP id o15-20020a25d70f000000b006ca1c0b4767mr29159071ybg.239.1667486189312;
-        Thu, 03 Nov 2022 07:36:29 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2+VZCMyLeeKOdQ4s0KHNrwafd9AJsfeukVHufSKfO/BNRpX5xG
+	nmLOVw+nGOEfYOHRwVxQqnE=
+X-Google-Smtp-Source: AMsMyM45/Ugg+mfWwFP914RQSNCN4cFAV8MnFaCzfXILqD9P9S8VeX3nXPMM41Wd/JF4JVN/L9eurw==
+X-Received: by 2002:adf:e38d:0:b0:236:7217:827e with SMTP id e13-20020adfe38d000000b002367217827emr20225801wrm.652.1667494392510;
+        Thu, 03 Nov 2022 09:53:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0d:d446:0:b0:367:447d:fe68 with SMTP id w67-20020a0dd446000000b00367447dfe68ls799417ywd.3.-pod-prod-gmail;
- Thu, 03 Nov 2022 07:36:28 -0700 (PDT)
-X-Received: by 2002:a81:a191:0:b0:368:e6ad:ae7b with SMTP id y139-20020a81a191000000b00368e6adae7bmr28061398ywg.236.1667486188770;
-        Thu, 03 Nov 2022 07:36:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1667486188; cv=none;
+Received: by 2002:a05:6000:1f07:b0:236:8fa4:71d1 with SMTP id
+ bv7-20020a0560001f0700b002368fa471d1ls1022737wrb.1.-pod-prod-gmail; Thu, 03
+ Nov 2022 09:53:11 -0700 (PDT)
+X-Received: by 2002:adf:f392:0:b0:236:2c41:d3f5 with SMTP id m18-20020adff392000000b002362c41d3f5mr19934292wro.596.1667494391759;
+        Thu, 03 Nov 2022 09:53:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1667494391; cv=none;
         d=google.com; s=arc-20160816;
-        b=LXO4lsmlyhNiWl7MnoJbSIPYva2ElXWsmW8TwtuawRfvbX/F/Ir9jCG6oREtQiN8Hs
-         Ys8VYFBy5Nkpy/MQSQcbaewO0jGs6bQNiSvWNOWliKqN831ukqU1KDGECh3F5uJU2RW8
-         GU63j8UTmazlKrLvPdL33S7wAQPjWkvj+mAmjXJ92zznX3WQFmFeLZh8aD/BGhoX780R
-         bkrcdKWcYkoQxY7wkxh5Niwp8wjtQ5GCi3/FeVZF7lew9QAEiSmM+shJMbrCTiDwcTXm
-         m4y5Qd7FPOULc7EGF7KQi2u6uDHOD7bSjkdoOD3u9VPRHF1zU1xLH4WbBqe45oFd7k+y
-         zSwQ==
+        b=gRErJYnImjB2y4I8BDH5i5FK/zJmskd2dcSvbaDBQyEAW0RCSnYKajE8r6YVdrwg53
+         ubbnXGjtKwVN7VU2Zr7nwqtFFHVm3kZcy/nPVVCA8xfCkb/hmgxDI5VwmHwQY6y2WdlW
+         W5Fzl2UsH/VNaIci587EtT4aWrlAbMXbC+MyCLJLZjVE1g7y459k17kuFslcJ8M/f1e1
+         oK/DRUCw7cMO6JenrgITWPNKU82xYwRMnQLk51H0YEOHbJ8Tb6MTbSIZuAWGUUbxYvne
+         nyhZjCiamYWVonDoH61BnGSVYjrWXNS0XCI0R3ziOkCsJMC3XQI0ujVQCzpnroy+9EuT
+         SFCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=SGnUSCPqCRbqwfTPIsUS28tudEAjZuU81okBvbtR/vY=;
-        b=NMsRID1HwiKyAwGLmGN5JjWdBQQYaoJ2OpyYe/rYSWiK8L8c6pC+nVIsh/HS2QpQrT
-         whTc4pnXfX4EV6aKjw4WZFh45xXdu5mg/qmo2NwpEP1/V9O6ZxBQ9ca6U1JW5u9jEdZ0
-         HSvtdUxNHn+A8I4WImbI1NYLLhWsQ90l1CXgRG+zTpDJP+pDdcb9Z4M+eDYq85abRWuc
-         cwivYQPJCRRWKuaAe2uik94GFgvAcvlwz+wtcMTw4Qprs1UeVSOVrcZrmUVtDeMihfZV
-         tDYddWvKxOwqadS+E0l518ua2ZiWkyMRvrXJ4qdStqLvuS9ABNqLFusV3EyiJig5PhdR
-         yDIA==
+        h=mime-version:auto-submitted:content-transfer-encoding:message-id
+         :date:subject:to:from:dkim-signature;
+        bh=S1N8er1zMsMojfOPOk0jSs3KBsm3pK2C7NRfWEMQCas=;
+        b=MtPHnjOGWNWsYtvK2ukgd4u8LA5FVFggwqd6Ehqeo24cmM8RqOPz9nyH1Gcyit9hC0
+         XjAj6rHmQRr8BbPKazfSFRFAgBaiAjN8wELH69T3jXOo8HBZqNfeSYEzzjX1bCAMQS4v
+         fo6cpsr6kcF6TaoE42H4viOWwI+ALPTqkHzrLn+NDw7PHUOKNj2Z/ZLLq19r4XIhPAX2
+         cnIGp5UFisPvLPwOYvTl41ZN3TQ/LKTmjJ7Glzd7nidkt3l8bScUYjqaAe4jY/+9l+gp
+         /fF2vh6pmKH2cYZ3DmDL0IcnSi9jxerKYKI7+nEZnXsgVycDycmZMcb3MoLudFPZ+Z2M
+         PxtA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b="N4Ta5MP/";
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com. [2607:f8b0:4864:20::52a])
-        by gmr-mx.google.com with ESMTPS id g6-20020a816b06000000b0036c251a1626si55835ywc.4.2022.11.03.07.36.28
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=AwF7OWY6;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
+        by gmr-mx.google.com with ESMTPS id l125-20020a1c2583000000b003cf537bb09esi188144wml.4.2022.11.03.09.53.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 07:36:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52a as permitted sender) client-ip=2607:f8b0:4864:20::52a;
-Received: by mail-pg1-x52a.google.com with SMTP id s196so1836093pgs.3
-        for <kasan-dev@googlegroups.com>; Thu, 03 Nov 2022 07:36:28 -0700 (PDT)
-X-Received: by 2002:a05:6a00:340f:b0:56d:b039:202 with SMTP id cn15-20020a056a00340f00b0056db0390202mr16913722pfb.2.1667486187927;
-        Thu, 03 Nov 2022 07:36:27 -0700 (PDT)
-Received: from hyeyoo ([114.29.91.56])
-        by smtp.gmail.com with ESMTPSA id h2-20020a056a00000200b00562cfc80864sm850829pfk.36.2022.11.03.07.36.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 07:36:26 -0700 (PDT)
-Date: Thu, 3 Nov 2022 23:36:19 +0900
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To: Feng Tang <feng.tang@intel.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-	John Thomson <lists@johnthomson.fastmail.com.au>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	"Hansen, Dave" <dave.hansen@intel.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	John Garry <john.garry@huawei.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>
-Subject: Re: [PATCH v6 1/4] mm/slub: enable debugging memory wasting of
- kmalloc
-Message-ID: <Y2PR45BW2mgLLMwC@hyeyoo>
-References: <Y1+0sbQ3R4DB46NX@feng-clx>
- <9b71ae3e-7f53-4c9e-90c4-79d3d649f94c@app.fastmail.com>
- <Y2DReuPHZungAGsU@feng-clx>
- <53b53476-bb1e-402e-9f65-fd7f0ecf94c2@app.fastmail.com>
- <Y2DngwUc7cLB0dG7@hyeyoo>
- <29271a2b-cf19-4af9-bfe5-5bcff8a23fda@app.fastmail.com>
- <097d8fba-bd10-a312-24a3-a4068c4f424c@suse.cz>
- <Y2NXiiAF6V2DnBrB@feng-clx>
- <f88a5d34-de05-25d7-832d-36b3a3eddd72@suse.cz>
- <Y2PNLENnxxpqZ74g@feng-clx>
-MIME-Version: 1.0
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 03 Nov 2022 09:53:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 71695B82924
+	for <kasan-dev@googlegroups.com>; Thu,  3 Nov 2022 16:53:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 219E3C433C1
+	for <kasan-dev@googlegroups.com>; Thu,  3 Nov 2022 16:53:10 +0000 (UTC)
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 0DBD0C433E6; Thu,  3 Nov 2022 16:53:10 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 216657] New: KASAN: catch object/redzone overwrite by
+ uninstrumented accesses
+Date: Thu, 03 Nov 2022 16:53:09 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dvyukov@google.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cc cf_regression
+Message-ID: <bug-216657-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <Y2PNLENnxxpqZ74g@feng-clx>
-X-Original-Sender: 42.hyeyoo@gmail.com
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b="N4Ta5MP/";       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52a
- as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@kernel.org header.s=k20201202 header.b=AwF7OWY6;       spf=pass
+ (google.com: domain of bugzilla-daemon@kernel.org designates
+ 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -177,130 +150,43 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Nov 03, 2022 at 10:16:12PM +0800, Feng Tang wrote:
-> On Thu, Nov 03, 2022 at 09:33:28AM +0100, Vlastimil Babka wrote:
-> [...]
-> > >> AFAICS before this patch, we "survive" "kmem_cache *s" being NULL as
-> > >> slab_pre_alloc_hook() will happen to return NULL and we bail out from
-> > >> slab_alloc_node(). But this is a side-effect, not an intended protection.
-> > >> Also the CONFIG_TRACING variant of kmalloc_trace() would have called
-> > >> trace_kmalloc dereferencing s->size anyway even before this patch.
-> > >> 
-> > >> I don't think we should add WARNS in the slab hot paths just to prevent this
-> > >> rare error of using slab too early. At most VM_WARN... would be acceptable
-> > >> but still not necessary as crashing immediately from a NULL pointer is
-> > >> sufficient.
-> > >> 
-> > >> So IMHO mips should fix their soc init, 
-> > > 
-> > > Yes, for the mips fix, John has proposed to defer the calling of prom_soc_init(),
-> > > which looks reasonable.
-> > > 
-> > >> and we should look into the
-> > >> CONFIG_TRACING=n variant of kmalloc_trace(), to pass orig_size properly.
-> > > 
-> > > You mean check if the pointer is NULL and bail out early. 
-> > 
-> > No I mean here:
-> > 
-> > #else /* CONFIG_TRACING */
-> > /* Save a function call when CONFIG_TRACING=n */
-> > static __always_inline __alloc_size(3)                                   
-> > void *kmalloc_trace(struct kmem_cache *s, gfp_t flags, size_t size)
-> > {       
-> >         void *ret = kmem_cache_alloc(s, flags);
-> >                     
-> >         ret = kasan_kmalloc(s, ret, size, flags);
-> >         return ret;
-> > }
-> > 
-> > we call kmem_cache_alloc() and discard the size parameter, so it will assume
-> > s->object_size (and as the side-effect, crash if s is NULL). We shouldn't
-> > add "s is NULL?" checks, but fix passing the size - probably switch to
-> > __kmem_cache_alloc_node()? and in the following kmalloc_node_trace() analogically.
->  
-> Got it, thanks! I might have missed it during some rebasing for the
-> kmalloc wastage debug patch.
+https://bugzilla.kernel.org/show_bug.cgi?id=216657
 
-That was good catch and I missed too!
-But FYI I'm suggesting to drop CONFIG_TRACING=n variant:
+            Bug ID: 216657
+           Summary: KASAN: catch object/redzone overwrite by
+                    uninstrumented accesses
+           Product: Memory Management
+           Version: 2.5
+    Kernel Version: ALL
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Sanitizers
+          Assignee: mm_sanitizers@kernel-bugs.kernel.org
+          Reporter: dvyukov@google.com
+                CC: kasan-dev@googlegroups.com
+        Regression: No
 
-https://lore.kernel.org/linux-mm/20221101222520.never.109-kees@kernel.org/T/#m20ecf14390e406247bde0ea9cce368f469c539ed
-
-Any thoughts?
-
-> 
-> How about the following fix?
-> 
-> Thanks,
-> Feng
-> 
-> ---
-> From 9f9fa9da8946fd44625f873c0f51167357075be1 Mon Sep 17 00:00:00 2001
-> From: Feng Tang <feng.tang@intel.com>
-> Date: Thu, 3 Nov 2022 21:32:10 +0800
-> Subject: [PATCH] mm/slub: Add missing orig_size parameter for wastage debug
-> 
-> commit 6edf2576a6cc ("mm/slub: enable debugging memory wasting of
-> kmalloc") was introduced for debugging kmalloc memory wastage,
-> and it missed to pass the original request size for kmalloc_trace()
-> and kmalloc_node_trace() in CONFIG_TRACING=n path.
-> 
-> Fix it by using __kmem_cache_alloc_node() with correct original
-> request size.
-> 
-> Fixes: 6edf2576a6cc ("mm/slub: enable debugging memory wasting of kmalloc")
-> Suggested-by: Vlastimil Babka <vbabka@suse.cz>
-> Signed-off-by: Feng Tang <feng.tang@intel.com>
-> ---
->  include/linux/slab.h | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index 90877fcde70b..9691afa569e1 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -469,6 +469,9 @@ void *__kmalloc_node(size_t size, gfp_t flags, int node) __assume_kmalloc_alignm
->  							 __alloc_size(1);
->  void *kmem_cache_alloc_node(struct kmem_cache *s, gfp_t flags, int node) __assume_slab_alignment
->  									 __malloc;
-> +void *__kmem_cache_alloc_node(struct kmem_cache *s, gfp_t flags, int node,
-> +				size_t orig_size, unsigned long caller) __assume_slab_alignment
-> +									 __malloc;
->  
->  #ifdef CONFIG_TRACING
->  void *kmalloc_trace(struct kmem_cache *s, gfp_t flags, size_t size)
-> @@ -482,7 +485,8 @@ void *kmalloc_node_trace(struct kmem_cache *s, gfp_t gfpflags,
->  static __always_inline __alloc_size(3)
->  void *kmalloc_trace(struct kmem_cache *s, gfp_t flags, size_t size)
->  {
-> -	void *ret = kmem_cache_alloc(s, flags);
-> +	void *ret = __kmem_cache_alloc_node(s, flags, NUMA_NO_NODE,
-> +					    size, _RET_IP_);
->  
->  	ret = kasan_kmalloc(s, ret, size, flags);
->  	return ret;
-> @@ -492,7 +496,8 @@ static __always_inline __alloc_size(4)
->  void *kmalloc_node_trace(struct kmem_cache *s, gfp_t gfpflags,
->  			 int node, size_t size)
->  {
-> -	void *ret = kmem_cache_alloc_node(s, gfpflags, node);
-> +	void *ret = __kmem_cache_alloc_node(s, gfpflags, node,
-> +					    size, _RET_IP_);
->  
->  	ret = kasan_kmalloc(s, ret, size, gfpflags);
->  	return ret;
-> -- 
-> 2.34.1
-> 
-> 
-> 
+Comparing KASAN with slub_debug there is one type of bugs that can be caught by
+slub_debug, but not by KASAN.
+If freed object or redzone is overwritten by something that's not instrumented
+with KASAN (uncommon asm, DMA, VM guest), then KASAN won't catch it, while
+slub_debug still can catch it later (with no access stack, but still).
+To achieve full parity we could fill object/redzone with a pattern and check
+that it's not overwritten when the object is evicted from quarantine. We will
+still have alloc/free stacks + quarantine gives better detection for UAFs.
+But not sure how frequent are such bugs.
 
 -- 
-Thanks,
-Hyeonggon
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y2PR45BW2mgLLMwC%40hyeyoo.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-216657-199747%40https.bugzilla.kernel.org/.
