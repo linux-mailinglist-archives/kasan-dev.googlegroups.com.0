@@ -1,11 +1,11 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBBTWUW6NQMGQEUBRWXXQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN7L7O25EIBBAXBW6NQMGQEFAIRL6Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43a.google.com (mail-wr1-x43a.google.com [IPv6:2a00:1450:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E8B6253A9
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Nov 2022 07:23:11 +0100 (CET)
-Received: by mail-wr1-x43a.google.com with SMTP id r22-20020adfa156000000b0023660e969ddsf753812wrr.19
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Nov 2022 22:23:11 -0800 (PST)
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3156625414
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Nov 2022 07:49:38 +0100 (CET)
+Received: by mail-wm1-x340.google.com with SMTP id m34-20020a05600c3b2200b003cf549cb32bsf3976527wms.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 10 Nov 2022 22:49:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -13,13 +13,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:in-reply-to:content-disposition
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UwYf3VQ4vFdu5yz7HOSoMBo7E0Y+A6BPdQNpnfM2wHQ=;
-        b=Zs9bsOmNKLCdB5q3kfhFRiY8akwL9kNE8DZpXmGJxTU4FITgd/G0zdZOMHRcclW2DL
-         XJZt1t5GwEPyW2+FQjIDBwi6VvTrGzB0mN75sGGMqb0crjV/zql5m0GIZBNMHCMHwQuK
-         MlgH55Skmbzsx7GGJBZ5Zx3oPnNLG8op5NmSkiWmowQNRv0yyKzxpnmARuzTnElDHyBT
-         7JUJIN6UUYXyqQxBaQQHwoMWPpvebCN/AjnFibSy2J7rouCUUEFyz60U0eq2MpKAk3mS
-         tQXxcneHk8uSxbQwcuvzqEzPuhU6198u7QbXy/3tq0wNRbVZRMp2MTlT3dxMOW1W10Dk
-         MAYA==
+        bh=ZqAjcVXiezh/Re1aoRKRns9UU52Ds1IMCHdSu5KK2gY=;
+        b=WBAwMbNEZgbHYGmHSqcyV57KMEvDKGAa68VBpBTqTA7NnouJhbp2CIolIy6UpN+bhh
+         EIe6cLzi1P++C5/zhKTPSzfYqYFIzGsv2aniDcJ5GTcpeKChBATc8EixYZJuWV5blPe3
+         rkxPHOCXw79UT6ZXs8O+Xdtp8qlTDk/tuJiNgDwgEcV/NHk8d/1cDgyjnBvsEEiVgMtg
+         hugcrvzFMvUiUtXtFhpe/v9PVzTDAvTfgdv/y6SBxAlp9cDZq3RmXPQftTAx3M9tuK0f
+         xAh0K61XEm/gLsNCqnFnf3s2jAtPxUAV8kG+V6lQMW9uZS58hyuU55BMHatk+yePvcdG
+         Y7YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -28,78 +28,77 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :in-reply-to:content-disposition:references:message-id:subject:cc:to
          :from:date:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UwYf3VQ4vFdu5yz7HOSoMBo7E0Y+A6BPdQNpnfM2wHQ=;
-        b=IInvC0dJPmz8pnAgsX7+OSzcFhG5jfO1L4m+c0SptLpnMdUQvV6P0FfaMeFxotkQM6
-         zayKnLeGG356IIRlN00lit65ihIT2A8p9zc1qayROJ8IZOBMZ8+UNQxjJPGZnntGFGub
-         3ssrylBmExI5MXMPItWM7STtixpU8oNHvz/YmtmdmHT5TyGA5/bXp9AdfiC7zxkk2S6y
-         zK9bUuHC2J3pQSex367x7RmU1Pcm0NEvg2OCfjcMIvyegGiDkPpDW40VpJp4bARYtlFm
-         ugtEaznQ73tGDfKOhOw7Axmj5P5CMuDYr927RuqJJZaKNP2J2w8SmfYssMHmmsSOwt+S
-         CH8A==
+        bh=ZqAjcVXiezh/Re1aoRKRns9UU52Ds1IMCHdSu5KK2gY=;
+        b=df4wuL/BVU3Woae7lTwraSM4H8dnqLXMNHkiBa8GC2BnBnwMd6jI5jsttaLKcnpjv/
+         FFckLFH9wujNHZPh//vu0mXGY0cQVWNT1qPY3hLmYH7kAGjYksaRSQS7uLMVYmaLeIcM
+         c/0ng6geO38S8OSbAwgeUGRZ1pd/OP/Shr2sRbj4dPLsQLHJpOCsJDITq4HAFcRc39du
+         76NnoyQBT9/qe3wZ1LhbKp8UFLZ8d7yYQ3OYGUJoAbLsZRIqEpPM8RE5mn8K30/lXnqz
+         DZDbnyLocmTZ+4V4yD7ce0uc9/Smf6zWGlb023MZVYvgNhJra4HvG261G5S75Zk6oMHC
+         e3Zw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pmkkTkm/YidkerijAXxbJeuea5arVOxXR+NyA4bMkRDQczQKISy
-	SODC+xvsynPhTbnz957/0xc=
-X-Google-Smtp-Source: AA0mqf4B4eHpZt51601n5gNyPq5ZayAy81CRbIa2sjBR3hONMZcOQJJZDgj2RXy8bMSaEl78g+6OFA==
-X-Received: by 2002:adf:ee49:0:b0:236:6324:5365 with SMTP id w9-20020adfee49000000b0023663245365mr293906wro.565.1668147791059;
-        Thu, 10 Nov 2022 22:23:11 -0800 (PST)
+X-Gm-Message-State: ANoB5pknrpWZk/rHJjQ1glYtgVsPfKV+Mo7MlR2nccsgKML8cYAN1rbx
+	vYytcMhlXTDklPvtLhgrpBE=
+X-Google-Smtp-Source: AA0mqf7oPWYxYy06X0VOESZ2yaY3vqQiza+ZEUX+GsWVzixct/MbisVR3lAz0YISTFlASGJ1smIdaQ==
+X-Received: by 2002:adf:ba52:0:b0:236:55a7:cf2 with SMTP id t18-20020adfba52000000b0023655a70cf2mr366411wrg.270.1668149378560;
+        Thu, 10 Nov 2022 22:49:38 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:605:b0:236:8fa4:71d1 with SMTP id
- bn5-20020a056000060500b002368fa471d1ls3916920wrb.1.-pod-prod-gmail; Thu, 10
- Nov 2022 22:23:10 -0800 (PST)
-X-Received: by 2002:a05:6000:11:b0:236:d611:4fcf with SMTP id h17-20020a056000001100b00236d6114fcfmr303997wrx.192.1668147790016;
-        Thu, 10 Nov 2022 22:23:10 -0800 (PST)
-Received: from mga01.intel.com (mga01.intel.com. [192.55.52.88])
-        by gmr-mx.google.com with ESMTPS id ba16-20020a0560001c1000b00236e8baff63si44268wrb.0.2022.11.10.22.23.09
+Received: by 2002:a7b:ce11:0:b0:3c6:efd6:9cd8 with SMTP id m17-20020a7bce11000000b003c6efd69cd8ls2032409wmc.0.-pod-control-gmail;
+ Thu, 10 Nov 2022 22:49:37 -0800 (PST)
+X-Received: by 2002:a05:600c:4143:b0:3c6:bc31:20ed with SMTP id h3-20020a05600c414300b003c6bc3120edmr248522wmm.41.1668149377572;
+        Thu, 10 Nov 2022 22:49:37 -0800 (PST)
+Received: from mga06.intel.com (mga06b.intel.com. [134.134.136.31])
+        by gmr-mx.google.com with ESMTPS id s1-20020a1cf201000000b003c8340cb9a1si60373wmc.2.2022.11.10.22.49.36
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Nov 2022 22:23:09 -0800 (PST)
-Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 192.55.52.88 as permitted sender) client-ip=192.55.52.88;
-X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="338301989"
+        Thu, 10 Nov 2022 22:49:37 -0800 (PST)
+Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 134.134.136.31 as permitted sender) client-ip=134.134.136.31;
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="373668899"
 X-IronPort-AV: E=Sophos;i="5.96,156,1665471600"; 
-   d="scan'208";a="338301989"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2022 22:23:08 -0800
+   d="scan'208";a="373668899"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2022 22:49:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="762566300"
+X-IronPort-AV: E=McAfee;i="6500,9779,10527"; a="588469902"
 X-IronPort-AV: E=Sophos;i="5.96,156,1665471600"; 
-   d="scan'208";a="762566300"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga004.jf.intel.com with ESMTP; 10 Nov 2022 22:23:07 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+   d="scan'208";a="588469902"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga003.jf.intel.com with ESMTP; 10 Nov 2022 22:49:35 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 10 Nov 2022 22:23:07 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.1.2375.31; Thu, 10 Nov 2022 22:49:34 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 10 Nov 2022 22:23:06 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2375.31; Thu, 10 Nov 2022 22:49:34 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 10 Nov 2022 22:23:06 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2375.31 via Frontend Transport; Thu, 10 Nov 2022 22:49:34 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 10 Nov 2022 22:23:06 -0800
+ 15.1.2375.31; Thu, 10 Nov 2022 22:49:33 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KfioNk47ZGHUI32bR6evGL8j607/yabAB6QBHqEFkSVDj1UQCoyxfqMiYrZNYNAt1LXcbc1Ne/0csm5wTGRBa7gIPKxHlmpCzjpOQcpQfmQsP1LbovnRe5AgMQ4o5fXnSRLHZUCWuejSIpGDxZwIGnG7XyC5ra1ldP6PVPTTf2fXN/7NxznsttUwEEREkzax8vreSqK9Ap/+5VBEGjpswyqgPiopRFDQeHx2NereN3/MYuhtNxAS+0CM05jRNLB/fFisemN0IdbwYXFDzRqcTYcHIWLjk9vGtuGWSHgazxmz8bqWqJGt9PYRa07NhMi3T58pNfwYhoxrYIvl94q8oQ==
+ b=TwwrDkrcdeA6gE799wud3ogLtkoge6mGbzOPF5X3atyWiH+DmX1k8voX9RgapDyoRRt3KLaNA23Te/KagwkaIVoxVjMZ1HY5kWrSttQbM/r8AnVvDgGz/M/HHtDH/7JCgSI4GoyRBXhJzT7MT0rQSGt0WEngdBR0whtxwiGdIZV09bPZMI3BF3UP4xssLlFnEjMokwbHWfPB946spQk5xkSCZ4zvxKJx8y5V0jrBk3BDz0mKveqjWxGMI1/kYj3YsP9lIazxnL1aDNMxRubbrN2THiaCZqaQB1SbKfmVzMn/sqSeK2hlQNxWAUCsPNw/AWJ5jhIOb8fREpXNfgPrTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b1tUr1jO78ZQyzn4XqSHhN4BHHExwuUcafmfkS/UIOQ=;
- b=hjfDc34ZxWNSziy6ENM7aET44Sh3n58Ax0epk81nAcd/NYz+4fWQHDxK4QjhlrcfYTCAs8IIdIlYaMelQ/9LLIRaIkCDZH+7bpr01Ddna98M7EG425Mq8tnCa9tZ96k/+cpMIzz/jILUByQaqhNibsfJg4bw3OTSMvB6HhESjRecDONqyB7CrnSXFjmnm0U0Q6mqhuOA3Dc3DR21bq9Wj90MT2LFwpzVvman1PDXHeV9i97cVFD+v+UrEo0k0YzvjrVkrSFz+ERoWoheXZ+DcyKQ+dqxJTt0AeXMSvODp2iQtRm+rUwizbOkfCcLQKVdBERKD9anTqWTyut+WfBztw==
+ bh=bu350R8A1z/Vsz8+LDCd+tMpiG33eNMGtf9ZSMnjpGY=;
+ b=FWuYC6DU8ejkN/0Q4Z/5c3bV0nABBxt9/kcaMg5ySPPn4sYrIrhjXcuU9eClg1r177G6ntTSqxi+gVBklBK41bljXP/luNLcdekbUHT8qaVHE+EVB3ElnLL6+lDSCaoQLALkYFeE8K8aR+catQoW+Xi7niLImrdEfNlQTVS5uebGe2dGgVO5rcrDGmx4RIywxQ8zvVPtjrRCSeM5b1k2UpDguOWexdSjruMsNu2DOPadUMfam1YvVh+oj/N8x1GEal1h27fW6b8vsZWZCnzUof9cIAhXzrKKUBpUqq2bJY1Di2+8S3WI7jPOCpbmD1KBT/kEw+X6tYQpiS1I37Q4dA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
- by SA2PR11MB4777.namprd11.prod.outlook.com (2603:10b6:806:115::24) with
+ by SJ0PR11MB4943.namprd11.prod.outlook.com (2603:10b6:a03:2ad::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.13; Fri, 11 Nov
- 2022 06:23:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.12; Fri, 11 Nov
+ 2022 06:49:30 +0000
 Received: from MN0PR11MB6304.namprd11.prod.outlook.com
  ([fe80::1564:b428:df98:96eb]) by MN0PR11MB6304.namprd11.prod.outlook.com
  ([fe80::1564:b428:df98:96eb%4]) with mapi id 15.20.5813.013; Fri, 11 Nov 2022
- 06:23:05 +0000
-Date: Fri, 11 Nov 2022 14:19:47 +0800
+ 06:49:30 +0000
+Date: Fri, 11 Nov 2022 14:46:12 +0800
 From: Feng Tang <feng.tang@intel.com>
 To: Vlastimil Babka <vbabka@suse.cz>
 CC: Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter
@@ -107,79 +106,74 @@ CC: Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter
 	<rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, Roman Gushchin
 	<roman.gushchin@linux.dev>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, "Dmitry
  Vyukov" <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, "Kees
- Cook" <keescook@chromium.org>, "Hansen, Dave" <dave.hansen@intel.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "kasan-dev@googlegroups.com"
+ Cook" <keescook@chromium.org>, Dave Hansen <dave.hansen@intel.com>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
 	<kasan-dev@googlegroups.com>
-Subject: Re: [PATCH v7 1/3] mm/slub: only zero requested size of buffer for
- kzalloc when debug enabled
-Message-ID: <Y23pgyz32TRsAskz@feng-clx>
+Subject: Re: [PATCH v7 3/3] mm/slub: extend redzone check to extra allocated
+ kmalloc space than requested
+Message-ID: <Y23vtK4tuBogff+m@feng-clx>
 References: <20221021032405.1825078-1-feng.tang@intel.com>
- <20221021032405.1825078-2-feng.tang@intel.com>
- <09074855-f0ee-8e4f-a190-4fad583953c3@suse.cz>
- <Y2xuAiZD9IEMwkSh@feng-clx>
- <Y2z1M4zc2Re5Fsdl@feng-clx>
- <eaf74c95-6641-8785-61f6-c7013c2f55eb@suse.cz>
+ <20221021032405.1825078-4-feng.tang@intel.com>
+ <e2dd7c7c-b0b7-344a-de37-4624f5339bce@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <eaf74c95-6641-8785-61f6-c7013c2f55eb@suse.cz>
-X-ClientProxiedBy: SG2PR02CA0030.apcprd02.prod.outlook.com
- (2603:1096:3:18::18) To MN0PR11MB6304.namprd11.prod.outlook.com
- (2603:10b6:208:3c0::7)
+In-Reply-To: <e2dd7c7c-b0b7-344a-de37-4624f5339bce@suse.cz>
+X-ClientProxiedBy: SGAP274CA0024.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::36)
+ To MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|SA2PR11MB4777:EE_
-X-MS-Office365-Filtering-Correlation-Id: 13eea29d-726d-450c-0150-08dac3ad306b
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|SJ0PR11MB4943:EE_
+X-MS-Office365-Filtering-Correlation-Id: b8eea6ea-66ee-4d52-0de2-08dac3b0e1e8
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8oYHwurKGem6eshPnjID1VplES5j9+qLXoL2yLHANG/IsJC7K/d5Gd3LnTb+T1Lq95GEmNziZw7R1WfEc1oi4MzR6m7uEUNGPHprThs1NOeJhxjdVw9T19dSm8d6YalRkadjk9S3qAuy7BLWO4YY/rscZfdtdvzEQ5Lqs1N1Jma3b6jPhgjkgfP0mdgaDfWQj5DnKhrOqab8Mi1WQGNciiBS3lAYOo4fUAL/0cUduOKa0DcY6sXX59m4yzYWpHdqWnrnsaXN2ZRamu6diJkxvT2dq8LKB5P4c/PTpNCmCxDPCfby2GWTmU1E6067XfhjFN8fI5nD0yOArvl0QDtSbbdgdfeaLL9lnHaBA8UDzdByFnXdYY8lS06Dv5x8ThAWdu/pt2HpURgQWwFnfYyT5+o2/BiFP7tqw3SxuETDkBqHcmYwiuTgK58H1STfo3iyM1zP4Zav6W9pYoYTEmfFJyG9hDhf8385HMfVIqVXfPYL8zWlapqoWzWKpuAX0LJaqtWSyPaQTtTQLbdCFOCggopbufi9XM5jPW6O2ck8CaS/hL3qPYdelBcKnS5et7DZeEvTRTloBt0pCUonC1SVtwdy6Lnlf7DYMdpyCOJ5v3J1D1jl3mtpVAw/3Teo3mg+WyvaCjyYGbgMfrnkcTcfwZZUXlqvwEe328Weidi80DdGB/8IC1yhYKw3VqoAlQKsOl3EIkNQjlGbFNmwAHAJnSGuW3RTLJJWn03reI6Recg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(376002)(396003)(346002)(366004)(39860400002)(136003)(451199015)(83380400001)(7416002)(186003)(6666004)(2906002)(33716001)(6486002)(86362001)(82960400001)(966005)(38100700002)(6916009)(478600001)(54906003)(316002)(66476007)(6506007)(53546011)(44832011)(26005)(5660300002)(66556008)(8676002)(6512007)(66946007)(9686003)(8936002)(4326008)(41300700001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: TwBgLEWtUyTcfLQKTEPI4EZr8EpqlcS+NXgPAFmLTQjgQ4Ti5o72qLkGTQ61h9YKo+yV1EYUv38KVZlcqMgVOfsyvaj2+479V1zEx5sOcCVXVpILJv5TMWvdf371upf6/BFfIFaRDaSd76IonMj5Yz3INOYmvVpb75R9Prwv+v6L0BuvggsEp+ndamSfTxdjPjNskUs10fxZfXUqSKSu7ZSoc+vYrZ7UzfjI9FCngwv+iwyKVd1/le74MRbEdk86KhfTnmjInp1Yza3OJXOjjo4sGLTEgfrk6aH6IqxUzhaULG6wxbD+kx0t5zDvso9m/2gDw1FqW2vh4vt+MQoHN3n/86eTSiwbyBMxyXMQENyVqrOJYbxcQGPI5lCn9lKNGoGYf1W675tlOYTfAB2wizD0lQI2F44F/TvLf2AK8DUMs6FDzCYtiuDyEkw3xwtpwdV18e4kIskjOR3L3xWAWGIbHajjIHV0SsFfsjcA5Su5c2l2+fgHA1dv4d1pWzbFKFJkaetSKzNok4g37WBR8PfSyD3lLPpE2/c7PjwaP62QSiPfvG0osZT/FnDcNOf3n8xWxEH19ZRj11N3XbIz8RUa9mXtwHK9rJizTAcEWZTapAUo1u42/fDBUapMBCvf1b+h+8tyqS+IZMZWsv7OK2JULlNORKjRQvpJC3guya5jpvxMlR1A0+fkUT+MF/1WhPeTavInZIue/N8Vio2HFdeLVKW8avL71hNQhSom43qN64Z+l2fwA2dA9ksDdFu0
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(396003)(366004)(39860400002)(346002)(136003)(376002)(451199015)(53546011)(82960400001)(186003)(8676002)(7416002)(66946007)(2906002)(5660300002)(83380400001)(44832011)(26005)(86362001)(8936002)(9686003)(66476007)(6512007)(38100700002)(66556008)(4326008)(41300700001)(6506007)(316002)(6486002)(478600001)(54906003)(6916009)(6666004)(33716001)(67856001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+J//X51zRmDCQC3HgBhFdXn+qAQzYzEwDcSB0VJ08r68MxsH/gTbMyae7XMS?=
- =?us-ascii?Q?dtNwtCl3gKWn2Y23FcbM6PRHgaQdj/2HO6RJEmYhaf21SB2TnfOQQVHBYl+u?=
- =?us-ascii?Q?zu0xhkyNlHZbo0odF2APFpw5WI6dUIl3OJ0Af8t4rFCcdL1/sDyC4fH4yUKu?=
- =?us-ascii?Q?zsgf82SNeA0bHp/Pn/qIUh3jwRo53jg5A4st1nhOxIN1GrkU2rTkmnWmEgXk?=
- =?us-ascii?Q?gQ+hehI8unA5bh4pzlaYUlvVTxr8OeAwY/LkzvzAiZYtiZO7+KGSu/GIV+Ve?=
- =?us-ascii?Q?XB4wkOkW/CnAF9ybLfzabVqcmt/mJH5BskDgjvHe8uINrc1LPL7UTHFtWAdr?=
- =?us-ascii?Q?OkcMlue7c7xO8AcxzwwZbTtkDxHMojndIYUna8pOczGX7+jNzFVwAByhqwsx?=
- =?us-ascii?Q?RvIZIvc1XaGpPIBMFp35c9/tKEj4UmNyY2ZZqGUXgs8ZA71DOl8NDP/ZHcJ2?=
- =?us-ascii?Q?nJOJ+niw4kIamYsMWXqcHoHoi5Hb90t49uFdWujwWjjfn34O3AumKKaU6WOf?=
- =?us-ascii?Q?Ooqq5BNWYArKf+FrV/IDe83jHz3oYW0LVjvtYxYFmLFWj2TCsPn3JdywdKrV?=
- =?us-ascii?Q?smAN+TfnZkx4nchvIjvUt3gFyr1hnXizkPTPKT+Au8J5mMiQahsIoVvgHnKg?=
- =?us-ascii?Q?5Ui+mQ1izfjeag0lpbicfy42sVJ1ZCXcs0KhM2vmbAvxsD/0QjOTLZfZNYZ2?=
- =?us-ascii?Q?qV2lxyr01OSQf/yKENLKLnxuNPm1XpUgZXs24AkJchowF16r2Rmo61iKAZGi?=
- =?us-ascii?Q?inLtPGUZXMkMsx5W1J0CDbhWGOG6NAOkNbJYs+vJikY/MstbDKbIwlQdafNr?=
- =?us-ascii?Q?4hnh3slKnGSfUZaZN/R6qM8MYLAMjZ0YgLk02EJkpssX/pcyzjbMzN2uxYhm?=
- =?us-ascii?Q?HxTLFjQnKLF6kDtgReIB/fXMIbXgGtDM2JYF06C4W4wNMdWrvavIUSPwT/DQ?=
- =?us-ascii?Q?GnqKJepxijuY2SQid3hftk0G4L9UtM2MoZ6RCy6/MPa7NFE0z2pbkAk2gMfT?=
- =?us-ascii?Q?ncN+csdeahdVb3TFlx/7cf+DGp8sWJW/2s/eVSc7OP3J4zSL+HBooQs4XEkb?=
- =?us-ascii?Q?86nj1a0J7hTNp7jqzEDTw/ar3iLPZwevA3N651RnOw4Rmt+fM6q6XRImeETy?=
- =?us-ascii?Q?Wf6f9mduDom01ktc/GDY3ZgxTHYxGxjk3Ij7Tvq+AJyr5RR1JWzx+lpgFcb9?=
- =?us-ascii?Q?V5yABheXnNVwfBSA+ZEJAqVnl4qYCjC1JqNYisoXkU832Xm81jc1z4+Hnrtd?=
- =?us-ascii?Q?HmBzyve/nb9KzhlP7zB1dz81BNIKgfCOTDfVTeaJIf8Qxedqp1BMz8cQhanT?=
- =?us-ascii?Q?G19RtNsULpsvBpyKevVTH70kb3KULu6ncVIYbyqSshdtGG+cXwzfQAhm3n3v?=
- =?us-ascii?Q?sEfu08GnY2ri/dP3XCX5Kd9Q5eKdDNjJLrkcR1Cwam4eLjU503oytuoLP3IZ?=
- =?us-ascii?Q?jLSjWYsB8hShecqwtg+JAq/wMe9BZj0jkIkASqqorhjXCvBhhWINFGKxU5e5?=
- =?us-ascii?Q?qp870sCajlw7wuZtoHKyvMmpmHXF3q7+TuBRCu49hKKSwBzIqOFJZQRA6ZV7?=
- =?us-ascii?Q?1q/tdGcmqzUFS53+C90TY8qFLIHWQgYEFe64YFa6?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13eea29d-726d-450c-0150-08dac3ad306b
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Y/qTSbVhUE+WF/Va+mow6Ow65ypURdENJ3wJ49tl0aJOWYQnY3h0mLSVCnIC?=
+ =?us-ascii?Q?e0dMXpxTd4Xz5U0ghebVjvAK7S3lgJS070PvyiPyY+WWZ8LYqYmsszvh3Hef?=
+ =?us-ascii?Q?/xZS78Q+ugCdBbE4/iAR2nDs9Mjd2LVMlvP5VjRjEX64MQTpWaRxVT2jMWeA?=
+ =?us-ascii?Q?WFIqUgTk2gHVdq9J7on8FKQniXOENpRIxMOBSZ03Qa7LDg2buKKntTAXFqUL?=
+ =?us-ascii?Q?KKzGxuqxcMShy9TGERC+/vmgztd9u0K6OZB0bE6MsiSyDZxEeuQWCiF9U5S8?=
+ =?us-ascii?Q?HU705hsqizCnfM63Hx1hFLbOoZMnj6ROSyu8dqcak2RWYD+CJMOhRdOw9w5k?=
+ =?us-ascii?Q?BTAquowshPm7dL/8NT6x8kbZZtEEFjtMCNoq7+YF32gv/ZV/Aw0YNinnt/zB?=
+ =?us-ascii?Q?57w0jLeetnnNoJUO0cYUc2/4thSvIjo5bxYUyd9JcJQC6I1LbsGef1I6Ifiy?=
+ =?us-ascii?Q?my/u64qZMuj1TifDLm1g15LyjPcZq2Eq4iuazBwAFETKIxh8iQ7O2M7WQs7I?=
+ =?us-ascii?Q?etf67WL3cqHbNJoDsfs0FO33uSLmv+HRvycPyjmUzovXRMCEaUYpk34+GkYA?=
+ =?us-ascii?Q?ap2cZaTaP/ouQeapDPrhhL1nAA8Z3ZRViikBNOUpXVKU2YMMF61oj2Ex3E1I?=
+ =?us-ascii?Q?h2iTfJeyRngZuVeZLH/ePKtA81BfJ7sY4iehVjF4coVRSCqdyNVDyoqA96e1?=
+ =?us-ascii?Q?yRJnrn3ECItGmCWZmCGzbFrDp9EjLOaJJbuAr0J1jEWqlZDAgWdaRLzoLZUg?=
+ =?us-ascii?Q?0LTGis2lQowrkxLQBpjoA9UOO0n081hTyg74HI2ecE6eTCZ0BBxKOJNF230m?=
+ =?us-ascii?Q?Q30fNgCbsal91Kmu9OcwIvTop9LCyG1x6iYeNJCtfMgQSm4Rconm7N+T41vh?=
+ =?us-ascii?Q?rjYe+5Y9LEaSSr1pwMlfPwrBr2HlvetcSJQoeVyUKeWZB5FFxCPqnIqCIxTu?=
+ =?us-ascii?Q?p4qXcTf42p29XX9mR4sCQFQwberfwi9Bk6QLEtGB6NfTqcrDC/jT8EKHNTD4?=
+ =?us-ascii?Q?Wi+/l6l9O+QO/UGcAmPRl1GLplCEXrHVpiDCu3LnMHcdcbFVc4PJVYsv8UuR?=
+ =?us-ascii?Q?vI2xEErC0GtCBiACyVgCVTlVD4NAatx1zBujmmWXtZajLIR+258yKMEUlrGr?=
+ =?us-ascii?Q?SdNEsWCACTjGPFgXgg86dXP0mRwYwXBbudrAkdsbrLUR+VZYmo+v3CNSODws?=
+ =?us-ascii?Q?Mv3EKjYwKtrE+YK2L8qAzE+62Pc/wIwgI3qxA85gfHdWpI6LQ1pWJ1wQEU89?=
+ =?us-ascii?Q?0CArMI36wqvMv1cj6nrWcLpTecWm0PEU/t571pPuJ4UwrApetNlP0xVKH+O0?=
+ =?us-ascii?Q?b1O3F0Oj7SqnTZrjsEnG+MGkkW1LOcLPY8ps6NWKNBn+nouaJYgDhaKCHTJ3?=
+ =?us-ascii?Q?zT5EUlLXei2eY9Wv6baUWcFmxRjMMwAeQwY7N6fwo64WOlpRveNf+oqHQn5c?=
+ =?us-ascii?Q?N1+uAwJSZaVaN3S9gL2nGAOVp+jYJgSGAO3SeDtXBxx7kpCek4CYSzIZIB+/?=
+ =?us-ascii?Q?oYSqQTbn7IYAzXWskfQJCTgC2iD/3bAxn868q2NoJw2rjr4ogD/wed9iWlHT?=
+ =?us-ascii?Q?thzd0/t7DhWBTdC/q4bvomgBS8yJK4eX4q54zRlt?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8eea6ea-66ee-4d52-0de2-08dac3b0e1e8
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2022 06:23:04.9027
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2022 06:49:30.0431
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AAqoRC3EW+LBg3M5ZcJh7GGK2BL4WE8wVHdWprxGLJbUFxNbL5e+WsE5H4y4uKI930jiYBzmP8Ot4KOaItN9mA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4777
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5geahhHxIaldGxcQBZsbLJh8UuMQhHHCUOXF1q0eAlojzL8mlNJ4BxYBMIF53FR2a61ZLX/R2DZPS+5mhg1NIw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4943
 X-OriginatorOrg: intel.com
 X-Original-Sender: feng.tang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b="feb/zNmw";       arc=fail
+ header.i=@intel.com header.s=Intel header.b="N/olO4xy";       arc=fail
  (signature failed);       spf=pass (google.com: domain of feng.tang@intel.com
- designates 192.55.52.88 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
+ designates 134.134.136.31 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -193,63 +187,262 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Nov 10, 2022 at 04:44:59PM +0100, Vlastimil Babka wrote:
-> On 11/10/22 13:57, Feng Tang wrote:
-> > On Thu, Nov 10, 2022 at 11:20:34AM +0800, Tang, Feng wrote:
-> >> On Wed, Nov 09, 2022 at 03:28:19PM +0100, Vlastimil Babka wrote:
-> > [...]
-> >> > > +	/*
-> >> > > +	 * For kmalloc object, the allocated memory size(object_size) is likely
-> >> > > +	 * larger than the requested size(orig_size). If redzone check is
-> >> > > +	 * enabled for the extra space, don't zero it, as it will be redzoned
-> >> > > +	 * soon. The redzone operation for this extra space could be seen as a
-> >> > > +	 * replacement of current poisoning under certain debug option, and
-> >> > > +	 * won't break other sanity checks.
-> >> > > +	 */
-> >> > > +	if (kmem_cache_debug_flags(s, SLAB_STORE_USER) &&
-> >> > 
-> >> > Shouldn't we check SLAB_RED_ZONE instead? Otherwise a debugging could be
-> >> > specified so that SLAB_RED_ZONE is set but SLAB_STORE_USER?
-> >> 
-> >> Thanks for the catch!
-> >> 
-> >> I will add check for SLAB_RED_ZONE. The SLAB_STORE_USER is for
-> >> checking whether 'orig_size' field exists. In earlier discussion,
-> >> we make 'orig_size' depend on STORE_USER, https://lore.kernel.org/lkml/1b0fa66c-f855-1c00-e024-b2b823b18678@suse.cz/ 
+On Thu, Nov 10, 2022 at 04:48:35PM +0100, Vlastimil Babka wrote:
+> On 10/21/22 05:24, Feng Tang wrote:
+> > kmalloc will round up the request size to a fixed size (mostly power
+> > of 2), so there could be a extra space than what is requested, whose
+> > size is the actual buffer size minus original request size.
 > > 
-> > Below is the updated patch, please review, thanks! 
-> 
-> Thanks, grabbing it including Andrey's review, with a small change below:
-> 
-> > - Feng
+> > To better detect out of bound access or abuse of this space, add
+> > redzone sanity check for it.
 > > 
-> > -----8>----
-> > From b2a92f0c2518ef80fcda340f1ad37b418ee32d85 Mon Sep 17 00:00:00 2001
-> > From: Feng Tang <feng.tang@intel.com>
-> > Date: Thu, 20 Oct 2022 20:47:31 +0800
-> > Subject: [PATCH 1/3] mm/slub: only zero requested size of buffer for kzalloc
-> >  when debug enabled
+> > In current kernel, some kmalloc user already knows the existence of
+> > the space and utilizes it after calling 'ksize()' to know the real
+> > size of the allocated buffer. So we skip the sanity check for objects
+> > which have been called with ksize(), as treating them as legitimate
+> > users.
+> 
+> Hm so once Kees's effort is finished and all ksize() users behave correctly,
+> we can drop all that skip_orig_size_check() code, right?
+
+Yes, will update the commit log.
+
+> > In some cases, the free pointer could be saved inside the latter
+> > part of object data area, which may overlap the redzone part(for
+> > small sizes of kmalloc objects). As suggested by Hyeonggon Yoo,
+> > force the free pointer to be in meta data area when kmalloc redzone
+> > debug is enabled, to make all kmalloc objects covered by redzone
+> > check.
+> > 
+> > Suggested-by: Vlastimil Babka <vbabka@suse.cz>
+> > Signed-off-by: Feng Tang <feng.tang@intel.com>
+> > Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> 
+> Looks fine, but a suggestion below:
+> 
 [...]
-> > +	/*
-> > +	 * For kmalloc object, the allocated memory size(object_size) is likely
-> > +	 * larger than the requested size(orig_size). If redzone check is
-> > +	 * enabled for the extra space, don't zero it, as it will be redzoned
-> > +	 * soon. The redzone operation for this extra space could be seen as a
-> > +	 * replacement of current poisoning under certain debug option, and
-> > +	 * won't break other sanity checks.
-> > +	 */
-> > +	if (kmem_cache_debug_flags(s, SLAB_STORE_USER) &&
-> > +	    (s->flags & SLAB_RED_ZONE) &&
+> > @@ -966,13 +982,27 @@ static __printf(3, 4) void slab_err(struct kmem_cache *s, struct slab *slab,
+> >  static void init_object(struct kmem_cache *s, void *object, u8 val)
+> >  {
+> >  	u8 *p = kasan_reset_tag(object);
+> > +	unsigned int orig_size = s->object_size;
+> >  
+> > -	if (s->flags & SLAB_RED_ZONE)
+> > +	if (s->flags & SLAB_RED_ZONE) {
+> >  		memset(p - s->red_left_pad, val, s->red_left_pad);
+> >  
+> > +		if (slub_debug_orig_size(s) && val == SLUB_RED_ACTIVE) {
+> > +			orig_size = get_orig_size(s, object);
+> > +
+> > +			/*
+> > +			 * Redzone the extra allocated space by kmalloc
+> > +			 * than requested.
+> > +			 */
+> > +			if (orig_size < s->object_size)
+> > +				memset(p + orig_size, val,
+> > +				       s->object_size - orig_size);
 > 
-> Combined the two above to:
+> Wondering if we can remove this if - memset and instead below:
 > 
->   if (kmem_cache_debug_flags(s, SLAB_STORE_USER | SLAB_RED_ZONE)
+> > +		}
+> > +	}
+> > +
+> >  	if (s->flags & __OBJECT_POISON) {
+> > -		memset(p, POISON_FREE, s->object_size - 1);
+> > -		p[s->object_size - 1] = POISON_END;
+> > +		memset(p, POISON_FREE, orig_size - 1);
+> > +		p[orig_size - 1] = POISON_END;
+> >  	}
+> >  
+> >  	if (s->flags & SLAB_RED_ZONE)
+> 
+> This continues by:
+>     memset(p + s->object_size, val, s->inuse - s->object_size);
+> Instead we could do this, no?
+>     memset(p + orig_size, val, s->inuse - orig_size);
 
-Yes, this is cleaner, thanks!
+Yep, the code is much simpler and cleaner! thanks
+ 
+I also change the name from 'orig_size' to 'poison_size', as below:
 
-- Feng
+Thanks,
+Feng
+
+-----8>-----
+
+From 21dc7a27bb9206937ec5cc584a70da452fc249c6 Mon Sep 17 00:00:00 2001
+From: Feng Tang <feng.tang@intel.com>
+Date: Wed, 12 Oct 2022 13:39:09 +0800
+Subject: [PATCH 3/3] mm/slub: extend redzone check to extra allocated kmalloc
+ space than requested
+
+kmalloc will round up the request size to a fixed size (mostly power
+of 2), so there could be a extra space than what is requested, whose
+size is the actual buffer size minus original request size.
+
+To better detect out of bound access or abuse of this space, add
+redzone sanity check for it.
+
+In current kernel, some kmalloc user already knows the existence of
+the space and utilizes it after calling 'ksize()' to know the real
+size of the allocated buffer. So we skip the sanity check for objects
+which have been called with ksize(), as treating them as legitimate
+users. Kees Cook is working on sanitizing all these user cases,
+by using kmalloc_size_roundup() to avoid ambiguous usages. And after
+this is done, this special handling for ksize() can be removed.
+
+In some cases, the free pointer could be saved inside the latter
+part of object data area, which may overlap the redzone part(for
+small sizes of kmalloc objects). As suggested by Hyeonggon Yoo,
+force the free pointer to be in meta data area when kmalloc redzone
+debug is enabled, to make all kmalloc objects covered by redzone
+check.
+
+Suggested-by: Vlastimil Babka <vbabka@suse.cz>
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+---
+ mm/slab.h        |  4 ++++
+ mm/slab_common.c |  4 ++++
+ mm/slub.c        | 50 +++++++++++++++++++++++++++++++++++++++++++-----
+ 3 files changed, 53 insertions(+), 5 deletions(-)
+
+diff --git a/mm/slab.h b/mm/slab.h
+index 2551214392c7..de9ef5b4931e 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -896,4 +896,8 @@ void __check_heap_object(const void *ptr, unsigned long n,
+ }
+ #endif
+ 
++#ifdef CONFIG_SLUB_DEBUG
++void skip_orig_size_check(struct kmem_cache *s, const void *object);
++#endif
++
+ #endif /* MM_SLAB_H */
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 0042fb2730d1..8276022f0da4 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1037,6 +1037,10 @@ size_t __ksize(const void *object)
+ 		return folio_size(folio);
+ 	}
+ 
++#ifdef CONFIG_SLUB_DEBUG
++	skip_orig_size_check(folio_slab(folio)->slab_cache, object);
++#endif
++
+ 	return slab_ksize(folio_slab(folio)->slab_cache);
+ }
+ 
+diff --git a/mm/slub.c b/mm/slub.c
+index 8d26187de915..03b7f4056619 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -829,6 +829,17 @@ static inline void set_orig_size(struct kmem_cache *s,
+ 	if (!slub_debug_orig_size(s))
+ 		return;
+ 
++#ifdef CONFIG_KASAN_GENERIC
++	/*
++	 * KASAN could save its free meta data in object's data area at
++	 * offset 0, if the size is larger than 'orig_size', it will
++	 * overlap the data redzone in [orig_size+1, object_size], and
++	 * the check should be skipped.
++	 */
++	if (kasan_metadata_size(s, true) > orig_size)
++		orig_size = s->object_size;
++#endif
++
+ 	p += get_info_end(s);
+ 	p += sizeof(struct track) * 2;
+ 
+@@ -848,6 +859,11 @@ static inline unsigned int get_orig_size(struct kmem_cache *s, void *object)
+ 	return *(unsigned int *)p;
+ }
+ 
++void skip_orig_size_check(struct kmem_cache *s, const void *object)
++{
++	set_orig_size(s, (void *)object, s->object_size);
++}
++
+ static void slab_bug(struct kmem_cache *s, char *fmt, ...)
+ {
+ 	struct va_format vaf;
+@@ -966,17 +982,28 @@ static __printf(3, 4) void slab_err(struct kmem_cache *s, struct slab *slab,
+ static void init_object(struct kmem_cache *s, void *object, u8 val)
+ {
+ 	u8 *p = kasan_reset_tag(object);
++	unsigned int poison_size = s->object_size;
+ 
+-	if (s->flags & SLAB_RED_ZONE)
++	if (s->flags & SLAB_RED_ZONE) {
+ 		memset(p - s->red_left_pad, val, s->red_left_pad);
+ 
++		if (slub_debug_orig_size(s) && val == SLUB_RED_ACTIVE) {
++			/*
++			 * Redzone the extra allocated space by kmalloc than
++			 * requested, and the poison size will be limited to
++			 * the original request size accordingly.
++			 */
++			poison_size = get_orig_size(s, object);
++		}
++	}
++
+ 	if (s->flags & __OBJECT_POISON) {
+-		memset(p, POISON_FREE, s->object_size - 1);
+-		p[s->object_size - 1] = POISON_END;
++		memset(p, POISON_FREE, poison_size - 1);
++		p[poison_size - 1] = POISON_END;
+ 	}
+ 
+ 	if (s->flags & SLAB_RED_ZONE)
+-		memset(p + s->object_size, val, s->inuse - s->object_size);
++		memset(p + poison_size, val, s->inuse - poison_size);
+ }
+ 
+ static void restore_bytes(struct kmem_cache *s, char *message, u8 data,
+@@ -1120,6 +1147,7 @@ static int check_object(struct kmem_cache *s, struct slab *slab,
+ {
+ 	u8 *p = object;
+ 	u8 *endobject = object + s->object_size;
++	unsigned int orig_size;
+ 
+ 	if (s->flags & SLAB_RED_ZONE) {
+ 		if (!check_bytes_and_report(s, slab, object, "Left Redzone",
+@@ -1129,6 +1157,17 @@ static int check_object(struct kmem_cache *s, struct slab *slab,
+ 		if (!check_bytes_and_report(s, slab, object, "Right Redzone",
+ 			endobject, val, s->inuse - s->object_size))
+ 			return 0;
++
++		if (slub_debug_orig_size(s) && val == SLUB_RED_ACTIVE) {
++			orig_size = get_orig_size(s, object);
++
++			if (s->object_size > orig_size  &&
++				!check_bytes_and_report(s, slab, object,
++					"kmalloc Redzone", p + orig_size,
++					val, s->object_size - orig_size)) {
++				return 0;
++			}
++		}
+ 	} else {
+ 		if ((s->flags & SLAB_POISON) && s->object_size < s->inuse) {
+ 			check_bytes_and_report(s, slab, p, "Alignment padding",
+@@ -4199,7 +4238,8 @@ static int calculate_sizes(struct kmem_cache *s)
+ 	 */
+ 	s->inuse = size;
+ 
+-	if ((flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
++	if (slub_debug_orig_size(s) ||
++	    (flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON)) ||
+ 	    ((flags & SLAB_RED_ZONE) && s->object_size < sizeof(void *)) ||
+ 	    s->ctor) {
+ 		/*
+-- 
+2.34.1
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y23pgyz32TRsAskz%40feng-clx.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y23vtK4tuBogff%2Bm%40feng-clx.
