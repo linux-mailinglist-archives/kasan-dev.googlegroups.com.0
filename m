@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBTOPY6NQMGQE4AG4MHA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBG46ZCNQMGQEMPFXTXY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0A3627630
-	for <lists+kasan-dev@lfdr.de>; Mon, 14 Nov 2022 08:01:34 +0100 (CET)
-Received: by mail-qt1-x83d.google.com with SMTP id c19-20020a05622a059300b003a51d69906esf7517053qtb.1
-        for <lists+kasan-dev@lfdr.de>; Sun, 13 Nov 2022 23:01:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1668409293; cv=pass;
+Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB149627971
+	for <lists+kasan-dev@lfdr.de>; Mon, 14 Nov 2022 10:49:16 +0100 (CET)
+Received: by mail-il1-x137.google.com with SMTP id q6-20020a056e020c2600b00302664fc72csf843457ilg.14
+        for <lists+kasan-dev@lfdr.de>; Mon, 14 Nov 2022 01:49:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1668419355; cv=pass;
         d=google.com; s=arc-20160816;
-        b=j/7jLMyAX2G2453n8Du+AqQcw3o7KVltAgeExlLw8Q7U78Wrglorqi3JyluBEdliHS
-         xiS86Z6RLWBZpkA0+xqwrrokekW9CssXU/UrwE8dPxzzD1ar3Cqm73f7rNwNFePINBoB
-         I1OkSviMxQTITfxEc2TAf5MD9LEXw82mmWYUTRCfEb0uAG35/JBCXFDJdCSCkSEc0UZj
-         Bx1wGszTZk3g51fBhnA1SYiOCfz2PHJ3zx5v5wRbTTcm5lugcBecxdG/4o5TTuA0O2pu
-         6HCAOl3/pSUlaXcy/PTYSt9iiVFu9Setrb70kGTXUVGFabJf9jDLEl8L6XV2uAkUUrc+
-         hFnA==
+        b=atUPs2SOorElLYCcodIGXwZm2+KGYec6RyKbPL1aGnpRhKxJqNUkowObcyWjojBXDA
+         f3Az4uqAaLdMuSuUCmo/Xt18dsm/cZ0IiHXewvBOv2lgyrZEsQcQEPaD4MI03HkBT/8t
+         8K6cIpvpiH1DiZiRmctHTit46cxkSsn334AZWYICDU7cApH0JXnP6vR8x+Sk0vDbq1AO
+         JpL2jWtW5tFe8L/+aegMSz0jy/EGVyeWExkYlLIDGU7Erkqr1Ux7hKDI5m2mFmQy1kPf
+         RwFqtnrkyN5DXY0FcqURTC9lM/0byPVQ/wqhmswyuTpMydtDR9vQjGJEy04PMmIUVENp
+         9mQA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=kzMcT5+Ve18p+bbY5Y0JoMXbIU5I5x0vz91sRk03eMU=;
-        b=QuZ8T+mp6ch6LSynlDEq8J2cQ6Cw4890GzU61SNRtLS75jaF+wCAf7pg77I2BFIKiN
-         DXyVCpLBnhwuVA+c/JzqUGH1L4iJIm9uqh0/axYJJ+5vx5aicKfEs3Pe8d1SKOHmkCKx
-         nX09YT3NyVzF+bfDH3djhD4oX0PjAk1rms4X0gnFynV5JM6EB9w/prh02CJ+ZTshPYi+
-         /u9RzeLtZk3qyDe9xcH14LU0L5bJ7+kLnSWbtM6mm6YQ2NJ3sQ+t2Prd0kcCmYqn4mC1
-         biefUx5MaOT7WsnYDljmNo3o3y6Q7ZGXdARbzPnjOQBqAbElEGcalhOR29mFWGHl9qUf
-         pnEg==
+        bh=xvQ6aHOYEeMGlrxNB0yt9D2UHRV6IbhoRDM2aCn/6fY=;
+        b=vMfxRar6DMrIdnD4yGg7sHb57xv5NHJVmKzpUSYguszqyrO7U/6G2ANVaHjpeb0C/m
+         f8iz8RjVc9r9db3JafUhu37ac3qDDsKEUNjZmFDyE8SJFoOWSj36fq1PKnqzR57hzdf6
+         HH4wPMrqePGrIoiHab9dnaYJgw17cA2Ln/SK9cPvs7gltU1nePdzOv+gjEpSOtBe3+W3
+         Nc/69tjN0Xu6tdjZ23Dfw6GJitzRL/OrmkxP7gVMfcT3+eOQSo/lr1b57v2nSLEjjRT8
+         RddQI8Un6IAzV/ACD4k/1m4iOsewwhD6JTpKjNjhdG3ETffVSpbxi3xrgdfUxEt04g5B
+         vnhA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="Mit4/wrb";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1133 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=NwOHpbDr;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kzMcT5+Ve18p+bbY5Y0JoMXbIU5I5x0vz91sRk03eMU=;
-        b=DvMPitw4EuVovRZRvzrJ678CCjK2oROMKCEVTR4DR6PGYH9oFhfK0Mx5rDBKSy1D3Y
-         jmS5HgikOI4y+lHxQPQKfzkNKAYUVi7R76oMsAN7s+DUCZFuMrjJ+km8r2dd1pQX4Lya
-         wqJoGuc//DH712HlXemGRhoIWUmmYDYpPOW7e4CHohS70Lmb4By54DcorOWv0JTvw6sw
-         6IUkn5XULv4k98v9U8i4k8HPM7eDWMElpB6SsOvbY1VjeGBproNJqm421Xj0LP11nMNV
-         aXxnI5pM9PQR/EMDjVWs73cVfQt88u+oX0eGhyLPlFB2St/srt0L8aBAxA5xPwiK5fEq
-         7bIg==
+        bh=xvQ6aHOYEeMGlrxNB0yt9D2UHRV6IbhoRDM2aCn/6fY=;
+        b=qoTU4q3A44urWTvtKHsfMTnZU7oODtu5x7OL23AlH5QRp9kb90tVvYOQVaNsDKuPUH
+         aVgY7TTVEV9FKWRinA0AbVFkiSHpxiD1ZUXNc0HDowqgDn7+Oeyv1lR31Clf4ObjgaXC
+         h3K5nQ6glItxQeEDUbg5i1PlWVJmL8ehR+6U9LQQjLd6c5SHFujpfzf8LHNwMxAvuLhx
+         K572MYmHrDL5Arnvvjv25rZ91syafBIqseF/HckH6ROZrCrS9AHZhEb2zKXxNGmX99v5
+         4LCH57QSKVQ6TvzpBknkXtE5lauhCEwAxunpgSOzDwpiofgxPZXsO9D2M91csNftW/Pd
+         Bjbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,73 +50,90 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kzMcT5+Ve18p+bbY5Y0JoMXbIU5I5x0vz91sRk03eMU=;
-        b=lGxqKb5KKTsC27x9N4q7zwUlyhxsgl58uLWziTkh4WeYYoUwHz+n0fKfnCwrpjp7LD
-         7AzFwEtVAaJRL42nNKqt6RH5JEEOXVJVhbUoQgEzf3fxTQU9+qo/aYAORgJVfUqqEgKl
-         /QNV+yrnd147ttt2Z0kD0tMspeut8vyLPXowjWkb3iFqxg5usjWCQ7V0X2GNaV1o7MD9
-         51oDxtAxMm/IgU3LCdv/EFyuvsPhGZ4wZgR+1l3BZCLElsVHNA7sE3X8m2HVbWCo/idO
-         LQkFdK1fpX9xilXIcj2j6azytZwt9ucZB06VI12IfzROnvIIzzNGEDhlSVT3YG7yRmq0
-         Ttaw==
-X-Gm-Message-State: ANoB5ple9BlEwM8rj5DXbkXlepLDQfB8IHVzUZjyJ2B3hDeBsaSeNloX
-	mJ+MYIxm2ytPe9QijwOQMzc=
-X-Google-Smtp-Source: AA0mqf5zwzEnslebBKWJJOzb+rYs2u+OE+YH4kQ88Dgk9vKd3U+wzq+2JjBl8a5xzQag2+Tj5Ye8vw==
-X-Received: by 2002:a05:622a:4ac9:b0:3a5:36cd:a5a4 with SMTP id fx9-20020a05622a4ac900b003a536cda5a4mr11543214qtb.81.1668409293578;
-        Sun, 13 Nov 2022 23:01:33 -0800 (PST)
+        bh=xvQ6aHOYEeMGlrxNB0yt9D2UHRV6IbhoRDM2aCn/6fY=;
+        b=2Mbufcq6h3QS2rOcdrmXWorah5gkasJG5CAUBAx1N/j7oNWqZF227CMvZXU4iW7My2
+         cIjiwr/JwvCP0TIZRwDAoOX63muoAlJ0uSX3vJFHgMGIXwdwuJO82TWXCyf4FUNwB41W
+         B6qm/ObjfrUQ36rN+fc998BIwDsQ8pICgJcpVRQA1/cpYGHKwdLQhH5n+H1KtF+kpRDf
+         IfhJpoMfvIJXINVaW5guDGIrEBkFhTxCs/nX84d3pjlx4hwdd/Rbewzx2SWmRL301jLp
+         5AR1Jq19X6yfWrayEELaUzGkFK7LjVKekaUWMe6ps6UEG1F8duiFecfins3kEFDBgB3H
+         Q81Q==
+X-Gm-Message-State: ANoB5pmvkYo6WQ2tpbcCK1nNfG2QlX0apgoTHGpYbiNib5jbSzytVdC/
+	fSWtXPaEv3Y9KIg+rM0Dkhw=
+X-Google-Smtp-Source: AA0mqf4/uE1ufizMIsFs00jRvOxcTHn3B/LCwAt3FIutgBjU2fvBT4BCGBZ0qKz78A+J0h4zrze4ig==
+X-Received: by 2002:a02:cbb4:0:b0:373:9d0a:33a0 with SMTP id v20-20020a02cbb4000000b003739d0a33a0mr5398132jap.286.1668419355353;
+        Mon, 14 Nov 2022 01:49:15 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:4895:b0:35d:5bc0:6460 with SMTP id
- fc21-20020a05622a489500b0035d5bc06460ls6223280qtb.1.-pod-prod-gmail; Sun, 13
- Nov 2022 23:01:33 -0800 (PST)
-X-Received: by 2002:ac8:6905:0:b0:3a5:8423:ebb7 with SMTP id bt5-20020ac86905000000b003a58423ebb7mr11010808qtb.593.1668409292971;
-        Sun, 13 Nov 2022 23:01:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1668409292; cv=none;
+Received: by 2002:a02:8667:0:b0:369:7404:3a4c with SMTP id e94-20020a028667000000b0036974043a4cls2211078jai.10.-pod-prod-gmail;
+ Mon, 14 Nov 2022 01:49:14 -0800 (PST)
+X-Received: by 2002:a02:ce87:0:b0:370:ea9a:65dc with SMTP id y7-20020a02ce87000000b00370ea9a65dcmr5157546jaq.280.1668419354866;
+        Mon, 14 Nov 2022 01:49:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1668419354; cv=none;
         d=google.com; s=arc-20160816;
-        b=Yx+ukxAogykWkWfEOZ2cfA7lqUHrB76fTwQ2x8aVZaGoeK/p/toz/ocH6kaDPw97iP
-         iFSw8hzhgqawJsif1t3X5FZ7/l1oczVKr7KHCpo42+LYCO5d1rbXwI9+3e+ftf+Q8t5+
-         1WBmNHK3zpSn+IQlhRUgT2ZFJeBBoCyyyDAqLvlXDQueTu2GyIn769oFBmPj08u1mFly
-         KXr+Yc3pqhqUH4cpAh2zdkHL8qFRcf3z/7QrKVeWLtllQ2ECfHEQwj+uv2txO+ZcyIvj
-         aos2ozniGIkez1sd4Cd/duWgP82udqapE+To7/l+1EPK1cquHS3rtIliU035fNRKR3vS
-         w4eA==
+        b=OYEL2XiJ/v2FfZH6p+/aPhWbbFCnna/C2Z8MtQDY42B3deWDor1vck11jE6m4hZBNg
+         W3Ck3CjDRyOVxgpa0Lp5NDDW4HGmNIGS1MHFXYGShH6dAxxMLDyS7TFsM9sGK/GPZida
+         4OJUmqaT76ojFR7zdMfCmME72X3LU1JsWvMb7IEMabUFKLMRdPPQF674go5U/nI+szY9
+         fOUNVjV+pICLQA48E2ILJSo/bUN5Wwwe5UE6+qDt2+A2olJEJGy6Gaj0/Kp4uJUGD9T0
+         IW2hlfLU6VYZiezZTn1sXyhs/n4ftXnT6K2r+68yfqS7fVfIJzIkznaBS+heLR8se2tf
+         Ww+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=T8++jjvsG0oXPi9XkXPJNv66frIPVuEbhLDe6tRY0RU=;
-        b=oGzaFKDEypYnRtm+vZD/THS6CTJcYiWkwvDBkecfMlz3qo8iC7v+F5zho9Xd9NF/tc
-         kVqK/BASxKmAeCNvLrf1G+Qr5FenaOmzE0cOW82y1aodV+WZ8wY3dEs5u99aZVyJ9WV5
-         U0P53G51Sk+eFh8SEHh6hMWHxiLEaZYwqyKWidtPXF6+PPxt93eMgnSlx+mJ7aaQr7eY
-         Ycqe7Pv0+iXfCWwi9J0fI5nrSw3RPi38ZIsVZGUAW5r2atSvd9zA9TuqB2wq/rDQWLEk
-         ToLI+0u8wvZs+2x+qJp6K/vnj2kguUcymbQ2LQZvuDA0n46Owpg08z10d5XeNCRsY0nB
-         rZ2A==
+        bh=l4csSnMcWReSkj8cBG0QioRbqv/IdxWbBKHzfzblSQo=;
+        b=NspaJaxkDCciHwsx371deAHKdIJtSweh+24obqK3iYf9Zh5KIClfEHWlqn+KCf6vI3
+         UyprvYKUKXnj+c6lkLyNW/y7LCsGr+dKdGlvvuxIpmH5PxYBeGjwifa9zUoRpy98Jb/H
+         cExEG+y2FOrtyUby5JdFIP6TvPax0VGwMgWWfe7/2rTcT+8elFFrTpjEWhAMrdlkpf9z
+         Q0hZOoxOz/O0q94f5dhNVrywuOCivoxLm5N7Rh8xwi3Y0zsR2dWCQyef07CC2YrxHLtY
+         2NqJmY7DV+eYuXbUQ5h+PU5pk5lSY95JdQN7TGb+6hWjatsYLEa77QZaeIT9MBMuu2Aj
+         F+Ug==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b="Mit4/wrb";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1133 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=NwOHpbDr;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com. [2607:f8b0:4864:20::1133])
-        by gmr-mx.google.com with ESMTPS id r13-20020ac85e8d000000b003a4f2725cd1si359656qtx.4.2022.11.13.23.01.32
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com. [2607:f8b0:4864:20::b2e])
+        by gmr-mx.google.com with ESMTPS id d124-20020a6bb482000000b006d9c1177a7dsi380463iof.3.2022.11.14.01.49.14
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Nov 2022 23:01:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1133 as permitted sender) client-ip=2607:f8b0:4864:20::1133;
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-369426664f9so97557837b3.12
-        for <kasan-dev@googlegroups.com>; Sun, 13 Nov 2022 23:01:32 -0800 (PST)
-X-Received: by 2002:a81:13c1:0:b0:373:4460:e8bd with SMTP id
- 184-20020a8113c1000000b003734460e8bdmr11548114ywt.11.1668409292543; Sun, 13
- Nov 2022 23:01:32 -0800 (PST)
+        Mon, 14 Nov 2022 01:49:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2e as permitted sender) client-ip=2607:f8b0:4864:20::b2e;
+Received: by mail-yb1-xb2e.google.com with SMTP id b131so12090739yba.11
+        for <kasan-dev@googlegroups.com>; Mon, 14 Nov 2022 01:49:14 -0800 (PST)
+X-Received: by 2002:a5b:c4c:0:b0:6df:1528:d64c with SMTP id
+ d12-20020a5b0c4c000000b006df1528d64cmr10081798ybr.143.1668419354248; Mon, 14
+ Nov 2022 01:49:14 -0800 (PST)
 MIME-Version: 1.0
-References: <1667986006-25420-1-git-send-email-quic_pkondeti@quicinc.com>
-In-Reply-To: <1667986006-25420-1-git-send-email-quic_pkondeti@quicinc.com>
+References: <20221109194404.gonna.558-kees@kernel.org> <20221109200050.3400857-5-keescook@chromium.org>
+In-Reply-To: <20221109200050.3400857-5-keescook@chromium.org>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 14 Nov 2022 08:00:00 +0100
-Message-ID: <CANpmjNNYRg7sYTxKN_YCts7wqGfr-2YZbw+pwdO5nTZp_bBVfg@mail.gmail.com>
-Subject: Re: [PATCH] mm/kfence: remove hung_task cruft
-To: Pavankumar Kondeti <quic_pkondeti@quicinc.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Peter Zijlstra <peterz@infradead.org>, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Date: Mon, 14 Nov 2022 10:48:38 +0100
+Message-ID: <CANpmjNO_ujNwaFxpsAWWXhBajhV8LJMXQjCHiSLHKG2Dc+od4A@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] panic: Introduce warn_limit
+To: Kees Cook <keescook@chromium.org>
+Cc: Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Jason A. Donenfeld" <Jason@zx2c4.com>, Eric Biggers <ebiggers@google.com>, Huang Ying <ying.huang@intel.com>, 
+	Petr Mladek <pmladek@suse.com>, tangmeng <tangmeng@uniontech.com>, 
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>, Tiezhu Yang <yangtiezhu@loongson.cn>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-doc@vger.kernel.org, 
+	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linuxfoundation.org>, 
+	Seth Jenkins <sethjenkins@google.com>, Andy Lutomirski <luto@kernel.org>, 
+	"Eric W. Biederman" <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Dmitry Vyukov <dvyukov@google.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Luis Chamberlain <mcgrof@kernel.org>, David Gow <davidgow@google.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Anton Vorontsov <anton@enomsg.org>, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Laurent Dufour <ldufour@linux.ibm.com>, 
+	Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b="Mit4/wrb";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1133 as
+ header.i=@google.com header.s=20210112 header.b=NwOHpbDr;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2e as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -133,58 +150,93 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 9 Nov 2022 at 10:26, Pavankumar Kondeti
-<quic_pkondeti@quicinc.com> wrote:
+On Wed, 9 Nov 2022 at 21:00, Kees Cook <keescook@chromium.org> wrote:
 >
-> commit fdf756f71271 ("sched: Fix more TASK_state comparisons") makes
-> hung_task not to monitor TASK_IDLE tasks. The special handling to
-> workaround hung_task warnings is not required anymore.
+> Like oops_limit, add warn_limit for limiting the number of warnings when
+> panic_on_warn is not set.
 >
-> Signed-off-by: Pavankumar Kondeti <quic_pkondeti@quicinc.com>
-
-Good riddance, thanks.
-
-Reviewed-by: Marco Elver <elver@google.com>
-
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+> Cc: Eric Biggers <ebiggers@google.com>
+> Cc: Huang Ying <ying.huang@intel.com>
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: tangmeng <tangmeng@uniontech.com>
+> Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+> Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
+> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->  mm/kfence/core.c | 12 +-----------
->  1 file changed, 1 insertion(+), 11 deletions(-)
+>  Documentation/admin-guide/sysctl/kernel.rst |  9 +++++++++
+>  kernel/panic.c                              | 13 +++++++++++++
+>  2 files changed, 22 insertions(+)
 >
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 1417888..08f5bd6 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -26,7 +26,6 @@
->  #include <linux/random.h>
->  #include <linux/rcupdate.h>
->  #include <linux/sched/clock.h>
-> -#include <linux/sched/sysctl.h>
->  #include <linux/seq_file.h>
->  #include <linux/slab.h>
->  #include <linux/spinlock.h>
-> @@ -799,16 +798,7 @@ static void toggle_allocation_gate(struct work_struct *work)
->         /* Enable static key, and await allocation to happen. */
->         static_branch_enable(&kfence_allocation_key);
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 09f3fb2f8585..c385d5319cdf 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -1508,6 +1508,15 @@ entry will default to 2 instead of 0.
+>  2 Unprivileged calls to ``bpf()`` are disabled
+>  = =============================================================
 >
-> -       if (sysctl_hung_task_timeout_secs) {
-> -               /*
-> -                * During low activity with no allocations we might wait a
-> -                * while; let's avoid the hung task warning.
-> -                */
-> -               wait_event_idle_timeout(allocation_wait, atomic_read(&kfence_allocation_gate),
-> -                                       sysctl_hung_task_timeout_secs * HZ / 2);
-> -       } else {
-> -               wait_event_idle(allocation_wait, atomic_read(&kfence_allocation_gate));
-> -       }
-> +       wait_event_idle(allocation_wait, atomic_read(&kfence_allocation_gate));
+> +
+> +warn_limit
+> +==========
+> +
+> +Number of kernel warnings after which the kernel should panic when
+> +``panic_on_warn`` is not set. Setting this to 0 or 1 has the same effect
+> +as setting ``panic_on_warn=1``.
+> +
+> +
+>  watchdog
+>  ========
 >
->         /* Disable static key and reset timer. */
->         static_branch_disable(&kfence_allocation_key);
-> --
-> 2.7.4
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index 3afd234767bc..b235fa4a6fc8 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -58,6 +58,7 @@ bool crash_kexec_post_notifiers;
+>  int panic_on_warn __read_mostly;
+>  unsigned long panic_on_taint;
+>  bool panic_on_taint_nousertaint = false;
+> +static unsigned int warn_limit __read_mostly = 10000;
 >
+>  int panic_timeout = CONFIG_PANIC_TIMEOUT;
+>  EXPORT_SYMBOL_GPL(panic_timeout);
+> @@ -88,6 +89,13 @@ static struct ctl_table kern_panic_table[] = {
+>                 .extra2         = SYSCTL_ONE,
+>         },
+>  #endif
+> +       {
+> +               .procname       = "warn_limit",
+> +               .data           = &warn_limit,
+> +               .maxlen         = sizeof(warn_limit),
+> +               .mode           = 0644,
+> +               .proc_handler   = proc_douintvec,
+> +       },
+>         { }
+>  };
+>
+> @@ -203,8 +211,13 @@ static void panic_print_sys_info(bool console_flush)
+>
+>  void check_panic_on_warn(const char *reason)
+>  {
+> +       static atomic_t warn_count = ATOMIC_INIT(0);
+> +
+>         if (panic_on_warn)
+>                 panic("%s: panic_on_warn set ...\n", reason);
+> +
+> +       if (atomic_inc_return(&warn_count) >= READ_ONCE(warn_limit))
+> +               panic("Warned too often (warn_limit is %d)", warn_limit);
+
+Shouldn't this also include the "reason", like above? (Presumably a
+warning had just been generated to console so the reason is easy
+enough to infer from the log, although in that case "reason" also
+seems redundant above.)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNYRg7sYTxKN_YCts7wqGfr-2YZbw%2BpwdO5nTZp_bBVfg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO_ujNwaFxpsAWWXhBajhV8LJMXQjCHiSLHKG2Dc%2Bod4A%40mail.gmail.com.
