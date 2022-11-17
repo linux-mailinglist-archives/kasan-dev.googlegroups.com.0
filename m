@@ -1,142 +1,139 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBLUH3ONQMGQEUS5WEII@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBIUO3ONQMGQE244CF3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0498962E994
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Nov 2022 00:28:48 +0100 (CET)
-Received: by mail-pj1-x103b.google.com with SMTP id q89-20020a17090a1b6200b0021870ae78c7sf1851975pjq.4
-        for <lists+kasan-dev@lfdr.de>; Thu, 17 Nov 2022 15:28:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1668727726; cv=pass;
+Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id B497362E9B8
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Nov 2022 00:43:32 +0100 (CET)
+Received: by mail-pg1-x538.google.com with SMTP id k16-20020a635a50000000b0042986056df6sf2083253pgm.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 17 Nov 2022 15:43:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1668728611; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YepOPiYbaSoWdf2HKHZvpIWTOTR5dGP6B6olaQWrTUFkzdZ7DEh9dSZGtre5HX46pU
-         z4zWf35FX1F3UARjGpXoPZo9WroqxBlEN7e8cHSO0J0jwzlZ2KLN9FQc6NksF/gIqbZB
-         3IBmFdjx3Xq4LvJoZuzr7iQ1fdu9i2Xct5sMCJk/nh1bNK1HG8T70V9xwyPKMdbVaYsL
-         XZ9I6DYX2nu3mjH4jAns6RaKTCQUkkGb5JpIxIWPOlu9HBCBxh+nq0m8UypTd+dr8xEe
-         SkeJWsav5r7zhIfjiknZZECaFd/QNgFXZMtM14dEgkUpTg8kMc/+Ua1MypS9Ugdib4L9
-         aFQQ==
+        b=tD0ADIKfB+M37XMig5O/68uGhKooXT50raHJXKzOAytLfqQj3XA8QaVBYS+9BgJHf3
+         pcz2f/LLF+G1eFNjx2dwKmXX/2lskXDmqUx2Vkw+9jRfRSPb4FNCAOckv2Z7bDh/0GTQ
+         AKCdzdU1NyFmXfZURiwrVY8jPWxc+iX4yKTwqDn9HhY7kL0IMT2GP88RvrDjNH6sWioY
+         ZvRXdD2mzeBMJEM7qY/ov8/hxMP1upfchW68QS86w9gBb9qSSgSHOVy+Ubb901aXjqBw
+         VPquUqXPUdxOT1Y23Z3NsQr47YknzCvMFHPQCEYAnS77vSzBFrTq3EgWfj6+dakfNhTK
+         DM/g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=aRiJ0fbwGVq/V8IFBNsE3dYG4CJw4FLqviUD7ySuz6Y=;
-        b=UDIO+fB9nIirYk7xlBknQKQPGYnX9P4mQr49dlRJWXKINysZd0vGgiTixIQEiBfpzO
-         y6tyShwE/M6jNWimDjhS9+XhchC5rOl5YHslnyrHms00e1IOBiwIZU4VHwv92Yiq1Vws
-         jhu/FdMFNNc1nROw6jI3D9QEOSCqRPDJ48n/cA153H5c8vVs5RCLmSxYKDShcCYYRJ4Q
-         xblloocc0z5+Y8uyFZhqXtd4JN/vbY5AM0PNhSpUwSDSG8JuEbp9uh8NfgqEELcP6EmH
-         /XXDtmOQpcIG5VmuROnldxOCZAroRJyG0tCjaisu8MK36WX5U0phUG5xsK9q+7w3Up1Z
-         fhvQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=rmy+uKpA++XxslWS487apS497YKC82k7ntkPTqbpiZM=;
+        b=KdY4sak9TMDUc0/GmQiGpUSVwtHvCPcX21UcukgYgDyNEBy5DKAMrl0THO2drafy1m
+         CAaOHvHCx0YJYxxGhfmi0nmln7au/TqxgXE+0nU992Lp/ibmAb8VRdrW0EKKhQVqq488
+         15QUkRf1gmqaZTqUKhkHuqz2TgYIqsiRXYMtciZ5YWc2WWkPrfSTeVm+Tan1/jcKuamW
+         vhkxKC9gFHdxlJcYSntE3FafSax/51CkTbT7HfXJWd/knTXaH17XFbaU20jvnPa/ShzG
+         0OJ1pfuOoevjLrzv9LI1oy93xHSzZFSXIJSugb2Hruwecy95ndoySp6J77fg+pJTt2F+
+         Pyzw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=lj3JmYhm;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=gzgQ67tG;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=keescook@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aRiJ0fbwGVq/V8IFBNsE3dYG4CJw4FLqviUD7ySuz6Y=;
-        b=N7v3WJi+ran0OV0ub6fwPR7BCELc/PB5Fik7xDIEsfiMsDdRJfoH5B/Rbh9KIaz75T
-         VVGlhT5whMMkhF6kjxE2b8QQx5DKSH1IkRTSlDOg1SHt5ih6+RTJF0ifoyi5Cuq+8p67
-         uiKwry/0HVTELFJVl3gFfc0rQls+Fg33VuGU0SN3j7695snLwXNchvBeDtly/JT/X4CZ
-         vJ9NCwBmVJ4oqhuyHlyCFvahZ6Zz49diat4XAnQW407DOI1mdHvqMcnX2Jg+MrGRLyhi
-         pwZEn0kojuL1uAcCmIHU+mJcOwHVthfY660fUW3GTGJD7v8Z8/3xTJz2iB9P9Ppx/WsH
-         CQJg==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=rmy+uKpA++XxslWS487apS497YKC82k7ntkPTqbpiZM=;
+        b=C+FWyFQEieyhKLFDkpHqsDX6Xl7GW56KFeKxFs5HSD3K2bRzal6Z70ZvfS13no3FFy
+         yER8c7KKMiqEAOdtACbrdEfRIdGhXmPdEbeGV4gaR73ONMufV/QuRgRD7LrhVVYgiAG5
+         cPcWgYR2X3KlJTczj0AXBR5Ft9iyDLyNusulNvarfl+/whInzQ7cRrn0wCCrPsSI7aE+
+         DU9E34cuPwfaZpAIDI5YOD7NCN+xYavbC9ac/1bQeN31eqp9KFrmI5dbLqjup+t0OWm7
+         OE+GhKH6byuVv1hl+tTIICB2AjO+DlYg8hlgPmyXoGR54iPVfkp8f8Y/DtvWrAywm4Uz
+         CELg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aRiJ0fbwGVq/V8IFBNsE3dYG4CJw4FLqviUD7ySuz6Y=;
-        b=VkAkEU+8IXGgs+BFB9VXVSsYWmh7jSk/rY6ZFGM0Unt71ra4YPuu3NOr8ytnj334O8
-         gcYXbCucH8/UAMOIji8ASyxEHe5rupB2UWm+Sks40TnUOtGXY2sJH0KToy2NXRl3x7bH
-         LBc0sKouazFbcvfcyUpAykqcpvFU8v+lhM+PbaZa3BzNV7z2QcfTE9asRF+AMWsSeeBf
-         nUOSrSmpA7naWla9IB7GYsPgKocuvIp2N/zYtUOD0D4Ipgt52COLqPpcj3qxKixnI6t1
-         YPyaPvn6uii+VrflqoVOlTr59lzrD9IL/8wrR9Sc77w44hCS+8Ysi93BZBxuA3H/EaO7
-         EdeQ==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rmy+uKpA++XxslWS487apS497YKC82k7ntkPTqbpiZM=;
+        b=Kv1RwIy6hP5h8vt0myzSPEY+CM1PYjW3/XzWKEN0q9Sx292yeAtNCyNuLdWUVgOFoC
+         A6GAp320+30gHjOcHn03L/KUmX+mkkY0tCalreTWcmeNxGp2fSZZvcDIl0/qM/Cysz6t
+         JVkEJieP/f3haDW/kq80TrsHxJmynkPkPYzjJsCi8/X/V9B/Sm0GGClXiEcMAR3SP7SL
+         mD3V0g2s/xZfZou+USIqPu2ElVXPpX4UiziZWXB01i9C6PyCoFbbmnFdYuHLL2eUG9Gq
+         yn72Yu8O8OmhQqgmeQcmdC9igAMcskYfvBgcbrMMt9wJnfMR9F9FO7mYPFAi9d1h3Ho4
+         a5hA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pk/wMh+r5vh+8Dnq6B5GMvjTIgC6MMeiAKmGOhDDKnckfHy8CVC
-	rZXfOiFiRjkcKYMIrttRfeM=
-X-Google-Smtp-Source: AA0mqf5g0Gv+juk4uHU0CE49GteOiCSS9hlEtBHXX9SHNF0/8e4f7zov2p69QMQVQTaEVNQMSey50w==
-X-Received: by 2002:a05:6a00:27ab:b0:56c:71a4:efe with SMTP id bd43-20020a056a0027ab00b0056c71a40efemr5062168pfb.84.1668727726352;
-        Thu, 17 Nov 2022 15:28:46 -0800 (PST)
+X-Gm-Message-State: ANoB5pmNF0TwVg6tCOY4LXRj+rZcPmJlk7Ml3uBFLd7AXlqbY2Ss16oi
+	COUxuesVzXEcuzoSJbguHGU=
+X-Google-Smtp-Source: AA0mqf6mv7gAEYfV3WRJvl4v84M0+hLveTfNr69JWQLlKlX7lOB8r/8QZ/hAK3pc50sPilqmQqQovQ==
+X-Received: by 2002:aa7:9469:0:b0:56a:7c3b:1bea with SMTP id t9-20020aa79469000000b0056a7c3b1beamr5180332pfq.58.1668728611097;
+        Thu, 17 Nov 2022 15:43:31 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:300e:b0:56b:696a:9a6a with SMTP id
- ay14-20020a056a00300e00b0056b696a9a6als1675056pfb.6.-pod-prod-gmail; Thu, 17
- Nov 2022 15:28:45 -0800 (PST)
-X-Received: by 2002:a05:6a00:1892:b0:572:b324:bbe9 with SMTP id x18-20020a056a00189200b00572b324bbe9mr5143679pfh.57.1668727725606;
-        Thu, 17 Nov 2022 15:28:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1668727725; cv=none;
+Received: by 2002:a62:1c06:0:b0:561:e77b:c7c2 with SMTP id c6-20020a621c06000000b00561e77bc7c2ls1691274pfc.4.-pod-prod-gmail;
+ Thu, 17 Nov 2022 15:43:30 -0800 (PST)
+X-Received: by 2002:aa7:9293:0:b0:56b:9bf4:c1c4 with SMTP id j19-20020aa79293000000b0056b9bf4c1c4mr5218508pfa.67.1668728610411;
+        Thu, 17 Nov 2022 15:43:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1668728610; cv=none;
         d=google.com; s=arc-20160816;
-        b=oxju1iWDPf/kEtQ7RPxq+r2ctqzixXwYZ+RlLHfxMIFqt7Yie0X1LK5n/G3SKnXVmz
-         uy7pLFIXFsD2n3StkZFfudMNRNLMFemR8x4q0jNSlC43kJBKMzaAhgkD5F2Ic1ieoDe2
-         O7P5fAVyBaXC3QeIq7I3ujtaYWpVHdEIG3W+R57D9kh6+O+SbtgM0gB5Vws5ee3VjLpR
-         XZmMTHxAxOzag0NvQpiU3/KEePscA9wzMhwMM3pv4yICakXfQVE23LEM9afjaNoP6lW1
-         QcgAuLg9onZs9yxfmrymz3h3cHPoZenFdkUmzGvgF803qxFLWGBCa/kfiIL87VWdJjjk
-         tbBg==
+        b=grgPCs+xzf++OPOWUqTR3Qw8IO8PLC8HTc6/TlZQhEUzPzSkIF7PYkRAbY8MLGPU0p
+         JDP8T6Dpr1tWoFamamQ7i1RlVa48XY1KVMnW5GmPtJCTm5/7ITrSCPaMbmopB2ShzIx/
+         ZANfsuMWP/BKK7//Vd9ldsAB3L1r8qUCxsKvhSBQz6LR4auUr2W05YVvsHmpuyTZ2RhV
+         L4WX+kawp03c9a3nnA0/4ep30wBxyvKPKa9Mdqgknu3gWoPaPQ9xFlSwz4ImxhwsI5HV
+         xnN2Lwa5gaUxGGwN/KQ9QOIJI2aKVIN+GHQYSNBMxayg1IUyrSDQYmuGL8s2I9FLFZn4
+         CT+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=FcOLKLI7Dm9mEvWr+m80g8x+dHIAf7454LwMBIEgBJs=;
-        b=d6BdC5GWICzhFEOBmbJxJ4rZlvHb+a9wrCrg6JzCZa9xIaSdi3BYarPGPndg8s9MQy
-         fxWr1Ee6lbePa+mAhbKaUr9q62vnXaUBHPWrAlPbkFHV8e73cb0ZLWdbLFxmp1t2O0q3
-         O3jvDJ5F60KNT7DY8hYn4gtshDYcYmlvIzWmrlB+n4yqdi1yegOG8PSrM62T6CrmBumw
-         WSqHa3tfm+0ABtyu7UYYwxbV+ZrBu8NgemDnv/rPVFWurphbIMjk6l8x81GR+zOTSOLw
-         IsVKtAJgZ3LoKJoAklydOQSzrCmdmYlux9E8BOUDvbqgAPGdfhLy4dLlI7PsKjjyjyfT
-         aiGw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=LQKoNHkwXKQHXK1Rm3137rvxsN3jeB7ychTw9wiMCoA=;
+        b=njoEAVZFd2g6Zx/AaHujw4t4/6T72MCDPVvMTgSBzFMw08BBxc6CZG82QDZaI4AvgN
+         ugLwzG6AUbDoIJkS/O3GNOfNGm59dxYYiqSXvNM/3NdnDscaibbdPJ9Y53Iv3E0nBcA3
+         vlIkBp4pYPUX/rM23Z38INBWlD1BjtpyeALzKGLmmX/aMoIEs0P7VgXEytZVpMJSo6ej
+         EJVrheVBwnBu7do408hyz5aM+qMTURfUCT+9bKAdPADiX9wHxsgz9FslkYyboI8PMkY1
+         yFra43scOzjvWPK4oXj32DHmlkkBiM8guarfjkGwSRN1/qUmQ8d6tb8WG5lQ9q+Nv61p
+         kyUA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=lj3JmYhm;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dkim=pass header.i=@chromium.org header.s=google header.b=gzgQ67tG;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=keescook@chromium.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com. [2607:f8b0:4864:20::636])
-        by gmr-mx.google.com with ESMTPS id on16-20020a17090b1d1000b00213290fa218si109914pjb.2.2022.11.17.15.28.45
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com. [2607:f8b0:4864:20::42f])
+        by gmr-mx.google.com with ESMTPS id w203-20020a627bd4000000b0056611e6228dsi141987pfc.1.2022.11.17.15.43.30
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Nov 2022 15:28:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::636 as permitted sender) client-ip=2607:f8b0:4864:20::636;
-Received: by mail-pl1-x636.google.com with SMTP id jn7so1196523plb.13
-        for <kasan-dev@googlegroups.com>; Thu, 17 Nov 2022 15:28:45 -0800 (PST)
-X-Received: by 2002:a17:902:f651:b0:186:b5c8:4c8f with SMTP id m17-20020a170902f65100b00186b5c84c8fmr4827739plg.124.1668727725304;
-        Thu, 17 Nov 2022 15:28:45 -0800 (PST)
+        Thu, 17 Nov 2022 15:43:30 -0800 (PST)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::42f as permitted sender) client-ip=2607:f8b0:4864:20::42f;
+Received: by mail-pf1-x42f.google.com with SMTP id 140so3294739pfz.6
+        for <kasan-dev@googlegroups.com>; Thu, 17 Nov 2022 15:43:30 -0800 (PST)
+X-Received: by 2002:a63:3d8:0:b0:476:eee6:d394 with SMTP id 207-20020a6303d8000000b00476eee6d394mr4235676pgd.228.1668728610079;
+        Thu, 17 Nov 2022 15:43:30 -0800 (PST)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id y15-20020a656c0f000000b0046f7e1ca434sm1643826pgu.0.2022.11.17.15.28.44
+        by smtp.gmail.com with ESMTPSA id o9-20020a655bc9000000b004582e25a595sm1614221pgr.41.2022.11.17.15.43.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 15:28:44 -0800 (PST)
-Date: Thu, 17 Nov 2022 15:28:44 -0800
+        Thu, 17 Nov 2022 15:43:29 -0800 (PST)
 From: Kees Cook <keescook@chromium.org>
-To: Marco Elver <elver@google.com>
-Cc: Jann Horn <jannh@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+To: Jann Horn <jannh@google.com>
+Cc: Kees Cook <keescook@chromium.org>,
+	Seth Jenkins <sethjenkins@google.com>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linuxfoundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	tangmeng <tangmeng@uniontech.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Tiezhu Yang <yangtiezhu@loongson.cn>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dmitry Vyukov <dvyukov@google.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Juri Lelli <juri.lelli@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Dietmar Eggemann <dietmar.eggemann@arm.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Ben Segall <bsegall@google.com>,
 	Daniel Bristot de Oliveira <bristot@redhat.com>,
 	Valentin Schneider <vschneid@redhat.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Alexander Potapenko <glider@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
 	Luis Chamberlain <mcgrof@kernel.org>,
-	David Gow <davidgow@google.com>, tangmeng <tangmeng@uniontech.com>,
-	Petr Mladek <pmladek@suse.com>,
+	David Gow <davidgow@google.com>,
 	"Paul E. McKenney" <paulmck@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Tiezhu Yang <yangtiezhu@loongson.cn>, kasan-dev@googlegroups.com,
-	linux-mm@kvack.org, Greg KH <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linuxfoundation.org>,
-	Seth Jenkins <sethjenkins@google.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	"Jason A. Donenfeld" <Jason@zx2c4.com>,
 	Eric Biggers <ebiggers@google.com>,
@@ -144,23 +141,26 @@ Cc: Jann Horn <jannh@google.com>, Dmitry Vyukov <dvyukov@google.com>,
 	Anton Vorontsov <anton@enomsg.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Laurent Dufour <ldufour@linux.ibm.com>,
-	Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 4/6] panic: Consolidate open-coded panic_on_warn checks
-Message-ID: <202211171528.DF818B1CB6@keescook>
-References: <20221109194404.gonna.558-kees@kernel.org>
- <20221109200050.3400857-4-keescook@chromium.org>
- <CANpmjNNrYDNrRR8i+8xAFnmSjZ0Rdp-P14Sf9d+dadfsik18QA@mail.gmail.com>
+	Rob Herring <robh@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v3 0/6] exit: Put an upper limit on how often we can oops
+Date: Thu, 17 Nov 2022 15:43:20 -0800
+Message-Id: <20221117233838.give.484-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNNrYDNrRR8i+8xAFnmSjZ0Rdp-P14Sf9d+dadfsik18QA@mail.gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1558; h=from:subject:message-id; bh=Mevv31fJaznFTh44cD9Wkn2q46wN2KwgT2JblND2tEw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjdsccuB5/7Dud9dthXxlatod2tm4x+MLt8lSkzhG8 v6L92dWJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY3bHHAAKCRCJcvTf3G3AJuVdD/ 0eNAawmC+gMqkT2rEKRxW1q1K4WlSNG660mYF+W/EAMANgbt6w31eLw4F1zcWZUz+34y5smj0BBaCU y5rzvHB47A7fuA9hXjcwb8TuxsSnjq3pkDquhBH7Y3KFkj90GGVkL/Mh9gVP+uOLjCYvc48iwOt2eG YHZ/y3jAgGhcr2jxeAYCwOwalTeHyyCeurbdvX7Oq+a45aPDWcVfffZbFVfHn8DxxTVcNQ7N/628uE z2kYsHca4qJwFAzPpArSYyVloSVtbEW5ckjt+Iq6kLO3u+oTgu+PvJpLJ9F8bnjbFIklvAwkomHvfV fixggchvSkevDB43e+wQvPrcKfiNN71mlbGfuMLs2VVFuzNQUGAZXRhHR3lwG9UIaNDuCzzxa1UWr9 3ktCososbPal1YX12fJhSFl8vzBMk7JLQEbTTHcYUAbjWHdpNJodiID252O9pAdmG1E9muAIZGy4qC tcH0IouHdUSPs2DP9Y16vdrEMok25wZU7rIjZ0VxdtGIMrgiqMZmxweeRnhXSgy/HFG+1IXtXgb9Ir Ro+U3RGzEYBu6Wklay2Dr6Gca6606I6a51/zw0fPXanLvL+dGU0ZHeXbx7SaSYZ0n2zPaL+1ET1p19 gLeTIC7R+E3l0BJ0ilq4VBoffYDaepF8i1hdfUaDnHhkEMaoDGmjbuFOnslg==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 X-Original-Sender: keescook@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=lj3JmYhm;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::636
+ header.i=@chromium.org header.s=google header.b=gzgQ67tG;       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::42f
  as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -173,113 +173,50 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Nov 14, 2022 at 10:57:15AM +0100, Marco Elver wrote:
-> On Wed, 9 Nov 2022 at 21:00, Kees Cook <keescook@chromium.org> wrote:
-> >
-> > Several run-time checkers (KASAN, UBSAN, KFENCE, KCSAN, sched) roll
-> > their own warnings, and each check "panic_on_warn". Consolidate this
-> > into a single function so that future instrumentation can be added in
-> > a single location.
-> >
-> > Cc: Marco Elver <elver@google.com>
-> > Cc: Dmitry Vyukov <dvyukov@google.com>
-> > Cc: Peter Zijlstra <peterz@infradead.org>
-> > Cc: Juri Lelli <juri.lelli@redhat.com>
-> > Cc: Vincent Guittot <vincent.guittot@linaro.org>
-> > Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
-> > Cc: Steven Rostedt <rostedt@goodmis.org>
-> > Cc: Ben Segall <bsegall@google.com>
-> > Cc: Mel Gorman <mgorman@suse.de>
-> > Cc: Daniel Bristot de Oliveira <bristot@redhat.com>
-> > Cc: Valentin Schneider <vschneid@redhat.com>
-> > Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> > Cc: Alexander Potapenko <glider@google.com>
-> > Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> > Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Luis Chamberlain <mcgrof@kernel.org>
-> > Cc: David Gow <davidgow@google.com>
-> > Cc: tangmeng <tangmeng@uniontech.com>
-> > Cc: Jann Horn <jannh@google.com>
-> > Cc: Petr Mladek <pmladek@suse.com>
-> > Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> > Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-> > Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-> > Cc: kasan-dev@googlegroups.com
-> > Cc: linux-mm@kvack.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  include/linux/panic.h | 1 +
-> >  kernel/kcsan/report.c | 3 +--
-> >  kernel/panic.c        | 9 +++++++--
-> >  kernel/sched/core.c   | 3 +--
-> >  lib/ubsan.c           | 3 +--
-> >  mm/kasan/report.c     | 4 ++--
-> >  mm/kfence/report.c    | 3 +--
-> >  7 files changed, 14 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/include/linux/panic.h b/include/linux/panic.h
-> > index c7759b3f2045..1702aeb74927 100644
-> > --- a/include/linux/panic.h
-> > +++ b/include/linux/panic.h
-> > @@ -11,6 +11,7 @@ extern long (*panic_blink)(int state);
-> >  __printf(1, 2)
-> >  void panic(const char *fmt, ...) __noreturn __cold;
-> >  void nmi_panic(struct pt_regs *regs, const char *msg);
-> > +void check_panic_on_warn(const char *reason);
-> >  extern void oops_enter(void);
-> >  extern void oops_exit(void);
-> >  extern bool oops_may_print(void);
-> > diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-> > index 67794404042a..e95ce7d7a76e 100644
-> > --- a/kernel/kcsan/report.c
-> > +++ b/kernel/kcsan/report.c
-> > @@ -492,8 +492,7 @@ static void print_report(enum kcsan_value_change value_change,
-> >         dump_stack_print_info(KERN_DEFAULT);
-> >         pr_err("==================================================================\n");
-> >
-> > -       if (panic_on_warn)
-> > -               panic("panic_on_warn set ...\n");
-> > +       check_panic_on_warn("KCSAN");
-> >  }
-> >
-> >  static void release_report(unsigned long *flags, struct other_info *other_info)
-> > diff --git a/kernel/panic.c b/kernel/panic.c
-> > index 129936511380..3afd234767bc 100644
-> > --- a/kernel/panic.c
-> > +++ b/kernel/panic.c
-> > @@ -201,6 +201,12 @@ static void panic_print_sys_info(bool console_flush)
-> >                 ftrace_dump(DUMP_ALL);
-> >  }
-> >
-> > +void check_panic_on_warn(const char *reason)
-> > +{
-> > +       if (panic_on_warn)
-> > +               panic("%s: panic_on_warn set ...\n", reason);
-> > +}
-> > +
-> >  /**
-> >   *     panic - halt the system
-> >   *     @fmt: The text string to print
-> > @@ -619,8 +625,7 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
-> >         if (regs)
-> >                 show_regs(regs);
-> >
-> > -       if (panic_on_warn)
-> > -               panic("panic_on_warn set ...\n");
-> > +       check_panic_on_warn("kernel");
-> 
-> What is the reason "kernel" in this context? The real reason is a WARN
-> - so would the reason "WARNING" be more intuitive?
+Hi,
 
-I'll rename "reason" to "origin" or something -- it's mainly to see
-who was calling this when it's not core kernel logic.
+This builds on Jann's v1 patch[1]. Changes in v3:
+- fix #if/#ifdef confusion (Bill)
+- rename from "reason" or "origin" and add it to the warn output (Marco)
+
+v2: https://lore.kernel.org/lkml/20221109194404.gonna.558-kees@kernel.org/
+
+Thanks,
+
+-Kees
+
+[1] https://lore.kernel.org/lkml/20221107201317.324457-1-jannh@google.com
+
+Jann Horn (1):
+  exit: Put an upper limit on how often we can oops
+
+Kees Cook (5):
+  panic: Separate sysctl logic from CONFIG_SMP
+  exit: Expose "oops_count" to sysfs
+  panic: Consolidate open-coded panic_on_warn checks
+  panic: Introduce warn_limit
+  panic: Expose "warn_count" to sysfs
+
+ .../ABI/testing/sysfs-kernel-oops_count       |  6 ++
+ .../ABI/testing/sysfs-kernel-warn_count       |  6 ++
+ Documentation/admin-guide/sysctl/kernel.rst   | 17 ++++++
+ MAINTAINERS                                   |  2 +
+ include/linux/panic.h                         |  1 +
+ kernel/exit.c                                 | 60 +++++++++++++++++++
+ kernel/kcsan/report.c                         |  3 +-
+ kernel/panic.c                                | 45 +++++++++++++-
+ kernel/sched/core.c                           |  3 +-
+ lib/ubsan.c                                   |  3 +-
+ mm/kasan/report.c                             |  4 +-
+ mm/kfence/report.c                            |  3 +-
+ 12 files changed, 140 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-oops_count
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-warn_count
 
 -- 
-Kees Cook
+2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202211171528.DF818B1CB6%40keescook.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221117233838.give.484-kees%40kernel.org.
