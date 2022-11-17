@@ -1,140 +1,141 @@
-Return-Path: <kasan-dev+bncBD22BAF5REGBB4MM3GNQMGQEOQC5JHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBYME3ONQMGQENG2OR2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA2C62DE40
-	for <lists+kasan-dev@lfdr.de>; Thu, 17 Nov 2022 15:34:26 +0100 (CET)
-Received: by mail-lf1-x138.google.com with SMTP id dt13-20020a0565122a8d00b004ac84274411sf753479lfb.8
-        for <lists+kasan-dev@lfdr.de>; Thu, 17 Nov 2022 06:34:26 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1668695665; cv=pass;
+Received: from mail-ej1-x63d.google.com (mail-ej1-x63d.google.com [IPv6:2a00:1450:4864:20::63d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0496262E983
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Nov 2022 00:23:14 +0100 (CET)
+Received: by mail-ej1-x63d.google.com with SMTP id sg37-20020a170907a42500b007adaedb5ba2sf1910058ejc.18
+        for <lists+kasan-dev@lfdr.de>; Thu, 17 Nov 2022 15:23:14 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1668727393; cv=pass;
         d=google.com; s=arc-20160816;
-        b=r9QgQlj1rsvGArU/QZM9NiJlFrBezW/qFHPKiVdIVr1g5kdufY72yKXE5SvyQ4SkIt
-         +kAn3ERe8R8JI2/Cuycv/eogEPr5KptjXLoH5/jugDMyQddScYAE6vOTocQOKMat91U5
-         jzJbB8Xzv1cpAHZAlkXGkWaKn2pFhYMm/3x1/9GJEbPFWXxf7AjOMfNWt0tARZXCIwAR
-         Sgj5HQjMsFd6a7P/6zb0odBCvY48bdaUPblbQys5Aj4/l8xQggOvxt1aMhWS3otnOYXE
-         jK7qd4bEPjlC53iQ+bE8+MDgs7gvwu8rehpW4jDL57A6Y+U83NbmqTyQH6EScpKWwsxD
-         QDxA==
+        b=YsPW6ov5JatsDUF1JNrLnyP2w29PEcLGJi73B6lhjNPdZ+PhE7+5kRrFkRANPISLr4
+         Ys5UK8Ckr2/XKmW+ceDBxNGD9crSBJGuGEQcQAcEAqLpZj5uwg/szONpTHpRmKXiqiyV
+         eym/R76nsmf13TtHl/yyfkyCIMi7XM7qjDi5222/DabcZ76Uai1ehUFUlfXntuvTwzdt
+         O4DgoqTa6uhiuQnKzFrxnStyfA4H766t3N+U3O1lLved7CVC+TR43DuYul4sUBjUns0M
+         ZOtsQd1e3ho9ZeQNpkbqiKRhao3MaoHPUB425NXw69TOj+3tc1AppTmEO+HtW3IhWke1
+         XXzg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=4JUYnj99GEqvshL6LEIntvMXVmfaGzDF+r7gWivVxq8=;
-        b=uomVxI2e/fMZxA/oWYA229Vqf9rD6SHr7vo34nJyCGo1GFzszZ1efABe8KkJxo9YC1
-         iaQ5AZJ7D0n1gwx9PgabrK5kRtT9QpmiodMlsr48I42pzIiX+bHmZl/OECF3hOdLI9a0
-         d/AqdoIHoM92/xuha4r8w5TncVbl5UMZN0Aoo9fIMInTQHaVNOsjD5mMsOwhLilNR10X
-         /81031ub4s2lQ6IcxRDOnCQid80JRXgdLOctkWfyrQsMAoeQww+5w2OYVKkv8hxE9VPw
-         7VvdwOQ/8TGDhSEqIGmfHsVyDPlQP/X0AShfUrJ9Tqiq24crNcQ0Uhzqf0FTxyHR6PAr
-         c2Vg==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=jbRuadt57sNYG0+E5uQSfE6lFc19RSPa+PFoZZhsWJw=;
+        b=ujg5TxYxWRbdkdZu+wTNwuY+SJm+VBql8vPrX8kV21/HSoopT7yclbcpBd1AMc8xIw
+         DMonuYCkaIymiaTju+WERBXk2x+afAfPY/5o+5toh5cuWGMqeNNlF/0Yr18Pm4X1NOAs
+         jTm55cO85DGpzXgaYgcfN0cGEG8Gn5kbH5MXmc45kDdMUL6LfLtR1bKncF6MZ+OxbEn3
+         Nb4BJR77Z3plqi94ncpdYv5TYxW7JqR/cxJLu8MqMIVKmJlZWCR8sBUd38akNIF0hlLy
+         Qs5ERRB6mvgXMoTexkdexZv+uuH3PB6vjUAHrnpeQlqxyoZexAdTEtk+Vt1r8p0amMUC
+         0YIA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=LGwoec3k;
-       spf=pass (google.com: domain of dave.hansen@intel.com designates 134.134.136.100 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=qpqdZ0sq;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=4JUYnj99GEqvshL6LEIntvMXVmfaGzDF+r7gWivVxq8=;
-        b=CR2QOlwEbb9aVaXkvxB4CMgZrDJRKbuc97frCeesNIpNztUhSFVhL7dnTylSN1XaIz
-         3RL+zg1Vl2hSbiFymFGjLzWlPDob7mU3kvVaQo8E93zrDmr/j/tvLHKuRDv7u1t5Flgy
-         PwfFfoHonUgdx0W73y4UliOktYd72+KDBaA+8mRaIyShQm6lFDPsFzRvKCCwNTC/9irS
-         lEkafm35wcRzKasGFO6PbZrq7+49Cu2Rb/m03nr+mMsIfTD7EJturskWU77mo4vndkBs
-         E7Z+7oRDxvN7IE2qnWAGTdpqIWYXRz1H1nMAzzCc6CFp4PO/ifE7C5GwfhyXp8zA6hmM
-         8n5Q==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jbRuadt57sNYG0+E5uQSfE6lFc19RSPa+PFoZZhsWJw=;
+        b=P6ClvaB0LbfSAyC59SiJDjAXG02JiHMS1H6k6VgZJutgRNiLVNHBH8zDgjEy2pSaLV
+         mMsA8V3vcdC7EcpB+xuNZkQXL17tnQR1ZKme1QlhIJPGx6/ALufr7CYcGqpkbD0u/ZIN
+         KqGQj2U2iCGBvENBJD7THfeBDyObpRdq1Zuz/xHyT/ds7Az2OflVjM7JUe86jIQxWKi3
+         HsSdtY/Mug85Y0OPeWEFjCSh5/VdT7ElzLXoXzaVSiIALO9ZSr6nUE20efvZYxtq2u75
+         2RGKBxveq6PZNCkxAVQqBL6UvLeVmwGwdjBO6VuPBE+/v/n/CLJtpLYlegf3O0RbHTVK
+         YqgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4JUYnj99GEqvshL6LEIntvMXVmfaGzDF+r7gWivVxq8=;
-        b=rsnp/cxnu1YgHQDsYXoO25LAGT2N2OZTtI0/XqfnY4bauUNY6SIRmX1LZQIMmXRF6f
-         x71XzrI6dwPbbOx9/x7Hgksc7CNoPi9M9+ILQw7Cc2F79OOv1UvCQIGnzOol1FX8TaB2
-         8dBlMY/cOWsYyQWyu/JNrrE2WRfL6Pz5DXe3IzgpowE5gAoHXKUlLtDKdgDDaFqFkIfZ
-         2quq48HEomdShJe88aR73IdfwBQnd/vve9efD+o2ZkwIxJ7+6HDeLUPjH+wItA9Xc1h4
-         EYUtGK/iK4O9vU/M4F0JJLKwqvOF2qU5Ss2boNBMhZJY0PvGnrepIQGS011J0LTwElvj
-         k/rw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5ply75gnF4Buw5M63Uy9T/x+l6Sn0aM7Irlbq9Ap2gJ9YnCByJ7j
-	6DK3cn2TLuUzl3cIOZEX5i0=
-X-Google-Smtp-Source: AA0mqf5wAnsi81ZldH56ZTMb93zCXjvi3xQzOj/OKLdNl1aph2+3hU8yOCJ6rJph9A1lLIRorvl29Q==
-X-Received: by 2002:a05:6512:3d0a:b0:4af:b981:35c6 with SMTP id d10-20020a0565123d0a00b004afb98135c6mr1160496lfv.232.1668695665619;
-        Thu, 17 Nov 2022 06:34:25 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jbRuadt57sNYG0+E5uQSfE6lFc19RSPa+PFoZZhsWJw=;
+        b=79sMhmAEpuhtZuWUrAV28hFexOkfGwL4XITPhvfEMltmbcjFdBpowbLw7vxVYKHOHd
+         ATHsOl8iSj3DS/TiLPr7RcxZ7uM/IK5UhCbOSGkPtUi2jaX71klr/quNlLfYe45u8tU0
+         h8iIIhvzTRnX3u0QWbDJGaW7/F7f2bDL2xJuT/RVsckbmj17g2az6W9O/PdUOUIFtUNS
+         nlg0jU64Rke2qEZqzgiXJfa5qfHFyhL6QVmUwNlXZe/djTmtc8NclD4D8RJXxAPQWy9K
+         GAqnKj9xNybLv9Jllzyyw+NoYt0CSpPhF4/5c/X0eZ+ltHJLhmU83Wr4NyYj/ELI3rTa
+         foBw==
+X-Gm-Message-State: ANoB5plVTExYr0ovBXvagVoSWfGiaYMS9MtXtZeemO9ArEI77fu/DXgA
+	Jv4w5TiMgbWCjEUx/EZLagA=
+X-Google-Smtp-Source: AA0mqf5kTv74CJOxGe96TNOs4E9CrUZZ/LrsjNCUrdGCUVy/Ucck+HSmvCV+w+Ghh3j3pogOTYidOw==
+X-Received: by 2002:a17:907:b60f:b0:787:8884:78df with SMTP id vl15-20020a170907b60f00b00787888478dfmr3834183ejc.246.1668727393444;
+        Thu, 17 Nov 2022 15:23:13 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3603:b0:494:6c7d:cf65 with SMTP id
- f3-20020a056512360300b004946c7dcf65ls1627354lfs.2.-pod-prod-gmail; Thu, 17
- Nov 2022 06:34:24 -0800 (PST)
-X-Received: by 2002:a19:f809:0:b0:4b4:b5ad:a645 with SMTP id a9-20020a19f809000000b004b4b5ada645mr986375lff.672.1668695664389;
-        Thu, 17 Nov 2022 06:34:24 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1668695664; cv=none;
+Received: by 2002:a17:906:3f8d:b0:7ae:83f4:3bed with SMTP id
+ b13-20020a1709063f8d00b007ae83f43bedls1854758ejj.2.-pod-prod-gmail; Thu, 17
+ Nov 2022 15:23:12 -0800 (PST)
+X-Received: by 2002:a17:906:af65:b0:7ae:41e6:9076 with SMTP id os5-20020a170906af6500b007ae41e69076mr4003914ejb.321.1668727391889;
+        Thu, 17 Nov 2022 15:23:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1668727391; cv=none;
         d=google.com; s=arc-20160816;
-        b=XNXLYFNxIOPJIXumPI/Deg3adGvRyybhwHU00jkwi4ajETm8kQcGpyO/kgWuBW08lz
-         z2nfYKXb54eIdcQ/L2Nqm015BRcpbDFDqsYqFlTl+CsLmba5FyKFaKYB3xGkhD1TqrU4
-         1/jfSvs7ljfQSCQSK8NKJwSE/UQEo4Z/z/KIK/hp+gSigYDU52FFJxPLZaZUhC8lSRAu
-         Y0Due9v9M29/MayKGx0OQ4DYVUXXWwn5i41vtvyXH9xcg0mkSQRzLx3M+LyIFjinX9wm
-         5u+Z9DRj7/o9N1NTOsJ+NqIfyMnFlGgIdwLuG6iO3/05tyIIvqDu/DuxySabCoThbkWG
-         vIxw==
+        b=nEw681kmC53ytg/7ZwzXMflBAn7krhIwJ3nm/W8jWJbwnAXGm6K+knQ2FMsFHdCWG2
+         k5izL68ZrXvME3Fq+Ao0dXypV0+My+bwGkR4fMknBouzPsQbdnNp1jppBeRiqOyE6oqU
+         Qjx4c0iTYUuNlAjPwO/T/ZSo2KAG8PhqSPHfggfWLGAxWZWraniuPQsBKebJv/Mbkq7l
+         Mcoegq6m1HT3GURTSoHz84V+JDKTqhd8c81yYmRXoc85UiO7dGp2C136RLWeDodMCWbW
+         7XFjXLViEVFMZCrgbST/ljuMrXol+ZlFAzifdYyDCPYjnJwQtfEpRIAC3TLCpbW+SXXa
+         RpLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:dkim-signature;
-        bh=Rheq+ZxMbHkBrxKU93ry9KVh/cRbDRoveXkhfctTehQ=;
-        b=FrbLHMcQl+z2zqYcjF6mULbDbTOQD52sgn8gapNXEMWLzUVAligHTPGLAwyIC1Qwxo
-         Oq+iaQLYJrQrw9mOafAXmoSCrHIpXenQEwbwj0UR0nOa6AfhE9uIvVYivt27U2vMn3pJ
-         6LQQDs04FBIneeUnhS6vsjPYzAQylKwjB1urqwDKRYCaunz+EAUjqKmR3f8QOXUuWiuW
-         YFGiYR+YjjTGiaasXayVKlj1tME25nJtWRIPbk+bCSM+MgZuSXNxdL8935XWydKkPSfb
-         zjr3WPs7AS4t6q0Hrd474Np6/0mOt+67NfD2ZUXv77nDRgvRpDMXNs2pi8TcbhpgBuCc
-         Gdsg==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=To+1hKZHNGliAAsi3sjlLMbkRpr0UyHLDkyr8XsSEH4=;
+        b=QK4lp0wATVomFDGcCjzQNP2HESfloLCaTueCFNnU9UB0EW+OYNOWs8YQd9/v336b31
+         5CDQ7CHdKSEai4q0KnPd/EPnPsw7fD2p12+Uao2atHHAvjV4+T5qJpLHonwDx21TWjI1
+         TF36rsKTuFZsK99Tvhg8LijXwit3mjozWZD5SjfggjEiqj5zhn+Qogto/6RwKtHc/s5I
+         +14g3JUb3w7fYkVq5cVpGBLIspP5vSisSdMjoOg26nwmh9LpXk6jLfUqDUjJM9vrCOFH
+         +EtDnPdPtDyzr+fPMbF5rxAF9hSiErSJ1jILZF9LS98H5DSXy0xaqFhoEKT3aGGju5SV
+         gVpw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=LGwoec3k;
-       spf=pass (google.com: domain of dave.hansen@intel.com designates 134.134.136.100 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mga07.intel.com (mga07.intel.com. [134.134.136.100])
-        by gmr-mx.google.com with ESMTPS id x2-20020a0565123f8200b004b01b303713si31455lfa.8.2022.11.17.06.34.22
+       dkim=pass header.i=@google.com header.s=20210112 header.b=qpqdZ0sq;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com. [2a00:1450:4864:20::42c])
+        by gmr-mx.google.com with ESMTPS id b16-20020aa7c910000000b004690f5e1f46si9440edt.4.2022.11.17.15.23.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 17 Nov 2022 06:34:23 -0800 (PST)
-Received-SPF: pass (google.com: domain of dave.hansen@intel.com designates 134.134.136.100 as permitted sender) client-ip=134.134.136.100;
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="377129752"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; 
-   d="scan'208";a="377129752"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2022 06:34:16 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="814534057"
-X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; 
-   d="scan'208";a="814534057"
-Received: from vrgatne-mobl4.amr.corp.intel.com (HELO [10.209.115.197]) ([10.209.115.197])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2022 06:34:15 -0800
-Content-Type: multipart/mixed; boundary="------------5Ob6KInVGuG0YbX9A7MUQQSR"
-Message-ID: <4208866d-338f-4781-7ff9-023f016c5b07@intel.com>
-Date: Thu, 17 Nov 2022 06:34:15 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Nov 2022 15:23:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42c as permitted sender) client-ip=2a00:1450:4864:20::42c;
+Received: by mail-wr1-x42c.google.com with SMTP id v1so6358931wrt.11
+        for <kasan-dev@googlegroups.com>; Thu, 17 Nov 2022 15:23:11 -0800 (PST)
+X-Received: by 2002:adf:e103:0:b0:22e:3180:f75a with SMTP id t3-20020adfe103000000b0022e3180f75amr2743740wrz.340.1668727391387;
+        Thu, 17 Nov 2022 15:23:11 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:9c:201:4799:a943:410e:976])
+        by smtp.gmail.com with ESMTPSA id k1-20020a5d6281000000b0022ae0965a8asm2062148wru.24.2022.11.17.15.23.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Nov 2022 15:23:10 -0800 (PST)
+Date: Fri, 18 Nov 2022 00:23:03 +0100
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Naresh Kamboju <naresh.kamboju@linaro.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	kasan-dev <kasan-dev@googlegroups.com>, X86 ML <x86@kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	linux-mm <linux-mm@kvack.org>, regressions@lists.linux.dev,
+	lkft-triage@lists.linaro.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Potapenko <glider@google.com>
 Subject: Re: WARNING: CPU: 0 PID: 0 at arch/x86/include/asm/kfence.h:46
  kfence_protect
-Content-Language: en-US
-To: Marco Elver <elver@google.com>, Naresh Kamboju
- <naresh.kamboju@linaro.org>, Peter Zijlstra <peterz@infradead.org>
-Cc: kasan-dev <kasan-dev@googlegroups.com>, X86 ML <x86@kernel.org>,
- open list <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
- regressions@lists.linux.dev, lkft-triage@lists.linaro.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Alexander Potapenko <glider@google.com>
+Message-ID: <Y3bCV6VckVUEF7Pq@elver.google.com>
 References: <CA+G9fYuFxZTxkeS35VTZMXwQvohu73W3xbZ5NtjebsVvH6hCuA@mail.gmail.com>
  <Y3Y+DQsWa79bNuKj@elver.google.com>
-From: Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <Y3Y+DQsWa79bNuKj@elver.google.com>
-X-Original-Sender: dave.hansen@intel.com
+ <4208866d-338f-4781-7ff9-023f016c5b07@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <4208866d-338f-4781-7ff9-023f016c5b07@intel.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=LGwoec3k;       spf=pass
- (google.com: domain of dave.hansen@intel.com designates 134.134.136.100 as
- permitted sender) smtp.mailfrom=dave.hansen@intel.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@google.com header.s=20210112 header.b=qpqdZ0sq;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42c as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,83 +148,107 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is a multi-part message in MIME format.
---------------5Ob6KInVGuG0YbX9A7MUQQSR
-Content-Type: text/plain; charset="UTF-8"
-
-On 11/17/22 05:58, Marco Elver wrote:
-> [    0.663761] WARNING: CPU: 0 PID: 0 at arch/x86/include/asm/kfence.h:46 kfence_protect+0x7b/0x120
-> [    0.664033] WARNING: CPU: 0 PID: 0 at mm/kfence/core.c:234 kfence_protect+0x7d/0x120
-> [    0.664465] kfence: kfence_init failed
-
-Any chance you could add some debugging and figure out what actually
-made kfence call over?  Was it the pte or the level?
-
-        if (WARN_ON(!pte || level != PG_LEVEL_4K))
-                return false;
-
-I can see how the thing you bisected to might lead to a page table not
-being split, which could mess with the 'level' check.
-
-Also, is there a reason this code is mucking with the page tables
-directly?  It seems, uh, rather wonky.  This, for instance:
-
->         if (protect)
->                 set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
->         else
->                 set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+On Thu, Nov 17, 2022 at 06:34AM -0800, Dave Hansen wrote:
+> On 11/17/22 05:58, Marco Elver wrote:
+> > [    0.663761] WARNING: CPU: 0 PID: 0 at arch/x86/include/asm/kfence.h:46 kfence_protect+0x7b/0x120
+> > [    0.664033] WARNING: CPU: 0 PID: 0 at mm/kfence/core.c:234 kfence_protect+0x7d/0x120
+> > [    0.664465] kfence: kfence_init failed
 > 
->         /*
->          * Flush this CPU's TLB, assuming whoever did the allocation/free is
->          * likely to continue running on this CPU.
->          */
->         preempt_disable();
->         flush_tlb_one_kernel(addr);
->         preempt_enable();
+> Any chance you could add some debugging and figure out what actually
+> made kfence call over?  Was it the pte or the level?
+> 
+>         if (WARN_ON(!pte || level != PG_LEVEL_4K))
+>                 return false;
+> 
+> I can see how the thing you bisected to might lead to a page table not
+> being split, which could mess with the 'level' check.
 
-Seems rather broken.  I assume the preempt_disable() is there to get rid
-of some warnings.  But, there is nothing I can see to *keep* the CPU
-that did the free from being different from the one where the TLB flush
-is performed until the preempt_disable().  That makes the
-flush_tlb_one_kernel() mostly useless.
+Yes - it's the 'level != PG_LEVEL_4K'.
 
-Is there a reason this code isn't using the existing page table
-manipulation functions and tries to code its own?  What prevents it from
-using something like the attached patch?
+We do actually try to split the pages in arch_kfence_init_pool() (above
+this function) - so with "x86/mm: Inhibit _PAGE_NX changes from
+cpa_process_alias()" this somehow fails...
+
+> Also, is there a reason this code is mucking with the page tables
+> directly?  It seems, uh, rather wonky.  This, for instance:
+> 
+> >         if (protect)
+> >                 set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
+> >         else
+> >                 set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+> > 
+> >         /*
+> >          * Flush this CPU's TLB, assuming whoever did the allocation/free is
+> >          * likely to continue running on this CPU.
+> >          */
+> >         preempt_disable();
+> >         flush_tlb_one_kernel(addr);
+> >         preempt_enable();
+> 
+> Seems rather broken.  I assume the preempt_disable() is there to get rid
+> of some warnings.  But, there is nothing I can see to *keep* the CPU
+> that did the free from being different from the one where the TLB flush
+> is performed until the preempt_disable().  That makes the
+> flush_tlb_one_kernel() mostly useless.
+> 
+> Is there a reason this code isn't using the existing page table
+> manipulation functions and tries to code its own?  What prevents it from
+> using something like the attached patch?
+
+Yes, see the comment below - it's to avoid the IPIs and TLB shoot-downs,
+because KFENCE _can_ tolerate the inaccuracy even if we hit the wrong
+TLB or other CPUs' TLBs aren't immediately flushed - we trade a few
+false negatives for minimizing performance impact.
+
+> diff --git a/arch/x86/include/asm/kfence.h b/arch/x86/include/asm/kfence.h
+> index ff5c7134a37a..5cdb3a1f3995 100644
+> --- a/arch/x86/include/asm/kfence.h
+> +++ b/arch/x86/include/asm/kfence.h
+> @@ -37,34 +37,13 @@ static inline bool arch_kfence_init_pool(void)
+>  	return true;
+>  }
+>  
+> -/* Protect the given page and flush TLB. */
+>  static inline bool kfence_protect_page(unsigned long addr, bool protect)
+>  {
+> -	unsigned int level;
+> -	pte_t *pte = lookup_address(addr, &level);
+> -
+> -	if (WARN_ON(!pte || level != PG_LEVEL_4K))
+> -		return false;
+> -
+> -	/*
+> -	 * We need to avoid IPIs, as we may get KFENCE allocations or faults
+> -	 * with interrupts disabled. Therefore, the below is best-effort, and
+> -	 * does not flush TLBs on all CPUs. We can tolerate some inaccuracy;
+> -	 * lazy fault handling takes care of faults after the page is PRESENT.
+> -	 */
+> -
+
+^^ See this comment. Additionally there's a real performance concern,
+and the inaccuracy is something that we deliberately accept.
+
+>  	if (protect)
+> -		set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
+> +		set_memory_np(addr, addr + PAGE_SIZE);
+>  	else
+> -		set_pte(pte, __pte(pte_val(*pte) | _PAGE_PRESENT));
+> +		set_memory_p(addr, addr + PAGE_SIZE);
+
+Isn't this going to do tons of IPIs and shoot down other CPU's TLBs?
+KFENCE shouldn't incur this overhead on large machines with >100 CPUs if
+we can avoid it.
+
+What does "x86/mm: Inhibit _PAGE_NX changes from cpa_process_alias()" do
+that suddenly makes all this fail?
+
+What solution do you prefer that both fixes the issue and avoids the
+IPIs?
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4208866d-338f-4781-7ff9-023f016c5b07%40intel.com.
-
---------------5Ob6KInVGuG0YbX9A7MUQQSR
-Content-Type: text/x-patch; charset=UTF-8; name="kfence.patch"
-Content-Disposition: attachment; filename="kfence.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL2tmZW5jZS5oIGIvYXJjaC94ODYv
-aW5jbHVkZS9hc20va2ZlbmNlLmgKaW5kZXggZmY1YzcxMzRhMzdhLi41Y2RiM2ExZjM5OTUg
-MTAwNjQ0Ci0tLSBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL2tmZW5jZS5oCisrKyBiL2FyY2gv
-eDg2L2luY2x1ZGUvYXNtL2tmZW5jZS5oCkBAIC0zNywzNCArMzcsMTMgQEAgc3RhdGljIGlu
-bGluZSBib29sIGFyY2hfa2ZlbmNlX2luaXRfcG9vbCh2b2lkKQogCXJldHVybiB0cnVlOwog
-fQogCi0vKiBQcm90ZWN0IHRoZSBnaXZlbiBwYWdlIGFuZCBmbHVzaCBUTEIuICovCiBzdGF0
-aWMgaW5saW5lIGJvb2wga2ZlbmNlX3Byb3RlY3RfcGFnZSh1bnNpZ25lZCBsb25nIGFkZHIs
-IGJvb2wgcHJvdGVjdCkKIHsKLQl1bnNpZ25lZCBpbnQgbGV2ZWw7Ci0JcHRlX3QgKnB0ZSA9
-IGxvb2t1cF9hZGRyZXNzKGFkZHIsICZsZXZlbCk7Ci0KLQlpZiAoV0FSTl9PTighcHRlIHx8
-IGxldmVsICE9IFBHX0xFVkVMXzRLKSkKLQkJcmV0dXJuIGZhbHNlOwotCi0JLyoKLQkgKiBX
-ZSBuZWVkIHRvIGF2b2lkIElQSXMsIGFzIHdlIG1heSBnZXQgS0ZFTkNFIGFsbG9jYXRpb25z
-IG9yIGZhdWx0cwotCSAqIHdpdGggaW50ZXJydXB0cyBkaXNhYmxlZC4gVGhlcmVmb3JlLCB0
-aGUgYmVsb3cgaXMgYmVzdC1lZmZvcnQsIGFuZAotCSAqIGRvZXMgbm90IGZsdXNoIFRMQnMg
-b24gYWxsIENQVXMuIFdlIGNhbiB0b2xlcmF0ZSBzb21lIGluYWNjdXJhY3k7Ci0JICogbGF6
-eSBmYXVsdCBoYW5kbGluZyB0YWtlcyBjYXJlIG9mIGZhdWx0cyBhZnRlciB0aGUgcGFnZSBp
-cyBQUkVTRU5ULgotCSAqLwotCiAJaWYgKHByb3RlY3QpCi0JCXNldF9wdGUocHRlLCBfX3B0
-ZShwdGVfdmFsKCpwdGUpICYgfl9QQUdFX1BSRVNFTlQpKTsKKwkJc2V0X21lbW9yeV9ucChh
-ZGRyLCBhZGRyICsgUEFHRV9TSVpFKTsKIAllbHNlCi0JCXNldF9wdGUocHRlLCBfX3B0ZShw
-dGVfdmFsKCpwdGUpIHwgX1BBR0VfUFJFU0VOVCkpOworCQlzZXRfbWVtb3J5X3AoYWRkciwg
-YWRkciArIFBBR0VfU0laRSk7CiAKLQkvKgotCSAqIEZsdXNoIHRoaXMgQ1BVJ3MgVExCLCBh
-c3N1bWluZyB3aG9ldmVyIGRpZCB0aGUgYWxsb2NhdGlvbi9mcmVlIGlzCi0JICogbGlrZWx5
-IHRvIGNvbnRpbnVlIHJ1bm5pbmcgb24gdGhpcyBDUFUuCi0JICovCi0JcHJlZW1wdF9kaXNh
-YmxlKCk7Ci0JZmx1c2hfdGxiX29uZV9rZXJuZWwoYWRkcik7Ci0JcHJlZW1wdF9lbmFibGUo
-KTsKIAlyZXR1cm4gdHJ1ZTsKIH0KIAo=
-
---------------5Ob6KInVGuG0YbX9A7MUQQSR--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y3bCV6VckVUEF7Pq%40elver.google.com.
