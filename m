@@ -1,171 +1,143 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBJMO3ONQMGQECEYPTWA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD22BAF5REGBBRET3ONQMGQEO43YQ2I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0489762E9BD
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Nov 2022 00:43:35 +0100 (CET)
-Received: by mail-vk1-xa3f.google.com with SMTP id d130-20020a1f9b88000000b003b87d0db0d9sf1067879vke.15
-        for <lists+kasan-dev@lfdr.de>; Thu, 17 Nov 2022 15:43:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1668728614; cv=pass;
+Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4E062E9E5
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Nov 2022 00:54:45 +0100 (CET)
+Received: by mail-wm1-x33b.google.com with SMTP id i133-20020a1c3b8b000000b003cffc0a69afsf1132015wma.9
+        for <lists+kasan-dev@lfdr.de>; Thu, 17 Nov 2022 15:54:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1668729285; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qrr3xVlsXd4WxVs6qzB3S2xIYlqP+0peLEE8xSFE22GbIcsH8EBoFRfD3m5nDFAlWR
-         n08auY6oOBdLZjEB1lLDNOgBmVHtc9qO+79168EMXxyUq9bUOCc2tzeyECWk6Bg70zKl
-         ORpYEC9wT+500xiAePALh5RwaD9PhEkhIYZUJH/yBkF7jRuH55Y6K9WnwkL6wTUqffWb
-         ESOadgsSg04K/pid3XLvpgVXL0FV/3vT7ePoLXS8rpqVf5e6d6amHYL6Xt7IRtUX87FY
-         nrAoR0rGIZ0B3G/c7amZKRyGQW9ME8aLXkgYg5vn3FGgjju+BgPXhgRoL8INJw7np/nD
-         4q6Q==
+        b=y7hOrgL34J1Z07G/SvheIJOMdpIIuVgiHshEqbaI43OGNuDABHZkvN8DDNLDFz17+F
+         a7S9MjDJYK1KGwOvltFEIs+6IVgvWPuLDyESF3uXnRA27K7Sp+pzpLwsCzXTMtDiqFpl
+         vzUGTYGtGSKD6sgxGia9Q8FRjVRBSnla/OP0t5/5ibMjGKjUFIs+X0QKyY2tz9GX9jYT
+         qOIQx2aPs4F1S6NcrSUvpJ6O+2Ju9fc1zUS4zEvKIV6ZIag+gXGdyQsG0rtbStcJGbX/
+         wKeR1wjpoXvssLTABkSqPvfWcZsXStZOLmZDO9nCbR63e2BUQFxvCJ7dn7KmOhnd5jgO
+         ffrQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=Ci7Nzh14WzhPCMXd1D063g1hdi0c7yygwtsbXZOvPXk=;
-        b=cXVWAvvjUvXJ+MuroZy1hYt3vxc7nLrtp0FA+aVIGmPR9QR2UUrBbDtOEnEvdQ30xO
-         T8BNomlKmrtshU4t2ug8bMn9SHJJwjwSJq2K5QzmK4IpkkTF/Wd+br5o9xjXOlwwBdO1
-         HpG+Qja7lG+2Tm+8zBMPxQV16HP+r+Z1KeG2Rj4F/ibqMcdRI0eYNNSxze7Ox0n68KY0
-         YRRQ8paVSgrRFnX2rjJeURKEu5qy++L4Z1E7vDGOW86y+R/EMPTT5o4/kMSMPrp7q6SQ
-         7MU2v3ABZIoW8bkAxCgQMK/A4pdLBe5u25HOrI43EhugihzIL6njwtQeP+EZVZRjgSAn
-         qmLw==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=dSGXoBh/TvAsGG1MTd9GzkUqr2qRz/sX+xt5zraRhXA=;
+        b=gSLDOsK6c1T8gCovfrcDGZcl1eSR0Qac3nUMB7Z2oXeg4HXN020ualdmwqtWoJpSCF
+         SEe2w14q9YP8/hMmNpspcsHATrw1C3CnTDel95xPcyu5qR7XSd7cMiFpOXWDYTOsyxvl
+         cN56eMKJHbci/Ho/BXWQ38hL92roRozRah7WXhSREBvcf5KKuvnLyfdOgndNnEa3lwE4
+         tO4KHMylOlqqFdbNbrTVVDKcX0+j3CaEv0jme9TM+TzokTvD9LCdFs9vaFDQ0/bakh90
+         UeLFq7BPMoNSPBUMTRP7Z2PXTAkQ6zs/pBn0FWkhyy7RAZF5ksJfVgl+0FUGeHjrSVP6
+         rMiw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=CAnKSUlM;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102d as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@intel.com header.s=Intel header.b=joaplMC7;
+       spf=pass (google.com: domain of dave.hansen@intel.com designates 134.134.136.24 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ci7Nzh14WzhPCMXd1D063g1hdi0c7yygwtsbXZOvPXk=;
-        b=SaSKEjN+qjWf+gVB/QS1onMMs2qRDmhlM8mkwoEl4eyotCTKuIH7mhjhN45NsYq69t
-         M+38MaR8CL3lptOCh/ONzgXWQeVW0EziJpHCsnviRyuXmfcJDc2xUyWqGse8b4c3oy7A
-         k6c69+gfY2z0LClPW4jvCVbyst6qArd/OdFGY0jaMgIVAwHGtRQXPPjbcY3wJysp5vDA
-         6qHa2l1SE7GS3nTXfHhEJwlYkweR2/BUu3HRjg/klA0BsOqvouiHxI7aHKbzcdZNyRIc
-         EEechhDfcfZaiMPRIzbbW6ZKIqIiDaYm1FGLQbruON7pWeoR4VhRNFflLlBUInmxJO0s
-         ciUQ==
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=dSGXoBh/TvAsGG1MTd9GzkUqr2qRz/sX+xt5zraRhXA=;
+        b=o11BOKMfTslGrRBOjX00QD74SwouhKxF58aCNAgRw3P/2wovZB7K985hhUoN8bmgCr
+         O+AgG/SyalfENuplIqfZI3+gROMJqfyDQzg0F2HNGzml+FiG8kjLggpIAkkbThjOf/V2
+         4VkFUqV+lLP4kLFa+mQBM5TqkbmtSOFBdRUvbzCPYzZSMp0UjINP2piYRrW7gl7w70sJ
+         amdEjpw/EhMdk4SGk/RRb6/q1Y7PjAj72dyAs9TPaRc4mop3COws9NqlY+qTh4X605fx
+         rQRiTkK5sE9dH6ATiiICuyM0TLzMm09Hj5sBWudqtTtdj/49Ra1ZVUAZSJhLoBr47PMr
+         bWvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ci7Nzh14WzhPCMXd1D063g1hdi0c7yygwtsbXZOvPXk=;
-        b=Un39mOs4oRJ3XEx+arcrq7LHDXYNynQXyCu3psTvVIcFicqSh2owRdl0wujyRo9onT
-         roxX3WZXjYV8hVY3+wkVIHEkZfeT+7iyrELUtSegmyxKoGog2syjsy57aGjjjf2LHCSf
-         Liyhe4IUBMzVROOQm63jMg1my3QoyG4Wqzz4Zdid4RFJ/ho1UdNiKJGBm1YDzk0rvDmr
-         k1Xs8dV33kLinBK8aVUc6tpLxaf3r2v/BuRuoh2YxmsDxU8QLLmGMrXMeKpQ6Y5ttDiU
-         UBKQ6bkWt/g+z1bVEdT4Xj0RK0mMcR0eaV3ptmc14KS8DApblMBQWY1dI4vas26/ekR2
-         sVVA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dSGXoBh/TvAsGG1MTd9GzkUqr2qRz/sX+xt5zraRhXA=;
+        b=215lfsiatmwYmo2G4S14+nnkN3gPcfNq4U9HBGLclrb2THGAMF00EFczeXm5p5Al+J
+         F9NrIv87jnkL54iwgJRjYhGA8ll3FvzK8cuLOl6HKGugBYqMO20nvOLdcpDV7njo5xJg
+         5Eu1liBcuu/lQGJA7XTIIINGC0U4uWL0SJp0i/d4ZpHLQcGXmG5glii28n3ANNegerV5
+         NRsndkYWEUfxknWFzFPSQPrq2xpFUAlOzH7iEhdcns0GHblw9mMu17WpS6asu08sbw8w
+         59EQxq5aan++2hOWDTqCMAfrwnc9M8FMcTI1vL3kkKTLhLamD4XzL26PCH5WvcnYaJSd
+         vHlg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pmoBSHahNYOCBNCk/l15Q8C6+p5NyCON7delL6yF3eVmz3mjiZi
-	eLKiEH2SgDsvG4Y6RIHVK74=
-X-Google-Smtp-Source: AA0mqf7O55oZKFhHbbpURW7ZYbgASJ8LM1f2Mltyuz6N/R5UuFCU1Oo534ubNrkSPxpu8d5gXxi9Uw==
-X-Received: by 2002:a1f:f401:0:b0:3af:3445:abc1 with SMTP id s1-20020a1ff401000000b003af3445abc1mr2818753vkh.24.1668728613890;
-        Thu, 17 Nov 2022 15:43:33 -0800 (PST)
+X-Gm-Message-State: ANoB5pnPpy5E54gKLuD/xOwJQsUXB5uClEJAwH2LWGiNMZiBO8qnJSZw
+	FbTop4i6PUokkNdyPKxyhWI=
+X-Google-Smtp-Source: AA0mqf5YFSCZcFmAPiBG538ecvFNUByZLTawrD5mDoDXXd6UUE+hiJi9PIa+lWlK5FsX1Q+jnm83iA==
+X-Received: by 2002:a5d:6803:0:b0:241:baae:6a6c with SMTP id w3-20020a5d6803000000b00241baae6a6cmr2256538wru.716.1668729285168;
+        Thu, 17 Nov 2022 15:54:45 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:a0d5:0:b0:3bc:2cac:f10e with SMTP id j204-20020a1fa0d5000000b003bc2cacf10els408348vke.0.-pod-prod-gmail;
- Thu, 17 Nov 2022 15:43:33 -0800 (PST)
-X-Received: by 2002:a1f:a0c4:0:b0:3ab:85c0:e1e8 with SMTP id j187-20020a1fa0c4000000b003ab85c0e1e8mr3011500vke.1.1668728613360;
-        Thu, 17 Nov 2022 15:43:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1668728613; cv=none;
+Received: by 2002:a05:600c:602a:b0:3cf:9be3:73dd with SMTP id
+ az42-20020a05600c602a00b003cf9be373ddls3273788wmb.3.-pod-canary-gmail; Thu,
+ 17 Nov 2022 15:54:44 -0800 (PST)
+X-Received: by 2002:a05:600c:35cb:b0:3cf:781a:4310 with SMTP id r11-20020a05600c35cb00b003cf781a4310mr3275232wmq.150.1668729284017;
+        Thu, 17 Nov 2022 15:54:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1668729284; cv=none;
         d=google.com; s=arc-20160816;
-        b=tngoPq4bhbK7PF5cei3cOGkZE7ihe02sEW83ckv3+UqDoT63I+IjSc7qUssQ2gwTZl
-         qiYPdzmo6YDkcNQ5K85TccwTRFLxr154qm1RZNEz/CGxbaNeRTh+gxGdKLoNkrXD3B8n
-         8jTWgp2WFfkjn3sPonoCDr+8pwvxjcfV7osbn1rarWoBWO2SMsXy88yDwGE+5pTjCJza
-         FdEoL4CgIMt/1v/sh3VSV4oEPKXowrN7a82Z78AseqgVoDNzcegKBciUumj3QwevZA1R
-         4hooKK5vROv/2viVPg1DeaB/qjem7TOrSrcXErAEkUSeMukjfoQZCKhByBZlD8oYHRjB
-         k/4Q==
+        b=P2dnWjmDL8WdVPKDQJn0Rt20wRU12e+yeAammdfSFEm4yNYym4+QiCBzSTfDVdi9On
+         WKKEnthcO/e/iXS/BByZ5P5hiRC7yeBg/p3Kfp3UkgoAPLBKpSlk8gQB834o2dDzO0gt
+         wAqw8Orf6BB+0IuYks0fbEi0TXbz7JsdYWdmGMkvSkYA/sIOIXpy7nla99BflJY5MUPG
+         kAtexpmtRYViARbGKIA6YofbScgY2M3/DoB1CztvNjx/RIAROwXwA2hAPq7gSwO2U8fw
+         0rS/QybJhdX/6kOi79SOpkFz13iKRKfHPhqy/QloFJdpQh1mGCQuikKpvmUhz1jCQ5kG
+         P3KQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=LPxyAZmVFIQ+hzeHNDklOMYnt0nT5zaSRXR3AKVl0no=;
-        b=CoBrC2lVSvrV3z0l5CuWUgguEosSBJ+2Qh4pl+BEA+BqI3pgOXuWhkgcqP9CykP8oU
-         uEv/0ZvfGfvsTtk/F3gKKuPYqdot6BwkPRmkfATnIvzdE7jkOHvDOj2fn69Jjp8zh5VV
-         OMN6iit9W6QI89Jqp5UWIxPY9y3QQ2HLa3qP9ph6FCx0Egv8AWqudrc1KgL1yUHtPt6K
-         Nk0On84rUXqKWfgJGuY0l7v/Bl4tkk0HHXAhrpzy4pDYB5A09yvajO4MlHGt+K9f8EUo
-         xYEGd4NODsAoDPxQRN9bnu9TCT+NDqT2RdxVL1luWEvBXFV39BbFiaTL5eQNh1Pnn3iT
-         9gHQ==
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:dkim-signature;
+        bh=RFpg6k3CS9ptcsmhZskMonyASz1XCiVRhTPfTUysBrs=;
+        b=zFJpNklja4OyYkGIEsDGRidEgBBvikZ3Aw97KNwMuOQrRyiXi0i2yP8KSZEkbuvn68
+         jwGRu6FVWf3FwvvVymRl04/JGIo6UAHzM/qsNokmcf1A5H4irByabte1MOg5MnQ9jJl7
+         2tdRoICdN2hq+7Vn0NZqBe8kFDD/Zc+kHdgD6FMMwumfwYwKVNqDBF77mg9i5UlthE4i
+         1CtvuSQdhnuiXGAy753jz7KZqZldVcqh4qku+r+hfT/+Cy0z2DIfql+cva15iE2/mgNW
+         2s8SXdzxJWv8jooq0BFSCoPz0iBYpU4k0VxVIy8VTc5vHyWRT60xeZTBm8PJCcOVJSL4
+         ckkg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=CAnKSUlM;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102d as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com. [2607:f8b0:4864:20::102d])
-        by gmr-mx.google.com with ESMTPS id u7-20020ab03c47000000b004181ba78c01si323620uaw.0.2022.11.17.15.43.33
+       dkim=pass header.i=@intel.com header.s=Intel header.b=joaplMC7;
+       spf=pass (google.com: domain of dave.hansen@intel.com designates 134.134.136.24 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga09.intel.com (mga09.intel.com. [134.134.136.24])
+        by gmr-mx.google.com with ESMTPS id 124-20020a1c1982000000b003cfc33e8333si290385wmz.4.2022.11.17.15.54.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Nov 2022 15:43:33 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102d as permitted sender) client-ip=2607:f8b0:4864:20::102d;
-Received: by mail-pj1-x102d.google.com with SMTP id v3-20020a17090ac90300b00218441ac0f6so6967343pjt.0
-        for <kasan-dev@googlegroups.com>; Thu, 17 Nov 2022 15:43:33 -0800 (PST)
-X-Received: by 2002:a17:90a:dd83:b0:218:61bd:d00d with SMTP id l3-20020a17090add8300b0021861bdd00dmr8381157pjv.236.1668728612350;
-        Thu, 17 Nov 2022 15:43:32 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id w184-20020a627bc1000000b0056bb99db338sm1763850pfc.175.2022.11.17.15.43.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 15:43:31 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: Jann Horn <jannh@google.com>
-Cc: Kees Cook <keescook@chromium.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	tangmeng <tangmeng@uniontech.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Tiezhu Yang <yangtiezhu@loongson.cn>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Seth Jenkins <sethjenkins@google.com>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linuxfoundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	David Gow <davidgow@google.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Huang Ying <ying.huang@intel.com>,
-	Anton Vorontsov <anton@enomsg.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Laurent Dufour <ldufour@linux.ibm.com>,
-	Rob Herring <robh@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v3 6/6] panic: Expose "warn_count" to sysfs
-Date: Thu, 17 Nov 2022 15:43:26 -0800
-Message-Id: <20221117234328.594699-6-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221117233838.give.484-kees@kernel.org>
-References: <20221117233838.give.484-kees@kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 17 Nov 2022 15:54:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of dave.hansen@intel.com designates 134.134.136.24 as permitted sender) client-ip=134.134.136.24;
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="314159185"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; 
+   d="scan'208";a="314159185"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2022 15:54:24 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10534"; a="703530903"
+X-IronPort-AV: E=Sophos;i="5.96,172,1665471600"; 
+   d="scan'208";a="703530903"
+Received: from vrgatne-mobl4.amr.corp.intel.com (HELO [10.209.115.197]) ([10.209.115.197])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2022 15:54:22 -0800
+Content-Type: multipart/mixed; boundary="------------Lh9aXApYj7BdK6v1bd25dwlY"
+Message-ID: <41ac24c4-6c95-d946-2679-c1be2cb20536@intel.com>
+Date: Thu, 17 Nov 2022 15:54:21 -0800
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3097; h=from:subject; bh=D2z//ezLIcXAbCg09JRiGI8OFvfo+V6hl+TtnONC3LA=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjdsceSurFVH4Xz0byr7qjcNZv7p7TUAKJ01o1LaCS il+61kOJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY3bHHgAKCRCJcvTf3G3AJrZqD/ 0XXgpqckv3Sl3gOzRU8XGOhhTKNCgley3+PyzCJRtiQH47toEntYyvD9vFmODaSLhG1FiyD30a+PUs G7BgQa2k5SXXu1y/m/LEYrgI+Ka82BZRjN3oncSn6Gj1sGbXDiyXNgFu2e7l3f5j0GuuPciyXT5UaC Whh7g6SSpQlWFg6h1VXkWltmzGxJmgVINVIrm35KuAdSyHO3fh2FDZDFbYgC7Zw5VEZQWZGwFRZKlq fZ2NQCYYViH28pOLbjsQelxISmwyjMc+u8Si72QGiSXyQDGontB6hLEn6ri71jOmtQC2fi1PaCVFse OlWZA3mp10sfh98TdxKylYukslvpvusA+K5MQpXzq1tksDtB8jEjaCMbaiVfi0VDO+HWdplKdRZ2+e n0Us8b6qHL08DRQD/d5Iyo3nKHoDU7W22eM6TKwdRh1VOt5OxabohHDHQQAQSKLRmVdRuK4voUVG2z WTiHCwgHCUaqjBbTFhP0qQEkOrInX+5FbG+pTGdqZYZkv2f092vx6VJEu8Z8BO3LF5bC2BFaiheOTK xh8e8bMHCJ2MM9mzid34rIfE7sSTbJVFhVblpoFmXm9S5J9GpgTITDTaHoCWUeeMuoxo3kOaCKuojk rVwdTZGGHPl+RyJg5fYfmDe+KCV0g0DLqAai97luhkgJ180YHwMEsAH3AtwQ==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-X-Original-Sender: keescook@chromium.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: WARNING: CPU: 0 PID: 0 at arch/x86/include/asm/kfence.h:46
+ kfence_protect
+Content-Language: en-US
+To: Marco Elver <elver@google.com>
+Cc: Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Peter Zijlstra <peterz@infradead.org>, kasan-dev
+ <kasan-dev@googlegroups.com>, X86 ML <x86@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+ regressions@lists.linux.dev, lkft-triage@lists.linaro.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Alexander Potapenko <glider@google.com>
+References: <CA+G9fYuFxZTxkeS35VTZMXwQvohu73W3xbZ5NtjebsVvH6hCuA@mail.gmail.com>
+ <Y3Y+DQsWa79bNuKj@elver.google.com>
+ <4208866d-338f-4781-7ff9-023f016c5b07@intel.com>
+ <Y3bCV6VckVUEF7Pq@elver.google.com>
+From: Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <Y3bCV6VckVUEF7Pq@elver.google.com>
+X-Original-Sender: dave.hansen@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=CAnKSUlM;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102d
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Content-Type: text/plain; charset="UTF-8"
+ header.i=@intel.com header.s=Intel header.b=joaplMC7;       spf=pass
+ (google.com: domain of dave.hansen@intel.com designates 134.134.136.24 as
+ permitted sender) smtp.mailfrom=dave.hansen@intel.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -178,99 +150,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Since Warn count is now tracked and is a fairly interesting signal, add
-the entry /sys/kernel/warn_count to expose it to userspace.
+This is a multi-part message in MIME format.
+--------------Lh9aXApYj7BdK6v1bd25dwlY
+Content-Type: text/plain; charset="UTF-8"
 
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: tangmeng <tangmeng@uniontech.com>
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- .../ABI/testing/sysfs-kernel-warn_count       |  6 +++++
- MAINTAINERS                                   |  1 +
- kernel/panic.c                                | 22 +++++++++++++++++--
- 3 files changed, 27 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-kernel-warn_count
+On 11/17/22 15:23, Marco Elver wrote:
+> Yes - it's the 'level != PG_LEVEL_4K'.
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-warn_count b/Documentation/ABI/testing/sysfs-kernel-warn_count
-new file mode 100644
-index 000000000000..08f083d2fd51
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-kernel-warn_count
-@@ -0,0 +1,6 @@
-+What:		/sys/kernel/oops_count
-+Date:		November 2022
-+KernelVersion:	6.2.0
-+Contact:	Linux Kernel Hardening List <linux-hardening@vger.kernel.org>
-+Description:
-+		Shows how many times the system has Warned since last boot.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0a1e95a58e54..282cd8a513fd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11107,6 +11107,7 @@ L:	linux-hardening@vger.kernel.org
- S:	Supported
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
- F:	Documentation/ABI/testing/sysfs-kernel-oops_count
-+F:	Documentation/ABI/testing/sysfs-kernel-warn_count
- F:	include/linux/overflow.h
- F:	include/linux/randomize_kstack.h
- F:	mm/usercopy.c
-diff --git a/kernel/panic.c b/kernel/panic.c
-index e5aab27496d7..d718531d8bf4 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -32,6 +32,7 @@
- #include <linux/bug.h>
- #include <linux/ratelimit.h>
- #include <linux/debugfs.h>
-+#include <linux/sysfs.h>
- #include <trace/events/error_report.h>
- #include <asm/sections.h>
- 
-@@ -107,6 +108,25 @@ static __init int kernel_panic_sysctls_init(void)
- late_initcall(kernel_panic_sysctls_init);
- #endif
- 
-+static atomic_t warn_count = ATOMIC_INIT(0);
-+
-+#ifdef CONFIG_SYSFS
-+static ssize_t warn_count_show(struct kobject *kobj, struct kobj_attribute *attr,
-+			       char *page)
-+{
-+	return sysfs_emit(page, "%d\n", atomic_read(&warn_count));
-+}
-+
-+static struct kobj_attribute warn_count_attr = __ATTR_RO(warn_count);
-+
-+static __init int kernel_panic_sysfs_init(void)
-+{
-+	sysfs_add_file_to_group(kernel_kobj, &warn_count_attr.attr, NULL);
-+	return 0;
-+}
-+late_initcall(kernel_panic_sysfs_init);
-+#endif
-+
- static long no_blink(int state)
- {
- 	return 0;
-@@ -211,8 +231,6 @@ static void panic_print_sys_info(bool console_flush)
- 
- void check_panic_on_warn(const char *origin)
- {
--	static atomic_t warn_count = ATOMIC_INIT(0);
--
- 	if (panic_on_warn)
- 		panic("%s: panic_on_warn set ...\n", origin);
- 
--- 
-2.34.1
+That plus the bisect made it pretty easy to find, thanks for the effort!
+
+Could you double-check that the attached patch fixes it?  It seemed to
+for me.
+
+The issue was that the new "No changes, easy!" check in the suspect
+commit didn't check the cpa->force_split option.  It didn't split down
+to 4k and then all hell broke loose.
+
+Oh, and I totally misread the kfence ability to tolerate partial TLB
+flushes.  Sorry for the noise there!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221117234328.594699-6-keescook%40chromium.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/41ac24c4-6c95-d946-2679-c1be2cb20536%40intel.com.
+
+--------------Lh9aXApYj7BdK6v1bd25dwlY
+Content-Type: text/x-patch; charset=UTF-8; name="kfence.patch"
+Content-Disposition: attachment; filename="kfence.patch"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2FyY2gveDg2L21tL3BhdC9zZXRfbWVtb3J5LmMgYi9hcmNoL3g4Ni9t
+bS9wYXQvc2V0X21lbW9yeS5jCmluZGV4IDIyMDM2MWNlYjk5Ny4uOWI0ZTJhZDk1N2Y2IDEw
+MDY0NAotLS0gYS9hcmNoL3g4Ni9tbS9wYXQvc2V0X21lbW9yeS5jCisrKyBiL2FyY2gveDg2
+L21tL3BhdC9zZXRfbWVtb3J5LmMKQEAgLTE3MjcsNyArMTcyNyw4IEBAIHN0YXRpYyBpbnQg
+X19jaGFuZ2VfcGFnZV9hdHRyX3NldF9jbHIoc3RydWN0IGNwYV9kYXRhICpjcGEsIGludCBw
+cmltYXJ5KQogCS8qCiAJICogTm8gY2hhbmdlcywgZWFzeSEKIAkgKi8KLQlpZiAoIShwZ3By
+b3RfdmFsKGNwYS0+bWFza19zZXQpIHwgcGdwcm90X3ZhbChjcGEtPm1hc2tfY2xyKSkpCisJ
+aWYgKCEocGdwcm90X3ZhbChjcGEtPm1hc2tfc2V0KSB8IHBncHJvdF92YWwoY3BhLT5tYXNr
+X2NscikpCisJICAgICYmICFjcGEtPmZvcmNlX3NwbGl0KQogCQlyZXR1cm4gcmV0OwogCiAJ
+d2hpbGUgKHJlbXBhZ2VzKSB7Cg==
+
+--------------Lh9aXApYj7BdK6v1bd25dwlY--
