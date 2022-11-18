@@ -1,140 +1,129 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBXF63WNQMGQERPJLS2A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBHEW32NQMGQEE5WB62Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id D077062F29F
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Nov 2022 11:33:01 +0100 (CET)
-Received: by mail-lj1-x240.google.com with SMTP id p6-20020a2e8046000000b0027703bb5701sf1564553ljg.11
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Nov 2022 02:33:01 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1668767581; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B3262F66A
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Nov 2022 14:39:42 +0100 (CET)
+Received: by mail-pl1-x637.google.com with SMTP id x18-20020a170902ec9200b001869f20da7esf3907822plg.10
+        for <lists+kasan-dev@lfdr.de>; Fri, 18 Nov 2022 05:39:42 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1668778781; cv=pass;
         d=google.com; s=arc-20160816;
-        b=y3XVX89MTnKKpMyurITfAjlxQpd6Pd1e78x20VQZuRQbeN9FArIiEVrpjKspy+/wKC
-         35KMhwbbZTl3QiLv5oYWi+jocsIyOFqYHOVnifBsc8IkgJ7Gat4UrejXtnnZNJU4rYmU
-         rgvewHrDOPo3n5LhUAK4ouGVL5GgmiJ6kJrvT7c1ZIOZJMqNGMl9Am3LNMbqxE934Ka8
-         ZR9YF+fZrs6b8O0c9w8mFQVRPrIFEbVVNZdyeOq8KyVxAYpGQSc8it7AbO+QlxlDhpdZ
-         Ly2Bfr/DERgeV6r187iAtd0MTg46Rv+aG8AnUIFKH86OC3a8Ng5q61m2weckbYQwxmGp
-         QUgQ==
+        b=qPUFNSerjmtiQHsySwZ/3LW6KY0cgu5/M0BG2Kh2NL6r/8fx2lnJIXSfcRv+L4tkTB
+         8RjRj6poQGrpWhXeCCXimmdQ+jiv0RtYYT7duHjR8glY30XBlMEFtCtTOE/gh7k/X50N
+         EtE+7zoj1JkgV8WuQYKv4e94mTj4KBzpyb8A6HXEWdF9bvdJTCrTDkkef+xUOMVN1pEU
+         s94k93taM5a3kc/FS8vnzkTaiEj7laDGnVTQuK5BSsZvVdi18ZBB1cUzTwIZ9m6ml+CG
+         NlKz/5bLWBIzJv7sfh2a6EWNOpwK2kVIReg1PWqWpCRbs5BhPfTe9nZWbobpUfUIkv+a
+         WvBQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=gL6adphfLGnHGBb+L2xukD/WgsTfney/lmyoD4E618E=;
-        b=WrwBcKYhvWYB8q2gaM1BuJ1E+vsTZsogNg1V1tAfbte6HZBLyJUNlzYG6zJqrWG/zb
-         6XMbj9blwftnuJCMgOe5zOJXAANRZRmYevuyRK/rLPlKjaQJSi2PCqtRCztX3xQPiwm5
-         BSMBP/NGmSxiBKVLZVdYHvKVeXFYCKNR4Uykd2r16vwwFYlT9wm6Y7QgeQtk/V4taQPd
-         HQAcR1cmo1HTXqjrLW60GwKqWzZCoDS79QwZovs4vyDJVzQBC22eY4/7+irMSCCijoTe
-         Z42fxKoDx2BahwpIKYxycch8S8CsKYKE1vz/0h5LJP+5NGIWIPfhTfirL5nzQRBsVakm
-         nmsQ==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=TNYHsBBVHQIwl/JnuK1uy4nDpwrzI0GJkMiu1H7Mjps=;
+        b=Oy1a3Ex2sOAOvxc5cTORcHvPArkvUmVJGTkK6oKAPLRjio0r+VTT0OedXIjMcYNcUp
+         vg9vcpdnIWNEGt0D9QZjcRhta2Jfcl+TI2K6DTIOwOcwJb05A5p9wi/HSb5IbJbRVLEV
+         b4UtUmsdJAE60zD/arbrnuYdPaC2DWkeK4zUwT1YxTJGw/doJIsr/+I8U1djYqUtVw8o
+         bN0fNyaC6IuK1O1nC5lx7PL1wzQekEyu/tBGDjh/hyMxsxpMSji7btamECVYdoZUxJJU
+         K4OMxpghJ+fwkn/PsGmrK/ogwUrKPxQAzz7yY9MZgmVlMbxgQNQSheiVdsl8m75mVwXL
+         1dGw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=EIGeQOPH;
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=fetFG9vb;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::112c as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gL6adphfLGnHGBb+L2xukD/WgsTfney/lmyoD4E618E=;
-        b=mvBR2AK5OZzvv4iZjZajh3pmNZytEzPcNx0Se2MG2WE+/oHmVo5gONfjXS4l7/XqAv
-         mLOwwBI3ic68J0qPKqyRVameJH+aFKrhP+ZH/+Qv3F09jFOx1y7Vgn/WkcyQZBjod75W
-         xo9Sa8KVX5hdn9RsC+NDoyUcbaQ5EV5AEzyKRlQDQVKgqdneaVxVJhHku/igjEmsm4XH
-         rWd887wOHyS2xAF67QIBKAsxDT6rvr8d2cGjhA4rxTth2VKCPI5sN4o5xFmL1q7jDsbm
-         defbUi8FqjCDxaWsH6D7J3a1PoWFFLxAQ2DutDn0awpRE6gm6Yn/ByRN/1vTw0dV/FRU
-         cVsg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TNYHsBBVHQIwl/JnuK1uy4nDpwrzI0GJkMiu1H7Mjps=;
+        b=LtulxUT6sS53422g3c5aJQuR8gEXjfZuUmL+H9M0gQmcOqC9r9bjGOo/aw9A43wfaZ
+         FUkspq+7MDmBkHczMDLS6sbPB7CsO01D7StL2+ND7tOSf3xDxeOAt57dGAECO6NjGBjH
+         xwquvVpmfwprFVzRbLqXXB7+hctXu5Sp1OEViLL6grNY5OTxZCsVLCTU0Nvdf5sgzpKl
+         a46ZxeaTDmgeeXrKkuCtIAq3LGDzAwXlhQrZMq7p62m4h+Pvqqz+tfH49jnFTKzAIsWB
+         PXZzX3/SYhcnlrxFbGXRsJN5X+VoujC7N/BmIWdn5ud8uewnHbfSvVHPMZJHJDH8RF8l
+         h4nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gL6adphfLGnHGBb+L2xukD/WgsTfney/lmyoD4E618E=;
-        b=08emk4StK1NwmgRahMTOg9Wh4SQ2DH62IJVCpOk0Jldfhe0kZrYaZHb4mQwvbPj61q
-         UG+a1y03ZdfcTLTyLHqzGm5KhKsTwIOeHZRvrNj6kCGKvVC5ft154mkSflVGOlccyv27
-         QqeDtJgrCeuYlC/kCfoBLBLBZjMOT73zIOqF8r6Mb5pJR4kh7P7LVpccsQPR0DWULQiN
-         W1PO2u7h5kX9AekWF2hpKuwkCUsjIYOhSRHpU1Ja57BKZBytiRLpWN91U6s/2Gz18To6
-         0PtwsNx2AsF5YVpe4xZp6iutUyEm7AvNC+XVEgA3xKAP1FHcJrUDrPxgE7KXVDvMIy7K
-         OfRw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pmOVIP2Zphh5VXiJlmAWTxd3Zo0o89RTlMANPeL0UYbnTFyrtdg
-	yx0Z9QAbJKzhLaP5gRGyp48=
-X-Google-Smtp-Source: AA0mqf6dB1rj0/heGef5tvZKdNr0tfAl2ncLTP9VqO6yF2kxELeKTVLsEdacntPFYMyhZuyvts3QPw==
-X-Received: by 2002:a2e:b55b:0:b0:26c:554f:87a5 with SMTP id a27-20020a2eb55b000000b0026c554f87a5mr2375942ljn.452.1668767581168;
-        Fri, 18 Nov 2022 02:33:01 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TNYHsBBVHQIwl/JnuK1uy4nDpwrzI0GJkMiu1H7Mjps=;
+        b=5U9eQLqUa9RoLrXcDjK1G5yf0jAkV0nI7SWLUXRq4pz+xoTavzSW748EyxTTqYLrpa
+         NKKObkgsMozRtMlEtTXNgJrOgFrQ53fQuqRcpIWGQ2B3UrN+wQG9xAdKVnLTX9SmhsGE
+         PrwPDRlvaYM5L401si1GVQIFwzFgBVJmYfcvy5xhBtf3Nv7I+bKglfMMmGk7ZJLUBQCf
+         AJ25Ftd2LgyjvVx2l+afaCIa3eI06w6zq8mMarYhinTG+yShR/jb2DCDZ0r68auDYDRt
+         JA9JjDxJ+nLZvcGg4ya4HogMk1zdc1+kFA4hcgsvFEVHGc531S+CVcJ6eii1ddqn2Bif
+         bUTA==
+X-Gm-Message-State: ANoB5pmgOi6D+hflrDbxkLDaAo0qdaZH95tiRymx0IrBaokhNfsIjOLg
+	UT7l/i0E6bqFJ+6pGIWlb9c=
+X-Google-Smtp-Source: AA0mqf4SSKHSs7TWyJoEgYQBJ29A9k668MI5x44CaMfBll9s5pVXDgkse6r3WB1gagMnjfVK1BAGyg==
+X-Received: by 2002:a17:902:c946:b0:188:e49e:2657 with SMTP id i6-20020a170902c94600b00188e49e2657mr7602324pla.151.1668778780811;
+        Fri, 18 Nov 2022 05:39:40 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b8d6:0:b0:277:2e6e:e039 with SMTP id s22-20020a2eb8d6000000b002772e6ee039ls848196ljp.9.-pod-prod-gmail;
- Fri, 18 Nov 2022 02:32:59 -0800 (PST)
-X-Received: by 2002:a2e:7e0a:0:b0:277:6f0:5239 with SMTP id z10-20020a2e7e0a000000b0027706f05239mr2116869ljc.186.1668767579702;
-        Fri, 18 Nov 2022 02:32:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1668767579; cv=none;
+Received: by 2002:aa7:8c0d:0:b0:573:1ead:4b00 with SMTP id c13-20020aa78c0d000000b005731ead4b00ls1295414pfd.10.-pod-prod-gmail;
+ Fri, 18 Nov 2022 05:39:40 -0800 (PST)
+X-Received: by 2002:a63:4461:0:b0:43b:f4a3:2f8d with SMTP id t33-20020a634461000000b0043bf4a32f8dmr6808875pgk.317.1668778780084;
+        Fri, 18 Nov 2022 05:39:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1668778780; cv=none;
         d=google.com; s=arc-20160816;
-        b=qhXZA3gphauw7oHUjbyPIqJfAtBW1KYLnMlJ0hdOKOkbNSQrAVtkqBxmXyZUlmj+Jo
-         HUCx4DsIanSAU7Ryr0mh3MbRPNNBBb3lE/AHj8UmY2xJcoyMaAACPz38a/gDekFWq1EU
-         9D4nGPnJIAZPcUkZFrgz1wouktqcEgf1h5g1cZaq6GY6h2GkhXPVZ1szKMAdv3z17Bb/
-         0Ysej7zCEnCQ2xewQRfeu+8PaumOegHeaWJ1LLUDsyFfwTrb+YGxFhB6q5vWXA2wVkvB
-         ZL8pB09byzqWGlXs1e+Pm1INhpaGAP7iOMJb51DZF27/Beq33nHhf/H+oXDs+Anzvavr
-         +GHg==
+        b=tufMkUPENBpiTLfcqJoGJncEoBZveQI034Nzr89Quctrp8+CFkl9Ui+kqjKW6WnvTr
+         KF9ArThMUTezXMp4U7qZVMyhyzR3Qu5ux73WPwYP/hgu1Asfrsw8tsJz7hXT0vQ+iSEV
+         /hiEprnVCw4NUCtg8hAKzzHVkIL+lDpXJLaM5zge9qzZEixzw/5BT0jWHYnAp9xKKp0Q
+         g7YkL8fPa7jIZsYIWIHQfEusrZJGrfzzXh3qMbTs1CWqdg18jZVeS/1EINzpnxTW2RJ4
+         HCxKjU7Bkn5d5RusM1UzfzGEVxcPtSt+D1pFHi2SEeUgWJWtQX3P7FMVZJdWWOVLruUu
+         +Ymg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=ery4e7DXynGUHcFDdPwXSq/cHJt8hNQ6mXrrfbI6xLk=;
-        b=p43Tk6D+ij+tA7oMSI4p9VuIcmnS5gL84Lw0IPHxvMuwZO9AGQD9e7fRuFRlmBvO+c
-         T6vNPaxUWzpZDDNsJs0MdBizCSSpDLFrETc+tvtayfrv0JdRCk9FelzQyTFBIFD1rb9t
-         76j5GHfqM/vcH3cLosz9Tz4xWn5ccFGHRcPZzYsUFm9Z9cgd6PGsusDE3pe/Y78nwycE
-         L/wrpFF7TJDQyunwqUDDrl1ylrTeweXk8lpwXAPhjaa0VgJPBiaP+WtwSm4vSHvy3EL4
-         s9jh/JcmIJMF2h2JRpLRKAGB268q9Cp9jZmIbut/kxvLBotvDLI3vxg98roaJlgmKA0u
-         0gtg==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=EKwPWOIei0ORF4YEoW2azGGh2uCAPxfNzIEZVLw0jwE=;
+        b=uHrEiXVKaP2tgEAtkZgBv7gx3bDTnam03VJV683IqEvUQDTWjs7NRS0BPpmRWDacnX
+         f0xUfGbj0kvjZRvfRsI/sX/zF2UALyotbkWdB6Wf4Y5Kq+NggJaX8mM17voTgpV1AZ9N
+         j3asfJZ4+BUdxDBGctrZjcP8y+Qa1oIbRiytUSNp503Zqo/zwBSb8jwF/lwB5GD4UrFm
+         j57tgDq8b6JyGT7DxwZU8X0pGMKoPMEWoXILLG02S+TlQEJuBuyYchAVDoTr5sio2J6k
+         vYKabvHiRFrWT7kjvOP4hfC9LjRMcdIzHCOwXh3D0ybWecdXf5iQQZ/phJx4viebcDwc
+         t8KA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=EIGeQOPH;
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id s15-20020a05651c200f00b0027724b9e43fsi104612ljo.8.2022.11.18.02.32.59
+       dkim=pass header.i=@google.com header.s=20210112 header.b=fetFG9vb;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::112c as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com. [2607:f8b0:4864:20::112c])
+        by gmr-mx.google.com with ESMTPS id 19-20020a621813000000b005721caee4adsi211951pfy.3.2022.11.18.05.39.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 02:32:59 -0800 (PST)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ovyg3-001x27-EE; Fri, 18 Nov 2022 10:32:55 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6F817300462;
-	Fri, 18 Nov 2022 11:32:54 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 527C520C9821C; Fri, 18 Nov 2022 11:32:54 +0100 (CET)
-Date: Fri, 18 Nov 2022 11:32:54 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Marco Elver <elver@google.com>,
-	Naresh Kamboju <naresh.kamboju@linaro.org>,
-	kasan-dev <kasan-dev@googlegroups.com>, X86 ML <x86@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	linux-mm <linux-mm@kvack.org>, regressions@lists.linux.dev,
-	lkft-triage@lists.linaro.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alexander Potapenko <glider@google.com>
-Subject: Re: WARNING: CPU: 0 PID: 0 at arch/x86/include/asm/kfence.h:46
- kfence_protect
-Message-ID: <Y3dfVtYINF/u7Sar@hirez.programming.kicks-ass.net>
-References: <CA+G9fYuFxZTxkeS35VTZMXwQvohu73W3xbZ5NtjebsVvH6hCuA@mail.gmail.com>
- <Y3Y+DQsWa79bNuKj@elver.google.com>
- <4208866d-338f-4781-7ff9-023f016c5b07@intel.com>
- <Y3bCV6VckVUEF7Pq@elver.google.com>
- <41ac24c4-6c95-d946-2679-c1be2cb20536@intel.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Nov 2022 05:39:40 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::112c as permitted sender) client-ip=2607:f8b0:4864:20::112c;
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-368edbc2c18so49342197b3.13
+        for <kasan-dev@googlegroups.com>; Fri, 18 Nov 2022 05:39:40 -0800 (PST)
+X-Received: by 2002:a81:dd05:0:b0:36e:8228:a127 with SMTP id
+ e5-20020a81dd05000000b0036e8228a127mr6571943ywn.299.1668778779156; Fri, 18
+ Nov 2022 05:39:39 -0800 (PST)
 MIME-Version: 1.0
+References: <Y3VEL0P0M3uSCxdk@sol.localdomain> <CAG_fn=XwRo71wqyo-zvZxzE021tY52KKE0j_GmYUjpZeAZa7dA@mail.gmail.com>
+ <Y3b9AAEKp2Vr3e6O@sol.localdomain>
+In-Reply-To: <Y3b9AAEKp2Vr3e6O@sol.localdomain>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 18 Nov 2022 14:39:02 +0100
+Message-ID: <CAG_fn=Upw7AsM_wZq0ajPixbAKp-izC7LMxyN_5onfL=OBhRzA@mail.gmail.com>
+Subject: Re: KMSAN broken with lockdep again?
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <41ac24c4-6c95-d946-2679-c1be2cb20536@intel.com>
-X-Original-Sender: peterz@infradead.org
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=EIGeQOPH;
-       spf=none (google.com: infradead.org does not designate permitted sender
- hosts) smtp.mailfrom=peterz@infradead.org
+ header.i=@google.com header.s=20210112 header.b=fetFG9vb;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::112c
+ as permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,43 +136,85 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Nov 17, 2022 at 03:54:21PM -0800, Dave Hansen wrote:
-> On 11/17/22 15:23, Marco Elver wrote:
-> > Yes - it's the 'level != PG_LEVEL_4K'.
-> 
-> That plus the bisect made it pretty easy to find, thanks for the effort!
-> 
-> Could you double-check that the attached patch fixes it?  It seemed to
-> for me.
-> 
-> The issue was that the new "No changes, easy!" check in the suspect
-> commit didn't check the cpa->force_split option.  It didn't split down
-> to 4k and then all hell broke loose.
-> 
-> Oh, and I totally misread the kfence ability to tolerate partial TLB
-> flushes.  Sorry for the noise there!
+> > As far as I can tell, removing `KMSAN_SANITIZE_lockdep.o :=3D n` does
+> > not actually break anything now (although the kernel becomes quite
+> > slow with both lockdep and KMSAN). Let me experiment a bit and send a
+> > patch.
 
-> diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
-> index 220361ceb997..9b4e2ad957f6 100644
-> --- a/arch/x86/mm/pat/set_memory.c
-> +++ b/arch/x86/mm/pat/set_memory.c
-> @@ -1727,7 +1727,8 @@ static int __change_page_attr_set_clr(struct cpa_data *cpa, int primary)
->  	/*
->  	 * No changes, easy!
->  	 */
-> -	if (!(pgprot_val(cpa->mask_set) | pgprot_val(cpa->mask_clr)))
-> +	if (!(pgprot_val(cpa->mask_set) | pgprot_val(cpa->mask_clr))
-> +	    && !cpa->force_split)
+Hm, no, lockdep isn't particularly happy with the nested
+lockdep->KMSAN->lockdep calls:
 
-(operators go at the end of the previous line)
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(lockdep_hardirqs_enabled())
+WARNING: CPU: 0 PID: 0 at kernel/locking/lockdep.c:5508 check_flags+0x63/0x=
+180
+...
+ <TASK>
+ lock_acquire+0x196/0x640 kernel/locking/lockdep.c:5665
+ __raw_spin_lock_irqsave ./include/linux/spinlock_api_smp.h:110
+ _raw_spin_lock_irqsave+0xb3/0x110 kernel/locking/spinlock.c:162
+ __stack_depot_save+0x1b1/0x4b0 lib/stackdepot.c:479
+ stack_depot_save+0x13/0x20 lib/stackdepot.c:533
+ __msan_poison_alloca+0x100/0x1a0 mm/kmsan/instrumentation.c:263
+ native_save_fl ./include/linux/spinlock_api_smp.h:?
+ arch_local_save_flags ./arch/x86/include/asm/irqflags.h:70
+ arch_irqs_disabled ./arch/x86/include/asm/irqflags.h:130
+ __raw_spin_unlock_irqrestore ./include/linux/spinlock_api_smp.h:151
+ _raw_spin_unlock_irqrestore+0x60/0x100 kernel/locking/spinlock.c:194
+ tty_register_ldisc+0xcb/0x120 drivers/tty/tty_ldisc.c:68
+ n_tty_init+0x1f/0x21 drivers/tty/n_tty.c:2521
+ console_init+0x1f/0x7ee kernel/printk/printk.c:3287
+ start_kernel+0x577/0xaff init/main.c:1073
+ x86_64_start_reservations+0x2a/0x2c arch/x86/kernel/head64.c:556
+ x86_64_start_kernel+0x114/0x119 arch/x86/kernel/head64.c:537
+ secondary_startup_64_no_verify+0xcf/0xdb arch/x86/kernel/head_64.S:358
+ </TASK>
+---[ end trace 0000000000000000 ]---
 
->  		return ret;
->  
->  	while (rempages) {
+> > If this won't work out, we'll need an explicit call to
+> > kmsan_unpoison_memory() somewhere in lockdep_init_map_type() to
+> > suppress these reports.
 
-Urgh.. sorry about that.
+I'll go for this option.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y3dfVtYINF/u7Sar%40hirez.programming.kicks-ass.net.
+> Thanks.
+>
+> I tried just disabling CONFIG_PROVE_LOCKING, but now KMSAN warnings are b=
+eing
+> spammed from check_stack_object() in mm/usercopy.c.
+>
+> Commenting out the call to arch_within_stack_frames() makes it go away.
+
+Yeah, arch_within_stack_frames() performs stack frame walking, which
+confuses KMSAN.
+We'll need to apply __no_kmsan_checks to it, like we did for other
+stack unwinding functions.
+
+
+> - Eric
+
+T
+
+
+
+
+--
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAG_fn%3DUpw7AsM_wZq0ajPixbAKp-izC7LMxyN_5onfL%3DOBhRzA%40mail.gm=
+ail.com.
