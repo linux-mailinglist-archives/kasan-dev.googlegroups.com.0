@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCJMBM5G5UCRBLNV6CNQMGQEFQ7HJQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJMBM5G5UCRB6NV6CNQMGQENPZXHEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E5663317A
-	for <lists+kasan-dev@lfdr.de>; Tue, 22 Nov 2022 01:41:19 +0100 (CET)
-Received: by mail-pj1-x103a.google.com with SMTP id z9-20020a17090ab10900b00218c5bdfd55sf1324227pjq.9
-        for <lists+kasan-dev@lfdr.de>; Mon, 21 Nov 2022 16:41:19 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1669077677; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id D64E263317B
+	for <lists+kasan-dev@lfdr.de>; Tue, 22 Nov 2022 01:42:34 +0100 (CET)
+Received: by mail-pf1-x43c.google.com with SMTP id u3-20020a056a00124300b0056d4ab0c7cbsf8309833pfi.7
+        for <lists+kasan-dev@lfdr.de>; Mon, 21 Nov 2022 16:42:34 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1669077753; cv=pass;
         d=google.com; s=arc-20160816;
-        b=odCN0UiYohSMMk5Z+1nl4q8vgaP6liUXxf+MnG0fzBmnwaQtzE/RGcep2DV/IwyEtN
-         JjGTo7CBkKQmAoQwJpzjVRU3293fzURFFvZAx+SU6c5HUA2nsuD6w3bVZXMJMG3wcAuH
-         +Ly00/p2VDY6ZacNxq4HhI44+DrmqA9wciONia2j12P6EiA75CsHis9Zs8SmHcHnxMjW
-         fYCziRXxI9tndJQ9/No1zLADyOFqX0w0L+4hfQ2pjH2NR89Tk76qNMd0M/h0Zp8s4Cy3
-         BY0AzLE2KMbYLfwZerCiAsCebZb1114B8dnu94tRLMh+4qZfNGLcuW8/zPZIzmYI5TTf
-         QmNA==
+        b=N0A3XVU/n6KOzhn+U7y7fKMq2v6Kih+D0cIe/2mNXyfePLuY4xZiFBiOfEyrY8moTC
+         NtsE8op/yYp58k5XZgmmHNWvn2B76kVZh53U85aMLjNd3HzVjEEN+DJZ2kZ7lIeMdr1S
+         YxkrFn66ER6q/ZCbM4La8hYobsiGaUzHfmGyAAjqyfsffMayneHKSXmc17v0VYVi9SOQ
+         rgUwA9T3TyRsxTmFWvrlHzoD3h02gxL+baO/e3JI04Rg23z03myutff43M/IphpiafCr
+         lDCODKKhaFbyJ6kl9CLXu9zXG8L0+BlFibaN6iMJOHleIpqLF4YOcywVwngO6/JocjLm
+         ysdQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:feedback-id:subject:reply-to:from
          :cc:to:message-id:date:mime-version:dkim-signature;
-        bh=bS4Nn2HP/q1YYk1CSDtsX+YyZIIlYXALta5xdLA/YJI=;
-        b=oL5IC3MTzMRva/dljuKxLDqTVG300gJlV2lA3TCz5BuhUcoLqBNdKzE1965oMJ8gK6
-         Fg1k2wvaLE5JtFeCXeW+9XNKaa8lwjLe9oMGGu6Eb2VKYWKSeQvtPReWEnB+xZwiiiJA
-         yFA3McYNtFng+J0xKA5/vBHVt6nK/y6YuR+v8IvDdN69HrFyLAhbiXnSYRF1oAaaEkoV
-         lv2sQB+3d3ncuVE2V8MWWGyj29yFGmlaz23ICNBroq6nNN7dStHqDSWV0+MHgcUiZstA
-         9S68lE2jgCn0x87rRsd7FC0mOk5ZY/RsDctNOT+WNqPm0/lAjOZBQWMwp7MWQMnKiDKY
-         6vwA==
+        bh=HWJTOymM7p/P+dNBZV3sGyKlxipWqHqlDIzmFVNwv1U=;
+        b=DlF8LeNP/aNKJv1t1/fc235I8x/LzPzAlbpSq9m7nahx38iCkzxuRE3rUCEovwvqO4
+         r//A8BdsSSsskPr3mI7OZr06Lu8HJCFpk6af4ZFvbADnSqRqWrg4Zincc8GtRJETP+US
+         m3O+kg6saSel96mLBKuM5aqcsQOrA0g4FV/TBdefPFA7qTUI7mMd0Dxgz0VlPUZPmiNL
+         HTTZzTlYzDM32xXUrt4FZIp0ZUCkVNOeT0rsN2UBcgCmIGfHEah1/n/nKKbYhvHQGedB
+         IgY+1oQwwRz4fLkp/xytqRLMGuX/0YlgkaZ3av8TGrV7lYjB/I/S+1nyvphd+HVgshJK
+         mlsQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=p2f8aXJd;
-       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Lk+Ja891;
-       spf=pass (google.com: domain of 010101849cc82f87-b1a35720-6592-4cfd-a01e-e79966110126-000000@us-west-2.amazonses.com designates 54.240.27.56 as permitted sender) smtp.mailfrom=010101849cc82f87-b1a35720-6592-4cfd-a01e-e79966110126-000000@us-west-2.amazonses.com;
+       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=Z7M+xb65;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Trl2QSMF;
+       spf=pass (google.com: domain of 010101849cc958c9-7351f01b-9006-40e1-a191-92312c91d3ca-000000@us-west-2.amazonses.com designates 54.240.27.188 as permitted sender) smtp.mailfrom=010101849cc958c9-7351f01b-9006-40e1-a191-92312c91d3ca-000000@us-west-2.amazonses.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=roku.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:feedback-id:subject:reply-to:from:cc:to
          :message-id:date:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bS4Nn2HP/q1YYk1CSDtsX+YyZIIlYXALta5xdLA/YJI=;
-        b=BASKPpqE/DgKMcR2+XIw3n9D/ZmQGrlrf2toTzgkEkfQATMXRcAf95aPxOSZSK2mBY
-         v/gdyWJ3KyzGG/Pe2z0GEww8lz0iz0h/v2flbcY8chtdDFWcmW31XMnqg19rwqD6rWvQ
-         o7F3Opmf1bsYeFjypX02L/Xq73LQNe+aJU1TvNgxQ5H7LAAyU2VXycXbQefpnqoUeAl7
-         LG+gR3w+lX6hWzrvAfPj2RmZXvYxKr4kR+NQDscBFniBXtI1CchDjEwudGrAsPLBfZDM
-         S8a8qmlClDMKMj+anqTukwgQJgBxrUizxt9ktP0HEt0dMQ0rEcw28tYzUTLc6qsx5k3l
-         DybQ==
+        bh=HWJTOymM7p/P+dNBZV3sGyKlxipWqHqlDIzmFVNwv1U=;
+        b=HrSVgRvUvSZ7sD8cV31T/7i/P8oF8GZWTe9v0u5UsspH9T5/hmdhdtoZ/9OEBZbpgn
+         SiG5WyjuiGfkJTZ70f2POb3l4nSMpvd8x9FaV0QKszGtWSErZoYfb1woedi+q1qA5re3
+         k74hMJgSunXTd17YL8JwEoj/fF4ZYNBJLx079sh7psTsEtvCxHpu4AtjAUL2A10U3VM7
+         8TXD/Wo+b8MkN4B1z8mNQBoYbunhhgmCTJkXTR0pypdQUe3awmFyt0KQk5vyx8WvFnQo
+         OzWswbEG4YWT672FHdZy4cBlEKHXN/sLh8SQtNo0Byym3arAcGfu4X9ddROGHFGxHvjj
+         DC5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,56 +51,55 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:feedback-id
          :subject:reply-to:from:cc:to:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bS4Nn2HP/q1YYk1CSDtsX+YyZIIlYXALta5xdLA/YJI=;
-        b=OrMNzBu/g432BSy1PuAPjV9JleDCto2LKCWnKa5nsSgddOK469qiRdArQk3ZD96CM3
-         LO1d1h126Uwa94iiXKulhHTYdzGN1sWh9oxTCcOc26fqBdtqRrB5NQa4/scdsavMwnSN
-         92wDtN8htIzTx5J4NHM1JGV9HUuZU1HYFGhIEx49EpdHOIbGBLriRgcte3L/nHsXHf+1
-         Ew8Tqy4zHdDfk8JrcxcVkqzSx1+AApMY99D1kI1ZeWLs0Hp0TVAudWzDiv+YbGVoPfT9
-         CpHVTgiuPlVSdvM/AeeOgo+jK5iu+UzEomteZMjvAVqJeXqW8Y0EhzRIeSzggVbhDU3d
-         Im1Q==
-X-Gm-Message-State: ANoB5pm0pMUwx2E/y3ekh7MpPM4N6KqJUjbQiHKYzO+takqokgsaKsUk
-	05WLKGBf0P2T+Ua5b3lQXPk=
-X-Google-Smtp-Source: AA0mqf4ZkP7/JzO2ONdcPRS+HmbxZ3ysWC5Mv2gov1aJOKI/5yeLhtXEbgWyjRAQ7U/u0TwkZopDpw==
-X-Received: by 2002:a17:902:e9cd:b0:178:2989:e2fb with SMTP id 13-20020a170902e9cd00b001782989e2fbmr1963697plk.81.1669077677409;
-        Mon, 21 Nov 2022 16:41:17 -0800 (PST)
+        bh=HWJTOymM7p/P+dNBZV3sGyKlxipWqHqlDIzmFVNwv1U=;
+        b=Z7iqfH5/xP21gXOtwKIDWu2FR197LSfGHMDj9QJeru2A36She1uNAwibbqk1maXziB
+         /kzT8e/e+jg5oXMKFRKNRxfGEO22qEfzbvVZVw1zEUpHXPmpPD5jUuF7sM9FBrF8hMve
+         3dpXZl/V5a94rqTlbPz3soe0t1wP/VTEAF81mmrBhOYKMMO9zBwtj+VFIqN3tA4OP+1Z
+         DLVJXmZj0n3I8TBq2zRSKvimketJOlH5P7MfIVBdlN6TvsTA+tJt2y/oiHhSQ+ILeVLP
+         R+J5A+zK9WfxIBdZddg57Zf9Iu24WxaqHLzKpJ63bFW8T3sVoTiYh9W36uBI6byJbSqi
+         Jk5w==
+X-Gm-Message-State: ANoB5pkWm+e1gV/tBt0yxXaOsBLwfacPCaOCE7vu+5WIqibwiisZedye
+	XTQeYGnWoMWONvTYakgL+Ug=
+X-Google-Smtp-Source: AA0mqf7UhM4rYpI/VOmdKN7DC7oThgsWCGJTTS9oyE2dopDUAKqO1F4X+0lpf+7vPnzIBL+BhWNPjA==
+X-Received: by 2002:a17:902:da83:b0:189:2809:2f11 with SMTP id j3-20020a170902da8300b0018928092f11mr4896020plx.105.1669077753400;
+        Mon, 21 Nov 2022 16:42:33 -0800 (PST)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:2014:b0:186:9fc5:6c01 with SMTP id
- s20-20020a170903201400b001869fc56c01ls6526028pla.6.-pod-prod-gmail; Mon, 21
- Nov 2022 16:41:16 -0800 (PST)
-X-Received: by 2002:a17:902:bb84:b0:184:e4db:e3e with SMTP id m4-20020a170902bb8400b00184e4db0e3emr5593566pls.47.1669077676672;
-        Mon, 21 Nov 2022 16:41:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1669077676; cv=none;
+Received: by 2002:a62:1c06:0:b0:561:e77b:c7c2 with SMTP id c6-20020a621c06000000b00561e77bc7c2ls6614759pfc.4.-pod-prod-gmail;
+ Mon, 21 Nov 2022 16:42:32 -0800 (PST)
+X-Received: by 2002:a05:6a02:118:b0:477:8106:b518 with SMTP id bg24-20020a056a02011800b004778106b518mr5053500pgb.106.1669077752639;
+        Mon, 21 Nov 2022 16:42:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1669077752; cv=none;
         d=google.com; s=arc-20160816;
-        b=av8Ends9+TAousC/NRk7rEmHEuxhWmMPi6JiL3yTURLDV2UipsHbDGP9nJu5k06zaR
-         U+3YXXfRqtCSCf9aQe7JZcBmP9EAb4qVHi72mPP9VRKqDadfo2180GRgxh0qVk5Les9m
-         mwyJp+HZrpW+ggHlLA+xSw7KSlFpEQYCWBjWzjxorDLUt/kTECWFHCLjVqa4SBH/L2IT
-         J0OvEXNSXTSAfFomQVXqIq8SHqTFDImZcuta9cJyzG181yUE7hwyHe0Tdnct98z5t4gn
-         K+idixzQwR62a06l3KyFDy+c7fko5UWjmBGAg6pTKUnOWPCYjD++Rq9vxt4RnO6ILSu2
-         brXg==
+        b=Wl47XwN8Hg9XsEBoD3ml+5cibmwYViQJmNSsmLgZiWckCm2JliMd5QYJyIVUuxRiSV
+         NYSVzWHcOIhmPXrreFoe8t66ITUxapCtl+VN0P0I3k6vJ+A/3S/D4Bys4WWJbDVWJqGy
+         VUX++gaGhCGV4bWyehJLfZpXTVrRlciUU2vJW4ajOY1D4y+zCnum9TjsqwAgDI/DB5Ct
+         TYPBoFHOhkXVqEfafdkOOTJtvSfL6C8luXPY7YJYkJ5ogvTK8CasymRYPjYpG/EqEKY8
+         8Oq5YFUFxW/E5Qa8c7YCvdq1+MeSH9nZonyU7zoIcM5rbmiEt3+c1ebQR6CvTBCFq35Z
+         /58Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=feedback-id:subject:reply-to:from:cc:to:message-id:date
          :dkim-signature:dkim-signature;
-        bh=ZyxbjJMbyFuHS+SuS+4ESbIt8KVdSGhYiX5smy1QNag=;
-        b=gg7QOutuMZ7nLgf5tN/ru5jbWtTtheHnx3e2GK/BNEHghknSkL4Ylqe2eIXNhL6/Fw
-         ssObV/pszwijyebk0zhasA7ldtJl1zSk949zF3o9ZIw63PEohG1/FsC+iCSYISzI71Zt
-         47jUJ/FkQi+JjIR2UqO4jE4N9YqgHZd8x1NftX7/IqvKav1Z949Im6YvtDO7UJ1taMf6
-         7GYwcDwNGC3fLJ8CUROJc9fyiX1N+MZHBlWAlIdZCZGRP6v2Pq6aJ1WKiGH+uc8c2+UD
-         ZHRfMmYrte2NnwKImb9g8gUdYSANWL/VHDlvUqY7BdCtYXCxelF0npGfUhjKzjL2zYzT
-         TcDQ==
+        bh=IQWkibo4TevFr3edl3eY0p0x87hh2w3vTSkW4bSCklg=;
+        b=qKlLyW2RN0RirPbcuTSYGwntdIWgmHBIeEMahmAq+yvf9/NBh7rmDITvXUjcp/Ft+v
+         ykCtpmhh0kZ8EwCIspZUfc4Px9+VhWrSmVxczqQaTrX6qSigaxaRQ8mSSH7XdP3GOEK/
+         zhb48/meSOHlRJ3xi8nDhk3+b/dWMpzU7qp5uyjhH2G+2Ul9WDo8lL2xioYgQv5noDZF
+         XF4nOiLSeS8ggKMQP52c+1Or5qr4nnLRzqeO3XcRfDnA0RI+3i4Vn1HEHN3CpuxZLiH3
+         2QeBCpad8xDZYOOZGfPXbseJpF8C1kwK3Qw81uNuJGja5nuPdmBzUu5mDsjgP+y0ZXpf
+         ogpA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=p2f8aXJd;
-       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Lk+Ja891;
-       spf=pass (google.com: domain of 010101849cc82f87-b1a35720-6592-4cfd-a01e-e79966110126-000000@us-west-2.amazonses.com designates 54.240.27.56 as permitted sender) smtp.mailfrom=010101849cc82f87-b1a35720-6592-4cfd-a01e-e79966110126-000000@us-west-2.amazonses.com;
+       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=Z7M+xb65;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Trl2QSMF;
+       spf=pass (google.com: domain of 010101849cc958c9-7351f01b-9006-40e1-a191-92312c91d3ca-000000@us-west-2.amazonses.com designates 54.240.27.188 as permitted sender) smtp.mailfrom=010101849cc958c9-7351f01b-9006-40e1-a191-92312c91d3ca-000000@us-west-2.amazonses.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=roku.com
-Received: from a27-56.smtp-out.us-west-2.amazonses.com (a27-56.smtp-out.us-west-2.amazonses.com. [54.240.27.56])
-        by gmr-mx.google.com with ESMTPS id k17-20020a170902c41100b00189348ab16fsi2918plk.13.2022.11.21.16.41.16
+Received: from a27-188.smtp-out.us-west-2.amazonses.com (a27-188.smtp-out.us-west-2.amazonses.com. [54.240.27.188])
+        by gmr-mx.google.com with ESMTPS id bu3-20020a632943000000b004772bae20ebsi482184pgb.5.2022.11.21.16.42.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 21 Nov 2022 16:41:16 -0800 (PST)
-Received-SPF: pass (google.com: domain of 010101849cc82f87-b1a35720-6592-4cfd-a01e-e79966110126-000000@us-west-2.amazonses.com designates 54.240.27.56 as permitted sender) client-ip=54.240.27.56;
-Date: Tue, 22 Nov 2022 00:41:15 +0000
-Message-ID: <010101849cc82f87-b1a35720-6592-4cfd-a01e-e79966110126-000000@us-west-2.amazonses.com>
+        Mon, 21 Nov 2022 16:42:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of 010101849cc958c9-7351f01b-9006-40e1-a191-92312c91d3ca-000000@us-west-2.amazonses.com designates 54.240.27.188 as permitted sender) client-ip=54.240.27.188;
+Date: Tue, 22 Nov 2022 00:42:32 +0000
+Message-ID: <010101849cc958c9-7351f01b-9006-40e1-a191-92312c91d3ca-000000@us-west-2.amazonses.com>
 To: bscattergood@roku.com, dmendenhall@roku.com, kcooper@roku.com,
         ksandvik@roku.com, mizhang@roku.com, najain@roku.com, pzhang@roku.com,
         sabellera@roku.com, snahibin@roku.com, tparker@roku.com
@@ -110,16 +109,16 @@ Cc: Andrey@localhost, Ryabinin@localhost, aryabinin@virtuozzo.com,
         kasan-dev@googlegroups.com
 From: no-reply via kasan-dev <kasan-dev@googlegroups.com>
 Reply-To: no-reply@roku.com ((Automation Account))
-Subject: PERFORCE change 3224909: commit 13d2dc778e425788fdb3d5f16264fd51c883c71d
+Subject: PERFORCE change 3224910: commit fb14721d661e08479bb920ca883be3142b69015e
 Feedback-ID: 1.us-west-2.J7/CQbUSlVIlOn4fv32wqSnUATrm78Y7YaTj1nfQ4pI=:AmazonSES
-X-SES-Outgoing: 2022.11.22-54.240.27.56
+X-SES-Outgoing: 2022.11.22-54.240.27.188
 X-Original-Sender: no-reply@roku.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7
- header.b=p2f8aXJd;       dkim=pass header.i=@amazonses.com
- header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Lk+Ja891;       spf=pass
- (google.com: domain of 010101849cc82f87-b1a35720-6592-4cfd-a01e-e79966110126-000000@us-west-2.amazonses.com
- designates 54.240.27.56 as permitted sender) smtp.mailfrom=010101849cc82f87-b1a35720-6592-4cfd-a01e-e79966110126-000000@us-west-2.amazonses.com;
+ header.b=Z7M+xb65;       dkim=pass header.i=@amazonses.com
+ header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Trl2QSMF;       spf=pass
+ (google.com: domain of 010101849cc958c9-7351f01b-9006-40e1-a191-92312c91d3ca-000000@us-west-2.amazonses.com
+ designates 54.240.27.188 as permitted sender) smtp.mailfrom=010101849cc958c9-7351f01b-9006-40e1-a191-92312c91d3ca-000000@us-west-2.amazonses.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=roku.com
 X-Original-From: no-reply@roku.com (Automation Account)
 Content-Type: text/plain; charset="UTF-8"
@@ -135,30 +134,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Change 3224909 by automation@vsergiienko-flipday-internal-rtd1395-nemo on 2022/11/22 00:39:43
+Change 3224910 by automation@vsergiienko-flipday-internal-rtd1395-nemo on 2022/11/22 00:39:55
 
-	commit 13d2dc778e425788fdb3d5f16264fd51c883c71d
+	commit fb14721d661e08479bb920ca883be3142b69015e
 	Author: Linus Walleij <linus.walleij@linaro.org>
-	Date:   Sun Oct 25 23:50:09 2020 +0100
+	Date:   Sun Oct 25 23:52:08 2020 +0100
 	
-	    ARM: 9013/2: Disable KASan instrumentation for some code
+	    ARM: 9014/2: Replace string mem* functions for KASan
 	    
-	    Disable instrumentation for arch/arm/boot/compressed/*
-	    since that code is executed before the kernel has even
-	    set up its mappings and definately out of scope for
-	    KASan.
+	    Functions like memset()/memmove()/memcpy() do a lot of memory
+	    accesses.
 	    
-	    Disable instrumentation of arch/arm/vdso/* because that code
-	    is not linked with the kernel image, so the KASan management
-	    code would fail to link.
+	    If a bad pointer is passed to one of these functions it is important
+	    to catch this. Compiler instrumentation cannot do this since these
+	    functions are written in assembly.
 	    
-	    Disable instrumentation of arch/arm/mm/physaddr.c. See commit
-	    ec6d06efb0ba ("arm64: Add support for CONFIG_DEBUG_VIRTUAL")
-	    for more details.
+	    KASan replaces these memory functions with instrumented variants.
 	    
-	    Disable kasan check in the function unwind_pop_register because
-	    it does not matter that kasan checks failed when unwind_pop_register()
-	    reads the stack memory of a task.
+	    The original functions are declared as weak symbols so that
+	    the strong definitions in mm/kasan/kasan.c can replace them.
+	    
+	    The original functions have aliases with a '__' prefix in their
+	    name, so we can call the non-instrumented variant if needed.
+	    
+	    We must use __memcpy()/__memset() in place of memcpy()/memset()
+	    when we copy .data to RAM and when we clear .bss, because
+	    kasan_early_init cannot be called before the initialization of
+	    .data and .bss.
+	    
+	    For the kernel compression and EFI libstub's custom string
+	    libraries we need a special quirk: even if these are built
+	    without KASan enabled, they rely on the global headers for their
+	    custom string libraries, which means that e.g. memcpy()
+	    will be defined to __memcpy() and we get link failures.
+	    Since these implementations are written i C rather than
+	    assembly we use e.g. __alias(memcpy) to redirected any
+	    users back to the local implementation.
 	    
 	    Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
 	    Cc: Alexander Potapenko <glider@google.com>
@@ -168,8 +179,8 @@ Change 3224909 by automation@vsergiienko-flipday-internal-rtd1395-nemo on 2022/1
 	    Tested-by: Ard Biesheuvel <ardb@kernel.org> # QEMU/KVM/mach-virt/LPAE/8G
 	    Tested-by: Florian Fainelli <f.fainelli@gmail.com> # Brahma SoCs
 	    Tested-by: Ahmad Fatoum <a.fatoum@pengutronix.de> # i.MX6Q
-	    Reported-by: Florian Fainelli <f.fainelli@gmail.com>
-	    Reported-by: Marc Zyngier <marc.zyngier@arm.com>
+	    Reported-by: Russell King - ARM Linux <rmk+kernel@armlinux.org.uk>
+	    Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 	    Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
 	    Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 	    Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
@@ -177,64 +188,179 @@ Change 3224909 by automation@vsergiienko-flipday-internal-rtd1395-nemo on 2022/1
 
 Affected files ...
 
-.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/boot/compressed/Makefile#2 edit
-.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/kernel/unwind.c#2 edit
-.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/mm/Makefile#2 edit
-.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/vdso/Makefile#2 edit
+.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/boot/compressed/string.c#2 edit
+.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/include/asm/string.h#2 edit
+.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/kernel/armksyms.c#2 edit
+.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/lib/memcpy.S#2 edit
+.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/lib/memmove.S#2 edit
+.. //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/lib/memset.S#2 edit
 
 Differences ...
 
-==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/boot/compressed/Makefile#2 (text) ====
+==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/boot/compressed/string.c#2 (text) ====
 
-@@ -23,6 +23,7 @@
- endif
+@@ -6,6 +6,25 @@
  
- GCOV_PROFILE		:= n
-+KASAN_SANITIZE		:= n
+ #include <linux/string.h>
  
- GCC_PLUGINS		:= n
- 
-
-==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/kernel/unwind.c#2 (text) ====
-
-@@ -249,7 +249,11 @@
- 		if (*vsp >= (unsigned long *)ctrl->sp_high)
- 			return -URC_FAILURE;
- 
--	ctrl->vrs[reg] = *(*vsp)++;
-+	/* Use READ_ONCE_NOCHECK here to avoid this memory access
-+	 * from being tracked by KASAN.
-+	 */
-+	ctrl->vrs[reg] = READ_ONCE_NOCHECK(*(*vsp));
-+	(*vsp)++;
- 	return URC_OK;
- }
- 
-
-==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/mm/Makefile#2 (text) ====
-
-@@ -7,6 +7,7 @@
- 
- obj-$(CONFIG_MMU)		+= fault-armv.o flush.o idmap.o ioremap.o \
- 				   mmap.o pgd.o mmu.o pageattr.o
-+KASAN_SANITIZE_mmu.o		:= n
- 
- ifneq ($(CONFIG_MMU),y)
- obj-y				+= nommu.o
-
-==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/vdso/Makefile#2 (text) ====
-
-@@ -29,6 +29,8 @@
- # Disable gcov profiling for VDSO code
- GCOV_PROFILE := n
- 
-+KASAN_SANITIZE := n
++/*
++ * The decompressor is built without KASan but uses the same redirects as the
++ * rest of the kernel when CONFIG_KASAN is enabled, defining e.g. memcpy()
++ * to __memcpy() but since we are not linking with the main kernel string
++ * library in the decompressor, that will lead to link failures.
++ *
++ * Undefine KASan's versions, define the wrapped functions and alias them to
++ * the right names so that when e.g. __memcpy() appear in the code, it will
++ * still be linked to this local version of memcpy().
++ */
++#ifdef CONFIG_KASAN
++#undef memcpy
++#undef memmove
++#undef memset
++void *__memcpy(void *__dest, __const void *__src, size_t __n) __alias(memcpy);
++void *__memmove(void *__dest, __const void *__src, size_t count) __alias(memmove);
++void *__memset(void *s, int c, size_t count) __alias(memset);
++#endif
 +
- # Force dependency
- $(obj)/vdso.o : $(obj)/vdso.so
+ void *memcpy(void *__dest, __const void *__src, size_t __n)
+ {
+ 	int i = 0;
+
+==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/include/asm/string.h#2 (text) ====
+
+@@ -4,6 +4,9 @@
+ /*
+  * We don't do inline string functions, since the
+  * optimised inline asm versions are not small.
++ *
++ * The __underscore versions of some functions are for KASan to be able
++ * to replace them with instrumented versions.
+  */
  
+ #define __HAVE_ARCH_STRRCHR
+@@ -14,15 +17,18 @@
+ 
+ #define __HAVE_ARCH_MEMCPY
+ extern void * memcpy(void *, const void *, __kernel_size_t) __nocapture(2);
++extern void *__memcpy(void *dest, const void *src, __kernel_size_t n);
+ 
+ #define __HAVE_ARCH_MEMMOVE
+ extern void * memmove(void *, const void *, __kernel_size_t) __nocapture(2);
++extern void *__memmove(void *dest, const void *src, __kernel_size_t n);
+ 
+ #define __HAVE_ARCH_MEMCHR
+ extern void * memchr(const void *, int, __kernel_size_t) __nocapture(-1);
+ 
+ #define __HAVE_ARCH_MEMSET
+ extern void * memset(void *, int, __kernel_size_t);
++extern void *__memset(void *s, int c, __kernel_size_t n);
+ 
+ extern void __memzero(void *ptr, __kernel_size_t n);
+ 
+@@ -38,4 +44,27 @@
+ 		(__p);							\
+ 	})
+ 
++/*
++ * For files that are not instrumented (e.g. mm/slub.c) we
++ * must use non-instrumented versions of the mem*
++ * functions named __memcpy() etc. All such kernel code has
++ * been tagged with KASAN_SANITIZE_file.o = n, which means
++ * that the address sanitization argument isn't passed to the
++ * compiler, and __SANITIZE_ADDRESS__ is not set. As a result
++ * these defines kick in.
++ */
++#if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
++#undef memcpy
++#undef memmove
++#undef memset
++#define memcpy(dst, src, len) __memcpy(dst, src, len)
++#define memmove(dst, src, len) __memmove(dst, src, len)
++#define memset(s, c, n) __memset(s, c, n)
++
++#ifndef __NO_FORTIFY
++#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
++#endif
++
++#endif
++
+ #endif
+
+==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/kernel/armksyms.c#2 (text) ====
+
+@@ -92,6 +92,12 @@
+ EXPORT_SYMBOL(memchr);
+ EXPORT_SYMBOL(__memzero);
+ 
++#ifdef CONFIG_KASAN
++EXPORT_SYMBOL(__memset);
++EXPORT_SYMBOL(__memcpy);
++EXPORT_SYMBOL(__memmove);
++#endif
++
+ EXPORT_SYMBOL(mmioset);
+ EXPORT_SYMBOL(mmiocpy);
+ 
+
+==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/lib/memcpy.S#2 (text) ====
+
+@@ -61,6 +61,8 @@
+ 
+ /* Prototype: void *memcpy(void *dest, const void *src, size_t n); */
+ 
++.weak memcpy
++ENTRY(__memcpy)
+ ENTRY(mmiocpy)
+ ENTRY(memcpy)
+ 
+@@ -68,3 +70,4 @@
+ 
+ ENDPROC(memcpy)
+ ENDPROC(mmiocpy)
++ENDPROC(__memcpy)
+
+==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/lib/memmove.S#2 (text) ====
+
+@@ -27,12 +27,14 @@
+  * occurring in the opposite direction.
+  */
+ 
++.weak memmove
++ENTRY(__memmove)
+ ENTRY(memmove)
+ 	UNWIND(	.fnstart			)
+ 
+ 		subs	ip, r0, r1
+ 		cmphi	r2, ip
+-		bls	memcpy
++		bls	__memcpy
+ 
+ 		stmfd	sp!, {r0, r4, lr}
+ 	UNWIND(	.fnend				)
+@@ -225,3 +227,4 @@
+ 18:		backward_copy_shift	push=24	pull=8
+ 
+ ENDPROC(memmove)
++ENDPROC(__memmove)
+
+==== //depot/firmware/release/main/port/realtek/rtd1395/platform/software_phoenix/linux-kernel/arch/arm/lib/memset.S#2 (text) ====
+
+@@ -16,6 +16,8 @@
+ 	.text
+ 	.align	5
+ 
++.weak memset
++ENTRY(__memset)
+ ENTRY(mmioset)
+ ENTRY(memset)
+ UNWIND( .fnstart         )
+@@ -135,3 +137,4 @@
+ UNWIND( .fnend   )
+ ENDPROC(memset)
+ ENDPROC(mmioset)
++ENDPROC(__memset)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/010101849cc82f87-b1a35720-6592-4cfd-a01e-e79966110126-000000%40us-west-2.amazonses.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/010101849cc958c9-7351f01b-9006-40e1-a191-92312c91d3ca-000000%40us-west-2.amazonses.com.
