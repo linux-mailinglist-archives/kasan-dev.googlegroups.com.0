@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCJMBM5G5UCRBYWB6CNQMGQECQG47NY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJMBM5G5UCRBLWC6CNQMGQE2YS4PVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB526331DD
-	for <lists+kasan-dev@lfdr.de>; Tue, 22 Nov 2022 02:07:47 +0100 (CET)
-Received: by mail-vk1-xa3f.google.com with SMTP id d130-20020a1f9b88000000b003b87d0db0d9sf4606496vke.15
-        for <lists+kasan-dev@lfdr.de>; Mon, 21 Nov 2022 17:07:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1669079266; cv=pass;
+Received: from mail-yw1-x1140.google.com (mail-yw1-x1140.google.com [IPv6:2607:f8b0:4864:20::1140])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAFF56331E8
+	for <lists+kasan-dev@lfdr.de>; Tue, 22 Nov 2022 02:09:03 +0100 (CET)
+Received: by mail-yw1-x1140.google.com with SMTP id 00721157ae682-393fc59d09fsf105708277b3.18
+        for <lists+kasan-dev@lfdr.de>; Mon, 21 Nov 2022 17:09:03 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1669079342; cv=pass;
         d=google.com; s=arc-20160816;
-        b=z0b7+6tLMeCnRoz4DXdWj9Pu1J6gSiJ9GL3pPsx7uQLV244LafXMBK3fzjWsD7qkNq
-         eagR0kalzETZ9keEBCRxoMWAn1memxTNv7VROyIAUwr1dcriVvtoKYn3M4lNYY6d1SVf
-         CZQXgrPH0XOPDds8qFYRCxVaPClYZjX0laM86ARVzmgJLvFAsiUnycTuUwv2Lgo/lKpS
-         6K2VZ75uJbZ/c3uscEe3qh4Ff5XDRdrTMkRtNP1vvYbf7j9lTM/FJnIvzmQfj+HfBK6u
-         VF82cc11NMfnt/fBSxm1mO6pS0Vr93cGdQL4HV3xk9cAdZCrfoIVex7NVHH1JI/pG/83
-         gHHg==
+        b=T7Mnj9Ido39HWJ9sIUDFxdT1TEegU5kO9k0IEf3BYZK3NcH3vPimhEcP+jFz46aGPW
+         y4/Zv85GL1VvoVGhltW9plrU4hBAgZDK8XE55NTpoBKU4VQKWrh2jnxRS2E1srhKF9p9
+         nilf+24SXYxdmaOaqi10MgNNImpp6Lk/odio/8U7SIG+v/tTO7BqrPvbmGxyfJ163WlJ
+         +pjPxe9Y5mKIKMwBuCCm2wgNTGpPqc6yH4y/LW9gwdzBGy85UbDyJ7HT8fne/9PLmFcI
+         l/m9G7jEuHlQN7B+fpBGaYz+33e0tb+BLJoSCIiIT/Z5q2EqPSPQ16FQ62lNX+lde1Ke
+         JqAQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:feedback-id:subject:reply-to:from
          :cc:to:message-id:date:mime-version:dkim-signature;
-        bh=b3aeZm7HkFvLGYi62U/UsQZHgUIzvYcD68cfDG6WWvk=;
-        b=1BFk63hiQpV4QYINd38MZSI2cVv9A0lM1JDVRG9y7hb0dt29hudZs74HMTOsksz4MD
-         yada8trV2P4tUKxH73NEOghkXMZczUBgkIqVy/SPBppad3xaZxuI0TVKT+7jw/ZfGJ8I
-         wK36D2BR4o7ZGW68BihQFUYC6/4g2UbTyBQq9QxfOQ0nExEcCvn6jEHptoWhPlPnHtWR
-         CjRDMJGCfjh3tr/Nte6jHu6299D4wqrnXkxYrNLKeuFYOxpBRl0HlmHEUR455tRgPM3c
-         ll0RyEgboVAixFpvCPC9sBrlaI3MIHM3oGVzC7u1s33XUmp4ONTeLJbbPl1+KKVZjRaN
-         E4Hg==
+        bh=XEvPLELH8ZJ3YaFyYH2vF7VUKzaFRnb24/rDbkj/y3I=;
+        b=PSMCxW2kHzEkHesqjNwcuNptnFwmSfbm83ef4sEihao1CCAo+uzxhdHkeQiR5/HU8i
+         3euj6Af0nIKukCc5eDTqt73SnVZhjlbl7f9uLKsF2F8qhhNl1hdouHnG/CESB9Zyn9SS
+         l6dwOuPKEXF1hw+Xnk9JcMOi6FQnCxwXmfky5nJc4ozsdQNwmFnfIZXwmp/puhsKvOPf
+         040FygGGGxWTeFsJVuNt2PCAtEYA5Od3TwaGTRpY2TRrk+pTQdxN/XpfOKx+EWfFd2jz
+         akouVSEJCLz8X0tOnj6kWVQkx1gxa0h7uJ5ArtXt1Jtws0LV3bMyz1QRv0ZLzlf/qd+O
+         3ptw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=S5N5R8ch;
-       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BO314SfE;
-       spf=pass (google.com: domain of 010101849ce06c5c-f72a9abc-84c8-497c-a2a3-33a0f50271ff-000000@us-west-2.amazonses.com designates 54.240.27.10 as permitted sender) smtp.mailfrom=010101849ce06c5c-f72a9abc-84c8-497c-a2a3-33a0f50271ff-000000@us-west-2.amazonses.com;
+       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b="Mc3jfAM/";
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=cHBuKxiz;
+       spf=pass (google.com: domain of 010101849ce195a5-6cf4a54f-95d0-42ae-99f3-dbba411cb545-000000@us-west-2.amazonses.com designates 54.240.27.55 as permitted sender) smtp.mailfrom=010101849ce195a5-6cf4a54f-95d0-42ae-99f3-dbba411cb545-000000@us-west-2.amazonses.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=roku.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:feedback-id:subject:reply-to:from:cc:to
          :message-id:date:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=b3aeZm7HkFvLGYi62U/UsQZHgUIzvYcD68cfDG6WWvk=;
-        b=l3bznvfbl5dLKJooP8UJSao1AB2gVCoidONO49j9Wrw/HnNN4NwT0s4/llZ+uJLfv6
-         Mvyjky+ZUR3u5PX9aeAZyi6M0DdZT1zq9q+dvxdJUvdpmiWNNmgesXK1p5Gbgock5PYG
-         JfeDRCnGKO6NpBu2pwDEfE7zlDpOJwImweZHZSCnjQu7Nz2nfAXwqJ2lJxU0R+rgG7OX
-         b3ITTpJNCWOxmTvW5sqOgT+0spKcUP8hS6ZcTxlm9bYhFstR69+vPEeQQoke2zzvp4To
-         /yelDlKn0sPh+S0qB6P+IyhL4J0Ar0qshr4SZIrSAT6C8qCVEFkUlY5iwXNQUTqw1JM0
-         Wu9A==
+        bh=XEvPLELH8ZJ3YaFyYH2vF7VUKzaFRnb24/rDbkj/y3I=;
+        b=Pzp1erY9JXFxVTkgQ/Mz4TgzeMgfnDLOoR/0lsuLwwOoRAmAKl7X3Qt08tgJSXLsZN
+         I/kxzviIAyWzIqVtTDHDUSgMI3XYnQ0RVqkd44u8f68Jhhi/lTObxUGv2S4FNoZfHArX
+         2Mj+4asGp+fTP59sRYSuNmIQkdMzo6uuye4uRY7BwGoevdq3XqXrd/IZSvniqRc44GZ3
+         7e/RQL+X39Ebvfc1oBrWWhGkqwtT7DV7+dhEkoOvTzGGGrE2pClpZNeZM2LZ/BHiwdWQ
+         c00H/tcdW01vglV+9BzWI4gCLv6lkT+qGruWGUsM211S1Vh7EuDmiWzeN6201w8qibxO
+         fV4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,75 +51,74 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:feedback-id
          :subject:reply-to:from:cc:to:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b3aeZm7HkFvLGYi62U/UsQZHgUIzvYcD68cfDG6WWvk=;
-        b=EkIDrlafL/CI83MtNz9+sHVlF0ZL4JsFB6tF/CrkPlvvA0NVJWtVwWHlID4u5Vj/Wy
-         QQSvTWhC6QUw5TNcv6egPCjfUZEmyP/w9GCuGJY4b6kqAUdJW3+/GHtGlpRJ7sPNNw9t
-         x935Xxl8yBgI9A5aI+T53utPbz7oBnQ9il3q13mwbIaud3V/PCN1wrTuouzkU1cE3q8L
-         KdsAPW+Tspo8IlTTK8CTXEsiVElfFgUQOcG5oje7b4x7BBugmKeLuYQUuPg8mC814xtc
-         rWCnVGOi5tLE8Q+/0iaGsyR/68mO8LhkK3RFU4WIuXy+stHCq5akaPZjEBQf1+sM+GTl
-         oeCQ==
-X-Gm-Message-State: ANoB5pnboqjunqfOKNcvE1Byqxvo4ujwJDpe+xGzaSnRx8CJ4qANtHfL
-	bPJBmaVyWKvaDMS5bItWyT8=
-X-Google-Smtp-Source: AA0mqf7UORPfEXJf8NK013F1Oc3b6aZusfG8YQhoXIPHUllnneQwshiVQtYw/m1OBPlgqsHhLz9tpA==
-X-Received: by 2002:a9f:3181:0:b0:408:c198:a734 with SMTP id v1-20020a9f3181000000b00408c198a734mr4388332uad.94.1669079266490;
-        Mon, 21 Nov 2022 17:07:46 -0800 (PST)
+        bh=XEvPLELH8ZJ3YaFyYH2vF7VUKzaFRnb24/rDbkj/y3I=;
+        b=tVRoL+nKYRzR9W5r3amrGsbgp70m1SAHQTjanYh1L1o5RiZAzvDA8+h971Dv8iJQlq
+         tXi+6SVmVRjUqJH0sBqEYvRsqg5uLRq7g58Avf6+o5LAJBFPtUe+93VpBTLXHMcRh/KE
+         QM91njQC508iIyGf9eCEx7zQvfOn6OOy1+QDMgOU/baQ6/eI8RfN9s2aJJT5rbE00cYC
+         YDGmIq3qmENAPQsd6xV6hkxyWKwWmhhPsN+Nk8bUwJzAQoxWcmt96+UQFjWi/Ho+eUz+
+         PbOC62ajBuVCuPkWgUe7OJqyIy6fZSfJkTqnnfP61LXW7OP0Gad6xA9droJEV/YFWx05
+         ZjAA==
+X-Gm-Message-State: ANoB5pl9tStPpKsI6Clx53ANnS6Jdv7htgDeOc+MMd4W/oCxJmXLn4dk
+	8drskJHoAaHgt9wz5p2sK7I=
+X-Google-Smtp-Source: AA0mqf4WC/hjTt0M65EVBzEoPPygKKEn9DHENnN25Uu02DicMKR9M6BXevXhPYHAPNy2KQZGs5kZLA==
+X-Received: by 2002:a25:4183:0:b0:6ea:70f2:23d0 with SMTP id o125-20020a254183000000b006ea70f223d0mr1726390yba.123.1669079342410;
+        Mon, 21 Nov 2022 17:09:02 -0800 (PST)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:a0d5:0:b0:3bc:2cac:f10e with SMTP id j204-20020a1fa0d5000000b003bc2cacf10els1394726vke.0.-pod-prod-gmail;
- Mon, 21 Nov 2022 17:07:45 -0800 (PST)
-X-Received: by 2002:a1f:9dcd:0:b0:3b8:a3f9:be82 with SMTP id g196-20020a1f9dcd000000b003b8a3f9be82mr1668336vke.18.1669079265795;
-        Mon, 21 Nov 2022 17:07:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1669079265; cv=none;
+Received: by 2002:a81:9881:0:b0:367:447d:fe68 with SMTP id p123-20020a819881000000b00367447dfe68ls6237263ywg.3.-pod-prod-gmail;
+ Mon, 21 Nov 2022 17:09:01 -0800 (PST)
+X-Received: by 2002:a0d:d202:0:b0:370:1a06:1b4a with SMTP id u2-20020a0dd202000000b003701a061b4amr1667614ywd.206.1669079341748;
+        Mon, 21 Nov 2022 17:09:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1669079341; cv=none;
         d=google.com; s=arc-20160816;
-        b=JX0AsL20swsi+oJhF6rKZcKnIc07EYz1OqpIhrOCDbldnuT0EyAiWPnlzmzryoOeim
-         4QAuntbvHOV0Vwz6pfkIdMVZ+TW7oOXg9eDqzIBAfUS/GDgQqqpZWw9Hb207q85R43vL
-         xh/mP1ZzxV3iwtjlfntCSvRQ9rHag4dH+b8GPxbKvL9Gy61gLc8eGNssdyMaLBpdepqy
-         XupJHlchDsxXpFP6hJRXSwah64bg0HCyBcbVHLr5OuG38r09rykzszrR2cCw8/bi1xKf
-         1EsZBuoltYVJgyL44ph1cMuMRYUwOfPFh4aH3/jnXh+fFx2BqOxiDPXayS4ZT8a9DlB/
-         mrlQ==
+        b=QDqP3uMvkELSsBwEPd8jrqArqQS/Tt1U4LizVaDYLLwyjThsta4EwWPI6KbdH62JW3
+         9V7g2KlKxuX418fl8sbOOJtxPTmo4FuAIUB3Xk7V4PW9CUx140ngY8cI9QzJAKgY9eFO
+         dsb4R/ofgYOlAvCjjmcOuZD2HUgc209Fc5SpU1cS+5uLbRzvPPHsrHEha3YP/S3RUTjK
+         BNNO/PcABOwmGCUfB/WS/MdikxGJs3wtF+k13ciDIyL2zLYP2C0zDI8/DHxk5XVmbDkG
+         fUslFY2vGSyqkFtCZNx8iyWCe8QLf0nfzePMzd+jkWv850Y7pyyt4ZZbNekF9UtdR7mp
+         N/tQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=feedback-id:subject:reply-to:from:cc:to:message-id:date
          :dkim-signature:dkim-signature;
-        bh=gOTAxaRZemegd9Oh4Kc2kh87cjSv+1aZ/k0Gt+fb3H0=;
-        b=wYdneoeiNIUnYHacj4FF6OlKgRLhPsxvrpDXiVXb09vnBWZaIj6mKsnndUP4x7/Lbo
-         t9xpMpln1kbzhdSNaudwSBFZgMyFizyF5XVrbcOZCwMdgpBu4ZPZ0Jxc4IRCATy9lKzv
-         mZ4jIwH2gAaj7VFise4tNvjbpTZsIKqrK8uDfH61JvR+1FVXlUuZGtayF3AdRjhfHhyy
-         IXz/kAuon+4Gfm7yoQYuuVjGFV3mDkHfXvbmr4f5wjoyxfvdt7BwoUXOZYXsW+0RySAN
-         D9nJJH9eXc2k0fEJRGsW/NIJUXOXUayRSjqNwU3dCQBfZzt9cKvD04cdhbWhH042x8eC
-         mWLg==
+        bh=8kaF8sTxcAEO8ROfXzgIl81glz2BiWnXBa0e+8pqh4o=;
+        b=Q2wPnsFj2Kknnk3uXUtg9jr8e7ddfDxqBbmQzbvc0vsLG3KNQ/1hjFTHeTJQwT7Qy/
+         oLY59+GgkwqMt1DHBPL8gEIK1yJ6C+XXPmGKkQknufiTpHWgoERSxkqT4q5trPgBdQMg
+         p5xnV3UqOF4mUS8lncE2bKn8UxDbX7/t498n5iN8vKMIw2/Aamcn5HSnotEeKv4FO3Z4
+         WosfRYP4fiu0O1jrFz5O6cLerjKynqPCH+Lsbl6sxuEy4tiBq31TvSrXXScA2AAyODk9
+         CpGZGed7umpyJjJlLVG70gxjo/L1/QKNK9VNK6n96/I/YcOingJpiK6zun9iXocXee1u
+         rZFA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=S5N5R8ch;
-       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BO314SfE;
-       spf=pass (google.com: domain of 010101849ce06c5c-f72a9abc-84c8-497c-a2a3-33a0f50271ff-000000@us-west-2.amazonses.com designates 54.240.27.10 as permitted sender) smtp.mailfrom=010101849ce06c5c-f72a9abc-84c8-497c-a2a3-33a0f50271ff-000000@us-west-2.amazonses.com;
+       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b="Mc3jfAM/";
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=cHBuKxiz;
+       spf=pass (google.com: domain of 010101849ce195a5-6cf4a54f-95d0-42ae-99f3-dbba411cb545-000000@us-west-2.amazonses.com designates 54.240.27.55 as permitted sender) smtp.mailfrom=010101849ce195a5-6cf4a54f-95d0-42ae-99f3-dbba411cb545-000000@us-west-2.amazonses.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=roku.com
-Received: from a27-10.smtp-out.us-west-2.amazonses.com (a27-10.smtp-out.us-west-2.amazonses.com. [54.240.27.10])
-        by gmr-mx.google.com with ESMTPS id t77-20020a1f9150000000b003b758af3b49si727813vkd.5.2022.11.21.17.07.45
+Received: from a27-55.smtp-out.us-west-2.amazonses.com (a27-55.smtp-out.us-west-2.amazonses.com. [54.240.27.55])
+        by gmr-mx.google.com with ESMTPS id s196-20020a2577cd000000b006ddea715dd2si757067ybc.0.2022.11.21.17.09.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 21 Nov 2022 17:07:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of 010101849ce06c5c-f72a9abc-84c8-497c-a2a3-33a0f50271ff-000000@us-west-2.amazonses.com designates 54.240.27.10 as permitted sender) client-ip=54.240.27.10;
-Date: Tue, 22 Nov 2022 01:07:44 +0000
-Message-ID: <010101849ce06c5c-f72a9abc-84c8-497c-a2a3-33a0f50271ff-000000@us-west-2.amazonses.com>
+        Mon, 21 Nov 2022 17:09:01 -0800 (PST)
+Received-SPF: pass (google.com: domain of 010101849ce195a5-6cf4a54f-95d0-42ae-99f3-dbba411cb545-000000@us-west-2.amazonses.com designates 54.240.27.55 as permitted sender) client-ip=54.240.27.55;
+Date: Tue, 22 Nov 2022 01:09:00 +0000
+Message-ID: <010101849ce195a5-6cf4a54f-95d0-42ae-99f3-dbba411cb545-000000@us-west-2.amazonses.com>
 To: bscattergood@roku.com, dmendenhall@roku.com, kcooper@roku.com,
         ksandvik@roku.com, mizhang@roku.com, najain@roku.com, pzhang@roku.com,
         sabellera@roku.com, snahibin@roku.com, tparker@roku.com
-Cc: Andrey@localhost, Ryabinin@localhost, aryabinin@virtuozzo.com,
-        Alexander@localhost, Potapenko@localhost, glider@google.com,
+Cc: Alexander@localhost, Potapenko@localhost, glider@google.com,
         Dmitry@localhost, Vyukov@localhost, dvyukov@google.com,
         kasan-dev@googlegroups.com, Mike@localhost, Rapoport@localhost,
         rppt@linux.ibm.com
 From: no-reply via kasan-dev <kasan-dev@googlegroups.com>
 Reply-To: no-reply@roku.com ((Automation Account))
-Subject: PERFORCE change 3224927: commit ea528d8026798673349b7c7b5e80d5d9560c4f8b
+Subject: PERFORCE change 3224928: commit 328b6cddf9fe4ec86480d7eb7b46d35653781057
 Feedback-ID: 1.us-west-2.J7/CQbUSlVIlOn4fv32wqSnUATrm78Y7YaTj1nfQ4pI=:AmazonSES
-X-SES-Outgoing: 2022.11.22-54.240.27.10
+X-SES-Outgoing: 2022.11.22-54.240.27.55
 X-Original-Sender: no-reply@roku.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7
- header.b=S5N5R8ch;       dkim=pass header.i=@amazonses.com
- header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BO314SfE;       spf=pass
- (google.com: domain of 010101849ce06c5c-f72a9abc-84c8-497c-a2a3-33a0f50271ff-000000@us-west-2.amazonses.com
- designates 54.240.27.10 as permitted sender) smtp.mailfrom=010101849ce06c5c-f72a9abc-84c8-497c-a2a3-33a0f50271ff-000000@us-west-2.amazonses.com;
+ header.b="Mc3jfAM/";       dkim=pass header.i=@amazonses.com
+ header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=cHBuKxiz;       spf=pass
+ (google.com: domain of 010101849ce195a5-6cf4a54f-95d0-42ae-99f3-dbba411cb545-000000@us-west-2.amazonses.com
+ designates 54.240.27.55 as permitted sender) smtp.mailfrom=010101849ce195a5-6cf4a54f-95d0-42ae-99f3-dbba411cb545-000000@us-west-2.amazonses.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=roku.com
 X-Original-From: no-reply@roku.com (Automation Account)
 Content-Type: text/plain; charset="UTF-8"
@@ -135,357 +134,223 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Change 3224927 by automation@source_control_dishonor on 2022/11/22 01:02:35
+Change 3224928 by automation@source_control_dishonor on 2022/11/22 01:02:51
 
-	commit ea528d8026798673349b7c7b5e80d5d9560c4f8b
+	commit 328b6cddf9fe4ec86480d7eb7b46d35653781057
 	Author: Linus Walleij <linus.walleij@linaro.org>
-	Date:   Sun Oct 25 23:53:46 2020 +0100
+	Date:   Sun Oct 25 23:55:16 2020 +0100
 	
-	    ARM: 9015/2: Define the virtual space of KASan's shadow region
+	    ARM: 9016/2: Initialize the mapping of KASan shadow memory
 	    
-	    Define KASAN_SHADOW_OFFSET,KASAN_SHADOW_START and KASAN_SHADOW_END for
-	    the Arm kernel address sanitizer. We are "stealing" lowmem (the 4GB
-	    addressable by a 32bit architecture) out of the virtual address
-	    space to use as shadow memory for KASan as follows:
+	    This patch initializes KASan shadow region's page table and memory.
+	    There are two stage for KASan initializing:
 	    
-	     +----+ 0xffffffff
-	     |    |
-	     |    | |-> Static kernel image (vmlinux) BSS and page table
-	     |    |/
-	     +----+ PAGE_OFFSET
-	     |    |
-	     |    | |->  Loadable kernel modules virtual address space area
-	     |    |/
-	     +----+ MODULES_VADDR = KASAN_SHADOW_END
-	     |    |
-	     |    | |-> The shadow area of kernel virtual address.
-	     |    |/
-	     +----+->  TASK_SIZE (start of kernel space) = KASAN_SHADOW_START the
-	     |    |   shadow address of MODULES_VADDR
-	     |    | |
-	     |    | |
-	     |    | |-> The user space area in lowmem. The kernel address
-	     |    | |   sanitizer do not use this space, nor does it map it.
-	     |    | |
-	     |    | |
-	     |    | |
-	     |    | |
-	     |    |/
-	     ------ 0
+	    1. At early boot stage the whole shadow region is mapped to just
+	       one physical page (kasan_zero_page). It is finished by the function
+	       kasan_early_init which is called by __mmap_switched(arch/arm/kernel/
+	       head-common.S)
 	    
-	    0 .. TASK_SIZE is the memory that can be used by shared
-	    userspace/kernelspace. It us used for userspace processes and for
-	    passing parameters and memory buffers in system calls etc. We do not
-	    need to shadow this area.
+	    2. After the calling of paging_init, we use kasan_zero_page as zero
+	       shadow for some memory that KASan does not need to track, and we
+	       allocate a new shadow space for the other memory that KASan need to
+	       track. These issues are finished by the function kasan_init which is
+	       call by setup_arch.
 	    
-	    KASAN_SHADOW_START:
-	     This value begins with the MODULE_VADDR's shadow address. It is the
-	     start of kernel virtual space. Since we have modules to load, we need
-	     to cover also that area with shadow memory so we can find memory
-	     bugs in modules.
+	    When using KASan we also need to increase the THREAD_SIZE_ORDER
+	    from 1 to 2 as the extra calls for shadow memory uses quite a bit
+	    of stack.
 	    
-	    KASAN_SHADOW_END
-	     This value is the 0x100000000's shadow address: the mapping that would
-	     be after the end of the kernel memory at 0xffffffff. It is the end of
-	     kernel address sanitizer shadow area. It is also the start of the
-	     module area.
+	    As we need to make a temporary copy of the PGD when setting up
+	    shadow memory we create a helpful PGD_SIZE definition for both
+	    LPAE and non-LPAE setups.
 	    
-	    KASAN_SHADOW_OFFSET:
-	     This value is used to map an address to the corresponding shadow
-	     address by the following formula:
+	    The KASan core code unconditionally calls pud_populate() so this
+	    needs to be changed from BUG() to do {} while (0) when building
+	    with KASan enabled.
 	    
-	       shadow_addr = (address >> 3) + KASAN_SHADOW_OFFSET;
+	    After the initial development by Andre Ryabinin several modifications
+	    have been made to this code:
 	    
-	     As you would expect, >> 3 is equal to dividing by 8, meaning each
-	     byte in the shadow memory covers 8 bytes of kernel memory, so one
-	     bit shadow memory per byte of kernel memory is used.
+	    Abbott Liu <liuwenliang@huawei.com>
+	    - Add support ARM LPAE: If LPAE is enabled, KASan shadow region's
+	      mapping table need be copied in the pgd_alloc() function.
+	    - Change kasan_pte_populate,kasan_pmd_populate,kasan_pud_populate,
+	      kasan_pgd_populate from .meminit.text section to .init.text section.
+	      Reported by Florian Fainelli <f.fainelli@gmail.com>
 	    
-	     The KASAN_SHADOW_OFFSET is provided in a Kconfig option depending
-	     on the VMSPLIT layout of the system: the kernel and userspace can
-	     split up lowmem in different ways according to needs, so we calculate
-	     the shadow offset depending on this.
+	    Linus Walleij <linus.walleij@linaro.org>:
+	    - Drop the custom mainpulation of TTBR0 and just use
+	      cpu_switch_mm() to switch the pgd table.
+	    - Adopt to handle 4th level page tabel folding.
+	    - Rewrite the entire page directory and page entry initialization
+	      sequence to be recursive based on ARM64:s kasan_init.c.
 	    
-	    When kasan is enabled, the definition of TASK_SIZE is not an 8-bit
-	    rotated constant, so we need to modify the TASK_SIZE access code in the
-	    *.s file.
+	    Ard Biesheuvel <ardb@kernel.org>:
+	    - Necessary underlying fixes.
+	    - Crucial bug fixes to the memory set-up code.
 	    
-	    The kernel and modules may use different amounts of memory,
-	    according to the VMSPLIT configuration, which in turn
-	    determines the PAGE_OFFSET.
+	    Co-developed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+	    Co-developed-by: Abbott Liu <liuwenliang@huawei.com>
+	    Co-developed-by: Ard Biesheuvel <ardb@kernel.org>
 	    
-	    We use the following KASAN_SHADOW_OFFSETs depending on how the
-	    virtual memory is split up:
-	    
-	    - 0x1f000000 if we have 1G userspace / 3G kernelspace split:
-	      - The kernel address space is 3G (0xc0000000)
-	      - PAGE_OFFSET is then set to 0x40000000 so the kernel static
-	        image (vmlinux) uses addresses 0x40000000 .. 0xffffffff
-	      - On top of that we have the MODULES_VADDR which under
-	        the worst case (using ARM instructions) is
-	        PAGE_OFFSET - 16M (0x01000000) = 0x3f000000
-	        so the modules use addresses 0x3f000000 .. 0x3fffffff
-	      - So the addresses 0x3f000000 .. 0xffffffff need to be
-	        covered with shadow memory. That is 0xc1000000 bytes
-	        of memory.
-	      - 1/8 of that is needed for its shadow memory, so
-	        0x18200000 bytes of shadow memory is needed. We
-	        "steal" that from the remaining lowmem.
-	      - The KASAN_SHADOW_START becomes 0x26e00000, to
-	        KASAN_SHADOW_END at 0x3effffff.
-	      - Now we can calculate the KASAN_SHADOW_OFFSET for any
-	        kernel address as 0x3f000000 needs to map to the first
-	        byte of shadow memory and 0xffffffff needs to map to
-	        the last byte of shadow memory. Since:
-	        SHADOW_ADDR = (address >> 3) + KASAN_SHADOW_OFFSET
-	        0x26e00000 = (0x3f000000 >> 3) + KASAN_SHADOW_OFFSET
-	        KASAN_SHADOW_OFFSET = 0x26e00000 - (0x3f000000 >> 3)
-	        KASAN_SHADOW_OFFSET = 0x26e00000 - 0x07e00000
-	        KASAN_SHADOW_OFFSET = 0x1f000000
-	    
-	    - 0x5f000000 if we have 2G userspace / 2G kernelspace split:
-	      - The kernel space is 2G (0x80000000)
-	      - PAGE_OFFSET is set to 0x80000000 so the kernel static
-	        image uses 0x80000000 .. 0xffffffff.
-	      - On top of that we have the MODULES_VADDR which under
-	        the worst case (using ARM instructions) is
-	        PAGE_OFFSET - 16M (0x01000000) = 0x7f000000
-	        so the modules use addresses 0x7f000000 .. 0x7fffffff
-	      - So the addresses 0x7f000000 .. 0xffffffff need to be
-	        covered with shadow memory. That is 0x81000000 bytes
-	        of memory.
-	      - 1/8 of that is needed for its shadow memory, so
-	        0x10200000 bytes of shadow memory is needed. We
-	        "steal" that from the remaining lowmem.
-	      - The KASAN_SHADOW_START becomes 0x6ee00000, to
-	        KASAN_SHADOW_END at 0x7effffff.
-	      - Now we can calculate the KASAN_SHADOW_OFFSET for any
-	        kernel address as 0x7f000000 needs to map to the first
-	        byte of shadow memory and 0xffffffff needs to map to
-	        the last byte of shadow memory. Since:
-	        SHADOW_ADDR = (address >> 3) + KASAN_SHADOW_OFFSET
-	        0x6ee00000 = (0x7f000000 >> 3) + KASAN_SHADOW_OFFSET
-	        KASAN_SHADOW_OFFSET = 0x6ee00000 - (0x7f000000 >> 3)
-	        KASAN_SHADOW_OFFSET = 0x6ee00000 - 0x0fe00000
-	        KASAN_SHADOW_OFFSET = 0x5f000000
-	    
-	    - 0x9f000000 if we have 3G userspace / 1G kernelspace split,
-	      and this is the default split for ARM:
-	      - The kernel address space is 1GB (0x40000000)
-	      - PAGE_OFFSET is set to 0xc0000000 so the kernel static
-	        image uses 0xc0000000 .. 0xffffffff.
-	      - On top of that we have the MODULES_VADDR which under
-	        the worst case (using ARM instructions) is
-	        PAGE_OFFSET - 16M (0x01000000) = 0xbf000000
-	        so the modules use addresses 0xbf000000 .. 0xbfffffff
-	      - So the addresses 0xbf000000 .. 0xffffffff need to be
-	        covered with shadow memory. That is 0x41000000 bytes
-	        of memory.
-	      - 1/8 of that is needed for its shadow memory, so
-	        0x08200000 bytes of shadow memory is needed. We
-	        "steal" that from the remaining lowmem.
-	      - The KASAN_SHADOW_START becomes 0xb6e00000, to
-	        KASAN_SHADOW_END at 0xbfffffff.
-	      - Now we can calculate the KASAN_SHADOW_OFFSET for any
-	        kernel address as 0xbf000000 needs to map to the first
-	        byte of shadow memory and 0xffffffff needs to map to
-	        the last byte of shadow memory. Since:
-	        SHADOW_ADDR = (address >> 3) + KASAN_SHADOW_OFFSET
-	        0xb6e00000 = (0xbf000000 >> 3) + KASAN_SHADOW_OFFSET
-	        KASAN_SHADOW_OFFSET = 0xb6e00000 - (0xbf000000 >> 3)
-	        KASAN_SHADOW_OFFSET = 0xb6e00000 - 0x17e00000
-	        KASAN_SHADOW_OFFSET = 0x9f000000
-	    
-	    - 0x8f000000 if we have 3G userspace / 1G kernelspace with
-	      full 1 GB low memory (VMSPLIT_3G_OPT):
-	      - The kernel address space is 1GB (0x40000000)
-	      - PAGE_OFFSET is set to 0xb0000000 so the kernel static
-	        image uses 0xb0000000 .. 0xffffffff.
-	      - On top of that we have the MODULES_VADDR which under
-	        the worst case (using ARM instructions) is
-	        PAGE_OFFSET - 16M (0x01000000) = 0xaf000000
-	        so the modules use addresses 0xaf000000 .. 0xaffffff
-	      - So the addresses 0xaf000000 .. 0xffffffff need to be
-	        covered with shadow memory. That is 0x51000000 bytes
-	        of memory.
-	      - 1/8 of that is needed for its shadow memory, so
-	        0x0a200000 bytes of shadow memory is needed. We
-	        "steal" that from the remaining lowmem.
-	      - The KASAN_SHADOW_START becomes 0xa4e00000, to
-	        KASAN_SHADOW_END at 0xaeffffff.
-	      - Now we can calculate the KASAN_SHADOW_OFFSET for any
-	        kernel address as 0xaf000000 needs to map to the first
-	        byte of shadow memory and 0xffffffff needs to map to
-	        the last byte of shadow memory. Since:
-	        SHADOW_ADDR = (address >> 3) + KASAN_SHADOW_OFFSET
-	        0xa4e00000 = (0xaf000000 >> 3) + KASAN_SHADOW_OFFSET
-	        KASAN_SHADOW_OFFSET = 0xa4e00000 - (0xaf000000 >> 3)
-	        KASAN_SHADOW_OFFSET = 0xa4e00000 - 0x15e00000
-	        KASAN_SHADOW_OFFSET = 0x8f000000
-	    
-	    - The default value of 0xffffffff for KASAN_SHADOW_OFFSET
-	      is an error value. We should always match one of the
-	      above shadow offsets.
-	    
-	    When we do this, TASK_SIZE will sometimes get a bit odd values
-	    that will not fit into immediate mov assembly instructions.
-	    To account for this, we need to rewrite some assembly using
-	    TASK_SIZE like this:
-	    
-	    -       mov     r1, #TASK_SIZE
-	    +       ldr     r1, =TASK_SIZE
-	    
-	    or
-	    
-	    -       cmp     r4, #TASK_SIZE
-	    +       ldr     r0, =TASK_SIZE
-	    +       cmp     r4, r0
-	    
-	    this is done to avoid the immediate #TASK_SIZE that need to
-	    fit into a limited number of bits.
-	    
-	    Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
 	    Cc: Alexander Potapenko <glider@google.com>
 	    Cc: Dmitry Vyukov <dvyukov@google.com>
 	    Cc: kasan-dev@googlegroups.com
 	    Cc: Mike Rapoport <rppt@linux.ibm.com>
+	    Acked-by: Mike Rapoport <rppt@linux.ibm.com>
 	    Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
 	    Tested-by: Ard Biesheuvel <ardb@kernel.org> # QEMU/KVM/mach-virt/LPAE/8G
 	    Tested-by: Florian Fainelli <f.fainelli@gmail.com> # Brahma SoCs
 	    Tested-by: Ahmad Fatoum <a.fatoum@pengutronix.de> # i.MX6Q
-	    Reported-by: Ard Biesheuvel <ardb@kernel.org>
+	    Reported-by: Russell King - ARM Linux <rmk+kernel@armlinux.org.uk>
+	    Reported-by: Florian Fainelli <f.fainelli@gmail.com>
+	    Signed-off-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 	    Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
 	    Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+	    Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 	    Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 	    Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
 
 Affected files ...
 
-.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/Documentation/arm/memory.txt#2 edit
-.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/Kconfig#2 edit
-.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/include/asm/kasan_def.h#1 add
-.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/include/asm/memory.h#2 edit
-.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/kernel/entry-armv.S#3 edit
-.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/mm/mmu.c#2 edit
+.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/include/asm/kasan.h#1 add
+.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/include/asm/pgalloc.h#2 edit
+.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/include/asm/thread_info.h#2 edit
+.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/kernel/head-common.S#2 edit
+.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/kernel/setup.c#2 edit
+.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/mm/Makefile#3 edit
+.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/mm/kasan_init.c#1 add
+.. //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/mm/pgd.c#2 edit
 
 Differences ...
 
-==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/Documentation/arm/memory.txt#2 (text) ====
+==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/include/asm/pgalloc.h#2 (text) ====
 
-@@ -68,6 +68,11 @@
- 				Kernel modules inserted via insmod are
- 				placed here using dynamic mappings.
+@@ -27,6 +27,7 @@
+ #define _PAGE_KERNEL_TABLE	(PMD_TYPE_TABLE | PMD_BIT4 | PMD_DOMAIN(DOMAIN_KERNEL))
  
-+TASK_SIZE	MODULES_VADDR-1	KASAn shadow memory when KASan is in use.
-+				The range from MODULES_VADDR to the top
-+				of the memory is shadowed here with 1 bit
-+				per byte of memory.
-+
- 00001000	TASK_SIZE-1	User space mappings
- 				Per-thread mappings are placed here via
- 				the mmap() system call.
-
-==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/Kconfig#2 (text) ====
-
-@@ -1473,6 +1473,15 @@
- 	default 0xB0000000 if VMSPLIT_3G_OPT
- 	default 0xC0000000
+ #ifdef CONFIG_ARM_LPAE
++#define PGD_SIZE		(PTRS_PER_PGD * sizeof(pgd_t))
  
-+config KASAN_SHADOW_OFFSET
-+	hex
-+	depends on KASAN
-+	default 0x1f000000 if PAGE_OFFSET=0x40000000
-+	default 0x5f000000 if PAGE_OFFSET=0x80000000
-+	default 0x9f000000 if PAGE_OFFSET=0xC0000000
-+	default 0x8f000000 if PAGE_OFFSET=0xB0000000
-+	default 0xffffffff
-+
- config NR_CPUS
- 	int "Maximum number of CPUs (2-32)"
- 	range 2 32
-
-==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/include/asm/memory.h#2 (text) ====
-
-@@ -21,6 +21,7 @@
- #ifdef CONFIG_NEED_MACH_MEMORY_H
- #include <mach/memory.h>
- #endif
-+#include <asm/kasan_def.h>
+ static inline pmd_t *pmd_alloc_one(struct mm_struct *mm, unsigned long addr)
+ {
+@@ -50,13 +51,19 @@
+ }
+ 
+ #else	/* !CONFIG_ARM_LPAE */
++#define PGD_SIZE		(PAGE_SIZE << 2)
  
  /*
-  * Allow for constants defined here to be used from assembly code
-@@ -37,7 +38,11 @@
-  * TASK_SIZE - the maximum size of a user space task.
-  * TASK_UNMAPPED_BASE - the lower boundary of the mmap VM area
+  * Since we have only two-level page tables, these are trivial
   */
-+#ifndef CONFIG_KASAN
- #define TASK_SIZE		(UL(CONFIG_PAGE_OFFSET) - UL(SZ_16M))
+ #define pmd_alloc_one(mm,addr)		({ BUG(); ((pmd_t *)2); })
+ #define pmd_free(mm, pmd)		do { } while (0)
++#ifdef CONFIG_KASAN
++/* The KASan core unconditionally calls pud_populate() on all architectures */
++#define pud_populate(mm,pmd,pte)	do { } while (0)
 +#else
-+#define TASK_SIZE		(KASAN_SHADOW_START)
+ #define pud_populate(mm,pmd,pte)	BUG()
 +#endif
- #define TASK_UNMAPPED_BASE	ALIGN(TASK_SIZE / 3, SZ_16M)
+ #define pud_populate_kernel(mm,pmd,pte)	BUG()
  
- /*
+ #endif	/* CONFIG_ARM_LPAE */
 
-==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/kernel/entry-armv.S#3 (text) ====
+==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/include/asm/thread_info.h#2 (text) ====
 
-@@ -280,7 +280,7 @@
+@@ -16,7 +16,15 @@
+ #include <asm/fpstate.h>
+ #include <asm/page.h>
  
- 	get_thread_info tsk
- 	ldr	r0, [tsk, #TI_ADDR_LIMIT]
--	mov	r1, #TASK_SIZE
-+	ldr	r1, =TASK_SIZE
- 	str	r1, [tsk, #TI_ADDR_LIMIT]
- 	str	r0, [sp, #SVC_ADDR_LIMIT]
++#ifdef CONFIG_KASAN
++/*
++ * KASan uses a lot of extra stack space so the thread size order needs to
++ * be increased.
++ */
++#define THREAD_SIZE_ORDER	2
++#else
+ #define THREAD_SIZE_ORDER	1
++#endif
+ #define THREAD_SIZE		(PAGE_SIZE << THREAD_SIZE_ORDER)
+ #define THREAD_START_SP		(THREAD_SIZE - 8)
  
-@@ -537,7 +537,8 @@
- 	@ if it was interrupted in a critical region.  Here we
- 	@ perform a quick test inline since it should be false
- 	@ 99.9999% of the time.  The rest is done out of line.
--	cmp	r4, #TASK_SIZE
-+	ldr	r0, =TASK_SIZE
-+	cmp	r4, r0
- 	blhs	kuser_cmpxchg64_fixup
- #endif
- #endif
 
-==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/mm/mmu.c#2 (text) ====
+==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/kernel/head-common.S#2 (text) ====
 
-@@ -32,6 +32,7 @@
- #include <asm/traps.h>
- #include <asm/procinfo.h>
- #include <asm/memory.h>
-+#include <asm/kasan_def.h>
+@@ -101,6 +101,9 @@
+ 	str	r2, [r6]			@ Save atags pointer
+ 	cmp	r7, #0
+ 	strne	r0, [r7]			@ Save control register values
++#ifdef CONFIG_KASAN
++	bl	kasan_early_init
++#endif
+ 	b	start_kernel
+ ENDPROC(__mmap_switched)
  
- #include <asm/mach/arch.h>
- #include <asm/mach/map.h>
-@@ -1289,8 +1290,25 @@
- 	/*
- 	 * Clear out all the mappings below the kernel image.
- 	 */
+
+==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/kernel/setup.c#2 (text) ====
+
+@@ -62,6 +62,7 @@
+ #include <asm/unwind.h>
+ #include <asm/memblock.h>
+ #include <asm/virt.h>
++#include <asm/kasan.h>
+ 
+ #include "atags.h"
+ 
+@@ -1121,6 +1122,7 @@
+ 	early_ioremap_reset();
+ 
+ 	paging_init(mdesc);
++	kasan_init();
+ 	request_standard_resources(mdesc);
+ 
+ 	if (mdesc->restart)
+
+==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/mm/Makefile#3 (text) ====
+
+@@ -1,6 +1,7 @@
+ #
+ # Makefile for the linux arm-specific parts of the memory manager.
+ #
++ccflags-y += -I$(srctree)/mm/kasan/
+ 
+ obj-y				:= dma-mapping.o extable.o fault.o init.o \
+ 				   iomap.o
+@@ -108,3 +109,6 @@
+ obj-$(CONFIG_CACHE_XSC3L2)	+= cache-xsc3l2.o
+ obj-$(CONFIG_CACHE_TAUROS2)	+= cache-tauros2.o
+ obj-$(CONFIG_CACHE_UNIPHIER)	+= cache-uniphier.o
++
++KASAN_SANITIZE_kasan_init.o	:= n
++obj-$(CONFIG_KASAN)		+= kasan_init.o
+
+==== //depot/firmware/release/main/port/realtek/hank/platform/linux_kernel/arch/arm/mm/pgd.c#2 (text) ====
+
+@@ -64,7 +64,21 @@
+ 	new_pmd = pmd_alloc(mm, new_pud, 0);
+ 	if (!new_pmd)
+ 		goto no_pmd;
+-#endif
 +#ifdef CONFIG_KASAN
 +	/*
-+	 * KASan's shadow memory inserts itself between the TASK_SIZE
-+	 * and MODULES_VADDR. Do not clear the KASan shadow memory mappings.
++	 * Copy PMD table for KASAN shadow mappings.
 +	 */
-+	for (addr = 0; addr < KASAN_SHADOW_START; addr += PMD_SIZE)
-+		pmd_clear(pmd_off_k(addr));
-+	/*
-+	 * Skip over the KASan shadow area. KASAN_SHADOW_END is sometimes
-+	 * equal to MODULES_VADDR and then we exit the pmd clearing. If we
-+	 * are using a thumb-compiled kernel, there there will be 8MB more
-+	 * to clear as KASan always offset to 16 MB below MODULES_VADDR.
-+	 */
-+	for (addr = KASAN_SHADOW_END; addr < MODULES_VADDR; addr += PMD_SIZE)
-+		pmd_clear(pmd_off_k(addr));
-+#else
- 	for (addr = 0; addr < MODULES_VADDR; addr += PMD_SIZE)
- 		pmd_clear(pmd_off_k(addr));
-+#endif
++	init_pgd = pgd_offset_k(TASK_SIZE);
++	init_p4d = p4d_offset(init_pgd, TASK_SIZE);
++	init_pud = pud_offset(init_p4d, TASK_SIZE);
++	init_pmd = pmd_offset(init_pud, TASK_SIZE);
++	new_pmd = pmd_offset(new_pud, TASK_SIZE);
++	memcpy(new_pmd, init_pmd,
++	       (pmd_index(MODULES_VADDR) - pmd_index(TASK_SIZE))
++	       * sizeof(pmd_t));
++	clean_dcache_area(new_pmd, PTRS_PER_PMD * sizeof(pmd_t));
++#endif /* CONFIG_KASAN */
++#endif /* CONFIG_LPAE */
  
- #ifdef CONFIG_XIP_KERNEL
- 	/* The XIP kernel is mapped in the module area -- skip over it */
+ 	if (!vectors_high()) {
+ 		/*
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/010101849ce06c5c-f72a9abc-84c8-497c-a2a3-33a0f50271ff-000000%40us-west-2.amazonses.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/010101849ce195a5-6cf4a54f-95d0-42ae-99f3-dbba411cb545-000000%40us-west-2.amazonses.com.
