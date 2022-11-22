@@ -1,119 +1,172 @@
-Return-Path: <kasan-dev+bncBDTMJ55N44FBBMOY6ONQMGQEVA4O5HQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDF57NG2XIHRBN7G6ONQMGQE3XWTSEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
-	by mail.lfdr.de (Postfix) with ESMTPS id E148863403A
-	for <lists+kasan-dev@lfdr.de>; Tue, 22 Nov 2022 16:35:13 +0100 (CET)
-Received: by mail-ed1-x538.google.com with SMTP id h9-20020a05640250c900b00461d8ee12e2sf9050427edb.23
-        for <lists+kasan-dev@lfdr.de>; Tue, 22 Nov 2022 07:35:13 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1669131313; cv=pass;
+Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA486340C8
+	for <lists+kasan-dev@lfdr.de>; Tue, 22 Nov 2022 17:05:12 +0100 (CET)
+Received: by mail-il1-x13a.google.com with SMTP id x10-20020a056e021bca00b00302b6c0a683sf6757429ilv.23
+        for <lists+kasan-dev@lfdr.de>; Tue, 22 Nov 2022 08:05:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1669133111; cv=pass;
         d=google.com; s=arc-20160816;
-        b=JtMWHePQBCZkUIhL0J374aQeBXU64kNLfzwn4UixBVMxiegkM4sSDcTe66Recr3+8H
-         +Ofgll3YIb0sLLNnyakuGolUL41rguTzTIQt1slR+P17ymnaWBT5TNKGlMzRmo11L4Do
-         4hRElHUKK/aWxMFR37Y7/vhNrDr7dtZs2BgW4Ds1lV8O20V5wHdIHQgGe3fOJqQlYwtK
-         RlPulD9mgL6DgjeorIcDF7Blwd85szL8puMGp06wWNHaTQlZo5TkSLiLCsFe0ayjpnmG
-         Ff7cCg+gm3wh7N73e/ocOI1YL2C5/HZ+ByoaEqx07xjeP0LoVbFp8Aq8ODSo6g+UCq9o
-         ggMA==
+        b=NevDwKsrvLAVSfE50NE4msYSe2FSFknQgiFSCVaMflDZicmYQEAQr8S2aOMx3Nfp0N
+         xdDP7vilJufvJbPyzUUYXFRCWeguJEr3Mdp38CQqeH+7y1GgoPLSUd0YUgDw+BB/v1xO
+         QtfYHesdp/TP3rnvBUuyQJ60u2YovMUZHi/EZx5xa1Mr88IERxlTtd/TNMHV6nH0yxW0
+         aBPSwnpy6K/cpnE2n24Gf9ybso7xTDJcu1MFzLT0lFOeycyE+t2sl8FzJ9p90cwFDG9K
+         t6b3EgUVJ26ZIE1zZcc5l807ohH6mN08V3Q8Kr68wnl/m6CPyGoum2oaYm3bIAQTUJ9B
+         KeAQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=2vqJe8FMJ7YXAUkYmdnzd9LrkxX+Ew6d1z/lzoljRdQ=;
-        b=i/TyO5gOJwvni+2F28eCprRfaxR5H7Nyg0NGEjVI2I0kD3GnGLpVVD6KwSyJ9QJBuB
-         vZ+rs5Yus66WYBPkx6kpmQDGWn96XSj74CH3gArmdWO39DmUi+Bdf86SMSuuMIcjp/yQ
-         ryHEaNxQc/cwUHxT6+SN2OvjHEnhDHAffPZT/HoMq894izpuA/yj1B/mQausnHyYOrWi
-         mBt0n4kaEzLYi4w9UrT1/6C/f5AVBwL42+s0UnylL33K/L3tPqiSouhbSuhCY2DoQBeN
-         PL1GnA01ilE8zV+dWsiUVOaSzWsqmqAjw1LK0Zw7BB1a6/D4Qp3Aeaeq9VMM30Fy0kHj
-         8wTg==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=1mVkB0uqAcqgqE9pjPkEdYuQhS8HKxS53fuhpeBsJVA=;
+        b=PIxpE32ZqU+D/3t2E9pHr6BwspKlMKOfvfIACQYfzCDuYEH7h/El6gfoiradirKnEy
+         qQAcWNfsq/KVJYgDdecXuSgmA+erVp6CXIpjnnREkUCiHsWWjTbiq3ViQL3K2rxAWL8O
+         jC+VBagVuo/NtvfpprPatJV1rRYell+36XiqEl1Dmvz+UiRr4uXORu0mkaP261Vr1ngs
+         g0UGtOD+QFFDVSk+yotZcG8SLiUXVQKvT84lEfgNxbnElEulPBIf/8JSBRF9mIPI3Pmm
+         his7pbuCWv9g4YFAyOE8Qk40/qHZ7ys4VnXMuYiBKNGIj/psWJarHltoqg5iRuaFeJiN
+         Yc4Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.218.53 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
+       dkim=pass header.i=@linaro.org header.s=google header.b=Sxgb7Ndw;
+       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-disposition:mime-version:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2vqJe8FMJ7YXAUkYmdnzd9LrkxX+Ew6d1z/lzoljRdQ=;
-        b=db+8Hwn2hBLNr9yhA7l8+iQ+/V7pRgvYZSGURe4OfYORTaUwHYUlk3XM/7qJiP0u8M
-         VWu2z4TZYkYx1fwRqCCXFnLMX/G5YMtEh9L75iOfdGuANHbdEjobx7hzUOu5AYBzOh8x
-         g9c3YsY+jSRj7IkneLdiZWE+F5tIFpJ0TXFYBCU2o1JYL6wSiRjDeBsqDyCFMoahd8yX
-         Kz3OO+BCA/p4oASNV3MC+SYfM8M1XPTAFvdkrIbBpvedaf2bo/R14OVYUJLIfY4OH2Yu
-         pEf9P8DdFwkE+qgtDeFG2EWaPRfrtb1IDT17OFFHnUjuDVMg3Aa4++8c795R5JfkMnkL
-         qZbA==
+        bh=1mVkB0uqAcqgqE9pjPkEdYuQhS8HKxS53fuhpeBsJVA=;
+        b=bvMfLZQ53+mn64xWm298UoVgpP8EttfXrkdiXmsozbsPDh6fF7eu1NgGAZrrjhjhgd
+         trNWPvvdCWQ78m1LnnNKl0a6aethhZgdju1IZkKqrVpkUOLb+Ad+D714yqdtxtvziANz
+         YLgBSgTw07MhfkstsKsEFtAJcjhMGsAfARbcxhWvnj+LzuLt0CyGkKwRaOJiFRZzgHJc
+         RTeqLZw7ynyhBqQrEHGdcLEczF7dFq2w1RLXWUFvdLZK+GLgd/1Ds4x/eHG/zSEhj48T
+         HgfKwi123orh5GjeY4rETCWv8CtM3LfERMQh5BL3YI6gsWRTGs/Xq0qERDN5/g4FT1Ng
+         H4Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2vqJe8FMJ7YXAUkYmdnzd9LrkxX+Ew6d1z/lzoljRdQ=;
-        b=yC6ZV47T9k+4zl1LC9AjcIcBiByrwgchI1JUFjUY1TqnJL5iIE/DpoXbLwCs9Y5jmF
-         A1xcEhVURlqd9PvM14s90hR4Fb9OeOG2bWuGLF4f3lwkCX/akMbPxKgKugq7pe1YD0X6
-         nrARCkNWC63R8MIra1wMmILa3al+jPacoM7F9ceXv/mF8tKortk6tBumKUw8tVi2rhrg
-         ssW3M4aWRjxJxWGm7VU0489zUO1zPM8FkG4OUjdvYazpHwNKKJ6stxbKgg1mx385y1fq
-         W2LdBaAC6hgb1fqyOM/PjhJ6C1ipehDgqf8YhO86nLE4SOyrHYBmKdMid3B+9dU0Rdhx
-         xYpw==
+        bh=1mVkB0uqAcqgqE9pjPkEdYuQhS8HKxS53fuhpeBsJVA=;
+        b=0a9xNSX8CLvEo+BYrexKknrPtFMiSWUqx4s2bbQ2iNaKrAhbVt5OSYTFtHqQcJuIKV
+         F0Aa4bBYr3Zuq0xj8lFpKPraXXcjVzkbdgjCFsfR8p2gTOZc93aZc5qqgnPfjjim0RNj
+         ZszLPHkdiu8bN4ku9KDoe5y5vRaGlTOHQksSR9Rb0BvKEoiQp8hPbWXFftjcDdDMQS3q
+         k9RT5P5ofJkYOFi/89Gq/u34dgTkUX/JO8xQG0x8KwYVp0zCTGqiiWFRWqTOsuv8USO0
+         WKMNDyVwtDHc8KvICC/dPAWFxWo6Q5BpYFjUTeg+p7lcQuutvdun+FWF4AKBDdFZwy7X
+         AHSw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pmcNYpatGjzr4IYU8VUDKBjN/lvgma7+Hlunxy042CcunSz3CdZ
-	qPMHOCfSbfpAw+HFb9FejY8=
-X-Google-Smtp-Source: AA0mqf5OKr5JAnML0GC5r+4DtqmmRnar8ArkZ37/gDBecBgSWhRSL52WcOXNCgn2gWNqRlFPD7QkyQ==
-X-Received: by 2002:a17:907:7782:b0:7b6:dd6d:b829 with SMTP id ky2-20020a170907778200b007b6dd6db829mr7480039ejc.602.1669131313470;
-        Tue, 22 Nov 2022 07:35:13 -0800 (PST)
+X-Gm-Message-State: ANoB5pkgho6LuCtCvKNog5/prr1TEDEw7eP1sbcoEGPC4Y0tYiwAWc6N
+	EEe3Ne/U4t2pVcQi9HpEefo=
+X-Google-Smtp-Source: AA0mqf6DmjM4znxhW2mBNDMBs6QuL2BwUHpnG3ef9EXett/I0bjBiyuGTg0DOtuU8M/wozq1hV4w6g==
+X-Received: by 2002:a92:d702:0:b0:302:5898:73d1 with SMTP id m2-20020a92d702000000b00302589873d1mr1980310iln.65.1669133111477;
+        Tue, 22 Nov 2022 08:05:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:d184:b0:7ad:9efd:4692 with SMTP id
- c4-20020a170906d18400b007ad9efd4692ls8137430ejz.4.-pod-prod-gmail; Tue, 22
- Nov 2022 07:35:12 -0800 (PST)
-X-Received: by 2002:a17:907:778c:b0:7ad:79c0:4669 with SMTP id ky12-20020a170907778c00b007ad79c04669mr20840153ejc.395.1669131312060;
-        Tue, 22 Nov 2022 07:35:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1669131312; cv=none;
+Received: by 2002:a05:6602:418a:b0:6dd:cccc:38f9 with SMTP id
+ bx10-20020a056602418a00b006ddcccc38f9ls1625808iob.3.-pod-prod-gmail; Tue, 22
+ Nov 2022 08:05:10 -0800 (PST)
+X-Received: by 2002:a6b:c990:0:b0:6dd:807d:89a3 with SMTP id z138-20020a6bc990000000b006dd807d89a3mr2651462iof.33.1669133110879;
+        Tue, 22 Nov 2022 08:05:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1669133110; cv=none;
         d=google.com; s=arc-20160816;
-        b=QHscxCihk6xK0gRAML/RNbRjPu2sgv14/PSBsxKRhhnR8d/OwI5pYUqvq7KFyGqtyT
-         mNhWJBUnnu/uRzNcjAmRET1wRSa1va8Ubh5G3w8eJS0UfjAXVnyvQEfYQjZjfjR/K4cg
-         RHzTHg1WiNdSBdJuswf03fWAOJuRahWCfoiJi98E65oz7oIbhlH2qDZ7ZpjghVyJoWhU
-         gTZqMHrEcZFd1TIRP5c++6YKq3odNYtk2QXI9Tt89FdNqPCKIvXxuhKdFAv25ApQj7HD
-         IsBuFMs9liEF7YNa4W8XwQYul1a0hYcppK4Gpr9A1yanoobQ6H4Dg0HLNNmBsmtLtywz
-         yvew==
+        b=dnl3/F2hrX/in1H9BSL62cK5ch8PgKWv5CQqX7gzYnUUodhEMh56YGtKWmYZzVO09V
+         NGQU02BcYfPFAmtUVKoMIetfQIc21GVNkM81Wht4gD3pzwIvrArNu66c5Ti0Vbkq2AMs
+         D2MGvOnyBOEXDXRtUwfoJ31Ez7ruLn6CZRu+S7hJ5hnw7dSFOlquxmEttDxG3+Yx+DTO
+         Etqt33xzNNpnjofotM+DjrlFahg+io9hh+3QclNWCw7HsDsXeQN7BAf5rb8/qx6wu1ml
+         0Gdsan6rjgtEOL/H1FOAjRVXuhtvldMbDqD+aILX7ywO75CBrrBsyGoisEmi1yUEoJ8y
+         qgCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date;
-        bh=fDnT7JqXXZv6MsZA5D8dFeyNu2TPtZA6obJD/jbd9GE=;
-        b=PoLP1PSIavVwGOx4TbADjI/G0mjdPbqUI6g5KsV92Mbi/SWmoqUA31u7OGZ0773SAa
-         PW9g5gfCPGKcvUza+7LNKhSk/Ph7/qypolzHI98ofCkYvVnxQIBoSsPwW3XvwdNqz71l
-         hR+RvYasruzUfRBJFDe7Qi1UrJ+/+G8kL/Z+aQF1+6uAqNUsoC/vlhqvnJR/jd7qMfJE
-         DvOaaFtSKbjQVvDXoiiuFM+kolIEXKMCf0NwFuHxgC8HJXVR9IsWknDo/kCVG+NBpNfV
-         2RveOrymnJibMFipLtflKndUQ4MhXB/E1dwNYQTrHDSChQb++Xwenk5UPpbB/szNgHJh
-         HdDA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=mKqixJN/8zapPMiYOY0ZA2E36N6vIQg16uLiOxlikFI=;
+        b=kggeAp+iPurXceW8UzCcKD4PB8sUlpDV2SgymxlK82MKIwFOGuSkwc8a9/ycw8wJwT
+         +TpEzBQm73m4LOsnxl4Qs4Bu8xCV2xYRPFP9rHtKfLFYqpq7ZR0bNRT3H97YiH6ToBqu
+         WsRNhvhSu1vAE/g8gr6SIKIrr30KnShGOBnrhFBLWunvIBCie5Pm+6r+Mh0WM+ZNQYaU
+         v6oty1ZOdTLP5797yr5TKqouy7257Q7p+UJotRQcI66n0jWDmjcmz5ROvvpbeIvYmFmF
+         uzOYFrtIsP94F0QpIEGHoUxVDHW2Gj+HTFoTXQabGwSD63g+XUL2cmn/uwW9bAt3eYSH
+         TtuQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.218.53 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com. [209.85.218.53])
-        by gmr-mx.google.com with ESMTPS id a5-20020aa7d905000000b00461ad0b1dc0si487139edr.3.2022.11.22.07.35.12
+       dkim=pass header.i=@linaro.org header.s=google header.b=Sxgb7Ndw;
+       spf=pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com. [2607:f8b0:4864:20::429])
+        by gmr-mx.google.com with ESMTPS id i1-20020a02ca01000000b003750f38186bsi855513jak.1.2022.11.22.08.05.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Nov 2022 07:35:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of breno.debian@gmail.com designates 209.85.218.53 as permitted sender) client-ip=209.85.218.53;
-Received: by mail-ej1-f53.google.com with SMTP id me22so20080632ejb.8
-        for <kasan-dev@googlegroups.com>; Tue, 22 Nov 2022 07:35:12 -0800 (PST)
-X-Received: by 2002:a17:906:dfef:b0:7ae:db2:f10a with SMTP id lc15-20020a170906dfef00b007ae0db2f10amr5276708ejc.709.1669131311119;
-        Tue, 22 Nov 2022 07:35:11 -0800 (PST)
-Received: from gmail.com (fwdproxy-cln-004.fbsv.net. [2a03:2880:31ff:4::face:b00c])
-        by smtp.gmail.com with ESMTPSA id w14-20020a056402070e00b004691de0e25bsm5296060edx.54.2022.11.22.07.35.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 07:35:10 -0800 (PST)
-Date: Tue, 22 Nov 2022 07:35:05 -0800
-From: Breno Leitao <leitao@debian.org>
-To: kasan-dev@googlegroups.com
-Cc: leit@meta.com
-Subject: swapper/0 stalling (RIP: kasan_check_range)
-Message-ID: <Y3zsKcQC2T80A29e@gmail.com>
+        Tue, 22 Nov 2022 08:05:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::429 as permitted sender) client-ip=2607:f8b0:4864:20::429;
+Received: by mail-pf1-x429.google.com with SMTP id g62so14763385pfb.10
+        for <kasan-dev@googlegroups.com>; Tue, 22 Nov 2022 08:05:10 -0800 (PST)
+X-Received: by 2002:a63:501c:0:b0:477:650a:c29a with SMTP id
+ e28-20020a63501c000000b00477650ac29amr3900068pgb.541.1669133109958; Tue, 22
+ Nov 2022 08:05:09 -0800 (PST)
 MIME-Version: 1.0
+References: <20220919095939.761690562@infradead.org> <20220919101521.139727471@infradead.org>
+ <CAPDyKFqTWd4W5Ofk76CtC4X43dxBTNHtmY9YzN355-vpviLsPw@mail.gmail.com> <Y3UBwYNY15ETUKy9@hirez.programming.kicks-ass.net>
+In-Reply-To: <Y3UBwYNY15ETUKy9@hirez.programming.kicks-ass.net>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 22 Nov 2022 17:04:33 +0100
+Message-ID: <CAPDyKFqzmJdVVrcuJ6Hmr5nNgtpd9Oke_exmUKuTGZEb=PjvjQ@mail.gmail.com>
+Subject: Re: [PATCH v2 12/44] cpuidle,dt: Push RCU-idle into driver
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: juri.lelli@redhat.com, rafael@kernel.org, catalin.marinas@arm.com, 
+	linus.walleij@linaro.org, bsegall@google.com, guoren@kernel.org, pavel@ucw.cz, 
+	agordeev@linux.ibm.com, linux-arch@vger.kernel.org, 
+	vincent.guittot@linaro.org, mpe@ellerman.id.au, chenhuacai@kernel.org, 
+	christophe.leroy@csgroup.eu, linux-acpi@vger.kernel.org, agross@kernel.org, 
+	geert@linux-m68k.org, linux-imx@nxp.com, vgupta@kernel.org, 
+	mattst88@gmail.com, mturquette@baylibre.com, sammy@sammy.net, 
+	pmladek@suse.com, linux-pm@vger.kernel.org, 
+	Sascha Hauer <s.hauer@pengutronix.de>, linux-um@lists.infradead.org, npiggin@gmail.com, 
+	tglx@linutronix.de, linux-omap@vger.kernel.org, dietmar.eggemann@arm.com, 
+	andreyknvl@gmail.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	senozhatsky@chromium.org, svens@linux.ibm.com, jolsa@kernel.org, 
+	tj@kernel.org, Andrew Morton <akpm@linux-foundation.org>, mark.rutland@arm.com, 
+	linux-ia64@vger.kernel.org, dave.hansen@linux.intel.com, 
+	virtualization@lists.linux-foundation.org, 
+	James.Bottomley@hansenpartnership.com, jcmvbkbc@gmail.com, 
+	thierry.reding@gmail.com, kernel@xen0n.name, cl@linux.com, 
+	linux-s390@vger.kernel.org, vschneid@redhat.com, john.ogness@linutronix.de, 
+	ysato@users.sourceforge.jp, linux-sh@vger.kernel.org, festevam@gmail.com, 
+	deller@gmx.de, daniel.lezcano@linaro.org, jonathanh@nvidia.com, 
+	dennis@kernel.org, lenb@kernel.org, linux-xtensa@linux-xtensa.org, 
+	kernel@pengutronix.de, gor@linux.ibm.com, linux-arm-msm@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	loongarch@lists.linux.dev, shorne@gmail.com, chris@zankel.net, 
+	sboyd@kernel.org, dinguyen@kernel.org, bristot@redhat.com, 
+	alexander.shishkin@linux.intel.com, fweisbec@gmail.com, lpieralisi@kernel.org, 
+	atishp@atishpatra.org, linux@rasmusvillemoes.dk, kasan-dev@googlegroups.com, 
+	will@kernel.org, boris.ostrovsky@oracle.com, khilman@kernel.org, 
+	linux-csky@vger.kernel.org, pv-drivers@vmware.com, 
+	linux-snps-arc@lists.infradead.org, mgorman@suse.de, 
+	jacob.jun.pan@linux.intel.com, Arnd Bergmann <arnd@arndb.de>, ulli.kroll@googlemail.com, 
+	linux-clk@vger.kernel.org, rostedt@goodmis.org, ink@jurassic.park.msu.ru, 
+	bcain@quicinc.com, tsbogend@alpha.franken.de, linux-parisc@vger.kernel.org, 
+	ryabinin.a.a@gmail.com, sudeep.holla@arm.com, shawnguo@kernel.org, 
+	davem@davemloft.net, dalias@libc.org, tony@atomide.com, amakhalov@vmware.com, 
+	konrad.dybcio@somainline.org, bjorn.andersson@linaro.org, glider@google.com, 
+	hpa@zytor.com, sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, vincenzo.frascino@arm.com, 
+	anton.ivanov@cambridgegreys.com, jonas@southpole.se, yury.norov@gmail.com, 
+	richard@nod.at, x86@kernel.org, linux@armlinux.org.uk, mingo@redhat.com, 
+	aou@eecs.berkeley.edu, hca@linux.ibm.com, richard.henderson@linaro.org, 
+	stefan.kristiansson@saunalahti.fi, openrisc@lists.librecores.org, 
+	acme@kernel.org, paul.walmsley@sifive.com, linux-tegra@vger.kernel.org, 
+	namhyung@kernel.org, andriy.shevchenko@linux.intel.com, jpoimboe@kernel.org, 
+	dvyukov@google.com, jgross@suse.com, monstr@monstr.eu, 
+	linux-mips@vger.kernel.org, palmer@dabbelt.com, anup@brainfault.org, 
+	bp@alien8.de, johannes@sipsolutions.net, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-Original-Sender: leitao@debian.org
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of breno.debian@gmail.com designates 209.85.218.53 as
- permitted sender) smtp.mailfrom=breno.debian@gmail.com
+X-Original-Sender: ulf.hansson@linaro.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linaro.org header.s=google header.b=Sxgb7Ndw;       spf=pass
+ (google.com: domain of ulf.hansson@linaro.org designates 2607:f8b0:4864:20::429
+ as permitted sender) smtp.mailfrom=ulf.hansson@linaro.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -126,43 +179,201 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello,
+On Wed, 16 Nov 2022 at 16:29, Peter Zijlstra <peterz@infradead.org> wrote:
+>
+>
+> Sorry; things keep getting in the way of finishing this :/
+>
+> As such, I need a bit of time to get on-track again..
+>
+> On Tue, Oct 04, 2022 at 01:03:57PM +0200, Ulf Hansson wrote:
+>
+> > > --- a/drivers/acpi/processor_idle.c
+> > > +++ b/drivers/acpi/processor_idle.c
+> > > @@ -1200,6 +1200,8 @@ static int acpi_processor_setup_lpi_stat
+> > >                 state->target_residency = lpi->min_residency;
+> > >                 if (lpi->arch_flags)
+> > >                         state->flags |= CPUIDLE_FLAG_TIMER_STOP;
+> > > +               if (lpi->entry_method == ACPI_CSTATE_FFH)
+> > > +                       state->flags |= CPUIDLE_FLAG_RCU_IDLE;
+> >
+> > I assume the state index here will never be 0?
+> >
+> > If not, it may lead to that acpi_processor_ffh_lpi_enter() may trigger
+> > CPU_PM_CPU_IDLE_ENTER_PARAM() to call ct_cpuidle_enter|exit() for an
+> > idle-state that doesn't have the CPUIDLE_FLAG_RCU_IDLE bit set.
+>
+> I'm not quite sure I see how. AFAICT this condition above implies
+> acpi_processor_ffh_lpi_enter() gets called, no?
+>
+> Which in turn is an unconditional __CPU_PM_CPU_IDLE_ENTER() user, so
+> even if idx==0, it ends up in ct_idle_{enter,exit}().
 
-I am trying KASAN on kernel 6.1-rc6, and I am getting a lot of CPU
-stalls in the swapper/0, and RIP is pointing to the kasan_check_range()
+Seems like I was overlooking something here, you are right, this
+shouldn't really be a problem.
 
-This happens at boot time, and here are a few examples:
+>
+> >
+> > >                 state->enter = acpi_idle_lpi_enter;
+> > >                 drv->safe_state_index = i;
+> > >         }
+> > > --- a/drivers/cpuidle/cpuidle-arm.c
+> > > +++ b/drivers/cpuidle/cpuidle-arm.c
+> > > @@ -53,6 +53,7 @@ static struct cpuidle_driver arm_idle_dr
+> > >          * handler for idle state index 0.
+> > >          */
+> > >         .states[0] = {
+> > > +               .flags                  = CPUIDLE_FLAG_RCU_IDLE,
+> >
+> > Comparing arm64 and arm32 idle-states/idle-drivers, the $subject
+> > series ends up setting the CPUIDLE_FLAG_RCU_IDLE for the ARM WFI idle
+> > state (state zero), but only for the arm64 and psci cases (mostly
+> > arm64). For arm32 we would need to update the ARM_CPUIDLE_WFI_STATE
+> > too, as that is what most arm32 idle-drivers are using. My point is,
+> > the code becomes a bit inconsistent.
+>
+> True.
+>
+> > Perhaps it's easier to avoid setting the CPUIDLE_FLAG_RCU_IDLE bit for
+> > all of the ARM WFI idle states, for both arm64 and arm32?
+>
+> As per the below?
+>
+> >
+> > >                 .enter                  = arm_enter_idle_state,
+> > >                 .exit_latency           = 1,
+> > >                 .target_residency       = 1,
+>
+> > > --- a/include/linux/cpuidle.h
+> > > +++ b/include/linux/cpuidle.h
+> > > @@ -282,14 +282,18 @@ extern s64 cpuidle_governor_latency_req(
+> > >         int __ret = 0;                                                  \
+> > >                                                                         \
+> > >         if (!idx) {                                                     \
+> > > +               ct_idle_enter();                                        \
+> >
+> > According to my comment above, we should then drop these calls to
+> > ct_idle_enter and ct_idle_exit() here. Right?
+>
+> Yes, if we ensure idx==0 never has RCU_IDLE set then these must be
+> removed.
+>
+> > >                 cpu_do_idle();                                          \
+> > > +               ct_idle_exit();                                         \
+> > >                 return idx;                                             \
+> > >         }                                                               \
+> > >                                                                         \
+> > >         if (!is_retention)                                              \
+> > >                 __ret =  cpu_pm_enter();                                \
+> > >         if (!__ret) {                                                   \
+> > > +               ct_idle_enter();                                        \
+> > >                 __ret = low_level_idle_enter(state);                    \
+> > > +               ct_idle_exit();                                         \
+> > >                 if (!is_retention)                                      \
+> > >                         cpu_pm_exit();                                  \
+> > >         }                                                               \
+> > >
+>
+> So the basic premise is that everything that needs RCU inside the idle
+> callback must set CPUIDLE_FLAG_RCU_IDLE and by doing that promise to
+> call ct_idle_{enter,exit}() themselves.
+>
+> Setting RCU_IDLE is required when there is RCU usage, however even if
+> there is no RCU usage, setting RCU_IDLE is fine, as long as
+> ct_idle_{enter,exit}() then get called.
 
-[   37.136063] rcu: INFO: rcu_sched self-detected stall on CPU
-[   37.146062] rcu: 	26-....: (25921 ticks this GP) idle=96fc/1/0x4000000000000000 softirq=382/382 fqs=12577
-[   37.166043] 	(t=26030 jiffies g=-699 q=458415 ncpus=52)
-[   37.176062] CPU: 26 PID: 1 Comm: swapper/0 Not tainted 6.1.0_rc6_geb7081409f94 #1
-[   37.192026] Hardware name: Quanta Delta Lake MP 29F0EMA0714/Delta Lake-Class1, BIOS F0E_3A15 12/27/2021
-[   37.212026] RIP: 0010:kasan_check_range+0x43/0x2a0
+Right, I was thinking that it could make sense to shrink the window
+for users getting this wrong. In other words, we shouldn't set the
+CPUIDLE_FLAG_RCU_IDLE unless we really need to.
 
-and
+And as I said, consistent behaviour is also nice to have.
 
-[  141.928062] watchdog: BUG: soft lockup - CPU#28 stuck for 75s! [swapper/0:1]
-[  141.942089] Modules linked in:
-[  141.948061] irq event stamp: 606
-[  141.954062] hardirqs last  enabled at (605): [<ffffffff82954e7f>] _raw_spin_unlock_irqrestore+0x8f/0x100
-[  141.973026] hardirqs last disabled at (606): [<ffffffff82954c25>] _raw_spin_lock_irqsave+0x85/0xf0
-[  141.991026] softirqs last  enabled at (358): [<ffffffff811545a0>] __irq_exit_rcu+0xe0/0x170
-[  142.007054] softirqs last disabled at (351): [<ffffffff811545a0>] __irq_exit_rcu+0xe0/0x170
-[  142.024063] CPU: 28 PID: 1 Comm: swapper/0 Tainted: G             L     6.1.0_rc6_geb7081409f94 #1
-[  142.044060] Hardware name: Quanta Delta Lake MP 29F0EMA0714/Delta Lake-Class1, BIOS F0E_3A15 12/27/2021
-[  142.063044] RIP: 0010:kasan_check_range+0x3/0x2a0
+>
+>
+> So does the below (delta) look better to you?
 
-Full Log: https://paste.debian.net/1261524/
+Yes, it does!
 
-I am trying to understand how to read it.
-PS: I am enabling other debug options as well, as lockdep, kmemleak,
-etc.
+Although, one minor comment below.
 
-Thank you
-Breno
+>
+> --- a/drivers/acpi/processor_idle.c
+> +++ b/drivers/acpi/processor_idle.c
+> @@ -1218,7 +1218,7 @@ static int acpi_processor_setup_lpi_stat
+>                 state->target_residency = lpi->min_residency;
+>                 if (lpi->arch_flags)
+>                         state->flags |= CPUIDLE_FLAG_TIMER_STOP;
+> -               if (lpi->entry_method == ACPI_CSTATE_FFH)
+> +               if (i != 0 && lpi->entry_method == ACPI_CSTATE_FFH)
+>                         state->flags |= CPUIDLE_FLAG_RCU_IDLE;
+>                 state->enter = acpi_idle_lpi_enter;
+>                 drv->safe_state_index = i;
+> --- a/drivers/cpuidle/cpuidle-arm.c
+> +++ b/drivers/cpuidle/cpuidle-arm.c
+> @@ -53,7 +53,7 @@ static struct cpuidle_driver arm_idle_dr
+>          * handler for idle state index 0.
+>          */
+>         .states[0] = {
+> -               .flags                  = CPUIDLE_FLAG_RCU_IDLE,
+> +               .flags                  = 0,
+
+Nitpick: I don't think we need to explicitly clear the flag, as it
+should already be zeroed by the compiler from its static declaration.
+Right?
+
+>                 .enter                  = arm_enter_idle_state,
+>                 .exit_latency           = 1,
+>                 .target_residency       = 1,
+> --- a/drivers/cpuidle/cpuidle-psci.c
+> +++ b/drivers/cpuidle/cpuidle-psci.c
+> @@ -357,7 +357,7 @@ static int psci_idle_init_cpu(struct dev
+>          * PSCI idle states relies on architectural WFI to be represented as
+>          * state index 0.
+>          */
+> -       drv->states[0].flags = CPUIDLE_FLAG_RCU_IDLE;
+> +       drv->states[0].flags = 0;
+>         drv->states[0].enter = psci_enter_idle_state;
+>         drv->states[0].exit_latency = 1;
+>         drv->states[0].target_residency = 1;
+> --- a/drivers/cpuidle/cpuidle-qcom-spm.c
+> +++ b/drivers/cpuidle/cpuidle-qcom-spm.c
+> @@ -72,7 +72,7 @@ static struct cpuidle_driver qcom_spm_id
+>         .owner = THIS_MODULE,
+>         .states[0] = {
+>                 .enter                  = spm_enter_idle_state,
+> -               .flags                  = CPUIDLE_FLAG_RCU_IDLE,
+> +               .flags                  = 0,
+>                 .exit_latency           = 1,
+>                 .target_residency       = 1,
+>                 .power_usage            = UINT_MAX,
+> --- a/drivers/cpuidle/cpuidle-riscv-sbi.c
+> +++ b/drivers/cpuidle/cpuidle-riscv-sbi.c
+> @@ -337,7 +337,7 @@ static int sbi_cpuidle_init_cpu(struct d
+>         drv->cpumask = (struct cpumask *)cpumask_of(cpu);
+>
+>         /* RISC-V architectural WFI to be represented as state index 0. */
+> -       drv->states[0].flags = CPUIDLE_FLAG_RCU_IDLE;
+> +       drv->states[0].flags = 0;
+>         drv->states[0].enter = sbi_cpuidle_enter_state;
+>         drv->states[0].exit_latency = 1;
+>         drv->states[0].target_residency = 1;
+> --- a/include/linux/cpuidle.h
+> +++ b/include/linux/cpuidle.h
+> @@ -282,9 +282,7 @@ extern s64 cpuidle_governor_latency_req(
+>         int __ret = 0;                                                  \
+>                                                                         \
+>         if (!idx) {                                                     \
+> -               ct_idle_enter();                                        \
+>                 cpu_do_idle();                                          \
+> -               ct_idle_exit();                                         \
+>                 return idx;                                             \
+>         }                                                               \
+>                                                                         \
+
+Kind regards
+Uffe
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y3zsKcQC2T80A29e%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAPDyKFqzmJdVVrcuJ6Hmr5nNgtpd9Oke_exmUKuTGZEb%3DPjvjQ%40mail.gmail.com.
