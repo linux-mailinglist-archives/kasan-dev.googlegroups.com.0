@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCJMBM5G5UCRBBG4SWOAMGQEYTIX74I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJMBM5G5UCRBUO4SWOAMGQEK4DOFFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B18663B7CC
-	for <lists+kasan-dev@lfdr.de>; Tue, 29 Nov 2022 03:27:18 +0100 (CET)
-Received: by mail-pj1-x1038.google.com with SMTP id f4-20020a17090a700400b0021925293dcfsf4440892pjk.8
-        for <lists+kasan-dev@lfdr.de>; Mon, 28 Nov 2022 18:27:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1669688836; cv=pass;
+Received: from mail-vk1-xa3c.google.com (mail-vk1-xa3c.google.com [IPv6:2607:f8b0:4864:20::a3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE1363B7D2
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Nov 2022 03:28:35 +0100 (CET)
+Received: by mail-vk1-xa3c.google.com with SMTP id d130-20020a1f9b88000000b003b87d0db0d9sf5541079vke.15
+        for <lists+kasan-dev@lfdr.de>; Mon, 28 Nov 2022 18:28:35 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1669688913; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uT6HpEOF1jyUleabk+ZHBGcS8sYisfs58DpAmwu7SKZ8TgcFlofXpeAh/v8l49Eb29
-         F6231BaqwaUViv7kaIp3uPp+FsqOCjGkCfjJ5fhlUiEcyfjhpc+XrfcEDCT6uCXUneEn
-         xltIs4YaHSU0KXdv492RKAQYA6QPdAET5J4zc+Bb46A4/UWWIS/kCklf9NuErsdndxN1
-         QUT3dyoKuY4ZMfCnqgG94S/xOQz5dGxDJXr8s5bJ82MWA1d4Y1tkszFgf7k4ohV5prgp
-         I3VIhwu+w5LyBo1XRsW2lHYluVzBgccuSeIOV7N4oTlYvCTHaiODaMOxiII//GCL6Yl/
-         SrOQ==
+        b=lP0bW6MtCghAEi3Zh7rd1e8VIq2Ls8tnTD5PgEvS4TAJvBxssdXixt4bOT6J2lOq2p
+         a5yxmtDlTCcItPRvzTLpPsaK7vRaelirG6Uso6y9nlgmScygL/SJSNtVP+7Tv/5ECBnS
+         UzSpA9Zks12PppG8D0hE+RT5J9fKU0hDExBUGmkiHMo6xMib9qA7MR7ai4KpT14WF0f5
+         lW39IdJnFu4toDyi73L6toeCnNWvjR/dPIJLnMZonnkac5vvZ2pR7MNJmClo7SWedF33
+         5YZPNLjAuGZgtKP9SIiOsnQi3VJT+uVoYM7IXNrDlTmFKd7RzoEfolaqdYb8pm0Eq1tB
+         rtDw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:feedback-id:subject:reply-to:from
          :cc:to:message-id:date:mime-version:dkim-signature;
-        bh=vYN5k7r4IcMk5kyZcP+Qev5g/4EdpDzAMNaF3g+q+w0=;
-        b=Rd3amqRgz9it13BNZ4eTltXew14hxU85GETRwjAc/EzftPFw6zKl6+yZSgPIEaEslq
-         TwYd8ZLzdTGAnVAyJSlCavvcViAYeA2D7fIj2mxcToff468CcUyuav2fYNwKqxxKJIwi
-         fe+ZvIDp0M6iHePf25bFynxzNGLIiFTa4/n1JG1G23v7IavY0ZvNJ4pFwTcYO3FpnH7L
-         QEdwpzA/7is4PMrUDLPJW9/DG0LKd2rRdkX+GYX+J10lloos3JiMfTYUlBVpGUzUtgdk
-         IxQ6yj9jFQ60h7ZP3NYku5Yhx6TkHwYFMeE6zTw5ghRtargt56JWDt09jytzcyi9gKQx
-         KtKA==
+        bh=ZfH7WmtKDOpCS2yKDHaQFRGCVheG1+sqwPqEibzdaL8=;
+        b=Q0+5O493WzTBd/m4vbCaybx+v4fH5uNHDNUBPUoUMrsQHPLjYHxkp8BmYf9NeEl9q0
+         pKNhF3FNdnJgZBjVHQNh5cz6Yyw713XAMZjeGDsG6gzCxm8To0cMfnF6QTYB2GyCbRWw
+         SQXyiBVtaQFAuobsOBD649T7LZQXYj8tPjm35Q5PsBYB+vQgRjuFiehUdDZhm8T4fXrb
+         Z/GFhwpddeKRfq0BabCVckxOCl8NA0RndABNUD8t25nEnHuJZmNSNc83Uo5GptYTsnQl
+         52FSnFh2Hebq+Ekg5S+SntWy6IOwiSxOrWnMAF6XJIsnurF48Mss4dPvG3sCyflBqQ/t
+         HJ7g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=NdJCGoG1;
-       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bapPYSlM;
-       spf=pass (google.com: domain of 01010184c135bb14-cabbfbc6-f261-41c9-ace5-3cd9e4c1472d-000000@us-west-2.amazonses.com designates 54.240.27.56 as permitted sender) smtp.mailfrom=01010184c135bb14-cabbfbc6-f261-41c9-ace5-3cd9e4c1472d-000000@us-west-2.amazonses.com;
+       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=G0cp5LY3;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BhoicpMx;
+       spf=pass (google.com: domain of 01010184c136e7be-adf24c58-e3dd-4430-a7bb-5156b58c148d-000000@us-west-2.amazonses.com designates 54.240.27.185 as permitted sender) smtp.mailfrom=01010184c136e7be-adf24c58-e3dd-4430-a7bb-5156b58c148d-000000@us-west-2.amazonses.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=roku.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:feedback-id:subject:reply-to:from:cc:to
          :message-id:date:mime-version:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vYN5k7r4IcMk5kyZcP+Qev5g/4EdpDzAMNaF3g+q+w0=;
-        b=NsmLIi+J4DR3X8LsHFfz9tkzm0JvNpdtnfA7EqvV86t9OxYNenfqS4pDxvily/fYZS
-         wwFognoDa9TyWkrd+bCnv59Tdd+bbGjfrHlFl4D7fnl+niXP7VFbyBVRcM1hPOU6vf2c
-         eck6+ypnkCEN7mluFUNeOnEveceP33bi1oSDcCjkyq4mZlnsNk1K6MSea7bvNvpg8X31
-         41Nqlgg0FwvVKSTwCkYzaCKhKeNCQPu2FF8GdgOfVLzrllRPv2f40xZQ926EThLwV3iO
-         BxUtQzC/e60Q/PDe+NumKi2kStlijenwMA1vqE9upsHTYK9XDo0wH9uXAO4dgk2ftkCC
-         q7Cw==
+        bh=ZfH7WmtKDOpCS2yKDHaQFRGCVheG1+sqwPqEibzdaL8=;
+        b=X1T5mkvG3MnV9DvszoedWXM4s+/J/tmjzCCxCaMSe9PRO0pRoFd/aTAW3x5tN7I/SI
+         xkxuDtyl4hspx1hxhcXqGRLHpz0Qein+Sc4usxOSgHIvJgcLj+ZL2QAq4Ujhnh2K7h9K
+         iGVhXCIhLPgHj4P8NS3/NlYL8YvUuAmyj1EA2+ZfAPNH7rqtOW2eazn8uKSDlnTTZZr7
+         bRW+vYdLCe74uA7JPe37mWquzcWH+eYcdk0IlBFqnMK5wasTSOQFNzrYIGgHb2Oy3S/w
+         a07bK1Eff/8TnXPR30dVqdxVXTq79aDjsZB9lUn2Ikb8KU5rWVTZ5lxRi4++UXdigmEr
+         1xDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,75 +51,74 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:feedback-id
          :subject:reply-to:from:cc:to:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vYN5k7r4IcMk5kyZcP+Qev5g/4EdpDzAMNaF3g+q+w0=;
-        b=7+OqVoLM53EqcwOFtmsVBOhY3P3eXBmzvupTvLUR4efIvKOrgZeXJ8ez1dCDTz+eWc
-         XnJodZ4fhfHPtqPEA4bj9CE8xhHYMmi58E65n2sHSUAfRP+pxekcFbnmzTvv/VxRsZFy
-         IGw6YCZ6bT542T4ZBA9mdxw75KtHXiTs1dCy3uXszFl70UjMX30EGsnI5tNU+6V36P8R
-         SOoj/qsYl7DvJz9bAxZ/CTlZyOxTuUnCalO13/MUg4DWkBxIBFtCJOO2sV4rR0LmNB6U
-         suNqcrERXreAN7/yTKBFNzEJmB50800p8URFAQdMoWGGjztkBIZJXIeN+IzbtK1gYcKc
-         Pa6Q==
-X-Gm-Message-State: ANoB5pnT7SJgmpPcEuOWTmcFSvjENqS+shErcCrSZDOl65BJwoXwkywG
-	oj07ehKUQKTP/kHKqunRoyg=
-X-Google-Smtp-Source: AA0mqf4Cgo4448zHEjlRpmK0QRK6iPaMWk4qp3t9OEW5D+zf1+UijNCNKmiDGTgZMd2MiApLe2BDaQ==
-X-Received: by 2002:a17:902:a5ca:b0:186:bb48:2b34 with SMTP id t10-20020a170902a5ca00b00186bb482b34mr35793293plq.1.1669688836156;
-        Mon, 28 Nov 2022 18:27:16 -0800 (PST)
+        bh=ZfH7WmtKDOpCS2yKDHaQFRGCVheG1+sqwPqEibzdaL8=;
+        b=ii3pSSBvnVWKJ2U5DZ76PHKvJLcH+VJU701bJRMD0rB8LKHkF7aZJH2kbTZUSvjoj+
+         Rxa2oyCthTvLc1MR0ePAImSrHhCux4lQtyZRak1lMNI/SQyIKmc85Cb2LrGG1b93opbM
+         PTOVv4KBGBMctUWuZd4U9flZnF5izQEluuaJNkBBvdQrP2ZfEndxO87IuBUdZd6DynBO
+         UniPzjNczXlC3lNPsUDhIHwfY+2BVuotgNj/F3EDEwRH5vDoe38TaA7u1DlSNsvuFxwZ
+         8x92mE/H1pdEE37HxKYcJ09at+qlDKw//c5ZTZhciGAhzaP7SutI0AAxL/4sTuWmtqYO
+         8FXQ==
+X-Gm-Message-State: ANoB5pmXlsbYpItjTFGajgZPu4v5oz1OBws3FlTckpd8pAiKpWkYK5JW
+	JAw2h0t22uQ8040VssBrS9U=
+X-Google-Smtp-Source: AA0mqf4bLLpe3vUOUIYyoVaMHEcdywZzjGjx7eUiJOm6NTTv7ZGORmFdqk25dl1xyTnhvdXzOTzopg==
+X-Received: by 2002:a67:ff05:0:b0:3aa:2443:df10 with SMTP id v5-20020a67ff05000000b003aa2443df10mr17945533vsp.80.1669688913722;
+        Mon, 28 Nov 2022 18:28:33 -0800 (PST)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:7181:b0:219:4318:f24e with SMTP id
- i1-20020a17090a718100b002194318f24els2218846pjk.0.-pod-control-gmail; Mon, 28
- Nov 2022 18:27:15 -0800 (PST)
-X-Received: by 2002:a17:90a:94c3:b0:219:e20:9bf7 with SMTP id j3-20020a17090a94c300b002190e209bf7mr19161406pjw.61.1669688835407;
-        Mon, 28 Nov 2022 18:27:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1669688835; cv=none;
+Received: by 2002:a67:c114:0:b0:3aa:190a:9431 with SMTP id d20-20020a67c114000000b003aa190a9431ls2183337vsj.4.-pod-prod-gmail;
+ Mon, 28 Nov 2022 18:28:33 -0800 (PST)
+X-Received: by 2002:a67:73c1:0:b0:3aa:1fd3:129a with SMTP id o184-20020a6773c1000000b003aa1fd3129amr22413305vsc.47.1669688913141;
+        Mon, 28 Nov 2022 18:28:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1669688913; cv=none;
         d=google.com; s=arc-20160816;
-        b=UJLHEyrpAzdKSWH12fdtBSzCUQ0D4828P9M6WjqtLSwhFmtAIAQlmznlKFJxCw7GQF
-         N35yBAI+878cOE02I1S2WVmTMQB8ZbF38gD577B8Vmv3j8H5+/879nXKlds6F+GeHkRQ
-         QaB1ljLWYVKam8ca7uE/uCYhDMmZzRaFMJGNmTWmiJ4ygUSb594KbYZX2DWAsgDuOUeo
-         fY5wl4yL5u/xWJ3UtEC+0nJHKaHKElwarM/H+b3wFOAeJOKcJ3PhqJbtJROYUdvBTlbt
-         vNJGD69LSeaNX77nDuaflpDfgb3bTY3PtPmFIhM+kAukjvb9SrO5hXVWBIXBZm+5CvlD
-         TuUw==
+        b=ORLxZ1n14ENjdCkt9wxdcHRuw4gcNXyMfPenmyyImkpVmoWzBN7s7JdBLX9d0jfaEs
+         DR4CGYJCs0ZQGLcpZAQxNKf4R1W++Ha931hRfnTR5BDv032GuDzLHU4jbg+AYHUiAfbP
+         nh2oRIFyBs1gLHPI+dKA0xCfIu2Llm2Yw8JR77Ojr3DDen5WwaTaYar7J2VzNz7APloP
+         F7NXOcWnwCVbqpNFYH4B8DmHXUtKkxmedsMdkmf91o3H/H2o4uglrI/YdxURu36wlrPw
+         JBTOVLv7IbOkbvTmZeGs7+lhxGv7lPpgV02sH6DJr5guthR1asgPjRWAxENeH3LsONlE
+         DX6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=feedback-id:subject:reply-to:from:cc:to:message-id:date
          :dkim-signature:dkim-signature;
-        bh=TSVkL2mu2rCqOv8hJfy6jmcT0wdoktd3ZvVvQ1FCI7w=;
-        b=YU8dM8OwT8izxIeLN4qkIRjltdpbPlR7S3+j3W1pjZLUKgVAy57p6hUDJriMfEijEM
-         uCLa1OUpgsh3sS9/Rf8MnpGj6Xxno+Tvi2Lp3zEl/XsSRaXRz18gTNVhCcihwVUikYj4
-         8ej4hXxCH3qmb2jD2e/PmVwsOKAvMiGC/GcWtkH8TSQMmJzuR53qQmxlw5fjdAepIoFC
-         VKv2V4kIWFBb8niPJdT2xQN+uoiyFpmv0ZrJtGGyLL9ku3LVnZc4GDhc+47rk6+epek+
-         8xR9x8xS6DUkLt6TWrze+fDbmwkk0DomJTuPF91eAwSADYqs/sfBiQ0MyYcwc1VRgt37
-         40Yw==
+        bh=47xfIPxm9HcRIfDuN9ti/yAWpXbjE6vBgXMp0AgTy7Q=;
+        b=X9V0wHt7I/3u5eqOYRDMXiutoXsoyrafxEPd8TvHslkMhoHIkx51pYcJE1AYbtlKI9
+         uw90yWZahU3wFK+yqcYKzAWor+DEwWsgnzd0PElnDN1bnqvNgti6NeQ/4ZZ0S2+DI9GL
+         Bp9VrEbg5OBngsmb9W9wbEcyGVnlFKCVkF1OtgojATlSorxcqeEUHSNjEEJ/AD0W8KRw
+         fXFvbDkY0qMEO3yzjpxdIrYIYVTiJh9i1fM3X5RRr6vvW36qMS7kPbnQGherg7yJPrLJ
+         i0RdVNzgPYG8AftusJUmgCkJOJKFpo2Y3u5lH12U7XhxtwyeIDXpIy2OX03Xck0G2Phs
+         eBEw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=NdJCGoG1;
-       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bapPYSlM;
-       spf=pass (google.com: domain of 01010184c135bb14-cabbfbc6-f261-41c9-ace5-3cd9e4c1472d-000000@us-west-2.amazonses.com designates 54.240.27.56 as permitted sender) smtp.mailfrom=01010184c135bb14-cabbfbc6-f261-41c9-ace5-3cd9e4c1472d-000000@us-west-2.amazonses.com;
+       dkim=pass header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7 header.b=G0cp5LY3;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BhoicpMx;
+       spf=pass (google.com: domain of 01010184c136e7be-adf24c58-e3dd-4430-a7bb-5156b58c148d-000000@us-west-2.amazonses.com designates 54.240.27.185 as permitted sender) smtp.mailfrom=01010184c136e7be-adf24c58-e3dd-4430-a7bb-5156b58c148d-000000@us-west-2.amazonses.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=roku.com
-Received: from a27-56.smtp-out.us-west-2.amazonses.com (a27-56.smtp-out.us-west-2.amazonses.com. [54.240.27.56])
-        by gmr-mx.google.com with ESMTPS id iw14-20020a170903044e00b00189348ab16fsi833692plb.13.2022.11.28.18.27.15
+Received: from a27-185.smtp-out.us-west-2.amazonses.com (a27-185.smtp-out.us-west-2.amazonses.com. [54.240.27.185])
+        by gmr-mx.google.com with ESMTPS id p143-20020a1f2995000000b003b87d0d4e7bsi719724vkp.1.2022.11.28.18.28.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 28 Nov 2022 18:27:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of 01010184c135bb14-cabbfbc6-f261-41c9-ace5-3cd9e4c1472d-000000@us-west-2.amazonses.com designates 54.240.27.56 as permitted sender) client-ip=54.240.27.56;
-Date: Tue, 29 Nov 2022 02:27:14 +0000
-Message-ID: <01010184c135bb14-cabbfbc6-f261-41c9-ace5-3cd9e4c1472d-000000@us-west-2.amazonses.com>
+        Mon, 28 Nov 2022 18:28:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of 01010184c136e7be-adf24c58-e3dd-4430-a7bb-5156b58c148d-000000@us-west-2.amazonses.com designates 54.240.27.185 as permitted sender) client-ip=54.240.27.185;
+Date: Tue, 29 Nov 2022 02:28:31 +0000
+Message-ID: <01010184c136e7be-adf24c58-e3dd-4430-a7bb-5156b58c148d-000000@us-west-2.amazonses.com>
 To: bscattergood@roku.com, dmendenhall@roku.com, kcooper@roku.com,
         ksandvik@roku.com, mizhang@roku.com, najain@roku.com, pzhang@roku.com,
         sabellera@roku.com, snahibin@roku.com, tparker@roku.com
-Cc: Alexander@localhost, Potapenko@localhost, glider@google.com,
+Cc: Andrey@localhost, Ryabinin@localhost, aryabinin@virtuozzo.com,
+        Alexander@localhost, Potapenko@localhost, glider@google.com,
         Dmitry@localhost, Vyukov@localhost, dvyukov@google.com,
-        kasan-dev@googlegroups.com, Mike@localhost, Rapoport@localhost,
-        rppt@linux.ibm.com
+        kasan-dev@googlegroups.com
 From: no-reply via kasan-dev <kasan-dev@googlegroups.com>
 Reply-To: no-reply@roku.com ((Automation Account))
-Subject: PERFORCE change 3225583: commit 1ab472c27864adb2d693f28a655f169b8c12a646
+Subject: PERFORCE change 3225584: commit 5187f2bb74a5046e1cf9f8c3a6ade89f17ea894c
 Feedback-ID: 1.us-west-2.J7/CQbUSlVIlOn4fv32wqSnUATrm78Y7YaTj1nfQ4pI=:AmazonSES
-X-SES-Outgoing: 2022.11.29-54.240.27.56
+X-SES-Outgoing: 2022.11.29-54.240.27.185
 X-Original-Sender: no-reply@roku.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@roku.com header.s=xgw4ulqzvzh432p4hgzcsfjqyyekywc7
- header.b=NdJCGoG1;       dkim=pass header.i=@amazonses.com
- header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bapPYSlM;       spf=pass
- (google.com: domain of 01010184c135bb14-cabbfbc6-f261-41c9-ace5-3cd9e4c1472d-000000@us-west-2.amazonses.com
- designates 54.240.27.56 as permitted sender) smtp.mailfrom=01010184c135bb14-cabbfbc6-f261-41c9-ace5-3cd9e4c1472d-000000@us-west-2.amazonses.com;
+ header.b=G0cp5LY3;       dkim=pass header.i=@amazonses.com
+ header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BhoicpMx;       spf=pass
+ (google.com: domain of 01010184c136e7be-adf24c58-e3dd-4430-a7bb-5156b58c148d-000000@us-west-2.amazonses.com
+ designates 54.240.27.185 as permitted sender) smtp.mailfrom=01010184c136e7be-adf24c58-e3dd-4430-a7bb-5156b58c148d-000000@us-west-2.amazonses.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=roku.com
 X-Original-From: no-reply@roku.com (Automation Account)
 Content-Type: text/plain; charset="UTF-8"
@@ -135,223 +134,75 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Change 3225583 by automation@source_control_dishonor on 2022/11/29 02:20:43
+Change 3225584 by automation@source_control_dishonor on 2022/11/29 02:20:59
 
-	commit 1ab472c27864adb2d693f28a655f169b8c12a646
+	commit 5187f2bb74a5046e1cf9f8c3a6ade89f17ea894c
 	Author: Linus Walleij <linus.walleij@linaro.org>
-	Date:   Sun Oct 25 23:55:16 2020 +0100
+	Date:   Sun Oct 25 23:56:18 2020 +0100
 	
-	    ARM: 9016/2: Initialize the mapping of KASan shadow memory
+	    ARM: 9017/2: Enable KASan for ARM
 	    
-	    This patch initializes KASan shadow region's page table and memory.
-	    There are two stage for KASan initializing:
+	    This patch enables the kernel address sanitizer for ARM. XIP_KERNEL
+	    has not been tested and is therefore not allowed for now.
 	    
-	    1. At early boot stage the whole shadow region is mapped to just
-	       one physical page (kasan_zero_page). It is finished by the function
-	       kasan_early_init which is called by __mmap_switched(arch/arm/kernel/
-	       head-common.S)
-	    
-	    2. After the calling of paging_init, we use kasan_zero_page as zero
-	       shadow for some memory that KASan does not need to track, and we
-	       allocate a new shadow space for the other memory that KASan need to
-	       track. These issues are finished by the function kasan_init which is
-	       call by setup_arch.
-	    
-	    When using KASan we also need to increase the THREAD_SIZE_ORDER
-	    from 1 to 2 as the extra calls for shadow memory uses quite a bit
-	    of stack.
-	    
-	    As we need to make a temporary copy of the PGD when setting up
-	    shadow memory we create a helpful PGD_SIZE definition for both
-	    LPAE and non-LPAE setups.
-	    
-	    The KASan core code unconditionally calls pud_populate() so this
-	    needs to be changed from BUG() to do {} while (0) when building
-	    with KASan enabled.
-	    
-	    After the initial development by Andre Ryabinin several modifications
-	    have been made to this code:
-	    
-	    Abbott Liu <liuwenliang@huawei.com>
-	    - Add support ARM LPAE: If LPAE is enabled, KASan shadow region's
-	      mapping table need be copied in the pgd_alloc() function.
-	    - Change kasan_pte_populate,kasan_pmd_populate,kasan_pud_populate,
-	      kasan_pgd_populate from .meminit.text section to .init.text section.
-	      Reported by Florian Fainelli <f.fainelli@gmail.com>
-	    
-	    Linus Walleij <linus.walleij@linaro.org>:
-	    - Drop the custom mainpulation of TTBR0 and just use
-	      cpu_switch_mm() to switch the pgd table.
-	    - Adopt to handle 4th level page tabel folding.
-	    - Rewrite the entire page directory and page entry initialization
-	      sequence to be recursive based on ARM64:s kasan_init.c.
-	    
-	    Ard Biesheuvel <ardb@kernel.org>:
-	    - Necessary underlying fixes.
-	    - Crucial bug fixes to the memory set-up code.
-	    
-	    Co-developed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-	    Co-developed-by: Abbott Liu <liuwenliang@huawei.com>
-	    Co-developed-by: Ard Biesheuvel <ardb@kernel.org>
-	    
+	    Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
 	    Cc: Alexander Potapenko <glider@google.com>
 	    Cc: Dmitry Vyukov <dvyukov@google.com>
 	    Cc: kasan-dev@googlegroups.com
-	    Cc: Mike Rapoport <rppt@linux.ibm.com>
-	    Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+	    Acked-by: Dmitry Vyukov <dvyukov@google.com>
 	    Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
 	    Tested-by: Ard Biesheuvel <ardb@kernel.org> # QEMU/KVM/mach-virt/LPAE/8G
 	    Tested-by: Florian Fainelli <f.fainelli@gmail.com> # Brahma SoCs
 	    Tested-by: Ahmad Fatoum <a.fatoum@pengutronix.de> # i.MX6Q
-	    Reported-by: Russell King - ARM Linux <rmk+kernel@armlinux.org.uk>
-	    Reported-by: Florian Fainelli <f.fainelli@gmail.com>
-	    Signed-off-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 	    Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
 	    Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-	    Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 	    Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 	    Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
 
 Affected files ...
 
-.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/include/asm/kasan.h#1 add
-.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/include/asm/pgalloc.h#2 edit
-.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/include/asm/thread_info.h#2 edit
-.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/kernel/head-common.S#2 edit
-.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/kernel/setup.c#2 edit
-.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/mm/Makefile#3 edit
-.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/mm/kasan_init.c#1 add
-.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/mm/pgd.c#2 edit
+.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/Documentation/dev-tools/kasan.rst#2 edit
+.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/Documentation/features/debug/KASAN/arch-support.txt#2 edit
+.. //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/Kconfig#4 edit
 
 Differences ...
 
-==== //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/include/asm/pgalloc.h#2 (text) ====
+==== //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/Documentation/dev-tools/kasan.rst#2 (text) ====
 
-@@ -27,6 +27,7 @@
- #define _PAGE_KERNEL_TABLE	(PMD_TYPE_TABLE | PMD_BIT4 | PMD_DOMAIN(DOMAIN_KERNEL))
+@@ -12,7 +12,7 @@
+ therefore you will need a GCC version 4.9.2 or later. GCC 5.0 or later is
+ required for detection of out-of-bounds accesses to stack or global variables.
  
- #ifdef CONFIG_ARM_LPAE
-+#define PGD_SIZE		(PTRS_PER_PGD * sizeof(pgd_t))
+-Currently KASAN is supported only for the x86_64 and arm64 architectures.
++Currently KASAN is supported only for the x86_64, arm and arm64 architectures.
  
- static inline pmd_t *pmd_alloc_one(struct mm_struct *mm, unsigned long addr)
- {
-@@ -50,13 +51,19 @@
- }
- 
- #else	/* !CONFIG_ARM_LPAE */
-+#define PGD_SIZE		(PAGE_SIZE << 2)
- 
- /*
-  * Since we have only two-level page tables, these are trivial
-  */
- #define pmd_alloc_one(mm,addr)		({ BUG(); ((pmd_t *)2); })
- #define pmd_free(mm, pmd)		do { } while (0)
-+#ifdef CONFIG_KASAN
-+/* The KASan core unconditionally calls pud_populate() on all architectures */
-+#define pud_populate(mm,pmd,pte)	do { } while (0)
-+#else
- #define pud_populate(mm,pmd,pte)	BUG()
-+#endif
- #define pud_populate_kernel(mm,pmd,pte)	BUG()
- 
- #endif	/* CONFIG_ARM_LPAE */
+ Usage
+ -----
 
-==== //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/include/asm/thread_info.h#2 (text) ====
+==== //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/Documentation/features/debug/KASAN/arch-support.txt#2 (text) ====
 
-@@ -16,7 +16,15 @@
- #include <asm/fpstate.h>
- #include <asm/page.h>
- 
-+#ifdef CONFIG_KASAN
-+/*
-+ * KASan uses a lot of extra stack space so the thread size order needs to
-+ * be increased.
-+ */
-+#define THREAD_SIZE_ORDER	2
-+#else
- #define THREAD_SIZE_ORDER	1
-+#endif
- #define THREAD_SIZE		(PAGE_SIZE << THREAD_SIZE_ORDER)
- #define THREAD_START_SP		(THREAD_SIZE - 8)
- 
+@@ -8,7 +8,7 @@
+     -----------------------
+     |       alpha: | TODO |
+     |         arc: | TODO |
+-    |         arm: | TODO |
++    |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |       avr32: | TODO |
+     |    blackfin: | TODO |
 
-==== //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/kernel/head-common.S#2 (text) ====
+==== //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/Kconfig#4 (text) ====
 
-@@ -101,6 +101,9 @@
- 	str	r2, [r6]			@ Save atags pointer
- 	cmp	r7, #0
- 	strne	r0, [r7]			@ Save control register values
-+#ifdef CONFIG_KASAN
-+	bl	kasan_early_init
-+#endif
- 	b	start_kernel
- ENDPROC(__mmap_switched)
- 
-
-==== //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/kernel/setup.c#2 (text) ====
-
-@@ -62,6 +62,7 @@
- #include <asm/unwind.h>
- #include <asm/memblock.h>
- #include <asm/virt.h>
-+#include <asm/kasan.h>
- 
- #include "atags.h"
- 
-@@ -1121,6 +1122,7 @@
- 	early_ioremap_reset();
- 
- 	paging_init(mdesc);
-+	kasan_init();
- 	request_standard_resources(mdesc);
- 
- 	if (mdesc->restart)
-
-==== //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/mm/Makefile#3 (text) ====
-
-@@ -1,6 +1,7 @@
- #
- # Makefile for the linux arm-specific parts of the memory manager.
- #
-+ccflags-y += -I$(srctree)/mm/kasan/
- 
- obj-y				:= dma-mapping.o extable.o fault.o init.o \
- 				   iomap.o
-@@ -108,3 +109,6 @@
- obj-$(CONFIG_CACHE_XSC3L2)	+= cache-xsc3l2.o
- obj-$(CONFIG_CACHE_TAUROS2)	+= cache-tauros2.o
- obj-$(CONFIG_CACHE_UNIPHIER)	+= cache-uniphier.o
-+
-+KASAN_SANITIZE_kasan_init.o	:= n
-+obj-$(CONFIG_KASAN)		+= kasan_init.o
-
-==== //depot/firmware/release/main/port/realtek/stark/platform/linux_kernel/arch/arm/mm/pgd.c#2 (text) ====
-
-@@ -64,7 +64,21 @@
- 	new_pmd = pmd_alloc(mm, new_pud, 0);
- 	if (!new_pmd)
- 		goto no_pmd;
--#endif
-+#ifdef CONFIG_KASAN
-+	/*
-+	 * Copy PMD table for KASAN shadow mappings.
-+	 */
-+	init_pgd = pgd_offset_k(TASK_SIZE);
-+	init_p4d = p4d_offset(init_pgd, TASK_SIZE);
-+	init_pud = pud_offset(init_p4d, TASK_SIZE);
-+	init_pmd = pmd_offset(init_pud, TASK_SIZE);
-+	new_pmd = pmd_offset(new_pud, TASK_SIZE);
-+	memcpy(new_pmd, init_pmd,
-+	       (pmd_index(MODULES_VADDR) - pmd_index(TASK_SIZE))
-+	       * sizeof(pmd_t));
-+	clean_dcache_area(new_pmd, PTRS_PER_PMD * sizeof(pmd_t));
-+#endif /* CONFIG_KASAN */
-+#endif /* CONFIG_LPAE */
- 
- 	if (!vectors_high()) {
- 		/*
+@@ -39,6 +39,7 @@
+ 	select HAVE_ARCH_HARDENED_USERCOPY
+ 	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
+ 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
++	select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
+ 	select HAVE_ARCH_MMAP_RND_BITS if MMU
+ 	select HAVE_ARCH_SECCOMP_FILTER if (AEABI && !OABI_COMPAT)
+ 	select HAVE_ARCH_TRACEHOOK
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/01010184c135bb14-cabbfbc6-f261-41c9-ace5-3cd9e4c1472d-000000%40us-west-2.amazonses.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/01010184c136e7be-adf24c58-e3dd-4430-a7bb-5156b58c148d-000000%40us-west-2.amazonses.com.
