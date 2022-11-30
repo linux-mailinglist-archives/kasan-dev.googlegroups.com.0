@@ -1,145 +1,143 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBU7IT2OAMGQE2NSDXMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCII7JXRXUGBB37OT2OAMGQELWRZMRQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE0E63E107
-	for <lists+kasan-dev@lfdr.de>; Wed, 30 Nov 2022 20:51:49 +0100 (CET)
-Received: by mail-ua1-x937.google.com with SMTP id r3-20020ab04a43000000b0041168b89479sf9883983uae.6
-        for <lists+kasan-dev@lfdr.de>; Wed, 30 Nov 2022 11:51:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1669837908; cv=pass;
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3336D63E118
+	for <lists+kasan-dev@lfdr.de>; Wed, 30 Nov 2022 21:05:04 +0100 (CET)
+Received: by mail-wm1-x338.google.com with SMTP id b47-20020a05600c4aaf00b003d031aeb1b6sf1420255wmp.9
+        for <lists+kasan-dev@lfdr.de>; Wed, 30 Nov 2022 12:05:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1669838703; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ohfVPL5w0aVeP+kNiihH+MKBWKwANhanJ+T565dzbGyuixpSKqyLkT/llcVxRx4lE2
-         LsJJSXezyXOm9PjseNHrz5yxxIZnKB/k1mUORIAnGNPoO2FClebEoylk2SiGMyeHRv5z
-         PCe/aBFFfjVPswtTm8njLGGE+tW6vGjEPu8AxvIxrPN0FWOuIQ5vJ0NLL12UQgXwJfUv
-         6CkiHm2R16/Hhs32qOUpXZZUGqmxqVjsO+dHBhn1pV75W7vjwupuCPUT6MvTyPVta84m
-         rA1J9Mw4HBQPtEu4fznIpZsg1oz03KuuSMU8o5FdanG10SWYuzHOPcLlSe2orTxcoxpf
-         L7Jw==
+        b=XYzkOqwJ7CGiTAAU0xxnpfVAYSy/SCQSL75Ih0BnEIOrHaefb6mysrd9WPo39qBR6w
+         6l6K8qY//OMDiz5DforqYrx5Jm3osM8sVRnLThF4NAUoysEWsGVh8bRQwLTvWmvLo1iN
+         ZPErNQAeUKJqOEgZMncMDAWCbMcjUTeZ0aktwSUlb6QKsG2XhFB7y8ryY6g5QAP4C8sC
+         7LdQ4SadJ3dLgA/a4NbYClfoaEepNBaFb04ZmXm3YgasrPejHu738sqUcQ1cFtX0igOX
+         72zatHB1j8V1fEctT3VpGqaHpvvBnXJaKzv3kGOHrpKWpy6tZUsEn4VhLr5hjhsrc/Bt
+         Th5Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=BE+DomMCzisVM3aE5ybkXAIVwsp9E0SAOMv6U+F3eNU=;
-        b=LCMfObjm7VahuicejfV/KT6GC2+caENiB2yasvxFK+CYcJznGwZ21wb46saD8xas4e
-         jfkPQ4rwhRaIjOyEzc0xAyrV6XQGAxcGRbDeh/uaxWOnMLcQCLYFH/J5+y2yBqxh4K04
-         AHvpmLHXlMgNpfHsN8cqiDRBCSENQcQFukDf0VWgkZB6YrjZVSUcb3WTS3tUuBpasdXy
-         zXIFy3o7vKmmOlYkQ/YVBc2CSQqd7Lu0Yv+kXIIrnKXyp6OYiTdlabIkEkFhsLDRIlf6
-         Qsqhqm6vL096NJHP8lMnEu4kiPSAPQ0UZu7Wviqw4TYNv9rGkCp39rq0rlDNjR3jX/Fp
-         CN1A==
+        bh=L1xwlZ77XfGrlPGNnJSAXT4PLZgwaWU/CyZfjQKnlt4=;
+        b=AAxDIDYJ4afL4tIhM+sPAEVhH5G7a0usCGlFWjpFX8RiCiy6gOfbsDxeWt7iaaWQNx
+         JLK41dOpm4QAUixZH/tdYhtkGQN36Np1jI9j+AzUJD7EzSWDxO1ToclzERxpkvqDUb+Q
+         aTFISbcKo3VlNNpKJkP8o1wG40asDV3GE99liiIh9OmusRH4+V440dSlRXmHWLkeyfEf
+         WoK/AlMQ/WJ5WDCommXmxvUIbuX42aYtyB0Tl7Rnnzkzll6m9zim8EEoGaRAP3JJGfEV
+         VfOcioOPD+gUzycFM9WG4qgFJxQFs4ZoPiaqTGac8vjPAhGsPeUxYM0zpn6fcsmbCb4K
+         TZ3w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=YPf0G8XJ;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::62e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=v2cakNGE;
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=v2cakNGE;
+       spf=pass (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as permitted sender) smtp.mailfrom=asmadeus@codewreck.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=codewreck.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BE+DomMCzisVM3aE5ybkXAIVwsp9E0SAOMv6U+F3eNU=;
-        b=Nyw9TYzeI6g3gN9xm/r9xFviynf7wE6m08RGayoRvFJO45NBF9cv0y7gNS0XTpwlsz
-         Q7vRHr24jioCRO5lHmiOd4IhPowunG5PLy1cmltIONzNu11xKH7++7v/Ve1ezhjGfEA/
-         nuR/mQVGOsfXuj36QGtarG3iyoCNAe6OFGiDAAJr/zWdaD40gzBn8Y0Unjt7t2KIYX1E
-         Od2EbVAco7YuQ9FFrGKF3R8PlFiy9Ca2c6cBzSmHpWnLuRWtQ5GG0DjksxywBk4Vk/Ra
-         KLzFflSAwv/6XN3swFKtl03lvgytlALu+f/yOgSz4iRXvIrsnyGxstec3QHtDgIKBZ16
-         feNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BE+DomMCzisVM3aE5ybkXAIVwsp9E0SAOMv6U+F3eNU=;
-        b=PV/cscDKESbnSrGI0egGJTgUpALKlB3bhwpWb9xWngSYV+KY8/5uHPePawcOWL6LQc
-         1IQVwY2D7rLbmeCb4D/bKEQaLDhxDT6zvjk6tTJkWXwEXkB6sjo1I6xzLyovKQS+fU/Y
-         R/NzrHnyjFGFsWiKnvAqMw2mqd9Ela1HzE8Qi6+lh+73t2gW4FZAY+aENIihQJJ262X5
-         5jtrvVGVaKoiYvssTJyM+qAjmnSWyWFKLiMhQcA92NAU1IU8wKID4WxL3BvagtiDFQqC
-         wBwHz8CC6i1jneuJshBpo/ansdRnoP894bcCFTCTws1AN9j5SktAARQXAQJ4CYcsAsfB
-         LZ5w==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L1xwlZ77XfGrlPGNnJSAXT4PLZgwaWU/CyZfjQKnlt4=;
+        b=Yn0/H6fex0d+TlR6+3NaIFyfZWPJfpFpzThYin05xlccJ+s0JabutSghrRotnLgAo9
+         p8XL+tx/ZRyogRwPZ3Dmdojo+ut8sHNMQpOvNYHmL/kbGYW29fR6nLaoX294qL/Om1Qr
+         QsknE8A8AQ5xoUdVtH7JJ8tSqnBMqUTuACdgslIxe8H7uOcoNW6nu8wJZiyqBKC1OtOU
+         L6UB7DxjFscr92zsHovzXvKjScJBjz14GyAZJf4UFpWT/eQKQBbKdFhqD8Dd3DTptdXD
+         q6hA2ckTcfMOjt5zrtTataLlDEvrbj5oYPfoO3b71RtzDtMVGLhkw6Wa0YLe9Z+REkuP
+         7eJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BE+DomMCzisVM3aE5ybkXAIVwsp9E0SAOMv6U+F3eNU=;
-        b=VLyknk8Ltum3chQyR6Rv8oIEaYvCYMvu/C8oiduaG6FhfqJovqngL1UgFcS+QrVQnX
-         KnVPAoKqwI2kJGXAL0qNan988Bi8zLb2UUMiEMDNHm8ewuuuDxUbhizfBDTTD6ZDBg/x
-         yHKhUnSG3JEX5IFgnWTmnS8/wKzQy6N7Pn5LgGC76XCEjxyT/JWjEfhK/kuuce0Dt08F
-         QLNmtuVUa3eWDexJes+L9//5Qhbb3Xze3BDpQo49zuIm7yLspwBwXAcO5cSyZRkfDp8o
-         ZZ3VmBTNMsdyc3ezg9w3XEONB5gutN0w5Md5y5riI8w0lZ/ZqUK7nPbG/d3z0X7BcJVl
-         xtgA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L1xwlZ77XfGrlPGNnJSAXT4PLZgwaWU/CyZfjQKnlt4=;
+        b=JggEBvxYkWfvDmxK+fUqwGxoycDhlfdExsH5xFgNgtDAEsSWUjn7qBsrroLaVN2osh
+         iUbA07DQyq0W/ycQS8do1IASkM57Z9bd0/4awZZrEN89BJD/AbZjK3RdzoBzUHfediwE
+         02khkrpbLyzQuy1UC5V6k3zkqlsD+3d7Dqq2l+sPbTDf9Zdml/3z2EWuhU0FL7tfPfis
+         XczXOsz+gZU9LJJIDgMeQsJBH/VFyQ//k51YOka5y+/lhUPQGb6csAz6rdip2fViwVql
+         0o0Cx8m3fJFXk9bTF5H+3wprPlgGTXA9kHvkd/pnZjOtPXGBE/oLR14uVFgRXZozeq6c
+         grow==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pngCBCU/idQyRlhpfkXnwh+9AkPS5iGUv67vRGuWco020UFqF/+
-	avWYWRbbCl4M2zPfCv/xquc=
-X-Google-Smtp-Source: AA0mqf6tN7DIFnwH2qF4Zd2WEnBNVRVXsyOlErokICcMZ1I15KbdoDcAWiKeyi9XNkmrmogxQvCjKw==
-X-Received: by 2002:a05:6102:3f8c:b0:3af:c64e:c13a with SMTP id o12-20020a0561023f8c00b003afc64ec13amr26994082vsv.39.1669837907836;
-        Wed, 30 Nov 2022 11:51:47 -0800 (PST)
+X-Gm-Message-State: ANoB5pndJ2O2BbKT5rK6YfXiFnTcPm0e9lH0gWGV3OAZqoznGPP0rB1q
+	b9tvEYS0BQNHi+gSpx901dI=
+X-Google-Smtp-Source: AA0mqf5NX0r7DPkRfWglkaYkSnnaNDdFMXvBtqxyROnnOzT638lVrCWgIHNLZNHyWF/3VzdlQmZlEg==
+X-Received: by 2002:adf:fb01:0:b0:22e:6556:da75 with SMTP id c1-20020adffb01000000b0022e6556da75mr34009273wrr.653.1669838703386;
+        Wed, 30 Nov 2022 12:05:03 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:c51a:0:b0:3b0:e9d9:3013 with SMTP id e26-20020a67c51a000000b003b0e9d93013ls433841vsk.0.-pod-prod-gmail;
- Wed, 30 Nov 2022 11:51:47 -0800 (PST)
-X-Received: by 2002:a67:fdc6:0:b0:3b0:7a41:33e1 with SMTP id l6-20020a67fdc6000000b003b07a4133e1mr19557916vsq.2.1669837906932;
-        Wed, 30 Nov 2022 11:51:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1669837906; cv=none;
+Received: by 2002:adf:d20b:0:b0:228:ddd7:f40e with SMTP id j11-20020adfd20b000000b00228ddd7f40els9244570wrh.3.-pod-prod-gmail;
+ Wed, 30 Nov 2022 12:05:02 -0800 (PST)
+X-Received: by 2002:adf:ed47:0:b0:242:322b:503e with SMTP id u7-20020adfed47000000b00242322b503emr1326257wro.695.1669838702343;
+        Wed, 30 Nov 2022 12:05:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1669838702; cv=none;
         d=google.com; s=arc-20160816;
-        b=p5I3YLP5LUjHHeb5tAx52t3R+C63GVtlv+t6mLjhVvFb6bRTq31c2VA/qe+D3Hsh6e
-         ZQDDd5giYzqlpWzqBSblGP2fH375ajau5GmpyvfOM0hdUQOmyfNrfVsawBodi90GGGPb
-         8smtdTqzOpu+NArNfIvC+uaAdlWDA0GuX9ARj4vfl2KviNmAh+bylfaxS0QU9Mxcht+i
-         xqD2acBoH1Mev/zklvMU+cinbbMaevdn5guMZb9Uj97AQxgo/iMJb/VFDQuSPw8WYVvR
-         kScLxlA46K1mAXNGqRLe7PGniHi3lw7dkKgA89LmKB7MTa7L1miZz3XVfS/JJolpsL1q
-         BXmw==
+        b=xeWefraxrZOv/RKnzUE5vZXhxINmA6Bxs/OY3r+S9EeEgphIN1gPRKjfRU4cD4uCIt
+         nJHDh4WUBqiCu7F1xRzZBrS22a9uc5tc168+3mS/l4K9bwWrTcW3L/zCYe0DI8n4LGbk
+         P0a6p5uio+SL3bRuWDkjneIPoo5z8/hIR94kq0FyfaJCKb13fvtOHepvkRlGdKVU9nxr
+         ILKdx8tZWrv3CX/gXnL/MakoCGSwC0TtnBDZ3T9SNuwiycgubVIDk23Y9KAdGiDUrJqA
+         2Qqh1WUOdXtjSMRhpXNojF1YIpR/kNdK1OMMJt+Yt1+Z+Mdmh3tPKB7bL5+Ore540W9q
+         IoCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=rm61ltPf4IuMIek7hP38S0fd3od46k0u59OV/A4SUFE=;
-        b=BJ5RbgRQm85+vh1tQXlVI6hxeRlmwaebwt26kf3E7mUSOtofeIcR4CbH6om9AlvZUl
-         SzrvA44qyduCLiXbbc1LcwpwsqB+JMxJkMqlHh0OWlwPIIfgO7Xem6/p5MG40Bgjy6Xf
-         U8P3T3kZgF8vsPWwGUwSzM1gB5GhPyAJX23w0djos0RL+jx86tv6c4zA8cuhj4FRx2cf
-         KcVBJIqm8GBLvUxsAXDA5j/qe7ccUTWmoDjdymcaMNd2vh5SjFSQwZZ5pkDz9N2xvs+1
-         1dS6nc05jy+gq4c8Ak0aw3ul58PushlgCj+NNcxisjIHNlNQ13WTb2Z718zzBVX4lamV
-         HLYg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature:dkim-signature;
+        bh=PrVpEb8uC8MO75/KKnPwfTD4c6f26p9EYuEmyToPrZc=;
+        b=FIcHp58sWLpgzyawVeRbmw69bVvCYC/7jrfA+3ls0H3uzBv48DiRlmzDWVy3DRRzfw
+         H+xc5jm4BpLeWsThjiSZFfQpN264wUcVPDlNBVM3F1QZ6NwCgmkGtojWLZpxfPAz+HB0
+         Qs3ptiI5CuAlocjb3QB+T5Ws5QQkfzvhvQ8UbP2MKuWsEXVTGLHxrnB0FIlGjt3MR/5v
+         flpeqcvkkiyaNpBWlPf1AxT1QLKOL7xmr+so30iSmr4LnOC1GIHTj4z4NGeuVTqb9xAh
+         xIJSlYI0XWsigi/hhES+VkDLQdEnvyCq5i3PHGbGDF7KGHnb0DYBVm0ePgqIUIoYG8og
+         1zaQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=YPf0G8XJ;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::62e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com. [2607:f8b0:4864:20::62e])
-        by gmr-mx.google.com with ESMTPS id az10-20020a056102284a00b003a96db77ebbsi128315vsb.0.2022.11.30.11.51.46
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Nov 2022 11:51:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::62e as permitted sender) client-ip=2607:f8b0:4864:20::62e;
-Received: by mail-pl1-x62e.google.com with SMTP id p24so14006899plw.1
-        for <kasan-dev@googlegroups.com>; Wed, 30 Nov 2022 11:51:46 -0800 (PST)
-X-Received: by 2002:a17:90a:5298:b0:217:e054:9ac8 with SMTP id
- w24-20020a17090a529800b00217e0549ac8mr73320400pjh.246.1669837906527; Wed, 30
- Nov 2022 11:51:46 -0800 (PST)
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=v2cakNGE;
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=v2cakNGE;
+       spf=pass (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as permitted sender) smtp.mailfrom=asmadeus@codewreck.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=codewreck.org
+Received: from nautica.notk.org (nautica.notk.org. [91.121.71.147])
+        by gmr-mx.google.com with ESMTPS id bn28-20020a056000061c00b002416691399csi105515wrb.4.2022.11.30.12.05.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Nov 2022 12:05:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as permitted sender) client-ip=91.121.71.147;
+Received: by nautica.notk.org (Postfix, from userid 108)
+	id 6CEC1C01B; Wed, 30 Nov 2022 21:05:10 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on nautica.notk.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.0 required=5.0 tests=UNPARSEABLE_RELAY
+	autolearn=unavailable version=3.3.2
+Received: from odin.codewreck.org (localhost [127.0.0.1])
+	by nautica.notk.org (Postfix) with ESMTPS id 02960C009;
+	Wed, 30 Nov 2022 21:05:06 +0100 (CET)
+Received: from localhost (odin.codewreck.org [local])
+	by odin.codewreck.org (OpenSMTPD) with ESMTPA id 83fc1053;
+	Wed, 30 Nov 2022 20:04:55 +0000 (UTC)
+Date: Thu, 1 Dec 2022 05:04:40 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc: Marco Elver <elver@google.com>, rcu <rcu@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	kunit-dev@googlegroups.com, lkft-triage@lists.linaro.org,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Netdev <netdev@vger.kernel.org>,
+	Anders Roxell <anders.roxell@linaro.org>
+Subject: Re: arm64: allmodconfig: BUG: KCSAN: data-race in p9_client_cb /
+ p9_client_rpc
+Message-ID: <Y4e3WC4UYtszfFBe@codewreck.org>
+References: <CA+G9fYsK5WUxs6p9NaE4e3p7ew_+s0SdW0+FnBgiLWdYYOvoMg@mail.gmail.com>
+ <CANpmjNOQxZ--jXZdqN3tjKE=sd4X6mV4K-PyY40CMZuoB5vQTg@mail.gmail.com>
+ <CA+G9fYs55N3J8TRA557faxvAZSnCTUqnUx+p1GOiCiG+NVfqnw@mail.gmail.com>
 MIME-Version: 1.0
-References: <4c341c5609ed09ad6d52f937eeec28d142ff1f46.1669489329.git.andreyknvl@google.com>
- <CANpmjNODh5mjyPDGpkLyj1MZWHr1eimRSDpX=WYFQRG_sn5JRA@mail.gmail.com>
-In-Reply-To: <CANpmjNODh5mjyPDGpkLyj1MZWHr1eimRSDpX=WYFQRG_sn5JRA@mail.gmail.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Wed, 30 Nov 2022 20:51:35 +0100
-Message-ID: <CA+fCnZeuSVKLy7g9mAiV=2J5eTU6XisFA_byMSqKsopKr7EaQg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kasan: allow sampling page_alloc allocations for HW_TAGS
-To: Marco Elver <elver@google.com>
-Cc: andrey.konovalov@linux.dev, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com, 
-	Peter Collingbourne <pcc@google.com>, Evgenii Stepanov <eugenis@google.com>, Florian Mayer <fmayer@google.com>, 
-	Jann Horn <jannh@google.com>, Mark Brand <markbrand@google.com>, netdev@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+Content-Disposition: inline
+In-Reply-To: <CA+G9fYs55N3J8TRA557faxvAZSnCTUqnUx+p1GOiCiG+NVfqnw@mail.gmail.com>
+X-Original-Sender: asmadeus@codewreck.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=YPf0G8XJ;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::62e
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@codewreck.org header.s=2 header.b=v2cakNGE;       dkim=pass
+ header.i=@codewreck.org header.s=2 header.b=v2cakNGE;       spf=pass
+ (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as
+ permitted sender) smtp.mailfrom=asmadeus@codewreck.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=codewreck.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,64 +150,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-.On Tue, Nov 29, 2022 at 12:30 PM Marco Elver <elver@google.com> wrote:
->
-> On Sat, 26 Nov 2022 at 20:12, <andrey.konovalov@linux.dev> wrote:
+Naresh Kamboju wrote on Wed, Nov 30, 2022 at 09:34:45PM +0530:
+> > > [  424.418214] write to 0xffff00000a753000 of 4 bytes by interrupt on cpu 0:
+> > > [  424.422437]  p9_client_cb+0x84/0x100
 > >
-> > From: Andrey Konovalov <andreyknvl@google.com>
-> >
-> > Add a new boot parameter called kasan.page_alloc.sample, which makes
-> > Hardware Tag-Based KASAN tag only every Nth page_alloc allocation for
-> > allocations marked with __GFP_KASAN_SAMPLE.
->
-> This is new - why was it decided that this is a better design?
+> > Then we can look at git blame of the lines and see if it's new code.
+> 
+> True.
+> Hope that tree and tag could help you get git details.
 
-Sampling all page_alloc allocations (with the suggested frequency of 1
-out of 10) effectively means that KASAN/MTE is no longer mitigation
-for page_alloc corruptions. The idea here was to only apply sampling
-to selected allocations, so that all others are still checked
-deterministically.
+Even with the git tag, if we don't build for the same arch with the same
+compiler version/options and the same .config we aren't likely to have
+identical binaries, so we cannot make sense of these offsets without
+much work.
 
-However, it's hard to say whether this is critical from the security
-perspective. Most exploits today corrupt slab objects, not page_alloc.
+As much as I'd like to investigate a data race in 9p (and geez that code
+has been such a headache from syzbot already so I don't doubt there are
+more), having line numbers is really not optional if we want to scale at
+all.
+If you still have the vmlinux binary from that build (or if you can
+rebuild with the same options), running this text through addr2line
+should not take you too long.
+(You might need to build with at least CONFIG_DEBUG_INFO_REDUCED (or not
+reduced), but that is on by default for aarch64)
 
-> This means we have to go around introducing the GFP_KASAN_SAMPLE flag
-> everywhere where we think it might cause a performance degradation.
->
-> This depends on accurate benchmarks. Yet, not everyone's usecases will
-> be the same. I fear we might end up with marking nearly all frequent
-> and large page-alloc allocations with GFP_KASAN_SAMPLE.
->
-> Is it somehow possible to make the sampling decision more automatic?
->
-> E.g. kasan.page_alloc.sample_order -> only sample page-alloc
-> allocations with order greater or equal to sample_order.
-
-Hm, perhaps this could be a good middle ground between sampling all
-allocations and sprinkling GFP_KASAN_SAMPLE.
-
-Looking at the networking code, most multi-page data allocations are
-done with the order of 3 (either via PAGE_ALLOC_COSTLY_ORDER or
-SKB_FRAG_PAGE_ORDER). So this would be the required minimum value for
-kasan.page_alloc.sample_order to alleviate the performance impact for
-the networking workloads.
-
-I measured the number of allocations for each order from 0 to 8 during
-boot in my test build:
-
-7299 867 318 206 86 8 7 5 2
-
-So sampling with kasan.page_alloc.sample_order=3 would affect only ~7%
-of page_alloc allocations that happen normally, which is not bad. (Of
-course, if an attacker can control the size of the allocation, they
-can increase the order to enable sampling.)
-
-I'll do some more testing and either send a v3 with this approach or
-get back to this discussion.
-
-Thanks for the suggestion!
+--
+Dominique
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZeuSVKLy7g9mAiV%3D2J5eTU6XisFA_byMSqKsopKr7EaQg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y4e3WC4UYtszfFBe%40codewreck.org.
