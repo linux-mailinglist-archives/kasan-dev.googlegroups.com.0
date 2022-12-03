@@ -1,137 +1,145 @@
-Return-Path: <kasan-dev+bncBAABBGOIVSOAMGQECUPLZSY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCII7JXRXUGBBJG2VWOAMGQEP6V7PQA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BBB6415C0
-	for <lists+kasan-dev@lfdr.de>; Sat,  3 Dec 2022 11:25:30 +0100 (CET)
-Received: by mail-yb1-xb39.google.com with SMTP id m62-20020a25d441000000b006f1ccc0feffsf7651202ybf.9
-        for <lists+kasan-dev@lfdr.de>; Sat, 03 Dec 2022 02:25:30 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1670063129; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9718E64178A
+	for <lists+kasan-dev@lfdr.de>; Sat,  3 Dec 2022 16:37:09 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id e15-20020a05651c038f00b0027740a4e92fsf1645088ljp.16
+        for <lists+kasan-dev@lfdr.de>; Sat, 03 Dec 2022 07:37:09 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1670081829; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fJ8UCmOGs8qdcciBEyxaHIj/pAJ0LjaiqrJWWRUctNjqT0laK3SZHi/s0WL7uFIP4L
-         yG2tL+Jt7nfP8IXnlwNez05DVKajHUMJ8887WLOWJe02UIM0/rzRpMVY5uUDwjzZzb5/
-         gFN2kPXQn2EYhQTTsaQ2SFz8ZXvy0emqnbXM3jduZXco1BSYSqkpbe3XfrHenOr+45FH
-         X2unysZw6Hdj4FH7E9mN1RbSnnFkM+qnuEe+dXH24SiN8wLXybpV+pMfRE8ZKW7WQgUh
-         hYdSyOdjqNt1mXvRGzOxMcTxuigdSUkjDeeA+g9hFQB7W/se/IlByMqpc3LNAJy//CG2
-         /9iw==
+        b=ETjPaQYAdJx9aouZ6RgZoWG346ZfqjqKT25JygT7wBsz255fuauYw2c2HjzguCg2G2
+         g8+vu3mcW5PRrUuYfuUXTf0LMYpJP4nzgcXWeubhZ+JXw3f5GjJdb/MaYjV79/JsGrJi
+         ATA7zUdYm/gecE92oOMOfXddLJJ1Yvsjk9rrW+o146Nok490iiw+FJFIBlyYiLwS9dQC
+         Gypm+bZHpwQ0NdoRe9N7m+MF2I/XWyGvkGvNeWOENMDrF7rTM/UUbdq1hBOaHp/jr242
+         JwbxOzCtk3GYIXiqi+FOO/Cf7xQ1cXG7xWKCCKgZL/ssgytnQUfgtOrl5DJjZTy/eiq1
+         lTsA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:date:subject:cc:to
-         :from:message-id:sender:dkim-signature;
-        bh=8C5/ntG9HyHZW9jkdlImrhwZreJxczIBKJrv+nn4Wrg=;
-        b=Bkp79980joOQh12/kUVtxmdrICQj+DpLBC8JTZ8uzuCFMzzEKKOETBaCz/fuy1EZYK
-         9C4yyefq9PLL96Z0XT7HyM+FgzrcTvV5NWpZOQNry6w7WJ/8dEMLH14oekZgnP7hyatb
-         oVWc78Srucb9a210bx813s8o3N73JkbV6Dk47BT8C0lK5Ns/erk1psZk6BRnu3+cnG9q
-         gsRmZN01BW0VCHg1SY4gFjYa9SMfFgmOhjnjQNVkVEK6NJfV+fnSKwnVF5ARlmlSk6RY
-         aA7HiHOgk3vCIAZi40knHvCLHnHFQC22pJD6eTKp3MqCl1/vdrKCRlK3+AWriPQBdaoz
-         j09A==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=/46lRvSNNSCOjMW2zo/k0ChBuI0BMsyaDeRqExnheTg=;
+        b=LMNFvTKxFP3DTtPs1UM6IWXOI1f4H5bQORwiXQ1Spb5qpMNYDG9m8sgq4/UBtDWmLV
+         rvYT7P588tYReYmyLWrW5EVIksksl79V0qcu9d83nf1xxgqeGMAWgX0KKzOT/2xSRElk
+         tIvWXL50aFFODgKWcBCc0uHXu0v+NinDNTMfJzwwr7QqKD1L6tlzv82P1Xjclp1ukK01
+         u5QuQU1JkW1pfk6WqeEgPW9plGUPJCqGQXsuYfeHxjCGXvjgiqXf5CLfX13mg970tDrr
+         GwaKROqpC7bxD8n9zVoNyyqlA+CZuIs82XSmHneTdkCAzXOi9D4OCoQPvgW9gU/EpvaQ
+         zXKQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@foxmail.com header.s=s201512 header.b=T8ZazCWM;
-       spf=pass (google.com: domain of rtoax@foxmail.com designates 203.205.221.191 as permitted sender) smtp.mailfrom=rtoax@foxmail.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=foxmail.com
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=WriWQeJs;
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=unUT9ds9;
+       spf=pass (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as permitted sender) smtp.mailfrom=asmadeus@codewreck.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=codewreck.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:date:subject:cc:to:from:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=8C5/ntG9HyHZW9jkdlImrhwZreJxczIBKJrv+nn4Wrg=;
-        b=pNLrP7FKIn7LCvPaXcmR+dlA/lin/wn+TJS21bGDJEvQTk6mveZGhlXmNsOxzzyj7e
-         curQnL/n2QeMpjrVoo7jGZeVr3H8Nw1J5iz2oOryN8GAq7x4lkMVu6bQaZj2iZJOdtYk
-         7f4Fiwt+ebjMvFb7wN55cbjQbfNJGURhgQgxFm46tEBKXCLI5hbybp/sXCHrJ5LijHra
-         LI1U6QYZ9ylQ1+xow0L6xgTSMcbmYJv3ZxySN2dNGZFMaXGJJ+grvowiVWw3vU/sXQUU
-         yQfHHxER4JJfdxIRoNtiSpOXhx8XYD96Tqdvn+ZjriySWGEDtpd+/ke5UWBtLx0obf/p
-         +SIg==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/46lRvSNNSCOjMW2zo/k0ChBuI0BMsyaDeRqExnheTg=;
+        b=LOHbyVwYSnKcSnFPeYCHk49THDddmOKtp1PKIVu+1i9U+H5/u0ZUukavwzpYTZ/jCM
+         lnOgdHLTyYh1eD9s7wYwjmR3FsYkxdYtN5BOzxtYR6i82XDm+gBxsnB+C9OpZ7ftHut5
+         RaLvF5+qBk51bvbdfyOEWmc3hOxZxBqXrkuwpclwNJVEs9qGX6MlCYuZ/rmvwcuSNiQW
+         YUhkqitDXQI/NurLtDJIlaO1Y7DOrbZ5RHbMeXwYbOLexzzuSfRt2kccjC3KBPHxCjvz
+         P50ktlh9i8ZdwtMSK4ffXmAkuaCoheMG3GOsb5ZZlZEPvveGqbrmXN8cdUGFeOGhlGtO
+         9dZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :date:subject:cc:to:from:message-id:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8C5/ntG9HyHZW9jkdlImrhwZreJxczIBKJrv+nn4Wrg=;
-        b=UCKbyRqmZ4RNT2BXpJyxca05mRrc+Do/j0Fn4xWqQ9GIHPn8vazSMD5BP427s6qnYs
-         F1wydIuleoLekSr6JhPbmaoe3IPSU5VyWcPCDiaKoEFB4Z0b51n0lVesM+ZcLNqHLE7s
-         7iOPu4kpICkZ0aSRQlJ96CRDp1f7IV5ewW5LY+zQLZ7CW0h5E7BTuUE81ai6s/mcV195
-         dS0AaPS0xszPdhPeH42XpOwrl5NMUDqcx4FtXE9o+PqKG15Dsgej0iAt4zsMSWO8jwF7
-         BxJ7HjaiTioE3zhYkybxI4YgUw+hHjQzVcFoGkxWLNlZpvgk5tstxN1PhiFfWEn8rzvU
-         Q5kQ==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/46lRvSNNSCOjMW2zo/k0ChBuI0BMsyaDeRqExnheTg=;
+        b=MDQ25jLr//V4g0ck9Fa1ozQ4JcEFAw+RadaUfrPgEWXB2o5HS2kMqR4yHRutZDNs9B
+         SNoLCFR6bvEp0UtAikIKKOnMYpKj8gYJyhK5/8igvZVFcsx0cH4iOOT1UnUa6vxQvoWC
+         Z3nMA12B1wqFQem0xU+doery0/zC/dfmiCXuiAbRJcd8FkfsP5cJO/GJ0MKAgkFs/iqa
+         1FEF+nGDSPDxsO3IjOeRWdWm6YnWLq3ktiz5XVy4Q7wvmxx49N+0tB/HsxqIYAiDazNE
+         rANb0yABp/pNahJUMxUx3qTXU9o2TRJlP9l9fDtjEPiCH/4sqD0JuY9FRmsCrNcYu8ge
+         b79Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5plN0Gny5dH6J+w3x42wfGsWENs5khqsqdl5LiZWmsMBh8SXVHNu
-	Em6asjKSNNlXPhav8dk9JsU=
-X-Google-Smtp-Source: AA0mqf6tdOaRKzW1wO+WDbZqWYoGLsLVpA+A/uJkSD4L1sQXM3eYzWq7NuVmQdUEnBy5FdYUXwdgTg==
-X-Received: by 2002:a0d:e6c4:0:b0:3bc:7270:cb70 with SMTP id p187-20020a0de6c4000000b003bc7270cb70mr36792106ywe.83.1670063129251;
-        Sat, 03 Dec 2022 02:25:29 -0800 (PST)
+X-Gm-Message-State: ANoB5pm5QRluNzoGJ1XjjMD0sVHWQPQYWKxR6XEQl8+x/2/NEi0k15Ej
+	4yqEdzJf7wmDtg/dsFTaZvw=
+X-Google-Smtp-Source: AA0mqf4NQZwyInNjF8ELm2JotyPXIx2K/cEcmhHsthS9wElxGF9rpVTuYRSuPl9om8fuVlXUjeVVyA==
+X-Received: by 2002:a2e:a265:0:b0:26d:ee99:93b4 with SMTP id k5-20020a2ea265000000b0026dee9993b4mr19313669ljm.329.1670081828661;
+        Sat, 03 Dec 2022 07:37:08 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:dc52:0:b0:6f0:36f1:bf78 with SMTP id y79-20020a25dc52000000b006f036f1bf78ls565745ybe.6.-pod-prod-gmail;
- Sat, 03 Dec 2022 02:25:28 -0800 (PST)
-X-Received: by 2002:a25:d906:0:b0:6f9:bd14:f0b4 with SMTP id q6-20020a25d906000000b006f9bd14f0b4mr17711320ybg.408.1670063128754;
-        Sat, 03 Dec 2022 02:25:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1670063128; cv=none;
+Received: by 2002:a2e:a26b:0:b0:277:22e9:929f with SMTP id k11-20020a2ea26b000000b0027722e9929fls196978ljm.5.-pod-prod-gmail;
+ Sat, 03 Dec 2022 07:37:07 -0800 (PST)
+X-Received: by 2002:a05:651c:503:b0:277:dba:2f65 with SMTP id o3-20020a05651c050300b002770dba2f65mr19746701ljp.201.1670081827240;
+        Sat, 03 Dec 2022 07:37:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1670081827; cv=none;
         d=google.com; s=arc-20160816;
-        b=sB8ZdnWXbgDWiylTdZmzZYnagQT6cqySNSgTboPbGTp2dvpbG5+T3y7EEIgjU1BbvQ
-         hzXUep/FtCbHzKgzLiylXaO2YzaEXIOdhvqcTFgywNwneQbSVS6JoPinWrSe1SKual07
-         CpIj9RQlvgFtZv+WWBO5t5YGBc4X69doz5JngJk8KnUhJ4fOd+fETWLhk0+3v0tOpbcE
-         UIQC5Oogl7lOgdHS5Vcz2YwzB2nO7zsJyBEVLoY1bkoks1+rEKMppxvw9uzGvCV8WGMB
-         8BWHYfSy9aAw+73LCza5kApBlb2mCSSDd+ms5KW4dBWQQboUTiTTX1lwSmIijmIBYIDv
-         laBQ==
+        b=KDvVmSt40zUpyJ1KrFLAc2TvgnUr7saWohyYzUdC5iMbuXN12uAGRKqbFc9asZ4EBy
+         RrIubcqJtsLy+cV23BLO0ow2eqvy9InMMqQkV6bV/MJUNFLOF1zO1723R3HDHHuBm4eZ
+         AXzOLoTXdMs/oXX3vsQjFxfd+WQuVGkRUyf0uOaI9Bw/jBwZinDArA+a1YImgb9oIbx/
+         8kgN6ZxnIl1eOkr3NrznW9BB8KGqOQA6O9ve/xbUT+WCCSxVeIrOPSQ0gbyFQsqWCZUy
+         vxGo3TvnYdKhJMGePLOryoZ4kJYNT0PyYkbbKnBzYUGGHXH6sOlNpEMSpv/cXBoV4vz0
+         2/Ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:date:subject:cc:to:from
-         :message-id:dkim-signature;
-        bh=kjhHL5Y9sg0vFwa2Ffv/y68ja0+Pkp5Gy+WmvouEaXs=;
-        b=yW1EoACK8KXWI+eK2VsuB1/3nH1Y5bsVv2WC6GBUDxYpU+LgQcHFIQbT9bg8og0b2z
-         tm+FBQGRrD1iPHlzgP+VEDsA1aa978i0Pws/dGuBcmVB4wawF3Mqn7+RaG7Hl8Qq0bpx
-         FdMix9TtFMxUbiB/XTxaUdf7BroZcCYcEDXdW9RzxYkai3fFB6j93jZmhlK2gBWI+OZH
-         DLOUFKGNPGpzvRw6z2W3hs7hq+dV646KzKaLmIdxvAMZuB6mcGWNehD+8g5WXnBFTnUg
-         IkaUAU8OjclWugtiMcqr39irH+YBkzzUpwyWQeM4etCRCo8q8v/560wu1RGXy9+RROC2
-         P+vw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature:dkim-signature;
+        bh=8+/C65NBDY0v0RW89Yk+KvRuOiE5ckvyFprjWMjz5YY=;
+        b=0anfxT5RmhA53U6+g2SdhotdWqsJDHuvcpWAVD1Pcn9WbovAirUK+hqTD8GEXDsLIV
+         dHpBEGc+aszeisHXoJ+QJ6ICfyt2pdxGJRetgCZFVco6bApGQylznJD8vGTW1Fv47dZe
+         dJi+YJwXWYmoaguXC3DCHV5hvOrGaJ4KYtWeusd0o8oHmTOs9CpCp8Ln0OgkSHHdCWYc
+         AFo1t3SDtekvLywOVrvR97MzcX0j3RjRu5HfVu1L9swkYFlnfgzMBZQ2snHqFSe780eu
+         vOByXyR+XJy4d8UfvYqlwHKlFdWjQlCN3Y3BdGEWen4g4Gas93evAW8DnFclmQeRZWX6
+         Pjfg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@foxmail.com header.s=s201512 header.b=T8ZazCWM;
-       spf=pass (google.com: domain of rtoax@foxmail.com designates 203.205.221.191 as permitted sender) smtp.mailfrom=rtoax@foxmail.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=foxmail.com
-Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com. [203.205.221.191])
-        by gmr-mx.google.com with ESMTPS id bo19-20020a05690c059300b0035786664d22si20355ywb.1.2022.12.03.02.25.28
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 03 Dec 2022 02:25:28 -0800 (PST)
-Received-SPF: pass (google.com: domain of rtoax@foxmail.com designates 203.205.221.191 as permitted sender) client-ip=203.205.221.191;
-Received: from rtoax.. ([111.199.188.128])
-	by newxmesmtplogicsvrszc1-0.qq.com (NewEsmtp) with SMTP
-	id 657AD691; Sat, 03 Dec 2022 18:25:23 +0800
-X-QQ-mid: xmsmtpt1670063123t00503lin
-Message-ID: <tencent_922CA94B789587D79FD154445D035AA19E07@qq.com>
-X-QQ-XMAILINFO: Mm/8i8/T4yne99HUiRiR+7VHSIfb9B6KG4/kMJ956O6iWoBr0lzjkRVw5BOQt8
-	 lly3r7XEeO2nB4Ah1Ins8CUyyHCTwADPbYKsg4dLFLtuMZu3xo4xxhhzOVhrfBVCzufA2A3y8uHx
-	 a3m4q/8AEcX/OXxx78c/5PVJTvntV0HVXbZuoI6e6jpPBSPDBmiOUB80HppIbjOuAhVym8akXpSu
-	 JIW1whbTl1iPHaYuZitQmX4FSlbC60YJjyyOcv3FG4s/NLC09999Y94F0fHefpzYHjQg2cQ+Szb8
-	 S+B/DZST0RZIS0ULdUaNREQWP4/Dg20NmnFzBoKfium47pkiW+eHFBcW2WaDHsBD5C2KbxnziL7Z
-	 LWHJ9Q3Yl0F170d2LFTygeVKFP+lVt3zLzkjrU5s2nQ5sAZUQvFsfU9ul5ltKDeC/GrmGBgSknUB
-	 229kOrpL4xyUa3kez6D9zKQLrZ+sFo6PEy5SQB1gncFqZIjGTPXTqv/w1zgQLiAOlRe1MC0v318M
-	 Uez2pRvXlHb2yFwhlutf04IMYlpfqS2BCF+oEOHsETQucMoIwsyngmssS7uTCWVh4wDquA921qYU
-	 UvBrC26CUdkj5R1Iz4zaTXcBilO5bDkkQjWvvwDW2oXST6Ex6z/WVMfyCH5pu/n5qblq+Cw2H3Vn
-	 lZgZHQa31ZPeGsZITP8ubynwZZB605vnqHAIBTBjkUUQUJBx1qIwqJXvrMO4+HmHpx4OoodiHKC9
-	 WVDprKp2yYh5ZR2CB4NtWcod1h2P3Q8L0ucZQohjyHOKLzQcKzvkXkVozyF6nZlPawdUJCi5QKN2
-	 LeNe13LI6hjQbkc78pb7rVvhp4NUUzEBhpMoi05Qvq6WIg0ixvrBhiEd0/tkZcCrgVhVNPV843lS
-	 hqsvPUk823GSzlUc6PblRmgPpIV1e8ebMXXpywwEsNidbkCtawTrNsx0p7nv+itpi94Ajlhi4LMh
-	 2NiY6HDwoM3fBMARifsEJayMDhlDWAvJfIIU13FOo=
-From: Rong Tao <rtoax@foxmail.com>
-To: dvyukov@google.com
-Cc: Rong Tao <rongtao@cestc.cn>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	kasan-dev@googlegroups.com (open list:KCOV),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] kcov: fix spelling typos in comments
-Date: Sat,  3 Dec 2022 18:25:21 +0800
-X-OQ-MSGID: <20221203102522.25347-1-rtoax@foxmail.com>
-X-Mailer: git-send-email 2.38.1
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=WriWQeJs;
+       dkim=pass header.i=@codewreck.org header.s=2 header.b=unUT9ds9;
+       spf=pass (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as permitted sender) smtp.mailfrom=asmadeus@codewreck.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=codewreck.org
+Received: from nautica.notk.org (nautica.notk.org. [91.121.71.147])
+        by gmr-mx.google.com with ESMTPS id p14-20020a2ea4ce000000b0027760dd5b20si411568ljm.3.2022.12.03.07.37.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 03 Dec 2022 07:37:07 -0800 (PST)
+Received-SPF: pass (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as permitted sender) client-ip=91.121.71.147;
+Received: by nautica.notk.org (Postfix, from userid 108)
+	id 78299C01C; Sat,  3 Dec 2022 16:37:15 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on nautica.notk.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.0 required=5.0 tests=UNPARSEABLE_RELAY
+	autolearn=unavailable version=3.3.2
+Received: from odin.codewreck.org (localhost [127.0.0.1])
+	by nautica.notk.org (Postfix) with ESMTPS id 2E939C009;
+	Sat,  3 Dec 2022 16:37:10 +0100 (CET)
+Received: from localhost (odin.codewreck.org [local])
+	by odin.codewreck.org (OpenSMTPD) with ESMTPA id 2ef2e6a7;
+	Sat, 3 Dec 2022 15:36:58 +0000 (UTC)
+Date: Sun, 4 Dec 2022 00:36:43 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc: Marco Elver <elver@google.com>, rcu <rcu@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	kunit-dev@googlegroups.com, lkft-triage@lists.linaro.org,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Netdev <netdev@vger.kernel.org>,
+	Anders Roxell <anders.roxell@linaro.org>
+Subject: Re: arm64: allmodconfig: BUG: KCSAN: data-race in p9_client_cb /
+ p9_client_rpc
+Message-ID: <Y4ttC/qESg7Np9mR@codewreck.org>
+References: <CA+G9fYsK5WUxs6p9NaE4e3p7ew_+s0SdW0+FnBgiLWdYYOvoMg@mail.gmail.com>
+ <CANpmjNOQxZ--jXZdqN3tjKE=sd4X6mV4K-PyY40CMZuoB5vQTg@mail.gmail.com>
+ <CA+G9fYs55N3J8TRA557faxvAZSnCTUqnUx+p1GOiCiG+NVfqnw@mail.gmail.com>
+ <Y4e3WC4UYtszfFBe@codewreck.org>
+ <CA+G9fYuJZ1C3802+uLvqJYMjGged36wyW+G1HZJLzrtmbi1bJA@mail.gmail.com>
 MIME-Version: 1.0
-X-Original-Sender: rtoax@foxmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@foxmail.com header.s=s201512 header.b=T8ZazCWM;       spf=pass
- (google.com: domain of rtoax@foxmail.com designates 203.205.221.191 as
- permitted sender) smtp.mailfrom=rtoax@foxmail.com;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=foxmail.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <CA+G9fYuJZ1C3802+uLvqJYMjGged36wyW+G1HZJLzrtmbi1bJA@mail.gmail.com>
+X-Original-Sender: asmadeus@codewreck.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@codewreck.org header.s=2 header.b=WriWQeJs;       dkim=pass
+ header.i=@codewreck.org header.s=2 header.b=unUT9ds9;       spf=pass
+ (google.com: domain of asmadeus@codewreck.org designates 91.121.71.147 as
+ permitted sender) smtp.mailfrom=asmadeus@codewreck.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=codewreck.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,32 +152,132 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Rong Tao <rongtao@cestc.cn>
+(reply out of order)
 
-Fix the typo of 'suport' in kcov.h
+Naresh Kamboju wrote on Thu, Dec 01, 2022 at 01:13:25PM +0530:
+> > (You might need to build with at least CONFIG_DEBUG_INFO_REDUCED (or not
+> > reduced), but that is on by default for aarch64)
+> 
+> Thanks for the suggestions.
+> The Kconfig is enabled now.
+> CONFIG_DEBUG_INFO_REDUCED=y
 
-Signed-off-by: Rong Tao <rongtao@cestc.cn>
+It looks enabled in your the config file you linked at, I don't
+understand this remark?
+Did you produce the trace the other day without it and rebuild the
+kernel with it?
+In this case you also have CONFIG_DEBUG_INFO_SPLIT set, so the vmlinux
+file does not contain enough informations to retrieve line numbers or
+types, and in particular addr2line cannot be used on the files you
+provided.
+I've never used split debug infos before, but digging old threads I'm
+not too hopeful unless that changed:
+https://lkml.iu.edu/hypermail/linux/kernel/1711.1/03393.html
+https://sourceware.org/bugzilla/show_bug.cgi?id=22434
+
+(...a test build later, it's still mostly useless...
+normal build
+$ ./scripts/faddr2line vmlinux __schedule+0x314
+__schedule+0x314/0x6c0:
+perf_fetch_caller_regs at include/linux/perf_event.h:1286
+(inlined by) __perf_sw_event_sched at include/linux/perf_event.h:1307
+(inlined by) perf_event_task_sched_out at include/linux/perf_event.h:1347
+(inlined by) prepare_task_switch at kernel/sched/core.c:5053
+(inlined by) context_switch at kernel/sched/core.c:5195
+(inlined by) __schedule at kernel/sched/core.c:6561
+
+split dwarf build
+$ ./scripts/faddr2line vmlinux __schedule+0x314
+aarch64-linux-gnu-addr2line: DWARF error: could not find abbrev number 860923
+__schedule+0x314/0x780:
+aarch64-linux-gnu-addr2line: DWARF error: could not find abbrev number 860923
+__schedule at core.c:?
+
+I'd tend to agree build time/space savings aren't worth the developer
+time.
+)
+
+Anyway, address sanitizer used to have a kasan_symbolize.py script but
+it looks like it got removed as no longer maintained, and I'm not sure
+what's a good tool to just run these logs through nowadays, might want
+to ask other test projects folks what they use...
+
+> > If you still have the vmlinux binary from that build (or if you can
+> > rebuild with the same options), running this text through addr2line
+> > should not take you too long.
+> 
+> Please find build artifacts in this link,
+>  - config
+>  - vmlinux
+>  - System.map
+> https://people.linaro.org/~anders.roxell/next-20221130-allmodconfig-arm64-tuxmake-build/
+
+So from the disassembly...
+
+ - p9_client_cb+0x84 is right before the wake_up and after the wmb(), so
+I assume we're on writing req->status line 441:
+
 ---
- include/linux/kcov.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+p9_client_cb(...)
+{
+...
+        smp_wmb();
+        req->status = status;
 
-diff --git a/include/linux/kcov.h b/include/linux/kcov.h
-index 55dc338f6bcd..ee04256f28af 100644
---- a/include/linux/kcov.h
-+++ b/include/linux/kcov.h
-@@ -56,7 +56,7 @@ static inline void kcov_remote_start_usb(u64 id)
- /*
-  * The softirq flavor of kcov_remote_*() functions is introduced as a temporary
-  * work around for kcov's lack of nested remote coverage sections support in
-- * task context. Adding suport for nested sections is tracked in:
-+ * task context. Adding support for nested sections is tracked in:
-  * https://bugzilla.kernel.org/show_bug.cgi?id=210337
-  */
+        wake_up(&req->wq);
+---
+
+report is about a write from 2 to 3, this makes sense we're going from
+REQ_STATUS_SENT (2) to REQ_STATUS_RCVD (3).
+
+
+ - p9_client_rpc+0x1d0 isn't as simple to pin down as I'm having a hard
+time making sense of the kcsan instrumentations...
+The report is talking about a READ of 4 bytes at the same address, so
+I'd expect to see an ccess to req->status (and we're likely spot on
+wait_event_killable which checks req->status), but this doesn't seem to
+match up with the assembly: here's the excerpt from disass around 0x1d0
+= 464 (why doesn't gdb provide hex offsets..)
+---
+   0xffff80000a46e9b8 <+440>:	cmn	w28, #0x200
+   0xffff80000a46e9bc <+444>:	ccmn	w28, #0xe, #0x4, ne  // ne = any
+   0xffff80000a46e9c0 <+448>:	b.eq	0xffff80000a46ecfc <p9_client_rpc+1276>  // b.none
+   0xffff80000a46e9c4 <+452>:	mov	x0, x25
+   0xffff80000a46e9c8 <+456>:	bl	0xffff800008543640 <__tsan_write4>
+   0xffff80000a46e9cc <+460>:	mov	w0, #0x2                   	// #2
+   0xffff80000a46e9d0 <+464>:	str	w0, [x21, #88]
+   0xffff80000a46e9d4 <+468>:	b	0xffff80000a46ecfc <p9_client_rpc+1276>
+   0xffff80000a46e9d8 <+472>:	mov	w27, #0x1                   	// #1
+   0xffff80000a46e9dc <+476>:	mov	x0, x23
+   0xffff80000a46e9e0 <+480>:	mov	w1, #0x2bc                 	// #700
+   0xffff80000a46e9e4 <+484>:	bl	0xffff800008192d80 <__might_sleep>
+---
+
++464 is a write to x21 (client 'c', from looking at how it is passed
+into x0 for other function calls) at offset 88 (status field according
+to dwarf infos from a rebuild with your config/same sources)
+
+So, err, I'm a bit lost on this side.
+But I can't really find a problem with what KCSAN complains about --
+we are indeed accessing status from two threads without any locks.
+Instead of a lock, we're using a barrier so that:
+ - recv thread/cb: writes to req stuff || write to req status
+ - p9_client_rpc: reads req status || reads other fields from req
+
+Which has been working well enough (at least, without the barrier things
+blow up quite fast).
+
+So can I'll just consider this a false positive, but if someone knows
+how much one can read into this that'd be appreciated.
+
+
+Thanks,
+--
+Dominique
+
  
--- 
-2.38.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/tencent_922CA94B789587D79FD154445D035AA19E07%40qq.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y4ttC/qESg7Np9mR%40codewreck.org.
