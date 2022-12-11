@@ -1,142 +1,149 @@
-Return-Path: <kasan-dev+bncBDB3VRMVXIPRBTET26OAMGQE5QOKEPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCW4XEU3YIIRBYUZ3GOAMGQE3DNDXFI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77022649424
-	for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 13:15:09 +0100 (CET)
-Received: by mail-wm1-x337.google.com with SMTP id n8-20020a05600c294800b003d1cc68889dsf960876wmd.7
-        for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 04:15:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1670760909; cv=pass;
+Received: from mail-ed1-x53e.google.com (mail-ed1-x53e.google.com [IPv6:2a00:1450:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFC9649687
+	for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 22:34:27 +0100 (CET)
+Received: by mail-ed1-x53e.google.com with SMTP id w15-20020a05640234cf00b0046d32d7b153sf3960990edc.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 13:34:27 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1670794466; cv=pass;
         d=google.com; s=arc-20160816;
-        b=v1NP7fJiayJBeQRCAyPm3ogrRQ6OQTL4TZB+PYqGjQ/1rlOxX8NJqFoHpridiZPOJg
-         RNzA2iXbRdf0MNsUrgJDv+RM36fR38ySiro8LltaM9HdGpA3rleofpAChusk1lBSnbyE
-         2iRKXtWD4R8isOBgg36kDtUMdzBFW3dnG97JMY0WlqCvWQU4kx0cfAD5mZCpaamkEMFi
-         fHmzUG0L4TdUZtnmq6dlbo0q+eUlvbKgM5DC7ZU91Qlvhj4nm8gZjD4mE1Wci7g5VI5l
-         /CFyqPLy1FZCvqMXmn201E7ZByBha5jobsQGXAvUK7XnjBGdlPAWPXS2WhT3SN2UoiRV
-         pBkA==
+        b=qXI8m4IhkBQV5qc7V68sEcA9432/CaxuoAZPZT51NbN8+xZrhmnFsh3nJQUelopYXc
+         F7opCvE5QNjL74LjY0IBXnam+0vk9PoK/srCuYzcXxAad92/pXOqjDJWIEqlpK7akDRd
+         XPchsgwzKFo5lRNanlaqdp4VAE9YPfOm86STax9NTN3bLeXbnWA/+ONo0DqeWQ5MBuev
+         W1XVXg5yYu7gvhos5d5Vvny6dzhKOcM9Pw4R5UB4p2IF9qSpwwC29fTdFOv28MJf5A0Z
+         +5qZpS0+pYtWp1VaqPxePj4Ojk/2wcfRIYG/0Or7huXT8X5KbA0ZdGxrrdQoOHWGUepT
+         JItg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id
+         :list-id:mailing-list:precedence:in-reply-to:mime-version:references
+         :message-id:subject:cc:to:from:date:feedback-id:sender
          :dkim-signature;
-        bh=Gw4HWEZX+flXtgVJpBy3dSKR+7lT9p3ZHhVjUn5fl/4=;
-        b=Rc6Vz11IW+jM9Zf3S78Yy5ya8zPrwqXpv0wp1NSM6hKx5yhSRmgPFnmL8A5c26uu97
-         Bb1EvPSu7ymQ1p7xHF2IcGgst4kRN+J5wCLY/K/5yYW1SL3LrNGikWL4GAicqYLFa2E4
-         y50+ARmBgX6zUDppxExdkln1I2A4T7zadn2X+6c1cTzOUt/HLi9nfgcFp7KbxiUEZaHO
-         n1G0GhXrHnK/cWq+WpBZE+vuU5LLCo+Dh2rO6wnrrw1joKgLmJyVTkPeC5i3ckiLvMrg
-         ycsQq1qBtuA9FB0qFzPdSQQbswPNGay1qqgHi6MbxQiGOI68xHb1f39Ak37hwmLKUgig
-         rgCg==
+        bh=h9Q1i4hIdU/E3nlQyNMODMHAvMDWZyrov34ZiWe5wMg=;
+        b=xSQerWyq5QIHVcRCjhybPd+ehkTrp7wrXouKxDrrWly2nVkqmKEQUqYaiT+A6oPcY7
+         A+Kz89eDXMR4oGJH8rcJTIaver21mr3DoKyA77PWzs2Ld3CelEu7+A3FQ/5yPh2OT6+s
+         Np0AT06jNTv2SuTN/BFp17X7YaKyTc2rbZ+A8KmseGIKr565vNsZRwT3H50aHGKp5iGS
+         +BR7CnbX57wannr2xWFH8YolcbunwVuBBDHwHCYA55io04ye0z9AxYSADh3fYuaMF2d0
+         rOIdySGMJcy8l/Ytzc+hUgSus1qGaG57CRztpyzAEPIMPGGU3G8rsqEWkhxievgpNI4T
+         kmGQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=YK7Hyy+5;
-       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.28 as permitted sender) smtp.mailfrom=jgross@suse.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+       dkim=pass header.i=@invisiblethingslab.com header.s=fm1 header.b=Q3EnF85w;
+       dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ebyAHeuk;
+       spf=neutral (google.com: 64.147.123.19 is neither permitted nor denied by best guess record for domain of demi@invisiblethingslab.com) smtp.mailfrom=demi@invisiblethingslab.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:subject:from:cc
-         :to:content-language:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Gw4HWEZX+flXtgVJpBy3dSKR+7lT9p3ZHhVjUn5fl/4=;
-        b=sOdv0ncGPrXRrSSbm+Eo/FISrPwrVbgQ+KQwBOv5dD2h3JMhx8TOjTHozkNzCyo7S2
-         qeoPlW0joPN1P5MzVKnl1u1j6P0BRuTREhbNeELTBh0d88AIhYsUgYUVqTCenf+BK1+4
-         3D46t41B2dqNInFvDD7lE25K5ukyh9mEa+xt5Y+CVyo9Rggk6xhcUpci7yUzWfk57vJ6
-         Eg1Ervb7XJAOYV9tTJA7KC0pL0boqVD6pRbBZU2F7r2fA1eLtz8Vdrp8gRotzMN07eP5
-         U3Y/bVM7HOqLKkFEBK+E85Iz8GBglRLCOWBVUFMMew0ZYRddLWN7t1E3ESQHyQd+pU2E
-         HDGw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h9Q1i4hIdU/E3nlQyNMODMHAvMDWZyrov34ZiWe5wMg=;
+        b=Xytt5sccDYMvwB432sieola/OBTxcp0j/1y9yD37nqSFjRp0j9j5blelW9ig6zjPco
+         YkblMR8AuHZE0dilSg852Kk6xCDc/H0qeCiKfQQ4FwveQW2a/wyHZCHi75gxzcis3+xB
+         viQeo7o+AKNClhInsNGXC2tzi2hqyobHG349Grb5cx/N7rn45c7mtJ/URFo2Odt+GhRB
+         M/ea1Tp6YcRY+EBj/kSREEkFNeuF82nPT/i69vrjbEchfuKo0GE1eOT9uupKZ5DADuo2
+         BiuKUi2H3S09CHvNz/nxoraQsBao2XlhBXZwlty7/c1HEWfxIG/dRo1qqtIfcwD4cxTG
+         HaRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:subject:from:cc
-         :to:content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gw4HWEZX+flXtgVJpBy3dSKR+7lT9p3ZHhVjUn5fl/4=;
-        b=s8e6ttWpw7ed7A7KCavYdjOAuL/Kl2E1PjSHrdowBfL65/gSFyqlQgfRbz+NMuWQNP
-         TQ1Ai1q4Mk9sb3eaA/xgvM7uvfCq0Mx6ZHl2l156RUjLixbSTyAkUf28k+o9UleHZrb7
-         6U8MRyn8oVzXnsnZNlvk8hXMtuM3iEv4zTBwF8YOvXXm/TuAvIYSTy6zoS2Edx+0eSOT
-         lASYskj4s2SqK4Cs90dA/PNFUCjfknLO8RmJvRA0p+tYxIOCgQ3xwTeeHOvmSsFRTa2H
-         43/DrFct+i3UIYtnAFeLvGLlg/92NmjMXElrFwmE9+IU5kLV/fS5jX94x+WE/GH06icU
-         l+uA==
-X-Gm-Message-State: ANoB5pmrdYn4vocY5Pout47XWpZ6jB/aTQBhPhRbzCjiYQtv5x7/XnDk
-	/0Vc2249cSO/rtJ8h/7jNjQ=
-X-Google-Smtp-Source: AA0mqf41UsGnIiWRAuwOzvv0mfaXDJKD+kkQV77tYoIxh+8M1XRIPToqOSSz8p1rme4+omjdO0HHrQ==
-X-Received: by 2002:a05:6000:1d8b:b0:242:750a:5b56 with SMTP id bk11-20020a0560001d8b00b00242750a5b56mr7342771wrb.271.1670760908908;
-        Sun, 11 Dec 2022 04:15:08 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :feedback-id:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h9Q1i4hIdU/E3nlQyNMODMHAvMDWZyrov34ZiWe5wMg=;
+        b=rXxUyuKGemuId2Jm9Fb3GjegcP3buLqd4gTs6OwDJnYa+M7Bqg6pIGP9xHmDzCjIKr
+         6yiDfKpO7ObeRuA2L5ledO2LdCrmckXn3ZJxMQujWJuFgIEpB+1ARtrQ0ZznOHtC3jvH
+         1DyG07QiuwqH7lITmp5zFGIghNkOl5l/405GXjKI9YEoNJwFV3PEKgpgRmvejfXsCAVf
+         efz4QINpmlkcdoYSJ8makGfvmR0o2E4DEdiGp7hKy4R5/g2gqEoFxAICtTe2wEoVjgmV
+         LMJjlcubQnpUzXspRxJiT+bqQW75LcXjkOFnG+KuLK81TDJVLrW8O3t/Znp1LOqB3qMA
+         lGYQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ANoB5pkN6MyVgC8Ni/jmiLQn1b9F0bPddsnWte4Cs0Ph2LWEIZPj19W9
+	6Kqw0FSd56ouGikCNlyVenM=
+X-Google-Smtp-Source: AA0mqf5cSwqRDvW8gQs4LJW8/fxP5ysADF9/KmM8vUH5wKGNHJ0Yqbgrnz4kNbzEfH0Exkzb89YX3Q==
+X-Received: by 2002:a17:906:3e5a:b0:7c1:19e1:50e6 with SMTP id t26-20020a1709063e5a00b007c119e150e6mr7030704eji.585.1670794466501;
+        Sun, 11 Dec 2022 13:34:26 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:c444:0:b0:3cd:d7d0:14b6 with SMTP id l4-20020a7bc444000000b003cdd7d014b6ls7522657wmi.1.-pod-control-gmail;
- Sun, 11 Dec 2022 04:15:07 -0800 (PST)
-X-Received: by 2002:a05:600c:1d09:b0:3cf:a39f:eb31 with SMTP id l9-20020a05600c1d0900b003cfa39feb31mr9503390wms.33.1670760907572;
-        Sun, 11 Dec 2022 04:15:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1670760907; cv=none;
+Received: by 2002:a17:906:ce49:b0:791:9801:e4e4 with SMTP id
+ se9-20020a170906ce4900b007919801e4e4ls6792244ejb.3.-pod-prod-gmail; Sun, 11
+ Dec 2022 13:34:25 -0800 (PST)
+X-Received: by 2002:a17:906:a0cc:b0:7ad:b791:6e37 with SMTP id bh12-20020a170906a0cc00b007adb7916e37mr16444198ejb.35.1670794465414;
+        Sun, 11 Dec 2022 13:34:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1670794465; cv=none;
         d=google.com; s=arc-20160816;
-        b=pVrvFUcEl44mpAGfHJJiNTZ14HkuaWF2q7Uhnkc+75Hlj5KFhKdxo4payy3+h3PwFe
-         4cKI3tR8MN921bv2eEooXDXECxoHdO/HKMQOnS5yAPfBHFcRjav5WbFljSKF9n7bgbF/
-         VrhqTIEUkna8uBZM5vDIRPAWQ6C36GBVaaZYcWp7df5m5ztPw9gHAsCpdthc2AOQmG0y
-         z2x5DylqSinZV+InVB0/RVecFs14LnanoBKgHN1KayBBO9TcxMpKEM2Z/LWJy0AhPMGW
-         fvXpf56Sd0PnGCztlDMaKdmmj4gICNqapyPanyzIJb/p8x+y0f2fqbIaNoyp8Bo/QUDt
-         Nyog==
+        b=LP69GyQh71VtKhJZAX/eFb4/4SeLZpKt2VXM9sJgT4stwVzLTYB/mK2sDksDR7UgbA
+         O1NQFSWKnM5rZ9LzIzqYa/3sLSv5zA1L7WDrrQOfwP17s27XFcWelv+VZV72b9tRn2bk
+         j2AcUlgHsfIFYoaGGRbiJfrF9QBMxCM5vA//J+Oql04Wi0Tb05gg6RTPX/lvQSl0lIE6
+         aGiPoxAz1xgbJzVsqpUQgDLnTpaksGou6Uv9zV/XMQ7EC345w7ts+atsK/UHVaz7zGh9
+         3z05YNCBAy3WZCKS7VVydnlS0zNrj0vMzOyAWzwRaKHLvq9500rMjmbV7HFSb2iHdUeB
+         F9BA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=subject:from:cc:to:content-language:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=0/65jsHiJnNkwjkY49Ge2ZmtQq4CjJ+RG5OmMB+oBl8=;
-        b=fjWCx9Xli+2ugE9VwQnfQuWh9ak6I4/kLfuIgpLjcjL5yL8oIWQ0+a4sZf1YSndrvs
-         i9c/ckWIY1PfoGX+bAcQNDA5nNefpCj5pPlMrZkBgOuJ6BBVrMaDFzMwVnwodJamsUOj
-         V8FJNwu/zReUKm/zAkiS1rh3/8b9GSUbVQPkNgbDWK35liY9dgYFMftd0ypUmvZyp/1k
-         dkgdvgeyWJoA0u6iUxfINmJKCJdZAgaa4f6Fubb2OMOUbu73HkMPw2g2+I9rce8jaJUh
-         D+GXhZ9chPXE1STcmMJrm3IcZGBqvOigoC5FD7yh/fsKJ5/BqtmP2CZ5ziv6bFdpl3eF
-         nK5w==
+        h=in-reply-to:mime-version:references:message-id:subject:cc:to:from
+         :date:feedback-id:dkim-signature:dkim-signature;
+        bh=k3gy3L5U3kYrwCtls0KfuKnkSKMEo9j7w1C7soQ/tgQ=;
+        b=StnVwhC8nYil/G09jtcc3U82Q/DZBosYQz+I6oQGFsOH8GykxXCE38gFf0SVGqHH+9
+         h791JMYFhDsuHsqwUquLYGNvpNwOqvF+2HgtSRYtsdXBHu383I3GPUHYgsvRtI3c9P/r
+         1U5WjCbTpwwUBEZQiQbcW7dtNL/fVuXPzoRttj718EsMHcbNr9nmq4GATncW7h/8aE+R
+         lgO0zopzrGG8EZLMo5Uuxtab7qJ4O7ZdK4BZTeVdbP1KGXelHBd0YdyPMOSsrOCu/BqF
+         6DkY7lv6wMbHS49gAnKyue/YArwVluFW/CPrvMkFRLr8X7mXUyL2/am9J1S1ZOR2pvpn
+         aqAg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=YK7Hyy+5;
-       spf=pass (google.com: domain of jgross@suse.com designates 195.135.220.28 as permitted sender) smtp.mailfrom=jgross@suse.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
-        by gmr-mx.google.com with ESMTPS id f21-20020a7bcc15000000b003c4ecff4e2bsi211124wmh.1.2022.12.11.04.15.07
+       dkim=pass header.i=@invisiblethingslab.com header.s=fm1 header.b=Q3EnF85w;
+       dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ebyAHeuk;
+       spf=neutral (google.com: 64.147.123.19 is neither permitted nor denied by best guess record for domain of demi@invisiblethingslab.com) smtp.mailfrom=demi@invisiblethingslab.com
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com. [64.147.123.19])
+        by gmr-mx.google.com with ESMTPS id mm6-20020a170906cc4600b007c16d82962dsi90392ejb.0.2022.12.11.13.34.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Dec 2022 04:15:07 -0800 (PST)
-Received-SPF: pass (google.com: domain of jgross@suse.com designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 300D035334;
-	Sun, 11 Dec 2022 12:15:07 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F16A91376E;
-	Sun, 11 Dec 2022 12:15:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 3D1rOcrJlWOGEQAAMHmgww
-	(envelope-from <jgross@suse.com>); Sun, 11 Dec 2022 12:15:06 +0000
-Message-ID: <c18bc798-f484-ad66-fbb0-15192a74f8e3@suse.com>
-Date: Sun, 11 Dec 2022 13:15:06 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Content-Language: en-US
-To: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>
+        Sun, 11 Dec 2022 13:34:25 -0800 (PST)
+Received-SPF: neutral (google.com: 64.147.123.19 is neither permitted nor denied by best guess record for domain of demi@invisiblethingslab.com) client-ip=64.147.123.19;
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 0E78F32002B6;
+	Sun, 11 Dec 2022 16:34:22 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Sun, 11 Dec 2022 16:34:23 -0500
+X-ME-Sender: <xms:3kyWY1gJRSVBRCqCglQ6hilZn_kLVb1X5EwuGg__VT40dzcx0QSnxA>
+    <xme:3kyWY6Am4BlmrU2VCY4sVfVvtuosxmx5aXNcNJkmMwMkdFj04QPBX2sbdqubMSnxh
+    cqxtsaIwRRg-dI>
+X-ME-Received: <xmr:3kyWY1GKBLoXlgobB0ziiHHTwrJHAeOXH1sQnAqlcmntvRTG8Yts9qBLS5lD>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeigdduhedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggjsehttdertddttddvnecuhfhrohhmpeffvghmihcu
+    ofgrrhhivgcuqfgsvghnohhurhcuoeguvghmihesihhnvhhishhisghlvghthhhinhhgsh
+    hlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeegjeelleetfedufefgteetjeeghffg
+    iedugeekffehfeekteeivddtteejffeuhfenucffohhmrghinhepghhithhhuhgsrdgtoh
+    hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepuggv
+    mhhisehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomh
+X-ME-Proxy: <xmx:3kyWY6QWw021EUSdCqg6qZz9zSAGdSU_T_dV6XfX0efRNyGZ_vjTCA>
+    <xmx:3kyWYyzA27Vom5Tk_-_A7JPv5FMJ3DAmhlZeGelSNuVORhomDmpjjw>
+    <xmx:3kyWYw73rq4ly9VYAwiMdcBJkWBlNwzgMAJeSvi0jgdU1ElqWtVzig>
+    <xmx:3kyWY2_wrXxY3i_YGrZ2K8YJEA-Q-Av1-cLMUZOiveaBBzdu89AEMw>
+Feedback-ID: iac594737:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 11 Dec 2022 16:34:21 -0500 (EST)
+Date: Sun, 11 Dec 2022 16:34:20 -0500
+From: Demi Marie Obenour <demi@invisiblethingslab.com>
+To: Juergen Gross <jgross@suse.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>
 Cc: kasan-dev <kasan-dev@googlegroups.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
- <marmarek@invisiblethingslab.com>,
- Demi Marie Obenour <demi@invisiblethingslab.com>
-From: "'Juergen Gross' via kasan-dev" <kasan-dev@googlegroups.com>
-Subject: kfence_protect_page() writing L1TF vulnerable PTE
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ZRUJdiEHFWPIctjasAeGHXyx"
-X-Original-Sender: jgross@suse.com
+	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+	Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+Subject: Re: kfence_protect_page() writing L1TF vulnerable PTE
+Message-ID: <Y5ZM3HCnTcLvP2vy@itl-email>
+References: <c18bc798-f484-ad66-fbb0-15192a74f8e3@suse.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"; x-action=pgp-signed
+In-Reply-To: <c18bc798-f484-ad66-fbb0-15192a74f8e3@suse.com>
+X-Original-Sender: demi@invisiblethingslab.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.com header.s=susede1 header.b=YK7Hyy+5;       spf=pass
- (google.com: domain of jgross@suse.com designates 195.135.220.28 as permitted
- sender) smtp.mailfrom=jgross@suse.com;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=suse.com
-X-Original-From: Juergen Gross <jgross@suse.com>
-Reply-To: Juergen Gross <jgross@suse.com>
+ header.i=@invisiblethingslab.com header.s=fm1 header.b=Q3EnF85w;
+       dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ebyAHeuk;
+       spf=neutral (google.com: 64.147.123.19 is neither permitted nor denied
+ by best guess record for domain of demi@invisiblethingslab.com) smtp.mailfrom=demi@invisiblethingslab.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,125 +156,56 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ZRUJdiEHFWPIctjasAeGHXyx
-Content-Type: multipart/mixed; boundary="------------PxzJOsklqGZLVS2TT8Wt8wCw";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
- <marmarek@invisiblethingslab.com>,
- Demi Marie Obenour <demi@invisiblethingslab.com>
-Message-ID: <c18bc798-f484-ad66-fbb0-15192a74f8e3@suse.com>
-Subject: kfence_protect_page() writing L1TF vulnerable PTE
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
 
---------------PxzJOsklqGZLVS2TT8Wt8wCw
-Content-Type: multipart/mixed; boundary="------------09GL24rRcr6QqZBnCeKOoI7R"
+On Sun, Dec 11, 2022 at 01:15:06PM +0100, Juergen Gross wrote:
+> During tests with QubesOS a problem was found which seemed to be related
+> to kfence_protect_page() writing a L1TF vulnerable page table entry [1].
+> 
+> Looking into the function I'm seeing:
+> 
+> 	set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
+> 
+> I don't think this can be correct, as keeping the PFN unmodified and
+> just removing the _PAGE_PRESENT bit is wrong regarding L1TF.
+> 
+> There should be at least the highest PFN bit set in order to be L1TF
+> safe.
+> 
+> 
+> Juergen
+> 
+> [1]: https://github.com/QubesOS/qubes-issues/issues/7935
 
---------------09GL24rRcr6QqZBnCeKOoI7R
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Does that mean that Linux with kfence enabled is vulnerable to L1TF?  Or
+are these pages ones that are not in any userspace page tables?  If the
+former, then this is a security vulnerability in Linux and must be
+fixed.  If the latter, then the two options I can think of are to revert
+whatever change caused kfence to produce L1TF-vulnerable PTEs, or to
+disable kfence when running paravirtualized under Xen.
+- -- 
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+Invisible Things Lab
+-----BEGIN PGP SIGNATURE-----
 
-During tests with QubesOS a problem was found which seemed to be related
-to kfence_protect_page() writing a L1TF vulnerable page table entry [1].
-
-Looking into the function I'm seeing:
-
-	set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
-
-I don't think this can be correct, as keeping the PFN unmodified and
-just removing the _PAGE_PRESENT bit is wrong regarding L1TF.
-
-There should be at least the highest PFN bit set in order to be L1TF
-safe.
-
-
-Juergen
-
-[1]: https://github.com/QubesOS/qubes-issues/issues/7935
+iQIzBAEBCgAdFiEEdodNnxM2uiJZBxxxsoi1X/+cIsEFAmOWTNwACgkQsoi1X/+c
+IsHgTA/9HGyx+vlFqwhx7sRHVbF3ZpBdZUY7WEDI6cZzIRx8Kvh2QT3ZfYXW/32t
+9EUELEKDKqXMsjWozdFcs6leohZBbYozV/luoQUrm1AsavffwrxH+d84FnZFg2qh
+VVh+Sd8NL15EZV9nXIqqS94uopqWKL79qmxVcSBVkfujtiI57uGFdshePGMP3I1D
+RGPRB5my7A/JQFhuITiZcqbhj0h4Cm5QSQaARAOEr4XQuso+4SFPZVGSw/+vD1nG
+XQ4YAvnFKy3+6oabroJ37cway7cimp6/qlEqS3YE1SaMa6q37mgsyGFobpQWbNy5
+p4OkEuqlZ85p/C7g4XR+EvIJhfFovh0Wfj4fM0h78VvB8h2aHL2ckhi5vx0Snb8L
+p5NLh8MFI0PDoUaUWFb4Y3tN/Ksne9MbTQSy03mnXdnT+/6LQEHFVgUC90K0N52D
+R46brLZEfPsTVB+Ro3uynpbXaE7mw/IdzdAXgxRPcMQIiuRmUthWO4O9HC9DCoPz
+IHgqZg8+oBn2DCqUomg8Fz/9DQzWKb24dPKyzNuOmbtL63Tk63Qy1Smxu829LtCv
+5mkfNPXwT2A3PbdngNrIT9QgI7ziXwUxYBDJ7onlb8Ad6dsimQ6QHOOWilg8mY7E
+jvNVYkqFD98wLeR4FuWdrA+20/0o1i2ab6afOFvyzN4lItC6mKU=
+=lz1X
+-----END PGP SIGNATURE-----
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c18bc798-f484-ad66-fbb0-15192a74f8e3%40suse.com.
-
---------------09GL24rRcr6QqZBnCeKOoI7R
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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
-jR/i1DG86lem3iBDXzXsZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
-
---------------09GL24rRcr6QqZBnCeKOoI7R--
-
---------------PxzJOsklqGZLVS2TT8Wt8wCw--
-
---------------ZRUJdiEHFWPIctjasAeGHXyx
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmOVycoFAwAAAAAACgkQsN6d1ii/Ey92
-2Qf/TgMVuqQDkxg9jaeTZpkEDD0D9gh/np1oEiIpQHpvyGZdwlbCuYlEIn6f3VmlF9W4q3JVS1r0
-Px1zaKCsHOvxWw2e3cv2ZZEgs6WTX881bdJBvWWxvuYmim2sHZ7QvSgL+5jJFfTjpWhpa262swie
-7uglGNyp0dKhH8Mh2BdUxRQ2PYRyccgqMpjPL+Y9ZkkCIo3rsMrqXi1l7bE/rD72kBrAUj2Vh0Ci
-US/qhHbN+9vrn6oRWq7YGMsEk08HMQ3gjOut9HaWhSKybSL/P3SKhdjzJNwX421RKsL8EsVL85Pk
-EgMWHlecPEnEK+nnZJ/9cjMumELnMVD7umvlHvVsKQ==
-=Hl4S
------END PGP SIGNATURE-----
-
---------------ZRUJdiEHFWPIctjasAeGHXyx--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y5ZM3HCnTcLvP2vy%40itl-email.
