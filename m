@@ -1,139 +1,136 @@
-Return-Path: <kasan-dev+bncBDH43ZGQR4ARBV4I2COAMGQEBTTAKHQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBSPN22OAMGQE3XTTEWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1140.google.com (mail-yw1-x1140.google.com [IPv6:2607:f8b0:4864:20::1140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC64648D09
-	for <lists+kasan-dev@lfdr.de>; Sat, 10 Dec 2022 05:00:25 +0100 (CET)
-Received: by mail-yw1-x1140.google.com with SMTP id 00721157ae682-3b5da1b3130sf71797567b3.5
-        for <lists+kasan-dev@lfdr.de>; Fri, 09 Dec 2022 20:00:25 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1670644824; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C94E26493C7
+	for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 11:54:02 +0100 (CET)
+Received: by mail-lf1-x138.google.com with SMTP id cf15-20020a056512280f00b004a28ba148bbsf3145693lfb.22
+        for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 02:54:02 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1670756042; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QMCsC4Htkz9czvrqjSEgI7DjLP8znAvIHaq7iMDQgEyUHikKwBPD5mjOZ+f5dRKIaO
-         WjR69RqWaSwl5vJvD147vdcCx2YSrSmvWSi65Vn031NTqYfDvN9sXcQOYTguswRN3qId
-         P5aDawLIU8OdpWLclWLcOVnN6W18uBmmDEgXjoV7xssi8vE9+BPaZV/HDmlB3qBgdew6
-         T9vm5n92GKKlQn7f+ARbHlRtID6JXSiMx0+J7BKAxWJGea2gxQhYOcWZ/h976WNbEECw
-         hxC8nM1H4dMlq1TclsuCT0onte1dLDXJWpnudfQB5mAf6hR9TNHNvtzqmmCUTmRon5S0
-         TVyQ==
+        b=p11RcQS+vF1TDHr4XE43+cJAHlwOzXI1r0uUP6P3Xv8Gqt+LRPJyTl6lH1F+SIDUUG
+         z6Cz6K7NNUdYiZzJQNkiKKe3x7evoyx7djEV0m5kPqNnlp5jZO5LNTQs/zU6VAbR1bT8
+         6Ka4JGsWcOIp/semJnxUsEtOigf83ZoOZTsm4pyH0MzwGUv0r8LbTsxDRLvS+H7bayP1
+         wmbPZytLya5lUVCTI5uq8Vo/BIxwVmyjzxX77lTDUi62/gRA/K43w6oYWX53DjOSy+Z/
+         kkMqaRqznxXOiL5UaZF8nskSJe75s6AZwv1qyxINyzdSmiX84o2zZmIhlcmOP5BBQTux
+         GFEA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:in-reply-to:references:date
-         :message-id:from:subject:mime-version:sender:dkim-signature;
-        bh=wez8/+qcr2kJIbje1JY67reZQmW6c1cGo0ufbD7cIXs=;
-        b=EhEeKgW5xF4FqUchxsXjtKuTbUi32VNXVA6kN2rvzM9phU3UO7KqevQntCwS/KGGrL
-         Q4Ngsg0IM/PsRd4vN4J+LTpojfQpFOKqgA2YD0r9ZARLp9gMHhTL2rNhcVaw7FigIoJm
-         CYx1LdFLK1nbZMXkLC6iEzxU7Hn6C/PquvoXRfpMOH7eVFQo0OQNXHkOWDVfHMcBKM5b
-         CdVpnbUy8nMK8+ld2VcElYrDd0oZicBMIjPFN5yXaNJlvrEneWMbKGsxkPCXM8ltPn8/
-         BNgYBZIa/79S3QDFTof5ooHM5vXcztmpDgONPw4Y5sxcAHE/4cqncqGbHHUcxPTf/Zpr
-         P0rQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=wujzqR2gSBvjTO1ECAhmVPmfXFC3LAcz22ZBdA5m+D4=;
+        b=uHczwpVR49eeBm5zpxIpTdtXJfZkdXAeq21gDYfGusPKd6IzSmJ4TQw2FlYjw3tkFn
+         VnsG8jClEqEn4pdOTD9DZc3zn6zmf08M/5tfEn0N3xIZi8jwo0LrZycwbIowqi+1h32z
+         A6qVbZEQpfmgAllGG/x8ECbhrPNge09M/qAM9+feIeyY/OGrsVfVgOS8lBNbX6xyKlSG
+         OSgKtF1/gRi5ar4LUUcT0w9guzmajkTrQm1C6tZ67D/kp3VJvYqDW2JUQf/P+vg9yktd
+         bX+p5YpL1WQ5Fr6KKof4hmh3OvkL3bP9M6cYxmmRgxN7MJ+D8rhyiIdnI7S/SLzsxUas
+         O5tw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=mVRc8GNE;
-       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Z1WVdgDq;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:in-reply-to:references:date:message-id:from
-         :subject:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wez8/+qcr2kJIbje1JY67reZQmW6c1cGo0ufbD7cIXs=;
-        b=DBh0i+cnDDvQqTsnKffI7oHnEduJZ/8Gmka+mckfYKADQn7d/T7QYQjh3PRmBn2TjP
-         knV39C7lH2Nuc6FMy1z+R3CO2jLuTZv2gRTLYEuO4OrJRjFxkT3bPsXr72MopTOPY4Qt
-         +Kpz+iB3OBJC4A6pGLpG0EQJhDq48kO2A/x4B6o2HuT1TdDX74UgYqlbDA8kX6HcNj8q
-         WHgm9cLnVT60yha4qgzi2B0o/3W8C+Z+VX9kZdyq1YEzOBNl1x8xgXHu9+1K9tLDp4xr
-         Dj93FO/XYTluosvKYfhz3u+iyj6U87qGeVRnk6GWwd51B38yryGlwjD0Ie0zzWoUShCB
-         1Msw==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wujzqR2gSBvjTO1ECAhmVPmfXFC3LAcz22ZBdA5m+D4=;
+        b=QQLCBvJZaFi/VAZaFT+6Gq2dkedWkL1KPbwNzpPuiiq6n+D9H52EiE7ul4xmAOcYQO
+         QkGeHeaeUNvwXpVRP87zefv6OzaIQYMRwBtsOKz592nBKQD2wR+joqMvFNfLK6rnHij5
+         MQxBDex9Y/pyDQafTEBH2OZ1VEBgCYnVwfX1/kNXaFua9/zCPXaELxTcnMGyn0SFhL9f
+         7mSNGKcg3oypaKtiSHw+ypsWbmMCDGnNctvM0OAdOP7zPFgXJRuvIrolsC3TeJWSrj+E
+         b1r67bpZpULVLbBTFASwIjC/cfuE18lws1L74KOWpIaq55YlXrvwWYp30Z5ZrlvVpacH
+         8/Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to
-         :in-reply-to:references:date:message-id:from:subject:mime-version
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wez8/+qcr2kJIbje1JY67reZQmW6c1cGo0ufbD7cIXs=;
-        b=Gt6KmGzrGvfg0iObvq1eTb1AKpiwuJTpJUwRZ1fuhA/MyeWwVuiXPrq595M+Wfx7nD
-         E0tJZz6W1MYm20/JyeYcJErvAdk+exlT1zyMZBnsNGdLHjsSUhfmZxXX9DQVueKphwFN
-         7cuEtXqoZpVt/t9ZlPpx+W+kXnkrwFr8+jXY3/2xxEZPNGBC/lI+coftiY9TUduhStrK
-         EgM0goSWiomp3KASTHvA4loqYjqFc0Pg5gN4tUs5E7eAsTuPoBgIoZmvjNLhfl7mNZfl
-         EacracHK4uz8JxHwfGiVggQFVFrY8ptYM2xo7l5DfEpdyxIHNv5iLlsFO4W2Pv6bY7FK
-         AioA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wujzqR2gSBvjTO1ECAhmVPmfXFC3LAcz22ZBdA5m+D4=;
+        b=7xLpz0d876ID1LmK2V6ZcjndL0YJzzFtSvQ5Yxr3WSH8FNvpd25jCwHNe6qZNNKchC
+         ylhEIQr2RNfdjqpXqOrYQTHIfGF/jTmkpQnjxzSYrJGCDo2qyELBuDtcMaA+fFJq1nNM
+         fEnBXJzwIG5ZIdRYi/nz3z3KmXO0U1rArHhGNwtjUleI6VHbd3DdmOpdn6YYZkaszb8B
+         LJJl0WApu1TfUtFrS0EhGpvSnwN9Ai3WAvS1yGXOWiIrcuWx6jR2qj8gFi7kcahpBLlV
+         t7WD2F+l2MvdnhSP7erHzLDBLXdjJ3xS9MRFAOojfMBwQUAAhrbVW4jNDo9YZhOHJZNT
+         rdRg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pkPrPQT3Eg2+c4vTp+3hJeVG3i5YTuF3gfhZNVsHDWstCbK58qi
-	u8Uo4zOegCieBLUL1fUdsDY=
-X-Google-Smtp-Source: AA0mqf7f995QVUMkZqLlgAUMBajfTWhHTn7k4Dgv3ivOsXeWr6aVPZHs/DqN3V0UKBFyAcr4bUF1CQ==
-X-Received: by 2002:a25:c694:0:b0:703:5949:3b2a with SMTP id k142-20020a25c694000000b0070359493b2amr10039265ybf.525.1670644823962;
-        Fri, 09 Dec 2022 20:00:23 -0800 (PST)
+X-Gm-Message-State: ANoB5pnVRo+/zuBC8ALinAgY6gjTQ2QxksfS/yFANuegeMJ5nfPu7M4G
+	BJ3OfR57ycwgU1v24pkDmS4=
+X-Google-Smtp-Source: AA0mqf5C5TBdK945pkntkwsLKcXfY4WaueyNmNtSuIMbfqrCKOF1VeNmbG/31YtMAfbzlXx7R4lxig==
+X-Received: by 2002:a05:6512:34ce:b0:4b5:8f03:a2b6 with SMTP id w14-20020a05651234ce00b004b58f03a2b6mr4303421lfr.643.1670756041860;
+        Sun, 11 Dec 2022 02:54:01 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a81:8350:0:b0:3da:3e43:9e3c with SMTP id t77-20020a818350000000b003da3e439e3cls5986201ywf.9.-pod-prod-gmail;
- Fri, 09 Dec 2022 20:00:23 -0800 (PST)
-X-Received: by 2002:a05:690c:884:b0:3ed:aa4:2a72 with SMTP id cd4-20020a05690c088400b003ed0aa42a72mr8140523ywb.39.1670644823391;
-        Fri, 09 Dec 2022 20:00:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1670644823; cv=none;
+Received: by 2002:a05:6512:3456:b0:4b5:3cdf:5a65 with SMTP id
+ j22-20020a056512345600b004b53cdf5a65ls5088347lfr.2.-pod-prod-gmail; Sun, 11
+ Dec 2022 02:54:00 -0800 (PST)
+X-Received: by 2002:a05:6512:1296:b0:4b4:8bc3:21f9 with SMTP id u22-20020a056512129600b004b48bc321f9mr4763584lfs.36.1670756040805;
+        Sun, 11 Dec 2022 02:54:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1670756040; cv=none;
         d=google.com; s=arc-20160816;
-        b=HdjT6vT5Yn0RZE9ViurUKMXO5DZ2PYqIrVbCwkoUPtyU1hKNtvN1EZpdelzRBR4Cqe
-         fyaH/kGMl7oXSj2AfjqhtCDS3nqTZSfy3FW0QRXOHWAxxTvhE2FFqTm3+sMYTNgxxrGY
-         +ZRouB/QKnRCs8UHLxpc1ygiz4qt9GMM2srP7tQhK+B7Ho2lnFEQlWilTbXxQyczlb95
-         m4bJjD7qUFS5ZYyvjvMwmLrPSxaIWCEw6ul10P7UNXPb42gTbRL3bjIL+zKxcNulS86V
-         w9UBUlR3t37vipqJfDJWt2xKTD612Tx0SrGweKYzFfFE/fHQUoR9mBvCshqa2+IxidSy
-         /T0A==
+        b=Kg6dr/PGl0SMkGiMMm4+UmsGsC+oJpmAMBboPans8dvAZOMo7+/TwdWo34//p/1eYG
+         UaL0A/9xmrLteWlVNBkbfO8kjjYItTmuLMhmHpHCNia19dtrEPlnznFq6uavBMWWev9I
+         zV2G9sRke2mkgx4XwAnrIxorzngRgXv0lgHB1WVxeg3TcCDk4TfU1SpiyIbFUs6iI0nV
+         b/xkUaxF/vnEldbc3EXXQQuwmWjWW2usYBDN8OXsHoqU8si6uCWG15k7oNS65k08vInX
+         PQet4Ecq2x/M8Ce7dhr5IRsDI7qEJbQs5UUai28JuV2DQ8LK6NexJ+/swoD/g7OjMDtw
+         IISQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:in-reply-to:references:date:message-id:from:subject
-         :content-transfer-encoding:mime-version:dkim-signature;
-        bh=i+zeAtKEKib0CFwY3er5qfIMMp7kCmM/mQ9ZF0W28Ys=;
-        b=mWOVp65REeZzw6EI4LHZZ1v+LUQroENHY6CZU+VBSEbWLt3KF/3bQQgKrg+vDxS8Ax
-         DjGdIqPQnzoVJ169wYbsKzIX8krfLTbyP/SxzBGa77yhfSaJAS9RQok+D49u+R5hzkFs
-         HTePymBoxAybqaM5XP1NvBjjP8jTNU/w8YlXIN6/XJSTVFC8FzRpYtuxrnJ3jShKYIPP
-         FuT3TQNXO6+COKAX+MLOeOydeSClsH//kvPaHiG2ejiTWGkIQCHotYwVu3nxHNcUzWU5
-         XdOR20uYr/XjNqsF4cBEibFUlsrvxyY6a9s+tZu//NLVCCeQbxv5xinZX31z52IZgMUr
-         4IXw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=9UcHbMnDTxKjrW2cb26tW8/WUG7BNqPeISntSmmUYgw=;
+        b=MYl7AImFaqjBEn24+jRHx5eBa/vdFdGvA4zkclTzU2O+oPndQdYwruvF8YrkGTE5bk
+         camVqw238jJCo2CVItQc0U54rG+NRzeU87clqTj9a4AQV1SIxSAV8TCpY0JOIBqHr30i
+         uUrnjdomI0PbMpMBetjEgk47Jov56SZVqve4+HAoGKXeS2Fjh87e4wFPUvuWuto445d5
+         IHGKhmemYK/Y3bdQQ84VOtavqfrJwcO7DxQZti5vrGU0agdNTWfILJJ5iEFaeOn/TkpK
+         00z6ITKN9iflNZAr/fvWXQeAwLoCYqU4cSYlBHHuAaOF5cPPKqGZaQJKm9Rm/kNJPLq2
+         QvTQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=mVRc8GNE;
-       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Z1WVdgDq;
+       spf=pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=jszhang@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
-        by gmr-mx.google.com with ESMTPS id y194-20020a0dd6cb000000b003e0d1cdbb77si354610ywd.3.2022.12.09.20.00.23
+Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
+        by gmr-mx.google.com with ESMTPS id s7-20020a056512314700b00492ce810d43si330903lfi.10.2022.12.11.02.54.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 09 Dec 2022 20:00:23 -0800 (PST)
-Received-SPF: pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
+        Sun, 11 Dec 2022 02:54:00 -0800 (PST)
+Received-SPF: pass (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.source.kernel.org (Postfix) with ESMTPS id 5D522CE2B9F;
-	Sat, 10 Dec 2022 04:00:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 78931C433EF;
-	Sat, 10 Dec 2022 04:00:18 +0000 (UTC)
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 41E41C41606;
-	Sat, 10 Dec 2022 04:00:18 +0000 (UTC)
-Content-Type: text/plain; charset="UTF-8"
+	by ams.source.kernel.org (Postfix) with ESMTPS id 1C094B80975;
+	Sun, 11 Dec 2022 10:54:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FA19C433EF;
+	Sun, 11 Dec 2022 10:53:55 +0000 (UTC)
+Date: Sun, 11 Dec 2022 18:43:58 +0800
+From: Jisheng Zhang <jszhang@kernel.org>
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+	ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+	dvyukov@google.com, vincenzo.frascino@arm.com,
+	alexandre.ghiti@canonical.com, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v6 RESEND 0/2] use static key to optimize
+ pgtable_l4_enabled
+Message-ID: <Y5W0bv8Y/zCc+Fco@xhacker>
+References: <20220821140918.3613-1-jszhang@kernel.org>
+ <mhng-30c89107-c103-4363-b4af-7778d9512622@palmer-ri-x1c9>
+ <Yz6T4EYKKns7OIVE@xhacker>
+ <Y0GJDqLXFU81UdfW@xhacker>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next v3] skbuff: Introduce slab_build_skb()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167064481825.12189.4717731779203655380.git-patchwork-notify@kernel.org>
-Date: Sat, 10 Dec 2022 04:00:18 +0000
-References: <20221208060256.give.994-kees@kernel.org>
-In-Reply-To: <20221208060256.give.994-kees@kernel.org>
-To: Kees Cook <keescook@chromium.org>
-Cc: kuba@kernel.org, syzbot+fda18eaa8c12534ccb3b@syzkaller.appspotmail.com,
- edumazet@google.com, davem@davemloft.net, pabeni@redhat.com,
- asml.silence@gmail.com, soopthegoop@gmail.com, vbabka@suse.cz,
- kasan-dev@googlegroups.com, andrii@kernel.org, ast@kernel.org,
- bpf@vger.kernel.org, daniel@iogearbox.net, haoluo@google.com,
- hawk@kernel.org, john.fastabend@gmail.com, jolsa@kernel.org,
- kpsingh@kernel.org, martin.lau@linux.dev, sdf@google.com, song@kernel.org,
- yhs@fb.com, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- rmody@marvell.com, aelior@marvell.com, manishc@marvell.com,
- imagedong@tencent.com, dsahern@kernel.org, richardbgobert@gmail.com,
- andreyknvl@gmail.com, rientjes@google.com, GR-Linux-NIC-Dev@marvell.com,
- linux-hardening@vger.kernel.org
-X-Original-Sender: patchwork-bot+netdevbpf@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <Y0GJDqLXFU81UdfW@xhacker>
+X-Original-Sender: jszhang@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=mVRc8GNE;       spf=pass
- (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates
- 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=Z1WVdgDq;       spf=pass
+ (google.com: domain of jszhang@kernel.org designates 2604:1380:4601:e00::1 as
+ permitted sender) smtp.mailfrom=jszhang@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,33 +143,95 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello:
-
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed,  7 Dec 2022 22:02:59 -0800 you wrote:
-> syzkaller reported:
+On Sat, Oct 08, 2022 at 10:28:35PM +0800, Jisheng Zhang wrote:
+> On Thu, Oct 06, 2022 at 04:37:57PM +0800, Jisheng Zhang wrote:
+> > On Wed, Oct 05, 2022 at 06:05:28PM -0700, Palmer Dabbelt wrote:
+> > > On Sun, 21 Aug 2022 07:09:16 PDT (-0700), jszhang@kernel.org wrote:
+> > > > The pgtable_l4|[l5]_enabled check sits at hot code path, performance
+> > > > is impacted a lot. Since pgtable_l4|[l5]_enabled isn't changed after
+> > > > boot, so static key can be used to solve the performance issue[1].
+> > > > 
+> > > > An unified way static key was introduced in [2], but it only targets
+> > > > riscv isa extension. We dunno whether SV48 and SV57 will be considered
+> > > > as isa extension, so the unified solution isn't used for
+> > > > pgtable_l4[l5]_enabled now.
+> > > > 
+> > > > patch1 fixes a NULL pointer deference if static key is used a bit earlier.
+> > > > patch2 uses the static key to optimize pgtable_l4|[l5]_enabled.
+> > > > 
+> > > > [1] http://lists.infradead.org/pipermail/linux-riscv/2021-December/011164.html
+> > > > [2] https://lore.kernel.org/linux-riscv/20220517184453.3558-1-jszhang@kernel.org/T/#t
+> > > > 
+> > > > Since v5:
+> > > >  - Use DECLARE_STATIC_KEY_FALSE
+> > > > 
+> > > > Since v4:
+> > > >  - rebased on v5.19-rcN
+> > > >  - collect Reviewed-by tags
+> > > >  - Fix kernel panic issue if SPARSEMEM is enabled by moving the
+> > > >    riscv_finalise_pgtable_lx() after sparse_init()
+> > > > 
+> > > > Since v3:
+> > > >  - fix W=1 call to undeclared function 'static_branch_likely' error
+> > > > 
+> > > > Since v2:
+> > > >  - move the W=1 warning fix to a separate patch
+> > > >  - move the unified way to use static key to a new patch series.
+> > > > 
+> > > > Since v1:
+> > > >  - Add a W=1 warning fix
+> > > >  - Fix W=1 error
+> > > >  - Based on v5.18-rcN, since SV57 support is added, so convert
+> > > >    pgtable_l5_enabled as well.
+> > > > 
+> > > > 
+> > > > Jisheng Zhang (2):
+> > > >   riscv: move sbi_init() earlier before jump_label_init()
+> > > >   riscv: turn pgtable_l4|[l5]_enabled to static key for RV64
+> > > > 
+> > > >  arch/riscv/include/asm/pgalloc.h    | 16 ++++----
+> > > >  arch/riscv/include/asm/pgtable-32.h |  3 ++
+> > > >  arch/riscv/include/asm/pgtable-64.h | 60 ++++++++++++++++++---------
+> > > >  arch/riscv/include/asm/pgtable.h    |  5 +--
+> > > >  arch/riscv/kernel/cpu.c             |  4 +-
+> > > >  arch/riscv/kernel/setup.c           |  2 +-
+> > > >  arch/riscv/mm/init.c                | 64 ++++++++++++++++++-----------
+> > > >  arch/riscv/mm/kasan_init.c          | 16 ++++----
+> > > >  8 files changed, 104 insertions(+), 66 deletions(-)
+> > > 
+> > > Sorry for being slow here, but it looks like this still causes some early
+> > > boot hangs.  Specifically kasan+sparsemem is failing.  As you can probably
+> > > see from the latency I'm still a bit buried right now so I'm not sure when
+> > > I'll have a chance to take more of a look.
+> > 
+> > Hi Palmer,
+> > 
+> > Before V4, there is a bug which can cause kernel panic when SPARSEMEM
+> > is enabled, V4 have fixed it by moving the riscv_finalise_pgtable_lx()
+> > after sparse_init(). And I just tested the riscv-pgtable_static_key
+> > branch in your tree, enabling KASAN and SPARSEMEM, system booted fine.
+> > I'm not sure what happened. Could you please send me your kernel
+> > config file? I want to fix any issue which can block this series being
+> > merged in 6.1-rc1.
 > 
->   BUG: KASAN: slab-out-of-bounds in __build_skb_around+0x235/0x340 net/core/skbuff.c:294
->   Write of size 32 at addr ffff88802aa172c0 by task syz-executor413/5295
+> Hi Palmer,
 > 
-> For bpf_prog_test_run_skb(), which uses a kmalloc()ed buffer passed to
-> build_skb().
+> I know you are busy ;) Do you have time to send me your test kernel
+> config file so that I can reproduce the "early boot hang"?
 > 
-> [...]
+> Thanks
 
-Here is the summary with links:
-  - [net-next,v3] skbuff: Introduce slab_build_skb()
-    https://git.kernel.org/netdev/net-next/c/ce098da1497c
+Hi Palmer,
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+I think the early boot hangs maybe the same as the one which has been
+fixed by commit 9f2ac64d6ca6 ("riscv: mm: add missing memcpy in
+kasan_init"). Will you give this series another try for v6.2-rc1? If
+the boot hang can still be reproduced, could you please send me your
+.config file?
 
+Thanks in advance
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/167064481825.12189.4717731779203655380.git-patchwork-notify%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y5W0bv8Y/zCc%2BFco%40xhacker.
