@@ -1,149 +1,126 @@
-Return-Path: <kasan-dev+bncBCW4XEU3YIIRBYUZ3GOAMGQE3DNDXFI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZF53GOAMGQEKWLJMJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53e.google.com (mail-ed1-x53e.google.com [IPv6:2a00:1450:4864:20::53e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFC9649687
-	for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 22:34:27 +0100 (CET)
-Received: by mail-ed1-x53e.google.com with SMTP id w15-20020a05640234cf00b0046d32d7b153sf3960990edc.0
-        for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 13:34:27 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1670794466; cv=pass;
+Received: from mail-vk1-xa40.google.com (mail-vk1-xa40.google.com [IPv6:2607:f8b0:4864:20::a40])
+	by mail.lfdr.de (Postfix) with ESMTPS id C21C16496D9
+	for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 23:51:17 +0100 (CET)
+Received: by mail-vk1-xa40.google.com with SMTP id d130-20020a1f9b88000000b003b87d0db0d9sf3642325vke.15
+        for <lists+kasan-dev@lfdr.de>; Sun, 11 Dec 2022 14:51:17 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1670799076; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qXI8m4IhkBQV5qc7V68sEcA9432/CaxuoAZPZT51NbN8+xZrhmnFsh3nJQUelopYXc
-         F7opCvE5QNjL74LjY0IBXnam+0vk9PoK/srCuYzcXxAad92/pXOqjDJWIEqlpK7akDRd
-         XPchsgwzKFo5lRNanlaqdp4VAE9YPfOm86STax9NTN3bLeXbnWA/+ONo0DqeWQ5MBuev
-         W1XVXg5yYu7gvhos5d5Vvny6dzhKOcM9Pw4R5UB4p2IF9qSpwwC29fTdFOv28MJf5A0Z
-         +5qZpS0+pYtWp1VaqPxePj4Ojk/2wcfRIYG/0Or7huXT8X5KbA0ZdGxrrdQoOHWGUepT
-         JItg==
+        b=lxm2dKc++u2VD9KnrjAsKR3+/9NowgH5WqAIUHHg530ZJH/Th4H//oA0YLWS5lSeeq
+         Tmw6DocT5Mumtc1Bxy9vLr8sKmECw/CBmsZrQGp7EE055REnrQ6Cwy91vMBPTKsx1Hh1
+         zSBjrFLSWsWhZiT09Y7EOlQDRc7QSVDz6V5HZHcveZDmzr6HdWR28icnVPvNTDrvltHy
+         dV3QEy2EcVLtIJY6EUJ+2r1lQ4+6hQcnRODdvAx9zh5B/yBdSzG2T9fKUI9iOt4rC4/R
+         wJ6810uviAsAdO4PVZPfbySlvP/7PwI3J/3Hr2wAPHmuyI6MT98bbe4OQcvr0sci2IL4
+         antw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:mime-version:references
-         :message-id:subject:cc:to:from:date:feedback-id:sender
-         :dkim-signature;
-        bh=h9Q1i4hIdU/E3nlQyNMODMHAvMDWZyrov34ZiWe5wMg=;
-        b=xSQerWyq5QIHVcRCjhybPd+ehkTrp7wrXouKxDrrWly2nVkqmKEQUqYaiT+A6oPcY7
-         A+Kz89eDXMR4oGJH8rcJTIaver21mr3DoKyA77PWzs2Ld3CelEu7+A3FQ/5yPh2OT6+s
-         Np0AT06jNTv2SuTN/BFp17X7YaKyTc2rbZ+A8KmseGIKr565vNsZRwT3H50aHGKp5iGS
-         +BR7CnbX57wannr2xWFH8YolcbunwVuBBDHwHCYA55io04ye0z9AxYSADh3fYuaMF2d0
-         rOIdySGMJcy8l/Ytzc+hUgSus1qGaG57CRztpyzAEPIMPGGU3G8rsqEWkhxievgpNI4T
-         kmGQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=+IGT8dT+BDrUnbi3YQday9pSIUqiFpy8Q/XqgKSyxm4=;
+        b=xB0YxhHgcEqcT9Oz1aYQt159+ElrkB2uH6l5pkHcQVtiCbhrWeFmRcEP3vUb3ToAIH
+         O++JwjsY56fJoilor0f/VxY26lZi5+r1D2FjzQqStNVDkwDkQu5Vwd3HQgi8ZsFKBYyD
+         xyJqAZN/0nKvS9u1KfxUCUjScKTLBo2rupeoxWaZbpVR/zVzNP74Fiv8JXp8e5Dub5Ma
+         R5ius4J60ftJZz2r0RnSdZSHZKpqEbT5iA9PwJuZbo6ctVOYwmPcbfqGJN1/2FMzDk+C
+         OOrBo+BVRYlOD+7fq2wBQaEUA4bW9AmFlCvJvN2pd4LVDM8tsuJN7ilR/sdz+Fab2R/K
+         Sc+w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@invisiblethingslab.com header.s=fm1 header.b=Q3EnF85w;
-       dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ebyAHeuk;
-       spf=neutral (google.com: 64.147.123.19 is neither permitted nor denied by best guess record for domain of demi@invisiblethingslab.com) smtp.mailfrom=demi@invisiblethingslab.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=ACD0EiTE;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h9Q1i4hIdU/E3nlQyNMODMHAvMDWZyrov34ZiWe5wMg=;
-        b=Xytt5sccDYMvwB432sieola/OBTxcp0j/1y9yD37nqSFjRp0j9j5blelW9ig6zjPco
-         YkblMR8AuHZE0dilSg852Kk6xCDc/H0qeCiKfQQ4FwveQW2a/wyHZCHi75gxzcis3+xB
-         viQeo7o+AKNClhInsNGXC2tzi2hqyobHG349Grb5cx/N7rn45c7mtJ/URFo2Odt+GhRB
-         M/ea1Tp6YcRY+EBj/kSREEkFNeuF82nPT/i69vrjbEchfuKo0GE1eOT9uupKZ5DADuo2
-         BiuKUi2H3S09CHvNz/nxoraQsBao2XlhBXZwlty7/c1HEWfxIG/dRo1qqtIfcwD4cxTG
-         HaRQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+IGT8dT+BDrUnbi3YQday9pSIUqiFpy8Q/XqgKSyxm4=;
+        b=J0ipZmuFyMQ4PSm3QrK4iHJO+2sbmFHLxaOqoamMudoh2/mOMX54svpbQRNWZecwvC
+         e/TO9roTbNouE86oGWnAuym5X7+ynIuL+fFD43T7tXtH7AH5kKyMBDwshDYY5xG2PxwZ
+         fKGVXu12PREVw0xzTfqzGbby+RGGcNDXu91RB4LrcrI7i8QmATvSrEJKDkccfCJn9OnS
+         P+0zEsjZgNorgTxKx9U11VAnuQFCYJkS/3aWY1gAFCqC8n6GJiMDt57Zy6eo4RJoR+vN
+         JCsCApkGLefs6uLrqMKiAzXYylkRLLMfh7xIWleUKn9f2297Y87aKeTykPBQr07gPm0S
+         O+wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h9Q1i4hIdU/E3nlQyNMODMHAvMDWZyrov34ZiWe5wMg=;
-        b=rXxUyuKGemuId2Jm9Fb3GjegcP3buLqd4gTs6OwDJnYa+M7Bqg6pIGP9xHmDzCjIKr
-         6yiDfKpO7ObeRuA2L5ledO2LdCrmckXn3ZJxMQujWJuFgIEpB+1ARtrQ0ZznOHtC3jvH
-         1DyG07QiuwqH7lITmp5zFGIghNkOl5l/405GXjKI9YEoNJwFV3PEKgpgRmvejfXsCAVf
-         efz4QINpmlkcdoYSJ8makGfvmR0o2E4DEdiGp7hKy4R5/g2gqEoFxAICtTe2wEoVjgmV
-         LMJjlcubQnpUzXspRxJiT+bqQW75LcXjkOFnG+KuLK81TDJVLrW8O3t/Znp1LOqB3qMA
-         lGYQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pkN6MyVgC8Ni/jmiLQn1b9F0bPddsnWte4Cs0Ph2LWEIZPj19W9
-	6Kqw0FSd56ouGikCNlyVenM=
-X-Google-Smtp-Source: AA0mqf5cSwqRDvW8gQs4LJW8/fxP5ysADF9/KmM8vUH5wKGNHJ0Yqbgrnz4kNbzEfH0Exkzb89YX3Q==
-X-Received: by 2002:a17:906:3e5a:b0:7c1:19e1:50e6 with SMTP id t26-20020a1709063e5a00b007c119e150e6mr7030704eji.585.1670794466501;
-        Sun, 11 Dec 2022 13:34:26 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+IGT8dT+BDrUnbi3YQday9pSIUqiFpy8Q/XqgKSyxm4=;
+        b=RB+mxdJbkVd/7Cx3aeN2Ocmr6J6ii9fIUGgw8FcSk3qeoXB3qn5R3SiLCN9FSs7Mn1
+         UBUxnembN+0O/zYlwwq9F90lk1MU53FDqA0cIZPrDRSLnD3OpyC/X4N1zOQEmr68EwyH
+         FnPngvhfUo3DTwIyD1yrcuZI0V8NaZQTvbr7lQAGlJqkywYKkuHvpRgurWkRAHHvvYAT
+         yU/PRWt/M7LPXnPFXKuCjf7DgAPcMbL2mgM9G7ZjOOgow/FPWcbyNAT3ly8fn+nyaTA1
+         +2PGTJY59Jp+vufBbcZnaVQBFbJ9Y2cx/ahjOtxblw38FmFUhygVCYnZ0ON4+phgqzr5
+         vSEw==
+X-Gm-Message-State: ANoB5pkeJsg7VPVPeHmidV25s6BUuLcpaBKiZ/FXaIsC2TaqBav/MlJa
+	o6Cekxi/17+IvEQDdo8wvV8=
+X-Google-Smtp-Source: AA0mqf5Jzk/Gm5YNg0ZOm+aC/HCWf8X9GXgLZwBL1HCJdYTcxcq7WMALNP8dBuwSHhfm9lTvoWPWVg==
+X-Received: by 2002:a67:f2c4:0:b0:3b0:f932:5a40 with SMTP id a4-20020a67f2c4000000b003b0f9325a40mr17697162vsn.30.1670799076634;
+        Sun, 11 Dec 2022 14:51:16 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:ce49:b0:791:9801:e4e4 with SMTP id
- se9-20020a170906ce4900b007919801e4e4ls6792244ejb.3.-pod-prod-gmail; Sun, 11
- Dec 2022 13:34:25 -0800 (PST)
-X-Received: by 2002:a17:906:a0cc:b0:7ad:b791:6e37 with SMTP id bh12-20020a170906a0cc00b007adb7916e37mr16444198ejb.35.1670794465414;
-        Sun, 11 Dec 2022 13:34:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1670794465; cv=none;
+Received: by 2002:a1f:1cd1:0:b0:3aa:ea29:71a5 with SMTP id c200-20020a1f1cd1000000b003aaea2971a5ls1807359vkc.8.-pod-prod-gmail;
+ Sun, 11 Dec 2022 14:51:15 -0800 (PST)
+X-Received: by 2002:a1f:a9c6:0:b0:3bc:cf73:98cd with SMTP id s189-20020a1fa9c6000000b003bccf7398cdmr7966195vke.16.1670799075852;
+        Sun, 11 Dec 2022 14:51:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1670799075; cv=none;
         d=google.com; s=arc-20160816;
-        b=LP69GyQh71VtKhJZAX/eFb4/4SeLZpKt2VXM9sJgT4stwVzLTYB/mK2sDksDR7UgbA
-         O1NQFSWKnM5rZ9LzIzqYa/3sLSv5zA1L7WDrrQOfwP17s27XFcWelv+VZV72b9tRn2bk
-         j2AcUlgHsfIFYoaGGRbiJfrF9QBMxCM5vA//J+Oql04Wi0Tb05gg6RTPX/lvQSl0lIE6
-         aGiPoxAz1xgbJzVsqpUQgDLnTpaksGou6Uv9zV/XMQ7EC345w7ts+atsK/UHVaz7zGh9
-         3z05YNCBAy3WZCKS7VVydnlS0zNrj0vMzOyAWzwRaKHLvq9500rMjmbV7HFSb2iHdUeB
-         F9BA==
+        b=bnyyeWSdiROGUw9+EaGLo2kucWv1IADDzcdyFLED8A41j17rtaRUd93OtvG+/a6sR0
+         utHheTHJ3n4/+ADphDuZ/HixfYzMgzskuZ898J7DYjr/7/5cCLHHmIQ2LzcLCXzZ07dR
+         9ZqLwaS+LNzv3usyevM+3EnGsUlMfbIbmm+PNdHkq4DuDDXKlA3WkBp0v8shfWF7vIw5
+         hD+9SFLueRGkUGHjDB+Y32Wsk4NX9LtvvLijHxGmaW7T/OLqIpUqsbCxFQWcol6ZI7MM
+         yP3Mtv7IlpaYA9/oa40OQJHRJ5hpCdvvpak3v8pkfdMblFgB4eMNtAYwb0jO/3Ei20Ul
+         yGrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:mime-version:references:message-id:subject:cc:to:from
-         :date:feedback-id:dkim-signature:dkim-signature;
-        bh=k3gy3L5U3kYrwCtls0KfuKnkSKMEo9j7w1C7soQ/tgQ=;
-        b=StnVwhC8nYil/G09jtcc3U82Q/DZBosYQz+I6oQGFsOH8GykxXCE38gFf0SVGqHH+9
-         h791JMYFhDsuHsqwUquLYGNvpNwOqvF+2HgtSRYtsdXBHu383I3GPUHYgsvRtI3c9P/r
-         1U5WjCbTpwwUBEZQiQbcW7dtNL/fVuXPzoRttj718EsMHcbNr9nmq4GATncW7h/8aE+R
-         lgO0zopzrGG8EZLMo5Uuxtab7qJ4O7ZdK4BZTeVdbP1KGXelHBd0YdyPMOSsrOCu/BqF
-         6DkY7lv6wMbHS49gAnKyue/YArwVluFW/CPrvMkFRLr8X7mXUyL2/am9J1S1ZOR2pvpn
-         aqAg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Ku9FczodgVi7IuURoZl4bCpnlwjQxOtO2oc27QuDGyE=;
+        b=g/DMaY0Pk4oFGUBSBBhSTYq7eiTNvGpjkE25VvgxgTXciZJagNf6dGggIzCmsNwQ+j
+         Dz50WR+Hl7dm7ul4XE8MtWPh56wvSYibAC4u0Q8AVjypmpH4l8QB6xXYR3g6VP8FKEqV
+         w8fy8UoDZYOlZuOtjt8wTiWrwrIB3w3AQ2GbkbHY9n6ta5lzWNStVn+JPFiE3EvjPxoK
+         P9ZDRQWhKGdUJoJgtiaCwKctviNvzoVYWs6KJNd7xob0fMgVGRx8UVMqU2O7yXD4cLJe
+         A3ScQHrroIxsSX3X1WpEb78D4+p+kYCAj0BzBo3me+Sf4ttajm6R1zbibjQdfb1vv6FZ
+         ooKA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@invisiblethingslab.com header.s=fm1 header.b=Q3EnF85w;
-       dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ebyAHeuk;
-       spf=neutral (google.com: 64.147.123.19 is neither permitted nor denied by best guess record for domain of demi@invisiblethingslab.com) smtp.mailfrom=demi@invisiblethingslab.com
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com. [64.147.123.19])
-        by gmr-mx.google.com with ESMTPS id mm6-20020a170906cc4600b007c16d82962dsi90392ejb.0.2022.12.11.13.34.25
+       dkim=pass header.i=@google.com header.s=20210112 header.b=ACD0EiTE;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com. [2607:f8b0:4864:20::b33])
+        by gmr-mx.google.com with ESMTPS id e145-20020a1f1e97000000b003b803083c23si511797vke.0.2022.12.11.14.51.15
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Dec 2022 13:34:25 -0800 (PST)
-Received-SPF: neutral (google.com: 64.147.123.19 is neither permitted nor denied by best guess record for domain of demi@invisiblethingslab.com) client-ip=64.147.123.19;
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 0E78F32002B6;
-	Sun, 11 Dec 2022 16:34:22 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sun, 11 Dec 2022 16:34:23 -0500
-X-ME-Sender: <xms:3kyWY1gJRSVBRCqCglQ6hilZn_kLVb1X5EwuGg__VT40dzcx0QSnxA>
-    <xme:3kyWY6Am4BlmrU2VCY4sVfVvtuosxmx5aXNcNJkmMwMkdFj04QPBX2sbdqubMSnxh
-    cqxtsaIwRRg-dI>
-X-ME-Received: <xmr:3kyWY1GKBLoXlgobB0ziiHHTwrJHAeOXH1sQnAqlcmntvRTG8Yts9qBLS5lD>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeigdduhedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggjsehttdertddttddvnecuhfhrohhmpeffvghmihcu
-    ofgrrhhivgcuqfgsvghnohhurhcuoeguvghmihesihhnvhhishhisghlvghthhhinhhgsh
-    hlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeegjeelleetfedufefgteetjeeghffg
-    iedugeekffehfeekteeivddtteejffeuhfenucffohhmrghinhepghhithhhuhgsrdgtoh
-    hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepuggv
-    mhhisehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomh
-X-ME-Proxy: <xmx:3kyWY6QWw021EUSdCqg6qZz9zSAGdSU_T_dV6XfX0efRNyGZ_vjTCA>
-    <xmx:3kyWYyzA27Vom5Tk_-_A7JPv5FMJ3DAmhlZeGelSNuVORhomDmpjjw>
-    <xmx:3kyWYw73rq4ly9VYAwiMdcBJkWBlNwzgMAJeSvi0jgdU1ElqWtVzig>
-    <xmx:3kyWY2_wrXxY3i_YGrZ2K8YJEA-Q-Av1-cLMUZOiveaBBzdu89AEMw>
-Feedback-ID: iac594737:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 11 Dec 2022 16:34:21 -0500 (EST)
-Date: Sun, 11 Dec 2022 16:34:20 -0500
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Juergen Gross <jgross@suse.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>,
-	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-	Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-Subject: Re: kfence_protect_page() writing L1TF vulnerable PTE
-Message-ID: <Y5ZM3HCnTcLvP2vy@itl-email>
-References: <c18bc798-f484-ad66-fbb0-15192a74f8e3@suse.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Dec 2022 14:51:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) client-ip=2607:f8b0:4864:20::b33;
+Received: by mail-yb1-xb33.google.com with SMTP id o127so11674329yba.5
+        for <kasan-dev@googlegroups.com>; Sun, 11 Dec 2022 14:51:15 -0800 (PST)
+X-Received: by 2002:a25:2b41:0:b0:70b:87d5:4a73 with SMTP id
+ r62-20020a252b41000000b0070b87d54a73mr4987665ybr.584.1670799075296; Sun, 11
+ Dec 2022 14:51:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"; x-action=pgp-signed
-In-Reply-To: <c18bc798-f484-ad66-fbb0-15192a74f8e3@suse.com>
-X-Original-Sender: demi@invisiblethingslab.com
+References: <c18bc798-f484-ad66-fbb0-15192a74f8e3@suse.com> <Y5ZM3HCnTcLvP2vy@itl-email>
+In-Reply-To: <Y5ZM3HCnTcLvP2vy@itl-email>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Sun, 11 Dec 2022 23:50:39 +0100
+Message-ID: <CANpmjNPZwtmMvAOk7rn9U=sWTre7+o93yB_0idkVCvJky6mptA@mail.gmail.com>
+Subject: Re: kfence_protect_page() writing L1TF vulnerable PTE
+To: Demi Marie Obenour <demi@invisiblethingslab.com>
+Cc: Juergen Gross <jgross@suse.com>, Alexander Potapenko <glider@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, 
+	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, 
+	=?UTF-8?Q?Marek_Marczykowski=2DG=C3=B3recki?= <marmarek@invisiblethingslab.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@invisiblethingslab.com header.s=fm1 header.b=Q3EnF85w;
-       dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ebyAHeuk;
-       spf=neutral (google.com: 64.147.123.19 is neither permitted nor denied
- by best guess record for domain of demi@invisiblethingslab.com) smtp.mailfrom=demi@invisiblethingslab.com
+ header.i=@google.com header.s=20210112 header.b=ACD0EiTE;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,56 +133,75 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA512
+On Sun, 11 Dec 2022 at 22:34, Demi Marie Obenour
+<demi@invisiblethingslab.com> wrote:
+> On Sun, Dec 11, 2022 at 01:15:06PM +0100, Juergen Gross wrote:
+> > During tests with QubesOS a problem was found which seemed to be related
+> > to kfence_protect_page() writing a L1TF vulnerable page table entry [1].
+> >
+> > Looking into the function I'm seeing:
+> >
+> >       set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
+> >
+> > I don't think this can be correct, as keeping the PFN unmodified and
+> > just removing the _PAGE_PRESENT bit is wrong regarding L1TF.
+> >
+> > There should be at least the highest PFN bit set in order to be L1TF
+> > safe.
 
-On Sun, Dec 11, 2022 at 01:15:06PM +0100, Juergen Gross wrote:
-> During tests with QubesOS a problem was found which seemed to be related
-> to kfence_protect_page() writing a L1TF vulnerable page table entry [1].
-> 
-> Looking into the function I'm seeing:
-> 
-> 	set_pte(pte, __pte(pte_val(*pte) & ~_PAGE_PRESENT));
-> 
-> I don't think this can be correct, as keeping the PFN unmodified and
-> just removing the _PAGE_PRESENT bit is wrong regarding L1TF.
-> 
-> There should be at least the highest PFN bit set in order to be L1TF
-> safe.
-> 
-> 
-> Juergen
-> 
-> [1]: https://github.com/QubesOS/qubes-issues/issues/7935
+Could you elaborate what we want to be safe from?
 
-Does that mean that Linux with kfence enabled is vulnerable to L1TF?  Or
-are these pages ones that are not in any userspace page tables?  If the
-former, then this is a security vulnerability in Linux and must be
-fixed.  If the latter, then the two options I can think of are to revert
-whatever change caused kfence to produce L1TF-vulnerable PTEs, or to
-disable kfence when running paravirtualized under Xen.
-- -- 
-Sincerely,
-Demi Marie Obenour (she/her/hers)
-Invisible Things Lab
------BEGIN PGP SIGNATURE-----
+KFENCE is only for kernel memory, i.e. slab allocations. The
+page-protection mechanism is used to detect memory safety bugs in the
+Linux kernel. The page protection does not prevent or mitigate any
+such bugs because KFENCE only samples sl[au]b allocations. Normal slab
+allocations never change the page protection bits; KFENCE merely uses
+them to receive a page fault, upon which we determine either a
+use-after-free or out-of-bounds access. After a bug is detected,
+KFENCE unprotects the page so that the kernel can proceed "as normal"
+given that's the state of things if it had been a normal sl[au]b
+allocation.
 
-iQIzBAEBCgAdFiEEdodNnxM2uiJZBxxxsoi1X/+cIsEFAmOWTNwACgkQsoi1X/+c
-IsHgTA/9HGyx+vlFqwhx7sRHVbF3ZpBdZUY7WEDI6cZzIRx8Kvh2QT3ZfYXW/32t
-9EUELEKDKqXMsjWozdFcs6leohZBbYozV/luoQUrm1AsavffwrxH+d84FnZFg2qh
-VVh+Sd8NL15EZV9nXIqqS94uopqWKL79qmxVcSBVkfujtiI57uGFdshePGMP3I1D
-RGPRB5my7A/JQFhuITiZcqbhj0h4Cm5QSQaARAOEr4XQuso+4SFPZVGSw/+vD1nG
-XQ4YAvnFKy3+6oabroJ37cway7cimp6/qlEqS3YE1SaMa6q37mgsyGFobpQWbNy5
-p4OkEuqlZ85p/C7g4XR+EvIJhfFovh0Wfj4fM0h78VvB8h2aHL2ckhi5vx0Snb8L
-p5NLh8MFI0PDoUaUWFb4Y3tN/Ksne9MbTQSy03mnXdnT+/6LQEHFVgUC90K0N52D
-R46brLZEfPsTVB+Ro3uynpbXaE7mw/IdzdAXgxRPcMQIiuRmUthWO4O9HC9DCoPz
-IHgqZg8+oBn2DCqUomg8Fz/9DQzWKb24dPKyzNuOmbtL63Tk63Qy1Smxu829LtCv
-5mkfNPXwT2A3PbdngNrIT9QgI7ziXwUxYBDJ7onlb8Ad6dsimQ6QHOOWilg8mY7E
-jvNVYkqFD98wLeR4FuWdrA+20/0o1i2ab6afOFvyzN4lItC6mKU=
-=lz1X
------END PGP SIGNATURE-----
+https://docs.kernel.org/dev-tools/kfence.html
+
+From [1] I see: "If an instruction accesses a virtual address for
+which the relevant page table entry (PTE) has the Present bit cleared
+or other reserved bits set, then speculative execution ignores the
+invalid PTE and loads the referenced data if it is present in the
+Level 1 Data Cache, as if the page referenced by the address bits in
+the PTE was still present and accessible."
+
+[1] https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/l1tf.html
+
+This is perfectly fine in the context of KFENCE, as stated above, the
+page protection is merely used to detect out-of-bounds and
+use-after-free bugs of sampled slab allocations. KFENCE does not
+mitigate nor prevent such bugs, because it samples allocations, i.e.
+most allocations are still serviced by sl[au]b.
+
+How can we teach whatever is complaining about L1TF on that KFENCE PTE
+modification that KFENCE does not use page protection to stop anyone
+from accessing that memory?
+
+> >
+> > Juergen
+> >
+> > [1]: https://github.com/QubesOS/qubes-issues/issues/7935
+>
+> Does that mean that Linux with kfence enabled is vulnerable to L1TF?  Or
+> are these pages ones that are not in any userspace page tables?  If the
+> former, then this is a security vulnerability in Linux and must be
+> fixed.  If the latter, then the two options I can think of are to revert
+> whatever change caused kfence to produce L1TF-vulnerable PTEs, or to
+> disable kfence when running paravirtualized under Xen.
+
+See above - it's for kernel memory only, and the page protection is
+only to detect bugs of _sampled_ slab allocations.
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y5ZM3HCnTcLvP2vy%40itl-email.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPZwtmMvAOk7rn9U%3DsWTre7%2Bo93yB_0idkVCvJky6mptA%40mail.gmail.com.
