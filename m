@@ -1,135 +1,148 @@
-Return-Path: <kasan-dev+bncBC7M5BFO7YCRBDXU4GOAMGQELZLNCAI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBVP34GOAMGQEKI3CV2Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D66D64B5C7
-	for <lists+kasan-dev@lfdr.de>; Tue, 13 Dec 2022 14:11:44 +0100 (CET)
-Received: by mail-il1-x13d.google.com with SMTP id i21-20020a056e021d1500b003041b04e3ebsf7299705ila.7
-        for <lists+kasan-dev@lfdr.de>; Tue, 13 Dec 2022 05:11:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1670937103; cv=pass;
+Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2111164B627
+	for <lists+kasan-dev@lfdr.de>; Tue, 13 Dec 2022 14:27:50 +0100 (CET)
+Received: by mail-wr1-x43b.google.com with SMTP id h10-20020adfaa8a000000b0024208cf285esf2928055wrc.22
+        for <lists+kasan-dev@lfdr.de>; Tue, 13 Dec 2022 05:27:50 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1670938069; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gRbt7KnWu6h7g8QljL2MpjGT6ptNkuwrTaabZYONR9SZjLgtGOrzhTHJFE4unczTzD
-         CfDbr6W5uwJw5sI71A/Nm/yKQFcfsjl/U80TLBY432j/WK2chvQJW9eRfH/VoyZMR8r/
-         eAv8UFolowBRCcMElLBNPYhdU/72fMNPHNuqbFMF6ZlS0zqVqObEdp4t8JfDGFmTXa6j
-         yra+k4dzYYav3vZWmYGy8RQusgMIDrVvq6uuoalbjUWRt4+0UJGvaXrjS4AsKSVQQvzr
-         N9BcOR49ygnr2s8QLON55fx/jbqwHjVabr6YXKPRMHBq7EwkWJ7Oo6OGJfhM3rI5IXnj
-         gNmQ==
+        b=hF4UJxKT1s043nFkY335mQXBGgoV6Kxo2seEY+JvuSY4l7nywaYz/iQW20TBZ2paWU
+         l3nN+2pD/tpAnyY6jKxPimPvn64ePaOGc1RBNyS6c6PjoOvJf9OqLdHGKE5Eg3ftrrAH
+         uAdHZk3S0TA3ASOirn5sI3d28CrcWqWB4t9J29qnQAPD/8xA45DyJAwoHAnQ6jNUYNgp
+         IwmZOxZaax/N8ZF501fqauvpHY18w+givdAvu3VJ5nrOkaa7ZPQyjQaJGfxyeOzFNFhF
+         M5UMhgdRcs0vk8UfgdHI8JF1i8giZIIwJSlArdguyeONRHzUlpZr+V7hl3DxFu2vzvm1
+         mJeg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=zrb/UdIpqUojKYO9EZlwQuzwInZoNixepBfMK58UGqk=;
-        b=PyLY/Z/opdalYIupsiNCDBkA8gW2uF/XlfhuP5Cuv9lY7EmH67uumEcAqSpIlklJjg
-         fCWMrBE2qYJVUVAnGXpydvI4xhh39T4iuQePq3nBPNNJVbcVUnqLJasjhgTi/H1RzSKk
-         7X4d3bivluuKlgDJsStM3LoKzQRL/3LjQG05ztHO06N3sk6A15bAQ23j6pV21Hg15WCt
-         L0UaTcCuG+qBCC7xdCi7XqaQTV4CSDtx9Rkvnwyv/UVDOGL6RBTEfLKH4ll5COUOkceL
-         lFs1YG6Ar+xYOfojPeqnvcG4CCrk95FCdVUj0hSpjfPDTums/lH4Im3l8K41eNPK4Q6H
-         grrA==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=kxCIsodmhlUc6LJpfCl4hJNT3nQKDMd1QwdTLtqqJWs=;
+        b=f7Xaij6xd5+9GJJYV7ULFjmnddr27lMyKJ1Khmr2EP6cmPnizJGbjz84XYWUC8X+fA
+         eI6CxpUuwkW5w90oLkwEHsyJtJqXWZE3jZ7lq1/wkYei7ki0D3rI3TrDyJHbFr/wpK8S
+         8SQRTMirfhzQ5XFnNuwS+FvnYn+uEE1hBwasShyeDkq4ip6TDyyJmGdrg7VwLfYWP4Aq
+         efYIopUlg2UrH5FGkQUfLsBf5BKBB5RN6bSyGZiO1+96M2x+r6sLwwlhDdtZjKillkO6
+         e88DQjG6EAhVlJKWKhjFO1rFOtHGpIy0NTEa2R0Ykgqv7Sj6ozmMpo4ZrjHUB1f/DEuZ
+         oHMg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b="huP9rr/H";
-       spf=pass (google.com: domain of groeck7@gmail.com designates 2001:4860:4864:20::2a as permitted sender) smtp.mailfrom=groeck7@gmail.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=POrVO0Y5;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=5c39LK8d;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zrb/UdIpqUojKYO9EZlwQuzwInZoNixepBfMK58UGqk=;
-        b=Ezn1/K9Sg1wMbjZh/JZsRURHDW9C6f0FfFIZdWEwXXm/3p3Vpfafr60Ak5UMh2u5o0
-         XSdYVtZbtWedNtFmSsj5dO0oAkbb8ndzJRi0oqaf8Rl2ynaI/geZKWFqIQA6LrUL1dn7
-         Xv1J9Bt79dYYCXKi6aKXuBZyg+JmmRtkwm4VTpRNeAqxFuX11pk8+Odu//cMXheB1aty
-         wN9p1hxf7TRoZZaUz4zKVKc1Q3TpTaTtayLrAZV3rC0nZJ74VRIiJlta44Rv2lhquhlV
-         /rF0HdcPYqsA90r+4T3xWWSi4ctbd7iyKjEEv31T+cFOTcl7F9ihgK20Hy1/GN50n0jb
-         /Efg==
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=kxCIsodmhlUc6LJpfCl4hJNT3nQKDMd1QwdTLtqqJWs=;
+        b=r8TM1ll3yvJgrapHtn0gwxNj1SAKs0A/8c8YDtxCsH4AznwJ0S2dzCY8j1xRg4Gdpj
+         xA2nhzMm+b0jJTuElP5W+UOaNq7P2Xs2slbgnSAcQ/uQ2JDUTGtusk5PdT7mcsUroX3C
+         YuTnFBVTlZMf+FUqFpO4PTIWHlGIVtn7PvVA4iIO05H4fP+r9F74CtZReEcYOo74V1sl
+         bkY7pSOUf/3jiso5xkE1xtZEtc4Ge6bsqc6zgHdQpYl2BWP3+oom9uC1vEccAI+9RicZ
+         lvepDzHp6aRmAF1wCdV6dIeYoA+tFaiCy5+sPjebQ4fhxitIKoLp5NCT2S9/Btm9+MgO
+         hZHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zrb/UdIpqUojKYO9EZlwQuzwInZoNixepBfMK58UGqk=;
-        b=7fDuAPg9y1EYboryuHIppH/gHxQ6SGxvBA0YGMUVfSEnRoMLxIYJ+XxaKBHE5gNAbU
-         xAwQozh5UL4oOnX85Z+zRWIWPSeTkyg3D0RZfsW8IZZBofgj5OtW+SfX+1Io5iqew4SS
-         Cth+yB+7IikrKvt2nu3etd5xckud7jukWZ7npjhYeENeA2djFJb0wyt5XnD85+6qIMuI
-         3gAHqewe/OrDKEMs6oSHRFjDc5C881VLc5gB/PhbhT7Qxd9UhKYAMiCpw6MFmzMp67Cj
-         2p1+2lrGKwH4zNBRhYCrCYiXNssNE3z+67fVb5mAaoctDJBEn77+kqZIwweNyzU5LFts
-         lPZw==
-X-Gm-Message-State: ANoB5pnMKRWFijvkacn/u9e06djPDSkFzslXjM/oDz7pbWHisBXd6FLz
-	W+Bj72enspkXfnoukZby1oU=
-X-Google-Smtp-Source: AA0mqf6KFRTd5HB1XMkF2UB8c/f1BatT8WVum6lQMBDlwPtTc4r++6xQMwhop9gKj2zHqMWeBC14iQ==
-X-Received: by 2002:a92:d84c:0:b0:302:ebf5:7b1c with SMTP id h12-20020a92d84c000000b00302ebf57b1cmr32403106ilq.199.1670937103065;
-        Tue, 13 Dec 2022 05:11:43 -0800 (PST)
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kxCIsodmhlUc6LJpfCl4hJNT3nQKDMd1QwdTLtqqJWs=;
+        b=XQaYzTLZlUFs4/zUinnCTj/9Qs8owqSowkD4rJteOHLDGGDbOR9rp5MFMbLUVYls3n
+         6G/1KaMmqqWcGEnWn7hJycFJBHVkC+ksrQIFC9ktrkb7N1uLdK6Mru+DiAJEgcpphqkO
+         uSjZojQiopoBZKtx3K+HzzAxYUYlkGo6V+yHsnh3Kyn8gjv3sIF8V6at90YAHnT68tlF
+         dqOfWxdKgLHppFzLl+aEFKbwKTalPSLNAVeLJTZoMDmVTn/FuU12cLVqAt7ciXmYh0E/
+         hGSwlAgbd/+fYfHug3aYud8zVSOgpuYQS6sMk4tU57oTEitXxCK8bmH+tUnkABHZAo0R
+         6jdA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ANoB5pkJ7dSHEAURFOMmIFZalPlW0kglF0oIyXtqUFauVHCj7cZA8x3B
+	LulgXQhSdKQ4HCAfIcxDHZg=
+X-Google-Smtp-Source: AA0mqf6x88aiBMUVJxz2EFS8LBycdlmZmf5Kia/ncAJTRPJMFCcaAQkiSu++vO6eF67DJb/+tR6JBQ==
+X-Received: by 2002:adf:dbd2:0:b0:236:3cf5:4528 with SMTP id e18-20020adfdbd2000000b002363cf54528mr59211647wrj.355.1670938069573;
+        Tue, 13 Dec 2022 05:27:49 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:10c8:b0:302:beaf:a2f5 with SMTP id
- s8-20020a056e0210c800b00302beafa2f5ls3595255ilj.5.-pod-prod-gmail; Tue, 13
- Dec 2022 05:11:42 -0800 (PST)
-X-Received: by 2002:a92:cb0f:0:b0:304:af73:f87f with SMTP id s15-20020a92cb0f000000b00304af73f87fmr6117500ilo.16.1670937102394;
-        Tue, 13 Dec 2022 05:11:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1670937102; cv=none;
+Received: by 2002:a05:600c:218b:b0:3cf:afd2:ab84 with SMTP id
+ e11-20020a05600c218b00b003cfafd2ab84ls10791760wme.2.-pod-control-gmail; Tue,
+ 13 Dec 2022 05:27:48 -0800 (PST)
+X-Received: by 2002:a05:600c:35c8:b0:3cf:6e78:e2ca with SMTP id r8-20020a05600c35c800b003cf6e78e2camr15777558wmq.5.1670938068316;
+        Tue, 13 Dec 2022 05:27:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1670938068; cv=none;
         d=google.com; s=arc-20160816;
-        b=qYK05zLm6/aDFhHTI24719JumNh2+MOjuezoIRYqHzvUrnBR3mu1wd0L63lfSHQO6f
-         offhHU/Rd+NNxy/vsTgu/alhUB7fTpTpXwBwaEHKjbDr0Mgmo51Q0qW/83YymsInI7l/
-         bbRw1ROUmJsG4O/q75ZX/ShaWc9j01A/IWgBzI7gU2Fs76Wo65te7cPyUuUo4oQpe4Gz
-         NK0gvzpqdymgtUIlEcehVpdpBNyt1IHEn20KujQ0cbwQh4/M6dVnBGaktepdFU/T+G5e
-         GzkzSWb1ygw3VQ3oKs9JfYpzOIL9YL585l3WOD6pYfzJ6cYH3XyF8u/0L0Bkee5GYG70
-         lNWA==
+        b=gHfTpLp0wJxJkrDoSDahTNAqDz9Hx4BY+RHDBhKhz+pGHEDcr9OYUeD6L4zzNitN4V
+         TDEVelld4sPUwBi9B79QcELVQFq9EsZfhpWmsO0o+FUFL9rDdGVhqDFhCeqcHJUXobOZ
+         /CPHohFMPvP8ijP0q0b/5sx/pj3cnENLUX/yvO11QG/hwno9P89ixgKi9wOEBsYZ34Vd
+         7ORRaWt7k1N2B9aMNCYRen36bvTJ2lxzeeY0bc5HK93Xj/6EC8pzw+9KOrioAJLMwial
+         6wnUlldwxYSedpIANCu3y6WXld6IN9Wds3xAHdz5mrcYaRScIx8EBu5XSdd7e3a8WMfb
+         t9Mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=KAw/HCOljVHgj+BBWaxcjEK33owb4M1DkrrbLVmLoWw=;
-        b=aJLfTD15XJVrx7MkHI9qx7JXBm9hl+uWYzrQmExJ1Ylb2ALfSwSdJQm2C4F7vnLcOt
-         FoIjqXLKLYp5Pdsa0kebNd2JG082fNvk4zpNHYd3ijH97ZpdC2hufHyINhmbhLWbZIrc
-         M91ckYTGNhcH/vqTwDQ6Lok2I4URqxkyIl9jjo0HYXfhLUTP/LyQ2EAp/qShdaCzu2xF
-         6oeA16xcKJjRnqLFrwqB83gupjt06EWJNYxIK8BzlyBIY3s4TKfjMtNU1gMFDJWlxHlX
-         O46KEtb+WMPwjyWPUPhNbVq0ei1PYVZO1sQAVk3tSf/WYwyNL1m9EkD9XJN2oRFOBs+T
-         KehA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature;
+        bh=2t/UYI9MSV5VugIDUL9AEWRw4BbvAyzLCXl4/1d9eQs=;
+        b=LZzR/HnlxlUmkAY4n9yJD/fgcXYJW8tSxowlTf3u74rg3A98df8Cz9whtzCVPZQear
+         tBfkAKH554UDyk2NQDd1pSiwqh+O4caZ9BahViXRkVaV57GUkTb0MdIpQANC+zpgovj0
+         Titw9woJ2NqFyxtd4OGS0g+BFUFerJyViYljfkOcnIx7ibj1dscRDRJdDzdxnNmMkZhQ
+         yHBhf3yw73296DoxIW2xaDCgqbL07fmyx/dea2ZrmxwwROT8J86LfP9MMcYBciezW/kz
+         sMjFfsgnmo0ELs7H7yqRFrBn9H/9KalYh1rfIvN8z57QWCQESo0O20XtGbvGKoYYeOj4
+         Dn/g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b="huP9rr/H";
-       spf=pass (google.com: domain of groeck7@gmail.com designates 2001:4860:4864:20::2a as permitted sender) smtp.mailfrom=groeck7@gmail.com
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com. [2001:4860:4864:20::2a])
-        by gmr-mx.google.com with ESMTPS id z20-20020a029f14000000b0038a5b827993si143911jal.2.2022.12.13.05.11.42
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=POrVO0Y5;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=5c39LK8d;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
+        by gmr-mx.google.com with ESMTPS id by8-20020a056000098800b00236e8baff63si650497wrb.0.2022.12.13.05.27.48
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Dec 2022 05:11:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of groeck7@gmail.com designates 2001:4860:4864:20::2a as permitted sender) client-ip=2001:4860:4864:20::2a;
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-144b21f5e5fso12401582fac.12
-        for <kasan-dev@googlegroups.com>; Tue, 13 Dec 2022 05:11:42 -0800 (PST)
-X-Received: by 2002:a05:6870:6b97:b0:144:8103:8e88 with SMTP id ms23-20020a0568706b9700b0014481038e88mr10411248oab.5.1670937101949;
-        Tue, 13 Dec 2022 05:11:41 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id ep41-20020a056870a9a900b001447602267esm1361026oab.41.2022.12.13.05.11.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Dec 2022 05:11:41 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 13 Dec 2022 05:11:40 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, Linus Torvalds <torvalds@linux-foundation.org>
+        Tue, 13 Dec 2022 05:27:48 -0800 (PST)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EFBF0228EB;
+	Tue, 13 Dec 2022 13:27:47 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C7810138EE;
+	Tue, 13 Dec 2022 13:27:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 4xX+L9N9mGPCTQAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Tue, 13 Dec 2022 13:27:47 +0000
+Message-ID: <48cd0d18-a13c-bf20-e064-2041f63b05bf@suse.cz>
+Date: Tue, 13 Dec 2022 14:27:47 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
 Subject: Re: mainline build failure due to e240e53ae0ab ("mm, slub: add
  CONFIG_SLUB_TINY")
-Message-ID: <20221213131140.GA3622636@roeck-us.net>
-References: <Y5hTTGf/RA2kpqOF@debian>
-MIME-Version: 1.0
+Content-Language: en-US
+To: Guenter Roeck <linux@roeck-us.net>,
+ "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <Y5hTTGf/RA2kpqOF@debian> <20221213131140.GA3622636@roeck-us.net>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20221213131140.GA3622636@roeck-us.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <Y5hTTGf/RA2kpqOF@debian>
-X-Original-Sender: linux@roeck-us.net
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b="huP9rr/H";       spf=pass
- (google.com: domain of groeck7@gmail.com designates 2001:4860:4864:20::2a as
- permitted sender) smtp.mailfrom=groeck7@gmail.com
+ header.i=@suse.cz header.s=susede2_rsa header.b=POrVO0Y5;       dkim=neutral
+ (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=5c39LK8d;
+       spf=pass (google.com: domain of vbabka@suse.cz designates
+ 195.135.220.28 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,31 +155,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Dec 13, 2022 at 10:26:20AM +0000, Sudip Mukherjee (Codethink) wrote:
-> Hi All,
+On 12/13/22 14:11, Guenter Roeck wrote:
+> On Tue, Dec 13, 2022 at 10:26:20AM +0000, Sudip Mukherjee (Codethink) wrote:
+>> Hi All,
+>> 
+>> The latest mainline kernel branch fails to build xtensa allmodconfig 
+>> with gcc-11 with the error:
+>> 
+>> kernel/kcsan/kcsan_test.c: In function '__report_matches':
+>> kernel/kcsan/kcsan_test.c:257:1: error: the frame size of 1680 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
+>>   257 | }
+>>       | ^
+>> 
+>> git bisect pointed to e240e53ae0ab ("mm, slub: add CONFIG_SLUB_TINY")
+>> 
 > 
-> The latest mainline kernel branch fails to build xtensa allmodconfig 
-> with gcc-11 with the error:
-> 
-> kernel/kcsan/kcsan_test.c: In function '__report_matches':
-> kernel/kcsan/kcsan_test.c:257:1: error: the frame size of 1680 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
->   257 | }
->       | ^
-> 
-> git bisect pointed to e240e53ae0ab ("mm, slub: add CONFIG_SLUB_TINY")
-> 
+> In part that is because above commit changes Kconfig dependencies such
+> that xtensa:allmodconfig actually tries to build kernel/kcsan/kcsan_test.o.
+> In v6.1, CONFIG_KCSAN_KUNIT_TEST is not enabled for xtensa:allmodconfig.
 
-In part that is because above commit changes Kconfig dependencies such
-that xtensa:allmodconfig actually tries to build kernel/kcsan/kcsan_test.o.
-In v6.1, CONFIG_KCSAN_KUNIT_TEST is not enabled for xtensa:allmodconfig.
+OK, so IIUC
+- e240e53ae0ab introduces SLUB_TINY and adds !SLUB_TINY to KASAN's depend
+- allyesconfig/allmodconfig will enable SLUB_TINY
+- thus KASAN is disabled where it was previously enabled
+- thus KCSAN which depends on !KASAN is enabled where it was previously disabled
+- also arch/xtensa/Kconfig:    select ARCH_HAS_STRNCPY_FROM_USER if !KASAN
 
-Downside of the way SLUB_TINY is defined is that it is enabled for all
-allmodconfig / allyesconfig builds, which then disables building a lot
-of the more sophisticated memory allocation options.
+> Downside of the way SLUB_TINY is defined is that it is enabled for all
+> allmodconfig / allyesconfig builds, which then disables building a lot
+> of the more sophisticated memory allocation options.
 
-Guenter
+It does disable KASAN, but seems that on the other hand allows enabling
+other stuff.
+Is there a way to exclude the SLUB_TINY option from all(mod/yes)config? Or
+it needs to be removed to SLUB_FULL and logically reversed?
+
+> Guenter
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221213131140.GA3622636%40roeck-us.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/48cd0d18-a13c-bf20-e064-2041f63b05bf%40suse.cz.
