@@ -1,150 +1,123 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBYFQ4KOAMGQE2I6KUII@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT6537ZTEKRBA435OOAMGQEXCZYLZQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4DC64B846
-	for <lists+kasan-dev@lfdr.de>; Tue, 13 Dec 2022 16:21:05 +0100 (CET)
-Received: by mail-wm1-x339.google.com with SMTP id 9-20020a1c0209000000b003d1c0a147f6sf5782109wmc.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 13 Dec 2022 07:21:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1670944864; cv=pass;
+Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65ED664D745
+	for <lists+kasan-dev@lfdr.de>; Thu, 15 Dec 2022 08:32:21 +0100 (CET)
+Received: by mail-pj1-x1039.google.com with SMTP id b16-20020a17090a10d000b00221653b4526sf1080438pje.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 14 Dec 2022 23:32:21 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1671089539; cv=pass;
         d=google.com; s=arc-20160816;
-        b=kXuYt6TRa/Zjkdi0kBv54UwoLbFgRKLE8EGGNdpbq5/7kW4PvT84Uqh3M+r3s2ABBO
-         cxjYHdWleiRWajSptOq9rp3jTo9UjrdD0zm/3EQBsLxswH3j3HZu0unWUBQU0H1TkTns
-         ZfVjk0nnErUmHe7pmy6TFCJbFta8otFeUmZLO9XRehBhc0keRpqF878aSK43IGSik6Ip
-         aDHv/FyRm+l13DMqvk8OfnoHQqtNvYWsxJwmXPc/p9Rz6ftmi+G+pv0xUQB2m5p814pA
-         5/sXmFx9mX2QxdoWxPBHomNYZ4vS0ZXGpKgdUTHLucba0IJvqG1Vm+IVh+iDAOHM/KNf
-         Wfhg==
+        b=QQTflX4YrggKc7Gf0T8bMTRhpvEH6FSMWPSHUmbJopKhpSxXZVWmYCKRcWPcuQm/i4
+         Sk0STo72ZgJuPgEzuaiodEY7RWtM3W9neVmRYGxhs5Yvz1cX0MAml8/pVXKkcc2LMJB3
+         xM4mDdaNBG0y5xQQkyf132DCtUze2ermF/ONR5Mn42YdagBuMppCzWPIanBQltmYB4KQ
+         o7175SNxIqBEVDZfWp2z7RjDRbxbehoYsklYHTlsVfInfAOEhhEOyAHPZ1kENBIijzdD
+         JjO+EnaCQPwxoryBrDE4LY+ecd0+jUNhxaO9I/XYCMvjm83qIwHcBkrpf9Wb5UKC7jQ/
+         JNcA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=e+CeaYDdf5E8D8JTIhz5/mWzYb17Lyn0asT/aL4/wBw=;
-        b=jrXph8opBQoMX3AQ19s9mCoFEk+Vrma9G/cnZ9Vw6xM4PTHxdjLPdepcPk4AlaTkQX
-         puHJrpMY/hUMElKEKACEQxm1IPPIrojc4GBe+ie+i5Zxk3kVL+sRa1s0wwmtzvHcBs+P
-         KMBI7ufiw8haEjqHvoWNXqEdO0/fid1okAosvvhxEOH6+6pcUBekSd74m20yFYP/hLuT
-         eBp9qehcnnJfpMYGgtowyF8/1gk1vkDIIr3VHuiCRa3gbyC6KAL+9eLP6s3SKRpFQZaQ
-         k0WA6wU0CGSS6x9OTkMEIMU1LkvIf4nCyIy2YpHE8fNbGCWndUh9vUVr49ZflVmzQN7n
-         ev3w==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :mime-version:sender:dkim-signature;
+        bh=fUQduJCRPMkcqNYeddqJmrfm11vOJq1zgMbKQ3SIof8=;
+        b=Lnqt4dsOcybcYN35tzGhtcqdwxtS48Ir544sFjulH5cSmz+dheW1WBRkmnB9PxZh8t
+         XXK4lwe5BRlGhKNf5gdBarTqSZ52ZcccD8CW8WzugsWfbomWRZ8Q5QRmFB5C+DUqz0W6
+         CoavvgIc9AnFfeT3dm4QY0nfq2FuCLiFMa6lV6FTpLdDRbvfvBlH4mhOSigzU/jAwYJg
+         AOXSNCSIqTgLYoPM3d3/Xqo1o2mWuHVu21e/kr3o2zxAmLqoShp7v40N1LRTuBb4UOZa
+         DKzo8TwBbzdmc3YWVcWeI4YCLLgAhBgQ8CG1M+nKih9kgHED6GB1FTLkWYd55VfsWF56
+         gg7A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=nx8nCOKH;
-       dkim=neutral (no key) header.i=@suse.cz header.b=dkWRA5cJ;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@linaro.org header.s=google header.b=vqHWFXqE;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::92c as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-original-sender:cc:to:subject:message-id:date:from:mime-version
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=e+CeaYDdf5E8D8JTIhz5/mWzYb17Lyn0asT/aL4/wBw=;
-        b=bKkPTF+bR80X58Z98oPyhjKiHj0ZsYgOHe23ao/sgX+XtgnEUDAPP68wMsgcVyE6T1
-         WfxP8JI1Qx/zX+HuiWYfxoqLy0mQJeqrtcuoj4urEBObRaJe4WXa2UQrUYK7nOsu/jDc
-         yNQfoc9TC3V29HTJoz4+3hV79Rq1crn5sOgEEdOSgcix0nEXmApHpO+UIYuKx7H5XLp4
-         2b0RxHMUPZwl/sS0jUUFK7G17qj1pTjy9cxD/Q3tVbdTKTghyaluG9o+gKPaX/qlUeks
-         +gw8mdzc7Sr3fMk8cGjh40lXB9fGFIgTOhzewsy+e/yIaelnfo/1OvzO1rXRKG9qnvGr
-         Ay2w==
+        bh=fUQduJCRPMkcqNYeddqJmrfm11vOJq1zgMbKQ3SIof8=;
+        b=aVxj/hmYt3kayf+V9s1yAHf2XUe/vY5KGPmOG94is6INh+Ycrv5ZWgqhiLIWhhuFDl
+         i7IJpOuJEWwQ7uepTxRvFiksdhfu7WS9pTl2A+nItBMltbZVaOVB58D+dnHlkREXf75e
+         TPCOyCYJoTnyH08I7K/b0dFnqQinGERa1juQQl2VsE95W7p6lbh8FAZK8ks4S/x3IF1h
+         j1AiCRcEEJNlcqHk5rwrMkYqnf9KOHJLaSa2UoNbdCtBHX1t97GghjyvrIB6MjP88cZE
+         AIbUatBC7xoSnJWGiAmRPfdPc3ERdM2Odwps+tcsmTlRPMfSQn685cu/C2tUOFkrTujb
+         lCMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e+CeaYDdf5E8D8JTIhz5/mWzYb17Lyn0asT/aL4/wBw=;
-        b=y1BHohRBXtdQ739AsFQF1wztDW+RkTuwOUOoaCNgR0zSzLYo2mYsGV7bcIBM/eN7R1
-         t749xqd/HM9uT9VxX0dymEn9xLw6WR9QrvVZPk3w5GoWWnrU7CI8f1aa+xvH02rCNxnL
-         N3e+2c+TyzkWWdxKWAKJHhhFL0GWS4rASeMHvBC9T5DkExCI5s8riRAPb5Qap3GhgfxD
-         3e6+HTlpJbij550meHh2F173EgnMKDIC+Z08lZKPkiW0ooNHXL2c/EFwbxPzPn4hBu/M
-         uuKxJuqASfDPcpk+XDJFme4I+RQCHw2duBXfvGvbTbjMOgJIKNnlsZ7HNXAYWD38q2tc
-         Ok7w==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:mime-version:x-gm-message-state:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fUQduJCRPMkcqNYeddqJmrfm11vOJq1zgMbKQ3SIof8=;
+        b=cLgtDruei22cDbyRMikUWqVU24/AIsr1preW7TU1YdrUmUq9wc5NJTXFNyQKlvc80b
+         XcYG4tbL9R4V/KX3vG8KeiX05+Xnf9gaJAxKwaXXf/8XpDbm/4oJdgPe/XM/xYeax0IV
+         HMgrCrM77XNYJYpxL0AlFAJ3YPeo9cSNGhMVXHtahLs8Oa2iZ4aXgkg6acq1rXJAV8cH
+         ME1v4294c/MQUwnf/TXRq4UKnje0H9rjpJhaYVJm/VobBcGoJw0DsHOWJ6idY7KjmkoV
+         6TCVtUl5sYaJAqFl3KsokUkx4fuJk4uZGDyt+EqPylEVo1AM6nK0dWHvKVi0tU/uxTqp
+         RrIQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pnuC+/h+2qBLR0byv06qTS729XeUeRbW0d5jBMYHbVDarfdeVvB
-	L5VmfGZvfs8fNZDfY9Su2mo=
-X-Google-Smtp-Source: AA0mqf69ck6lRPWLtEdoHoLPpWFHofqL84QPIiHl5Xvnelo9uLusTY+LT6etzV0mKH7YFPP9OstciA==
-X-Received: by 2002:adf:e347:0:b0:236:76de:7280 with SMTP id n7-20020adfe347000000b0023676de7280mr60235586wrj.194.1670944864592;
-        Tue, 13 Dec 2022 07:21:04 -0800 (PST)
+X-Gm-Message-State: ANoB5pn9sHJXkn004I/wsVBT95NuWGC5XvQqOoHK2dTA1Vr1lmtBUuP1
+	H3HLwO+lsDKJwzjn1EqAGFg=
+X-Google-Smtp-Source: AA0mqf4RkRrF0HK5QElx5mYiwLYy8s3R1qJ1DfSjXtYGYzyO71NV3N5MRgKWr2tubAAEd9SloHXukQ==
+X-Received: by 2002:a17:902:9890:b0:189:9301:9c1d with SMTP id s16-20020a170902989000b0018993019c1dmr47409586plp.28.1671089539459;
+        Wed, 14 Dec 2022 23:32:19 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3b17:b0:3d1:be63:3b63 with SMTP id
- m23-20020a05600c3b1700b003d1be633b63ls12265823wms.1.-pod-canary-gmail; Tue,
- 13 Dec 2022 07:21:03 -0800 (PST)
-X-Received: by 2002:a05:600c:4e92:b0:3d0:89f5:9296 with SMTP id f18-20020a05600c4e9200b003d089f59296mr16506917wmq.17.1670944863250;
-        Tue, 13 Dec 2022 07:21:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1670944863; cv=none;
+Received: by 2002:a17:90a:898e:b0:219:4318:f24e with SMTP id
+ v14-20020a17090a898e00b002194318f24els2101724pjn.0.-pod-control-gmail; Wed,
+ 14 Dec 2022 23:32:18 -0800 (PST)
+X-Received: by 2002:a17:903:515:b0:189:bcf7:1ec0 with SMTP id jn21-20020a170903051500b00189bcf71ec0mr28011353plb.30.1671089538707;
+        Wed, 14 Dec 2022 23:32:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1671089538; cv=none;
         d=google.com; s=arc-20160816;
-        b=tTjfKqepxRuvYjOX+80XdaMuoxaIOEZ3rOsKZkuVcGCNl5X9KsFwp6dBeFGtY1a7gy
-         Jt8fPO4i4NwgAgZFwkEYdsnEVRtl8hTETW9R5tRE8PNNqEhRLgMf4oW4LtiHdh15z/AW
-         y6wooipnPN2GnKlFyA4w1CTggtJihKhB1P4BdpazZhh0FL8u9f76bavthppr27+z6FD2
-         na+lvGLaSUPJ0bt3c40AQyiZicNIY7kYu7JsEvfqfi2fjUECFpsYDtTnmB4OfgUxMAIp
-         ODv2RxsBAnbh/nYqzyfudEGrCTjGjkBMqcQcm9uuN2SggZadzZk+Oz7LaRxYSgvcCAWr
-         0jdw==
+        b=SDSDhWS3CdVxxJdfn6jbv7aqD4NujuM/JTLvg5cO6kqAHttcnIFgfJMLkeTrRNtMy5
+         bghyBmyspOvidATPTJMIHc0w71ky0JozlhiyzhZg/MVWeillErzjwgwLuK/EWeB6RaqO
+         u8ivfZYGNgyTCeRIokhovGnqTsVYgem5C/kHeNdrE7desGSUslVOhcqrdpZwjQUNbJl1
+         IOfDMlQXDtwPK9YyhLN4/J/lXrsLI5RzQnLwzzC5q/P+8+V4XI3lzH/6tMSssQjQ9Uzp
+         EmF0rkbvj64HFb1mNJzeskP6YtT5xTQsz+uUwHrVN0cWqhNZn+vVocPRpYWOgMxIfwqH
+         iqLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=YiZIoKh/H3JB8O+68Jo0nbSuac+QbMa/5AjW72iFLcQ=;
-        b=NFdXyStuYLLDexfuCuDzfc2dcZ76e+JUl9RTSAPeS8cEZeabwqhJvWS16E7HD+GmSG
-         Zvo+79V55z2fwhup2foDI3RZz1SImauPwuicEwz7yuuXfzHPsbHYg39K+PsFI3NPbM/p
-         QhUD8dG5WLS6DZLjim12KQ+R1nx/9lvmxfHbD2cYbrKsC8EO+EkD5QVRwFqZWK+6XPSv
-         GvF5M/Y54tHuE6NQeQv2zMIWrc2tpsvsYuI449Pr4OtXvuptfdaJdM7xaUdBtDNwyXCV
-         i2+Egkxf9TqZxvwzol0mE2DwfXbHDGahPKD57u8C/VUpSrQ0ytHW99Am6Ni302pvwOub
-         GsZw==
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=oNTsmDDapjb0QCUT4JkH1Ng5FzflwQuaskNm+11VdTk=;
+        b=vIjvvPXzYmyOMjLh6DZS3CzHcvIy4TM2N8JB7+VyjrvgN3Gnzf0k9gbrWzDkbpNbCr
+         4mtT41MWLhoBvaFQRsDn9czCgD9G7kseOzJ/tmzalJWyPB/Bc1j70tStJKOnJ1WC4EPs
+         ga4wm3/l+bJmgWKlo28OL5eWILOq+pBk/A7zvUdDaPMZD3auCt/WbabaEFOdMcpYjuf4
+         ld07LfRvtPRcqAmMGR4B5kPiSrtcC7SN7HXBxt/Xx62ltHcChT870x5BoSzxmXVn20lB
+         M0nM+EIyPY8p4Y8j16yqmpdgT8BO0Hi4oWUvv2tmBuesZdXk1mUYzCPkJyP1aon/OIAy
+         asfQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=nx8nCOKH;
-       dkim=neutral (no key) header.i=@suse.cz header.b=dkWRA5cJ;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
-        by gmr-mx.google.com with ESMTPS id 65-20020a1c1944000000b003d090dbdab3si120061wmz.1.2022.12.13.07.21.03
+       dkim=pass header.i=@linaro.org header.s=google header.b=vqHWFXqE;
+       spf=pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::92c as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com. [2607:f8b0:4864:20::92c])
+        by gmr-mx.google.com with ESMTPS id c9-20020a170902d48900b00188a88cc62fsi574407plg.12.2022.12.14.23.32.18
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Dec 2022 07:21:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DB4461F8B6;
-	Tue, 13 Dec 2022 15:21:02 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A849D138EE;
-	Tue, 13 Dec 2022 15:21:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id c/e2J16YmGMsEgAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Tue, 13 Dec 2022 15:21:02 +0000
-Message-ID: <97c5df42-c6ea-8af5-a727-f1fd77484a59@suse.cz>
-Date: Tue, 13 Dec 2022 16:21:02 +0100
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Dec 2022 23:32:18 -0800 (PST)
+Received-SPF: pass (google.com: domain of naresh.kamboju@linaro.org designates 2607:f8b0:4864:20::92c as permitted sender) client-ip=2607:f8b0:4864:20::92c;
+Received: by mail-ua1-x92c.google.com with SMTP id s25so528330uac.2
+        for <kasan-dev@googlegroups.com>; Wed, 14 Dec 2022 23:32:18 -0800 (PST)
+X-Received: by 2002:ab0:6201:0:b0:419:da15:be26 with SMTP id
+ m1-20020ab06201000000b00419da15be26mr8686832uao.115.1671089537713; Wed, 14
+ Dec 2022 23:32:17 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: mainline build failure due to e240e53ae0ab ("mm, slub: add
- CONFIG_SLUB_TINY")
-Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>,
- "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Marco Elver <elver@google.com>
-References: <Y5hTTGf/RA2kpqOF@debian> <20221213131140.GA3622636@roeck-us.net>
- <48cd0d18-a13c-bf20-e064-2041f63b05bf@suse.cz>
- <fd532051-7b11-3a0a-0dd1-13e1820960db@roeck-us.net>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <fd532051-7b11-3a0a-0dd1-13e1820960db@roeck-us.net>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Thu, 15 Dec 2022 13:02:06 +0530
+Message-ID: <CA+G9fYvcmmOh93nOti72+woKvE+XvLg7apCYDUfu6oKtjPkHKw@mail.gmail.com>
+Subject: BUG: KCSAN: data-race in do_page_fault / spectre_v4_enable_task_mitigation
+To: open list <linux-kernel@vger.kernel.org>, rcu <rcu@vger.kernel.org>, 
+	kunit-dev@googlegroups.com, lkft-triage@lists.linaro.org, 
+	kasan-dev <kasan-dev@googlegroups.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Dominique Martinet <asmadeus@codewreck.org>, 
+	Netdev <netdev@vger.kernel.org>, Marco Elver <elver@google.com>, 
+	Anders Roxell <anders.roxell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: vbabka@suse.cz
+X-Original-Sender: naresh.kamboju@linaro.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=nx8nCOKH;       dkim=neutral
- (no key) header.i=@suse.cz header.b=dkWRA5cJ;       spf=pass (google.com:
- domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@linaro.org header.s=google header.b=vqHWFXqE;       spf=pass
+ (google.com: domain of naresh.kamboju@linaro.org designates
+ 2607:f8b0:4864:20::92c as permitted sender) smtp.mailfrom=naresh.kamboju@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,74 +130,75 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 12/13/22 15:11, Guenter Roeck wrote:
-> On 12/13/22 05:27, Vlastimil Babka wrote:
->> On 12/13/22 14:11, Guenter Roeck wrote:
->>> On Tue, Dec 13, 2022 at 10:26:20AM +0000, Sudip Mukherjee (Codethink) wrote:
->>>> Hi All,
->>>>
->>>> The latest mainline kernel branch fails to build xtensa allmodconfig
->>>> with gcc-11 with the error:
->>>>
->>>> kernel/kcsan/kcsan_test.c: In function '__report_matches':
->>>> kernel/kcsan/kcsan_test.c:257:1: error: the frame size of 1680 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
->>>>    257 | }
->>>>        | ^
->>>>
->>>> git bisect pointed to e240e53ae0ab ("mm, slub: add CONFIG_SLUB_TINY")
->>>>
->>>
->>> In part that is because above commit changes Kconfig dependencies such
->>> that xtensa:allmodconfig actually tries to build kernel/kcsan/kcsan_test.o.
->>> In v6.1, CONFIG_KCSAN_KUNIT_TEST is not enabled for xtensa:allmodconfig.
->> 
->> OK, so IIUC
->> - e240e53ae0ab introduces SLUB_TINY and adds !SLUB_TINY to KASAN's depend
->> - allyesconfig/allmodconfig will enable SLUB_TINY
->> - thus KASAN is disabled where it was previously enabled
->> - thus KCSAN which depends on !KASAN is enabled where it was previously disabled
->> - also arch/xtensa/Kconfig:    select ARCH_HAS_STRNCPY_FROM_USER if !KASAN
->> 
->>> Downside of the way SLUB_TINY is defined is that it is enabled for all
->>> allmodconfig / allyesconfig builds, which then disables building a lot
->>> of the more sophisticated memory allocation options.
->> 
->> It does disable KASAN, but seems that on the other hand allows enabling
->> other stuff.
->> Is there a way to exclude the SLUB_TINY option from all(mod/yes)config? Or
->> it needs to be removed to SLUB_FULL and logically reversed?
->> 
-> 
-> "depends on !COMPILE_TEST" should do it. Not sure though if that would just
-> hide the other compile failures seen with powerpc and arm allmodconfig
-> builds.
+[Please ignore if it is already reported, and not an expert of KCSAN]
 
-Hmm yeah it seems rather arbitrary and not fixing the root cause(s). If some
-options are broken and it becomes apparent due to a change affecting
-allmodconfig in a way that enables them, then I'd assume the same could have
-already happened with randconfig? So it's best to fix that, or at least
-disable those failing options on the respective arches deterministically.
+On Linux next-20221215 tag arm64 allmodconfig boot failed due to following
+data-race reported by KCSAN.
 
-Also worth noting why I resorted to making KASAN depend on !SLUB_TINY:
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
-https://lore.kernel.org/all/14bd73b0-5480-2b35-7b89-161075d9f444@suse.cz/
+[    0.000000][    T0] Booting Linux on physical CPU 0x0000000000 [0x410fd034]
+[    0.000000][    T0] Linux version 6.1.0-next-20221214
+(tuxmake@tuxmake) (aarch64-linux-gnu-gcc (Debian 12.2.0-9) 12.2.0, GNU
+ld (GNU Binutils for Debian) 2.39) #2 SMP PREEMPT_DYNAMIC @1671022464
+[    0.000000][    T0] random: crng init done
+[    0.000000][    T0] Machine model: linux,dummy-virt
+...
+[ 1067.461794][  T132] BUG: KCSAN: data-race in do_page_fault /
+spectre_v4_enable_task_mitigation
+[ 1067.467529][  T132]
+[ 1067.469146][  T132] write to 0xffff80000f00bfb8 of 8 bytes by task
+93 on cpu 0:
+[ 1067.473790][  T132]  spectre_v4_enable_task_mitigation+0x2f8/0x340
+[ 1067.477964][  T132]  __switch_to+0xc4/0x200
+[ 1067.480877][  T132]  __schedule+0x5ec/0x6c0
+[ 1067.483764][  T132]  schedule+0x6c/0x100
+[ 1067.486526][  T132]  worker_thread+0x7d8/0x8c0
+[ 1067.489581][  T132]  kthread+0x1b8/0x200
+[ 1067.492483][  T132]  ret_from_fork+0x10/0x20
+[ 1067.495450][  T132]
+[ 1067.497034][  T132] read to 0xffff80000f00bfb8 of 8 bytes by task
+132 on cpu 0:
+[ 1067.501684][  T132]  do_page_fault+0x568/0xa40
+[ 1067.504938][  T132]  do_mem_abort+0x7c/0x180
+[ 1067.508051][  T132]  el0_da+0x64/0x100
+[ 1067.510712][  T132]  el0t_64_sync_handler+0x90/0x180
+[ 1067.514191][  T132]  el0t_64_sync+0x1a4/0x1a8
+[ 1067.517200][  T132]
+[ 1067.518758][  T132] 1 lock held by (udevadm)/132:
+[ 1067.521883][  T132]  #0: ffff00000b802c28
+(&mm->mmap_lock){++++}-{3:3}, at: do_page_fault+0x480/0xa40
+[ 1067.528399][  T132] irq event stamp: 1461
+[ 1067.531041][  T132] hardirqs last  enabled at (1460):
+[<ffff80000af83e40>] preempt_schedule_irq+0x40/0x100
+[ 1067.537176][  T132] hardirqs last disabled at (1461):
+[<ffff80000af82c84>] __schedule+0x84/0x6c0
+[ 1067.542788][  T132] softirqs last  enabled at (1423):
+[<ffff800008020688>] fpsimd_restore_current_state+0x148/0x1c0
+[ 1067.549480][  T132] softirqs last disabled at (1421):
+[<ffff8000080205fc>] fpsimd_restore_current_state+0xbc/0x1c0
+[ 1067.556127][  T132]
+[ 1067.557687][  T132] value changed: 0x0000000060000000 -> 0x0000000060001000
+[ 1067.562039][  T132]
+[ 1067.563631][  T132] Reported by Kernel Concurrency Sanitizer on:
+[ 1067.567480][  T132] CPU: 0 PID: 132 Comm: (udevadm) Tainted: G
+          T  6.1.0-next-20221214 #2
+4185b46758ba972fed408118afddb8c426bff43a
+[ 1067.575669][  T132] Hardware name: linux,dummy-virt (DT)
 
-It's because KASAN_GENERIC and KASAN_SW_TAGS will "select SLUB_DEBUG if
-SLUB" and apparently Kconfig doesn't consider it an error, but just a
-warning, if that conficts with SLUB_DEBUG depending on !SLUB_TINY.
-I just realized that KASAN_HW_TAGS doesn't have this 'select' so it could be
-compatible with SLUB_TINY but I disabled that combination as well.
 
-I suppose something like "select SLUB_TINY=n" doesn't exist, as that would
-make the KASAN choice "stronger" than SLUB_TINY.
+metadata:
+  repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/?h=next-20221214
+  config: allmodconfig
+  arch: arm64
+  Build details:
+https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20221214/
 
-It would probably be the cleanest if the KASAN modes that need SLUB_DEBUG
-just depended on it instead of selecting it.
-
-> Guenter
-> 
+--
+Linaro LKFT
+https://lkft.linaro.org
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/97c5df42-c6ea-8af5-a727-f1fd77484a59%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BG9fYvcmmOh93nOti72%2BwoKvE%2BXvLg7apCYDUfu6oKtjPkHKw%40mail.gmail.com.
