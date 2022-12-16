@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDXY7I6V6AMRBFNY6KOAMGQE4AUYHLQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXY7I6V6AMRBUVY6KOAMGQEGK4NSCQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154F664EEFE
-	for <lists+kasan-dev@lfdr.de>; Fri, 16 Dec 2022 17:25:58 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id w2-20020ac24422000000b004b567ec0ec1sf1214591lfl.15
-        for <lists+kasan-dev@lfdr.de>; Fri, 16 Dec 2022 08:25:58 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1671207957; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3511164EF07
+	for <lists+kasan-dev@lfdr.de>; Fri, 16 Dec 2022 17:26:59 +0100 (CET)
+Received: by mail-lf1-x13d.google.com with SMTP id u13-20020a056512128d00b004b53d7241f6sf1222891lfs.4
+        for <lists+kasan-dev@lfdr.de>; Fri, 16 Dec 2022 08:26:59 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1671208018; cv=pass;
         d=google.com; s=arc-20160816;
-        b=z1d5gWMHXNOsFE3V+QJM6VxJihgtxO+fJ/OjhcF860ZCOfLiqMSzM9p0xuY90M50VE
-         WsD9vqmRsL+2GDnNlivvyi4kBXxT0/koMszIhuDeiXaM5tdMfQ2dIL3el6xnqkEeQ7zk
-         jYAi3Tmven6l5TQdR6rbGYXoSKVRAx15pbiPMneHLJr4PrM5X20+OPc/aZzoLw6RVppz
-         YKW8E21far9I+hceZEnpw7T0mqkGFgjVwixr/M0YJzcXBcdiUQuBiWkrDEsQziUsHFV7
-         o4EOc75/a/NBC3dD9oMh+DQl8/4o0u1zQrMjuUb6ycpR5w+XhdSSxRGjI76ut0Awn3V0
-         +Vwg==
+        b=w6Ggfey4WWXe7+3n9Jl9E6WZ847ezJdRyj3pmPYDs5ICzl8gCPAXsSP76n4KyIQTMh
+         UP1gO8TSM2WTk2JTLc1RR3su3UwCS7yl5cOFQ79r1tcu7jqiTSgxJYmRXNWSIOHROXeE
+         NJ/LIlwy8GoyAyWj4SopLSP7fGtpID0NJPSBMlTL0G688FLnvUNAScgZrFUIrj9uV7ek
+         i+ATed+9dz1NpIaR6rB1GI7O9Q3lwKDUNlD+3W6uRUfDOA9rzQdIoaU/wZlZFo6au47f
+         zdlPUxk7wYBCUhB9uFmXvC+Ly87xmxhAJkyVwmOrjmw7KsNy1LknM7+ztk36mxKrDj8Z
+         YGGg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=Mp1/ommzKNn+QN7z+11xE1QQJwhtF8nO83PkXEIIhfk=;
-        b=MGJJXduU8+Q9OFfXN/fLogIhRW/a0gNuVBiYVBywd6kKKjAGfJTQsOfXv34ry8hZmQ
-         9HoM9rV5qK/cnDolStB9zQq5itFyDLGkaWd15kssxy2sjrMZesOnUtydUREswoUN69Zc
-         6eYh6HUJG+5/QwjM7em4OxV8dTXEGEU4XaNmupnQvt5Bh3A9MFWs+uhlLvBNDQhEa3Tq
-         RAV5OLDKmXt0E9goWO9CCdKOFXsmmS1jxyvdi6HoOtxeZvUSalI2pgsU3Vade+W7Qgk6
-         1RtI8eQ8m6Q/pdHgckT/66Wt45RZw/o6KvQDac1MLe2L53eDdoXmqZ2Fao5yHEcT9KKf
-         Wd8g==
+        bh=vF4lCaZKH97fCkMjsg1NPhqZysz+m4Lxprarl7AvYjw=;
+        b=wB7Z7hDtoy8UGprxowNjdxqbs1TDmgwS104tnIGoHWm7OAjh9SrpCjZ8SJk8aojTvv
+         Qddqck+d8lI17M935KbcAYIm/DciSEJoH6w1zkCweKkSAe+CliqzF2bgSUcm6nzNVx5k
+         Oeo5TSuZSxrYbmvaDfHTYqQa3DUFiXHccxMJN9+7NBMNpy8xNGugv1skMs+QN9xSqW+w
+         ZkB7XCNF10osn5iyQXXJ0OjIGFh5OsMv72plX4stom3Zn+jatckzEOjTb6sEDFEKBsCI
+         iWu33U8u9Af0FWphjm2NjQ9CJTKDobkbOLXtRJZPg+ej6/I3cyE7dxM5UK0GBBVgCKqZ
+         VPAw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=6wp5stVF;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=Rvbra2pe;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Mp1/ommzKNn+QN7z+11xE1QQJwhtF8nO83PkXEIIhfk=;
-        b=MmHkPgpUrLwZhkSRLFhJGmj/sqYiFK6fL7bbNlNj4bjUwqEcF0B4NdAwBqYUZ3nhcH
-         bDh1b8tfu5klcG4bTw9Y9kVdBviwuFBjxN+2Zi6SVgl6a+7oTcfpPkCh+gMQfGSnRADg
-         OYAB7Nz1byAj6SVSPAZlzDx+on6SSr8ElM1+H1HcGmipzeAhQUSkjorDK6MxiweFr8uB
-         RHcV2tJSRTdnGFSzBRmhSTzsL+4gduGuHAXE4VEGL01uGA7sKlHTR9PmuAI2mpcVfpKg
-         G8rIOue/C7nbz4dS+ZXPnn9kgJ3ju5iHiGk3q61aqmB2m25T9afhJC/uJZYfcWlKZbYm
-         0a4A==
+        bh=vF4lCaZKH97fCkMjsg1NPhqZysz+m4Lxprarl7AvYjw=;
+        b=AQMhPkbnryXIi3ViLBjul6rYLZ6L2x8obIxyd5BW0NVgH9+844pUtmmjunBxD1H0d1
+         ZtxsUFdaYnzpC6te1BmuGOU/+VQ7sIgOGEQvk4Ee13NXOCtvztxiU5GiIPh2xaNaPrnS
+         pCw9Z558uCFMxC5i6R91RCcAEvhe1aQyXHgdB8tHa54NyBxe5V1fV6Dc+YNd2fqFH3A2
+         ytIpD7ed8SbEK/AkH0qfHNHrFV1yddwwg5IHAjnxEJeURyUHq2tAufY8wEa+qPQHy8WR
+         XRzA83eE1VPUQ9z7x9UcRJJUYMlRSN7lS6Pu1DuQ+UL4bViDP0blkROBeSj0wcOvQgtz
+         i4lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,59 +50,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Mp1/ommzKNn+QN7z+11xE1QQJwhtF8nO83PkXEIIhfk=;
-        b=3N8pCZs5ffx/Fs/M6uCFGtu2NAAjzI3pdZootX8ejlyCuxvrEYoZ9aQXWpnL85wECi
-         vYL2KneLkNF8dTFOpQmuT9CiOaBOLJQ566xfwVKe2sXcab/67UQISod4YVu26moS31YB
-         jFhhXiD51ER4i7zM5MIggLQZHVGx7AUPxKCN+mIKC4MT3YSitJHU/VcTmIh91KZKxAAB
-         tCos8i6Cjg3hWY3PJAMbOKzUl8ON7jdCYeiwRnpP/xoj20KyJuEIjXCQWathHtArhl1I
-         8SmX5tVBTgHgMpM7zutH75cqGu6xeIPj94W2F1kdTLDHQ+CIJeiEMo9wgudmMDSlJ1VS
-         g3Lw==
+        bh=vF4lCaZKH97fCkMjsg1NPhqZysz+m4Lxprarl7AvYjw=;
+        b=c7QqN/jEgZjh/y6c9gY6epr0AGAB+iedJoE7u0QDmeYS3omSQ6WqHWTKJE3GXBxnt/
+         BVSPjvzzZ/KYWFYo8Fsh1Wn2pmjdQaHdxbNFyY4gmp05t7SCppsT+0Sr9N0YNYb4vqJ3
+         F27f0KQl9qDW4128GpTYP/GWTtWl/kLgsb1+VG9SkNH4IPLRKBb5Ryh+zcsgbtZ1ZPW6
+         6GNmDfO8MT8Hbemsd4s+DtHnI3Zsgax8ghcGMT63Nv6dHUuBU+pFGdfFkp8GqeBfH2PP
+         w4Xkk0y0l5IAY2K5MAbRLKvwF8WYwjw499/hNHj/sDuVCc0DVFmCr4tY6FPR0rAfb1le
+         nvmg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pnVkQpqjK80lZ1Mt8yMjRtzjVKXr2SNlKMWb1hDd4rbPL1fYSjx
-	Zij3hZkFxnNnbQIRfF8apvg=
-X-Google-Smtp-Source: AA0mqf5rDgvHgKElUiUhztd15Bi4BDg4sM80GIUeq9jmQwIKblITfEMkF+E0w3cgk9OFoK0T7/pVxQ==
-X-Received: by 2002:a2e:bd06:0:b0:277:2437:e977 with SMTP id n6-20020a2ebd06000000b002772437e977mr33757595ljq.195.1671207957509;
-        Fri, 16 Dec 2022 08:25:57 -0800 (PST)
+X-Gm-Message-State: ANoB5pkSp8bsjXnKDMCs2R1EwgP8HeqpKpuAeoD4ntBOqxU+Bv3yzqmI
+	kNX2RfmYP4IMt/jAq4Cme34=
+X-Google-Smtp-Source: AA0mqf7qdWopvQ+lwLGksa+Tr8sO6GH7fX5ofTHcGsjpW9wB4vJhINdzvEORQKv2EeTvUOcGHqbzRw==
+X-Received: by 2002:a19:5f0a:0:b0:498:f195:5113 with SMTP id t10-20020a195f0a000000b00498f1955113mr32131464lfb.159.1671208018379;
+        Fri, 16 Dec 2022 08:26:58 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:be25:0:b0:279:9f0a:bf59 with SMTP id z37-20020a2ebe25000000b002799f0abf59ls437370ljq.9.-pod-prod-gmail;
- Fri, 16 Dec 2022 08:25:56 -0800 (PST)
-X-Received: by 2002:a2e:a90f:0:b0:26f:db35:7e40 with SMTP id j15-20020a2ea90f000000b0026fdb357e40mr8320177ljq.15.1671207956451;
-        Fri, 16 Dec 2022 08:25:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1671207956; cv=none;
+Received: by 2002:a05:6512:34c1:b0:48b:2227:7787 with SMTP id
+ w1-20020a05651234c100b0048b22277787ls467731lfr.3.-pod-prod-gmail; Fri, 16 Dec
+ 2022 08:26:57 -0800 (PST)
+X-Received: by 2002:ac2:5ca3:0:b0:4b5:5b36:28b8 with SMTP id e3-20020ac25ca3000000b004b55b3628b8mr10141096lfq.1.1671208017338;
+        Fri, 16 Dec 2022 08:26:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1671208017; cv=none;
         d=google.com; s=arc-20160816;
-        b=MM7ssEz78xuwG9yCsaEl35ChUDBeE+q6fsCI7GtTo265v+q0Wy5Y5GbOqJl2lr9Drj
-         F6zP7j1Oa1xlIWSsNjPNSD6b9CYkt4WnvQ0QWWXPZFRpRTC12MaeTsOtmV/qK++JJ+0h
-         OiIWef1cBoSH5ASVbus8phHVcLmkDGNU244spXy2rL9Lww3xWbrdOv3T7SdlUNjr7GOx
-         Up4P79LuvRUb7lF6G6cLtYbRBBbsV0XnRyPGyiY4ipxXr4uh6qDlrkcxXktV9P3/BED/
-         iJYkD2Y8TYymLdJ3TsCZkqPyRKnbcnWvEtU5FNNeKrgmSEPWnHzzAQxVqxcVKhhaC8iO
-         hPKQ==
+        b=ljMgB628y9Xvr6NAbR5SbwvBb4fwRe3Q33Yw6FebixwAvH8idWznMb8BqKNdvYf43X
+         VWd4sDOTM8C/DCnclHZ3SLUgsiH+N7Wv8k1Jeco4jNReezP3vGE9Rxh1i5/ARZwBT5vL
+         AuHvJM+tl3Sh8HDNxbRRPP4pw8ieAYPq0Zr3QwbwmcFrW1Jz2u5A/9lk6dMDGXX3uA8R
+         jvlpYq58aYkBQHcIqTti3S8Bb5QjbT5VGzglS8jWQw4sYgGAhAaBPawEiKDxZFw/H39h
+         B/cI3zrSyE7evNOfGThXy3f131+DS9xwvz98SEAwmtGC32465L8R809S0VMGQk1uLB8E
+         LwRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=Ny2TExHkEZdNiam4GgngpmtWZKCcqjrEUo0Wf99rwww=;
-        b=ELv3CVNy/oAjYNKfSbHw9dR1Pyj5K12YV7fIjNCM2+hUYVkPSUS/hnJo1Ce3rfCSlM
-         G6Mdql+dk9cC5Coo3B7tCDSR98ZftCZRM/rR3rttIPHol2kug1xJgwLa+TRun/tPuRjn
-         dJcKs2iJxDwiR9gkV2GFvoFYVtrIL/4/mJRxVkBAuxtVHF/JHCHuAjQHsu0feQw/n2Yz
-         GwnJ5VEGrdEp1IBSkRuShFjHjMLsRDGo2PA33yfqx7GKrtLzlvTj7dtUYoqcB5PeauZT
-         wrBt+VP4uUgLQ/vYCgoVcm7yZx7cwip2p9shtyEYUxuq5CzYpxoGrQaTY16JnEroYjJc
-         mKgw==
+        bh=7CyWdPwmsoEln1rCKIxbXcZ7tw/K7pVLqcNgYwRXhLM=;
+        b=JCQyh4ulqhqm27W8KuHZ1vW8mnubtrstQJnWdZ5dApSMAodJSVUKGKlZnQsd54t3tV
+         lf+0h0w+2Znp9pa54Ck9XxRfTRDmHN3MSmxYIun8x8UpJGP/6R+cBLvV2pOya0qTdswB
+         XCdpzfLVFhOgQDmUlqYemQRiCNfJqhJPFpzRHIkwGWaDPLgpA6oMBHLT9FqTjntZXiMx
+         A2mHIkQI1MzgZnHpKM3CT+lIvkNUrHH9kMYETmG1IADBfwJp84CJL5CAO46iAjuBM7wi
+         WhERZ09CCi0iugP3YAA5WD1zQRv6ZEOi+jSqjTe/4dy29/DcEQ++8J5Xgw+/QUHBpfXS
+         VmWw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=6wp5stVF;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com. [2a00:1450:4864:20::32d])
-        by gmr-mx.google.com with ESMTPS id b8-20020a2eb908000000b00277385b7372si127987ljb.4.2022.12.16.08.25.56
+       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=Rvbra2pe;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com. [2a00:1450:4864:20::42b])
+        by gmr-mx.google.com with ESMTPS id s7-20020a056512314700b004abdb5d1128si129374lfi.2.2022.12.16.08.26.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Dec 2022 08:25:56 -0800 (PST)
-Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32d as permitted sender) client-ip=2a00:1450:4864:20::32d;
-Received: by mail-wm1-x32d.google.com with SMTP id p13-20020a05600c468d00b003cf8859ed1bso2178826wmo.1
-        for <kasan-dev@googlegroups.com>; Fri, 16 Dec 2022 08:25:56 -0800 (PST)
-X-Received: by 2002:a05:600c:554b:b0:3d2:1761:3742 with SMTP id iz11-20020a05600c554b00b003d217613742mr20371748wmb.15.1671207955923;
-        Fri, 16 Dec 2022 08:25:55 -0800 (PST)
+        Fri, 16 Dec 2022 08:26:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::42b as permitted sender) client-ip=2a00:1450:4864:20::42b;
+Received: by mail-wr1-x42b.google.com with SMTP id y16so3051601wrm.2
+        for <kasan-dev@googlegroups.com>; Fri, 16 Dec 2022 08:26:57 -0800 (PST)
+X-Received: by 2002:adf:f9c7:0:b0:242:4c28:c9a9 with SMTP id w7-20020adff9c7000000b002424c28c9a9mr19141287wrr.46.1671208016801;
+        Fri, 16 Dec 2022 08:26:56 -0800 (PST)
 Received: from alex-rivos.home (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
-        by smtp.gmail.com with ESMTPSA id j9-20020a05600c190900b003b4cba4ef71sm11838404wmq.41.2022.12.16.08.25.55
+        by smtp.gmail.com with ESMTPSA id z7-20020a5d4407000000b0024245e543absm2554603wrq.88.2022.12.16.08.26.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 08:25:55 -0800 (PST)
+        Fri, 16 Dec 2022 08:26:56 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -118,9 +119,9 @@ To: Paul Walmsley <paul.walmsley@sifive.com>,
 	kasan-dev@googlegroups.com,
 	linux-efi@vger.kernel.org
 Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH 4/6] riscv: Fix EFI stub usage of KASAN instrumented string functions
-Date: Fri, 16 Dec 2022 17:21:39 +0100
-Message-Id: <20221216162141.1701255-5-alexghiti@rivosinc.com>
+Subject: [PATCH 5/6] riscv: Fix ptdump when KASAN is enabled
+Date: Fri, 16 Dec 2022 17:21:40 +0100
+Message-Id: <20221216162141.1701255-6-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20221216162141.1701255-1-alexghiti@rivosinc.com>
 References: <20221216162141.1701255-1-alexghiti@rivosinc.com>
@@ -128,8 +129,8 @@ MIME-Version: 1.0
 X-Original-Sender: alexghiti@rivosinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112
- header.b=6wp5stVF;       spf=pass (google.com: domain of alexghiti@rivosinc.com
- designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+ header.b=Rvbra2pe;       spf=pass (google.com: domain of alexghiti@rivosinc.com
+ designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -143,203 +144,90 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The EFI stub must not use any KASAN instrumented code as the kernel
-proper did not initialize the thread pointer and the mapping for the
-KASAN shadow region.
+The KASAN shadow region was moved next to the kernel mapping but the
+ptdump code was not updated and it appears to break the dump of the kernel
+page table, so fix this by moving the KASAN shadow region in ptdump.
 
-Avoid using generic string functions by copying stub dependencies from
-lib/string.c to drivers/firmware/efi/libstub/string.c as RISC-V does
-not implement architecture-specific versions of those functions.
-
+Fixes: f7ae02333d13 ("riscv: Move KASAN mapping next to the kernel mapping")
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
- arch/riscv/kernel/image-vars.h        |   8 --
- drivers/firmware/efi/libstub/Makefile |   7 +-
- drivers/firmware/efi/libstub/string.c | 133 ++++++++++++++++++++++++++
- 3 files changed, 137 insertions(+), 11 deletions(-)
+ arch/riscv/mm/ptdump.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/arch/riscv/kernel/image-vars.h b/arch/riscv/kernel/image-vars.h
-index d6e5f739905e..15616155008c 100644
---- a/arch/riscv/kernel/image-vars.h
-+++ b/arch/riscv/kernel/image-vars.h
-@@ -23,14 +23,6 @@
-  * linked at. The routines below are all implemented in assembler in a
-  * position independent manner
-  */
--__efistub_memcmp		= memcmp;
--__efistub_memchr		= memchr;
--__efistub_strlen		= strlen;
--__efistub_strnlen		= strnlen;
--__efistub_strcmp		= strcmp;
--__efistub_strncmp		= strncmp;
--__efistub_strrchr		= strrchr;
--
- __efistub__start		= _start;
- __efistub__start_kernel		= _start_kernel;
- __efistub__end			= _end;
-diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
-index b1601aad7e1a..031d2268bab5 100644
---- a/drivers/firmware/efi/libstub/Makefile
-+++ b/drivers/firmware/efi/libstub/Makefile
-@@ -130,9 +130,10 @@ STUBCOPY_RELOC-$(CONFIG_ARM)	:= R_ARM_ABS
- # also means that we need to be extra careful to make sure that the stub does
- # not rely on any absolute symbol references, considering that the virtual
- # kernel mapping that the linker uses is not active yet when the stub is
--# executing. So build all C dependencies of the EFI stub into libstub, and do
--# a verification pass to see if any absolute relocations exist in any of the
--# object files.
-+# executing. In addition, we need to make sure that the stub does not use KASAN
-+# instrumented code like the generic string functions. So build all C
-+# dependencies of the EFI stub into libstub, and do a verification pass to see
-+# if any absolute relocations exist in any of the object files.
- #
- STUBCOPY_FLAGS-$(CONFIG_ARM64)	+= --prefix-alloc-sections=.init \
- 				   --prefix-symbols=__efistub_
-diff --git a/drivers/firmware/efi/libstub/string.c b/drivers/firmware/efi/libstub/string.c
-index 5d13e43869ee..5154ae6e7f10 100644
---- a/drivers/firmware/efi/libstub/string.c
-+++ b/drivers/firmware/efi/libstub/string.c
-@@ -113,3 +113,136 @@ long simple_strtol(const char *cp, char **endp, unsigned int base)
+diff --git a/arch/riscv/mm/ptdump.c b/arch/riscv/mm/ptdump.c
+index 830e7de65e3a..20a9f991a6d7 100644
+--- a/arch/riscv/mm/ptdump.c
++++ b/arch/riscv/mm/ptdump.c
+@@ -59,10 +59,6 @@ struct ptd_mm_info {
+ };
  
- 	return simple_strtoull(cp, endp, base);
- }
-+
-+#ifndef __HAVE_ARCH_STRLEN
-+/**
-+ * strlen - Find the length of a string
-+ * @s: The string to be sized
-+ */
-+size_t strlen(const char *s)
-+{
-+	const char *sc;
-+
-+	for (sc = s; *sc != '\0'; ++sc)
-+		/* nothing */;
-+	return sc - s;
-+}
-+EXPORT_SYMBOL(strlen);
+ enum address_markers_idx {
+-#ifdef CONFIG_KASAN
+-	KASAN_SHADOW_START_NR,
+-	KASAN_SHADOW_END_NR,
+-#endif
+ 	FIXMAP_START_NR,
+ 	FIXMAP_END_NR,
+ 	PCI_IO_START_NR,
+@@ -74,6 +70,10 @@ enum address_markers_idx {
+ 	VMALLOC_START_NR,
+ 	VMALLOC_END_NR,
+ 	PAGE_OFFSET_NR,
++#ifdef CONFIG_KASAN
++	KASAN_SHADOW_START_NR,
++	KASAN_SHADOW_END_NR,
 +#endif
-+
-+#ifndef __HAVE_ARCH_STRNLEN
-+/**
-+ * strnlen - Find the length of a length-limited string
-+ * @s: The string to be sized
-+ * @count: The maximum number of bytes to search
-+ */
-+size_t strnlen(const char *s, size_t count)
-+{
-+	const char *sc;
-+
-+	for (sc = s; count-- && *sc != '\0'; ++sc)
-+		/* nothing */;
-+	return sc - s;
-+}
-+EXPORT_SYMBOL(strnlen);
+ #ifdef CONFIG_64BIT
+ 	MODULES_MAPPING_NR,
+ 	KERNEL_MAPPING_NR,
+@@ -82,10 +82,6 @@ enum address_markers_idx {
+ };
+ 
+ static struct addr_marker address_markers[] = {
+-#ifdef CONFIG_KASAN
+-	{0, "Kasan shadow start"},
+-	{0, "Kasan shadow end"},
+-#endif
+ 	{0, "Fixmap start"},
+ 	{0, "Fixmap end"},
+ 	{0, "PCI I/O start"},
+@@ -97,6 +93,10 @@ static struct addr_marker address_markers[] = {
+ 	{0, "vmalloc() area"},
+ 	{0, "vmalloc() end"},
+ 	{0, "Linear mapping"},
++#ifdef CONFIG_KASAN
++	{0, "Kasan shadow start"},
++	{0, "Kasan shadow end"},
 +#endif
-+
-+#ifndef __HAVE_ARCH_STRCMP
-+/**
-+ * strcmp - Compare two strings
-+ * @cs: One string
-+ * @ct: Another string
-+ */
-+int strcmp(const char *cs, const char *ct)
-+{
-+	unsigned char c1, c2;
-+
-+	while (1) {
-+		c1 = *cs++;
-+		c2 = *ct++;
-+		if (c1 != c2)
-+			return c1 < c2 ? -1 : 1;
-+		if (!c1)
-+			break;
-+	}
-+	return 0;
-+}
-+EXPORT_SYMBOL(strcmp);
+ #ifdef CONFIG_64BIT
+ 	{0, "Modules/BPF mapping"},
+ 	{0, "Kernel mapping"},
+@@ -362,10 +362,6 @@ static int __init ptdump_init(void)
+ {
+ 	unsigned int i, j;
+ 
+-#ifdef CONFIG_KASAN
+-	address_markers[KASAN_SHADOW_START_NR].start_address = KASAN_SHADOW_START;
+-	address_markers[KASAN_SHADOW_END_NR].start_address = KASAN_SHADOW_END;
+-#endif
+ 	address_markers[FIXMAP_START_NR].start_address = FIXADDR_START;
+ 	address_markers[FIXMAP_END_NR].start_address = FIXADDR_TOP;
+ 	address_markers[PCI_IO_START_NR].start_address = PCI_IO_START;
+@@ -377,6 +373,10 @@ static int __init ptdump_init(void)
+ 	address_markers[VMALLOC_START_NR].start_address = VMALLOC_START;
+ 	address_markers[VMALLOC_END_NR].start_address = VMALLOC_END;
+ 	address_markers[PAGE_OFFSET_NR].start_address = PAGE_OFFSET;
++#ifdef CONFIG_KASAN
++	address_markers[KASAN_SHADOW_START_NR].start_address = KASAN_SHADOW_START;
++	address_markers[KASAN_SHADOW_END_NR].start_address = KASAN_SHADOW_END;
 +#endif
-+
-+#ifndef __HAVE_ARCH_STRRCHR
-+/**
-+ * strrchr - Find the last occurrence of a character in a string
-+ * @s: The string to be searched
-+ * @c: The character to search for
-+ */
-+char *strrchr(const char *s, int c)
-+{
-+	const char *last = NULL;
-+	do {
-+		if (*s == (char)c)
-+			last = s;
-+	} while (*s++);
-+	return (char *)last;
-+}
-+EXPORT_SYMBOL(strrchr);
-+#endif
-+
-+#ifndef __HAVE_ARCH_MEMCMP
-+/**
-+ * memcmp - Compare two areas of memory
-+ * @cs: One area of memory
-+ * @ct: Another area of memory
-+ * @count: The size of the area.
-+ */
-+#undef memcmp
-+__visible int memcmp(const void *cs, const void *ct, size_t count)
-+{
-+	const unsigned char *su1, *su2;
-+	int res = 0;
-+
-+#ifdef CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS
-+	if (count >= sizeof(unsigned long)) {
-+		const unsigned long *u1 = cs;
-+		const unsigned long *u2 = ct;
-+		do {
-+			if (get_unaligned(u1) != get_unaligned(u2))
-+				break;
-+			u1++;
-+			u2++;
-+			count -= sizeof(unsigned long);
-+		} while (count >= sizeof(unsigned long));
-+		cs = u1;
-+		ct = u2;
-+	}
-+#endif
-+	for (su1 = cs, su2 = ct; 0 < count; ++su1, ++su2, count--)
-+		if ((res = *su1 - *su2) != 0)
-+			break;
-+	return res;
-+}
-+EXPORT_SYMBOL(memcmp);
-+#endif
-+
-+#ifndef __HAVE_ARCH_MEMCHR
-+/**
-+ * memchr - Find a character in an area of memory.
-+ * @s: The memory area
-+ * @c: The byte to search for
-+ * @n: The size of the area.
-+ *
-+ * returns the address of the first occurrence of @c, or %NULL
-+ * if @c is not found
-+ */
-+void *memchr(const void *s, int c, size_t n)
-+{
-+	const unsigned char *p = s;
-+	while (n-- != 0) {
-+		if ((unsigned char)c == *p++) {
-+			return (void *)(p - 1);
-+		}
-+	}
-+	return NULL;
-+}
-+EXPORT_SYMBOL(memchr);
-+#endif
+ #ifdef CONFIG_64BIT
+ 	address_markers[MODULES_MAPPING_NR].start_address = MODULES_VADDR;
+ 	address_markers[KERNEL_MAPPING_NR].start_address = kernel_map.virt_addr;
 -- 
 2.37.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221216162141.1701255-5-alexghiti%40rivosinc.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221216162141.1701255-6-alexghiti%40rivosinc.com.
