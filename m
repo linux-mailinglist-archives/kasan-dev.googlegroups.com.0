@@ -1,106 +1,109 @@
-Return-Path: <kasan-dev+bncBDXY7I6V6AMRBINW6KOAMGQE6D4F62Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXY7I6V6AMRBXVW6KOAMGQE67TIFYA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABBF64EEE3
-	for <lists+kasan-dev@lfdr.de>; Fri, 16 Dec 2022 17:21:54 +0100 (CET)
-Received: by mail-lf1-x13e.google.com with SMTP id d14-20020a196b0e000000b004b562e4bfedsf1196464lfa.19
-        for <lists+kasan-dev@lfdr.de>; Fri, 16 Dec 2022 08:21:54 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1671207714; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E7264EEEE
+	for <lists+kasan-dev@lfdr.de>; Fri, 16 Dec 2022 17:22:54 +0100 (CET)
+Received: by mail-wr1-x439.google.com with SMTP id p2-20020adfaa02000000b00241d7fb17d7sf611637wrd.5
+        for <lists+kasan-dev@lfdr.de>; Fri, 16 Dec 2022 08:22:54 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1671207774; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qZ6rGHzzSl/DvaDpjp3DLOObOpl0MgWaRMZOI8ga2iqulH9ZXweCeIqgpwHf3G2+vq
-         j0W6GvfHvs2PFbujf5nir/wkcGWNm3hw+dvmtkCa22lwLOXiM8fDxaWU62u5edHayQLV
-         DGgrXw7jix6sja3q2SkGIXKFVzvVUMTJ2YgYwt4FxWbcq3plNkGuC2VOoHS6+aUXFrF+
-         100Ga3Rbkuvi8FwyWU2hPQ1FfRx6pa9C8Fkz9vy5/XQxYBpKkrihVKqLSXMR9IxsOHQc
-         rCUPNYab5mb95L8fJBb8QdmYufurDZqSnzZcZ00jjZD+50HVd0FthFW3D6pgIimYdXQm
-         88og==
+        b=WlEV9N+yuKWsoSBQRR1YP/IGi0in5RzFHvS4hSX7tm+rTN/PwBgmCWQONRIgZH8AQD
+         7C9gbAqDexkhCjQDzkFoNHHhJQ6cZT1b3A14tiZ4AJPdOFmHFNcvNy1COHEIcfN2j3mg
+         joOESiWJ55CTcFTwtQGCN6q5swSHD6C8Y+RUFhkZ4a9jFYtMUZ1VVc4JWKrXyBQSrOsC
+         DVPKROCDGPAi+Y4rVe3VTLey2sfHKyjO2cBWWLc5k96xnXvmgsr7d/ZbZcgqBn4smnUt
+         7BMJ7Z1Jk+FCJhHSngVlx5376SDVPSAUSXfWGyZ4cnW9kfLcenQGDUoGfx8icZnbzf/4
+         Korw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=KmyQA0XCZb1wKODbQnMwXw5ybLO6I1paKoDzXh27Tx8=;
-        b=I+H5tjo4+dd/o//Ig6wKPyCrrqU2Rj1YVEpNn8XJ+EWuZvOa5aFgnmv6v4dWM3DesF
-         PMK5gLAa2RRTBsZSzXBjWnrKfNb81DUZwSivt7R7em60zCpvDZpsKfxYjFcyz0ae1XzG
-         q1DDoZcG/nmqFgfkIEaJbf6aG/1F1KAwYGuZT4j1XMV1kIcyu6/tT56CZXtSudL6M3UP
-         rCp+t2X2CyzzhwI7baqeqBUgPihzWL/qJhvlv7CIc6zW/OZkJNxHhex72KmeId4kudwv
-         AsAUgRKusrwOmhoJqXC980qv/Vk44er+z/M8thHlbuOgyjFn7qntCG3QHTxeNynZWxbU
-         cgaQ==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=ibdCxnQnSawhzPahYdKW3MtrcZ6pqnlfvcNWuEnjrec=;
+        b=mu/XLz8Bca+RgDdKh3UM54B4iXDd3W5ChnM+3LT23v6AKFPPFPlBcCvCqOpwJT7UKk
+         RLe77X2OpBvydB/Cy5be5u5CM/JQheADYbQpg0drU3D2CcFS6qy1IVqO5rlCI+cH16AQ
+         Mtfqro7bceyQMXu4RHPEFRf3H8hqjb0ndxW7WyE5Cm2e/J2HUVPD8fu2KAKZ20PiWFov
+         QbzBhjYp8po+NdH7PS50i5/Z5chVD9qyLYinJz0UarHqh/OIp0MTRMmsE0VZAZyqa8HG
+         h4AC2+eA83mUmRVJKcp1SAvn7aSQaAfLcUiwUwu/wpDT7UYWhuKmT+wPoP/Y+11IbH31
+         0HXg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=tMy2czpc;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=hzoUHwIP;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::332 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=KmyQA0XCZb1wKODbQnMwXw5ybLO6I1paKoDzXh27Tx8=;
-        b=fjocA4PTD3wOTjYfLvXCWPKczrG1EnInVJylUQpVTY73BCSwCngP2BktRU4bVdh4G6
-         49/uMdH5gu+hDoSb2G8NFa0nbU70AQ7+WnKTZc/v7O6txj1xmlMtRALt+gWpuLNHF30U
-         rDqWNJyosJICRhk5EtG8t+sQtZTgNnsAQb2kI8MKscdH8UjUeOCGCpasuIPPWzXND3z2
-         Us71r2bAQwJH5c4EX2joxmIwl6InRYA20m3NhfkVv0T3kybVUijypISOPfHZIa494SZP
-         3+A/7RqUIbaRpUDtywfcKS747/LhaR5NlNsZft6I2CgnWNEar0xKziOueMz9wCTD0ioF
-         7UJA==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ibdCxnQnSawhzPahYdKW3MtrcZ6pqnlfvcNWuEnjrec=;
+        b=ErwhoITBbrobMV7wxGEwoFsQjO2AFOHKV8Mk8iMEldmhxMWSZMXzqZnCfjYT+K7gbg
+         x/CpjGSjF6WH6WS4P5KRarxmMiwZYlbZqKPld0gjL11JfLJMERadVPpl+8ZpMX6XD2Iu
+         gV0Kh/GmxMZjArl42FTiTit+U4esIdp/eWthfsXGvJ2XEW85zLoq94agSlyiNrIueiY8
+         M5zss4y6KwADtwhq/F9qwJCWUnKqbvhRuLL3BBE4EuM2yZyXkwM0VJeKd5doOinACRGL
+         A/dv5UlyxWjJ8jwnU5o+iuTU+jp908U28cNXzeFUKEuSSkJGqP0jntzU7ewXTAzIj1zF
+         Affg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KmyQA0XCZb1wKODbQnMwXw5ybLO6I1paKoDzXh27Tx8=;
-        b=zk98amBcj9ZH2uRqtjQkEo0Vo/u2IdgQaYpzkpHfsM+Rwyrg7SLkeX3aUBMtuZWZrg
-         F+rEWz3/TgrDrpRVtQNhugpSfcsA+XRwe2e1zUJLxRqChdg5MgnuGGkKEqNIxA1YYhPq
-         VK40z/AmLYV4KBc/X2v4Oo50zLktuBrrWYt+zOEWOEedasUVsSxjqxq5foieKAno1/TV
-         Fcm/ZcwKtNJFwe8s2f+nmaBTUOe877BWBX/9f6lfRahXratdnjQ5VdZvv0Hil50L5d0/
-         hL3hJMRPW82Cc8oplCz/rmGy/e5nJzhjOihYoR0VJ1De24BVNTgYuYTBEIkW4Uv4uZ7z
-         6V0Q==
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ibdCxnQnSawhzPahYdKW3MtrcZ6pqnlfvcNWuEnjrec=;
+        b=e1wDK6piNNAG9uvUCqrSln5Qh37C8l26rGdzAYM/UYUwvUMczLjbwiRZZVdGRDUwF+
+         DoVHoq11jmpI76Uks/aHZ92LXFPgaK5mgTPHyVnG+ugPaKm/MiCEeHeBaNkQnCnYMJEz
+         OgjnW0i2xdu4oSn6PKNUwMTkn/9WHdaWUgJf456TPuy7XejpFCzuw6aBAqdSLichSoPA
+         WZuGxXCz4IRPpIHJxkkPD6Z8hcxBq2YfWzBGMift5nIXjK697TOCGUE6uIByPB7Q+V8C
+         4wREzfzJi3cKJbSZfco5SLu0d9sWknKijDmonJDkS6CDwBTDiA0tZhHBm/UalE3kP5Ty
+         UnGA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ANoB5pmQXHaixXyoYumyvBK+u/Av3ZiAXwrw9QmdJex3Lqxsl4KsKnzY
-	7k+M9Vyo7qfyZTGAzQZWNvA=
-X-Google-Smtp-Source: AA0mqf444SavcgKerAxoa6/k3P8m+6NMRT1zM4C07VYjgKxkWXFiMEC0pKlM87BymY4ZMI5E2IJveA==
-X-Received: by 2002:ac2:4104:0:b0:4ac:102e:5c93 with SMTP id b4-20020ac24104000000b004ac102e5c93mr32633584lfi.352.1671207713649;
-        Fri, 16 Dec 2022 08:21:53 -0800 (PST)
+X-Gm-Message-State: ANoB5pmRCZ+JaXKaI/gfY3pj7Y27eFbO9wD1s51h/COLdLCySJ+Vclz0
+	F2w1rhlkqi3TUQdN9i0j5uI=
+X-Google-Smtp-Source: AA0mqf6gBVrLOH0MoISoeloLbjA1cZlbKVCPSDsnJON3tFGtjVpDvEt8bzgc6EFQB1Ph+Zd18ZjJXA==
+X-Received: by 2002:adf:d230:0:b0:242:52ba:30eb with SMTP id k16-20020adfd230000000b0024252ba30ebmr13644827wrh.440.1671207774297;
+        Fri, 16 Dec 2022 08:22:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b115:0:b0:277:22e9:929f with SMTP id p21-20020a2eb115000000b0027722e9929fls438875ljl.5.-pod-prod-gmail;
- Fri, 16 Dec 2022 08:21:52 -0800 (PST)
-X-Received: by 2002:a2e:bd07:0:b0:277:2123:123b with SMTP id n7-20020a2ebd07000000b002772123123bmr7962419ljq.6.1671207712512;
-        Fri, 16 Dec 2022 08:21:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1671207712; cv=none;
+Received: by 2002:a05:6000:1f16:b0:225:6559:3374 with SMTP id
+ bv22-20020a0560001f1600b0022565593374ls2347559wrb.2.-pod-prod-gmail; Fri, 16
+ Dec 2022 08:22:53 -0800 (PST)
+X-Received: by 2002:a05:6000:608:b0:242:2875:93c with SMTP id bn8-20020a056000060800b002422875093cmr32605699wrb.8.1671207773356;
+        Fri, 16 Dec 2022 08:22:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1671207773; cv=none;
         d=google.com; s=arc-20160816;
-        b=uQpd8Zatv49DVpPwK1A47+e3x33EG0E2vPiUZKpDpKMGQR/9sAILEFryo4RYnHN9GY
-         Ut401F84axdRXC3Eega4NXzkhqeSP3U5v1kqYEpdKkmF9GEDvrC2cR+noTzIvrwNW11A
-         EtxdRl2gwut+bmecx45KgHYK2wqFB9zIGEby33wXStGounV52i8PlzVlOkjWM06lEJBl
-         AUtYQE0YIuIfFooIU+7rEbWs/T+q5a5ayUiDj3nPJ4MIp8bTA6u6JilG+zQVe4gAsEIa
-         DWzydlG+kKr+pLJFeEteIgsOVzqABTw0Z0ZuJLwkApyXIqt5QeYVBmC7KKVBQQk8VJ0r
-         7AOg==
+        b=rSEDrMMytV0c6VQjgfxe5CfKbY4QdAbmSGsB6/5ukDsIBu6WHaQt/pja5mv4Ed0m/w
+         CngSmhtvQ8aedFKuOKinzybzGEWWbXhHBpXqub7EmGwpaRlFbO4Hk9KFkozyxqfYLyoD
+         kDTmorkRhCnbr+Qnt/hLX1dbKcVFe9LZ3i7fig9svScAE+bX1q8vuSp4HjWi0vqXhYIK
+         J85CT24ekhuiA/0fffRzjE0xbZzlf8KnF87Sx/qP3EAMdSDuWrQcbYxxIJthYJnh5ui6
+         foPT9fw/hBbkNuGN4eblS+3vP8PujP2+dFt73jEYSpAgLBi1n9p6Jna0JSYa36f+2tPA
+         5Qpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=G6XB8sFEdgRyJHccqiCj1UYEgQGTrZTp9EBrE9hoiO8=;
-        b=NHAIiAsN0+aLV6s6juSSyypSc9rtIeHDg9C/9sSH+Dk5LL/6Mxp0mq+WWzjWyVBnT8
-         vgUz7EarsfZ16z1bsO/fGNGCLhb2LvUrF7qBAF6vw56WTONjFQ6LsAi4hpN4cy6DzRCL
-         gkGsaqC2gB+dJnnaJpHkBnGXOWjGun01K0EKlrkbnk7HUG5/y7uy+02LIVUJouhLm/I3
-         8TJR2wHMoA1/xWyzr8XzhjUHb0VxeNhxFPuImoAPsrnhB5s/rq92d+AV+wGqdbiM3vMO
-         7s24ikETIxudjZ5JpbkMAzivTC2XhTKOnwHkkfSyEjFTFJDWtqerOA+JPT7FsVGcJXjW
-         i5Fw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=bZlFlLyFfvGOX6GgDGk2MQgjTa7NIX6OhSZPRX3tHGU=;
+        b=hb4rACfCpNqxf7Kyamy5q/O5rKUTF9T6YfgaUb7q8M40SSk/mPevhgbsiiZDsdH/Dw
+         8HdAhYrK/fYJs8zR+aqpZ3CCcvfybd1U7Ac0BvNxfCTJuvIwIU9Zvvzhg4r6tsqkTAHy
+         giFPdzY1pmHb9L4y72reXZp2kGFteknKTrTfJexRGHgRAsv9cV37YZrwPSEbklcdkVBv
+         N+t2rM8Ib9VHShbRNNyksK7VWuDPbVhPSkjSKYKzqmWoxowIs876r7g5EQU1UnaOpCM7
+         ZG1RJiNyfZ167B0qAgz/q6Qc0zip7lsrXpkz6QyhqyfAplYQU8gz7GX6jNEr/TqInL2I
+         UqZQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=tMy2czpc;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com. [2a00:1450:4864:20::342])
-        by gmr-mx.google.com with ESMTPS id f27-20020a05651c02db00b0027976ad74c9si127769ljo.5.2022.12.16.08.21.52
+       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=hzoUHwIP;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::332 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com. [2a00:1450:4864:20::332])
+        by gmr-mx.google.com with ESMTPS id a5-20020a5d4d45000000b00241d0141fbcsi123664wru.8.2022.12.16.08.22.53
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Dec 2022 08:21:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::342 as permitted sender) client-ip=2a00:1450:4864:20::342;
-Received: by mail-wm1-x342.google.com with SMTP id m5-20020a7bca45000000b003d2fbab35c6so2147621wml.4
-        for <kasan-dev@googlegroups.com>; Fri, 16 Dec 2022 08:21:52 -0800 (PST)
-X-Received: by 2002:a05:600c:1e8a:b0:3d1:bd81:b1b1 with SMTP id be10-20020a05600c1e8a00b003d1bd81b1b1mr24959580wmb.18.1671207712025;
-        Fri, 16 Dec 2022 08:21:52 -0800 (PST)
+        Fri, 16 Dec 2022 08:22:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::332 as permitted sender) client-ip=2a00:1450:4864:20::332;
+Received: by mail-wm1-x332.google.com with SMTP id ay40so2253051wmb.2
+        for <kasan-dev@googlegroups.com>; Fri, 16 Dec 2022 08:22:53 -0800 (PST)
+X-Received: by 2002:a05:600c:4e91:b0:3d1:dc6f:b1a4 with SMTP id f17-20020a05600c4e9100b003d1dc6fb1a4mr36135364wmq.5.1671207773030;
+        Fri, 16 Dec 2022 08:22:53 -0800 (PST)
 Received: from alex-rivos.home (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
-        by smtp.gmail.com with ESMTPSA id z19-20020a05600c221300b003a3170a7af9sm3027506wml.4.2022.12.16.08.21.51
+        by smtp.gmail.com with ESMTPSA id h16-20020a05600c351000b003d23a3b783bsm3444035wmq.10.2022.12.16.08.22.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 08:21:51 -0800 (PST)
+        Fri, 16 Dec 2022 08:22:52 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -116,16 +119,18 @@ To: Paul Walmsley <paul.walmsley@sifive.com>,
 	kasan-dev@googlegroups.com,
 	linux-efi@vger.kernel.org
 Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH 0/6] RISC-V kasan rework
-Date: Fri, 16 Dec 2022 17:21:35 +0100
-Message-Id: <20221216162141.1701255-1-alexghiti@rivosinc.com>
+Subject: [PATCH 1/6] riscv: Split early and final KASAN population functions
+Date: Fri, 16 Dec 2022 17:21:36 +0100
+Message-Id: <20221216162141.1701255-2-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20221216162141.1701255-1-alexghiti@rivosinc.com>
+References: <20221216162141.1701255-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 X-Original-Sender: alexghiti@rivosinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112
- header.b=tMy2czpc;       spf=pass (google.com: domain of alexghiti@rivosinc.com
- designates 2a00:1450:4864:20::342 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+ header.b=hzoUHwIP;       spf=pass (google.com: domain of alexghiti@rivosinc.com
+ designates 2a00:1450:4864:20::332 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -139,59 +144,302 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-As described in patch 2, our current kasan implementation is intricate,
-so I tried to simplify the implementation and mimic what arm64/x86 are
-doing.
+This is a preliminary work that allows to make the code more
+understandable.
 
-In addition it fixes UEFI bootflow with a kasan kernel and kasan inline
-instrumentation: all kasan configurations were tested on a large ubuntu
-kernel with success with KASAN_KUNIT_TEST and KASAN_MODULE_TEST.
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+---
+ arch/riscv/mm/kasan_init.c | 181 +++++++++++++++++++++++--------------
+ 1 file changed, 114 insertions(+), 67 deletions(-)
 
-inline ubuntu config + uefi:
- sv39: OK
- sv48: OK
- sv57: OK
-
-outline ubuntu config + uefi:
- sv39: OK
- sv48: OK
- sv57: OK
-
-Actually 1 test always fails with KASAN_KUNIT_TEST that I have to check:
-# kasan_bitops_generic: EXPECTATION FAILED at mm/kasan/kasan__test.c:1020
-KASAN failure expected in "set_bit(nr, addr)", but none occurrred
-
-Note that Palmer recently proposed to remove COMMAND_LINE_SIZE from the
-userspace abi
-https://lore.kernel.org/lkml/20221211061358.28035-1-palmer@rivosinc.com/T/
-so that we can finally increase the command line to fit all kasan kernel
-parameters.
-
-All of this should hopefully fix the syzkaller riscv build that has been
-failing for a few months now, any test is appreciated and if I can help
-in any way, please ask.
-
-Alexandre Ghiti (6):
-  riscv: Split early and final KASAN population functions
-  riscv: Rework kasan population functions
-  riscv: Move DTB_EARLY_BASE_VA to the kernel address space
-  riscv: Fix EFI stub usage of KASAN instrumented string functions
-  riscv: Fix ptdump when KASAN is enabled
-  riscv: Unconditionnally select KASAN_VMALLOC if KASAN
-
- arch/riscv/Kconfig                    |   1 +
- arch/riscv/kernel/image-vars.h        |   8 -
- arch/riscv/mm/init.c                  |   2 +-
- arch/riscv/mm/kasan_init.c            | 511 ++++++++++++++------------
- arch/riscv/mm/ptdump.c                |  24 +-
- drivers/firmware/efi/libstub/Makefile |   7 +-
- drivers/firmware/efi/libstub/string.c | 133 +++++++
- 7 files changed, 435 insertions(+), 251 deletions(-)
-
+diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+index a22e418dbd82..a7314ffe7d76 100644
+--- a/arch/riscv/mm/kasan_init.c
++++ b/arch/riscv/mm/kasan_init.c
+@@ -95,23 +95,13 @@ static void __init kasan_populate_pmd(pud_t *pud, unsigned long vaddr, unsigned
+ }
+ 
+ static void __init kasan_populate_pud(pgd_t *pgd,
+-				      unsigned long vaddr, unsigned long end,
+-				      bool early)
++				      unsigned long vaddr, unsigned long end)
+ {
+ 	phys_addr_t phys_addr;
+ 	pud_t *pudp, *base_pud;
+ 	unsigned long next;
+ 
+-	if (early) {
+-		/*
+-		 * We can't use pgd_page_vaddr here as it would return a linear
+-		 * mapping address but it is not mapped yet, but when populating
+-		 * early_pg_dir, we need the physical address and when populating
+-		 * swapper_pg_dir, we need the kernel virtual address so use
+-		 * pt_ops facility.
+-		 */
+-		base_pud = pt_ops.get_pud_virt(pfn_to_phys(_pgd_pfn(*pgd)));
+-	} else if (pgd_none(*pgd)) {
++	if (pgd_none(*pgd)) {
+ 		base_pud = memblock_alloc(PTRS_PER_PUD * sizeof(pud_t), PAGE_SIZE);
+ 	} else {
+ 		base_pud = (pud_t *)pgd_page_vaddr(*pgd);
+@@ -128,16 +118,10 @@ static void __init kasan_populate_pud(pgd_t *pgd,
+ 		next = pud_addr_end(vaddr, end);
+ 
+ 		if (pud_none(*pudp) && IS_ALIGNED(vaddr, PUD_SIZE) && (next - vaddr) >= PUD_SIZE) {
+-			if (early) {
+-				phys_addr = __pa(((uintptr_t)kasan_early_shadow_pmd));
+-				set_pud(pudp, pfn_pud(PFN_DOWN(phys_addr), PAGE_TABLE));
++			phys_addr = memblock_phys_alloc(PUD_SIZE, PUD_SIZE);
++			if (phys_addr) {
++				set_pud(pudp, pfn_pud(PFN_DOWN(phys_addr), PAGE_KERNEL));
+ 				continue;
+-			} else {
+-				phys_addr = memblock_phys_alloc(PUD_SIZE, PUD_SIZE);
+-				if (phys_addr) {
+-					set_pud(pudp, pfn_pud(PFN_DOWN(phys_addr), PAGE_KERNEL));
+-					continue;
+-				}
+ 			}
+ 		}
+ 
+@@ -150,32 +134,19 @@ static void __init kasan_populate_pud(pgd_t *pgd,
+ 	 * it entirely, memblock could allocate a page at a physical address
+ 	 * where KASAN is not populated yet and then we'd get a page fault.
+ 	 */
+-	if (!early)
+-		set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_pud)), PAGE_TABLE));
++	set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_pud)), PAGE_TABLE));
+ }
+ 
+ static void __init kasan_populate_p4d(pgd_t *pgd,
+-				      unsigned long vaddr, unsigned long end,
+-				      bool early)
++				      unsigned long vaddr, unsigned long end)
+ {
+ 	phys_addr_t phys_addr;
+ 	p4d_t *p4dp, *base_p4d;
+ 	unsigned long next;
+ 
+-	if (early) {
+-		/*
+-		 * We can't use pgd_page_vaddr here as it would return a linear
+-		 * mapping address but it is not mapped yet, but when populating
+-		 * early_pg_dir, we need the physical address and when populating
+-		 * swapper_pg_dir, we need the kernel virtual address so use
+-		 * pt_ops facility.
+-		 */
+-		base_p4d = pt_ops.get_p4d_virt(pfn_to_phys(_pgd_pfn(*pgd)));
+-	} else {
+-		base_p4d = (p4d_t *)pgd_page_vaddr(*pgd);
+-		if (base_p4d == lm_alias(kasan_early_shadow_p4d))
+-			base_p4d = memblock_alloc(PTRS_PER_PUD * sizeof(p4d_t), PAGE_SIZE);
+-	}
++	base_p4d = (p4d_t *)pgd_page_vaddr(*pgd);
++	if (base_p4d == lm_alias(kasan_early_shadow_p4d))
++		base_p4d = memblock_alloc(PTRS_PER_PUD * sizeof(p4d_t), PAGE_SIZE);
+ 
+ 	p4dp = base_p4d + p4d_index(vaddr);
+ 
+@@ -183,20 +154,14 @@ static void __init kasan_populate_p4d(pgd_t *pgd,
+ 		next = p4d_addr_end(vaddr, end);
+ 
+ 		if (p4d_none(*p4dp) && IS_ALIGNED(vaddr, P4D_SIZE) && (next - vaddr) >= P4D_SIZE) {
+-			if (early) {
+-				phys_addr = __pa(((uintptr_t)kasan_early_shadow_pud));
+-				set_p4d(p4dp, pfn_p4d(PFN_DOWN(phys_addr), PAGE_TABLE));
++			phys_addr = memblock_phys_alloc(P4D_SIZE, P4D_SIZE);
++			if (phys_addr) {
++				set_p4d(p4dp, pfn_p4d(PFN_DOWN(phys_addr), PAGE_KERNEL));
+ 				continue;
+-			} else {
+-				phys_addr = memblock_phys_alloc(P4D_SIZE, P4D_SIZE);
+-				if (phys_addr) {
+-					set_p4d(p4dp, pfn_p4d(PFN_DOWN(phys_addr), PAGE_KERNEL));
+-					continue;
+-				}
+ 			}
+ 		}
+ 
+-		kasan_populate_pud((pgd_t *)p4dp, vaddr, next, early);
++		kasan_populate_pud((pgd_t *)p4dp, vaddr, next);
+ 	} while (p4dp++, vaddr = next, vaddr != end);
+ 
+ 	/*
+@@ -205,8 +170,7 @@ static void __init kasan_populate_p4d(pgd_t *pgd,
+ 	 * it entirely, memblock could allocate a page at a physical address
+ 	 * where KASAN is not populated yet and then we'd get a page fault.
+ 	 */
+-	if (!early)
+-		set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_p4d)), PAGE_TABLE));
++	set_pgd(pgd, pfn_pgd(PFN_DOWN(__pa(base_p4d)), PAGE_TABLE));
+ }
+ 
+ #define kasan_early_shadow_pgd_next			(pgtable_l5_enabled ?	\
+@@ -214,16 +178,15 @@ static void __init kasan_populate_p4d(pgd_t *pgd,
+ 							(pgtable_l4_enabled ?	\
+ 				(uintptr_t)kasan_early_shadow_pud :		\
+ 				(uintptr_t)kasan_early_shadow_pmd))
+-#define kasan_populate_pgd_next(pgdp, vaddr, next, early)			\
++#define kasan_populate_pgd_next(pgdp, vaddr, next)				\
+ 		(pgtable_l5_enabled ?						\
+-		kasan_populate_p4d(pgdp, vaddr, next, early) :			\
++		kasan_populate_p4d(pgdp, vaddr, next) :				\
+ 		(pgtable_l4_enabled ?						\
+-			kasan_populate_pud(pgdp, vaddr, next, early) :		\
++			kasan_populate_pud(pgdp, vaddr, next) :			\
+ 			kasan_populate_pmd((pud_t *)pgdp, vaddr, next)))
+ 
+ static void __init kasan_populate_pgd(pgd_t *pgdp,
+-				      unsigned long vaddr, unsigned long end,
+-				      bool early)
++				      unsigned long vaddr, unsigned long end)
+ {
+ 	phys_addr_t phys_addr;
+ 	unsigned long next;
+@@ -232,11 +195,7 @@ static void __init kasan_populate_pgd(pgd_t *pgdp,
+ 		next = pgd_addr_end(vaddr, end);
+ 
+ 		if (IS_ALIGNED(vaddr, PGDIR_SIZE) && (next - vaddr) >= PGDIR_SIZE) {
+-			if (early) {
+-				phys_addr = __pa((uintptr_t)kasan_early_shadow_pgd_next);
+-				set_pgd(pgdp, pfn_pgd(PFN_DOWN(phys_addr), PAGE_TABLE));
+-				continue;
+-			} else if (pgd_page_vaddr(*pgdp) ==
++			if (pgd_page_vaddr(*pgdp) ==
+ 				   (unsigned long)lm_alias(kasan_early_shadow_pgd_next)) {
+ 				/*
+ 				 * pgdp can't be none since kasan_early_init
+@@ -253,7 +212,95 @@ static void __init kasan_populate_pgd(pgd_t *pgdp,
+ 			}
+ 		}
+ 
+-		kasan_populate_pgd_next(pgdp, vaddr, next, early);
++		kasan_populate_pgd_next(pgdp, vaddr, next);
++	} while (pgdp++, vaddr = next, vaddr != end);
++}
++
++static void __init kasan_early_populate_pud(p4d_t *p4dp,
++					    unsigned long vaddr,
++					    unsigned long end)
++{
++	pud_t *pudp, *base_pud;
++	phys_addr_t phys_addr;
++	unsigned long next;
++
++	if (!pgtable_l4_enabled) {
++		pudp = (pud_t *)p4dp;
++	} else {
++		base_pud = pt_ops.get_pud_virt(pfn_to_phys(_p4d_pfn(*p4dp)));
++		pudp = base_pud + pud_index(vaddr);
++	}
++
++	do {
++		next = pud_addr_end(vaddr, end);
++
++		if (pud_none(*pudp) && IS_ALIGNED(vaddr, PUD_SIZE) &&
++		    (next - vaddr) >= PUD_SIZE) {
++			phys_addr = __pa((uintptr_t)kasan_early_shadow_pmd);
++			set_pud(pudp, pfn_pud(PFN_DOWN(phys_addr), PAGE_TABLE));
++			continue;
++		}
++
++		BUG();
++	} while (pudp++, vaddr = next, vaddr != end);
++}
++
++static void __init kasan_early_populate_p4d(pgd_t *pgdp,
++					    unsigned long vaddr,
++					    unsigned long end)
++{
++	p4d_t *p4dp, *base_p4d;
++	phys_addr_t phys_addr;
++	unsigned long next;
++
++	/*
++	 * We can't use pgd_page_vaddr here as it would return a linear
++	 * mapping address but it is not mapped yet, but when populating
++	 * early_pg_dir, we need the physical address and when populating
++	 * swapper_pg_dir, we need the kernel virtual address so use
++	 * pt_ops facility.
++	 * Note that this test is then completely equivalent to
++	 * p4dp = p4d_offset(pgdp, vaddr)
++	 */
++	if (!pgtable_l5_enabled) {
++		p4dp = (p4d_t *)pgdp;
++	} else {
++		base_p4d = pt_ops.get_p4d_virt(pfn_to_phys(_pgd_pfn(*pgdp)));
++		p4dp = base_p4d + p4d_index(vaddr);
++	}
++
++	do {
++		next = p4d_addr_end(vaddr, end);
++
++		if (p4d_none(*p4dp) && IS_ALIGNED(vaddr, P4D_SIZE) &&
++		    (next - vaddr) >= P4D_SIZE) {
++			phys_addr = __pa((uintptr_t)kasan_early_shadow_pud);
++			set_p4d(p4dp, pfn_p4d(PFN_DOWN(phys_addr), PAGE_TABLE));
++			continue;
++		}
++
++		kasan_early_populate_pud(p4dp, vaddr, next);
++	} while (p4dp++, vaddr = next, vaddr != end);
++}
++
++static void __init kasan_early_populate_pgd(pgd_t *pgdp,
++					    unsigned long vaddr,
++					    unsigned long end)
++{
++	phys_addr_t phys_addr;
++	unsigned long next;
++
++	do {
++		next = pgd_addr_end(vaddr, end);
++
++		if (pgd_none(*pgdp) && IS_ALIGNED(vaddr, PGDIR_SIZE) &&
++		    (next - vaddr) >= PGDIR_SIZE) {
++			phys_addr = __pa((uintptr_t)kasan_early_shadow_p4d);
++			set_pgd(pgdp, pfn_pgd(PFN_DOWN(phys_addr), PAGE_TABLE));
++			continue;
++		}
++
++		kasan_early_populate_p4d(pgdp, vaddr, next);
+ 	} while (pgdp++, vaddr = next, vaddr != end);
+ }
+ 
+@@ -290,16 +337,16 @@ asmlinkage void __init kasan_early_init(void)
+ 					PAGE_TABLE));
+ 	}
+ 
+-	kasan_populate_pgd(early_pg_dir + pgd_index(KASAN_SHADOW_START),
+-			   KASAN_SHADOW_START, KASAN_SHADOW_END, true);
++	kasan_early_populate_pgd(early_pg_dir + pgd_index(KASAN_SHADOW_START),
++				 KASAN_SHADOW_START, KASAN_SHADOW_END);
+ 
+ 	local_flush_tlb_all();
+ }
+ 
+ void __init kasan_swapper_init(void)
+ {
+-	kasan_populate_pgd(pgd_offset_k(KASAN_SHADOW_START),
+-			   KASAN_SHADOW_START, KASAN_SHADOW_END, true);
++	kasan_early_populate_pgd(pgd_offset_k(KASAN_SHADOW_START),
++				 KASAN_SHADOW_START, KASAN_SHADOW_END);
+ 
+ 	local_flush_tlb_all();
+ }
+@@ -309,7 +356,7 @@ static void __init kasan_populate(void *start, void *end)
+ 	unsigned long vaddr = (unsigned long)start & PAGE_MASK;
+ 	unsigned long vend = PAGE_ALIGN((unsigned long)end);
+ 
+-	kasan_populate_pgd(pgd_offset_k(vaddr), vaddr, vend, false);
++	kasan_populate_pgd(pgd_offset_k(vaddr), vaddr, vend);
+ 
+ 	local_flush_tlb_all();
+ 	memset(start, KASAN_SHADOW_INIT, end - start);
 -- 
 2.37.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221216162141.1701255-1-alexghiti%40rivosinc.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20221216162141.1701255-2-alexghiti%40rivosinc.com.
