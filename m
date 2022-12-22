@@ -1,143 +1,124 @@
-Return-Path: <kasan-dev+bncBDCLJAGETYJBB7F6RSOQMGQEKQ7NJ2Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBKUQSGOQMGQE2ZGXMHY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x40.google.com (mail-oa1-x40.google.com [IPv6:2001:4860:4864:20::40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883606532CD
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Dec 2022 16:00:15 +0100 (CET)
-Received: by mail-oa1-x40.google.com with SMTP id 586e51a60fabf-14496b502dfsf7063257fac.17
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Dec 2022 07:00:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1671634814; cv=pass;
+Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4281A6540AE
+	for <lists+kasan-dev@lfdr.de>; Thu, 22 Dec 2022 13:06:04 +0100 (CET)
+Received: by mail-lj1-x23a.google.com with SMTP id s12-20020a2eb8cc000000b0027f6f40eeb3sf415894ljp.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 22 Dec 2022 04:06:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1671710763; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Y2DG0OJz5/z4J5LDpL6CpcQvlKQ1R2BoNNtxuxFWb4iMuCzjjYJkOmTe+2JEJ/yjKc
-         Uaea3b7r1YRkI6iOBb1gG0E826fZk7FKr3KZ+Sd2ujbO8Bd2Ff+iGDgjKSEHXTmpBowB
-         9GJKFszFdMjQlPOUb1ZzM3nueW12q6riZMLolJ41vPTBBRbQmtexWoGqfGaBDXOLSvoG
-         CiCR+NgYjJYr2c03lXcebGTgVPqsXsU08/SuSpQ6jUD8NdF/uRZKCN/nR+9+00+eLCXN
-         81sfVL69xMrfBiQ4rbgKg9G3WXMnWNs6SvnxklJaYjEfBI035En1MRqedtnoow+Vgbmr
-         XvEQ==
+        b=U3yyCPcGEuejvHzuXYT0zntjdxeSEEkxLf3VmYh2gHsCdOAmjmE/+6sDWBcIVV+m/c
+         oP6QCX9l5ZhDE+u5JVQCAGL9lPZXEe5KKCphe1HLJCVTeL60gOf2xEh1j14O/8+3xS+n
+         uYAWCNm/jX1WlUUwVm6+laISsbC0+Mam9NqQ6fpjRisXY6HvLgLVpDs8eWH2dJQq5a9G
+         664WrkfxmEkVKcymqBPKvLFIx2pzRDJl0PRkxcyjYBVBf/axGU2n3oeXMrEI2Elp1jUj
+         pFfkHMpdmS23l+E/tuue26QGmx72dVzsUaWSYOwvAvwcjFNtQg5BSCc7plEFz20lxzvM
+         sDOQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=KXVWjq+wPU2Omovqmd6EUAbtgj+aBsY2xCGQwGc+yYU=;
-        b=ml9gBEInJ8d/iUUvP5IFZQar6m+pnrUWcIo1+jhaBUEBiLelGblNd3WVbwUX5g0Qe3
-         dM3m3dlXj4iMcYvAETeV+4huRoxv/MJz0PPZN5ozYOZPcCV75cS5FgU1Yv2XJDvvFO6Y
-         2JngEhwL+2QHqT1A2iYR0aAvePDxhDkJGEdOxTr4Nokqsk2I0zred217KZEO/8ciZyUb
-         RMuIVEsDD+h2FKvh8/3m6vvTzbKlGWDonDhqh4ViTzR9xmdxuhD5s64SBpOhTMPruPfy
-         XM+f8aMCTd3nQNQnJE5A3G9iNg4JtDQ6ekiROBzFbA2aYUjzEAVu93EcUWNy/1H7FMuJ
-         jqPw==
+         :list-id:mailing-list:precedence:in-reply-to:to:from:references:cc
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=FTejLCr3SMGiOqLufNKQfa6qODWbbl90oWtxig+iwwk=;
+        b=Kgk9Mz7KLh/t7lMQiXiGc6sxIZL/xTd5KhQWlxnsvO6+E8tx21G7U+004RwPrPhfhm
+         GbdGmIoCL4QRRuIWMfCOsD2U+veQTqDQ4vyzZeJQLh8P/3djhyRelIlkeRQuzyqKMKFK
+         uSEXU4Y8TS8vz5u6AA66ktFzYkVrK0JuWVrDm7FCHLe9dNGfHJt38vCXxuOY5jsJNpKg
+         XXSfr/tLKyVdBGDxaTOUf0l/L2PD5MrZbQE4oSCv4pUwaKUiINGLHOj1ceZiQoxoUwiD
+         YQACYeC0GKrEVxFC5hStSt2MDauU0xbJsYSuiigtT65UnvbvZvmH1lAtq4bzxsuS7A2V
+         Uwfg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=igRLuaTw;
-       spf=pass (google.com: domain of conor@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=conor@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of regressions@leemhuis.info designates 80.237.130.52 as permitted sender) smtp.mailfrom=regressions@leemhuis.info
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KXVWjq+wPU2Omovqmd6EUAbtgj+aBsY2xCGQwGc+yYU=;
-        b=c8CYnCo91yRk2SL/pAuJhg86+VZOKT4w29KcOsKAdvFSfVk3l7XKqzKRrcS5u69Ez2
-         D9rsqCBchQNqqrQR4zWPnlbVOMBAzr741neJgpi9tWu2lhzEDfwJ8fT5Y9IbA6eH8Myz
-         DEBolpcGaFUP183UvwRM2ben5SMfE4+SWswa4aR4ziiWlF0n/yBJPytc2jUgjoS3LM2N
-         aal42YhGtxzbdsmY5sqo0VEtPEtJ92GizvIV9IYFR5Qc58o5m9ZLOu51DtatB54yMeDI
-         KXJiv/7ojugLC3TQlEGgRHerhxwW0Z02QBV1lZBsCw61KNkIw2NXpMkV370Sfux8Kgm6
-         aQ0w==
+         :x-original-sender:in-reply-to:to:from:references:cc
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=FTejLCr3SMGiOqLufNKQfa6qODWbbl90oWtxig+iwwk=;
+        b=FuGgXDQpq1LUqv+cLN981m6SIQkV7uoytt1xpc8nWmKT2ZnxYkcUEMI1MVRC+8g/Dl
+         iTJwl+JgGJo53M6s1UW0rwa3j/kQUCjoIYuDG+sVny2vjXmYlfwY0+e2/fhVc3dhqFIo
+         nN5iuk5d94orSg1GrGw80zmmRkYqf2yMI2W1CNJnAOGbKxsG/EJfK1D/FlAat2RRSUGW
+         VPgYldoUPTDY75mPvB38wBWTHvw2SFFW2ZI3MSpoRYQQGStVf4/FNwlhqGvDPLl2iJC0
+         LqtkZgG8k0aFJymmnM4vedVgKLPRt5WlqGixG6jN0sys9mkOunb0PIZD49OVtoQ1oJZ1
+         Uyng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-original-authentication-results:x-original-sender:in-reply-to:to
+         :from:references:cc:content-language:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KXVWjq+wPU2Omovqmd6EUAbtgj+aBsY2xCGQwGc+yYU=;
-        b=UQV2m41VhhMfbofAtUvu2z7PGUnIAxGQFRC9mnAXpb5/80pPoMgO3oJsFGXRF7c2/h
-         VftlqKpNRm6SXclVzT7ChICMsAlLW8CTDZEVVa0ehLs75zW4yu+jh5TuEHvX7Cs4tQzm
-         7FH7knQ3ZMbOJof6Svlm2/n1d5rpdcU8jR8tT8CK534wPHvwRFESwVTI/9lIAjgOo7Ad
-         GPhUjQOgu83P0Nji9NxPsu+OJpdi8WDMctHnhWO422AlihBRyU8mc9MJTLN3kTw8ASsX
-         TgvaLWEyKVfxMipuVu013TzXcRh6vcD/EF7kSf4qMc0hiBVG9V8m701R42E3cDhfSRSz
-         /eRw==
+        bh=FTejLCr3SMGiOqLufNKQfa6qODWbbl90oWtxig+iwwk=;
+        b=xpC0X5BGUpq25tFmQRYfNd+3hvd9SpIeX4iri8DZtdM2/gJA9ZzYyQ2e+/qR/xbJF0
+         wUoRakvmafly31DcNsEoT66pKWpxm35IZbRZHPl5pf+2flz0wy432s4HcvAbEIyAP9Zx
+         v+e78jLpL02euPgyoNrsagYYw/MUdJLH1ZBTbT6c20RL6gs5W4Jmuiyb7xeZBjSH93TH
+         7YMgmRTaCGKEiYUJOpxDKKklT6FHTXDoN725KmVakVFdCMVvJ2jkwN78gB1ZYdwBpzmO
+         oJp9Y71InUYwVK7vwLNW11Kx6R3IcmiLg7wwZ5DeUWyhNsveCKQlvDmVkFQ3VR+YgI1u
+         2rJA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kq07VzGChMGXpsQp/f87bb8qgd5yPQDiW/r+xXW/AfaJSt95582
-	2QpZxp2M+eMh4HjP7b9nvbE=
-X-Google-Smtp-Source: AMrXdXt7QJeeuoQUC2UMF+IvIi4bYf1ZFehKTcFDQ1qLx1eaOy4g4gTw6eM1CzcJNr+RHndyBN0jHA==
-X-Received: by 2002:a05:6808:23ce:b0:35b:f951:e42f with SMTP id bq14-20020a05680823ce00b0035bf951e42fmr84124oib.249.1671634812597;
-        Wed, 21 Dec 2022 07:00:12 -0800 (PST)
+X-Gm-Message-State: AFqh2kriFbG4Uo+FpQGx65hLAseF0rCckKqQZf912bO4EEDTduZoDDui
+	hZdKagUwp6nJ/huFqYpnnLQ=
+X-Google-Smtp-Source: AMrXdXt9XaS7+Sjs8qRTypXqBg2Uk1NQ96l3Q8kb4BrWk4elRp4DF4pXBdzqP0jYXBiBB2/W+UbuoQ==
+X-Received: by 2002:a19:a415:0:b0:4b5:2f4e:a0cc with SMTP id q21-20020a19a415000000b004b52f4ea0ccmr670389lfc.392.1671710763440;
+        Thu, 22 Dec 2022 04:06:03 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:a555:b0:143:1d71:23f2 with SMTP id
- p21-20020a056870a55500b001431d7123f2ls5593938oal.9.-pod-prod-gmail; Wed, 21
- Dec 2022 07:00:12 -0800 (PST)
-X-Received: by 2002:a05:6870:6b9a:b0:137:3adf:c109 with SMTP id ms26-20020a0568706b9a00b001373adfc109mr928790oab.40.1671634812017;
-        Wed, 21 Dec 2022 07:00:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1671634812; cv=none;
+Received: by 2002:a05:6512:1182:b0:4b5:3cdf:5a65 with SMTP id
+ g2-20020a056512118200b004b53cdf5a65ls1271393lfr.2.-pod-prod-gmail; Thu, 22
+ Dec 2022 04:06:02 -0800 (PST)
+X-Received: by 2002:a05:6512:304a:b0:4aa:54a:3a6e with SMTP id b10-20020a056512304a00b004aa054a3a6emr1964618lfb.41.1671710762370;
+        Thu, 22 Dec 2022 04:06:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1671710762; cv=none;
         d=google.com; s=arc-20160816;
-        b=SmNGqG22e1YgQnjNRRO7X+CbfGOrgjQRd2deWKAm9VskojlvIJBH+3AHXaVW893hRL
-         P6ncjwsNdk4kQlPz09NwbJCteGlQ5RIVaKTI0+Xhhuglhj4P0vabaD2aZJaLMViyurXi
-         6FauzuToZr8d0ay1hu4taz2ayzMZrSao/KpITIfKQoy3JilS77WWzRqT7PqwgVk7snB7
-         3/uzb9FZcZRT9BLZruJsdNsN4L+unlLiW+66AJYRpqAQ0E4ZVYjQLSaemExPGrbhl8BT
-         /VkK/xMKcvDFV3CDhojUm54zC8S77t+aJ9fwYeKSKyLEAiDldJsJ7HNnLHA+qAUGL+WR
-         wayA==
+        b=r68OfTamg48pi7Dvj1hVuAi0eMmOVKppH6InrIT/s9RZhZQIeIBf0rg/pa72F3UWhA
+         eZP2mPHjQpJVJUroWqQ02bb+PEPjDxBp7IBP5vbKbPb3Cf8GmuZlAlWXjQYDqigXmZuR
+         JnNOlX7ZuvDCJmQJABQOqcT2m6NIutjc19Uhk8E7KMvFWZ9TTj1osT6Qb/i1Ym+6nD5l
+         dT8ZHGv7HdQfIUZYZ2kqg4ukWCTSeKN07sl52uSbrMiefO+jlZdCG4bG6KY89gjJszD0
+         0cv3O6EvxGFxA3JxMTdPGazzVwZvKiVLLunmNi6TSaB9GUYZjMt1oND7T+IYSzGmVxFb
+         WwYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=LTUmJA2oY+jUcFRppvNPYxp/0Lp+vuZzKLjZzjCKEH4=;
-        b=PFvFC3SZUOcxz8ZmyhsMTv4hFAmR9SpbG3cAJJbptcDMZ+ryQzvk3vP5BwbO8MaBBt
-         4FhCqi2EoZFCn/bm6ES2jYxrfByaUXEZCvdbc4iR/h0H8y+nRWXSnluYfpxMt9FDZjMj
-         mjcrC9J6tsjxSpnE/DG6YPHDmTYx5Jd5ofMjUTZXMVYUhPIeagvwrtb19mJGQE3u/an6
-         KvpKmz4PczeE9NoVnZ2+ErY+6UvE3Qk5AcX4YujFsOPvMDlePUgf1MB8Lv3qHx9h7+sQ
-         OzYpbHCy2lME2DhZ0JHCrv52ZrL3klm2f5TbrFIbImjytEB6HEl9KD/WlIdK/YVHuweY
-         lkQQ==
+        h=content-transfer-encoding:in-reply-to:to:from:references:cc
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=7u/9R8ioCeKW5p8an54uvxfXwO8qantpGQfpvA8dFhs=;
+        b=kGCxu/sFPFUngPCxwcQNl4JPdMa2k8DMZrPWt644mg+bMZUto9aQ/wFuR8g7NhG6EN
+         b2Wv/YcBJIOBZvxeqlYfgKvAnf4lPPX7kzMW4yQTI9L6jrg5U/KfZxQM539j0Y5fpEKD
+         IURwOUISrkHzenYEiqKb0pFhRS/cI1bB8Is36+N68IIgaj0FZUeEXZYrU3X+qw0EToOF
+         ThmI6j4YB3Tg7CX1iXyh08Ag4ildioD4goLeRvLBsiWhIZtDOJFROASdnOffJt0MtjwD
+         qr0jo6sjJ8g4kefoUwBoJ8+3IKycG88SAYYJI06/dBwuZupwynveL9WpFYAN85bDs7K2
+         NdtA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=igRLuaTw;
-       spf=pass (google.com: domain of conor@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=conor@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id s3-20020a056870248300b00144a469b41dsi1783562oaq.4.2022.12.21.07.00.11
+       spf=pass (google.com: domain of regressions@leemhuis.info designates 80.237.130.52 as permitted sender) smtp.mailfrom=regressions@leemhuis.info
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de. [80.237.130.52])
+        by gmr-mx.google.com with ESMTPS id d17-20020a056512369100b004b4b3e2e283si20316lfs.13.2022.12.22.04.06.02
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Dec 2022 07:00:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of conor@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id C2A66617F3;
-	Wed, 21 Dec 2022 15:00:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638E9C433D2;
-	Wed, 21 Dec 2022 15:00:08 +0000 (UTC)
-Date: Wed, 21 Dec 2022 15:00:05 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH 4/6] riscv: Fix EFI stub usage of KASAN instrumented
- string functions
-Message-ID: <Y6MfdfRhlWYBL2KH@spud>
-References: <20221216162141.1701255-1-alexghiti@rivosinc.com>
- <20221216162141.1701255-5-alexghiti@rivosinc.com>
- <Y6MSxBaJU7JqfkJO@spud>
- <CAHVXubgzac0gXNF2FVeUrCAnOe7U9QhAfj3nWd_jc0maaepN2g@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Dec 2022 04:06:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of regressions@leemhuis.info designates 80.237.130.52 as permitted sender) client-ip=80.237.130.52;
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1p8KKn-0004Lk-6t; Thu, 22 Dec 2022 13:06:01 +0100
+Message-ID: <962eff8e-8417-1096-f72b-4238ca4b0713@leemhuis.info>
+Date: Thu, 22 Dec 2022 13:06:00 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="YCPDz/kjihqgJ7An"
-Content-Disposition: inline
-In-Reply-To: <CAHVXubgzac0gXNF2FVeUrCAnOe7U9QhAfj3nWd_jc0maaepN2g@mail.gmail.com>
-X-Original-Sender: conor@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=igRLuaTw;       spf=pass
- (google.com: domain of conor@kernel.org designates 2604:1380:4641:c500::1 as
- permitted sender) smtp.mailfrom=conor@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: mainline build failure due to e240e53ae0ab ("mm, slub: add
+ CONFIG_SLUB_TINY") #forregzbot
+Content-Language: en-US, de-DE
+Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org
+References: <Y5hTTGf/RA2kpqOF@debian>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+To: "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+In-Reply-To: <Y5hTTGf/RA2kpqOF@debian>
+Content-Type: text/plain; charset="UTF-8"
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1671710762;1054d6c9;
+X-HE-SMSGID: 1p8KKn-0004Lk-6t
+X-Original-Sender: regressions@leemhuis.info
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of regressions@leemhuis.info designates 80.237.130.52 as
+ permitted sender) smtp.mailfrom=regressions@leemhuis.info
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,271 +131,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+[Note: this mail contains only information for Linux kernel regression
+tracking. Mails like these contain '#forregzbot' in the subject to make
+then easy to spot and filter out. The author also tried to remove most
+or all individuals from the list of recipients to spare them the hassle.]
 
---YCPDz/kjihqgJ7An
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-
-On Wed, Dec 21, 2022 at 03:23:36PM +0100, Alexandre Ghiti wrote:
-> Hi Conor,
+On 13.12.22 11:26, Sudip Mukherjee (Codethink) wrote:
+> Hi All,
 > 
-> On Wed, Dec 21, 2022 at 3:06 PM Conor Dooley <conor@kernel.org> wrote:
-> >
-> > Hey Alex!
-> >
-> > On Fri, Dec 16, 2022 at 05:21:39PM +0100, Alexandre Ghiti wrote:
-> > > The EFI stub must not use any KASAN instrumented code as the kernel
-> > > proper did not initialize the thread pointer and the mapping for the
-> > > KASAN shadow region.
-> > >
-> > > Avoid using generic string functions by copying stub dependencies from
-> > > lib/string.c to drivers/firmware/efi/libstub/string.c as RISC-V does
-> > > not implement architecture-specific versions of those functions.
-> >
-> > To the unaware among us, how does this interact with Heiko's custom
-> > functions for bitmanip extensions? Is this diametrically opposed to
-> > that, or does it actually help avoid having to have special handling
-> > for the efi stub?
+> The latest mainline kernel branch fails to build xtensa allmodconfig 
+> with gcc-11 with the error:
 > 
-> I'm not sure which patchset you are referring to, but I guess you are
-> talking about arch-specific string functions:
-
-Oh sorry, I thought I had linked it..
-https://lore.kernel.org/linux-riscv/20221130225614.1594256-1-heiko@sntech.de/
-
-> - If they are written in assembly and are then not kasan-instrumented,
-> we'll be able to use them and then revert part of this patch.
-
-They are indeed written in assembly. Ard had left some comments there.
-Heiko's intention was to keep them out of the efistub, so perhaps your
-patchset helps him out.
-
-> - If they are written in C and are then kasan-instrumented (because
-> we'll want to instrument them), we'll keep using the implementation
-> added here.
+> kernel/kcsan/kcsan_test.c: In function '__report_matches':
+> kernel/kcsan/kcsan_test.c:257:1: error: the frame size of 1680 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
+>   257 | }
+>       | ^
 > 
-> Hope that answers your question!
-> 
-> Alex
-> 
-> >
-> > Also, checkpatch seems to be rather unhappy with you here:
-> > https://gist.github.com/conor-pwbot/e5b4c8f2c3b88b4a8fcab4df437613e2
-> 
-> Yes, those new functions are exact copies from lib/string.c, I did not
-> want to fix those checkpatch errors in this patchset.
+> git bisect pointed to e240e53ae0ab ("mm, slub: add CONFIG_SLUB_TINY")
 
-I figured from the description that that was likely, just mentioned it
-as I was already replying! Apologies for not looking at the source of
-the copy.
+Thanks for the report. To be sure below issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, my Linux kernel regression
+tracking bot:
 
-Thanks!
+#regzbot ^introduced e240e53ae0ab
+#regzbot title mm, slub: CONFIG_SLUB_TINY causes various build errors
+#regzbot ignore-activity
 
-> > >
-> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > > ---
-> > >  arch/riscv/kernel/image-vars.h        |   8 --
-> > >  drivers/firmware/efi/libstub/Makefile |   7 +-
-> > >  drivers/firmware/efi/libstub/string.c | 133 ++++++++++++++++++++++++++
-> > >  3 files changed, 137 insertions(+), 11 deletions(-)
-> > >
-> > > diff --git a/arch/riscv/kernel/image-vars.h b/arch/riscv/kernel/image-vars.h
-> > > index d6e5f739905e..15616155008c 100644
-> > > --- a/arch/riscv/kernel/image-vars.h
-> > > +++ b/arch/riscv/kernel/image-vars.h
-> > > @@ -23,14 +23,6 @@
-> > >   * linked at. The routines below are all implemented in assembler in a
-> > >   * position independent manner
-> > >   */
-> > > -__efistub_memcmp             = memcmp;
-> > > -__efistub_memchr             = memchr;
-> > > -__efistub_strlen             = strlen;
-> > > -__efistub_strnlen            = strnlen;
-> > > -__efistub_strcmp             = strcmp;
-> > > -__efistub_strncmp            = strncmp;
-> > > -__efistub_strrchr            = strrchr;
-> > > -
-> > >  __efistub__start             = _start;
-> > >  __efistub__start_kernel              = _start_kernel;
-> > >  __efistub__end                       = _end;
-> > > diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
-> > > index b1601aad7e1a..031d2268bab5 100644
-> > > --- a/drivers/firmware/efi/libstub/Makefile
-> > > +++ b/drivers/firmware/efi/libstub/Makefile
-> > > @@ -130,9 +130,10 @@ STUBCOPY_RELOC-$(CONFIG_ARM)     := R_ARM_ABS
-> > >  # also means that we need to be extra careful to make sure that the stub does
-> > >  # not rely on any absolute symbol references, considering that the virtual
-> > >  # kernel mapping that the linker uses is not active yet when the stub is
-> > > -# executing. So build all C dependencies of the EFI stub into libstub, and do
-> > > -# a verification pass to see if any absolute relocations exist in any of the
-> > > -# object files.
-> > > +# executing. In addition, we need to make sure that the stub does not use KASAN
-> > > +# instrumented code like the generic string functions. So build all C
-> > > +# dependencies of the EFI stub into libstub, and do a verification pass to see
-> > > +# if any absolute relocations exist in any of the object files.
-> > >  #
-> > >  STUBCOPY_FLAGS-$(CONFIG_ARM64)       += --prefix-alloc-sections=.init \
-> > >                                  --prefix-symbols=__efistub_
-> > > diff --git a/drivers/firmware/efi/libstub/string.c b/drivers/firmware/efi/libstub/string.c
-> > > index 5d13e43869ee..5154ae6e7f10 100644
-> > > --- a/drivers/firmware/efi/libstub/string.c
-> > > +++ b/drivers/firmware/efi/libstub/string.c
-> > > @@ -113,3 +113,136 @@ long simple_strtol(const char *cp, char **endp, unsigned int base)
-> > >
-> > >       return simple_strtoull(cp, endp, base);
-> > >  }
-> > > +
-> > > +#ifndef __HAVE_ARCH_STRLEN
-> > > +/**
-> > > + * strlen - Find the length of a string
-> > > + * @s: The string to be sized
-> > > + */
-> > > +size_t strlen(const char *s)
-> > > +{
-> > > +     const char *sc;
-> > > +
-> > > +     for (sc = s; *sc != '\0'; ++sc)
-> > > +             /* nothing */;
-> > > +     return sc - s;
-> > > +}
-> > > +EXPORT_SYMBOL(strlen);
-> > > +#endif
-> > > +
-> > > +#ifndef __HAVE_ARCH_STRNLEN
-> > > +/**
-> > > + * strnlen - Find the length of a length-limited string
-> > > + * @s: The string to be sized
-> > > + * @count: The maximum number of bytes to search
-> > > + */
-> > > +size_t strnlen(const char *s, size_t count)
-> > > +{
-> > > +     const char *sc;
-> > > +
-> > > +     for (sc = s; count-- && *sc != '\0'; ++sc)
-> > > +             /* nothing */;
-> > > +     return sc - s;
-> > > +}
-> > > +EXPORT_SYMBOL(strnlen);
-> > > +#endif
-> > > +
-> > > +#ifndef __HAVE_ARCH_STRCMP
-> > > +/**
-> > > + * strcmp - Compare two strings
-> > > + * @cs: One string
-> > > + * @ct: Another string
-> > > + */
-> > > +int strcmp(const char *cs, const char *ct)
-> > > +{
-> > > +     unsigned char c1, c2;
-> > > +
-> > > +     while (1) {
-> > > +             c1 = *cs++;
-> > > +             c2 = *ct++;
-> > > +             if (c1 != c2)
-> > > +                     return c1 < c2 ? -1 : 1;
-> > > +             if (!c1)
-> > > +                     break;
-> > > +     }
-> > > +     return 0;
-> > > +}
-> > > +EXPORT_SYMBOL(strcmp);
-> > > +#endif
-> > > +
-> > > +#ifndef __HAVE_ARCH_STRRCHR
-> > > +/**
-> > > + * strrchr - Find the last occurrence of a character in a string
-> > > + * @s: The string to be searched
-> > > + * @c: The character to search for
-> > > + */
-> > > +char *strrchr(const char *s, int c)
-> > > +{
-> > > +     const char *last = NULL;
-> > > +     do {
-> > > +             if (*s == (char)c)
-> > > +                     last = s;
-> > > +     } while (*s++);
-> > > +     return (char *)last;
-> > > +}
-> > > +EXPORT_SYMBOL(strrchr);
-> > > +#endif
-> > > +
-> > > +#ifndef __HAVE_ARCH_MEMCMP
-> > > +/**
-> > > + * memcmp - Compare two areas of memory
-> > > + * @cs: One area of memory
-> > > + * @ct: Another area of memory
-> > > + * @count: The size of the area.
-> > > + */
-> > > +#undef memcmp
-> > > +__visible int memcmp(const void *cs, const void *ct, size_t count)
-> > > +{
-> > > +     const unsigned char *su1, *su2;
-> > > +     int res = 0;
-> > > +
-> > > +#ifdef CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS
-> > > +     if (count >= sizeof(unsigned long)) {
-> > > +             const unsigned long *u1 = cs;
-> > > +             const unsigned long *u2 = ct;
-> > > +             do {
-> > > +                     if (get_unaligned(u1) != get_unaligned(u2))
-> > > +                             break;
-> > > +                     u1++;
-> > > +                     u2++;
-> > > +                     count -= sizeof(unsigned long);
-> > > +             } while (count >= sizeof(unsigned long));
-> > > +             cs = u1;
-> > > +             ct = u2;
-> > > +     }
-> > > +#endif
-> > > +     for (su1 = cs, su2 = ct; 0 < count; ++su1, ++su2, count--)
-> > > +             if ((res = *su1 - *su2) != 0)
-> > > +                     break;
-> > > +     return res;
-> > > +}
-> > > +EXPORT_SYMBOL(memcmp);
-> > > +#endif
-> > > +
-> > > +#ifndef __HAVE_ARCH_MEMCHR
-> > > +/**
-> > > + * memchr - Find a character in an area of memory.
-> > > + * @s: The memory area
-> > > + * @c: The byte to search for
-> > > + * @n: The size of the area.
-> > > + *
-> > > + * returns the address of the first occurrence of @c, or %NULL
-> > > + * if @c is not found
-> > > + */
-> > > +void *memchr(const void *s, int c, size_t n)
-> > > +{
-> > > +     const unsigned char *p = s;
-> > > +     while (n-- != 0) {
-> > > +             if ((unsigned char)c == *p++) {
-> > > +                     return (void *)(p - 1);
-> > > +             }
-> > > +     }
-> > > +     return NULL;
-> > > +}
-> > > +EXPORT_SYMBOL(memchr);
-> > > +#endif
-> > > --
-> > > 2.37.2
-> > >
-> > >
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+
+P.S.: As the Linux kernel's regression tracker I deal with a lot of
+reports and sometimes miss something important when writing mails like
+this. If that's the case here, don't hesitate to tell me in a public
+reply, it's in everyone's interest to set the public record straight.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y6MfdfRhlWYBL2KH%40spud.
-
---YCPDz/kjihqgJ7An
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY6MfdQAKCRB4tDGHoIJi
-0rD1AQCqrDhav6hfY0d+Zxo7d411z36snzEbHw/G2g8zY1b+aQEA5L8T8mE5iRl3
-Ov5E1pIIrfvvmg4vRhlfFTAQXS7AkQs=
-=gSFB
------END PGP SIGNATURE-----
-
---YCPDz/kjihqgJ7An--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/962eff8e-8417-1096-f72b-4238ca4b0713%40leemhuis.info.
