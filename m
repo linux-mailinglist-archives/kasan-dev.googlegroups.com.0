@@ -1,147 +1,148 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBMWGVCOQMGQEES5X2DA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLI747UVAFRBAHKVOOQMGQEUE6XJFI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4632B656588
-	for <lists+kasan-dev@lfdr.de>; Mon, 26 Dec 2022 23:41:55 +0100 (CET)
-Received: by mail-wm1-x338.google.com with SMTP id bd6-20020a05600c1f0600b003d96f7f2396sf5590918wmb.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 26 Dec 2022 14:41:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1672094515; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC60656B61
+	for <lists+kasan-dev@lfdr.de>; Tue, 27 Dec 2022 14:37:05 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id g3-20020a2e9cc3000000b0027760138bb9sf3088649ljj.23
+        for <lists+kasan-dev@lfdr.de>; Tue, 27 Dec 2022 05:37:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1672148224; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Ru2coVf0OIJiG5g+ZDwZ5pZgG/1Mp43AptPUT3dx6HNLiQJ/UnA5eWjJhkSsJ3Duci
-         aJ5tsEzUq3bnTFmHTiM/OdsbEXMLZlusgsaOz4UcXpYCUR1zXYaS/G8mcQczjGhTryFD
-         +Px7Klzov3XIm5cq+Dl5de8aStEF1lb2NCIGJEkS+hO0EE0zcSvd5vOAaxv5OAFQVN/k
-         xySB+/xdKSXysyiQ/owaLW4p1I/nzqfhzIV5/UDGxpSgWcrq3IurWLqrge8P547mlNzF
-         6Lcv8yLbPdlaMpc5AgfLuI8uXzN5tYYR4TQfha5ZD9+2Fni5kO+LlRfpDNQwoaB5HSio
-         8KvA==
+        b=QpkPEox6ZdrQ8ndJtuVH/OD10o3Ga/iQ+ZC6+EmapnHXfLdIpp9qi3CGP8zdsb02ii
+         y8t/xv0Dd8njA+8SjIAn8c88SkcD9WvOgSLBZquxE1Q+URxwRhBRHuKWOxI+GqyddqKs
+         2JvvFYoGtNAuNaKuxeSoehQNUqTrhWeAfL1SMZR59pVMkbfEnqtbEB8x6O+M3X//jpjX
+         uSMD5/+RWauThxpy3rS47F3GfTLKWg4jus/POpyMlJuZb2QDVYMEvBjsMXUGMitxCHCC
+         8h7BUxLTN0/legWA6MbCvcozapIkwlVnd1u77U8rI+82e23/TVCHB7tJXbfO4q0am2NE
+         ATkA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=VZIf8Uof7OzUz6KB7Y/AJF709lxrGO7WcGTdIWIj3m4=;
-        b=pd0Tcrb3BB/w91MWygzXfLhy3SMpxT/0iIvxFkQUMwXlQJZFeA6Oly5QQipX4qOjos
-         3NDLUJjKzB8sPHyHCaB5Jr11su342H6N0VLlonxcoZtZRaud4j3PqRsPMD5KuF8NKnjY
-         O0H5UtIAMyywU7iSpBrevOLG3NIaHLNgtDtsiuK5b3u/ucIyo4Kh383C8R8JcIcrEXWM
-         5Z8XScESWP/HZbw2IsDWDuaLiaG2H0apGTwugPLzT1cZu/ciWB2cf0/9XfDlbagL1RQ2
-         GnIVIFGA0Fxabklm3Ssmao+e8+swtVS9YQIJR7I6Y6yo/orzN26LEewaXpxUx/tjyj9b
-         1PiQ==
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=RJnTLRNSlsLybQtIK787RrEoPBP70QdH2FUvlBITwLk=;
+        b=DmAViIOND7tYkV0YdZ8iHC630r4gt0uEFssMHLcYdYOylJtflOXVUh+E8yHheiGAHq
+         CEtc0ZlfHp2WD35MfwBFjllj3THH+zsxHxJUNbYGiVPdD/Pm1rYm++qLu2E3sYe4msom
+         5y1cdQcmkx5AKkh8qI/pL4fspKZ6TEu9m69alEwjHdV/OrJICQdMis66pK95x2xcft2I
+         pF5zqUcyJRPJhBud1cE8hG/2yE9AEx7wWQLz2dQ7JSpLhxdb3d8pRIE9ik64zB85c8Ry
+         0a2byqqib163fKuvsViWd44tUBHGfj2Ft9yxavCiqPgUDNWUNBHCLqOP82+KL4eM4x0x
+         3Rsw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=bBNQjL4n;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=HsbP5xOE;
+       spf=pass (google.com: domain of srs0=y2yx=4z=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=Y2YX=4Z=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=VZIf8Uof7OzUz6KB7Y/AJF709lxrGO7WcGTdIWIj3m4=;
-        b=fupl96sy2JTsxffcdP/MfeX0po9Sw/rv2kmX/acgz1zGxNctZKgVdwxCc/7zrJJQJZ
-         qVxdSkrEadseMK/LweNAlWydFLGI6AC0zZ/+u6Kxl+4WMSgie//dd2OyyKQ0Wq5T5bhC
-         EoLmoN5QXP7od4Bs/ITFcfXiN2oFOG4Qpkn6AQmS4fwDyN69HvzgFwBQEYEmN7oBelEo
-         UoSBl3jf9JAt6LVL35bGcp4Q55G+yLZbqIvyR7kX6qYqNf6GocYsGV5pLZF00dtSCDYk
-         fuAtkMpAdFZXb+SmJpfWz1pSesgVy1p2FjHoO/M/XYZkHdGaxr6NXrvGRYBVNu0Jicu4
-         C91A==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RJnTLRNSlsLybQtIK787RrEoPBP70QdH2FUvlBITwLk=;
+        b=gk18UbAfOpP4ktU/aDc0aIpkQSR0qD4x9fTvgagUpOKt6q88wHwbh1hFiNvySc/K5L
+         Dk8IQYYeexYtPUb4sy7SK34oESo8fAcXdgKlU3c9YnlwBvvG2m5srxSBTCP1wIJVtyhK
+         s0gNe81r9Az7RRJYVSaVDlYdmCD/PhCEK+bGXu4uH0EUG2Lk/qkOe1uA7vjuR/BL5t2m
+         CDKSzaiBmOde3csNy1OGNnNNqQwM3xPHwee10JGG+pynVuJqfCerWm8sYBJO/QfozCH4
+         2wJQAMbZQnrEBx3kPZSttMSdn8ks1/s/BsbkScRh4yS/OcjY+4Wyn9YcR4/7E5zzPsaU
+         y04g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VZIf8Uof7OzUz6KB7Y/AJF709lxrGO7WcGTdIWIj3m4=;
-        b=KzusuAcMtehbklyacR4gqJjztjWluEbJBntmuKahCiNDgVowik6Zt0CsTkRRSjVsWe
-         To+eXF6GxnePpOo29bDNf3MINNTvchyJml4lgVN8rJcl5YE7r36g7m3obNz9nggAekPX
-         nNMMeJUghUXYDKDhRYLSSIgsQN9Xw6UK2/cAvZqNfKr9fKIeq+GaQ4eBWK5oGxhAzKRB
-         kNnSsKlxK6fl+CB/ThEPbGltZUTQ1xWkhJBoonco+tnbv9LidcwGcr9UB2Wvu7x5F2CB
-         gYmE3o75O6H4EZVbhQ6Eli/4BU7xYorleqSBSOVYNNAAaclIDn+p+3if0uJG+hAa1Hcl
-         LoVw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kpSYCoE19P3zXh4GzFMyNYHVpcHN9w2JLzhbKhdflpCdK8HXlti
-	xNjN7t4o1Zlv6/VVlN74TEg=
-X-Google-Smtp-Source: AMrXdXu/0wbHr0Fa9GmdmYlBZYBlj29eNHHxZrvnX+gyyRqN6CrEkRUDSXqj+6GP8Hua46TO8gUVDA==
-X-Received: by 2002:a5d:59c4:0:b0:242:1783:5316 with SMTP id v4-20020a5d59c4000000b0024217835316mr741821wry.701.1672094514803;
-        Mon, 26 Dec 2022 14:41:54 -0800 (PST)
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RJnTLRNSlsLybQtIK787RrEoPBP70QdH2FUvlBITwLk=;
+        b=GoI50NzpaVW8jiQofLkMCPloSiH0Z+Hdic/MISYMhBPISjTC6Ho2NycVSfAVPnDl3J
+         0v4e2VSnTxAEaPQK6x7itUOAg86vGc5R9o+QcZmy91CfquFNJy4j80YKtvJx3vR38sTr
+         hfqxIozIVVcGuAHZGjiMUgsq32L0/n896LogNN8JvOhb/C+VC3MXo6ICNRl71DAHEz77
+         Bp48pOe8SKNobZmv8elJs+W25zLgF8Kt8V70h9RdvAv2z3iNfPICvr6yR5Cv50EWSg99
+         PJ6zE/QNM5pJ9OWgy3qYRLYpdUe8UP1p5DzbzeiSwZYstp77nWYcKoYxqY56h9znVVea
+         Z43Q==
+X-Gm-Message-State: AFqh2kpsmmE2gu+zSvDEnzBjXbX9uhKPpM8ABV4DFU6Mx5QF78srOcD5
+	BDacQT6uNqaVD9gD2GEs4x4=
+X-Google-Smtp-Source: AMrXdXtt5vFAEGEbxz4HKZcOilLHtu+aVTyVT4S/mNECYA+qfQpIWStPbtcxy+nGOSl8Cnwbww8Jtg==
+X-Received: by 2002:ac2:539c:0:b0:4cb:cbf:d2e3 with SMTP id g28-20020ac2539c000000b004cb0cbfd2e3mr217590lfh.42.1672148224539;
+        Tue, 27 Dec 2022 05:37:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:f548:0:b0:225:6559:3374 with SMTP id j8-20020adff548000000b0022565593374ls1141641wrp.2.-pod-prod-gmail;
- Mon, 26 Dec 2022 14:41:53 -0800 (PST)
-X-Received: by 2002:a5d:6e07:0:b0:242:285:6b39 with SMTP id h7-20020a5d6e07000000b0024202856b39mr12555985wrz.50.1672094513515;
-        Mon, 26 Dec 2022 14:41:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1672094513; cv=none;
+Received: by 2002:a05:6512:1182:b0:4b5:3cdf:5a65 with SMTP id
+ g2-20020a056512118200b004b53cdf5a65ls1570920lfr.2.-pod-prod-gmail; Tue, 27
+ Dec 2022 05:37:03 -0800 (PST)
+X-Received: by 2002:a05:6512:24e:b0:4b5:82f1:7f3d with SMTP id b14-20020a056512024e00b004b582f17f3dmr10898050lfo.58.1672148223365;
+        Tue, 27 Dec 2022 05:37:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1672148223; cv=none;
         d=google.com; s=arc-20160816;
-        b=iuY2QqUCLTh0jWYY1K6BCEg4KNLMB16aiNpJSl5b86RT0NpeSeIsAghwS2Bf9HVEY9
-         wiRU5hl5aDbdau1hu52fSz29FK+Hk8H+/gD70HNCOwgtQ0NS2fqJan1ESSCjb7hbb5+o
-         y52sRppbo2516BA4aPUSkPbQJkPCXjCJvAC3IBK24YczzTpkL2wU4AKU2oLFv4zBEh5q
-         HSKiSSe1jbzbiig/WjdY2RYmvq5HYWLPGPnsMkajy5CEG8x2BeIdpmcJrKJrXmexqTBV
-         LbhFDOnSfcKzzs1qxSuHjzDdPcdP9MuIw4AMscT15zkap3VyGxQ9NKWrIUO4prEjJdsV
-         S56Q==
+        b=o637fwRsk8k9NgAM1loB++yuqWXo2Qz66j7MLnke9nQ7jJaLVBw9e37ZJ1u4fKk7vI
+         jEp4pmMT5+Au/A+6gfvqTYLSn3r5yQS2iUXB31BUH7Tqmi8Iz2YZ4H2QvLeHlVtyPiOe
+         Uid9r7AI0mIOktBEtMOWLt7aT+aMvmic7FAwD6BdZCiXhQKYLvVgqADa7VvGv80h6KBo
+         UQxdCr94EZxMWD18I2qTXMgYtBad5UqmvCX3CFDp4op6QwqbMebXBM51Cj2kgGHF6ZL/
+         JBI8cu3f7JrkN4c1kcLtHhHiq6ni5Fm3ZncnQ+wNObSpY9AvIYf6ZIQTJ/bxSlW7Ip0z
+         dx7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=+3lTW8ppgkCOp0GPcOsAwQlom3Z3C11B2XXX3v40pes=;
-        b=tMUBfIwiom+Lu+OdPvZTQdq5sr8/DJHtjtDSwrbx4stOrnP9299kzdCH2Vqi94elpU
-         kQgaWjp30qZtNE/H/ltUwH/2qnpArsYhfDlpMe7QrbqcqT/CrOXUU/bXQwku3pP9IWuT
-         j5BVrik/56gO6PX/j7gtieadJ/OvkZShgGedV/4EtjaAeW4eyfpv0gnhU5N5QA+ABtE+
-         eY12C6BLZ9lC98Ldl6GTC3ajGZ/2ghU9lHBwoTo+s0Q4p+0b70YCas0wXBga5yMwF/Af
-         +lsiRhS5zBWy1VHNOgGtsiAlys3gyVpHs2sDbQZKLbEggoght8VqS7etbX9zoXOa9ecV
-         Xwmw==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=A6Tpz+0nHRofFNKNlRnj1MkH2P/4zYKJXoIQP8XxImY=;
+        b=M6A/0kI5EQZpSrs9IyvJaRu58ppx3fnyESY52iXqwOxz4zLc+Znx7h6OTXMVDzI1nQ
+         0w4IoWt+t/zjYu32V8Y/Fb79F5ZECCq5n/jtW6OgKBdUwG0KOPwpg2ow4G16S73odD6b
+         3tu3OSJ04DeSdQnxwbZRlVD1ksBhcXIWOtqbfZ9XX7vAiWU7KiFmanEdETfxBvnqrhQI
+         diFqfiZ9BUc/VTS0I8OAyk8g4nJNnxaxYGfA+7g0vTN2RPinokS4phu7pnNJltqIO2Ll
+         9nyHnkg3Ee+jEj3e6umF6UJZeMhi+K7RKowK2SwFNBJwhNx9C1NpJvBdKKp3VvsOL/iw
+         9xEQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=bBNQjL4n;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
-        by gmr-mx.google.com with ESMTPS id l17-20020a056000023100b0024222ed1370si480797wrz.3.2022.12.26.14.41.53
+       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=HsbP5xOE;
+       spf=pass (google.com: domain of srs0=y2yx=4z=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=Y2YX=4Z=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
+        by gmr-mx.google.com with ESMTPS id c17-20020ac25f71000000b004b4f4360405si447213lfc.12.2022.12.27.05.37.03
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Dec 2022 14:41:53 -0800 (PST)
-Received-SPF: softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 27 Dec 2022 05:37:03 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=y2yx=4z=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0959720DF9;
-	Mon, 26 Dec 2022 22:41:53 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C8FAC13456;
-	Mon, 26 Dec 2022 22:41:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id JBHwLzAjqmPJRgAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Mon, 26 Dec 2022 22:41:52 +0000
-Message-ID: <abeeda98-e6ed-fb88-f838-6b61d43e07e5@suse.cz>
-Date: Mon, 26 Dec 2022 23:41:52 +0100
+	by ams.source.kernel.org (Postfix) with ESMTPS id 8FB8FB80FEA;
+	Tue, 27 Dec 2022 13:37:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5AE9C433D2;
+	Tue, 27 Dec 2022 13:36:59 +0000 (UTC)
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 217de33c (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 27 Dec 2022 13:36:57 +0000 (UTC)
+Date: Tue, 27 Dec 2022 14:36:54 +0100
+From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Eric Biggers <ebiggers@kernel.org>, x86@kernel.org, linux-mm@kvack.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
+Message-ID: <Y6r09pm68oI7GMe1@zx2c4.com>
+References: <20220921093134.2936487-1-Jason@zx2c4.com>
+ <20220921093134.2936487-4-Jason@zx2c4.com>
+ <Y6ZESPx4ettBLuMt@sol.localdomain>
+ <Y6ZtVGtFpUNQP+KU@zx2c4.com>
+ <Y6Z+WpqN59ZjIKkk@zx2c4.com>
+ <Y6muh1E1fNOot+VZ@zx2c4.com>
+ <Y6my+Oiz67G46snj@zx2c4.com>
+ <Y6nSel5/wdnoSFpk@zx2c4.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: Linux 6.2-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Guenter Roeck <linux@roeck-us.net>, Jaegeuk Kim <jaegeuk@kernel.org>,
- Chao Yu <chao@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Kees Cook
- <keescook@chromium.org>, Max Filippov <jcmvbkbc@gmail.com>,
- kasan-dev <kasan-dev@googlegroups.com>, Marco Elver <elver@google.com>
-References: <CAHk-=wgf929uGOVpiWALPyC7pv_9KbwB2EAvQ3C4woshZZ5zqQ@mail.gmail.com>
- <20221226195206.GA2626419@roeck-us.net>
- <CAHk-=whD1zMyt4c7g6-+tWvVweyb-6oHMT_+ZVHqe1EXwtFpCQ@mail.gmail.com>
-Content-Language: en-US
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <CAHk-=whD1zMyt4c7g6-+tWvVweyb-6oHMT_+ZVHqe1EXwtFpCQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: vbabka@suse.cz
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Y6nSel5/wdnoSFpk@zx2c4.com>
+X-Original-Sender: jason@zx2c4.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=bBNQjL4n;       dkim=neutral
- (no key) header.i=@suse.cz;       spf=softfail (google.com: domain of
- transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as
- permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@zx2c4.com header.s=20210105 header.b=HsbP5xOE;       spf=pass
+ (google.com: domain of srs0=y2yx=4z=zx2c4.com=jason@kernel.org designates
+ 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=Y2YX=4Z=zx2c4.com=Jason@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,73 +155,146 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 12/26/22 21:56, Linus Torvalds wrote:
-> On Mon, Dec 26, 2022 at 11:52 AM Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> fs/f2fs/inline.c: In function 'f2fs_move_inline_dirents':
->> include/linux/fortify-string.h:59:33: error: '__builtin_memset' pointer overflow between offset [28, 898293814] and size [-898293787, -1] [-Werror=array-bounds]
->> fs/f2fs/inline.c:430:9: note: in expansion of macro 'memset'
->>   430 |         memset(dst.bitmap + src.nr_bitmap, 0, dst.nr_bitmap - src.nr_bitmap);
->>       |         ^~~~~~
-> 
-> Well, that's unfortunate.
-> 
->> kernel/kcsan/kcsan_test.c: In function '__report_matches':
->> kernel/kcsan/kcsan_test.c:257:1: error: the frame size of 1680 bytes is larger than 1536 bytes
->>
->> Bisect for both points to commit e240e53ae0abb08 ("mm, slub: add
->> CONFIG_SLUB_TINY").  Reverting it on its own is not possible, but
->> reverting the following two patches fixes the problem.
->>
->> 149b6fa228ed mm, slob: rename CONFIG_SLOB to CONFIG_SLOB_DEPRECATED
->> e240e53ae0ab mm, slub: add CONFIG_SLUB_TINY
-> 
-> No, I think CONFIG_SLUB_TINY should probably have a
-> 
->      depends on !COMPILE_TEST
-> 
-> or something like that instead.
+On Mon, Dec 26, 2022 at 05:57:30PM +0100, Jason A. Donenfeld wrote:
+> On Mon, Dec 26, 2022 at 03:43:04PM +0100, Jason A. Donenfeld wrote:
+> > On Mon, Dec 26, 2022 at 03:24:07PM +0100, Jason A. Donenfeld wrote:
+> > > Hi,
+> > >=20
+> > > I'm currently stumped at the moment, so adding linux-mm@ and x86@. St=
+ill
+> > > working on it though. Details of where I'm at are below the quote bel=
+ow.
+> > >=20
+> > > On Sat, Dec 24, 2022 at 05:21:46AM +0100, Jason A. Donenfeld wrote:
+> > > > On Sat, Dec 24, 2022 at 04:09:08AM +0100, Jason A. Donenfeld wrote:
+> > > > > Hi Eric,
+> > > > >=20
+> > > > > Replying to you from my telephone, and I'm traveling the next two=
+ days,
+> > > > > but I thought I should mention some preliminary results right awa=
+y from
+> > > > > doing some termux compiles:
+> > > > >=20
+> > > > > On Fri, Dec 23, 2022 at 04:14:00PM -0800, Eric Biggers wrote:
+> > > > > > Hi Jason,
+> > > > > >=20
+> > > > > > On Wed, Sep 21, 2022 at 11:31:34AM +0200, Jason A. Donenfeld wr=
+ote:
+> > > > > > > This reverts 3824e25db1 ("x86: disable rng seeding via setup_=
+data"), but
+> > > > > > > for 7.2 rather than 7.1, now that modifying setup_data is saf=
+e to do.
+> > > > > > >=20
+> > > > > > > Cc: Laurent Vivier <laurent@vivier.eu>
+> > > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > > > > > Cc: Peter Maydell <peter.maydell@linaro.org>
+> > > > > > > Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
+> > > > > > > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > > > > > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> > > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > > > > > > ---
+> > > > > > >  hw/i386/microvm.c | 2 +-
+> > > > > > >  hw/i386/pc_piix.c | 3 ++-
+> > > > > > >  hw/i386/pc_q35.c  | 3 ++-
+> > > > > > >  3 files changed, 5 insertions(+), 3 deletions(-)
+> > > > > > >=20
+> > > > > >=20
+> > > > > > After upgrading to QEMU 7.2, Linux 6.1 no longer boots with som=
+e configs.  There
+> > > > > > is no output at all.  I bisected it to this commit, and I verif=
+ied that the
+> > > > > > following change to QEMU's master branch makes the problem go a=
+way:
+> > > > > >=20
+> > > > > > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> > > > > > index b48047f50c..42f5b07d2f 100644
+> > > > > > --- a/hw/i386/pc_piix.c
+> > > > > > +++ b/hw/i386/pc_piix.c
+> > > > > > @@ -441,6 +441,7 @@ static void pc_i440fx_8_0_machine_options(M=
+achineClass *m)
+> > > > > >      pc_i440fx_machine_options(m);
+> > > > > >      m->alias =3D "pc";
+> > > > > >      m->is_default =3D true;
+> > > > > > +    PC_MACHINE_CLASS(m)->legacy_no_rng_seed =3D true;
+> > > > > >  }
+> > > > > >=20
+> > > > > > I've attached the kernel config I am seeing the problem on.
+> > > > > >=20
+> > > > > > For some reason, the problem also goes away if I disable CONFIG=
+_KASAN.
+> > > > > >=20
+> > > > > > Any idea what is causing this?
+> > > > >=20
+> > > > > - Commenting out the call to parse_setup_data() doesn't fix the i=
+ssue.
+> > > > >   So there's no KASAN issue with the actual parser.
+> > > > >=20
+> > > > > - Using KASAN_OUTLINE rather than INLINE does fix the issue!
+> > > > >=20
+> > > > > That makes me suspect that it's file size related, and QEMU or th=
+e BIOS
+> > > > > is placing setup data at an overlapping offset by accident, or so=
+mething
+> > > > > similar.
+> > > >=20
+> > > > I removed the file systems from your config to bring the kernel siz=
+e
+> > > > back down, and voila, it works, even with KASAN_INLINE. So perhaps =
+I'm
+> > > > on the right track here...
+> > >=20
+> > > QEMU sticks setup_data after the kernel image, the same as kexec-tool=
+s
+> > > and everything else. Apparently, when the kernel image is large, the
+> > > call to early_memremap(boot_params.hdr.setup_data, ...) returns a val=
+ue
+> > > that points some place bogus, and the system crashes or does somethin=
+g
+> > > weird. I haven't yet determined what this limit is, but in my current
+> > > test kernel, a value of 0x0000000001327650 is enough to make it point=
+ to
+> > > rubbish.
+> > >=20
+> > > Is this expected? What's going on here?
+> >=20
+> > Attaching gdb to QEMU and switching it to physical memory mode
+> > (`maintenance packet Qqemu.PhyMemMode:1 `) indicates that it
+> > early_memremap is actually working fine and something *else* is at this
+> > address? That's kinda weird... Is KASAN populating physical addresses
+> > immediately after the kernel image extremely early in boot? I'm seeing
+> > the crash happen from early_reserve_memory()->
+> > memblock_x86_reserve_range_setup_data(), which should be before
+> > kasan_init() even runs. Is QEMU calculating kernel_size wrong, when it
+> > goes to determine where to put the setup_data data? But that's the same
+> > calculation as used everywhere else, so hmm...
+> >=20
+> > Jason
+>=20
+> If bzImage is 15770544 bytes, it does not boot. If bzImage is 15641776
+> bytes, it does boot. So something is happening somewhat close to the
+> 16MB mark?
+>=20
 
-We can do that, although if things are on track to be fixed, maybe it's
-unnecessary?
+Okay, the issue is that it's being decompressed to an area that overlaps
+the source. So for example in my test kernel:
 
-> It already has a
-> 
->         depends on SLUB && EXPERT
-> 
-> which is basically supposed to disable it for any normal builds, but
-> obviously allmodconfig will enable EXPERT etc anyway.
-> 
-> That said, that f2fs case also sounds like this code triggers the
-> compiler being unhappy, so it might be worth having some clarification
-> from the f2fs people.
-> 
-> I'm not sure what triggers that problem just on powerpc, and only with
-> that CONFIG_SLUB_TINY option. Maybe those make_dentry_ptr_inline() and
+input_addr: 0x3f112bf
+output_addr: 0x1000000
+output_len: 0x3a5d7d8
 
-I think it's because e240e53ae0ab makes KASAN depend on !SLUB_TINY, because
-KASAN does "select SLUB_DEBUG" which depends on !SLUB_TINY; but kconfig will
-still honor the select even with dependencies unmet and only warn about it
-(and the build would fail) so I prevented it this way. (maybe instead
-SLUB_TINY depend on !KASAN would have worked better in retrospect?) So now
-allmodconfig will have SLUB_TINY enabled and KASAN thus disabled.
+Since 0x3a5d7d8 + 0x1000000 > 0x3f112bf, eventually this corrupts the
+setup_data at the end there.
 
-On the other hand there are configs like KCSAN and KMSAN that depend on
-!KASAN, so with KASAN disabled, now those become enabled. KCSAN becoming
-enabled would be relevant for the xtensa problem. For the powerpc issue I'm
-not sure as the macro expansion lines for include/linux/fortify-string.h in
-Guenter's report make no sense in my 6.2-rc1 checkout for some reason. But
-the header does test for KASAN and KMSAN at several points, to perhaps it's
-also related to that?
+Now digging into what can be done about it.
 
-> make_dentry_ptr_block() functions don't get inlined in that case, and
-> that then makes gcc not see the values for those bitmap sizes?
-> 
-> Does changing the "inline" to "always_inline" perhaps fix the compiler
-> unpahhiness too?
-> 
+Jason
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/abeeda98-e6ed-fb88-f838-6b61d43e07e5%40suse.cz.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/Y6r09pm68oI7GMe1%40zx2c4.com.
