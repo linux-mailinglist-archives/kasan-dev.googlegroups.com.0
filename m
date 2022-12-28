@@ -1,149 +1,124 @@
-Return-Path: <kasan-dev+bncBCLI747UVAFRBG5KWGOQMGQEP3JA7HI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBR7CWKOQMGQEUQRZMLQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BDDD6577E6
-	for <lists+kasan-dev@lfdr.de>; Wed, 28 Dec 2022 15:39:24 +0100 (CET)
-Received: by mail-lj1-x23c.google.com with SMTP id b31-20020a05651c0b1f00b0027a003c5d43sf3760276ljr.7
-        for <lists+kasan-dev@lfdr.de>; Wed, 28 Dec 2022 06:39:24 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1672238363; cv=pass;
+Received: from mail-ua1-x937.google.com (mail-ua1-x937.google.com [IPv6:2607:f8b0:4864:20::937])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADADD6586ED
+	for <lists+kasan-dev@lfdr.de>; Wed, 28 Dec 2022 22:12:43 +0100 (CET)
+Received: by mail-ua1-x937.google.com with SMTP id w18-20020ab05a92000000b00419da160be9sf6050467uae.15
+        for <lists+kasan-dev@lfdr.de>; Wed, 28 Dec 2022 13:12:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1672261959; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0+tn8I7Gc3at4t9LDk6P7EMrzoaDL+d8o5lIo2/lSyPVvzwAjMR0W9TL0OupqojRxc
-         HUWDmZ+OrlNgvJEcEhmT+OgaGv8XnNB9IWDPE+/iZvSpgBzQTAl5wULfOqi23fyZW847
-         j+sTMNEDGaPLCxkGqrCchmkf22DcxJv5OW33owPU6DldbAIh73AOUzjLrEGFCgrKFl/E
-         ro1eaOcqjTqxdcsM+bOMI+TPPEHe8EUXHXo2wEDNOlluFyub75bc+kMiwT3gj6yqskBg
-         wzEEqJZknsqkBGkISr+7T17qY2A9J52ebqgWwGIIiicaJGTJdPHGcVPnQl2MBYXSQ+W7
-         4eLQ==
+        b=jMPBPyDt1pBbpCzmpx4CLzzL9a4ooQDADwHMnV5jFVARFRZeoE+EHp/8TdWX4s2f1E
+         yDkc0hHyPqH3Jy5VT2deyP97Yq+s36uxoiSpToOicqBoZ5WuRB7/YE4+atcdmnNRmlr0
+         gZZ9ktBoc0HDmiuOuAhMtWLpjQ4tUbIK2uXP758s7VD3EajQ+TKxzL8m8sJEJv31i+Hs
+         iTmVVfRSvnf8Mw0RfqAhh1dL9kG7SRDB78YmaGscmiKW3w3dmzZslTazRZqb4l8Sf1+G
+         3MumwZagniYmdUcMPYFMW5NdVV8mOIRPfSaOhn7L7ln1REeKinrOpkcoXJMDYBOjI0aN
+         lEZg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=5ATegTXg/iSj4EUoILUcH+7phZHPEo3T/iFVFV3cDm4=;
-        b=VnA3T4g/oAgFgJl85NxHMZALck8a/x9fvg/e26no4KJJautnDEY6tMlqZdgm/FnWbI
-         Ve1RRS02ZuIJn74ZsYj3UOXl+SUZnsJYgNFYthXDIRdO5lmfzdpookUM7KrUDCCbu371
-         dazsbF2anw6Q/+HQJTWbu/JkyzNAleQzXT8Ga+XOPYWrdhM3flZn9yL3q3CiTAYlA6h4
-         8iaWKZ2CA8jTeYfsf5u1MbXOA/FfrIZ2zKlRzpsde9G/fP6pfovq1E4C/IdYv1+uuWuP
-         IAtcvwa07BdhVLGMIwkMakhMIm6lB2jCMVaxm7ENPW4+XIyY5CiRQLQ5vcwBQS9wvByK
-         Eb5A==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=HVcNM2jC8r/EaW6OLx9X20sp8YkvyWucGubCypRiozY=;
+        b=obXbNw4TIGfdR5GY37g3KYjKgX7MGQc3y5D05Xea1PdabkkfPvLn+vnYzArh7gkeE2
+         oWKACfwV4vI/vy+aQXbjAisyMXoPO+FsBmpEVlksuGzySbuOGgFFiuLroQwp1kgcu2Ym
+         DM2rvaFj/KFcuIcfpEAuOzmyUpPRPaompr76mU8cDReDZ1SpZm/sDGjuNpT0GRYwMxPW
+         aWgNmOafGyHTBXDaJYhGaK+Ex7uzAukDlFUqYxuYFulp2AkMp885vMYFM0CDGTI67rKX
+         N6SO5CuSKbuE61DbN0AKI9wiwl3ky1N1X2RdM2pHVYTaAgPwVJWKBDfB5xg8svAqTzT5
+         cpwg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=FmUMzWAF;
-       spf=pass (google.com: domain of srs0=vu6c=42=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=vu6c=42=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=ih97jiTj;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112f as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5ATegTXg/iSj4EUoILUcH+7phZHPEo3T/iFVFV3cDm4=;
-        b=jaIrebidrX+6Sd20AD0vo+w6dOhAKS0HqprLF9ohPRQ293MpGruHnrzJ55MaqgU/D0
-         0aGNnqAq9kP0YffXK79RUV6X/4l5xjZIgfcq95QgJTV1FRPTAO3odb6TFlQdUcciSI9A
-         kPfNzXl4q6vnECR66sztEPuO2cLJbeiSc/TsDx/TxSbLhC8mkZKH6Ah5M2vQBnxuu4B+
-         T+nSZbvm8n7WLjXHYHrUg93qkd9MOcuUP2pyD7G3PJt4WI781wT0/hYiaM3005Oa0dUf
-         ojoqUcOuAJKXbgwi0ZbZwEv3FXnCVIx9fevvOdB5j/95icis3rxKsr67PS24Z+FkzO20
-         QWtA==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HVcNM2jC8r/EaW6OLx9X20sp8YkvyWucGubCypRiozY=;
+        b=jP4I0+4mHPpkp+ZTaZOiFgde6YwBID4lZlI7LCt4Y+3Wei4rmpBaZrfpzv8ceThm89
+         MZbJ3MOtPwKtFOR1E+9tuSItTks2ElBV5ksGQgUPLCuSp0cE7iWnELKXEUtb5VOzUhHN
+         nmk3VRmmEElRZ9oYkr89/qXRiY6QUDqtyLhZokbAuCg7y+dEv6rDXUMic13fn0pm/38R
+         WuT+jbwywn/RDOCHDOI5CzdHze+Zlf0Q0Ru09Zrs+Y7eGrTcnA/ZZzeVyWAmHAKVMSnv
+         ELj8rNPGr5hsE7V9bnOz4njwXPaGkxcXCv2jOEfkiOIqHq7Wc4TqbYO/dcP/fOkifs+D
+         HT4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5ATegTXg/iSj4EUoILUcH+7phZHPEo3T/iFVFV3cDm4=;
-        b=xZNbfhWWsviMrQX37ODd7NOuMmYuSBT0XO5APTZozulr948Z5BSMvzB/pDz0o5O1ZL
-         Hq12WUiV85kI1pTSAWh4KIck/SZgxSja+LEqbiWVq/VWakcP29RlTS5otMQf9+L/eZjr
-         1p0diFkNhirpOMzOWGTn6GRfPayqofmFKRSI9bcrREogU0ZZMU/xQdcraw2wFkHhmcXB
-         13HlIqmSMZZefJOsAHqISyTap8retz/xrO3KBD9peT5MGj41kYrNfE6X5iG/3gU4/L13
-         156k40/I4V7s2Xv9Re9aROe8TZqdw0ijssJ7SRCAHUyZ+U84cWkOBxYUKvXYdTaKnRUf
-         mTpA==
-X-Gm-Message-State: AFqh2kqJ9jHmwiuQ2vMbvAQ2klSCglb449NVDqs1ZuNnktNJ8YW4PqI8
-	7InpPD5fJIhrhwQKCGtiJqE=
-X-Google-Smtp-Source: AMrXdXuNfKjiuzLzE0R005zRXk2qTt4dRoSFp0B+ZV41uy0yglDCvwWSplUS3nvKWNdrC2MKofA5Vw==
-X-Received: by 2002:a05:6512:ea0:b0:4ca:fff2:901c with SMTP id bi32-20020a0565120ea000b004cafff2901cmr1512351lfb.473.1672238363358;
-        Wed, 28 Dec 2022 06:39:23 -0800 (PST)
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HVcNM2jC8r/EaW6OLx9X20sp8YkvyWucGubCypRiozY=;
+        b=EVfApu+aOUoQaIaFbFU+pRwx0lhIhGrzmianesJovHzDQQITiSUkZHI35vcrAJmKie
+         n1B0+YCsCuoT/qTrN44w6xRXuGVseeTGpC7eRD3P3skGkajcISD1QcvxXpZWdO35+H41
+         uso3J61m/meyVoqaQHxclj9siXBbbBqse4qa+75UzQDtXBCAiOpuhQKperFArf6x5MCM
+         r6aeLzwUMBvJjUHJN2Oj8m1oDff+qkBG96wxzHoHDcmO7lfNI3vp1JaXsS6ohwS0PzSV
+         bdQGtvqD1RY0ZGkvv6WHAIjo1mxRWGnGw2aR10gYZpplrLC3JrVKcTLz3QG2hGp8Ig1C
+         g5XQ==
+X-Gm-Message-State: AFqh2ko5gvkIqYpt/FqIQDhbH/XwQ2FfZOvCZYjyxQM0TKHLhIIkEGw2
+	E0OQSer2zRI/hwqJUSrt+CE=
+X-Google-Smtp-Source: AMrXdXupyWls26SgphXEc0XncQSh4J6IyO/iOJrzkki5bTtFEKnHAgNG3s0R4J9RxfO6j20lbD0cNQ==
+X-Received: by 2002:a05:6102:c8b:b0:3b2:ebc9:6307 with SMTP id f11-20020a0561020c8b00b003b2ebc96307mr3287100vst.73.1672261959451;
+        Wed, 28 Dec 2022 13:12:39 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:4e8a:0:b0:4c8:8384:83f3 with SMTP id o10-20020ac24e8a000000b004c8838483f3ls3403891lfr.3.-pod-prod-gmail;
- Wed, 28 Dec 2022 06:39:22 -0800 (PST)
-X-Received: by 2002:a05:6512:3f85:b0:4b6:e19a:d1af with SMTP id x5-20020a0565123f8500b004b6e19ad1afmr8644263lfa.3.1672238362139;
-        Wed, 28 Dec 2022 06:39:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1672238362; cv=none;
+Received: by 2002:a1f:3106:0:b0:3d2:6934:6234 with SMTP id x6-20020a1f3106000000b003d269346234ls2350763vkx.1.-pod-prod-gmail;
+ Wed, 28 Dec 2022 13:12:38 -0800 (PST)
+X-Received: by 2002:a1f:de87:0:b0:3d5:7838:1f30 with SMTP id v129-20020a1fde87000000b003d578381f30mr3133235vkg.14.1672261958762;
+        Wed, 28 Dec 2022 13:12:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1672261958; cv=none;
         d=google.com; s=arc-20160816;
-        b=gfmjhU7QaWqh46Zyre80wbdUGvfgiFssL9FRftRxYpn8IEiOjC2DD2+Zv+nZ5fvwND
-         Gudg35dcKFcrmr52HA6pI55QEPO7IxHtRMAMUm/5TbVk1jDd7flhghGGfDiVCgkmKnrB
-         vUCsHfAf446I/rjGeNBjAYkFvH/2+IHtok0iKdjBNSkftD6lhooE6A6QaSSWt38pF9L8
-         ZlplaQfkZk7Ln6SL+N5Xnty2GtCgXEveQfU+NcZgax11OAaqzK/NCJBjlJogXrmxAlX4
-         2/a6fOUU3p7HxPHf4gRl1l1m7b2Xs608PmwYF4SJl76aL0eDvCiNubKch6ZVkpP6UGW5
-         4y/g==
+        b=nwkwSvkbS2ioa/GbeX2En119e7IFlxR+i2F8JW85NAs/z4NBrQ2rPW4F1rNjk9zveG
+         SetcX74bpYUh23XB0K5zAxr4flGC7nAFSR/A3xaUYai7NZx/gvmKwML4ltPaZUCPRhLw
+         cTbQpbc8XRS7p5iSjBfdT1T388j0C9M+hrsR2x+kUoDaZvBxvT+TTGijJoqH6NakoOcK
+         yS5Ni0LtVHvNvtJMTd4/cjL0+e+uQ3y/DhAEAt3PKEXkU/Dk7GvAEr/2MSDrIuctYlsC
+         a/xYne5ipvHZ56wBKm5yzrPwINReyWlfTPDH49cMXVeODpfHOIrmU6uUSK8e64Gc8iqN
+         PMOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=Vq5HU2e0An2dJOWNwYu6KJi6n2DVTujSQj+JRa+gkDQ=;
-        b=ZjXU6mxFK1TsCTWgPFOMn1mZcAbIASx9b53YDpwrSoPLXHJo8B5TScRZls5GIoV/WI
-         SLHx3QVZaDdVXVziaUYNxx8Hg5R3dzciCkjpxqyFkihnwyHLtDeEdl5T63mJzlfawoOx
-         sXm9h169Ux4WaG7CUO88tFYIH5M3y7t5IsLNqluW1Tfpxkg9GlXxORfRa8pfylwfgZOk
-         P5JBrtgA/LqJmuxoq1d7UCewQXPCWD9ozEmKB5PnMZtzExwDdu99xCdxkHjA5xexhiiA
-         RxDLeOa0TrB5cPQFc1cILVCzEQhJu3GNzuuRo5woZy6HX3yfTGV2O9eQLDUWJzsrZbev
-         nRBA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+7ooGxz+slyS/E6q6mPR6pfactn5WEBlXeWzI+mnkNI=;
+        b=Cg51FvaJI3a/QscGeyZNuKPDsuo5x0GBsgJjgQ8PYOJSxI05xqCdosCiAN9aICVRke
+         9Ri2tB17EjkS8WLg9vqHAXcJHW25bx0o7RK+MkVSQlfOmoYeUdWeMoY9/aqCMzXKTP7J
+         xEZz7PWCZkuUrdgAPVHTR3cRHryYnE9HM+fFFBTzWUEvY3px7Ha71KjmSZBdKWbpm3Pe
+         h6FVhfOD5ELwztFVd9b6nS+z8wJ2SeG+WrHVkCgOAJpnUlPpUo+otSlcnVyYAn6HUk/+
+         eau0h6B47Pq6spPVkM37Y0FxDBhsuwkvyRY0HgeWyeXGf4NZzOCu35f3pPCCDA1KTufJ
+         RWtw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@zx2c4.com header.s=20210105 header.b=FmUMzWAF;
-       spf=pass (google.com: domain of srs0=vu6c=42=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=vu6c=42=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id s15-20020a056512214f00b004b58f5274c1si547108lfr.1.2022.12.28.06.39.21
+       dkim=pass header.i=@google.com header.s=20210112 header.b=ih97jiTj;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112f as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com. [2607:f8b0:4864:20::112f])
+        by gmr-mx.google.com with ESMTPS id r131-20020a1f2b89000000b003b87d0d4e7bsi1191211vkr.1.2022.12.28.13.12.38
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 28 Dec 2022 06:39:22 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=vu6c=42=zx2c4.com=jason@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 6F671B8170E;
-	Wed, 28 Dec 2022 14:39:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D5AC433D2;
-	Wed, 28 Dec 2022 14:39:18 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d267fddd (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 28 Dec 2022 14:39:15 +0000 (UTC)
-Date: Wed, 28 Dec 2022 15:39:12 +0100
-From: "'Jason A. Donenfeld' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Eric Biggers <ebiggers@kernel.org>, x86@kernel.org, linux-mm@kvack.org
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
-	kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
-Message-ID: <Y6xVELL0ZYNc5Bip@zx2c4.com>
-References: <20220921093134.2936487-1-Jason@zx2c4.com>
- <20220921093134.2936487-4-Jason@zx2c4.com>
- <Y6ZESPx4ettBLuMt@sol.localdomain>
- <Y6ZtVGtFpUNQP+KU@zx2c4.com>
- <Y6Z+WpqN59ZjIKkk@zx2c4.com>
- <Y6muh1E1fNOot+VZ@zx2c4.com>
- <Y6my+Oiz67G46snj@zx2c4.com>
- <Y6nSel5/wdnoSFpk@zx2c4.com>
- <Y6r09pm68oI7GMe1@zx2c4.com>
- <Y6uy4b71GX0epQsu@zx2c4.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Dec 2022 13:12:38 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112f as permitted sender) client-ip=2607:f8b0:4864:20::112f;
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-45c11d1bfc8so236859817b3.9
+        for <kasan-dev@googlegroups.com>; Wed, 28 Dec 2022 13:12:38 -0800 (PST)
+X-Received: by 2002:a0d:d5cf:0:b0:3dd:b7d7:ae7e with SMTP id
+ x198-20020a0dd5cf000000b003ddb7d7ae7emr2597695ywd.11.1672261958348; Wed, 28
+ Dec 2022 13:12:38 -0800 (PST)
 MIME-Version: 1.0
+References: <20221223074238.4092772-1-jcmvbkbc@gmail.com>
+In-Reply-To: <20221223074238.4092772-1-jcmvbkbc@gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 28 Dec 2022 22:12:01 +0100
+Message-ID: <CANpmjNOs6vyX+y0XuNaz5J=8p1yKxfsWcNGL=vA1Dzjua=fsYg@mail.gmail.com>
+Subject: Re: [PATCH] kcsan: test: don't put the expect array on the stack
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-xtensa@linux-xtensa.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <Y6uy4b71GX0epQsu@zx2c4.com>
-X-Original-Sender: jason@zx2c4.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zx2c4.com header.s=20210105 header.b=FmUMzWAF;       spf=pass
- (google.com: domain of srs0=vu6c=42=zx2c4.com=jason@kernel.org designates
- 145.40.68.75 as permitted sender) smtp.mailfrom="SRS0=vu6c=42=zx2c4.com=Jason@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=zx2c4.com
-X-Original-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Reply-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+ header.i=@google.com header.s=20210112 header.b=ih97jiTj;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::112f as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,188 +131,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Dec 28, 2022 at 04:07:13AM +0100, Jason A. Donenfeld wrote:
-> On Tue, Dec 27, 2022 at 02:36:54PM +0100, Jason A. Donenfeld wrote:
-> > On Mon, Dec 26, 2022 at 05:57:30PM +0100, Jason A. Donenfeld wrote:
-> > > On Mon, Dec 26, 2022 at 03:43:04PM +0100, Jason A. Donenfeld wrote:
-> > > > On Mon, Dec 26, 2022 at 03:24:07PM +0100, Jason A. Donenfeld wrote:
-> > > > > Hi,
-> > > > >=20
-> > > > > I'm currently stumped at the moment, so adding linux-mm@ and x86@=
-. Still
-> > > > > working on it though. Details of where I'm at are below the quote=
- below.
-> > > > >=20
-> > > > > On Sat, Dec 24, 2022 at 05:21:46AM +0100, Jason A. Donenfeld wrot=
-e:
-> > > > > > On Sat, Dec 24, 2022 at 04:09:08AM +0100, Jason A. Donenfeld wr=
-ote:
-> > > > > > > Hi Eric,
-> > > > > > >=20
-> > > > > > > Replying to you from my telephone, and I'm traveling the next=
- two days,
-> > > > > > > but I thought I should mention some preliminary results right=
- away from
-> > > > > > > doing some termux compiles:
-> > > > > > >=20
-> > > > > > > On Fri, Dec 23, 2022 at 04:14:00PM -0800, Eric Biggers wrote:
-> > > > > > > > Hi Jason,
-> > > > > > > >=20
-> > > > > > > > On Wed, Sep 21, 2022 at 11:31:34AM +0200, Jason A. Donenfel=
-d wrote:
-> > > > > > > > > This reverts 3824e25db1 ("x86: disable rng seeding via se=
-tup_data"), but
-> > > > > > > > > for 7.2 rather than 7.1, now that modifying setup_data is=
- safe to do.
-> > > > > > > > >=20
-> > > > > > > > > Cc: Laurent Vivier <laurent@vivier.eu>
-> > > > > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > > > > > Cc: Peter Maydell <peter.maydell@linaro.org>
-> > > > > > > > > Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > > > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > > > > > > > > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > > > > > > > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> > > > > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > > > > > > > > ---
-> > > > > > > > >  hw/i386/microvm.c | 2 +-
-> > > > > > > > >  hw/i386/pc_piix.c | 3 ++-
-> > > > > > > > >  hw/i386/pc_q35.c  | 3 ++-
-> > > > > > > > >  3 files changed, 5 insertions(+), 3 deletions(-)
-> > > > > > > > >=20
-> > > > > > > >=20
-> > > > > > > > After upgrading to QEMU 7.2, Linux 6.1 no longer boots with=
- some configs.  There
-> > > > > > > > is no output at all.  I bisected it to this commit, and I v=
-erified that the
-> > > > > > > > following change to QEMU's master branch makes the problem =
-go away:
-> > > > > > > >=20
-> > > > > > > > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> > > > > > > > index b48047f50c..42f5b07d2f 100644
-> > > > > > > > --- a/hw/i386/pc_piix.c
-> > > > > > > > +++ b/hw/i386/pc_piix.c
-> > > > > > > > @@ -441,6 +441,7 @@ static void pc_i440fx_8_0_machine_optio=
-ns(MachineClass *m)
-> > > > > > > >      pc_i440fx_machine_options(m);
-> > > > > > > >      m->alias =3D "pc";
-> > > > > > > >      m->is_default =3D true;
-> > > > > > > > +    PC_MACHINE_CLASS(m)->legacy_no_rng_seed =3D true;
-> > > > > > > >  }
-> > > > > > > >=20
-> > > > > > > > I've attached the kernel config I am seeing the problem on.
-> > > > > > > >=20
-> > > > > > > > For some reason, the problem also goes away if I disable CO=
-NFIG_KASAN.
-> > > > > > > >=20
-> > > > > > > > Any idea what is causing this?
-> > > > > > >=20
-> > > > > > > - Commenting out the call to parse_setup_data() doesn't fix t=
-he issue.
-> > > > > > >   So there's no KASAN issue with the actual parser.
-> > > > > > >=20
-> > > > > > > - Using KASAN_OUTLINE rather than INLINE does fix the issue!
-> > > > > > >=20
-> > > > > > > That makes me suspect that it's file size related, and QEMU o=
-r the BIOS
-> > > > > > > is placing setup data at an overlapping offset by accident, o=
-r something
-> > > > > > > similar.
-> > > > > >=20
-> > > > > > I removed the file systems from your config to bring the kernel=
- size
-> > > > > > back down, and voila, it works, even with KASAN_INLINE. So perh=
-aps I'm
-> > > > > > on the right track here...
-> > > > >=20
-> > > > > QEMU sticks setup_data after the kernel image, the same as kexec-=
-tools
-> > > > > and everything else. Apparently, when the kernel image is large, =
-the
-> > > > > call to early_memremap(boot_params.hdr.setup_data, ...) returns a=
- value
-> > > > > that points some place bogus, and the system crashes or does some=
-thing
-> > > > > weird. I haven't yet determined what this limit is, but in my cur=
-rent
-> > > > > test kernel, a value of 0x0000000001327650 is enough to make it p=
-oint to
-> > > > > rubbish.
-> > > > >=20
-> > > > > Is this expected? What's going on here?
-> > > >=20
-> > > > Attaching gdb to QEMU and switching it to physical memory mode
-> > > > (`maintenance packet Qqemu.PhyMemMode:1 `) indicates that it
-> > > > early_memremap is actually working fine and something *else* is at =
-this
-> > > > address? That's kinda weird... Is KASAN populating physical address=
-es
-> > > > immediately after the kernel image extremely early in boot? I'm see=
-ing
-> > > > the crash happen from early_reserve_memory()->
-> > > > memblock_x86_reserve_range_setup_data(), which should be before
-> > > > kasan_init() even runs. Is QEMU calculating kernel_size wrong, when=
- it
-> > > > goes to determine where to put the setup_data data? But that's the =
-same
-> > > > calculation as used everywhere else, so hmm...
-> > > >=20
-> > > > Jason
-> > >=20
-> > > If bzImage is 15770544 bytes, it does not boot. If bzImage is 1564177=
-6
-> > > bytes, it does boot. So something is happening somewhat close to the
-> > > 16MB mark?
-> > >=20
-> >=20
-> > Okay, the issue is that it's being decompressed to an area that overlap=
-s
-> > the source. So for example in my test kernel:
-> >=20
-> > input_addr: 0x3f112bf
-> > output_addr: 0x1000000
-> > output_len: 0x3a5d7d8
-> >=20
-> > Since 0x3a5d7d8 + 0x1000000 > 0x3f112bf, eventually this corrupts the
-> > setup_data at the end there.
-> >=20
-> > Now digging into what can be done about it.
->=20
-> Not quite. input_addr doesn't matter, since setup_data still points to
-> the old mapping.
->=20
-> So the actual issue is:
->=20
-> compressed_size: 	0xf028d4
-> decompressed_size:      0x3a5d7d8
-> setup_data:      	0x100000 + compressed_size
-> output_addr:    	0x1000000 (this is LOAD_PHYSICAL_ADDR)
->=20
-> Since `output_addr + decompressed_size > setup_data && output_addr <
-> setup_data`, then it means the decompressor will write over setup_data.
->=20
-> Note that this is also a problem for SETUP_DTB, so it's a longstanding
-> bug.
->=20
-> I'm experimenting now with appending lots of zeros between the kernel
-> image and setup_data, so that the decompressor doesn't overwrite
-> setup_data, but so far it's not working.
->=20
-> Another option would be to have the build system warn when this is going
-> to happen, and suggest that the user increase the value of
-> CONFIG_PHYSICAL_START. This might be the best option...
+On Fri, 23 Dec 2022 at 08:42, Max Filippov <jcmvbkbc@gmail.com> wrote:
+>
+> Size of the 'expect' array in the __report_matches is 1536 bytes, which
+> is exactly the default frame size warning limit of the xtensa
+> architecture.
+> As a result allmodconfig xtensa kernel builds with the gcc that does not
+> support the compiler plugins (which otherwise would push the said
+> warning limit to 2K) fail with the following message:
+>
+>   kernel/kcsan/kcsan_test.c:257:1: error: the frame size of 1680 bytes
+>     is larger than 1536 bytes
+>
+> Fix it by dynamically alocating the 'expect' array.
+>
+> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+> ---
+>  kernel/kcsan/kcsan_test.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
+> index dcec1b743c69..af62ec51bd5f 100644
+> --- a/kernel/kcsan/kcsan_test.c
+> +++ b/kernel/kcsan/kcsan_test.c
+> @@ -159,7 +159,7 @@ static bool __report_matches(const struct expect_report *r)
+>         const bool is_assert = (r->access[0].type | r->access[1].type) & KCSAN_ACCESS_ASSERT;
+>         bool ret = false;
+>         unsigned long flags;
+> -       typeof(observed.lines) expect;
+> +       typeof(*observed.lines) *expect;
+>         const char *end;
+>         char *cur;
+>         int i;
+> @@ -168,6 +168,10 @@ static bool __report_matches(const struct expect_report *r)
+>         if (!report_available())
+>                 return false;
+>
+> +       expect = kmalloc(sizeof(observed.lines), GFP_KERNEL);
+> +       if (!expect)
 
-I posted a patch:
-https://lore.kernel.org/qemu-devel/20221228143831.396245-1-Jason@zx2c4.com/
+WARN_ON(), because this may either spuriously fail or pass a test
+case, and we'd want to know about that.
 
-We can move discussion on the topic over to that thread now.
+Thanks,
+-- Marco
 
-Jason
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/Y6xVELL0ZYNc5Bip%40zx2c4.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOs6vyX%2By0XuNaz5J%3D8p1yKxfsWcNGL%3DvA1Dzjua%3DfsYg%40mail.gmail.com.
